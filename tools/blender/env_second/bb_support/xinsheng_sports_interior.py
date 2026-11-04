@@ -1,820 +1,1127 @@
-"""新生運動廣場的室內（兩層：一樓＋夾層；新生南路新店，CC 建模子代理 2026-11-03 v1；BB 分派、LAWWW2 整合）→ GLB。Blender 5.x（bpy，無介面）：
-  nice -n 15 /opt/blenv/bin/python tools/blender/env_second/bb_support/xinsheng_sports_interior.py -- [--out 路徑] [--tmp 暫存資料夾]
-參考圖：使用者 11-03 生成的 xinsheng_sports_int（室內）。規格：AA_620 第 1、2 節、3-2、3-4；SCENE_RULES 第 10 節。
-配置（家具、樓梯、夾層、互動點、導航阻擋）只寫在 src/data/xinsheng_sports_layout.js，這裡讀同一份。座標＝遊戲區域座標（中心在原點、x 東、z 南、店門在 +z）。
-節點：L0_*＝一樓（含樓梯）、L1_*＝夾層（樓板、樓板底的天花板、欄杆、上面的東西、7.2 m 的天花板）；會淡出的牆 WALL_<side>_L0_*／WALL_<side>_L1_*（自訂屬性 dir）；
-      instancing 的衣服、球、水壺、背包掛在 L0_inst／L1_inst 底下。玻璃的材質名有 glass；天花板單面朝下（材質 cull）。
-不放任何字：球衣只有背號（數字貼圖），學校名、品牌 logo 一律不做（使用者 11-03、D77）；橫幅、尺寸表、樓層牌只有底板，字由遊戲畫。
-貼圖：Poly Haven CC0（large_floor_tiles_02、painted_plaster_wall、walnut_veneer、granite_tile_03）；球的接縫、背號的貼圖由這支腳本用 PIL 畫（xs_print 圖集）。"""
-import json, math, os, random, subprocess, sys
+"""新生運動廣場（新生南路的運動用品店，兩層）的室內 → GLB。CC（帳號 A 的建模子代理）2026-11-04 v3：照使用者的參考圖 xinsheng_sports_int 重做
+（SCENE_RULES 第 12 節：參考圖就是規格）。v1／v2（9 × 16 m、方塊人台、藍色色塊欄杆、空白的牆）退回。
+  python3 tools/blender/env_second/bb_support/xinsheng_tex.py                 # 先畫貼圖（→ tools/blender/env_second/textures/gen/xs_*）
+  /opt/blenv/bin/python tools/blender/env_second/bb_support/xinsheng_sports_interior.py -- [--out 路徑] [--lib <env_second 資料夾>]
+配置（家具位置、大小、樓梯、夾層、導航阻擋）只寫在 src/data/xinsheng_sports_layout.js，這裡讀同一份。
+座標＝遊戲區域座標：中心在原點、x 往東、z 往南、店門在 +z。參考圖的鏡頭：layout 的 camRef（眼睛 (−1.5,1.55,7.55)、16 mm、水平往 −z、鏡頭位移 shiftY）。
+從店門往裡看（參考圖由左到右、由前到後）：
+  左前：鐵網球架（網球網籃、排球、籃球兩層、頂上日光燈）→ 斜放的護具網牆（護膝、護腕吊卡）＋背包木地台 → 人台（深藍運動 T、球褲）→ 後面一排運動 T。
+  中：衣架（運動 T，最前面一套正面展示）、米色 60 cm 地磚；夾層前緣的主招牌「新生運動廣場」（字畫在貼圖上）、玻璃欄杆＋木扶手；
+      二樓後牆：三件展示球衣（電機系 37、土木系 16、經濟系 88）、「系隊球衣訂做」、尺寸表、白板樣衣；欄杆後面訂做櫃台（螢幕、資料夾）、樣品桌；夾層下：獎盃櫃、貨架、後門。
+  右：水壺雙面架（底層毛巾）＋端架運動襪吊卡；石材踏面的直跑樓梯（西側米白牆＋玻璃欄杆＋木扶手）；樓梯東側的牆上一塊大的樓層指示牌。
+  上：挑空 7.6 m 的方格天花板、日光燈、黑色軌道燈；左牆上半一整排大窗（窗外行道樹）、窗型冷氣；二樓左牆衣架（滿滿的系隊球衣）、裁縫桌、布料捲、玻璃樣衣間。
+  參考圖鏡頭看不到的：左牆球鞋牆＋試穿椅、東邊球鞋牆、收銀台、店門。
+球、衣服、水壺、鞋、日光燈都是 instancing（同一個網格放很多個）。沒有任何真實品牌（D77）；店名、系名虛構。
+節點：L0_*＝一樓（含樓梯）、L1_*＝二樓（樓板、欄杆、二樓的東西、挑空的天花板和燈）；牆 WALL_<side>_L0_*（一樓高度那一段）、WALL_<side>_L1_*。
+尺寸（照真實）：籃球 ø0.24、排球 ø0.21、網球 ø0.066；運動 T 長 0.70、衣架肩寬 0.42；水壺 ø0.075 × 0.27；樓梯一階 0.1786 × 0.255；欄杆扶手 1.05 m（夾層）、0.92 m（樓梯）。"""
+import json, math, os, random, re, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..', '..'))
-LIB2 = os.environ.get('XS_LIB2', '/tmp/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/wt_l2/tools/blender/env_second')   # claude/second-ai-env-art 的 lib2（SCENE_RULES 第 10 節）
-if not os.path.isdir(LIB2): LIB2 = os.path.dirname(HERE)
-sys.path.insert(0, LIB2)
-import lib2 as L   # noqa: E402
-from lib2 import B, Mesh, g2b, bpy, bmesh, Vector, Matrix   # noqa: E402
-
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(name, default=None): return ARGS[ARGS.index(name) + 1] if name in ARGS else default
-LAY = json.loads(subprocess.check_output(['node', '-e', "process.stdout.write(JSON.stringify(require('./src/data/xinsheng_sports_layout.js')))"], cwd=REPO))
-OUT = os.path.join(REPO, arg('--out', LAY['glb']))
-TMP = arg('--tmp', os.path.join(os.path.dirname(OUT), '_xs_tmp'))
-os.makedirs(TMP, exist_ok=True)
-W, D, H1 = LAY['w'], LAY['d'], LAY['h']; HT = LAY['hTotal']
-X0, X1, Z0, Z1 = -W / 2, W / 2, -D / 2, D / 2
-WT = 0.12                                   # 牆厚（牆在房間的範圍裡面，內面 ±4.38、±7.88）
-IX0, IX1, IZ0, IZ1 = X0 + WT, X1 - WT, Z0 + WT, Z1 - WT
-LV1 = LAY['levels'][1]; MZ = LV1['slab']['z1']; SLT = LV1['slab']['t']; Y1 = LV1['y']; YS = Y1 - SLT   # 夾層前緣 z、樓板厚、二樓地板、樓板底
+LIB = arg('--lib', '/tmp/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/wt_l2/tools/blender/env_second')
+if not os.path.exists(os.path.join(LIB, 'lib2.py')): LIB = os.path.dirname(HERE)   # PC（工作樹＝second-ai-env-art）用工作樹裡的 lib2
+sys.path.insert(0, LIB)
+import lib2 as L   # noqa: E402
+import cafe_layout as CL   # noqa: E402
+from lib2 import B, Mesh, g2b, bpy, bmesh, Vector, Matrix   # noqa: E402
+
+LAY = json.loads(subprocess.check_output(['node', '-e', "process.stdout.write(JSON.stringify(require(process.argv[1])))", os.path.join(REPO, 'src', 'data', 'xinsheng_sports_layout.js')]))
+OUT = os.path.abspath(arg('--out', os.path.join(REPO, LAY['glb'])))
+GEN = os.path.join(REPO, 'tools', 'blender', 'env_second', 'textures', 'gen')
+ATL = json.load(open(os.path.join(GEN, 'xs_atlas.json')))
+W, D, H1, HT = LAY['w'], LAY['d'], LAY['h'], LAY['hTotal']   # 14.4、16、一樓天花板 3.4、挑空 7.6
+SL = LAY['slab']; Y1, YB = SL['top'], SL['bottom']             # 二樓樓板頂 3.75、底 3.45
+HOLE = SL['hole']; ZB2 = LAY['upperBack']                      # 樓梯洞；二樓後牆 z −3.6
 ST = LAY['stairs']
-random.seed(1103)
-B.reset(texres=512)
-root = B.group('xinsheng_sports_interior', props={'kind': 'xinsheng_sports_interior', 'w': W, 'd': D, 'h': H1, 'levels': 2, 'layout': LAY['version']})
-INST = {0: B.group('L0_inst', root, {'lv': 0}), 1: B.group('L1_inst', root, {'lv': 1})}
+X0, X1, Z0, Z1 = -W / 2, W / 2, -D / 2, D / 2
+WT = 0.12
+XI0, XI1, ZI0, ZI1 = X0 + WT, X1 - WT, Z0 + WT, Z1 - WT      # 內面 x ±7.08、z ±7.88
+FIN0, FIN1 = ST['x1'], ST['x1'] + 0.12                         # 樓梯東側的牆 x 3.7～3.82
+IT = {}
+for it in LAY['items']: IT.setdefault(it['kind'], []).append(it)
+I1 = lambda k: IT[k][0]
+random.seed(1104)
+B.reset(texres=1024)
+root = B.group('xinsheng_sports_interior', props={'kind': 'xinsheng_sports_interior', 'w': W, 'd': D, 'h': H1, 'hTotal': HT, 'layout': 3})
+DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0]}
+LIGHTS = {'tubes': [], 'spots': []}
 
 
-def lin(h):
-    c = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
-    return [v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4 for v in c] + [1.0]
-
-
-# ---------------- 球的接縫、背號：PIL 畫的圖集（1024×512）----------------
-NUM_CELLS = ['37w', '16w', '88n', '7w', '12w', '21w', '5n', '30w']   # 右下 4×2 格；w＝白字、n＝深藍字
-
-
-def make_atlas(path):
-    import numpy as np
-    from PIL import Image, ImageDraw, ImageFont
-    Wd, Hd = 1024, 512; img = np.zeros((Hd, Wd, 4), np.uint8)
-    yy, xx = np.mgrid[0:256, 0:512]; th = (yy + 0.5) / 256 * math.pi; ph = (xx + 0.5) / 512 * 2 * math.pi
-    px, py, pz = np.sin(th) * np.cos(ph), np.sin(th) * np.sin(ph), np.cos(th)
-    rng = np.random.default_rng(7)
-    # 籃球：橘色＋細顆粒，兩條互相垂直的大圓＋兩條彎的接縫（黑）
-    base = np.array([196, 98, 42], np.float32); n = rng.normal(0, 1, (256, 512, 1)).astype(np.float32)
-    bb = base * (1 + 0.05 * n); w = 0.022
-    ang = np.arccos(np.clip(np.abs(py), 0, 1)); phi2 = np.arctan2(pz, px)
-    seam = (np.abs(pz) < w) | (np.abs(px) < w) | (np.abs(ang - (0.78 + 0.28 * np.cos(2 * phi2))) < w * 1.1)
-    bb[seam] = [38, 26, 22]; img[0:256, 0:512, :3] = np.clip(bb, 0, 255); img[0:256, 0:512, 3] = 255
-    # 排球：照立方體的六面，每面三條（黃、藍、白），條和條之間深灰接縫
-    ab = np.stack([np.abs(px), np.abs(py), np.abs(pz)], -1); ax = ab.argmax(-1); comp = [px, py, pz]
-    vb = np.zeros((256, 512, 3), np.float32); cols = {0: [236, 196, 40], 1: [36, 72, 160], 2: [240, 238, 230]}
-    for a in range(3):
-        m = ax == a; other = comp[(a + 1) % 3] / np.maximum(ab[..., a], 1e-6); strip = np.clip(((other + 1) / 2 * 3).astype(int), 0, 2)
-        for s in range(3):
-            k = m & (strip == s); vb[k] = cols[(s + a) % 3]
-        edge = m & ((np.abs(np.abs(other) - 1 / 3) < 0.03) | (np.abs(np.abs(other) - 1) < 0.03) | (np.abs(np.abs(comp[(a + 2) % 3] / np.maximum(ab[..., a], 1e-6)) - 1) < 0.03))
-        vb[edge] = [90, 90, 92]
-    vb *= (1 + 0.025 * n); img[0:256, 512:1024, :3] = np.clip(vb, 0, 255); img[0:256, 512:1024, 3] = 255
-    # 網球：黃綠絨毛（細雜訊）＋一條白色彎曲接縫
-    tb = np.array([206, 222, 70], np.float32) * (1 + 0.08 * n)
-    tb[np.abs(th - (math.pi / 2 + 0.55 * np.cos(2 * ph))) < 0.045] = [238, 238, 226]
-    img[256:512, 0:512, :3] = np.clip(tb, 0, 255); img[256:512, 0:512, 3] = 255
-    im = Image.fromarray(img, 'RGBA'); dr = ImageDraw.Draw(im)
-    try: fnt = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 92)
-    except Exception: fnt = ImageFont.load_default()
-    for i, cell in enumerate(NUM_CELLS):
-        cx, cy = 512 + (i % 4) * 128 + 64, 256 + (i // 4) * 128 + 64; txt = cell[:-1]
-        fill = (250, 250, 248, 255) if cell[-1] == 'w' else (26, 38, 78, 255)
-        bx = dr.textbbox((0, 0), txt, font=fnt); tw, tht = bx[2] - bx[0], bx[3] - bx[1]
-        dr.text((cx - tw / 2 - bx[0], cy - tht / 2 - bx[1]), txt, font=fnt, fill=fill)
-    im.save(path)
-
-
-ATLAS = os.path.join(TMP, 'xs_print.png'); make_atlas(ATLAS)
-
-
-def cell_uv(name):
-    """圖集格子的 UV（u0, v0, u1, v1；Blender 的 v 從下面算）"""
-    if name in ('basket', 'volley', 'tennis'):
-        x0, y0 = {'basket': (0, 0), 'volley': (512, 0), 'tennis': (0, 256)}[name]; return (x0 / 1024, 1 - (y0 + 256) / 512, (x0 + 512) / 1024, 1 - y0 / 512)
-    i = NUM_CELLS.index(name); x0, y0 = 512 + (i % 4) * 128, 256 + (i // 4) * 128
-    return (x0 / 1024, 1 - (y0 + 128) / 512, (x0 + 128) / 1024, 1 - y0 / 512)
-
-
-def img_mat(name, path, rough=0.6, clip=False):
-    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; bs = N['Principled BSDF']; bs.inputs['Roughness'].default_value = rough
-    tx = N.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(path, check_existing=True); nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
+def img_mat(name, fn, rough=0.6, emit=0.0, clip=False, metal=0.0, tile=1.0, cull=False):
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; bs = N['Principled BSDF']
+    bs.inputs['Roughness'].default_value = rough; bs.inputs['Metallic'].default_value = min(metal, B.MAX_METAL)
+    tx = N.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(os.path.join(GEN, fn), check_existing=True); nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
     if clip:
         r = N.new('ShaderNodeMath'); r.operation = 'ROUND'; nt.links.new(tx.outputs['Alpha'], r.inputs[0]); nt.links.new(r.outputs[0], bs.inputs['Alpha'])
         try: m.surface_render_method = 'DITHERED'
         except Exception: pass
-    m['tile'] = 1.0; return m
+    if emit: nt.links.new(tx.outputs['Color'], bs.inputs['Emission Color']); bs.inputs['Emission Strength'].default_value = emit
+    m.use_backface_culling = cull; m['tile'] = tile; return m
 
 
-# ---------------- 材質（全部 12 個；兩層共用）----------------
 P = 'xs_'
+# 12 個材質（兩層共用）：地磚（自製）、牆、天花板、木頭、石材（Poly Haven CC0）＋頂點色（霧面、金屬）＋玻璃＋透明圖集、印刷圖集、會亮的、招牌
 M = {
-    'floor': L.pbr(P + 'floor_tile', 'large_floor_tiles_02', tile=1.8, target='#e3d7c4', normal=0.45, maps=('diff', 'nor'), rough_value=0.32),   # 淺米色磁磚（參考圖）
-    'paint': L.pbr(P + 'wall_paint', 'painted_plaster_wall', tile=2.0, target='#ece6db', normal=0.25, maps=('diff',), res=256, rough_value=0.85),
-    'ceil': L.flat(P + 'ceiling', '#f1f0ea', rough=0.9, cull=True),          # 天花板：單面朝下（鏡頭在上面時看得穿）
-    'steel': L.flat(P + 'steel', '#b9bdc0', rough=0.3, metal=0.45),
-    'dark': L.flat(P + 'dark_metal', '#33363a', rough=0.45, metal=0.3),
-    'glass': L.flat(P + 'glass', '#dfe6e6', rough=0.05, alpha=0.16),
-    'wood': L.pbr(P + 'wood_light', 'walnut_veneer', tile=0.9, target='#c8a172', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.5),
-    'stone': L.pbr(P + 'stair_stone', 'granite_tile_03', tile=1.2, target='#a3a19c', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.55),
-    'vc': L.vc_material(P + 'vc_matte', rough=0.75),                        # 布、紙箱、背包、底板……（頂點色）
-    'vcg': L.vc_material(P + 'vc_gloss', rough=0.3),                         # 水壺、獎盃、塑膠
-    'tube': L.flat(P + 'tube', '#ffffff', rough=0.3, emit=B.srgb('#f6f8ff')),
-    'print': img_mat(P + 'print', ATLAS, rough=0.62, clip=True),             # 球的接縫、背號
+    'floor': img_mat(P + 'floor_tile', 'xs_floor.png', rough=0.32, tile=1.8),
+    'wall': L.pbr(P + 'plaster', 'painted_plaster_wall', tile=2.2, target='#d6c8b2', normal=0.3, maps=('diff', 'nor'), res=512, rough_value=0.9),
+    'ceil': L.pbr(P + 'ceiling', 'ceiling_interior', tile=0.6, target='#d0c2aa', maps=('diff',), res=512, rough_value=0.92, cull=True),
+    'wood': L.pbr(P + 'wood', 'fine_grained_wood', tile=0.9, target='#b48654', normal=0.45, maps=('diff', 'nor'), res=512, rough_value=0.5),
+    'stone': L.pbr(P + 'stone', 'granite_tile_03', tile=1.0, target='#9d968c', normal=0.3, maps=('diff', 'nor'), res=512, rough_value=0.45),
+    'vc': L.vc_material(P + 'vc', rough=0.62), 'vcm': L.vc_metal(P + 'vc_metal', rough=0.35, metal=0.4),
+    'glass': L.flat(P + 'glass', '#dfe9e8', rough=0.04, alpha=0.12),
+    'emit': img_mat(P + 'emit', 'xs_emit.png', rough=0.4, emit=1.0),
+    'alpha': img_mat(P + 'alpha', 'xs_alpha.png', rough=0.5, clip=True, metal=0.2),
+    'goods': img_mat(P + 'goods', 'xs_goods.png', rough=0.55),
+    'sign': img_mat(P + 'sign', 'xs_sign.png', rough=0.5),
 }
-M['vcg'].node_tree.nodes['Principled BSDF'].inputs['Metallic'].default_value = 0.2
+G3 = Matrix(((1, 0, 0), (0, 0, -1), (0, 1, 0)))   # 遊戲 → Blender 的旋轉
 
 
-def lvn(y): return 0 if y < Y1 - 0.01 else 1
+def rot(axis, a): return Matrix.Rotation(a, 3, axis)   # 遊戲座標的軸（Y＝往上；+a 從 +z 轉向 +x）
 
 
-_acc = {}
-def acc(key, lv):
-    k = (key, lv)
-    if k not in _acc: _acc[k] = (L.CMesh if key in ('vc', 'vcg') else Mesh)(f'L{lv}_{key}', M[key])
-    return _acc[k]
+def fm(o, R=None, s=None):
+    R = R if R is not None else Matrix.Identity(3)
+    T = Matrix.Translation(g2b(*o)) @ (G3 @ R @ G3.inverted()).to_4x4()
+    return T @ Matrix.Scale(s, 4) if s else T
 
 
-walls = {}
-DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0]}
-def wm(side, lv, key):
-    k = (side, lv, key)
-    if k not in walls: walls[k] = (L.CMesh if key in ('vc', 'vcg') else Mesh)(f'WALL_{side}_L{lv}_{key}', M[key])
-    return walls[k]
+class UM:
+    """有 UV 的網格（貼圖集）：每個面自己給 UV"""
+    def __init__(self, name, mat): self.name, self.mat, self.bm = name, mat, bmesh.new(); self.uv = self.bm.loops.layers.uv.new('UVMap')
+
+    def face(self, pts, uvs, smooth=False):
+        f = self.bm.faces.new([self.bm.verts.new(g2b(*p)) for p in pts])
+        for lp, t in zip(f.loops, uvs): lp[self.uv].uv = t
+        f.smooth = smooth; return f
+
+    def rect(self, c, r, up, hw, hh, uvr, both=False, rotuv=0):
+        c, r, up = Vector(c), Vector(r), Vector(up); u0, v0, u1, v1 = uvr
+        uvs = [(u0, v0), (u1, v0), (u1, v1), (u0, v1)]
+        if rotuv == 90: uvs = [(u1, v0), (u1, v1), (u0, v1), (u0, v0)]   # 圖集裡逆時針轉 90° 放的圖（樓層指示牌）
+        f = self.face([c - r * hw - up * hh, c + r * hw - up * hh, c + r * hw + up * hh, c - r * hw + up * hh], uvs)
+        if both:
+            o = -r.cross(up).normalized() * 0.001
+            self.face([c - r * hw + up * hh + o, c + r * hw + up * hh + o, c + r * hw - up * hh + o, c - r * hw - up * hh + o], [uvs[3], uvs[2], uvs[1], uvs[0]])
+        return f
+
+    FACES = {'+x': ((1, 0, 0), (0, 0, -1), (0, 1, 0)), '-x': ((-1, 0, 0), (0, 0, 1), (0, 1, 0)), '+z': ((0, 0, 1), (1, 0, 0), (0, 1, 0)),
+             '-z': ((0, 0, -1), (-1, 0, 0), (0, 1, 0)), '+y': ((0, 1, 0), (1, 0, 0), (0, 0, -1)), '-y': ((0, -1, 0), (1, 0, 0), (0, 0, 1))}
+
+    def box(self, cx, cy, cz, w, h, d, cell, front='+z', side=None, skip=('-y',), cells=None):
+        uvr = ATL[cell] if isinstance(cell, str) else cell; u0, v0, u1, v1 = uvr
+        sid = side if side is not None else (u0, v0 + (v1 - v0) * 0.4, u0 + (u1 - u0) * 0.04, v0 + (v1 - v0) * 0.6)
+        hs = (w / 2, h / 2, d / 2)
+        for k, (n, r, up) in self.FACES.items():
+            if k in skip: continue
+            c = (cx + n[0] * hs[0], cy + n[1] * hs[1], cz + n[2] * hs[2])
+            hw = sum(abs(r[i]) * hs[i] for i in range(3)); hh = sum(abs(up[i]) * hs[i] for i in range(3))
+            uu = (ATL[cells[k]] if isinstance(cells[k], str) else cells[k]) if cells and k in cells else (uvr if k == front else sid)
+            self.rect(c, r, up, hw, hh, uu)
+
+    def sphere(self, ctr, r, cell, seg=10, rings=7):
+        """UV 球（球面展開貼圖：u 繞一圈、v 北極→南極）"""
+        u0, v0, u1, v1 = ATL[cell]; cx, cy, cz = ctr
+        def P_(i, j):
+            ph = math.pi * i / rings; th = 2 * math.pi * j / seg
+            return (cx + r * math.sin(ph) * math.cos(th), cy + r * math.cos(ph), cz + r * math.sin(ph) * math.sin(th))
+        def UV(i, j): return (u0 + (u1 - u0) * j / seg, v1 - (v1 - v0) * i / rings)
+        for i in range(rings):
+            for j in range(seg):
+                if i == 0: self.face([P_(0, j), P_(1, j + 1), P_(1, j)], [UV(0, j + 0.5), UV(1, j + 1), UV(1, j)], smooth=True)
+                elif i == rings - 1: self.face([P_(i, j), P_(i, j + 1), P_(i + 1, j)], [UV(i, j), UV(i, j + 1), UV(i + 1, j + 0.5)], smooth=True)
+                else: self.face([P_(i, j), P_(i, j + 1), P_(i + 1, j + 1), P_(i + 1, j)], [UV(i, j), UV(i, j + 1), UV(i + 1, j + 1), UV(i + 1, j)], smooth=True)
+
+    def empty(self): return len(self.bm.faces) == 0
+
+    def finish(self, parent, weld=False):
+        if self.empty(): self.bm.free(); return None
+        if weld: bmesh.ops.remove_doubles(self.bm, verts=self.bm.verts, dist=1e-5)
+        self.bm.normal_update(); ob = B.mesh_obj(self.name, self.bm, self.mat, parent)
+        if weld:
+            for p in ob.data.polygons: p.use_smooth = True
+        return ob
 
 
-def put(cm, bm, mat=None, col=None):
-    """bmesh（Blender 座標）放進累積的網格；頂點色網格要給 col（sRGB 色碼）"""
-    n0 = len(cm.bm.faces); cm.add_bm(bm, mat); bm.free()
-    if col is not None:
-        cm.bm.faces.ensure_lookup_table(); cm.paint([cm.bm.faces[i] for i in range(n0, len(cm.bm.faces))], col)
-    return cm
+UVK = ('goods', 'alpha', 'emit', 'sign')
 
 
-def cyl_bm(a, b, r, seg=8, r2=None, caps=True):
-    bm = bmesh.new(); pa, pb = g2b(*a), g2b(*b); d = pb - pa
-    res = bmesh.ops.create_cone(bm, cap_ends=caps, segments=seg, radius1=r, radius2=r if r2 is None else r2, depth=d.length)
-    rot = Vector((0, 0, 1)).rotation_difference(d.normalized()).to_matrix()
-    bmesh.ops.rotate(bm, verts=res['verts'], cent=(0, 0, 0), matrix=rot); bmesh.ops.translate(bm, verts=res['verts'], vec=(pa + pb) / 2); return bm
+def lvname(lv, side, name, key): return (f'WALL_{side}_L{lv}_' if side else f'L{lv}_') + f'{name}_{key}'
 
 
-def ell_bm(rx, ry, rz, seg=10, rings=6):
-    bm = bmesh.new(); bmesh.ops.create_uvsphere(bm, u_segments=seg, v_segments=rings, radius=1.0)
-    for v in bm.verts: v.co = Vector((v.co.x * rx, v.co.y * rz, v.co.z * ry))
-    return bm
+class Part:
+    """一件東西（可以有好幾種材質）：在自己的座標建好，最後套一個變換；side＝放進哪一面牆的淡出組；lv＝哪一層"""
+    def __init__(self, name, lv=0, side=None, T=None, smooth=True, weld=False):
+        self.name, self.lv, self.side, self.T, self.smooth, self.weld, self.m = name, lv, side, T, smooth, weld, {}
+
+    def __getitem__(self, key):
+        if key not in self.m:
+            nm = lvname(self.lv, self.side, self.name, key)
+            self.m[key] = L.CMesh(nm, M[key]) if key in ('vc', 'vcm') else (UM(nm, M[key]) if key in UVK else Mesh(nm, M[key]))
+        return self.m[key]
+
+    def done(self):
+        obs = []
+        for key, m in self.m.items():
+            if isinstance(m, UM): ob = m.finish(root, weld=self.weld)
+            elif isinstance(m, L.CMesh): ob = m.finish(root, uv=False)
+            else: ob = m.finish(root, uv=True)
+            if ob is None: continue
+            if self.T is not None: ob.matrix_basis = self.T
+            if self.side: ob['dir'] = DIRS[self.side]
+            if self.smooth and key not in ('floor', 'wall', 'ceil', 'glass', 'sign', 'goods', 'alpha', 'emit', 'stone'): L.smooth_mesh(ob, angle=0.6)
+            obs.append(ob)
+        self.m = {}; return obs
 
 
-class Xf:
-    """物件自己的座標（x 右、z 前、y 上；正面朝 +z）→ 區域座標：中心 (px,pz)、轉 ry"""
-    def __init__(self, px, pz, ry=0.0, py=0.0): self.px, self.pz, self.py, self.c, self.s, self.ry = px, pz, py, math.cos(ry), math.sin(ry), ry
-    def p(self, x, y, z): return (self.px + x * self.c + z * self.s, self.py + y, self.pz - x * self.s + z * self.c)
-    def M(self, x=0.0, y=0.0, z=0.0): return Matrix.Translation(g2b(*self.p(x, y, z))) @ Matrix.Rotation(self.ry, 4, 'Z')
-    def rb(self, m, x0, x1, y0, y1, z0, z1, col=None, r=0.012, seg=1):
-        w, h, d = abs(x1 - x0), abs(y1 - y0), abs(z1 - z0)
-        if r <= 0.015 and min(w, h, d) <= 0.05:   # 預算（第一版一樓 10 萬）：摺好的衣服、紙箱、盒子這種薄的小東西用直角方塊（倒角 1 段＝26 面，直角＝6 面；遊戲距離看不出來）
-            bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1.0)
-            for v in bm.verts: v.co = Vector((v.co.x * w, v.co.y * d, v.co.z * h))
-            return put(m, bm, self.M((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2), col)
-        return put(m, L.rbox_bm(w, h, d, r, seg), self.M((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2), col)
-    def cy(self, m, a, b, r, col=None, seg=8, r2=None, caps=True): return put(m, cyl_bm(a, b, r, seg, r2, caps), self.M(), col)
-    def la(self, m, prof, x, y, z, col=None, seg=12, sx=1.0, sz=1.0):
-        return put(m, L.lathe(prof, seg=seg), self.M(x, y, z) @ Matrix.Diagonal((sx, sz, 1.0, 1.0)), col)
-    def el(self, m, x, y, z, rx, ry, rz, col=None, seg=10, rings=6, tilt=0.0):
-        return put(m, ell_bm(rx, ry, rz, seg, rings), self.M(x, y, z) @ Matrix.Rotation(tilt, 4, 'X'), col)
+def inst(obs, name, T, lv, side=None):
+    out = []
+    for ob in obs:
+        key = ob.name.rsplit('_', 1)[-1]
+        no = bpy.data.objects.new(lvname(lv, side, name, key), ob.data); B.scene().collection.objects.link(no); no.parent = root
+        no.matrix_basis = T
+        if side: no['dir'] = DIRS[side]
+        out.append(no)
+    return out
 
 
-# ---------------- 牆（淡出的組；每一面在 y 3.6 切成 L0／L1 兩組）----------------
-def wall_box(side, key, a0, a1, y0, y1, t0=0.0, t1=WT):
-    for lo, hi, lv in ((y0, min(y1, Y1), 0), (max(y0, Y1), y1, 1)):
-        if hi - lo < 1e-4: continue
-        m = wm(side, lv, key)
-        if side == 'back': m.box(a0, a1, lo, hi, Z0 + t0, Z0 + t1)
-        elif side == 'front': m.box(a0, a1, lo, hi, Z1 - t1, Z1 - t0)
-        elif side == 'left': m.box(X0 + t0, X0 + t1, lo, hi, a0, a1)
-        else: m.box(X1 - t1, X1 - t0, lo, hi, a0, a1)
+class Proto:
+    """原型：第一次 place 時建網格，之後共用（同一個原型放在兩層時，每層各一個網格：預算照層算）"""
+    def __init__(self, name, build, side=None, weld=False): self.name, self.build, self.side, self.weld, self.obs, self.n = name, build, side, weld, {}, 0
+
+    def place(self, T, lv=0):
+        self.n += 1
+        if lv not in self.obs:
+            pt = Part(f'{self.name}_0', lv=lv, side=self.side, T=T, weld=self.weld); self.build(pt); self.obs[lv] = pt.done(); return
+        inst(self.obs[lv], f'{self.name}_{self.n}', T, lv, self.side)
 
 
-def wall_open(side, key, a0, a1, y0, y1, holes):
-    """一面牆（沿牆座標 a0～a1、高 y0～y1）挖出長方形的洞 holes=[(a0,a1,y0,y1)]：洞的左右整條、洞的上下補齊"""
-    hs = sorted(holes); xs = [a0]
-    for h in hs: xs += [h[0], h[1]]
-    xs.append(a1)
-    for i in range(0, len(xs), 2):
-        if xs[i + 1] - xs[i] > 1e-4: wall_box(side, key, xs[i], xs[i + 1], y0, y1)
-    for h in hs:
-        if h[2] > y0 + 1e-4: wall_box(side, key, h[0], h[1], y0, h[2])
-        if h[3] < y1 - 1e-4: wall_box(side, key, h[0], h[1], h[3], y1)
+class _N0:
+    """「這之後新加的面」：先記住原本有哪些面（bmesh 的面順序不保證新面在最後：好拍子代理發現 create_cone 之後用 index 取會塗到別的零件）"""
+    def __init__(self, c): self.before = set(c.bm.faces)
 
 
-def glass_pane(side, a0, a1, y0, y1, off=0.06):
-    for lo, hi, lv in ((y0, min(y1, Y1), 0), (max(y0, Y1), y1, 1)):
-        if hi - lo < 1e-4: continue
-        g = wm(side, lv, 'glass')
-        if side == 'left': g.quad([(X0 + off, lo, a1), (X0 + off, lo, a0), (X0 + off, hi, a0), (X0 + off, hi, a1)])
-        elif side == 'front': g.quad([(a1, lo, Z1 - off), (a0, lo, Z1 - off), (a0, hi, Z1 - off), (a1, hi, Z1 - off)])
-        elif side == 'back': g.quad([(a0, lo, Z0 + off), (a1, lo, Z0 + off), (a1, hi, Z0 + off), (a0, hi, Z0 + off)])
+def _new(c, n0): return [f for f in c.bm.faces if f not in n0.before]
 
 
-def frame_bar(side, a0, a1, y0, y1, t0=0.02, t1=0.11):
-    """窗框、門框（深色金屬；牆的組）"""
-    for lo, hi, lv in ((y0, min(y1, Y1), 0), (max(y0, Y1), y1, 1)):
-        if hi - lo < 1e-4: continue
-        m = wm(side, lv, 'dark')
-        if side == 'left': m.box(X0 + t0, X0 + t1, lo, hi, a0, a1)
-        elif side == 'front': m.box(a0, a1, lo, hi, Z1 - t1, Z1 - t0)
-        elif side == 'back': m.box(a0, a1, lo, hi, Z0 + t0, Z0 + t1)
+def ccyl(c, a, b, r, col, seg=8, r2=None, caps=True):
+    n0 = _N0(c); c.cyl(a, b, r, seg=seg, r2=r2, caps=caps); return c.paint(_new(c, n0), col)
 
 
-def window(side, a0, a1, y0, y1, mull=1.0, transom=None):
-    glass_pane(side, a0, a1, y0, y1)
-    for y in (y0, y1) + ((transom,) if transom else ()): frame_bar(side, a0, a1, y - 0.035, y + 0.035)
-    n = max(1, round((a1 - a0) / mull))
-    for j in range(n + 1): a = a0 + j * (a1 - a0) / n; frame_bar(side, a - 0.03, a + 0.03, y0, y1)
+def clathe(c, prof, x, y, z, col, seg=16, R=None):
+    n0 = _N0(c); bm = L.lathe(prof, seg=seg); c.add_bm(bm, fm((x, y, z), R)); bm.free(); return c.paint(_new(c, n0), col)
 
 
-def board(side, lv, a, y, w, h, base='#1d3a8a', stripe='#e8782a', white=False, off=0.13):
-    """牆上的底板（橫幅、尺寸表、樓層牌；字由遊戲畫）：深藍底＋下緣橘色、白色兩道斜條（參考圖的設計，沒有字）"""
-    m = wm(side, lv, 'vc'); t = 0.025
-    def bx(a0, a1, y0, y1, d0, d1, col):
-        if side == 'back': m.crbox(a0, a1, y0, y1, Z0 + d0, Z0 + d1, col, r=0.006)
-        elif side == 'right': m.crbox(X1 - d1, X1 - d0, y0, y1, a0, a1, col, r=0.006)
-        elif side == 'front': m.crbox(a0, a1, y0, y1, Z1 - d1, Z1 - d0, col, r=0.006)
-    if white:
-        bx(a - w / 2, a + w / 2, y - h / 2, y + h / 2, off - t, off, '#f4f4f0'); bx(a - w / 2, a + w / 2, y + h / 2 - 0.2, y + h / 2, off, off + 0.004, base)
-        for k in range(1, 7): bx(a - w / 2 + 0.05, a + w / 2 - 0.05, y + h / 2 - 0.2 - k * 0.17, y + h / 2 - 0.2 - k * 0.17 + 0.008, off, off + 0.003, '#b8c0cc')   # 表格的橫線（空白）
-        return
-    bx(a - w / 2, a + w / 2, y - h / 2, y + h / 2, off - t, off, base)
-    bx(a - w / 2, a + w / 2, y - h / 2 + 0.05, y - h / 2 + 0.09, off, off + 0.004, stripe)
-    bx(a - w / 2 + w * 0.55, a + w / 2, y - h / 2 + 0.11, y - h / 2 + 0.13, off, off + 0.004, '#f4f4f0')
+def crb(c, x0, x1, y0, y1, z0, z1, col, r=0.01, seg=1):
+    if r <= 0.0005: return c.cbox(x0, x1, y0, y1, z0, z1, col)
+    return c.crbox(x0, x1, y0, y1, z0, z1, col, r=r, seg=seg)
 
 
-# ---------------- 衣服（三種款式：T 恤、球衣背心、球褲；換顏色＝另一個原型，instancing）----------------
-TS = [0.0, 0.06, 0.14, 0.24, 0.27, 0.42, 0.58, 0.74, 0.88, 1.0]
+def csph(c, ctr, r, col, seg=8, rings=5, sy=1.0):
+    n0 = _N0(c); c.sphere(ctr, r, seg=seg, rings=rings, sy=sy); return c.paint(_new(c, n0), col)
 
 
-def garment_bm(style, col, trim=None, hanger='#3b3c40', flat=1.0, hang=True):
-    """衣架上的一件衣服（自己的座標：掛鉤頂端在原點、正面朝 +z）：前後兩片曲面＋側邊封起來；肩斜、領口、下襬波浪、垂下來的布紋"""
-    bm = bmesh.new(); C = bm.loops.layers.float_color.new('Col'); NC = 4   # 橫向 6→4 段（預算）
-    trim = trim or col
-    if style == 'tee': Ln, hw = 0.70, [0.20, 0.30, 0.35, 0.355, 0.25, 0.252, 0.256, 0.26, 0.263, 0.266]
-    elif style == 'jersey': Ln, hw = 0.74, [0.12, 0.13, 0.17, 0.235, 0.258, 0.262, 0.265, 0.268, 0.27, 0.272]
-    else: Ln, hw = 0.50, [0.24, 0.245, 0.25, 0.255, 0.26, 0.265, 0.272, 0.28, 0.286, 0.29]
-    top = -0.075 if style == 'shorts' else -0.085; ph = {'tee': 0.4, 'jersey': 1.3, 'shorts': 2.1}[style]
-    F, K = [], []
+def cell_(c, rx, ry, rz, ctr, col, seg=10, rings=6, R=None):
+    n0 = _N0(c); c.ell(ctr, rx, ry, rz, seg=seg, rings=rings, matrix=(G3 @ R @ G3.inverted()).to_4x4() if R is not None else None); return c.paint(_new(c, n0), col)
+
+
+def loft(c, rings, seg, colf, cap0=True, cap1=True):
+    """一圈一圈的橢圓接起來（人台的身體、衣服、褲管）：rings＝[(y, rx, rz, ox, oz)]；colf(帶, 角度)→色碼"""
+    vs = []
+    for (y, rx, rz, ox, oz) in rings:
+        vs.append([c.bm.verts.new(g2b(ox + rx * math.cos(2 * math.pi * k / seg), y, oz + rz * math.sin(2 * math.pi * k / seg))) for k in range(seg)])
+    for b in range(len(rings) - 1):
+        for k in range(seg):
+            j = (k + 1) % seg; f = c.bm.faces.new((vs[b][k], vs[b][j], vs[b + 1][j], vs[b + 1][k]))
+            c.paint([f], colf(b, 2 * math.pi * (k + 0.5) / seg))
+    caps = []
+    if cap0: caps.append(c.bm.faces.new(list(reversed(vs[0]))))
+    if cap1: caps.append(c.bm.faces.new(vs[-1]))
+    for f in caps: c.paint([f], colf(0 if f is caps[0] and cap0 else len(rings) - 2, 0.0))
+    new = [f for row in vs for v in row for f in v.link_faces]
+    bmesh.ops.recalc_face_normals(c.bm, faces=list(set(new)))
+
+
+def jit(hexcol, k=0.06):
+    f = 1 + random.uniform(-k, k); return '#' + ''.join(f'{min(255, max(0, int(int(hexcol[i:i + 2], 16) * f))):02x}' for i in (1, 3, 5))
+
+
+def sub(cellname, a0, b0, a1, b1):
+    u0, v0, u1, v1 = ATL[cellname]; return (u0 + (u1 - u0) * a0, v0 + (v1 - v0) * b0, u0 + (u1 - u0) * a1, v0 + (v1 - v0) * b1)
+
+
+def lvof(y): return 1 if y >= Y1 - 0.01 else 0
+
+
+# ======================================================================
+# 衣服原型（自己的座標：掛勾頂端在原點、正面朝 +z）：前後兩片曲面＋側邊封起來；肩斜、袖子、領口、下襬波浪、垂下來的布紋；木頭衣架
+# ======================================================================
+TS_FULL = [0.0, 0.06, 0.14, 0.24, 0.27, 0.42, 0.58, 0.74, 0.88, 1.0]
+TS_LITE = [0.0, 0.14, 0.27, 0.55, 0.8, 1.0]
+
+
+def garment_into(c, style, col, trim=None, flat=1.0, lite=False, hanger='#b98a58', side_col=None, scale=1.0):
+    trim = trim or col; TS = TS_LITE if lite else TS_FULL; NC = 3 if lite else 4
+    if style == 'tee': Ln, prof = 0.70, [(0.0, 0.20), (0.06, 0.30), (0.14, 0.35), (0.24, 0.355), (0.27, 0.25), (0.42, 0.252), (0.58, 0.256), (0.74, 0.26), (0.88, 0.263), (1.0, 0.266)]
+    elif style == 'jersey': Ln, prof = 0.74, [(0.0, 0.12), (0.06, 0.13), (0.14, 0.17), (0.24, 0.235), (0.27, 0.258), (0.42, 0.262), (0.58, 0.265), (0.74, 0.268), (0.88, 0.27), (1.0, 0.272)]
+    elif style == 'jacket': Ln, prof = 0.72, [(0.0, 0.2), (0.06, 0.32), (0.14, 0.36), (0.24, 0.36), (0.27, 0.36), (0.42, 0.34), (0.58, 0.33), (0.74, 0.32), (0.88, 0.3), (1.0, 0.28)]
+    else: Ln, prof = 0.50, [(0.0, 0.24), (0.06, 0.245), (0.14, 0.25), (0.24, 0.255), (0.27, 0.26), (0.42, 0.265), (0.58, 0.272), (0.74, 0.28), (0.88, 0.286), (1.0, 0.29)]
+    hw_at = lambda t: next(v for (tt, v) in prof if abs(tt - t) < 1e-6) if any(abs(tt - t) < 1e-6 for tt, _ in prof) else \
+        [prof[i][1] + (prof[i + 1][1] - prof[i][1]) * (t - prof[i][0]) / (prof[i + 1][0] - prof[i][0]) for i in range(len(prof) - 1) if prof[i][0] <= t <= prof[i + 1][0]][0]
+    top = -0.075 if style == 'shorts' else -0.085; ph = {'tee': 0.4, 'jersey': 1.3, 'shorts': 2.1, 'jacket': 0.9}[style]
+    S_ = scale; F, K = [], []
     for r, t in enumerate(TS):
-        rf, rk = [], []
-        for c in range(NC + 1):
-            u = -1 + 2 * c / NC; x = hw[r] * u; y = top - t * Ln
-            if style == 'tee' and t < 0.26: y -= 0.11 * max(0.0, abs(x) - 0.11) / 0.25                          # 肩斜、袖子往下垂
-            if style == 'jersey' and r == 0: y -= 0.12 * max(0.0, 1 - (x / 0.105) ** 2)                          # 背心的 U 領
-            if style == 'tee' and r == 0: y -= 0.045 * max(0.0, 1 - (x / 0.1) ** 2)                               # 圓領
-            if style == 'shorts' and t > 0.55: y += 0.17 * max(0.0, 1 - abs(x) / 0.12) * (t - 0.55) / 0.45       # 褲襠
-            if r == len(TS) - 1: y += 0.012 * math.sin(x * 16 + ph)                                               # 下襬波浪
-            th = (0.012 + 0.032 * math.sqrt(max(0.0, 1 - u * u))) * flat
-            if style == 'tee' and t < 0.26 and abs(x) > 0.2: th *= 0.55
+        rf, rk = [], []; hw = hw_at(t)
+        for cc in range(NC + 1):
+            u = -1 + 2 * cc / NC; x = hw * u; y = top - t * Ln
+            if style in ('tee', 'jacket') and t < 0.26: y -= 0.11 * max(0.0, abs(x) - 0.11) / 0.25
+            if style == 'jersey' and r == 0: y -= 0.12 * max(0.0, 1 - (x / 0.105) ** 2)
+            if style in ('tee', 'jacket') and r == 0: y -= 0.045 * max(0.0, 1 - (x / 0.1) ** 2)
+            if style == 'shorts' and t > 0.55: y += 0.17 * max(0.0, 1 - abs(x) / 0.12) * (t - 0.55) / 0.45
+            if r == len(TS) - 1: y += 0.012 * math.sin(x * 16 + ph)
+            th = (0.012 + 0.032 * math.sqrt(max(0.0, 1 - u * u))) * flat * (1.25 if style == 'jacket' else 1.0)
+            if style in ('tee', 'jacket') and t < 0.26 and abs(x) > 0.2: th *= 0.55
             fold = 0.011 * t * math.sin(x * 21 + ph) * flat
-            rf.append(bm.verts.new(g2b(x, y, th + fold))); rk.append(bm.verts.new(g2b(x, y, -th + fold * 0.5)))
+            rf.append(c.bm.verts.new(g2b(x * S_, y * S_, (th + fold) * S_))); rk.append(c.bm.verts.new(g2b(x * S_, y * S_, (-th + fold * 0.5) * S_)))
         F.append(rf); K.append(rk)
-    def face(vs, hx):
-        f = bm.faces.new(vs)
-        for lp in f.loops: lp[C] = lin(hx)
+
+    def face(vs, hx_):
+        f = c.bm.faces.new(vs); c.paint([f], hx_)
     NR = len(TS) - 1
     for r in range(NR):
-        for c in range(NC):
-            tr = (style == 'jersey' and TS[r] < 0.27 and c in (0, NC - 1)) or (style == 'shorts' and c in (0, NC - 1))
-            hx = trim if (tr or (r == 0 and style != 'tee') or (style == 'jersey' and r == NR - 1)) else col
-            face([F[r][c], F[r][c + 1], F[r + 1][c + 1], F[r + 1][c]], hx); face([K[r][c + 1], K[r][c], K[r + 1][c], K[r + 1][c + 1]], hx)
-        face([F[r + 1][0], K[r + 1][0], K[r][0], F[r][0]], trim if style != 'tee' else col); face([F[r][NC], K[r][NC], K[r + 1][NC], F[r + 1][NC]], trim if style != 'tee' else col)
-    for c in range(NC):
-        face([F[0][c + 1], F[0][c], K[0][c], K[0][c + 1]], col); face([F[NR][c], F[NR][c + 1], K[NR][c + 1], K[NR][c]], col)
-    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
-    if hang:   # 衣架：掛鉤＋兩支肩架（球褲：直的夾子衣架）
-        hv = Vector(lin(hanger))
+        for cc in range(NC):
+            tr = (style == 'jersey' and TS[r] < 0.27 and cc in (0, NC - 1)) or (style == 'shorts' and cc in (0, NC - 1))
+            hx_ = trim if (tr or (r == 0 and style != 'tee') or (style == 'jersey' and r == NR - 1)) else col
+            if side_col and cc in (0, NC - 1) and TS[r] >= 0.27: hx_ = side_col
+            face([F[r][cc], F[r][cc + 1], F[r + 1][cc + 1], F[r + 1][cc]], hx_); face([K[r][cc + 1], K[r][cc], K[r + 1][cc], K[r + 1][cc + 1]], hx_)
+        sc = side_col if (side_col and TS[r] >= 0.27) else (trim if style != 'tee' else col)
+        face([F[r + 1][0], K[r + 1][0], K[r][0], F[r][0]], sc); face([F[r][NC], K[r][NC], K[r + 1][NC], F[r + 1][NC]], sc)
+    for cc in range(NC):
+        face([F[0][cc + 1], F[0][cc], K[0][cc], K[0][cc + 1]], col); face([F[NR][cc], F[NR][cc + 1], K[NR][cc + 1], K[NR][cc]], col)
+    if hanger:
         parts = [((0, 0.0, 0), (0.028, -0.018, 0)), ((0.028, -0.018, 0), (0.0, -0.05, 0))]
         if style == 'shorts': parts += [((0, -0.05, 0), (0, -0.07, 0)), ((-0.23, -0.07, 0), (0.23, -0.07, 0))]
         else: parts += [((0, -0.05, 0), (-0.2, -0.1, 0)), ((0, -0.05, 0), (0.2, -0.1, 0))]
         for a, b in parts:
-            tmp = cyl_bm(a, b, 0.004 if b[1] > -0.06 else 0.009, seg=4, caps=False); n0 = len(bm.faces)
-            me = bpy.data.meshes.new('_t'); tmp.to_mesh(me); tmp.free(); bm.from_mesh(me); bpy.data.meshes.remove(me)
-            bm.faces.ensure_lookup_table()
-            for i in range(n0, len(bm.faces)):
-                for lp in bm.faces[i].loops: lp[C] = list(hv)
-    return bm
+            a = tuple(v * S_ for v in a); b = tuple(v * S_ for v in b)
+            ccyl(c, a, b, (0.004 if b[1] > -0.06 * S_ else 0.011) * S_, '#9a9ea2' if b[1] > -0.06 * S_ else hanger, seg=4, caps=False)
 
 
-PROTO = {}
-def proto(key, build, mat):
-    if key not in PROTO:
-        bm = build(); me = bpy.data.meshes.new(P + key); bm.to_mesh(me); bm.free(); me.materials.append(M[mat])
-        for p in me.polygons: p.use_smooth = True
-        PROTO[key] = me
-    return PROTO[key]
+def garment_proto(name, style, col, trim=None, flat=1.0, lite=False, side_col=None, decal=None, scale=1.0, hanger='#b98a58'):
+    def f(pt):
+        garment_into(pt['vc'], style, col, trim, flat=flat, lite=lite, side_col=side_col, scale=scale, hanger=hanger)
+        if decal:   # 胸前的字（系名＋號碼）：貼在前片外面 3 mm
+            th = (0.012 + 0.032) * flat * scale + 0.003
+            pt['goods'].rect((0, -0.33 * scale, th), (1, 0, 0), (0, 1, 0), 0.15 * scale, 0.15 * scale, ATL[decal])
+    return Proto(name, f)
 
 
-_ni = [0]
-def inst(me, lv, x, y, z, ry=0.0, s=1.0, sx=None):
-    _ni[0] += 1; ob = bpy.data.objects.new(f'L{lv}_{me.name}_{_ni[0]}', me); B.scene().collection.objects.link(ob); ob.parent = INST[lv]
-    ob.matrix_world = Matrix.Translation(g2b(x, y, z)) @ Matrix.Rotation(ry, 4, 'Z') @ Matrix.Diagonal((s if sx is None else sx, s, s, 1.0)); return ob
-
-
-COLS = {'navy': '#1f2d55', 'deepnavy': '#17213f', 'red': '#b8242c', 'white': '#efefea', 'royal': '#2950a8', 'maroon': '#6e1f2c', 'green': '#2f6b45',
-        'lightblue': '#8fb8de', 'black': '#26272b', 'grey': '#8d9196', 'heather': '#b9bcbf', 'orange': '#d8742c'}
+COL = {'navy': '#1f2d55', 'deepnavy': '#17213f', 'red': '#b8242c', 'white': '#efefea', 'royal': '#2950a8', 'maroon': '#6a1c26', 'green': '#2f6b45',
+       'lightblue': '#8fb8de', 'black': '#26272b', 'grey': '#8d9196', 'heather': '#b9bcbf', 'orange': '#d8742c', 'sky': '#3a6ac0'}
 TRIM = {'navy': '#efefea', 'deepnavy': '#d9b45a', 'red': '#efefea', 'white': '#1f2d55', 'royal': '#efefea', 'maroon': '#e9e2cf', 'green': '#efefea',
-        'lightblue': '#1f2d55', 'black': '#d8742c', 'grey': '#26272b', 'heather': '#1f2d55', 'orange': '#26272b'}
+        'lightblue': '#1f2d55', 'black': '#d8742c', 'grey': '#26272b', 'heather': '#1f2d55', 'orange': '#26272b', 'sky': '#efefea'}
+_GP = {}
 
 
-def garment(style, cname, flat=1.0):
-    return proto(f'{style}_{cname}' + ('_flat' if flat < 1 else ''), lambda: garment_bm(style, COLS[cname], TRIM[cname] if style != 'tee' else None, flat=flat), 'vc')
-
-
-# ---------------- 球（UV 球、接縫在圖集貼圖上）----------------
-def ball_bm(r, kind, seg, rings):
-    bm = bmesh.new(); uvl = bm.loops.layers.uv.new('UVMap'); u0, v0, u1, v1 = cell_uv(kind)
-    vs = [[bm.verts.new((r * math.sin(math.pi * i / rings) * math.cos(2 * math.pi * j / seg), r * math.sin(math.pi * i / rings) * math.sin(2 * math.pi * j / seg), r * math.cos(math.pi * i / rings)))
-           for j in range(seg + 1)] for i in range(rings + 1)]
-    for i in range(rings):
-        for j in range(seg):
-            f = bm.faces.new([vs[i][j], vs[i + 1][j], vs[i + 1][j + 1], vs[i][j + 1]])
-            for lp, (ii, jj) in zip(f.loops, ((i, j), (i + 1, j), (i + 1, j + 1), (i, j + 1))):
-                lp[uvl].uv = (u0 + (u1 - u0) * jj / seg, v1 - (v1 - v0) * ii / rings)
-    bmesh.ops.remove_doubles(bm, verts=[v for row in (vs[0], vs[-1]) for v in row], dist=1e-6)
-    bmesh.ops.recalc_face_normals(bm, faces=bm.faces); return bm
-
-
-def ball(kind):
-    r, seg, rings = {'basket': (0.121, 10, 7), 'volley': (0.105, 10, 7), 'tennis': (0.033, 6, 4)}[kind]   # 預算（第一版一樓 10 萬）：14×9→10×7
-    return proto('ball_' + kind, lambda: ball_bm(r, kind, seg, rings), 'print')
-
-
-# ---------------- 水壺、背包 ----------------
-BOTTLE_COLS = [('#e9a8b4', '#f2f2ee'), ('#9cc6e4', '#2a2c30'), ('#2c3e66', '#c9ccce'), ('#e9e6df', '#2a2c30'), ('#7a9a76', '#e9e6df'), ('#c9ccce', '#2a2c30'), ('#e8873a', '#f2f2ee')]
-
-
-def bottle_bm(body, cap):
-    cm = L.CMesh('_b', M['vcg']); xf = Xf(0, 0)
-    xf.la(cm, [(0.0, 0.0), (0.033, 0.0), (0.035, 0.014), (0.035, 0.2), (0.026, 0.226), (0.021, 0.236)], 0, 0, 0, body, seg=5)
-    xf.la(cm, [(0.022, 0.236), (0.023, 0.268), (0.0, 0.272)], 0, 0, 0, cap, seg=5)
-    xf.rb(cm, -0.006, 0.006, 0.255, 0.275, 0.018, 0.04, cap, r=0.004)   # 提把
-    return cm.bm
-
-
-BAG_COLS = [('#1f2d55', '#e8a33a'), ('#26272b', '#6d7076'), ('#b32a30', '#1f2d55')]
-
-
-def bag_bm(body, trim):
-    """後背包（自己的座標：底面中心在原點、正面朝 +z）"""
-    cm = L.CMesh('_g', M['vc']); xf = Xf(0, 0)
-    xf.rb(cm, -0.15, 0.15, 0.0, 0.44, -0.09, 0.09, body, r=0.06, seg=2)
-    xf.rb(cm, -0.12, 0.12, 0.05, 0.25, 0.06, 0.13, body, r=0.035, seg=2)                 # 前袋
-    xf.rb(cm, -0.11, 0.11, 0.245, 0.26, 0.10, 0.125, trim, r=0.005)                      # 前袋的拉鍊
-    xf.rb(cm, -0.13, 0.13, 0.35, 0.365, 0.075, 0.095, trim, r=0.005)                     # 主袋的拉鍊
-    xf.cy(cm, (-0.04, 0.44, 0.0), (0.0, 0.49, 0.0), 0.009, trim, seg=5, caps=False); xf.cy(cm, (0.0, 0.49, 0.0), (0.04, 0.44, 0.0), 0.009, trim, seg=5, caps=False)   # 提把
-    for sx in (-0.08, 0.08): xf.rb(cm, sx - 0.025, sx + 0.025, 0.08, 0.42, -0.12, -0.095, '#2a2b2f', r=0.008)   # 背帶
-    return cm.bm
+def G_(style, cn, lite=False, flat=1.0):
+    k = (style, cn, lite, flat)
+    if k not in _GP: _GP[k] = garment_proto(f'{style}_{cn}' + ('_l' if lite else '') + ('_f' if flat < 1 else ''), style, COL[cn], TRIM[cn] if style != 'tee' else None, flat=flat, lite=lite)
+    return _GP[k]
 
 
 # ======================================================================
-# 地板、牆、天花板
+# 球、水壺、鞋、背包、日光燈的原型
 # ======================================================================
-Mesh('L0_floor', M['floor']).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(root)
-fr = LAY['front']; dx, dw = fr['door']['x'], fr['door']['w']; DH = 2.3
-front_holes = [(a, b, fr['sill'], fr['head']) for a, b in fr['windows']] + [(dx - dw / 2, dx + dw / 2, 0.0, DH)]
-up = fr['upper']
-wall_open('front', 'paint', X0, X1, 0.0, Y1, front_holes)                                     # 一樓：門＋兩扇櫥窗
-wall_open('front', 'paint', X0, X1, Y1, HT, [(up['x0'], up['x1'], up['y0'], up['y1'])])          # 二樓高度：一整條橫窗
-for a, b in fr['windows']: window('front', a, b, fr['sill'], fr['head'], mull=1.2)
-window('front', up['x0'], up['x1'], up['y0'], up['y1'], mull=1.0)
-glass_pane('front', dx - dw / 2, dx + dw / 2, 0.02, DH - 0.03)                              # 玻璃雙開門
-for a in (dx - dw / 2, dx, dx + dw / 2): frame_bar('front', a - 0.04, a + 0.04, 0.0, DH)
-frame_bar('front', dx - dw / 2, dx + dw / 2, DH - 0.06, DH + 0.02)
-for sx in (dx - 0.09, dx + 0.06):
-    wm('front', 0, 'steel').box(sx, sx + 0.03, 0.85, 1.45, Z1 - 0.2, Z1 - 0.17)              # 長門把
-lw, lw1 = LAY['leftWindow'], LAY['leftWindowL1']
-wall_open('left', 'paint', Z0, Z1, 0.0, HT, [(lw['z0'], lw['z1'], lw['y0'], lw['y1']), (lw1['z0'], lw1['z1'], lw1['y0'], lw1['y1'])])
-window('left', lw['z0'], lw['z1'], lw['y0'], lw['y1'], mull=1.0, transom=lw['transom'])
-window('left', lw1['z0'], lw1['z1'], lw1['y0'], lw1['y1'], mull=1.1)
-bd = LAY['backDoor']
-wall_open('back', 'paint', X0, X1, 0.0, HT, [(bd['x'] - bd['w'] / 2, bd['x'] + bd['w'] / 2, 0.0, bd['h'])])
-glass_pane('back', bd['x'] - bd['w'] / 2, bd['x'] + bd['w'] / 2, 0.02, bd['h'] - 0.03)
-for a in (bd['x'] - bd['w'] / 2, bd['x'], bd['x'] + bd['w'] / 2): frame_bar('back', a - 0.04, a + 0.04, 0.0, bd['h'])
-frame_bar('back', bd['x'] - bd['w'] / 2, bd['x'] + bd['w'] / 2, bd['h'] - 0.06, bd['h'] + 0.02)
-bk = wm('back', 0, 'vc')                                                                       # 門後面的員工走道（暗一點的牆、地）
-bk.cbox(bd['x'] - bd['w'] / 2 - 0.2, bd['x'] + bd['w'] / 2 + 0.2, 0.0, bd['h'] + 0.1, Z0 - 1.25, Z0 - 1.2, '#a9a49b')
-bk.cbox(bd['x'] - bd['w'] / 2 - 0.2, bd['x'] + bd['w'] / 2 + 0.2, -0.02, 0.0, Z0 - 1.2, Z0, '#8e8a84')
-for sx in (bd['x'] - bd['w'] / 2 - 0.2, bd['x'] + bd['w'] / 2 + 0.2): bk.cbox(sx - 0.05, sx + 0.05, 0.0, bd['h'] + 0.1, Z0 - 1.2, Z0, '#b9b4aa')
-bk.cbox(bd['x'] - bd['w'] / 2 - 0.2, bd['x'] + bd['w'] / 2 + 0.2, bd['h'] + 0.05, bd['h'] + 0.1, Z0 - 1.2, Z0, '#b9b4aa')
-wall_box('right', 'paint', Z0, Z1, 0.0, HT)
-for side, a0, a1 in (('left', Z0 + WT, Z1 - WT), ('right', Z0 + WT, Z1 - WT), ('back', X0 + WT, X1 - WT), ('front', X0 + WT, X1 - WT)):   # 踢腳板（一樓、夾層）
-    for yb in (0.0, Y1):
-        if side == 'front' and yb > 0: continue
-        if side in ('left', 'right') and yb > 0: a1_ = MZ
-        else: a1_ = a1
-        segs = [(a0, a1_)]
-        if side == 'front' and yb == 0: segs = [(a0, a) for a, _ in [(fr['windows'][0][0], 0)]] + [(fr['windows'][0][1], dx - dw / 2), (dx + dw / 2, fr['windows'][1][0])]
-        if side == 'back' and yb == 0: segs = [(a0, bd['x'] - bd['w'] / 2), (bd['x'] + bd['w'] / 2, a1)]
-        for s0, s1 in segs:
-            if s1 - s0 < 0.05: continue
-            t0, t1 = WT, WT + 0.015; mm = wm(side, lvn(yb + 0.01), 'vc')
-            if side == 'back': mm.cbox(s0, s1, yb, yb + 0.09, Z0 + t0, Z0 + t1, '#5b5e63')
-            elif side == 'front': mm.cbox(s0, s1, yb, yb + 0.09, Z1 - t1, Z1 - t0, '#5b5e63')
-            elif side == 'left': mm.cbox(X0 + t0, X0 + t1, yb, yb + 0.09, s0, s1, '#5b5e63')
-            else: mm.cbox(X1 - t1, X1 - t0, yb, yb + 0.09, s0, s1, '#5b5e63')
-
-# 窗型冷氣（左牆大窗的上半；參考圖）
-ac = wm('left', 1, 'vc'); az0, az1, ay0, ay1 = 5.0, 5.8, 5.15, 5.75
-ac.crbox(X0 + 0.02, X0 + 0.42, ay0, ay1, az0, az1, '#e4e2dc', r=0.02)
-for k in range(9): ac.cbox(X0 + 0.42, X0 + 0.425, ay0 + 0.08, ay0 + 0.36, az0 + 0.06 + k * 0.075, az0 + 0.09 + k * 0.075, '#9a9a96')   # 出風口的百葉
-ac.cbox(X0 + 0.42, X0 + 0.428, ay0 + 0.42, ay1 - 0.06, az0 + 0.06, az0 + 0.3, '#c9c7c0')
-ac.cbox(X0 + 0.02, X0 + 0.07, ay0 - 0.08, ay0, az0 - 0.05, az1 + 0.05, '#7d7f84')              # 托架
-
-# 天花板（7.2 m：方格輕鋼架、日光燈、軌道燈）＋夾層樓板（底面是一樓後段的天花板）
-def tbar_ceiling(lv, y, x0, x1, z0, z1, troffers):
-    ce = acc('ceil', lv); ce.quad([(x0, y, z0), (x1, y, z0), (x1, y, z1), (x0, y, z1)])
-    vc = acc('vc', lv)
-    xs = [x0 + 0.6 * k for k in range(1, int((x1 - x0) / 0.6) + 1) if x0 + 0.6 * k < x1 - 0.05]; zs = [z0 + 0.6 * k for k in range(1, int((z1 - z0) / 0.6) + 1) if z0 + 0.6 * k < z1 - 0.05]
-    for x in xs: vc.cbox(x - 0.012, x + 0.012, y - 0.02, y - 0.001, z0, z1, '#e6e4de')
-    for z in zs: vc.cbox(x0, x1, y - 0.02, y - 0.001, z - 0.012, z + 0.012, '#e6e4de')
-    for (cx, cz) in troffers:
-        vc.cbox(cx - 0.62, cx + 0.62, y - 0.05, y - 0.002, cz - 0.17, cz + 0.17, '#f4f4f2')
-        acc('tube', lv).quad([(cx - 0.56, y - 0.052, cz - 0.12), (cx + 0.56, y - 0.052, cz - 0.12), (cx + 0.56, y - 0.052, cz + 0.12), (cx - 0.56, y - 0.052, cz + 0.12)])
+def ball_proto(name, cell, r, seg, rings):
+    def f(pt): pt['goods'].sphere((0, r, 0), r, cell, seg=seg, rings=rings)
+    return Proto(name, f, weld=True)
 
 
-tbar_ceiling(1, HT, IX0, IX1, IZ0, IZ1, [(x, z) for x in (-2.4, 0.0, 2.4) for z in (-6.0, -3.2, 3.0, 6.0)] + [(-2.4, 0.2), (0.0, 0.2)])
-tbar_ceiling(1, YS, IX0, IX1, IZ0, MZ, [(x, z) for x in (-2.7, -0.3, 2.3) for z in (-6.3, -3.8, -1.8)])
-sl = acc('paint', 1); sl.box(X0, X1, YS, Y1 - 0.02, Z0, MZ)                                    # 樓板（結構）
-acc('floor', 1).box(X0, X1, Y1 - 0.02, Y1, Z0, MZ)                                             # 夾層地板（同一種磁磚）
-acc('vc', 1).cbox(X0 + WT, X1 - WT, YS - 0.06, Y1 + 0.005, MZ, MZ + 0.04, '#d9d6cf')           # 樓板前緣的收邊板
-for zt in (2.1, 5.4):                                                                          # 挑空區的軌道燈
-    acc('dark', 1).box(-3.6, 2.6, HT - 0.06, HT - 0.02, zt - 0.02, zt + 0.02)
-    for k in range(6):
-        x = -3.3 + k * 1.15; spot = Xf(x, zt)
-        spot.cy(acc('dark', 1), (0, HT - 0.06, 0), (0, HT - 0.16, 0), 0.012, seg=6)
-        spot.cy(acc('dark', 1), (0, HT - 0.17, -0.06), (0, HT - 0.27, 0.1), 0.045, seg=10)
-        spot.cy(acc('tube', 1), (0, HT - 0.265, 0.092), (0, HT - 0.272, 0.103), 0.038, seg=10)
+BALL_B = ball_proto('bball', 'basket', 0.121, 10, 6)
+BALL_V = ball_proto('vball', 'volley', 0.105, 9, 6)
+BALL_T = ball_proto('tball', 'tennis', 0.033, 6, 3)
+BOTTLE_COLS = [('#e8a8b0', '#f2f2ee'), ('#9cc6e4', '#2a2c30'), ('#2c3e66', '#c9ccce'), ('#e9e6df', '#2a2c30'), ('#7a9a76', '#e9e6df'), ('#b8bcc0', '#2a2c30'),
+               ('#e8873a', '#f2f2ee'), ('#5d8fc8', '#e9e6df'), ('#d07a80', '#2a2c30')]
+
+
+def bottle_build(body, cap):
+    def f(pt):
+        c = pt['vc']
+        clathe(c, [(0.0, 0.0), (0.0375, 0.0), (0.0375, 0.205), (0.03, 0.232), (0.022, 0.24)], 0, 0, 0, body, seg=7)
+        clathe(c, [(0.0235, 0.0), (0.0235, 0.032), (0.0, 0.036)], 0, 0.24, 0, cap, seg=7)
+        c.cbox(-0.006, 0.006, 0.255, 0.278, 0.016, 0.04, cap)
+    return f
+
+
+BOTTLE = [Proto(f'bottle{i}', bottle_build(*bc)) for i, bc in enumerate(BOTTLE_COLS)]
+SHOE_COLS = [('#f2f0ea', '#f2f0ea', '#1f2d55'), ('#26272b', '#f2f0ea', '#26272b'), ('#2950a8', '#f2f0ea', '#f2f0ea'), ('#b8242c', '#f2f0ea', '#26272b'),
+             ('#e9e6df', '#c88f5a', '#2f6b45'), ('#8d9196', '#26272b', '#d8742c'), ('#f2f0ea', '#26272b', '#c8202a')]
+
+
+def shoe_build(upper, sole, accent):
+    """一隻球鞋（自己的座標：鞋底中心在原點、鞋尖朝 +x）：鞋底、鞋身（橢球壓扁）、鞋跟、鞋口、側邊的線條"""
+    def f(pt):
+        c = pt['vc']
+        c.cbox(-0.145, 0.145, 0.0, 0.03, -0.048, 0.048, sole)
+        cell_(c, 0.13, 0.065, 0.044, (0.005, 0.045, 0.0), upper, seg=8, rings=4)
+        cell_(c, 0.05, 0.05, 0.042, (-0.1, 0.07, 0.0), upper, seg=6, rings=3)
+        c.cbox(-0.12, -0.04, 0.095, 0.105, -0.03, 0.03, '#26272b')
+        c.cbox(-0.04, 0.07, 0.04, 0.075, -0.047, 0.047, accent)
+    return f
+
+
+SHOE = [Proto(f'shoe{i}', shoe_build(*sc)) for i, sc in enumerate(SHOE_COLS)]
+
+
+def fixture_build(pt):
+    """1.2 m 雙管日光燈（白色燈座＋兩支燈管；吸頂）：自己的座標燈座頂在 y 0、長邊沿 x"""
+    cm, u = pt['vcm'], pt['emit']
+    crb(cm, -0.64, 0.64, -0.05, -0.004, -0.11, 0.11, '#ecebe6', r=0.012, seg=1)
+    tu = ATL['tube']; tuv = ((tu[0] + tu[2]) / 2, (tu[1] + tu[3]) / 2)
+    for s in (-0.05, 0.05):
+        for xx in (-0.61, 0.61): cm.cbox(xx - 0.02, xx + 0.02, -0.08, -0.05, s - 0.016, s + 0.016, '#d2d0ca')
+        for k in range(5):
+            a0, a1 = 2 * math.pi * k / 5, 2 * math.pi * (k + 1) / 5; rr = 0.014; yc = -0.066
+            u.face([(-0.6, yc + rr * math.sin(a0), s + rr * math.cos(a0)), (-0.6, yc + rr * math.sin(a1), s + rr * math.cos(a1)),
+                    (0.6, yc + rr * math.sin(a1), s + rr * math.cos(a1)), (0.6, yc + rr * math.sin(a0), s + rr * math.cos(a0))], [tuv] * 4, smooth=True)
+
+
+FIXP = Proto('fixture', fixture_build)
+
+
+def spot_build(pt):
+    """軌道燈頭（黑色圓筒、往下斜照）：自己的座標掛點在原點，燈頭往 −y、往 +z 斜 35°"""
+    c = pt['vcm']; R = rot('X', -0.6)
+    crb(c, -0.025, 0.025, -0.06, 0.0, -0.025, 0.025, '#1c1c1e', r=0.008)
+    a = Vector((0, -0.06, 0)); b = a + R @ Vector((0, -0.16, 0))
+    ccyl(c, tuple(a), tuple(b), 0.042, '#1c1c1e', seg=10)
+    sp = ATL['spot']; suv = ((sp[0] + sp[2]) / 2, (sp[1] + sp[3]) / 2); e = b + R @ Vector((0, -0.002, 0))
+    n_ = (R @ Vector((0, -1, 0))).normalized(); t1 = Vector((1, 0, 0)); t2 = n_.cross(t1)
+    pts = [tuple(e + (t1 * math.cos(2 * math.pi * k / 10) + t2 * math.sin(2 * math.pi * k / 10)) * 0.036) for k in range(10)]
+    pt['emit'].face(list(reversed(pts)), [suv] * 10)
+
+
+SPOTP = Proto('spot', spot_build)
 
 # ======================================================================
-# 樓梯（右牆直跑、21 階；兩層共用：模型放 L0）
+# 房間殼：地、樓板、天花板、牆（淡出的組）
 # ======================================================================
-sx0, sx1, sz0, sz1, NRZ = ST['x0'], ST['x1'], ST['z0'], ST['z1'], ST['risers']; rise = (ST['ya'] - ST['yb']) / NRZ; tread = (sz1 - sz0) / NRZ
-for i in range(NRZ):                                                                           # 第 i 階：踏面高 (i+1)*rise，z 從 sz1-(i+1)*tread 到 sz1-i*tread
-    ytop = (i + 1) * rise; za, zb = sz1 - (i + 1) * tread, sz1 - i * tread
-    if i < NRZ - 1:
-        acc('paint', 0).box(sx0, IX1, 0.0, ytop - 0.03, za, zb)                                 # 樓梯的身體（底下封起來）
-        acc('stone', 0).box(sx0, IX1, ytop - 0.03, ytop, za, zb + 0.025)                        # 石材踏面（前緣凸出 2.5 cm）
-        acc('vc', 0).cbox(sx0 + 0.04, IX1 - 0.04, ytop - 0.002, ytop + 0.002, zb - 0.03, zb + 0.02, '#4d4f53')   # 防滑條
-acc('paint', 0).box(sx0, IX1, 0.0, Y1 - 0.03, sz0 - 0.15, sz0 + tread)                                 # 最上面接夾層的那一段（樓梯頂端下面的牆）
-acc('stone', 0).box(sx0, IX1, Y1 - 0.03, Y1, sz0, sz0 + tread + 0.025)
-strg = acc('paint', 0)                                                                          # 西側的斜樑（蓋住一階一階的側面）
-bm = bmesh.new(); pts = []
-for xx in (sx0 - 0.05, sx0 + 0.001):
-    pts.append([bm.verts.new(g2b(xx, 0.0, sz1 + 0.03)), bm.verts.new(g2b(xx, 0.22, sz1 + 0.03)), bm.verts.new(g2b(xx, Y1 + 0.12, sz0)), bm.verts.new(g2b(xx, Y1 - 0.4, sz0))])
-a, b = pts
-for q in ([a[0], a[1], a[2], a[3]], [b[3], b[2], b[1], b[0]], [a[0], b[0], b[1], a[1]], [a[1], b[1], b[2], a[2]], [a[2], b[2], b[3], a[3]], [a[3], b[3], b[0], a[0]]): bm.faces.new(q)
-bmesh.ops.recalc_face_normals(bm, faces=bm.faces); strg.add_bm(bm); bm.free()
+fl = Part('floor', smooth=False); fl['floor'].box(X0, X1, -0.02, 0.0, Z0, Z1); fl.done()
+# 二樓樓板（頂面＝地磚、底面看不到：一樓有吊頂）：三塊（樓梯洞的兩邊＋洞後面）
+sb = Part('slab', lv=1, smooth=False)
+for (xa, xb, za, zb) in ((XI0, HOLE['x0'], ZI0, 0.0), (HOLE['x0'], HOLE['x1'], ZI0, HOLE['z0']), (HOLE['x1'], XI1, ZI0, 0.0)):
+    sb['floor'].box(xa, xb, YB, Y1, za, zb)
+sb.done()
+# 夾層前緣（深藍的招牌帶：西段畫主招牌、東段素色）、樓梯洞的兩側樓板邊
+fa = Part('fascia', lv=1, smooth=False)
+FA0, FA1 = 2.85, Y1 + 0.03
+crb(fa['vc'], XI0, HOLE['x0'], FA0, FA1, 0.0, 0.06, '#1f3780', r=0.004)
+crb(fa['vc'], HOLE['x1'], XI1, FA0, FA1, 0.0, 0.06, '#1f3780', r=0.004)
+crb(fa['vc'], HOLE['x1'] + 0.12, XI1, FA0 + 0.08, FA0 + 0.14, 0.06, 0.065, '#e8782a', r=0.0)
+fa['sign'].rect(((XI0 + HOLE['x0']) / 2, (FA0 + FA1) / 2, 0.064), (1, 0, 0), (0, 1, 0), (HOLE['x0'] - XI0) / 2 - 0.01, (FA1 - FA0) / 2 - 0.01, ATL['banner_main'])
+for xx in (HOLE['x0'], HOLE['x1']): fa['wall'].box(xx - 0.02, xx + 0.02, YB - 0.05, Y1, HOLE['z0'], 0.06)
+fa['wall'].box(HOLE['x0'], HOLE['x1'], YB - 0.05, Y1, HOLE['z0'] - 0.02, HOLE['z0'] + 0.02)
+fa.done()
+# 天花板：一樓（夾層下 3.4）、挑空和二樓（7.6）；輕鋼架（60 cm 方格，只做朝下的一片）
+ce = Part('ceiling', smooth=False); ce1 = Part('ceiling', lv=1, smooth=False)
+UNDER = [(XI0, ST['x0'] - 0.12, ZI0, 0.0), (FIN1, XI1, ZI0, 0.0), (ST['x0'] - 0.12, FIN1, ZI0, HOLE['z0'] - 0.12)]
+for (xa, xb, za, zb) in UNDER: ce['ceil'].quad([(xa, H1, za), (xb, H1, za), (xb, H1, zb), (xa, H1, zb)])
+ce1['ceil'].quad([(XI0, HT, ZB2), (XI1, HT, ZB2), (XI1, HT, ZI1), (XI0, HT, ZI1)])
+for (p_, y_, rects) in ((ce, H1, UNDER), (ce1, HT, [(XI0, XI1, ZB2, ZI1)])):
+    for (xa, xb, za, zb) in rects:
+        x = math.ceil((xa + 0.05) / 0.6) * 0.6
+        while x < xb - 0.05: p_['ceil'].quad([(x - 0.012, y_ - 0.004, za), (x + 0.012, y_ - 0.004, za), (x + 0.012, y_ - 0.004, zb), (x - 0.012, y_ - 0.004, zb)]); x += 0.6
+        z = math.ceil((za + 0.05) / 0.6) * 0.6
+        while z < zb - 0.05: p_['ceil'].quad([(xa, y_ - 0.004, z - 0.012), (xb, y_ - 0.004, z - 0.012), (xb, y_ - 0.004, z + 0.012), (xa, y_ - 0.004, z + 0.012)]); z += 0.6
+ce.done(); ce1.done()
+# 一樓吊頂的邊（夾層前緣下面、樓梯旁：牆色的封板）
+cb = Part('ceil_edge', smooth=False); cb['wall'].box(XI0, ST['x0'] - 0.12, H1 - 0.02, YB, -0.02, 0.0); cb['wall'].box(FIN1, XI1, H1 - 0.02, YB, -0.02, 0.0); cb.done()
 
 
-def rail_slope(lv, x, za, zb, ya, yb, posts=5, h=0.95, wall=False):
-    """玻璃欄杆＋木扶手（沿 z、從 (za,ya) 到 (zb,yb)；高度是踏面線往上 h）"""
-    if not wall:
-        for k in range(posts):
-            t = k / (posts - 1); z = za + (zb - za) * t; y = ya + (yb - ya) * t
-            acc('steel', lv).cyl((x, y, z), (x, y + h - 0.04, z), 0.022, seg=8)
-        for k in range(posts - 1):
-            t0, t1 = k / (posts - 1) + 0.01, (k + 1) / (posts - 1) - 0.01
-            za_, zb_ = za + (zb - za) * t0, za + (zb - za) * t1; ya_, yb_ = ya + (yb - ya) * t0, ya + (yb - ya) * t1
-            acc('glass', lv).quad([(x, ya_ + 0.1, za_), (x, yb_ + 0.1, zb_), (x, yb_ + h - 0.1, zb_), (x, ya_ + h - 0.1, za_)])
-            for yy in (0.1, h - 0.1):
-                for zz, yv in ((za_, ya_), (zb_, yb_)): acc('steel', lv).cyl((x - 0.03, yv + yy, zz), (x + 0.03, yv + yy, zz), 0.012, seg=6)   # 玻璃夾
-    else:
-        for k in range(posts):
-            t = k / (posts - 1); z = za + (zb - za) * t; y = ya + (yb - ya) * t
-            acc('steel', lv).cyl((IX1, y + h - 0.06, z), (x, y + h - 0.06, z), 0.01, seg=6)
-    acc('wood', lv).cyl((x, ya + h, za), (x, yb + h, zb), 0.03, seg=10)
+def wall_band(side, lv, y0, y1, a0, a1, holes=()):
+    """一面牆的一段（y0～y1、沿牆 a0～a1），挖掉 holes＝[(a0,a1,y0,y1)]：牆是好幾塊方盒拼的（single_side 的 nodup 排除牆材質，不會補反面變黑）"""
+    p = Part('wall', lv=lv, side=side, smooth=False); w = p['wall']
+    def bx(a, b, ya, yb):
+        if b - a < 1e-3 or yb - ya < 1e-3: return
+        if side == 'left': w.box(X0, XI0, ya, yb, a, b)
+        elif side == 'right': w.box(XI1, X1, ya, yb, a, b)
+        elif side == 'front': w.box(a, b, ya, yb, ZI1, Z1)
+        else: w.box(a, b, ya, yb, Z0 if lv == 0 else ZB2 - WT, ZI0 if lv == 0 else ZB2)
+    hs = sorted(holes); cur = a0
+    for (ha, hb, hy0, hy1) in hs:
+        bx(cur, ha, y0, y1); bx(ha, hb, y0, max(y0, hy0)); bx(ha, hb, min(y1, hy1), y1); cur = hb
+    bx(cur, a1, y0, y1); return p
 
 
-rail_slope(0, sx0 - 0.02, sz1, sz0, 0.0, Y1, posts=6)                                            # 樓梯西側：玻璃欄杆＋木扶手（參考圖）
-rail_slope(0, IX1 - 0.06, sz1 - 0.3, sz0 + 0.2, 0.3 * rise / tread, Y1 - 0.2 * rise / tread, posts=4, h=0.9, wall=True)   # 東側牆上的扶手
-# 夾層前緣的玻璃欄杆（x −4.38～3.1，z −1.05）＋木扶手
-rx0, rx1, rz = LV1['railX0'], LV1['railX1'], LV1['railZ'] - 0.05
-npost = 7
-for k in range(npost + 1):
-    x = rx0 + 0.05 + (rx1 - 0.05 - rx0 - 0.05) * k / npost; acc('steel', 1).cyl((x, Y1, rz), (x, Y1 + 1.0, rz), 0.022, seg=8)
-for k in range(npost):
-    xa = rx0 + 0.05 + (rx1 - rx0 - 0.1) * k / npost + 0.04; xb = rx0 + 0.05 + (rx1 - rx0 - 0.1) * (k + 1) / npost - 0.04
-    acc('glass', 1).quad([(xa, Y1 + 0.08, rz), (xb, Y1 + 0.08, rz), (xb, Y1 + 0.95, rz), (xa, Y1 + 0.95, rz)])
-acc('wood', 1).cyl((rx0, Y1 + 1.03, rz), (rx1 + 0.02, Y1 + 1.03, rz), 0.03, seg=10)
-acc('steel', 1).cyl((rx1, Y1 + 0.0, rz), (rx1, Y1 + 1.0, rz), 0.03, seg=8)
+LW = LAY['leftWindow']; LWB = (-3.3, -0.3, 4.4, 7.2)   # 二樓左牆的窗（z −3.3～−0.3）
+pw = wall_band('left', 0, 0.0, Y1, ZI0, ZI1, [(LW['z0'], LW['z1'], LW['y0'], 9)])
+crb(pw['vc'], XI0, XI0 + 0.015, 0, 0.1, ZI0, ZI1, '#6e6250', r=0); pw.done()
+wall_band('left', 1, Y1, HT, ZB2, ZI1, [(LW['z0'], LW['z1'], 0, LW['y1']), (LWB[0], LWB[1], LWB[2], LWB[3])]).done()
+pr_ = wall_band('right', 0, 0.0, Y1, ZI0, ZI1); crb(pr_['vc'], XI1 - 0.015, XI1, 0, 0.1, ZI0, ZI1, '#6e6250', r=0); pr_.done()
+wall_band('right', 1, Y1, HT, ZB2, ZI1).done()
+BD = LAY['backDoor']; bdx0, bdx1 = BD['x'] - BD['w'] / 2, BD['x'] + BD['w'] / 2
+pb_ = wall_band('back', 0, 0.0, YB, XI0, XI1, [(bdx0, bdx1, 0.0, BD['h'])]); crb(pb_['vc'], XI0, XI1, 0, 0.1, ZI0, ZI0 + 0.015, '#6e6250', r=0); pb_.done()
+wall_band('back', 1, Y1, HT, XI0, XI1).done()
+FR = LAY['front']; dx, dw = FR['door']['x'], FR['door']['w']
+fh = [(dx - dw / 2, dx + dw / 2, 0.0, 2.4)] + [(a, b, FR['sill'], FR['head']) for a, b in FR['windows']]
+wall_band('front', 0, 0.0, Y1, XI0, XI1, fh).done()
+UP = FR['upper']; wall_band('front', 1, Y1, HT, XI0, XI1, [(-6.9, 6.9, UP['y0'], UP['y1'])]).done()
+# 樓梯東側的牆（一樓：z −2.055～3.3 到樓板底；樓板以上：z 0～3.3 到天花板）
+fw = Part('fin', smooth=False); fw['wall'].box(FIN0, FIN1, 0.0, YB, HOLE['z0'], ST['z1']); fw['wall'].box(FIN0, FIN1, YB, HT, 0.0, ST['z1'])
+fw['stone'].box(FIN0 - 0.012, FIN0, 0.0, 0.1, ST['z1'] - 0.01, ST['z1'] + 0.6); fw.done()
+for cl in IT['column']:
+    pc = Part('column', smooth=False); x, z, w_ = cl['x'], cl['z'], cl['w'] / 2
+    pc['wall'].box(x - w_, x + w_, 0.0, YB, z - w_, z + w_); pc['stone'].box(x - w_ - 0.01, x + w_ + 0.01, 0.0, 0.1, z - w_ - 0.01, z + w_ + 0.01); pc.done()
+
+
+# ---------------- 窗（鋁框、玻璃、窗外的樹）、窗型冷氣、店門、後門 ----------------
+ALU = '#a9adb0'
+
+
+def window_left(lv, z0, z1, y0, y1, nz=3, transom=None):
+    p = Part('window', lv=lv, side='left'); cm = p['vcm']; x = XI0
+    for k in range(nz + 1):
+        z = z0 + (z1 - z0) * k / nz; crb(cm, x - 0.06, x + 0.03, y0, y1, z - 0.03, z + 0.03, ALU, r=0.006)
+    for y in (y0, y1) + ((transom,) if transom else ()): crb(cm, x - 0.06, x + 0.03, y - 0.03, y + 0.03, z0, z1, ALU, r=0.006)
+    p['glass'].quad([(x - 0.02, y0, z1), (x - 0.02, y0, z0), (x - 0.02, y1, z0), (x - 0.02, y1, z1)])
+    crb(p['vc'], x, x + 0.18, y0 - 0.04, y0, z0, z1, '#d8d0c0', r=0.01)   # 窗台
+    tr = ATL['trees']; p['goods'].rect((X0 - 1.2, (y0 + y1) / 2, (z0 + z1) / 2), (0, 0, -1), (0, 1, 0), (z1 - z0) / 2 + 1.0, (y1 - y0) / 2 + 0.6, tr)   # 窗外的行道樹
+    p.done()
+
+
+window_left(1, LW['z0'], LW['z1'], LW['y0'], LW['y1'], nz=5, transom=4.6)
+window_left(1, LWB[0], LWB[1], LWB[2], LWB[3], nz=3)
+ac = Part('aircon', lv=1, side='left'); c = ac['vc']; acz0, acz1 = 0.55, 1.25   # 窗型冷氣（白、出風口的格柵、下面一條水痕）
+crb(c, XI0, XI0 + 0.55, 4.6, 5.3, acz0, acz1, '#e4e0d6', r=0.02, seg=2)
+for k in range(9): c.cbox(XI0 + 0.551, XI0 + 0.556, 4.7 + k * 0.06, 4.73 + k * 0.06, acz0 + 0.05, acz1 - 0.3, '#8f8a80')
+crb(c, XI0 + 0.551, XI0 + 0.556, 4.7, 5.2, acz1 - 0.25, acz1 - 0.05, '#cfcac0', r=0)
+c.cbox(XI0, XI0 + 0.004, 3.9, 4.6, acz0 + 0.3, acz0 + 0.36, '#b5a88f')
+ccyl(c, (XI0 + 0.3, 4.6, acz0 + 0.1), (XI0 + 0.3, 3.9, acz0 + 0.1), 0.01, '#e8e4da', seg=5)
+ac.done()
+pf = Part('front_frames', side='front')
+for a, b, k in sorted([(a, b, 'win') for a, b in FR['windows']] + [(dx - dw / 2, dx + dw / 2, 'door')]):
+    top = 2.4 if k == 'door' else FR['head']; y0 = 0.0 if k == 'door' else FR['sill']
+    for j in range(3):
+        x = a + j * (b - a) / 2; crb(pf['vcm'], x - 0.03, x + 0.03, y0, top, ZI1 - 0.04, Z1 - 0.03, ALU, r=0.006)
+    crb(pf['vcm'], a, b, top - 0.05, top, ZI1 - 0.04, Z1 - 0.03, ALU, r=0.006)
+    pf['glass'].quad([(b, y0 + 0.02, Z1 - 0.07), (a, y0 + 0.02, Z1 - 0.07), (a, top - 0.03, Z1 - 0.07), (b, top - 0.03, Z1 - 0.07)])
+pf.done()
+pfu = Part('front_upper', lv=1, side='front')
+for k in range(12):
+    x = -6.9 + 13.8 * k / 11; crb(pfu['vcm'], x - 0.03, x + 0.03, UP['y0'], UP['y1'], ZI1 - 0.04, Z1 - 0.03, ALU, r=0.006)
+pfu['glass'].quad([(6.9, UP['y0'], Z1 - 0.07), (-6.9, UP['y0'], Z1 - 0.07), (-6.9, UP['y1'], Z1 - 0.07), (6.9, UP['y1'], Z1 - 0.07)])
+pfu.done()
+pbd = Part('backdoor', side='back'); cm = pbd['vcm']                                    # 後門（玻璃雙開門，外面是亮的巷子；關著）
+for x in (bdx0, (bdx0 + bdx1) / 2, bdx1): crb(cm, x - 0.035, x + 0.035, 0.0, BD['h'], ZI0, ZI0 + 0.06, ALU, r=0.006)
+crb(cm, bdx0, bdx1, BD['h'] - 0.05, BD['h'], ZI0, ZI0 + 0.06, ALU, r=0.006); crb(cm, bdx0, bdx1, 0.0, 0.08, ZI0, ZI0 + 0.06, ALU, r=0.006)
+pbd['glass'].quad([(bdx0, 0.08, ZI0 + 0.03), (bdx1, 0.08, ZI0 + 0.03), (bdx1, BD['h'] - 0.05, ZI0 + 0.03), (bdx0, BD['h'] - 0.05, ZI0 + 0.03)])
+pbd['emit'].rect((BD['x'], BD['h'] / 2, Z0 - 0.3), (1, 0, 0), (0, 1, 0), BD['w'] / 2 + 0.2, BD['h'] / 2 + 0.1, ATL['street'])
+for s in (-1, 1): ccyl(cm, (BD['x'] + s * 0.1, 0.9, ZI0 + 0.08), (BD['x'] + s * 0.1, 1.3, ZI0 + 0.08), 0.012, '#c9ccce', seg=6)
+pbd.done()
 
 # ======================================================================
-# 一樓
+# 燈：挑空和二樓的天花板（7.6）、夾層下（3.4）的雙管日光燈；軌道燈
 # ======================================================================
-lv = 0
-vc0, vg0 = acc('vc', 0), acc('vcg', 0)
-# ---- 左牆鐵網籃架（籃球、排球、網球籃）z 3.6～7.2 ----
-bx0, bx1, bz0, bz1 = IX0, IX0 + 0.58, 3.6, 7.2
-for z in (bz0, (bz0 + bz1) / 2, bz1):
-    for x in (bx0 + 0.03, bx1 - 0.03): acc('steel', 0).cyl((x, 0.0, z), (x, 2.3, z), 0.016, seg=6)
-for ys in (0.32, 0.86, 1.42, 1.98):
-    for k in range(int((bz1 - bz0) / 0.1) + 1):                                                 # 鐵網層板：橫條
-        z = bz0 + k * 0.1; acc('steel', 0).box(bx0 + 0.02, bx1, ys - 0.004, ys + 0.004, z - 0.003, z + 0.003)
-    for x in (bx0 + 0.03, bx0 + 0.2, bx0 + 0.38, bx1 - 0.02): acc('steel', 0).box(x - 0.004, x + 0.004, ys - 0.012, ys - 0.004, bz0, bz1)
-    acc('steel', 0).box(bx1 - 0.01, bx1, ys, ys + 0.06, bz0, bz1)                               # 前緣擋條
-    vc0.cbox(bx1 + 0.0, bx1 + 0.004, ys - 0.045, ys + 0.0, bz0 + 0.2, bz0 + 3.4, '#f2f2ee')        # 價格條（空白）
-for k in range(int((bz1 - bz0) / 0.1) + 1):                                                     # 背後的鐵網
-    z = bz0 + k * 0.1; acc('steel', 0).box(bx0, bx0 + 0.006, 0.3, 2.3, z - 0.003, z + 0.003)
-for k in range(21): y = 0.3 + k * 0.1; acc('steel', 0).box(bx0, bx0 + 0.006, y - 0.003, y + 0.003, bz0, bz1)
-mb, mv, mt = ball('basket'), ball('volley'), ball('tennis')
-for ys in (1.42, 1.98):
-    for k in range(14):
-        z = bz0 + 0.17 + k * 0.252; inst(mb, 0, bx0 + 0.2 + (0.13 if k % 2 else 0.0) * 0.0, ys + 0.123, z, ry=random.uniform(0, 6.28))
-        if k % 3 == 0: inst(mb, 0, bx0 + 0.44, ys + 0.123, z + 0.06, ry=random.uniform(0, 6.28))
-for k in range(16): inst(mv, 0, bx0 + 0.3 + (0.1 if k % 2 else -0.08), 0.86 + 0.107, bz0 + 0.15 + k * 0.215, ry=random.uniform(0, 6.28))
-for j in range(3):                                                                              # 網球：三個鐵網籃
-    cz = bz0 + 0.65 + j * 1.15; bk_ = Xf(bx0 + 0.29, cz)
-    for k in range(9):
-        zz = -0.4 + k * 0.1; acc('steel', 0).box(bx0 + 0.04, bx1 - 0.02, 0.33, 0.6, cz + zz - 0.003, cz + zz + 0.003)
-    for x in (bx0 + 0.04, bx1 - 0.02): acc('steel', 0).box(x - 0.003, x + 0.003, 0.33, 0.6, cz - 0.4, cz + 0.4)
-    for y in (0.45, 0.6): acc('steel', 0).box(bx0 + 0.04, bx1 - 0.02, y - 0.004, y + 0.004, cz - 0.4, cz + 0.4)
-    rr = random.Random(j)
-    for k in range(15):
-        inst(mt, 0, bx0 + 0.1 + rr.uniform(0, 0.36), 0.36 + 0.033 + (k // 8) * 0.06 + rr.uniform(0, 0.03), cz + rr.uniform(-0.34, 0.34), ry=rr.uniform(0, 6.28))
-# ---- 護具網牆＋背包地台 z 0.7～3.1 ----
-gz0, gz1 = 0.7, 3.1
-for z in (gz0, gz1): acc('steel', 0).cyl((IX0 + 0.06, 0.0, z), (IX0 + 0.06, 2.25, z), 0.016, seg=6)
-for k in range(int((gz1 - gz0) / 0.1) + 1): z = gz0 + k * 0.1; acc('steel', 0).box(IX0 + 0.05, IX0 + 0.058, 0.6, 2.25, z - 0.0035, z + 0.0035)
-for k in range(17): y = 0.6 + k * 0.1; acc('steel', 0).box(IX0 + 0.05, IX0 + 0.058, y - 0.0035, y + 0.0035, gz0, gz1)
-hx = Xf(IX0 + 0.06, 0.0, math.pi / 2)                                                           # 網牆上的東西（掛鉤＋護膝、護肘、護踝包裝）
-for row, y in enumerate((2.0, 1.55, 1.1)):
-    for k in range(6):
-        z = gz0 + 0.25 + k * 0.38
-        acc('steel', 0).cyl((IX0 + 0.06, y + 0.12, z), (IX0 + 0.2, y + 0.14, z), 0.004, seg=4, caps=False)
-        it = Xf(IX0 + 0.12, z, math.pi / 2)
-        if row == 0 or (row == 1 and k % 2 == 0):                                              # 護膝：黑色的弧形墊
-            it.el(vc0, 0, y - 0.06, 0.0, 0.07, 0.11, 0.045, '#232427', seg=10, rings=6); it.el(vc0, 0, y - 0.06, 0.03, 0.045, 0.075, 0.02, '#3c3e43', seg=8, rings=5)
-            it.rb(vc0, -0.075, 0.075, y + 0.03, y + 0.06, -0.035, 0.0, '#46484d', r=0.008)
-        else:                                                                                   # 包裝好的護腕、護踝（卡紙＋透明袋）
-            it.rb(vc0, -0.07, 0.07, y - 0.2, y + 0.1, -0.01, 0.0, '#1f3f8a' if k % 3 else '#e9e6df', r=0.006)
-            it.rb(vc0, -0.055, 0.055, y - 0.17, y - 0.02, 0.0, 0.035, '#2a2b2f' if k % 2 else '#1f2d55', r=0.012)
-pf = Xf(IX0 + 0.39, (gz0 + gz1) / 2)                                                            # 背包地台（原木）
-pf.rb(acc('wood', 0), -0.39 + 0.0, 0.39, 0.0, 0.26, -1.2, 1.2, r=0.02, seg=2)
-bagp = [proto(f'bag_{i}', (lambda i=i: bag_bm(*BAG_COLS[i])), 'vc') for i in range(3)]
-for k, z in enumerate((0.98, 1.6, 2.2, 2.82)): inst(bagp[k % 3], 0, IX0 + 0.42, 0.26, z, ry=math.pi / 2 + random.uniform(-0.15, 0.15))
-# ---- 人台（深藍球衣＋白色側片、深藍短褲；沒有頭） ----
-mq = Xf(-1.75, 4.7, 0.25)
-mq.la(acc('dark', 0), [(0.0, 0.0), (0.2, 0.0), (0.2, 0.02), (0.05, 0.035), (0.0, 0.04)], 0, 0, 0, seg=16)
-mq.cy(acc('steel', 0), (0, 0.03, 0), (0, 0.62, 0), 0.014, seg=8)
-mq.la(vc0, [(0.0, 0.0), (0.155, 0.0), (0.165, 0.12), (0.17, 0.28), (0.16, 0.36), (0.0, 0.37)], 0, 0.6, 0, '#1f2d55', seg=16, sz=0.62)          # 短褲
-for sx in (-0.085, 0.085): mq.la(vc0, [(0.0, 0.0), (0.085, 0.0), (0.09, 0.2), (0.0, 0.21)], sx, 0.52, 0, '#1f2d55', seg=10, sz=0.9)
-mq.la(vc0, [(0.15, 0.0), (0.16, 0.1), (0.17, 0.25), (0.19, 0.42), (0.2, 0.5), (0.17, 0.58), (0.08, 0.62), (0.0, 0.625)], 0, 0.95, 0, '#1f2d55', seg=16, sz=0.6)   # 上身（球衣）
-mq.rb(vc0, -0.205, -0.17, 1.02, 1.48, -0.05, 0.05, '#efefea', r=0.01); mq.rb(vc0, 0.17, 0.205, 1.02, 1.48, -0.05, 0.05, '#efefea', r=0.01)   # 白色側片
-mq.cy(vc0, (0, 1.56, 0), (0, 1.66, 0), 0.05, '#d9d6cf', seg=10); mq.la(vc0, [(0.05, 0.0), (0.06, 0.03), (0.0, 0.04)], 0, 1.66, 0, '#d9d6cf', seg=10)   # 頸部
+FIX = [(x, z, HT) for x in (-5.4, -2.0, 1.4, 4.8) for z in (6.2, 3.6, 1.0, -1.3, -2.9)]
+FIX += [(x, z, H1) for x in (-5.4, -2.8, -0.2) for z in (-1.3, -3.3, -5.3, -7.0)] + [(x, z, H1) for x in (5.4,) for z in (-1.3, -3.3, -5.3, -7.0)] + [(2.9, z, H1) for z in (-3.3, -5.3, -7.0)]
+for x, z, y in FIX:
+    lv = lvof(y); FIXP.place(fm((x, y, z)), lv); LIGHTS['tubes'].append([x, y - 0.07, z])
+    CL.glow(root, 'tube', x, y - 0.12, z, color='rgba(255,244,226,1)', size=1.8, day=0.35, night=1.0)
+TRK = [(-6.0, 0.8, -1.75, 7), (-5.6, -2.0, 2.2, 4)]
+pt_ = Part('track', lv=1)
+for (xa, xb, z, n) in TRK:
+    crb(pt_['vcm'], xa, xb, HT - 0.04, HT, z - 0.02, z + 0.02, '#1c1c1e', r=0.004)
+    for k in range(n):
+        x = xa + (xb - xa) * (k + 0.5) / n; SPOTP.place(fm((x, HT - 0.04, z), rot('Y', 0.0 if z < 0 else math.pi)), 1)
+        LIGHTS['spots'].append([x, HT - 0.2, z + (0.12 if z < 0 else -0.12), 0.0, -0.8, (-0.6 if z < 0 else 0.6)])
+pt_.done()
+
+# ======================================================================
+# 一樓左前：鐵網球架（網球網籃、排球、籃球兩層、頂上日光燈）
+# ======================================================================
+br = I1('ball_rack'); bx0, bx1 = br['x'] - br['w'] / 2, br['x'] + br['w'] / 2; bz0, bz1 = br['z'] - br['d'] / 2, br['z'] + br['d'] / 2; bh = br['h']
+pr = Part('ball_rack'); cm, c, ga, gd = pr['vcm'], pr['vc'], pr['alpha'], pr['goods']
+GREY = '#6f7378'
+for x in (bx0 + 0.02, bx1 - 0.02):
+    for z in (bz0 + 0.02, (bz0 + bz1) / 2, bz1 - 0.02): crb(cm, x - 0.018, x + 0.018, 0.0, bh, z - 0.018, z + 0.018, GREY, r=0.004)
+for y in br['tiers'] + [bh - 0.03]:
+    crb(cm, bx0, bx1, y - 0.025, y, bz0, bz1, '#8e9297', r=0.004)
+    crb(cm, bx1 - 0.01, bx1 + 0.012, y - 0.05, y + 0.02, bz0, bz1, '#9a9ea3', r=0.004)                  # 前緣的擋條（價目卡夾在上面）
+g = ATL['grid']
+for (y0_, y1_) in ((0.0, bh),):                                                                      # 背板、兩側的鐵網格
+    ga.rect((bx0 + 0.005, (y0_ + y1_) / 2, (bz0 + bz1) / 2), (0, 0, 1), (0, 1, 0), (bz1 - bz0) / 2, (y1_ - y0_) / 2, (g[0], g[1], g[0] + (g[2] - g[0]) * (bz1 - bz0) / 0.5, g[1] + (g[3] - g[1]) * (y1_ - y0_) / 0.5), both=True)
+    for z in (bz0, bz1): ga.rect((((bx0 + bx1) / 2), (y0_ + y1_) / 2, z), (1, 0, 0), (0, 1, 0), (bx1 - bx0) / 2, (y1_ - y0_) / 2, (g[0], g[1], g[0] + (g[2] - g[0]) * (bx1 - bx0) / 0.5, g[1] + (g[3] - g[1]) * (y1_ - y0_) / 0.5), both=True)
+crb(cm, bx0, bx1 + 0.08, bh - 0.03, bh + 0.05, bz0, bz1, '#e8e6e0', r=0.008)                          # 頂上的燈箱（參考圖左上：架子頂上一支亮的燈）
+pr['emit'].rect((bx1 + 0.04, bh - 0.04, (bz0 + bz1) / 2), (0, 0, -1), (1, 0, 0), (bz1 - bz0) / 2 - 0.05, 0.035, ATL['tube'])
+LIGHTS['tubes'].append([bx1 + 0.04, bh - 0.06, (bz0 + bz1) / 2])
+for i, y in enumerate(br['tiers']):
+    z = bz0 + 0.25
+    while z < bz1 - 0.2:
+        gd.rect((bx1 + 0.013, y - 0.016, z), (0, 0, -1), (0, 1, 0), 0.045, 0.02, ATL[f'tag{[2, 1, 0, 0][i]}']); z += 0.62
+gd.rect((bx1 + 0.014, br['tiers'][2] + 0.28, bz1 - 0.12), (0, 0, -1), (0, 1, 0), 0.07, 0.07, ATL['n_ball'])
+pr.done()
+# 網籃（三個，裡面滿滿的網球）
+ty = br['tiers'][0]
+for k in range(3):
+    za, zb = bz0 + 0.65 + k * 0.6, bz0 + 1.2 + k * 0.6
+    if zb > bz1: break
+    p = Part(f'tbasket{k}'); u = p['alpha']; bw = ATL['basket_wire']; xa, xb = bx0 + 0.04, bx1 - 0.02; hb = 0.3
+    for (cc, r_, up, hw, hh) in (((xb, ty + hb / 2, (za + zb) / 2), (0, 0, -1), (0, 1, 0), (zb - za) / 2, hb / 2), ((xa, ty + hb / 2, (za + zb) / 2), (0, 0, 1), (0, 1, 0), (zb - za) / 2, hb / 2),
+                                 (((xa + xb) / 2, ty + hb / 2, zb), (1, 0, 0), (0, 1, 0), (xb - xa) / 2, hb / 2), (((xa + xb) / 2, ty + hb / 2, za), (-1, 0, 0), (0, 1, 0), (xb - xa) / 2, hb / 2)):
+        u.rect(cc, r_, up, hw, hh, bw, both=True)
+    crb(p['vcm'], xa, xb, ty + hb - 0.008, ty + hb, za, za + 0.008, '#e8e8e4', r=0); crb(p['vcm'], xa, xb, ty + hb - 0.008, ty + hb, zb - 0.008, zb, '#e8e8e4', r=0)
+    p.done()
+    for j in range(30):                                                                              # 網球堆（上面一層冒出來＋側面看得到的）
+        bx_ = xa + 0.04 + (j % 6) * ((xb - xa - 0.08) / 5); bz_ = za + 0.05 + (j // 6) * ((zb - za - 0.1) / 5)
+        h_ = ty + hb - 0.035 + random.uniform(-0.02, 0.03) - (0.02 if (j % 6) in (0, 5) else 0)
+        BALL_T.place(fm((bx_ + random.uniform(-0.01, 0.01), h_, bz_ + random.uniform(-0.01, 0.01)), rot('Y', random.uniform(0, 6.28))))
+    for j in range(6): BALL_T.place(fm((xb - 0.04, ty + 0.02 + (j % 3) * 0.07, za + 0.08 + (j // 3) * 0.3), rot('Y', random.uniform(0, 6.28))))
+# 排球（一層：前排＋後排）、籃球（兩層）
+for (proto, y, r, gap) in ((BALL_V, br['tiers'][1], 0.105, 0.222), (BALL_B, br['tiers'][2], 0.121, 0.248), (BALL_B, br['tiers'][3], 0.121, 0.248)):
+    for row, xo in ((0, bx1 - r - 0.03), (1, bx0 + r + 0.04)):
+        z = bz0 + r + 0.02 + (gap / 2 if row else 0)
+        while z < bz1 - r:
+            proto.place(fm((xo + random.uniform(-0.01, 0.01), y, z), rot('Y', random.uniform(0, 6.28)) @ rot('X', random.uniform(-0.6, 0.6)))); z += gap + (0.0 if row == 0 else 0.12)
+
+# ======================================================================
+# 護具網牆（斜放）＋背包木地台
+# ======================================================================
+pw_ = I1('pad_wall'); PWT = fm((pw_['x'], 0, pw_['z']), rot('Y', pw_['ry'])); hl = pw_['len'] / 2; ph = pw_['h']
+pp = Part('pad_wall', T=PWT); cm, c, ga, gd = pp['vcm'], pp['vc'], pp['alpha'], pp['goods']
 for s in (-1, 1):
-    mq.cy(vc0, (s * 0.19, 1.47, 0), (s * 0.27, 1.28, 0), 0.06, '#1f2d55', seg=10, r2=0.055)      # 袖子
-    mq.cy(vc0, (s * 0.26, 1.29, 0), (s * 0.3, 0.98, 0.02), 0.038, '#d9d6cf', seg=8, r2=0.03)     # 手臂
-# ---- 衣架（雙桿／單桿；原木底座、鐵管） ----
-def rack(lv, cx, cz, ry, length, rails, items, height=1.45):
-    xf = Xf(cx, cz, ry, py=LAY['levels'][lv]['y']); hl = length / 2
-    xf.rb(acc('wood', lv), -0.36, 0.36, 0.08, 0.13, -hl, hl, r=0.015, seg=2)
-    for sz in (-hl + 0.06, hl - 0.06):
-        for sx in (-0.3, 0.3): xf.cy(acc('dark', lv), (sx, 0.0, sz), (sx, 0.08, sz), 0.03, seg=8)   # 輪子
-    for sz in (-hl + 0.05, hl - 0.05):
-        for rx, ry_ in rails: xf.cy(acc('steel', lv), (rx, 0.13, sz), (rx, ry_ + 0.03, sz), 0.016, seg=8)
-    for rx, ry_ in rails: xf.cy(acc('steel', lv), (rx, ry_, -hl + 0.03), (rx, ry_, hl - 0.03), 0.013, seg=8)
-    for (rx, ry_), its in zip(rails, items):
-        n = len(its)
-        for k, me in enumerate(its):
-            t = (k + 0.5) / n; z = -hl + 0.12 + (length - 0.24) * t
-            gx, gy, gz = xf.p(rx, ry_ + 0.005, z); inst(me, lv, gx, gy, gz, ry=ry + random.uniform(-0.08, 0.08))
+    crb(cm, s * hl - 0.02, s * hl + 0.02, 0.0, ph + 0.05, -0.02, 0.02, '#3a3c40', r=0.004)
+    crb(cm, s * hl - 0.18, s * hl + 0.18, 0.0, 0.03, -0.2, 0.2, '#3a3c40', r=0.006)                     # 腳
+ga.rect((0, (0.2 + ph) / 2, 0.0), (1, 0, 0), (0, 1, 0), hl, (ph - 0.2) / 2, (g[0], g[1], g[0] + (g[2] - g[0]) * pw_['len'] / 0.5, g[1] + (g[3] - g[1]) * (ph - 0.2) / 0.5), both=True)
+crb(cm, -hl, hl, ph - 0.02, ph + 0.02, -0.02, 0.02, '#3a3c40', r=0.004)
 
 
-def mix(styles, cols, n, seed):
-    rr = random.Random(seed); return [garment(rr.choice(styles), rr.choice(cols)) for _ in range(n)]
+def hook(x, y, Ln=0.12):
+    ccyl(cm, (x, y, 0.0), (x, y + 0.01, Ln), 0.003, '#a0a4a8', seg=3)
 
 
-rack(0, 0.75, 3.2, 0.0, 2.3, [(-0.22, 1.5), (0.22, 1.32)], [mix(['tee'], ['navy', 'white', 'red', 'grey', 'navy', 'white', 'heather'], 18, 1), mix(['shorts'], ['navy', 'black'], 16, 2)])
-rack(0, -1.7, 1.4, math.pi / 2, 1.8, [(0.0, 1.45)], [mix(['tee', 'jersey'], ['maroon', 'white', 'navy', 'grey', 'red'], 15, 3)])
-rack(0, -0.1, -3.6, 0.0, 1.8, [(0.0, 1.45)], [mix(['tee'], ['black', 'grey', 'navy', 'heather', 'royal'], 14, 4)])
-# ---- 摺好的 T 恤桌 ----
-tb = Xf(-1.75, 6.45)
-tb.rb(acc('wood', 0), -0.6, 0.6, 0.72, 0.77, -0.35, 0.35, r=0.015, seg=2)
-for sx in (-0.52, 0.52):
-    for sz in (-0.28, 0.28): tb.cy(acc('steel', 0), (sx, 0.0, sz), (sx, 0.72, sz), 0.018, seg=8)
-tb.rb(acc('wood', 0), -0.52, 0.52, 0.18, 0.21, -0.28, 0.28, r=0.01)
-rr = random.Random(9)
-for i, sx in enumerate((-0.38, 0.0, 0.38)):
-    for j, sz in enumerate((-0.15, 0.15)):
-        c = rr.choice(['navy', 'white', 'red', 'grey', 'royal', 'black'])
-        for k in range(4 + (i + j) % 3): tb.rb(vc0, sx - 0.15, sx + 0.15, 0.77 + k * 0.032, 0.77 + k * 0.032 + 0.03, sz - 0.12, sz + 0.12, COLS[c], r=0.01)
-# ---- 收銀台（原木＋白色檯面、POS 螢幕、刷卡機、小商品架） ----
-cs = Xf(2.4, 6.8, math.pi)                                                                      # 正面（客人那一面）朝 −z
-cs.rb(acc('wood', 0), -0.9, 0.9, 0.0, 0.98, -0.3, 0.3, r=0.02, seg=2)
-cs.rb(vc0, -0.92, 0.92, 0.98, 1.02, -0.32, 0.32, '#f2f1ec', r=0.01)
-cs.rb(vc0, -0.88, 0.88, 0.0, 0.08, 0.28, 0.31, '#3a3b3f', r=0.005)
-cs.rb(vc0, -0.7, 0.4, 0.55, 0.62, 0.3, 0.315, '#1d3a8a', r=0.004)                                # 前面的藍色飾條
-cs.rb(vc0, 0.1, 0.42, 1.06, 1.3, -0.1, -0.08, '#1b1c1f', r=0.01); cs.cy(vc0, (0.26, 1.02, -0.06), (0.26, 1.1, -0.08), 0.02, '#2a2b2f', seg=6)   # POS 螢幕（朝店員）
-cs.rb(vc0, -0.2, -0.08, 1.02, 1.06, -0.12, 0.02, '#2a2b2f', r=0.01)                              # 刷卡機
-cs.rb(vc0, -0.75, -0.4, 1.02, 1.3, -0.05, 0.12, '#e9e6df', r=0.01)                              # 襪子展示盒
-for k in range(5): cs.rb(vc0, -0.73 + k * 0.066, -0.68 + k * 0.066, 1.08, 1.27, 0.12, 0.135, ['#1f2d55', '#efefea', '#26272b', '#b8242c', '#8d9196'][k], r=0.006)
-# ---- 樓梯下的掛勾區（白板＋掛勾＋小包裝） ----
-pg = Xf(3.08 - 0.01, 0.4, -math.pi / 2)                                                         # 正面朝 −x
-pg.rb(vc0, -1.2, 1.2, 0.3, 1.95, -0.02, 0.0, '#f0efea', r=0.006)
-for row in range(5):
-    for k in range(7):
-        x = -1.05 + k * 0.35; y = 1.78 - row * 0.32
-        pg.cy(acc('steel', 0), (x, y, 0.0), (x, y + 0.01, 0.14), 0.0035, seg=4, caps=False)
-        c = ['#1f3f8a', '#e8782a', '#26272b', '#efefea', '#2f6b45', '#b8242c'][(row * 7 + k) % 6]
-        pg.rb(vc0, x - 0.06, x + 0.06, y - 0.22, y + 0.02, 0.02, 0.03, c, r=0.004); pg.rb(vc0, x - 0.045, x + 0.045, y - 0.18, y - 0.04, 0.03, 0.05, '#2a2b2f' if k % 2 else '#8fb8de', r=0.01)
-# ---- 夾層下：獎盃架（後牆左） ----
-tr = Xf(-2.7, IZ0 + 0.2)
-tr.rb(acc('wood', 0), -1.5, 1.5, 0.0, 0.08, -0.2, 0.2, r=0.01); tr.rb(acc('wood', 0), -1.5, 1.5, 2.15, 2.2, -0.2, 0.2, r=0.01)
-for sx in (-1.48, -0.5, 0.5, 1.48): tr.rb(acc('wood', 0), sx - 0.02, sx + 0.02, 0.0, 2.2, -0.2, 0.2, r=0.005)
-for y in (0.6, 1.1, 1.6): tr.rb(acc('wood', 0), -1.5, 1.5, y - 0.02, y + 0.02, -0.2, 0.2, r=0.005)
-rr = random.Random(5)
-for y in (0.62, 1.12, 1.62):
-    for k in range(7):
-        x = -1.3 + k * 0.43; hh = rr.uniform(0.22, 0.42); w_ = 0.06 + hh * 0.12
-        tr.rb(vg0, x - 0.05, x + 0.05, y, y + 0.05, -0.05, 0.05, '#3a2a22', r=0.008)
-        tr.la(vg0, [(0.0, 0.0), (0.02, 0.0), (0.012, hh * 0.35), (w_, hh * 0.75), (w_ * 1.05, hh * 0.95), (0.0, hh * 0.95)], x, y + 0.05, 0, '#d2a945', seg=10)
-        for s in (-1, 1): tr.cy(vg0, (x + s * w_ * 0.9, y + 0.05 + hh * 0.85, 0), (x + s * w_ * 1.5, y + 0.05 + hh * 0.65, 0), 0.008, '#d2a945', seg=5, caps=False)
-for k in range(5): tr.rb(vc0, -1.35 + k * 0.62, -0.95 + k * 0.62, 0.08, 0.5, -0.12, 0.12, '#b08c5e' if k % 2 else '#c79f6c', r=0.01)   # 下層的紙箱
-# ---- 夾層下：紙箱貨架（後牆右）、左牆層架、中間雙面貨架、右牆層架 ----
-def steel_shelf(lv, cx, cz, ry, w, d, h, levels):
-    xf = Xf(cx, cz, ry)
-    for sx in (-w / 2 + 0.02, w / 2 - 0.02):
-        for sz in (-d / 2 + 0.02, d / 2 - 0.02): xf.rb(acc('steel', lv), sx - 0.018, sx + 0.018, 0.0, h, sz - 0.018, sz + 0.018, r=0.004)
-    for y in levels: xf.rb(acc('wood', lv), -w / 2, w / 2, y - 0.025, y, -d / 2, d / 2, r=0.008); xf.rb(vc0 if lv == 0 else acc('vc', lv), -w / 2, w / 2, y - 0.06, y - 0.025, d / 2, d / 2 + 0.006, '#f2f2ee', r=0.002)
-    return xf
+for (px_, py_) in ((-0.48, 1.78), (-0.24, 1.78), (-0.48, 1.22), (-0.24, 1.22)):                       # 護膝（黑色、一對一對掛著；中間一塊護墊）
+    hook(px_, py_ + 0.1); crb(c, px_ - 0.07, px_ + 0.07, py_ - 0.22, py_ + 0.08, 0.025, 0.085, '#26272b', r=0.028, seg=2)
+    cell_(c, 0.052, 0.07, 0.02, (px_, py_ - 0.07, 0.088), '#3a3c41', seg=8, rings=4)
+    for k in range(3): c.cbox(px_ - 0.066, px_ + 0.066, py_ - 0.19 + k * 0.1, py_ - 0.185 + k * 0.1, 0.084, 0.087, '#45474c')
+PK = [['p_wrist', 'p_elbow', 'p_wrist', 'p_tape'], ['p_elbow', 'p_wrist', 'p_ankle', 'p_wrist'], ['p_ankle', 'p_band', 'p_wrist', 'p_tape']]
+for r_, row in enumerate(PK):
+    y = 1.92 - r_ * 0.42
+    for k, nm in enumerate(row):
+        x = 0.02 + k * 0.15; hook(x, y + 0.02)
+        for j in range(3): gd.box(x, y - 0.13 - j * 0.004, 0.03 + j * 0.012, 0.13, 0.2, 0.006, nm, front='+z', skip=('-y', '-z'))
+for k, x in enumerate((-0.36, 0.25)): gd.rect((x, 0.62, 0.006), (1, 0, 0), (0, 1, 0), 0.07, 0.07, ATL[['n_try', 'n_print'][k]])
+for k, (x, y) in enumerate(((-0.36, 1.48), (0.25, 1.98), (0.25, 1.56))): gd.rect((x, y, 0.006), (1, 0, 0), (0, 1, 0), 0.045, 0.02, ATL[f'tag{3 + k % 2}'])
+pp.done()
+bp = I1('bag_platform'); px0_, px1_ = bp['x'] - bp['w'] / 2, bp['x'] + bp['w'] / 2; pz0_, pz1_ = bp['z'] - bp['d'] / 2, bp['z'] + bp['d'] / 2
+pl = Part('bag_platform'); pl['wood'].rbox(px0_, px1_, 0.03, bp['h'], pz0_, pz1_, r=0.01); crb(pl['vc'], px0_ + 0.03, px1_ - 0.03, 0.0, 0.03, pz0_ + 0.03, pz1_ - 0.03, '#2a2622', r=0.004)
+pl['goods'].rect((px1_ - 0.12, bp['h'] - 0.06, pz1_ + 0.004), (1, 0, 0), (0, 1, 0), 0.05, 0.025, ATL['tag5']); pl.done()
 
 
-xf = steel_shelf(0, 2.95, IZ0 + 0.25, 0.0, 2.7, 0.5, 2.3, (0.1, 0.75, 1.4, 2.05))
-rr = random.Random(6)
-for y in (0.1, 0.75, 1.4, 2.05):
-    x = -1.28
-    while x < 1.2:
-        bw = rr.uniform(0.3, 0.55); bh = rr.uniform(0.25, 0.5) if y < 2 else rr.uniform(0.2, 0.32)
-        xf.rb(vc0, x, x + bw - 0.02, y, y + bh, -0.2, 0.2, rr.choice(['#b08c5e', '#c79f6c', '#a37f55', '#1f3f8a', '#efefea']), r=0.01)
-        xf.rb(vc0, x + 0.05, x + bw - 0.08, y + bh * 0.4, y + bh * 0.7, 0.2, 0.203, '#f4f2ea', r=0.002); x += bw
-xf = steel_shelf(0, -4.13, -4.2, math.pi / 2, 4.6, 0.5, 2.3, (0.1, 0.6, 1.1, 1.6, 2.1))         # 左牆：摺好的運動服、護具盒
-for y in (0.1, 0.6, 1.1, 1.6):
-    for k in range(10):
-        x = -2.1 + k * 0.44; c = COLS[rr.choice(list(COLS))]
-        for j in range(3 + k % 2): xf.rb(vc0, x, x + 0.34, y + j * 0.034, y + j * 0.034 + 0.032, -0.15, 0.14, c, r=0.01)
-for k in range(8): xf.rb(vc0, -2.1 + k * 0.55, -1.7 + k * 0.55, 2.1, 2.34, -0.17, 0.17, rr.choice(['#1f3f8a', '#e8782a', '#efefea', '#26272b']), r=0.012)
-cg = Xf(-2.0, -4.1, math.pi / 2)                                                                 # 中間雙面貨架（護脛、運動襪、球網）
-cg.rb(acc('wood', 0), -1.5, 1.5, 0.0, 0.12, -0.3, 0.3, r=0.015, seg=2); cg.rb(vc0, -1.5, 1.5, 0.12, 1.7, -0.02, 0.02, '#f0efea', r=0.006)
-for sx in (-1.5, 1.5): cg.rb(acc('steel', 0), sx - 0.025, sx + 0.025, 0.0, 1.75, -0.04, 0.04, r=0.005)
-for side in (-1, 1):
-    cg.rb(acc('wood', 0), -1.45, 1.45, 0.4, 0.43, 0.02 * side, 0.3 * side, r=0.006)
-    for row, y in enumerate((1.55, 1.2, 0.85)):
-        for k in range(8):
-            x = -1.3 + k * 0.37; cg.cy(acc('steel', 0), (x, y, 0.02 * side), (x, y + 0.01, 0.17 * side), 0.0035, seg=4, caps=False)
-            c = ['#26272b', '#efefea', '#1f2d55', '#e8782a'][(row + k) % 4]; cg.rb(vc0, x - 0.065, x + 0.065, y - 0.26, y + 0.02, 0.025 * side, 0.04 * side, c, r=0.006)
-    for k in range(6): cg.rb(vc0, -1.35 + k * 0.47, -0.97 + k * 0.47, 0.43, 0.7, 0.05 * side, 0.27 * side, rr.choice(['#b08c5e', '#efefea', '#1f3f8a']), r=0.01)
-# 水壺雙面架（夾層下，z −4.2～−1.3；端頭朝 +z）
-wb = Xf(1.9, -2.75, math.pi / 2)
-wb.rb(acc('wood', 0), -1.45, 1.45, 0.0, 0.12, -0.3, 0.3, r=0.015, seg=2); wb.rb(vc0, -1.45, 1.45, 0.12, 1.95, -0.015, 0.015, '#f0efea', r=0.006)
-for sx in (-1.45, 0.0, 1.45): wb.rb(acc('steel', 0), sx - 0.025, sx + 0.025, 0.0, 2.0, -0.3, 0.3, r=0.005)
-bott = [proto(f'bottle_{i}', (lambda i=i: bottle_bm(*BOTTLE_COLS[i])), 'vcg') for i in range(len(BOTTLE_COLS))]
-for side in (-1, 1):
-    for y in (0.75, 1.25, 1.7):
-        wb.rb(acc('wood', 0), -1.42, 1.42, y - 0.025, y, 0.02 * side, 0.29 * side, r=0.006); wb.rb(vc0, -1.42, 1.42, y - 0.06, y - 0.025, 0.29 * side, 0.296 * side, '#f2f2ee', r=0.002)
-        if y > 1.6:
-            for k in range(7): wb.rb(vc0, -1.35 + k * 0.4, -1.03 + k * 0.4, y, y + 0.2, 0.06 * side, 0.26 * side, rr.choice(['#1f3f8a', '#efefea', '#e8782a', '#2f6b45']), r=0.01)   # 上層：盒裝的水壺
-            continue
-        for k in range(20):   # 一層 30→20 瓶（預算）
-            x = -1.35 + k * 0.14; gx, gy, gz = wb.p(x, y, 0.17 * side); inst(bott[(k + int(y * 7) + (side > 0)) % len(bott)], 0, gx, gy, gz, ry=random.uniform(0, 6.28))
-    for k in range(6):                                                                         # 最下層：摺好的毛巾
-        x = -1.25 + k * 0.48; c = ['#efefea', '#8fb8de', '#efefea', '#1f2d55', '#efefea', '#8d9196'][k]
-        for j in range(4): wb.rb(vc0, x, x + 0.36, 0.12 + j * 0.045, 0.12 + j * 0.045 + 0.042, 0.05 * side, 0.26 * side, c, r=0.015)
-xf = steel_shelf(0, 4.13, -4.4, -math.pi / 2, 4.0, 0.5, 2.3, (0.1, 0.85, 1.6))                   # 右牆：運動背包、球袋
-for k, z in enumerate((-1.4, -0.7, 0.0, 0.7, 1.4)):
-    gx, gy, gz = xf.p(z, 0.85, 0.0); inst(bagp[k % 3], 0, gx, gy, gz, ry=-math.pi / 2 + random.uniform(-0.2, 0.2))
-for k in range(4):                                                                             # 籃球袋（網袋裝球）
-    x = -1.5 + k * 1.0; xf.el(vc0, x, 0.32, 0.0, 0.16, 0.22, 0.14, '#26272b', seg=10, rings=6); xf.cy(vc0, (x, 0.5, 0), (x, 0.62, 0), 0.03, '#26272b', seg=6)
-for k in range(6): xf.rb(vc0, -1.8 + k * 0.62, -1.38 + k * 0.62, 1.6, 1.95, -0.18, 0.18, rr.choice(['#b08c5e', '#1f3f8a', '#efefea']), r=0.01)
-# 夾層前緣下面的長橫幅（店名底板；字由遊戲畫）
-sg = next(s for s in LAY['signs'] if s['id'] == 'name_banner')
-bn = acc('vc', 1); bz = MZ + 0.045
-bn.crbox(sg['x'] - sg['w'] / 2, sg['x'] + sg['w'] / 2, sg['y'] - sg['h'] / 2, sg['y'] + sg['h'] / 2, bz, bz + 0.03, '#1d3a8a', r=0.008)
-bn.crbox(sg['x'] - sg['w'] / 2, sg['x'] + sg['w'] / 2, sg['y'] - sg['h'] / 2 + 0.05, sg['y'] - sg['h'] / 2 + 0.1, bz + 0.03, bz + 0.035, '#e8782a', r=0.003)
-bn.crbox(sg['x'] + sg['w'] * 0.2, sg['x'] + sg['w'] / 2, sg['y'] - sg['h'] / 2 + 0.12, sg['y'] - sg['h'] / 2 + 0.145, bz + 0.03, bz + 0.035, '#f4f4f0', r=0.003)
-bn.crbox(sg['x'] - sg['w'] / 2, sg['x'] - sg['w'] * 0.25, sg['y'] + sg['h'] / 2 - 0.1, sg['y'] + sg['h'] / 2 - 0.06, bz + 0.03, bz + 0.035, '#e8782a', r=0.003)
-# 右牆高處的樓層牌（底板）
-fg = next(s for s in LAY['signs'] if s['id'] == 'floor_guide'); board('right', 1, fg['z'], fg['y'], fg['w'], fg['h'], off=0.15)
+def bag_build(body, trim, pocket=None):
+    """後背包（自己的座標：底面中心在原點、正面朝 +z）：主袋、前袋、拉鍊、提把、背帶、側袋"""
+    pocket = pocket or body
+    def f(pt):
+        c = pt['vc']
+        crb(c, -0.15, 0.15, 0.0, 0.45, -0.1, 0.09, body, r=0.07, seg=2)
+        crb(c, -0.12, 0.12, 0.04, 0.26, 0.06, 0.14, pocket, r=0.04, seg=1)
+        crb(c, -0.11, 0.11, 0.25, 0.262, 0.11, 0.128, trim, r=0.004); crb(c, -0.135, 0.135, 0.36, 0.373, 0.07, 0.092, trim, r=0.004)
+        for s in (-1, 1):
+            crb(c, s * 0.15 - 0.03, s * 0.15 + 0.03, 0.03, 0.2, -0.06, 0.05, jit(body, 0.1), r=0.02)      # 側袋
+            crb(c, s * 0.07 - 0.025, s * 0.07 + 0.025, 0.06, 0.43, -0.13, -0.1, '#2a2b2f', r=0.008)          # 背帶
+            c.cbox(s * 0.135 - 0.003, s * 0.135 + 0.003, 0.08, 0.42, 0.075, 0.09, trim)                     # 側邊的配色線
+        ccyl(c, (-0.045, 0.445, 0.0), (0.0, 0.5, 0.0), 0.01, '#2a2b2f', seg=5, caps=False); ccyl(c, (0.0, 0.5, 0.0), (0.045, 0.445, 0.0), 0.01, '#2a2b2f', seg=5, caps=False)
+    return f
+
+
+BAGS = [Proto('bag_navy', bag_build('#1f2d55', '#e8a33a')), Proto('bag_black', bag_build('#26272b', '#6d7076', '#303135')), Proto('bag_red', bag_build('#b32a30', '#1f2d55', '#2950a8'))]
+for k, (x, z, ry) in enumerate(((-0.33, 0.12, 0.25), (0.0, 0.05, 0.12), (0.31, 0.12, -0.05))):
+    BAGS[k].place(fm((bp['x'] + x, bp['h'], bp['z'] + z), rot('Y', ry)))
 
 # ======================================================================
-# 夾層（二樓）
+# 人台（深藍運動 T、白色側邊、深藍球褲；黑色立桿、方形底座）——有肩、腰、手臂的弧度（不是方塊拼的）
 # ======================================================================
-vc1, vg1 = acc('vc', 1), acc('vcg', 1)
-DECAL = {0: [], 1: [], 'wall': []}
-
-
-def decal(where, xf, cx, cy, cz, w, h, cell):
-    u0, v0, u1, v1 = cell_uv(cell)
-    DECAL[where].append(([xf.p(cx - w / 2, cy - h / 2, cz), xf.p(cx + w / 2, cy - h / 2, cz), xf.p(cx + w / 2, cy + h / 2, cz), xf.p(cx - w / 2, cy + h / 2, cz)], (u0, v0, u1, v1)))
-
-
-# 欄杆上方吊著的三件系隊球衣（只有背號 37、16、88；參考圖）
-rod_y, rod_z = 6.55, MZ - 0.35
-acc('steel', 1).cyl((-4.0, rod_y, rod_z), (-0.6, rod_y, rod_z), 0.014, seg=8)
-for x in (-3.9, -0.7): acc('steel', 1).cyl((x, rod_y, rod_z), (x, HT, rod_z), 0.004, seg=4)
-for x, j in zip((-3.3, -2.3, -1.3), LAY['jerseys']['display']):
-    me = garment('jersey', j['color']); inst(me, 1, x, rod_y + 0.005, rod_z, ry=0.0, s=1.2)
-    cell = f"{j['no']}{'n' if j['color'] in ('white', 'lightblue') else 'w'}"; decal(1, Xf(x, rod_z), 0, rod_y - 0.52, 0.072, 0.3, 0.3, cell)
-# 後牆的系隊球衣牆（法律系深藍 7 號在中間；牆的組，掛鉤＋扁平的球衣）
-for k, j in enumerate(LAY['jerseys']['wall']):
-    x = -3.85 + k * 0.82; y = 5.85; zf = IZ0 + 0.05
-    wm('back', 1, 'steel').box(x - 0.012, x + 0.012, y - 0.01, y + 0.012, IZ0, zf + 0.02)
-    gb = garment_bm('jersey', COLS[j['color']], TRIM[j['color']], flat=0.45)
-    put(wm('back', 1, 'vc'), gb, Matrix.Translation(g2b(x, y, zf + 0.035)), None)
-    cell = f"{j['no']}{'n' if j['color'] in ('white', 'lightblue') else 'w'}"; decal('wall', Xf(x, zf + 0.035), 0, y - 0.48, 0.03, 0.24, 0.24, cell)
-ob = next(s for s in LAY['signs'] if s['id'] == 'order_banner'); board('back', 1, ob['x'], ob['y'], ob['w'], ob['h'], off=0.15)
-sc_ = next(s for s in LAY['signs'] if s['id'] == 'size_chart'); board('back', 1, sc_['x'], sc_['y'], sc_['w'], sc_['h'], white=True, off=0.15)
-for k, z in enumerate((-6.2, -5.4)):                                                            # 右牆兩件藍色樣品（參考圖右邊）
-    wm('right', 1, 'steel').box(IX1 - 0.04, IX1, 5.6, 5.62, z - 0.012, z + 0.012)
-    put(wm('right', 1, 'vc'), garment_bm('jersey', COLS['royal'], TRIM['royal'], flat=0.45), Matrix.Translation(g2b(IX1 - 0.05, 5.6, z)) @ Matrix.Rotation(-math.pi / 2, 4, 'Z'), None)
-# 長桌（摺好的系服樣品、型錄、布樣本）
-lt = Xf(-2.2, -5.3)
-lt.rb(acc('wood', 1), -1.2, 1.2, Y1 + 0.74, Y1 + 0.78, -0.3, 0.3, r=0.015, seg=2)
-for sx in (-1.12, 1.12):
-    lt.rb(acc('dark', 1), sx - 0.025, sx + 0.025, Y1, Y1 + 0.74, -0.26, 0.26, r=0.006); lt.rb(acc('dark', 1), sx - 0.03, sx + 0.03, Y1, Y1 + 0.03, -0.28, 0.28, r=0.006)
-lt.rb(acc('dark', 1), -1.12, 1.12, Y1 + 0.66, Y1 + 0.7, -0.02, 0.02, r=0.006)
-for i, (sx, c) in enumerate(((-0.85, 'deepnavy'), (-0.45, 'maroon'), (-0.05, 'green'), (0.35, 'royal'))):
-    for k in range(3 + i % 2): lt.rb(vc1, sx - 0.16, sx + 0.16, Y1 + 0.78 + k * 0.03, Y1 + 0.78 + k * 0.03 + 0.028, -0.18, 0.12, COLS[c], r=0.01)
-lt.rb(vc1, 0.62, 0.92, Y1 + 0.78, Y1 + 0.83, -0.2, 0.1, '#1d3a8a', r=0.01); lt.rb(vc1, 0.64, 0.9, Y1 + 0.83, Y1 + 0.84, -0.18, 0.08, '#f4f2ea', r=0.003)   # 型錄
-for k in range(6): lt.rb(vc1, 0.98, 1.12, Y1 + 0.78 + k * 0.006, Y1 + 0.784 + k * 0.006, -0.15 + k * 0.012, 0.0 + k * 0.012, ['#1f2d55', '#b8242c', '#efefea', '#2f6b45', '#d8742c', '#26272b'][k], r=0.002)   # 布樣本
-# 運動服衣架（Alison 在這裡挑）
-rack(1, -2.0, -3.6, math.pi / 2, 1.8, [(0.0, 1.45)], [mix(['tee', 'jersey', 'shorts'], ['lightblue', 'white', 'navy', 'maroon', 'grey', 'black'], 14, 8)])
-# 訂做櫃台（原木、白色檯面；客人那一面朝 +z）
-oc = Xf(1.2, -4.7)
-oc.rb(acc('wood', 1), -1.2, 1.2, Y1, Y1 + 0.98, -0.3, 0.3, r=0.02, seg=2)
-oc.rb(vc1, -1.22, 1.22, Y1 + 0.98, Y1 + 1.02, -0.32, 0.32, '#f2f1ec', r=0.01)
-oc.rb(vc1, -1.18, 1.18, Y1, Y1 + 0.08, 0.28, 0.31, '#3a3b3f', r=0.005); oc.rb(vc1, -1.0, 1.0, Y1 + 0.5, Y1 + 0.56, 0.3, 0.315, '#e8782a', r=0.004)
-oc.rb(vc1, -0.6, -0.1, Y1 + 1.06, Y1 + 1.36, -0.14, -0.12, '#1b1c1f', r=0.01); oc.cy(vc1, (-0.35, Y1 + 1.02, -0.12), (-0.35, Y1 + 1.08, -0.13), 0.02, '#2a2b2f', seg=6)   # 螢幕（朝店員）
-oc.rb(vc1, -0.55, -0.15, Y1 + 1.02, Y1 + 1.04, -0.02, 0.12, '#2a2b2f', r=0.005)                  # 鍵盤
-for k in range(4): oc.rb(vc1, 0.2 + k * 0.05, 0.24 + k * 0.05, Y1 + 1.02, Y1 + 1.3, -0.2, 0.0, ['#1d3a8a', '#b8242c', '#2f6b45', '#efefea'][k], r=0.005)   # 型錄、資料夾
-oc.la(vc1, [(0.0, 0.0), (0.035, 0.0), (0.035, 0.1), (0.0, 0.1)], 0.7, Y1 + 1.02, -0.05, '#3a3b3f', seg=10)   # 筆筒
-for k in range(3): oc.cy(vc1, (0.69 + k * 0.01, Y1 + 1.1, -0.05), (0.66 + k * 0.03, Y1 + 1.22, -0.05), 0.004, ['#1d3a8a', '#b8242c', '#26272b'][k], seg=4)
-for k in range(3): oc.rb(vc1, 0.85, 1.12, Y1 + 1.02 + k * 0.028, Y1 + 1.048 + k * 0.028, -0.05, 0.2, COLS[['deepnavy', 'white', 'red'][k]], r=0.01)   # 摺好的樣品球衣
-# 裁縫車桌＋工業裁縫車＋線軸＋圓凳
-st_ = Xf(3.4, -6.75)
-st_.rb(acc('wood', 1), -0.6, 0.6, Y1 + 0.74, Y1 + 0.78, -0.3, 0.3, r=0.012, seg=2)
-for sx in (-0.55, 0.55): st_.rb(acc('dark', 1), sx - 0.02, sx + 0.02, Y1, Y1 + 0.74, -0.26, 0.26, r=0.005)
-st_.rb(acc('dark', 1), -0.55, 0.55, Y1 + 0.12, Y1 + 0.15, -0.02, 0.02, r=0.005)
-st_.rb(vc1, -0.12, 0.08, Y1 + 0.05, Y1 + 0.1, -0.05, 0.15, '#2a2b2f', r=0.01)                     # 踏板
-ym = Y1 + 0.78
-st_.rb(vc1, -0.28, 0.24, ym, ym + 0.06, -0.12, 0.08, '#e6e2d6', r=0.012)                          # 機台底座
-st_.rb(vc1, 0.12, 0.24, ym + 0.06, ym + 0.34, -0.1, 0.06, '#e6e2d6', r=0.03, seg=2)              # 立柱
-st_.rb(vc1, -0.26, 0.24, ym + 0.27, ym + 0.38, -0.08, 0.05, '#e6e2d6', r=0.035, seg=2)           # 機臂
-st_.rb(vc1, -0.3, -0.18, ym + 0.12, ym + 0.38, -0.07, 0.05, '#e6e2d6', r=0.025, seg=2)          # 機頭
-st_.cy(vc1, (0.24, ym + 0.26, -0.02), (0.28, ym + 0.26, -0.02), 0.07, '#3a3b3f', seg=14)          # 手輪
-st_.cy(vc1, (-0.25, ym + 0.12, 0.0), (-0.25, ym + 0.06, 0.0), 0.006, '#c9ccce', seg=5)            # 針
-st_.cy(vc1, (-0.25, ym + 0.08, 0.0), (-0.25, ym + 0.07, 0.03), 0.018, '#c9ccce', seg=6)           # 壓布腳
-for k, c in enumerate(('#1f2d55', '#efefea', '#b8242c')):
-    st_.cy(vc1, (-0.05 + k * 0.08, ym + 0.38, -0.02), (-0.05 + k * 0.08, ym + 0.5, -0.02), 0.004, '#c9ccce', seg=4)
-    st_.la(vc1, [(0.0, 0.0), (0.028, 0.0), (0.02, 0.07), (0.008, 0.09), (0.0, 0.09)], -0.05 + k * 0.08, ym + 0.38, -0.02, c, seg=8)   # 線軸
-st_.cy(vc1, (-0.22, ym + 0.38, 0.02), (-0.22, ym + 0.55, 0.04), 0.006, '#3a3b3f', seg=5); st_.la(vc1, [(0.0, 0.0), (0.045, 0.0), (0.03, 0.06), (0.0, 0.06)], -0.22, ym + 0.5, 0.08, '#3a3b3f', seg=10)   # 檯燈
-st_.rb(vc1, 0.32, 0.56, ym, ym + 0.02, -0.2, 0.15, '#1f2d55', r=0.006); st_.rb(vc1, 0.34, 0.52, ym + 0.02, ym + 0.03, -0.18, 0.1, '#efefea', r=0.004)   # 裁好的布片
-stool = Xf(3.4, -6.12)
-stool.la(vc1, [(0.0, 0.0), (0.17, 0.0), (0.18, 0.04), (0.0, 0.05)], 0, Y1 + 0.46, 0, '#2a2b2f', seg=14)
-stool.cy(acc('dark', 1), (0, Y1, 0), (0, Y1 + 0.46, 0), 0.022, seg=8)
-for k in range(4): a = k * math.pi / 2 + 0.4; stool.cy(acc('dark', 1), (0, Y1 + 0.03, 0), (0.2 * math.cos(a), Y1, 0.2 * math.sin(a)), 0.014, seg=6)
-# 布料捲的桶（右牆）
-fb = Xf(4.0, -3.4)
-for (a0, a1, b0, b1) in ((-0.33, 0.33, -0.43, -0.4), (-0.33, 0.33, 0.4, 0.43), (-0.33, -0.3, -0.43, 0.43), (0.3, 0.33, -0.43, 0.43)): fb.rb(acc('wood', 1), a0, a1, Y1, Y1 + 0.55, b0, b1, r=0.006)
-fb.rb(acc('wood', 1), -0.33, 0.33, Y1, Y1 + 0.03, -0.43, 0.43, r=0.006)
-rr = random.Random(11)
-for k, c in enumerate(('#1f2d55', '#b8242c', '#efefea', '#2950a8', '#26272b', '#d8742c', '#8d9196', '#17213f')):
-    x = -0.18 + (k % 3) * 0.17 + rr.uniform(-0.02, 0.02); z = -0.3 + (k // 3) * 0.28 + rr.uniform(-0.03, 0.03); h = rr.uniform(1.35, 1.7)
-    fb.cy(vc1, (x, Y1 + 0.03, z), (x + rr.uniform(-0.06, 0.06), Y1 + h, z + rr.uniform(-0.05, 0.05)), 0.065, c, seg=12)
-    fb.cy(vc1, (x, Y1 + h - 0.02, z), (x, Y1 + h + 0.04, z), 0.025, '#c9a46a', seg=8)
-for k, c in enumerate(('#efefea', '#1f2d55', '#2f6b45')):                                       # 右牆架子上躺著的三捲
-    zc = -2.3 - k * 0.0; y = Y1 + 1.4 + k * 0.16
-    wm('right', 1, 'vc').cbox(IX1 - 0.3, IX1, y - 0.075, y - 0.065, -2.9, -1.7, '#c9ccce') if k == 0 else None
-    put(wm('right', 1, 'vc'), cyl_bm((IX1 - 0.16, y, -2.8), (IX1 - 0.16, y, -1.8), 0.068, 12), None, c)
-# ---- 背號貼圖（三組：一樓（沒有）、夾層、後牆的組） ----
-for where, items in DECAL.items():
-    if not items: continue
-    bm = bmesh.new(); uvl = bm.loops.layers.uv.new('UVMap')
-    for pts, (u0, v0, u1, v1) in items:
-        f = bm.faces.new([bm.verts.new(g2b(*q)) for q in pts])
-        for lp, t in zip(f.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[uvl].uv = t
-    name = 'WALL_back_L1_print' if where == 'wall' else f'L{where}_print'
-    me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free(); me.materials.append(M['print']); o = bpy.data.objects.new(name, me); B.scene().collection.objects.link(o); o.parent = root
-    if where == 'wall': o['dir'] = DIRS['back']
-# 夾層的燈：吸頂日光燈已經在 7.2 m 的天花板
+mq = I1('mannequin'); MQT = fm((mq['x'], 0, mq['z']), rot('Y', mq['ry']))
+pm = Part('mannequin', T=MQT); c = pm['vc']
+NV, WH, SKIN = '#1f2d55', '#eeede8', '#e9e6e0'
+crb(c, -0.2, 0.2, 0.0, 0.025, -0.2, 0.2, '#1c1c1e', r=0.008); ccyl(c, (0, 0.025, 0), (0, 0.78, 0), 0.018, '#1c1c1e', seg=8)
+ccyl(c, (0, 0.025, 0), (0, 0.06, 0), 0.05, '#1c1c1e', seg=10)
+# 球褲（兩條褲管＋臀部；側邊白線）
+for s in (-1, 1):
+    loft(c, [(0.6, 0.095, 0.1, s * 0.095, 0.0), (0.7, 0.1, 0.105, s * 0.093, 0.0), (0.82, 0.105, 0.11, s * 0.09, 0.0)], 12,
+         lambda b, a, s=s: WH if abs(math.cos(a) * s - 1) < 0.15 else NV, cap0=True, cap1=False)
+loft(c, [(0.8, 0.2, 0.12, 0, 0), (0.9, 0.205, 0.13, 0, 0.005), (0.97, 0.19, 0.125, 0, 0.0), (1.0, 0.185, 0.12, 0, 0.0)], 16,
+     lambda b, a: WH if b == 2 else (WH if abs(math.cos(a)) > 0.93 else NV), cap0=True, cap1=False)
+# 運動 T（身體：胸、腰的弧度；側邊白色片）
+TOR = [(0.95, 0.205, 0.135), (1.03, 0.19, 0.125), (1.12, 0.182, 0.118), (1.22, 0.19, 0.125), (1.31, 0.205, 0.132), (1.38, 0.215, 0.128), (1.43, 0.2, 0.115), (1.47, 0.13, 0.09), (1.49, 0.075, 0.065)]
+loft(c, [(y, rx, rz, 0, 0.0) for (y, rx, rz) in TOR], 18, lambda b, a: (WH if b >= 7 else (WH if abs(math.cos(a)) > 0.9 and b < 6 else NV)), cap0=False, cap1=False)
+loft(c, [(1.49, 0.055, 0.05, 0, 0), (1.56, 0.05, 0.048, 0, 0), (1.58, 0.035, 0.035, 0, 0)], 10, lambda b, a: SKIN, cap0=False, cap1=True)   # 脖子
+for s in (-1, 1):                                                                                  # 袖子（往外下垂）＋手臂（白色、自然垂下）
+    sh = Vector((s * 0.2, 1.4, 0.0)); el = Vector((s * 0.27, 1.2, 0.01))
+    ccyl(c, tuple(sh), tuple(el), 0.072, NV, seg=10, r2=0.066); ccyl(c, tuple(el - (el - sh).normalized() * 0.005), tuple(el + (el - sh).normalized() * 0.015), 0.068, WH, seg=10)
+    wr = Vector((s * 0.29, 0.88, 0.04)); ccyl(c, tuple(el), tuple(wr), 0.042, SKIN, seg=8, r2=0.034)
+    cell_(c, 0.026, 0.06, 0.04, (s * 0.29, 0.83, 0.045), SKIN, seg=8, rings=5)
+    csph(c, (s * 0.205, 1.4, 0.0), 0.075, NV, seg=10, rings=5)
+c.cbox(-0.06, 0.06, 1.24, 1.245, 0.13, 0.133, WH)   # 胸前一條細白線
+pm.done()
 
 # ======================================================================
-for (key, lv_), m in _acc.items(): m.finish(root, uv=key not in ('vc', 'vcg'), smooth=key in ('vc', 'vcg', 'steel', 'dark', 'wood'))
-for (side, lv_, key), m in walls.items(): m.finish(root, uv=key not in ('vc', 'vcg'), props={'dir': DIRS[side]}, smooth=key in ('vc',))
-L.merge_by_material(root, keep=lambda ob: ob.parent is not root, key=lambda ob: '_'.join(ob.name.split('_')[:3]) if ob.name.startswith('WALL_') else ob.name.split('_')[0])
-ss = L.single_side(root, keep=r'glass', nodup=r'paint|plaster')   # 牆是窗、門四周幾個方盒拼的，會被當成開口零件補反面＝和正面重疊，Cycles 渲染整面黑（MD_xinsheng_v1 PC 渲染；同 tongxian）
-# 每一層的三角形（instancing 照實際畫出的數量）
-per = {0: 0, 1: 0}
-for o in [o for o in root.children_recursive if o.type == 'MESH']:
-    n = sum(len(p.vertices) - 2 for p in o.data.polygons); nm = o.name
-    lvv = 1 if ('_L1_' in nm or nm.startswith('L1_') or (o.parent and o.parent.name == 'L1_inst')) else 0
-    per[lvv] += n
-mats = {0: set(), 1: set()}
-for o in [o for o in root.children_recursive if o.type == 'MESH']:
-    lvv = 1 if ('_L1_' in o.name or o.name.startswith('L1_') or (o.parent and o.parent.name == 'L1_inst')) else 0
-    for m in o.data.materials: mats[lvv].add(m.name)
+# 衣架：中間（沿 z，最前面一套正面展示）、後面那排（沿 x，衣服轉 50°）、夾層下的外套、二樓
+# ======================================================================
+CHROME = '#b8bcc0'
+
+
+def rack_frame(p, L_, y_rail=1.5, base='wood', two=False):
+    """衣架（自己的座標：桿沿 x、長 L_；中心在原點）：兩支立柱、橫桿、木頭底板＋輪子"""
+    cm = p['vcm']; hx_ = L_ / 2
+    for s in (-1, 1):
+        ccyl(cm, (s * hx_, 0.12, 0), (s * hx_, y_rail + 0.02, 0), 0.016, CHROME, seg=8)
+        crb(cm, s * hx_ - 0.02, s * hx_ + 0.02, 0.08, 0.12, -0.28, 0.28, CHROME, r=0.008)
+        for zz in (-0.25, 0.25): clathe(p['vc'], [(0, 0), (0.025, 0), (0.028, 0.03), (0.0, 0.05)], s * hx_, 0.03, zz, '#2a2a2c', seg=8)
+    ccyl(cm, (-hx_ - 0.02, y_rail, 0), (hx_ + 0.02, y_rail, 0), 0.013, CHROME, seg=8)
+    if two: ccyl(cm, (-hx_, y_rail - 0.42, -0.22), (hx_, y_rail - 0.42, -0.22), 0.012, CHROME, seg=6)
+    if base == 'wood': p['wood'].rbox(-hx_ - 0.04, hx_ + 0.04, 0.1, 0.14, -0.3, 0.3, r=0.008)
+
+
+def hang_row(lv, T, L_, y_rail, cols, style='tee', gap=0.075, yaw=0.0, lite=False, flat=1.0, start=None):
+    """一支桿上掛一排（自己的座標：桿沿 x）：衣服的面和桿垂直（正面朝 +x），yaw＝每件再轉一點（後面那排：參考圖的衣服斜斜地露出正面）"""
+    x = -L_ / 2 + 0.06 if start is None else start; k = 0
+    while x < L_ / 2 - 0.05:
+        cn = cols[k % len(cols)]
+        G_(style, cn, lite=lite, flat=flat).place(T @ fm((x, y_rail, 0), rot('Y', math.pi / 2 + yaw + random.uniform(-0.08, 0.08))), lv)
+        x += gap + random.uniform(-0.01, 0.015); k += 1
+    return k
+
+
+ra = I1('rack_a'); RAT = fm((ra['x'], 0, ra['z']), rot('Y', ra['ry']))   # 桿沿 z：自己的 +x → 世界的 +z（店門）
+p = Part('rack_a', T=RAT); rack_frame(p, ra['len']); p.done()
+hang_row(0, RAT, ra['len'] - 0.1, 1.5, ['navy', 'white', 'red', 'navy', 'white', 'navy', 'grey', 'white', 'red', 'navy'], gap=0.085, yaw=0.0)
+# 最前面一套正面展示（深藍 T＋深藍球褲，掛在前端的伸出臂上；參考圖中間）
+fo = Part('rack_a_arm', T=RAT); ccyl(fo['vcm'], (ra['len'] / 2 + 0.02, 1.52, 0), (ra['len'] / 2 + 0.3, 1.52, 0), 0.011, CHROME, seg=6); ccyl(fo['vcm'], (ra['len'] / 2 + 0.02, 0.98, 0), (ra['len'] / 2 + 0.3, 0.98, 0), 0.011, CHROME, seg=6); fo.done()
+FACE_T = garment_proto('tee_face', 'tee', COL['navy'], None, side_col='#efefea'); FACE_S = garment_proto('shorts_face', 'shorts', COL['navy'], '#efefea')
+FACE_T.place(RAT @ fm((ra['len'] / 2 + 0.28, 1.56, 0), rot('Y', math.pi / 2)))
+FACE_S.place(RAT @ fm((ra['len'] / 2 + 0.29, 1.0, 0), rot('Y', math.pi / 2)))
+rb_ = I1('rack_b'); RBT = fm((rb_['x'], 0, rb_['z']), rot('Y', rb_['ry']))
+p = Part('rack_b', T=RBT); rack_frame(p, rb_['len'], y_rail=1.48); p.done()
+hang_row(0, RBT, rb_['len'], 1.48, ['maroon', 'white', 'white', 'red', 'white', 'navy', 'navy', 'black'], gap=0.13, yaw=-0.95, lite=True)
+rc = I1('rack_c'); RCT = fm((rc['x'], 0, rc['z']), rot('Y', rc['ry']))
+p = Part('rack_c', T=RCT); rack_frame(p, rc['len'], y_rail=1.55); p.done()
+hang_row(0, RCT, rc['len'], 1.55, ['black', 'navy', 'grey', 'royal', 'black', 'heather', 'green'], style='jacket', gap=0.11, lite=True)
+# 摺好的運動 T（衣架 A 的底板上）、試穿鏡（柱子上）
+fd_ = Part('folded', T=RAT); c = fd_['vc']
+for k, cn in enumerate(['navy', 'white', 'red', 'grey']):
+    for j in range(4): crb(c, -0.7 + k * 0.3, -0.45 + k * 0.3, 0.14 + j * 0.03, 0.17 + j * 0.03, -0.17, 0.15, jit(COL[cn], 0.05), r=0.01)
+fd_.done()
+
+# ======================================================================
+# 水壺雙面架（四層木層板；最下層毛巾）＋端架（運動襪吊卡）
+# ======================================================================
+bgd = I1('bottle_gondola'); gx0, gx1 = bgd['x'] - bgd['w'] / 2, bgd['x'] + bgd['w'] / 2; gz0, gz1 = bgd['z'] - bgd['d'] / 2, bgd['z'] + bgd['d'] / 2; gh = bgd['h']
+pg = Part('bottle_gondola'); cm, w_, gd = pg['vcm'], pg['wood'], pg['goods']
+DK = '#3a3c40'
+for z in (gz0, (gz0 + gz1) / 2, gz1):
+    crb(cm, bgd['x'] - 0.02, bgd['x'] + 0.02, 0.0, gh, z - 0.02, z + 0.02, DK, r=0.004)
+    crb(cm, gx0, gx1, 0.0, 0.03, z - 0.02, z + 0.02, DK, r=0.004)
+crb(cm, bgd['x'] - 0.012, bgd['x'] + 0.012, 0.18, gh - 0.02, gz0, gz1, '#4a4d52', r=0.003)           # 中間的背板
+GT = [0.2, 0.66, 1.08, 1.5]
+for y in GT + [gh - 0.02]:
+    w_.rbox(gx0, gx1, y - 0.025, y, gz0 + 0.02, gz1 - 0.02, r=0.006)
+    for xe in (gx0, gx1): crb(cm, xe - 0.008, xe + 0.008, y - 0.045, y + 0.01, gz0 + 0.02, gz1 - 0.02, '#9a9ea3', r=0.003)
+    for k in range(3):
+        if y > 0.3: gd.rect((gx0 - 0.009, y - 0.018, gz0 + 0.35 + k * 0.7), (0, 0, 1), (0, 1, 0), 0.04, 0.018, ATL['tag4'])
+gd.rect((gx0 - 0.01, GT[3] + 0.4, gz1 - 0.2), (0, 0, 1), (0, 1, 0), 0.07, 0.07, ATL['n_bottle'])
+for k in range(5):                                                                                 # 最下層：疊好的毛巾（白、藍）
+    z = gz0 + 0.25 + k * 0.42; cnm = 'towel_a' if k % 2 == 0 else 'towel_b'
+    for side, xc in ((-1, gx0 + 0.15), (1, gx1 - 0.15)): gd.box(xc, GT[0] + 0.1, z, 0.26, 0.2, 0.34, cnm, front='-x' if side < 0 else '+x', cells={'+y': 'towel_a' if k % 2 == 0 else 'towel_b'})
+for k in range(6):                                                                                 # 頂上：水壺的盒子
+    z = gz0 + 0.18 + k * 0.36; gd.box(bgd['x'], gh + 0.09, z, 0.4, 0.16, 0.3, ['kraft3', 'sb_w', 'kraft2', 'sb_b'][k % 4], front='-x')
+pg.done()
+for t, y in enumerate(GT[1:]):                                                                    # 水壺（西面一整排、東面少一點）
+    z = gz0 + 0.06; k = 0
+    while z < gz1 - 0.05:
+        BOTTLE[(k * 5 + t * 3) % len(BOTTLE)].place(fm((gx0 + 0.07 + random.uniform(-0.005, 0.01), y, z), rot('Y', random.uniform(-0.5, 0.5)))); z += 0.088; k += 1
+    pb2 = Part(f'gondola_east{t}'); z = gz0 + 0.05
+    while z < gz1 - 0.2:
+        w2 = random.uniform(0.18, 0.3); pb2['goods'].box(gx1 - 0.13, y + 0.11, z + w2 / 2, 0.22, 0.22, w2 - 0.01, random.choice(['kraft3', 'sb_w', 'sb_b', 'kraft2']), front='+x'); z += w2
+    pb2.done()
+pe = Part('endcap'); cm, ga, gd = pe['vcm'], pe['alpha'], pe['goods']                            # 端架：網格＋運動襪吊卡（參考圖右邊那一片）
+ez = gz1 + 0.01; crb(cm, gx0, gx1, 0.0, 0.04, gz1, gz1 + 0.12, DK, r=0.004)
+for xe in (gx0 + 0.02, gx1 - 0.02): crb(cm, xe - 0.018, xe + 0.018, 0.0, gh, gz1 + 0.01, gz1 + 0.05, DK, r=0.004)
+ga.rect((bgd['x'], (0.15 + gh) / 2, gz1 + 0.03), (1, 0, 0), (0, 1, 0), (gx1 - gx0) / 2 - 0.02, (gh - 0.15) / 2, (g[0], g[1], g[0] + (g[2] - g[0]) * (gx1 - gx0) / 0.5, g[1] + (g[3] - g[1]) * (gh - 0.15) / 0.5), both=True)
+SK = ['p_sock', 'p_sock2', 'p_sock', 'p_band', 'p_sock2', 'p_sock']
+for r_ in range(5):
+    for k in range(3):
+        x = gx0 + 0.11 + k * 0.19; y = 1.68 - r_ * 0.3
+        ccyl(cm, (x, y + 0.03, gz1 + 0.03), (x, y + 0.04, gz1 + 0.16), 0.003, '#a0a4a8', seg=3)
+        for j in range(2): gd.box(x, y - 0.1 - j * 0.003, gz1 + 0.06 + j * 0.012, 0.13, 0.2, 0.006, SK[(r_ * 3 + k) % 6], front='+z', skip=('-y', '-z'))
+pe.done()
+
+# ======================================================================
+# 樓梯（石材踏面、止滑條；西側米白牆＋玻璃欄杆＋木扶手；東側牆上的木扶手）
+# ======================================================================
+NR_ = ST['risers']; RS, TR = ST['rise'], ST['tread']; sx0, sx1 = ST['x0'], ST['x1']; SZT, SZB = ST['z0'], ST['z1']
+ps = Part('stairs', smooth=False)
+for i in range(NR_):
+    zb_ = SZB - i * TR; za_ = zb_ - TR; y = (i + 1) * RS
+    ps['stone'].box(sx0, sx1, max(0.0, y - RS - 0.3), y, za_ if i < NR_ - 1 else SZT, zb_ + 0.02)
+    crb(ps['vc'], sx0 + 0.03, sx1 - 0.03, y - 0.002, y + 0.002, zb_ - 0.04, zb_ + 0.015, '#c9a86a', r=0)   # 止滑條（銅色）
+ps['wall'].box(sx0, sx1, 0.0, 0.05, SZB - 0.02, SZB)
+ps.done()
+ys = lambda z: RS * NR_ * (SZB - z) / (SZB - SZT)                                                   # 踏面前緣連起來的高度
+def prism(mesh, zy, xa, xb, col=None):
+    """沿 x 擠出的多邊形（zy＝[(z, y)…] 一圈）：封閉的殼，法線用 recalc 算（單面材質不會朝錯邊）"""
+    bm = mesh.bm; n0 = set(bm.faces)
+    A_ = [bm.verts.new(g2b(xa, y, z)) for z, y in zy]; B_ = [bm.verts.new(g2b(xb, y, z)) for z, y in zy]; n = len(zy)
+    bm.faces.new(A_); bm.faces.new(list(reversed(B_)))
+    for i in range(n): j = (i + 1) % n; bm.faces.new((A_[i], A_[j], B_[j], B_[i]))
+    new = [f for f in bm.faces if f not in n0]; bmesh.ops.recalc_face_normals(bm, faces=new)
+    if col: mesh.paint(new, col)
+    return new
+
+
+psw = Part('stair_wall', smooth=False); xw0, xw1 = sx0 - 0.12, sx0
+prism(psw['wall'], [(SZB, 0.0), (SZB, 0.06), (SZT, ys(SZT) + 0.06), (SZT, 0.0)], xw0, xw1)
+prism(psw['vc'], [(SZB + 0.005, 0.0), (SZB + 0.005, 0.1), (SZT, 0.1), (SZT, 0.0)], xw0 - 0.006, xw0, '#8f887e')   # 石材踢腳
+psw.done()
+# 斜的石材壓條（牆頂）
+cap = Part('stair_cap'); c = cap['vc']
+a = (sx0 - 0.06, 0.07, SZB); b = (sx0 - 0.06, ys(SZT) + 0.07, SZT); ccyl(c, a, b, 0.04, '#a39c90', seg=4)
+cap.done()
+
+
+def rail_run(p, pts, y0f, h, posts, glass=True, wood_r=0.028):
+    """欄杆：沿著 pts（遊戲座標的點，地面高度由 y0f 給）每隔一段一支不鏽鋼立柱、中間玻璃、最上面木扶手"""
+    cm = p['vcm']
+    for (q0, q1) in zip(pts, pts[1:]):
+        d_ = math.dist((q0[0], q0[1]), (q1[0], q1[1])); n = max(1, round(d_ / posts))
+        for k in range(n + 1):
+            if k == n and (q1 is not pts[-1]): continue
+            t = k / n; x = q0[0] + (q1[0] - q0[0]) * t; z = q0[1] + (q1[1] - q0[1]) * t; y0 = y0f(x, z)
+            ccyl(cm, (x, y0, z), (x, y0 + h - 0.03, z), 0.02, '#c0c4c8', seg=8)
+            crb(cm, x - 0.04, x + 0.04, y0, y0 + 0.01, z - 0.04, z + 0.04, '#c0c4c8', r=0.003)
+        ya, yb = y0f(*q0), y0f(*q1)
+        if glass:
+            p['glass'].quad([(q0[0], ya + 0.08, q0[1]), (q1[0], yb + 0.08, q1[1]), (q1[0], yb + h - 0.1, q1[1]), (q0[0], ya + h - 0.1, q0[1])])
+            ccyl(cm, (q0[0], ya + 0.06, q0[1]), (q1[0], yb + 0.06, q1[1]), 0.012, '#c0c4c8', seg=6)
+        p['wood'].cyl((q0[0], ya + h, q0[1]), (q1[0], yb + h, q1[1]), wood_r, seg=10)
+
+
+prs = Part('stair_rail')
+rail_run(prs, [(sx0 - 0.06, SZB + 0.05), (sx0 - 0.06, SZT)], lambda x, z: ys(min(SZB, max(SZT, z))) + 0.07, 0.92, 1.1)
+prs['wood'].cyl((sx0 - 0.06, 0.07 + 0.92, SZB + 0.05), (sx0 - 0.06, 0.07 + 0.92, SZB + 0.35), 0.028, seg=10)   # 扶手下端水平伸出 30 cm
+prs.done()
+pre = Part('stair_rail_east'); w_ = pre['wood']; cm = pre['vcm']                                     # 東側牆上的木扶手（托架）
+w_.cyl((FIN0 - 0.07, ys(SZB) + 0.9, SZB), (FIN0 - 0.07, ys(SZT) + 0.9, SZT), 0.026, seg=10)
+for t in (0.1, 0.4, 0.7, 0.95):
+    z = SZB + (SZT - SZB) * t; ccyl(cm, (FIN0, ys(z) + 0.84, z), (FIN0 - 0.07, ys(z) + 0.9, z), 0.008, '#c0c4c8', seg=5)
+pre.done()
+# 二樓：夾層前緣的玻璃欄杆＋木扶手、樓梯洞兩側
+prm = Part('mezz_rail', lv=1)
+rail_run(prm, [(XI0, -0.04), (HOLE['x0'] - 0.04, -0.04), (HOLE['x0'] - 0.04, HOLE['z0'])], lambda x, z: Y1, 1.05, 1.3, wood_r=0.032)
+rail_run(prm, [(HOLE['x1'] + 0.04, HOLE['z0'] + 0.6), (HOLE['x1'] + 0.04, -0.04), (XI1, -0.04)], lambda x, z: Y1, 1.05, 1.3, wood_r=0.032)
+prm.done()
+
+# ======================================================================
+# 樓層指示牌（樓梯東側的牆、面向西）、收銀台的吊牌、球鞋區的吊牌
+# ======================================================================
+psg = Part('signs', lv=1); u = psg['sign']
+fgz0, fgz1, fgy0, fgy1 = 1.6, 2.85, 2.75, 6.05
+crb(psg['vc'], FIN0 - 0.03, FIN0, fgy0 - 0.03, fgy1 + 0.03, fgz0 - 0.03, fgz1 + 0.03, '#1a2f6e', r=0.006)
+u.rect((FIN0 - 0.032, (fgy0 + fgy1) / 2, (fgz0 + fgz1) / 2), (0, 0, 1), (0, 1, 0), (fgz1 - fgz0) / 2, (fgy1 - fgy0) / 2, ATL['floor_guide'], rotuv=90)
+psg.done()
+pcs = Part('sign_small')
+ca = I1('cashier'); u = pcs['sign']
+for (cx_, cy_, cz_, w2, h2, nm) in ((ca['x'], 2.55, ca['z'] - 0.1, 0.6, 0.2, 'sign_cashier'), (-6.3, 2.75, 4.0, 0.6, 0.2, 'sign_shoes'), (5.6, 2.9, 3.6, 0.6, 0.2, 'sign_shoes')):
+    crb(pcs['vc'], cx_ - w2 - 0.02, cx_ + w2 + 0.02, cy_ - h2 - 0.02, cy_ + h2 + 0.02, cz_ - 0.015, cz_ + 0.015, '#1a2f6e', r=0.004)
+    u.rect((cx_, cy_, cz_ + 0.017), (1, 0, 0), (0, 1, 0), w2, h2, ATL[nm]); u.rect((cx_, cy_, cz_ - 0.017), (-1, 0, 0), (0, 1, 0), w2, h2, ATL[nm])
+    for s in (-1, 1): ccyl(pcs['vcm'], (cx_ + s * (w2 - 0.05), cy_ + h2, cz_), (cx_ + s * (w2 - 0.05), HT if cz_ > 0 else H1, cz_), 0.002, '#9a9ea2', seg=3)
+pcs['goods'].rect((XI0 + 0.004, 2.0, 0.3), (0, 0, -1), (0, 1, 0), 0.25, 0.375, ATL['poster'])   # 夾層下左牆的海報
+pcs.done()
+
+# ======================================================================
+# 球鞋牆（左牆、東邊）＋試穿椅
+# ======================================================================
+
+
+def shoe_wall(name, x_wall, sgn, za, zb, tiers, gap, side):
+    """牆上的層板（每層一排鞋，鞋尖朝店內稍微斜著）：sgn＝往室內的方向（+1＝往 +x）"""
+    p = Part(name, side=side); w_, cm, gd = p['wood'], p['vcm'], p['goods']; dep = 0.32
+    xa, xb = (x_wall, x_wall + dep) if sgn > 0 else (x_wall - dep, x_wall)
+    for z in (za, zb):
+        crb(cm, xa, xb, 0.0, tiers[-1] + 0.35, z - 0.015, z + 0.015, '#3a3c40', r=0.003)
+    for y in tiers:
+        w_.rbox(xa, xb, y - 0.022, y, za, zb, r=0.005)
+        z = za + 0.4
+        while z < zb - 0.2: gd.rect((xb + 0.003 if sgn > 0 else xa - 0.003, y - 0.011, z), (0, 0, -sgn), (0, 1, 0), 0.035, 0.011, ATL[f'tag{random.randrange(8)}']); z += 0.9
+    p.done(); k = 0
+    for y in tiers:
+        z = za + 0.2
+        while z < zb - 0.15:
+            ang = (0.0 if sgn > 0 else math.pi) - sgn * (0.5 + random.uniform(-0.12, 0.12))   # 鞋尖朝店內、稍微朝店門
+            SHOE[(k * 3 + int(y * 10)) % len(SHOE)].place(fm(((xa + xb) / 2, y, z), rot('Y', ang)))
+            z += gap; k += 1
+    return k
+
+
+ns1 = shoe_wall('shoe_left', XI0, 1, 0.75, 7.25, [0.4, 0.95, 1.5], 0.42, 'left')
+ns2 = shoe_wall('shoe_right', XI1, -1, -6.4, 5.7, [0.45, 1.0, 1.55], 1.6, 'right')
+for bn in IT['bench']:
+    p = Part('bench'); x, z, bw, bd = bn['x'], bn['z'], bn['w'], bn['d']
+    p['wood'].rbox(x - bw / 2, x + bw / 2, 0.38, 0.42, z - bd / 2, z + bd / 2, r=0.012)
+    for sx in (-1, 1):
+        for sz in (-1, 1): crb(p['vcm'], x + sx * (bw / 2 - 0.05) - 0.015, x + sx * (bw / 2 - 0.05) + 0.015, 0.0, 0.38, z + sz * (bd / 2 - 0.06) - 0.015, z + sz * (bd / 2 - 0.06) + 0.015, '#3a3c40', r=0.004)
+    p.done()
+# 地上的試穿鏡（左牆球鞋區）、鞋拔
+pmr = Part('mirror'); crb(pmr['vc'], -6.2, -6.0, 0.0, 0.42, 1.6, 1.62, '#3a3c40', r=0.004); pmr['glass'].quad([(-6.2, 0.02, 1.625), (-6.0, 0.02, 1.625), (-6.0, 0.4, 1.625), (-6.2, 0.4, 1.625)]); pmr.done()
+
+# ======================================================================
+# 收銀台（東邊前段）
+# ======================================================================
+pk = Part('cashier'); c, cm, gd = pk['vc'], pk['vcm'], pk['goods']; kx0, kx1, kz0, kz1 = ca['x'] - ca['w'] / 2, ca['x'] + ca['w'] / 2, ca['z'] - ca['d'] / 2, ca['z'] + ca['d'] / 2
+crb(c, kx0, kx1, 0.08, ca['h'] - 0.04, kz0, kz1, '#e6e1d6', r=0.01); crb(c, kx0 + 0.03, kx1 - 0.03, 0.0, 0.08, kz0 + 0.03, kz1, '#2a2622', r=0.004)
+gd.rect((ca['x'], (0.08 + ca['h'] - 0.04) / 2, kz0 - 0.004), (-1, 0, 0), (0, 1, 0), ca['w'] / 2, (ca['h'] - 0.12) / 2, ATL['cashier'])
+pk['wood'].rbox(kx0 - 0.03, kx1 + 0.03, ca['h'] - 0.04, ca['h'], kz0 - 0.04, kz1 + 0.03, r=0.008)
+crb(c, ca['x'] - 0.2, ca['x'] + 0.2, ca['h'], ca['h'] + 0.12, kz1 - 0.35, kz1 - 0.1, '#2a2a2c', r=0.015)   # 收銀機
+crb(c, ca['x'] - 0.15, ca['x'] + 0.15, ca['h'] + 0.12, ca['h'] + 0.32, kz1 - 0.3, kz1 - 0.28, '#1c1c1e', r=0.006)
+pk['emit'].rect((ca['x'], ca['h'] + 0.22, kz1 - 0.31), (-1, 0, 0), (0, 1, 0), 0.13, 0.085, ATL['screen'])
+for j in range(6): crb(c, kx0 + 0.15 + j * 0.06, kx0 + 0.2 + j * 0.06, ca['h'], ca['h'] + 0.006, kz0 + 0.12, kz0 + 0.2, ['#c8202a', '#2950a8', '#f2f0ea', '#e8a33a', '#2f6b45', '#26272b'][j], r=0)   # 櫃台上的小東西（髮帶）
+clathe(c, [(0, 0), (0.04, 0), (0.042, 0.1), (0, 0.1)], kx1 - 0.25, ca['h'], kz0 + 0.2, '#3a4f7a', seg=10)
+for j in range(5): ccyl(c, (kx1 - 0.25 + 0.012 * math.cos(j), ca['h'] + 0.02, kz0 + 0.2 + 0.012 * math.sin(j)), (kx1 - 0.25 + 0.025 * math.cos(j), ca['h'] + 0.15, kz0 + 0.2 + 0.025 * math.sin(j)), 0.004, ['#d23a3a', '#2f4f8a', '#1d1d21', '#e2cc1e', '#f2f0ea'][j], seg=4)
+pk.done()
+
+# ======================================================================
+# 夾層下：獎盃櫃、後牆貨架、兩座雙面貨架、左牆層架
+# ======================================================================
+ts = I1('trophy_shelf'); tx0, tx1 = ts['x'] - ts['w'] / 2, ts['x'] + ts['w'] / 2; tz0, tz1 = ZI0, ZI0 + ts['d']
+pt = Part('trophy_shelf', side='back'); w_, gd, c, cm = pt['wood'], pt['goods'], pt['vc'], pt['vcm']
+for x in (tx0, tx1): w_.rbox(x - 0.02, x + 0.02, 0.0, ts['h'], tz0, tz1, r=0.005)
+for y in (0.05, 0.6, 1.15, 1.7, ts['h'] - 0.02): w_.rbox(tx0, tx1, y, y + 0.025, tz0, tz1, r=0.004)
+for y0, kinds in ((0.075, ['kraft1', 'kraft4', 'kraft2']), (0.625, ['sb_o', 'sb_w', 'sb_b', 'sb_k']), (1.175, ['binders', 'kraft3']), (1.725, ['sb_w', 'kraft2', 'sb_b'])):
+    x = tx0 + 0.04
+    while x < tx1 - 0.3:
+        kd = random.choice(kinds); w2 = 0.42 if kd == 'binders' else random.uniform(0.28, 0.4); h2 = 0.3 if kd == 'binders' else random.uniform(0.16, 0.4)
+        gd.box(x + w2 / 2, y0 + h2 / 2, tz1 - 0.2, w2, h2, 0.34, kd, front='+z'); x += w2 + 0.02
+pt.done()
+
+
+def trophy_build(h, cup='#d9b45a'):
+    def f(pt):
+        c = pt['vcm']
+        clathe(c, [(0, 0), (0.06, 0), (0.06, 0.05), (0.045, 0.05), (0.045, 0.07), (0.0, 0.07)], 0, 0, 0, '#2a2622', seg=8)
+        clathe(c, [(0.012, 0.0), (0.012, h * 0.35), (0.03, h * 0.42), (0.07, h * 0.62), (0.075, h * 0.72), (0.0, h * 0.72)], 0, 0.07, 0, cup, seg=10)
+        for s in (-1, 1): ccyl(c, (s * 0.07, 0.07 + h * 0.65, 0), (s * 0.1, 0.07 + h * 0.5, 0), 0.008, cup, seg=4)
+        clathe(c, [(0, 0), (0.02, 0), (0.0, 0.05)], 0, 0.07 + h * 0.72, 0, cup, seg=6)
+    return f
+
+
+TROPHY = [Proto('trophy_a', trophy_build(0.28)), Proto('trophy_b', trophy_build(0.36)), Proto('trophy_c', trophy_build(0.22, '#c9a24a'))]
+x = tx0 + 0.15; k = 0
+while x < tx1 - 0.1: TROPHY[k % 3].place(fm((x, ts['h'] + 0.005, tz0 + 0.25 + (0.08 if k % 2 else 0)), rot('Y', random.uniform(-0.3, 0.3))), 0); x += 0.22; k += 1
+
+
+def steel_shelf(name, xa, xb, za, zb, face, levels, top, side=None, kinds=None):
+    p = Part(name, side=side); cm, c, g_ = p['vcm'], p['vc'], p['goods']; kinds = kinds or ['kraft1', 'kraft2', 'kraft2', 'sb_w', 'binders', 'kraft3', 'sb_o', 'kraft4', 'sb_b']
+    for x in (xa, xb):
+        for z in (za, zb): cm.cbox(x - 0.018, x + 0.018, 0.0, top, z - 0.018, z + 0.018, '#7c8288')
+    for y in levels: c.cbox(xa + 0.01, xb - 0.01, y, y + 0.018, za + 0.01, zb - 0.01, '#bba57c')
+    gaps = list(levels) + [top + 0.03]
+    for li in range(len(levels)):
+        y0 = levels[li] + 0.018; hmax = gaps[li + 1] - y0 - 0.03
+        a, b_, dep = (xa + 0.03, xb - 0.03, zb - za) if face in ('+z', '-z') else (za + 0.03, zb - 0.03, xb - xa)
+        t = a
+        while t < b_ - 0.15:
+            kind = random.choice(kinds); w2 = min(random.uniform(0.3, 0.5), b_ - t); h2 = min(hmax, random.uniform(0.2, hmax)); d2 = min(dep - 0.06, 0.4)
+            if face == '+z': g_.box(t + w2 / 2, y0 + h2 / 2, zb - d2 / 2 - 0.02, w2, h2, d2, kind, front='+z')
+            elif face in ('+x', '-x'):
+                xc = (xb - d2 / 2 - 0.02) if face == '+x' else (xa + d2 / 2 + 0.02); g_.box(xc, y0 + h2 / 2, t + w2 / 2, d2, h2, w2, kind, front=face)
+            t += w2 + random.uniform(0.01, 0.04)
+    p.done()
+
+
+bs_ = I1('back_shelf'); steel_shelf('back_shelf', bs_['x'] - bs_['w'] / 2, bs_['x'] + bs_['w'] / 2, ZI0, ZI0 + bs_['d'], '+z', (0.08, 0.6, 1.12, 1.64), bs_['h'], side='back')
+ls_ = I1('left_shelf_back'); steel_shelf('left_shelf', XI0, XI0 + ls_['w'], ls_['z'] - ls_['d'] / 2, ls_['z'] + ls_['d'] / 2, '+x', (0.08, 0.6, 1.12, 1.64, 2.16), 2.6, side='left')
+for k, gn in enumerate(IT['gondola']):                                                           # 夾層下兩座雙面貨架：一面球（盒）、一面護具盒
+    xa, xb = gn['x'] - gn['w'] / 2, gn['x'] + gn['w'] / 2; za, zb = gn['z'] - gn['d'] / 2, gn['z'] + gn['d'] / 2
+    p = Part(f'gondola{k}'); cm, w_ = p['vcm'], p['wood']
+    for z in (za, (za + zb) / 2, zb): crb(cm, gn['x'] - 0.02, gn['x'] + 0.02, 0.0, gn['h'], z - 0.02, z + 0.02, DK, r=0.004)
+    crb(cm, gn['x'] - 0.01, gn['x'] + 0.01, 0.15, gn['h'], za, zb, '#4a4d52', r=0.003)
+    for y in (0.15, 0.55, 0.95, 1.35): w_.rbox(xa, xb, y - 0.022, y, za + 0.02, zb - 0.02, r=0.005)
+    p.done()
+    for y in (0.15, 0.55, 0.95, 1.35):
+        z = za + 0.15
+        while z < zb - 0.15:
+            if False: BALL_B.place(fm((xa + 0.15, y, z), rot('Y', random.uniform(0, 6.3)))); z += 0.26
+            else:
+                pg_ = Part(f'gbox{k}_{int(y * 100)}_{int(z * 100)}'); kd = random.choice(['sb_o', 'sb_w', 'sb_b', 'sb_k', 'kraft3', 'kraft1'])
+                pg_['goods'].box(xa + 0.15, y + 0.1, z, 0.26, 0.2, 0.3, kd, front='-x'); pg_['goods'].box(xb - 0.15, y + 0.1, z + 0.05, 0.26, 0.2, 0.3, kd, front='+x'); pg_.done(); z += 0.34
+
+# ======================================================================
+# 二樓：後牆的展示球衣、法律系 7 號、「系隊球衣訂做」、尺寸表、白板樣衣
+# ======================================================================
+JD = I1('jersey_display')
+JCOL = {37: ('#1f2d55', '#efefea', 'j37'), 16: ('#b8242c', '#efefea', 'j16'), 88: ('#eeede6', '#1f2d55', 'j88'), 7: ('#17213f', '#d9b45a', 'j7'),
+        12: ('#6a1c26', '#e9e2cf', 'j12'), 21: ('#2f6b45', '#efefea', 'j21'), 5: ('#8fb8de', '#1f2d55', 'j5'), 30: ('#26272b', '#d8742c', 'j30')}
+zw = ZB2 + 0.01
+for it in JD['list']:                                                                              # 三件展示球衣（大一號、衣架掛在牆上的掛勾：參考圖）
+    col, tr, dc = JCOL[it['no']]
+    garment_proto(f'jd{it["no"]}', 'jersey', col, tr, flat=0.55, decal=dc, scale=1.35).place(fm((it['x'], JD['y'] + 1.1, zw + 0.06)), 1)
+    ph_ = Part(f'jhook{it["no"]}', lv=1); ccyl(ph_['vcm'], (it['x'], JD['y'] + 1.12, zw), (it['x'], JD['y'] + 1.12, zw + 0.08), 0.006, '#a0a4a8', seg=5); ph_.done()
+jl = I1('jersey_law')
+garment_proto('jlaw7', 'jersey', JCOL[7][0], JCOL[7][1], flat=0.45, decal='j7', scale=1.05).place(fm((jl['x'], jl['y'] + 0.9, zw + 0.05)), 1)
+bo = I1('banner_order'); ps2 = Part('wall_signs', lv=1, side='back'); u = ps2['sign']; c = ps2['vc']
+crb(c, bo['x'] - bo['w'] / 2 - 0.03, bo['x'] + bo['w'] / 2 + 0.03, bo['y'] - bo['h'] / 2 - 0.03, bo['y'] + bo['h'] / 2 + 0.03, zw - 0.01, zw + 0.02, '#1a2f6e', r=0.006)
+u.rect((bo['x'], bo['y'], zw + 0.022), (1, 0, 0), (0, 1, 0), bo['w'] / 2, bo['h'] / 2, ATL['banner_order'])
+sc_ = I1('size_chart')
+crb(c, sc_['x'] - sc_['w'] / 2 - 0.03, sc_['x'] + sc_['w'] / 2 + 0.03, sc_['y'] - sc_['h'] / 2 - 0.03, sc_['y'] + sc_['h'] / 2 + 0.03, zw - 0.01, zw + 0.02, '#c9ccd2', r=0.006)
+u.rect((sc_['x'], sc_['y'], zw + 0.022), (1, 0, 0), (0, 1, 0), sc_['w'] / 2, sc_['h'] / 2, ATL['size_chart'])
+sbd = I1('sample_board')
+crb(c, sbd['x'] - sbd['w'] / 2, sbd['x'] + sbd['w'] / 2, sbd['y'] - sbd['h'] / 2, sbd['y'] + sbd['h'] / 2, zw - 0.01, zw + 0.025, '#f2f1ec', r=0.01)
+crb(c, sbd['x'] - sbd['w'] / 2 - 0.02, sbd['x'] + sbd['w'] / 2 + 0.02, sbd['y'] - sbd['h'] / 2 - 0.02, sbd['y'] - sbd['h'] / 2 + 0.01, zw - 0.01, zw + 0.03, '#b8bcc0', r=0.004)
+for nm, x, y in (('n_order', 1.0, 5.5), ('n_print', 1.75, 5.45), ('n_up', -6.6, 4.9)):
+    ps2['goods'].rect((x, y, zw + 0.024), (1, 0, 0), (0, 1, 0), 0.13, 0.13, ATL[nm])
+ps2.done()
+SAMPLE = garment_proto('jsample', 'jersey', '#2950a8', '#efefea', flat=0.3, scale=0.8)
+for x in (sbd['x'] - 0.36, sbd['x'] + 0.36): SAMPLE.place(fm((x, sbd['y'] + 0.42, zw + 0.04)), 1)
+# 後牆上排的系隊球衣（小一號、平掛：牆的左半段，參考圖展示球衣兩旁）
+WALLJ = [(12, -6.55), (21, -2.55), (5, -1.3)]
+for no, x in WALLJ:
+    col, tr, dc = JCOL[no]; garment_proto(f'jw{no}', 'jersey', col, tr, flat=0.4, decal=dc, scale=0.95).place(fm((x, 5.35 + 0.75, zw + 0.04)), 1)
+
+# ---------------- 訂做櫃台（螢幕、資料夾、筆筒、型錄）、樣品桌＋凳子 ----------------
+oc = I1('order_counter'); ox0, ox1, oz0, oz1 = oc['x'] - oc['w'] / 2, oc['x'] + oc['w'] / 2, oc['z'] - oc['d'] / 2, oc['z'] + oc['d'] / 2; oy = Y1 + oc['h']
+po = Part('order_counter', lv=1); w_, c, gd = po['wood'], po['vc'], po['goods']
+w_.rbox(ox0, ox1, Y1 + 0.06, oy - 0.04, oz0, oz1, r=0.008); w_.rbox(ox0 - 0.03, ox1 + 0.03, oy - 0.04, oy, oz0 - 0.03, oz1 + 0.04, r=0.008)
+crb(c, ox0 + 0.03, ox1 - 0.03, Y1, Y1 + 0.06, oz0 + 0.03, oz1 - 0.03, '#2a2622', r=0.004)
+for k in range(4): crb(c, ox0 + 0.1 + k * 0.64, ox0 + 0.12 + k * 0.64, Y1 + 0.1, oy - 0.08, oz1 + 0.0, oz1 + 0.008, '#8a6a46', r=0)   # 面板的接縫
+mx, mz = oc['x'] + 0.55, oz0 + 0.15                                                                 # 螢幕（朝客人那邊斜放）
+mon = Part('monitor', lv=1, T=fm((mx, oy, mz), rot('Y', 0.35)))
+crb(mon['vc'], -0.27, 0.27, 0.12, 0.46, -0.02, 0.02, '#1c1c1e', r=0.008); clathe(mon['vc'], [(0, 0), (0.1, 0), (0.1, 0.012), (0.02, 0.02), (0, 0.02)], 0, 0, -0.04, '#2a2a2c', seg=12)
+ccyl(mon['vc'], (0, 0.02, -0.04), (0, 0.2, -0.03), 0.015, '#2a2a2c', seg=6)
+mon['emit'].rect((0, 0.29, 0.021), (1, 0, 0), (0, 1, 0), 0.25, 0.155, ATL['screen']); mon['goods'].rect((0, 0.29, -0.021), (-1, 0, 0), (0, 1, 0), 0.25, 0.155, ATL['monback']); mon.done()
+crb(c, mx - 0.3, mx + 0.05, oy, oy + 0.02, mz + 0.12, mz + 0.27, '#e2e0d8', r=0.006)
+for k in range(2):                                                                                 # 資料夾（一排立著）、型錄
+    x0_ = oc['x'] - 0.25 - k * 0.5; gd.box(x0_, oy + 0.16, oz0 + 0.12, 0.45, 0.3, 0.24, 'binders', front='+z', cells={'+y': 'binders'})
+for j in range(3): gd.box(oc['x'] - 1.0 + j * 0.03, oy + 0.006 + j * 0.008, oz1 - 0.15, 0.24, 0.008, 0.3, 'poster', front='+y')
+clathe(c, [(0, 0), (0.04, 0), (0.042, 0.11), (0, 0.11)], ox1 - 0.2, oy, oz0 + 0.12, '#e8a33a', seg=10)
+for j in range(6): ccyl(c, (ox1 - 0.2 + 0.012 * math.cos(j), oy + 0.02, oz0 + 0.12 + 0.012 * math.sin(j)), (ox1 - 0.2 + 0.026 * math.cos(j), oy + 0.16, oz0 + 0.12 + 0.026 * math.sin(j)), 0.004, ['#d23a3a', '#2f4f8a', '#1d1d21', '#e2cc1e', '#2e8a4a', '#f2f0ea'][j], seg=4)
+for k, cn in enumerate(['navy', 'red', 'white', 'green', 'deepnavy']):                              # 櫃台上摺好的樣衣
+    for j in range(2): crb(c, ox0 + 0.12 + k * 0.3, ox0 + 0.38 + k * 0.3, oy + j * 0.03, oy + 0.03 + j * 0.03, oz1 - 0.3, oz1 - 0.05, jit(COL[cn], 0.05), r=0.01)
+po.done()
+stb = I1('sample_table'); tx0, tx1, tz0, tz1 = stb['x'] - stb['w'] / 2, stb['x'] + stb['w'] / 2, stb['z'] - stb['d'] / 2, stb['z'] + stb['d'] / 2; ty_ = Y1 + stb['h']
+ptb = Part('sample_table', lv=1); w_, c, cm = ptb['wood'], ptb['vc'], ptb['vcm']
+w_.rbox(tx0, tx1, ty_ - 0.035, ty_, tz0, tz1, r=0.008)
+for x in (tx0 + 0.05, tx1 - 0.05):
+    for z in (tz0 + 0.05, tz1 - 0.05): crb(cm, x - 0.018, x + 0.018, Y1, ty_ - 0.035, z - 0.018, z + 0.018, '#2a2a2c', r=0.004)
+for k, cn in enumerate(['navy', 'white', 'red', 'royal', 'black', 'maroon']):
+    for j in range(3): crb(c, tx0 + 0.08 + (k % 3) * 0.42, tx0 + 0.42 + (k % 3) * 0.42, ty_ + j * 0.028, ty_ + 0.028 + j * 0.028, tz0 + 0.06 + (k // 3) * 0.3, tz0 + 0.32 + (k // 3) * 0.3, jit(COL[cn], 0.05), r=0.01)
+for sx in (-0.25, 0.25):                                                                           # 兩張凳子
+    clathe(c, [(0, 0), (0.17, 0), (0.17, 0.035), (0, 0.04)], stb['x'] + sx, Y1 + 0.46, tz0 - 0.42, '#2a4a8a', seg=14)
+    for k in range(4):
+        a = math.pi / 4 + k * math.pi / 2; ccyl(cm, (stb['x'] + sx + 0.15 * math.cos(a), Y1, tz0 - 0.42 + 0.15 * math.sin(a)), (stb['x'] + sx + 0.1 * math.cos(a), Y1 + 0.46, tz0 - 0.42 + 0.1 * math.sin(a)), 0.012, '#2a2a2c', seg=5)
+ptb.done()
+# ---------------- 二樓左牆衣架（上下兩支桿，滿滿的系隊球衣） ----------------
+wr = I1('wall_rack_2f'); wz0, wz1 = wr['z'] - wr['d'] / 2, wr['z'] + wr['d'] / 2
+pwr = Part('wall_rack', lv=1, side='left'); cm = pwr['vcm']
+for yr in (Y1 + 2.35, Y1 + 1.25):
+    ccyl(cm, (XI0 + 0.32, yr, wz0), (XI0 + 0.32, yr, wz1), 0.014, CHROME, seg=8)
+    for z in (wz0 + 0.05, (wz0 + wz1) / 2, wz1 - 0.05): ccyl(cm, (XI0, yr, z), (XI0 + 0.32, yr, z), 0.012, CHROME, seg=6)
+pwr['wood'].rbox(XI0, XI0 + 0.36, Y1 + 2.62, Y1 + 2.65, wz0, wz1, r=0.005)                          # 最上面一層板（摺好的衣服）
+pwr.done()
+for yr, cols in ((Y1 + 2.35, ['navy', 'white', 'royal', 'navy', 'white', 'navy']), (Y1 + 1.25, ['white', 'navy', 'navy', 'royal', 'white', 'sky'])):
+    z = wz0 + 0.08; k = 0
+    while z < wz1 - 0.06:
+        G_('jersey', cols[k % len(cols)], lite=True).place(fm((XI0 + 0.32, yr, z), rot('Y', random.uniform(-0.1, 0.1))), 1); z += 0.075 + random.uniform(0, 0.02); k += 1
+pfo = Part('wall_rack_top', lv=1, side='left'); c = pfo['vc']
+z = wz0 + 0.05
+while z < wz1 - 0.3:
+    cn = random.choice(['navy', 'white', 'royal', 'red'])
+    for j in range(random.randint(2, 4)): crb(c, XI0 + 0.04, XI0 + 0.32, Y1 + 2.65 + j * 0.03, Y1 + 2.68 + j * 0.03, z, z + 0.26, jit(COL[cn], 0.05), r=0.01)
+    z += 0.3
+pfo.done()
+# ---------------- 裁縫桌＋裁縫車＋圓凳、布料捲、樣衣間、東邊衣架 ----------------
+sw = I1('sewing'); sx0_, sx1_, sz0_, sz1_ = sw['x'] - sw['w'] / 2, sw['x'] + sw['w'] / 2, sw['z'] - sw['d'] / 2, sw['z'] + sw['d'] / 2; sy_ = Y1 + 0.76
+psw = Part('sewing', lv=1); w_, c, cm = psw['wood'], psw['vc'], psw['vcm']
+w_.rbox(sx0_, sx1_, sy_ - 0.04, sy_, sz0_, sz1_, r=0.008)
+for x in (sx0_ + 0.05, sx1_ - 0.05):
+    for z in (sz0_ + 0.05, sz1_ - 0.05): crb(cm, x - 0.018, x + 0.018, Y1, sy_ - 0.04, z - 0.018, z + 0.018, '#2a2a2c', r=0.004)
+mx = sw['x'] - 0.15                                                                                 # 裁縫車（白：底座、立柱、橫臂、機頭、手輪）
+crb(c, mx - 0.24, mx + 0.24, sy_, sy_ + 0.09, sw['z'] - 0.1, sw['z'] + 0.1, '#ecebe6', r=0.02, seg=2)
+crb(c, mx + 0.12, mx + 0.24, sy_ + 0.09, sy_ + 0.3, sw['z'] - 0.08, sw['z'] + 0.08, '#ecebe6', r=0.03, seg=2)
+crb(c, mx - 0.24, mx + 0.24, sy_ + 0.24, sy_ + 0.33, sw['z'] - 0.07, sw['z'] + 0.07, '#ecebe6', r=0.03, seg=2)
+crb(c, mx - 0.26, mx - 0.17, sy_ + 0.1, sy_ + 0.33, sw['z'] - 0.06, sw['z'] + 0.06, '#e2e0da', r=0.02)
+ccyl(c, (mx + 0.25, sy_ + 0.24, sw['z']), (mx + 0.28, sy_ + 0.24, sw['z']), 0.06, '#c8ccd0', seg=12)
+ccyl(cm, (mx - 0.22, sy_ + 0.1, sw['z'] + 0.02), (mx - 0.22, sy_ + 0.24, sw['z'] + 0.02), 0.004, '#a0a4a8', seg=4)
+crb(c, mx - 0.1, mx + 0.1, sy_ + 0.33, sy_ + 0.335, sw['z'] - 0.05, sw['z'] + 0.05, '#2a52a8', r=0)
+clathe(c, [(0, 0), (0.018, 0), (0.018, 0.045), (0, 0.045)], mx + 0.18, sy_ + 0.33, sw['z'], '#c8202a', seg=8)   # 線軸
+for k, cn in enumerate(['royal', 'white', 'navy']):
+    crb(c, sx1_ - 0.55, sx1_ - 0.08, sy_ + k * 0.02, sy_ + 0.02 + k * 0.02, sz0_ + 0.08 + k * 0.03, sz1_ - 0.1, jit(COL[cn], 0.05), r=0.008)
+clathe(c, [(0, 0), (0.17, 0), (0.17, 0.035), (0, 0.04)], sw['x'], Y1 + 0.5, sz1_ + 0.6 - 0.0, '#2a2a2c', seg=14)   # 圓凳
+ccyl(cm, (sw['x'], Y1, sz1_ + 0.6), (sw['x'], Y1 + 0.5, sz1_ + 0.6), 0.02, '#8d9196', seg=6); clathe(cm, [(0, 0), (0.18, 0), (0.0, 0.03)], sw['x'], Y1, sz1_ + 0.6, '#3a3c40', seg=10)
+psw.done()
+fb = I1('fabric'); pfb = Part('fabric', lv=1); c = pfb['vc']
+for k, (dx_, dz_, h_, col) in enumerate(((-0.18, 0.05, 1.7, '#d8742c'), (0.0, -0.08, 1.85, '#e08a4a'), (0.17, 0.06, 1.6, '#2950a8'), (0.06, 0.15, 1.45, '#efefea'), (-0.1, -0.15, 1.3, '#1f2d55'))):
+    ccyl(c, (fb['x'] + dx_, Y1, fb['z'] + dz_), (fb['x'] + dx_ + 0.04, Y1 + h_, fb['z'] + dz_), 0.07, col, seg=10)
+crb(pfb['vcm'], fb['x'] - 0.3, fb['x'] + 0.3, Y1, Y1 + 0.3, fb['z'] - 0.25, fb['z'] + 0.25, '#3a3c40', r=0.01)
+pfb.done()
+sr = I1('sample_room'); rx0, rx1, rz0, rz1 = sr['x'] - sr['w'] / 2, XI1, sr['z'] - sr['d'] / 2, sr['z'] + sr['d'] / 2
+psr = Part('sample_room', lv=1); cm = psr['vcm']
+for z in (rz0, (rz0 + rz1) / 2, rz1): crb(cm, rx0 - 0.03, rx0 + 0.03, Y1, HT - 0.4, z - 0.03, z + 0.03, ALU, r=0.006)
+for y in (Y1, Y1 + 2.4, HT - 0.4): crb(cm, rx0 - 0.03, rx0 + 0.03, y, y + 0.05, rz0, rz1, ALU, r=0.006)
+for z in (rz0, rz1): psr['wall'].box(rx0, XI1, Y1, HT, z - 0.06, z)
+psr['glass'].quad([(rx0, Y1 + 0.05, rz1), (rx0, Y1 + 0.05, rz0), (rx0, HT - 0.4, rz0), (rx0, HT - 0.4, rz1)])
+psr['wall'].box(rx0 - 0.03, XI1, HT - 0.4, HT, rz0, rz1)
+psr['sign'].rect((rx0 - 0.035, HT - 0.2, (rz0 + rz1) / 2), (0, 0, 1), (0, 1, 0), 0.5, 0.15, ATL['sign_sample'])
+ccyl(cm, ((rx0 + rx1) / 2, Y1 + 1.85, rz0 + 0.05), ((rx0 + rx1) / 2, Y1 + 1.85, rz1 - 0.05), 0.012, CHROME, seg=6)
+psr.done()
+z = rz0 + 0.12; k = 0
+while z < rz1 - 0.1: G_('jersey', ['royal', 'sky', 'white', 'navy'][k % 4], lite=True).place(fm(((rx0 + rx1) / 2, Y1 + 1.85, z)), 1); z += 0.09; k += 1
+rd = I1('rack_d'); RDT = fm((rd['x'], Y1, rd['z']), rot('Y', rd['ry']))
+p = Part('rack_d', lv=1, T=RDT); rack_frame(p, rd['len'], y_rail=1.5); p.done()
+hang_row(1, RDT, rd['len'], 1.5, ['royal', 'sky', 'royal', 'white', 'navy'], style='jersey', gap=0.1, yaw=-0.9)
+
+# ======================================================================
+for ob in list(root.children):
+    if ob.type == 'MESH' and len(ob.data.polygons) == 0: bpy.data.objects.remove(ob)
+
+
+def mkey(ob):
+    m_ = re.match(r'(WALL_(?:front|back|left|right)_L[01])_', ob.name)
+    if m_: return m_.group(1)
+    m_ = re.match(r'(L[01])_', ob.name); return m_.group(1) if m_ else ''
+
+
+L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=mkey)
+for ob in root.children:
+    m_ = re.match(r'WALL_(front|back|left|right)_', ob.name)
+    if ob.type == 'MESH' and m_ and 'dir' not in ob: ob['dir'] = DIRS[m_.group(1)]
+ss = None if os.environ.get('XS_NOSS') else L.single_side(root, keep=r'glass', nodup=r'xs_(plaster|wood|floor_tile|ceiling|goods|sign|emit|alpha|stone)')
 info = L.export(OUT, gpu_instances=True)
-info.update({'layout': LAY['version'], 'tris_per_level': per, 'materials_per_level': {k: len(v) for k, v in mats.items()}, 'textures': ['large_floor_tiles_02', 'painted_plaster_wall', 'walnut_veneer', 'granite_tile_03', 'xs_print（PIL 產生：球的接縫、背號）']})
+
+
+def fix_instanced_names(path):
+    """Blender 匯出 EXT_mesh_gpu_instancing 的節點叫 xinsheng_sports_interior.N、沒有自訂屬性 → 改成網格的名字（L0_…_inst／WALL_left_L0_…_inst），
+    牆上的補 extras.dir（好拍子代理的做法：遊戲用名字 /WALL_/ 認淡出的牆、用 L0_／L1_ 認層）"""
+    import struct
+    b = open(path, 'rb').read(); n = struct.unpack('<I', b[12:16])[0]; j = json.loads(b[20:20 + n]); rest = b[20 + n:]; k = 0
+    for nd in j['nodes']:
+        if 'EXT_mesh_gpu_instancing' not in nd.get('extensions', {}): continue
+        mn = j['meshes'][nd['mesh']]['name']; nd['name'] = mn + '_inst'; k += 1
+        m_ = re.match(r'WALL_(front|back|left|right)_', mn)
+        if m_: nd.setdefault('extras', {})['dir'] = DIRS[m_.group(1)]
+    js = json.dumps(j, ensure_ascii=False, separators=(',', ':')).encode('utf-8'); js += b' ' * ((4 - len(js) % 4) % 4)
+    out = b[:12] + struct.pack('<I', len(js)) + b'JSON' + js + rest
+    out = out[:8] + struct.pack('<I', len(out)) + out[12:]; open(path, 'wb').write(out); print('instanced nodes renamed', k)
+
+
+fix_instanced_names(OUT); info['bytes'] = os.path.getsize(OUT); info['out'] = os.path.relpath(OUT, REPO)
+per_tris, per_mats = {0: 0, 1: 0}, {0: set(), 1: set()}
+for ob in root.children_recursive:
+    if ob.type != 'MESH': continue
+    m_ = re.search(r'(?:^|_)L([01])_', ob.name); lv = int(m_.group(1)) if m_ else 0
+    per_tris[lv] += sum(len(p.vertices) - 2 for p in ob.data.polygons); per_mats[lv] |= {m.name for m in ob.data.materials if m}
+info.update({'shop': 'xinsheng_sports', 'layout': 3, 'drawn_tris': sum(per_tris.values()), 'per_level_tris': per_tris, 'per_level_mats': {k: sorted(v) for k, v in per_mats.items()},
+             'per_level_mat_count': {k: len(v) for k, v in per_mats.items()},
+             'protos': {p.name: p.n for p in [BALL_B, BALL_V, BALL_T, FIXP, SPOTP] + BOTTLE + SHOE + BAGS + TROPHY + list(_GP.values())},
+             'materials': sorted({m.name for ob in root.children_recursive if ob.type == 'MESH' for m in ob.data.materials if m}), 'lights': LIGHTS})
 L.write_json(OUT[:-4] + '.json', info)
-print(json.dumps({'per_level_tris': per, 'per_level_mats': {k: sorted(v) for k, v in mats.items()}}, ensure_ascii=False))
+print('DRAWN', per_tris, {k: len(v) for k, v in per_mats.items()}, 'bytes', info['bytes'], 'shoes', ns1, ns2)

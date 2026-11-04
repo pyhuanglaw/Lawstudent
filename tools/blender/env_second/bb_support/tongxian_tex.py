@@ -392,15 +392,19 @@ tr = Image.new('RGBA', (VW, VH), (0, 0, 0, 0)); td = ImageDraw.Draw(tr)
 for tx_ in (60, 330, 600, 900):   # 路樹（樟樹／楓香）：粗樹幹、分枝、很多葉團（亮綠、逆光）
     td.polygon([(tx_ - 16, 500), (tx_ + 16, 500), (tx_ + 8, 240), (tx_ - 8, 240)], fill='#5a4a3a')
     for (dx, dy, wd) in ((-90, -150, 10), (100, -170, 10), (-40, -210, 7), (50, -230, 7)): td.line([(tx_, 300), (tx_ + dx, 300 + dy)], fill='#4e4032', width=wd)
-    for k in range(170):
-        a = rv.uniform(0, 2 * math.pi); rr = rv.uniform(0, 1) ** 0.55 * 210
-        x = tx_ + math.cos(a) * rr; y = 150 + math.sin(a) * rr * 0.6
-        s = rv.uniform(14, 34); c = [(58, 96, 40), (84, 126, 52), (118, 158, 66), (164, 190, 92), (48, 80, 34), (196, 212, 120)][k % 6]
-        td.ellipse([x - s, y - s * 0.8, x + s, y + s * 0.8], fill=c + (255,))
-im = Image.alpha_composite(im.convert('RGBA'), tr).convert('RGB').filter(ImageFilter.GaussianBlur(1.6)); d = ImageDraw.Draw(im)
-d.rectangle([118, 230, 126, 640], fill='#8a8e90')   # 路牌的桿子（前景，不模糊）＋藍底白字「新生南路 Xinsheng S. Rd.」（臺北市的路牌：公共標示，不是品牌）
-d.rounded_rectangle([40, 250, 210, 312], 6, fill='#1f4f9a', outline='#f2f2f2', width=3)
-d.text((125, 270), '新生南路', font=font(30), fill='#ffffff', anchor='mm'); d.text((125, 298), 'Xinsheng S. Rd.', font=font(15), fill='#ffffff', anchor='mm')
+    for k in range(900):   # 葉團：小的、很多；上面、右邊被太陽照亮（亮黃綠），下面、左邊暗
+        a = rv.uniform(0, 2 * math.pi); rr = rv.uniform(0, 1) ** 0.5 * 220
+        x = tx_ + math.cos(a) * rr; y = 160 + math.sin(a) * rr * 0.62
+        lit = np.clip(0.5 + 0.5 * (math.cos(a) * 0.4 - math.sin(a) * 0.8) * (rr / 220) + rv.uniform(-0.25, 0.25), 0, 1)
+        c0, c1 = np.array((40, 70, 30)), np.array((176, 204, 104)); c = tuple(int(v) for v in c0 + (c1 - c0) * lit)
+        s = rv.uniform(5, 15); td.ellipse([x - s, y - s * 0.75, x + s, y + s * 0.75], fill=c + (255,))
+    for k in range(60):   # 葉子中間透出來的天光
+        a = rv.uniform(0, 2 * math.pi); rr = rv.uniform(0.3, 1) * 200; x = tx_ + math.cos(a) * rr; y = 150 + math.sin(a) * rr * 0.6; s = rv.uniform(2, 6)
+        td.ellipse([x - s, y - s, x + s, y + s], fill=(236, 240, 226, 255))
+im = Image.alpha_composite(im.convert('RGBA'), tr).convert('RGB').filter(ImageFilter.GaussianBlur(0.9)); d = ImageDraw.Draw(im)
+d.rectangle([224, 200, 232, 640], fill='#8a8e90')   # 路牌的桿子（前景，不模糊）＋藍底白字「新生南路 Xinsheng S. Rd.」（臺北市的路牌：公共標示，不是品牌）；位置＝參考圖鏡頭從窗的左半看出去
+d.rounded_rectangle([180, 196, 340, 254], 6, fill='#1f4f9a', outline='#f2f2f2', width=3)
+d.text((260, 214), '新生南路', font=font(30), fill='#ffffff', anchor='mm'); d.text((260, 240), 'Xinsheng S. Rd.', font=font(15), fill='#ffffff', anchor='mm')
 pim('view', 1024, 0, im)
 
 # ---- 店名木牌（門片上掛的；0.3 × 0.44 m）：舊木板、刷白邊、毛筆感的「同弦樂器」＋吉他線稿（參考圖）
@@ -492,6 +496,7 @@ sl = grain(128, 256, '#efe3cc', '#d9c6a4', freq=5, along='u', wav=1.0, contrast=
 sl[:10] = hx('#6a4a30') * (0.85 + 0.15 * noise(10, 256, 2)[..., None]); sl[10:13] = hx('#c9b28c')
 pput('slat', 1600, 1536, sl)
 
+pcells['frosted'] = [0, 320, 256, 128]   # v4：壓花玻璃原本 256 高，下半被背帶那一排蓋掉（v1～v3 門上的玻璃有一半是背帶的花紋）
 Image.fromarray((pimg * 255).astype(np.uint8)).save(os.path.join(GEN, 'tongxian_props.png'))
 emit = np.zeros_like(pimg); x, y, w, h = pcells['view']; emit[y:y + h, x:x + w] = pimg[y:y + h, x:x + w] * 0.85
 Image.fromarray((emit * 255).astype(np.uint8)).save(os.path.join(GEN, 'tongxian_props_emit.png'))
