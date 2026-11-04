@@ -65,3 +65,10 @@
 - **導航**：用開發分支 b53bfab72 跑 `tests/cafe230_nobldg_nav_unit.js` ALL PASS；同一支改成檢查兩張「坐沙發椅」：S1 座面 0.53、S3 走近點站得住、走得到、S4 沒有小孤島，ALL PASS。
   - `tests/cafe230_aa657_unit.js` 的 A1、A3、A4 寫死 v2、3 個卡座座位、2 個 blocks，接 v3 時要改期望值。
 - **圖**：`model_renders/cafe230_v1c_refcam{.png,_cmp.jpg,_report.json}`、`cafe230_v1c_closeups.jpg`（參考鏡頭、唱片櫃、窗邊北、窗邊南、吧檯、天花板）。
+
+## v1d（2026-11-04 07:5x，BB 07:45 不擋的建議：吧檯層架酒瓶偏小、偏整齊）
+- 層架改成一群一群擠在一起（每群 3～5 件），群和群之間留空 0.32～0.65 m，偶爾一盆小植物。
+- 酒瓶三種瓶型（長頸、肩膀圓的、矮胖的），大小不同、前後錯開，一半有酒標；罐子和杯子改成低面數的自己畫，省下來的三角形拿去多擺幾件。
+- 垂下來的黃金葛每串少一兩條藤（三角形）。layout 不變（v3）。
+- **規格**：49,868 三角形、11 材質、2.98 MB；ref_match ALL PASS。
+- **圖**：`model_renders/cafe230_v1d_bar.jpg`（上＝吧檯全景、下＝層架近景）、`cafe230_v1d_refcam.png`。
