@@ -54,16 +54,15 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.19.1 熱修（2026-11-04；main e1603907e＋兩個修正；BB 11-04 02:11 GO）
+## v9.10.19（2026-11-03 20:53 UTC 合併 `039a9227a`，PR [pyhuanglaw/Lawstudent#25](https://github.com/pyhuanglaw/Lawstudent/pull/25)；快取字樣 `e1603907e`，PR [pyhuanglaw/Lawstudent#26](https://github.com/pyhuanglaw/Lawstudent/pull/26)；BB 11-03 20:5x GO；GitHub Pages run 41716647717、41716916666）
 
-**為什麼**：使用者 11-04 回報「跟別人講話或者約會就卡住」（USER_WANTS X204、BUG-TALK-STUCK-1104）——在總圖多媒體中心找芷若說話，對話停住、人不能動。CC 在使用者電腦用使用者存檔重現（線上 main 也卡），console「c.attended.every is not a function」：閒聊階梯芷若 Z-L3 的條件 attended:{course:'econ_principles_1',min:1}（上過經原幾次）被 EVENTS.cond 當成陣列。
-**內容（只有這些，開發分支其他東西都不帶）**：
-- `src/events3d.js`：EVENTS.cond 的 attended 物件＝課表出席次數（CLS.rec.attend）、字串＝一個活動 id、陣列照舊（開發分支 27929f2a8；tests/cond_attended_course_unit.js，ladder.js 711 個條件全掃不丟例外）。
-- `src/game3d.js`：和人說話走 GM.guardTalk——途中丟例外就把這一次開的段落收掉、ADV 關掉、記 GAME.lastTalkError（不吞）；同一個人還在講又按一次不開第二段（74c1ffb37；tests/talk_guard_unit.js）。
-- 版本字樣 v9.10.19.1（309 處 ?v=9.10.19.1、README）。
-**GO 依據（BB 02:11，PC＝Windows＋GPU、Playwright 有視窗，不是 iPhone 實機；測試樹 fd8d447d2）**：HOT_stuck（使用者存檔：芷若整段演完、可以約念書、人能動、lastTalkError 空，另 9 條路徑）、HOT_soc_zr（47 項）、HOT_soc_talk（以安、子晴、學姊、阿哲、Alison、柏翰、阿凱，FAIL 0）、HOT_deploy（v9.10.19.1、?v= 一致）、HOT_p0、HOT_smoke、HOT_v7 全部 ALL PASS；對照組 e1603907e 跑 STUCK 照樣 FAIL。
-**已知、不擋**：語彤只驗到 1 項（探針在校園找不到她的時段，之後補專測）；芷若完整組「當面約一趟」的探針問題重跑中。
-**回復目標**：v9.10.19 `e1603907e`。
+**候選＝基準**：開發分支 `55939fc71`（中間候選 15e78dff7 → 033242ae9 → b267b0534 → ddda3d829 → 9e0684663 → 55939fc71；GO 以後的總圖導覽樓梯兩個 commit 5d40d6427、630e8cff3 發布前 revert、發布後 revert 回來＝下一版）。**PR #25 漏改** index.html 309 處 `?v=9.10.18`（只改了標題字樣）：PR #26 補 `?v=9.10.19`＋README 版本一行，遊戲檔案與 #25 相同。
+**GO 依據（BB 20:5x）**：PC（Windows＋GPU，Playwright 有視窗，不是 iPhone 實機）deploy6 ALL PASS（v9.10.19）、p0f、tour_tap8（合照真的演了）、tour_later（「晚一點（16:23 再提醒）」有再問、出發後合照演了）；tap8c（修正前對照）照預期 FAIL。GHA Node 全套 run 41711565207 success。發布前清單（v7、zone、mini、touch2、class、reach、libfl、libsc）與這一版各修正的流程沿用 15e78dff7 的結果。
+**使用者要的、這一版玩得到**：店裡有客人（X187）、店裡遇到朋友／認識新的人（X188）、一鍵回宿舍睡覺／下一堂課／下一個約會地點（X189）、手機最愛置頂（X190）、讀書手上拿書（X185）、橘貓貼地會走會蹭（X186）、書桌小物第二版＋選了轉鏡頭（X191，ART_APPROVED）、教室地上的袋子拿掉、研究小間大一免預約（X193）、總圖前地磚接縫（ART_APPROVED）。
+**修正**：BUG-ADV-NOPORTRAIT-DIM-1103（沒有立繪的人說話台上變暗、不擠掉台上的人）、BUG-SWING-FRONT-1103、總圖第四版漏接的窗外圖兩張、BUG-TOUR-PHOTO-MISSED-1103／-NOEV-1103（導覽中間的合照不記錯過、導覽結束後跳出發、到了會演）、BUG-OUT-LATER-MISS-1103（「晚一點」再問不晚過最晚能出發的時候）、alison_unit 4（店內偶遇匯入工具讀稿 read_fix）。秀琴姨 VRM 只進 manifest，遊戲裡還沒出場。
+**已知、不擋**：BUG-GYM-SKIRT-1103（健身房穿長裙的路人拉筋時裙子穿進地板，v9.10.18 就有）、BUG-CARD-BOHAN-WALK-1103（柏翰卡片劇情自動走路卡 4 秒）、BUG-POPIN-WAIT-1103（Café→溫州街先看到方塊；教室黑畫面多等約 5.6 秒）、導覽在樓梯被判離開（BUG-TOUR-STAIRS-FAR-1103，下一版）、辛亥路彎道與總圖第五版 ART_APPROVED 但還沒接、書桌六法還是方塊（LAWWW2 已交下一版）、石磚以外的美術待 LAWWW2 修的照舊。
+**這一版沒有的（在做）**：語彤第三版（AA_624～643，子代理 worktree 49ca251f2，938 支 0 FAIL，下一版合）、約一起念書、茶屋十週年、秀琴姨第四版、蘇姨、茶屋座位、橘貓動畫、研究小間讀者第二版、新生南路街區（WIP）。D33 等 CG。
+**部署**：Pages run 41716647717（#25）、41716916666（#26）。**線上驗證 PASS**（BB 21:59 UTC，CC 在 PC 跑線上網址）：LIVE19_deploy ALL PASS、LIVE19_ver ALL PASS（?v= 全部 9.10.19）、LIVE19_day12 ALL PASS（新遊戲第一、二天主線）。
 
 ## v9.10.18（2026-11-03 12:09 UTC 合併 `e8b6a84dd`，PR [pyhuanglaw/Lawstudent#24](https://github.com/pyhuanglaw/Lawstudent/pull/24)；BB 11-03 12:03 GO；GitHub Pages run 41633308118）
 

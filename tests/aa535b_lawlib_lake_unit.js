@@ -75,8 +75,8 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
     const en=[0,1].map(()=>DATE.lineFor(G,'heroine_01','enough',t)[0]), enW=[0,1].map(()=>DATE.lineFor(G,'heroine_01','enough',{day:win})[0]);
     check('1-3. 以安 enough：學期中兩句輪流（「明天早上有課」：AA_594 第 367 列，原本「明天早上有讀書會」——讀書會在週四晚上）；寒暑假只有另一句',en.some(x=>/明天早上有課/.test(x))&&enW.every(x=>!/明天早上有課/.test(x))&&![...en,...enW].some(x=>/讀書會/.test(x)),J([en,enW]));
     const yt=[0,1].map(()=>DATE.lineFor(G,'heroine_03','enough',t)[0]); const off=D('2026-02-16'); const ytOff=[0,1].map(()=>DATE.lineFor(G,'heroine_03','enough',{day:off})[0]);
-    const shopOff=!(PLACES.isOpen('noodle',18,off))||STORY.presence('heroine_03',Object.assign({},G,{day:off})).here===false;
-    check('1-3. 語彤 enough：麵店有開、她在臺北＝兩句輪流（「晚上我要幫阿姨」）；不然只有「走累了。回去吧。」',yt.some(x=>/幫阿姨/.test(x))&&(!shopOff||ytOff.every(x=>x==='走累了。回去吧。')),J([yt,ytOff,shopOff]));
+    const p0=STORY.presence('heroine_03',Object.assign({},G,{day:off})), shopOff=!(p0.here||p0.kind==='taipei');   /* AA_627 A-347、P-25：那一句改「晚上我要回去，秀琴姨煮了飯。」、條件改看她在不在臺北（不看麵店）*/
+    check('1-3. 語彤 enough：她在臺北＝兩句輪流（「晚上我要回去，秀琴姨煮了飯。」，AA_627 A-347）；不在臺北只有「走累了。回去吧。」',yt.some(x=>/秀琴姨煮了飯/.test(x))&&(!shopOff||ytOff.every(x=>x==='走累了。回去吧。')),J([yt,ytOff,shopOff]));
     check('1-3. leaveEarly、noPair（以安、語彤）',J(DATE.lineFor(G,'heroine_01','leaveEarly',t))===J(['……這樣就回去了？好。排好的，下次再用。'])&&J(DATE.lineFor(G,'heroine_03','noPair',t))===J(['我不用。……我幫你拍。']));
     check('1-3. date_lines.js（匯入工具產生）有的格子照舊用它（子晴的 depart）',J(DATE.lineFor(G,'heroine_04','depart',t))===J([DATE_LINES.lines.heroine_04.depart[0]]));
     const src=fs.readFileSync(path.join(ROOT,'src/date3d.js'),'utf8');

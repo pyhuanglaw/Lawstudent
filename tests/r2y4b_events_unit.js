@@ -130,7 +130,7 @@ const date=id=>H.date(id);
     fresh('2029-04-03',7.9,'dorm',{SPRING_Y4:'noodle'}); TEAM(); date('heroine_01'); OUT.plan(H.G,{id:'y4_spring',ev:'ev_spring_y4',day:D('2029-04-03'),h:8,place:'首都帝大校門口',title:'t',travelH:1/6}); await goOut('y4_spring',[1]);
     check('2-Y4-35 和以安交往中：睡前「明天早上空了一格。……你排。」；「第一次去燒臘店。」→「你點了招牌叉燒飯。大家都是。」', has('明天早上空了一格。……你排。')&&has('你點了招牌叉燒飯。大家都是。')); }
   { fresh('2029-03-25',20,'dorm'); TEAM(); H.FRIEND('heroine_03'); date('heroine_03'); at('2029-03-25',20.5); phone(); H.picks=['留在宿舍']; await S.springPrompt(GM); at('2029-04-03',21.6); phone(); PHONE.tick(H.G);
-    check('2-Y4-35 和語彤交往中：4/3 傍晚「看到群組了。……店裡今天很空。」；留在宿舍＝21:30 火車站的照片', th('p:heroine_03').includes('看到群組了。……店裡今天很空。')&&H.G.flags.SPRING_Y4==='dorm'&&th('g:noodle_team').includes('📷（火車站的月台。他們改搭火車。）')); }
+    check('2-Y4-35 和語彤交往中：4/3 傍晚「看到群組了。……茶屋今天很空。」（同 AA_627 A-389）；留在宿舍＝21:30 火車站的照片', th('p:heroine_03').includes('看到群組了。……茶屋今天很空。')&&H.G.flags.SPRING_Y4==='dorm'&&th('g:noodle_team').includes('📷（火車站的月台。他們改搭火車。）')); }
   { fresh('2029-04-03',7.6,'dorm',{KX_TRIP:{Y1S2:'stars',Y2S2:'sea'}}); date('kexin'); OUT.plan(H.G,{id:'y4_spring_kx',ev:'ev_kexin_trip_spring_y4',day:D('2029-04-03'),h:7+40/60,place:'木柵大學校門口',title:'t',travelH:40/60});
     await goOut('y4_spring_kx',['山上看星星']);
     check('2-Y4-35 和可昕開車（照 1C-01）：沒去過的才列、「山上看星星」一定在（AA_336 C7）；去過星星＝「今天看得到。……上次那顆，真的是星星。」；記 KX_TRIP.Y4S2；沒有假設題', JSON.stringify(H.opts[0])===JSON.stringify(['別的城市的老街','山上看星星'])&&has('今天看得到。……上次那顆，真的是星星。')&&H.G.flags.KX_TRIP.Y4S2==='stars');
@@ -156,16 +156,16 @@ const date=id=>H.date(id);
   { fresh('2029-04-12',20,'dorm'); H.FAMILIAR('classmate_peishan'); contact('classmate_peishan'); at('2029-04-12',21); phone();
     check('P3 沒重新聯絡上：沒有這一件', !th('p:classmate_peishan').length); }
   /* ===== 2-Y4-37 語彤 16b 阿姨的照片 ===== */
-  const PH='（照片：阿姨在日本一座寺廟前比 YA，背後是跟團的旗子）';
+  /* AA_625 第 16b 節（YT-REWRITE-1103；AA_627 AA 決定第 3 點）：秀琴姨請一週假去台中看孫子——18:00 一張照片、沒有字；隔五分鐘「她說台中太熱了。」「她說下禮拜回來，叫我不要一直吃泡麵。」；沒有選項、沒有群組版 */
+  const PH='（照片：秀琴姨在台中的公園抱著一個小孩，背後是兒子一家）', AFTER=['她說台中太熱了。','她說下禮拜回來，叫我不要一直吃泡麵。'];
   { fresh('2029-04-19',17,'dorm'); H.FAMILIAR('heroine_03'); contact('heroine_03'); grp(); at('2029-04-19',18); phone();
-    const m=(H.G.msgs||[]).find(x=>x.th==='p:heroine_03'&&x.text===PH);
-    check('A1 朋友：4/19 18:00 一張照片、沒有字；三選一', JSON.stringify(th('p:heroine_03'))===JSON.stringify([PH])&&!!m&&m.ask&&m.ask.opts.length===3);
-    answer('y4_yt_aunt',1);
-    check('2-Y4-37（回一張麵的照片）→ 你傳的是照片「📷（別家的乾麵，旁邊一顆滷蛋）」（AA_345 G5），接她「你在吃別家的麵？我要跟阿姨講。」；YT_AUNT_PHOTO', (()=>{ const T=th('p:heroine_03'), i=T.indexOf('📷（別家的乾麵，旁邊一顆滷蛋）'); return i>0&&T[i+1]==='你在吃別家的麵？我要跟阿姨講。'; })()&&H.G.flags.YT_AUNT_PHOTO==='noodle', JSON.stringify(th('p:heroine_03')));
+    const m=(H.G.msgs||[]).find(x=>x.th==='p:heroine_03'&&x.text===PH), t0=JSON.stringify(th('p:heroine_03')); at('2029-04-19',18.1); phone();
+    check('A1 朋友：4/19 18:00 一張照片、沒有字、沒有選項；18:05 兩句（AA_625 第 16b 節）', t0===JSON.stringify([PH])&&!!m&&!m.ask&&JSON.stringify(th('p:heroine_03'))===JSON.stringify([PH].concat(AFTER)), JSON.stringify(th('p:heroine_03')));
+    check('2-Y4-37 沒有「回一張麵的照片」那些回覆（AA_625 第 16b 節沒有選項）、不記 YT_AUNT_PHOTO', !th('p:heroine_03').some(t=>/別家的乾麵|阿姨講/.test(t))&&H.G.flags.YT_AUNT_PHOTO==null);
     at('2029-04-20',12); H.said=[]; const r=await NOODLE_CLOSED.door(GM);
-    check('A2 4/20 去麵店：門口「出國，休息七天。——阿鳳」（AA_519 第 1 節、8-4；不再寫「老闆出國」）、進不去（4/26 照常開）', r===true&&H.said.some(s=>s.t==='（麵店門口貼著一張紙：「出國，休息七天。——阿鳳」）')&&!H.said.some(s=>/老闆/.test(s.t))&&(at('2029-04-26',12),!(await NOODLE_CLOSED.door(GM))), JSON.stringify(H.said.map(s=>s.t))); }
+    check('A2 4/20 去燒臘店：門口「（燒臘店門口貼著一張紙：「出國，休息七天。」）」（AA_642 第 6 節：照樣公休七天、拿掉「阿鳳」的署名）、進不去（4/26 照常開）', r===true&&H.said.some(s=>s.t==='（燒臘店門口貼著一張紙：「出國，休息七天。」）')&&!H.said.some(s=>/老闆|阿鳳/.test(s.t))&&(at('2029-04-26',12),!(await NOODLE_CLOSED.door(GM))), JSON.stringify(H.said.map(s=>s.t))); }
   { fresh('2029-04-19',17,'dorm'); H.FAMILIAR('heroine_03'); contact('heroine_03'); grp(); date('kexin'); ROM.learn(H.G,'heroine_03','kexin','test'); at('2029-04-19',18); phone();
-    check('2-Y4-37 她知道祐廷和別人交往：照片發在麵店團群組，多「阿姨第一次出國」「店休一個禮拜」', JSON.stringify(th('g:noodle_team').slice(-3))===JSON.stringify([PH,'阿姨第一次出國','店休一個禮拜'])&&!th('p:heroine_03').length); }
+    check('2-Y4-37 她知道祐廷和別人交往：一樣是私訊（AA_625 第 16b 節沒有群組版）', JSON.stringify(th('p:heroine_03').slice(0,1))===JSON.stringify([PH])&&!th('g:noodle_team').some(t=>t===PH||/阿姨第一次出國/.test(t))); }
   /* ===== 2-Y4-38 可昕：生日「今年不要慶祝」===== */
   { fresh('2029-04-23',20,'dorm',{KX_STUDY_PLAN:true}); date('kexin'); at('2029-04-23',21); phone();
     check('2-Y4-38 4/23 21:00「明天我生日。今年不要慶祝，我們都在準備考試。」（回「好。」）', th('p:kexin').includes('明天我生日。今年不要慶祝，我們都在準備考試。')&&(answer('y4_kx_bday',0),th('p:kexin').includes('好。')));
@@ -404,7 +404,7 @@ const date=id=>H.date(id);
     check('U3 以安（法律系館B 研討室外的走廊）：「……多久了？」＋旁白「（你回答以後，她點了一下頭，沒有再問。）」「我要想一下。這個禮拜先不要約。」（AA_350 R0b；AA_482 第 4 節：當場不決定）→ 還在交往（不退回朋友）、記成祐廷先坦白（YT_CONFESSED、她知道子晴；冷靜期在 MREL，這支測試沒有載）；不是前任', has('……多久了？')&&has('（你回答以後，她點了一下頭，沒有再問。）')&&!has('……謝謝你說實話。')&&has('我要想一下。這個禮拜先不要約。')&&!has('我們先當朋友。')&&caps.includes('法律系館B 研討室外的走廊')&&H.G.flags.dating_heroine_01===true&&R1.status==='dating'&&H.G.flags.YT_CONFESSED.heroine_01.heroine_04===H.G.day&&ROM.knowsOf(H.G,'heroine_01','heroine_04')&&!H.G.flags.EX_heroine_01);
     at('2029-05-23',21); H.said=[]; await H.run('r2y4b_tell29_1');
     check('U3 子晴：「……你是來跟我說，你還有別人。」「……我還以為你要問社課的事。」「我要想一下啦。想完我會找你。」（AA_350 R0b；AA_482 第 4 節）；沒有「存檔」；還在交往', has('……你是來跟我說，你還有別人。')&&has('……我還以為你要問社課的事。')&&!has('謝謝你自己來講。')&&has('我要想一下啦。想完我會找你。')&&!H.said.some(s=>/存檔/.test(s.t))&&H.G.flags.dating_heroine_04===true);
-    { const T=S.TELL, str=x=>JSON.stringify(x); check('U3 AA_350 R0b：七位都沒有「謝謝你（自己）說／講」；語彤「蒜頭剝完了。」、芷若「……嗯。」、學姊「口試前一週。」（2030 換「……你特地在樓下等我，就是要講這個。」、口試那兩句一起換掉）、沛珊「……所以你現在是兩邊都要？」（AA_483 第 2-3 節）、可昕「……我要想。」（AA_482 第 4 節）', Object.values(T).every(c=>!c.lines.some(x=>typeof x==='string'&&/謝謝你(自己)?(來)?(說|講)/.test(x))&&!/謝謝你自己/.test(c.first30||''))&&T.heroine_03.lines.includes('蒜頭剝完了。')&&T.heroine_02.lines[0]==='……嗯。'&&T.heroine_05.lines[0]==='口試前一週。'&&T.heroine_05.first30==='……你特地在樓下等我，就是要講這個。'&&T.heroine_05.first30n===2&&T.classmate_peishan.lines[1]==='……所以你現在是兩邊都要？'&&T.kexin.lines.includes('……我要想。'), str(T.heroine_05)); }
+    { const T=S.TELL, str=x=>JSON.stringify(x); check('U3 AA_350 R0b：七位都沒有「謝謝你（自己）說／講」；語彤「杯子洗完了。」（AA_627 A-357）、芷若「……嗯。」、學姊「口試前一週。」（2030 換「……你特地在樓下等我，就是要講這個。」、口試那兩句一起換掉）、沛珊「……所以你現在是兩邊都要？」（AA_483 第 2-3 節）、可昕「……我要想。」（AA_482 第 4 節）', Object.values(T).every(c=>!c.lines.some(x=>typeof x==='string'&&/謝謝你(自己)?(來)?(說|講)/.test(x))&&!/謝謝你自己/.test(c.first30||''))&&T.heroine_03.lines.includes('杯子洗完了。')&&/茶屋/.test(T.heroine_03.loc)&&T.heroine_02.lines[0]==='……嗯。'&&T.heroine_05.lines[0]==='口試前一週。'&&T.heroine_05.first30==='……你特地在樓下等我，就是要講這個。'&&T.heroine_05.first30n===2&&T.classmate_peishan.lines[1]==='……所以你現在是兩邊都要？'&&T.kexin.lines.includes('……我要想。'), str(T.heroine_05)); }
     const T=S.TELL; check('U3 C 表：學姊沒有「一件事」、可昕沒有「假設」、可昕的火氣是旁白「（她把筷子放下。）」；學姊重新開始 3 週', !T.heroine_05.lines.some(x=>typeof x==='string'&&/一件事/.test(x))&&!T.kexin.lines.some(x=>typeof x==='string'&&/假設/.test(x))&&T.kexin.lines.some(x=>x&&x.narr==='（她把筷子放下。）')&&(()=>{ fresh('2029-05-29',21,'dorm'); date('heroine_05'); S.toFriend(H.G,'heroine_05'); return ROM.get(H.G,'heroine_05').restartDay===H.G.day+21; })()); }
   { fresh('2029-05-21',22,'dorm'); H.FRIEND('heroine_01'); H.FRIEND('heroine_04'); date('heroine_01'); date('heroine_04'); H.picks=[1,0]; await H.run('r2y4b_multi_pre');
     const q=OUT.get(H.G,'apart29_heroine_04_0');   /* AA_346：選的當下不分開，隔天起一位一場分開的談話，談完才分開（細節在 tests/aa346_apart_unit.js）*/
@@ -481,20 +481,21 @@ const date=id=>H.date(id);
   /* ===== 2-Y4-58 律師讀書小組 ===== */
   { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'},'TW'); date('kexin'); H.FRIEND('heroine_03'); ROM.learn(H.G,'heroine_03','kexin','test'); at('2029-02-23',8); phone();
     const q=OUT.get(H.G,'y4_bar_group_start');
-    check('BG1 台灣路線、選國考、和可昕交往、和語彤 FRIEND、兩人都知道：2/23 21:30 三個人（公館燒臘打烊以後）；BAR_STUDY_GROUP [kexin, yutong]', H.G.flags.BAR_GROUP_KIND==='three'&&JSON.stringify(H.G.flags.BAR_STUDY_GROUP)==='["kexin","yutong"]'&&!!q&&q.h===21.5&&/公館燒臘/.test(q.place));
+    check('BG1 台灣路線、選國考、和可昕交往、和語彤 FRIEND、兩人都知道：2/23 21:30 三個人（大口漢堡二樓，AA_630 Z-048、AA_642 第 6 節）；BAR_STUDY_GROUP [kexin, yutong]', H.G.flags.BAR_GROUP_KIND==='three'&&JSON.stringify(H.G.flags.BAR_STUDY_GROUP)==='["kexin","yutong"]'&&!!q&&q.h===21.5&&/大口漢堡/.test(q.place));
     at('2029-02-23',21.2); await goOut('y4_bar_group_start');
-    check('BG1 成立：長桌上可昕寫的表；「每週一、三、五晚上，週六整天。……有意見現在說。」；語彤「週二我在店裡。…」；「……好。那表上多一格。」', has('（開學第一個週五晚上，燒臘店打烊以後。長桌上多了一張手寫的表，可昕寫的。）')&&has('每週一、三、五晚上，週六整天。……有意見現在說。')&&has('週二我在店裡。你們在這裡讀，我順便考你們。')&&has('……好。那表上多一格。'));
-    at('2029-02-26',21.5); H.G.zone='noodle'; const due=EVENTS.check(ev('ev_bar_group_night')); await run('ev_bar_group_night');
-    check('2-Y4-58 作息：週一 21:00～23:00 走到麵店就是讀書，一晚一句（可昕「刑總那題，你先講結論，再講理由。講完我再問。」）；BAR_GROUP_N', due&&H.said.length===1&&has('刑總那題，你先講結論，再講理由。講完我再問。')&&H.G.flags.BAR_GROUP_N===1&&!EVENTS.check(ev('ev_bar_group_night')));
-    at('2029-02-27',21.5); const tue=!EVENTS.check(ev('ev_bar_group_night')); at('2029-02-28',21.5); const hol=!EVENTS.check(ev('ev_bar_group_night')); at('2029-03-02',21.5); await run('ev_bar_group_night');
+    check('BG1 成立：大口漢堡二樓的長桌上可昕寫的表（AA_630 Z-049）；「每週一、三、五晚上，週六整天。……有意見現在說。」；語彤「週末我在茶屋。…」（AA_627 A-272）；「……好。那表上多一格。」', has('（開學第一個週五晚上，大口漢堡二樓。長桌上多了一張手寫的表，可昕寫的。）')&&has('每週一、三、五晚上，週六整天。……有意見現在說。')&&has('週末我在茶屋。你們平常在這裡讀，我順便考你們。')&&has('……好。那表上多一格。'));
+    /* AA_642 第 6 節：平日晚上的讀書在大口漢堡二樓＝2D 出遊 ev_bar_group_out（一次排下一場）；燒臘店 3D 不再觸發 */
+    at('2029-02-25',20); phone(); const qo=OUT.get(H.G,'y4_bar_out_'+D('2029-02-26')); at('2029-02-26',21.5); H.G.zone='noodle'; const due=!!qo&&qo.ev==='ev_bar_group_out'&&qo.h===21&&/大口漢堡/.test(qo.place)&&!EVENTS.check(ev('ev_bar_group_night')); await run('ev_bar_group_out');
+    check('2-Y4-58 作息：週一 21:00～23:00 大口漢堡二樓（2D 出遊）讀書，一晚一句（可昕「刑總那題，你先講結論，再講理由。講完我再問。」）；BAR_GROUP_N', due&&H.said.length===1&&has('刑總那題，你先講結論，再講理由。講完我再問。')&&H.G.flags.BAR_GROUP_N===1,JSON.stringify(qo));
+    const tue=!S.session(H.G,D('2029-02-27')), hol=!S.session(H.G,D('2029-02-28')); at('2029-03-02',21.5); await run('ev_bar_group_out');
     const TX=['ev_bar_group_night','ev_bar_group_video','ev_bar_group_start'].flatMap(id=>ev(id).dialogue.filter(l=>l.text).map(l=>l.text));
     check('2-Y4-58 週二不排（週四是國考讀書會）、國定假日不排（2/28）；下一次（週五）輪到語彤「押租金那個，你講給我聽。不要講條號。」；BG3 沒有條號、沒有假設題、沒有比誰對', tue&&hol&&has('押租金那個，你講給我聽。不要講條號。')&&H.G.flags.BAR_GROUP_N===2&&!TX.some(t=>/第\s*[0-9一二三四五六七八九十百]+\s*條|假設|你覺得我會錯/.test(t)));
     at('2029-06-21',12); phone(); const q3=OUT.get(H.G,'y4_bar_three'); at('2029-06-23',18.8); await goOut('y4_bar_three');
-    check('BG1 6/23 19:00 三個人的長桌：「（長桌上攤著三疊考古題。語彤在收碗，可昕在算時間。）」「還有四十二天。」「先吃，麵要糊了。」', !!q3&&q3.h===19&&has('（長桌上攤著三疊考古題。語彤在收碗，可昕在算時間。）')&&has('還有四十二天。')&&has('先吃，麵要糊了。')); }
+    check('BG1 6/23 19:00 三個人的長桌（大口漢堡二樓）：「（長桌上攤著三疊考古題。語彤把桌上的空杯子疊起來，拿去回收。可昕在算時間。）」（AA_642 第 6 節：收碗→收杯子）「還有四十二天。」「先吃，湯要涼了。」', !!q3&&q3.h===19&&/大口漢堡/.test(q3.place)&&has('（長桌上攤著三疊考古題。語彤把桌上的空杯子疊起來，拿去回收。可昕在算時間。）')&&has('還有四十二天。')&&has('先吃，湯要涼了。')); }
   { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'},'TW'); H.FRIEND('heroine_03'); at('2029-02-23',8); phone(); at('2029-02-23',21.2); await goOut('y4_bar_group_start');
-    check('BG2 只有語彤：「我今年不考。……可是你考的那幾科，我也要修。」「所以你讀的時候，我也在旁邊讀我的。」', H.G.flags.BAR_GROUP_KIND==='yutong'&&has('我今年不考。……可是你考的那幾科，我也要修。')&&has('所以你讀的時候，我也在旁邊讀我的。'));
-    at('2029-02-26',21.5); H.G.zone='noodle'; await run('ev_bar_group_night');
-    check('2-Y4-58 只有語彤的第一次：「（十點，麵店拉下一半的鐵門。…）」「我今年不考。……可是我可以考你。」「買賣不破租賃那一條。你講給我聽，講到我聽得懂。」', has('（十點，麵店拉下一半的鐵門。語彤把兩碗麵推到長桌另一頭，她自己那一份不在桌上。）')&&has('我今年不考。……可是我可以考你。')&&has('買賣不破租賃那一條。你講給我聽，講到我聽得懂。'));
+    check('BG2 只有語彤：「我今年也考。……你考的那幾科，我也要考。」（AA_642 第 4 節）「所以你讀的時候，我也在旁邊讀我的。」', H.G.flags.BAR_GROUP_KIND==='yutong'&&has('我今年也考。……你考的那幾科，我也要考。')&&has('所以你讀的時候，我也在旁邊讀我的。'));
+    at('2029-02-26',21.5); await run('ev_bar_group_out');
+    check('2-Y4-58 只有語彤的第一次（大口漢堡二樓）：「（十點，語彤買了三杯熱可可上來…）」「我們一起考。……我先考你。」（AA_642 第 4 節）「買賣不破租賃那一條。你講給我聽，講到我聽得懂。」', has('（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）')&&has('我們一起考。……我先考你。')&&has('買賣不破租賃那一條。你講給我聽，講到我聽得懂。'));
     at('2029-03-03',11); H.G.zone='library_hall'; check('2-Y4-58 只有語彤：週六在總圖', EVENTS.check(ev('ev_bar_group_night'))&&S.session(H.G,H.G.day).mode==='library');
     at('2029-06-23',18); phone(); check('2-Y4-58 只有一個人的玩家：沒有 6/23 那一場', !OUT.get(H.G,'y4_bar_three')); }
   { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar',KX_VDAY:{4:'video'}},'TW'); date('kexin'); at('2029-02-23',8); phone(); const q=OUT.get(H.G,'y4_bar_group_start'); at('2029-02-23',21.4); await goOut('y4_bar_group_start');
@@ -504,16 +505,16 @@ const date=id=>H.date(id);
     fresh('2029-02-23',21.4,'dorm',{Y4_PATH:'bar',BAR_GROUP_KIND:'kexin',BAR_STUDY_GROUP:['kexin'],BAR_GROUP_START:'kexin'},'TW'); date('kexin'); OUT.plan(H.G,{id:'y4_bar_group_start',ev:'ev_bar_group_start',day:D('2029-02-23'),h:21.5,place:'視訊',title:'t',travelH:0}); await goOut('y4_bar_group_start');
     check('2-Y4-58 沒有 2/14 那張表：第一句換成「我排了一張表，到八月，一天三科。」', has('我排了一張表，到八月，一天三科。')&&!has('情人節那張表，我把八月以前都排完了。')); }
   /* AA_345 G6 58：兩個人互不知情、分開讀：成立那晚走可昕的視訊；語彤「只有語彤的第一次」放在她的第一個週五晚上 3/2 21:00，週六白天（總圖）不演 */
-  { const FIRST='（十點，麵店拉下一半的鐵門。語彤把兩碗麵推到長桌另一頭，她自己那一份不在桌上。）';
+  { const FIRST='（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）';
     fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'},'TW'); date('kexin'); H.FRIEND('heroine_03'); at('2029-02-23',8); phone(); const q=OUT.get(H.G,'y4_bar_group_start');
     check('G6-58 分開讀（兩人互不知情）：成立那晚是可昕的視訊', H.G.flags.BAR_GROUP_KIND==='split'&&!!q&&q.place==='視訊');
-    at('2029-03-02',21.5); H.G.zone='noodle'; const due=EVENTS.check(ev('ev_bar_group_night')); await run('ev_bar_group_night');
-    check('G6-58 3/2（五）21:00 麵店：語彤「只有語彤的第一次」那三句', due&&H.said[0]&&H.said[0].t===FIRST&&has('我今年不考。……可是我可以考你。')&&has('買賣不破租賃那一條。你講給我聽，講到我聽得懂。')&&H.G.flags.BAR_GROUP_YT_FIRST===D('2029-03-02'), JSON.stringify(H.said.map(s=>s.t)));
+    at('2029-03-02',21.5); const ss=S.session(H.G,H.G.day), due=!!ss&&ss.mode==='noodle'&&ss.who==='yutong'&&!EVENTS.check(ev('ev_bar_group_night')); await run('ev_bar_group_out');   /* 那一晚是大口漢堡的 2D 出遊（排程在上面 2/26 那一段看過）*/
+    check('G6-58 3/2（五）21:00 大口漢堡二樓（2D，AA_642 第 6 節）：語彤「只有語彤的第一次」那三句', due&&H.said[0]&&H.said[0].t===FIRST&&has('我們一起考。……我先考你。')&&has('買賣不破租賃那一條。你講給我聽，講到我聽得懂。')&&H.G.flags.BAR_GROUP_YT_FIRST===D('2029-03-02'), JSON.stringify(H.said.map(s=>s.t)));
     fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'},'TW'); date('kexin'); H.FRIEND('heroine_03'); at('2029-02-23',8); phone();
     at('2029-03-03',11); H.G.zone='library_hall'; const due2=EVENTS.check(ev('ev_bar_group_night')); await run('ev_bar_group_night');
-    check('G6-58 3/2 沒去、3/3（六）白天在總圖：不演「第一次」那一段（換一般的那一句），第一次留著', due2&&!has(FIRST)&&!has('我今年不考。……可是我可以考你。')&&has('押租金那個，你講給我聽。不要講條號。')&&!H.G.flags.BAR_GROUP_YT_FIRST, JSON.stringify(H.said.map(s=>s.t)));
+    check('G6-58 3/2 沒去、3/3（六）白天在總圖：不演「第一次」那一段（換一般的那一句），第一次留著', due2&&!has(FIRST)&&!has('我們一起考。……我先考你。')&&has('押租金那個，你講給我聽。不要講條號。')&&!H.G.flags.BAR_GROUP_YT_FIRST, JSON.stringify(H.said.map(s=>s.t)));
     fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'},'TW'); H.FRIEND('heroine_03'); at('2029-02-23',8); phone(); at('2029-03-03',11); H.G.zone='library_hall'; await run('ev_bar_group_night');
-    check('G6-58／AA_350 N1 只有語彤、第一次去就是週六白天的總圖：演白天版（第一句旁白換成「（星期六下午，總圖的長桌。……）」，後兩句一樣），記 BAR_GROUP_YT_FIRST', H.G.flags.BAR_GROUP_KIND==='yutong'&&!has(FIRST)&&has('（星期六下午，總圖的長桌。語彤把自己的書收進包包，桌上只剩你的。）')&&has('我今年不考。……可是我可以考你。')&&has('買賣不破租賃那一條。你講給我聽，講到我聽得懂。')&&!!H.G.flags.BAR_GROUP_YT_FIRST, JSON.stringify(H.said.map(s=>s.t))); }
+    check('G6-58／AA_350 N1 只有語彤、第一次去就是週六白天的總圖：演白天版（第一句旁白換成「（星期六下午，總圖的長桌。……）」，後兩句一樣），記 BAR_GROUP_YT_FIRST', H.G.flags.BAR_GROUP_KIND==='yutong'&&!has(FIRST)&&has('（星期六下午，總圖的長桌。語彤把自己的書收進包包，桌上只剩你的。）')&&has('我們一起考。……我先考你。')&&has('買賣不破租賃那一條。你講給我聽，講到我聽得懂。')&&!!H.G.flags.BAR_GROUP_YT_FIRST, JSON.stringify(H.said.map(s=>s.t))); }
   { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'},'JP'); date('kexin'); H.FRIEND('heroine_03'); at('2029-02-23',8); phone();
     check('2-Y4-58 日本、美國路線：2029 不考，沒有這一件', !OUT.get(H.G,'y4_bar_group_start')&&!H.G.flags.BAR_STUDY_GROUP); }
   /* ===== 2-Y4-59 可昕 K27 ===== */

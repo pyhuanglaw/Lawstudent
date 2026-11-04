@@ -22,7 +22,7 @@ SIGNS = {
     'banshu_h': ('banshu', 'h', T, False),
     'laundry_h': ('laundry', 'h', 6.0, True),
     'lin_noodle_h': ('lin_noodle', 'h', T, True), 'lin_noodle_v': ('lin_noodle', 'v', None, True),
-    'riri_mart_h': ('riri_mart', 'h', 5.9, True),          # 原本就 5.9:1，不拉（24H 在最右邊，拉了會變形）
+    'riri_mart_h': ('hiyori_mart_fit', 'full_h', None, True),   # 11-04 改名日和便利店（AA_647 §6：和公館 G03 同一家連鎖）：公館參考圖 gongguan_cvs_ext 的招牌拉正（1300×226，5.75:1），整張用；舊的「日日便利」riri_mart.webp 留著不用
     'summer_ice_h': ('summer_ice', 'h', T5, False), 'summer_ice_v': ('summer_ice', 'v', None, False),
     'xiangkou_books_h': ('xiangkou_books', 'h', T, False), 'xiangkou_books_v': ('xiangkou_books', 'v', None, False),
     'xiangkou_tea_h': ('xiangkou_tea', 'h', T5, True),
@@ -31,7 +31,7 @@ SIGNS = {
     'yizhan_lantern': ('yizhan_lantern', 'lantern', None, True), 'yizhan_plaque': ('yizhan_lantern', 'plaque', None, False),
 }
 # 公館（--set gongguan → gg_signs_atlas.*）：BB-B 補好比例的 _fit 版（6.50×0.64 m 橫、0.74×2.60 m 直），整張用、不切不拉（BB-B 00:08 通過 S1～S4，00:1x、00:2x 再通過兩家）
-GG = {'riri_mart_h': ('riri_mart', 'h', 5.9, True),
+GG = {'riri_mart_h': ('hiyori_mart_fit', 'full_h', None, True),   # 11-04 日和便利店
       'gg_laundry_h': ('laundry', 'h', 10.16, True)}   # 自助洗衣沿用溫州街那張（BB-B：同一家連鎖），延長底板到公館的 10.16:1
 for _n, _lit in (('afeng', False), ('jiulu', False), ('yaoju', True), ('lunzhuan', False), ('yingyin', True), ('ririteishoku', False)):
     GG[f'gg_{_n}_h'] = (f'gg_{_n}_h_fit', 'full_h', None, _lit); GG[f'gg_{_n}_v'] = (f'gg_{_n}_v_fit', 'full_v', None, _lit)

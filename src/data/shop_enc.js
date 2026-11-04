@@ -143,7 +143,7 @@ const SHOP_ENC={
    "busy": "short",
    "join": "friend",
    "memo": "SHOP_BOOK_MX",
-   "away": "在舊路書房",
+   "away": "在頁間書屋",
    "lines": {
     "acq": [
      "欸，{name}。",
@@ -176,7 +176,7 @@ const SHOP_ENC={
    "busy": "no",
    "join": false,
    "memo": "SHOP_CVS_KAI",
-   "away": "在日日便利",
+   "away": "在日和便利店",
    "lines": {
     "all": [
      "……室友。你也餓喔。",
@@ -209,7 +209,7 @@ const SHOP_ENC={
    "busy": "short",
    "join": false,
    "memo": "SHOP_CVS_ZQ",
-   "away": "在日日便利",
+   "away": "在日和便利店",
    "lines": {
     "acq": [
      "欸。……你這麼晚還沒睡。",
@@ -814,7 +814,7 @@ const SHOP_ENC={
  },
  "aa641": {
   "znMsgs": [
-   "舊路書房進了一箱法律系的舊書。有一本民總，筆記比內文還多。",
+   "頁間書屋進了一箱法律系的舊書。有一本民總，筆記比內文還多。",
    "今天買到一本詩集。前一個主人在最後一頁寫了日期：1998.4.2。",
    "我在一本舊的刑法書裡找到一張公車票。好想知道他那天去哪。",
    "看到一本藍色封面的《論法的精神》，很舊。要的話跟我說，我幫你留。",

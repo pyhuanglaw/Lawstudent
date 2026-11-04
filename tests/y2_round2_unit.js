@@ -407,14 +407,15 @@ const K=t=>'kexin:'+t;
   SOCIAL.remember('heroine_03','RENT_CONSULTATION',''); check('20. 有 RENT_CONSULTATION：三個「幫她」選項（麵店）',JSON.stringify(Y2R2.talkOpts(G,'heroine_03',GM).map(o=>o.t))===JSON.stringify(['要不要我問問看有沒有打工？','需要的話，我可以先借妳。','我找了一些資料。']));
   { const o=Y2R2.talkOpts(G,'heroine_03',GM)[2]; said=[]; await o.run(GM,{name:'陳語彤'});
     check('20. 選「我找了一些資料。」→「……嗯。我想一下。」；YT_HELP_OFFERED、HELP_OFFERED、ev_yt_help_offer；剩兩個',has('……嗯。我想一下。')&&G.flags.YT_HELP_OFFERED===true&&SOCIAL.has('heroine_03','HELP_OFFERED')&&!!G.events.done.ev_yt_help_offer&&Y2R2.talkOpts(G,'heroine_03',GM).length===2); }
-  to('2027-06-03',18); check('20. 6/3（四）18:00 麵店：事件 11 觸發；6/4 不觸發；6/3 20:00 不觸發',EVENTS.check(ev('ev_yt_help_dishes'))&&(()=>{ to('2027-06-04',18); const a=!EVENTS.check(ev('ev_yt_help_dishes')); to('2027-06-03',20); const b=!EVENTS.check(ev('ev_yt_help_dishes')); to('2027-06-03',18); return a&&b; })());
+  /* AA_643 第 7 節（YT-REWRITE-1103）：ev_yt_help_dishes（麵店洗碗）整條關掉，由 AA_625 第 11 節「想幫秀琴姨」取代（tests/aa625_yt_unit.js）；下面 H1～H3 直接演定義，只確定舊存檔照舊能演 */
+  to('2027-06-03',18); check('20. 6/3（四）18:00 麵店：事件 11 的麵店版關掉（retired、不觸發）',!!ev('ev_yt_help_dishes').retired&&!EVENTS.check(ev('ev_yt_help_dishes')));
   await play('ev_yt_help_dishes',['捲起袖子']);
   check('20. H1 門口兩句、洗碗、「……你洗得很爛。」「下次不用幫我。陪我吃麵就好。」；21:00 以後；APOLOGIZED',has('（她把你叫到門口。）')&&has('你不用這樣。')&&has('我不想當你的個案。')&&has('（時間快轉到打烊。你洗了兩個小時的碗。）')&&has('……你洗得很爛。')&&has('下次不用幫我。陪我吃麵就好。')&&G.hour>=21&&SOCIAL.has('heroine_03','APOLOGIZED')&&G.flags.YT_EV11==='dishes');
   check('20. 之後不再觸發（6/17 也沒有）',(()=>{ to('2027-06-17',18); return !EVENTS.check(ev('ev_yt_help_dishes')); })());
   { const e=NEEDED_MSGS.list.find(x=>x.id==='yt_dish'); check('20. 6/6 週訊息「阿姨說你上次洗的碗還有油。」要有 APOLOGIZED',!!e&&e.cond(G)===true&&(()=>{ fresh('2027-06-06',12,'dorm'); return e.cond(G)===false; })()); }
   fresh('2027-06-03',18,'noodle',{YT_HELP_OFFERED:true}); R('heroine_03','FAM'); date('heroine_03'); await play('ev_yt_help_dishes',['我先走']);
   check('20. H2 交往中：第二句「你是我男朋友。不用每件事都幫我想辦法。」；選「我先走」＝left',has('你是我男朋友。不用每件事都幫我想辦法。')&&!has('我不想當你的個案。')&&G.flags.YT_EV11==='left');
-  to('2027-06-17',18); check('20. 先走的：6/17 再一次',EVENTS.check(ev('ev_yt_help_dishes')));
+  to('2027-06-17',18); check('20. 先走的：6/17 也不觸發（關掉了）',!EVENTS.check(ev('ev_yt_help_dishes')));
   await play('ev_yt_help_dishes',['捲起袖子']); check('20. 6/17：不再問門口那兩句、直接兩選一',!has('你不用這樣。')&&JSON.stringify(opts[0])===JSON.stringify(['（捲起袖子，去後面洗碗）','（坐下來吃麵）'])&&G.flags.YT_EV11==='dishes');
 
   // 21. 2-Y2-23 經濟系之夜

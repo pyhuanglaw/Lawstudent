@@ -38,7 +38,7 @@ const AA187=(function(){
   const plgToday=G=>typeof ACTIVITIES!=='undefined'&&!!ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'public_law_group',G.day);
   /* 那天排了她的裂縫談話（cracktalk3d.js S.build 的 att：以安讀書會散會後 m:'plg'；語彤總圖三樓 m:'zone'）*/
   S.talkToday=function(G,id){ if(typeof CRACKTALK==='undefined'||!CRACKTALK.pr) return false; const r=CRACKTALK.pr(G,id), p=r&&r.plan, a=p&&p.att&&p.att[p.i]; return !!a&&a.day===G.day; };
-  const nar=t=>({speaker:null,text:t}), me=t=>({speaker:'player',text:t}), an=t=>({speaker:AN,text:t}), yt=t=>({speaker:YT,text:t}), aunt=t=>({speaker:'阿姨',text:t});
+  const nar=t=>({speaker:null,text:t}), me=t=>({speaker:'player',text:t}), an=t=>({speaker:AN,text:t}), yt=t=>({speaker:YT,text:t}), su=t=>({speaker:'蘇姨',text:t});
   const DM=(id,t)=>({th:'p:'+id,from:id,text:t});
   const sent=(G,tag)=>typeof PHONE!=='undefined'&&PHONE.sent(G,tag);
   const now=G=>G.day*24+(+G.hour||0);
@@ -99,21 +99,22 @@ const AA187=(function(){
 
   /* ===================== 2-3 打烊後的那一桌 ===================== */
   S.FD_DAY='2029-04-26';
-  S.FD_MSG=['今天打烊後留下來','阿姨說的 不是我說的'];
-  S.FD_MISS=['阿姨說下次','她多煮了一碗 我吃掉了'];
-  S.FD_EPI='（語彤的手機桌布，是麵店那張照片：三個人，一張桌子。）';
+  S.FD_MSG=['今天茶屋打烊後留下來','蘇姨說的 不是我說的'];
+  S.FD_MISS=['蘇姨說下次','她多煮了一碗 我吃掉了'];
+  S.FD_EPI='（語彤的手機桌布，是茶屋吧檯那張照片：三個人，一張桌子。）';
   S.fdOk=G=>law(G)&&G.day===D(S.FD_DAY)&&dating(G,YT)&&here(YT,G)&&!abroad(G);
-  S.EV_FD={id:'ev_yt_family_dinner',title:'打烊後的那一桌',participants:[YT],location:'noodle',trigger:'auto',once:true,time:[20.5,21],background:'blur',
+  S.EV_FD={id:'ev_yt_family_dinner',title:'打烊後的那一桌',participants:[YT],location:'wz_teahouse',trigger:'auto',once:true,time:[20.5,21],background:'blur',
     prereq:{custom:G=>S.fdOk(G)},
-    dialogue:[ nar('（鐵門拉下一半。桌上擺了三副碗筷。）'),
-      aunt('坐。今天你不是客人。'),
+    /* AA_630 Y-006（AA 定稿）：一盞茶屋打烊後的吧檯，第三個人＝蘇姨；「日本的寺廟」那一組拿掉 */
+    dialogue:[ nar('（茶屋門口的燈關了。吧檯上擺了三副碗筷。）'),
+      su('坐。今天你不是客人。'),
       nar('（語彤把自己那碗推過來一點，又推回去。）'),
-      aunt('她以前不讓同學進廚房的。'),
-      yt('……阿姨。'),
-      aunt('日本的寺廟，我幫你們兩個都拜了。'),
-      yt('（低頭吃麵）……我們沒有要你拜。'),
-      aunt('我拜我的。'),
-      nar('（回去的路上，她說今天的麵比較鹹。你說沒有。她說有。）'),
+      su('她在這裡快四年，第一次坐在吧檯這一邊。'),
+      yt('……蘇姨。'),
+      su('菜是我煮的，茶是她泡的。兩個都要說好吃。'),
+      yt('（低頭吃飯）……茶不用說。'),
+      su('我說的。'),
+      nar('（回去的路上，她說今天的茶泡得太濃。你說沒有。她說有。）'),
       {set:{YT_FAMILY_DINNER:true}} ]};
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined') return; const d=D(S.FD_DAY); if(d==null||G.day<d||G.day>d+1) return;
     if(G.day===d&&now(G)>=d*24+17&&dating(G,YT)&&here(YT,G)&&!abroad(G)&&!sent(G,'aa187_fd')) PHONE.at(G,d,17,S.FD_MSG.map(t=>DM(YT,t)),'aa187_fd');
@@ -136,6 +137,7 @@ const AA187=(function(){
     dialogue:[ {call:G=>{ S.seatPick(G); }}, ...rotLines(S.SEAT,'YT_SEAT4_CUR') ]};
 
   /* ===================== 掛勾 ===================== */
+  S.EV_UMB.retired=true;   /* AA_630 Y-007：整個 ev_yt_umbrella_hook 刪（新的雨天總圖沒有借傘、她也不在麵店；定義留給舊存檔）*/
   S.EVENTS=[S.EV_COUNTED,S.EV_WALK,S.EV_UMB,S.EV_FD,S.EV_SEAT];
   for(const e of S.EVENTS) if(!STORY_EVENTS.some(x=>x.id===e.id)){
     /* 坐下的事件（STORY.onSeat 挑清單裡第一個符合的）：排在總圖三樓隨機的「插座」（ev_library_outlet，random_weight 0.5）前面——劇情先演，同 EVENTS.onEnter 的「先劇情、再隨機」*/

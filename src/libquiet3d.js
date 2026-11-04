@@ -41,8 +41,9 @@ const LIBQ=(function(){
   S.loudBegin=()=>{ loudN++; }; S.loudEnd=()=>{ loudN=Math.max(0,loudN-1); };
   S.loud=async function(fn){ S.loudBegin(); try{ return await fn(); } finally { S.loudEnd(); } };
   S.reset=()=>{ loudN=0; };
+  S.isLoud=()=>loudN>0;   /* 木曜日（src/mokuyobi_sys3d.js）也照這個「這一段不加（小聲）」*/
   /* 字串版的 libOut（AA 2026-11-02 22:30 定稿 1-D10、Q16）*/
-  S.OUT_LINES=['閉館音樂響了，她才抬頭問你晚餐吃什麼。'];   /* Q16：rel_lines.js 以安約總圖（library）朋友以上的見面旁白；這句之後就要離開了 */
+  S.OUT_LINES=[];   /* AA_651 第 3 節：以安那句改成館內的「她讀到一半，把你的螢光筆拿去用……」，不再是走出館外的句子 */   /* Q16：rel_lines.js 以安約總圖（library）朋友以上的見面旁白；這句之後就要離開了 */
   const OUT_HEAD='（走出';
   S.isOut=function(text){ const t=String(text==null?'':text).trim(); return t.startsWith(OUT_HEAD)||S.OUT_LINES.includes(t); };
   /* 一段不是事件的台詞（INV.meet）：chk(這一句) 遇到走出館外的那一句起 loudBegin（只一次）；end() 在 finally 配對 */
@@ -78,6 +79,7 @@ const LIBQ=(function(){
   S.needsPrefix=function(text){ const t=String(text==null?'':text).trim(); if(!t) return false;
     if(t.startsWith(S.PREFIX)) return false;
     if(t.startsWith(OUT_HEAD)) return false;   /* 「（走出法圖）「……」」：走出去以後才說的（1-D10）*/
+    if(t.startsWith('「'+S.PREFIX)) return false;   /* 稿上把（小聲）寫在引號裡的：「（小聲）二樓靠窗那排比較安靜。」（AA_649，invites.js 的 libStudy）——不再加一次 */
     let rest=t, lead='';
     while(rest.startsWith('（')){ let depth=0, k=-1; for(let i=0;i<rest.length;i++){ const ch=rest[i]; if(ch==='（') depth++; else if(ch==='）'){ depth--; if(depth===0){ k=i; break; } } } if(k<0) break; lead+=rest.slice(0,k+1); rest=rest.slice(k+1).trim(); }
     if(!rest) return false;   /* 整句都是動作 */

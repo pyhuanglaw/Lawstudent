@@ -18,7 +18,7 @@ const A=()=>WZS.AA413;
 
 (async()=>{
 await sec(1,()=>{ const L=WZS.windowItems().map(x=>x.label);
-  check('1. 溫州街多五個按鈕',['進入日日便利','買水果','看阿忠水果','看自助洗衣','看布告欄'].every(l=>L.includes(l)),J(L)); });
+  check('1. 溫州街多五個按鈕（日日便利 2026-11-04 改名日和便利店，AA_647 第 6 節）',['進入日和便利店','買水果','看阿忠水果','看自助洗衣','看布告欄'].every(l=>L.includes(l)),J(L)); });
 
 await sec(2,async()=>{ fresh('2026-06-10',8);
   await WZS.interact(GM,{wzShop:'fruit',kind:'window'}); check('2. 08:00 還沒開：提示營業時間',toasts.includes('阿忠水果：09:00～22:00')&&!H.said.length);

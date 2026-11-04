@@ -63,7 +63,7 @@ const run=async(id,picks)=>{ H.said=[]; H.cgs=[]; H.picks=picks||[]; await EVENT
     const c=cgAt('cg_one_umbrella_heroine03'), l=idx('恭喜。……四年，我們都在總圖三樓。你都坐我斜對面。');
     check('3. 語彤事件 17 交往中：CG-21 在「恭喜。……四年，我們都在總圖三樓。你都坐我斜對面。」那一句，說完回到椰林大道（setBg graduation_avenue）',c>=0&&l===c+1&&JSON.stringify(H.bgs[H.bgs.length-1]||null).includes('graduation_avenue'),JSON.stringify(H.said)+' '+JSON.stringify(H.bgs)); }
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_03'); H.said=[]; H.bgs=[]; await PG.yt17(GM);
-    check('3. 語彤事件 17 朋友版：沒有 CG-21、不換背景',cgAt('cg_one_umbrella_heroine03')<0&&idx('恭喜。……我還要一年，今天先穿一次學士服。')>=0&&H.bgs.length===0); }
+    check('3. 語彤事件 17 朋友版：沒有 CG-21、不換背景',cgAt('cg_one_umbrella_heroine03')<0&&idx('恭喜。……我們同一天畢業。')>=0&&H.bgs.length===0,JSON.stringify(H.said)+' '+JSON.stringify(H.bgs)); }   /* 朋友那一句照 AA_625 第 17 節（AA 2026-11-03 回 LAWWW；取代 AA_630 Z-128 的「恭喜。……我們同一天。」）：AA_629 她四年修完、同一天畢業 */
   // 學姊的學期末告白（termend3d.js walkHome）：AA_343 E1 便條那一拍＋BCG-44「沒有念的便條」
   { const N1='（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）', NY='（便條上寫的字，她一句都沒有念。）', NS='（便條上寫滿了字。她一句都沒有照著念。）', W='時間差不多了。……你剛剛好像一直想講什麼。', C44='cg_three_things_heroine05';
     const walk=async(term,picks,think)=>{ const G=H.fresh('2027-06-25',20,'campus'); H.FRIEND('heroine_05'); if(think) TERMEND.rec(G).think.heroine_05=think; H.said=[]; H.picks=picks; return TERMEND.walkHome(GM,'heroine_05',term); };

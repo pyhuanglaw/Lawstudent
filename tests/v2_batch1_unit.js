@@ -63,7 +63,8 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   { const e=ev('ev_yutong_landlord'); check('語彤 6：事件在',!!e);
     if(e){ const at=(term,w,wd,h)=>{ const d=wk(term,w,wd); fresh(d,h,'noodle'); return EVENTS.check(e); };
       const r={w10tue:at('Y1S2',10,2,18.5),w9:at('Y1S2',9,2,18.5),w12thu:at('Y1S2',12,4,19),wed:at('Y1S2',10,3,18.5),late:at('Y1S2',10,2,21),y2:at('Y2S1',10,2,18.5)};
-      check('語彤 6：大一下第 10 週以後的週二、週四晚上進麵店才有（第 9 週、週三、21:00、大二都沒有）',r.w10tue&&!r.w9&&r.w12thu&&!r.wed&&!r.late&&!r.y2,JSON.stringify(r));
+      /* AA_625 第 6 節（YT-REWRITE-1103）：語彤不在燒臘店——麵店版退場（retired），改在一盞茶屋打烊聽她說（src/ytjob3d.js S.rent；tests/aa625_yt_unit.js 第 6 項）*/
+      check('語彤 6：麵店版退場（AA_625 第 6 節），哪一天進麵店都沒有',!!e.retired&&!r.w10tue&&!r.w9&&!r.w12thu&&!r.wed&&!r.late&&!r.y2,JSON.stringify(r));
       fresh(wk('Y1S2',10,2),18.5,'noodle'); await EVENTS.run(e); let L=lines();
       check('語彤 6（還不認識語彤）：流程旁白＋阿哲「那誰？」＋阿姨「沒事啦…」＋語彤「……嗯。」；沒有問的選項、沒有 RENT_RUMOR',L[0]==='一個穿西裝的中年人拿著捲尺量店面的寬度，跟阿姨講了幾句就走。'&&L[1]==='阿姨把湯勺放下，站著不動，然後又拿起來。'&&/那誰？$/.test(L[2])&&L[3]==='語彤端麵過來。'&&L[4]==='阿姨：沒事啦，房東的朋友，來看房子。'&&/……嗯。$/.test(L[6])&&!opts.length&&!SOCIAL.has('heroine_03','RENT_RUMOR'),JSON.stringify(L));
       fresh(wk('Y1S2',10,2),18.5,'noodle'); SOCIAL.meet('heroine_03','campus'); picks=[0]; await EVENTS.run(e); L=lines();

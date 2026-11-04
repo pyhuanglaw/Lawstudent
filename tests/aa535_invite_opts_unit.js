@@ -3,6 +3,7 @@
 //   七位各約一次慢讀（第一次＋第二次）；學姊第 5 週連約兩次（都答應）、第 11 週同一週約兩次（第二次婉拒）、第 15 週約 Café（婉拒→「那一起念書。」→約到總圖或慢讀）；
 //   晚上在 Café 找學姊，選單有「約她去…」；週二約慢讀：系統說週二休；經濟系那一年：選單沒有慢讀。另外：分類名稱、出去玩第二層、她說過想去的、常客作息與招呼、讀書旁白、路人。
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
+require('./alison.js');   /* YT-REWRITE-1103：讀稿照匯入工具同一套換（語彤的句子照 AA_630／AA_627，aa630_fix.json）*/
 const ROOT=path.resolve(__dirname,'..'), GIT=process.env.SPEC_GIT_DIR||ROOT, SPEC_SHA='dbd49dca7', SPEC_PATH='docs/story_planning/AA_535_約她選項_分層與新地點_第一份_慢讀咖啡_學姊上限_分類名稱.md';
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:'?noriders'};

@@ -48,12 +48,12 @@ const HASK_DATA={
       later:'好啦，那下次。', no:'喔。好啦。', yes:'好！那明天見。', yesOut:'好！那到時候見。' },
     heroine_03:{ send:21+40/60,
       daily:[
-        {place:'noodle',th:3,here:true,pre:{d:'next',h:[19,17.5],line:'阿姨說明天有滷牛腱。……她叫我問你要不要來。'},dat:{d:'next',h:[21],line:'明天晚上來店裡。我顧到九點，九點以後一起吃。'}},
+        {place:'noodle',th:3,here:true,pre:{d:'next',h:[19,17.5],line:'秀琴姨說明天有滷牛腱。……她叫我問你要不要來。'},dat:{d:'next',h:[21],line:'明天晚上來店裡。我顧到九點，九點以後一起吃。'}},
         {place:'library',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午我在總圖寫報告。三樓。……你要來的話，旁邊有位子。',vac:{line:'明天下午我在總圖看書。三樓。……你要來的話，旁邊有位子。'}},dat:{d:'next',h:[15.5,17.5],line:'明天下午總圖。三樓，我旁邊。'}},
         {place:'wenzhou',th:5,here:true,pre:{d:'sat',h:[15.5,14],line:'週六下午我在溫州街。你來的話，我們走到公園。'},dat:{d:'sat',h:[15.5,14],line:'週六下午溫州街。我帶你去一家你沒去過的。'}},
-        {place:'run_avenue',th:5,pre:{d:'next',h:[6.5],line:'明天早上六點半。跑完我要去備料。'},dat:{d:'next',h:[6.5],line:'明天六點半。跑完一起吃早餐，再去備料。'}}],
+        {place:'run_avenue',th:5,pre:{d:'next',h:[6.5],line:'明天早上六點半。跑完我要回去洗澡，下午要上班。'},dat:{d:'next',h:[6.5],line:'明天六點半。跑完一起吃早餐，我再去茶屋。'}}],
       out:[
-        {loc:'D21',pre:{d:'sun',depart:13,line:'週日我沒有顧店。三峽，你去過嗎？'},dat:{d:'sun',depart:13,line:'週日去三峽。搭捷運再轉公車，我查好了。'}},
+        {loc:'D21',pre:{d:'sun',depart:13,line:'這個週日我跟蘇姨請假了。三峽，你去過嗎？'},dat:{d:'sun',depart:13,line:'週日去三峽。搭捷運再轉公車，我查好了。'}},
         {loc:'D09',dat:{d:'sun',depart:13,line:'週日下午，貓空。我想坐纜車。……我沒坐過。'}}],
       vacTerm:{ summer:{place:'noodle',v:{d:'next',h:[19,17.5],line:'明天店裡不忙。你要來就來。',first:'阿姨說夏天要吃涼麵。我做的。'}},
         winter:{place:'noodle',v:{d:'next',h:[19,17.5],line:'店裡有麻油雞。明天晚上。',first:'多喝湯。阿姨說的。'}} },   /* AA_549 3-6：換麵店那一句（她顧店的麵店，here 照那一筆）；總圖照 AA_532 放假版 */

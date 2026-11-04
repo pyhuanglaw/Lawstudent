@@ -115,15 +115,11 @@ const D2=STORY._day2||{};
     check('4. 上課前找她說話：「你好，我是沈以安。大家都叫我小安。」是「前排的女生」說的，之後對話框、按鈕換成「小安」（記 AN_NAME_TOLD）',!!said[0]&&said[0].who==='前排的女生'&&said[0].t==='你好，我是沈以安。大家都叫我小安。'&&!!said[1]&&said[1].who==='小安'&&G.flags.AN_NAME_TOLD===true&&n.talkLabel==='和小安說話',J(said));
     fresh(d5,12,'campus',{introDone:true,classDone:true,afternoonDone:true});
     check('4. 舊存檔／第 3 天以後：照舊「小安」',typeof STORY.anLabel==='function'&&STORY.anLabel(G)==='小安'&&STORY.anNameTold(G)===true); }
-  // ===== 第 4 項：語彤雨天「便利商店」那一版的日誌 =====
-  { const RAIN=ev('ev_rain_library_door'); const rain=async(pick)=>{ fresh(D('2025-09-24'),19,'campus',{introDone:true,classDone:true,afternoonDone:true}); G.weather='rain'; picks=[pick]; memos=[]; await EVENTS.run(RAIN); return memos.slice(); };
-    let M=await rain('便利商店'); const obj=M.find(m=>m&&typeof m==='object');
-    check('4. 語彤雨天選「便利商店應該有賣。」（她沒報名字）：日誌「雨天在總圖門口遇到一個借傘的女生」，不寫「遇到陳語彤」',!!obj&&obj.t==='雨天在總圖門口遇到一個借傘的女生'&&obj.named==='雨天在總圖門口遇到陳語彤'&&obj.who==='heroine_03'&&!M.includes('雨天在總圖門口遇到陳語彤'),J(M));
-    const mt=typeof STORY.memoText==='function'?STORY.memoText:null; const e={day:G.day,...(obj||{})};
-    const before=mt&&mt(G,e); if(typeof INV!=='undefined') INV.addContact(G,'heroine_03'); const after=mt&&mt(G,e);
-    check('4. 日誌之後見面報了名字（拿到她的聯絡方式）才換成「雨天在總圖門口遇到陳語彤」',before==='雨天在總圖門口遇到一個借傘的女生'&&after==='雨天在總圖門口遇到陳語彤',J([before,after]));
-    check('4. 舊存檔的日誌（字串）照舊顯示',!!mt&&mt(G,{day:1,t:'上了民法總則：要約之引誘'})==='上了民法總則：要約之引誘');
-    M=await rain('一起走吧'); check('4. 對照：她報了名字的版本（一起撐傘）照舊「雨天在總圖門口遇到陳語彤」',M.includes('雨天在總圖門口遇到陳語彤')&&!M.some(m=>m&&typeof m==='object'),J(M)); }
+  // ===== 第 4 項：語彤雨天「便利商店」那一版作廢（AA_625 第 1 節重寫，YT-REWRITE-1103）：只剩一起躲雨的版本，日誌「雨天在總圖門口陪語彤躲雨」 =====
+  { const RAIN=ev('ev_rain_library_door'); fresh(D('2025-09-24'),19,'campus',{introDone:true,classDone:true,afternoonDone:true,YT_MET_JOB:true}); G.weather='rain'; picks=['我陪妳等一下']; memos=[]; await EVENTS.run(RAIN); const M=memos.slice();
+    check('4. 雨天的總圖門口：日誌「雨天在總圖門口陪語彤躲雨」（沒有「借傘的女生」那一版）',M.includes('雨天在總圖門口陪語彤躲雨')&&!M.some(m=>m&&typeof m==='object'),J(M));
+    const mt=typeof STORY.memoText==='function'?STORY.memoText:null;
+    check('4. 舊存檔的日誌（字串）照舊顯示',!!mt&&mt(G,{day:1,t:'上了民法總則：要約之引誘'})==='上了民法總則：要約之引誘'); }
   // ===== 第 6、7、9、10、11、14、16、17 項：台詞 =====
   { const V=evText('ev_kexin_video_study'); check('6. 可昕 12/16 視訊：「你們期末考還剩幾科？我在算哪天可以見面。」（不問第一科）',V.includes('你們期末考還剩幾科？我在算哪天可以見面。')&&!V.some(t=>/第一科/.test(t)));
     const N=evText('ev_kexin_tour_nccu'); check('7. 木柵大學導遊：「山下那家酸辣湯餃。開學到現在，我已經吃到老闆認得我了。」「下次你來，我們吃山下那家。」（AA_525 3-5 改「山上」→「山下」）；沒有「吃了一學期」「選宵夜」',N.includes('山下那家酸辣湯餃。開學到現在，我已經吃到老闆認得我了。')&&N.includes('下次你來，我們吃山下那家。')&&!N.some(t=>/吃了一學期|選宵夜/.test(t)),J(N.slice(-3)));
