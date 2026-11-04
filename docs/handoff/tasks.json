@@ -46589,7 +46589,7 @@
    "sha": [
     "38b779db6"
    ],
-   "next": "【LAWWW-C 11-04 21:5x】接進開發分支（GLB×1、JSON、wz_props.py、zones3d.js patch）；Node 10 支 ALL PASS；瀏覽器交 BB／CC；要不要放進 v9.10.20（候選版 d3828452a 沒有 ADE-PROPS）等 BB 的 GO 一起決定；線上版的桿子還在 −9.2"
+   "next": "【LAWWW-C 11-04 21:5x】BB-C 21:53 同意：不擠進 v9.10.20（79da20245 是 d3828 之後的正式模型 GLB，會多帶沒在候選版測過的東西；D99 外觀不擋流程；重做候選樹至少晚 1 小時）——v9.10.20 照 d3828452a 發，電線桿跟下一版一起上線；CC 在 c744017d3 跑 street_props_integration、reachability_all、阿德門口（和 ADE_v2_shots 一起）｜【LAWWW-C 11-04 21:5x】接進開發分支（GLB×1、JSON、wz_props.py、zones3d.js patch）；Node 10 支 ALL PASS；瀏覽器交 BB／CC；要不要放進 v9.10.20（候選版 d3828452a 沒有 ADE-PROPS）等 BB 的 GO 一起決定；線上版的桿子還在 −9.2"
   }
  ]
 }
