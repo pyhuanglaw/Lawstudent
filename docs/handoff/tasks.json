@@ -45494,6 +45494,27 @@
    "next": "【LAWWW-C 11-04 16:3x】和 AA664～671 一起，等 CANON-PURGE-SRC 子代理合併完一次做（做法同 AA663）"
   },
   {
+   "id": "AA673-LINES-1104",
+   "title": "AA_673 台詞第九批：events.js 後半 3 處（可昕 ev_y0_p2b、語彤 ev_yutong_thanks 模板句、芯慈 ev_xinci_double「經濟的期中考，跟債總的小考同一週」——D118 法律課沒有期中考）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系那一年／events.js 劇情事件",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 16:40（企劃線 9198858cf、outbox a183e7999；D109）",
+   "authorized": "D109",
+   "next": "【LAWWW-C 11-04 16:4x】和 AA664～672 一起，等 CANON-PURGE-SRC 子代理合併完一次做"
+  },
+  {
    "id": "NPC-ANIM-LOOPS-1104",
    "title": "坐著做事的動作循環（現成 CC0 片段沒有的）：打字（桌上、腿上筆電，3～4 秒）、寫字（3～4 秒）、滑手機（2 秒）、翻真的書頁（book_open 可翻的頁＋1.2 秒）、坐著喝飲料（約 4 秒，手上杯子配件，seatact 那段時間藏桌上的杯子）、吃飯（筷子／湯匙，約 3 秒）",
    "area": "ART",
