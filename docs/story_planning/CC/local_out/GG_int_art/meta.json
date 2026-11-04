@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GG_int_art",
+  "sha": "809163ee4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_int_probe.py",
+  "env": "CASES=art;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T17:44:49",
+  "end": "2026-11-04T17:55:18",
+  "seconds": 628,
+  "exit": 0,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 80,
+    "mem": 61,
+    "used_gb": 19.9,
+    "chrome_testing": 30
+  }
+}
