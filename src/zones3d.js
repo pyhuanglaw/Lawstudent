@@ -446,7 +446,7 @@ const Z3 = (function(){
       { const lt=W3.canvasTex('laneFull',8,256,(x,w,h)=>{ x.clearRect(0,0,w,h); x.fillStyle='rgba(255,255,255,0.85)'; x.fillRect(0,0,w,120); }).clone(); lt.needsUpdate=true; lt.repeat.set(1,74);   /* 公館區域的 lane 貼圖線寬只有 5 cm，遠看看不到：背景用整條寬的虛線 */
         const lm=new THREE.MeshStandardMaterial({map:lt,transparent:true,roughness:0.8}), yl=new THREE.MeshStandardMaterial({color:0xd9a521,roughness:0.8}); const lg=new THREE.Group();
         for(const lx of [-145,-151,-162,-168]){ const m=new THREE.Mesh(new THREE.PlaneGeometry(0.15,295),lm); m.rotation.x=-Math.PI/2; m.position.set(lx,0.018,2.5); lg.add(m); }
-        { const zb=zebraMesh(34.2,12); zb.position.set(-156.5,0.03,0); lg.add(zb); }   /* GG-ZEBRA-1104：校門外過羅斯福路的斑馬線（和公館區域同一條） */
+        { const zb=zebraMesh(34.2,12); zb.name='zebra_campus_gate'; zb.position.set(-156.5,0.05,0); far.add(zb); }   /* GG-ZEBRA-1104：校門外過羅斯福路的斑馬線（和公館區域同一條） */
         const LW=XH.T1x+260, LX=(XH.T1x-260)/2;   /* 直路那一段的車道線（辛亥路往東南彎以前）*/
         for(const lz of [-150.5,-161.5]){ const m=new THREE.Mesh(new THREE.PlaneGeometry(0.15,LW),lm); m.rotation.x=-Math.PI/2; m.rotation.z=Math.PI/2; m.position.set(LX,0.018,lz); lg.add(m); }
         for(const lz of [-155.8,-156.2]){ const m=new THREE.Mesh(new THREE.PlaneGeometry(0.2,LW),yl); m.rotation.x=-Math.PI/2; m.rotation.z=Math.PI/2; m.position.set(LX,0.018,lz); lg.add(m); }
@@ -778,9 +778,9 @@ const Z3 = (function(){
     { const zb=zebraMesh(34.2,12); zb.rotation.z=Math.PI/2; zb.position.set(0,0.034,-13.5); g.add(zb); }   /* GG-ZEBRA-1104：校門口過羅斯福路的斑馬線（北側人行道 z −31 到南側人行道 z 4，對面是輪轉單車）；導航照舊（整條路都走得到） */
     // 校門（北側牆中央）——回校園
     // v9.3 第十四批：和校園同一座校門（CK.gate），校外朝南；門房在圍牆裡面（舊版的門房在校外人行道上，而且沒有碰撞）
-    const gate=CK.gate(); placeGate(E,g,nav,gate,0,-46,0); { const wb=new TK.Bin(); const wt=campusWallMat(); for(const s of [-1,1]){ wb.add(wt,TK.boxG(70,1.8,1,1.0),s*44,0.9,-46); wb.add(TK.paint('#d9d3c6'),TK.boxG(70.2,0.14,1.2),s*44,1.87,-46); nav.blockRect(s*44,-46,70,1.2,0,0.3); } wb.build(g); }   /* 第二十批：和校園那邊同一個面磚材質（原本的磚紋貼圖被拉長成條紋）*/
+    const gate=CK.gate(); gate.name='gg_kit_gate'; placeGate(E,g,nav,gate,0,-46,0); { const wb=new TK.Bin(); const wt=campusWallMat(); for(const s of [-1,1]){ wb.add(wt,TK.boxG(70,1.8,1,1.0),s*44,0.9,-46); wb.add(TK.paint('#d9d3c6'),TK.boxG(70.2,0.14,1.2),s*44,1.87,-46); nav.blockRect(s*44,-46,70,1.2,0,0.3); } wb.build(g); }   /* 第二十批：和校園那邊同一個面磚材質（原本的磚紋貼圖被拉長成條紋）*/
     // 捷運公館站出口：人行道上順著街的玻璃亭（TK.mrtExit；原本是 W3 的四柱雨棚），入口朝東，入口外面是互動點
-    { const mrt=TK.mrtExit({name:'捷運 公館站',sub:'出口 2'}); mrt.position.set(-36.6,0,11); mrt.rotation.y=Math.PI/2; g.add(mrt); nav.blockRect(-39.8,11,6.6,3.6,0,0);
+    { const mrt=TK.mrtExit({name:'捷運 公館站',sub:'出口 2'}); mrt.name='gg_kit_mrt'; mrt.position.set(-36.6,0,11); mrt.rotation.y=Math.PI/2; g.add(mrt); nav.blockRect(-39.8,11,6.6,3.6,0,0);
       /* 正式模型（LAWWW2-C tools/blender/env_second/gg_mrt_exit.py → bldg.gongguan_mrt，ART-EXT-MRT 2026-10-18）：同一個位置、方向；載入後藏起套件。
          裡面的電扶梯、樓梯往地面以下走（PIT_*）：先畫 PIT_*（renderOrder −2），再畫洞口的深度遮罩 PITMASK（只寫深度，−1），之後畫的地面在洞口那一塊畫不上去——區域的地面不用挖洞 */
       if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gongguan_mrt']){ mrt.userData.ggMrt=true; mrt.userData.dyn=true;
@@ -864,7 +864,7 @@ const Z3 = (function(){
       for(let gz=-60;gz>=-190;gz-=7.5) for(const sx of [-1,1]){ pi++; const cx=-170-gz; const p=TK.royalPalm((14.5+((cx*7)%3)*0.8)*1.35,pi,{crown:0.66}); p.position.set(sx*9.5,0,gz); p.rotation.y=(cx*0.3)%6.28; trees.add(p); }
       for(let gz=-62;gz>=-190;gz-=6) for(const sx of [-1,1]){ if(H(gz,sx)<0.15) continue; const t=TK.tree(6.4*(1.75+H(sx,gz)*0.4),Math.round(-gz)+(sx>0?50:0),AVE_TREE); t.position.set(sx*(17.5+H(gz,7)*1.5),0,gz+H(7,gz)*2); t.rotation.y=gz*1.3; trees.add(t); }
       for(const [tx,tz] of [[36,-66],[41,-80],[38,-94],[16,-70],[26,-58],[24,-74],[31,-88],[24,-102],[-62,-53],[-50,-55],[-14,-54],[22,-53],[52,-53],[66,-55]]){ const t=TK.tree(6.4*(1.0+((Math.abs(tx)*13)%3)*0.1)); t.position.set(tx,0,tz); trees.add(t); }
-      const tm=W3.mergeGroup(trees); tm.traverse(m=>{ if(m.isMesh) m.castShadow=false; }); g.add(tm);
+      const tm=W3.mergeGroup(trees); tm.name='gg_kit_trees'; tm.traverse(m=>{ if(m.isMesh) m.castShadow=false; }); g.add(tm);
       // 校園建築（遠景方盒，和校園那邊的外觀同色、同尺寸）：校史館、文學院、行政大樓、舟山路西段南側系館、大道東邊的兩棟
       g.add(TK.bgCity([{x:-21,z:-93,w:24,d:16,floors:2,gh:5.0,ry:Math.PI/2,color:'#a25d43',shop:false},{x:-25,z:-132,w:40,d:18,floors:2,gh:4.8,ry:Math.PI/2,color:'#9b5a42',shop:false},
         {x:25,z:-132,w:46,d:16,floors:3,ry:-Math.PI/2,color:'#cdb48e',shop:false},{x:59.5,z:-78,w:34,d:13,floors:4,ry:-Math.PI/2,color:'#c4b29a',roof:'flat',shop:false},
@@ -885,7 +885,7 @@ const Z3 = (function(){
       { const farFB=new THREE.Group(); farFB.name='gongguanFarFallback'; farFB.userData.dyn=true; farFB.add(TK.bgCity(city,{style:'city'}));
         const pl=new THREE.Mesh(new THREE.BoxGeometry(7.0,0.55,0.8),M('#f4f4f0')); pl.position.set(-30,0.275,15.1); farFB.add(pl);   /* GONGGUAN 的花台（模型載入前看得到擋住的是什麼） */
         g.add(farFB);
-        if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gongguan_far']) ASSETS.loadOne('bldg.gongguan_far').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true);
+        if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gongguan_far']) ASSETS.loadOne('bldg.gongguan_far').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.name='gongguan_far_glb';
             r.traverse(o=>{ if(!o.isMesh) return; o.castShadow=false; o.receiveShadow=false; o.userData.dyn=true; const m=o.material, nm=(m&&m.name)||'';
               if(/gg_bd_facade/.test(nm)) TK.addNight(m,0.85,0); else if(/gg_bd_shopfront/.test(nm)) TK.addNight(m,1.0,0.3); else if(/gg_bd_signs/.test(nm)) TK.addNight(m,1.0,0.15); });
             g.add(r); farFB.visible=false; zone.gongguanFar=true; }).catch(e=>console.warn('公館遠景正式模型載入失敗，用方盒',e)); }

@@ -52,10 +52,11 @@ STATE = """(()=>{ const E=GAME.E; const r=v=>Math.round(v*100)/100;
     const it=E.interactables.map(i=>[i.label||'',r(i.x),r(i.z),r(i.radius||0)]).sort();
     return {col, it}; })()"""
 # 沒有標記的群組（捷運出口、校門、路燈、立牌、背景…）：數「底下沒有任何看得到的網格／sprite」的群組，正式模型和 ?nobldg 必須一樣多（多了＝藏錯東西）。
+# 11-04（LAWWW2，CC GG_groups 610c528cb）：校門、捷運的套件只有一般網址才有標記（ckTag／ggMrt）、行道樹兩種模式不同（?nobldg 套件樹 gg_kit_trees／一般網址 TreeField 的 street_trees_field）、公館遠景 clone 原本叫 Scene——兩邊照名字一致排除（不是放寬：兩邊排除的東西一樣）
 # 機車（userData.ggScooter；有正式模型時在 gg_kit_scooters 裡）另外檢查（第 8 項）：?nobldg 的套件機車直接放在區域裡、合併後是空的群組，兩邊的數法不同
 # 路燈的光暈與地面光圈（E.lampGlows）不算：遊戲時鐘在跑，兩輪量的時候一個還沒開燈、一個已經開燈（第一次跑就因為這樣差了 18 個＝18 盞路燈）
 OTHERS = """(()=>{ const z=GAME.E.zone; let n=0, empty=0; const skip=new Set(GAME.E.lampGlows||[]); const shown=m=>{ for(let p=m;p&&p!==z.group;p=p.parent) if(!p.visible) return false; return true; };
-    for(const o of z.group.children){ if(!o.isGroup||(o.userData&&(o.userData.ggShop||o.userData.ggScooter||o.userData.ckTag||o.userData.ggMrt))||/_glb$|Fallback$/.test(o.name)||o.name==='gg_kit_scooters') continue;   /* ckTag 校門、ggMrt 捷運出口、*Fallback（公館遠景的方盒）：被正式模型取代的套件，藏起來是對的 */ n++; let vis=false; o.traverse(m=>{ if(!vis&&(m.isMesh||m.isSprite)&&!skip.has(m)&&shown(m)) vis=true; }); if(!vis) empty++; }
+    for(const o of z.group.children){ if(!o.isGroup||(o.userData&&(o.userData.ggShop||o.userData.ggScooter||o.userData.ckTag||o.userData.ggMrt))||/_glb$|Fallback$/.test(o.name)||/^(gg_kit_scooters|gg_kit_trees|gg_kit_gate|gg_kit_mrt|street_trees_field)$/.test(o.name)) continue;   /* ckTag 校門、ggMrt 捷運出口、*Fallback（公館遠景的方盒）：被正式模型取代的套件，藏起來是對的 */ n++; let vis=false; o.traverse(m=>{ if(!vis&&(m.isMesh||m.isSprite)&&!skip.has(m)&&shown(m)) vis=true; }); if(!vis) empty++; }
     return {n, empty}; })()"""
 DRAW = """(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
     const hid=E.npcs.map(n=>[n.obj,n.obj.parent]).filter(a=>a[1]); hid.forEach(a=>a[1].remove(a[0]));   /* 路人每次的位置不同（量測雜訊）：量的時候暫時移出場景，只比場景 */
