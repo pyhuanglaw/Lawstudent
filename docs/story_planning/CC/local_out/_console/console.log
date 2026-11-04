@@ -239,3 +239,44 @@
 [14:33:19] [res] cpu=12% mem=49% (15.4/31.4 GB) chrome_testing=20  START GATE_walk2
 [14:34:37] 正在跑：GG_int_cvs_menu_tt（已跑 18 分／上限 45 分）、GG_int_yejian_r2（已跑 9 分／上限 75 分）、GATE_walk2（已跑 1 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [14:38:04] [res] cpu=17% mem=49% (15.4/31.4 GB) chrome_testing=20  END GATE_walk2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       22dd16253..a20c556db  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:38:09] ==== END   GATE_walk2  exit=0  288s   ====
+[14:38:11] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[14:38:11] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[14:38:11] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[14:38:11] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[14:38:11] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[14:38:11] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[14:38:11] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[14:38:11] skip LIVE1910_deploy (already done on b0c3032af)
+[14:38:11] skip LIVE1910_stuck (already done on b0c3032af)
+[14:38:11] skip LIVE1910_deploy2 (already done on b0c3032af)
+[14:38:11] skip GG_ext_nav (already done on c7fde4f3e)
+[14:38:11] skip GG_ext_glb (already done on c7fde4f3e)
+[14:38:11] skip GG_ext_shots (already done on c7fde4f3e)
+[14:38:11] skip BIKE_flow (already done on c7fde4f3e)
+[14:38:11] skip BIKE_shop (already done on 555b9e0cb)
+[14:38:11] skip WZ_A5_shot (already done on c7fde4f3e)
+[14:38:11] skip CVS24 (already done on cb1d84290)
+[14:38:12] skip N20X_nichijo2 (already done on 27970f958)
+[14:38:12] skip GG_ext_nav2 (already done on 23eaaa7ae)
+[14:38:12] skip GG_ext_glb2 (already done on 23eaaa7ae)
+[14:38:12] skip GG_perf (already done on 23eaaa7ae)
+[14:38:12] skip GG_perf_ctl (already done on c7fde4f3e)
+[14:38:12] skip CVS24_r2 (already done on 23eaaa7ae)
+[14:38:12] skip BIKE_shop_r2 (already done on 23eaaa7ae)
+[14:38:12] skip WZ_A5_shot_r2 (already done on 23eaaa7ae)
+[14:38:12] skip BIKE_flow_r2 (already done on e44ab9056)
+[14:38:12] skip XS_view (already done on 23eaaa7ae)
+[14:38:12] skip XS_view_ref (already done on 555b9e0cb)
+[14:38:12] skip GG_cards_shot (already done on 809163ee4)
+[14:38:12] skip GG_int_cvs (already done on 809163ee4)
+[14:38:12] skip GG_int_cvs_menu (already done on 809163ee4)
+[14:38:12] skip GG_int_yejian (already done on 809163ee4)
+[14:38:12] memory 49% before starting GG_int_yejian_menu (2 running)
+[14:38:12] ==== START GG_int_yejian_menu  (probe @ 809163ee4) ====
+[14:38:15] [res] cpu=13% mem=50% (15.7/31.4 GB) chrome_testing=20  START GG_int_yejian_menu
+[14:39:37] 正在跑：GG_int_cvs_menu_tt（已跑 23 分／上限 45 分）、GG_int_yejian_r2（已跑 14 分／上限 75 分）、GG_int_yejian_menu（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:40:24] [res] cpu=21% mem=50% (15.7/31.4 GB) chrome_testing=20  END GG_int_yejian_menu
