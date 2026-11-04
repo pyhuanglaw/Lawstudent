@@ -1,0 +1,509 @@
+{
+  "id": "TT_V2b_probe",
+  "sha": "d2e36f6eb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/selftest/st_assert_probe.py",
+  "script_from": null,
+  "script_blob": [
+    "b5cc310cc377f4c1e29180ef669727a82751b8ce",
+    "b5cc310cc377f4c1e29180ef669727a82751b8ce"
+  ],
+  "cc_testing_sha": "d4a518b74",
+  "runner": "a839316f52",
+  "final": "FAIL",
+  "class": "TEST_BUG",
+  "class_sub": "assert-probe",
+  "basis": [
+    "探針斷言 FAIL 1 行，比對的是探針自己的常數（[src=probe]），和遊戲無關；第一行：探針的兩個常數相等（故意寫錯）",
+    "探針的值：[src=probe] 探針常數 EXPECT_N＝3、ACTUAL_N＝4"
+  ],
+  "conditions": {
+    "same": true,
+    "diff": [],
+    "game_sha": [
+      "d2e36f6eb",
+      "d2e36f6eb"
+    ],
+    "script_blob": [
+      "b5cc310cc377f4c1e29180ef669727a82751b8ce",
+      "b5cc310cc377f4c1e29180ef669727a82751b8ce"
+    ],
+    "input_hash": [
+      "9e00c6eef491261e",
+      "9e00c6eef491261e"
+    ],
+    "cases": [
+      "(探針預設)",
+      "(探針預設)"
+    ]
+  },
+  "rerun_scope": "探針不支援 CASES 環境變數：整支重跑",
+  "attempts": [
+    {
+      "n": 1,
+      "exit": 1,
+      "error": null,
+      "timeout": false,
+      "seconds": 20,
+      "fails": [
+        {
+          "line": "FAIL 探針的兩個常數相等（故意寫錯）  [src=probe] 探針常數 EXPECT_N＝3、ACTUAL_N＝4",
+          "name": "探針的兩個常數相等（故意寫錯）",
+          "info": "[src=probe] 探針常數 EXPECT_N＝3、ACTUAL_N＝4",
+          "src": "probe"
+        }
+      ],
+      "dir": "attempt1",
+      "run_tail": [
+        "[gpu_wrap] CC_GPU=0 跑 <REPO>/docs/story_planning/test_tools/cc/selftest/st_assert_probe.py http://127.0.0.1:8800/index.html <REPO>/docs/story_planning/C",
+        "  [前置／捷徑] 開遊戲頁 http://127.0.0.1:8800/index.html（自測：只開頁、不玩）",
+        "FAIL 探針的兩個常數相等（故意寫錯）  [src=probe] 探針常數 EXPECT_N＝3、ACTUAL_N＝4",
+        "FAILED 1: 探針的兩個常數相等（故意寫錯）"
+      ],
+      "err_tail": [
+        "[gpu_wrap 19.8s] page close url=http://127.0.0.1:8800/index.html",
+        "[gpu_wrap 19.8s] BROWSER DISCONNECTED"
+      ]
+    },
+    {
+      "n": 2,
+      "exit": 1,
+      "error": null,
+      "timeout": false,
+      "seconds": 40,
+      "fails": [
+        {
+          "line": "FAIL 探針的兩個常數相等（故意寫錯）  [src=probe] 探針常數 EXPECT_N＝3、ACTUAL_N＝4",
+          "name": "探針的兩個常數相等（故意寫錯）",
+          "info": "[src=probe] 探針常數 EXPECT_N＝3、ACTUAL_N＝4",
+          "src": "probe"
+        }
+      ],
+      "dir": "attempt2",
+      "run_tail": [
+        "[gpu_wrap] CC_GPU=0 跑 <REPO>/docs/story_planning/test_tools/cc/selftest/st_assert_probe.py http://127.0.0.1:8800/index.html <REPO>/docs/story_planning/C",
+        "  [前置／捷徑] 開遊戲頁 http://127.0.0.1:8800/index.html（自測：只開頁、不玩）",
+        "FAIL 探針的兩個常數相等（故意寫錯）  [src=probe] 探針常數 EXPECT_N＝3、ACTUAL_N＝4",
+        "FAILED 1: 探針的兩個常數相等（故意寫錯）"
+      ],
+      "err_tail": [
+        "[cc_trace 0.0s] CC_TRACE on: <REPO>/docs/story_planning/CC/local_out/TT_V2b_probe/attempt2/trace",
+        "[gpu_wrap 39.4s] page close url=http://127.0.0.1:8800/index.html",
+        "[gpu_wrap 39.4s] BROWSER DISCONNECTED"
+      ]
+    }
+  ],
+  "js_errors": [
+    {
+      "rel": 1.39,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "[.WebGL-0x204c0724e000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "url": "http://127.0.0.1:8800/index.html"
+    },
+    {
+      "rel": 3.98,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "星期和日期對不上，照行事曆改： 4 → 3",
+      "url": "http://127.0.0.1:8800/src/game3d.js?v=9.10.19"
+    },
+    {
+      "rel": 4.68,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 8.14,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 8.86,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 9.61,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 10.15,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "[.WebGL-0x204c0724e000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "url": "http://127.0.0.1:8800/index.html"
+    },
+    {
+      "rel": 10.24,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 10.93,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "[.WebGL-0x204c0724e000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "url": "http://127.0.0.1:8800/index.html"
+    },
+    {
+      "rel": 11.0,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "[.WebGL-0x204c0724e000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+      "url": "http://127.0.0.1:8800/index.html"
+    },
+    {
+      "rel": 11.03,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 11.73,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 12.45,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 13.21,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.0,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.76,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.57,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.33,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 17.13,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 17.85,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 18.59,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 19.39,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 20.11,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8800/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 23.7,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "[.WebGL-0x204c0724e000] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.",
+      "url": "http://127.0.0.1:8800/index.html"
+    },
+    {
+      "rel": 23.7,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "[.WebGL-0x204c0724e000] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.",
+      "url": "http://127.0.0.1:8800/index.html"
+    }
+  ],
+  "js_errors_gpu_wrap": [
+    "BROWSER DISCONNECTED",
+    "BROWSER DISCONNECTED"
+  ],
+  "state": [
+    {
+      "ctx_why": "browser.close",
+      "page": 1,
+      "state": {
+        "href": "http://127.0.0.1:8800/index.html",
+        "snapshot": {
+          "v": 1,
+          "zone": "dorm",
+          "day": 1,
+          "hour": 17.55,
+          "dateKey": null,
+          "pos": {
+            "x": -40,
+            "z": -5,
+            "y": 0,
+            "lv": 0,
+            "yaw": -1.571
+          },
+          "player": {
+            "busy": true,
+            "frozen": false,
+            "pose": "idle",
+            "riding": false,
+            "seat": null,
+            "path": false
+          },
+          "paused": false,
+          "busyDepth": 0,
+          "dlg": false,
+          "adv": false,
+          "events": false,
+          "phone": false,
+          "entering": false,
+          "lastTalkError": null,
+          "goal": null,
+          "money": 22000,
+          "flags": {
+            "dating_kexin": true,
+            "KX_DEC3_MIGRATED": true,
+            "YT_JOB_V": 1,
+            "NAMECARD_V": 1,
+            "deptHear": {
+              "talk:椰": 1,
+              "醫學:平常": 1,
+              "電機:平常": 1,
+              "經濟:平常": 1,
+              "中文:平常": 0,
+              "社工:平常": 1,
+              "化學:平常": 1,
+              "數學:平常": 0,
+              "政治:平常": 0,
+              "大氣:平常": 1,
+              "獸醫:平常": 1,
+              "心理:平常": 1,
+              "農藝:平常": 1,
+              "歷史:平常": 1
+            },
+            "HCIRCLE": {
+              "heard": {},
+              "once": {},
+              "intro": {}
+            },
+            "HEARD": {
+              "said": {},
+              "day": {},
+              "ph": {}
+            }
+          },
+          "invites": [],
+          "npcs": [
+            {
+              "id": "classmate_mingxuan",
+              "x": 30.03,
+              "z": -66.09,
+              "lv": 0,
+              "beh": "wander",
+              "frozen": false,
+              "talking": false
+            },
+            {
+              "id": "pool_14",
+              "x": 47.5,
+              "z": -14.4,
+              "lv": 0,
+              "beh": "idle",
+              "frozen": false,
+              "talking": false
+            }
+          ]
+        },
+        "zone": "dorm",
+        "day": 1,
+        "hour": 17.55,
+        "weekday": 3,
+        "date": null,
+        "player": {
+          "x": -40,
+          "z": -5,
+          "y": 0,
+          "lv": 0,
+          "pose": "idle",
+          "busy": true
+        },
+        "dlg": {
+          "active": false,
+          "busyDepth": 0
+        },
+        "dlgText": null,
+        "choices": [],
+        "event": null,
+        "flagKeys": [
+          "dating_kexin",
+          "KX_DEC3_MIGRATED",
+          "YT_JOB_V",
+          "NAMECARD_V",
+          "deptHear",
+          "HCIRCLE",
+          "HEARD"
+        ],
+        "lastTalkError": null,
+        "walkFallbacks": 0
+      },
+      "error": null,
+      "closed": null
+    }
+  ],
+  "env": {
+    "browser": [
+      "153.0.8010.12"
+    ],
+    "playwright": "1.63.0",
+    "gpu_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "headless": [
+      true
+    ],
+    "os": "Linux 6.18.44-fc-v233",
+    "cc_gpu": "0",
+    "slot": 1
+  },
+  "shortcuts": {
+    "turbo": false,
+    "url": "http://127.0.0.1:8800/index.html",
+    "setup_lines": 2,
+    "setup_first": [
+      "[前置／捷徑] 開遊戲頁 http://127.0.0.1:8800/index.html（自測：只開頁、不玩）",
+      "[前置／捷徑] 開遊戲頁 http://127.0.0.1:8800/index.html（自測：只開頁、不玩）"
+    ],
+    "load_save": 0
+  },
+  "screenshots": [
+    "attempt1/out/assert_probe.png",
+    "attempt2/out/assert_probe.png"
+  ],
+  "traces": [
+    {
+      "path": "attempt2/trace/trace_TT_V2b_probe_1_c001_FAIL.zip",
+      "bytes": 1703364,
+      "push": true
+    }
+  ],
+  "sanitize": {
+    "text_files_rewritten": [
+      "attempt1/run.log",
+      "attempt2/run.log"
+    ],
+    "zip_entries_rewritten": 1,
+    "left_hits": [],
+    "slim": {
+      "attempt2/trace/trace_TT_V2b_probe_1_c001_FAIL.zip": {
+        "before": 63849931,
+        "dropped_bodies": 114,
+        "dropped_bytes": 122453849,
+        "frame_step": 1,
+        "frames": 56,
+        "after": 1703418,
+        "frames_kept": 56
+      }
+    }
+  },
+  "notes": [],
+  "show_trace": "python -m playwright show-trace <trace.zip>（或拖到 https://trace.playwright.dev）"
+}

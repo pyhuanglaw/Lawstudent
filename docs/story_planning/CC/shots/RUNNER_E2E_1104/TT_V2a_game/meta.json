@@ -1,0 +1,33 @@
+{
+  "rerun": "",
+  "id": "TT_V2a_game",
+  "sha": "d2e36f6eb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/selftest/st_assert_game.py",
+  "env": "CC_AUTORETRY=1;ST_PAGE=game",
+  "machine": "vm",
+  "start": "2026-11-04T13:54:20",
+  "end": "2026-11-04T13:55:43",
+  "seconds": 83,
+  "exit": 1,
+  "error": null,
+  "runner": "a839316f52",
+  "rf_round": null,
+  "url": "http://127.0.0.1:8801/index.html",
+  "attempt": 2,
+  "exit2": 1,
+  "res_peak": {
+    "cpu": 96,
+    "mem": 35,
+    "used_gb": 5.5,
+    "chrome_testing": 0
+  },
+  "final": "FAIL",
+  "class": "GAME_BUG/assert-game",
+  "report": "report.json",
+  "class_basis": [
+    "探針斷言 FAIL 1 行，比對的值是從遊戲狀態讀出來的（[src=game]）；第一行：GAME.G.money 是 145457（故意寫錯的預期）",
+    "遊戲回報／預期：[src=game] 遊戲回報 GAME.G.money＝22000，預期 145457",
+    "兩次一致"
+  ]
+}
