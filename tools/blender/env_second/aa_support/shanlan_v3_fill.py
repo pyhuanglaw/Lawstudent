@@ -29,7 +29,7 @@ sh.tally('v3 stairs')
 NX, NZ = 6, 8                                   # 14 m／6≈2.33、18 m／8＝2.25
 xs = [X0 + W * k / NX for k in range(1, NX)]
 zs = [Z0 + D * k / NZ for k in range(1, NZ)]
-BW, BD = 0.14, 0.16                             # 樑寬、樑深
+BW, BD = 0.07, 0.12                             # 樑寬、樑深（v5：LAWWW2 驗收，梁寬減半；v3 0.14／0.16）
 
 def in_void(x, z): return VD['x0'] - 1e-3 <= x <= VD['x1'] + 1e-3 and VD['z0'] - 1e-3 <= z <= VD['z1'] + 1e-3
 

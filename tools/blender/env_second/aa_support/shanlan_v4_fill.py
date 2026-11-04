@@ -48,3 +48,14 @@ for k in range(3):   # 書牆上面垂下來的黃金葛
     zz = zt + 0.9 + k * 2.2; sh.hanging_pothos('pothos', X0 + 0.15, tread_y(zz) + 2.75, zz, n=6, drop=0.6)
 print('v4 bays', nb)
 sh.tally('v4 stair wall shelves')
+
+# ---------------------------------------------------------------- 3. v5（LAWWW2 第三輪）：挑空下新書平台的小立牌（店員推薦卡）
+pf = IT['platform'][0]; long_x = pf['w'] >= pf['d']; pry = 0.0 if long_x else math.pi / 2
+PL_, PS_ = (pf['w'], pf['d']) if long_x else (pf['d'], pf['w'])
+for k, (u, yy, cell) in enumerate(((-PL_ / 2 + 0.25, 0.5, (8 + 0, 4)), (PL_ / 2 - 0.25, 0.5, (8 + 3, 4)), (0.0, pf['h'] - 0.17, (8 + 6, 4)))):
+    for sgn in (1, -1):
+        sxf = Xf(pf['x'], pf['z'], pry + (0 if sgn > 0 else math.pi))
+        sxf.rbox(sh.a('wood'), sgn * u - 0.06, sgn * u + 0.06, yy, yy + 0.012, PS_ / 2 - 0.2, PS_ / 2 - 0.12, r=0.002, seg=1)          # 小木座
+        kk = (k * 5 + (0 if sgn > 0 else 3)) % 16; uu = (kk / 16 + 0.002, 0.5 + 0.002, (kk + 1) / 16 - 0.002, 0.625 - 0.002)
+        sh.img_quad(sh.a('print'), sxf, sgn * u, yy + 0.012, PS_ / 2 - 0.15, 0.1, 0.14, uu, tilt=0.12)                          # 推薦卡（書封圖集裡的一格）
+sh.tally('v5 platform signs')
