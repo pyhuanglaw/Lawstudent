@@ -34,13 +34,14 @@ LAMP_JS = r"""(()=>{ const E=GAME.E, V=THREE.Vector3, cam=E.camera; cam.updateMa
   const all=[]; E.scene.traverseVisible(o=>{ if(o.isMesh&&!o.isSprite) all.push(o); });
   const down=(x,y,z,skip)=>{ const rc=new THREE.Raycaster(new V(x,y,z),new V(0,-1,0),0,2.5); const h=[]; for(const o of all){ if(skip&&skip.has(o)) continue; try{ o.raycast(rc,h); }catch(e){} } h.sort((a,b)=>a.distance-b.distance); return h.find(q=>q.face&&Math.abs(q.face.normal.clone().transformDirection(q.object.matrixWorld).y)>0.8)||null; };
   const LRX=/lamp|pendant|bulb|shade|brass|light|燈/i; const lamps=[]; const skip=new Set();
-  for(const o of all){ const nm=(o.name||'')+' '+((o.material&&o.material.name)||''); if(!LRX.test(nm)) continue; const b=new THREE.Box3().setFromObject(o); if(b.isEmpty()) continue; const c=b.getCenter(new V()); if(c.y<0.6) continue; skip.add(o); lamps.push({c,nm:nm.trim().slice(0,40)}); }
+  for(const o of all){ const nm=(o.name||'')+' '+((o.material&&o.material.name)||''); if(!LRX.test(nm)) continue; const b=new THREE.Box3().setFromObject(o); if(b.isEmpty()) continue; skip.add(o); const sz=b.getSize(new V()); if(sz.x>1.2||sz.z>1.2) continue; const c=b.getCenter(new V()); if(c.y<0.6) continue; lamps.push({c,nm:nm.trim().slice(0,40)}); }
+  E.scene.traverseVisible(o=>{ if((o.isPointLight||o.isSpotLight)&&o.intensity>0){ const c=o.getWorldPosition(new V()); if(c.y>0.8&&c.y<3.5) lamps.push({c,nm:'('+o.type+')'+(o.name||'')}); } });   /* r2：燈的網格常常合併成一大塊（中心不在燈下）→ 一併用場景裡的點光源、聚光燈 */
   const lit=[]; for(const L of lamps){ const h=down(L.c.x,L.c.y-0.05,L.c.z,skip); if(h&&h.point.y>0.4&&h.point.y<1.25&&L.c.y-h.point.y<2.2) lit.push({p:h.point,lamp:L.nm,surf:h.object.name||'(無名)'}); }
   const unlit=[]; for(const st of (E.zone.seats||[])){ const yaw=st.yaw||0, x=st.x+Math.sin(yaw)*0.45, z=st.z+Math.cos(yaw)*0.45; const h=down(x,1.6,z,skip); if(!h||h.point.y<0.4||h.point.y>1.25) continue; if(lit.some(q=>Math.hypot(q.p.x-x,q.p.z-z)<1.2)) continue; if(unlit.some(q=>Math.hypot(q.p.x-x,q.p.z-z)<0.5)) continue; unlit.push({p:h.point,surf:h.object.name||'(無名)'}); }
   const scr=q=>{ const v=q.p.clone().project(cam); const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight; const on=v.z<1&&sx>=0&&sx<=innerWidth&&sy>=0&&sy<=innerHeight;
     let vis=false; if(on){ const d=q.p.clone().sub(co); const L=d.length(); const rc=new THREE.Raycaster(co,d.normalize(),0.05,L+0.1); const h=[]; for(const o of all){ try{ o.raycast(rc,h); }catch(e){} } h.sort((a,b)=>a.distance-b.distance); vis=!!h[0]&&Math.abs(h[0].distance-L)<0.06; }
     return {x:+q.p.x.toFixed(2),y:+q.p.y.toFixed(2),z:+q.p.z.toFixed(2),sx:+sx.toFixed(1),sy:+sy.toFixed(1),on,vis,lamp:q.lamp||null,surf:q.surf}; };
-  return {vw:innerWidth,vh:innerHeight,lamps:lamps.length,lit:lit.map(scr),unlit:unlit.map(scr)}; })()"""
+  return {vw:innerWidth,vh:innerHeight,lamps:lamps.length,lampNames:lamps.slice(0,12).map(L=>L.nm+'@'+[L.c.x,L.c.y,L.c.z].map(v=>v.toFixed(1)).join(',')),lit:lit.map(scr),unlit:unlit.map(scr)}; })()"""
 
 
 def check(name, ok, info=''):

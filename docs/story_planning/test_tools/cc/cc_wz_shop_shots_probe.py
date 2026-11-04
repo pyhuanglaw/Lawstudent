@@ -57,6 +57,9 @@ def info(name, txt=''):
     print('INFO ' + name + (('  ' + txt) if txt else ''), flush=True)
 
 
+def GI_hhmm(h): return '%02d:%02d' % (int(h) % 24, int(round((h % 1) * 60)))
+
+
 def tag_of(h): return '%02d%02d' % (int(h), int(round((h % 1) * 60)))
 
 
@@ -118,7 +121,11 @@ async def run_hour(pg, cdp, h):
         await pg.wait_for_timeout(4000)
     c = await player_view(pg, cdp, '%s_%s_game.png' % (SH['glb'], tag))
     print('  [%s] 玩家視角鏡頭：%s' % (tag, J(c)), flush=True)
-    check('[%s] 玩家視角：鏡頭回到玩家後面、在房間裡（不是牆裡）' % tag, c and c['mode'] != 'cinematic' and in_box(c['cam']) and c['dist'] >= 1.0, J(c))
+    zin = await pg.evaluate("GAME.G.zone===%s" % J(SH['zone']))
+    x0, x1, z0, z1, hh = SH['box']
+    front_ok = c and x0 - 0.05 <= c['cam'][0] <= x1 + 0.05 and z0 - 0.05 <= c['cam'][2] <= z1 + 5.0   # r3：門在 +z，跟隨鏡頭在前牆外（前牆淡出的剖面視角）是正常的
+    if not zin: info('[%s] 玩家視角：沒有進到店裡（%s 這個時間可能沒開），只截了門口' % (tag, GI_hhmm(h)), J(c))
+    else: check('[%s] 玩家視角：鏡頭回到玩家後面（房間裡或前牆外的剖面視角）' % tag, c and c['mode'] != 'cinematic' and front_ok and c['dist'] >= 1.0, J(c))
     if 'street' in SH:
         name, e, l = SH['street']
         await load(pg, cdp, 'wenzhou', -20.5, 1.0, h, yaw=0)
