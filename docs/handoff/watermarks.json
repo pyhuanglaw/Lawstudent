@@ -4,10 +4,10 @@
  "roles": {
   "LAWWW": {
    "branch": "claude/adoring-meitner-mqzst8",
-   "sha": "4b2d702b8f2d7aa05a0cfe4aa2bc82064e555628",
-   "at": "2026-11-04T16:42Z",
+   "sha": "2bdd55233de55c5fd761cfbe0129e8da93e97008",
+   "at": "2026-11-04T17:28Z",
    "by": "LAWWW-C",
-   "scanned": 66,
+   "scanned": 33,
    "evidence": "帳號 B LAWWW 最後一個 commit（交班＋交接補強＋使用者授權補記）；LAWWW-C 接班時查核、合併成 bfd5f40d",
    "open": [
     "WIP-AB65-3-Y1S2-L",
@@ -199,16 +199,23 @@
      "at": "2026-11-04T14:27Z",
      "by": "LAWWW-C",
      "scanned": 922
+    },
+    {
+     "branch": "claude/adoring-meitner-mqzst8",
+     "sha": "4b2d702b8f2d7aa05a0cfe4aa2bc82064e555628",
+     "at": "2026-11-04T16:42Z",
+     "by": "LAWWW-C",
+     "scanned": 66
     }
    ],
    "classify": false
   },
   "LAWWW2": {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "b9a14965310e66dddfa993c343c99450f94f3d0a",
-   "at": "2026-11-04T16:42Z",
+   "sha": "308df73ce4a32d76b8648c2560ea3bf265965951",
+   "at": "2026-11-04T17:28Z",
    "by": "LAWWW-C",
-   "scanned": 20,
+   "scanned": 1,
    "evidence": "帳號 B 交接補強逐筆核對 16 筆（bbb4301b）＋deliveries scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-L2-DATE-CUTOUTS",
@@ -400,15 +407,22 @@
      "at": "2026-11-04T14:27Z",
      "by": "LAWWW-C",
      "scanned": 298
+    },
+    {
+     "branch": "claude/focused-cray-c9uwvw",
+     "sha": "b9a14965310e66dddfa993c343c99450f94f3d0a",
+     "at": "2026-11-04T16:42Z",
+     "by": "LAWWW-C",
+     "scanned": 20
     }
    ]
   },
   "AA": {
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "a183e7999f6822f461755577a28aef254f7f29ad",
-   "at": "2026-11-04T16:42Z",
+   "sha": "1dbf90235f2f96141dc9188be49aa1889830afea",
+   "at": "2026-11-04T17:28Z",
    "by": "LAWWW-C",
-   "scanned": 58,
+   "scanned": 21,
    "evidence": "帳號 B 交接補強逐筆核對 126 筆（c02a440e、1af66e42）＋scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-AA-103-SP",
@@ -595,15 +609,22 @@
      "at": "2026-11-04T14:27Z",
      "by": "LAWWW-C",
      "scanned": 1137
+    },
+    {
+     "branch": "claude/magical-albattani-bk7b4n",
+     "sha": "a183e7999f6822f461755577a28aef254f7f29ad",
+     "at": "2026-11-04T16:42Z",
+     "by": "LAWWW-C",
+     "scanned": 58
     }
    ]
   },
   "BB": {
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "df805f006e5fe2870c6cec795e59a1cf350f6bcd",
-   "at": "2026-11-04T16:42Z",
+   "sha": "8b647e6485a16db1252f6c0d15f052c2edfddeb9",
+   "at": "2026-11-04T17:28Z",
    "by": "LAWWW-C",
-   "scanned": 40,
+   "scanned": 8,
    "evidence": "帳號 B 交接補強逐筆核對 113 筆（558f381b）＋scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-BB-181",
@@ -796,15 +817,22 @@
      "at": "2026-11-04T14:27Z",
      "by": "LAWWW-C",
      "scanned": 1128
+    },
+    {
+     "branch": "claude/wonderful-mayer-7fm9g6",
+     "sha": "df805f006e5fe2870c6cec795e59a1cf350f6bcd",
+     "at": "2026-11-04T16:42Z",
+     "by": "LAWWW-C",
+     "scanned": 40
     }
    ]
   },
   "CC": {
    "branch": "claude/cc-testing",
-   "sha": "182034d4956ba94fee813c70fcfe578ec414ba47",
-   "at": "2026-11-04T16:42Z",
+   "sha": "6b00572438a6ee23b0185d2cb14b933cf8fd5d12",
+   "at": "2026-11-04T17:28Z",
    "by": "LAWWW-C",
-   "scanned": 62,
+   "scanned": 13,
    "evidence": "新職位 CC（D119／HV-22，使用者 2026-11-02 03:5x 對 BB）的基準：claude/cc-testing 從企劃線 claude/story-planning 734026659 開出，分岔點以前是 AA、BB 的 commit（由它們的水位線核對）；只核對 CC 自己的 commit（第一筆 336d26c35 值班登記）",
    "open": [],
    "history": [
@@ -828,6 +856,13 @@
      "at": "2026-11-04T14:27Z",
      "by": "LAWWW-C",
      "scanned": 771
+    },
+    {
+     "branch": "claude/cc-testing",
+     "sha": "182034d4956ba94fee813c70fcfe578ec414ba47",
+     "at": "2026-11-04T16:42Z",
+     "by": "LAWWW-C",
+     "scanned": 62
     }
    ]
   }
