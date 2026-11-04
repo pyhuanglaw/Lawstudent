@@ -882,8 +882,12 @@ class Person:
         plan = Plan([{'when': '^就這樣$', 'pick': r'^約.去'}, {'when': '^出去玩', 'pick': '^出去玩'}, {'when': '^就這樣約$', 'pick': '^就這樣約$'}])
         if w:
             n0 = len(await pg.evaluate(TRIPS_JS, self.pid))
-            ok, menus, lines, s = await self.talk('date 當面約', plan)
-            trips = await pg.evaluate(TRIPS_JS, self.pid)
+            for k in range(3):   # 第一次說話可能被一句情境台詞／階梯台詞用掉（11-04 SOC_*_zr：「妳上完課都在這裡發呆？」那一段沒有約的選單）→ 再說一次
+                ok, menus, lines, s = await self.talk('date 當面約' + ('' if k == 0 else '（第 %d 次）' % (k + 1)), plan)
+                trips = await pg.evaluate(TRIPS_JS, self.pid)
+                if len(trips) > n0: break
+                R.note('date 當面約：第 %d 次說話沒有約成（選單 %s），回到她旁邊再說一次' % (k + 1, J([x.get('opts') if isinstance(x, dict) else x for x in menus][:3])))
+                if not await self.walk_to('date 再說一次（不讀檔，剛才那句已經說過）'): break
             if not R.check('date 當面約：約成一趟（G.trips 多一筆 booked）', len(trips) > n0 and trips[-1]['status'] == 'booked', J(trips[-2:]) + ' ' + J(lines[-3:])): return
             await self.date_go('date 當面約', trips[-1])
         else:
