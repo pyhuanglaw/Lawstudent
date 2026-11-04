@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GG_cards_shot",
+  "sha": "809163ee4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T12:54:02",
+  "end": "2026-11-04T12:55:57",
+  "seconds": 115,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 82,
+    "mem": 60,
+    "used_gb": 18.9,
+    "chrome_testing": 27
+  }
+}

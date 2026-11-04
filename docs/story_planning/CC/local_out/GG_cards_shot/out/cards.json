@@ -1,0 +1,1482 @@
+{
+ "sha": "809163ee4",
+ "boot_s": 23.8,
+ "day": {
+  "hour": 11.0,
+  "glb_s": 11.43,
+  "viewport": [
+   844,
+   390
+  ],
+  "cards": {
+   "ggtea_int": {
+    "screen": [
+     [
+      684.5,
+      327.9,
+      0.9
+     ],
+     [
+      159.5,
+      327.9,
+      0.9
+     ],
+     [
+      159.5,
+      47.3,
+      0.9
+     ],
+     [
+      684.5,
+      47.3,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggtea_take": {
+    "screen": [
+     [
+      546.4,
+      271.6,
+      0.9
+     ],
+     [
+      297.6,
+      271.6,
+      0.9
+     ],
+     [
+      297.6,
+      32.3,
+      0.9
+     ],
+     [
+      546.4,
+      32.3,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggbook_int": {
+    "screen": [
+     [
+      799.4,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      -10.1,
+      0.9
+     ],
+     [
+      799.4,
+      -10.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggbook_int2": {
+    "screen": [
+     [
+      799.4,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      -10.1,
+      0.9
+     ],
+     [
+      799.4,
+      -10.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggcvs_int": {
+    "screen": [
+     [
+      771.5,
+      444.4,
+      0.9
+     ],
+     [
+      72.5,
+      444.4,
+      0.9
+     ],
+     [
+      72.5,
+      9.6,
+      0.9
+     ],
+     [
+      771.5,
+      9.6,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggcvs_side": {
+    "screen": [
+     [
+      737.8,
+      444.4,
+      0.9
+     ],
+     [
+      106.2,
+      444.4,
+      0.9
+     ],
+     [
+      106.2,
+      9.6,
+      0.9
+     ],
+     [
+      737.8,
+      9.6,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggbike_int2": {
+    "screen": [
+     [
+      614.8,
+      334.5,
+      0.9
+     ],
+     [
+      229.2,
+      334.5,
+      0.9
+     ],
+     [
+      229.2,
+      39.1,
+      0.9
+     ],
+     [
+      614.8,
+      39.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggbike_int": {
+    "screen": [
+     [
+      733.7,
+      318.1,
+      0.9
+     ],
+     [
+      110.3,
+      318.1,
+      0.9
+     ],
+     [
+      110.3,
+      39.1,
+      0.9
+     ],
+     [
+      733.7,
+      39.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggafar_int": {
+    "screen": [
+     [
+      590.2,
+      337.7,
+      0.9
+     ],
+     [
+      253.8,
+      337.7,
+      0.9
+     ],
+     [
+      253.8,
+      17.8,
+      0.9
+     ],
+     [
+      590.2,
+      17.8,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggafar_win": {
+    "screen": [
+     [
+      717.3,
+      337.7,
+      0.9
+     ],
+     [
+      126.7,
+      337.7,
+      0.9
+     ],
+     [
+      126.7,
+      17.8,
+      0.9
+     ],
+     [
+      717.3,
+      17.8,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggcorner_int": {
+    "screen": [
+     [
+      642.7,
+      352.5,
+      0.9
+     ],
+     [
+      201.3,
+      352.5,
+      0.9
+     ],
+     [
+      201.3,
+      -3.5,
+      0.9
+     ],
+     [
+      642.7,
+      -3.5,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggcorner_win": {
+    "screen": [
+     [
+      536,
+      352.5,
+      0.9
+     ],
+     [
+      308,
+      352.5,
+      0.9
+     ],
+     [
+      308,
+      -3.5,
+      0.9
+     ],
+     [
+      536,
+      -3.5,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggdb_int": {
+    "screen": [
+     [
+      814.9,
+      332.8,
+      0.9
+     ],
+     [
+      29.1,
+      332.8,
+      0.9
+     ],
+     [
+      29.1,
+      42.4,
+      0.9
+     ],
+     [
+      814.9,
+      42.4,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   }
+  }
+ },
+ "night": {
+  "hour": 20.5,
+  "glb_s": 3.58,
+  "viewport": [
+   844,
+   390
+  ],
+  "cards": {
+   "ggtea_int": {
+    "screen": [
+     [
+      684.5,
+      327.9,
+      0.9
+     ],
+     [
+      159.5,
+      327.9,
+      0.9
+     ],
+     [
+      159.5,
+      47.3,
+      0.9
+     ],
+     [
+      684.5,
+      47.3,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggtea_take": {
+    "screen": [
+     [
+      546.4,
+      271.6,
+      0.9
+     ],
+     [
+      297.6,
+      271.6,
+      0.9
+     ],
+     [
+      297.6,
+      32.3,
+      0.9
+     ],
+     [
+      546.4,
+      32.3,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggbook_int": {
+    "screen": [
+     [
+      799.4,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      -10.1,
+      0.9
+     ],
+     [
+      799.4,
+      -10.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggbook_int2": {
+    "screen": [
+     [
+      799.4,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      -10.1,
+      0.9
+     ],
+     [
+      799.4,
+      -10.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggcvs_int": {
+    "screen": [
+     [
+      771.5,
+      444.4,
+      0.9
+     ],
+     [
+      72.5,
+      444.4,
+      0.9
+     ],
+     [
+      72.5,
+      9.6,
+      0.9
+     ],
+     [
+      771.5,
+      9.6,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggcvs_side": {
+    "screen": [
+     [
+      737.8,
+      444.4,
+      0.9
+     ],
+     [
+      106.2,
+      444.4,
+      0.9
+     ],
+     [
+      106.2,
+      9.6,
+      0.9
+     ],
+     [
+      737.8,
+      9.6,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggbike_int2": {
+    "screen": [
+     [
+      614.8,
+      334.5,
+      0.9
+     ],
+     [
+      229.2,
+      334.5,
+      0.9
+     ],
+     [
+      229.2,
+      39.1,
+      0.9
+     ],
+     [
+      614.8,
+      39.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggbike_int": {
+    "screen": [
+     [
+      733.7,
+      318.1,
+      0.9
+     ],
+     [
+      110.3,
+      318.1,
+      0.9
+     ],
+     [
+      110.3,
+      39.1,
+      0.9
+     ],
+     [
+      733.7,
+      39.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggafar_int": {
+    "screen": [
+     [
+      590.2,
+      337.7,
+      0.9
+     ],
+     [
+      253.8,
+      337.7,
+      0.9
+     ],
+     [
+      253.8,
+      17.8,
+      0.9
+     ],
+     [
+      590.2,
+      17.8,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggafar_win": {
+    "screen": [
+     [
+      717.3,
+      337.7,
+      0.9
+     ],
+     [
+      126.7,
+      337.7,
+      0.9
+     ],
+     [
+      126.7,
+      17.8,
+      0.9
+     ],
+     [
+      717.3,
+      17.8,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggcorner_int": {
+    "screen": [
+     [
+      642.7,
+      352.5,
+      0.9
+     ],
+     [
+      201.3,
+      352.5,
+      0.9
+     ],
+     [
+      201.3,
+      -3.5,
+      0.9
+     ],
+     [
+      642.7,
+      -3.5,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggcorner_win": {
+    "screen": [
+     [
+      536,
+      352.5,
+      0.9
+     ],
+     [
+      308,
+      352.5,
+      0.9
+     ],
+     [
+      308,
+      -3.5,
+      0.9
+     ],
+     [
+      536,
+      -3.5,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   },
+   "ggdb_int": {
+    "screen": [
+     [
+      814.9,
+      332.8,
+      0.9
+     ],
+     [
+      29.1,
+      332.8,
+      0.9
+     ],
+     [
+      29.1,
+      42.4,
+      0.9
+     ],
+     [
+      814.9,
+      42.4,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'"
+   }
+  }
+ },
+ "table": {
+  "ggtea_int": {
+   "shop": "G01 青木茶室",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggtea_take": {
+   "shop": "G01 青木茶室",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggbook_int": {
+   "shop": "G02 頁間書屋",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggbook_int2": {
+   "shop": "G02 頁間書屋",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggcvs_int": {
+   "shop": "G03 日和便利店",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggcvs_side": {
+   "shop": "G03 日和便利店",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggbike_int2": {
+   "shop": "G06 慢輪單車",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggbike_int": {
+   "shop": "G06 慢輪單車",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggafar_int": {
+   "shop": "G07 Afar café",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggafar_win": {
+   "shop": "G07 Afar café",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggcorner_int": {
+   "shop": "G12 轉角唱片",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggcorner_win": {
+   "shop": "G12 轉角唱片",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggdb_int": {
+   "shop": "G14 Daybreak",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  }
+ }
+}
