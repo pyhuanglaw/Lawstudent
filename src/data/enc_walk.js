@@ -858,7 +858,7 @@ const ENC_WALK={
   "dating": [
    "你站過去一點。好，不要動。"
   ],
-  "note": "AA_685 C 節第 1 點（企劃線 91f240e50，AA-C 定 D109）：日落以後（寒假 18:00 以後、暑假日落以後）「海風與夕陽」灰掉，同行換「海風與燈」（free_trips.js D14.lights，freetrip3d.js S.nightOn）；第二句和夕陽版同一句"
+  "note": "AA_685 C 節第 1 點（企劃線 91f240e50，AA-C 定 D109）：日落以後（寒假 18:00 以後、暑假日落以後）「海風與夕陽」灰掉，同行換「海風與燈」（free_trips.js D14.lights，freetrip3d.js S.nightOn）；第二句和夕陽版同一句。AA_686 第 5 項：源稿 aa_walk_v1.json@1df3c189e 補了這一列（同字）"
  },
  {
   "who": "heroine_03",

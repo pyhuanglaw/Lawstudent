@@ -96,10 +96,14 @@ const TRIP=(function(){
     if((G.money|0)<(p.cost|0)) return '錢不夠'; if(h+(p.minutes||0)/60>s.open[1]+1e-6) return '快關門了，來不及'; return ''; };
   /* AA_685 C 節第 1 點（企劃線 91f240e50，AA-C 定 D109）：nightOf 的那一項（D14「海風與燈」，tools/freetrip/import_spots.py 補的）＝取代 nightOf 那一項（「海風與夕陽」）——
      那一項是「太陽已經下山了」（寒假 18:00 以後、暑假日落以後）、而且同行的人有這一項的台詞（src/data/enc_walk.js）才列，夕陽那一項就不列；
-     一個人來、她沒有這一項的台詞＝照原本（不列這一項，夕陽那一項灰掉）。做過夕陽那一項、下雨＝夕陽那一項先灰掉（不是「下山了」），不換 */
-  S.nightOn=function(G,s,q){ const T=G&&G.trip, o=q&&q.nightOf&&s&&(s.points||[]).find(x=>x.id===q.nightOf); if(!o||!T||!T.with||typeof ENC==='undefined'||!ENC.walkLine||!ENC.tier) return false;
-    if(pointState(G,s,o)!=='太陽已經下山了') return false; const c=T.with, tr=ENC.tier(G,c.who); return !!ENC.walkLine(G,c.who,s.id,q.id,Object.assign({},tr,{t:c.tier})); };
-  const nightSkip=(G,s,p)=>p.nightOf?!S.nightOn(G,s,p):s.points.some(q=>q.nightOf===p.id&&S.nightOn(G,s,q));
+     一個人來、她沒有這一項的台詞＝照原本（不列這一項，夕陽那一項灰掉）。做過夕陽那一項、下雨＝夕陽那一項先灰掉（不是「下山了」），不換
+     AA_686 第 5 項（企劃線 1df3c189e，AA-C 定 D109）：源稿 spots_v3.json 補了這一項（night:true＝取代同一個景點寫 sunset 的那一項；一個人的旁白兩句），匯入工具的 EXTRA（nightOf）拿掉——
+     一個人來也列（旁白照 lines）；同行的人照 AA_685 C1（她有這一項的台詞才列，沒有＝照原本夕陽那一項灰掉）。舊的 nightOf 寫法照樣認 */
+  S.nightBase=(s,q)=>!q||!s?null:((q.nightOf?(s.points||[]).find(x=>x.id===q.nightOf):(q.night?(s.points||[]).find(x=>x.sunset&&!x.night):null))||null);
+  S.nightOn=function(G,s,q){ const T=G&&G.trip, o=S.nightBase(s,q); if(!o||!T) return false; if(pointState(G,s,o)!=='太陽已經下山了') return false;
+    if(!T.with) return !!q.night&&!!(q.lines||[]).length;   /* 一個人來（AA_686 第 5 項）：有旁白才列 */
+    if(typeof ENC==='undefined'||!ENC.walkLine||!ENC.tier) return false; const c=T.with, tr=ENC.tier(G,c.who); return !!ENC.walkLine(G,c.who,s.id,q.id,Object.assign({},tr,{t:c.tier})); };
+  const nightSkip=(G,s,p)=>(p.nightOf||p.night)?!S.nightOn(G,s,p):s.points.some(q=>(q.nightOf||q.night)&&S.nightBase(s,q)===p&&S.nightOn(G,s,q));
   /* 景點的選單迴圈（4-4）*/
   let busy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['freetrip3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */

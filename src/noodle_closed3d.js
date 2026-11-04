@@ -18,6 +18,19 @@ const NOODLE_CLOSED=(function(){
   /* 那一天是不是店休：回傳 {year, from, to, open}（from～to 店休、open＝初四），不是＝null */
   S.window=function(day){ for(const y in CNY){ const c=DK(CNY[y]); if(c==null) continue; if(day>=c-7&&day<=c+2) return {year:+y,from:c-7,to:c+2,open:c+3}; } return null; };
   S.closed=(G,day)=>law(G)&&!!S.window(day==null?G.day:day);
+  /* AA_686 第 4 項（企劃線 1df3c189e；72707f636 補新年快樂回覆池；AA-C 定 D109）：「茶屋○○開」照那一年茶屋過年以後第一個開門的日子算，字裡的「初X」跟著換。
+     茶屋和燒臘店同一段休息（S.window，AA_685 A4），初四（open）起第一個茶屋有開的日子：places.js wz_teahouse 週一、週二公休——
+     2026 初四（2/20 週五）、2027 初四（2/9 週二）公休＝初五（2/10）、2028 初四（1/29 週六）、2029 初四（2/16 週五）。
+     S.teaOpen(day)＝day 所在那一段店休以後茶屋第一個開門的日子（day 不在店休裡＝null）；S.chu(d)＝那天是初幾（初一＝CNY；不在初一～初十＝null）；
+     S.teaText(t, day)＝只認 TEA_LINES 這兩整句：「初四」換成那一年的「初X」，其他字不動（別的句子原樣回傳）——語彤旅行訊息 shut.back（vac_activities.js，vac3d.js 傳的時候換）、
+     手機「新年快樂」語彤 L「初四開店。你要第一個來喝。」（msg2_pool.js 是產生的檔，不改：src/msg3d.js S.msgsOf 傳的時候換）*/
+  S.TEA_LINES=['茶屋初四開。蘇姨說第一壺留給你。','初四開店。你要第一個來喝。'];
+  const CHU=['一','二','三','四','五','六','七','八','九','十'];
+  S.teaOpen=function(day){ const W=day==null?null:S.window(day); if(!W) return null;
+    for(let d=W.open;d<W.open+7;d++){ const ws=typeof PLACES!=='undefined'&&PLACES.windowsOf?PLACES.windowsOf('wz_teahouse',d):undefined; if(ws===undefined||(ws&&ws.length)) return d; }   /* undefined＝沒有營業時間表（不看）；null／空＝那天公休 */
+    return W.open; };
+  S.chu=function(d){ if(d==null) return null; for(const y in CNY){ const c=DK(CNY[y]); if(c==null) continue; const n=d-c; if(n>=0&&n<CHU.length) return '初'+CHU[n]; } return null; };
+  S.teaText=function(t,day){ if(typeof t!=='string'||!S.TEA_LINES.includes(t)) return t; const c=S.chu(S.teaOpen(day)); return c?t.replace('初四',c):t; };
   const inGroup=G=>typeof PHONE!=='undefined'&&!!PHONE.inGroup&&PHONE.inGroup(G,'noodle_team');
   /* 那一天在麵店有約：出遊（地點寫麵店）、答應的邀約（地點是麵店）——劇情照演，門照常開 */
   S.storyDue=function(G){ const OUTS=typeof OUT!=='undefined'&&OUT.rec?OUT.rec(G):[]; if(OUTS.some(q=>q.day===G.day&&q.state==='planned'&&/麵店|燒臘/.test(q.place||'')&&!/麵舖/.test(q.place||''))) return true;

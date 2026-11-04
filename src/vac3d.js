@@ -303,7 +303,7 @@ const VAC=(function(){
     const inTP=(id,d)=>{ if(typeof STORY==='undefined'||!STORY.presence) return true; const p=STORY.presence(id,Object.assign({},G,{day:d})); return p.here!==false||p.kind==='taipei'; };
     const inHome=(id,d)=>{ if(typeof STORY==='undefined'||!STORY.presence) return false; const p=STORY.presence(id,Object.assign({},G,{day:d})); return p.here===false&&p.kind==='home'; };   /* 她在老家（回台中那幾段）*/
     for(const id in M.gf){ if(!F['dating_'+id]||mates.has(id)) continue; const P=M.gf[id], fr=P.freq; if(off(P.off,sd)) continue;   /* 一起去的那一位不傳 */
-      const at=d=>{ const h=(fr.tt&&[2,4].includes(wdOf(d)))?fr.tt:fr.h; return fr.nextDay?{d:d+1,h}:{d,h}; };
+      const at=d=>{ const w=wdOf(d), h=(fr.we!=null&&(w===6||w===0))?fr.we:((fr.tt&&[2,4].includes(w))?fr.tt:fr.h); return fr.nextDay?{d:d+1,h}:{d,h}; };   /* we：週六、日那天的時間（AA_686 第 3e 項，企劃線 1df3c189e：語彤週六、日 22:30、平日 21:30）*/
       const TP=P.tp||{}, tpSet=new Set(TP.pool||[]), alt=P.pool.map((x,i)=>i).filter(i=>!tpSet.has(i)); let j=0;   /* 不在臺北的那幾天：跳過 tp 的那幾則，照順序用其他的 */
       const ns0=TP.noShift&&DK(TP.noShift[0]), ns1=TP.noShift&&DK(TP.noShift[1]), work=d=>inTP(id,d)&&!(ns0!=null&&ns1!=null&&d>=ns0&&d<ns1);   /* 她上班的日子：在臺北、而且不在 noShift 那一段（芷若 2027-06-04～09-02 不上班，AA_369 第 8 節第 8 題）*/
       /* 麵店過年店休（noodle_closed3d.js）：講店裡生意的那幾則（shopOpen：mid、pool 的第幾則、back）不傳，換 shut 的句子（AA_369 第 7 節第 7 題、第 8 節第 5 題，套 H5 ④）。
@@ -313,6 +313,9 @@ const VAC=(function(){
          其他日子（offWd）：中間那則、池子換不講店裡的那幾則輪流（同店休的 sAlt）、回來那天那一則不傳；過年店休那幾天照 shut（店休先算）。沒有 wd＝每天都可以（照原本）*/
       const offWd=d=>Array.isArray(SO.wd)&&!SO.wd.includes(wdOf(d));
       const soSet=new Set(SO.pool||[]), sAlt=P.pool.map((x,i)=>i).filter(i=>!soSet.has(i)), sUsed={}; let sj=0;
+      /* AA_686 第 3b、3c 項（企劃線 1df3c189e，AA-C 定 D109）：offWd＝不是 wd 那幾天（語彤寒暑假的平日在淡水）——輪流的是 offWd.pool 那三則（先）＋不講店裡的那兩則（sAlt），自己一個順序（wj）；
+         玩家能回的換 offWd.rep。過年店休那幾天照 shut（店休先算），店休的輪流照舊只用 sAlt（AA_369 第 8 節第 5 題）。沒有 offWd＝照 AA_685 A6-4（只有 sAlt）*/
+      const OW=P.offWd||{}, wAlt=(OW.pool||[]).map(t=>({t})).concat(sAlt.map(i=>({i}))); let wj=0;
       const shutPick=d=>{ const W=NOODLE_CLOSED.window?NOODLE_CLOSED.window(d):null; if(W&&d===W.from&&SH.first&&!sUsed.first){ sUsed.first=true; return SH.first; }
         if(W&&d<W.from+7) for(let i=0;i<(SH.pool||[]).length;i++) if(!sUsed['p'+i]){ sUsed['p'+i]=true; return SH.pool[i]; }   /* W.from+7＝初一 */
         return sAlt.length?tx(P.pool[sAlt[(sj++)%sAlt.length]]):null; };
@@ -320,17 +323,23 @@ const VAC=(function(){
       let k=0; for(let d=sd+1;d<ed;d++){ if(fr.every&&(d-sd)%fr.every!==1%fr.every) continue; const w=at(d), away=(tpSet.size||TP.mid)&&!work(w.d), closed=!!SH&&shut(w.d), off=!closed&&offWd(w.d);
         if(d===mid&&!(TP.mid&&away)){ if(!(SO.mid&&(shut(w.d)||off))){ put(id,w.d,w.h,P.mid,T0+id+'_mid'); continue; } if(!SH&&!off) continue; }   /* 店休那天的中間那則：有 shut＝換店休的句子（下面），沒有＝那一天不傳；不是 wd 那幾天（AA_685 A6-4）＝換池子裡不講店裡的那一則（下面）*/
         let idx=null, texts; if(closed){ texts=shutPick(w.d); if(!texts) continue; }
-        else { if(off&&soSet.size&&sAlt.length){ idx=sAlt[(sj++)%sAlt.length]; } else if(away&&tpSet.size&&alt.length){ idx=alt[(j++)%alt.length]; } else { idx=k<8?k:(k-8)%4; k++; } texts=tx(P.homePool&&P.homePool[idx]&&inHome(id,w.d)?P.homePool[idx]:P.pool[idx]); }   /* homePool：那一天她在老家（presence home）換的那幾則（芷若在台中「我媽在旁邊一直問我在跟誰傳訊息。」，AA_550 第 4 節第 2 點）；off：不講店裡的那幾則輪流，輪到第幾則（k）不動 */
-        const ask={id:T0+id+'_p'+d,until:T(w.d+1,24),opts:(closed&&SH.rep?SH.rep:P.rep).map(t=>({t,say:[]}))}; put(id,w.d,w.h,texts,T0+id+'_p'+d,ask);   /* 店休那幾天玩家能回的換 shut.rep（AA_369 第 9 節第 3 題）*/
+        else { let ot=null; if(off&&soSet.size&&wAlt.length){ const o=wAlt[(wj++)%wAlt.length]; if(o.t) ot=o.t; else idx=o.i; } else if(away&&tpSet.size&&alt.length){ idx=alt[(j++)%alt.length]; } else { idx=k<8?k:(k-8)%4; k++; }
+          texts=ot?tx(ot):tx(P.homePool&&P.homePool[idx]&&inHome(id,w.d)?P.homePool[idx]:P.pool[idx]); }   /* homePool：那一天她在老家（presence home）換的那幾則（芷若在台中「我媽在旁邊一直問我在跟誰傳訊息。」，AA_550 第 4 節第 2 點）；off：平日輪流的那幾則（wAlt），輪到第幾則（k）不動 */
+        const ask={id:T0+id+'_p'+d,until:T(w.d+1,24),opts:(closed&&SH.rep?SH.rep:(off&&OW.rep?OW.rep:P.rep)).map(t=>({t,say:[]}))}; put(id,w.d,w.h,texts,T0+id+'_p'+d,ask);   /* 店休那幾天玩家能回的換 shut.rep（AA_369 第 9 節第 3 題）；平日換 offWd.rep（AA_686 第 3c 項）*/
         if(id==='heroine_04'&&w.d<ed&&idx!=null){ const V=S.rec(G), Z=(V.zq2||(V.zq2={}))[I.key]||(V.zq2[I.key]=[]); Z.push({d:w.d,tag:T0+id+'_p'+d,texts:tx(P.pool[(idx+4)%8])}); } }   /* 子晴第二則：池子另一半的那一則 */
       const shutBack=!!(SH&&SO.back&&SH.back&&shut(ed));   /* 回國那天是過年店休＝shut.back（先算）；不是 wd 那幾天（AA_685 A6-4：語彤平日）＝回來那天那一則不傳 */
-      if(!(TP.back&&!work(ed))&&!(TP.backNext&&!inTP(id,ed+1))&&!(SO.back&&!shutBack&&offWd(ed))) put(id,ed,Math.max(8,tr.end.h-3),shutBack?SH.back:P.back,T0+id+'_back');   /* backNext：以安「明天見。……」限臺北＝隔天（見面那天）她在臺北才傳（AA_369 第 7 節第 7 題）；隔天她在台中＝重逢走 reunionHome（第 2 題那句、AA_350 S5 那兩則）。回國那天麵店店休＝shut.back（第 8 節第 5 題）*/
+      const backTx=shutBack?SH.back.map(t=>typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.teaText?NOODLE_CLOSED.teaText(t,ed):t):P.back;   /* AA_686 第 4 項：「茶屋初四開。…」的「初四」照那一年茶屋過年以後第一個開門的日子（2027＝初五）*/
+      if(!(TP.back&&!work(ed))&&!(TP.backNext&&!inTP(id,ed+1))&&!(SO.back&&!shutBack&&offWd(ed))) put(id,ed,Math.max(8,tr.end.h-3),backTx,T0+id+'_back');   /* backNext：以安「明天見。……」限臺北＝隔天（見面那天）她在臺北才傳（AA_369 第 7 節第 7 題）；隔天她在台中＝重逢走 reunionHome（第 2 題那句、AA_350 S5 那兩則）。回國那天麵店店休＝shut.back（第 8 節第 5 題）*/
       if(dark!=null&&P.dark){ const th='p:'+id; const ask={id:T0+id+'_dark',until:T(dark+2,24),opts:M.darkRep.map(t=>({t,say:[{th,from:id,text:P.darkAns}]}))}; put(id,dark,22.5,P.dark,T0+id+'_dark',ask); }   /* 停電那晚她傳的，隔天早上才收到 */
       if(tr.missWeek&&P.miss){ const d=sd+(tr.missWeek-1)*7+2; if(d<ed) put(id,at(d).d,at(d).h+0.5,P.miss,T0+id+'_miss',{id:T0+id+'_miss',until:T(d+2,24),opts:M.missRep.map(t=>({t,say:[]}))}); } }
     const fam=id=>atLeast(id,'FAMILIAR');
     for(const id in M.friend){ if(F['dating_'+id]||!fam(id)||mates.has(id)) continue; if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,id)) continue;   /* AA_600 S7：祐廷出國時，前任的以安、學姊不傳 */ if(M.gf[id]&&off(M.gf[id].off,sd)) continue;
-      M.friend[id].forEach((f,j)=>{ if(f.only&&f.only!==A.id) return; const d=f.day==='mid'?mid:(f.day==='mid1'?mid+1:(f.day==='mid-1'?mid-1:(f.day==='end'?ed-1:sd+f.day))); const h=f.h==='dep'?depH:f.h, fd=f.nextDay?d+1:d;
-        const shutF=!!f.shut&&typeof NOODLE_CLOSED!=='undefined'&&!!NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G,fd);   /* 那天麵店過年店休：語彤朋友版的照片換 shut（AA_369 第 9 節第 3 題）*/
+      M.friend[id].forEach((f,j)=>{ if(f.only&&f.only!==A.id) return; const d=f.day==='mid'?mid:(f.day==='mid1'?mid+1:(f.day==='mid-1'?mid-1:(f.day==='end'?ed-1:sd+f.day))); const h=f.h==='dep'?depH:f.h; let fd=f.nextDay?d+1:d;
+        const shutD=x=>typeof NOODLE_CLOSED!=='undefined'&&!!NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G,x);
+        /* AA_686 第 3d 項（企劃線 1df3c189e，AA-C 定 D109）：寫了 wd 的（語彤「茶屋今天的長桌」：只在週六、日傳）——那天不是 wd、也不是店休（店休照樣換 shut 那張）＝改在這一趟離那天最近的 wd 那一天
+           （出發那天～回來前一天，一樣近先取後面那天）；這一趟沒有＝不傳 */
+        if(Array.isArray(f.wd)&&!f.wd.includes(wdOf(fd))&&!(f.shut&&shutD(fd))){ let b=null; for(let k=1;k<=ed-sd&&b==null;k++) for(const x of [fd+k,fd-k]) if(b==null&&x>=sd&&x<ed&&f.wd.includes(wdOf(x))) b=x; if(b==null) return; fd=b; }
+        const shutF=!!f.shut&&shutD(fd);   /* 那天麵店過年店休：語彤朋友版的照片換 shut（AA_369 第 9 節第 3 題）*/
         put(id,fd,h,tx(shutF?f.shut:f.ms),T0+'f_'+id+'_'+j); }); }
     return n; };
   /* 回來後第一次在 3D 遇到朋友（AA_242 8-7、BB_200 第 4 節）：最近一趟出國回來 30 天內、FAMILIAR 以上、沒有交往；每個人每趟一次（story3d.js 的 talkCharacter 在閒聊前呼叫）*/
@@ -470,15 +479,19 @@ const VAC=(function(){
   /* 回來重逢：見面那一天、約的那一則（AA_684 第 3 項，企劃線 0382b8a34；AA_685 B2，企劃線 c96613e51，AA-C 定 D109）——一般＝約的隔天（照原本）；
      寫了 meetWd 的（語彤：她只有週六、日在茶屋上班）＝約的那天（inv：她回到臺北的那一天，S.reBack）以後第一個她有班的那個星期幾（S.reShift：那天的作息在 shift.zone、不是過年店休）、R.h（17:15）；
      字（AA_685 B2 ③）：約的那天是週一～週五＝invite（「這週六我五點下班」），週六、週日＝inviteNext（「下週六我五點下班」）；「今天我五點下班」（inviteToday）不用了。
-     那天以後的第一個週六她沒有班（過年茶屋休息那幾天）＝那兩句講不到見面那一天：改在見面那天前一個週六約（at，句子「下週六」；AA_685 沒寫這一種，記給 AA）。
-     G、id 沒給（只問日子）＝不看班表、店休，只看星期幾。回傳 {day, invite, ns, at}（ns＝見面那一天的 noShift／byDate，S.reNS；at＝約的那一天，21:00）。at 照舊收著、不用（AA_685：一律「那天以後」）*/
-  S.reInvite=function(R,inv,at,G,id){ let day=inv+1, send=inv, invite=null;
+     AA_685 D-1（企劃線 2d4d5dc72，AA-C 定 D109；回 BB-C 20:30）：中間隔了她沒有班的週六（例：C11@Y2 1/30 回到臺北，2/6 初一茶屋休息，見面 2/13）＝照樣回到臺北那天 21:00 就約
+     （拿掉原本「改在見面前一個週六約」）；那兩句講不到見面那一天＝inviteDate（「{月}/{日} 那個週六我五點下班」／「你來店裡」，日期＝見面那一天）；
+     隔掉的週六有一個是過年茶屋休息（NOODLE_CLOSED）＝最前面多 inviteShut（「茶屋過年休息」），不是過年的（其他原因沒班）不加。沒隔週六＝照 B2 ③。
+     G、id 沒給（只問日子）＝不看班表、店休，只看星期幾。回傳 {day, invite, ns, at}（ns＝見面那一天的 noShift／byDate，S.reNS；at＝約的那一天，21:00＝inv）*/
+  S.reInvite=function(R,inv,at,G,id){ let day=inv+1, invite=null;
     if(R&&R.meetWd!=null&&typeof CALENDAR!=='undefined'&&CALENDAR.dateOf){ const wd=d=>CALENDAR.dateOf(d).wd%7, first=d=>{ for(let x=d+1;x<=d+7;x++) if(wd(x)===R.meetWd) return x; return d+7; };
       let m=null; for(let d=inv+1;d<=inv+70&&m==null;d++) if(wd(d)===R.meetWd&&S.reShift(G,id,R,d)) m=d;
       day=m!=null?m:first(inv);   /* 十週內都找不到她有班的那一天（不會發生；保險）＝照星期幾 */
-      if(day!==first(inv)) send=day-7;   /* 中間隔了她沒有班的週六：見面前一個週六約 */
-      const w=wd(send); invite=(w>=1&&w<=5)?R.invite:(R.inviteNext||R.invite); }
-    const ns=S.reNS(R,day); invite=ns?ns.invite:(invite||(R&&R.invite)||[]); return {day,invite,ns,at:send}; };
+      if(day!==first(inv)&&Array.isArray(R.inviteDate)){ const x=CALENDAR.dateOf(day); invite=R.inviteDate.map(t=>String(t).replace('{月}',x.m).replace('{日}',x.d));   /* AA_685 D-1：中間隔了她沒有班的週六＝用日期講 */
+        let ny=false; for(let s=first(inv);s<day;s+=7) if(G&&typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G,s)) ny=true;
+        if(ny&&Array.isArray(R.inviteShut)) invite=R.inviteShut.concat(invite); }
+      else { const w=wd(inv); invite=(w>=1&&w<=5)?R.invite:(R.inviteNext||R.invite); } }
+    const ns=S.reNS(R,day); invite=ns?ns.invite:(invite||(R&&R.invite)||[]); return {day,invite,ns,at:inv}; };
   /* AA_685 B2 ②：那一天她有沒有班（寫了 shift 的：那天 shift.h 點的作息在 shift.zone，不算約好的時間；茶屋過年和燒臘店同一段休息，日子照 NOODLE_CLOSED，AA_685 A4）。沒有 G、沒有 shift＝有 */
   S.reShift=function(G,id,R,d){ if(!G) return true; if(typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G,d)) return false;
     const sh=R&&R.shift; if(!sh||typeof STORY==='undefined'||!STORY.schedEnt||typeof CHARACTERS==='undefined'||!CHARACTERS[id]||typeof CALENDAR==='undefined') return true;

@@ -26,7 +26,7 @@ const FREE_TRIPS={
    "12": 17.17
   }
  },
- "source": "第一批＝DL-06 照抄（free_trips.js 原有）＋白名單 spots_v2.json@32d11245＋spots_v3.json@3b599624＋AA_685 C1（D14.lights）",
+ "source": "第一批＝DL-06 照抄（free_trips.js 原有）＋白名單 spots_v2.json@32d11245＋spots_v3.json@1df3c189e",
  "spots": [
   {
    "id": "D04",
@@ -1557,8 +1557,12 @@ const FREE_TRIPS={
      "minutes": 30,
      "cost": 0,
      "outdoor": true,
-     "nightOf": "D14.sunset",
-     "lines": []
+     "night": true,
+     "lines": [
+      "天黑以後，情人橋上的燈一排一排亮起來。你找了一段沒有人的欄杆靠著。",
+      "今天風很大，橋上的燈一直被吹得晃來晃去。"
+     ],
+     "note": "AA_685 C1、AA_686：夕陽灰掉的時候（寒假 18:00 以後、暑假日落以後）用這一項"
     }
    ],
    "leave": "回程先坐公車到淡水站。淡水是起點站，你一上車就有位子。",

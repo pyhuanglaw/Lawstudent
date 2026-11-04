@@ -10,6 +10,8 @@
 //   B5  桌遊夜長桌閒聊每一則每個存檔只演一次、那一學期的用完就不演；舊的旁白加括號
 //   C1  D14 日落以後（寒假 18:00 以後、暑假日落以後）同行「海風與夕陽」換「海風與燈」，語彤兩句照稿（第二句和夕陽版同一句）
 //   另外：tools/story/aa685_fix.json 兩份清單（import_guard.py read_fix、tests/alison.js）一樣、排在 aa683 後面；新句逐字在 AA_685（91f240e50，直接讀、不經換字表）
+//   AA_686（企劃線 1df3c189e）、AA_685 D 節（2d4d5dc72）後來改了其中幾件，這支照新的決定改（不是放寬）：A6-4 平日多三則、平日的回覆；B2 中間隔了沒班的週六＝回到臺北當天用日期約；
+//   C1 源稿補了「海風與燈」（一個人來也出、旁白兩句）。那幾件本身的測試在 tests/aa686_fix3_unit.js
 // 修改前（開發分支 284514e47）：每一節都有 FAIL。用法：node tests/aa685_canon_fix2_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -97,20 +99,22 @@ await sec('A6-4',()=>{
     &&J(P.rep)===J(['辛苦了。','想喝茶。'])&&J(P.back)===J(['回來了嗎','蘇姨說幫你留一杯'])&&J(P.miss)===J(['今天收店的時候 我把你的位子擦了兩次'])&&J(P.dark)===J(['你今天怎麼沒回','……沒事就好'])
     &&['今天店裡很忙／蘇姨問你什麼時候回來','📷（一壺泡好的烏龍，旁邊兩個杯子）／不是你的 是客人的','你不在 前院的貓碗都是我在洗','辛苦了。／想喝茶。'].every(inDoc),J({pool:P.pool,rep:P.rep}));
   check('A6-4. shopOpen：講店裡的那幾則（中間那則、池子 0～5、回來那天）只在週六、日（wd [6,0]）',J(P.shopOpen)===J({mid:true,pool:[0,1,2,3,4,5],back:true,wd:[6,0]})&&inDoc('**只在週六、日傳**'));
-  /* 2026-07-13（一）出發、07-24（五）回來：中間 7/18（六）是 mid；7/19（日）池子第 1 則；平日只有不講店裡的那兩則；回來那天是平日＝那一則不傳 */
-  const L=ytTrip('2026-07-13','2026-07-24'), D=byDayTxt(L.filter(x=>/_p\d+$|_mid$|_back$/.test(x.tag||''))), NEU=['你那邊在吃什麼','……晚安'];
+  /* 2026-07-13（一）出發、07-24（五）回來：中間 7/18（六）是 mid；7/19（日）池子第 1 則；平日只有不講店裡的那幾則；回來那天是平日＝那一則不傳
+     AA_686 第 3b、3c 項（企劃線 1df3c189e，AA-C 定 D109）：平日輪流的多三則（今天在淡水、診所門口的盆栽、秀琴姨，排在前面），玩家能回的平日換「淡水冷嗎？」「好好休息。」——下面兩項照新的規則（本身的測試在 tests/aa686_fix3_unit.js）*/
+  const L=ytTrip('2026-07-13','2026-07-24'), D=byDayTxt(L.filter(x=>/_p\d+$|_mid$|_back$/.test(x.tag||''))), NEU=['你那邊在吃什麼','……晚安'], WKP=[].concat(...((P.offWd||{}).pool||[])).concat(NEU);
   const shopIdx=new Set([0,1,2,3,4,5]), SHOP=[].concat(...[...shopIdx].map(i=>P.pool[i])).concat(P.mid,P.back.slice(1));
   const wk=Object.keys(D).filter(k=>![0,6].includes(WD(DK(k))));
-  check('A6-4. 平日（7/14～7/17、7/20～7/23）：只傳不講店裡的那兩則（你那邊在吃什麼、……晚安）輪流',wk.length===8&&wk.every(k=>D[k].every(t=>NEU.includes(t)))&&D['2026-07-14'][0]==='你那邊在吃什麼'&&D['2026-07-15'][0]==='……晚安',J(wk.map(k=>[k,D[k]])));
+  check('A6-4. 平日（7/14～7/17、7/20～7/23）：只傳不講店裡的那幾則輪流（AA_686 第 3b 項：先「今天在淡水」那三則，再「你那邊在吃什麼」「……晚安」）',wk.length===8&&wk.every(k=>D[k].every(t=>WKP.includes(t)))&&D['2026-07-14'][0]==='今天在淡水'&&D['2026-07-17'][0]==='你那邊在吃什麼'&&D['2026-07-20'][0]==='……晚安',J(wk.map(k=>[k,D[k]])));
   check('A6-4. 週六 7/18（中間那則）「📷（茶屋的茶壺）」「今天也有開」；週日 7/19 池子第 1 則「今天店裡很忙」「蘇姨問你什麼時候回來」',J(D['2026-07-18'])===J(['📷（茶屋的茶壺）','今天也有開'])&&J(D['2026-07-19'])===J(['今天店裡很忙','蘇姨問你什麼時候回來']),J([D['2026-07-18'],D['2026-07-19']]));
   check('A6-4. 回來那天（7/24 週五）：「蘇姨說幫你留一杯」那一則不傳；平日沒有任何講店裡的句子',!L.some(x=>x.tag==='vac_tm_T685_heroine_03_back')&&!wk.some(k=>D[k].some(t=>SHOP.includes(t))),J(D['2026-07-24']||null));
   const L2=ytTrip('2026-07-13','2026-07-25'); const bk=L2.filter(x=>x.tag==='vac_tm_T685_heroine_03_back').map(x=>x.t);
   check('A6-4. 對照：週六（7/25）回來＝照傳「回來了嗎」「蘇姨說幫你留一杯」',J(bk)===J(['回來了嗎','蘇姨說幫你留一杯']),J(bk));
   const asks=L.filter(x=>/_p\d+$/.test(x.tag||'')), M=(H.G.msgs||[]).concat(...PHONE.rec(H.G).q.map(q=>q.items||[])).filter(m=>m.ask&&m.th==='p:heroine_03'&&/^vac_tm_T685_heroine_03_p/.test(m.ask.id||''));
-  check('A6-4. 平日、週末玩家能回的都是「辛苦了。」「想喝茶。」（不是「想吃乾麵。」）',asks.length>0&&M.length>0&&M.every(m=>J(m.ask.opts.map(o=>o.t))===J(['辛苦了。','想喝茶。'])),J(M.slice(0,2).map(m=>m.ask.opts.map(o=>o.t))));
+  const wkM=M.filter(m=>![0,6].includes(WD(Math.floor(+String(m.ask.id).split('_p').pop())))), weM=M.filter(m=>[0,6].includes(WD(Math.floor(+String(m.ask.id).split('_p').pop()))));   /* ask.id＝vac_tm_T685_heroine_03_p<那一天> */
+  check('A6-4. 週末玩家能回的是「辛苦了。」「想喝茶。」（不是「想吃乾麵。」）；平日換「淡水冷嗎？」「好好休息。」（AA_686 第 3c 項）',asks.length>0&&weM.length>0&&wkM.length>0&&weM.every(m=>J(m.ask.opts.map(o=>o.t))===J(['辛苦了。','想喝茶。']))&&wkM.every(m=>J(m.ask.opts.map(o=>o.t))===J(['淡水冷嗎？','好好休息。']))&&!M.some(m=>m.ask.opts.some(o=>o.t==='想吃乾麵。')),J([weM.slice(0,1),wkM.slice(0,1)].map(a=>a.map(m=>m.ask.opts.map(o=>o.t)))));
   /* 過年店休照 shut：2028-01-17（一）～01-28（五）：1/19 起店休 */
   const W=ytTrip('2028-01-17','2028-01-27','winter'), WDx=byDayTxt(W);
-  check('A6-4. 過年店休那幾天照 shut（1/19 第一天「茶屋過年休息。…」、1/20、1/21 那兩句）；店休前的平日（1/18）不講店裡',J(WDx['2028-01-19'])===J([P.shut.first[0]])&&J(WDx['2028-01-20'])===J(P.shut.pool[0])&&J(WDx['2028-01-21'])===J(P.shut.pool[1])&&(WDx['2028-01-18']||[]).every(t=>NEU.includes(t)),J([WDx['2028-01-18'],WDx['2028-01-19'],WDx['2028-01-20']]));
+  check('A6-4. 過年店休那幾天照 shut（1/19 第一天「茶屋過年休息。…」、1/20、1/21 那兩句）；店休前的平日（1/18）不講店裡（AA_686 第 3b 項：平日的那幾則）',J(WDx['2028-01-19'])===J([P.shut.first[0]])&&J(WDx['2028-01-20'])===J(P.shut.pool[0])&&J(WDx['2028-01-21'])===J(P.shut.pool[1])&&(WDx['2028-01-18']||[]).length>0&&(WDx['2028-01-18']||[]).every(t=>WKP.includes(t)),J([WDx['2028-01-18'],WDx['2028-01-19'],WDx['2028-01-20']]));
 });
 
 /* ---------- A6-1、A6-2、A6-3、A6-5 ---------- */
@@ -150,7 +154,8 @@ await sec('B2',()=>{
     J([ri('2026-08-03'),ri('2026-08-07'),ri('2026-08-08'),ri('2026-08-09')]));
   fresh('2027-01-20',12,'dorm',{dating_heroine_03:true}); H.CLOSE(YT); const G=H.G;
   check('B2. ② 她有班的週六：一般的寒假週六有（2027-01-23）；過年茶屋休息（1/30、2/6）沒有；開了以後的週六（2/13）有',VAC.reShift(G,YT,R,DK('2027-01-23'))&&!VAC.reShift(G,YT,R,DK('2027-01-30'))&&!VAC.reShift(G,YT,R,DK('2027-02-06'))&&VAC.reShift(G,YT,R,DK('2027-02-13')));
-  check('B2. ② 中間隔了她沒有班的週六（2027-01-27 週三約，1/30、2/6 過年店休）＝見面 2/13；那兩句講不到＝改在前一個週六 2/6 約、「下週六」（AA_685 沒寫這一種，記給 AA）',J(ri('2027-01-27',G))===J(['2027-02-06','2027-02-13','下週六我五點下班']),J(ri('2027-01-27',G)));
+  { const x=VAC.reInvite(R,DK('2027-01-27'),21,G,YT);   /* AA_685 D-1（企劃線 2d4d5dc72，AA-C 定 D109）：不再挪到見面前一個週六；用日期講、過年多一句（本身的測試在 tests/aa686_fix3_unit.js）*/
+    check('B2. ② 中間隔了她沒有班的週六（2027-01-27 週三約，1/30、2/6 過年店休）＝見面 2/13；AA_685 D-1：照樣 1/27 當天約，「茶屋過年休息」「2/13 那個週六我五點下班」「你來店裡」',K(x.at)==='2027-01-27'&&K(x.day)==='2027-02-13'&&J(x.invite)===J(['茶屋過年休息','2/13 那個週六我五點下班','你來店裡']),J([K(x.at),K(x.day),x.invite])); }
   check('B2. ① 她回到臺北的那一天：大二暑假 7/19～7/30 在台東，7/24 起算＝7/31（S.reBack）；平常＝那一天',K(VAC.reBack(G,YT,DK('2027-07-24')))==='2027-07-31'&&K(VAC.reBack(G,YT,DK('2026-08-05')))==='2026-08-05');
   /* 實際走：交往中、出國回來，每天晚上跑一次手機規則 */
   const yre=(id,yk,days)=>{ const I=VAC.inst(id,yk); fresh(I.to,17.9,'dorm',{dating_heroine_03:true}); H.CLOSE(YT); VAC.rec(H.G).reg[I.key]='done'; run(17.9,21.5,0.25);
@@ -164,8 +169,8 @@ await sec('B2',()=>{
   const c10=yre('C10','Y2');
   check('B2. 週六（2027-07-31 C10）回來＝當晚 21:00「下週六我五點下班」、8/7',c10.to==='2027-07-31'&&J(c10.t.map(x=>x[2]))===J(['下週六我五點下班','你來店裡'])&&J(c10.q)===J(['2027-08-07',17.25,'一盞茶屋']),J(c10));
   const c11=yre('C11','Y2',8);
-  check('B2. 大二寒假東京 1/30（六，過年店休第一天）回來：1/30 那天不約；2/6（六）21:00「下週六我五點下班」、出遊 2/13（店休結束以後第一個週六；記給 AA）',
-    c11.to==='2027-01-30'&&J(c11.t)===J([['2027-02-06',21,'下週六我五點下班'],['2027-02-06',21,'你來店裡']])&&J(c11.q)===J(['2027-02-13',17.25,'一盞茶屋']),J(c11));
+  check('B2. 大二寒假東京 1/30（六，過年店休第一天）回來：AA_685 D-1＝1/30 當晚 21:00 就約「茶屋過年休息」「2/13 那個週六我五點下班」「你來店裡」（原本 2/6 才約）、出遊 2/13（店休結束以後第一個週六）',
+    c11.to==='2027-01-30'&&J(c11.t.map(x=>[x[0],x[2]]))===J([['2027-01-30','茶屋過年休息'],['2027-01-30','2/13 那個週六我五點下班'],['2027-01-30','你來店裡']])&&c11.t.every(x=>x[1]>=21&&x[1]<21.5)&&J(c11.q)===J(['2027-02-13',17.25,'一盞茶屋']),J(c11));
   check('B2. 程式裡沒有「今天我五點下班」、inviteToday',!/今天我五點下班|inviteToday/.test(strip(src('src/vac3d.js'))+strip(src('src/data/vac_activities.js'))));
 });
 
@@ -201,7 +206,8 @@ await sec('B5',async()=>{
 /* ---------- C1 D14「海風與燈」---------- */
 await sec('C1',async()=>{
   const sp=TRIP.spot('D14'), lt=sp&&sp.points.find(p=>p.id==='D14.lights'), ss=sp&&sp.points.find(p=>p.id==='D14.sunset');
-  check('C1. D14 有「海風與燈」那一項（接在「海風與夕陽」後面、取代它：nightOf；一個人沒有句子）；名稱照稿',!!lt&&lt.label==='海風與燈'&&lt.nightOf==='D14.sunset'&&!(lt.lines||[]).length&&sp.points.indexOf(lt)===sp.points.indexOf(ss)+1&&!lt.sunset&&lt.outdoor===true&&inDoc('換成「海風與燈」那一項'),J(lt));
+  /* AA_686 第 5 項（企劃線 1df3c189e，AA-C 定 D109）：源稿補了這一項（night:true、一個人的旁白兩句），匯入工具的 EXTRA（nightOf、沒有句子）拿掉——下面幾項照新的（本身的測試在 tests/aa686_fix3_unit.js）*/
+  check('C1. D14 有「海風與燈」那一項（接在「海風與夕陽」後面、取代它：AA_686 第 5 項起源稿寫 night:true、有一個人的旁白兩句）；名稱照稿',!!lt&&lt.label==='海風與燈'&&lt.night===true&&!lt.nightOf&&(lt.lines||[]).length===2&&sp.points.indexOf(lt)===sp.points.indexOf(ss)+1&&!lt.sunset&&lt.outdoor===true&&inDoc('換成「海風與燈」那一項'),J(lt));
   const W=(ENC_WALK.walk||[]).find(q=>q.who===YT&&q.spot==='D14'&&q.act==='D14.lights'), Ws=(ENC_WALK.walk||[]).find(q=>q.who===YT&&q.spot==='D14'&&q.act==='D14.sunset');
   check('C1. 她的兩句照稿：朋友「橋上的燈亮了。要拍的話就是現在。」、交往中「你站過去一點。好，不要動。」（和夕陽版同一句）',!!W&&J(W.friend)===J(['橋上的燈亮了。要拍的話就是現在。'])&&J(W.dating)===J(['你站過去一點。好，不要動。'])&&J(W.dating)===J(Ws.dating)&&inDoc('語彤：橋上的燈亮了。要拍的話就是現在。')&&inDoc('語彤：你站過去一點。好，不要動。'),J(W));
   /* 選單：同行（或一個人）在 D14，看第一個選單有什麼；選「海風與燈」就照演 */
@@ -215,17 +221,17 @@ await sec('C1',async()=>{
   const w=await menu('2026-02-01',18,'friend');
   check('C1. 寒假的週日 18:00、和語彤一起（朋友）：選單有「海風與燈」（可以選）、沒有「海風與夕陽」',!!w.pt('海風與燈')&&!w.pt('海風與燈').dim&&!w.pt('海風與夕陽'),J(w.lab));
   const wp=await menu('2026-02-01',18,'friend',{pick:'海風與燈'});
-  check('C1. 選「海風與燈」：語彤「橋上的燈亮了。要拍的話就是現在。」（一個人的旁白沒有），之後她先走（離開那一句照舊）',sayIs(wp.said,'橋上的燈亮了。要拍的話就是現在。')&&wp.said[0].endsWith('橋上的燈亮了。要拍的話就是現在。')&&!wp.said.some(t=>/太陽落進海裡|夕陽/.test(t)),J(wp.said));
+  check('C1. 選「海風與燈」：旁白（AA_686 第 5 項，第一次來那一句，同其他互動點同行也照演）→ 語彤「橋上的燈亮了。要拍的話就是現在。」，之後她先走（離開那一句照舊）',sayIs(wp.said,'橋上的燈亮了。要拍的話就是現在。')&&wp.said[0]===lt.lines[0]&&wp.said[1].endsWith('橋上的燈亮了。要拍的話就是現在。')&&!wp.said.some(t=>/太陽落進海裡|夕陽/.test(t)),J(wp.said));
   const wd=await menu('2026-02-01',18,'dating',{pick:'海風與燈'});
   check('C1. 交往中：「你站過去一點。好，不要動。」',sayIs(wd.said,'你站過去一點。好，不要動。')&&!sayIs(wd.said,'橋上的燈亮了。要拍的話就是現在。'),J(wd.said));
   const solo=await menu('2026-02-01',18,null);
-  check('C1. 一個人來（寒假 18:00）：照原本，「海風與夕陽」灰掉（太陽已經下山了）、沒有「海風與燈」',!!solo.pt('海風與夕陽')&&solo.pt('海風與夕陽').dim&&solo.pt('海風與夕陽').hint==='太陽已經下山了'&&!solo.pt('海風與燈'),J(solo.lab));
+  check('C1. 一個人來（寒假 18:00）：AA_686 第 5 項起也出「海風與燈」（可以選）、沒有「海風與夕陽」（原本夕陽那一項灰掉、沒有這一項）',!!solo.pt('海風與燈')&&!solo.pt('海風與燈').dim&&!solo.pt('海風與夕陽'),J(solo.lab));
   const su=await menu('2026-07-12',18.3,'friend'), sn=await menu('2026-07-12',19.2,'friend');
   check('C1. 暑假：日落以前（18:18）照舊「海風與夕陽」、沒有「海風與燈」；日落以後（19:12）也換「海風與燈」',!!su.pt('海風與夕陽')&&!su.pt('海風與夕陽').dim&&!su.pt('海風與燈')&&!!sn.pt('海風與燈')&&!sn.pt('海風與夕陽'),J([su.lab,sn.lab]));
   const rn=await menu('2026-02-01',18,'friend',{rain:true}), dn=await menu('2026-07-12',19.2,'friend',{done:['D14.sunset']});
   check('C1. 下雨（夕陽那一項灰掉「下雨」）、已經看過夕陽（做過了）：不換，夕陽那一項照原本灰掉',!!rn.pt('海風與夕陽')&&rn.pt('海風與夕陽').hint==='下雨'&&!rn.pt('海風與燈')&&!!dn.pt('海風與夕陽')&&dn.pt('海風與夕陽').hint==='做過了'&&!dn.pt('海風與燈'),J([rn.lab,dn.lab]));
   check('C1. 所有同行台詞的互動點都在景點上（海風與燈 在 D14 的點裡）',!(ENC_WALK.walk||[]).some(q=>q.act!=='walk'&&!(TRIP.spot(q.spot)&&TRIP.spot(q.spot).points.some(p=>p.id===q.act))));
-  check('C1. free_trips.js 是匯入工具產生的：tools/freetrip/import_spots.py 補這一項（重匯不會不見）',/EXTRA = \{'D14': \[\{'id': 'D14\.lights', 'label': '海風與燈'/.test(src('tools/freetrip/import_spots.py'))&&/AA_685 C1（D14\.lights）/.test(FREE_TRIPS.source));
+  check('C1. free_trips.js 是匯入工具產生的：AA_686 第 5 項起這一項從源稿 spots_v3.json@1df3c189e 匯入（tools/freetrip/import_spots.py 的 EXTRA 拿掉；重匯不會不見）',!/EXTRA = \{/.test(src('tools/freetrip/import_spots.py'))&&/spots_v3\.json@1df3c189e/.test(FREE_TRIPS.source)&&!/AA_685 C1（D14\.lights）/.test(FREE_TRIPS.source));
 });
 
 /* ---------- 換字表 ---------- */
