@@ -1074,3 +1074,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.4s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [SUNNY_seatfix_sit]
 - 2026-11-04T17:43:16  ADE_touchwz  sha=0c2d4997b  exit=1  165s    PASS 讀檔後可以走  9.38 / PASS 沒有 JS 例外 / FAILED: 溫州街：搖桿往前走, 溫州街：NPC 都是正式模型（沒有程序化球體人）, 走到 Café 門口出現「進入兩點半 Café」
       err.log (last 5): [gpu_wrap 1.2s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [ADE_touchwz] | [gpu_wrap 130.8s] page close url=http://127.0.0.1:8811/index.html?turbo&turbo | [gpu_wrap 131.0s] BROWSER DISCONNECTED
+- 2026-11-04T17:43:35  ADE_reach  sha=0c2d4997b  exit=0  70s    統計：1 個區域、7 個互動點、0 個劇情走路目的地、1 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.3s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [ADE_reach] | [gpu_wrap 31.8s] page close url=http://127.0.0.1:8813/index.html?turbo?turbo | [gpu_wrap 31.8s] BROWSER DISCONNECTED

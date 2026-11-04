@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "ADE_reach",
+  "sha": "0c2d4997b",
+  "kind": "game",
+  "script": "tests/reachability_all.py",
+  "env": "XARGS={url} --zones wz_print",
+  "machine": "MSI",
+  "start": "2026-11-04T17:42:10",
+  "end": "2026-11-04T17:43:20",
+  "seconds": 70,
+  "exit": 0,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8813/index.html?turbo",
+  "res_peak": {
+    "cpu": 66,
+    "mem": 60,
+    "used_gb": 18.5,
+    "chrome_testing": 27
+  }
+}
