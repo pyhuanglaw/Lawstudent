@@ -352,7 +352,7 @@ def tt_top(im, d):
 
 def counter_face(im, d):
     """木櫃台正面（直條拼板、下緣踢黑）"""
-    w, h = im.size; rr = np.random.default_rng(31); a = np.zeros((h, w, 3), np.float32); base = np.array(rgb('#9a6a40'), np.float32)
+    w, h = im.size; rr = np.random.default_rng(31); a = np.zeros((h, w, 3), np.float32); base = np.array(rgb('#8a5c34'), np.float32)
     for k in range(0, w, 40): a[:, k:k + 40] = base * rr.uniform(0.9, 1.06)
     a += np.repeat(rr.normal(0, 7, (1, w)), h, 0)[..., None]; a += noise(w, h, 2, 4)[..., None]
     for k in range(0, w, 40): a[:, k:k + 3] *= 0.7
