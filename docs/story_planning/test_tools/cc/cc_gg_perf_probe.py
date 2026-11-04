@@ -30,6 +30,9 @@ FPS = """(async ms=>{ const ts=[]; const t0=performance.now(); await new Promise
   const d=[]; for(let i=1;i<ts.length;i++) d.push(ts[i]-ts[i-1]); const tot=ts[ts.length-1]-ts[0]; const s=[...d].sort((a,b)=>b-a); const n1=Math.max(1,Math.round(d.length*0.01));
   const ri=GAME.E.renderer.info.render;
   return {frames:d.length, avg:+(d.length/(tot/1000)).toFixed(2), min:+(1000/s[0]).toFixed(2), low1:+(1000/(s.slice(0,n1).reduce((a,b)=>a+b,0)/n1)).toFixed(2), calls_live:ri.calls, tris_live:ri.triangles}; })"""
+MEM = """(()=>{ const E=GAME.E, mi=E.renderer.info.memory; const seen=new Set(); let px=0, big=null;
+  E.scene.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms) for(const k in m){ const t=m[k]; if(t&&t.isTexture&&!seen.has(t)){ seen.add(t); const im=t.image||{}; const w=im.width||0, h=im.height||0; px+=w*h; if(!big||w*h>big.w*big.h) big={w,h,name:t.name||k}; } } });
+  return {textures:mi.textures, geometries:mi.geometries, texCount:seen.size, texPixels:px, texMP:+(px/1e6).toFixed(2), biggest:big}; })()"""
 GLBREADY = "(()=>{ const z=GAME.E.zone; if(!z||!z.group) return false; const g=z.group.children.find(o=>o.name==='%s'); if(!g) return false; let m=0; g.traverse(o=>{ if(o.isMesh) m++; }); return m>0; })()" % GLB
 
 
@@ -49,10 +52,12 @@ async def one(p, formal):
             if await pg.evaluate(GLBREADY): t_glb = time.time() - t1; break
             await pg.wait_for_timeout(250)
         check('%s：正式模型 %s 有載入' % (tag, GLB), t_glb is not None, J({'讀檔到區域建好_s': round(t_zone, 2), '讀檔到正式模型出現_s': t_glb and round(t_glb, 2)}))
-    size = await pg.evaluate("""(()=>{ const r=performance.getEntriesByType('resource').filter(e=>/gongguan_shops|gongguan.*\\.glb/.test(e.name)); return r.map(e=>({f:e.name.split('/').pop().split('?')[0], kb:Math.round((e.encodedBodySize||e.transferSize||0)/1024), ms:Math.round(e.duration)})); })()""")
+    size = await pg.evaluate("""(()=>{ const r=performance.getEntriesByType('resource').filter(e=>/\\.(glb|gltf|bin|ktx2|webp|png|jpg)(\\?|$)/i.test(e.name)&&/gongguan|gg_|scooter|street|shop/i.test(e.name)); return r.map(e=>({f:e.name.split('/').pop().split('?')[0], kb:Math.round((e.encodedBodySize||e.transferSize||e.decodedBodySize||0)/1024), ms:Math.round(e.duration)})); })()""")
+    mem = await pg.evaluate(MEM)
     print('  %s：讀檔→區域 %.2f 秒；讀檔→正式模型 %s 秒；GLB 下載 %s' % (tag, t_zone, t_glb and round(t_glb, 2), J(size)), flush=True)
     await pg.wait_for_timeout(4000)
-    res = {'boot_s': round(boot, 1), 'zone_s': round(t_zone, 2), 'glb_s': t_glb and round(t_glb, 2), 'glb_files': size, 'views': {}}
+    print('  %s：記憶體／貼圖 %s' % (tag, J(mem)), flush=True)
+    res = {'boot_s': round(boot, 1), 'zone_s': round(t_zone, 2), 'glb_s': t_glb and round(t_glb, 2), 'glb_files': size, 'glb_kb_total': sum(x['kb'] for x in size), 'mem': mem, 'views': {}}
     for v in VSEL:
         e, l = ALLV[v]
         d = await pg.evaluate(DRAW + '(%s,%s)' % (J(list(e)), J(list(l))))
@@ -69,7 +74,7 @@ async def one(p, formal):
 
 async def main():
     os.makedirs(OUT, exist_ok=True)
-    print('CC 公館效能原始數字；SHA=%s；VIEWS=%s；Playwright（PC 有 GPU、有視窗），不是手機實機' % (os.environ.get('SHA', '?'), ','.join(VSEL)), flush=True)
+    print('CC 公館效能原始數字；RUN=%s；SHA=%s；' % (os.environ.get('RUN', '-'), os.environ.get('SHA', '?')) + 'VIEWS=%s；Playwright（PC 有 GPU、有視窗），不是手機實機' % ','.join(VSEL), flush=True)
     async with async_playwright() as p:
         f = await one(p, True)
         n = await one(p, False)
@@ -79,7 +84,9 @@ async def main():
         rows[v] = {'calls': fv['calls'], 'nobldg_calls': nv['calls'], 'limit_1.3x': lim, 'margin': round(lim - fv['calls'], 1), 'ratio': round(fv['calls'] / nv['calls'], 4),
                    'tris': fv['tris'], 'tris_limit': 420000, 'tris_margin': 420000 - fv['tris'], 'fps_avg': fv['avg'], 'fps_min': fv['min'], 'fps_low1': fv['low1'],
                    'nobldg_fps_avg': nv['avg'], 'nobldg_fps_min': nv['min']}
-    summary = {'sha': os.environ.get('SHA'), 'formal': f, 'nobldg': n, 'table': rows}
+    for v in VSEL: rows[v].update({'fps_low1': f['views'][v]['low1']})
+    rows['_mem'] = {'formal': f['mem'], 'nobldg': n['mem'], 'glb_kb_total': f['glb_kb_total'], 'glb_files': f['glb_files'], 'glb_s': f['glb_s']}
+    summary = {'run': os.environ.get('RUN'), 'sha': os.environ.get('SHA'), 'formal': f, 'nobldg': n, 'table': rows}
     json.dump(summary, open(os.path.join(OUT, 'perf.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print('表：' + J(rows), flush=True)
     print('GLB 載入：讀檔→正式模型 %s 秒；檔案 %s' % (f['glb_s'], J(f['glb_files'])), flush=True)
