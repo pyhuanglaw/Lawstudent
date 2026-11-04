@@ -182,7 +182,7 @@ const date=id=>H.date(id);
   { const tp=bdayTp(), r=MSG.send(H.G,'heroine_05','bday'); const a=th('p:heroine_05').slice(); at('2028-06-02',12.2); phone();
     check('S1 朋友：學姊的私訊有「生日快樂」（MSG-2）；傳了 12:10 才回「謝謝。研究室的人買了一個小蛋糕。」；SIS_BDAY_Y3 msg', tp&&r.ok&&JSON.stringify(a)===JSON.stringify(['生日快樂'])&&JSON.stringify(th('p:heroine_05'))===JSON.stringify(['生日快樂','謝謝。研究室的人買了一個小蛋糕。'])&&H.G.flags.SIS_BDAY_Y3==='msg', JSON.stringify(th('p:heroine_05'))); }
   fresh('2028-06-02',12,'dorm'); H.FRIEND('heroine_05'); date('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); MSG.send(H.G,'heroine_05','bday'); phone(); const qb0=OUT.get(H.G,'y3_sis_bday'); at('2028-06-02',12.2); phone();
-  check('1B-17 交往中：12:10 回「蛋糕我買了。……」「六點，兩點半 Café。……」→ 她的回覆到了才排 Café', !qb0&&th('p:heroine_05').join('|')==='生日快樂|蛋糕我買了。……一個人吃很奇怪。|六點，兩點半 Café。你點什麼都可以。'&&!!OUT.get(H.G,'y3_sis_bday')&&H.G.flags.SIS_BDAY_Y3==='invited');
+  check('1B-17 交往中：12:10 回「蛋糕我買了。……」「六點，2:30 AM。……」→ 她的回覆到了才排 Café', !qb0&&th('p:heroine_05').join('|')==='生日快樂|蛋糕我買了。……一個人吃很奇怪。|六點，2:30 AM。你點什麼都可以。'&&!!OUT.get(H.G,'y3_sis_bday')&&H.G.flags.SIS_BDAY_Y3==='invited');
   at('2028-06-02',18); H.G.zone='cafe'; check('1B-17 18:00 在 Café＝演', S.bdayCafeDue(H.G)); await run('ev_sis_birthday_y3');
   check('S2 交往中、去 Café：兩支叉子；SIS_BDAY_Y3 cafe', has('（Café 窗邊，一小塊蛋糕，兩支叉子。）')&&has('……你先吃。我看你吃。')&&H.G.flags.SIS_BDAY_Y3==='cafe');
   { fresh('2028-06-02',12,'dorm'); H.FRIEND('heroine_05'); date('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); MSG.send(H.G,'heroine_05','bday'); at('2028-06-02',12.2); phone(); at('2028-06-02',21); phone();
@@ -194,7 +194,7 @@ const date=id=>H.date(id);
     check('AA_337 第 7 節 交往中、17:05 以後才傳：21:00 還沒回、不排六點的 Café；22:30「謝謝。今天研究室比較晚。」「蛋糕留了一半。……明天下午，Café？」＋「好。」「明天不行。」；沒有「蛋糕我吃了一半。……」',
       n21===1&&th('p:heroine_05').join('|')==='生日快樂|謝謝。今天研究室比較晚。|蛋糕留了一半。……明天下午，Café？'&&!!m&&m.text==='蛋糕留了一半。……明天下午，Café？'&&m.ask.opts.map(o=>o.t).join('|')==='好。|明天不行。'&&!OUT.get(H.G,'y3_sis_bday')&&H.G.flags.SIS_BDAY_Y3==='late_ask', JSON.stringify(th('p:heroine_05')));
     answer('y3_sis_bday_late',0); phone(); const q=OUT.get(H.G,'y3_sis_bday_next'), d3=D('2028-06-03');
-    check('AA_337 第 7 節 「好。」→ 學姊「三點。」→ 排 6/3（六）15:00 兩點半 Café', th('p:heroine_05').slice(-2).join('|')==='好。|三點。'&&!!q&&q.day===d3&&q.h===15&&q.goto&&q.goto.zone==='cafe'&&CALENDAR.dateOf(d3).wd===6&&H.G.flags.SIS_BDAY_Y3==='next_cafe', JSON.stringify(q));
+    check('AA_337 第 7 節 「好。」→ 學姊「三點。」→ 排 6/3（六）15:00 2:30 AM', th('p:heroine_05').slice(-2).join('|')==='好。|三點。'&&!!q&&q.day===d3&&q.h===15&&q.goto&&q.goto.zone==='cafe'&&CALENDAR.dateOf(d3).wd===6&&H.G.flags.SIS_BDAY_Y3==='next_cafe', JSON.stringify(q));
     at('2028-06-03',14.8); H.G.zone='dorm'; await goOut('y3_sis_bday_next'); const due=S.bdayCafeDue(H.G); await run('ev_sis_birthday_y3');
     check('AA_337 第 7 節 6/3 15:00 到 Café＝「去了」那一場（窗邊、一小塊蛋糕、兩支叉子、「……你先吃。我看你吃。」）；記 cafe；整段沒有「蛋糕我吃了一半。……」', due&&has('（Café 窗邊，一小塊蛋糕，兩支叉子。）')&&has('……你先吃。我看你吃。')&&H.G.flags.SIS_BDAY_Y3==='cafe'&&!th('p:heroine_05').includes('蛋糕我吃了一半。另一半在冰箱，明天還算生日。')); }
   { late22(); answer('y3_sis_bday_late',1); phone(); at('2028-06-03',15); phone();
@@ -208,7 +208,7 @@ const date=id=>H.date(id);
     check('AA_337 第 7 節 22:30 以後才傳：6/3 12:10「謝謝。昨天十點半就睡了，剛看到。」「蛋糕還在冰箱。……今天下午三點，Café？」＋「好。」「今天不行。」；沒有「抱歉，昨天十點半就睡了。」',
       th('p:heroine_05').join('|')==='生日快樂|謝謝。昨天十點半就睡了，剛看到。|蛋糕還在冰箱。……今天下午三點，Café？'&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='好。|今天不行。'&&H.G.flags.SIS_BDAY_Y3==='late_ask'&&H.G.flags.SIS_BDAY_Y3_NEXT===d3, JSON.stringify(th('p:heroine_05')));
     answer('y3_sis_bday_late',0); phone(); const q=OUT.get(H.G,'y3_sis_bday_next');
-    check('AA_337 第 7 節 22:30 以後才傳「好。」→ 當天 6/3 15:00 兩點半 Café（她不再說「三點。」）', th('p:heroine_05').slice(-1)[0]==='好。'&&!!q&&q.day===d3&&q.h===15&&H.G.flags.SIS_BDAY_Y3==='next_cafe', JSON.stringify(th('p:heroine_05').slice(-2))); }
+    check('AA_337 第 7 節 22:30 以後才傳「好。」→ 當天 6/3 15:00 2:30 AM（她不再說「三點。」）', th('p:heroine_05').slice(-1)[0]==='好。'&&!!q&&q.day===d3&&q.h===15&&H.G.flags.SIS_BDAY_Y3==='next_cafe', JSON.stringify(th('p:heroine_05').slice(-2))); }
   { late23(); answer('y3_sis_bday_late',1); phone();
     check('AA_337 第 7 節 22:30 以後才傳「今天不行。」→「好。那蛋糕歸我。」記 missed、不排 Café', th('p:heroine_05').slice(-2).join('|')==='今天不行。|好。那蛋糕歸我。'&&H.G.flags.SIS_BDAY_Y3==='missed'&&!OUT.get(H.G,'y3_sis_bday_next')); }
   /* AA_337 第 7 節：日本路線、和學姊交往中（人在日本、手機是當地時間）＝「蛋糕我買了。……一個人吃很奇怪。」「你那邊七點吧。視訊，十分鐘。」→ 台灣 18:00（當地 19:00）視訊 */
