@@ -45708,7 +45708,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 21:5x】合併 a9752dcd6（子代理 sitloops-1104 7bf63de3d，6 個 commit）：用筆電（Type／TypePad）、寫筆記（Write＋hand_pen、桌上的筆藏起來）、看桌上的書（Page）、滑手機（Phone＋hand_phone）的路人桌子合得上就播 LAWWW2 的片段；桌緣遠的往前坐最多 12 cm、上下最多 1.5 cm、每個模型每個片段在自己骨架上量一次；?nositask 關掉；子代理 991 支全過、tests/sit_task_wire_unit.js 54 項（底上 FAILED 11）。LAWWW 決定：①吃飯先關（Sit_Eat 是握筷子的手、手上沒有筷子；S.TASK_EAT 留著，等 LAWWW2 右手筷子配件＋S.PROP_FAM 藏桌上那雙再併回）②Drink 先不給「休息」的人（不新增行為，D99）。要 LAWWW2 的（P3）：另外兩組骨架的片段（寫字、打字合不上的底模清單在子代理報告）、Café 桌緣 0.20 的版本、右手筷子、寫字筆尖壓進紙 4–5 mm；BB 瀏覽器：手在不在東西上、往前坐 12 cm 自不自然、配件亮度、一起打字的節奏、滑手機片段晚到跳一次 18 cm｜【LAWWW-C 11-04 20:1x】LAWWW2 交件 2962616ac；派子代理接線（manifest char.ual_sit_tasks、prop.hand_props；SEATACT 播片段 速度 1、手臂 grp 2 吃片段；喝／寫／滑手機時配件上手、桌上那個藏）｜【LAWWW-C 11-04 14:40】Blender 做在現有骨架（VRM humanoid／UE 對照照 NPC-AMBIENT-ANIM-1104 的表），交 GLB 片段＋要動的骨頭；LAWWW 接進 sitAmbient（character3d.js）；排在阿德轉角、共同教學館／女舍比對之後",
+   "next": "【LAWWW-C 11-04 23:1x】LAWWW2-C 補件 048f3498c 接進 07877ab98：右手筷子 hand_chopsticks、吃飯片段照筷子尖重擺、筆尖碰到紙；吃飯照舊不開（BB-C 22:43：坐的高度不對、桌子在胸口，先改坐下的高度）→ SIT-HEIGHT-1104（LAWWW2）｜【LAWWW-C 11-04 21:5x】合併 a9752dcd6（子代理 sitloops-1104 7bf63de3d，6 個 commit）：用筆電（Type／TypePad）、寫筆記（Write＋hand_pen、桌上的筆藏起來）、看桌上的書（Page）、滑手機（Phone＋hand_phone）的路人桌子合得上就播 LAWWW2 的片段；桌緣遠的往前坐最多 12 cm、上下最多 1.5 cm、每個模型每個片段在自己骨架上量一次；?nositask 關掉；子代理 991 支全過、tests/sit_task_wire_unit.js 54 項（底上 FAILED 11）。LAWWW 決定：①吃飯先關（Sit_Eat 是握筷子的手、手上沒有筷子；S.TASK_EAT 留著，等 LAWWW2 右手筷子配件＋S.PROP_FAM 藏桌上那雙再併回）②Drink 先不給「休息」的人（不新增行為，D99）。要 LAWWW2 的（P3）：另外兩組骨架的片段（寫字、打字合不上的底模清單在子代理報告）、Café 桌緣 0.20 的版本、右手筷子、寫字筆尖壓進紙 4–5 mm；BB 瀏覽器：手在不在東西上、往前坐 12 cm 自不自然、配件亮度、一起打字的節奏、滑手機片段晚到跳一次 18 cm｜【LAWWW-C 11-04 20:1x】LAWWW2 交件 2962616ac；派子代理接線（manifest char.ual_sit_tasks、prop.hand_props；SEATACT 播片段 速度 1、手臂 grp 2 吃片段；喝／寫／滑手機時配件上手、桌上那個藏）｜【LAWWW-C 11-04 14:40】Blender 做在現有骨架（VRM humanoid／UE 對照照 NPC-AMBIENT-ANIM-1104 的表），交 GLB 片段＋要動的骨頭；LAWWW 接進 sitAmbient（character3d.js）；排在阿德轉角、共同教學館／女舍比對之後",
    "source": "NPC-AMBIENT-ANIM-1104 子代理回報（使用者 13:5x X222）",
    "authorized": "使用者直接要求（X222）",
    "xai": {
@@ -45720,8 +45720,38 @@
    },
    "sha": [
     "a9752dcd6",
-    "7bf63de3d"
+    "7bf63de3d",
+    "07877ab98"
    ]
+  },
+  {
+   "id": "SIT-HEIGHT-1104",
+   "title": "坐下的高度：女生、男生坐在 0.75 桌前，桌子在胸口（女生肩膀只比桌面高 11 cm），吃飯時頭幾乎埋到碗上——先改好坐下的高度，再開 NPC 吃飯片段（S.TASK_EAT 併回 S.TASK）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次看到坐在桌前的人（教室、總圖、店裡）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-04 22:43（看 LAWWW2 048f3498c 預覽：「最明顯的問題是坐的高度……先把坐下的高度改好，再接吃飯的片段」）；LAWWW2 README 已知不足「女生的桌子在胸口（舊問題）」",
+   "authorized": "D128（美術驗收不經使用者；人物動作的 ART 歸 LAWWW）",
+   "xai": {
+    "spec": "BB-C 22:43；LAWWW-C 23:1x send_message 第 3 點（查椅面、骨盆高度、桌高比例，附改前改後肩膀／手肘／眼睛離桌面的高度、頭離碗的距離）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "character3d.js 部分交 patch（以 07877ab98 為底）；Node 座位相關測試 ALL PASS；CC 拍林家乾麵近景、總圖、教室女生坐著（NPCTASK_shots）BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "next": "【LAWWW-C 11-04 23:1x】派 LAWWW2-C（排在另外兩組骨架、Café 0.20 前面）；好了 LAWWW 接、再開吃飯片段",
+   "sha": null
   },
   {
    "id": "LAMPSHADE-FLIP-1104",
@@ -46451,7 +46481,7 @@
   },
   {
    "id": "TE-FRI-SAME-NIGHT-1104",
-   "title": "週五考完的學期（大二下 6/11、大四上 12/22）：其他人的期末邀約（心意、朋友）也在語彤那一則（examDay）的同一個週五晚上到，接在她後面、間隔 9 分鐘；晚餐日子照原本",
+   "title": "週五考完的學期（大二下 6/11、大四上 12/22）：其他人的期末邀約（心意、朋友）也在語彤那一則（examDay）的同一個週五晚上到，接在她後面、間隔 9 分鐘；晚餐日子照原本；TE-SAME-TIME（BB-C 22:33 選①）：同一晚的期末邀約全部 20:30 一起到",
    "area": "STORY",
    "owner": "LAWWW",
    "status": "已整合待測試",
@@ -46469,9 +46499,11 @@
    "source": "BB-C 11-04 22:09「週五考完的學期：改」：「週五考完的學期，其他人的期末邀約也在同一個週五晚上到，接在她那一則後面，間隔照舊 9 分鐘……晚餐的日子照各自原本的排法，避開她那一整晚（TE-HEART-AVOID）照舊。其他學期本來就同一晚到，不用動。」",
    "authorized": "BB 判定（條件歸 BB，D98）",
    "notWaitUser": "BB 已定做法",
-   "next": "【LAWWW-C 11-04 22:3x】ce3462d4b：termend3d.js send——她那一則比一般的邀約早到（exD＜P.back）時，一般的接在她後面同一晚到（她 20:30、別人 20:39、20:48…照原本先後；她本來可能排在第二則 20:39，現在一定第一則）；晚餐日子照原本；sameDay（芯慈心意）、S.FROM 比那一晚晚的（學姊大四上 12/24）照原本；她這學期沒有那一則＝照原本隔天；可昕、女朋友的約會不動。tests/te_fri_same_night_unit.js 23 項（修改前 FAILED 11），te_heart_avoid／te_heart_exempt／aa687_fix4 改期望值；相關 275 支 Node 重跑中。給 BB SHA（CC 補驗週五兩個學期）；給 AA：芷若心意「這禮拜五晚上我有空」（大二下）、「這禮拜五我九點下班」（大四上）改成週五晚上到、飯在下週五——字要不要改（另外子晴大四上「今天沒加班 宵夜」、芷若朋友大四上「我下班以後」原本就和飯那天不同天）",
+   "next": "【LAWWW-C 11-04 23:1x】b9f2d1f67 TE-SAME-TIME（BB-C 22:33 選①：手機打開時遊戲時間停住，間隔 9 分鐘＝玩家馬上回第一則就看不到後面的人）：同一晚的心意、朋友邀約全部 20:30 一起到，週四、週五考完的學期都一樣；手機裡的順序照原本（週五學期她那一則先傳）；芯慈當天才約、學姊回國以後、可昕、女朋友的約會不動。te_heart_avoid b／d、te_heart_exempt c3 的「20:33 只有以安那一則到了」改成舊版存檔情境。芷若大二下那一句 AA_689 改「下禮拜五晚上我有空。……」（39e6f0ca5）；相關 355 支 Node 重跑中｜【LAWWW-C 11-04 22:3x】ce3462d4b：termend3d.js send——她那一則比一般的邀約早到（exD＜P.back）時，一般的接在她後面同一晚到（她 20:30、別人 20:39、20:48…照原本先後；她本來可能排在第二則 20:39，現在一定第一則）；晚餐日子照原本；sameDay（芯慈心意）、S.FROM 比那一晚晚的（學姊大四上 12/24）照原本；她這學期沒有那一則＝照原本隔天；可昕、女朋友的約會不動。tests/te_fri_same_night_unit.js 23 項（修改前 FAILED 11），te_heart_avoid／te_heart_exempt／aa687_fix4 改期望值；相關 275 支 Node 重跑中。給 BB SHA（CC 補驗週五兩個學期）；給 AA：芷若心意「這禮拜五晚上我有空」（大二下）、「這禮拜五我九點下班」（大四上）改成週五晚上到、飯在下週五——字要不要改（另外子晴大四上「今天沒加班 宵夜」、芷若朋友大四上「我下班以後」原本就和飯那天不同天）",
    "sha": [
-    "ce3462d4b"
+    "ce3462d4b",
+    "b9f2d1f67",
+    "39e6f0ca5"
    ]
   },
   {
@@ -46700,7 +46732,7 @@
    "title": "語彤畢業以後還留著的舊設定（AA_688 沒寫到，子代理 aa688-1104 盤點的五處）：S.PG_TAG.heroine_03 兩個標籤、feed_pg.js 三則動態、r2y4b3d S.TELL 沒有 loc30、2029-12-14 18:00 讀書小組那一則、註解裡的「麵店」——要 AA 給字或說照留",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y4S2",
@@ -46721,8 +46753,10 @@
     "receiver": "LAWWW",
     "ack": "DELIVERED"
    },
-   "next": "【LAWWW-C 11-04 22:5x】開任務、send_message 給 AA-C（附五處的檔案與行）；AA 回了照字改",
-   "sha": null
+   "next": "【LAWWW-C 11-04 23:1x】AA-C 22:36 回 AA_689（企劃線 1f2983981）：39e6f0ca5 照做——PG_TAG 語彤四列、feed_pg yt1i 2029-11-22／yt4i 2029-12-15（字不動）、以安 S.TELL loc30「燒臘店，兩人桌」、study.yutong「她說我的那張明天貼。」；語彤不加 loc30、title 公館燒臘・長桌照現在、AA530 照 P3。還沒做：4-5 註解裡的「麵店」（postgrad3d.js 等 D118-B7 子代理合併以後再改）；要問 AA：r2y4b3d.js 分開談那一場以安 2030（at30 place「麵店，兩人桌」、open30「（麵店，兩人桌。她先到，點了兩碗……）」）要不要也改燒臘店｜【LAWWW-C 11-04 22:5x】開任務、send_message 給 AA-C（附五處的檔案與行）；AA 回了照字改",
+   "sha": [
+    "39e6f0ca5"
+   ]
   }
  ]
 }
