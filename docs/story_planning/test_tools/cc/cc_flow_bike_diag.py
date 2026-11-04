@@ -139,9 +139,18 @@ async def main():
         run.check('D 進店：先下車（店裡沒有車）、車停在公館的門口（離門 3 m 內）', ok and not k['riding'] and not k['on'] and bz.get('zone') == 'gongguan' and math.hypot(bz.get('x', 99) - door['x'], bz.get('z', 99) - door['z']) < 3, json.dumps(bz))
         await run.shot(pg, 'D_inside_shop')   # r4（BB 11-04 要 D 的截圖）：進店後
         out = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='gongguan'); return i&&{x:i.x,z:i.z}; })()")
-        await L.go_to(pg, cdp, run, out['x'], out['z'], 1.2, '店門')
-        await L.tap(pg, cdp, '#interact')
-        ok = await wait_until(pg, "GAME.G.zone==='gongguan'", 60)
+        # r4（LAWWW／BB 11-04）：r3 在 go_to 容許 1.2 m、出口半徑 0.9 外面就按了，根本沒出店（zone 還是 cvs）→ 走到出口 0.3 m 內、按鈕是「離開…」才按，最多試三次；出店（E.zone.def.id＝gongguan）才判車
+        ok = False
+        for tr in range(3):
+            await L.go_to(pg, cdp, run, out['x'], out['z'], 0.3, '店門（出口 0.3 m 內）')
+            s = await L.state(pg)
+            print('  D 出口旁：按鈕「%s」(%.2f, %.2f)' % (s['interact'], s['x'], s['z']), flush=True)
+            if not s['interact'].startswith('離開'): continue
+            await L.tap(pg, cdp, '#interact')
+            ok = await wait_until(pg, "GAME.G.zone==='gongguan'&&GAME.E.zone&&GAME.E.zone.def&&GAME.E.zone.def.id==='gongguan'", 60)
+            if ok: break
+        if not run.check('D 出店：回到公館（E.zone.def.id＝gongguan）', ok, json.dumps(await L.state(pg), ensure_ascii=False)):
+            await run.shot(pg, 'D_not_out'); await b.close(); run.finish(); sys.exit(1)
         ok2 = await wait_until(pg, "!!GAME.E.zone.group.children.find(o=>o.name==='bike_ride')", 30)
         k = await bike(pg)
         await run.shot(pg, 'D_after_exit')   # r4：出店後（車應該在出口旁）
