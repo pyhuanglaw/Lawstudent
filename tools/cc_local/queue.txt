@@ -22,6 +22,7 @@
 # ===== P0 熱修 v9.10.19.1 GO 組（BB；LAWWW fd8d447d2＝main＋attended 修正＋guardTalk）：最前面 =====
 # ===== P0 LIVE 驗證 v9.10.19.1（BB 02:15；main b0c3032af＝fd8d447d2＋RELEASES.md；排最前面）=====
 NOODLE_exit | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py | index.html | 15 | CC_HEADLESS=0
+NOODLE_exit2 | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py | index.html | 15 | CASES=B;CC_HEADLESS=0
 GG_groups | 610c528cb | probe | docs/story_planning/test_tools/cc/cc_gg_groups_probe.py | index.html | 15 | CC_HEADLESS=0
 GG_ext_nav3 | 610c528cb | game | tests/gongguan_layout_nav.py | index.html | 40 | CC_HEADLESS=0
 GG_ext_glb3 | 610c528cb | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
@@ -43,6 +44,7 @@ GG_perf_fog_B3 | 23eaaa7ae | probe | docs/story_planning/test_tools/cc/cc_gg_per
 GATE_shot | 9ac863212 | probe | docs/story_planning/test_tools/cc/cc_gate_probe.py | index.html | 20 | CASES=shot;CC_HEADLESS=0
 GATE_shot_before | 23eaaa7ae | probe | docs/story_planning/test_tools/cc/cc_gate_probe.py | index.html | 20 | CASES=shot;CC_HEADLESS=0
 GATE_walk | 9ac863212 | probe | docs/story_planning/test_tools/cc/cc_gate_probe.py | index.html | 20 | CASES=walk;CC_HEADLESS=0
+GATE_walk2 | 9ac863212 | probe | docs/story_planning/test_tools/cc/cc_gate_probe.py | index.html | 30 | CASES=walk;CC_HEADLESS=0
 LIVE1910_deploy | b0c3032af | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.19.1（2026-11-04）
 LIVE1910_stuck | b0c3032af | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 90 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;WANT_VER=v9.10.19.1;CC_HEADLESS=0
 LIVE1910_deploy2 | b0c3032af | game | tests/deploy_check.py | index.html | 30 | RERUN=r2;XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.19.1（2026-11-04）

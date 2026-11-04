@@ -36,9 +36,15 @@ VIEWS = {   # name: (zone, 讀檔位置, eye, look)
 FAILS = []
 
 
+class Run:   # playlib.go_to 要的最小介面
+    def note(self, x): print('  ' + x, flush=True)
+    def check(self, n, ok, info=''): return check(n, ok, info)
+
+
 def check(name, ok, info=''):
     print(('PASS ' if ok else 'FAIL ') + name + (('  ' + info) if info else ''), flush=True)
     if not ok: FAILS.append(name)
+    return ok
 
 
 def info(name, txt):
@@ -160,9 +166,15 @@ async def case_walk(pg, cdp):
             wp = await pg.evaluate(WAYPT + '(%s)' % J([x, 10.0, 5.0, 17.5]))
             if not wp:
                 info('%s x=%s' % (name, x), 'z 5～17.5 找不到站得住的點，跳過'); continue
-            seg = await joy_to(pg, cdp, wp[0], wp[1], 1.2, '%s → (%s, %s)' % (name, wp[0], wp[1]))
+            # 11-04 05:0x：人行道雜物多，直線搖桿＋繞路 150 秒走不到（沒卡住）＝改用玩家的「點地走」（遊戲自己找路，playlib.go_to：點地面、走不動才推搖桿），一樣是真的走
+            lbl = '%s → (%s, %s)' % (name, wp[0], wp[1]); s0 = await L.state(pg); t0 = time.time()
+            ok = await L.go_to(pg, cdp, Run(), wp[0], wp[1], 1.2, lbl, max_s=180)
+            s1 = await L.state(pg); d = math.hypot(wp[0] - s1['x'], wp[1] - s1['z'])
+            seg = {'label': lbl, 'target': wp, 'end': [s1['x'], s1['z']], 'dist_left': round(d, 2), 'secs': round(time.time() - t0, 1), 'fallbacks_delta': s1['fallbacks'] - s0['fallbacks'], 'mode': 'go_to'}
+            check('%s：走得到（離目標 %.2f m ≤ 1.2）' % (lbl, d), bool(ok) and d <= 1.2, J(seg))
+            check('%s：walkFallbacks 沒增加' % lbl, seg['fallbacks_delta'] == 0, J(seg))
             res['segments'].append(seg)
-            if seg['dist_left'] > 1.2: break
+            if d > 1.2: break
         await pg.screenshot(path=os.path.join(OUT, 'walk_%s_end.png' % name.split()[0]))
     s = await L.state(pg); res['end'] = s
     check('全程 walkFallbacks 沒增加', s['fallbacks'] == res['start']['fallbacks'], '%s → %s' % (res['start']['fallbacks'], s['fallbacks']))
