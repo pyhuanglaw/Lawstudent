@@ -1,0 +1,62 @@
+{
+ "14.0": {
+  "ref_genkan_ne": {
+   "calls": 168,
+   "tris": 380051
+  },
+  "tea_table": {
+   "calls": 127,
+   "tris": 272556
+  },
+  "washitsu": {
+   "calls": 53,
+   "tris": 113690
+  },
+  "mizuya_east": {
+   "calls": 107,
+   "tris": 220048
+  },
+  "engawa": {
+   "calls": 110,
+   "tris": 225838
+  },
+  "yard_to_genkan": {
+   "calls": 106,
+   "tris": 187746
+  },
+  "engawa_to_yard": {
+   "calls": 84,
+   "tris": 174384
+  }
+ },
+ "22.0": {
+  "ref_genkan_ne": {
+   "calls": 64,
+   "tris": 79739
+  },
+  "tea_table": {
+   "calls": 56,
+   "tris": 73314
+  },
+  "washitsu": {
+   "calls": 37,
+   "tris": 63530
+  },
+  "mizuya_east": {
+   "calls": 73,
+   "tris": 120042
+  },
+  "engawa": {
+   "calls": 76,
+   "tris": 124810
+  },
+  "yard_to_genkan": {
+   "calls": 66,
+   "tris": 75108
+  },
+  "engawa_to_yard": {
+   "calls": 52,
+   "tris": 73138
+  }
+ }
+}

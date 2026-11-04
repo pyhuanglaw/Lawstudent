@@ -1,0 +1,34 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_shop_shots_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ3_yizhan_shots\out
+PASS 遊戲載入
+== yizhan 1400
+  [前置／捷徑] 讀檔：wz_teahouse (-3.0, 9.0)、1400、條件事件關閉
+  [1400] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "yzn_print", "yzn_post", "yzn_wall_plaster", "yzn_glass", "yzn_vc", "yzn_ceiling_boards", "yzn_floor_wood", "wzs_pendant", "yzn_tatami", "yzn_vc_gloss", "yzn_vc_metal", "wzs_washi", "wz_glow_batch", "wzy_apt", "wzy_apt2", "wzy_azalea", "wzy_bamboo", "wzy_bamboo_old", "wzy_brick", "tree_bark_camphor", "tree_leaf", "wzy_chochin", "wzy_lamp_metal", "wzy_curb", "wzy_curb_red", "wzy_crawl", "wzy_leaf_fern", "wzy_gravel", "wzy_hedge", "wzy_leaf_broad", "wzy_gutter", "wzy_moss", "wzy_noren", "wzy_lamp_paper", "wzy_sidewalk", "wzy_plaque", "wzy_plaster", "wzy_ridge", "wzy_road", "wzy_rock", "wzy_rope", "wzy_slab", "wzy_stone", "wzy_urn", "wzy_vc", "wzy_wood_old", "wzy_kawara", "wzy_soffit", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE", "F00_000_00_FaceEyeline_00_FACE"]
+INFO [1400] 符合 ^(yz_|yizhan|a2[0-9]_|wzt_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [1400] ref_genkan_ne：calls 168、tris 380051
+  [1400] tea_table：calls 127、tris 272556
+  [1400] washitsu：calls 53、tris 113690
+  [1400] mizuya_east：calls 107、tris 220048
+  [1400] engawa：calls 110、tris 225838
+  [1400] yard_to_genkan：calls 106、tris 187746
+  [1400] engawa_to_yard：calls 84、tris 174384
+  [1400] 玩家視角鏡頭：{"mode": "follow", "cam": [0.14, 2.34, 6.33], "player": [-3, -0.42, 9], "dist": 4.32, "pose": "idle", "seat": false, "hips": 0.56, "between": []}
+PASS [1400] 玩家視角：鏡頭回到玩家後面、在房間裡（不是牆裡）  {"mode": "follow", "cam": [0.14, 2.34, 6.33], "player": [-3, -0.42, 9], "dist": 4.32, "pose": "idle", "seat": false, "hips": 0.56, "between": []}
+  [前置／捷徑] 讀檔：wenzhou (-20.5, 1.0)、1400、條件事件關閉
+  [1400] street_gate（溫州街）：calls 136、tris 235404
+== yizhan 2200
+  [前置／捷徑] 讀檔：wz_teahouse (-3.0, 9.0)、2200、條件事件關閉
+  [2200] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "wzy_apt", "wzy_apt2", "wzy_azalea", "wzy_bamboo", "wzy_bamboo_old", "wzy_brick", "tree_bark_camphor", "tree_leaf", "wzy_chochin", "wzy_lamp_metal", "wzy_curb", "wzy_curb_red", "wzy_crawl", "wzy_leaf_fern", "wzy_gravel", "wzy_hedge", "wzy_leaf_broad", "wzy_gutter", "wzy_moss", "wzy_noren", "wzy_lamp_paper", "wzy_sidewalk", "wzy_plaque", "wzy_plaster", "wzy_ridge", "wzy_road", "wzy_rock", "wzy_rope", "wzy_slab", "wzy_stone", "wzy_urn", "wzy_vc", "wzy_wood_old", "wzy_kawara", "wzy_soffit", "wz_glow_batch", "yzn_print", "yzn_post", "yzn_wall_plaster", "yzn_glass", "yzn_vc", "yzn_ceiling_boards", "yzn_floor_wood", "wzs_pendant", "yzn_tatami", "yzn_vc_gloss", "yzn_vc_metal", "wzs_washi", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE", "F00_000_00_FaceEyeline_00_FACE"]
+INFO [2200] 符合 ^(yz_|yizhan|a2[0-9]_|wzt_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [2200] ref_genkan_ne：calls 64、tris 79739
+  [2200] tea_table：calls 56、tris 73314
+  [2200] washitsu：calls 37、tris 63530
+  [2200] mizuya_east：calls 73、tris 120042
+  [2200] engawa：calls 76、tris 124810
+  [2200] yard_to_genkan：calls 66、tris 75108
+  [2200] engawa_to_yard：calls 52、tris 73138
+  [2200] 玩家視角鏡頭：{"mode": "follow", "cam": [0.17, 2.31, 6.31], "player": [-3, -0.42, 9], "dist": 4.35, "pose": "idle", "seat": false, "hips": 0.56, "between": []}
+PASS [2200] 玩家視角：鏡頭回到玩家後面、在房間裡（不是牆裡）  {"mode": "follow", "cam": [0.17, 2.31, 6.31], "player": [-3, -0.42, 9], "dist": 4.35, "pose": "idle", "seat": false, "hips": 0.56, "between": []}
+  [前置／捷徑] 讀檔：wenzhou (-20.5, 1.0)、2200、條件事件關閉
+  [2200] street_gate（溫州街）：calls 108、tris 199855
+PASS 沒有 JS 例外  []
+ALL PASS
