@@ -44339,15 +44339,16 @@
    "owner": "LAWWW",
    "priority": "P1",
    "title": "一盞茶屋內外部照參考圖重做、前院可以走（USER_WANTS X213、AA_656）",
-   "status": "進行中",
-   "next": "LAWWW 出一盞不能動的座標清單（水屋、語彤木凳、打工站位 a/b/c/end、出口、兩間和室、床之間、前院新 spawn 與 LAWWW2 定、茶席矮桌坐墊能不能照用劇情站位）",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-04 19:3x】BB PASS → 已驗收（v9.10.20 候選 d3828）｜LAWWW 出一盞不能動的座標清單（水屋、語彤木凳、打工站位 a/b/c/end、出口、兩間和室、床之間、前院新 spawn 與 LAWWW2 定、茶席矮桌坐墊能不能照用劇情站位）",
    "xai": {
     "spec": "企劃線 b8b9c0038 AA_656",
     "branch": "claude/story-planning",
     "acceptance": "AA_654 第 3 節",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "evidence": "BB-C 11-04 19:37（BB_255 1a0195252）：CC 雲端 yizhan_r4 在 d3828 PASS，修改前 e9b3 FAILED 2"
   },
   {
    "first": {
@@ -46232,7 +46233,7 @@
     "acceptance": "照 AA_684 七件；台詞逐字；換不了的夕陽台詞記給 AA；BB 測",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 19:1x】合併 b8b0918de（子代理 aa684-1104 e6d8410c4）；tests/aa684_canon_fix_unit.js 53 項，修改前 FAILED 26、修改後 ALL PASS；全套 987 支結束碼 0；要 AA 定的已傳｜【LAWWW-C 11-04 18:1x】派子代理在 worktree 做（和台詞第 671b～683 批子代理同時，vac_activities.js 兩邊改不同的項目）",
+   "next": "【LAWWW-C 11-04 19:3x】BB AA684_walk 45 PASS／2 FAIL（那 2 項等 TE-HEART-EXEMPT-1104）｜【LAWWW-C 11-04 19:1x】合併 b8b0918de（子代理 aa684-1104 e6d8410c4）；tests/aa684_canon_fix_unit.js 53 項，修改前 FAILED 26、修改後 ALL PASS；全套 987 支結束碼 0；要 AA 定的已傳｜【LAWWW-C 11-04 18:1x】派子代理在 worktree 做（和台詞第 671b～683 批子代理同時，vac_activities.js 兩邊改不同的項目）",
    "sha": "e6d8410c4"
   },
   {
