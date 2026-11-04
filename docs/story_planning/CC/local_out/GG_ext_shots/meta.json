@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GG_ext_shots",
+  "sha": "c7fde4f3e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_ext_shots_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T11:00:08",
+  "end": "2026-11-04T11:08:25",
+  "seconds": 497,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 43,
+    "mem": 57,
+    "used_gb": 18.0,
+    "chrome_testing": 30
+  }
+}

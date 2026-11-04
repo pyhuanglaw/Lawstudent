@@ -1,0 +1,164 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_ext_shots_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG_ext_shots\out
+PASS 遊戲載入
+== 青木茶室（第 1 批，門 x -52.80）
+  [前置／捷徑] 讀檔：公館馬路上、青木茶室 正前方 (-52.80, 2)、2025-09-23（二）14:00、條件事件關閉
+PASS [aoki_tea] 公館店面正式模型、機車正式模型載入  {"shops": true, "scooters": true, "manShops": true, "manSc": true}
+PASS [aoki_tea] 第一批：門口有互動點（買一杯飲料）  {"x": -52.8, "z": 21, "r": 2.2, "label": "買一杯飲料", "exit": null}
+PASS [aoki_tea] 取得公館的機車物件（glb）  共 22 組
+PASS [aoki_tea] ③ 青木茶室 門口互動點 (-52.80,21.00) 1.5 m 內沒有機車  []
+PASS [aoki_tea] ④ 馬路 → 青木茶室 門口 1.2 m 寬通道（x -53.40～-52.20、z 16.5～19.3）沒有機車  []
+PASS [aoki_tea] ⑤ 青木茶室 門前騎樓走道被機車吃掉以後還有 ≥ 1.2 m  機車造成的剩餘 2.32 m（侵入騎樓的機車 []）；導航格量的門口走道寬約 2.9 m（含柱子、雜物，參考）
+PASS [aoki_tea] ⑥ 單車自動停車的位置沒有停在 青木茶室 門前通道上  []
+  [aoki_tea] 離門最近的機車組：[{"src": "glb", "name": "scooters_A0", "x0": -59.88, "x1": -55.75, "z0": 16.82, "z1": 19.09, "d": 3.51}, {"src": "glb", "name": "scooters_A1", "x0": -49.18, "x1": -45.05, "z0": 16.76, "z1": 19.14, "d": 4.07}]
+  到達「青木茶室 對面的人行道（拍照點）」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+PASS [aoki_tea] 從馬路走到人行道拍照點 [-52.8, 12.5]
+  [aoki_tea] 截圖 gg_aoki_tea_day.png（鏡頭轉到店門方向：True；人在 (-52.71,12.28)、14.137 時）
+  到達「青木茶室 店門口」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [aoki_tea] ② 從馬路真的走到 青木茶室 店門口 (-52.80,20.60)  {"x": -52.8, "z": 20.36, "interact": "買一杯飲料"}
+PASS [aoki_tea] 店門口的互動按鈕是「買一杯飲料」  買一杯飲料
+PASS [aoki_tea_door] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 0.8, "fb": [0, 0], "errs": []}
+  [前置／捷徑] 讀檔：青木茶室 對面的人行道 [-52.8, 12.5]、20:00、條件事件關閉
+  [aoki_tea] 截圖 gg_aoki_tea_night.png（鏡頭轉到店門方向：True；人在 (-52.8,12.5)、20.093 時）
+PASS [aoki_tea_night] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 8.68, "fb": [0, 0], "errs": []}
+== 頁間書屋（第 1 批，門 x -36.40）
+  [前置／捷徑] 讀檔：公館馬路上、頁間書屋 正前方 (-36.40, 2)、2025-09-23（二）14:00、條件事件關閉
+PASS [yejian_books] 公館店面正式模型、機車正式模型載入  {"shops": true, "scooters": true, "manShops": true, "manSc": true}
+PASS [yejian_books] 第一批：門口有互動點（進入頁間書屋）  {"x": -36.4, "z": 21, "r": 2.2, "label": "進入頁間書屋", "exit": "bookstore"}
+PASS [yejian_books] 取得公館的機車物件（glb）  共 22 組
+PASS [yejian_books] ③ 頁間書屋 門口互動點 (-36.40,21.00) 1.5 m 內沒有機車  []
+PASS [yejian_books] ④ 馬路 → 頁間書屋 門口 1.2 m 寬通道（x -37.00～-35.80、z 16.5～19.3）沒有機車  []
+PASS [yejian_books] ⑤ 頁間書屋 門前騎樓走道被機車吃掉以後還有 ≥ 1.2 m  機車造成的剩餘 2.32 m（侵入騎樓的機車 []）；導航格量的門口走道寬約 2.7 m（含柱子、雜物，參考）
+PASS [yejian_books] ⑥ 單車自動停車的位置沒有停在 頁間書屋 門前通道上  []
+  [yejian_books] 離門最近的機車組：[{"src": "glb", "name": "scooters_A2", "x0": -43.16, "x1": -39.91, "z0": 16.82, "z1": 19.07, "d": 4.01}, {"src": "glb", "name": "scooters_A1", "x0": -49.18, "x1": -45.05, "z0": 16.76, "z1": 19.14, "d": 8.85}]
+  到達「頁間書屋 對面的人行道（拍照點）」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [yejian_books] 從馬路走到人行道拍照點 [-36.15, 12.5]
+  [yejian_books] 截圖 gg_yejian_books_day.png（鏡頭轉到店門方向：True；人在 (-36,12.32)、14.134 時）
+  到達「頁間書屋 店門口」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [yejian_books] ② 從馬路真的走到 頁間書屋 店門口 (-36.40,20.60)  {"x": -36.39, "z": 20.36, "interact": "進入頁間書屋"}
+PASS [yejian_books] 店門口的互動按鈕是「進入頁間書屋」  進入頁間書屋
+PASS [yejian_books_door] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 0.84, "fb": [0, 0], "errs": []}
+  [前置／捷徑] 讀檔：頁間書屋 對面的人行道 [-36.15, 12.5]、20:00、條件事件關閉
+  [yejian_books] 截圖 gg_yejian_books_night.png（鏡頭轉到店門方向：True；人在 (-36.15,12.5)、20.092 時）
+PASS [yejian_books_night] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 8.45, "fb": [0, 0], "errs": []}
+== 日和便利店（第 1 批，門 x -29.40）
+  [前置／捷徑] 讀檔：公館馬路上、日和便利店 正前方 (-29.40, 2)、2025-09-23（二）14:00、條件事件關閉
+PASS [hiyori_cvs] 公館店面正式模型、機車正式模型載入  {"shops": true, "scooters": true, "manShops": true, "manSc": true}
+PASS [hiyori_cvs] 第一批：門口有互動點（進入便利商店）  {"x": -29.4, "z": 21, "r": 2.2, "label": "進入便利商店", "exit": "cvs"}
+PASS [hiyori_cvs] 取得公館的機車物件（glb）  共 22 組
+PASS [hiyori_cvs] ③ 日和便利店 門口互動點 (-29.40,21.00) 1.5 m 內沒有機車  []
+PASS [hiyori_cvs] ④ 馬路 → 日和便利店 門口 1.2 m 寬通道（x -30.00～-28.80、z 16.5～19.3）沒有機車  []
+PASS [hiyori_cvs] ⑤ 日和便利店 門前騎樓走道被機車吃掉以後還有 ≥ 1.2 m  機車造成的剩餘 2.32 m（侵入騎樓的機車 []）；導航格量的門口走道寬約 2.9 m（含柱子、雜物，參考）
+PASS [hiyori_cvs] ⑥ 單車自動停車的位置沒有停在 日和便利店 門前通道上  []
+  [hiyori_cvs] 離門最近的機車組：[{"src": "glb", "name": "scooters_A3", "x0": -25.25, "x1": -21.15, "z0": 16.76, "z1": 19.09, "d": 4.57}, {"src": "glb", "name": "scooters_A2", "x0": -43.16, "x1": -39.91, "z0": 16.82, "z1": 19.07, "d": 10.69}]
+  到達「日和便利店 對面的人行道（拍照點）」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [hiyori_cvs] 從馬路走到人行道拍照點 [-29.4, 12.5]
+  [hiyori_cvs] 截圖 gg_hiyori_cvs_day.png（鏡頭轉到店門方向：True；人在 (-29.4,12.25)、14.134 時）
+  到達「日和便利店 店門口」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+PASS [hiyori_cvs] ② 從馬路真的走到 日和便利店 店門口 (-29.40,20.60)  {"x": -29.23, "z": 20.42, "interact": "進入便利商店"}
+PASS [hiyori_cvs] 店門口的互動按鈕是「進入便利商店」  進入便利商店
+PASS [hiyori_cvs_door] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 0.75, "fb": [0, 0], "errs": []}
+  [前置／捷徑] 讀檔：日和便利店 對面的人行道 [-29.4, 12.5]、20:00、條件事件關閉
+  [hiyori_cvs] 截圖 gg_hiyori_cvs_night.png（鏡頭轉到店門方向：True；人在 (-29.4,12.5)、20.093 時）
+PASS [hiyori_cvs_night] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 1.69, "fb": [0, 0], "errs": []}
+== 慢輪單車（第 1 批，門 x -0.30）
+  [前置／捷徑] 讀檔：公館馬路上、慢輪單車 正前方 (-0.30, 2)、2025-09-23（二）14:00、條件事件關閉
+PASS [slowwheel_bike] 公館店面正式模型、機車正式模型載入  {"shops": true, "scooters": true, "manShops": true, "manSc": true}
+PASS [slowwheel_bike] 第一批：門口有互動點（進入慢輪單車／慢輪單車）  {"x": -0.3, "z": 21, "r": 2.2, "label": "進入慢輪單車", "exit": "bikeshop"}
+PASS [slowwheel_bike] 取得公館的機車物件（glb）  共 22 組
+PASS [slowwheel_bike] ③ 慢輪單車 門口互動點 (-0.30,21.00) 1.5 m 內沒有機車  []
+PASS [slowwheel_bike] ④ 馬路 → 慢輪單車 門口 1.2 m 寬通道（x -0.90～0.30、z 16.5～19.3）沒有機車  []
+PASS [slowwheel_bike] ⑤ 慢輪單車 門前騎樓走道被機車吃掉以後還有 ≥ 1.2 m  機車造成的剩餘 2.32 m（侵入騎樓的機車 []）；導航格量的門口走道寬約 2.9 m（含柱子、雜物，參考）
+PASS [slowwheel_bike] ⑥ 單車自動停車的位置沒有停在 慢輪單車 門前通道上  []
+  [slowwheel_bike] 離門最近的機車組：[{"src": "glb", "name": "scooters_A6", "x0": 2.6, "x1": 5.01, "z0": 16.86, "z1": 19.2, "d": 3.41}, {"src": "glb", "name": "scooters_A5", "x0": -6.55, "x1": -3.29, "z0": 17.01, "z1": 19.08, "d": 3.55}]
+  到達「慢輪單車 對面的人行道（拍照點）」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [slowwheel_bike] 從馬路走到人行道拍照點 [-0.3, 12.5]
+  [slowwheel_bike] 截圖 gg_slowwheel_bike_day.png（鏡頭轉到店門方向：True；人在 (-0.3,12.27)、14.133 時）
+  到達「慢輪單車 店門口」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [slowwheel_bike] ② 從馬路真的走到 慢輪單車 店門口 (-0.30,20.60)  {"x": -0.3, "z": 20.37, "interact": "進入慢輪單車"}
+PASS [slowwheel_bike] 店門口的互動按鈕是「進入慢輪單車／慢輪單車」  進入慢輪單車
+PASS [slowwheel_bike_door] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 0.8, "fb": [0, 0], "errs": []}
+  [前置／捷徑] 讀檔：慢輪單車 對面的人行道 [-0.3, 12.5]、20:00、條件事件關閉
+  [slowwheel_bike] 截圖 gg_slowwheel_bike_night.png（鏡頭轉到店門方向：True；人在 (-0.3,12.5)、20.091 時）
+PASS [slowwheel_bike_night] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 8.68, "fb": [0, 0], "errs": []}
+== 洋洋鹹酥雞（第 2 批，門 x -10.60）
+  [前置／捷徑] 讀檔：公館馬路上、洋洋鹹酥雞 正前方 (-10.60, 2)、2025-09-23（二）14:00、條件事件關閉
+PASS [yangyang] 公館店面正式模型、機車正式模型載入  {"shops": true, "scooters": true, "manShops": true, "manSc": true}
+  [yangyang] 第二批：還沒有互動點（店門互動點等室內；沒有就照 DOORS 的門 (-10.60, 21.0)）
+PASS [yangyang] 取得公館的機車物件（glb）  共 22 組
+PASS [yangyang] ③ 洋洋鹹酥雞 門口互動點 (-10.60,21.00) 1.5 m 內沒有機車  []
+PASS [yangyang] ④ 馬路 → 洋洋鹹酥雞 門口 1.2 m 寬通道（x -11.20～-10.00、z 16.5～19.3）沒有機車  []
+PASS [yangyang] ⑤ 洋洋鹹酥雞 門前騎樓走道被機車吃掉以後還有 ≥ 1.2 m  機車造成的剩餘 2.32 m（侵入騎樓的機車 []）；導航格量的門口走道寬約 2.9 m（含柱子、雜物，參考）
+PASS [yangyang] ⑥ 單車自動停車的位置沒有停在 洋洋鹹酥雞 門前通道上  []
+  [yangyang] 離門最近的機車組：[{"src": "glb", "name": "scooters_A4", "x0": -16.1, "x1": -13.71, "z0": 16.8, "z1": 19.09, "d": 3.65}, {"src": "glb", "name": "scooters_A5", "x0": -6.55, "x1": -3.29, "z0": 17.01, "z1": 19.08, "d": 4.48}]
+  到達「洋洋鹹酥雞 對面的人行道（拍照點）」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [yangyang] 從馬路走到人行道拍照點 [-10.6, 12.5]
+  [yangyang] 截圖 gg_yangyang_day.png（鏡頭轉到店門方向：True；人在 (-10.6,12.26)、14.134 時）
+  到達「洋洋鹹酥雞 店門口」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [yangyang] ② 從馬路真的走到 洋洋鹹酥雞 店門口 (-10.60,20.60)  {"x": -10.6, "z": 20.35, "interact": ""}
+  [yangyang] 店門口的互動按鈕：（沒有）
+PASS [yangyang_door] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 0.82, "fb": [0, 0], "errs": []}
+  [前置／捷徑] 讀檔：洋洋鹹酥雞 對面的人行道 [-10.6, 12.5]、20:00、條件事件關閉
+  [yangyang] 截圖 gg_yangyang_night.png（鏡頭轉到店門方向：True；人在 (-10.6,12.5)、20.092 時）
+PASS [yangyang_night] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 8.67, "fb": [0, 0], "errs": []}
+== afar café（第 2 批，門 x 7.93）
+  [前置／捷徑] 讀檔：公館馬路上、afar café 正前方 (7.93, 2)、2025-09-23（二）14:00、條件事件關閉
+PASS [afar] 公館店面正式模型、機車正式模型載入  {"shops": true, "scooters": true, "manShops": true, "manSc": true}
+  [afar] 第二批：還沒有互動點（店門互動點等室內；沒有就照 DOORS 的門 (7.93, 21.0)）
+PASS [afar] 取得公館的機車物件（glb）  共 22 組
+PASS [afar] ③ afar café 門口互動點 (7.93,21.00) 1.5 m 內沒有機車  []
+PASS [afar] ④ 馬路 → afar café 門口 1.2 m 寬通道（x 7.33～8.53、z 16.5～19.3）沒有機車  []
+PASS [afar] ⑤ afar café 門前騎樓走道被機車吃掉以後還有 ≥ 1.2 m  機車造成的剩餘 2.32 m（侵入騎樓的機車 []）；導航格量的門口走道寬約 2.9 m（含柱子、雜物，參考）
+PASS [afar] ⑥ 單車自動停車的位置沒有停在 afar café 門前通道上  []
+  [afar] 離門最近的機車組：[{"src": "glb", "name": "scooters_A6", "x0": 2.6, "x1": 5.01, "z0": 16.86, "z1": 19.2, "d": 3.43}, {"src": "glb", "name": "scooters_A7", "x0": 13.55, "x1": 17.65, "z0": 16.86, "z1": 19.08, "d": 5.94}]
+  到達「afar café 對面的人行道（拍照點）」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+PASS [afar] 從馬路走到人行道拍照點 [7.93, 12.5]
+  [afar] 截圖 gg_afar_day.png（鏡頭轉到店門方向：True；人在 (7.82,12.29)、14.142 時）
+  到達「afar café 店門口」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [afar] ② 從馬路真的走到 afar café 店門口 (7.93,20.60)  {"x": 7.93, "z": 20.37, "interact": ""}
+  [afar] 店門口的互動按鈕：（沒有）
+PASS [afar_door] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 0.79, "fb": [0, 0], "errs": []}
+  [前置／捷徑] 讀檔：afar café 對面的人行道 [7.93, 12.5]、20:00、條件事件關閉
+  [afar] 截圖 gg_afar_night.png（鏡頭轉到店門方向：True；人在 (7.93,12.5)、20.091 時）
+PASS [afar_night] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 8.67, "fb": [0, 0], "errs": []}
+== 轉角唱片（第 2 批，門 x 53.97）
+  [前置／捷徑] 讀檔：公館馬路上、轉角唱片 正前方 (53.97, 2)、2025-09-23（二）14:00、條件事件關閉
+PASS [corner_records] 公館店面正式模型、機車正式模型載入  {"shops": true, "scooters": true, "manShops": true, "manSc": true}
+  [corner_records] 第二批：還沒有互動點（店門互動點等室內；沒有就照 DOORS 的門 (53.97, 21.0)）
+PASS [corner_records] 取得公館的機車物件（glb）  共 22 組
+PASS [corner_records] ③ 轉角唱片 門口互動點 (53.97,21.00) 1.5 m 內沒有機車  []
+PASS [corner_records] ④ 馬路 → 轉角唱片 門口 1.2 m 寬通道（x 53.37～54.57、z 16.5～19.3）沒有機車  []
+PASS [corner_records] ⑤ 轉角唱片 門前騎樓走道被機車吃掉以後還有 ≥ 1.2 m  機車造成的剩餘 2.32 m（侵入騎樓的機車 []）；導航格量的門口走道寬約 2.9 m（含柱子、雜物，參考）
+PASS [corner_records] ⑥ 單車自動停車的位置沒有停在 轉角唱片 門前通道上  []
+  [corner_records] 離門最近的機車組：[{"src": "glb", "name": "scooters_A11", "x0": 47.8, "x1": 51.01, "z0": 17.06, "z1": 19.09, "d": 3.52}, {"src": "glb", "name": "scooters_A12", "x0": 57.51, "x1": 61.68, "z0": 17.12, "z1": 19.09, "d": 4.02}]
+  到達「轉角唱片 對面的人行道（拍照點）」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [corner_records] 從馬路走到人行道拍照點 [53.97, 12.5]
+  [corner_records] 截圖 gg_corner_records_day.png（鏡頭轉到店門方向：True；人在 (53.97,12.29)、14.133 時）
+  到達「轉角唱片 店門口」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [corner_records] ② 從馬路真的走到 轉角唱片 店門口 (53.97,20.60)  {"x": 53.97, "z": 20.39, "interact": ""}
+  [corner_records] 店門口的互動按鈕：（沒有）
+PASS [corner_records_door] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 0.79, "fb": [0, 0], "errs": []}
+  [前置／捷徑] 讀檔：轉角唱片 對面的人行道 [53.97, 12.5]、20:00、條件事件關閉
+  [corner_records] 截圖 gg_corner_records_night.png（鏡頭轉到店門方向：True；人在 (53.97,12.5)、20.093 時）
+PASS [corner_records_night] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 8.67, "fb": [0, 0], "errs": []}
+== Daybreak（第 2 批，門 x 70.94）
+  [前置／捷徑] 讀檔：公館馬路上、Daybreak 正前方 (70.94, 2)、2025-09-23（二）14:00、條件事件關閉
+PASS [daybreak] 公館店面正式模型、機車正式模型載入  {"shops": true, "scooters": true, "manShops": true, "manSc": true}
+  [daybreak] 第二批：還沒有互動點（店門互動點等室內；沒有就照 DOORS 的門 (70.94, 21.0)）
+PASS [daybreak] 取得公館的機車物件（glb）  共 22 組
+PASS [daybreak] ③ Daybreak 門口互動點 (70.94,21.00) 1.5 m 內沒有機車  []
+PASS [daybreak] ④ 馬路 → Daybreak 門口 1.2 m 寬通道（x 70.34～71.54、z 16.5～19.3）沒有機車  []
+PASS [daybreak] ⑤ Daybreak 門前騎樓走道被機車吃掉以後還有 ≥ 1.2 m  機車造成的剩餘 2.32 m（侵入騎樓的機車 []）；導航格量的門口走道寬約 2.9 m（含柱子、雜物，參考）
+PASS [daybreak] ⑥ 單車自動停車的位置沒有停在 Daybreak 門前通道上  []
+  [daybreak] 離門最近的機車組：[{"src": "glb", "name": "scooters_A13", "x0": 64.77, "x1": 68.01, "z0": 16.8, "z1": 19.08, "d": 3.5}, {"src": "glb", "name": "scooters_A12", "x0": 57.51, "x1": 61.68, "z0": 17.12, "z1": 19.09, "d": 9.45}]
+  到達「Daybreak 對面的人行道（拍照點）」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [daybreak] 從馬路走到人行道拍照點 [70.94, 12.5]
+  [daybreak] 截圖 gg_daybreak_day.png（鏡頭轉到店門方向：True；人在 (70.94,12.25)、14.133 時）
+  到達「Daybreak 店門口」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [daybreak] ② 從馬路真的走到 Daybreak 店門口 (70.94,20.60)  {"x": 70.94, "z": 20.35, "interact": ""}
+  [daybreak] 店門口的互動按鈕：（沒有）
+PASS [daybreak_door] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 0.81, "fb": [0, 0], "errs": []}
+  [前置／捷徑] 讀檔：Daybreak 對面的人行道 [70.94, 12.5]、20:00、條件事件關閉
+  [daybreak] 截圖 gg_daybreak_night.png（鏡頭轉到店門方向：True；人在 (70.94,12.5)、20.09 時）
+PASS [daybreak_night] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 8.67, "fb": [0, 0], "errs": []}
+PASS 沒有 JS 例外  []
+ALL PASS
