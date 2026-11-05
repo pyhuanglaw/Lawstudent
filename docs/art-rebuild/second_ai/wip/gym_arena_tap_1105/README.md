@@ -24,6 +24,6 @@
   - `seat_reach_unit`、`rooms_glb_unit`、`crowd_unit`、`indoor_crowd_unit`、`scene_bg_keys_unit`、`exit_ring_unit` ALL PASS。
   - 和南洋那一包一起套也 ALL PASS。瀏覽器沒跑（D131）。
 - 接法：
-  - `git checkout <本包 SHA> -- tests/gym_arena_tap_unit.js`
+  - `git checkout 64ab93797 -- tests/gym_arena_tap_unit.js`
   - `git apply docs/art-rebuild/second_ai/wip/gym_arena_tap_1105/gym_arena_tap_1105.patch`
   - 在 `685337469` 上乾淨，和其他包不衝突。

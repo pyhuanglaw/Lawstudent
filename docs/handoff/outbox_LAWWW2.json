@@ -6318,6 +6318,22 @@
    "noDirectIntegrate": false,
    "note": "擋玩（CC-C 13700be8f、BB-C／LAWWW-C 05:3x）：南洋 1 廳沒有 zone.walkMeshes，點斜地板退回 y 0 平面、落點往後偏 → nanyang3d.js 加三片可點面（門口平、斜面、舞台前平，walkLv 0）｜nanyang_tap_unit 修改前 FAIL 3（差 0.48／1.14／1.98／2.98 m）→ ALL PASS（≤ 0.04 m）；nanyang 等 14 支 ALL PASS；瀏覽器沒跑，CC 探針要重跑",
    "next": "LAWWW-C：git checkout a44670a4e -- tests/nanyang_tap_unit.js、git apply nanyang_tap_1105.patch（685337469 上乾淨、和新生南路三包不衝突）；CC 重跑點斜地板探針"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "64ab93797",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "GYM-ARENA-TAP-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gym_arena_tap_1105/gym_arena_tap_1105.patch",
+    "tests/gym_arena_tap_unit.js",
+    "docs/art-rebuild/second_ai/wip/gym_arena_tap_1105/README.md"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "擋玩（同南洋 1 廳，自己掃出來的）：3F 主球場看台 5.2 m、沒有 walkMeshes，點走道第 6 排偏 17.9 m、第 10 排點不到 → gym3d.js arenaWalk：每面看台一片沿 cont(d) 的可點面（4 片）｜gym_arena_tap_unit 修改前 FAIL 3 → ALL PASS（差 ≤ 0.02 m）；gym 15 支＋6 支 ALL PASS；其他有高度的區域都已經有可點面",
+   "next": "LAWWW-C：git checkout 64ab93797 -- tests/gym_arena_tap_unit.js、git apply gym_arena_tap_1105.patch；CC 可以在主球場加同一個點地探針"
   }
  ]
 }
