@@ -4,7 +4,7 @@
 使用者 2026-10-17 01:0x（附實際宿舍照片）：「台大宿舍是這樣 床在上面 書桌在下面 一個房間有四組這個／門口進來右邊是洗手間 再進來是四組這個」
 - 照片：白色床架（實心床欄、天花板吊桿、床尾一根立柱）、床下是淺木紋書桌（抽屜櫃、白色開放層架）、高衣櫃；
   床頭那一端是木踏板的階梯收納櫃＋白色彎扶手；白色塑膠椅；淺木紋地板；捲簾；分離式冷氣；圓形吸頂燈。
-- 取代 dorm_interior.py 的雙人房（舊腳本保留）。房間 4.2×7×3.0 m（11-02 以前 6×7：使用者「走道太大……開門看起來會是深的」），門在前牆 z=+3.5 中間（x −0.48..0.48），出口、進門的位置照舊。
+- 取代 dorm_interior.py 的雙人房（舊腳本保留）。房間 4.2×7×3.4 m（11-03 DORM-CEIL-1103 以前高 3.0；11-02 以前 6×7：使用者「走道太大……開門看起來會是深的」），門在前牆 z=+3.5 中間（x −0.48..0.48），出口、進門的位置照舊。
 - 座標＝遊戲 dorm 區域座標（x 右、y 上、z 往門）。牆內面 x ±2.9、z ±3.4。
 - 配置（--layout 輸出 JSON，給 LAWWW-B 改 zones3d.js 的 dorm 區塊）：
   - 洗手間：進門右邊（+x）x 0.65..2.9、z 1.83..3.4（11-02 以前 1.45），門開向入口走道（x=0.65 那一面）。
@@ -12,6 +12,8 @@
     11-02 DORM-LOFT-SCALE-1102 使用者「宿舍的床跟人的比例太奇怪了，床太小，階梯太小」：以前每組 2.4 m、離牆 0.95、階梯寬 0.40 四階、床板 1.56～1.60、床墊 1.95 m；洗手間 z 1.45 → 1.83。
     誰用哪一組照 AA_208 第 4 節：203＝R1 柏翰（靠窗、先到）、R2 阿凱、L1 阿哲、L2 祐廷（門口那組）；412（經濟系那年，同一個模型換東西）＝R1 唐睿、R2 阿勳、L1 韋綸、L2 祐廷。
   - 窗移到後牆中間（x −1.1..1.1、y 0.95..2.4），冷氣在窗的右上方。
+  - 階梯兩側都有扶手（DORM-LADDER-HEAD-GRIP-1102 ②，LAWWW2-C 11-05：以前只有門那一側）：靠床那一側照門那一側的下半段鏡像，斜上到床尾板的邊（1.84 m）彎進床尾板。
+    sleep_scene 多 grips（每一階爬上／爬下兩手抓的點，給 LAWWW 的 climbIK）、rails（扶手、床尾板頂、上下床扶手的中心線）。
 - 節點：WALL_<front|back|left|right|bath_n|bath_w>_*（會淡出的牆，dir＝往室內）；LOFT_<組>_TOP（床板、床欄、床墊、吊桿、扶手上段：材質 seethru_*）＋子節點 BEDDING_<組>（被子、枕頭）；
   每個人的東西一組一個節點（可以整組藏起來）：Y203_YUTING、ROOMMATE_KAI、Y203_ZHE、Y203_BOHAN、Y412_YUTING、Y412_TANGRUI、Y412_WEILUN；經濟系第一晚的名牌 NAMETAG_TANGRUI／NAMETAG_WEILUN。
   大二～大四（LAWWW2-C 2026-10-17，AA_208 第 7、8 節；SCN-V3-01／V4-01／V5-01）：Y312_YUTING／Y312_ZHE／Y312_BOHAN／Y312_FRESH、Y507_YUTING／Y507_BOHAN／Y507_SOPH／Y507_PEER、
@@ -468,6 +470,50 @@ def desk_lamp(G, side, u, Y, v=0.12, du=1.0):
     G['led'].sphere(W3(side, u + 0.1 * du, Y + 0.37, v + 0.25), 0.026, seg=10, rings=6)
 
 
+GRIP_BODY = {'shoulder_y': 1.32, 'half': 0.14, 'fw': {'up': 0.09, 'down': 0.04}, 'target': {'up': [0.26, 0.05], 'down': [0.10, -0.40]}, 'reach': [0.22, 0.50]}
+
+
+def ladder_grips(side, uc, steps, door, bed):
+    """爬梯子每一階兩手抓哪裡（DORM-LADDER-HEAD-GRIP-1102 ②，LAWWW2-C 2026-11-05；給 LAWWW 的 climbIK）。
+    steps＝每一階的踏點（遊戲座標，同 sleep_scene.steps）；door／bed＝那一側抓得到的東西 [(點, 切線, 名字)]（每 1 cm 一點）。
+    人物（GRIP_BODY）照祐廷 1.75 m 在遊戲 climb／climbdown 姿勢量的肩關節：腳上 1.32 m、左右各 0.14、往前 0.09（上去）／0.04（下來）。
+    每隻手在自己那一側挑離「自然的位置」（上去：肩膀往前 0.26、往上 0.05＝抓前上方；下來：往前 0.10、往下 0.40＝扶在腰旁邊）最近、
+    離肩膀 0.22～0.50 m（祐廷肩膀到手腕 0.46；太近＝手縮在肩膀旁邊）的那一點；都搆不到＝None（最上面一階：轉身跪上床／從床上下來，手放開）。
+    回傳 {'up': [[左手, 右手], …], 'down': […]}（人物自己的左右；上去面向牆、下來面向房間）；每隻手 {'p': 點, 'on': 抓在哪, 'dir': 那裡的切線}"""
+    gb = GRIP_BODY; fx = -1.0 if side == 'L' else 1.0   # 上去＝往牆（L 牆 −x、R 牆 +x）
+    out = {}
+    for dn in ('up', 'down'):
+        f = fx if dn == 'up' else -fx; tf_, tu = gb['target'][dn]; rows = []
+        for s in steps:
+            row = {}
+            for nm, cands, lat in (('door', door, gb['half']), ('bed', bed, -gb['half'])):   # 門那一側＝+z（ub）、床那一側＝−z
+                S = (s[0] + f * gb['fw'][dn], s[1] + gb['shoulder_y'], s[2] + lat); T = (S[0] + f * tf_, S[1] + tu, S[2])
+                best = None
+                for p, d, tag in cands:
+                    r = math.dist(p, S)
+                    if r < gb['reach'][0] or r > gb['reach'][1]: continue
+                    c = math.dist(p, T)
+                    if best is None or c < best[0]: best = (c, p, d, tag)
+                row[nm] = None if best is None else {'p': [round(v, 3) for v in best[1]], 'on': best[3], 'dir': [round(v, 3) for v in best[2]]}
+            door_left = f < 0   # 面向 −x：右手在 −z（床那一側）；面向 +x：右手在 +z（門那一側）
+            rows.append([row['door'], row['bed']] if door_left else [row['bed'], row['door']])
+        out[dn] = rows
+    return out
+
+
+def grip_samples(pts, tag, keep=lambda p: True, step=0.01):
+    """折線每 1 cm 一點＋切線（抓得到的地方）"""
+    out = []
+    for a, b in zip(pts, pts[1:]):
+        L = math.dist(a, b)
+        if L < 1e-6: continue
+        n = max(1, int(L / step)); d = tuple((bb - aa) / L for aa, bb in zip(a, b))
+        for i in range(n + 1):
+            p = tuple(aa + (bb - aa) * i / n for aa, bb in zip(a, b))
+            if keep(p): out.append((p, d, tag))
+    return out
+
+
 def loft(uid, side, ua, ub, sets):
     ust = ub - STW
     TOPG = B.group(f'LOFT_{uid}_TOP', root, {'kind': 'loft_top', 'unit': uid})          # 1.5 m 以上：鏡頭擋到時遊戲可以整組淡出
@@ -481,7 +527,8 @@ def loft(uid, side, ua, ub, sets):
     lbox(tf, side, ust - 0.025, ust, DECK1, GUARD, 0.47, VD - 0.025)   # 床尾（階梯那一端）的擋板在走道那一半；靠牆那一半是上床的開口（階梯從走道往牆邊爬，最上面一階靠牆；10-30 以前擋板在靠牆那一半，人從最上面一階上不了床——DORM-SLEEP-VISUAL-1030）
     for uu in (ua + 0.1, ust - 0.12):
         tr.cyl(W3(side, uu, GUARD - 0.02, VD - 0.012), W3(side, uu, H, VD - 0.012), 0.009, seg=8); tr.cyl(W3(side, uu, H - 0.004, VD - 0.012), W3(side, uu, H - 0.012, VD - 0.012), 0.03, seg=12)
-    sweep(tf, bend([W3(side, ust - 0.035, DECK1 + 0.05, 0.55), W3(side, ust - 0.035, GUARD + 0.3, 0.55), W3(side, ust - 0.035, GUARD + 0.3, 0.88), W3(side, ust - 0.035, GUARD - 0.03, 0.88)], r=0.07), 0.016, seg=8)
+    HOOP = bend([W3(side, ust - 0.035, DECK1 + 0.05, 0.55), W3(side, ust - 0.035, GUARD + 0.3, 0.55), W3(side, ust - 0.035, GUARD + 0.3, 0.88), W3(side, ust - 0.035, GUARD - 0.03, 0.88)], r=0.07)   # 床尾板上面的上下床扶手
+    sweep(tf, HOOP, 0.016, seg=8)
     lbox(ts, side, ua + 0.025, ust - 0.025, DECK1, DECK1 + 0.16, 0.03, VD - 0.05, fn='soft', r=0.04, seg=2)   # 床墊 1.92～1.95 m（使用者 10-30「床的比例也要注意」：原本 1.85～1.875，祐廷 1.75 m 躺下只剩 10 cm；標準單人床約 1.9 m）
     neat = sets.get('203') == 'bohan'
     lbox(tdv, side, ua + 0.5, ust - 0.06, DECK1 + 0.1, DECK1 + 0.24, 0.02, VD - 0.04, fn='soft', r=0.05, seg=2)
@@ -514,9 +561,19 @@ def loft(uid, side, ua, ub, sets):
         lbox(wht, side, ust + 0.02, ub - 0.018, bot, top - 0.025, v0 + 0.002, v0 + 0.017)
         if k > 0: lbox(wht, side, ust + 0.02, ub - 0.018, bot - 0.018, bot, v0 + 0.017, v1)
     ur = ub - 0.04
-    sweep(tf, bend([W3(side, ur, DECK0, VD - dd * 1.6), W3(side, ur, GUARD + 0.03, dd * 0.6), W3(side, ur, GUARD + 0.18, dd * 0.6)], r=0.08), 0.016, seg=8)   # 扶手 1.5 m 以上的那段（透視群組）
-    sweep(wht, [W3(side, ur, RISE - 0.025, VD - dd / 2), W3(side, ur, 1.2, VD - dd / 2), W3(side, ur, DECK0, VD - dd * 1.6)], 0.016, seg=8)
+    DOOR_UP = bend([W3(side, ur, DECK0, VD - dd * 1.6), W3(side, ur, GUARD + 0.03, dd * 0.6), W3(side, ur, GUARD + 0.18, dd * 0.6)], r=0.08)
+    DOOR_LO = [W3(side, ur, RISE - 0.025, VD - dd / 2), W3(side, ur, 1.2, VD - dd / 2), W3(side, ur, DECK0, VD - dd * 1.6)]
+    sweep(tf, DOOR_UP, 0.016, seg=8)   # 扶手 1.5 m 以上的那段（透視群組）
+    sweep(wht, DOOR_LO, 0.016, seg=8)
     wht.cyl(W3(side, ur, RISE * NST, dd * 0.6), W3(side, ur, DECK0 + 0.04, dd * 0.6), 0.014, seg=8); tf.cyl(W3(side, ur, DECK0 + 0.04, dd * 0.6), W3(side, ur, GUARD + 0.03, dd * 0.6), 0.014, seg=8)
+    # 靠床那一側的扶手（DORM-LADDER-HEAD-GRIP-1102 ②，LAWWW2-C 2026-11-05；LAWWW 爬梯子手勢 CLIMB-POSE-1102「只有門那一側有扶手……靠床那一側的手在低幾階時是抓在空中」）：
+    #   門那一側扶手的下半段照鏡像（踏板上的直段到 1.2 m、斜段到床板底 1.66 m），再照上半段的斜度到床尾板的邊（v 0.50、1.84 m），彎進床尾板、鎖在法蘭上。
+    #   上床的開口（靠牆那一半，v < 0.47）不擋；離人（祐廷，每一階爬上爬下）的腿和身體 3 cm 以上，和門那一側一樣（tests/dorm_ladder_grips_unit.js）。
+    ul = ust + 0.04; vb = 0.50; yb = DECK0 + (VD - dd * 1.6 - vb) * (GUARD + 0.03 - DECK0) / (VD - dd * 1.6 - dd * 0.6)
+    BED_LO = [W3(side, ul, RISE - 0.025, VD - dd / 2), W3(side, ul, 1.2, VD - dd / 2), W3(side, ul, DECK0, VD - dd * 1.6)]
+    BED_UP = bend([W3(side, ul, DECK0, VD - dd * 1.6), W3(side, ul, yb, vb), W3(side, ust - 0.006, yb, vb)], r=0.03)
+    sweep(wht, BED_LO, 0.016, seg=8); sweep(tf, BED_UP, 0.016, seg=8)
+    tf.cyl(W3(side, ust + 0.006, yb, vb), W3(side, ust, yb, vb), 0.028, seg=12)   # 法蘭（鎖在床尾板上）
     cu_ = (k0 + 0.45 + k1) / 2
     plastic_chair(side, cu_, 0.86)
     if uid == 'L2' and not ONLY: jacket_chair(side, cu_, 0.86, root)   # 祐廷的椅子：系外套（預設藏）
@@ -558,6 +615,18 @@ def loft(uid, side, ua, ub, sets):
         'cam': {'eye': [r3(wx(side, mv) + sx * 1.6), 2.75, r3(zc_ + 0.7)], 'look': [r3(wx(side, mv)), 1.85, r3(zc_)]},
         # DORM-CEIL-1103：頭不能進天花板——人物（含頭髮）最高到 head_max；最上面一階站直頭頂約 3.35 m（微微彎腰）、上床那一步（bed_entry，床墊上）要跪或爬（站直會到 3.6 m）
         'ceil_y': H, 'head_max': r3(H - 0.08), 'bed_entry_pose': 'kneel'}
+    # 爬梯子兩手抓哪裡（DORM-LADDER-HEAD-GRIP-1102 ②）：門那一側＝扶手（踏板以上）＋最上面的直柱；靠床那一側＝新扶手（彎進床尾板以前）＋床尾板頂（手扣在板子上緣）＋上下床扶手（床尾板頂 4 cm 以上那一段）
+    st_ = LAYOUT['units'][-1]['sleep_scene']['steps']; ry = lambda p: p[1] >= RISE   # 埋在第一階踏板裡的那一截不算
+    fb = [W3(side, ust - 0.0125, GUARD - 0.015, 0.47 + 0.03), W3(side, ust - 0.0125, GUARD - 0.015, VD - 0.045)]
+    post = [W3(side, ur, RISE * NST, dd * 0.6), W3(side, ur, GUARD + 0.03, dd * 0.6)]
+    door_c = grip_samples(DOOR_LO, 'door_rail', ry) + grip_samples(DOOR_UP, 'door_rail') + grip_samples(post, 'door_post')
+    bed_c = grip_samples(BED_LO, 'bed_rail', ry) + grip_samples(BED_UP, 'bed_rail', lambda p: (p[2] - ust) * 1.0 >= 0.025) + grip_samples(fb, 'footboard_top') + grip_samples(HOOP, 'hoop', lambda p: p[1] >= GUARD + 0.04)
+    g = ladder_grips(side, uc_, st_, door_c, bed_c)
+    rp = lambda P: [[r3(v) for v in p] for p in P]
+    LAYOUT['units'][-1]['sleep_scene']['grips'] = {'up': g['up'], 'down': g['down'], 'body': GRIP_BODY,
+        'note': 'DORM-LADDER-HEAD-GRIP-1102：每一階（同 steps）[左手, 右手]（人物自己的左右；up＝爬上去面向牆、down＝爬下來面向房間）；p＝抓的點（扶手中心線、床尾板上緣）、on＝抓在哪、dir＝那裡扶手的方向；null＝搆不到（轉身跪上床／從床上下來那一階，手放開）。body＝挑點時用的人（祐廷 1.75 m 的肩膀）'}
+    LAYOUT['units'][-1]['sleep_scene']['rails'] = {'r': 0.016, 'door_rail': rp([DOOR_LO[0][:1] + (RISE,) + DOOR_LO[0][2:]] + DOOR_LO[1:] + DOOR_UP[1:]), 'door_post': rp(post),
+        'bed_rail': rp([BED_LO[0][:1] + (RISE,) + BED_LO[0][2:]] + BED_LO[1:] + BED_UP[1:]), 'footboard_top': rp(fb), 'hoop': rp(HOOP)}
 
 
 # ---- 每個人的東西
