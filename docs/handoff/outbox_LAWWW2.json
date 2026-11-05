@@ -5878,7 +5878,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "267f3d9a9",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "task": "SIT-HEIGHT-1104",
    "files": [
     "docs/art-rebuild/second_ai/wip/sit_height_1104/README.md",
@@ -5911,7 +5911,7 @@
    "remaining": "瀏覽器沒看過（D131）：CC 拍林家乾麵（吃飯開了以後）、總圖自習桌、教室／階梯教室女生坐著（NPCTASK_shots）、118 巷吧台、鞦韆、腳踏車後座；LAWWW 判人物動作（D128）、BB 看截圖確認「扶手」＝桌下置物架；吃飯片段 S.TASK_EAT 要不要開 LAWWW-C 決定；裙子、階梯教室高個男生的腳（sitFeet 關）是舊問題；WIN 女生近端可以再放寬（和 Café 桌緣 0.20 一起）",
    "next": "LAWWW-C：git checkout 267f3d9a9 -- （README 接法那一串）＋git apply sit_height_1104.patch（取代 npc_f2m2_1104.patch）；跑 sit_height_unit、sit_task_loops_unit、sit_task_wire_unit、l118_bar_lift_unit、desk_furniture_unit、wz_park_people_unit",
    "noDirectIntegrate": false,
-   "note": "坐下往下＝身高×(ul−bt)−0.465（C.SIT_FIT，遊戲骨架量的 67 個模型）：大腿底部都在 0.465；女生肩膀離桌 +8.7→+21.4 cm、男生 +18.3→+22.7；眼睛離碗 女 27→37、男 32→37 cm；階梯教室置物架 0.515→0.63（原本男生膝蓋 0.531 就穿過去）；抬高＝座面−0.47（高腳椅、鞦韆、後座、118 巷 0.29）；自習椅 0.47；路人片段合得上（只用 F／M）：打字 44、寫字 37、其他 41～43／44。Node ALL PASS（sit_height ①～⑥、loops、wire 55、seat_ambient、座位 25 支、GLB 8 支）"
+   "note": "坐下往下＝身高×(ul−bt)−0.465（C.SIT_FIT，遊戲骨架量的 67 個模型）：大腿底部都在 0.465；女生肩膀離桌 +8.7→+21.4 cm、男生 +18.3→+22.7；眼睛離碗 女 27→37、男 32→37 cm；階梯教室置物架 0.515→0.63（原本男生膝蓋 0.531 就穿過去）；抬高＝座面−0.47（高腳椅、鞦韆、後座、118 巷 0.29）；自習椅 0.47；路人片段合得上（只用 F／M）：打字 44、寫字 37、其他 41～43／44。Node ALL PASS（sit_height ①～⑥、loops、wire 55、seat_ambient、座位 25 支、GLB 8 支）｜11-05 send_message LAWWW-C DELIVERED、副本 BB-C DELIVERED（請 BB 確認「扶手」＝桌下置物架）"
   }
  ]
 }
