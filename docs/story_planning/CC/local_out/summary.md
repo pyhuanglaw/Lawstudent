@@ -1416,3 +1416,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 600.1s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 600.1s] BROWSER DISCONNECTED
 - 2026-11-05T19:51:40  V21R_shop_named  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  871s    PASS [alison] 演完推得動  7.07 / PASS 沒有 JS 例外  [] / FAILED 1: [xs_shanlan_sis heroine_05] 10/23 以後 120 天內找得到他在的那一天
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 827.7s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 827.7s] BROWSER DISCONNECTED
+- 2026-11-05T20:10:49  V21R_soc_heroine_01_talk  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  1149s       用了 18.5 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
+      err.log (last 5): [gpu_wrap 1111.0s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 1111.1s] BROWSER DISCONNECTED

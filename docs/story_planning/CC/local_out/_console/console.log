@@ -727,3 +727,16 @@
 [19:51:40] [res] cpu=5% mem=34% (11.0/31.4 GB) chrome_testing=5  END V21R_shop_named
 [19:51:40] memory 34% before starting V21R_soc_heroine_01_talk (2 running)
 [19:51:40] ==== START V21R_soc_heroine_01_talk  (probe @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
+[19:51:43] [res] cpu=13% mem=35% (11.0/31.4 GB) chrome_testing=5  START V21R_soc_heroine_01_talk
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       85a5048ed..0807bd491  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:51:48] ==== END   V21R_shop_named  exit=0  871s   ====
+[19:52:09] 正在跑：V21R_shops_acts（已跑 26 分／上限 60 分）、V21R_soc_heroine_01_talk（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:52:10] memory 38% before starting V21R_soc_heroine_01_go (2 running)
+[19:52:10] ==== START V21R_soc_heroine_01_go  (probe @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
+[19:52:13] [res] cpu=17% mem=39% (12.1/31.4 GB) chrome_testing=9  START V21R_soc_heroine_01_go
+[19:57:09] 正在跑：V21R_shops_acts（已跑 31 分／上限 60 分）、V21R_soc_heroine_01_talk（已跑 5 分／上限 20 分）、V21R_soc_heroine_01_go（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:02:09] 正在跑：V21R_shops_acts（已跑 36 分／上限 60 分）、V21R_soc_heroine_01_talk（已跑 10 分／上限 20 分）、V21R_soc_heroine_01_go（已跑 9 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:07:09] 正在跑：V21R_shops_acts（已跑 41 分／上限 60 分）、V21R_soc_heroine_01_talk（已跑 15 分／上限 20 分）、V21R_soc_heroine_01_go（已跑 14 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:10:49] [res] cpu=39% mem=41% (13.0/31.4 GB) chrome_testing=10  END V21R_soc_heroine_01_talk
