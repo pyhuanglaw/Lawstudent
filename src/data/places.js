@@ -5,7 +5,7 @@
    - 地名座標：區域座標（x 往東、−z 往北；公館的區域座標轉過方向，大地圖照 zones3d.js 的 sunYaw 轉成北朝上），
      和 zones3d.js 擺建築的位置相同；搬建築時這裡一起改。入口不用寫在這裡：大地圖和入口標記直接讀區域的出口互動點。 */
 const PLACES={
-  names:{ gongtong:'共同教學館', boya:'博思教學館', putong:'普通教學館', campus:'首都帝大校園', gongguan:'公館', wenzhou:'溫州街', lane118:'118 巷', cafe:'2:30 AM', cvs:'日和便利店', noodle:'公館燒臘', bikeshop:'慢輪單車', aoki:'青木茶室', afar:'afar café', daybreak:'Daybreak', bookstore:'頁間書屋', wz_brunch:'SUNNY SIDE', wz_print:'阿德影印輸出', xs_tongxian:'同弦樂器', xs_nanyang:'南洋戲院', xs_nanyang_hall:'南洋戲院 1 廳', xs_shanlan:'山嵐書店', wz_teahouse:'一盞', wz_lin:'林家乾麵', wz_teishoku:'小路', wz_tea:'帝大紅茶', wz_books:'溫州書屋', wz_ice:'夏日冰菓室', wz_mokuyobi:'木曜日', wz_offbeat:'日常失速', xinsheng:'新生南路', gym:'綜合體育館', gym_b1:'綜合體育館 B1',
+  names:{ gongtong:'共同教學館', boya:'博思教學館', putong:'普通教學館', campus:'首都帝大校園', gongguan:'公館', wenzhou:'溫州街', lane118:'118 巷', cafe:'2:30 AM', cvs:'日和便利店', noodle:'公館燒臘', bikeshop:'慢輪單車', aoki:'青木茶室', afar:'afar café', daybreak:'Daybreak', bookstore:'頁間書屋', wz_brunch:'SUNNY SIDE', wz_print:'阿德影印輸出', xs_tongxian:'同弦樂器', xs_nanyang:'南洋戲院', xs_nanyang_hall:'南洋戲院 1 廳', xs_shanlan:'山嵐書店', xs_dakou:'大口漢堡', wz_teahouse:'一盞', wz_lin:'林家乾麵', wz_teishoku:'小路', wz_tea:'帝大紅茶', wz_books:'溫州書屋', wz_ice:'夏日冰菓室', wz_mokuyobi:'木曜日', wz_offbeat:'日常失速', xinsheng:'新生南路', gym:'綜合體育館', gym_b1:'綜合體育館 B1',
     linze:'法律系館A', linze_3f:'法律系館A 3F 討論區', linze_4f:'法律系館A 4F 自習討論區', classroom:'法律系館A 201 教室', wancai:'法律系館B', library_hall:'總圖書館', library:'總圖 3F 閱覽區', library_b1:'總圖 B1 自習室・討論室', library_carrels:'總圖 2F 研究小間', library_stacks:'總圖 5F 書庫', lawlib:'法律學院圖書館', soclib:'社科院圖書館', dorm:'宿舍房間', dorm_hall:'男生宿舍' },
   // open／close：小時（close 超過 24＝隔天凌晨）；text：畫面上寫的時間
   hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{open:8,close:22,text:'08:00–22:00'}, library:{open:8,close:22,text:'08:00–22:00'}, library_carrels:{open:8,close:22,text:'08:00–22:00'}, library_stacks:{open:8,close:22,text:'08:00–22:00'}, lawlib:{ rules:{ term:{wd:[8+10/60,21.75],we:[9+10/60,17]}, break:{wd:[9+10/60,17],we:null}, holiday:null },
@@ -48,6 +48,7 @@ const PLACES={
     /* 山嵐書店（新生南路那一排的兩層書店；AA_613 第 3 節：11:00～22:00，週五、週六到 23:00；區域 xs_shanlan＝src/shanlan3d.js，ART-SHANLAN-BOOKSTORE-1103）。
        AA_613 沒寫颱風天，先不關（要關就加進 typhoonShops）。店門擋在 story3d.js 的 interact */
     xs_shanlan:{shop:true,rules:{week:[[11,22],[11,22],[11,22],[11,22],[11,22],[11,23],[11,23]]},text:'週日～週四 11:00–22:00；週五、週六 11:00–23:00'},
+    xs_dakou:{text:'24 小時'},   /* 大口漢堡（新生南路南邊路口的速食店；AA_621：24 小時，考試那兩週是大家念書的地方；區域 xs_dakou＝src/dakou3d.js，XS-SHOPS-REST-1105）。只寫說明、店門整天進得去（和便利商店一樣）*/
     us_asian_market:{shop:true,rules:{week:[null,[10,21],[10,21],[10,21],[10,21],[10,21],[10,21]]},text:'週一～週六 10:00–21:00；週日公休'} },
   /* 法律學院圖書館（D53，使用者 2026-10-13 查證台大法律圖書館官網）：依日曆（src/data/calendar.js）分學期間／寒暑假／國定假日、平日／週末。
      rules 的時間：[開, 關]（小時）；null＝不開。其他地點照舊是每天同一個時間（open／close） */

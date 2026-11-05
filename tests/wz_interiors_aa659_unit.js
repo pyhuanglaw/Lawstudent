@@ -47,7 +47,7 @@ const seatApproach=new Function('E',g3.slice(sa0,sa1)+"return best||[seat.x+fx*0
 const W=WZ_SHOPS_LAYOUT, req=f=>{ delete require.cache[require.resolve(path.join(ROOT,f))]; return require(path.join(ROOT,f)); };
 const deq=(a,b)=>{ try{ require('assert').deepStrictEqual(a,b); return true; }catch(e){ return false; } };
 // ---- A0 ----
-const K=req('src/data/komichi_layout.js'), S=req('src/data/sunnyside_layout.js'), Y=req('src/data/yizhan_layout.js'), WN=req('src/data/wz_shops_layout.js','src/data/lin_layout.js');
+const K=req('src/data/komichi_layout.js'), S=req('src/data/sunnyside_layout.js'), Y=req('src/data/yizhan_layout.js'), WN=req('src/data/wz_shops_layout.js');
 check('A0 WZ_SHOPS_LAYOUT.teishoku＝AA komichi_layout.js v4（深度比較；2026-11-04 改期望 v3→v4：AA bc021c7e1）',deq(WN.teishoku,K)&&K.version===4&&K.id==='wz_teishoku');
 check('A0 WZ_SHOPS_LAYOUT.brunch＝AA sunnyside_layout.js v3（深度比較）',deq(WN.brunch,S)&&S.version===3&&S.id==='wz_brunch');
 const OVER=['spawn','exit','yard','blocks','walkNote','work','interact'],   /* interact：前院的互動點（AA_659 §3 bc021c7e1；2026-11-04 加）*/ strip=o=>{ const c=Object.assign({},o); for(const k of OVER) delete c[k]; return c; };
