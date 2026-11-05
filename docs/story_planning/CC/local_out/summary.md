@@ -1384,3 +1384,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 746.4s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 746.5s] BROWSER DISCONNECTED
 - 2026-11-05T19:05:28  V21R_xs_dabu  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  537s    PASS [黑畫面] buy_short_dabu 不是黑畫面（平均亮度 130.9、變化 46.4）  [130.9, 46.4] / PASS 沒有 JS 例外  [] / FAILED 1: [互動點] 走到「照鏡子」(-2.5, -3.55 第 0 層)，按鈕是它
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 505.5s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 505.5s] BROWSER DISCONNECTED
+- 2026-11-05T19:09:18  V21R_xs_haopai  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  314s    PASS [黑畫面] buy_short_haopai 不是黑畫面（平均亮度 122.1、變化 61.8）  [122.1, 61.8] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 282.3s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 282.3s] BROWSER DISCONNECTED

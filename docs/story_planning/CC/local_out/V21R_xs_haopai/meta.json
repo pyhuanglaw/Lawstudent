@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "V21R_xs_haopai",
+  "sha": "83d09d13b0686e51e344b4b771ebb9124d8806a4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_xs_shop_probe.py",
+  "env": "CC_HEADLESS=0;SHOP=haopai",
+  "machine": "MSI",
+  "start": "2026-11-05T19:04:03",
+  "end": "2026-11-05T19:09:18",
+  "seconds": 314,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8805/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 37,
+    "mem": 47,
+    "used_gb": 14.9,
+    "chrome_testing": 15
+  }
+}
