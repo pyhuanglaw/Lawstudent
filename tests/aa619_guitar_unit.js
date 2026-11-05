@@ -1,32 +1,39 @@
-// AA_619 同弦樂器（吉他店）、加入吉他社要買吉他、吉他社社遊（企劃線 bf0efded8，AA-C 定稿 D109；任務 AA619-GUITAR-1104，src/guitar3d.js）——不需要瀏覽器。
-//   0  接線：src/guitar3d.js 載得到、index.html 接在 GAME.boot() 前面；白名單 AA_619@bf0efded8 approved；classes3d.js 有 CLS.CLUB_IN；存檔預設 guitar:{items:{}}；GUITAR.rec 補／重設
-//   0a 逐字對 AA_619@bf0efded8（git show，原稿）：S.L、2-1／偶遇／2-3 的對話、四個事件的每一句台詞和選項都在稿上；營業時間、價錢、九折、社遊的錢、偶遇的週次、老闆三句、
-//      2-1 的旁白、2-4 兩句、宿舍兩句、報名表那一句從稿上抓出來比對；兩張 CG 的名稱、HEARD_HER_SONG 的面板名稱（暫用稿上那張 CG 的名稱）
+// AA_619 同弦樂器（吉他店）、加入吉他社要買吉他、吉他社社遊（企劃線 c4b14a901〔bf0efded8 以後只改 C 頂樓那一句〕＋同一個 commit 的 AA_693「缺字 11 處、判斷 14 件」，
+//   AA-C 定稿 D109；任務 AA619-GUITAR-1104，src/guitar3d.js）——不需要瀏覽器。
+//   0  接線：src/guitar3d.js 載得到、index.html 接在 GAME.boot() 前面；白名單 AA_619@c4b14a901、AA_693@c4b14a901 approved；classes3d.js 有 CLS.CLUB_IN；存檔預設 guitar:{items:{}}；GUITAR.rec 補／重設
+//   0a 逐字對 AA_619@c4b14a901＋AA_693@c4b14a901 的 A、B 兩節（git show，原稿；AA_693 的 C 節引了舊的那一句，不算）：S.L、2-1／偶遇／2-3 的對話、四個事件的每一句台詞和選項都在稿上；
+//      營業時間、價錢、九折、社遊的錢、偶遇的週次、老闆三句、2-1 的旁白、2-4 兩句、宿舍兩句、報名表那一句從稿上抓出來比對；兩張 CG 的名稱（HEARD_HER_SONG 的面板名稱：14-A1）
 //   1  營業：週二～週日 12:00～21:30、週一公休、颱風天（2027-10-13 週三）關；名稱「同弦樂器」；店門（exit.to＝xs_tongxian）營業時間外擋下來、寫開放時間；店裡的互動關門時寫開放時間
-//   2  店裡：看看、試彈（去過社課才有）的旁白；買東西＝老闆一句（三句輪流、一次進店一句）＋選單（價錢、九折、小字、不用了）；買吉他扣錢、OWN_GUITAR、琴袋、調音那一句、時間 +0.15、
-//      同一款不再列；錢不夠＝「錢不夠」不扣錢；小東西記數量、「買了○○」
-//   3  真的區域 xs_tongxian（src/tongxian3d.js）：按鈕照 TX3.INTERACT()（吉他牆兩點「看看」、櫃台「買東西」；子晴 CG 的站位、烏克麗麗不放）、沒有 TX3／Z3＝不出錯也不加；
-//      STORY.interact 分派；經濟系那一年藏；試彈＝坐上試琴椅 try_w／try_e（去過社課才有、打烊不演、木凳沒有）；打烊（21:30、週一）人在店裡＝請出來到 TX3.streetOut()；
-//      2-3 有區域＝換到店裡（試琴椅、子晴的位置）、演完回原處。建 3D、按鈕走得到：tests/aa619_guitar_zone_unit.js
+//   2  店裡：看看、試彈（去過社課＝C 和弦那一句；還沒去過＝AA_693 A5 那一句）的旁白；買東西＝老闆一句（三句輪流、一次進店一句）＋選單（價錢、九折、小字、不用了）；買吉他扣錢、OWN_GUITAR、琴袋、調音那一句、時間 +0.15、
+//      同一款不再列；錢不夠＝「錢不夠」不扣錢；小東西記數量、小紙袋那一句（AA_693 A11）
+//   3  真的區域 xs_tongxian（src/tongxian3d.js）：按鈕照 TX3.INTERACT()（吉他牆兩點「看看」、櫃台「買東西」、烏克麗麗「看看」（AA_693 A2）；子晴 CG 的站位不放）、沒有 TX3／Z3＝不出錯也不加；
+//      STORY.interact 分派；經濟系那一年藏；試彈＝坐上試琴椅 try_w／try_e（打烊不演、木凳沒有）；打烊（21:30＝老闆那一句（A3）；週一）人在店裡＝請出來到 TX3.streetOut()（別的對話還在＝等它結束）；
+//      2-3 有區域＝換到店裡（試琴椅、子晴的位置；已經有自己的琴＝站在門口、子晴在櫃台前）、演完回原處。建 3D、按鈕走得到：tests/aa619_guitar_zone_unit.js
 //   4  偶遇子晴：大一上第 6、10、14 週週六 15:00～16:00、人在店裡、認識她才有（一次）；其他週、週日、16:00、14:59、不認識、2-3 排過、店外都不演；三句照稿
 //   5  2-1 第一次社課：初遇 → 社長學長那一段 → 兩個選項（「一定要買嗎？」接他那一句）→ 這次的旁白是鏽弦那一句（輪流的六句不往前）；第二次社課不再演；
-//      舊存檔（以前去過社課、或初遇記過 guitarFirstDay）不補；第一次去已經有自己的琴＝不演
+//      舊存檔（以前去過社課、或初遇記過 guitarFirstDay）不補；第一次去已經有自己的琴＝「你也舉了」那一版（AA_693 A4）
 //   6  2-2 第 6 週週三社課結束：子晴三句、兩個選項；「好，禮拜六。」＝GUITAR_SHOP_WITH_ZQ＋出遊（第 6 週週六 15:00 同弦樂器）；「我自己去就好。」＝她一句、沒有出遊；
 //      有琴、第一次社課、第 7 週（第 6 週過了＝舊存檔一樣）都不演
 //   7  2-3 出遊：台詞、三個選項；三千八＝扣 3,420、OWN_GUITAR entry、調音那一句；六千五＝5,850；錢不夠＝變灰、「錢不夠」再選一次；我再想想＝不買；出來那一句（都說）；
-//      CG 的登錄點；時間 15:00 → 15:45；之前自己買了琴＝出遊取消
+//      CG 的登錄點；時間 15:00 → 15:45；之前自己買了琴＝照約見面（AA_693 A10）
 //   8  2-4 之後的社課：有琴＝第 7 週起多一句（一學期一次、輪流不往前；大二阿凱不是室友＝沒有）；沒有琴＝偶爾第三弦那一句（照日期、不連續、輪流不往前）；不加數值
 //   9  宿舍「彈吉他」：有琴才在房間物件裡；轉暗、30 分鐘、兩句之一；大二（阿凱不是室友）只有第二句
 //  10  宜蘭兩天一夜：大一上第 11 週週一 21:00 群組報名表（成員、兩次以上社課才有；時間到才有）；報名＝扣 2,500、排出遊（11/22 08:00 校門口、只有出發）；錢不夠＝「下次吧。」、不扣錢；
-//      不報名；兩天的時間（08:00 遊覽車 → 14:00 海邊 → 19:00 民宿 → 隔天 00:15 頂樓 → 15:00 回程 → 17:00）；各段台詞、BORROWED_ZQ_GUITAR、ZQ_ROOFTOP_TUNE、HEARD_HER_SONG；
+//      不報名；兩天的時間（08:00 遊覽車 → 14:00 海邊 → 19:00 民宿（烤肉、輪到你：A6）→ 隔天 00:15 上不上頂樓（A7）→ 08:30 卜肉、14:00 羅東（A8）→ 15:00 回程 → 17:00）；
+//      各段台詞、BORROWED_ZQ_GUITAR、ZQ_ROOFTOP_TUNE、HEARD_HER_SONG；
 //      和子晴交往中頂樓最後一句換；有自己的琴不記借琴；那段時間子晴的作息是「吉他社社遊」；同一天別的出遊照錯過處理
-//  11  陽明山一日：大一下第 10 週週一 21:00 社長學長那一句＋報名、600；12:00 出發 → 14:00 擎天崗草原 → 19:30；有沒有 ZQ_ROOFTOP_TUNE 兩版、兩個選項
+//  11  陽明山一日：大一下第 10 週週一 21:00 社長學長那一句＋報名、600；10:00 校門口出發（AA_693 A9）→ 14:00 擎天崗草原 → 18:00；有沒有 ZQ_ROOFTOP_TUNE 兩版、兩個選項
 //  12  大一下「她在做的東西」（ev_ziqing_secret_game）：有 HEARD_HER_SONG 開頭多「宜蘭那首，我寫完了一半。」；沒有照舊
 //  13  經濟系那一年：店、偶遇、2-1、社遊、房間都沒有
-// 原稿用 git show bf0efded8 讀，不經 tests/alison.js（那支的換字表不改 AA_619 本身、只會在後面接別的稿；這裡要逐字比的是原稿）。
+//  14  AA_693@c4b14a901 每一處新字一項：A1～A11（A3、A4、A6、A7 另外各多一項：不出那一句的時候、另一版）、B（兩句描述加括號、社長那一句兩版都加「買弦也有。」）、C（頂樓「問了」那一支）；
+//      這一節用的字先確認都照抄 AA_693（14-0）
+// 原稿用 git show c4b14a901 讀，不經 tests/alison.js（那支的換字表不改 AA_619 本身、只會在後面接別的稿；這裡要逐字比的是原稿）。
 // 修改前（開發分支 ed7600ec5，暫時的 detached worktree 實跑）：沒有 src/guitar3d.js、index.html 沒接、白名單沒有 AA_619、沒有 CLS.CLUB_IN、存檔預設沒有 guitar、places.js 沒有同弦、
 //   ev_ziqing_secret_game 沒有那一句、沒有同弦區域（src/tongxian3d.js）＝FAILED 28（0、0a～13 每一節都失敗或中斷；「不演」那幾項本來就成立的照樣 PASS）；
 //   合併同弦區域（c028e2cc2）、還沒照真的區域接（沒有 S.buttons、還認 tongxian）＝FAILED 2（3-1、第 3 節中斷）。修改後 124 項 ALL PASS。
+// AA_693 這一輪（2026-11-05，分支 guitar2-1105）：程式還沒改（開發分支 0f417a384＝2b0fac3da 合併以後）、測試先改成 c4b14a901＝FAILED 38
+//   （148 項裡 110 項 PASS——「不演」「時間」那幾項本來就成立；失敗的：白名單 0c、0c-2，0a-1，2-2，2-11，3-2，3-9，3-11，3-13c，3-18，5-1，5-8，7-8，10-8，10-9，10-12，11-2～11-5，
+//   第 14 節 20 項裡 18 項（14-0 對稿、14-A3b「不說那一句」本來就成立））；修改後 148 項 ALL PASS。
 // 用法：node tests/aa619_guitar_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -38,7 +45,26 @@ L('src/data/tongxian_layout.js'); L('src/tongxian3d.js');   /* 真的同弦區�
 L('src/guitar3d.js');
 const X=()=>typeof GUITAR!=='undefined'?GUITAR:null;
 const ZQ='heroine_04', TD=(t,w,wd)=>STORY.termDay(t,w,wd), keyOf=d=>CALENDAR.dateOf(d).key, wd7=d=>CALENDAR.dateOf(d).wd%7;
-const DOC=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show bf0efded8:"docs/story_planning/AA_619_吉他店_買吉他_吉他社社遊.md"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } })();
+const SHA='c4b14a901';   /* AA_619 最新版（AA_693 C：頂樓那一句改了）＋AA_693，企劃線同一個 commit */
+const gshow=p=>{ try{ return cp.execSync('git -c core.quotepath=false show '+SHA+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
+const DOC=gshow('docs/story_planning/AA_619_吉他店_買吉他_吉他社社遊.md');
+const DOC2=gshow('docs/story_planning/AA_693_回LAWWW_AA619同弦吉他社缺字與判斷.md');
+const DOC2AB=DOC2.indexOf('## A.')>=0&&DOC2.indexOf('## C.')>DOC2.indexOf('## A.')?DOC2.slice(DOC2.indexOf('## A.'),DOC2.indexOf('## C.')):'';   /* A 缺字、B 判斷兩節（C 節引了舊的那一句，不算）*/
+const cellA=n=>((new RegExp('\\n\\| '+n+' \\| [^|]+ \\| ([^|]+) \\|').exec(DOC2))||[])[1]||'';   /* AA_693 A 節第 n 列「字」那一欄 */
+/* AA_693 的字（照抄；14-0 確認每一句都在 AA_693 的 A、B 兩節）*/
+const T93={ song:'宜蘭民宿頂樓，她彈了自己寫的那一段',   /* A1 */
+  ukes:'（烏克麗麗掛成一排，顏色都不一樣。最小的那把，比你的手臂還短。）',   /* A2 */
+  close:'九點半了。明天再來。',   /* A3 */
+  buyStr:'新生南路有一家同弦，報吉他社打九折。買弦也有。', raised:'（一半的人舉手。你也舉了。）', touch:'（坐你旁邊借社團琴的人，伸手按了一下你的弦。）',   /* A4、B */
+  novice:'（你拿下一把，不知道手指要按哪裡，只撥了一下空弦。老闆從櫃檯抬頭看了一眼，又低頭。）',   /* A5 */
+  bbq:'（晚上在民宿的院子烤肉。吃完大家擠進客廳，一個一個上去彈一首。）', turn:'（輪到你了。）', ownCase:'（你把自己的琴從琴袋裡拿出來。）', hand:'（子晴把她的琴遞給你。）', fresh:'弦剛換過。',   /* A6 */
+  twelve:'（十二點多，樓下還在唱歌。）', up:'「上頂樓透氣。」', room:'「回房間睡覺。」', upFirst:'（你上頂樓透氣，子晴已經在了，抱著吉他。）', roomLine:'（你回房間躺下。樓下的歌隔著地板，一首接一首。）',   /* A7 */
+  morning:'（第二天早上，學長帶大家去吃卜肉。剛起鍋很燙，大家站在店門口邊吹邊吃。）', luodong:'（下午經過羅東，大家去買伴手禮。你買了一盒牛舌餅。）',   /* A8 */
+  yms:'（早上十點，校門口。社長學長租了一台小巴，後車廂塞滿琴袋。）', ymsAt:'**10:00 校門口**', ymsBack:'傍晚 18:00 回到校門口',   /* A9 */
+  zq1:'（子晴已經在樓梯口了，耳機掛在脖子上。她看了一眼你背的琴袋。）', zq2:'……你自己買了。', zq3:'好。那陪我買弦。',   /* A10 */
+  bag:'（老闆把東西裝進一個小紙袋，順手夾了一張收據。）',   /* A11 */
+  sea:'（子晴坐在圈子外面一點的地方，沒有彈，在看海。）', circle:'（子晴這次在圈子裡彈。）' };   /* B */
+const C93={now:'還沒寫完。結尾我還沒想到。',old:'還沒寫完。你不要跟別人說。'};   /* C：AA_619@c4b14a901 也改了 */
 const caps=[], toasts=[], memos=[];
 GM.caption=(a,b)=>{ caps.push([b,H.G&&H.G.day,H.G&&+(+H.G.hour).toFixed(2)]); }; GM.toast=t=>{ toasts.push(t); }; GM.memo=t=>{ memos.push(t); };
 GM.money=d=>{ H.G.money=(H.G.money|0)+d; };
@@ -61,7 +87,9 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=html.indexOf('src="src/guitar3d.js'), b=html.indexOf('GAME.boot()');
     check('0b. index.html 載入 src/guitar3d.js，在 story3d.js、classes3d.js、outings3d.js、phone3d.js 之後、GAME.boot() 之前',a>0&&b>a&&['src/story3d.js','src/classes3d.js','src/outings3d.js','src/phone3d.js','src/data/places.js'].every(f=>html.indexOf('src="'+f)>0&&html.indexOf('src="'+f)<a));
     const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')), f=(A.files||[]).find(x=>x.path==='docs/story_planning/AA_619_吉他店_買吉他_吉他社社遊.md');
-    check('0c. 劇情匯入白名單：AA_619 bf0efded8 approved、有 approvedBy、任務 AA619-GUITAR-1104',!!f&&f.sha==='bf0efded8'&&f.status==='approved'&&!!f.approvedBy&&f.task==='AA619-GUITAR-1104',J(f&&{sha:f.sha,status:f.status}));
+    check('0c. 劇情匯入白名單：AA_619 c4b14a901 approved、有 approvedBy、任務 AA619-GUITAR-1104（舊的 bf0efded8 在 history）',!!f&&f.sha==='c4b14a901'&&f.status==='approved'&&!!f.approvedBy&&f.task==='AA619-GUITAR-1104'&&(f.history||[]).some(h=>(h&&h.sha||h)==='bf0efded8'),J(f&&{sha:f.sha,status:f.status,history:f.history}));
+    const f2=(A.files||[]).find(x=>x.path==='docs/story_planning/AA_693_回LAWWW_AA619同弦吉他社缺字與判斷.md');
+    check('0c-2. 劇情匯入白名單：AA_693 c4b14a901 approved、有 approvedBy、任務 AA619-GUITAR-1104',!!f2&&f2.sha==='c4b14a901'&&f2.status==='approved'&&!!f2.approvedBy&&f2.task==='AA619-GUITAR-1104',J(f2&&{sha:f2.sha,status:f2.status}));
     const cls=fs.readFileSync(path.join(H.ROOT,'src/classes3d.js'),'utf8');
     check('0d. classes3d.js：社課開始的掛勾 CLS.CLUB_IN（陣列）、attendActivity 照它回傳的 {narr} 換掉這一次的旁白',Array.isArray(CLS.CLUB_IN)&&/for\(const f of S\.CLUB_IN\)/.test(cls)&&/cin&&cin\.narr!=null/.test(cls));
     const g3=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'), line=g3.split('\n').find(l=>/function defaults\(/.test(l))||'';
@@ -72,15 +100,16 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
   });
   // ---------- 0a 對稿 ----------
   await sec('0a',async()=>{ const S=X();
-    check('0a-0. 讀得到 AA_619@bf0efded8（新生南路版）',DOC.length>1000&&DOC.includes('新生南路有一家同弦，報吉他社打九折。')&&!DOC.includes('公館有一家同弦'));
+    check('0a-0. 讀得到 AA_619@c4b14a901（新生南路版、頂樓那一句是 AA_693 C 改過的）',DOC.length>1000&&DOC.includes('新生南路有一家同弦，報吉他社打九折。')&&!DOC.includes('公館有一家同弦')&&DOC.includes('子晴「'+C93.now+'」')&&!DOC.includes('子晴「'+C93.old+'」'));
+    check('0a-0b. 讀得到 AA_693@c4b14a901（A 缺字 11 列、B 判斷、C）',DOC2AB.length>500&&DOC2.includes('## C.')&&[1,2,3,4,5,6,7,8,9,10,11].every(n=>cellA(n).length>4),J([DOC2.length,[1,2,3,4,5,6,7,8,9,10,11].map(n=>cellA(n).length)]));
     const all=[]; const push=(w,t)=>all.push([w,t]);
-    for(const k of ['look','tryPlay','tuned','c21Narr','ownNarr','loanNarr','yilanPost','ymsPost','poor']) push('L.'+k,S.L[k]);
+    for(const k of ['look','tryPlay','tuned','c21Narr','ownNarr','loanNarr','yilanPost','ymsPost','poor','tryNovice','ukes','closeBoss','smallBag']) push('L.'+k,S.L[k]);
     for(const t of S.L.boss) push('L.boss',t); for(const t of S.L.dorm) push('L.dorm',t);
-    for(const t of textsOf(S.D21)) push('D21',t); for(const t of textsOf(S.D_ENC)) push('D_ENC',t); for(const k in S.D_ZQPICK) for(const t of textsOf(S.D_ZQPICK[k])) push('D_ZQPICK',t);
+    for(const t of textsOf(S.D21)) push('D21',t); for(const t of textsOf(S.D21_OWN)) push('D21_OWN',t); for(const t of textsOf(S.D_ENC)) push('D_ENC',t); for(const k in S.D_ZQPICK) for(const t of textsOf(S.D_ZQPICK[k])) push('D_ZQPICK',t);
     for(const o of S.PICK_OPTS) push('PICK',o.t);
     for(const e of S.EVENTS) for(const t of textsOf(e.dialogue)) push(e.id,t);
-    const bad=all.filter(([w,t])=>!DOC.includes(t)).map(([w,t])=>w+'：'+t);
-    check('0a-1. 程式裡每一句台詞、旁白、選項都在稿上（共 '+all.length+' 句）',all.length>=80&&!bad.length,bad.join(' ／ '));
+    const bad=all.filter(([w,t])=>!DOC.includes(t)&&!DOC2AB.includes(t)).map(([w,t])=>w+'：'+t);
+    check('0a-1. 程式裡每一句台詞、旁白、選項都在稿上（AA_619，或 AA_693 的 A、B 兩節；共 '+all.length+' 句）',all.length>=80&&!bad.length,bad.join(' ／ '));
     check('0a-2. 按鈕字「看看」「試彈」「買東西」「彈吉他」、報名表的「報名」「不報名」照稿',['看看','試彈','買東西'].every(t=>DOC.includes('「'+t+'」'))&&S.L.labels.look==='看看'&&S.L.labels.try==='試彈'&&S.L.labels.shop==='買東西'&&DOC.includes('「彈吉他」')&&S.L.dormLabel==='彈吉他'&&DOC.includes('選項報名／不報名')&&S.L.sign==='報名'&&S.L.noSign==='不報名');
     const pr=/民謠吉他 入門款 ([\d,]+)／面單款 ([\d,]+)；一包弦 (\d+)；Pick 一個 (\d+)；移調夾 (\d+)/.exec(DOC)||[], n=s=>+String(s).replace(/,/g,''), P=id=>S.ITEMS.find(q=>q.id===id);
     check('0a-3. 價錢照稿：入門款 3,800、面單款 6,500、一包弦 350、Pick 20、移調夾 300；品名「民謠吉他 入門款」「一包弦」「Pick」「移調夾」、面單款也是民謠吉他',pr.length===6&&P('entry').price===n(pr[1])&&P('solid').price===n(pr[2])&&P('strings').price===n(pr[3])&&P('pick').price===n(pr[4])&&P('capo').price===n(pr[5])&&P('entry').name==='民謠吉他 入門款'&&P('solid').name==='民謠吉他 面單款'&&P('strings').name==='一包弦'&&P('pick').name==='Pick'&&P('capo').name==='移調夾',J(pr.slice(1)));
@@ -94,7 +123,7 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     const post=(/群組貼報名表：「([^」]+)」/.exec(DOC)||[])[1], yms=(/社長學長：「(這學期社遊[^」]+)」/.exec(DOC)||[])[1];
     check('0a-8. 宜蘭報名表、陽明山社長學長那一句照稿',S.L.yilanPost===post&&S.L.ymsPost===yms,J([post,yms]));
     const cg=[...DOC.matchAll(/CG：「([^」]+)」/g)].map(m=>m[1]);
-    check('0a-9. 兩張 CG（「同弦的試琴椅」「宜蘭民宿頂樓，子晴抱著吉他」）有登錄點；子晴的記憶 HEARD_HER_SONG 的面板名稱暫用稿上那張 CG 的名稱（一字照抄，稿上沒有面板名稱）',J(cg)===J(['同弦的試琴椅','宜蘭民宿頂樓，子晴抱著吉他'])&&S.CG.trial==='cg_tongxian_trial_heroine04'&&S.CG.roof==='cg_yilan_roof_heroine04'&&SOCIAL.MEMORY_LABEL.HEARD_HER_SONG===cg[1],J([cg,SOCIAL.MEMORY_LABEL.HEARD_HER_SONG]));
+    check('0a-9. 兩張 CG（「同弦的試琴椅」「宜蘭民宿頂樓，子晴抱著吉他」）有登錄點（HEARD_HER_SONG 的面板名稱照 AA_693 A1：14-A1）',J(cg)===J(['同弦的試琴椅','宜蘭民宿頂樓，子晴抱著吉他'])&&S.CG.trial==='cg_tongxian_trial_heroine04'&&S.CG.roof==='cg_yilan_roof_heroine04',J(cg));
   });
   // ---------- 1 營業 ----------
   await sec(1,async()=>{ const S=X(), tue=TD('Y1S1',6,2), mon=TD('Y1S1',6,1)+7, sun=TD('Y1S1',6,7), ty=STORY.dayOfKey('2027-10-13');
@@ -111,7 +140,7 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
   await sec(2,async()=>{ const S=X(), sat=TD('Y1S1',8,6);
     let G=fresh(sat,15,'xs_tongxian'); G.money=10000; H.said=[]; await S.look(GM);
     check('2-1. 看看＝稿的旁白一句',J(H.said)===J([{who:null,t:S.L.look}]));
-    H.said=[]; const t0=await S.tryPlay(GM); check('2-2. 試彈：還沒去過吉他社社課＝沒有（稿：「社課教的 C 和弦」）',t0===false&&!H.said.length);
+    H.said=[]; const t0=await S.tryPlay(GM); check('2-2. 試彈：還沒去過吉他社社課＝AA_693 A5 那一句（不知道手指要按哪裡；C 和弦那一句要去過社課）',t0===true&&J(H.said)===J([{who:null,t:T93.novice}]),J([t0,H.said]));
     att(G,TD('Y1S1',5,3)); H.said=[]; await S.tryPlay(GM); check('2-3. 去過一次社課：試彈＝稿的旁白一句',J(H.said)===J([{who:null,t:S.L.tryPlay}]));
     // 買東西：非成員、全價
     H.said=[]; H.opts=[]; H.picks=['不用了']; GM.enterN=5; await S.shop(GM);
@@ -129,8 +158,8 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     H.opts=[]; H.picks=['不用了']; GM.enterN=10; await S.shop(GM); check('2-9. 買過的那一款不再列（入門款），面單款照列',!H.opts[0].some(t=>/入門款/.test(t))&&H.opts[0].some(t=>/面單款/.test(t)),J(H.opts[0]));
     G.money=100; const m1=G.money; toasts.length=0; seen=null; GM.choose=async o=>{ seen=o; return c0(o); }; H.picks=['面單款']; await S.shop(GM); GM.choose=c0;
     check('2-10. 錢不夠：選項變灰、選了＝「錢不夠」、不扣錢、沒有買',!!seen&&seen.find(q=>/面單款/.test(q.t)).dim===true&&toasts.includes('錢不夠')&&G.money===m1&&G.flags.OWN_GUITAR==='entry'&&!S.owns(G,'solid'),J([toasts,G.money]));
-    G.money=1000; toasts.length=0; H.picks=['一包弦']; await S.shop(GM); H.picks=['一包弦']; await S.shop(GM); H.picks=['Pick']; await S.shop(GM); H.picks=['移調夾']; await S.shop(GM);
-    check('2-11. 小東西：扣錢（九折）、記數量（弦 2、Pick 1、移調夾 1）、「買了○○」、OWN_GUITAR 不變',G.money===1000-315*2-18-270&&G.guitar.items.strings===2&&G.guitar.items.pick===1&&G.guitar.items.capo===1&&J(toasts)===J(['買了一包弦','買了一包弦','買了 Pick','買了移調夾'])&&G.flags.OWN_GUITAR==='entry',J([G.money,G.guitar.items,toasts]));
+    G.money=1000; toasts.length=0; H.said=[]; H.picks=['一包弦']; await S.shop(GM); H.picks=['一包弦']; await S.shop(GM); H.picks=['Pick']; await S.shop(GM); H.picks=['移調夾']; await S.shop(GM);
+    check('2-11. 小東西：扣錢（九折）、記數量（弦 2、Pick 1、移調夾 1）、每一次都是小紙袋那一句（AA_693 A11；不出「買了○○」）、OWN_GUITAR 不變',G.money===1000-315*2-18-270&&G.guitar.items.strings===2&&G.guitar.items.pick===1&&G.guitar.items.capo===1&&H.said.filter(s=>s.who===null&&s.t===T93.bag).length===4&&!toasts.some(t=>/^買了/.test(t))&&G.flags.OWN_GUITAR==='entry',J([G.money,G.guitar.items,toasts,H.said]));
     G.money=9000; H.picks=['面單款']; await S.shop(GM); check('2-12. 再買面單款：OWN_GUITAR＝solid（最新的那把）、琴袋兩個',G.flags.OWN_GUITAR==='solid'&&G.guitar.items.solid===G.day&&G.guitar.items.case===2&&G.money===9000-5850);
     check('2-13. 資料層：S.buy 已經有＝owned、錢不夠＝poor',S.buy(G,'entry')==='owned'&&(()=>{ G.money=10; return S.buy(G,'capo')==='poor'&&G.money===10; })()); });
   // ---------- 3 區域接線（真的 xs_tongxian：src/tongxian3d.js 的 TX3）----------
@@ -138,30 +167,32 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     check('3-1. 區域 id 只有 xs_tongxian（TX3.ZONE）；開放時間、名稱的鍵 xs_tongxian（places.js）；TX3.zone.build 已經包上（加按鈕）',J(S.ZONES)===J(['xs_tongxian'])&&TX3.ZONE==='xs_tongxian'&&S.PLACE==='xs_tongxian'&&!!PLACES.hours.xs_tongxian&&TX3.zone._guitar===true);
     let G=fresh(sat,15,'xs_tongxian'); const E1={interactables:[]}; const n=S.buttons(E1), ids=E1.interactables.map(i=>i.tongxian+':'+i.guitar+':'+i.label);
     const q=id=>LY.interact.find(x=>x.id===id), atPt=(it,id)=>it.x===q(id).x&&it.z===q(id).z;
-    check('3-2. 按鈕照 TX3.INTERACT()：吉他牆 wall_n、wall_s＝「看看」、櫃台 buy＝「買東西」（半徑 0.9、位置照配置）；try（子晴 CG 的站位）、ukes（烏克麗麗，稿上沒有字）不放',n===3&&J(ids)===J(['wall_n:look:看看','wall_s:look:看看','buy:shop:買東西'])&&atPt(E1.interactables[0],'wall_n')&&atPt(E1.interactables[1],'wall_s')&&atPt(E1.interactables[2],'buy')&&E1.interactables.every(i=>i.radius===0.9&&(i.lv|0)===0)&&!E1.interactables.some(i=>i.tongxian==='try'||i.tongxian==='ukes'),J(E1.interactables));
+    check('3-2. 按鈕照 TX3.INTERACT()：吉他牆 wall_n、wall_s＝「看看」、櫃台 buy＝「買東西」、烏克麗麗 ukes＝「看看」（AA_693 A2）（半徑 0.9、位置照配置）；try（子晴 CG 的站位）不放',n===4&&J(ids)===J(['wall_n:look:看看','wall_s:look:看看','buy:shop:買東西','ukes:ukes:看看'])&&atPt(E1.interactables[0],'wall_n')&&atPt(E1.interactables[1],'wall_s')&&atPt(E1.interactables[2],'buy')&&atPt(E1.interactables[3],'ukes')&&E1.interactables.every(i=>i.radius===0.9&&(i.lv|0)===0)&&!E1.interactables.some(i=>i.tongxian==='try'),J(E1.interactables));
     { const tx=globalThis.TX3; let err=null, r=null; delete globalThis.TX3; try{ r=S.buttons({interactables:[]}); E.interactables=[]; STORY.populate('xs_tongxian',GM); }catch(e){ err=e; } globalThis.TX3=tx;
       check('3-3. 沒有區域（TX3 不在）：不加按鈕、populate 不出錯',r===0&&!err&&!E.interactables.length,String(err)); }
     { let r='?'; try{ r=await S.outingStage(GM,{id:'x'},evOf('ev_guitar_zq_shop')); }catch(e){ r=e; } check('3-4. 遊戲沒有登記區域（Z3 不在）：2-3 不換場景（OUT.STAGE 回 null）',r===null,String(r)); }
     E.interactables=E1.interactables.concat([{x:LY.exit.x,z:LY.exit.z,label:LY.exit.label,exit:{to:'xinsheng'}}]); H.said=[]; await STORY.interact(E.interactables[0],GM);
     check('3-5.「看看」（STORY.interact 照 it.guitar 分派）＝稿的旁白一句',J(H.said)===J([{who:null,t:S.L.look}]));
     H.said=[]; H.opts=[]; H.picks=['不用了']; await STORY.interact(E.interactables[2],GM); check('3-6.「買東西」＝老闆一句＋選單',H.said.length===1&&H.said[0].who==='老闆'&&H.opts[0]&&H.opts[0].length===6,J([H.said,H.opts]));
-    G.stage='econ'; STORY.populate('xs_tongxian',GM); const hid=E.interactables.filter(i=>i.guitar).every(i=>i.hidden===true)&&!E.interactables[3].hidden; G.stage='law'; STORY.populate('xs_tongxian',GM);
+    G.stage='econ'; STORY.populate('xs_tongxian',GM); const hid=E.interactables.filter(i=>i.guitar).every(i=>i.hidden===true)&&!E.interactables.find(i=>i.exit).hidden; G.stage='law'; STORY.populate('xs_tongxian',GM);
     check('3-7. 經濟系那一年：按鈕藏起來（出口不動）；法律系照常',hid&&E.interactables.filter(i=>i.guitar).every(i=>!i.hidden));
     // 試彈＝坐上試琴椅
     const seatOf=id=>{ const s=LY.seats.find(x=>x.id===id); return {x:s.x,z:s.z,yaw:s.yaw,lv:0}; };
     check('3-8. 配置的座位對得到 id（try_w、try_e、counter_stool）',S.seatId(seatOf('try_w'))==='try_w'&&S.seatId(seatOf('try_e'))==='try_e'&&S.seatId(seatOf('counter_stool'))==='counter_stool'&&S.seatId({x:9,z:9})===null);
-    H.said=[]; await STORY.onSeat(GM,seatOf('try_w')); const s0=H.said.filter(x=>x.t===S.L.tryPlay).length;
+    H.said=[]; await STORY.onSeat(GM,seatOf('try_w')); const s0=H.said.filter(x=>x.t===S.L.tryPlay).length, n0=H.said.filter(x=>x.t===T93.novice).length;
     att(G,TD('Y1S1',5,3)); H.said=[]; await STORY.onSeat(GM,seatOf('try_w')); const s1=H.said.filter(x=>x.t===S.L.tryPlay).length; H.said=[]; await STORY.onSeat(GM,seatOf('try_e')); const s2=H.said.filter(x=>x.t===S.L.tryPlay).length;
-    H.said=[]; await STORY.onSeat(GM,seatOf('counter_stool')); const s3=H.said.filter(x=>x.t===S.L.tryPlay).length;
-    check('3-9. 試彈＝坐上試琴椅（try_w、try_e）：去過社課才有稿上那一句；還沒去過＝沒有；櫃台前的木凳沒有',s0===0&&s1===1&&s2===1&&s3===0,J([s0,s1,s2,s3]));
+    H.said=[]; await STORY.onSeat(GM,seatOf('counter_stool')); const s3=H.said.filter(x=>x.t===S.L.tryPlay||x.t===T93.novice).length;
+    check('3-9. 試彈＝坐上試琴椅（try_w、try_e）：去過社課＝稿上 C 和弦那一句；還沒去過＝AA_693 A5 那一句；櫃台前的木凳沒有',s0===0&&n0===1&&s1===1&&s2===1&&s3===0,J([s0,n0,s1,s2,s3]));
     at(sat,21.6); H.said=[]; await STORY.onSeat(GM,seatOf('try_w')); const s4=H.said.filter(x=>x.t===S.L.tryPlay).length; at(sat,15,'wancai'); H.said=[]; await STORY.onSeat(GM,seatOf('try_w')); const s5=H.said.filter(x=>x.t===S.L.tryPlay).length;
     check('3-10. 打烊以後、別的區域（座標碰巧一樣）坐下：沒有',s4===0&&s5===0,J([s4,s5]));
     // 打烊：請你出來
-    at(sat,21.55,'xs_tongxian'); H.entered=[]; toasts.length=0; let stood=0; const su=GM.standUp; GM.standUp=()=>{ stood++; }; E.player.seat={x:1,z:1};
+    at(sat,21.55,'xs_tongxian'); H.entered=[]; H.said=[]; toasts.length=0; let stood=0; const su=GM.standUp; GM.standUp=()=>{ stood++; }; E.player.seat={x:1,z:1};
     const t=S.tick(GM); await new Promise(r=>setTimeout(r,5)); GM.standUp=su; E.player.seat=null; const so=TX3.streetOut();
-    check('3-11. 21:33 人還在店裡：站起來、回到新生南路騎樓的樓梯口外面（TX3.streetOut）、寫開放時間',t===true&&stood===1&&H.entered[0]==='xinsheng'&&toasts[0]===PLACES.closedText('xs_tongxian',21.55,sat),J([H.entered,toasts,so]));
-    at(TD('Y1S1',8,1),13,'xs_tongxian'); H.entered=[]; S.tick(GM); await new Promise(r=>setTimeout(r,5)); check('3-12. 週一（公休）讀檔在店裡：一樣請出來',H.entered[0]==='xinsheng');
+    check('3-11. 21:33 人還在店裡：站起來、老闆「九點半了。明天再來。」（AA_693 A3）、回到新生南路騎樓的樓梯口外面（TX3.streetOut）、寫開放時間',t===true&&stood===1&&J(H.said)===J([{who:'老闆',t:T93.close}])&&H.entered[0]==='xinsheng'&&toasts[0]===PLACES.closedText('xs_tongxian',21.55,sat),J([H.entered,toasts,so,H.said]));
+    at(TD('Y1S1',8,1),13,'xs_tongxian'); H.entered=[]; H.said=[]; S.tick(GM); await new Promise(r=>setTimeout(r,5)); check('3-12. 週一（公休）讀檔在店裡：一樣請出來（老闆不說那一句）',H.entered[0]==='xinsheng'&&!H.said.length,J(H.said));
     at(sat,15,'xs_tongxian'); H.entered=[]; const t2=S.tick(GM); check('3-13. 開門的時候不請人出來',t2===false&&!H.entered.length);
+    { at(sat,21.55,'xs_tongxian'); H.entered=[]; H.said=[]; GM.D.active=true; const t3=S.tick(GM); GM.D.active=false; const t4=S.tick(GM); await new Promise(r=>setTimeout(r,5));
+      check('3-13c. 打烊的時候別的對話還在（GM.D.active）：等它結束才請人出來、老闆才說那一句',t3===false&&t4===true&&H.entered[0]==='xinsheng'&&H.said.length===1,J([t3,t4,H.entered,H.said])); }
     { const cb=CHAR.build, an=E.addNPC, pos=[]; CHAR.build=sp=>({position:{set:(x,y,zz)=>pos.push([x,zz])},rotation:{},sp}); E.addNPC=o=>{ E.npcs.push(o); return o; }; E.npcs=[];
       at(sat,15,'xs_tongxian'); const n1=S.populate(GM), n2=S.populate(GM); E.npcs=[]; at(sat,21.6); const n3=S.populate(GM); at(sat,15,'xinsheng'); const n4=S.populate(GM);
       CHAR.build=cb; if(an) E.addNPC=an; else delete E.addNPC; E.npcs=[]; G.zone='xs_tongxian'; const ow=TX3.OWNER;
@@ -173,6 +204,9 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     H.said=[]; await STORY.onSeat(GM,seatOf('try_w')); check('3-15. 換場景的時候（S.staged）不出試彈那一句',!H.said.some(x=>x.t===S.L.tryPlay));
     await stg.restore(); check('3-16. 演完回到原本的地方（campus）',H.entered[1]==='campus'&&S.staged===null,J(H.entered));
     const q2=await S.outingStage(GM,{id:'x'},evOf('ev_guitar_trip_yilan')); check('3-17. 別的出遊不換',q2===null);
+    { G.flags.OWN_GUITAR='entry'; G.zone='campus'; H.entered=[]; spawned.length=0; sat2=null; const by=LY.interact.find(x=>x.id==='buy'); let stg2=null, err=null; try{ stg2=await S.outingStage(GM,{id:'guitar_zq_shop'},evOf('ev_guitar_zq_shop')); }catch(e){ err=e; }
+      check('3-18. 2-3 之前已經有自己的琴（AA_693 A10：跳過試琴）：換到店裡、不坐試琴椅（站在進門點）、子晴站在櫃台前（配置 interact 的 buy）',!err&&!!stg2&&H.entered[0]==='xs_tongxian'&&sat2===null&&J(spawned)===J([[ZQ,by.x,by.z]]),J([String(err||''),H.entered,spawned,sat2]));
+      if(stg2) await stg2.restore(); delete G.flags.OWN_GUITAR; }
     delete GM.spawnCharacter; GM.sitAt=()=>{}; delete global.Z3; });
   // ---------- 4 偶遇子晴 ----------
   await sec(4,async()=>{ const S=X();
@@ -192,7 +226,7 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     let G=fresh(w5,19.05,'wancai'); H.said=[]; H.picks=[0,'一定要買嗎']; let optsSeen=[]; const c0=GM.choose; GM.choose=async o=>{ optsSeen.push(o.map(q=>q.t)); return c0(o); };
     await CLS.attendActivity(GM,a,{door:true}); GM.choose=c0;
     const L=said(), i0=L.indexOf('高子晴：今天系上有程式比賽，一半的人跑去了，所以人很少。'), i1=L.indexOf('（社長學長拍拍手。）');
-    const want=['（社長學長拍拍手。）','社長學長：有自己吉他的舉手。','（一半的人舉手。你沒有。）','社長學長：沒有的先用社團的，前面那箱。前兩個禮拜先借，之後最好自己買一把。……不用貴，三四千就有好彈的。','社長學長：新生南路有一家同弦，報吉他社打九折。','社長學長：不買也可以啊，社團的琴一直都在。只是那箱弦有點鏽。',S.L.c21Narr];
+    const want=['（社長學長拍拍手。）','社長學長：有自己吉他的舉手。','（一半的人舉手。你沒有。）','社長學長：沒有的先用社團的，前面那箱。前兩個禮拜先借，之後最好自己買一把。……不用貴，三四千就有好彈的。','社長學長：'+T93.buyStr,'社長學長：不買也可以啊，社團的琴一直都在。只是那箱弦有點鏽。',S.L.c21Narr];
     check('5-1. 第一次社課：子晴的初遇演完 → 社長學長那一段 →「一定要買嗎？」→ 他那一句 → 這次的旁白是鏽弦那一句（最後）',i0>=0&&i1>i0&&J(L.slice(i1))===J(want)&&J(optsSeen[1])===J(['「好。」','「一定要買嗎？」']),J([L,optsSeen]));
     check('5-2. 輪流的六句沒有往前（G.acts.narr 沒記）、記 c21、加入吉他社、出席',!((G.acts.narr||{})['club_guitar@Y1S1'])&&G.guitar.c21===w5&&G.flags.CLUB_club_guitar===true&&ACTIVITIES.attended(G,'club_guitar',w5),J([G.acts.narr,G.guitar]));
     const w6m=TD('Y1S1',6,3); at(w6m+0,19.05); H.said=[]; H.picks=['我自己去就好']; await CLS.attendActivity(GM,a,{door:true});
@@ -209,7 +243,7 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     G=fresh(TD('Y1S1',7,3),19.05,'wancai',{CLUB_club_guitar:true,guitarFirstDay:w5}); H.FRIEND(ZQ); H.said=[]; await CLS.attendActivity(GM,a,{door:true});
     check('5-7. 舊存檔（沒有出席紀錄、初遇記過 guitarFirstDay）：不補',!said().includes('（社長學長拍拍手。）'),J(said()));
     G=fresh(w5,19.05,'wancai',{OWN_GUITAR:'entry'}); G.guitar={items:{entry:w5-2}}; H.said=[]; H.picks=[0]; await CLS.attendActivity(GM,a,{door:true});
-    check('5-8. 第一次去已經有自己的琴（稿是「你沒有」）：不演、記 own、沒有鏽弦旁白',!said().includes('（社長學長拍拍手。）')&&!said().includes(S.L.c21Narr)&&G.guitar.c21==='own',J(said())); });
+    check('5-8. 第一次去已經有自己的琴：演「你也舉了」那一版（AA_693 A4，見 14-A4）、記那一天、沒有鏽弦旁白',said().includes(T93.raised)&&!said().includes('（一半的人舉手。你沒有。）')&&!said().includes(S.L.c21Narr)&&G.guitar.c21===w5,J(said())); });
   // ---------- 6 2-2 ----------
   await sec(6,async()=>{ const S=X(), a=CLUB(), w5=TD('Y1S1',5,3), w6=TD('Y1S1',6,3);
     const run=async(d,flags,picks,prep)=>{ const G=fresh(d,19.05,'wancai',Object.assign({CLUB_club_guitar:true},flags||{})); H.FRIEND(ZQ); att(G,w5); if(prep) prep(G); H.said=[]; H.picks=(picks||[]).slice(); await CLS.attendActivity(GM,a,{door:true}); return G; };
@@ -240,7 +274,7 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     ({G,q,seen}=await go(1000,['三千八','六千五','我再想想']));
     check('7-7. 兩把都買不起（1,000）：都變灰，最後只能「我再想想」、不扣錢',seen[1][0][1]&&seen[1][1][1]&&G.money===1000&&!G.flags.OWN_GUITAR&&said().includes('高子晴：好。不要讓別人幫你決定。我也是。'),J([seen,G.money]));
     { const G=fresh(TD('Y1S1',6,3),21,'xs_tongxian',{CLUB_club_guitar:true}); H.FRIEND(ZQ); att(G,w5); S.planZqShop(G); at(TD('Y1S1',6,4),15); G.money=9000; H.picks=['入門款']; await S.shop(GM); at(sat,14.75,'campus');
-      check('7-8. 2-3 之前自己去買了琴：那個約取消（missed，不跳出發）',OUT.get(G,'guitar_zq_shop').state==='missed'&&!OUT.due(G)); } });
+      check('7-8. 2-3 之前自己去買了琴：約不取消、照樣跳出發（AA_693 A10：照約見面，見 14-A10）',OUT.get(G,'guitar_zq_shop').state==='planned'&&!!OUT.due(G)); } });
   // ---------- 8 2-4 ----------
   await sec(8,async()=>{ const S=X(), a=CLUB(), w5=TD('Y1S1',5,3);
     const days=[]; for(const [t,ws] of [['Y1S1',[6,7,10,11,12,13,14,15]]]) for(const w of ws) for(const wd of [1,3]){ const d=TD(t,w,wd); if(d!=null&&ACTIVITIES.on(a,d)) days.push(d); }
@@ -296,22 +330,24 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     // 出發：兩天
     use(G); at(D-1,22); OUT.plan(G,{id:'t_other',ev:'ev_guitar_trip_yms',day:D,h:14,place:'x',title:'x'});
     at(D,7.8,'dorm'); const q1=OUT.due(G); let seen=[]; const c0=GM.choose; GM.choose=async o=>{ seen.push(o.map(x=>x.t)); return c0(o); };
-    H.said=[]; caps.length=0; H.cgs=[]; H.picks=['出發','去跟子晴說話','彈社課教的那首','那是什麼歌','慢慢寫就好']; await OUT.prompt(GM,q1); GM.choose=c0;
+    H.said=[]; caps.length=0; H.cgs=[]; H.picks=['出發','去跟子晴說話','彈社課教的那首','上頂樓透氣','那是什麼歌','慢慢寫就好']; await OUT.prompt(GM,q1); GM.choose=c0;
     const L=said(), cap=k=>caps.find(c=>c[0]===k)||[];
     check('10-6. 只有「出發」（必去）',J(seen[0])===J(['出發：宜蘭兩天一夜']),J(seen[0]));
-    check('10-7. 時間：08:00 遊覽車上 → 14:00 外澳海邊 → 19:00 宜蘭・民宿 → 隔天 00:15 民宿頂樓 → 15:00 回程遊覽車 → 17:00 回到首都帝大',J(cap('遊覽車上').slice(1))===J([D,8])&&J(cap('外澳海邊').slice(1))===J([D,14])&&J(cap('宜蘭・民宿').slice(1))===J([D,19])&&J(cap('民宿頂樓').slice(1))===J([D+1,0.25])&&J(caps.filter(c=>c[0]==='遊覽車上')[1].slice(1))===J([D+1,15])&&J(cap('回到首都帝大。').slice(1))===J([D+1,17])&&G.weekday===0,J(caps));
-    const want=['（車上有人彈吉他，後面的人跟著唱。唱到一半，司機把收音機關了。）','（大家在沙灘上排成一圈彈唱。風很大，譜一直被吹走。）','子晴坐在圈子外面一點的地方，沒有彈，在看海。','高子晴：我在聽浪。……它的節奏一直在變。','（你彈錯了兩個地方。大家照樣拍手。）',
-      '（十二點多，樓下還在唱歌。你上頂樓透氣，子晴已經在了，抱著吉他。）','（她彈了一段你沒聽過的旋律。很短，彈完就停了。）','高子晴：……沒有名字。我自己寫的。','高子晴：還沒寫完。你不要跟別人說。','高子晴：嗯。','（她把吉他收進琴袋）','高子晴：明天要早起，學長說要去吃卜肉。','（回程車上大家都睡了。你旁邊的子晴把耳機分了一邊給你，沒說是什麼歌。）'];
-    check('10-8. 台詞照稿（海邊去跟子晴說話、彈社課教的那首、問了那是什麼歌、慢慢寫就好、回程分一邊耳機）',J(L)===J(want),J(L));
-    check('10-9. 選項照稿（海邊、民宿、頂樓兩次）',J(seen.slice(1))===J([['「去跟子晴說話。」','「留在圈子裡唱。」'],['「彈社課教的那首。」','「我不彈，我幫大家拍照。」'],['「那是什麼歌？」','（不說話，坐在旁邊聽。）'],['「我覺得很好聽。」','「慢慢寫就好。」']]),J(seen));
+    check('10-7. 時間：08:00 遊覽車上 → 14:00 外澳海邊 → 19:00 宜蘭・民宿 → 隔天 00:15 上頂樓（民宿頂樓）→ 15:00 回程遊覽車 → 17:00 回到首都帝大（第二天早上、羅東沒有字幕：14-A8）',J(cap('遊覽車上').slice(1))===J([D,8])&&J(cap('外澳海邊').slice(1))===J([D,14])&&J(cap('宜蘭・民宿').slice(1))===J([D,19])&&J(cap('民宿頂樓').slice(1))===J([D+1,0.25])&&J(caps.filter(c=>c[0]==='遊覽車上')[1].slice(1))===J([D+1,15])&&J(cap('回到首都帝大。').slice(1))===J([D+1,17])&&G.weekday===0,J(caps));
+    const want=['（車上有人彈吉他，後面的人跟著唱。唱到一半，司機把收音機關了。）','（大家在沙灘上排成一圈彈唱。風很大，譜一直被吹走。）',T93.sea,'高子晴：我在聽浪。……它的節奏一直在變。',
+      T93.bbq,T93.turn,T93.hand,'高子晴：'+T93.fresh,'（你彈錯了兩個地方。大家照樣拍手。）',T93.twelve,
+      T93.upFirst,'（她彈了一段你沒聽過的旋律。很短，彈完就停了。）','高子晴：……沒有名字。我自己寫的。','高子晴：'+C93.now,'高子晴：嗯。','（她把吉他收進琴袋）','高子晴：明天要早起，學長說要去吃卜肉。',
+      T93.morning,T93.luodong,'（回程車上大家都睡了。你旁邊的子晴把耳機分了一邊給你，沒說是什麼歌。）'];
+    check('10-8. 台詞照稿（海邊去跟子晴說話、晚上烤肉輪到你（借子晴的琴）、彈社課教的那首、上頂樓、問了那是什麼歌、慢慢寫就好、第二天早上、羅東、回程分一邊耳機；AA_619＋AA_693）',J(L)===J(want),J(L));
+    check('10-9. 選項照稿（海邊、民宿、上不上頂樓、頂樓兩次）',J(seen.slice(1))===J([['「去跟子晴說話。」','「留在圈子裡唱。」'],['「彈社課教的那首。」','「我不彈，我幫大家拍照。」'],[T93.up,T93.room],['「那是什麼歌？」','（不說話，坐在旁邊聽。）'],['「我覺得很好聽。」','「慢慢寫就好。」']]),J(seen));
     check('10-10. 沒有自己的琴、上台彈＝借子晴的（BORROWED_ZQ_GUITAR）；頂樓＝ZQ_ROOFTOP_TUNE、子晴的記憶 HEARD_HER_SONG；CG 登錄點；出遊 done',G.flags.BORROWED_ZQ_GUITAR===true&&G.flags.ZQ_ROOFTOP_TUNE===true&&SOCIAL.has(ZQ,'HEARD_HER_SONG')&&J(H.cgs)===J(['cg_yilan_roof_heroine04'])&&q1.state==='done');
     check('10-11. 同一天約好的別的出遊（11/22 14:00）：人在宜蘭，照錯過處理',(()=>{ OUT.expire(G); return OUT.get(G,'t_other').state==='missed'; })());
     // 另一條路：留在圈子、拍照、不說話、很好聽；有自己的琴；和子晴交往中
-    G=fresh(D,7.8,'dorm',{CLUB_club_guitar:true,OWN_GUITAR:'entry',dating_heroine_04:true}); H.FRIEND(ZQ); S.planTrip(G,'y1s1'); H.said=[]; H.picks=['出發','留在圈子裡唱','彈社課教的那首','不說話','我覺得很好聽']; await OUT.prompt(GM,OUT.due(G));
+    G=fresh(D,7.8,'dorm',{CLUB_club_guitar:true,OWN_GUITAR:'entry',dating_heroine_04:true}); H.FRIEND(ZQ); S.planTrip(G,'y1s1'); H.said=[]; H.picks=['出發','留在圈子裡唱','彈社課教的那首','上頂樓','不說話','我覺得很好聽']; await OUT.prompt(GM,OUT.due(G));
     const L2=said();
-    check('10-12. 留在圈子裡唱、不說話：稿的那幾句；有自己的琴＝不記借琴',L2.includes('（你唱了三首。子晴回來的時候，手機在錄浪的聲音。）')&&L2.includes('（她又彈了一次，彈到同一個地方停下來。）')&&L2.includes('高子晴：……這邊我一直寫不下去。')&&!G.flags.BORROWED_ZQ_GUITAR,J(L2));
+    check('10-12. 留在圈子裡唱、不說話：稿的那幾句；有自己的琴＝拿出自己的琴（AA_693 A6）、不記借琴',L2.includes('（你唱了三首。子晴回來的時候，手機在錄浪的聲音。）')&&L2.includes('（她又彈了一次，彈到同一個地方停下來。）')&&L2.includes('高子晴：……這邊我一直寫不下去。')&&L2.includes(T93.ownCase)&&!L2.includes(T93.hand)&&!G.flags.BORROWED_ZQ_GUITAR,J(L2));
     check('10-13. 和子晴交往中：頂樓最後一句換成「……你明天坐我旁邊。」（很好聽那一支：停一下之後）',L2.includes('高子晴：你又聽不出來好不好。')&&L2[L2.indexOf('（停一下）')+1]==='高子晴：……你明天坐我旁邊。'&&!L2.includes('高子晴：……謝了。'),J(L2));
-    G=fresh(D,7.8,'dorm',{CLUB_club_guitar:true,dating_heroine_01:true}); H.FRIEND(ZQ); S.planTrip(G,'y1s1'); H.said=[]; H.picks=['出發',0,'我不彈',0,'我覺得很好聽']; await OUT.prompt(GM,OUT.due(G)); const L3=said();
+    G=fresh(D,7.8,'dorm',{CLUB_club_guitar:true,dating_heroine_01:true}); H.FRIEND(ZQ); S.planTrip(G,'y1s1'); H.said=[]; H.picks=['出發',0,'我不彈','上頂樓',0,'我覺得很好聽']; await OUT.prompt(GM,OUT.due(G)); const L3=said();
     check('10-14. 在和別人交往：頂樓照演（「……謝了。」）；拍照那一支照稿、不記借琴',L3.includes('高子晴：……謝了。')&&L3.includes('（你拍了很多張。子晴那張，她剛好在笑。）')&&!G.flags.BORROWED_ZQ_GUITAR&&!L3.includes('高子晴：……你明天坐我旁邊。'),J(L3));
     { const ev=evOf('ev_guitar_trip_yilan'), last=ev.dialogue.slice(-2);
       check('10-15. 回程兩版：有 ZQ_ROOFTOP_TUNE＝分一邊耳機；沒有＝「（回程車上大家都睡了。）」',J(last.map(l=>[l.text,l.if,l.unless]))===J([['（回程車上大家都睡了。你旁邊的子晴把耳機分了一邊給你，沒說是什麼歌。）',{flags:['ZQ_ROOFTOP_TUNE']},undefined],['（回程車上大家都睡了。）',undefined,{flags:['ZQ_ROOFTOP_TUNE']}]])); }
@@ -323,12 +359,12 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     let G=fresh(A,21.05,'wancai',{CLUB_club_guitar:true}); att(G,w5,w6); STORY.phoneRules(GM); PHONE.tick(G); const m=PHONE.byAsk(G,'guitar_trip_y1s2');
     check('11-1. 群組：社長學長「這學期社遊一天就好，陽明山野餐。」、報名／不報名（大一上去過兩次也算，條件同上）',!!m&&m.text===S.L.ymsPost&&PHONE.who(m)==='社長學長'&&J(m.ask.opts.map(o=>o.t))===J(['報名','不報名']),J(m));
     G.money=700; PHONE.answer(G,'guitar_trip_y1s2',0); const q=OUT.get(G,'guitar_trip_yms');
-    check('11-2. 報名：扣 600、出遊 5/2 12:00 校門口（陽明山一日）',G.money===100&&!!q&&q.day===D&&q.h===12&&q.title==='陽明山一日'&&q.must===true,J(q));
-    at(D,11.8,'dorm'); H.said=[]; caps.length=0; H.picks=['出發','陪她去旁邊走走']; await OUT.prompt(GM,OUT.due(G)); const L=said();
-    check('11-3. 沒有聽過頂樓那首：「今天風好舒服。」；陪她走走＝稿的四句；14:00 擎天崗草原、19:30 回到學校',J(L)===J(['子晴這次在圈子裡彈。','高子晴：今天風好舒服。','（你們走到步道口。牛在遠一點的地方吃草。）','高子晴：我爸說彈吉他不能當飯吃。','高子晴：……我沒有要當飯吃。我只是想做一個東西出來。'])&&J((caps.find(c=>c[0]==='擎天崗草原')||[]).slice(1))===J([D,14])&&J((caps.find(c=>c[0]==='回到首都帝大。')||[]).slice(1))===J([D,19.5]),J([L,caps]));
-    G=fresh(D,11.8,'dorm',{CLUB_club_guitar:true,ZQ_ROOFTOP_TUNE:true}); H.FRIEND(ZQ); S.planTrip(G,'y1s2'); H.said=[]; H.picks=['出發','留下來彈']; await OUT.prompt(GM,OUT.due(G));
-    check('11-4. 有 ZQ_ROOFTOP_TUNE：「今天彈別人的歌。……我的還沒好。」；留下來彈＝那一句旁白',J(said())===J(['子晴這次在圈子裡彈。','高子晴：今天彈別人的歌。……我的還沒好。','（你們彈到太陽快下山。子晴說：「你換和弦比上學期快了。」）']),J(said()));
-    { const c=CHARACTERS[ZQ], G5=fresh(D,13,'campus'); const e=S.sched(c,G5); at(D,20); check('11-5. 5/2 12:00～19:30 子晴的作息是「吉他社社遊」',!!e&&e.away==='吉他社社遊'&&S.sched(c,G5)===null); } });
+    check('11-2. 報名：扣 600、出遊 5/2 10:00 校門口（陽明山一日；AA_693 A9）',G.money===100&&!!q&&q.day===D&&q.h===10&&q.place==='校門口'&&q.title==='陽明山一日'&&q.must===true,J(q));
+    at(D,9.8,'dorm'); H.said=[]; caps.length=0; H.picks=['出發','陪她去旁邊走走']; { const qq=OUT.due(G); if(qq) await OUT.prompt(GM,qq); } const L=said();
+    check('11-3. 沒有聽過頂樓那首：出發那一句（AA_693 A9）→「今天風好舒服。」；陪她走走＝稿的四句；14:00 擎天崗草原、18:00 回到學校',J(L)===J([T93.yms,T93.circle,'高子晴：今天風好舒服。','（你們走到步道口。牛在遠一點的地方吃草。）','高子晴：我爸說彈吉他不能當飯吃。','高子晴：……我沒有要當飯吃。我只是想做一個東西出來。'])&&J((caps.find(c=>c[0]==='擎天崗草原')||[]).slice(1))===J([D,14])&&J((caps.find(c=>c[0]==='回到首都帝大。')||[]).slice(1))===J([D,18]),J([L,caps]));
+    G=fresh(D,9.8,'dorm',{CLUB_club_guitar:true,ZQ_ROOFTOP_TUNE:true}); H.FRIEND(ZQ); S.planTrip(G,'y1s2'); H.said=[]; H.picks=['出發','留下來彈']; { const qq=OUT.due(G); if(qq) await OUT.prompt(GM,qq); }
+    check('11-4. 有 ZQ_ROOFTOP_TUNE：「今天彈別人的歌。……我的還沒好。」；留下來彈＝那一句旁白',J(said())===J([T93.yms,T93.circle,'高子晴：今天彈別人的歌。……我的還沒好。','（你們彈到太陽快下山。子晴說：「你換和弦比上學期快了。」）']),J(said()));
+    { const c=CHARACTERS[ZQ], G5=fresh(D,13,'campus'); const e=S.sched(c,G5); at(D,18.2); const e2=S.sched(c,G5); at(D,9.9); const e3=S.sched(c,G5); check('11-5. 5/2 10:00～18:00 子晴的作息是「吉他社社遊」（AA_693 A9）',!!e&&e.away==='吉他社社遊'&&e2===null&&e3===null,J([!!e,!!e2,!!e3])); } });
   // ---------- 12 ev_ziqing_secret_game ----------
   await sec(12,async()=>{ const ev=evOf('ev_ziqing_secret_game'), d=TD('Y1S2',11,1);
     const play=async mem=>{ const G=fresh(d,19.5,'wancai'); H.FRIEND(ZQ); SOCIAL.remember(ZQ,'CONTEST_DAY',''); if(mem) SOCIAL.remember(ZQ,'HEARD_HER_SONG',''); H.said=[]; H.picks=[0,0,0,0]; await EVENTS.run(ev); return said(); };
@@ -340,5 +376,72 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     const G=fresh(d,15.4,'xs_tongxian',{CLUB_club_guitar:true,OWN_GUITAR:'entry'}); G.stage='econ'; H.FRIEND(ZQ); att(G,d-3,d-5); H.said=[];
     const r1=await S.shop(GM), r2=await S.look(GM); const room=STORY.roomItemList(G).some(r=>r[0]==='彈吉他');
     check('13-1. 經濟系那一年：店裡的看看、買東西不演、房間沒有彈吉他、社遊條件不成立、2-1 不演、偶遇不演',r1===false&&r2===false&&!H.said.length&&!room&&!S.tripOk(G)&&!S.c21Due(G)&&!S.encDue(G),J([r1,r2,room])); });
+  // ---------- 14 AA_693（企劃線 c4b14a901）：每一處新字一項（A1～A11、B、C）----------
+  await sec(14,async()=>{ const S=X(), LY=TONGXIAN_LAYOUT.shop, sat=TD('Y1S1',8,6), w5=TD('Y1S1',5,3);
+    { const miss=Object.keys(T93).filter(k=>!DOC2AB.includes(T93[k]));
+      check('14-0. 這一節用的字都照抄 AA_693@c4b14a901 的 A、B 兩節（'+Object.keys(T93).length+' 句）；C 改的那一句 AA_619@c4b14a901、AA_693 C 都有',DOC2AB.length>500&&!miss.length&&DOC.includes('子晴「'+C93.now+'」')&&DOC2.includes('子晴「'+C93.now+'」'),miss.join('、')); }
+    // A1 人物面板的名稱
+    check('14-A1. 人物面板 HEARD_HER_SONG 的名稱＝「'+T93.song+'」（A1）',cellA(1)===T93.song&&SOCIAL.MEMORY_LABEL.HEARD_HER_SONG===T93.song,J([cellA(1),SOCIAL.MEMORY_LABEL.HEARD_HER_SONG]));
+    // A2 烏克麗麗
+    { const G=fresh(sat,15,'xs_tongxian'), E1={interactables:[]}; S.buttons(E1); const u=E1.interactables.find(i=>i.tongxian==='ukes'), p=LY.interact.find(q=>q.id==='ukes');
+      H.said=[]; if(u) await STORY.interact(u,GM); const s1=H.said.slice(); at(sat,22); H.said=[]; caps.length=0; if(u) await STORY.interact(u,GM);
+      check('14-A2. 烏克麗麗那面牆（配置 ukes）多一個「看看」按鈕：按了＝「'+T93.ukes+'」；打烊＝寫開放時間（A2）',cellA(2)===T93.ukes&&!!u&&u.label==='看看'&&u.x===p.x&&u.z===p.z&&J(s1)===J([{who:null,t:T93.ukes}])&&!H.said.length&&caps.length===1&&caps[0][0]===PLACES.closedText('xs_tongxian',22,sat),J([u,s1,H.said,caps])); }
+    // A3 打烊
+    { const seq=[], s0=GM.say, e0=GM.enter; GM.say=async(w,t)=>{ seq.push((w?(w.name||String(w)):'')+'：'+t); return s0(w,t); }; GM.enter=async(z,...r)=>{ seq.push('→'+z); return e0(z,...r); };
+      try{ fresh(sat,21.55,'xs_tongxian'); toasts.length=0; const t=S.tick(GM); await new Promise(r=>setTimeout(r,5)); const s1=seq.slice(), t1=toasts.slice();
+        check('14-A3. 打烊（21:30）時還在店裡：老闆「'+T93.close+'」→ 回到新生南路 → 照現在寫開放時間（A3）',cellA(3).startsWith('老闆：'+T93.close)&&t===true&&J(s1)===J(['老闆：'+T93.close,'→xinsheng'])&&t1[0]===PLACES.closedText('xs_tongxian',21.55,sat),J([s1,t1]));
+        const runAt=async(d,h)=>{ fresh(d,h,'xs_tongxian'); seq.length=0; toasts.length=0; S.tick(GM); await new Promise(r=>setTimeout(r,5)); return [seq.slice(),toasts[0]||'']; };
+        const mon=await runAt(TD('Y1S1',8,1),13), late=await runAt(sat,22.5), ty=await runAt(STORY.dayOfKey('2027-10-13'),15);
+        check('14-A3b. 週一公休、颱風天、22:00 以後（讀檔回到店裡）：老闆不說那一句，照現在只回到新生南路、寫開放時間（A3）',[mon,late,ty].every(r=>J(r[0])===J(['→xinsheng'])&&!!r[1]),J([mon,late,ty])); }
+      finally{ GM.say=s0; GM.enter=e0; } }
+    // A4 第一次社課就有自己的琴
+    { const a=CLUB(), want=cellA(4).split('——')[0].split('／');
+      let G=fresh(w5,19.05,'wancai',{OWN_GUITAR:'entry'}); G.guitar={items:{entry:w5-2}}; H.said=[]; H.opts=[]; H.picks=[0]; await CLS.attendActivity(GM,a,{door:true});
+      const L=said(), i1=L.indexOf('（社長學長拍拍手。）');
+      check('14-A4. 2-1 第一次社課就已經有自己的琴：「你也舉了」那一版六句照稿（社長那一句有「買弦也有。」）、沒有選項、這次的旁白不換鏽弦那一句（A4）',want.length===6&&want[2]===T93.raised&&want[4]==='社長學長：'+T93.buyStr&&want[5]===T93.touch&&i1>=0&&J(L.slice(i1,i1+6))===J(want)&&!L.includes(S.L.c21Narr)&&!H.opts.some(o=>o.includes('「一定要買嗎？」'))&&G.guitar.c21===w5,J([L,H.opts.map(o=>o.slice()),G.guitar.c21]));
+      G=fresh(TD('Y1S1',7,3),19.05,'wancai',{OWN_GUITAR:'entry'}); H.FRIEND(ZQ); G.guitar={items:{entry:w5}}; H.said=[]; H.opts=[]; await CLS.attendActivity(GM,a,{door:true}); const L2=said();
+      check('14-A4b. 已經認識子晴、第 7 週才第一次去（有琴）：入座那一句 →「你也舉了」那一版 → 旁白是輪流的第一句（不是鏽弦、也不是 2-4 有琴那一句），輪流往前一句（A4）',L2[0]==='你輕輕坐下。「吉他社社課」已經開始了。'&&J(L2.slice(1,7))===J(want)&&L2[7]===a.narr[0]&&L2.length===8&&!L2.includes(S.L.ownNarr)&&!H.opts.length&&(G.acts.narr||{})['club_guitar@Y1S1']===1,J([L2,G.acts.narr,H.opts])); }
+    // A5 試彈、還沒去過社課
+    { const G=fresh(sat,15,'xs_tongxian'), sw=LY.seats.find(x=>x.id==='try_e'); H.said=[]; const r=await S.tryPlay(GM); const s1=H.said.slice();
+      H.said=[]; await STORY.onSeat(GM,{x:sw.x,z:sw.z,yaw:sw.yaw,lv:0}); const s2=H.said.slice(); att(G,w5); H.said=[]; await S.tryPlay(GM); const s3=H.said.slice();
+      check('14-A5. 試彈、還沒去過社課：「'+T93.novice+'」（試彈、坐上試琴椅都是）；去過以後照舊是 C 和弦那一句（A5）',cellA(5)===T93.novice&&r===true&&J(s1)===J([{who:null,t:T93.novice}])&&J(s2)===J([{who:null,t:T93.novice}])&&J(s3)===J([{who:null,t:S.L.tryPlay}]),J([r,s1,s2,s3])); }
+    // A6～A8、B 海邊、C：宜蘭兩天一夜（tm：每一句說的時候的日子、時間、換過幾次背景、最後一次的背景）
+    const yilan=async(flags,picks)=>{ const D=S.tripDay('y1s1'), G=fresh(D,7.8,'dorm',Object.assign({CLUB_club_guitar:true},flags||{})); H.FRIEND(ZQ); S.planTrip(G,'y1s1'); H.said=[]; H.cgs=[]; H.bgs=[]; caps.length=0;
+      const tm=[], seen=[], s0=GM.say, c0=GM.choose; GM.say=async(w,t)=>{ tm.push([String(t),H.G.day,+(+H.G.hour).toFixed(2),H.bgs.length,H.bgs[H.bgs.length-1]]); return s0(w,t); }; GM.choose=async o=>{ seen.push(o.map(x=>x.t)); return c0(o); };
+      H.picks=['出發'].concat(picks); try{ const q=OUT.due(G); if(q) await OUT.prompt(GM,q); } finally{ GM.say=s0; GM.choose=c0; }
+      return {G,D,L:said(),tm,seen,cp:caps.slice(),cgs:H.cgs.slice(),row:t=>tm.find(y=>y[0]===t)||null,when:t=>{ const x=tm.find(y=>y[0]===t); return x?[x[1],x[2]]:null; }}; };
+    const r1=await yilan({},['去跟子晴說話','彈社課教的那首','上頂樓透氣','那是什麼歌','慢慢寫就好']);
+    { const L=r1.L, i=L.indexOf(T93.bbq);
+      check('14-A6. 宜蘭第一天晚上（19:00 民宿）、沒有自己的琴：「'+T93.bbq+'」「'+T93.turn+'」「'+T93.hand+'」子晴「'+T93.fresh+'」→ 接原本兩個選項（A6）',i>0&&J(L.slice(i,i+4))===J([T93.bbq,T93.turn,T93.hand,'高子晴：'+T93.fresh])&&J(r1.when(T93.bbq))===J([r1.D,19])&&J(r1.seen[2])===J(['「彈社課教的那首。」','「我不彈，我幫大家拍照。」'])&&L[i+4]==='（你彈錯了兩個地方。大家照樣拍手。）'&&!L.includes(T93.ownCase)&&r1.G.flags.BORROWED_ZQ_GUITAR===true,J([L,r1.seen])); }
+    { const L=r1.L, i=L.indexOf(T93.twelve), rc=r1.cp.find(c=>c[0]==='民宿頂樓')||[];
+      check('14-A7. 頂樓去不去：隔天 00:15「'+T93.twelve+'」→ 選項「上頂樓透氣。」／「回房間睡覺。」；上頂樓＝民宿頂樓、第一句「'+T93.upFirst+'」接原稿（CG、ZQ_ROOFTOP_TUNE、HEARD_HER_SONG）（A7）',i>0&&J(r1.when(T93.twelve))===J([r1.D+1,0.25])&&J(r1.seen[3])===J([T93.up,T93.room])&&L[i+1]===T93.upFirst&&L[i+2]==='（她彈了一段你沒聽過的旋律。很短，彈完就停了。）'&&J(rc.slice(1))===J([r1.D+1,0.25])&&!L.includes('（十二點多，樓下還在唱歌。你上頂樓透氣，子晴已經在了，抱著吉他。）')&&J(r1.cgs)===J(['cg_yilan_roof_heroine04'])&&r1.G.flags.ZQ_ROOFTOP_TUNE===true&&SOCIAL.has(ZQ,'HEARD_HER_SONG'),J([L,r1.seen[3],rc])); }
+    { const L=r1.L, iM=L.indexOf(T93.morning), m=r1.row(T93.morning), prev=m?r1.tm[r1.tm.indexOf(m)-1]:null, cB=r1.cp.filter(c=>c[0]==='遊覽車上'), back=r1.cp.find(c=>c[0]==='回到首都帝大。')||[];
+      check('14-A8. 第二天：08:30「'+T93.morning+'」（換成深色底、沒有字幕）→ 14:00「'+T93.luodong+'」→ 15:00 遊覽車上、接原本回程那一句 → 17:00 回到首都帝大（A8）',iM>0&&!!m&&J([m[1],m[2]])===J([r1.D+1,8.5])&&m[4]==='dark'&&!!prev&&m[3]>prev[3]&&L[iM+1]===T93.luodong&&J(r1.when(T93.luodong))===J([r1.D+1,14])&&L[iM+2]==='（回程車上大家都睡了。你旁邊的子晴把耳機分了一邊給你，沒說是什麼歌。）'&&cB.length===2&&J(cB[1].slice(1))===J([r1.D+1,15])&&J(back.slice(1))===J([r1.D+1,17])&&!r1.cp.some(c=>c[1]===r1.D+1&&c[2]>0.25&&c[2]<15),J([L.slice(Math.max(0,iM-1)),m,prev,r1.cp])); }
+    check('14-B1. 海邊那一句描述加括號當旁白：「'+T93.sea+'」（B）',r1.L.includes(T93.sea)&&!r1.L.includes(T93.sea.slice(1,-1)),J(r1.L.slice(0,4)));
+    check('14-C. 頂樓「問了」那一支：子晴「'+C93.now+'」（AA_619@c4b14a901、AA_693 C；舊的「你不要跟別人說。」不再出現）',r1.L.includes('高子晴：'+C93.now)&&!r1.L.includes('高子晴：'+C93.old)&&!textsOf(evOf('ev_guitar_trip_yilan').dialogue).includes(C93.old),J(r1.L));
+    { const r=await yilan({OWN_GUITAR:'entry'},['留在圈子裡唱','彈社課教的那首','上頂樓透氣','不說話','我覺得很好聽']), L=r.L, i=L.indexOf(T93.bbq);
+      check('14-A6b. 有自己的琴：「'+T93.bbq+'」「'+T93.turn+'」「'+T93.ownCase+'」→ 接原本兩個選項；沒有遞琴、「弦剛換過。」，不記借琴（A6）',i>0&&J(L.slice(i,i+3))===J([T93.bbq,T93.turn,T93.ownCase])&&L[i+3]==='（你彈錯了兩個地方。大家照樣拍手。）'&&!L.includes(T93.hand)&&!L.includes('高子晴：'+T93.fresh)&&!r.G.flags.BORROWED_ZQ_GUITAR,J(L)); }
+    { const r=await yilan({},['去跟子晴說話','彈社課教的那首','回房間睡覺']), L=r.L, i=L.indexOf(T93.twelve);
+      check('14-A7b. 回房間睡覺：「'+T93.roomLine+'」→ 第二天早上；沒有頂樓（字幕、CG、ZQ_ROOFTOP_TUNE、HEARD_HER_SONG 都沒有）、回程用沒去的那一版「（回程車上大家都睡了。）」（A7）',i>0&&L[i+1]===T93.roomLine&&L[i+2]===T93.morning&&L[i+3]===T93.luodong&&L[L.length-1]==='（回程車上大家都睡了。）'&&!r.cp.some(c=>c[0]==='民宿頂樓')&&!r.cgs.length&&!r.G.flags.ZQ_ROOFTOP_TUNE&&!SOCIAL.has(ZQ,'HEARD_HER_SONG')&&!L.includes(T93.upFirst)&&J(r.when(T93.morning))===J([r.D+1,8.5]),J(L)); }
+    // A9、B 陽明山
+    { const D=S.tripDay('y1s2'), G=fresh(D,9.8,'dorm',{CLUB_club_guitar:true}); H.FRIEND(ZQ); S.planTrip(G,'y1s2'); const q=OUT.get(G,'guitar_trip_yms'); H.said=[]; caps.length=0; const tm=[], s0=GM.say;
+      GM.say=async(w,t)=>{ tm.push([String(t),H.G.day,+(+H.G.hour).toFixed(2)]); return s0(w,t); }; H.picks=['出發','留下來彈']; try{ const qq=OUT.due(G); if(qq) await OUT.prompt(GM,qq); } finally{ GM.say=s0; }
+      const L=said(), y=tm.find(x=>x[0]===T93.yms)||[], gr=caps.find(c=>c[0]==='擎天崗草原')||[], bk=caps.find(c=>c[0]==='回到首都帝大。')||[], c=CHARACTERS[ZQ];
+      const G5=fresh(D,9.9,'campus'), e0=S.sched(c,G5); at(D,10.5); const e1=S.sched(c,G5); at(D,17.9); const e2=S.sched(c,G5); at(D,18.2); const e3=S.sched(c,G5);
+      check('14-A9. 陽明山：10:00 校門口（不是 12:00）；10:00「'+T93.yms+'」→ 14:00 擎天崗草原 → 傍晚 18:00 回到首都帝大（校門口）；子晴的作息 10:00～18:00 是「吉他社社遊」（A9）',!!q&&q.h===10&&q.place==='校門口'&&L[0]===T93.yms&&J(y.slice(1))===J([D,10])&&J(gr.slice(1))===J([D,14])&&J(bk.slice(1))===J([D,18])&&e0===null&&!!e1&&e1.away==='吉他社社遊'&&!!e2&&e3===null,J([q&&q.h,L,y,gr,bk,!!e0,!!e1,!!e2,!!e3]));
+      check('14-B2. 陽明山那一句描述加括號當旁白：「'+T93.circle+'」（B）',L[1]===T93.circle&&!L.includes(T93.circle.slice(1,-1)),J(L)); }
+    // A10 2-3 之前已經自己買了琴
+    { const sat6=TD('Y1S1',6,6), G=fresh(TD('Y1S1',6,3),21,'xs_tongxian',{CLUB_club_guitar:true}); H.FRIEND(ZQ); att(G,w5,TD('Y1S1',6,3)); S.planZqShop(G);
+      at(TD('Y1S1',6,4),15); G.money=9000; H.picks=['入門款']; await S.shop(GM); const m0=G.money, st0=(OUT.get(G,'guitar_zq_shop')||{}).state;
+      at(sat6,14.75,'campus'); const q=OUT.due(G); H.said=[]; H.cgs=[]; H.opts=[]; H.picks=['出發']; if(q) await OUT.prompt(GM,q);
+      const L=said(), want=cellA(10).replace(/^\*\*不取消\*\*，照約見面：/,'').split('——')[0].split('／').map(t=>t.replace(/^子晴：/,'高子晴：'));
+      check('14-A10. 2-3 之前已經自己買了琴：約不取消、照約見面——六句照稿 → 跳過試琴、買琴（沒有三個選項、沒有 CG、不扣錢）→「出來以後」那一句照說（A10）',st0==='planned'&&!!q&&want.length===6&&J(want.slice(0,3))===J([T93.zq1,'高子晴：'+T93.zq2,'高子晴：'+T93.zq3])&&J(L)===J(want.concat(['高子晴：有自己的琴以後，回家才會彈。……社團的琴你不會帶回家。']))&&!H.cgs.length&&H.opts.length===1&&G.money===m0&&G.flags.OWN_GUITAR==='entry'&&!!q&&q.state==='done'&&!!G.events.done.ev_guitar_zq_shop,J([st0,L,H.opts,H.cgs,G.money,m0])); }
+    // A11 買小東西以後
+    { const G=fresh(sat,15,'xs_tongxian'); G.money=2000; toasts.length=0; const per=[];
+      for(const p of ['一包弦','Pick','移調夾']){ H.said=[]; H.picks=[p]; GM.enterN=(GM.enterN|0)+1; await S.shop(GM); per.push(H.said.map(s=>s.t)); }
+      check('14-A11. 買小東西（弦、Pick、移調夾）以後：三樣共用「'+T93.bag+'」（在老闆的話之後；不出「買了○○」）（A11）',cellA(11).split('——')[0]===T93.bag&&cellA(11).includes('三樣共用一句')&&per.every(s=>s.length===2&&S.L.boss.includes(s[0])&&s[1]===T93.bag)&&!toasts.some(t=>/^買了/.test(t))&&G.guitar.items.strings===1&&G.guitar.items.pick===1&&G.guitar.items.capo===1&&G.money===2000-350-20-300,J([per,toasts,G.money])); }
+    // B 社長那一句（沒有琴的那一版）
+    { const a=CLUB(), G=fresh(w5,19.05,'wancai'); H.FRIEND(ZQ); H.said=[]; H.picks=['「好。」']; await CLS.attendActivity(GM,a,{door:true}); const L=said();
+      check('14-B3. 社長那一句兩版都加「買弦也有。」：沒有自己琴的那一版＝「'+T93.buyStr+'」（有琴那一版：14-A4）（B）',DOC2AB.includes('沒有自己琴的那一版也加這四個字')&&L.includes('社長學長：'+T93.buyStr)&&!L.includes('社長學長：新生南路有一家同弦，報吉他社打九折。')&&L.includes('（一半的人舉手。你沒有。）'),J(L)); } });
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
