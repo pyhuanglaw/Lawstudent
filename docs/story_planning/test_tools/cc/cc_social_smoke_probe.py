@@ -624,6 +624,9 @@ class Person:
             ok &= R.check('%s：點地走得動（≥0.3 m）' % tag, mv >= 0.3, '點 %s，走了 %.2f m' % (J(tapped), mv))
         else:
             R.info('%s：附近找不到能點的地面（不判）' % tag, '候選 %d 個' % len(pts))
+        sE = await self.st()
+        if sE['evr']:   # CC-C 11-05：搖桿、點地走進了自動劇情的範圍（pool_12 的 ev_sk01_soc「對面的舊系館」）＝劇情照常開始；照玩家點完再接著檢查（不是卡住）
+            R.setup('%s：走路的時候走進了自動劇情 %s，照玩家點完再接著檢查' % (tag, sE['evr'])); await self.drive([], tag + ' 走進的自動劇情', max_s=180)
         # 遊戲時間
         h0 = (await self.st())['hour']; await pg.wait_for_timeout(3000); h1 = (await self.st())['hour']
         ok &= R.check('%s：遊戲時間有在走' % tag, h1 > h0, '%.4f→%.4f' % (h0, h1))

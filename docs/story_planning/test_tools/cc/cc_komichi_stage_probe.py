@@ -46,7 +46,8 @@ SETUP = r"""(c=>{ const G=GAME.G, F=G.flags||(G.flags={}); G.stage='law'; G.cont
   SOCIAL.meet&&SOCIAL.meet(id,G.zone); if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.remember(id,'FIRST_MET',''); F['met_'+id]=true; const r=SOCIAL.rel(id); r.fam=Math.max(r.fam||0,45); r.trust=Math.max(r.trust||0,30); G.contacts[id]=G.day-30;
   const w=TERMEND.windowOf(c.term); G.termend=G.termend||{}; const C=G.termend.contact||(G.termend.contact={}); (C[w.id]||(C[w.id]={}))[id]={pts:12,k:{}}; if(G.termend[w.id]) delete G.termend[w.id].plan;
   const P=TERMEND.plan(G,w); const xs=TERMEND.friend?TERMEND.friend(id,w.id):null; const d0=xs&&xs.examDay&&TERMEND.heartFrom?TERMEND.heartFrom(G,w,id,xs):Math.max(TERMEND.fromDay(w,id),P.back||w.from);   /* AA_687 第 5 項：最後一科考完那天（examDay）*/
-  return {stage:SOCIAL.stage?SOCIAL.stage(id):null, w:{id:w.id,from:CALENDAR.dateOf(w.from).key,to:CALENDAR.dateOf(w.to).key}, friend:P.friend, heart:P.heart, nope:P.nope, d0, d0key:CALENDAR.dateOf(d0).key}; })"""
+  const dbg={score:TERMEND.score?TERMEND.score(G,w.id,id):null, away:TERMEND.away?TERMEND.away(G,w,id):null, friendOk:TERMEND.friendOk?TERMEND.friendOk(G,id,w):null, inFRIEND:!!(TERMEND_LINES.FRIEND||{})[id], back:P.back, examStart:TERMEND.examStart?TERMEND.examStart(G,w):null, dating:!!F['dating_'+id], rom:typeof ROM!=='undefined'&&ROM.get?ROM.get(G,id).status:null, cool:typeof INV!=='undefined'&&INV.cool?INV.cool(G,id):null, noContact:typeof V6EX!=='undefined'&&V6EX.noContact?V6EX.noContact(G,id):null};   /* CC-C 11-05：第一次跑 friend 是空的（Node 同樣前置排得到）——印出每一個條件 */
+  return {dbg, stage:SOCIAL.stage?SOCIAL.stage(id):null, w:{id:w.id,from:CALENDAR.dateOf(w.from).key,to:CALENDAR.dateOf(w.to).key}, friend:P.friend, heart:P.heart, nope:P.nope, d0, d0key:CALENDAR.dateOf(d0).key}; })"""
 
 
 async def pick(pg, cdp, text):
