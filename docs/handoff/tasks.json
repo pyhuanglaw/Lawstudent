@@ -47762,7 +47762,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "AA 換兩列時段（以安山嵐週日下午、學姊青木週三下午永遠撞到原作息）；BB 看各店遇到人",
+   "next": "第二批（AA_705 @44af68368）已合併 63435aaa4：每學期都排、hear 只 Y1S1、hearLater 一次（G.flags.SHOPNPC_HEAR1）、柏翰考試週大口 02:30–05:00、可昕頁間偶數週六、子晴同弦只 Y1S1。撞時段表已寄 AA（Y1S2–Y4S2：學姊山嵐 82/110、沛珊 Daybreak 45/165、芷若日常失速 192/333、可昕頁間交往中＝0）。待 AA 回 4 個解讀；第三批只接 AA_620 3-4 三列（阿凱大步、柏翰好拍、Alison 運動廣場）；使用者 09:2x：不加新人物、不加密度。BB 瀏覽器驗。",
    "source": "UA-LAWWW-1105-37",
    "authorized": "使用者原話",
    "xai": {
@@ -47772,7 +47772,8 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "src": "UA-LAWWW-1105-37"
+   "src": "UA-LAWWW-1105-37",
+   "sha": "63435aaa4"
   },
   {
    "id": "WAKE-AT-DOOR-1105",
