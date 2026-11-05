@@ -1,24 +1,24 @@
 {
-  "rerun": "",
+  "rerun": "r2",
   "id": "WINVIEW_rel_shots",
   "sha": "bcb386604502ab9e04674cd587ef5d527a33b570",
   "kind": "probe",
   "script": "docs/story_planning/test_tools/cc/cc_v21x_shops_probe.py",
-  "env": "CC_HEADLESS=0;PARTS=windows;WIN=afar,bookstore,aoki;DAYH=14;NIGHTH=20.5",
+  "env": "CC_HEADLESS=0;PARTS=windows;RERUN=r2;WIN=afar,bookstore,aoki;DAYH=14;NIGHTH=20.5",
   "machine": "MSI",
-  "start": "2026-11-05T17:51:43",
-  "end": "2026-11-05T18:32:39",
-  "seconds": 2456,
-  "exit": 1,
-  "error": "timeout 40 min",
+  "start": "2026-11-05T18:37:44",
+  "end": "2026-11-05T18:42:33",
+  "seconds": 288,
+  "exit": 0,
+  "error": null,
   "runner": "5ba0949b5e",
   "rf_round": "2",
   "url": "http://127.0.0.1:8805/index.html",
   "headless_forced": true,
   "res_peak": {
-    "cpu": 85,
-    "mem": 57,
-    "used_gb": 17.9,
-    "chrome_testing": 15
+    "cpu": 23,
+    "mem": 36,
+    "used_gb": 11.4,
+    "chrome_testing": 5
   }
 }

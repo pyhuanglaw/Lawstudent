@@ -8,99 +8,131 @@ PASS [windows] 這一版有 afar（Z3.ZONES）
 PASS [windows afar day] gongguan 有進 afar 的門  {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0}
   [前置／捷徑] [windows afar day] 讀檔到店門外 (7.15, 18.1)（門 {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0}）
 PASS [windows afar day] 有「進入 a」  [{"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "lv": 0, "to": "cvs"}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "lv": 0, "to": "daybreak"}, {"label": "進入慢輪單車", "x": -0.3, "z": 21, "r": 2.2, "lv": 0, "to": "bikeshop"}, {"label": "往溫州街", "x": -71, "z": 20.2, "r": 2.6, "lv": 0, "to": "wenzhou"}, {"label": "回到校園", "x": -5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "回到校園", "x": 5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}]
-  [  50.5s] [windows afar day] 「進入 a」在 (7.93, 21) 半徑 2.2；走到範圍裡站得住的 {"x": 7.59, "z": 19.74, "d": 1.703066130927541}
+  [  37.7s] [windows afar day] 「進入 a」在 (7.93, 21) 半徑 2.2；走到範圍裡站得住的 {"x": 7.59, "z": 19.74, "d": 1.703066130927541}
 PASS [windows afar day] 「進入 a」範圍裡有站得住的地方  {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}
-  [ 291.3s] 走不到「[windows afar day] 進入 a」：最後位置 (7.74,19.93)，目標 (7.59,19.74)；點地面 85 次、轉鏡頭 0 次、搖桿 5 次
-  [ 291.3s]   這段時間：畫面 12310 格／241 秒、遊戲時間 14.04→15.62、paused=False、開著的面板 []
-PASS [windows afar day] 走到那裡，互動按鈕是「進入 a」  {"x": 7.744, "z": 19.929, "lv": 0, "interact": "進入 afar café"}
-PASS [windows afar day] 按下去到了 afar（站得住、沒有被放到目的地）  {"zone": "afar", "x": 2.575, "z": 2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "聽一句", "stand": true, "fb": 0, "hour": 15.63}
-  [ 302.9s] [windows afar day] 窗景卡：{"views": [{"name": "WALL_front_VIEW_afr_window_view", "c": [0, 2.25, 6.5], "size": [16, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/afar_view_day.webp"}], "spawn": [2.575, 2]}
+  [  40.5s] 到達「[windows afar day] 進入 a」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [windows afar day] 走到那裡，互動按鈕是「進入 a」  {"x": 7.531, "z": 19.52, "lv": 0, "interact": "進入 afar café"}
+PASS [windows afar day] 按下去到了 afar（站得住、沒有被放到目的地）  {"zone": "afar", "x": 2.575, "z": 2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "聽一句", "stand": true, "fb": 0, "hour": 14.07}
+  [  48.9s] [windows afar day] 窗景卡：{"views": [{"name": "WALL_front_VIEW_afr_window_view", "c": [0, 2.25, 6.5], "size": [16, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/afar_view_day.webp"}], "spawn": [2.575, 2]}
 PASS [windows afar day] 店裡有窗景卡（名字有 VIEW）  {"views": [{"name": "WALL_front_VIEW_afr_window_view", "c": [0, 2.25, 6.5], "size": [16, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/afar_view_day.webp"}], "spawn": [2.575, 2]}
-PASS [黑畫面] win_afar_day_0 不是黑畫面（平均亮度 112.3、變化 58.9）  [112.3, 58.9]
-  [ 305.6s] [截圖] win_afar_day_0：鏡頭 {"eye": [0, 1.5, 2], "look": [0, 2.25, 6.5], "lens": 24, "vfov": 45.75}、亮度 [112.3, 58.9]
-PASS [黑畫面] win_afar_day_spawn 不是黑畫面（平均亮度 117.1、變化 56.7）  [117.1, 56.7]
-  [ 307.6s] [截圖] win_afar_day_spawn：鏡頭 {"eye": [2.575, 1.6, 2], "look": [0, 2.25, 6.5], "lens": 22, "vfov": 49.43}、亮度 [117.1, 56.7]
+PASS [黑畫面] win_afar_day_0 不是黑畫面（平均亮度 119、變化 61.2）  [119, 61.2]
+  [  50.8s] [截圖] win_afar_day_0：鏡頭 {"eye": [0, 1.5, 2], "look": [0, 2.25, 6.5], "lens": 24, "vfov": 45.75}、亮度 [119, 61.2]
+PASS [黑畫面] win_afar_day_spawn 不是黑畫面（平均亮度 123、變化 59.7）  [123, 59.7]
+  [  52.7s] [截圖] win_afar_day_spawn：鏡頭 {"eye": [2.575, 1.6, 2], "look": [0, 2.25, 6.5], "lens": 22, "vfov": 49.43}、亮度 [123, 59.7]
 PASS [windows afar day] 出店 有「離開 a」  [{"label": "離開 afar", "x": 2.58, "z": 3.4, "r": 0.9, "lv": 0, "to": "gongguan"}]
-  [ 307.7s] [windows afar day] 出店 「離開 a」在 (2.58, 3.4) 半徑 0.9；走到範圍裡站得住的 {"x": 2.58, "z": 2.9, "d": 0.9000138887817231}
+  [  52.8s] [windows afar day] 出店 「離開 a」在 (2.58, 3.4) 半徑 0.9；走到範圍裡站得住的 {"x": 2.58, "z": 2.9, "d": 0.9000138887817231}
 PASS [windows afar day] 出店 「離開 a」範圍裡有站得住的地方  {"label": "離開 afar", "x": 2.58, "z": 3.4, "r": 0.9, "lv": 0, "to": "gongguan"}
-  [ 549.6s] 走不到「[windows afar day] 出店 離開 a」：最後位置 (2.35,2.98)，目標 (2.58,2.9)；點地面 84 次、轉鏡頭 0 次、搖桿 5 次
-  [ 549.6s]   這段時間：畫面 9262 格／242 秒、遊戲時間 15.64→17.24、paused=False、開著的面板 []
-PASS [windows afar day] 出店 走到那裡，互動按鈕是「離開 a」  {"x": 2.347, "z": 2.976, "lv": 0, "interact": "離開 afar"}
-PASS [windows afar day] 出店 按下去到了 gongguan（站得住、沒有被放到目的地）  {"zone": "gongguan", "x": 7.92, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 17.27}
+  [  56.8s] 到達「[windows afar day] 出店 離開 a」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [windows afar day] 出店 走到那裡，互動按鈕是「離開 a」  {"x": 2.578, "z": 2.66, "lv": 0, "interact": "離開 afar"}
+PASS [windows afar day] 出店 按下去到了 gongguan（站得住、沒有被放到目的地）  {"zone": "gongguan", "x": 7.92, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.13}
   [前置／捷徑] [windows afar night] 讀檔 gongguan 2025-10-18 20.50（出生點），找「進店」的門
 PASS [windows afar night] gongguan 有進 afar 的門  {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0}
   [前置／捷徑] [windows afar night] 讀檔到店門外 (7.15, 18.1)（門 {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0}）
 PASS [windows afar night] 有「進入 a」  [{"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "lv": 0, "to": "cvs"}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "lv": 0, "to": "daybreak"}, {"label": "往溫州街", "x": -71, "z": 20.2, "r": 2.6, "lv": 0, "to": "wenzhou"}, {"label": "回到校園", "x": -5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "回到校園", "x": 5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}]
-  [ 574.9s] [windows afar night] 「進入 a」在 (7.93, 21) 半徑 2.2；走到範圍裡站得住的 {"x": 7.59, "z": 19.74, "d": 1.703066130927541}
+  [  79.5s] [windows afar night] 「進入 a」在 (7.93, 21) 半徑 2.2；走到範圍裡站得住的 {"x": 7.59, "z": 19.74, "d": 1.703066130927541}
 PASS [windows afar night] 「進入 a」範圍裡有站得住的地方  {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}
-  [ 816.3s] 走不到「[windows afar night] 進入 a」：最後位置 (7.75,19.92)，目標 (7.59,19.74)；點地面 88 次、轉鏡頭 0 次、搖桿 5 次
-  [ 816.3s]   這段時間：畫面 14274 格／241 秒、遊戲時間 20.54→22.15、paused=False、開著的面板 []
-PASS [windows afar night] 走到那裡，互動按鈕是「進入 a」  {"x": 7.752, "z": 19.923, "lv": 0, "interact": "進入 afar café"}
-FAIL [windows afar night] 按下去到了 afar（站得住、沒有被放到目的地）  {"zone": "gongguan", "x": 7.752, "z": 19.923, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進入 afar café", "stand": true, "fb": 0, "hour": 22.44}
-  [ 870.3s] [windows afar night] 窗景卡：{"views": [], "spawn": [0, -30]}
-FAIL [windows afar night] 店裡有窗景卡（名字有 VIEW）  {"views": [], "spawn": [0, -30]}
-PASS [黑畫面] win_afar_night_spawn 不是黑畫面（平均亮度 66.2、變化 46.9）  [66.2, 46.9]
-  [ 872.3s] [截圖] win_afar_night_spawn：鏡頭 {"eye": [0, 1.6, -30], "look": [0, 1.5, 0], "lens": 22, "vfov": 49.43}、亮度 [66.2, 46.9]
-PASS [windows afar night] 出店 有「進入公館」  [{"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "lv": 0, "to": "cvs"}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "lv": 0, "to": "daybreak"}, {"label": "往溫州街", "x": -71, "z": 20.2, "r": 2.6, "lv": 0, "to": "wenzhou"}, {"label": "回到校園", "x": -5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "回到校園", "x": 5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}]
-  [ 872.5s] [windows afar night] 出店 「進入公館」在 (-63, 21) 半徑 2.2；走到範圍裡站得住的 {"x": -61.7, "z": 21, "d": 69.460078557982}
-PASS [windows afar night] 出店 「進入公館」範圍裡有站得住的地方  {"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}
-  [1113.8s] 走不到「[windows afar night] 出店 進入公館」：最後位置 (-61.45,20.99)，目標 (-61.7,21)；點地面 87 次、轉鏡頭 0 次、搖桿 4 次
-  [1113.9s]   這段時間：畫面 14205 格／241 秒、遊戲時間 22.51→24.12、paused=False、開著的面板 []
-PASS [windows afar night] 出店 走到那裡，互動按鈕是「進入公館」  {"x": -61.45, "z": 20.993, "lv": 0, "interact": "進入公館燒臘"}
-PASS [windows afar night] 出店 按下去到了 noodle（站得住、沒有被放到目的地）  {"zone": "noodle", "x": 0, "z": 3.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 24.14}
+  [  82.1s] 到達「[windows afar night] 進入 a」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [windows afar night] 走到那裡，互動按鈕是「進入 a」  {"x": 7.531, "z": 19.52, "lv": 0, "interact": "進入 afar café"}
+PASS [windows afar night] 按下去到了 afar（站得住、沒有被放到目的地）  {"zone": "afar", "x": 2.575, "z": 2, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.57}
+  [  88.2s] [windows afar night] 窗景卡：{"views": [{"name": "WALL_front_VIEW_afr_window_view", "c": [0, 2.25, 6.5], "size": [16, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/afar_view_night.webp"}], "spawn": [2.575, 2]}
+PASS [windows afar night] 店裡有窗景卡（名字有 VIEW）  {"views": [{"name": "WALL_front_VIEW_afr_window_view", "c": [0, 2.25, 6.5], "size": [16, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/afar_view_night.webp"}], "spawn": [2.575, 2]}
+PASS [黑畫面] win_afar_night_0 不是黑畫面（平均亮度 48.3、變化 57.7）  [48.3, 57.7]
+  [  89.9s] [截圖] win_afar_night_0：鏡頭 {"eye": [0, 1.5, 2], "look": [0, 2.25, 6.5], "lens": 24, "vfov": 45.75}、亮度 [48.3, 57.7]
+PASS [黑畫面] win_afar_night_spawn 不是黑畫面（平均亮度 67.8、變化 48.9）  [67.8, 48.9]
+  [  91.7s] [截圖] win_afar_night_spawn：鏡頭 {"eye": [2.575, 1.6, 2], "look": [0, 2.25, 6.5], "lens": 22, "vfov": 49.43}、亮度 [67.8, 48.9]
+PASS [windows afar night] 出店 有「離開 a」  [{"label": "離開 afar", "x": 2.58, "z": 3.4, "r": 0.9, "lv": 0, "to": "gongguan"}]
+  [  91.8s] [windows afar night] 出店 「離開 a」在 (2.58, 3.4) 半徑 0.9；走到範圍裡站得住的 {"x": 2.58, "z": 2.9, "d": 0.9000138887817231}
+PASS [windows afar night] 出店 「離開 a」範圍裡有站得住的地方  {"label": "離開 afar", "x": 2.58, "z": 3.4, "r": 0.9, "lv": 0, "to": "gongguan"}
+  [  96.3s] 到達「[windows afar night] 出店 離開 a」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，5 秒
+PASS [windows afar night] 出店 走到那裡，互動按鈕是「離開 a」  {"x": 2.579, "z": 2.66, "lv": 0, "interact": "離開 afar"}
+PASS [windows afar night] 出店 按下去到了 gongguan（站得住、沒有被放到目的地）  {"zone": "gongguan", "x": 7.92, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.64}
 PASS [windows] 這一版有 bookstore（Z3.ZONES）
 == windows bookstore
   [前置／捷徑] [windows bookstore day] 讀檔 gongguan 2025-10-18 14.00（出生點），找「進店」的門
 PASS [windows bookstore day] gongguan 有進 bookstore 的門  {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0}
   [前置／捷徑] [windows bookstore day] 讀檔到店門外 (-34.9, 18.4)（門 {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0}）
 PASS [windows bookstore day] 有「進入頁間」  [{"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "lv": 0, "to": "cvs"}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "lv": 0, "to": "daybreak"}, {"label": "進入慢輪單車", "x": -0.3, "z": 21, "r": 2.2, "lv": 0, "to": "bikeshop"}, {"label": "往溫州街", "x": -71, "z": 20.2, "r": 2.6, "lv": 0, "to": "wenzhou"}, {"label": "回到校園", "x": -5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "回到校園", "x": 5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}]
-  [1136.5s] [windows bookstore day] 「進入頁間」在 (-36.4, 21) 半徑 2.2；走到範圍裡站得住的 {"x": -35.75, "z": 19.87, "d": 1.7016663217027006}
+  [ 119.6s] [windows bookstore day] 「進入頁間」在 (-36.4, 21) 半徑 2.2；走到範圍裡站得住的 {"x": -35.75, "z": 19.87, "d": 1.7016663217027006}
 PASS [windows bookstore day] 「進入頁間」範圍裡有站得住的地方  {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}
-  [1378.5s] 走不到「[windows bookstore day] 進入頁間」：最後位置 (-35.87,20.08)，目標 (-35.75,19.87)；點地面 88 次、轉鏡頭 0 次、搖桿 5 次
-  [1378.5s]   這段時間：畫面 13799 格／242 秒、遊戲時間 14.04→15.65、paused=False、開著的面板 []
-PASS [windows bookstore day] 走到那裡，互動按鈕是「進入頁間」  {"x": -35.871, "z": 20.077, "lv": 0, "interact": "進入頁間書屋"}
-PASS [windows bookstore day] 按下去到了 bookstore（站得住、沒有被放到目的地）  {"zone": "bookstore", "x": -4.6, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "應徵：週末缺人。會搬書、不怕灰塵。", "stand": true, "fb": 0, "hour": 15.67}
-  [1382.9s] [windows bookstore day] 窗景卡：{"views": [{"name": "WALL_front_VIEW_yej_window_view", "c": [0, 2.25, 7.5], "size": [14, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/yejian_view_day.webp"}], "spawn": [-4.6, 3]}
+  [ 122.2s] 到達「[windows bookstore day] 進入頁間」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [windows bookstore day] 走到那裡，互動按鈕是「進入頁間」  {"x": -35.699, "z": 19.636, "lv": 0, "interact": "進入頁間書屋"}
+PASS [windows bookstore day] 按下去到了 bookstore（站得住、沒有被放到目的地）  {"zone": "bookstore", "x": -4.6, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "應徵：週末缺人。會搬書、不怕灰塵。", "stand": true, "fb": 0, "hour": 14.08}
+  [ 127.2s] [windows bookstore day] 窗景卡：{"views": [{"name": "WALL_front_VIEW_yej_window_view", "c": [0, 2.25, 7.5], "size": [14, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/yejian_view_day.webp"}], "spawn": [-4.6, 3]}
 PASS [windows bookstore day] 店裡有窗景卡（名字有 VIEW）  {"views": [{"name": "WALL_front_VIEW_yej_window_view", "c": [0, 2.25, 7.5], "size": [14, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/yejian_view_day.webp"}], "spawn": [-4.6, 3]}
-PASS [黑畫面] win_bookstore_day_0 不是黑畫面（平均亮度 113.2、變化 62.1）  [113.2, 62.1]
-  [1384.9s] [截圖] win_bookstore_day_0：鏡頭 {"eye": [0, 1.5, 3], "look": [0, 2.25, 7.5], "lens": 24, "vfov": 45.75}、亮度 [113.2, 62.1]
-PASS [黑畫面] win_bookstore_day_spawn 不是黑畫面（平均亮度 124.4、變化 46.5）  [124.4, 46.5]
-  [1386.8s] [截圖] win_bookstore_day_spawn：鏡頭 {"eye": [-4.6, 1.6, 3], "look": [0, 2.25, 7.5], "lens": 22, "vfov": 49.43}、亮度 [124.4, 46.5]
+PASS [黑畫面] win_bookstore_day_0 不是黑畫面（平均亮度 119.2、變化 63.9）  [119.2, 63.9]
+  [ 129.4s] [截圖] win_bookstore_day_0：鏡頭 {"eye": [0, 1.5, 3], "look": [0, 2.25, 7.5], "lens": 24, "vfov": 45.75}、亮度 [119.2, 63.9]
+PASS [黑畫面] win_bookstore_day_spawn 不是黑畫面（平均亮度 129、變化 50）  [129, 50]
+  [ 131.3s] [截圖] win_bookstore_day_spawn：鏡頭 {"eye": [-4.6, 1.6, 3], "look": [0, 2.25, 7.5], "lens": 22, "vfov": 49.43}、亮度 [129, 50]
 PASS [windows bookstore day] 出店 有「離開頁間」  [{"label": "離開頁間書屋", "x": -4.6, "z": 4.4, "r": 0.9, "lv": 0, "to": "gongguan"}]
-  [1386.9s] [windows bookstore day] 出店 「離開頁間」在 (-4.6, 4.4) 半徑 0.9；走到範圍裡站得住的 {"x": -4.6, "z": 3.9, "d": 0.9000000000000004}
+  [ 131.4s] [windows bookstore day] 出店 「離開頁間」在 (-4.6, 4.4) 半徑 0.9；走到範圍裡站得住的 {"x": -4.6, "z": 3.9, "d": 0.9000000000000004}
 PASS [windows bookstore day] 出店 「離開頁間」範圍裡有站得住的地方  {"label": "離開頁間書屋", "x": -4.6, "z": 4.4, "r": 0.9, "lv": 0, "to": "gongguan"}
-  [1627.7s] 走不到「[windows bookstore day] 出店 離開頁間」：最後位置 (-4.6,4.13)，目標 (-4.6,3.9)；點地面 88 次、轉鏡頭 1 次、搖桿 5 次
-  [1627.7s]   這段時間：畫面 13767 格／241 秒、遊戲時間 15.68→17.28、paused=False、開著的面板 []
-PASS [windows bookstore day] 出店 走到那裡，互動按鈕是「離開頁間」  {"x": -4.6, "z": 4.13, "lv": 0, "interact": "離開頁間書屋"}
-PASS [windows bookstore day] 出店 按下去到了 gongguan（站得住、沒有被放到目的地）  {"zone": "gongguan", "x": -38.8, "z": 20.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 17.31}
+  [ 135.6s] 到達「[windows bookstore day] 出店 離開頁間」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，4 秒
+PASS [windows bookstore day] 出店 走到那裡，互動按鈕是「離開頁間」  {"x": -4.6, "z": 3.66, "lv": 0, "interact": "離開頁間書屋"}
+PASS [windows bookstore day] 出店 按下去到了 gongguan（站得住、沒有被放到目的地）  {"zone": "gongguan", "x": -38.8, "z": 20.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.14}
   [前置／捷徑] [windows bookstore night] 讀檔 gongguan 2025-10-18 20.50（出生點），找「進店」的門
 PASS [windows bookstore night] gongguan 有進 bookstore 的門  {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0}
   [前置／捷徑] [windows bookstore night] 讀檔到店門外 (-34.9, 18.4)（門 {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0}）
 PASS [windows bookstore night] 有「進入頁間」  [{"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "lv": 0, "to": "cvs"}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "lv": 0, "to": "daybreak"}, {"label": "往溫州街", "x": -71, "z": 20.2, "r": 2.6, "lv": 0, "to": "wenzhou"}, {"label": "回到校園", "x": -5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "回到校園", "x": 5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}]
-  [1651.8s] [windows bookstore night] 「進入頁間」在 (-36.4, 21) 半徑 2.2；走到範圍裡站得住的 {"x": -35.75, "z": 19.87, "d": 1.7016663217027006}
+  [ 158.6s] [windows bookstore night] 「進入頁間」在 (-36.4, 21) 半徑 2.2；走到範圍裡站得住的 {"x": -35.75, "z": 19.87, "d": 1.7016663217027006}
 PASS [windows bookstore night] 「進入頁間」範圍裡有站得住的地方  {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}
-  [1893.9s] 走不到「[windows bookstore night] 進入頁間」：最後位置 (-35.88,20.08)，目標 (-35.75,19.87)；點地面 89 次、轉鏡頭 0 次、搖桿 5 次
-  [1893.9s]   這段時間：畫面 14056 格／242 秒、遊戲時間 20.54→22.16、paused=False、開著的面板 []
-PASS [windows bookstore night] 走到那裡，互動按鈕是「進入頁間」  {"x": -35.88, "z": 20.083, "lv": 0, "interact": "進入頁間書屋"}
-PASS [windows bookstore night] 按下去到了 bookstore（站得住、沒有被放到目的地）  {"zone": "bookstore", "x": -4.6, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "應徵：週末缺人。會搬書、不怕灰塵。", "stand": true, "fb": 0, "hour": 22.18}
-  [1898.4s] [windows bookstore night] 窗景卡：{"views": [{"name": "WALL_front_VIEW_yej_window_view", "c": [0, 2.25, 7.5], "size": [14, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/yejian_view_night.webp"}], "spawn": [-4.6, 3]}
+  [ 161.2s] 到達「[windows bookstore night] 進入頁間」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [windows bookstore night] 走到那裡，互動按鈕是「進入頁間」  {"x": -35.699, "z": 19.636, "lv": 0, "interact": "進入頁間書屋"}
+PASS [windows bookstore night] 按下去到了 bookstore（站得住、沒有被放到目的地）  {"zone": "bookstore", "x": -4.6, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "應徵：週末缺人。會搬書、不怕灰塵。", "stand": true, "fb": 0, "hour": 20.58}
+  [ 165.8s] [windows bookstore night] 窗景卡：{"views": [{"name": "WALL_front_VIEW_yej_window_view", "c": [0, 2.25, 7.5], "size": [14, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/yejian_view_night.webp"}], "spawn": [-4.6, 3]}
 PASS [windows bookstore night] 店裡有窗景卡（名字有 VIEW）  {"views": [{"name": "WALL_front_VIEW_yej_window_view", "c": [0, 2.25, 7.5], "size": [14, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/yejian_view_night.webp"}], "spawn": [-4.6, 3]}
 PASS [黑畫面] win_bookstore_night_0 不是黑畫面（平均亮度 64.4、變化 64.9）  [64.4, 64.9]
-  [1900.3s] [截圖] win_bookstore_night_0：鏡頭 {"eye": [0, 1.5, 3], "look": [0, 2.25, 7.5], "lens": 24, "vfov": 45.75}、亮度 [64.4, 64.9]
-PASS [黑畫面] win_bookstore_night_spawn 不是黑畫面（平均亮度 77.8、變化 40.6）  [77.8, 40.6]
-  [1902.2s] [截圖] win_bookstore_night_spawn：鏡頭 {"eye": [-4.6, 1.6, 3], "look": [0, 2.25, 7.5], "lens": 22, "vfov": 49.43}、亮度 [77.8, 40.6]
+  [ 167.7s] [截圖] win_bookstore_night_0：鏡頭 {"eye": [0, 1.5, 3], "look": [0, 2.25, 7.5], "lens": 24, "vfov": 45.75}、亮度 [64.4, 64.9]
+PASS [黑畫面] win_bookstore_night_spawn 不是黑畫面（平均亮度 77.9、變化 40.5）  [77.9, 40.5]
+  [ 169.5s] [截圖] win_bookstore_night_spawn：鏡頭 {"eye": [-4.6, 1.6, 3], "look": [0, 2.25, 7.5], "lens": 22, "vfov": 49.43}、亮度 [77.9, 40.5]
 PASS [windows bookstore night] 出店 有「離開頁間」  [{"label": "離開頁間書屋", "x": -4.6, "z": 4.4, "r": 0.9, "lv": 0, "to": "gongguan"}]
-  [1902.2s] [windows bookstore night] 出店 「離開頁間」在 (-4.6, 4.4) 半徑 0.9；走到範圍裡站得住的 {"x": -4.6, "z": 3.9, "d": 0.9000000000000004}
+  [ 169.5s] [windows bookstore night] 出店 「離開頁間」在 (-4.6, 4.4) 半徑 0.9；走到範圍裡站得住的 {"x": -4.6, "z": 3.9, "d": 0.9000000000000004}
 PASS [windows bookstore night] 出店 「離開頁間」範圍裡有站得住的地方  {"label": "離開頁間書屋", "x": -4.6, "z": 4.4, "r": 0.9, "lv": 0, "to": "gongguan"}
-  [2143.1s] 走不到「[windows bookstore night] 出店 離開頁間」：最後位置 (-4.61,4.13)，目標 (-4.6,3.9)；點地面 89 次、轉鏡頭 1 次、搖桿 5 次
-  [2143.1s]   這段時間：畫面 13972 格／241 秒、遊戲時間 22.19→23.80、paused=False、開著的面板 []
-PASS [windows bookstore night] 出店 走到那裡，互動按鈕是「離開頁間」  {"x": -4.609, "z": 4.127, "lv": 0, "interact": "離開頁間書屋"}
-PASS [windows bookstore night] 出店 按下去到了 gongguan（站得住、沒有被放到目的地）  {"zone": "gongguan", "x": -38.8, "z": 20.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 23.82}
+  [ 174.0s] 到達「[windows bookstore night] 出店 離開頁間」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，4 秒
+PASS [windows bookstore night] 出店 走到那裡，互動按鈕是「離開頁間」  {"x": -4.6, "z": 3.66, "lv": 0, "interact": "離開頁間書屋"}
+PASS [windows bookstore night] 出店 按下去到了 gongguan（站得住、沒有被放到目的地）  {"zone": "gongguan", "x": -38.8, "z": 20.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.65}
 PASS [windows] 這一版有 aoki（Z3.ZONES）
 == windows aoki
   [前置／捷徑] [windows aoki day] 讀檔 gongguan 2025-10-18 14.00（出生點），找「進店」的門
 PASS [windows aoki day] gongguan 有進 aoki 的門  {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0}
   [前置／捷徑] [windows aoki day] 讀檔到店門外 (-51.93, 18.88)（門 {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0}）
 PASS [windows aoki day] 有「進入青木」  [{"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "lv": 0, "to": "cvs"}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "lv": 0, "to": "daybreak"}, {"label": "進入慢輪單車", "x": -0.3, "z": 21, "r": 2.2, "lv": 0, "to": "bikeshop"}, {"label": "往溫州街", "x": -71, "z": 20.2, "r": 2.6, "lv": 0, "to": "wenzhou"}, {"label": "回到校園", "x": -5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "回到校園", "x": 5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}]
-  [2165.5s] [windows aoki day] 「進入青木」在 (-54.05, 21) 半徑 2.2；走到範圍裡站得住的 {"x": -53.13, "z": 20.08, "d": 1.698132752230958}
+  [ 196.8s] [windows aoki day] 「進入青木」在 (-54.05, 21) 半徑 2.2；走到範圍裡站得住的 {"x": -53.13, "z": 20.08, "d": 1.698132752230958}
 PASS [windows aoki day] 「進入青木」範圍裡有站得住的地方  {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}
+  [ 199.4s] 到達「[windows aoki day] 進入青木」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [windows aoki day] 走到那裡，互動按鈕是「進入青木」  {"x": -52.969, "z": 19.919, "lv": 0, "interact": "進入青木茶室"}
+PASS [windows aoki day] 按下去到了 aoki（站得住、沒有被放到目的地）  {"zone": "aoki", "x": 1.85, "z": 2.05, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下", "stand": true, "fb": 0, "hour": 14.08}
+  [ 205.0s] [windows aoki day] 窗景卡：{"views": [{"name": "WALL_front_VIEW_aok_window_view", "c": [0, 2.25, 6], "size": [17, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/aoki_view_day.webp"}], "spawn": [1.85, 2.05]}
+PASS [windows aoki day] 店裡有窗景卡（名字有 VIEW）  {"views": [{"name": "WALL_front_VIEW_aok_window_view", "c": [0, 2.25, 6], "size": [17, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/aoki_view_day.webp"}], "spawn": [1.85, 2.05]}
+PASS [黑畫面] win_aoki_day_0 不是黑畫面（平均亮度 111.5、變化 61.4）  [111.5, 61.4]
+  [ 206.9s] [截圖] win_aoki_day_0：鏡頭 {"eye": [0, 1.5, 1.5], "look": [0, 2.25, 6], "lens": 24, "vfov": 45.75}、亮度 [111.5, 61.4]
+PASS [黑畫面] win_aoki_day_spawn 不是黑畫面（平均亮度 131、變化 54.5）  [131, 54.5]
+  [ 208.8s] [截圖] win_aoki_day_spawn：鏡頭 {"eye": [1.85, 1.6, 2.05], "look": [0, 2.25, 6], "lens": 22, "vfov": 49.43}、亮度 [131, 54.5]
+PASS [windows aoki day] 出店 有「離開青木」  [{"label": "離開青木茶室", "x": 1.85, "z": 3, "r": 0.7, "lv": 0, "to": "gongguan"}]
+  [ 208.8s] [windows aoki day] 出店 「離開青木」在 (1.85, 3) 半徑 0.7；走到範圍裡站得住的 {"x": 1.85, "z": 2.6, "d": 0.5500000000000003}
+PASS [windows aoki day] 出店 「離開青木」範圍裡有站得住的地方  {"label": "離開青木茶室", "x": 1.85, "z": 3, "r": 0.7, "lv": 0, "to": "gongguan"}
+  [ 213.6s] 到達「[windows aoki day] 出店 離開青木」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，5 秒
+PASS [windows aoki day] 出店 走到那裡，互動按鈕是「離開青木」  {"x": 1.85, "z": 2.38, "lv": 0, "interact": "離開青木茶室"}
+PASS [windows aoki day] 出店 按下去到了 gongguan（站得住、沒有被放到目的地）  {"zone": "gongguan", "x": -54.05, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.15}
+  [前置／捷徑] [windows aoki night] 讀檔 gongguan 2025-10-18 20.50（出生點），找「進店」的門
+PASS [windows aoki night] gongguan 有進 aoki 的門  {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0}
+  [前置／捷徑] [windows aoki night] 讀檔到店門外 (-51.93, 18.88)（門 {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0}）
+PASS [windows aoki night] 有「進入青木」  [{"label": "進入公館燒臘", "x": -63, "z": 21, "r": 2.2, "lv": 0, "to": "noodle"}, {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}, {"label": "進入頁間書屋", "x": -36.4, "z": 21, "r": 2.2, "lv": 0, "to": "bookstore"}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "lv": 0, "to": "cvs"}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "lv": 0, "to": "afar"}, {"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "lv": 0, "to": "daybreak"}, {"label": "往溫州街", "x": -71, "z": 20.2, "r": 2.6, "lv": 0, "to": "wenzhou"}, {"label": "回到校園", "x": -5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}, {"label": "回到校園", "x": 5.27, "z": -47.5, "r": 2.5, "lv": 0, "to": "campus"}]
+  [ 236.3s] [windows aoki night] 「進入青木」在 (-54.05, 21) 半徑 2.2；走到範圍裡站得住的 {"x": -53.13, "z": 20.08, "d": 1.698132752230958}
+PASS [windows aoki night] 「進入青木」範圍裡有站得住的地方  {"label": "進入青木茶室", "x": -54.05, "z": 21, "r": 2.2, "lv": 0, "to": "aoki"}
+  [ 238.9s] 到達「[windows aoki night] 進入青木」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [windows aoki night] 走到那裡，互動按鈕是「進入青木」  {"x": -52.969, "z": 19.919, "lv": 0, "interact": "進入青木茶室"}
+PASS [windows aoki night] 按下去到了 aoki（站得住、沒有被放到目的地）  {"zone": "aoki", "x": 1.85, "z": 2.05, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下", "stand": true, "fb": 0, "hour": 20.58}
+  [ 244.3s] [windows aoki night] 窗景卡：{"views": [{"name": "WALL_front_VIEW_aok_window_view", "c": [0, 2.25, 6], "size": [17, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/aoki_view_night.webp"}], "spawn": [1.85, 2.05]}
+PASS [windows aoki night] 店裡有窗景卡（名字有 VIEW）  {"views": [{"name": "WALL_front_VIEW_aok_window_view", "c": [0, 2.25, 6], "size": [17, 6.5, 0], "url": "assets/models/env/second_ai/aa_support/aoki_view_night.webp"}], "spawn": [1.85, 2.05]}
+PASS [黑畫面] win_aoki_night_0 不是黑畫面（平均亮度 50.8、變化 57）  [50.8, 57]
+  [ 246.2s] [截圖] win_aoki_night_0：鏡頭 {"eye": [0, 1.5, 1.5], "look": [0, 2.25, 6], "lens": 24, "vfov": 45.75}、亮度 [50.8, 57]
+PASS [黑畫面] win_aoki_night_spawn 不是黑畫面（平均亮度 72.9、變化 50）  [72.9, 50]
+  [ 248.1s] [截圖] win_aoki_night_spawn：鏡頭 {"eye": [1.85, 1.6, 2.05], "look": [0, 2.25, 6], "lens": 22, "vfov": 49.43}、亮度 [72.9, 50]
+PASS [windows aoki night] 出店 有「離開青木」  [{"label": "離開青木茶室", "x": 1.85, "z": 3, "r": 0.7, "lv": 0, "to": "gongguan"}]
+  [ 248.2s] [windows aoki night] 出店 「離開青木」在 (1.85, 3) 半徑 0.7；走到範圍裡站得住的 {"x": 1.85, "z": 2.6, "d": 0.5500000000000003}
+PASS [windows aoki night] 出店 「離開青木」範圍裡有站得住的地方  {"label": "離開青木茶室", "x": 1.85, "z": 3, "r": 0.7, "lv": 0, "to": "gongguan"}
+  [ 252.7s] 到達「[windows aoki night] 出店 離開青木」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，5 秒
+PASS [windows aoki night] 出店 走到那裡，互動按鈕是「離開青木」  {"x": 1.85, "z": 2.38, "lv": 0, "interact": "離開青木茶室"}
+PASS [windows aoki night] 出店 按下去到了 gongguan（站得住、沒有被放到目的地）  {"zone": "gongguan", "x": -54.05, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.65}
+PASS 沒有 JS 例外  []
+ALL PASS
