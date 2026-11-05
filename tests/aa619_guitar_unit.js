@@ -17,7 +17,7 @@
 //   7  2-3 出遊：台詞、三個選項；三千八＝扣 3,420、OWN_GUITAR entry、調音那一句；六千五＝5,850；錢不夠＝變灰、「錢不夠」再選一次；我再想想＝不買；出來那一句（都說）；
 //      CG 的登錄點；時間 15:00 → 15:45；之前自己買了琴＝照約見面（AA_693 A10）
 //   8  2-4 之後的社課：有琴＝第 7 週起多一句（一學期一次、輪流不往前；大二阿凱不是室友＝沒有）；沒有琴＝偶爾第三弦那一句（照日期、不連續、輪流不往前）；不加數值
-//   9  宿舍「彈吉他」：有琴才在房間物件裡；轉暗、30 分鐘、兩句之一；大二（阿凱不是室友）只有第二句
+//   9  宿舍「彈吉他」：有琴才有房間的按鈕（11-05 BB-C：從「看看房間裡的東西」裡面搬出來，只留按鈕）；轉暗、30 分鐘、兩句之一；大二（阿凱不是室友）只有第二句
 //  10  宜蘭兩天一夜：大一上第 11 週週一 21:00 群組報名表（成員、兩次以上社課才有；時間到才有）；報名＝扣 2,500、排出遊（11/22 08:00 校門口、只有出發）；錢不夠＝「下次吧。」、不扣錢；
 //      不報名；兩天的時間（08:00 遊覽車 → 14:00 海邊 → 19:00 民宿（烤肉、輪到你：A6）→ 隔天 00:15 上不上頂樓（A7）→ 08:30 卜肉、14:00 羅東（A8）→ 15:00 回程 → 17:00）；
 //      各段台詞、BORROWED_ZQ_GUITAR、ZQ_ROOFTOP_TUNE、HEARD_HER_SONG；
@@ -300,14 +300,20 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     { G=fresh(w5,19.05,'wancai'); G.guitar={items:{},c21:w5}; check('8-8. 第一次社課那一天（2-1）不換第三弦那一句',S.narrX(G,a)===null); } });
   // ---------- 9 宿舍 ----------
   await sec(9,async()=>{ const S=X(), d=TD('Y1S1',8,4);
-    let G=fresh(d,22,'dorm'); check('9-1. 沒有琴：房間物件沒有「彈吉他」',!STORY.roomItemList(G).some(r=>r[0]==='彈吉他'));
-    G.flags.OWN_GUITAR='entry'; const row=STORY.roomItemList(G).find(r=>r[0]==='彈吉他');
-    check('9-2. 有琴：房間物件多「彈吉他」（動作）',!!row&&typeof row[2]==='function');
-    const r0=S.rand; S.rand=()=>0; H.said=[]; fades=0; const h0=G.hour; await row[2](GM);
+    /* 11-05 BB-C：「彈吉他」從「看看房間裡的東西」裡面搬到房間的按鈕（和「坐在書桌前」「睡覺」同一層）；有琴才出現 */
+    const enterDorm=G=>{ E.interactables=[]; S.dormButton(GM); return E.interactables.filter(it=>it&&it.guitar==='dorm'); };   /* 進宿舍房間：STORY.populate('dorm') 叫 GUITAR.dormButton（9-0 看接線；位置、走不走得到：tests/aa619_guitar_zone_unit.js ⑥）*/
+    check('9-0. 接線：GUITAR 包住的 STORY.populate 進宿舍房間（dorm）叫 S.dormButton；不再加進 STORY.ROOM_EXTRA',/if\(zoneId==='dorm'\) S\.dormButton\(GM\)/.test(fs.readFileSync(path.join(H.ROOT,'src/guitar3d.js'),'utf8'))&&!(STORY.ROOM_EXTRA||[]).includes(S.room));
+    let G=fresh(d,22,'dorm'); let bs=enterDorm(G);
+    check('9-1. 沒有琴：房間的按鈕沒有「彈吉他」（有互動點但藏著）、房間物件裡也沒有',bs.length===1&&bs[0].hidden===true&&!STORY.roomItemList(G).some(r=>r[0]==='彈吉他'),J(bs.map(b=>[b.label,b.hidden])));
+    G.flags.OWN_GUITAR='entry'; const btn=bs[0];
+    check('9-2. 有琴：房間的按鈕「彈吉他」（S.L.dormLabel）出現；「看看房間裡的東西」裡面不再有（只留一個地方）',!!btn&&btn.hidden===false&&btn.label===S.L.dormLabel&&btn.label==='彈吉他'&&!STORY.roomItemList(G).some(r=>r[0]==='彈吉他'),J(btn&&[btn.label,btn.hidden]));
+    check('9-2c. 再進一次房間不會多一個',enterDorm(G).length===1);
+    const r0=S.rand; S.rand=()=>0; H.said=[]; fades=0; const h0=G.hour; await STORY.interact(E.interactables.find(it=>it.guitar==='dorm'),GM);
     check('9-3. 彈吉他：轉暗、30 分鐘、旁白一句（第一句）',fades===1&&Math.abs(G.hour-h0-0.5)<1e-6&&J(H.said)===J([{who:null,t:S.L.dorm[0]}]),J([fades,G.hour,H.said]));
-    S.rand=()=>0.99; H.said=[]; await row[2](GM); check('9-4. 隨機另一句（第二句）',H.said[0].t===S.L.dorm[1]);
-    G=fresh(TD('Y2S1',4,4),22,'dorm',{OWN_GUITAR:'entry',ROOM_Y2:true}); S.rand=()=>0; H.said=[]; await STORY.roomItemList(G).find(r=>r[0]==='彈吉他')[2](GM);
-    check('9-5. 大二（阿凱不是室友）：只有第二句',H.said[0].t===S.L.dorm[1]); S.rand=r0; });
+    S.rand=()=>0.99; H.said=[]; await STORY.interact(E.interactables.find(it=>it.guitar==='dorm'),GM); check('9-4. 隨機另一句（第二句）',H.said[0].t===S.L.dorm[1]);
+    G=fresh(TD('Y2S1',4,4),22,'dorm',{OWN_GUITAR:'entry',ROOM_Y2:true}); S.rand=()=>0; H.said=[]; bs=enterDorm(G); await STORY.interact(bs[0],GM);
+    check('9-5. 大二（阿凱不是室友）：只有第二句',bs.length===1&&!bs[0].hidden&&H.said[0].t===S.L.dorm[1]); S.rand=r0;
+    G=fresh(d,22,'dorm'); bs=enterDorm(G); H.said=[]; fades=0; await STORY.interact(bs[0],GM); check('9-6. 沒有琴（按鈕藏著）硬按也不演',!H.said.length&&fades===0); });
   // ---------- 10 宜蘭 ----------
   await sec(10,async()=>{ const S=X(), A=S.annDay('y1s1'), D=S.tripDay('y1s1'), w5=TD('Y1S1',5,3), w6=TD('Y1S1',6,3);
     check('10-0. 日期：報名表 11/10（第 11 週週一）21:00、社遊 11/22（第 12 週週六）～11/23',keyOf(A)==='2025-11-10'&&keyOf(D)==='2025-11-22'&&wd7(A)===1&&wd7(D)===6);
@@ -374,7 +380,7 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
   // ---------- 13 經濟系那一年 ----------
   await sec(13,async()=>{ const S=X(), d=STORY.dayOfKey('2024-10-12');
     const G=fresh(d,15.4,'xs_tongxian',{CLUB_club_guitar:true,OWN_GUITAR:'entry'}); G.stage='econ'; H.FRIEND(ZQ); att(G,d-3,d-5); H.said=[];
-    const r1=await S.shop(GM), r2=await S.look(GM); const room=STORY.roomItemList(G).some(r=>r[0]==='彈吉他');
+    const r1=await S.shop(GM), r2=await S.look(GM); const room=STORY.roomItemList(G).some(r=>r[0]==='彈吉他')||S.dormOn(Object.assign({},G,{zone:'dorm'}));
     check('13-1. 經濟系那一年：店裡的看看、買東西不演、房間沒有彈吉他、社遊條件不成立、2-1 不演、偶遇不演',r1===false&&r2===false&&!H.said.length&&!room&&!S.tripOk(G)&&!S.c21Due(G)&&!S.encDue(G),J([r1,r2,room])); });
   // ---------- 14 AA_693（企劃線 c4b14a901）：每一處新字一項（A1～A11、B、C）----------
   await sec(14,async()=>{ const S=X(), LY=TONGXIAN_LAYOUT.shop, sat=TD('Y1S1',8,6), w5=TD('Y1S1',5,3);

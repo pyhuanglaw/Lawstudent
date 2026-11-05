@@ -30,7 +30,7 @@
          有 xs_tongxian 區域＝演之前換到店裡、試琴椅（已經有琴＝站在進門點，子晴在櫃台前）、模糊的 3D（OUT.STAGE）；沒有＝深色底＋地點字幕。
      2-4 之後的社課（包 CLS.clubNarr，不加數值、不懲罰）：有琴＝這學期第 7 週起、阿凱還是室友（STORY.kaiRoommate）多一句（一學期一次，第一次符合的那一堂出）；
          沒有琴＝偶爾（照日期，約三分之一；第一次社課、上一堂剛出過的不算）換成第三弦那一句。兩種都不讓輪流的六句往前。
-     宿舍「彈吉他」（STORY.ROOM_EXTRA，有 OWN_GUITAR）：轉暗、30 分鐘、旁白兩句隨機一句（阿凱不是室友了＝只有第二句）。
+     宿舍「彈吉他」（房間裡的按鈕 S.dormButton，有 OWN_GUITAR；11-05 起不在「看看房間裡的東西」裡面）：轉暗、30 分鐘、旁白兩句隨機一句（阿凱不是室友了＝只有第二句）。
    第 3 節　吉他社社遊（群組 g:guitar；條件：吉他社成員、去過兩次以上社課；經濟系那一年、人在國外不排）
      3-1 宜蘭兩天一夜：大一上第 11 週週一 21:00（社課結束）社長學長在群組貼報名表，報名／不報名（回到出發為止）；報名＝扣 2,500、排出遊（11/22 08:00 校門口，只有「出發」）；
          錢不夠＝你在群組說「下次吧。」、沒有報名、不扣錢。不報名＝照選項傳出去。撞到同一天的活動＝人在宜蘭，那些照錯過處理（不懲罰）。
@@ -228,7 +228,13 @@ const GUITAR=(function(){
   /* 宿舍「彈吉他」（2-4）*/
   S.playDorm=async function(GM){ const G=GM.G, L=S.kaiMate(G)?S.L.dorm:S.L.dorm.slice(1), t=L[Math.min(L.length-1,Math.floor(S.rand()*L.length))];
     await GM.fade(true); if(GM.advance) GM.advance(0.5); await GM.fade(false); await GM.say(null,t); const r=S.rec(G); r.dorm=(r.dorm|0)+1; if(GM.autosave) GM.autosave(); return t; };
-  S.room=function(G,L){ if(G&&G.flags&&S.hasGuitar(G)&&law(G)) L.push([S.L.dormLabel,[],GM=>S.playDorm(GM)]); };
+  /* 宿舍房間的「彈吉他」（BB-C 11-05：原本在「看看房間裡的東西」裡面，找不到）：有琴＝房間裡多一個按鈕（和「坐在書桌前」「睡覺」「看看房間裡的東西」同一層），動作照舊 S.playDorm。
+     位置：自己書桌前、往走道 0.6 m（站在書桌前照舊是「坐在書桌前」；離「看看房間裡的東西」、紙箱、梯子都超過它們的範圍）。3D 的琴還沒有（LAWWW2）：先只有互動點 */
+  S.dormOn=G=>!!(G&&G.flags&&G.zone==='dorm'&&S.hasGuitar(G)&&law(G));
+  S.dormSpot=function(){ const R=typeof DORM_ROOM!=='undefined'?DORM_ROOM:null, U=R&&R.units?R.units.find(u=>u.id===(R.player_unit||'L2')):null;
+    if(U&&U.seat_approach&&U.seat) return [Math.round((U.seat_approach[0]+0.6)*1000)/1000,U.seat.z]; return [0.05,0.142]; };
+  S.dormButton=function(GM){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!Array.isArray(E.interactables)||!G||G.zone!=='dorm') return null; let it=E.interactables.find(q=>q&&q.guitar==='dorm'); if(it) return it;
+    const p=S.dormSpot(); it={x:p[0],z:p[1],radius:0.5,lv:0,label:S.L.dormLabel,guitar:'dorm',get hidden(){ return !S.dormOn(GM.G); }}; E.interactables.push(it); return it; };
   /* ---------- 第 3 節：社遊 ---------- */
   S.TRIPS={ y1s1:{term:'Y1S1',ann:[11,1,21],day:[12,6],h:8,cost:2500,post:S.L.yilanPost,ev:'ev_guitar_trip_yilan',title:'宜蘭兩天一夜',out:'guitar_trip_yilan'},
             y1s2:{term:'Y1S2',ann:[10,1,21],day:[10,6],h:10,cost:600,post:S.L.ymsPost,ev:'ev_guitar_trip_yms',title:'陽明山一日',out:'guitar_trip_yms'} };
@@ -332,12 +338,11 @@ const GUITAR=(function(){
   if(typeof STORY!=='undefined'){
     if(Array.isArray(STORY.TICKS)&&!STORY.TICKS.includes(S.tick)) STORY.TICKS.push(S.tick);
     if(Array.isArray(STORY.PHONE_RULES)&&!STORY.PHONE_RULES.includes(S.phone)) STORY.PHONE_RULES.push(S.phone);
-    if(Array.isArray(STORY.ROOM_EXTRA)&&!STORY.ROOM_EXTRA.includes(S.room)) STORY.ROOM_EXTRA.push(S.room);
     if(Array.isArray(STORY.SCHED_X)&&!STORY.SCHED_X.includes(S.sched)) STORY.SCHED_X.push(S.sched);
     if(!STORY._guitar){ STORY._guitar=true;
-      if(STORY.populate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(S.ZONES.includes(zoneId)){ S.install(GM); S.populate(GM); } }catch(e){ console.warn('GUITAR.install',e); } return r; }; }
+      if(STORY.populate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(S.ZONES.includes(zoneId)){ S.install(GM); S.populate(GM); } if(zoneId==='dorm') S.dormButton(GM); }catch(e){ console.warn('GUITAR.install',e); } return r; }; }
       if(STORY.interact){ const i0=STORY.interact; STORY.interact=async function(it,GM){ const G=GM&&GM.G;
-        if(it&&it.guitar&&G){ if(it.guitar==='look') await S.look(GM); else if(it.guitar==='ukes') await S.lookUkes(GM); else if(it.guitar==='try') await S.tryPlay(GM); else if(it.guitar==='shop') await S.shop(GM); return true; }   /* 新生南路的店門（營業時間外、颱風天）在 story3d.js 的 onInteract 擋 */
+        if(it&&it.guitar&&G){ if(it.guitar==='look') await S.look(GM); else if(it.guitar==='ukes') await S.lookUkes(GM); else if(it.guitar==='try') await S.tryPlay(GM); else if(it.guitar==='shop') await S.shop(GM); else if(it.guitar==='dorm'){ if(!S.dormOn(G)) return true; GM.sceneBegin(); try{ await S.playDorm(GM); } finally { GM.sceneEnd(); } } return true; }   /* 新生南路的店門（營業時間外、颱風天）在 story3d.js 的 onInteract 擋 */
         return i0.apply(this,arguments); }; }
       { const os=STORY.onSeat; STORY.onSeat=async function(GM,seat){ const r=os?await os.apply(this,arguments):false; try{ if(GM&&GM.G&&S.ZONES.includes(GM.G.zone)) await S.onSeat(GM,seat); }catch(e){ console.warn('GUITAR.onSeat',e); } return r; }; } } }   /* 試彈＝坐上試琴椅 */
   /* 店裡的「看看」「買東西」按鈕（照木曜日 mokuyobi_sys3d.js：包住區域的 build；沒有 TX3＝什麼都不做）*/
