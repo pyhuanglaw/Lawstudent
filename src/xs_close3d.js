@@ -12,7 +12,7 @@
 const XSCLOSE=(function(){
   const S={};
   S.LINE='我們今天要打烊了。';   /* AA_700 原句 */
-  S.CLERK='店員'; S.BOSS='老闆';
+  S.CLERK='店員'; S.BOSS='老闆'; S.BOSSLADY='老闆娘';   /* 老闆娘顧的店（118 巷滇香、家常菜）說話人寫「老闆娘」，字一樣（AA-C 11-05 08:10）*/
   S.say=function(GM,who){ return GM.say({name:who||S.CLERK},S.LINE); };
   const PL=()=>typeof PLACES!=='undefined'?PLACES:null;
   const hr=G=>(((+G.hour)||0)%24+24)%24;
@@ -46,7 +46,7 @@ const XSCLOSE=(function(){
     wz_teishoku:{place:'wz_teishoku',who:S.BOSS,to:'wenzhou'},
     bikeshop:{place:'bikeshop',who:S.BOSS,to:'gongguan'},
     us_asian_market:{place:'us_asian_market',who:S.CLERK},
-    l118_dian:l118('dian',S.BOSS), l118_self:l118('self',S.CLERK), l118_tea:l118('tea',S.CLERK), l118_home:l118('home',S.BOSS), l118_cafe2:l118('cafe2',S.CLERK),
+    l118_dian:l118('dian',S.BOSSLADY), l118_self:l118('self',S.CLERK), l118_tea:l118('tea',S.CLERK), l118_home:l118('home',S.BOSSLADY), l118_cafe2:l118('cafe2',S.CLERK),
     l118_pasta:l118('pasta',S.BOSS), l118_korea:l118('korea',S.BOSS), l118_omu:l118('omu',S.CLERK), l118_noodle2:l118('noodle2',S.BOSS) };
   /* 自己有打烊系統的店（這裡只記「進來的時候開著」，給 S.gen 用）；說話的人在各自的檔案（S.WHO 只是對照，測試用）*/
   S.PLACE_OF={afar:'afar',daybreak:'daybreak',aoki:'aoki',wz_offbeat:'wz_offbeat',wz_mokuyobi:'wz_mokuyobi',xs_tongxian:'xs_tongxian'};
@@ -77,7 +77,9 @@ const XSCLOSE=(function(){
   S.seenOpen=(GM,z)=>seen[z]===(GM.enterN|0);
   S._resetSeen=()=>{ for(const k in seen) delete seen[k]; };
   /* 要不要說那一句：hourGen＝各家系統自己算的「打烊那一刻」（有就算）*/
-  S.gen=function(GM,z,hourGen){ const G=GM.G, C=entry(z); if(!C) return !!hourGen; if(typhoonOf(C,G)||!S.finalClose(C,G)||(C.quiet&&C.quiet(G))) return false;
+  /* 玩家那天在這間店打工（JOBS.ZONE_KEY：阿德影印、SUNNY SIDE、一盞、2:30 AM…）＝店裡的人：下班照打工的流程走出去，不說打烊那句（AA-C 11-05 08:10）*/
+  S.staffToday=(G,z)=>{ const J=typeof JOBS!=='undefined'?JOBS:null, k=J&&J.ZONE_KEY&&J.ZONE_KEY[z]; return !!(k&&J.worked&&J.worked(G,k,G.day)); };
+  S.gen=function(GM,z,hourGen){ const G=GM.G, C=entry(z); if(!C) return !!hourGen; if(typhoonOf(C,G)||!S.finalClose(C,G)||(C.quiet&&C.quiet(G))||S.staffToday(G,z)) return false;
     return !!hourGen||S.closingMoment(C,G)||S.seenOpen(GM,z); };
   S.closedText=function(z,G){ const C=S.ZONES[z]; if(!C||(C.quiet&&C.quiet(G))) return ''; if(C.closedText) return C.closedText(G); const P=PL(); return P&&P.closedText?P.closedText(C.place,G.hour,G.day):''; };
   /* 出去站哪：表上的 out()；沒有＝這個區域的出口按鈕 */

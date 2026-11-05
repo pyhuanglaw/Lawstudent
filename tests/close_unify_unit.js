@@ -33,7 +33,7 @@ await sec(0,()=>{ check('0. 程式載得到（xs_close3d.js 和各家打烊系�
   const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. index.html 載入 xs_close3d.js（在各家系統後面）',html.indexOf('src/xs_close3d.js')>html.indexOf('src/guitar3d.js')&&html.indexOf('src/guitar3d.js')>0);
   const want={xs_shanlan:'店員',xs_nanyang:'店員',xs_nanyang_hall:'店員',xs_dabu:'店員',xs_haopai:'老闆',xs_xsports:'店員',cafe:'店員',wz_brunch:'店員',wz_print:'老闆',wz_teahouse:'店員',wz_lin:'老闆',wz_teishoku:'老闆',bikeshop:'老闆',us_asian_market:'店員',
-    l118_dian:'老闆',l118_self:'店員',l118_tea:'店員',l118_home:'老闆',l118_cafe2:'店員',l118_pasta:'老闆',l118_korea:'老闆',l118_omu:'店員',l118_noodle2:'老闆',
+    l118_dian:'老闆娘',l118_self:'店員',l118_tea:'店員',l118_home:'老闆娘',l118_cafe2:'店員',l118_pasta:'老闆',l118_korea:'老闆',l118_omu:'店員',l118_noodle2:'老闆',
     afar:'店員',daybreak:'店員',aoki:'店員',wz_offbeat:'店員',wz_mokuyobi:'老闆',xs_tongxian:'老闆'};
   const bad=Object.keys(want).filter(z=>X.whoOf(z)!==want[z]);
   check('0. 表上 '+Object.keys(want).length+' 個區域、說話的人（店員／老闆）',!bad.length&&Object.keys(X.ZONES).length+Object.keys(X.PLACE_OF).length===Object.keys(want).length,J(bad.map(z=>[z,X.whoOf(z)])));
@@ -95,5 +95,10 @@ await sec(6,()=>{ const OLD=['我們九點打烊喔。','我們三點休息囉�
   const files=fs.readdirSync(path.join(H.ROOT,'src')).filter(f=>/\.js$/.test(f)).map(f=>'src/'+f); const hit=[];
   for(const f of files){ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const t of OLD) if(s.includes(t)) hit.push(f+'：'+t); }
   check('6. 舊的打烊字串（AA_645／648／652／653／693／695／699）不在 src 裡',!hit.length,J(hit)); });
+await sec(7,async()=>{ const had=typeof JOBS!=='undefined'; if(!had) globalThis.JOBS={ZONE_KEY:{wz_print:'copy'},rec:G=>(G.jobs=G.jobs||{}),worked:(G,k,d)=>!!(G.jobs&&G.jobs[k]&&(G.jobs[k].worked||[]).includes(d))};   /* jobs3d.js 要整套配置才載得起來：這一節用它的介面（ZONE_KEY、worked）*/ const J=JOBS;
+  const ws=X.windows('wz_print',BASE); if(!ws||!ws.length){ console.log('SKIP 7. 阿德影印這天沒有營業時間'); return; } const c=Math.max(...ws.map(w=>w[1]));
+  fresh(BASE,c-1,'wz_print'); GM.enterN=701; X.tick(GM); H.G.hour=c+0.1; const k=J.ZONE_KEY.wz_print; J.rec(H.G); H.G.jobs[k]=Object.assign(H.G.jobs[k]||{},{worked:[H.G.day]});
+  check('7. 玩家那天在阿德影印打工（店裡的人）：打烊不說那句（AA-C 11-05 08:10：照打工下班的流程走出去）',X.staffToday(H.G,'wz_print')===true&&X.gen(GM,'wz_print')===false,J.ZONE_KEY.wz_print);
+  H.G.jobs[k].worked=[]; check('7. 沒打工的晚上照樣說',X.staffToday(H.G,'wz_print')===false&&X.gen(GM,'wz_print')===true); if(!had) delete globalThis.JOBS; });
 H.done();
 })();
