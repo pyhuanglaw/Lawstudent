@@ -3349,9 +3349,18 @@
    "at": "2026-11-05T23:2xZ",
    "quote": "現在接班 你上次交班後沒人值班 BB說可以go 照條件可以發布",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在遊戲裡",
    "task": "RELEASE-V91021-1105",
    "note": "使用者轉 BB-C（已交班）的判斷：PC 跑 aa0f3bcd3 的 AA0F_p0 ALL PASS、AA0F_touch 只錯程序化路人（同一種不擋）、AA0F_reach 只錯麵店兩點（半徑 0.32 對 0.3 的測試誤報）＝照 BB 16:1x 的 GO 條件過了；BB 交班中不能正式寫 GO，使用者直接授權 LAWWW-C 接班並發布；LAWWW-C 自己讀 cc-local 三支 run.log 核對過"
+  },
+  {
+   "id": "UA-LAWWW-1105-48",
+   "at": "2026-11-05T23:4xZ",
+   "quote": "現在交班",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "HANDOFF-C-1105",
+   "note": "v9.10.21 發布後的交班"
   }
  ]
 }
