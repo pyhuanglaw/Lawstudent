@@ -39,8 +39,8 @@ def lines(sha):
             'V21R_tappref | %s | probe | %scc_tappref_zone_probe.py | index.html | 15 | CC_HEADLESS=0' % (sha, P)]
     # 3 新生南路 7 間＋打烊統一
     out += ['V21R_xs_tongxian | %s | probe | %scc_xs_shop_probe.py | index.html | 60 | CC_HEADLESS=0;SHOP=tongxian' % (sha, P),
-            'V21R_xs_nanyang | %s | probe | %scc_nanyang_v1_probe.py | index.html | 75 | CC_HEADLESS=0' % (sha, P),
-            'V21R_xs_shanlan | %s | probe | %scc_shanlan_v1_probe.py | index.html | 120 | CC_HEADLESS=0' % (sha, P),
+            'V21R_xs_nanyang | %s | probe | %scc_nanyang_v1_probe.py | index.html | 75 | CC_HEADLESS=0;CLOSE=aa700' % (sha, P),
+            'V21R_xs_shanlan | %s | probe | %scc_shanlan_v1_probe.py | index.html | 120 | CC_HEADLESS=0;CLOSE=aa700' % (sha, P),
             'V21R_xs_dakou | %s | probe | %scc_xs_shop_probe.py | index.html | 120 | CC_HEADLESS=0;SHOP=dakou' % (sha, P),
             'V21R_xs_dabu | %s | probe | %scc_xs_shop_probe.py | index.html | 60 | CC_HEADLESS=0;SHOP=dabu' % (sha, P),
             'V21R_xs_haopai | %s | probe | %scc_xs_shop_probe.py | index.html | 60 | CC_HEADLESS=0;SHOP=haopai' % (sha, P),

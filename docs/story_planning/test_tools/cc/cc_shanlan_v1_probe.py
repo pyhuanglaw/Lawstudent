@@ -42,6 +42,7 @@ SIT = {'文學': '（你坐在書架中間，看完半本小說。旁邊的人�
 SIT_ART_NIGHT = '（你翻了一本攝影集。抬頭的時候窗外已經暗了。）'
 SIT_ART_DAY = '（你翻了一本攝影集。抬頭的時候，對面那個人也在看同一本。）'
 CLOSE_LINE = '（店裡的廣播說，今天的營業時間快結束了。燈先暗了一半。你走出店門。）'   # 第 4 節
+if os.environ.get('CLOSE') == 'aa700': CLOSE_LINE = '我們今天要打烊了。'   # AA_700（4f60052c8，CLOSE-UNIFY-1105）取代 AA_695 第 4 節
 SAYHOOK = r"""(()=>{ if(!window.__ccSayWrapped){ const s0=GAME.say; GAME.say=function(who,t){ try{ (window.__ccSay=window.__ccSay||[]).push({t:String(t), h:+(+GAME.G.hour).toFixed(3), zone:GAME.G.zone}); }catch(e){} return s0.apply(this,arguments); }; window.__ccSayWrapped=true; }   /* 只包一次（11-05 雲端：__ccSayOn=false 重設又包一次＝每句記兩次）*/
   if(!window.__ccSayOn){ window.__ccSay=[]; window.__ccSayOn=true; } return true; })()"""
 

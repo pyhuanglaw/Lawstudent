@@ -284,6 +284,7 @@ async def part_closed(pg, cdp):
 
 
 NY_CLOSE = '（大廳的燈全亮了。工作人員站在門口說：「今天的場次都結束了，謝謝光臨。」你走了出去。）'   # AA_695 第 4 節（claude/magical-albattani-bk7b4n 491357209）
+if os.environ.get('CLOSE') == 'aa700': NY_CLOSE = '我們今天要打烊了。'   # AA_700（4f60052c8，CLOSE-UNIFY-1105）取代 AA_695 第 4 節：店員一句、走出店門
 
 
 async def part_xsclose(pg, cdp):
