@@ -46985,6 +46985,35 @@
    "authorized": "BB 機制（D98）",
    "next": "P3：HOME.breakJump 的檢查點對齊 PHONE 排定的時間（停在訊息的整點），不急",
    "sha": null
+  },
+  {
+   "id": "TONGXIAN-REF-1105",
+   "title": "同弦樂器店內照參考圖的構圖改：試琴角回窗前、書架改小搬到西牆、重選 camRef（CC 的 v4d 由 LAWWW2 接手改）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 6,
+    "earliest": "第一次去同弦樂器",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-05 02:08（D132 代驗：同弦店內和參考圖差太多）；LAWWW2-C 02:21 排序",
+   "authorized": "D132（BB 代驗 LAWWW2 美術標準）、D133（符合參考圖）",
+   "next": "【LAWWW-C 11-05 03:2x】LAWWW2-C b49d3016b 接進 f71d2c545：v4e（camRef、書架西牆、吊盆走道上方）；同弦相關測試 ALL PASS；BB 代驗＋CC 同角度疊圖（D138 --mode shop）",
+   "sha": "f71d2c545",
+   "xai": {
+    "spec": "BB-C 02:08；docs/art-rebuild/second_ai/wip/tongxian_ref_1105/README.md",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "照參考圖構圖（D133）、同角度疊圖（D138）；BB 代驗 MODEL_READY（D132）",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
   }
  ]
 }
