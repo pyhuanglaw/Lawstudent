@@ -1,10 +1,10 @@
 {
- "objects": 5,
- "unique_meshes": 5,
- "tris": 1296,
- "tris_drawn": 1296,
- "materials": 5,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/2ec5981f-0474-5329-8b76-bb65d93e5c0b/scratchpad/gate_north/campus_gym.glb",
- "bytes": 133448,
+ "objects": 9,
+ "unique_meshes": 9,
+ "tris": 4192,
+ "tris_drawn": 4192,
+ "materials": 9,
+ "out": "assets/models/env/second_ai/campus_gymext.glb",
+ "bytes": 530388,
  "texres": 512
 }
