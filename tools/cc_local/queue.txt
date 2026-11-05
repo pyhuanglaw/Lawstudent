@@ -11,6 +11,8 @@
 #   ② 雲端還沒跑完的：D118B7F（193d）、GUITAR（b474）、D118B7（6a15）、D118B5（747d）、NPCTASK（f5c3）、SITHEIGHT＋cafe（ed76）、TONGXIAN_REFCAM（650f）；③ LAWWW2 的 PERF 兩項。TONGXIAN_REFCAM 改 07dfffe15（v4f：cc0af7f14 整合 LAWWW2 308b5c025，BB-C 03:35）
 # ===== ★ CC-C 11-05 BB-C 08:05：12cb1426c 新的一批先跑（側門、afar 窗景、快速前往兩層截圖、起床站門口、日誌寫約會、大地圖營業時間、直接過去不進吧台；退宿列表改兩層）。雲端 SwiftShader 都 ALL PASS；V21R 拿到最終 SHA 再跑一次 =====
 # ===== V21R（v9.10.21 發布前，BB-C 08:40 P0 最終 SHA 83d09d13b）：照 BB-C 08:30 先回歸 9 支、店的座位互動點，D118、social 放最後（c474 那批訊息晚到、沒跑過，全部改在 83d 跑）=====
+# CC-C 09:4x：V21R_movreg r1 FAIL（B4 以後搖桿都推不動）；雲端 83d 34/42、已上線 v9.10.20 也 37/42（失敗的段落每次不同）＝看起來是這支本來就會隨機失敗。電腦單獨重跑一次確認
+V21R_movreg_solo | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;RERUN=solo;XARGS={url};CC_HEADLESS=0
 V21R_p0 | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
 V21R_movreg | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | game | tests/movement_regression.py | index.html | 60 | XARGS={url};CC_HEADLESS=0
 V21R_reach | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
