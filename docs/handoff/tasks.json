@@ -42052,17 +42052,18 @@
    "id": "DORM-LADDER-HEAD-GRIP-1102",
    "title": "宿舍梯子兩件（爬梯手勢修正時發現）：①第 5 階頭穿天花板（3.0 m 房間）——LAWWW2 初步傾向最上一兩階改彎腰（不改房間高度、不動已 ART_APPROVED 的模型與烘焙；彎腰姿勢 LAWWW 加）；②只有門那一側有扶手——靠床那側加握把、dorm_room4.layout.json 出每一階兩手 grips（LAWWW 的 climbIK 改抓 grips）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "LAWWW2 22:56 ACK",
-   "next": "下一班 LAWWW2 接班確認方向；LAWWW2 22:5x 換班前 ACK 但沒寫進交接檔，記在這裡",
+   "next": "【LAWWW-C 11-05 01:1x】②LAWWW2-C 42cbba73b（README adc164344）接進 e118734a3：靠床那側扶手、sleep_scene.grips／rails、光照重烘；宿舍、梯子相關 331 支 ALL PASS；①頭頂：天花板 3.40（DORM-CEIL-1103）以後只有第 5 階站直會高 2 cm，headFit 已經彎腰、離天花板 14 cm＝不用另外改；climbIK 抓 grips、最上面兩階腳伸進牆（爬上 28／49 cm、爬下 23／44 cm）＝新開 CLIMB-GRIPS-FEET-1105（LAWWW）；CC 拍 203 梯子三種光照、起床爬下來｜下一班 LAWWW2 接班確認方向；LAWWW2 22:5x 換班前 ACK 但沒寫進交接檔，記在這裡",
    "xai": {
     "spec": "climbfix 回報＋LAWWW2 22:56",
     "branch": "int/next1102",
     "acceptance": "BB 測",
     "receiver": "LAWWW2",
     "ack": "ACK"
-   }
+   },
+   "sha": "e118734a3"
   },
   {
    "first": {
@@ -46937,6 +46938,28 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "CLIMB-GRIPS-FEET-1105",
+   "title": "爬宿舍梯子：手抓靠床那側新扶手（climbIK 讀 sleep_scene.grips）、最上面兩階腳伸進牆（走路片段的腳；爬上 28／49 cm、爬下 23／44 cm）改成踩在踏階上",
+   "area": "ANIM",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一天晚上爬上舖睡覺、每天早上爬下來",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-C 11-05 01:13 DORM-LADDER-HEAD-GRIP-1102 ② 交件 README「給 LAWWW」（動作歸 LAWWW，D128）",
+   "authorized": "D100 LAWWW 整合／動畫；D128",
+   "next": "【LAWWW-C 11-05 01:1x】開任務；子代理實作（照 README 給 LAWWW 那一節：手照 grips 換手、腳踩踏階不進牆、第 5 階 null＝跪姿手在大腿），Node 量手到扶手、腳到牆的距離",
+   "sha": null
   }
  ]
 }
