@@ -13,7 +13,7 @@ ST = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position; const ch=document.
     interact:(it&&!it.classList.contains('hide')&&getComputedStyle(it).display!=='none')?(it.textContent||'').trim().slice(0,24):'',
     stand:E.canStand?!!E.canStand(o.x,o.z,0.3,P.lv|0):null, fb:GAME.walkFallbacks||0, hour:+(+GAME.G.hour).toFixed(2)}; })()"""
 SEATS = r"""(()=>GAME.E.interactables.filter(i=>i.seat&&!i.hidden).map(i=>{ const ap=GAME.seatApproach?GAME.seatApproach(i.seat):null, s=i.seat;
-  return {label:i.label, x:+i.x.toFixed(2), z:+i.z.toFixed(2), lv:(i.lv|0), sx:+s.x.toFixed(3), sz:+s.z.toFixed(3), sy:s.y==null?null:+(+s.y).toFixed(3), slv:(s.lv|0), row:i.row||null, ap:ap?[+ap[0].toFixed(2),+ap[1].toFixed(2)]:null}; }))()"""
+  return {label:i.label, x:+i.x.toFixed(2), z:+i.z.toFixed(2), lv:(i.lv|0), sx:+s.x.toFixed(3), sz:+s.z.toFixed(3), sy:s.y==null?null:+(+s.y).toFixed(3), slv:(s.lv|0), row:i.row||null, ap:ap?[+ap[0].toFixed(2),+ap[1].toFixed(2)]:null, lift:s.lift==null?0:+(+s.lift).toFixed(3)}; }))()"""
 EXITS = r"""(()=>GAME.E.interactables.filter(i=>i.exit&&!i.hidden).map(i=>({label:i.label, x:+i.x.toFixed(2), z:+i.z.toFixed(2), r:i.radius||1, lv:(i.lv|0), to:i.exit.to})))()"""
 CAM = r"""((C)=>{ const E=GAME.E, cam=E.camera, V=THREE.Vector3; const hf=2*Math.atan(18/(C.lens||24)), vf=2*Math.atan(Math.tan(hf/2)/(innerWidth/innerHeight));
   E.paused=true; E.cinematic&&E.cinematic(new V(...C.eye),new V(...C.look));
@@ -127,7 +127,7 @@ async def use_exit(pg, cdp, tag, label0, to, pred=None):
 
 
 async def load_zone(pg, cdp, zone, day_key, h=14.0, x=None, z=None, yaw=None, lv=0, wait=6000):
-    d = await pg.evaluate("STORY.dayOfKey('%s')" % day_key)
+    d = await pg.evaluate("(k=>{ if(typeof STORY!=='undefined'&&STORY.dayOfKey) return STORY.dayOfKey(k); for(let d=0;d<4000;d++){ try{ if(CALENDAR.dateOf(d).key===k) return d; }catch(e){} } return null; })('%s')" % day_key)   # 舊一點的分支沒有 STORY.dayOfKey（PC 11-05 DORM_WALL_after 4eada314b）
     st0 = {'zone': zone, 'hour': h, 'day': d, 'weather': 'clear'}
     if x is not None: st0['pos'] = {'x': x, 'z': z, 'yaw': yaw if yaw is not None else 0.0, 'lv': lv}
     await L.load_state(pg, st0, quiet_events=True, quiet_phone=True)
@@ -143,13 +143,21 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300):
         occ = await pg.evaluate("(([x,z])=>(GAME.E.npcs||[]).some(n=>n&&n.seat&&Math.hypot(n.seat.x-x,n.seat.z-z)<0.35))", [s['sx'], s['sz']])
         if occ: R.note('%s 有人坐：遊戲不給坐，跳過（不算 FAIL）' % t); res.append([k + 1, 'occupied']); continue
         tgt = s['ap'] or [s['x'], s['z']]; fb0 = (await st(pg))['fb']
-        await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.22, '%s（seatApproach）' % t, max_s=max_walk, lv=s['slv'])   # PC 11-05 NANYANG_v2：0.12 太嚴（點地走到 0.24 m 就停），白點 110 次
-        b = await settle(pg)
-        if math.hypot(b['x'] - tgt[0], b['z'] - tgt[1]) > 0.35:   # 走過頭（PC）：再走一次
-            await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.22, '%s（seatApproach 再一次）' % t, max_s=120, lv=s['slv']); b = await settle(pg)
+        # 照玩家「點椅子」（BB-C 11-05 08:40；遊戲 tapRedirect 走到 seatApproach、tapPref 讓那一張的「坐下」優先＝TAP-SEAT-REACH-1105）：先走到附近看得到椅子，再點椅子本身
+        await L.go_to(pg, cdp, R, tgt[0], tgt[1], 1.3, '%s（走到椅子附近）' % t, max_s=max_walk, lv=s['slv']); await settle(pg)
+        tapped = None
+        for _ in range(4):
+            tapped = await L.tap_ground(pg, cdp, s['sx'], s['sz'], lv=s['slv'])
+            if tapped: break
+            await L.turn_camera_to(pg, cdp, s['sx'], s['sz']); await pg.wait_for_timeout(400)
+        b = await settle(pg, ms=800, max_s=15)
         ni = await pg.evaluate(NEAR_IT)
         mine = bool(ni and ni['seat'] and abs(ni['seat'][0] - s['sx']) < 0.01 and abs(ni['seat'][1] - s['sz']) < 0.01)
-        R.check('%s 站在 GAME.seatApproach（點椅子 tapToSeat 走到的那一點；離它 %.2f m）：最近的「坐下」是這一張' % (t, math.hypot(b['x'] - tgt[0], b['z'] - tgt[1])), mine, J({'at': [b['x'], b['z']], 'nearest': ni}))
+        R.check('%s 點椅子（螢幕 %s）走過去停在 (%s, %s)（seatApproach %s）：最近的「坐下」是這一張' % (t, tapped and [round(tapped['sx']), round(tapped['sy'])], b['x'], b['z'], J(tgt)), bool(tapped) and mine, J({'at': [b['x'], b['z']], 'nearest': ni}))
+        if not mine:   # 診斷：照舊走到 seatApproach 那一點看最近的按鈕
+            await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.22, '%s（seatApproach）' % t, max_s=120, lv=s['slv']); b = await settle(pg)
+            ni = await pg.evaluate(NEAR_IT); mine = bool(ni and ni['seat'] and abs(ni['seat'][0] - s['sx']) < 0.01 and abs(ni['seat'][1] - s['sz']) < 0.01)
+            R.note('%s 【診斷】走到 seatApproach（離它 %.2f m）最近的是 %s' % (t, math.hypot(b['x'] - tgt[0], b['z'] - tgt[1]), J(ni)))
         if not mine:
             gap = await pg.evaluate("((q)=>{ const E=GAME.E, it=E.interactables.find(i=>i.seat&&Math.abs(i.seat.x-q.sx)<1e-3&&Math.abs(i.seat.z-q.sz)<1e-3); if(!it) return null; let best=null; for(let x=it.x-1.5;x<=it.x+1.5+1e-6;x+=0.05) for(let z=it.z-1.5;z<=it.z+1.5+1e-6;z+=0.05){ if(!E.canStand(x,z,0.3,q.lv)) continue; const d=Math.hypot(x-it.x,z-it.z); if(!best||d<best) best=d; } return {radius:it.radius||0.8, nearestStand:best==null?null:+best.toFixed(2)}; })", {'sx': s['sx'], 'sz': s['sz'], 'lv': s['slv']})
             R.note('%s 這一張按鈕範圍 %s m；站得住的地方離它最近 %s m（走近點在範圍邊上＝停偏一點就沒有按鈕）' % (t, gap and gap['radius'], gap and gap['nearestStand']))
@@ -173,20 +181,21 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300):
         if ok:
             d = math.hypot(p['x'] - s['sx'], p['z'] - s['sz'])
             fy = s['sy'] if s['sy'] is not None else await pg.evaluate("((lv)=>{ const z=GAME.E.zone, L=z&&z.levelGroups; return L&&L[lv]?L[lv].y:0; })", s['slv'])
-            R.check('%s 坐下的位置離座位 %.3f m（≤0.15）、人的高度 %.3f＝座位那一層 %.3f（±0.06）' % (t, d, p['y'], fy), d <= 0.15 and abs(p['y'] - fy) <= 0.06, J(p))
+            fy = round(fy + (s.get('lift') or 0), 3)   # 高腳椅、凳子（seat.lift：好拍 0.25、大口 0.325）
+            R.check('%s 坐下的位置離座位 %.3f m（≤0.15）、人的高度 %.3f＝座位那一層＋lift %.3f（±0.06）' % (t, d, p['y'], fy), d <= 0.15 and abs(p['y'] - fy) <= 0.06, J(p))
             await shot(pg, '%s_seat_%d' % (shot_prefix, k + 1))
-        c = await st(pg)
-        if c['choices']:
-            kk = next((i for i, x in enumerate(c['choices']) if x.startswith('起身') or x.startswith('站起')), len(c['choices']) - 1)
-            await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (kk + 1)); await pg.wait_for_timeout(1500)
-        lab = (await st(pg))['interact']
-        if lab.startswith('起身') or lab.startswith('站起'): await L.tap(pg, cdp, '#interact')
-        await pg.wait_for_timeout(1500)
-        for _ in range(10):
+        # 起身：坐下以後可能先有對話（大步試穿椅：店員「你幾號？」→ 旁白 → 才出「坐一下，看看四周／起身」；PC 11-05 XSSHOP_dabu 只看一次選項＝TEST_BUG）
+        said = []; t1 = time.time()
+        while time.time() - t1 < 25:
             c = await st(pg)
             if not c['seat'] and not c['busy']: break
-            if c['dlg']: await L.tap(pg, cdp, '#dlg')
+            if c['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(400); continue
+            if c['choices']:
+                kk = next((i for i, x in enumerate(c['choices']) if x.startswith('起身') or x.startswith('站起')), len(c['choices']) - 1)
+                said.append(c['choices'][kk]); await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (kk + 1)); await pg.wait_for_timeout(1200); continue
+            if c['interact'].startswith('起身') or c['interact'].startswith('站起'): said.append(c['interact']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); continue
             await pg.wait_for_timeout(500)
+        if said: R.note('%s 起身點了：%s' % (t, J(said)))
         mv = await pushable(pg, cdp); c = await st(pg)
         R.check('%s 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地' % t, not c['seat'] and c['stand'] and mv >= 0.3 and c['fb'] == fb0, J({'moved': mv, 'x': c['x'], 'z': c['z'], 'lv': c['lv'], 'stand': c['stand'], 'fb': c['fb'] - fb0}))
         res.append([k + 1, 'ok' if ok else 'nosit'])
