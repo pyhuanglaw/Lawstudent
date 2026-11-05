@@ -114,8 +114,12 @@ async def use_exit(pg, cdp, tag, label0, to, pred=None):
     tgt = await standable_near(pg, ex['x'], ex['z'], ex['r'] * 0.6, ex['lv'])   # 範圍的六成以內（PC 11-05：停在 0.25 m 以外＝出了範圍、沒有按鈕）
     R.note('%s 「%s」在 (%s, %s) 半徑 %s；走到範圍裡站得住的 %s' % (tag, label0, ex['x'], ex['z'], ex['r'], J(tgt)))
     if not R.check('%s 「%s」範圍裡有站得住的地方' % (tag, label0), bool(tgt), J(ex)): return None
-    await L.go_to(pg, cdp, R, tgt['x'], tgt['z'], 0.12, '%s %s' % (tag, label0), max_s=240, lv=ex['lv'])
-    s = await settle(pg)
+    s = await st(pg)
+    if not s['interact'].startswith(label0):   # 已經看得到這個按鈕就不用再走（PC 11-05 WINVIEW_rel：0.12 m 走不到、在門口來回 241 秒，遊戲時間 20:30→22:15，店關了）
+        await L.go_to(pg, cdp, R, tgt['x'], tgt['z'], 0.3, '%s %s' % (tag, label0), max_s=90, lv=ex['lv'])
+        s = await settle(pg)
+        if not s['interact'].startswith(label0):
+            await L.go_to(pg, cdp, R, ex['x'], ex['z'], 0.5, '%s %s（往出口中心）' % (tag, label0), max_s=60, lv=ex['lv']); s = await settle(pg)
     for _ in range(8):
         if s['interact'].startswith(label0): break
         await pg.wait_for_timeout(500); s = await st(pg)
