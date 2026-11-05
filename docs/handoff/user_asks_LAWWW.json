@@ -3307,6 +3307,15 @@
    "status": "規則（永久）",
    "task": "HANDOFF-C-1105",
    "note": "換班口令：其他職位先交班，LAWWW-C 等大家交班完再交班；v9.10.21（發布樹 aa0f3bcd3，BB 還沒 GO）不在交班前發布"
+  },
+  {
+   "id": "UA-LAWWW-1105-43",
+   "at": "2026-11-05T10:5xZ",
+   "quote": "他們都交班之後使用量不會跑這麼快，你為什麼可以半小時內做完的你就先做",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "HANDOFF-C-1105",
+   "note": "交班前先做半小時內做得完的：NOODLE-AP-RADIUS-1105、DAYBREAK-BOOTH21-1105、對帳；v9.10.21 要 BB GO（BB 已交班）→ 下一班"
   }
  ]
 }
