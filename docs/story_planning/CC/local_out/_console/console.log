@@ -771,3 +771,15 @@
 [06:49:21] skip V18_LIBTOUR (already done on ffeec06e0)
 [06:49:57] 正在跑：V21R_soc_fr_yu（已跑 20 分／上限 20 分）、V21R_soc_fr_classmate_mingxuan（已跑 13 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [06:50:14] [res] cpu=4% mem=32% (10.2/31.4 GB) chrome_testing=5  END V21R_soc_fr_yu
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       527fb8986..d70e6f4a5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:50:22] ==== END   V21R_soc_fr_yu  exit=1  1231s  timeout 20 min ====
+[06:50:25] blender item MD_tx_v3 waits until the 1 running item(s) finish; other items go first
+[06:50:25] blender item MD_dabu_v1 waits until the 1 running item(s) finish; other items go first
+[06:50:25] blender item MD_haopai_v1 waits until the 1 running item(s) finish; other items go first
+[06:50:25] blender item MD_xinsheng_v1 waits until the 1 running item(s) finish; other items go first
+[06:50:25] blender item MD_xinsheng_v2 waits until the 1 running item(s) finish; other items go first
+[06:50:25] blender item MD_tx_v2 waits until the 1 running item(s) finish; other items go first
+[06:50:25] blender item MD_tx_v2b waits until the 1 running item(s) finish; other items go first
+[06:53:57] [res] cpu=2% mem=25% (7.9/31.4 GB) chrome_testing=0  END V21R_soc_fr_classmate_mingxuan
