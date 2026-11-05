@@ -24,4 +24,4 @@
 - 同一個樹上：男一舍、宿舍、光照貼圖相關的 36 支 `*_unit.js` ALL PASS，包括 `dorm_hall_lightmap`、`dorm_lightmap`、`dorm_seethru`、`dorm_cam`、`rooms_glb`、`lm_instancing`。
 - **遊戲內還沒看**（D131，瀏覽器在使用者的 PC）。請 CC 照 `docs/art-rebuild/second_ai/test_shots/dorm_hall_lm_1028/` 的同角度（白天 3 張、晚上 2 張）重拍，看接縫還在不在。
 - 萬才館柱子很細的倒角（LM-SEAM-GEO 的另一半）這一包沒做。D141：使用者沒提、不擋玩。
-- 接法：`git checkout <本包 SHA> -- assets/models/env/dorm_hall.glb assets/models/env/dorm_hall_lm_day.webp assets/models/env/dorm_hall_lm_night.webp tests/dorm_hall_tjunc_unit.js tools/blender/dorm_hall.py`。不用改程式。
+- 接法：`git checkout 4eada314b -- assets/models/env/dorm_hall.glb assets/models/env/dorm_hall_lm_day.webp assets/models/env/dorm_hall_lm_night.webp tests/dorm_hall_tjunc_unit.js tools/blender/dorm_hall.py`。不用改程式。
