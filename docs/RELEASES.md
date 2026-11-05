@@ -43,6 +43,7 @@
 | v9.10.18 | `e8b6a84dd`（PR [pyhuanglaw/Lawstudent#24](https://github.com/pyhuanglaw/Lawstudent/pull/24)；遊戲檔案＝BB GO 的發布樹 `0776cafc8`＝候選 `ffeec06e0`＋版本字樣） | 2026-11-03 12:09 UTC 合併（Pages run 41633308118；線上 LIVE18 PASS） | v9.10.17 `408d9f3cb` |
 | v9.10.19 | `039a9227a`（PR [pyhuanglaw/Lawstudent#25](https://github.com/pyhuanglaw/Lawstudent/pull/25)；快取字樣 `e1603907e`，PR [pyhuanglaw/Lawstudent#26](https://github.com/pyhuanglaw/Lawstudent/pull/26)；遊戲檔案＝候選 `55939fc71`＋版本字樣） | 2026-11-03（Pages run 41716647717、41716916666） | v9.10.18 `e8b6a84dd` |
 | v9.10.19.1（熱修） | `b0c3032af`（PR [pyhuanglaw/Lawstudent#27](https://github.com/pyhuanglaw/Lawstudent/pull/27)；發布樹 `ae2914d40`＝main `e1603907e`＋EVENTS.cond attended、GM.guardTalk 兩個修正＋版本字樣） | 2026-11-04 | v9.10.19 `e1603907e` |
+| v9.10.20 | `40c0abedb`（PR [pyhuanglaw/Lawstudent#28](https://github.com/pyhuanglaw/Lawstudent/pull/28)；遊戲檔案＝BB GO 的候選 `d3828452a`＋版本字樣，發布樹 `9e6d85711`、RELEASES.md `37cd3253d`） | 2026-11-05 02:28:25 UTC（run 41955182303） | `b0c3032af`（v9.10.19.1） |
 
 ---
 
@@ -56,7 +57,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.20（2026-11-05；遊戲檔案＝候選 `d3828452a`＋版本字樣（發布樹 `9e6d85711`）；BB 11-05 02:14 GO（BB_255 企劃線 786436ffd「v9.10.20 GO」）；合併、GitHub Pages 發布後補在上面的表）
+## v9.10.20（2026-11-05 02:26 UTC 合併 `40c0abedb`，PR [pyhuanglaw/Lawstudent#28](https://github.com/pyhuanglaw/Lawstudent/pull/28)；遊戲檔案＝候選 `d3828452a`＋版本字樣（發布樹 `9e6d85711`）；BB 11-05 02:14 GO（BB_255 企劃線 786436ffd「v9.10.20 GO」）；發布樹 deploy_check 38 項 ALL PASS；GitHub Pages run 41955182303 02:28:25 UTC success）
 
 **範圍**：上一版 v9.10.19 的遊戲檔＝開發分支 `55939fc71` → 候選 `d3828452a`（遊戲檔＝`048b4c898`＋tests/touch_flow_wenzhou.py）。`git log --no-merges 55939fc71..d3828452a -- src assets lib index.html` 170 個 commit＋合併 33 個。總圖導覽樓梯 `5d40d6427`、`630e8cff3`（v9.10.19 發布前暫時 revert）由 `57ce4ad0b` 加回，算這一版。`27929f2a8`、`74c1ffb37` 已經在 v9.10.19.1 熱修上線（main `b0c3032af`，PR #27），這一版照帶。
 
