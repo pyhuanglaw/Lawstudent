@@ -121,12 +121,19 @@ const SEATACT=(function(){
   const ownGroup=o=>{ for(let p=o;p;p=p.parent){ if(p.userData&&(p.userData.seatAct||p.userData.driver)) return true; if(/^seated_figures/.test(p.name||'')) return true; } return false; };
   function meshesOf(zone){ const sig=zone&&zone.group?zone.group.children.length:0; if(meshList&&meshList.zone===zone&&meshList.sig===sig&&meshList.t>Date.now()-S.MESH_TTL) return meshList.list;
     const lvg=new Set(((zone&&zone.levelGroups)||[]).map(q=>q&&q.group).filter(Boolean));
-    const list=[]; const walk=o=>{ if((!o.visible&&!lvg.has(o))||ownGroup(o)) return; if(o.isMesh&&!o.isSkinnedMesh){ const m=Array.isArray(o.material)?o.material[0]:o.material; if(m&&m.visible!==false&&!(m.transparent&&m.opacity<0.3)) list.push(o); } for(const c of o.children) walk(c); };
+    /* 鏡頭擋住會淡出的牆（zone.walls；engine3d.js 的 hideFaded 把淡出的整面藏起來）不算：牆不是桌子，而且鏡頭一動牆就藏起來／出現＝清單變了＝桌子的索引整個重算
+       （11-05 BB-C：總圖 3F 正式模型 6 萬個三角形，走動時索引一直重來，桌上一直沒有東西）*/
+    const fw=new Set(((zone&&zone.walls)||[]).filter(Boolean));
+    const list=[]; const walk=o=>{ if(fw.has(o)){ for(const c of o.children) walk(c); return; } if((!o.visible&&!lvg.has(o))||ownGroup(o)) return; if(o.isMesh&&!o.isSkinnedMesh){ const m=Array.isArray(o.material)?o.material[0]:o.material; if(m&&m.visible!==false&&!(m.transparent&&m.opacity<0.3)) list.push(o); } for(const c of o.children) walk(c); };
     if(zone&&zone.group){ zone.group.updateMatrixWorld(true); walk(zone.group); } let n=0; for(const o of list) n+=o.id; meshList={zone,sig,list,t:Date.now(),ids:n}; return list; }
   S.meshSig=zone=>{ meshesOf(zone); return meshList?meshList.list.length+':'+meshList.ids:'0'; };
   const CELL=0.25;
   /* 分段做（S.INDEX_MS：每 30 格最多算幾毫秒；一個網格是最小的一段）：手機上一個區域約 1～2 億次乘法，一次做完會卡一下 */
   S.INDEX_MS=6;
+  /* 幀很慢的時候（雲端測試 1～4 fps、很舊的手機）：30 格要好幾秒，每次 6 毫秒，正式模型（總圖 3F 6 萬個三角形）要好幾分鐘才算完、桌上一直沒有東西。
+     一格本來就超過 60 毫秒的時候，這一次最多用一格的 10%（上限 S.INDEX_MAX）；一般手機（30～60 fps）照舊 6 毫秒。gap＝離上一次 S.tick 幾毫秒（30 格）*/
+  S.INDEX_MAX=40;
+  S.indexBudget=gap=>Math.min(S.INDEX_MAX,Math.max(S.INDEX_MS,(+gap||0)/30*0.1));
   const nowMs=()=>(typeof performance!=='undefined'&&performance.now)?performance.now():Date.now();
   function addMesh(I,o){ const g=o.geometry, P=g&&g.attributes&&g.attributes.position; if(!P) return; const ix=g.index, nt=ix?ix.count/3:P.count/3, nv=P.count, ni=o.isInstancedMesh?o.count:1; if(I.W.length<nv*3) I.W=new Float32Array(nv*3); const W=I.W, M=I.M, IM=I.IM, near=I.near, grid=I.grid, T=I.T;
     for(let k=0;k<ni;k++){ if(o.isInstancedMesh){ o.getMatrixAt(k,IM); M.multiplyMatrices(o.matrixWorld,IM); } else M.copy(o.matrixWorld); const e=M.elements;
@@ -202,7 +209,10 @@ const SEATACT=(function(){
     const f=r.focus||(r.focus={x:0,y:0,z:0}); f.x=st.x+Math.sin(yaw)*d; f.y=r.tb.y; f.z=st.z+Math.cos(yaw)*d; return f; }
   /* 這個人現在可以配嗎：坐著（seat、sit／read）、不是上課的同學、店員、玩家；換了姿勢（起身）＝不能 */
   const seatedOk=n=>!!(n&&n.seat&&n.obj&&!n.hidden&&(n.pose==='sit'||n.pose==='read')&&!n.clsStudent&&!n.clerk&&!n.seatTarget&&!n.leaving);
-  const named=n=>!n.isExtra||!!(n.id||(n.name&&n.name!==''));
+  /* 有名字的人＝劇情的人（不是 isExtra、有 id）、或路人裡有自己名字的（館員、法服的人、老師）。
+     「歷史系的學生」這種只是系別的標籤（crowd3d.js 的 AA_495 deptGroup／deptOne：n.dept＋n.name＝系名）：還是路人，照座位表做事
+     （11-05 BB-C：總圖 3F 坐著的 7 個人 76 秒都沒動——一起坐的系上同學被當成有名字的人，全部是「手上捧書、沒有片段」）*/
+  const named=n=>!n.isExtra||!!n.id||!!(n.name&&n.name!==''&&!n.dept);
   const chatting=(E,n)=>!!(n.lookAt&&E.npcs.some(m=>m!==n&&m.obj&&m.obj.position===n.lookAt));
   /* 桌上的組：名字＋這一組的單件（世界矩陣用）*/
   function itemsOf(set){ if(!set) return []; if(S.CUSTOM[set]) return S.CUSTOM[set].map(([nm,x,z,yaw])=>({name:nm,x,z,yaw,lod:false})); return [{name:set,x:0,z:0,yaw:0,lod:true}]; }
@@ -265,7 +275,8 @@ const SEATACT=(function(){
     const busy=[...R.on.values()].map(r=>({st:r.st,act:r.act}));
     const PP=E.player&&E.player.obj&&E.player.obj.position, cand=E.npcs.filter(n=>!live.has(n)&&seatedOk(n));
     if(PP&&cand.length+R.on.size-awayN>S.CAP) cand.sort((a,b)=>Math.hypot(a.seat.x-PP.x,a.seat.z-PP.z)-Math.hypot(b.seat.x-PP.x,b.seat.z-PP.z));   /* 超過上限：離玩家近的先配 */
-    const ixDone=indexStep(E.zone,S.INDEX_MS).done;   /* 桌子的索引還在分段算：人先照做的事坐好（手上的照拿），桌上等算好再放 */
+    const tNow=nowMs(), gap=R.tickMs!=null?tNow-R.tickMs:0; R.tickMs=tNow;
+    const ixDone=indexStep(E.zone,S.indexBudget(gap)).done;   /* 桌子的索引還在分段算：人先照做的事坐好（手上的照拿），桌上等算好再放 */
     for(const n of cand){ if(R.on.size-awayN>=S.CAP) break; const d=decide(GM,n,place,busy); if(!d) continue;
       const r={n,st:n.seat,act:d.act,named:!!d.named,forced:d.set,set:null,items:null,tb:undefined,tbT:0,tbN:0,pose:null,hold:null,kind:null};
       R.on.set(n,r); busy.push({st:r.st,act:r.act}); if(ixDone) retable(E,r,place); applyBody(r); R.dirty=true; }
