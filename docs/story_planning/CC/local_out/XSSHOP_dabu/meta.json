@@ -1,0 +1,24 @@
+{
+  "rerun": "sys",
+  "id": "XSSHOP_dabu",
+  "sha": "4b5a0ebd8b83c19456494f60ca82a81d7f482fcb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_xs_shop_probe.py",
+  "env": "CC_HEADLESS=0;SHOP=dabu;RERUN=sys",
+  "machine": "MSI",
+  "start": "2026-11-05T15:18:35",
+  "end": "2026-11-05T15:50:29",
+  "seconds": 1913,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8806/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 27,
+    "mem": 44,
+    "used_gb": 14.2,
+    "chrome_testing": 15
+  }
+}
