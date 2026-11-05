@@ -1414,3 +1414,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 955.1s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 955.1s] BROWSER DISCONNECTED
 - 2026-11-05T19:51:21  V21R_shop_crowd  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  633s      [ 599.6s] [截圖] crowd_xs_xsports_late：鏡頭 {"eye": [0, 5.5, 7.4], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [96.5, 45.6] / PASS 沒有 JS 例外  [] / FAILED 4: [xs_nanyang 白天] 有客人；[xs_nanyang 晚上] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）；[xs_haopai 白天] 有客人；[xs_haopai 晚上] 有客人
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 600.1s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 600.1s] BROWSER DISCONNECTED
+- 2026-11-05T19:51:40  V21R_shop_named  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  871s    PASS [alison] 演完推得動  7.07 / PASS 沒有 JS 例外  [] / FAILED 1: [xs_shanlan_sis heroine_05] 10/23 以後 120 天內找得到他在的那一天
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 827.7s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 827.7s] BROWSER DISCONNECTED

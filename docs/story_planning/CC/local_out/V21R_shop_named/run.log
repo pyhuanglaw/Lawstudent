@@ -1,0 +1,220 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shop_named_probe.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_shop_named\out
+CC SHOP_NAMED（新店面裡有名字的人，AA_705／AA_615）：SHA=83d09d13b0686e51e344b4b771ebb9124d8806a4（worktree 實際 ?）；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+PASS 這一版有 SHOPNPC
+  [  32.4s] 這一版的列：["xs_shanlan_an", "xs_shanlan_sis", "xs_nanyang_yu", "xs_dabu_zhe", "xs_haopai_mx", "xs_xsports_xc", "xs_tongxian_zq", "xs_dakou_bh", "afar_yt", "daybreak_ps", "aoki_sis", "bikeshop_kai", "wz_mokuyobi_zq", "wz_offbeat_zr"]
+== xs_shanlan_an
+  [  32.4s] [xs_shanlan_an heroine_01] 列：{"row": "xs_shanlan_an", "who": "heroine_01", "zone": "xs_shanlan", "pose": "stand", "at": [6, -0.75, 1.5707963267948966, 0], "seat": null, "day": 46, "key": "2025-11-01", "h": 19.75, "why": {"cal": 8, "presence": 1}}
+PASS [xs_shanlan_an heroine_01] 10/23 以後 120 天內找得到他在的那一天  {"row": "xs_shanlan_an", "who": "heroine_01", "zone": "xs_shanlan", "pose": "stand", "at": [6, -0.75, 1.5707963267948966, 0], "seat": null, "day": 46, "key": "2025-11-01", "h": 19.75, "why": {"cal": 8, "presence": 1}}
+  [前置／捷徑] [xs_shanlan_an heroine_01] 讀使用者的存檔，改到 2025-11-01 19.75 xs_shanlan（店裡出生點）
+PASS [xs_shanlan_an heroine_01] 讀到 xs_shanlan  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 19.79}
+  [  46.1s] [xs_shanlan_an heroine_01] 認識（STORY.knows）＝True；人：{"x": 6, "z": -0.75, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "沈以安"}；玩家出生點 [0.8, 7.5]
+PASS [xs_shanlan_an heroine_01] 人在店裡、看得到  {"x": 6, "z": -0.75, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "沈以安"}
+PASS [xs_shanlan_an heroine_01] 站的那一點站得住（不在牆裡、桌上）  {"x": 6, "z": -0.75, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "沈以安"}
+PASS [黑畫面] named_xs_shanlan_an_0 不是黑畫面（平均亮度 83.7、變化 34.1）  [83.7, 34.1]
+  [  53.0s] 到達「[xs_shanlan_an heroine_01] 走到他旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [xs_shanlan_an heroine_01] 照玩家從店門走得到他旁邊（不擋路）  {"zone": "xs_shanlan", "x": 4.985, "z": 0.469, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "和沈以安說話", "stand": true, "fb": 0, "hour": 19.84}
+PASS [xs_shanlan_an heroine_01] 走近 2.5 m 內跳出 AA_705 那一句「（以安在雜誌牆前面翻一本手帳特刊。翻到一半，拿出自己的手帳對了一下。）」（說話的人＝旁白）  [{"w": "", "t": "（以安在雜誌牆前面翻一本手帳特刊。翻到一半，拿出自己的手帳對了一下。）", "h": 19.83}]
+  [  75.4s] 到達「[xs_shanlan_an heroine_01] 走開」附近（0.24 m）：點地面 8 次、轉鏡頭 0 次、搖桿 0 次，21 秒
+  [  78.5s] 到達「[xs_shanlan_an heroine_01] 再一次 走到他旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [xs_shanlan_an heroine_01] 走開再走近：同一學期不再跳（SHOPNPC.heard=True）  []
+  [  85.3s] [xs_shanlan_an heroine_01] 這一次全部的 caption：[{"w": "", "t": "（以安在雜誌牆前面翻一本手帳特刊。翻到一半，拿出自己的手帳對了一下。）", "h": 19.83}]
+  [  95.2s] 到達「[xs_shanlan_an heroine_01] 走回店門」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [xs_shanlan_an heroine_01] 走得回店門「離開山嵐書店」（自動放過去 0 次）  {"zone": "xs_shanlan", "x": 1, "z": 7.912, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開山嵐書店", "stand": true, "fb": 0, "hour": 20.11}
+== xs_shanlan_sis
+  [  95.2s] [xs_shanlan_sis heroine_05] 列：{"row": "xs_shanlan_sis", "who": "heroine_05", "zone": "xs_shanlan", "pose": "floor", "at": [6.2, -6, -1.5707963267948966, 1], "seat": null, "day": null, "key": null, "h": 10.75, "why": {"cal": 120}}
+FAIL [xs_shanlan_sis heroine_05] 10/23 以後 120 天內找得到他在的那一天  {"row": "xs_shanlan_sis", "who": "heroine_05", "zone": "xs_shanlan", "pose": "floor", "at": [6.2, -6, -1.5707963267948966, 1], "seat": null, "day": null, "key": null, "h": 10.75, "why": {"cal": 120}}
+== xs_dabu_zhe
+  [  95.2s] [xs_dabu_zhe zhe] 列：{"row": "xs_dabu_zhe", "who": "zhe", "zone": "xs_dabu", "pose": "stand", "at": [-2.75, 0.6, -1.5707963267948966, 0], "seat": null, "day": 46, "key": "2025-11-01", "h": 15.75, "why": {}}
+PASS [xs_dabu_zhe zhe] 10/23 以後 120 天內找得到他在的那一天  {"row": "xs_dabu_zhe", "who": "zhe", "zone": "xs_dabu", "pose": "stand", "at": [-2.75, 0.6, -1.5707963267948966, 0], "seat": null, "day": 46, "key": "2025-11-01", "h": 15.75, "why": {}}
+  [前置／捷徑] [xs_dabu_zhe zhe] 讀使用者的存檔，改到 2025-11-01 15.75 xs_dabu（店裡出生點）
+PASS [xs_dabu_zhe zhe] 讀到 xs_dabu  {"zone": "xs_dabu", "x": 2.5, "z": 4.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 15.79}
+  [ 109.1s] [xs_dabu_zhe zhe] 認識（STORY.knows）＝True；人：{"x": -2.75, "z": 0.6, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "阿哲"}；玩家出生點 [2.5, 4.4]
+PASS [xs_dabu_zhe zhe] 人在店裡、看得到  {"x": -2.75, "z": 0.6, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "阿哲"}
+PASS [xs_dabu_zhe zhe] 站的那一點站得住（不在牆裡、桌上）  {"x": -2.75, "z": 0.6, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "阿哲"}
+PASS [黑畫面] named_xs_dabu_zhe_0 不是黑畫面（平均亮度 125.3、變化 49.2）  [125.3, 49.2]
+  [ 113.8s] 到達「[xs_dabu_zhe zhe] 走到他旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [xs_dabu_zhe zhe] 照玩家從店門走得到他旁邊（不擋路）  {"zone": "xs_dabu", "x": -1.242, "z": 1.603, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "和阿哲說話", "stand": true, "fb": 0, "hour": 15.83}
+PASS [xs_dabu_zhe zhe] 走近 2.5 m 內跳出 AA_705 那一句「這雙上次沒有我的號碼。……今天還是沒有。」（說話的人＝阿哲）  [{"w": "阿哲", "t": "這雙上次沒有我的號碼。……今天還是沒有。", "h": 15.82}]
+  [ 205.1s] 走不到「[xs_dabu_zhe zhe] 走開」：最後位置 (-1.5,2.4)，目標 (-0.125,3.0999999999999996)；點地面 10 次、轉鏡頭 0 次、搖桿 25 次
+  [ 205.1s]   這段時間：畫面 5188 格／90 秒、遊戲時間 15.83→16.43、paused=False、開著的面板 []
+  [ 207.7s] 到達「[xs_dabu_zhe zhe] 再一次 走到他旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [xs_dabu_zhe zhe] 走開再走近：同一學期不再跳（SHOPNPC.heard=True）  []
+  [ 214.4s] [xs_dabu_zhe zhe] 這一次全部的 caption：[{"w": "阿哲", "t": "這雙上次沒有我的號碼。……今天還是沒有。", "h": 15.82}]
+  [ 222.5s] 到達「[xs_dabu_zhe zhe] 走回店門」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+PASS [xs_dabu_zhe zhe] 走得回店門「離開大步球鞋」（自動放過去 0 次）  {"zone": "xs_dabu", "x": 1.853, "z": 5.087, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開大步球鞋", "stand": true, "fb": 0, "hour": 16.55}
+== xs_haopai_mx
+  [ 222.5s] [xs_haopai_mx classmate_mingxuan] 列：{"row": "xs_haopai_mx", "who": "classmate_mingxuan", "zone": "xs_haopai", "pose": "stand", "at": [-0.05, 0.6, -1.5707963267948966, 0], "seat": null, "day": 51, "key": "2025-11-06", "h": 19.666666666666668, "why": {"cal": 5}}
+PASS [xs_haopai_mx classmate_mingxuan] 10/23 以後 120 天內找得到他在的那一天  {"row": "xs_haopai_mx", "who": "classmate_mingxuan", "zone": "xs_haopai", "pose": "stand", "at": [-0.05, 0.6, -1.5707963267948966, 0], "seat": null, "day": 51, "key": "2025-11-06", "h": 19.666666666666668, "why": {"cal": 5}}
+  [前置／捷徑] [xs_haopai_mx classmate_mingxuan] 讀使用者的存檔，改到 2025-11-06 19.67 xs_haopai（店裡出生點）
+PASS [xs_haopai_mx classmate_mingxuan] 讀到 xs_haopai  {"zone": "xs_haopai", "x": 0, "z": 5.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 19.71}
+  [ 232.8s] [xs_haopai_mx classmate_mingxuan] 認識（STORY.knows）＝True；人：{"x": -0.05, "z": 0.6, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "明軒"}；玩家出生點 [0, 5.4]
+PASS [xs_haopai_mx classmate_mingxuan] 人在店裡、看得到  {"x": -0.05, "z": 0.6, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "明軒"}
+PASS [xs_haopai_mx classmate_mingxuan] 站的那一點站得住（不在牆裡、桌上）  {"x": -0.05, "z": 0.6, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "明軒"}
+PASS [黑畫面] named_xs_haopai_mx_0 不是黑畫面（平均亮度 85.3、變化 47.8）  [85.3, 47.8]
+  [ 236.0s] 到達「[xs_haopai_mx classmate_mingxuan] 走到他旁邊」附近（0.03 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [xs_haopai_mx classmate_mingxuan] 照玩家從店門走得到他旁邊（不擋路）  {"zone": "xs_haopai", "x": -0.021, "z": 1.767, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐著等穿線", "stand": true, "fb": 0, "hour": 19.74}
+PASS [xs_haopai_mx classmate_mingxuan] 走近 2.5 m 內跳出 AA_705 那一句「一筒四百五的那種比較耐打。算下來一顆比較便宜。」（說話的人＝明軒）  [{"w": "明軒", "t": "一筒四百五的那種比較耐打。算下來一顆比較便宜。", "h": 19.73}]
+  [ 244.9s] 到達「[xs_haopai_mx classmate_mingxuan] 走開」附近（0.75 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [ 245.0s] 到達「[xs_haopai_mx classmate_mingxuan] 再一次 走到他旁邊」附近（0.31 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS [xs_haopai_mx classmate_mingxuan] 走開再走近：同一學期不再跳（SHOPNPC.heard=True）  []
+  [ 251.7s] [xs_haopai_mx classmate_mingxuan] 這一次全部的 caption：[{"w": "明軒", "t": "一筒四百五的那種比較耐打。算下來一顆比較便宜。", "h": 19.73}]
+  [ 272.4s] 到達「[xs_haopai_mx classmate_mingxuan] 走回店門」附近（0.24 m）：點地面 8 次、轉鏡頭 0 次、搖桿 0 次，21 秒
+PASS [xs_haopai_mx classmate_mingxuan] 走得回店門「離開好拍運動」（自動放過去 0 次）  {"zone": "xs_haopai", "x": 0.018, "z": 5.757, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開好拍運動", "stand": true, "fb": 0, "hour": 19.97}
+== xs_xsports_xc
+  [ 272.4s] [xs_xsports_xc classmate_xinci] 列：{"row": "xs_xsports_xc", "who": "classmate_xinci", "zone": "xs_xsports", "pose": "stand", "at": [1.45, 2.5, -1.5707963267948966, 0], "seat": null, "day": 54, "key": "2025-11-09", "h": 16.166666666666668, "why": {"cal": 3}}
+PASS [xs_xsports_xc classmate_xinci] 10/23 以後 120 天內找得到他在的那一天  {"row": "xs_xsports_xc", "who": "classmate_xinci", "zone": "xs_xsports", "pose": "stand", "at": [1.45, 2.5, -1.5707963267948966, 0], "seat": null, "day": 54, "key": "2025-11-09", "h": 16.166666666666668, "why": {"cal": 3}}
+  [前置／捷徑] [xs_xsports_xc classmate_xinci] 讀使用者的存檔，改到 2025-11-09 16.17 xs_xsports（店裡出生點）
+PASS [xs_xsports_xc classmate_xinci] 讀到 xs_xsports  {"zone": "xs_xsports", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 16.21}
+  [ 286.6s] [xs_xsports_xc classmate_xinci] 認識（STORY.knows）＝True；人：{"x": 1.45, "z": 2.8, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "芯慈"}；玩家出生點 [0, 6.4]
+PASS [xs_xsports_xc classmate_xinci] 人在店裡、看得到  {"x": 1.45, "z": 2.8, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "芯慈"}
+PASS [xs_xsports_xc classmate_xinci] 站的那一點站得住（不在牆裡、桌上）  {"x": 1.45, "z": 2.8, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "芯慈"}
+PASS [黑畫面] named_xs_xsports_xc_0 不是黑畫面（平均亮度 117.2、變化 50.2）  [117.2, 50.2]
+  [ 289.7s] 到達「[xs_xsports_xc classmate_xinci] 走到他旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [xs_xsports_xc classmate_xinci] 照玩家從店門走得到他旁邊（不擋路）  {"zone": "xs_xsports", "x": 0.762, "z": 4.508, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "和芯慈說話", "stand": true, "fb": 0, "hour": 16.24}
+PASS [xs_xsports_xc classmate_xinci] 走近 2.5 m 內跳出 AA_705 那一句「這個水壺有刻度。我想知道我一天到底喝了多少。」（說話的人＝芯慈）  [{"w": "芯慈", "t": "這個水壺有刻度。我想知道我一天到底喝了多少。", "h": 16.22}]
+  [ 290.8s] 到達「[xs_xsports_xc classmate_xinci] 走開」附近（0.69 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [ 290.8s] 到達「[xs_xsports_xc classmate_xinci] 再一次 走到他旁邊」附近（0.24 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS [xs_xsports_xc classmate_xinci] 走開再走近：同一學期不再跳（SHOPNPC.heard=True）  []
+  [ 297.6s] [xs_xsports_xc classmate_xinci] 這一次全部的 caption：[{"w": "芯慈", "t": "這個水壺有刻度。我想知道我一天到底喝了多少。", "h": 16.22}]
+  [ 310.7s] 到達「[xs_xsports_xc classmate_xinci] 走回店門」附近（0.25 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，13 秒
+PASS [xs_xsports_xc classmate_xinci] 走得回店門「離開新生運動廣場」（自動放過去 0 次）  {"zone": "xs_xsports", "x": 0.217, "z": 6.783, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開新生運動廣場", "stand": true, "fb": 0, "hour": 16.37}
+== xs_dakou_bh
+  [ 310.7s] [xs_dakou_bh classmate_bohan] 列：{"row": "xs_dakou_bh", "who": "classmate_bohan", "zone": "xs_dakou", "pose": "seat", "at": null, "seat": [5.05, -5.1, 1], "day": 55, "key": "2025-11-10", "h": 22.416666666666668, "why": {"cal": 1}}
+PASS [xs_dakou_bh classmate_bohan] 10/23 以後 120 天內找得到他在的那一天  {"row": "xs_dakou_bh", "who": "classmate_bohan", "zone": "xs_dakou", "pose": "seat", "at": null, "seat": [5.05, -5.1, 1], "day": 55, "key": "2025-11-10", "h": 22.416666666666668, "why": {"cal": 1}}
+  [前置／捷徑] [xs_dakou_bh classmate_bohan] 讀使用者的存檔，改到 2025-11-10 22.42 xs_dakou（店裡出生點）
+PASS [xs_dakou_bh classmate_bohan] 讀到 xs_dakou  {"zone": "xs_dakou", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 22.46}
+  [ 331.5s] [xs_dakou_bh classmate_bohan] 認識（STORY.knows）＝True；人：{"x": 5.05, "z": -4.2, "y": 3.93, "lv": 1, "pose": "read", "seat": [5.05, -4.2], "hidden": false, "vis": false, "stand": true, "name": "柏翰"}；玩家出生點 [0, 6.4]
+PASS [xs_dakou_bh classmate_bohan] 人在店裡、看得到  {"x": 5.05, "z": -4.2, "y": 3.93, "lv": 1, "pose": "read", "seat": [5.05, -4.2], "hidden": false, "vis": false, "stand": true, "name": "柏翰"}
+PASS [xs_dakou_bh classmate_bohan] 坐在座位上（pose sit、有 seat）  {"x": 5.05, "z": -4.2, "y": 3.93, "lv": 1, "pose": "read", "seat": [5.05, -4.2], "hidden": false, "vis": false, "stand": true, "name": "柏翰"}
+PASS [黑畫面] named_xs_dakou_bh_0 不是黑畫面（平均亮度 93.1、變化 43.5）  [93.1, 43.5]
+  [ 341.9s] 到達「[xs_dakou_bh classmate_bohan] 走到他旁邊」附近（0.25 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，10 秒
+PASS [xs_dakou_bh classmate_bohan] 照玩家從店門走得到他旁邊（不擋路）  {"zone": "xs_dakou", "x": 4.509, "z": -2.557, "y": 3.6, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "和柏翰說話", "stand": true, "fb": 0, "hour": 22.6}
+PASS [xs_dakou_bh classmate_bohan] 走近 2.5 m 內跳出 AA_705 那一句「總圖十點關。這裡還可以再讀一個小時。」（說話的人＝柏翰）  [{"w": "柏翰", "t": "總圖十點關。這裡還可以再讀一個小時。", "h": 22.58}]
+  [ 364.3s] 到達「[xs_dakou_bh classmate_bohan] 走開」附近（0.31 m）：點地面 4 次、轉鏡頭 1 次、搖桿 0 次，21 秒
+  [ 376.9s] 到達「[xs_dakou_bh classmate_bohan] 再一次 走到他旁邊」附近（0.18 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+PASS [xs_dakou_bh classmate_bohan] 走開再走近：同一學期不再跳（SHOPNPC.heard=True）  []
+  [ 383.7s] [xs_dakou_bh classmate_bohan] 這一次全部的 caption：[{"w": "柏翰", "t": "總圖十點關。這裡還可以再讀一個小時。", "h": 22.58}]
+  [ 396.5s] 到達「[xs_dakou_bh classmate_bohan] 走回店門」附近（0.23 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，13 秒
+PASS [xs_dakou_bh classmate_bohan] 走得回店門「離開大口漢堡」（自動放過去 0 次）  {"zone": "xs_dakou", "x": 0.494, "z": 6.949, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開大口漢堡", "stand": true, "fb": 0, "hour": 22.95}
+== afar_yt
+  [ 396.6s] [afar_yt heroine_03] 列：{"row": "afar_yt", "who": "heroine_03", "zone": "afar", "pose": "seat", "at": null, "seat": [-2.5, 3.1, 0], "day": 56, "key": "2025-11-11", "h": 15.25, "why": {"cal": 1}}
+PASS [afar_yt heroine_03] 10/23 以後 120 天內找得到他在的那一天  {"row": "afar_yt", "who": "heroine_03", "zone": "afar", "pose": "seat", "at": null, "seat": [-2.5, 3.1, 0], "day": 56, "key": "2025-11-11", "h": 15.25, "why": {"cal": 1}}
+  [前置／捷徑] [afar_yt heroine_03] 讀使用者的存檔，改到 2025-11-11 15.25 afar（店裡出生點）
+PASS [afar_yt heroine_03] 讀到 afar  {"zone": "afar", "x": 2.575, "z": 2, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 15.26}
+  [ 407.1s] [afar_yt heroine_03] 認識（STORY.knows）＝True；人：{"x": -1.7, "z": 3.1, "y": 0, "lv": 0, "pose": "read", "seat": [-1.7, 3.1], "hidden": false, "vis": true, "stand": true, "name": "陳語彤"}；玩家出生點 [2.58, 2]
+PASS [afar_yt heroine_03] 人在店裡、看得到  {"x": -1.7, "z": 3.1, "y": 0, "lv": 0, "pose": "read", "seat": [-1.7, 3.1], "hidden": false, "vis": true, "stand": true, "name": "陳語彤"}
+PASS [afar_yt heroine_03] 坐在座位上（pose sit、有 seat）  {"x": -1.7, "z": 3.1, "y": 0, "lv": 0, "pose": "read", "seat": [-1.7, 3.1], "hidden": false, "vis": true, "stand": true, "name": "陳語彤"}
+PASS [黑畫面] named_afar_yt_0 不是黑畫面（平均亮度 102.2、變化 61.5）  [102.2, 61.5]
+  [ 414.0s] 到達「[afar_yt heroine_03] 走到他旁邊」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+PASS [afar_yt heroine_03] 照玩家從店門走得到他旁邊（不擋路）  {"zone": "afar", "x": 0.076, "z": 2.643, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐窗邊", "stand": true, "fb": 0, "hour": 15.31}
+PASS [afar_yt heroine_03] 走近 2.5 m 內跳出 AA_705 那一句「（語彤一個人坐窗邊，筆電旁邊那杯冰紅茶一口都沒喝。）」（說話的人＝旁白）  [{"w": "", "t": "（語彤一個人坐窗邊，筆電旁邊那杯冰紅茶一口都沒喝。）", "h": 15.28}]
+  [ 415.3s] 到達「[afar_yt heroine_03] 走開」附近（0.71 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [ 415.4s] 到達「[afar_yt heroine_03] 再一次 走到他旁邊」附近（0.24 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS [afar_yt heroine_03] 走開再走近：同一學期不再跳（SHOPNPC.heard=True）  []
+  [ 422.2s] [afar_yt heroine_03] 這一次全部的 caption：[{"w": "", "t": "（語彤一個人坐窗邊，筆電旁邊那杯冰紅茶一口都沒喝。）", "h": 15.28}]
+  [ 425.2s] 到達「[afar_yt heroine_03] 走回店門」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [afar_yt heroine_03] 走得回店門「離開 afar」（自動放過去 0 次）  {"zone": "afar", "x": 1.908, "z": 3.186, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開 afar", "stand": true, "fb": 0, "hour": 15.38}
+== daybreak_ps
+  [ 425.2s] [daybreak_ps classmate_peishan] 列：{"row": "daybreak_ps", "who": "classmate_peishan", "zone": "daybreak", "pose": "seat", "at": null, "seat": [-3.05, 3.45, 0], "day": 67, "key": "2025-11-22", "h": 10.75, "why": {"cal": 11}}
+PASS [daybreak_ps classmate_peishan] 10/23 以後 120 天內找得到他在的那一天  {"row": "daybreak_ps", "who": "classmate_peishan", "zone": "daybreak", "pose": "seat", "at": null, "seat": [-3.05, 3.45, 0], "day": 67, "key": "2025-11-22", "h": 10.75, "why": {"cal": 11}}
+  [前置／捷徑] [daybreak_ps classmate_peishan] 讀使用者的存檔，改到 2025-11-22 10.75 daybreak（店裡出生點）
+PASS [daybreak_ps classmate_peishan] 讀到 daybreak  {"zone": "daybreak", "x": 2.165, "z": 2, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.77}
+  [ 435.1s] [daybreak_ps classmate_peishan] 認識（STORY.knows）＝True；人：{"x": -3.3, "z": 1.5, "y": 0, "lv": 0, "pose": "read", "seat": [-3.3, 1.5], "hidden": false, "vis": true, "stand": false, "name": "沛珊"}；玩家出生點 [2.17, 2]
+PASS [daybreak_ps classmate_peishan] 人在店裡、看得到  {"x": -3.3, "z": 1.5, "y": 0, "lv": 0, "pose": "read", "seat": [-3.3, 1.5], "hidden": false, "vis": true, "stand": false, "name": "沛珊"}
+PASS [daybreak_ps classmate_peishan] 坐在座位上（pose sit、有 seat）  {"x": -3.3, "z": 1.5, "y": 0, "lv": 0, "pose": "read", "seat": [-3.3, 1.5], "hidden": false, "vis": true, "stand": false, "name": "沛珊"}
+PASS [黑畫面] named_daybreak_ps_0 不是黑畫面（平均亮度 124.7、變化 54.4）  [124.7, 54.4]
+  [ 442.0s] 到達「[daybreak_ps classmate_peishan] 走到他旁邊」附近（0.10 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [daybreak_ps classmate_peishan] 照玩家從店門走得到他旁邊（不擋路）  {"zone": "daybreak", "x": -1.698, "z": 1.749, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下", "stand": true, "fb": 0, "hour": 10.81}
+PASS [daybreak_ps classmate_peishan] 走近 2.5 m 內跳出 AA_705 那一句「這家的鬆餅好大！……我一個人吃不完，可是我還是點了。」（說話的人＝沛珊）  [{"w": "沛珊", "t": "這家的鬆餅好大！……我一個人吃不完，可是我還是點了。", "h": 10.8}]
+  [ 446.0s] 到達「[daybreak_ps classmate_peishan] 走開」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 448.9s] 到達「[daybreak_ps classmate_peishan] 再一次 走到他旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [daybreak_ps classmate_peishan] 走開再走近：同一學期不再跳（SHOPNPC.heard=True）  []
+  [ 455.7s] [daybreak_ps classmate_peishan] 這一次全部的 caption：[{"w": "沛珊", "t": "這家的鬆餅好大！……我一個人吃不完，可是我還是點了。", "h": 10.8}]
+  [ 464.1s] 到達「[daybreak_ps classmate_peishan] 走回店門」附近（0.24 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+PASS [daybreak_ps classmate_peishan] 走得回店門「離開 Daybreak」（自動放過去 0 次）  {"zone": "daybreak", "x": 1.468, "z": 3.156, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開 Daybreak", "stand": true, "fb": 0, "hour": 10.95}
+== aoki_sis
+  [ 464.1s] [aoki_sis heroine_05] 列：{"row": "aoki_sis", "who": "heroine_05", "zone": "aoki", "pose": "seat", "at": null, "seat": [-3.25, -2.15, 0], "day": 75, "key": "2025-11-30", "h": 16.75, "why": {"cal": 8}}
+PASS [aoki_sis heroine_05] 10/23 以後 120 天內找得到他在的那一天  {"row": "aoki_sis", "who": "heroine_05", "zone": "aoki", "pose": "seat", "at": null, "seat": [-3.25, -2.15, 0], "day": 75, "key": "2025-11-30", "h": 16.75, "why": {"cal": 8}}
+  [前置／捷徑] [aoki_sis heroine_05] 讀使用者的存檔，改到 2025-11-30 16.75 aoki（店裡出生點）
+PASS [aoki_sis heroine_05] 讀到 aoki  {"zone": "aoki", "x": 1.85, "z": 2.05, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下", "stand": true, "fb": 0, "hour": 16.79}
+  [ 472.8s] [aoki_sis heroine_05] 認識（STORY.knows）＝True；人：{"x": -2.55, "z": -2.15, "y": 0, "lv": 0, "pose": "read", "seat": [-2.55, -2.15], "hidden": false, "vis": true, "stand": false, "name": "溫書瑀"}；玩家出生點 [1.85, 2.05]
+PASS [aoki_sis heroine_05] 人在店裡、看得到  {"x": -2.55, "z": -2.15, "y": 0, "lv": 0, "pose": "read", "seat": [-2.55, -2.15], "hidden": false, "vis": true, "stand": false, "name": "溫書瑀"}
+PASS [aoki_sis heroine_05] 坐在座位上（pose sit、有 seat）  {"x": -2.55, "z": -2.15, "y": 0, "lv": 0, "pose": "read", "seat": [-2.55, -2.15], "hidden": false, "vis": true, "stand": false, "name": "溫書瑀"}
+PASS [黑畫面] named_aoki_sis_0 不是黑畫面（平均亮度 101.2、變化 43.6）  [101.2, 43.6]
+  [ 476.0s] 到達「[aoki_sis heroine_05] 走到他旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [aoki_sis heroine_05] 照玩家從店門走得到他旁邊（不擋路）  {"zone": "aoki", "x": -1.19, "z": -0.952, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐吧台", "stand": true, "fb": 0, "hour": 16.82}
+PASS [aoki_sis heroine_05] 走近 2.5 m 內跳出 AA_705 那一句「（學姊一個人坐在最裡面，茶壺旁邊攤著一疊影印的判決。）」（說話的人＝旁白）  [{"w": "", "t": "（學姊一個人坐在最裡面，茶壺旁邊攤著一疊影印的判決。）", "h": 16.81}]
+  [ 482.8s] 到達「[aoki_sis heroine_05] 走開」附近（0.47 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [ 485.6s] 到達「[aoki_sis heroine_05] 再一次 走到他旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [aoki_sis heroine_05] 走開再走近：同一學期不再跳（SHOPNPC.heard=True）  []
+  [ 492.3s] [aoki_sis heroine_05] 這一次全部的 caption：[{"w": "", "t": "（學姊一個人坐在最裡面，茶壺旁邊攤著一疊影印的判決。）", "h": 16.81}]
+  [ 499.0s] 到達「[aoki_sis heroine_05] 走回店門」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
+PASS [aoki_sis heroine_05] 走得回店門「離開青木茶室」（自動放過去 0 次）  {"zone": "aoki", "x": 1.451, "z": 2.519, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開青木茶室", "stand": true, "fb": 0, "hour": 16.97}
+== bikeshop_kai
+  [ 499.0s] [bikeshop_kai kai] 列：{"row": "bikeshop_kai", "who": "kai", "zone": "bikeshop", "pose": "stand", "at": [1.5, 4.3, 1.5707963267948966, 0], "seat": null, "day": 75, "key": "2025-11-30", "h": 15.25, "why": {}}
+PASS [bikeshop_kai kai] 10/23 以後 120 天內找得到他在的那一天  {"row": "bikeshop_kai", "who": "kai", "zone": "bikeshop", "pose": "stand", "at": [1.5, 4.3, 1.5707963267948966, 0], "seat": null, "day": 75, "key": "2025-11-30", "h": 15.25, "why": {}}
+  [前置／捷徑] [bikeshop_kai kai] 讀使用者的存檔，改到 2025-11-30 15.25 bikeshop（店裡出生點）
+PASS [bikeshop_kai kai] 讀到 bikeshop  {"zone": "bikeshop", "x": 0.55, "z": 4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "和阿凱說話", "stand": true, "fb": 0, "hour": 15.29}
+  [ 508.9s] [bikeshop_kai kai] 認識（STORY.knows）＝True；人：{"x": 1.5, "z": 4.3, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "阿凱"}；玩家出生點 [0.55, 4]
+PASS [bikeshop_kai kai] 人在店裡、看得到  {"x": 1.5, "z": 4.3, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "阿凱"}
+PASS [bikeshop_kai kai] 站的那一點站得住（不在牆裡、桌上）  {"x": 1.5, "z": 4.3, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": true, "name": "阿凱"}
+PASS [黑畫面] named_bikeshop_kai_0 不是黑畫面（平均亮度 108.3、變化 49.9）  [108.3, 49.9]
+  [ 509.2s] [bikeshop_kai kai] 出生點離他 1.00 m（一進門就在 2.5 m 內）
+  [ 511.8s] 到達「[bikeshop_kai kai] 走到他旁邊」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [bikeshop_kai kai] 照玩家從店門走得到他旁邊（不擋路）  {"zone": "bikeshop", "x": 0.207, "z": 3.892, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "和阿凱說話", "stand": true, "fb": 0, "hour": 15.32}
+PASS [bikeshop_kai kai] 走近 2.5 m 內跳出 AA_705 那一句「我只是來打氣。……順便看一下那台變速的。」（說話的人＝阿凱）  [{"w": "阿凱", "t": "我只是來打氣。……順便看一下那台變速的。", "h": 15.26}]
+  [ 515.4s] 到達「[bikeshop_kai kai] 走開」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 518.0s] 到達「[bikeshop_kai kai] 再一次 走到他旁邊」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [bikeshop_kai kai] 走開再走近：同一學期不再跳（SHOPNPC.heard=True）  []
+  [ 524.7s] [bikeshop_kai kai] 這一次全部的 caption：[{"w": "阿凱", "t": "我只是來打氣。……順便看一下那台變速的。", "h": 15.26}]
+  [ 524.7s] 到達「[bikeshop_kai kai] 走回店門」附近（0.06 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS [bikeshop_kai kai] 走得回店門「離開慢輪單車」（自動放過去 0 次）  {"zone": "bikeshop", "x": 0.268, "z": 4.859, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開慢輪單車", "stand": true, "fb": 0, "hour": 15.4}
+== wz_mokuyobi_zq
+  [ 524.8s] [wz_mokuyobi_zq heroine_04] 列：{"row": "wz_mokuyobi_zq", "who": "heroine_04", "zone": "wz_mokuyobi", "pose": "seat", "at": null, "seat": [-3, -2.15, 1], "day": 75, "key": "2025-11-30", "h": 20.25, "why": {}}
+PASS [wz_mokuyobi_zq heroine_04] 10/23 以後 120 天內找得到他在的那一天  {"row": "wz_mokuyobi_zq", "who": "heroine_04", "zone": "wz_mokuyobi", "pose": "seat", "at": null, "seat": [-3, -2.15, 1], "day": 75, "key": "2025-11-30", "h": 20.25, "why": {}}
+  [前置／捷徑] [wz_mokuyobi_zq heroine_04] 讀使用者的存檔，改到 2025-11-30 20.25 wz_mokuyobi（店裡出生點）
+PASS [wz_mokuyobi_zq heroine_04] 讀到 wz_mokuyobi  {"zone": "wz_mokuyobi", "x": -3.75, "z": 5.4, "y": 1.2, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.29}
+  [ 535.7s] [wz_mokuyobi_zq heroine_04] 認識（STORY.knows）＝False；人：{"x": -2.45, "z": -4.92, "y": 3.43, "lv": 1, "pose": "read", "seat": [-2.45, -4.92], "hidden": false, "vis": true, "stand": true, "name": "不認識的女生"}；玩家出生點 [-3.75, 5.4]
+PASS [wz_mokuyobi_zq heroine_04] 人在店裡、看得到  {"x": -2.45, "z": -4.92, "y": 3.43, "lv": 1, "pose": "read", "seat": [-2.45, -4.92], "hidden": false, "vis": true, "stand": true, "name": "不認識的女生"}
+PASS [wz_mokuyobi_zq heroine_04] 坐在座位上（pose sit、有 seat）  {"x": -2.45, "z": -4.92, "y": 3.43, "lv": 1, "pose": "read", "seat": [-2.45, -4.92], "hidden": false, "vis": true, "stand": true, "name": "不認識的女生"}
+PASS [黑畫面] named_wz_mokuyobi_zq_0 不是黑畫面（平均亮度 68.2、變化 57.2）  [68.2, 57.2]
+  [ 549.1s] 到達「[wz_mokuyobi_zq heroine_04] 走到他旁邊」附近（0.23 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，13 秒
+PASS [wz_mokuyobi_zq heroine_04] 照玩家從店門走得到他旁邊（不擋路）  {"zone": "wz_mokuyobi", "x": -2.575, "z": -3.122, "y": 3.2, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "和不認識的女生說話", "stand": true, "fb": 0, "hour": 20.35}
+  [ 566.2s] [wz_mokuyobi_zq heroine_04] 不認識他（STORY.knows=false）：照設計不跳；caption []
+  [ 566.2s] [wz_mokuyobi_zq heroine_04] 這一次全部的 caption：[]
+  [ 671.2s] 「[wz_mokuyobi_zq heroine_04] 走回店門」：停在離目標 0.53 m（點到的地面偏了），用搖桿往目標推一下
+  [ 677.1s] 到達「[wz_mokuyobi_zq heroine_04] 走回店門」附近（0.50 m）：點地面 22 次、轉鏡頭 1 次、搖桿 6 次，111 秒
+PASS [wz_mokuyobi_zq heroine_04] 走得回店門「離開木曜日」（自動放過去 0 次）  {"zone": "wz_mokuyobi", "x": -3.75, "z": 6.647, "y": 0.407, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開木曜日", "stand": true, "fb": 0, "hour": 21.17}
+== wz_offbeat_zr
+  [ 677.1s] [wz_offbeat_zr heroine_02] 列：{"row": "wz_offbeat_zr", "who": "heroine_02", "zone": "wz_offbeat", "pose": "seat", "at": null, "seat": [4.55, -3.45, 0], "day": 75, "key": "2025-11-30", "h": 14.25, "why": {}}
+PASS [wz_offbeat_zr heroine_02] 10/23 以後 120 天內找得到他在的那一天  {"row": "wz_offbeat_zr", "who": "heroine_02", "zone": "wz_offbeat", "pose": "seat", "at": null, "seat": [4.55, -3.45, 0], "day": 75, "key": "2025-11-30", "h": 14.25, "why": {}}
+  [前置／捷徑] [wz_offbeat_zr heroine_02] 讀使用者的存檔，改到 2025-11-30 14.25 wz_offbeat（店裡出生點）
+PASS [wz_offbeat_zr heroine_02] 讀到 wz_offbeat  {"zone": "wz_offbeat", "x": -3.9, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.27}
+  [ 688.0s] [wz_offbeat_zr heroine_02] 認識（STORY.knows）＝True；人：{"x": 4.55, "z": -3.45, "y": 0, "lv": 0, "pose": "read", "seat": [4.55, -3.45], "hidden": false, "vis": true, "stand": true, "name": "林芷若"}；玩家出生點 [-3.9, 3]
+PASS [wz_offbeat_zr heroine_02] 人在店裡、看得到  {"x": 4.55, "z": -3.45, "y": 0, "lv": 0, "pose": "read", "seat": [4.55, -3.45], "hidden": false, "vis": true, "stand": true, "name": "林芷若"}
+PASS [wz_offbeat_zr heroine_02] 坐在座位上（pose sit、有 seat）  {"x": 4.55, "z": -3.45, "y": 0, "lv": 0, "pose": "read", "seat": [4.55, -3.45], "hidden": false, "vis": true, "stand": true, "name": "林芷若"}
+PASS [黑畫面] named_wz_offbeat_zr_0 不是黑畫面（平均亮度 99.3、變化 60.8）  [99.3, 60.8]
+  [ 700.0s] 到達「[wz_offbeat_zr heroine_02] 走到他旁邊」附近（0.20 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+PASS [wz_offbeat_zr heroine_02] 照玩家從店門走得到他旁邊（不擋路）  {"zone": "wz_offbeat", "x": 3.088, "z": -2.419, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "和林芷若說話", "stand": true, "fb": 0, "hour": 14.34}
+PASS [wz_offbeat_zr heroine_02] 走近 2.5 m 內跳出 AA_705 那一句「我休假的時候，會去別人的店喝咖啡。……看看別人怎麼拉花。」（說話的人＝林芷若）  [{"w": "林芷若", "t": "我休假的時候，會去別人的店喝咖啡。……看看別人怎麼拉花。", "h": 14.32}]
+  [ 712.6s] 到達「[wz_offbeat_zr heroine_02] 走開」附近（0.57 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+  [ 721.2s] 到達「[wz_offbeat_zr heroine_02] 再一次 走到他旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+PASS [wz_offbeat_zr heroine_02] 走開再走近：同一學期不再跳（SHOPNPC.heard=True）  []
+  [ 728.0s] [wz_offbeat_zr heroine_02] 這一次全部的 caption：[{"w": "林芷若", "t": "我休假的時候，會去別人的店喝咖啡。……看看別人怎麼拉花。", "h": 14.32}]
+  [ 738.6s] 到達「[wz_offbeat_zr heroine_02] 走回店門」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+PASS [wz_offbeat_zr heroine_02] 走得回店門「離開日常失速」（自動放過去 0 次）  {"zone": "wz_offbeat", "x": -3.221, "z": 3.957, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開日常失速", "stand": true, "fb": 0, "hour": 14.59}
+== alison
+  [ 738.6s] [alison] 列：{"row": "xs_nanyang_yu", "who": "yu", "zone": "xs_nanyang", "pose": "stand", "at": [-4.1, -2.8, 1.5707963267948966, 0], "seat": null, "day": 80, "key": "2025-12-05", "h": 18.25, "why": {}}
+PASS [alison] 10/23 以後找得到她在南洋打工的週五  80
+  [前置／捷徑] [alison] 讀使用者的存檔，改到 2025-12-05 19:00 南洋（xs_nanyang 出生點）
+PASS [alison] 讀到南洋大廳  {"zone": "xs_nanyang", "x": 0, "z": 5.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 19.04}
+  [ 748.6s] [alison] 認識 Alison＝True；人：{"x": -4.1, "z": -2.8, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": false, "name": "Alison"}
+PASS [alison] Alison 在爆米花櫃檯、看得到  {"x": -4.1, "z": -2.8, "y": 0, "lv": 0, "pose": "idle", "seat": null, "hidden": false, "vis": true, "stand": false, "name": "Alison"}
+  [ 764.6s] 到達「[alison] 走到他旁邊」附近（0.23 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，16 秒
+  [ 825.3s] [alison] 演出來的：["（", "（爆", "（爆米", "（爆米花", "（爆米花櫃", "（爆米花櫃檯", "（爆米花櫃檯後", "（爆米花櫃檯後面", "（爆米花櫃檯後面的", "（爆米花櫃檯後面的人", "（爆米花櫃檯後面的人戴", "（爆米花櫃檯後面的人戴著", "（爆米花櫃檯後面的人戴著戲", "（爆米花櫃檯後面的人戴著戲院", "（爆米花櫃檯後面的人戴著戲院的", "（爆米花櫃檯後面的人戴著戲院的帽", "（爆米花櫃檯後面的人戴著戲院的帽子", "（爆米花櫃檯後面的人戴著戲院的帽子。", "（爆米花櫃檯後面的人戴著戲院的帽子。抬", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 A", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Al", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Ali", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Alis", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Aliso", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Alison", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Alison。", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Alison。）", "Alison", "Alison\n欸", "Alison\n欸！", "Alison\n欸！你", "Alison\n欸！你怎", "Alison\n欸！你怎麼", "Alison\n欸！你怎麼來", "Alison\n欸！你怎麼來了", "Alison\n欸！你怎麼來了？", "Alison", "Alison\n我", "Alison\n我禮", "Alison\n我禮拜", "Alison\n我禮拜五", "Alison\n我禮拜五禮", "Alison\n我禮拜五禮拜", "Alison\n我禮拜五禮拜六", "Alison\n我禮拜五禮拜六都", "Alison\n我禮拜五禮拜六都在", "Alison\n我禮拜五禮拜六都在這", "Alison\n我禮拜五禮拜六都在這裡", "Alison\n我禮拜五禮拜六都在這裡。", "Alison\n我禮拜五禮拜六都在這裡。…", "Alison\n我禮拜五禮拜六都在這裡。……", "Alison\n我禮拜五禮拜六都在這裡。……你", "Alison\n我禮拜五禮拜六都在這裡。……你看", "Alison\n我禮拜五禮拜六都在這裡。……你看哪", "Alison\n我禮拜五禮拜六都在這裡。……你看哪一", "Alison\n我禮拜五禮拜六都在這裡。……你看哪一場", "Alison\n我禮拜五禮拜六都在這裡。……你看哪一場？", "（", "（她", "（她把", "（她把一", "（她把一桶", "（她把一桶爆", "（她把一桶爆米", "（她把一桶爆米花", "（她把一桶爆米花推", "（她把一桶爆米花推過", "（她把一桶爆米花推過來", "（她把一桶爆米花推過來。", "（她把一桶爆米花推過來。）", "Alison", "Alison\n剛", "Alison\n剛剛", "Alison\n剛剛多", "Alison\n剛剛多做", "Alison\n剛剛多做的", "Alison\n剛剛多做的，", "Alison\n剛剛多做的，不", "Alison\n剛剛多做的，不用", "Alison\n剛剛多做的，不用錢", "Alison\n剛剛多做的，不用錢。", "Alison\n剛剛多做的，不用錢。不", "Alison\n剛剛多做的，不用錢。不要", "Alison\n剛剛多做的，不用錢。不要跟", "Alison\n剛剛多做的，不用錢。不要跟別", "Alison\n剛剛多做的，不用錢。不要跟別人", "Alison\n剛剛多做的，不用錢。不要跟別人說", "Alison\n剛剛多做的，不用錢。不要跟別人說。", "Alison", "Alison\n好", "Alison\n好好", "Alison\n好好看", "Alison\n好好看喔", "Alison\n好好看喔。", "Alison\n好好看喔。第", "Alison\n好好看喔。第二", "Alison\n好好看喔。第二部", "Alison\n好好看喔。第二部比", "Alison\n好好看喔。第二部比較", "Alison\n好好看喔。第二部比較好", "Alison\n好好看喔。第二部比較好看", "Alison\n好好看喔。第二部比較好看。", "（", "（你", "（你拿", "（你拿到", "（你拿到一", "（你拿到一桶", "（你拿到一桶爆", "（你拿到一桶爆米", "（你拿到一桶爆米花", "（你拿到一桶爆米花。", "（你拿到一桶爆米花。）"]
+PASS [alison] 第一次那一段有 AA_615 的「（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Alison。）」和「剛剛多做的，不用錢。不要跟別人說。」  ["（", "（爆", "（爆米", "（爆米花", "（爆米花櫃", "（爆米花櫃檯", "（爆米花櫃檯後", "（爆米花櫃檯後面", "（爆米花櫃檯後面的", "（爆米花櫃檯後面的人", "（爆米花櫃檯後面的人戴", "（爆米花櫃檯後面的人戴著", "（爆米花櫃檯後面的人戴著戲", "（爆米花櫃檯後面的人戴著戲院", "（爆米花櫃檯後面的人戴著戲院的", "（爆米花櫃檯後面的人戴著戲院的帽", "（爆米花櫃檯後面的人戴著戲院的帽子", "（爆米花櫃檯後面的人戴著戲院的帽子。", "（爆米花櫃檯後面的人戴著戲院的帽子。抬", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 A", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Al", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Ali", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Alis", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Aliso", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Alison", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Alison。", "（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Alison。）", "Alison", "Alison\n欸", "Alison\n欸！", "Alison\n欸！你", "Alison\n欸！你怎", "Alison\n欸！你怎麼", "Alison\n欸！你怎麼來", "Alison\n欸！你怎麼來了", "Alison\n欸！你怎麼來了？", "Alison", "Alison\n我", "Alison\n我禮", "Alison\n我禮拜", "Alison\n我禮拜五", "Alison\n我禮拜五禮", "Alison\n我禮拜五禮拜", "Alison\n我禮拜五禮拜六", "Alison\n我禮拜五禮拜六都", "Alison\n我禮拜五禮拜六都在", "Alison\n我禮拜五禮拜六都在這", "Alison\n我禮拜五禮拜六都在這裡", "Alison\n我禮拜五禮拜六都在這裡。", "Alison\n我禮拜五禮拜六都在這裡。…", "Alison\n我禮拜五禮拜六都在這裡。……", "Alison\n我禮拜五禮拜六都在這裡。……你", "Alison\n我禮拜五禮拜六都在這裡。……你看", "Alison\n我禮拜五禮拜六都在這裡。……你看哪", "Alison\n我禮拜五禮拜六都在這裡。……你看哪一", "Alison\n我禮拜五禮拜六都在這裡。……你看哪一場", "Alison\n我禮拜五禮拜六都在這裡。……你看哪一場？", "（", "（她", "（她把", "（她把一", "（她把一桶", "（她把一桶爆", "（她把一桶爆米", "（她把一桶爆米花", "（她把一桶爆米花推", "（她把一桶爆米花推過", "（她把一桶爆米花推過來", "（她把一桶爆米花推過來。", "（她把一桶爆米花推過來。）", "Alison", "Alison\n剛", "Alison\n剛剛", "Alison\n剛剛多", "Alison\n剛剛多做", "Alison\n剛剛多做的", "Alison\n剛剛多做的，", "Alison\n剛剛多做的，不", "Alison\n剛剛多做的，不用", "Alison\n剛剛多做的，不用錢", "Alison\n剛剛多做的，不用錢。", "Alison\n剛剛多做的，不用錢。不", "Alison\n剛剛多做的，不用錢。不要", "Alison\n剛剛多做的，不用錢。不要跟", "Alison\n剛剛多做的，不用錢。不要跟別", "Alison\n剛剛多做的，不用錢。不要跟別人", "Alison\n剛剛多做的，不用錢。不要跟別人說", "Alison\n剛剛多做的，不用錢。不要跟別人說。", "Alison", "Alison\n好", "Alison\n好好", "Alison\n好好看", "Alison\n好好看喔", "Alison\n好好看喔。", "Alison\n好好看喔。第", "Alison\n好好看喔。第二", "Alison\n好好看喔。第二部", "Alison\n好好看喔。第二部比", "Alison\n好好看喔。第二部比較", "Alison\n好好看喔。第二部比較好", "Alison\n好好看喔。第二部比較好看", "Alison\n好好看喔。第二部比較好看。", "（", "（你", "（你拿", "（你拿到", "（你拿到一", "（你拿到一桶", "（你拿到一桶爆", "（你拿到一桶爆米", "（你拿到一桶爆米花", "（你拿到一桶爆米花。", "（你拿到一桶爆米花。）"]
+PASS [alison] 演完推得動  7.07
+PASS 沒有 JS 例外  []
+FAILED 1: [xs_shanlan_sis heroine_05] 10/23 以後 120 天內找得到他在的那一天
