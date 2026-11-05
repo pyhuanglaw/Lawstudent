@@ -42,7 +42,7 @@ SCENE = r"""(()=>{ const E=GAME.E, G=GAME.G, P=E.player, cam=E.camera, V=THREE.V
   const adv=document.getElementById('adv'); const advBg=adv?getComputedStyle(adv).backgroundImage:null;
   return {zone:G.zone, hour:+(+G.hour).toFixed(3), lightH:E.lightH!=null?+E.lightH.toFixed(3):null, seat:P.seat?[P.seat.x,P.seat.z]:null, pose:P.pose||null, pp:[+P.obj.position.x.toFixed(2),+P.obj.position.z.toFixed(2)],
     yt:n?{seat:n.seat?[n.seat.x,n.seat.z]:null, pose:n.pose||n.idlePose||null, frozen:!!n.frozen, pos:[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]}:null, headMe:head(P), headYt:head(n), cam:[+cam.position.x.toFixed(2),+cam.position.y.toFixed(2),+cam.position.z.toFixed(2)], camMode:E.cam&&E.cam.mode, win, advBg:advBg&&advBg!=='none'?advBg.slice(0,120):advBg, advNight:!!(adv&&adv.classList.contains('night')), staged:typeof TERMEND!=='undefined'?TERMEND.komichiStaged:null}; })()"""
-SETUP = r"""(c=>{ const G=GAME.G, F=G.flags||(G.flags={}); G.stage='law'; G.contacts=G.contacts||{}; const id=c.id;
+SETUP = r"""(c=>{ const G=GAME.G, F=G.flags||(G.flags={}); G.stage='law'; G.contacts=G.contacts||{}; const id=c.id; if(id==='heroine_03') F.YT_MET_JOB=true;   /* AA_610：語彤＝一盞茶屋當同事才認識（STORY.knows、SOCIAL.ytLocked）；第一次跑沒設＝friendOk false（CC-C 11-05，pg_harness 預設有）*/
   SOCIAL.meet&&SOCIAL.meet(id,G.zone); if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.remember(id,'FIRST_MET',''); F['met_'+id]=true; const r=SOCIAL.rel(id); r.fam=Math.max(r.fam||0,45); r.trust=Math.max(r.trust||0,30); G.contacts[id]=G.day-30;
   const w=TERMEND.windowOf(c.term); G.termend=G.termend||{}; const C=G.termend.contact||(G.termend.contact={}); (C[w.id]||(C[w.id]={}))[id]={pts:12,k:{}}; if(G.termend[w.id]) delete G.termend[w.id].plan;
   const P=TERMEND.plan(G,w); const xs=TERMEND.friend?TERMEND.friend(id,w.id):null; const d0=xs&&xs.examDay&&TERMEND.heartFrom?TERMEND.heartFrom(G,w,id,xs):Math.max(TERMEND.fromDay(w,id),P.back||w.from);   /* AA_687 第 5 項：最後一科考完那天（examDay）*/
@@ -113,7 +113,7 @@ async def drive(pg, cdp, tag, max_s=480, on_line=None):
 async def run_case(pg, cdp, c):
     cf = CFG[c]; term, tag = cf['term'], '[%s]' % c
     d = await pg.evaluate("(t=>{ const w=TERMEND.windowOf(t); return {from:w.from, to:w.to, fromKey:CALENDAR.dateOf(w.from).key, din:STORY.dayOfKey(%s)}; })" % J(cf['date']), term)
-    R.setup('%s 讀檔：宿舍、%s（%s 期末時段第一天）09:00；語彤朋友（fam 45、trust 30）、聯絡點數 12；重算這學期的期末邀約' % (tag, d['fromKey'], term))
+    R.setup('%s 讀檔：宿舍、%s（%s 期末時段第一天）09:00；語彤朋友（YT_MET_JOB＝一盞茶屋認識、fam 45、trust 30）、聯絡點數 12；重算這學期的期末邀約' % (tag, d['fromKey'], term))
     await L.load_state(pg, {'zone': 'dorm', 'hour': 9.0, 'day': d['from'], 'weather': 'clear'}, quiet_phone=True)
     await pg.wait_for_timeout(2500); await L.close_panels(pg, cdp)
     st = await pg.evaluate(SETUP, {'id': YT, 'term': term})
