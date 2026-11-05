@@ -1536,3 +1536,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1006.6s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 1006.6s] BROWSER DISCONNECTED
 - 2026-11-06T07:23:27  V21R_soc_heroine_02_talk  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  1445s       用了 22.9 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
       err.log (last 5): [gpu_wrap 1376.9s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 1376.9s] BROWSER DISCONNECTED
+- 2026-11-06T07:30:17  XSNE_shots  sha=abf4dbbd5abc4e842b5d92d481cfa9a39084166c  exit=0  323s      [ 213.5s] [截圖] xsne_xs_haopai_doorout_night：鏡頭 {"eye": [0, 1.6, 5.88], "look": [0, 1.4, 8.999999999999998], "lens": 24, "vfov": 45.75}、亮度 [48.3, 26.1] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 213.9s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 213.9s] BROWSER DISCONNECTED

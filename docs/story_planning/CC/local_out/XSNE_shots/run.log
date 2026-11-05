@@ -1,0 +1,76 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_xsne_shots_probe.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\XSNE_shots\out
+CC XSNE_shots：SHA=abf4dbbd5abc4e842b5d92d481cfa9a39084166c；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261106：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [day] 讀檔新生南路 2025-10-18 14.00（出生點）
+PASS [黑畫面] xsne_xs_gate_to_campus_day 不是黑畫面（平均亮度 108.5、變化 66.7）  [108.5, 66.7]
+  [  41.3s] [截圖] xsne_xs_gate_to_campus_day：鏡頭 {"eye": [-9.2, 1.7, 10], "look": [36.8, 5, 10], "lens": 22, "vfov": 49.43}、亮度 [108.5, 66.7]
+  [前置／捷徑] [day] 讀檔校園 2025-10-18 14.00（側門內）
+  [  58.9s] [day 校園] 幾何：{"xsg": {"x": -101.4, "gz": null, "moon": [-123.2, -140.4, -106.4, -127.2], "gym": [-90, -140.4, -60, -126.4], "a": null, "b": null}, "sg": {"x": 18.4, "z": 10, "w": 6.4, "label": "回到首都帝大（新生南路側門）", "name": "新生南路側門", "campusSpawn": {"x": -101.4, "z": -137.2, "yaw": 0}, "spawn": {"x": 14.3, "z": 10, "yaw": -1.5708}, "note": "門柱寫「首都帝大」、鐵柵門開著、門柱上一盞燈（參考圖）。校園那一側的門開在北側圍牆 (−101.4, −141)、靠西北角，門內是望月台（新月台）前的小廣場（XS-GATE-NORTH-1105，使用者 11-05 09:0x「門就不要往左邊開了 直接往上面開 跟公館不同側」）；回到校園落在門內 (−101.4, −137.2)、面向南。之前：西牆 (−124, −84)（ART-XINSHENG-GATE-1103）、x −66 往西（XS-GATE-MOVE-1105）"}, "ex": [{"label": "走出校門", "to": "gongguan", "x": -125.5, "z": -5.27}, {"label": "走出校門", "to": "gongguan", "x": -125.5, "z": 5.27}, {"label": "從後門出去（118 巷）", "to": "lane118", "x": 34, "z": -126.6}, {"label": "進入法律系館A", "to": "linze", "x": 27.9, "z": -107.5}, {"label": "進入法律系館B", "to": "wancai", "x": 90.68, "z": -83.65}, {"label": "進入總圖書館", "to": "library_hall", "x": 86.4, "z": 0}, {"label": "回宿舍", "to": "dorm_hall", "x": 20, "z": 59.6}, {"label": "往新生南路（側門）", "to": "xinsheng", "x": -101.4, "z": -139.4}, {"label": "進入社科院圖書館", "to": "soclib", "x": 11, "z": -65.7}, {"label": "進入法律系館B（二樓）", "to": "wancai", "x": 86.03, "z": -88.64}, {"label": "共同教學館", "to": "gongtong", "x": 2, "z": 22.8}, {"label": "普通教學館", "to": "putong", "x": -38, "z": -49.4}, {"label": "博思教學館", "to": "boya", "x": -38, "z": -72.8}, {"label": "體育館", "to": "gym", "x": -75, "z": -125}], "park": [{"label": "騎腳踏車", "x": 25, "z": 57.9}], "zone": "campus"}
+PASS [黑畫面] xsne_plaza_moon_day 不是黑畫面（平均亮度 38.1、變化 19.4）  [38.1, 19.4]
+  [  61.1s] [截圖] xsne_plaza_moon_day：鏡頭 {"eye": [-101.4, 1.7, -134.2], "look": [-114.80000000000001, 3, -133.8], "lens": 24, "vfov": 45.75}、亮度 [38.1, 19.4]
+PASS [黑畫面] xsne_plaza_gym_day 不是黑畫面（平均亮度 110.8、變化 54.1）  [110.8, 54.1]
+  [  63.5s] [截圖] xsne_plaza_gym_day：鏡頭 {"eye": [-101.4, 1.7, -134.2], "look": [-75, 3, -133.4], "lens": 24, "vfov": 45.75}、亮度 [110.8, 54.1]
+PASS [黑畫面] xsne_gymdoor_north_day 不是黑畫面（平均亮度 92.4、變化 38.5）  [92.4, 38.5]
+  [  65.3s] [截圖] xsne_gymdoor_north_day：鏡頭 {"eye": [-75, 1.7, -123.5], "look": [-75, 1.6, -150], "lens": 24, "vfov": 45.75}、亮度 [92.4, 38.5]
+PASS [黑畫面] xsne_northwall_out_day 不是黑畫面（平均亮度 101.1、變化 67.3）  [101.1, 67.3]
+  [  67.4s] [截圖] xsne_northwall_out_day：鏡頭 {"eye": [-109.4, 2.2, -150], "look": [-101.4, 1.5, -138], "lens": 24, "vfov": 45.75}、亮度 [101.1, 67.3]
+PASS [黑畫面] xsne_parking_day 不是黑畫面（平均亮度 122.6、變化 40.4）  [122.6, 40.4]
+  [  69.4s] [截圖] xsne_parking_day：鏡頭 {"eye": [29, 2.5, 61.9], "look": [25, 0.8, 57.9], "lens": 24, "vfov": 45.75}、亮度 [122.6, 40.4]
+  [前置／捷徑] [day] 讀檔 xs_dakou 2025-10-18 14.00（店裡出生點）
+  [  87.2s] [day xs_dakou] 窗景卡 {"wins": [{"name": "VIEWPANE_xs_dakou", "c": [0, 1.6, 8.3], "size": [12.4, 5.84, 0]}, {"name": "VIEWPANE_xs_dakou_2f", "c": [0, 5.2, 8.4], "size": [12.4, 3.4, 0]}], "spawn": [0, 6.4], "n": 2}
+PASS [黑畫面] xsne_xs_dakou_win0_day 不是黑畫面（平均亮度 186.4、變化 15.4）  [186.4, 15.4]
+  [  89.0s] [截圖] xsne_xs_dakou_win0_day：鏡頭 {"eye": [0, 1.6, 4.800000000000001], "look": [0, 1.6, 8.3], "lens": 24, "vfov": 45.75}、亮度 [186.4, 15.4]
+PASS [黑畫面] xsne_xs_dakou_win1_day 不是黑畫面（平均亮度 145.8、變化 59.8）  [145.8, 59.8]
+  [  90.9s] [截圖] xsne_xs_dakou_win1_day：鏡頭 {"eye": [0, 5.2, 4.9], "look": [0, 5.2, 8.4], "lens": 24, "vfov": 45.75}、亮度 [145.8, 59.8]
+PASS [黑畫面] xsne_xs_dakou_doorout_day 不是黑畫面（平均亮度 139.4、變化 52.9）  [139.4, 52.9]
+  [ 100.0s] [截圖] xsne_xs_dakou_doorout_day：鏡頭 {"eye": [0, 1.6, 6.88], "look": [0, 1.4, 9.999999999999998], "lens": 24, "vfov": 45.75}、亮度 [139.4, 52.9]
+  [前置／捷徑] [day] 讀檔 xs_dabu 2025-10-18 14.00（店裡出生點）
+  [ 113.2s] [day xs_dabu] 窗景卡 {"wins": [{"name": "VIEWPANE_xs_dabu", "c": [-0.1, 1.6, 6.23], "size": [8, 3.2, 0]}], "spawn": [2.5, 4.4], "n": 1}
+PASS [黑畫面] xsne_xs_dabu_win0_day 不是黑畫面（平均亮度 185.5、變化 26.4）  [185.5, 26.4]
+  [ 115.0s] [截圖] xsne_xs_dabu_win0_day：鏡頭 {"eye": [-0.1, 1.6, 2.7300000000000004], "look": [-0.1, 1.6, 6.23], "lens": 24, "vfov": 45.75}、亮度 [185.5, 26.4]
+PASS [黑畫面] xsne_xs_dabu_doorout_day 不是黑畫面（平均亮度 133.1、變化 43.1）  [133.1, 43.1]
+  [ 117.3s] [截圖] xsne_xs_dabu_doorout_day：鏡頭 {"eye": [2.5, 1.6, 4.88], "look": [2.5, 1.4, 7.999999999999998], "lens": 24, "vfov": 45.75}、亮度 [133.1, 43.1]
+  [前置／捷徑] [day] 讀檔 xs_haopai 2025-10-18 14.00（店裡出生點）
+  [ 130.3s] [day xs_haopai] 窗景卡 {"wins": [{"name": "VIEWPANE_xs_haopai", "c": [0, 1.6, 7.23], "size": [4.8, 3.2, 0]}], "spawn": [0, 5.4], "n": 1}
+PASS [黑畫面] xsne_xs_haopai_win0_day 不是黑畫面（平均亮度 172.9、變化 40.4）  [172.9, 40.4]
+  [ 132.2s] [截圖] xsne_xs_haopai_win0_day：鏡頭 {"eye": [0, 1.6, 3.7300000000000004], "look": [0, 1.6, 7.23], "lens": 24, "vfov": 45.75}、亮度 [172.9, 40.4]
+PASS [黑畫面] xsne_xs_haopai_doorout_day 不是黑畫面（平均亮度 125.9、變化 39.2）  [125.9, 39.2]
+  [ 134.2s] [截圖] xsne_xs_haopai_doorout_day：鏡頭 {"eye": [0, 1.6, 5.88], "look": [0, 1.4, 8.999999999999998], "lens": 24, "vfov": 45.75}、亮度 [125.9, 39.2]
+  [前置／捷徑] [night] 讀檔新生南路 2025-10-18 20.50（出生點）
+PASS [黑畫面] xsne_xs_gate_to_campus_night 不是黑畫面（平均亮度 40.3、變化 33.6）  [40.3, 33.6]
+  [ 146.1s] [截圖] xsne_xs_gate_to_campus_night：鏡頭 {"eye": [-9.2, 1.7, 10], "look": [36.8, 5, 10], "lens": 22, "vfov": 49.43}、亮度 [40.3, 33.6]
+  [前置／捷徑] [night] 讀檔校園 2025-10-18 20.50（側門內）
+  [ 160.5s] [night 校園] 幾何：{"xsg": {"x": -101.4, "gz": null, "moon": [-123.2, -140.4, -106.4, -127.2], "gym": [-90, -140.4, -60, -126.4], "a": null, "b": null}, "sg": {"x": 18.4, "z": 10, "w": 6.4, "label": "回到首都帝大（新生南路側門）", "name": "新生南路側門", "campusSpawn": {"x": -101.4, "z": -137.2, "yaw": 0}, "spawn": {"x": 14.3, "z": 10, "yaw": -1.5708}, "note": "門柱寫「首都帝大」、鐵柵門開著、門柱上一盞燈（參考圖）。校園那一側的門開在北側圍牆 (−101.4, −141)、靠西北角，門內是望月台（新月台）前的小廣場（XS-GATE-NORTH-1105，使用者 11-05 09:0x「門就不要往左邊開了 直接往上面開 跟公館不同側」）；回到校園落在門內 (−101.4, −137.2)、面向南。之前：西牆 (−124, −84)（ART-XINSHENG-GATE-1103）、x −66 往西（XS-GATE-MOVE-1105）"}, "ex": [{"label": "走出校門", "to": "gongguan", "x": -125.5, "z": -5.27}, {"label": "走出校門", "to": "gongguan", "x": -125.5, "z": 5.27}, {"label": "從後門出去（118 巷）", "to": "lane118", "x": 34, "z": -126.6}, {"label": "進入法律系館A", "to": "linze", "x": 27.9, "z": -107.5}, {"label": "進入法律系館B", "to": "wancai", "x": 90.68, "z": -83.65}, {"label": "進入總圖書館", "to": "library_hall", "x": 86.4, "z": 0}, {"label": "回宿舍", "to": "dorm_hall", "x": 20, "z": 59.6}, {"label": "往新生南路（側門）", "to": "xinsheng", "x": -101.4, "z": -139.4}, {"label": "進入社科院圖書館", "to": "soclib", "x": 11, "z": -65.7}, {"label": "進入法律系館B（二樓）", "to": "wancai", "x": 86.03, "z": -88.64}, {"label": "共同教學館", "to": "gongtong", "x": 2, "z": 22.8}, {"label": "普通教學館", "to": "putong", "x": -38, "z": -49.4}, {"label": "博思教學館", "to": "boya", "x": -38, "z": -72.8}, {"label": "體育館", "to": "gym", "x": -75, "z": -125}], "park": [{"label": "騎腳踏車", "x": 25, "z": 57.9}], "zone": "campus"}
+PASS [黑畫面] xsne_plaza_moon_night 不是黑畫面（平均亮度 5.2、變化 4.1）  [5.2, 4.1]
+  [ 162.5s] [截圖] xsne_plaza_moon_night：鏡頭 {"eye": [-101.4, 1.7, -134.2], "look": [-114.80000000000001, 3, -133.8], "lens": 24, "vfov": 45.75}、亮度 [5.2, 4.1]
+PASS [黑畫面] xsne_plaza_gym_night 不是黑畫面（平均亮度 29.3、變化 30.9）  [29.3, 30.9]
+  [ 164.8s] [截圖] xsne_plaza_gym_night：鏡頭 {"eye": [-101.4, 1.7, -134.2], "look": [-75, 3, -133.4], "lens": 24, "vfov": 45.75}、亮度 [29.3, 30.9]
+PASS [黑畫面] xsne_gymdoor_north_night 不是黑畫面（平均亮度 107.7、變化 62.7）  [107.7, 62.7]
+  [ 166.5s] [截圖] xsne_gymdoor_north_night：鏡頭 {"eye": [-75, 1.7, -123.5], "look": [-75, 1.6, -150], "lens": 24, "vfov": 45.75}、亮度 [107.7, 62.7]
+PASS [黑畫面] xsne_northwall_out_night 不是黑畫面（平均亮度 22.9、變化 19.2）  [22.9, 19.2]
+  [ 168.6s] [截圖] xsne_northwall_out_night：鏡頭 {"eye": [-109.4, 2.2, -150], "look": [-101.4, 1.5, -138], "lens": 24, "vfov": 45.75}、亮度 [22.9, 19.2]
+PASS [黑畫面] xsne_parking_night 不是黑畫面（平均亮度 7.9、變化 18.7）  [7.9, 18.7]
+  [ 170.4s] [截圖] xsne_parking_night：鏡頭 {"eye": [29, 2.5, 61.9], "look": [25, 0.8, 57.9], "lens": 24, "vfov": 45.75}、亮度 [7.9, 18.7]
+  [前置／捷徑] [night] 讀檔 xs_dakou 2025-10-18 20.50（店裡出生點）
+  [ 180.4s] [night xs_dakou] 窗景卡 {"wins": [{"name": "VIEWPANE_xs_dakou", "c": [0, 1.6, 8.3], "size": [12.4, 5.84, 0]}, {"name": "VIEWPANE_xs_dakou_2f", "c": [0, 5.2, 8.4], "size": [12.4, 3.4, 0]}], "spawn": [0, 6.4], "n": 2}
+PASS [黑畫面] xsne_xs_dakou_win0_night 不是黑畫面（平均亮度 26.6、變化 5.6）  [26.6, 5.6]
+  [ 182.2s] [截圖] xsne_xs_dakou_win0_night：鏡頭 {"eye": [0, 1.6, 4.800000000000001], "look": [0, 1.6, 8.3], "lens": 24, "vfov": 45.75}、亮度 [26.6, 5.6]
+PASS [黑畫面] xsne_xs_dakou_win1_night 不是黑畫面（平均亮度 34、變化 20.3）  [34, 20.3]
+  [ 184.1s] [截圖] xsne_xs_dakou_win1_night：鏡頭 {"eye": [0, 5.2, 4.9], "look": [0, 5.2, 8.4], "lens": 24, "vfov": 45.75}、亮度 [34, 20.3]
+PASS [黑畫面] xsne_xs_dakou_doorout_night 不是黑畫面（平均亮度 39.8、變化 18.3）  [39.8, 18.3]
+  [ 186.6s] [截圖] xsne_xs_dakou_doorout_night：鏡頭 {"eye": [0, 1.6, 6.88], "look": [0, 1.4, 9.999999999999998], "lens": 24, "vfov": 45.75}、亮度 [39.8, 18.3]
+  [前置／捷徑] [night] 讀檔 xs_dabu 2025-10-18 20.50（店裡出生點）
+  [ 196.3s] [night xs_dabu] 窗景卡 {"wins": [{"name": "VIEWPANE_xs_dabu", "c": [-0.1, 1.6, 6.23], "size": [8, 3.2, 0]}], "spawn": [2.5, 4.4], "n": 1}
+PASS [黑畫面] xsne_xs_dabu_win0_night 不是黑畫面（平均亮度 17.3、變化 19.7）  [17.3, 19.7]
+  [ 198.0s] [截圖] xsne_xs_dabu_win0_night：鏡頭 {"eye": [-0.1, 1.6, 2.7300000000000004], "look": [-0.1, 1.6, 6.23], "lens": 24, "vfov": 45.75}、亮度 [17.3, 19.7]
+PASS [黑畫面] xsne_xs_dabu_doorout_night 不是黑畫面（平均亮度 52.8、變化 28.4）  [52.8, 28.4]
+  [ 199.9s] [截圖] xsne_xs_dabu_doorout_night：鏡頭 {"eye": [2.5, 1.6, 4.88], "look": [2.5, 1.4, 7.999999999999998], "lens": 24, "vfov": 45.75}、亮度 [52.8, 28.4]
+  [前置／捷徑] [night] 讀檔 xs_haopai 2025-10-18 20.50（店裡出生點）
+  [ 209.8s] [night xs_haopai] 窗景卡 {"wins": [{"name": "VIEWPANE_xs_haopai", "c": [0, 1.6, 7.23], "size": [4.8, 3.2, 0]}], "spawn": [0, 5.4], "n": 1}
+PASS [黑畫面] xsne_xs_haopai_win0_night 不是黑畫面（平均亮度 25.2、變化 25.8）  [25.2, 25.8]
+  [ 211.6s] [截圖] xsne_xs_haopai_win0_night：鏡頭 {"eye": [0, 1.6, 3.7300000000000004], "look": [0, 1.6, 7.23], "lens": 24, "vfov": 45.75}、亮度 [25.2, 25.8]
+PASS [黑畫面] xsne_xs_haopai_doorout_night 不是黑畫面（平均亮度 48.3、變化 26.1）  [48.3, 26.1]
+  [ 213.5s] [截圖] xsne_xs_haopai_doorout_night：鏡頭 {"eye": [0, 1.6, 5.88], "look": [0, 1.4, 8.999999999999998], "lens": 24, "vfov": 45.75}、亮度 [48.3, 26.1]
+PASS 沒有 JS 例外  []
+ALL PASS
