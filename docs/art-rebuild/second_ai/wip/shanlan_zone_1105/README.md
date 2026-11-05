@@ -81,7 +81,7 @@
 
 ## 4. 接法（LAWWW-C）
 
-1. 拿檔案：`git checkout <SHA> -- src/data/shanlan_layout.js src/shanlan3d.js tests/shanlan_unit.js assets/models/env/second_ai/aa_support/shanlan.glb assets/models/env/second_ai/aa_support/shanlan.json`
+1. 拿檔案：`git checkout af845b3a5 -- src/data/shanlan_layout.js src/shanlan3d.js tests/shanlan_unit.js assets/models/env/second_ai/aa_support/shanlan.glb assets/models/env/second_ai/aa_support/shanlan.json`
    - Blender 原始檔：`tools/blender/env_second/aa_support/shanlan_*.py`、`README_shanlan.md`、`shl_views.json`，照企劃線搬過來，要留就一起拿。
 2. **先套南洋的** `../nanyang_zone_1105/nanyang_wire_1105.patch`，**再套** `shanlan_wire_1105.patch`。
    - 它的前後文接在南洋那幾行後面。單獨套在 `07dfffe15` 上會失敗；套在 `07dfffe15`＋南洋接線上是乾淨的。
