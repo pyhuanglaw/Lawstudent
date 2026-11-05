@@ -92,3 +92,13 @@
 [12:49:01] [res] cpu=10% mem=69% (20.5/31.4 GB) chrome_testing=4  START GUITAR_play
 [12:52:08] 正在跑：SITHEIGHT_ed76（已跑 50 分／上限 80 分）、D118B7F_play（已跑 3 分／上限 90 分）、GUITAR_play（已跑 3 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
 [12:54:37] [res] cpu=5% mem=37% (12.1/31.4 GB) chrome_testing=9  END D118B7F_play
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       449dc5574..99e4e395b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:54:43] ==== END   D118B7F_play  exit=1  339s   ====
+[12:54:46] memory 38% before starting NANYANG_v1 (2 running)
+[12:54:46] ==== START NANYANG_v1  (probe @ a3b18addc282352b709b2cd7351d5f489a91449c) ====
+[12:54:49] [res] cpu=1% mem=38% (12.1/31.4 GB) chrome_testing=9  START NANYANG_v1
+[12:54:49] worktree add a3b18addc282352b709b2cd7351d5f489a91449c: invalid reference - fetching main and the commit itself
+[12:57:08] 正在跑：SITHEIGHT_ed76（已跑 55 分／上限 80 分）、GUITAR_play（已跑 8 分／上限 90 分）、NANYANG_v1（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[12:57:46] [res] cpu=4% mem=47% (15.5/31.4 GB) chrome_testing=9  END GUITAR_play
