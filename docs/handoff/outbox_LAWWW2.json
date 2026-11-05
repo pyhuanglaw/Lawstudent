@@ -6273,6 +6273,35 @@
    "noDirectIntegrate": false,
    "note": "大步球鞋、好拍運動第 1 版進遊戲（D141）：xs_dabu、xs_haopai，新模組 src/xsshop3d.js（XSS）；CC v2b GLB（和 cc-testing 一樣）；座位 4＋2（好拍高腳凳抬高）、互動點 6＋3 走得到；營業時間（大步 11–22、好拍 12–21 週日休）＋story3d 店門擋；新生南路停車架 (−8.6, −22)；大步倉庫、兩處小孤島擋起來｜xsshop_unit 18 項＋37 支 ALL PASS（乾淨 685337469＋大口漢堡包＋本包）；先將就 8 項",
    "next": "LAWWW-C：先接 bf0d45081 大口漢堡包，再 git checkout 67fc2c07b -- $(cat files.txt)、git apply xs_shops_wire_1105.patch；台詞照 AA_620（XSS.INTERACT）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "1f9de73af",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "XS-SPORTS-V1-1105",
+   "files": [
+    "src/xsports3d.js",
+    "tests/xsports_unit.js",
+    "src/data/xinsheng_sports_layout.js",
+    "assets/models/env/second_ai/bb_support/xinsheng_sports.glb",
+    "assets/models/env/second_ai/bb_support/xinsheng_sports.json",
+    "tools/blender/env_second/bb_support/xinsheng_sports_interior.py",
+    "tools/blender/env_second/bb_support/xinsheng_tex.py",
+    "tools/blender/env_second/bb_support/xinsheng_render.py",
+    "tools/blender/env_second/textures/gen/xs_alpha.png",
+    "tools/blender/env_second/textures/gen/xs_atlas.json",
+    "tools/blender/env_second/textures/gen/xs_emit.png",
+    "tools/blender/env_second/textures/gen/xs_floor.png",
+    "tools/blender/env_second/textures/gen/xs_goods.png",
+    "tools/blender/env_second/textures/gen/xs_sign.png",
+    "docs/art-rebuild/second_ai/wip/xsports_1105/xsports_wire_1105.patch",
+    "docs/art-rebuild/second_ai/wip/xsports_1105/README.md"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "新生運動廣場第 1 版進遊戲（D141）：CC 已有 v3c（cc-testing，v1→v3c 五版），直接接成 xs_xsports（src/xsports3d.js）：兩層導航、21 階樓梯、夾層 walk 範圍、欄杆、slabs、L1_／WALL_*_L1_ 分到二樓那一組；5 互動點、試穿椅；裁縫圓凳 npcOnly；五處小孤島擋起來；營業時間 11–22＋店門擋｜xsports_unit 17 項＋38 支 ALL PASS（乾淨 685337469＋大口漢堡包＋大步好拍包＋本包）；先將就 8 項",
+   "next": "LAWWW-C：依序接 bf0d45081、67fc2c07b，再 git checkout 1f9de73af -- $(cat files.txt)、git apply xsports_wire_1105.patch"
   }
  ]
 }

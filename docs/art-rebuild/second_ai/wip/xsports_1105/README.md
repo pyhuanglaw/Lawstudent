@@ -92,7 +92,7 @@
 ## 4. 接法（LAWWW-C）
 
 1. 先依序接 `../dakou_zone_1105/`、`../xs_shops_1105/`。這一包的 patch 前後文接在它們後面。
-2. 拿檔案：`git checkout <本包 SHA> -- $(cat docs/art-rebuild/second_ai/wip/xsports_1105/files.txt)`。共 14 個檔：
+2. 拿檔案：`git checkout 1f9de73af -- $(cat docs/art-rebuild/second_ai/wip/xsports_1105/files.txt)`。共 14 個檔：
    - 程式：`xsports3d.js`、測試。
    - CC 的配置、GLB、json。
    - CC 的 Blender 腳本 3 支、貼圖 6 個。
