@@ -45,7 +45,8 @@ DK = {'menu': [('雙層牛肉堡套餐', 159), ('勁辣雞腿堡套餐', 149), (
       'outlet': '（你把手機插上。旁邊那個人的筆電也插在同一排，螢幕上是一份還沒寫完的報告。）', 'books': '（書架上是幾本舊雜誌和一套沒排齊的漫畫。第三集不見了。）',
       'narr': ['（你點了一杯熱咖啡。四點的時候它已經冷了。）', '（對面那桌的人整理好東西走了。下一個人五分鐘後就坐下來。）', '（窗外新生南路的車越來越少。只剩公車和計程車。）', '（天亮的時候，一樓開始賣早餐。煎蛋的味道飄上來。）'],
       'dawn': '（樓下換了早餐的菜單。有人買了滿福堡，邊走邊吃去考試。）', 'alone': '（二樓只有你和一個在打電腦的人。店員在拖地。）'}
-SAYHOOK = r"""(()=>{ if(window.__ccSayOn) return true; window.__ccSay=[]; const s0=GAME.say; GAME.say=function(who,t){ try{ window.__ccSay.push({who:who?(who.name||String(who)):null, t:String(t), h:+(+GAME.G.hour).toFixed(3), zone:GAME.G.zone}); }catch(e){} return s0.apply(this,arguments); }; window.__ccSayOn=true; return true; })()"""
+SAYHOOK = r"""(()=>{ if(!window.__ccSayWrapped){ const s0=GAME.say; GAME.say=function(who,t){ try{ (window.__ccSay=window.__ccSay||[]).push({who:who?(who.name||String(who)):null, t:String(t), h:+(+GAME.G.hour).toFixed(3), zone:GAME.G.zone}); }catch(e){} return s0.apply(this,arguments); }; window.__ccSayWrapped=true; }   /* 只包一次（11-05 雲端：__ccSayOn=false 重設又包一次＝每句記兩次）*/
+  if(!window.__ccSayOn){ window.__ccSay=[]; window.__ccSayOn=true; } return true; })()"""
 OPTS = r"""(()=>{ const ch=document.getElementById('choices'); if(!ch||ch.classList.contains('hide')) return []; return [...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).map(b=>({t:(b.innerText||'').trim(), dim:b.classList.contains('dim')||b.getAttribute('aria-disabled')==='true'})); })()"""
 
 
