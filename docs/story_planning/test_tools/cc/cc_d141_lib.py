@@ -37,8 +37,20 @@ def lum(png_bytes):
     return [round(s.mean[0], 1), round(s.stddev[0], 1)]
 
 
+async def lum_browser(pg, png_bytes):
+    """沒有 PIL（PC 11-05：沒裝）：把截圖丟回瀏覽器用 canvas 算平均亮度、標準差（每 4 個像素取 1 個）"""
+    import base64
+    try:
+        return await pg.evaluate("""(async b64=>{ const im=new Image(); im.src='data:image/png;base64,'+b64; await im.decode(); const c=document.createElement('canvas'); c.width=im.width; c.height=im.height;
+          const x=c.getContext('2d'); x.drawImage(im,0,0); const d=x.getImageData(0,0,c.width,c.height).data; let n=0,s=0,s2=0;
+          for(let i=0;i<d.length;i+=16){ const y=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]; s+=y; s2+=y*y; n++; } const m=s/n; return [+m.toFixed(1), +Math.sqrt(Math.max(0,s2/n-m*m)).toFixed(1)]; })""", base64.b64encode(png_bytes).decode())
+    except Exception:
+        return None
+
+
 async def shot(pg, name, judge_black=True):
     b = await pg.screenshot(path=os.path.join(OUT, name + '.png')); m = lum(b)
+    if m is None: m = await lum_browser(pg, b)
     if judge_black and m is not None:
         R.check('[黑畫面] %s 不是黑畫面（平均亮度 %s、變化 %s）' % (name, m[0], m[1]), not (m[0] < 6 and m[1] < 4), J(m))
     elif m is None: R.note('[黑畫面] %s：沒有 PIL，沒算亮度（看截圖）' % name)

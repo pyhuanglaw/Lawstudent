@@ -88,8 +88,8 @@ async def case(pg, cdp, own):
         menu = await room_items_menu(pg, cdp, tag)
         R.check('%s 照玩家點「看看房間裡的東西」：選單裡沒有「%s」' % (tag, LABEL), menu is not None and not any(o.startswith(LABEL) for o in menu), J(menu))
         if not g: return
+        n0 = len(await pg.evaluate("window.__ccSay||[]"))   # 按下去以前記（PC 11-05：轉暗＋旁白在按下去後 1.5 秒內就演完，原本漏記）
         if not await go_and_tap(pg, cdp, tag, g): return
-        h0 = None; n0 = len(await pg.evaluate("window.__ccSay||[]"))
         for _ in range(60):
             u = await pg.evaluate(UI)
             if u['dlg'] and u['text']: break

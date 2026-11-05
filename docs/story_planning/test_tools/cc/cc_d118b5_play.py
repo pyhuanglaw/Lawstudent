@@ -109,15 +109,18 @@ async def sleep_tonight(pg, cdp, tag):
 
 async def depart_menu(pg, cdp, tag, choose, max_s=600):
     """等出發選單（OUT 的出發／這週請假）跳出來，照 choose 選"""
-    t0 = time.time(); seen = None
+    t0 = time.time(); seen = None; menus = []
     while time.time() - t0 < max_s:
         u = await pg.evaluate(UI)
         if u['opts']:
             if any('這週請假' in o for o in u['opts']) or any(o.startswith('出發') for o in u['opts']):
                 seen = dict(u); await pick(pg, cdp, "t=>t.startsWith(%s)" % J(choose)); return seen
+            if len(menus) < 12: menus.append([u.get('key'), u.get('hour'), u.get('zone'), [o[:30] for o in u['opts']]])
             await pick(pg, cdp, "t=>true"); continue
         if u['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
         await pg.wait_for_timeout(1000)
+    u = await pg.evaluate(UI); o = await pg.evaluate(FAFU_OUTS)
+    R.note('%s 等出發選單 %d 秒沒等到：途中的選單 %s；現在 %s；法服的出遊 %s' % (tag, max_s, J(menus), J({k: u.get(k) for k in ('key', 'hour', 'zone', 'busy', 'dlg', 'text')}), J(o)))   # PC 11-05 D118B5_r2 aunt：查為什麼沒看到
     return seen
 
 
@@ -297,8 +300,9 @@ async def case_sats(pg, cdp):
     fd = [x for x in w['due'] if x['id'].startswith('fafu_')]
     R.note('[sats] 兩個月跳出來的出發選單：%s；法服相關訊息：%s' % (J(w['due']), J(new)))
     R.check('[sats] 只有 10/24 那一場跳一次出發選單（其他週六不跳）', len(fd) == 1 and fd[0]['key'] == '2026-10-24' and abs(fd[0]['h'] - 8.5) < 0.01, J(fd))
-    R.check('[sats] 沒有柏翰私訊（p:classmate_bohan）', not [x for x in new if x['th'] == 'p:classmate_bohan'], J([x for x in new if x['th'] == 'p:classmate_bohan']))
-    R.check('[sats] 法服群組只有 10/23 那一則（fafu_story_1）', [x['tag'] for x in new if x['th'] == 'g:lawclub_study' and x['tag'] != 'fafu_welcome'] in (['fafu_story_1'], []), J([[x['tag'], x['key'], x['text']] for x in new if x['th'] == 'g:lawclub_study']))
+    fafu_dm = [x for x in new if x['th'] == 'p:classmate_bohan' and 'fafu' in str(x['tag'])]   # BB-C 05:09：只看法服的 tag（need_397 是同學 need 系統，不算）
+    R.check('[sats] 沒有柏翰追問法服的私訊（p:classmate_bohan、tag 帶 fafu）', not fafu_dm, J(fafu_dm))
+    R.check('[sats] 法服群組的法服事件只有 10/23 那一則（fafu_story_1；BB-C 05:03：只算 FAFU 事件）', [x['tag'] for x in new if x['th'] == 'g:lawclub_study' and 'fafu' in str(x['tag']) and x['tag'] != 'fafu_welcome'] in (['fafu_story_1'], []), J([[x['tag'], x['key'], x['text']] for x in new if x['th'] == 'g:lawclub_study']))
     R.check('[sats] 關係值不變', rel0 == rel1, J([rel0, rel1]))
 
 
@@ -313,6 +317,7 @@ async def case_aunt(pg, cdp):
     R.check('[aunt] 5/21（五）20:00 法服群組柏翰「%s」（AA_691 第 1 項；5/21 晚上睡過去的，隔天早上補進群組、時間照 5/21 20:00）' % AUNTMSG, len(am) == 1 and am[0]['key'] == '2027-05-21' and abs(am[0]['h'] - 20) < 0.01 and am[0]['from'] == 'classmate_bohan' and am[0]['th'] == 'g:lawclub_study', J(am))
     R.check('[aunt] 5/22 08:30 出發選單（出發／這週請假）', bool(seen) and seen['key'] == '2027-05-22' and any('這週請假' in o for o in seen['opts']), J(seen))
     z = await wait_until(pg, cdp, "(()=>GAME.G.zone==='wancai'&&!GAME.E.player.busy?{zone:GAME.G.zone,h:+GAME.G.hour.toFixed(2)}:null)()", 300)
+    if not z: R.note('[aunt] 300 秒沒到萬才館（不忙）：現在 %s' % J(await pg.evaluate("(()=>({zone:GAME.G.zone, h:+GAME.G.hour.toFixed(2), key:CALENDAR.dateOf(GAME.G.day).key, busy:!!GAME.E.player.busy, dlg:!!(GAME.D&&GAME.D.active)}))()")))
     R.check('[aunt] 出發 → 到萬才館', bool(z), J(z))
     n0 = len(await says(pg))
     sc = await table_scene(pg, cdp, '[aunt]', n0)

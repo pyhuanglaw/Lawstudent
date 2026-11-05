@@ -26,8 +26,14 @@ NPCTASK_r2 | 13700be8fbfcaa902b0276713c5c83c7c38e3c79 | probe | docs/story_plann
 GUITAR_DORM | 13700be8fbfcaa902b0276713c5c83c7c38e3c79 | probe | docs/story_planning/test_tools/cc/cc_guitar_dorm_probe.py | index.html | 20 | CC_HEADLESS=0
 # BB-C 04:50／04:51 WZLIN_v1c（LAWWW-C 整合 01b3e5ac7）：林家乾麵 v1c（BB 做的室內＝D132 交 LAWWW-C 判、副本 BB-C）＋日和、林家牆淡出
 WZLIN_v1c | 01b3e5ac7534c643a153e940b0198a142605a67b | probe | docs/story_planning/test_tools/cc/cc_wzlin_v1c_probe.py | index.html | 60 | CC_HEADLESS=0
+# BB-C 05:39～05:42：統一 9ea82730f（南洋點斜地板 a44670a4e、林家 seatApproach 886f762a5、運動廣場、山嵐坐地板＋互動點 4f35772fc、XS_CLOSE 2378a8957、值班表 d5c5769ab 都在裡面）；南洋要整個過才能上線
+NANYANG_v2 | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_nanyang_v1_probe.py | index.html | 75 | CC_HEADLESS=0
+WZLIN_v1d | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_wzlin_v1c_probe.py | index.html | 60 | CC_HEADLESS=0
+SHANLAN_v2 | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_shanlan_v1_probe.py | index.html | 120 | CC_HEADLESS=0
+D118B5_r3 | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 60 | CC_HEADLESS=0;CASES=aunt,sats
+GUITAR_DORM | 13700be8fbfcaa902b0276713c5c83c7c38e3c79 | probe | docs/story_planning/test_tools/cc/cc_guitar_dorm_probe.py | index.html | 20 | CC_HEADLESS=0;RERUN=r2
 D118B5_r2 | 747dba80dabb454eaf2aaf6f1bee272a271c6ce5 | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 60 | CC_HEADLESS=0;CASES=b5b,aunt,auntneg,abroad
-D118B7F_play | 193d1fd4f1b3ccacc544864c2e02f8faa0ba95f8 | probe | docs/story_planning/test_tools/cc/cc_d118b7f_play.py | index.html | 90 | CC_HEADLESS=0;RERUN=r3;CASES=judge
+D118B7F_play | 193d1fd4f1b3ccacc544864c2e02f8faa0ba95f8 | probe | docs/story_planning/test_tools/cc/cc_d118b7f_play.py | index.html | 90 | CC_HEADLESS=0;RERUN=r4;CASES=judge
 D118B7_play | 6a1592a26831ce63470b4869aa9c5aa7e5d8628c | probe | docs/story_planning/test_tools/cc/cc_d118b7_play.py | index.html | 60 | CC_HEADLESS=0;RERUN=r2
 NPCTASK_f5c3 | f5c38f2bae0b4c4f5e871d7da43dbe1994097847 | probe | docs/story_planning/test_tools/cc/cc_npctask_probe.py | index.html | 60 | CTL=both;LOCS=hall,lib3f,lawlib,soc2f,b1;CC_HEADLESS=0
 # SITHEIGHT_ed76 r1（PC 11-05 12:01～13:21）：三項一起跑、記憶體到 99%（31.4 GB）→ rooms 第一間就 MemoryError、80 分逾時：單獨重跑（SOLO=1）

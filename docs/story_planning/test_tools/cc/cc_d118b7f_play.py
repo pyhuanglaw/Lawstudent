@@ -225,6 +225,8 @@ async def case_judge(pg, cdp):
     # 開放那天下午坐到 B1
     nd = await pg.evaluate("(()=>{ const n=PG.judgeNext(GAME.G); return n?CALENDAR.dateOf(n.open).key:null; })()")
     R.setup('[judge] 【捷徑】同一份存檔換到開放那天 %s 13:00 總圖 B1（12:00 收到提醒，下午去讀；從家裡走到總圖這一段不測）' % nd)
+    await pg.evaluate("(()=>{ window.__ccIdle=PG.IDLE_MS; PG.IDLE_MS=1e9; })()")   # 【捷徑】畢業後篇「站著不動 2 秒＝跳」（postgrad3d.js S.IDLE_MS）：讀進來到坐下這一段先關掉（玩家會直接走過去坐，PC r3 讀進來 13:00 都被跳到 20～21 點）；座位選單出來就還原
+    R.setup('[judge] 【捷徑】讀進來到坐下這一段 PG.IDLE_MS 暫時關掉（座位選單出來就還原 2000）')
     for tr in range(3):   # 畢業後篇「不動＝跳到下一件事」：讀進來站著不動會被跳到晚上（PC 11-05 r2：座位選單已經是 21:01、「考前總複習」灰的）→ 讀進來馬上坐，太晚就重讀
         await jump(pg, nd or '2029-09-20', 13.0, 'library_b1')
         hj = (await pg.evaluate(UI))['hour']; R.note('[judge] 讀進來 %s 第 %d 次：%.2f' % (nd, tr + 1, hj))
@@ -248,6 +250,7 @@ async def case_judge(pg, cdp):
         if u['dlg'] and not u['opts']: await L.tap(pg, cdp, '#dlg')
         await pg.wait_for_timeout(700)
     await R.shot(pg, 'judge_seat_menu')
+    await pg.evaluate("(()=>{ PG.IDLE_MS=window.__ccIdle||2000; })()")
     R.note('[judge] 座位選單：%s；那一項：%s' % (J(u['opts']), J(hint)))
     if not R.check('[judge] 座位選單有「考前總複習」，提示「司法官二試要考的 … 要六個小時…」', bool(hint) and '司法官二試要考的' in hint and '要六個小時' in hint, J(hint)): return
     inf = await pg.evaluate("(()=>{ const i=STUDY.reviewInfo(GAME.G,'judge'); return i?{n:i.courses.length,m:i.courses.reduce((a,x)=>a+x.units.length,0)}:null; })()")
