@@ -5878,7 +5878,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "267f3d9a9",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACTIONED",
    "task": "SIT-HEIGHT-1104",
    "files": [
     "docs/art-rebuild/second_ai/wip/sit_height_1104/README.md",
@@ -5907,17 +5907,17 @@
     "tools/blender/env_second/lecture_shelf_raise.py",
     "tools/blender/env_second/lane118_shops.py"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "瀏覽器沒看過（D131）：CC 拍林家乾麵（吃飯開了以後）、總圖自習桌、教室／階梯教室女生坐著（NPCTASK_shots）、118 巷吧台、鞦韆、腳踏車後座；LAWWW 判人物動作（D128）、BB 看截圖確認「扶手」＝桌下置物架；吃飯片段 S.TASK_EAT 要不要開 LAWWW-C 決定；裙子、階梯教室高個男生的腳（sitFeet 關）是舊問題；WIN 女生近端可以再放寬（和 Café 桌緣 0.20 一起）",
    "next": "LAWWW-C：git checkout 267f3d9a9 -- （README 接法那一串）＋git apply sit_height_1104.patch（取代 npc_f2m2_1104.patch）；跑 sit_height_unit、sit_task_loops_unit、sit_task_wire_unit、l118_bar_lift_unit、desk_furniture_unit、wz_park_people_unit",
    "noDirectIntegrate": false,
-   "note": "坐下往下＝身高×(ul−bt)−0.465（C.SIT_FIT，遊戲骨架量的 67 個模型）：大腿底部都在 0.465；女生肩膀離桌 +8.7→+21.4 cm、男生 +18.3→+22.7；眼睛離碗 女 27→37、男 32→37 cm；階梯教室置物架 0.515→0.63（原本男生膝蓋 0.531 就穿過去）；抬高＝座面−0.47（高腳椅、鞦韆、後座、118 巷 0.29）；自習椅 0.47；路人片段合得上（只用 F／M）：打字 44、寫字 37、其他 41～43／44。Node ALL PASS（sit_height ①～⑥、loops、wire 55、seat_ambient、座位 25 支、GLB 8 支）｜11-05 send_message LAWWW-C DELIVERED、副本 BB-C DELIVERED（請 BB 確認「扶手」＝桌下置物架）｜BB-C 00:10Z 看過側面圖：方向對；「扶手」＝椅面前緣（女生陷 10 cm）＋桌下置物架（男生），兩個都改了；裙子、0.45 長椅浮 1.5 cm／0.485 陷 2 cm 記 P3；等 CC 拍 SITAMB class（博雅 101、霖澤 201）、總圖、教室女生"
+   "note": "坐下往下＝身高×(ul−bt)−0.465（C.SIT_FIT，遊戲骨架量的 67 個模型）：大腿底部都在 0.465；女生肩膀離桌 +8.7→+21.4 cm、男生 +18.3→+22.7；眼睛離碗 女 27→37、男 32→37 cm；階梯教室置物架 0.515→0.63（原本男生膝蓋 0.531 就穿過去）；抬高＝座面−0.47（高腳椅、鞦韆、後座、118 巷 0.29）；自習椅 0.47；路人片段合得上（只用 F／M）：打字 44、寫字 37、其他 41～43／44。Node ALL PASS（sit_height ①～⑥、loops、wire 55、seat_ambient、座位 25 支、GLB 8 支）｜11-05 send_message LAWWW-C DELIVERED、副本 BB-C DELIVERED（請 BB 確認「扶手」＝桌下置物架）｜BB-C 00:10Z 看過側面圖：方向對；「扶手」＝椅面前緣（女生陷 10 cm）＋桌下置物架（男生），兩個都改了；裙子、0.45 長椅浮 1.5 cm／0.485 陷 2 cm 記 P3；等 CC 拍 SITAMB class（博雅 101、霖澤 201）、總圖、教室女生｜LAWWW-C 00:24Z ACTIONED：接進 b1ca12646；吃飯片段開 71ba5870e；座位 45 支、教室 GLB 7 支 ALL PASS；瀏覽器轉 BB 排 PC"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "58d238bdd",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "task": "NPC-ANIM-LOOPS-1104",
    "files": [
     "docs/art-rebuild/second_ai/wip/cafe_edge_1105/README.md",
@@ -5933,7 +5933,7 @@
    "remaining": "正式模型的桌面高度（afar、Daybreak、青木、木曜日、林家）Node 量不到：0.85 的高桌兩組都合不上，要 CC 看；近桌姿勢自不自然 BB 判；瀏覽器沒跑（D131）",
    "next": "LAWWW-C：先接 SIT-HEIGHT-1104（267f3d9a9），再 git checkout 58d238bdd -- ual_sit_tasks.glb／json、tests/sit_task_loops_unit.js、tools/anim/sit_task_loops.py、preview_vrm_clip.py，git apply cafe_edge_1105.patch",
    "noDirectIntegrate": false,
-   "note": "CAFE-EDGE-1105（21:42Z 的 3）：近桌（桌緣 0.14～0.32）一組 Sit_<動作>_<F|M>_E20_Loop（14 個，GLB 42 個）、C.SIT_TASK.REFS、HANDS／WIN F_E20／M_E20、sitTaskFit 先試比較接近的那一組；Node sit_task_loops_unit 56、sit_task_wire_unit 58 ALL PASS"
+   "note": "CAFE-EDGE-1105（21:42Z 的 3）：近桌（桌緣 0.14～0.32）一組 Sit_<動作>_<F|M>_E20_Loop（14 個，GLB 42 個）、C.SIT_TASK.REFS、HANDS／WIN F_E20／M_E20、sitTaskFit 先試比較接近的那一組；Node sit_task_loops_unit 56、sit_task_wire_unit 58 ALL PASS｜00:35Z send_message LAWWW-C DELIVERED；在開發分支 12c5b522e（已含 SIT-HEIGHT b1ca12646、吃飯開）上 checkout＋apply 乾淨，sit_task_wire_unit 58、sit_task_loops_unit ALL PASS"
   }
  ]
 }
