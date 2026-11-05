@@ -1,0 +1,42 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tapscan_probe.py http://127.0.0.1:8806/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GYM_TAP_before\out
+CC TAPSCAN（點地面落點：gym_arena）：SHA=9ea82730f471210c8df143093b7743ce4c9327a8（worktree 實際 ?）；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [gym_arena] 讀檔 2025-10-15 14:00（區域出生點）
+PASS [gym_arena] 讀到  {"zone": "gym_arena", "x": 0, "z": 21, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  50.7s] [gym_arena 出生點 鏡頭 0] 看得到的點 72（有高度 0）、walkMeshes 0、層數 1、鏡頭高 3.58；落點差 >0.5 m：有高度 0、平的 0；例：[]
+  [  52.6s] [gym_arena 出生點 鏡頭 1] 看得到的點 9（有高度 0）、walkMeshes 0、層數 1、鏡頭高 2.84；落點差 >0.5 m：有高度 0、平的 0；例：[]
+  [  54.5s] [gym_arena 出生點 鏡頭 2] 看得到的點 9（有高度 0）、walkMeshes 0、層數 1、鏡頭高 2.84；落點差 >0.5 m：有高度 0、平的 0；例：[]
+  [  58.1s] [gym_arena 出生點 鏡頭 3] 看得到的點 15（有高度 0）、walkMeshes 0、層數 1、鏡頭高 3.25；落點差 >0.5 m：有高度 0、平的 0；例：[]
+  [  58.5s] [gym_arena] 合計：看得到的點 105（有高度 0）；差 >0.5 m：有高度 0、平的 0
+PASS [gym_arena] 點有高度的地方（0 點）：落點差都 ≤0.5 m  []
+PASS [gym_arena] 點平的地方（105 點）：落點差都 ≤0.5 m  []
+  [前置／捷徑] [gym_arena 座位] 【捷徑】抽最低、中間、最高三排各一張（共 16 張中的 [[24.2, -8.15], [27.6, -8.15], [27.6, 0.85]]），其他座位按鈕先藏起來
+  [  58.6s] [gym_arena 座位] 座位 3 張：[{"label": "坐在看台", "x": 24.32, "z": -9, "lv": 0, "sx": 24.2, "sz": -8.15, "sy": 1.44, "slv": 0, "row": null, "ap": [24.32, -9]}, {"label": "坐在看台", "x": 27.72, "z": -9, "lv": 0, "sx": 27.6, "sz": -8.15, "sy": 3.12, "slv": 0, "row": null, "ap": [27.72, -9]}, {"label": "坐在看台", "x": 27.72, "z": 0, "lv": 0, "sx": 27.6, "sz": 0.85, "sy": 3.12, "slv": 0, "row": null, "ap": [27.72, 0]}]
+  [ 360.4s] 走不到「[gym_arena 座位] #1（24.2, -8.15）（seatApproach）」：最後位置 (22.9,-9)，目標 (24.32,-9)；點地面 98 次、轉鏡頭 3 次、搖桿 13 次
+  [ 360.4s]   這段時間：畫面 17402 格／302 秒、遊戲時間 14.10→16.10、paused=False、開著的面板 []
+  [ 481.5s] 走不到「[gym_arena 座位] #1（24.2, -8.15）（seatApproach 再一次）」：最後位置 (22.84,-8.99)，目標 (24.32,-9)；點地面 43 次、轉鏡頭 2 次、搖桿 4 次
+  [ 481.5s]   這段時間：畫面 6965 格／120 秒、遊戲時間 16.11→16.91、paused=False、開著的面板 []
+FAIL [gym_arena 座位] #1（24.2, -8.15） 站在 GAME.seatApproach（點椅子 tapToSeat 走到的那一點；離它 1.48 m）：最近的「坐下」是這一張  {"at": [22.845, -8.995], "nearest": null}
+  [ 482.2s] [gym_arena 座位] #1（24.2, -8.15） 這一張按鈕範圍 0.6 m；站得住的地方離它最近 0 m（走近點在範圍邊上＝停偏一點就沒有按鈕）
+  [ 482.2s] [gym_arena 座位] #1（24.2, -8.15） 改走到這一張按鈕範圍裡、最近的就是它的一點：{"x": 24.32, "z": -9, "sc": 17.999999999999986}
+  [ 604.8s] 走不到「[gym_arena 座位] #1（24.2, -8.15）（這一張的按鈕範圍）」：最後位置 (22.6,-8.99)，目標 (24.32,-9)；點地面 43 次、轉鏡頭 2 次、搖桿 4 次
+  [ 604.8s]   這段時間：畫面 6953 格／123 秒、遊戲時間 16.92→17.72、paused=False、開著的面板 []
+FAIL [gym_arena 座位] #1（24.2, -8.15） 走到旁邊，互動按鈕是「坐在看台」  {"x": 22.605, "z": -8.994, "lv": 0, "interact": "", "stand": true}
+  [ 653.5s] 到達「[gym_arena 座位] #2（27.6, -8.15）（seatApproach）」附近（0.10 m）：點地面 14 次、轉鏡頭 2 次、搖桿 2 次，44 秒
+PASS [gym_arena 座位] #2（27.6, -8.15） 站在 GAME.seatApproach（點椅子 tapToSeat 走到的那一點；離它 0.11 m）：最近的「坐下」是這一張  {"at": [27.825, -9.005], "nearest": {"label": "坐在看台", "seat": [27.6, -8.15], "exit": null}}
+PASS [gym_arena 座位] #2（27.6, -8.15） 走到旁邊，互動按鈕是「坐在看台」  {"x": 27.825, "z": -9.005, "lv": 0, "interact": "坐在看台", "stand": true}
+PASS [gym_arena 座位] #2（27.6, -8.15） 坐下了（player.seat）  {"x": 27.6, "z": -8.15, "y": 3.12, "lv": 0, "sx": 27.6, "sz": -8.15, "sy": 3.12}
+PASS [gym_arena 座位] #2（27.6, -8.15） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 3.120＝座位那一層 3.120（±0.06）  {"x": 27.6, "z": -8.15, "y": 3.12, "lv": 0, "sx": 27.6, "sz": -8.15, "sy": 3.12}
+PASS [黑畫面] gym_arena_seat_2 不是黑畫面（平均亮度 29.5、變化 27）  [29.5, 27]
+PASS [gym_arena 座位] #2（27.6, -8.15） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 10.75, "x": 16.854, "z": -8.877, "lv": 0, "stand": true, "fb": 0}
+  [ 693.5s] 到達「[gym_arena 座位] #3（27.6, 0.85）（seatApproach）」附近（0.14 m）：點地面 4 次、轉鏡頭 3 次、搖桿 4 次，32 秒
+PASS [gym_arena 座位] #3（27.6, 0.85） 站在 GAME.seatApproach（點椅子 tapToSeat 走到的那一點；離它 0.14 m）：最近的「坐下」是這一張  {"at": [27.858, 0.007], "nearest": {"label": "坐在看台", "seat": [27.6, 0.85], "exit": null}}
+PASS [gym_arena 座位] #3（27.6, 0.85） 走到旁邊，互動按鈕是「坐在看台」  {"x": 27.858, "z": 0.007, "lv": 0, "interact": "坐在看台", "stand": true}
+PASS [gym_arena 座位] #3（27.6, 0.85） 坐下了（player.seat）  {"x": 27.6, "z": 0.85, "y": 3.12, "lv": 0, "sx": 27.6, "sz": 0.85, "sy": 3.12}
+PASS [gym_arena 座位] #3（27.6, 0.85） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 3.120＝座位那一層 3.120（±0.06）  {"x": 27.6, "z": 0.85, "y": 3.12, "lv": 0, "sx": 27.6, "sz": 0.85, "sy": 3.12}
+PASS [黑畫面] gym_arena_seat_3 不是黑畫面（平均亮度 71.2、變化 56.1）  [71.2, 56.1]
+PASS [gym_arena 座位] #3（27.6, 0.85） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 4.01, "x": 31.606, "z": 0.1, "lv": 0, "stand": true, "fb": 0}
+  [ 701.6s] [gym_arena 座位] 每張：[[1, "nobtn"], [2, "ok"], [3, "ok"]]
+PASS 沒有 JS 例外  []
+FAILED 2: [gym_arena 座位] #1（24.2, -8.15） 站在 GAME.seatApproach（點椅子 tapToSeat 走到的那一點；離它 1.48 m）：最近的「坐下」是這一張；[gym_arena 座位] #1（24.2, -8.15） 走到旁邊，互動按鈕是「坐在看台」
