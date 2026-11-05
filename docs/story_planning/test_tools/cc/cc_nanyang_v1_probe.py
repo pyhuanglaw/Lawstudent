@@ -2,7 +2,7 @@
   版本：LAWWW-C 整合 a3b18addc（LAWWW2-C 9eed89550＋接線 patch＋XS-ARCADE-NAV-1105）。判定歸 BB；PC＝Windows＋GPU，雲端 SwiftShader（顏色、亮度以電腦為準）。
   期望值的出處：src/data/nanyang_layout.js（LAWWW2／BB 的配置：enterAt、exit、hallOut、seats、hall.slope、hall.seats）、
     docs/art-rebuild/second_ai/wip/xs_arcade_nav_1105/README.md（9eed89550：沒有騎樓的兩段 z −68～−40、47.4～68，牆在 x −13.2；牆裡 x −13.6、−15.5 站不住、人行道 x −12.4 站得住）。
-  一、進出（照玩家走）：【前置】讀檔新生南路 2025-10-15（三）14:00（營業 09:30–24:00）、站在戲院門口南邊騎樓 → 走到「進南洋戲院」按 → 大廳（站得住、推得動）
+  一、進出（照玩家走）：【前置】讀檔新生南路 2025-10-18（六）14:00（營業 09:30–24:00；11-05 起用週六，週三下午有課會被帶去上課）、站在戲院門口南邊騎樓 → 走到「進南洋戲院」按 → 大廳（站得住、推得動）
       → 走到「進 1 廳」→ 1 廳 → 走到「回大廳」→ 大廳 → 走到「出去（新生南路）」→ 新生南路（站得住、推得動）。
   二、座位：大廳四張長椅、1 廳九排靠右走道那一張，都走到 GAME.seatApproach 那一點按「坐下…」→ player.seat；坐下的位置離座位 0.15 m 內、高度＝那一排地板（1 廳）；起身、推得動 ≥0.3 m。
       有 NPC 坐著的位子遊戲不給坐＝記下跳過（不算 FAIL）。
@@ -26,7 +26,7 @@ URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 PARTS = [x for x in (os.environ.get('PARTS') or 'door,seats,slope,arcade,closed,xsclose,shots').split(',') if x]
 R = L.Run('nanyang_v1', OUT); D.setup(R, OUT)
-DAY = '2025-10-15'
+DAY = '2025-10-18'   # 週六（PC 11-05 NANYANG_v2：週三下午有課，坐大廳座位途中被上課流程帶到教室）
 ST = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position; const ch=document.getElementById('choices'), it=document.getElementById('interact');
   const choices=(ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).map(b=>(b.innerText||'').trim()):[];
   return {zone:GAME.G.zone, x:+o.x.toFixed(3), z:+o.z.toFixed(3), y:+o.y.toFixed(3), lv:P.lv|0, seat:!!P.seat, busy:!!P.busy, dlg:!!(GAME.D&&GAME.D.active), choices,
@@ -341,7 +341,7 @@ async def main():
         if not R.check('這一版有南洋戲院（NY3、Z3.ZONES.xs_nanyang／xs_nanyang_hall）', has, ''): await b.close(); sys.exit(1)
         if 'door' in PARTS or 'seats' in PARTS or 'slope' in PARTS:
             out = await pg.evaluate("NY3.streetOut()")
-            R.setup('[進出] 讀檔新生南路 %s（三）14:00、戲院門口南邊騎樓 4 m（%s, %s）' % (DAY, out['x'], out['z'] - 4))
+            R.setup('[進出] 讀檔新生南路 %s（六）14:00、戲院門口南邊騎樓 4 m（%s, %s）' % (DAY, out['x'], out['z'] - 4))
             await load_street(pg, cdp, out['x'], out['z'] - 4, yaw=0.0)
             okd = await part_door(pg, cdp)
             if ('seats' in PARTS or 'slope' in PARTS):
