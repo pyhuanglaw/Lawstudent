@@ -45266,12 +45266,12 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 11-05 02:3x】合併 2b0fac3da（子代理 guitar-1105 e488f99e0）：src/guitar3d.js——同弦看看／試彈／買東西（社員九折、OWN_GUITAR）、偶遇子晴、2-1～2-4、宿舍彈吉他、宜蘭兩天一夜、陽明山一日；aa619_guitar_unit 124 項（ed7600ec5 FAILED 28）、aa619_guitar_zone_unit ALL PASS；缺字 11 處＋判斷 14 件送 AA-C；CG cg_tongxian_trial_heroine04、cg_yilan_roof_heroine04 與 2D 背景 tongxian_shop、yilan_minsu_roof、yms_grassland 要 BB 跟使用者要；全套 Node 背景跑｜【LAWWW-C 11-05 00:4x】AA-C 00:45：照新生南路那一間（xinsheng_layout tongxian），不用搬；AA_619 以企劃線最新 bf0efded8 為準（22a6c4d43 是舊版：位置、社長那句「新生南路有一家同弦」、第 4 節第 1 點三處公館→新生南路），已轉子代理｜【LAWWW-C 11-05 00:4x】開工（v9.10.20 候選版 d3828452a 已固定，開發分支照做）：系統部分派子代理（worktree /home/user/wt-guitar，guitar-1105）照 AA_619（企劃線 22a6c4d43）第 2～4 節；室內區域 GUITAR-SHOP-ZONE-1105 派 LAWWW2-C（D108）；位置問 AA-C（AA_619 寫公館羅斯福路，遊戲裡同弦店面在新生南路 xinsheng_layout，沒說搬就照新生南路）｜【LAWWW-C 11-04 13:3x】v9.10.20 發布以後派子代理照 AA_619（企劃線 22a6c4d43）實作；同弦二樓室內 tongxian.glb 照舊等 MODEL_READY 驗收（BB 代驗，D132）",
+   "next": "【LAWWW-C 11-05 03:0x】AA_693（企劃線 c4b14a901）缺字 11 處＋判斷照接 → 合併 475d87588（子代理 guitar2-1105 2e0cae109）：還缺的字 0；aa619_guitar_unit 148 項、zone 7 項 ALL PASS；子代理全套 1012 支 ALL PASS；BB 瀏覽器用 475d87588 以後的 head｜【LAWWW-C 11-05 02:3x】合併 2b0fac3da（子代理 guitar-1105 e488f99e0）：src/guitar3d.js——同弦看看／試彈／買東西（社員九折、OWN_GUITAR）、偶遇子晴、2-1～2-4、宿舍彈吉他、宜蘭兩天一夜、陽明山一日；aa619_guitar_unit 124 項（ed7600ec5 FAILED 28）、aa619_guitar_zone_unit ALL PASS；缺字 11 處＋判斷 14 件送 AA-C；CG cg_tongxian_trial_heroine04、cg_yilan_roof_heroine04 與 2D 背景 tongxian_shop、yilan_minsu_roof、yms_grassland 要 BB 跟使用者要；全套 Node 背景跑｜【LAWWW-C 11-05 00:4x】AA-C 00:45：照新生南路那一間（xinsheng_layout tongxian），不用搬；AA_619 以企劃線最新 bf0efded8 為準（22a6c4d43 是舊版：位置、社長那句「新生南路有一家同弦」、第 4 節第 1 點三處公館→新生南路），已轉子代理｜【LAWWW-C 11-05 00:4x】開工（v9.10.20 候選版 d3828452a 已固定，開發分支照做）：系統部分派子代理（worktree /home/user/wt-guitar，guitar-1105）照 AA_619（企劃線 22a6c4d43）第 2～4 節；室內區域 GUITAR-SHOP-ZONE-1105 派 LAWWW2-C（D108）；位置問 AA-C（AA_619 寫公館羅斯福路，遊戲裡同弦店面在新生南路 xinsheng_layout，沒說搬就照新生南路）｜【LAWWW-C 11-04 13:3x】v9.10.20 發布以後派子代理照 AA_619（企劃線 22a6c4d43）實作；同弦二樓室內 tongxian.glb 照舊等 MODEL_READY 驗收（BB 代驗，D132）",
    "source": "AA-C 11-04 13:18（GUITAR-CLUB-1103 next 欄貼錯，LAWWW 決定開系統任務）",
    "authorized": "D109 AA 劇情自主、D111 LAWWW 排優先",
    "pausedReason": "v9.10.20 擋發布項目先做",
    "resumeWhen": "v9.10.20 發布以後",
-   "sha": "2b0fac3da"
+   "sha": "475d87588"
   },
   {
    "id": "NPC-AMBIENT-ANIM-1104",
