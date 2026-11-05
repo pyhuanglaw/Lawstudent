@@ -84,29 +84,45 @@ async def sit_and_review(pg, cdp, tag, shot_name):
     firsts, caps, t0 = [], [], time.time()
     while time.time() - t0 < 900:
         u = await pg.evaluate(UI)
-        if u['opts']:
-            if any(o.startswith('跳到下一科') for o in u['opts']): await pick(pg, cdp, "t=>t.startsWith('跳到下一科')")
-            elif any(o.startswith('先讀到這裡') for o in u['opts']): await pick(pg, cdp, "t=>t.startsWith('先讀到這裡')")
-            else: await pick(pg, cdp, "t=>true")
-            continue
-        if u['dlg'] and u['text']:
-            if u['text'].startswith('【'): firsts.append(u['text'])
-            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(250); continue
-        c = await pg.evaluate(CAP)
+        c = await pg.evaluate(CAP)   # 結束字幕和家裡選單同時出來：先看字幕（PC 11-05：原本選單那一支先選了第一項＝又讀一次，6 小時變 12 小時）
         if c and c['show'] and ('一試範圍' in (c['text'] or '') or '國考範圍' in (c['text'] or '')):
             await pg.wait_for_timeout(600); c = await pg.evaluate(CAP)
             await R.shot(pg, shot_name); caps.append(c); break
+        if u['opts']:
+            if any(o.startswith('跳到下一科') for o in u['opts']): await pick(pg, cdp, "t=>t.startsWith('跳到下一科')")
+            elif any(o.startswith('先讀到這裡') for o in u['opts']): await pick(pg, cdp, "t=>t.startsWith('先讀到這裡')")
+            elif firsts: break   # 總複習演完、回到選單（不要再按一次「考前總複習」）
+            else: await pick(pg, cdp, "t=>true")
+            continue
+        if u['dlg'] and u['text']:
+            if u['text'].startswith('【'):
+                await pg.wait_for_timeout(500); u = await pg.evaluate(UI)   # 打字機還沒打完＝半句（PC 11-05：「【憲法（上）　1」）：等一下再記
+                if (u['text'] or '').startswith('【'): firsts.append(u['text'])
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(250); continue
         if not u['dlg'] and not u['opts'] and time.time() - t0 > 30 and len(firsts) > 0:
             c = await pg.evaluate(CAP)
             if not (c and c['show']): break
         await pg.wait_for_timeout(300)
+    for _ in range(20):   # 結束字幕抓到了，等選單回來再量時間
+        u = await pg.evaluate(UI)
+        if u['opts'] and not u['dlg']: break
+        await pg.wait_for_timeout(300)
     u = await pg.evaluate(UI)
     L1 = await says(pg, n0)
+    firsts = [t for i, t in enumerate(firsts) if not any(j != i and o != t and o.startswith(t) for j, o in enumerate(firsts))]   # 半句（後面有同一句完整的）不算
     return {'h0': h0, 'h1': u['hour'], 'firsts': firsts, 'cap': caps[0] if caps else None, 'lines': L1, 'hint': hint}
 
 
 VISITS = []
 WEEK_2029 = '【國考】8/4（六）一試。考前想把四年的筆記讀過一遍，坐到書桌或讀書的位子就可以。'   # AA_690 第 3 節②（企劃線 c860ff820），2029＝8/4（六）
+
+
+# 不動、等下一件事的玩家怎麼選（PC 11-05：原本永遠選第一項＝灰的「考前總複習」，選了沒反應、時間停住，7/11 21:04 以後就沒動）：
+#   不選灰的；跳到下一件事／快轉 → 睡覺（8/4 一試當天改成在家休息一下，一小時）→ 其他第一個不是灰的（不選「考前總複習」「存檔」「出門」）
+PREF = r"""(t=>{ const bs=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent!==null&&!x.classList.contains('dim')&&x.getAttribute('aria-disabled')!=='true').map(x=>(x.innerText||x.textContent||'').trim());
+  const today=CALENDAR.dateOf(GAME.G.day).key;
+  const order=today==='2029-08-04'?['跳到下一件事','在家休息一下','快轉','睡覺']:['跳到下一件事','快轉','睡覺','在家休息一下'];   /* 一試當天早上不睡（睡了＝錯過一試）*/ for(const w of order){ const b=bs.find(x=>x.startsWith(w)); if(b) return t===b; }
+  const b=bs.find(x=>!/^(考前總複習|存檔|出門)/.test(x))||bs[0]; return t===b; })"""
 
 
 async def drive_until(pg, cdp, tag, stop, max_s=900, exam=None):
@@ -117,7 +133,7 @@ async def drive_until(pg, cdp, tag, stop, max_s=900, exam=None):
         if stop(u): return u, True
         if u['opts']:
             if exam and await exam(u): continue
-            await pick(pg, cdp, "t=>true"); continue
+            await pick(pg, cdp, PREF); continue
         if u['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
         await L.close_panels(pg, cdp)
         if (u['key'], u['hour']) != last: last = (u['key'], u['hour']); jumps += 1; VISITS.append('%s %05.2f' % last)
