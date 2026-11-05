@@ -1,0 +1,38 @@
+CC tap_b1room_ab（BB-C 02:06 P1：pool_17 研究小間點地）：[["main_b0c3", "http://127.0.0.1:8822/index.html"], ["d3828", "http://127.0.0.1:8792/index.html"]]；SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [main_b0c3] 遊戲載入  http://127.0.0.1:8822/index.html
+  [前置／捷徑] [main_b0c3] 讀檔：總圖 B1、2025-09-15（一）20:00（pool_17 那一次同一天同一時間）；手機自動打開關掉
+  [  25.0s] [main_b0c3] 蕭乃文和那一間：{"npc": [4.18, 11.3], "room": {"id": "disc2", "label": "討論室 2", "x0": 0, "x1": 6, "z0": 7.5, "z1": 13, "door": {"x": 3, "z": 7.5, "w": 1.2, "open": true}}, "start": [4.18, 11.3], "door": [3, 8.1], "center": [3.9, 10.25], "table": [1.42, 9.6], "cor": [3, 6.5], "corT": [5.5, 6.5]}
+  [前置／捷徑] [main_b0c3] 玩家放到蕭乃文旁邊站得住的格子 [4.18, 11.3]（她那一間裡）
+  [  40.8s] [main_b0c3 door] 起點 [4.18, 11.3] → 點 [3, 8.1]（落點 [3, 8.1, 0, 0]）：走了 2.34 m、離目標 1.48 m；nav free=True canStand=True path=True（3.89 m）；walkFallbacks 0→0；點完 {"busy": false, "path": 1, "cam": "follow", "paused": false, "dlg": false}
+  [  61.6s] [main_b0c3 center] 起點 [4.18, 11.3] → 點 [3.9, 10.25]（落點 [3.9, 10.25, 0, 0]）：走了 0.94 m、離目標 0.15 m；nav free=True canStand=True path=True（1.25 m）；walkFallbacks 0→0；點完 {"busy": false, "path": 2, "cam": "follow", "paused": false, "dlg": false}
+  [  76.3s] [main_b0c3 table] 起點 [4.18, 11.3] → 點 [1.42, 9.6]（落點 [1.42, 9.6, 0, 0]）：走了 2.50 m、離目標 2.89 m；nav free=True canStand=True path=True（5.83 m）；walkFallbacks 0→0；點完 {"busy": false, "path": 2, "cam": "follow", "paused": false, "dlg": false}
+  [  90.6s] [main_b0c3 pool4_point] 起點 [4.18, 11.3] → 點 [7.37, 12.14]（落點 [7.37, 12.14, 0, 0]）：走了 0.00 m、離目標 3.30 m；nav free=True canStand=True path=False（None m）；walkFallbacks 0→0；點完 {"busy": false, "path": 0, "cam": "follow", "paused": false, "dlg": false}
+  [前置／捷徑] [main_b0c3] 對照：玩家放到門外走道 [3, 6.5]，點走道上 [5.5, 6.5]
+  [ 101.7s] [main_b0c3 corridor] 起點 [3, 6.5] → 點 [5.5, 6.5]（落點 [5.5, 6.5, 0, 0]）：走了 2.34 m、離目標 0.16 m；nav free=True canStand=True path=True（2.5 m）；walkFallbacks 0→0；點完 {"busy": false, "path": 0, "cam": "follow", "paused": false, "dlg": false}
+PASS [main_b0c3] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [d3828] 遊戲載入  http://127.0.0.1:8792/index.html
+  [前置／捷徑] [d3828] 讀檔：總圖 B1、2025-09-15（一）20:00（pool_17 那一次同一天同一時間）；手機自動打開關掉
+  [ 128.1s] [d3828] 蕭乃文和那一間：{"npc": [4.18, 11.3], "room": {"id": "disc2", "label": "討論室 2", "x0": 0, "x1": 6, "z0": 7.5, "z1": 13, "door": {"x": 3, "z": 7.5, "w": 1.2, "open": true}}, "start": [4.18, 11.3], "door": [3, 8.1], "center": [3.9, 10.25], "table": [1.42, 9.6], "cor": [3, 6.5], "corT": [5.5, 6.5]}
+  [前置／捷徑] [d3828] 玩家放到蕭乃文旁邊站得住的格子 [4.18, 11.3]（她那一間裡）
+  [ 141.7s] [d3828 door] 起點 [4.18, 11.3] → 點 [3, 8.1]（落點 [3, 8.1, 0, 0]）：走了 2.37 m、離目標 1.46 m；nav free=True canStand=True path=True（3.89 m）；walkFallbacks 0→0；點完 {"busy": false, "path": 1, "cam": "follow", "paused": false, "dlg": false}
+  [ 164.6s] [d3828 center] 起點 [4.18, 11.3] → 點 [3.9, 10.25]（落點 [3.9, 10.25, 0, 0]）：走了 0.94 m、離目標 0.15 m；nav free=True canStand=True path=True（1.25 m）；walkFallbacks 0→0；點完 {"busy": false, "path": 2, "cam": "follow", "paused": false, "dlg": false}
+  [ 179.3s] [d3828 table] 起點 [4.18, 11.3] → 點 [1.42, 9.6]（落點 [1.42, 9.6, 0, 0]）：走了 2.50 m、離目標 2.89 m；nav free=True canStand=True path=True（5.83 m）；walkFallbacks 0→0；點完 {"busy": false, "path": 2, "cam": "follow", "paused": false, "dlg": false}
+  [ 193.5s] [d3828 pool4_point] 起點 [4.18, 11.3] → 點 [7.37, 12.14]（落點 [7.37, 12.14, 0, 0]）：走了 0.00 m、離目標 3.30 m；nav free=True canStand=True path=False（None m）；walkFallbacks 0→0；點完 {"busy": false, "path": 0, "cam": "follow", "paused": false, "dlg": false}
+  [前置／捷徑] [d3828] 對照：玩家放到門外走道 [3, 6.5]，點走道上 [5.5, 6.5]
+  [ 204.8s] [d3828 corridor] 起點 [3, 6.5] → 點 [5.5, 6.5]（落點 [5.5, 6.5, 0, 0]）：走了 2.34 m、離目標 0.16 m；nav free=True canStand=True path=True（2.5 m）；walkFallbacks 0→0；點完 {"busy": false, "path": 0, "cam": "follow", "paused": false, "dlg": false}
+PASS [d3828] 沒有 JS 例外  []
+
+== 摘要（判定歸 BB）
+  main_b0c3  door         點得到=True 走了=2.34 m 離目標=1.48 nav(free=True stand=True path=True) wf=[0, 0]
+  main_b0c3  center       點得到=True 走了=0.94 m 離目標=0.15 nav(free=True stand=True path=True) wf=[0, 0]
+  main_b0c3  table        點得到=True 走了=2.5 m 離目標=2.89 nav(free=True stand=True path=True) wf=[0, 0]
+  main_b0c3  pool4_point  點得到=True 走了=0.0 m 離目標=3.3 nav(free=True stand=True path=False) wf=[0, 0]
+  main_b0c3  corridor     點得到=True 走了=2.34 m 離目標=0.16 nav(free=True stand=True path=True) wf=[0, 0]
+  d3828      door         點得到=True 走了=2.37 m 離目標=1.46 nav(free=True stand=True path=True) wf=[0, 0]
+  d3828      center       點得到=True 走了=0.94 m 離目標=0.15 nav(free=True stand=True path=True) wf=[0, 0]
+  d3828      table        點得到=True 走了=2.5 m 離目標=2.89 nav(free=True stand=True path=True) wf=[0, 0]
+  d3828      pool4_point  點得到=True 走了=0.0 m 離目標=3.3 nav(free=True stand=True path=False) wf=[0, 0]
+  d3828      corridor     點得到=True 走了=2.34 m 離目標=0.16 nav(free=True stand=True path=True) wf=[0, 0]
+ALL PASS
