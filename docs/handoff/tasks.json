@@ -47458,7 +47458,7 @@
    "title": "手機地點地圖、快速前往加新生南路和那幾家店",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47470,7 +47470,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "子代理 wt-xsmap 做完合併、全部 Node",
+   "next": "BB／CC 手機截圖看分地區清單；瀏覽器腳本點公館以外的店要先點 [data-parea]（flow_invite_phone.py 等）",
    "source": "UA-LAWWW-1105-25",
    "authorized": "使用者原話",
    "xai": {
@@ -47487,7 +47487,7 @@
    "title": "手機快速前往分兩層：地區 → 那一區的建築和店",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47499,7 +47499,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "子代理 wt-xsmap 做完合併、全部 Node",
+   "next": "BB／CC 手機截圖看分地區清單；瀏覽器腳本點公館以外的店要先點 [data-parea]（flow_invite_phone.py 等）",
    "source": "UA-LAWWW-1105-26",
    "authorized": "使用者原話",
    "xai": {
