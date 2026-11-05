@@ -1438,3 +1438,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 190.6s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 190.6s] BROWSER DISCONNECTED
 - 2026-11-05T21:23:06  V21R_soc_classmate_xinci_talk  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  265s       用了 3.8 分鐘 / ==== 總結：1 人，FAIL 1 人：[["classmate_xinci", ["greet 連按兩次：按了以後開始說話"]]] / FAILED 1
       err.log (last 5): [gpu_wrap 230.0s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 230.0s] BROWSER DISCONNECTED
+- 2026-11-05T21:25:28  V21R_soc_classmate_peishan_go  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  704s       用了 11.1 分鐘 / ==== 總結：1 人，FAIL 1 人：[["classmate_peishan", ["date 當面約：約成一趟（G.trips 多一筆 booked）", "phone 約出去玩：約成一趟（booked）"]]] / FAILED 2
+      err.log (last 5): [gpu_wrap 668.4s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 668.5s] BROWSER DISCONNECTED

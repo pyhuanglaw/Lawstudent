@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "V21R_soc_classmate_peishan_go",
+  "sha": "83d09d13b0686e51e344b4b771ebb9124d8806a4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_social_smoke_probe.py",
+  "env": "CASES=classmate_peishan;STEPS=invite,invite_study,reload,date,phone,shop,walk;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-05T21:13:43",
+  "end": "2026-11-05T21:25:28",
+  "seconds": 704,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8806/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 62,
+    "mem": 48,
+    "used_gb": 15.3,
+    "chrome_testing": 15
+  }
+}
