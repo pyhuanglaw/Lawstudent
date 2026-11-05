@@ -23,6 +23,7 @@ exit 0＝ALL PASS；1＝有 FAIL。"""
 import os, sys, json, asyncio
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L
+import cc_phone
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
@@ -159,7 +160,7 @@ async def run_case(pg, cdp, case):
         await L.load_state(pg, st, quiet_events=True)
         await wait_ready(pg, case, st, econ, moved)
     ok = await open_places(pg, cdp)
-    r = await pg.evaluate(PLACES_JS)
+    r = await cc_phone.all_rows(pg, cdp, PLACES_JS)   # 12cb1426c 起地點分地區、一次只展開一個：照玩家一個一個點開再合併
     check('%s 照玩家打開手機「地點」分頁' % case, ok and r and r['phoneOpen'] and r['tab'] == 'places' and len(r['rows']) > 0,
           'tab=%s rows=%d phoneOpen=%s' % (r and r['tab'], len(r['rows']) if r else -1, r and r['phoneOpen']))
     if r and r['atHome'] and r['zone'] == st['zone']:
