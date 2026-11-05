@@ -5439,6 +5439,25 @@
    "receiver": "LAWWW",
    "next": "LAWWW：白名單 D*.json 換到這個 commit 重匯；AA_694 第 3 節 252 句照表換；檢查句首／。……／）…… 三種為 0",
    "note": "使用者 11-05 03:4x 選整批改（LAWWW-C 轉述）"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "",
+   "noDirectIntegrate": false,
+   "ack": "SENT",
+   "task": "ART-SHANLAN-BOOKSTORE-1103",
+   "sha": "2177f8680",
+   "files": [
+    "assets/models/env/second_ai/aa_support/shanlan.glb",
+    "assets/models/env/second_ai/aa_support/shanlan.json",
+    "tools/blender/env_second/aa_support/shanlan_interior.py",
+    "tools/blender/env_second/aa_support/README_shanlan.md",
+    "docs/story_planning/AA_695_山嵐書店互動點與坐地板的字.md"
+   ],
+   "receiver": "LAWWW",
+   "next": "LAWWW／LAWWW2：換 shanlan.glb v5.1（二樓兩盆在 L2_）；AA_695 的旁白接進 shanlan3d.js",
+   "note": "回 LAWWW-C 04:33 兩件；AA_695 在 88ed60310"
   }
  ],
  "items": [
