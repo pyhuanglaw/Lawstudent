@@ -95,16 +95,44 @@ async def wait_until(pg, cdp, cond_js, max_s=240, handle=True):
 
 
 async def sleep_tonight(pg, cdp, tag):
-    """一鍵「回去睡覺」（在宿舍就是直接睡）→ 睡到早上"""
-    await L.close_panels(pg, cdp)
-    if not await L.tap(pg, cdp, '#btnGo'): return False
-    await pg.wait_for_timeout(1000)
-    if not await L.tap(pg, cdp, '#goPop [data-gok="sleep"]'): return False
-    await pg.wait_for_timeout(1500)
-    if await pg.evaluate("(()=>{ const b=document.getElementById('goConfirm'); return !!b&&!b.classList.contains('hide'); })()"):
-        await L.tap(pg, cdp, '#goCfYes')
-    R.note('%s 一鍵「回去睡覺」' % tag)
-    return True
+    """睡到隔天早上（BB-C 07:0x：PC r2／r3 的 aunt 是 19:30 按「回去睡覺」沒成功、人醒到隔天）：
+    一鍵「回去睡覺」（先把對話、手機收掉；ONETAP.sleepPlan 不 ok 就印原因）→ 看日期真的換了；不行就照玩家走到宿舍床邊按「睡覺」"""
+    d0 = await pg.evaluate("GAME.G.day")
+    slept = lambda: pg.evaluate("(d=>GAME.G.day>d&&+GAME.G.hour<12)", d0)
+    for k in range(3):
+        for _ in range(20):   # 對話、手機、選單先收掉
+            u = await pg.evaluate(UI)
+            if u['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
+            if u['opts']: await pick(pg, cdp, "t=>true"); continue
+            break
+        await L.close_panels(pg, cdp)
+        plan = await pg.evaluate("(()=>{ try{ const p=ONETAP.sleepPlan(GAME); return {ok:!!p.ok, why:p.why||null}; }catch(e){ return {ok:null, why:String(e)}; } })()")
+        R.note('%s 一鍵「回去睡覺」第 %d 次：sleepPlan %s' % (tag, k + 1, J(plan)))
+        if plan.get('ok') and await L.tap(pg, cdp, '#btnGo'):
+            await pg.wait_for_timeout(1000)
+            if await L.tap(pg, cdp, '#goPop [data-gok="sleep"]'):
+                await pg.wait_for_timeout(1500)
+                if await pg.evaluate("(()=>{ const b=document.getElementById('goConfirm'); return !!b&&!b.classList.contains('hide'); })()"): await L.tap(pg, cdp, '#goCfYes')
+                for _ in range(60):
+                    if await slept(): R.note('%s 睡到隔天早上（%s %.2f）' % (tag, await pg.evaluate("CALENDAR.dateOf(GAME.G.day).key"), await pg.evaluate("+GAME.G.hour"))); return True
+                    u = await pg.evaluate(UI)
+                    if u['dlg']: await L.tap(pg, cdp, '#dlg')
+                    await pg.wait_for_timeout(1000)
+        await pg.wait_for_timeout(2000)
+    # 備用：照玩家走到床邊按「睡覺」
+    bed = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(i=>!i.hidden&&/^睡覺/.test(i.label||'')); return i?[i.x,i.z]:null; })()")
+    R.note('%s 一鍵沒睡成：改走到床邊「睡覺」%s' % (tag, J(bed)))
+    if bed:
+        await L.go_to(pg, cdp, R, bed[0], bed[1], 0.4, tag + ' 床邊', max_s=120)
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        for _ in range(60):
+            if await slept(): R.note('%s 床邊睡到隔天早上' % tag); return True
+            u = await pg.evaluate(UI)
+            if u['opts']: await pick(pg, cdp, "t=>t.startsWith('睡')||t.startsWith('好')") or await pick(pg, cdp, "t=>true"); continue
+            if u['dlg']: await L.tap(pg, cdp, '#dlg')
+            await pg.wait_for_timeout(1000)
+    R.note('%s 沒睡成（%s %.2f）' % (tag, await pg.evaluate("CALENDAR.dateOf(GAME.G.day).key"), await pg.evaluate("+GAME.G.hour")))
+    return False
 
 
 async def depart_menu(pg, cdp, tag, choose, max_s=600):
