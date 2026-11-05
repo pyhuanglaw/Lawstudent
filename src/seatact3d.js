@@ -183,7 +183,7 @@ const SEATACT=(function(){
     return {side,oppD}; };
   // ---------- 狀態 ----------
   const R={zone:null,zid:null,on:new Map(),groups:new Map(),dirty:false,props:null,loading:null,failed:false,t:0,day:null};
-  S.state=()=>({zone:R.zid,n:R.on.size,loaded:!!R.props,list:[...R.on.values()].map(r=>({act:r.act,set:r.set,kind:r.kind,named:r.named,x:r.st.x,z:r.st.z,lv:r.st.lv|0,items:(r.items||[]).map(i=>i.name),pose:r.n.pose,hold:r.hold||null,task:r.task||null,clip:r.taskClip||null,hide:r.handHide||null}))});   /* 測試用（BB-C 11-04 13:13：cafe、library、lawlib、afar、daybreak 的 r.items 是 null，探針一讀就例外）*/
+  S.state=()=>({zone:R.zid,n:R.on.size,loaded:!!R.props,list:[...R.on.values()].map(r=>({act:r.act,set:r.set,kind:r.kind,named:r.named,x:r.st.x,z:r.st.z,lv:r.st.lv|0,items:(r.items||[]).map(i=>i.name),pose:r.n.pose,hold:r.hold||null,task:r.task||null,clip:r.taskClip||null,hide:r.handHide||null,why:r.task?null:(r.named&&S.TASK[r.act]?'named':(r.why||null))}))});   /* 測試用（BB-C 11-04 13:13：cafe、library、lawlib、afar、daybreak 的 r.items 是 null，探針一讀就例外）*/
   S.groups=()=>[...R.groups.values()];   /* 測試用 */
   function load(){ if(R.props||R.loading||R.failed) return; if(typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[S.PROP_KEY]){ R.failed=true; return; }
     R.loading=ASSETS.loadOne(S.PROP_KEY).then(c=>{ const m={}; if(c&&c.scene) c.scene.traverse(o=>{ if(o.isMesh&&o.name) m[o.name]=o; }); R.props=m; R.loading=null; S.TABLET_OK=!!(m.item_tablet&&m.hold_tablet); R.dirty=true; for(const r of R.on.values()) r.items=null; },
@@ -229,15 +229,18 @@ const SEATACT=(function(){
     const act=S.actAt(G.zone,G.day,st,place,busy); return act?{act}:null; }
   /* ---------- 做事的片段（NPC-ANIM-LOOPS-1104，上面 S.TASK）：這個人、這個位子合不合得上；手上拿的東西桌上那一件拆不拆得掉 ---------- */
   function canHide(set,prop){ const fam=S.PROP_FAM[prop]; if(!fam||!set||S.CUSTOM[set]) return true; const has=S.SET_HAS[set]; if(!has||!has.some(n=>fam.test(n))) return true; return !!(S.SPLIT[set]&&S.SPLIT[set][prop]); }
-  function taskFit(r,act){ const k0=S.TASK[act], o=r.n&&r.n.obj; if(!k0||!r.tb||!o||typeof CHAR==='undefined'||!CHAR.sitTaskFit) return null;
-    if((+r.st.lift||0)>0.02) return null;   /* 吧台的高腳椅：先不用（LAWWW2：和參考的桌子差太多）*/
-    const need=S.TASK_NEED[k0]; if(need&&!(R.props&&r.set&&itemsOf(r.set).some(i=>need.test(i.name)&&haveMesh(i.name)))) return null;   /* 桌上真的要有筆電、筆記本、書、碗 */
-    if(S.TASK_DEPTH[k0]&&!((r.tb.depth||0)>=S.TASK_DEPTH[k0])) return null;
+  /* r.why：做有片段的事、卻沒有片段的原因（測試、探針看 S.state 的 why；SEATACT-LIB3F-R2 11-05：BB 量到滑手機的人 task null，以為是漏了）——
+     table 沒找到桌子、stool 吧台的高腳椅、need 桌上沒有那一件、depth 桌子不夠深、loading 片段／配件還沒載好、body:<原因> 這個人的骨架和這張桌子合不上（CHAR.sitTaskFit 的 u.taskWhy：low／high 手比桌面低／高太多、near／far 桌緣、wide、skeleton、queue 還在排隊量骨架；照舊拿著手機、捧著書、手放大腿上）、hide 手上那件桌上也有又拆不掉 */
+  function taskFit(r,act){ const k0=S.TASK[act], o=r.n&&r.n.obj; r.why=null; if(!k0) return null; const no=w=>{ r.why=w; return null; };
+    if(!r.tb) return no('table'); if(!o||typeof CHAR==='undefined'||!CHAR.sitTaskFit) return no('loading');
+    if((+r.st.lift||0)>0.02) return no('stool');   /* 吧台的高腳椅：先不用（LAWWW2：和參考的桌子差太多）*/
+    const need=S.TASK_NEED[k0]; if(need&&!(R.props&&r.set&&itemsOf(r.set).some(i=>need.test(i.name)&&haveMesh(i.name)))) return no('need');   /* 桌上真的要有筆電、筆記本、書、碗 */
+    if(S.TASK_DEPTH[k0]&&!((r.tb.depth||0)>=S.TASK_DEPTH[k0])) return no('depth');
     const kind=k0==='type'&&(hash('task|'+R.zid+'|'+R.day+'|'+skey(r.st))&1)?'typepad':k0;   /* 用筆電：一半的人每 5 秒去摸一下觸控板（照種子：同一天同一個位子一樣）*/
     const desk={h:r.tb.h-(+r.st.lift||0),edge:r.tb.edge,depth:r.tb.depth};
     const urgent=k0==='phone';   /* 滑手機要換姿勢（read→sit）：量骨架不排隊，第一次就決定好，不會先拿著手機再換 */
-    const f=CHAR.sitTaskFit(o,kind,desk,urgent)||(kind==='typepad'?CHAR.sitTaskFit(o,'type',desk):null); if(!f) return null;   /* 觸控板摸不到（桌子遠）＝只打字 */
-    if(f.prop&&!canHide(r.set,f.prop)) return null;   /* 手上拿的東西桌上也有、又拆不掉：先不用 */
+    const f=CHAR.sitTaskFit(o,kind,desk,urgent)||(kind==='typepad'?CHAR.sitTaskFit(o,'type',desk):null); if(!f){ const u=o.userData||{}, P=CHAR.SIT_TASK&&CHAR.SIT_TASK.PROP&&CHAR.SIT_TASK.PROP[kind]; return no(u.driver==='vrm'&&CHAR.sitTaskReady&&CHAR.sitTaskReady()&&(!P||!!(CHAR._handProps&&CHAR._handProps.scene))?'body'+(u.taskWhy?':'+u.taskWhy:''):'loading'); }   /* 觸控板摸不到（桌子遠）＝只打字 */
+    if(f.prop&&!canHide(r.set,f.prop)) return no('hide');   /* 手上拿的東西桌上也有、又拆不掉：先不用 */
     return f; }
   const fitSig=f=>f?f.clip+'|'+f.shift+'|'+(f.prop||''):'';
   /* 現在應該是哪一個（和 applyBody 同一套判斷）：吃飯＝坐著才吃；筆電放不上桌子（腿上、改成捧書）＝沒有 */
