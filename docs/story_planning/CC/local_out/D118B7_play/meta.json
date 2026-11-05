@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "D118B7_play",
+  "sha": "6a1592a26831ce63470b4869aa9c5aa7e5d8628c",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_d118b7_play.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-05T11:47:08",
+  "end": "2026-11-05T12:48:45",
+  "seconds": 3697,
+  "exit": 1,
+  "error": "timeout 60 min",
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8807/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 80,
+    "mem": 99,
+    "used_gb": 31.4,
+    "chrome_testing": 15
+  }
+}
