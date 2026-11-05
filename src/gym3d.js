@@ -189,6 +189,15 @@ const GY3=(function(){
     const cont=d=>Math.max(0,Math.min(1,(d+0.42)/(DEPTH+0.42)))*TOP;   /* 走道：碰撞、找路用的連續斜面（前緣外 0.42 m 的那一階起算，到最上一排）*/
     const step=d=>{ if(d<-0.42) return 0; if(d<0) return H0/2; const r=Math.min(N-1,Math.floor(d/T)), y=H0+r*R; return (d-r*T)<T/2?(r?y-R/2:H0*0.75):y; };   /* 畫面上一階一階 */
     return {T,R,H0,N,DEPTH,TOP,AW:A.aisles.w,sides,cont,step}; }
+  /* 看台可以點的面（點地移動；GYM-ARENA-TAP-1105，LAWWW2-C 11-05）：每一面看台（缺口兩邊分開）一片，沿著碰撞用的連續斜面 cont(d)（前緣外 0.42 m 起、到最上面一排）。
+     沒有這幾片時 E.screenToFloor 退回 y 0 的平面：看台最上面 5.2 m，點走道、座位會落到看台後面的地板那一層（和南洋 1 廳斜地板同一個問題，CC-C 13700be8f）。
+     點在座位上照舊由 tapRedirect 改成走到那張座位前面；點在走不進去的看台上，找路走到最近能站的地方（走道）。場地（y 0）不用另外加：打不到看台就是 y 0 的平面。tests/gym_arena_tap_unit.js */
+  function arenaWalk(G,g){ const mat=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), out=[], d0=-0.42, d1=G.DEPTH;
+    for(const s of G.sides){ const segs=s.gap?[[s.along[0],s.gap[0]],[s.gap[1],s.along[1]]]:[s.along];
+      for(const [u0,u1] of segs){ const P=[]; for(const [u,d] of [[u0,d0],[u1,d0],[u1,d1],[u0,d1]]){ const [x,zz]=s.at(u,d); P.push(x,G.cont(d)+0.01,zz); }
+        const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.Float32BufferAttribute(P,3)); geo.setIndex([0,1,2,0,2,3]); geo.computeBoundingBox(); geo.computeBoundingSphere();
+        const m=new THREE.Mesh(geo,mat); m.userData.walkLv=0; m.userData.dyn=true; g.add(m); out.push(m); } }
+    return out; }
   function arenaNav(A,G){ const nav=new E3.NavGrid(66.3,56.4,0.3,-33.15,-28.35); nav.fillBlocked();   /* 格子 0.3 m、中心在 0.3 的整數倍：走道中心（z 0、±9；x ±12）剛好在格子中心，三格寬 0.9 m（走道 1.2 m） */
     const F=A.floor, V=A.vomitory; nav.freeRect(F.x0+0.3,F.z0+0.3,F.x1-0.3,F.z1-0.3); nav.freeRect(V.x0+0.35,F.z1-0.4,V.x1-0.35,V.z1-0.35);   /* 入口通道整條走得到，盡頭是回 1F 的門（z1＝看台後牆）*/
     for(const s of G.sides) for(const c of s.aisles){ const [ax0,az0]=s.at(c-0.45,-0.42), [ax1,az1]=s.at(c+0.45,G.DEPTH-0.15);
@@ -223,7 +232,7 @@ const GY3=(function(){
   const gym_arena={ id:'gym_arena', name:'綜合體育館 3F 主球場', indoor:true, camDist:5.2, build(E){ const A=L().arena, G=arenaGeo(A);
     const z=Z3.room(E,{w:66,d:56,h:A.h,windows:false,cool:true,wallColor:'#eceae4',floorTex:W3.stoneTex('#c8a36a'),spawn:Object.assign({},A.spawn)}); const g0=z.group;
     const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
-    z.nav=arenaNav(A,G); z.camCols=[arenaCamCols(A,G,g0)];
+    z.nav=arenaNav(A,G); z.camCols=[arenaCamCols(A,G,g0)]; z.walkMeshes=arenaWalk(G,g0);
     const G0c=typeof GAME!=='undefined'?GAME.G:null, cer=ceremonyDay(G0c); z.ceremonyOn=cer; if(cer){ ceremonyNav(z.nav,A); z.cerSpots=A.sets.ceremony.spots; }
     { const st=M('#5c6670',{roughness:0.7}); for(const s of G.sides){ const segs=s.gap?[[s.along[0],s.gap[0]],[s.gap[1],s.along[1]]]:[s.along];   /* 備用模型：每一排一條量體（正式模型載入前、失敗時）*/
         for(let r=0;r<G.N;r+=2) for(const [u0,u1] of segs){ const [xa,za]=s.at(u0,r*G.T), [xb,zb]=s.at(u1,(r+2)*G.T), h=G.H0+(r+1)*G.R; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.abs(xb-xa),h,Math.abs(zb-za)),st); m.position.set((xa+xb)/2,h/2,(za+zb)/2); fb.add(m); } } }

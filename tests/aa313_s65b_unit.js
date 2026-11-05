@@ -38,6 +38,6 @@ check('6. 「公館的晚上」「半夜」「妳自己喝什麼」只在大一�
 // 8、9、10、13（原本就有）
 { const s=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), r=fs.readFileSync(path.join(ROOT,'src/data/rel_lines.js'),'utf8'), v=fs.readFileSync(path.join(ROOT,'src/vac3d.js'),'utf8');
   check('8. 學姊交往中「妳呢？」、碩士期間「今天改了兩段論文。」（rel_lines＋sisCafe）', /tDating:'妳呢？'/.test(r)&&/lGrad:\['「今天改了兩段論文。」'/.test(r)&&/o\.tDating&&F\.dating_heroine_05===true\?o\.tDating:o\.t/.test(s)&&/it\.lGrad&&T&&!\/\^Y1\/\.test\(T\.id\)\?it\.lGrad:it\.l/.test(s));
-  check('9. 寒暑假邀約看 STORY.presence（學姊 2028-08-02～12-23 在美國不約）', /STORY\.presence\(id,Object\.assign\(\{\},G,\{day:inv\+1\}\)\); if\(!pr\.here&&pr\.kind!=='home'\) continue;/.test(v));
+  check('9. 寒暑假邀約看 STORY.presence（學姊 2028-08-02～12-23 在美國不約；AA_675 1-1：寒暑假平日在老家那個城市、約得到的 town〔語彤在淡水〕照臺北約；AA_684 第 3 項：看見面那一天 RI.day——一般＝隔天，語彤＝最近的週六；AA_685 B2：語彤＝她回到臺北那天以後第一個有班的週六，inv2＝S.reBack）', /STORY\.presence\(id,Object\.assign\(\{\},G,\{day:RI\.day\}\)\); if\(!pr\.here&&pr\.kind!=='home'&&!pr\.town\) continue;/.test(v)&&/const RI=S\.reInvite\(R,inv2,21,G,id\);/.test(v));
   check('10. 法服「雅筑學姊」', /雅筑學姊/.test(s)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

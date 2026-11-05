@@ -12,6 +12,7 @@
 //   PASS 的是「沒有旗標＝照舊」「不該演的不演」那一類。修改後 ALL PASS（122 項）。用法：node tests/aa524_promises_unit.js
 'use strict';
 require('./alison.js');
+const E694=require('./ellipsis694.js');   /* AA_694（DATE-ELLIPSIS-1105）：約會台詞（date_lines.js）拿掉句首、。！？後、）後的「……」——稿上的句子照同一條規則換了再找 */
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
@@ -77,7 +78,7 @@ const NEW={
   Z4:['你上學期問我，經原那學期怎麼了。……就是這個。'],
   Z5:['（她買的票是倒數第三排。）','說好的。'],
   Z6:['回來了。','台中帶來的行李，比我去的時候重。'],
-  Z7:['……你又不在台中。……好啦，這張直接給你。','我自己寫。你不准看。','上次你說要請。……老闆，兩份，他付。','……你會做什麼？……算了，你先學。'],
+  Z7:['……你又不在台中。……好啦，這張直接給你。','我自己寫。你不准看。','上次你說要請。老闆，兩份，他付。','……你會做什麼？……算了，你先學。'],
   Z8:['（放的是海報上那一部。）','第五次。'],
   Z9:['（背面只寫了一行：「寫了三次才寄。」）'],
   Z10:['上次說的一半。我媽這次寄了一整罐。……分你。','不行。牠已經很胖了。'],
@@ -88,7 +89,7 @@ const NEW={
   Y3:['店休。……說好要出去的。','刷完這一排就走。','（刷完椅子，你們去河濱走了一圈。）'],
   Y4:['去年想帶你去的那個地方，我後來自己去了。','那張椅子還是空的。','……下次你要來。'],   /* AA_630 H-018（an_yt_hol_events.js ev_yt_vday_y4 整段換成）：YT_VDAY_Y3 no／missed 那三句 */
   Y5:['今天我待到打烊。',   /* AA_630（位置 src/aa524_3d.js）：語彤在茶屋上班，不顧店 */
-      '我過去。','今天不行。','嗯。','（你到的時候，她在收院子的坐墊。蘇姨在裡面算錢。）','……你真的來了。'],
+      '我過去。','今天不行。','嗯。','（你到的時候，她在收院子的坐墊。蘇姨在裡面算錢。）','你真的來了。'],
   Y6:['期中那幾天，我找到一個沒有客人的地方了。……不告訴你。'],
   Y7:['美國那兩個 阿姨說照片也算'],
   Y8:['（蘇姨把一塊茶點放在你的杯子旁邊。）','生日那天說的。'],   /* AA_630 Z-002、第 10 節第 3 條：y8 在一盞茶屋，蘇姨放茶點 */
@@ -111,7 +112,7 @@ await sec(0,()=>{
   check('0. 讀得到稿（AA_524 '+SHA+'：第 1～5 節；A1～A14、Z1～Z11、Y1～Y9）',DOC.length>8000&&/### A14/.test(DOC)&&/### Z11/.test(DOC)&&/### Y9/.test(DOC),String(DOC.length));
   /* AA 2026-11-03 回 LAWWW（YT-REWRITE-1103，經 LAWWW 轉；還沒有企劃線的 commit）：大二上的期末那一句。只放這一句 */
   const AA1103=new Set(['秀琴姨又問了。……我說再等等。']);
-  const miss=[]; const ANREV=require('./an_rev_doc.js'); for(const k in NEW) for(const t of NEW[k]) if(k!=='A2'&&k!=='A12'&&DOC.indexOf(t)<0&&!ANREV.has(t)&&!AA1103.has(t)) miss.push(k+'：'+t);   /* A3、A10 後來又照以安改稿改（AA_594 第 21 列、AA_592 第 51 列）：在改成欄也算 */   /* A2 兩句 11-02 改照 AA_587 第 12 節、A12 改照 AA_587 第 30 列（下面另外比） */
+  const miss=[]; const ANREV=require('./an_rev_doc.js'); for(const k in NEW) for(const t of NEW[k]) if(k!=='A2'&&k!=='A12'&&DOC.indexOf(t)<0&&E694.strip(DOC).indexOf(t)<0&&!ANREV.has(t)&&!AA1103.has(t)) miss.push(k+'：'+t);   /* A3、A10 後來又照以安改稿改（AA_594 第 21 列、AA_592 第 51 列）：在改成欄也算 */   /* A2 兩句 11-02 改照 AA_587 第 12 節、A12 改照 AA_587 第 30 列（下面另外比） */
   { const P587=(()=>{ try{ return cp.execSync('git -c core.quotepath=off ls-tree --name-only -r 27456316d docs/story_planning',{cwd:H.ROOT,encoding:'utf8'}).split('\n').find(x=>/AA_587_/.test(x)); }catch(e){ return null; } })();
     const D587=(()=>{ try{ return P587?cp.execSync('git show 27456316d:"'+P587+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}):''; }catch(e){ return ''; } })();
     check('0. A2 兩句在 AA_587@27456316d 第 12 節（第 69、70 列）',NEW.A2.every(t=>D587.indexOf(t)>=0),J(NEW.A2.filter(t=>D587.indexOf(t)<0)));
@@ -226,14 +227,14 @@ await sec('A7',async()=>{
 });
 await sec('A8',async()=>{
   fresh('2026-11-14',16); H.FAMILIAR(AN); H.said=[]; H.picks=[]; await DATE.closeLine(GM,trip(AN,'D09'),0);
-  check('A8. 貓空第一次的收尾：「夜景很好看。……另一個原因，我不說。」',has(NEW.A8[0]),J(said()));
+  check('A8. 貓空第一次的收尾：「夜景很好看。……另一個原因，我不說。」（AA_694 拿掉「。」後的「……」）',has(E694.strip(NEW.A8[0])),J(said()));
 });
 await sec('A9',async()=>{
   fresh('2026-11-14',16); H.FAMILIAR(AN); await spot(AN,'D14','D14.sunset',0,['下次在台中看']);
   check('A9. 漁人碼頭夕陽「下次在台中看。」→「台中的夕陽在海邊。很遠，要開車。」（AA_524 的「……」照 AA_594 拿掉）',has(require('./an_rev_doc.js').rev(NEW.A9[0])),J(said()));
-  fresh('2026-11-14',10); H.FAMILIAR(AN); await spot(AN,'D16','D16.lighthouse',0,['下次去最南邊']); const a=has(require('./an_rev_doc.js').rev(NEW.A9[1]));
+  fresh('2026-11-14',10); H.FAMILIAR(AN); await spot(AN,'D16','D16.lighthouse',0,['下次去最南邊']); const a=has(E694.strip(require('./an_rev_doc.js').rev(NEW.A9[1])));
   await spot(AN,'D16','D16.lighthouse',1,[]);
-  check('A9. 富貴角燈塔「下次去最南邊。」→「……最南邊。好遠。」；下一次 remember「你上次說要去最南邊。……我查過了，坐車要六個小時。」',a&&has(require('./an_rev_doc.js').rev(NEW.A9[2])),J(said()));
+  check('A9. 富貴角燈塔「下次去最南邊。」→「……最南邊。好遠。」；下一次 remember「你上次說要去最南邊。……我查過了，坐車要六個小時。」',a&&has(E694.strip(require('./an_rev_doc.js').rev(NEW.A9[2]))),J(said()));
 });
 await sec('A10',async()=>{
   const SUNS=()=>R2Y3B.abSundays(), t1Of=wk=>byTag('y3_ab_w'+wk).filter(m=>m.from===AN).map(m=>m.text);
@@ -349,16 +350,16 @@ await sec('Z6',async()=>{
   check('Z6. 選「好好休息。」：不記、沒有私訊',!H.G.flags.ZR_TELL_BACK&&!byTag('aa524_z6').length);
 });
 await sec('Z7',async()=>{
-  fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D18','D18.shop',0,['寄給我']); const a=has(NEW.Z7[0]);
-  fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D18','D18.shop',0,['我買給妳']); const b=has('……好。'+NEW.Z7[1]);
+  fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D18','D18.shop',0,['寄給我']); const a=has(E694.strip(NEW.Z7[0]));
+  fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D18','D18.shop',0,['我買給妳']); const b=has(E694.strip('……好。'+NEW.Z7[1]));
   check('Z7. 九份明信片：「寄給我？」→「……你又不在台中。……好啦，這張直接給你。」；「我買給妳。」→「……好。我自己寫。你不准看。」（只換「我寫好再給你看。」那一段）',a&&b,J(said()));
   fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D10','D10.snack',0,['下次我做給妳']);
-  check('Z7. 碧潭小吃「下次我做給妳。」→「……你會做什麼？……算了，你先學。」',has(NEW.Z7[3]),J(said()));
+  check('Z7. 碧潭小吃「下次我做給妳。」→「……你會做什麼？……算了，你先學。」（AA_694）',has(E694.strip(NEW.Z7[3])),J(said()));
   fresh('2026-11-14',18); H.FAMILIAR(ZR); await spot(ZR,'D04','D04.snack',0,['下次換我請']);
   const fp=DATE.mem(H.G,ZR,'D04').fp||{};
   check('Z7. 西門小吃「下次換我請。」→「好啊。你說的喔。」照留；記下第一次選的（G.dateMemory…fp）',has('好啊。你說的喔。')&&fp['D04.snack']==='「下次換我請。」',J({L:said(),fp}));
   await spot(ZR,'D04','D04.snack',1,[]);
-  check('Z7. 下一次 remember 多一句「上次你說要請。……老闆，兩份，他付。」（接在原本那句後面）',adj(['上次那家的老闆，今天還記得你不要香菜。',NEW.Z7[2]]),J(said()));
+  check('Z7. 下一次 remember 多一句「上次你說要請。老闆，兩份，他付。」（接在原本那句後面）',adj(['上次那家的老闆，今天還記得你不要香菜。',NEW.Z7[2]]),J(said()));
   await spot(ZR,'D04','D04.snack',2,[]);
   check('Z7. 只說一次（第三次又輪到 remember 不再說）',!has(NEW.Z7[2]),J(said()));
   fresh('2026-11-14',18); H.FAMILIAR(ZR); await spot(ZR,'D04','D04.snack',0,['好吃嗎']); await spot(ZR,'D04','D04.snack',1,[]);
@@ -414,8 +415,9 @@ await sec('Y1',async()=>{
   f=await din('Y2S2',w('Y2S2')); check('Y1. 大二下起是 tableByTerm（沒有「我媽問你」）＝不記',f==null&&!said().some(t=>/我媽/.test(t)),J(said()));
   const a23=async(flags,dt)=>{ fresh('2028-12-14',19.5,flags); H.FRIEND(YT); if(dt) H.date(YT); H.FAMILIAR('zhe'); await runEv('ev_noodle_23rd'); };
   await a23({YT_MOM_ASKED:D('2025-12-21')},true);
-  check('Y1. 二十三週年，交往中＋聽過：她媽媽第一次看到你「問了好幾年，終於看到人了。」（接著「……他也很少講話。」）',adj([NEW.Y1[3],'……他也很少講話。你們兩個怎麼聊天的？'])&&H.said[idx(NEW.Y1[3])].who==='語彤的媽媽',J(said().slice(0,6)));
-  await a23({},true); check('Y1. 沒聽過：沒有',!has(NEW.Y1[3])&&has('……他也很少講話。你們兩個怎麼聊天的？'));
+  /* AA_661 第 63 列（AA 定：公館燒臘二十三週年是阿鳳和熟客的場）：語彤的媽媽那幾句拿掉（她和阿鳳不是親戚）——原本交往中＋聽過「我媽問你」＝她媽媽第一次看到你 */
+  check('Y1. 二十三週年，交往中＋聽過：語彤的媽媽不出現（「問了好幾年，終於看到人了。」「……他也很少講話。」都拿掉，AA_661 第 63 列）',!has(NEW.Y1[3])&&!has('……他也很少講話。你們兩個怎麼聊天的？')&&!H.said.some(x=>x.who==='語彤的媽媽'),J(said().slice(0,6)));
+  await a23({},true); check('Y1. 沒聽過：沒有',!has(NEW.Y1[3])&&!has('……他也很少講話。你們兩個怎麼聊天的？'));
   await a23({YT_MOM_ASKED:5},false); check('Y1. 沒在交往：沒有',!has(NEW.Y1[3]));
 });
 await sec('Y2',async()=>{
@@ -429,16 +431,18 @@ await sec('Y2',async()=>{
   check('Y2. 沒有旗標：照現有',J(said())===J(['（電話。她那邊很安靜。）','……新年快樂。','茶屋今天提早收。蘇姨說跨年沒有人喝茶。','你那邊好吵。……好，你去看。我掛了。'])&&!H.opts.length,J(said()));
 });
 await sec('Y3',async()=>{
+  /* AA_685 A3（企劃線 c96613e51，AA-C 定 D109）：2026 情人節（ev_yt_vday_y1，已退場、定義留給舊存檔）的「下次店休也出來。」拿掉（說了沒做到的約定不要開，AA_524）——
+     它的兩句不演、不記 YT_CLOSED_OUT；舊存檔有 YT_CLOSED_OUT 的照樣讀得進來（下面店休那幾格照舊只有鐵門的旁白；AA_685 C 節第 3 點：不另外收尾）*/
   fresh('2026-02-14',17); H.FRIEND(YT); await runEv('ev_yt_vday_y1',['下次店休也出來']);
-  check('Y3. 2026 情人節「下次店休也出來。」→「下次店休是明年。」「……那明年也出來。」、記 YT_CLOSED_OUT',has('……那明年也出來。')&&H.G.flags.YT_CLOSED_OUT===true);
+  check('Y3. 2026 情人節：選項只剩「冷嗎？」→「……有一點。」；「下次店休也出來。」「下次店休是明年。」「……那明年也出來。」都沒有、不記 YT_CLOSED_OUT（AA_685 A3）',
+    J(H.opts.map(o=>[...o]))===J([['「冷嗎？」']])&&has('……有一點。')&&!has('下次店休是明年。')&&!has('……那明年也出來。')&&!('YT_CLOSED_OUT' in H.G.flags)&&!J(ev('ev_yt_vday_y1').dialogue).includes('YT_CLOSED_OUT'),J({o:H.opts,L:said()}));
   const door=async(day,flags,pick)=>{ fresh(day,11,flags); H.FRIEND(YT); PHONE.join(H.G,'noodle_team','麵店團'); H.said=[]; H.picks=[pick]; const r=await NOODLE_CLOSED.door(GM); return {r,L:said()}; };
-  let r=await door('2027-02-01',{YT_CLOSED_OUT:true},0);
-  check('Y3. 2027 店休、有旗標：她的第一句換「店休。……說好要出去的。」「刷完這一排就走。」；「我來幫忙。」後面多一句「（刷完椅子，你們去河濱走了一圈。）」',r.r===true&&adj([NOODLE_CLOSED.L.inside].concat(NEW.Y3.slice(0,2)))&&!r.L.includes(NOODLE_CLOSED.L.offer)&&adj(['（刷完一排椅子，阿姨塞給你一袋滷蛋。）',NEW.Y3[2]]),J(r.L));
-  r=await door('2027-02-01',{YT_CLOSED_OUT:true},1);
-  check('Y3. 有旗標：第二個選項換「我在外面等妳。」（AA_526）→「嗯。……很快。」「（她鎖好鐵門出來。你們去河濱走了一圈。）」；沒有「那我初四再來。」',J(H.opts[0])===J(['「我來幫忙。」',NEW526.Y3[0]])&&adj([NEW.Y3[1]].concat(NEW526.Y3.slice(1)))&&!r.L.includes('嗯。初四見。')&&!r.L.includes(NEW.Y3[2])&&!r.L.includes('（刷完一排椅子，阿姨塞給你一袋滷蛋。）'),J({o:H.opts[0],L:r.L}));
-  r=await door('2027-02-01',{},1); check('Y3. 沒有旗標：兩個選項照原本（「那我初四再來。」→「嗯。初四見。」）',J(H.opts[0])===J(['「我來幫忙。」','「那我初四再來。」'])&&r.L.includes('嗯。初四見。')&&!r.L.includes(NEW526.Y3[1]),J({o:H.opts[0],L:r.L}));
-  r=await door('2027-02-01',{},0); check('Y3. 沒有旗標：照原本',r.L.includes(NOODLE_CLOSED.L.offer)&&!r.L.includes(NEW.Y3[0]),J(r.L));
-  r=await door('2028-01-20',{YT_CLOSED_OUT:true},0); check('Y3. 2027 以外的店休：照原本（2027 年沒遇到那一場的，不補）',r.L.includes(NOODLE_CLOSED.L.offer)&&!r.L.includes(NEW.Y3[0]),J(r.L));
+  /* AA_683 第 1 節（企劃線 ef5c6c742，AA 定稿 D109）：燒臘店過年店休裡語彤自己的那幾段拿掉（新設定她不在燒臘店幫忙）——Y3 的 2027 店休那一場
+     （第一句換「店休。……說好要出去的。」、河濱那一句、AA_526 的「我在外面等妳。」）跟著沒有了：有沒有旗標、哪一年，店休去按門都只有鐵門的旁白。情人節那一段（上面）照留 */
+  const gone=NEW.Y3.concat(NEW526.Y3.slice(1)).concat(['「我來幫忙。」','「那我初四再來。」','嗯。初四見。']);
+  for(const [day,fl,pick,tag] of [['2027-02-01',{YT_CLOSED_OUT:true},0,'2027 店休、有旗標、第一個選項'],['2027-02-01',{YT_CLOSED_OUT:true},1,'2027 店休、有旗標、第二個選項'],['2027-02-01',{},0,'2027 店休、沒有旗標'],['2028-01-20',{YT_CLOSED_OUT:true},0,'2028 店休、有旗標']]){
+    const r=await door(day,fl,pick);
+    check('Y3. '+tag+'：只有鐵門的旁白、沒有選項（AA_683）；舊的那幾句都不在',r.r===true&&J(r.L)===J([NOODLE_CLOSED.L.door])&&!H.opts.length&&!gone.some(s=>r.L.includes(s)),J({L:r.L,o:H.opts})); }
 });
 await sec('Y4',async()=>{
   const v=async(val)=>{ fresh('2029-02-14',19,val?{YT_VDAY_Y3:val}:{}); H.FRIEND(YT); await runEv('ev_yt_vday_y4',[0]); };
@@ -495,7 +499,7 @@ await sec('Y8',async()=>{
 });
 await sec('Y9',async()=>{
   fresh('2026-11-14',13); H.FAMILIAR(YT); await spot(YT,'D10','D10.boat',0,['我請']);
-  check('Y9. 碧潭天鵝船「我請。」→「……下次我請。……嗯，謝謝。」照留',has('……下次我請。……嗯，謝謝。'),J(said()));
+  check('Y9. 碧潭天鵝船「我請。」→「……下次我請。……嗯，謝謝。」照留（AA_694 拿掉句首、「。」後的「……」）',has(E694.strip('……下次我請。……嗯，謝謝。')),J(said()));
   await spot(YT,'D10','D10.boat',1,[]);
   check('Y9. 下一次 remember 多一句旁白「（這次她先去付了錢。）」',adj(['上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。',NEW.Y9[0]])&&H.said[idx(NEW.Y9[0])].who===null,J(said()));
   fresh('2026-11-14',13); H.FAMILIAR(YT); await spot(YT,'D10','D10.boat',0,['今天坐']); await spot(YT,'D10','D10.boat',1,[]);

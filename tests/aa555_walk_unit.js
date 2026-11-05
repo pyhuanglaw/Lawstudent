@@ -90,6 +90,7 @@ const MEMS=[['yu','BREAKFAST_YU'],['yu','YU_ALONE'],['yu','YU_CLUB_BEAR'],['hero
 const NOTDONE=['ev_yu_together','ev_zhe_deposit','ev_bohan_third_floor','ev_an_dorm_appeal_result','ev_yt_moon','ev_yt_ta_news_lib'];
 const STATE=(kind,route)=>{ const G=H.fresh('2025-09-01',10,'campus',{}); G.contacts={}; for(const id of CH) G.contacts[id]=-900; PHONE.rec(G);
   for(const g of ['noodle_team','lawclub_study','public_law']) PHONE.join(G,g,g);
+  if(kind!=='none') Object.assign(G.flags,{lawclub:true,CLUB_lawclub_study:true});   /* D118-B5a（2026-11-04）：柏翰「本週值班表」只給真的加入法服的社員（只看過公告、在群組裡的舊存檔不收）＝在法服群組裡的玩家補上加入的旗標 */
   if(kind!=='none'){ for(const [w,t] of MEMS) SOCIAL.remember(w,t,''); for(const id of CH) H.FRIEND(id);
     Object.assign(G.flags,{YU2_PICK:'a',ZHE2_ASKED:1,YT_TA:true,AN_CHOICE:'dm',SIS_RESULT_OUT:true,SK10_DONE:['Y2S1_6'],EXCHANGE_ROUTE:route||'TW'}); if(kind==='all') Object.assign(G.flags,{ZHE3:true,BH4_DONE:true,STUDYGROUP_LEADER:false});
     for(const ev of ALL_EV){ if(kind==='mixed'&&NOTDONE.includes(ev)) continue; G.events.done[ev]=1; G.events.last[ev]=-500; }
@@ -164,6 +165,7 @@ for(const r of P118){ const mods=MP.filter(m=>m.term===r.term&&m.who===r.who); l
   if(mod){ if(/^\*\*遊戲裡已改過/.test(mod.to)) special='han3'; else if(/照用|條件改|換 Alison|^「……|……」$/.test(mod.to)) {} else b=bubbles(mod.to); }
   if(r.who==='zhe'&&b[0]==='哥我今天在總圖'&&ZHE_GE) b[0]=ZHE_GE[1];
   if(r.who==='heroine_03') b=b.map(t=>require('./aa630_expect.js').fix(t,'src/aa555_3d.js')).map(t=>t==='📷（秀琴姨在我家陽台烤肉，旁邊一隻貓）'?'📷（公園的橘子，旁邊一塊烤肉）':(t==='📷（阿姨在新合約上簽名，手有點抖）'?'📷（秀琴姨在新的租約上簽名，手有點抖）':t));   /* 大三上續約那張：AA_643 第 9-2 節 */   /* 中秋那張：AA_642 第 2 節用 A-017 的備選（秀琴姨不去烤肉）*/   /* 語彤的照片句照 AA_627 表 A（A-007、A-009、A-017，位置 src/aa555_3d.js）換：稿寫「（照片：…）」，換字表寫「📷（…）」*/
+  if(r.who==='classmate_bohan'&&b[0]==='本週值班表') b=['這學期的預約，有的話前一天晚上在這裡講','📷（一張空白的預約登記表）'].concat(b.slice(2));   /* AA_696（企劃線 f5de71174）：D118 法服沒有值班 */
   PEXP.push({term:r.term,who:r.who,cond:r.cond,b,special,skip:skipKey(r),mod:!!mod}); }
 /* AA-B 11-01 回 12 題：阿哲系籃改私訊（第 1 題）、芯慈 2028 暑假換句（第 10 題）、柏翰期中倒數二十一天每天一則（第 11 題；AA_581 改成期末倒數）*/
 { const CN=n=>{ const d='零一二三四五六七八九'; return n<10?d[n]:(n===10?'十':(n<20?'十'+d[n-10]:d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:''))); }, SP={14:'期末前十四天。進度落後半天。',7:'期末前七天。……今天念得很慢，可是記得住。',1:'明天考。我今天十點就睡。'};   /* AA_581 第 1～3 列（D118 沒有期中考）：稿的「期中前」→ 遊戲「期末前」*/

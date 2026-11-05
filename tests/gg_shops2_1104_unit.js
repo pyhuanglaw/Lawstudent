@@ -9,7 +9,7 @@
 //   5 點餐、看甜點櫃、看看書架、看菜單（配置的 interact）按得到、走得到；Daybreak 的看菜單不和點餐疊在一起
 //   6 店員、路人（CROWD）、快速前往、大地圖、引路、路程、城鎮判定、index.html 載入順序、LICENSES.md、劇情匯入白名單
 // 第二部分（B，子程序：tests/pg_harness.js 的遊戲資料＋邀約系統）：
-//   7 營業時間（places.js）、關門時按門（afar 寫開放時間、Daybreak 15:00 以後木牌）、打烊請你出來（那一刻＝店員＋旁白；之後＝只寫開放時間）
+//   7 營業時間（places.js）、關門時按門（afar 寫開放時間、Daybreak 15:00 以後木牌）、打烊請你出來（那一刻＝店員「我們今天要打烊了。」一句，AA_700；之後＝只寫開放時間）
 //   8 進門一天一次（一個人；今天約在這裡不說）、點餐扣錢、錢不夠（店員那一句、不扣錢）、只有點手沖／法式吐司才說的那一句、Daybreak 吃 40 分鐘＋吃完旁白、看的東西、照位子的坐下句
 //   9 約會地點：afar（喝咖啡、剛認識就可以）、daybreak（吃飯、08:00～14:00 開始、14:00 以後的旁白）、七位答應的那一句＋一般那句、坐下以後的開場句
 //   10 台詞逐字對照 AA_652（git show 企劃線；讀不到就 SKIP）
@@ -150,7 +150,7 @@ const run=async()=>{
     finally { PLACES.typhoonClosed=TC; } }
   // ---- 7 打烊請你出來 ----
   for(const [k,c] of [['afar',21.1],['daybreak',15.1]]){ fresh('2025-10-15',c,k); const r=await GG2.closeOut(GM);
-    check(`7 ${k} 打烊那一刻（${c}）：店員一句＋走出去的旁白、回公館`,r==='close'&&J(H.said.map(s=>[s.who,s.t]))===J(GG2.L[k].close.map(x=>[x[0]?'店員':null,x[1]]))&&H.entered[0]==='gongguan',J(said()));
+    check(`7 ${k} 打烊那一刻（${c}）：店員「我們今天要打烊了。」一句（AA_700，不另外出旁白）、回公館`,r==='close'&&J(H.said.map(s=>[s.who,s.t]))===J([['店員','我們今天要打烊了。']])&&H.entered[0]==='gongguan'&&!GG2.L[k].close,J(said()));
     fresh('2025-10-16',k==='afar'?23.5:18,k); const r2=await GG2.closeOut(GM);
     check(`7 ${k} 讀檔回到關門以後：不說話、回公館、寫開放時間`,r2==='out'&&!H.said.length&&H.entered[0]==='gongguan'&&toasts.length===1,J([r2,said(),toasts])); }
   // ---- 8 進門一天一次 ----
@@ -188,7 +188,7 @@ const run=async()=>{
     H.G.zone='cafe'; H.said=[]; await STORY.onSeat(GM,{x:-0.9,z:3.1,yaw:0}); check('8 別的店坐下：不說',!GG2.L.afar.seat.window||!H.has(GG2.L.afar.seat.window)); }
   // ---- 9 約會地點 ----
   { const G=fresh('2025-10-15',10,'campus'), A=INV.place('afar'), D=INV.place('daybreak');
-    check('9 約會地點 afar（喝咖啡（AA_652「類型：咖啡、吃飯」）、剛認識就可以、11:00～21:00）、daybreak（吃飯、有點熟以上、早午餐 08:00～14:00 開始）',!!A&&!!D&&A.zone==='afar'&&A.kind==='reason'&&A.minStage==='ACQUAINTANCE'&&J(INV.catsOf(A))===J(['sit'])&&D.zone==='daybreak'&&D.kind==='meal'&&D.minStage==='FAMILIAR'&&J(INV.catsOf(D))===J(['meal']),J([A&&A.kind,D&&D.kind]));
+    check('9 約會地點 afar（喝咖啡（AA_652「類型：咖啡、吃飯」）、剛認識就可以、11:00～21:00）、daybreak（吃飯、有點熟以上、早午餐 08:00～14:00 開始）',!!A&&!!D&&A.zone==='afar'&&A.kind==='reason'&&A.minStage==='ACQUAINTANCE'&&J(INV.catsOf(A))===J(['sit','study'])&&D.zone==='daybreak'&&D.kind==='meal'&&D.minStage==='FAMILIAR'&&J(INV.catsOf(D))===J(['meal']),J([A&&A.kind,D&&D.kind]));
     if(D){ const d=G.day; const ok=h=>INV.slotOpen(G,D,d,h);
       check('9 Daybreak 08:00～14:00 開始約得到（14:00 可以、14:30 不行、07:30 不行）',ok(8)&&ok(13)&&ok(14)&&!ok(14.5)&&!ok(7.5),J([8,13,14,14.5,7.5].map(ok)));
       check('9 Daybreak 時間選項：今天 14:00 以後只有明天的（09:00、10:00、11:30、13:00）',(()=>{ G.hour=14.5; const T=INV.timeOptions(G,false,D); G.hour=10; return T.length===4&&T.every(q=>q.day===d+1); })());
@@ -203,15 +203,17 @@ const run=async()=>{
       check('9 約去 Daybreak 答應：七位各自那一句',!bad.length,J(bad));
       const o=INV.personal(G,'zhe',D,G.day+1,10,{res:'accept'}); check('9 約去 Daybreak 答應：沒列的人＝一般那句「好啊。早上嗎？我爬得起來。」',o&&J(o.lines)===J(['「好啊。早上嗎？我爬得起來。」']),J(o&&o.lines)); }
     const SO=INVITE_DATA.seatOpen; check('9 坐下以後的開場句：afar、daybreak 各兩則（byPlace）',SO.byPlace.afar==='afar'&&SO.byPlace.daybreak==='daybreak'&&SO.afar.length===2&&SO.daybreak.length===2);
-    if(A){ H.said=[]; GG2.rand=Math.random; const R0=Math.random; Math.random=()=>0; await INV.seatOpenLines(GM,{who:'heroine_01'},{name:'沈以安'},A); Math.random=R0;
-      check('9 afar 兩個人坐下：小燈那一則（旁白＋她一句）',J(H.said.map(s=>[s.who,s.t]))===J([[null,'（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）'],['沈以安','「……這個燈好可愛。」']]),J(said())); }
+    if(A){ H.said=[]; GG2.rand=Math.random; const R0=Math.random, PS0=E.player.seat; Math.random=()=>0; E.player.seat={x:-0.9,z:3.1,yaw:0,table:6}; await INV.seatOpenLines(GM,{who:'heroine_01'},{name:'沈以安'},A); Math.random=R0;
+      check('9 afar 兩個人坐在窗邊長桌（table 6）：小燈那一則（旁白＋她一句）',J(H.said.map(s=>[s.who,s.t]))===J([[null,'（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）'],['沈以安','「……這個燈好可愛。」']]),J(said()));
+      H.said=[]; Math.random=()=>0; E.player.seat={x:2.05,z:0.65,yaw:Math.PI/2,table:1}; await INV.seatOpenLines(GM,{who:'heroine_01'},{name:'沈以安'},A); Math.random=R0; E.player.seat=PS0;   /* DATE-SEAT-AFAR-1105 */
+      check('9 afar 坐在中間的四人桌（table 1）：不抽小燈那一則（燈在窗邊長桌），是杯墊那一則',J(H.said.map(s=>[s.who,s.t]))===J([[null,'（她把兩杯咖啡的杯墊對齊，一杯推給你。）']]),J(said())); }
     { const kx=INV.kxPlaceOk; check('9 可昕交往中：afar、Daybreak 列得出來（有她自己的答應句；只在她在臺北、約得到的時候照現有規則）',!kx||(kx(G,A)&&kx(G,D))); } }
   // ---- 10 逐字對照 AA_652 ----
   { let doc=null; for(const ref of ['origin/claude/story-planning','303cded56']){ try{ doc=cp.execFileSync('git',['show',ref+':docs/story_planning/AA_652_afar與Daybreak店內台詞.md'],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); break; }catch(e){} }
     if(!doc&&fs.existsSync(path.join(ROOT,'docs/story_planning/AA_652_afar與Daybreak店內台詞.md'))) doc=rd('docs/story_planning/AA_652_afar與Daybreak店內台詞.md');
     if(!doc){ console.log('SKIP 10 讀不到 AA_652（企劃線）'); }
     else { const out=[]; const T=t=>{ if(typeof t==='string') out.push(t); };
-      for(const k of ['afar','daybreak']){ const L=GG2.L[k]; L.door.forEach(T); T(L.ask); T(L.short); L.after.forEach(a=>T(a[1])); (L.eat||[]).forEach(T); Object.values(L.look).forEach(a=>a.forEach(T)); Object.values(L.seat).forEach(T); L.close.forEach(a=>T(a[1])); T(L.sign); T(GG2.ACC0[k]);
+      for(const k of ['afar','daybreak']){ const L=GG2.L[k]; L.door.forEach(T); T(L.ask); T(L.short); L.after.forEach(a=>T(a[1])); (L.eat||[]).forEach(T); Object.values(L.look).forEach(a=>a.forEach(T)); Object.values(L.seat).forEach(T); T(L.sign); T(GG2.ACC0[k]);
         Object.values(INVITE_DATA[k+'Acc']||{}).forEach(T); [].concat(...INVITE_DATA.seatOpen[k]).forEach(T); }
       T(INV.place('daybreak').lateNote({hour:15}));
       const strip=t=>t.replace(/^「|」$/g,''), bad=out.filter(t=>doc.indexOf(t)<0&&doc.indexOf(strip(t))<0);

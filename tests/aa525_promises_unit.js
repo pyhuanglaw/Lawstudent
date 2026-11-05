@@ -155,7 +155,7 @@ await sec('1-5',()=>{ const E5=(DATE_WISH.events[ZQ].closing.ending||[]).find(e=
 await sec('1-6',async()=>{
   const L=(loc,who)=>(DATE_LINES.loc[loc]||{}).lines[who].hotspots, rep=(loc,pid,who,i)=>L(loc,who)[pid].first.choice[i].reply[0].text;
   check('1-6. 子晴約會第一次的回覆改成不欠：D10「……謝謝。」、D12「謝謝。」、D13「好啦。謝謝。」、D30「好。謝謝。」、D31「好！謝謝！」',
-    rep('D10','D10.snack',ZQ,0)==='……謝謝。'&&rep('D12','D12.pier',ZQ,0)==='謝謝。'&&rep('D13','D13.drink',ZQ,2)==='好啦。謝謝。'&&rep('D30','D30.stall',ZQ,0)==='好。謝謝。'&&rep('D31','D31.egg',ZQ,0)==='好！謝謝！',J([rep('D10','D10.snack',ZQ,0),rep('D12','D12.pier',ZQ,0),rep('D13','D13.drink',ZQ,2),rep('D30','D30.stall',ZQ,0),rep('D31','D31.egg',ZQ,0)]));
+    rep('D10','D10.snack',ZQ,0)==='謝謝。'&&rep('D12','D12.pier',ZQ,0)==='謝謝。'&&rep('D13','D13.drink',ZQ,2)==='好啦。謝謝。'&&rep('D30','D30.stall',ZQ,0)==='好。謝謝。'&&rep('D31','D31.egg',ZQ,0)==='好！謝謝！',J([rep('D10','D10.snack',ZQ,0),rep('D12','D12.pier',ZQ,0),rep('D13','D13.drink',ZQ,2),rep('D30','D30.stall',ZQ,0),rep('D31','D31.egg',ZQ,0)]));
   /* 第一次選了哪一個 → 第二次的 remember */
   const two=async(who,loc,pid,pick)=>{ fresh('2027-03-06',14,{}); H.FRIEND(who); const t={who,locs:[loc],day:H.G.day,trip:'T9'}; H.said=[]; H.picks=[pick]; await DATE.spotLine(GM,t,pid,0); const f1=JSON.parse(JSON.stringify(H.G.flags));
     const m=DATE.mem(H.G,who,loc); m.last=[pid]; H.said=[]; H.picks=[]; await DATE.spotLine(GM,t,pid,1); const s2=said(); return {f1,s2,F:H.G.flags}; };
@@ -163,9 +163,9 @@ await sec('1-6',async()=>{
   check('1-6. D06 第一次選「我請妳。」（「好。下次我請你吃滷味。」）記 ZQ_D06_TREAT；第二次 remember「上次說要請你吃滷味，十點以後半價那間。」',a.f1.ZQ_D06_TREAT!=null&&J(a.s2)===J(['上次說要請你吃滷味，十點以後半價那間。']),J(a.s2));
   check('1-6. D06 第一次選另一個：不記，第二次換通用的「上次也來這裡。」',b.f1.ZQ_D06_TREAT==null&&J(b.s2)===J(['上次也來這裡。']),J(b.s2));
   const c=await two(ZQ,'D15','D15.store','布丁不行'), d=await two(ZQ,'D15','D15.store','全部我請');
-  check('1-6. D15 第一次選「布丁不行。」（「……欸，好啦。布丁下次。」）記 ZQ_D15_NEXT；第二次 remember「上次的布丁，今天我要。」「……上次說下次的。」',c.f1.ZQ_D15_NEXT!=null&&J(c.s2)===J(['上次的布丁，今天我要。','……上次說下次的。']),J(c.s2));
+  check('1-6. D15 第一次選「布丁不行。」（「……欸，好啦。布丁下次。」）記 ZQ_D15_NEXT；第二次 remember「上次的布丁，今天我要。」「……上次說下次的。」',c.f1.ZQ_D15_NEXT!=null&&J(c.s2)===J(['上次的布丁，今天我要。','上次說下次的。']),J(c.s2));
   check('1-6. D15 第一次選「全部我請。」：不記，第二次「上次也來這裡。」',d.f1.ZQ_D15_NEXT==null&&J(d.s2)===J(['上次也來這裡。']),J(d.s2));
-  check('1-6. AA_526 第 2 節：D15「全部我請。」的回覆＝「……好。我記下來。」（拿掉「下次滷味我請」；tools/date/import_date_lines.py 疊的，來源寫 AA_526）',rep('D15','D15.store',ZQ,0)==='……好。我記下來。'&&L('D15',ZQ)['D15.store'].first.choice[0].t==='「全部我請。」'&&DATE_LINES.source.includes('AA_526_回LAWWW_AA524_525重做九題.md@'+SHA6),rep('D15','D15.store',ZQ,0));
+  check('1-6. AA_526 第 2 節：D15「全部我請。」的回覆＝「……好。我記下來。」（拿掉「下次滷味我請」；tools/date/import_date_lines.py 疊的，來源寫 AA_526）',rep('D15','D15.store',ZQ,0)==='好。我記下來。'&&L('D15',ZQ)['D15.store'].first.choice[0].t==='「全部我請。」'&&DATE_LINES.source.includes('AA_526_回LAWWW_AA524_525重做九題.md@'+SHA6),rep('D15','D15.store',ZQ,0));
 });
 
 /* ================= 2 沛珊 ================= */
@@ -216,11 +216,11 @@ await sec('2-4',async()=>{
   check('2-4 P-6. 偶遇道別（交往中）D12「今天買的書，第一本是繪本。……給課輔班的。」、D20「回程的車上，我要把今天的事寫下來！」',all.includes('"dating":"今天買的書，第一本是繪本。……給課輔班的。"')&&all.includes('"dating":"回程的車上，我要把今天的事寫下來！"'));
   check('2-4 P-6. 重考期回覆池 share_food「看起來好好吃！！我考完要吃很多！」',J(HOMETOWN_LINES[PS].keep.replies.share_food)===J(['看起來好好吃！！我考完要吃很多！']));
   const L=(loc)=>DATE_LINES.loc[loc].lines[PS].hotspots;
-  check('2-4 P-6. 約會：D15「……我家的早餐比這個好吃！」、D08、D18「謝謝！」',L('D15')['D15.store'].first.choice[0].reply[0].text==='……我家的早餐比這個好吃！'&&L('D08')['D08.train'].first.choice[0].reply[0].text==='謝謝！'&&L('D18')['D18.snack'].first.choice[1].reply[0].text==='謝謝！');
+  check('2-4 P-6. 約會：D15「……我家的早餐比這個好吃！」、D08、D18「謝謝！」',L('D15')['D15.store'].first.choice[0].reply[0].text==='我家的早餐比這個好吃！'&&L('D08')['D08.train'].first.choice[0].reply[0].text==='謝謝！'&&L('D18')['D18.snack'].first.choice[1].reply[0].text==='謝謝！');
   const two=async pick=>{ fresh('2027-03-06',14,{}); H.FRIEND(PS); const t={who:PS,locs:['D05'],day:H.G.day,trip:'T9'}; H.said=[]; H.picks=[pick]; await DATE.spotLine(GM,t,'D05.cafe',0); const f=H.G.flags.PS_D05_EGG;
     DATE.mem(H.G,PS,'D05').last=['D05.cafe']; H.said=[]; await DATE.spotLine(GM,t,'D05.cafe',1); const s2=said(); H.said=[]; await DATE.spotLine(GM,t,'D05.cafe',1); return {f,s2,s3:said(),F:H.G.flags.PS_D05_EGG}; };
   const a=await two('我請妳'), b=await two('小杯');
-  check('2-4 P-6. D05 第一次選「我請妳。」（「……那下次我請你吃蛋餅。說好了。」照留）記 PS_D05_EGG；remember 多「（她把一盒蛋餅放到你面前。）」「說好的！」（只拿一次）',a.f!=null&&J(a.s2)===J(['上次我們坐那個位子。今天被坐走了。','（她把一盒蛋餅放到你面前。）','說好的！'])&&a.F==='paid'&&J(a.s3)===J(['上次我們坐那個位子。今天被坐走了。'])&&L('D05')['D05.cafe'].first.choice[0].reply[0].text==='……那下次我請你吃蛋餅。說好了。',J(a));
+  check('2-4 P-6. D05 第一次選「我請妳。」（「……那下次我請你吃蛋餅。說好了。」照留）記 PS_D05_EGG；remember 多「（她把一盒蛋餅放到你面前。）」「說好的！」（只拿一次）',a.f!=null&&J(a.s2)===J(['上次我們坐那個位子。今天被坐走了。','（她把一盒蛋餅放到你面前。）','說好的！'])&&a.F==='paid'&&J(a.s3)===J(['上次我們坐那個位子。今天被坐走了。'])&&L('D05')['D05.cafe'].first.choice[0].reply[0].text==='那下次我請你吃蛋餅。說好了。',J(a));
   check('2-4 P-6. D05 選另一個：不記，remember 照舊',b.f==null&&J(b.s2)===J(['上次我們坐那個位子。今天被坐走了。']),J(b));
 });
 

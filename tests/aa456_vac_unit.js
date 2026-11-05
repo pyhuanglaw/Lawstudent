@@ -79,13 +79,15 @@ await sec('1-2',()=>{
   const got={};
   for(const y of ['2026','2027','2028','2029']){ const W=NOODLE_CLOSED.window(D(NOODLE_CLOSED.CNY[y])); fresh(W.from,20.9); grp(); run(20.9,21.2); const a=byTag('noodle_closed_a_'+y);
     at(W.open,11.9); run(11.9,12.2); const d=byTag('noodle_closed_d_'+y);
-    got[y]={a:a.map(m=>m.text),d:d.map(m=>m.text),ok:a.concat(d).every(m=>m.from==='heroine_03'&&m.th==='g:noodle_team'),at:[keyOf(W.from),keyOf(W.open)]}; }
-  for(const y of ['2026','2027','2028','2029']) check('1-2. '+y+'：店休第一天（'+got[y].at[0].slice(5)+'）21:00「'+(X12[y]||{a:[]}).a.join('／')+'」、初四（'+got[y].at[1].slice(5)+'）12:00「'+(X12[y]||{d:[]}).d.join('／')+'」（語彤、麵店團群組）',
-    !!X12[y]&&J(got[y].a)===J(X12[y].a)&&J(got[y].d)===J(X12[y].d)&&got[y].ok,J(got[y]));
-  const keep=Object.keys(got).filter(y=>got[y].a.includes('阿姨說要大掃除。想吃麵的，初四以後。')||got[y].d.includes('阿姨說，今天第一碗加蛋。'));
+    got[y]={a:a.map(m=>m.text),d:d.map(m=>m.text),ok:a.concat(d).every(m=>m.from==='zhe'&&m.th==='g:noodle_team'),at:[keyOf(W.from),keyOf(W.open)]}; }
+  /* AA_685 A2（企劃線 c96613e51，AA-C 定 D109）：A、D 改阿哲傳＝稿的字照 AA_477 第 3 節轉（ZP，同 1-1）；D 2026、2029 的「第一碗加蛋」換字（tools/story/aa685_fix.json，讀稿時已換）*/
+  for(const y of ['2026','2027','2028','2029']) check('1-2. '+y+'：店休第一天（'+got[y].at[0].slice(5)+'）21:00「'+(X12[y]||{a:[]}).a.map(ZP).join('／')+'」、初四（'+got[y].at[1].slice(5)+'）12:00「'+(X12[y]||{d:[]}).d.map(ZP).join('／')+'」（阿哲、麵店團群組；句號照 AA_477）',
+    !!X12[y]&&J(got[y].a)===J(X12[y].a.map(ZP))&&J(got[y].d)===J(X12[y].d.map(ZP))&&got[y].ok,J(got[y]));
+  const O26=X12['2026']?[ZP(X12['2026'].a[1]),ZP(X12['2026'].d[1])]:['?','?'];   /* 2026 是原句（AA_456 1-2）：照 AA_477、AA_685 換過的字 */
+  const keep=Object.keys(got).filter(y=>got[y].a.includes(O26[0])||got[y].d.includes(O26[1]));
   check('1-2. 原句只留在 2026',J(keep)===J(['2026']),J(keep));
   const W=NOODLE_CLOSED.window(D(NOODLE_CLOSED.CNY['2027'])); fresh(W.from,21.2); grp(); oldMsg('noodle_closed_a_2027','g:noodle_team','heroine_03','阿姨說要大掃除。想吃麵的，初四以後。',W.from,21); run(21.2,21.5);
-  check('1-2. 舊存檔 2027 店休那一則已經收過（舊的字）：不重發',byTag('noodle_closed_a_2027').length===1&&!(H.G.msgs||[]).some(m=>m.text===X12['2027'].a[1]),J(tx('noodle_closed_a_2027')));
+  check('1-2. 舊存檔 2027 店休那一則已經收過（舊的字、語彤傳的）：不重發、沒有阿哲那一則',byTag('noodle_closed_a_2027').length===1&&!(H.G.msgs||[]).some(m=>m.text===ZP(X12['2027'].a[1])||m.text===X12['2027'].a[1]&&m.from==='zhe'),J(tx('noodle_closed_a_2027')));
 });
 /* ---- 1-3 寒假海邊「第一次揪」---- */
 await sec('1-3',()=>{

@@ -123,10 +123,13 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i7=sc('src
   check('0. 大四下＋暑假：動態 33 則（以安 6、芷若 5、語彤 5、子晴 5、學姊 4、沛珊 4、可昕 4）、沒有私訊；畢業以後：動態 26 則（4、4、4、3、4、4、3）、沒有私訊',
     !!SET.Y4S2&&!!SET.PG&&J(cnt(SET.Y4S2))===J([6,5,5,5,4,4,4])&&SET.Y4S2.dms.length===0&&J(cnt(SET.PG))===J([4,4,4,3,4,4,3])&&SET.PG.dms.length===0,J([cnt(SET.Y4S2),cnt(SET.PG)]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
-  check('0. 九份的 id 都不重複（動態 283＋33＋26、私訊 23；前七份 283＝多 AA_514 加的 kx4bc、少大一上 sis2 保溫瓶（2026-11-04 拿掉：D127④、AA_661 第 48 列））',ids.length===365&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
+  check('0. 九份的 id 都不重複（動態 282＋33＋26、私訊 23；前七份 282＝多 AA_514 加的 kx4bc、少大一上 sis2 保溫瓶和大一下 ps2b 志工報名表（2026-11-04 拿掉：D127④、AA_661 第 48、51 列））',ids.length===364&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
   /* sis3h 的私訊：AA 對 AA_584 的補充第 2 點（2026-11-02 19:19；AA_584 第 9 節第 1 點，企劃線 14154434b）祐廷「恭喜。最後幾頁？」、她「一百二十二頁。指導教授要我刪二十頁，刪了。」——不在 AA_510 的稿，對 AA_584 */
   let D584=''; try{ D584=cp.execSync('git -c core.quotepath=false show 14154434b:"docs/story_planning/AA_584_學姊改稿_第二批_閒聊階梯與邀約.md"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ D584=''; }
   const SIS3H=['恭喜。最後幾頁？','一百二十二頁。指導教授要我刪二十頁，刪了。'], in584=t=>SIS3H.includes(t)&&D584.includes('「'+t+'」');
+  /* AA_689 4-2（企劃線 1f2983981，AA-C 定 D109）：語彤 yt1i 改 2029-11-22 22:00、yt4i 改 2029-12-15 21:00（字不動）——這兩列的時間照 AA_689，不照 AA_511 */
+  let D689=''; try{ D689=cp.execSync('git -c core.quotepath=false show 1f2983981:"docs/story_planning/AA_689_回LAWWW_AA688留下的舊設定_芷若子晴週五邀約.md"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ D689=''; }
+  const AA689={yt1i:['2029-11-22',22],yt4i:['2029-12-15',21]}, o689=id=>{ const o=AA689[id]; return o&&D689.includes(o[0]+' '+String(o[1]).padStart(2,'0')+':00')?o:null; };
   for(const term of ['Y4S2','PG']){ const S=SET[term], md=doc[term], sha=term==='Y4S2'?SHA510:SHA511;
     if(!S||!md){ check('0. '+term+' 對稿（'+sha+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     const L=strs(S), bad=L.filter(t=>!md.includes(t)&&!in584(t));
@@ -134,7 +137,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i7=sc('src
     const rows=rowsOf(md,term), wrong=[], wd=[];
     for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id); if(e.id==='sis3h'&&SIS3H.every(in584)) e.dm=SIS3H; const _u=0, w=whenOf(r.when); if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when);
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null;
-      const tOk=!!got&&!!w&&(w.place==='紐約'?tzFmt('America/New_York').format(new Date(utcOf(got)))===tzFmt('UTC').format(new Date(Date.UTC(CALENDAR.dateOf(w.day).y,CALENDAR.dateOf(w.day).m-1,CALENDAR.dateOf(w.day).d,Math.floor(w.h),Math.round((w.h-Math.floor(w.h))*60)))):got.day===w.day&&Math.abs(got.h-w.h)<1e-6);
+      const o9=term==='PG'?o689(e.id):null, tOk=o9?(!!got&&got.day===DK(o9[0])&&Math.abs(got.h-o9[1])<1e-6):!!got&&!!w&&(w.place==='紐約'?tzFmt('America/New_York').format(new Date(utcOf(got)))===tzFmt('UTC').format(new Date(Date.UTC(CALENDAR.dateOf(w.day).y,CALENDAR.dateOf(w.day).m-1,CALENDAR.dateOf(w.day).d,Math.floor(w.h),Math.round((w.h-Math.floor(w.h))*60)))):got.day===w.day&&Math.abs(got.h-w.h)<1e-6);
       const same=!!p&&p.who===e.who&&p.st===e.st&&p.pic===e.pic&&p.say===e.say&&C(p.cm)===C(e.cm)&&C(p.dm)===C(e.dm)&&!p.went&&tOk;
       if(!same) wrong.push(e.id+(p?'':'（沒有）')+(tOk?'':'（時間）')); }
     check('0. '+term+' ② 稿的動態表 '+rows.length+' 列，每一列都在遊戲裡（時間、階段、照片、她的一句、留言、私訊問一字不差；稿寫紐約的換成臺灣時間）',rows.length===S.posts.length&&!wrong.length,J(wrong.slice(0,10)));
@@ -249,8 +252,8 @@ await sec('5',async()=>{ if(!HAS2()){ check('5. 畢業以後篇跳時間',false,
   check('5. 臺灣路線、沒報國考、不在群組（停點最少的那種：6/28、12/14、1/25、10/1…，一跳最長八個月）：6/4 以後 '+want.length+' 則（大四下暑假 '+(want.length-26)+'、畢業以後 26）停下來的時候每一則都看得到',
     want.length===42&&!missOf(tw).length&&tw.stops.length>=5,J({miss:missOf(tw),stops:tw.stops}));
   const y5=SET.PG.posts.filter(p=>{ const w=twOf(p.id); return w.day>=DK('2029-09-03')&&w.day<=DK('2029-12-23'); }).map(p=>p.id);
-  check('5. 交換延畢（日本路線，2029-09-03～12-23 是大五上 CALENDAR.termOfDelayed；也是畢業以後篇的跳時間）：每一則都看得到，大五上那 '+y5.length+' 則也是',
-    !missOf(jp).length&&y5.length===9&&y5.every(id=>jp.seen.has(id))&&!!CALENDAR.termOfDelayed&&(CALENDAR.termOfDelayed(DK('2029-09-17'))||{}).id==='Y5S1',J({miss:missOf(jp),stops:jp.stops}));
+  check('5. 交換延畢（日本路線，2029-09-03～12-23 是大五上 CALENDAR.termOfDelayed；也是畢業以後篇的跳時間）：每一則都看得到，大五上那 '+y5.length+' 則也是（AA_689 4-2 語彤 yt4i 搬到 2029-12-15，9 則變 10 則）',
+    !missOf(jp).length&&y5.length===10&&y5.every(id=>jp.seen.has(id))&&!!CALENDAR.termOfDelayed&&(CALENDAR.termOfDelayed(DK('2029-09-17'))||{}).id==='Y5S1',J({miss:missOf(jp),stops:jp.stops}));
   check('5. 在麵店團、「走啦」、家族群組（停點多）：每一則都看得到',!missOf(gp).length,J({miss:missOf(gp),n:gp.stops.length}));
   check('5. 最後一站是最後一則動態（2030-12-22 22:07 芷若的存摺）以後一分鐘，接著就是尾聲（2034-06-03 19:00）',[tw,jp,gp].every(w=>w.stops[w.stops.length-1].at==='2030-12-22 22:08'&&w.next===EPI()),J([tw,jp,gp].map(w=>[w.stops[w.stops.length-1],w.next])));
   /* AA_511 第 9 節第 6 點（b70bed855）：尾聲前多停的那一次，落地時日期卡下面那一句旁白，只出一次（src/feed3d.js 包 PG.cardLine）*/
@@ -265,8 +268,8 @@ await sec('5',async()=>{ if(!HAS2()){ check('5. 畢業以後篇跳時間',false,
   /* 以安第 4 則在 8/11 出發以後；語彤第 4 則在 12/13 放榜以後；可昕第 1 則非交往的玩家看得到 */
   const sendoff=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_an_ny_sendoff'):null, tag=SOCIAL.PG_TAG&&SOCIAL.PG_TAG.heroine_01;
   check('5. 以安第 4 則（臺灣 2030-11-11 09:00）在 8/11 紐約出發（人物頁 2030-08-11 起「紐約」）以後',T(twOf('an4i').day,twOf('an4i').h)>T(DK('2030-08-11'),23)&&!!tag&&tag.some(x=>x[0]==='2030-08-11'&&x[1]==='紐約'),J({an4i:key(twOf('an4i').day),tag,sendoff:!!sendoff}));
-  const r2=PG.Y[2030].r2;
-  check('5. 語彤第 4 則（2030-12-16 21:00 紅紙）在 12/13 放榜（PG.Y[2030].r2、麵店團 15:10 那則「上了。」）以後',r2==='2030-12-13'&&T(twOf('yt4i').day,twOf('yt4i').h)>T(DK(r2),15+10/60)&&twOf('yt4i').day>DK(r2),J({r2,yt4i:key(twOf('yt4i').day)}));
+  const r2=PG.Y[2029].r2;
+  check('5. 語彤第 4 則（AA_689 4-2：2029-12-15 21:00 紅紙，蘇姨隔天貼）在 2029-12-14 二試放榜（PG.Y[2029].r2、群組 15:10 那則「上了。」，AA_688）以後',r2==='2029-12-14'&&key(twOf('yt4i').day)==='2029-12-15'&&T(twOf('yt4i').day,twOf('yt4i').h)>T(DK(r2),15+10/60)&&twOf('yt4i').day>DK(r2),J({r2,yt4i:key(twOf('yt4i').day)}));
   const D1215=DK('2029-12-15'); pgGrad(D1215,20.5,{}); who('kexin','ACQ'); walk(D1215,21.1);
   check('5. 可昕第 1 則（2029-12-15 21:00「上了。」）：沒有交往、只認識也看得到',H.G.flags.dating_kexin!==true&&R().done.kx1i==='p'&&HT().includes('榜單的截圖，名字被手指擋住'),J(R().done.kx1i)); });
 

@@ -41,6 +41,9 @@ const flush=()=>new Promise(r=>setTimeout(r,20));
   { at('soclib','2025-10-07',22+1/60); STORY.tick(GM,0.016); await flush(); await flush();
     const e=entered[0]||{};
     check('平日 22:01 還在館裡：館員請你離館、回到社科院正門前（SL3.CAMPUS）、說明下次開館',said.some(t=>/我們閉館了/.test(t))&&e.z==='campus'&&e.sp&&e.sp.x===95.6&&e.sp.z===-70&&toasts.some(t=>/社科院圖書館 現在沒有開/.test(t)&&/明天 08:20/.test(t)),JSON.stringify({said,entered,toasts})); }
+  { at('soclib_2f','2025-10-07',22+1/60); STORY.tick(GM,0.016); await flush(); await flush();   /* SOCLIB-2F-1104：人在東側館（二樓自習室）也一樣被請出去 */
+    const e=entered[0]||{};
+    check('平日 22:01 在東側館（soclib_2f，二樓自習室）：一樣請你離館、回到社科院正門前',said.some(t=>/我們閉館了/.test(t))&&e.z==='campus'&&e.sp&&e.sp.x===95.6&&e.sp.z===-70,JSON.stringify({said,entered,toasts})); }
   { at('soclib','2025-10-07',15); STORY.tick(GM,0.016); await flush();
     check('平日 15:00 在館裡：不廣播、不請你離館',!toasts.length&&!said.length&&!entered.length,JSON.stringify({toasts,said,entered})); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

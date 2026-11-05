@@ -42,6 +42,11 @@ const Y2B=(function(){
         if(F.KX_BAD_EXAM&&dating(G,'kexin')&&past(G,'2026-12-05',21+10/60)&&!PHONE.sent(G,'y2_kx_bad_1205')) PHONE.at(G,d05,21+10/60,[K('物權考壞的那一章，我講給予樂聽，講到她懂。')],'y2_kx_bad_1205'); } }   /* 12/5 摘要日 21:10（可昕手機小事的慣例時間，AA_336 B4）*/
     /* ---- 1B-02 語彤事件 8：傳了訊息的那天 21:30 ---- */
     /* 21:30「我拿給阿姨看了」那兩則：AA_625 第 8 節換成當下「我明天跟她說。」，拿掉（YT-REWRITE-1103）*/
+    /* ---- 1B-03 語彤事件 9 在場版（D118-B5a）：法服值班的出發選單拿掉了，5/22 單獨排一次（社員、認識語彤、還沒演；AA 經 LAWWW 確認仍有效，BB_251 DONE-B04）。
+       字照原本值班的出發選單（STORY.FAFU_GO）；前一晚 2027-05-21（五）20:00 柏翰在法服群組一則（AA_691 第 1 點，企劃線 607939eb8）：只在那一場會演的時候傳（S.auntDue 同一組條件，照 5/22 早上算），不提語彤 ---- */
+    { const d=D('2027-05-22'); if(d!=null&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'y2_fafu_aunt_eve')&&PHONE.inGroup&&PHONE.inGroup(G,'lawclub_study')&&(G.day===d-1&&hh(G)>=20||G.day===d&&hh(G)<9)&&S.auntDue(Object.assign({},G,{day:d,hour:8.5,weekday:6})))
+        PHONE.at(G,d-1,20,[{th:'g:lawclub_study',from:'classmate_bohan',text:'週六九點有一件租約的諮詢。預約的阿姨說，會有人陪她來。'}],'y2_fafu_aunt_eve'); }
+    { const d=D('2027-05-22'); if(d!=null&&G.day===d&&hh(G)<9.5&&!done(G,'ev_yt_aunt_consult')&&knows('heroine_03',G)&&typeof STORY!=='undefined'&&!!STORY.fafuMember&&STORY.fafuMember(G)&&STORY.fafuPlan) STORY.fafuPlan(G,d); }
     /* ---- 1B-03 語彤事件 9：都沒遇到＝6/12（六）21:00 私訊三句 ---- */
     { const d=D('2027-06-12'); if(d!=null&&G.day>=d&&G.day<=d+7&&past(G,'2027-06-12',21)&&!done(G,'ev_yt_aunt_consult')&&!has('heroine_03','RENT_CONSULTATION')&&knows('heroine_03',G)&&contact(G,'heroine_03')&&!PHONE.sent(G,'y2_yt_aunt_msg')){
         PHONE.at(G,d,21,[Y('上次我陪秀琴姨去法服。'),Y('裡面的人說，租約到期以前，新屋主不能叫她搬。'),Y('她出來的時候在笑。')],'y2_yt_aunt_msg'); if(SOCIAL.remember) SOCIAL.remember('heroine_03','RENT_CONSULTATION','她傳訊息說陪秀琴姨去法服');   /* 句子照 AA_625 第 9 節不在場版（「禮拜六」改「前陣子」：這一則是 6/12 才傳）*/ } }

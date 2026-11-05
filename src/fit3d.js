@@ -16,11 +16,11 @@ const FIT=(function(){
   S.UP={ heroine_04:{1:[['heroine_04','你每天去，不管別人看不看。……我做不到。']],2:[['heroine_04','你的手臂。……我沒有在看。']],3:[['heroine_04','你練了一年。我的遊戲也做了一年。'],[null,'（她把筆電闔上。）'],['heroine_04','……我們都還在做。']]},
     kexin:{1:[['kexin','你爬上來沒有喘。……你每天都去？']],2:[['kexin','木柵大學的階梯，你今天一口氣上來。我數了，你一次都沒停。']],3:[['kexin','下個月去爬那條比較陡的。路線我查好了。']]} };
   /* 第 2 節：其他人注意到（不加戀愛）：升到有在運動、結實＝一般那一句；升到經常鍛鍊＝右邊那一句（阿哲照 S.LINES.zhe）*/
-  S.NOTICE={ heroine_01:{n:[['heroine_01','你最近下課都往新體育館走。……我只是看到了。']],x:[['heroine_01','你搬讀書會的資料，一次搬兩箱。'],['heroine_01','……以前你要搬兩趟。']]},
+  S.NOTICE={ heroine_01:{n:[['heroine_01','你最近下課都往新體育館走。我去讀書會也走那條路。']],x:[['heroine_01','你搬讀書會的資料，一次搬兩箱。'],['heroine_01','……以前你要搬兩趟。']]},
     heroine_03:{n:[['heroine_03','蘇姨說你最近搬桌子，都一次搬兩張。']],x:[['heroine_03','……你的手臂。'],[null,'（她說完就去收杯子了。）']]},
     heroine_02:{n:[['heroine_02','你最近點的都是無糖。……你在練？']],x:[['heroine_02','你的襯衫小了。……還是你變大了。']]},
-    heroine_05:{n:[['heroine_05','你運動的時間有排進去。很好。']],x:[['heroine_05','你比大一的時候有精神。……這句是稱讚。']]},
-    classmate_peishan:{n:[['classmate_peishan','人為什麼要練肌肉？我不是質疑，我真的想知道。']],x:[['classmate_peishan','你上樓梯的聲音變輕了。……我只是觀察。']]},
+    heroine_05:{n:[['heroine_05','你運動的時間有排進去。很好。']],x:[['heroine_05','你比大一的時候有精神。……大一的你，上課常常在點頭。']]},
+    classmate_peishan:{n:[['classmate_peishan','人為什麼要練肌肉？練完會比較開心嗎？']],x:[['classmate_peishan','你上樓梯的聲音變輕了。……我在樓下就聽得出來是你。']]},
     classmate_bohan:{n:[['classmate_bohan','你一週去幾次？我在想要不要把運動排進時間表。']],x:[['classmate_bohan','你去健身房的時間，比我念刑法的時間多。'],['classmate_bohan','……我要調一下時間表。']]},
     yu:{n:[['yu','欸你最近有在練喔！！阿哲說他也要去。……他不會去。']],x:[['yu','欸營隊缺體育股長！！你來！']]},
     kai:{n:[['kai','你最近一直出門。健身房？好喔。宵夜還是有你的份。']],x:[['kai','你的泡麵評分變少了。……我有點寂寞。']]},
@@ -31,8 +31,8 @@ const FIT=(function(){
   S.NOTICE_NOCARD={ classmate_bohan:{x:[['classmate_bohan','你運動的時間，比我念刑法的時間多。'],['classmate_bohan','……我要調一下時間表。']]},
     kai:{n:[['kai','你最近一直出門。去運動？好喔。宵夜還是有你的份。']]},
     classmate_mingxuan:{n:[['classmate_mingxuan','最近有在動喔？學校的球場不用錢吧？CP 值最高。']]},   /* AA_497 4-6：當面的「哈哈」拿掉 */
-    heroine_01:{n:[['heroine_01','你最近走路變快了。……我只是看到了。']]},
-    classmate_peishan:{n:[['classmate_peishan','人為什麼要自己去流汗？我不是質疑，我真的想知道。']]} };
+    heroine_01:{n:[['heroine_01','你最近走路變快了。上樓梯都不扶欄杆。']]},
+    classmate_peishan:{n:[['classmate_peishan','人為什麼要自己去流汗？流完會比較開心嗎？']]} };
   S.noticeLines=function(G,id,i){ const N=S.NOTICE[id]; if(!N) return null; const k=i>=3?'x':'n', alt=!rec(G).card&&S.NOTICE_NOCARD[id]; return (alt&&alt[k])||N[k]; };
   S.ACTS={dept_basketball:2,club_hiking:2};
   /* 加體能（gym3d.js 自己加的那兩種照舊在那裡；這裡記最後一次加的日子，給 8 週的提醒）*/

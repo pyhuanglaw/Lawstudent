@@ -135,7 +135,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
   check('0. 大三下：動態 41 則（以安 7、芷若 7、語彤 7、子晴 7、學姊 4、沛珊 5、可昕 4）、私訊 1 則、2D 短場 1 場；大四上：動態 33 則（6、5、5、5、4、4、4）、沒有私訊',
     HAS2()&&J(cnt(SET.Y3S2))===J([7,7,7,7,4,5,4])&&SET.Y3S2.dms.length===1&&(SET.Y3S2.events||[]).length===1&&J(cnt(SET.Y4S1))===J([6,5,5,5,4,4,4])&&SET.Y4S1.dms.length===0,J([cnt(SET.Y3S2),cnt(SET.Y4S1)]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
-  check('0. 七個學期的 id 都不重複（動態 43＋47＋38＋40＋41＋41＋33、私訊 10＋7＋3＋1＋1＋1＋0；大二上 38＝AA_514 加的 kx4bc）（大一上 sis2 保溫瓶 2026-11-04 拿掉：D127④、AA_661 第 48 列）',ids.length===306&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
+  check('0. 七個學期的 id 都不重複（動態 43＋46＋38＋40＋41＋41＋33、私訊 10＋7＋3＋1＋1＋1＋0；大二上 38＝AA_514 加的 kx4bc）（大一上 sis2 保溫瓶、大一下 ps2b 志工報名表 2026-11-04 拿掉：D127④、AA_661 第 48、51 列）',ids.length===305&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
   /* 2026-10-28 AA_518 第 4-4 改的（企劃線 973dd1b74，SIS-B15-1028；對 AA_518 的稿在 tests/aa518_sis_b15_unit.js）：sis4f 留言回「他說要三匙。我沒給。」（對齊陳助教那一句）*/
   const AA518_T=new Set(['他說要三匙。我沒給。']), AA518_ROW={sis4f:e=>{ e.cm=[e.cm[0],'他說要三匙。我沒給。']; }};
   for(const term of ['Y3S2','Y4S1']){ const S=SET[term], md=doc[term];

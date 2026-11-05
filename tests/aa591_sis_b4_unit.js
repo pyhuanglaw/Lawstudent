@@ -173,7 +173,8 @@ await sec(6,()=>{
   const src=fs.readFileSync(path.join(H.ROOT,'src/data/feed_y4s2.js'),'utf8');
   check('6. 動態 sis3h：祐廷「恭喜。最後幾頁？」、她「一百二十二頁。指導教授要我刪二十頁，刪了。」；「刪了二十頁？」不在',src.includes("dm:['恭喜。最後幾頁？','一百二十二頁。指導教授要我刪二十頁，刪了。']")&&!src.includes('刪了二十頁？')&&(!s3||J(s3.dm)===J(['恭喜。最後幾頁？','一百二十二頁。指導教授要我刪二十頁，刪了。'])));
   check('6. 修正本私訊：「修正本印好了。」「多印了一本。……你說過要的。」；沒有「一本給我爸了」',J(SISB13_LINES.thesisMsg)===J(['修正本印好了。','多印了一本。……你說過要的。'])&&!inAny('一本給我爸了'),J(SISB13_LINES.thesisMsg));
-  check('6. 人物卡 family_context：「媽媽是公務員，期待她考司法官」（不寫爸爸）',CHARACTERS.heroine_05.family_context==='媽媽是公務員，期待她考司法官',CHARACTERS.heroine_05.family_context);
+  /* AA_661 第 21 列（AA_611 #6，2026-11-03 學姊和 Alison 是姊妹、爸爸在她國小時過世）：取代 AA 對 AA_584 補充的「媽媽是公務員，期待她考司法官」（不寫爸爸）*/
+  check('6. 人物卡 family_context：AA_661 第 21 列「爸爸在她國小時過世；小時候跟阿公奶奶住，奶奶很開明；媽媽是公務員，比較會問考試和工作；妹妹 Alison（從母姓，同校法律系）」',CHARACTERS.heroine_05.family_context==='爸爸在她國小時過世；小時候跟阿公奶奶住，奶奶很開明；媽媽是公務員，比較會問考試和工作；妹妹 Alison（從母姓，同校法律系）',CHARACTERS.heroine_05.family_context);
   check('6. us208：3-3 剪報 AA_609 恢復成她奶奶（七場）、heardClip 回來；驗法在 tests/aa609_sis_grandma_unit.js',US208.SCENES.length===7&&typeof US208.heardClip==='function');
 });
 

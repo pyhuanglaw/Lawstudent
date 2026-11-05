@@ -8,7 +8,7 @@ const INVITE_DATA={
      有理由的（念書、寫報告、喝咖啡）剛認識就可以；吃飯要熟一點；散步這種「沒有理由的」要是朋友（使用者第 4 點的「關係」；AA_70 1-3 的方向）。
      stay：一起待多久（小時）；memory：留下的小記憶（SOCIAL 的記憶標籤）；rainTo：下雨時改去哪裡 */
   places:[
-    {id:'cafe',    zone:'cafe',         name:'2:30 AM',  verb:'去 2:30 AM 坐坐',   kind:'reason', minStage:'ACQUAINTANCE', stay:1,    memory:'CAFE_AFTERNOON',  sitAct:'read'},
+    {id:'cafe',    zone:'cafe',         name:'2:30 AM',  verb:'去 2:30 AM 坐坐',verbStudy:'去 2:30 AM 念書',   kind:'reason', minStage:'ACQUAINTANCE', stay:1,    memory:'CAFE_AFTERNOON',  sitAct:'read', cats:['sit','study']},   /* 念書那一類的選項字 verbStudy：AA_702（企劃線 0babfd524）；2:30 AM 也能約念書（使用者 2026-11-05「能約念書的地方 應該要有各咖啡館吧 連2.30都不能?」）*/
     {id:'library', zone:'library_hall', name:'總圖',         verb:'去總圖一起念書',       kind:'reason', minStage:'ACQUAINTANCE', stay:1.5,  memory:'STUDIED_TOGETHER', sitAct:'read', sitAt:{lead:true,lv:1,away:3,alt:'library'}},   /* sitAt（INV-SIT-TOGETHER-1104、AA_649）：到了大廳她帶路走到二樓（lv 1）的長桌、兩個人坐下才開演；離入口至少 3 m；二樓坐滿＝去三樓閱覽區（區域 library）*/
     {id:'noodle',  zone:'noodle',       name:'公館燒臘',     verb:'去公館燒臘吃飯', kind:'meal',   minStage:'FAMILIAR',     stay:0.75, memory:'SHARED_MEAL',     sitAct:'eat'},
     {id:'wenzhou', zone:'wenzhou',      name:'溫州街',       verb:'去溫州街散步',         kind:'walk',   minStage:'FRIEND',       stay:0.75, memory:'WALKED_TOGETHER', sitAct:'wait', rainTo:'cafe'},
@@ -184,7 +184,7 @@ const INVITE_DATA={
         if(c.pid!=='library'||c.r.res!=='accept') return null; const ex=!!(c.term&&[7,8,9,15,16].includes(c.term.week));   /* BB_172 K9（AA_209 第 4 節）*/   /* 朋友以上：考前一週、考試週答應 */
         if(c.band==='R'&&ex) return null; return {res:'decline',why:'sleepy',lines:c.face?['「總圖我會睡著。」','「考前一週我會去，真的。」']:['「總圖我會睡著」','「考前一週我會去 真的」']}; } },   /* K8、K9 當面版（BB_172 10-1 第 17、8 點；週次 [7,8,9,15,16] 已經照改）*/
     classmate_mingxuan:{ walk:{any:[['「我家教那個學生問我，念法律是不是要背很多東西。」','「我跟他說，要背，背完還要會用。」'],['「我爸之前傳訊息問我『籃球的三分線是畫在哪裡』。」','「他在看我們比賽的直播。……到現在還是看不懂。」'],['「這條路我每個禮拜都走好幾次，去家教都走這邊。」']]},   /* BB_172 M2（10-1 第 16 點）、M3（10-1 第 7 點）、M4 */   /* 明軒（5-4）：二、四、六晚上 19–21 家教（個人規則）；Café 的「只能待一小時」朋友以後不說（BB_120 1-6）*/
-      acc:{brunch:{phone:['「早午餐？哈哈 CP 值不高喔……好啦 週末可以」'],face:['「早午餐？CP 值不高喔……好啦，週末可以。」']},teahouse:{phone:['「一盞？哈哈 我很少喝茶 我爸喝 好啊」'],face:['「一盞？我很少喝茶，我爸才喝。……好啊。」']},
+      acc:{brunch:{phone:['「早午餐？哈哈 CP 值不高喔 你請的話就可以」'],face:['「早午餐？CP 值不高喔。你請的話，我就去。」']},teahouse:{phone:['「一盞？哈哈 我很少喝茶 我爸喝 好啊」'],face:['「一盞？我很少喝茶，我爸才喝。……好啊。」']},
         cafe:{A:['「好。但我只能待一小時。」']},noodle:['「走啊，阿鳳便宜又大碗。」'],wenzhou:['「可以啊。走一走也好，我最近都坐著。」']},   /* BB_172 M5、M6（手機／當面，10-1 第 17 點）、M8、M9（10-2 第 1 點）*/
       rule:(G,c,I)=>{ const tut=[2,4,6].includes(c.wd)&&c.h+c.P.stay>19&&c.h<21; if(c.r.res!=='accept'||!tut) return null;
         if(c.pid==='cafe') return {res:'resched',why:'tutor',lines:[c.face?'「那時候我在家教，九點以後可以。」':'「那時候我在家教 九點以後可以」'],alt:I.nextFree(G,'classmate_mingxuan',c.P,c.day,21)};   /* BB_172 M10（10-2 第 3 點）*/
@@ -229,7 +229,7 @@ const INVITE_DATA={
         run_avenue:G=>(G.stage||'law')==='law'?{R:['「椰影大道？從木柵大學過去要四十分鐘。」','「……好。你敢遲到試試看。」']}:null},
       sport:{gym_badminton:{during:[['「那一球你讓我？……不准讓。」'],['「再一局。這局不算，我鞋帶鬆了。」'],['「你們的球場比較亮。……這不是藉口。」']],end:['「下次在木柵大學打。……你要上山。」']},
         run_avenue:{during:[['「跑到晨思鐘不要停。跑回來才算。」'],['「我不喘。……我在講話，所以我不喘。」'],['「早上的首都帝大好安靜。山上的鳥比較吵。」']],end:['「早餐我知道一家。走。」']}},   /* AA_417 3-2：一起的時候三句輪流、結束 */   /* BB_158 第 5 節（她在政大：時間照她的作息；2026-10-17 BB-C 改稿：不再每句「假設」）*/
-      firstAt:{gym_badminton:G=>(G.stage||'law')==='law'?['「我高中打過一學期。這是告知，不是警告。」']:null,run_avenue:G=>(G.stage||'law')==='law'?['「六點二十五分。我先到了。」']:null,   /* AA_417 3-2 的 first */
+      firstAt:{gym_badminton:G=>(G.stage||'law')==='law'?['「我高中打過一學期。你不要放水。」']:null,run_avenue:G=>(G.stage||'law')==='law'?['「六點二十五分。我先到了。」']:null,   /* AA_417 3-2 的 first */
         brunch:['「蛋可以選熟度欸。……我要半熟。」'],teahouse:['「我們學校後山也有茶園欸。」','「不過這邊的院子比較安靜。」'],
         /* AA_535b 4-2：第一次和她到 Café、總圖、麵店、溫州街多說的（「你們學校」「我們學校山下」＝她在政大、祐廷在台大的那幾年，經濟系那一年不用，和羽球、晨跑同一把尺）*/
         cafe:G=>(G.stage||'law')==='law'?['（她看了一圈，在吧檯前面站了很久才點。）','「你們學校旁邊的咖啡店開到半夜喔。我們那邊十點就關了。」']:null,
@@ -357,7 +357,7 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
       W('w118_zhe_16','any',all(Y(3),done('ev_yt_lease_renew')),['「秀琴姨說續約五年。五年後我們都畢業了耶。……那我們要去台中找她。」']),
       W('w118_zhe_17','any',all(tw,between('2028-04-22','2028-04-28')),['「我想練完再自己投一百球。你可以不用陪我。……可是你可以陪我。」']),   /* 冠軍賽 4/29（group3d.js 1C-04）前一週 */
       W('w118_zhe_18','any',all(tw,inT('Y3S2'),from('2028-04-29',21)),['「我爸說我投籃的姿勢跟他年輕的時候一樣醜。他笑得很開心。」']),
-      W('w118_zhe_19','any',inT('Y4S1',1,4),['「大四了。我第一次覺得A館的樓梯很短。」']),
+      W('w118_zhe_19','any',inT('Y4S1',1,4),['「大四了。A館的樓梯，好像一下就走完了。」']),
       W('w118_zhe_20','any',Y(4),['「大家都在講國考。我只確定一件事：考試那天我要吃燒臘店的三寶飯。」']),
       W('w118_zhe_21','any',a23,['「蘇姨要我們幫忙辦十週年。我說好，然後發現我只會吃。」']),
       W('w118_zhe_22','any',Y(4),['「學弟問我法律系難不難。我說很難，他問那你怎麼還在。……對耶，我怎麼還在。」']),
@@ -403,9 +403,9 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
       W('w118_bh_10','any',all(Y(2),done('ev_bohan_exam_group')),['「以安說報告先講最強的論點，我說先講最穩的。後來先講了最強的。她是對的。」']),   /* AA_555 1-3〔模〕：考古題小組報告之後 */
       W('w118_bh_11','any',Y(2),['「我哥說，坐第一排最大的收穫，是知道後排的人在想什麼。……他在後排待過嗎？」']),
       W('w118_bh_12','any',inT('Y2S2',16),['「考完了，我在總圖門口站了五分鐘，不知道要去哪。……你要去哪？」「燒臘店。」「……喔。好。那你去。」']),
-      W('w118_bh_13','any',inT('Y3S1'),['「這題沒有標準答案。……我第一次覺得這樣的題目很好。」']),
+      W('w118_bh_13','any',inT('Y3S1'),['「這題沒有標準答案。……我居然寫得很開心。」']),
       W('w118_bh_14','any',all(Y(3),(G,c)=>fl('BH4_DONE')(G)||done('ev_bohan_third_floor')(G)),['「那天在四樓說的話，你可以忘記。……不要真的忘記。」']),
-      W('w118_bh_15','any',all(Y(3),skipped7),['「你沒來的那堂，我筆記多寫了一頁。不是為你，是那堂真的很重要。」']),
+      W('w118_bh_15','any',all(Y(3),skipped7),['「你沒來的那堂，我筆記多寫了一頁。……那堂真的很重要。你拿去影印。」']),
       W('w118_bh_16','any',inT('Y3S1',12),['「我寫給下一屆的第一頁是『不要只教他們考試』。……我抄學姊的。我現在懂了。」']),
       W('w118_bh_17','any',all(tw,inT('Y3S2')),['「讀書計畫我寫了三版。第一版全部是分數。」']),
       W('w118_bh_18','any',all(tw,inT('Y3S2',13,16)),['「我開始在休息的十分鐘講法律的事了。……這樣是不是代表我沒在休息。」']),
@@ -421,7 +421,7 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
       W('w118_xc_3','any',all(Y(1),done('ev_xinci_double')),['「從A館走到財金那邊十分鐘。走到的時候，腦袋剛好換完。」']),   /* 雙主修：她說過雙主修（ev_xinci_double）以後 */
       W('w118_xc_4','any',Y(1),['「我昨天沒有在追劇。……第八集很好看。」']),
       W('w118_xc_5','library',yrT(1,13,16),['「筆記借出去五次。有一次還回來多了一頁，是別人的字。寫得很好。我把那一頁影印起來了。」']),
-      W('w118_xc_6','any',inT('Y1S2'),['「我媽今天打來，問我中午吃什麼。她不是在關心，是在確認我有吃。……好啦，是關心。」']),
+      W('w118_xc_6','any',inT('Y1S2'),['「我媽今天打來，問我中午吃什麼。我說還沒吃，她就一直講到我去買。」']),
       W('w118_xc_7','any',inT('Y2S1',8,9),['「財管的期中考完，下午接債總。早上算利息，下午聽遲延利息。……至少主題有連起來。」']),
       W('w118_xc_8','any',all(Y(2),done('ev_xinci_second')),['「那天在便利商店說的，數字對起來那個。……我第一次跟同學講這個。」']),   /* 慈 3 新版 */
       W('w118_xc_9','any',Y(2),['「我爸今天出庭，傳了一張法院走廊的照片給我。沒有字。……他每次順利都這樣。」']),
@@ -447,7 +447,7 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
       W('w118_yt_4','any',all(Y(1),hr(19)),['「今天客人比較少。蘇姨說是下雨。我覺得是隔壁開了新的店。」']),
       W('w118_yt_5','library',yrT(1,13,16),['「三樓靠窗那個位子，八點以前要到。我八點零五分到過一次。被坐走了。」']),
       W('w118_yt_6','any',all(Y(1),done('ev_yutong_landlord')),['「秀琴姨的房東來，她倒了一杯茶給他。他沒喝。」']),
-      W('w118_yt_7','any',all(Y(2),done('ev_yt_shift_chat')),['「今天茶屋那個阿伯講了半小時他的房東。我一直聽。……他走的時候，多付了一盤茶點的錢。」']),   /* AA_555 1-5〔法服〕：事件 7 新版（ev_yt_shift_chat）之後 */
+      W('w118_yt_7','any',Y(2),['「今天茶屋那個阿伯講了半小時他的房東。我一直聽。……他走的時候，多付了一盤茶點的錢。」']),   /* AA_555 1-5〔法服〕：原本要事件 7 新版（ev_yt_shift_chat）之後；AA_661 第 17 列：那一段退場（她不在麵店、不在法服），讀它的條件拿掉＝大二起 */
       W('w118_yt_8','any',all(Y(2),(G,c)=>done('ev_yt_lease_text')(G)||has('heroine_03','LAW_MEETS_LIFE')()),['「買賣不破租賃。……我抄在菜單背面了。」']),   /* 事件 8 */
       W('w118_yt_9','any',all(Y(2),hr(16.5,19)),['「我在練習寫田野筆記。今天寫修鞋店。老闆說他的手比他的腳還老。」']),
       W('w118_yt_10','any',all(Y(2),has('heroine_03','RENT_CONSULTATION')),['「那天秀琴姨講到一半就停了。……我在旁邊，把她沒講完的記下來了。」']),   /* AA_555 1-5〔法服〕：事件 9 新版（RENT_CONSULTATION）之後 */
@@ -457,9 +457,9 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
       W('w118_yt_14','any',moon3,['「中秋，茶屋休息一天。蘇姨說她也要去烤肉。……她開店以來第一次休息。」']),
       W('w118_yt_15','any',all(Y(3),done('ev_yt_lease_renew')),['「五年。秀琴姨說五年後她六十歲。她說那時候再看看。」']),
       W('w118_yt_16','any',all(Y(3),done('ev_yt_thursday_free')),['「週四晚上沒有課。我不知道要做什麼。……所以我去訪問了另一家店。」']),
-      W('w118_yt_17','any',all(tw,inT('Y3S2')),['「今天那個老闆說，他開店三十年，最怕的不是沒有客人，是客人不說話。」']),
+      W('w118_yt_17','any',all(tw,inT('Y3S2')),['「今天那個老闆說，他開店三十年，最怕客人吃完什麼都不說。」']),
       W('w118_yt_18','any',all(tw,inT('Y3S2',14,16)),['「田野筆記寫滿兩本了。第一本的第一頁，是那個點兩碗的客人。」']),
-      W('w118_yt_19','any',a23,['「蘇姨說不要辦十週年。我說要。這是我第一次跟她說『要』。」']),
+      W('w118_yt_19','any',a23,['「蘇姨說不要辦十週年，太麻煩。我說熟客都在問。她想了一下，說那就簡單辦。」']),
       W('w118_yt_20','any',inT('Y4S1',14,16),['「報告寫了十五個老闆。最後一個是秀琴姨。」']),
       W('w118_yt_21','any',all(Y(4),done('ev_yt_share_time')),['「週末在茶屋，週四在田野。……其他時間是我自己的。」']),
       W('w118_yt_22','any',all(inT('Y4S2'),from('2029-04-19',18)),['「秀琴姨傳了一張照片：她站在台中一間麵店前面，說『人家的麵比較貴』。」']),   /* 事件 16b：4/19 18:00 阿姨的照片（r2y4b3d.js 2-Y4-37）之後 */
@@ -500,7 +500,7 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
    見面那一段（進門旁白、第一次的那一句、隨機一句、朋友一句）在 src/mokuyobi_sys3d.js（MOKS.meetScene；台詞照 AA_618 1-6 一字照抄）；答應、改天照一般規則（AA_618 沒有寫答應句：系統旁白）。
    可昕照現在的規則（只在她在臺北、約得到的時候）。沒有 MOKS（舊的測試環境）＝照一般的見面旁白。
    答應的那一句（AA_645 第 4 節，企劃線 ed6a4329d，一字照稿）：下面十人各一句（people[人].acc.mokuyobi）；沒列的人＝一般那句（MOKS.ACC0）；不答應照一般回覆表 */
-INVITE_DATA.places.push({id:'mokuyobi',zone:'wz_mokuyobi',name:'木曜日',verb:'去木曜日坐坐',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'MOKUYOBI_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['sit','study'],
+INVITE_DATA.places.push({id:'mokuyobi',zone:'wz_mokuyobi',name:'木曜日',verb:'去木曜日坐坐',verbStudy:'去木曜日念書',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'MOKUYOBI_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['sit','study'],
   days:[0,1,3,4,5,6],off:[2],hours:[13,22],show:G=>!!G&&!!G.visited&&!!G.visited.wz_mokuyobi,
   scene:(GM,iv,who)=>typeof MOKS!=='undefined'&&MOKS.meetScene?MOKS.meetScene(GM,iv,who):GM.say(null,'你和'+((who&&who.name)||'')+'在木曜日坐坐。')});
 (function(){ const ACC={heroine_01:'「木曜日？好，我帶書。」',heroine_02:'「好。……我想坐窗邊。」',heroine_03:'「好。我把報告帶去寫。」',heroine_04:'「那裡不能大聲說話吧。……好啦。」',heroine_05:'「好。我很久沒去了。」',
@@ -525,7 +525,8 @@ INVITE_DATA.places.push({id:'offbeat',zone:'wz_offbeat',name:'日常失速',verb
    稿上沒有寫要先自己走去過一次（和兩點半 Café、公館燒臘一樣，不加 show）。可昕照現在的規則（只在她在臺北、約得到的時候：S.kxPlaceOk 認得 acc）。
    答應的那一句：七位各一句（people[人].acc.afar／daybreak）；沒列的人＝「一般」那句（src/gg2shops3d.js 的 GG2.ACC0）；不答應照一般回覆表。
    兩個人坐下以後的開場句：seatOpen.afar／daybreak（下面）。見面旁白照邀約一般的（AA_652 沒有寫約來的見面句）*/
-INVITE_DATA.places.push({id:'afar',zone:'afar',name:'afar café',verb:'去 afar café 坐坐',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'CAFE_AFTERNOON',sitAct:'read',seatPose:'sit',cats:['sit'],hours:[11,21]});
+INVITE_DATA.places.push({id:'afar',zone:'afar',name:'afar café',verb:'去 afar café 坐坐',verbStudy:'去 afar café 念書',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'CAFE_AFTERNOON',sitAct:'read',seatPose:'sit',cats:['sit','study'],hours:[11,21],
+  prefTable:6});   /* prefTable：兩個人一起坐下先找窗邊長桌（afar_layout.js 的 table 6，有檯燈；DATE-SEAT-AFAR-1105）——那裡沒有兩個相鄰的空位、旁邊有人才找別桌（invites3d.js S.pairSeats）*/
 INVITE_DATA.places.push({id:'daybreak',zone:'daybreak',name:'Daybreak',verb:'去 Daybreak 吃早午餐',kind:'meal',minStage:'FAMILIAR',stay:0.75,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],hours:[8,14.75],times:[9,10,11.5,13],
   lateNote:G=>((((+G.hour||0)%24)+24)%24)>=14-1e-6?'（Daybreak 下午三點就關了。）':null});
 (function(){ const AF={heroine_01:'「好。我帶書去，你不要一直跟我講話。」',heroine_02:'「afar？好。……窗邊那一排的燈很好看。」',heroine_03:'「好。我想吃他們的布丁。」',heroine_04:'「可以。那裡插座很多。」',heroine_05:'「好。我也剛好要寫東西。」',
@@ -538,7 +539,7 @@ INVITE_DATA.places.push({id:'daybreak',zone:'daybreak',name:'Daybreak',verb:'去
    有理由的（喝茶、念書，reason：和木曜日同一把尺——認識以上）；每天 11:00～21:00、颱風假不開（places.js hours.aoki）；自己走去過一次才列（show，和木曜日、日常失速一樣）。
    座位照配置 canStudy 可以讀書（cats 有 study）；見面兩個人一起坐下（seatPose），坐下以後的開場句＝seatOpen.aoki（AA_653：店員把茶壺放下……「……你先喝。」）。
    答應的那一句（一字照稿）：七人各一句（people[人].acc.aoki）；沒列的人＝一般那句（INVITE_DATA.aokiAcc0，src/ggshops_sys3d.js 接）；可昕照現在的規則（只在她在臺北、約得到的時候）*/
-INVITE_DATA.places.push({id:'aoki',zone:'aoki',name:'青木茶室',verb:'去青木茶室喝茶',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'AOKI_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['sit','study'],
+INVITE_DATA.places.push({id:'aoki',zone:'aoki',name:'青木茶室',verb:'去青木茶室喝茶',verbStudy:'去青木茶室念書',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'AOKI_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['sit','study'],
   hours:[11,21],show:G=>!!G&&!!G.visited&&!!G.visited.aoki});
 (function(){ const ACC={heroine_01:'「好。可以讀書嗎？……可以就好。」',heroine_02:'「好。我想喝東方美人。」',heroine_03:'「青木？好。……我想看看別人家的茶怎麼泡。」',heroine_04:'「茶室？好啊，我沒去過。」',
     heroine_05:'「好。那裡的白茶不錯。」',classmate_peishan:'「好！他們的桂花糕很好吃。」',kexin:'「好啊。等我到台北。」'};
@@ -570,6 +571,8 @@ INVITE_DATA.libStudy={
 };
 /* AA_649 第 4 節：其他約會兩個人一起坐下以後的開場句（每次隨機一則）。店自己有見面內容的（一盞、木曜日、日常失速、Pasta 118：地點的 scene／ownMeal）用店的，不加。
    電影、頁間書屋：現在還不是可以約的地點（INVITE_DATA.places 沒有），等地點加進來再接 */
+/* 只在某些位子說的那一則（DATE-SEAT-AFAR-1105）：Object.assign([台詞…],{onlyAt:{table:桌號}})＝只在你們坐的位子符合時才抽（onlyAt.table＝區域座位的桌號，一個或陣列；invites3d.js S.seatAtOk）。
+   台詞本身不動（AA 定稿）；onlyAt 是陣列外面多的屬性（不叫 at：陣列本來就有 at 這個方法），JSON、逐字對照看不到 */
 INVITE_DATA.seatOpen={
   meal:[['（你們在靠窗的位子坐下。她先把菜單推到你面前。）','「你先點。」'],['（位子有點擠，你們的膝蓋碰在一起。她往旁邊挪了一點，又挪回來。）']],
   coffee:[['（你們點好飲料，在窗邊坐下。）','「這裡的位子我喜歡。」'],['（她把兩杯飲料的吸管都插好，一杯推給你。）']],
@@ -577,7 +580,8 @@ INVITE_DATA.seatOpen={
   movieEnd:[['（燈亮了。她還在看片尾的字幕。）','「……等一下再走。」']],
   bookstore:[['（你們在閱讀桌坐下。她從書牆上抽了一本書，放在你面前。）','「（小聲）這本你會喜歡。」']],
   /* afar café、Daybreak 自己的開場句（AA_652 第 1、2 節「和她坐下以後的開場句」；GG-SHOPS2-1104）*/
-  afar:[['（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）','「……這個燈好可愛。」'],['（她把兩杯咖啡的杯墊對齊，一杯推給你。）']],
+  afar:[Object.assign(['（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）','「……這個燈好可愛。」'],{onlyAt:{table:6}}),   /* 窗邊長桌（table 6）才有檯燈 */
+    ['（她把兩杯咖啡的杯墊對齊，一杯推給你。）']],
   daybreak:[['（你們在窗邊坐下。陽光剛好照到她那一邊，她把椅子往你這邊挪了一點。）','「好亮。」'],['（餐點送來的時候，她先拿手機拍了一張。）','「……好，可以吃了。」']],
   byPlace:{cafe:'coffee',brunch:'coffee',noodle:'meal',afar:'afar',daybreak:'daybreak'}   /* 兩點半、半熟＝咖啡（AA_649 寫「咖啡（兩點半、半熟這種）」）；公館燒臘＝吃飯 */
 };

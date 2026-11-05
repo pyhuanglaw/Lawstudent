@@ -14,7 +14,7 @@
    - 約人：src/data/invites.js 的地點 offbeat（吃飯；見面照邀約一般的旁白——AA_618 沒有寫）。說話照一般音量（不加小聲）。
    - 店員站在吧檯裡面（STORY.populate；路人底模，不說話）。
    存檔：G.offbeat＝{n:來過幾次, first, catDay, pet:上一次摸摸那句, gos:{t:學期, n:這學期幾句, k:下一句, day}, enc:{人物:那天}, look:{種類:上一句}, game:第幾款, gameEnd, chatDay, chatK}；舊存檔沒有＝game3d.js defaults 補 {n:0}，壞掉的欄位 S.rec 重設。
-   看公告板、看社團佈告欄、看桌遊櫃、玩桌遊、冰拿鐵、01:00 打烊、找店員聊天、約去答應、阿哲「練完好餓」的選項：AA_648 第 3 節（企劃線 1ebf7a590）。
+   看公告板、看社團佈告欄、看桌遊櫃、玩桌遊、冰拿鐵、01:00 打烊（那一句改照 AA_700：XSCLOSE）、找店員聊天、約去答應、阿哲「練完好餓」的選項：AA_648 第 3 節（企劃線 1ebf7a590）。
    測試：node tests/offbeat_aa618_unit.js */
 'use strict';
 const OFFB=(function(){
@@ -40,7 +40,7 @@ const OFFB=(function(){
     game:{start:'（你們把「{遊戲}」攤開在長桌上。）',names:['拍桌大作戰','貓咪快遞','巷口夜市','島嶼建築師'],
       end:['（你們玩了兩局。第二局你贏了，大家說是新手運。）','（玩到一半店長跳上桌，坐在牌堆上。大家只好等牠走。）','（一局玩了一個小時。收盒子的時候，有人說下次要玩快一點的。）'],
       none:'（長桌上沒有人。桌遊要幾個人一起才好玩。）',h:1},
-    close:[['店員','「我們一點打烊喔。……桌遊放回櫃子就好。」'],[null,'（你走出店門。巷子很安靜，只剩路燈。）']],
+    /* 打烊的字（AA_648 第 3 節的 close）作廢，照 AA_700 一句：XSCLOSE.say（下面 S.closeOut）*/
     chat:['「今天店長睡了一整天。客人摸牠都不醒。」','「考試週的時候，長桌都被讀書的人坐走了。我們也不好意思趕。」','「厚片今天賣完了。……明天早一點來。」','「那面佈告欄每個學期都要清一次，不然會掉下來。」'],
     chatLabel:'找店員聊天',   /* 按鈕的字（稿：「聊天（找店員；隨機一句，一天一次）」）*/
     /* 期末考完的聚餐（AA_648 第 1 節：取代燒臘店那一場；開頭照 AA_618 2-4 第 2 點的揪人句、旁白一句照學期輪）*/
@@ -126,10 +126,11 @@ const OFFB=(function(){
   S.door=async function(GM){ const G=GM.G, r=S.rec(G); doorVisit=GM.enterN|0; r.n=(r.n|0)+1; if(!S.alone(G)) return 'together';
     if(!r.first){ r.first=G.day; GM.sceneBegin(); try{ await sayAll(GM,S.L.first); } finally { GM.sceneEnd(); } return 'first'; } return null; };
   /* ---------- 打烊（01:00）、還沒開：請你出來（稿上沒有句子）---------- */
-  /* 01:00 打烊那一刻（01:00～01:30，那天不是颱風）＝店員一句＋旁白（AA_648 第 3 節）；讀檔回到早上、颱風＝只寫開放時間 */
+  /* 01:00 打烊那一刻（01:00～01:30，那天不是颱風）或這一趟進來時開著＝店員「我們今天要打烊了。」（AA_700，取代 AA_648 第 3 節）；讀檔回到早上、颱風＝只寫開放時間 */
   S.closingNow=G=>{ const h=((G.hour%24)+24)%24; return h>=1-1e-6&&h<1.5&&!(typeof PLACES!=='undefined'&&PLACES.typhoonClosed&&PLACES.typhoonClosed(ZONE,G.day)); };
-  S.closeOut=async function(GM){ const G=GM.G, P=GM.E&&GM.E.player, L=LAY(); if(P&&P.seat&&GM.standUp) GM.standUp(P); const t=S.closedText(G), cl=S.closingNow(G);
-    if(cl){ GM.sceneBegin(); try{ await sayAll(GM,S.L.close); } finally { GM.sceneEnd(); } }
+  /* AA_700：這一趟進來時開著、或打烊那一刻＝店員「我們今天要打烊了。」（不另外出旁白；src/xs_close3d.js 的 XSCLOSE）*/
+  S.closeOut=async function(GM){ const G=GM.G, P=GM.E&&GM.E.player, L=LAY(); if(P&&P.seat&&GM.standUp) GM.standUp(P); const t=S.closedText(G), c0=S.closingNow(G), cl=typeof XSCLOSE!=='undefined'&&XSCLOSE.gen?XSCLOSE.gen(GM,ZONE,c0):c0;
+    if(cl){ GM.sceneBegin(); try{ if(typeof XSCLOSE!=='undefined'&&XSCLOSE.say) await XSCLOSE.say(GM,'店員'); else await GM.say(CLERK,'我們今天要打烊了。'); } finally { GM.sceneEnd(); } }
     await GM.enter('wenzhou',Object.assign({},(L&&L.exit&&L.exit.spawn)||{x:-34.8,z:-9.6,yaw:Math.PI/2})); if(!cl) GM.toast(t,5000); return cl?'close':'out'; };
   /* ---------- 每 0.5 秒（STORY.TICKS）：打烊 → 進門 → 偶遇 ---------- */
   S.tick=function(GM){ const G=GM&&GM.G; if(!G||G.zone!==ZONE||busy||GM.titleIdle||!sceneFree(GM)) return false;

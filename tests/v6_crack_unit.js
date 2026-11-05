@@ -108,7 +108,7 @@ await sec('A',async()=>{
 });
 
 /* ======================= Y 語彤 ======================= */
-const YT_BODY='我分給你的時間，你好像不太需要。……沒關係，我只是想問清楚。', YT_O=['「我需要。週四我都來。」','「我們好像都太忙了。」',NONE];
+const YT_BODY=['週四斜對面那個位子，是我自己要留的。','……你沒來的那幾次，我也坐到閉館。'], YT_O=['「我需要。週四我都來。」','「我們好像都太忙了。」',NONE];
 await sec('Y',async()=>{
   const t1=D('2028-09-14');
   const ytG=k=>{ fresh(k,10,'dorm',{YT_EV13:true}); date(YT); return H.G; };
@@ -125,14 +125,14 @@ await sec('Y',async()=>{
   const p=pr(YT).plan, t4=t1+21;
   check('Y6. 三個週四都沒去＝3、排下一個週四 17:30～18:30 總圖三樓',cnt(YT)===3&&p&&p.att[0].zone==='library'&&p.att[0].day===t4&&p.att[0].h===17.5&&p.att[1].day===t4+7,J(p&&p.att));
   at(t4,12.5); rules(); check('Y7. 那天 12:10：談話的兩句「今天週四。我在三樓。」「……我想問你一件事。」（不是留位子那一則）',J(dm(YT).slice(-2))===J(['heroine_03:今天週四。我在三樓。','heroine_03:……我想問你一件事。'])&&!PHONE.byAsk(H.G,'ct_yt_seat_'+keyOf(t4)),J(dm(YT).slice(-3)));
-  for(const [k,tail,res] of [[0,['好。那斜對面，我繼續留。'],'mend'],[1,['嗯。那我把這段時間，還給我自己。……謝謝你教我分時間。'],'apart'],[2,[],'drift']]){
+  for(const [k,tail,res] of [[0,['好。那斜對面，我繼續留。'],'mend'],[1,['嗯。那這段時間，我自己用。'],'apart'],[2,[],'drift']]){
     ytG('2028-09-14'); for(const d of [t1,t1+7,t1+14]){ at(d,12.5); rules(); at(d,20); rules(); } at(t4,17.6); H.G.zone='library'; H.said=[]; H.opts=[]; H.picks=[k]; await tick();
-    check('Y8. 總圖三樓（'+res+'）：逐字、三個選項',J(said())===J([YT_BODY].concat(tail))&&J(H.opts[0])===J(YT_O),J({s:said(),o:H.opts}));
+    check('Y8. 總圖三樓（'+res+'）：逐字、三個選項',J(said())===J(YT_BODY.concat(tail))&&J(H.opts[0])===J(YT_O),J({s:said(),o:H.opts}));
     if(res==='mend') check('Y9. 修補：歸零、繼續留位子（下個週四照樣傳；AA_462 第 3 節：這學期第 1～3 次是原句、輪 1、輪 2，談話那週不傳，這一週輪到第 3 句「三樓。老位子。」）',cnt(YT)===0&&(at(t4+7,12.5),rules(),dm(YT).slice(-1)[0]==='heroine_03:三樓。老位子。'),J(dm(YT).slice(-4)));
     if(res==='apart') check('Y9. 好好分開：apart_talk',H.G.flags.dating_heroine_03===false&&H.G.flags.ROMANCE_HISTORY.some(h=>h.id===YT&&h.how==='apart_talk'));
     if(res==='drift'){ at(t4+7,12.5); rules(); const noSeat=!PHONE.byAsk(H.G,'ct_yt_seat_'+keyOf(t4+7)); at(t4+7,21); rules(); const ended=H.G.flags.dating_heroine_03===false;
       at(t4+9,18); H.G.zone='noodle'; H.said=[]; await tick();
-      check('Y9. 不回答：她不再留位子；一週後分開（apart_drift），之後到麵店「加滷蛋。……這個不會變。」',noSeat&&ended&&J(said())===J(['加滷蛋。……這個不會變。'])&&H.G.flags.EX_heroine_03_REASON==='drift',J(said())); } }
+      check('Y9. 不回答：她不再留位子；一週後分開（apart_drift），之後到麵店「你的杯子還是放在那一格。……這個不會變。」（AA_661 第 57 列；演的地方照舊，LAWWW 定）',noSeat&&ended&&J(said())===J(['你的杯子還是放在那一格。……這個不會變。'])&&H.G.flags.EX_heroine_03_REASON==='drift',J(said())); } }
   /* 沒到：20:00「沒關係。下週四。」→ 下週四；還是沒到＝不回答 */
   ytG('2028-09-14'); for(const d of [t1,t1+7,t1+14]){ at(d,12.5); rules(); at(d,20); rules(); } at(t4,12.5); rules(); at(t4,20.1); rules();
   check('Y10. 沒到：20:00「沒關係。下週四。」，延到下一個週四',dm(YT).slice(-1)[0]==='heroine_03:沒關係。下週四。'&&pr(YT).plan.i===1);

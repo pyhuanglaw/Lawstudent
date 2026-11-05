@@ -185,7 +185,7 @@ const HCIRCLE=(function(){
     if(rs&&rs.length){ const p=P(n), dq=q=>Math.hypot(q[0]-p.x,q[1]-p.z), r=rs.slice().sort((a,b)=>Math.min(...a.map(dq))-Math.min(...b.map(dq)))[0]; n.beh='wander'; n.waypoints=r; n.frozen=false; n.timer=0.3; }
     else { n.beh='idle'; n.frozen=false; } n.pose=n.idlePose='idle'; };
   /* 吧檯、廚房的店員（story3d.js S.populate 的 clerk）*/
-  S.CLERK={cafe:{x:-0.6,z:-5.25,yaw:0},noodle:{x:-2.0,z:-2.75,yaw:Math.PI},wz_teahouse:{x:2.95,z:1.3,yaw:-Math.PI/2}};   /* 一盞茶屋＝水屋（story3d.js S.populate 的 clerk）：AA_630 第 4 節蘇姨站這裡 */
+  S.CLERK={cafe:{x:-0.6,z:-5.25,yaw:0},noodle:(typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop&&SHAOLA_LAYOUT.shop.clerk)?{x:SHAOLA_LAYOUT.shop.clerk.x,z:SHAOLA_LAYOUT.shop.clerk.z,yaw:SHAOLA_LAYOUT.shop.clerk.yaw}:{x:-2.0,z:-2.75,yaw:Math.PI},wz_teahouse:{x:2.95,z:1.3,yaw:-Math.PI/2}};   /* 一盞茶屋＝水屋（story3d.js S.populate 的 clerk）：AA_630 第 4 節蘇姨站這裡 */
   const clerkNpc=(E,zone)=>{ const c=S.CLERK[zone]; if(!c) return null; return (E.npcs||[]).find(m=>m&&m.clerk&&m.obj&&Math.hypot(m.obj.position.x-c.x,m.obj.position.z-c.z)<0.6)||null; };
   /* 一個同伴站好 */
   S.place=function(GM,r,hn,cn,cid,k,refresh){ const E=GM.E, opt=(r.comp&&r.comp[cid])||{}, quiet=quietFor(GM,cn,refresh)&&quietFor(GM,hn,refresh), hp=P(hn); if(!hp||!P(cn)) return;

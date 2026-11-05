@@ -1,5 +1,5 @@
 // DL-07 自由出行的偶遇第一批（AA_160 第 5 節、BB_144、AA_162）——不需要瀏覽器。
-// 檢查：人物表 35 列（沛珊大三起的 D06 美術館、D20 烏來拿掉：AA_282 第 5 節第 1 點、AA_342 C2）和作息（characters.js 的 away 有 enc 那一筆）一致；劇情事件不讀 ENC_（R7）；
+// 檢查：人物表 34 列（沛珊大三起的 D06 美術館、D20 烏來拿掉：AA_282 第 5 節第 1 點、AA_342 C2；Alison D04 西門町拿掉：AA_661 第 30 列）和作息（characters.js 的 away 有 enc 那一筆）一致；劇情事件不讀 ENC_（R7）；
 //       誰會出現（星期、時段、學期、單雙週、多熟、旗標、下雨的戶外、期末考週、今天有約、今天遇過、作息不在、經濟系那一年、前任、可昕的走向）；
 //       擲一次就固定（同一天同一時段一樣、60%、前任權重一半）；到達／散步後才遇到；打招呼（聊天 +、記憶、紀錄）／不打擾（什麼都沒有）／前任（不加數值）；
 //       之後在學校說一句、手機那兩則（隔天以後、一次）。
@@ -17,13 +17,13 @@ global.EVENTS={cond:c=>(c.flags||[]).every(f=>GG.flags[f]),npcOf:()=>null,onEnte
 for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/places.js','src/story3d.js','src/outings3d.js','src/home3d.js','src/data/free_trips.js','src/freetrip3d.js','src/data/encounters.js','src/encounter3d.js'])
   vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CALENDAR|CHARACTERS|STORY|PLACES|SOCIAL_GRAPH|UNFAMILIAR_POOL|PORTRAITS|OUT|HOME|FREE_TRIPS|TRIP|ENCOUNTERS|ENC)\s*=/mg,'global.$1='),{filename:f});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
-check('1. 有 ENC（eligible、decide、check、meet、schoolLine、phoneReady），人物表 35 列（第三批 AA_271 加 6、BB_213 加 5；第二批 AA_162 第 8 節加 6、BB_150 加 5；沛珊 D06、D20 兩列拿掉，AA_282）',typeof ENC!=='undefined'&&['eligible','decide','check','meet','schoolLine','phoneReady','afterWalk','atArrive'].every(k=>typeof ENC[k]==='function')&&ENCOUNTERS.rows.length===35,String(ENCOUNTERS.rows.length));
+check('1. 有 ENC（eligible、decide、check、meet、schoolLine、phoneReady），人物表 34 列（第三批 AA_271 加 6、BB_213 加 5；第二批 AA_162 第 8 節加 6、BB_150 加 5；沛珊 D06、D20 兩列拿掉，AA_282；Alison D04 西門町拿掉，AA_661 第 30 列）',typeof ENC!=='undefined'&&['eligible','decide','check','meet','schoolLine','phoneReady','afterWalk','atArrive'].every(k=>typeof ENC[k]==='function')&&ENCOUNTERS.rows.length===34,String(ENCOUNTERS.rows.length));
 if(fails){ console.log('FAILED '+fails); process.exit(1); }
 // 1. 資料一致
 { const bad=[]; for(const r of ENCOUNTERS.rows){ if(r.kexin) continue; const e=(CHARACTERS[r.who].daily_schedule||[]).find(q=>q.enc===r.spot&&q.from===r.from&&q.to===r.to); if(!e||e.zone!==null||e.act!=='out'||e.away!==r.away||e.days.join()!==r.days.join()||(r.terms||null)&&JSON.stringify(e.terms)!==JSON.stringify(r.terms)&&!(e.terms&&r.terms==null)) bad.push(r.who+'@'+r.spot); }
   check('1. 每一列（可昕以外）在 characters.js 有同一個時段的 away（enc、星期、學期一樣）',!bad.length,bad.join(' '));
-  const n={D04:0,D06:0,D12:0,D13:0}; for(const r of ENCOUNTERS.rows) n[r.spot]++; check('1. 四個景點：西門町 6、北美館 3（沛珊大三起那一列拿掉，AA_282）、大稻埕 3、淡水 2（AA_160 5-6）',n.D04===6&&n.D06===3&&n.D12===3&&n.D13===2,JSON.stringify(n));
-  const memos=ENCOUNTERS.rows.map(r=>r.memo).filter(Boolean); check('1. 每個 memo 都有人物頁的字和之後的一句（沛珊 D20 那一列拿掉＝30 個，AA_282）',memos.length===30&&memos.every(m=>ENCOUNTERS.labels[m]&&ENCOUNTERS.school[m]&&ENCOUNTERS.school[m].who===ENCOUNTERS.rows.find(r=>r.memo===m).who),memos.join(' '));
+  const n={D04:0,D06:0,D12:0,D13:0}; for(const r of ENCOUNTERS.rows) n[r.spot]++; check('1. 四個景點：西門町 5（Alison 那一列拿掉，AA_661 第 30 列）、北美館 3（沛珊大三起那一列拿掉，AA_282）、大稻埕 3、淡水 2（AA_160 5-6）',n.D04===5&&n.D06===3&&n.D12===3&&n.D13===2,JSON.stringify(n));
+  const memos=ENCOUNTERS.rows.map(r=>r.memo).filter(Boolean); check('1. 每個 memo 都有人物頁的字和之後的一句（沛珊 D20 那一列拿掉、Alison D04 那一列拿掉＝29 個，AA_282、AA_661 第 30 列）',memos.length===29&&memos.every(m=>ENCOUNTERS.labels[m]&&ENCOUNTERS.school[m]&&ENCOUNTERS.school[m].who===ENCOUNTERS.rows.find(r=>r.memo===m).who),memos.join(' '));
   check('1. 記憶的字接進 SOCIAL.MEMORY_LABEL',SOCIAL.MEMORY_LABEL.ENC_D06_AN==='在美術館遇到她');
   const ev=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); const se=ev.slice(0,ev.indexOf('const SMALLTALK'));
   check('2. R7：劇情事件（STORY_EVENTS）不讀 ENC_',se.indexOf('ENC_')<0); }
@@ -32,16 +32,18 @@ const mk=(day,hour,o)=>{ const G=Object.assign({day,hour,weekday:CALENDAR.dateOf
 const SAT=STORY.termDay('Y1S1',5,6), SUN=STORY.termDay('Y1S1',5,7), SUN6=STORY.termDay('Y1S1',6,7);
 const whoAt=(G,spot)=>ENC.candidates(G,spot).map(c=>c.row.who+(c.tier.t==='acq'?'':':'+c.tier.t)).sort().join(',');
 // 3. 誰會出現
-{ let G=mk(SAT,19.5); check('3. 大一上第 5 週週六 19:30 西門町：芷若、子晴、阿哲、Alison、可昕（交往中）',whoAt(G,'D04')==='heroine_02,heroine_04,kexin:dating,yu,zhe',whoAt(G,'D04'));
+{ let G=mk(SAT,19.5); check('3. 大一上第 5 週週六 19:30 西門町：芷若、子晴、阿哲、可昕（交往中）（Alison 西門町那一筆拿掉：週五、六晚上在南洋戲院打工，AA_661 第 30 列）',whoAt(G,'D04')==='heroine_02,heroine_04,kexin:dating,zhe',whoAt(G,'D04'));
   G=mk(SAT,20.5); check('3. 20:30：Alison 走了（17～20）、芯慈來了（20～23）',whoAt(G,'D04')==='classmate_xinci,heroine_02,heroine_04,kexin:dating,zhe',whoAt(G,'D04'));
   STAGE.zhe='STRANGER'; G=mk(SAT,19.5); check('3. 還不認識的（阿哲 STRANGER）不出現：第一次見面只在原本的劇情事件',!/zhe/.test(whoAt(G,'D04'))); delete STAGE.zhe;
   G=mk(STORY.termDay('Y3S1',5,6),19.5); check('3. 芷若大三上（英國交換）不在西門町',!/heroine_02/.test(whoAt(G,'D04')),whoAt(G,'D04'));
   G=mk(STORY.termDay('Y1S1',16,6),19.5); check('3. 期末考週（第 16 週，16 週制）沒有人',whoAt(G,'D04')==='',whoAt(G,'D04'));
-  G=mk(SUN,16.5); check('3. 單週週日 16:30 大稻埕：子晴、語彤（子晴的華山是雙週 4、10，BB_213 0544a147，不撞）',whoAt(G,'D12')==='heroine_03,heroine_04',whoAt(G,'D12'));
+  G=mk(SUN,16.5); check('3. 單週週日 16:30 大稻埕：子晴（子晴的華山是雙週 4、10，BB_213 0544a147，不撞）；語彤茶屋下班以後 17:30 才到（AA_661 第 46 列）',whoAt(G,'D12')==='heroine_04',whoAt(G,'D12'));
+  G=mk(SUN,18); check('3. 單週週日 18:00 大稻埕：子晴、語彤（AA_661 第 46 列：語彤改 17:30～19:00）',whoAt(G,'D12')==='heroine_03,heroine_04',whoAt(G,'D12'));
   G=mk(SUN6,16.5); check('3. 雙週週日：大稻埕沒有人（子晴回公館、語彤心願以前不在淡水）',whoAt(G,'D12')===''&&whoAt(G,'D13')==='kexin:dating',whoAt(G,'D12')+'|'+whoAt(G,'D13'));
   G=mk(SUN,16.5,{weather:'rain'}); check('3. 下雨：大稻埕、淡水（戶外）都沒有人',whoAt(G,'D12')===''&&whoAt(G,'D13')==='');
   G=mk(SUN6,16.5); G.flags.WISH_DONE_heroine_03=true; check('3. 語彤心願以後、還不是朋友：淡水不出現（要朋友以上）',!/heroine_03/.test(whoAt(G,'D13')));
-  STAGE.heroine_03='FRIEND'; check('3. 朋友以上＋心願以後＋雙週：淡水有語彤',/heroine_03:friend/.test(whoAt(G,'D13')),whoAt(G,'D13'));
+  STAGE.heroine_03='FRIEND'; check('3. 朋友以上＋心願以後＋雙週週日：淡水沒有語彤（AA_661 第 46 列：改寒暑假平日 15～18）',!/heroine_03/.test(whoAt(G,'D13')),whoAt(G,'D13'));
+  { const GV=mk(dayOf('2026-07-08'),16.5); GV.flags.WISH_DONE_heroine_03=true; check('3. 朋友以上＋心願以後＋寒暑假平日（2026-07-08 週三 16:30）：淡水有語彤（AA_661 第 46 列）',/heroine_03:friend/.test(whoAt(GV,'D13')),whoAt(GV,'D13')); G=GV; }
   G.flags.EX_heroine_03=true; G.flags.ROMANCE_HISTORY=[{id:'heroine_03',from:'Y1S1W1',to:'Y1S1W3',how:'apart_life'}]; check('3. 前任不出現在淡水（AA_162 第 3 節）',!/heroine_03/.test(whoAt(G,'D13'))); delete STAGE.heroine_03;
   G=mk(SUN,10.5); check('3. 週日 10:30 北美館：以安（大一）；柏翰大一不在',whoAt(G,'D06')==='heroine_01',whoAt(G,'D06'));
   G=mk(STORY.termDay('Y3S1',5,7),10.5); STAGE.classmate_bohan='FAMILIAR'; check('3. 大三上：柏翰（有點熟以上）也在',whoAt(G,'D06')==='classmate_bohan,heroine_01',whoAt(G,'D06')); delete STAGE.classmate_bohan;

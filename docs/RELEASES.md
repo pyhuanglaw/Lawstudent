@@ -43,6 +43,7 @@
 | v9.10.18 | `e8b6a84dd`（PR [pyhuanglaw/Lawstudent#24](https://github.com/pyhuanglaw/Lawstudent/pull/24)；遊戲檔案＝BB GO 的發布樹 `0776cafc8`＝候選 `ffeec06e0`＋版本字樣） | 2026-11-03 12:09 UTC 合併（Pages run 41633308118；線上 LIVE18 PASS） | v9.10.17 `408d9f3cb` |
 | v9.10.19 | `039a9227a`（PR [pyhuanglaw/Lawstudent#25](https://github.com/pyhuanglaw/Lawstudent/pull/25)；快取字樣 `e1603907e`，PR [pyhuanglaw/Lawstudent#26](https://github.com/pyhuanglaw/Lawstudent/pull/26)；遊戲檔案＝候選 `55939fc71`＋版本字樣） | 2026-11-03（Pages run 41716647717、41716916666） | v9.10.18 `e8b6a84dd` |
 | v9.10.19.1（熱修） | `b0c3032af`（PR [pyhuanglaw/Lawstudent#27](https://github.com/pyhuanglaw/Lawstudent/pull/27)；發布樹 `ae2914d40`＝main `e1603907e`＋EVENTS.cond attended、GM.guardTalk 兩個修正＋版本字樣） | 2026-11-04 | v9.10.19 `e1603907e` |
+| v9.10.20 | `40c0abedb`（PR [pyhuanglaw/Lawstudent#28](https://github.com/pyhuanglaw/Lawstudent/pull/28)；遊戲檔案＝BB GO 的候選 `d3828452a`＋版本字樣，發布樹 `9e6d85711`、RELEASES.md `37cd3253d`） | 2026-11-05 02:28:25 UTC（run 41955182303） | `b0c3032af`（v9.10.19.1） |
 
 ---
 
@@ -56,7 +57,40 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.20（2026-11-05；遊戲檔案＝候選 `d3828452a`＋版本字樣（發布樹 `9e6d85711`）；BB 11-05 02:14 GO（BB_255 企劃線 786436ffd「v9.10.20 GO」）；合併、GitHub Pages 發布後補在上面的表）
+## v9.10.21（2026-11-05 ＿＿ UTC 合併 `＿＿`，PR ＿＿；遊戲檔案＝發布樹 `aa0f3bcd3`（候選 `83d09d13b`＋afar／頁間／青木窗景 6 張重拍＋NOODLE-AP-1105 麵店自動走路修正＋版本字樣）；BB-C 判條件已過（使用者 23:2x 轉述，BB 交班中沒有寫 GO 紀錄），LAWWW-C 依使用者「BB說可以go 照條件可以發布」發布）
+
+使用者 11-05 06:3x「所有的新店面排進下一次發布」（X234、RELEASE-V91021-1105）。
+
+### 這一版玩得到的
+- **新生南路的店都進得去**：山嵐書店（兩層、坐地板看書）、南洋戲院（大廳、1 廳）、大口漢堡（兩層、24 小時、插座座位）、同弦樂器（買吉他、吉他社）、大步球鞋、好拍運動、新生運動廣場（兩層）；按鈕、旁白、買東西照 AA_695～AA_699、AA_620、AA_621。
+- **新店裡有客人**；**遇得到有名字的人**（AA_705 第一批，大一上：以安、學姊、阿哲、明軒、芯慈、子晴、柏翰、語彤、沛珊、阿凱、芷若；Alison 在南洋送爆米花）。
+- **所有有營業時間的店打烊統一一句**「我們今天要打烊了。」（AA_700），玩家走到門外。
+- **手機快速前往照地區分**，加新生南路與七間店；大地圖營業時間不蓋店名。
+- **約念書**加 2:30 AM、afar café、木曜日、青木茶室；**約會兩個人一起坐空桌**（afar 先坐窗邊長桌、開場句對得上位子）。
+- **日誌寫那天約了誰、和誰約會**（X253）。
+- **起床直接站在房門口**（X252）。
+- **地圖「直接過去」不會再卡進吧台**（X244）；**點椅子走過去一定看得到「坐下」**。
+- **窗外街景**：公館青木、頁間、Daybreak、afar，溫州街小路、日常失速、日和、燒臘、林家換成真的街景（afar 窗外的捷運出口位置修正）。
+- **新生南路側門**搬到映月湖和博思中間（往北開、新月台是下一版）。
+- 博思、普通教學館新外觀；男一舍門廳牆縫；體育館 3F 主球場籃架前的人站場邊（沒有籃框以前不打球）；路人裙子不再卡進椅子相關修正；公館燒臘室內 v7；日常失速的貓、佈告欄。
+
+### 測試
+- GO：BB-C 11-05 16:11（BB_255、企劃線 d4e797c6d）定的條件＝使用者電腦跑發布樹 `aa0f3bcd3` 的 AA0F_p0、AA0F_touch、AA0F_reach 三支（燒臘截圖不要求；V21R 那批失敗判不擋）。三支結果（`claude/cc-local` local_out/AA0F_*，MSI、有視窗、無 iPhone）：p0 ALL PASS（166 秒）；touch 只錯「溫州街 NPC 都是正式模型」（1 個程序化路人，之前判不擋的同一種）；reach 29 區 1231 點只錯 noodle「劇情自動走路的 5 個目的地」（測試半徑 0.32、遊戲 0.3 的誤報，走路模擬那一欄 null＝走得到，NOODLE-AP-RADIUS-1105）。BB-C 已交班，判斷由使用者轉述；LAWWW-C 讀過三支 run.log 核對。
+- 之前已過：WINVIEW r1／r2、雲端 deploy_check、V21R p0／class／mini／zone、noodle_seat_ap Node。
+- Node：候選 098aafb74（遊戲檔案＝aa0f3bcd3）全部 1051 支，2 支已知（bookstore_exit_unit 誤報、ladder_headroom_unit ④ 梯子動畫預設不播）；wz_interiors_aa659_unit A6 是舊期望（小路窗景改成換夜版圖、不調暗；開發線已改測試），遊戲行為正確。
+- 發布樹 src／tests／assets／index.html 和 `aa0f3bcd3` `git diff` 為空。
+
+### 這一版沒有的（在開發分支，下一版）
+- 側門改北牆往北、望月台、新南停車場、體育館搬到北牆邊（X256、X257）；開車先走到望月台停車場（DRIVE-PICKUP-1105）在開發線、下一版。
+- 慢輪、阿德視差窗；新生南路、木曜日窗景。
+- 店裡遇得到的人第二、三批（大一下～大四下、可昕頁間、柏翰考試週、阿凱大步、柏翰好拍、Alison 運動廣場；阿哲芯慈考試週與宵夜訊息在做）。
+- 四張新背景（補習班重做、小路傍晚、宜蘭頂樓、擎天崗）。
+- 點椅子不搶旁邊的吧檯；大地圖人名、「你在這裡」不被營業時間蓋。
+
+### 沒測到的（照實寫）
+- iPhone 實機沒驗。
+
+## v9.10.20（2026-11-05 02:26 UTC 合併 `40c0abedb`，PR [pyhuanglaw/Lawstudent#28](https://github.com/pyhuanglaw/Lawstudent/pull/28)；遊戲檔案＝候選 `d3828452a`＋版本字樣（發布樹 `9e6d85711`）；BB 11-05 02:14 GO（BB_255 企劃線 786436ffd「v9.10.20 GO」）；發布樹 deploy_check 38 項 ALL PASS；GitHub Pages run 41955182303 02:28:25 UTC success）
 
 **範圍**：上一版 v9.10.19 的遊戲檔＝開發分支 `55939fc71` → 候選 `d3828452a`（遊戲檔＝`048b4c898`＋tests/touch_flow_wenzhou.py）。`git log --no-merges 55939fc71..d3828452a -- src assets lib index.html` 170 個 commit＋合併 33 個。總圖導覽樓梯 `5d40d6427`、`630e8cff3`（v9.10.19 發布前暫時 revert）由 `57ce4ad0b` 加回，算這一版。`27929f2a8`、`74c1ffb37` 已經在 v9.10.19.1 熱修上線（main `b0c3032af`，PR #27），這一版照帶。
 
@@ -133,6 +167,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - 阿德門口的電線桿下一版才挪（ADE-POLE16-1104，開發分支 `79da20245`）。
 - pool_17（蕭乃文在總圖 B1 研究小間 20:00 點地面走 0 m）：線上 main 和 `d3828452a` 一模一樣，是探針點到討論室牆外、沒有路的那一格＝TEST_BUG；牆外點得到的地板點了不動、也沒提示＝P3，下一版。
 - iPhone 實機沒驗（Playwright／桌機≠iPhone）。
+- main 多了一個 `lib/lz-string.js`（開發分支 SAVE-LZ-1104 第一步 `a8755309f`；發布樹只把 src／tests／assets／index.html 換成候選，lib 沒換）：index.html 沒有載入、src 沒有人用，不影響遊戲（BB-C 02:30 核對）；發布樹的做法下一版起連 lib 一起換成候選。
 
 ---
 
@@ -145,6 +180,8 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - 換區域先看到方塊、教室黑畫面多等（BUG-POPIN-WAIT-1103，v9.10.19 就有，待開工）
 - SUNNY SIDE 吧檯、小路座位、公館兩個店門口的鏡頭，約會帶路的距離：下一版（RELEASE-V91020-1104 11-04 13:1x）
 - 發布前檢查（048b4c898）：check_orphans 90、check_lines 可能抄錯 1077（不擋、發布後抽查）、題目漏收 0（399 題）（RELEASE-V91020-1104 11-04 14:57）
+
+**線上驗證 PASS**（BB-C 11-05 03:47，使用者電腦 03:4x 恢復後跑線上網址 main `40c0abedb`）：deploy_check ALL PASS（版本字樣 v9.10.20（2026-11-05）、328 個 script 都帶 ?v=）、TAPPREF ALL PASS、p0 ALL PASS。
 
 **統計**
 - 看了：範圍內不含合併的 commit 323 個，改到遊戲檔的 170 個逐一看訊息（另外 33 個合併 commit 看訊息）；d3828452a 以後 2 個（`13fdc1b65`、`ba038059e`）。

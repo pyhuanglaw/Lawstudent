@@ -50,6 +50,8 @@
 - **回報分三欄**：開發工時、測試執行時間（多半是背景等待）、阻礙。不要把沙盒瀏覽器的等待時間算成寫程式的工期。
 - **每批完成就保存**：程式、測試結果（通過／失敗／沒跑）、未完成項目、SHA，記進任務總表（`docs/handoff/tasks.json`）。換班後照總表接續，不重新全面盤點。
 
+> **全部 Node 單元測試看 GitHub Actions（2026-11-05 使用者；CLAUDE.md D131 那一列）**：推到 `claude/**`、改到遊戲檔案就自動跑 `.github/workflows/node-unit-auto.yml`（4 支並行、看結束碼）；結果用 GitHub 工具讀（`actions_list` workflow `node-unit-auto.yml`、`get_job_logs` 的失敗清單）。雲端只跑改到的那幾支。新的 push 會取消同一分支正在跑的那一輪。
+
 ## 〇之一、看畫面的檢查（2026-10-17 23:3x 使用者「很多我一打開遊戲就會發現的錯誤你好像也測不出來」→「好，照這樣改，先做看畫面的檢查」；四職位都適用）
 
 **起因**：原本的瀏覽器流程測試只看狀態（日期、旗標、JS 例外、有沒有卡住），不看畫面。人物穿模、畫面一塊黑、選項被手機蓋住、文字超框都會判通過；又因為沙盒每秒只有 1～4 格，從頭走一年要好幾個小時。
@@ -128,6 +130,8 @@
 | 真實手機 | — | — | **全部尚未實機驗證**（使用者 2026-10-10 實機回報了兩個 bug，已修） |
 
 ## 五、發布前必跑（核心）
+
+發布樹：`bash tools/handoff/mk_release_tree.sh <候選 SHA> <版本> <日期>`（src／tests／assets／lib／index.html／劇情匯入白名單＝候選＋版本字樣，其餘照開發分支；v9.10.20 時 lib 沒換，main 多帶了沒用到的 lib/lz-string.js，之後連 lib 一起換）；合進 main 以後下一個 commit 把這幾個路徑還原成開發分支發布前的 SHA。
 
 對**乾淨 checkout**（`git worktree add --detach <dir> HEAD`，只含 git 追蹤的檔案＝GitHub Pages 實際內容）開 server 後：
 
