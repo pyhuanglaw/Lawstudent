@@ -1434,3 +1434,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 967.9s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 967.9s] BROWSER DISCONNECTED
 - 2026-11-05T21:18:33  V21R_soc_kexin_talk  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  201s       用了 2.7 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
       err.log (last 5): [gpu_wrap 162.0s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 162.0s] BROWSER DISCONNECTED
+- 2026-11-05T21:21:06  V21R_soc_kexin_go  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  226s       用了 3.2 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
+      err.log (last 5): [gpu_wrap 190.6s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 190.6s] BROWSER DISCONNECTED
