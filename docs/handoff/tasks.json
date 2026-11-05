@@ -47891,10 +47891,10 @@
   },
   {
    "id": "OFFBEAT-SEAT-AP-1105",
-   "title": "日常失速 4 張座位的走近點都站不住（窗邊 (−1.5,3.45)、長桌 (−4.2,0.3)(−4.2,1.5)、卡座 (2.05,−3.5)）",
+   "title": "Daybreak 4 張座位走近點站不住（BB_255 寫成日常失速；LAWWW2 更正是公館 Daybreak）",
    "area": "SYS",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47906,7 +47906,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2 給那 4 張 seat.ap 或調導航阻擋",
+   "next": "CC 點 Daybreak 那 4 張各坐一次；長桌西側兩張坐下擦桌角約 0.1 m（先將就）",
    "source": "BB_255 SEATSCAN",
    "authorized": "使用者原話",
    "xai": {
