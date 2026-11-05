@@ -47231,6 +47231,62 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "OFFBEAT-CAT-BOARD-1105",
+   "title": "日常失速：店長（貓）要看得到（現在只有互動點、沒有 3D 貓）；社團布告欄牌子一直閃（疊面）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "日常失速",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2：店長貓模型放在「看看店長」那張空椅子（用溫州街 J13 的貓）；布告欄標題牌疊面拉開；放 v9.10.21",
+   "source": "UA-LAWWW-1105-19",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者截圖",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "看得到貓；牌子不閃",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "CLUB-BOARD-INFO-1105",
+   "title": "社團布告欄點了能看各社團活動時間、地點、怎麼加入（使用者 11-05 06:5x）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "日常失速",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "AA 照現有社團設定（社課時間、地點、加入方式）每社一則 → LAWWW 接成布告欄「看看」（日常失速＋其他社團海報牆）",
+   "source": "UA-LAWWW-1105-19",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "AA（待交）",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "點布告欄看得到各社團時間、地點、怎麼加入，和遊戲實際一致",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
