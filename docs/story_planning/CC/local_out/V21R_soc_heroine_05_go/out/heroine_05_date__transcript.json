@@ -3,8 +3,8 @@
  "tag": "date 當面約",
  "rec0": {
   "day": 14,
-  "hour": 12.1148,
-  "t": 348.1148,
+  "hour": 12.1174,
+  "t": 348.1174,
   "money": 30000,
   "rel": {
    "fam": 55,
@@ -24,8 +24,8 @@
  },
  "rec1": {
   "day": 14,
-  "hour": 15.2773,
-  "t": 351.2773,
+  "hour": 15.2588,
+  "t": 351.2588,
   "money": 29690,
   "rel": {
    "fam": 57,
@@ -41,7 +41,7 @@
   ],
   "zone": "campus"
  },
- "hours": 3.1625000000000227,
+ "hours": 3.141400000000033,
  "say": [
   {
    "n": "",
@@ -195,44 +195,9 @@
    "d": 14,
    "z": "campus",
    "adv": true
-  },
-  {
-   "n": "",
-   "c": null,
-   "t": "迎面走來一個人，你確定在校園看過。對方也放慢了一步。",
-   "h": 15.259,
-   "d": 14,
-   "z": "campus",
-   "adv": true
-  },
-  {
-   "n": "",
-   "c": null,
-   "t": "（有些人就是這樣，從「好像認識」開始的。）",
-   "h": 15.259,
-   "d": 14,
-   "z": "campus",
-   "adv": true
   }
  ],
  "screen": [
-  {
-   "name": "",
-   "text": "（華山1",
-   "slots": [
-    {
-     "id": "advL",
-     "show": false,
-     "img": false
-    },
-    {
-     "id": "advR",
-     "show": false,
-     "img": false
-    }
-   ],
-   "adv": true
-  },
   {
    "name": "",
    "text": "（華山1914文創園區。）",
@@ -286,7 +251,7 @@
   },
   {
    "name": "溫書瑀",
-   "text": "（她在每一段說明前都停下來）我看展會看說明。全部",
+   "text": "（她在每一段說明前都停下來）我看展會看說明。全部。",
    "slots": [
     {
      "id": "advL",
@@ -507,7 +472,7 @@
   },
   {
    "name": "",
-   "text": "（今天去了華山1914文創園區：老倉庫裡",
+   "text": "（今天去了華山1914文創園區：老倉庫裡的",
    "slots": [
     {
      "id": "advL",
@@ -538,41 +503,26 @@
     }
    ],
    "adv": true
-  },
-  {
-   "name": "",
-   "text": "迎面走來一個人，你確定在校園看過。對",
-   "slots": [
-    {
-     "id": "advL",
-     "show": false,
-     "img": false
-    },
-    {
-     "id": "advR",
-     "show": false,
-     "img": false
-    }
-   ],
-   "adv": true
-  },
-  {
-   "name": "",
-   "text": "（有些人就是這樣，從「好像認識」開始的。）",
-   "slots": [
-    {
-     "id": "advL",
-     "show": false,
-     "img": false
-    },
-    {
-     "id": "advR",
-     "show": false,
-     "img": false
-    }
-   ],
-   "adv": true
   }
  ],
- "seat": null
+ "seat": {
+  "zone": "campus",
+  "lv": 0,
+  "pseat": false,
+  "nseat": false,
+  "seatD": null,
+  "sameGroup": false,
+  "doorD": 11.29,
+  "spawnD": 0,
+  "npc": true,
+  "nD": 171.83,
+  "nbeh": "wander",
+  "nleaving": false,
+  "nx": -111.56,
+  "nz": -6.69,
+  "p": [
+   34,
+   -98
+  ]
+ }
 }

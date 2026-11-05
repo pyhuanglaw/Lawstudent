@@ -156,3 +156,46 @@
 [02:02:55] [res] cpu=1% mem=41% (13.1/31.4 GB) chrome_testing=10  START V21R_soc_fr_classmate_mingxuan
 [02:06:00] 正在跑：V21R_soc_heroine_05_go（已跑 45 分／上限 45 分）、V21R_soc_fr_yu（已跑 23 分／上限 45 分）、V21R_soc_fr_classmate_mingxuan（已跑 3 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
 [02:06:11] [res] cpu=1% mem=41% (12.9/31.4 GB) chrome_testing=10  END V21R_soc_fr_yu
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a7ce9f2c2..368d7b15e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[02:06:20] ==== END   V21R_soc_fr_yu  exit=1  1411s   ====
+[02:06:23] skip WINVIEW_rel_deploy (already done on bcb386604502ab9e04674cd587ef5d527a33b570)
+[02:06:23] skip WINVIEW_rel_shots (already done on bcb386604502ab9e04674cd587ef5d527a33b570)
+[02:06:23] skip WINVIEW_rel_p0 (already done on bcb386604502ab9e04674cd587ef5d527a33b570)
+[02:06:23] skip V21R_movreg_solo (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_p0 (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_movreg (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_reach (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_class (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_mini (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_zone (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_touch (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_v7 (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_tappref (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_xs_tongxian (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_xs_nanyang (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_xs_shanlan (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_xs_dakou (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_xs_dabu (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_xs_haopai (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_xs_xsports (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_close_all (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_gym_tap (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_tapscan (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_wzlin (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_dorm_wall (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_guitar_dorm (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_xsgate (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_v12cb (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_moveout (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_shops_seats (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_shops_acts (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_shops_win (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_shop_named (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_shop_crowd (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] skip V21R_soc_heroine_01_talk (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[02:06:23] memory 41% before starting V21R_soc_heroine_01_go (2 running)
+[02:06:23] ==== START V21R_soc_heroine_01_go  (probe @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
+[02:06:26] [res] cpu=6% mem=41% (13.1/31.4 GB) chrome_testing=5  START V21R_soc_heroine_01_go
+[02:06:57] [res] cpu=0% mem=39% (12.1/31.4 GB) chrome_testing=9  END V21R_soc_heroine_05_go
