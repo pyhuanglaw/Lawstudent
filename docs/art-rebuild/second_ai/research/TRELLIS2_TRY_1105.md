@@ -3,6 +3,7 @@
 - 起因：
   - 使用者選「可以上傳試」，同意把幾張參考圖上傳到 TRELLIS.2 的線上試用版（OPEN_SRC_2D3D_1104.md 第 5 節）。
   - LAWWW-C 05:39 排進佇列第 4：挑 2～3 張參考圖試，結果寫 README，結果好才考慮用。
+- **CANCELLED（使用者 11-05 06:4x）：「這不用做 我電腦也跑不了」——不再試 TRELLIS.2，也不要 HF token。**
 - **結果：BLOCKED（沒有產生 3D 模型）**。卡在 Hugging Face 的免費 GPU 額度（ZeroGPU），沒有登入的人額度是 0。
 
 ## 做了什麼

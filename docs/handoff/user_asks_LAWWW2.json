@@ -743,6 +743,16 @@
    "task": "SHOP-VERSIONS-1105",
    "note": "①已轉 LAWWW-C 排下一次發布（06:3x send_message，DELIVERED，要他回時間或擋著的事）②各店版本數：docs/art-rebuild/second_ai/SHOP_VERSIONS_1105.md（吉他店約 9 版最多；運動廣場 CC 5 版）③未完成清單、系館與總圖狀態在對話回覆",
    "notify": "LAWWW-C"
+  },
+  {
+   "id": "UA-LAWWW2-1105-04",
+   "at": "2026-11-05T06:4x",
+   "quote": "卡住了：要你給 Hugging Face token，或在你的電腦跑 這不用做 我電腦也跑不了\n如果店面修改3次以內的你自己決定要不要繼續改",
+   "kind": "原話",
+   "status": "執行中",
+   "replaces": "TRELLIS.2 上傳測試（OPEN_SRC 第 5 節、UA 03:5x「可以上傳試」）→ 取消",
+   "note": "①TRELLIS.2 取消（research/TRELLIS2_TRY_1105.md 標 CANCELLED、RULES 工具表那一列改成不用）②三版以內的店由 LAWWW2 決定：只做新生南路大口漢堡、大步、好拍的共用街景窗卡（白天窗外暗，一次做三間＝各第 4 版，到此為止）；其他三版以內的店不改。超過三版的店照 D141 只改使用者說的或擋玩的。窗卡不進 v9.10.21，下一版",
+   "notify": "LAWWW-C"
   }
  ]
 }

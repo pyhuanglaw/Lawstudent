@@ -21,6 +21,7 @@
 > - 第 3 版交了就進遊戲，不再為了疊圖的分數重做。
 > - 別人已經做到第 3 版以上的（例如 CC 的運動廣場 v3c），直接接進遊戲，不重做。
 > - 順序：還沒進遊戲的店優先，已經進遊戲的店排後面。
+> - **使用者 06:4x：「如果店面修改3次以內的你自己決定要不要繼續改」**——三版以內的店由 LAWWW2 判斷要不要再改（改的話算一版，到第 4 版為止、寫進 README）；超過三版的照上面，只改使用者說的或擋玩的。
 
 一句話：**參考圖就是規格。先反推參考圖的鏡頭，同一個鏡頭拍我們的模型、疊在參考圖上看；看數字也看圖；差在哪裡、為什麼，照實寫。**
 
@@ -156,7 +157,7 @@
 | 可點的地面（點地移動） | 有高度的地方（斜地板、看台、樓梯、平台）一定要註冊 `zone.walkMeshes`，不然 `E.screenToFloor` 退回 y 0、落點偏好幾公尺。測試照 `E.screenToFloor` 的算法打射線，落點差 ≤ 0.5 m | `src/nanyang3d.js`（三片）、`src/gym3d.js` 的 `arenaWalk`；`tests/nanyang_tap_unit.js`、`tests/gym_arena_tap_unit.js` | LAWWW2-C，11-05（新） |
 | 小孤島總掃 | 所有室內區域每 0.1 m 一點、從出生點連通；連不到的分群、附 gap（≤ 0.45 m＝跑步一步跳得進去） | `tools/dev_scratch/indoor_islands.js`；每間店的測試也各有一項（`dakou_unit` ⑩、`xsshop_unit` ⑤、`xsports_unit` ⑦） | LAWWW2-C，11-05（新） |
 | 踏面對 GLB | 讀 GLB 的頂點，樓梯每一階最高的點＝導航算的 k×rise（差 ≤ 0.02 m）；踏面頂點在樓梯兩邊，取範圍要包含兩邊 | `tests/dakou_unit.js` ③、`tests/xsports_unit.js` ③ | LAWWW2-C，11-05（新） |
-| 單張圖轉 3D 的 AI（開源） | 小物件可以，店面、建築不行（會糊、背面靠猜、走不進去）。TripoSR 只用在玩家走不到 3 m 內、Poly Haven 和 plants.py 做不出來的有機小雜物（D138）；TRELLIS.2 線上版：使用者 11-05 03:5x 同意挑他的參考圖上傳試跑；11-05 實測：去背成功，產生 3D 被 Hugging Face 免費 GPU 額度擋（要使用者給 `HF_TOKEN`，或在有 NVIDIA 24 GB 的 PC 跑），見 `research/TRELLIS2_TRY_1105.md` | `research/OPEN_SRC_2D3D_1104.md` | 研究，11-04 |
+| 單張圖轉 3D 的 AI（開源） | 小物件可以，店面、建築不行（會糊、背面靠猜、走不進去）。TripoSR 只用在玩家走不到 3 m 內、Poly Haven 和 plants.py 做不出來的有機小雜物（D138）；TRELLIS.2 線上版：使用者 11-05 03:5x 同意挑他的參考圖上傳試跑；11-05 實測：去背成功，產生 3D 被 Hugging Face 免費 GPU 額度擋；**使用者 06:4x 取消：「這不用做 我電腦也跑不了」——不要再試**，見 `research/TRELLIS2_TRY_1105.md` | `research/OPEN_SRC_2D3D_1104.md` | 研究，11-04 |
 
 ## 3. 踩過的坑（每一條都真的發生過）
 
