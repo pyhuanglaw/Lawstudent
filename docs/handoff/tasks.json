@@ -46929,8 +46929,8 @@
    },
    "source": "使用者 11-03 對 AA（X196）；AA_619（企劃線 bf0efded8）第 1、4 節；LAWWW-C 11-05 00:4x 派",
    "authorized": "使用者 11-03（X196）；D108 場景程式歸 LAWWW2；MODEL_READY 照 D132 交 BB 代驗",
-   "next": "【LAWWW-C 11-05 01:4x】LAWWW2-C a353148b7（README 952bccb6e）接進 1a67c9947：xs_tongxian、互動點 wall_n／wall_s／buy／ukes／try、座位 try_w／try_e／counter_stool、TX3.OWNER、TX3.streetOut；482 支 ALL PASS；選單台詞交子代理（AA619-GUITAR-1104）；沒做：樓梯走得上去（淡出網格擋人）、窗景晚上換圖；MODEL_READY 照 D132 交 BB｜【LAWWW-C 11-05 00:4x】send_message 派 LAWWW2-C：DORM-LADDER 之後做；互動點 label／id 交 LAWWW 接選單與劇情（AA619-GUITAR-1104）",
-   "sha": "1a67c9947",
+   "next": "【LAWWW-C 11-05 02:1x】v2（LAWWW2-C baaef5e54）接進 2a6633a01：淺色木地板、磨石子、腰牆西牆看得到、疊面閃爍修正；482 支 ALL PASS；CC 拍｜【LAWWW-C 11-05 01:4x】LAWWW2-C a353148b7（README 952bccb6e）接進 1a67c9947：xs_tongxian、互動點 wall_n／wall_s／buy／ukes／try、座位 try_w／try_e／counter_stool、TX3.OWNER、TX3.streetOut；482 支 ALL PASS；選單台詞交子代理（AA619-GUITAR-1104）；沒做：樓梯走得上去（淡出網格擋人）、窗景晚上換圖；MODEL_READY 照 D132 交 BB｜【LAWWW-C 11-05 00:4x】send_message 派 LAWWW2-C：DORM-LADDER 之後做；互動點 label／id 交 LAWWW 接選單與劇情（AA619-GUITAR-1104）",
+   "sha": "2a6633a01",
    "xai": {
     "spec": "AA_619（企劃線 bf0efded8）第 1、4 節；src/data/xinsheng_layout.js tongxian；cc-testing assets/models/env/second_ai/bb_support/tongxian.glb",
     "branch": "claude/focused-cray-c9uwvw",
