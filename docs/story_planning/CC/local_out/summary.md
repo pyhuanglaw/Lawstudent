@@ -1310,3 +1310,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 443.6s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 443.6s] BROWSER DISCONNECTED
 - 2026-11-05T14:10:10  WZLIN_v1d  sha=9ea82730f471210c8df143093b7743ce4c9327a8  exit=0  487s    PASS [牆淡出] 日和便利店 鏡頭繞一圈（8 個方向）：擋在鏡頭和人中間的牆都淡出（opacity ≤0.5）  [] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 444.0s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 444.0s] BROWSER DISCONNECTED
+- 2026-11-05T14:13:14  WZLIN_v1c  sha=01b3e5ac7534c643a153e940b0198a142605a67b  exit=0  1458s    PASS [牆淡出] 日和便利店 鏡頭繞一圈（8 個方向）：擋在鏡頭和人中間的牆都淡出（opacity ≤0.5）  [] / PASS 沒有 JS 例外  [] / FAILED 3: [座位] #7（-0.85, -0.5） 站在 GAME.seatApproach（點椅子 tapToSeat 走到的那一點；離它 0.18 m）：最近的「坐下」是這一張；[座位] #8（1.05, -1.8） 站在 GAME.seatApproach（點椅子 tapToSeat 走到的那一點；離它 0.51 m）：最近的「坐下」是這一張；[座位] #8（1.05, -1.8） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 1414.1s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 1414.2s] BROWSER DISCONNECTED
