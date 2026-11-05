@@ -4642,6 +4642,24 @@
    "task": "CLOSE-UNIFY-1105",
    "kind": "text",
    "note": "所有有營業時間、走得進去的店打烊時一句「我們今天要打烊了。」（店員；只有老闆在顧的店＝老闆），玩家走到門口外面、不另外出旁白；24 小時的店沒有。照抄進 src/xs_close3d.js（XSCLOSE.LINE），afar、Daybreak、青木、日常失速、木曜日、同弦各自的打烊也改叫它；tests/close_unify_unit.js 用 git show 4f60052c8 對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_705_新店面裡遇得到的人_第一批作息.md",
+   "sha": "ebea3a2b0",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_705 ebea3a2b0：使用者 11-05 08:4x「店面裡要遇的到NPC」，AA-C 定第一批作息）",
+   "task": "SHOP-NAMED-NPC-1105",
+   "kind": "text",
+   "note": "新店面裡遇得到有名字的人（大一上第一批）：新生南路、公館、溫州街 14 列的星期、時段、位置、act、聽一句（照抄進 src/data/shop_npc.js 的 SHOP_NPC.rows；系統 src/shopnpc3d.js）；芷若那一列照稿「給 LAWWW」的規則改週日下午；tests/shop_npc_unit.js 用 git show ebea3a2b0 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_615_新生南路那一側_公館二輪戲院_爆米花.md",
+   "sha": "ebea3a2b0",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_615 第 4 節：AA_705 南洋戲院那一列指過來「遇到她、送爆米花照原稿」）",
+   "task": "SHOP-NAMED-NPC-1105",
+   "kind": "text",
+   "note": "只用第 4 節「遇到她、送爆米花」：第一次（櫃檯）旁白兩句、Alison 四句、兩個選項的回話、拿到爆米花的旁白；之後再遇到三句隨機；KNOWS_SIS_ALISON 那一句。照抄進 src/data/shop_npc.js（SHOP_NPC.alison）；和朋友一起來、人物頁打工那一行、看電影時多一句還沒做。tests/shop_npc_unit.js 用 git show ebea3a2b0 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
   }
  ]
 }
