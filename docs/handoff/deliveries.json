@@ -17356,7 +17356,7 @@
    "what": "SIT-HEIGHT-1104：坐下高度照每個模型的大腿厚度（C.SIT_FIT）、座面抬高統一、階梯教室置物架往上、坐著做事 28 個片段重出（含 F2／M2，取代 npc_f2m2_1104.patch）；README a0ed60fb2",
    "task": "SIT-HEIGHT-1104",
    "integration": "已整合待測試",
-   "note": "LAWWW-C 01:0x 接進 b1ca12646；吃飯片段 71ba5870e 開"
+   "note": "LAWWW-C 00:2x 接進 b1ca12646；吃飯片段 71ba5870e 開"
   },
   {
    "id": "DL-LAWWW2-58d238bdd",
@@ -17369,7 +17369,33 @@
    "what": "CAFE-EDGE-1105：桌緣 0.20 的坐著做事片段（F、M 各 7 個 _E20）、C.SIT_TASK.REFS、sitTaskFit 先試接近的；README 7172533cc",
    "task": "NPC-ANIM-LOOPS-1104",
    "integration": "已整合待測試",
-   "note": "LAWWW-C 02:1x 接進 135a1f247"
+   "note": "LAWWW-C 00:3x 接進 135a1f247"
+  },
+  {
+   "id": "DL-LAWWW2-42cbba73b",
+   "date": "2026-11-05T01:13Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "42cbba73b",
+   "msg": "ACTIONED",
+   "what": "DORM-LADDER-HEAD-GRIP-1102 ②：宿舍上舖梯子靠床那一側扶手、sleep_scene.grips／rails、光照重烘；README adc164344",
+   "task": "DORM-LADDER-HEAD-GRIP-1102",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 01:1x 接進 e118734a3"
+  },
+  {
+   "id": "DL-LAWWW2-a353148b7",
+   "date": "2026-11-05T01:38Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a353148b7",
+   "msg": "ACTIONED",
+   "what": "GUITAR-SHOP-ZONE-1105：同弦樂器室內 xs_tongxian（tongxian.glb v4d、tongxian_stair.glb、互動點與座位、營業時間）；README 952bccb6e",
+   "task": "GUITAR-SHOP-ZONE-1105",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 01:4x 接進 1a67c9947"
   }
  ],
  "ignored": [
@@ -22732,8 +22758,17 @@
    "kind": "wip",
    "role": "LAWWW2",
    "branch": "claude/focused-cray-c9uwvw",
-   "reason": "SIT-HEIGHT-1104 WIP 檢查點（C.SIT_FIT、置物架、片段重出；未交件）；交件版 267f3d9a9 已接進 b1ca12646；LAWWW-C 11-05 01:3x 分類（D94）",
+   "reason": "SIT-HEIGHT-1104 WIP 檢查點（C.SIT_FIT、置物架、片段重出；未交件）；交件版 267f3d9a9 已接進 b1ca12646；LAWWW-C 11-05 00:2x 分類（D94）",
    "task": "SIT-HEIGHT-1104"
+  },
+  {
+   "sha": "952bccb6ea",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "coveredBy": "DL-LAWWW2-a353148b7",
+   "reason": "GUITAR-SHOP-ZONE-1105 交件的 README 補 SHA、outbox 一筆、樓梯間模型的資訊檔 tongxian_stair.json（LAWWW-C 01:5x 一起接進開發分支）；D94",
+   "task": "GUITAR-SHOP-ZONE-1105"
   }
  ],
  "scannedThroughNote": "2026-11-02 05:3x 使用者刪了帳號 B 的分支（funny-albattani、cool-heisenberg、elegant-brown；內容整條在 second-ai-env-art、story-planning）：從這裡拿掉，之後的核對靠 watermarks.json（incr）"

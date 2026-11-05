@@ -1,0 +1,16 @@
+{
+ "objects": 8,
+ "unique_meshes": 8,
+ "tris": 2544,
+ "tris_drawn": 2544,
+ "materials": 10,
+ "out": "assets/models/env/second_ai/tongxian_stair.glb",
+ "bytes": 294932,
+ "texres": 512,
+ "layout": 4,
+ "risers": 22,
+ "rise": 0.1909,
+ "tread": 0.27,
+ "zTop": 4.2,
+ "zBottom": -1.47
+}

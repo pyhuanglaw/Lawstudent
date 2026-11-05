@@ -40100,7 +40100,7 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "next": "【LAWWW-C 11-05 00:4x】AA_691（企劃線 607939eb8）五件照做 f512588e1：5/21 20:00 群組一則、第 3 場 10/30、第 1 場柏翰一句、第 2 場 endMiss（延伸到舊存檔換人／八件都演過，請 AA 確認）、第 4 場不記柏翰、手機記事拿掉「值班」；d118_b5a／b5b ALL PASS；BB 瀏覽器一起驗（D118-B5）｜【LAWWW-C 11-05 00:3x】send_message 給 AA-C",
+   "next": "【LAWWW-C 11-05 00:1x】AA_691（企劃線 607939eb8）五件照做 f512588e1：5/21 20:00 群組一則、第 3 場 10/30、第 1 場柏翰一句、第 2 場 endMiss（延伸到舊存檔換人／八件都演過，請 AA 確認）、第 4 場不記柏翰、手機記事拿掉「值班」；d118_b5a／b5b ALL PASS；BB 瀏覽器一起驗（D118-B5）｜【LAWWW-C 11-05 00:3x】send_message 給 AA-C",
    "sha": "f512588e1"
   },
   {
@@ -40224,7 +40224,7 @@
    "title": "D118-B7 範圍外的後續：司法官二試題池（judgePool）沒照修過的課（美國路線可能考到刑事／公法判決研討）；二試、研究所筆試沒有 cue 和卡片回寫；研究所總複習（'grad'，D118 計畫 B6）沒做",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y4S2",
@@ -40238,8 +40238,8 @@
    },
    "source": "D118-B7 子代理交件（a544cc690）「還沒做、要你決定的」第 4、5 點",
    "authorized": "D118（使用者 11-02）",
-   "next": "【LAWWW-C 11-05 01:5x】BB-C 00:31 定三件（BB_255）：司法官二試、研究所都只抽修過的課（不到 10 題才退回全部；研究所沒修行政救濟法就三門）；二試 6 小時、研究所 4 小時總複習；開放＝二試：一試放榜且上榜、考前 30 天取晚的，研究所：考前 30 天；提醒開放那天、考前一週週日 20:00，有報名才有；畢業以後跳日期停。二試總複習只給要考司法官二試的人（律師二試沒有作答，LAWWW 定）。暫定字照 AA_690 最小替換，01:5x 送 AA-C 定稿；子代理 /home/user/wt-b7f（d118b7f-1105）實作中｜【LAWWW-C 11-05 01:4x】send_message 問 BB-C 三件（一試＝S.poolFor＋總複習＋提醒；司法官二試 S.drawJudge、研究所 S.drawGrad 現在都沒有）｜國考一試那一套照做到二試、研究所；做之前問 BB 二試題池要不要限修過的課",
-   "sha": null
+   "next": "【LAWWW-C 11-05 01:4x】BB-C 01:32 八件：1～4、7、8 同意；5 要加 cue＋回寫觀念卡 → 63847fe13（d118_b7f q1～q4，改前 FAILED 4）；6 寒假照現在（不改 home3d），條件是家裡書桌入口寒假開得了研究所總複習（CC 驗，開不了 BB 再找 LAWWW）｜【LAWWW-C 11-05 01:3x】合併 7dbe93dfa（子代理 d118b7f-1105 91d9b0ed2）＋860cb2618（字註解定稿）：司法官二試 PG.judgePoolFor、研究所 PG.gradPoolFor（只出修過的；湊不到 10 題＝全部）、總複習 STUDY.review(GM,'judge'／'grad')（6／4 小時）、提醒 judge_remind_／grad_remind_<open|week>_<年>、PG.stops；d118_b7f 71 項（改前 FAILED 52）、相關 42 支、全套 1008 支 ALL PASS；BB 要確認的判斷 6 件（送 BB-C）；CC 用 D118_B7 那一套 Node＋瀏覽器各補一組｜【LAWWW-C 11-05 00:3x】BB-C 00:31 定三件（BB_255）：司法官二試、研究所都只抽修過的課（不到 10 題才退回全部；研究所沒修行政救濟法就三門）；二試 6 小時、研究所 4 小時總複習；開放＝二試：一試放榜且上榜、考前 30 天取晚的，研究所：考前 30 天；提醒開放那天、考前一週週日 20:00，有報名才有；畢業以後跳日期停。二試總複習只給要考司法官二試的人（律師二試沒有作答，LAWWW 定）。暫定字照 AA_690 最小替換，00:3x 送 AA-C 定稿；子代理 /home/user/wt-b7f（d118b7f-1105）實作中｜【LAWWW-C 11-05 00:3x】send_message 問 BB-C 三件（一試＝S.poolFor＋總複習＋提醒；司法官二試 S.drawJudge、研究所 S.drawGrad 現在都沒有）｜國考一試那一套照做到二試、研究所；做之前問 BB 二試題池要不要限修過的課",
+   "sha": "7dbe93dfa"
   },
   {
    "id": "D118-B8-1102",
@@ -42052,17 +42052,18 @@
    "id": "DORM-LADDER-HEAD-GRIP-1102",
    "title": "宿舍梯子兩件（爬梯手勢修正時發現）：①第 5 階頭穿天花板（3.0 m 房間）——LAWWW2 初步傾向最上一兩階改彎腰（不改房間高度、不動已 ART_APPROVED 的模型與烘焙；彎腰姿勢 LAWWW 加）；②只有門那一側有扶手——靠床那側加握把、dorm_room4.layout.json 出每一階兩手 grips（LAWWW 的 climbIK 改抓 grips）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "LAWWW2 22:56 ACK",
-   "next": "下一班 LAWWW2 接班確認方向；LAWWW2 22:5x 換班前 ACK 但沒寫進交接檔，記在這裡",
+   "next": "【LAWWW-C 11-05 01:1x】②LAWWW2-C 42cbba73b（README adc164344）接進 e118734a3：靠床那側扶手、sleep_scene.grips／rails、光照重烘；宿舍、梯子相關 331 支 ALL PASS；①頭頂：天花板 3.40（DORM-CEIL-1103）以後只有第 5 階站直會高 2 cm，headFit 已經彎腰、離天花板 14 cm＝不用另外改；climbIK 抓 grips、最上面兩階腳伸進牆（爬上 28／49 cm、爬下 23／44 cm）＝新開 CLIMB-GRIPS-FEET-1105（LAWWW）；CC 拍 203 梯子三種光照、起床爬下來｜下一班 LAWWW2 接班確認方向；LAWWW2 22:5x 換班前 ACK 但沒寫進交接檔，記在這裡",
    "xai": {
     "spec": "climbfix 回報＋LAWWW2 22:56",
     "branch": "int/next1102",
     "acceptance": "BB 測",
     "receiver": "LAWWW2",
     "ack": "ACK"
-   }
+   },
+   "sha": "e118734a3"
   },
   {
    "first": {
@@ -45251,7 +45252,7 @@
    "title": "AA_619 同弦樂器（吉他店）、買吉他、吉他社社遊（宜蘭兩天一夜、陽明山，子晴）接進遊戲（GUITAR-CLUB-1103 的系統部分）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45263,7 +45264,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 11-04 13:3x】v9.10.20 發布以後派子代理照 AA_619（企劃線 22a6c4d43）實作；同弦二樓室內 tongxian.glb 照舊等 MODEL_READY 驗收（BB 代驗，D132）",
+   "next": "【LAWWW-C 11-05 00:4x】AA-C 00:45：照新生南路那一間（xinsheng_layout tongxian），不用搬；AA_619 以企劃線最新 bf0efded8 為準（22a6c4d43 是舊版：位置、社長那句「新生南路有一家同弦」、第 4 節第 1 點三處公館→新生南路），已轉子代理｜【LAWWW-C 11-05 00:4x】開工（v9.10.20 候選版 d3828452a 已固定，開發分支照做）：系統部分派子代理（worktree /home/user/wt-guitar，guitar-1105）照 AA_619（企劃線 22a6c4d43）第 2～4 節；室內區域 GUITAR-SHOP-ZONE-1105 派 LAWWW2-C（D108）；位置問 AA-C（AA_619 寫公館羅斯福路，遊戲裡同弦店面在新生南路 xinsheng_layout，沒說搬就照新生南路）｜【LAWWW-C 11-04 13:3x】v9.10.20 發布以後派子代理照 AA_619（企劃線 22a6c4d43）實作；同弦二樓室內 tongxian.glb 照舊等 MODEL_READY 驗收（BB 代驗，D132）",
    "source": "AA-C 11-04 13:18（GUITAR-CLUB-1103 next 欄貼錯，LAWWW 決定開系統任務）",
    "authorized": "D109 AA 劇情自主、D111 LAWWW 排優先",
    "pausedReason": "v9.10.20 擋發布項目先做",
@@ -45836,7 +45837,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-05 02:1x】CAFE-EDGE-1105（LAWWW2-C 58d238bdd）接進 135a1f247：桌緣 0.20 的片段 _E20、先試接近的參考桌；座位相關 45 支 ALL PASS；CC 瀏覽器看 afar、青木、Daybreak、木曜日、林家、社科圖的桌子（正式模型桌面 0.85 的話兩組都合不上）；剩 P3：寫字筆尖壓進紙 4–5 mm｜【LAWWW-C 11-05 01:0x】F、M、F2、M2 重出＋F2／M2 接線跟著 SIT-HEIGHT-1104 一起接進 b1ca12646（取代 bc862203f／npc_f2m2_1104.patch）；吃飯片段 71ba5870e 開；還沒做的（P3）：Café 桌緣 0.20 版本（LAWWW2-C 下一件）、寫字筆尖壓進紙 4–5 mm｜【LAWWW-C 11-04 23:0x】補件 2（另外兩組骨架 F2／M2）LAWWW2 已交 bc862203f（寫字 24→38、打字 38→43 的覆蓋率），LAWWW2 說先不要接：坐下的高度（SIT-HEIGHT-1104）改了以後所有片段要重出，F、M、F2、M2 一起重交｜【LAWWW-C 11-04 23:1x】LAWWW2-C 補件 048f3498c 接進 07877ab98：右手筷子 hand_chopsticks、吃飯片段照筷子尖重擺、筆尖碰到紙；吃飯照舊不開（BB-C 22:43：坐的高度不對、桌子在胸口，先改坐下的高度）→ SIT-HEIGHT-1104（LAWWW2）｜【LAWWW-C 11-04 21:5x】合併 a9752dcd6（子代理 sitloops-1104 7bf63de3d，6 個 commit）：用筆電（Type／TypePad）、寫筆記（Write＋hand_pen、桌上的筆藏起來）、看桌上的書（Page）、滑手機（Phone＋hand_phone）的路人桌子合得上就播 LAWWW2 的片段；桌緣遠的往前坐最多 12 cm、上下最多 1.5 cm、每個模型每個片段在自己骨架上量一次；?nositask 關掉；子代理 991 支全過、tests/sit_task_wire_unit.js 54 項（底上 FAILED 11）。LAWWW 決定：①吃飯先關（Sit_Eat 是握筷子的手、手上沒有筷子；S.TASK_EAT 留著，等 LAWWW2 右手筷子配件＋S.PROP_FAM 藏桌上那雙再併回）②Drink 先不給「休息」的人（不新增行為，D99）。要 LAWWW2 的（P3）：另外兩組骨架的片段（寫字、打字合不上的底模清單在子代理報告）、Café 桌緣 0.20 的版本、右手筷子、寫字筆尖壓進紙 4–5 mm；BB 瀏覽器：手在不在東西上、往前坐 12 cm 自不自然、配件亮度、一起打字的節奏、滑手機片段晚到跳一次 18 cm｜【LAWWW-C 11-04 20:1x】LAWWW2 交件 2962616ac；派子代理接線（manifest char.ual_sit_tasks、prop.hand_props；SEATACT 播片段 速度 1、手臂 grp 2 吃片段；喝／寫／滑手機時配件上手、桌上那個藏）｜【LAWWW-C 11-04 14:40】Blender 做在現有骨架（VRM humanoid／UE 對照照 NPC-AMBIENT-ANIM-1104 的表），交 GLB 片段＋要動的骨頭；LAWWW 接進 sitAmbient（character3d.js）；排在阿德轉角、共同教學館／女舍比對之後",
+   "next": "【LAWWW-C 11-05 00:3x】CAFE-EDGE-1105（LAWWW2-C 58d238bdd）接進 135a1f247：桌緣 0.20 的片段 _E20、先試接近的參考桌；座位相關 45 支 ALL PASS；CC 瀏覽器看 afar、青木、Daybreak、木曜日、林家、社科圖的桌子（正式模型桌面 0.85 的話兩組都合不上）；剩 P3：寫字筆尖壓進紙 4–5 mm｜【LAWWW-C 11-05 00:2x】F、M、F2、M2 重出＋F2／M2 接線跟著 SIT-HEIGHT-1104 一起接進 b1ca12646（取代 bc862203f／npc_f2m2_1104.patch）；吃飯片段 71ba5870e 開；還沒做的（P3）：Café 桌緣 0.20 版本（LAWWW2-C 下一件）、寫字筆尖壓進紙 4–5 mm｜【LAWWW-C 11-04 23:0x】補件 2（另外兩組骨架 F2／M2）LAWWW2 已交 bc862203f（寫字 24→38、打字 38→43 的覆蓋率），LAWWW2 說先不要接：坐下的高度（SIT-HEIGHT-1104）改了以後所有片段要重出，F、M、F2、M2 一起重交｜【LAWWW-C 11-04 23:1x】LAWWW2-C 補件 048f3498c 接進 07877ab98：右手筷子 hand_chopsticks、吃飯片段照筷子尖重擺、筆尖碰到紙；吃飯照舊不開（BB-C 22:43：坐的高度不對、桌子在胸口，先改坐下的高度）→ SIT-HEIGHT-1104（LAWWW2）｜【LAWWW-C 11-04 21:5x】合併 a9752dcd6（子代理 sitloops-1104 7bf63de3d，6 個 commit）：用筆電（Type／TypePad）、寫筆記（Write＋hand_pen、桌上的筆藏起來）、看桌上的書（Page）、滑手機（Phone＋hand_phone）的路人桌子合得上就播 LAWWW2 的片段；桌緣遠的往前坐最多 12 cm、上下最多 1.5 cm、每個模型每個片段在自己骨架上量一次；?nositask 關掉；子代理 991 支全過、tests/sit_task_wire_unit.js 54 項（底上 FAILED 11）。LAWWW 決定：①吃飯先關（Sit_Eat 是握筷子的手、手上沒有筷子；S.TASK_EAT 留著，等 LAWWW2 右手筷子配件＋S.PROP_FAM 藏桌上那雙再併回）②Drink 先不給「休息」的人（不新增行為，D99）。要 LAWWW2 的（P3）：另外兩組骨架的片段（寫字、打字合不上的底模清單在子代理報告）、Café 桌緣 0.20 的版本、右手筷子、寫字筆尖壓進紙 4–5 mm；BB 瀏覽器：手在不在東西上、往前坐 12 cm 自不自然、配件亮度、一起打字的節奏、滑手機片段晚到跳一次 18 cm｜【LAWWW-C 11-04 20:1x】LAWWW2 交件 2962616ac；派子代理接線（manifest char.ual_sit_tasks、prop.hand_props；SEATACT 播片段 速度 1、手臂 grp 2 吃片段；喝／寫／滑手機時配件上手、桌上那個藏）｜【LAWWW-C 11-04 14:40】Blender 做在現有骨架（VRM humanoid／UE 對照照 NPC-AMBIENT-ANIM-1104 的表），交 GLB 片段＋要動的骨頭；LAWWW 接進 sitAmbient（character3d.js）；排在阿德轉角、共同教學館／女舍比對之後",
    "source": "NPC-AMBIENT-ANIM-1104 子代理回報（使用者 13:5x X222）",
    "authorized": "使用者直接要求（X222）",
    "xai": {
@@ -45878,7 +45879,7 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "next": "【LAWWW-C 11-05 02:0x】全部 Node 在 71ba5870e：1007 支 ALL PASS（bookstore_exit 印 ALL PASS、最後一行是非同步警告，照舊）｜【LAWWW-C 11-05 01:0x】LAWWW2-C 交件 267f3d9a9（README a0ed60fb2）接進開發分支 b1ca12646（照 README 接法：checkout 那一串檔＋git apply sit_height_1104.patch）：C.SIT_FIT 67 個模型、SIT_TOP 0.47、sitFeet 往下放、F2／M2、座面抬高統一、階梯教室置物架、28 個片段重出；吃飯片段 71ba5870e 開（S.TASK_EAT 併進 S.TASK，刪那一行就關）；座位相關 45 支＋教室 GLB 7 支 ALL PASS、全部 Node 背景跑；BB／CC 瀏覽器（D131，PC 恢復以後）：林家乾麵近景（吃飯）、總圖、教室和階梯教室女生坐著、118 巷吧台、鞦韆、後座｜【LAWWW-C 11-04 23:0x】LAWWW2-C ACK 23:04（開始做；character3d.js 給 patch、座位場景照 D108 直接改、附改前改後高度與頭離碗的距離）｜【LAWWW-C 11-04 23:1x】派 LAWWW2-C（排在另外兩組骨架、Café 0.20 前面）；好了 LAWWW 接、再開吃飯片段",
+   "next": "【LAWWW-C 11-05 00:3x】全部 Node 在 71ba5870e：1007 支 ALL PASS（bookstore_exit 印 ALL PASS、最後一行是非同步警告，照舊）｜【LAWWW-C 11-05 00:2x】LAWWW2-C 交件 267f3d9a9（README a0ed60fb2）接進開發分支 b1ca12646（照 README 接法：checkout 那一串檔＋git apply sit_height_1104.patch）：C.SIT_FIT 67 個模型、SIT_TOP 0.47、sitFeet 往下放、F2／M2、座面抬高統一、階梯教室置物架、28 個片段重出；吃飯片段 71ba5870e 開（S.TASK_EAT 併進 S.TASK，刪那一行就關）；座位相關 45 支＋教室 GLB 7 支 ALL PASS、全部 Node 背景跑；BB／CC 瀏覽器（D131，PC 恢復以後）：林家乾麵近景（吃飯）、總圖、教室和階梯教室女生坐著、118 巷吧台、鞦韆、後座｜【LAWWW-C 11-04 23:0x】LAWWW2-C ACK 23:04（開始做；character3d.js 給 patch、座位場景照 D108 直接改、附改前改後高度與頭離碗的距離）｜【LAWWW-C 11-04 23:1x】派 LAWWW2-C（排在另外兩組骨架、Café 0.20 前面）；好了 LAWWW 接、再開吃飯片段",
    "sha": "b1ca12646"
   },
   {
@@ -46903,11 +46904,62 @@
     "receiver": "LAWWW",
     "ack": "DELIVERED"
    },
-   "next": "【LAWWW-C 11-05 01:2x】4-5 註解裡的「麵店」（國考放榜那一頓）改燒臘店 2bfe432c7（postgrad3d.js、postgrad_lines.js、pgdates3d.js；麵店團照留）；全部做完，等 BB 瀏覽器（AA688_walk 已 17 PASS）｜【LAWWW-C 11-04 23:0x】AA-C 23:03 AA_689 補（企劃線 fc3da48ca）：以安 2030 分開談那一場也改燒臘店（at30 字幕、開場旁白「點了兩份叉燒飯，一盤推到你面前」），3572a0c82｜【LAWWW-C 11-04 23:1x】AA-C 22:36 回 AA_689（企劃線 1f2983981）：39e6f0ca5 照做——PG_TAG 語彤四列、feed_pg yt1i 2029-11-22／yt4i 2029-12-15（字不動）、以安 S.TELL loc30「燒臘店，兩人桌」、study.yutong「她說我的那張明天貼。」；語彤不加 loc30、title 公館燒臘・長桌照現在、AA530 照 P3。還沒做：4-5 註解裡的「麵店」（postgrad3d.js 等 D118-B7 子代理合併以後再改）；要問 AA：r2y4b3d.js 分開談那一場以安 2030（at30 place「麵店，兩人桌」、open30「（麵店，兩人桌。她先到，點了兩碗……）」）要不要也改燒臘店｜【LAWWW-C 11-04 22:5x】開任務、send_message 給 AA-C（附五處的檔案與行）；AA 回了照字改",
+   "next": "【LAWWW-C 11-05 00:2x】4-5 註解裡的「麵店」（國考放榜那一頓）改燒臘店 2bfe432c7（postgrad3d.js、postgrad_lines.js、pgdates3d.js；麵店團照留）；全部做完，等 BB 瀏覽器（AA688_walk 已 17 PASS）｜【LAWWW-C 11-04 23:0x】AA-C 23:03 AA_689 補（企劃線 fc3da48ca）：以安 2030 分開談那一場也改燒臘店（at30 字幕、開場旁白「點了兩份叉燒飯，一盤推到你面前」），3572a0c82｜【LAWWW-C 11-04 23:1x】AA-C 22:36 回 AA_689（企劃線 1f2983981）：39e6f0ca5 照做——PG_TAG 語彤四列、feed_pg yt1i 2029-11-22／yt4i 2029-12-15（字不動）、以安 S.TELL loc30「燒臘店，兩人桌」、study.yutong「她說我的那張明天貼。」；語彤不加 loc30、title 公館燒臘・長桌照現在、AA530 照 P3。還沒做：4-5 註解裡的「麵店」（postgrad3d.js 等 D118-B7 子代理合併以後再改）；要問 AA：r2y4b3d.js 分開談那一場以安 2030（at30 place「麵店，兩人桌」、open30「（麵店，兩人桌。她先到，點了兩碗……）」）要不要也改燒臘店｜【LAWWW-C 11-04 22:5x】開任務、send_message 給 AA-C（附五處的檔案與行）；AA 回了照字改",
    "sha": [
     "39e6f0ca5",
     "3572a0c82"
    ]
+  },
+  {
+   "id": "GUITAR-SHOP-ZONE-1105",
+   "title": "同弦樂器室內區域 zone 'tongxian'（新生南路二樓店面，騎樓樓梯口進出）：CC 的 tongxian.glb 接線、櫃檯／吉他牆／試琴椅互動點、營業時間擋門（X196 的 3D 部分）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 5,
+    "earliest": "加入吉他社以後第一次去同弦",
+    "mainline": false,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "使用者 11-03 對 AA（X196）；AA_619（企劃線 bf0efded8）第 1、4 節；LAWWW-C 11-05 00:4x 派",
+   "authorized": "使用者 11-03（X196）；D108 場景程式歸 LAWWW2；MODEL_READY 照 D132 交 BB 代驗",
+   "next": "【LAWWW-C 11-05 01:4x】LAWWW2-C a353148b7（README 952bccb6e）接進 1a67c9947：xs_tongxian、互動點 wall_n／wall_s／buy／ukes／try、座位 try_w／try_e／counter_stool、TX3.OWNER、TX3.streetOut；482 支 ALL PASS；選單台詞交子代理（AA619-GUITAR-1104）；沒做：樓梯走得上去（淡出網格擋人）、窗景晚上換圖；MODEL_READY 照 D132 交 BB｜【LAWWW-C 11-05 00:4x】send_message 派 LAWWW2-C：DORM-LADDER 之後做；互動點 label／id 交 LAWWW 接選單與劇情（AA619-GUITAR-1104）",
+   "sha": "1a67c9947",
+   "xai": {
+    "spec": "AA_619（企劃線 bf0efded8）第 1、4 節；src/data/xinsheng_layout.js tongxian；cc-testing assets/models/env/second_ai/bb_support/tongxian.glb",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "zone tongxian 走得進去、出得來（nav_buildings／reachability Node ALL PASS）；櫃檯、吉他牆、試琴椅互動點；營業時間外門口擋；patch 交 LAWWW",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "CLIMB-GRIPS-FEET-1105",
+   "title": "爬宿舍梯子：手抓靠床那側新扶手（climbIK 讀 sleep_scene.grips）、最上面兩階腳伸進牆（走路片段的腳；爬上 28／49 cm、爬下 23／44 cm）改成踩在踏階上",
+   "area": "ANIM",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一天晚上爬上舖睡覺、每天早上爬下來",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-C 11-05 01:13 DORM-LADDER-HEAD-GRIP-1102 ② 交件 README「給 LAWWW」（動作歸 LAWWW，D128）",
+   "authorized": "D100 LAWWW 整合／動畫；D128",
+   "next": "【LAWWW-C 11-05 01:1x】開任務；子代理實作（照 README 給 LAWWW 那一節：手照 grips 換手、腳踩踏階不進牆、第 5 階 null＝跪姿手在大腿），Node 量手到扶手、腳到牆的距離",
+   "sha": null
   }
  ]
 }
