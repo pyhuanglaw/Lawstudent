@@ -278,3 +278,17 @@
 [15:12:08] 正在跑：SHANLAN_v2（已跑 61 分／上限 120 分）、DAKOU_v1（已跑 28 分／上限 120 分）、NANYANG_v2（已跑 26 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:17:08] 正在跑：SHANLAN_v2（已跑 66 分／上限 120 分）、DAKOU_v1（已跑 33 分／上限 120 分）、NANYANG_v2（已跑 31 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:18:25] [res] cpu=5% mem=38% (12.0/31.4 GB) chrome_testing=10  END NANYANG_v2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ea344a6d6..e98e8a19e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:18:32] ==== END   NANYANG_v2  exit=0  1990s   ====
+[15:18:35] memory 37% before starting XSSHOP_dabu (2 running)
+[15:18:35] ==== START XSSHOP_dabu  (probe @ 4b5a0ebd8b83c19456494f60ca82a81d7f482fcb) ====
+[15:18:38] [res] cpu=2% mem=37% (11.8/31.4 GB) chrome_testing=10  START XSSHOP_dabu
+[15:18:38] worktree add 4b5a0ebd8b83c19456494f60ca82a81d7f482fcb: invalid reference - fetching main and the commit itself
+[15:22:08] 正在跑：SHANLAN_v2（已跑 71 分／上限 120 分）、DAKOU_v1（已跑 38 分／上限 120 分）、XSSHOP_dabu（已跑 3 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:27:08] 正在跑：SHANLAN_v2（已跑 76 分／上限 120 分）、DAKOU_v1（已跑 43 分／上限 120 分）、XSSHOP_dabu（已跑 8 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:32:08] 正在跑：SHANLAN_v2（已跑 81 分／上限 120 分）、DAKOU_v1（已跑 48 分／上限 120 分）、XSSHOP_dabu（已跑 13 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:37:08] 正在跑：SHANLAN_v2（已跑 86 分／上限 120 分）、DAKOU_v1（已跑 53 分／上限 120 分）、XSSHOP_dabu（已跑 18 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:42:08] 正在跑：SHANLAN_v2（已跑 91 分／上限 120 分）、DAKOU_v1（已跑 58 分／上限 120 分）、XSSHOP_dabu（已跑 23 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:42:51] [res] cpu=4% mem=38% (12.1/31.4 GB) chrome_testing=10  END DAKOU_v1
