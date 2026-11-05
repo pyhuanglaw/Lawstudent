@@ -133,7 +133,7 @@ const byName=n=>opts=>opts.findIndex(o=>o.t.startsWith(n+'　'));
     const t=await go(door,15,TY), t2=await go(take,15,TY); check('4 颱風假那一天：門口「颱風天暫停營業」那一句、不進去',t.orig===0&&t2.orig===0&&J(t.log)===J([[null,'（青木茶室的門上貼著「颱風天暫停營業」。）']]),J(t.log));
     G.day=NT; reset(); G.zone='aoki'; G.hour=21.05; GM.E.player.seat={x:1}; const n0=STORY.TICKS.includes(GGS.tick);
     const fired=GGS.tick(GM); await new Promise(r=>setTimeout(r,20));
-    check('4 21:00 人還在店裡：店員「我們九點打烊……」＋旁白、站起來、回公館的青木門口',n0&&fired&&J(log)===J(L.close)&&entered&&entered[0]==='gongguan'&&J(entered[1])===J(Z3.SHOP_IN.aoki.out)&&GM.E.player.seat===null,J([log,entered]));
+    check('4 21:00 人還在店裡：店員「我們今天要打烊了。」一句（AA_700，不另外出旁白）、站起來、回公館的青木門口',n0&&fired&&J(log)===J([['店員','我們今天要打烊了。']])&&!L.close&&entered&&entered[0]==='gongguan'&&J(entered[1])===J(Z3.SHOP_IN.aoki.out)&&GM.E.player.seat===null,J([log,entered]));
     reset(); G.zone='aoki'; G.hour=23; GGS.tick(GM); await new Promise(r=>setTimeout(r,20)); check('4 讀檔回到 23:00 在店裡：直接出來、寫開放時間（不說打烊那段）',!log.length&&entered&&entered[0]==='gongguan'&&/青木茶室/.test(toasts[0]||''),J([toasts,entered]));
     reset(); G.zone='aoki'; G.hour=15; check('4 營業中：tick 不動作',GGS.tick(GM)===false&&!entered);
     reset(); G.zone='aoki'; G.hour=15; G.day=TY; GGS.tick(GM); await new Promise(r=>setTimeout(r,20)); check('4 颱風天在店裡：出來',entered&&entered[0]==='gongguan'); G.day=NT; }
@@ -155,7 +155,7 @@ const byName=n=>opts=>opts.findIndex(o=>o.t.startsWith(n+'　'));
     if(!D){ console.log('SKIP 9 讀不到企劃線的 AA_653（git show）'); skips++; }
     else { const lines=[]; for(const z in LK) for(const k in LK[z]){ lines.push(...LK[z][k].day); if(LK[z][k].night) lines.push(LK[z][k].night); }
       for(const k in M){ for(const a of (M[k].after||[])) lines.push(a[1]); if(M[k].first) lines.push(M[k].first[1]); if(M[k].pot) lines.push(M[k].pot[1]); if(M[k].poor) lines.push(M[k].poor[1]); lines.push(...(M[k].potAfter||[])); }
-      for(const a of L.parcelYes) lines.push(a[1]); lines.push(L.parcelNo[1],L.microYes,L.microNo,...Object.values(L.seat),...L.close.map(a=>a[1]),L.doorTyphoon,L.doorClosed);
+      for(const a of L.parcelYes) lines.push(a[1]); lines.push(L.parcelNo[1],L.microYes,L.microNo,...Object.values(L.seat),L.doorTyphoon,L.doorClosed);
       lines.push(...Object.values(INVITE_DATA.aokiAcc),INVITE_DATA.aokiAcc0,...INVITE_DATA.seatOpen.aoki[0]);
       const miss=lines.filter(t=>!D.includes(t)); check(`9 台詞 ${lines.length} 句逐字在 AA_653 裡`,!miss.length,J(miss));
       const pr=['烤地瓜 45','茶葉蛋 13','肉包 25','關東煮（三樣）60','美式 45','拿鐵 60','冰美式 45','美式 90','拿鐵 110','紅茶 80','今日蛋糕 100','桂花烏龍 220','東方美人 260','春摘白茶 240','包種 200','柚香綠茶 120','綠豆糕 80','桂花糕 80','11:00～21:00'];
