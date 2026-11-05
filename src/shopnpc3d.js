@@ -1,7 +1,7 @@
 /* ===== 新店面裡遇得到有名字的人（AA_705 第一批：大一上；SHOP-NAMED-NPC-1105，USER_WANTS X251）=====
    使用者 11-05 08:4x（對 LAWWW-C）：「現在店面新增很多 裡面要遇的到NPC喔 可攻略不可攻略的都要」。企劃 AA_705 @ ebea3a2b0（AA-C 定，D109）。
    表在 src/data/shop_npc.js（SHOP_NPC.rows）。做法：
-   - 作息（STORY.SCHED_X，排在所有作息的最後面）：那一列的星期、時段、學期（大一上）、週次（第 2 週起；雙數週、指定週）、店開著（PLACES.isOpen：颱風天、店休照店）＝
+   - 作息（STORY.SCHED_X，排在所有作息的最後面）：那一列的星期、時段、學期（第一批原本只有大一上；第二批起大一上～大四下，見下面）、週次（大一上第 2 週起；雙數週、單數週、指定週）、店開著（PLACES.isOpen：颱風天、店休照店）＝
      她在那間店（站在 at、坐 seat、坐在地上）。**跟原本的作息撞到，原本的優先**（AA_705 開頭）：她這個時間原本有作息（上課、社課、打工、讀書會、回老家、約好的事、
      在 Café／總圖讀書、在外面……，含別的模組加的）＝這一次不出現，不另外挪；只有作息表裡單純「在某一區走走」（wander／walk、沒有劇情標記）不算撞到（S.soft）。
      撞到的次數 tests/shop_npc_unit.js 會列出來（AA 要那張表）。
@@ -18,12 +18,20 @@
      存檔：G.flags.SHOPNPC_HEAR＝{學期:{人物:那一天}}、G.flags.NY_ALISON＝{first:那一天, terms:{學期:那一天}, sis:{學期:那一天}}、G.flags.NY_POPCORN＝那一天（舊存檔沒有＝沒聽過、沒遇過）。
    - 位子：坐的列照配置檔的那一張；有人坐了、或那一張是今天留給約好的兩個人的那一組（CROWD.shopKeepSeats）＝挑同一層最近的空位（也避開那一組）。
      學姊坐在山嵐二樓的地上（跪坐那一套，sitAt 的 floor）；她在的時候那一個「坐在法律區看書」的按鈕藏起來。
+   - 第二批（AA_705 最後一節 @ 44af68368，AA-C 11-05 09:0x）：
+     ① 第一批的每一列延到大一下～大四下（S.TERMS；列上寫 terms 的照那一列），同一間、同一時段；人不在臺北（交換、田野、回老家、畢業以後）照 presence（S.on 先看），不另寫。
+       「第 2 週起」只在大一上（S.WEEK_MIN_TERMS：原因是「開學第一週大家還不熟這些店」，只有大一上是這樣）；雙數週、單數週、指定週照每一學期的週次。
+     ② 聽一句只在大一上（S.HEAR_TERMS；每人一次）。大一下起照樣在那裡、照一般的「和他說話」，不再出同一句。
+     ③ 例外：學姊山嵐大二起換判決評釋那一句（hearLater：新的一句，出一次）；子晴同弦只有大一上（AA_619）；柏翰大口考試那兩週照 AA_621 第 2 節（02:30～05:00，那一句只出一次）。
+     ④ 可昕（大一下起）：頁間書屋雙數週週六 14:00～15:30 法律書那一櫃前面站著翻；和她交往中（G.flags.dating_kexin）、那一天跟你有約（S.planDay：邀約、校外約會、出遊）＝不出（S.KX_DATING_OFF 改 false＝交往中也出）。聽一句一次（hearAny）。
+     存檔多一個鍵 G.flags.SHOPNPC_HEAR1＝{列 id（hearLater 那一句是 列 id@學期）:那一天}（只出一次的那幾句；舊存檔沒有＝沒聽過）。
    測試：node tests/shop_npc_unit.js */
 'use strict';
 const SHOPNPC=(function(){
   const S={};
   const D=()=>typeof SHOP_NPC!=='undefined'?SHOP_NPC:{rows:[],alison:{}};
-  S.TERM='Y1S1'; S.WEEK_MIN=2; S.HEAR_R=2.5; S.ALISON_R=2.6; S.CAP_MS=4800;
+  S.TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2']; S.WEEK_MIN_TERMS=['Y1S1']; S.HEAR_TERMS=['Y1S1']; S.KX_DATING_OFF=true;
+  S.WEEK_MIN=2; S.HEAR_R=2.5; S.ALISON_R=2.6; S.CAP_MS=4800;
   const termOf=d=>typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null;
   const wdOf=d=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(d).wd%7:null;
   const hr=G=>(+G.hour||0)%24;
@@ -42,9 +50,9 @@ const SHOPNPC=(function(){
   /* 這一列的日曆條件（不看原本的作息）：星期、時段、學期、週次、考試週、店開著 */
   S.calOk=function(G,row,day,h){ if(day==null) day=G.day|0; if(h==null) h=hr(G); if(econ(G)) return false;
     const wd=wdOf(day); if(!row.days.includes(wd)||h<row.from||h>=row.to) return false;
-    const T=termOf(day); if(!T||T.id!==S.TERM) return false;
-    if(Array.isArray(row.weeks)){ if(!row.weeks.includes(T.week)) return false; } else { if(T.week<S.WEEK_MIN) return false; if(row.weeks==='even'&&T.week%2!==0) return false; if(row.weeks==='odd'&&T.week%2!==1) return false; }
-    if(row.noExam&&T.exam) return false;
+    const T=termOf(day); if(!T||!(row.terms||S.TERMS).includes(T.id)) return false;
+    if(Array.isArray(row.weeks)){ if(!row.weeks.includes(T.week)) return false; } else { if(S.WEEK_MIN_TERMS.includes(T.id)&&T.week<S.WEEK_MIN) return false; if(row.weeks==='even'&&T.week%2!==0) return false; if(row.weeks==='odd'&&T.week%2!==1) return false; }
+    if(row.noExam&&T.exam) return false; if(row.examOnly&&!T.exam) return false;
     if(row.dateFrom&&typeof STORY!=='undefined'&&STORY.dayOfKey){ const d0=STORY.dayOfKey(row.dateFrom); if(d0!=null&&day<d0) return false; }
     if(!isOpen(row.zone,h,day)) return false;
     return true; };
@@ -59,6 +67,15 @@ const SHOPNPC=(function(){
     if(b.pri||b.talkEvent||b.spot||b.activity||b.actHours||b.cls||b.invite||b.enc||b.with||b.if||b.shopEnc||b.exlib) return false;   /* taipei:'both'（子晴週末下午在公館走走）照樣是走走 */
     if(Array.isArray(b.dates)&&b.dates.length&&typeof STORY!=='undefined'&&STORY.dayOfKey&&b.dates.every(r=>{ const a=STORY.dayOfKey(r[0]), z=STORY.dayOfKey(r[1]); return a!=null&&z!=null&&z-a<7; })) return false;
     return true; };
+  /* 那一天跟她有約（AA_705 第二批第 2 節「她那一天跟你有約，照約的走」）：校園邀約（G.invites：答應了、在路上、已經見過）、校外約會（G.trips：約好、在路上、去過）、
+     一群人出遊（G.groupTrips 的 members）、排好的出遊（OUT：id／事件 id 是她的、或 te.kind／who／with 寫她）——回傳哪一種，沒有＝null */
+  S.KX_RE={kexin:/kexin|(^|_)kx(_|$)/};
+  S.planDay=function(G,id,day){ if(!G) return null; if(day==null) day=G.day|0;
+    if((G.invites||[]).some(iv=>iv&&iv.who===id&&iv.day===day&&['accepted','going','done'].includes(iv.state))) return 'invite';
+    if((G.trips||[]).some(t=>t&&t.who===id&&['booked','going','done'].includes(t.status)&&(typeof DATE!=='undefined'&&DATE.onDay?DATE.onDay(t,day):t.day===day))) return 'trip';
+    if((G.groupTrips||[]).some(t=>t&&t.day===day&&Array.isArray(t.members)&&t.members.includes(id))) return 'group';
+    const re=S.KX_RE[id]; if((G.outings||[]).some(q=>q&&q.day===day&&q.state!=='cancelled'&&q.state!=='skipped'&&(q.who===id||(Array.isArray(q.with)&&q.with.includes(id))||(q.te&&q.te.kind===id)||(re&&re.test(String(q.id||''))||re&&re.test(String(q.ev||'')))))) return 'outing';
+    return null; };
   S.clash=function(G,row,c){ c=c||(typeof CHARACTERS!=='undefined'&&CHARACTERS[row.who]); const b=S.base(c,G); return b&&!S.soft(c,b)?b:null; };
   /* 這一列現在成立嗎（日曆＋沒撞到＋學姊一週一次＋各人的規則）；why：給測試看的原因 */
   S.on=function(G,row,why){ const no=w=>{ if(why) why.push(w); return false; };
@@ -66,6 +83,8 @@ const SHOPNPC=(function(){
     if(!S.calOk(G,row)) return no('cal');
     const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[row.who]; if(!c) return no('nochar');
     if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(row.who,G); if(pr&&pr.here===false) return no('presence'); }
+    if(row.notDating&&S.KX_DATING_OFF&&G.flags&&G.flags['dating_'+row.who]===true) return no('dating');   /* 可昕：和她交往中＝照約的走 */
+    if(row.noPlanDay&&S.planDay(G,row.who,G.day|0)) return no('plan');   /* 那一天跟你有約＝照約的走（約的時間以外也不出）*/
     if(row.hearBy==='guitar'&&G.guitar&&typeof G.guitar==='object'&&G.guitar.enc===(G.day|0)) return no('guitar_done');   /* 偶遇演完：她拿了一包弦就走 */
     const b=S.clash(G,row,c); if(b) return no('clash');
     if(row.sisWeek){ const q=S.rows().find(r=>r.who===row.who&&r!==row&&!r.sisWeek); if(q){ const T=termOf(G.day); for(let d=G.day-6;d<=G.day+6;d++){ if(d===G.day) continue; const t=termOf(d); if(!t||!T||t.id!==T.id||t.week!==T.week) continue; if(!q.days.includes(wdOf(d))) continue; const h=(q.from+q.to)/2; const g2=at(G,d,h); if(S.on(g2,q)) return no('sis_week'); } } }   /* 同一週青木那一次有出現＝只留青木 */
@@ -94,7 +113,7 @@ const SHOPNPC=(function(){
     if(!isOpen(row.zone,hr(G),G.day|0)) return null;
     const key='alison|'+(G.day|0)+'|'+b.from+'|'+b.to; let e=entMemo.get(key); if(!e){ e=Object.assign({},b,{zone:row.zone,act:'linger',at:row.at.slice(),away:undefined,noPair:true,shopNpc:row.id,note:'AA_705 南洋戲院（她原本的打工作息，AA_661 第 30 列）'}); delete e.away; entMemo.set(key,e); } return e; };
   S.sched=function(c,G){ if(guard||!c||!c.id||!G||typeof CALENDAR==='undefined') return null;
-    if(c.id==='yu') return S.alisonEnt(c,G);
+    if(c.id==='yu'){ const a=S.alisonEnt(c,G); if(a) return a; }   /* 南洋戲院（她的打工）優先；不在戲院的日子照表（AA_705 第三批：大二起週日運動廣場）*/
     for(const row of S.rows()){ if(row.who!==c.id||row.hearBy==='alison') continue; if(!row.days.includes(G.weekday!=null?G.weekday:wdOf(G.day))) continue; const h=hr(G); if(h<row.from||h>=row.to) continue;
       if(S.on(G,row)) return S.entry(G,row); }
     return null; };
@@ -113,19 +132,29 @@ const SHOPNPC=(function(){
 
   /* ---------- 聽一句 ---------- */
   const F_=G=>G.flags||(G.flags={});
-  const knows=(id,G)=>typeof STORY!=='undefined'&&STORY.knows?!!STORY.knows(id,G):!!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(id,'FIRST_MET'));
+  const knows=(id,G)=>{ if(id==='kexin'&&G&&G.flags&&(G.flags.dating_kexin||G.flags.EX_kexin)) return true;   /* 可昕：交往過就認識（eat3d.js 同一個判斷）*/
+    return typeof STORY!=='undefined'&&STORY.knows?!!STORY.knows(id,G):!!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(id,'FIRST_MET')); };
   S.heard=function(G,id){ const T=termOf(G.day), H=(G.flags||{}).SHOPNPC_HEAR; return !!(T&&H&&H[T.id]&&H[T.id][id]!=null); };
-  S.markHeard=function(G,id){ const T=termOf(G.day); if(!T) return; const F=F_(G); if(!F.SHOPNPC_HEAR||typeof F.SHOPNPC_HEAR!=='object') F.SHOPNPC_HEAR={}; const R=F.SHOPNPC_HEAR[T.id]||(F.SHOPNPC_HEAR[T.id]={}); R[id]=G.day|0; };
+  S.markHeard=function(G,id,onceKey){ const T=termOf(G.day); if(!T) return; const F=F_(G); if(!F.SHOPNPC_HEAR||typeof F.SHOPNPC_HEAR!=='object') F.SHOPNPC_HEAR={}; const R=F.SHOPNPC_HEAR[T.id]||(F.SHOPNPC_HEAR[T.id]={}); R[id]=G.day|0;
+    if(onceKey){ if(!F.SHOPNPC_HEAR1||typeof F.SHOPNPC_HEAR1!=='object') F.SHOPNPC_HEAR1={}; F.SHOPNPC_HEAR1[onceKey]=G.day|0; } };
+  const heardOnce=(G,k)=>{ const O=(G.flags||{}).SHOPNPC_HEAR1; return !!(O&&typeof O==='object'&&O[k]!=null); };
+  const tIdx=id=>S.TERMS.indexOf(id);
+  /* 這一學期這一列的聽一句：{hear, once（只出一次的鍵；null＝每學期一次那一種）}；沒有＝null（AA_705 第二批：只在大一上；hearLater、hearAny 是例外）*/
+  S.hearFor=function(G,row){ const T=termOf(G.day); if(!T||!row.hear) return null;
+    if(row.hearAny) return heardOnce(G,row.id)?null:{hear:row.hear,once:row.id};
+    if(S.HEAR_TERMS.includes(T.id)) return {hear:row.hear,once:null};
+    const L=row.hearLater; if(L&&L.hear&&tIdx(T.id)>=0&&tIdx(T.id)>=tIdx(L.from)){ const k=row.id+'@'+L.from; return heardOnce(G,k)?null:{hear:L.hear,once:k}; }
+    return null; };
   const sceneFree=GM=>{ const E=GM.E, pl=E&&E.player; if(!pl||!pl.obj||pl.busy) return false; if(GM.D&&(GM.D.active||(GM.D.busyDepth|0)>0)) return false; if(typeof ADV!=='undefined'&&ADV.active) return false; if(typeof EVENTS!=='undefined'&&EVENTS.running) return false; return true; };
   const near=(GM,n,r)=>{ const pl=GM.E.player, p=pl.obj.position, q=n&&!n.hidden&&n.obj&&n.obj.visible!==false&&n.obj.position; return !!q&&(n.lv|0)===(pl.lv|0)&&Math.hypot(q.x-p.x,q.z-p.z)<=r; };
   /* 現在可以聽的那一列：{row,n} */
   S.hearDue=function(GM){ const G=GM&&GM.G; if(!G||!GM.E||!GM.E.player||econ(G)) return null;
-    for(const row of S.rows()){ if(row.zone!==G.zone||!row.hear) continue; if(S.heard(G,row.who)||!knows(row.who,G)) continue; const r=S.rowNow(G,row.who); if(r!==row) continue;
-      const n=typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf(row.who):null; if(!n||n.leaving||!near(GM,n,S.HEAR_R)) continue; return {row,n}; }
+    for(const row of S.rows()){ if(row.zone!==G.zone||!row.hear) continue; if(S.heard(G,row.who)||!knows(row.who,G)) continue; const hf=S.hearFor(G,row); if(!hf) continue; const r=S.rowNow(G,row.who); if(r!==row) continue;
+      const n=typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf(row.who):null; if(!n||n.leaving||!near(GM,n,S.HEAR_R)) continue; return {row,n,hear:hf.hear,once:hf.once}; }
     return null; };
   S.nameOf=id=>typeof SOCIAL!=='undefined'&&SOCIAL.npcName?SOCIAL.npcName(id):((typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].name)||id);
   S.hear=function(GM){ const G=GM.G; if(!sceneFree(GM)) return false; const HC=typeof HCIRCLE!=='undefined'&&HCIRCLE?HCIRCLE:null; if(HC&&HC._capBusy) return false;
-    const d=S.hearDue(GM); if(!d) return false; S.markHeard(G,d.row.who); const h=d.row.hear;
+    const d=S.hearDue(GM); if(!d) return false; S.markHeard(G,d.row.who,d.once); const h=d.hear;
     if(GM.caption){ GM.caption(h.who?S.nameOf(h.who):'',h.t,S.CAP_MS); if(HC){ HC._capBusy=true; setTimeout(()=>{ HC._capBusy=false; },S.CAP_MS); } }
     return true; };
 

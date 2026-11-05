@@ -6,7 +6,7 @@
 const GY3=(function(){
   const L=()=>GYM_LAYOUT;
   const M=(c,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.8},o||{}));
-  const CAMPUS={x:74,z:58.0,yaw:Math.PI};
+  const CAMPUS={x:-75,z:-123.4,yaw:0};   /* XS-GATE-NORTH-1105：體育館搬到北牆邊（望月台東邊）、門朝南；舊的 (74, 58)、面北 */
   /* 1F 大廳 ⇄ 3F 主球場（ART-GYM2-INT）：上樓的點在樓梯口朝大廳那一側（配置的 (−18, 18.6) 在樓梯量體和前牆之間，站不住）；從 3F 下來落在它東邊 0.9 m、面向大廳（不一落地就出「上樓」）*/
   const ARENA_UP={x:-16.0,z:17.4}, ARENA_DOWN={x:-15.1,z:17.4,yaw:Math.PI/2};
   /* 3F 主球場的「看主球場」「大螢幕」（AA_371 第 2 節，企劃線 7eb45d69，AA 定稿）：分平常、典禮的日子。平常的看主球場兩句輪流（每按一次換一句），第二句「有人在睡午覺」只在 11～17 點出（LAWWW 照「看」的做法定：晚上不講午覺）。

@@ -163,7 +163,7 @@ const SISB13_EVENTS=(function(){
         {label:'e'},{set:{SIS13_WELCOME:true}},
         {unless:noW1,set:{SIS_W1:true,met_sis:true}} ] },   /* 沒認識她的在這裡認識（同 13-1；FIRST_MET 由 EVENTS.run 記）*/
     /* ---------- 13-8 游完泳的早上（2029-05-07～05-10 週一～四 08:00～08:40；走過新體育館門口，3D 位置觸發＋2D 旁白）---------- */
-    { id:'ev_sis13_pool', title:'游完泳的早上', participants:[ID], location:'campus', trigger:'auto', once:true, weekday:[1,2,3,4], time:[8,8+40/60], near:{x:74,z:58.4,r:7}, background:'blur',   /* 體育館門口（classes3d.js DOORS.gym (74, 59.4)；gym3d.js 走出來站 (74, 58)）*/
+    { id:'ev_sis13_pool', title:'游完泳的早上', participants:[ID], location:'campus', trigger:'auto', once:true, weekday:[1,2,3,4], time:[8,8+40/60], near:{x:-75,z:-123.4,r:7}, background:'blur',   /* 體育館門口（classes3d.js DOORS.gym (74, 59.4)；gym3d.js 走出來站 (74, 58)）*/
       prereq:{custom:G=>!!X()&&X().poolOk(G)},
       dialogue:[ N('（新體育館門口。學姊的頭髮還是濕的，手上拿著泳鏡。）'),
         SIS('……早。你這麼早來體育館？'),
