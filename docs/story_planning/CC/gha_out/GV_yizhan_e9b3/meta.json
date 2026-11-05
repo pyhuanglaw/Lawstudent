@@ -1,0 +1,16 @@
+{
+ "id": "GV_yizhan_e9b3",
+ "sha": "e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11",
+ "kind": "probe",
+ "script": "docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py",
+ "env": "SHOP=yizhan;HOURS= ;YARD=1",
+ "line_hash": "bb8ecd676469",
+ "cmd": "/opt/hostedtoolcache/Python/3.12.15/x64/bin/python3 /home/runner/work/Lawstudent/Lawstudent/cc/docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py http://127.0.0.1:8800/index.html /home/runner/work/Lawstudent/Lawstudent/out/GV_yizhan_e9b3/out",
+ "exit": 1,
+ "timeout": false,
+ "seconds": 694,
+ "result": "FAILED 2: [YARD] 第一次從冠木門進來：旁白逐字＝AA_659；[YARD] 出來以後 WZ_TEA_YARD_IN 已經記下",
+ "where": "GitHub Actions（ubuntu、SwiftShader、無 GPU）",
+ "run": "https://github.com/pyhuanglaw/Lawstudent/actions/runs/41964112876",
+ "finished": "2026-11-05 04:04:09Z"
+}

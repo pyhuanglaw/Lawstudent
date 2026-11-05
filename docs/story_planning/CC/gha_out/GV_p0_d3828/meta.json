@@ -1,0 +1,16 @@
+{
+ "id": "GV_p0_d3828",
+ "sha": "d3828452abe2d10f1b7bb3b47d8313482f83b2d3",
+ "kind": "game",
+ "script": "tests/p0_movement.py",
+ "env": "XARGS={url}",
+ "line_hash": "26774bc616e9",
+ "cmd": "/opt/hostedtoolcache/Python/3.12.16/x64/bin/python3 tests/p0_movement.py http://127.0.0.1:8800/index.html",
+ "exit": 0,
+ "timeout": false,
+ "seconds": 182,
+ "result": "RESULT: ALL PASS",
+ "where": "GitHub Actions（ubuntu、SwiftShader、無 GPU）",
+ "run": "https://github.com/pyhuanglaw/Lawstudent/actions/runs/41964112876",
+ "finished": "2026-11-05 03:55:36Z"
+}
