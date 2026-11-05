@@ -135,13 +135,16 @@ async def load_zone(pg, cdp, zone, day_key, h=14.0, x=None, z=None, yaw=None, lv
     return await st(pg)
 
 
-async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300):
+async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, only=None):
     """每一張玩家能坐的位子：走到 GAME.seatApproach（那一層）→ 按 → player.seat、位置 0.15 m 內、高度＝座位 y（沒有＝那一層地板）→ 起身、推得動。回傳 [每張的結果]"""
-    seats = await pg.evaluate(SEATS); R.note('%s 座位 %d 張：%s' % (tag, len(seats), J(seats))); res = []
+    seats = await pg.evaluate(SEATS)
+    if only: seats = [q for q in seats if any(abs(q['sx'] - a) < 0.06 and abs(q['sz'] - b) < 0.06 for a, b in only)]
+    R.note('%s 座位 %d 張：%s' % (tag, len(seats), J(seats))); res = []
     for k, s in enumerate(seats):
         t = '%s #%d（%s, %s%s）' % (tag, k + 1, s['sx'], s['sz'], (' 二樓' if s['slv'] == 1 else '') + ((' 第 %d 排' % s['row']) if s['row'] else ''))
+        if before_each: await before_each(k, s)   # 例：時間走太多（快打烊）就讀檔回原來的時間
         occ = await pg.evaluate("(([x,z])=>(GAME.E.npcs||[]).some(n=>n&&n.seat&&Math.hypot(n.seat.x-x,n.seat.z-z)<0.35))", [s['sx'], s['sz']])
-        if occ: R.note('%s 有人坐：遊戲不給坐，跳過（不算 FAIL）' % t); res.append([k + 1, 'occupied']); continue
+        if occ: R.note('%s 有人坐：遊戲不給坐，跳過（不算 FAIL）' % t); res.append([k + 1, 'occupied', s['sx'], s['sz']]); continue
         tgt = s['ap'] or [s['x'], s['z']]; fb0 = (await st(pg))['fb']
         # 照玩家「點椅子」（BB-C 11-05 08:40；遊戲 tapRedirect 走到 seatApproach、tapPref 讓那一張的「坐下」優先＝TAP-SEAT-REACH-1105）：先走到附近看得到椅子，再點椅子本身
         await L.go_to(pg, cdp, R, tgt[0], tgt[1], 1.3, '%s（走到椅子附近）' % t, max_s=max_walk, lv=s['slv']); await settle(pg)
@@ -170,11 +173,18 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300):
             if b['interact'].startswith(s['label']): break
             await pg.wait_for_timeout(500); b = await st(pg)
         if not R.check('%s 走到旁邊，互動按鈕是「%s」' % (t, s['label']), b['interact'].startswith(s['label']), J({k_: b[k_] for k_ in ('x', 'z', 'lv', 'interact', 'stand')})):
-            await shot(pg, '%s_nobtn_%d' % (shot_prefix, k + 1), judge_black=False); res.append([k + 1, 'nobtn']); continue
+            await shot(pg, '%s_nobtn_%d' % (shot_prefix, k + 1), judge_black=False); res.append([k + 1, 'nobtn', s['sx'], s['sz']]); continue
         await L.tap(pg, cdp, '#interact'); ok = False
-        for _ in range(30):
+        for i_ in range(30):
             await pg.wait_for_timeout(500)
             if await pg.evaluate("!!GAME.E.player.seat"): ok = True; break
+            if i_ == 8:   # 4 秒還沒坐下：先收掉對話（剛開店的招呼、旁白），按鈕還是這一張就再按一次
+                for _ in range(8):
+                    c0 = await st(pg)
+                    if not c0['dlg']: break
+                    await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(400)
+                c0 = await st(pg)
+                if not c0['seat'] and c0['interact'].startswith(s['label']): R.note('%s 按了 4 秒沒坐下（%s），再按一次' % (t, J(c0))); await L.tap(pg, cdp, '#interact')
         await pg.wait_for_timeout(1500)
         p = await pg.evaluate("(()=>{ const P=GAME.E.player, o=P.obj.position, s=P.seat; return {x:+o.x.toFixed(3),z:+o.z.toFixed(3),y:+o.y.toFixed(3),lv:P.lv|0, sx:s?+s.x.toFixed(3):null, sz:s?+s.z.toFixed(3):null, sy:s&&s.y!=null?+(+s.y).toFixed(3):null}; })()")
         R.check('%s 坐下了（player.seat）' % t, ok, J(p))
@@ -198,7 +208,7 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300):
         if said: R.note('%s 起身點了：%s' % (t, J(said)))
         mv = await pushable(pg, cdp); c = await st(pg)
         R.check('%s 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地' % t, not c['seat'] and c['stand'] and mv >= 0.3 and c['fb'] == fb0, J({'moved': mv, 'x': c['x'], 'z': c['z'], 'lv': c['lv'], 'stand': c['stand'], 'fb': c['fb'] - fb0}))
-        res.append([k + 1, 'ok' if ok else 'nosit'])
+        res.append([k + 1, 'ok' if ok else 'nosit', s['sx'], s['sz']])
     return res
 
 
