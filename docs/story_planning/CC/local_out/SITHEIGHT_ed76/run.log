@@ -1,0 +1,56 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_sitheight_probe.py http://127.0.0.1:8806/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SITHEIGHT_ed76\out
+CC SIT-HEIGHT：MODE=['eat', 'rooms', 'swing', 'bar', 'cafe']；SHA=ed7600ec5315abd070dbc7755ec32b53feef9a99；SwiftShader ≠ iPhone（只看穿模、高度；顏色 PC 補）
+  [前置／捷徑] CC_SEED=1105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入  23 秒
+PASS [eat] 林家乾麵 12:15 有人在吃飯（sitTaskOf eat*）
+INFO [eat #0] （Sit_Eat_M_E20_Loop）：筷子看得到 True；筷子尖離嘴（估計，頭骨往前 9 cm）最近 0.111 m；右手離頭最近 0.246；左手離碗最近 0.782 m；眼睛離碗 0.703～0.717 m（LAWWW 約 0.37）；桌上看得到的筷子 []；肩／肘／眼離桌面 0.232／0.108／0.356
+PASS [eat #0] 右手拿著筷子（hand_chopsticks 看得到）  true
+PASS [eat #0] 桌上不剩一雙筷子（同一桌 0.6 m 內看得到的 chopstick 0 個）  []
+INFO [eat #0] 截圖 ['eat_0_side.png', 'eat_0_front.png']
+INFO [eat #1] （Sit_Eat_F_E20_Loop）：筷子看得到 True；筷子尖離嘴（估計，頭骨往前 9 cm）最近 0.137 m；右手離頭最近 0.263；左手離碗最近 0.936 m；眼睛離碗 1.115～1.115 m（LAWWW 約 0.37）；桌上看得到的筷子 []；肩／肘／眼離桌面 0.212／0.129／0.308
+PASS [eat #1] 右手拿著筷子（hand_chopsticks 看得到）  true
+PASS [eat #1] 桌上不剩一雙筷子（同一桌 0.6 m 內看得到的 chopstick 0 個）  []
+INFO [eat #1] 截圖 ['eat_1_side.png', 'eat_1_front.png']
+INFO [rooms] 上課時間（照課表，第 4 週）：{"L201": {"course": "const_1", "name": "憲法（上）", "term": "Y1S1", "day": 6, "key": "2025-09-22", "h": 9.35, "zone": null}, "BOYA": {"course": "chinese_y1", "name": "大一國文（上）", "term": "Y1S1", "day": 7, "key": "2025-09-23", "h": 9.35, "zone": null}, "GONGTONG": {"course": "english_y1", "name": "大一英文（上）", "term": "Y1S1", "day": 9, "key": "2025-09-25", "h": 9.35, "zone": null}, "PUTONG": {"course": "ge_film_y1s1", "name": "通識：電影與敘事", "term": "Y1S1", "day": 7, "key": "2025-09-23", "h": 9.35, "zone": null}}
+INFO [rooms] BOYA：找不到課表上的時間或區域（{"course": "chinese_y1", "name": "大一國文（上）", "term": "Y1S1", "day": 7, "key": "2025-09-23", "h": 9.35, "zone": null}）
+INFO [rooms] GONGTONG：找不到課表上的時間或區域（{"course": "english_y1", "name": "大一英文（上）", "term": "Y1S1", "day": 9, "key": "2025-09-25", "h": 9.35, "zone": null}）
+INFO [rooms] PUTONG：找不到課表上的時間或區域（{"course": "ge_film_y1s1", "name": "通識：電影與敘事", "term": "Y1S1", "day": 7, "key": "2025-09-23", "h": 9.35, "zone": null}）
+PASS [rooms class201] 讀到 classroom  classroom
+INFO [rooms class201] 坐著的 27 人
+PASS [rooms class201] 有坐著的人
+FAIL [rooms] 探針沒有例外  MemoryError()
+PASS [swing] 找得到鞦韆的互動點  {"x": 31.7, "z": 24.2, "label": "盪鞦韆", "seat": {"x": 31.7, "z": 25}}
+  [前置／捷徑] 站到鞦韆的互動點（31.7, 24.2）
+INFO [swing] 互動鍵 '盪鞦韆' 坐不上去
+  [前置／捷徑] 互動鍵坐不上去，改用 GAME.sitAt 坐鞦韆（只為了量和截圖）
+INFO [swing] 玩家坐鞦韆：座面 0.47（預設 0.47）、大腿最低點離座面 0.088、骨盆離地 0.632；截圖 ['swing_player_side.png', 'swing_player_front.png']
+  [前置／捷徑] l118_cafe2 吧台高腳凳：GAME.sitAt 直接坐（{"x": -2.3, "z": 3.72, "lift": 0.29, "kind": null}）
+INFO [bar l118_cafe2] 玩家坐吧台：座面 0.47（預設 0.47）、大腿最低點離座面 0.066、骨盆離座位地面 0.632；截圖 ['bar_l118_cafe2_side.png', 'bar_l118_cafe2_front.png']
+INFO [cafe afar] 第 9 天 15.00 點：坐著的路人 9 個（SEATACT ready=True、indexing=False、等了 87 秒）
+PASS [cafe afar] 有坐著的路人
+INFO [cafe afar] （?）座位 {"x": 3.15, "z": 1.15, "lv": 0, "seatH": null, "lift": 0}：桌面高 0.75、桌緣 0.155、深 0.3；做的事 chat、手上 None、桌上 []；片段＝沒有片段（None、ref None、往前 None、抬 None）；左手離桌面 -0.085（在桌上方 True）、右手 -0.092（True）；前臂最低離桌面 左 -0.085 右 -0.092
+INFO [cafe afar] （?）座位 {"x": 2.05, "z": 1.15, "lv": 0, "seatH": null, "lift": 0}：桌面高 0.75、桌緣 0.155、深 0.3；做的事 chat、手上 None、桌上 []；片段＝沒有片段（None、ref None、往前 None、抬 None）；左手離桌面 0.145（在桌上方 True）、右手 0.157（True）；前臂最低離桌面 左 0.099 右 0.137
+INFO [cafe afar] （?）座位 {"x": 1.45, "z": 0.65, "lv": 0, "seatH": null, "lift": 0}：桌面高 0.75、桌緣 0.155、深 0.3；做的事 tablet、手上 tablet、桌上 []；片段＝沒有片段（None、ref None、往前 None、抬 None）；左手離桌面 0.054（在桌上方 True）、右手 0.06（True）；前臂最低離桌面 左 0.033 右 0.044
+INFO [cafe afar] （?）座位 {"x": 1.45, "z": 1.15, "lv": 0, "seatH": null, "lift": 0}：桌面高 0.75、桌緣 0.155、深 0.3；做的事 notes、手上 hand_pen、桌上 []；片段＝_E20（Sit_Write_F_E20_Loop、ref 0.2、往前 -0.03、抬 0.0134）；左手離桌面 0.032（在桌上方 True）、右手 0.045（True）；前臂最低離桌面 左 0.022 右 0.035
+INFO [cafe afar] （?）座位 {"x": -0.25, "z": 0.65, "lv": 0, "seatH": null, "lift": 0}：桌面高 0.75、桌緣 0.155、深 0.3；做的事 notes、手上 None、桌上 []；片段＝沒有片段（None、ref None、往前 None、抬 None）；左手離桌面 -0.115（在桌上方 True）、右手 -0.119（True）；前臂最低離桌面 左 -0.115 右 -0.119
+INFO [cafe afar] （?）座位 {"x": -1.35, "z": 0.65, "lv": 0, "seatH": null, "lift": 0}：桌面高 0.75、桌緣 0.155、深 0.2；做的事 chat、手上 None、桌上 []；片段＝沒有片段（None、ref None、往前 None、抬 None）；左手離桌面 -0.08（在桌上方 True）、右手 -0.097（True）；前臂最低離桌面 左 -0.08 右 -0.097
+INFO [cafe afar] （?）座位 {"x": 1.8, "z": -3.15, "lv": 0, "seatH": null, "lift": 0}：桌面高 0.75、桌緣 0.305、深 0.3；做的事 book、手上 book、桌上 []；片段＝沒有片段（None、ref None、往前 None、抬 None）；左手離桌面 0.298（在桌上方 True）、右手 0.299（True）；前臂最低離桌面 左 0.265 右 0.25
+INFO [cafe afar] （?）座位 {"x": -1.8, "z": -3.15, "lv": 0, "seatH": null, "lift": 0}：桌面高 0.75、桌緣 0.305、深 0.3；做的事 phone、手上 hand_phone、桌上 []；片段＝一般（Sit_Phone_F_Loop、ref 0.3、往前 0.0113、抬 0.0131）；左手離桌面 0.031（在桌上方 True）、右手 0.07（True）；前臂最低離桌面 左 0.029 右 0.07
+INFO [cafe afar] （?）座位 {"x": -3.6, "z": -3.4, "lv": 0, "seatH": null, "lift": 0}：桌面高 0.72、桌緣 0.26、深 0.3；做的事 phone、手上 hand_phone、桌上 []；片段＝一般（Sit_Phone_M2_Loop、ref 0.3、往前 -0.03、抬 -0.015）；左手離桌面 0.036（在桌上方 True）、右手 0.079（True）；前臂最低離桌面 左 0.036 右 0.079
+PASS [cafe afar] （Sit_Write_F_E20_Loop）手、前臂沒有穿進桌子  {"lH": {"dy": 0.032, "fw": 0.251, "over": true}, "rH": {"dy": 0.045, "fw": 0.238, "over": true}, "lFore": 0.022, "rFore": 0.035}
+PASS [cafe afar] （Sit_Phone_F_Loop）手、前臂沒有穿進桌子  {"lH": {"dy": 0.031, "fw": 0.351, "over": true}, "rH": {"dy": 0.07, "fw": 0.308, "over": true}, "lFore": 0.029, "rFore": 0.07}
+PASS [cafe afar] （Sit_Phone_M2_Loop）手、前臂沒有穿進桌子  {"lH": {"dy": 0.036, "fw": 0.322, "over": true}, "rH": {"dy": 0.079, "fw": 0.277, "over": true}, "lFore": 0.036, "rFore": 0.079}
+INFO [cafe afar] 總計：桌面高度 [0.72, 0.75]；片段 {"沒有片段": 6, "_E20": 1, "一般": 2}；0.85 的高桌（照設計手放大腿）0 個
+INFO [cafe afar #0] （?）桌面 0.75、片段 _E20（Sit_Write_F_E20_Loop）：截圖 ['cafe_afar_0_hands.png', 'cafe_afar_0_side.png', 'cafe_afar_0_front.png']
+INFO [cafe afar #1] （?）桌面 0.75、片段 一般（Sit_Phone_F_Loop）：截圖 ['cafe_afar_1_hands.png', 'cafe_afar_1_side.png', 'cafe_afar_1_front.png']
+INFO [cafe aoki] 第 9 天 15.00 點：坐著的路人 4 個（SEATACT ready=True、indexing=False、等了 77 秒）
+PASS [cafe aoki] 有坐著的路人
+INFO [cafe aoki] （?）座位 {"x": -1.5, "z": 2.75, "lv": 0, "seatH": null, "lift": 0}：桌面高 0.75、桌緣 0.21、深 0.2；做的事 phone、手上 hand_phone、桌上 ["item_cup"]；片段＝_E20（Sit_Phone_F_E20_Loop、ref 0.2、往前 0.0146、抬 0.0136）；左手離桌面 0.031（在桌上方 True）、右手 0.081（True）；前臂最低離桌面 左 0.027 右 None
+INFO [cafe aoki] （?）座位 {"x": -4.15, "z": 0.6, "lv": 0, "seatH": null, "lift": 0}：桌面高 0.72、桌緣 0.24、深 0.3；做的事 phone、手上 phone、桌上 ["rset_cup"]；片段＝沒有片段（None、ref None、往前 None、抬 None）；左手離桌面 0.109（在桌上方 False）、右手 0.101（False）；前臂最低離桌面 左 None 右 None
+INFO [cafe aoki] （?）座位 {"x": -3.25, "z": -2.15, "lv": 0, "seatH": null, "lift": 0}：桌面高 0.74、桌緣 0.155、深 0.3；做的事 book、手上 book、桌上 ["rset_cup"]；片段＝沒有片段（None、ref None、往前 None、抬 None）；左手離桌面 0.05（在桌上方 True）、右手 0.057（True）；前臂最低離桌面 左 0.041 右 0.049
+INFO [cafe aoki] （?）座位 {"x": 0.1, "z": 2.75, "lv": 0, "seatH": null, "lift": 0}：桌面高 0.75、桌緣 0.21、深 0.3；做的事 phone、手上 hand_phone、桌上 ["rset_cup"]；片段＝_E20（Sit_Phone_M_E20_Loop、ref 0.2、往前 -0.005、抬 -0.0075）；左手離桌面 0.029（在桌上方 True）、右手 0.086（True）；前臂最低離桌面 左 0.028 右 None
+PASS [cafe aoki] （Sit_Phone_F_E20_Loop）手、前臂沒有穿進桌子  {"lH": {"dy": 0.031, "fw": 0.255, "over": true}, "rH": {"dy": 0.081, "fw": 0.203, "over": true}, "lFore": 0.027, "rFore": null}
+PASS [cafe aoki] （Sit_Phone_M_E20_Loop）手、前臂沒有穿進桌子  {"lH": {"dy": 0.029, "fw": 0.257, "over": true}, "rH": {"dy": 0.086, "fw": 0.202, "over": true}, "lFore": 0.028, "rFore": null}
+INFO [cafe aoki] 總計：桌面高度 [0.72, 0.74, 0.75]；片段 {"_E20": 2, "沒有片段": 2}；0.85 的高桌（照設計手放大腿）0 個
+INFO [cafe aoki #0] （?）桌面 0.75、片段 _E20（Sit_Phone_F_E20_Loop）：截圖 ['cafe_aoki_0_hands.png', 'cafe_aoki_0_side.png', 'cafe_aoki_0_front.png']
+INFO [cafe aoki #1] （?）桌面 0.72、片段 沒有片段（None）：截圖 ['cafe_aoki_1_hands.png', 'cafe_aoki_1_side.png', 'cafe_aoki_1_front.png']

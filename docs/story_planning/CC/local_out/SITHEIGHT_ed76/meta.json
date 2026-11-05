@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "SITHEIGHT_ed76",
+  "sha": "ed7600ec5315abd070dbc7755ec32b53feef9a99",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_sitheight_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-05T12:01:18",
+  "end": "2026-11-05T13:21:55",
+  "seconds": 4837,
+  "exit": 1,
+  "error": "timeout 80 min",
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8806/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 75,
+    "mem": 99,
+    "used_gb": 31.4,
+    "chrome_testing": 15
+  }
+}
