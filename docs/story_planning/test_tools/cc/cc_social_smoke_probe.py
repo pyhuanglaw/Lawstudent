@@ -617,16 +617,18 @@ class Person:
             r = await L.tap_ground(pg, self.cdp, x, z, lv=s0['lv'], verify=True)
             if r: tapped = (x, z); break
         if tapped:
-            mv = 0.0
+            mv = 0.0; evhit = None
             for _ in range(16):
                 await pg.wait_for_timeout(500); s1 = await self.st(); mv = math.hypot(s1['x'] - s0['x'], s1['z'] - s0['z'])
                 if mv >= 0.3: break
-            ok &= R.check('%s：點地走得動（≥0.3 m）' % tag, mv >= 0.3, '點 %s，走了 %.2f m' % (J(tapped), mv))
+                if s1['evr'] and not s0['evr']: evhit = s1['evr']; break   # 走進自動劇情的範圍、劇情接手（玩家停下來看劇情）
+            if evhit and mv < 0.3: R.info('%s：點地以後走進了自動劇情 %s（劇情接手，走了 %.2f m；不判）' % (tag, evhit, mv), J(tapped))
+            else: ok &= R.check('%s：點地走得動（≥0.3 m）' % tag, mv >= 0.3, '點 %s，走了 %.2f m' % (J(tapped), mv))
         else:
             R.info('%s：附近找不到能點的地面（不判）' % tag, '候選 %d 個' % len(pts))
         sE = await self.st()
         if sE['evr']:   # CC-C 11-05：搖桿、點地走進了自動劇情的範圍（pool_12 的 ev_sk01_soc「對面的舊系館」）＝劇情照常開始；照玩家點完再接著檢查（不是卡住）
-            R.setup('%s：走路的時候走進了自動劇情 %s，照玩家點完再接著檢查' % (tag, sE['evr'])); await self.drive([], tag + ' 走進的自動劇情', max_s=180)
+            R.setup('%s：走路的時候走進了自動劇情 %s，照玩家點完再接著檢查' % (tag, sE['evr'])); await self.drive(lambda ch, menus: 0, tag + ' 走進的自動劇情', max_s=180)
         # 遊戲時間
         h0 = (await self.st())['hour']; await pg.wait_for_timeout(3000); h1 = (await self.st())['hour']
         ok &= R.check('%s：遊戲時間有在走' % tag, h1 > h0, '%.4f→%.4f' % (h0, h1))
@@ -1015,7 +1017,7 @@ class Person:
         await self.setup(setup, '前置：%s' % tag); await self.reload_same('套用關係以後重讀')
         s0 = await self.st()
         if s0['evr']:   # CC-C 11-05：讀檔點正好演起自動劇情（pool_12 2025-09-19 campus 的 ev_sk01_soc「對面的舊系館」）＝照玩家點完再開始（v20r_cloud2 pool3 那一次 FAIL 是探針沒點）
-            R.setup('%s：讀檔點正好演自動劇情 %s，照玩家點完再開始' % (tag, s0['evr'])); await self.drive([], tag + ' 讀檔點的自動劇情', max_s=180)
+            R.setup('%s：讀檔點正好演自動劇情 %s，照玩家點完再開始' % (tag, s0['evr'])); await self.drive(lambda ch, menus: 0, tag + ' 讀檔點的自動劇情', max_s=180)
         if not await self.check_free(tag + ' 開始前'): return
         fb0, err0 = await self.base_marks()
         if not await self.open_thread(tag): await L.close_panels(pg, self.cdp); return

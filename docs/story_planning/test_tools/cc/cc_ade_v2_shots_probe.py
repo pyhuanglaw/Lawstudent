@@ -64,6 +64,9 @@ WALL = """(()=>{ const z=GAME.E.zone, re=/price|board|notice|bulletin|menu|價�
     const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new V()); if(c.x<-13.2||c.x>-8.4||c.z<3.5||c.z>7) return; hits.push({name:nm, c:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], min:[+b.min.x.toFixed(2),+b.min.y.toFixed(2),+b.min.z.toFixed(2)], max:[+b.max.x.toFixed(2),+b.max.y.toFixed(2),+b.max.z.toFixed(2)]}); });
   return {hits}; })()"""
 POLES = r"""(()=>{ const z=GAME.E.zone, V=THREE.Vector3, out=[]; if(!z||!z.group) return out; z.group.updateMatrixWorld(true);
+  /* CC-C 11-05：溫州街的正式模型 wz_props.glb 把電線桿做成 EXT_mesh_gpu_instancing（InstancedMesh、名字只有 wz_props.N）＝每一個實例照它自己的世界矩陣量（KOMICHI_VIEW 第一次跑全部量不到＝探針問題）*/
+  { const m=new THREE.Matrix4(), w=new THREE.Matrix4(); z.group.traverse(o=>{ if(!o.isInstancedMesh) return; let hid=false, pn=''; for(let p=o;p&&p!==z.group;p=p.parent){ if(!p.visible) hid=true; if(!pn&&p.name) pn=p.name; } if(hid||!o.visible) return; if(!o.geometry.boundingBox) o.geometry.computeBoundingBox();
+    for(let i=0;i<o.count;i++){ o.getMatrixAt(i,m); w.multiplyMatrices(o.matrixWorld,m); const b=o.geometry.boundingBox.clone().applyMatrix4(w), c=b.getCenter(new V()), sz=b.getSize(new V()); if(c.x<-18.5||c.x>-5||c.z<2.5||c.z>7||sz.y<4) continue; out.push({name:(pn||'instanced')+'#'+i, x:+c.x.toFixed(2), z:+c.z.toFixed(2), h:+sz.y.toFixed(2), inst:true}); } }); }
   z.group.traverse(o=>{ if(!o.isMesh||!o.visible) return; let nm='', hid=false; for(let p=o;p&&p!==z.group;p=p.parent){ if(!p.visible) hid=true; if(!nm&&/pole|電線桿|utility|lamp_arm|streetlight/i.test(p.name||'')) nm=p.name; } if(!nm||hid) return;
     const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new V()), sz=b.getSize(new V()); if(c.x<-18.5||c.x>-5||c.z<2.5||c.z>7) return; if(sz.y<4) return;   /* 店門前那一段到日式宿舍院牆前（x −18.5～−5、店面那一側）、高過 4 m 的＝桿子 */
     out.push({name:nm, x:+c.x.toFixed(2), z:+c.z.toFixed(2), h:+sz.y.toFixed(2)}); });
