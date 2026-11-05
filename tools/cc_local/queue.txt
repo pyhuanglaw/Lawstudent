@@ -16,7 +16,7 @@
 # ===== P0（BB-C 10:48，v9.10.21 發布樹 aa0f3bcd3）：GO 之前要的；CC-C 16:1x 接班補排（交班時沒排）=====
 AA0F_p0 | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
 AA0F_touch | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
-AA0F_noodle | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | probe | docs/story_planning/test_tools/cc/cc_noodle_eat_probe.py | index.html | 20 | CC_HEADLESS=0
+# [BB-C 16:12 不用了] AA0F_noodle | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | probe | docs/story_planning/test_tools/cc/cc_noodle_eat_probe.py | index.html | 20 | CC_HEADLESS=0
 AA0F_reach | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
 # ===== V21R social 逾時（20 分）的 11 支重跑：時限 45 分 =====
 V21R_soc_heroine_01_go | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | RERUN=t45;CASES=heroine_01;STEPS=invite,invite_study,reload,date,phone,shop,walk;CC_HEADLESS=0
