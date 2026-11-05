@@ -97,6 +97,11 @@ await sec('A 沒琴的一局（照日期走到宜蘭回來）',async()=>{
       const s3=idxSeq([T('c23a'),T('c23b'),T('c23c'),T('c23d'),T('c23e'),T('c23f'),T('c23g'),T('c23h'),T('c23r1'),T('c23tune'),T('c23out')]);
       check('A4 2-3 '+K(sat)+' 15:00 和子晴去同弦：台詞逐字、「三千八那把。」→ 她那一句 → 調音裝袋 → 出來那一句',r.q!=null&&s3.ok,J({q:r.q,miss:s3.miss,first:r.lines.length?K(r.lines[0].d)+' '+hm(r.lines[0].h):null,tx:tx.slice(0,16)}));
       check('A5 2-3 九折 3,420：錢 −3,420、OWN_GUITAR、第一句在 15:00',mBefore-G.money===3420&&!!G.flags.OWN_GUITAR&&r.lines.length&&hm(r.lines[0].h)==='15:00',J({d:mBefore-G.money,own:G.flags.OWN_GUITAR,t:r.lines.length&&hm(r.lines[0].h)}));
+      /* BB-C 03:24：「好，禮拜六。」那一局——第 6 週週六 15:00 起 2-3 在同弦演（人在店裡），偶遇（D_ENC）一句都不能出現；2-3 演完還在店裡、偶遇的時段內（15:50）再看一次 */
+      const encDuring=r.lines.filter(x=>[T('enc1'),T('enc2'),T('enc3')].includes(x.t)).map(x=>hm(x.h));
+      at(sat,15.83,'xs_tongxian'); const L1=LOG.length; let encDue=null; try{ encDue=S.encDue(G); await S.tick(GM); }catch(e){} await settle(); const after=LOG.slice(L1).map(x=>x.t);
+      info('A5b 2-3 那段時間每一句：'+J(r.lines.map(x=>[hm(x.h),G.zone,x.t.slice(0,14)])));
+      check('A5b 「好，禮拜六。」那一局：第 6 週週六 15:00 起 2-3 在同弦演，偶遇的三句一句都沒出現；15:50 還在店裡也不演（GUITAR.encDue false）；2-3 的台詞照常（A4）',!encDuring.length&&!after.some(t=>[T('enc1'),T('enc2'),T('enc3')].includes(t))&&encDue===false&&s3.ok,J({encDuring,encDue,after}));
     }
   }
   const ownN=Object.entries(narr).filter(([k,L])=>L.includes(T('n24own')));

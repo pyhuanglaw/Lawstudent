@@ -6,6 +6,22 @@
 #        probe = repo script (CC probe), args <URL> <out>\out ; LW_TESTS / SHA set automatically
 #        py    = repo script, args <URL> <out dir>
 #  URL : path after http://127.0.0.1:<port>/
+# ===== ★ CC-C 11-05 04:1x：PC 恢復了（使用者：「測試丟回電腦」）——雲端的排程停掉，下面這幾項先跑（照這個順序；跑完照舊往下）=====
+#   ① LIVE_V91020（BB-C 02:30 P1）：v9.10.20 上線 main 40c0abedb，在線上網址跑 deploy_check、TAPPREF、p0（雲端連不到 github.io，只跑了本機複本）
+#   ② 雲端還沒跑完的：D118B7F（193d）、GUITAR（b474）、D118B7（6a15）、D118B5（747d）、NPCTASK（f5c3）、SITHEIGHT＋cafe（ed76）、TONGXIAN_REFCAM（650f）；③ LAWWW2 的 PERF 兩項。TONGXIAN_REFCAM 改 07dfffe15（v4f：cc0af7f14 整合 LAWWW2 308b5c025，BB-C 03:35）
+LIVE_V91020_deploy | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.20（2026-11-05）
+LIVE_V91020_tappref | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | probe | docs/story_planning/test_tools/cc/cc_tappref_zone_probe.py | index.html | 30 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
+LIVE_V91020_p0 | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | game | tests/p0_movement.py | index.html | 40 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html
+D118B7F_play | 193d1fd4f1b3ccacc544864c2e02f8faa0ba95f8 | probe | docs/story_planning/test_tools/cc/cc_d118b7f_play.py | index.html | 90 | CC_HEADLESS=0
+GUITAR_play | b4746f345486b6bd154cff34975da6d2ab9cb29c | probe | docs/story_planning/test_tools/cc/cc_guitar_x196_play.py | index.html | 90 | CC_HEADLESS=0
+D118B7_play | 6a1592a26831ce63470b4869aa9c5aa7e5d8628c | probe | docs/story_planning/test_tools/cc/cc_d118b7_play.py | index.html | 60 | CC_HEADLESS=0
+D118B5_play | 747dba80dabb454eaf2aaf6f1bee272a271c6ce5 | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 90 | CC_HEADLESS=0
+NPCTASK_f5c3 | f5c38f2bae0b4c4f5e871d7da43dbe1994097847 | probe | docs/story_planning/test_tools/cc/cc_npctask_probe.py | index.html | 60 | CTL=both;LOCS=hall,lib3f,lawlib,soc2f,b1;CC_HEADLESS=0
+SITHEIGHT_ed76 | ed7600ec5315abd070dbc7755ec32b53feef9a99 | probe | docs/story_planning/test_tools/cc/cc_sitheight_probe.py | index.html | 80 | CC_HEADLESS=0
+TONGXIAN_REFCAM | 07dfffe1514d8239bee1fc0f6a815ea054622982 | probe | docs/story_planning/test_tools/cc/cc_tongxian_refcam.py | index.html | 20 | CC_HEADLESS=0
+PERF_WZ_SPLIT | 1344de13d88cccf2f60b2877875d8dbe768a3511 | probe | docs/story_planning/test_tools/cc/perf_split_probe.py | index.html | 30 | ZONES=wenzhou,campus,library_hall;COLD=12;SECS=8;CC_HEADLESS=0
+FPS_WZ_ORDER | 1344de13d88cccf2f60b2877875d8dbe768a3511 | probe | tools/cc_local/fps_zones.py | index.html | 20 | ZONES=wenzhou,library_hall,wancai;SLOTS=night,day,day,rain;CC_HEADLESS=0
+# ===== ★ 以上 =====
 # 2026-11-02 10:2x 排程（BB_229：常備佇列；跑完、寫好初判就註解掉）
 # 10:3x 整晚循環：run_queue 會跳過「同一個 sha 已經跑完」的項目；長的項目釘 sha（c2d0c24bc＝這一輪），head 只留給便宜的 00／01（LAWWW 每 push 一次就重跑）。要強制重跑：ENV 欄加 RERUN=<新字>
 # ⚠ D124（BB 10:48，海商法改選修，LAWWW 還沒實作）：02_mk12new、02b_mk12dea、05_mk12old、03_delay14 的前置是「海商法被當＝延畢／補考」＝舊規則；D124 進來以前照跑（現在的 head 還是舊規則），之後改用「前面學期被當→大四下重修沒過」／日本補修的新探針參數再排
@@ -193,24 +209,14 @@ SITAMB_player | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_pl
 #   推回 cc-local：{out}/assets/models/env/views/{cvs,cvs_wz,yejian,aoki}{,_near}_{day,night}.webp 16 張＋{out}/shop_views_layers.json（景深）；沒有 numpy／PIL＝{out}/raw/*_far／_nb／_nw.png，雲端 CC 用 VIEWS_REMATTE 去背轉 webp 再交 LAWWW-C（填 VIEW_LAYERS）
 GG_VIEWS_530a | 530a72ff44c81385688b3e624f4a65b5dcf5544f | probe | docs/story_planning/test_tools/cc/cc_shop_views_gg.py | index.html | 40 | VIEW_NAMES=cvs,cvs_wz,yejian,aoki;CC_HEADLESS=0
 # LIVE_V91020（BB-C 02:30 P1）：v9.10.20 上線（main 40c0abedb，PR #28，Pages run 41955182303）——線上網址跑 deploy_check（版本 v9.10.20（2026-11-05））、TAPPREF、p0；雲端連不到 github.io，雲端那一份是本機複本
-LIVE_V91020_deploy | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.20（2026-11-05）
-LIVE_V91020_tappref | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | probe | docs/story_planning/test_tools/cc/cc_tappref_zone_probe.py | index.html | 30 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
-LIVE_V91020_p0 | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | game | tests/p0_movement.py | index.html | 40 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html
 # PERF-WZ-DAY-1103（LAWWW2-C 02:21，LAWWW-C 派 P1）：溫州街白天尖峰分項量（perf_split_probe.py＝LAWWW2 922445a2c 複製）＋fps_zones 時段順序換 night 先；結果推 cc-local 以後告訴 LAWWW2-C commit
-PERF_WZ_SPLIT | 1344de13d88cccf2f60b2877875d8dbe768a3511 | probe | docs/story_planning/test_tools/cc/perf_split_probe.py | index.html | 30 | ZONES=wenzhou,campus,library_hall;COLD=12;SECS=8;CC_HEADLESS=0
-FPS_WZ_ORDER | 1344de13d88cccf2f60b2877875d8dbe768a3511 | probe | tools/cc_local/fps_zones.py | index.html | 20 | ZONES=wenzhou,library_hall,wancai;SLOTS=night,day,day,rain;CC_HEADLESS=0
 # ===== D118_B7（BB-C 23:46，下一版；國考總複習）：雲端先跑（chain8），PC 恢復以後這裡再跑一次；排在 GG_VIEWS 後面 =====
-D118B7_play | 6a1592a26831ce63470b4869aa9c5aa7e5d8628c | probe | docs/story_planning/test_tools/cc/cc_d118b7_play.py | index.html | 60 | CC_HEADLESS=0
 # D118_B5（BB-C 00:06，下一版；法服改純劇情）：雲端先跑（chain8），PC 恢復以後再跑一次當第二份證據
-D118B5_play | 747dba80dabb454eaf2aaf6f1bee272a271c6ce5 | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 90 | CC_HEADLESS=0
 # D118_B7F（BB-C 01:32；司法官二試、研究所總複習＋寒假在家選單）：雲端先跑（chain8，D118B5 後面），PC 恢復以後再跑一次
-D118B7F_play | 193d1fd4f1b3ccacc544864c2e02f8faa0ba95f8 | probe | docs/story_planning/test_tools/cc/cc_d118b7f_play.py | index.html | 90 | CC_HEADLESS=0
 # SIT-HEIGHT＋吃飯＋NPCTASK（BB-C 00:25；f5c38f2ba）：雲端先拍（穿模、高度），PC 恢復以後補顏色、亮度（④）
-NPCTASK_f5c3 | f5c38f2bae0b4c4f5e871d7da43dbe1994097847 | probe | docs/story_planning/test_tools/cc/cc_npctask_probe.py | index.html | 60 | CTL=both;LOCS=hall,lib3f,lawlib,soc2f,b1;CC_HEADLESS=0
 # BB-C 00:38：SITHEIGHT 改 ed7600ec5（CAFE-EDGE-1105）；多 MODE cafe（afar、青木、Daybreak、木曜日、林家、社科圖：桌面高度、哪一組片段、手的近景）
-SITHEIGHT_ed76 | ed7600ec5315abd070dbc7755ec32b53feef9a99 | probe | docs/story_planning/test_tools/cc/cc_sitheight_probe.py | index.html | 80 | CC_HEADLESS=0
 # GUITAR_X196（BB-C 03:14）：吉他店同弦、吉他社、社遊照玩家操作（雲端先跑，chain11 SITHEIGHT 後；Node cc_guitar_x196_node.js ALL PASS 30）
-GUITAR_play | b4746f345486b6bd154cff34975da6d2ab9cb29c | probe | docs/story_planning/test_tools/cc/cc_guitar_x196_play.py | index.html | 90 | CC_HEADLESS=0
+# TONGXIAN_REFCAM（BB-C 03:21，P2）：同弦 camRef 截圖、吊燈有沒有被黃金葛擋（雲端 SwiftShader 先拍；電腦這一份給顏色、亮度）
 # NTU_REF_teach（LAWWW-C 15:20：使用者 15:1x「普通 博雅 教學館目前感覺跟真正的太不像了」TEACH-PTBOYA-REF-1104；總表第 107～109 列的角度、14:00、現在的 head＝修改前；BB 可以調順序）
 NTU_REF_teach | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_ntu_ref_probe.py | index.html | 15 | ONLY=boya_n,boya_lake,putong;HOUR=14;CC_HEADLESS=0
 # PTBOYA v2（BB-C 16:30；TEACH-PTBOYA-REF-1104；不進 v9.10.20；使用者點名 X227）：排在 V20R、SITAMB 後面，阿德 v2、AA663、AA660 前面
