@@ -556,3 +556,11 @@
 [18:47:43] ==== START V21R_xs_nanyang  (probe @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
 [18:47:46] [res] cpu=19% mem=42% (13.3/31.4 GB) chrome_testing=10  START V21R_xs_nanyang
 [18:50:41] [res] cpu=25% mem=40% (12.6/31.4 GB) chrome_testing=10  END V21R_v7
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c9f153b11..f067bdeb1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:50:46] ==== END   V21R_v7  exit=0  324s   ====
+[18:50:49] memory 40% before starting V21R_xs_shanlan (2 running)
+[18:50:49] ==== START V21R_xs_shanlan  (probe @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
+[18:50:52] [res] cpu=12% mem=41% (12.8/31.4 GB) chrome_testing=10  START V21R_xs_shanlan
+[18:51:38] [res] cpu=16% mem=40% (12.8/31.4 GB) chrome_testing=9  END V21R_xs_tongxian
