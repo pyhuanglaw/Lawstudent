@@ -47607,7 +47607,7 @@
    "title": "開車出去改成走去新月台停車場取車",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47619,7 +47619,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "使用者 11:1x「走去開車不是真的要花時間 主要就是讓玩家真的知道現在是開車」：取車不加時間、路程字照原本（AA_704 那一句不用，下一班 AA 看要不要改稿）；第一步只剩第一次開車出發的取車旁白（OUT.CAR_PICKUP_LINE）；寒暑假從家出發不受影響（UA-LAWWW-1105-45）。第二步（走到停車場、按「開車出發」、同行的人在入口）子代理在 /home/user/wt-drive2 做；沒做完看 wip_backup/drive2/。",
+   "next": "第一、二步都在開發線（6e83736ea、fffb76bc0）：開車出去選「出發」＝目標改到望月台停車場（GM.setGoal），車旁邊 XSG.carSpot.stand 按「開車出發」（AA_704 原字）才走原本的 OUT.go；第一次演取車旁白；校外約會的人出發前 15 分鐘在停車場入口等、你靠近時走過來；回程放回車旁；寒暑假從家出發照舊（OUT.carHome）；不加時間（使用者 11:1x）。簡化：她的節日、台中那兩種沒有等人那段；停車場入口等座標是子代理照導航格選的（CARLOT.spot()，LAWWW2 可以改）。介面字待 AA 確認：目標列「到望月台停車場開車出發」（CARLOT.GOAL，AA_704 沒有這句）。tests/drive_pickup2_unit.js（修改前 FAIL）。BB 瀏覽器驗；下一版。",
    "source": "UA-LAWWW-1105-31",
    "authorized": "使用者原話",
    "xai": {
@@ -47629,7 +47629,8 @@
     "receiver": "LAWWW",
     "ack": "自領"
    },
-   "src": "UA-LAWWW-1105-31"
+   "src": "UA-LAWWW-1105-31",
+   "sha": "fffb76bc0"
   },
   {
    "id": "XS-FARVIEW-1105",
