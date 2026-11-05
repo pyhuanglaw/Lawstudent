@@ -453,7 +453,8 @@ const HOME=(function(){
     for(const iv of S.dueInvites(G)){ const P=INV.place(iv.place)||{}; O.push({t:'出發：和'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(iv.who):iv.who)+'約在'+(typeof PLACES!=='undefined'&&PLACES.at?PLACES.at(P.name||''):(P.name||'')),hint:hm(iv.h)+'　捷運＋公車 約 30 分鐘',k:'inv',iv,P}); }
     if(!ateToday&&h>=18.5&&h<20) O.push({t:'吃晚餐',k:'eat'});
     if(S.ffOpts(G)) O.push({t:'快轉',hint:'到下一個有事的日子、過三天、過一週',k:'ff'});   /* AA_197 1-2：快轉是玩家自己選的（取代「過幾天」）*/
-    if(S.goList().length) O.push({t:'出門',hint:'校門口、公館、溫州街　捷運＋公車 約 30 分鐘',k:'go'});   /* AA_549 3-4：回家住也能出門（家就在臺北，同退宿以後的「出門」三選一）；晚上回家睡（手機「地點」回家，凌晨 2:30 照 STORY.forceHome 回家）*/
+    if(S.goList().length) O.push({t:'出門',hint:'校門口、公館、溫州街　捷運＋公車 約 30 分鐘',k:'go'});
+    { let ho=null; try{ ho=typeof STUDY!=='undefined'&&STUDY.homeOpt?STUDY.homeOpt(G):null; }catch(err){ console.warn('STUDY.homeOpt',err); } if(ho&&ho.t&&typeof ho.run==='function') O.push({t:ho.t,hint:ho.hint,k:'ext',run:ho.run}); }   /* 寒暑假住家裡也能「考前總複習」（BB-C 01:48：研究所 2029-02-03 在寒假；同週末在家、畢業以後住家裡的 STUDY.homeOpt）*/   /* AA_549 3-4：回家住也能出門（家就在臺北，同退宿以後的「出門」三選一）；晚上回家睡（手機「地點」回家，凌晨 2:30 照 STORY.forceHome 回家）*/
     O.push({t:'存檔',hint:'存到存檔欄位',k:'save'});
     O.push({t:'睡覺',hint:'隔天早上在家醒來',k:'sleep'});
     O.push({t:'回宿舍住',hint:'捷運＋公車 約 40 分鐘',k:'dorm'});   /* AA_197 1-3：隨時可以再回宿舍（房間還在）*/
@@ -466,6 +467,7 @@ const HOME=(function(){
     if(o.k==='inv'){ await S.leaveTo(GM,o.P); return false; }
     if(o.k==='go'){ const L=S.goList(), k=await GM.choose(L.map(p=>({t:p[1]})).concat([{t:'不用了'}]),{menu:true}), p=L[k]; if(!p) return H.at; await S.leaveTo(GM,{name:p[1],zone:p[0],spawn:p[2]?Object.assign({},p[2]):undefined}); if(GM.toast) GM.toast('要回家：手機「地點」→ 回家（或走到校門口）。',5200); return false; }   /* AA_549 3-4：進 3D 世界（放假模式照舊：H.lbreak 不清，回家照住家裡）*/
     if(o.k==='eat'){ if(await confirmMiss(GM,G.hour+1)) await S.dinner(GM); return H.at; }   /* BB_214 第 1 點：吃晚餐一小時，會錯過約好的出遊、當面約要先問 */
+    if(o.k==='ext'){ try{ await o.run(GM); }catch(err){ console.warn('STUDY.homeOpt',err); } if(H.at&&typeof ADV!=='undefined'&&!ADV.active) ADV.begin({background:bg()}); return H.at; }
     if(o.k==='ff'){ await S.ffMenu(GM,'home'); return H.at; }
     if(o.k==='dorm'){ H.lbreak=null; H.bskip=null; await S.back(GM); return false; }
     { const wake=T(G.day+1,8.5); if(nx!=null&&nx<wake){ await S.jumpSkip(GM,nx,{},false); await S.breakArrive(GM); } else await S.sleep(GM); S.rec(G).wakeAsk=null; }   /* 睡覺會經過要停的時間（例：除夕 12:00 以前不會，出遊的晚上會）：停在那裡；途中收到訊息先停、打開手機，「跳過」接著睡到那裡（X58）*/

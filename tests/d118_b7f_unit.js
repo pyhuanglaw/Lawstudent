@@ -140,10 +140,10 @@ const SKIPJ=['crim_spec','oblig_gen2','civpro_2','const_2'];   /* 司法官二�
       check('g5. 已經存下 PG.grad[2030].qs（有沒修過的行政救濟法）：照存下的 10 題、順序一樣，不換',J(q)===J(saved),J(q)); }
     check('g6. 錄取門檻不變（PG.GRAD_PASS 6；2030 Y5_DAYS study 5）',PG.GRAD_PASS===6&&PG.N_GRAD===10); });
   /* ---------- d 司法官二試總複習：什麼時候開 ---------- */
-  await sec('d',async()=>{ const G=judgeSave('2029-09-20',23);
-    check('d1. 2029-09-20 23:00（二試 10/21 的 31 天前）：沒有司法官二試總複習（reviewInfo null、座位選單沒有那一項）',info(G,'judge')===null&&opt(G)===null,J(info(G,'judge')));
-    H.at('2029-09-21',0); const i1=info(G,'judge'), o1=opt(G), nx=pf('judgeNext',G);
-    check('d2. 2029-09-21 00:00 起（30 天前；一試放榜 9/7 比較早）：有；座位選單「考前總複習」kind judge',!!i1&&i1!=='ERR'&&i1.kind==='judge'&&i1.year===2029&&!!o1&&o1!=='ERR'&&o1.t==='考前總複習'&&o1.kind==='judge'&&o1.review===true&&!!nx&&K(nx.open)==='2029-09-21'&&K(nx.day)==='2029-10-21'&&nx.at===AT('2029-10-21',8.5),J({i:i1&&i1.kind,o1,nx}));
+  await sec('d',async()=>{ const G=judgeSave('2029-09-19',23);
+    check('d1. 2029-09-19 23:00（二試第一天 10/20 的 31 天前；BB-C 01:48 從第一天算）：沒有司法官二試總複習（reviewInfo null、座位選單沒有那一項）',info(G,'judge')===null&&opt(G)===null,J(info(G,'judge')));
+    H.at('2029-09-20',0); const i1=info(G,'judge'), o1=opt(G), nx=pf('judgeNext',G);
+    check('d2. 2029-09-20 00:00 起（二試第一天的 30 天前；一試放榜 9/7 比較早；作答照舊 10/21 08:30）：有；座位選單「考前總複習」kind judge',!!i1&&i1!=='ERR'&&i1.kind==='judge'&&i1.year===2029&&!!o1&&o1!=='ERR'&&o1.t==='考前總複習'&&o1.kind==='judge'&&o1.review===true&&!!nx&&K(nx.open)==='2029-09-20'&&K(nx.first)==='2029-10-20'&&K(nx.day)==='2029-10-21'&&nx.at===AT('2029-10-21',8.5),J({i:i1&&i1.kind,o1,nx}));
     H.at('2029-10-21',2.5); const o2=opt(G); H.at('2029-10-21',2.6); const o3=opt(G);
     check('d3. 10/21 02:30（讀完 08:30）可以；02:36（會跨過 08:30 開考）＝變灰「會錯過：二試。」',!!o2&&o2!=='ERR'&&!o2.dim&&!!o3&&o3!=='ERR'&&o3.dim===true&&o3.hint==='會錯過：二試。',J({o2,o3}));
     H.at('2029-10-21',8.5); check('d4. 10/21 08:30（開考）以後：沒有',info(G,'judge')===null&&opt(G)===null);
@@ -153,9 +153,9 @@ const SKIPJ=['crim_spec','oblig_gen2','civpro_2','const_2'];   /* 司法官二�
       check('d6. 一試放榜比較晚的那一年（測試把 2029 放榜挪到 9/25）：開放＝放榜那天（9/24 沒有、9/25 起有）——比較晚的那一天',a===null&&!!b&&b!=='ERR'&&b.kind==='judge',J({a,b:b&&b.kind})); }
     { const G4=judgeSave('2029-10-01',10,{flags:{BAR_SCORE_2029:13,BAR_STAGE_2029:'lawyer'}});
       check('d7. 一試只到律師（13 題）：一試以後也沒有司法官二試總複習',info(G4,'judge')===null&&opt(G4)===null&&pf('judgeNext',G4)===null); }
-    { const G5=judgeSave('2030-09-19',23,{flags:{BAR_YEAR:2029,JUDGE_RETAKE:true,JUDGE_RETAKE_Y:2030,JUDGE_SCORE2_2029:5,JUDGE_PASS_2029:false,BAR_SIT_2030:true,BAR_SCORE_2030:16}});
-      for(const k of ['e2a_2029','e2b_2029','r2_2029','exam_2030','r1_2030']) PG.rec(G5).done[k]=1; const a=info(G5,'judge'); H.at('2030-09-20',0); const b=info(G5,'judge');
-      check('d8. 司法官重考那一年（2030，已經是律師）一試到司法官：9/19 沒有、9/20（10/20 二試的 30 天前）起有（year 2030）',a===null&&!!b&&b!=='ERR'&&b.year===2030,J({a,b:b&&b.year})); } });
+    { const G5=judgeSave('2030-09-18',23,{flags:{BAR_YEAR:2029,JUDGE_RETAKE:true,JUDGE_RETAKE_Y:2030,JUDGE_SCORE2_2029:5,JUDGE_PASS_2029:false,BAR_SIT_2030:true,BAR_SCORE_2030:16}});
+      for(const k of ['e2a_2029','e2b_2029','r2_2029','exam_2030','r1_2030']) PG.rec(G5).done[k]=1; const a=info(G5,'judge'); H.at('2030-09-19',0); const b=info(G5,'judge');
+      check('d8. 司法官重考那一年（2030，已經是律師）一試到司法官：9/18 沒有、9/19（二試第一天 10/19 的 30 天前）起有（year 2030）',a===null&&!!b&&b!=='ERR'&&b.year===2030,J({a,b:b&&b.year})); } });
   /* ---------- e 研究所筆試總複習：什麼時候開 ---------- */
   await sec('e',async()=>{ const G=grad29('2029-01-03',23);
     check('e1. 2029-01-03 23:00（筆試 2/3 的 31 天前）：沒有研究所總複習',info(G,'grad')===null&&opt(G)===null);
@@ -221,34 +221,34 @@ const SKIPJ=['crim_spec','oblig_gen2','civpro_2','const_2'];   /* 司法官二�
       check('p2. 考試之間（測試把研究所、國考一試的開放時間改成同時開著）：開考最早的那一場——研究所比二試早＝研究所；比二試晚＝二試；國考一試最早＝國考一試',r.length===3&&r.every(o=>!!o&&o!=='ERR')&&r[0].kind==='grad'&&r[1].kind==='judge'&&r[2].kind==='bar',J(r.map(o=>o&&o.kind))); } });
   /* ---------- m 提醒 ---------- */
   await sec('m',async()=>{ const RJ=/^【國考】.*司法官二試/, RG=/^【研究所】/;
-    { const G=judgeSave('2029-09-15',10); ruleAt(G,'2029-09-21',19.9); const n0=sysOf(G,RJ).length; ruleAt(G,'2029-09-21',20.05); const a=sysOf(G,RJ);
-      check('m1. 一試到司法官：9/21（總複習開放那天）20:00 系統訊息一則「【國考】10/21 司法官二試。從今天起…要六個小時。」（tag judge_remind_open_2029）；20:00 以前沒有',n0===0&&a.length===1&&a[0][0]==='2029-09-21'&&a[0][2]==='【國考】10/21 司法官二試。從今天起，坐到書桌或讀書的位子，可以把四年的筆記一次讀過一遍，要六個小時。'&&a[0][3]==='judge_remind_open_2029',J(a));
-      ruleAt(G,'2029-09-22',20.1); const b0=sysOf(G,RJ).length; ruleAt(G,'2029-10-14',19.9); const b1=sysOf(G,RJ).length; ruleAt(G,'2029-10-14',20.05); const b=sysOf(G,RJ);
-      check('m2. 隔天不再發；二試前一週的週日（10/14）20:00 第二則「【國考】10/21（日）司法官二試。考前想…」（tag judge_remind_week_2029）',b0===1&&b1===1&&b.length===2&&b[1][0]==='2029-10-14'&&CALENDAR.dateOf(DAY('2029-10-14')).wd%7===0&&b[1][2]==='【國考】10/21（日）司法官二試。考前想把四年的筆記讀過一遍，坐到書桌或讀書的位子就可以。'&&b[1][3]==='judge_remind_week_2029',J(b));
+    { const G=judgeSave('2029-09-15',10); ruleAt(G,'2029-09-20',11.9); const n0=sysOf(G,RJ).length; ruleAt(G,'2029-09-20',12.05); const a=sysOf(G,RJ);
+      check('m1. 一試到司法官：9/20（總複習開放那天）12:00 系統訊息一則「【國考】10/20 司法官二試。從今天起…要六個小時。」（日期＝二試第一天、開放那天 12:00：BB-C 01:48；tag judge_remind_open_2029）；12:00 以前沒有',n0===0&&a.length===1&&a[0][0]==='2029-09-20'&&a[0][2]==='【國考】10/20 司法官二試。從今天起，坐到書桌或讀書的位子，可以把四年的筆記一次讀過一遍，要六個小時。'&&a[0][3]==='judge_remind_open_2029',J(a));
+      ruleAt(G,'2029-09-21',20.1); const b0=sysOf(G,RJ).length; ruleAt(G,'2029-10-14',19.9); const b1=sysOf(G,RJ).length; ruleAt(G,'2029-10-14',20.05); const b=sysOf(G,RJ);
+      check('m2. 隔天不再發；二試第一天前一週的週日（10/14）20:00 第二則「【國考】10/20（六）司法官二試。考前想…」（tag judge_remind_week_2029）',b0===1&&b1===1&&b.length===2&&b[1][0]==='2029-10-14'&&CALENDAR.dateOf(DAY('2029-10-14')).wd%7===0&&b[1][2]==='【國考】10/20（六）司法官二試。考前想把四年的筆記讀過一遍，坐到書桌或讀書的位子就可以。'&&b[1][3]==='judge_remind_week_2029',J(b));
       ruleAt(G,'2029-10-18',20.1); check('m3. 之後不再發（各一次）',sysOf(G,RJ).length===2,J(sysOf(G,RJ))); }
-    { const G=judgeSave('2029-09-15',10,{flags:{BAR_SCORE_2029:13,BAR_STAGE_2029:'lawyer'}}); for(const k of ['2029-09-21','2029-10-14']) ruleAt(G,k,20.1);
+    { const G=judgeSave('2029-09-15',10,{flags:{BAR_SCORE_2029:13,BAR_STAGE_2029:'lawyer'}}); for(const k of ['2029-09-20','2029-09-21','2029-10-14']) ruleAt(G,k,20.1);
       check('m4. 一試只到律師：兩則都沒有（要考司法官二試的人才有）',!sysOf(G,RJ).length&&!sysOf(G,/司法官二試/).length,J(sysOf(G,RJ))); }
-    { const G=grad29('2029-01-01',10); ruleAt(G,'2029-01-04',19.9); const n0=sysOf(G,RG).length; ruleAt(G,'2029-01-04',20.05); const a=sysOf(G,RG); ruleAt(G,'2029-01-05',20.1); const a2=sysOf(G,RG).length;
+    { const G=grad29('2029-01-01',10); ruleAt(G,'2029-01-04',11.9); const n0=sysOf(G,RG).length; ruleAt(G,'2029-01-04',12.05); const a=sysOf(G,RG); ruleAt(G,'2029-01-05',20.1); const a2=sysOf(G,RG).length;
       ruleAt(G,'2029-01-28',19.9); const b1=sysOf(G,RG).length; ruleAt(G,'2029-01-28',20.05); const b=sysOf(G,RG); ruleAt(G,'2029-02-01',20.1);
-      check('m5. 研究所 2029（寒假）：1/4 20:00「【研究所】2/3 筆試。從今天起…一次讀過一遍，要四個小時。」（AA_692 定稿；tag grad_remind_open_2029）；隔天不再發',n0===0&&a.length===1&&a[0][0]==='2029-01-04'&&a[0][2]==='【研究所】2/3 筆試。從今天起，坐到書桌或讀書的位子，可以把公法的筆記一次讀過一遍，要四個小時。'&&a[0][3]==='grad_remind_open_2029'&&a2===1,J(a));
+      check('m5. 研究所 2029（寒假）：1/4 12:00（開放那天 12:00，BB-C 01:48）「【研究所】2/3 筆試。從今天起…一次讀過一遍，要四個小時。」（AA_692 定稿；tag grad_remind_open_2029）；隔天不再發',n0===0&&a.length===1&&a[0][0]==='2029-01-04'&&a[0][2]==='【研究所】2/3 筆試。從今天起，坐到書桌或讀書的位子，可以把公法的筆記一次讀過一遍，要四個小時。'&&a[0][3]==='grad_remind_open_2029'&&a2===1,J(a));
       check('m6. 筆試前一週的週日（1/28）20:00 第二則「【研究所】2/3（六）筆試。考前想把公法的筆記讀過一遍…」（tag grad_remind_week_2029）；之後不再發',b1===1&&b.length===2&&b[1][0]==='2029-01-28'&&b[1][2]==='【研究所】2/3（六）筆試。考前想把公法的筆記讀過一遍，坐到書桌或讀書的位子就可以。'&&b[1][3]==='grad_remind_week_2029'&&sysOf(G,RG).length===2,J(b)); }
     { const a=grad29('2029-01-01',10,{flags:{Y4_PUSH:'pass'},tr:false}), b=grad29('2029-01-01',10,{flags:{Y4_PATH:'bar'},tr:false}); for(const G of [a,b]) for(const k of ['2029-01-04','2029-01-28']) ruleAt(G,k,20.1);
       check('m7. 沒報研究所筆試（推甄上了、選國考）：兩則都沒有',!sysOf(a,RG).length&&!sysOf(b,RG).length); }
     { const G=grad30('2030-01-10',10,{tr:false}); ruleAt(G,'2030-01-17',20.05); ruleAt(G,'2030-02-10',20.05); const c=sysOf(G,RG);
-      check('m8. 研究所 2030（明年再考）：1/17 20:00「【研究所】2/16 筆試。…」、2/10（日）20:00「【研究所】2/16（六）筆試。…」',c.length===2&&c[0][0]==='2030-01-17'&&c[0][2]==='【研究所】2/16 筆試。從今天起，坐到書桌或讀書的位子，可以把公法的筆記一次讀過一遍，要四個小時。'&&c[1][0]==='2030-02-10'&&c[1][2]==='【研究所】2/16（六）筆試。考前想把公法的筆記讀過一遍，坐到書桌或讀書的位子就可以。'&&c[0][3]==='grad_remind_open_2030'&&c[1][3]==='grad_remind_week_2030',J(c)); }
-    { const G=grad29('2029-01-04',18,{tr:false}); ruleAt(G,'2029-01-04',18); ruleAt(G,'2029-01-05',8); const a=(G.msgs||[]).filter(m=>m.tag==='grad_remind_open_2029');
-      check('m9. 學期中睡過頭（1/4 18:00 → 1/5 08:00 才跑手機規則）：照原本的時間補進去（1/4 20:00）',a.length===1&&K(a[0].day)==='2029-01-04'&&a[0].h===20,J(a.map(m=>[K(m.day),m.h]))); }
+      check('m8. 研究所 2030（明年再考）：1/17 12:00「【研究所】2/16 筆試。…」、2/10（日）20:00「【研究所】2/16（六）筆試。…」',c.length===2&&c[0][0]==='2030-01-17'&&c[0][2]==='【研究所】2/16 筆試。從今天起，坐到書桌或讀書的位子，可以把公法的筆記一次讀過一遍，要四個小時。'&&c[1][0]==='2030-02-10'&&c[1][2]==='【研究所】2/16（六）筆試。考前想把公法的筆記讀過一遍，坐到書桌或讀書的位子就可以。'&&c[0][3]==='grad_remind_open_2030'&&c[1][3]==='grad_remind_week_2030',J(c)); }
+    { const G=grad29('2029-01-04',11,{tr:false}); ruleAt(G,'2029-01-04',11); ruleAt(G,'2029-01-05',8); const a=(G.msgs||[]).filter(m=>m.tag==='grad_remind_open_2029');
+      check('m9. 學期中睡過頭（1/4 11:00 → 1/5 08:00 才跑手機規則）：照原本的時間補進去（1/4 12:00）',a.length===1&&K(a[0].day)==='2029-01-04'&&a[0].h===12,J(a.map(m=>[K(m.day),m.h]))); }
     { const G=grad29('2029-01-04',10,{zone:'dorm',tr:false}); G.home={at:true}; const o={}; await HOME.breakJump(GM,AT('2029-01-06',10),o); const a=(G.msgs||[]).filter(m=>m.tag==='grad_remind_open_2029'), stopAt=[K(G.day),G.hour];
       const s1=stopOf('judge'), s2=stopOf('grad'); H.at('2029-01-02',10); const st=[s1?s1(G):'none',s2?s2(G):'none'];
-      check('m10. 寒假在家的快轉（HOME.breakJump）：停在 1/4 20:00 那一則（收到訊息本來就停，不另外加停點）；學期中 PG.stops 的兩個新停點不給時間',o.why==='msg'&&J(stopAt)===J(['2029-01-04',20])&&a.length===1&&a[0].h===20&&J(st)===J([null,null])&&!G.flags.PG,J({why:o.why,stopAt,st})); }
-    { const G=judgeSave('2029-09-15',10,{tr:false}); const sj=stopOf('judge'), w1=AT('2029-09-21',20), t1=PG.nextStop(G), v1=sj?sj(G):null;
-      check('m11. 畢業以後篇：PG.stops 的司法官二試停點＝9/21 20:00；「跳到下一件事」的下一站不晚於它',!!sj&&v1===w1&&t1!=null&&t1<=w1+1e-6,J({v1,t1,w1}));
-      H.at('2029-09-21',19); const t2=PG.nextStop(G); const res=t2!=null?PG.jumpTo(GM,t2):null; const got=sysOf(G,RJ);
-      check('m12. 9/21 19:00 跳到下一件事：停在 20:00（PG.jumpTo 回 msg）、那一則剛送到',t2===w1&&res==='msg'&&G.hour===20&&got.length===1&&got[0][3]==='judge_remind_open_2029',J({t2,res,h:G.hour,got}));
+      check('m10. 寒假在家的快轉（HOME.breakJump）：停在 1/4 12:00 那一則（收到訊息本來就停，不另外加停點）；學期中 PG.stops 的兩個新停點不給時間',o.why==='msg'&&J(stopAt)===J(['2029-01-04',12])&&a.length===1&&a[0].h===12&&J(st)===J([null,null])&&!G.flags.PG,J({why:o.why,stopAt,st})); }
+    { const G=judgeSave('2029-09-15',10,{tr:false}); const sj=stopOf('judge'), w1=AT('2029-09-20',12), t1=PG.nextStop(G), v1=sj?sj(G):null;
+      check('m11. 畢業以後篇：PG.stops 的司法官二試停點＝9/20 12:00；「跳到下一件事」的下一站不晚於它',!!sj&&v1===w1&&t1!=null&&t1<=w1+1e-6,J({v1,t1,w1}));
+      H.at('2029-09-20',11); const t2=PG.nextStop(G); const res=t2!=null?PG.jumpTo(GM,t2):null; const got=sysOf(G,RJ);
+      check('m12. 9/20 11:00 跳到下一件事：停在 12:00（PG.jumpTo 回 msg）、那一則剛送到',t2===w1&&res==='msg'&&G.hour===12&&got.length===1&&got[0][3]==='judge_remind_open_2029',J({t2,res,h:G.hour,got}));
       H.at('2029-09-22',10); const w2=AT('2029-10-14',20), v2=sj?sj(G):null, t3=PG.nextStop(G);
       check('m13. 第一則傳了以後：停點換成 10/14 20:00（第二則）',v2===w2&&t3!=null&&t3<=w2+1e-6,J({v2,t3,w2})); }
-    { const G=grad30('2030-01-10',10,{tr:false}); const sg=stopOf('grad'), w=AT('2030-01-17',20), v=sg?sg(G):null, t=PG.nextStop(G);
-      check('m14. 研究所 2030（畢業以後）：PG.stops 的研究所停點＝1/17 20:00；下一站不晚於它',!!sg&&v===w&&t!=null&&t<=w+1e-6,J({v,t,w})); } });
+    { const G=grad30('2030-01-10',10,{tr:false}); const sg=stopOf('grad'), w=AT('2030-01-17',12), v=sg?sg(G):null, t=PG.nextStop(G);
+      check('m14. 研究所 2030（畢業以後）：PG.stops 的研究所停點＝1/17 12:00；下一站不晚於它',!!sg&&v===w&&t!=null&&t<=w+1e-6,J({v,t,w})); } });
   /* ---------- o 舊存檔 ---------- */
   await sec('o',async()=>{ const on0=STORY.onStudy; STORY.onStudy=()=>{};
     try{ { const G=judgeSave('2029-10-06',10,{tr:{k:2}}); delete G.study; delete PG.rec(G).judge; const S0=JSON.parse(J(G)); H.G=S0; let err=null, o=null, r=null, q=null;
@@ -260,6 +260,11 @@ const SKIPJ=['crim_spec','oblig_gen2','civpro_2','const_2'];   /* 司法官二�
         try{ STUDY.rec(S0); picks=['先讀到這裡']; r=await STUDY.review(GM,'grad'); }catch(e){ err=String(e&&e.stack||e); }
         check('o3. 寒假的舊存檔（沒有 G.study、沒有 flags.PG）做研究所總複習：不報錯、不建 flags.PG、不改 flags',!err&&!!r&&r.kind==='grad'&&!S0.flags.PG&&J(S0.flags)===before,err||''); }
     } finally { STORY.onStudy=on0; } });
+  /* ---------- w BB-C 01:48 第 2 點：寒暑假住家裡（放假模式的 breakRound）的選單也有「考前總複習」（STUDY.homeOpt；研究所 2029-02-03 在寒假）---------- */
+  await sec('w',async()=>{ const G=grad29('2029-01-25',10,{zone:'dorm',flags:{ROOM_Y2:true,ROOM_Y3:1,ROOM_Y4:1}}); const Hm=HOME.rec(G);   /* ROOM_Y2～Y4：搬宿舍房間演過了（不然在家先演拆箱）*/ Hm.at=true; Hm.day=G.day; const B=HOME.lawBreak(G); if(B){ Hm.lbreak=B.key; Hm.brk=B.key; Hm.bskip={key:B.key,n:0,last:-1}; }
+    let menu=null; const seen=[]; const ch=GM.choose; GM.choose=async o=>{ const L=o.map(q=>q.t||q.text); seen.push(L); if(!menu&&L.includes('睡覺')) menu=L; const k=L.indexOf('回宿舍住'); return k>=0?k:0; };
+    try{ await HOME.loop(GM); } finally { GM.choose=ch; }
+    check('w1. 寒假住家裡（2029-01-25，研究所筆試 2/3 的總複習開放中）：放假的選單有「考前總複習」（breakRound 加 STUDY.homeOpt，同週末在家）',!!B&&!!menu&&menu.includes('考前總複習'),J({b:!!B,menu,seen:seen.slice(0,4),at:HOME.at(G),bm:HOME.breakMode(G),z:G.zone,h:G.hour})); });
   /* ---------- q 第 5 點（BB-C 01:32）：司法官二試、研究所筆試也和一試一樣——讀過那張卡的題目前出 cue、交卷逐題回寫觀念卡（不影響計分）---------- */
   await sec('q',async()=>{ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findIndex(x=>String(x.v)===String(q.answer)); return i<k?right:(right===0?1:0); });
     const shownOf=(qs,L)=>qs.map((q,i)=>{ const j=L.indexOf((i+1)+'／'+qs.length+'　'+q.q); return j>0&&L[j-1].startsWith(STUDY.CUE_PREFIX)?L[j-1]:null; });

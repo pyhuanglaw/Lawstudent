@@ -262,16 +262,17 @@ const STUDY=(function(){
   S.GRAD_REMIND=[{k:'open',text:'【研究所】{M}/{D} 筆試。從今天起，坐到書桌或讀書的位子，可以把公法的筆記一次讀過一遍，要四個小時。'},   /* AA_692（企劃線 91874f326）定稿 */
     {k:'week',text:'【研究所】{M}/{D}（{W}）筆試。考前想把公法的筆記讀過一遍，坐到書桌或讀書的位子就可以。'}];   /* AA_692（企劃線 91874f326）照暫定定稿*/
   /* 提醒的兩天：開放那一天（openDay）、考前一週的週日（考前 1～7 天裡的週日）*/
+  S.REMIND_H={open:12,week:20};   /* 提醒幾點（BB-C 01:48）：開放那天 12:00（20:00 收到「從今天起」時總複習已經太晚、灰掉＝當天做不了；三種考試都一樣）、考前一週的週日照舊 20:00（提早一週講）；停點 PG.stops 跟著 r.at */
   S.remindDays=function(examDay,openDay){ if(examDay==null||openDay==null||typeof CALENDAR==='undefined') return null; let sun=null; for(let d=examDay-1;d>=examDay-7;d--) if(CALENDAR.dateOf(d).wd%7===0){ sun=d; break; } return {open:openDay,week:sun}; };
   S.barRemindDays=function(examDay){ if(examDay==null) return null; return S.remindDays(examDay,examDay-((typeof PG!=='undefined'&&PG.BAR_REVIEW_DAYS)||30)); };
   /* 下一則還沒傳的考試提醒（kind bar／judge／grad）：{y,k,day,at,tag,text,kind}｜null（只看玩家要考、還沒考的那一場：S.EXAMS 那一列的 next）。週日那一則在開放那天或更早＝不發 */
-  S.examRemindNext=function(G,kind){ const X=exK(kind); if(!X||!lawStage(G)||typeof PG==='undefined'||typeof PHONE==='undefined'||typeof CALENDAR==='undefined') return null; const nx=X.next(G); if(!nx) return null; const D=S.remindDays(nx.day,X.open(nx)); if(!D) return null;
-    const dt=CALENDAR.dateOf(nx.day), M=dt.m, Dd=dt.d, W='日一二三四五六'[dt.wd%7];
+  S.examRemindNext=function(G,kind){ const X=exK(kind); if(!X||!lawStage(G)||typeof PG==='undefined'||typeof PHONE==='undefined'||typeof CALENDAR==='undefined') return null; const nx=X.next(G); if(!nx) return null; const dd=nx.first!=null?nx.first:nx.day, D=S.remindDays(dd,X.open(nx)); if(!D) return null;   /* 司法官二試照二試第一天（nx.first）算日期、考前一週的週日（BB-C 01:48）*/
+    const dt=CALENDAR.dateOf(dd), M=dt.m, Dd=dt.d, W='日一二三四五六'[dt.wd%7];
     for(const r of X.remind()){ const day=D[r.k]; if(day==null) continue; const tag=X.tag+r.k+'_'+nx.y; if(PHONE.sent(G,tag)) continue; if(r.k==='week'&&day<=D.open) continue;
-      return {y:nx.y,k:r.k,day,at:day*24+20,tag,text:fill(r.text,{M,D:Dd,W}),kind}; }
+      const h=S.REMIND_H[r.k]!=null?S.REMIND_H[r.k]:20; return {y:nx.y,k:r.k,day,h,at:day*24+h,tag,text:fill(r.text,{M,D:Dd,W}),kind}; }
     return null; };
   S.examRemind=function(G,kind){ const r=S.examRemindNext(G,kind); if(!r) return false; const now=G.day*24+(+G.hour||0); if(now<r.at-1e-6) return false;
-    return PHONE.at(G,r.day,20,[{th:'sys',text:r.text}],r.tag); };   /* 那一刻已經過了 15 分鐘以上才跑到的（讀檔、睡過頭、在家／宿舍的快轉）照原本的時間補進去（PHONE.at／PHONE.tick）*/
+    return PHONE.at(G,r.day,r.h,[{th:'sys',text:r.text}],r.tag); };   /* 那一刻已經過了 15 分鐘以上才跑到的（讀檔、睡過頭、在家／宿舍的快轉）照原本的時間補進去（PHONE.at／PHONE.tick）*/
   /* 下一則還沒傳的國考提醒：{y,k,day,at,tag,text}｜null（只看玩家要考、還沒考的那一場：PG.barNext）*/
   S.barRemindNext=G=>S.examRemindNext(G,'bar');
   S.barRemind=G=>S.examRemind(G,'bar');

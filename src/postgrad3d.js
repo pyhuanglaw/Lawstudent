@@ -172,7 +172,7 @@ const PG=(function(){
   S.judgeNext=function(G){ if(!G||!G.flags||!law(G)||typeof CALENDAR==='undefined') return null; const P=G.flags.PG; if(!P||typeof P!=='object') return null;   /* 一試考過才有二試＝一定有 flags.PG */
     const now=NOW(G), done=P.done&&typeof P.done==='object'?P.done:{};
     for(const y of S.EXAM_YEARS){ const K=Y[y], d=K&&K.e2b?S.DK(K.e2b):null; if(d==null) continue; const at=d*24+8.5; if(now>=at||done['e2b_'+y]||G.flags['JUDGE_SCORE2_'+y]!=null) continue;
-      let ok=false; try{ ok=!!S.two(G,y)&&S.stage(G,y)==='both'; }catch(e){ ok=false; } if(ok) return {y,day:d,at,open:Math.max(S.DK(K.r1),d-S.JUDGE_REVIEW_DAYS)}; }
+      let ok=false; try{ ok=!!S.two(G,y)&&S.stage(G,y)==='both'; }catch(e){ ok=false; } if(ok){ const f=K.e2a?S.DK(K.e2a):d; return {y,day:d,at,first:f,open:Math.max(S.DK(K.r1),f-S.JUDGE_REVIEW_DAYS)}; } }   /* first＝二試第一天（提醒的日期、開放、考前一週的週日都從這一天算；BB-C 01:48 照 AA_692 的 {M}/{D}）；day／at＝司法官二試作答（第二天 08:30，總複習不能讀過這個時間）*/
     return null; };
   S.judgeReview=function(G){ const nx=S.judgeNext(G); return nx&&G.day>=nx.open?nx:null; };
   S.GRAD_EXAMS=[{y:2029,key:'2029-02-03',h:9,sits:G=>typeof R2Y4A!=='undefined'&&!!R2Y4A.examOn&&!!R2Y4A.examOn(G),taken:G=>!!(G.events&&G.events.done&&G.events.done.ev_grad_exam)},   /* r2y4a3d.js S.exOn（09:00 教學館）*/
