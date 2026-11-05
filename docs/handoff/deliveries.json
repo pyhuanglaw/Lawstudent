@@ -17356,7 +17356,7 @@
    "what": "SIT-HEIGHT-1104：坐下高度照每個模型的大腿厚度（C.SIT_FIT）、座面抬高統一、階梯教室置物架往上、坐著做事 28 個片段重出（含 F2／M2，取代 npc_f2m2_1104.patch）；README a0ed60fb2",
    "task": "SIT-HEIGHT-1104",
    "integration": "已整合待測試",
-   "note": "LAWWW-C 01:0x 接進 b1ca12646；吃飯片段 71ba5870e 開"
+   "note": "LAWWW-C 00:2x 接進 b1ca12646；吃飯片段 71ba5870e 開"
   },
   {
    "id": "DL-LAWWW2-58d238bdd",
@@ -17369,7 +17369,7 @@
    "what": "CAFE-EDGE-1105：桌緣 0.20 的坐著做事片段（F、M 各 7 個 _E20）、C.SIT_TASK.REFS、sitTaskFit 先試接近的；README 7172533cc",
    "task": "NPC-ANIM-LOOPS-1104",
    "integration": "已整合待測試",
-   "note": "LAWWW-C 02:1x 接進 135a1f247"
+   "note": "LAWWW-C 00:3x 接進 135a1f247"
   }
  ],
  "ignored": [
@@ -22732,7 +22732,7 @@
    "kind": "wip",
    "role": "LAWWW2",
    "branch": "claude/focused-cray-c9uwvw",
-   "reason": "SIT-HEIGHT-1104 WIP 檢查點（C.SIT_FIT、置物架、片段重出；未交件）；交件版 267f3d9a9 已接進 b1ca12646；LAWWW-C 11-05 01:3x 分類（D94）",
+   "reason": "SIT-HEIGHT-1104 WIP 檢查點（C.SIT_FIT、置物架、片段重出；未交件）；交件版 267f3d9a9 已接進 b1ca12646；LAWWW-C 11-05 00:2x 分類（D94）",
    "task": "SIT-HEIGHT-1104"
   }
  ],
