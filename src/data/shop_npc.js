@@ -1,4 +1,4 @@
-/* ===== 新店面裡遇得到有名字的人（AA_705 第一批：大一上；SHOP-NAMED-NPC-1105，USER_WANTS X251）=====
+/* ===== 新店面裡遇得到有名字的人（AA_705 第一批：大一上＋第二批：大一下～大四下、可昕；SHOP-NAMED-NPC-1105，USER_WANTS X251）=====
    使用者 11-05 08:4x（對 LAWWW-C）：「現在店面新增很多 裡面要遇的到NPC喔 可攻略不可攻略的都要」；AA-C 定（D109）。
    企劃：AA_705 @ ebea3a2b0（企劃線 claude/magical-albattani-bk7b4n）；Alison 那一列的「聽一句」照 AA_615 第 4 節 @ ebea3a2b0（遇到她、送爆米花）。
    台詞一字照抄（D137；tests/shop_npc_unit.js 從企劃線 git show 逐字比對）。系統在 src/shopnpc3d.js（SHOPNPC）。
@@ -11,16 +11,24 @@
      place：稿上「在哪」那一格（測試對稿用）；hear：聽一句（{who:人物 id 或 null＝旁白, t:句子}）；
      hearBy：'guitar'＝子晴的偶遇照 AA_619 第 1 節（src/guitar3d.js，已有，不重寫）；'alison'＝AA_615 第 4 節（下面 alison）；
      moved：稿上寫的和實際排的不一樣（芷若：AA_705「給 LAWWW」那一段的規則）。
-   座位、站的位置照各店的配置檔（src/data/*_layout.js）；稿上的位置配置裡沒有一模一樣的點＝取最近的真的座位（見每一列的註解）。*/
+   座位、站的位置照各店的配置檔（src/data/*_layout.js）；稿上的位置配置裡沒有一模一樣的點＝取最近的真的座位（見每一列的註解）。
+   第二批（AA_705 最後一節「第二批」@ 44af68368，AA-C 11-05 09:0x）：
+     terms：這一列在哪幾個學期（沒寫＝大一上～大四下 SHOPNPC.TERMS；第一批每一列「延到大一下～大四下，同一間、同一時段」；子晴同弦照 AA_619 只有大一上）；
+     聽一句只在大一上（SHOPNPC.HEAR_TERMS；每人一次），大一下起照樣在那裡、照一般的「和他說話」；
+     hearLater：{from:學期, hear}＝那一學期起換一句（學姊山嵐：大二起她已經考上研究所＝判決評釋那一句；新的一句，只出一次）；
+     hearAny：這一列的聽一句不限大一上，只出一次（可昕：大一下起才排；柏翰考試週：AA_621）；
+     examOnly：只有考試那兩週（柏翰大口：考試那兩週照 AA_621 第 2 節 02:30～05:00）；
+     notDating／noPlanDay：和她交往中、那一天跟你有約（邀約、校外約會、出遊）＝這一列不出（可昕，AA_705 第二批第 2 節）；src：這一列的稿（沒寫＝AA_705）。*/
 const SHOP_NPC={
-  src:{AA_705:'4e6755340',AA_615:'ebea3a2b0'},   /* AA_705 補一節 f8bd25439（11-05 08:17：兩列換時段、遞一小杯補旁白；表格本身和 ebea3a2b0 一樣）*/
+  src:{AA_705:'44af68368',AA_615:'ebea3a2b0',AA_621:'52e3d83a8'},   /* AA_705 補一節 f8bd25439（11-05 08:17：兩列換時段、遞一小杯補旁白；表格本身和 ebea3a2b0 一樣）→ 4e6755340（青木）→ 44af68368（第二批）；AA_621 第 2 節（柏翰考試週）*/
   rows:[
     /* ---------- 新生南路 ---------- */
     {id:'xs_shanlan_an',shop:'山嵐書店',who:'heroine_01',zone:'xs_shanlan',days:[6],from:19.5,to:20.5,   /* AA_705 補一節（f8bd25439）：原本週日 14:00～15:30 永遠撞到 2:30 AM 念書 → 週六 19:30～20:30 */
      act:'read',pose:'stand',at:[6.0,-0.75,Math.PI/2,0],
       place:'一樓雜誌牆前，站著翻（read）',hear:{who:null,t:'（以安在雜誌牆前面翻一本手帳特刊。翻到一半，拿出自己的手帳對了一下。）'}},   /* 雜誌牆（東牆 x 6.75）、互動點「看雜誌」(6.2, −1.85) 旁邊 1.1 m（導航格站得住的那一格），面向東 */
     {id:'xs_shanlan_sis',shop:'山嵐書店',who:'heroine_05',zone:'xs_shanlan',days:[6],from:10.5,to:12,weeks:'even',act:'read',pose:'floor',at:[6.2,-6,-Math.PI/2,1],
-      place:'二樓法律區，坐地板看書（read）',hear:{who:null,t:'（二樓法律區的走道上，學姊靠著書架坐著，膝蓋上是一本研究所的考古題。她沒有抬頭。）'},sisWeek:true},   /* 配置 floorSit 的法律區 (6.2, −6)；她坐著的時候那個「坐在法律區看書」按鈕藏起來。山嵐 11:00 開門＝11:00～12:00 */
+      place:'二樓法律區，坐地板看書（read）',hear:{who:null,t:'（二樓法律區的走道上，學姊靠著書架坐著，膝蓋上是一本研究所的考古題。她沒有抬頭。）'},sisWeek:true,
+      hearLater:{from:'Y2S1',hear:{who:null,t:'（學姊靠著書架坐著，膝蓋上是一本很厚的判決評釋。她沒有抬頭。）'}}},   /* AA_705 第二批「例外」：大二起她已經考上＝那一列的旁白換這一句（大一下照第 2 點不出；大二起出一次）*/   /* 配置 floorSit 的法律區 (6.2, −6)；她坐著的時候那個「坐在法律區看書」按鈕藏起來。山嵐 11:00 開門＝11:00～12:00 */
     {id:'xs_nanyang_yu',shop:'南洋戲院',who:'yu',zone:'xs_nanyang',days:[5,6],from:18,to:23,dateFrom:'2025-09-26',act:'work',pose:'stand',clerk:true,at:[-4.1,-2.8,Math.PI/2,0],
       place:'大廳爆米花櫃檯（work）',hearBy:'alison'},   /* NY3.CLERK（配置 lobby.interact 的 clerk）；她原本的作息「在南洋戲院打工」（AA_661 第 30 列）＝人在這裡 */
     {id:'xs_dabu_zhe',shop:'大步球鞋',who:'zhe',zone:'xs_dabu',days:[6],from:15.5,to:16.5,act:'wander',pose:'stand',at:[-2.75,0.6,-Math.PI/2,0],
@@ -29,10 +37,12 @@ const SHOP_NPC={
       place:'櫃台前（wander）',hear:{who:'classmate_mingxuan',t:'一筒四百五的那種比較耐打。算下來一顆比較便宜。'}},   /* 櫃台前（配置 npc.visitor (−0.1, 1.4) 就在「買東西」按鈕上，往門口挪 0.8 m）*/
     {id:'xs_xsports_xc',shop:'新生運動廣場',who:'classmate_xinci',zone:'xs_xsports',days:[0],from:16,to:16.5,act:'wander',pose:'stand',at:[1.45,2.5,-Math.PI/2,0],
       place:'一樓水壺那一排（wander）',hear:{who:'classmate_xinci',t:'這個水壺有刻度。我想知道我一天到底喝了多少。'}},   /* 水壺雙面架（items bottle_gondola (0.75, 2.5)）東側，面向架子 */
-    {id:'xs_tongxian_zq',shop:'同弦樂器',who:'heroine_04',zone:'xs_tongxian',days:[6],from:15,to:16,weeks:[6,10,14],act:'買弦',pose:'stand',at:[0.3,-0.1,Math.PI/2,0],
+    {id:'xs_tongxian_zq',shop:'同弦樂器',who:'heroine_04',zone:'xs_tongxian',days:[6],from:15,to:16,weeks:[6,10,14],terms:['Y1S1'],act:'買弦',pose:'stand',at:[0.3,-0.1,Math.PI/2,0],   /* AA_705 第二批「例外」：照 AA_619，只有大一上第 6、10、14 週 */
       place:'櫃台前買弦',hearBy:'guitar'},   /* 「買東西（櫃台）」(0.25, 0.6) 旁邊，面向櫃台；偶遇演完（她拿了一包弦就走）那一天就不在了 */
     {id:'xs_dakou_bh',shop:'大口漢堡',who:'classmate_bohan',zone:'xs_dakou',days:[1,3],from:22+10/60,to:23,noExam:true,act:'read',pose:'seat',seat:[5.05,-5.1,1],
       place:'二樓靠牆有插座那排，讀書（read）',hear:{who:'classmate_bohan',t:'總圖十點關。這裡還可以再讀一個小時。'}},   /* 二樓東牆「坐下讀書（有插座）」那一排的中間 */
+    {id:'xs_dakou_bh_exam',src:'AA_621',shop:'大口漢堡',who:'classmate_bohan',zone:'xs_dakou',days:[0,1,2,3,4,5,6],from:2.5,to:5,examOnly:true,act:'read',pose:'seat',seat:[5.05,-5.1,1],hearAny:true,
+      place:'考試那兩週，兩點半關門後過來',hear:{who:'classmate_bohan',t:'兩點半關了。這裡不會趕人。'}},   /* AA_705 第二批「例外」：柏翰大口「考試那兩週照 AA_621」＝AA_621 第 2 節「柏翰：02:30～05:00（兩點半關門後過來…）」那一句；位子同上面那一列（二樓靠牆有插座那排）；聽一句不限大一上、只出一次 */
     /* ---------- 公館 ---------- */
     {id:'afar_yt',shop:'afar café',who:'heroine_03',zone:'afar',days:[2],from:15,to:17,act:'read',pose:'seat',seat:[-2.5,3.1,0],
       place:'窗邊，筆電寫報告（read）',hear:{who:null,t:'（語彤一個人坐窗邊，筆電旁邊那杯冰紅茶一口都沒喝。）'}},   /* 窗邊吧台（table 6）最西邊那一張 */
@@ -48,7 +58,12 @@ const SHOP_NPC={
       place:'角落那桌，戴耳機開筆電（sit）',hear:{who:null,t:'（子晴戴著耳機，在筆電上畫一張地圖。旁邊的拿鐵已經沒有泡了。）'}},   /* 西牆靠裡面那張兩人桌（table 4）*/
     {id:'wz_offbeat_zr',shop:'日常失速',who:'heroine_02',zone:'wz_offbeat',days:[0],from:14,to:16,act:'read',pose:'seat',seat:[4.55,-3.45,0],
       place:'靠窗那桌，看片單、寫筆記（read）',hear:{who:'heroine_02',t:'我休假的時候，會去別人的店喝咖啡。……看看別人怎麼拉花。'},
-      moved:{days:[2],why:'AA_705「給 LAWWW」：週二不是她的休假（2:30 AM 週一到週五 19:00～22:00 都有班，週二下午在總圖多媒體中心 AA_399）＝改成她沒排班的那一天下午：週日 14:00～16:00（週六下午在溫州街走走、週日下午沒有作息）'}}   /* 東側靠窗那排（table 9）*/
+      moved:{days:[2],why:'AA_705「給 LAWWW」：週二不是她的休假（2:30 AM 週一到週五 19:00～22:00 都有班，週二下午在總圖多媒體中心 AA_399）＝改成她沒排班的那一天下午：週日 14:00～16:00（週六下午在溫州街走走、週日下午沒有作息）'}}   /* 東側靠窗那排（table 9）*/,
+    /* ---------- 第二批：可昕（大一下起；AA_705 第二批第 2 節）---------- */
+    {id:'bookstore_kx',shop:'頁間書屋',who:'kexin',zone:'bookstore',days:[6],from:14,to:15.5,weeks:'even',terms:['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],act:'read',pose:'stand',at:[-4.75,-3.95,Math.PI,0],
+      hearAny:true,notDating:true,noPlanDay:true,
+      place:'法律書那一櫃前面，站著翻（read）',hear:{who:'kexin',t:'你也來這家？……我只是來看有沒有新出的考古題。'}}   /* 北牆書牆西段（「看看法律書與文具」(−4.0, −3.9) 那一櫃）前面、按鈕西邊 0.75 m，面向書牆；路人站的位置 (−2.3, −4.0)、法律系同學找書的 (0.3, −3.95) 都錯開。
+       「她在木柵大學念書，週末才會在公館；和她交往中、或她那一天跟你有約，照約的走，這一列不出」：交往中（G.flags.dating_kexin）、那一天有約（邀約 G.invites、校外約會 G.trips、出遊）＝不出 */
   ],
   /* 照現在、不另外排的（AA_705 表上「照現在」「不另寫」那幾列；測試對稿用）*/
   asIs:[{shop:'公館燒臘',who:'zhe'},{shop:'頁間書屋',who:'classmate_mingxuan'},{shop:'一盞茶屋',who:'heroine_03'},{shop:'SUNNY SIDE',who:'classmate_xinci'},{shop:'SUNNY SIDE',who:'zhe'}],
