@@ -8,7 +8,7 @@
 #  URL : path after http://127.0.0.1:<port>/
 # ===== ★ CC-C 11-05 04:1x：PC 恢復了（使用者：「測試丟回電腦」）——雲端的排程停掉，下面這幾項先跑（照這個順序；跑完照舊往下）=====
 #   ① LIVE_V91020（BB-C 02:30 P1）：v9.10.20 上線 main 40c0abedb，在線上網址跑 deploy_check、TAPPREF、p0（雲端連不到 github.io，只跑了本機複本）
-#   ② 雲端還沒跑完的：D118B7F（193d）、GUITAR（b474）、D118B7（6a15）、D118B5（747d）、NPCTASK（f5c3）、SITHEIGHT＋cafe（ed76）、TONGXIAN_REFCAM（650f）；③ LAWWW2 的 PERF 兩項
+#   ② 雲端還沒跑完的：D118B7F（193d）、GUITAR（b474）、D118B7（6a15）、D118B5（747d）、NPCTASK（f5c3）、SITHEIGHT＋cafe（ed76）、TONGXIAN_REFCAM（650f）；③ LAWWW2 的 PERF 兩項。TONGXIAN_REFCAM 改 07dfffe15（v4f：cc0af7f14 整合 LAWWW2 308b5c025，BB-C 03:35）
 LIVE_V91020_deploy | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.20（2026-11-05）
 LIVE_V91020_tappref | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | probe | docs/story_planning/test_tools/cc/cc_tappref_zone_probe.py | index.html | 30 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
 LIVE_V91020_p0 | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | game | tests/p0_movement.py | index.html | 40 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html
@@ -18,7 +18,7 @@ D118B7_play | 6a1592a26831ce63470b4869aa9c5aa7e5d8628c | probe | docs/story_plan
 D118B5_play | 747dba80dabb454eaf2aaf6f1bee272a271c6ce5 | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 90 | CC_HEADLESS=0
 NPCTASK_f5c3 | f5c38f2bae0b4c4f5e871d7da43dbe1994097847 | probe | docs/story_planning/test_tools/cc/cc_npctask_probe.py | index.html | 60 | CTL=both;LOCS=hall,lib3f,lawlib,soc2f,b1;CC_HEADLESS=0
 SITHEIGHT_ed76 | ed7600ec5315abd070dbc7755ec32b53feef9a99 | probe | docs/story_planning/test_tools/cc/cc_sitheight_probe.py | index.html | 80 | CC_HEADLESS=0
-TONGXIAN_REFCAM | 650fb8c1b028d127e0e01d27339b9c4e48139253 | probe | docs/story_planning/test_tools/cc/cc_tongxian_refcam.py | index.html | 20 | CC_HEADLESS=0
+TONGXIAN_REFCAM | 07dfffe1514d8239bee1fc0f6a815ea054622982 | probe | docs/story_planning/test_tools/cc/cc_tongxian_refcam.py | index.html | 20 | CC_HEADLESS=0
 PERF_WZ_SPLIT | 1344de13d88cccf2f60b2877875d8dbe768a3511 | probe | docs/story_planning/test_tools/cc/perf_split_probe.py | index.html | 30 | ZONES=wenzhou,campus,library_hall;COLD=12;SECS=8;CC_HEADLESS=0
 FPS_WZ_ORDER | 1344de13d88cccf2f60b2877875d8dbe768a3511 | probe | tools/cc_local/fps_zones.py | index.html | 20 | ZONES=wenzhou,library_hall,wancai;SLOTS=night,day,day,rain;CC_HEADLESS=0
 # ===== ★ 以上 =====
