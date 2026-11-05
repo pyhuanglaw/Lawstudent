@@ -14,6 +14,9 @@
 # CC-C 09:4x：V21R_movreg r1 FAIL（B4 以後搖桿都推不動）；雲端 83d 34/42、已上線 v9.10.20 也 37/42（失敗的段落每次不同）＝看起來是這支本來就會隨機失敗。電腦單獨重跑一次確認
 # ===== P0 WINVIEW_rel（BB-C 09:34）：v9.10.21 發布樹 bcb386604＝83d09d13b＋6 張窗景圖；排 V21R 剩下的前面；三樣跑完推截圖給 BB 看 =====
 # ===== P0（BB-C 10:48，v9.10.21 發布樹 aa0f3bcd3）：GO 之前要的；CC-C 16:1x 接班補排（交班時沒排）=====
+# ===== 下一版（BB-C 11-05 10:48，開發線 abf4dbbd5；9c5e6bbbc 已包含在裡面）：CC-C 11-06 07:2x 排 =====
+XSNE_shots | abf4dbbd5abc4e842b5d92d481cfa9a39084166c | probe | docs/story_planning/test_tools/cc/cc_xsne_shots_probe.py | index.html | 40 | CC_HEADLESS=0
+DBK_passerby | abf4dbbd5abc4e842b5d92d481cfa9a39084166c | probe | docs/story_planning/test_tools/cc/cc_v21x_shops_probe.py | index.html | 40 | CC_HEADLESS=0;PARTS=seats;ONLY=daybreak
 AA0F_p0 | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
 AA0F_touch | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
 # [BB-C 16:12 不用了] AA0F_noodle | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | probe | docs/story_planning/test_tools/cc/cc_noodle_eat_probe.py | index.html | 20 | CC_HEADLESS=0
