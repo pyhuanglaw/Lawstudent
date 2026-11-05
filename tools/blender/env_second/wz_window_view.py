@@ -183,12 +183,73 @@ if '--gg-street' in A:
     for sgn in (-1, 1):
         x0, x1 = sorted((sgn * 9, sgn * 79)); _slab('gg_wall', _wm, x0, x1, -46.5, -45.5, 0.0, 1.8); _slab('gg_cap', _cap, x0 - 0.1, x1 + 0.1, -46.6, -45.4, 1.8, 1.94)
     _slab('gg_campus', _pm('gg_campus_lawn', 0x5f6b47, 0.95), -120, 120, -160, -46.5, -0.02, 0.0)
+# --slabs <json：[{x0,x1,z0,z1,y0,y1,col:'#rrggbb',rough?,name?}]>：程式畫的地面、矮牆、候車亭這類方塊（遊戲座標）——XS-WINCARD-1105（新生南路：地面、圍牆是套件畫的）
+if opt('--slabs') and os.path.exists(opt('--slabs')):
+    import json as _js, bmesh as _bm
+    _mc = {}
+    for q in _js.load(open(opt('--slabs'))):
+        key = (q['col'], q.get('rough', 0.88))
+        if key not in _mc:
+            m = bpy.data.materials.new('slab_' + q['col']); m.use_nodes = True; b = m.node_tree.nodes['Principled BSDF']
+            b.inputs['Base Color'].default_value = (*hexcol(int(q['col'].lstrip('#'), 16)), 1); b.inputs['Roughness'].default_value = key[1]; _mc[key] = m
+        bm = _bm.new(); r = _bm.ops.create_cube(bm, size=1.0)
+        for v in r['verts']: v.co = Vector(((q['x1'] if v.co.x > 0 else q['x0']), -(q['z1'] if v.co.y < 0 else q['z0']), (q['y1'] if v.co.z > 0 else q['y0'])))
+        me = bpy.data.meshes.new(q.get('name', 'slab')); bm.to_mesh(me); bm.free(); me.materials.append(_mc[key])
+        ob = bpy.data.objects.new(q.get('name', 'slab'), me); sc.collection.objects.link(ob)
+    print('slabs', len(_js.load(open(opt('--slabs')))), flush=True)
+# --trees <json：[{x,z,sp:'camphor'|'banyan'|'palm',h,ry}]>：照種類種樹（street_trees.glb 的範本 tree_<sp>_a／_b，照 h／h0 縮放）——XS-WINCARD-1105
+#   （以前公館的照片是把整顆 street_trees.glb 放一次＝四種範本疊在一起，椰子和樟樹長在同一個位置）
+if opt('--trees') and os.path.exists(opt('--trees')):
+    import json as _jt
+    from mathutils import Matrix as _Mx
+    _TG = os.path.join(ROOT, 'assets/models/env/second_ai/street_trees.glb'); _TJ = _jt.load(open(_TG[:-4] + '.json'))['models']
+    _bef = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=_TG); _lib = [o for o in bpy.data.objects if o not in _bef]
+    _tpl = {o.name.split('.')[0]: o for o in _lib if o.name.split('.')[0].startswith('tree_')}
+    for o in _lib:
+        if not o.parent: hide_tree(o)
+    def _dup(src, parent=None):
+        o = src.copy(); sc.collection.objects.link(o); o.hide_render = False; o.hide_viewport = False
+        o.parent = parent
+        if parent is not None: o.matrix_parent_inverse = src.matrix_parent_inverse.copy()
+        for c in src.children: _dup(c, o)
+        return o
+    _nt = 0
+    for i, t in enumerate(_jt.load(open(opt('--trees')))):
+        sp = t.get('sp', 'camphor'); cands = [k for k in _tpl if k.startswith('tree_' + sp)] or [k for k in _tpl if k.startswith('tree_camphor')]
+        if not cands: continue
+        k = sorted(cands)[i % len(cands)]; h0 = float(_TJ.get(k[5:], {}).get('h0', 12.0)); sk = float(t.get('h', h0)) / h0
+        r = _dup(_tpl[k]); r.matrix_world = _Mx.Translation(g2b((t['x'], 0, t['z']))) @ _Mx.Rotation(float(t.get('ry', 0)), 4, 'Z') @ _Mx.Scale(sk, 4); _nt += 1
+    print('trees', _nt, flush=True)
+# --lamps <json：[{x,z,ry}]>：路燈（street_props.glb 的 lamp_post＋lamp_post_lens 範本；遊戲 W3.lampPost，燈臂朝 +z，ry＝遊戲的 rotation.y）——XS-WINCARD-1105
+if opt('--lamps') and os.path.exists(opt('--lamps')):
+    import json as _jl
+    from mathutils import Matrix as _Ml
+    _bef = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.join(ROOT, 'assets/models/env/second_ai/street_props.glb')); _lib = [o for o in bpy.data.objects if o not in _bef]
+    _tp = [o for o in _lib if o.name.split('.')[0] in ('lamp_post', 'lamp_post_lens')]
+    for o in _lib:
+        if not o.parent: hide_tree(o)
+    _base = next((o for o in _tp if o.name.split('.')[0] == 'lamp_post'), None)
+    if _base:
+        _inv = _base.matrix_world.inverted(); _nl = 0
+        for t in _jl.load(open(opt('--lamps'))):
+            W_ = _Ml.Translation(g2b((t['x'], 0, t['z']))) @ _Ml.Rotation(float(t.get('ry', 0)), 4, 'Z') @ _inv
+            for src in _tp:
+                o = src.copy(); sc.collection.objects.link(o); o.parent = None; o.hide_render = False; o.hide_viewport = False; o.matrix_world = W_ @ src.matrix_world
+            _nl += 1
+        print('lamps', _nl, flush=True)
 # --ground：一大片地面（校園建築的 GLB 沒有地面；TEACH-PTBOYA-REF-1104 拍普通、博雅用）：--ground '#8f8c84'
 if opt('--ground'):
     gm = bpy.data.materials.new('view_ground'); gm.use_nodes = True; gb_ = gm.node_tree.nodes['Principled BSDF']
     gc_ = int(opt('--ground').lstrip('#'), 16); gb_.inputs['Base Color'].default_value = (*hexcol(gc_), 1); gb_.inputs['Roughness'].default_value = 0.9
     bpy.ops.mesh.primitive_plane_add(size=600, location=(0, 0, -0.01)); pl_ = bpy.context.active_object; pl_.data.materials.append(gm)
 
+# 白天：校園地標的窗玻璃（ck_glass）不發光（遊戲晚上才亮；Blender 裡的發光貼圖一直開著）——XS-WINCARD-1105
+if not NIGHT:
+    for m in bpy.data.materials:
+        if m.name.split('.')[0] == 'ck_glass' and m.use_nodes:
+            for n in m.node_tree.nodes:
+                if n.type == 'BSDF_PRINCIPLED' and 'Emission Strength' in n.inputs: n.inputs['Emission Strength'].default_value = 0.0
+                if n.type == 'EMISSION': n.inputs['Strength'].default_value = 0.0
 # 天空與太陽
 wd = bpy.data.worlds.new('W'); sc.world = wd; wd.use_nodes = True; bg = wd.node_tree.nodes['Background']
 if NIGHT:

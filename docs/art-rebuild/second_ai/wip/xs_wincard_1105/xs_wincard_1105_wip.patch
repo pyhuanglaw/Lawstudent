@@ -1,0 +1,95 @@
+diff --git a/src/dakou3d.js b/src/dakou3d.js
+index 1780e2a98..af0dbfa13 100644
+--- a/src/dakou3d.js
++++ b/src/dakou3d.js
+@@ -95,6 +95,12 @@ const DK3=(function(){
+       const both=new THREE.Group(); both.name='xs_dakou_glb'; const s1=c1.scene.clone(true); both.add(s1); const s2=c2&&c2.scene?c2.scene.clone(true):null; if(s2) both.add(s2);
+       for(const s of [s1,s2]) if(s) s.traverse(o=>{ if(/^NIGHT_/.test(o.name||'')) nightCards.push(o); if(o.name==='WALL_BANDS') o.name='DK_BANDS'; });   /* WALL_BANDS（一樓東西兩面牆的深藍護牆＋橘線，0～1.08 m）：一個網格跨兩面牆、沒有 dir——不放進淡出清單（矮，不擋人）*/
+       Z3.attachRoomGLB(z,g0,fb0,both); if(s2){ g1.attach(s2); fb1.visible=false; }
++      /* XS-WINCARD-1105（LAWWW2-C 11-05）：玻璃外面接視差窗景（照片 assets/models/env/views/xs_dakou*_{day,night}.webp：Blender 用新生南路的正式模型、圍牆後面的望月台與體育館，從窗中間往外拍）。
++         一樓正面、二樓正面（對面是校園）、一樓西側、二樓西側（看新生南路往南那一段）；二樓那兩片放在二樓那一組（剖面視角時跟著藏）。
++         有了視差窗以後 BB 的夜景卡 NIGHT_FRONT／NIGHT_WEST 不再顯示（窗外白天、晚上都是同一套照片）*/
++      if(Z3.shopViewPane){ const P=[[g0,{kind:'xs_dakou',x:0,y:1.6,z:8.3,w:12.4,h:5.84,ry:Math.PI,depth:36}],[g1,{kind:'xs_dakou_2f',x:0,y:5.2,z:8.4,w:12.4,h:3.4,ry:Math.PI,depth:36}],
++          [g0,{kind:'xs_dakou_w',x:-6.3,y:1.6,z:1.8,w:12.8,h:5.84,ry:Math.PI/2,depth:30}],[g1,{kind:'xs_dakou_w2f',x:-6.4,y:5.2,z:0,w:16.4,h:3.4,ry:Math.PI/2,depth:30}]];
++        let n=0; for(const [gr,o] of P) if(Z3.shopViewPane(z,gr,o)) n++; if(n){ for(const o of nightCards) o.visible=false; nightCards.length=0; } }
+       lastNight=null; if(z.applyTime&&typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); else setNight(false); }).catch(e=>console.warn('大口漢堡正式模型載入失敗，用備用模型',e));
+     return z; } };
+ 
+diff --git a/src/xsshop3d.js b/src/xsshop3d.js
+index f7af1317c..63b979ac3 100644
+--- a/src/xsshop3d.js
++++ b/src/xsshop3d.js
+@@ -14,11 +14,13 @@ const XSS=(function(){
+   const SHOPS={
+     dabu:{zone:'xs_dabu',name:'大步球鞋',lay:()=>typeof DABU_LAYOUT!=='undefined'?DABU_LAYOUT:null,glbKey:'bldg.xs_dabu',
+       source:'CC〔帳號 A 的建模子代理〕tools/blender/env_second/bb_support/dabu_interior.py v2b，照使用者的參考圖 dabu_int.webp',floor:'#cfa77a',
+-      extra:[[-2.34,-5.05,2.72,1.9],[-1.5,-3.5,0.2,0.2]]},   /* 隔間牆後面的倉庫（x −3.7～−0.98、z −6～−4.1；配置 partition：模型裡封起來）：本來就進不去，站得住的格子擋起來（不然是走不到的小孤島）；
++      extra:[[-2.34,-5.05,2.72,1.9],[-1.5,-3.5,0.2,0.2]],
++      pane:{kind:'xs_dabu',x:-0.1,y:1.6,z:6.23,w:8.0,h:3.2,ry:Math.PI,depth:36}},   /* XS-WINCARD-1105：正面玻璃（x −3.6～3.4、y 0～2.72、z 5.93）外面 0.3 m 的視差窗；照片 views/xs_dabu_{day,night}.webp＝新生南路對面（圍牆、椰子、體育館）*/   /* 隔間牆後面的倉庫（x −3.7～−0.98、z −6～−4.1；配置 partition：模型裡封起來）：本來就進不去，站得住的格子擋起來（不然是走不到的小孤島）；
+                                         長凳 B 尾端、毛巾桶、鞋拔中間的一個點 (−1.5, −3.5)：站得住、四周都站不住（跑步一步 0.4 m 會跳進去），擋起來 */
+     haopai:{zone:'xs_haopai',name:'好拍運動',lay:()=>typeof HAOPAI_LAYOUT!=='undefined'?HAOPAI_LAYOUT.haopai:null,glbKey:'bldg.xs_haopai',
+       source:'CC〔帳號 A 的建模子代理〕tools/blender/env_second/bb_support/haopai_interior.py v2b，照使用者的參考圖 haopai_int.webp',floor:'#d6c9ae',
+-      extra:[[1.45,-1.05,0.6,0.4]]}   /* 特價桶（x 0.74～1.22）和右牆、後段鐵架中間的縫（x 1.3～1.4、z −0.9）：站得住兩點、出不來（v9.3 #31），擋起來；旁邊走道照舊 */
++      extra:[[1.45,-1.05,0.6,0.4]],
++      pane:{kind:'xs_haopai',x:0,y:1.6,z:7.23,w:4.8,h:3.2,ry:Math.PI,depth:36}}   /* XS-WINCARD-1105：正面玻璃（x ±2.08、y 0～2.57、z 6.93）外面 0.3 m */   /* 特價桶（x 0.74～1.22）和右牆、後段鐵架中間的縫（x 1.3～1.4、z −0.9）：站得住兩點、出不來（v9.3 #31），擋起來；旁邊走道照舊 */
+   };
+   /* 店門：正面（+z）、門的 x 照配置；出口的互動點在門內 0.4 m、半徑 1.0；進來站在門內 1.6 m（在出口範圍外面）、面向店裡 */
+   const exitOf=L=>({x:L.front.door.x,z:+(L.d/2-0.4).toFixed(2),r:1.0});
+@@ -48,7 +50,7 @@ const XSS=(function(){
+     E.interactables.push({x:EX.x,z:EX.z,radius:EX.r,lv:0,label:'離開'+C.name,exit:{to:'xinsheng',spawn:streetOut(id)}});
+     // 正式模型
+     if(typeof ASSETS!=='undefined'&&ASSETS.manifest[C.glbKey]) ASSETS.loadOne(C.glbKey).then(c=>{ if(!c||!c.scene||E.zone!==z) return;
+-      const glb=c.scene.clone(true); Z3.attachRoomGLB(z,g,fb,glb);
++      const glb=c.scene.clone(true); Z3.attachRoomGLB(z,g,fb,glb); if(C.pane&&Z3.shopViewPane) Z3.shopViewPane(z,g,C.pane);
+       if(typeof Z3.glowBatch==='function'){ const gl=[]; glb.traverse(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
+         if(gl.length){ const gm=Z3.glowBatch(E,g,glb,gl,C.zone+'_glows',2.5); if(gm&&gm.material) gm.material.emissiveIntensity=z._lampsOn===false?0:1; glowMeshes.push(gm); } }
+       if(z.applyTime&&typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); }).catch(e=>console.warn(C.name+'正式模型載入失敗，用備用模型',e));
+diff --git a/tests/xs_wincard_1105_unit.js b/tests/xs_wincard_1105_unit.js
+new file mode 100644
+index 000000000..36a8e9c2c
+--- /dev/null
++++ b/tests/xs_wincard_1105_unit.js
+@@ -0,0 +1,43 @@
++// 新生南路大口漢堡、大步球鞋、好拍運動的窗外接上視差窗景（XS-WINCARD-1105，LAWWW2-C 11-05；使用者 07:4x「應該很多店面看出去的街景都不對吧」）——不需要瀏覽器（D131）。
++// 三間的正式模型（BB 大口、CC 大步／好拍）沒有窗景卡：白天玻璃外面是天空，大口晚上是 BB 的夜景卡。在 Node 建出真正的區域、載入正式模型：
++//   ① 視差窗的片數、照片名字對（大口 4 片：一二樓正面、一二樓西側；大步、好拍各 1 片）、照片檔（白天、晚上）都在
++//   ② 每片在玻璃外面、面向店裡、蓋住那一面的玻璃
++//   ③ 視差窗中心＝照片拍的位置（店內座標；照片在新生南路的座標拍：街 x＝立面 −16.5＋(店內 z − d/2)、街 z＝店的中心 − 店內 x）
++//   ④ 在 z.wins、z.winParts，換時段（14:00、21:00）不出錯、照片設進材質；大口的夜景卡 NIGHT_* 不再顯示
++// 修改前（開發分支 56035ba30）：① FAIL。用法：node tests/xs_wincard_1105_unit.js
++const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
++const fs=require('fs'), path=require('path'), vm=require('vm');
++const run=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
++global.innerWidth=844; global.innerHeight=390; global.location={search:''}; global.addEventListener=()=>{}; process.on('unhandledRejection',()=>{});
++const w0=console.warn; console.warn=(...a)=>{ const t=String(a[0]); if(/LOD|Missing|載入失敗/.test(t)) return; w0(...a); };
++for(const f of ['src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/calendar.js','src/data/places.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/lane118_layout.js','src/data/xinsheng_layout.js','src/data/dakou_layout.js','src/data/dabu_layout.js','src/data/haopai_layout.js','src/zones3d.js','src/xinsheng3d.js','src/dakou3d.js','src/xsshop3d.js']) if(fs.existsSync(path.join(ROOT,f))) run(f);
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const sleep=ms=>new Promise(r=>setTimeout(r,ms)); window.ASSET_DATA=window.ASSET_DATA||{};
++for(const k of Object.keys(ASSETS.manifest)) if(/xs_dakou|xs_dabu|xs_haopai/.test(k)){ const u=ASSETS.manifest[k].url; if(fs.existsSync(path.join(ROOT,u))) window.ASSET_DATA[u]=fs.readFileSync(path.join(ROOT,u)).toString('base64'); }
++/* 照片拍的位置（新生南路座標，tools/blender/env_second/wz_window_view.py 的 --eye；docs/art-rebuild/second_ai/wip/xs_wincard_1105/README.md） */
++const EYE={xs_dabu:[-16.27,1.6,-16.6],xs_haopai:[-16.27,1.6,-23.2],xs_dakou:[-16.2,1.6,40.4],xs_dakou_2f:[-16.1,5.2,40.4],xs_dakou_w:[-22.7,1.6,46.7],xs_dakou_w2f:[-24.5,5.2,46.8]};
++const XL=XINSHENG_LAYOUT, FX=XL.facade.x, CZ=id=>{ const q=XL.shops.find(s=>s.id===id); return (q.z0+q.z1)/2; };
++const CASES=[{id:'xs_dakou',shop:'dakou',d:()=>DAKOU_LAYOUT.shop.d,kinds:['xs_dakou','xs_dakou_2f','xs_dakou_w','xs_dakou_w2f']},{id:'xs_dabu',shop:'dabu',d:()=>DABU_LAYOUT.d,kinds:['xs_dabu']},{id:'xs_haopai',shop:'haopai',d:()=>HAOPAI_LAYOUT.haopai.d,kinds:['xs_haopai']}];
++(async()=>{ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++  for(const c of CASES){ global.GAME={G:{zone:c.id,day:30,hour:14,flags:{},money:5000,weather:'clear',visited:{}}}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[];
++    const z=Z3.ZONES[c.id].build(E); E.zone=z; E.scene.add(z.group); await sleep(5000); z.group.updateMatrixWorld(true);
++    const panes=[]; z.group.traverse(o=>{ if(o.isMesh&&/^VIEWPANE_/.test(o.name||'')) panes.push(o); });
++    const kinds=panes.map(p=>p.userData.pview).sort(), files=c.kinds.flatMap(k=>['day','night'].map(t=>path.join(ROOT,'assets/models/env/views/'+k+'_'+t+'.webp')));
++    check('① '+c.id+'：'+c.kinds.length+' 片視差窗、照片名字對、照片檔在',JSON.stringify(kinds)===JSON.stringify(c.kinds.slice().sort())&&files.every(f=>fs.existsSync(f)),kinds.join(',')+'｜缺 '+files.filter(f=>!fs.existsSync(f)).map(f=>path.basename(f)).join(','));
++    if(!panes.length){ fails+=3; E.scene.remove(z.group); continue; }
++    const glass=[]; z.group.traverse(o=>{ if(!o.isMesh||/^VIEWPANE_/.test(o.name||'')) return; const mn=(([].concat(o.material)[0])||{}).name||''; if(/glass/i.test(mn+' '+o.name)&&!/case/i.test(o.name||'')) glass.push(new THREE.Box3().setFromObject(o)); });
++    const bad=[]; for(const p of panes){ const n=new THREE.Vector3(0,0,1).applyQuaternion(p.getWorldQuaternion(new THREE.Quaternion())), pb=new THREE.Box3().setFromObject(p), ctr=p.getWorldPosition(new THREE.Vector3());
++      const out=new THREE.Vector3(-n.x,0,-n.z);   /* 往外＝面向店裡的反方向 */
++      const g=glass.reduce((a,b)=>a.union(b),new THREE.Box3()); const gOut=out.x<-0.5?g.min.x:(out.x>0.5?g.max.x:(out.z>0.5?g.max.z:g.min.z)), pOut=out.x<-0.5?pb.min.x:(out.x>0.5?pb.max.x:(out.z>0.5?pb.min.z:pb.max.z));
++      const beyond=(out.x<-0.5)?pOut<gOut+0.001:(out.x>0.5?pb.min.x>g.max.x-0.001:pb.min.z>g.max.z-0.001);
++      if(!(Math.abs(n.y)<0.01&&beyond)) bad.push(p.userData.pview+' 不在玻璃外面');
++      const e=EYE[p.userData.pview], d=c.d(); const want=[FX+(ctr.z-d/2)*(Math.abs(out.z)>0.5?1:0)+(Math.abs(out.x)>0.5?(-d/2+ctr.z-0)*0:0),0,0];
++      const sx=FX+(ctr.z-d/2), sz=CZ(c.shop)-ctr.x; if(!e||Math.abs(sx-e[0])>0.15||Math.abs(ctr.y-e[1])>0.05||Math.abs(sz-e[2])>0.15) bad.push(p.userData.pview+' 中心 ('+sx.toFixed(2)+','+ctr.y.toFixed(2)+','+sz.toFixed(2)+') ≠ 照片 '+(e||[]).join(',')); }
++    check('②③ '+c.id+'：每片在玻璃外面、面向店裡、中心＝照片拍的位置（±0.15 m）',!bad.length,bad.join('｜')||panes.length+' 片');
++    let ok=true; try{ z.applyTime(14,'clear'); z.applyTime(21,'clear'); }catch(e){ ok=false; console.log(e.stack); }
++    const inW=panes.every(p=>(z.wins||[]).includes(p)&&(z.winParts||[]).some(q=>q.obj===p)), mapped=panes.every(p=>p.material.uniforms&&p.material.uniforms.map.value!=null);
++    let night=0; z.group.traverse(o=>{ if(/^NIGHT_/.test(o.name||'')&&o.visible) night++; });
++    check('④ '+c.id+'：在 z.wins、z.winParts，換時段不出錯、照片設進材質、沒有顯示的夜景卡（21:00）',inW&&ok&&mapped&&night===0,'wins '+inW+' applyTime '+ok+' map '+mapped+' 夜景卡 '+night);
++    E.scene.remove(z.group); }
++  console.warn=w0; console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();
