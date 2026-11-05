@@ -1,6 +1,6 @@
 """CC-C（帳號 C）11-05：新生南路的新店（D141：只擋五種＋營業時間＋給使用者的截圖）——DAKOU_v1、XSSHOP_v1（大步、好拍）、XSPLAZA_v1（新生運動廣場）。
   BB-C 05:13／05:14／05:27／05:32／05:39 派工；版本 9ea82730f（BB-C 05:39 統一）。判定：大口＝LAWWW-C（D132，BB 做的模型）副本 BB-C；大步、好拍、運動廣場＝BB-C（CC v2b／v3c）。
-  SHOP（環境變數）：dakou｜dabu｜haopai｜xsports。期望值的出處：
+  SHOP（環境變數）：dakou｜dabu｜haopai｜xsports｜tongxian。期望值的出處：
     營業時間 src/data/places.js（AA_620 第 1 節：大步 11～22、好拍 12～21 週日休、運動廣場 11～22；AA_621：大口 24 小時）；
     大口的字 AA_697（claude/magical-albattani-bk7b4n 54bf612c3）、AA_621 第 1～3 節（52e3d83a8）——菜單、點餐、取餐、回收、插座、書架、讀書四句、天亮、一個人深夜去；
     大步、好拍、運動廣場的字 AA_620（bf0efded8）：遊戲裡還沒接（xsshop3d.js／xsports3d.js：「台詞 LAWWW 照 AA_620 接」），這一輪只記有哪些按鈕、按了出什麼，不判字。
@@ -31,6 +31,8 @@ CFG = {
              'shots': [(0, None)]},
     'haopai': {'zone': 'xs_haopai', 'name': '好拍運動', 'door': '進好拍運動', 'exit': '離開好拍運動', 'place': 'xs_haopai', 'open': 14.0, 'closed': [('2025-10-15', 11.5), ('2025-10-15', 21.5), ('2025-10-19', 15.0)], 'after': ('2025-10-15', 20.97), 'levels': 1,
                'shots': [(0, None)]},
+    'tongxian': {'zone': 'xs_tongxian', 'name': '同弦樂器', 'door': '進同弦樂器', 'exit': '下樓', 'place': 'xs_tongxian', 'open': 14.0, 'closed': [('2025-10-15', 11.5), ('2025-10-15', 21.75), ('2025-10-13', 15.0)], 'after': ('2025-10-15', 21.47), 'levels': 1,
+                 'shots': [(0, None)]},   # places.js：12:00–21:30、週一休
     'xsports': {'zone': 'xs_xsports', 'name': '新生運動廣場', 'door': '進新生運動廣場', 'exit': '離開新生運動廣場', 'place': 'xs_xsports', 'open': 14.0, 'closed': [('2025-10-15', 10.5), ('2025-10-15', 22.5)], 'after': ('2025-10-15', 21.97), 'levels': 2,
                 'shots': [(0, None), (1, None)]},
 }[SHOP]
