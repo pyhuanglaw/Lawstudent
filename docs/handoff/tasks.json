@@ -47516,7 +47516,7 @@
    "title": "沛珊大一上閒聊 P-L6「每次從台中搭客運上來」改稿",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47538,7 +47538,8 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "src": "UA-LAWWW-1105-27"
+   "src": "UA-LAWWW-1105-27",
+   "sha": "a17515abc"
   },
   {
    "id": "FGO-COUNTER-1105",
