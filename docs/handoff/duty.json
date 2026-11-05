@@ -81,11 +81,12 @@
    "branch": "claude/cc-testing",
    "sha": "41f99365",
    "since": "2026-11-04T12:41Z",
-   "state": "on",
+   "state": "handed-off",
    "progressFile": "docs/story_planning/CC/CC_00_交接紀錄.md（claude/cc-testing）",
    "sinceSha": "4aa1dbb4",
-   "handedOffAt": "2026-11-04T12:3xZ",
-   "handoffSnapshot": "2026-11-04T1219Z_B_CC.json"
+   "handedOffAt": "2026-11-05T11:1xZ",
+   "handoffSnapshot": null,
+   "note": "CC-C 11:1x 只在 CC_00 寫了交班紀錄（41f993657），沒跑 duty handoff、沒存快照；LAWWW-C 11:4x 照交班紀錄手動標 handed-off（異常，HV-20 第①點：下一任 CC 交班一定要跑 duty handoff）"
   }
  },
  "lastHandoff": {
@@ -98,14 +99,17 @@
     "ref": "origin/claude/focused-cray-c9uwvw"
    },
    "AA": {
-    "file": "docs/handoff/snapshots/2026-11-05T1051Z_C_AA.json",
+    "file": "2026-11-05T1051Z_C_AA.json",
     "ref": "origin/claude/magical-albattani-bk7b4n"
    },
    "BB": {
-    "file": "docs/handoff/snapshots/2026-11-05T1050Z_C_BB.json",
+    "file": "2026-11-05T1050Z_C_BB.json",
     "ref": "origin/claude/wonderful-mayer-7fm9g6"
    },
-   "LAWWW": "docs/handoff/snapshots/2026-11-05T1134Z_C_LAWWW.json"
+   "LAWWW": {
+    "file": "2026-11-05T1134Z_C_LAWWW.json",
+    "ref": "origin/claude/adoring-meitner-mqzst8"
+   }
   },
   "closed": true
  },
