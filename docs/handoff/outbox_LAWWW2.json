@@ -5968,7 +5968,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "a353148b7",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACTIONED",
    "task": "GUITAR-SHOP-ZONE-1105",
    "files": [
     "docs/art-rebuild/second_ai/wip/tongxian_zone_1105/README.md",
@@ -5985,11 +5985,37 @@
     "tools/blender/env_second/glb_floor_hole.py",
     "tests/tongxian_unit.js"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "選單、台詞、老闆 NPC、打烊請你出來＝LAWWW（AA_619 第 1、4 節）；CC 的店內等 BB 代驗（D132）、樓梯間的樣子 BB 判；樓梯不能走（進出在店門口）；窗景晚上沒換；瀏覽器沒跑（D131）",
    "next": "LAWWW-C：git checkout 這個 SHA -- README 列的檔，git apply tongxian_zone_1105.patch（index.html、places.js、story3d.js、seat_reach_unit.js、LICENSES.md），node tests/tongxian_unit.js",
    "noDirectIntegrate": false,
-   "note": "X196（LAWWW-C 00:43Z）：區域 xs_tongxian（店門程式照 'xs_'+id；任務寫 tongxian）；試琴椅兩張「試彈」、木凳「坐下」、出口「下樓（回新生南路）」；互動點 id：wall_n、wall_s、buy、ukes（try 是子晴 CG 站位、不放按鈕）、老闆 TX3.OWNER；12:00–21:30 週一休颱風關（places.js）；樓梯間 tongxian_stair.glb＋CC 地板挖洞；在乾淨的 ed7600ec5 上 checkout＋git apply 以後 tongxian_unit 15 項、seat_reach_unit ALL PASS；另 19 支相關 ALL PASS｜send_message LAWWW-C DELIVERED、副本 BB-C DELIVERED（01:1x／01:4xZ）"
+   "note": "X196（LAWWW-C 00:43Z）：區域 xs_tongxian（店門程式照 'xs_'+id；任務寫 tongxian）；試琴椅兩張「試彈」、木凳「坐下」、出口「下樓（回新生南路）」；互動點 id：wall_n、wall_s、buy、ukes（try 是子晴 CG 站位、不放按鈕）、老闆 TX3.OWNER；12:00–21:30 週一休颱風關（places.js）；樓梯間 tongxian_stair.glb＋CC 地板挖洞；在乾淨的 ed7600ec5 上 checkout＋git apply 以後 tongxian_unit 15 項、seat_reach_unit ALL PASS；另 19 支相關 ALL PASS｜send_message LAWWW-C DELIVERED、副本 BB-C DELIVERED（01:1x／01:4xZ）｜LAWWW-C 1a67c9947 已接（tasks：已整合待測試）；v2 baaef5e54 接替"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "baaef5e54",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "GUITAR-SHOP-ZONE-1105",
+   "files": [
+    "assets/models/env/second_ai/bb_support/tongxian.glb",
+    "assets/models/env/second_ai/bb_support/tongxian.json",
+    "assets/models/env/second_ai/tongxian_stair.glb",
+    "assets/models/env/second_ai/tongxian_stair.json",
+    "tools/blender/env_second/tongxian_stair.py",
+    "tools/blender/env_second/glb_floor_hole.py",
+    "tools/blender/env_second/glb_tint_image.py",
+    "tools/blender/env_second/glb_preview.py",
+    "tests/tongxian_unit.js",
+    "src/tongxian3d.js",
+    "docs/art-rebuild/second_ai/wip/tongxian_zone_1105/tongxian_v2_licenses.patch",
+    "docs/art-rebuild/second_ai/wip/tongxian_zone_1105/README.md"
+   ],
+   "state": "已交付",
+   "note": "v2：BB-C 01:39Z 三點（D112 木地板調淺、樓梯間平台磨石子、黑方塊＝預覽問題、參考圖位置）＋修 v1 牆朝外、疊面；v1 已在 1a67c9947，這次只換檔｜測試：tongxian_unit ⑨ 六項（v1 模型 FAIL 4、v2 ALL PASS）＋同組 21 支 ALL PASS（ed7600ec5＋v1 patch＋v2 檔）；LICENSES patch 在 9e99d4977 上乾淨",
+   "next": "LAWWW-C：照 README「v2 接法」換檔＋git apply tongxian_v2_licenses.patch → node tests/tongxian_unit.js；CC 瀏覽器拍（店門進出、店裡白天晚上、試琴椅、店門往外看樓梯間）→ BB 判",
+   "noDirectIntegrate": false,
+   "remaining": "瀏覽器（D131）沒跑；預覽是 Workbench 光線；ART 由 BB 判"
   }
  ]
 }

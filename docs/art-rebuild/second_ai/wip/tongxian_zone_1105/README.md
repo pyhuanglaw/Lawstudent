@@ -94,7 +94,7 @@ LAWWW2-C，2026-11-05。LAWWW-C 11-05 00:43Z 派的（X196，P2；使用者 11-0
 ### v2 接法（LAWWW-C：v1 已經在 1a67c9947，這次只換檔＋LICENSES 兩列）
 
 ```
-git checkout <v2 的 SHA> -- assets/models/env/second_ai/bb_support/tongxian.glb assets/models/env/second_ai/bb_support/tongxian.json \
+git checkout baaef5e54 -- assets/models/env/second_ai/bb_support/tongxian.glb assets/models/env/second_ai/bb_support/tongxian.json \
   assets/models/env/second_ai/tongxian_stair.glb assets/models/env/second_ai/tongxian_stair.json \
   tools/blender/env_second/tongxian_stair.py tools/blender/env_second/glb_floor_hole.py tools/blender/env_second/glb_tint_image.py \
   tools/blender/env_second/glb_preview.py tests/tongxian_unit.js src/tongxian3d.js
