@@ -455,6 +455,8 @@ const CROWD=(function(){
     return k; };
   S.seatBusy=function(E,st,self){ if(!st) return false; if(st.taken) return true; { const G=G0(); if(G&&S.shopRes[G.zone]&&S.shopReserved(G.zone,st,G)) return true; }   /* 預約的位子（shopSeatTake）*/ const near=q=>!!q&&(q.lv|0)===(st.lv|0)&&Math.hypot(q.x-st.x,q.z-st.z)<0.4; const P=E&&E.player; if(P&&near(P.seat)) return true;
     return !!E&&(E.npcs||[]).some(m=>m&&m!==self&&(near(m.seat)||near(m.seatTarget))); };
+  /* 玩家坐著的那一桌（DATE-SEAT-AFAR-1105，使用者 11-05：和學姊在 afar 坐下，四人桌對面有人）：路人不來坐（同一桌＝invites3d.js INV.tableMates：四個位子以內的桌子整桌、長桌 1.8 m 內）*/
+  S.playerTable=function(E,st){ const P=E&&E.player, ps=P&&P.seat; if(!ps||!st) return false; if(typeof INV!=='undefined'&&INV.tableMates) return INV.tableMates(E,ps,st); return (ps.lv|0)===(st.lv|0)&&Math.hypot(ps.x-st.x,ps.z-st.z)<1.8; };
   S.shopFree=E=>((E&&E.zone&&E.zone.seats)||[]).filter(st=>!S.seatBusy(E,st)).length;
   S.shopNeed=E=>E&&E.player&&E.player.seat?1:Math.min(2,Math.max(1,((E&&E.zone&&E.zone.seats)||[]).length-1));   /* 玩家還沒坐：至少兩個空位（自己＋一起來的人；一一八茶飲只有兩張高腳椅＝一個）；坐下了：一個 */
   S.shopCount=(E,zone)=>((E&&E.npcs)||[]).filter(n=>n&&typeof n.crowd==='string'&&n.crowd.indexOf('shop_'+zone+'_')===0&&!n.leaving).length;
@@ -655,7 +657,7 @@ const CROWD=(function(){
   const passD=(GM,slot,p,k,fromDoor)=>(fromDoor?0:Math.max(0,hr(GM.G)-slot.t0)*passMph(GM,p))-k*PASS_GAP;
   function spawnPeople(GM,spot,slot,fromDoor){ const E=GM.E, G=GM.G, lv=spot.lv|0, npcs=[]; const grp=S.group(G,spot,slot,E); const route=slot.pass?S.passRoute(E,spot):null;
     if(spot.shop){ const ns=grp.filter(p=>p.seat).length;   /* 店裡的客人（SHOP-DINERS-1103）：坐下以後空位不夠玩家（S.shopNeed）、或店裡已經 S.SHOP_CAP 位：這一組這一段不來 */
-      if(grp.some(p=>p.seat&&S.seatBusy(E,p.seat))||(ns&&S.shopFree(E)-ns<S.shopNeed(E))||S.shopCount(E,spot.shop)+grp.length>S.SHOP_CAP){ live[spot.id]={slotKey:slot.key,npcs:[]}; return; } }
+      if(grp.some(p=>p.seat&&(S.seatBusy(E,p.seat)||S.playerTable(E,p.seat)))||(ns&&S.shopFree(E)-ns<S.shopNeed(E))||S.shopCount(E,spot.shop)+grp.length>S.SHOP_CAP){ live[spot.id]={slotKey:slot.key,npcs:[]}; return; } }   /* playerTable：玩家坐著的那一桌不來（DATE-SEAT-AFAR-1105）*/
     grp.forEach((p,k)=>{ const st=p.seat||null; let d=0;
       if(p.pass){ if(!route) return; d=passD(GM,slot,p,k,fromDoor); if(d>=route.len) return; }   /* 已經走過去了 */
       else if(st){ if(!S.seatSide(E,st)||S.seatBusy(E,st)) return; }   /* 有人坐了（玩家、劇情的人）不坐上去 */ else if(!p.fixed&&!E.canStand(p.x,p.z,0.3,lv)) return;   /* fixed：照位置放（跑步機上、櫃台後面：導航擋住的地方，人不走動）*/
