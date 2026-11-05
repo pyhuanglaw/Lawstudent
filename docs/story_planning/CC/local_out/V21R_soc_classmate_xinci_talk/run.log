@@ -1,0 +1,130 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_soc_classmate_xinci_talk\out
+CASES=["classmate_xinci"] STEPS=["media", "first", "greet", "up", "ladder", "menu"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
+PASS [classmate_xinci] 遊戲載入
+== 人物 classmate_xinci 芯慈 開始（層 A、可攻略 True、階梯 {}、店內偶遇 [{"spot": "wz_brunch", "join": "friend"}]、自由出行 ["D04", "D02", "D18"]）
+-- [classmate_xinci] media
+SKIP [classmate_xinci] media：只給芷若（library_media）
+-- [classmate_xinci] first
+  [前置／捷徑] [classmate_xinci] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [classmate_xinci] 她在 3D 的時段（前 8 個，照區域排）：[["2025-09-15", 15.5, "library", "看書"], ["2025-09-16", 15.5, "library", "看書"], ["2025-09-17", 15.5, "library", "看書"], ["2025-09-19", 15.5, "library", "看書"], ["2025-09-22", 15.5, "library", "看書"], ["2025-09-23", 15.5, "library", "看書"], ["2025-09-24", 15.5, "library", "看書"], ["2025-09-26", 15.5, "library", "看書"]]
+  [前置／捷徑] [classmate_xinci] 讀檔：first：2025-09-15 15.5 library（看書）（library -1 15.50）
+  [前置／捷徑] [classmate_xinci] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_xinci] 前置：還不認識（STRANGER）：{"stage": "STRANGER", "name": "芯慈", "fm": false, "lad": null, "contact": false}
+  [前置／捷徑] [classmate_xinci] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_xinci] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_xinci] 到達「芯慈 旁邊」附近（0.10 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [classmate_xinci] first：按「和芯慈說話」
+PASS [classmate_xinci] first：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_xinci] first 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_xinci] first：對話一路點得完  0 個選單
+PASS [classmate_xinci] first：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_xinci] first：15 秒內回到可以自由移動
+PASS [classmate_xinci] first：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_xinci] first：沒有新的 JS 例外
+PASS [classmate_xinci] first：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_xinci] first：搖桿推得動（≥0.3 m）  3.27 m
+PASS [classmate_xinci] first：點地走得動（≥0.3 m）  點 [-1.63, -8.46]，走了 0.85 m
+PASS [classmate_xinci] first：遊戲時間有在走  15.6595→15.6799
+PASS [classmate_xinci] first：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_xinci] first：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_xinci] first：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_xinci] first：說完以後還沒顯示名字  {"fm": false, "name": "芯慈", "real": "芯慈"}
+-- [classmate_xinci] greet
+  [前置／捷徑] [classmate_xinci] 讀檔：greet：2025-09-15 15.5 library（看書）（library -1 15.50）
+  [前置／捷徑] [classmate_xinci] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_xinci] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "芯慈", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [classmate_xinci] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_xinci] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_xinci] 到達「芯慈 旁邊」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [classmate_xinci] greet 連按兩次：按「和芯慈說話」（連按兩次，間隔約 200 ms）
+PASS [classmate_xinci] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 0, "busyWho": []}
+FAIL [classmate_xinci] greet 連按兩次：按了以後開始說話  {"interact": "和芯慈說話", "depth": 0, "busy": false, "cap": ""}
+  ---- 卡住摘要 [classmate_xinci] greet 連按兩次_沒反應：截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_soc_classmate_xinci_talk\out\classmate_xinci_03_greet____STUCK.png
+  狀態：{"zone": "library", "key": "2025-09-15", "hour": 15.717, "x": 1.75, "z": -11.06, "name": "", "text": "（她抬頭看到你，點了一下頭。）", "ch": [], "depth": 0, "by": [], "stale": false, "busy": false, "seat": false, "adv": false, "evr": null, "cam": "follow", "fade": false, "phone": false, "menu": false, "paused": false, "interact": "和芯慈說話", "cap": ""}
+  按鈕：["btnPhone:op=1,pe=auto,hide=false,hit=true", "btnMenu:op=1,pe=auto,hide=false,hit=true", "minimap:op=1,pe=auto,hide=false,hit=true", "btnQuick:op=1,pe=auto,hide=false,hit=true", "interact:op=1,pe=auto,hide=false,hit=true", "joy:op=1,pe=auto,hide=false,hit=true"]
+  stuckLog：[]
+  卡住的種類：await 卡住（lastTalkError 沒值、也沒有 JS 例外）；guardTalk 有
+  JS 例外：[]
+  console 最後 30 行：
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    W THREE.WebGLRenderer: Texture marked for update but no image data found.
+    I upgraded character models: 2
+    W unstick → [27.75,27.75]
+    W spawn was inside a blocked cell: campus {"x":30,"z":30,"yaw":0,"lv":0}
+    I upgraded character models: 6
+    I upgraded character models: 1
+    I upgraded character models: 1
+    I upgraded character models: 1
+    I upgraded character models: 2
+    I upgraded character models: 1
+    I upgraded character models: 2
+    I upgraded character models: 2
+-- [classmate_xinci] up
+  [前置／捷徑] [classmate_xinci] 讀檔：up：2025-09-15 15.5 library（看書）（library -1 15.50）
+  [前置／捷徑] [classmate_xinci] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_xinci] 前置：朋友（FRIEND）、門檻台詞還沒說（relUp＝0）：{"stage": "FRIEND", "name": "芯慈", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [classmate_xinci] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_xinci] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_xinci] 到達「芯慈 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [classmate_xinci] up：按「和芯慈說話」
+PASS [classmate_xinci] up：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_xinci] up 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_xinci] up：對話一路點得完  0 個選單
+PASS [classmate_xinci] up：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_xinci] up：15 秒內回到可以自由移動
+PASS [classmate_xinci] up：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_xinci] up：沒有新的 JS 例外
+PASS [classmate_xinci] up：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_xinci] up：搖桿推得動（≥0.3 m）  3.35 m
+PASS [classmate_xinci] up：點地走得動（≥0.3 m）  點 [-1.65, -8.51]，走了 0.92 m
+PASS [classmate_xinci] up：遊戲時間有在走  15.6803→15.7007
+PASS [classmate_xinci] up：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_xinci] up：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_xinci] up：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_xinci] up：門檻台詞 relUp 0→0  
+-- [classmate_xinci] ladder
+SKIP [classmate_xinci] ladder：沒有閒聊階梯資料（走一般閒聊 smallTalk）
+-- [classmate_xinci] menu
+  [前置／捷徑] [classmate_xinci] 讀檔：menu：2025-09-15 15.5 library（看書）（library -1 15.50）
+  [前置／捷徑] [classmate_xinci] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_xinci] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "芯慈", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [classmate_xinci] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_xinci] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_xinci] 到達「芯慈 旁邊」附近（0.11 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [classmate_xinci] menu 基本：按「和芯慈說話」
+PASS [classmate_xinci] menu 基本：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_xinci] menu 基本 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_xinci] menu 基本：對話一路點得完  0 個選單
+PASS [classmate_xinci] menu 基本：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_xinci] menu 基本：15 秒內回到可以自由移動
+PASS [classmate_xinci] menu 基本：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_xinci] menu 基本：沒有新的 JS 例外
+PASS [classmate_xinci] menu 基本：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_xinci] menu 基本：搖桿推得動（≥0.3 m）  3.30 m
+PASS [classmate_xinci] menu 基本：點地走得動（≥0.3 m）  點 [-1.66, -8.47]，走了 0.87 m
+PASS [classmate_xinci] menu 基本：遊戲時間有在走  15.6810→15.7015
+PASS [classmate_xinci] menu 基本：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_xinci] menu 基本：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_xinci] menu 基本：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_xinci] menu：說話以後沒有選單（只有閒聊）  []
+== 人物 classmate_xinci 結果 FAIL（1）：greet 連按兩次：按了以後開始說話
+   用了 3.8 分鐘
+==== 總結：1 人，FAIL 1 人：[["classmate_xinci", ["greet 連按兩次：按了以後開始說話"]]]
+FAILED 1
