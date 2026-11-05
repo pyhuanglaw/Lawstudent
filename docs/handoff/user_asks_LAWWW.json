@@ -3252,6 +3252,15 @@
    "status": "還沒做",
    "wants": "X250",
    "task": "AFAR-VIEW-1105"
+  },
+  {
+   "id": "UA-LAWWW-1105-37",
+   "at": "2026-11-05T08:4xZ",
+   "quote": "現在店面新增很多 裡面要遇的到NPC喔 可攻略不可攻略的都要",
+   "kind": "原話",
+   "status": "還沒做",
+   "wants": "X251",
+   "task": "SHOP-NAMED-NPC-1105"
   }
  ]
 }
