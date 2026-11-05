@@ -47806,7 +47806,7 @@
    "title": "日誌寫那天約了誰、和誰約會",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47818,7 +47818,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW 查日誌資料來源，問 AA 日誌字",
+   "next": "BB 看日誌月曆；AA 可以改「出去玩」「（沒有赴約）」的字",
    "source": "UA-LAWWW-1105-40",
    "authorized": "使用者原話",
    "xai": {
