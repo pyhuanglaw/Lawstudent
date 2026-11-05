@@ -23,6 +23,11 @@ DAY = '2025-10-18'   # 星期六（沒有課拉走人）
 GATE = (-66.0, -99.0)
 OLD = (-120.0, -83.0); OLD_WANT = (-118.25, -80.25)
 FB = "(GAME.walkFallbacks||0)"
+RAY = r"""((pts)=>{ const E=GAME.E, rc=new THREE.Raycaster(), out=[]; for(const [x,y] of pts){ rc.setFromCamera(new THREE.Vector2(x,y),E.camera);
+  const h=rc.intersectObjects(E.scene.children,true).filter(q=>{ for(let o=q.object;o;o=o.parent) if(o.visible===false) return false; return true; })[0];
+  if(!h){ out.push({p:[x,y], hit:null}); continue; } const o=h.object, chain=[]; for(let a=o;a&&chain.length<4;a=a.parent) chain.push(a.name||a.type); const m=[].concat(o.material)[0]||{};
+  out.push({p:[x,y], d:+h.distance.toFixed(1), at:[+h.point.x.toFixed(1),+h.point.y.toFixed(1),+h.point.z.toFixed(1)], chain, mat:m.name||m.type, color:m.color?'#'+m.color.getHexString():null, map:!!m.map, side:m.side, transparent:!!m.transparent, opacity:m.opacity}); }
+  return out; })"""
 
 
 async def goals_from(pg, cdp, tag, here):
@@ -62,6 +67,12 @@ async def main():
                 await D.user_shot(pg, cdp, 'xsgate_path_west_%s' % tn, {'eye': [-44.0, 1.7, -99.4], 'look': [-66.0, 1.6, -99.0], 'lens': 24})
                 await D.user_shot(pg, cdp, 'xsgate_path_west_near_%s' % tn, {'eye': [-55.0, 1.7, -99.6], 'look': [-67.0, 1.8, -99.0], 'lens': 24})
                 await D.user_shot(pg, cdp, 'xsgate_maingate_north_%s' % tn, {'eye': [-110.0, 1.7, -4.0], 'look': [-98.0, 1.4, -86.0], 'lens': 24})   # 校門內側往北（洞洞館 (−104, −30) 擋在中間；左上黑的一塊＝鏡頭旁邊的樹冠，雲端 12cb 看到，給 BB 看）
+                # BB-C 09:07：這張左上一大塊黑的半圓「不像樹冠」——同一個鏡頭從左上幾點打射線，記打到什麼（名字、往上三層、材質顏色、離鏡頭多遠）
+                await pg.set_viewport_size({'width': 1280, 'height': 720}); await pg.wait_for_timeout(500)
+                await pg.evaluate(D.CAM, {'eye': [-110.0, 1.7, -4.0], 'look': [-98.0, 1.4, -86.0], 'lens': 24})
+                hits = await pg.evaluate(RAY, [[-0.9, 0.9], [-0.75, 0.8], [-0.6, 0.9], [-0.85, 0.6], [-0.5, 0.75], [-0.3, 0.95]])
+                await pg.evaluate(D.UNCAM)
+                R.note('[%s] 校門往北那張左上（NDC x,y）射線打到：%s' % (tn, J(hits)))
                 await D.user_shot(pg, cdp, 'xsgate_maingate_north_near_%s' % tn, {'eye': [-116.0, 1.7, -44.0], 'look': [-98.0, 1.4, -86.0], 'lens': 24})   # 走過洞洞館以後往北
                 await D.user_shot(pg, cdp, 'xsgate_slantwall_%s' % tn, {'eye': [-92.0, 1.7, -78.0], 'look': [-95.0, 1.2, -87.5], 'lens': 24})
         if 'back' in PARTS:
