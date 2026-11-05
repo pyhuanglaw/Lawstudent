@@ -48041,6 +48041,36 @@
    },
    "src": "BB-C 08:28 SEATSCAN（山嵐靠窗長椅 6 張擋玩）",
    "sha": ""
+  },
+  {
+   "id": "NOODLE-AP-RADIUS-1105",
+   "title": "seatApproach 判站得住用 0.3、reachability_all 用人物半徑 0.32，兩邊統一",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "BB-C 10:43（aa0f3bcd3 雲端 reach noodle：劇情 5 點有 2 點 0.32 站不住但 simWalk 走得到，不擋發布）：統一半徑（BB 建議 seatApproach 改 0.32，宿舍和其他座位一起看 reachability_all／seat_reach_unit），下一版 P2",
+   "source": "BB_255 SEATSCAN",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "BB_255 08:3x",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "點山嵐靠窗長椅走過去看得到坐靠窗長椅",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "BB-C 08:28 SEATSCAN（山嵐靠窗長椅 6 張擋玩）",
+   "sha": ""
   }
  ]
 }
