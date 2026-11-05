@@ -261,7 +261,7 @@ await sec(7,async()=>{ const a=D('2028-12-26'), d=D('2028-12-28');
 
 /* ---- 8 13-8 新體育館門口 ---- */
 await sec(8,async()=>{ const e8=ev('ev_sis13_pool'), d=D('2029-05-08');
-  fresh(d,8.3,'friend',{},{zone:'campus'}); place(-75,-122.4);   /* XS-GATE-NORTH-1105：體育館搬到北牆邊、門口 (−75, −125)（舊的 (74, 57)）*/ const ran=await tickOnly('ev_sis13_pool');
+  fresh(d,8.3,'friend',{},{zone:'campus'}); place(74,57); const ran=await tickOnly('ev_sis13_pool');
   check('8. 5/8（二）08:18 朋友、走過新體育館門口：演（tick）',ran===true&&has('（新體育館門口。學姊的頭髮還是濕的，手上拿著泳鏡。）')&&has('……早。你這麼早來體育館？'),J(said()));
   fresh(d,8.3,'friend',{},{zone:'campus'}); await runEv('ev_sis13_pool',[1,1]);
   check('8. 「剛好經過。」→「剛好。我要去法圖，同一個方向。」；走到法圖兩句；「會想念研究室嗎？」→「會想念門口那張。…」；法圖門口「（她把泳鏡塞進包包。）」「你要進去嗎？那一起。」；SIS13_POOL',

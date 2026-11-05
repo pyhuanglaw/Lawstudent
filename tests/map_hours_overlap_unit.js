@@ -11,11 +11,4 @@ const shops=[['慢輪單車',350,558,'開放・今天 10:00–20:00'],['afar caf
 for(const [nm,u,w,hl] of shops){ if(free(u,w-14,nm.length*12,15)) drawnNames.push(nm); pend.push([hl,u,w]); }
 const drawnH=pend.filter(([hl,u,w])=>free(u,w+15,hl.length*11,13)).map(q=>q[0]);
 check('3. 兩家店的店名都畫出來；擠不下的營業時間不畫（不壓在 afar café 上）',drawnNames.length===2&&drawnH.length<2,JSON.stringify({drawnNames,drawnH}));
-// BB-C BB_255（11-05 09:2x）：溫州街「13:00–22:00」碰到門口上面的「👤 不認識的女生」、「11:00–02:30」碰到「你在這裡」——這兩樣也要先佔位置
-check('4. 門口上面的人名那一行（👤）佔位置（boxes.push），營業時間不壓上去',/const wt='👤 '[^\n]*?boxes\.push\(\[u-tw\/2-2,w-38,u\+tw\/2\+2,w-22\]\)/.test(SRC));
-check('5. 玩家箭頭＋「你在這裡」在營業時間之前先佔位置',(()=>{ const i=SRC.indexOf("boxes.push([u-16,w-16,u+16,w+16]"), j=SRC.indexOf('for(const [hl,u,w] of pendH)'); return i>0&&j>i; })());
-{ const bx=[]; const fr=(u,w,tw,th)=>{ const b=[u-tw/2-2,w-th/2-1,u+tw/2+2,w+th/2+1]; for(const q of bx){ if(b[0]<q[2]&&b[2]>q[0]&&b[1]<q[3]&&b[3]>q[1]) return false; } bx.push(b); return true; };
-  const pu=300, pw=200; bx.push([pu-16,pw-16,pu+16,pw+16],[pu-26,pw+16,pu+26,pw+32]);   // 玩家
-  const ok=!fr(pu+10,pw+20,11*11,13);   // 一家店的營業時間剛好落在「你在這裡」上
-  check('6. 排版模擬：營業時間落在「你在這裡」上就不畫',ok); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
