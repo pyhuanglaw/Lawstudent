@@ -778,6 +778,16 @@
    "note": "要改 LAWWW 的 classes3d.js（gym 門口）、gym_layout.js（出口落點）、BIKE_RACKS、door3d 的門；體育館館內不動；舊位置留一棟沒有名字的系館",
    "notify": "LAWWW-C",
    "wants": "X257"
+  },
+  {
+   "id": "UA-LAWWW2-1105-07",
+   "at": "2026-11-05T09:3x",
+   "quote": "先將就的：記得放到代辦事項 以免交接後又忘記",
+   "kind": "原話",
+   "status": "已完成",
+   "replaces": "先將就只寫在各包 README 和對話裡 → 收進 docs/art-rebuild/second_ai/TODO_SHORTCUTS.md（HANDOFF.md 接班必讀、佇列第 0 項指過去）；之後每交一包就加上去",
+   "note": "1f38c584c：這一班 17 包",
+   "notify": "LAWWW-C"
   }
  ]
 }
