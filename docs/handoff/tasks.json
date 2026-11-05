@@ -47097,7 +47097,7 @@
    "title": "總圖三樓閱覽室坐著的人都沒在做事（桌上沒擺書、set null）；B1 晚擺（BB-C BB_255 04:1x，NPCTASK_f5c3 FAIL 1）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47109,7 +47109,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "子代理 wt-lib3f 查 S.probe／deskFor／indexStep，加會先 FAIL 的 Node 測試",
+   "next": "【LAWWW-C 11-05 04:4x】已合併（子代理 eecd95c23／2b2f84aae）；BB／CC PC 瀏覽器｜子代理 wt-lib3f 查 S.probe／deskFor／indexStep，加會先 FAIL 的 Node 測試",
    "source": "BB_255 04:1x",
    "authorized": "BB 判要修（D100）"
   },
@@ -47118,7 +47118,7 @@
    "title": "彈吉他移到宿舍房間外層選單（有 OWN_GUITAR 才出現；現在藏在「看看房間裡的東西」裡）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -47130,7 +47130,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "同一個子代理 wt-lib3f",
+   "next": "【LAWWW-C 11-05 04:4x】已合併（子代理 eecd95c23／2b2f84aae）；BB／CC PC 瀏覽器｜同一個子代理 wt-lib3f",
    "source": "BB_255 04:1x",
    "authorized": "BB 決定（D100）"
   }
