@@ -47154,6 +47154,27 @@
    "next": "候選版＝XSPORTS-ACT 合併後的 HEAD（爬梯子 CLIMB-GRIPS-FEET 沒好就不放）→ 全套 Node＋TESTING §5 雲端項 → BB／CC PC 瀏覽器（各店進出坐下、打烊、點地）→ BB GO → 發布樹、PR、Pages、線上驗證",
    "source": "UA-LAWWW-1105-16",
    "authorized": "使用者原話（轉述）"
+  },
+  {
+   "id": "CLOSE-UNIFY-1105",
+   "title": "所有店打烊統一一句「我們今天要打烊了。」→ 走出店門（AA_700；使用者 11-05 06:4x 對 AA-C）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "打烊時在店裡",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "子代理 wt-close：xs_close3d＋gg2shops／ggshops_sys／offbeat／mokuyobi／guitar／118 巷／溫州街各店的 close 照 AA_700 統一；24 小時的店不加",
+   "source": "AA_700（企劃線 4f60052c8）",
+   "authorized": "使用者原話（UA-AA-1105-04）"
   }
  ]
 }
