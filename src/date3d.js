@@ -151,8 +151,9 @@ const DATE=(function(){
     const label=((D().codes||{}).mode||{})[tr.mode]||tr.mode; return {mode:tr.mode,minutes:tr.minutes|0,fare:tr.fare|0,label:String(label).replace(/（.*$/,'')}; };
   /* DRIVE-PICKUP-1105（AA_704 第 2 節 @55a1c5a53，使用者 11-05 08:0x 選「走去新月台停車場取車」）：開車＝先走到望月台停車場（約 5 分鐘）再開；路程寫「走到望月台停車場約 5 分鐘，開車約 X 分鐘」。
      第一步：時間、路程字、第一次取車的旁白（outings3d.js 出發那一下）；第二步（下一班）：真的走到停車場、在車旁邊按「開車出發」、一起去的人約在停車場入口（Z3.XSG.carSpot） */
-  S.CAR_PICK_H=5/60; S.CAR_PICK_TEXT='走到望月台停車場約 5 分鐘，開車約 ';
-  S.travelText=P=>P.transport==='car'?S.CAR_PICK_TEXT+Math.round((P.travelH-S.CAR_PICK_H)*60)+' 分鐘':P.travelLabel+' 約 '+Math.round(P.travelH*60)+' 分鐘';
+  /* 使用者 11-05 11:1x「走去開車不是真的要花時間 主要就是讓玩家真的知道現在是開車」：取車不另外加時間、路程字照原本（AA_704 的「走到望月台停車場約 5 分鐘」那一句不用）；取車旁白、走到停車場照做 */
+  S.CAR_PICK_H=0; S.CAR_PICK_TEXT='';
+  S.travelText=P=>P.travelLabel+' 約 '+Math.round(P.travelH*60)+' 分鐘';
   S.plan=function(G,o){ const locs=(o.locs||[]).filter(Boolean); if(!locs.length||!locs.every(S.isDateLoc)) return {ok:false,why:'地點不在約會地點表'};
     if(!S.HEROINES.includes(o.who)) return {ok:false,why:'對象不對'}; const L0=S.loc(locs[0]); const kind=o.kind&&(L0.kinds||[]).includes(o.kind)?o.kind:(L0.kinds||['half'])[0];
     if(kind==='overnight') return S.planOvernight(G,o,locs); if(!S.STAY[kind]) return {ok:false,why:'這個地點不能這樣約'};
@@ -416,8 +417,8 @@ const DATE=(function(){
       if(two&&pref&&pref!=='car') prefOff=true;
       if(T.length>1){ const to=T.map(x=>{ const tr=S.travel(loc,x.mode); return {t:tr.label+(x.mode===pref?'（她想這樣去）':''),hint:'單程約 '+tr.minutes+' 分、來回 '+tr.fare+' 元'}; });   /* 車資是來回（AA_128 第 70 行）*/ const ti=await GM.choose(to); mode=T[ti].mode; prefOff=!!pref&&mode!==pref; }
       const o={who:id,locs:two?[loc,two]:[loc],transport:mode,kind}; const w=await S.pickWhen(GM,o); if(!w) return null;
-      const P=w.check.plan, ov=P.kind==='overnight', sum=ov?'和'+nameOf(id)+'去'+names+'（兩天一夜）：'+S.dayLabel(G,w.day).trim()+' '+hm(P.depart)+' 出發，'+(P.transport==='car'?S.travelText(P):P.travelLabel+'單程約 '+Math.round(P.travelH*60)+' 分鐘')+'，住一晚，'+S.dayLabel(G,w.day+1).trim()+' 最晚約 '+hm(P.back)+' 回到首都帝大。預計花費 '+w.check.cost+' 元（含住宿 '+P.lodging+' 元）。'
-        :'和'+nameOf(id)+'去'+L.name+'：'+S.dayLabel(G,w.day).trim()+' '+hm(P.depart)+' 出發，'+(P.transport==='car'?S.travelText(P):P.travelLabel+'單程約 '+Math.round(P.travelH*60)+' 分鐘')+'，預計花費 '+w.check.cost+' 元，約 '+hm(P.back)+' 回到首都帝大。';
+      const P=w.check.plan, ov=P.kind==='overnight', sum=ov?'和'+nameOf(id)+'去'+names+'（兩天一夜）：'+S.dayLabel(G,w.day).trim()+' '+hm(P.depart)+' 出發，'+P.travelLabel+'單程約 '+Math.round(P.travelH*60)+' 分鐘，住一晚，'+S.dayLabel(G,w.day+1).trim()+' 最晚約 '+hm(P.back)+' 回到首都帝大。預計花費 '+w.check.cost+' 元（含住宿 '+P.lodging+' 元）。'
+        :'和'+nameOf(id)+'去'+L.name+'：'+S.dayLabel(G,w.day).trim()+' '+hm(P.depart)+' 出發，'+P.travelLabel+'單程約 '+Math.round(P.travelH*60)+' 分鐘，預計花費 '+w.check.cost+' 元，約 '+hm(P.back)+' 回到首都帝大。';
       await GM.say(null,sum+(w.check.warns.length?'（'+w.check.warns.join('；')+'）':'')); const k=await GM.choose([{t:'就這樣約'},{t:'重新選'},{t:'算了'}]); if(k===2) return null; if(k===1) continue;
       if(n&&GM.caption) GM.caption('','（'+(typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].gender==='m'?'他':'她')+'看了一下手機的行事曆，點點頭。）',2000);   /* 和 INV.flow 當面約一樣的動作字幕（AA_134 第 4 節）；她答應的那一句 BB 交了再接 */
       const t=S.book(G,Object.assign(o,{day:w.day,depart:w.depart,kind:w.kind,by:'player'})); if(!t.ok){ await GM.say(null,t.why||'約不成。'); return null; }

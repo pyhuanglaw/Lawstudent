@@ -1,4 +1,4 @@
-// DRIVE-PICKUP-1105 第一步（AA_704 第 2 節 @55a1c5a53；使用者 11-05 08:0x 選「走去新月台停車場取車」）：開車單程多 5 分鐘、路程字、第一次取車旁白。用法：node tests/drive_pickup_unit.js
+// DRIVE-PICKUP-1105 第一步（AA_704 第 2 節 @55a1c5a53；使用者 11-05 08:0x 選「走去新月台停車場取車」、11:1x「走去開車不是真的要花時間」）：不加時間、路程字照原本、第一次取車旁白。用法：node tests/drive_pickup_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -34,8 +34,9 @@ const ADV2=global.ADV; ADV2.active=false;
   check('0. 找得到可以開車也可以搭別的的地點',!!carLoc,String(carLoc));
   const L=DATE.loc(carLoc), car=L.transport.find(x=>x.mode==='car'), other=L.transport.find(x=>x.mode!=='car');
   const Pc=DATE.plan(G,{who:'heroine_03',locs:[carLoc],transport:'car',day:Dd+1,depart:10}), Po=DATE.plan(G,{who:'heroine_03',locs:[carLoc],transport:other.mode,day:Dd+1,depart:10});
-  check('1. 開車：單程多 5 分鐘（先走到望月台停車場取車，AA_704 第 2 節）；別的交通照舊',Pc.ok&&Math.abs(Pc.travelH-(car.minutes/60+5/60))<1e-9&&Po.ok&&Math.abs(Po.travelH-other.minutes/60)<1e-9,JSON.stringify([Pc.travelH,car.minutes,Po.travelH,other.minutes]));
-  check('2. 開車的路程字：「走到望月台停車場約 5 分鐘，開車約 X 分鐘」（X＝原本的車程）',DATE.travelText(Pc)==='走到望月台停車場約 5 分鐘，開車約 '+car.minutes+' 分鐘'&&/約 \d+ 分鐘$/.test(DATE.travelText(Po))&&!/望月台/.test(DATE.travelText(Po)),DATE.travelText(Pc));
+  /* 使用者 11-05 11:1x「走去開車不是真的要花時間 主要就是讓玩家真的知道現在是開車」：取車不另外加時間、路程字照原本 */
+  check('1. 開車：不另外加取車時間（單程＝原本的車程）；別的交通照舊',Pc.ok&&Math.abs(Pc.travelH-car.minutes/60)<1e-9&&Po.ok&&Math.abs(Po.travelH-other.minutes/60)<1e-9&&DATE.CAR_PICK_H===0,JSON.stringify([Pc.travelH,car.minutes,Po.travelH,other.minutes]));
+  check('2. 路程字照原本（不寫「走到望月台停車場約 5 分鐘」）',!/望月台/.test(DATE.travelText(Pc))&&/約 \d+ 分鐘$/.test(DATE.travelText(Pc)),DATE.travelText(Pc));
   const SRC=fs.readFileSync(path.join(ROOT,'src/outings3d.js'),'utf8'), doc=require('child_process').spawnSync('git',['-C',ROOT,'show','55a1c5a53:docs/story_planning/AA_704_望月台與停車場取車.md']).stdout.toString();
   check('3. 取車旁白照 AA_704 原句（git show 55a1c5a53），第一次開車出發演一次（DRIVE_PICKUP_SEEN）',!!doc&&doc.includes(OUT.CAR_PICKUP_LINE)&&/q\.car&&G\.flags&&!G\.flags\.DRIVE_PICKUP_SEEN/.test(SRC),OUT.CAR_PICKUP_LINE);
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

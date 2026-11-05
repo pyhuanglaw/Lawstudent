@@ -47619,7 +47619,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "第一步在開發線（LAWWW-C 11-05 11:0x，AA_704 第 2 節 @55a1c5a53）：校外約會開車單程多 5 分鐘（DATE.CAR_PICK_H）、路程字「走到望月台停車場約 5 分鐘，開車約 X 分鐘」（DATE.travelText，預約摘要與出遊字卡）、第一次開車出發演取車旁白（OUT.CAR_PICKUP_LINE，G.flags.DRIVE_PICKUP_SEEN）；tests/drive_pickup_unit.js。第二步（下一班）：真的走到停車場（Z3.XSG.carSpot／.stand）、車旁邊按「開車出發」、一起去的人約在停車場入口、回程停回停車場；fest3d.js、an_yt_hol3d.js 的 S.drive 也要加 pick。",
+   "next": "使用者 11:1x「走去開車不是真的要花時間 主要就是讓玩家真的知道現在是開車」：取車不加時間、路程字照原本（AA_704 那一句不用，下一班 AA 看要不要改稿）；第一步只剩第一次開車出發的取車旁白（OUT.CAR_PICKUP_LINE）；寒暑假從家出發不受影響（UA-LAWWW-1105-45）。第二步（走到停車場、按「開車出發」、同行的人在入口）子代理在 /home/user/wt-drive2 做；沒做完看 wip_backup/drive2/。",
    "source": "UA-LAWWW-1105-31",
    "authorized": "使用者原話",
    "xai": {
