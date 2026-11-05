@@ -47020,7 +47020,7 @@
    "title": "使用者電腦不能用時，功能類瀏覽器測試丟 GitHub 免費機器（D139；使用者 11-05 03:4x 對 BB-C 選「要，電腦不能用時丟 GitHub（建議）」）",
    "area": "TEST",
    "owner": "CC",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "META",
@@ -47032,7 +47032,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "CC-C 在 claude/cc-testing 建 .github/workflows/browser-sweep.yml（佇列 tools/gha_browser/queue.txt、一項一個 job），結果推 claude/gha-results 的 docs/story_planning/CC/gha_out/<ID>/；先跑已知結果兩項驗 workflow；第一批 LIVE_V91020（PC 03:4x 已恢復、LIVE 已在 PC PASS，第一批改成驗 workflow 用）；判定 BB",
+   "next": "【LAWWW-C 11-05 04:1x】BB-C：workflow 驗證 PASS（GitHub Actions run 41964112876）；電腦正常時不排｜CC-C 在 claude/cc-testing 建 .github/workflows/browser-sweep.yml（佇列 tools/gha_browser/queue.txt、一項一個 job），結果推 claude/gha-results 的 docs/story_planning/CC/gha_out/<ID>/；先跑已知結果兩項驗 workflow；第一批 LIVE_V91020（PC 03:4x 已恢復、LIVE 已在 PC PASS，第一批改成驗 workflow 用）；判定 BB",
    "source": "BB_257 T7（企劃線 1084baf6a）",
    "authorized": "使用者選擇題（UA-BB-1105-GHA-BROWSER）",
    "xai": {
@@ -47091,6 +47091,48 @@
    "next": "LAWWW2-C cee7c6973 docs/art-rebuild/second_ai/RULES_2D_TO_3D.md（七步流程、工具表 15 列、坑 10 條）；LAWWW-C 帶進開發分支、套 ART_DIRECTION 12.8 一行、CLAUDE.md MANDATORY 第 2 點指過去；有新方法 LAWWW2 加工具表一列",
    "source": "UA-LAWWW2-1105-01",
    "authorized": "使用者原話"
+  },
+  {
+   "id": "NPCTASK-LIB3F-1105",
+   "title": "總圖三樓閱覽室坐著的人都沒在做事（桌上沒擺書、set null）；B1 晚擺（BB-C BB_255 04:1x，NPCTASK_f5c3 FAIL 1）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "總圖三樓閱覽室",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "子代理 wt-lib3f 查 S.probe／deskFor／indexStep，加會先 FAIL 的 Node 測試",
+   "source": "BB_255 04:1x",
+   "authorized": "BB 判要修（D100）"
+  },
+  {
+   "id": "GUITAR-OUTER-MENU-1105",
+   "title": "彈吉他移到宿舍房間外層選單（有 OWN_GUITAR 才出現；現在藏在「看看房間裡的東西」裡）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 5,
+    "earliest": "買了吉他以後回宿舍",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "同一個子代理 wt-lib3f",
+   "source": "BB_255 04:1x",
+   "authorized": "BB 決定（D100）"
   }
  ]
 }
