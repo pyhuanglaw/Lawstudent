@@ -1,7 +1,7 @@
 // AA_619 同弦樂器（吉他店）、加入吉他社要買吉他、吉他社社遊（企劃線 bf0efded8，AA-C 定稿 D109；任務 AA619-GUITAR-1104，src/guitar3d.js）——不需要瀏覽器。
 //   0  接線：src/guitar3d.js 載得到、index.html 接在 GAME.boot() 前面；白名單 AA_619@bf0efded8 approved；classes3d.js 有 CLS.CLUB_IN；存檔預設 guitar:{items:{}}；GUITAR.rec 補／重設
 //   0a 逐字對 AA_619@bf0efded8（git show，原稿）：S.L、2-1／偶遇／2-3 的對話、四個事件的每一句台詞和選項都在稿上；營業時間、價錢、九折、社遊的錢、偶遇的週次、老闆三句、
-//      2-1 的旁白、2-4 兩句、宿舍兩句、報名表那一句從稿上抓出來比對
+//      2-1 的旁白、2-4 兩句、宿舍兩句、報名表那一句從稿上抓出來比對；兩張 CG 的名稱、HEARD_HER_SONG 的面板名稱（暫用稿上那張 CG 的名稱）
 //   1  營業：週二～週日 12:00～21:30、週一公休、颱風天（2027-10-13 週三）關；名稱「同弦樂器」；店門（exit.to＝xs_tongxian）營業時間外擋下來、寫開放時間；店裡的互動關門時寫開放時間
 //   2  店裡：看看、試彈（去過社課才有）的旁白；買東西＝老闆一句（三句輪流、一次進店一句）＋選單（價錢、九折、小字、不用了）；買吉他扣錢、OWN_GUITAR、琴袋、調音那一句、時間 +0.15、
 //      同一款不再列；錢不夠＝「錢不夠」不扣錢；小東西記數量、「買了○○」
@@ -24,7 +24,7 @@
 //  13  經濟系那一年：店、偶遇、2-1、社遊、房間都沒有
 // 原稿用 git show bf0efded8 讀，不經 tests/alison.js（那支的換字表不改 AA_619 本身、只會在後面接別的稿；這裡要逐字比的是原稿）。
 // 修改前（開發分支 ed7600ec5，暫時的 detached worktree 實跑）：沒有 src/guitar3d.js、index.html 沒接、白名單沒有 AA_619、沒有 CLS.CLUB_IN、存檔預設沒有 guitar、places.js 沒有同弦、
-//   ev_ziqing_secret_game 沒有那一句＝FAILED 33（0、0a～13 每一節都失敗或中斷；「不演」那幾項本來就成立的照樣 PASS）。修改後 117 項 ALL PASS。
+//   ev_ziqing_secret_game 沒有那一句＝FAILED 33（0、0a～13 每一節都失敗或中斷；「不演」那幾項本來就成立的照樣 PASS）。修改後 118 項 ALL PASS。
 // 用法：node tests/aa619_guitar_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -90,6 +90,8 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     check('0a-7. 營業 12:00～21:30、週一休；社遊 2,500（兩千五）、一日 600；偶遇第 6、10、14 週',/\*\*營業\*\*：12:00～21:30，週一休/.test(DOC)&&/錢：2,500 從玩家的錢扣/.test(DOC)&&/錢：一日 600/.test(DOC)&&/第 6、10、14 週/.test(DOC)&&S.TRIPS.y1s1.cost===2500&&S.TRIPS.y1s2.cost===600&&J(S.ENC_WEEKS)==='[6,10,14]'&&PLACES.hours.xs_tongxian.rules.week[1]===null&&J(PLACES.hours.xs_tongxian.rules.week[2])==='[12,21.5]');
     const post=(/群組貼報名表：「([^」]+)」/.exec(DOC)||[])[1], yms=(/社長學長：「(這學期社遊[^」]+)」/.exec(DOC)||[])[1];
     check('0a-8. 宜蘭報名表、陽明山社長學長那一句照稿',S.L.yilanPost===post&&S.L.ymsPost===yms,J([post,yms]));
+    const cg=[...DOC.matchAll(/CG：「([^」]+)」/g)].map(m=>m[1]);
+    check('0a-9. 兩張 CG（「同弦的試琴椅」「宜蘭民宿頂樓，子晴抱著吉他」）有登錄點；子晴的記憶 HEARD_HER_SONG 的面板名稱暫用稿上那張 CG 的名稱（一字照抄，稿上沒有面板名稱）',J(cg)===J(['同弦的試琴椅','宜蘭民宿頂樓，子晴抱著吉他'])&&S.CG.trial==='cg_tongxian_trial_heroine04'&&S.CG.roof==='cg_yilan_roof_heroine04'&&SOCIAL.MEMORY_LABEL.HEARD_HER_SONG===cg[1],J([cg,SOCIAL.MEMORY_LABEL.HEARD_HER_SONG]));
   });
   // ---------- 1 營業 ----------
   await sec(1,async()=>{ const S=X(), tue=TD('Y1S1',6,2), mon=TD('Y1S1',6,1)+7, sun=TD('Y1S1',6,7), ty=STORY.dayOfKey('2027-10-13');

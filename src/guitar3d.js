@@ -35,7 +35,8 @@
      3-3 和子晴交往中：頂樓最後一句換「……你明天坐我旁邊。」；在和別人交往的照樣去、照演。兩場的那段時間子晴的作息是「吉他社社遊」（STORY.SCHED_X），校園、公館遇不到她。
    存檔：G.guitar＝{items:{entry,solid:買的那天, strings,pick,capo,case:數量}, tuned:調音那天, boss:老闆說過幾句, bossN:說過的那一次進店, c21:第一次社課那天（'own'）,
          enc:偶遇那天, narrX:{學期:有琴那句那天}, loanDay:第三弦那句那天, dorm:彈過幾次, trip:{y1s1,y1s2:'yes'|'no'|'poor'}}——舊存檔沒有＝game3d.js defaults 補 {items:{}}、S.rec 重設壞掉的欄位；
-         旗標 OWN_GUITAR、GUITAR_SHOP_WITH_ZQ、BORROWED_ZQ_GUITAR、ZQ_ROOFTOP_TUNE；子晴的記憶 HEARD_HER_SONG（大一下「她在做的東西」ev_ziqing_secret_game 開頭一句，src/data/events.js）。
+         旗標 OWN_GUITAR、GUITAR_SHOP_WITH_ZQ、BORROWED_ZQ_GUITAR、ZQ_ROOFTOP_TUNE；子晴的記憶 HEARD_HER_SONG（大一下「她在做的東西」ev_ziqing_secret_game 開頭一句，src/data/events.js；
+         人物面板的名稱稿上沒有，src/social3d.js 暫用稿上那張 CG 的名稱「宜蘭民宿頂樓，子晴抱著吉他」，等 AA 定）。
    測試：node tests/aa619_guitar_unit.js */
 'use strict';
 const GUITAR=(function(){
