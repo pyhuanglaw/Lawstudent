@@ -14,7 +14,7 @@
    - 約人：src/data/invites.js 的地點 offbeat（吃飯；見面照邀約一般的旁白——AA_618 沒有寫）。說話照一般音量（不加小聲）。
    - 店員站在吧檯裡面（STORY.populate；路人底模，不說話）。
    存檔：G.offbeat＝{n:來過幾次, first, catDay, pet:上一次摸摸那句, gos:{t:學期, n:這學期幾句, k:下一句, day}, enc:{人物:那天}, look:{種類:上一句}, game:第幾款, gameEnd, chatDay, chatK}；舊存檔沒有＝game3d.js defaults 補 {n:0}，壞掉的欄位 S.rec 重設。
-   看公告板、看社團佈告欄、看桌遊櫃、玩桌遊、冰拿鐵、01:00 打烊、找店員聊天、約去答應、阿哲「練完好餓」的選項：AA_648 第 3 節（企劃線 1ebf7a590）。
+   看公告板、看社團佈告欄、看桌遊櫃、玩桌遊、冰拿鐵、01:00 打烊（那一句改照 AA_700：XSCLOSE）、找店員聊天、約去答應、阿哲「練完好餓」的選項：AA_648 第 3 節（企劃線 1ebf7a590）。
    測試：node tests/offbeat_aa618_unit.js */
 'use strict';
 const OFFB=(function(){
