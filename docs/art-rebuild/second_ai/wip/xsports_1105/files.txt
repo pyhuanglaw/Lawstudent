@@ -1,0 +1,14 @@
+src/xsports3d.js
+tests/xsports_unit.js
+src/data/xinsheng_sports_layout.js
+assets/models/env/second_ai/bb_support/xinsheng_sports.glb
+assets/models/env/second_ai/bb_support/xinsheng_sports.json
+tools/blender/env_second/bb_support/xinsheng_sports_interior.py
+tools/blender/env_second/bb_support/xinsheng_tex.py
+tools/blender/env_second/bb_support/xinsheng_render.py
+tools/blender/env_second/textures/gen/xs_alpha.png
+tools/blender/env_second/textures/gen/xs_atlas.json
+tools/blender/env_second/textures/gen/xs_emit.png
+tools/blender/env_second/textures/gen/xs_floor.png
+tools/blender/env_second/textures/gen/xs_goods.png
+tools/blender/env_second/textures/gen/xs_sign.png
