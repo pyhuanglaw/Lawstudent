@@ -1,0 +1,535 @@
+{
+ "pid": "heroine_01",
+ "tag": "date 當面約",
+ "rec0": {
+  "day": -1,
+  "hour": 12.1102,
+  "t": -11.8898,
+  "money": 30000,
+  "rel": {
+   "fam": 52,
+   "trust": 35,
+   "comf": 28,
+   "aff": 0,
+   "rom": 35,
+   "npcRom": 35
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "library",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": -1,
+  "hour": 15.2646,
+  "t": -8.7354,
+  "money": 29690,
+  "rel": {
+   "fam": 54,
+   "trust": 37,
+   "comf": 35,
+   "aff": 0,
+   "rom": 39,
+   "npcRom": 41
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "library"
+ },
+ "hours": 3.154399999999999,
+ "say": [
+  {
+   "n": "",
+   "c": null,
+   "t": "（華山1914文創園區。）",
+   "h": 13.417,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "老酒廠改的。我查過了。",
+   "h": 13.417,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "我排的是兩點到，五點走。今天可以不照。",
+   "h": 13.417,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "（她在作品前站很久，然後看說明）我先猜，再看答案。",
+   "h": 13.417,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "這次猜錯了。藝術家比我想的生氣。",
+   "h": 13.417,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "我猜是在講等待。他說是在講被打斷。",
+   "h": 13.417,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "（她看了三個攤位，什麼都沒拿）每一個都想要，就是都不需要。",
+   "h": 13.917,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "你這個論點，我要想一下。（她買了一枝筆）",
+   "h": 13.917,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "（她坐下，背很直）坐在草地上，要怎麼放鬆？",
+   "h": 14.25,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "我在問真的。",
+   "h": 14.25,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "（她往後靠了一點）這樣？好。",
+   "h": 14.25,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "……今天差不多了。明天早上有課。",
+   "h": 14.583,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "紅磚牆。大家都在拍。",
+   "h": 14.583,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "好，拍一張。我站這裡，你拍。",
+   "h": 14.583,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "我有笑。你看不出來是你的問題。",
+   "h": 14.583,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "比我想的好玩。",
+   "h": 14.833,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "沈以安",
+   "c": "heroine_01",
+   "t": "下次還要來。",
+   "h": 14.833,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）",
+   "h": 14.833,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "",
+   "text": "（華山1914文創園區。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "老酒廠改的。我查過了。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "我排的是兩點到，五點走。今天可以不照。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（她在作品前站很久，然後看說明）我先猜，再看答案。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "這次猜錯了。藝術家比我想的生氣。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "我猜是在講等待。他說是在講被打斷。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（她看了三個攤位，什麼都沒拿）每一個都想要，就是都不",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "你這個論點，我要想一下。（她買了一枝筆）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（她坐下，背很直）坐在草地上，要怎麼放鬆？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "我在問真的。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "（她往後靠了一點）這樣？好。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "……今天差不多了。明天早上有課。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "紅磚牆。大家都在拍。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "好，拍一張。我站這裡，你拍。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "我有笑。你看不出來是你的問題。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "比我想的好玩。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "沈以安",
+   "text": "下次還要來。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（今天去了華山1914文創園區：老倉庫裡的",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": null
+}
