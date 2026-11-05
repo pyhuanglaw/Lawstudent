@@ -7,7 +7,8 @@
     4 點地：南洋 1 廳（NANYANG 探針裡）、體育館看台、TAPSCAN（一盞下沉地板優先）
     5 林家 v1c（點椅子）＋日和牆淡出（WZLIN 探針）、男一舍牆縫、彈吉他外層
     6 流程：D118B7、D118B5（aunt、sats…全部）、GUITAR_play
-    7 總圖三樓 NPCTASK（P3，不擋）"""
+    7 總圖三樓 NPCTASK（P3，不擋；BB-C 08:05 改過：why、畫面外先轉鏡頭，只記不擋）
+    8 12cb1426c 那一批（BB-C 08:05）：XS_GATE 側門、V12CB（afar 窗景、快速前往兩層、起床站門口、日誌寫約會、大地圖營業時間、直接過去不進吧台）、退宿列表"""
 import os, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -56,6 +57,11 @@ def lines(sha):
             'V21R_guitar_play | %s | probe | %scc_guitar_x196_play.py | index.html | 90 | CC_HEADLESS=0' % (sha, P)]
     # 7 P3
     out += ['V21R_npctask | %s | probe | %scc_npctask_probe.py | index.html | 60 | CTL=both;LOCS=hall,lib3f,lawlib,soc2f,b1;CC_HEADLESS=0' % (sha, P),
+    ]
+    # 8 12cb1426c 那一批（BB-C 08:05：12cb 先跑、V21R 再跑一次）
+    out += ['V21R_xsgate | %s | probe | %scc_xs_gate_probe.py | index.html | 40 | CC_HEADLESS=0' % (sha, P),
+            'V21R_v12cb | %s | probe | %scc_v12cb_probe.py | index.html | 40 | CC_HEADLESS=0' % (sha, P),
+            'V21R_moveout | %s | probe | %scc_dorm_moveout_probe.py | index.html | 20 | CC_HEADLESS=0' % (sha, P),
             '# ===== V21R 結束 =====']
     return out
 

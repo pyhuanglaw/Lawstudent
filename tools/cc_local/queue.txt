@@ -9,6 +9,10 @@
 # ===== ★ CC-C 11-05 04:1x：PC 恢復了（使用者：「測試丟回電腦」）——雲端的排程停掉，下面這幾項先跑（照這個順序；跑完照舊往下）=====
 #   ① LIVE_V91020（BB-C 02:30 P1）：v9.10.20 上線 main 40c0abedb，在線上網址跑 deploy_check、TAPPREF、p0（雲端連不到 github.io，只跑了本機複本）
 #   ② 雲端還沒跑完的：D118B7F（193d）、GUITAR（b474）、D118B7（6a15）、D118B5（747d）、NPCTASK（f5c3）、SITHEIGHT＋cafe（ed76）、TONGXIAN_REFCAM（650f）；③ LAWWW2 的 PERF 兩項。TONGXIAN_REFCAM 改 07dfffe15（v4f：cc0af7f14 整合 LAWWW2 308b5c025，BB-C 03:35）
+# ===== ★ CC-C 11-05 BB-C 08:05：12cb1426c 新的一批先跑（側門、afar 窗景、快速前往兩層截圖、起床站門口、日誌寫約會、大地圖營業時間、直接過去不進吧台；退宿列表改兩層）。雲端 SwiftShader 都 ALL PASS；V21R 拿到最終 SHA 再跑一次 =====
+12CB_xsgate | 12cb1426c4ddffaa2f4e1521179fe9c4ef107051 | probe | docs/story_planning/test_tools/cc/cc_xs_gate_probe.py | index.html | 40 | CC_HEADLESS=0
+12CB_v12cb | 12cb1426c4ddffaa2f4e1521179fe9c4ef107051 | probe | docs/story_planning/test_tools/cc/cc_v12cb_probe.py | index.html | 40 | CC_HEADLESS=0
+12CB_moveout | 12cb1426c4ddffaa2f4e1521179fe9c4ef107051 | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 20 | CC_HEADLESS=0
 LIVE_V91020_deploy | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.20（2026-11-05）
 LIVE_V91020_tappref | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | probe | docs/story_planning/test_tools/cc/cc_tappref_zone_probe.py | index.html | 30 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
 LIVE_V91020_p0 | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | game | tests/p0_movement.py | index.html | 40 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html
