@@ -47133,6 +47133,27 @@
    "next": "【LAWWW-C 11-05 04:4x】已合併（子代理 eecd95c23／2b2f84aae）；BB／CC PC 瀏覽器｜同一個子代理 wt-lib3f",
    "source": "BB_255 04:1x",
    "authorized": "BB 決定（D100）"
+  },
+  {
+   "id": "RELEASE-V91021-1105",
+   "title": "v9.10.21 發布：開發分支上所有新店面（新生南路 7 間、溫州街、公館、118 巷）＋之後的修正（使用者 11-05 06:3x 經 LAWWW2-C）",
+   "area": "REL",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "next": "候選版＝XSPORTS-ACT 合併後的 HEAD（爬梯子 CLIMB-GRIPS-FEET 沒好就不放）→ 全套 Node＋TESTING §5 雲端項 → BB／CC PC 瀏覽器（各店進出坐下、打烊、點地）→ BB GO → 發布樹、PR、Pages、線上驗證",
+   "source": "UA-LAWWW-1105-16",
+   "authorized": "使用者原話（轉述）"
   }
  ]
 }
