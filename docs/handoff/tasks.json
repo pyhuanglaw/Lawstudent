@@ -23421,7 +23421,7 @@
    },
    "source": "使用者 2026-10-18 07:5x",
    "authorized": "使用者直接要求（D104、D97）",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】等圖：BB 確認提示詞已給使用者（D97 純場景），圖到了放 bg_approved/cram_class 交 LAWWW 換（RH-C 系列） ｜ BB 寫提示詞給使用者 → bg_approved/cram_class → LAWWW 換（RH-C 系列、ev_y0_cram_class 的 bg）",
+   "next": "【LAWWW-C 11-05 04:0x】BB-C 04:0x 把 7 張（cram_class、teishoku_dusk、第 113 組五張吉他店）提示詞給使用者，使用者回「我現在沒有要生圖」→ 暫停（UA-BB-1105-NO-IMG-NOW）；恢復：使用者說要生圖或傳圖；下次檢查 11-12 或下一次發布前；不催，遊戲照用深色底／3D 畫面，不擋發布｜【LAWWW-C 2026-10-21 稽核 C】等圖：BB 確認提示詞已給使用者（D97 純場景），圖到了放 bg_approved/cram_class 交 LAWWW 換（RH-C 系列） ｜ BB 寫提示詞給使用者 → bg_approved/cram_class → LAWWW 換（RH-C 系列、ev_y0_cram_class 的 bg）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",

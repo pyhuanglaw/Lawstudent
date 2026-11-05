@@ -3014,6 +3014,15 @@
    "status": "已完成",
    "task": "OPEN-SRC-2D3D-1104",
    "note": "實測：hf.space、hf.co、blender.org 三個、sketchfab、arxiv、四個貼圖站都過；poly.pizza、makehuman proxy 放行但網站自己擋或慢"
+  },
+  {
+   "id": "UA-LAWWW-1105-12",
+   "at": "2026-11-05T03:5xZ",
+   "quote": "中間發布新版不是也要我加新的網域 莫名其妙欸 GITHUB PAGE以前都不用 這也能卡住你們喔 以前都發布幾個版本了 查清楚怎麼回事!!!!幹]",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "GHA-BROWSER-1105",
+   "note": "查了回覆：發布（合併＋Pages 部署）從來不用網域、v9.10.20 02:26 照常部署；卡的是發布後的線上網址檢查——雲端本來就連不到 pyhuanglaw.github.io（04:0x 實測 000），以前都在使用者電腦跑，昨晚電腦停住才等；使用者加的 15 個網域是美術素材用的，和發布無關；可選：Allowed domains 加 pyhuanglaw.github.io 讓雲端自己查"
   }
  ]
 }
