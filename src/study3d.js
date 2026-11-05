@@ -197,7 +197,7 @@ const STUDY=(function(){
       if(e.day<G.day||(e.day===G.day&&G.hour>=e.t1)) continue;   /* 考試時間已經過了 */
       if(poolN(e.c.id,t.id)<5) continue; const us=S.units(G,e.c,t.id,'final'); if(!us.length) continue; out.push({c:e.c,exam:e,units:us}); }
     return out.length?{kind:'final',term:t.id,courses:out}:null; };
-  /* 現在按下去能不能做：{dim,why,warn}（o.home：在家，不看閉館；o.kind 'bar'：國考總複習——6 小時、S.BAR_TEXT 的字、讀到一半會過了一試開考也不給）*/
+  /* 現在按下去能不能做：{dim,why,warn}（o.home：在家，不看閉館；o.kind 'bar'／'judge'／'grad'：考試總複習——時數、字照 S.EXAMS 那一列（國考一試、司法官二試 6 小時，研究所 4 小時）、讀到一半會過了那一場開考也不給）*/
   S.reviewCheck=function(G,o){ o=o||{}; const E=exK(o.kind), X=E?E.text():null, h=G.hour, hh=E?E.hrs():S.REVIEW_HRS; if(h+hh>24-1e-6) return {dim:true,why:E?X.late:'要讀三個小時。21:00 以後開始就太晚了。'};   /* 考試（kind bar／judge／grad）：時數、字照 S.EXAMS 那一列 */
     for(const f of S.REVIEW_CHECKS){ let w=null; try{ w=f(G,hh); }catch(e){ console.warn('STUDY.REVIEW_CHECKS',e); } if(w) return {dim:true,why:w}; }
     if(E&&typeof PG!=='undefined'){ const nx=E.review(G); if(nx&&G.day*24+h+hh>nx.at+1e-6) return {dim:true,why:fill(X.miss,{x:X.exam})}; }   /* 考試那天清晨：讀完會過了開考（一試 08:00、司法官二試 08:30、研究所筆試 09:00）*/
