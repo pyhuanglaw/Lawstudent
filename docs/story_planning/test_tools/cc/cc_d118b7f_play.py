@@ -11,6 +11,7 @@
         站起來、不動 → 10/14 20:00 第二則 → 10/20 律師二試（帶過）→ 10/21 08:30 司法官二試作答（10 題：前 K 題選對、其他選錯）→ 交卷。
         要對：作答的 10 題＝總複習以前存下來的那 10 題（不重抽）、都是修過的課；JUDGE_SCORE2_2029＝K。
   【前置／捷徑】讀檔指定日期地點；成績單用遊戲自己的函式發；太久（雲端 SwiftShader）走不到的那一段改用同一份存檔跳到前 10 分鐘（標【捷徑】）。Windows＋GPU／SwiftShader ≠ iPhone。
+  BB-C 01:40（SHA 改 c9ad63dd3＝含 63847fe13）：二試作答也有 cue、交卷逐題回寫觀念卡——judge 那一段記每題前面有沒有 cue、交卷後 got／miss 各幾張（研究所作答 Node Q5～Q8）。
 用法：LW_TESTS=<wt>/tests [CASES=grad,judge] [K=7] python3 cc_d118b7f_play.py <url> <out>"""
 import os, sys, json, asyncio, time
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -262,12 +263,25 @@ async def case_judge(pg, cdp):
     if short: R.note('[judge] 這一輪 → 10/21 用了【捷徑】：10/14 那一則、停點沒有照玩家測到（Node cc_d118b7f_node.js M3、M4）')
     else: R.check('[judge] 10/14 20:00 第二則逐字「%s」' % J_RWEEK, len(w) == 1 and w[0]['key'] == '2029-10-14' and abs(w[0]['h'] - 20) < 0.01 and w[0]['text'] == J_RWEEK, J(w))
     ex = await pg.evaluate("(()=>{ const G=GAME.G, Jd=PG.rec(G).judge&&PG.rec(G).judge[2029]; if(!Jd) return null; const tk=CLS.takenCourses(G).map(c=>c.id); const qs=Jd.qs.map(id=>EXAM_BANK.questions.find(x=>x.id===id)||QBANK.find(x=>x.id===id));"
-                           " return {qs:Jd.qs, ans:Jd.ans||null, score:G.flags.JUDGE_SCORE2_2029, right:qs.map((q,i)=>!!Jd.ans&&String(Jd.ans[i])===String(q.answer)), notTaken:qs.filter(q=>!tk.includes(PG.qCourse(q))).map(q=>q.id)}; })()")
+                           " const mi=STUDY.rec(G).miss||[]; return {qs:Jd.qs, ans:Jd.ans||null, score:G.flags.JUDGE_SCORE2_2029, right:qs.map((q,i)=>!!Jd.ans&&String(Jd.ans[i])===String(q.answer)), notTaken:qs.filter(q=>!tk.includes(PG.qCourse(q))).map(q=>q.id),"
+                           " st:qs.map(q=>STUDY.unitsOfQ(q.id).map(u=>[STUDY.stateOf(G,u.id), mi.includes(u.id)]))}; })()")
+    L2 = await says(pg, n_exam); cueShown = []
+    for i in range(1, 11):
+        j = next((k for k, t in enumerate(L2) if t.startswith('%d／10　' % i)), -1)
+        cueShown.append(bool(j > 0 and L2[j - 1].startswith('（你想起筆記上寫的：')))
+    R.note('[judge] 作答時每題前面有沒有 cue（BB-C 01:40，c9ad63dd3）：%s（%d／10 題有）' % (J(cueShown), sum(cueShown)))
     R.note('[judge] 作答 %s；存檔 %s' % (J(Q['picked']), J(ex)))
     if ex:
         R.check('[judge] 作答的 10 題＝總複習以前存下來的那 10 題（不重抽）', ex['qs'] == [x['id'] for x in st['pre']], J([ex['qs'], [x['id'] for x in st['pre']]]))
         R.check('[judge] 10 題都是修過的課', not ex['notTaken'], J(ex['notTaken']))
         R.check('[judge] JUDGE_SCORE2_2029＝答對題數 %d' % K, ex['score'] == K and sum(1 for x in ex['right'] if x) == K, J([ex['score'], sum(1 for x in ex['right'] if x)]))
+        R.check('[judge] 作答時讀過的卡出 cue（總複習讀過範圍內每一張；至少一題有）', sum(cueShown) > 0, J(cueShown))
+        badw = []; got = sum(1 for sts in ex['st'] for s_, m in sts if s_ == 'got'); miss = sum(1 for sts in ex['st'] for s_, m in sts if m)
+        for i, (rt, sts) in enumerate(zip(ex['right'], ex['st'])):
+            if rt and not all(s_ == 'got' for s_, m in sts): badw.append([i + 1, '答對', sts])
+            if not rt and not all(m for s_, m in sts): badw.append([i + 1, '答錯', sts])
+        R.note('[judge] 交卷後這 10 題的觀念卡：got %d 張、miss %d 張' % (got, miss))
+        R.check('[judge] 交卷後逐題回寫：答對的卡＝got、答錯的卡進 miss（計分不受影響：上一項）', not badw, J(badw[:5]))
     await R.shot(pg, 'judge_after_exam')
 
 

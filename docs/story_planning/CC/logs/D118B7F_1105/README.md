@@ -1,7 +1,7 @@
 # D118_B7F（司法官二試、研究所總複習）——CC-C 11-05
 
-- 派工：BB-C 01:32（SHA 301a74c2d＝7dbe93dfa＋860cb2618）。期望值：AA_692（企劃線 91874f326）、AA_690（c860ff820，司法官二試「照一試那幾句」）、BB_255 00:3x D118-B7-FOLLOW-1104。判定歸 BB。
-- Node：`docs/story_planning/test_tools/cc/cc_d118b7f_node.js`（`LW_ROOT=<301a74c2d checkout> node cc_d118b7f_node.js`）→ `node_301a74c2d.log`：40 PASS、FAILED 7。
+- 派工：BB-C 01:32（SHA 301a74c2d＝7dbe93dfa＋860cb2618）；01:40 改 c9ad63dd3（含 63847fe13：二試、研究所也出 cue、交卷回寫觀念卡）。期望值：AA_692（企劃線 91874f326）、AA_690（c860ff820，司法官二試「照一試那幾句」）、BB_255 00:3x D118-B7-FOLLOW-1104。判定歸 BB。
+- Node：`docs/story_planning/test_tools/cc/cc_d118b7f_node.js`（`LW_ROOT=<checkout> node cc_d118b7f_node.js`）→ `node_c9ad63dd3.log`：48 PASS、FAILED 7（Q1～Q8 cue／回寫／計分全 PASS；FAIL 和 301a74c2d 那一次同樣 7 項）；`node_301a74c2d.log` 是上一版。
 
 ## Node 的 FAIL（都照原文，不是探針問題；前置用到的捷徑寫在每一項）
 

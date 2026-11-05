@@ -9,6 +9,7 @@
      2031 以後的研究所沒有總複習、沒有提醒。
    【前置／捷徑】pg_harness 的假 GM；畢業、一試成績（BAR_SCORE＝答對數，司法官／律師照遊戲 PG.tier 算）、研究所報名的旗標直接設；成績單照 tests/d118_b7_unit.js 的 transcripts
      （期末考 CLS.drawExam、成績單 CLS.reportFor）；選項都選第一個。判定歸 BB。
+      Q（BB-C 01:40，c9ad63dd3＝含 63847fe13）：二試（e2b）、研究所（gradQuiz）作答也有 cue、交卷逐題回寫觀念卡、計分不受影響。
    用法：LW_ROOT=<checkout> [CC_REPO=…] [SHA=…] node cc_d118b7f_node.js */
 'use strict';
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -31,7 +32,7 @@ for(const f of ORDER.filter(f=>!PG_FILES.has(f)&&!SKIP.has(f))){ try{ let s=fs.r
 let caps=[], says=[], want=[];
 GM.caption=(w,t)=>{ caps.push(String(t)); }; GM.toast=()=>{}; GM.spawnNPC=()=>null; GM.spawnCharacter=()=>null; GM.phoneBadge=()=>{}; GM.quickGo=async()=>{}; GM.addNote=()=>true; GM.money=d=>{ H.G.money=(H.G.money|0)+(+d||0); };
 const say0=GM.say; GM.say=async function(who,t){ says.push(String(t)); return say0?say0.apply(this,arguments):undefined; };
-const ch0=GM.choose; GM.choose=async function(o){ const w=want.shift(); if(w!=null){ const ts=o.map(q=>q.t||q.text), k=ts.findIndex(t=>t===w||String(t).startsWith(w)); if(k>=0) return k; return 0; } return ch0?ch0.apply(this,arguments):0; };
+let quizAns=null; const ch0=GM.choose; GM.choose=async function(o){ if(quizAns){ const r=quizAns(o); if(r!=null) return r; } const w=want.shift(); if(w!=null){ const ts=o.map(q=>q.t||q.text), k=ts.findIndex(t=>t===w||String(t).startsWith(w)); if(k>=0) return k; return 0; } return ch0?ch0.apply(this,arguments):0; };
 const DK=k=>PG.DK(k), K=d=>d==null?null:CALENDAR.dateOf(d).key, WDN=d=>'日一二三四五六'[CALENDAR.dateOf(d).wd%7], AT=(k,h)=>DK(k)*24+h;
 const hm=h=>{ const x=Math.round(h*60); return String(Math.floor(x/60)).padStart(2,'0')+':'+String(x%60).padStart(2,'0'); };
 const gitShow=(rev,p)=>{ try{ return cp.execFileSync('git',['-C',CC_REPO,'-c','core.quotepath=off','show',rev+':'+p],{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
@@ -202,6 +203,38 @@ await sec('M 提醒',async()=>{
     H.G=G; const inf0=STUDY.reviewInfo(G,'grad'), nx=STUDY.examRemindNext(G,'grad'); const r=await walkPG(G,AT('2031-02-15',8),RG), ms=r.msgs.filter(m=>RG.test(m.tag||'')||/^【研究所】/.test(m.text||''));
     H.G=G; H.at('2031-02-01',10); const inf1=STUDY.reviewInfo(G,'grad');
     check('M15 2031 再考研究所（GRAD_RETRY2）：沒有研究所總複習（1/5、2/1）、沒有提醒（走到 2/15 08:00）',!inf0&&!inf1&&!nx&&!ms.length,J({inf0:!!inf0,inf1:!!inf1,nx,ms})); }
+});
+
+/* ---------- Q 二試、研究所作答的 cue 和觀念卡回寫（BB-C 01:40，63847fe13：同一試那一套——讀過那張卡的題目前面出 cue、交卷後逐題回寫：答對＝got、答錯進 miss；計分不受影響）----------
+   【前置／捷徑】先照玩家做一次總複習（STUDY.review，讀過範圍內所有卡）；作答用遊戲自己的那一場（司法官二試＝PG.runStep 10/21 08:30 e2b_2029；研究所＝PG.gradQuiz，ev_grad_exam 場景裡叫的那一個）；
+   前 KQ 題選對、其他選錯（正確答案從題庫讀：這是「玩家選哪一個」） */
+const KQ=6;
+const quiz=async(G,getQs,run)=>{ const cues=[], asked=[]; let pendCue=null;
+  const s1=GM.say; GM.say=async function(who,t){ const x=String(t); if(x.startsWith(STUDY.CUE_PREFIX)) pendCue=x; else { const m=x.match(/^(\d+)／(\d+)　/); if(m){ asked.push(+m[1]); cues[+m[1]-1]=pendCue; pendCue=null; } } return s1.apply(this,arguments); };
+  quizAns=o=>{ const i=asked[asked.length-1]; if(!i) return null; const qs=getQs(); const q=qs&&qs[i-1]; if(!q) return null; const op=PG.opts(q), r=op.findIndex(x=>String(x.v)===String(q.answer)); if(r<0) return null; return i<=KQ?r:(r===0?1:0); };
+  try{ await run(); } finally { GM.say=s1; quizAns=null; } return {cues,asked}; };
+const cardsOf=(G,qs,ans)=>{ const mi=STUDY.rec(G).miss||[]; let got=0, miss=0; const bad=[]; qs.forEach((q,i)=>{ const ok=String(ans[i])===String(q.answer); for(const u of STUDY.unitsOfQ(q.id)){ const st=STUDY.stateOf(G,u.id), inM=mi.includes(u.id); if(st==='got') got++; if(inM) miss++; if(ok&&st!=='got') bad.push([i+1,'答對',u.id,st]); if(!ok&&!inM) bad.push([i+1,'答錯',u.id,st,inM]); } }); return {got,miss,bad}; };
+await sec('Q 二試、研究所作答的 cue 和觀念卡回寫',async()=>{
+  { const G=judgeG('2029-09-22',9,17); H.G=G; const qs0=PG.drawJudge(G,2029).map(q=>q.id); await STUDY.review(GM,'judge');
+    const qsQ=qs0.map(id=>Q(id)), exp=qsQ.map(q=>{ try{ return STUDY.cueFor(G,q)||null; }catch(e){ return 'ERR'; } });
+    H.at('2029-10-21',8.5); let s=null; for(let k=0;k<5;k++){ s=PG.due(G); if(!s||s.id==='e2b_2029') break; PG.rec(G).done[s.id]=1; s=null; }
+    info('Q 司法官二試：10/21 08:30 PG.due＝'+J(s&&s.id)+'；總複習以後每題的 cue（STUDY.cueFor）'+J(exp.map(x=>x?x.slice(0,20):null)));
+    const st0=J([G.flags.JUDGE_SCORE2_2029]); const r=await quiz(G,()=>qs0.map(id=>Q(id)),async()=>{ if(s) await PG.runStep(GM,s); });
+    const Jd=PG.rec(G).judge[2029], ans=Jd&&Jd.ans||[], k=qsQ.filter((q,i)=>String(ans[i])===String(q.answer)).length, c=cardsOf(G,qsQ,ans);
+    info('Q 司法官二試：作答的題號 '+J(r.asked)+'；出了 cue 的 '+J(r.cues.map(x=>!!x))+'；JUDGE_SCORE2_2029＝'+G.flags.JUDGE_SCORE2_2029+'；卡 got '+c.got+'、miss '+c.miss);
+    check('Q1 司法官二試照遊戲那一場作答 10 題（e2b_2029）',r.asked.length===10&&J(Jd.qs)===J(qs0),J({asked:r.asked,s:s&&s.id}));
+    check('Q2 司法官二試：讀過那張卡的題目前面有 cue（出 cue 的題＝STUDY.cueFor 有值的題；至少一題）',r.cues.length===10&&r.cues.every((x,i)=>!!x===!!exp[i])&&r.cues.some(Boolean),J({shown:r.cues.map(Boolean),exp:exp.map(Boolean)}));
+    check('Q3 司法官二試：計分不受影響（JUDGE_SCORE2_2029＝答對題數 '+KQ+'）',G.flags.JUDGE_SCORE2_2029===KQ&&k===KQ,J({score:G.flags.JUDGE_SCORE2_2029,k}));
+    check('Q4 司法官二試：交卷後逐題回寫（答對的卡＝got、答錯的卡進 miss）',!c.bad.length,J(c.bad.slice(0,6))); }
+  { const G=H.fresh('2029-01-10',10,'home',Object.assign({},GF)); transcripts(G,{terms:TO_Y4S1}); G.stats={classes:0,study:0}; H.G=G; await STUDY.review(GM,'grad',{home:true});
+    H.at('2029-02-03',9); const qs0=PG.drawGrad(G,2029).map(q=>q.id), qsQ=qs0.map(id=>Q(id)), exp=qsQ.map(q=>{ try{ return STUDY.cueFor(G,q)||null; }catch(e){ return 'ERR'; } });
+    const r=await quiz(G,()=>qs0.map(id=>Q(id)),async()=>{ await PG.gradQuiz(GM,2029); });
+    const X=PG.rec(G).grad[2029], ans=X&&X.ans||[], k=qsQ.filter((q,i)=>String(ans[i])===String(q.answer)).length, c=cardsOf(G,qsQ,ans);
+    info('Q 研究所 2029：出了 cue 的 '+J(r.cues.map(x=>!!x))+'；GRAD_SCORE_2029＝'+G.flags.GRAD_SCORE_2029+'、GRAD_EXAM_2029_PASS＝'+G.flags.GRAD_EXAM_2029_PASS+'；卡 got '+c.got+'、miss '+c.miss);
+    check('Q5 研究所 2/3 作答 10 題（PG.gradQuiz）',r.asked.length===10&&J(X.qs)===J(qs0),J(r.asked));
+    check('Q6 研究所：讀過那張卡的題目前面有 cue（＝STUDY.cueFor 有值的題；至少一題）',r.cues.length===10&&r.cues.every((x,i)=>!!x===!!exp[i])&&r.cues.some(Boolean),J({shown:r.cues.map(Boolean),exp:exp.map(Boolean)}));
+    check('Q7 研究所：計分不受影響（GRAD_SCORE_2029＝'+KQ+'、門檻 6＝錄取 true）',G.flags.GRAD_SCORE_2029===KQ&&k===KQ&&G.flags.GRAD_EXAM_2029_PASS===(KQ>=6),J({score:G.flags.GRAD_SCORE_2029,k,pass:G.flags.GRAD_EXAM_2029_PASS}));
+    check('Q8 研究所：交卷後逐題回寫（答對＝got、答錯進 miss）',!c.bad.length,J(c.bad.slice(0,6))); }
 });
 
 /* ---------- W 寒假住家裡的選單（BB-C 01:32：「接著走到家裡書桌，要開得了總複習」；BB_255「寒假的研究所照現在、不改 home3d，條件是家裡書桌在寒假也能開總複習」）----------
