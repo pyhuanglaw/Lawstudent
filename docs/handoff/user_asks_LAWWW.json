@@ -3160,6 +3160,16 @@
    "status": "進行中",
    "wants": "X242",
    "task": "QUICK-TRAVEL-AREAS-1105"
+  },
+  {
+   "id": "UA-LAWWW-1105-27",
+   "at": "2026-11-05T07:4xZ",
+   "quote": "才開學 沛珊應該剛來台北 怎麼會每次來台北要搭客運 他住宿舍阿（閒聊截圖；之後附存檔 day36）",
+   "kind": "原話",
+   "status": "還沒做",
+   "wants": "X243",
+   "task": "PS-BUS-1105",
+   "note": "ladder P-L6 沒有日期條件；交 AA 改稿，LAWWW 重匯"
   }
  ]
 }

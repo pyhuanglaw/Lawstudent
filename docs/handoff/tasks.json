@@ -47510,6 +47510,35 @@
     "ack": "自領"
    },
    "src": "UA-LAWWW-1105-26"
+  },
+  {
+   "id": "PS-BUS-1105",
+   "title": "沛珊大一上閒聊 P-L6「每次從台中搭客運上來」改稿",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "AA 給新稿＋commit → LAWWW 白名單重匯 ladder",
+   "source": "UA-LAWWW-1105-27",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-27",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "大一上住宿舍的沛珊不說每次搭車上來",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "src": "UA-LAWWW-1105-27"
   }
  ]
 }
