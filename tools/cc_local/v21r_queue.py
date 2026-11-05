@@ -66,6 +66,7 @@ def lines(sha):
             'V21R_shops_acts | %s | probe | %scc_v21x_shops_probe.py | index.html | 60 | CC_HEADLESS=0;PARTS=acts' % (sha, P),
             'V21R_shops_win | %s | probe | %scc_v21x_shops_probe.py | index.html | 60 | CC_HEADLESS=0;PARTS=windows' % (sha, P),
             'V21R_shop_named | %s | probe | %scc_shop_named_probe.py | index.html | 90 | CC_HEADLESS=0' % (sha, P),
+            'V21R_shop_crowd | %s | probe | %scc_shop_crowd_probe.py | index.html | 90 | CC_HEADLESS=0' % (sha, P),
             '# ===== V21R 結束 =====']
     return out
 
