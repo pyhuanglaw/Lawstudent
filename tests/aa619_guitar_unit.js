@@ -5,8 +5,9 @@
 //   1  營業：週二～週日 12:00～21:30、週一公休、颱風天（2027-10-13 週三）關；名稱「同弦樂器」；店門（exit.to＝xs_tongxian）營業時間外擋下來、寫開放時間；店裡的互動關門時寫開放時間
 //   2  店裡：看看、試彈（去過社課才有）的旁白；買東西＝老闆一句（三句輪流、一次進店一句）＋選單（價錢、九折、小字、不用了）；買吉他扣錢、OWN_GUITAR、琴袋、調音那一句、時間 +0.15、
 //      同一款不再列；錢不夠＝「錢不夠」不扣錢；小東西記數量、「買了○○」
-//   3  區域接線：沒有區域＝populate／interact／OUT.STAGE 都不出錯、不加東西；假的 xs_tongxian：照配置補三個互動點（字照稿）、區域標了 guitar 的不重複加、
-//      kind 的照接、烏克麗麗藏起來、沒去過社課＝試彈藏起來、經濟系那一年全部藏；STORY.interact 分派；2-3 有區域＝換到店裡、演完回原處
+//   3  真的區域 xs_tongxian（src/tongxian3d.js）：按鈕照 TX3.INTERACT()（吉他牆兩點「看看」、櫃台「買東西」；子晴 CG 的站位、烏克麗麗不放）、沒有 TX3／Z3＝不出錯也不加；
+//      STORY.interact 分派；經濟系那一年藏；試彈＝坐上試琴椅 try_w／try_e（去過社課才有、打烊不演、木凳沒有）；打烊（21:30、週一）人在店裡＝請出來到 TX3.streetOut()；
+//      2-3 有區域＝換到店裡（試琴椅、子晴的位置）、演完回原處。建 3D、按鈕走得到：tests/aa619_guitar_zone_unit.js
 //   4  偶遇子晴：大一上第 6、10、14 週週六 15:00～16:00、人在店裡、認識她才有（一次）；其他週、週日、16:00、14:59、不認識、2-3 排過、店外都不演；三句照稿
 //   5  2-1 第一次社課：初遇 → 社長學長那一段 → 兩個選項（「一定要買嗎？」接他那一句）→ 這次的旁白是鏽弦那一句（輪流的六句不往前）；第二次社課不再演；
 //      舊存檔（以前去過社課、或初遇記過 guitarFirstDay）不補；第一次去已經有自己的琴＝不演
@@ -24,7 +25,8 @@
 //  13  經濟系那一年：店、偶遇、2-1、社遊、房間都沒有
 // 原稿用 git show bf0efded8 讀，不經 tests/alison.js（那支的換字表不改 AA_619 本身、只會在後面接別的稿；這裡要逐字比的是原稿）。
 // 修改前（開發分支 ed7600ec5，暫時的 detached worktree 實跑）：沒有 src/guitar3d.js、index.html 沒接、白名單沒有 AA_619、沒有 CLS.CLUB_IN、存檔預設沒有 guitar、places.js 沒有同弦、
-//   ev_ziqing_secret_game 沒有那一句＝FAILED 33（0、0a～13 每一節都失敗或中斷；「不演」那幾項本來就成立的照樣 PASS）。修改後 119 項 ALL PASS。
+//   ev_ziqing_secret_game 沒有那一句、沒有同弦區域（src/tongxian3d.js）＝FAILED 28（0、0a～13 每一節都失敗或中斷；「不演」那幾項本來就成立的照樣 PASS）；
+//   合併同弦區域（c028e2cc2）、還沒照真的區域接（沒有 S.buttons、還認 tongxian）＝FAILED 2（3-1、第 3 節中斷）。修改後 123 項 ALL PASS。
 // 用法：node tests/aa619_guitar_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -32,6 +34,7 @@ const {check,GM,E}=H, J=JSON.stringify;
 const loadErr=[];
 const L=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.push(f+'（沒有這個檔）'); return; } try{ let s=fs.readFileSync(p,'utf8'); s=s.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); }catch(e){ loadErr.push(f+'：'+String(e).slice(0,160)); } };
 global.CG_REGISTRY=global.CG_REGISTRY||{};
+L('src/data/tongxian_layout.js'); L('src/tongxian3d.js');   /* 真的同弦區域（LAWWW2-C，GUITAR-SHOP-ZONE-1105）：這裡只用它的配置、TX3.INTERACT／streetOut、TX3.zone（建 3D 的部分在 tests/aa619_guitar_zone_unit.js）*/
 L('src/guitar3d.js');
 const X=()=>typeof GUITAR!=='undefined'?GUITAR:null;
 const ZQ='heroine_04', TD=(t,w,wd)=>STORY.termDay(t,w,wd), keyOf=d=>CALENDAR.dateOf(d).key, wd7=d=>CALENDAR.dateOf(d).wd%7;
@@ -42,7 +45,7 @@ GM.money=d=>{ H.G.money=(H.G.money|0)+d; };
 let fades=0; GM.fade=on=>{ if(on) fades++; return Promise.resolve(); };
 const at=(d,h,zone)=>{ H.G.day=d; H.G.hour=h; H.G.weekday=wd7(d); if(zone) H.G.zone=zone; };
 const fresh=(d,h,zone,flags)=>{ const G=H.fresh(keyOf(d),h,zone||'dorm',Object.assign({EXCHANGE_ROUTE:'TW'},flags||{})); G.outings=[]; G.acts={att:{}}; G.invites=[]; at(d,h,zone||'dorm');
-  E.interactables=[]; caps.length=0; toasts.length=0; memos.length=0; fades=0; GM.enterN=0; ADV.active=false; delete global.TONGXIAN_LAYOUT; delete global.Z3; return G; };
+  E.interactables=[]; caps.length=0; toasts.length=0; memos.length=0; fades=0; GM.enterN=0; ADV.active=false; delete global.Z3; return G; };
 const use=G=>{ H.G=G; SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); return G; };   /* 換回前面那一局（EVENTS、SOCIAL 綁的是 H.fresh 那時候的 G）*/
 const att=(G,...days)=>{ for(const d of days) G.acts.att['club_guitar@'+d]={h:19,end:'full'}; };
 const said=()=>H.lines();
@@ -100,7 +103,7 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     check('1-2. 週一公休（整天）',wd7(mon)===1&&!o(mon,12)&&!o(mon,15)&&!o(mon,20));
     check('1-3. 颱風天關（2027-10-13 週三；typhoonShops）',CALENDAR.typhoon(ty)&&wd7(ty)===3&&!o(ty,15)&&PLACES.typhoonShops.includes('xs_tongxian'));
     const G=fresh(tue,22,'xinsheng'); const r=await STORY.interact({exit:{to:'xs_tongxian'},label:'進同弦樂器（吉他行（二樓））'},GM);
-    check('1-4. 新生南路的店門：22:00 擋下來、寫開放時間（PLACES.closedText）',r===true&&toasts[0]===PLACES.closedText('xs_tongxian',22,tue)&&/同弦樂器 現在沒有開（今天 12:00–21:30）/.test(toasts[0]),J(toasts));
+    check('1-4. 新生南路的店門：22:00 擋下來、寫開放時間（PLACES.closedText；story3d.js 的 onInteract）',r===true&&toasts[0]===PLACES.closedText('xs_tongxian',22,tue)&&/同弦樂器 現在沒有開（今天 12:00–21:30）/.test(toasts[0]),J(toasts));
     at(ty,15,'xinsheng'); toasts.length=0; await STORY.interact({exit:{to:'xs_tongxian'}},GM); check('1-5. 颱風天的店門：「同弦樂器：颱風假，今天沒開。」',toasts[0]==='同弦樂器：颱風假，今天沒開。',J(toasts));
     at(tue,22,'xs_tongxian'); H.said=[]; caps.length=0; await S.look(GM); check('1-6. 人在店裡、已經打烊：看看＝寫開放時間（不演）',!H.said.length&&caps.length===1&&caps[0][0]===PLACES.closedText('xs_tongxian',22,tue));
     at(tue,15,'xs_tongxian'); check('1-7. 開門的時候 S.isOpen＝true',S.isOpen(G)); });
@@ -130,32 +133,42 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     check('2-11. 小東西：扣錢（九折）、記數量（弦 2、Pick 1、移調夾 1）、「買了○○」、OWN_GUITAR 不變',G.money===1000-315*2-18-270&&G.guitar.items.strings===2&&G.guitar.items.pick===1&&G.guitar.items.capo===1&&J(toasts)===J(['買了一包弦','買了一包弦','買了 Pick','買了移調夾'])&&G.flags.OWN_GUITAR==='entry',J([G.money,G.guitar.items,toasts]));
     G.money=9000; H.picks=['面單款']; await S.shop(GM); check('2-12. 再買面單款：OWN_GUITAR＝solid（最新的那把）、琴袋兩個',G.flags.OWN_GUITAR==='solid'&&G.guitar.items.solid===G.day&&G.guitar.items.case===2&&G.money===9000-5850);
     check('2-13. 資料層：S.buy 已經有＝owned、錢不夠＝poor',S.buy(G,'entry')==='owned'&&(()=>{ G.money=10; return S.buy(G,'capo')==='poor'&&G.money===10; })()); });
-  // ---------- 3 區域接線 ----------
-  await sec(3,async()=>{ const S=X(), sat=TD('Y1S1',8,6);
-    let G=fresh(sat,15,'xs_tongxian'); let err=null;
-    try{ STORY.populate('xs_tongxian',GM); }catch(e){ err=e; }
-    check('3-1. 沒有區域、沒有配置：STORY.populate 不出錯、不加互動點',!err&&!E.interactables.length,String(err));
-    err=null; try{ H.said=[]; await STORY.interact({guitar:'look',label:'看看'},GM); }catch(e){ err=e; } check('3-2. 沒有區域：guitar 互動點照樣能演（不出錯）',!err&&H.said.length===1);
-    { const q={id:'x',ev:'ev_guitar_zq_shop'}; let r='?'; try{ r=await S.outingStage(GM,q,evOf('ev_guitar_zq_shop')); }catch(e){ r=e; } check('3-3. 沒有 xs_tongxian 區域：2-3 不換場景（OUT.STAGE 回 null）',r===null,String(r)); }
-    global.TONGXIAN_LAYOUT={shop:{spawn:{x:-0.6,z:4.65,yaw:1.57},seats:[{x:-2.2,z:-4.05,yaw:1.87,label:'試彈'}],npc:{ziqing_cg:{x:-1.65,z:-3.3,yaw:3.14}},
-      interact:[{x:2.3,z:-2.6,kind:'look_guitars',label:'看看（吉他牆）'},{x:2.3,z:-0.8,kind:'look_guitars',label:'看看（吉他牆）'},{x:-1.65,z:-3.3,kind:'try',label:'試彈（試琴椅）'},{x:0.25,z:0.6,kind:'buy',label:'買東西（櫃台）'},{x:-2.4,z:-2.95,kind:'look_ukes',label:'看看（烏克麗麗）'}]}};
-    E.interactables=[{x:-2.4,z:-2.95,kind:'look_ukes',label:'看看（烏克麗麗）'},{x:0,z:5,label:'離開同弦樂器',exit:{to:'xinsheng'}}]; STORY.populate('xs_tongxian',GM);
-    const gi=E.interactables.filter(i=>i.guitar);
-    check('3-4. 區域沒放、配置有：照 interact 補（吉他牆兩點、試琴椅、櫃台），按鈕字照稿「看看」「試彈」「買東西」',gi.length===4&&J(gi.map(i=>i.guitar+':'+i.label))===J(['look:看看','look:看看','try:試彈','shop:買東西'])&&gi[0].x===2.3&&gi[3].z===0.6,J(gi));
-    check('3-5. 烏克麗麗（稿上沒有字）藏起來；出口不動；還沒去過社課＝試彈藏起來',E.interactables[0].hidden===true&&!E.interactables[1].hidden&&!E.interactables[1].guitar&&gi[2].hidden===true&&!gi[0].hidden&&!gi[3].hidden);
-    E.interactables=[{x:1,z:1,label:'看看（吉他牆）',guitar:'look'},{x:2,z:2,label:'買東西（櫃台）',kind:'buy'}]; att(G,TD('Y1S1',5,3)); STORY.populate('xs_tongxian',GM);
-    check('3-6. 區域自己放的（guitar 或 kind）照用、不重複補；字換成稿上的；去過社課＝沒有試彈的點也不會補一個',E.interactables.length===2&&E.interactables[0].label==='看看'&&E.interactables[1].guitar==='shop'&&E.interactables[1].label==='買東西',J(E.interactables));
-    check('3-7. 區域 id：主要是 xs_tongxian（新生南路店門照 xs_＋店 id 接）、tongxian 當備用；開放時間、名稱的鍵是 xs_tongxian',S.ZONES[0]==='xs_tongxian'&&S.ZONES.length===2&&S.ZONES.includes('tongxian')&&S.PLACE==='xs_tongxian'&&!!PLACES.hours.xs_tongxian&&!PLACES.hours.tongxian);
-    G.zone='tongxian'; E.interactables=[]; STORY.populate('tongxian',GM); check('3-7b. 在 tongxian（備用 id）也補互動點',E.interactables.filter(i=>i.guitar).length===4); G.zone='xs_tongxian';
-    H.said=[]; G.money=500; E.interactables=[]; STORY.populate('xs_tongxian',GM); const tr=E.interactables.find(i=>i.guitar==='try'); const r=await STORY.interact(tr,GM);
-    check('3-8. STORY.interact 照 guitar 分派（試彈＝旁白）',r===true&&J(H.said)===J([{who:null,t:S.L.tryPlay}])&&!tr.hidden);
-    G.stage='econ'; E.interactables=[]; STORY.populate('xs_tongxian',GM); check('3-9. 經濟系那一年：店裡的三個互動點都藏起來',E.interactables.filter(i=>i.guitar).every(i=>i.hidden)); G.stage='law';
-    // 2-3 有區域＝換到店裡
-    global.Z3={ZONES:{xs_tongxian:{},campus:{}}}; G.zone='campus'; E.player.obj.position.x=5; E.player.obj.position.z=6; H.entered=[]; const spawned=[]; GM.spawnCharacter=(id,x,z)=>{ spawned.push([id,x,z]); return {obj:{}}; }; let sat2=null; GM.sitAt=(p,s)=>{ sat2=s; };
-    const stg=await S.outingStage(GM,{id:'guitar_zq_shop'},evOf('ev_guitar_zq_shop'));
-    check('3-10. 有 xs_tongxian 區域：2-3 演之前換到店裡（試琴椅、子晴站在旁邊），S.staged',!!stg&&H.entered[0]==='xs_tongxian'&&J(spawned)===J([[ZQ,-1.65,-3.3]])&&!!sat2&&sat2.x===-2.2&&S.staged==='xs_tongxian',J([H.entered,spawned,sat2]));
-    await stg.restore(); check('3-11. 演完回到原本的地方（campus）',H.entered[1]==='campus'&&S.staged===null,J(H.entered));
-    const q2=await S.outingStage(GM,{id:'x'},evOf('ev_guitar_trip_yilan')); check('3-12. 別的出遊不換',q2===null);
+  // ---------- 3 區域接線（真的 xs_tongxian：src/tongxian3d.js 的 TX3）----------
+  await sec(3,async()=>{ const S=X(), sat=TD('Y1S1',8,6), LY=TONGXIAN_LAYOUT.shop;
+    check('3-1. 區域 id 只有 xs_tongxian（TX3.ZONE）；開放時間、名稱的鍵 xs_tongxian（places.js）；TX3.zone.build 已經包上（加按鈕）',J(S.ZONES)===J(['xs_tongxian'])&&TX3.ZONE==='xs_tongxian'&&S.PLACE==='xs_tongxian'&&!!PLACES.hours.xs_tongxian&&TX3.zone._guitar===true);
+    let G=fresh(sat,15,'xs_tongxian'); const E1={interactables:[]}; const n=S.buttons(E1), ids=E1.interactables.map(i=>i.tongxian+':'+i.guitar+':'+i.label);
+    const q=id=>LY.interact.find(x=>x.id===id), atPt=(it,id)=>it.x===q(id).x&&it.z===q(id).z;
+    check('3-2. 按鈕照 TX3.INTERACT()：吉他牆 wall_n、wall_s＝「看看」、櫃台 buy＝「買東西」（半徑 0.9、位置照配置）；try（子晴 CG 的站位）、ukes（烏克麗麗，稿上沒有字）不放',n===3&&J(ids)===J(['wall_n:look:看看','wall_s:look:看看','buy:shop:買東西'])&&atPt(E1.interactables[0],'wall_n')&&atPt(E1.interactables[1],'wall_s')&&atPt(E1.interactables[2],'buy')&&E1.interactables.every(i=>i.radius===0.9&&(i.lv|0)===0)&&!E1.interactables.some(i=>i.tongxian==='try'||i.tongxian==='ukes'),J(E1.interactables));
+    { const tx=globalThis.TX3; let err=null, r=null; delete globalThis.TX3; try{ r=S.buttons({interactables:[]}); E.interactables=[]; STORY.populate('xs_tongxian',GM); }catch(e){ err=e; } globalThis.TX3=tx;
+      check('3-3. 沒有區域（TX3 不在）：不加按鈕、populate 不出錯',r===0&&!err&&!E.interactables.length,String(err)); }
+    { let r='?'; try{ r=await S.outingStage(GM,{id:'x'},evOf('ev_guitar_zq_shop')); }catch(e){ r=e; } check('3-4. 遊戲沒有登記區域（Z3 不在）：2-3 不換場景（OUT.STAGE 回 null）',r===null,String(r)); }
+    E.interactables=E1.interactables.concat([{x:LY.exit.x,z:LY.exit.z,label:LY.exit.label,exit:{to:'xinsheng'}}]); H.said=[]; await STORY.interact(E.interactables[0],GM);
+    check('3-5.「看看」（STORY.interact 照 it.guitar 分派）＝稿的旁白一句',J(H.said)===J([{who:null,t:S.L.look}]));
+    H.said=[]; H.opts=[]; H.picks=['不用了']; await STORY.interact(E.interactables[2],GM); check('3-6.「買東西」＝老闆一句＋選單',H.said.length===1&&H.said[0].who==='老闆'&&H.opts[0]&&H.opts[0].length===6,J([H.said,H.opts]));
+    G.stage='econ'; STORY.populate('xs_tongxian',GM); const hid=E.interactables.filter(i=>i.guitar).every(i=>i.hidden===true)&&!E.interactables[3].hidden; G.stage='law'; STORY.populate('xs_tongxian',GM);
+    check('3-7. 經濟系那一年：按鈕藏起來（出口不動）；法律系照常',hid&&E.interactables.filter(i=>i.guitar).every(i=>!i.hidden));
+    // 試彈＝坐上試琴椅
+    const seatOf=id=>{ const s=LY.seats.find(x=>x.id===id); return {x:s.x,z:s.z,yaw:s.yaw,lv:0}; };
+    check('3-8. 配置的座位對得到 id（try_w、try_e、counter_stool）',S.seatId(seatOf('try_w'))==='try_w'&&S.seatId(seatOf('try_e'))==='try_e'&&S.seatId(seatOf('counter_stool'))==='counter_stool'&&S.seatId({x:9,z:9})===null);
+    H.said=[]; await STORY.onSeat(GM,seatOf('try_w')); const s0=H.said.filter(x=>x.t===S.L.tryPlay).length;
+    att(G,TD('Y1S1',5,3)); H.said=[]; await STORY.onSeat(GM,seatOf('try_w')); const s1=H.said.filter(x=>x.t===S.L.tryPlay).length; H.said=[]; await STORY.onSeat(GM,seatOf('try_e')); const s2=H.said.filter(x=>x.t===S.L.tryPlay).length;
+    H.said=[]; await STORY.onSeat(GM,seatOf('counter_stool')); const s3=H.said.filter(x=>x.t===S.L.tryPlay).length;
+    check('3-9. 試彈＝坐上試琴椅（try_w、try_e）：去過社課才有稿上那一句；還沒去過＝沒有；櫃台前的木凳沒有',s0===0&&s1===1&&s2===1&&s3===0,J([s0,s1,s2,s3]));
+    at(sat,21.6); H.said=[]; await STORY.onSeat(GM,seatOf('try_w')); const s4=H.said.filter(x=>x.t===S.L.tryPlay).length; at(sat,15,'wancai'); H.said=[]; await STORY.onSeat(GM,seatOf('try_w')); const s5=H.said.filter(x=>x.t===S.L.tryPlay).length;
+    check('3-10. 打烊以後、別的區域（座標碰巧一樣）坐下：沒有',s4===0&&s5===0,J([s4,s5]));
+    // 打烊：請你出來
+    at(sat,21.55,'xs_tongxian'); H.entered=[]; toasts.length=0; let stood=0; const su=GM.standUp; GM.standUp=()=>{ stood++; }; E.player.seat={x:1,z:1};
+    const t=S.tick(GM); await new Promise(r=>setTimeout(r,5)); GM.standUp=su; E.player.seat=null; const so=TX3.streetOut();
+    check('3-11. 21:33 人還在店裡：站起來、回到新生南路騎樓的樓梯口外面（TX3.streetOut）、寫開放時間',t===true&&stood===1&&H.entered[0]==='xinsheng'&&toasts[0]===PLACES.closedText('xs_tongxian',21.55,sat),J([H.entered,toasts,so]));
+    at(TD('Y1S1',8,1),13,'xs_tongxian'); H.entered=[]; S.tick(GM); await new Promise(r=>setTimeout(r,5)); check('3-12. 週一（公休）讀檔在店裡：一樣請出來',H.entered[0]==='xinsheng');
+    at(sat,15,'xs_tongxian'); H.entered=[]; const t2=S.tick(GM); check('3-13. 開門的時候不請人出來',t2===false&&!H.entered.length);
+    // 2-3 有區域＝換到店裡（真的 TX3.zone）
+    global.Z3={ZONES:{xs_tongxian:TX3.zone,campus:{}}}; G.zone='campus'; E.player.obj.position.x=5; E.player.obj.position.z=6; H.entered=[]; const spawned=[]; GM.spawnCharacter=(id,x,z)=>{ spawned.push([id,x,z]); return {obj:{}}; }; let sat2=null; GM.sitAt=(p,s)=>{ sat2=s; };
+    const stg=await S.outingStage(GM,{id:'guitar_zq_shop'},evOf('ev_guitar_zq_shop')); const zq=LY.npc.ziqing_cg, tw=LY.seats.find(x=>x.id==='try_w');
+    check('3-14. 有 xs_tongxian：2-3 演之前換到店裡（進門點）、坐上試琴椅 try_w、子晴站在 CG 的位置，S.staged',!!stg&&H.entered[0]==='xs_tongxian'&&J(spawned)===J([[ZQ,zq.x,zq.z]])&&!!sat2&&sat2.x===tw.x&&sat2.z===tw.z&&S.staged==='xs_tongxian',J([H.entered,spawned,sat2]));
+    H.said=[]; await STORY.onSeat(GM,seatOf('try_w')); check('3-15. 換場景的時候（S.staged）不出試彈那一句',!H.said.some(x=>x.t===S.L.tryPlay));
+    await stg.restore(); check('3-16. 演完回到原本的地方（campus）',H.entered[1]==='campus'&&S.staged===null,J(H.entered));
+    const q2=await S.outingStage(GM,{id:'x'},evOf('ev_guitar_trip_yilan')); check('3-17. 別的出遊不換',q2===null);
     delete GM.spawnCharacter; GM.sitAt=()=>{}; delete global.Z3; });
   // ---------- 4 偶遇子晴 ----------
   await sec(4,async()=>{ const S=X();
