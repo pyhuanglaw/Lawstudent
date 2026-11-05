@@ -1,0 +1,12 @@
+diff --git a/docs/art-rebuild/ART_DIRECTION.md b/docs/art-rebuild/ART_DIRECTION.md
+index 1731304ef..c18ab760f 100644
+--- a/docs/art-rebuild/ART_DIRECTION.md
++++ b/docs/art-rebuild/ART_DIRECTION.md
+@@ -243,6 +243,7 @@
+ 每次重大美術修改必須提交：①真實照片或既有美術參考 ②修改前遊戲截圖 ③修改後遊戲截圖 ④相同角度、相近時間與光線條件的比較 ⑤Blender 模型渲染圖 ⑥GLB 模型與貼圖規格（檔案大小、三角面數、材質數、貼圖尺寸與格式） ⑦手機模擬測試結果 ⑧實機尚未驗證的事項 ⑨Git commit SHA ⑩尚未達到參考品質的缺點。禁止只用文字說「現在比較精緻」「材質改善」「細節增加」，要讓使用者實際看到差異（`docs/art-rebuild/VISUAL_REVIEW.md` 直接嵌圖）。
+ 
+ **照參考圖做的店面、場景（R2；LAWWW2-C 提、LAWWW-C 和 BB 同意，D128 定案，2026-11-04）**：驗收要附參考圖鏡頭（焦距、shift_y、眼睛和看的點的遊戲座標）和同角度疊圖（`tools/art/same_angle_check.py`，D138）。
++- **2D 轉 3D 的完整流程（使用者 2026-11-05 03:4x 對 LAWWW2-C：「疊圖畫出來的3d真的很棒寫成規則 以後任何2d轉3d都要參考這次透過開源或者新增的各種美術方法都要寫進規則交接給下一個lawww2」）**：照 `docs/art-rebuild/second_ai/RULES_2D_TO_3D.md`——拆圖＋左右順序、反推參考圖鏡頭（`fit_refcam.py`）、候選鏡頭比較、同角度疊圖（R2）、把構圖鎖進 Node 測試、四格對照交件、照實寫取捨；開源和新做的美術方法列在那份的工具表，有新的就加一列。
+ - 店面用 `--mode shop`，越像越好（D133）。校園建築用 `--mode campus`，照抄檢查要是 0（D136）。
+ - 交件附 `_overlay.jpg`、`_structure.json`。
+ - 遊戲做成鏡像的，比對用翻過來的參考圖。

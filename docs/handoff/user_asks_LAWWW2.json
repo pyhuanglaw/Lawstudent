@@ -709,6 +709,16 @@
    "task": "ADE-POLE16-1104",
    "src": "使用者直接對 LAWWW2-C 工作階段說",
    "note": "發布版的桿子在 x −9.2（店面正前方）；開發分支 ADE-PROPS 已挪到 −12.7（阿德西緣外 0.7 m），還是看起來在店前面 → 改到 −16.0（日式宿舍院牆前、離阿德 4 m、不擋宿舍的門）：wz_props.py／wz_props.glb＋zones3d.js 兩行的 patch（ade_pole16_1104.patch，交 LAWWW-C）；Node 測試 7 支 ALL PASS（開發分支 01e12b75d 上再跑 10 支 ALL PASS）；小路窗景晚上那張跟著重拍｜【LAWWW-C 21:52Z】開發分支 c744017d3 接好（總表 X229、交付 DL-LAWWW2-38b779db6）；不擠進 v9.10.20（BB-C 21:53 同意），下一版上線；瀏覽器 street_props_integration、reachability_all、阿德門口截圖 LAWWW-C 交 BB／CC"
+  },
+  {
+   "id": "UA-LAWWW2-1105-01",
+   "at": "2026-11-05T03:4x",
+   "quote": "疊圖畫出來的3d真的很棒寫成規則 以後任何2d轉3d都要參考這次透過開源或者新增的各種美術方法都要寫進規則交接給下一個lawww2",
+   "kind": "原話",
+   "status": "已寫入",
+   "task": "RULES-2D3D-1105",
+   "src": "使用者直接對 LAWWW2-C 工作階段說（同弦 v4e／v4f、2:30 AM 第三版的疊圖交件以後）",
+   "note": "寫成 docs/art-rebuild/second_ai/RULES_2D_TO_3D.md（七步流程：拆圖＋左右順序 → 反推 camRef（新工具 fit_refcam.py）＋候選鏡頭 → 建模（改配置要重拍 camRef）→ glb_preview eevee → R2 same_angle_check → 構圖鎖進 Node 測試 → 四格對照交件；工具表 15 列（開源＋新做的）；踩過的坑 10 條）；SCENE_RULES §12、HANDOFF 最上面都指過去；ART_DIRECTION 12.8 一行的 patch 交 LAWWW-C 登記決策；通知 LAWWW-C、BB-C、CC-C"
   }
  ]
 }

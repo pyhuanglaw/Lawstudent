@@ -1,5 +1,7 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+> **接班必讀（使用者 11-05 03:4x，UA-LAWWW2-1105-01）：任何 2D 轉 3D 都照 `RULES_2D_TO_3D.md` 做**——「疊圖畫出來的3d真的很棒寫成規則 以後任何2d轉3d都要參考這次透過開源或者新增的各種美術方法都要寫進規則交接給下一個lawww2」。流程、工具表、踩過的坑、範例（同弦 `wip/tongxian_ref_1105/`、2:30 AM `wip/wz_five_1104/cafe230_exterior.md`）都在裡面；有新方法就加一列。
+
 ## ✅ 值班登記（2026-11-04 12:37 UTC；帳號 C LAWWW2-C；使用者：「你上次沒有交班 使用量就到達上限 你之後有其他帳號接續工作 現在換你接班 有新增一個腳色CC幫助BB測試」）
 - 值班登記：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜分支 claude/focused-cray-c9uwvw｜接班基準 `5f85444cd`（快轉上一任 `claude/second-ai-env-art`）｜2026-11-04 12:37 UTC
 - 上一班：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜最後 commit `af97d745`（交班紀錄）＋`5f85444cd`（快照）｜正常交班（11-04 09:1x）。帳號 B 11-04 12:1x～12:2x 那一班，LAWWW2-B 沒有登記、沒有寫入 LAWWW2 的分支。
