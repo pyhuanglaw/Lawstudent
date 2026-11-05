@@ -40873,8 +40873,8 @@
    "id": "CAMPUS-RELAYOUT-1102",
    "title": "系館照官方地圖排相對位置；舊社科院 (112,−62) 那棟＝電機二館，電機一館照官方地圖位置也蓋（使用者 09:15 選擇題）",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "【LAWWW-C 11-04 14:08】使用者看了官方地圖對照圖，對 LAWWW2-C 選「電機一館先不放」（UA-LAWWW2-1104-04）：普通、博思、社科院都不搬，EE1-A3 撤回｜【LAWWW-C 11-04 13:4x】電機一館 A3 撤回（使用者 13:3x 對 LAWWW2-C 質疑：「你隨便找地圖上那邊是什麼？比較像社會系 電機在那邊嗎」；官方地圖上電機一館在博雅、普通教學館東邊、化學館旁邊）；LAWWW-C 13:1x 的「同意 A3」收回；LAWWW2 先做官方地圖↔遊戲的對照圖給使用者看，在那之前不新增、不搬任何系館｜【LAWWW-C 11-04 13:1x】LAWWW2-C f189eedfb 盤點交了；電機一館照 UA-LAWWW2-1103-10 定 A3（普通教學館西邊空草地 x −90～−66、z −64～−48），排在阿德轉角之後做 patch＋俯視圖＋campus_layout_nav／reachability_all｜LIB 之後；名稱照 WORLD_NAMING 規則",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-05 04:5x】LAWWW2-C 查證：使用者 11-04 選「電機一館先不放」，普通／博思／社科院不搬；電機二館已在遊戲（招牌、地圖）；沒有要做的，結案｜【LAWWW-C 11-04 14:08】使用者看了官方地圖對照圖，對 LAWWW2-C 選「電機一館先不放」（UA-LAWWW2-1104-04）：普通、博思、社科院都不搬，EE1-A3 撤回｜【LAWWW-C 11-04 13:4x】電機一館 A3 撤回（使用者 13:3x 對 LAWWW2-C 質疑：「你隨便找地圖上那邊是什麼？比較像社會系 電機在那邊嗎」；官方地圖上電機一館在博雅、普通教學館東邊、化學館旁邊）；LAWWW-C 13:1x 的「同意 A3」收回；LAWWW2 先做官方地圖↔遊戲的對照圖給使用者看，在那之前不新增、不搬任何系館｜【LAWWW-C 11-04 13:1x】LAWWW2-C f189eedfb 盤點交了；電機一館照 UA-LAWWW2-1103-10 定 A3（普通教學館西邊空草地 x −90～−66、z −64～−48），排在阿德轉角之後做 patch＋俯視圖＋campus_layout_nav／reachability_all｜LIB 之後；名稱照 WORLD_NAMING 規則",
    "sha": "",
    "source": "同上",
    "xai": {
@@ -41612,8 +41612,8 @@
    "id": "LIB-B1-V4-1102",
    "title": "總圖 B1 自習室第四版／4.1（使用者 18:1x「太擠」「桌子和進門的門平行」；18:4x「排距維持 4.4 m」）",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "LAWWW2 交 4.1 → LAWWW 整合 → BB 給使用者比較圖、標 ART_APPROVED",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-05 04:5x】LAWWW2-C 查證：4.1 版 cca10dd55 → fd5d37105 接、BB_242 ART_APPROVED（daf4c4410）；結案｜LAWWW2 交 4.1 → LAWWW 整合 → BB 給使用者比較圖、標 ART_APPROVED",
    "sha": "",
    "source": "同上",
    "xai": {
