@@ -15,6 +15,7 @@ from playwright.async_api import async_playwright
 import os
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L
+import cc_phone
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_playtest_fixes'
@@ -236,6 +237,7 @@ async def main():
             run.check('E 開手機之前沒有開著的對話', not any(q1[k] for k in ('dlg', 'choices')), json.dumps(q1, ensure_ascii=False)[:200])
             await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
             await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(800)
+            await cc_phone.reveal(pg, cdp, 'library_hall')   # 快速前往分地區（QUICK-TRAVEL-AREAS-1105，12cb1426c 起）：先點地區
             sel = '#phoneBody [data-place="library_hall|總圖書館（大廳）"]'
             has = await pg.evaluate("!!document.querySelector(%s)" % json.dumps(sel))
             run.check('E 手機「地點」有「總圖書館（大廳）」可以快速前往', has)

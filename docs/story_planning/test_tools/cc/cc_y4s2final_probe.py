@@ -63,6 +63,7 @@ D124（690ac5f4d 起；BB 10:48／10:57）：大四下海商法改選修（choic
 等待上限（秒）：CASE_MAX（main，預設 5400）、TRIP_MAX（一趟上課，預設 600）、STUCK_S（空著、畫面時間都沒變，預設 240）。"""
 import os, sys, json, asyncio, re, time, copy, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
+import cc_phone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); import bbplay as P   # bbplay 在上一層（BB 的 test_tools）
 from playwright.async_api import async_playwright
 
@@ -241,6 +242,7 @@ async def tap_sel_js(pg, cdp, js):
 async def quick_go(pg, cdp, run, zone):
     """手機「地點」→ 那一個地方（aa296_probe 的 quick_go）"""
     await P.phone_tab(pg, cdp, 'places')
+    await cc_phone.reveal(pg, cdp, zone)   # 快速前往分地區（QUICK-TRAVEL-AREAS-1105，12cb1426c 起）：先點地區
     got = await tap_sel_js(pg, cdp, "[...document.querySelectorAll('#phoneBody [data-place]')].find(b=>b.dataset.place.startsWith(%s))" % json.dumps(zone + '|'))
     if not got: await L.phone_away(pg, cdp); run.note('手機「地點」沒有 %s' % zone); return False
     for _ in range(90):

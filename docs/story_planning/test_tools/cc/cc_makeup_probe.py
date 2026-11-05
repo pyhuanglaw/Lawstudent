@@ -95,6 +95,7 @@ check 只客觀記錄（不判定企劃）。
 等待上限（秒）：CASE_MAX（預設 6000）、TRIP_MAX（一趟上課 600）、STUCK_S（240）、POST_S（補考演完再等，20）、MK_WAIT（6/18 以後等補考，2400）。"""
 import os, sys, json, asyncio, re, time, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
+import cc_phone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); import bbplay as P   # bbplay 在上一層（BB 的 test_tools）
 from playwright.async_api import async_playwright
 
@@ -358,6 +359,7 @@ async def tap_sel_js(pg, cdp, js):
 
 async def quick_go(pg, cdp, run, zone):
     await P.phone_tab(pg, cdp, 'places')
+    await cc_phone.reveal(pg, cdp, zone)   # 快速前往分地區（QUICK-TRAVEL-AREAS-1105，12cb1426c 起）：先點地區
     got = await tap_sel_js(pg, cdp, "[...document.querySelectorAll('#phoneBody [data-place]')].find(b=>b.dataset.place.startsWith(%s))" % json.dumps(zone + '|'))
     if not got: await L.phone_away(pg, cdp); run.note('手機「地點」沒有 %s' % zone); return False
     for _ in range(90):

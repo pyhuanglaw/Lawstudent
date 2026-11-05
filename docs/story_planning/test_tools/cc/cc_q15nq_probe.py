@@ -25,6 +25,7 @@ LAWWW 開發分支 d4398a91f 拿掉子晴的「這不是問句。」「這次是
 預估時間（SwiftShader）：Q15_WALK 4～6 分、ZQ_NOREPLY 15～25 分（含睡覺、等到 21:00）、ZQ_CALL_FP 8～15 分、ZQ_SLEEP／ZQ_SLEEP_FP 各 6～10 分、GUITAR 3～5 分。"""
 import os, sys, json, asyncio, time, re, copy
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
+import cc_phone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); import bbplay as P   # bbplay 在上一層（BB 的 test_tools）
 from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
@@ -184,6 +185,7 @@ async def skip(pg, cdp, label_prefix, label=''):
 
 async def quick_go(pg, cdp, zone):
     await phone_tab(pg, cdp, 'places')
+    await cc_phone.reveal(pg, cdp, zone)   # 快速前往分地區（QUICK-TRAVEL-AREAS-1105，12cb1426c 起）：先點地區
     got = await tap_sel_js(pg, cdp, "[...document.querySelectorAll('#phoneBody [data-place]')].find(b=>b.dataset.place.startsWith(%s))" % json.dumps(zone + '|'))
     if not got: await L.phone_away(pg, cdp); return False
     for _ in range(60):
