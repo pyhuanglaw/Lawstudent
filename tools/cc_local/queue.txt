@@ -16,7 +16,12 @@ GUITAR_play | b4746f345486b6bd154cff34975da6d2ab9cb29c | probe | docs/story_plan
 D118B5_play | 747dba80dabb454eaf2aaf6f1bee272a271c6ce5 | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 90 | CC_HEADLESS=0
 # BB-C 04:16 NANYANG_v1（D141 第 1 間）：南洋戲院第 1 版只測擋玩五項＋給使用者看的截圖；LAWWW-C 整合 a3b18addc（LAWWW2-C 9eed89550）
 NANYANG_v1 | a3b18addc282352b709b2cd7351d5f489a91449c | probe | docs/story_planning/test_tools/cc/cc_nanyang_v1_probe.py | index.html | 60 | CC_HEADLESS=0
+# BB-C 04:48：NANYANG、SHANLAN、NPCTASK_r2、GUITAR_DORM 改用 LAWWW-C 開發分支 13700be8f；NANYANG 加「營業時間外店門擋住」（04:31）
+NANYANG_v1b | 13700be8fbfcaa902b0276713c5c83c7c38e3c79 | probe | docs/story_planning/test_tools/cc/cc_nanyang_v1_probe.py | index.html | 60 | CC_HEADLESS=0
 # D118B5 r1 的探針錯（b5b 比錯天；aunt 沒設 YT_MET_JOB＝STORY.knows 語彤 false；abroad／sats 把讀檔入社的 fafu_welcome 算進去）：重跑這四組（sats 的私訊、值班表那兩項等 BB-C 判）
+# BB-C 04:40：NPCTASK_r2（三樓閱覽室要有人做事、其他四處不退步；修改前＝NPCTASK_f5c3）、GUITAR_DORM（彈吉他移外層）
+NPCTASK_r2 | 13700be8fbfcaa902b0276713c5c83c7c38e3c79 | probe | docs/story_planning/test_tools/cc/cc_npctask_probe.py | index.html | 60 | CTL=both;LOCS=hall,lib3f,lawlib,soc2f,b1;CC_HEADLESS=0
+GUITAR_DORM | 13700be8fbfcaa902b0276713c5c83c7c38e3c79 | probe | docs/story_planning/test_tools/cc/cc_guitar_dorm_probe.py | index.html | 20 | CC_HEADLESS=0
 D118B5_r2 | 747dba80dabb454eaf2aaf6f1bee272a271c6ce5 | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 60 | CC_HEADLESS=0;CASES=b5b,aunt,auntneg,abroad
 D118B7F_play | 193d1fd4f1b3ccacc544864c2e02f8faa0ba95f8 | probe | docs/story_planning/test_tools/cc/cc_d118b7f_play.py | index.html | 90 | CC_HEADLESS=0;RERUN=r3;CASES=judge
 D118B7_play | 6a1592a26831ce63470b4869aa9c5aa7e5d8628c | probe | docs/story_planning/test_tools/cc/cc_d118b7_play.py | index.html | 60 | CC_HEADLESS=0;RERUN=r2
