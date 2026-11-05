@@ -48,3 +48,19 @@
 [00:13:59] [res] cpu=3% mem=26% (8.5/31.4 GB) chrome_testing=0  START AA0F_touch
 [00:16:00] 正在跑：AA0F_touch（已跑 2 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [00:16:48] [res] cpu=12% mem=26% (8.3/31.4 GB) chrome_testing=0  END AA0F_touch
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       af8bd5f62..1f5fbe8eb  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:16:52] ==== END   AA0F_touch  exit=1  172s   ====
+[00:16:59] memory 25% before starting AA0F_reach (0 running)
+[00:16:59] ==== START AA0F_reach  (game @ aa0f3bcd30eea217ec732963851ea5f3b35e8d97) ====
+[00:16:59] memory 25% before starting V21R_soc_heroine_01_go (1 running)
+[00:16:59] ==== START V21R_soc_heroine_01_go  (probe @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
+[00:16:59] memory 25% before starting V21R_soc_heroine_02_talk (2 running)
+[00:16:59] ==== START V21R_soc_heroine_02_talk  (probe @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
+[00:17:02] [res] cpu=16% mem=25% (8.0/31.4 GB) chrome_testing=0  START V21R_soc_heroine_02_talk
+[00:17:02] [res] cpu=16% mem=25% (8.0/31.4 GB) chrome_testing=0  START AA0F_reach
+[00:17:02] [res] cpu=16% mem=25% (8.0/31.4 GB) chrome_testing=0  START V21R_soc_heroine_01_go
+[00:21:00] 正在跑：AA0F_reach（已跑 4 分／上限 30 分）、V21R_soc_heroine_01_go（已跑 4 分／上限 45 分）、V21R_soc_heroine_02_talk（已跑 4 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:26:00] 正在跑：AA0F_reach（已跑 9 分／上限 30 分）、V21R_soc_heroine_01_go（已跑 9 分／上限 45 分）、V21R_soc_heroine_02_talk（已跑 9 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:26:28] [res] cpu=14% mem=40% (12.7/31.4 GB) chrome_testing=10  END AA0F_reach
