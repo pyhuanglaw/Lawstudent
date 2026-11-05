@@ -6,6 +6,7 @@
 // 修改前（開發分支 effb5d9b3）：② 失敗——blockCircle(54.4,3.6,0.35) 在 0.5 m 的導航格上只擋一格，人可以站在畫架三支腳中間（最近 0 m）。
 // 改法（zones3d.js，LAWWW-C）：畫架那一行的 nav.blockCircle(54.4,3.6,0.35) 改成 nav.blockRect(54.45,3.6,0.9,0.9,0,0)——② 變 0.33 m，① ③ 照舊。
 // 外觀和世界座標：外觀 (x', y, z') ＝ 世界 (55.4 − z', y, x')（cafeB 的原點在世界 x 55.4，正面朝 −x）。
+//   ④（第三版）轉角的白色高盆小樹：人碰不到盆、樹冠不會擦到肩膀和頭（讀 GLB 的葉子頂點）
 // 用法：node tests/cafe230_ext_nav_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -40,4 +41,14 @@ const door=[52.5,0.0], pts=[[52.5,3.6],[52.5,7.5],[53.6,6.0],[53.6,2.0],[50.0,3.
 const bad=pts.filter(p=>!(E.canStand(p[0],p[1],R,0)&&E.pathTo(door[0],door[1],0,p[0],p[1],0)));
 let iso=0; for(let x=52.0;x<=55.4;x+=0.25) for(let zz=1.0;zz<=6.5;zz+=0.25){ if(E.canStand(x,zz,R,0)&&!E.pathTo(door[0],door[1],0,x,zz,0)) iso++; }
 check('③ 店門前 (52.5,0) 走得到畫架兩邊、街上五個點；門口一帶沒有站得住但走不到的點',E.canStand(door[0],door[1],R,0)&&bad.length===0&&iso===0,'走不到 '+JSON.stringify(bad)+'；小孤島的點 '+iso);
+// ④ 轉角的白色高盆小樹（第三版，外觀 (4.78, 0.55)＝世界 (54.85, 4.78)；在原本的 blockRect(54.85,5.4,0.6,1.8) 裡）：
+//    站得住的人中心離盆 ≥ 0.30＋盆半徑 0.17；樹冠（GLB 裡離樹 0.6 m 內、離地 1.0～1.9 m 的葉子頂點）離站得住的人中心水平 ≥ 0.20 m（肩膀、頭不會穿進葉子）
+{ const d=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/cafe_exterior.glb')), n=d.readUInt32LE(12), J=JSON.parse(d.slice(20,20+n).toString('utf8')), bo=20+n+8;
+  const T=[4.78,0.55], TW=ext2w(T[0],T[1]), leaf=[];
+  for(const nd of J.nodes){ if(nd.mesh==null||nd.translation||nd.rotation||nd.scale||nd.matrix||(nd.extensions&&nd.extensions.EXT_mesh_gpu_instancing)) continue; const m=J.meshes[nd.mesh];
+    for(const pr of m.primitives){ const mt=pr.material!=null?J.materials[pr.material].name:''; if(!/leaf/.test(mt)) continue; const a=J.accessors[pr.attributes.POSITION], bv=J.bufferViews[a.bufferView], st=bv.byteStride||12, off=bo+(bv.byteOffset||0)+(a.byteOffset||0);
+      for(let i=0;i<a.count;i++){ const x=d.readFloatLE(off+i*st), y=d.readFloatLE(off+i*st+4), zz=d.readFloatLE(off+i*st+8); if(y>1.0&&y<1.9&&Math.hypot(x-T[0],zz-T[1])<0.6) leaf.push(ext2w(x,zz)); } } }
+  let dp=1e9, dl=1e9; for(let x=TW[0]-1.2;x<=TW[0]+1.2;x+=0.02) for(let zz=TW[1]-1.2;zz<=TW[1]+1.2;zz+=0.02){ if(!E.canStand(x,zz,R,0)) continue;
+    dp=Math.min(dp,Math.hypot(x-TW[0],zz-TW[1])-0.17); for(const q of leaf) dl=Math.min(dl,Math.hypot(x-q[0],zz-q[1])); }
+  check('④ 轉角白盆小樹：人碰不到盆（≥ 0.30 m）、樹冠離人中心水平 ≥ 0.20 m',leaf.length>20&&dp>=R&&dl>=0.2,'離盆 '+dp.toFixed(2)+' m、離葉子 '+dl.toFixed(2)+' m（葉子頂點 '+leaf.length+' 個）'); }
 console.log(fails?('FAILS: '+fails):'ALL PASS'); process.exit(fails?1:0);

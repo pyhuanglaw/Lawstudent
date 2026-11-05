@@ -164,7 +164,10 @@ await sec('5',async()=>{
   check('5. 同行的人沒有這一項的台詞（以安）：照 AA_685 C1 原本的做法（不列「海風與燈」、夕陽那一項灰掉「太陽已經下山了」）',!an.pt('海風與燈')&&!!an.pt('海風與夕陽')&&an.pt('海風與夕陽').hint==='太陽已經下山了',J(an.lab));
   const yt=await menu('2026-02-01',18,YT,'friend',{pick:'海風與燈'});
   check('5. 和語彤（朋友）：「海風與燈」照舊；旁白之後她那一句「橋上的燈亮了。要拍的話就是現在。」',yt.said.some(t=>t.endsWith('：橋上的燈亮了。要拍的話就是現在。'))&&yt.said.indexOf(q14.lines[0])>=0&&yt.said.indexOf(q14.lines[0])<yt.said.findIndex(t=>t.endsWith('：橋上的燈亮了。要拍的話就是現在。')),J(yt.said));
-  check('5. 正式約會的漁人碼頭照舊（date_locations.js、date_lines.js、date3d.js 沒有改）',cp.spawnSync('git',['-C',H.ROOT,'diff','--quiet','e25149ef0','--','src/data/date_locations.js','src/data/date_lines.js','src/date3d.js']).status===0);
+  { /* AA_694（DATE-ELLIPSIS-1105）以後 date_lines.js 整份拿掉了沒必要的「……」：漁人碼頭（loc.D14）＝e25149ef0 那一版照同一條規則換過，其他字不變 */
+    const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf(';')));
+    const was=DL(cp.execFileSync('git',['-C',H.ROOT,'show','e25149ef0:src/data/date_lines.js'],{encoding:'utf8',maxBuffer:64*1024*1024})), now=DL(fs.readFileSync(path.join(H.ROOT,'src/data/date_lines.js'),'utf8'));
+    check('5. 正式約會的漁人碼頭照舊（date_locations.js、date3d.js 沒有改；date_lines.js 的 D14 只有 AA_694 拿掉「……」）',cp.spawnSync('git',['-C',H.ROOT,'diff','--quiet','e25149ef0','--','src/data/date_locations.js','src/date3d.js']).status===0&&JSON.stringify(require('./ellipsis694.js').deep(was.loc.D14))===JSON.stringify(now.loc.D14)); }
 });
 
 /* ---------- D1 重逢中間隔了她沒班的週六（AA_685 D 節）---------- */

@@ -8,6 +8,16 @@ const XS3=(function(){
   const S={};
   const LAY=()=>typeof XINSHENG_LAYOUT!=='undefined'?XINSHENG_LAYOUT:null;
   const M=c=>TK.col?TK.col(c):new THREE.MeshStandardMaterial({color:c,roughness:0.85});
+  /* XS-ARCADE-NAV-1105（LAWWW2-C 11-05）：騎樓的分段照正式模型（wz_street.py --set xinsheng 的 _xinsheng_lj）。
+     arcadeShops：有騎樓的店（照 z0 排）；店和店之間、店和溫州街巷口之間不到 1.5 m 的縫，模型把店面加寬補滿。
+     noArcade：其他段（街的南北兩段公寓）——模型一樓的牆在立面往裡 0.2 m，沒有騎樓。 */
+  S.arcadeShops=function(L){ const WL=L.wenzhouLane, sh=L.shops.map(q=>({id:q.id,z0:q.z0,z1:q.z1})).sort((a,b)=>a.z0-b.z0);
+    for(let i=0;i+1<sh.length;i++){ const gap=sh[i+1].z0-sh[i].z1; if(gap>0&&gap<1.5) sh[i].z1=sh[i+1].z0; }
+    for(const q of sh){ const a=WL.z0-q.z1, b=q.z0-WL.z1; if(a>0&&a<1.5) q.z1=WL.z0; if(b>0&&b<1.5) q.z0=WL.z1; }
+    return sh; };
+  S.noArcade=function(L){ const R=L.road, WL=L.wenzhouLane, taken=S.arcadeShops(L).map(q=>[q.z0,q.z1]).concat([[WL.z0,WL.z1]]).sort((a,b)=>a[0]-b[0]); const out=[]; let cur=R.z0;
+    for(const [a,b] of taken){ if(a>cur+0.05) out.push([cur,a]); cur=Math.max(cur,b); } if(R.z1>cur+0.05) out.push([cur,R.z1]); return out; };
+  S.NO_ARCADE_REC=0.2;   // 沒有騎樓的那幾段：一樓牆在立面（facade.upper）往裡 0.2 m（wz_street.py 住家／鐵捲門的 rec）
   S.build=function(E){ const L=LAY(); const g=new THREE.Group(); g.name='xinsheng_zone';
     const N=L.nav, nav=new E3.NavGrid(N.w,N.d,N.cell,N.x0,N.z0); nav.b.fill(1);
     const open=(x0,z0,x1,z1)=>{ for(let cz=0;cz<nav.rows;cz++) for(let cx=0;cx<nav.cols;cx++){ const [wx,wz]=nav.toWorld(cx,cz); if(wx>=x0&&wx<=x1&&wz>=z0&&wz<=z1) nav.b[nav.idx(cx,cz)]=0; } };
@@ -20,9 +30,13 @@ const XS3=(function(){
     open(CW.x-0.7,SG.z-SG.w/2+0.6,CW.x+0.9,SG.z+SG.w/2-0.6);                // 側門的門洞
     nav._cm=null;
     const zoneRef={z:null}, backFormal=[];   /* 側門裡面的校園：正式模型等 zone 建好才載入（判斷是不是還在這個區域） */
-    // 騎樓柱子（每間店的分界、每 4 m 一根）、樹、路燈、候車亭、車阻
-    const pillarZ=[]; for(const q of L.shops.concat(L.fill)) for(let z=q.z0;z<=q.z1+0.01;z+=Math.max(3.6,(q.z1-q.z0)/Math.max(1,Math.round((q.z1-q.z0)/4)))) pillarZ.push(z);
-    for(const z of pillarZ){ if(z>WL.z0-0.2&&z<WL.z1+0.2) continue; nav.blockRect(AR.x1-0.3,z,0.5,0.5,0); }
+    // 騎樓柱子：照正式模型（xs_front）每間店靠北那一端一根（x 立面往裡 0.6 m、z 店的 z0 往南 0.3 m）。原本每 4 m 一根，模型裡沒有的 31 根是看不到的柱子，
+    //   南洋戲院、山嵐、大口、大步、運動廣場的店門正前方都擋了一根（XS-ARCADE-NAV-1105；tests/xinsheng_unit.js 17 讀 GLB 對位置）
+    for(const q of S.arcadeShops(L)) nav.blockRect(AR.x1-0.3,q.z0+0.15,0.6,0.5,0);
+    // 沒有騎樓的那幾段（南北兩段公寓）：導航擋到一樓的牆（原本騎樓開到底，走得進公寓的牆裡面 3 m；tests/xinsheng_unit.js 18）
+    const NA=S.noArcade(L), wallX=F.upper-S.NO_ARCADE_REC;
+    for(const [a,b] of NA) nav.blockRect((AR.x0-1+wallX)/2,(a+b)/2,wallX-(AR.x0-1),b-a,0);
+    // 樹、路燈、候車亭、車阻
     for(const [x,z] of L.trees.palms.concat(L.trees.camphor)) nav.blockCircle(x,z,0.45);
     for(const [x,z] of L.lamps) nav.blockCircle(x,z,0.3);
     for(const [x,z] of L.bollards) nav.blockCircle(x,z,0.2);
@@ -83,9 +97,10 @@ const XS3=(function(){
     const fb=[]; const colM=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide});
     const addCollider=(x,z,w,d,h)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h||14,d),colM); m.position.set(x,(h||14)/2,z); g.add(m); E.colliders.push(m); };
     for(const q of L.shops.concat(L.fill)){ const w=q.z1-q.z0, dp=F.upper-F.back, cx=(F.upper+F.back)/2, h=F.groundH+(q.floors-1)*F.floorH;
+      const fx=L.fill.includes(q)?wallX:F.x;   // 沒有騎樓的公寓：一樓（備用方塊、鏡頭碰撞）從牆開始，和正式模型、導航一樣
       const up=new THREE.Mesh(new THREE.BoxGeometry(dp,h-F.groundH,w),M('#d6cdbd')); up.position.set(cx,F.groundH+(h-F.groundH)/2,(q.z0+q.z1)/2); up.userData.xsfb=true; up.userData.dyn=true; g.add(up); fb.push(up);
-      const lo=new THREE.Mesh(new THREE.BoxGeometry(F.x-F.back,F.groundH,w),M('#bfb6a8')); lo.position.set((F.x+F.back)/2,F.groundH/2,(q.z0+q.z1)/2); lo.userData.xsfb=true; lo.userData.dyn=true; g.add(lo); fb.push(lo);
-      addCollider((F.x+F.back)/2,(q.z0+q.z1)/2,F.x-F.back,w,h); }
+      const lo=new THREE.Mesh(new THREE.BoxGeometry(fx-F.back,F.groundH,w),M('#bfb6a8')); lo.position.set((fx+F.back)/2,F.groundH/2,(q.z0+q.z1)/2); lo.userData.xsfb=true; lo.userData.dyn=true; g.add(lo); fb.push(lo);
+      addCollider((fx+F.back)/2,(q.z0+q.z1)/2,fx-F.back,w,h); }
     // 互動點：側門、溫州街巷口、各店門口
     E.interactables.push({x:SG.x-1.6,z:SG.z,radius:2.2,label:SG.label,exit:{to:'campus',spawn:Object.assign({},SG.campusSpawn)}});
     E.interactables.push({x:WL.exit.x,z:WL.exit.z,radius:2.4,label:WL.exit.label,exit:{to:WL.exit.to,spawn:Object.assign({},WL.exit.spawn)}});

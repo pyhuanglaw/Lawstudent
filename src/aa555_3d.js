@@ -59,7 +59,7 @@ const AA555=(function(){
     ['y2s1_zhe_together',ZHE,wk('Y2S1'),G=>grp(G,'noodle_team')&&done(G,'ev_yu_together'),()=>[M(ZHE,'從今天開始，我跟 Alison 坐一起',0,NG),M(ZHE,'其他人照舊',1/60,NG),M(YU,'沒有人問你',2/60,NG)]],   /* 語 3 之後；AA_555〔名〕〔麵〕*/
     ['y2s1_yu_meetings',YU,wk('Y2S1'),(G,d)=>got(G,YU,d),()=>SQ(YU,['我今天開了三個會','第三個會在討論第一個會的結論','我好想睡'])],
     ['y2s1_yu_soymilk',YU,wk('Y2S1'),(G,d)=>got(G,YU,d)&&!done(G,'ev_yu_together'),()=>SQ(YU,['欸阿哲今天又剛好路過','他拿了兩杯豆漿','一杯是我的','……他每次都剛好']),9+20/60],   /* 語 2 的徵兆：還沒在一起 */
-    ['y2s1_bh_duty',BH,wk('Y2S1'),G=>grp(G,'lawclub_study')&&typeof STORY!=='undefined'&&!!STORY.fafuMember&&STORY.fafuMember(G),()=>SQ(BH,['本週值班表','📷（一張表）','有問題私訊','沒有問題也可以私訊','……最後一句當我沒說'],'g:lawclub_study')],   /* 法服群組（lawclub_study）；柏翰大二是法服社長。D118-B5a：只給真的加入的社員（舊存檔只看過公告、已經在群組裡的不收，D118_PLAN 第 8 節第 6 點）*/
+    ['y2s1_bh_duty',BH,wk('Y2S1'),G=>grp(G,'lawclub_study')&&typeof STORY!=='undefined'&&!!STORY.fafuMember&&STORY.fafuMember(G),()=>SQ(BH,['這學期的預約，有的話前一天晚上在這裡講','📷（一張空白的預約登記表）','有問題私訊','沒有問題也可以私訊','……最後一句當我沒說'],'g:lawclub_study')],   /* 法服群組（lawclub_study）；柏翰大二是法服社長。D118-B5a：只給真的加入的社員（舊存檔只看過公告、已經在群組裡的不收，D118_PLAN 第 8 節第 6 點）*/
     ['y2s1_bh_group',BH,wk('Y2S1'),(G,d)=>got(G,BH,d)&&done(G,'ev_bohan_exam_group'),()=>[M(BH,'這週第三題全組都錯。出題的人想考什麼，我也不知道。我去問老師。')]],   /* 翰 2 */
     ['y2s1_xc_cvs',XC,wk('Y2S1'),(G,d)=>got(G,XC,d)&&done(G,'ev_xinci_second'),()=>[M(XC,'便利商店那杯，下次換你請。')]],   /* AA_555〔慈〕：慈 3 新版 */
     ['y2s1_xc_mid',XC,wk('Y2S1',5,7),(G,d)=>got(G,XC,d),()=>[M(XC,'要不要一起讀債總。我讀要件，你讀例外。……我最怕例外。')]],

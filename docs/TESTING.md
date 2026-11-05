@@ -129,6 +129,8 @@
 
 ## 五、發布前必跑（核心）
 
+發布樹：`bash tools/handoff/mk_release_tree.sh <候選 SHA> <版本> <日期>`（src／tests／assets／lib／index.html／劇情匯入白名單＝候選＋版本字樣，其餘照開發分支；v9.10.20 時 lib 沒換，main 多帶了沒用到的 lib/lz-string.js，之後連 lib 一起換）；合進 main 以後下一個 commit 把這幾個路徑還原成開發分支發布前的 SHA。
+
 對**乾淨 checkout**（`git worktree add --detach <dir> HEAD`，只含 git 追蹤的檔案＝GitHub Pages 實際內容）開 server 後：
 
 > 跑 Node 測試以前先 `git fetch origin claude/cool-heisenberg-o8kuqx`（值班 AA 的企劃分支，帳號換了照 `duty.json` 的 AA 分支）：`aa416_fest`、`aa440_vacfill`、`aa414_hol`、`date_wish`、`aa442_jpprep` 等會 `git show <企劃線 sha>` 讀原稿，沒 fetch 會 FAIL（不是遊戲問題；BB-B 2026-10-24 RELEASE-9109-TEST 記的）。

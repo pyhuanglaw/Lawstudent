@@ -207,8 +207,8 @@ const legacyDraw=(seed,y,used)=>{ const r=rng(hashStr(seed+'|bar|'+y)), a=PG.poo
     const K=d=>d==null?null:CALENDAR.dateOf(d).key, sys=G=>(G.msgs||[]).filter(m=>m.th==='sys'&&/^【國考】/.test(m.text||'')).map(m=>[K(m.day),m.h,m.text]);
     const ruleAt=(G,k,h)=>{ H.at(k,h); STORY.phoneRules(GM); PHONE.tick(G); };
     const T1='【國考】8/4 一試。從今天起，坐到書桌或讀書的位子，可以把四年的筆記一次讀過一遍，要六個小時。', T2='【國考】8/4（六）一試。考前想把四年的筆記讀過一遍，坐到書桌或讀書的位子就可以。';
-    { const G=fresh29('2029-07-01',10); ruleAt(G,'2029-07-05',19.9); const before=sys(G).length; ruleAt(G,'2029-07-05',20.05); const a=sys(G);
-      check('r1. 2029 報了一試：7/5（總複習開放那天）20:00 系統訊息一則，字照 AA_690 ①；20:00 以前沒有',before===0&&a.length===1&&a[0][0]==='2029-07-05'&&a[0][2]===T1,J(a));
+    { const G=fresh29('2029-07-01',10); ruleAt(G,'2029-07-05',11.9); const before=sys(G).length; ruleAt(G,'2029-07-05',12.05); const a=sys(G);
+      check('r1. 2029 報了一試：7/5（總複習開放那天）12:00 系統訊息一則（BB-C 11-05 01:48：開放那天改 12:00，當天做得到；原本 20:00），字照 AA_690 ①；12:00 以前沒有',before===0&&a.length===1&&a[0][0]==='2029-07-05'&&a[0][2]===T1,J(a));
       ruleAt(G,'2029-07-06',20.1); check('r2. 隔天不再發',sys(G).length===1,J(sys(G)));
       ruleAt(G,'2029-07-29',19.9); const b0=sys(G).length; ruleAt(G,'2029-07-29',20.05); const b=sys(G);
       check('r3. 一試前一週的週日（2029-07-29）20:00 第二則，字照 AA_690 ②（8/4（六），不寫「這禮拜六」）',b0===1&&b.length===2&&b[1][0]==='2029-07-29'&&CALENDAR.dateOf(STORY.dayOfKey('2029-07-29')).wd%7===0&&b[1][2]===T2,J(b));
@@ -216,11 +216,11 @@ const legacyDraw=(seed,y,used)=>{ const r=rng(hashStr(seed+'|bar|'+y)), a=PG.poo
     { const G=fresh29('2029-07-01',10,{BAR_REG:false}); for(const k of ['2029-07-05','2029-07-29']) ruleAt(G,k,20.1);
       check('r5. 沒報 2029 一試：兩則都沒有（AA_690「報了那一年一試的才有」）',!sys(G).length,J(sys(G))); }
     { const G=fresh29('2029-07-01',10); H.at('2029-07-01',10); const t=PG.nextStop(G);
-      check('r6. 畢業以後篇「跳到下一件事」停在提醒的時間：7/1 10:00 的下一個停點不晚於 7/5 20:00（PG.stops）',t!=null&&t<=STORY.dayOfKey('2029-07-05')*24+20+1e-6,J({t,want:STORY.dayOfKey('2029-07-05')*24+20}));
+      check('r6. 畢業以後篇「跳到下一件事」停在提醒的時間：7/1 10:00 的下一個停點不晚於 7/5 12:00（PG.stops；開放那天 12:00，BB-C 01:48）',t!=null&&t<=STORY.dayOfKey('2029-07-05')*24+12+1e-6,J({t,want:STORY.dayOfKey('2029-07-05')*24+12}));
       ruleAt(G,'2029-07-05',20.05); H.at('2029-07-06',10); const t2=PG.nextStop(G);
       check('r7. 第一則傳了以後，下一個停點不晚於 7/29 20:00（第二則）',t2!=null&&t2<=STORY.dayOfKey('2029-07-29')*24+20+1e-6,J({t2,want:STORY.dayOfKey('2029-07-29')*24+20})); }
     { const G=fresh29('2030-07-01',10,{EXCHANGE_ROUTE:'US',BAR_REG:false,BAR_REG_2030:true}); ruleAt(G,'2030-07-04',20.05); ruleAt(G,'2030-07-28',20.05); const c=sys(G);
-      check('r8. 交換延畢（美國路線）2030 一試 8/3：7/4 20:00「【國考】8/3 一試。…」、7/28（日）20:00「【國考】8/3（六）一試。…」',c.length===2&&c[0][0]==='2030-07-04'&&c[0][2]===T1.replace('8/4','8/3')&&c[1][0]==='2030-07-28'&&c[1][2]===T2.replace('8/4','8/3'),J(c)); }
+      check('r8. 交換延畢（美國路線）2030 一試 8/3：7/4 12:00「【國考】8/3 一試。…」、7/28（日）20:00「【國考】8/3（六）一試。…」',c.length===2&&c[0][0]==='2030-07-04'&&c[0][2]===T1.replace('8/4','8/3')&&c[1][0]==='2030-07-28'&&c[1][2]===T2.replace('8/4','8/3'),J(c)); }
   });
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

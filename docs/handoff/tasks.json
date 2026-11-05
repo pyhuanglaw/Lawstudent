@@ -23421,7 +23421,7 @@
    },
    "source": "使用者 2026-10-18 07:5x",
    "authorized": "使用者直接要求（D104、D97）",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】等圖：BB 確認提示詞已給使用者（D97 純場景），圖到了放 bg_approved/cram_class 交 LAWWW 換（RH-C 系列） ｜ BB 寫提示詞給使用者 → bg_approved/cram_class → LAWWW 換（RH-C 系列、ev_y0_cram_class 的 bg）",
+   "next": "【LAWWW-C 11-05 04:0x】BB-C 04:0x 把 7 張（cram_class、teishoku_dusk、第 113 組五張吉他店）提示詞給使用者，使用者回「我現在沒有要生圖」→ 暫停（UA-BB-1105-NO-IMG-NOW）；恢復：使用者說要生圖或傳圖；下次檢查 11-12 或下一次發布前；不催，遊戲照用深色底／3D 畫面，不擋發布｜【LAWWW-C 2026-10-21 稽核 C】等圖：BB 確認提示詞已給使用者（D97 純場景），圖到了放 bg_approved/cram_class 交 LAWWW 換（RH-C 系列） ｜ BB 寫提示詞給使用者 → bg_approved/cram_class → LAWWW 換（RH-C 系列、ev_y0_cram_class 的 bg）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
@@ -40224,7 +40224,7 @@
    "title": "D118-B7 範圍外的後續：司法官二試題池（judgePool）沒照修過的課（美國路線可能考到刑事／公法判決研討）；二試、研究所筆試沒有 cue 和卡片回寫；研究所總複習（'grad'，D118 計畫 B6）沒做",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y4S2",
@@ -40238,8 +40238,8 @@
    },
    "source": "D118-B7 子代理交件（a544cc690）「還沒做、要你決定的」第 4、5 點",
    "authorized": "D118（使用者 11-02）",
-   "next": "【LAWWW-C 11-05 00:3x】BB-C 00:31 定三件（BB_255）：司法官二試、研究所都只抽修過的課（不到 10 題才退回全部；研究所沒修行政救濟法就三門）；二試 6 小時、研究所 4 小時總複習；開放＝二試：一試放榜且上榜、考前 30 天取晚的，研究所：考前 30 天；提醒開放那天、考前一週週日 20:00，有報名才有；畢業以後跳日期停。二試總複習只給要考司法官二試的人（律師二試沒有作答，LAWWW 定）。暫定字照 AA_690 最小替換，00:3x 送 AA-C 定稿；子代理 /home/user/wt-b7f（d118b7f-1105）實作中｜【LAWWW-C 11-05 00:3x】send_message 問 BB-C 三件（一試＝S.poolFor＋總複習＋提醒；司法官二試 S.drawJudge、研究所 S.drawGrad 現在都沒有）｜國考一試那一套照做到二試、研究所；做之前問 BB 二試題池要不要限修過的課",
-   "sha": null
+   "next": "【LAWWW-C 11-05 02:0x】BB-C 01:48（CC Node 40 PASS／7 FAIL 在 301a74c2d）三件 → 18e8fb5ac：二試提醒、開放日、週日都照二試第一天；breakRound 加 STUDY.homeOpt；開放那天提醒 12:00（三種考試）；b7f／b7 改期望值、w1；第 4 點另開 HOME-FF-REMIND-ALIGN-1105（P3）；CC 用 cc_d118b7f_node.js 重跑｜【LAWWW-C 11-05 01:4x】BB-C 01:32 八件：1～4、7、8 同意；5 要加 cue＋回寫觀念卡 → 63847fe13（d118_b7f q1～q4，改前 FAILED 4）；6 寒假照現在（不改 home3d），條件是家裡書桌入口寒假開得了研究所總複習（CC 驗，開不了 BB 再找 LAWWW）｜【LAWWW-C 11-05 01:3x】合併 7dbe93dfa（子代理 d118b7f-1105 91d9b0ed2）＋860cb2618（字註解定稿）：司法官二試 PG.judgePoolFor、研究所 PG.gradPoolFor（只出修過的；湊不到 10 題＝全部）、總複習 STUDY.review(GM,'judge'／'grad')（6／4 小時）、提醒 judge_remind_／grad_remind_<open|week>_<年>、PG.stops；d118_b7f 71 項（改前 FAILED 52）、相關 42 支、全套 1008 支 ALL PASS；BB 要確認的判斷 6 件（送 BB-C）；CC 用 D118_B7 那一套 Node＋瀏覽器各補一組｜【LAWWW-C 11-05 00:3x】BB-C 00:31 定三件（BB_255）：司法官二試、研究所都只抽修過的課（不到 10 題才退回全部；研究所沒修行政救濟法就三門）；二試 6 小時、研究所 4 小時總複習；開放＝二試：一試放榜且上榜、考前 30 天取晚的，研究所：考前 30 天；提醒開放那天、考前一週週日 20:00，有報名才有；畢業以後跳日期停。二試總複習只給要考司法官二試的人（律師二試沒有作答，LAWWW 定）。暫定字照 AA_690 最小替換，00:3x 送 AA-C 定稿；子代理 /home/user/wt-b7f（d118b7f-1105）實作中｜【LAWWW-C 11-05 00:3x】send_message 問 BB-C 三件（一試＝S.poolFor＋總複習＋提醒；司法官二試 S.drawJudge、研究所 S.drawGrad 現在都沒有）｜國考一試那一套照做到二試、研究所；做之前問 BB 二試題池要不要限修過的課",
+   "sha": "7dbe93dfa"
   },
   {
    "id": "D118-B8-1102",
@@ -40873,8 +40873,8 @@
    "id": "CAMPUS-RELAYOUT-1102",
    "title": "系館照官方地圖排相對位置；舊社科院 (112,−62) 那棟＝電機二館，電機一館照官方地圖位置也蓋（使用者 09:15 選擇題）",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "【LAWWW-C 11-04 14:08】使用者看了官方地圖對照圖，對 LAWWW2-C 選「電機一館先不放」（UA-LAWWW2-1104-04）：普通、博思、社科院都不搬，EE1-A3 撤回｜【LAWWW-C 11-04 13:4x】電機一館 A3 撤回（使用者 13:3x 對 LAWWW2-C 質疑：「你隨便找地圖上那邊是什麼？比較像社會系 電機在那邊嗎」；官方地圖上電機一館在博雅、普通教學館東邊、化學館旁邊）；LAWWW-C 13:1x 的「同意 A3」收回；LAWWW2 先做官方地圖↔遊戲的對照圖給使用者看，在那之前不新增、不搬任何系館｜【LAWWW-C 11-04 13:1x】LAWWW2-C f189eedfb 盤點交了；電機一館照 UA-LAWWW2-1103-10 定 A3（普通教學館西邊空草地 x −90～−66、z −64～−48），排在阿德轉角之後做 patch＋俯視圖＋campus_layout_nav／reachability_all｜LIB 之後；名稱照 WORLD_NAMING 規則",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-05 04:5x】LAWWW2-C 查證：使用者 11-04 選「電機一館先不放」，普通／博思／社科院不搬；電機二館已在遊戲（招牌、地圖）；沒有要做的，結案｜【LAWWW-C 11-04 14:08】使用者看了官方地圖對照圖，對 LAWWW2-C 選「電機一館先不放」（UA-LAWWW2-1104-04）：普通、博思、社科院都不搬，EE1-A3 撤回｜【LAWWW-C 11-04 13:4x】電機一館 A3 撤回（使用者 13:3x 對 LAWWW2-C 質疑：「你隨便找地圖上那邊是什麼？比較像社會系 電機在那邊嗎」；官方地圖上電機一館在博雅、普通教學館東邊、化學館旁邊）；LAWWW-C 13:1x 的「同意 A3」收回；LAWWW2 先做官方地圖↔遊戲的對照圖給使用者看，在那之前不新增、不搬任何系館｜【LAWWW-C 11-04 13:1x】LAWWW2-C f189eedfb 盤點交了；電機一館照 UA-LAWWW2-1103-10 定 A3（普通教學館西邊空草地 x −90～−66、z −64～−48），排在阿德轉角之後做 patch＋俯視圖＋campus_layout_nav／reachability_all｜LIB 之後；名稱照 WORLD_NAMING 規則",
    "sha": "",
    "source": "同上",
    "xai": {
@@ -41612,8 +41612,8 @@
    "id": "LIB-B1-V4-1102",
    "title": "總圖 B1 自習室第四版／4.1（使用者 18:1x「太擠」「桌子和進門的門平行」；18:4x「排距維持 4.4 m」）",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "LAWWW2 交 4.1 → LAWWW 整合 → BB 給使用者比較圖、標 ART_APPROVED",
+   "status": "已驗收",
+   "next": "【LAWWW-C 11-05 04:5x】LAWWW2-C 查證：4.1 版 cca10dd55 → fd5d37105 接、BB_242 ART_APPROVED（daf4c4410）；結案｜LAWWW2 交 4.1 → LAWWW 整合 → BB 給使用者比較圖、標 ART_APPROVED",
    "sha": "",
    "source": "同上",
    "xai": {
@@ -42988,10 +42988,10 @@
    "id": "ART-SHANLAN-BOOKSTORE-1103",
    "title": "兩層樓「山嵐書店」（有人坐地板看書，新生南路那一側；AA_613）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）；11-03 改名：承品→山嵐（使用者「不要諧音梗」；企劃線 52e3d83a8）",
-   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜室內 AA 第三版（企劃線 aa_support/shanlan，READY_FOR_REVIEW）→ LAWWW2 驗收、新生南路店面、兩層導航",
+   "next": "【LAWWW-C 11-05 04:3x】v1 已接 9c124e41c（LAWWW2-C af845b3a5）；盆栽 L2_ 交 AA；BB／CC PC 瀏覽器｜【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜室內 AA 第三版（企劃線 aa_support/shanlan，READY_FOR_REVIEW）→ LAWWW2 驗收、新生南路店面、兩層導航",
    "xai": {
     "spec": "AA_613（企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿））",
     "branch": "claude/second-ai-env-art",
@@ -43067,10 +43067,10 @@
    "id": "ART-NANYANG-CINEMA-1103",
    "title": "新場景「南洋戲院」公館二輪戲院（AA_615）；Alison 週五、六晚上打工送爆米花（劇情 LAWWW 接）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
-   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜大廳 BB 第四版（企劃線 bb_support/nanyang_lobby，照使用者參考圖，READY_FOR_REVIEW）；影廳還沒做 → LAWWW2 驗收＋整合",
+   "next": "【LAWWW-C 11-05 04:2x】v1 已接 a3b18addc（LAWWW2-C 9eed89550；D141）；BB／CC PC 瀏覽器｜【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜大廳 BB 第四版（企劃線 bb_support/nanyang_lobby，照使用者參考圖，READY_FOR_REVIEW）；影廳還沒做 → LAWWW2 驗收＋整合",
    "xai": {
     "spec": "AA_615（企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿））",
     "branch": "claude/second-ai-env-art",
@@ -43115,10 +43115,10 @@
    "id": "ART-WZ-CAFES-1103",
    "title": "溫州街兩家咖啡廳（AA_617）：「木曜日」巷子中段老公寓二樓（可坐下讀書、約會深談）、「日常失速 DAILY OFFBEAT」靠新生南路轉角一樓（聚會、桌遊）；外觀＋室內",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "note": "使用者 11-03 選「照 AA_617 做」，排在 D99 三項之後（企劃線 3e4651ebf；參考圖 docs/story_planning/ref_images/wz_cafes/）",
-   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜室內模型 AA 已做（企劃線 aa_support：mokuyobi 第二版、daily_offbeat 第一版，READY_FOR_REVIEW）→ LAWWW2 驗收、補外觀／區域／導航／出入口／光照",
+   "next": "【LAWWW-C 11-05 04:3x】LAWWW2-C 查證：木曜日（wz_mokuyobi，v3c，24 席）、日常失速（wz_offbeat，AA v3）其實早已接在開發分支（07dfffe15 上 Node 七支 ALL PASS）；總表一直寫待開工是記錄錯｜【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜室內模型 AA 已做（企劃線 aa_support：mokuyobi 第二版、daily_offbeat 第一版，READY_FOR_REVIEW）→ LAWWW2 驗收、補外觀／區域／導航／出入口／光照",
    "xai": {
     "spec": "AA_617 第 1、2 節（企劃線 3e4651ebf）",
     "branch": "claude/second-ai-env-art",
@@ -43707,10 +43707,10 @@
    "id": "GUITAR-CLUB-1103",
    "title": "吉他店＋吉他社劇情（參加要買吉他、社遊、可攻略對象劇情）",
    "owner": "AA",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "note": "X196",
-   "next": "【LAWWW-C 11-04 13:3x】AA-C 13:18：AA_619 已交（企劃線 22a6c4d43）；原本 next 寫「新店建模等使用者給參考圖」是貼錯的；系統接線開 AA619-GUITAR-1104（LAWWW，v9.10.20 以後）｜同弦（吉他店，二樓）室內 CC 第一版 tongxian.glb（cc-testing）→ 驗收＋整合；吉他社劇情 AA",
+   "next": "【LAWWW-C 11-05 02:3x】系統 AA619-GUITAR-1104 2b0fac3da、室內 GUITAR-SHOP-ZONE-1105 2a6633a01 都進開發分支（下一版）；AA 缺字 11 處｜【LAWWW-C 11-04 13:3x】AA-C 13:18：AA_619 已交（企劃線 22a6c4d43）；原本 next 寫「新店建模等使用者給參考圖」是貼錯的；系統接線開 AA619-GUITAR-1104（LAWWW，v9.10.20 以後）｜同弦（吉他店，二樓）室內 CC 第一版 tongxian.glb（cc-testing）→ 驗收＋整合；吉他社劇情 AA",
    "xai": {
     "spec": "X196；任務 next 欄",
     "branch": "claude/story-planning",
@@ -44669,7 +44669,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 21:0x】2:30 AM 外觀第二版（LAWWW2-C 75383530f，MODEL_READY；BB-C 19:02 四點：店內窗卡、五盞鵝頸燈朝招牌、細長垂藤、門口木椅＋轉角側牆兩盞壁燈、灰泥調暖）接進開發分支；畫架阻擋照 LAWWW2 建議改 blockRect(54.45,3.6,0.9,0.9)（tests/cafe230_ext_nav_unit.js 修改前 ② FAIL、修改後 ALL PASS）；瀏覽器 cafe_glb_integration、wz_street_integration、同角度疊圖（refcam 在 cafe230_exterior.md）交 BB／CC｜【LAWWW-C 11-04 12:4x 補進總表】小路深色木立面 v1（188eb0624）已接 060a1a093；SUNNY 轉角窗、林家攤車等在 LAWWW2 分支（ebae33ef、a4c2cc05、badb191a、1e5aadb3）；剩阿德轉角外觀、2:30 AM 外觀（LAWWW2-C 佇列，排在 GG_night 與 CAMPUS-RELAYOUT-1102 盤點之後）",
+   "next": "【LAWWW-C 11-05 03:3x】2:30 AM 外觀第三版（LAWWW2-C 3486d4fbd，轉角小樹）接進 cc0af7f14；側面一整排窗等 AA 改室內、BB 決定｜【LAWWW-C 11-04 21:0x】2:30 AM 外觀第二版（LAWWW2-C 75383530f，MODEL_READY；BB-C 19:02 四點：店內窗卡、五盞鵝頸燈朝招牌、細長垂藤、門口木椅＋轉角側牆兩盞壁燈、灰泥調暖）接進開發分支；畫架阻擋照 LAWWW2 建議改 blockRect(54.45,3.6,0.9,0.9)（tests/cafe230_ext_nav_unit.js 修改前 ② FAIL、修改後 ALL PASS）；瀏覽器 cafe_glb_integration、wz_street_integration、同角度疊圖（refcam 在 cafe230_exterior.md）交 BB／CC｜【LAWWW-C 11-04 12:4x 補進總表】小路深色木立面 v1（188eb0624）已接 060a1a093；SUNNY 轉角窗、林家攤車等在 LAWWW2 分支（ebae33ef、a4c2cc05、badb191a、1e5aadb3）；剩阿德轉角外觀、2:30 AM 外觀（LAWWW2-C 佇列，排在 GG_night 與 CAMPUS-RELAYOUT-1102 盤點之後）",
    "source": "LAWWW2-A 交班清單（second-ai-env-art 5f85444cd）；LAWWW2-C 11-04 12:38 指出總表沒有這個 ID",
    "xai": {
     "spec": "使用者 11-04 參考圖（LAWWW2 wip/wz_five_1104）",
@@ -44906,7 +44906,7 @@
    "id": "RELEASE-V91020-1104",
    "title": "發布 v9.10.20（溫州街第一批六間室內、公館打烊調暗、SEAT-ACTIVITY、約會帶路坐下……；線上照舊 v9.10.19.1 b0c3032af）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "META",
@@ -44918,10 +44918,11 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 16:4x】BB-C 16:40：PC 的 runner 從 23:48（台灣）起沒再推結果，CC 判讀是 PowerShell 視窗卡在快速編輯的「選取」狀態（使用者 23:2x～23:4x 從視窗複製 log），雲端解不開，要等使用者醒來按 Esc；CC runner 已修（071ad256d：輸出改獨立執行緒、關快速編輯、執行時不讓電腦睡眠）；CC 先在雲端跑 V20R 核心（SwiftShader 標清楚），social_smoke、SITAMB 等 PC；GO 最快使用者醒來＋2～3 小時；候選照舊 d3828452a｜【LAWWW-C 11-04 14:57】發布前檢查（048b4c898）：check_orphans 程式沒提到的素材 90（v9.10.13 時 88；大多是 LAWWW2 人物 LOD 檔）、check_lines 可能抄錯 1077（v9.10.13 時 528；AA 改稿多了條件版本，不擋發布、發布後抽查）、題目漏收 0（AA 企劃線 678a2d6c2 重新匯出 399 題，只有來源那一行不同）；候選：BB SITAMB 沒 FAIL＝最新 head（含 NPC 坐姿 2acb34afd、保溫瓶 c94cd808c、zone id 048b4c898），有 FAIL＝revert NPC 合併｜【LAWWW-C 11-04 14:38】lampshade_flip 已修（LAWWW2 8aceeeaf4 → de0baeec0）；GHA 全套早上就紅的另外兩支（company_priv、aa503_others：語彤搬到一盞以後測試沒跟上）已修（909c6391b）；node-unit-auto 會在 909c6391b 自動跑全套；擋發布剩 lane_east 流程三支（CC 排了）＋全套綠｜【LAWWW-C 11-04 14:31】擋發布剩：lane_east 那三支（BB 排了）、lampshade_flip 結論（LAWWW2 查）；小路窗景、GG-REENTRY 已 PASS；SUNNY 不擋；D116 SQ19 筆記本已改（24bbac4e0）｜【LAWWW-C 11-04 14:08】擋發布剩：lane_east（LAWWW2 重建 wenzhou_street.glb 切四段，預估省 3～4 萬）、小路窗景已接等 CC 22:00／14:00 看；SUNNY F00／F12 不擋（BB 14:03）；WZ-YIZHAN 前院第一次進門旁白沒出來（FAIL 2）等 CC 補印 fromLoad／P.z／yardIntro 回傳｜【LAWWW-C 11-04 13:4x】GG-REENTRY PASS（BB-C 13:35）；剩：小路 22:00 窗景（XIAOLU-NIGHT-VIEW-1104，LAWWW2 快好了）、lane_east 減面（WZ-LANEEAST-TRIS-1104）、SUNNY F00／F12 等 CC 占用補印（可能照設計）；GHA Node 全套觸發在 c7fcc5b81（gha-node-sweep）｜【LAWWW-C 11-04 13:1x】BB-C 13:10 最新擋發布（BB_255 0b6f91b10）：GG-REENTRY（已接 9f481443d，等驗）、lane_east 三角形（LAWWW2 減面）、SUNNY F00、SUNNY F12（SUNNY-F12-SIT-1104）、小路 22:00 窗外白天、TEST-TRACE／SOCIAL-STUCK／約會實跑／約念書坐下（使用者要的 PC 那幾十項還沒跑，CC-C 沒 push 權限）｜【LAWWW-C 11-04 13:1x】擋發布（BB-C 12:58 BB_255 520f75080＋LAWWW-C 定）：GG-NIGHT-CARDS-1104（已接 9f481443d，等驗收）、SUNNY F00 桌 4 北側「坐下點餐」按鈕沒出現（SUNNY-F00-SIT-1104）、小路 22:00 窗外還是白天（XIAOLU-NIGHT-VIEW-1104）、lane_east 三角形（BB 判）；不擋、下一版：吧台 sns_vcm 鏡頭、小路座位鏡頭、阿德影印電腦椅／走近點、公館兩個店門口鏡頭、約會帶路距離；PASS 的：GG_glb_measure2、CAFE230v4、SUNNY reach",
+   "next": "【LAWWW-C 11-05 02:3x】已發布：BB-C 02:14 GO（d3828452a）→ 發布樹 9e6d85711＋RELEASES.md 37cd3253d → deploy_check 38 項 ALL PASS → PR #28 合併 main 40c0abedb（02:26 UTC）→ Pages run 41955182303 success 02:28:25 UTC；開發分支還原 1e86fedd7；USER_WANTS 22 列照這一版改（在遊戲裡／進行中＋已在遊戲裡的部分）；等 CC 線上 deploy_check、TAPPREF，BB 補跑 pool_15、pool_20｜【LAWWW-C 11-04 16:4x】BB-C 16:40：PC 的 runner 從 23:48（台灣）起沒再推結果，CC 判讀是 PowerShell 視窗卡在快速編輯的「選取」狀態（使用者 23:2x～23:4x 從視窗複製 log），雲端解不開，要等使用者醒來按 Esc；CC runner 已修（071ad256d：輸出改獨立執行緒、關快速編輯、執行時不讓電腦睡眠）；CC 先在雲端跑 V20R 核心（SwiftShader 標清楚），social_smoke、SITAMB 等 PC；GO 最快使用者醒來＋2～3 小時；候選照舊 d3828452a｜【LAWWW-C 11-04 14:57】發布前檢查（048b4c898）：check_orphans 程式沒提到的素材 90（v9.10.13 時 88；大多是 LAWWW2 人物 LOD 檔）、check_lines 可能抄錯 1077（v9.10.13 時 528；AA 改稿多了條件版本，不擋發布、發布後抽查）、題目漏收 0（AA 企劃線 678a2d6c2 重新匯出 399 題，只有來源那一行不同）；候選：BB SITAMB 沒 FAIL＝最新 head（含 NPC 坐姿 2acb34afd、保溫瓶 c94cd808c、zone id 048b4c898），有 FAIL＝revert NPC 合併｜【LAWWW-C 11-04 14:38】lampshade_flip 已修（LAWWW2 8aceeeaf4 → de0baeec0）；GHA 全套早上就紅的另外兩支（company_priv、aa503_others：語彤搬到一盞以後測試沒跟上）已修（909c6391b）；node-unit-auto 會在 909c6391b 自動跑全套；擋發布剩 lane_east 流程三支（CC 排了）＋全套綠｜【LAWWW-C 11-04 14:31】擋發布剩：lane_east 那三支（BB 排了）、lampshade_flip 結論（LAWWW2 查）；小路窗景、GG-REENTRY 已 PASS；SUNNY 不擋；D116 SQ19 筆記本已改（24bbac4e0）｜【LAWWW-C 11-04 14:08】擋發布剩：lane_east（LAWWW2 重建 wenzhou_street.glb 切四段，預估省 3～4 萬）、小路窗景已接等 CC 22:00／14:00 看；SUNNY F00／F12 不擋（BB 14:03）；WZ-YIZHAN 前院第一次進門旁白沒出來（FAIL 2）等 CC 補印 fromLoad／P.z／yardIntro 回傳｜【LAWWW-C 11-04 13:4x】GG-REENTRY PASS（BB-C 13:35）；剩：小路 22:00 窗景（XIAOLU-NIGHT-VIEW-1104，LAWWW2 快好了）、lane_east 減面（WZ-LANEEAST-TRIS-1104）、SUNNY F00／F12 等 CC 占用補印（可能照設計）；GHA Node 全套觸發在 c7fcc5b81（gha-node-sweep）｜【LAWWW-C 11-04 13:1x】BB-C 13:10 最新擋發布（BB_255 0b6f91b10）：GG-REENTRY（已接 9f481443d，等驗）、lane_east 三角形（LAWWW2 減面）、SUNNY F00、SUNNY F12（SUNNY-F12-SIT-1104）、小路 22:00 窗外白天、TEST-TRACE／SOCIAL-STUCK／約會實跑／約念書坐下（使用者要的 PC 那幾十項還沒跑，CC-C 沒 push 權限）｜【LAWWW-C 11-04 13:1x】擋發布（BB-C 12:58 BB_255 520f75080＋LAWWW-C 定）：GG-NIGHT-CARDS-1104（已接 9f481443d，等驗收）、SUNNY F00 桌 4 北側「坐下點餐」按鈕沒出現（SUNNY-F00-SIT-1104）、小路 22:00 窗外還是白天（XIAOLU-NIGHT-VIEW-1104）、lane_east 三角形（BB 判）；不擋、下一版：吧台 sns_vcm 鏡頭、小路座位鏡頭、阿德影印電腦椅／走近點、公館兩個店門口鏡頭、約會帶路距離；PASS 的：GG_glb_measure2、CAFE230v4、SUNNY reach",
    "source": "帳號 A 交班 B1～B2；BB-C 11-04 12:58",
    "authorized": "D85（LAWWW 自主發布）",
-   "evidence": ""
+   "evidence": "",
+   "sha": "40c0abedb"
   },
   {
    "id": "SUNNY-F00-SIT-1104",
@@ -45003,7 +45004,7 @@
    "id": "ADE-SEATS-NAV-1104",
    "title": "阿德影印：四張電腦椅坐不下、後面那張被「印東西」搶、店內點地 222 次到不了、打工三個站位走不到（導航格太窄、走近點被擋）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45015,7 +45016,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 13:1x】不擋 v9.10.20；跑 nav_islands.py、reachability --zones wz_print 看 seatApproach 走近點",
+   "next": "【LAWWW-C 11-05 02:4x】LAWWW2-C b61050c52 接進 bea8fbbed：辦公椅 ap、S.station（阿德影印打工三段站位）；56 支 ALL PASS；CC 瀏覽器（探針三處 LAWWW2 另告 CC）｜【LAWWW-C 11-04 13:1x】不擋 v9.10.20；跑 nav_islands.py、reachability --zones wz_print 看 seatApproach 走近點",
    "source": "BB-C 11-04 13:00（0c2d4997b ADE 判定）",
    "xai": {
     "spec": "BB_255 ADE",
@@ -45023,7 +45024,8 @@
     "acceptance": "四張椅子坐得下、互動點不互搶、站位走得到",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "bea8fbbed"
   },
   {
    "id": "GG-DOOR-CAMS-1104",
@@ -45252,7 +45254,7 @@
    "title": "AA_619 同弦樂器（吉他店）、買吉他、吉他社社遊（宜蘭兩天一夜、陽明山，子晴）接進遊戲（GUITAR-CLUB-1103 的系統部分）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45264,11 +45266,12 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 11-05 00:4x】AA-C 00:45：照新生南路那一間（xinsheng_layout tongxian），不用搬；AA_619 以企劃線最新 bf0efded8 為準（22a6c4d43 是舊版：位置、社長那句「新生南路有一家同弦」、第 4 節第 1 點三處公館→新生南路），已轉子代理｜【LAWWW-C 11-05 00:4x】開工（v9.10.20 候選版 d3828452a 已固定，開發分支照做）：系統部分派子代理（worktree /home/user/wt-guitar，guitar-1105）照 AA_619（企劃線 22a6c4d43）第 2～4 節；室內區域 GUITAR-SHOP-ZONE-1105 派 LAWWW2-C（D108）；位置問 AA-C（AA_619 寫公館羅斯福路，遊戲裡同弦店面在新生南路 xinsheng_layout，沒說搬就照新生南路）｜【LAWWW-C 11-04 13:3x】v9.10.20 發布以後派子代理照 AA_619（企劃線 22a6c4d43）實作；同弦二樓室內 tongxian.glb 照舊等 MODEL_READY 驗收（BB 代驗，D132）",
+   "next": "【LAWWW-C 11-05 03:0x】AA_693（企劃線 c4b14a901）缺字 11 處＋判斷照接 → 合併 475d87588（子代理 guitar2-1105 2e0cae109）：還缺的字 0；aa619_guitar_unit 148 項、zone 7 項 ALL PASS；子代理全套 1012 支 ALL PASS；BB 瀏覽器用 475d87588 以後的 head｜【LAWWW-C 11-05 02:3x】合併 2b0fac3da（子代理 guitar-1105 e488f99e0）：src/guitar3d.js——同弦看看／試彈／買東西（社員九折、OWN_GUITAR）、偶遇子晴、2-1～2-4、宿舍彈吉他、宜蘭兩天一夜、陽明山一日；aa619_guitar_unit 124 項（ed7600ec5 FAILED 28）、aa619_guitar_zone_unit ALL PASS；缺字 11 處＋判斷 14 件送 AA-C；CG cg_tongxian_trial_heroine04、cg_yilan_roof_heroine04 與 2D 背景 tongxian_shop、yilan_minsu_roof、yms_grassland 要 BB 跟使用者要；全套 Node 背景跑｜【LAWWW-C 11-05 00:4x】AA-C 00:45：照新生南路那一間（xinsheng_layout tongxian），不用搬；AA_619 以企劃線最新 bf0efded8 為準（22a6c4d43 是舊版：位置、社長那句「新生南路有一家同弦」、第 4 節第 1 點三處公館→新生南路），已轉子代理｜【LAWWW-C 11-05 00:4x】開工（v9.10.20 候選版 d3828452a 已固定，開發分支照做）：系統部分派子代理（worktree /home/user/wt-guitar，guitar-1105）照 AA_619（企劃線 22a6c4d43）第 2～4 節；室內區域 GUITAR-SHOP-ZONE-1105 派 LAWWW2-C（D108）；位置問 AA-C（AA_619 寫公館羅斯福路，遊戲裡同弦店面在新生南路 xinsheng_layout，沒說搬就照新生南路）｜【LAWWW-C 11-04 13:3x】v9.10.20 發布以後派子代理照 AA_619（企劃線 22a6c4d43）實作；同弦二樓室內 tongxian.glb 照舊等 MODEL_READY 驗收（BB 代驗，D132）",
    "source": "AA-C 11-04 13:18（GUITAR-CLUB-1103 next 欄貼錯，LAWWW 決定開系統任務）",
    "authorized": "D109 AA 劇情自主、D111 LAWWW 排優先",
    "pausedReason": "v9.10.20 擋發布項目先做",
-   "resumeWhen": "v9.10.20 發布以後"
+   "resumeWhen": "v9.10.20 發布以後",
+   "sha": "475d87588"
   },
   {
    "id": "NPC-AMBIENT-ANIM-1104",
@@ -45438,7 +45441,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 21:4x】R1、R2 BB-C 21:25 同意（D128 定案），LAWWW2 dd6cffe64 寫進 ART_DIRECTION 12.2／12.8（含 TripoSR「目前不用」一行），開發分支已帶進來；CLAUDE.md 美術規則第 2 點補一段指過去。剩 LAWWW2 自己要問使用者的（TRELLIS.2 上傳、NVIDIA 顯示卡），記在 user_asks_LAWWW2｜【LAWWW-C 11-04 21:3x】LAWWW2-C 交研究收尾 25349f5f9（docs/art-rebuild/second_ai/research/OPEN_SRC_2D3D_1104.md）：單張圖轉 3D 的 AI 只適合小物件、要 NVIDIA；有用的三種已經在用（參考圖鏡頭＋同角度疊圖、CC0 掃描模型、窗卡）。提案照 D128（美術不經使用者：LAWWW2 提、BB 和 LAWWW 同意就定）：R1（12.2 近景小道具用 Poly Haven／ambientCG CC0 掃描模型）、R2（12.8 照參考圖做的店面附參考圖鏡頭＋同角度疊圖，和 D138 一致）LAWWW 同意，等 BB 同意 → LAWWW2 寫進 ART_DIRECTION（X225「試成功的方法要寫進美術規則」）；HDRI 另開 HDRI-ENV-1104 暫停｜【LAWWW-C 11-04 14:25】BB 的 IMG2-3D-RESEARCH-1104（同一題，使用者也問了 BB-C）試跑 CPU 版工具，成果交 LAWWW2 一起決定｜【LAWWW-C 11-04 14:23】LAWWW2-C 14:19（b8c42ea65）：單張圖轉 3D 的 AI 要 NVIDIA 顯示卡、模型大檔在雲端被擋，只適合小物件；雲端能用：Poly Haven 521 個 CC0 模型＋HDRI、參考圖鏡頭對位疊圖、DeepBump、Depth Anything V2 Small；之後交件開始用 Poly Haven 模型（LICENSES.md 同批補）；會提「低解析 CC0 HDRI 環境貼圖（PMREM）」的引擎提案（現在沒有環境貼圖、金屬度上限 0.45），改引擎 LAWWW 決定（v9.10.20 以後）；阿德轉角改試做：同角度疊圖＋Poly Haven 盆栽、花箱、冷氣",
+   "next": "【LAWWW-C 11-05 06:4x】使用者對 LAWWW2-C：「這不用做 我電腦也跑不了」＝TRELLIS.2 取消（UA-LAWWW2-1105-04；試用被 HF 免費 GPU 額度擋，e0e612502）｜【LAWWW-C 11-05 03:5x】使用者選「可以上傳試」TRELLIS.2 線上版（挑幾張參考圖、結果好才用），自己加好網域（hf.space、hf.co、blender.org、sketchfab、arxiv、貼圖站），proxy 實測放行｜【LAWWW-C 11-04 21:4x】R1、R2 BB-C 21:25 同意（D128 定案），LAWWW2 dd6cffe64 寫進 ART_DIRECTION 12.2／12.8（含 TripoSR「目前不用」一行），開發分支已帶進來；CLAUDE.md 美術規則第 2 點補一段指過去。剩 LAWWW2 自己要問使用者的（TRELLIS.2 上傳、NVIDIA 顯示卡），記在 user_asks_LAWWW2｜【LAWWW-C 11-04 21:3x】LAWWW2-C 交研究收尾 25349f5f9（docs/art-rebuild/second_ai/research/OPEN_SRC_2D3D_1104.md）：單張圖轉 3D 的 AI 只適合小物件、要 NVIDIA；有用的三種已經在用（參考圖鏡頭＋同角度疊圖、CC0 掃描模型、窗卡）。提案照 D128（美術不經使用者：LAWWW2 提、BB 和 LAWWW 同意就定）：R1（12.2 近景小道具用 Poly Haven／ambientCG CC0 掃描模型）、R2（12.8 照參考圖做的店面附參考圖鏡頭＋同角度疊圖，和 D138 一致）LAWWW 同意，等 BB 同意 → LAWWW2 寫進 ART_DIRECTION（X225「試成功的方法要寫進美術規則」）；HDRI 另開 HDRI-ENV-1104 暫停｜【LAWWW-C 11-04 14:25】BB 的 IMG2-3D-RESEARCH-1104（同一題，使用者也問了 BB-C）試跑 CPU 版工具，成果交 LAWWW2 一起決定｜【LAWWW-C 11-04 14:23】LAWWW2-C 14:19（b8c42ea65）：單張圖轉 3D 的 AI 要 NVIDIA 顯示卡、模型大檔在雲端被擋，只適合小物件；雲端能用：Poly Haven 521 個 CC0 模型＋HDRI、參考圖鏡頭對位疊圖、DeepBump、Depth Anything V2 Small；之後交件開始用 Poly Haven 模型（LICENSES.md 同批補）；會提「低解析 CC0 HDRI 環境貼圖（PMREM）」的引擎提案（現在沒有環境貼圖、金屬度上限 0.45），改引擎 LAWWW 決定（v9.10.20 以後）；阿德轉角改試做：同角度疊圖＋Poly Haven 盆栽、花箱、冷氣",
    "source": "使用者 11-04 14:1x 對 LAWWW2-C（UA-LAWWW2-1104-05，LAWWW2-C 14:19 轉 LAWWW-C）",
    "authorized": "使用者直接要求",
    "xai": {
@@ -46915,7 +46918,7 @@
    "title": "同弦樂器室內區域 zone 'tongxian'（新生南路二樓店面，騎樓樓梯口進出）：CC 的 tongxian.glb 接線、櫃檯／吉他牆／試琴椅互動點、營業時間擋門（X196 的 3D 部分）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -46929,14 +46932,14 @@
    },
    "source": "使用者 11-03 對 AA（X196）；AA_619（企劃線 bf0efded8）第 1、4 節；LAWWW-C 11-05 00:4x 派",
    "authorized": "使用者 11-03（X196）；D108 場景程式歸 LAWWW2；MODEL_READY 照 D132 交 BB 代驗",
-   "next": "【LAWWW-C 11-05 00:4x】send_message 派 LAWWW2-C：DORM-LADDER 之後做；互動點 label／id 交 LAWWW 接選單與劇情（AA619-GUITAR-1104）",
-   "sha": null,
+   "next": "【LAWWW-C 11-05 02:1x】v2（LAWWW2-C baaef5e54）接進 2a6633a01：淺色木地板、磨石子、腰牆西牆看得到、疊面閃爍修正；482 支 ALL PASS；CC 拍｜【LAWWW-C 11-05 01:4x】LAWWW2-C a353148b7（README 952bccb6e）接進 1a67c9947：xs_tongxian、互動點 wall_n／wall_s／buy／ukes／try、座位 try_w／try_e／counter_stool、TX3.OWNER、TX3.streetOut；482 支 ALL PASS；選單台詞交子代理（AA619-GUITAR-1104）；沒做：樓梯走得上去（淡出網格擋人）、窗景晚上換圖；MODEL_READY 照 D132 交 BB｜【LAWWW-C 11-05 00:4x】send_message 派 LAWWW2-C：DORM-LADDER 之後做；互動點 label／id 交 LAWWW 接選單與劇情（AA619-GUITAR-1104）",
+   "sha": "2a6633a01",
    "xai": {
     "spec": "AA_619（企劃線 bf0efded8）第 1、4 節；src/data/xinsheng_layout.js tongxian；cc-testing assets/models/env/second_ai/bb_support/tongxian.glb",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "zone tongxian 走得進去、出得來（nav_buildings／reachability Node ALL PASS）；櫃檯、吉他牆、試琴椅互動點；營業時間外門口擋；patch 交 LAWWW",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -46960,6 +46963,218 @@
    "authorized": "D100 LAWWW 整合／動畫；D128",
    "next": "【LAWWW-C 11-05 01:1x】開任務；子代理實作（照 README 給 LAWWW 那一節：手照 grips 換手、腳踩踏階不進牆、第 5 階 null＝跪姿手在大腿），Node 量手到扶手、腳到牆的距離",
    "sha": null
+  },
+  {
+   "id": "HOME-FF-REMIND-ALIGN-1105",
+   "title": "在家快轉停下的時間和提醒對齊：從 10:42 起每小時看一次，停在 20:42 才打開 20:00 那一則（BB-C 01:48 第 4 點）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y4S1",
+    "week": 17,
+    "earliest": "大四寒假在家快轉、收到研究所總複習提醒",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-05 01:48（D118-B7-FOLLOW CC Node）第 4 點",
+   "authorized": "BB 機制（D98）",
+   "next": "P3：HOME.breakJump 的檢查點對齊 PHONE 排定的時間（停在訊息的整點），不急",
+   "sha": null
+  },
+  {
+   "id": "TONGXIAN-REF-1105",
+   "title": "同弦樂器店內照參考圖的構圖改：試琴角回窗前、書架改小搬到西牆、重選 camRef（CC 的 v4d 由 LAWWW2 接手改）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 6,
+    "earliest": "第一次去同弦樂器",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-05 02:08（D132 代驗：同弦店內和參考圖差太多）；LAWWW2-C 02:21 排序",
+   "authorized": "D132（BB 代驗 LAWWW2 美術標準）、D133（符合參考圖）",
+   "next": "【LAWWW-C 11-05 03:3x】v4f（308b5c025，BB-C 03:21 MODEL_READY）接進 cc0af7f14｜【LAWWW-C 11-05 03:2x】LAWWW2-C b49d3016b 接進 f71d2c545：v4e（camRef、書架西牆、吊盆走道上方）；同弦相關測試 ALL PASS；BB 代驗＋CC 同角度疊圖（D138 --mode shop）",
+   "sha": "cc0af7f14",
+   "xai": {
+    "spec": "BB-C 02:08；docs/art-rebuild/second_ai/wip/tongxian_ref_1105/README.md",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "照參考圖構圖（D133）、同角度疊圖（D138）；BB 代驗 MODEL_READY（D132）",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "GHA-BROWSER-1105",
+   "title": "使用者電腦不能用時，功能類瀏覽器測試丟 GitHub 免費機器（D139；使用者 11-05 03:4x 對 BB-C 選「要，電腦不能用時丟 GitHub（建議）」）",
+   "area": "TEST",
+   "owner": "CC",
+   "status": "已驗收",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-05 04:1x】BB-C：workflow 驗證 PASS（GitHub Actions run 41964112876）；電腦正常時不排｜CC-C 在 claude/cc-testing 建 .github/workflows/browser-sweep.yml（佇列 tools/gha_browser/queue.txt、一項一個 job），結果推 claude/gha-results 的 docs/story_planning/CC/gha_out/<ID>/；先跑已知結果兩項驗 workflow；第一批 LIVE_V91020（PC 03:4x 已恢復、LIVE 已在 PC PASS，第一批改成驗 workflow 用）；判定 BB",
+   "source": "BB_257 T7（企劃線 1084baf6a）",
+   "authorized": "使用者選擇題（UA-BB-1105-GHA-BROWSER）",
+   "xai": {
+    "spec": "BB_257 T7",
+    "branch": "claude/cc-testing",
+    "acceptance": "兩項已知結果在 GitHub 上跑出同樣結果；結果標 GitHub Actions（ubuntu、SwiftShader、無 GPU）",
+    "receiver": "BB",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "DATE-ELLIPSIS-1105",
+   "title": "約會台詞整批拿掉沒必要的「……」（使用者 11-05 03:4x 選「整批改」；LAWWW-C 代 AA 問）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "AA-C 03:56 交 AA_694（企劃線 1b095a239）：D*.json 34 檔 4,478 句；白名單換到 1b095a239 重匯；源稿外 252 句照 AA_694 第 3 節換；重匯後「句首……」「。……」「）……」都要 0；測試寫死的照新字改",
+   "source": "AA_694",
+   "authorized": "使用者選擇題（UA-LAWWW-1105-06）",
+   "xai": {
+    "spec": "AA_694",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "三種「……」都是 0、date_lines 回歸測試過",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "RULES-2D3D-1105",
+   "title": "2D 轉 3D 一律照疊圖流程寫成規則（使用者 11-05 03:4x 對 LAWWW2-C：「疊圖畫出來的3d真的很棒寫成規則……交接給下一個lawww2」；D140）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已驗收",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2-C cee7c6973 docs/art-rebuild/second_ai/RULES_2D_TO_3D.md（七步流程、工具表 15 列、坑 10 條）；LAWWW-C 帶進開發分支、套 ART_DIRECTION 12.8 一行、CLAUDE.md MANDATORY 第 2 點指過去；有新方法 LAWWW2 加工具表一列",
+   "source": "UA-LAWWW2-1105-01",
+   "authorized": "使用者原話"
+  },
+  {
+   "id": "NPCTASK-LIB3F-1105",
+   "title": "總圖三樓閱覽室坐著的人都沒在做事（桌上沒擺書、set null）；B1 晚擺（BB-C BB_255 04:1x，NPCTASK_f5c3 FAIL 1）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "總圖三樓閱覽室",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-05 04:4x】已合併（子代理 eecd95c23／2b2f84aae）；BB／CC PC 瀏覽器｜子代理 wt-lib3f 查 S.probe／deskFor／indexStep，加會先 FAIL 的 Node 測試",
+   "source": "BB_255 04:1x",
+   "authorized": "BB 判要修（D100）"
+  },
+  {
+   "id": "GUITAR-OUTER-MENU-1105",
+   "title": "彈吉他移到宿舍房間外層選單（有 OWN_GUITAR 才出現；現在藏在「看看房間裡的東西」裡）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 5,
+    "earliest": "買了吉他以後回宿舍",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-05 04:4x】已合併（子代理 eecd95c23／2b2f84aae）；BB／CC PC 瀏覽器｜同一個子代理 wt-lib3f",
+   "source": "BB_255 04:1x",
+   "authorized": "BB 決定（D100）"
+  },
+  {
+   "id": "RELEASE-V91021-1105",
+   "title": "v9.10.21 發布：開發分支上所有新店面（新生南路 7 間、溫州街、公館、118 巷）＋之後的修正（使用者 11-05 06:3x 經 LAWWW2-C）",
+   "area": "REL",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "next": "候選版＝XSPORTS-ACT 合併後的 HEAD（爬梯子 CLIMB-GRIPS-FEET 沒好就不放）→ 全套 Node＋TESTING §5 雲端項 → BB／CC PC 瀏覽器（各店進出坐下、打烊、點地）→ BB GO → 發布樹、PR、Pages、線上驗證",
+   "source": "UA-LAWWW-1105-16",
+   "authorized": "使用者原話（轉述）"
+  },
+  {
+   "id": "CLOSE-UNIFY-1105",
+   "title": "所有店打烊統一一句「我們今天要打烊了。」→ 走出店門（AA_700；使用者 11-05 06:4x 對 AA-C）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "打烊時在店裡",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "子代理 wt-close：xs_close3d＋gg2shops／ggshops_sys／offbeat／mokuyobi／guitar／118 巷／溫州街各店的 close 照 AA_700 統一；24 小時的店不加",
+   "source": "AA_700（企劃線 4f60052c8）",
+   "authorized": "使用者原話（UA-AA-1105-04）"
   }
  ]
 }

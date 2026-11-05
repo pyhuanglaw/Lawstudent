@@ -17383,6 +17383,84 @@
    "task": "DORM-LADDER-HEAD-GRIP-1102",
    "integration": "已整合待測試",
    "note": "LAWWW-C 01:1x 接進 e118734a3"
+  },
+  {
+   "id": "DL-LAWWW2-a353148b7",
+   "date": "2026-11-05T01:38Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a353148b7",
+   "msg": "ACTIONED",
+   "what": "GUITAR-SHOP-ZONE-1105：同弦樂器室內 xs_tongxian（tongxian.glb v4d、tongxian_stair.glb、互動點與座位、營業時間）；README 952bccb6e",
+   "task": "GUITAR-SHOP-ZONE-1105",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 01:4x 接進 1a67c9947"
+  },
+  {
+   "id": "DL-LAWWW2-baaef5e54",
+   "date": "2026-11-05T02:06Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "baaef5e54",
+   "msg": "ACTIONED",
+   "what": "GUITAR-SHOP-ZONE-1105 v2：淺色木地板（D112）、磨石子門外平台、腰牆／西牆看得到（單面剔除修正）、疊面閃爍修正；README a0636f807",
+   "task": "GUITAR-SHOP-ZONE-1105",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 02:1x 接進 2a6633a01"
+  },
+  {
+   "id": "DL-LAWWW2-b61050c52",
+   "date": "2026-11-05T02:34Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "b61050c52",
+   "msg": "ACTIONED",
+   "what": "ADE-SEATS-NAV-1104：阿德影印辦公椅走近點、jobs3d.js S.station 打工站位（提案）、tests/ade_seats_nav_unit.js",
+   "task": "ADE-SEATS-NAV-1104",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 02:4x 審過接進 bea8fbbed"
+  },
+  {
+   "id": "DL-LAWWW2-b49d3016b",
+   "date": "2026-11-05T03:18Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "b49d3016b",
+   "msg": "ACTIONED",
+   "what": "TONGXIAN-REF-1105：同弦室內 v4e 照參考圖（camRef、書架西牆、吊盆走道上方）",
+   "task": "TONGXIAN-REF-1105",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 03:2x 接進 f71d2c545"
+  },
+  {
+   "id": "DL-LAWWW2-308b5c025",
+   "date": "2026-11-05T03:34Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "308b5c025",
+   "msg": "ACTIONED",
+   "what": "TONGXIAN-REF-1105 v4f：吊盆挪開吊燈視線、冷氣壓條不穿窗（BB-C 03:21 MODEL_READY）",
+   "task": "TONGXIAN-REF-1105",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 03:3x 接進 cc0af7f14"
+  },
+  {
+   "id": "DL-LAWWW2-3486d4fbd",
+   "date": "2026-11-05T03:34Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "3486d4fbd",
+   "msg": "ACTIONED",
+   "what": "2:30 AM 外觀第三版（轉角小樹）",
+   "task": "WZ-FIVE-1104",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 03:3x 接進 cc0af7f14"
   }
  ],
  "ignored": [
@@ -22747,6 +22825,15 @@
    "branch": "claude/focused-cray-c9uwvw",
    "reason": "SIT-HEIGHT-1104 WIP 檢查點（C.SIT_FIT、置物架、片段重出；未交件）；交件版 267f3d9a9 已接進 b1ca12646；LAWWW-C 11-05 00:2x 分類（D94）",
    "task": "SIT-HEIGHT-1104"
+  },
+  {
+   "sha": "952bccb6ea",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "coveredBy": "DL-LAWWW2-a353148b7",
+   "reason": "GUITAR-SHOP-ZONE-1105 交件的 README 補 SHA、outbox 一筆、樓梯間模型的資訊檔 tongxian_stair.json（LAWWW-C 01:5x 一起接進開發分支）；D94",
+   "task": "GUITAR-SHOP-ZONE-1105"
   }
  ],
  "scannedThroughNote": "2026-11-02 05:3x 使用者刪了帳號 B 的分支（funny-albattani、cool-heisenberg、elegant-brown；內容整條在 second-ai-env-art、story-planning）：從這裡拿掉，之後的核對靠 watermarks.json（incr）"

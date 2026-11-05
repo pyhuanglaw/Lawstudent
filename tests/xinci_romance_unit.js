@@ -122,13 +122,15 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     check('3b. 交往中：期末飯那天的前一天 21:00 收到她的邀約（不是當天 12:00）',!!sentAt&&dd!=null&&sentAt[0]===dd-1&&sentAt[1]>=21&&sentAt[2]==='明天晚上吃飯。……我提前一天約了。',J([sentAt,dd])); });
 
   /* ===== 第 4 節：AA_537b 第 1～3 節 ===== */
+  /* AA_694（DATE-ELLIPSIS-1105）：date_lines.js 拿掉句首、。！？後、）後的「……」——稿上的句子（引號裡、表格每一格）照同一條規則換了再比 */
+  const S694=require('./ellipsis694.js').strip, DOC537bS=DOC537b.replace(/「([^「」]*)」/g,(x,c)=>'「'+S694(c)+'」').split('\n').map(l=>/^\|/.test(l)?l.split('|').map(c=>{ const t=c.trim(); return t?c.replace(t,S694(t)):c; }).join('|'):l).join('\n');
   await sec(4,()=>{ const L=DATE_LINES.lines[XC], K=['accept','acceptDating','cancel','flaked','move','move3','transport','depart','enough','leaveEarly','noPair'];
-    check('4. 約會一般台詞十一個 key，每一句都在稿裡',!!L&&K.every(k=>Array.isArray(L[k])&&L[k].length&&L[k].every(t=>DOC537b.includes('「'+t+'」'))),J(L&&K.filter(k=>!L[k])));
+    check('4. 約會一般台詞十一個 key，每一句都在稿裡',!!L&&K.every(k=>Array.isArray(L[k])&&L[k].length&&L[k].every(t=>DOC537bS.includes('「'+t+'」'))),J(L&&K.filter(k=>!L[k])));
     let nl=0, nd=0; const badD=[]; for(const loc in DATE_LINES.loc){ const lk=(DATE_LINES.loc[loc].likes||{})[XC]||{}; nl+=Object.keys(lk).length; const dl=(DATE_LINES.loc[loc].dislikeLine||{})[XC]||{};
-      for(const p in lk) if(lk[p]==='dislike'){ nd++; if(!dl[p]||!DOC537b.includes('| '+p+' | '+dl[p]+' |')) badD.push(p); } }
+      for(const p in lk) if(lk[p]==='dislike'){ nd++; if(!dl[p]||!DOC537bS.includes('| '+p+' | '+dl[p]+' |')) badD.push(p); } }
     check('4. 128 點喜好、15 個不喜歡的點各有一句（照稿）',nl===128&&nd===15&&!badD.length,J([nl,nd,badD]));
     const locs=Object.keys(DATE_LINES.loc).filter(l=>((DATE_LINES.loc[l].lines||{})[XC]));
-    check('4. 八個常去地點（D02、D04、D05、D06、D07、D12、D15、D18）有到達／收尾；D04 第一次到「西門町。我週六晚上常來。……都是一個人。」「今天不是。」',J(locs.sort())===J(['D02','D04','D05','D06','D07','D12','D15','D18'])&&J(DATE_LINES.loc.D04.lines[XC].arrive.first.lines.map(x=>x.text))===J(['西門町。我週六晚上常來。……都是一個人。','今天不是。']),J(locs)); });
+    check('4. 八個常去地點（D02、D04、D05、D06、D07、D12、D15、D18）有到達／收尾；D04 第一次到「西門町。我週六晚上常來。……都是一個人。」「今天不是。」',J(locs.sort())===J(['D02','D04','D05','D06','D07','D12','D15','D18'])&&J(DATE_LINES.loc.D04.lines[XC].arrive.first.lines.map(x=>x.text))===J([S694('西門町。我週六晚上常來。……都是一個人。'),'今天不是。']),J(locs)); });
 
   /* ===== 第 6 節：第 2 段 3-1、3-2、3-5 後補 ===== */
   await sec(6,async()=>{ const E=STORY_EVENTS.find(e=>e.id==='ev_xc_g2_dad');
