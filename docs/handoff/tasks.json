@@ -47575,7 +47575,7 @@
    "title": "新生南路側門：搬到映月湖和博思中間、照使用者照片改外觀、加新月台和地下停車場",
    "area": "SCENE",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47587,7 +47587,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2 先交俯視改前／改後＋配置；參考圖 docs/art-rebuild/refs/xs_gate_1105/；D136 像但不照抄",
+   "next": "CC 拍步道往西看側門（白天／晚上）、落點、校門往北看斜牆；望月台＋停車場、XS-FARVIEW 之後",
    "source": "UA-LAWWW-1105-29",
    "authorized": "使用者原話",
    "xai": {
