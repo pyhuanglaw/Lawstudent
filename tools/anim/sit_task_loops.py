@@ -93,7 +93,7 @@ LEAF = lambda nm: nm.endswith('_leaf_l') or nm.endswith('_leaf_r')
 
 class VSkel:
     """VRoid 人物的上半身骨架，換成 UAL 的名字和座標（+z 前、+x 左手邊）、縮到遊戲裡的身高 H：
-    遊戲照「不含頭髮的模型高度＋0.03」縮放（character3d.js），坐下時整個人往下 0.47×H/1.75。VRoid 的骨頭靜止時沒有旋轉。
+    遊戲照「不含頭髮的模型高度＋0.03」縮放（character3d.js），坐下時整個人往下 sit_drop(V)（SIT-HEIGHT-1104：照每個模型的大腿根、大腿厚度，C.SIT_FIT）。VRoid 的骨頭靜止時沒有旋轉。
     這個骨架上算出來的世界旋轉差＝遊戲套到這個人物身上的旋轉（ambClip：D＝世界旋轉 × 靜止世界旋轉的反）"""
     def __init__(self, vrm, H):
         self.vrm = vrm
@@ -455,7 +455,7 @@ def set_body(V):
     """換成某一種身材（VSkel）：桌子在那個骨架座標裡的位置、手上各點照那雙手的長度"""
     global DESK_Y, EDGE, MOUTH, EYES, PALM, CUP_HAND, PHONE_HAND, PEN_HAND, CHOP_TIP, CHOP_AXH, CHOP_DB, CHOP_DM, CHOP_UPB, CHOP_UPM, CHOP_POLEB, CHOP_POLEM
     HL = V.HL
-    DESK_Y = REF['desk_h'] + 0.47 * V.H / 1.75                 # 遊戲坐下＝整個人往下 0.47×身高/1.75（character3d.js）：站著的座標裡桌子就高這麼多
+    DESK_Y = REF['desk_h'] + sit_drop(V)                       # 遊戲坐下＝整個人往下 sit_drop（character3d.js C.sitDropOf）：站著的座標裡桌子就高這麼多
     EDGE = REF['edge']
     MOUTH, EYES = V.mouth, V.eyes
     PALM = (0.6 * HL, 0.17 * HL, 0.0)
@@ -480,7 +480,7 @@ def task_pose(sk, rot, kind, t):
     elif kind == 'phone': lean, head_pitch = 0.08, 0.5
     elif kind == 'page': lean, head_pitch = 0.1, 0.45
     elif kind == 'drink': lean, head_pitch = 0.04, 0.15 - 0.32 * k_sip
-    elif kind == 'eat': lean, head_pitch = 0.2 - 0.05 * k_eat, 0.4 - 0.12 * k_eat
+    elif kind == 'eat': lean, head_pitch = 0.14 - 0.04 * k_eat, 0.34 - 0.12 * k_eat   # SIT-HEIGHT-1104（BB-C 22:43「吃飯都彎很低，頭幾乎埋到碗上」）：坐高以後少彎一點（原本 0.2／0.4）
     if lean: rot = add_local(sk, rot, 'spine_03', (1, 0, 0), lean * 0.5); rot = add_local(sk, rot, 'spine_02', (1, 0, 0), lean * 0.5)
     if head_pitch: rot = add_local(sk, rot, 'neck_01', (1, 0, 0), head_pitch * 0.4); rot = add_local(sk, rot, 'Head', (1, 0, 0), head_pitch * 0.6)
     D = DESK_Y
@@ -585,6 +585,18 @@ def vroid_pose(sk, base_rot, V, kind, t):
     return task_pose(V, rv, kind, t)
 
 
+# 坐下往下移多少（SIT-HEIGHT-1104，和遊戲 character3d.js 的 C.sitDropOf 一樣）：tools/anim/sit_fit.json（tools/anim/sit_fit_survey.js 在遊戲骨架上量的）的 ul、B，
+# 往下＝H×(ul−B)−(SIT_TOP−SIT_PRESS)＝大腿底部在座位地面上 0.465 m；表裡沒有的照舊 0.47×H/1.75。環境變數 SIT_DROP_OLD=1＝舊的（量改前的數字用）
+SIT_TOP, SIT_PRESS = 0.47, 0.005
+SIT_FIT = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sit_fit.json'), encoding='utf-8'))
+
+
+def sit_drop(V):
+    f = SIT_FIT.get(os.path.basename(V.vrm))
+    if os.environ.get('SIT_DROP_OLD') or not f: return 0.47 * V.H / 1.75
+    return round(V.H * (f['ul'] - f['B']) - (SIT_TOP - SIT_PRESS), 4)
+
+
 BODIES = {'F': ('assets/models/char/vroid_npc_f1.vrm', 1.62), 'M': ('assets/models/char/vroid_npc_m1.vrm', 1.74),   # 女生、男生的 VRoid 底模＋遊戲裡的身高（char.npc_f1／npc_m1 的 height）
           'F2': ('assets/models/char/second_ai/bl_npc_nf10.vrm', 1.65), 'M2': ('assets/models/char/second_ai/bl_npc_nm11.vrm', 1.74)}
 # F2、M2（LAWWW-C 11-04 21:42Z 補件 2）：手臂比較短的女生骨架（Victoria_Rubin 改的 nf1、3、7、10、13、16、19：手臂÷身高 0.251，F 是 0.262）、手臂比較長的男生骨架
@@ -682,7 +694,7 @@ if __name__ == '__main__':
     J2, d2, bo2 = load_glb(A.src); sk2 = Skel(J2); tt = [0.0, 1.0, 2.35]; bs, _ = sample_clip(J2, d2, bo2, sk2, 'Sitting_Idle_Loop', tt)
     chop = {}; hands0 = {}
     for bk in (A.bodies or BODIES):
-        V = VSkel(*BODIES[bk]); set_body(V); drop = 0.47 * V.H / 1.75
+        V = VSkel(*BODIES[bk]); set_body(V); drop = sit_drop(V)
         sv = lambda p: [round(float(p[0]), 4), round(float(p[1] - drop), 4), round(float(p[2]), 4)]   # 坐下以後的人物座標
         for kind in ('type', 'drink', 'write', 'eat'):
             for k, t in enumerate(tt):

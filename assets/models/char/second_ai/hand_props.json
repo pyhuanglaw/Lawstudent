@@ -181,5 +181,5 @@
    "note": "骨頭座標（模型檔）：tip＝兩支尖端的中點；sticks＝[尾端, 尖端]×2（上面那支＝拇指那邊）"
   }
  },
- "attach": "三個網格都已經擺在右手骨頭（VRoid J_Bip_R_Hand；PROPS 的 bone:'rightHand'）的座標裡：x 人物右邊、y 上、z 後面，單位＝模型檔（遊戲縮放人物時配件跟著縮）。掛法：boneGlb 那樣把節點 clone 到骨頭底下、位置 0、不轉；一次只開一個（喝飲料開 hand_cup、滑手機 hand_phone、寫字 hand_pen、吃飯 hand_chopsticks），其他時候藏起來。照女生的手（vroid_npc_f1、身高 1.60）算；男生的手長 4% 左右，配件離手心差 2～3 mm，不另外做。"
+ "attach": "四個網格都已經擺在右手骨頭（VRoid J_Bip_R_Hand；PROPS 的 bone:'rightHand'）的座標裡：x 人物右邊、y 上、z 後面，單位＝模型檔（遊戲縮放人物時配件跟著縮）。掛法：boneGlb 那樣把節點 clone 到骨頭底下、位置 0、不轉；一次只開一個（喝飲料開 hand_cup、滑手機 hand_phone、寫字 hand_pen、吃飯 hand_chopsticks），其他時候藏起來。照女生的手（vroid_npc_f1、身高 1.60）算；男生的手長 4% 左右，配件離手心差 2～3 mm，不另外做。"
 }

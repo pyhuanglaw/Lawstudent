@@ -25,7 +25,7 @@ LAY = json.loads((lambda s: s[s.index('{', s.index('const LANE118_LAYOUT=')):s.r
 H = 3.2
 PI = math.pi
 NB_W, NB_H = 4.6, 4.2   # 店門外兩側鄰居店面卡的寬、高（m；lane118_neighbors.py 照這個大小拍）
-BAR_LIFT = 0.31   # 吧檯高腳椅（chair 的 'bar'）座面 0.76 m、一般椅子 0.45 m：坐姿抬高 0.31（10-22 LAWWW2：原本沒寫，人坐在 0.45 m、凳子穿過大腿）
+BAR_LIFT = 0.29   # 吧檯高腳椅（chair 的 'bar'）座面 0.76 m：坐姿抬高＝座面－遊戲坐下對準的椅面 0.47（character3d.js 的 CHAR.SIT_TOP，SIT-HEIGHT-1104；原本照 0.45 算 0.31）（10-22 LAWWW2：原本沒寫，人坐在 0.45 m、凳子穿過大腿）
 
 # 每間店：室內寬（店面寬減兩側壁柱）、深度、地板、牆、腰牆、木頭、門的位置（x）、照明
 SPEC = {
