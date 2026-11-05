@@ -49,7 +49,7 @@ Blender EEVEE 預覽：光是均勻的天空光，不是遊戲的燈。
 ### 給 LAWWW-C
 
 ```
-git checkout <這次的 SHA> -- assets/models/env/second_ai/cafe_exterior.glb assets/models/env/second_ai/cafe_exterior.json tests/cafe230_ext_nav_unit.js
+git checkout 3486d4fbd -- assets/models/env/second_ai/cafe_exterior.glb assets/models/env/second_ai/cafe_exterior.json tests/cafe230_ext_nav_unit.js
 ```
 
 - 程式不用改。

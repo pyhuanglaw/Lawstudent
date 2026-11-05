@@ -6059,6 +6059,24 @@
    "note": "BB-C 02:08（D132 代驗）店內照參考圖：camRef 重選（窗、試琴角在左，吉他牆在右，展示櫃在右下；消失點 32%，參考圖 17%，窗照外觀固定）、書架搬到西牆、吊盆移到走道上方 1.87 m；修 v4e 第一版頂點數分新舊的錯（吊燈電線轉到牆外）｜測試：tongxian_unit ⑪ v4d FAIL 2→v4e ALL PASS＋aa619_guitar／aa619_guitar_zone／scene_bg_keys／seat_reach ALL PASS（開發分支 335b47844＋這次的檔）；LICENSES patch 在 335b47844 上乾淨",
    "next": "LAWWW-C：照 README「接法」git checkout b49d3016b -- 十個檔＋git apply tongxian_v4e_licenses.patch → node tests/tongxian_unit.js；BB-C 照 R2 判（tongxian_refcam_overlay.jpg）；CC 遊戲內 camRef 同角度白天／晚上",
    "remaining": "瀏覽器沒跑（D131）；預覽是 EEVEE 均勻光；參考圖左前方的店門＋木牌在 camRef 看不到（店門在樓梯間東牆）；ART 由 BB 判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "3486d4fbd",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "WZ-FIVE-1104",
+   "files": [
+    "assets/models/env/second_ai/cafe_exterior.glb",
+    "assets/models/env/second_ai/cafe_exterior.json",
+    "tests/cafe230_ext_nav_unit.js",
+    "docs/art-rebuild/second_ai/wip/wz_five_1104/cafe230_exterior.md"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "第三版（BB-C 說「慢慢補」）：轉角第一盆換成參考圖的白色高盆小樹（位置、導航阻擋不變；+26 三角形）；側面一整排窗沒做——要 AA 先在室內右牆開窗（那一段是 v1c 窗邊沙發角），寫成提案等 BB 決定｜測試：開發分支 335b47844＋第三版 cafe_kit_glow／zone_prewarm／cafe230_nobldg_nav／cafe230_ext_nav ALL PASS（新 ④ 第二版 FAIL、第三版 PASS）",
+   "next": "LAWWW-C：git checkout 3486d4fbd -- cafe_exterior.glb／.json＋tests/cafe230_ext_nav_unit.js（程式不用改）；BB 判轉角、決定側窗要不要（要的話排 AA 改室內）",
+   "remaining": "瀏覽器沒跑（D131）；側窗等 BB／AA"
   }
  ]
 }
