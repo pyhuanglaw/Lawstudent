@@ -469,11 +469,7 @@ const TERMEND=(function(){
     if(typeof OUT!=='undefined'&&OUT.fromHome) return false; if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) return false;
     if(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G)) return false; if(typeof EXCH!=='undefined'&&EXCH.inUS&&EXCH.inUS(G)) return false; if(typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G)) return false;
     if(E.player.riding||(G.flags&&G.flags.companion)) return false; return true; };
-  /* BG-DUSK-1105（BB-C 09:21：使用者生成的小路傍晚 teishoku_dusk 通過 BB 檢查，AA_687 第 4 項要的那一張）：六月那幾次改用這張 2D 背景，不再換到 3D 的小路室內；S.KOMICHI_3D=true 回到 3D 那一套 */
-  S.KOMICHI_3D=false;
-  S.komichiStage=async function(GM,q,ev){ if(!GM||!S.komichiDue(GM.G,q,ev)) return null;
-    if(!S.KOMICHI_3D&&typeof OUT!=='undefined'&&OUT.BG&&OUT.BG.teishoku_dusk&&OUT.BG.teishoku_dusk.image){ S.komichiStaged='dusk'; let done=false; return {restore:async()=>{ if(done) return; done=true; S.komichiStaged=null; }}; }
-    if(!S.komichiCan(GM)) return null;
+  S.komichiStage=async function(GM,q,ev){ if(!GM||!S.komichiDue(GM.G,q,ev)||!S.komichiCan(GM)) return null;
     const G=GM.G, P=GM.E.player, Ly=WZ_SHOPS_LAYOUT.teishoku, me=Ly.seats[S.KOMICHI.me], her=Ly.seats[S.KOMICHI.her]; if(!me||!her) return null;
     const prev={zone:G.zone,x:P.obj.position.x,z:P.obj.position.z,yaw:P.obj.rotation.y,lv:P.lv|0}; if(P.seat&&GM.standUp) GM.standUp(P);
     const st=s=>({x:s.x,z:s.z,yaw:s.yaw,lv:0}), sp=Ly.spawn||{x:me.x,z:me.z,yaw:me.yaw}; S.komichiStaged=q.id;
@@ -485,6 +481,6 @@ const TERMEND=(function(){
     return {restore:async()=>{ if(done) return; done=true; S.komichiStaged=null; if(P.seat&&GM.standUp) GM.standUp(P);
       await GM.enter(prev.zone,{x:prev.x,z:prev.z,yaw:prev.yaw,lv:prev.lv},{noFade:true,deferStory:true,noAutosave:true}); }}; };
   if(typeof OUT!=='undefined'&&Array.isArray(OUT.STAGE)&&!OUT._teKomichi){ OUT.STAGE.push(S.komichiStage); OUT._teKomichi=true;
-    if(OUT.bg){ const b0=OUT.bg; OUT.bg=function(id){ if(S.komichiStaged&&id==='teishoku_night') return S.komichiStaged==='dusk'?b0.call(this,'teishoku_dusk'):'blur'; return b0.apply(this,arguments); }; } }   /* 演的時候這一頓的背景（PLACE.teishoku.bg）＝模糊的 3D */
+    if(OUT.bg){ const b0=OUT.bg; OUT.bg=function(id){ if(S.komichiStaged&&id==='teishoku_night') return 'blur'; return b0.apply(this,arguments); }; } }   /* 演的時候這一頓的背景（PLACE.teishoku.bg）＝模糊的 3D */
   return S;
 })();

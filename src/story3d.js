@@ -3598,7 +3598,7 @@ const STORY = (function(){
      起床不演下床（爬梯子）：黑幕裡直接站到房門口（「走出房間」那個出口往房間裡 1 m、面向門），淡入。找不到門＝照舊站到梯子前。S.WAKE_AT_DOOR=false 回到舊的爬下來 */
   S.WAKE_AT_DOOR=true;
   S.doorStand=function(E){ const ex=(E.interactables||[]).find(it=>it.exit&&it.exit.to==='dorm_hall'); if(!ex) return null; const ctr=E.zone&&E.zone.spawn||{x:0,z:0};
-    let dx=ctr.x-ex.x, dz=ctr.z-ex.z; const d=Math.hypot(dx,dz)||1; dx/=d; dz/=d; for(const r of [0.7,0.5,1.0,1.4]){ const x=ex.x+dx*r, z=ex.z+dz*r; if(!E.canStand||E.canStand(x,z,0.3,0)) return {x,z,yaw:Math.atan2(ex.x-x,ex.z-z)}; } return null; };   /* 往裡 0.7 m 先試（BB-C 09:02：1.0 m 那一點 (0,2.3) 按鈕是「收拾背包回家」，要到 z 2.6 才是「走出房間」）*/
+    let dx=ctr.x-ex.x, dz=ctr.z-ex.z; const d=Math.hypot(dx,dz)||1; dx/=d; dz/=d; for(const r of [1.0,1.4,0.7,1.8]){ const x=ex.x+dx*r, z=ex.z+dz*r; if(!E.canStand||E.canStand(x,z,0.3,0)) return {x,z,yaw:Math.atan2(ex.x-x,ex.z-z)}; } return null; };
   async function getUp(GM,sc){ const E=GM.E, P=E.player, T=S.SLEEP_T, st=sc.steps; S._bedBusy=true;
     if(S.WAKE_AT_DOOR){ try{ if(P.obj.userData) P.obj.userData.eyesShut=false; if((S._dark||0)>0) await darkTo(GM,0,0.4); await GM.sleep(300);
         await GM.fade(true); if(E.cam) E.cam.seeThru=null; P.idlePose='idle'; P.frozen=false; P.pose='idle'; if(P.obj.userData){ P.obj.userData.climbTop=null; P.obj.userData.kneelSnap=false; }
