@@ -47481,6 +47481,35 @@
     "ack": "自領"
    },
    "src": "UA-LAWWW-1105-25"
+  },
+  {
+   "id": "QUICK-TRAVEL-AREAS-1105",
+   "title": "手機快速前往分兩層：地區 → 那一區的建築和店",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "子代理 wt-xsmap 做完合併、全部 Node",
+   "source": "UA-LAWWW-1105-26",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-26",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "第一層只有地區，點了才列那一區的地點",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "UA-LAWWW-1105-26"
   }
  ]
 }
