@@ -1,0 +1,170 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_v21x_shops_probe.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\DBK_passerby\out
+CC V21X_SHOPS（林家、日和、日常失速、Daybreak 座位／互動點；五間換窗景的店）：SHA=abf4dbbd5abc4e842b5d92d481cfa9a39084166c（worktree 實際 ?）；PARTS=['seats']；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+PASS [seats] 這一版有 daybreak（Z3.ZONES）
+== seats daybreak
+  [前置／捷徑] [seats daybreak] 讀檔店裡（出生點）2025-10-18 8（PLACES.isOpen 挑有開的時間）
+PASS [seats daybreak] 讀到店裡  {"zone": "daybreak", "x": 2.165, "z": 2, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 8.01}
+  [  39.0s] [seats daybreak] 座位 22 張：[{"label": "坐窗邊", "x": -3.05, "z": 3.45, "lv": 0, "sx": -3.05, "sz": 3.45, "sy": null, "slv": 0, "row": null, "ap": [-3.05, 2.9], "lift": 0}, {"label": "坐窗邊", "x": -2.15, "z": 3.45, "lv": 0, "sx": -2.15, "sz": 3.45, "sy": null, "slv": 0, "row": null, "ap": [-2.15, 2.9], "lift": 0}, {"label": "坐窗邊", "x": -1.5, "z": 3.45, "lv": 0, "sx": -1.5, "sz": 3.45, "sy": null, "slv": 0, "row": null, "ap": [-1.55, 2.95], "lift": 0}, {"label": "坐窗邊", "x": -0.6, "z": 3.45, "lv": 0, "sx": -0.6, "sz": 3.45, "sy": null, "slv": 0, "row": null, "ap": [-0.6, 2.9], "lift": 0}, {"label": "坐窗邊", "x": 0.05, "z": 3.45, "lv": 0, "sx": 0.05, "sz": 3.45, "sy": null, "slv": 0, "row": null, "ap": [0.05, 2.9], "lift": 0}, {"label": "坐窗邊", "x": 0.95, "z": 3.45, "lv": 0, "sx": 0.95, "sz": 3.45, "sy": null, "slv": 0, "row": null, "ap": [0.95, 2.9], "lift": 0}, {"label": "坐下", "x": 1.3, "z": 1.55, "lv": 0, "sx": 1.3, "sz": 1.55, "sy": null, "slv": 0, "row": null, "ap": [1.3, 2.15], "lift": 0}, {"label": "坐下", "x": 1.9, "z": 1.55, "lv": 0, "sx": 1.9, "sz": 1.55, "sy": null, "slv": 0, "row": null, "ap": [1.9, 2.15], "lift": 0}, {"label": "坐下", "x": 1.3, "z": 0.45, "lv": 0, "sx": 1.3, "sz": 0.45, "sy": null, "slv": 0, "row": null, "ap": [0.75, 0.45], "lift": 0}, {"label": "坐下", "x": 1.9, "z": 0.45, "lv": 0, "sx": 1.9, "sz": 0.45, "sy": null, "slv": 0, "row": null, "ap": [2.45, 0.45], "lift": 0}, {"label": "坐下", "x": -1.4, "z": 1.45, "lv": 0, "sx": -1.4, "sz": 1.45, "sy": null, "slv": 0, "row": null, "ap": [-1.4, 2.05], "lift": 0}, {"label": "坐下", "x": -0.8, "z": 1.45, "lv": 0, "sx": -0.8, "sz": 1.45, "sy": null, "slv": 0, "row": null, "ap": [-0.25, 1.45], "lift": 0}, {"label": "坐下", "x": -1.4, "z": 0.35, "lv": 0, "sx": -1.4, "sz": 0.35, "sy": null, "slv": 0, "row": null, "ap": [-1.4, -0.25], "lift": 0}, {"label": "坐下", "x": -0.8, "z": 0.35, "lv": 0, "sx": -0.8, "sz": 0.35, "sy": null, "slv": 0, "row": null, "ap": [-0.25, 0.35], "lift": 0}, {"label": "坐長桌", "x": -4.2, "z": 0.3, "lv": 0, "sx": -4.2, "sz": 0.3, "sy": null, "slv": 0, "row": null, "ap": [-3.8, -0.55], "lift": 0}, {"label": "坐長桌", "x": -4.2, "z": 1.5, "lv": 0, "sx": -4.2, "sz": 1.5, "sy": null, "slv": 0, "row": null, "ap": [-3.8, 2.3], "lift": 0}, {"label": "坐長桌", "x": -3.3, "z": 0.3, "lv": 0, "sx": -3.3, "sz": 0.3, "sy": null, "slv": 0, "row": null, "ap": [-2.7, 0.3], "lift": 0}, {"label": "坐長桌", "x": -3.3, "z": 0.9, "lv": 0, "sx": -3.3, "sz": 0.9, "sy": null, "slv": 0, "row": null, "ap": [-2.7, 0.9], "lift": 0}, {"label": "坐長桌", "x": -3.3, "z": 1.5, "lv": 0, "sx": -3.3, "sz": 1.5, "sy": null, "slv": 0, "row": null, "ap": [-2.7, 1.5], "lift": 0}, {"label": "坐下", "x": 0.6, "z": -2.5, "lv": 0, "sx": 0.6, "sz": -2.5, "sy": null, "slv": 0, "row": null, "ap": [0.6, -1.9], "lift": 0}, {"label": "坐卡座", "x": 2.05, "z": -3.5, "lv": 0, "sx": 2.05, "sz": -3.5, "sy": null, "slv": 0, "row": null, "ap": [1.3, -3.1], "lift": 0}, {"label": "坐下", "x": 2.05, "z": -2.5, "lv": 0, "sx": 2.05, "sz": -2.5, "sy": null, "slv": 0, "row": null, "ap": [2.05, -1.9], "lift": 0}]
+  [  45.1s] 到達「[seats daybreak] #1（-3.05, 3.45）（走到椅子附近）」附近（0.12 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，6 秒
+PASS [seats daybreak] #1（-3.05, 3.45） 點椅子（螢幕 [361, 301]）走過去停在 (-2.982, 2.805)（seatApproach [-3.05, 2.9]）：最近的「坐下」是這一張  {"at": [-2.982, 2.805], "nearest": {"label": "坐窗邊", "seat": [-3.05, 3.45], "exit": null}}
+PASS [seats daybreak] #1（-3.05, 3.45） 走到旁邊，互動按鈕是「坐窗邊」  {"x": -2.982, "z": 2.805, "lv": 0, "interact": "坐窗邊", "stand": true}
+PASS [seats daybreak] #1（-3.05, 3.45） 坐下了（player.seat）  {"x": -3.05, "z": 3.45, "y": 0, "lv": 0, "sx": -3.05, "sz": 3.45, "sy": null}
+PASS [seats daybreak] #1（-3.05, 3.45） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -3.05, "z": 3.45, "y": 0, "lv": 0, "sx": -3.05, "sz": 3.45, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_1 不是黑畫面（平均亮度 128.2、變化 62.1）  [128.2, 62.1]
+  [  51.4s] [seats daybreak] #1（-3.05, 3.45） 起身點了：["起身"]
+PASS [seats daybreak] #1（-3.05, 3.45） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 7.06, "x": 3.773, "z": 0.89, "lv": 0, "stand": true, "fb": 0}
+  [  57.6s] 到達「[seats daybreak] #2（-2.15, 3.45）（走到椅子附近）」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [seats daybreak] #2（-2.15, 3.45） 點椅子（螢幕 [361, 295]）走過去停在 (-1.976, 2.776)（seatApproach [-2.15, 2.9]）：最近的「坐下」是這一張  {"at": [-1.976, 2.776], "nearest": {"label": "坐窗邊", "seat": [-2.15, 3.45], "exit": null}}
+PASS [seats daybreak] #2（-2.15, 3.45） 走到旁邊，互動按鈕是「坐窗邊」  {"x": -1.976, "z": 2.776, "lv": 0, "interact": "坐窗邊", "stand": true}
+FAIL [seats daybreak] #2（-2.15, 3.45） 坐下了（player.seat）  {"x": -1.976, "z": 2.776, "y": 0, "lv": 0, "sx": null, "sz": null, "sy": null}
+PASS [seats daybreak] #2（-2.15, 3.45） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 6.01, "x": 3.726, "z": 0.896, "lv": 0, "stand": true, "fb": 0}
+  [  79.7s] [seats daybreak] #3（-1.5, 3.45） 有人坐：遊戲不給坐，跳過（不算 FAIL）
+  [  79.7s] [seats daybreak] #4（-0.6, 3.45） 有人坐：遊戲不給坐，跳過（不算 FAIL）
+  [  82.7s] 到達「[seats daybreak] #5（0.05, 3.45）（走到椅子附近）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [seats daybreak] #5（0.05, 3.45） 點椅子（螢幕 [348, 304]）走過去停在 (0.062, 2.684)（seatApproach [0.05, 2.9]）：最近的「坐下」是這一張  {"at": [0.062, 2.684], "nearest": {"label": "坐窗邊", "seat": [0.05, 3.45], "exit": null}}
+PASS [seats daybreak] #5（0.05, 3.45） 走到旁邊，互動按鈕是「坐窗邊」  {"x": 0.062, "z": 2.684, "lv": 0, "interact": "坐窗邊", "stand": true}
+PASS [seats daybreak] #5（0.05, 3.45） 坐下了（player.seat）  {"x": 0.05, "z": 3.45, "y": 0, "lv": 0, "sx": 0.05, "sz": 3.45, "sy": null}
+PASS [seats daybreak] #5（0.05, 3.45） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": 0.05, "z": 3.45, "y": 0, "lv": 0, "sx": 0.05, "sz": 3.45, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_5 不是黑畫面（平均亮度 125.4、變化 57.8）  [125.4, 57.8]
+  [  89.9s] [seats daybreak] #5（0.05, 3.45） 起身點了：["起身"]
+PASS [seats daybreak] #5（0.05, 3.45） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 4.11, "x": 3.716, "z": 0.855, "lv": 0, "stand": true, "fb": 0}
+  [  94.8s] 到達「[seats daybreak] #6（0.95, 3.45）（走到椅子附近）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [seats daybreak] #6（0.95, 3.45） 點椅子（螢幕 [362, 293]）走過去停在 (1.146, 2.778)（seatApproach [0.95, 2.9]）：最近的「坐下」是這一張  {"at": [1.146, 2.778], "nearest": {"label": "坐窗邊", "seat": [0.95, 3.45], "exit": null}}
+PASS [seats daybreak] #6（0.95, 3.45） 走到旁邊，互動按鈕是「坐窗邊」  {"x": 1.146, "z": 2.778, "lv": 0, "interact": "坐窗邊", "stand": true}
+PASS [seats daybreak] #6（0.95, 3.45） 坐下了（player.seat）  {"x": 0.95, "z": 3.45, "y": 0, "lv": 0, "sx": 0.95, "sz": 3.45, "sy": null}
+PASS [seats daybreak] #6（0.95, 3.45） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": 0.95, "z": 3.45, "y": 0, "lv": 0, "sx": 0.95, "sz": 3.45, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_6 不是黑畫面（平均亮度 128、變化 55.1）  [128, 55.1]
+  [ 101.9s] [seats daybreak] #6（0.95, 3.45） 起身點了：["起身"]
+PASS [seats daybreak] #6（0.95, 3.45） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 3.32, "x": 3.7, "z": 0.837, "lv": 0, "stand": true, "fb": 0}
+  [ 106.9s] 到達「[seats daybreak] #7（1.3, 1.55）（走到椅子附近）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [seats daybreak] #7（1.3, 1.55） 點椅子（螢幕 [477, 305]）走過去停在 (1.51, 2.071)（seatApproach [1.3, 2.15]）：最近的「坐下」是這一張  {"at": [1.51, 2.071], "nearest": {"label": "坐下", "seat": [1.3, 1.55], "exit": null}}
+PASS [seats daybreak] #7（1.3, 1.55） 走到旁邊，互動按鈕是「坐下」  {"x": 1.51, "z": 2.071, "lv": 0, "interact": "坐下", "stand": true}
+PASS [seats daybreak] #7（1.3, 1.55） 坐下了（player.seat）  {"x": 1.3, "z": 1.55, "y": 0, "lv": 0, "sx": 1.3, "sz": 1.55, "sy": null}
+PASS [seats daybreak] #7（1.3, 1.55） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": 1.3, "z": 1.55, "y": 0, "lv": 0, "sx": 1.3, "sz": 1.55, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_7 不是黑畫面（平均亮度 121.3、變化 57.8）  [121.3, 57.8]
+  [ 114.0s] [seats daybreak] #7（1.3, 1.55） 起身點了：["起身"]
+PASS [seats daybreak] #7（1.3, 1.55） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 0.38, "x": 0.897, "z": 1.408, "lv": 0, "stand": true, "fb": 0}
+  [ 116.2s] [seats daybreak] #8（1.9, 1.55） 有人坐：遊戲不給坐，跳過（不算 FAIL）
+  [ 116.3s] 到達「[seats daybreak] #9（1.3, 0.45）（走到椅子附近）」附近（0.97 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS [seats daybreak] #9（1.3, 0.45） 點椅子（螢幕 [522, 356]）走過去停在 (0.571, 0.586)（seatApproach [0.75, 0.45]）：最近的「坐下」是這一張  {"at": [0.571, 0.586], "nearest": {"label": "坐下", "seat": [1.3, 0.45], "exit": null}}
+PASS [seats daybreak] #9（1.3, 0.45） 走到旁邊，互動按鈕是「坐下」  {"x": 0.571, "z": 0.586, "lv": 0, "interact": "坐下", "stand": true}
+PASS [seats daybreak] #9（1.3, 0.45） 坐下了（player.seat）  {"x": 1.3, "z": 0.45, "y": 0, "lv": 0, "sx": 1.3, "sz": 0.45, "sy": null}
+PASS [seats daybreak] #9（1.3, 0.45） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": 1.3, "z": 0.45, "y": 0, "lv": 0, "sx": 1.3, "sz": 0.45, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_9 不是黑畫面（平均亮度 122.1、變化 58.7）  [122.1, 58.7]
+  [ 124.2s] [seats daybreak] #9（1.3, 0.45） 起身點了：["起身"]
+PASS [seats daybreak] #9（1.3, 0.45） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 3.67, "x": 3.707, "z": -1.413, "lv": 0, "stand": true, "fb": 0}
+  [ 126.4s] [seats daybreak] #10（1.9, 0.45） 有人坐：遊戲不給坐，跳過（不算 FAIL）
+  [ 130.8s] 到達「[seats daybreak] #11（-1.4, 1.45）（走到椅子附近）」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [seats daybreak] #11（-1.4, 1.45） 點椅子（螢幕 [481, 307]）走過去停在 (-1.203, 2.015)（seatApproach [-1.4, 2.05]）：最近的「坐下」是這一張  {"at": [-1.203, 2.015], "nearest": {"label": "坐下", "seat": [-1.4, 1.45], "exit": null}}
+PASS [seats daybreak] #11（-1.4, 1.45） 走到旁邊，互動按鈕是「坐下」  {"x": -1.203, "z": 2.015, "lv": 0, "interact": "坐下", "stand": true}
+PASS [seats daybreak] #11（-1.4, 1.45） 坐下了（player.seat）  {"x": -1.4, "z": 1.45, "y": 0, "lv": 0, "sx": -1.4, "sz": 1.45, "sy": null}
+PASS [seats daybreak] #11（-1.4, 1.45） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -1.4, "z": 1.45, "y": 0, "lv": 0, "sx": -1.4, "sz": 1.45, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_11 不是黑畫面（平均亮度 120.2、變化 60.4）  [120.2, 60.4]
+  [ 138.1s] [seats daybreak] #11（-1.4, 1.45） 起身點了：["起身"]
+PASS [seats daybreak] #11（-1.4, 1.45） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 0.45, "x": -1.704, "z": 1.403, "lv": 0, "stand": true, "fb": 0}
+  [ 143.2s] 到達「[seats daybreak] #12（-0.8, 1.45）（走到椅子附近）」附近（1.29 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [seats daybreak] #12（-0.8, 1.45） 點椅子（螢幕 [449, 372]）走過去停在 (-0.979, 1.984)（seatApproach [-0.25, 1.45]）：最近的「坐下」是這一張  {"at": [-0.979, 1.984], "nearest": {"label": "坐下", "seat": [-0.8, 1.45], "exit": null}}
+PASS [seats daybreak] #12（-0.8, 1.45） 走到旁邊，互動按鈕是「坐下」  {"x": -0.979, "z": 1.984, "lv": 0, "interact": "坐下", "stand": true}
+PASS [seats daybreak] #12（-0.8, 1.45） 坐下了（player.seat）  {"x": -0.8, "z": 1.45, "y": 0, "lv": 0, "sx": -0.8, "sz": 1.45, "sy": null}
+PASS [seats daybreak] #12（-0.8, 1.45） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -0.8, "z": 1.45, "y": 0, "lv": 0, "sx": -0.8, "sz": 1.45, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_12 不是黑畫面（平均亮度 120.2、變化 58.5）  [120.2, 58.5]
+  [ 150.9s] [seats daybreak] #12（-0.8, 1.45） 起身點了：["起身"]
+PASS [seats daybreak] #12（-0.8, 1.45） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 4.2, "x": 3.718, "z": -0.413, "lv": 0, "stand": true, "fb": 0}
+  [ 156.4s] 到達「[seats daybreak] #13（-1.4, 0.35）（走到椅子附近）」附近（0.11 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [seats daybreak] #13（-1.4, 0.35） 點椅子（螢幕 [368, 299]）走過去停在 (-1.288, -0.231)（seatApproach [-1.4, -0.25]）：最近的「坐下」是這一張  {"at": [-1.288, -0.231], "nearest": {"label": "坐下", "seat": [-1.4, 0.35], "exit": null}}
+PASS [seats daybreak] #13（-1.4, 0.35） 走到旁邊，互動按鈕是「坐下」  {"x": -1.288, "z": -0.231, "lv": 0, "interact": "坐下", "stand": true}
+PASS [seats daybreak] #13（-1.4, 0.35） 坐下了（player.seat）  {"x": -1.4, "z": 0.35, "y": 0, "lv": 0, "sx": -1.4, "sz": 0.35, "sy": null}
+PASS [seats daybreak] #13（-1.4, 0.35） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -1.4, "z": 0.35, "y": 0, "lv": 0, "sx": -1.4, "sz": 0.35, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_13 不是黑畫面（平均亮度 123.7、變化 60.7）  [123.7, 60.7]
+  [ 163.9s] [seats daybreak] #13（-1.4, 0.35） 起身點了：["起身"]
+PASS [seats daybreak] #13（-1.4, 0.35） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 6.2, "x": 3.756, "z": -1.513, "lv": 0, "stand": true, "fb": 0}
+  [ 168.8s] 到達「[seats daybreak] #14（-0.8, 0.35）（走到椅子附近）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [seats daybreak] #14（-0.8, 0.35） 點椅子（螢幕 [427, 268]）走過去停在 (-0.043, 0.278)（seatApproach [-0.25, 0.35]）：最近的「坐下」是這一張  {"at": [-0.043, 0.278], "nearest": {"label": "坐下", "seat": [-0.8, 0.35], "exit": null}}
+PASS [seats daybreak] #14（-0.8, 0.35） 走到旁邊，互動按鈕是「坐下」  {"x": -0.043, "z": 0.278, "lv": 0, "interact": "坐下", "stand": true}
+PASS [seats daybreak] #14（-0.8, 0.35） 坐下了（player.seat）  {"x": -0.8, "z": 0.35, "y": 0, "lv": 0, "sx": -0.8, "sz": 0.35, "sy": null}
+PASS [seats daybreak] #14（-0.8, 0.35） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -0.8, "z": 0.35, "y": 0, "lv": 0, "sx": -0.8, "sz": 0.35, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_14 不是黑畫面（平均亮度 125、變化 58.9）  [125, 58.9]
+  [ 176.1s] [seats daybreak] #14（-0.8, 0.35） 起身點了：["起身"]
+PASS [seats daybreak] #14（-0.8, 0.35） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 4.21, "x": 3.718, "z": -1.531, "lv": 0, "stand": true, "fb": 0}
+  [ 178.3s] [seats daybreak] #15（-4.2, 0.3） 有人坐：遊戲不給坐，跳過（不算 FAIL）
+  [ 184.2s] 到達「[seats daybreak] #16（-4.2, 1.5）（走到椅子附近）」附近（0.03 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [seats daybreak] #16（-4.2, 1.5） 點椅子（螢幕 [507, 295]）走過去停在 (-3.777, 2.324)（seatApproach [-3.8, 2.3]）：最近的「坐下」是這一張  {"at": [-3.777, 2.324], "nearest": {"label": "坐長桌", "seat": [-4.2, 1.5], "exit": null}}
+PASS [seats daybreak] #16（-4.2, 1.5） 走到旁邊，互動按鈕是「坐長桌」  {"x": -3.777, "z": 2.324, "lv": 0, "interact": "坐長桌", "stand": true}
+PASS [seats daybreak] #16（-4.2, 1.5） 坐下了（player.seat）  {"x": -4.2, "z": 1.5, "y": 0, "lv": 0, "sx": -4.2, "sz": 1.5, "sy": null}
+PASS [seats daybreak] #16（-4.2, 1.5） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -4.2, "z": 1.5, "y": 0, "lv": 0, "sx": -4.2, "sz": 1.5, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_16 不是黑畫面（平均亮度 127.2、變化 63.9）  [127.2, 63.9]
+  [ 191.4s] [seats daybreak] #16（-4.2, 1.5） 起身點了：["起身"]
+PASS [seats daybreak] #16（-4.2, 1.5） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 3.99, "x": 0.663, "z": -0.31, "lv": 0, "stand": true, "fb": 0}
+  [ 193.6s] [seats daybreak] #17（-3.3, 0.3） 有人坐：遊戲不給坐，跳過（不算 FAIL）
+  [ 196.5s] 到達「[seats daybreak] #18（-3.3, 0.9）（走到椅子附近）」附近（0.15 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [seats daybreak] #18（-3.3, 0.9） 點椅子（螢幕 [423, 271]）走過去停在 (-2.604, 0.787)（seatApproach [-2.7, 0.9]）：最近的「坐下」是這一張  {"at": [-2.604, 0.787], "nearest": {"label": "坐長桌", "seat": [-3.3, 0.9], "exit": null}}
+PASS [seats daybreak] #18（-3.3, 0.9） 走到旁邊，互動按鈕是「坐長桌」  {"x": -2.604, "z": 0.787, "lv": 0, "interact": "坐長桌", "stand": true}
+PASS [seats daybreak] #18（-3.3, 0.9） 坐下了（player.seat）  {"x": -3.3, "z": 0.9, "y": 0, "lv": 0, "sx": -3.3, "sz": 0.9, "sy": null}
+PASS [seats daybreak] #18（-3.3, 0.9） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -3.3, "z": 0.9, "y": 0, "lv": 0, "sx": -3.3, "sz": 0.9, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_18 不是黑畫面（平均亮度 127.5、變化 63.4）  [127.5, 63.4]
+  [ 203.6s] [seats daybreak] #18（-3.3, 0.9） 起身點了：["起身"]
+PASS [seats daybreak] #18（-3.3, 0.9） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 6.58, "x": 3.763, "z": -0.945, "lv": 0, "stand": true, "fb": 0}
+  [ 210.3s] 到達「[seats daybreak] #19（-3.3, 1.5）（走到椅子附近）」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [seats daybreak] #19（-3.3, 1.5） 點椅子（螢幕 [419, 270]）走過去停在 (-2.608, 1.347)（seatApproach [-2.7, 1.5]）：最近的「坐下」是這一張  {"at": [-2.608, 1.347], "nearest": {"label": "坐長桌", "seat": [-3.3, 1.5], "exit": null}}
+PASS [seats daybreak] #19（-3.3, 1.5） 走到旁邊，互動按鈕是「坐長桌」  {"x": -2.608, "z": 1.347, "lv": 0, "interact": "坐長桌", "stand": true}
+PASS [seats daybreak] #19（-3.3, 1.5） 坐下了（player.seat）  {"x": -3.3, "z": 1.5, "y": 0, "lv": 0, "sx": -3.3, "sz": 1.5, "sy": null}
+PASS [seats daybreak] #19（-3.3, 1.5） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -3.3, "z": 1.5, "y": 0, "lv": 0, "sx": -3.3, "sz": 1.5, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_19 不是黑畫面（平均亮度 122.3、變化 64.9）  [122.3, 64.9]
+  [ 217.3s] [seats daybreak] #19（-3.3, 1.5） 起身點了：["起身"]
+PASS [seats daybreak] #19（-3.3, 1.5） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 4.28, "x": 0.889, "z": 1.4, "lv": 0, "stand": true, "fb": 0}
+  [ 224.7s] 到達「[seats daybreak] #20（0.6, -2.5）（走到椅子附近）」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [seats daybreak] #20（0.6, -2.5） 點椅子（螢幕 [508, 325]）走過去停在 (0.582, -1.662)（seatApproach [0.6, -1.9]）：最近的「坐下」是這一張  {"at": [0.582, -1.662], "nearest": {"label": "坐下", "seat": [0.6, -2.5], "exit": null}}
+PASS [seats daybreak] #20（0.6, -2.5） 走到旁邊，互動按鈕是「坐下」  {"x": 0.582, "z": -1.662, "lv": 0, "interact": "坐下", "stand": true}
+PASS [seats daybreak] #20（0.6, -2.5） 坐下了（player.seat）  {"x": 0.6, "z": -2.5, "y": 0, "lv": 0, "sx": 0.6, "sz": -2.5, "sy": null}
+PASS [seats daybreak] #20（0.6, -2.5） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": 0.6, "z": -2.5, "y": 0, "lv": 0, "sx": 0.6, "sz": -2.5, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_20 不是黑畫面（平均亮度 113.3、變化 63.3）  [113.3, 63.3]
+  [ 230.6s] [seats daybreak] #20（0.6, -2.5） 起身點了：["起身"]
+PASS [seats daybreak] #20（0.6, -2.5） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 0.36, "x": 1.698, "z": -2.589, "lv": 0, "stand": true, "fb": 0}
+  [ 232.5s] 到達「[seats daybreak] #21（2.05, -3.5）（走到椅子附近）」附近（0.65 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS [seats daybreak] #21（2.05, -3.5） 點椅子（螢幕 [516, 351]）走過去停在 (1.38, -3.044)（seatApproach [1.3, -3.1]）：最近的「坐下」是這一張  {"at": [1.38, -3.044], "nearest": {"label": "坐卡座", "seat": [2.05, -3.5], "exit": null}}
+PASS [seats daybreak] #21（2.05, -3.5） 走到旁邊，互動按鈕是「坐卡座」  {"x": 1.38, "z": -3.044, "lv": 0, "interact": "坐卡座", "stand": true}
+PASS [seats daybreak] #21（2.05, -3.5） 坐下了（player.seat）  {"x": 2.05, "z": -3.5, "y": 0, "lv": 0, "sx": 2.05, "sz": -3.5, "sy": null}
+PASS [seats daybreak] #21（2.05, -3.5） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": 2.05, "z": -3.5, "y": 0, "lv": 0, "sx": 2.05, "sz": -3.5, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_21 不是黑畫面（平均亮度 144.4、變化 64.1）  [144.4, 64.1]
+  [ 240.4s] [seats daybreak] #21（2.05, -3.5） 起身點了：["起身"]
+PASS [seats daybreak] #21（2.05, -3.5） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 1.86, "x": 3.776, "z": -2.868, "lv": 0, "stand": true, "fb": 0}
+  [ 245.0s] 到達「[seats daybreak] #22（2.05, -2.5）（走到椅子附近）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [seats daybreak] #22（2.05, -2.5） 點椅子（螢幕 [473, 305]）走過去停在 (2.258, -2.017)（seatApproach [2.05, -1.9]）：最近的「坐下」是這一張  {"at": [2.258, -2.017], "nearest": {"label": "坐下", "seat": [2.05, -2.5], "exit": null}}
+PASS [seats daybreak] #22（2.05, -2.5） 走到旁邊，互動按鈕是「坐下」  {"x": 2.258, "z": -2.017, "lv": 0, "interact": "坐下", "stand": true}
+PASS [seats daybreak] #22（2.05, -2.5） 坐下了（player.seat）  {"x": 2.05, "z": -2.5, "y": 0, "lv": 0, "sx": 2.05, "sz": -2.5, "sy": null}
+PASS [seats daybreak] #22（2.05, -2.5） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": 2.05, "z": -2.5, "y": 0, "lv": 0, "sx": 2.05, "sz": -2.5, "sy": null}
+PASS [黑畫面] seat_daybreak_seat_22 不是黑畫面（平均亮度 109.1、變化 61.2）  [109.1, 61.2]
+  [ 250.9s] [seats daybreak] #22（2.05, -2.5） 起身點了：["起身"]
+PASS [seats daybreak] #22（2.05, -2.5） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 0.4, "x": 1.689, "z": -2.591, "lv": 0, "stand": true, "fb": 0}
+  [ 252.9s] [seats daybreak] 每一張：[[1, "ok", -3.05, 3.45], [2, "nosit", -2.15, 3.45], [3, "occupied", -1.5, 3.45], [4, "occupied", -0.6, 3.45], [5, "ok", 0.05, 3.45], [6, "ok", 0.95, 3.45], [7, "ok", 1.3, 1.55], [8, "occupied", 1.9, 1.55], [9, "ok", 1.3, 0.45], [10, "occupied", 1.9, 0.45], [11, "ok", -1.4, 1.45], [12, "ok", -0.8, 1.45], [13, "ok", -1.4, 0.35], [14, "ok", -0.8, 0.35], [15, "occupied", -4.2, 0.3], [16, "ok", -4.2, 1.5], [17, "occupied", -3.3, 0.3], [18, "ok", -3.3, 0.9], [19, "ok", -3.3, 1.5], [20, "ok", 0.6, -2.5], [21, "ok", 2.05, -3.5], [22, "ok", 2.05, -2.5]]
+  [前置／捷徑] [seats daybreak] 窗邊 (-1.5, 3.45) 第一次＝occupied：讀檔 2025-10-18 9.00 只坐這一張
+  [ 260.7s] [seats daybreak 再坐] 座位 1 張：[{"label": "坐窗邊", "x": -1.5, "z": 3.45, "lv": 0, "sx": -1.5, "sz": 3.45, "sy": null, "slv": 0, "row": null, "ap": [-1.55, 2.95], "lift": 0}]
+  [ 260.7s] [seats daybreak 再坐] #1（-1.5, 3.45） 有人坐：遊戲不給坐，跳過（不算 FAIL）
+  [前置／捷徑] [seats daybreak] 窗邊 (-1.5, 3.45) 第一次＝occupied：讀檔 2025-10-18 10.00 只坐這一張
+  [ 268.3s] [seats daybreak 再坐] 座位 1 張：[{"label": "坐窗邊", "x": -1.5, "z": 3.45, "lv": 0, "sx": -1.5, "sz": 3.45, "sy": null, "slv": 0, "row": null, "ap": [-1.55, 2.95], "lift": 0}]
+  [ 271.1s] 到達「[seats daybreak 再坐] #1（-1.5, 3.45）（走到椅子附近）」附近（0.62 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [seats daybreak 再坐] #1（-1.5, 3.45） 點椅子（螢幕 [414, 254]）走過去停在 (-1.515, 2.709)（seatApproach [-1.55, 2.95]）：最近的「坐下」是這一張  {"at": [-1.515, 2.709], "nearest": {"label": "坐窗邊", "seat": [-1.5, 3.45], "exit": null}}
+PASS [seats daybreak 再坐] #1（-1.5, 3.45） 走到旁邊，互動按鈕是「坐窗邊」  {"x": -1.515, "z": 2.709, "lv": 0, "interact": "坐窗邊", "stand": true}
+PASS [seats daybreak 再坐] #1（-1.5, 3.45） 坐下了（player.seat）  {"x": -1.5, "z": 3.45, "y": 0, "lv": 0, "sx": -1.5, "sz": 3.45, "sy": null}
+PASS [seats daybreak 再坐] #1（-1.5, 3.45） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -1.5, "z": 3.45, "y": 0, "lv": 0, "sx": -1.5, "sz": 3.45, "sy": null}
+PASS [黑畫面] seat_daybreak_re_seat_1 不是黑畫面（平均亮度 122.7、變化 57.8）  [122.7, 57.8]
+  [ 283.7s] [seats daybreak 再坐] #1（-1.5, 3.45） 起身點了：["起身"]
+PASS [seats daybreak 再坐] #1（-1.5, 3.45） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 5.97, "x": 1.677, "z": -2.596, "lv": 0, "stand": true, "fb": 0}
+PASS [seats daybreak] BB-C 08:40 那 4 張之一：窗邊 (-1.5, 3.45) 點椅子坐下、起身走開（擦桌角不判）  [1, "ok", -1.5, 3.45]
+  [前置／捷徑] [seats daybreak] 長桌（西側，擦桌角已知） (-4.2, 0.3) 第一次＝occupied：讀檔 2025-10-18 9.00 只坐這一張
+  [ 293.4s] [seats daybreak 再坐] 座位 1 張：[{"label": "坐長桌", "x": -4.2, "z": 0.3, "lv": 0, "sx": -4.2, "sz": 0.3, "sy": null, "slv": 0, "row": null, "ap": [-3.8, -0.55], "lift": 0}]
+  [ 298.1s] 到達「[seats daybreak 再坐] #1（-4.2, 0.3）（走到椅子附近）」附近（0.05 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [seats daybreak 再坐] #1（-4.2, 0.3） 點椅子（螢幕 [417, 259]）走過去停在 (-3.756, -0.521)（seatApproach [-3.8, -0.55]）：最近的「坐下」是這一張  {"at": [-3.756, -0.521], "nearest": {"label": "坐長桌", "seat": [-4.2, 0.3], "exit": null}}
+PASS [seats daybreak 再坐] #1（-4.2, 0.3） 走到旁邊，互動按鈕是「坐長桌」  {"x": -3.756, "z": -0.521, "lv": 0, "interact": "坐長桌", "stand": true}
+PASS [seats daybreak 再坐] #1（-4.2, 0.3） 坐下了（player.seat）  {"x": -4.2, "z": 0.3, "y": 0, "lv": 0, "sx": -4.2, "sz": 0.3, "sy": null}
+PASS [seats daybreak 再坐] #1（-4.2, 0.3） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -4.2, "z": 0.3, "y": 0, "lv": 0, "sx": -4.2, "sz": 0.3, "sy": null}
+PASS [黑畫面] seat_daybreak_re_seat_1 不是黑畫面（平均亮度 133.9、變化 60.8）  [133.9, 60.8]
+  [ 309.1s] [seats daybreak 再坐] #1（-4.2, 0.3） 起身點了：["起身"]
+PASS [seats daybreak 再坐] #1（-4.2, 0.3） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 4.31, "x": 0.299, "z": -2.583, "lv": 0, "stand": true, "fb": 0}
+PASS [seats daybreak] BB-C 08:40 那 4 張之一：長桌（西側，擦桌角已知） (-4.2, 0.3) 點椅子坐下、起身走開（擦桌角不判）  [1, "ok", -4.2, 0.3]
+PASS [seats daybreak] BB-C 08:40 那 4 張之一：長桌（西側，擦桌角已知） (-4.2, 1.5) 點椅子坐下、起身走開（擦桌角不判）  [16, "ok", -4.2, 1.5]
+PASS [seats daybreak] BB-C 08:40 那 4 張之一：卡座 (2.05, -3.5) 點椅子坐下、起身走開（擦桌角不判）  [21, "ok", 2.05, -3.5]
+PASS 沒有 JS 例外  []
+FAILED 1: [seats daybreak] #2（-2.15, 3.45） 坐下了（player.seat）

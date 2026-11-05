@@ -1540,3 +1540,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 213.9s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 213.9s] BROWSER DISCONNECTED
 - 2026-11-06T07:35:24  V21R_soc_heroine_01_go  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  2161s       用了 35.2 分鐘 / ==== 總結：1 人，FAIL 1 人：[["heroine_01", ["phone 約出去玩：約成一趟（booked）"]]] / FAILED 1
       err.log (last 5): [gpu_wrap 2112.4s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 2112.4s] BROWSER DISCONNECTED
+- 2026-11-06T07:36:16  DBK_passerby  sha=abf4dbbd5abc4e842b5d92d481cfa9a39084166c  exit=0  346s    PASS [seats daybreak] BB-C 08:40 那 4 張之一：卡座 (2.05, -3.5) 點椅子坐下、起身走開（擦桌角不判）  [21, "ok", 2.05, -3.5] / PASS 沒有 JS 例外  [] / FAILED 1: [seats daybreak] #2（-2.15, 3.45） 坐下了（player.seat）
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 311.6s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 311.7s] BROWSER DISCONNECTED
