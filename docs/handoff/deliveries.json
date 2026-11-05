@@ -17461,6 +17461,19 @@
    "task": "WZ-FIVE-1104",
    "integration": "已整合待測試",
    "note": "LAWWW-C 03:3x 接進 cc0af7f14"
+  },
+  {
+   "id": "DL-LAWWW2-c6837632e",
+   "date": "2026-11-05T10:45Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "c6837632e",
+   "msg": "ACTIONED",
+   "what": "望月台、體育館第 2 版外觀＋新生南路圍牆後面＋大口／大步／好拍視差窗（XS-NORTH-EXT＋XS-WINCARD）",
+   "task": "XS-NORTH-EXT-1105",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 10:4x 接進 abf4dbbd5；LAWWW2 outbox 寫成「XS-NORTH-EXT-1105＋XS-WINCARD-1105」兩個 ID 合在一起，這裡拆開登記"
   }
  ],
  "ignored": [
@@ -22834,6 +22847,30 @@
    "coveredBy": "DL-LAWWW2-a353148b7",
    "reason": "GUITAR-SHOP-ZONE-1105 交件的 README 補 SHA、outbox 一筆、樓梯間模型的資訊檔 tongxian_stair.json（LAWWW-C 01:5x 一起接進開發分支）；D94",
    "task": "GUITAR-SHOP-ZONE-1105"
+  },
+  {
+   "sha": "061bcf338c",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "XS-WINCARD WIP 檢查點；交件版 c6837632e 已接進 abf4dbbd5；LAWWW-C 11-05 交班稽核分類（D94）",
+   "task": "XS-WINCARD-1105"
+  },
+  {
+   "sha": "99ab044b41",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "XS-NORTH-EXT v2 WIP 檢查點；交件版 c6837632e 已接進 abf4dbbd5；LAWWW-C 11-05 交班稽核分類（D94）",
+   "task": "XS-NORTH-EXT-1105"
+  },
+  {
+   "sha": "11c452f4ac",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "XS-NORTH-EXT 第一版 WIP 檢查點；交件版 c6837632e 已接進 abf4dbbd5；LAWWW-C 11-05 交班稽核分類（D94）",
+   "task": "XS-NORTH-EXT-1105"
   }
  ],
  "scannedThroughNote": "2026-11-02 05:3x 使用者刪了帳號 B 的分支（funny-albattani、cool-heisenberg、elegant-brown；內容整條在 second-ai-env-art、story-planning）：從這裡拿掉，之後的核對靠 watermarks.json（incr）"

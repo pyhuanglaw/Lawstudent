@@ -48129,6 +48129,396 @@
    },
    "src": "UA-LAWWW-1105-29",
    "sha": "abf4dbbd5"
+  },
+  {
+   "id": "XS-ARCADE-NAV-1105",
+   "title": "新生南路騎樓導航（LAWWW2 9eed89550）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "交班稽核（LAWWW-C 11-05）補登：LAWWW2 outbox 有、總表沒有；已接進開發線，待 BB 驗",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 09:1x 經 LAWWW2-C（UA-LAWWW2-1105-06）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "src": "UA-LAWWW-1105-29",
+   "sha": ""
+  },
+  {
+   "id": "GLB-WALLDIR-1105",
+   "title": "GLB 牆面淡出方向沿用上層節點（LAWWW2 ee917acd3）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "交班稽核（LAWWW-C 11-05）補登：LAWWW2 outbox 有、總表沒有；已接進開發線，待 BB 驗",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 09:1x 經 LAWWW2-C（UA-LAWWW2-1105-06）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "src": "UA-LAWWW-1105-29",
+   "sha": ""
+  },
+  {
+   "id": "XS-SHOPS-REST-1105",
+   "title": "新生南路其餘店面第 1 版（大口、大步、好拍；LAWWW2 bf0d45081、67fc2c07b）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "交班稽核（LAWWW-C 11-05）補登：LAWWW2 outbox 有、總表沒有；已接進開發線，待 BB 驗",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 09:1x 經 LAWWW2-C（UA-LAWWW2-1105-06）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "src": "UA-LAWWW-1105-29",
+   "sha": ""
+  },
+  {
+   "id": "XS-SPORTS-V1-1105",
+   "title": "新生運動廣場第 1 版（LAWWW2 1f9de73af）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "交班稽核（LAWWW-C 11-05）補登：LAWWW2 outbox 有、總表沒有；已接進開發線，待 BB 驗",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 09:1x 經 LAWWW2-C（UA-LAWWW2-1105-06）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "src": "UA-LAWWW-1105-29",
+   "sha": ""
+  },
+  {
+   "id": "NANYANG-HALL-WALKMESH-1105",
+   "title": "南洋 1 廳點斜地板落點（LAWWW2 a44670a4e）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "交班稽核（LAWWW-C 11-05）補登：LAWWW2 outbox 有、總表沒有；已接進開發線，待 BB 驗",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 09:1x 經 LAWWW2-C（UA-LAWWW2-1105-06）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "src": "UA-LAWWW-1105-29",
+   "sha": ""
+  },
+  {
+   "id": "GYM-ARENA-TAP-1105",
+   "title": "體育館 3F 主球場看台點地（LAWWW2 64ab93797）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "交班稽核（LAWWW-C 11-05）補登：LAWWW2 outbox 有、總表沒有；已接進開發線，待 BB 驗",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 09:1x 經 LAWWW2-C（UA-LAWWW2-1105-06）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "src": "UA-LAWWW-1105-29",
+   "sha": ""
+  },
+  {
+   "id": "DORM1-WALL-SEAM",
+   "title": "男一舍門廳牆縫（LAWWW2 4eada314b）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "交班稽核（LAWWW-C 11-05）補登：LAWWW2 outbox 有、總表沒有；已接進開發線，待 BB 驗",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 09:1x 經 LAWWW2-C（UA-LAWWW2-1105-06）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "src": "UA-LAWWW-1105-29",
+   "sha": ""
+  },
+  {
+   "id": "TEA-SUNKEN-TAP-1105",
+   "title": "一盞可點面（LAWWW2 2443c33b8）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "交班稽核（LAWWW-C 11-05）補登：LAWWW2 outbox 有、總表沒有；已接進開發線，待 BB 驗",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 09:1x 經 LAWWW2-C（UA-LAWWW2-1105-06）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "src": "UA-LAWWW-1105-29",
+   "sha": ""
+  },
+  {
+   "id": "STAIR-TAP-TILT-1105",
+   "title": "四間店樓梯可點面斜反（LAWWW2 137bd8e36）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "交班稽核（LAWWW-C 11-05）補登：LAWWW2 outbox 有、總表沒有；已接進開發線，待 BB 驗",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 09:1x 經 LAWWW2-C（UA-LAWWW2-1105-06）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "src": "UA-LAWWW-1105-29",
+   "sha": ""
+  },
+  {
+   "id": "NANYANG-BENCH-SIT-1105",
+   "title": "南洋大廳長椅坐得下（LAWWW2 d392564be）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "交班稽核（LAWWW-C 11-05）補登：LAWWW2 outbox 有、總表沒有；已接進開發線，待 BB 驗",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 09:1x 經 LAWWW2-C（UA-LAWWW2-1105-06）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "src": "UA-LAWWW-1105-29",
+   "sha": ""
+  },
+  {
+   "id": "DAYBREAK-SEAT-AP-1105",
+   "title": "Daybreak 4 張座位走近點（LAWWW2 cbb9a4a36）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "交班稽核（LAWWW-C 11-05）補登：LAWWW2 outbox 有、總表沒有；已接進開發線，待 BB 驗",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 09:1x 經 LAWWW2-C（UA-LAWWW2-1105-06）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "src": "UA-LAWWW-1105-29",
+   "sha": ""
+  },
+  {
+   "id": "XS-GATE-NORTH-1105",
+   "title": "側門北牆＋望月台＋停車場＋體育館搬家（LAWWW2 cf6a29f7e／61f619791；X256、X257；合併 b92a2791e）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "交班稽核（LAWWW-C 11-05）補登：LAWWW2 outbox 有、總表沒有；已接進開發線，待 BB 驗",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 09:1x 經 LAWWW2-C（UA-LAWWW2-1105-06）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "src": "UA-LAWWW-1105-29",
+   "sha": ""
+  },
+  {
+   "id": "XS-WINCARD-1105",
+   "title": "大口／大步／好拍視差窗（LAWWW2 c6837632e；合併 abf4dbbd5）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "交班稽核（LAWWW-C 11-05）補登：LAWWW2 outbox 有、總表沒有；已接進開發線，待 BB 驗",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 09:1x 經 LAWWW2-C（UA-LAWWW2-1105-06）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "src": "UA-LAWWW-1105-29",
+   "sha": ""
   }
  ]
 }
