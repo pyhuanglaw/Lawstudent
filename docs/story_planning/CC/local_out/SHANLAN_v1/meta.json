@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "SHANLAN_v1",
+  "sha": "13700be8fbfcaa902b0276713c5c83c7c38e3c79",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_shanlan_v1_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-05T13:29:39",
+  "end": "2026-11-05T13:40:23",
+  "seconds": 644,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8805/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 24,
+    "mem": 36,
+    "used_gb": 11.4,
+    "chrome_testing": 15
+  }
+}
