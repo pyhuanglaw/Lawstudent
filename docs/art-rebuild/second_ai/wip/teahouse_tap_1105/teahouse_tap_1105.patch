@@ -1,0 +1,91 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index ed88bfc4b..7dbf017ea 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -2384,8 +2384,21 @@ const Z3 = (function(){
+     const Y=L.yard, fy=(Y&&Y.surfs&&Y.surfs[0]&&Y.surfs[0].y)||-0.42;
+     ASSETS.loadOne('prop.desk_props').then(c=>{ if(!c||!c.scene) return; const src=c.scene.getObjectByName('item_bowl'); if(!src) return; const b=src.clone(true); b.name='WZ_TEA_CATBOWL'; b.position.set(q.bowl.x,fy,q.bowl.z-(cz||0)); b.rotation.set(0,0.4,0); b.scale.setScalar(1.15);
+       b.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); condVis(b,catBowlOn); g0.add(b); z.teaCatBowl=b; }).catch(()=>{}); }
++  /* 可以點的地面（點地移動，E.screenToFloor）：照導航格的高度（nav.heightAt）做一片看不到的網格，每 step m 一格、每一格自己四個頂點（角的高度往格子中心縮 1 cm 取）：
++     同一塊高度裡完全照導航格（斜面、沓脫石照連續高度），兩塊高度的交界是斷開的（不做斜坡，點交界旁邊不會被斜坡擋住、落到旁邊）。
++     區域沒有 walkMeshes 時，點地退回「玩家那一層的 y0 平面」：地板比 y0 低或高的地方（一盞的前院 −0.42、土間、玄關）點下去會偏（BB-C TAPSCAN 06:4x；同南洋 1 廳、體育館看台）。
++     x0..z1 是世界座標；off＝網格掛的群組在世界裡的 z 位移（一盞的 g0 往 +z 搬了 cz，這裡要扣回來）。TEA-SUNKEN-TAP-1105，tests/teahouse_tap_unit.js */
++  function navTapMesh(nav,x0,x1,z0,z1,step,lv,off){ const nx=Math.max(1,Math.round((x1-x0)/step)), nz=Math.max(1,Math.round((z1-z0)/step)), dx=(x1-x0)/nx, dz=(z1-z0)/nz, e=0.01;
++    const pos=new Float32Array(nx*nz*12), idx=new Uint32Array(nx*nz*6); let p=0, q=0, v=0;
++    for(let j=0;j<nz;j++) for(let i=0;i<nx;i++){ const ax=x0+i*dx, az=z0+j*dz;
++      for(const [cx,cz2,sx,sz] of [[ax,az,1,1],[ax+dx,az,-1,1],[ax,az+dz,1,-1],[ax+dx,az+dz,-1,-1]]){ pos[p++]=cx-sx*0.003; pos[p++]=nav.heightAt(cx+sx*e,cz2+sz*e)+0.01; pos[p++]=cz2-sz*0.003-(off||0); }   /* 每一格往外多 3 mm、和旁邊那一格疊一點：射線剛好沿著格子的邊時不會兩格都漏接 */
++      idx[q++]=v; idx[q++]=v+2; idx[q++]=v+1; idx[q++]=v+1; idx[q++]=v+2; idx[q++]=v+3; v+=4; }
++    const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.BufferAttribute(pos,3)); geo.setIndex(new THREE.BufferAttribute(idx,1)); geo.computeBoundingSphere(); geo.computeBoundingBox();
++    const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.name='TAP_FLOOR'; m.userData.walkLv=lv|0; m.userData.dyn=true; m.userData.noMerge=true; return m; }
+   function teaYard(E,z,g0,g,nav,L,cz){ const Y=L.yard;
+     for(const s of Y.surfs) nav.addSurf(Object.assign({},s)); for(const r of (Y.open||[])) nav.freeRect(r[0],r[1],r[2],r[3]);
++    { let x0=-L.w/2, x1=L.w/2, z0=9.6-L.d, z1=9.6; for(const s of Y.surfs){ x0=Math.min(x0,s.x0); x1=Math.max(x1,s.x1); z0=Math.min(z0,s.z0); z1=Math.max(z1,s.z1); }   /* 整間（室內 0、玄關、土間、前院、沓脫石）一片：只蓋下沉的地方的話，從屋裡往前院的方向點室內地板，射線會穿過去打到前院那一片 */
++      const tm=navTapMesh(nav,x0,x1,z0,z1,0.2,0,cz); g0.add(tm); z.walkMeshes=(z.walkMeshes||[]).concat([tm]); }
+     const fy=new THREE.Mesh(new THREE.PlaneGeometry(9.2,3.4),M('#6f7a52',{rough:0.95})); fy.rotation.x=-Math.PI/2; fy.position.set(0,-0.41,7.9-cz); g.add(fy);   /* 備用（模型載入失敗時）：前院的地面 */
+     z.yardZ=Y.inYardZ||6.35; z._inYard=!!(z.spawn&&z.spawn.z>z.yardZ); z.yardParts=[];
+     const fw=z.fadeWalls; z.fadeWalls=function(cam,pp){ if(fw) fw.call(this,cam,pp); const iy=!!pp&&pp.z>(this._inYard?this.yardZ-0.15:this.yardZ); this._inYard=iy;
+diff --git a/tests/teahouse_tap_unit.js b/tests/teahouse_tap_unit.js
+new file mode 100644
+index 000000000..cabf90f4c
+--- /dev/null
++++ b/tests/teahouse_tap_unit.js
+@@ -0,0 +1,59 @@
++// 一盞茶屋：點下沉地板的落點（TEA-SUNKEN-TAP-1105，LAWWW2-C 11-05；BB-C TAPSCAN 06:4x 在 Node 掃到、LAWWW-C 插隊）——不需要瀏覽器（D131）。
++// 點地移動是 E.screenToFloor（engine3d.js）：區域有 zone.walkMeshes 就打那幾片（看得到的），打不到才用玩家那一層的地板高度（y0）那個平面。
++// 一盞的前院 −0.42、玄關前的石板土間 −0.24、玄關 −0.12、緣側前的沓脫石是斜的；v9.10.20 沒有可點面，點前院會落到點的位置後面（退回 y 0 平面）。
++// 這裡照 E.screenToFloor 的算法，從跟隨鏡頭（室內 dist 4.0、pitch 0.38）四個方向，對每一個站得住的點（每 0.2 m）打：
++//   ① 有可點面、都是第 0 層、看得到（父節點都 visible）
++//   ② 前院、土間、玄關、沓脫石（高度不是 0 的地方）：落點水平差 ≤ 0.3 m、高度差 ≤ 0.05 m（被地板的邊擋住、畫面上看不到的點不算；射線離地板不到 5 cm 的另外列出最大偏差，不擋）
++//   ③ 室內（高度 0）也照舊：落點水平差 ≤ 0.3 m（從屋裡朝前院點室內地板，不能穿過去打到前院那一片）
++//   ④ 可點面的高度＝導航格的高度（nav.heightAt；離高度交界 0.25 m 以外的點）
++// 修改前（開發分支 d64b75c20，zones3d.js teaYard 沒有 walkMeshes）：① ② ④ FAIL。用法：node tests/teahouse_tap_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{};
++const T=fs.readFileSync(path.join(ROOT,'tests/nav_buildings_unit.js'),'utf8');
++const files=[...new Set([...eval(T.match(/const files=(\[[^\]]+\])/)[1]),'src/data/calendar.js','src/data/places.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/lane118_layout.js'])];
++const order=f=>f.startsWith('lib/')?0:(f.startsWith('src/data/')?1:(f==='src/zones3d.js'?2:4));
++const pre=files.filter(f=>order(f)<2).concat(['src/zones3d.js']).concat(files.filter(f=>order(f)===4&&f!=='src/zones3d.js'));
++const run=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
++for(const f of pre){ if(fs.existsSync(path.join(ROOT,f))) try{ run(f); }catch(e){ console.log('（載入 '+f+' 失敗：'+e.message+'）'); } }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const r2=v=>+(+v).toFixed(2);
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++ASSETS.loadOne=()=>Promise.reject(new Error('no GLB in node'));
++global.GAME={G:{zone:'wz_teahouse',day:30,hour:15,flags:{},money:5000,weather:'clear',visited:{}}};
++E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.exits=[]; E.spawnHint=null;
++const z=Z3.ZONES.wz_teahouse.build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; E.nav._cm=null; const N=E.nav;
++E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
++z.group.updateMatrixWorld(true);
++const wm=z.walkMeshes||[], vis=wm.filter(m=>{ for(let o=m;o;o=o.parent){ if(!o.visible) return false; } return true; });
++check('① 一盞有可以點的地面（zone.walkMeshes）、都是第 0 層、看得到', wm.length>0&&vis.length===wm.length&&wm.every(m=>(m.userData.walkLv|0)===0), `${wm.length} 片`);
++/* E.screenToFloor 的算法：先打看得到的 walkMeshes，打不到就用玩家那一層的 y0 平面 */
++function tapAt(cam,tgt){ const ray=new THREE.Raycaster(cam.clone(),tgt.clone().sub(cam).normalize()); ray.near=0; ray.far=Infinity;
++  if(vis.length){ const hits=ray.intersectObjects(vis,false); if(hits.length) return hits[0].point; }
++  const pl=new THREE.Plane(new THREE.Vector3(0,1,0),-(N.y0||0)), hit=new THREE.Vector3(); return ray.ray.intersectPlane(pl,hit)?hit:null; }
++const DIST=4.0, PITCH=0.38, LOOKY=1.2;   /* 室內的跟隨鏡頭（engine3d.js：distTarget＝camDist 4.0、pitch 0.38；看玩家胸口附近）*/
++const pts=[]; for(let x=-4.55;x<=4.6;x+=0.2) for(let zz=-4.95;zz<=9.8;zz+=0.2){ if(E.canStand(x,zz,0.32,0)) pts.push([r2(x),r2(zz)]); }
++/* 看不到的點不算：射線在到達目標前就被地板的高度擋住（例：從屋裡往南看，緣側邊緣下 0.42 m 的前院那一條，被緣側的邊擋住；遊戲畫面上也點不到）*/
++/* 貼地的不算在 ② 的合格線裡、另外列出來：射線離地板不到 5 cm（例：站在緣側往南、順著沓脫石往下點，射線幾乎和石階一樣斜），落點會停在前面一點 */
++const clear=(cam,t)=>{ let c=9; for(let k=1;k<120;k++){ const f=k/120, x=cam.x+(t.x-cam.x)*f, y=cam.y+(t.y-cam.y)*f, zz=cam.z+(t.z-cam.z)*f; if(Math.hypot(x-t.x,zz-t.z)<0.12) break; c=Math.min(c,y-N.heightAt(x,zz)); } return c; };
++const hidden=(cam,t)=>clear(cam,t)<-0.005;
++const lowBad=[], flatBad=[]; let nLow=0, nFlat=0, worst=0, nHid=0, nGraze=0, grazeMax=0;
++for(const [x,zz] of pts){ const y=N.heightAt(x,zz), low=Math.abs(y)>0.005; if(low) nLow++; else nFlat++;
++  for(const yaw of [0,Math.PI/2,Math.PI,-Math.PI/2]){
++    /* 玩家站在離點 2.5 m 的地方（朝點走過去之前），鏡頭在玩家身後 DIST、抬高 pitch */
++    const px=x-2.5*Math.sin(yaw), pz=zz-2.5*Math.cos(yaw), py=N.heightAt(px,pz);
++    const cam=new THREE.Vector3(px-DIST*Math.cos(PITCH)*Math.sin(yaw), py+LOOKY+DIST*Math.sin(PITCH), pz-DIST*Math.cos(PITCH)*Math.cos(yaw));
++    const t=new THREE.Vector3(x,y,zz); const cl=clear(cam,t); if(cl<-0.005){ nHid++; continue; } const h=tapAt(cam,t), d=h?Math.hypot(h.x-x,h.z-zz):99, dy=h?Math.abs(h.y-0.01-y):99;
++    if(low&&cl<0.05){ nGraze++; grazeMax=Math.max(grazeMax,d); continue; } if(low){ worst=Math.max(worst,d); if(!(d<=0.3&&dy<=0.05)) lowBad.push([d,`(${x},${zz}) yaw${r2(yaw)} 偏 ${r2(d)} dy ${r2(dy)}`]); } else if(!(d<=0.3)) flatBad.push(`(${x},${zz}) 偏 ${r2(d)}`); } }
++check('② 前院、土間、玄關、沓脫石：落點水平差 ≤ 0.3 m、高度差 ≤ 0.05 m', nLow>100&&!lowBad.length, `${nLow} 點×4 方向（被地板邊擋住、看不到的 ${nHid} 次不算；射線貼地 5 cm 以內的 ${nGraze} 次另計，最大偏 ${r2(grazeMax)} m），不合格 ${lowBad.length}，最大 ${r2(worst)} m；`+lowBad.sort((a,b)=>b[0]-a[0]).slice(0,12).map(a=>a[1]).join('、'));
++check('③ 室內（高度 0）照舊：落點水平差 ≤ 0.3 m', nFlat>100&&!flatBad.length, `${nFlat} 點×4 方向，不合格 ${flatBad.length}；`+flatBad.slice(0,4).join('、'));
++{ const down=(x,zz)=>{ const r=new THREE.Raycaster(new THREE.Vector3(x,5,zz),new THREE.Vector3(0,-1,0)); const h=r.intersectObjects(vis,false); return h.length?h[0].point.y-0.01:null; };
++  const near=(x,zz)=>{ const y=N.heightAt(x,zz); for(const [dx,dz] of [[0.25,0],[-0.25,0],[0,0.25],[0,-0.25]]) if(Math.abs(N.heightAt(x+dx,zz+dz)-y)>0.005) return true; return false; };
++  const sl=pts.filter(([x,zz])=>!near(x,zz)), bad=sl.filter(([x,zz])=>{ const y=down(x,zz); return y==null||Math.abs(y-N.heightAt(x,zz))>0.02; });
++  const sample=[[-3.0,9.0],[-3.2,5.6],[-3.3,4.4],[1.0,6.2],[0,0]].map(([x,zz])=>`(${x},${zz}) ${down(x,zz)==null?'—':r2(down(x,zz))}／${r2(N.heightAt(x,zz))}`);
++  check('④ 可點面的高度＝導航格的高度（離高度交界 0.25 m 以外）', !bad.length, `${sl.length} 點，不合格 ${bad.length}；`+sample.join('；')); }
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
