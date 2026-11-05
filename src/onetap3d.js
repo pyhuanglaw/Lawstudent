@@ -106,6 +106,7 @@ const ONETAP=(function(){
     if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);
     if(c.kind==='inv') return INV.goNow(GM,c.iv);
     const q=c.q; if(q.state!=='planned') return false;
+    if(typeof CARLOT!=='undefined'&&CARLOT.need&&CARLOT.need(G,q)){ await CARLOT.toLot(GM,q); return true; }   /* 開車、從宿舍出發：先走到望月台停車場（DRIVE-PICKUP-1105 第二步）*/
     if(q.dateTrip&&typeof DATE!=='undefined'&&DATE.trip){ const tp=DATE.trip(G,q.dateTrip); if(tp&&tp.kind==='overnight'&&DATE.stillOn&&!DATE.stillOn(G,tp).ok) return !!(await DATE.prompt(GM,q)); if(tp){ tp.departed=true; tp.status='going'; } }   /* 同 DATE.early 的「現在出發」*/
     return OUT.go(GM,q); };
   /* ---------- 共同 ---------- */

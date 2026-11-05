@@ -64,35 +64,42 @@ const XS3=(function(){
     { const wallM=M('#a8634a'), capM=M('#d9d3c6'), postM=M('#bdb5a6'); const segs=[[CW.z0,CW.gateGap[0]],[CW.gateGap[1],CW.z1]];
       for(const [a,b] of segs){ const m=new THREE.Mesh(new THREE.BoxGeometry(0.6,CW.h,b-a),wallM); m.position.set(CW.x,CW.h/2,(a+b)/2); m.userData.dyn=true; g.add(m); const cap=new THREE.Mesh(new THREE.BoxGeometry(0.75,0.12,b-a),capM); cap.position.set(CW.x,CW.h+0.06,(a+b)/2); cap.userData.dyn=true; g.add(cap); nav.blockRect(CW.x,(a+b)/2,0.9,b-a,0); }
       for(const z of CW.gateGap){ const p=new THREE.Mesh(new THREE.BoxGeometry(1.0,3.0,1.0),postM); p.position.set(CW.x,1.5,z); p.userData.dyn=true; g.add(p); nav.blockRect(CW.x,z,1.2,1.2,0); } }
-    // 側門裡面的校園（XS-CAMPUS-BACK-1104，LAWWW2）：圍牆後面原本只有一片灰色地面。照校園的配置換算（新生南路 (x,z) → 校園 (x−142.4, z−94)；側門 (18.4,10)＝校園的側門 (−124,−84)）：
-    //   側門北邊＝校園西北角走不到的樹林（校園 z ≤ −88、x −123～−62，zones3d.js 的「西北角走不到的樹林」）；側門南邊是草地，遠一點是農業陳列館（洞洞館）和校史館
-    //   （校園的 Blender 正式模型，校園座標，整組平移；載入失敗用套件 CK）。圍牆後面導航本來就整片擋住（只開了圍牆外和門洞），走不到，鏡頭也不會進去。
+    // 側門裡面的校園（XS-CAMPUS-BACK-1104 → XS-NORTH-EXT-1105，LAWWW2）：圍牆後面照校園的配置換算（側門在校園北牆 (−101.4, −141)，下面的 C2X）。
+    //   側門南邊＝望月台、北邊＝體育館（校園的 Blender 正式模型，校園座標，整組轉 90°＋平移；載入失敗用套件 CK.modern），再過去是校園西北角的樹林。圍牆後面導航本來就整片擋住，走不到，鏡頭也不會進去。
     //   樹用 TK.tree（有正式樹模型時是 TreeField 的 instancing＋遠處卡片，不會一棵一次 draw call）。
-    { const back=new THREE.Group(); back.name='xs_campus_back'; const OX=CW.x+124, OZ=SG.z+84;   // 校園座標 → 新生南路座標的位移
+    { const back=new THREE.Group(); back.name='xs_campus_back'; // 校園座標 → 新生南路座標：下面的 C2X（XS-NORTH-EXT-1105；舊的是西牆側門的平移 (x+142.4, z+94)）
       const H=(a,b)=>{ const h=Math.sin(a*12.9898+b*78.233)*43758.5453; return h-Math.floor(h); };
       const gt=W3.grassTex().clone(); gt.wrapS=gt.wrapT=THREE.RepeatWrapping; const GW=140, GD=170; gt.repeat.set(GW/4,GD/4); gt.needsUpdate=true;
       const lawn=new THREE.Mesh(new THREE.PlaneGeometry(GW,GD),new THREE.MeshStandardMaterial({map:gt,roughness:0.95})); lawn.rotation.x=-Math.PI/2; lawn.position.set(CW.x+0.35+GW/2,0.004,0); lawn.receiveShadow=true; lawn.userData.dyn=true; back.add(lawn);
       { const pv=new THREE.Mesh(new THREE.PlaneGeometry(3.4,SG.w+0.6),M('#b77a62')); pv.rotation.x=-Math.PI/2; pv.position.set(CW.x+1.6,0.012,SG.z); pv.receiveShadow=true; pv.userData.dyn=true; back.add(pv); }   // 門洞裡面一小段紅磚（和人行道同色），不是草直接接到門口
       const trees=new THREE.Group(); trees.name='xs_campus_trees'; let sd=1300;
       const T=(x,z,h,o)=>{ if(!TK.tree) return; const t=TK.tree(h,sd++,o); t.position.set(x,0,z); t.rotation.y=H(z,x)*6.28; trees.add(t); };
-      // ① 樹林：校園 x −121～−62、z −88 以北（新生南路這邊 x 21～80、z 6 以北；北端多種到 z −80，不讓圍牆外的人看到樹林突然沒了）
-      for(let z=SG.z-6;z>=-80;z-=7.5) for(let x=CW.x+3.5;x<=CW.x+62;x+=8){ const tx=x+(H(x,z)-0.5)*4.5, tz=z+(H(z,x)-0.5)*3.5;
-        T(tx,tz,9.5+H(tx,tz)*5.5,{sp:H(tz,tx)<0.35?'banyan':'camphor',spread:1.15+H(tx,7)*0.25}); }
-      // ② 圍牆內側一排矮樹（只在樹林那一段的外緣與草地那一段；門洞前後各留 4 m）
-      for(let z=CW.z0+2;z<=CW.z1-2;z+=5.5){ if(Math.abs(z-SG.z)<SG.w/2+4) continue; if(z<SG.z-6) continue; T(CW.x+2.2+H(z,3)*0.6,z+(H(3,z)-0.5)*1.2,3.6+H(z,5)*1.2,{sp:'camphor',spread:1.3}); }
-      // ③ 側門南邊的草地：零星幾棵大樹（避開洞洞館、校史館前面）
-      for(let z=SG.z+9;z<=CW.z1+6;z+=13) for(let x=CW.x+9;x<=CW.x+70;x+=15){ const tx=x+(H(x,z)-0.5)*7, tz=z+(H(z,x)-0.5)*6; if(tz>50&&tx<CW.x+62) continue; if(H(tx,tz)<0.3) continue;
-        T(tx,tz,10+H(tz,tx)*4,{sp:'camphor',spread:1.25}); }
+      /* XS-NORTH-EXT-1105（LAWWW2-C 11-05；使用者「門就不要往左邊開了直接往上面開」「新月台也貼著上方的最左邊」「體育館…改到新月台法學院中間」）：
+         側門搬到校園北牆以後，圍牆後面照新的換算：新生南路 (x,z) ↔ 校園 (101.4 往西… cx＝−101.4−(z−SG.z)、cz＝−141＋(x−CW.x))——往校園走（+x）＝校園往南（+z）、
+         沿街往北（−z）＝校園往東（+x）。側門南邊（z 14.6～31.6）是望月台，北邊（z −1.4～−31.4）是體育館，再過去是校園西北角的樹林。
+         街的兩頭（z > 32.6＝校園西牆以西、z < −35.4＝辛亥路那一段）不在校園北牆上，照舊只種一排樹。 */
+      const C2X=(cx,cz)=>[CW.x+(cz+141),SG.z-(cx+101.4)], XG=(typeof Z3!=='undefined'&&Z3.XSG)||null;
+      const inXSG=(cx,cz,m)=>{ if(!XG) return false; for(const k of ['moon','plaza','park','path','pathE','gym','gymPlaza']){ const r=XG[k]; if(r&&cx>=r[0]-m&&cx<=r[2]+m&&cz>=r[1]-m&&cz<=r[3]+m) return true; } return false; };
+      // ① 校園西北角的樹林（校園 x −123～−62、z −124～−84；側門、望月台、停車場、體育館、步道上不種）
+      for(let cz=-121;cz<=-86;cz+=7.5) for(let cx=-121;cx<=-62;cx+=8){ const tx=cx+(H(cx,cz)-0.5)*4.5, tz=cz+(H(cz,cx)-0.5)*3.5; if(tz<-124||inXSG(tx,tz,2.5)) continue;   /* 北牆邊（z −141～−124）是望月台、小廣場、體育館；開出來的地方也不種 */
+        const [x,z]=C2X(tx,tz); T(x,z,9.5+H(tx,tz)*5.5,{sp:H(tz,tx)<0.35?'banyan':'camphor',spread:1.15+H(tx,7)*0.25}); }
+      // ② 圍牆內側一排矮樹：只在街的兩頭（不在校園北牆上的那兩段），和望月台、體育館之間的空檔
+      for(let z=CW.z0+2;z<=CW.z1-2;z+=5.5){ const cx=-101.4-(z-SG.z); if(Math.abs(z-SG.z)<SG.w/2+4) continue; if(cx>=-124&&cx<=-56&&inXSG(cx,-139,1.5)) continue;
+        T(CW.x+2.2+H(z,3)*0.6,z+(H(3,z)-0.5)*1.2,3.6+H(z,5)*1.2,{sp:'camphor',spread:1.3}); }
+      // ③ 街的兩頭，圍牆後面再一排大樹（不讓那兩段看起來空）
+      for(let z=CW.z0+4;z<=CW.z1-4;z+=9){ const cx=-101.4-(z-SG.z); if(cx>=-126&&cx<=-54) continue; T(CW.x+7+H(z,9)*3,z+(H(9,z)-0.5)*3,10+H(z,4)*3,{sp:'camphor',spread:1.2}); }
       const tm=W3.mergeGroup?W3.mergeGroup(trees):trees; tm.name='xs_campus_trees'; tm.traverse(m=>{ if(m.isMesh) m.castShadow=false; }); tm.userData.dyn=true; back.add(tm);   /* 合併（和校園的遠景樹同一套；有正式樹模型時合併的是記號，TreeField 照樣讀） */
-      // ④ 遠處的兩棟校園建築：套件版（備用）在新生南路座標；正式模型是校園座標的 GLB，包一層平移後交給 Z3.attachWenzhouModel（藏起同標記的套件）
-      const fbs=[]; const put=(b,cx,cz,tag)=>{ b.position.set(cx+OX,0,cz+OZ); b.userData.xsBack=tag; b.userData.dyn=true; b.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); g.add(b); fbs.push(b); };
-      if(typeof CK!=='undefined'){ if(CK.pavilion) put(CK.pavilion({w:22,d:14,gfh:4.0,h:9,sign:'農業陳列館'}),-104,-30,'pavilion');
-        if(CK.hall) put(CK.hall({w:24,d:16,floors:2,gfh:5.0,fh:4.6,wall:'#a25d43',trim:'#d8cfbd',roof:'#43342e',roofH:4.4,arcade:true,porch:{bays:3,depth:2.6,pediment:true,pedH:1.6},sign:'校史館'}),-77,-29,'hist'); }
+      // ④ 校園的建築：套件版（備用）照換算放；正式模型是校園座標的 GLB，包一層「轉 90°＋平移」交給 Z3.attachWenzhouModel（藏起同標記的套件）
+      const fbs=[]; const put=(b,cx,cz,ry,tag)=>{ const [x,z]=C2X(cx,cz); b.position.set(x,0,z); b.rotation.y=ry+Math.PI/2; b.userData.xsBack=tag; b.userData.dyn=true; b.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); g.add(b); fbs.push(b); };
+      if(typeof CK!=='undefined'&&CK.modern&&XG){ const R=XG.moon, Gy=XG.gym;
+        put(CK.modern({w:R[3]-R[1],d:R[2]-R[0],floors:2,gfh:4.2,fh:3.6,wall:'#efece4',slab:'#c9c6bd',sign:'望月台'}),(R[0]+R[2])/2,(R[1]+R[3])/2,Math.PI/2,'moon');
+        put(CK.modern({w:Gy[2]-Gy[0],d:Gy[3]-Gy[1],floors:4,gfh:5.0,fh:4.4,wall:'#d8d4ca',slab:'#a9aba6',sign:'體育館'}),(Gy[0]+Gy[2])/2,(Gy[1]+Gy[3])/2,0,'gym'); }
+      if(XG){ const P=XG.plaza; const pv=new THREE.Mesh(new THREE.PlaneGeometry(P[3]-P[1],P[2]-P[0]),M('#c9c2b4')); pv.rotation.x=-Math.PI/2; const [x,z]=C2X((P[0]+P[2])/2,(P[1]+P[3])/2); pv.position.set(x,0.01,z); pv.receiveShadow=true; pv.userData.dyn=true; back.add(pv); }   // 側門內的小廣場（校園 XSG.plaza 那一塊鋪面）
       g.add(back);
       const formal=(key,tag,name)=>{ if(typeof ASSETS==='undefined'||!ASSETS.manifest[key]||!Z3.attachWenzhouModel) return; ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==zoneRef.z) return;
-          const wrap=new THREE.Group(); wrap.position.set(OX,0,OZ); wrap.add(c.scene.clone(true)); Z3.attachWenzhouModel(E,g,wrap,'xsBack',name,tag); wrap.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); wrap.userData.dyn=true; })
+          const wrap=new THREE.Group(); wrap.position.set(CW.x+141,0,SG.z-101.4); wrap.rotation.y=Math.PI/2; wrap.add(c.scene.clone(true)); Z3.attachWenzhouModel(E,g,wrap,'xsBack',name,tag); wrap.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); wrap.userData.dyn=true; })
         .catch(e=>console.warn('新生南路：校園'+tag+'正式模型載入失敗，用套件',e)); };
-      backFormal.push(()=>{ formal('bldg.campus_pavilion','pavilion','xs_campus_pavilion_glb'); formal('bldg.campus_hist','hist','xs_campus_hist_glb'); }); }
+      backFormal.push(()=>{ formal('bldg.campus_moon','moon','xs_campus_moon_glb'); formal('bldg.campus_gymext','gym','xs_campus_gym_glb'); }); }
     // 店面那一側：備用方塊（正式模型 bldg.xinsheng_street 載入後藏起來）＋鏡頭碰撞
     const fb=[]; const colM=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide});
     const addCollider=(x,z,w,d,h)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h||14,d),colM); m.position.set(x,(h||14)/2,z); g.add(m); E.colliders.push(m); };

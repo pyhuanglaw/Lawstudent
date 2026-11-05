@@ -101,7 +101,7 @@ const BIKESHOP=(function(){
     ASSETS.manifest['bldg.bikeshop_interior']={url:LAY().glb,type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/bb_support/bike_interior.py（公館「慢輪單車」室內，CC〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/cc-testing 08378f56d，配置 src/data/bike_layout.js v2）',license:'本作'};
   const zone={ id:'bikeshop', name:'慢輪單車', indoor:true, camDist:4.0, build(E){ const L=L_();
     const winXs=LAY()&&L.front&&L.front.windows?L.front.windows.map(w=>-(w[0]+w[1])/2):[];   /* 店面那一面的櫥窗（room() 的 front：沿牆位置 t＝−x）*/
-    const z=Z3.room(E,{w:L.w,d:L.d,h:L.h,warm:true,wallColor:L.wallColor,floorTex:W3.stoneTex('#c9c4ba'),spawn:Object.assign({},SPAWN),windows:winXs.length?undefined:false,winWall:'front',winXs}); const g0=z.group, nav=z.nav;   /* 地板：淺灰水泥磚（D112 不用深色木地板）*/
+    const z=Z3.room(E,{w:L.w,d:L.d,h:L.h,warm:true,wallColor:L.wallColor,floorTex:W3.stoneTex('#c9c4ba'),spawn:Object.assign({},SPAWN),windows:winXs.length?undefined:false,winWall:'front',winXs,view:winXs.length?'bikeshop':undefined,viewDepth:24,winY:1.7});   /* view：窗外的視差窗景（WINVIEW-AUDIT-1105：照片 assets/models/env/views/bikeshop_{day,night}.webp，Blender 用公館正式模型從櫥窗中間（地平線 1.7 m）往外拍）*/ const g0=z.group, nav=z.nav;   /* 地板：淺灰水泥磚（D112 不用深色木地板）*/
     const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);   /* 正式模型來了整組藏起來 */
     const G=G_(), IT=E.interactables, fbM=M('#a88b6a',{rough:0.8});
     for(const b of L.blocks||[]){ nav.blockRect(b[0],b[1],b[2],b[3],0,0.05); const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],0.85,b[3]),fbM); m.position.set(b[0],0.425,b[1]); fb.add(m); }   /* 備用的家具色塊 */
@@ -118,7 +118,7 @@ const BIKESHOP=(function(){
     nav._cm=null; repairNodes=[]; repairNav=nav; navSaved=null; repairBL=(L.repairBike&&Array.isArray(L.repairBike.blockWhenShown))?L.repairBike.blockWhenShown:null;
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.bikeshop_interior']) ASSETS.loadOne('bldg.bikeshop_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
       repairNodes=[]; root.traverse(o=>{ if(/^REPAIR_BIKE/.test(o.name)){ o.visible=false; repairNodes.push(o); } });   /* 先藏再接（接的時候出錯也不會露出來）*/
-      Z3.attachRoomGLB(z,g0,fb,root); z.formal=true; }).catch(e=>console.warn('慢輪單車室內正式模型載入失敗，用備用的',e));
+      Z3.attachRoomGLB(z,g0,fb,root); z.formal=true; if(Z3.ggViewPanes) Z3.ggViewPanes(z,g0,root); }).catch(e=>console.warn('慢輪單車室內正式模型載入失敗，用備用的',e));
     return z; } };
   const GAME_=E=>typeof GAME!=='undefined'?GAME:null;
   S.zone=zone;

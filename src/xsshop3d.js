@@ -14,11 +14,13 @@ const XSS=(function(){
   const SHOPS={
     dabu:{zone:'xs_dabu',name:'大步球鞋',lay:()=>typeof DABU_LAYOUT!=='undefined'?DABU_LAYOUT:null,glbKey:'bldg.xs_dabu',
       source:'CC〔帳號 A 的建模子代理〕tools/blender/env_second/bb_support/dabu_interior.py v2b，照使用者的參考圖 dabu_int.webp',floor:'#cfa77a',
-      extra:[[-2.34,-5.05,2.72,1.9],[-1.5,-3.5,0.2,0.2]]},   /* 隔間牆後面的倉庫（x −3.7～−0.98、z −6～−4.1；配置 partition：模型裡封起來）：本來就進不去，站得住的格子擋起來（不然是走不到的小孤島）；
+      extra:[[-2.34,-5.05,2.72,1.9],[-1.5,-3.5,0.2,0.2]],
+      pane:{kind:'xs_dabu',x:-0.1,y:1.6,z:6.23,w:8.0,h:3.2,ry:Math.PI,depth:36}},   /* XS-WINCARD-1105：正面玻璃（x −3.6～3.4、y 0～2.72、z 5.93）外面 0.3 m 的視差窗；照片 views/xs_dabu_{day,night}.webp＝新生南路對面（圍牆、椰子、體育館）*/   /* 隔間牆後面的倉庫（x −3.7～−0.98、z −6～−4.1；配置 partition：模型裡封起來）：本來就進不去，站得住的格子擋起來（不然是走不到的小孤島）；
                                         長凳 B 尾端、毛巾桶、鞋拔中間的一個點 (−1.5, −3.5)：站得住、四周都站不住（跑步一步 0.4 m 會跳進去），擋起來 */
     haopai:{zone:'xs_haopai',name:'好拍運動',lay:()=>typeof HAOPAI_LAYOUT!=='undefined'?HAOPAI_LAYOUT.haopai:null,glbKey:'bldg.xs_haopai',
       source:'CC〔帳號 A 的建模子代理〕tools/blender/env_second/bb_support/haopai_interior.py v2b，照使用者的參考圖 haopai_int.webp',floor:'#d6c9ae',
-      extra:[[1.45,-1.05,0.6,0.4]]}   /* 特價桶（x 0.74～1.22）和右牆、後段鐵架中間的縫（x 1.3～1.4、z −0.9）：站得住兩點、出不來（v9.3 #31），擋起來；旁邊走道照舊 */
+      extra:[[1.45,-1.05,0.6,0.4]],
+      pane:{kind:'xs_haopai',x:0,y:1.6,z:7.23,w:4.8,h:3.2,ry:Math.PI,depth:36}}   /* XS-WINCARD-1105：正面玻璃（x ±2.08、y 0～2.57、z 6.93）外面 0.3 m */   /* 特價桶（x 0.74～1.22）和右牆、後段鐵架中間的縫（x 1.3～1.4、z −0.9）：站得住兩點、出不來（v9.3 #31），擋起來；旁邊走道照舊 */
   };
   /* 店門：正面（+z）、門的 x 照配置；出口的互動點在門內 0.4 m、半徑 1.0；進來站在門內 1.6 m（在出口範圍外面）、面向店裡 */
   const exitOf=L=>({x:L.front.door.x,z:+(L.d/2-0.4).toFixed(2),r:1.0});
@@ -48,7 +50,7 @@ const XSS=(function(){
     E.interactables.push({x:EX.x,z:EX.z,radius:EX.r,lv:0,label:'離開'+C.name,exit:{to:'xinsheng',spawn:streetOut(id)}});
     // 正式模型
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest[C.glbKey]) ASSETS.loadOne(C.glbKey).then(c=>{ if(!c||!c.scene||E.zone!==z) return;
-      const glb=c.scene.clone(true); Z3.attachRoomGLB(z,g,fb,glb);
+      const glb=c.scene.clone(true); Z3.attachRoomGLB(z,g,fb,glb); if(C.pane&&Z3.shopViewPane) Z3.shopViewPane(z,g,C.pane);
       if(typeof Z3.glowBatch==='function'){ const gl=[]; glb.traverse(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
         if(gl.length){ const gm=Z3.glowBatch(E,g,glb,gl,C.zone+'_glows',2.5); if(gm&&gm.material) gm.material.emissiveIntensity=z._lampsOn===false?0:1; glowMeshes.push(gm); } }
       if(z.applyTime&&typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); }).catch(e=>console.warn(C.name+'正式模型載入失敗，用備用模型',e));

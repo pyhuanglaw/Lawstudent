@@ -149,10 +149,15 @@ const DATE=(function(){
   S.canOvernight=(G,id)=>!!(G&&G.flags&&G.flags['dating_'+id])||S.stageNum(id)>=6;   /* 第 6 階或交往中（AA_128 第 119 行）*/
   S.travel=function(locId,mode){ const L=S.loc(locId); if(!L) return null; const T=(L.transport||[]); const tr=T.find(x=>x.mode===mode)||T[0]; if(!tr) return null;
     const label=((D().codes||{}).mode||{})[tr.mode]||tr.mode; return {mode:tr.mode,minutes:tr.minutes|0,fare:tr.fare|0,label:String(label).replace(/（.*$/,'')}; };
+  /* DRIVE-PICKUP-1105（AA_704 第 2 節 @55a1c5a53，使用者 11-05 08:0x 選「走去新月台停車場取車」）：開車＝先走到望月台停車場（約 5 分鐘）再開；路程寫「走到望月台停車場約 5 分鐘，開車約 X 分鐘」。
+     第一步：時間、路程字、第一次取車的旁白（outings3d.js 出發那一下）；第二步（下一班）：真的走到停車場、在車旁邊按「開車出發」、一起去的人約在停車場入口（Z3.XSG.carSpot） */
+  /* 使用者 11-05 11:1x「走去開車不是真的要花時間 主要就是讓玩家真的知道現在是開車」：取車不另外加時間、路程字照原本（AA_704 的「走到望月台停車場約 5 分鐘」那一句不用）；取車旁白、走到停車場照做 */
+  S.CAR_PICK_H=0; S.CAR_PICK_TEXT='';
+  S.travelText=P=>P.travelLabel+' 約 '+Math.round(P.travelH*60)+' 分鐘';
   S.plan=function(G,o){ const locs=(o.locs||[]).filter(Boolean); if(!locs.length||!locs.every(S.isDateLoc)) return {ok:false,why:'地點不在約會地點表'};
     if(!S.HEROINES.includes(o.who)) return {ok:false,why:'對象不對'}; const L0=S.loc(locs[0]); const kind=o.kind&&(L0.kinds||[]).includes(o.kind)?o.kind:(L0.kinds||['half'])[0];
     if(kind==='overnight') return S.planOvernight(G,o,locs); if(!S.STAY[kind]) return {ok:false,why:'這個地點不能這樣約'};
-    const tr=S.travel(locs[0],o.transport); if(!tr) return {ok:false,why:'到不了'}; const fromHome=!!o.fromHome; const pick=0;   /* AA_599 更正（企劃線 8842d6105，使用者「開車就是為了不要搭捷運」）：開車從宿舍直接出發，不算取車 */
+    const tr=S.travel(locs[0],o.transport); if(!tr) return {ok:false,why:'到不了'}; const fromHome=!!o.fromHome; const pick=tr.mode==='car'?S.CAR_PICK_H:0;   /* DRIVE-PICKUP-1105（AA_704 第 2 節）：開車先走到望月台停車場取車（約 5 分鐘）；AA_599 更正（企劃線 8842d6105，使用者「開車就是為了不要搭捷運」）：開車從宿舍直接出發，不算取車 */
     const fx=S.fixedOf(locs[0]), fixH=fx?(fx.minutes|0)/60:0;
     const MN=S.midnightOf(Object.assign({},o,{locs})), travelH=tr.minutes/60+pick, back=o.depart+travelH+fixH+(MN?MN.stay:S.STAY[kind])+travelH;   /* 午夜場：先吃宵夜、選片，電影，散場就回（停留 1.5 小時）*/
     return {ok:true,locs,kind,transport:tr.mode,travelLabel:tr.label,fare:tr.fare,travelH,depart:o.depart,back,fixedH:fixH}; };   /* fare：地點資料的交通費就是來回（AA_128 第 70 行「交通費：祐廷自己的來回交通」、date_locations.json _codes.fare「祐廷自己的來回交通費」）——不再乘 2（BUG-DATE-FARE-DOUBLE-1021）*/
@@ -160,7 +165,7 @@ const DATE=(function(){
   S.planOvernight=function(G,o,locs){ const O=S.OVERNIGHT, L0=S.loc(locs[0]), Lz=S.loc(locs[locs.length-1]);
     if(locs.length>2||(locs.length===2&&!((L0.combo||[]).includes(locs[1])&&(Lz.kinds||[]).includes('overnight')))) return {ok:false,why:'這兩個地點不能排在同一趟'};
     const mode=locs.some(l=>(S.loc(l)||{}).needsCar)?'car':o.transport, go=S.travel(locs[0],mode), bk=S.travel(locs[locs.length-1],mode);
-    if(!go||!bk||(locs.length>1&&go.mode!==bk.mode)) return {ok:false,why:'到不了'}; const pick=0;   /* AA_599 更正：開車從宿舍直接出發 */
+    if(!go||!bk||(locs.length>1&&go.mode!==bk.mode)) return {ok:false,why:'到不了'}; const pick=go.mode==='car'?S.CAR_PICK_H:0;   /* DRIVE-PICKUP-1105（AA_704）：先走到望月台停車場取車；AA_599 更正：開車從宿舍直接出發 */
     const travelH=go.minutes/60+pick, backH=bk.minutes/60+pick, depart=o.depart!=null?o.depart:O.depart, leave=Math.min(O.leave,23.5-backH);
     return {ok:true,locs,kind:'overnight',nights:1,transport:go.mode,travelLabel:go.label,fare:Math.round((go.fare+bk.fare)/2),lodging:S.lodging(),travelH,backH,depart,leave,back:leave+backH}; };
   S.onDay=(t,day)=>t.day===day||(t.kind==='overnight'&&t.day+(t.nights||1)===day);   /* 這一趟佔不佔這一天（兩天一夜佔兩天）*/
@@ -178,7 +183,7 @@ const DATE=(function(){
     if(P.kind==='overnight') Object.assign(trip,{nights:1,lodging:P.lodging,leave:P.leave});
     G.trips.push(trip);
     if(typeof OUT!=='undefined'&&OUT.plan){ const nm=typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(o.who):o.who, names=P.locs.map(l=>S.loc(l).name).join('、');
-      OUT.plan(G,{id:'date_'+id,dateTrip:id,ev:null,day:o.day,h:P.depart+P.travelH,travelH:P.travelH,travel:P.travelLabel+' 約 '+Math.round(P.travelH*60)+' 分鐘',place:names,title:'和'+nm+'去'+names+(P.kind==='overnight'?'（兩天一夜）':''),late:1,back:'回到首都帝大。'}); }
+      OUT.plan(G,{id:'date_'+id,dateTrip:id,ev:null,day:o.day,h:P.depart+P.travelH,travelH:P.travelH,travel:S.travelText(P),place:names,car:P.transport==='car',title:'和'+nm+'去'+names+(P.kind==='overnight'?'（兩天一夜）':''),late:1,back:'回到首都帝大。'}); }
     return Object.assign({ok:true},trip); };
   S.trip=(G,id)=>{ S.rec(G); return G.trips.find(t=>t.trip===id)||null; };
   /* ===== 預約（AA_128 4-1；DATE-S3）=====
@@ -428,9 +433,11 @@ const DATE=(function(){
       const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'date_'+t.trip):null; if(q&&q.state==='planned'&&!q.arrived&&GM.choose&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!(GM.D&&GM.D.active)) return S.early(GM,q,t,msg); } } };   /* 可以提早出發（UX-INV-GO-1023）：OUT.tick 等這個選單結束 */
   /* 出發前 60 分鐘提醒的時候就可以出發（使用者 10-23「現在有提醒有約會快到 應該要新增可以直接到約會地點的功能」，UX-INV-GO-1023）：
      「現在出發」＝和出發時間到的「出發」一樣（OUT.go：抵達不早於約好的時間，中間的時間直接過去）；「到時間再說」＝照舊，出發時間到再問。系統字，不是台詞 */
+  /* 開車、從宿舍出發（DRIVE-PICKUP-1105 第二步，AA_704 第 2 節）：選了出發＝先走到望月台停車場，在車旁邊按「開車出發」才真的出發（src/carlot3d.js 的 CARLOT.press 設 departed、going）；從家出發照舊直接走 */
+  S.toCar=(GM,q)=>{ if(typeof CARLOT==='undefined'||!CARLOT.need||!CARLOT.need(GM.G,q)) return false; CARLOT.toLot(GM,q); return true; };
   S.early=async function(GM,q,t,msg){ const G=GM.G; if(t.kind==='overnight'&&!S.stillOn(G,t).ok) return 'later';   /* 她第一天沒辦法來：出發時間到 S.prompt 交代 */
     let k; GM.sceneBegin(); try{ await GM.say(null,msg); k=await GM.choose([{t:'現在出發',hint:[q.place,q.travel].filter(Boolean).join('　')},{t:'到時間再說'}]); } finally { GM.sceneEnd(); }
-    if(k!==0||q.state!=='planned') return 'later'; t.departed=true; t.status='going'; await OUT.go(GM,q); return 'go'; };
+    if(k!==0||q.state!=='planned') return 'later'; if(S.toCar(GM,q)) return 'lot'; t.departed=true; t.status='going'; await OUT.go(GM,q); return 'go'; };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);
   const nameOf=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id;
   /* 睡覺的鬧鐘、跳過時間的停點（DATE-S4；AA_128 4-1）：那天約好的校外約會。h＝出發前 30 分鐘（鬧鐘）、dep＝出發時間（story3d.js 的 wakeAlarms、小睡；classes3d.js 的 skipStops 停在出發前 10 分鐘）*/
@@ -443,7 +450,7 @@ const DATE=(function(){
     let k; GM.sceneBegin(); try{ if(!late&&!t.departSaid){ t.departSaid=true; await S.speak(GM,t.who,'depart',t); }   /* 出發時間到：她傳一則訊息（BB_128 2-5 第 1 步、3-6 的「出發」；BB 五位，輪流；一趟一次）*/
       await GM.say(null,'今天 '+hm(t.depart)+'，你約了'+nameOf(t.who)+'去'+q.place+'。'+(late?'……這次趕不上了。':'現在要出發嗎？')); k=await GM.choose(opts); } finally { GM.sceneEnd(); }
     const pick=opts[k]&&opts[k].t;
-    if(pick==='出發'){ t.departed=true; t.status='going'; await OUT.go(GM,q); return 'go'; }
+    if(pick==='出發'){ if(S.toCar(GM,q)) return 'lot'; t.departed=true; t.status='going'; await OUT.go(GM,q); return 'go'; }
     if(pick==='改時間'){ return S.move(GM,q,t); }
     return S.drop(GM,q,t); };
   /* 改時間（第一版：同一天晚一小時、或明天同一時間；完整的日期時間選單是 DATE-S3）；改到第三次她說一句（BB 寫，還沒交）*/

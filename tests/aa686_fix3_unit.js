@@ -167,7 +167,7 @@ await sec('5',async()=>{
   { /* AA_694（DATE-ELLIPSIS-1105）以後 date_lines.js 整份拿掉了沒必要的「……」：漁人碼頭（loc.D14）＝e25149ef0 那一版照同一條規則換過，其他字不變 */
     const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf(';')));
     const was=DL(cp.execFileSync('git',['-C',H.ROOT,'show','e25149ef0:src/data/date_lines.js'],{encoding:'utf8',maxBuffer:64*1024*1024})), now=DL(fs.readFileSync(path.join(H.ROOT,'src/data/date_lines.js'),'utf8'));
-    check('5. 正式約會的漁人碼頭照舊（date_locations.js、date3d.js 沒有改；date_lines.js 的 D14 只有 AA_694 拿掉「……」）',cp.spawnSync('git',['-C',H.ROOT,'diff','--quiet','e25149ef0','--','src/data/date_locations.js','src/date3d.js']).status===0&&JSON.stringify(require('./ellipsis694.js').deep(was.loc.D14))===JSON.stringify(now.loc.D14)); }
+    check('5. 正式約會的漁人碼頭照舊（date_locations.js、date3d.js 沒有改；date_lines.js 的 D14 只有 AA_694 拿掉「……」）',cp.spawnSync('git',['-C',H.ROOT,'diff','--quiet','e25149ef0','--','src/data/date_locations.js']).status===0&&!/D14|漁人碼頭/.test(cp.spawnSync('git',['-C',H.ROOT,'diff','e25149ef0','--','src/date3d.js']).stdout.toString())   /* date3d.js 之後有別的修改（DRIVE-PICKUP-1105 開車先取車）：只要 diff 沒碰到 D14／漁人碼頭就算照舊 */&&JSON.stringify(require('./ellipsis694.js').deep(was.loc.D14))===JSON.stringify(now.loc.D14)); }
 });
 
 /* ---------- D1 重逢中間隔了她沒班的週六（AA_685 D 節）---------- */
