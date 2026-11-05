@@ -47720,7 +47720,7 @@
    "title": "afar 窗外換成公館街景",
    "area": "SCENE",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47732,7 +47732,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2 排在現有順序後",
+   "next": "v9.10.21 候選；CC 拍 afar 窗外白天／晚上",
    "source": "UA-LAWWW-1105-36",
    "authorized": "使用者原話",
    "xai": {

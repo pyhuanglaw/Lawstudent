@@ -2037,10 +2037,18 @@ const Z3 = (function(){
     reg('bldg.daybreak_interior',GG_L.daybreak(),'本作 Blender（tools/blender/env_second/aa_support/README_daybreak.md；公館「Daybreak」室內 v1b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 8094770c7，配置 src/data/daybreak_layout.js）'); }
   ggReg();   /* 載入時登錄；建區域時再登錄一次（Node 測試 assets3d.js 可能比這個檔晚載入）*/
   /* AA 的兩間（頁間、青木）：GLOW_* 空節點＝燈的光暈（合成一個網格，照路燈開了沒切白天／晚上，和體育館一樣）；窗外的景是模型裡的一張圖（WALL_front_VIEW_*）：晚上調暗（和木曜日的街景卡一樣）*/
+  /* 公館 AA 的店換窗景照片（AFAR-VIEW-1105，LAWWW2-C 11-05；使用者 08:3x「AFAR看出去不太像公館」）：afar 模型裡的窗景卡（WALL_front_VIEW、材質 afr_window_view）用的是木曜日的樹（mok_view）。
+     換成在 Blender 用公館的正式模型拍的：站在店裡往外看——自己這一棟的騎樓、柱子、停著的機車、羅斯福路、對面的校門和紅磚圍牆、椰子樹（tools/blender/env_second/wz_window_view.py --gg-street；
+     鏡頭在公館 (10.5, 1.4, 26.07)＝窗景卡正中間後面 6.5 m，視野剛好蓋滿那一片 16 × 6.5 m 的卡；照片左右鏡像過，貼上去才是正的）。晚上換夜景那一張、不調暗。*/
+  const GG_VIEW={afar:{mat:'afr_window_view',day:'assets/models/env/second_ai/aa_support/afar_view_day.webp',night:'assets/models/env/second_ai/aa_support/afar_view_night.webp'}};
   function ggAAattach(E,z,g0,root){ const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
     if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,z.gg+'_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; }
     const vm=[]; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)) for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } });
-    if(vm.length){ const at=z.applyTime; z.applyTime=function(h,w){ if(at) at.call(this,h,w); const hh=((h%24)+24)%24, night=hh<6||hh>=18.8; for(const m of vm){ m.color.setScalar(night?0.18:1); m.emissiveIntensity=m.userData.ei0*(night?0.35:1); } };
+    const gv=GG_VIEW[z.gg], gvT=gv?{d:wzNightViewTex(gv.day),n:wzNightViewTex(gv.night)}:null; if(gvT){ if(gvT.d) gvT.d.userData.url=gv.day; if(gvT.n) gvT.n.userData.url=gv.night; }   /* 換窗景照片（白天／晚上兩張，晚上不調暗）：GG_VIEW */
+    if(gvT) for(const m of vm) if(m.name===gv.mat&&!m.userData.ggMap0){ m.userData.ggMap0=m.map; m.userData.ggEm0=m.emissiveMap; }
+    if(vm.length){ const at=z.applyTime; z.applyTime=function(h,w){ if(at) at.call(this,h,w); const hh=((h%24)+24)%24, night=hh<6||hh>=18.8; for(const m of vm){
+        if(gvT&&m.name===gv.mat){ const t=night?gvT.n:gvT.d, ok=t&&!(t.userData&&t.userData.failed), mp=ok?t:m.userData.ggMap0; if(m.map!==mp){ m.map=mp; if(m.emissiveMap) m.emissiveMap=mp; m.needsUpdate=true; } if(ok){ m.color.setScalar(1); m.emissiveIntensity=m.userData.ei0; continue; } }   /* 照片載入失敗：換回模型原本那張、照舊調暗 */
+        m.color.setScalar(night?0.18:1); m.emissiveIntensity=m.userData.ei0*(night?0.35:1); } };
       if(typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); }
     return root; }
   function buildCvs2(E){ const L=GG_L.cvs(), fromWZ=typeof GAME!=='undefined'&&GAME.G&&GAME.G.flags&&GAME.G.flags.CVS_FROM==='wenzhou';

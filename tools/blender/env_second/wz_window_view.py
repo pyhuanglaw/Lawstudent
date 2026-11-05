@@ -1,7 +1,7 @@
 """溫州街店家的窗景照片（給 W3.windowMat 的 <名稱>_<day|night>.webp）：用遊戲裡同一批溫州街正式模型在 Blender 拍（LAWWW2-C 2026-11-04，KOMICHI-NIGHTVIEW-1104）。
 原因：小路（wz_teishoku）的窗景是 10-22 在遊戲裡 20:30 拍的，街上亮得像黃昏，BB-C 判「22:00 窗外還是白天」（BB_255 1(a)）；2:30 AM、SUNNY SIDE 的窗景卡是 Blender 拍的夜景（窗、店、路燈亮，天空暗），這支照同一個做法。
 鏡頭照 tools/shots/shop_views_layers.py 的同一個名稱（窗那一片的中心、朝外、水平 90°、2:1）：W3.windowMat 的視差以那一片為準，換照片不用改程式。
-用法：/opt/blenv/bin/python tools/blender/env_second/wz_window_view.py -- --eye x,y,z --at x,y,z --out <png> [--night] [--res 1024x512] [--samples 96] [--glb a.glb,b.glb,...] [--lens 18] [--copy none|moved|stay] [--place 路徑@x,y,z,ry ...] [--shift-y 0]（參考圖鏡頭：水平鏡頭＋鏡頭上下平移，ADE-V2-1104）[--hour 14]（太陽照遊戲那個時刻）[--pools 光圈.json --pool-w 220]（晚上路燈往下照的一圈光）
+用法：/opt/blenv/bin/python tools/blender/env_second/wz_window_view.py -- --eye x,y,z --at x,y,z --out <png> [--night] [--res 1024x512] [--samples 96] [--glb a.glb,b.glb,...] [--lens 18] [--copy none|moved|stay] [--place 路徑@x,y,z,ry ...] [--gg-street] [--clip-start m] [--shift-y 0]（參考圖鏡頭：水平鏡頭＋鏡頭上下平移，ADE-V2-1104）[--hour 14]（太陽照遊戲那個時刻）[--pools 光圈.json --pool-w 220]（晚上路燈往下照的一圈光）
   座標是遊戲座標（x 東、y 上、z 南）；--glb 沒寫＝溫州街主巷、雜物、日式宿舍、小公園（assets/models/env/second_ai/）。
 例（小路）：-- --eye -2.8,1.25,-4.6 --at -2.8,1.25,40 --out /tmp/wz_teishoku_night.png --night
 夜晚的亮度照遊戲 zones3d.js 的 WZ_NIGHT（材質名 → 顏色、晚上亮度），GLOW_* 空節點（extras glow／size／night）放點光源；店內（wz_in_*）晚上自己發一點光（店裡開著燈）。"""
@@ -156,6 +156,33 @@ if SCJ and os.path.exists(SCJ) and os.path.exists(SCG):
                 if sl.material and sl.material.name.split('.')[0] == 'scooter_paint' and col in paintM: sl.link = 'OBJECT'; sl.material = paintM[col]
         nsc += 1
 
+# --gg-street：公館區域（zones3d.js 的 gongguan）程式畫的地面：南側人行道 z 4～20、羅斯福路 z −31～4（車道線 z −25／−19／−8／−2、中間黃色雙實線、校門口的斑馬線 x −6～6）、
+#   北側人行道 z −45～−31、校門兩邊的紅磚圍牆 z −46（x ±9～±79，高 1.8＋牆頭）。afar 往外看（AFAR-VIEW-1105）用；校門本體用 --place campus_gate.glb@0,0,-46,0
+if '--gg-street' in A:
+    def _pm(name, col, rough=0.85):
+        m = bpy.data.materials.new(name); m.use_nodes = True; b = m.node_tree.nodes['Principled BSDF']
+        b.inputs['Base Color'].default_value = (*hexcol(col), 1); b.inputs['Roughness'].default_value = rough; return m
+    def _slab(name, m, x0, x1, z0, z1, y0, y1):
+        import bmesh
+        bm = bmesh.new(); r = bmesh.ops.create_cube(bm, size=1.0)
+        for v in r['verts']:
+            v.co = Vector(((x1 if v.co.x > 0 else x0), -(z1 if v.co.y < 0 else z0), (y1 if v.co.z > 0 else y0)))
+        me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free(); me.materials.append(m)
+        ob = bpy.data.objects.new(name, me); sc.collection.objects.link(ob); return ob
+    _slab('gg_asphalt', _pm('gg_asphalt', 0xacacaa, 0.92), -90, 90, -31, 4, -0.03, 0.0)
+    _slab('gg_walk_s', _pm('gg_walk', 0xdcd5c8, 0.9), -90, 90, 4, 20, 0.0, 0.03)
+    _slab('gg_walk_n', _pm('gg_walk_n', 0xdcd5c8, 0.9), -90, 90, -45, -31, 0.0, 0.03)
+    _wl = _pm('gg_lane', 0xf2f2ee, 0.6)
+    for z in (-25, -19, -8, -2):
+        for x in range(-88, 88, 6): _slab('gg_lane', _wl, x, x + 3, z - 0.2, z + 0.2, 0.0, 0.006)
+    _yl = _pm('gg_yellow', 0xd9a93a, 0.7)
+    for z in (-13.65, -13.35): _slab('gg_yellow', _yl, -90, 90, z - 0.07, z + 0.07, 0.0, 0.006)
+    for k in range(0, 9):
+        x0 = -6 + k * 1.4; _slab('gg_zebra', _wl, x0, x0 + 0.7, -30.6, 3.6, 0.0, 0.007)
+    _wm = _pm('gg_wall', 0xb8735a, 0.9); _cap = _pm('gg_wall_cap', 0xd9d3c6, 0.8)
+    for sgn in (-1, 1):
+        x0, x1 = sorted((sgn * 9, sgn * 79)); _slab('gg_wall', _wm, x0, x1, -46.5, -45.5, 0.0, 1.8); _slab('gg_cap', _cap, x0 - 0.1, x1 + 0.1, -46.6, -45.4, 1.8, 1.94)
+    _slab('gg_campus', _pm('gg_campus_lawn', 0x5f6b47, 0.95), -120, 120, -160, -46.5, -0.02, 0.0)
 # --ground：一大片地面（校園建築的 GLB 沒有地面；TEACH-PTBOYA-REF-1104 拍普通、博雅用）：--ground '#8f8c84'
 if opt('--ground'):
     gm = bpy.data.materials.new('view_ground'); gm.use_nodes = True; gb_ = gm.node_tree.nodes['Principled BSDF']
@@ -197,7 +224,7 @@ if NIGHT and opt('--pools') and os.path.exists(opt('--pools')):
     print('pools', npool, flush=True)
 
 # 鏡頭：窗那一片的中心、朝外，水平 90°（2:1 → 垂直 53.13°）
-cd = bpy.data.cameras.new('cam'); cd.sensor_fit = 'HORIZONTAL'; cd.sensor_width = 36.0; cd.lens = float(opt('--lens', '18')); cd.shift_y = float(opt('--shift-y', '0')); cd.clip_start = 0.05; cd.clip_end = 400
+cd = bpy.data.cameras.new('cam'); cd.sensor_fit = 'HORIZONTAL'; cd.sensor_width = 36.0; cd.lens = float(opt('--lens', '18')); cd.shift_y = float(opt('--shift-y', '0')); cd.clip_start = float(opt('--clip-start', '0.05')); cd.clip_end = 400   # --clip-start：鏡頭放在店裡（窗景卡的正中間後面）時，把自己這一棟的玻璃、店內卡片剪掉（AFAR-VIEW-1105）
 co = bpy.data.objects.new('cam', cd); sc.collection.objects.link(co); sc.camera = co
 co.location = g2b(EYE); d = g2b(AT) - g2b(EYE); co.rotation_euler = d.to_track_quat('-Z', 'Y').to_euler()
 
