@@ -1,0 +1,312 @@
+{
+ "pid": "yu",
+ "tag": "invite 念書（去總圖一起念書）",
+ "rec0": {
+  "day": -1,
+  "hour": 10.0491,
+  "t": -13.9509,
+  "money": 30000,
+  "rel": {
+   "fam": 47,
+   "trust": 30,
+   "comf": 26,
+   "aff": 0,
+   "rom": 0,
+   "npcRom": 0
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": -1,
+  "hour": 11.884,
+  "t": -12.116,
+  "money": 30000,
+  "rel": {
+   "fam": 50,
+   "trust": 32,
+   "comf": 27,
+   "aff": 0,
+   "rom": 1,
+   "npcRom": 1
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "STUDIED_TOGETHER"
+  ],
+  "zone": "library_hall"
+ },
+ "hours": 1.834900000000001,
+ "say": [
+  {
+   "n": "Alison",
+   "c": "yu",
+   "t": "「（小聲）二樓靠窗那排比較安靜。」",
+   "h": 10.057,
+   "d": -1,
+   "z": "library_hall",
+   "adv": false
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）",
+   "h": 10.362,
+   "d": -1,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "Alison",
+   "c": "yu",
+   "t": "「（小聲）我讀到六點。你呢？」",
+   "h": 10.362,
+   "d": -1,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "你和Alison在總圖一起念書。",
+   "h": 10.362,
+   "d": -1,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她把一張便利貼推過來：「這一題你會嗎？」你在下面寫了答案推回去。她看了一眼，比了一個讚。）",
+   "h": 11.112,
+   "d": -1,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她闔上書，伸了一個懶腰。）",
+   "h": 11.862,
+   "d": -1,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "Alison",
+   "c": "yu",
+   "t": "「（小聲）走吧。」",
+   "h": 11.862,
+   "d": -1,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "Alison",
+   "c": "yu",
+   "t": "「今天讀得比我想的多。……下次再約。」",
+   "h": 11.862,
+   "d": -1,
+   "z": "library_hall",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "Alison",
+   "text": "「（小",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": false
+  },
+  {
+   "name": "",
+   "text": "（你們在長桌的一",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "Alison",
+   "text": "「（小聲）我讀到六點。你呢？」",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "你和Alison在總圖一起念書。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她把一張便利貼推過來：「這一題你會嗎？」你在下面寫了答案推回去。她看了一眼，比了一個讚。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她闔",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "Alison",
+   "text": "「（小聲）走吧。」",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "Alison",
+   "text": "「今天讀得比我想的多",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "library_hall",
+  "lv": 1,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 2.1,
+  "sameGroup": false,
+  "doorD": 6.11,
+  "spawnD": 10.13,
+  "npc": true,
+  "nD": 2.1,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": -7.02,
+  "nz": 2.2,
+  "p": [
+   -9.13,
+   2.2
+  ]
+ }
+}
