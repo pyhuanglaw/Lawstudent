@@ -1432,3 +1432,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
 - 2026-11-05T21:15:01  V21R_soc_heroine_05_go  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  1235s  timeout 20 min  PASS [heroine_05] date 當面約 分支1-1「週末市集」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": 14, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}] /   [前置／捷徑] [heroine_05] 讀回存檔（date 當面約 分支1-2「大草地」：出發前的提醒之前） /   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
 - 2026-11-05T21:17:07  V21R_soc_classmate_peishan_talk  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  1004s       用了 16.1 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
       err.log (last 5): [gpu_wrap 967.9s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 967.9s] BROWSER DISCONNECTED
+- 2026-11-05T21:18:33  V21R_soc_kexin_talk  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  201s       用了 2.7 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
+      err.log (last 5): [gpu_wrap 162.0s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 162.0s] BROWSER DISCONNECTED

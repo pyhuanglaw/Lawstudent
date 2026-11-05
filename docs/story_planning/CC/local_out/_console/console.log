@@ -841,3 +841,12 @@
 [21:15:12] ==== START V21R_soc_kexin_talk  (probe @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
 [21:15:15] [res] cpu=14% mem=41% (13.0/31.4 GB) chrome_testing=9  START V21R_soc_kexin_talk
 [21:17:07] [res] cpu=14% mem=40% (12.6/31.4 GB) chrome_testing=9  END V21R_soc_classmate_peishan_talk
+[21:17:09] 正在跑：V21R_soc_classmate_peishan_talk（已跑 16 分／上限 20 分）、V21R_soc_classmate_peishan_go（已跑 3 分／上限 20 分）、V21R_soc_kexin_talk（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4535f77b5..12872bcd8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:17:17] ==== END   V21R_soc_classmate_peishan_talk  exit=0  1004s   ====
+[21:17:20] memory 40% before starting V21R_soc_kexin_go (2 running)
+[21:17:20] ==== START V21R_soc_kexin_go  (probe @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
+[21:17:23] [res] cpu=23% mem=39% (12.8/31.4 GB) chrome_testing=9  START V21R_soc_kexin_go
+[21:18:33] [res] cpu=26% mem=40% (12.5/31.4 GB) chrome_testing=9  END V21R_soc_kexin_talk
