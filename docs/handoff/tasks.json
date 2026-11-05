@@ -47675,7 +47675,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "BB 看公館大地圖截圖",
+   "next": "BB 看公館大地圖截圖；BB-C BB_255（09:2x）溫州街：營業時間碰到門口上面的「👤 人名」和「你在這裡」→ 兩樣都先佔位置（guide3d.js；tests/map_hours_overlap_unit.js 4～6），下一版",
    "source": "UA-LAWWW-1105-33",
    "authorized": "使用者原話",
    "xai": {
@@ -47878,7 +47878,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "BB 電腦重跑 SHANLAN_v2 #1～#4；日常失速 4 張走近點站不住交 LAWWW2（OFFBEAT-SEAT-AP-1105）",
+   "next": "BB 電腦重跑 SHANLAN_v2 #1～#4；日常失速 4 張走近點站不住交 LAWWW2（OFFBEAT-SEAT-AP-1105）；BB-C BB_255 tapsteal：點的位置 0.6 m 內有非座位互動點就不多 0.5 m（E.TAP_SEAT_CLEAR），30 個點位「變成座位」次數都回到加範圍以前（tests/tapsteal_unit.js，修改前 jp_room 窗外 FAIL），下一版",
    "source": "BB_255 SEATSCAN",
    "authorized": "使用者原話",
    "xai": {
