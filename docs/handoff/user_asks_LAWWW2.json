@@ -787,7 +787,8 @@
    "status": "已完成",
    "replaces": "先將就只寫在各包 README 和對話裡 → 收進 docs/art-rebuild/second_ai/TODO_SHORTCUTS.md（HANDOFF.md 接班必讀、佇列第 0 項指過去）；之後每交一包就加上去",
    "note": "1f38c584c：這一班 17 包",
-   "notify": "LAWWW-C"
+   "notify": "LAWWW-C",
+   "wants": "X258"
   }
  ]
 }
