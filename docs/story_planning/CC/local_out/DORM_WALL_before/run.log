@@ -1,0 +1,49 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_dorm_wall_probe.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\DORM_WALL_before\out
+CC DORM_WALL（男一舍牆縫，before）：SHA=9ea82730f471210c8df143093b7743ce4c9327a8（worktree 實際 ?）；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [day 1_entrance] 讀檔男生宿舍 2025-10-15 14.00、人在 (0.0, 5.6) 第 0 層
+PASS [day 1_entrance] 讀到男生宿舍、站得住  {"zone": "dorm_hall", "x": 0, "z": 5.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.05}
+PASS [黑畫面] before_day_1_entrance 不是黑畫面（平均亮度 119.7、變化 36.6）  [119.7, 36.6]
+  [前置／捷徑] [day 2_lounge_west] 讀檔男生宿舍 2025-10-15 14.00、人在 (2.0, 1.0) 第 0 層
+PASS [day 2_lounge_west] 讀到男生宿舍、站得住  {"zone": "dorm_hall", "x": 2, "z": 1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+PASS [黑畫面] before_day_2_lounge_west 不是黑畫面（平均亮度 132.6、變化 39.1）  [132.6, 39.1]
+  [前置／捷徑] [day 3a_stairs] 讀檔男生宿舍 2025-10-15 14.00、人在 (0.0, -1.0) 第 0 層
+PASS [day 3a_stairs] 讀到男生宿舍、站得住  {"zone": "dorm_hall", "x": 0, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+PASS [黑畫面] before_day_3a_stairs 不是黑畫面（平均亮度 133.5、變化 37.9）  [133.5, 37.9]
+  [前置／捷徑] [day 3b_2f_corridor] 讀檔男生宿舍 2025-10-15 14.00、人在 (-6.0, 0.0) 第 1 層
+PASS [day 3b_2f_corridor] 讀到男生宿舍、站得住  {"zone": "dorm_hall", "x": -6, "z": 0, "y": 3.6, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "205 寢室", "stand": true, "fb": 0, "hour": 14.07}
+PASS [黑畫面] before_day_3b_2f_corridor 不是黑畫面（平均亮度 133.9、變化 43.9）  [133.9, 43.9]
+PASS [黑畫面] before_day_seam_doorframe 不是黑畫面（平均亮度 152.1、變化 40）  [152.1, 40]
+  [ 101.1s] [截圖] before_day_seam_doorframe：鏡頭 {"eye": [-6, 1.6, 1], "look": [-6, 2.3, -1.4], "lens": 50, "vfov": 22.9}、亮度 [152.1, 40]
+PASS [黑畫面] before_day_seam_stairwell 不是黑畫面（平均亮度 141.6、變化 36.8）  [141.6, 36.8]
+  [ 103.4s] [截圖] before_day_seam_stairwell：鏡頭 {"eye": [0, 1.6, 1.2], "look": [0, 2.8, -1.4], "lens": 50, "vfov": 22.9}、亮度 [141.6, 36.8]
+  [前置／捷徑] [night 1_entrance] 讀檔男生宿舍 2025-10-15 20.50、人在 (0.0, 5.6) 第 0 層
+PASS [night 1_entrance] 讀到男生宿舍、站得住  {"zone": "dorm_hall", "x": 0, "z": 5.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.57}
+PASS [黑畫面] before_night_1_entrance 不是黑畫面（平均亮度 101、變化 35.8）  [101, 35.8]
+  [前置／捷徑] [night 2_lounge_west] 讀檔男生宿舍 2025-10-15 20.50、人在 (2.0, 1.0) 第 0 層
+PASS [night 2_lounge_west] 讀到男生宿舍、站得住  {"zone": "dorm_hall", "x": 2, "z": 1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.57}
+PASS [黑畫面] before_night_2_lounge_west 不是黑畫面（平均亮度 118.1、變化 40.4）  [118.1, 40.4]
+  [前置／捷徑] [night 3a_stairs] 讀檔男生宿舍 2025-10-15 20.50、人在 (0.0, -1.0) 第 0 層
+PASS [night 3a_stairs] 讀到男生宿舍、站得住  {"zone": "dorm_hall", "x": 0, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.57}
+PASS [黑畫面] before_night_3a_stairs 不是黑畫面（平均亮度 126.3、變化 41.6）  [126.3, 41.6]
+  [前置／捷徑] [night 3b_2f_corridor] 讀檔男生宿舍 2025-10-15 20.50、人在 (-6.0, 0.0) 第 1 層
+PASS [night 3b_2f_corridor] 讀到男生宿舍、站得住  {"zone": "dorm_hall", "x": -6, "z": 0, "y": 3.6, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "205 寢室", "stand": true, "fb": 0, "hour": 20.57}
+PASS [黑畫面] before_night_3b_2f_corridor 不是黑畫面（平均亮度 130.5、變化 44.8）  [130.5, 44.8]
+PASS [黑畫面] before_night_seam_doorframe 不是黑畫面（平均亮度 157.1、變化 43.8）  [157.1, 43.8]
+  [ 164.5s] [截圖] before_night_seam_doorframe：鏡頭 {"eye": [-6, 1.6, 1], "look": [-6, 2.3, -1.4], "lens": 50, "vfov": 22.9}、亮度 [157.1, 43.8]
+PASS [黑畫面] before_night_seam_stairwell 不是黑畫面（平均亮度 141.9、變化 42.5）  [141.9, 42.5]
+  [ 166.8s] [截圖] before_night_seam_stairwell：鏡頭 {"eye": [0, 1.6, 1.2], "look": [0, 2.8, -1.4], "lens": 50, "vfov": 22.9}、亮度 [141.9, 42.5]
+  [前置／捷徑] [走一趟] 讀檔男生宿舍 2025-10-15 14:00、一樓走廊東端 (12.5, −0.9)
+  [ 180.8s] 到達「[走一趟] 沿一樓走廊北牆往西」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [走一趟] 沿一樓走廊北牆往西：走到了（-12.30, -0.90 第 0 層）、一路站得住、沒有被放到目的地  {"notStand": [], "end": {"zone": "dorm_hall", "x": -12.298, "z": -0.9, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.1}}
+  [ 193.1s] 到達「[走一趟] 回到樓梯口」附近（0.27 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+PASS [走一趟] 回到樓梯口：走到了（-0.27, -1.00 第 0 層）、一路站得住、沒有被放到目的地  {"notStand": [], "end": {"zone": "dorm_hall", "x": -0.269, "z": -0.998, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.18}}
+  [ 202.6s] 到達「[走一趟] 上樓梯到二樓（203 門口，dorm_layout home.spawn）」附近（0.26 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+PASS [走一趟] 上樓梯到二樓（203 門口，dorm_layout home.spawn）：走到了（5.26, 0.30 第 1 層）、一路站得住、沒有被放到目的地  {"notStand": [], "end": {"zone": "dorm_hall", "x": 5.261, "z": 0.296, "y": 3.6, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "207 寢室", "stand": true, "fb": 0, "hour": 14.24}}
+  [ 214.8s] 到達「[走一趟] 二樓走廊往西」附近（0.26 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+PASS [走一趟] 二樓走廊往西：走到了（-5.75, 0.01 第 1 層）、一路站得住、沒有被放到目的地  {"notStand": [], "end": {"zone": "dorm_hall", "x": -5.745, "z": 0.007, "y": 3.6, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "205 寢室", "stand": true, "fb": 0, "hour": 14.32}}
+  [ 233.0s] 到達「[走一趟] 下樓回一樓」附近（0.21 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，17 秒
+PASS [走一趟] 下樓回一樓：走到了（1.82, 0.89 第 0 層）、一路站得住、沒有被放到目的地  {"notStand": [], "end": {"zone": "dorm_hall", "x": 1.818, "z": 0.885, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.44}}
+PASS 沒有 JS 例外  []
+ALL PASS
