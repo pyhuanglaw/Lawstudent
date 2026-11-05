@@ -18,10 +18,14 @@ D118B5_play | 747dba80dabb454eaf2aaf6f1bee272a271c6ce5 | probe | docs/story_plan
 NANYANG_v1 | a3b18addc282352b709b2cd7351d5f489a91449c | probe | docs/story_planning/test_tools/cc/cc_nanyang_v1_probe.py | index.html | 60 | CC_HEADLESS=0
 # BB-C 04:48：NANYANG、SHANLAN、NPCTASK_r2、GUITAR_DORM 改用 LAWWW-C 開發分支 13700be8f；NANYANG 加「營業時間外店門擋住」（04:31）
 NANYANG_v1b | 13700be8fbfcaa902b0276713c5c83c7c38e3c79 | probe | docs/story_planning/test_tools/cc/cc_nanyang_v1_probe.py | index.html | 60 | CC_HEADLESS=0
+# BB-C 04:33／04:35／04:48 SHANLAN_v1（D141 第 2 間）：山嵐書店兩層，擋玩五項＋營業時間外；坐地板這一版還沒接（記有沒有按鈕）
+SHANLAN_v1 | 13700be8fbfcaa902b0276713c5c83c7c38e3c79 | probe | docs/story_planning/test_tools/cc/cc_shanlan_v1_probe.py | index.html | 90 | CC_HEADLESS=0
 # D118B5 r1 的探針錯（b5b 比錯天；aunt 沒設 YT_MET_JOB＝STORY.knows 語彤 false；abroad／sats 把讀檔入社的 fafu_welcome 算進去）：重跑這四組（sats 的私訊、值班表那兩項等 BB-C 判）
 # BB-C 04:40：NPCTASK_r2（三樓閱覽室要有人做事、其他四處不退步；修改前＝NPCTASK_f5c3）、GUITAR_DORM（彈吉他移外層）
 NPCTASK_r2 | 13700be8fbfcaa902b0276713c5c83c7c38e3c79 | probe | docs/story_planning/test_tools/cc/cc_npctask_probe.py | index.html | 60 | CTL=both;LOCS=hall,lib3f,lawlib,soc2f,b1;CC_HEADLESS=0
 GUITAR_DORM | 13700be8fbfcaa902b0276713c5c83c7c38e3c79 | probe | docs/story_planning/test_tools/cc/cc_guitar_dorm_probe.py | index.html | 20 | CC_HEADLESS=0
+# BB-C 04:50／04:51 WZLIN_v1c（LAWWW-C 整合 01b3e5ac7）：林家乾麵 v1c（BB 做的室內＝D132 交 LAWWW-C 判、副本 BB-C）＋日和、林家牆淡出
+WZLIN_v1c | 01b3e5ac7534c643a153e940b0198a142605a67b | probe | docs/story_planning/test_tools/cc/cc_wzlin_v1c_probe.py | index.html | 60 | CC_HEADLESS=0
 D118B5_r2 | 747dba80dabb454eaf2aaf6f1bee272a271c6ce5 | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 60 | CC_HEADLESS=0;CASES=b5b,aunt,auntneg,abroad
 D118B7F_play | 193d1fd4f1b3ccacc544864c2e02f8faa0ba95f8 | probe | docs/story_planning/test_tools/cc/cc_d118b7f_play.py | index.html | 90 | CC_HEADLESS=0;RERUN=r3;CASES=judge
 D118B7_play | 6a1592a26831ce63470b4869aa9c5aa7e5d8628c | probe | docs/story_planning/test_tools/cc/cc_d118b7_play.py | index.html | 60 | CC_HEADLESS=0;RERUN=r2
