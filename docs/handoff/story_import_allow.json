@@ -4620,6 +4620,15 @@
    "task": "SPORT-SHOPS-1103",
    "kind": "text",
    "note": "只用第 2 節：大步、好拍的價錢、店員／老闆的話（輪流）、試穿、看看（好拍）、買羽球拍「要穿線嗎？等二十分鐘。」、穿線等二十分鐘那一句（AA_698 指過去的原句）。照抄進 src/xsshop_sys3d.js；第 3 節（3-1 阿哲、3-2 系服、3-3、3-4 偶遇）、新生運動廣場還沒做。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_699_新生運動廣場互動點與三間打烊.md",
+   "sha": "0e112816a",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_699 0e112816a：回 LAWWW-C 11-05 06:26）",
+   "task": "SPORT-SHOPS-1103",
+   "kind": "text",
+   "note": "第 1 節打烊那一句（大步、好拍、新生運動廣場）照抄進 src/xs_close3d.js；第 2 節新生運動廣場（xs_xsports）5 個互動點（看看球架、看看球鞋牆、買東西＝AA_620 第 2 節七樣、二樓看看球衣牆、系服訂做兩版）、一樓試穿椅「坐下試穿」旁白；裁縫圓凳不開放。照抄進 src/xsports_sys3d.js（XPA.L）；tests/xsports_act_unit.js 用 git show 0e112816a 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
   }
  ]
 }
