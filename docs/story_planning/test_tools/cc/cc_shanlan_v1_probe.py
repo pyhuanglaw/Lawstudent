@@ -24,7 +24,7 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
 J = D.J
-PARTS = [x for x in (os.environ.get('PARTS') or 'door,stairs,seats,floor,acts,late,close,void,closed,shots').split(',') if x]
+PARTS = [x for x in (os.environ.get('PARTS') or 'door,island,stairs,seats,floor,acts,late,close,void,closed,shots').split(',') if x]
 R = L.Run('shanlan_v1', OUT); D.setup(R, OUT)
 DAY = '2025-10-15'
 ZN = 'xs_shanlan'
@@ -89,6 +89,24 @@ async def part_door(pg, cdp):
     R.check('[進出] 回到新生南路店門外面（SH3.streetOut %s 0.6 m 內）、推得動' % J(out), math.hypot(s['x'] - out['x'], s['z'] - out['z']) < 0.6 and await D.pushable(pg, cdp) >= 0.3, J(s))
     await D.shot(pg, 'door_out')
     return True
+
+
+async def part_island(pg, cdp):
+    """店門口（BB-C 06:26：4b5a0ebd8 把店門口的小孤島擋起來）＋整層：0.1 m 格子、站得住（半徑 0.3）的格子從出生點（一樓）／樓梯頂（二樓）四方向都連得到＝沒有站進去出不來的小孤島"""
+    r = await pg.evaluate("""(()=>{ const E=GAME.E, L=SHANLAN_LAYOUT, W=L.w, Dd=L.d, cell=0.1, nx=Math.round(W/cell), nz=Math.round(Dd/cell), t=SH3.stairSurf(L), out=[];
+      const seeds=[[L.enterAt.x,L.enterAt.z,0],[t.x0/2+t.x1/2,t.z0-0.4,1]];
+      for(const [sx,sz,lv] of seeds){ const ok=new Uint8Array(nx*nz), seen=new Uint8Array(nx*nz); const X=i=>-W/2+(i+0.5)*cell, Z=j=>-Dd/2+(j+0.5)*cell; let total=0;
+        for(let i=0;i<nx;i++) for(let j=0;j<nz;j++) if(E.canStand(X(i),Z(j),0.3,lv)){ ok[i*nz+j]=1; total++; }
+        const si=Math.floor((sx+W/2)/cell), sj=Math.floor((sz+Dd/2)/cell); const q=[[si,sj]]; if(ok[si*nz+sj]) seen[si*nz+sj]=1; let reach=0;
+        while(q.length){ const [i,j]=q.pop(); reach++; for(const [di,dj] of [[1,0],[-1,0],[0,1],[0,-1]]){ const a=i+di,b=j+dj; if(a<0||b<0||a>=nx||b>=nz) continue; const k=a*nz+b; if(ok[k]&&!seen[k]){ seen[k]=1; q.push([a,b]); } } }
+        const isl=[]; for(let i=0;i<nx;i++) for(let j=0;j<nz;j++){ const k=i*nz+j; if(ok[k]&&!seen[k]) isl.push([+X(i).toFixed(2),+Z(j).toFixed(2)]); }
+        const door=isl.filter(p=>Math.hypot(p[0]-L.exit.x,p[1]-L.exit.z)<3);
+        out.push({lv, total, reach, seedOk:!!ok[si*nz+sj], islands:isl.length, door:door.slice(0,12), sample:isl.slice(0,12)}); }
+      return out; })()""")
+    for q in r:
+        R.note('[孤島] 第 %d 層：站得住 %d 格、連得到 %d、孤島 %d（店門口 3 m 內 %s）；例 %s' % (q['lv'], q['total'], q['reach'], q['islands'], J(q['door']), J(q['sample'])))
+        R.check('[孤島] 第 %d 層：站得住的格子都連得到（孤島 0）' % q['lv'], q['seedOk'] and q['islands'] == 0, J(q['sample']))
+        if q['lv'] == 0: R.check('[孤島] 店門口 3 m 內沒有站進去出不來的格子（BB-C 06:26）', not q['door'], J(q['door']))
 
 
 async def part_stairs(pg, cdp):
@@ -275,11 +293,12 @@ async def main():
         has = await pg.evaluate("typeof SH3!=='undefined'&&!!Z3.ZONES.xs_shanlan")
         if not R.check('這一版有山嵐書店（SH3、Z3.ZONES.xs_shanlan）', has, ''): await b.close(); sys.exit(1)
         if 'door' in PARTS: await part_door(pg, cdp)
-        if any(x in PARTS for x in ('stairs', 'seats', 'floor', 'acts', 'late')):
+        if any(x in PARTS for x in ('island', 'stairs', 'seats', 'floor', 'acts', 'late')):
             s, _ = await enter_from_street(pg, cdp, '[店裡]')
             if not s:
                 R.setup('[店裡] 進不去：【捷徑】直接讀檔進山嵐一樓')
                 await D.load_zone(pg, cdp, ZN, DAY, 14.0, 0.8, 7.5, math.pi, lv=0, wait=8000)
+            if 'island' in PARTS: await part_island(pg, cdp)
             if 'stairs' in PARTS: await part_stairs(pg, cdp)
             if 'seats' in PARTS: await D.sit_all(pg, cdp, '[座位]', 'shanlan')
             if 'floor' in PARTS: await part_floor(pg, cdp)

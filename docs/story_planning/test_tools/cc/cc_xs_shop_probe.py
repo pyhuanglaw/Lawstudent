@@ -34,7 +34,7 @@ CFG = {
     'xsports': {'zone': 'xs_xsports', 'name': '新生運動廣場', 'door': '進新生運動廣場', 'exit': '離開新生運動廣場', 'place': 'xs_xsports', 'open': 14.0, 'closed': [('2025-10-15', 10.5), ('2025-10-15', 22.5)], 'after': ('2025-10-15', 21.97), 'levels': 2,
                 'shots': [(0, None), (1, None)]},
 }[SHOP]
-PARTS = [x for x in (os.environ.get('PARTS') or ('door,stairs,seats,acts,hours,walls,shots' + (',flow' if SHOP == 'dakou' else ''))).split(',') if x]
+PARTS = [x for x in (os.environ.get('PARTS') or ('door,stairs,seats,acts,hours,walls,shots' + (',flow' if SHOP == 'dakou' else '') + (',buy' if SHOP in ('dabu', 'haopai') else ''))).split(',') if x]
 R = L.Run('xs_shop_' + SHOP, OUT); D.setup(R, OUT)
 DAY = '2025-10-15'   # 週三（不是考試週）
 ZN = CFG['zone']
@@ -45,6 +45,21 @@ DK = {'menu': [('雙層牛肉堡套餐', 159), ('勁辣雞腿堡套餐', 149), (
       'outlet': '（你把手機插上。旁邊那個人的筆電也插在同一排，螢幕上是一份還沒寫完的報告。）', 'books': '（書架上是幾本舊雜誌和一套沒排齊的漫畫。第三集不見了。）',
       'narr': ['（你點了一杯熱咖啡。四點的時候它已經冷了。）', '（對面那桌的人整理好東西走了。下一個人五分鐘後就坐下來。）', '（窗外新生南路的車越來越少。只剩公車和計程車。）', '（天亮的時候，一樓開始賣早餐。煎蛋的味道飄上來。）'],
       'dawn': '（樓下換了早餐的菜單。有人買了滿福堡，邊走邊吃去考試。）', 'alone': '（二樓只有你和一個在打電腦的人。店員在拖地。）'}
+# AA_698（claude/magical-albattani-bk7b4n 481cf075d）＋AA_620 第 2 節（bf0efded8）：大步、好拍互動點的字（BB-C 06:26：4b5a0ebd8 起要判字）
+XS = {
+  'dabu': {'look': {('看看（籃球鞋）', None): '（籃球鞋排成兩格，高筒的放在上面。有一雙的標籤寫「系隊推薦」。）',
+                    ('看看', (-2.75, -3.4)): '（跑鞋這一格顏色最亮。每一雙都把鞋底翻過來，給人看紋路。）',
+                    ('看看', (2.75, -1.45)): '（復古低筒那一格，有一雙的鞋帶是兩種顏色。）',
+                    ('照鏡子', None): '（你在鏡子前面站了一下，左右各轉了一次。）'},
+           'try': ['你幾號？', '（你試了一雙。店員蹲下來按了一下鞋頭：「前面留一指，剛好。」）'],
+           'talk': ['打室外場的話，鞋底要選耐磨的。', '這雙這個月很多人買，系隊的。', '跑鞋不要拿去打籃球，會扭到。'],
+           'menu': [('籃球鞋', 2800), ('籃球鞋', 3600), ('跑鞋', 2500), ('休閒鞋', 1900), ('球襪', 150)], 'cheap': ('球襪', 150),
+           'bought': '（店員把鞋盒裝進紙袋。）'},
+  'haopai': {'look': {('看看', None): '（天花板也掛滿球拍。穿線機在角落嗒嗒響，老闆一邊穿線一邊看電視上的比賽。）'},
+             'string_none': ['拍子呢？', '（你兩手空空。老闆搖搖頭，回去穿他的線。）'],
+             'talk': ['第一支不要買太硬的，手會受傷。', '線磅數拉二十二就好，你們學生都拉太緊。', '桌球的膠皮三個月換一次，看起來沒壞也要換。'],
+             'menu': [('羽球拍', 1200), ('羽球拍', 2800), ('羽球', 450), ('桌球拍', 800), ('桌球拍', 2600), ('桌球', 150), ('護腕', 120)], 'cheap': ('護腕', 120),
+             'bought': '（老闆把東西裝進塑膠袋，袋子上印著店名。）'}}
 SAYHOOK = r"""(()=>{ if(!window.__ccSayWrapped){ const s0=GAME.say; GAME.say=function(who,t){ try{ (window.__ccSay=window.__ccSay||[]).push({who:who?(who.name||String(who)):null, t:String(t), h:+(+GAME.G.hour).toFixed(3), zone:GAME.G.zone}); }catch(e){} return s0.apply(this,arguments); }; window.__ccSayWrapped=true; }   /* 只包一次（11-05 雲端：__ccSayOn=false 重設又包一次＝每句記兩次）*/
   if(!window.__ccSayOn){ window.__ccSay=[]; window.__ccSayOn=true; } return true; })()"""
 OPTS = r"""(()=>{ const ch=document.getElementById('choices'); if(!ch||ch.classList.contains('hide')) return []; return [...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).map(b=>({t:(b.innerText||'').trim(), dim:b.classList.contains('dim')||b.getAttribute('aria-disabled')==='true'})); })()"""
@@ -181,6 +196,13 @@ async def part_acts(pg, cdp):
         await idle(pg, cdp, 30)
         Ls = [x['t'] for x in await says(pg, n0)]
         R.note('[互動點] 「%s」：台詞 %s；選單 %s' % (it['label'], J(Ls), J([x['t'] for x in o])))
+        if SHOP in XS and await pg.evaluate("typeof XSSA!=='undefined'"):   # xsshop_sys3d.js（30d31147d，AA_698）有接才判字
+            X = XS[SHOP]; lab = it['label']
+            key = next((k for k in X['look'] if k[0] == lab and (k[1] is None or math.hypot(k[1][0] - it['x'], k[1][1] - it['z']) < 0.6)), None)
+            if key: R.check('[互動點] 「%s」(%s, %s)：字照 AA_698「%s」' % (lab, it['x'], it['z'], X['look'][key]), Ls == [X['look'][key]], J(Ls))
+            elif lab.startswith('試穿') and 'try' in X: R.check('[互動點] 「試穿」：店員「你幾號？」→ 試穿那一句（AA_698／AA_620）', Ls[:2] == X['try'], J(Ls))
+            elif lab.startswith('穿線') and 'string_none' in X: R.check('[互動點] 「穿線」（沒有自己的拍子）：老闆「拍子呢？」＋旁白（AA_698）', Ls[:2] == X['string_none'], J(Ls))
+            elif lab.startswith('買東西'): R.check('[互動點] 「買東西」：先出店員／老闆輪流的一句（AA_620）、再出菜單', bool(Ls) and Ls[0] in X['talk'] and bool(o), J({'lines': Ls, 'menu': [x['t'] for x in o]}))
         if SHOP == 'dakou':
             exp = {'tray': [DK['tray']], 'outlet': [DK['outlet']], 'books': [DK['books']], 'pickup': [DK['pnone']], 'order': [DK['ask']], 'kiosk': [DK['kiosk']]}.get(it['kind'])
             if exp is not None: R.check('[互動點] 「%s」（%s）：字照 AA_697「%s」' % (it['label'], it['kind'], '／'.join(exp)), Ls == exp, J(Ls))
@@ -257,6 +279,37 @@ async def part_shots(pg, cdp):
                 await pg.set_viewport_size({'width': 1280, 'height': 720}); await pg.wait_for_timeout(1500)
                 await pg.evaluate(D.HUD + '(false)'); await D.shot(pg, 'user_lv%d_%s' % (lv, hn)); await pg.evaluate(D.HUD + '(true)')
             await pg.set_viewport_size({'width': 844, 'height': 390})
+
+
+async def part_buy(pg, cdp):
+    """大步、好拍買東西（AA_698：買了扣錢＋一句；錢不夠＝選項變暗、按了沒反應）"""
+    X = XS.get(SHOP)
+    if not X: return
+    await pg.evaluate("(()=>{ GAME.G.money=10000; window.__ccSayOn=false; })()"); await pg.evaluate(SAYHOOK); R.setup('[買東西] 【前置】錢 10000')
+    it = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(i=>!i.hidden&&(i.label||'').startsWith('買東西')); return i?{label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),lv:i.lv|0}:null; })()")
+    if not R.check('[買東西] 有「買東西」按鈕', bool(it), ''): return
+    for money, want_buy in ((10000, True), (100, False)):
+        await pg.evaluate("(m=>{ GAME.G.money=m; })", money)
+        await L.go_to(pg, cdp, R, it['x'], it['z'], 0.3, '[買東西] 收銀台', max_s=120); s = await D.settle(pg)
+        if not s['interact'].startswith('買東西'): R.check('[買東西 錢 %d] 走到收銀台有按鈕' % money, False, J(s)); continue
+        n0 = len(await says(pg)); m0 = await pg.evaluate("GAME.G.money|0")
+        await L.tap(pg, cdp, '#interact'); o = await until_menu_or_idle(pg, cdp, 30)
+        mt = [x['t'] for x in o]
+        if want_buy:
+            okm = all(any(nm in t and ('{:,}'.format(pr) in t or str(pr) in t) for t in mt) for nm, pr in X['menu'])
+            R.check('[買東西] 菜單照 AA_620 第 2 節（%s）' % '、'.join('%s %d' % m for m in X['menu']), okm, J(mt))
+            nm, pr = X['cheap']
+            await pick(pg, cdp, "t=>t.includes(%s)" % J(nm)); await idle(pg, cdp, 40)
+            m1 = await pg.evaluate("GAME.G.money|0"); Ls = [x['t'] for x in await says(pg, n0)]
+            R.check('[買東西] 買%s：扣 %d（%d → %d）、「%s」（AA_698）' % (nm, pr, m0, m1, X['bought']), m0 - m1 == pr and X['bought'] in Ls, J(Ls))
+            await D.shot(pg, 'buy_%s' % SHOP)
+        else:
+            dims = [x for x in o if x['dim']]; items = [x for x in o if not x['t'].startswith('不用了') and not x['t'].startswith('算了')]
+            nm, pr = X['cheap']
+            await pick(pg, cdp, "t=>t.includes(%s)" % J(nm)); await idle(pg, cdp, 20)
+            m1 = await pg.evaluate("GAME.G.money|0")
+            R.check('[買東西 錢 100] 每一樣都變暗（%d／%d）、按了%s沒扣錢（%d → %d）' % (len(dims), len(items), nm, m0, m1), items and len(dims) == len(items) and m1 == m0, J({'opts': [[x['t'][:20], x['dim']] for x in o]}))
+            await D.shot(pg, 'buy_short_%s' % SHOP)
 
 
 # ---------------- 大口的流程（BB-C 05:32）----------------
@@ -367,8 +420,11 @@ async def part_flow(pg, cdp):
         if r and r.get('lines') is not None: got.append(next((t for t in r['lines'] if t in DK['narr'] or t == DK['dawn']), None))
     R.check('[大口 讀書] 讀完兩次：旁白照 AA_621 第 2 節四句輪流（第 1、2 句）', got[:2] == DK['narr'][:2], J(got))
     # 8 一個人深夜去（週三 01:00 上二樓）＋天亮（03:30 讀兩小時跨過 05:00）
-    R.setup('[大口 深夜] 讀檔大口一樓 2025-10-16（四）01:00（不是考試週、沒有約）')
-    await D.load_zone(pg, cdp, ZN, '2025-10-16', 1.0, wait=9000)
+    # 「一趟一次」＝GM.enterN（從店門進來才算新的一趟；讀檔不算。雲端 11-05：同一個瀏覽器 14:00 上過二樓，讀檔到 01:00 被當成同一趟）→ 照玩家從新生南路走進來
+    d = await load_street_near_door(pg, cdp, '2025-10-16', 0.95, '[大口 深夜]')
+    R.setup('[大口 深夜] 2025-10-16（四）00:57 從新生南路走進大口（新的一趟；不是考試週、沒有約）')
+    if not d or not await D.use_exit(pg, cdp, '[大口 深夜 新生南路→大口]', CFG['door'], ZN):
+        R.check('[大口 深夜] 從店門進得去', False, J(d)); return
     await pg.evaluate("(()=>{ window.__ccSayOn=false; })()"); await pg.evaluate(SAYHOOK); n0 = len(await says(pg))
     ends = await pg.evaluate("(()=>{ const w=(GAME.E.zone.walkMeshes||[]).find(m=>m.userData&&m.userData.stairEnds); return w?w.userData.stairEnds:null; })()")
     t = next((e for e in (ends or []) if e['lv'] == 1), None); m0 = len(SEEN)
@@ -403,6 +459,7 @@ async def main():
                 elif part == 'walls': await enter_inside(pg, cdp, '[牆淡出]'); await part_walls(pg, cdp)
                 elif part == 'shots': await part_shots(pg, cdp)
                 elif part == 'flow' and SHOP == 'dakou': await part_flow(pg, cdp)
+                elif part == 'buy': await enter_inside(pg, cdp, '[買東西]'); await part_buy(pg, cdp)
             except Exception as e:
                 R.check('[%s] 探針沒有例外' % part, False, repr(e)[:300])
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
