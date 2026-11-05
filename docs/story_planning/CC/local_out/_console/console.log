@@ -356,3 +356,12 @@
 [16:12:08] 正在跑：SHANLAN_v3（已跑 12 分／上限 120 分）、GYM_TAP_before（已跑 3 分／上限 40 分）、GYM_TAP_after（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [16:17:08] 正在跑：SHANLAN_v3（已跑 17 分／上限 120 分）、GYM_TAP_before（已跑 8 分／上限 40 分）、GYM_TAP_after（已跑 5 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [16:21:01] [res] cpu=8% mem=37% (11.8/31.4 GB) chrome_testing=10  END GYM_TAP_before
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       aeb28b462..9dc0c4462  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:21:07] ==== END   GYM_TAP_before  exit=0  738s   ====
+[16:21:13] memory 37% before starting TAPSCAN (2 running)
+[16:21:13] ==== START TAPSCAN  (probe @ 001703460efe0809473b158b4b8513926ae9f6b4) ====
+[16:21:16] [res] cpu=7% mem=38% (11.9/31.4 GB) chrome_testing=10  START TAPSCAN
+[16:22:08] 正在跑：SHANLAN_v3（已跑 22 分／上限 120 分）、GYM_TAP_after（已跑 10 分／上限 40 分）、TAPSCAN（已跑 0 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:24:26] [res] cpu=1% mem=39% (12.2/31.4 GB) chrome_testing=10  END GYM_TAP_after

@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GYM_TAP_after",
+  "sha": "001703460efe0809473b158b4b8513926ae9f6b4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_tapscan_probe.py",
+  "env": "CC_HEADLESS=0;ZONES=gym_arena;SEATS=gym_arena",
+  "machine": "MSI",
+  "start": "2026-11-05T16:11:14",
+  "end": "2026-11-05T16:24:26",
+  "seconds": 792,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8805/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 64,
+    "mem": 44,
+    "used_gb": 14.0,
+    "chrome_testing": 15
+  }
+}

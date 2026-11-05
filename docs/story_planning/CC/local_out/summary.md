@@ -1336,3 +1336,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C
 - 2026-11-05T16:21:01  GYM_TAP_before  sha=9ea82730f471210c8df143093b7743ce4c9327a8  exit=0  738s      [ 701.6s] [gym_arena 座位] 每張：[[1, "nobtn"], [2, "ok"], [3, "ok"]] / PASS 沒有 JS 例外  [] / FAILED 2: [gym_arena 座位] #1（24.2, -8.15） 站在 GAME.seatApproach（點椅子 tapToSeat 走到的那一點；離它 1.48 m）：最近的「坐下」是這一張；[gym_arena 座位] #1（24.2, -8.15） 走到旁邊，互動按鈕是「坐在看台」
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 702.2s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 702.2s] BROWSER DISCONNECTED
+- 2026-11-05T16:24:26  GYM_TAP_after  sha=001703460efe0809473b158b4b8513926ae9f6b4  exit=0  792s      [ 754.9s] [gym_arena 座位] 每張：[[1, "ok"], [2, "ok"], [3, "ok"]] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 755.3s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 755.4s] BROWSER DISCONNECTED
