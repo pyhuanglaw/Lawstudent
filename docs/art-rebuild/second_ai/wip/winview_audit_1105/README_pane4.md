@@ -46,9 +46,7 @@
 - `src/bikeshop3d.js`：
   - 房間加 `view:'bikeshop'`（地平線 1.7 m、景深 24 m）；
   - 正式模型接上以後呼叫 `Z3.ggViewPanes`，把窗搬到正式模型的玻璃外面。
-- `src/data/wz_shops_layout.js`：最後補一段，給 `print.front` 加 `view:'wz_print'`、`viewY:1.45`、`viewDepth:10`。
-  - 上面的 `print` 是照抄 `ade_layout.js` 的，所以不動那一筆。
-  - CC／AA 改 `ade_layout.js` 時，把這三個值搬進去、這一段拿掉。
+- `src/data/ade_layout.js`、`src/data/wz_shops_layout.js`：`print.front` 加 `view:'wz_print'`、`viewY:1.45`、`viewDepth:10`。兩個檔一起加（`wz_shops_layout.js` 的 `print` 是照抄 `ade_layout.js` 的，`ade_v1c_unit` 比對兩邊一樣）。
 - `src/zones3d.js`：
   - `ggViewPanes` 改成照牆分組。慢輪的備用房間有兩扇櫥窗，兩片視差窗合成一片，放在整面玻璃的正中間。
   - 往外推到「正面玻璃最外面＋0.05 m」，至少比原本的位置再往外 0.3 m。
@@ -66,7 +64,10 @@
 
 修改前（開發分支 `c22f9ee43`＋第三包）：FAILED 8。
 
-回歸：REGRESSION_PLACEHOLDER
+回歸：讀到慢輪／阿德／`ade_layout`／視差窗（`ggViewPanes`、`z.wins`、`winParts`）／afar、頁間、青木窗景的 40 支 `*_unit.js` 全部 ALL PASS（在 `c22f9ee43`＋第三包上）。
+
+- `ade_v1c_unit` 一開始 FAIL 1：它比對 `wz_shops_layout.js` 的 `print` 和 `ade_layout.js` 要一模一樣。我原本只在 `wz_shops_layout.js` 補，改成兩個檔一起加（同樣三個值）以後 ALL PASS。
+- patch 在最新的開發分支 `313a97267`（已含第三包）上 `--check` 通過，套上以後 `shop_viewpanes2`、`shop_viewpanes`、`ade_v1c` ALL PASS。
 
 ## 二、修正：afar、頁間、青木窗外的捷運出口
 
@@ -99,4 +100,4 @@
 ## 接法（LAWWW-C）
 
 1. 拿照片：`git checkout <這一包的 commit> -- assets/models/env/views/{bikeshop,wz_print}_{day,night}.webp assets/models/env/second_ai/aa_support/{afar,yejian,aoki}_view_{day,night}.webp`。
-2. `git apply docs/art-rebuild/second_ai/wip/winview_audit_1105/winview_pane4_1105.patch`（`src/zones3d.js`、`src/bikeshop3d.js`、`src/data/wz_shops_layout.js`、`LICENSES.md` 一列、新測試）。在第三包之後做的（`c22f9ee43`＋第三包）。
+2. `git apply docs/art-rebuild/second_ai/wip/winview_audit_1105/winview_pane4_1105.patch`（`src/zones3d.js`、`src/bikeshop3d.js`、`src/data/{ade_layout,wz_shops_layout}.js`、`LICENSES.md` 一列、新測試）。在 `313a97267` 上 `--check` 通過。
