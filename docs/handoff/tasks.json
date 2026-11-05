@@ -47109,7 +47109,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-05 04:4x】已合併（子代理 eecd95c23／2b2f84aae）；BB／CC PC 瀏覽器｜子代理 wt-lib3f 查 S.probe／deskFor／indexStep，加會先 FAIL 的 Node 測試",
+   "next": "沒有遊戲邏輯錯：5 個有名字的照設計不套片段、滑手機那位身材合不上桌子（body:low）退回拿手機、寫筆記兩位有在播。CC 探針改 CHAR.sitTaskOf(n.obj)、讀 SEATACT.state().why、不要只算看得到的人",
    "source": "BB_255 04:1x",
    "authorized": "BB 判要修（D100）"
   },
