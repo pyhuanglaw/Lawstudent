@@ -1,0 +1,24 @@
+{
+  "rerun": "solo",
+  "id": "V21R_movreg_solo",
+  "sha": "83d09d13b0686e51e344b4b771ebb9124d8806a4",
+  "kind": "game",
+  "script": "tests/movement_regression.py",
+  "env": "SOLO=1;RERUN=solo;XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-05T18:32:49",
+  "end": "2026-11-05T18:37:33",
+  "seconds": 284,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8805/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 18,
+    "mem": 35,
+    "used_gb": 11.1,
+    "chrome_testing": 5
+  }
+}

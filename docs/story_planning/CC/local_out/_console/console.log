@@ -506,3 +506,12 @@
 [18:27:08] 正在跑：WINVIEW_rel_shots（已跑 35 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [18:32:08] 正在跑：WINVIEW_rel_shots（已跑 40 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [18:32:39] [res] cpu=7% mem=27% (8.8/31.4 GB) chrome_testing=0  END WINVIEW_rel_shots
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       54fed1fe2..065c4b302  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:32:46] ==== END   WINVIEW_rel_shots  exit=1  2456s  timeout 40 min ====
+[18:32:49] memory 28% before starting V21R_movreg_solo (0 running)
+[18:32:49] ==== START V21R_movreg_solo  (game @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
+[18:32:52] [res] cpu=18% mem=28% (9.0/31.4 GB) chrome_testing=0  START V21R_movreg_solo
+[18:37:08] 正在跑：V21R_movreg_solo（已跑 4 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:37:33] [res] cpu=10% mem=28% (9.0/31.4 GB) chrome_testing=0  END V21R_movreg_solo
