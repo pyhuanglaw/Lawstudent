@@ -2428,7 +2428,7 @@ const Z3 = (function(){
      ② 「首都帝大學生社團＆活動那塊牌子一直閃」：東牆佈告欄的標題牌（WALL_right_dof_print，x 5.470）和軟木板面（WALL_right_dof_wood，x 5.470）同一個平面；
         最裡面兩張傳單和板面只差 0.4、0.8 mm，有兩張傳單互相只差 0.4 mm。每一張印刷品（標題、44 張傳單、便利貼）照原本的前後順序重排：最少在板面前 4 mm、疊在別張上面的再往前 1.5 mm。tests/offbeat_cat_board_unit.js */
   const OFFBEAT_CAT={x:2.45,y:0.523,z:0.15,yaw:0}, OFFBEAT_PRINT_DX=-0.004;   /* y＝坐墊頂面（模型裡量的）*/
-  function offbeatAttach(E,z,g0,root,L){
+  function offbeatAttach(E,z,g0,root,L){ wzViewSwap(z,root,'offbeat');   /* 窗景照片（WZ_VIEW，WINVIEW-AUDIT-1105）*/
     const pr=root.getObjectByName('WALL_right_dof_print'); if(pr&&!pr.userData.obShift&&pr.geometry&&pr.geometry.attributes.position){ pr.userData.obShift=true; pr.geometry=pr.geometry.clone();   /* 模型可能被別的區域共用（ASSETS 快取）：改複本 */
       const P=pr.geometry.attributes.position, n=Math.floor(P.count/4), Q=[];   /* 每一張是 4 個頂點的一片（標題、傳單、便利貼），面向店裡（−x）*/
       for(let q=0;q<n;q++){ let x=0,y0=1e9,y1=-1e9,z0=1e9,z1=-1e9; for(let k=0;k<4;k++){ const i=q*4+k; x+=P.getX(i)/4; y0=Math.min(y0,P.getY(i)); y1=Math.max(y1,P.getY(i)); z0=Math.min(z0,P.getZ(i)); z1=Math.max(z1,P.getZ(i)); } Q.push({q,x,y0,y1,z0,z1,nx:null}); }
@@ -2447,7 +2447,8 @@ const Z3 = (function(){
         root.traverse(o=>{ if(!o.isInstancedMesh||!/chair/.test((o.name||'')+' '+((o.parent&&o.parent.name)||''))) return; for(let i=0;i<o.count;i++){ o.getMatrixAt(i,m4); m4.decompose(p,q,sc); const c=CS.find(c=>Math.abs(p.x-c.from[0])<0.02&&Math.abs(p.z+(cz||0)-c.from[1])<0.02); if(!c) continue; p.x=c.to[0]; p.z=c.to[1]-(cz||0); m4.compose(p,q,sc); o.setMatrixAt(i,m4); n++; } o.instanceMatrix.needsUpdate=true; if(o.computeBoundingSphere) o.computeBoundingSphere(); });
         z.chairShifted=n; } } root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
     if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,'wz_'+key+'_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; z.aaGlows=gl.length; }
-    const vm=[]; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)) for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } });
+    wzViewSwap(z,root,key);   /* WZ_VIEW：換成窗景照片的卡自己管日夜（下面的 vm 跳過它們）*/
+    const vm=[]; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)) for(const m of [].concat(o.material)) if(m&&!m.userData.wvOwn&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } });
     const nv=WZ_AA_NIGHTVIEW[key], nt=nv&&wzNightViewTex(nv.url), nvm=nt?vm.filter(m=>m.name===nv.mat):[];
     for(const m of nvm){ m.userData.mapDay=m.map; m.userData.emDay=m.emissiveMap; }
     if(vm.length){ const at=z.applyTime; z.applyTime=function(h,w){ if(at) at.call(this,h,w); const hh=((h%24)+24)%24, night=hh<6||hh>=18.8;
@@ -2461,6 +2462,20 @@ const Z3 = (function(){
      SUNNY SIDE v1e（AA 86688bd91）兩塊窗景卡（WALL_front_VIEW、WALL_right_VIEW）共用材質 sns_window_view，貼圖是 LAWWW2 a485b6722 從 SUNNY SIDE 往外拍的溫州街（上半正面、下半東側）；
      夜版 tools/blender/env_second/textures/gen/sns_views_night.jpg 同樣的排法，轉成 webp 放 assets（遊戲讀這份）*/
   const CAFE230_NIGHTVIEW={mat:'a23_window_view',url:'assets/models/env/second_ai/aa_support/cafe230_views_night.webp'};   /* AA v1f a23_views_night.jpg 轉 webp */
+  /* 溫州街的店換窗景照片（WINVIEW-AUDIT-1105，LAWWW2-C；使用者 07:4x「應該很多店面看出去的街景都不對吧」）：小路（komichi.glb）、日常失速的窗景卡原本是木曜日的樹（mok_view）。
+     照公館 GG_VIEW 的做法，在 Blender 用溫州街正式模型、站在店裡往外拍白天／晚上兩張（tools/blender/env_second/wz_window_view.py）。mesh＝窗景卡網格名字（正規式）；
+     換照片的那一塊卡複製一份材質（日常失速前窗、右窗共用 dof_window_view：只換前窗，右窗照舊）。晚上不調暗；照片載入失敗就換回模型原本那張、照舊調暗（wzAAattach 那一段）*/
+  const WZ_VIEW={teishoku:[{mesh:'VIEW',day:'assets/models/env/second_ai/aa_support/komichi_view_day.webp',night:'assets/models/env/second_ai/aa_support/komichi_view_night.webp'}],
+    offbeat:[{mesh:'WALL_front_VIEW',day:'assets/models/env/second_ai/aa_support/offbeat_view_front_day.webp',night:'assets/models/env/second_ai/aa_support/offbeat_view_front_night.webp'}]};   /* 日常失速右窗（朝北）：遊戲裡那一頭是地圖外、什麼都沒有，拍出來是一片空地，先留模型原本那張樹 */
+  function wzViewSwap(z,root,key){ const wv=WZ_VIEW[key]||[], L=[];
+    for(const e of wv){ const tD=wzNightViewTex(e.day), tN=wzNightViewTex(e.night); if(!tD||!tN) continue; tD.userData.url=e.day; tN.userData.url=e.night; const re=new RegExp(e.mesh); let mc=null;
+      root.traverse(o=>{ if(!o.isMesh||!re.test(o.name||'')) return; if(!mc){ const m0=[].concat(o.material)[0]; if(!m0) return; mc=m0.clone(); mc.userData.wvOwn=true; mc.userData.wvMap0=m0.map; mc.userData.wvEm0=m0.emissiveMap; mc.userData.ei0=m0.emissiveIntensity!=null?m0.emissiveIntensity:1; } o.material=mc; });
+      if(mc) L.push({m:mc,d:tD,n:tN}); }
+    if(!L.length) return 0; const at=z.applyTime; z.applyTime=function(h,w){ if(at) at.call(this,h,w); const hh=((h%24)+24)%24, night=hh<6||hh>=18.8;
+      for(const q of L){ const m=q.m, t=night?q.n:q.d, ok=!(t.userData&&t.userData.failed), mp=ok?t:m.userData.wvMap0, em=ok?(m.userData.wvEm0?t:null):m.userData.wvEm0;
+        if(m.map!==mp||m.emissiveMap!==em){ m.map=mp; m.emissiveMap=em; m.needsUpdate=true; }
+        if(ok){ m.color.setScalar(1); m.emissiveIntensity=m.userData.ei0; } else { m.color.setScalar(night?0.18:1); m.emissiveIntensity=m.userData.ei0*(night?0.35:1); } } };
+    if(typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); z.wzViews=L.length; return L.length; }
   const WZ_AA_NIGHTVIEW={brunch:{mat:'sns_window_view',url:'assets/models/env/second_ai/aa_support/sunnyside_views_night.webp'}};
   const wzNVTex={};
   function wzNightViewTex(url){ if(typeof THREE==='undefined'||!THREE.TextureLoader) return null; if(!wzNVTex[url]){ let t; try{ t=new THREE.TextureLoader().load(url,undefined,undefined,()=>{ t.userData.failed=true; console.warn('窗景夜版圖載入失敗，晚上照舊調暗白天的圖',url); }); }catch(e){ return null; } t.flipY=false; t.colorSpace=THREE.SRGBColorSpace; wzNVTex[url]=t; } return wzNVTex[url]; }   /* flipY false：和 GLB 裡的貼圖同一種 UV 方向 */
