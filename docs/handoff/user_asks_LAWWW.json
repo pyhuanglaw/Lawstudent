@@ -3316,6 +3316,15 @@
    "status": "進行中",
    "task": "HANDOFF-C-1105",
    "note": "交班前先做半小時內做得完的：NOODLE-AP-RADIUS-1105、DAYBREAK-BOOTH21-1105、對帳；v9.10.21 要 BB GO（BB 已交班）→ 下一班"
+  },
+  {
+   "id": "UA-LAWWW-1105-44",
+   "at": "2026-11-05T10:5xZ",
+   "quote": "Node測試不是有GitHub免費版可以用嗎／這不是應該在規則裡面",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "wants": "X261",
+   "note": "D131／D139 已有「Node 全套丟 GHA」，LAWWW-C 沒照做；CLAUDE.md D131 那一列、TESTING.md 第〇節補寫清楚：全套以 node-unit-auto 為準、雲端只跑改到的、full.sh 會漏結束碼"
   }
  ]
 }
