@@ -12,14 +12,14 @@
 LIVE_V91020_deploy | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.20（2026-11-05）
 LIVE_V91020_tappref | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | probe | docs/story_planning/test_tools/cc/cc_tappref_zone_probe.py | index.html | 30 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
 LIVE_V91020_p0 | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | game | tests/p0_movement.py | index.html | 40 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html
-D118B7F_play | 193d1fd4f1b3ccacc544864c2e02f8faa0ba95f8 | probe | docs/story_planning/test_tools/cc/cc_d118b7f_play.py | index.html | 90 | CC_HEADLESS=0;RERUN=r2
 GUITAR_play | b4746f345486b6bd154cff34975da6d2ab9cb29c | probe | docs/story_planning/test_tools/cc/cc_guitar_x196_play.py | index.html | 90 | CC_HEADLESS=0;RERUN=r2
-D118B7_play | 6a1592a26831ce63470b4869aa9c5aa7e5d8628c | probe | docs/story_planning/test_tools/cc/cc_d118b7_play.py | index.html | 60 | CC_HEADLESS=0
 D118B5_play | 747dba80dabb454eaf2aaf6f1bee272a271c6ce5 | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 90 | CC_HEADLESS=0
 # BB-C 04:16 NANYANG_v1（D141 第 1 間）：南洋戲院第 1 版只測擋玩五項＋給使用者看的截圖；LAWWW-C 整合 a3b18addc（LAWWW2-C 9eed89550）
 NANYANG_v1 | a3b18addc282352b709b2cd7351d5f489a91449c | probe | docs/story_planning/test_tools/cc/cc_nanyang_v1_probe.py | index.html | 60 | CC_HEADLESS=0
-# D118B5 r1 的 [b5b] FAFU_STORY_1 比錯天（探針比讀檔那天 10/23，演出是 10/24）：只重跑 b5b 這一組（整支 55 分鐘；sats 兩項等 BB-C 判）
-D118B5_b5b | 747dba80dabb454eaf2aaf6f1bee272a271c6ce5 | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 30 | CC_HEADLESS=0;CASES=b5b
+# D118B5 r1 的探針錯（b5b 比錯天；aunt 沒設 YT_MET_JOB＝STORY.knows 語彤 false；abroad／sats 把讀檔入社的 fafu_welcome 算進去）：重跑這四組（sats 的私訊、值班表那兩項等 BB-C 判）
+D118B5_r2 | 747dba80dabb454eaf2aaf6f1bee272a271c6ce5 | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 60 | CC_HEADLESS=0;CASES=b5b,aunt,auntneg,abroad
+D118B7F_play | 193d1fd4f1b3ccacc544864c2e02f8faa0ba95f8 | probe | docs/story_planning/test_tools/cc/cc_d118b7f_play.py | index.html | 90 | CC_HEADLESS=0;RERUN=r3;CASES=judge
+D118B7_play | 6a1592a26831ce63470b4869aa9c5aa7e5d8628c | probe | docs/story_planning/test_tools/cc/cc_d118b7_play.py | index.html | 60 | CC_HEADLESS=0;RERUN=r2
 NPCTASK_f5c3 | f5c38f2bae0b4c4f5e871d7da43dbe1994097847 | probe | docs/story_planning/test_tools/cc/cc_npctask_probe.py | index.html | 60 | CTL=both;LOCS=hall,lib3f,lawlib,soc2f,b1;CC_HEADLESS=0
 SITHEIGHT_ed76 | ed7600ec5315abd070dbc7755ec32b53feef9a99 | probe | docs/story_planning/test_tools/cc/cc_sitheight_probe.py | index.html | 80 | CC_HEADLESS=0
 TONGXIAN_REFCAM | 07dfffe1514d8239bee1fc0f6a815ea054622982 | probe | docs/story_planning/test_tools/cc/cc_tongxian_refcam.py | index.html | 20 | CC_HEADLESS=0

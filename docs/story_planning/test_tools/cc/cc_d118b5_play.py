@@ -45,7 +45,7 @@ UI = r"""(()=>{ const t=(document.getElementById('dlgText')||{}).textContent||''
   const opts=open?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).map(b=>(b.innerText||b.textContent||'').trim()):[];
   const D=GAME.D||{}; return {dlg:!!D.active, text:t, opts, hour:+(+GAME.G.hour).toFixed(3), day:GAME.G.day, key:CALENDAR.dateOf(GAME.G.day).key, zone:GAME.G.zone, busy:!!GAME.E.player.busy}; })()"""
 SAYHOOK = r"""(()=>{ if(window.__ccSayOn) return true; window.__ccSay=[]; const s0=GAME.say; GAME.say=function(who,t){ try{ window.__ccSay.push({t:String(t), key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2)}); }catch(e){} return s0.apply(this,arguments); }; window.__ccSayOn=true; return true; })()"""
-SETF = r"""(o=>{ const F=GAME.G.flags; Object.assign(F,o.flags||{}); if(o.route) F.EXCHANGE_ROUTE=o.route; for(const id of (o.friends||[])){ SOCIAL.meet&&SOCIAL.meet(id,GAME.G.zone); if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.remember(id,'FIRST_MET',''); const r=SOCIAL.rel(id); r.fam=Math.max(r.fam||0,45); r.trust=Math.max(r.trust||0,30); }
+SETF = r"""(o=>{ const F=GAME.G.flags; Object.assign(F,o.flags||{}); if(o.route) F.EXCHANGE_ROUTE=o.route; for(const id of (o.friends||[])){ if(id==='heroine_03') F.YT_MET_JOB=true;   /* STORY.knows('heroine_03') 要 YT_MET_JOB（AA_610：一盞茶屋當同事才認識；PC 11-05 r1 aunt 四項就是少了這個）*/ SOCIAL.meet&&SOCIAL.meet(id,GAME.G.zone); if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.remember(id,'FIRST_MET',''); const r=SOCIAL.rel(id); r.fam=Math.max(r.fam||0,45); r.trust=Math.max(r.trust||0,30); }
   try{ STORY.phoneRules(GAME); }catch(e){} return {member:STORY.fafuMember(GAME.G), joined:STORY.fafuJoined(GAME.G), inGroup:PHONE.inGroup(GAME.G,'lawclub_study'), notice:!!F.LAWCLUB_NOTICE, pure:F.FAFU_PURE, seen:F.FAFU_STORY_SEEN}; })"""
 REL = "(()=>{ const o={}; for(const id of ['classmate_bohan','heroine_03','npc_lawclub_pres']){ const r=SOCIAL.rel(id)||{}; o[id]=[r.fam|0,r.trust|0,r.comf|0]; } return o; })()"
 FAFU_MSGS = "(()=>(GAME.G.msgs||[]).filter(m=>m.th==='g:lawclub_study'||m.th==='p:classmate_bohan'||/fafu/.test(m.tag||'')).map(m=>({tag:m.tag||null,th:m.th,from:m.from,text:m.text,key:CALENDAR.dateOf(m.day).key,h:m.h})))()"
@@ -298,7 +298,7 @@ async def case_sats(pg, cdp):
     R.note('[sats] 兩個月跳出來的出發選單：%s；法服相關訊息：%s' % (J(w['due']), J(new)))
     R.check('[sats] 只有 10/24 那一場跳一次出發選單（其他週六不跳）', len(fd) == 1 and fd[0]['key'] == '2026-10-24' and abs(fd[0]['h'] - 8.5) < 0.01, J(fd))
     R.check('[sats] 沒有柏翰私訊（p:classmate_bohan）', not [x for x in new if x['th'] == 'p:classmate_bohan'], J([x for x in new if x['th'] == 'p:classmate_bohan']))
-    R.check('[sats] 法服群組只有 10/23 那一則（fafu_story_1）', [x['tag'] for x in new if x['th'] == 'g:lawclub_study'] in (['fafu_story_1'], []), J([[x['tag'], x['key'], x['text']] for x in new if x['th'] == 'g:lawclub_study']))
+    R.check('[sats] 法服群組只有 10/23 那一則（fafu_story_1）', [x['tag'] for x in new if x['th'] == 'g:lawclub_study' and x['tag'] != 'fafu_welcome'] in (['fafu_story_1'], []), J([[x['tag'], x['key'], x['text']] for x in new if x['th'] == 'g:lawclub_study']))
     R.check('[sats] 關係值不變', rel0 == rel1, J([rel0, rel1]))
 
 
@@ -332,7 +332,7 @@ async def case_abroad(pg, cdp):
         m1 = await pg.evaluate(FAFU_MSGS); new = [x for x in m1 if x not in m0]
         ab = await pg.evaluate("(k=>{ const G=GAME.G, d=STORY.dayOfKey(k); return STORY.abroad(Object.assign({},G,{day:d})); })(%s)" % J('2028-04-15' if route == 'JP' else '2028-10-21'))
         R.note('[abroad %s] 人在國外（STORY.abroad 那段時間）：%s' % (route, ab))
-        R.check('[abroad %s] %s：沒有法服的提醒、出發選單（那一場不排）' % (route, tag), ab and not [x for x in w['due'] if x['id'].startswith('fafu_')] and not [x for x in new if 'fafu' in str(x['tag'])], J({'due': w['due'], 'new': new}))
+        R.check('[abroad %s] %s：沒有法服的提醒、出發選單（那一場不排；fafu_welcome＝讀檔時入社的歡迎訊息，不算）' % (route, tag), ab and not [x for x in w['due'] if x['id'].startswith('fafu_')] and not [x for x in new if 'fafu' in str(x['tag']) and x['tag'] != 'fafu_welcome'], J({'due': w['due'], 'new': new}))
 
 
 async def main():
