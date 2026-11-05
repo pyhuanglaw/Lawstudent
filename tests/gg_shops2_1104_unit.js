@@ -203,8 +203,10 @@ const run=async()=>{
       check('9 約去 Daybreak 答應：七位各自那一句',!bad.length,J(bad));
       const o=INV.personal(G,'zhe',D,G.day+1,10,{res:'accept'}); check('9 約去 Daybreak 答應：沒列的人＝一般那句「好啊。早上嗎？我爬得起來。」',o&&J(o.lines)===J(['「好啊。早上嗎？我爬得起來。」']),J(o&&o.lines)); }
     const SO=INVITE_DATA.seatOpen; check('9 坐下以後的開場句：afar、daybreak 各兩則（byPlace）',SO.byPlace.afar==='afar'&&SO.byPlace.daybreak==='daybreak'&&SO.afar.length===2&&SO.daybreak.length===2);
-    if(A){ H.said=[]; GG2.rand=Math.random; const R0=Math.random; Math.random=()=>0; await INV.seatOpenLines(GM,{who:'heroine_01'},{name:'沈以安'},A); Math.random=R0;
-      check('9 afar 兩個人坐下：小燈那一則（旁白＋她一句）',J(H.said.map(s=>[s.who,s.t]))===J([[null,'（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）'],['沈以安','「……這個燈好可愛。」']]),J(said())); }
+    if(A){ H.said=[]; GG2.rand=Math.random; const R0=Math.random, PS0=E.player.seat; Math.random=()=>0; E.player.seat={x:-0.9,z:3.1,yaw:0,table:6}; await INV.seatOpenLines(GM,{who:'heroine_01'},{name:'沈以安'},A); Math.random=R0;
+      check('9 afar 兩個人坐在窗邊長桌（table 6）：小燈那一則（旁白＋她一句）',J(H.said.map(s=>[s.who,s.t]))===J([[null,'（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）'],['沈以安','「……這個燈好可愛。」']]),J(said()));
+      H.said=[]; Math.random=()=>0; E.player.seat={x:2.05,z:0.65,yaw:Math.PI/2,table:1}; await INV.seatOpenLines(GM,{who:'heroine_01'},{name:'沈以安'},A); Math.random=R0; E.player.seat=PS0;   /* DATE-SEAT-AFAR-1105 */
+      check('9 afar 坐在中間的四人桌（table 1）：不抽小燈那一則（燈在窗邊長桌），是杯墊那一則',J(H.said.map(s=>[s.who,s.t]))===J([[null,'（她把兩杯咖啡的杯墊對齊，一杯推給你。）']]),J(said())); }
     { const kx=INV.kxPlaceOk; check('9 可昕交往中：afar、Daybreak 列得出來（有她自己的答應句；只在她在臺北、約得到的時候照現有規則）',!kx||(kx(G,A)&&kx(G,D))); } }
   // ---- 10 逐字對照 AA_652 ----
   { let doc=null; for(const ref of ['origin/claude/story-planning','303cded56']){ try{ doc=cp.execFileSync('git',['show',ref+':docs/story_planning/AA_652_afar與Daybreak店內台詞.md'],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); break; }catch(e){} }

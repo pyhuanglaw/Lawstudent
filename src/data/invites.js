@@ -525,7 +525,8 @@ INVITE_DATA.places.push({id:'offbeat',zone:'wz_offbeat',name:'日常失速',verb
    稿上沒有寫要先自己走去過一次（和兩點半 Café、公館燒臘一樣，不加 show）。可昕照現在的規則（只在她在臺北、約得到的時候：S.kxPlaceOk 認得 acc）。
    答應的那一句：七位各一句（people[人].acc.afar／daybreak）；沒列的人＝「一般」那句（src/gg2shops3d.js 的 GG2.ACC0）；不答應照一般回覆表。
    兩個人坐下以後的開場句：seatOpen.afar／daybreak（下面）。見面旁白照邀約一般的（AA_652 沒有寫約來的見面句）*/
-INVITE_DATA.places.push({id:'afar',zone:'afar',name:'afar café',verb:'去 afar café 坐坐',verbStudy:'去 afar café 念書',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'CAFE_AFTERNOON',sitAct:'read',seatPose:'sit',cats:['sit','study'],hours:[11,21]});
+INVITE_DATA.places.push({id:'afar',zone:'afar',name:'afar café',verb:'去 afar café 坐坐',verbStudy:'去 afar café 念書',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'CAFE_AFTERNOON',sitAct:'read',seatPose:'sit',cats:['sit','study'],hours:[11,21],
+  prefTable:6});   /* prefTable：兩個人一起坐下先找窗邊長桌（afar_layout.js 的 table 6，有檯燈；DATE-SEAT-AFAR-1105）——那裡沒有兩個相鄰的空位、旁邊有人才找別桌（invites3d.js S.pairSeats）*/
 INVITE_DATA.places.push({id:'daybreak',zone:'daybreak',name:'Daybreak',verb:'去 Daybreak 吃早午餐',kind:'meal',minStage:'FAMILIAR',stay:0.75,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],hours:[8,14.75],times:[9,10,11.5,13],
   lateNote:G=>((((+G.hour||0)%24)+24)%24)>=14-1e-6?'（Daybreak 下午三點就關了。）':null});
 (function(){ const AF={heroine_01:'「好。我帶書去，你不要一直跟我講話。」',heroine_02:'「afar？好。……窗邊那一排的燈很好看。」',heroine_03:'「好。我想吃他們的布丁。」',heroine_04:'「可以。那裡插座很多。」',heroine_05:'「好。我也剛好要寫東西。」',
@@ -570,6 +571,8 @@ INVITE_DATA.libStudy={
 };
 /* AA_649 第 4 節：其他約會兩個人一起坐下以後的開場句（每次隨機一則）。店自己有見面內容的（一盞、木曜日、日常失速、Pasta 118：地點的 scene／ownMeal）用店的，不加。
    電影、頁間書屋：現在還不是可以約的地點（INVITE_DATA.places 沒有），等地點加進來再接 */
+/* 只在某些位子說的那一則（DATE-SEAT-AFAR-1105）：Object.assign([台詞…],{onlyAt:{table:桌號}})＝只在你們坐的位子符合時才抽（onlyAt.table＝區域座位的桌號，一個或陣列；invites3d.js S.seatAtOk）。
+   台詞本身不動（AA 定稿）；onlyAt 是陣列外面多的屬性（不叫 at：陣列本來就有 at 這個方法），JSON、逐字對照看不到 */
 INVITE_DATA.seatOpen={
   meal:[['（你們在靠窗的位子坐下。她先把菜單推到你面前。）','「你先點。」'],['（位子有點擠，你們的膝蓋碰在一起。她往旁邊挪了一點，又挪回來。）']],
   coffee:[['（你們點好飲料，在窗邊坐下。）','「這裡的位子我喜歡。」'],['（她把兩杯飲料的吸管都插好，一杯推給你。）']],
@@ -577,7 +580,8 @@ INVITE_DATA.seatOpen={
   movieEnd:[['（燈亮了。她還在看片尾的字幕。）','「……等一下再走。」']],
   bookstore:[['（你們在閱讀桌坐下。她從書牆上抽了一本書，放在你面前。）','「（小聲）這本你會喜歡。」']],
   /* afar café、Daybreak 自己的開場句（AA_652 第 1、2 節「和她坐下以後的開場句」；GG-SHOPS2-1104）*/
-  afar:[['（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）','「……這個燈好可愛。」'],['（她把兩杯咖啡的杯墊對齊，一杯推給你。）']],
+  afar:[Object.assign(['（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）','「……這個燈好可愛。」'],{onlyAt:{table:6}}),   /* 窗邊長桌（table 6）才有檯燈 */
+    ['（她把兩杯咖啡的杯墊對齊，一杯推給你。）']],
   daybreak:[['（你們在窗邊坐下。陽光剛好照到她那一邊，她把椅子往你這邊挪了一點。）','「好亮。」'],['（餐點送來的時候，她先拿手機拍了一張。）','「……好，可以吃了。」']],
   byPlace:{cafe:'coffee',brunch:'coffee',noodle:'meal',afar:'afar',daybreak:'daybreak'}   /* 兩點半、半熟＝咖啡（AA_649 寫「咖啡（兩點半、半熟這種）」）；公館燒臘＝吃飯 */
 };
