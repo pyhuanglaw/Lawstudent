@@ -4584,6 +4584,24 @@
    "task": "ART-SHANLAN-BOOKSTORE-1103",
    "kind": "text",
    "note": "山嵐書店（xs_shanlan）：第 1 節互動點 7 句（看看新書平台×2、看雜誌、看文具、結帳＝買書還沒做那一句、看看法律書、看看二樓）、第 2 節坐地板五區各一句（藝術區 17:00 以前換白天那一句）。照抄進 src/shanlan_sys3d.js（SHL.L）；tests/shanlan_act_unit.js 用 git show 88ed60310 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_697_大口漢堡互動點的字.md",
+   "sha": "54bf612c3",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_697 54bf612c3：回 LAWWW-C 11-05 05:13；大口漢堡互動點的按鈕字）",
+   "task": "XS-SHOPS-REST-1105",
+   "kind": "text",
+   "note": "大口漢堡（xs_dakou）：一樓 點餐（櫃檯）店員兩句＋旁白、自助點餐兩句旁白、取餐兩種（有點／沒點）、回收餐盤；二樓 插座、看書架；坐下讀書照 AA_621 第 2 節。照抄進 src/dakou_sys3d.js（DKS.L）；tests/dakou_act_unit.js 用 git show 54bf612c3 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_621_大口漢堡_24小時速食.md",
+   "sha": "52e3d83a8",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_621 52e3d83a8：店名改大口漢堡那一版；AA_697 指過來）",
+   "task": "XS-SHOPS-REST-1105",
+   "kind": "text",
+   "note": "大口漢堡（xs_dakou）：第 1 節菜單八樣（價錢、早餐 05:00～10:30 豬肉滿福堡）、第 2 節讀書的旁白四句輪流＋第一次進去兩句＋天亮一句、第 3 節一個人深夜去一句。照抄進 src/dakou_sys3d.js（DKS.L）；第 2 節同學（柏翰、阿哲、芯慈）的作息與台詞、第 3 節阿哲宵夜私訊還沒做。tests/dakou_act_unit.js 用 git show 52e3d83a8 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
   }
  ]
 }
