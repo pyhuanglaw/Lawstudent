@@ -1505,3 +1505,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1430.9s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 1430.9s] BROWSER DISCONNECTED
 - 2026-11-06T04:11:31  V21R_soc_heroine_01_go  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  2194s       用了 35.2 分鐘 / ==== 總結：1 人，FAIL 1 人：[["heroine_01", ["phone 約出去玩：約成一趟（booked）"]]] / FAILED 1
       err.log (last 5): [gpu_wrap 2113.8s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 2113.8s] BROWSER DISCONNECTED
+- 2026-11-06T04:13:34  V21R_soc_heroine_02_go  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  2317s       用了 37.7 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
+      err.log (last 5): [gpu_wrap 2259.9s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 2259.9s] BROWSER DISCONNECTED
