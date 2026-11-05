@@ -26,6 +26,16 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
+### 帳號 C → 下一個帳號｜LAWWW-C（`session_01Me1thu8Zn934H58kWKNfuF`）｜2026-11-05 11:xx UTC 交班（使用者 10:4x「我請其他人交班了 你等他們交班完 你還沒交班」、10:5x「可以半小時內做完的你就先做」；HANDOFF-C-1105）
+
+**下一班第一件事：v9.10.21 還沒發布——看 `docs/handoff/release_v91021/README.md`（發布樹 `aa0f3bcd3` 已推；BB 還沒 GO，差 PC p0、燒臘店吃飯截圖＋walkFallbacks、touch 重跑；BB 判 GO 以後照 README 步驟發布）。**
+- **A｜本班成果（開發分支 `claude/adoring-meitner-mqzst8`；線上照舊 v9.10.20 `40c0abedb`）**：今天 11-05 合進開發線（全部下一版，除了 v9.10.21 候選裡的）：新店面全部（新生南路七間、公館、溫州街）、店裡客人、店裡遇得到有名字的人五批（SHOP-NAMED-NPC，AA 收尾）、打烊統一、約念書加咖啡館、約會坐空桌、日誌寫約會、起床站門口、直接過去不卡吧台、窗外街景四包（WINVIEW）、側門北牆＋望月台＋停車場＋體育館搬家（X256、X257）、望月台／體育館照官網照片第 2 版外觀（XS-NORTH-EXT）、對話立繪高解析度（可昕 11 張、家豪、韋綸、品妤、阿勳、唐睿、明軒、阿哲）、四張背景＋子晴兩張 CG、點椅子不被搶（TAPSTEAL、TAP-SEAT-NPC、DAYBREAK-BOOTH21）、麵店自動走路（NOODLE-AP）、開車先走到望月台停車場第一步（DRIVE-PICKUP，時間＋路程字＋旁白；寒暑假那兩段也加）。
+- **B｜全部未完成**：見 `tasks.json`（`queue --owner LAWWW`）；本班新增或還開著的：RELEASE-V91021-1105（上面）、DRIVE-PICKUP-1105 第二步（真的走到停車場按「開車出發」、同行的人在入口等、回程停回停車場；交班時有子代理在 `/home/user/wt-drive2` 做，沒做完就沒有——看 `wip_backup/drive2/` 有沒有 bundle）、PORTRAIT-HIRES-1103（沛珊、芯慈表情暫停 X260）、NOODLE-AP-RADIUS-1105（已改測試，待 BB 驗）、GYM-MOVE／XS-NORTH-EXT／XS-GATE（待 CC 拍、BB D120 驗收）、SHORTCUTS-TODO-1105（LAWWW2 先將就清單）、SAVE-LZ-1104 第二步（等 BB 量大存檔速度）。
+- **C｜正在做**：DRIVE-PICKUP-1105 第二步（子代理）。其他沒有。
+- **D｜規則**：CLAUDE.md D131 那一列＋TESTING.md 第〇節：全部 Node 單元測試以 GitHub Actions `node-unit-auto` 為準、雲端只跑改到的（使用者 10:5x，X261）。
+- **E｜各職位**：BB-C 10:50、LAWWW2-C 10:51（補 4d9c0628）、AA-C 10:52 已交班；CC-C 交班狀態看 duty.json。
+- **F｜測試**：開發線 Node 看 GitHub Actions 最新一輪（本班多輪被下一次 push 取消）；已知非阻塞：bookstore_exit_unit（誤報）、ladder_headroom_unit ④；v9.10.21 發布樹裡 wz_interiors_aa659 A6 是舊期望（開發線已改）。瀏覽器測試都在 PC／CC（D131）。
+
 ### 帳號 B 短暫接班又交班｜LAWWW-B（`session_01DvRVNNnivf7da7qqWuGmw6`）｜2026-11-04 12:1x～12:2x UTC（使用者 12:0x「現在接班……接班之後跟其他AI試著傳訊息」；12:2x「我開錯帳號了 你們使用量快沒了 現在交班」；HANDOFF-B-1104）
 
 **下一班先讀這一段，再讀下面帳號 A 09:2x 的交班（那一段的 B1～B7 全部原封不動，這一班沒有做）。**
