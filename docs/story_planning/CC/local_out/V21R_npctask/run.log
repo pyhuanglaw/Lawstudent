@@ -1,0 +1,75 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_npctask_probe.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_npctask\out
+CC NPCTASK_shots：LOCS=['hall', 'lib3f', 'lawlib', 'soc2f', 'b1']、CTL=both、PER=3；SHA=83d09d13b0686e51e344b4b771ebb9124d8806a4；Windows＋GPU／SwiftShader ≠ iPhone（顏色 ④ 雲端不準）
+== amb：http://127.0.0.1:8807/index.html
+  [前置／捷徑] CC_SEED=1104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [amb] 遊戲載入  22 秒
+PASS [amb] CHAR.sitTask=True（一般網址要 true、?nositask 要 false）  {"sitTask": true, "fn": "function"}
+INFO [amb] ⑥ 第一次進 cafe：501 格／26.5 秒、滑手機的人 0 個；一格裡右手腕最大的跳動 []；≥10 cm 的 []
+INFO [amb] ⑥ 第一次進 library_hall：173 格／27.6 秒、滑手機的人 0 個；一格裡右手腕最大的跳動 []；≥10 cm 的 []
+PASS [amb hall] 讀到 library_hall  library_hall
+INFO [amb hall] 畫面外的人 3 個：轉鏡頭過去再讀，看得到了 3、還是看不到 0 []
+INFO [amb hall] 坐著的人 6、在做事的 1（["page"]，其中轉鏡頭才看到的 0）；等了 10 秒
+INFO [amb hall] 坐著沒有片段的 5 人＋原因（SEATACT.state().why；named＝有名字的照設計不套、body:low＝身材和桌高合不上）：[[null, -8.07, 3.8, "phone", "body:low"], [null, -9.13, 5.8, "tablet", null], ["歷史系的學生", 2, -1.41, "book", null], ["歷史系的學生", 3.6, -1.41, "tablet", null], ["常在圖書館的男生", 2.8, -1.41, "book", null]]
+INFO [amb hall #0] page M（Sit_Page_M_Loop）：w 1、shift -0.03、lift -0.0094、桌面 0.76、桌緣 0.3｜① 手腕離桌面 左 0.0551 右 0.0551｜③ 前臂在桌上那段離桌面最近 左 0.0479 右 0.0513、筆最低點 None｜身體：肩膀 0.236、胸口 0.145、骨盆 -0.154（離桌面，m）｜相位 5
+INFO [amb hall] ② 桌緣 0.42 m 的位子：0 人；shift／lift＝[]（LAWWW-C：往前 0.12、往上 0.015）
+INFO [amb hall] ⑤ 打字的人 0 個（不夠比節奏）
+PASS [amb lib3f] 讀到 library  library
+INFO [amb lib3f] 畫面外的人 4 個：轉鏡頭過去再讀，看得到了 4、還是看不到 0 []
+INFO [amb lib3f] 坐著的人 10、在做事的 3（["phone", "write"]，其中轉鏡頭才看到的 2）；等了 3 秒
+INFO [amb lib3f] 坐著沒有片段的 7 人＋原因（SEATACT.state().why；named＝有名字的照設計不套、body:low＝身材和桌高合不上）：[["溫學姊", -10.55, -7.4, "book", null], [null, -10.55, -4, "rest", null], ["陳助教", -10.55, -8.4, "book", null], ["常跟助教說話的男生", -10.55, -9.4, "book", null], ["愛睡覺的男生", 3.22, -10.88, "book", null], ["歷史系的學生", 3, 7.25, "rest", null], ["坐窗邊的人", 10.55, 1.6, "book", null]]
+INFO [amb lib3f #0] write F（Sit_Write_F_Loop）：w 1、shift 0.093、lift -0.011、桌面 0.76、桌緣 0.4｜① 手腕離桌面 左 0.0314 右 0.0492｜③ 前臂在桌上那段離桌面最近 左 0.0305 右 0.047、筆最低點 0.0082｜身體：肩膀 0.219、胸口 0.144、骨盆 -0.146（離桌面，m）｜相位 4.87
+INFO [amb lib3f #1] phone M（Sit_Phone_M_Loop）：w 1、shift 0.0766、lift 0.0029、桌面 0.76、桌緣 0.4｜① 手腕離桌面 左 0.0299 右 0.0764｜③ 前臂在桌上那段離桌面最近 左 0.0288 右 0.0764、筆最低點 None｜身體：肩膀 0.229、胸口 0.142、骨盆 -0.147（離桌面，m）｜相位 4.4
+INFO [amb lib3f #2] write F_E20（Sit_Write_F_E20_Loop）：w 1、shift 0.0452、lift 0.0116、桌面 0.76、桌緣 0.25｜① 手腕離桌面 左 0.0314 右 0.0437｜③ 前臂在桌上那段離桌面最近 左 0.0215 右 0.0327、筆最低點 0.0026｜身體：肩膀 0.219、胸口 0.144、骨盆 -0.146（離桌面，m）｜相位 1.85
+INFO [amb lib3f] 女生坐著桌面在身體哪裡：[["write", 0.219, 0.144, -0.146]]（肩膀／胸口／骨盆離桌面，m）
+INFO [amb lib3f] ⑤ 打字的人 0 個（不夠比節奏）
+PASS [amb lawlib] 讀到 lawlib  lawlib
+INFO [amb lawlib] 畫面外的人 3 個：轉鏡頭過去再讀，看得到了 1、還是看不到 2 [[null, 1.9, 6.65], [null, -5.2, -5.4]]
+INFO [amb lawlib] 坐著的人 6、在做事的 1（["write"]，其中轉鏡頭才看到的 0）；等了 0 秒
+INFO [amb lawlib] 坐著沒有片段的 3 人＋原因（SEATACT.state().why；named＝有名字的照設計不套、body:low＝身材和桌高合不上）：[[null, -1.85, -1.05, "textbook", "body:low"], [null, 0.45, 6.6, "tablet", null], [null, 1.45, -2.95, "book", null]]
+INFO [amb lawlib #0] write M（Sit_Write_M_Loop）：w 1、shift 0.0072、lift 0.0026、桌面 0.77、桌緣 0.35｜① 手腕離桌面 左 0.0314 右 0.04｜③ 前臂在桌上那段離桌面最近 左 0.0305 右 0.04、筆最低點 -0.0015｜身體：肩膀 0.235、胸口 0.147、骨盆 -0.152（離桌面，m）｜相位 1.55
+INFO [amb lawlib] ⑤ 打字的人 0 個（不夠比節奏）
+PASS [amb soc2f] 讀到 soclib_2f  soclib_2f
+INFO [amb soc2f] 畫面外的人 8 個：轉鏡頭過去再讀，看得到了 8、還是看不到 0 []
+INFO [amb soc2f] 坐著的人 23、在做事的 12（["page", "phone", "type", "typepad", "write"]，其中轉鏡頭才看到的 8）；等了 6 秒
+INFO [amb soc2f] 坐著沒有片段的 14 人＋原因（SEATACT.state().why；named＝有名字的照設計不套、body:low＝身材和桌高合不上）：[[null, 6.82, 10, "laptop", null], [null, 4.93, 8.35, "textbook", null], [null, 6.82, 7.45, "textbook", null], [null, 6.82, 9.15, "tablet", null], [null, 3.47, 5.3, "tablet", null], [null, 3.47, 9.3, "textbook", null], [null, 6.82, 2.35, "book", null], [null, 3.47, 0.35, "rest", null], [null, 4.93, 2.25, "rest", null], [null, -0.13, 0.35, "textbook", null], [null, 1.33, 4.35, "textbook", null], [null, 6.82, 0.65, "tablet", null], [null, 5.22, -8.6, "book", null], ["歷史系的學生", 2.98, -8.6, "tablet", null]]
+INFO [amb soc2f #0] write F（Sit_Write_F_Loop）：w 1、shift 0.0903、lift 0.0089、桌面 0.75、桌緣 0.382｜① 手腕離桌面 左 0.0319 右 0.0454｜③ 前臂在桌上那段離桌面最近 左 0.0303 右 0.0443、筆最低點 0.0063｜身體：肩膀 0.21、胸口 0.139、骨盆 -0.142（離桌面，m）｜相位 3
+INFO [amb soc2f #1] page F（Sit_Page_F_Loop）：w 1、shift 0.0757、lift 0.0058、桌面 0.755、桌緣 0.382｜① 手腕離桌面 左 0.0548 右 0.0548｜③ 前臂在桌上那段離桌面最近 左 0.0469 右 0.0494、筆最低點 None｜身體：肩膀 0.219、胸口 0.144、骨盆 -0.146（離桌面，m）｜相位 4.03
+INFO [amb soc2f #2] page F（Sit_Page_F_Loop）：w 1、shift 0.102、lift 0.015、桌面 0.75、桌緣 0.382｜① 手腕離桌面 左 0.0497 右 0.0497｜③ 前臂在桌上那段離桌面最近 左 0.0426 右 0.0449、筆最低點 None｜身體：肩膀 0.201、胸口 0.132、骨盆 -0.139（離桌面，m）｜相位 3.94
+INFO [amb soc2f] 女生坐著桌面在身體哪裡：[["write", 0.21, 0.139, -0.142], ["page", 0.219, 0.144, -0.146]]（肩膀／胸口／骨盆離桌面，m）
+INFO [amb soc2f] ⑤ 打字的 4 人：起始相位 [2.995, 2.426, 3.345, 3.849]；兩兩相位差 ±0.25 秒以內 0／6；10 秒後 [2.995, 2.426, 3.345, 3.849]
+PASS [amb b1] 讀到 library_b1  library_b1
+INFO [amb b1] 坐著的人 6、在做事的 6（["page", "phone", "type", "write"]，其中轉鏡頭才看到的 0）；等了 0 秒
+INFO [amb b1] 坐著沒有片段的 0 人＋原因（SEATACT.state().why；named＝有名字的照設計不套、body:low＝身材和桌高合不上）：[]
+INFO [amb b1 #0] page F（Sit_Page_F_Loop）：w 1、shift 0.12、lift 0.0136、桌面 0.75、桌緣 0.487｜① 手腕離桌面 左 0.0542 右 0.0768｜③ 前臂在桌上那段離桌面最近 左 None 右 None、筆最低點 None｜身體：肩膀 0.213、胸口 0.141、骨盆 -0.139（離桌面，m）｜相位 1.94
+INFO [amb b1 #1] write F（Sit_Write_F_Loop）：w 1、shift 0.12、lift 0.0129、桌面 0.75、桌緣 0.487｜① 手腕離桌面 左 0.0318 右 0.0428｜③ 前臂在桌上那段離桌面最近 左 0.0318 右 0.0428、筆最低點 0.0034｜身體：肩膀 0.212、胸口 0.14、骨盆 -0.139（離桌面，m）｜相位 3.08
+INFO [amb b1 #2] page M（Sit_Page_M_Loop）：w 1、shift 0.12、lift 0.015、桌面 0.75、桌緣 0.487｜① 手腕離桌面 左 0.0414 右 0.1169｜③ 前臂在桌上那段離桌面最近 左 None 右 None、筆最低點 None｜身體：肩膀 0.201、胸口 0.121、骨盆 -0.147（離桌面，m）｜相位 2.42
+INFO [amb b1] 女生坐著桌面在身體哪裡：[["page", 0.213, 0.141, -0.139], ["write", 0.212, 0.14, -0.139]]（肩膀／胸口／骨盆離桌面，m）
+INFO [amb b1] ⑤ 打字的 2 人：起始相位 [1.284, 3.227]；兩兩相位差 ±0.25 秒以內 0／1；10 秒後 [1.284, 3.227]
+PASS [amb] 沒有 JS 例外  []
+== ctl：http://127.0.0.1:8807/index.html?nositask
+  [前置／捷徑] CC_SEED=1104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [ctl] 遊戲載入  22 秒
+PASS [ctl] CHAR.sitTask=False（一般網址要 true、?nositask 要 false）  {"sitTask": false, "fn": "function"}
+INFO [ctl] ⑥ 第一次進 cafe：488 格／26.2 秒、滑手機的人 0 個；一格裡右手腕最大的跳動 []；≥10 cm 的 []
+INFO [ctl] ⑥ 第一次進 library_hall：184 格／27.5 秒、滑手機的人 0 個；一格裡右手腕最大的跳動 []；≥10 cm 的 []
+PASS [ctl hall] 讀到 library_hall  library_hall
+INFO [ctl hall] 畫面外的人 3 個：轉鏡頭過去再讀，看得到了 3、還是看不到 0 []
+INFO [ctl hall] 坐著的人 6、在做事的 0（[]，其中轉鏡頭才看到的 0）；等了 0 秒
+INFO [ctl hall] 坐著沒有片段的 6 人＋原因（SEATACT.state().why；named＝有名字的照設計不套、body:low＝身材和桌高合不上）：[[null, -8.07, 3.8, "phone", "loading"], [null, -9.13, 5.8, "tablet", null], [null, -7.02, 7.4, "textbook", "loading"], ["歷史系的學生", 2, -1.41, "book", null], ["歷史系的學生", 3.6, -1.41, "tablet", null], ["常在圖書館的男生", 2.8, -1.41, "book", null]]
+PASS [ctl lib3f] 讀到 library  library
+INFO [ctl lib3f] 畫面外的人 4 個：轉鏡頭過去再讀，看得到了 4、還是看不到 0 []
+INFO [ctl lib3f] 坐著的人 10、在做事的 0（[]，其中轉鏡頭才看到的 0）；等了 0 秒
+INFO [ctl lib3f] 坐著沒有片段的 10 人＋原因（SEATACT.state().why；named＝有名字的照設計不套、body:low＝身材和桌高合不上）：[["溫學姊", -10.55, -7.4, "book", null], [null, -10.55, -4, "rest", null], [null, -10.55, 2.8, "phone", "loading"], ["陳助教", -10.55, -8.4, "book", null], ["常跟助教說話的男生", -10.55, -9.4, "book", null], ["愛睡覺的男生", 3.22, -10.88, "book", null], [null, 10.55, 2.6, "notes", "loading"], ["歷史系的學生", 4.05, 7.25, "notes", "loading"], ["歷史系的學生", 3, 7.25, "rest", null], ["坐窗邊的人", 10.55, 1.6, "book", null]]
+PASS [ctl lawlib] 讀到 lawlib  lawlib
+INFO [ctl lawlib] 畫面外的人 3 個：轉鏡頭過去再讀，看得到了 1、還是看不到 2 [[null, 1.9, 6.65], [null, -5.2, -5.4]]
+INFO [ctl lawlib] 坐著的人 6、在做事的 0（[]，其中轉鏡頭才看到的 0）；等了 0 秒
+INFO [ctl lawlib] 坐著沒有片段的 4 人＋原因（SEATACT.state().why；named＝有名字的照設計不套、body:low＝身材和桌高合不上）：[[null, -1.85, -1.05, "textbook", "loading"], [null, -0.75, 2.95, "notes", "loading"], [null, 0.45, 6.6, "tablet", null], [null, 1.45, -2.95, "book", null]]
+PASS [ctl soc2f] 讀到 soclib_2f  soclib_2f
+INFO [ctl soc2f] 畫面外的人 8 個：轉鏡頭過去再讀，看得到了 8、還是看不到 0 []
+INFO [ctl soc2f] 坐著的人 23、在做事的 0（[]，其中轉鏡頭才看到的 0）；等了 0 秒
+INFO [ctl soc2f] 坐著沒有片段的 23 人＋原因（SEATACT.state().why；named＝有名字的照設計不套、body:low＝身材和桌高合不上）：[[null, 6.82, 3.2, "phone", "loading"], [null, 1.33, 10.25, "notes", "loading"], [null, 6.82, 10, "laptop", "loading"], [null, 4.93, 8.35, "textbook", "loading"], [null, 6.82, 7.45, "textbook", "loading"], [null, 6.82, 9.15, "tablet", null], [null, 3.47, 5.3, "tablet", null], [null, 3.47, 9.3, "textbook", "loading"], [null, 6.82, 4.9, "phone", "loading"], [null, 6.82, 2.35, "book", null], [null, 3.47, 0.35, "rest", null], [null, 4.93, 2.25, "rest", null], [null, -0.13, 0.35, "textbook", "loading"], [null, -0.13, 4.35, "phone", "loading"], [null, 1.33, 4.35, "textbook", "loading"], [null, 6.82, -0.2, "laptop", "loading"], [null, 6.82, 0.65, "tablet", null], [null, 5.22, -9.4, "notes", "loading"], [null, 6.78, -9.4, "phone", "loading"], [null, 5.22, -8.6, "book", null], [null, 6.78, -8.6, "laptop", "loading"], ["歷史系的學生", 2.98, -8.6, "tablet", null], ["歷史系的學生", 2.98, -9.4, "laptop", "loading"]]
+PASS [ctl b1] 讀到 library_b1  library_b1
+INFO [ctl b1] 坐著的人 6、在做事的 0（[]，其中轉鏡頭才看到的 0）；等了 0 秒
+INFO [ctl b1] 坐著沒有片段的 6 人＋原因（SEATACT.state().why；named＝有名字的照設計不套、body:low＝身材和桌高合不上）：[[null, 19.3, -6.58, "textbook", "loading"], [null, 2, -4.32, "phone", "loading"], [null, 2, -6.68, "textbook", "loading"], [null, 19.3, -10.98, "laptop", "loading"], [null, -7.2, -8.72, "notes", "loading"], [null, 19.3, -8.62, "laptop", "loading"]]
+PASS [ctl] 沒有 JS 例外  []
+ALL PASS
