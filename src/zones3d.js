@@ -2044,6 +2044,20 @@ const Z3 = (function(){
     return o; })();
   const inSp=k=>{ const q=SHOP_IN[k]; return q?{x:q.x,z:q.z,yaw:q.yaw}:null; };
   /* 室內共用的建法（三間都一樣；導航格 0.2 m：配置的走道 0.8 m（便利店貨架之間、茶室窗邊椅子後面），0.4 m 的格子會把走道整條吃掉）：k＝區域 id、L＝配置、o：{label 出口的字、warm、floor 備用地板色、winXs／winW／winH／winY／view／viewDepth（窗外的景）、glb 資產 key、attach 接完正式模型以後、study 座位能不能讀書、seatR、shop 座位的 shop 值} */
+  /* 正式模型的店，玻璃外面接回視差窗景（WINVIEW-AUDIT-1105 第三包，LAWWW2-C；使用者 07:4x「應該很多店面看出去的街景都不對吧」）：
+     日和、燒臘的正式模型（BB）沒有窗景卡；原本的程序化房間有視差窗（W3.windowMat，照片 assets/models/env/views/<名>_{day,night}.webp，遊戲裡拍的兩層景深），
+     但正式模型載入時整個備用房間藏起來，窗也跟著藏，玻璃外只剩天空。
+     ggViewPanes：把房間原本的視差窗搬到正式模型的玻璃外面（往外推 0.3 m）；shopViewPane：沒有開窗的房間（燒臘）照玻璃的位置放一片。
+     兩種都放進 z.wins（房間的 applyTime 照舊換白天／晚上、照時段調色）和 z.winParts（鏡頭在牆外時跟著前牆藏，不然會擋住鏡頭）。
+     模型裡已經有窗景卡（名字有 VIEW）的店不動 */
+  function vpPart(z,w){ const dir=new THREE.Vector3(0,0,1).applyQuaternion(w.quaternion); (z.winParts||(z.winParts=[])).push({obj:w,at:w.position.clone(),dir}); }
+  function ggViewPanes(z,g0,root){ let card=false; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name||'')) card=true; }); if(card||!z.wins) return 0; let n=0;
+    for(const w of z.wins){ if(!w.userData||!w.userData.pview||!w.parent) continue; g0.attach(w); const dir=new THREE.Vector3(0,0,1).applyQuaternion(w.quaternion); w.position.addScaledVector(dir,-0.3); w.visible=true;
+      { const pr=w.geometry.parameters||{}, W=Math.max(pr.width||0,14), H=Math.max(pr.height||0,2*Math.max(w.position.y,4.2-w.position.y)); if(W!==pr.width||H!==pr.height){ w.geometry.dispose(); w.geometry=new THREE.PlaneGeometry(W,H); } }   /* 平面放大到蓋住整面店面（林家乾麵整面開著）：中心不動＝照片的地平線不動，視差照舊（windowMat 照平面上的點算，平面大小不影響照片）*/ w.name='VIEWPANE_'+w.userData.pview; vpPart(z,w); n++; }
+    z.viewPanes=n; if(n&&z.applyTime&&typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); return n; }
+  function shopViewPane(z,g0,o){ if(typeof W3==='undefined'||!W3.windowMat) return null; const w=new THREE.Mesh(new THREE.PlaneGeometry(o.w,o.h),W3.windowMat(o.depth||20));
+    w.position.set(o.x,o.y,o.z); w.rotation.y=o.ry||0; w.userData.pview=o.kind; w.userData.dyn=true; w.name='VIEWPANE_'+o.kind; g0.add(w); (z.wins||(z.wins=[])).push(w); vpPart(z,w);
+    z.viewPanes=(z.viewPanes||0)+1; if(z.applyTime&&typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); return w; }
   function ggRoom(E,k,L,o){ const IN=SHOP_IN[k]; ggReg();
     const z=room(E,{w:L.w,d:L.d,h:L.h,cell:0.2,warm:!!o.warm,wallColor:L.wallColor||'#efe6d6',floorTex:W3.stoneTex(o.floor||'#d8d3c8'),spawn:inSp(k),windows:o.winXs&&o.winXs.length?undefined:false,winWall:'front',winXs:o.winXs,winW:o.winW,winH:o.winH,winY:o.winY,view:o.view,viewDepth:o.viewDepth});
     const g0=z.group, nav=z.nav; z.gg=k;
@@ -2056,7 +2070,7 @@ const Z3 = (function(){
       E.interactables.push({x:s.x,z:s.z,radius:ap?1.5:(o.seatR||0.9),label:s.label||'坐下',seat,shop:o.shop||k,study:!!(o.study&&s.canStudy)}); }
     E.interactables.push({x:IN.exit.x,z:IN.exit.z,radius:IN.exit.r,label:o.label||L.exit.label,exit:{to:'gongguan',spawn:Object.assign({},IN.out)}});
     nav._cm=null; P3.mergeStatic(fb);
-    if(typeof ASSETS!=='undefined'&&ASSETS.manifest[o.glb]) ASSETS.loadOne(o.glb).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,fb,root); if(o.attach) o.attach(E,z,g0,root); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest[o.glb]) ASSETS.loadOne(o.glb).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,fb,root); if(o.attach) o.attach(E,z,g0,root); if(o.view) ggViewPanes(z,g0,root); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));   /* ggViewPanes：視差窗搬到正式模型的玻璃外（WINVIEW-AUDIT-1105）*/
     return z; }
   /* 正式模型的資產登錄（url 照配置；不動 assets3d.js 的舊登錄：配置沒載入時 cvs、bookstore 照舊用舊模型）*/
   function ggReg(){ if(typeof ASSETS==='undefined'||!ASSETS.manifest) return; const reg=(key,L,src)=>{ if(L&&!ASSETS.manifest[key]) ASSETS.manifest[key]={url:L.glb,type:'building',lazy:true,source:src,license:'本作；貼圖 Poly Haven CC0＋本作程式產生'}; };
@@ -2179,7 +2193,7 @@ const Z3 = (function(){
       E.interactables.push({x:s.x,z:s.z,radius:1.0,label:s.label||'坐下吃飯',seat:{x:s.x,z:s.z,yaw:s.yaw},pairSeat:{x:p.x,z:p.z,yaw:p.yaw},eat:'noodle'}); }   /* 面向店裡那一張（背對店門）；noodleScene 走到 (x, z+0.5)＝椅子後面 */
     E.interactables.push({x:L.exit.at.x,z:+(L.d/2-0.6).toFixed(2),radius:0.9,label:L.exit.label,exit:{to:'gongguan',spawn:{x:-63,z:18,yaw:P}}});
     nav._cm=null; P3.mergeStatic(fb);
-    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.shaola_interior']) ASSETS.loadOne('bldg.shaola_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,fb,root);
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.shaola_interior']) ASSETS.loadOne('bldg.shaola_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,fb,root); shopViewPane(z,g0,{kind:'noodle',x:0,y:2.1,z:+(L.d/2+0.8).toFixed(2),w:7.0,h:4.4,ry:Math.PI,depth:24});   /* 燒臘的正面玻璃（x −3～3、y 0.14～2.56、z 6.47～7.19）外面 0.1 m 一片視差窗：照片是舊麵店同一個店面（公館 G00）在遊戲裡拍的 noodle_{day,night}（地平線 2.1 m＝舊麵店的窗中心）；WINVIEW-AUDIT-1105 */
       const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); }); if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,'shaola_glows',2.5); mesh.material.emissiveIntensity=1; z.shaolaGlows=gl.length; } }).catch(e=>console.warn('公館燒臘室內正式模型載入失敗，用備用模型',e));
     return z; }
   /* 麵店室內的正式模型（第二個 AI：tools/blender/env_second/noodle_interior.py）：日光燈管一直亮；店內材質有燈光感（TK.bounce，只給白色或有貼圖的材質）；
@@ -2410,7 +2424,7 @@ const Z3 = (function(){
       const mk=wzGlbKey(key,L), aaNew=wzAANew(key,L); if(typeof ASSETS!=='undefined'&&ASSETS.manifest[mk]) ASSETS.loadOne(mk).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); if(cz) root.position.z-=cz; attachRoomGLB(z,g0,g,root);
         const stN=n=>aaNew?String(n||'').replace(/^(wzs|kmc|sns|yzn)_/,''):n, ST=(L.seeThru||[]).map(stN);   /* AA 的新室內：材質名的前綴換了（wzs_bulb → SUNNY SIDE 的 sns_bulb），照去掉前綴的名字比 */
         if(ST.length) root.traverse(q=>{ if(!q.isMesh) return; for(const m of [].concat(q.material)){ if(!m||m.userData.seeThrough||!ST.includes(stN(m.name))) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } });
-        if(aaNew) wzAAattach(E,z,g0,root,key,cz); if(key==='offbeat') offbeatAttach(E,z,g0,root,L); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));   /* L.seeThru：這些材質擋住人、或離鏡頭太近時網點透空（巷子裡定食的和紙燈籠）*/
+        if(aaNew) wzAAattach(E,z,g0,root,key,cz); if(key==='offbeat') offbeatAttach(E,z,g0,root,L); ggViewPanes(z,g0,root);   /* 視差窗搬到正式模型的玻璃外（WINVIEW-AUDIT-1105；模型有窗景卡的店不動）*/ }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));   /* L.seeThru：這些材質擋住人、或離鏡頭太近時網點透空（巷子裡定食的和紙燈籠）*/
       return z; } }; }
   /* ---------- 溫州街第一批 AA 的新室內（WZ-SHOPS1-1104／WZ-YIZHAN-1104；AA 製作、BB 照 LAWWW2 標準驗 MODEL_READY，BB_257 §12）----------
      小路（wz_teishoku）komichi.glb＋komichi_layout v3、SUNNY SIDE（wz_brunch）sunnyside.glb＋sunnyside_layout v3、一盞（wz_teahouse）yizhan.glb＋yizhan_layout v2。
