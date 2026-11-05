@@ -1378,3 +1378,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 35.3s] page close url=http://127.0.0.1:8808/index.html?turbo | [gpu_wrap 255.3s] page close url=http://127.0.0.1:8805/index.html?turbo | [gpu_wrap 255.3s] BROWSER DISCONNECTED
 - 2026-11-05T18:51:38  V21R_xs_tongxian  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  381s    PASS [黑畫面] user_lv0_night 不是黑畫面（平均亮度 86.4、變化 57.4）  [86.4, 57.4] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 333.4s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 333.4s] BROWSER DISCONNECTED
+- 2026-11-05T18:56:20  V21R_xs_nanyang  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  517s      [ 485.4s] [截圖] hall night：鏡頭 {"eye": [3.5, 1.6, 7.4], "look": [0, 1.4, -7.75], "lens": 24, "vfov": 45.75}、看得到的網格 70、亮度 [47.9, 46.2] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 486.0s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 486.0s] BROWSER DISCONNECTED
