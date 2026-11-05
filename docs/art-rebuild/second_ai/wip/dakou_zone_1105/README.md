@@ -98,7 +98,7 @@
 
 ## 5. 接法（LAWWW-C）
 
-1. 拿檔案：`git checkout <本包 SHA> -- src/dakou3d.js src/data/dakou_layout.js tests/dakou_unit.js assets/models/env/second_ai/bb_support/dakou_1f.glb assets/models/env/second_ai/bb_support/dakou_2f.glb tools/blender/env_second/bb_support/dakou_interior.py`
+1. 拿檔案：`git checkout bf0d45081 -- src/dakou3d.js src/data/dakou_layout.js tests/dakou_unit.js assets/models/env/second_ai/bb_support/dakou_1f.glb assets/models/env/second_ai/bb_support/dakou_2f.glb tools/blender/env_second/bb_support/dakou_interior.py`
 2. 套 patch（都在 `685337469` 上乾淨，先後都可以、可以分開接）：
    - `git apply docs/art-rebuild/second_ai/wip/dakou_zone_1105/dakou_wire_1105.patch`
      - `index.html`：在 `shanlan3d.js` 後面載入兩個檔。

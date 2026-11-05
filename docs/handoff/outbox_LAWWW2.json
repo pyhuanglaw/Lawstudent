@@ -6180,16 +6180,16 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "ee917acd3",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACTIONED",
    "task": "GLB-WALLDIR-1105",
    "files": [
     "docs/art-rebuild/second_ai/wip/wz_lin_v1c_1105/walldir_1105.patch",
     "tests/wall_dir_inherit_unit.js",
     "docs/art-rebuild/second_ai/wip/wz_lin_v1c_1105/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "擋玩（遊戲裡現在就有）：attachRoomGLB 的 WALL_ 網格沒有 extras.dir 時一律 [0,0,1]；BB 套件把 dir 寫在空節點 → 日和便利店 cvs_interior.glb 5 塊有 4 塊（前、左、右）鏡頭從外面看不淡出、擋住人｜zones3d.js wallDirOf：沿用上層節點的 dir｜tests/wall_dir_inherit_unit.js 修改前 FAIL 2 → ALL PASS；自己有 dir 的（阿德、日常失速）照舊",
+   "note": "擋玩（遊戲裡現在就有）：attachRoomGLB 的 WALL_ 網格沒有 extras.dir 時一律 [0,0,1]；BB 套件把 dir 寫在空節點 → 日和便利店 cvs_interior.glb 5 塊有 4 塊（前、左、右）鏡頭從外面看不淡出、擋住人｜zones3d.js wallDirOf：沿用上層節點的 dir｜tests/wall_dir_inherit_unit.js 修改前 FAIL 2 → ALL PASS；自己有 dir 的（阿德、日常失速）照舊｜LAWWW-C 04:51 回：三件都接了（walldir、林家 v1c、RULES），相關 11 支 ALL PASS；index.html 的順序弄壞 bike_shop_park_unit 12，bf0d45081 lin_order_fix_1105.patch 改回",
    "next": "LAWWW-C：git checkout ee917acd3 -- tests/wall_dir_inherit_unit.js；git apply walldir_1105.patch（9c124e41c 上乾淨，可以單獨接）",
    "remaining": "瀏覽器沒跑（D131）"
   },
@@ -6197,7 +6197,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "ee917acd3",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACTIONED",
    "task": "WZ-SHOPS1-1104",
    "files": [
     "src/data/lin_layout.js",
@@ -6208,11 +6208,33 @@
     "docs/art-rebuild/second_ai/wip/wz_lin_v1c_1105/wz_lin_v1c_wire_1105.patch",
     "docs/art-rebuild/second_ai/wip/wz_lin_v1c_1105/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "林家乾麵 v1c（BB 9308d3301，LAWWW2-C 收件 MODEL_READY）進遊戲：lin_layout.js 載入就換掉 WZ_SHOPS_LAYOUT.lin；門窗出口出生點不變、四桌 12 位子、桌號照舊｜擋玩兩處：左欄兩張紅凳 npcOnly（0.6 m 的縫）、那一條擋起來（原本 5 點小孤島）｜其他四間（2:30 AM、小路、SUNNY SIDE、阿德）開發分支已是最新｜測試：wz_lin_v1c_unit 舊配置 FAILED 5 → ALL PASS；wz_shops2_unit 加新配置 FAIL 2 → ALL PASS；本包 11 支＋另外 32 支 ALL PASS",
+   "note": "林家乾麵 v1c（BB 9308d3301，LAWWW2-C 收件 MODEL_READY）進遊戲：lin_layout.js 載入就換掉 WZ_SHOPS_LAYOUT.lin；門窗出口出生點不變、四桌 12 位子、桌號照舊｜擋玩兩處：左欄兩張紅凳 npcOnly（0.6 m 的縫）、那一條擋起來（原本 5 點小孤島）｜其他四間（2:30 AM、小路、SUNNY SIDE、阿德）開發分支已是最新｜測試：wz_lin_v1c_unit 舊配置 FAILED 5 → ALL PASS；wz_shops2_unit 加新配置 FAIL 2 → ALL PASS；本包 11 支＋另外 32 支 ALL PASS｜LAWWW-C 04:51 回：三件都接了（walldir、林家 v1c、RULES），相關 11 支 ALL PASS；index.html 的順序弄壞 bike_shop_park_unit 12，bf0d45081 lin_order_fix_1105.patch 改回",
    "next": "LAWWW-C：git checkout ee917acd3 -- 六個檔；git apply wz_lin_v1c_wire_1105.patch（index.html、zones3d.js 登錄 GLB、LICENSES、8 支測試清單；9c124e41c 上乾淨）",
    "remaining": "瀏覽器沒跑（D131）；先將就 4 項在 README 第 3 節"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "bf0d45081",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "XS-SHOPS-REST-1105",
+   "files": [
+    "src/dakou3d.js",
+    "src/data/dakou_layout.js",
+    "tests/dakou_unit.js",
+    "assets/models/env/second_ai/bb_support/dakou_1f.glb",
+    "assets/models/env/second_ai/bb_support/dakou_2f.glb",
+    "tools/blender/env_second/bb_support/dakou_interior.py",
+    "docs/art-rebuild/second_ai/wip/dakou_zone_1105/dakou_wire_1105.patch",
+    "docs/art-rebuild/second_ai/wip/dakou_zone_1105/lin_order_fix_1105.patch",
+    "docs/art-rebuild/second_ai/wip/dakou_zone_1105/README.md"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "大口漢堡第 1 版進遊戲（D141）：區域 xs_dakou，BB 一樓 v2b＋二樓 v2（GLB 和 BB 分支一樣），兩層導航、21 階樓梯（踏面和 GLB 差 0.003 m）、79 座位（二樓 62 個都可以讀書、高腳椅抬高）、夜景卡只在晚上、新生南路多一座停車架 (−8.6, 37)｜另外改回林家那包弄壞的：index.html lin_layout.js 順序（bike_shop_park_unit 12 FAIL→PASS）、wz_shops_unit／wz_interiors_aa659_unit 多插的參數｜dakou_unit 23 項＋36 支 ALL PASS（乾淨 685337469＋兩個 patch）；先將就 7 項",
+   "next": "LAWWW-C：git checkout bf0d45081 -- 六個檔，git apply dakou_wire_1105.patch、lin_order_fix_1105.patch（都在 685337469 上乾淨）；互動點台詞照 AA_621（DK3.INTERACT）"
   }
  ]
 }
