@@ -1374,3 +1374,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 114.8s] page close url=http://127.0.0.1:8805/index.html?turbo&turbo | [gpu_wrap 114.8s] BROWSER DISCONNECTED
 - 2026-11-05T18:47:35  V21R_tappref  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  137s      按互動鈕「離開一盞」：（沒有字幕／對話）；區域 wenzhou / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 71.8s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 71.8s] BROWSER DISCONNECTED
+- 2026-11-05T18:50:41  V21R_v7  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  324s    PASS v7 各區域 48 個位置的存檔：新版都讀得進來、站得住、走得動  [] / PASS 新版沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 35.3s] page close url=http://127.0.0.1:8808/index.html?turbo | [gpu_wrap 255.3s] page close url=http://127.0.0.1:8805/index.html?turbo | [gpu_wrap 255.3s] BROWSER DISCONNECTED
