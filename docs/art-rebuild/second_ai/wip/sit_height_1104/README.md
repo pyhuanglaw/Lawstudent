@@ -187,7 +187,7 @@ pose sit、靜態坐姿。測試：`node tests/sit_height_unit.js`。
 以開發分支 226e8ce4e 為底，`git apply --check` 乾淨；最新的 6a1592a26 也乾淨（中間的 commit 沒有碰到這些檔）。
 
 ```
-git checkout <交件 SHA> -- assets/models/char/second_ai/ual_sit_tasks.glb assets/models/char/second_ai/ual_sit_tasks.json assets/models/char/second_ai/hand_props.json \
+git checkout 267f3d9a9 -- assets/models/char/second_ai/ual_sit_tasks.glb assets/models/char/second_ai/ual_sit_tasks.json assets/models/char/second_ai/hand_props.json \
   assets/models/env/classroom_201.glb assets/models/env/second_ai/boya_interior.glb assets/models/env/second_ai/gongtong_interior.glb \
   assets/models/env/second_ai/l118_cafe2.layout.json assets/models/env/second_ai/l118_omu.layout.json assets/models/env/second_ai/l118_pasta.layout.json assets/models/env/second_ai/l118_tea.layout.json \
   tests/sit_height_unit.js tests/sit_task_loops_unit.js \
@@ -195,6 +195,8 @@ git checkout <交件 SHA> -- assets/models/char/second_ai/ual_sit_tasks.glb asse
   tools/blender/classroom_201.py tools/blender/env_second/teach_interior.py tools/blender/env_second/lecture_shelf_raise.py
 git apply docs/art-rebuild/second_ai/wip/sit_height_1104/sit_height_1104.patch
 ```
+
+`tools/blender/env_second/lane118_shops.py` 的 BAR_LIFT 0.31 → 0.29 只改在我的分支。開發分支不用 checkout：我分支上的這支還有別的沒接的改動；它產生的 layout.json 和 l118_shop_layouts.js 已經在上面。
 
 ### patch 的內容
 
