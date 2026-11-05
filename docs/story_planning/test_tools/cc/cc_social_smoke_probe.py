@@ -1010,6 +1010,9 @@ class Person:
             sl = {'d': d, 'hr': 14.0, 'zone': 'campus', 'key': '?'}
         await self.load(self.base(sl['d'], sl['hr'], sl['zone'] if slots else 'campus', None if slots else {'x': 30, 'z': 30, 'yaw': 0}), why='%s：%s %s' % (tag, sl.get('key'), sl['hr']))
         await self.setup(setup, '前置：%s' % tag); await self.reload_same('套用關係以後重讀')
+        s0 = await self.st()
+        if s0['evr']:   # CC-C 11-05：讀檔點正好演起自動劇情（pool_12 2025-09-19 campus 的 ev_sk01_soc「對面的舊系館」）＝照玩家點完再開始（v20r_cloud2 pool3 那一次 FAIL 是探針沒點）
+            R.setup('%s：讀檔點正好演自動劇情 %s，照玩家點完再開始' % (tag, s0['evr'])); await self.drive([], tag + ' 讀檔點的自動劇情', max_s=180)
         if not await self.check_free(tag + ' 開始前'): return
         fb0, err0 = await self.base_marks()
         if not await self.open_thread(tag): await L.close_panels(pg, self.cdp); return
