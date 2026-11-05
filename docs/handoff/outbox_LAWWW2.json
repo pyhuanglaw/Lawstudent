@@ -5995,7 +5995,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "baaef5e54",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACTIONED",
    "task": "GUITAR-SHOP-ZONE-1105",
    "files": [
     "assets/models/env/second_ai/bb_support/tongxian.glb",
@@ -6011,11 +6011,28 @@
     "docs/art-rebuild/second_ai/wip/tongxian_zone_1105/tongxian_v2_licenses.patch",
     "docs/art-rebuild/second_ai/wip/tongxian_zone_1105/README.md"
    ],
-   "state": "已交付",
-   "note": "v2：BB-C 01:39Z 三點（D112 木地板調淺、樓梯間平台磨石子、黑方塊＝預覽問題、參考圖位置）＋修 v1 牆朝外、疊面；v1 已在 1a67c9947，這次只換檔｜測試：tongxian_unit ⑨ 六項（v1 模型 FAIL 4、v2 ALL PASS）＋同組 21 支 ALL PASS（ed7600ec5＋v1 patch＋v2 檔）；LICENSES patch 在 9e99d4977 上乾淨",
+   "state": "已整合",
+   "note": "v2：BB-C 01:39Z 三點（D112 木地板調淺、樓梯間平台磨石子、黑方塊＝預覽問題、參考圖位置）＋修 v1 牆朝外、疊面；v1 已在 1a67c9947，這次只換檔｜測試：tongxian_unit ⑨ 六項（v1 模型 FAIL 4、v2 ALL PASS）＋同組 21 支 ALL PASS（ed7600ec5＋v1 patch＋v2 檔）；LICENSES patch 在 9e99d4977 上乾淨｜LAWWW-C 2a6633a01 已接",
    "next": "LAWWW-C：照 README「v2 接法」換檔＋git apply tongxian_v2_licenses.patch → node tests/tongxian_unit.js；CC 瀏覽器拍（店門進出、店裡白天晚上、試琴椅、店門往外看樓梯間）→ BB 判",
    "noDirectIntegrate": false,
    "remaining": "瀏覽器（D131）沒跑；預覽是 Workbench 光線；ART 由 BB 判"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "b61050c52",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "ADE-SEATS-NAV-1104",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/ade_seats_nav_1104/ade_seats_nav_1104.patch",
+    "docs/art-rebuild/second_ai/wip/ade_seats_nav_1104/README.md",
+    "docs/art-rebuild/second_ai/wip/ade_seats_nav_1104/ade_seats_nav_unit.js"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "next": "LAWWW-C：git apply ade_seats_nav_1104.patch（1344de13d 上乾淨；改 jobs3d.js＝你的檔，提案）→ node tests/ade_seats_nav_unit.js；CC-C 改探針三處後重跑 ADE_int IN／JOB → BB 判",
+   "remaining": "瀏覽器沒跑（D131）；老闆、阿芃的站位沒搬；早午餐、茶屋的站位沒開",
+   "note": "座位 FAIL＝探針的判斷（CC 截圖已坐下；1 號有客人坐著；222 次＝點椅子中間）；真的問題：辦公椅沒走近點、runShift 沒讀 work 站位。新測試修改前 FAIL 2、修改後 ALL PASS；相關 51 支 ALL PASS"
   }
  ]
 }
