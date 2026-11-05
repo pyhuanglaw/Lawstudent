@@ -5,6 +5,7 @@
     acts     同四間：每一個互動點（不是座位、不是出口）走到範圍裡、按鈕是它（不按，避免花錢、跳時間）。
     windows  換窗景的五間（青木 aoki、頁間 bookstore、Daybreak daybreak、小路 wz_teishoku、日常失速 wz_offbeat）：從街上照玩家走進店門 → 店裡截圖（白天、晚上；照營業時間挑時間）→ 照玩家走出來回到街上。
              窗景卡（名字有 VIEW 的面）記用的照片；截圖從店裡往窗景卡看。
+  WINVIEW_rel（BB-C 09:34，發布樹 bcb386604）：WIN=afar,bookstore,aoki DAYH=14 NIGHTH=20.5——看 afar 窗外的羅斯福路中間沒有捷運出口、頁間、青木看得到（BB 看圖判）。
   營業時間照 PLACES.isOpen；那一段沒開就往後找有開的時間（記下來）。
   【前置／捷徑】讀檔到店門外 2 m 或店裡出生點（條件事件關閉）；截圖停主迴圈、藏 HUD 和玩家。Windows＋GPU／SwiftShader ≠ iPhone。
 用法：LW_TESTS=<wt>/tests [PARTS=seats,acts,windows] [ONLY=daybreak,aoki] python3 cc_v21x_shops_probe.py <url> <out>"""
@@ -23,10 +24,12 @@ PARTS = [x for x in (os.environ.get('PARTS') or 'seats,acts,windows').split(',')
 ONLY = [x for x in (os.environ.get('ONLY') or '').split(',') if x]
 R = L.Run('v21x_shops', OUT); D.setup(R, OUT)
 DAY = '2025-10-18'   # 星期六
-STREET = {'wz_lin': 'wenzhou', 'wz_offbeat': 'wenzhou', 'wz_teishoku': 'wenzhou', 'cvs': 'gongguan', 'daybreak': 'gongguan', 'aoki': 'gongguan', 'bookstore': 'gongguan'}
+STREET = {'afar': 'gongguan', 'wz_lin': 'wenzhou', 'wz_offbeat': 'wenzhou', 'wz_teishoku': 'wenzhou', 'cvs': 'gongguan', 'daybreak': 'gongguan', 'aoki': 'gongguan', 'bookstore': 'gongguan'}
 SEAT_SHOPS = ['wz_lin', 'cvs', 'wz_offbeat', 'daybreak']
 ACT_SHOPS = ['wz_lin', 'cvs', 'wz_offbeat', 'daybreak']
-WIN_SHOPS = ['aoki', 'bookstore', 'daybreak', 'wz_teishoku', 'wz_offbeat']
+WIN_SHOPS = [x for x in (os.environ.get('WIN') or 'aoki,bookstore,daybreak,wz_teishoku,wz_offbeat').split(',') if x]   # WINVIEW_rel（BB-C 09:34）：WIN=afar,bookstore,aoki
+DAYH = [float(x) for x in (os.environ.get('DAYH') or '14,15,13,18.5').split(',')]
+NIGHTH = [float(x) for x in (os.environ.get('NIGHTH') or '21,20.5,22,23,0.5').split(',')]
 DB4 = [(-1.5, 3.45, '窗邊'), (-4.2, 0.3, '長桌（西側，擦桌角已知）'), (-4.2, 1.5, '長桌（西側，擦桌角已知）'), (2.05, -3.5, '卡座')]
 OPEN_AT = r"""((a)=>{ const [z,day,prefs]=a; const ok=h=>{ try{ return typeof PLACES==='undefined'||!PLACES.isOpen||!!PLACES.isOpen(z,h,day); }catch(e){ return true; } };
   for(const h of prefs) if(ok(h)) return h; for(let h=8;h<26;h+=0.5) if(ok(h%24)) return h%24; return null; })"""
@@ -91,7 +94,7 @@ async def part_acts(pg, cdp, zone):
 
 async def part_windows(pg, cdp, zone):
     street = STREET[zone]
-    for tn, prefs in (('day', [14.0, 15.0, 13.0, 18.5]), ('night', [21.0, 20.5, 22.0, 23.0, 0.5])):
+    for tn, prefs in (('day', DAYH), ('night', NIGHTH)):
         h = await open_hour(pg, zone, prefs)
         if h is None: R.note('[windows %s %s] 這一天找不到有開的時間，不拍' % (zone, tn)); continue
         # 先在街上找店門
