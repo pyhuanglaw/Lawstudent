@@ -75,14 +75,21 @@ async def case_IN(pg, cdp):
     if not await GI.enter_via(pg, cdp, 'IN_enter', {'exitTo': 'wz_print'}, '進去', 'wz_print'): return
     await pg.wait_for_timeout(3000); await pg.screenshot(path=os.path.join(OUT, 'ade_IN_game_view.png'))
     await clerk_check(pg, 'IN')
-    seats = await pg.evaluate("(()=>GAME.E.interactables.filter(i=>i.seat&&!i.hidden).map(i=>({x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||0.8,label:i.label})))()")
+    # LAWWW2-C 02:34（ADE-SEATS-NAV-1104）：①坐下＝player.seat（坐下以後的選單開著時 busy 一直是 true）②有人坐的位子遊戲不給「坐下」＝記「有人坐」跳過 ③走到 GAME.seatApproach(座位) 那一點（椅子正中間站不住）
+    seats = await pg.evaluate("(()=>GAME.E.interactables.filter(i=>i.seat&&!i.hidden).map(i=>{ const ap=GAME.seatApproach?GAME.seatApproach(i.seat):null; const st=i.seat; return {x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||0.8,label:i.label,sx:+st.x.toFixed(2),sz:+st.z.toFixed(2),ap:ap?[+ap[0].toFixed(2),+ap[1].toFixed(2)]:null}; }))()")
     print('  座位：%s' % J(seats), flush=True)
     check('[IN] 有 4 張客人座位', len(seats) == 4, str(len(seats)))
     for k, s in enumerate(seats):
         tag = 'IN_seat%d' % k
-        it = await GI.walk_tap(pg, cdp, tag, {'at': [s['x'], s['z']]}, s['label'])
-        if not it: continue
-        ok = await GI.wait_js(pg, "!!GAME.E.player.seat&&!GAME.E.player.busy", 20); await pg.wait_for_timeout(1500)
+        occ = await pg.evaluate("(([x,z])=>GAME.E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-x,n.seat.z-z)<0.35))", [s['sx'], s['sz']])
+        if occ: print('  [%s] 有人坐（%s, %s）：遊戲不給「坐下」，跳過（不算 FAIL）' % (tag, s['sx'], s['sz']), flush=True); continue
+        tgt = s['ap'] or [s['x'], s['z']]
+        await L.go_to(pg, cdp, GI.Run(), tgt[0], tgt[1], 0.35, s['label'] + '（seatApproach）', max_s=600)
+        await pg.wait_for_timeout(1000); _b = await pg.evaluate(ST)
+        if not check('[%s] 走到 seatApproach %s：互動按鈕是「%s」' % (tag, J(tgt), s['label']), _b['interact'].startswith(s['label']), J({k_: _b[k_] for k_ in ('x', 'z', 'interact')})):
+            await pg.screenshot(path=os.path.join(OUT, 'NOBTN_%s.png' % tag)); continue
+        await L.tap(pg, cdp, '#interact')
+        ok = await GI.wait_js(pg, "!!GAME.E.player.seat", 20); await pg.wait_for_timeout(1500)
         await pg.screenshot(path=os.path.join(OUT, 'ade_%s_seated.png' % tag))
         check('[%s] 坐下了' % tag, ok)
         _s = await pg.evaluate(ST)
