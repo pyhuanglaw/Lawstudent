@@ -47607,7 +47607,7 @@
    "title": "開車出去改成走去新月台停車場取車",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47619,7 +47619,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "AA_704（企劃線 55a1c5a53）已定：望月台停車場（宿舍走 5 分鐘）、車旁「開車出發」、約見面點「望月台停車場入口」、第一次取車一句旁白；等 LAWWW2 停車場區域再接 date3d／an_yt_hol3d",
+   "next": "第一步在開發線（LAWWW-C 11-05 11:0x，AA_704 第 2 節 @55a1c5a53）：校外約會開車單程多 5 分鐘（DATE.CAR_PICK_H）、路程字「走到望月台停車場約 5 分鐘，開車約 X 分鐘」（DATE.travelText，預約摘要與出遊字卡）、第一次開車出發演取車旁白（OUT.CAR_PICKUP_LINE，G.flags.DRIVE_PICKUP_SEEN）；tests/drive_pickup_unit.js。第二步（下一班）：真的走到停車場（Z3.XSG.carSpot／.stand）、車旁邊按「開車出發」、一起去的人約在停車場入口、回程停回停車場；fest3d.js、an_yt_hol3d.js 的 S.drive 也要加 pick。",
    "source": "UA-LAWWW-1105-31",
    "authorized": "使用者原話",
    "xai": {

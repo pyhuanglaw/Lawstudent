@@ -87,6 +87,7 @@ const OUT=(function(){
   const lateEnd=q=>Math.max(t(q.day,q.h)+(q.late!=null?q.late:0.75),q.lateTo!=null?q.lateTo:-1e9);   /* lateTo：總圖導覽擋到的那一場，從導覽結束重新給寬限（BUG-TOUR-PHOTO-MISSED-1103）*/   /* late：開始後多久還能出發（小時；預設 45 分鐘。AA_154 2-1b 的聚會是 15 分鐘）*/
   /* 休學以後住在家裡（經濟系 Y0_MOVED_OUT，AA_154 1-3b、A46 ②）：所有出遊、約好的見面（含只帶到校園某處的 goto）從家裡出發＝捷運＋公車 約 30 分鐘、0.5 小時；問要不要出發的時間跟著提早。視訊不用出門 */
   const baseHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);   /* 人在家裡＝照家裡出發算車程（PG-ASKAT-HOME-1021：原本只有經濟系那一年 HOME.baseMode 才算，法律系以後在家（寒暑假、畢業後住家裡）該問「出發」的時間照學校算、從家裡的選單出發卻照家裡算 30 分鐘，問得太晚、到了就遲到——OUT.due、PG 固定格的 askAt、鬧鐘都用這裡）*/
+  S.CAR_PICKUP_LINE='（望月台底下的停車場有點暗。你找到車，把副駕駛座上的東西收到後座。）';   /* AA_704 第 2 節原句（企劃線 55a1c5a53）*/
   S.trip=(G,q,fromHome)=>(fromHome||baseHome(G))&&!q.call&&q.verb!=='接起來'&&q.place!=='視訊'?((q.travelH||0)>0.5?{travelH:q.travelH,travel:q.travel||''}:{travelH:0.5,travel:q.homeTravel||'捷運＋公車 約 30 分鐘'}):{travelH:q.travelH||0,travel:q.travel||''};   /* 比 30 分鐘遠的（例：政大 40 分鐘，A40）照原本的；homeTravel：從家裡出發那一行有自己的寫法（例：2029 中秋河濱「捷運＋走路 約 30 分鐘」，AA_363 T9），沒寫＝照舊 */
   S.fromHome=false;
   S.BEFORE=[]; S.STAGE=[];
@@ -138,7 +139,8 @@ const OUT=(function(){
     if(!dt&&(!ev||typeof EVENTS==='undefined')) return false;
     if(o&&o.fromHome) S.fromHome=true;   /* 從家裡出發的 2D 出遊：途中 3D 一直藏著（home3d.js backdrop），演完不會露出最後一個 3D 區域（使用者 10-18：「跨年的劇情結束之後居然是跳回醉月湖」）*/
     GM.sceneBegin(); try{   /* 整趟出遊是一段劇情：路上、演完、回程的轉場中間，校園的自動事件（偶遇、打招呼）不能插進來（使用者 2026-10-16：和可昕走完「回到台大」就卡住，畫面疊了偶遇的旁白）*/
-    await GM.fade(true); if(GM.titleCard&&o&&o.card) await GM.titleCard(o.card[0],o.card[1]||'',2400); else if(GM.titleCard&&!(o&&o.noCard)) await GM.titleCard(S.tt(q.title),tr.travel,2400);   /* o.noCard：已經到了、字卡出過了（寒暑假出國在 3D 出境大廳「登機」以後接著演，E08 vac3d.js）；o.card＝[標題, 小字]：換成這一張（登機以後的「飛往〇〇」，AA_478 第 1 節）*/
+    await GM.fade(true); if(GM.titleCard&&o&&o.card) await GM.titleCard(o.card[0],o.card[1]||'',2400); else if(GM.titleCard&&!(o&&o.noCard)) await GM.titleCard(S.tt(q.title),tr.travel,2400);
+    if(q.car&&G.flags&&!G.flags.DRIVE_PICKUP_SEEN&&GM.caption){ G.flags.DRIVE_PICKUP_SEEN=G.day; await GM.caption(null,S.CAR_PICKUP_LINE); }   /* DRIVE-PICKUP-1105（AA_704 第 2 節）：第一次開車出去，取車那一下的旁白（之後不出）；舊存檔沒有旗標＝下一次開車出一次 */   /* o.noCard：已經到了、字卡出過了（寒暑假出國在 3D 出境大廳「登機」以後接著演，E08 vac3d.js）；o.card＝[標題, 小字]：換成這一張（登機以後的「飛往〇〇」，AA_478 第 1 節）*/
     const arrive=q.arrived?t(G.day,G.hour):Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.syncWeekday) GM.syncWeekday(); if(GM.updateHUD) GM.updateHUD();
     const h0=G.hour, fill=()=>{ if(typeof CLS!=='undefined'&&CLS.slotFillSpan) CLS.slotFillSpan(G,h0,G.day*24+G.hour-Math.floor(arrive/24)*24); };   /* 出遊、校外約會＝到了那裡起的時段都算一件主要的事（DEC-SLOTS-1018 ③；約好的照樣能去）*/
     q.arrived=true; if(GM.autosave) GM.autosave(true);   /* 到了再存一次：中途被踢回標題，讀檔就是到了那裡、重新演這一段（不用再搭一次車）*/
