@@ -1,6 +1,6 @@
 /* ===== 同弦樂器（新生南路那一排的二樓吉他行；區域 xs_tongxian）=====
    企劃：AA_619 第 1 節（使用者 11-03「安排一家吉他店」「吉他社……要買吉他」；AA 定稿 D109，企劃線 22a6c4d43）；LAWWW-C 11-05 00:43Z 派 GUITAR-SHOP-ZONE-1105（X196，D108 場景程式歸 LAWWW2）。
-   - 店內：CC（帳號 A）的 tongxian.glb v4d（照使用者的參考圖；配置 src/data/tongxian_layout.js，和 Blender 共用）；樓梯間的樓梯、地板的樓梯口：LAWWW2-C（tools/blender/env_second/tongxian_stair.py、glb_floor_hole.py）。
+   - 店內：CC（帳號 A）的 tongxian.glb v4d（照使用者的參考圖；配置 src/data/tongxian_layout.js，和 Blender 共用）；樓梯間（樓梯、門外平台和樓梯口兩側的磨石子）、店內木地板在樓梯間挖掉、調淺（D112）：LAWWW2-C（tools/blender/env_second/tongxian_stair.py、glb_floor_hole.py、glb_tint_image.py）。
      載入前、載入失敗時：Z3.room 的牆、地板、家具色塊（D38 ③）。
    - 進出：新生南路上的「進同弦樂器（吉他行（二樓））」（src/xinsheng3d.js：店門找 Z3.ZONES['xs_'+id]）→ 站在店門內（樓梯上來的平台旁邊）；
      店門（樓梯間東牆上的門）的「下樓（回新生南路）」→ 騎樓的樓梯口外面、面向馬路。樓梯看得到、不用走（進出都在平台旁邊的門口）。
@@ -49,7 +49,7 @@ const TX3=(function(){
       const r=c.scene.clone(true); r.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(r); r.updateMatrixWorld(true); take(r); glowUp(); }).catch(e=>console.warn('同弦樂器樓梯間正式模型載入失敗',e));
     return z; } };
   if(typeof ASSETS!=='undefined'){
-    ASSETS.manifest['bldg.xs_tongxian']={url:'assets/models/env/second_ai/bb_support/tongxian.glb',type:'building',lazy:true,source:'CC（帳號 A）tools/blender/env_second/bb_support/tongxian_interior.py v4d；樓梯口挖洞 LAWWW2-C tools/blender/env_second/glb_floor_hole.py',license:'本作'};
+    ASSETS.manifest['bldg.xs_tongxian']={url:'assets/models/env/second_ai/bb_support/tongxian.glb',type:'building',lazy:true,source:'CC（帳號 A）tools/blender/env_second/bb_support/tongxian_interior.py v4d；樓梯間挖洞、木地板調淺（D112）LAWWW2-C tools/blender/env_second/glb_floor_hole.py、glb_tint_image.py',license:'本作'};
     ASSETS.manifest['bldg.xs_tongxian_stair']={url:'assets/models/env/second_ai/tongxian_stair.glb',type:'building',lazy:true,source:'LAWWW2-C tools/blender/env_second/tongxian_stair.py',license:'本作'}; }
   const INTERACT=()=>{ const L=LAY(); return L?L.interact.map(q=>Object.assign({},q)):[]; };
   return {ZONE,zone,streetOut,INTERACT,get OWNER(){ const L=LAY(); return L&&L.npc?Object.assign({},L.npc.owner):null; }};
