@@ -1,0 +1,267 @@
+{
+ "zone": "library",
+ "seatact": {
+  "zone": "library",
+  "n": 11,
+  "loaded": false,
+  "list": [
+   {
+    "act": "book",
+    "set": null,
+    "kind": null,
+    "named": true,
+    "x": -10.55,
+    "z": -7.4,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "textbook",
+    "set": null,
+    "kind": null,
+    "named": false,
+    "x": -10.55,
+    "z": -4,
+    "lv": 0,
+    "items": [],
+    "pose": "sit",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "textbook",
+    "set": null,
+    "kind": null,
+    "named": false,
+    "x": -10.55,
+    "z": 2.8,
+    "lv": 0,
+    "items": [],
+    "pose": "sit",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "book",
+    "set": null,
+    "kind": null,
+    "named": false,
+    "x": 10.55,
+    "z": 2.6,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": "book",
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "phone",
+    "set": null,
+    "kind": null,
+    "named": false,
+    "x": 7.6,
+    "z": -13.4,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": "phone",
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "notes",
+    "set": null,
+    "kind": null,
+    "named": false,
+    "x": 8.4,
+    "z": -13.4,
+    "lv": 0,
+    "items": [],
+    "pose": "sit",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "book",
+    "set": null,
+    "kind": null,
+    "named": true,
+    "x": 3.22,
+    "z": -10.88,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "book",
+    "set": null,
+    "kind": null,
+    "named": true,
+    "x": -10.55,
+    "z": -8.4,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "book",
+    "set": null,
+    "kind": null,
+    "named": true,
+    "x": 10.55,
+    "z": 1.6,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "book",
+    "set": null,
+    "kind": null,
+    "named": true,
+    "x": -10.55,
+    "z": -9.4,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "book",
+    "set": null,
+    "kind": null,
+    "named": true,
+    "x": 1.58,
+    "z": -10.88,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   }
+  ]
+ },
+ "sitting": [
+  {
+   "id": "sis",
+   "x": -10.55,
+   "z": -7.4,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": null,
+   "x": -10.55,
+   "z": -4,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": null,
+   "x": -10.55,
+   "z": 2.8,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": null,
+   "x": 10.55,
+   "z": 2.6,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": null,
+   "x": 7.6,
+   "z": -13.4,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": null,
+   "x": 8.4,
+   "z": -13.4,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": "npc_huangxh",
+   "x": 3.22,
+   "z": -10.88,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": "npc_ta_chen",
+   "x": -10.55,
+   "z": -8.4,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": "pool_9",
+   "x": 10.55,
+   "z": 1.6,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": "pool_10",
+   "x": -10.55,
+   "z": -9.4,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": "pool_18",
+   "x": 1.58,
+   "z": -10.88,
+   "task": null,
+   "tb": false,
+   "table": null
+  }
+ ],
+ "sitTask": true,
+ "taskReady": true
+}

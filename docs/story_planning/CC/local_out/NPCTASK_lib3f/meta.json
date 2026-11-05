@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "NPCTASK_lib3f",
+  "sha": "9ea82730f471210c8df143093b7743ce4c9327a8",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_lib3f_sets_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-05T14:41:58",
+  "end": "2026-11-05T14:45:02",
+  "seconds": 184,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8806/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 81,
+    "mem": 48,
+    "used_gb": 15.1,
+    "chrome_testing": 13
+  }
+}

@@ -1,0 +1,50 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_lib3f_sets_probe.py http://127.0.0.1:8806/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NPCTASK_lib3f\out
+CC NPCTASK_lib3f（三樓閱覽室每個位子的 set／act）：SHA=9ea82730f471210c8df143093b7743ce4c9327a8（worktree 實際 ?）；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] 讀檔 library 2025-10-15（三）14:00
+  [  51.4s] [library 10 秒] SEATACT zone=library n=11 loaded=False；CHAR.sitTask=True、sitTaskReady=True
+  [  51.4s] [library 10 秒] 位子 1：act=book set=null items=[] task=null clip=null pose=read at (-10.55, -7.4)
+  [  51.4s] [library 10 秒] 位子 2：act=textbook set=null items=[] task=null clip=null pose=sit at (-10.55, -4)
+  [  51.4s] [library 10 秒] 位子 3：act=textbook set=null items=[] task=null clip=null pose=sit at (-10.55, 2.8)
+  [  51.4s] [library 10 秒] 位子 4：act=book set=null items=[] task=null clip=null pose=read at (10.55, 2.6)
+  [  51.4s] [library 10 秒] 位子 5：act=phone set=null items=[] task=null clip=null pose=read at (7.6, -13.4)
+  [  51.4s] [library 10 秒] 位子 6：act=notes set=null items=[] task=null clip=null pose=sit at (8.4, -13.4)
+  [  51.4s] [library 10 秒] 位子 7：act=book set=null items=[] task=null clip=null pose=read at (3.22, -10.88)
+  [  51.4s] [library 10 秒] 位子 8：act=book set=null items=[] task=null clip=null pose=read at (-10.55, -8.4)
+  [  51.4s] [library 10 秒] 位子 9：act=book set=null items=[] task=null clip=null pose=read at (10.55, 1.6)
+  [  51.4s] [library 10 秒] 位子 10：act=book set=null items=[] task=null clip=null pose=read at (-10.55, -9.4)
+  [  51.4s] [library 10 秒] 位子 11：act=book set=null items=[] task=null clip=null pose=read at (1.58, -10.88)
+  [  51.4s] [library 10 秒] 坐著的 NPC 11：[{"id": "sis", "x": -10.55, "z": -7.4, "task": null, "tb": false, "table": null}, {"id": null, "x": -10.55, "z": -4, "task": null, "tb": false, "table": null}, {"id": null, "x": -10.55, "z": 2.8, "task": null, "tb": false, "table": null}, {"id": null, "x": 10.55, "z": 2.6, "task": null, "tb": false, "table": null}, {"id": null, "x": 7.6, "z": -13.4, "task": null, "tb": false, "table": null}, {"id": null, "x": 8.4, "z": -13.4, "task": null, "tb": false, "table": null}, {"id": "npc_huangxh", "x": 3.22, "z": -10.88, "task": null, "tb": false, "table": null}, {"id": "npc_ta_chen", "x": -10.55, "z": -8.4, "task": null, "tb": false, "table": null}, {"id": "pool_9", "x": 10.55, "z": 1.6, "task": null, "tb": false, "table": null}, {"id": "pool_10", "x": -10.55, "z": -9.4, "task": null, "tb": false, "table": null}, {"id": "pool_18", "x": 1.58, "z": -10.88, "task": null, "tb": false, "table": null}]
+  [  81.4s] [library 40 秒] SEATACT zone=library n=11 loaded=True；CHAR.sitTask=True、sitTaskReady=True
+  [  81.4s] [library 40 秒] 位子 1：act=book set="L_book_side" items=[] task=null clip=null pose=read at (-10.55, -7.4)
+  [  81.4s] [library 40 秒] 位子 2：act=textbook set="tset_book" items=[] task="page" clip="Sit_Page_F_Loop" pose=sit at (-10.55, -4)
+  [  81.4s] [library 40 秒] 位子 3：act=textbook set="tset_book" items=[] task=null clip=null pose=sit at (-10.55, 2.8)
+  [  81.4s] [library 40 秒] 位子 4：act=book set="L_book_side" items=[] task=null clip=null pose=read at (10.55, 2.6)
+  [  81.4s] [library 40 秒] 位子 5：act=phone set="L_phone_side" items=[] task="phone" clip="Sit_Phone_F_Loop" pose=sit at (7.6, -13.4)
+  [  81.4s] [library 40 秒] 位子 6：act=notes set="tset_notes" items=[] task="write" clip="Sit_Write_M_Loop" pose=sit at (8.4, -13.4)
+  [  81.4s] [library 40 秒] 位子 7：act=book set="L_book_side" items=[] task=null clip=null pose=read at (3.22, -10.88)
+  [  81.4s] [library 40 秒] 位子 8：act=book set="L_book_side" items=[] task=null clip=null pose=read at (-10.55, -8.4)
+  [  81.4s] [library 40 秒] 位子 9：act=book set="L_book_side" items=[] task=null clip=null pose=read at (10.55, 1.6)
+  [  81.4s] [library 40 秒] 位子 10：act=book set="L_book_side" items=[] task=null clip=null pose=read at (-10.55, -9.4)
+  [  81.4s] [library 40 秒] 位子 11：act=book set="L_book_side" items=[] task=null clip=null pose=read at (1.58, -10.88)
+  [  81.4s] [library 40 秒] 坐著的 NPC 11：[{"id": "sis", "x": -10.55, "z": -7.4, "task": null, "tb": false, "table": null}, {"id": null, "x": -10.55, "z": -4, "task": null, "tb": false, "table": null}, {"id": null, "x": -10.55, "z": 2.8, "task": null, "tb": false, "table": null}, {"id": null, "x": 10.55, "z": 2.6, "task": null, "tb": false, "table": null}, {"id": null, "x": 7.6, "z": -13.4, "task": null, "tb": false, "table": null}, {"id": null, "x": 8.4, "z": -13.4, "task": null, "tb": false, "table": null}, {"id": "npc_huangxh", "x": 3.22, "z": -10.88, "task": null, "tb": false, "table": null}, {"id": "npc_ta_chen", "x": -10.55, "z": -8.4, "task": null, "tb": false, "table": null}, {"id": "pool_9", "x": 10.55, "z": 1.6, "task": null, "tb": false, "table": null}, {"id": "pool_10", "x": -10.55, "z": -9.4, "task": null, "tb": false, "table": null}, {"id": "pool_18", "x": 1.58, "z": -10.88, "task": null, "tb": false, "table": null}]
+  [前置／捷徑] 讀檔 library_b1 2025-10-15（三）14:00
+  [ 112.3s] [library_b1 10 秒] SEATACT zone=library_b1 n=6 loaded=True；CHAR.sitTask=True、sitTaskReady=True
+  [ 112.3s] [library_b1 10 秒] 位子 1：act=notes set="tset_notes" items=[] task="write" clip="Sit_Write_F_Loop" pose=sit at (-4.8, -4.32)
+  [ 112.3s] [library_b1 10 秒] 位子 2：act=rest set="tset_away" items=[] task=null clip=null pose=sit at (-9.6, -11.08)
+  [ 112.3s] [library_b1 10 秒] 位子 3：act=rest set="tset_away" items=[] task=null clip=null pose=sit at (19.3, -10.98)
+  [ 112.3s] [library_b1 10 秒] 位子 4：act=tablet set=null items=[] task=null clip=null pose=read at (4.4, -4.32)
+  [ 112.3s] [library_b1 10 秒] 位子 5：act=notes set="tset_notes" items=[] task="write" clip="Sit_Write_M_Loop" pose=sit at (-3.6, -4.32)
+  [ 112.3s] [library_b1 10 秒] 位子 6：act=book set="L_book_side" items=[] task=null clip=null pose=read at (0.8, -4.32)
+  [ 112.3s] [library_b1 10 秒] 坐著的 NPC 6：[{"id": null, "x": -4.8, "z": -4.32, "task": null, "tb": false, "table": null}, {"id": null, "x": -9.6, "z": -11.08, "task": null, "tb": false, "table": null}, {"id": null, "x": 19.3, "z": -10.98, "task": null, "tb": false, "table": null}, {"id": null, "x": 4.4, "z": -4.32, "task": null, "tb": false, "table": null}, {"id": null, "x": -3.6, "z": -4.32, "task": null, "tb": false, "table": null}, {"id": null, "x": 0.8, "z": -4.32, "task": null, "tb": false, "table": null}]
+  [ 142.4s] [library_b1 40 秒] SEATACT zone=library_b1 n=6 loaded=True；CHAR.sitTask=True、sitTaskReady=True
+  [ 142.4s] [library_b1 40 秒] 位子 1：act=notes set="tset_notes" items=[] task="write" clip="Sit_Write_F_Loop" pose=sit at (-4.8, -4.32)
+  [ 142.4s] [library_b1 40 秒] 位子 2：act=rest set="tset_away" items=[] task=null clip=null pose=sit at (-9.6, -11.08)
+  [ 142.4s] [library_b1 40 秒] 位子 3：act=rest set="tset_away" items=[] task=null clip=null pose=sit at (19.3, -10.98)
+  [ 142.4s] [library_b1 40 秒] 位子 4：act=tablet set=null items=[] task=null clip=null pose=read at (4.4, -4.32)
+  [ 142.4s] [library_b1 40 秒] 位子 5：act=notes set="tset_notes" items=[] task="write" clip="Sit_Write_M_Loop" pose=sit at (-3.6, -4.32)
+  [ 142.4s] [library_b1 40 秒] 位子 6：act=book set="L_book_side" items=[] task=null clip=null pose=read at (0.8, -4.32)
+  [ 142.4s] [library_b1 40 秒] 坐著的 NPC 6：[{"id": null, "x": -4.8, "z": -4.32, "task": null, "tb": false, "table": null}, {"id": null, "x": -9.6, "z": -11.08, "task": null, "tb": false, "table": null}, {"id": null, "x": 19.3, "z": -10.98, "task": null, "tb": false, "table": null}, {"id": null, "x": 4.4, "z": -4.32, "task": null, "tb": false, "table": null}, {"id": null, "x": -3.6, "z": -4.32, "task": null, "tb": false, "table": null}, {"id": null, "x": 0.8, "z": -4.32, "task": null, "tb": false, "table": null}]
+PASS 沒有 JS 例外  []
+ALL PASS

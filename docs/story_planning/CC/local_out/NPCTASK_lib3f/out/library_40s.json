@@ -1,0 +1,267 @@
+{
+ "zone": "library",
+ "seatact": {
+  "zone": "library",
+  "n": 11,
+  "loaded": true,
+  "list": [
+   {
+    "act": "book",
+    "set": "L_book_side",
+    "kind": "wide",
+    "named": true,
+    "x": -10.55,
+    "z": -7.4,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "textbook",
+    "set": "tset_book",
+    "kind": "wide",
+    "named": false,
+    "x": -10.55,
+    "z": -4,
+    "lv": 0,
+    "items": [],
+    "pose": "sit",
+    "hold": null,
+    "task": "page",
+    "clip": "Sit_Page_F_Loop",
+    "hide": null
+   },
+   {
+    "act": "textbook",
+    "set": "tset_book",
+    "kind": "wide",
+    "named": false,
+    "x": -10.55,
+    "z": 2.8,
+    "lv": 0,
+    "items": [],
+    "pose": "sit",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "book",
+    "set": "L_book_side",
+    "kind": "wide",
+    "named": false,
+    "x": 10.55,
+    "z": 2.6,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": "book",
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "phone",
+    "set": "L_phone_side",
+    "kind": "wide",
+    "named": false,
+    "x": 7.6,
+    "z": -13.4,
+    "lv": 0,
+    "items": [],
+    "pose": "sit",
+    "hold": null,
+    "task": "phone",
+    "clip": "Sit_Phone_F_Loop",
+    "hide": "hand_phone"
+   },
+   {
+    "act": "notes",
+    "set": "tset_notes",
+    "kind": "wide",
+    "named": false,
+    "x": 8.4,
+    "z": -13.4,
+    "lv": 0,
+    "items": [],
+    "pose": "sit",
+    "hold": null,
+    "task": "write",
+    "clip": "Sit_Write_M_Loop",
+    "hide": "hand_pen"
+   },
+   {
+    "act": "book",
+    "set": "L_book_side",
+    "kind": "narrow",
+    "named": true,
+    "x": 3.22,
+    "z": -10.88,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "book",
+    "set": "L_book_side",
+    "kind": "wide",
+    "named": true,
+    "x": -10.55,
+    "z": -8.4,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "book",
+    "set": "L_book_side",
+    "kind": "wide",
+    "named": true,
+    "x": 10.55,
+    "z": 1.6,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "book",
+    "set": "L_book_side",
+    "kind": "wide",
+    "named": true,
+    "x": -10.55,
+    "z": -9.4,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   },
+   {
+    "act": "book",
+    "set": "L_book_side",
+    "kind": "narrow",
+    "named": true,
+    "x": 1.58,
+    "z": -10.88,
+    "lv": 0,
+    "items": [],
+    "pose": "read",
+    "hold": null,
+    "task": null,
+    "clip": null,
+    "hide": null
+   }
+  ]
+ },
+ "sitting": [
+  {
+   "id": "sis",
+   "x": -10.55,
+   "z": -7.4,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": null,
+   "x": -10.55,
+   "z": -4,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": null,
+   "x": -10.55,
+   "z": 2.8,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": null,
+   "x": 10.55,
+   "z": 2.6,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": null,
+   "x": 7.6,
+   "z": -13.4,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": null,
+   "x": 8.4,
+   "z": -13.4,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": "npc_huangxh",
+   "x": 3.22,
+   "z": -10.88,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": "npc_ta_chen",
+   "x": -10.55,
+   "z": -8.4,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": "pool_9",
+   "x": 10.55,
+   "z": 1.6,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": "pool_10",
+   "x": -10.55,
+   "z": -9.4,
+   "task": null,
+   "tb": false,
+   "table": null
+  },
+  {
+   "id": "pool_18",
+   "x": 1.58,
+   "z": -10.88,
+   "task": null,
+   "tb": false,
+   "table": null
+  }
+ ],
+ "sitTask": true,
+ "taskReady": true
+}
