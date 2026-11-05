@@ -11,7 +11,8 @@
   五、新生南路騎樓（XS-ARCADE-NAV-1105）：①兩段（z −68～−40、47.4～68）每 1 m 看 x −13.6、−15.5 站不住、x −12.4 站得住；
       ②照玩家點地往牆裡走（騎樓南北兩端往公寓那邊點），一路記位置：在那兩段裡人的 x 都 ≥ −13.2（不在牆裡）。
   截圖（給使用者看，不判；藏 HUD、藏玩家）：大廳 camRef（配置 lobby.camRef：eye、look、lens 24 mm）、1 廳（配置沒有 camRef：門口往銀幕，eye (3.5,1.6,7.4) look (0,1.4,−7.75) 24 mm），白天 14:00、晚上 21:00 各一張。
-用法：LW_TESTS=<wt>/tests [PARTS=door,seats,slope,arcade,shots] python3 cc_nanyang_v1_probe.py <url> <out>"""
+  六、營業時間外（BB-C 04:31 加）：places.js xs_nanyang 每天 09:30–24:00（AA_615 第 3 節）——讀檔新生南路 08:00 走到店門按「進南洋戲院」：不換區域、跳 toast（PLACES.closedText）；09:30 以後照樣進得去（上面一）。
+用法：LW_TESTS=<wt>/tests [PARTS=door,seats,slope,arcade,closed,shots] python3 cc_nanyang_v1_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, time, io
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests'))
@@ -22,7 +23,7 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
-PARTS = [x for x in (os.environ.get('PARTS') or 'door,seats,slope,arcade,shots').split(',') if x]
+PARTS = [x for x in (os.environ.get('PARTS') or 'door,seats,slope,arcade,closed,shots').split(',') if x]
 R = L.Run('nanyang_v1', OUT)
 DAY = '2025-10-15'
 ST = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position; const ch=document.getElementById('choices'), it=document.getElementById('interact');
@@ -241,6 +242,25 @@ async def part_arcade(pg, cdp):
         await shot(pg, 'arcade_%s' % ('north' if tz > sz else 'south'))
 
 
+async def part_closed(pg, cdp):
+    out = await pg.evaluate("NY3.streetOut()")
+    R.setup('[營業時間外] 讀檔新生南路 %s 08:00（開門 09:30 以前）、戲院門口南邊騎樓 4 m' % DAY)
+    await load_street(pg, cdp, out['x'], out['z'] - 4, h=8.0, yaw=0.0)
+    door = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='xs_nanyang'); return i?{label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2)}:null; })()")
+    if not R.check('[營業時間外] 店門還在（「進南洋戲院」）', bool(door), J(door)): return
+    exp = await pg.evaluate("(()=>PLACES.closedText('xs_nanyang',GAME.G.hour,GAME.G.day))()")
+    await L.go_to(pg, cdp, R, door['x'], door['z'], 0.4, '[營業時間外] 店門', max_s=120)
+    await pg.wait_for_timeout(600); s = await st(pg)
+    if not R.check('[營業時間外] 走到店門，互動按鈕是「進南洋戲院」', s['interact'].startswith('進南洋戲院'), J(s)): return
+    await pg.evaluate("(()=>{ window.__ccToast=[]; const t=document.getElementById('toast'); if(t){ new MutationObserver(()=>{ const x=(t.innerText||'').trim(); if(x) window.__ccToast.push(x); }).observe(t,{childList:true,subtree:true,characterData:true,attributes:true}); } })()")
+    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+    s = await st(pg); toasts = await pg.evaluate("window.__ccToast||[]")
+    R.note('[營業時間外] 按下去：%s；toast %s；PLACES.closedText＝%s' % (J({k: s[k] for k in ('zone', 'hour', 'x', 'z')}), J(toasts), J(exp)))
+    R.check('[營業時間外] 08:00 按店門：沒有進去（還在 xinsheng）', s['zone'] == 'xinsheng', J(s))
+    R.check('[營業時間外] 跳出「%s」（PLACES.closedText）' % exp, bool(exp) and any(exp in t or t in exp for t in toasts), J(toasts))
+    await shot(pg, 'closed_0800')
+
+
 async def part_shots(pg, cdp):
     lay = await pg.evaluate("(()=>({lobby:NANYANG_LAYOUT.lobby.camRef, hall:NANYANG_LAYOUT.hall.camRef||null}))()")
     hall_cam = lay['hall'] or {'eye': [3.5, 1.6, 7.4], 'look': [0.0, 1.4, -7.75], 'lens': 24}
@@ -291,6 +311,7 @@ async def main():
                     if 'slope' in PARTS: await part_slope(pg, cdp)
                     if 'seats' in PARTS: await sit_all(pg, cdp, '[1 廳]')
         if 'arcade' in PARTS: await part_arcade(pg, cdp)
+        if 'closed' in PARTS: await part_closed(pg, cdp)
         if 'shots' in PARTS: await part_shots(pg, cdp)
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
