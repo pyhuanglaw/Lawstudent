@@ -3325,6 +3325,15 @@
    "status": "規則（永久）",
    "wants": "X261",
    "note": "D131／D139 已有「Node 全套丟 GHA」，LAWWW-C 沒照做；CLAUDE.md D131 那一列、TESTING.md 第〇節補寫清楚：全套以 node-unit-auto 為準、雲端只跑改到的、full.sh 會漏結束碼"
+  },
+  {
+   "id": "UA-LAWWW-1105-45",
+   "at": "2026-11-05T11:1xZ",
+   "quote": "寒暑假能住家裡吧 不一定在學校／寒暑假要回家 學校也沒人啊",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "DRIVE-PICKUP-1105",
+   "note": "遊戲已經是這樣：寒暑假（法律系那幾年，HOME.breakOf）從家出發（DATE.fromHomeOn），車在家裡、不走去望月台停車場；只有學期中從宿舍出發才先走到停車場。fest3d／an_yt_hol3d 的取車 5 分鐘只在學期中；第二步子代理照這條做"
   }
  ]
 }
