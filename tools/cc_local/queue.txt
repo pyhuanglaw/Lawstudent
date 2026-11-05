@@ -195,7 +195,7 @@ GG_VIEWS_530a | 530a72ff44c81385688b3e624f4a65b5dcf5544f | probe | docs/story_pl
 # ===== D118_B7（BB-C 23:46，下一版；國考總複習）：雲端先跑（chain8），PC 恢復以後這裡再跑一次；排在 GG_VIEWS 後面 =====
 D118B7_play | 6a1592a26831ce63470b4869aa9c5aa7e5d8628c | probe | docs/story_planning/test_tools/cc/cc_d118b7_play.py | index.html | 60 | CC_HEADLESS=0
 # D118_B5（BB-C 00:06，下一版；法服改純劇情）：雲端先跑（chain8），PC 恢復以後再跑一次當第二份證據
-D118B5_play | 6a1592a26831ce63470b4869aa9c5aa7e5d8628c | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 60 | CC_HEADLESS=0
+D118B5_play | 747dba80dabb454eaf2aaf6f1bee272a271c6ce5 | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 90 | CC_HEADLESS=0
 # NTU_REF_teach（LAWWW-C 15:20：使用者 15:1x「普通 博雅 教學館目前感覺跟真正的太不像了」TEACH-PTBOYA-REF-1104；總表第 107～109 列的角度、14:00、現在的 head＝修改前；BB 可以調順序）
 NTU_REF_teach | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_ntu_ref_probe.py | index.html | 15 | ONLY=boya_n,boya_lake,putong;HOUR=14;CC_HEADLESS=0
 # PTBOYA v2（BB-C 16:30；TEACH-PTBOYA-REF-1104；不進 v9.10.20；使用者點名 X227）：排在 V20R、SITAMB 後面，阿德 v2、AA663、AA660 前面
