@@ -880,7 +880,7 @@
    ],
    "tests": "tests/nav_soclib_unit.js、tests/flow_soclib.py、tests/campus_layout_nav.py",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -1087,7 +1087,7 @@
    ],
    "evidence": "；第 2 級 run13（2026-10-16 03:03～03:32）ALL PASS",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -1117,7 +1117,7 @@
    ],
    "evidence": "；第 2 級 run13（2026-10-16 03:03～03:32）ALL PASS",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -1180,7 +1180,7 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）",
    "waitUserDone": {
@@ -1232,7 +1232,7 @@
    },
    "sha": "6e5a02b6",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -1264,7 +1264,7 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -9349,7 +9349,7 @@
     "ack": "SENT"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -9381,7 +9381,7 @@
     "ack": "SENT"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -10480,7 +10480,7 @@
     "305052b2"
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -11614,7 +11614,7 @@
     }
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -12121,7 +12121,7 @@
    },
    "sha": "cee40151",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -12154,7 +12154,7 @@
    },
    "sha": "2a0a7ff4",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -12187,7 +12187,7 @@
    },
    "sha": "3a85d367",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -12220,7 +12220,7 @@
    },
    "commit": "d2c8809c",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -12327,7 +12327,7 @@
    },
    "commit": "d2c8809c",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -12393,7 +12393,7 @@
     "ack": "DELIVERED"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -12425,7 +12425,7 @@
     "ack": "DELIVERED"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -12457,7 +12457,7 @@
     "ack": "DELIVERED"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -12490,7 +12490,7 @@
    },
    "evidence": "soymilk_shop.webp 已接進 src/outings3d.js（S.BG.soymilk_shop）",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -12522,7 +12522,7 @@
     "ack": "未派"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -12554,7 +12554,7 @@
     "ack": "未派"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -12587,7 +12587,7 @@
     "ack": "未派"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -13290,7 +13290,7 @@
     "639f0188"
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -14198,7 +14198,7 @@
    },
    "note": "2026-10-16：v7（LAWWW2-B 5e688f34，ART-PARK3 象棋桌凳、直飲台、車架）接進開發分支；wz_street_integration 排隊中。 2026-10-16 18:46：v7 在開發分支 wz_street_integration ALL PASS（draw call 291／273／306、三角形 41.7／39.0 萬…）。v8（a4c05720，名牌改公布欄橫板）待接。",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -14230,7 +14230,7 @@
     "ack": "ACTIONED"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -14289,7 +14289,7 @@
     "ack": "ACTIONED"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -14323,7 +14323,7 @@
     "ack": "ACTIONED"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -14459,7 +14459,7 @@
     "ack": "ACTIONED"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -14820,7 +14820,7 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -14853,7 +14853,7 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -14886,7 +14886,7 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -14919,7 +14919,7 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -15148,7 +15148,7 @@
    },
    "note": "2026-10-16：LAWWW2-B 6e72e346 接進 outings3d S.BG（BB-B 驗收三點通過）。；2026-10-16 18:56 BB-B 內容核對三點通過（6e72e346）；場景美術的 ART_APPROVED 只有使用者能標（D59）。",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -15677,7 +15677,7 @@
     "872226f7"
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -15941,7 +15941,7 @@
    },
    "evidence": "docs/art-rebuild/second_ai/test_shots/gongguan_glb_integration/（b4aec581 起）",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -16208,7 +16208,7 @@
     "872226f7"
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -16485,7 +16485,7 @@
     "ack": "ACTIONED"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -17367,7 +17367,7 @@
     }
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -17400,7 +17400,7 @@
    },
    "nextCheck": "2026-10-25",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -17499,7 +17499,7 @@
     "872226f7"
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -17985,7 +17985,7 @@
     "b75e50a5"
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -19327,7 +19327,7 @@
    ],
    "evidence": "出國活動 12 張純場景已生、已登錄、已使用：assets/bg/intl_seoul_*（4）、intl_cambodia_*（2）、intl_ca_*（2）、intl_tokyo_*（2）、intl_kyoto_*（2）（src/outings3d.js S.BG、vac_activities.js 引用）；出國期間機制照 BB_200 做在 src/vac3d.js",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -20947,7 +20947,7 @@
    ],
    "evidence": "src/us3d.js:235-242 us_lawlib 區域（校園 library 入口）、src/assets3d.js:143 bldg.us_lawlib；v9.10.2 發布說明「美國校園、法學院圖書館接成區域、四季（LAWWW2，d3fdab82）」；學姊作息平日 09～12 在 us_lawlib（src/us_life3d.js S4）",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -21059,7 +21059,7 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -21091,7 +21091,7 @@
     "ack": "SENT"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -21123,7 +21123,7 @@
     "ack": "SENT"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -21155,7 +21155,7 @@
     "ack": "SENT"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -21228,7 +21228,7 @@
     "ack": "ACTIONED"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -22185,7 +22185,7 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -22359,7 +22359,7 @@
     "ack": "SENT"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -23089,7 +23089,7 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -23275,7 +23275,7 @@
     "ack": "SENT"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -24088,7 +24088,7 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -24249,7 +24249,7 @@
     "ack": "未派"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -24787,7 +24787,7 @@
     }
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -26532,7 +26532,7 @@
    ],
    "evidence": "第一階段 e7b96f70（校園西側看出去的羅斯福路換 Blender 街廓，LAWWW2 2c09476d）、第二階段 0582af9f（店面街加高、gongguan_far、水源市場、天橋，LAWWW2 c491405c）、七樓以上不投影 1475d312（74cfdfb7）、校門口 draw call 合批 114a69fa；狀態 READY_FOR_ART_REVIEW",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -26588,7 +26588,7 @@
    "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；118 巷街道道具、機車＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-20 20:5x UTC】LAWWW2 7d61872e 接進 18da74d6（機車 55 台、店門口道具、電線、招牌、光圈）；效能決定：小道具不投影＋機車近 LOD 距離改小（LAWWW2 做）；reachability_all 略過隱藏按鈕（LAWWW2 改測試） ｜ 截圖 06、07（巷口往裡看：很寬、很空，像大馬路）；名牌疊在一起 LAWWW-C 已修（a9b14d1c）",
    "sha": "18da74d6",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -26620,7 +26620,7 @@
    "status": "等待其他AI／素材",
    "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；多功能教室桌椅＝場景美術；上課走進去 L519-531 PASS——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 08:3x UTC】合併 76cf1bd8（a4861712，d4512b7e）：202 長桌版生活感、多功能教室單人桌＋塑膠椅；seatcheck 修掉 reachability 陷阱；READY_FOR_ART_REVIEW；BB 清單 bb_checklists/BB_HOLFF_ROOMS_1021.md 第二節；201 沒動 ｜ 截圖 00（202）、01（多功能教室）幾乎一樣",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -26652,7 +26652,7 @@
    "status": "等待其他AI／素材",
    "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；教室生活感＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 08:3x UTC】合併 76cf1bd8（a4861712，d4512b7e）：202 長桌版生活感、多功能教室單人桌＋塑膠椅；seatcheck 修掉 reachability 陷阱；READY_FOR_ART_REVIEW；BB 清單 bb_checklists/BB_HOLFF_ROOMS_1021.md 第二節；201 沒動 ｜ 截圖 00、01：桌椅乾淨但太空",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -27287,7 +27287,7 @@
     "ack": "SENT"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -27717,7 +27717,7 @@
    },
    "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；七張背景＝場景圖；L765-775 BB 對過內容——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 14:0x UTC】七張到齊（e10b683a 六張＋3c1ca343 legal_aid_office），都接進 assets/bg＋OUT.BG；BB 畫面驗收（和 BB-TEST-VAC-C16-C18-1021 一起） ｜ 【LAWWW-C 2026-10-21 13:5x UTC】BB-C 第 94 組（e10b683a）接進：六張到了（law_firm_office、law_firm_meeting、court_gallery、intl_sg_court、intl_sg_campus、intl_sg_hawker），只差 legal_aid_office ｜ 【LAWWW-C 2026-10-21 13:4x UTC】已送 BB-C；現在演出是深色底",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -29460,7 +29460,7 @@
    },
    "sha": "e8c4ce7a",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -30292,7 +30292,7 @@
    },
    "sha": "93967011",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -30325,7 +30325,7 @@
    },
    "sha": "93967011",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -30481,7 +30481,7 @@
    },
    "sha": "fdd9b3f5",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -31724,7 +31724,7 @@
    "sha": "82725bf8（整合 6b2827942）",
    "note": "2026-10-23 11:4x LAWWW-B 整合 6b2827942：GLB＋腳本＋貼圖集＋兩個測試 patch；單元 street_props_nav_unit、l118_*、lane118_* ALL PASS；gongguan_glb_integration 背景跑；BB 畫面＋flow_lane118／flow_l118_shops（清單第 37 項）；READY_FOR_ART_REVIEW，場景 ART_APPROVED 由使用者。溫州街同一套 wz_shopkit 還沒重建（LAWWW2 下次重建時店內也會變 unlit）。",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -31759,7 +31759,7 @@
    "sha": "82725bf8（整合 6b2827942）",
    "note": "2026-10-23 11:4x LAWWW-B 整合 6b2827942：GLB＋腳本＋貼圖集＋兩個測試 patch；單元 street_props_nav_unit、l118_*、lane118_* ALL PASS；gongguan_glb_integration 背景跑；BB 畫面＋flow_lane118／flow_l118_shops（清單第 37 項）；READY_FOR_ART_REVIEW，場景 ART_APPROVED 由使用者。溫州街同一套 wz_shopkit 還沒重建（LAWWW2 下次重建時店內也會變 unlit）。",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -31793,7 +31793,7 @@
    },
    "note": "2026-10-23 11:4x LAWWW-B ACK LAWWW2 開工：W3.windowMat 兩層視差（遠景＋透明近景）；場景程式照 D108 由 LAWWW2 改；交件附受影響區域、效能、前後截圖。 10-23 14:5x BB-B 第 47 項功能 PASS（四家 × 中午晚上、兩層載入、視差、沒有破圖與例外）；美術 A/B/C 已問使用者；觀察：便利商店窗外 GONGGUAN 字是背面（反字，不是 bug，看使用者）。",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -32290,7 +32290,7 @@
    },
    "sha": "5fed31e9",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -32594,7 +32594,7 @@
    "sha": "025ab4f30",
    "notes": "10-24 05:2x LAWWW-B：LAWWW2 f6ace8353 交件，patch＋GLB 整合（025ab4f30）；四支新測試＋溫州街、打工、導航相關測試全過",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -33060,7 +33060,7 @@
    },
    "notes": "LAWWW-B 10-24 15:0x 整合：patch us_route_night_1024（us3d.js vtAt／skyTint、us_campus lampPools；tests/us_lamp_pools_unit.js、新 tests/us_lawlib_sky_unit.js）、us_community.glb＋.json＋tools/blender/env_second/us_community.py；美國 16 支＋ground_zfight＋aa412／aa370 ALL PASS。P3 記錄沒改：208 剛進門鏡頭退到門外平台、出境大廳柱子貼鏡頭。",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
@@ -33964,7 +33964,7 @@
    },
    "notes": "LAWWW2-B 17:0x 交件 bae544475（window_dusk_fade_1025.patch：W3.photoFade，光線 18.6～19.2 白天照片照 nk 疊成夜景照片；12/10 17:20 霖澤館窗 0.084→0.055、總圖 0.116→0.069，屋外 0.041／0.029）；17:1x 合進開發分支，window_dusk_fade、window_night_sync、us_airport_dusk ALL PASS；READY_FOR_ART_REVIEW；待 BB 瀏覽器驗。 ｜ LAWWW2-B 10-30 02:21（b0604a236）：夏天也慢慢疊＝維持不改（BB 9b3185665 量 6/20 18:26～19:03 窗跟著屋外一起暗：霖澤 1.2～1.4 倍、總圖 1.8～2.3、萬才 0.94～1.18，沒有日落前先黑）。",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
+   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
