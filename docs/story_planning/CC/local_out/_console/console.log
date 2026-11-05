@@ -457,3 +457,24 @@
 [17:19:52] ==== END   V21R_reach  exit=1  563s   ====
 [17:19:58] solo item V21R_touch waits: no new items start until the 2 running item(s) finish
 [17:21:02] [res] cpu=34% mem=38% (12.0/31.4 GB) chrome_testing=5  END V21R_zone
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e69eca297..8ec99fe54  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:21:07] ==== END   V21R_zone  exit=0  196s   ====
+[17:21:10] solo item V21R_touch waits: no new items start until the 1 running item(s) finish
+[17:22:08] 正在跑：SHANLAN_v3（已跑 82 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:27:08] 正在跑：SHANLAN_v3（已跑 87 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:32:08] 正在跑：SHANLAN_v3（已跑 92 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:37:08] 正在跑：SHANLAN_v3（已跑 97 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:41:33] solo item V21R_movreg_solo waits: no new items start until the 1 running item(s) finish
+[17:42:08] 正在跑：SHANLAN_v3（已跑 102 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:47:08] 正在跑：SHANLAN_v3（已跑 107 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:51:43] memory 39% before starting WINVIEW_rel_deploy (1 running)
+[17:51:43] memory 39% before starting WINVIEW_rel_shots (2 running)
+[17:51:43] ==== START WINVIEW_rel_deploy  (game @ bcb386604502ab9e04674cd587ef5d527a33b570) ====
+[17:51:43] ==== START WINVIEW_rel_shots  (probe @ bcb386604502ab9e04674cd587ef5d527a33b570) ====
+[17:51:46] [res] cpu=24% mem=39% (12.3/31.4 GB) chrome_testing=5  START WINVIEW_rel_shots
+[17:51:46] [res] cpu=23% mem=39% (12.3/31.4 GB) chrome_testing=5  START WINVIEW_rel_deploy
+[17:51:47] worktree add bcb386604502ab9e04674cd587ef5d527a33b570: invalid reference - fetching main and the commit itself
+[17:52:08] 正在跑：SHANLAN_v3（已跑 112 分／上限 120 分）、WINVIEW_rel_deploy（已跑 0 分／上限 30 分）、WINVIEW_rel_shots（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:56:01] [res] cpu=57% mem=43% (13.7/31.4 GB) chrome_testing=10  END WINVIEW_rel_deploy
