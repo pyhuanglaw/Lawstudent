@@ -4,10 +4,10 @@
  "roles": {
   "LAWWW": {
    "branch": "claude/adoring-meitner-mqzst8",
-   "sha": "66b6eb27cfee80d45f0d55529fcc6b45958f855b",
-   "at": "2026-11-05T01:48Z",
+   "sha": "0d307f3ec4ab531961d27a8e1cdb1c73489b46a6",
+   "at": "2026-11-05T02:42Z",
    "by": "session_01Me1thu8Zn934H58kWKNfuF",
-   "scanned": 23,
+   "scanned": 24,
    "evidence": "帳號 B LAWWW 最後一個 commit（交班＋交接補強＋使用者授權補記）；LAWWW-C 接班時查核、合併成 bfd5f40d",
    "open": [
     "WIP-AB65-3-Y1S2-L",
@@ -241,16 +241,23 @@
      "at": "2026-11-05T00:29Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 62
+    },
+    {
+     "branch": "claude/adoring-meitner-mqzst8",
+     "sha": "66b6eb27cfee80d45f0d55529fcc6b45958f855b",
+     "at": "2026-11-05T01:48Z",
+     "by": "session_01Me1thu8Zn934H58kWKNfuF",
+     "scanned": 23
     }
    ],
    "classify": false
   },
   "LAWWW2": {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "e9b956dc106c9b3e003459edc58a05075c0a7d47",
-   "at": "2026-11-05T01:48Z",
+   "sha": "91f944c15d66b8dec3e21301a6f2287c3eefd080",
+   "at": "2026-11-05T02:42Z",
    "by": "session_01Me1thu8Zn934H58kWKNfuF",
-   "scanned": 8,
+   "scanned": 5,
    "evidence": "帳號 B 交接補強逐筆核對 16 筆（bbb4301b）＋deliveries scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-L2-DATE-CUTOUTS",
@@ -484,15 +491,22 @@
      "at": "2026-11-05T00:29Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 14
+    },
+    {
+     "branch": "claude/focused-cray-c9uwvw",
+     "sha": "e9b956dc106c9b3e003459edc58a05075c0a7d47",
+     "at": "2026-11-05T01:48Z",
+     "by": "session_01Me1thu8Zn934H58kWKNfuF",
+     "scanned": 8
     }
    ]
   },
   "AA": {
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "41d75ab0c198287b6be67031801adc9c03aad15d",
-   "at": "2026-11-05T01:48Z",
+   "sha": "2fd7e92ea29ce14a4e842612df9ddfb92aa02614",
+   "at": "2026-11-05T02:42Z",
    "by": "session_01Me1thu8Zn934H58kWKNfuF",
-   "scanned": 3,
+   "scanned": 4,
    "evidence": "帳號 B 交接補強逐筆核對 126 筆（c02a440e、1af66e42）＋scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-AA-103-SP",
@@ -721,15 +735,22 @@
      "at": "2026-11-05T00:29Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 13
+    },
+    {
+     "branch": "claude/magical-albattani-bk7b4n",
+     "sha": "41d75ab0c198287b6be67031801adc9c03aad15d",
+     "at": "2026-11-05T01:48Z",
+     "by": "session_01Me1thu8Zn934H58kWKNfuF",
+     "scanned": 3
     }
    ]
   },
   "BB": {
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "b529e4c2b37a568e24d27d8df64eb3c3b90a3fe0",
-   "at": "2026-11-05T01:48Z",
+   "sha": "9b4f9d56d389287fd3716d738365eba188a118b3",
+   "at": "2026-11-05T02:42Z",
    "by": "session_01Me1thu8Zn934H58kWKNfuF",
-   "scanned": 5,
+   "scanned": 12,
    "evidence": "帳號 B 交接補強逐筆核對 113 筆（558f381b）＋scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-BB-181",
@@ -964,15 +985,22 @@
      "at": "2026-11-05T00:29Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 24
+    },
+    {
+     "branch": "claude/wonderful-mayer-7fm9g6",
+     "sha": "b529e4c2b37a568e24d27d8df64eb3c3b90a3fe0",
+     "at": "2026-11-05T01:48Z",
+     "by": "session_01Me1thu8Zn934H58kWKNfuF",
+     "scanned": 5
     }
    ]
   },
   "CC": {
    "branch": "claude/cc-testing",
-   "sha": "cf4f43db7bf60e5ee40a86eb84158ea932993490",
-   "at": "2026-11-05T01:48Z",
+   "sha": "3dc8ba67033b967b7f6603a813c181516081cd24",
+   "at": "2026-11-05T02:42Z",
    "by": "session_01Me1thu8Zn934H58kWKNfuF",
-   "scanned": 4,
+   "scanned": 13,
    "evidence": "新職位 CC（D119／HV-22，使用者 2026-11-02 03:5x 對 BB）的基準：claude/cc-testing 從企劃線 claude/story-planning 734026659 開出，分岔點以前是 AA、BB 的 commit（由它們的水位線核對）；只核對 CC 自己的 commit（第一筆 336d26c35 值班登記）",
    "open": [],
    "history": [
@@ -1038,6 +1066,13 @@
      "at": "2026-11-05T00:29Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 28
+    },
+    {
+     "branch": "claude/cc-testing",
+     "sha": "cf4f43db7bf60e5ee40a86eb84158ea932993490",
+     "at": "2026-11-05T01:48Z",
+     "by": "session_01Me1thu8Zn934H58kWKNfuF",
+     "scanned": 4
     }
    ]
   }
