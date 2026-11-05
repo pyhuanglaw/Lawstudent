@@ -45263,7 +45263,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 11-05 00:4x】開工（v9.10.20 候選版 d3828452a 已固定，開發分支照做）：系統部分派子代理（worktree /home/user/wt-guitar，guitar-1105）照 AA_619（企劃線 22a6c4d43）第 2～4 節；室內區域 GUITAR-SHOP-ZONE-1105 派 LAWWW2-C（D108）；位置問 AA-C（AA_619 寫公館羅斯福路，遊戲裡同弦店面在新生南路 xinsheng_layout，沒說搬就照新生南路）｜【LAWWW-C 11-04 13:3x】v9.10.20 發布以後派子代理照 AA_619（企劃線 22a6c4d43）實作；同弦二樓室內 tongxian.glb 照舊等 MODEL_READY 驗收（BB 代驗，D132）",
+   "next": "【LAWWW-C 11-05 00:4x】AA-C 00:45：照新生南路那一間（xinsheng_layout tongxian），不用搬；AA_619 以企劃線最新 bf0efded8 為準（22a6c4d43 是舊版：位置、社長那句「新生南路有一家同弦」、第 4 節第 1 點三處公館→新生南路），已轉子代理｜【LAWWW-C 11-05 00:4x】開工（v9.10.20 候選版 d3828452a 已固定，開發分支照做）：系統部分派子代理（worktree /home/user/wt-guitar，guitar-1105）照 AA_619（企劃線 22a6c4d43）第 2～4 節；室內區域 GUITAR-SHOP-ZONE-1105 派 LAWWW2-C（D108）；位置問 AA-C（AA_619 寫公館羅斯福路，遊戲裡同弦店面在新生南路 xinsheng_layout，沒說搬就照新生南路）｜【LAWWW-C 11-04 13:3x】v9.10.20 發布以後派子代理照 AA_619（企劃線 22a6c4d43）實作；同弦二樓室內 tongxian.glb 照舊等 MODEL_READY 驗收（BB 代驗，D132）",
    "source": "AA-C 11-04 13:18（GUITAR-CLUB-1103 next 欄貼錯，LAWWW 決定開系統任務）",
    "authorized": "D109 AA 劇情自主、D111 LAWWW 排優先",
    "pausedReason": "v9.10.20 擋發布項目先做",
@@ -46926,12 +46926,12 @@
     "parallel": true,
     "confirmed": false
    },
-   "source": "使用者 11-03 對 AA（X196）；AA_619（企劃線 22a6c4d43）第 1、4 節；LAWWW-C 11-05 00:4x 派",
+   "source": "使用者 11-03 對 AA（X196）；AA_619（企劃線 bf0efded8）第 1、4 節；LAWWW-C 11-05 00:4x 派",
    "authorized": "使用者 11-03（X196）；D108 場景程式歸 LAWWW2；MODEL_READY 照 D132 交 BB 代驗",
    "next": "【LAWWW-C 11-05 00:4x】send_message 派 LAWWW2-C：DORM-LADDER 之後做；互動點 label／id 交 LAWWW 接選單與劇情（AA619-GUITAR-1104）",
    "sha": null,
    "xai": {
-    "spec": "AA_619 第 1、4 節；src/data/xinsheng_layout.js tongxian；cc-testing assets/models/env/second_ai/bb_support/tongxian.glb",
+    "spec": "AA_619（企劃線 bf0efded8）第 1、4 節；src/data/xinsheng_layout.js tongxian；cc-testing assets/models/env/second_ai/bb_support/tongxian.glb",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "zone tongxian 走得進去、出得來（nav_buildings／reachability Node ALL PASS）；櫃檯、吉他牆、試琴椅互動點；營業時間外門口擋；patch 交 LAWWW",
     "receiver": "LAWWW",
