@@ -331,7 +331,7 @@ const CROWD=(function(){
     const kd=C.kind(G.day), wk=C.weekend(G.day)||kd==='holiday', T=C.termOf?C.termOf(G.day):null;
     if(kd!=='term') L*=k==='cvs'?0.8:0.6;   /* 寒暑假：學區的店（台大附近）少四成；便利商店少兩成 */
     if(wk) L*=k==='meal'?0.85:(k==='brunch'||k==='cafe'||k==='tea'||k==='book'||k==='bookseat'||k==='shop'||k==='cinema'?1.35:(k==='bistro'?1.2:1));   /* 週末、國定假日：吃飯的店學生少一點，早午餐、咖啡、茶屋、書店多一點 */
-    if(T&&T.exam&&(k==='print'||k==='cafe'||k==='study'||k==='study24')) L*=1.7;   /* 大口漢堡：考試那兩週是大家念書的地方（AA_621）*/   /* 考試週：影印、咖啡店念書的人多 */
+    if(T&&T.exam&&(k==='print'||k==='cafe'||k==='study'||k==='study24')) L*=1.7;   /* 考試週：影印、咖啡店念書的人多；木曜日、大口漢堡二樓（AA_621：考試那兩週是大家念書的地方）也是 */
     return Math.max(0,Math.min(0.85,L)); };
   /* 營業時段（[[開, 關], …]；不開＝[]）：places.js 有營業時間的照 places.js（溫州街的店）、118 巷照它的資料（L118.isOpen：公休、老闆開刀那兩週）；
      阿鳳麵店、書店沒有寫營業時間（門整天開著）：客人只在 11:00～14:00、17:00～21:00（麵店）、11:00～21:00（書店）；便利商店 24 小時 */
@@ -362,8 +362,8 @@ const CROWD=(function(){
   const shelfPts=list=>{ const out=[]; for(const [x,z,r,len,sides] of list){ const nx=Math.sin(r), nz=Math.cos(r), ax=Math.cos(r), az=-Math.sin(r), n=Math.max(1,Math.floor(len/1.6));
       for(const s of sides) for(let i=0;i<n;i++){ const a=(i+0.5)*len/n-len/2, px=x+nx*s*0.75+ax*a, pz=z+nz*s*0.75+az*a; out.push([px,pz,Math.atan2(-nx*s,-nz*s)]); } } return out; };
   S.shopDefs=function(){ const out=[]; const WZ=typeof WZ_SHOPS_LAYOUT!=='undefined'?WZ_SHOPS_LAYOUT:null, LS=typeof L118_SHOP_LAYOUTS!=='undefined'?L118_SHOP_LAYOUTS:null;
-    const seatsOf=(arr,lv)=>(arr||[]).map(s=>Object.assign({x:+s.x,z:+s.z,yaw:+s.yaw||0,table:Array.isArray(s.table)?s.table.join(','):s.table,bar:!!s.lift},(s.lv!=null||lv!=null)?{lv:(s.lv!=null?s.lv:lv)|0}:{}));   /* lv：兩層的店（木曜日在二樓、山嵐、大口漢堡）*/
-    const lvUnits=(units,o)=>units.map(u=>Object.assign(u,u.seats&&u.seats[0].lv?{lv:u.seats[0].lv}:{},o||{}));   /* 118 巷的 table 是桌子中心 [x, z] */
+    const seatsOf=(arr,lv)=>(arr||[]).map(s=>Object.assign({x:+s.x,z:+s.z,yaw:+s.yaw||0,table:Array.isArray(s.table)?s.table.join(','):s.table,bar:!!s.lift},(s.lv!=null||lv!=null)?{lv:(s.lv!=null?s.lv:lv)|0}:{}));   /* 118 巷的 table 是桌子中心 [x, z]；lv：兩層的店（木曜日在二樓、山嵐、大口漢堡）*/
+    const lvUnits=(units,o)=>units.map(u=>Object.assign(u,u.seats&&u.seats[0].lv?{lv:u.seats[0].lv}:{},o||{}));   /* 一組位子在哪一層（S.shopSpots 的 spot.lv）*/
     const add=(zone,kind,door,units,o)=>{ if(units.length) out.push(Object.assign({zone,kind,door,units,ix:out.length},o||{})); };
     /* 公館：阿鳳麵店（中間那張桌留給玩家、阿哲、麵店團：只排東西兩張）、日日便利、舊路書房 */
     add('noodle','meal',[0,3.5],S.pairUnits([{x:-3,z:-0.3,yaw:0},{x:-3,z:1.3,yaw:Math.PI},{x:3,z:-0.3,yaw:0},{x:3,z:1.3,yaw:Math.PI}]),{noKeep:true});
@@ -410,10 +410,11 @@ const CROWD=(function(){
       add('xs_shanlan','book',[IN.x,IN.z],lvUnits(S.pairUnits(seatsOf(SL.seats))).map(u=>Object.assign(u,{sk:'bookseat'})).concat(
         standUnits([[6.0,-0.8,P/2],[-3.5,-4.6,0],[-0.8,-5.4,P],[2.2,4.9,0]]),
         standUnits([[-3.6,-4.0,-P/2,1],[-0.8,-6.0,-P/2,1],[2.8,-5.5,P/2,1],[4.8,-6.5,-P/2,1]])),{doorLv:0}); }
-    /* 大口漢堡（24 小時，兩層）：一樓吃東西（meal）、點餐櫃檯前排隊（pay，便利商店的時段）；二樓學生自習區（study24：考試週多）*/
+    /* 大口漢堡（24 小時，兩層）：一樓吃東西（meal 的時段）、點餐櫃檯前排隊（pay，便利商店的時段）；二樓學生自習區（study24：考試週多）。
+       整間店算 cafe（seatact3d.js：坐著的人可以用筆電、念書；每一組照 sk 的時段）*/
     const DK=typeof DAKOU_LAYOUT!=='undefined'&&DAKOU_LAYOUT.shop?DAKOU_LAYOUT.shop:null;
     if(DK&&DK.floor1){ const hi=q=>q.high?Object.assign({},q,{lift:1}):q;
-      add('xs_dakou','meal',[0,6.4],S.pairUnits(seatsOf(DK.floor1.seats.map(hi),0)).concat(standUnits([[-2.6,-2.3,P],[-0.4,-2.3,P]],'pay',{sk:'cvs'}),
+      add('xs_dakou','cafe',[0,6.4],S.pairUnits(seatsOf(DK.floor1.seats.map(hi),0)).map(u=>Object.assign(u,{sk:'meal'})).concat(standUnits([[-2.6,-2.3,P],[-0.4,-2.3,P]],'pay',{sk:'cvs'}),
         lvUnits(S.pairUnits(seatsOf((DK.floor2&&DK.floor2.seats)||[],1))).map(u=>Object.assign(u,{sk:'study24'}))),{doorLv:0}); }
     /* 大步球鞋：試穿長凳 B（長凳 A 是「試穿」的按鈕、店員蹲著按鞋頭）坐著試穿；兩面鞋牆、新品展示桌前站著（避開阿哲、店員的站位）*/
     const DB=typeof DABU_LAYOUT!=='undefined'?DABU_LAYOUT:null;
