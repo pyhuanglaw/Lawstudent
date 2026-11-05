@@ -128,7 +128,7 @@ LAWWW2-C，2026-11-05。任務 DORM-LADDER-HEAD-GRIP-1102 的 ②（P1）。①�
 ## 接法（LAWWW-C）
 
 ```
-git checkout （交件 SHA） -- assets/models/env/second_ai/dorm_room4.glb assets/models/env/second_ai/dorm_room4.layout.json \
+git checkout 42cbba73b -- assets/models/env/second_ai/dorm_room4.glb assets/models/env/second_ai/dorm_room4.layout.json \
   assets/models/env/second_ai/dorm_room4_lm_day.webp assets/models/env/second_ai/dorm_room4_lm_night.webp assets/models/env/second_ai/dorm_room4_lm_dark.webp \
   tools/blender/env_second/dorm_room4.py tools/blender/env_second/lightbake/dorm_room4_lm.json \
   tests/dorm_ladder_grips_unit.js tools/anim/climb_pose_export.js tools/blender/env_second/dorm_ladder_preview.py
