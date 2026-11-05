@@ -88,6 +88,9 @@ async def review_flow(pg, cdp, tag, shot, kw):
     firsts, cap, t0 = [], None, time.time()
     while time.time() - t0 < 900:
         u = await pg.evaluate(UI)
+        c = await pg.evaluate(CAP)   # 結束字幕和家裡選單同時出來（PC 11-05 D118B7F_play）：先看字幕
+        if c and c['show'] and kw in (c['text'] or ''):
+            await pg.wait_for_timeout(600); cap = await pg.evaluate(CAP); await R.shot(pg, shot); break
         if u['opts']:
             if any(o.startswith('跳到下一科') for o in u['opts']): await pick(pg, cdp, "t=>t.startsWith('跳到下一科')")
             elif any(o.startswith('先讀到這裡') for o in u['opts']): await pick(pg, cdp, "t=>t.startsWith('先讀到這裡')")
@@ -97,9 +100,6 @@ async def review_flow(pg, cdp, tag, shot, kw):
         if u['dlg'] and u['text']:
             if u['text'].startswith('【'): firsts.append(u['text'])
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(250); continue
-        c = await pg.evaluate(CAP)
-        if c and c['show'] and kw in (c['text'] or ''):
-            await pg.wait_for_timeout(600); cap = await pg.evaluate(CAP); await R.shot(pg, shot); break
         if not u['dlg'] and not u['opts'] and time.time() - t0 > 30 and firsts: break
         await pg.wait_for_timeout(300)
     u = await pg.evaluate(UI)
@@ -113,7 +113,7 @@ async def drive_until(pg, cdp, stop, max_s=900, exam=None):
     t0 = time.time(); last = None; VISITS.clear()
     while time.time() - t0 < max_s:
         u = await pg.evaluate(UI)
-        if stop(u): return u, True
+        if stop(u): VISITS.append('%s %05.2f' % (u['key'], u['hour'])); return u, True   # 停下來那一刻也記（PC 11-05：原本沒記到）
         if u['phone']: await close_phone(pg, cdp); continue
         if u['opts']:
             if exam and await exam(u): continue
@@ -220,11 +220,16 @@ async def case_judge(pg, cdp):
     o = [m for m in rem if m['tag'] == 'judge_remind_open_2029']
     if o: await R.shot(pg, 'judge_open_day')
     R.check('[judge] 開放那天＝2029-09-20 %s 一則，逐字「%s」（AA_692；BB-C 02:00）' % (OPEN_HM, J_ROPEN), len(o) == 1 and o[0]['key'] == '2029-09-20' and abs(o[0]['h'] - OPEN_H) < 0.01 and o[0]['text'] == J_ROPEN, J(o))
-    R.check('[judge] 跳到下一件事停在那一則的 %s' % OPEN_HM, bool(o) and any(v.startswith(o[0]['key'] + ' %05.2f' % OPEN_H) for v in VISITS), J([v for v in VISITS if v.startswith('2029-09-2')]))
+    R.note('[judge] 停下來那一刻 %s %.3f' % (u['key'], u['hour']))
+    R.check('[judge] 跳到下一件事停在那一則的 %s' % OPEN_HM, bool(o) and ok and u['key'] == o[0]['key'] and abs(u['hour'] - OPEN_H) < 0.1, J([v for v in VISITS if v.startswith('2029-09-2')]))
     # 開放那天下午坐到 B1
     nd = await pg.evaluate("(()=>{ const n=PG.judgeNext(GAME.G); return n?CALENDAR.dateOf(n.open).key:null; })()")
     R.setup('[judge] 【捷徑】同一份存檔換到開放那天 %s 13:00 總圖 B1（12:00 收到提醒，下午去讀；從家裡走到總圖這一段不測）' % nd)
     await jump(pg, nd or '2029-09-20', 13.0, 'library_b1')
+    for _ in range(4):   # 讀進來手機自己打開（可昕的待回覆，PC 11-05 截圖 12）：先關掉
+        if (await pg.evaluate(UI))['phone']: await close_phone(pg, cdp)
+        else: break
+    await L.close_panels(pg, cdp)
     seats = await pg.evaluate(SEATS)
     if not R.check('[judge] B1 找得到讀書座位', bool(seats), ''): return
     s0 = seats[0]; R.setup('[judge] 站到座位旁邊 0.6 m（%s, %s）' % (s0['x'], s0['z']))
@@ -235,6 +240,7 @@ async def case_judge(pg, cdp):
         u = await pg.evaluate(UI)
         if any(x.startswith('考前總複習') for x in u['opts']):
             hint = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].find(x=>(x.innerText||'').trim().startsWith('考前總複習')); return b?(b.innerText||'').trim():null; })()"); break
+        if u['phone']: await close_phone(pg, cdp); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500); continue
         if u['dlg'] and not u['opts']: await L.tap(pg, cdp, '#dlg')
         await pg.wait_for_timeout(700)
     await R.shot(pg, 'judge_seat_menu')

@@ -123,7 +123,7 @@ async def case_shop(pg, cdp):
     await use_it(pg, cdp, '[shop]', door, 0.6)
     u, ok, _ = await play(pg, cdp, [], lambda u: u['zone'] == 'xs_tongxian' and not u['busy'] and not u['dlg'], max_s=120)
     if not R.check('[shop] 按樓梯口進到同弦（xs_tongxian）', ok, J(u)): return
-    await pg.wait_for_timeout(2500); await R.shot(pg, 'shop_inside')
+    nshop = len(await says(pg)); await pg.wait_for_timeout(2500); await R.shot(pg, 'shop_inside')
     its = await pg.evaluate(ITS); R.note('[shop] 店裡的按鈕：%s' % J(its))
     looks = [i for i in its if i['label'] == '看看']; got = []
     for k, it in enumerate(looks):
@@ -152,12 +152,16 @@ async def case_shop(pg, cdp):
         R.check('[shop] 坐試琴椅「試彈」：「%s」（去過社課）' % T['try'], T['try'] in L1, J([seat, L1]))
         await L.touch_tap(cdp, 600, 300); await pg.wait_for_timeout(2000)
     else: R.check('[shop] 店裡有「試彈」（試琴椅）', False, J(its))
-    R.setup('[shop] 【捷徑】時間撥到 21:27，待在店裡等打烊')
-    await pg.evaluate("(()=>{ GAME.G.hour=21.45; })()"); n0 = len(await says(pg))
+    u = await pg.evaluate(UI)
+    if u['zone'] == 'xs_tongxian' and u['hour'] < 21.45:   # PC（GPU）跑得快：試彈途中就到 21:30 了（PC 11-05 GUITAR_play）＝不用撥
+        R.setup('[shop] 【捷徑】時間撥到 21:27，待在店裡等打烊')
+        await pg.evaluate("(()=>{ GAME.G.hour=21.45; })()")
+    else: R.note('[shop] 不用撥時間：現在 %s %.2f（店裡途中就到打烊）' % (u['zone'], u['hour']))
     u, ok, _ = await play(pg, cdp, [], lambda u: u['zone'] != 'xs_tongxian' and not u['dlg'] and not u['busy'], max_s=600)
-    L1 = await says(pg, n0); await R.shot(pg, 'shop_after_close')
+    L1 = await says(pg, nshop); await R.shot(pg, 'shop_after_close')
     cl = [x for x in L1 if x['t'] == T['close']]
-    R.check('[shop] 21:30 還在店裡：「老闆：%s」，接著回到新生南路' % T['close'], bool(cl) and cl[0]['who'] == '老闆' and u['zone'] == 'xinsheng', J({'L': L1[-4:], 'zone': u['zone'], 'h': u['hour']}))
+    R.note('[shop] 打烊那一句：%s' % J(cl))
+    R.check('[shop] 21:30 還在店裡：「老闆：%s」（21:30 以後、在 xs_tongxian 說的），接著回到新生南路' % T['close'], bool(cl) and cl[0]['who'] == '老闆' and cl[0]['zone'] == 'xs_tongxian' and cl[0]['h'] >= 21.5 - 0.01 and u['zone'] == 'xinsheng', J({'cl': cl, 'L': L1[-4:], 'zone': u['zone'], 'h': u['hour']}))
 
 
 async def case_zqshop(pg, cdp):
@@ -178,13 +182,29 @@ async def case_dorm(pg, cdp):
         await load(pg, cdp, 'dorm', '2025-10-14', 22.0, 'dorm', None, {'member': True}); await pg.evaluate("(()=>{ GAME.G.flags.OWN_GUITAR='entry'; GUITAR.rec(GAME.G).items.entry=GAME.G.day-1; })()"); R.setup('[dorm] 【前置】OWN_GUITAR')
     else:
         R.setup('[dorm] 【捷徑】同一份存檔換到宿舍 2025-10-14 22:00'); await jump(pg, '2025-10-14', 22.0, 'dorm')
-    its = await pg.evaluate(ITS); it = next((i for i in its if i['label'].startswith('彈吉他')), None)
-    if not R.check('[dorm] 宿舍房間有「彈吉他」', bool(it), J([i['label'] for i in its])): return
+    # 「彈吉他」是房間物件（STORY.ROOM_EXTRA → STORY.roomItemList；guitar3d.js S.room）：在「看看房間裡的東西」的選單裡（PC 11-05：原本找外層按鈕）
+    its = await pg.evaluate(ITS); it = next((i for i in its if i['label'].startswith('看看房間裡的東西')), None)
+    lst = await pg.evaluate("(()=>STORY.roomItemList(GAME.G).map(r=>r[0]))()")
+    R.note('[dorm] 房間的按鈕 %s；房間物件 %s' % (J([i['label'] for i in its]), J(lst)))
+    if not R.check('[dorm] 宿舍房間物件（看看房間裡的東西）有「彈吉他」', bool(it) and '彈吉他' in lst, J(lst)): return
     h0 = (await pg.evaluate(UI))['hour']; n0 = len(await says(pg))
     await use_it(pg, cdp, '[dorm]', it, 0.6)
-    u, ok, _ = await play(pg, cdp, [], lambda u: not u['dlg'] and not u['busy'] and not u['opts'], max_s=120)
-    L1 = [x['t'] for x in await says(pg, n0)]
-    R.check('[dorm] 彈吉他：轉暗、30 分鐘（%.2f → %.2f）、旁白兩句之一' % (h0, u['hour']), abs(u['hour'] - h0 - 0.5) < 0.1 and any(t in L1 for t in T['dorm']), J(L1))
+    menu = None
+    for _ in range(20):
+        u = await pg.evaluate(UI)
+        if u['opts']: menu = u['opts']; break
+        if u['dlg']: await L.tap(pg, cdp, '#dlg')
+        await pg.wait_for_timeout(500)
+    R.check('[dorm] 「看看房間裡的東西」選單有「彈吉他」', bool(menu) and any(o.startswith('彈吉他') for o in menu), J(menu))
+    if not menu or not any(o.startswith('彈吉他') for o in menu): return
+    h0 = (await pg.evaluate(UI))['hour']; n0 = len(await says(pg))   # 按下去那一刻（走過去的時間不算，雲端 11-05 量到 0.72）
+    await pick(pg, cdp, "t=>t.startsWith('彈吉他')")
+    u, ok, _ = await play(pg, cdp, ['不看了'], lambda u: not u['dlg'] and any(o.startswith('不看了') for o in u['opts']), max_s=120)
+    h1 = u['hour']
+    await pick(pg, cdp, "t=>t.startsWith('不看了')")
+    u, ok, _ = await play(pg, cdp, [], lambda u: not u['dlg'] and not u['busy'] and not u['opts'], max_s=60); u['hour'] = h1
+    S1 = await says(pg, n0); L1 = [x['t'] for x in S1]; nar = next((x for x in S1 if x['t'] in T['dorm']), None)
+    R.check('[dorm] 彈吉他：轉暗、30 分鐘（按下去 %.2f → 旁白那一刻 %s）、旁白兩句之一' % (h0, nar and nar['h']), bool(nar) and abs(nar['h'] - h0 - 0.5) < 0.1, J(S1))
 
 
 async def sign_up(pg, cdp, tag, post):
