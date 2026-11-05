@@ -433,9 +433,11 @@ const DATE=(function(){
       const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'date_'+t.trip):null; if(q&&q.state==='planned'&&!q.arrived&&GM.choose&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!(GM.D&&GM.D.active)) return S.early(GM,q,t,msg); } } };   /* 可以提早出發（UX-INV-GO-1023）：OUT.tick 等這個選單結束 */
   /* 出發前 60 分鐘提醒的時候就可以出發（使用者 10-23「現在有提醒有約會快到 應該要新增可以直接到約會地點的功能」，UX-INV-GO-1023）：
      「現在出發」＝和出發時間到的「出發」一樣（OUT.go：抵達不早於約好的時間，中間的時間直接過去）；「到時間再說」＝照舊，出發時間到再問。系統字，不是台詞 */
+  /* 開車、從宿舍出發（DRIVE-PICKUP-1105 第二步，AA_704 第 2 節）：選了出發＝先走到望月台停車場，在車旁邊按「開車出發」才真的出發（src/carlot3d.js 的 CARLOT.press 設 departed、going）；從家出發照舊直接走 */
+  S.toCar=(GM,q)=>{ if(typeof CARLOT==='undefined'||!CARLOT.need||!CARLOT.need(GM.G,q)) return false; CARLOT.toLot(GM,q); return true; };
   S.early=async function(GM,q,t,msg){ const G=GM.G; if(t.kind==='overnight'&&!S.stillOn(G,t).ok) return 'later';   /* 她第一天沒辦法來：出發時間到 S.prompt 交代 */
     let k; GM.sceneBegin(); try{ await GM.say(null,msg); k=await GM.choose([{t:'現在出發',hint:[q.place,q.travel].filter(Boolean).join('　')},{t:'到時間再說'}]); } finally { GM.sceneEnd(); }
-    if(k!==0||q.state!=='planned') return 'later'; t.departed=true; t.status='going'; await OUT.go(GM,q); return 'go'; };
+    if(k!==0||q.state!=='planned') return 'later'; if(S.toCar(GM,q)) return 'lot'; t.departed=true; t.status='going'; await OUT.go(GM,q); return 'go'; };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);
   const nameOf=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id;
   /* 睡覺的鬧鐘、跳過時間的停點（DATE-S4；AA_128 4-1）：那天約好的校外約會。h＝出發前 30 分鐘（鬧鐘）、dep＝出發時間（story3d.js 的 wakeAlarms、小睡；classes3d.js 的 skipStops 停在出發前 10 分鐘）*/
@@ -448,7 +450,7 @@ const DATE=(function(){
     let k; GM.sceneBegin(); try{ if(!late&&!t.departSaid){ t.departSaid=true; await S.speak(GM,t.who,'depart',t); }   /* 出發時間到：她傳一則訊息（BB_128 2-5 第 1 步、3-6 的「出發」；BB 五位，輪流；一趟一次）*/
       await GM.say(null,'今天 '+hm(t.depart)+'，你約了'+nameOf(t.who)+'去'+q.place+'。'+(late?'……這次趕不上了。':'現在要出發嗎？')); k=await GM.choose(opts); } finally { GM.sceneEnd(); }
     const pick=opts[k]&&opts[k].t;
-    if(pick==='出發'){ t.departed=true; t.status='going'; await OUT.go(GM,q); return 'go'; }
+    if(pick==='出發'){ if(S.toCar(GM,q)) return 'lot'; t.departed=true; t.status='going'; await OUT.go(GM,q); return 'go'; }
     if(pick==='改時間'){ return S.move(GM,q,t); }
     return S.drop(GM,q,t); };
   /* 改時間（第一版：同一天晚一小時、或明天同一時間；完整的日期時間選單是 DATE-S3）；改到第三次她說一句（BB 寫，還沒交）*/
