@@ -40079,7 +40079,7 @@
    "title": "法服純劇情（D118-B5）要 AA 定的五件：5/22 前一晚柏翰群組提醒的字；第 3 場 2027-10-23 和主線 6 感冒那一週第一天同一天要不要挪；只剩自己走進去坐圓桌才看得到的句子要不要放進固定場次；第 2 場收尾提到阿姨和照片、沒看過第 1 場的玩家怎麼辦；子代理自己定的記憶、介面字確認",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -40098,10 +40098,10 @@
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "AA 回五件（給字或照留）；LAWWW 照改、跑 d118_b5a／b5b",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "next": "【LAWWW-C 11-05 00:3x】send_message 給 AA-C",
-   "sha": null
+   "next": "【LAWWW-C 11-05 00:4x】AA_691（企劃線 607939eb8）五件照做 f512588e1：5/21 20:00 群組一則、第 3 場 10/30、第 1 場柏翰一句、第 2 場 endMiss（延伸到舊存檔換人／八件都演過，請 AA 確認）、第 4 場不記柏翰、手機記事拿掉「值班」；d118_b5a／b5b ALL PASS；BB 瀏覽器一起驗（D118-B5）｜【LAWWW-C 11-05 00:3x】send_message 給 AA-C",
+   "sha": "f512588e1"
   },
   {
    "id": "D118-B6-1102",
