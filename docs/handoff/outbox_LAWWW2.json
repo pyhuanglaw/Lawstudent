@@ -5939,7 +5939,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "42cbba73b",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "task": "DORM-LADDER-HEAD-GRIP-1102",
    "files": [
     "docs/art-rebuild/second_ai/wip/dorm_ladder_grip_1105/README.md",
@@ -5962,13 +5962,13 @@
    "remaining": "LAWWW 的 climbIK 照 sleep_scene.grips 改（動作歸 LAWWW，D128）；腳是走路片段、最上面兩階伸進牆 23～49 cm（LAWWW 看）；扶手的樣子 BB 判；瀏覽器沒跑（D131，CC 拍 203 梯子三張光照、起床爬下來）",
    "next": "LAWWW-C：git checkout 這個 SHA -- README 列的檔，python3 tools/gen_dorm_room_layout.py，node tests/dorm_ladder_grips_unit.js",
    "noDirectIntegrate": false,
-   "note": "② 靠床那一側的扶手（門那一側下半段鏡像，彎進床尾板）＋sleep_scene.grips（up／down 每一階 [左手, 右手]）／rails；① 頭頂離天花板每一階 1.38／1.06／0.74／0.42／0.14 m、跪 0.34（DORM-CEIL＋STOOP 已處理）；光照重烘（573 秒，同一組點 ±3.4%）；開發分支 ed7600ec5＋這一包：新測試 9 項＋宿舍相關 28 支 Node ALL PASS"
+   "note": "② 靠床那一側的扶手（門那一側下半段鏡像，彎進床尾板）＋sleep_scene.grips（up／down 每一階 [左手, 右手]）／rails；① 頭頂離天花板每一階 1.38／1.06／0.74／0.42／0.14 m、跪 0.34（DORM-CEIL＋STOOP 已處理）；光照重烘（573 秒，同一組點 ±3.4%）；開發分支 ed7600ec5＋這一包：新測試 9 項＋宿舍相關 28 支 Node ALL PASS｜send_message LAWWW-C DELIVERED、副本 BB-C DELIVERED（01:1x／01:4xZ）"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "a353148b7",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "task": "GUITAR-SHOP-ZONE-1105",
    "files": [
     "docs/art-rebuild/second_ai/wip/tongxian_zone_1105/README.md",
@@ -5989,7 +5989,7 @@
    "remaining": "選單、台詞、老闆 NPC、打烊請你出來＝LAWWW（AA_619 第 1、4 節）；CC 的店內等 BB 代驗（D132）、樓梯間的樣子 BB 判；樓梯不能走（進出在店門口）；窗景晚上沒換；瀏覽器沒跑（D131）",
    "next": "LAWWW-C：git checkout 這個 SHA -- README 列的檔，git apply tongxian_zone_1105.patch（index.html、places.js、story3d.js、seat_reach_unit.js、LICENSES.md），node tests/tongxian_unit.js",
    "noDirectIntegrate": false,
-   "note": "X196（LAWWW-C 00:43Z）：區域 xs_tongxian（店門程式照 'xs_'+id；任務寫 tongxian）；試琴椅兩張「試彈」、木凳「坐下」、出口「下樓（回新生南路）」；互動點 id：wall_n、wall_s、buy、ukes（try 是子晴 CG 站位、不放按鈕）、老闆 TX3.OWNER；12:00–21:30 週一休颱風關（places.js）；樓梯間 tongxian_stair.glb＋CC 地板挖洞；在乾淨的 ed7600ec5 上 checkout＋git apply 以後 tongxian_unit 15 項、seat_reach_unit ALL PASS；另 19 支相關 ALL PASS"
+   "note": "X196（LAWWW-C 00:43Z）：區域 xs_tongxian（店門程式照 'xs_'+id；任務寫 tongxian）；試琴椅兩張「試彈」、木凳「坐下」、出口「下樓（回新生南路）」；互動點 id：wall_n、wall_s、buy、ukes（try 是子晴 CG 站位、不放按鈕）、老闆 TX3.OWNER；12:00–21:30 週一休颱風關（places.js）；樓梯間 tongxian_stair.glb＋CC 地板挖洞；在乾淨的 ed7600ec5 上 checkout＋git apply 以後 tongxian_unit 15 項、seat_reach_unit ALL PASS；另 19 支相關 ALL PASS｜send_message LAWWW-C DELIVERED、副本 BB-C DELIVERED（01:1x／01:4xZ）"
   }
  ]
 }
