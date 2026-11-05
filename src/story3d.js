@@ -808,10 +808,13 @@ const STORY = (function(){
      FAFU_STORY_REC＝{c:{k:那一場的個案（-1＝八件都演過）}, b:[固定場次演過的回訪]}：自己走進去坐圓桌（S.fafuShift）的輪替跳過這些，不重複演 */
   S.FAFU_STORY=[
     {k:1,key:'2026-10-24',c:1,b:null,from:'classmate_bohan',msg:'週六九點，有一位預約的阿姨。人手夠，想來的再來。',end:'（初談紀錄，一頁。學長在最下面簽名。你把日期寫在最上面。）',note:'樓上漏水的阿姨'},
-    {k:2,key:'2027-04-10',c:3,b:1,from:'classmate_bohan',msg:'週六九點，有預約。上次漏水那位阿姨也說要再來。',end:'（阿姨走的時候，把照片收回袋子裡，跟你們點了一下頭。）',note:'借錢給朋友的年輕人'},
-    {k:3,key:'2027-10-23',c:6,b:3,from:'classmate_bohan',msg:'週六九點有預約。我已經交接了，這次只是來幫忙。',end:'（十二點，學長把紀錄表收進資料夾。你看了一下，這學期已經寫了三頁。）',note:'打工被要求「自願不投保」的高中生'},
+    {k:2,key:'2027-04-10',c:3,b:1,from:'classmate_bohan',msg:'週六九點，有預約。上次漏水那位阿姨也說要再來。',end:'（阿姨走的時候，把照片收回袋子裡，跟你們點了一下頭。）',endMiss:'（兩位民眾都走了。學長把紀錄表翻回第一頁，又看了一次。）',note:'借錢給朋友的年輕人'},   /* endMiss：沒看過第 1 場（回訪是 S.FAFU_STORY_BACK_MISS 那一句）的收尾（AA_691 第 4 點，企劃線 607939eb8）*/
+    {k:3,key:'2027-10-30',c:6,b:3,from:'classmate_bohan',msg:'週六九點有預約。我已經交接了，這次只是來幫忙。',end:'（十二點，學長把紀錄表收進資料夾。你看了一下，這學期已經寫了三頁。）',note:'打工被要求「自願不投保」的高中生'},
     {k:4,key:'2028-10-21',c:7,b:6,from:'fafu_yazhu',name:'雅筑學姊',msg:'週六九點有預約。可能是我最後一次排。',end:'（雅筑學姊把紀錄表交給新來的學弟。「日期，還有他的原話。」她說。）',note:'父親過世、兄弟姊妹對房子意見不同的太太'}];   /* c＝S.FAFU_CASES 第幾件（0 起算；AA_604 的「第 2 件」＝1）、b＝回訪 S.FAFU_BACK（上一場那一件）*/
   S.FAFU_STORY_OPEN='（週六上午九點，法律系館B一樓的圓桌。學長已經把紀錄表排好了。）';
+  /* AA_691（企劃線 607939eb8，AA-C 定 D109）：第 3 場挪到 2027-10-30（原本 10/23 是主線 6 感冒那一週第一天；提醒照舊前一天 20:00、字不變）；
+     第 1 場共同開頭後面柏翰一句 S.FAFU_BH_HELLO（值班迴圈其他的句子不放；自己走進去聽過了就不再說）；第 2 場沒看過第 1 場＝收尾 endMiss；
+     記憶記柏翰（第 4 場柏翰不在場、雅筑學姊沒有人物面板＝不記，只有 FAFU_STORY_4）；手機記事「法服：做了一份初談紀錄」 */
   S.FAFU_STORY_BACK_MISS='（上次來過的一位民眾又來了，學長去接。）';
   S.FAFU_STORY_AFTER4={from:'fafu_yazhu',name:'雅筑學姊',text:'上次那位太太，律師那一週她們全家都來了。坐下來講了。',days:14,h:22};   /* 第 4 場（第 8 件太太）演完兩週以後 22:00 法服群組（AA_604 第 2 節；人在國外照收）*/
   S.FAFU_GO={h:9,place:'法律系館B一樓',title:'法服值班（法律系館B一樓 9:00）',travel:'走過去約 10 分鐘',travelH:0.25,no:'這週請假'};   /* 原本值班的出發選單（V3-D25，AA_184）的字 */
@@ -836,14 +839,15 @@ const STORY = (function(){
     F['FAFU_STORY_'+k]=G.day; F.FAFU_STORY_SEEN=Math.min(4,(+F.FAFU_STORY_SEEN||0)+1); X.c[k]=ci;
     if(F.LAWCLUB_SAT_LAST!==G.day){ F.LAWCLUB_SAT_LAST=G.day; F.LAWCLUB_SAT_VISITS=(F.LAWCLUB_SAT_VISITS|0)+1; F.FAFU_SHIFT_N=(F.FAFU_SHIFT_N|0)+1; }   /* 去過、值過班（同一個週六只算一次；careerLean 不讀這兩個）*/
     GM.sceneBegin(); try{ await GM.say(null,S.FAFU_STORY_OPEN);
+      if(k===1&&!F.FAFU_BH_HELLO){ F.FAFU_BH_HELLO=G.day; await GM.say({name:SOCIAL.displayName('classmate_bohan'),charId:'classmate_bohan'},S.FAFU_BH_HELLO); }   /* AA_691 第 3 點 */
       if(ci<0) await GM.say(null,S.FAFU_LOG[0]);   /* 八件都演過的舊存檔（AA_604 第 4 節）*/
       else { if(k>1){ if(pc!=null&&pc>=0&&pc<S.FAFU_BACK.length){ if(!X.b.includes(pc)) X.b.push(pc); await S.fafuBackSeg(GM,S.FAFU_BACK[pc]); } else await GM.say(null,S.FAFU_STORY_BACK_MISS); }   /* 回訪：不問「你先問什麼？」*/
         await S.fafuCaseSeg(GM,S.FAFU_CASES[ci]); }
-      await GM.say(null,s.end); }
+      await GM.say(null,s.endMiss&&!(ci>=0&&pc===s.b)?s.endMiss:s.end); }   /* endMiss（第 2 場）：今天沒有演到上一場那位（阿姨帶照片）回來＝沒看過第 1 場（AA_691 第 4 點）；舊存檔第 1 場換了人、八件都演過也一樣（原句講的是阿姨和照片；LAWWW-C 照同一個道理延伸，已請 AA 確認）*/
     finally{ GM.sceneEnd(); }
-    if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember('classmate_bohan','FAFU_STORY',ci<0?'':(ci===s.c?s.note:S.FAFU_CASES[ci][0]));   /* 不給關係數值（純劇情）*/
+    if(s.from==='classmate_bohan'&&typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember('classmate_bohan','FAFU_STORY',ci<0?'':(ci===s.c?s.note:S.FAFU_CASES[ci][0]));   /* 第 4 場柏翰不在場（雅筑學姊排的、她沒有人物面板）＝不記（AA_691 第 5 點）*/   /* 不給關係數值（純劇情）*/
     if(k===4&&ci===7&&typeof PHONE!=='undefined'&&PHONE.inGroup(G,'lawclub_study')){ const A=S.FAFU_STORY_AFTER4; PHONE.at(G,G.day+A.days,A.h,[{th:'g:lawclub_study',from:A.from,name:A.name,text:A.text}],'fafu_story_after4'); }
-    if(GM.memo) GM.memo('法服值班：做了一份初談紀錄');
+    if(GM.memo) GM.memo('法服：做了一份初談紀錄');   /* AA_691 第 5 點：拿掉「值班」（自己走進去的值班 S.fafuShift 照舊）*/
     if(G.hour<12){ await GM.fade(true); GM.advance(12-G.hour); await GM.fade(false); }
     if(GM.autosave) GM.autosave(); return true; };
   /* 舊存檔（D118_PLAN 第 8 節第 6 點；game3d.js migrate 叫，FAFU_PURE 只做一次，新遊戲的 defaults 一開始就有）：

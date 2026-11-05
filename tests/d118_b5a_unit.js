@@ -4,7 +4,8 @@
 //   (b) 只看過公告（萬才館公告欄／椰林招生攤位）＝LAWCLUB_NOTICE，不是社員：大二 fafuMember=false、不進法服群組、沒有固定場次；學姊的記憶讀 LAWCLUB_NOTICE
 //   (c) 舊存檔（v9.10 結構：只看過公告的 lawclub、FAFU_TRK、FAFU_OFF、FAFU_ROT、排好的 fafu_ 出發選單、溫州街線 silent 選單）讀進來不報錯、
 //       不補跳過期／值班的出發選單、不再有柏翰私訊；FAFU_TRK／FAFU_OFF／FAFU_ROT 留著；溫州街線、固定場次那天的選單照留；game3d.js migrate 有叫、defaults 有 FAFU_PURE、FAFU_STORY_SEEN
-//   (d) 5/22 語彤阿姨：社員、認識語彤＝那天早上單獨一次出發選單（字照原本的值班出發選單），去得了、阿姨那一場照常演；不是社員、不認識語彤、演過＝沒有
+//   (d) 5/22 語彤阿姨：社員、認識語彤＝那天早上單獨一次出發選單（字照原本的值班出發選單），去得了、阿姨那一場照常演；不是社員、不認識語彤、演過＝沒有；
+//       前一晚 5/21 20:00 柏翰在法服群組一則（AA_691 第 1 點，企劃線 607939eb8；d5～d7，修改前（6a1592a26）沒有這一則＝d5、d6、d6b FAIL）
 //   (e) LAWCLUB_SAT_FIVE（AA_638 ④-7）：大一第二次旁觀就說，旗標名照舊（開發分支 90b5cf014 已經改好；這裡是回歸）
 //   (f) 阿凱鍵盤、(g) 子晴合約、(h) 早午餐的班那一句：「加入或去過」（原本只看去過的次數）
 //   (i) careerLean：法服只算固定場次 FAFU_STORY_SEEN（週六去過的次數不算；新遊戲 defaults、舊存檔遷移都補 0）
@@ -85,7 +86,20 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
     fresh(d,7,'dorm',{}); H.FRIEND('heroine_03'); rules(); const n1=OUT.get(H.G,'fafu_'+d);
     fresh(d,7,'dorm',MEM); rules(); const n2=OUT.get(H.G,'fafu_'+d);
     fresh(d,7,'dorm',MEM); H.FRIEND('heroine_03'); H.G.events.done.ev_yt_aunt_consult=1; rules(); const n3=OUT.get(H.G,'fafu_'+d);
-    check('d4. 不是社員、不認識語彤、阿姨那一場演過＝那天沒有出發選單（不是值班循環）',!n1&&!n2&&!n3,J([!!n1,!!n2,!!n3])); });
+    check('d4. 不是社員、不認識語彤、阿姨那一場演過＝那天沒有出發選單（不是值班循環）',!n1&&!n2&&!n3,J([!!n1,!!n2,!!n3]));
+    /* AA_691 第 1 點（企劃線 607939eb8）：2027-05-21（五）20:00 柏翰在法服群組一則；只在 5/22 那一場會演的時候傳（Y2B.auntDue 同一組條件），不提語彤 */
+    const EVE='週六九點有一件租約的諮詢。預約的阿姨說，會有人陪她來。', eve=()=>(H.G.msgs||[]).filter(m=>m.th==='g:lawclub_study'&&m.text===EVE);
+    const mem=(fl,yt)=>{ fresh(d-1,19,'dorm',fl); if(yt) H.FRIEND('heroine_03'); H.FRIEND('classmate_bohan'); PHONE.join(H.G,'lawclub_study','法服'); };
+    mem(MEM,true); at(d-1,19.9); rules(); const pre=eve().length; at(d-1,20); rules(); const a=eve();
+    check('d5. 5/21（五）20:00 法服群組柏翰「週六九點有一件租約的諮詢。預約的阿姨說，會有人陪她來。」（社員、認識語彤＝那一場會演；不提語彤）；20:00 以前沒有',pre===0&&a.length===1&&a[0].from==='classmate_bohan'&&a[0].day===d-1&&a[0].h===20&&!/語彤/.test(a[0].text),J(a.map(m=>[m.day,m.h,m.from])));
+    at(d,8); rules(); const a2=eve().length; at(d,8.6); const dq2=OUT.due(H.G);
+    check('d6. 只一則（隔天早上不再傳）；早上的出發選單照舊',a2===1&&!!dq2&&dq2.id==='fafu_'+d,J([a2,dq2&&dq2.id]));
+    mem(MEM,true); at(d,7.5); rules(); const late=eve();
+    check('d6b. 5/21 晚上睡過了（隔天早上才跑到）：照 5/21 20:00 補進群組',late.length===1&&late[0].day===d-1&&Math.abs(late[0].h-20)<0.02,J(late.map(m=>[m.day,m.h])));
+    mem(MEM,false); at(d-1,20.1); rules(); const b1=eve().length;
+    mem({},true); at(d-1,20.1); rules(); const b2=eve().length;
+    mem(MEM,true); H.G.events.done.ev_yt_aunt_consult=1; at(d-1,20.1); rules(); const b3=eve().length;
+    check('d7. 不認識語彤、不是社員（只在群組裡）、阿姨那一場演過＝不傳',!b1&&!b2&&!b3,J([b1,b2,b3])); });
   // ---------- (e) ----------
   await sec('e',async()=>{ const s3=TD('Y1S1',3,6), s5=TD('Y1S1',5,6); fresh(s3,9.5,'wancai',{}); await STORY.fafuWatch(GM); at(s5,9.5,'wancai'); H.said=[]; await STORY.fafuWatch(GM);
     check('e1. 大一第二次來旁觀：社長「你又來了。明年可以報名當志工，來坐圓桌。」，旗標 LAWCLUB_SAT_FIVE（AA_638 ④-7）',H.said.some(x=>x.t==='你又來了。明年可以報名當志工，來坐圓桌。')&&H.G.flags.LAWCLUB_SAT_FIVE===true,J(H.lines())); });
