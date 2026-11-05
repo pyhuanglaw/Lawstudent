@@ -1513,3 +1513,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 2156.3s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 2156.3s] BROWSER DISCONNECTED
 - 2026-11-06T04:55:24  V21R_soc_heroine_04_go  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  2497s       用了 41.0 分鐘 / ==== 總結：1 人，FAIL 1 人：[["heroine_04", ["invite 約現在：遊戲時間有在走", "invite 約現在：按 #minimap 打得開、關得掉", "invite 約現在：按完 HUD 以後還是可以自由移動"]]] / FAILED 8
       err.log (last 5): [gpu_wrap 2460.1s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 2460.1s] BROWSER DISCONNECTED
+- 2026-11-06T05:00:04  V21R_soc_heroine_05_talk  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  1581s       用了 25.7 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
+      err.log (last 5): [gpu_wrap 1542.3s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 1542.3s] BROWSER DISCONNECTED
