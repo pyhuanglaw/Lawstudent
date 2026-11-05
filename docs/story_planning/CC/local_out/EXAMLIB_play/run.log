@@ -1,0 +1,71 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_examlib_play.py http://127.0.0.1:8806/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\EXAMLIB_play\out
+CC EXAMLIB T-a／T-b（瀏覽器、玩家操作）：DAY=2025-12-02；SHA=5aff1d18ed53ce1ff90aacd7c8c8c926ae21a342；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入  21.0 秒
+PASS 這一版有 EXLIB（期末考前的圖書館）
+  [前置／捷徑] 讀檔：總圖大廳（library_hall）、2025-12-02（第 14 週週一）10:30、晴；條件事件照開
+  [  49.1s] [T-a] 讀檔進來時的台詞：[]
+PASS [T-a] 這一天在「期末考前的圖書館」那一段、10:30 已經全滿的時間  {"on": true, "fill": 1, "full": 10, "term": {"id": "Y1S1", "week": 14, "exam": null}}
+  [  49.5s] [T-a] 二樓的座位 8 個；「有人了」6 個
+PASS [T-a] 二樓有讀書的座位  [{"i": 0, "x": -10.17, "z": 2.2, "lv": 1, "label": "坐下讀書", "held": false, "ax": -10.174999999999999, "az": 1.6}, {"i": 3, "x": -9.13, "z": 3.8, "lv": 1, "label": "有人了", "held": true, "ax": -9.125, "az": 4.3999999999999995}, {"i": 4, "x": -8.07, "z": 2.2, "lv": 1, "label": "有人了", "held": true, "ax": -8.075, "az": 1.6}]
+  [  54.5s] 「二樓讀書區的座位旁邊」途中停下（離目標 21.95 m）：（每一張桌子都有人。有人把外
+  [  54.5s] [T-a] 走（第 1 次，go_to=True）：{"zone": "library_hall", "lv": 1, "x": 0, "z": -15.56, "hour": 10.57, "busy": true, "seat": false, "prompt": {}, "atm": {"n": 1, "seen": {"Y1S1:library_hall": 77}}, "inStudy": true, "here": true, "atmosDue": false, "fullDue": false, "studyAt": true, "held": 11}
+  [  65.8s] 「二樓讀書區的座位旁邊」途中停下（離目標 3.84 m）：（小
+  [  65.8s] [T-a] 走（第 2 次，go_to=True）：{"zone": "library_hall", "lv": 1, "x": -8.27, "z": 0.66, "hour": 10.63, "busy": true, "seat": false, "prompt": {"77:library_hall": 1}, "atm": {"n": 1, "seen": {"Y1S1:library_hall": 77}}, "inStudy": true, "here": true, "atmosDue": false, "fullDue": false, "studyAt": true, "held": 11}
+  [  71.1s] [T-a] 走上二樓：台詞 ["（每一張桌子都有人。有人把外套掛在椅背上，人不在。）", "（繞了一圈，空的位子上都有人放了東西。）", "民總的報告，老師分組那天你沒來。", "我把你寫在我這組了。剩下的人裡，你最不會遲交。"]；選項 ["再繞一圈", "去別間", "回宿舍讀"]
+PASS [T-a]（T-d）第一次進這一間的旁白是那五句之一（10:30 不是閉館前）  ["（每一張桌子都有人。有人把外套掛在椅背上，人不在。）", "（繞了一圈，空的位子上都有人放了東西。）", "民總的報告，老師分組那天你沒來。", "我把你寫在我這組了。剩下的人裡，你最不會遲交。"]
+PASS [T-a] 找不到位子的提示「（繞了一圈，空的位子上都有人放了東西。）」  ["（每一張桌子都有人。有人把外套掛在椅背上，人不在。）", "（繞了一圈，空的位子上都有人放了東西。）", "民總的報告，老師分組那天你沒來。", "我把你寫在我這組了。剩下的人裡，你最不會遲交。"]
+PASS [T-a] 三個選項「再繞一圈」「去別間」「回宿舍讀」，沒有朋友＝沒有「招手」  ["再繞一圈", "去別間", "回宿舍讀"]
+  [  76.1s] [T-a] 再繞一圈以後：台詞 ["（靠走道的那個人剛好在收書包。）"]；選項 ["坐一下，看看四周", "讀書", "趴著睡一下：30 分鐘", "趴著睡一下：1 小時", "起身"]；時間 10.634 → 10.967（+20 分）
+PASS [T-a] 再繞一圈＝時間 +20 分鐘  +20 分
+PASS [T-a] 有人收東西走了 → 坐下  {"dlg": false, "text": "（靠走道的那個人剛好在收書包。）", "opts": ["坐一下，看看四周", "讀書", "趴著睡一下：30 分鐘", "趴著睡一下：1 小時", "起身"], "hour": 10.967, "zone": "library_hall", "seat": true, "busy": true}
+PASS [T-bA] 第 14～15 週找得到柏翰隔天會去圖書館的那一天（EXLIB.goes）  {"day": 79, "key": "2025-12-04", "wd": 4}
+  [前置／捷徑] 讀檔：宿舍、2025-12-04 的前一天 19:00；柏翰設成朋友、有聯絡方式（SETUP_JS）
+  [ 100.0s] [T-bA] 柏翰：{"stage": "FRIEND", "rel": {"fam": 45, "trust": 30, "aff": 0, "resp": 0, "comf": 25, "rom": 0, "npcRom": 0, "seen": 0, "talked": 1}, "contact": true}
+PASS [T-bA] 手機朋友頁柏翰那一行有「訊息」  ‹ 訊息
+柏翰
+☆
+傳訊息
+約
+還沒有訊息。按上面的「傳訊息」傳第一則。
+PASS [T-bA] 有「傳訊息」
+  [ 105.0s] [T-bA] 話題：[{"k": "classmate_bohan|chat", "t": "在幹嘛"}, {"k": "classmate_bohan|course", "t": "問課"}, {"k": "classmate_bohan|share", "t": "分享"}, {"k": "classmate_bohan|exlib_seat", "t": "明天幫我占位子"}, {"k": "classmate_bohan|cancel", "t": "取消"}]
+PASS [T-bA] 有「明天幫我占位子」這個話題（18:00～23:00、FRIEND 以上）  [{"k": "classmate_bohan|chat", "t": "在幹嘛"}, {"k": "classmate_bohan|course", "t": "問課"}, {"k": "classmate_bohan|share", "t": "分享"}, {"k": "classmate_bohan|exlib_seat", "t": "明天幫我占位子"}, {"k": "classmate_bohan|cancel", "t": "取消"}]
+  [ 107.5s] [T-bA] 傳出去以後的訊息：[{"th": "p:classmate_bohan", "from": "player", "text": "明天幫我占位子"}]
+  [ 108.4s] [T-bA] 傳完以後手機排好的回覆（PHONE.rec(G).q）：{"now": [78, 19.009], "q": [{"day": 78, "h": 19.343, "tag": "exlib41_78", "n": 1, "t0": "可以。我七點二十到。3F 靠窗第二排，左邊那個給你。"}], "sent": true}
+  [ 108.4s] [T-bA] G.exlib.hold＝{"who": "classmate_bohan", "day": 79, "zone": "library", "place": "lib3f", "from": 8, "until": 12, "stay": 12, "arrived": false, "missSent": false, "atDone": false, "term": "Y1S1", "old": null}
+  [前置／捷徑] [T-bA] 讀檔（同一份存檔）跳到隔天 09:00、總圖 3F 閱覽區（library）——跳過睡覺
+  [ 130.8s] [T-bA] 隔天讀檔以後手機排好的回覆：{"now": [79, 9.011], "q": [], "sent": false}
+PASS [T-bA] 前一晚柏翰答應「可以。我七點二十到。3F 靠窗第二排，左邊那個給你。」（隔天讀檔以後看私訊）  [{"day": 78, "h": 19.01, "from": "player", "text": "明天幫我占位子"}, {"day": 78, "h": 19.34, "from": "classmate_bohan", "text": "可以。我七點二十到。3F 靠窗第二排，左邊那個給你。"}]
+  [ 132.3s] [T-bA] 柏翰 {"x": -3.22, "z": -10.88, "seat": true}；占的位子 {"hold": {"who": "classmate_bohan", "day": 79, "zone": "library", "place": "lib3f", "from": 8, "until": 12, "stay": 12, "arrived": false, "missSent": false, "atDone": false, "term": "Y1S1", "old": null}, "holdSeat": {"x": -1.58, "z": -10.88, "lv": 0, "taken": "exlib41", "exHeld": false}, "holdIt": "坐到柏翰占的位子", "seatIt": "坐下讀書", "autoSitDue": true, "inStudy": true, "seat": false, "busy": false}
+PASS [T-bA] 柏翰在 3F、坐著  {"x": -3.22, "z": -10.88, "seat": true}
+PASS [T-bA] 柏翰旁邊留了一個位子（taken＝exlib41、路人不坐；離柏翰 1.64 m）  {"hold": {"who": "classmate_bohan", "day": 79, "zone": "library", "place": "lib3f", "from": 8, "until": 12, "stay": 12, "arrived": false, "missSent": false, "atDone": false, "term": "Y1S1", "old": null}, "holdSeat": {"x": -1.58, "z": -10.88, "lv": 0, "taken": "exlib41", "exHeld": false}, "holdIt": "坐到柏翰占的位子", "seatIt": "坐下讀書", "autoSitDue": true, "inStudy": true, "seat": false, "busy": false}
+  [ 132.3s] [T-bA] 那個位子的按鈕：座位本身「坐下讀書」；另外一個「坐到柏翰占的位子」（BB_260 寫「顯示有人了」，照實記，BB 判）
+  [ 144.2s] [T-bA] 最後的狀態 {"hold": {"who": "classmate_bohan", "day": 79, "zone": "library", "place": "lib3f", "from": 8, "until": 12, "stay": 12, "arrived": true, "missSent": false, "atDone": true, "term": "Y1S1", "old": null, "autoTried": true, "sitH": 9.017109999999995}, "holdSeat": {"x": -1.58, "z": -10.88, "lv": 0, "taken": null, "exHeld": false}, "holdIt": "坐到柏翰占的位子", "seatIt": "坐下讀書", "autoSitDue": false, "inStudy": true, "seat": true, "busy": true}
+  [ 144.2s] [T-bA] 走進讀書區以後：台詞 ["（小聲）你的位子旁邊有插座，我順便看了。"]；選項 ["坐一下，看看四周", "讀書", "趴著睡一下：30 分鐘", "趴著睡一下：1 小時", "起身"]；{"dlg": false, "text": "（小聲）你的位子旁邊有插座，我順便看了。", "opts": ["坐一下，看看四周", "讀書", "趴著睡一下：30 分鐘", "趴著睡一下：1 小時", "起身"], "hour": 9.017, "zone": "library", "seat": true, "busy": true}
+PASS [T-bA] 沒有跳「找不到位子」（有人占了位子的那一天）  ["（小聲）你的位子旁邊有插座，我順便看了。"]
+PASS [T-bA] 玩家直接坐下（坐到柏翰占的位子：hold.arrived、sitH）  {"hold": {"who": "classmate_bohan", "day": 79, "zone": "library", "place": "lib3f", "from": 8, "until": 12, "stay": 12, "arrived": true, "missSent": false, "atDone": true, "term": "Y1S1", "old": null, "autoTried": true, "sitH": 9.017109999999995}, "seat_now": true}
+PASS [T-bA] 柏翰說「（小聲）你的位子旁邊有插座，我順便看了。」  ["（小聲）你的位子旁邊有插座，我順便看了。"]
+PASS [T-bB] 第 14～15 週找得到柏翰隔天會去圖書館的那一天（EXLIB.goes）  {"day": 79, "key": "2025-12-04", "wd": 4}
+  [前置／捷徑] 讀檔：宿舍、2025-12-04 的前一天 19:00；柏翰設成朋友、有聯絡方式（SETUP_JS）
+  [ 155.8s] [T-bB] 柏翰：{"stage": "FRIEND", "rel": {"fam": 45, "trust": 30, "aff": 0, "resp": 0, "comf": 25, "rom": 0, "npcRom": 0, "seen": 0, "talked": 1}, "contact": true}
+PASS [T-bB] 手機朋友頁柏翰那一行有「訊息」  ‹ 訊息
+柏翰
+☆
+傳訊息
+約
+還沒有訊息。按上面的「傳訊息」傳第一則。
+PASS [T-bB] 有「傳訊息」
+  [ 160.7s] [T-bB] 話題：[{"k": "classmate_bohan|chat", "t": "在幹嘛"}, {"k": "classmate_bohan|course", "t": "問課"}, {"k": "classmate_bohan|share", "t": "分享"}, {"k": "classmate_bohan|exlib_seat", "t": "明天幫我占位子"}, {"k": "classmate_bohan|cancel", "t": "取消"}]
+PASS [T-bB] 有「明天幫我占位子」這個話題（18:00～23:00、FRIEND 以上）  [{"k": "classmate_bohan|chat", "t": "在幹嘛"}, {"k": "classmate_bohan|course", "t": "問課"}, {"k": "classmate_bohan|share", "t": "分享"}, {"k": "classmate_bohan|exlib_seat", "t": "明天幫我占位子"}, {"k": "classmate_bohan|cancel", "t": "取消"}]
+  [ 163.3s] [T-bB] 傳出去以後的訊息：[{"th": "p:classmate_bohan", "from": "player", "text": "明天幫我占位子"}]
+  [ 164.2s] [T-bB] 傳完以後手機排好的回覆（PHONE.rec(G).q）：{"now": [78, 19.009], "q": [{"day": 78, "h": 19.342, "tag": "exlib41_78", "n": 1, "t0": "可以。我七點二十到。3F 靠窗第二排，左邊那個給你。"}], "sent": true}
+  [ 164.2s] [T-bB] G.exlib.hold＝{"who": "classmate_bohan", "day": 79, "zone": "library", "place": "lib3f", "from": 8, "until": 12, "stay": 12, "arrived": false, "missSent": false, "atDone": false, "term": "Y1S1", "old": null}
+  [前置／捷徑] [T-bB] 讀檔（同一份存檔）跳到隔天 12:05、宿舍（人不去）
+  [ 173.8s] [T-bB] 柏翰的私訊最後幾則：[{"day": 78, "h": 19.01, "text": "明天幫我占位子"}, {"day": 78, "h": 19.34, "text": "可以。我七點二十到。3F 靠窗第二排，左邊那個給你。"}, {"day": 79, "h": 12.09, "text": "十二點零一分。位子收了。"}]
+  [ 173.9s] [T-bB] 隔天讀檔以後手機排好的回覆：{"now": [79, 12.144], "q": [], "sent": false}
+PASS [T-bB] 前一晚柏翰答應「可以。我七點二十到。3F 靠窗第二排，左邊那個給你。」（隔天讀檔以後看私訊）  [{"day": 78, "h": 19.01, "from": "player", "text": "明天幫我占位子"}, {"day": 78, "h": 19.34, "from": "classmate_bohan", "text": "可以。我七點二十到。3F 靠窗第二排，左邊那個給你。"}, {"day": 79, "h": 12.09, "from": "classmate_bohan", "text": "十二點零一分。位子收了。"}]
+PASS [T-bB] 12:00 還沒到：收到「十二點零一分。位子收了。」  [{"day": 78, "h": 19.01, "text": "明天幫我占位子"}, {"day": 78, "h": 19.34, "text": "可以。我七點二十到。3F 靠窗第二排，左邊那個給你。"}, {"day": 79, "h": 12.09, "text": "十二點零一分。位子收了。"}]
+PASS [T-bB] 關係值不變（fam／trust／comf／rom）  {"前": {"fam": 45, "trust": 30, "aff": 0, "resp": 0, "comf": 25, "rom": 0, "npcRom": 0, "seen": 0, "talked": 1}, "後": {"fam": 45, "trust": 30, "aff": 0, "resp": 0, "comf": 25, "rom": 0, "npcRom": 0, "seen": 0, "talked": 1}}
+PASS 沒有 JS 例外  []
+ALL PASS
