@@ -46961,7 +46961,7 @@
    },
    "source": "LAWWW2-C 11-05 01:13 DORM-LADDER-HEAD-GRIP-1102 ② 交件 README「給 LAWWW」（動作歸 LAWWW，D128）",
    "authorized": "D100 LAWWW 整合／動畫；D128",
-   "next": "【LAWWW-C 11-05 01:1x】開任務；子代理實作（照 README 給 LAWWW 那一節：手照 grips 換手、腳踩踏階不進牆、第 5 階 null＝跪姿手在大腿），Node 量手到扶手、腳到牆的距離",
+   "next": "預設不再演爬梯（WAKE-AT-DOOR-1105、SLEEP_FULL false）；ladder_headroom ④ 記為已知",
    "sha": "c863267bd"
   },
   {
@@ -47771,6 +47771,64 @@
     "ack": "SENT"
    },
    "src": "UA-LAWWW-1105-37"
+  },
+  {
+   "id": "WAKE-AT-DOOR-1105",
+   "title": "起床直接站在房門口（不演爬梯子下來）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "BB 瀏覽器看起床；已知：爬梯動畫（SLEEP_FULL／WAKE_AT_DOOR=false 才用，預設不演）ladder_headroom ④ 平滑 A 22.7、B 32.6 cm 超過一般門檻，記著不擋",
+   "source": "UA-LAWWW-1105-39",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-39",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "醒來淡入時站在房門口",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "UA-LAWWW-1105-39"
+  },
+  {
+   "id": "JOURNAL-DATES-1105",
+   "title": "日誌寫那天約了誰、和誰約會",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW 查日誌資料來源，問 AA 日誌字",
+   "source": "UA-LAWWW-1105-40",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-40",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "10/21 約以安、10/22 和學姊在日誌上看得到",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "UA-LAWWW-1105-40"
   }
  ]
 }

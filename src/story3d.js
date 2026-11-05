@@ -3593,7 +3593,17 @@ const STORY = (function(){
     finally { S._bedBusy=false; GM.sceneEnd(); if(ok&&S._bed) camOn(GM,bedCam(sc),true); }   /* sceneEnd 會把鏡頭放回跟隨：接著睡覺的黑幕要停在睡覺鏡頭 */
     return ok; }
   /* 起床：開燈 → 短淡出 → 最上面一階 → 一階一階下來 → 梯子前。在 sceneBegin 裡面叫（外面的 sceneEnd 放回跟隨鏡頭）*/
+  /* WAKE-AT-DOOR-1105（使用者 11-05 08:5x「我覺得睡覺起來出現在床上 可以不用下床動作 太假了 可以睡在床上 下一秒站好在宿舍門口了」）：
+     起床不演下床（爬梯子）：黑幕裡直接站到房門口（「走出房間」那個出口往房間裡 1 m、面向門），淡入。找不到門＝照舊站到梯子前。S.WAKE_AT_DOOR=false 回到舊的爬下來 */
+  S.WAKE_AT_DOOR=true;
+  S.doorStand=function(E){ const ex=(E.interactables||[]).find(it=>it.exit&&it.exit.to==='dorm_hall'); if(!ex) return null; const ctr=E.zone&&E.zone.spawn||{x:0,z:0};
+    let dx=ctr.x-ex.x, dz=ctr.z-ex.z; const d=Math.hypot(dx,dz)||1; dx/=d; dz/=d; for(const r of [1.0,1.4,0.7,1.8]){ const x=ex.x+dx*r, z=ex.z+dz*r; if(!E.canStand||E.canStand(x,z,0.3,0)) return {x,z,yaw:Math.atan2(ex.x-x,ex.z-z)}; } return null; };
   async function getUp(GM,sc){ const E=GM.E, P=E.player, T=S.SLEEP_T, st=sc.steps; S._bedBusy=true;
+    if(S.WAKE_AT_DOOR){ try{ if(P.obj.userData) P.obj.userData.eyesShut=false; if((S._dark||0)>0) await darkTo(GM,0,0.4); await GM.sleep(300);
+        await GM.fade(true); if(E.cam) E.cam.seeThru=null; P.idlePose='idle'; P.frozen=false; P.pose='idle'; if(P.obj.userData){ P.obj.userData.climbTop=null; P.obj.userData.kneelSnap=false; }
+        const ds=S.doorStand(E), a=sc.approach, at=ds||{x:a[0],z:a[1],yaw:Math.atan2(a[0]-sc.steps[0][0],a[1]-sc.steps[0][2])};
+        if(E.placeAt) E.placeAt(P,at.x,at.z,0); else { P.obj.position.x=at.x; P.obj.position.z=at.z; } P.obj.position.y=0; P.obj.rotation.y=at.yaw; { const fx=Math.sin(at.yaw), fz=Math.cos(at.yaw); camOn(GM,{pos:[at.x-fx*2.6,1.75,at.z-fz*2.6],look:[at.x,1.2,at.z]},true); }   /* 淡入時鏡頭已經在人後面（不閃一下床的鏡頭；sceneEnd 再交回跟隨）*/ await GM.fade(false); }
+      finally { S._bedBusy=false; S.bedClear(GM); } return; }
     try{ if(P.obj.userData) P.obj.userData.eyesShut=false; if((S._dark||0)>0) await darkTo(GM,0,0.4); await GM.sleep(300);
       await GM.fade(true); if(E.cam) E.cam.seeThru=null;   /* 爬下來：不躺了，床欄透空收掉（#120）*/ const top=st[st.length-1], o=P.obj, kp=S.bedEntryPose(sc), be=bedEntryOf(sc); P.idlePose='idle'; P.frozen=false; headOn(P,sc);
       const nx=st.length>1?st[st.length-2]:[sc.approach[0],0,sc.approach[1]]; const c=S.climbCam(sc);
