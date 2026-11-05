@@ -1,0 +1,424 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8805/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_soc_classmate_peishan_talk\out
+CASES=["classmate_peishan"] STEPS=["media", "first", "greet", "up", "ladder", "menu"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
+PASS [classmate_peishan] 遊戲載入
+== 人物 classmate_peishan 沛珊 開始（層 A、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 8, "Y3S1": 8, "Y3S2": 8, "Y4S1": 8, "Y4S2": 8, "Y1S1": 8}、店內偶遇 [{"spot": "wz_tea", "join": null}, {"spot": "wz_ice", "join": "friend"}]、自由出行 ["D12", "D08"]）
+-- [classmate_peishan] media
+SKIP [classmate_peishan] media：只給芷若（library_media）
+-- [classmate_peishan] first
+  [前置／捷徑] [classmate_peishan] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [classmate_peishan] 她在 3D 的時段（前 8 個，照區域排）：[["2025-09-16", 14, "campus", "文學院前的長椅（哲學概論旁聽）"], ["2025-09-18", 14, "campus", "文學院前的長椅（哲學概論旁聽）"], ["2025-09-23", 14, "campus", "文學院前的長椅（哲學概論旁聽）"], ["2025-09-30", 14, "campus", "文學院前的長椅（哲學概論旁聽）"], ["2025-10-07", 14, "campus", "文學院前的長椅（哲學概論旁聽）"], ["2025-10-14", 14, "campus", "文學院前的長椅（哲學概論旁聽）"], ["2025-10-21", 14, "campus", "文學院前的長椅（哲學概論旁聽）"], ["2025-10-28", 14, "campus", "文學院前的長椅（哲學概論旁聽）"]]
+  [前置／捷徑] [classmate_peishan] 讀檔：first：2025-09-16 14 campus（文學院前的長椅（哲學概論旁聽））（campus 0 14.00）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_peishan] 前置：還不認識（STRANGER）：{"stage": "STRANGER", "name": "沛珊", "fm": false, "lad": null, "contact": false}
+  [前置／捷徑] [classmate_peishan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.00 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，22 秒
+  [classmate_peishan] first：按「和沛珊說話」
+PASS [classmate_peishan] first：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "很會問問題的女生那如果……"}
+  [classmate_peishan] first 台詞（2 句）：["沛珊｜「你好，我是沛珊。法律系的。」", "｜很溫柔，對誰都很好。"]
+PASS [classmate_peishan] first：對話一路點得完  0 個選單
+PASS [classmate_peishan] first：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] first：15 秒內回到可以自由移動
+PASS [classmate_peishan] first：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] first：沒有新的 JS 例外
+PASS [classmate_peishan] first：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] first：搖桿推得動（≥0.3 m）  2.92 m
+PASS [classmate_peishan] first：點地走得動（≥0.3 m）  點 [-26.54, -8.75]，走了 1.05 m
+PASS [classmate_peishan] first：遊戲時間有在走  14.2680→14.2880
+PASS [classmate_peishan] first：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] first：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] first：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] first：說完以後認識了（FIRST_MET、名字＝沛珊）
+-- [classmate_peishan] greet
+  [前置／捷徑] [classmate_peishan] 讀檔：greet：2025-09-16 14 campus（文學院前的長椅（哲學概論旁聽））（campus 0 14.00）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_peishan] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "沛珊", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [classmate_peishan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.10 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，22 秒
+  [classmate_peishan] greet 連按兩次：按「和沛珊說話」（連按兩次，間隔約 200 ms）
+PASS [classmate_peishan] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8805/src/story3d.js?v=9.10.19:1018:25)"]}
+PASS [classmate_peishan] greet 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "廖芸萱好。（停了三秒）那如果——"}
+  [classmate_peishan] greet 連按兩次 選單 ["交換聯絡方式", "就這樣"] → 選「就這樣」
+  [classmate_peishan] greet 連按兩次 台詞（1 句）：["沛珊｜（她朝你笑了一下）"]
+PASS [classmate_peishan] greet 連按兩次：對話一路點得完  1 個選單
+PASS [classmate_peishan] greet 連按兩次：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] greet 連按兩次：15 秒內回到可以自由移動
+PASS [classmate_peishan] greet 連按兩次：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] greet 連按兩次：沒有新的 JS 例外
+PASS [classmate_peishan] greet 連按兩次：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] greet 連按兩次：搖桿推得動（≥0.3 m）  3.02 m
+PASS [classmate_peishan] greet 連按兩次：點地走得動（≥0.3 m）  點 [-24.64, -7.25]，走了 1.05 m
+PASS [classmate_peishan] greet 連按兩次：遊戲時間有在走  14.2727→14.2930
+PASS [classmate_peishan] greet 連按兩次：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] greet 連按兩次：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] greet 連按兩次：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+-- [classmate_peishan] up
+  [前置／捷徑] [classmate_peishan] 讀檔：up：2025-09-16 14 campus（文學院前的長椅（哲學概論旁聽））（campus 0 14.00）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_peishan] 前置：朋友（FRIEND）、門檻台詞還沒說（relUp＝0）：{"stage": "FRIEND", "name": "沛珊", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [classmate_peishan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.01 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，22 秒
+  [classmate_peishan] up：按「和沛珊說話」
+PASS [classmate_peishan] up：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "很會問問題的女生那如果……"}
+  [classmate_peishan] up 選單 ["交換聯絡方式", "就這樣"] → 選「就這樣」
+  [classmate_peishan] up 台詞（2 句）：["沛珊｜欸，你放假都在幹嘛？我發現我好像都", "沛珊｜欸，你放假都在幹嘛？我發現我好像都不知道。"]
+PASS [classmate_peishan] up：對話一路點得完  1 個選單
+PASS [classmate_peishan] up：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] up：15 秒內回到可以自由移動
+PASS [classmate_peishan] up：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] up：沒有新的 JS 例外
+PASS [classmate_peishan] up：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] up：搖桿推得動（≥0.3 m）  3.24 m
+PASS [classmate_peishan] up：點地走得動（≥0.3 m）  點 [-24.78, -6.98]，走了 1.02 m
+PASS [classmate_peishan] up：遊戲時間有在走  14.2730→14.2932
+PASS [classmate_peishan] up：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] up：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] up：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] up：門檻台詞 relUp 0→3  
+-- [classmate_peishan] ladder
+  [前置／捷徑] [classmate_peishan] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [前置／捷徑] [classmate_peishan] 讀檔：ladder Y1S1 P-L1：2025-09-01 17 library（看書）（library -15 17.00）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_peishan] 前置：ACQUAINTANCE、階梯進度設到第 1 層（P-L1「可以問你一件事嗎？」）：{"stage": "ACQUAINTANCE", "name": "沛珊", "fm": true, "lad": 0, "contact": false}
+  [前置／捷徑] [classmate_peishan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [classmate_peishan] ladder Y1S1 P-L1 選項1：按「和沛珊說話」
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] ladder Y1S1 P-L1 選項1 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項1：對話一路點得完  0 個選單
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項1：15 秒內回到可以自由移動
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項1：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項1：沒有新的 JS 例外
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項1：搖桿推得動（≥0.3 m）  3.30 m
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項1：點地走得動（≥0.3 m）  點 [-0.7, -11.94]，走了 1.08 m
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項1：遊戲時間有在走  17.1440→17.1642
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] ladder Y1S1 P-L1 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["｜（她抬頭看到你，點了一下頭。）"]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 P-L1 換選項））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.20 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [classmate_peishan] ladder Y1S1 P-L1 選項2：按「和沛珊說話」
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] ladder Y1S1 P-L1 選項2 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項2：對話一路點得完  0 個選單
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項2：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項2：15 秒內回到可以自由移動
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項2：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項2：沒有新的 JS 例外
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項2：搖桿推得動（≥0.3 m）  3.30 m
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項2：點地走得動（≥0.3 m）  點 [-0.7, -12.06]，走了 1.08 m
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項2：遊戲時間有在走  17.1893→17.2094
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L1 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] ladder Y1S1 P-L1 選項2：階梯沒有推進（這一次被別的對話先用掉？）  ["｜（她抬頭看到你，點了一下頭。）"]
+  [前置／捷徑] [classmate_peishan] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [前置／捷徑] [classmate_peishan] 讀檔：ladder Y1S1 P-L2：2025-09-01 17 library（看書）（library -15 17.00）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_peishan] 前置：ACQUAINTANCE、階梯進度設到第 2 層（P-L2「我家在台中開早餐店。」）：{"stage": "ACQUAINTANCE", "name": "沛珊", "fm": true, "lad": 1, "contact": false}
+  [前置／捷徑] [classmate_peishan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [classmate_peishan] ladder Y1S1 P-L2 選項1：按「和沛珊說話」
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] ladder Y1S1 P-L2 選項1 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項1：對話一路點得完  0 個選單
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項1：15 秒內回到可以自由移動
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項1：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項1：沒有新的 JS 例外
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項1：搖桿推得動（≥0.3 m）  3.24 m
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項1：點地走得動（≥0.3 m）  點 [-0.67, -11.94]，走了 1.05 m
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項1：遊戲時間有在走  17.1734→17.1937
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] ladder Y1S1 P-L2 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["｜（她抬頭看到你，點了一下頭。）"]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 P-L2 換選項））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.17 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [classmate_peishan] ladder Y1S1 P-L2 選項2：按「和沛珊說話」
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] ladder Y1S1 P-L2 選項2 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項2：對話一路點得完  0 個選單
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項2：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項2：15 秒內回到可以自由移動
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項2：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項2：沒有新的 JS 例外
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項2：搖桿推得動（≥0.3 m）  3.30 m
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項2：點地走得動（≥0.3 m）  點 [-0.73, -12.06]，走了 1.08 m
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項2：遊戲時間有在走  17.2179→17.2382
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L2 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] ladder Y1S1 P-L2 選項2：階梯沒有推進（這一次被別的對話先用掉？）  ["｜（她抬頭看到你，點了一下頭。）"]
+  [前置／捷徑] [classmate_peishan] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+SKIP [classmate_peishan] ladder Y1S1 P-L3：掃不到她在、這一層播得出來的時段（要 ACQUAINTANCE；{"dateOnly": null, "context": null, "line": "上次讀書會以安最後補的那句，你有寫到嗎？"}）
+  [前置／捷徑] [classmate_peishan] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [前置／捷徑] [classmate_peishan] 讀檔：ladder Y1S1 P-L4：2025-09-01 17 library（看書）（library -15 17.00）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_peishan] 前置：FAMILIAR、階梯進度設到第 4 層（P-L4「我這禮拜跑去旁聽哲學系的課。」）：{"stage": "FAMILIAR", "name": "沛珊", "fm": true, "lad": 3, "contact": false}
+  [前置／捷徑] [classmate_peishan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [classmate_peishan] ladder Y1S1 P-L4 選項1：按「和沛珊說話」
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] ladder Y1S1 P-L4 選項1 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項1：對話一路點得完  0 個選單
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項1：15 秒內回到可以自由移動
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項1：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項1：沒有新的 JS 例外
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項1：搖桿推得動（≥0.3 m）  3.27 m
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項1：點地走得動（≥0.3 m）  點 [-0.65, -11.94]，走了 1.02 m
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項1：遊戲時間有在走  17.1728→17.1930
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] ladder Y1S1 P-L4 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["｜（她抬頭看到你，點了一下頭。）"]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 P-L4 換選項））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.22 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [classmate_peishan] ladder Y1S1 P-L4 選項2：按「和沛珊說話」
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] ladder Y1S1 P-L4 選項2 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項2：對話一路點得完  0 個選單
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項2：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項2：15 秒內回到可以自由移動
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項2：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項2：沒有新的 JS 例外
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項2：搖桿推得動（≥0.3 m）  3.27 m
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項2：點地走得動（≥0.3 m）  點 [-0.65, -12.07]，走了 1.05 m
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項2：遊戲時間有在走  17.2184→17.2388
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L4 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] ladder Y1S1 P-L4 選項2：階梯沒有推進（這一次被別的對話先用掉？）  ["｜（她抬頭看到你，點了一下頭。）"]
+  [前置／捷徑] [classmate_peishan] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [前置／捷徑] [classmate_peishan] 讀檔：ladder Y1S1 P-L5：2025-09-01 17 library（看書）（library -15 17.00）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_peishan] 前置：FAMILIAR、階梯進度設到第 5 層（P-L5「問你一件事喔。」）：{"stage": "FAMILIAR", "name": "沛珊", "fm": true, "lad": 4, "contact": false}
+  [前置／捷徑] [classmate_peishan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [classmate_peishan] ladder Y1S1 P-L5 選項1：按「和沛珊說話」
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] ladder Y1S1 P-L5 選項1 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項1：對話一路點得完  0 個選單
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項1：15 秒內回到可以自由移動
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項1：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項1：沒有新的 JS 例外
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項1：搖桿推得動（≥0.3 m）  3.24 m
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項1：點地走得動（≥0.3 m）  點 [-0.67, -11.94]，走了 1.05 m
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項1：遊戲時間有在走  17.1739→17.1940
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] ladder Y1S1 P-L5 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["｜（她抬頭看到你，點了一下頭。）"]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 P-L5 換選項））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.17 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [classmate_peishan] ladder Y1S1 P-L5 選項2：按「和沛珊說話」
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] ladder Y1S1 P-L5 選項2 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項2：對話一路點得完  0 個選單
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項2：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項2：15 秒內回到可以自由移動
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項2：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項2：沒有新的 JS 例外
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項2：搖桿推得動（≥0.3 m）  3.27 m
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項2：點地走得動（≥0.3 m）  點 [-0.7, -12.06]，走了 1.08 m
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項2：遊戲時間有在走  17.2151→17.2355
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L5 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] ladder Y1S1 P-L5 選項2：階梯沒有推進（這一次被別的對話先用掉？）  ["｜（她抬頭看到你，點了一下頭。）"]
+  [前置／捷徑] [classmate_peishan] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [前置／捷徑] [classmate_peishan] 讀檔：ladder Y1S1 P-L6：2025-09-22 17 library（看書）（library 6 17.00）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_peishan] 前置：FAMILIAR、階梯進度設到第 6 層（P-L6「我隔週會回台中一趟。禮拜天搭客運回來，過了林口就開始塞。」）：{"stage": "FAMILIAR", "name": "沛珊", "fm": true, "lad": 5, "contact": false}
+  [前置／捷徑] [classmate_peishan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [classmate_peishan] ladder Y1S1 P-L6 選項1：按「和沛珊說話」
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] ladder Y1S1 P-L6 選項1 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項1：對話一路點得完  0 個選單
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項1：15 秒內回到可以自由移動
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項1：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項1：沒有新的 JS 例外
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項1：搖桿推得動（≥0.3 m）  3.27 m
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項1：點地走得動（≥0.3 m）  點 [-0.65, -11.94]，走了 1.08 m
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項1：遊戲時間有在走  17.1720→17.1922
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] ladder Y1S1 P-L6 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["｜（她抬頭看到你，點了一下頭。）"]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 P-L6 換選項））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.22 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [classmate_peishan] ladder Y1S1 P-L6 選項2：按「和沛珊說話」
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] ladder Y1S1 P-L6 選項2 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項2：對話一路點得完  0 個選單
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項2：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項2：15 秒內回到可以自由移動
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項2：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項2：沒有新的 JS 例外
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項2：搖桿推得動（≥0.3 m）  3.30 m
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項2：點地走得動（≥0.3 m）  點 [-0.68, -12.07]，走了 1.08 m
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項2：遊戲時間有在走  17.2150→17.2353
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L6 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] ladder Y1S1 P-L6 選項2：階梯沒有推進（這一次被別的對話先用掉？）  ["｜（她抬頭看到你，點了一下頭。）"]
+  [前置／捷徑] [classmate_peishan] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [前置／捷徑] [classmate_peishan] 讀檔：ladder Y1S1 P-L7：2025-09-01 17 library（看書）（library -15 17.00）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_peishan] 前置：FAMILIAR、階梯進度設到第 7 層（P-L7「我發現我上課抄最多的地方，都是老師講故事的時候。」）：{"stage": "FAMILIAR", "name": "沛珊", "fm": true, "lad": 6, "contact": false}
+  [前置／捷徑] [classmate_peishan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [classmate_peishan] ladder Y1S1 P-L7 選項1：按「和沛珊說話」
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] ladder Y1S1 P-L7 選項1 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項1：對話一路點得完  0 個選單
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項1：15 秒內回到可以自由移動
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項1：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項1：沒有新的 JS 例外
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項1：搖桿推得動（≥0.3 m）  3.24 m
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項1：點地走得動（≥0.3 m）  點 [-0.59, -11.94]，走了 1.02 m
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項1：遊戲時間有在走  17.1739→17.1940
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] ladder Y1S1 P-L7 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["｜（她抬頭看到你，點了一下頭。）"]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 P-L7 換選項））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.25 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [classmate_peishan] ladder Y1S1 P-L7 選項2：按「和沛珊說話」
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] ladder Y1S1 P-L7 選項2 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項2：對話一路點得完  0 個選單
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項2：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項2：15 秒內回到可以自由移動
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項2：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項2：沒有新的 JS 例外
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項2：搖桿推得動（≥0.3 m）  3.30 m
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項2：點地走得動（≥0.3 m）  點 [-0.65, -12.07]，走了 1.08 m
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項2：遊戲時間有在走  17.2197→17.2399
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L7 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] ladder Y1S1 P-L7 選項2：階梯沒有推進（這一次被別的對話先用掉？）  ["｜（她抬頭看到你，點了一下頭。）"]
+  [前置／捷徑] [classmate_peishan] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [前置／捷徑] [classmate_peishan] 讀檔：ladder Y1S1 P-L8：2025-09-01 17 library（看書）（library -15 17.00）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_peishan] 前置：FRIEND、階梯進度設到第 8 層（P-L8「欸，你都不會覺得我問題很多喔？」）：{"stage": "FRIEND", "name": "沛珊", "fm": true, "lad": 7, "contact": false}
+  [前置／捷徑] [classmate_peishan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [classmate_peishan] ladder Y1S1 P-L8 選項1：按「和沛珊說話」
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] ladder Y1S1 P-L8 選項1 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項1：對話一路點得完  0 個選單
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項1：15 秒內回到可以自由移動
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項1：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項1：沒有新的 JS 例外
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項1：搖桿推得動（≥0.3 m）  3.24 m
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項1：點地走得動（≥0.3 m）  點 [-0.66, -11.95]，走了 1.10 m
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項1：遊戲時間有在走  17.1723→17.1925
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] ladder Y1S1 P-L8 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["｜（她抬頭看到你，點了一下頭。）"]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 P-L8 換選項））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.18 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [classmate_peishan] ladder Y1S1 P-L8 選項2：按「和沛珊說話」
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] ladder Y1S1 P-L8 選項2 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項2：對話一路點得完  0 個選單
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項2：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項2：15 秒內回到可以自由移動
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項2：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項2：沒有新的 JS 例外
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項2：搖桿推得動（≥0.3 m）  3.30 m
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項2：點地走得動（≥0.3 m）  點 [-0.72, -12.04]，走了 1.11 m
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項2：遊戲時間有在走  17.2188→17.2391
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] ladder Y1S1 P-L8 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [classmate_peishan] ladder Y1S1 P-L8 選項2：階梯沒有推進（這一次被別的對話先用掉？）  ["｜（她抬頭看到你，點了一下頭。）"]
+  [前置／捷徑] [classmate_peishan] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+-- [classmate_peishan] menu
+  [前置／捷徑] [classmate_peishan] 讀檔：menu：2025-09-16 14 campus（文學院前的長椅（哲學概論旁聽））（campus 0 14.00）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_peishan] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "沛珊", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [classmate_peishan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.10 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，22 秒
+  [classmate_peishan] menu 基本：按「和沛珊說話」
+PASS [classmate_peishan] menu 基本：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "很會問問題的女生那如果……"}
+  [classmate_peishan] menu 基本 選單 ["交換聯絡方式", "就這樣"] → 選「就這樣」
+  [classmate_peishan] menu 基本 台詞（1 句）：["沛珊｜（她朝你笑了一下）"]
+PASS [classmate_peishan] menu 基本：對話一路點得完  1 個選單
+PASS [classmate_peishan] menu 基本：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] menu 基本：15 秒內回到可以自由移動
+PASS [classmate_peishan] menu 基本：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] menu 基本：沒有新的 JS 例外
+PASS [classmate_peishan] menu 基本：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] menu 基本：搖桿推得動（≥0.3 m）  3.25 m
+PASS [classmate_peishan] menu 基本：點地走得動（≥0.3 m）  點 [-24.71, -7.04]，走了 0.99 m
+PASS [classmate_peishan] menu 基本：遊戲時間有在走  14.2725→14.2927
+PASS [classmate_peishan] menu 基本：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] menu 基本：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] menu 基本：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [classmate_peishan] menu：說話後的選單 ["交換聯絡方式", "就這樣"]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（回到「走到她旁邊」那一刻（menu 選「交換聯絡方式」））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.10 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [classmate_peishan] menu 選「交換聯絡方式」：按「和沛珊說話」
+PASS [classmate_peishan] menu 選「交換聯絡方式」：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] menu 選「交換聯絡方式」 選單 ["交換聯絡方式", "就這樣"] → 選「交換聯絡方式」
+  [classmate_peishan] menu 選「交換聯絡方式」 台詞（2 句）：["沛珊｜（她朝你笑了一下）", "沛珊｜「好。上課有問題可以問你嗎？」"]
+PASS [classmate_peishan] menu 選「交換聯絡方式」：對話一路點得完  1 個選單
+PASS [classmate_peishan] menu 選「交換聯絡方式」：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] menu 選「交換聯絡方式」：15 秒內回到可以自由移動
+PASS [classmate_peishan] menu 選「交換聯絡方式」：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] menu 選「交換聯絡方式」：沒有新的 JS 例外
+PASS [classmate_peishan] menu 選「交換聯絡方式」：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] menu 選「交換聯絡方式」：搖桿推得動（≥0.3 m）  3.10 m
+PASS [classmate_peishan] menu 選「交換聯絡方式」：點地走得動（≥0.3 m）  點 [-26.5, -8.5]，走了 1.08 m
+PASS [classmate_peishan] menu 選「交換聯絡方式」：遊戲時間有在走  14.3162→14.3360
+PASS [classmate_peishan] menu 選「交換聯絡方式」：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] menu 選「交換聯絡方式」：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] menu 選「交換聯絡方式」：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+== 人物 classmate_peishan 結果 PASS（250 項；SKIP 2：media、ladder Y1S1 P-L3）
+   用了 16.1 分鐘
+==== 總結：1 人，FAIL 0 人：[]
+ALL PASS
