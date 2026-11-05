@@ -2,7 +2,7 @@
 """把 UAL 骨架的動作片段套到 VRoid 人物（VRM 0.x）上、用 Blender 拍預覽（NPC-ANIM-LOOPS-1104，LAWWW2-C 2026-11-04）。
 做法和遊戲一樣（character3d.js 的 ambClip／sitAmbient）：每一根骨頭的「世界旋轉差」D＝片段裡的世界旋轉 × 靜止世界旋轉的反；
 VRoid 的骨頭靜止時沒有旋轉，所以人物那一根骨頭的世界旋轉差就是 D（骨盆照遊戲不轉）。座標：UAL（+z 前、+x 左手邊）→ VRM 0.x（−z 前、+x 右手邊）→ Blender（Z 上）。
-人物照遊戲的做法縮到身高 H、坐下往下 0.47×H/1.75；桌子照 sit_task_loops.REF（高 0.75 m、桌緣離座位 0.30 m）；筆電、筆記本、書、杯子、手機照實際尺寸。這只是預覽，不是遊戲畫面。
+人物照遊戲的做法縮到身高 H、坐下往下 sit_task_loops.sit_drop（SIT-HEIGHT-1104：照每個模型的大腿厚度，和 character3d.js 的 C.sitDropOf 一樣；腿照模型靜止的姿勢，不是遊戲的坐姿）；桌子照 sit_task_loops.REF（高 0.75 m、桌緣離座位 0.30 m）；筆電、筆記本、書、杯子、手機照實際尺寸。這只是預覽，不是遊戲畫面。
 
 用法（Blender 的 Python）：
   /opt/blenv/bin/python tools/anim/preview_vrm_clip.py --vrm assets/models/char/vroid_npc_f1.vrm --src assets/models/char/ual_sit_clips.glb \
@@ -40,8 +40,8 @@ if A.props:                                                      # 手上配件 
             for m in o.data.materials:                               # Workbench 拿「作用中」的貼圖節點當顏色：設成底色那一張（不然拿到自發光那一張＝全黑）
                 for nd in m.node_tree.nodes:
                     if nd.type == 'TEX_IMAGE' and nd.image and 'atlas' in nd.image.name: m.node_tree.nodes.active = nd
-DROP = 0.47 * V.H / 1.75
-arm.scale = (V.s, V.s, V.s); arm.location = (0, 0, -DROP); bpy.context.view_layer.update()      # 遊戲：縮到身高、坐下往下 0.47×H/1.75
+DROP = T.sit_drop(V)
+arm.scale = (V.s, V.s, V.s); arm.location = (0, 0, -DROP); bpy.context.view_layer.update()      # 遊戲：縮到身高、坐下往下 sit_drop
 Aw = np.array(arm.matrix_world.to_3x3().normalized())
 pb = arm.pose.bones
 def depth(b): return 0 if b.parent is None else 1 + depth(b.parent)

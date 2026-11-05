@@ -56,7 +56,7 @@ const WHO=[['F 女生','char.npc_f1'],['M 男生','char.npc_m1'],['F2','char.npc
   for(const key in res){ const {lab,before:b,after:a,beforeL:bl,afterL:al}=res[key];
     console.log('  '+lab.padEnd(7)+(a.skirt?'（裙）':'　　')+' 往下 '+b.drop.toFixed(3)+' → '+a.drop.toFixed(3)+'｜大腿底部比椅面 '+cm(b.thigh-SEAT)+' → '+cm(a.thigh-SEAT)+'｜骨盆離座位地面 '+b.hips.toFixed(3)+' → '+a.hips.toFixed(3)+
       '｜離桌面：肩膀 '+cm(b.sh-DESK)+' → '+cm(a.sh-DESK)+'、手肘 '+cm(b.el-DESK)+' → '+cm(a.el-DESK)+'、眼睛 '+cm(b.eye-DESK)+' → '+cm(a.eye-DESK));
-    console.log('  '+' '.repeat(9)+'腳踝比站著：一般椅子 '+cm(b.ank-b.ra)+' → '+cm(a.ank-a.ra)+'、階梯教室（sitFeet 關）'+cm(bl.ank-bl.ra)+' → '+cm(al.ank-al.ra)+'｜膝蓋（階梯教室）關節高 '+bl.kneeY.toFixed(3)+' → '+al.kneeY.toFixed(3)+'、前緣在座位點前 '+al.kneeFront.toFixed(3)+' m、置物架範圍裡最高 '+(al.kneeTop>0?al.kneeTop.toFixed(3):'（沒伸到）')); }
+    console.log('  '+' '.repeat(9)+'腳踝比站著：一般椅子 '+cm(b.ank-b.ra)+' → '+cm(a.ank-a.ra)+'、階梯教室（sitFeet 關）'+cm(bl.ank-bl.ra)+' → '+cm(al.ank-al.ra)+'｜膝蓋（階梯教室）關節高 '+bl.kneeY.toFixed(3)+' → '+al.kneeY.toFixed(3)+'、前緣在座位點前 '+al.kneeFront.toFixed(3)+' m、置物架範圍裡最高 '+(bl.kneeTop>0?bl.kneeTop.toFixed(3):'（沒伸到）')+' → '+(al.kneeTop>0?al.kneeTop.toFixed(3):'（沒伸到）')); }
   const pants=Object.values(res).filter(r=>!r.after.skirt), bad=pants.filter(r=>!(r.after.thigh-SEAT>=-0.015&&r.after.thigh-SEAT<=0.005));
   check('① 改後：褲子的人大腿底部在 0.47 椅面下 1.5 cm、上 0.5 cm 以內（'+pants.length+' 個人；裙子 '+(Object.keys(res).length-pants.length)+' 個另外列）',pants.length>=6&&!bad.length,bad.map(r=>r.lab+' '+cm(r.after.thigh-SEAT)).join('、')||'都在範圍裡');
   const f=res['char.npc_f1'], mm=res['char.npc_m1'];
