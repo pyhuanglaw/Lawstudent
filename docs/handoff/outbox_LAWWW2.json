@@ -6587,7 +6587,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "c6837632e",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED",
    "task": "XS-NORTH-EXT-1105＋XS-WINCARD-1105",
    "files": [
     "docs/art-rebuild/second_ai/wip/xs_wincard_1105/README.md",
@@ -6598,7 +6598,7 @@
    ],
    "state": "已交付",
    "noDirectIntegrate": false,
-   "note": "望月台、體育館照臺大官網照片重做（第 2 版：紅磚角落店面＋露台；粉橘基座、銀白懸挑環、薄膜圓頂）；新生南路圍牆後面照北牆側門；大口、大步、好拍視差窗 8 張；xs_wincard FAILED 12→ALL PASS；48 支回歸 46 ALL PASS（另兩支 base 一樣）；e6335d264 --check 通過",
+   "note": "望月台、體育館照臺大官網照片重做（第 2 版：紅磚角落店面＋露台；粉橘基座、銀白懸挑環、薄膜圓頂）；新生南路圍牆後面照北牆側門；大口、大步、好拍視差窗 8 張；xs_wincard FAILED 12→ALL PASS；48 支回歸 46 ALL PASS（另兩支 base 一樣）；e6335d264 --check 通過；LAWWW-C 10:47Z ACK：接進開發線（下一版），十支 ALL PASS（含 shop_npc：我這裡沒 fetch 企劃線）；拍照轉 BB 排 CC",
    "next": "LAWWW-C checkout 模型、照片＋git apply patch；CC 拍；使用者看過才算美術通過"
   }
  ]
