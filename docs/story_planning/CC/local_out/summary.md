@@ -1519,3 +1519,4 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1392.9s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 1392.9s] BROWSER DISCONNECTED
 - 2026-11-06T05:27:04  V21R_soc_fr_zhe  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  1889s       用了 30.9 分鐘 / ==== 總結：1 人，FAIL 1 人：[["zhe", ["invite 見面（去椰影大道晨跑）：到了約定的地方、見面那一場有開始", "invite 念書（去總圖一起念書）：約念書開演時兩個人坐在同一張桌子（使用者 11-04：約念書不能在門口結束，要一起坐下）", "invite 念書（去總圖一起念書）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）"]]] / FAILED 3
       err.log (last 5): [gpu_wrap 1853.2s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 1853.2s] BROWSER DISCONNECTED
+- 2026-11-06T05:34:22  V21R_soc_heroine_05_go  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  2736s  timeout 45 min      I upgraded character models: 1 /   [前置／捷徑] [heroine_05] 讀回存檔（date 當面約 分支3-2「紅磚牆前」：出發前的提醒之前） /   [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）

@@ -3,8 +3,8 @@
  "tag": "date 當面約",
  "rec0": {
   "day": 14,
-  "hour": 12.1191,
-  "t": 348.1191,
+  "hour": 12.118,
+  "t": 348.118,
   "money": 30000,
   "rel": {
    "fam": 55,
@@ -24,8 +24,8 @@
  },
  "rec1": {
   "day": 14,
-  "hour": 15.2649,
-  "t": 351.2649,
+  "hour": 15.2636,
+  "t": 351.2636,
   "money": 29690,
   "rel": {
    "fam": 57,
@@ -41,7 +41,7 @@
   ],
   "zone": "campus"
  },
- "hours": 3.1458000000000084,
+ "hours": 3.1456000000000017,
  "say": [
   {
    "n": "",
@@ -200,6 +200,23 @@
  "screen": [
   {
    "name": "",
+   "text": "（華山",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
    "text": "（華山1914文創園區。）",
    "slots": [
     {
@@ -353,7 +370,7 @@
   },
   {
    "name": "溫書瑀",
-   "text": "（她在草地上坐下，把保溫瓶放旁邊）我好久沒有坐著不做",
+   "text": "（她在草地上坐下，把保溫瓶放旁邊）我好久沒有坐著不做事",
    "slots": [
     {
      "id": "advL",
@@ -505,24 +522,5 @@
    "adv": true
   }
  ],
- "seat": {
-  "zone": "campus",
-  "lv": 0,
-  "pseat": false,
-  "nseat": false,
-  "seatD": null,
-  "sameGroup": false,
-  "doorD": 11.29,
-  "spawnD": 0,
-  "npc": true,
-  "nD": 35.78,
-  "nbeh": "wander",
-  "nleaving": false,
-  "nx": 29.83,
-  "nz": -62.47,
-  "p": [
-   34,
-   -98
-  ]
- }
+ "seat": null
 }

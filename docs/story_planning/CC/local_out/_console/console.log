@@ -123,3 +123,47 @@
 [05:24:23] [res] cpu=28% mem=41% (13.1/31.4 GB) chrome_testing=10  START V21R_soc_fr_classmate_mingxuan
 [05:24:56] 正在跑：V21R_soc_heroine_05_go（已跑 36 分／上限 45 分）、V21R_soc_fr_zhe（已跑 29 分／上限 45 分）、V21R_soc_fr_classmate_mingxuan（已跑 0 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
 [05:27:04] [res] cpu=7% mem=39% (12.2/31.4 GB) chrome_testing=10  END V21R_soc_fr_zhe
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e8fb907ee..1de887c32  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:27:14] ==== END   V21R_soc_fr_zhe  exit=1  1889s   ====
+[05:27:17] skip WINVIEW_rel_deploy (already done on bcb386604502ab9e04674cd587ef5d527a33b570)
+[05:27:17] skip WINVIEW_rel_shots (already done on bcb386604502ab9e04674cd587ef5d527a33b570)
+[05:27:17] skip WINVIEW_rel_p0 (already done on bcb386604502ab9e04674cd587ef5d527a33b570)
+[05:27:17] skip V21R_movreg_solo (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_p0 (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_movreg (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_reach (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_class (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_mini (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_zone (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_touch (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_v7 (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_tappref (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_xs_tongxian (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_xs_nanyang (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_xs_shanlan (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_xs_dakou (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_xs_dabu (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_xs_haopai (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_xs_xsports (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_close_all (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_gym_tap (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_tapscan (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_wzlin (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_dorm_wall (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_guitar_dorm (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_xsgate (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_v12cb (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_moveout (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_shops_seats (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_shops_acts (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_shops_win (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_shop_named (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_shop_crowd (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] skip V21R_soc_heroine_01_talk (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[05:27:17] memory 39% before starting V21R_soc_heroine_01_go (2 running)
+[05:27:17] ==== START V21R_soc_heroine_01_go  (probe @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
+[05:27:20] [res] cpu=3% mem=39% (12.3/31.4 GB) chrome_testing=10  START V21R_soc_heroine_01_go
+[05:29:56] 正在跑：V21R_soc_heroine_05_go（已跑 41 分／上限 45 分）、V21R_soc_fr_classmate_mingxuan（已跑 5 分／上限 45 分）、V21R_soc_heroine_01_go（已跑 2 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:34:22] [res] cpu=10% mem=39% (12.4/31.4 GB) chrome_testing=10  END V21R_soc_heroine_05_go
