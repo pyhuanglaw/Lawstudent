@@ -55,5 +55,5 @@
 
 1. 拿檔案：
    - v1d（AA 原檔，沒改）：`git checkout a7f16be34 -- assets/models/env/second_ai/aa_support/afar.glb assets/models/env/second_ai/aa_support/afar.json src/data/afar_layout.js tools/blender/env_second/aa_support/afar_interior.py tools/blender/env_second/aa_support/README_afar.md`
-   - 窗景照片、拍照工具：`git checkout <這一包的 commit> -- assets/models/env/second_ai/aa_support/afar_view_day.webp assets/models/env/second_ai/aa_support/afar_view_night.webp tools/blender/env_second/wz_window_view.py`
+   - 窗景照片、拍照工具：`git checkout 3123e2f39 -- assets/models/env/second_ai/aa_support/afar_view_day.webp assets/models/env/second_ai/aa_support/afar_view_night.webp tools/blender/env_second/wz_window_view.py`
 2. `git apply docs/art-rebuild/second_ai/wip/afar_view_1105/afar_view_1105.patch`：`src/zones3d.js`、`LICENSES.md` 一列，加新測試。
