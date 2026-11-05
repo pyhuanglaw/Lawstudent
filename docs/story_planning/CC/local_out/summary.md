@@ -1354,3 +1354,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 111.6s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 111.7s] BROWSER DISCONNECTED
 - 2026-11-05T17:17:37  V21R_mini  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  90s    PASS 玩家箭頭朝地圖上方（往前走時）  arrow=0 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 51.2s] page close url=http://127.0.0.1:8806/index.html?turbo | [gpu_wrap 51.2s] BROWSER DISCONNECTED
+- 2026-11-05T17:19:47  V21R_reach  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  563s    統計：29 個區域、1231 個互動點、15 個劇情走路目的地、85 個出入口到達點 / PASS 沒有 JS 例外  [] / FAILED: noodle：劇情自動走路的 5 個目的地站得住、走得到
+      err.log (last 5): [gpu_wrap 524.7s] page close url=http://127.0.0.1:8805/index.html?turbo?turbo | [gpu_wrap 524.7s] BROWSER DISCONNECTED
