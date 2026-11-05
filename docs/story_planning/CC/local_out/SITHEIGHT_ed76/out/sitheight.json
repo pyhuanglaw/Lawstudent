@@ -1,0 +1,30 @@
+{
+ "eat": [
+  {
+   "first": {
+    "name": "",
+    "id": null,
+    "body": "?",
+    "model": {
+     "isObject3D": true,
+     "uuid": "051e1cf3-3661-4c6e-bf7e-3b8ba6ae68ea",
+     "name": "vrmWrap",
+     "type": "Group",
+     "parent": {
+      "isObject3D": true,
+      "uuid": "21555654-378d-4fbe-bfb3-be881655cbaa",
+      "name": "human",
+      "type": "Group",
+      "parent": {
+       "isObject3D": true,
+       "uuid": "d4724f19-3a46-4b67-9517-4e2c9735ff7d",
+       "name": "",
+       "type": "Scene",
+       "parent": null,
+       "children": [
+        {
+         "isObject3D": true,
+         "uuid": "5f0e8c9e-498f-4f0d-a27c-f160180d8a1c",
+         "name": "",
+         "type": "HemisphereLight",
+         "parent": 

@@ -1,0 +1,58 @@
+[gpu_wrap 2736.8s] page close url=http://127.0.0.1:8805/index.html
+[gpu_wrap 2736.9s] BROWSER DISCONNECTED
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\gpu_wrap.py", line 149, in <module>
+    runpy.run_path(script, run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 292, in run_path
+  File "<frozen runpy>", line 97, in _run_module_code
+  File "<frozen runpy>", line 87, in _run_code
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_sitheight_probe.py", line 311, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\runners.py", line 205, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\base_events.py", line 724, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_sitheight_probe.py", line 307, in main
+    json.dump(meta, open(os.path.join(OUT, 'sitheight.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\json\__init__.py", line 180, in dump
+    for chunk in iterable:
+                 ^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\json\encoder.py", line 454, in _iterencode_once
+    yield from _iterencode(o, _current_indent_level)
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\json\encoder.py", line 433, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\json\encoder.py", line 402, in _iterencode_dict
+    yield from chunks
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\json\encoder.py", line 315, in _iterencode_list
+    yield from chunks
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\json\encoder.py", line 402, in _iterencode_dict
+    yield from chunks
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\json\encoder.py", line 402, in _iterencode_dict
+    yield from chunks
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\json\encoder.py", line 402, in _iterencode_dict
+    yield from chunks
+  [Previous line repeated 2 more times]
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\json\encoder.py", line 315, in _iterencode_list
+    yield from chunks
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\json\encoder.py", line 402, in _iterencode_dict
+    yield from chunks
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\json\encoder.py", line 335, in _iterencode_dict
+    raise ValueError("Circular reference detected")
+ValueError: Circular reference detected
+when serializing dict item 'parent'
+when serializing list item 0
+when serializing dict item 'children'
+when serializing dict item 'parent'
+when serializing dict item 'parent'
+when serializing dict item 'model'
+when serializing dict item 'first'
+when serializing list item 0
+when serializing dict item 'eat'
