@@ -5,7 +5,7 @@ LAWWW2-C，2026-11-05（P2，不擋 v9.10.20）。
 - 起因：BB-C 02:08（D132 由 BB 代驗）說「店內和參考圖差太多，要改」。
 - BB 同意 CC 做的 v4d 由 LAWWW2 接手改。
 
-狀態：**MODEL_READY**，交 LAWWW-C 換檔、BB-C 照 R2 判。
+狀態：**MODEL_READY**，交 LAWWW-C 換檔、BB-C 照 R2 判（交件 commit `b49d3016b`）。
 
 - 預覽是 Blender EEVEE。光線是均勻的天空光，不是遊戲的燈。
 - 遊戲內畫面還沒拍：照 D131 要 CC 在 PC 上拍。
@@ -132,7 +132,7 @@ GLB 規格：
 - 其他是新檔：CC 的腳本和產生的貼圖，原本只在 cc-testing。
 
 ```
-git checkout <這次的 SHA> -- src/data/tongxian_layout.js \
+git checkout b49d3016b -- src/data/tongxian_layout.js \
   assets/models/env/second_ai/bb_support/tongxian.glb assets/models/env/second_ai/bb_support/tongxian.json \
   tests/tongxian_unit.js \
   tools/blender/env_second/bb_support/tongxian_interior.py tools/blender/env_second/bb_support/tongxian_tex.py \
