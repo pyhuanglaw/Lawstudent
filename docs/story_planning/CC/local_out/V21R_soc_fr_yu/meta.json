@@ -1,24 +1,24 @@
 {
-  "rerun": "t45",
+  "rerun": "",
   "id": "V21R_soc_fr_yu",
   "sha": "83d09d13b0686e51e344b4b771ebb9124d8806a4",
   "kind": "probe",
   "script": "docs/story_planning/test_tools/cc/cc_social_smoke_probe.py",
-  "env": "RERUN=t45;CASES=yu;STEPS=first,greet,up,ladder,menu,invite,invite_study,reload,phone,shop,walk;CC_HEADLESS=0",
+  "env": "CASES=yu;STEPS=first,greet,up,ladder,menu,invite,invite_study,reload,phone,shop,walk;CC_HEADLESS=0",
   "machine": "MSI",
-  "start": "2026-11-06T01:42:40",
-  "end": "2026-11-06T02:06:11",
-  "seconds": 1411,
+  "start": "2026-11-06T03:07:46",
+  "end": "2026-11-06T03:28:21",
+  "seconds": 1235,
   "exit": 1,
-  "error": null,
+  "error": "timeout 20 min",
   "runner": "5ba0949b5e",
   "rf_round": "1",
   "url": "http://127.0.0.1:8805/index.html",
   "headless_forced": true,
   "res_peak": {
-    "cpu": 43,
-    "mem": 49,
-    "used_gb": 15.6,
+    "cpu": 94,
+    "mem": 50,
+    "used_gb": 15.8,
     "chrome_testing": 15
   }
 }
