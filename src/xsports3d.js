@@ -75,7 +75,7 @@ const XP3=(function(){
     const {nav1,st}=buildNav(L,z.nav);
     z.levels=[z.nav,nav1]; z.levelGroups=[{group:g0,y:0},{group:g1,y:yU}]; z.spawn=IN; z.bounds={w:L.w,d:L.d}; z.camMaxY=L.hTotal-0.15; z.slabs=slabsOf(L);
     { const len=Math.hypot(st.z1-st.z0,st.ya-st.yb), m=new THREE.Mesh(new THREE.PlaneGeometry(st.x1-st.x0,len),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}));
-      m.position.set((st.x0+st.x1)/2,(st.ya+st.yb)/2+0.01,(st.z0+st.z1)/2); m.rotation.x=-Math.PI/2-Math.atan2(st.ya-st.yb,st.z1-st.z0); m.userData.walkLv=0; m.userData.dyn=true;
+      m.position.set((st.x0+st.x1)/2,(st.ya+st.yb)/2+0.01,(st.z0+st.z1)/2); m.rotation.x=-Math.PI/2-Math.atan2(st.yb-st.ya,st.z1-st.z0);   /* 斜的方向：ya 在 z0、yb 在 z1（addSurf axis z）。原本寫成 ya−yb，斜反了，只有中間那一階點得準（TEA-SUNKEN-TAP-1105 掃到，tests/stair_tap_unit.js）*/ m.userData.walkLv=0; m.userData.dyn=true;
       m.userData.stairEnds=[{x:S.x,z:st.z1-0.1,lv:0},{x:S.x,z:st.z0-0.25,lv:1}]; g0.add(m); z.walkMeshes=(z.walkMeshes||[]).concat([m]); }
     // 燈：挑空（前段）兩盞、夾層下一盞、二樓一盞；日光燈的材質自己發光、GLOW_ 光暈晚上亮
     const lamps=[], glowMeshes=[]; const lamp=(g,x,y,zz,on,off,dist)=>{ const l=new THREE.PointLight(0xfff1dc,off,dist||11,2); l.position.set(x,y,zz); l.userData.on=on; l.userData.off=off; g.add(l); lamps.push(l); };

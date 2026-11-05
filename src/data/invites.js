@@ -8,7 +8,7 @@ const INVITE_DATA={
      有理由的（念書、寫報告、喝咖啡）剛認識就可以；吃飯要熟一點；散步這種「沒有理由的」要是朋友（使用者第 4 點的「關係」；AA_70 1-3 的方向）。
      stay：一起待多久（小時）；memory：留下的小記憶（SOCIAL 的記憶標籤）；rainTo：下雨時改去哪裡 */
   places:[
-    {id:'cafe',    zone:'cafe',         name:'2:30 AM',  verb:'去 2:30 AM 坐坐',   kind:'reason', minStage:'ACQUAINTANCE', stay:1,    memory:'CAFE_AFTERNOON',  sitAct:'read', cats:['sit','study']},   /* 2:30 AM 也能約念書（使用者 2026-11-05「能約念書的地方 應該要有各咖啡館吧 連2.30都不能?」）*/
+    {id:'cafe',    zone:'cafe',         name:'2:30 AM',  verb:'去 2:30 AM 坐坐',verbStudy:'去 2:30 AM 念書',   kind:'reason', minStage:'ACQUAINTANCE', stay:1,    memory:'CAFE_AFTERNOON',  sitAct:'read', cats:['sit','study']},   /* 念書那一類的選項字 verbStudy：AA_702（企劃線 0babfd524）；2:30 AM 也能約念書（使用者 2026-11-05「能約念書的地方 應該要有各咖啡館吧 連2.30都不能?」）*/
     {id:'library', zone:'library_hall', name:'總圖',         verb:'去總圖一起念書',       kind:'reason', minStage:'ACQUAINTANCE', stay:1.5,  memory:'STUDIED_TOGETHER', sitAct:'read', sitAt:{lead:true,lv:1,away:3,alt:'library'}},   /* sitAt（INV-SIT-TOGETHER-1104、AA_649）：到了大廳她帶路走到二樓（lv 1）的長桌、兩個人坐下才開演；離入口至少 3 m；二樓坐滿＝去三樓閱覽區（區域 library）*/
     {id:'noodle',  zone:'noodle',       name:'公館燒臘',     verb:'去公館燒臘吃飯', kind:'meal',   minStage:'FAMILIAR',     stay:0.75, memory:'SHARED_MEAL',     sitAct:'eat'},
     {id:'wenzhou', zone:'wenzhou',      name:'溫州街',       verb:'去溫州街散步',         kind:'walk',   minStage:'FRIEND',       stay:0.75, memory:'WALKED_TOGETHER', sitAct:'wait', rainTo:'cafe'},
@@ -500,7 +500,7 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
    見面那一段（進門旁白、第一次的那一句、隨機一句、朋友一句）在 src/mokuyobi_sys3d.js（MOKS.meetScene；台詞照 AA_618 1-6 一字照抄）；答應、改天照一般規則（AA_618 沒有寫答應句：系統旁白）。
    可昕照現在的規則（只在她在臺北、約得到的時候）。沒有 MOKS（舊的測試環境）＝照一般的見面旁白。
    答應的那一句（AA_645 第 4 節，企劃線 ed6a4329d，一字照稿）：下面十人各一句（people[人].acc.mokuyobi）；沒列的人＝一般那句（MOKS.ACC0）；不答應照一般回覆表 */
-INVITE_DATA.places.push({id:'mokuyobi',zone:'wz_mokuyobi',name:'木曜日',verb:'去木曜日坐坐',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'MOKUYOBI_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['sit','study'],
+INVITE_DATA.places.push({id:'mokuyobi',zone:'wz_mokuyobi',name:'木曜日',verb:'去木曜日坐坐',verbStudy:'去木曜日念書',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'MOKUYOBI_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['sit','study'],
   days:[0,1,3,4,5,6],off:[2],hours:[13,22],show:G=>!!G&&!!G.visited&&!!G.visited.wz_mokuyobi,
   scene:(GM,iv,who)=>typeof MOKS!=='undefined'&&MOKS.meetScene?MOKS.meetScene(GM,iv,who):GM.say(null,'你和'+((who&&who.name)||'')+'在木曜日坐坐。')});
 (function(){ const ACC={heroine_01:'「木曜日？好，我帶書。」',heroine_02:'「好。……我想坐窗邊。」',heroine_03:'「好。我把報告帶去寫。」',heroine_04:'「那裡不能大聲說話吧。……好啦。」',heroine_05:'「好。我很久沒去了。」',
@@ -525,7 +525,7 @@ INVITE_DATA.places.push({id:'offbeat',zone:'wz_offbeat',name:'日常失速',verb
    稿上沒有寫要先自己走去過一次（和兩點半 Café、公館燒臘一樣，不加 show）。可昕照現在的規則（只在她在臺北、約得到的時候：S.kxPlaceOk 認得 acc）。
    答應的那一句：七位各一句（people[人].acc.afar／daybreak）；沒列的人＝「一般」那句（src/gg2shops3d.js 的 GG2.ACC0）；不答應照一般回覆表。
    兩個人坐下以後的開場句：seatOpen.afar／daybreak（下面）。見面旁白照邀約一般的（AA_652 沒有寫約來的見面句）*/
-INVITE_DATA.places.push({id:'afar',zone:'afar',name:'afar café',verb:'去 afar café 坐坐',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'CAFE_AFTERNOON',sitAct:'read',seatPose:'sit',cats:['sit','study'],hours:[11,21]});
+INVITE_DATA.places.push({id:'afar',zone:'afar',name:'afar café',verb:'去 afar café 坐坐',verbStudy:'去 afar café 念書',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'CAFE_AFTERNOON',sitAct:'read',seatPose:'sit',cats:['sit','study'],hours:[11,21]});
 INVITE_DATA.places.push({id:'daybreak',zone:'daybreak',name:'Daybreak',verb:'去 Daybreak 吃早午餐',kind:'meal',minStage:'FAMILIAR',stay:0.75,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],hours:[8,14.75],times:[9,10,11.5,13],
   lateNote:G=>((((+G.hour||0)%24)+24)%24)>=14-1e-6?'（Daybreak 下午三點就關了。）':null});
 (function(){ const AF={heroine_01:'「好。我帶書去，你不要一直跟我講話。」',heroine_02:'「afar？好。……窗邊那一排的燈很好看。」',heroine_03:'「好。我想吃他們的布丁。」',heroine_04:'「可以。那裡插座很多。」',heroine_05:'「好。我也剛好要寫東西。」',
@@ -538,7 +538,7 @@ INVITE_DATA.places.push({id:'daybreak',zone:'daybreak',name:'Daybreak',verb:'去
    有理由的（喝茶、念書，reason：和木曜日同一把尺——認識以上）；每天 11:00～21:00、颱風假不開（places.js hours.aoki）；自己走去過一次才列（show，和木曜日、日常失速一樣）。
    座位照配置 canStudy 可以讀書（cats 有 study）；見面兩個人一起坐下（seatPose），坐下以後的開場句＝seatOpen.aoki（AA_653：店員把茶壺放下……「……你先喝。」）。
    答應的那一句（一字照稿）：七人各一句（people[人].acc.aoki）；沒列的人＝一般那句（INVITE_DATA.aokiAcc0，src/ggshops_sys3d.js 接）；可昕照現在的規則（只在她在臺北、約得到的時候）*/
-INVITE_DATA.places.push({id:'aoki',zone:'aoki',name:'青木茶室',verb:'去青木茶室喝茶',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'AOKI_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['sit','study'],
+INVITE_DATA.places.push({id:'aoki',zone:'aoki',name:'青木茶室',verb:'去青木茶室喝茶',verbStudy:'去青木茶室念書',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'AOKI_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['sit','study'],
   hours:[11,21],show:G=>!!G&&!!G.visited&&!!G.visited.aoki});
 (function(){ const ACC={heroine_01:'「好。可以讀書嗎？……可以就好。」',heroine_02:'「好。我想喝東方美人。」',heroine_03:'「青木？好。……我想看看別人家的茶怎麼泡。」',heroine_04:'「茶室？好啊，我沒去過。」',
     heroine_05:'「好。那裡的白茶不錯。」',classmate_peishan:'「好！他們的桂花糕很好吃。」',kexin:'「好啊。等我到台北。」'};
