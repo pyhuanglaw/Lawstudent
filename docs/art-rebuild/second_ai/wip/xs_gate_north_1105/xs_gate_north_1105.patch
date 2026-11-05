@@ -398,10 +398,10 @@ index 66d8c3103..000000000
 -console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 diff --git a/tests/xs_gate_north_unit.js b/tests/xs_gate_north_unit.js
 new file mode 100644
-index 000000000..b0ccc1b7e
+index 000000000..6c25f4f09
 --- /dev/null
 +++ b/tests/xs_gate_north_unit.js
-@@ -0,0 +1,79 @@
+@@ -0,0 +1,81 @@
 +/* 新生南路側門開在北牆、望月台（新月台）在西北角、體育館搬到望月台和法學院中間（XS-GATE-NORTH-1105，LAWWW2-C 11-05）
 +   使用者 09:0x「新月台…要很靠新生南路那門 就不要往左邊開了 直接往上面開 跟公館不同側／新月台也貼著上方的最左邊」、09:1x「好」（北牆外西段叫新生南路）、
 +   09:2x「體育館實際上是在新生南路辛亥路交接口 遊戲中就改到新月台法學院中間」。取代 XS-GATE-MOVE-1105（門在 x −66 往西開）。
@@ -479,5 +479,7 @@ index 000000000..b0ccc1b7e
 +E.player={lv:0,obj:new THREE.Object3D()}; E.nav=cn; E.levels=cz.levels; E.zone=cz;
 +E.player.obj.position.set(-120,0,-83); const ok0=free(-120,-83); const moved=ok0||E.unstick(E.player,16), p=E.player.obj.position;
 +check('⑧ 舊存檔 (−120, −83)：站得住或 unstick 放到 3.5 m 內，走得到校園出生點',moved&&Math.hypot(p.x+120,p.z+83)<=3.5&&reach([p.x,p.z],[cz.spawn.x,cz.spawn.z]),p.x.toFixed(2)+','+p.z.toFixed(2));
++{ const bad=[[-66,-99],[-61.6,-99]].filter(([x,zz])=>{ E.player.obj.position.set(x,0,zz); const ok=free(x,zz)||E.unstick(E.player,16); const q=E.player.obj.position; return !(ok&&reach([q.x,q.z],[cz.spawn.x,cz.spawn.z])&&Math.hypot(q.x-x,q.z-zz)<=3.5); }).map(p=>p.join(','));
++  check('⑧b 舊存檔在早上那一版的側門 (−66, −99)、落點 (−61.6, −99)：站得住或 unstick 一次，走得到校園出生點',!bad.length,bad.join(' ')); }
 +console.warn=warn;
 +console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
