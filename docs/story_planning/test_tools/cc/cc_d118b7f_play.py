@@ -11,6 +11,7 @@
         站起來、不動 → 10/14 20:00 第二則 → 10/20 律師二試（帶過）→ 10/21 08:30 司法官二試作答（10 題：前 K 題選對、其他選錯）→ 交卷。
         要對：作答的 10 題＝總複習以前存下來的那 10 題（不重抽）、都是修過的課；JUDGE_SCORE2_2029＝K。
   【前置／捷徑】讀檔指定日期地點；成績單用遊戲自己的函式發；太久（雲端 SwiftShader）走不到的那一段改用同一份存檔跳到前 10 分鐘（標【捷徑】）。Windows＋GPU／SwiftShader ≠ iPhone。
+  BB-C 02:15（改用含 193d1fd4f 的 head：家裡選單的考前總複習太晚了也變灰）：研究所寒假那段加驗 21:00 家裡選單那一項是灰的、隔天白天按得下去。
   BB-C 02:00（SHA 改 8267bc481）：開放那天的提醒 12:00、二試從第一天算（9/20 開放）、寒假住家裡的選單有「考前總複習」（研究所一路快轉到 1/25 以後白天按下去）；快轉停點這一輪不判。
   BB-C 01:40（SHA 改 c9ad63dd3＝含 63847fe13）：二試作答也有 cue、交卷逐題回寫觀念卡——judge 那一段記每題前面有沒有 cue、交卷後 got／miss 各幾張（研究所作答 Node Q5～Q8）。
 用法：LW_TESTS=<wt>/tests [CASES=grad,judge] [K=7] python3 cc_d118b7f_play.py <url> <out>"""
@@ -49,8 +50,9 @@ AFTER_TR_JUDGE = r"""(()=>{ const G=GAME.G; PG.draw(G,2029); const cp=JSON.parse
 SEATS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position; return (E.interactables||[]).filter(i=>i&&i.seat&&!i.hidden&&(i.study||i.deskStudy)).map(i=>({x:+i.x.toFixed(2),z:+i.z.toFixed(2),label:i.label,lv:i.lv|0,d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2)})).sort((a,b)=>a.d-b.d); })()"""
 UI = r"""(()=>{ const t=(document.getElementById('dlgText')||{}).textContent||'', ch=document.getElementById('choices'); const open=!!ch&&!ch.classList.contains('hide');
   const opts=open?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).map(b=>(b.innerText||b.textContent||'').trim()):[];
+  const dims=open?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null&&(b.classList.contains('dim')||b.getAttribute('aria-disabled')==='true')).map(b=>(b.innerText||b.textContent||'').trim()):[];
   const ph=document.getElementById('phone'), phOpen=!!ph&&!ph.classList.contains('hide')&&ph.offsetParent!==null;
-  const rems=(GAME.G.msgs||[]).filter(m=>/_remind_/.test(m.tag||'')).map(m=>m.tag); const D=GAME.D||{}; return {rems, dlg:!!D.active, text:t, opts, phone:phOpen, phoneText:phOpen?(ph.innerText||'').slice(-400):'', hour:+(+GAME.G.hour).toFixed(3), day:GAME.G.day, key:CALENDAR.dateOf(GAME.G.day).key, zone:GAME.G.zone, busy:!!GAME.E.player.busy, seat:!!GAME.E.player.seat, home:!!(HOME.at&&HOME.at(GAME.G))}; })()"""
+  const rems=(GAME.G.msgs||[]).filter(m=>/_remind_/.test(m.tag||'')).map(m=>m.tag); const D=GAME.D||{}; return {rems, dims, dlg:!!D.active, text:t, opts, phone:phOpen, phoneText:phOpen?(ph.innerText||'').slice(-400):'', hour:+(+GAME.G.hour).toFixed(3), day:GAME.G.day, key:CALENDAR.dateOf(GAME.G.day).key, zone:GAME.G.zone, busy:!!GAME.E.player.busy, seat:!!GAME.E.player.seat, home:!!(HOME.at&&HOME.at(GAME.G))}; })()"""
 CAP = r"""(()=>{ const c=document.getElementById('caption')||document.querySelector('.caption,#cap,#captionBox'); if(!c) return null; const cs=getComputedStyle(c); const r=c.getBoundingClientRect(); return {html:c.innerHTML.slice(0,2000), text:(c.innerText||'').slice(0,2000), show:cs.display!=='none'&&cs.visibility!=='hidden'&&+cs.opacity>0.05&&r.height>0, rect:[r.left,r.top,r.right,r.bottom], vw:innerWidth, vh:innerHeight, scrollH:c.scrollHeight, clientH:c.clientHeight}; })()"""
 SAYHOOK = r"""(()=>{ if(window.__ccSayOn) return true; window.__ccSay=[]; const s0=GAME.say; GAME.say=function(who,t){ try{ window.__ccSay.push({t:String(t), key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2)}); }catch(e){} return s0.apply(this,arguments); };
   const p0=GAME.phoneThread; if(p0){ window.__ccPh=[]; GAME.phoneThread=function(th,o){ try{ const m=(GAME.G.msgs||[]).slice(-1)[0]; window.__ccPh.push({key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), th:th||null, last:m?m.text:null, skip:!!(o&&o.skip)}); }catch(e){} return p0.apply(this,arguments); }; }
@@ -155,7 +157,7 @@ async def case_grad(pg, cdp):
         await pg.evaluate("void HOME.go(GAME)")
     await pg.wait_for_timeout(5000)
     menus, phones = [], []
-    t0 = time.time(); phase = 'start'; first_menu = None; after_menus = []; rv_menu = None; rv = None
+    t0 = time.time(); phase = 'start'; first_menu = None; after_menus = []; rv_menu = None; rv = None; late_menus = []
     while time.time() - t0 < 2400:
         u = await pg.evaluate(UI)
         if u['phone']:
@@ -165,7 +167,8 @@ async def case_grad(pg, cdp):
             sel = await close_phone(pg, cdp); R.note('[grad] 手機 %s %.2f 打開（%s）→ 關掉（%s）' % (u['key'], u['hour'], J(ph), sel)); continue
         if u['opts']:
             if any(o.startswith('睡覺') for o in u['opts']):   # 家裡的選單
-                menus.append({'key': u['key'], 'hour': u['hour'], 'opts': u['opts']})
+                menus.append({'key': u['key'], 'hour': u['hour'], 'opts': u['opts'], 'dims': u.get('dims') or []})
+                if u['hour'] >= 20 and any(x.startswith('考前總複習') for x in u['opts']): late_menus.append(menus[-1]); await R.shot(pg, 'grad_home_menu_late_%d' % len(late_menus))
                 if len(menus) <= 3 or u['key'] >= '2029-01-25': await R.shot(pg, 'grad_home_menu_%d' % len(menus))
                 if phase == 'start': first_menu = menus[-1]; phase = 'first'; await pick(pg, cdp, "t=>t.startsWith('快轉')"); continue
                 if u['key'] < '2029-01-25': after_menus.append(menus[-1]); phase = 'week'; await pick(pg, cdp, "t=>t.startsWith('快轉')"); continue
@@ -188,6 +191,9 @@ async def case_grad(pg, cdp):
     R.note('[grad] 停下來的時刻 %s（這一輪不判：HOME-FF-REMIND-ALIGN-1105）' % J(p1 and [p1['key'], p1['hour']]))
     R.check('[grad] 1/4（開放那天）家裡的選單有「考前總複習」', bool(first_menu) and any(x.startswith('考前總複習') for x in first_menu['opts']), J(first_menu))
     R.check('[grad] 手機關掉以後回到家裡的選單（%s）都有「考前總複習」' % J([m['key'] for m in after_menus]), bool(after_menus) and all(any(x.startswith('考前總複習') for x in m['opts']) for m in after_menus), J(after_menus))
+    lm = [m for m in late_menus if m['key'] >= '2029-01-25'] or late_menus
+    if lm: R.check('[grad] 20:00 以後（%s）家裡選單的「考前總複習」是灰的（193d1fd4f；BB-C 02:15）' % J([[m['key'], m['hour']] for m in lm]), all(any(x.startswith('考前總複習') for x in m['dims']) for m in lm), J([[m['key'], m['hour'], m['dims']] for m in lm]))
+    else: R.note('[grad] 這一輪沒遇到 20:00 以後的家裡選單：21:00 變灰沒有照玩家測到（Node cc_d118b7f_node.js W5）')
     ok = R.check('[grad] 2029-01-25 以後在家（%s）看得到「考前總複習」（BB-C 02:00）' % (rv_menu and '%s %.2f' % (rv_menu['key'], rv_menu['hour'])), bool(rv_menu) and any(x.startswith('考前總複習') for x in rv_menu['opts']), J(rv_menu))
     if ok and rv:
         n = inf['n']; first = next((t for t in rv['lines'] if '筆記攤開' in t), '')
@@ -289,7 +295,11 @@ async def case_judge(pg, cdp):
 
 
 async def main():
-    print('CC D118_B7F（司法官二試、研究所總複習，照玩家操作）：CASES=%s K=%d；SHA=%s；Windows＋GPU／SwiftShader ≠ iPhone' % (CASES, K, os.environ.get('SHA', '?')), flush=True)
+    import subprocess
+    real = ''
+    try: real = subprocess.run(['git', '-C', os.path.join(os.environ.get('LW_TESTS') or '.', '..'), 'rev-parse', '--short=9', 'HEAD'], capture_output=True, text=True).stdout.strip()
+    except Exception: pass
+    print('CC D118_B7F（司法官二試、研究所總複習，照玩家操作）：CASES=%s K=%d；SHA=%s（worktree 實際 %s）；Windows＋GPU／SwiftShader ≠ iPhone' % (CASES, K, os.environ.get('SHA', '?'), real or '?'), flush=True)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await cc_det.install(pg, int(os.environ.get('CC_SEED') or 20261105))

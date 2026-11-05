@@ -271,7 +271,10 @@ await sec('W 寒假住家裡的選單',async()=>{
     const mid=hm_.filter(m=>m.at>'2029-01-04 12:59'&&m.at<'2029-01-25');
     check('W3 手機關掉以後回到家裡的選單（'+J(mid.map(m=>m.at))+'）都有「考前總複習」',mid.length>0&&mid.every(m=>m.opts.some(t=>t.startsWith('考前總複習'))),J(mid.map(m=>[m.at,m.opts])));
     const m25=hm_.filter(m=>m.at>='2029-01-25').find(m=>+m.at.slice(11,13)<16)||hm_.find(m=>m.at>='2029-01-25');
-    { const late=hm_.filter(m=>+m.at.slice(11,13)>=20&&m.opts.some(t=>/^考前總複習/.test(t))); if(late.length) info('W 晚上 20:00 以後的家裡選單：「考前總複習」那一項 dim＝'+J(late.map(m=>[m.at,m.rvDim,m.rvHint]))+'（宿舍書桌那一套 20:00 以後是灰的；這裡照實記，判定歸 BB）'); } const L2=revSay!=null?says.slice(revSay):[], op=L2.find(x=>/筆記攤開/.test(x))||'';
+    { const late=hm_.filter(m=>+m.at.slice(11,13)>=20&&m.opts.some(t=>/^考前總複習/.test(t)));
+      info('W 晚上 20:00 以後的家裡選單：「考前總複習」那一項 dim＝'+J(late.map(m=>[m.at,m.rvDim,m.rvHint])));
+      if(late.length) check('W5 20:00 以後（'+J(late.map(m=>m.at))+'）家裡選單的「考前總複習」是灰的、提示「要讀四個小時。20:00 以後開始就太晚了。」（193d1fd4f，BB-C 02:15；同宿舍書桌）',late.every(m=>m.rvDim===true&&m.rvHint===T('g_late')),J(late.map(m=>[m.at,m.rvDim,m.rvHint])));
+      else info('W5 這一次沒遇到 20:00 以後的家裡選單（沒測到）'); } const L2=revSay!=null?says.slice(revSay):[], op=L2.find(x=>/筆記攤開/.test(x))||'';
     check('W4 1/25 以後（'+(m25&&m25.at)+'）住家裡的選單看得到「考前總複習」、按下去開得了（開始字幕「（你把公法的筆記攤開。…」、讀 4 小時）',!!m25&&m25.opts.some(t=>t.startsWith('考前總複習')&&!/〔灰〕/.test(t))&&/^（你把公法的筆記攤開。研究所要考的 \d 科，一共 \d+ 張觀念卡。）$/.test(op)&&(G.stats.study|0)-s0===4,J({m25,op,study:(G.stats.study|0)-s0}));
     { const G2=H.fresh('2029-01-04',10,'dorm',Object.assign({},GF)); transcripts(G2,{terms:TO_Y4S1}); H.G=G2; const o=STUDY.reviewOpt(G2,{}); info('W 對照：同一天在宿舍的書桌（story3d deskScene 照 STUDY.reviewOpt）：'+J(o)); }
   } finally { GM.choose=ch1; GM.phoneThread=pt1; }
