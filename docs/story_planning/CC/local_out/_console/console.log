@@ -177,3 +177,12 @@
 [13:47:57] ==== START GUITAR_DORM  (probe @ 13700be8fbfcaa902b0276713c5c83c7c38e3c79) ====
 [13:48:00] [res] cpu=10% mem=30% (9.5/31.4 GB) chrome_testing=9  START GUITAR_DORM
 [13:48:47] [res] cpu=11% mem=30% (9.2/31.4 GB) chrome_testing=9  END D118B5_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ddb270a34..e489acae7  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:48:53] ==== END   D118B5_r2  exit=1  2256s   ====
+[13:48:56] memory 31% before starting WZLIN_v1c (2 running)
+[13:48:56] ==== START WZLIN_v1c  (probe @ 01b3e5ac7534c643a153e940b0198a142605a67b) ====
+[13:48:59] [res] cpu=10% mem=31% (9.8/31.4 GB) chrome_testing=9  START WZLIN_v1c
+[13:48:59] worktree add 01b3e5ac7534c643a153e940b0198a142605a67b: invalid reference - fetching main and the commit itself
+[13:50:12] [res] cpu=15% mem=31% (9.6/31.4 GB) chrome_testing=9  END GUITAR_DORM
