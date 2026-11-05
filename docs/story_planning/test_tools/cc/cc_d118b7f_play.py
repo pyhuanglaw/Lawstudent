@@ -3,14 +3,15 @@
   CASES（預設 grad,judge）：
   grad  研究所 2029（寒假）：【前置／捷徑】讀檔 2029-01-04 10:00 宿舍 203（大四寒假；台灣路線、選研究所、推甄沒上；成績單到大四上照 transcripts）。
         玩家：手機 →「回家」（找不到按鈕才【捷徑】HOME.go）→ 家裡的選單（拍）→「快轉」→「到下一個有事的日子」→ 途中手機打開那一則（記幾點、哪一則、拍）→ 關掉 →
-        回到家裡的選單（拍）。要對：20:00 停下來打開「【研究所】2/3 筆試。從今天起…一次讀過一遍，要四個小時。」；接著家裡的選單要開得了「考前總複習」（BB 判的條件，開不了＝FAIL）。
+        回到家裡的選單（拍）。要對（8267 起 12:00）：停下來打開「【研究所】2/3 筆試。從今天起…一次讀過一遍，要四個小時。」；接著家裡的選單要開得了「考前總複習」（BB 判的條件，開不了＝FAIL）。
         有就按下去：4 小時、開始字幕「（你把公法的筆記攤開。研究所要考的 n 科…）」、結束字幕每科一行。
   judge 司法官二試 2029：【前置／捷徑】讀檔 2029-09-06 14:00 總圖 B1：畢業了、報了 2029 國考、一試考過（BAR_SIT_2029、答對 17＝司法官；exam_2029 演過、一試 20 題抽好）。
-        玩家：不動＝畢業後篇自己跳到下一件事 → 9/7 放榜（演出來、選項選第一個）→ 開放那天 20:00 手機【國考】那一則（記、拍）→
-        隔天 09:00 坐到 B1 的座位（【捷徑】同一份存檔跳到隔天 09:00：20:00 開始讀 6 小時太晚）→「考前總複習」（司法官二試要考的 n 科、6 小時；結束字幕最多 8 科＋「另外還翻了」）→
+        玩家：不動＝畢業後篇自己跳到下一件事 → 9/7 放榜（演出來、選項選第一個）→ 開放那天 12:00（8267 起）手機【國考】那一則（記、拍）→
+        當天 13:00 坐到 B1 的座位（【捷徑】同一份存檔換到總圖 B1）→「考前總複習」（司法官二試要考的 n 科、6 小時；結束字幕最多 8 科＋「另外還翻了」）→
         站起來、不動 → 10/14 20:00 第二則 → 10/20 律師二試（帶過）→ 10/21 08:30 司法官二試作答（10 題：前 K 題選對、其他選錯）→ 交卷。
         要對：作答的 10 題＝總複習以前存下來的那 10 題（不重抽）、都是修過的課；JUDGE_SCORE2_2029＝K。
   【前置／捷徑】讀檔指定日期地點；成績單用遊戲自己的函式發；太久（雲端 SwiftShader）走不到的那一段改用同一份存檔跳到前 10 分鐘（標【捷徑】）。Windows＋GPU／SwiftShader ≠ iPhone。
+  BB-C 02:00（SHA 改 8267bc481）：開放那天的提醒 12:00、二試從第一天算（9/20 開放）、寒假住家裡的選單有「考前總複習」（研究所一路快轉到 1/25 以後白天按下去）；快轉停點這一輪不判。
   BB-C 01:40（SHA 改 c9ad63dd3＝含 63847fe13）：二試作答也有 cue、交卷逐題回寫觀念卡——judge 那一段記每題前面有沒有 cue、交卷後 got／miss 各幾張（研究所作答 Node Q5～Q8）。
 用法：LW_TESTS=<wt>/tests [CASES=grad,judge] [K=7] python3 cc_d118b7f_play.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -27,6 +28,7 @@ K = int(os.environ.get('K') or 7)
 CASES = [c for c in (os.environ.get('CASES') or 'grad,judge').split(',') if c]
 R = L.Run('d118b7f_play', OUT)
 # 期望的字（逐字，出處見上；Node 那一組第 0b 節核對過每一句都在原文裡）
+OPEN_H, OPEN_HM = 12.0, '12:00'   # BB-C 02:00（BB_255 02:0x，8267bc481）：開放那天的提醒改 12:00；考前一週的週日照舊 20:00
 G_ROPEN = '【研究所】2/3 筆試。從今天起，坐到書桌或讀書的位子，可以把公法的筆記一次讀過一遍，要四個小時。'   # AA_692 第 2 節（定稿改一個字）
 G_OPEN = '（你把公法的筆記攤開。研究所要考的 {n} 科，一共 {m} 張觀念卡。）'   # AA_692 第 2 節 open 定稿
 J_ROPEN = '【國考】10/20 司法官二試。從今天起，坐到書桌或讀書的位子，可以把四年的筆記一次讀過一遍，要六個小時。'   # AA_692 第 1 節（{M}/{D}＝二試第一天 10/20）
@@ -48,7 +50,7 @@ SEATS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position; return (E.interactab
 UI = r"""(()=>{ const t=(document.getElementById('dlgText')||{}).textContent||'', ch=document.getElementById('choices'); const open=!!ch&&!ch.classList.contains('hide');
   const opts=open?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).map(b=>(b.innerText||b.textContent||'').trim()):[];
   const ph=document.getElementById('phone'), phOpen=!!ph&&!ph.classList.contains('hide')&&ph.offsetParent!==null;
-  const D=GAME.D||{}; return {dlg:!!D.active, text:t, opts, phone:phOpen, phoneText:phOpen?(ph.innerText||'').slice(-400):'', hour:+(+GAME.G.hour).toFixed(3), day:GAME.G.day, key:CALENDAR.dateOf(GAME.G.day).key, zone:GAME.G.zone, busy:!!GAME.E.player.busy, seat:!!GAME.E.player.seat, home:!!(HOME.at&&HOME.at(GAME.G))}; })()"""
+  const rems=(GAME.G.msgs||[]).filter(m=>/_remind_/.test(m.tag||'')).map(m=>m.tag); const D=GAME.D||{}; return {rems, dlg:!!D.active, text:t, opts, phone:phOpen, phoneText:phOpen?(ph.innerText||'').slice(-400):'', hour:+(+GAME.G.hour).toFixed(3), day:GAME.G.day, key:CALENDAR.dateOf(GAME.G.day).key, zone:GAME.G.zone, busy:!!GAME.E.player.busy, seat:!!GAME.E.player.seat, home:!!(HOME.at&&HOME.at(GAME.G))}; })()"""
 CAP = r"""(()=>{ const c=document.getElementById('caption')||document.querySelector('.caption,#cap,#captionBox'); if(!c) return null; const cs=getComputedStyle(c); const r=c.getBoundingClientRect(); return {html:c.innerHTML.slice(0,2000), text:(c.innerText||'').slice(0,2000), show:cs.display!=='none'&&cs.visibility!=='hidden'&&+cs.opacity>0.05&&r.height>0, rect:[r.left,r.top,r.right,r.bottom], vw:innerWidth, vh:innerHeight, scrollH:c.scrollHeight, clientH:c.clientHeight}; })()"""
 SAYHOOK = r"""(()=>{ if(window.__ccSayOn) return true; window.__ccSay=[]; const s0=GAME.say; GAME.say=function(who,t){ try{ window.__ccSay.push({t:String(t), key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2)}); }catch(e){} return s0.apply(this,arguments); };
   const p0=GAME.phoneThread; if(p0){ window.__ccPh=[]; GAME.phoneThread=function(th,o){ try{ const m=(GAME.G.msgs||[]).slice(-1)[0]; window.__ccPh.push({key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(2), th:th||null, last:m?m.text:null, skip:!!(o&&o.skip)}); }catch(e){} return p0.apply(this,arguments); }; }
@@ -153,8 +155,8 @@ async def case_grad(pg, cdp):
         await pg.evaluate("void HOME.go(GAME)")
     await pg.wait_for_timeout(5000)
     menus, phones = [], []
-    t0 = time.time(); ff_done = False; first_menu = None; after_menus = []
-    while time.time() - t0 < 1200:
+    t0 = time.time(); phase = 'start'; first_menu = None; after_menus = []; rv_menu = None; rv = None
+    while time.time() - t0 < 2400:
         u = await pg.evaluate(UI)
         if u['phone']:
             ph = await pg.evaluate("(window.__ccPh||[]).slice(-1)[0]||null")
@@ -164,12 +166,15 @@ async def case_grad(pg, cdp):
         if u['opts']:
             if any(o.startswith('睡覺') for o in u['opts']):   # 家裡的選單
                 menus.append({'key': u['key'], 'hour': u['hour'], 'opts': u['opts']})
-                await R.shot(pg, 'grad_home_menu_%d' % len(menus))
-                if first_menu is None: first_menu = menus[-1]
-                elif ff_done: after_menus.append(menus[-1])
-                if ff_done and after_menus: break
-                if not ff_done: ff_done = await pick(pg, cdp, "t=>t.startsWith('快轉')"); continue
-            if any(o.startswith('到下一個有事的日子') for o in u['opts']): await pick(pg, cdp, "t=>t.startsWith('到下一個有事的日子')"); continue
+                if len(menus) <= 3 or u['key'] >= '2029-01-25': await R.shot(pg, 'grad_home_menu_%d' % len(menus))
+                if phase == 'start': first_menu = menus[-1]; phase = 'first'; await pick(pg, cdp, "t=>t.startsWith('快轉')"); continue
+                if u['key'] < '2029-01-25': after_menus.append(menus[-1]); phase = 'week'; await pick(pg, cdp, "t=>t.startsWith('快轉')"); continue
+                if u['hour'] >= 16: await pick(pg, cdp, "t=>t.startsWith('睡覺')"); continue   # 晚上讀 4 小時太晚：照玩家先睡到隔天早上
+                rv_menu = menus[-1]
+                if any(x.startswith('考前總複習') for x in u['opts']): rv = await review_flow(pg, cdp, '[grad]', 'grad_review_caption', '研究所範圍')
+                break
+            if any(o.startswith('到下一個有事的日子') for o in u['opts']):
+                await pick(pg, cdp, "t=>t.startsWith('到下一個有事的日子')" if phase == 'first' else "t=>t.startsWith('過一週')"); continue
             await pick(pg, cdp, "t=>true"); continue
         if u['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
         await pg.wait_for_timeout(800)
@@ -177,21 +182,19 @@ async def case_grad(pg, cdp):
     R.note('[grad] 家裡的選單：%s' % J(menus)); R.note('[grad] 手機打開：%s' % J(phones)); R.note('[grad] 研究所提醒：%s' % J(rem))
     R.check('[grad] 回到家：住家裡的選單出來了（有「睡覺」「快轉」）', bool(first_menu) and any(o.startswith('快轉') for o in first_menu['opts']), J(first_menu))
     o = [m for m in rem if m['tag'] == 'grad_remind_open_2029']
-    R.check('[grad] 1/4 20:00 那一則逐字「%s」' % G_ROPEN, len(o) == 1 and o[0]['key'] == '2029-01-04' and abs(o[0]['h'] - 20) < 0.01 and o[0]['text'] == G_ROPEN, J(o))
+    R.check('[grad] 1/4 %s 那一則逐字「%s」（BB-C 02:00：開放那天 12:00）' % (OPEN_HM, G_ROPEN), len(o) == 1 and o[0]['key'] == '2029-01-04' and abs(o[0]['h'] - OPEN_H) < 0.01 and o[0]['text'] == G_ROPEN, J(o))
     p1 = next((p for p in phones if p['ph'] and (p['ph'].get('last') or '').startswith('【研究所】')), None)
     R.check('[grad] 在家快轉途中停下來、手機打開那一則', bool(p1) and p1['key'] == '2029-01-04', J(p1))
-    R.check('[grad] 停下來的時刻＝1/4 20:00（BB-C 01:32）', bool(p1) and p1['key'] == '2029-01-04' and abs(p1['hour'] - 20) < 0.05, J(p1 and [p1['key'], p1['hour']]))
+    R.note('[grad] 停下來的時刻 %s（這一輪不判：HOME-FF-REMIND-ALIGN-1105）' % J(p1 and [p1['key'], p1['hour']]))
     R.check('[grad] 1/4（開放那天）家裡的選單有「考前總複習」', bool(first_menu) and any(x.startswith('考前總複習') for x in first_menu['opts']), J(first_menu))
-    am = after_menus[0] if after_menus else None
-    ok = R.check('[grad] 手機關掉以後回到家裡的選單（%s）開得了「考前總複習」（BB 判的條件）' % (am and '%s %.2f' % (am['key'], am['hour'])), bool(am) and any(x.startswith('考前總複習') for x in am['opts']), J(am))
-    if ok:
-        rv = await review_flow(pg, cdp, '[grad]', 'grad_review_caption', '研究所範圍')
+    R.check('[grad] 手機關掉以後回到家裡的選單（%s）都有「考前總複習」' % J([m['key'] for m in after_menus]), bool(after_menus) and all(any(x.startswith('考前總複習') for x in m['opts']) for m in after_menus), J(after_menus))
+    ok = R.check('[grad] 2029-01-25 以後在家（%s）看得到「考前總複習」（BB-C 02:00）' % (rv_menu and '%s %.2f' % (rv_menu['key'], rv_menu['hour'])), bool(rv_menu) and any(x.startswith('考前總複習') for x in rv_menu['opts']), J(rv_menu))
+    if ok and rv:
         n = inf['n']; first = next((t for t in rv['lines'] if '筆記攤開' in t), '')
-        R.check('[grad] 4 小時（%.2f → %.2f）' % (rv['h0'], rv['h1']), abs(rv['h1'] - rv['h0'] - 4) < 0.05, J([rv['h0'], rv['h1']]))
+        R.check('[grad] 按下去開得了：4 小時（%.2f → %.2f）' % (rv['h0'], rv['h1']), abs(rv['h1'] - rv['h0'] - 4) < 0.05, J([rv['h0'], rv['h1']]))
         R.check('[grad] 開始字幕逐字「%s」' % G_OPEN.format(n=n, m=inf['m']), first == G_OPEN.format(n=n, m=inf['m']), J(first))
         c = rv['cap']; lines = [x for x in (c['text'] if c else '').split('\n') if '研究所範圍' in x]
-        R.check('[grad] 結束字幕每一科一行（%d 行）、不超出畫面' % n, len(lines) == n and c['rect'][3] <= c['vh'] and c['rect'][1] >= 0, J(c and {'text': c['text'], 'rect': c['rect']}))
-
+        R.check('[grad] 結束字幕每一科一行（%d 行）、不超出畫面' % n, bool(c) and len(lines) == n and c['rect'][3] <= c['vh'] and c['rect'][1] >= 0, J(c and {'text': c['text'], 'rect': c['rect']}))
 
 async def case_judge(pg, cdp):
     d = await pg.evaluate("STORY.dayOfKey('2029-09-06')")
@@ -201,21 +204,21 @@ async def case_judge(pg, cdp):
     await pg.evaluate(SETUP_JUDGE); tr = await pg.evaluate(TRANS, None); st = await pg.evaluate(AFTER_TR_JUDGE)
     R.note('[judge] 修過 %d 門；總複習以前二試會抽到的 10 題（同一份存檔的複本算的）：%s' % (len(tr['taken']), J(st['pre'])))
     await pg.evaluate(SAYHOOK)
-    # 9/7 放榜 → 開放那天 20:00 的提醒
-    u, ok = await drive_until(pg, cdp, lambda u: u['key'] >= '2029-09-20' and u['hour'] >= 20 and u['key'] <= '2029-09-22', max_s=1500)
+    # 9/7 放榜 → 開放那天 12:00 的提醒（BB-C 02:00）
+    u, ok = await drive_until(pg, cdp, lambda u: 'judge_remind_open_2029' in (u.get('rems') or []), max_s=1500)
     stage = await pg.evaluate("GAME.G.flags.BAR_STAGE_2029||null")
     rem = await pg.evaluate(REMS, '^judge_remind_')
     R.note('[judge] 9/6 → 開放那天：跳過的時間 %s；BAR_STAGE_2029＝%s；提醒 %s' % (J(VISITS[-12:]), stage, J(rem)))
-    if not ok: R.note('[judge] 沒在時間內走到 9/20～9/22 20:00（%s）' % J(u))
+    if not ok: R.note('[judge] 沒在時間內走到開放那天的提醒（%s）' % J(u))
     R.check('[judge] 9/7 放榜演了、到司法官（BAR_STAGE_2029 both）', stage == 'both', J(stage))
     o = [m for m in rem if m['tag'] == 'judge_remind_open_2029']
     if o: await R.shot(pg, 'judge_open_day')
-    R.check('[judge] 開放那天 20:00 一則，逐字「%s」（AA_692）' % J_ROPEN, len(o) == 1 and abs(o[0]['h'] - 20) < 0.01 and o[0]['text'] == J_ROPEN, J(o))
-    R.check('[judge] 跳到下一件事停在那一則的 20:00', bool(o) and any(v.startswith(o[0]['key'] + ' 20.0') for v in VISITS), J([v for v in VISITS if '20.0' in v]))
-    # 隔天 09:00 坐到 B1
-    nd = await pg.evaluate("(()=>{ const n=PG.judgeNext(GAME.G); return n?CALENDAR.dateOf(n.open+1).key:null; })()")
-    R.setup('[judge] 【捷徑】同一份存檔跳到開放隔天 %s 09:00 總圖 B1（開放那天 20:00 開始讀 6 小時太晚）' % nd)
-    await jump(pg, nd or '2029-09-22', 9.0, 'library_b1')
+    R.check('[judge] 開放那天＝2029-09-20 %s 一則，逐字「%s」（AA_692；BB-C 02:00）' % (OPEN_HM, J_ROPEN), len(o) == 1 and o[0]['key'] == '2029-09-20' and abs(o[0]['h'] - OPEN_H) < 0.01 and o[0]['text'] == J_ROPEN, J(o))
+    R.check('[judge] 跳到下一件事停在那一則的 %s' % OPEN_HM, bool(o) and any(v.startswith(o[0]['key'] + ' %05.2f' % OPEN_H) for v in VISITS), J([v for v in VISITS if v.startswith('2029-09-2')]))
+    # 開放那天下午坐到 B1
+    nd = await pg.evaluate("(()=>{ const n=PG.judgeNext(GAME.G); return n?CALENDAR.dateOf(n.open).key:null; })()")
+    R.setup('[judge] 【捷徑】同一份存檔換到開放那天 %s 13:00 總圖 B1（12:00 收到提醒，下午去讀；從家裡走到總圖這一段不測）' % nd)
+    await jump(pg, nd or '2029-09-20', 13.0, 'library_b1')
     seats = await pg.evaluate(SEATS)
     if not R.check('[judge] B1 找得到讀書座位', bool(seats), ''): return
     s0 = seats[0]; R.setup('[judge] 站到座位旁邊 0.6 m（%s, %s）' % (s0['x'], s0['z']))

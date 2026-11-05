@@ -49,6 +49,8 @@ const X={
   g_ropen:['【研究所】{M}/{D} 筆試。從今天起，坐到書桌或讀書的位子，可以把公法的筆記一次讀過一遍，要四個小時。',D692], g_rweek:['【研究所】{M}/{D}（{W}）筆試。考前想把公法的筆記讀過一遍，坐到書桌或讀書的位子就可以。',D692]};
 const T=k=>X[k][0];
 /* AA_692：「{M}/{D}＝二試第一天（2029＝10/20）」；研究所「2029-02-03（六）；延畢的人 2030-02-16（六）」；BB_255：二試在一試放榜上榜那天和考前 30 天取晚的那一個開放、研究所考前 30 天 */
+/* BB-C 02:00（BB_255 02:0x，8267bc481）：開放那天的提醒一試、二試、研究所都改 12:00（停點跟著改）；考前一週的週日照舊 20:00；司法官二試從二試第一天算（2029 開放 9/20、2030 重考 9/19）*/
+const OPEN_H=12, OPEN_HM='12:00';
 const J29={M:10,D:20,W:'六',first:'2029-10-20',r1:'2029-09-07'}, G29={M:2,D:3,W:'六',key:'2029-02-03'}, G30={M:2,D:16,W:'六',key:'2030-02-16'};
 const wrongOf=q=>q.type==='tf'||!q.options?(q.answer==='對'?'錯':'對'):Object.keys(q.options).find(k=>String(k)!==String(q.answer));
 const transcripts=(G,o)=>{ o=o||{}; const R=CLS.rec(G); R.exam=R.exam||{};
@@ -169,22 +171,26 @@ await sec('M 提醒',async()=>{
     info('M1 司法官 2029 跳過的時間：'+J(r.visits.filter(v=>/^2029-(09|10)/.test(v))).slice(0,1200)); info('M1 訊息：'+J(ms));
     const o=ms.filter(m=>m.tag==='judge_remind_open_2029'), w=ms.filter(m=>m.tag==='judge_remind_week_2029');
     const openExp=K(Math.max(DK(J29.r1),DK(J29.first)-30));
-    check('M1 開放那天 20:00 一則，字逐字「'+fill(T('j_ropen'),J29)+'」（AA_692：{M}/{D}＝二試第一天 10/20）',o.length===1&&hm(o[0].h)==='20:00'&&o[0].text===fill(T('j_ropen'),J29),J(o));
+    check('M1 開放那天 '+OPEN_HM+' 一則，字逐字「'+fill(T('j_ropen'),J29)+'」（AA_692：{M}/{D}＝二試第一天 10/20；BB-C 02:00 開放那天 12:00）',o.length===1&&hm(o[0].h)===OPEN_HM&&o[0].text===fill(T('j_ropen'),J29),J(o));
     check('M2 開放那天＝一試放榜（9/7）和二試第一天 10/20 前 30 天（'+openExp+'）比較晚的那一天',o.length===1&&o[0].key===openExp,J(o.map(m=>m.key)));
     check('M3 考前一週的週日（2029-10-14）20:00 一則，字逐字「'+fill(T('j_rweek'),J29)+'」',w.length===1&&w[0].key==='2029-10-14'&&hm(w[0].h)==='20:00'&&w[0].text===fill(T('j_rweek'),J29),J(w));
-    check('M4 畢業以後篇「跳到下一件事」停在這兩則的時間（'+(o[0]&&o[0].key)+' 20:00、2029-10-14 20:00）',(!o[0]||r.visits.includes(o[0].key+' 20:00'))&&r.visits.includes('2029-10-14 20:00'),J(r.visits.filter(v=>/ 20:00$/.test(v)))); }
+    check('M4 畢業以後篇「跳到下一件事」停在這兩則的時間（'+openExp+' '+OPEN_HM+'、2029-10-14 20:00）',r.visits.includes(openExp+' '+OPEN_HM)&&r.visits.includes('2029-10-14 20:00'),J(r.visits.filter(v=>/ (12|20):00$/.test(v)))); }
+  { const G=judgeG('2030-09-10',10,17,{flags:{BAR_SIT_2030:true,BAR_SCORE_2030:17,JUDGE_SCORE2_2029:5}}); for(const k of ['e2a_2029','e2b_2029','r2_2029','exam_2030','r1_2030']) PG.rec(G).done[k]=1; H.G=G;
+    const nx=PG.judgeNext(G), rm=STUDY.examRemindNext(G,'judge'), J30={M:10,D:19,W:'六'};
+    info('M2b 司法官 2030 重考：PG.judgeNext '+J(nx&&{y:nx.y,day:K(nx.day),open:K(nx.open)})+'；下一則提醒 '+J(rm&&{k:rm.k,day:K(rm.day),at:rm.at%24,text:rm.text}));
+    check('M2b 2030 重考司法官（2030 一試也到司法官）：開放日 2030-09-19、那一則 '+OPEN_HM+'「'+fill(T('j_ropen'),J30)+'」（二試第一天 10/19）',!!nx&&nx.y===2030&&K(nx.open)==='2030-09-19'&&!!rm&&rm.k==='open'&&K(rm.day)==='2030-09-19'&&Math.abs(rm.at%24-OPEN_H)<1e-6&&rm.text===fill(T('j_ropen'),J30),J({nx:nx&&K(nx.open),rm:rm&&[K(rm.day),rm.at%24,rm.text]})); }
   { const G=judgeG('2029-09-08',10,14); const r=await walkPG(G,AT('2029-10-20',8),RJ), ms=r.msgs.filter(m=>RJ.test(m.tag||'')||/司法官二試/.test(m.text||''));
     check('M5 一試只到律師：收不到司法官二試的提醒',!ms.length,J(ms)); }
   { const G=freshPG('2029-09-08',10,{BAR_REG:false}); const r=await walkPG(G,AT('2029-10-20',8),RJ), ms=r.msgs.filter(m=>RJ.test(m.tag||'')||/司法官二試/.test(m.text||''));
     check('M6 沒報名一試：收不到司法官二試的提醒',!ms.length,J(ms)); }
   { const G=judgeG('2029-09-28',10,17); H.G=G; STORY.phoneRules(GM); PHONE.tick(G); const o=(G.msgs||[]).filter(m=>m.tag==='judge_remind_open_2029').map(m=>({key:K(m.day),h:m.h,text:m.text}));
     const nx=PG.judgeNext(G), openK=nx?K(nx.open):null;
-    check('M7 之後才讀檔（9/28 讀進來、還沒考）：開放那一則照原本的時間補發（'+openK+' 20:00）',o.length===1&&o[0].key===openK&&o[0].h===20,J(o)); }
+    check('M7 之後才讀檔（9/28 讀進來、還沒考）：開放那一則照原本的時間補發（'+openK+' '+OPEN_HM+'）',o.length===1&&o[0].key===openK&&o[0].h===OPEN_H,J(o)); }
   { const G=H.fresh('2029-01-04',10,'home',Object.assign({},GF)); transcripts(G,{terms:TO_Y4S1}); G.stats={classes:0,study:0}; G.home={at:true}; H.G=G; const o={};
     let err=null; try{ await HOME.breakJump(GM,AT('2029-01-06',10),o); }catch(e){ err=String(e&&e.message||e).slice(0,200); }
     const a=(G.msgs||[]).filter(m=>m.tag==='grad_remind_open_2029').map(m=>({key:K(m.day),h:m.h,text:m.text})), stopAt=K(G.day)+' '+hm(G.hour);
-    check('M8 研究所 2029 寒假在家快轉（HOME.breakJump 1/4 10:00 → 1/6）：停在 1/4 20:00，那一則逐字「'+fill(T('g_ropen'),G29)+'」',!err&&stopAt==='2029-01-04 20:00'&&a.length===1&&a[0].key==='2029-01-04'&&a[0].h===20&&a[0].text===fill(T('g_ropen'),G29),J({err,why:o.why,stopAt,a}));
-    const opt=STUDY.reviewOpt(G,{home:true}); check('M9 停下來（1/4 20:00）以後在家裡的書桌選單：研究所總複習那一項在、按得下去（kind grad、不變灰）——BB-C 01:32 的條件；瀏覽器那一組再照玩家走一次',!!opt&&opt.kind==='grad'&&opt.dim!==true,J(opt));
+    check('M8 研究所 2029 寒假在家快轉（HOME.breakJump 1/4 10:00 → 1/6）：停在 1/4 '+OPEN_HM+'，那一則逐字「'+fill(T('g_ropen'),G29)+'」',!err&&stopAt==='2029-01-04 '+OPEN_HM&&a.length===1&&a[0].key==='2029-01-04'&&a[0].h===OPEN_H&&a[0].text===fill(T('g_ropen'),G29),J({err,why:o.why,stopAt,a}));
+    const opt=STUDY.reviewOpt(G,{home:true}); check('M9 停下來（1/4 '+OPEN_HM+'）以後在家裡的書桌選單：研究所總複習那一項在、按得下去（kind grad、不變灰）——BB-C 01:32 的條件；瀏覽器那一組再照玩家走一次',!!opt&&opt.kind==='grad'&&opt.dim!==true,J(opt));
     H.at('2029-01-05',10); const optB=STUDY.reviewOpt(G,{home:true}); info('M9b 隔天 1/5 10:00 在家：'+J(optB));
     const G2=H.fresh('2029-01-27',10,'home',Object.assign({},GF)); transcripts(G2,{terms:TO_Y4S1}); G2.home={at:true}; H.G=G2; const o2={}; let e2=null, stops2=[], b=[];
     for(let i=0;i<12;i++){ try{ await HOME.breakJump(GM,AT('2029-01-29',10),o2); }catch(e){ e2=String(e&&e.message||e).slice(0,200); break; } stops2.push(K(G2.day)+' '+hm(G2.hour)+' '+o2.why);
@@ -194,11 +200,11 @@ await sec('M 提醒',async()=>{
   { const G=H.fresh('2029-01-04',10,'home',Object.assign({},GF,{Y4_PUSH:'pass'})); transcripts(G,{terms:TO_Y4S1}); G.home={at:true}; H.G=G; const o={}; try{ await HOME.breakJump(GM,AT('2029-01-06',10),o); }catch(e){}
     const a=(G.msgs||[]).filter(m=>RG.test(m.tag||'')||/^【研究所】/.test(m.text||'')); check('M11 推甄上了（沒報研究所筆試）：寒假在家收不到【研究所】提醒、也沒有研究所總複習',!a.length&&!STUDY.reviewInfo(G,'grad'),J(a)); }
   { const G=freshPG('2030-01-10',10,{EXCHANGE_ROUTE:'TW',Y4_PATH:'grad',Y4_PUSH:'fail',GRAD_EXAM_2029:true,GRAD_SCORE_2029:4,GRAD_EXAM_2029_PASS:false,GRAD_EXAM_RESULT:'fail',GRAD_RETRY:true}); transcripts(G,{});
-    const r=await walkPG(G,AT('2030-02-16',8),RG), ms=r.msgs.filter(m=>RG.test(m.tag||'')); info('M12 研究所 2030 訊息：'+J(ms)+'；跳過的 20:00：'+J(r.visits.filter(v=>/ 20:00$/.test(v))));
+    const r=await walkPG(G,AT('2030-02-16',8),RG), ms=r.msgs.filter(m=>RG.test(m.tag||'')); info('M12 研究所 2030 訊息：'+J(ms)+'；跳過的 12:00／20:00：'+J(r.visits.filter(v=>/ (12|20):00$/.test(v))));
     const o=ms.filter(m=>m.tag==='grad_remind_open_2030'), w=ms.filter(m=>m.tag==='grad_remind_week_2030');
-    check('M12 研究所 2030（明年再考，畢業以後篇）：1/17 20:00「'+fill(T('g_ropen'),G30)+'」',o.length===1&&o[0].key==='2030-01-17'&&o[0].h===20&&o[0].text===fill(T('g_ropen'),G30),J(o));
+    check('M12 研究所 2030（明年再考，畢業以後篇）：1/17 '+OPEN_HM+'「'+fill(T('g_ropen'),G30)+'」',o.length===1&&o[0].key==='2030-01-17'&&o[0].h===OPEN_H&&o[0].text===fill(T('g_ropen'),G30),J(o));
     check('M13 研究所 2030：2/10（日）20:00「'+fill(T('g_rweek'),G30)+'」',w.length===1&&w[0].key==='2030-02-10'&&w[0].h===20&&w[0].text===fill(T('g_rweek'),G30),J(w));
-    check('M14 研究所 2030：「跳到下一件事」停在 1/17 20:00、2/10 20:00',r.visits.includes('2030-01-17 20:00')&&r.visits.includes('2030-02-10 20:00'),J(r.visits.filter(v=>/ 20:00$/.test(v)))); }
+    check('M14 研究所 2030：「跳到下一件事」停在 1/17 '+OPEN_HM+'、2/10 20:00',r.visits.includes('2030-01-17 '+OPEN_HM)&&r.visits.includes('2030-02-10 20:00'),J(r.visits.filter(v=>/ (12|20):00$/.test(v)))); }
   { const G=freshPG('2031-01-05',10,{EXCHANGE_ROUTE:'TW',Y4_PATH:'grad',Y4_PUSH:'fail',GRAD_EXAM_2029:true,GRAD_EXAM_2029_PASS:false,GRAD_RETRY:true,GRAD_EXAM_2030:true,GRAD_SCORE_2030:4,GRAD_RETRY2:true}); transcripts(G,{}); PG.rec(G).done.r2y4b_grad_exam_2030=1;
     H.G=G; const inf0=STUDY.reviewInfo(G,'grad'), nx=STUDY.examRemindNext(G,'grad'); const r=await walkPG(G,AT('2031-02-15',8),RG), ms=r.msgs.filter(m=>RG.test(m.tag||'')||/^【研究所】/.test(m.text||''));
     H.G=G; H.at('2031-02-01',10); const inf1=STUDY.reviewInfo(G,'grad');
@@ -237,26 +243,36 @@ await sec('Q 二試、研究所作答的 cue 和觀念卡回寫',async()=>{
     check('Q8 研究所：交卷後逐題回寫（答對＝got、答錯進 miss）',!c.bad.length,J(c.bad.slice(0,6))); }
 });
 
-/* ---------- W 寒假住家裡的選單（BB-C 01:32：「接著走到家裡書桌，要開得了總複習」；BB_255「寒假的研究所照現在、不改 home3d，條件是家裡書桌在寒假也能開總複習」）----------
-   照玩家：1/4 10:00 在宿舍 → HOME.go（選單「回家」那一條）→ 家裡的選單（住家裡）→「快轉」→「到下一個有事的日子」→ 途中 20:00 那一則打開手機 → 關掉 → 回到家裡的選單。
-   記每一次家裡的選單有哪些項目、手機在幾點打開哪一則；有沒有「考前總複習」 */
+/* ---------- W 寒假住家裡的選單（BB-C 01:32 條件；BB-C 02:00（8267bc481）：breakRound 加了「考前總複習」、開放那天的提醒 12:00；研究所 2029-01-25 在家要看得到、按下去開得了；快轉停 20:42 那件另開 HOME-FF-REMIND-ALIGN-1105，這一輪不判）----------
+   照玩家：1/4 10:00 在宿舍 → HOME.go（選單「回家」那一條）→ 家裡的選單（住家裡）→「快轉」→「到下一個有事的日子」→ 途中 12:00 那一則打開手機 → 關掉 → 回到家裡的選單
+   →（還沒到 1/25）「快轉」→「過一週」……→ 1/25 以後家裡的選單按「考前總複習」→ 讀完（先讀到這裡）→「回宿舍住」。記每一次家裡的選單、手機在幾點打開哪一則 */
 await sec('W 寒假住家裡的選單',async()=>{
-  const menus=[], phones=[]; let script=['快轉','到下一個有事的日子','睡覺'], nMenu=0; const ch1=GM.choose, pt1=GM.phoneThread;
-  GM.choose=async function(o){ const ts=o.map(q=>(q.t||q.text)+(q.dim?'〔灰〕':'')), isMenu=ts.some(t=>/^睡覺/.test(t))||ts.some(t=>/^到下一個有事的日子/.test(t)); menus.push({at:K(H.G.day)+' '+hm(H.G.hour),menu:isMenu,opts:ts}); if(!isMenu) return 0;
-    if(++nMenu>6){ const k=ts.findIndex(t=>/^回宿舍住|^不用了/.test(t)); return k>=0?k:ts.length-1; } const w=script.shift(); if(w==null){ const k=ts.findIndex(t=>/^回宿舍住|^不用了/.test(t)); return k>=0?k:ts.length-1; } const k=ts.findIndex(t=>t.startsWith(w)); return k>=0?k:0; };
-  GM.phoneThread=async(th,o)=>{ const P=(H.G.msgs||[]).filter(m=>!m.read); phones.push({at:K(H.G.day)+' '+hm(H.G.hour),th,last:(H.G.msgs||[]).slice(-1).map(m=>m.text)[0]}); };
-  try{ const G=H.fresh('2029-01-04',10,'dorm',Object.assign({},GF)); transcripts(G,{terms:TO_Y4S1}); G.stats={classes:0,study:0}; H.G=G;
+  const menus=[], phones=[]; let ph='start', nMenu=0, revDone=false, revSay=null; const ch1=GM.choose, pt1=GM.phoneThread;
+  GM.choose=async function(o){ const ts=o.map(q=>(q.t||q.text)+(q.dim?'〔灰〕':'')), at=K(H.G.day)+' '+hm(H.G.hour), home=ts.some(t=>/^睡覺/.test(t)), ff=ts.some(t=>/^到下一個有事的日子/.test(t));
+    const rvo=o.find(q=>/^考前總複習/.test(q.t||q.text||'')); menus.push({at,home,ff,opts:ts,rvHint:rvo?rvo.hint:null,rvDim:rvo?!!rvo.dim:null}); const idx=re=>{ const k=ts.findIndex(t=>re.test(t)); return k>=0?k:null; };
+    if(++nMenu>80) return idx(/^回宿舍住|^不用了|^先讀到這裡/)??ts.length-1;
+    if(ff) return ph==='first'?(idx(/^到下一個有事的日子/)??0):(idx(/^過一週/)??0);
+    if(home){ if(revDone) return idx(/^回宿舍住/)??ts.length-1;
+      if(ph==='start'){ ph='first'; return idx(/^快轉/)??0; }
+      if(K(H.G.day)<'2029-01-25'){ ph='week'; return idx(/^快轉/)??0; }
+      if(H.G.hour>=16) return idx(/^睡覺/)??0;   /* 晚上讀 4 小時太晚：照玩家先睡到隔天早上 */
+      const r=idx(/^考前總複習/); if(r!=null&&!/〔灰〕/.test(ts[r])){ ph='review'; revDone=true; revSay=says.length; return r; } revDone=true; return idx(/^回宿舍住/)??ts.length-1; }
+    return idx(/^先讀到這裡|^跳到下一科/)??0; };
+  GM.phoneThread=async(th,o)=>{ phones.push({at:K(H.G.day)+' '+hm(H.G.hour),th,last:(H.G.msgs||[]).slice(-1).map(m=>m.text)[0]}); };
+  try{ const G=H.fresh('2029-01-04',10,'dorm',Object.assign({},GF)); transcripts(G,{terms:TO_Y4S1}); G.stats={classes:0,study:0}; H.G=G; says=[];
     info('W 前置：1/4 10:00 宿舍，寒假（HOME.lawBreak '+J(HOME.lawBreak(G)&&HOME.lawBreak(G).key)+'），研究所總複習開著（STUDY.reviewOpt：'+J(STUDY.reviewOpt(G,{home:true}))+'）');
-    let err=null; try{ await HOME.go(GM); }catch(e){ err=String(e&&e.stack||e).split('\n').slice(0,2).join(' / '); }
-    const hm_=menus.filter(m=>m.menu&&m.opts.some(t=>/^睡覺/.test(t)));
-    info('W 家裡的選單：'+J(hm_)); info('W 手機打開：'+J(phones)); info('W 結束：'+K(G.day)+' '+hm(G.hour)+(err?'；例外 '+err:''));
-    const ph=phones.find(p=>/^【研究所】2\/3 筆試/.test(p.last||'')), rm=(G.msgs||[]).find(m=>m.tag==='grad_remind_open_2029');
-    check('W1 快轉途中停下來、手機打開那一則（【研究所】2/3 筆試…；訊息時間 1/4 20:00）',!!ph&&ph.at.startsWith('2029-01-04')&&!!rm&&K(rm.day)==='2029-01-04'&&rm.h===20,J({ph,rm:rm&&[K(rm.day),rm.h]}));
-    check('W1b 停下來的時刻＝1/4 20:00（BB-C 01:32「20:00 要停下來」；快轉從回到家的時間起每一小時看一次）',!!ph&&ph.at==='2029-01-04 20:00',J(ph&&ph.at));
-    const first=hm_.find(m=>m.at.startsWith('2029-01-04'));
-    check('W2 1/4（研究所總複習開放那天）住家裡的選單有「考前總複習」',!!first&&first.opts.some(t=>t.startsWith('考前總複習')),J(first));
-    const after=hm_.filter(m=>m.at>'2029-01-04 20:00');
-    check('W3 手機關掉以後回到家裡的選單（'+J(after.map(m=>m.at))+'）有「考前總複習」、按得下去',after.length>0&&after.every(m=>m.opts.some(t=>t.startsWith('考前總複習')&&!/〔灰〕/.test(t))),J(after));
+    let err=null; const s0=G.stats.study|0; let t0=null; try{ await HOME.go(GM); }catch(e){ err=String(e&&e.stack||e).split('\n').slice(0,2).join(' / '); }
+    const hm_=menus.filter(m=>m.home);
+    info('W 家裡的選單（考前總複習那一項的提示、dim）：'+J(hm_.map(m=>({at:m.at,rv:(m.opts.find(t=>/^考前總複習/.test(t))||null),hint:m.rvHint,dim:m.rvDim})))); info('W 手機打開：'+J(phones)); info('W 結束：'+K(G.day)+' '+hm(G.hour)+(err?'；例外 '+err:''));
+    const p=phones.find(x=>/^【研究所】2\/3 筆試/.test(x.last||'')), rm=(G.msgs||[]).find(m=>m.tag==='grad_remind_open_2029');
+    check('W1 快轉途中停下來、手機打開那一則（【研究所】2/3 筆試…；訊息時間 1/4 '+OPEN_HM+'）',!!p&&p.at.startsWith('2029-01-04')&&!!rm&&K(rm.day)==='2029-01-04'&&rm.h===OPEN_H,J({p,rm:rm&&[K(rm.day),rm.h]}));
+    info('W1b （這一輪不判：HOME-FF-REMIND-ALIGN-1105）停下來的時刻 '+J(p&&p.at));
+    const first=hm_[0]; check('W2 1/4（研究所總複習開放那天）住家裡的選單有「考前總複習」、按得下去',!!first&&first.at.startsWith('2029-01-04')&&first.opts.some(t=>t.startsWith('考前總複習')&&!/〔灰〕/.test(t)),J(first));
+    const mid=hm_.filter(m=>m.at>'2029-01-04 12:59'&&m.at<'2029-01-25');
+    check('W3 手機關掉以後回到家裡的選單（'+J(mid.map(m=>m.at))+'）都有「考前總複習」',mid.length>0&&mid.every(m=>m.opts.some(t=>t.startsWith('考前總複習'))),J(mid.map(m=>[m.at,m.opts])));
+    const m25=hm_.filter(m=>m.at>='2029-01-25').find(m=>+m.at.slice(11,13)<16)||hm_.find(m=>m.at>='2029-01-25');
+    { const late=hm_.filter(m=>+m.at.slice(11,13)>=20&&m.opts.some(t=>/^考前總複習/.test(t))); if(late.length) info('W 晚上 20:00 以後的家裡選單：「考前總複習」那一項 dim＝'+J(late.map(m=>[m.at,m.rvDim,m.rvHint]))+'（宿舍書桌那一套 20:00 以後是灰的；這裡照實記，判定歸 BB）'); } const L2=revSay!=null?says.slice(revSay):[], op=L2.find(x=>/筆記攤開/.test(x))||'';
+    check('W4 1/25 以後（'+(m25&&m25.at)+'）住家裡的選單看得到「考前總複習」、按下去開得了（開始字幕「（你把公法的筆記攤開。…」、讀 4 小時）',!!m25&&m25.opts.some(t=>t.startsWith('考前總複習')&&!/〔灰〕/.test(t))&&/^（你把公法的筆記攤開。研究所要考的 \d 科，一共 \d+ 張觀念卡。）$/.test(op)&&(G.stats.study|0)-s0===4,J({m25,op,study:(G.stats.study|0)-s0}));
     { const G2=H.fresh('2029-01-04',10,'dorm',Object.assign({},GF)); transcripts(G2,{terms:TO_Y4S1}); H.G=G2; const o=STUDY.reviewOpt(G2,{}); info('W 對照：同一天在宿舍的書桌（story3d deskScene 照 STUDY.reviewOpt）：'+J(o)); }
   } finally { GM.choose=ch1; GM.phoneThread=pt1; }
 });
