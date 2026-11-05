@@ -1,0 +1,578 @@
+{
+ "pid": "heroine_05",
+ "tag": "date 當面約",
+ "rec0": {
+  "day": 14,
+  "hour": 12.1148,
+  "t": 348.1148,
+  "money": 30000,
+  "rel": {
+   "fam": 55,
+   "trust": 37,
+   "comf": 28,
+   "aff": 0,
+   "rom": 35,
+   "npcRom": 35
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 14,
+  "hour": 15.2773,
+  "t": 351.2773,
+  "money": 29690,
+  "rel": {
+   "fam": 57,
+   "trust": 39,
+   "comf": 35,
+   "aff": 0,
+   "rom": 39,
+   "npcRom": 42
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus"
+ },
+ "hours": 3.1625000000000227,
+ "say": [
+  {
+   "n": "",
+   "c": null,
+   "t": "（華山1914文創園區。）",
+   "h": 13.417,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "老酒廠改的。煙囪還在。",
+   "h": 13.417,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "今天不趕。你帶路，我跟著看。",
+   "h": 13.417,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "（她在每一段說明前都停下來）我看展會看說明。全部。",
+   "h": 13.417,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "不看完，我會覺得自己漏了什麼。",
+   "h": 13.417,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "我知道。我在練習。",
+   "h": 13.417,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "（她拿起一個手縫的書套）這個，裝得下判決節錄嗎？",
+   "h": 13.917,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "我沒有要買。只是問。",
+   "h": 13.917,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "謝謝。我會用。",
+   "h": 13.917,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "（她在草地上坐下，把保溫瓶放旁邊）我好久沒有坐著不做事了。",
+   "h": 14.25,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "好。今天不做事。",
+   "h": 14.25,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "今天差不多了，我們走吧。",
+   "h": 14.583,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "照片？我不習慣在照片裡。",
+   "h": 14.583,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "你拍牆就好。牆比較上鏡。",
+   "h": 14.583,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "一張。不要叫我笑。",
+   "h": 14.583,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "今天我都沒有在看時間。很少這樣。",
+   "h": 14.833,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）",
+   "h": 14.833,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "迎面走來一個人，你確定在校園看過。對方也放慢了一步。",
+   "h": 15.259,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（有些人就是這樣，從「好像認識」開始的。）",
+   "h": 15.259,
+   "d": 14,
+   "z": "campus",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "",
+   "text": "（華山1",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（華山1914文創園區。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "老酒廠改的。煙囪還在。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "今天不趕。你帶路，我跟著看。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "（她在每一段說明前都停下來）我看展會看說明。全部",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "不看完，我會覺得自己漏了什麼。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "我知道。我在練習。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "（她拿起一個手縫的書套）這個，裝得下判決節錄嗎？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "我沒有要買。只是問。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "謝謝。我會用。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "（她在草地上坐下，把保溫瓶放旁邊）我好久沒有坐著不做",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "好。今天不做事。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "今天差不多了，我們走吧。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "照片？我不習慣在照片裡。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "你拍牆就好。牆比較上鏡。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "一張。不要叫我笑。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "今天我都沒有在看時間。很少這樣。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（今天去了華山1914文創園區：老倉庫裡",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "迎面走來一個人，你確定在校園看過。對",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（有些人就是這樣，從「好像認識」開始的。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": null
+}
