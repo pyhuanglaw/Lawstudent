@@ -381,4 +381,15 @@ const WZ_SHOPS_LAYOUT = {
   ]);
   T.work = Object.assign({}, T.work, {end: {x: -3.0, z: 8.0, yaw: 0, note: '前院、冠木門前，面向門口（WZ-YIZHAN-1104：出口搬到冠木門 (-3.0, 9.3)；原本在玄關 (-3.0, 4.2)，離新出口 5.1 m）'}});
 })(WZ_SHOPS_LAYOUT.teahouse);
+/* ===== 阿德影印：長桌那三張椅子往後 0.2 m（ADE-SEAT-CLIP-1105，LAWWW2-C 11-05；使用者 06:5x 截圖：靠走道坐著的男生胸口、手臂卡進桌子） =====
+   上面的 print 是照抄 ade_layout.js（不要手改那一筆）。v1c 的三張電腦椅中心在 x −0.07，長桌西緣在 x −0.04：座位離桌緣只有 0.03 m（椅子前緣伸進桌子底下 0.19 m），
+   人坐下去，胸口、手臂就在桌子裡（SEATACT 的近桌片段最近只到桌緣 0.14 m）。這裡把那三張（座位和椅子）沿著自己面向的反方向往後挪 0.2 m：座位離桌緣 0.23 m（照 0.20 那一組片段）；
+   第四張「沒推進去」的（x −0.2，離桌緣 0.16）不動。模型裡的椅子是 instancing（ad_chair_0_*_inst），zones3d.js wzAAattach 照 chairShift 把那三個 instance 一起挪。
+   tests/ade_seat_clip_unit.js。AA／CC 改 ade_layout.js 把椅子拉開以後，這一段要拿掉（from 對不上就不動）。 */
+(function(T){ if(!T||!/\/ade\.glb$/.test(T.glb||'')) return; const D=0.2, near=(a,x,z)=>Math.abs(a.x-x)<0.01&&Math.abs(a.z-z)<0.01, FROM=[[-0.07,2.6],[-0.07,0.85],[-0.07,0.25]], moved=[];
+  for(const [x,z] of FROM){ const s=(T.seats||[]).find(q=>q.kind==='chair'&&near(q,x,z)), it=(T.items||[]).find(q=>q.kind==='chair'&&near(q,x,z)); if(!s||!it) continue;
+    const sx=Math.sin(s.yaw), sz=Math.cos(s.yaw), ix=Math.sin(it.yaw), iz=Math.cos(it.yaw);
+    s.x=+(s.x-sx*D).toFixed(3); s.z=+(s.z-sz*D).toFixed(3); it.x=+(it.x-ix*D).toFixed(3); it.z=+(it.z-iz*D).toFixed(3); moved.push({from:[x,z],to:[it.x,it.z]}); }
+  T.chairShift=moved;
+})(WZ_SHOPS_LAYOUT.print);
 if (typeof module !== 'undefined') module.exports = WZ_SHOPS_LAYOUT;

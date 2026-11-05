@@ -6,13 +6,14 @@ const H=require('./pg_harness.js'); const fs=require('fs'), path=require('path')
 const jf=path.join(H.ROOT,'src/journal3d.js'); vm.runInThisContext(fs.readFileSync(jf,'utf8').replace(/^const JOURNAL\s*=/m,'globalThis.JOURNAL='),{filename:jf});
 (async()=>{
   const SV=JSON.parse(fs.readFileSync(path.join(__dirname,'fixtures/user_save_day37_1105.json'),'utf8'));
-  H.fresh('2025-10-22',20,'dorm',{}); const G=H.G; G.memo=SV.memo; G.invites=SV.invites; G.trips=SV.trips;
+  H.fresh('2025-10-22',20,'dorm',{}); const G=H.G; G.memo=SV.memo; G.invites=SV.invites; G.trips=SV.trips; G.social=SV.social; G.rel=SV.rel; G.flags=Object.assign(G.flags||{},SV.flags);   /* 人名照存檔裡的關係（顯示名）*/
   const JR=JOURNAL, txt=day=>(JR.byDay(G)[day]||[]).map(e=>e.t);
   const d35=SV.invites.find(i=>i.id==='iv24').day, d36=SV.invites.find(i=>i.id==='iv26').day;
-  check('1. 10/21（'+JR.label(d35)+'）那一格寫「和沈以安約在新體育館羽球場」（前面有時間）',txt(d35).some(t=>/^\d\d:\d\d 和沈以安約在新體育館羽球場$/.test(t)),J(txt(d35)));
-  check('2. 10/22（'+JR.label(d36)+'）那一格寫和溫書瑀的兩個約（總圖、afar café），照時間排、排在其他紀錄前面',(()=>{ const L=txt(d36); const a=L.findIndex(t=>/和溫書瑀約在總圖/.test(t)), b=L.findIndex(t=>/和溫書瑀約在afar café/.test(t)); return a===0&&b===1; })(),J(txt(d36)));
-  check('3. 沒去的約寫「（沒有赴約）」；取消的不列',txt(SV.invites.find(i=>i.id==='iv10').day).some(t=>/和溫書瑀約在總圖（沒有赴約）/.test(t))&&!txt(SV.invites.find(i=>i.id==='iv6').day).some(t=>/20:47/.test(t)),J(txt(13)));
+  check('1. 10/21（'+JR.label(d35)+'）那一格寫「和沈以安約在新體育館羽球場」（前面有時間）',txt(d35).some(t=>/^\d\d:\d\d 和(沈以安|以安|小安)約在新體育館羽球場$/.test(t)),J(txt(d35)));
+  check('2. 10/22（'+JR.label(d36)+'）那一格寫和溫書瑀的兩個約（總圖、afar café），照時間排、排在其他紀錄前面',(()=>{ const L=txt(d36); const a=L.findIndex(t=>/和.+約在總圖/.test(t)), b=L.findIndex(t=>/和.+約在 afar café/.test(t)); return a===0&&b===1; })(),J(txt(d36)));
+  check('3. 沒去的約寫「（沒有赴約）」；取消的不列',txt(SV.invites.find(i=>i.id==='iv10').day).some(t=>/和.+約在總圖（沒有赴約）/.test(t))&&!txt(SV.invites.find(i=>i.id==='iv6').day).some(t=>/20:47/.test(t)),J(txt(13)));
   const tr=SV.trips[0]; check('4. 校外約會（trips）也寫：「和可昕出去玩：地點」',txt(tr.day).some(t=>/和.+出去玩/.test(t)),J(txt(tr.day)));
-  check('5. 查詢打「學姊」查不到也沒關係，打「溫書瑀」查得到約會',JR.search(G,'溫書瑀').some(e=>/afar/.test(e.t)));
+  check('5. 查詢打「afar」查得到約會；店名英文前面空一格（AA-C 07:22）',JR.search(G,'afar').some(e=>/約在 afar café/.test(e.t)));
+  check('6. 人名用現在的顯示名（SOCIAL.displayName；AA-C 07:22：日誌是祐廷自己寫的）',txt(d36).some(t=>t.includes('和'+SOCIAL.displayName('heroine_05')+'約在')),J([SOCIAL.displayName('heroine_05'),txt(d36)]));
   console.log(H.fails?('FAILED '+H.fails):'ALL PASS'); process.exit(H.fails?1:0);
 })().catch(e=>{ console.log('ERR',e.stack); process.exit(1); });

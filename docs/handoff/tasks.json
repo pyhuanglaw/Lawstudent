@@ -47181,7 +47181,7 @@
    "title": "公館燒臘室內換成 shaola_interior.glb v7（使用者 11-05 06:4x：「公館燒臘線上版本怎麼還是麵店」）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -47193,7 +47193,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2：noodle 區域改載 BB 的 shaola_interior.glb（企劃線 bb_support，v7 MODEL_READY），區域 id、座位、出口、導航不改；patch＋Node 測試 → LAWWW 接 → v9.10.21",
+   "next": "BB 瀏覽器；v9.10.21 候選",
    "source": "UA-LAWWW-1105-17",
    "authorized": "使用者原話",
    "xai": {
@@ -47209,7 +47209,7 @@
    "title": "阿德影印坐著的人卡進桌子（使用者 11-05 06:5x 截圖）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -47221,7 +47221,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2：中間長桌座位往後挪／椅子離桌距離照 SIT-HEIGHT 身材，先在開發分支確認還有沒有；Node 穿模測試 → v9.10.21",
+   "next": "BB 瀏覽器；v9.10.21 候選",
    "source": "UA-LAWWW-1105-18",
    "authorized": "使用者原話",
    "xai": {

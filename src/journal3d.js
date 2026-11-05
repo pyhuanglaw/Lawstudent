@@ -18,8 +18,11 @@ const JOURNAL=(function(){
      字：邀約照它自己的 label（「和溫書瑀約在afar café」，invites3d.js 本來就有的）前面加時間；沒去的加「（沒有赴約）」（手機訊息同一句）；校外約會「和○○出去玩：地點」。同一天約會排在其他紀錄前面、照時間 */
   const hm=x=>{ const m=Math.round((+x||0)*60); return String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); };
   const nm=id=>(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):null)||((typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].name)||id);
+  /* AA-C 11-05 07:22：人名用現在的顯示名（祐廷自己寫的日誌：交往前「學姊」…），中文和英文店名之間空一格（「和學姊約在 afar café」）*/
+  const placeName=iv=>{ const P=typeof INVITE_DATA!=='undefined'&&INVITE_DATA.places?INVITE_DATA.places.find(q=>q.id===iv.place):null; return P&&P.name||null; };
+  const sp=t=>/^[A-Za-z0-9]/.test(String(t))?' '+t:String(t);
   S.dateEntries=function(G){ const out=[];
-    for(const iv of (G&&Array.isArray(G.invites)?G.invites:[])){ if(!iv||!iv.accepted||!['accepted','going','done','missed'].includes(iv.state)||iv.day==null) continue; const lb=iv.label||('和'+nm(iv.who)+'有約'); out.push({day:iv.day|0,h:+iv.h||0,t:hm(iv.h)+' '+lb+(iv.state==='missed'?'（沒有赴約）':''),date:true}); }
+    for(const iv of (G&&Array.isArray(G.invites)?G.invites:[])){ if(!iv||!iv.accepted||!['accepted','going','done','missed'].includes(iv.state)||iv.day==null) continue; const pn=placeName(iv), lb=pn?'和'+nm(iv.who)+'約在'+sp(pn):(iv.label||('和'+nm(iv.who)+'有約')); out.push({day:iv.day|0,h:+iv.h||0,t:hm(iv.h)+' '+lb+(iv.state==='missed'?'（沒有赴約）':''),date:true}); }
     for(const t of (G&&Array.isArray(G.trips)?G.trips:[])){ if(!t||t.day==null||/cancel/.test(String(t.status||''))) continue; const locs=(t.locs||[]).map(l=>(typeof DATE!=='undefined'&&DATE.loc&&(DATE.loc(l)||{}).name)||l).filter(Boolean);
       out.push({day:t.day|0,h:+t.depart||0,t:(t.depart!=null?hm(t.depart)+' ':'')+'和'+nm(t.who)+'出去玩'+(locs.length?'：'+locs.join('、'):''),date:true}); }
     return out.sort((a,b)=>a.day-b.day||a.h-b.h); };

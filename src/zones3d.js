@@ -2102,7 +2102,7 @@ const Z3 = (function(){
     if(!z.gg&&z.wins&&z.wins[0]){ const v=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.7),z.wins[0].material); v.position.set(0,1.25,4.5+0.35); v.rotation.y=Math.PI; g0.add(v); (z.winParts=z.winParts||[]).push({obj:v,at:new THREE.Vector3(0,1.25,4.5),dir:new THREE.Vector3(0,0,-1)}); }
     return root; }
   // ---------- 麵店 ----------
-  const noodle={ id:'noodle', name:'公館燒臘', indoor:true, camDist:4.0, build(E){ const z=room(E,{view:'noodle',viewDepth:24,w:10,d:9,h:3.2,warm:true,wallColor:'#f1e7d6',floorTex:W3.stoneTex('#d9cbb0'),spawn:{x:0,z:3.5,yaw:Math.PI},winWall:'front',winXs:[-3,3]});   /* 窗在店面那一面（後牆是廚房和價目表）*/ const g0=z.group, nav=z.nav;
+  const noodle={ id:'noodle', name:'公館燒臘', indoor:true, camDist:4.0, build(E){ if(typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop) return buildShaola(E);   /* SHAOLA-WIRE-1105：BB 的燒臘店室內（下面 buildShaola）；配置沒載入＝照舊的麵店 */ const z=room(E,{view:'noodle',viewDepth:24,w:10,d:9,h:3.2,warm:true,wallColor:'#f1e7d6',floorTex:W3.stoneTex('#d9cbb0'),spawn:{x:0,z:3.5,yaw:Math.PI},winWall:'front',winXs:[-3,3]});   /* 窗在店面那一面（後牆是廚房和價目表）*/ const g0=z.group, nav=z.nav;
     // 程序化的畫面全部放在 g（備用模型）：Blender 正式模型（ASSETS 'bldg.noodle_interior'，第二個 AI）載入後整組藏起來；導航、座位、互動點、出口都不受影響
     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
     const kitchen=new THREE.Mesh(new THREE.BoxGeometry(6,1.0,1.2),M('#8f9399',{rough:0.4})); kitchen.position.set(-1,0.5,-3.8); g.add(kitchen); nav.blockRect(-1,-3.8,6,1.2,0,0.15); const pot=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.4,0.5,14),M('#3a3f46',{rough:0.4})); pot.position.set(-2,1.25,-3.8); g.add(pot); z.seats=[]; for(let i=0;i<3;i++){ const x=-3+i*3; desk(g,nav,x,0.5,0,1.4,0.9,'#d9cbb0'); for(const s of [-1,1]){ chair(g,x,0.5+s*0.8,s>0?Math.PI:0,'#c9463d'); z.seats.push({x,z:0.5+s*0.8,yaw:s>0?Math.PI:0}); } E.interactables.push({x,z:1.3,radius:1.1,label:'坐下吃飯',seat:{x,z:1.3,yaw:Math.PI},pairSeat:{x,z:-0.3,yaw:0},eat:'noodle'}); }
@@ -2111,6 +2111,33 @@ const Z3 = (function(){
     P3.mergeStatic(g);   /* 備用模型自己合併（外層合併會跳過它，正式模型載入後要能整組藏起來）*/
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.noodle_interior']) ASSETS.loadOne('bldg.noodle_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachNoodleInterior(z,g0,root); }).catch(e=>console.warn('麵店室內正式模型載入失敗，用程序化備用模型',e));
     return z; } };
+  /* ---------- 公館燒臘 v7（SHAOLA-WIRE-1105，LAWWW2-C 11-05；使用者 06:4x「公館燒臘線上版本怎麼還是麵店」）----------
+     BB〔帳號 A〕的 shaola_interior.glb v7（企劃線 65c2a43c5，LAWWW2 驗 MODEL_READY）＋配置 src/data/shaola_layout.js v1（BB 原檔，沒改）：6 × 13 × 3.2 m 窄長老店，
+     左邊一排五張不鏽鋼方桌（x −2.1）、中間走道（x −1.3～0.9）、右邊整排櫃台（燒臘櫃、砧板檯、盛飯台）、最裡面廚房門。區域 id 照舊 noodle。
+     · 進門：公館店門的落點照舊 (0, 3.4)（走道上；劇情 OUT.plan、快速前往都用這一點）；z.spawn (0, 4.5)；出口在門內 (0, 5.9)、半徑 0.9（和公館 AA 的店一樣）、回公館照舊 (−63, 18)。
+     · 「坐下吃飯」（eat:'noodle'＝story3d.js noodleScene）：每一張桌子一個，坐面向店裡那一張（桌子南邊），對面那一張是 pairSeat（阿哲的位子是第 3 桌北邊，配置 spots.zhe_seat）。
+     · z.spots：zhe_seat（阿哲）、clerk（老闆，砧板檯後面）、ndlSeats（週二週四的固定客人，第 4、5 桌）、door（從門口走進來、走出去的點）——story3d.js、hcircle3d.js 讀這一份。
+     · 導航：配置的 blocks（桌子、櫃台、層架、冰箱）＋SHAOLA_EXTRA（GLB 根節點 extras.extraBlocks，BB 寫的：工作檯、圓凳、椅疊、紙箱、水桶；tests/shaola_wire_unit.js 對照 GLB）。導航格 0.2 m。
+     · 燈：GLOW_ 光暈（日光燈、燒臘櫃燈泡、電視）合成一個網格，白天晚上都亮（店裡開燈）。 */
+  const SHAOLA_EXTRA=[[-1.625,-6.21,2.55,0.58],[-2.74,4.0,0.36,0.36],[-2.74,2.2,0.36,0.36],[-2.74,0.4,0.36,0.36],[-2.74,-1.4,0.36,0.36],[-2.74,-3.2,0.36,0.36],[-1.5,4.0,0.36,0.36],[-1.5,2.2,0.36,0.36],[-1.5,0.4,0.36,0.36],[-1.5,-1.4,0.36,0.36],[-1.5,-3.2,0.36,0.36],
+    [-1.82,5.78,0.46,0.46],[-2.62,5.9,0.46,0.46],[-2.47,-5.65,0.96,0.44],[2.63,5.47,0.7,1.8],[2.6,3.9,0.46,0.46]];
+  function shaolaSpots(L){ const S=L.spots||{}, sv=s=>s?{x:s.x,z:s.z,yaw:s.yaw}:null, t4=L.seats.find(q=>q.table===4&&q.yaw===0);
+    return {zhe_seat:sv(S.zhe_seat),clerk:L.clerk?{x:L.clerk.x,z:L.clerk.z,yaw:L.clerk.yaw}:null,ndlSeats:[S.regular_1,S.regular_2,S.regular_3,t4].filter(Boolean).map(s=>[s.x,s.z,s.yaw]),door:[L.exit.at.x,+(L.d/2-0.9).toFixed(2)]}; }
+  function buildShaola(E){ const L=SHAOLA_LAYOUT.shop, P=Math.PI;
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest&&!ASSETS.manifest['bldg.shaola_interior']) ASSETS.manifest['bldg.shaola_interior']={url:L.glb,type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/bb_support/shaola_interior.py（公館燒臘室內 v7，BB〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 65c2a43c5，配置 src/data/shaola_layout.js v1）',license:'本作；貼圖本作程式產生（shaola_tex.py）'};
+    const z=room(E,{w:L.w,d:L.d,h:L.h,cell:0.2,warm:true,wallColor:'#d8c69e',floorTex:W3.stoneTex('#e2d8c4'),spawn:{x:0,z:+(L.d/2-2).toFixed(2),yaw:P},windows:false});
+    const g0=z.group, nav=z.nav; z.shaola=true; z.spots=shaolaSpots(L);
+    const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const c of g0.children.slice()){ if(c.isLight) continue; g0.remove(c); fb.add(c); } g0.add(fb);   /* 正式模型來了整組藏起來 */
+    const fbM=M('#b8bcbe',{rough:0.5}); for(const b of L.blocks.concat(SHAOLA_EXTRA)){ nav.blockRect(b[0],b[1],b[2],b[3],0,0.05); const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],0.85,b[3]),fbM); m.position.set(b[0],0.425,b[1]); fb.add(m); }   /* 備用的家具色塊 */
+    nav.blockRect(2.3,-4.83,0.8,0.66,0,0);   /* 櫃台南端、冰箱、層架圍起來的一小塊（x 1.9～2.7、z −5.15～−4.5）：站得住 6 點、四周都站不住，跑步一步 0.4 m 跳得進去（v9.3 #31）——擋起來；櫃台後面是老闆站的地方，本來就走不進去 */
+    z.seats=L.seats.map(s=>({x:s.x,z:s.z,yaw:s.yaw,table:s.table,kind:'shop'}));
+    for(const t of L.tables){ const s=L.seats.find(q=>q.table===t.n&&q.z>t.z), p=L.seats.find(q=>q.table===t.n&&q.z<t.z); if(!s||!p) continue;
+      E.interactables.push({x:s.x,z:s.z,radius:1.0,label:s.label||'坐下吃飯',seat:{x:s.x,z:s.z,yaw:s.yaw},pairSeat:{x:p.x,z:p.z,yaw:p.yaw},eat:'noodle'}); }   /* 面向店裡那一張（背對店門）；noodleScene 走到 (x, z+0.5)＝椅子後面 */
+    E.interactables.push({x:L.exit.at.x,z:+(L.d/2-0.6).toFixed(2),radius:0.9,label:L.exit.label,exit:{to:'gongguan',spawn:{x:-63,z:18,yaw:P}}});
+    nav._cm=null; P3.mergeStatic(fb);
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.shaola_interior']) ASSETS.loadOne('bldg.shaola_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,fb,root);
+      const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); }); if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,'shaola_glows',2.5); mesh.material.emissiveIntensity=1; z.shaolaGlows=gl.length; } }).catch(e=>console.warn('公館燒臘室內正式模型載入失敗，用備用模型',e));
+    return z; }
   /* 麵店室內的正式模型（第二個 AI：tools/blender/env_second/noodle_interior.py）：日光燈管一直亮；店內材質有燈光感（TK.bounce，只給白色或有貼圖的材質）；
      價目板（白底深咖啡字）、紅紙菜單（直式黑字）用 canvas 畫；自動門玻璃外放一片窗景（和窗戶同一個材質） */
   const NDL_BOUNCE={ndl_wall_paint:[0.4,0.5],ndl_wall_tile:[0.35,0.45],ndl_floor:[0.3,0.4],ndl_table_top:[0.35,0.45],ndl_ceiling:[0.4,0.5]};
@@ -2355,7 +2382,10 @@ const Z3 = (function(){
     return k2; }
   /* AA 新室內接上以後（attachRoomGLB 之後）：GLOW_* 空節點＝燈的光暈（合成一個網格，照開燈切白天／晚上，和 2:30 AM、公館 AA 的店一樣）；窗景卡（WALL_*_VIEW_*）晚上調暗；
      一盞的前院是 LAWWW2 的 wz_teahouse_yard.glb（配置 yard、teaYard，WZ-YIZHAN-1104）*/
-  function wzAAattach(E,z,g0,root,key,cz){ const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
+  function wzAAattach(E,z,g0,root,key,cz){ const gl=[];
+    { const L=typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT[key], CS=L&&L.chairShift; if(CS&&CS.length){ const m4=new THREE.Matrix4(), p=new THREE.Vector3(), q=new THREE.Quaternion(), sc=new THREE.Vector3(); let n=0;   /* 阿德影印：長桌那三張椅子往後挪（wz_shops_layout.js 最後那一段 chairShift，ADE-SEAT-CLIP-1105）：模型裡的椅子是 instancing，照原本的位置找到那一個 instance 挪過去 */
+        root.traverse(o=>{ if(!o.isInstancedMesh||!/chair/.test((o.name||'')+' '+((o.parent&&o.parent.name)||''))) return; for(let i=0;i<o.count;i++){ o.getMatrixAt(i,m4); m4.decompose(p,q,sc); const c=CS.find(c=>Math.abs(p.x-c.from[0])<0.02&&Math.abs(p.z+(cz||0)-c.from[1])<0.02); if(!c) continue; p.x=c.to[0]; p.z=c.to[1]-(cz||0); m4.compose(p,q,sc); o.setMatrixAt(i,m4); n++; } o.instanceMatrix.needsUpdate=true; if(o.computeBoundingSphere) o.computeBoundingSphere(); });
+        z.chairShifted=n; } } root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
     if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,'wz_'+key+'_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; z.aaGlows=gl.length; }
     const vm=[]; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)) for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } });
     const nv=WZ_AA_NIGHTVIEW[key], nt=nv&&wzNightViewTex(nv.url), nvm=nt?vm.filter(m=>m.name===nv.mat):[];

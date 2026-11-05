@@ -359,7 +359,9 @@ const CROWD=(function(){
     const seatsOf=arr=>(arr||[]).map(s=>({x:+s.x,z:+s.z,yaw:+s.yaw||0,table:Array.isArray(s.table)?s.table.join(','):s.table,bar:!!s.lift}));   /* 118 巷的 table 是桌子中心 [x, z] */
     const add=(zone,kind,door,units,o)=>{ if(units.length) out.push(Object.assign({zone,kind,door,units,ix:out.length},o||{})); };
     /* 公館：阿鳳麵店（中間那張桌留給玩家、阿哲、麵店團：只排東西兩張）、日日便利、舊路書房 */
-    add('noodle','meal',[0,3.5],S.pairUnits([{x:-3,z:-0.3,yaw:0},{x:-3,z:1.3,yaw:Math.PI},{x:3,z:-0.3,yaw:0},{x:3,z:1.3,yaw:Math.PI}]),{noKeep:true});
+    { const SL=typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop?SHAOLA_LAYOUT.shop:null;   /* 燒臘店 v7（SHAOLA-WIRE-1105）：五張桌子裡第 3 張留給玩家、阿哲、麵店團（和舊麵店中間那張一樣），客人坐另外四張 */
+      if(SL) add('noodle','meal',[0,3.4],S.pairUnits(seatsOf(SL.seats.filter(q=>q.table!==3))),{noKeep:true});
+      else add('noodle','meal',[0,3.5],S.pairUnits([{x:-3,z:-0.3,yaw:0},{x:-3,z:1.3,yaw:Math.PI},{x:3,z:-0.3,yaw:0},{x:3,z:1.3,yaw:Math.PI}]),{noKeep:true}); }
     /* 公館三間新室內（GG-SHOPS-REDO-1104）：配置有載入＝照新的貨架、書牆（CVS_LAYOUT／YEJIAN_LAYOUT；站的點離家具 0.75 m、面向架子），青木茶室坐配置的座位；沒有＝舊的室內 */
     const CV=typeof CVS_LAYOUT!=='undefined'&&CVS_LAYOUT.shop?CVS_LAYOUT.shop:null, YJ=typeof YEJIAN_LAYOUT!=='undefined'?YEJIAN_LAYOUT:null, AK=typeof AOKI_LAYOUT!=='undefined'?AOKI_LAYOUT:null, P=Math.PI;
     /* 日和便利店：貨架中間的走道只有 0.8 m（一條走道站一個人）：一號貨架西邊兩個、一二號之間一個、二三號之間兩個、三號東邊一個（面向貨架）；西牆壁架北段一個；冷藏櫃前兩個（面向北）；排隊結帳：收銀機南邊、面向櫃台 */   /* 排隊結帳：原本 (1.45, 2.15)＝收銀機南邊、就站在「包裹暫取」「看熱食櫃」的按鈕上（AA_653 接了那兩個點）；往西退一步站 (0.85, 1.4)，還是面向櫃台 */   /* 配置 v4（模型 v2b，BB 61a107016）：貨架移到 x −3.7、−1.7、0.3，走道 1.05～1.2 m——站的點改在走道中間（西牆和一號之間 x −4.6、一二號之間 −2.7、三號和櫃台之間 1.3）*/
