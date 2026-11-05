@@ -82,7 +82,10 @@ runner 印到畫面上的每一行都會留一份，只保留最後 2000 行，�
 - **主控台被選取卡住（CC-C 11-04）**：Windows 舊式主控台（conhost）有「快速編輯模式」——滑鼠在視窗裡點一下或拖曳選字，視窗就進入選取狀態（標題列開頭會出現「選取」／「Select」），**這時程式一印字就整個停住**，按 Esc 或 Enter 才繼續。11-04 23:48 以後電腦沒再推結果，最可能就是使用者複製畫面的字時停在選取狀態。
   - runner 11-04 16:4x 起：啟動時把這個視窗的快速編輯關掉（console 會印 `Windows console: QuickEdit off …`）；而且 runner 的輸出改由專門的執行緒印，畫面卡住只卡那一條，測試、commit、push 照跑（`tools/cc_local/console_unit.py`）。
   - run_forever.ps1 自己印的青色字還是會被選取卡住（.ps1 要使用者重啟才會換）。要複製畫面上的字：標題列按右鍵 → 編輯 → 標記，選好按 Enter；或直接看雲端的 console.log。
-  - 同時 runner 在跑的時候不讓 Windows 閒置睡眠（SetThreadExecutionState；螢幕照樣會關；runner 結束就取消）。
+  - 同時 runner 在跑的時候不讓 Windows 睡眠、螢幕也不熄（SetThreadExecutionState 加 ES_DISPLAY_REQUIRED；runner 結束就取消）。
+  - **新式待命（S0 低電源閒置，CC-C 11-05）**：這台 PC 是新式待命——螢幕一熄（包括按鎖定以後 1 分鐘）就進待命，會斷網、程式暫停（11-04 00:09 斷網、00:17～11:07 log 整段停住）。
+    只靠 ES_SYSTEM_REQUIRED 擋不住，要讓螢幕不熄。使用者 11-05 用 PowerShell 設了：`powercfg /change monitor-timeout-ac 0`、`standby-timeout-ac 0`、`hibernate-timeout-ac 0`，
+    鎖定畫面的熄螢幕（SUB_VIDEO 8ec4b3a5-6868-48c2-be75-4f3044be88a7）也設 0。接著電源。
 
 ## 佇列項目與視窗
 
