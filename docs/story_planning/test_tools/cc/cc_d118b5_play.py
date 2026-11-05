@@ -164,7 +164,8 @@ async def case_b5b(pg, cdp):
     mm = await pg.evaluate("(()=>(GAME.G.memo||[]).filter(m=>/初談紀錄/.test(m.t||'')).map(m=>m.t))()")
     R.check('[b5b] 手機記事「%s」（AA_691 第 5 項；不寫「值班」）' % MEMO, MEMO in mm and not [t for t in mm if '值班' in t], J(mm))
     fl = await pg.evaluate("(()=>({k1:GAME.G.flags.FAFU_STORY_1, seen:GAME.G.flags.FAFU_STORY_SEEN, h:+GAME.G.hour.toFixed(2), key:CALENDAR.dateOf(GAME.G.day).key}))()")
-    R.check('[b5b] 演完 12:00、FAFU_STORY_1＝那天、FAFU_STORY_SEEN 1', abs(fl['h'] - 12) < 0.05 and fl['k1'] == d and fl['seen'] == 1, J(fl))
+    d24 = await pg.evaluate("STORY.dayOfKey('2026-10-24')")   # 那天＝10/24（週六）；d 是讀檔那天 10/23（PC 11-05 r1 比錯天）
+    R.check('[b5b] 演完 12:00、FAFU_STORY_1＝那天（10/24＝%s）、FAFU_STORY_SEEN 1' % d24, abs(fl['h'] - 12) < 0.05 and fl['k1'] == d24 and fl['seen'] == 1, J(fl))
     rel1 = await pg.evaluate(REL)
     R.check('[b5b] 關係值不變（純劇情，不加數值）', rel0 == rel1, J([rel0, rel1]))
     await R.shot(pg, 'b5b_after')

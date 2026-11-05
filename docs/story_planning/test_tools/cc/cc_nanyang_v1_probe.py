@@ -10,7 +10,7 @@
   四、穿模／黑畫面：上面每一步人都站得住（E.canStand）、沒有被放到目的地（GAME.walkFallbacks 不增加）；每張截圖算平均亮度（<6/255 且幾乎沒有變化＝黑畫面）。
   五、新生南路騎樓（XS-ARCADE-NAV-1105）：①兩段（z −68～−40、47.4～68）每 1 m 看 x −13.6、−15.5 站不住、x −12.4 站得住；
       ②照玩家點地往牆裡走（騎樓南北兩端往公寓那邊點），一路記位置：在那兩段裡人的 x 都 ≥ −13.2（不在牆裡）。
-  截圖（給使用者看，不判）：大廳 camRef（配置 lobby.camRef：eye、look、lens 24 mm）、1 廳（配置沒有 camRef：門口往銀幕，eye (3.5,1.6,7.4) look (0,1.4,−7.75) 24 mm），白天 14:00、晚上 21:00 各一張。
+  截圖（給使用者看，不判；藏 HUD、藏玩家）：大廳 camRef（配置 lobby.camRef：eye、look、lens 24 mm）、1 廳（配置沒有 camRef：門口往銀幕，eye (3.5,1.6,7.4) look (0,1.4,−7.75) 24 mm），白天 14:00、晚上 21:00 各一張。
 用法：LW_TESTS=<wt>/tests [PARTS=door,seats,slope,arcade,shots] python3 cc_nanyang_v1_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, time, io
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -217,11 +217,15 @@ async def part_slope(pg, cdp):
 
 
 async def part_arcade(pg, cdp):
-    # ① 導航取樣（README：牆在 x −13.2；牆裡 x −13.6、−15.5 站不住、人行道 x −12.4 站得住）
-    grid = await pg.evaluate("""(()=>{ const E=GAME.E, out={wallIn:[], sideOut:[]};
-      for(const [a,b] of [[-67.5,-40.5],[48,67.5]]) for(let z=a; z<=b+1e-6; z+=1){ for(const x of [-13.6,-15.5]) if(E.canStand(x,z,0.3,0)) out.wallIn.push([x,z]); if(!E.canStand(-12.4,z,0.3,0)) out.sideOut.push([-12.4,z]); }
-      out.n=Math.round((67.5-40.5+1)+(67.5-48+1)); return out; })()""")
-    R.check('[騎樓] 沒有騎樓的兩段（z −68～−40、47.4～68，每 1 m %d 處）：牆裡 x −13.6、−15.5 都站不住' % grid['n'], not grid['wallIn'], J(grid['wallIn'][:10]))
+    # ① 導航取樣（README：牆在 x −13.2；牆裡 x −13.6、−15.5 站不住、人行道 x −12.4 站得住）——先讀檔到新生南路（雲端 11-05 冒煙：原本在 1 廳取樣＝取錯區域）
+    R.setup('[騎樓] 讀檔新生南路 %s 14:00（導航取樣）' % DAY)
+    s0 = await load_street(pg, cdp, -12.7, 0.0)
+    if not R.check('[騎樓] 讀到新生南路（xinsheng）', s0['zone'] == 'xinsheng', J(s0)): return
+    # 街的兩頭（z ±68）是區域的邊：和 tests/xinsheng_unit.js 18 一樣不取最後 1.5 m（−66.5～−40.6、48～66.5）
+    grid = await pg.evaluate("""(()=>{ const E=GAME.E, out={wallIn:[], sideOut:[], zone:GAME.G.zone};
+      for(const [a,b] of [[-66.5,-40.6],[48,66.5]]) for(let z=a; z<=b+1e-6; z+=1){ for(const x of [-13.6,-15.5]) if(E.canStand(x,z,0.3,0)) out.wallIn.push([x,z]); if(!E.canStand(-12.4,z,0.3,0)) out.sideOut.push([-12.4,z]); }
+      out.n=Math.floor(66.5-40.6)+1+Math.floor(66.5-48)+1; return out; })()""")
+    R.check('[騎樓] 沒有騎樓的兩段（z −66.5～−40.6、48～66.5，每 1 m %d 處；%s）：牆裡 x −13.6、−15.5 都站不住' % (grid['n'], grid['zone']), not grid['wallIn'], J(grid['wallIn'][:10]))
     R.check('[騎樓] 同兩段牆外的人行道 x −12.4 都站得住', not grid['sideOut'], J(grid['sideOut'][:10]))
     # ② 照玩家：騎樓兩端往公寓那邊點地走
     for (sx, sz, tx, tz, nm) in [(-14.6, 45.5, -14.6, 56.0, '北端（往 z 47.4～68）'), (-14.6, -38.5, -14.6, -50.0, '南端（往 z −68～−40）')]:
@@ -242,6 +246,7 @@ async def part_shots(pg, cdp):
     hall_cam = lay['hall'] or {'eye': [3.5, 1.6, 7.4], 'look': [0.0, 1.4, -7.75], 'lens': 24}
     if not lay['hall']: R.note('[截圖] 1 廳配置沒有 camRef：用門口往銀幕 %s' % J(hall_cam))
     d = await pg.evaluate("STORY.dayOfKey('%s')" % DAY)
+    await pg.set_viewport_size({'width': 1280, 'height': 720})   # 給使用者看：16:9（24 mm＝水平 73.7°），和同弦 refcam 一樣
     for zone, cam, nm in [('xs_nanyang', lay['lobby'], 'lobby'), ('xs_nanyang_hall', hall_cam, 'hall')]:
         for h, hn in [(14.0, 'day'), (21.0, 'night')]:
             R.setup('[截圖] 讀檔 %s %s %02d:00' % (zone, DAY, int(h)))
@@ -250,10 +255,11 @@ async def part_shots(pg, cdp):
             z = (await st(pg))['zone']
             if not R.check('[截圖] 讀到 %s' % zone, z == zone, z): continue
             glb = await pg.evaluate("(()=>{ let n=0; GAME.E.scene.traverse(o=>{ if(o.isMesh&&o.visible) n++; }); return n; })()")
+            await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()")   # 給使用者看的是房間：人站在門口會擋住鏡頭（雲端 11-05 1 廳那張）
             await pg.evaluate(HUD + '(false)'); c = await pg.evaluate(CAM, cam); await pg.wait_for_timeout(600); await pg.evaluate("GAME.E.render()")
             m = await shot(pg, 'user_%s_%s' % (nm, hn))
             R.note('[截圖] %s %s：鏡頭 %s、看得到的網格 %d、亮度 %s' % (nm, hn, J(c), glb, J(m)))
-            await pg.evaluate(UNCAM); await pg.evaluate(HUD + '(true)')
+            await pg.evaluate(UNCAM); await pg.evaluate(HUD + '(true)'); await pg.evaluate("(()=>{ GAME.E.player.obj.visible=true; })()")
 
 
 async def main():
