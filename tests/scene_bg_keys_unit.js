@@ -14,6 +14,8 @@ const PENDING={   /* 鍵：任務（BG-DARK-SCENES-1024 第二批：LAWWW2 從 3
 
 
   /* AA_520 4-2（NPC-STORY2-1028）：予樂那一場演講，霖澤館 201 的階梯教室（晚上，坐了一半）；src/yule3d.js 執行時登記 image:null */
+  /* AA_619（企劃線 bf0efded8）的三個新場景：src/guitar3d.js 執行時登記 image:null（深色底＋地點字幕）；BB 照 D127 跟使用者要 */
+  tongxian_shop:'AA619-GUITAR-1104（2-3 同弦樂器店裡；有 xs_tongxian 區域時改用模糊的 3D）', yilan_minsu_roof:'AA619-GUITAR-1104（3-1 宜蘭民宿頂樓，深夜）', yms_grassland:'AA619-GUITAR-1104（3-2 陽明山擎天崗草原，下午）',
  };
 const keys=new Set(Object.keys(OUT.BG||{})), used={};
 const walk=d=>fs.readdirSync(path.join(ROOT,d)).filter(x=>x.endsWith('.js')).map(x=>(d==='src'?'':'data/')+x);
