@@ -1,0 +1,163 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b5_play.py http://127.0.0.1:8806/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_D118B5\out
+CC D118_B5（法服改純劇情）：CASES=['b5b', 's2seen', 's2unseen', 'miss2', 's3', 's4', 'notice', 'migrate', 'sats', 'aunt', 'auntneg', 'abroad']；SHA=83d09d13b0686e51e344b4b771ebb9124d8806a4；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [b5b] 遊戲載入  22.2 秒
+  [前置／捷徑] [b5b] 讀檔：dorm 2026-10-23 19:54；{"flags": {"CLUB_lawclub_study": true, "lawclub": true, "SIS_CLUB_EXPO": true}, "friends": ["classmate_bohan"]}
+  [  37.5s] [b5b] 設定以後：{"member": true, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 0}
+PASS [b5b] 社員、在法服群組  {"member": true, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 0}
+PASS [b5b] 10/23 20:00 法服群組一則「週六九點，有一位預約的阿姨。人手夠，想來的再來。」（AA_604 第 1 列）  {"text": "週六九點，有一位預約的阿姨。人手夠，想來的再來。", "from": "classmate_bohan", "th": "g:lawclub_study", "key": "2026-10-23", "h": 20}
+  [  49.9s] [b5b] 一鍵「回去睡覺」第 1 次：sleepPlan {"ok": true, "why": null}
+  [  54.8s] [b5b] 睡到隔天早上（2026-10-24 7.50）
+PASS [b5b] 10/24 08:30 跳出發選單（出發／這週請假）  {"dlg": false, "text": "去上課吧。下課再跟我說你讀到哪了。", "opts": ["出發：法服值班（法律系館B一樓 9:00）\n09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"], "hour": 8.501, "day": 403, "key": "2026-10-24", "zone": "dorm", "busy": true}
+PASS [b5b] 出發 → 到萬才館（法律系館B）9:00 前後  {"zone": "wancai", "h": 9}
+  [ 233.2s] 到達「[b5b] 圓桌」附近（0.17 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [ 233.3s] [b5b] 走到圓桌：True、互動鍵 '坐到圓桌（做初談紀錄）'
+PASS [b5b] 圓桌的互動鍵「坐到圓桌（做初談紀錄）」  坐到圓桌（做初談紀錄）
+  [ 244.8s] [b5b] 台詞（9 句）：["（週六上午九點，法律系館B一樓的圓桌。學長已經把紀錄表排好了。）", "這學期起我排班。有事找我。", "（一位阿姨，樓上漏水，天花板發霉，樓上的人不開門。）", "你先問什麼？", "好。先聽完。", "（他講了十五分鐘。最重要的那一句，在最後。）", "我不想吵架。我只想要它不要再滴。", "每一次滴水都拍照、記日期。下次我們一起看。", "（初談紀錄，一頁。學長在最下面簽名。你把日期寫在最上面。）"]；選單 [["「先請他從頭講一次。」", "「先問什麼時候發生的。」", "「先問手上有什麼資料。」"]]
+PASS [b5b] 流程：共同開頭 → 新個案（有「你先問什麼？」的選單）→ 收尾旁白第 1 列（第一場沒有回訪）  {"open": 0, "end": 8, "menus": 1}
+PASS [b5b] 共同開頭後面接柏翰「這學期起我排班。有事找我。」（AA_691 第 3 項）  ["（週六上午九點，法律系館B一樓的圓桌。學長已經把紀錄表排好了。）", "這學期起我排班。有事找我。", "（一位阿姨，樓上漏水，天花板發霉，樓上的人不開門。）"]
+PASS [b5b] 手機記事「法服：做了一份初談紀錄」（AA_691 第 5 項；不寫「值班」）  ["法服：做了一份初談紀錄"]
+PASS [b5b] 演完 12:00、FAFU_STORY_1＝那天（10/24＝403）、FAFU_STORY_SEEN 1  {"k1": 403, "seen": 1, "h": 12.01, "key": "2026-10-24"}
+PASS [b5b] 關係值不變（純劇情，不加數值）  [{"classmate_bohan": [45, 30, 0], "heroine_03": [0, 0, 0], "npc_lawclub_pres": [0, 0, 0]}, {"classmate_bohan": [45, 30, 0], "heroine_03": [0, 0, 0], "npc_lawclub_pres": [0, 0, 0]}]
+PASS [b5b] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [s2seen] 遊戲載入  21.6 秒
+  [前置／捷徑] [s2seen] 讀檔：dorm 2027-04-09 19:54；{"flags": {"CLUB_lawclub_study": true, "lawclub": true, "SIS_CLUB_EXPO": true, "FAFU_STORY_SEEN": 1}, "friends": ["classmate_bohan"]}
+  [ 282.7s] [s2seen] 設定以後：{"member": true, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 1}
+  [前置／捷徑] [s2seen] 【前置】看過第 1 場（FAFU_STORY_1＝2026-10-24、那一場的新個案＝S.FAFU_STORY[0].c）
+PASS [s2seen] 4/9 20:00 群組一則「週六九點，有預約。上次漏水那位阿姨也說要再來。」  {"text": "週六九點，有預約。上次漏水那位阿姨也說要再來。", "key": "2027-04-09", "h": 20}
+  [ 295.1s] [s2seen] 一鍵「回去睡覺」第 1 次：sleepPlan {"ok": true, "why": null}
+  [ 300.1s] [s2seen] 睡到隔天早上（2027-04-10 7.50）
+PASS [s2seen] 4/10 08:30 出發選單 → 出發  {"dlg": false, "text": "去上課吧。下課再跟我說你讀到哪了。", "opts": ["出發：法服值班（法律系館B一樓 9:00）\n09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"], "hour": 8.502, "day": 571, "key": "2027-04-10", "zone": "dorm", "busy": true}
+PASS [s2seen] 到萬才館  {"zone": "wancai", "h": 9}
+  [ 478.1s] 到達「[s2seen] 圓桌」附近（0.20 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [ 478.1s] [s2seen] 走到圓桌：True、互動鍵 '坐到圓桌（做初談紀錄）'
+PASS [s2seen] 圓桌的互動鍵「坐到圓桌（做初談紀錄）」  坐到圓桌（做初談紀錄）
+  [ 490.9s] [s2seen] 台詞（11 句）：["（週六上午九點，法律系館B一樓的圓桌。學長已經把紀錄表排好了。）", "（樓上漏水的阿姨又來了，手上拿著一疊照片。）", "樓上終於開門了。……他也不知道在漏。", "照片還是留著。", "（一個年輕人，借給朋友三萬元，沒有寫借據。）", "你先問什麼？", "好。先聽完。", "（他講了十五分鐘。最重要的那一句，在最後。）", "我們很好，所以沒有寫。", "有提到錢的訊息，先截圖存起來。匯款的紀錄也是。", "（阿姨走的時候，把照片收回袋子裡，跟你們點了一下頭。）"]
+PASS [s2seen] 共同開頭 → 回訪（漏水的阿姨） → 新個案 → 收尾「（阿姨走的時候，把照片收回袋子裡，跟你們點了一下頭。）」（AA_691 第 4 項）  {"open": 0, "end": true, "backmiss": false}
+PASS [s2seen] 另一種收尾不出現
+PASS [s2seen] 演完 12:00、FAFU_STORY_2 有記、SEEN 2  {"k2": 571, "seen": 2, "h": 12.01}
+PASS [s2seen] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [s2unseen] 遊戲載入  21.5 秒
+  [前置／捷徑] [s2unseen] 讀檔：dorm 2027-04-09 19:54；{"flags": {"CLUB_lawclub_study": true, "lawclub": true, "SIS_CLUB_EXPO": true, "FAFU_STORY_SEEN": 0}, "friends": ["classmate_bohan"]}
+  [ 528.1s] [s2unseen] 設定以後：{"member": true, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 0}
+PASS [s2unseen] 4/9 20:00 群組一則「週六九點，有預約。上次漏水那位阿姨也說要再來。」  {"text": "週六九點，有預約。上次漏水那位阿姨也說要再來。", "key": "2027-04-09", "h": 20}
+  [ 540.5s] [s2unseen] 一鍵「回去睡覺」第 1 次：sleepPlan {"ok": true, "why": null}
+  [ 545.4s] [s2unseen] 睡到隔天早上（2027-04-10 7.50）
+PASS [s2unseen] 4/10 08:30 出發選單 → 出發  {"dlg": false, "text": "去上課吧。下課再跟我說你讀到哪了。", "opts": ["出發：法服值班（法律系館B一樓 9:00）\n09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"], "hour": 8.501, "day": 571, "key": "2027-04-10", "zone": "dorm", "busy": true}
+PASS [s2unseen] 到萬才館  {"zone": "wancai", "h": 9}
+  [ 723.3s] 到達「[s2unseen] 圓桌」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [ 723.3s] [s2unseen] 走到圓桌：True、互動鍵 '坐到圓桌（做初談紀錄）'
+PASS [s2unseen] 圓桌的互動鍵「坐到圓桌（做初談紀錄）」  坐到圓桌（做初談紀錄）
+  [ 735.1s] [s2unseen] 台詞（9 句）：["（週六上午九點，法律系館B一樓的圓桌。學長已經把紀錄表排好了。）", "（上次來過的一位民眾又來了，學長去接。）", "（一個年輕人，借給朋友三萬元，沒有寫借據。）", "你先問什麼？", "好。先聽完。", "（他講了十五分鐘。最重要的那一句，在最後。）", "我們很好，所以沒有寫。", "有提到錢的訊息，先截圖存起來。匯款的紀錄也是。", "（兩位民眾都走了。學長把紀錄表翻回第一頁，又看了一次。）"]
+PASS [s2unseen] 共同開頭 → 沒看過上一場那一句旁白 → 新個案 → 收尾「（兩位民眾都走了。學長把紀錄表翻回第一頁，又看了一次。）」（AA_691 第 4 項）  {"open": 0, "end": true, "backmiss": true}
+PASS [s2unseen] 另一種收尾不出現
+PASS [s2unseen] 演完 12:00、FAFU_STORY_2 有記、SEEN 1  {"k2": 571, "seen": 1, "h": 12}
+PASS [s2unseen] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [miss2] 遊戲載入  21.2 秒
+  [前置／捷徑] [miss2] 讀檔：dorm 2027-04-09 19:54；{"flags": {"CLUB_lawclub_study": true, "lawclub": true, "SIS_CLUB_EXPO": true, "FAFU_STORY_SEEN": 1}, "friends": ["classmate_bohan"]}
+  [ 771.5s] [miss2] 設定以後：{"member": true, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 1}
+PASS [miss2] 4/9 20:00 群組一則「週六九點，有預約。上次漏水那位阿姨也說要再來。」  {"text": "週六九點，有預約。上次漏水那位阿姨也說要再來。", "key": "2027-04-09", "h": 20}
+  [ 783.9s] [miss2] 一鍵「回去睡覺」第 1 次：sleepPlan {"ok": true, "why": null}
+  [ 788.8s] [miss2] 睡到隔天早上（2027-04-10 7.50）
+PASS [miss2] 4/10 08:30 出發選單 → 選「這週請假」  {"dlg": false, "text": "去上課吧。下課再跟我說你讀到哪了。", "opts": ["出發：法服值班（法律系館B一樓 9:00）\n09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"], "hour": 8.501, "day": 571, "key": "2027-04-10", "zone": "dorm", "busy": true}
+  [前置／捷徑] [miss2] 【捷徑】之後兩週（4/10 中午～4/24）照手機規則推時間
+PASS [miss2] 錯過不補、不追問：之後兩週沒有任何法服的訊息、沒有法服的出發選單  {"new": [], "due": [{"id": "y2r2_bd", "key": "2027-04-24", "wd": 6, "h": 18.5, "title": "可昕的生日：開車去木柵大學"}]}
+PASS [miss2] 不扣：FAFU_STORY_2 沒有、SEEN 還是 1、關係值不變  [{"k2": null, "seen": 1}, {"classmate_bohan": [45, 30, 0], "heroine_03": [0, 0, 0], "npc_lawclub_pres": [0, 0, 0]}, {"classmate_bohan": [45, 30, 0], "heroine_03": [0, 0, 0], "npc_lawclub_pres": [0, 0, 0]}]
+PASS [miss2] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [s3] 遊戲載入  20.4 秒
+  [前置／捷徑] [s3] 讀檔：dorm 2027-10-20 09:00；{"flags": {"CLUB_lawclub_study": true, "lawclub": true, "SIS_CLUB_EXPO": true, "FAFU_STORY_SEEN": 2}, "friends": ["classmate_bohan"]}
+  [ 994.6s] [s3] 設定以後：{"member": true, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 2}
+  [前置／捷徑] [s3] 【捷徑】2027-10-20～10-31 照手機規則推時間（第 3 場改到 10/30，AA_691 第 2 項）
+  [1000.8s] [s3] 出發選單 [{"id": "fafu_774", "key": "2027-10-30", "wd": 6, "h": 8.5, "title": "法服值班（法律系館B一樓 9:00）"}]；法服訊息 [{"tag": "fafu_welcome", "th": "g:lawclub_study", "from": "npc_lawclub_pres", "text": "歡迎新社員！法律服務是隔週六早上九點到十二點，B館一樓。第一次來站旁邊聽就好，不用準備。有問題直接在群組問。", "key": "2027-10-20", "h": 21}, {"tag": "fafu_story_3", "th": "g:lawclub_study", "from": "classmate_bohan", "text": "週六九點有預約。我已經交接了，這次只是來幫忙。", "key": "2027-10-29", "h": 20}]
+PASS [s3] 10/23（感冒那一週）沒有法服：10/22 晚上沒有提醒、10/23 沒有出發選單  [[{"tag": "fafu_welcome", "th": "g:lawclub_study", "from": "npc_lawclub_pres", "text": "歡迎新社員！法律服務是隔週六早上九點到十二點，B館一樓。第一次來站旁邊聽就好，不用準備。有問題直接在群組問。", "key": "2027-10-20", "h": 21}, {"tag": "fafu_story_3", "th": "g:lawclub_study", "from": "classmate_bohan", "text": "週六九點有預約。我已經交接了，這次只是來幫忙。", "key": "2027-10-29", "h": 20}], [{"id": "fafu_774", "key": "2027-10-30", "wd": 6, "h": 8.5, "title": "法服值班（法律系館B一樓 9:00）"}]]
+PASS [s3] 10/29 20:00 群組「週六九點有預約。我已經交接了，這次只是來幫忙。」、10/30 08:30 出發選單（只有這一個）  [[{"tag": "fafu_welcome", "th": "g:lawclub_study", "from": "npc_lawclub_pres", "text": "歡迎新社員！法律服務是隔週六早上九點到十二點，B館一樓。第一次來站旁邊聽就好，不用準備。有問題直接在群組問。", "key": "2027-10-20", "h": 21}, {"tag": "fafu_story_3", "th": "g:lawclub_study", "from": "classmate_bohan", "text": "週六九點有預約。我已經交接了，這次只是來幫忙。", "key": "2027-10-29", "h": 20}], [{"id": "fafu_774", "key": "2027-10-30", "wd": 6, "h": 8.5, "title": "法服值班（法律系館B一樓 9:00）"}]]
+PASS [s3] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [s4] 遊戲載入  20.7 秒
+  [前置／捷徑] [s4] 讀檔：dorm 2028-10-20 19:54；{"flags": {"CLUB_lawclub_study": true, "lawclub": true, "SIS_CLUB_EXPO": true, "FAFU_STORY_SEEN": 3}, "friends": ["classmate_bohan"]}
+  [1036.5s] [s4] 設定以後：{"member": true, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 3}
+PASS [s4] 10/20 20:00 群組雅筑學姊「週六九點有預約。可能是我最後一次排。」  {"text": "週六九點有預約。可能是我最後一次排。", "key": "2028-10-20", "h": 20, "from": "fafu_yazhu"}
+  [1048.8s] [s4] 一鍵「回去睡覺」第 1 次：sleepPlan {"ok": true, "why": null}
+  [1053.8s] [s4] 睡到隔天早上（2028-10-21 7.50）
+PASS [s4] 10/21 08:30 出發選單 → 出發  {"dlg": false, "text": "去上課吧。下課再跟我說你讀到哪了。", "opts": ["出發：法服值班（法律系館B一樓 9:00）\n09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"], "hour": 8.503, "day": 1131, "key": "2028-10-21", "zone": "dorm", "busy": true}
+  [1229.6s] 到達「[s4] 圓桌」附近（0.20 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+  [1229.6s] [s4] 走到圓桌：True、互動鍵 '坐到圓桌（做初談紀錄）'
+PASS [s4] 圓桌的互動鍵「坐到圓桌（做初談紀錄）」  坐到圓桌（做初談紀錄）
+  [1240.5s] [s4] 台詞（9 句）：["（週六上午九點，法律系館B一樓的圓桌。學長已經把紀錄表排好了。）", "（上次來過的一位民眾又來了，學長去接。）", "（一位太太，父親過世，兄弟姊妹對房子意見不一樣。）", "你先問什麼？", "好。先聽完。", "（他講了十五分鐘。最重要的那一句，在最後。）", "我只是不想大家以後都不見面。", "這件要請律師一起看。我們幫您排有律師的那一週。", "（雅筑學姊把紀錄表交給新來的學弟。「日期，還有他的原話。」她說。）"]
+PASS [s4] 第 4 場不記柏翰的記憶（FAFU_STORY 筆數 0 → 0；SOCIAL.has False）（AA_691 第 5 項）  [0, 0, false]
+PASS [s4] 手機記事「法服：做了一份初談紀錄」  ["法服：做了一份初談紀錄"]
+PASS [s4] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [notice] 遊戲載入  18.3 秒
+  [前置／捷徑] [notice] 讀檔：dorm 2026-10-23 19:54；{"flags": {"LAWCLUB_NOTICE": true}}
+  [1272.3s] [notice] 設定以後：{"member": false, "joined": false, "inGroup": false, "notice": true, "pure": 1, "seen": 0}
+  [前置／捷徑] [notice] 【捷徑】10/23 20:00～10/24 12:00 照手機規則推時間
+PASS [notice] 只看過公告（不是社員）：不在法服群組、沒有 10/23 的群組那一則、10/24 沒有出發選單  {"st": {"member": false, "inGroup": false}, "msgs": [], "outs": [], "due": []}
+PASS [notice] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [migrate] 遊戲載入  17.1 秒
+  [前置／捷徑] [migrate] 舊存檔（v9.10 結構）：2026-10-10 10:00 宿舍、只看過公告的 lawclub、FAFU_TRK、還在排的值班出發選單 fafu_<10/17>、沒有 FAFU_PURE；用遊戲的讀檔讀進來
+  [1301.7s] [migrate] 讀進來以後：{"a": {"pure": 1, "lawclub": false, "notice": true, "member": false, "trk": true, "seen": 0, "outs": [["fafu_396", "cancelled"]]}, "b": {"pure": 1, "lawclub": true, "notice": true, "outs": [["fafu_396", "cancelled"]]}}
+PASS [migrate] STORY.fafuMigrate 做了（FAFU_PURE）、只看過公告＝LAWCLUB_NOTICE、不是社員  {"pure": 1, "lawclub": false, "notice": true, "member": false, "trk": true, "seen": 0, "outs": [["fafu_396", "cancelled"]]}
+PASS [migrate] 還在排的值班出發選單 → cancelled  [["fafu_396", "cancelled"]]
+PASS [migrate] 只做一次：再讀一次（存檔裡 FAFU_PURE 已經有）不再動（這一輪故意把 lawclub 改回 true，照樣留著）  {"pure": 1, "lawclub": true, "notice": true, "outs": [["fafu_396", "cancelled"]]}
+PASS [migrate] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [sats] 遊戲載入  17.8 秒
+  [前置／捷徑] [sats] 讀檔：dorm 2026-10-01 09:00；{"flags": {"CLUB_lawclub_study": true, "lawclub": true, "SIS_CLUB_EXPO": true}, "friends": ["classmate_bohan"]}
+  [1333.4s] [sats] 設定以後：{"member": true, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 0}
+  [前置／捷徑] [sats] 【捷徑】2026-10-01～11-30 照手機規則推時間（每 30 分鐘一格、主迴圈停著）；跳出來的出發選單沒人按＝睡過頭錯過
+  [1355.2s] [sats] 兩個月跳出來的出發選單：[{"id": "kx_anniv2", "key": "2026-10-17", "wd": 6, "h": 18, "title": "週年：木柵大學山下，我們的店"}, {"id": "fafu_403", "key": "2026-10-24", "wd": 6, "h": 8.5, "title": "法服值班（法律系館B一樓 9:00）"}, {"id": "yc_gig", "key": "2026-11-14", "wd": 6, "h": 19.5, "title": "宥辰的第一場（公館的地下室 20:00）"}]；法服相關訊息：[{"tag": "fafu_welcome", "th": "g:lawclub_study", "from": "npc_lawclub_pres", "text": "歡迎新社員！法律服務是隔週六早上九點到十二點，B館一樓。第一次來站旁邊聽就好，不用準備。有問題直接在群組問。", "key": "2026-10-01", "h": 21}, {"tag": "dp_a118_y2s1_bh_duty_0_0", "th": "g:lawclub_study", "from": "classmate_bohan", "text": "這學期的預約，有的話前一天晚上在這裡講", "key": "2026-10-05", "h": 22}, {"tag": "dp_a118_y2s1_bh_duty_0_1", "th": "g:lawclub_study", "from": "classmate_bohan", "text": "📷（一張空白的預約登記表）", "key": "2026-10-05", "h": 22.02}, {"tag": "dp_a118_y2s1_bh_duty_0_2", "th": "g:lawclub_study", "from": "classmate_bohan", "text": "有問題私訊", "key": "2026-10-05", "h": 22.03}, {"tag": "dp_a118_y2s1_bh_duty_0_3", "th": "g:lawclub_study", "from": "classmate_bohan", "text": "沒有問題也可以私訊", "key": "2026-10-05", "h": 22.05}, {"tag": "dp_a118_y2s1_bh_duty_0_4", "th": "g:lawclub_study", "from": "classmate_bohan", "text": "……最後一句當我沒說", "key": "2026-10-05", "h": 22.07}, {"tag": "need_397", "th": "p:classmate_bohan", "from": "classmate_bohan", "text": "刑分考古題第三題，你寫哪一說？", "key": "2026-10-18", "h": 21}, {"tag": "fafu_story_1", "th": "g:lawclub_study", "from": "classmate_bohan", "text": "週六九點，有一位預約的阿姨。人手夠，想來的再來。", "key": "2026-10-23", "h": 20}, {"tag": "fair_y2_call", "th": "g:lawclub_study", "from": "classmate_bohan", "text": "明天九點半，攤位集合。", "key": "2026-11-13", "h": 21}]
+PASS [sats] 只有 10/24 那一場跳一次出發選單（其他週六不跳）  [{"id": "fafu_403", "key": "2026-10-24", "wd": 6, "h": 8.5, "title": "法服值班（法律系館B一樓 9:00）"}]
+PASS [sats] 沒有柏翰追問法服的私訊（p:classmate_bohan、tag 帶 fafu）  []
+PASS [sats] 法服群組的法服事件只有 10/23 那一則（fafu_story_1；BB-C 05:03：只算 FAFU 事件）  [["fafu_welcome", "2026-10-01", "歡迎新社員！法律服務是隔週六早上九點到十二點，B館一樓。第一次來站旁邊聽就好，不用準備。有問題直接在群組問。"], ["dp_a118_y2s1_bh_duty_0_0", "2026-10-05", "這學期的預約，有的話前一天晚上在這裡講"], ["dp_a118_y2s1_bh_duty_0_1", "2026-10-05", "📷（一張空白的預約登記表）"], ["dp_a118_y2s1_bh_duty_0_2", "2026-10-05", "有問題私訊"], ["dp_a118_y2s1_bh_duty_0_3", "2026-10-05", "沒有問題也可以私訊"], ["dp_a118_y2s1_bh_duty_0_4", "2026-10-05", "……最後一句當我沒說"], ["fafu_story_1", "2026-10-23", "週六九點，有一位預約的阿姨。人手夠，想來的再來。"], ["fair_y2_call", "2026-11-13", "明天九點半，攤位集合。"]]
+PASS [sats] 關係值不變  [{"classmate_bohan": [45, 30, 0], "heroine_03": [0, 0, 0], "npc_lawclub_pres": [0, 0, 0]}, {"classmate_bohan": [45, 30, 0], "heroine_03": [0, 0, 0], "npc_lawclub_pres": [0, 0, 0]}]
+PASS [sats] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [aunt] 遊戲載入  18.4 秒
+  [前置／捷徑] [aunt] 讀檔：dorm 2027-05-21 19:30；{"flags": {"CLUB_lawclub_study": true, "lawclub": true, "SIS_CLUB_EXPO": true}, "friends": ["heroine_03", "classmate_bohan"]}
+  [1386.9s] [aunt] 設定以後：{"member": true, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 0}
+  [1389.5s] [aunt] 一鍵「回去睡覺」第 1 次：sleepPlan {"ok": true, "why": null}
+  [1394.3s] [aunt] 睡到隔天早上（2027-05-22 7.50）
+PASS [aunt] 5/21（五）20:00 法服群組柏翰「週六九點有一件租約的諮詢。預約的阿姨說，會有人陪她來。」（AA_691 第 1 項；5/21 晚上睡過去的，隔天早上補進群組、時間照 5/21 20:00）  [{"tag": "y2_fafu_aunt_eve", "th": "g:lawclub_study", "from": "classmate_bohan", "text": "週六九點有一件租約的諮詢。預約的阿姨說，會有人陪她來。", "key": "2027-05-21", "h": 20}]
+PASS [aunt] 5/22 08:30 出發選單（出發／這週請假）  {"dlg": false, "text": "去上課吧。下課再跟我說你讀到哪了。", "opts": ["出發：法服值班（法律系館B一樓 9:00）\n09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"], "hour": 8.501, "day": 613, "key": "2027-05-22", "zone": "dorm", "busy": true}
+PASS [aunt] 出發 → 到萬才館  {"zone": "wancai", "h": 9}
+  [1569.1s] 到達「[aunt] 圓桌」附近（0.20 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+  [1569.1s] [aunt] 走到圓桌：True、互動鍵 '坐到圓桌（做初談紀錄）'
+PASS [aunt] 圓桌的互動鍵「坐到圓桌（做初談紀錄）」  坐到圓桌（做初談紀錄）
+  [1885.4s] [aunt] 台詞（20 句）：["（法律系館B的諮詢室。門開了，進來的是秀琴姨，後面跟著語彤。）", "（看到你，停了一下）……嗯。我陪秀琴姨來的。", "你們認識？", "我們在同一家茶屋打工。", "好。那紀錄你照做，意見我來講。", "阿姨，先跟您說，我們都是學生。今天講的，之後會請指導律師再看一次。", "學生好啊。學生比較有耐心。", "（秀琴姨把租約攤在桌上。語彤把它轉過來，對著柏翰。）", "（翻到最後一頁）書面的，還有……快兩年。您一直住在那裡，對吧？", "十五年了。"]
+PASS [aunt] 阿姨那一場照常演：「（法律系館B的諮詢室。門開了，進來的是秀琴姨，後面跟著語彤。）」、記 RENT_CONSULTATION  {"first": ["（法律系館B的諮詢室。門開了，進來的是秀琴姨，後面跟著語彤。）", "（看到你，停了一下）……嗯。我陪秀琴姨來的。"], "mem": true}
+PASS [aunt] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [auntneg] 遊戲載入  17.3 秒
+  [前置／捷徑] [auntneg 不是社員] 讀檔：dorm 2027-05-21 19:00；{"flags": {}, "friends": ["heroine_03"]}
+  [1916.0s] [auntneg 不是社員] 設定以後：{"member": false, "joined": false, "inGroup": false, "notice": false, "pure": 1, "seen": 0}
+  [前置／捷徑] [auntneg 不是社員] 【捷徑】5/21 19:00～5/22 12:00 照手機規則推時間
+PASS [auntneg 不是社員] 5/21 20:00 柏翰那一則不傳（只傳給社員、認識語彤、阿姨那一場還沒演的）  []
+  [前置／捷徑] [auntneg 不認識語彤] 讀檔：dorm 2027-05-21 19:00；{"flags": {"CLUB_lawclub_study": true, "lawclub": true, "SIS_CLUB_EXPO": true}, "friends": []}
+  [1922.4s] [auntneg 不認識語彤] 設定以後：{"member": true, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 0}
+  [前置／捷徑] [auntneg 不認識語彤] 【捷徑】5/21 19:00～5/22 12:00 照手機規則推時間
+PASS [auntneg 不認識語彤] 5/21 20:00 柏翰那一則不傳（只傳給社員、認識語彤、阿姨那一場還沒演的）  []
+  [前置／捷徑] [auntneg 阿姨那一場演過] 讀檔：dorm 2027-05-21 19:00；{"flags": {"CLUB_lawclub_study": true, "lawclub": true, "SIS_CLUB_EXPO": true}, "friends": ["heroine_03"]}
+  [1928.2s] [auntneg 阿姨那一場演過] 設定以後：{"member": true, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 0}
+  [前置／捷徑] [auntneg 阿姨那一場演過] 【捷徑】5/21 19:00～5/22 12:00 照手機規則推時間
+PASS [auntneg 阿姨那一場演過] 5/21 20:00 柏翰那一則不傳（只傳給社員、認識語彤、阿姨那一場還沒演的）  []
+PASS [auntneg] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [abroad] 遊戲載入  17.1 秒
+  [前置／捷徑] [abroad JP] 讀檔：dorm 2028-02-15 09:00；{"flags": {"CLUB_lawclub_study": true, "lawclub": true, "SIS_CLUB_EXPO": true}, "route": "JP", "friends": ["classmate_bohan"]}
+  [1959.6s] [abroad JP] 設定以後：{"member": false, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 0}
+  [前置／捷徑] [abroad JP] 【捷徑】2028-02-15～2028-06-30 照手機規則推時間
+  [2004.5s] [abroad JP] 人在國外（STORY.abroad 那段時間）：True
+PASS [abroad JP] 日本路線大三下：沒有法服的提醒、出發選單（那一場不排；fafu_welcome＝讀檔時入社的歡迎訊息，不算）  {"due": [{"id": "y3s2_first_meal", "key": "2028-02-22", "wd": 2, "h": 18.5, "title": "開學第一頓（大三下）"}, {"id": "y3s2_228", "key": "2028-02-28", "wd": 1, "h": 13.5, "title": "228 河濱"}, {"id": "jpp_0301", "key": "2028-03-01", "wd": 3, "h": 13.5, "title": "出國交換行前說明會"}, {"id": "y3_an_j1", "key": "2028-03-26", "wd": 0, "h": 22, "title": "晚上十點的便利商店（日本 22:00）"}, {"id": "kx_bday_y3", "key": "2028-04-24", "wd": 1, "h": 22, "title": "可昕的生日：視訊（日本 22:00）"}, {"id": "y3_k17_jrv", "key": "2028-04-26", "wd": 3, "h": 20.5, "title": "可昕的視訊"}, {"id": "y3_kx_k20_call", "key": "2028-05-12", "wd": 5, "h": 22, "title": "可昕打電話來（日本 22:00）"}], "new": [{"tag": "fafu_welcome", "th": "g:lawclub_study", "from": "npc_lawclub_pres", "text": "歡迎新社員！法律服務是隔週六早上九點到十二點，B館一樓。第一次來站旁邊聽就好，不用準備。有問題直接在群組問。", "key": "2028-02-15", "h": 21}, {"tag": "y3_x1_bohan", "th": "p:classmate_bohan", "from": "classmate_bohan", "text": "你的床，下學期學弟要來住。", "key": "2028-02-20", "h": 21}, {"tag": "y3_x1_bohan", "th": "p:classmate_bohan", "from": "classmate_bohan", "text": "東西都拿走了嗎。", "key": "2028-02-20", "h": 21.01}, {"tag": "dp_a118_y3s2_bh_abroad_0_0", "th": "p:classmate_bohan", "from": "classmate_bohan", "text": "你在國外上的課，有考試嗎？", "key": "2028-03-25", "h": 23}, {"tag": "dp_a118_y3s2_bh_abroad_0_1", "th": "p:classmate_bohan", "from": "classmate_bohan", "text": "……我只是想知道。", "key": "2028-03-25", "h": 23.02}, {"tag": "dp_a118_y3s2_bh_plan_0_0", "th": "p:classmate_bohan", "from": "classmate_bohan", "text": "讀書計畫第三版。", "key": "2028-04-24", "h": 23}, {"tag": "dp_a118_y3s2_bh_plan_0_1", "th": "p:classmate_bohan", "from": "classmate_bohan", "text": "📷（一張截圖）", "key": "2028-04-24", "h": 23.02}, {"tag": "dp_a118_y3s2_bh_plan_0_2", "th": "p:classmate_bohan", "from": "classmate_bohan", "text": "這版沒有分數了。", "key": "2028-04-24", "h": 23.03}]}
+  [前置／捷徑] [abroad US] 讀檔：dorm 2028-09-01 09:00；{"flags": {"CLUB_lawclub_study": true, "lawclub": true, "SIS_CLUB_EXPO": true}, "route": "US", "friends": ["classmate_bohan"]}
+  [2010.2s] [abroad US] 設定以後：{"member": false, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 0}
+  [前置／捷徑] [abroad US] 【捷徑】2028-09-01～2028-12-31 照手機規則推時間
+  [2052.3s] [abroad US] 人在國外（STORY.abroad 那段時間）：True
+PASS [abroad US] 美國路線大四上：沒有法服的提醒、出發選單（那一場不排；fafu_welcome＝讀檔時入社的歡迎訊息，不算）  {"due": [{"id": "y4_kx21v", "key": "2028-09-23", "wd": 6, "h": 9, "title": "和可昕視訊讀書"}, {"id": "kx_anniv4v", "key": "2028-10-17", "wd": 2, "h": 9, "title": "可昕的視訊：週年"}, {"id": "us3_lake", "key": "2028-11-23", "wd": 4, "h": 9, "title": "感恩節的湖邊"}, {"id": "us_snow_r", "key": "2028-12-02", "wd": 6, "h": 20, "title": "初雪"}, {"id": "us_club", "key": "2028-12-14", "wd": 4, "h": 19, "title": "會所晚餐"}], "new": [{"tag": "fafu_welcome", "th": "g:lawclub_study", "from": "npc_lawclub_pres", "text": "歡迎新社員！法律服務是隔週六早上九點到十二點，B館一樓。第一次來站旁邊聽就好，不用準備。有問題直接在群組問。", "key": "2028-09-01", "h": 21}]}
+PASS [abroad] 沒有 JS 例外  []
+ALL PASS
