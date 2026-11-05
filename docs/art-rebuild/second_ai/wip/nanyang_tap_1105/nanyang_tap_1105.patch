@@ -1,0 +1,18 @@
+diff --git a/src/nanyang3d.js b/src/nanyang3d.js
+index dd81e9ef5..701b4368b 100644
+--- a/src/nanyang3d.js
++++ b/src/nanyang3d.js
+@@ -64,6 +64,13 @@ const NY3=(function(){
+     nav.addSurf({x0:-L.w/2,x1:L.w/2,z0:sl.z1,z1:sl.z0,axis:'z',ya:sl.y1,yb:sl.y0});
+     nav.addSurf({x0:-L.w/2,x1:L.w/2,z0:-L.d/2,z1:sl.z1,y:sl.y1});
+     nav._cm=null;
++    /* 可以點的地面（點地移動）：門口那一段平的、中間的斜面、第一排前面到舞台平的。沒有這三片時 E.screenToFloor 退回 y 0 的平面，
++       點斜地板的落點會往後偏（CC-C 13700be8f：點 z −4.6 走到 −1.19，差 3.41 m；手機玩家前排坐不到。NANYANG-HALL-WALKMESH-1105，tests/nanyang_tap_unit.js）*/
++    { const wmM=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), W=L.w, D=L.d, ws=[];
++      const flat=(z0,z1,y)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(W,z1-z0),wmM); m.rotation.x=-Math.PI/2; m.position.set(0,y+0.01,(z0+z1)/2); return m; };
++      ws.push(flat(sl.z0,D/2,sl.y0)); ws.push(flat(-D/2,sl.z1,sl.y1));
++      { const len=Math.hypot(sl.z0-sl.z1,sl.y0-sl.y1), m=new THREE.Mesh(new THREE.PlaneGeometry(W,len),wmM); m.position.set(0,(sl.y0+sl.y1)/2+0.01,(sl.z0+sl.z1)/2); m.rotation.x=-Math.PI/2-Math.atan2(sl.y0-sl.y1,sl.z0-sl.z1); ws.push(m); }   /* 北邊（z1，舞台那一頭）低、南邊（z0，門口）高 */
++      for(const m of ws){ m.userData.walkLv=0; m.userData.dyn=true; g0.add(m); } z.walkMeshes=(z.walkMeshes||[]).concat(ws); }
+     { const fbM=M('#7a1c1c'); for(const b of L.blocks){ const zc=b[1], y=L.floorY(zc), h=0.95; const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],h,b[3]),fbM); m.position.set(b[0],y+h/2,zc); fb.add(m); } }   /* 備用：一排一排座位、舞台的色塊（照斜地板的高度）*/
+     z.bounds={w:L.w,d:L.d}; z.camMaxY=L.h-0.15;
+     // 燈：場燈（兩側壁燈的位置）＋銀幕前一盞很弱的；開演時場燈關掉（NY3.houseLights）
