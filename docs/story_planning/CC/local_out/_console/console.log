@@ -141,3 +141,20 @@
 [00:07:10] [res] cpu=13% mem=48% (15.4/31.4 GB) chrome_testing=9  START V20R_soc_heroine_01_go
 [00:07:21] 正在跑：V20R_linze（已跑 3 分／上限 20 分）、V20R_soc_heroine_01_talk（已跑 1 分／上限 20 分）、V20R_soc_heroine_01_go（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [00:08:46] [res] cpu=48% mem=47% (15.5/31.4 GB) chrome_testing=10  END V20R_linze
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+[00:09:20] push failed for V20R_linze (results stay in C:\Users\USER\Documents\Lawstudent_cclocal, rerun later)
+[00:09:20] ==== END   V20R_linze  exit=0  282s   ====
+[00:09:20] fetch claude/second-ai-env-art failed (continuing): fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+[00:09:21] memory 49% before starting V20R_soc_heroine_02_talk (2 running)
+[00:09:21] ==== START V20R_soc_heroine_02_talk  (probe @ d3828452abe2d10f1b7bb3b47d8313482f83b2d3) ====
+[00:09:24] [res] cpu=22% mem=50% (15.7/31.4 GB) chrome_testing=10  START V20R_soc_heroine_02_talk
+[00:12:21] 正在跑：V20R_soc_heroine_01_talk（已跑 6 分／上限 20 分）、V20R_soc_heroine_01_go（已跑 5 分／上限 20 分）、V20R_soc_heroine_02_talk（已跑 2 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:14:22] fetch claude/second-ai-env-art failed (continuing): fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+[00:17:21] 正在跑：V20R_soc_heroine_01_talk（已跑 11 分／上限 20 分）、V20R_soc_heroine_01_go（已跑 10 分／上限 20 分）、V20R_soc_heroine_02_talk（已跑 7 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[11:07:31] 正在跑：V20R_soc_heroine_01_talk（已跑 661 分／上限 20 分）、V20R_soc_heroine_01_go（已跑 660 分／上限 20 分）、V20R_soc_heroine_02_talk（已跑 658 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[11:37:15] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
+[11:37:24] [res] cpu=34% mem=50% (15.7/31.4 GB) chrome_testing=10  END V20R_soc_heroine_01_talk

@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "V20R_soc_heroine_01_talk",
+  "sha": "d3828452abe2d10f1b7bb3b47d8313482f83b2d3",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_social_smoke_probe.py",
+  "env": "CASES=heroine_01;STEPS=media,first,greet,up,ladder,menu;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-05T00:05:57",
+  "end": "2026-11-05T11:37:24",
+  "seconds": 41487,
+  "exit": 1,
+  "error": null,
+  "runner": "818ef52815",
+  "rf_round": "6",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 100,
+    "mem": 61,
+    "used_gb": 19.1,
+    "chrome_testing": 15
+  }
+}
