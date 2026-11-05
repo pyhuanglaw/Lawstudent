@@ -410,8 +410,27 @@ def potted(cx, cz, r, h, potm, plant):
             card(lv_b, cx + math.cos(a) * 0.18, h + random.uniform(0.25, 0.75), cz + math.sin(a) * 0.18, 0.5, 0.5, ry=a, rx=random.uniform(-0.6, 0.2), uv=rand_uv(0.4))
     else:
         bush(lv_f, cx, h + 0.22, cz, 0.42, n=7, span=0.5, flat_y=0.8)
-for (cx, cz, r, h, pm_, pt) in ((4.78, 0.55, 0.24, 0.5, pl1, 'olive'), (5.35, 0.62, 0.17, 0.32, pl2, 'fern'), (5.92, 0.52, 0.22, 0.42, pl3, 'broad'),
+plw = Mesh('pots_white', mat['ceramic'])   # v3：轉角那棵小樹的白色高盆（和杯子同一個亮面白 cafe_ceramic_white：合進 cafe_vc_gloss，不多 draw call）
+def white_tree(cx, cz, r, h):
+    """v3（BB-C 19:02「慢慢補」）：參考圖轉角那棵白色高盆的小樹——細的樹幹往上分四根枝條，葉子一團一團掛在枝條末端（離地 1.2～2.0 m，透得過去），
+    和左邊那組深色盆的橄欖（矮、一團）不一樣（D133）。葉子往牆那一邊偏（z 小）、朝街那一面最遠 z′ 0.8：不伸出導航阻擋 blockRect(54.85,5.4,0.6,1.8) 外緣太多。
+    自己的亂數（seed 2305，存回原本的狀態）：其他盆栽、藤的形狀和第二版一樣"""
+    st_ = random.getstate(); random.seed(2305)
+    pot(plw, cx, cz, r, h, 'cyl'); soil.cyl((cx, h - 0.06, cz), (cx, h - 0.04, cz), r * 0.9, seg=14)
+    ty = h - 0.05; tz = cz - 0.05
+    trk.cyl((cx, ty, cz), (cx - 0.02, ty + 0.55, cz - 0.02), 0.026, seg=6); trk.cyl((cx - 0.02, ty + 0.55, cz - 0.02), (cx + 0.01, ty + 1.05, tz), 0.02, seg=6)
+    for (b0, b1, bw) in (((-0.02, 0.5, -0.02), (0.16, 0.93, -0.06), 0.013), ((-0.015, 0.7, -0.03), (-0.17, 1.07, -0.07), 0.012), ((0.0, 0.95, -0.04), (0.19, 1.2, -0.11), 0.01), ((0.005, 0.62, -0.02), (-0.1, 0.8, 0.02), 0.009)):
+        trk.cyl((cx + b0[0], ty + b0[1], cz + b0[2]), (cx + b1[0], ty + b1[1], cz + b1[2]), bw, seg=5)   # 四根枝條：葉子一團一團掛在枝條末端，中間看得到樹幹和枝（參考圖那棵是透的，不是一整柱）
+    for (dx, dy, dz, rr, nn) in ((0.16, 0.96, -0.06, 0.17, 5), (-0.17, 1.1, -0.07, 0.17, 5), (0.04, 1.32, -0.05, 0.22, 7), (0.19, 1.23, -0.11, 0.14, 4), (-0.1, 0.82, 0.02, 0.12, 3), (-0.06, 1.2, -0.02, 0.12, 3)):
+        bush(lv_o, cx + dx, ty + dy, cz + dz, rr, n=nn, span=0.4, flat_y=1.0)
+    random.setstate(st_)
+
+
+for (cx, cz, r, h, pm_, pt) in ((4.78, 0.55, 0.24, 0.5, pl1, 'corner_tree'), (5.35, 0.62, 0.17, 0.32, pl2, 'fern'), (5.92, 0.52, 0.22, 0.42, pl3, 'broad'),
                                 (-4.32, 0.55, 0.22, 0.46, pl2, 'broad'), (-3.75, 0.6, 0.15, 0.3, pl1, 'fern'), (-3.27, 0.52, 0.2, 0.55, pl3, 'olive')):
+    if pt == 'corner_tree':   # v3：轉角第一盆（第二版是紅陶盆的矮橄欖）換成參考圖的白色高盆小樹，位置不變（導航阻擋照舊）
+        _gh = Mesh('_ghost', mat['olive']); bush(_gh, cx + 0.06, h + 1.05, cz, 0.55, n=12, span=0.42, flat_y=1.3); _gh.bm.free()   # 第二版那棵用掉的亂數照樣用掉：後面的盆栽、藤和第二版一樣
+        white_tree(cx, cz, 0.17, 0.56); continue
     potted(cx, cz, r, h, pm_, pt)
 for s in (-1, 1):
     x = s * (W / 2 - PIL / 2); pl3.box(x - 0.27, x + 0.27, 0, 0.38, 0.06, 0.25); soil.box(x - 0.24, x + 0.24, 0.36, 0.37, 0.08, 0.23)
@@ -421,7 +440,7 @@ for xs in sf_info['bays']:
         if random.random() < 0.55:
             cx = (xs[k] + xs[k + 1]) / 2 + random.uniform(-0.3, 0.3)
             pot(pl1, cx, 0.065, 0.065, 0.12, y0=SILL + 0.06); bush(lv_f, cx, SILL + 0.3, 0.065, 0.22, n=3, span=0.4, flat_y=0.6)
-for m_ in (pl1, pl2, pl3): m_.finish(props, smooth=True)
+for m_ in (pl1, pl2, pl3, plw): m_.finish(props, smooth=True)
 soil.finish(props); trk.finish(props)
 for m_ in (lv_b, lv_o, lv_f): m_.finish(props, uv=False)
 
