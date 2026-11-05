@@ -461,7 +461,7 @@ def console_quickedit_off():
 
 
 def keep_awake():
-    """runner 在跑的時候不讓 Windows 閒置睡眠（螢幕照樣可以關）：SetThreadExecutionState(ES_CONTINUOUS|ES_SYSTEM_REQUIRED)，
+    """runner 在跑的時候不讓 Windows 睡眠、也不讓螢幕熄（新式待命的筆電螢幕一熄就進待命）：SetThreadExecutionState(ES_CONTINUOUS|ES_SYSTEM_REQUIRED|ES_DISPLAY_REQUIRED)，
     跟著呼叫的執行緒（主執行緒，runner 結束就自動取消；run_forever 兩輪之間等 5 分鐘時不擋）。回傳狀態字串給 log"""
     if not IS_WIN:
         return None
@@ -471,7 +471,7 @@ def keep_awake():
         f = ctypes.windll.kernel32.SetThreadExecutionState
         f.argtypes = [wintypes.DWORD]
         f.restype = wintypes.DWORD
-        flags = 0x80000000 | 0x00000001
+        flags = 0x80000000 | 0x00000001 | 0x00000002   # ES_CONTINUOUS｜ES_SYSTEM_REQUIRED｜ES_DISPLAY_REQUIRED（CC-C 11-05：新式待命 S0 的筆電螢幕一熄就進待命、斷網、程式暫停——11-04 00:17～11:07 鎖定以後就是這樣；SYSTEM_REQUIRED 擋不住，要連螢幕一起保持亮著）
         f(flags)
         prev = f(flags)   # 第二次回傳的「之前的狀態」＝第一次設的；0＝失敗
         return 'on' if prev == flags else 'SetThreadExecutionState returned 0x%x' % (prev or 0)
