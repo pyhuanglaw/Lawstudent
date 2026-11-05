@@ -1272,3 +1272,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 152.2s] page close url=https://pyhuanglaw.github.io/Lawstudent/index.html?turbo | [gpu_wrap 152.2s] BROWSER DISCONNECTED
 - 2026-11-05T11:46:52  LIVE_V91020_deploy  sha=40c0abedb36bb4a0d7341155a9c8501e8fea51c6  exit=0  235s    PASS 沒有 JS 例外  [] / console error（只列出，不算失敗）：無 / ALL PASS
       err.log (last 5): [gpu_wrap 179.0s] page close url=https://pyhuanglaw.github.io/Lawstudent/index.html?turbo | [gpu_wrap 179.1s] BROWSER DISCONNECTED
+- 2026-11-05T11:51:42  D118B7F_play  sha=193d1fd4f1b3ccacc544864c2e02f8faa0ba95f8  exit=1  275s    FAIL [judge] 座位選單有「考前總複習」，提示「司法官二試要考的 … 要六個小時…」  null / PASS 沒有 JS 例外  [] / FAILED 3: [grad] 結束字幕每一科一行（4 行）、不超出畫面；[judge] 跳到下一件事停在那一則的 12:00；[judge] 座位選單有「考前總複習」，提示「司法官二試要考的 … 要六個小時…」
+      err.log (last 5): [gpu_wrap 241.0s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 241.0s] BROWSER DISCONNECTED
