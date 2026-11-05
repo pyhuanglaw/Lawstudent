@@ -134,6 +134,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - 阿德門口的電線桿下一版才挪（ADE-POLE16-1104，開發分支 `79da20245`）。
 - pool_17（蕭乃文在總圖 B1 研究小間 20:00 點地面走 0 m）：線上 main 和 `d3828452a` 一模一樣，是探針點到討論室牆外、沒有路的那一格＝TEST_BUG；牆外點得到的地板點了不動、也沒提示＝P3，下一版。
 - iPhone 實機沒驗（Playwright／桌機≠iPhone）。
+- main 多了一個 `lib/lz-string.js`（開發分支 SAVE-LZ-1104 第一步 `a8755309f`；發布樹只把 src／tests／assets／index.html 換成候選，lib 沒換）：index.html 沒有載入、src 沒有人用，不影響遊戲（BB-C 02:30 核對）；發布樹的做法下一版起連 lib 一起換成候選。
 
 ---
 
