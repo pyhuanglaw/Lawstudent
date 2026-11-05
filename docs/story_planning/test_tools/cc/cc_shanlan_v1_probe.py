@@ -10,7 +10,9 @@
   五、營業時間外：讀檔新生南路 10:00 按店門＝不進去、toast＝PLACES.closedText。
   六、穿模／黑畫面：每一步站得住；每張截圖算亮度。
   截圖（給使用者看，不判）：一樓（店門往裡）、二樓（東南角往西北），白天 14:00；剖面視角（人在一樓、遊戲鏡頭）看二樓的盆栽，另外列出「二樓高度、卻不在二樓那一組」的網格（剖面時會浮在半空）。
-用法：LW_TESTS=<wt>/tests [PARTS=door,stairs,seats,floor,void,closed,shots] python3 cc_shanlan_v1_probe.py <url> <out>"""
+  七（BB-C 05:06／05:09，9ea82730f 起）：坐地板 10 處真的坐（跪坐、轉暗、過一小時、那一區的一句；藝術區 17:00 前後各坐一次）；互動點 7 個（字照 AA_695 第 1 節）；
+      打烊前不到一小時坐地板按鈕不出現（shanlan_sys3d：現在和一小時後都要開著）；打烊時人在店裡＝AA_695 第 4 節那一句、走到新生南路店門外（坐地板那一小時不打斷）。
+用法：LW_TESTS=<wt>/tests [PARTS=door,stairs,seats,floor,acts,late,close,void,closed,shots] python3 cc_shanlan_v1_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests'))
@@ -22,10 +24,49 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
 J = D.J
-PARTS = [x for x in (os.environ.get('PARTS') or 'door,stairs,seats,floor,void,closed,shots').split(',') if x]
+PARTS = [x for x in (os.environ.get('PARTS') or 'door,stairs,seats,floor,acts,late,close,void,closed,shots').split(',') if x]
 R = L.Run('shanlan_v1', OUT); D.setup(R, OUT)
 DAY = '2025-10-15'
 ZN = 'xs_shanlan'
+# AA_695（claude/magical-albattani-bk7b4n 491357209）第 1 節：互動點 7 個的旁白（照位置）
+ACT = [(0, (2.2, 7.3), '看看新書平台', '（平台上擺著這個月的新書。有一本法律的，書腰寫「給第一次打官司的人」。）'),
+       (0, (-2.15, 4.6), '看看新書平台', '（這一座是翻譯小說。每一本旁邊都立著一張店員手寫的小卡。）'),
+       (0, None, '看雜誌', '（雜誌牆從地板排到天花板。最上面那一排，要踮腳才拿得到。）'),
+       (0, None, '看文具', '（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）'),
+       (0, None, '結帳', '（店員在幫前面的人包書套。你手上沒有要買的。）'),
+       (1, None, '看看法律書', '（六法排了三種版本。考試用書那一櫃，最下面一層翻得最舊。）'),
+       (1, None, '看看二樓', '（走道上坐了三個人，各看各的。沒有店員來趕人。）')]
+# 第 2 節：坐地板那一區的一句（藝術區 17:00 以後＝窗外已經暗了；白天＝對面那個人）
+SIT = {'文學': '（你坐在書架中間，看完半本小說。旁邊的人換了兩個。）', '法律': '（你在法律區翻了一本《民法總則》的新版，翻到一半，覺得還是圖書館的舊版好讀。）',
+       '人文': '（你翻了一本寫城市的書，看到第三章，腳麻了。）', '一樓書架': '（一樓有人在結帳，有人在講電話。你還是看完了兩篇短篇。）'}
+SIT_ART_NIGHT = '（你翻了一本攝影集。抬頭的時候窗外已經暗了。）'
+SIT_ART_DAY = '（你翻了一本攝影集。抬頭的時候，對面那個人也在看同一本。）'
+CLOSE_LINE = '（店裡的廣播說，今天的營業時間快結束了。燈先暗了一半。你走出店門。）'   # 第 4 節
+SAYHOOK = r"""(()=>{ if(window.__ccSayOn) return true; window.__ccSay=[]; const s0=GAME.say; GAME.say=function(who,t){ try{ window.__ccSay.push({t:String(t), h:+(+GAME.G.hour).toFixed(3), zone:GAME.G.zone}); }catch(e){} return s0.apply(this,arguments); }; window.__ccSayOn=true; return true; })()"""
+
+
+async def says(pg, n=0):
+    return await pg.evaluate("(n=>(window.__ccSay||[]).slice(n))", n)
+
+
+async def play_out(pg, cdp, max_s=90):
+    """點掉對話、等場景結束（不選選項）"""
+    t0 = time.time()
+    while time.time() - t0 < max_s:
+        s = await D.st(pg)
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
+        if not s['busy'] and not s['seat'] and not s['choices']: return s
+        await pg.wait_for_timeout(400)
+    return await D.st(pg)
+
+
+async def go_btn(pg, cdp, tag, x, z, lv, label0, near=0.3):
+    await L.go_to(pg, cdp, R, x, z, near, '%s %s' % (tag, label0), max_s=240, lv=lv)
+    s = await D.settle(pg)
+    for _ in range(6):
+        if s['interact'].startswith(label0): break
+        await pg.wait_for_timeout(400); s = await D.st(pg)
+    return s
 
 
 async def enter_from_street(pg, cdp, tag):
@@ -66,26 +107,110 @@ async def part_stairs(pg, cdp):
 
 async def part_floor(pg, cdp):
     fs = await pg.evaluate("SH3.FLOOR_SIT()")
-    rows = []
+    await pg.evaluate(SAYHOOK)
+    arts = 0; posed = set()
     for k, f in enumerate(fs):
-        await L.go_to(pg, cdp, R, f['x'], f['z'], 0.45, '[坐地板] #%d %s（第 %d 層）' % (k + 1, f.get('section'), f['lv']), max_s=200, lv=f['lv'])
-        await pg.wait_for_timeout(1200); s = await D.st(pg)
-        btn = s['interact']; sat = None
-        if btn and ('坐' in btn) and ('看書' in btn):
-            await L.tap(pg, cdp, '#interact')
-            for _ in range(20):
-                await pg.wait_for_timeout(500)
-                if await pg.evaluate("!!GAME.E.player.seat"): sat = True; break
-            sat = bool(sat)
-        rows.append({'k': k + 1, 'lv': f['lv'], 'at': [f['x'], f['z']], 'label': f.get('label'), 'pos': [s['x'], s['z'], s['lv']], 'button': btn, 'sat': sat})
-        if k in (0, 8): await D.shot(pg, 'floor_sit_%d' % (k + 1))
-        if sat:
-            c = await D.st(pg)
-            if c['choices']: await L.tap(pg, cdp, '#choices button:nth-child(%d)' % len(c['choices']))
-            await pg.wait_for_timeout(1500)
-    R.note('[坐地板] 10 處（BB-C 04:48：這一版還沒接，記「有沒有按鈕」不判）：%s' % J(rows))
-    nb = [r['k'] for r in rows if not (r['button'] and '坐' in r['button'] and '看書' in r['button'])]
-    R.note('[坐地板] 沒有「坐…看書」按鈕的：%s（共 %d／%d）' % (J(nb), len(nb), len(rows)))
+        sec = f.get('section'); want_night = False
+        h_set = 13.0
+        if sec == '藝術':
+            arts += 1; want_night = arts == 2; h_set = 17.5 if want_night else 13.0
+        R.setup('[坐地板] 【捷徑】#%d %s：時間撥到 %05.2f（每坐一次過一小時，避開打烊前一小時；藝術區第二處撥到 17:30 看晚上那一句）' % (k + 1, sec, h_set))
+        await pg.evaluate("(h=>{ GAME.G.hour=h; })", h_set)
+        s = await go_btn(pg, cdp, '[坐地板 #%d %s]' % (k + 1, sec), f['x'], f['z'], f['lv'], f['label'], near=0.35)
+        if not R.check('[坐地板] #%d %s（%s, %s 第 %d 層）：走到旁邊有「%s」' % (k + 1, sec, f['x'], f['z'], f['lv'], f['label']), s['interact'].startswith(f['label']), J({k_: s[k_] for k_ in ('x', 'z', 'lv', 'interact')})):
+            continue
+        h0 = (await D.st(pg))['hour']; n0 = len(await says(pg))
+        await L.tap(pg, cdp, '#interact')
+        seated = None
+        for _ in range(30):
+            await pg.wait_for_timeout(300)
+            pz = await pg.evaluate("(()=>{ const P=GAME.E.player; return {seat:!!P.seat, pose:P.pose||null, floor:!!(P.seat&&P.seat.floor), y:+P.obj.position.y.toFixed(3)}; })()")
+            if pz['seat']: seated = pz; break
+        if seated and seated.get('pose') not in posed:
+            posed.add(seated.get('pose')); await D.shot(pg, 'floor_pose_%s' % (seated.get('pose') or 'x'))
+        L1 = []
+        for _ in range(80):
+            u = await D.st(pg); L1 = await says(pg, n0)
+            if any(x['t'] in SIT.values() or x['t'] in (SIT_ART_DAY, SIT_ART_NIGHT) for x in L1): break
+            await pg.wait_for_timeout(400)
+        await D.shot(pg, 'floor_sit_%d' % (k + 1))
+        exp = (SIT_ART_NIGHT if want_night else SIT_ART_DAY) if sec == '藝術' else SIT.get(sec)
+        got = next((x for x in L1 if x['t'] in SIT.values() or x['t'] in (SIT_ART_DAY, SIT_ART_NIGHT)), None)
+        R.note('[坐地板] #%d %s：坐下 %s；台詞 %s' % (k + 1, sec, J(seated), J(L1)))
+        R.check('[坐地板] #%d %s：坐下了（坐在地上：seat.floor）' % (k + 1, sec), bool(seated) and seated['floor'], J(seated))
+        R.check('[坐地板] #%d %s：轉暗、過一小時（%.2f → 旁白那一刻 %s）、那一區的一句「%s」（AA_695 第 2 節）' % (k + 1, sec, h0, got and got['h'], exp), bool(got) and got['t'] == exp and abs(got['h'] - h0 - 1) < 0.1, J(got))
+        e = await play_out(pg, cdp)
+        mv = await D.pushable(pg, cdp); e = await D.st(pg)
+        R.check('[坐地板] #%d %s：起身、站得住、推得動' % (k + 1, sec), not e['seat'] and e['stand'] and mv >= 0.3, J({'moved': mv, 'x': e['x'], 'z': e['z'], 'lv': e['lv']}))
+
+
+async def part_acts(pg, cdp):
+    await pg.evaluate(SAYHOOK)
+    its = await pg.evaluate("(()=>GAME.E.interactables.filter(i=>!i.hidden&&!i.seat&&!i.exit&&!/坐/.test(i.label||'')).map(i=>({label:i.label||'',x:+i.x.toFixed(2),z:+i.z.toFixed(2),lv:i.lv|0})))()")
+    R.note('[互動點] 遊戲裡的按鈕：%s' % J(its))
+    used = set()
+    for lv, pos, lab, exp in ACT:
+        cands = [i for i in its if i['label'].startswith(lab) and i['lv'] == lv and (i['x'], i['z']) not in used]
+        if pos: cands.sort(key=lambda i: math.hypot(i['x'] - pos[0], i['z'] - pos[1]))
+        it = cands[0] if cands else None
+        if not R.check('[互動點] 有「%s」（第 %d 層%s）' % (lab, lv, ' 靠 %s' % J(pos) if pos else ''), bool(it), J(cands)): continue
+        used.add((it['x'], it['z']))
+        await pg.evaluate("(()=>{ if(GAME.G.hour>20) GAME.G.hour=14; })()")
+        s = await go_btn(pg, cdp, '[互動點 %s]' % lab, it['x'], it['z'], lv, lab)
+        if not R.check('[互動點] 走到「%s」(%s, %s)，按鈕是它' % (lab, it['x'], it['z']), s['interact'].startswith(lab), J(s['interact'])): continue
+        n0 = len(await says(pg)); await L.tap(pg, cdp, '#interact')
+        L1 = []
+        for _ in range(30):
+            await pg.wait_for_timeout(300); L1 = await says(pg, n0)
+            if L1: break
+        await play_out(pg, cdp, 30)
+        R.check('[互動點] 「%s」(%s, %s)：旁白「%s」（AA_695 第 1 節）' % (lab, it['x'], it['z'], exp), [x['t'] for x in L1] == [exp], J([x['t'] for x in L1]))
+        if lab == '看看二樓': await D.shot(pg, 'act_2f')
+
+
+async def part_late(pg, cdp):
+    """打烊前不到一小時：坐地板按鈕不出現（shanlan_sys3d：現在和一小時後都要開著）；週三 22:00 打烊＝21:00 以後不出現"""
+    rows = {}
+    for h in (20.9, 21.1, 21.6):
+        await pg.evaluate("(h=>{ GAME.G.hour=h; })", h); await pg.wait_for_timeout(1500)
+        n = await pg.evaluate("(()=>{ const L=SH3.FLOOR_SIT().map(f=>f.label); return GAME.E.interactables.filter(i=>!i.hidden&&L.includes(i.label)&&!i.seat).length; })()")
+        ok = await pg.evaluate("(h=>[PLACES.isOpen('xs_shanlan',h,GAME.G.day), PLACES.isOpen('xs_shanlan',h+1,GAME.G.day)])", h)
+        rows[h] = [n, ok]
+    R.note('[打烊前] 坐地板按鈕數（看得到的）／現在、一小時後開不開：%s' % J(rows))
+    R.check('[打烊前] 20:54 坐地板按鈕還在（一小時後 21:54 照樣開著）', rows[20.9][0] == 10, J(rows[20.9]))
+    R.check('[打烊前] 21:06、21:36（打烊 22:00 前不到一小時）坐地板按鈕都不出現', rows[21.1][0] == 0 and rows[21.6][0] == 0, J([rows[21.1], rows[21.6]]))
+    await pg.evaluate("(()=>{ GAME.G.hour=14; })()")
+
+
+async def part_close(pg, cdp):
+    """打烊時人在店裡：AA_695 第 4 節那一句、走到新生南路店門外；坐地板那一小時不打斷"""
+    out = await pg.evaluate("SH3.streetOut()")
+    for mode in ('stand', 'sitting'):
+        R.setup('[打烊] 讀檔山嵐一樓 %s %s（%s）' % (DAY, '21:58' if mode == 'stand' else '20:50', '站著等打烊' if mode == 'stand' else '20:50 坐地板、坐著的時候時間撥過打烊'))
+        await D.load_zone(pg, cdp, ZN, DAY, 21.97 if mode == 'stand' else 20.83, 0.8, 6.5, math.pi, lv=0, wait=7000)
+        await pg.evaluate("(()=>{ window.__ccSayOn=false; })()"); await pg.evaluate(SAYHOOK); n0 = 0
+        if mode == 'sitting':
+            f = next(q for q in await pg.evaluate("SH3.FLOOR_SIT()") if q['lv'] == 0)
+            s = await go_btn(pg, cdp, '[打烊 坐地板]', f['x'], f['z'], 0, f['label'], near=0.35)
+            if not R.check('[打烊] 20:5x 一樓坐地板有按鈕', s['interact'].startswith(f['label']), J(s)): continue
+            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+            await pg.evaluate("(()=>{ GAME.G.hour=22.05; })()")   # 【捷徑】坐著轉暗的時候時間撥過打烊
+            R.setup('[打烊] 【捷徑】坐地板轉暗的時候 GAME.G.hour＝22:03（過了打烊）')
+        t0 = time.time(); z = None
+        while time.time() - t0 < 120:
+            s = await D.st(pg)
+            if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
+            if s['zone'] == 'xinsheng' and not s['busy']: z = s; break
+            await pg.wait_for_timeout(500)
+        L1 = [x['t'] for x in await says(pg, n0)]
+        R.note('[打烊 %s] 台詞 %s；最後 %s' % (mode, J(L1), J(z)))
+        ci = L1.index(CLOSE_LINE) if CLOSE_LINE in L1 else -1
+        R.check('[打烊 %s] 出「%s」（AA_695 第 4 節）、走到新生南路店門外（SH3.streetOut 0.6 m 內）、站得住' % (mode, CLOSE_LINE), ci >= 0 and bool(z) and math.hypot(z['x'] - out['x'], z['z'] - out['z']) < 0.6 and z['stand'], J({'lines': L1, 'end': z}))
+        if mode == 'sitting':
+            si = next((i for i, t in enumerate(L1) if t in SIT.values()), -1)
+            R.check('[打烊 坐地板] 那一小時沒被打斷：先出那一區的一句、再出打烊那一句', 0 <= si < ci, J(L1))
+        if z: R.check('[打烊 %s] 到新生南路以後推得動' % mode, await D.pushable(pg, cdp) >= 0.3, '')
+        await D.shot(pg, 'close_%s' % mode)
 
 
 async def part_void(pg, cdp):
@@ -149,7 +274,7 @@ async def main():
         has = await pg.evaluate("typeof SH3!=='undefined'&&!!Z3.ZONES.xs_shanlan")
         if not R.check('這一版有山嵐書店（SH3、Z3.ZONES.xs_shanlan）', has, ''): await b.close(); sys.exit(1)
         if 'door' in PARTS: await part_door(pg, cdp)
-        if any(x in PARTS for x in ('stairs', 'seats', 'floor')):
+        if any(x in PARTS for x in ('stairs', 'seats', 'floor', 'acts', 'late')):
             s, _ = await enter_from_street(pg, cdp, '[店裡]')
             if not s:
                 R.setup('[店裡] 進不去：【捷徑】直接讀檔進山嵐一樓')
@@ -157,6 +282,9 @@ async def main():
             if 'stairs' in PARTS: await part_stairs(pg, cdp)
             if 'seats' in PARTS: await D.sit_all(pg, cdp, '[座位]', 'shanlan')
             if 'floor' in PARTS: await part_floor(pg, cdp)
+            if 'acts' in PARTS: await part_acts(pg, cdp)
+            if 'late' in PARTS: await part_late(pg, cdp)
+        if 'close' in PARTS: await part_close(pg, cdp)
         if 'void' in PARTS: await part_void(pg, cdp)
         if 'closed' in PARTS:
             out = await pg.evaluate("SH3.streetOut()")

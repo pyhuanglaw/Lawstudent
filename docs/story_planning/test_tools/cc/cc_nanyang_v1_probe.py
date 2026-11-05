@@ -24,7 +24,7 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
-PARTS = [x for x in (os.environ.get('PARTS') or 'door,seats,slope,arcade,closed,shots').split(',') if x]
+PARTS = [x for x in (os.environ.get('PARTS') or 'door,seats,slope,arcade,closed,xsclose,shots').split(',') if x]
 R = L.Run('nanyang_v1', OUT); D.setup(R, OUT)
 DAY = '2025-10-15'
 ST = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position; const ch=document.getElementById('choices'), it=document.getElementById('interact');
@@ -56,6 +56,7 @@ def lum(png_bytes):
 
 async def shot(pg, name, judge_black=True):
     path = os.path.join(OUT, name + '.png'); b = await pg.screenshot(path=path); m = lum(b)
+    if m is None: m = await D.lum_browser(pg, b)   # PC 沒有 PIL
     if judge_black and m is not None:
         R.check('[黑畫面] %s 不是黑畫面（平均亮度 %s、變化 %s）' % (name, m[0], m[1]), not (m[0] < 6 and m[1] < 4), J(m))
     elif m is None: R.note('[黑畫面] %s：沒有 PIL，沒算亮度（看截圖）' % name)
@@ -282,6 +283,30 @@ async def part_closed(pg, cdp):
     await shot(pg, 'closed_0800')
 
 
+NY_CLOSE = '（大廳的燈全亮了。工作人員站在門口說：「今天的場次都結束了，謝謝光臨。」你走了出去。）'   # AA_695 第 4 節（claude/magical-albattani-bk7b4n 491357209）
+
+
+async def part_xsclose(pg, cdp):
+    """XS_CLOSE（BB-C 05:09，2378a8957 起）：1 廳、大廳待到 24:00 營業時間外＝AA_695 第 4 節那一句、人到新生南路戲院門口外"""
+    out = await pg.evaluate("NY3.streetOut()")
+    for zone, x, z in (('xs_nanyang_hall', 3.5, 6.0), ('xs_nanyang', 0.0, 4.0)):
+        R.setup('[散場] 讀檔 %s %s 23:58（營業到 24:00）' % (zone, DAY))
+        d = await pg.evaluate("STORY.dayOfKey('%s')" % DAY)
+        await L.load_state(pg, {'zone': zone, 'hour': 23.97, 'day': d, 'weather': 'clear', 'pos': {'x': x, 'z': z, 'yaw': math.pi, 'lv': 0}}, quiet_events=True, quiet_phone=True)
+        await pg.evaluate("(()=>{ window.__ccSay=[]; if(!window.__ccSayHook){ const s0=GAME.say; GAME.say=function(w,t){ try{ window.__ccSay.push(String(t)); }catch(e){} return s0.apply(this,arguments); }; window.__ccSayHook=true; } })()")
+        t0 = time.time(); e = None
+        while time.time() - t0 < 150:
+            s0 = await st(pg)
+            if s0['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
+            if s0['zone'] == 'xinsheng' and not s0['busy']: e = s0; break
+            await pg.wait_for_timeout(500)
+        Ls = await pg.evaluate("window.__ccSay||[]")
+        R.note('[散場 %s] 台詞 %s；最後 %s' % (zone, J(Ls), J(e)))
+        R.check('[散場 %s] 24:00 出「%s」（AA_695 第 4 節）、到新生南路戲院門口外（NY3.streetOut 0.6 m 內）、站得住' % (zone, NY_CLOSE), NY_CLOSE in Ls and bool(e) and math.hypot(e['x'] - out['x'], e['z'] - out['z']) < 0.6 and e['stand'], J({'lines': Ls, 'end': e}))
+        if e: R.check('[散場 %s] 出來以後推得動' % zone, await pushable(pg, cdp) >= 0.3, '')
+        await shot(pg, 'xsclose_%s' % zone)
+
+
 async def part_shots(pg, cdp):
     lay = await pg.evaluate("(()=>({lobby:NANYANG_LAYOUT.lobby.camRef, hall:NANYANG_LAYOUT.hall.camRef||null}))()")
     hall_cam = lay['hall'] or {'eye': [3.5, 1.6, 7.4], 'look': [0.0, 1.4, -7.75], 'lens': 24}
@@ -333,6 +358,9 @@ async def main():
                     if 'seats' in PARTS: await sit_all(pg, cdp, '[1 廳]')
         if 'arcade' in PARTS: await part_arcade(pg, cdp)
         if 'closed' in PARTS: await part_closed(pg, cdp)
+        if 'xsclose' in PARTS:
+            if await pg.evaluate("typeof XSCLOSE!=='undefined'"): await part_xsclose(pg, cdp)
+            else: R.note('[散場] 這一版沒有 XSCLOSE（2378a8957 以前）：不測')
         if 'shots' in PARTS: await part_shots(pg, cdp)
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
