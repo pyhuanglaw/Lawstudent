@@ -4575,6 +4575,15 @@
    "task": "DATE-ELLIPSIS-1105",
    "kind": "text",
    "note": "約會台詞拿掉沒必要的「……」：源稿 date_system/lines/D*.json 同一個 commit 改好（4,478 句）；第 3 節 252 句（不在 Dxx.json 的）由 tools/date/import_date_lines.py 照同一條規則（tools/date/ellipsis694.py）整份再套一次，逐列核對表上的新句。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_695_山嵐書店互動點與坐地板的字.md",
+   "sha": "88ed60310",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_695 88ed60310：回 LAWWW-C 11-05 04:33；取代 AA_613 第 3 節那幾句）",
+   "task": "ART-SHANLAN-BOOKSTORE-1103",
+   "kind": "text",
+   "note": "山嵐書店（xs_shanlan）：第 1 節互動點 7 句（看看新書平台×2、看雜誌、看文具、結帳＝買書還沒做那一句、看看法律書、看看二樓）、第 2 節坐地板五區各一句（藝術區 17:00 以前換白天那一句）。照抄進 src/shanlan_sys3d.js（SHL.L）；tests/shanlan_act_unit.js 用 git show 88ed60310 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
   }
  ]
 }
