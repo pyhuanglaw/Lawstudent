@@ -59,7 +59,7 @@ const XSSA=(function(){
   S.lookText=function(q){ const L=S.L.dabu.look, m=q&&L.find(o=>Math.abs(o.x-q.x)<0.05&&Math.abs(o.z-q.z)<0.05); return m?m.text:null; };
   /* 這一次進店（GM.enterN；讀檔以後從頭算）：店員／老闆說過了、在等穿線 */
   const visit={dabu:null,haopai:null}; S.wait=null;
-  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['xsshop_sys3d:busy']=()=>{ busy=false; visit.dabu=visit.haopai=null; S.wait=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）*/
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['xsshop_sys3d:busy']=()=>{ busy=false; visit.dabu=null; visit.haopai=null; S.wait=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）*/
   S.waiting=GM=>!!GM&&S.wait!=null&&S.wait===(GM.enterN|0)&&!!GM.G&&GM.G.zone==='xs_haopai';
   S.talkLine=async function(GM,k){ const G=GM.G, n=GM.enterN|0; if(n>0&&visit[k]===n) return null; visit[k]=n; const r=S.talkRec(G), L=S.L[k].talk, t=L[r[k]%L.length]; r[k]++;
     await GM.say(k==='dabu'?CLERK:BOSS,t); return t; };
