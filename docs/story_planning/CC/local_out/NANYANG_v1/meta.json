@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "NANYANG_v1",
+  "sha": "a3b18addc282352b709b2cd7351d5f489a91449c",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_nanyang_v1_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-05T12:54:46",
+  "end": "2026-11-05T13:29:29",
+  "seconds": 2083,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8805/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 57,
+    "mem": 87,
+    "used_gb": 27.5,
+    "chrome_testing": 15
+  }
+}

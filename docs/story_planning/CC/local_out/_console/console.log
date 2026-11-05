@@ -138,3 +138,14 @@
 [13:12:08] 正在跑：SITHEIGHT_ed76（已跑 70 分／上限 80 分）、NANYANG_v1（已跑 17 分／上限 60 分）、D118B5_r2（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [13:17:08] 正在跑：SITHEIGHT_ed76（已跑 75 分／上限 80 分）、NANYANG_v1（已跑 22 分／上限 60 分）、D118B5_r2（已跑 5 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [13:21:55] [res] cpu=4% mem=27% (9.0/31.4 GB) chrome_testing=10  END SITHEIGHT_ed76
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3fda7da10..c97aab3dc  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:22:02] ==== END   SITHEIGHT_ed76  exit=1  4837s  timeout 80 min ====
+[13:22:05] memory 27% before starting NANYANG_v1b (2 running)
+[13:22:05] ==== START NANYANG_v1b  (probe @ 13700be8fbfcaa902b0276713c5c83c7c38e3c79) ====
+[13:22:08] 正在跑：NANYANG_v1（已跑 27 分／上限 60 分）、D118B5_r2（已跑 10 分／上限 60 分）、NANYANG_v1b（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:22:08] [res] cpu=2% mem=27% (8.7/31.4 GB) chrome_testing=10  START NANYANG_v1b
+[13:22:08] worktree add 13700be8fbfcaa902b0276713c5c83c7c38e3c79: invalid reference - fetching main and the commit itself
+[13:27:08] 正在跑：NANYANG_v1（已跑 32 分／上限 60 分）、D118B5_r2（已跑 15 分／上限 60 分）、NANYANG_v1b（已跑 5 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:29:29] [res] cpu=0% mem=28% (9.0/31.4 GB) chrome_testing=10  END NANYANG_v1
