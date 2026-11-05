@@ -12,6 +12,7 @@
 //   PASS 的是「沒有旗標＝照舊」「不該演的不演」那一類。修改後 ALL PASS（122 項）。用法：node tests/aa524_promises_unit.js
 'use strict';
 require('./alison.js');
+const E694=require('./ellipsis694.js');   /* AA_694（DATE-ELLIPSIS-1105）：約會台詞（date_lines.js）拿掉句首、。！？後、）後的「……」——稿上的句子照同一條規則換了再找 */
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
@@ -226,14 +227,14 @@ await sec('A7',async()=>{
 });
 await sec('A8',async()=>{
   fresh('2026-11-14',16); H.FAMILIAR(AN); H.said=[]; H.picks=[]; await DATE.closeLine(GM,trip(AN,'D09'),0);
-  check('A8. 貓空第一次的收尾：「夜景很好看。……另一個原因，我不說。」',has(NEW.A8[0]),J(said()));
+  check('A8. 貓空第一次的收尾：「夜景很好看。……另一個原因，我不說。」（AA_694 拿掉「。」後的「……」）',has(E694.strip(NEW.A8[0])),J(said()));
 });
 await sec('A9',async()=>{
   fresh('2026-11-14',16); H.FAMILIAR(AN); await spot(AN,'D14','D14.sunset',0,['下次在台中看']);
   check('A9. 漁人碼頭夕陽「下次在台中看。」→「台中的夕陽在海邊。很遠，要開車。」（AA_524 的「……」照 AA_594 拿掉）',has(require('./an_rev_doc.js').rev(NEW.A9[0])),J(said()));
-  fresh('2026-11-14',10); H.FAMILIAR(AN); await spot(AN,'D16','D16.lighthouse',0,['下次去最南邊']); const a=has(require('./an_rev_doc.js').rev(NEW.A9[1]));
+  fresh('2026-11-14',10); H.FAMILIAR(AN); await spot(AN,'D16','D16.lighthouse',0,['下次去最南邊']); const a=has(E694.strip(require('./an_rev_doc.js').rev(NEW.A9[1])));
   await spot(AN,'D16','D16.lighthouse',1,[]);
-  check('A9. 富貴角燈塔「下次去最南邊。」→「……最南邊。好遠。」；下一次 remember「你上次說要去最南邊。……我查過了，坐車要六個小時。」',a&&has(require('./an_rev_doc.js').rev(NEW.A9[2])),J(said()));
+  check('A9. 富貴角燈塔「下次去最南邊。」→「……最南邊。好遠。」；下一次 remember「你上次說要去最南邊。……我查過了，坐車要六個小時。」',a&&has(E694.strip(require('./an_rev_doc.js').rev(NEW.A9[2]))),J(said()));
 });
 await sec('A10',async()=>{
   const SUNS=()=>R2Y3B.abSundays(), t1Of=wk=>byTag('y3_ab_w'+wk).filter(m=>m.from===AN).map(m=>m.text);
@@ -349,11 +350,11 @@ await sec('Z6',async()=>{
   check('Z6. 選「好好休息。」：不記、沒有私訊',!H.G.flags.ZR_TELL_BACK&&!byTag('aa524_z6').length);
 });
 await sec('Z7',async()=>{
-  fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D18','D18.shop',0,['寄給我']); const a=has(NEW.Z7[0]);
-  fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D18','D18.shop',0,['我買給妳']); const b=has('……好。'+NEW.Z7[1]);
+  fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D18','D18.shop',0,['寄給我']); const a=has(E694.strip(NEW.Z7[0]));
+  fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D18','D18.shop',0,['我買給妳']); const b=has(E694.strip('……好。'+NEW.Z7[1]));
   check('Z7. 九份明信片：「寄給我？」→「……你又不在台中。……好啦，這張直接給你。」；「我買給妳。」→「……好。我自己寫。你不准看。」（只換「我寫好再給你看。」那一段）',a&&b,J(said()));
   fresh('2026-11-14',13); H.FAMILIAR(ZR); await spot(ZR,'D10','D10.snack',0,['下次我做給妳']);
-  check('Z7. 碧潭小吃「下次我做給妳。」→「……你會做什麼？……算了，你先學。」',has(NEW.Z7[3]),J(said()));
+  check('Z7. 碧潭小吃「下次我做給妳。」→「……你會做什麼？……算了，你先學。」（AA_694）',has(E694.strip(NEW.Z7[3])),J(said()));
   fresh('2026-11-14',18); H.FAMILIAR(ZR); await spot(ZR,'D04','D04.snack',0,['下次換我請']);
   const fp=DATE.mem(H.G,ZR,'D04').fp||{};
   check('Z7. 西門小吃「下次換我請。」→「好啊。你說的喔。」照留；記下第一次選的（G.dateMemory…fp）',has('好啊。你說的喔。')&&fp['D04.snack']==='「下次換我請。」',J({L:said(),fp}));
@@ -498,7 +499,7 @@ await sec('Y8',async()=>{
 });
 await sec('Y9',async()=>{
   fresh('2026-11-14',13); H.FAMILIAR(YT); await spot(YT,'D10','D10.boat',0,['我請']);
-  check('Y9. 碧潭天鵝船「我請。」→「……下次我請。……嗯，謝謝。」照留',has('……下次我請。……嗯，謝謝。'),J(said()));
+  check('Y9. 碧潭天鵝船「我請。」→「……下次我請。……嗯，謝謝。」照留（AA_694 拿掉句首、「。」後的「……」）',has(E694.strip('……下次我請。……嗯，謝謝。')),J(said()));
   await spot(YT,'D10','D10.boat',1,[]);
   check('Y9. 下一次 remember 多一句旁白「（這次她先去付了錢。）」',adj(['上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。',NEW.Y9[0]])&&H.said[idx(NEW.Y9[0])].who===null,J(said()));
   fresh('2026-11-14',13); H.FAMILIAR(YT); await spot(YT,'D10','D10.boat',0,['今天坐']); await spot(YT,'D10','D10.boat',1,[]);
