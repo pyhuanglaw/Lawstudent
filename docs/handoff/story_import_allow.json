@@ -4584,6 +4584,24 @@
    "task": "ART-SHANLAN-BOOKSTORE-1103",
    "kind": "text",
    "note": "山嵐書店（xs_shanlan）：第 1 節互動點 7 句（看看新書平台×2、看雜誌、看文具、結帳＝買書還沒做那一句、看看法律書、看看二樓）、第 2 節坐地板五區各一句（藝術區 17:00 以前換白天那一句）。照抄進 src/shanlan_sys3d.js（SHL.L）；tests/shanlan_act_unit.js 用 git show 88ed60310 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_698_大步球鞋好拍運動互動點的字.md",
+   "sha": "481cf075d",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_698 481cf075d：回 LAWWW-C 11-05 05:27；買東西要做）",
+   "task": "SPORT-SHOPS-1103",
+   "kind": "text",
+   "note": "大步球鞋（xs_dabu）6 個互動點、試穿長凳；好拍運動（xs_haopai）3 個互動點、高腳凳（在等穿線／沒在等）、紅色圓凳；穿線兩版（有拍子／沒有）。照抄進 src/xsshop_sys3d.js（XSSA.L）；tests/xsshop_act_unit.js 用 git show 481cf075d 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_620_運動用品店_球鞋_球拍_球衣.md",
+   "sha": "bf0efded8",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_620 bf0efded8：三家運動用品店，新生南路那一側）",
+   "task": "SPORT-SHOPS-1103",
+   "kind": "text",
+   "note": "只用第 2 節：大步、好拍的價錢、店員／老闆的話（輪流）、試穿、看看（好拍）、買羽球拍「要穿線嗎？等二十分鐘。」、穿線等二十分鐘那一句（AA_698 指過去的原句）。照抄進 src/xsshop_sys3d.js；第 3 節（3-1 阿哲、3-2 系服、3-3、3-4 偶遇）、新生運動廣場還沒做。LAWWW-C 子代理 2026-11-05 代登"
   }
  ]
 }

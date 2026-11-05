@@ -4,7 +4,7 @@
    - 室內：CC〔帳號 A 的建模子代理〕的 GLB（tools/blender/env_second/bb_support/dabu_interior.py v2b、haopai_interior.py v2b；
      配置 src/data/dabu_layout.js、haopai_layout.js，Blender 和遊戲共用）。載入前、載入失敗時：Z3.room 的牆、地板，家具的色塊（D38 ③）。
    - 一層、一張導航格（0.1 m）；家具的阻擋照配置的 blocks。牆照 GLB 的 dir 淡出（attachRoomGLB）；GLOW_ 空節點合成一個光暈網格（照開燈切白天／晚上）。
-   - 座位照配置的 seats（座面高的照 CHAR.SIT_TOP 抬高）；互動點（試穿、看看、買東西、穿線…）XSS.INTERACT(id)：台詞 LAWWW 照 AA_620 接（這裡不放空按鈕，和同弦、山嵐一樣）。
+   - 座位照配置的 seats（座面高的照 CHAR.SIT_TOP 抬高）；互動點（試穿、看看、買東西、穿線…）XSS.INTERACT(id)：按鈕、旁白、買東西在 src/xsshop_sys3d.js（XSSA，AA_698＋AA_620；這裡不放空按鈕，和同弦、山嵐一樣）。
    - 進出：新生南路「進大步球鞋」「進好拍運動」（src/xinsheng3d.js：店門找 Z3.ZONES['xs_'+id]）→ 店門內 1.6 m、面向店裡；店門「離開…」→ 騎樓、店門外面、面向馬路。
    - 營業時間：src/data/places.js 的 xs_dabu、xs_haopai（接線 patch），story3d.js 店門照開放時間擋。
    測試：node tests/xsshop_unit.js */
