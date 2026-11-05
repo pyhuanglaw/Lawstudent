@@ -50,8 +50,22 @@ SAYHOOK = r"""(()=>{ if(!window.__ccSayWrapped){ const s0=GAME.say; GAME.say=fun
 OPTS = r"""(()=>{ const ch=document.getElementById('choices'); if(!ch||ch.classList.contains('hide')) return []; return [...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).map(b=>({t:(b.innerText||'').trim(), dim:b.classList.contains('dim')||b.getAttribute('aria-disabled')==='true'})); })()"""
 
 
+SEEN = []   # 對話框裡出現過的整句（有些旁白走 game3d.js 裡面的 say()，不經過 GAME.say）
+
+
 async def says(pg, n=0):
     return await pg.evaluate("(n=>(window.__ccSay||[]).slice(n))", n)
+
+
+async def dlg_text(pg):
+    """等打字機打完（連兩次一樣）再讀對話框，記進 SEEN"""
+    last = None
+    for _ in range(20):
+        t = (await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")).strip()
+        if t and t == last: break
+        last = t; await pg.wait_for_timeout(300)
+    if last and (not SEEN or SEEN[-1] != last): SEEN.append(last)
+    return last
 
 
 async def pick(pg, cdp, pred):
@@ -68,7 +82,7 @@ async def until_menu_or_idle(pg, cdp, max_s=40, tap_dlg=True):
         o = await pg.evaluate(OPTS)
         if o: return o
         s = await D.st(pg)
-        if s['dlg'] and tap_dlg: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
+        if s['dlg'] and tap_dlg: await dlg_text(pg); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
         if not s['dlg'] and not s['busy']: return []
         await pg.wait_for_timeout(300)
     return await pg.evaluate(OPTS)
@@ -78,7 +92,7 @@ async def idle(pg, cdp, max_s=60):
     t0 = time.time()
     while time.time() - t0 < max_s:
         s = await D.st(pg)
-        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
+        if s['dlg']: await dlg_text(pg); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
         if not s['busy'] and not s['choices']: return s
         await pg.wait_for_timeout(300)
     return await D.st(pg)
@@ -286,7 +300,7 @@ async def dk_study(pg, cdp, tag, hours_pick):
     while time.time() - t0 < 120:
         s = await D.st(pg)
         if s['dlg']:   # 讀完的旁白走 game3d.js 裡面的 say()（不經過 GAME.say）：直接讀對話框（等打字機打完）
-            await pg.wait_for_timeout(700); t = (await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")).strip()
+            t = await dlg_text(pg)
             if t and (not seen or seen[-1] != t): seen.append(t)
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
         o3 = await pg.evaluate(OPTS)
@@ -357,9 +371,11 @@ async def part_flow(pg, cdp):
     await D.load_zone(pg, cdp, ZN, '2025-10-16', 1.0, wait=9000)
     await pg.evaluate("(()=>{ window.__ccSayOn=false; })()"); await pg.evaluate(SAYHOOK); n0 = len(await says(pg))
     ends = await pg.evaluate("(()=>{ const w=(GAME.E.zone.walkMeshes||[]).find(m=>m.userData&&m.userData.stairEnds); return w?w.userData.stairEnds:null; })()")
-    t = next((e for e in (ends or []) if e['lv'] == 1), None)
-    if t: await L.go_to(pg, cdp, R, t['x'], t['z'], 0.4, '[大口 深夜] 上二樓', max_s=200, lv=1); await idle(pg, cdp, 20)
-    Ls = [x['t'] for x in await says(pg, n0)]
+    t = next((e for e in (ends or []) if e['lv'] == 1), None); m0 = len(SEEN)
+    if t:   # 自己走（看到對話就停下來讀），不讓 go_to 把對話點掉
+        await L.go_to(pg, cdp, R, t['x'], t['z'], 0.4, '[大口 深夜] 上二樓', max_s=200, lv=1, stop=lambda st_: bool(st_.get('dlg')))
+        await idle(pg, cdp, 20)
+    Ls = [x['t'] for x in await says(pg, n0)] + SEEN[m0:]
     R.check('[大口 深夜] 01:00 一個人走上二樓：「%s」（AA_621 第 3 節）' % DK['alone'], DK['alone'] in Ls, J(Ls))
     await pg.evaluate("(()=>{ GAME.G.hour=3.5; })()"); R.setup('[大口 天亮] 【捷徑】時間撥到 03:30，讀兩小時（跨過 05:00）')
     r = await dk_study(pg, cdp, '[大口 天亮]', '2')
