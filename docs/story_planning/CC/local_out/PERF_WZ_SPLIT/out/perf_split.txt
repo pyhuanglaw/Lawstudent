@@ -1,0 +1,78 @@
+wenzhou       A_cold    avg  13.19 fps  1%low   0.22  worst 4599.8 ms  p50  33.3  >50ms   7  >100ms   4 | CPU upd  9.12 rnd 49.97 story 12.60 upg  0.45 (換模型 1) | 新 shader 27 | calls 369.51 tris 574140 | meshes 905 vis 393 casters 217 npcs 7 extras 2 shadow {'enabled': True, 'auto': True, 'size': 1024}
+    PERFPANEL：wenzhou：黑畫面 15.5 秒（建區域 1.7、預熱 11.5）；淡入後 10 秒最長一格 4.60 秒、卡 7 次；shader 黑畫面 +50、淡入後 +26
+wenzhou       B_again   avg  31.38 fps  1%low   6.21  worst  199.9 ms  p50  33.3  >50ms  10  >100ms   2 | CPU upd  8.47 rnd 20.91 story  0.54 upg  0.46 (換模型 2) | 新 shader 7 | calls 371.33 tris 571444 | meshes 903 vis 415 casters 217 npcs 7 extras 2 shadow {'enabled': True, 'auto': True, 'size': 1024}
+    PERFPANEL：wenzhou：黑畫面 4.3 秒（建區域 1.0、預熱 0.1）；淡入後 10 秒最長一格 0.20 秒、卡 2 次；shader 黑畫面 +49、淡入後 +7
+wenzhou       C_night   avg  30.96 fps  1%low   7.82  worst  200.1 ms  p50  33.3  >50ms   7  >100ms   2 | CPU upd  9.06 rnd 20.95 story  0.49 upg  0.46 (換模型 2) | 新 shader 4 | calls 321.38 tris 527131 | meshes 991 vis 427 casters 230 npcs 12 extras 2 shadow {'enabled': True, 'auto': False, 'size': 1024}
+    PERFPANEL：wenzhou：黑畫面 3.9 秒（建區域 1.4、預熱 0.1）；淡入後 10 秒最長一格 0.20 秒、卡 2 次；shader 黑畫面 +53、淡入後 +4
+wenzhou       D_base    avg  33.93 fps  1%low  19.96  worst   50.1 ms  p50  33.3  >50ms   2  >100ms   0 | CPU upd  8.36 rnd 19.29 story  0.43 upg  0.00 (換模型 0) | 新 shader 4 | calls 359.6 tris 527058 | meshes 903 vis 382 casters 217 npcs 7 extras 2 shadow {'enabled': True, 'auto': True, 'size': 1024}
+wenzhou       D_noshadow avg  40.13 fps  1%low  20.01  worst   50.0 ms  p50  16.8  >50ms   0  >100ms   0 | CPU upd  6.15 rnd 17.23 story  0.45 upg  0.00 (換模型 0) | 新 shader 0 | calls 289.35 tris 465807
+wenzhou       D_nonpc   avg  36.00 fps  1%low  20.00  worst   50.0 ms  p50  33.3  >50ms   0  >100ms   0 | CPU upd  8.26 rnd 18.03 story  0.46 upg  0.00 (換模型 0) | 新 shader 0 | calls 349.2 tris 511413
+wenzhou       D_norender avg  60.00 fps  1%low  59.52  worst   16.8 ms  p50  16.7  >50ms   0  >100ms   0 | CPU upd  8.27 rnd  0.05 story  0.38 upg  0.00 (換模型 0) | 新 shader 0 | calls 369.0 tris 597862
+wenzhou       D_base2   avg  32.88 fps  1%low  19.98  worst   50.1 ms  p50  33.3  >50ms   1  >100ms   0 | CPU upd  9.23 rnd 19.77 story  0.42 upg  0.00 (換模型 0) | 新 shader 0 | calls 380.47 tris 589904
+    A_cold 慢的一格 #2：dt=4599.8 upd=6.4 rnd=83.9 story=0 upg=71.1 upgN=1 prog=0 tex=284 geo=619 calls=372 tris=601666 heap=527 dtex=23 dgeo=14 dheap=0 gap=4509.5
+    A_cold 慢的一格 #5：dt=1933.3 upd=11 rnd=19.6 story=0 upg=0.1 upgN=0 prog=0 tex=284 geo=619 calls=372 tris=601666 heap=527 dtex=0 dgeo=0 dheap=0 gap=1902.7
+    A_cold 慢的一格 #3：dt=166.7 upd=13.4 rnd=22.8 story=0 upg=0 upgN=0 prog=0 tex=284 geo=619 calls=372 tris=601666 heap=527 dtex=0 dgeo=0 dheap=0 gap=130.5
+    A_cold 慢的一格 #0：dt=133.4 upd=7.1 rnd=21.2 story=0 upg=0 upgN=0 prog=0 tex=214 geo=515 calls=473 tris=353643 heap=527 dtex=0 dgeo=0 dheap=0 gap=105.1
+    A_cold 慢的一格 #6：dt=100 upd=11.1 rnd=21.9 story=0 upg=0 upgN=0 prog=0 tex=284 geo=619 calls=372 tris=601666 heap=527 dtex=0 dgeo=0 dheap=0 gap=67.0
+    B_again 慢的一格 #42：dt=199.9 upd=6.2 rnd=20.1 story=0 upg=0 upgN=0 prog=0 tex=286 geo=353 calls=354 tris=553064 heap=527 dtex=0 dgeo=0 dheap=0 gap=173.6
+    B_again 慢的一格 #94：dt=199.9 upd=9.2 rnd=20.3 story=0 upg=0 upgN=0 prog=0 tex=309 geo=367 calls=372 tris=602662 heap=527 dtex=0 dgeo=0 dheap=0 gap=170.4
+    B_again 慢的一格 #309：dt=83.2 upd=11.8 rnd=24.4 story=0 upg=0 upgN=0 prog=0 tex=347 geo=387 calls=390 tris=613401 heap=527 dtex=0 dgeo=0 dheap=0 gap=47.0
+    B_again 慢的一格 #104：dt=50.1 upd=11.4 rnd=22.4 story=0 upg=0 upgN=0 prog=0 tex=314 geo=370 calls=390 tris=614162 heap=527 dtex=0 dgeo=0 dheap=0 gap=16.3
+    B_again 慢的一格 #140：dt=50.1 upd=12.2 rnd=19.5 story=0 upg=0 upgN=0 prog=0 tex=319 geo=372 calls=375 tris=570581 heap=527 dtex=0 dgeo=0 dheap=0 gap=18.4
+    C_night 慢的一格 #85：dt=200.1 upd=11.9 rnd=21.2 story=0 upg=0 upgN=0 prog=0 tex=345 geo=391 calls=325 tris=569010 heap=527 dtex=0 dgeo=0 dheap=0 gap=167.0
+    C_night 慢的一格 #32：dt=116.6 upd=7.3 rnd=21.5 story=0 upg=0 upgN=0 prog=0 tex=322 geo=377 calls=307 tris=520426 heap=527 dtex=0 dgeo=0 dheap=0 gap=87.8
+    C_night 慢的一格 #0：dt=66.7 upd=8.1 rnd=21.2 story=0 upg=0 upgN=0 prog=0 tex=322 geo=377 calls=301 tris=518758 heap=527 dtex=0 dgeo=0 dheap=0 gap=37.4
+    C_night 慢的一格 #242：dt=66.7 upd=10.4 rnd=20.2 story=0 upg=0 upgN=0 prog=0 tex=357 geo=396 calls=313 tris=494498 heap=527 dtex=0 dgeo=0 dheap=0 gap=36.1
+    C_night 慢的一格 #118：dt=50.1 upd=11.6 rnd=22.2 story=0 upg=0 upgN=0 prog=0 tex=350 geo=394 calls=343 tris=580576 heap=527 dtex=0 dgeo=0 dheap=0 gap=16.3
+campus        A_cold    avg  25.42 fps  1%low   3.46  worst  300.0 ms  p50  33.3  >50ms  18  >100ms   8 | CPU upd  4.35 rnd 30.18 story  0.56 upg  1.92 (換模型 6) | 新 shader 12 | calls 442.46 tris 714716 | meshes 1576 vis 921 casters 427 npcs 25 extras 6 shadow {'enabled': True, 'auto': True, 'size': 1024}
+    PERFPANEL：campus：黑畫面 9.5 秒（建區域 4.5、預熱 0.1）；淡入後 10 秒最長一格 0.30 秒、卡 7 次；shader 黑畫面 +44、淡入後 +11
+campus        B_again   avg  27.83 fps  1%low   4.19  worst  249.9 ms  p50  33.3  >50ms  14  >100ms   5 | CPU upd  4.05 rnd 27.64 story  0.47 upg  1.99 (換模型 8) | 新 shader 9 | calls 436.19 tris 695421 | meshes 1579 vis 922 casters 428 npcs 25 extras 6 shadow {'enabled': True, 'auto': True, 'size': 1024}
+    PERFPANEL：campus：黑畫面 6.4 秒（建區域 4.5、預熱 0.0）；淡入後 10 秒最長一格 0.25 秒、卡 5 次；shader 黑畫面 +34、淡入後 +9
+campus        C_night   avg  35.79 fps  1%low   4.80  worst  283.4 ms  p50  33.3  >50ms   6  >100ms   3 | CPU upd  2.99 rnd 21.86 story  0.46 upg  1.16 (換模型 5) | 新 shader 8 | calls 363.62 tris 422457 | meshes 1333 vis 878 casters 397 npcs 18 extras 2 shadow {'enabled': True, 'auto': False, 'size': 1024}
+    PERFPANEL：campus：黑畫面 6.0 秒（建區域 4.1、預熱 0.1）；淡入後 10 秒最長一格 0.28 秒、卡 3 次；shader 黑畫面 +36、淡入後 +8
+campus        D_base    avg  24.50 fps  1%low   2.50  worst  399.9 ms  p50  33.3  >50ms  13  >100ms   5 | CPU upd  5.02 rnd 30.11 story  0.40 upg  3.40 (換模型 5) | 新 shader 7 | calls 458.05 tris 746763 | meshes 1659 vis 1051 casters 566 npcs 25 extras 6 shadow {'enabled': True, 'auto': True, 'size': 1024}
+campus        D_noshadow avg  29.07 fps  1%low  12.00  worst   83.4 ms  p50  33.3  >50ms   7  >100ms   0 | CPU upd  4.05 rnd 28.06 story  0.40 upg  0.69 (換模型 3) | 新 shader 0 | calls 358.08 tris 579872
+campus        D_nonpc   avg  28.69 fps  1%low  17.12  worst   66.7 ms  p50  33.3  >50ms   6  >100ms   0 | CPU upd  3.94 rnd 29.33 story  0.48 upg  0.00 (換模型 0) | 新 shader 0 | calls 447.24 tris 720935
+campus        D_norender avg  60.00 fps  1%low  59.52  worst   16.8 ms  p50  16.7  >50ms   0  >100ms   0 | CPU upd  4.57 rnd  0.05 story  0.42 upg  0.00 (換模型 0) | 新 shader 0 | calls 446.0 tris 718093
+campus        D_base2   avg  24.88 fps  1%low  14.99  worst   66.7 ms  p50  33.4  >50ms  14  >100ms   0 | CPU upd  8.76 rnd 29.75 story  0.41 upg  0.00 (換模型 0) | 新 shader 0 | calls 490.28 tris 731916
+    A_cold 慢的一格 #87：dt=300 upd=5.3 rnd=32 story=0 upg=0 upgN=0 prog=0 tex=421 geo=549 calls=454 tris=744814 heap=527 dtex=0 dgeo=0 dheap=0 gap=262.7
+    A_cold 慢的一格 #71：dt=283.4 upd=5.3 rnd=24.4 story=0 upg=0 upgN=0 prog=0 tex=421 geo=549 calls=454 tris=744814 heap=527 dtex=0 dgeo=0 dheap=0 gap=253.7
+    A_cold 慢的一格 #24：dt=283.3 upd=3.4 rnd=43.2 story=0 upg=0 upgN=0 prog=0 tex=398 geo=525 calls=421 tris=669130 heap=527 dtex=5 dgeo=2 dheap=0 gap=236.7
+    A_cold 慢的一格 #39：dt=250.1 upd=6.2 rnd=29.3 story=0 upg=0 upgN=0 prog=0 tex=421 geo=549 calls=454 tris=744814 heap=527 dtex=0 dgeo=0 dheap=0 gap=214.6
+    A_cold 慢的一格 #258：dt=116.7 upd=3.3 rnd=27.6 story=0 upg=0 upgN=0 prog=0 tex=425 geo=587 calls=439 tris=702317 heap=527 dtex=0 dgeo=0 dheap=0 gap=85.8
+    B_again 慢的一格 #29：dt=249.9 upd=3.5 rnd=115.5 story=0 upg=0 upgN=0 prog=0 tex=358 geo=529 calls=438 tris=699393 heap=527 dtex=23 dgeo=19 dheap=0 gap=130.9
+    B_again 慢的一格 #127：dt=249.9 upd=3.5 rnd=29.2 story=0 upg=0 upgN=0 prog=0 tex=358 geo=529 calls=438 tris=699393 heap=527 dtex=0 dgeo=0 dheap=0 gap=217.2
+    B_again 慢的一格 #150：dt=216.7 upd=4.6 rnd=27.4 story=0 upg=0 upgN=0 prog=0 tex=358 geo=529 calls=438 tris=699393 heap=527 dtex=0 dgeo=0 dheap=0 gap=184.7
+    B_again 慢的一格 #30：dt=133.4 upd=5.4 rnd=27.1 story=0 upg=0 upgN=0 prog=0 tex=358 geo=529 calls=438 tris=699393 heap=527 dtex=0 dgeo=0 dheap=0 gap=100.9
+    B_again 慢的一格 #189：dt=100.1 upd=3.1 rnd=27.8 story=0 upg=0 upgN=0 prog=0 tex=360 geo=530 calls=441 tris=705480 heap=527 dtex=0 dgeo=0 dheap=0 gap=69.2
+    C_night 慢的一格 #141：dt=283.4 upd=3.4 rnd=21.7 story=0 upg=0 upgN=0 prog=0 tex=308 geo=564 calls=362 tris=421699 heap=527 dtex=0 dgeo=0 dheap=0 gap=258.3
+    C_night 慢的一格 #56：dt=266.7 upd=3.3 rnd=21 story=0 upg=0 upgN=0 prog=0 tex=306 geo=564 calls=360 tris=415406 heap=527 dtex=0 dgeo=0 dheap=0 gap=242.4
+    C_night 慢的一格 #40：dt=200.1 upd=3.4 rnd=35.9 story=0 upg=0 upgN=0 prog=0 tex=306 geo=564 calls=360 tris=415406 heap=527 dtex=5 dgeo=2 dheap=0 gap=160.8
+    C_night 慢的一格 #84：dt=83.3 upd=3.3 rnd=22.5 story=0 upg=0 upgN=0 prog=0 tex=306 geo=564 calls=360 tris=415406 heap=527 dtex=0 dgeo=0 dheap=0 gap=57.5
+    C_night 慢的一格 #188：dt=66.7 upd=3.8 rnd=22.5 story=0 upg=0 upgN=0 prog=0 tex=308 geo=565 calls=363 tris=421701 heap=527 dtex=0 dgeo=0 dheap=0 gap=40.4
+library_hall  A_cold    avg   7.34 fps  1%low   0.14  worst 7266.4 ms  p50  49.9  >50ms   8  >100ms   5 | CPU upd 26.75 rnd 104.13 story  0.52 upg  1.35 (換模型 1) | 新 shader 15 | calls 216.14 tris 303096 | meshes 725 vis 563 casters 208 npcs 10 extras 0 shadow {'enabled': True, 'auto': True, 'size': 1024}
+    PERFPANEL：library_hall：黑畫面 13.0 秒（建區域 1.3、預熱 11.1）；淡入後 10 秒最長一格 7.27 秒、卡 5 次；shader 黑畫面 +32、淡入後 +15
+library_hall  B_again   avg  20.36 fps  1%low   2.22  worst  616.7 ms  p50  49.9  >50ms  34  >100ms   6 | CPU upd 25.72 rnd 19.46 story  0.43 upg  1.16 (換模型 3) | 新 shader 4 | calls 215.56 tris 301036 | meshes 726 vis 563 casters 208 npcs 10 extras 0 shadow {'enabled': True, 'auto': True, 'size': 1024}
+    PERFPANEL：library_hall：黑畫面 3.7 秒（建區域 1.0、預熱 0.0）；淡入後 10 秒最長一格 0.62 秒、卡 6 次；shader 黑畫面 +23、淡入後 +4
+library_hall  C_night   avg  30.17 fps  1%low   3.27  worst  549.9 ms  p50  33.3  >50ms  11  >100ms   7 | CPU upd 15.54 rnd 14.85 story  0.47 upg  0.22 (換模型 1) | 新 shader 4 | calls 173.49 tris 206668 | meshes 674 vis 538 casters 201 npcs 7 extras 0 shadow {'enabled': True, 'auto': False, 'size': 1024}
+    PERFPANEL：library_hall：黑畫面 1.9 秒（建區域 0.8、預熱 0.0）；淡入後 10 秒最長一格 0.55 秒、卡 6 次；shader 黑畫面 +23、淡入後 +4
+library_hall  D_base    avg  23.38 fps  1%low   4.62  worst  216.6 ms  p50  33.4  >50ms  19  >100ms   2 | CPU upd 23.61 rnd 16.64 story  0.40 upg  0.00 (換模型 0) | 新 shader 3 | calls 216.47 tris 303331 | meshes 735 vis 569 casters 208 npcs 10 extras 0 shadow {'enabled': True, 'auto': True, 'size': 1024}
+library_hall  D_noshadow avg  24.18 fps  1%low   6.67  worst  150.0 ms  p50  33.4  >50ms  12  >100ms   1 | CPU upd 23.26 rnd 15.77 story  0.41 upg  0.00 (換模型 0) | 新 shader 0 | calls 197.66 tris 268308
+library_hall  D_nonpc   avg  23.80 fps  1%low   6.67  worst  150.0 ms  p50  33.4  >50ms  19  >100ms   1 | CPU upd 22.76 rnd 17.04 story  0.51 upg  0.00 (換模型 0) | 新 shader 0 | calls 221.0 tris 309651
+library_hall  D_norender avg  41.50 fps  1%low  14.99  worst  100.0 ms  p50  16.7  >50ms   2  >100ms   0 | CPU upd 22.38 rnd  0.05 story  0.44 upg  0.00 (換模型 0) | 新 shader 0 | calls 221.0 tris 309651
+library_hall  D_base2   avg  24.68 fps  1%low   7.50  worst  133.4 ms  p50  33.4  >50ms  13  >100ms   1 | CPU upd 22.09 rnd 16.30 story  0.47 upg  0.00 (換模型 0) | 新 shader 0 | calls 218.0 tris 303460
+    A_cold 慢的一格 #1：dt=7266.4 upd=24.1 rnd=426.7 story=0 upg=118.6 upgN=1 prog=1 tex=280 geo=553 calls=232 tris=348310 heap=527 dtex=24 dgeo=15 dheap=0 gap=6815.6
+    A_cold 慢的一格 #2：dt=566.6 upd=28.7 rnd=100.2 story=0 upg=0 upgN=0 prog=0 tex=287 geo=555 calls=216 tris=302654 heap=527 dtex=7 dgeo=2 dheap=0 gap=437.7
+    A_cold 慢的一格 #8：dt=316.7 upd=27.2 rnd=17.1 story=0 upg=0 upgN=0 prog=0 tex=287 geo=555 calls=216 tris=302654 heap=527 dtex=0 dgeo=0 dheap=0 gap=272.4
+    A_cold 慢的一格 #3：dt=200 upd=27.8 rnd=18.3 story=0 upg=0 upgN=0 prog=0 tex=287 geo=555 calls=216 tris=302654 heap=527 dtex=0 dgeo=0 dheap=0 gap=153.9
+    A_cold 慢的一格 #21：dt=133.4 upd=22.9 rnd=17.2 story=0 upg=0 upgN=0 prog=0 tex=287 geo=555 calls=216 tris=302654 heap=527 dtex=0 dgeo=0 dheap=0 gap=93.3
+    B_again 慢的一格 #21：dt=616.7 upd=22.3 rnd=33.7 story=0 upg=0 upgN=0 prog=0 tex=260 geo=382 calls=196 tris=251092 heap=527 dtex=5 dgeo=2 dheap=0 gap=560.7
+    B_again 慢的一格 #20：dt=283.3 upd=22.7 rnd=412.8 story=0 upg=166.9 upgN=2 prog=1 tex=255 geo=380 calls=213 tris=299360 heap=527 dtex=25 dgeo=15 dheap=0 gap=-152.2
+    B_again 慢的一格 #40：dt=233.3 upd=25.7 rnd=31.7 story=0 upg=0 upgN=0 prog=0 tex=311 geo=412 calls=219 tris=309184 heap=527 dtex=5 dgeo=2 dheap=0 gap=175.9
+    B_again 慢的一格 #93：dt=200 upd=42.8 rnd=15.5 story=0 upg=0 upgN=0 prog=0 tex=311 geo=412 calls=219 tris=309184 heap=527 dtex=0 dgeo=0 dheap=0 gap=141.7
+    B_again 慢的一格 #28：dt=133.3 upd=20.8 rnd=16.9 story=0 upg=0 upgN=0 prog=0 tex=283 geo=396 calls=215 tris=302764 heap=527 dtex=0 dgeo=0 dheap=0 gap=95.6
+    C_night 慢的一格 #145：dt=549.9 upd=13.7 rnd=13.7 story=0 upg=0 upgN=0 prog=0 tex=285 geo=403 calls=196 tris=244852 heap=527 dtex=0 dgeo=0 dheap=0 gap=522.5
+    C_night 慢的一格 #24：dt=200 upd=19.5 rnd=29.6 story=20.3 upg=0 upgN=0 prog=0 tex=282 geo=401 calls=172 tris=206156 heap=527 dtex=5 dgeo=2 dheap=0 gap=150.9
+    C_night 慢的一格 #23：dt=166.7 upd=14.8 rnd=106.5 story=0 upg=78.6 upgN=1 prog=0 tex=277 geo=399 calls=189 tris=253577 heap=527 dtex=24 dgeo=15 dheap=0 gap=45.4
+    C_night 慢的一格 #234：dt=133.4 upd=15.3 rnd=15.1 story=16.1 upg=0 upgN=0 prog=0 tex=285 geo=403 calls=174 tris=206268 heap=527 dtex=0 dgeo=0 dheap=0 gap=103.0
+    C_night 慢的一格 #331：dt=116.7 upd=13.7 rnd=11.8 story=0 upg=0 upgN=0 prog=0 tex=285 geo=403 calls=174 tris=206268 heap=527 dtex=0 dgeo=0 dheap=0 gap=91.2

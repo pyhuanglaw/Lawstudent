@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "PERF_WZ_SPLIT",
+  "sha": "1344de13d88cccf2f60b2877875d8dbe768a3511",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/perf_split_probe.py",
+  "env": "ZONES=wenzhou,campus,library_hall;COLD=12;SECS=8;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-05T12:59:24",
+  "end": "2026-11-05T13:06:02",
+  "seconds": 397,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8807/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 31,
+    "mem": 90,
+    "used_gb": 25.2,
+    "chrome_testing": 13
+  }
+}

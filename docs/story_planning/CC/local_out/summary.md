@@ -1287,3 +1287,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 411.1s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 411.1s] BROWSER DISCONNECTED
 - 2026-11-05T12:59:15  TONGXIAN_REFCAM  sha=07dfffe1514d8239bee1fc0f6a815ea054622982  exit=0  80s    PASS 沒有 JS 例外  [] / VFOV=45.75 / ALL PASS
       err.log (last 5): [gpu_wrap 46.2s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 46.2s] BROWSER DISCONNECTED
+- 2026-11-05T13:06:02  PERF_WZ_SPLIT  sha=1344de13d88cccf2f60b2877875d8dbe768a3511  exit=0  397s    library_hall  D_base2   avg  24.68 fps  1%low   7.50  worst  133.4 ms  p50  33.4  >50ms  13  >100ms   1 | CPU upd 22.09 rnd 16.30 story  0.47 upg  0.00 (換模型 0) | 新 shader 0 | calls 218.0 tris 303460 / JS 例外 0 個 / ALL PASS（量完 3 區）
+      err.log (last 5): [gpu_wrap 362.2s] page close url=http://127.0.0.1:8807/index.html?perf | [gpu_wrap 362.2s] BROWSER DISCONNECTED

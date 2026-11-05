@@ -110,3 +110,12 @@
 [12:57:55] ==== START TONGXIAN_REFCAM  (probe @ 07dfffe1514d8239bee1fc0f6a815ea054622982) ====
 [12:57:58] [res] cpu=5% mem=48% (15.1/31.4 GB) chrome_testing=9  START TONGXIAN_REFCAM
 [12:59:15] [res] cpu=11% mem=52% (16.5/31.4 GB) chrome_testing=9  END TONGXIAN_REFCAM
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d5e0c3afa..16897d093  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:59:21] ==== END   TONGXIAN_REFCAM  exit=0  80s   ====
+[12:59:24] memory 52% before starting PERF_WZ_SPLIT (2 running)
+[12:59:24] ==== START PERF_WZ_SPLIT  (probe @ 1344de13d88cccf2f60b2877875d8dbe768a3511) ====
+[12:59:27] [res] cpu=14% mem=52% (16.3/31.4 GB) chrome_testing=9  START PERF_WZ_SPLIT
+[13:02:08] 正在跑：SITHEIGHT_ed76（已跑 60 分／上限 80 分）、NANYANG_v1（已跑 7 分／上限 60 分）、PERF_WZ_SPLIT（已跑 2 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:06:02] [res] cpu=16% mem=90% (25.2/31.4 GB) chrome_testing=9  END PERF_WZ_SPLIT
