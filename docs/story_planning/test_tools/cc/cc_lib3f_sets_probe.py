@@ -1,6 +1,6 @@
 """CC-C（帳號 C）11-05：NPCTASK_lib3f（BB-C 06:18 第 3 點）——總圖三樓閱覽室（library）每個坐著的位子的 SEATACT 狀態：act、set（桌上配件組）、items、task、clip。
   起因：NPCTASK_r2（13700be8f）三樓坐著 10 人、在做事的 1（phone）；LAWWW-C 的 Node 測試說三樓 4/4 都有配件組——拿去問為什麼和 Node 不一樣。不判，只記＋拍。
-  做法：讀檔 library 2025-10-15（三）14:00，等 10 秒、40 秒各記一次 SEATACT.state()＋每個坐著的 NPC（位置、CHAR.sitTaskOf、seat 有沒有 tb）；B1（library_b1）同樣記一次對照。各拍一張。
+  做法：讀檔 library 2025-10-15（三）14:00，等 10 秒、40 秒各記一次 SEATACT.state()＋每個坐著的 NPC（位置、CHAR.sitTaskOf(n.obj)、SEATACT.state().why）；B1（library_b1）同樣記一次對照。各拍一張。
 用法：LW_TESTS=<wt>/tests python3 cc_lib3f_sets_probe.py <url> <out>"""
 import os, sys, json, asyncio
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -15,7 +15,7 @@ URL, OUT = sys.argv[1], sys.argv[2]
 J = D.J
 R = L.Run('lib3f_sets', OUT); D.setup(R, OUT)
 DUMP = r"""(()=>{ const s=(typeof SEATACT!=='undefined'&&SEATACT.state)?SEATACT.state():null; const E=GAME.E;
-  const sit=(E.npcs||[]).filter(n=>n&&n.seat).map(n=>({id:n.id||null, x:+n.obj.position.x.toFixed(2), z:+n.obj.position.z.toFixed(2), task:(typeof CHAR!=='undefined'&&CHAR.sitTaskOf)?CHAR.sitTaskOf(n):null, tb:!!(n.seat&&n.seat.tb), table:(n.seat&&n.seat.table)||null}));
+  const sit=(E.npcs||[]).filter(n=>n&&n.seat).map(n=>({id:n.id||null, x:+n.obj.position.x.toFixed(2), z:+n.obj.position.z.toFixed(2), vis:n.obj.visible!==false, task:(typeof CHAR!=='undefined'&&CHAR.sitTaskOf)?CHAR.sitTaskOf(n.obj):null, why:(()=>{ const L=(s&&s.list)||[]; let b=null,bd=9; for(const r of L){ const d=Math.hypot(r.x-n.obj.position.x,r.z-n.obj.position.z); if(d<bd){ bd=d; b=r; } } return b&&bd<=0.8?b.why:null; })(), table:(n.seat&&n.seat.table)||null}));   /* BB-C 08:05：sitTaskOf 傳 n.obj；tb 改讀 SEATACT.state().why */
   return {zone:GAME.G.zone, seatact:s&&{zone:s.zone, n:s.n, loaded:s.loaded, list:s.list}, sitting:sit, sitTask:(typeof CHAR!=='undefined')?CHAR.sitTask:null, taskReady:(typeof CHAR!=='undefined'&&CHAR.sitTaskReady)?CHAR.sitTaskReady():null}; })()"""
 
 
