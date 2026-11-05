@@ -8,7 +8,8 @@
    ⑥ 樓梯間（門外的平台、樓梯）走不進去：樓梯看得到、人不走（進出都在門口）
    ⑦ 新生南路：「進同弦樂器（吉他行（二樓））」→ xs_tongxian；從店裡出來的點站得住、在店門互動點的範圍外面、走得到側門、走得回店門
    ⑧ 營業時間（AA_619）：週二～週日 12:00～21:30 開、週一公休、颱風天關（PLACES.isOpen／typhoonShops）
-   ⑨ 正式模型：店內地板在樓梯口有洞（tools/blender/env_second/glb_floor_hole.py）、樓梯間的 GLB 22 階對得上樓梯口
+   ⑨ 正式模型：店內木地板不伸進樓梯間（tools/blender/env_second/glb_floor_hole.py）、是淺色（D112）；樓梯間的平台、樓梯口兩側是磨石子、不和木地板疊面；
+      單面的牆正面朝樓梯間；樓梯間的 GLB 22 階對得上樓梯口
    這是模擬（證明路走得通），不是真實玩家流程（瀏覽器測試照 D131 排到使用者的電腦）。用法：node tests/tongxian_unit.js */
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -65,15 +66,40 @@ check(`④ 店門走得到配置的 ${pts.length-1} 個互動點（按鈕範圍 
   check('⑧ 營業時間：週二～週日 12:00～21:30、週一公休、颱風天關',ok&&(ty==null||!op(15,ty)),`週一 13:00 ${op(13,mon)}、週二 12:00 ${op(12,tue)}、21:24 ${op(21.4,tue)}、21:30 ${op(21.5,tue)}、11:54 ${op(11.9,tue)}、週日 15:00 ${op(15,sun)}、颱風天（第 ${ty} 天）15:00 ${ty==null?'—':op(15,ty)}；${PLACES.closedText('xs_tongxian',13,mon)}`); }
 // ⑨ 正式模型
 { const glb=p=>{ const d=fs.readFileSync(path.join(ROOT,p)), n=d.readUInt32LE(12); return {J:JSON.parse(d.slice(20,20+n).toString('utf8')),d,bo:20+n+8}; };
-  const verts=(G,name)=>{ const m=G.J.meshes.find(q=>q.name===name), out=[]; if(!m) return out; for(const pr of m.primitives){ const a=G.J.accessors[pr.attributes.POSITION], bv=G.J.bufferViews[a.bufferView], st=bv.byteStride||12, off=G.bo+(bv.byteOffset||0)+(a.byteOffset||0);
-      for(let i=0;i<a.count;i++) out.push([G.d.readFloatLE(off+i*st),G.d.readFloatLE(off+i*st+4),G.d.readFloatLE(off+i*st+8)]); } return out; };
-  const shop=glb(ASSETS.manifest['bldg.xs_tongxian'].url), F=L.stair.flight, fl=verts(shop,'tx_floor');
-  const hole=fl.length>24&&!fl.some(p=>p[1]>-0.001&&p[0]>F.x0+0.01&&p[0]<F.x1-0.01&&p[2]>L.stair.z0+0.01&&p[2]<F.zTop-0.01)&&fl.some(p=>Math.abs(p[0]-F.x0)<1e-3)&&fl.some(p=>Math.abs(p[2]-F.zTop)<1e-3);
-  check('⑨ 店內地板（tx_floor）在樓梯口（x '+F.x0+'～'+F.x1+'、z '+L.stair.z0+'～'+F.zTop+'）有洞',hole,fl.length+' 個頂點');
-  const st=glb(ASSETS.manifest['bldg.xs_tongxian_stair'].url), ex=((st.J.nodes.find(n=>n.extras&&n.extras.kind==='tongxian_stair')||{}).extras||{}), step=verts(st,'txs_step');
-  const N=ex.risers, R=4.2/(N||1), tops=[...new Set(step.map(p=>p[1].toFixed(4)))].map(Number);   /* extras 的 rise 只有 4 位小數：照一樓高 4.2 ÷ 階數算 */
+  const rd=(G,ai)=>{ const a=G.J.accessors[ai], bv=G.J.bufferViews[a.bufferView], k={SCALAR:1,VEC2:2,VEC3:3}[a.type], cs={5126:4,5125:4,5123:2}[a.componentType], st=bv.byteStride||k*cs, off=G.bo+(bv.byteOffset||0)+(a.byteOffset||0), out=[];
+      for(let i=0;i<a.count;i++){ const v=[]; for(let j=0;j<k;j++){ const o=off+i*st+j*cs; v.push(a.componentType===5126?G.d.readFloatLE(o):a.componentType===5125?G.d.readUInt32LE(o):G.d.readUInt16LE(o)); } out.push(k===1?v[0]:v); } return out; };
+  const verts=(G,name)=>{ const m=G.J.meshes.find(q=>q.name===name), out=[]; if(!m) return out; for(const pr of m.primitives) out.push(...rd(G,pr.attributes.POSITION)); return out; };
+  /* 三角形（世界座標＝GLB 座標，這兩個模型的節點沒有變換）：[a,b,c, 法線（照頂點順序，glTF 逆時針＝正面）, 材質是不是雙面] */
+  const tris=(G,pred)=>{ const out=[]; for(const m of G.J.meshes){ if(pred&&!pred(m.name)) continue; for(const pr of m.primitives){ const P=rd(G,pr.attributes.POSITION), I=rd(G,pr.indices), dbl=!!(G.J.materials[pr.material]||{}).doubleSided;
+      for(let i=0;i<I.length;i+=3){ const A=P[I[i]],B=P[I[i+1]],C=P[I[i+2]], u=[B[0]-A[0],B[1]-A[1],B[2]-A[2]], v=[C[0]-A[0],C[1]-A[1],C[2]-A[2]], n=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]], l=Math.hypot(...n)||1;
+        out.push({A,B,C,n:n.map(q=>q/l),dbl,mesh:m.name}); } } } return out; };
+  const inTri=(t,x,z)=>{ const s=(p,q,r)=>(p[0]-r[0])*(q[2]-r[2])-(q[0]-r[0])*(p[2]-r[2]), P=[x,0,z], d1=s(P,t.A,t.B), d2=s(P,t.B,t.C), d3=s(P,t.C,t.A); return !((d1<0||d2<0||d3<0)&&(d1>0||d2>0||d3>0)); };
+  const topAt=(T,x,z)=>T.some(t=>t.n[1]>0.99&&Math.abs(t.A[1])<1e-3&&Math.abs(t.B[1])<1e-3&&Math.abs(t.C[1])<1e-3&&inTri(t,x,z));   // 這一點上面有一片 y 0、朝上的面
+  const shop=glb(ASSETS.manifest['bldg.xs_tongxian'].url), stair=glb(ASSETS.manifest['bldg.xs_tongxian_stair'].url), S_=L.stair, F=S_.flight, XW=-L.w/2, XE=S_.x1-S_.wall;
+  const floorT=tris(shop,n=>n==='tx_floor'), stairT=tris(stair), stepT=tris(stair,n=>n==='txs_step');
+  const grid=(x0,x1,z0,z1,n=9)=>{ const o=[]; for(let i=0;i<n;i++) for(let j=0;j<n;j++) o.push([x0+(x1-x0)*(i+0.5)/n, z0+(z1-z0)*(j+0.5)/n]); return o; };
+  const inWell=(x,z)=>x>XW-1e-3&&x<S_.x1+1e-3&&z>S_.z0-1e-3&&z<S_.z1+1e-3, inOpen=(x,z)=>x>F.x0&&x<F.x1&&z>S_.z0&&z<F.zTop;
+  const shopPts=grid(-L.w/2,L.w/2,-L.d/2,L.d/2,24).filter(p=>!inWell(p[0],p[1])), wellPts=grid(XW,S_.x1,S_.z0,S_.z1,16), landPts=wellPts.filter(p=>!inOpen(p[0],p[1])&&p[0]<XE-0.005), openPts=wellPts.filter(p=>inOpen(p[0],p[1]));
+  check('⑨ 店內木地板（tx_floor）鋪滿店裡、樓梯間（x '+XW+'～'+S_.x1+'、z '+S_.z0+'～'+S_.z1+'）裡面沒有木地板',shopPts.every(p=>topAt(floorT,p[0],p[1]))&&!wellPts.some(p=>topAt(floorT,p[0],p[1])),`店裡 ${shopPts.filter(p=>topAt(floorT,p[0],p[1])).length}/${shopPts.length} 點、樓梯間有木地板 ${wellPts.filter(p=>topAt(floorT,p[0],p[1])).length} 點`);
+  check('⑨ 樓梯間的平台、樓梯口兩側是磨石子（txs_step 的頂面 y 0），樓梯口空著；樓梯間的模型在店裡沒有 y 0 的朝上面（不和木地板疊面）',landPts.every(p=>topAt(stepT,p[0],p[1]))&&!openPts.some(p=>topAt(stairT,p[0],p[1]))&&!shopPts.some(p=>topAt(stairT,p[0],p[1])),
+    `平台 ${landPts.filter(p=>topAt(stepT,p[0],p[1])).length}/${landPts.length}、樓梯口 ${openPts.filter(p=>topAt(stairT,p[0],p[1])).length}、店裡 ${shopPts.filter(p=>topAt(stairT,p[0],p[1])).length}`);
+  /* D112：店內木地板的顏色貼圖（名字的色碼＝貼圖的平均色，tools/blender/env_second/glb_tint_image.py、b3lib img_adj 的做法）L* ≥ 72 */
+  const mat=shop.J.materials[shop.J.meshes.find(m=>m.name==='tx_floor').primitives[0].material], ti=mat.pbrMetallicRoughness.baseColorTexture.index, tex=shop.J.textures[ti], im=shop.J.images[(tex.extensions&&tex.extensions.EXT_texture_webp||tex).source], hx=(im.name.match(/_([0-9a-f]{6})(?=_|$)/)||[])[1];
+  const Ls=h=>{ const c=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16)/255).map(v=>v>0.04045?((v+0.055)/1.055)**2.4:v/12.92), Y=0.2126*c[0]+0.7152*c[1]+0.0722*c[2]; return 116*Math.cbrt(Y)-16; };
+  check('⑨ D112：店內木地板是淺色（貼圖平均色 L* ≥ 72）',!!hx&&Ls(hx)>=72,`${im.name}（#${hx}，L* ${hx?Ls(hx).toFixed(1):'?'}）`);
+  /* 單面的牆（txs_wall、txs_dado）正面朝樓梯間：樓梯西側的牆、二樓樓梯間的西牆朝 +x，東側的牆朝 −x（v1 反了：遊戲裡從樓梯看不到牆）。
+     量朝樓梯間那一面的面積：樓梯兩側各 ≥ 3 m²、二樓的西牆＝整面（樓梯間北牆到南牆 × 店高） */
+  const ss=stairT.filter(t=>!t.dbl), on=(t,x)=>[t.A,t.B,t.C].every(p=>Math.abs(p[0]-x)<1e-3), area=t=>{ const u=[t.B[0]-t.A[0],t.B[1]-t.A[1],t.B[2]-t.A[2]], v=[t.C[0]-t.A[0],t.C[1]-t.A[1],t.C[2]-t.A[2]]; return Math.hypot(u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0])/2; };
+  const aW=x=>ss.filter(t=>on(t,x)&&t.n[0]>0.99).reduce((a,t)=>a+area(t),0), aE=x=>ss.filter(t=>on(t,x)&&t.n[0]<-0.99).reduce((a,t)=>a+area(t),0);
+  const a0=aW(F.x0), a1=aE(F.x1), aw=aW(XW), awNeed=(S_.z1-S_.z0)*L.h;
+  check('⑨ 樓梯兩側的牆、二樓樓梯間的西牆（單面材質）正面朝樓梯間',a0>=3&&a1>=3&&aw>=awNeed*0.99,`朝樓梯間的面積：西側 ${a0.toFixed(2)}、東側 ${a1.toFixed(2)}、二樓西牆 ${aw.toFixed(2)}／${awNeed.toFixed(2)} m²`);
+  /* 兩個 GLB 每個網格的索引都在自己的頂點數裡面（換地板網格時不能動到共用的索引：CC 的匯出把地板和吉他牆灰泥的方塊索引合成一個） */
+  const badIdx=[]; for(const G of [shop,stair]) for(const m of G.J.meshes) for(const pr of m.primitives){ if(pr.indices==null) continue; const nv=G.J.accessors[pr.attributes.POSITION].count; if(rd(G,pr.indices).some(i=>i>=nv)) badIdx.push(m.name); }
+  check('⑨ 兩個正式模型的每個網格，索引都在自己的頂點數裡面（GLB 沒有壞掉）',!badIdx.length,badIdx.join('、'));
+  const ex=((stair.J.nodes.find(n=>n.extras&&n.extras.kind==='tongxian_stair')||{}).extras||{}), step=verts(stair,'txs_step'), tread=step.filter(p=>p[1]<-1e-3&&p[2]<F.zTop-1e-3);   /* 踏階：平台（z ≥ zTop）、樓梯口兩側的窄條（y 0）不算 */
+  const N=ex.risers, R=4.2/(N||1), tops=[...new Set(tread.map(p=>p[1].toFixed(4)))].map(Number);   /* extras 的 rise 只有 4 位小數：照一樓高 4.2 ÷ 階數算 */
   let okSteps=N===22&&Math.abs(ex.rise*N-4.2)<0.01; for(let j=1;j<N&&okSteps;j++) if(!tops.some(y=>Math.abs(y+j*R)<0.002)) okSteps=false;
-  check('⑨ 樓梯間 22 階、每階 '+(R||0).toFixed(3)+' m、從平台（y 0）到騎樓（−4.2）、寬照 flight（'+F.x0+'～'+F.x1+'）',okSteps&&step.every(p=>p[0]>=F.x0-1e-3&&p[0]<=F.x1+1e-3),`踏面高 ${tops.length} 種、頂點 ${step.length}`); }
+  check('⑨ 樓梯間 22 階、每階 '+(R||0).toFixed(3)+' m、從平台（y 0）到騎樓（−4.2）、寬照 flight（'+F.x0+'～'+F.x1+'）',okSteps&&tread.every(p=>p[0]>=F.x0-1e-3&&p[0]<=F.x1+1e-3),`踏面高 ${tops.length} 種、頂點 ${tread.length}`); }
 // ⑩ 接線（LAWWW 的檔，交件的 patch）：index.html 在新生南路後面載入這兩個檔；story3d.js 的店門照開放時間擋（溫州街的店同一句）；營業時間寫在 places.js
 { const idx=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), pl=fs.readFileSync(path.join(ROOT,'src/data/places.js'),'utf8');
   const a=idx.indexOf('src/xinsheng3d.js'), b=idx.indexOf('src/data/tongxian_layout.js'), c=idx.indexOf('src/tongxian3d.js');
