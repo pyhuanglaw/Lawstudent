@@ -1,0 +1,39 @@
+diff --git a/index.html b/index.html
+index 34ef12402..7c655a039 100644
+--- a/index.html
++++ b/index.html
+@@ -238,8 +238,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/data/club_fair_expo_layout.js?v=9.10.19"></script>
+ <script src="src/data/wz_shops_layout.js?v=9.10.19"></script>
+ <script src="src/data/daily_offbeat_layout.js?v=9.10.19"></script>
+-<script src="src/data/lin_layout.js?v=9.10.19"></script>
+ <script src="src/data/bike_layout.js?v=9.10.19"></script>
++<script src="src/data/lin_layout.js?v=9.10.19"></script>
+ <script src="src/data/cvs_layout.js?v=9.10.19"></script>
+ <script src="src/data/yejian_layout.js?v=9.10.19"></script>
+ <script src="src/data/aoki_layout.js?v=9.10.19"></script>
+diff --git a/tests/wz_interiors_aa659_unit.js b/tests/wz_interiors_aa659_unit.js
+index f46680c06..6c8a78d84 100644
+--- a/tests/wz_interiors_aa659_unit.js
++++ b/tests/wz_interiors_aa659_unit.js
+@@ -47,7 +47,7 @@ const seatApproach=new Function('E',g3.slice(sa0,sa1)+"return best||[seat.x+fx*0
+ const W=WZ_SHOPS_LAYOUT, req=f=>{ delete require.cache[require.resolve(path.join(ROOT,f))]; return require(path.join(ROOT,f)); };
+ const deq=(a,b)=>{ try{ require('assert').deepStrictEqual(a,b); return true; }catch(e){ return false; } };
+ // ---- A0 ----
+-const K=req('src/data/komichi_layout.js'), S=req('src/data/sunnyside_layout.js'), Y=req('src/data/yizhan_layout.js'), WN=req('src/data/wz_shops_layout.js','src/data/lin_layout.js');
++const K=req('src/data/komichi_layout.js'), S=req('src/data/sunnyside_layout.js'), Y=req('src/data/yizhan_layout.js'), WN=req('src/data/wz_shops_layout.js');
+ check('A0 WZ_SHOPS_LAYOUT.teishoku＝AA komichi_layout.js v4（深度比較；2026-11-04 改期望 v3→v4：AA bc021c7e1）',deq(WN.teishoku,K)&&K.version===4&&K.id==='wz_teishoku');
+ check('A0 WZ_SHOPS_LAYOUT.brunch＝AA sunnyside_layout.js v3（深度比較）',deq(WN.brunch,S)&&S.version===3&&S.id==='wz_brunch');
+ const OVER=['spawn','exit','yard','blocks','walkNote','work','interact'],   /* interact：前院的互動點（AA_659 §3 bc021c7e1；2026-11-04 加）*/ strip=o=>{ const c=Object.assign({},o); for(const k of OVER) delete c[k]; return c; };
+diff --git a/tests/wz_shops_unit.js b/tests/wz_shops_unit.js
+index b71cfc282..e1e7a86a8 100644
+--- a/tests/wz_shops_unit.js
++++ b/tests/wz_shops_unit.js
+@@ -68,6 +68,6 @@ for(const k of ['brunch','print','teahouse']){ const L=WZ_SHOPS_LAYOUT[k]; const
+   const at=ds=>{ global.GAME={G:{day:dayOf(ds)}}; const r=mk(); Z3.wzParkSeason(r); return r.children[0].visible; };
+   check('6. 夏日冰菓室：7 月開（鐵捲門藏起來）、10 月和 1 月冬天休息（鐵捲門）',at('2026-07-10')===false&&at('2025-10-10')===true&&at('2026-01-10')===true&&at('2026-05-02')===false); delete global.GAME; }
+ { const gs=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); check('7. 一盞的座位選「讀書」：「這裡不太適合攤開六法。」（AA_164 2-3）',/it\.shop==='teahouse'\) opts\.push\(\{t:'讀書',teaNo:true\}\)/.test(gs)&&gs.indexOf("'這裡不太適合攤開六法。'")>0);
+-  const ih=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); check('7. index.html 在 zones3d 之前載入 wz_shops_layout.js',ih.indexOf('src/data/wz_shops_layout.js','src/data/lin_layout.js')>0&&ih.indexOf('src/data/wz_shops_layout.js','src/data/lin_layout.js')<ih.indexOf('src/zones3d.js'));
++  const ih=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); check('7. index.html 在 zones3d 之前載入 wz_shops_layout.js',ih.indexOf('src/data/wz_shops_layout.js')>0&&ih.indexOf('src/data/wz_shops_layout.js')<ih.indexOf('src/zones3d.js'));
+   const as=fs.readFileSync(path.join(ROOT,'src/assets3d.js'),'utf8'); check('7. manifest 有三家店的室內模型，檔案都在',['brunch','print','teahouse'].every(k=>as.indexOf("'bldg.wz_"+k+"_interior'")>0&&fs.existsSync(path.join(ROOT,'assets/models/env/second_ai/wz_'+k+'_interior.glb')))); }
+ console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

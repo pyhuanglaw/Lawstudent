@@ -1,0 +1,72 @@
+diff --git a/index.html b/index.html
+index 34ef12402..7c655a039 100644
+--- a/index.html
++++ b/index.html
+@@ -259,6 +259,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/nanyang3d.js?v=9.10.19"></script>
+ <script src="src/data/shanlan_layout.js?v=9.10.19"></script>
+ <script src="src/shanlan3d.js?v=9.10.19"></script>
++<script src="src/data/dakou_layout.js?v=9.10.19"></script>
++<script src="src/dakou3d.js?v=9.10.19"></script>
+ <script src="src/data/mokuyobi_layout.js?v=9.10.19"></script>
+ <script src="src/mokuyobi3d.js?v=9.10.19"></script>
+ <script src="src/data/linze_layout.js?v=9.10.19"></script>
+diff --git a/LICENSES.md b/LICENSES.md
+index 6b8cdcece..0b19cb1ad 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -349,6 +349,7 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
+ | 南洋戲院 大廳 v5b `assets/models/env/second_ai/bb_support/nanyang_lobby.glb`（配置 `src/data/nanyang_layout.js` v5；區域 `xs_nanyang`＝`src/nanyang3d.js`） | 本作 Blender（`tools/blender/env_second/bb_support/nanyang_interior.py`；貼圖由腳本用 PIL 產生到 `tools/blender/env_second/textures/gen/nanyang`）：BB〔帳號 A〕11-03～04 製作（`claude/wonderful-mayer-7fm9g6`，照使用者 11-03 生成的參考圖 `nanyang_lobby.webp`、`nanyang_ext.webp`）；LAWWW2-C 接區域（ART-NANYANG-CINEMA-1103）；店名、片名虛構（D77）；貼圖 Poly Haven CC0（`painted_plaster_wall`、`granite_tile_03`、`wood_table_001`） | CC0 貼圖／本作 | 新生南路南洋戲院一樓大廳（爆米花櫃檯、海報牆、長椅、往 1 廳的門） |
+ | 南洋戲院 1 廳 v2 `assets/models/env/second_ai/bb_support/nanyang_hall.glb`（配置 `src/data/nanyang_layout.js` hall；區域 `xs_nanyang_hall`＝`src/nanyang3d.js`） | 本作 Blender（`tools/blender/env_second/bb_support/nanyang_hall.py`；貼圖由腳本產生到 `tools/blender/env_second/textures/gen/nanyang`）：BB〔帳號 A〕製作（同上分支）；LAWWW2-C 接區域（斜地板導航、九排座位）；貼圖 Poly Haven CC0（`dirty_carpet`、`painted_plaster_wall`、`wood_table_001`） | CC0 貼圖／本作 | 南洋戲院 1 廳（斜地板、紅色座椅、銀幕） |
+ | 山嵐書店 室內 v5 `assets/models/env/second_ai/aa_support/shanlan.glb`（配置 `src/data/shanlan_layout.js` v2；區域 `xs_shanlan`＝`src/shanlan3d.js`） | 本作 Blender（`tools/blender/env_second/aa_support/shanlan_interior.py`＋`shanlan_v2_fill.py`～`v4_fill.py`、`aa_int_tex.py shl`；AA 子代理 11-03～04 製作、LAWWW2 驗收 MODEL_READY v3，照使用者 11-03 的參考圖 `shanlan_int.webp`、`shanlan_ext.webp`）；LAWWW2-C 接區域（兩層導航、樓梯、座位；ART-SHANLAN-BOOKSTORE-1103）；店名原創（D77）；貼圖 Poly Haven CC0（`laminate_floor_02`、`walnut_veneer`、`white_plaster_02`）＋本作程式產生（書背、書封、雜誌） | CC0 貼圖／本作 | 新生南路山嵐書店兩層室內（樓梯、挑空、書架、新書平台、雜誌牆、閱讀桌） |
++| 大口漢堡 一樓 v2b `assets/models/env/second_ai/bb_support/dakou_1f.glb`、二樓 v2 `dakou_2f.glb`（配置 `src/data/dakou_layout.js` v3；區域 `xs_dakou`＝`src/dakou3d.js`） | 本作 Blender（`tools/blender/env_second/bb_support/dakou_interior.py --floor 1、2`；BB〔帳號 A〕11-03～04 製作，照使用者 11-03 生成的參考圖 `dakou_2f.webp`、`dakou_ext.webp`）；LAWWW2-C 接區域（兩層導航、樓梯、79 個座位；XS-SHOPS-REST-1105）；店名、標誌原創（D77，不用紅黃）；貼圖 Poly Haven CC0（`laminate_floor_02`、`long_white_tiles`）＋本作程式產生（菜單、點餐機畫面、直幅、窗外夜景、課本封面） | CC0 貼圖／本作 | 新生南路大口漢堡兩層室內（點餐櫃檯、高腳吧台、樓梯、二樓學生自習區） |
+ | 一盞茶屋室內 v1d `assets/models/env/second_ai/aa_support/yizhan.glb`（配置 `src/data/yizhan_layout.js` v2，照抄進 `wz_shops_layout.js` teahouse） | 本作 Blender（`tools/blender/env_second/aa_support/README_yizhan.md`，在 `claude/story-planning`；AA 製作、BB 照 LAWWW2 標準驗收 MODEL_READY v1c `3d0131fe0`，v1d `0c284b614` 只換地板貼圖，BB_257 §12）；貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街一盞（區域 `wz_teahouse` 的主屋與緣側，取代 wz_teahouse_interior.glb；WZ-YIZHAN-1104） |
+ | 一盞前院 `assets/models/env/second_ai/wz_teahouse_yard.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_teahouse_yard.py`（LAWWW2，`claude/second-ai-env-art` `b0bcc117c`）；「一盞」字樣切自企劃組核准的招牌圖（signs_approved/yizhan_*），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街一盞的前院、冠木門、竹垣、石燈籠、老樟樹、簷與瓦屋頂、牆外的街（`bldg.wz_teahouse_yard`，WZ-YIZHAN-1104） |
+ | Daybreak 室內 v1b `assets/models/env/second_ai/aa_support/daybreak.glb`（配置 `src/data/daybreak_layout.js`） | 本作 Blender（腳本 `tools/blender/env_second/aa_support/daybreak_interior.py`，在 `claude/story-planning`；AA 製作、LAWWW2 驗收 MODEL_READY，story-planning `8094770c7`）；店名虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 公館 G14 Daybreak（新區域 `daybreak`，GG-SHOPS2-1104） |
+diff --git a/src/data/places.js b/src/data/places.js
+index 465442d36..296ec9999 100644
+--- a/src/data/places.js
++++ b/src/data/places.js
+@@ -5,7 +5,7 @@
+    - 地名座標：區域座標（x 往東、−z 往北；公館的區域座標轉過方向，大地圖照 zones3d.js 的 sunYaw 轉成北朝上），
+      和 zones3d.js 擺建築的位置相同；搬建築時這裡一起改。入口不用寫在這裡：大地圖和入口標記直接讀區域的出口互動點。 */
+ const PLACES={
+-  names:{ gongtong:'共同教學館', boya:'博思教學館', putong:'普通教學館', campus:'首都帝大校園', gongguan:'公館', wenzhou:'溫州街', lane118:'118 巷', cafe:'2:30 AM', cvs:'日和便利店', noodle:'公館燒臘', bikeshop:'慢輪單車', aoki:'青木茶室', afar:'afar café', daybreak:'Daybreak', bookstore:'頁間書屋', wz_brunch:'SUNNY SIDE', wz_print:'阿德影印輸出', xs_tongxian:'同弦樂器', xs_nanyang:'南洋戲院', xs_nanyang_hall:'南洋戲院 1 廳', xs_shanlan:'山嵐書店', wz_teahouse:'一盞', wz_lin:'林家乾麵', wz_teishoku:'小路', wz_tea:'帝大紅茶', wz_books:'溫州書屋', wz_ice:'夏日冰菓室', wz_mokuyobi:'木曜日', wz_offbeat:'日常失速', xinsheng:'新生南路', gym:'綜合體育館', gym_b1:'綜合體育館 B1',
++  names:{ gongtong:'共同教學館', boya:'博思教學館', putong:'普通教學館', campus:'首都帝大校園', gongguan:'公館', wenzhou:'溫州街', lane118:'118 巷', cafe:'2:30 AM', cvs:'日和便利店', noodle:'公館燒臘', bikeshop:'慢輪單車', aoki:'青木茶室', afar:'afar café', daybreak:'Daybreak', bookstore:'頁間書屋', wz_brunch:'SUNNY SIDE', wz_print:'阿德影印輸出', xs_tongxian:'同弦樂器', xs_nanyang:'南洋戲院', xs_nanyang_hall:'南洋戲院 1 廳', xs_shanlan:'山嵐書店', xs_dakou:'大口漢堡', wz_teahouse:'一盞', wz_lin:'林家乾麵', wz_teishoku:'小路', wz_tea:'帝大紅茶', wz_books:'溫州書屋', wz_ice:'夏日冰菓室', wz_mokuyobi:'木曜日', wz_offbeat:'日常失速', xinsheng:'新生南路', gym:'綜合體育館', gym_b1:'綜合體育館 B1',
+     linze:'法律系館A', linze_3f:'法律系館A 3F 討論區', linze_4f:'法律系館A 4F 自習討論區', classroom:'法律系館A 201 教室', wancai:'法律系館B', library_hall:'總圖書館', library:'總圖 3F 閱覽區', library_b1:'總圖 B1 自習室・討論室', library_carrels:'總圖 2F 研究小間', library_stacks:'總圖 5F 書庫', lawlib:'法律學院圖書館', soclib:'社科院圖書館', dorm:'宿舍房間', dorm_hall:'男生宿舍' },
+   // open／close：小時（close 超過 24＝隔天凌晨）；text：畫面上寫的時間
+   hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{open:8,close:22,text:'08:00–22:00'}, library:{open:8,close:22,text:'08:00–22:00'}, library_carrels:{open:8,close:22,text:'08:00–22:00'}, library_stacks:{open:8,close:22,text:'08:00–22:00'}, lawlib:{ rules:{ term:{wd:[8+10/60,21.75],we:[9+10/60,17]}, break:{wd:[9+10/60,17],we:null}, holiday:null },
+@@ -48,6 +48,7 @@ const PLACES={
+     /* 山嵐書店（新生南路那一排的兩層書店；AA_613 第 3 節：11:00～22:00，週五、週六到 23:00；區域 xs_shanlan＝src/shanlan3d.js，ART-SHANLAN-BOOKSTORE-1103）。
+        AA_613 沒寫颱風天，先不關（要關就加進 typhoonShops）。店門擋在 story3d.js 的 interact */
+     xs_shanlan:{shop:true,rules:{week:[[11,22],[11,22],[11,22],[11,22],[11,22],[11,23],[11,23]]},text:'週日～週四 11:00–22:00；週五、週六 11:00–23:00'},
++    xs_dakou:{text:'24 小時'},   /* 大口漢堡（新生南路南邊路口的速食店；AA_621：24 小時，考試那兩週是大家念書的地方；區域 xs_dakou＝src/dakou3d.js，XS-SHOPS-REST-1105）。只寫說明、店門整天進得去（和便利商店一樣）*/
+     us_asian_market:{shop:true,rules:{week:[null,[10,21],[10,21],[10,21],[10,21],[10,21],[10,21]]},text:'週一～週六 10:00–21:00；週日公休'} },
+   /* 法律學院圖書館（D53，使用者 2026-10-13 查證台大法律圖書館官網）：依日曆（src/data/calendar.js）分學期間／寒暑假／國定假日、平日／週末。
+      rules 的時間：[開, 關]（小時）；null＝不開。其他地點照舊是每天同一個時間（open／close） */
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 32bbb8cc0..c798773b9 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -8,7 +8,7 @@ const Z3 = (function(){
+     campus:[[-45,-72.1,Math.PI],[-45,-44.9,0],[66.5,59.5,0],[15.5,-66.4,0],[61.5,9,0],[61.5,-9,Math.PI],[23,-99.2,Math.PI],[94.21,-77.01,2.304],
+             [-121.5,-10,-Math.PI/2],[-121.5,10,-Math.PI/2],[-113.5,-82.5,Math.PI]],   // 博雅、普通、體育館、社科院圖書館、總圖（大道兩側）、霖澤館、萬才館（照萬才館轉 42°）、校門內兩側、新生南路側門（往 118 巷的後門那裡是 2.5 m 的窄通道，不放架子：bike3d.js 的 spots 停一台）
+     gongguan:[[0,-42,Math.PI]],   // 校門外（從校園走到公館的地方）
+-    xinsheng:[[17,18.5,Math.PI/2],[17,1.5,Math.PI/2],[-8.6,15,Math.PI/2],[-8.6,-8,Math.PI/2]] };   // 側門兩邊（圍牆前）、店面那一側的路邊
++    xinsheng:[[17,18.5,Math.PI/2],[17,1.5,Math.PI/2],[-8.6,15,Math.PI/2],[-8.6,-8,Math.PI/2],[-8.6,37,Math.PI/2]] };   // 側門兩邊（圍牆前）、店面那一側的路邊
+   const M=(c,o)=>P3.M(c,Object.assign({rough:0.95},o||{}));
+   const texMat=(t,rep,o)=>{ const m=new THREE.MeshStandardMaterial(Object.assign({map:t,roughness:0.95,metalness:0},o||{})); return m; };
+   /* ART-LIB-FRONT-PAVING-1103（使用者 11-03「總圖前椰影大道地磚是怎樣」）：校園的路面、人行道、廣場改用照片做的 PBR 貼圖（Poly Haven CC0：granite_tile 調成淺米色石磚、asphalt_02 取沒有裂縫的那一塊、
+diff --git a/tests/seat_reach_unit.js b/tests/seat_reach_unit.js
+index 9f7fd3395..941c3bf3c 100644
+--- a/tests/seat_reach_unit.js
++++ b/tests/seat_reach_unit.js
+@@ -20,7 +20,7 @@ process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Err
+ const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/data/cvs_layout.js','src/data/yejian_layout.js','src/data/aoki_layout.js','src/zones3d.js',
+   'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js',
+   'src/data/socsci_layout.js','src/data/soclib_layout.js','src/soclib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js','src/data/dorm_layout.js','src/data/dorm_room_layout.js','src/dorm3d.js',
+-  'src/data/calendar.js','src/data/places.js','src/data/xinsheng_layout.js','src/xinsheng3d.js','src/data/tongxian_layout.js','src/tongxian3d.js','src/data/nanyang_layout.js','src/nanyang3d.js','src/data/shanlan_layout.js','src/shanlan3d.js'];   /* 同弦樂器（xs_tongxian，GUITAR-SHOP-ZONE-1105）：試琴椅、櫃台前的木凳 */
++  'src/data/calendar.js','src/data/places.js','src/data/xinsheng_layout.js','src/xinsheng3d.js','src/data/tongxian_layout.js','src/tongxian3d.js','src/data/nanyang_layout.js','src/nanyang3d.js','src/data/shanlan_layout.js','src/shanlan3d.js','src/data/dakou_layout.js','src/dakou3d.js'];   /* 同弦樂器（xs_tongxian，GUITAR-SHOP-ZONE-1105）：試琴椅、櫃台前的木凳 */
+ for(const f of files){ if(!fs.existsSync(path.join(ROOT,f))) continue; let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
+ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
+ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
