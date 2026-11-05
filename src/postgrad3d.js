@@ -1,6 +1,6 @@
 /* ===== 畢業以後（AA_319 1A-13、1A-14、1A-16～1A-20；台詞在 src/data/postgrad_lines.js）=====
    一條線：2029-05-10 21:00 國考報名提醒 → 6/2 畢業典禮拍照（12:00～13:30，CG-9）→ 傍晚（一對一的飯、Café 併桌）→ 20:30 學姊的生日 → 6/9 可昕的畢業典禮（BCG-07）→
-   7/12 20:00 總圖 B1 → 8/3 學姊的便條 → 8/4 一試（20 題）→ 9/7 一試放榜 → 10/20～21 二試 → 12/14 二試放榜（18:00 麵店、21:00 以安的電話）→
+   7/12 20:00 總圖 B1 → 8/3 學姊的便條 → 8/4 一試（20 題）→ 9/7 一試放榜 → 10/20～21 二試 → 12/14 二試放榜（18:00 燒臘店、21:00 以安的電話）→
    2030-01-25 以安三試放榜（電話）→（交換延畢、2029 一試不到 12 題：2030 再一輪，8/3、9/6、10/19～20、12/13）→ 2030-10-01 第一份工作 →
    （2030 一試也沒過：2031～2033 每年再一輪——5 月報名（年份字卡＋報名／不報名）、8 月一試 20 題、9 月一試放榜、10 月二試字卡、12 月二試放榜；不報名＝停在那一年，S.LATE_YEARS）→ 2034-06-03 尾聲（CG-10）→ 回標題。
    - D118-B8 司法官（AA_582、AA_583；使用者 A1／A2／A5／A6）：一試 ≥16 的人二試第二天考司法官二試 10 題爭點題（S.drawJudge）→ 12 月放榜（畢業那一年一定沒上〔AA_582 補充二 A1〕；之後每一年看實力：答對 ≥7，或 ≥6＋四年在校平均答對 ≥4）→
@@ -13,7 +13,7 @@
    - 拍照演完（F.GRADUATED）以後是「畢業後篇」（S.on）：站著不動 2 秒、或睡覺＝跳到下一件事（場景、手機訊息、出遊；做法同經濟系的 ECONFF）；
      跳的途中照時間跑手機規則，收到訊息就停、打開那一段。課表的提醒、去上課的選單不再跳（classes3d.js 讀 PG.on）。
      跳過日子的日期卡下面那一句（AA_353）：S.cardLine（照經濟系的做法，每句一次）。
-   - 場景（S.STEPS）：時間到了、玩家空下來就演，不能錯過的不給「不去了」。手機（S.MSGS）照時間排。可以不去的照出遊（OUT：Café、麵店、學姊的生日、可昕的典禮）。
+   - 場景（S.STEPS）：時間到了、玩家空下來就演，不能錯過的不給「不去了」。手機（S.MSGS）照時間排。可以不去的照出遊（OUT：Café、燒臘店、學姊的生日、可昕的典禮）。
    - 一對一的飯、回家的路照 termend3d.js：TERMEND_LINES 補大四下（Y4S2）的版本（S.patchTermend）。
    - 一試 20 題：期末考的題庫（EXAM_BANK）＋刑訴 QBANK 一起隨機抽、不重複，第二年換一組；題目、答案照題庫，不改。答對題數只在 9/7 放榜看得到。
    - 1A-12（主線 12 畢業典禮的家人，別一批）有 ev_grad_family 的話，拍照等那一段演完；沒有的話 6/2 早上直接帶到 12:00。
@@ -911,7 +911,7 @@ const PG=(function(){
     {id:'ev_pg_noodle_2030',title:'公館燒臘・長桌',participants:[],location:'any',trigger:'outing',background:'dark',hours:2,dialogue:[],
       beforeOuting:async(G,GM,q)=>{ await S.noodleScene2030(GM); }, outingMissed:(G,GM,q)=>{ S.noodleMissed2030(GM).catch(e=>console.warn('PG noodle 2030 missed',e)); }},
     {id:'ev_pg_sis_sea',title:'學姊的生日：北海岸',participants:[],location:'any',trigger:'outing',background:'dark',hours:4,dialogue:[],
-      beforeOuting:async(G,GM,q)=>{ await S.seaScene(GM); }} ];   /* 學姊 2030 年的生日（AA_382 第 4 節；排在最後：測試用 PG.EVS[2] 找麵店）。沒去：6/2 15:00 的照片（S.MSGS pg_sis_sea_alone）*/
+      beforeOuting:async(G,GM,q)=>{ await S.seaScene(GM); }} ];   /* 學姊 2030 年的生日（AA_382 第 4 節；排在最後：測試用 PG.EVS[2] 找燒臘店那一頓）。沒去：6/2 15:00 的照片（S.MSGS pg_sis_sea_alone）*/
   S.register=function(){ if(typeof STORY_EVENTS==='undefined') return false; for(const e of S.EVS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e); return true; };
   S.patchTermend(); S.register();
   return S;
