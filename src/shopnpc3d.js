@@ -2,8 +2,9 @@
    使用者 11-05 08:4x（對 LAWWW-C）：「現在店面新增很多 裡面要遇的到NPC喔 可攻略不可攻略的都要」。企劃 AA_705 @ ebea3a2b0（AA-C 定，D109）。
    表在 src/data/shop_npc.js（SHOP_NPC.rows）。做法：
    - 作息（STORY.SCHED_X，排在所有作息的最後面）：那一列的星期、時段、學期（大一上）、週次（第 2 週起；雙數週、指定週）、店開著（PLACES.isOpen：颱風天、店休照店）＝
-     她在那間店（站在 at、坐 seat、坐在地上）。**跟原本的作息撞到，原本的優先**（AA_705 開頭）：她這個時間原本有任何一筆作息（上課、社課、打工、讀書會、回老家、約好的事、
-     在校園走走……，含別的模組加的）＝這一次不出現，不另外挪。撞到的次數 tests/shop_npc_unit.js 會列出來（AA 要那張表）。
+     她在那間店（站在 at、坐 seat、坐在地上）。**跟原本的作息撞到，原本的優先**（AA_705 開頭）：她這個時間原本有作息（上課、社課、打工、讀書會、回老家、約好的事、
+     在 Café／總圖讀書、在外面……，含別的模組加的）＝這一次不出現，不另外挪；只有作息表裡單純「在某一區走走」（wander／walk、沒有劇情標記）不算撞到（S.soft）。
+     撞到的次數 tests/shop_npc_unit.js 會列出來（AA 要那張表）。
      經濟系那一年沒有（AA_705 是法律系大一上）。人不在臺北、國外、休學照 presence（schedFor 先看）。語彤認識以前（YT_MET_JOB）不在（STORY.schedEnt 的規則）。
    - 學姊一週最多一次（AA_596 第八節；AA_705「給 LAWWW」）：山嵐（雙數週週六）那一週的週三青木那一次有出現＝山嵐那一次不出現（只留青木）。
    - Alison（南洋戲院）：她原本的作息「在南洋戲院打工」（週五、週六 18:00～23:00，AA_661 第 30 列、AA_615 第 4 節）＝人在戲院大廳櫃檯後面（NY3.CLERK）。
@@ -49,8 +50,16 @@ const SHOPNPC=(function(){
     return true; };
   /* 假的 G（同一個存檔、別的時間）：只換日期、時間、星期 */
   const at=(G,day,h)=>Object.assign({},G,{day,hour:h,weekday:wdOf(day)});
-  /* 撞到原本的作息：她這個時間原本有任何一筆＝撞到（原本的優先）*/
-  S.clash=function(G,row,c){ c=c||(typeof CHARACTERS!=='undefined'&&CHARACTERS[row.who]); const b=S.base(c,G); return b?b:null; };
+  /* 撞到原本的作息＝原本的優先。只有一種不算撞到：作息表（characters.js）裡那一筆只是「在某一區走走」（act wander／walk、在遊戲的場景裡），
+     沒有劇情的標記（pri、talkEvent、spot、activity、cls、invite、enc、with、if 條件、只有幾天的 dates）——那是空檔，不是安排（照 BB_260 第 1 節「只填空檔」同一個標準）。
+     上課、社課、打工、讀書會、回老家（presence）、約好的事、在 Café／總圖讀書、在外面（away）、別的模組加的作息（SCHED_X）全部都是撞到。
+     S.YIELD_ACTS 改成 [] ＝連「走走」也算撞到（AA_705 字面上最嚴的讀法）。*/
+  S.YIELD_ACTS=['wander','walk'];
+  S.soft=function(c,b){ if(!b||!c||!Array.isArray(c.daily_schedule)||!c.daily_schedule.includes(b)) return false; if(b.zone==null||!S.YIELD_ACTS.includes(b.act)) return false;
+    if(b.pri||b.talkEvent||b.spot||b.activity||b.actHours||b.cls||b.invite||b.enc||b.with||b.if||b.shopEnc||b.exlib) return false;   /* taipei:'both'（子晴週末下午在公館走走）照樣是走走 */
+    if(Array.isArray(b.dates)&&b.dates.length&&typeof STORY!=='undefined'&&STORY.dayOfKey&&b.dates.every(r=>{ const a=STORY.dayOfKey(r[0]), z=STORY.dayOfKey(r[1]); return a!=null&&z!=null&&z-a<7; })) return false;
+    return true; };
+  S.clash=function(G,row,c){ c=c||(typeof CHARACTERS!=='undefined'&&CHARACTERS[row.who]); const b=S.base(c,G); return b&&!S.soft(c,b)?b:null; };
   /* 這一列現在成立嗎（日曆＋沒撞到＋學姊一週一次＋各人的規則）；why：給測試看的原因 */
   S.on=function(G,row,why){ const no=w=>{ if(why) why.push(w); return false; };
     if(row.hearBy==='alison') return no('alison');   /* Alison 照她原本的打工作息（S.alisonEnt）*/

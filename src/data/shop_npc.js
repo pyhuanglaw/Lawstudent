@@ -16,15 +16,15 @@ const SHOP_NPC={
   src:{AA_705:'ebea3a2b0',AA_615:'ebea3a2b0'},
   rows:[
     /* ---------- 新生南路 ---------- */
-    {id:'xs_shanlan_an',shop:'山嵐書店',who:'heroine_01',zone:'xs_shanlan',days:[0],from:14,to:15.5,act:'read',pose:'stand',at:[6.2,-0.75,Math.PI/2,0],
-      place:'一樓雜誌牆前，站著翻（read）',hear:{who:null,t:'（以安在雜誌牆前面翻一本手帳特刊。翻到一半，拿出自己的手帳對了一下。）'}},   /* 雜誌牆（東牆 x 6.75）、互動點「看雜誌」(6.2, −1.85) 旁邊 1.1 m，面向東 */
+    {id:'xs_shanlan_an',shop:'山嵐書店',who:'heroine_01',zone:'xs_shanlan',days:[0],from:14,to:15.5,act:'read',pose:'stand',at:[6.0,-0.75,Math.PI/2,0],
+      place:'一樓雜誌牆前，站著翻（read）',hear:{who:null,t:'（以安在雜誌牆前面翻一本手帳特刊。翻到一半，拿出自己的手帳對了一下。）'}},   /* 雜誌牆（東牆 x 6.75）、互動點「看雜誌」(6.2, −1.85) 旁邊 1.1 m（導航格站得住的那一格），面向東 */
     {id:'xs_shanlan_sis',shop:'山嵐書店',who:'heroine_05',zone:'xs_shanlan',days:[6],from:10.5,to:12,weeks:'even',act:'read',pose:'floor',at:[6.2,-6,-Math.PI/2,1],
       place:'二樓法律區，坐地板看書（read）',hear:{who:null,t:'（二樓法律區的走道上，學姊靠著書架坐著，膝蓋上是一本研究所的考古題。她沒有抬頭。）'},sisWeek:true},   /* 配置 floorSit 的法律區 (6.2, −6)；她坐著的時候那個「坐在法律區看書」按鈕藏起來。山嵐 11:00 開門＝11:00～12:00 */
     {id:'xs_nanyang_yu',shop:'南洋戲院',who:'yu',zone:'xs_nanyang',days:[5,6],from:18,to:23,dateFrom:'2025-09-26',act:'work',pose:'stand',clerk:true,at:[-4.1,-2.8,Math.PI/2,0],
       place:'大廳爆米花櫃檯（work）',hearBy:'alison'},   /* NY3.CLERK（配置 lobby.interact 的 clerk）；她原本的作息「在南洋戲院打工」（AA_661 第 30 列）＝人在這裡 */
     {id:'xs_dabu_zhe',shop:'大步球鞋',who:'zhe',zone:'xs_dabu',days:[6],from:15.5,to:16.5,act:'wander',pose:'stand',at:[-2.75,0.6,-Math.PI/2,0],
       place:'籃球鞋那面牆前（wander）',hear:{who:'zhe',t:'這雙上次沒有我的號碼。……今天還是沒有。'}},   /* 左牆籃球鞋那兩格（z −1.5～1.1）前面、「看看（籃球鞋）」(−2.75, −0.2) 旁邊；店小，站著不走動 */
-    {id:'xs_haopai_mx',shop:'好拍運動',who:'classmate_mingxuan',zone:'xs_haopai',days:[4],from:19.5,to:20,act:'wander',pose:'stand',at:[-0.15,0.6,-Math.PI/2,0],
+    {id:'xs_haopai_mx',shop:'好拍運動',who:'classmate_mingxuan',zone:'xs_haopai',days:[4],from:19.5,to:20,act:'wander',pose:'stand',at:[-0.05,0.6,-Math.PI/2,0],
       place:'櫃台前（wander）',hear:{who:'classmate_mingxuan',t:'一筒四百五的那種比較耐打。算下來一顆比較便宜。'}},   /* 櫃台前（配置 npc.visitor (−0.1, 1.4) 就在「買東西」按鈕上，往門口挪 0.8 m）*/
     {id:'xs_xsports_xc',shop:'新生運動廣場',who:'classmate_xinci',zone:'xs_xsports',days:[0],from:16,to:16.5,act:'wander',pose:'stand',at:[1.45,2.5,-Math.PI/2,0],
       place:'一樓水壺那一排（wander）',hear:{who:'classmate_xinci',t:'這個水壺有刻度。我想知道我一天到底喝了多少。'}},   /* 水壺雙面架（items bottle_gondola (0.75, 2.5)）東側，面向架子 */
@@ -39,7 +39,7 @@ const SHOP_NPC={
       place:'靠窗的兩人桌，吃早午餐（eat）',hear:{who:'classmate_peishan',t:'這家的鬆餅好大！……我一個人吃不完，可是我還是點了。'}},   /* 靠窗兩人桌（table 1）；留給約好的人那一組就換旁邊的靠窗兩人桌 */
     {id:'aoki_sis',shop:'青木茶室',who:'heroine_05',zone:'aoki',days:[3],from:15,to:16.5,act:'read',pose:'seat',seat:[-3.25,-2.15,0],
       place:'最裡面那張桌，看書（read）',hear:{who:null,t:'（學姊一個人坐在最裡面，茶壺旁邊攤著一疊影印的判決。）'}},   /* 離店門最遠的那張四人桌（table 5）靠牆那一張 */
-    {id:'bikeshop_kai',shop:'慢輪單車',who:'kai',zone:'bikeshop',days:[0],from:15,to:16,act:'wander',pose:'stand',at:[1.75,4.3,Math.PI/2,0],
+    {id:'bikeshop_kai',shop:'慢輪單車',who:'kai',zone:'bikeshop',days:[0],from:15,to:16,act:'wander',pose:'stand',at:[1.5,4.3,Math.PI/2,0],
       place:'門口打氣、看車（wander）',hear:{who:'kai',t:'我只是來打氣。……順便看一下那台變速的。'}},   /* 店門（折門 x −0.5～1.6）進來右手邊，看門口那兩台車（小折）*/
     /* ---------- 溫州街 ---------- */
     {id:'wz_mokuyobi_zq',shop:'木曜日',who:'heroine_04',zone:'wz_mokuyobi',days:[0],from:20,to:21.5,act:'sit',pose:'seat',seat:[-3,-2.15,1],
