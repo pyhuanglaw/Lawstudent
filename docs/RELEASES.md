@@ -57,7 +57,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.21（2026-11-05 23:28 UTC 合併 `92c3daad8`，PR [pyhuanglaw/Lawstudent#29](https://github.com/pyhuanglaw/Lawstudent/pull/29)；發布樹 `317479933`；GitHub Pages run 42129622113；遊戲檔案＝發布樹 `aa0f3bcd3`（候選 `83d09d13b`＋afar／頁間／青木窗景 6 張重拍＋NOODLE-AP-1105 麵店自動走路修正＋版本字樣）；BB-C 判條件已過（使用者 23:2x 轉述，BB 交班中沒有寫 GO 紀錄），LAWWW-C 依使用者「BB說可以go 照條件可以發布」發布）
+## v9.10.21（2026-11-05 23:28 UTC 合併 `92c3daad8`，PR [pyhuanglaw/Lawstudent#29](https://github.com/pyhuanglaw/Lawstudent/pull/29)；發布樹 `317479933`；GitHub Pages run 42129622113（第 1 次 deploy 在 syncing_files 卡 10 分鐘逾時被取消、線上照舊 v9.10.20；重跑失敗的 job，第 2 次 23:42:12 UTC success）；遊戲檔案＝發布樹 `aa0f3bcd3`（候選 `83d09d13b`＋afar／頁間／青木窗景 6 張重拍＋NOODLE-AP-1105 麵店自動走路修正＋版本字樣）；BB-C 判條件已過（使用者 23:2x 轉述，BB 交班中沒有寫 GO 紀錄），LAWWW-C 依使用者「BB說可以go 照條件可以發布」發布）
 
 使用者 11-05 06:3x「所有的新店面排進下一次發布」（X234、RELEASE-V91021-1105）。
 
@@ -89,6 +89,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 
 ### 沒測到的（照實寫）
 - iPhone 實機沒驗。
+- 線上版 LIVE 檢查還沒做：雲端沙盒連不到 github.io（代理 403），要 BB 排電腦或 GitHub Actions 跑 deploy_check、p0 對線上網址。
 
 ## v9.10.20（2026-11-05 02:26 UTC 合併 `40c0abedb`，PR [pyhuanglaw/Lawstudent#28](https://github.com/pyhuanglaw/Lawstudent/pull/28)；遊戲檔案＝候選 `d3828452a`＋版本字樣（發布樹 `9e6d85711`）；BB 11-05 02:14 GO（BB_255 企劃線 786436ffd「v9.10.20 GO」）；發布樹 deploy_check 38 項 ALL PASS；GitHub Pages run 41955182303 02:28:25 UTC success）
 
