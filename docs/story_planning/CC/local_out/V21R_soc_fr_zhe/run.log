@@ -1,0 +1,263 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_soc_fr_zhe\out
+CASES=["zhe"] STEPS=["first", "greet", "up", "ladder", "menu", "invite", "invite_study", "reload", "phone", "shop", "walk"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
+PASS [zhe] 遊戲載入
+== 人物 zhe 阿哲 開始（層 A、可攻略 False、階梯 {}、店內偶遇 [{"spot": "wz_brunch", "join": true}, {"spot": "noodle", "join": true}]、自由出行 ["D04", "D29", "D25"]）
+-- [zhe] first
+  [前置／捷徑] [zhe] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [zhe] 她在 3D 的時段（前 8 個，照區域排）：[["2025-09-15", 15.5, "campus", "走走"], ["2025-09-16", 15.5, "campus", "走走"], ["2025-09-17", 15.5, "campus", "走走"], ["2025-09-18", 12.5, "campus", "等人"], ["2025-09-19", 15.5, "campus", "走走"], ["2025-09-22", 15.5, "campus", "走走"], ["2025-09-23", 15.5, "campus", "走走"], ["2025-09-24", 15.5, "campus", "走走"]]
+  [前置／捷徑] [zhe] 讀檔：first：2025-09-15 15.5 campus（走走）（campus -1 15.50）
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [zhe] 前置：還不認識（STRANGER）：{"stage": "STRANGER", "name": "阿哲", "fm": false, "lad": null, "contact": false}
+  [前置／捷徑] [zhe] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.21 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，58 秒
+  [zhe] first：按「和阿哲說話」
+PASS [zhe] first：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] first 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [zhe] first 台詞（2 句）：["阿哲｜系籃週五練球，要來就來，不會打也可以來坐", "阿哲｜系籃週五練球，要來就來，不會打也可以來坐。"]
+PASS [zhe] first：對話一路點得完  1 個選單
+PASS [zhe] first：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] first：15 秒內回到可以自由移動
+PASS [zhe] first：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] first：沒有新的 JS 例外
+PASS [zhe] first：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [zhe] first：搖桿推得動（≥0.3 m）  3.17 m
+PASS [zhe] first：點地走得動（≥0.3 m）  點 [-61.76, 7.91]，走了 1.02 m
+PASS [zhe] first：遊戲時間有在走  16.0019→16.0219
+PASS [zhe] first：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] first：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] first：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [zhe] first：說完以後還沒顯示名字  {"fm": false, "name": "阿哲", "real": "阿哲"}
+-- [zhe] greet
+  [前置／捷徑] [zhe] 讀檔：greet：2025-09-15 15.5 campus（走走）（campus -1 15.50）
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [zhe] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "阿哲", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [zhe] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.20 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，51 秒
+  [zhe] greet：互動鍵是「」，往他再走近
+  [zhe] 到達「阿哲 旁邊（再近一點）」附近（0.23 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，17 秒
+  [zhe] 到達「阿哲 旁邊」附近（0.19 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+  [zhe] greet：互動鍵是「」，往他再走近
+  [zhe] 到達「阿哲 旁邊（再近一點）」附近（0.23 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，16 秒
+  [zhe] 到達「阿哲 旁邊」附近（0.22 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，15 秒
+  [zhe] greet：互動鍵是「」，往他再走近
+  [zhe] 到達「阿哲 旁邊（再近一點）」附近（0.25 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+  [zhe] 到達「阿哲 旁邊」附近（0.20 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，17 秒
+  [zhe] greet：互動鍵是「」，往他再走近
+  [zhe] 到達「阿哲 旁邊（再近一點）」附近（0.19 m）：點地面 9 次、轉鏡頭 0 次、搖桿 0 次，26 秒
+INFO [zhe] greet：這個時段找不到他／走不到他旁邊  {"x": -44.13, "z": -3.52, "lv": 0, "label": null, "name": "阿哲", "seat": false, "beh": "wander", "alias": null}
+  [前置／捷徑] [zhe] 讀檔：greet：2025-09-16 15.5 campus（走走）（campus 0 15.50）
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [zhe] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "阿哲", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [zhe] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.25 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，52 秒
+  [zhe] greet 連按兩次：按「和阿哲說話」（連按兩次，間隔約 200 ms）
+PASS [zhe] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["talkZhe (http://127.0.0.1:8807/src/story3d.js?v=9.10.19:3963:106)"]}
+PASS [zhe] greet 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] greet 連按兩次 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [zhe] greet 連按兩次 台詞（1 句）：["阿哲｜系籃週五練球，要來就來，不會打也可以來坐。"]
+PASS [zhe] greet 連按兩次：對話一路點得完  1 個選單
+PASS [zhe] greet 連按兩次：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] greet 連按兩次：15 秒內回到可以自由移動
+PASS [zhe] greet 連按兩次：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] greet 連按兩次：沒有新的 JS 例外
+PASS [zhe] greet 連按兩次：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [zhe] greet 連按兩次：搖桿推得動（≥0.3 m）  3.21 m
+PASS [zhe] greet 連按兩次：點地走得動（≥0.3 m）  點 [-62.01, 7.7]，走了 1.02 m
+PASS [zhe] greet 連按兩次：遊戲時間有在走  15.9685→15.9887
+PASS [zhe] greet 連按兩次：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] greet 連按兩次：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] greet 連按兩次：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+-- [zhe] up
+  [前置／捷徑] [zhe] 讀檔：up：2025-09-15 15.5 campus（走走）（campus -1 15.50）
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [zhe] 前置：朋友（FRIEND）、門檻台詞還沒說（relUp＝0）：{"stage": "FRIEND", "name": "阿哲", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [zhe] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.20 m）：點地面 8 次、轉鏡頭 0 次、搖桿 0 次，60 秒
+  [zhe] up：互動鍵是「」，往他再走近
+  [zhe] 到達「阿哲 旁邊（再近一點）」附近（0.87 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [zhe] up：按「和阿哲說話」
+PASS [zhe] up：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] up 台詞（1 句）：["阿哲｜下次打球缺人，我打給你喔。不會打可以"]
+PASS [zhe] up：對話一路點得完  0 個選單
+PASS [zhe] up：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] up：15 秒內回到可以自由移動
+PASS [zhe] up：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] up：沒有新的 JS 例外
+PASS [zhe] up：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [zhe] up：搖桿推得動（≥0.3 m）  3.24 m
+PASS [zhe] up：點地走得動（≥0.3 m）  點 [-56.67, 5.8]，走了 1.08 m
+PASS [zhe] up：遊戲時間有在走  16.0691→16.0895
+PASS [zhe] up：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] up：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] up：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [zhe] up：門檻台詞 relUp 0→3  
+-- [zhe] ladder
+SKIP [zhe] ladder：沒有閒聊階梯資料（走一般閒聊 smallTalk）
+-- [zhe] menu
+  [前置／捷徑] [zhe] 讀檔：menu：2025-09-15 15.5 campus（走走）（campus -1 15.50）
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [zhe] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "阿哲", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [zhe] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.18 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，58 秒
+  [zhe] menu 基本：按「和阿哲說話」
+PASS [zhe] menu 基本：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] menu 基本 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [zhe] menu 基本 台詞（2 句）：["阿哲｜我球鞋又開口笑了，這禮拜要去買新的", "阿哲｜我球鞋又開口笑了，這禮拜要去買新的。"]
+PASS [zhe] menu 基本：對話一路點得完  1 個選單
+PASS [zhe] menu 基本：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] menu 基本：15 秒內回到可以自由移動
+PASS [zhe] menu 基本：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] menu 基本：沒有新的 JS 例外
+PASS [zhe] menu 基本：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [zhe] menu 基本：搖桿推得動（≥0.3 m）  3.18 m
+PASS [zhe] menu 基本：點地走得動（≥0.3 m）  點 [-61.74, 7.96]，走了 1.02 m
+PASS [zhe] menu 基本：遊戲時間有在走  16.0114→16.0315
+PASS [zhe] menu 基本：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] menu 基本：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] menu 基本：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [zhe] menu：說話後的選單 ["約他去…", "就這樣"]
+  [前置／捷徑] [zhe] 讀回存檔（回到「走到她旁邊」那一刻（menu 選「約他去…」））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.18 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [zhe] menu 選「約他去…」：按「和阿哲說話」
+PASS [zhe] menu 選「約他去…」：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] menu 選「約他去…」 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [zhe] menu 選「約他去…」 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「念書…」
+  [zhe] menu 選「約他去…」 選單 ["去 2:30 AM 念書", "去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "去 afar café 念書", "返回"] → 選「去 2:30 AM 念書」
+  [zhe] menu 選「約他去…」 選單 ["現在一起過去", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [zhe] menu 選「約他去…」 台詞（5 句）：["阿哲｜我球鞋又開口笑了，這禮拜要去買新的", "阿哲｜我球鞋又開口笑了，這禮拜要去買新的。", "祐廷｜你等一下有空嗎？", "｜阿哲", "｜阿哲答應了。你們一起去 2:30 AM 坐坐。"]
+PASS [zhe] menu 選「約他去…」：對話一路點得完  4 個選單
+PASS [zhe] menu 選「約他去…」：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] menu 選「約他去…」：15 秒內回到可以自由移動
+PASS [zhe] menu 選「約他去…」：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] menu 選「約他去…」：沒有新的 JS 例外
+PASS [zhe] menu 選「約他去…」：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [zhe] menu 選「約他去…」：搖桿推得動（≥0.3 m）  3.27 m
+PASS [zhe] menu 選「約他去…」：點地走得動（≥0.3 m）  點 [-61.86, 7.98]，走了 0.84 m
+PASS [zhe] menu 選「約他去…」：遊戲時間有在走  16.0568→16.0771
+PASS [zhe] menu 選「約他去…」：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] menu 選「約他去…」：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] menu 選「約他去…」：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [前置／捷徑] [zhe] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…吃飯…））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.18 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [zhe] menu 約→吃飯…：按「和阿哲說話」
+PASS [zhe] menu 約→吃飯…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] menu 約→吃飯… 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [zhe] menu 約→吃飯… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「吃飯…」
+  [zhe] menu 約→吃飯… 選單 ["去公館燒臘吃飯", "去 SUNNY SIDE 吃早午餐", "去 Daybreak 吃早午餐", "返回"] → 選「去公館燒臘吃飯」
+  [zhe] menu 約→吃飯… 選單 ["現在一起過去", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [zhe] menu 約→吃飯… 台詞（6 句）：["阿哲｜公館那家滷味晚上十點後半價", "阿哲｜公館那家滷味晚上十點後半價。", "祐廷｜你等一下有空嗎？", "阿哲｜「好", "阿哲｜「好啊！那家的叉燒飯我可以吃兩盤。」", "｜你們一起去公館燒臘吃飯。"]
+PASS [zhe] menu 約→吃飯…：對話一路點得完  4 個選單
+PASS [zhe] menu 約→吃飯…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] menu 約→吃飯…：15 秒內回到可以自由移動
+PASS [zhe] menu 約→吃飯…：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] menu 約→吃飯…：沒有新的 JS 例外
+PASS [zhe] menu 約→吃飯…：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [zhe] menu 約→吃飯…：搖桿推得動（≥0.3 m）  3.15 m
+PASS [zhe] menu 約→吃飯…：點地走得動（≥0.3 m）  點 [-61.79, 7.89]，走了 0.99 m
+PASS [zhe] menu 約→吃飯…：遊戲時間有在走  16.0538→16.0740
+PASS [zhe] menu 約→吃飯…：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] menu 約→吃飯…：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] menu 約→吃飯…：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [前置／捷徑] [zhe] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…喝咖啡、喝茶…））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.18 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [zhe] menu 約→喝咖啡、喝茶…：按「和阿哲說話」
+PASS [zhe] menu 約→喝咖啡、喝茶…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] menu 約→喝咖啡、喝茶… 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [zhe] menu 約→喝咖啡、喝茶… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「喝咖啡、喝茶…」
+  [zhe] menu 約→喝咖啡、喝茶… 選單 ["去 2:30 AM 坐坐", "去一盞喝茶", "去慢讀咖啡念書", "去 afar café 坐坐", "返回"] → 選「去 2:30 AM 坐坐」
+  [zhe] menu 約→喝咖啡、喝茶… 選單 ["現在一起過去", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [zhe] menu 約→喝咖啡、喝茶… 台詞（5 句）：["阿哲｜公館那家滷味晚上十點後半價", "阿哲｜公館那家滷味晚上十點後半價。", "祐廷｜你等一下有空嗎？", "｜阿", "｜阿哲答應了。你們一起去 2:30 AM 坐坐。"]
+PASS [zhe] menu 約→喝咖啡、喝茶…：對話一路點得完  4 個選單
+PASS [zhe] menu 約→喝咖啡、喝茶…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] menu 約→喝咖啡、喝茶…：15 秒內回到可以自由移動
+PASS [zhe] menu 約→喝咖啡、喝茶…：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] menu 約→喝咖啡、喝茶…：沒有新的 JS 例外
+PASS [zhe] menu 約→喝咖啡、喝茶…：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [zhe] menu 約→喝咖啡、喝茶…：搖桿推得動（≥0.3 m）  3.12 m
+PASS [zhe] menu 約→喝咖啡、喝茶…：點地走得動（≥0.3 m）  點 [-61.77, 7.86]，走了 0.99 m
+PASS [zhe] menu 約→喝咖啡、喝茶…：遊戲時間有在走  16.0524→16.0726
+PASS [zhe] menu 約→喝咖啡、喝茶…：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] menu 約→喝咖啡、喝茶…：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] menu 約→喝咖啡、喝茶…：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [前置／捷徑] [zhe] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…散步…））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.18 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [zhe] menu 約→散步…：按「和阿哲說話」
+PASS [zhe] menu 約→散步…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] menu 約→散步… 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [zhe] menu 約→散步… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「散步…」
+  [zhe] menu 約→散步… 選單 ["去溫州街散步", "去映月湖走走", "返回"] → 選「去溫州街散步」
+  [zhe] menu 約→散步… 選單 ["現在一起過去", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [zhe] menu 約→散步… 台詞（5 句）：["阿哲｜系籃週五練球，要來", "阿哲｜系籃週五練球，要來就來，不會打也可以來坐。", "祐廷｜你等一下有空嗎？", "｜阿哲", "｜阿哲答應了。你們一起去溫州街散步。"]
+PASS [zhe] menu 約→散步…：對話一路點得完  4 個選單
+PASS [zhe] menu 約→散步…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] menu 約→散步…：15 秒內回到可以自由移動
+PASS [zhe] menu 約→散步…：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] menu 約→散步…：沒有新的 JS 例外
+PASS [zhe] menu 約→散步…：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [zhe] menu 約→散步…：搖桿推得動（≥0.3 m）  3.24 m
+PASS [zhe] menu 約→散步…：點地走得動（≥0.3 m）  點 [-61.84, 7.96]，走了 1.02 m
+PASS [zhe] menu 約→散步…：遊戲時間有在走  16.0588→16.0789
+PASS [zhe] menu 約→散步…：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] menu 約→散步…：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] menu 約→散步…：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [前置／捷徑] [zhe] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…運動…））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.18 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [zhe] menu 約→運動…：按「和阿哲說話」
+PASS [zhe] menu 約→運動…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] menu 約→運動… 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [zhe] menu 約→運動… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「運動…」
+  [zhe] menu 約→運動… 選單 ["去新體育館打羽球", "去椰影大道晨跑", "返回"] → 選「去新體育館打羽球」
+  [zhe] menu 約→運動… 選單 ["現在一起過去", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [zhe] menu 約→運動… 台詞（5 句）：["阿哲｜我球鞋又開口笑了，這禮拜要去買新", "阿哲｜我球鞋又開口笑了，這禮拜要去買新的。", "祐廷｜你等一下有空嗎？", "｜（他", "｜你們一起去新體育館打羽球。"]
+PASS [zhe] menu 約→運動…：對話一路點得完  4 個選單
+PASS [zhe] menu 約→運動…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] menu 約→運動…：15 秒內回到可以自由移動
+PASS [zhe] menu 約→運動…：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] menu 約→運動…：沒有新的 JS 例外
+PASS [zhe] menu 約→運動…：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [zhe] menu 約→運動…：搖桿推得動（≥0.3 m）  3.21 m
+PASS [zhe] menu 約→運動…：點地走得動（≥0.3 m）  點 [-61.83, 7.93]，走了 0.99 m
+PASS [zhe] menu 約→運動…：遊戲時間有在走  16.0566→16.0768
+PASS [zhe] menu 約→運動…：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] menu 約→運動…：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] menu 約→運動…：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+-- [zhe] invite
+  [前置／捷徑] [zhe] 讀檔：invite：2025-09-15 15.5 campus（走走）（campus -1 15.50）
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [zhe] 前置：朋友（FRIEND）、有聯絡方式：{"stage": "FRIEND", "name": "阿哲", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [zhe] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.22 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，52 秒
+  [zhe] invite：互動鍵是「」，往他再走近
+  [zhe] 到達「阿哲 旁邊（再近一點）」附近（0.85 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [zhe] invite：約「去椰影大道晨跑」（椰影大道，campus；同一區）
+  [zhe] invite 約現在：按「和阿哲說話」
+PASS [zhe] invite 約現在：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] invite 約現在 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [zhe] invite 約現在 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「運動…」
+  [zhe] invite 約現在 選單 ["去新體育館打羽球", "去椰影大道晨跑", "返回"] → 選「去椰影大道晨跑」
+  [zhe] invite 約現在 選單 ["明天 06:30", "其他日子…", "算了"] → 選「明天 06:30」
+  [zhe] invite 約現在 台詞（4 句）：["阿哲｜公館那家滷味晚上十點後半價。", "祐廷｜你等一下有空嗎？", "｜（", "｜約好 明天 06:30，椰影大道。"]
+PASS [zhe] invite 約現在：對話一路點得完  4 個選單
+PASS [zhe] invite 約現在：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] invite 約現在：15 秒內回到可以自由移動
+PASS [zhe] invite 約現在：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] invite 約現在：沒有新的 JS 例外
+PASS [zhe] invite 約現在：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [zhe] invite 約現在：搖桿推得動（≥0.3 m）  3.33 m
+PASS [zhe] invite 約現在：點地走得動（≥0.3 m）  點 [-54.24, 4.03]，走了 1.08 m
+PASS [zhe] invite 約現在：遊戲時間有在走  15.9965→16.0164
+PASS [zhe] invite 約現在：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] invite 約現在：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [zhe] invite 約現在：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [zhe] invite：約好的 [{"id": "iv1", "state": "accepted", "place": "run_avenue", "zone": "campus", "day": 0, "h": 6.5}]

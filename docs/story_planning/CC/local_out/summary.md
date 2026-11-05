@@ -1444,3 +1444,4 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 612.2s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 612.2s] BROWSER DISCONNECTED
 - 2026-11-05T21:42:01  V21R_soc_fr_classmate_bohan  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  588s       用了 9.2 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
       err.log (last 5): [gpu_wrap 552.0s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 552.0s] BROWSER DISCONNECTED
+- 2026-11-05T21:43:51  V21R_soc_fr_zhe  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  1235s  timeout 20 min  PASS [zhe] invite 約現在：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true} / PASS [zhe] invite 約現在：按 #minimap 打得開、關得掉  {"open": true, "closed": true} /   [zhe] invite：約好的 [{"id": "iv1", "state": "accepted", "place": "run_avenue", "zone": "campus", "day": 0, "h": 6.5}]
