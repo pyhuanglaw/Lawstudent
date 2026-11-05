@@ -1,0 +1,15 @@
+
+================ 種子 9：PASS ================
+區域 build 36 次、2.0 秒；turbo 格 5968
+到 2025-09-07　步數 758　格數 12145　虛擬時間 0.7 小時　開頁面 1 次　真實 7.3 秒　（game3d.js：對話有 sayStack）
+結束時：{"attended":0,"day":-9,"date":"2025-09-07","evDone":9,"money":37000,"stage":"law","contacts":4,"invites":1,"invDone":0,"goingSeen":0,"msgs":63}
+個性：{"classP":0.626425402238965,"lateP":0.46776494628284127,"phoneP":0.17930239855777472,"talkP":0.2669729271670803,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002}
+
+注意（不算 FAIL）：
+  20 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）
+  4 次　3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-09-01 20:15 campus）
+  1 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  1 次　說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）　例：說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-03 09:09 dorm）
+  1 次　migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V　例：G.flags.LIFELINE_V：undefined → 1（2025-09-05 17:58 dorm_laundry）
+@@RESULT {"seed":9,"ok":true,"reached":"2025-09-07","steps":758,"frames":12145,"vms":2409600,"pages":1,"fails":[],"notes":[{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":20,"ex":"portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗","n":4,"ex":"unknown asset prop.bike_ride（2025-09-01 20:15 campus）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":1,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"},{"k":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）","n":1,"ex":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-03 09:09 dorm）"},{"k":"migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V","n":1,"ex":"G.flags.LIFELINE_V：undefined → 1（2025-09-05 17:58 dorm_laundry）"}],"missingE":[],"persona":{"classP":0.626425402238965,"lateP":0.46776494628284127,"phoneP":0.17930239855777472,"talkP":0.2669729271670803,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002},"sayStack":true,"chooseStack":true,"g":{"attended":0,"day":-9,"date":"2025-09-07","evDone":9,"money":37000,"stage":"law","contacts":4,"invites":1,"invDone":0,"goingSeen":0,"msgs":63}}
+（7.3 秒）

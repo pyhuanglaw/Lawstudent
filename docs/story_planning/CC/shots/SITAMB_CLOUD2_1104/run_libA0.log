@@ -1,0 +1,47 @@
+CC SITAMB 探針 LOC=lib CTL=0 modes=amb；SHA=d3828452a；CC_SEED=1104；SEG_S=12 REC_FPS=10 KINDS=look,side,hair,glance,stretch,page,posture,up VIEW=844x390；Windows＋GPU（Playwright 有視窗）≠ iPhone；只記錄、不判（BB-C 14:41）
+  [前置／捷徑] CC_SEED=1104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+== amb：http://127.0.0.1:8792/index.html
+PASS [流程] [amb] 遊戲載入  12 秒
+PASS [流程] [amb] CHAR.sitAmb=True（一般網址要 true）、有 CHAR.sitAmbFidget  [true, "function"]
+  [前置／捷徑] 讀檔：library_hall、day 9（weekday 4）14.00 時、晴天、條件事件關閉（playlib quiet_events）
+PASS [流程] [amb] 讀到 library_hall 14:00
+INFO [amb] library_hall 2025-09-25：坐著的人 6（VRM 6、坐姿循環 ambOn 6、跪坐 0、拿書 3、手機平板 2、看桌上 0、聊天 0、互相看著 0）；片段 ready=True sitAmb=True；SEATACT {"zone": "library_hall", "place": "library", "n": 6, "loaded": true, "acts": ["phone", "tablet", "textbook", "book*", "book*", "book*"]}；pairs 0；等了 8 秒
+PASS [流程] [amb] library_hall 有坐著的 NPC  6
+  [前置／捷徑] 玩家（藏起來）放到 (-8.07, 3.80) 第 1 層旁邊：多樓層區域只畫玩家那一層以下
+  [前置／捷徑] 固定鏡頭 library_hall_desk（close3q、沒被擋）；手動叫 CHAR.sitAmbFidget ["glance", "up", "side"]
+INFO [library_hall_desk] 拍 #1 (路人) pose=read item=phone floor=False sex=m seat={"x": -8.07, "z": 3.8, "table": null, "kind": null, "row": null, "col": null, "room": null, "floor": 0, "y": null} act={"act": "phone", "set": null, "hold": "phone", "named": false} chat=None held=[]
+  [library_hall_desk] 錄 13.9 秒（139 格、10 fps 固定步長）、鏡頭 [[-8.838, 6.35, 2.686], [-8.075, 5.85, 3.8]]、排程 [[0.5, 0, "glance"], [4.6, 0, "up"], [8.4, 0, "side"]]
+  [library_hall_desk] 128.3 秒（頁面裡 84.0 秒）；畫面 844x390；sitAmbFidget 3/3 叫得動 [["glance", "glance", "live"], ["up", "up", "live"], ["side", "side", "live"]]；自己開始的小動作 8 個 [[0.5, 1, "glance"], [4.3, 7, "glance"], [4.6, 1, "up"], [5.7, 3, "hair"], [6.0, 8, "stretch"], [6.1, 9, "look"], [6.9, 2, "look"], [8.4, 1, "side"]]；聊天輪替 0 次；每格平均差 0.211、最大 0.686；存了 16 張
+  [前置／捷徑] 固定鏡頭 library_hall_lap（close3q、沒被擋）；手動叫 CHAR.sitAmbFidget ["stretch", "posture", "look"]
+INFO [library_hall_lap] 拍 #3 (路人) pose=sit item=None floor=False sex=m seat={"x": -7.02, "z": 7.4, "table": null, "kind": null, "row": null, "col": null, "room": null, "floor": 0, "y": null} act={"act": "textbook", "set": null, "hold": null, "named": false} chat=None held=[]
+  [library_hall_lap] 錄 12.0 秒（120 格、10 fps 固定步長）、鏡頭 [[-7.788, 6.35, 6.286], [-7.025, 5.85, 7.4]]、排程 [[0.5, 0, "stretch"], [3.7, 0, "posture"], [6.7, 0, "look"]]
+  [library_hall_lap] 81.1 秒（頁面裡 48.4 秒）；畫面 844x390；sitAmbFidget 3/3 叫得動 [["stretch", "stretch", "live"], ["posture", "posture", "live"], ["look", "look", "live"]]；自己開始的小動作 6 個 [[0.5, 3, "stretch"], [1.9, 9, "page"], [3.7, 3, "posture"], [6.7, 3, "look"], [7.4, 2, "look"], [11.9, 7, "page"]]；聊天輪替 0 次；每格平均差 0.256、最大 0.789；存了 15 張
+INFO [amb] library_hall 自然坐著的同一排（2 人以上）[]；4 人以上的排 沒有
+  [前置／捷徑] library_hall：同一排（第 1 層、yaw 3.14、4 個位子）補路人到 6 人：CHAR.build(STORY.extraSpec)＋E.addNPC（和 story3d.js populate 一樣），補完叫一次 SEATACT.tick
+INFO [library_hall] 補人 {"added": 3, "at": [1, 3, 7], "seated": 9}
+INFO [amb] library_hall 2025-09-25：坐著的人 9（VRM 9、坐姿循環 ambOn 9、跪坐 0、拿書 3、手機平板 4、看桌上 2、聊天 0、互相看著 0）；片段 ready=True sitAmb=True；SEATACT {"zone": "library_hall", "place": "library", "n": 9, "loaded": true, "acts": ["phone", "tablet", "textbook", "book*", "book*", "book*", "phone", "notes", "phone"]}；pairs 0；等了 8 秒
+  [前置／捷徑] 固定鏡頭 library_hall_sync（同一排 4 人的全景）；不叫 sitAmbFidget，只記每個人自己開始的小動作 30 秒
+  [library_hall_sync] 錄 30.0 秒（300 格、10 fps 固定步長）、鏡頭 [[-10.385, 7.3, 0.536], [-8.6, 5.8, 3.8]]、排程 []
+  [library_hall_sync] 202.6 秒（頁面裡 191.3 秒）；畫面 844x390；sitAmbFidget 0/0 叫得動 []；自己開始的小動作 12 個 [[5.2, 9, "posture"], [7.7, 1, "glance"], [10.2, 10, "posture"], [11.2, 11, "glance"], [13.4, 7, "page"], [14.4, 3, "glance"], [14.7, 8, "look"], [15.0, 12, "posture"], [19.9, 10, "stretch"], [23.5, 2, "stretch"], [27.9, 9, "page"], [29.3, 12, "look"]]；聊天輪替 0 次；每格平均差 0.058、最大 0.14；存了 5 張
+INFO [library_hall_sync] 同一排 4 人（[-8.075, 3.8, 1]）：30 秒內開始 6 個；±0.5 秒內和別人同時開始同一種 0 個（比例 0.0）、±1 秒 0.0；坐姿循環相位 R=0.319（1＝同相）
+  [前置／捷徑] 讀檔：library、day 9（weekday 4）14.00 時、晴天、條件事件關閉（playlib quiet_events）
+PASS [流程] [amb] 讀到 library 14:00
+INFO [amb] library 2025-09-25：坐著的人 10（VRM 10、坐姿循環 ambOn 10、跪坐 0、拿書 10、手機平板 0、看桌上 0、聊天 0、互相看著 0）；片段 ready=True sitAmb=True；SEATACT {"zone": "library", "place": "library", "n": 7, "loaded": true, "acts": ["book*", "book*", "book*", "book*", "book*", "book*", "book*"]}；pairs 0；等了 13 秒
+PASS [流程] [amb] library 有坐著的 NPC  10
+  [前置／捷徑] 固定鏡頭 library_desk（close3q、沒被擋）；手動叫 CHAR.sitAmbFidget ["glance", "up", "side"]
+INFO [library_desk] 拍 #0 溫學姊 pose=read item=book floor=False sex=f seat={"x": -10.55, "z": -7.4, "table": null, "kind": null, "row": null, "col": null, "room": null, "floor": 0, "y": null} act={"act": "book", "set": null, "hold": null, "named": true} chat=None held=[]
+  [library_desk] 錄 13.9 秒（139 格、10 fps 固定步長）、鏡頭 [[-11.664, 1.35, -6.638], [-10.55, 0.85, -7.4]]、排程 [[0.5, 0, "glance"], [4.6, 0, "up"], [8.4, 0, "side"]]
+  [library_desk] 131.3 秒（頁面裡 88.2 秒）；畫面 844x390；sitAmbFidget 3/3 叫得動 [["glance", "glance", "live"], ["up", "up", "live"], ["side", "side", "live"]]；自己開始的小動作 8 個 [[0.4, 0, "page"], [0.5, 0, "glance"], [2.9, 9, "side"], [4.6, 0, "up"], [6.2, 2, "page"], [7.7, 6, "page"], [8.2, 1, "posture"], [8.4, 0, "side"]]；聊天輪替 0 次；每格平均差 0.23、最大 0.806；存了 16 張
+  [前置／捷徑] 固定鏡頭 library_lap（close3q、沒被擋）；手動叫 CHAR.sitAmbFidget ["stretch", "posture", "look"]
+INFO [library_lap] 拍 #1 (路人) pose=read item=book floor=False sex=f seat=null act=null chat=None held=[]
+  [library_lap] 錄 12.0 秒（120 格、10 fps 固定步長）、鏡頭 [[-11.664, 1.35, -3.238], [-10.55, 0.85, -4]]、排程 [[0.5, 0, "stretch"], [3.7, 0, "posture"], [6.7, 0, "look"]]
+  [library_lap] 120.0 秒（頁面裡 73.8 秒）；畫面 844x390；sitAmbFidget 3/3 叫得動 [["stretch", "stretch", "live"], ["posture", "posture", "live"], ["look", "look", "live"]]；自己開始的小動作 7 個 [[0.2, 0, "look"], [0.5, 1, "stretch"], [3.3, 6, "glance"], [3.7, 1, "posture"], [6.3, 8, "page"], [6.7, 1, "look"], [7.5, 2, "stretch"]]；聊天輪替 0 次；每格平均差 0.225、最大 0.915；存了 15 張
+INFO [amb] library 自然坐著的同一排（2 人以上）[[5, -10.55, -7.4, 0], [2, 10.55, 2.6, 0], [2, 4.05, 7.25, 0]]；4 人以上的排 有
+  [前置／捷徑] 固定鏡頭 library_sync（同一排 5 人的全景）；不叫 sitAmbFidget，只記每個人自己開始的小動作 30 秒
+  [library_sync] 錄 30.0 秒（300 格、10 fps 固定步長）、鏡頭 [[-18.55, 2.3, -5.282], [-10.55, 0.8, -5.28]]、排程 []
+  [library_sync] 202.7 秒（頁面裡 192.8 秒）；畫面 844x390；sitAmbFidget 0/0 叫得動 []；自己開始的小動作 14 個 [[0.7, 0, "side"], [5.7, 2, "posture"], [10.4, 5, "glance"], [10.4, 9, "glance"], [12.0, 8, "posture"], [12.1, 1, "page"], [14.2, 3, "glance"], [14.3, 6, "side"], [16.5, 4, "side"], [18.8, 2, "glance"], [20.8, 0, "glance"], [22.8, 9, "page"]]；聊天輪替 0 次；每格平均差 0.006、最大 0.013；存了 5 張
+INFO [library_sync] 同一排 5 人（[-10.55, -7.4, 0]）：30 秒內開始 8 個；±0.5 秒內和別人同時開始同一種 0 個（比例 0.0）、±1 秒 0.0；坐姿循環相位 R=0.493（1＝同相）
+PASS [流程] [amb] 沒有 JS 例外  []
+INFO [amb] 每種動作實際開始了：{"glance": 2, "up": 2, "side": 2, "stretch": 2, "posture": 2, "look": 2}；沒做到：["hair", "page"]
+INFO 總共 938 秒；JSON：sitamb_lib.json
+ALL PASS

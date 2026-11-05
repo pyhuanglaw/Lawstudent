@@ -1,0 +1,43 @@
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：星期六 10:00（第 11 天＝2025-09-27；原本第 8 天，行事曆對到 9/24 星期三，第 4 週起下午有服務學習（法圖櫃台），上課流程會把玩家帶走——2026-10-17 改）、法學院廣場（霖澤館前 (34,-94)）、晴天
+  [  85.2s] 到達「穿堂中間」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，64 秒
+PASS 走上前台階、進到穿堂（高度 0.9 m）  {"zone": "campus", "x": 34.07, "z": -109.77, "ry": 3.62, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "讀不下去就過來。這裡的位子，我很會佔。", "choices": 0, "interact": "", "hour": 11.07, "stand": true, "camYaw": 6.282, "fallbacks": 0, "y": 0.9, "lv": 0, "frame": 550, "paused": false}
+  [ 119.4s] 到達「後面的小廣場」附近（0.20 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，33 秒
+PASS 穿過建築：走下後台階到後面的小廣場（高度 0）  {"zone": "campus", "x": 34, "z": -125.4, "ry": 3.15, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "讀不下去就過來。這裡的位子，我很會佔。", "choices": 0, "interact": "從後門出去（118 巷）", "hour": 11.14, "stand": true, "camYaw": 6.282, "fallbacks": 0, "y": 0, "lv": 0, "frame": 654, "paused": false}
+  [ 137.0s] 「穿堂西側的大廳門口」途中：phone 開著（遊戲暫停），先關掉
+  [ 190.2s] 到達「穿堂西側的大廳門口」附近（0.22 m）：點地面 2 次、轉鏡頭 2 次、搖桿 1 次，70 秒
+PASS 走回穿堂，到大廳門口（出現「進入法律系館A」）
+PASS 點「進入法律系館A」→ 一樓大廳
+PASS 在大廳：第 0 層、地面高度  {"zone": "linze", "x": 6.6, "z": 4, "ry": -1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "讀不下去就過來。這裡的位子，我很會佔。", "choices": 0, "interact": "走出法律系館A", "hour": 11.25, "stand": true, "camYaw": 1.571, "fallbacks": 0, "y": 0, "lv": 0, "frame": 819, "paused": false}
+  [ 219.2s] 到達「樓梯下面」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，19 秒
+PASS 走到樓梯下面
+  [ 236.0s] 到達「樓梯頂（二樓迴廊）」附近（0.33 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，17 秒
+PASS 自己走上樓梯：經過樓梯中段（高度 1–3.5 m 之間的位置）、到二樓（第 1 層、4.2 m）  中段 17 個取樣 {"zone": "linze", "x": -6.58, "z": -4.07, "ry": -2.98, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "讀不下去就過來。這裡的位子，我很會佔。", "choices": 0, "interact": "", "hour": 11.36, "stand": true, "camYaw": 1.571, "fallbacks": 0, "y": 4.2, "lv": 1, "frame": 999, "paused": false}
+  [ 259.2s] 到達「201 教室門口」附近（0.09 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，21 秒
+PASS 走到 201 教室門口（出現「進入 201 階梯教室」）
+PASS 進入 201 階梯教室
+PASS 在階梯教室最上面那一排的走道（1.8 m）  {"zone": "classroom", "x": 0, "z": 7, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "讀不下去就過來。這裡的位子，我很會佔。", "choices": 0, "interact": "離開教室", "hour": 11.43, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 1.8, "lv": 0, "frame": 1119, "paused": false}
+  [ 309.2s] 到達「第 2 排第 5 個座位後面」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，42 秒
+PASS 走到第 2 排第 5 個座位旁（出現「坐下」）  {"zone": "classroom", "x": 2.08, "z": 1.15, "ry": 6.28, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "讀不下去就過來。這裡的位子，我很會佔。", "choices": 0, "interact": "坐下", "hour": 11.52, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0.9, "lv": 0, "frame": 1267, "paused": false}
+PASS 坐在座位上（姿勢 sit、高度＝第 2 排平台 0.9 m）  pose=sit {"zone": "classroom", "x": 2.25, "z": 0.4, "ry": 3.14, "busy": true, "pose": "sit", "path": 0, "dlg": false, "dtext": "讀不下去就過來。這裡的位子，我很會佔。", "choices": 2, "interact": "", "hour": 11.52, "stand": false, "camYaw": 6.283, "fallbacks": 0, "y": 0.9, "lv": 0, "frame": 1275, "paused": false}
+PASS 「坐一下」之後起身，站回同一排的走道（高度不變、站得住）  pose=idle {"zone": "classroom", "x": 2.25, "z": 1, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "讀不下去就過來。這裡的位子，我很會佔。", "choices": 0, "interact": "坐下", "hour": 11.86, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0.9, "lv": 0, "frame": 1291, "paused": false}
+  [ 360.1s] 到達「教室後門」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，43 秒
+PASS 走到「離開教室」
+PASS 離開教室 → 二樓迴廊
+PASS 回到二樓迴廊（第 1 層、4.2 m）  {"zone": "linze", "x": -2, "z": -6, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "讀不下去就過來。這裡的位子，我很會佔。", "choices": 0, "interact": "進入 201 階梯教室", "hour": 11.97, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 4.2, "lv": 1, "frame": 1466, "paused": false}
+PASS 在二樓存檔：存檔記錄建築（linze）、樓層（lv=1）、位置與高度  {"k": "fatiao3d_slot_3", "pos": {"x": -2, "z": -6, "yaw": 0, "lv": 1, "y": 4.2}}
+PASS 重新整理
+PASS 讀檔：回到法律系館A二樓（第 1 層、4.2 m）  {"zone": "linze", "x": -2, "z": -6, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "進入 201 階梯教室", "hour": 11.98, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 4.2, "lv": 1, "frame": 19, "paused": false}
+  [ 412.1s] 到達「電梯按鈕（二樓）」附近（0.21 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，19 秒
+PASS 走到二樓的電梯門口（出現「搭電梯」）
+PASS 搭電梯：選「1F 大廳」→ 看得到車廂往下（經過中間的高度）→ 到一樓（第 0 層、地面）、走出車廂  {"zone": "linze", "x": 4.6, "z": -3.78, "ry": 3.13, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 12.01, "stand": true, "camYaw": -1.55, "fallbacks": 0, "y": 0, "lv": 0, "frame": 233, "paused": false, "inside": true, "moving": true}
+PASS NPC 走樓梯上下樓（150 秒內高度變化 ≥ 2 m）  [[0, 0], [0, 2.184]]  34 秒
+  [ 495.6s] 到達「大廳出口」附近（0.08 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，13 秒
+PASS 走到「走出法律系館A」
+PASS 走出法律系館A → 校園（穿堂）
+PASS 回到校園的穿堂（高度 0.9 m）  {"zone": "campus", "x": 30, "z": -107.4, "ry": 1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 12.17, "stand": true, "camYaw": 4.712, "fallbacks": 0, "y": 0.9, "lv": 0, "frame": 483, "paused": false}
+  [ 550.0s] 到達「法學院廣場」附近（0.21 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，48 秒
+PASS 走下前台階回到廣場（高度 0）  {"zone": "campus", "x": 33.96, "z": -94.21, "ry": 0.28, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 12.23, "stand": true, "camYaw": 4.712, "fallbacks": 0, "y": 0, "lv": 0, "frame": 590, "paused": false}
+PASS 劇情自動走路沒有用到「卡住後放到目的地」的保險  fallbacks=0
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -1,0 +1,307 @@
+{
+ "ref": "/tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/overlay_in/wz_ade_ext.webp",
+ "shot": "/tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/overlay_in/ade_refcam_1400.png",
+ "size": [
+  640,
+  360
+ ],
+ "tol_px": 7.7,
+ "edge": {
+  "precision": 0.633,
+  "recall": 0.545,
+  "F": 0.586
+ },
+ "line": {
+  "precision": 0.336,
+  "recall": 0.399,
+  "F": 0.365,
+  "n_ref": 141,
+  "n_shot": 166
+ },
+ "line_after_best_shift": {
+  "F": 0.408
+ },
+ "lift_vs_shifted_decoys": 0.198,
+ "decoy_F": [
+  0.267,
+  0.189,
+  0.153,
+  0.06
+ ],
+ "vanishing_point": {
+  "ref": [
+   2.397,
+   0.656,
+   0.91
+  ],
+  "shot": [
+   2.417,
+   0.659,
+   0.92
+  ],
+  "diff_pct": 2.01,
+  "note": "[x/寬, y/高, 支持的線長比例]"
+ },
+ "vertical_tilt_deg": {
+  "ref_left_right": [
+   -0.4987579888183554,
+   0.40464614153269124
+  ],
+  "shot_left_right": [
+   -0.043109265858013904,
+   0.008563500049177889
+  ],
+  "note": "線往下走時往右偏為正。左正右負＝往下收攏＝鏡頭往下看；左負右正＝鏡頭往上看；兩邊都≈0＝鏡頭水平（或參考圖用了移軸／AI 圖常見）"
+ },
+ "camera_fix": {
+  "fov_now": 45.7,
+  "fov_suggest_from_scale": 52.2,
+  "note": "先對消失點（左右、上下），對好以後再看縮放：縮放 s＜1＝截圖要縮小才對得上＝遊戲 FOV 太窄。兩者混在一起時縮放不可靠。",
+  "ref_axis_right_of_center_deg": 70.62,
+  "ref_pitch_down_deg": -7.49,
+  "shot_axis_right_of_center_deg": 70.8,
+  "shot_pitch_down_deg": -7.62,
+  "turn_left_deg": -0.19,
+  "pitch_down_more_deg": 0.14,
+  "how": "假設參考圖和截圖的 FOV 一樣（--fov）。消失點＝房間主軸的方向：參考圖的消失點在右邊＝參考的鏡頭偏左看；在上面＝鏡頭往下看（或移軸）。turn_left 正＝遊戲鏡頭要往左轉；pitch_down_more 正＝要再往下看。參考圖的垂直線幾乎平行、消失點卻偏高＝移軸（three.js camera.setViewOffset、Blender camera shift_y），不要用俯角。"
+ },
+ "best_shift": {
+  "scale": 0.86,
+  "dx_pct": 2.5,
+  "dy_pct": -1.3
+ },
+ "ssim_struct": 0.439,
+ "region_color": [
+  {
+   "cell": "0,0",
+   "dE_mean": 10.5,
+   "ab_hist_intersection": 0.33
+  },
+  {
+   "cell": "0,1",
+   "dE_mean": 17.8,
+   "ab_hist_intersection": 0.59
+  },
+  {
+   "cell": "0,2",
+   "dE_mean": 10.1,
+   "ab_hist_intersection": 0.56
+  },
+  {
+   "cell": "1,0",
+   "dE_mean": 11.9,
+   "ab_hist_intersection": 0.32
+  },
+  {
+   "cell": "1,1",
+   "dE_mean": 11.5,
+   "ab_hist_intersection": 0.67
+  },
+  {
+   "cell": "1,2",
+   "dE_mean": 22.5,
+   "ab_hist_intersection": 0.62
+  },
+  {
+   "cell": "2,0",
+   "dE_mean": 22.9,
+   "ab_hist_intersection": 0.48
+  },
+  {
+   "cell": "2,1",
+   "dE_mean": 35.0,
+   "ab_hist_intersection": 0.37
+  },
+  {
+   "cell": "2,2",
+   "dE_mean": 28.1,
+   "ab_hist_intersection": 0.37
+  }
+ ],
+ "detail_gap": [
+  {
+   "cell": "0,0",
+   "ref": 0.199,
+   "shot": 0.064,
+   "ratio": 2.95
+  },
+  {
+   "cell": "0,1",
+   "ref": 0.194,
+   "shot": 0.065,
+   "ratio": 2.85
+  },
+  {
+   "cell": "0,2",
+   "ref": 0.201,
+   "shot": 0.147,
+   "ratio": 1.36
+  },
+  {
+   "cell": "0,3",
+   "ref": 0.248,
+   "shot": 0.118,
+   "ratio": 2.06
+  },
+  {
+   "cell": "0,4",
+   "ref": 0.275,
+   "shot": 0.071,
+   "ratio": 3.71
+  },
+  {
+   "cell": "0,5",
+   "ref": 0.261,
+   "shot": 0.227,
+   "ratio": 1.15
+  },
+  {
+   "cell": "1,0",
+   "ref": 0.23,
+   "shot": 0.099,
+   "ratio": 2.26
+  },
+  {
+   "cell": "1,1",
+   "ref": 0.137,
+   "shot": 0.095,
+   "ratio": 1.42
+  },
+  {
+   "cell": "1,2",
+   "ref": 0.157,
+   "shot": 0.132,
+   "ratio": 1.19
+  },
+  {
+   "cell": "1,3",
+   "ref": 0.17,
+   "shot": 0.145,
+   "ratio": 1.17
+  },
+  {
+   "cell": "1,4",
+   "ref": 0.177,
+   "shot": 0.142,
+   "ratio": 1.24
+  },
+  {
+   "cell": "1,5",
+   "ref": 0.175,
+   "shot": 0.137,
+   "ratio": 1.27
+  },
+  {
+   "cell": "2,0",
+   "ref": 0.208,
+   "shot": 0.171,
+   "ratio": 1.21
+  },
+  {
+   "cell": "2,1",
+   "ref": 0.128,
+   "shot": 0.116,
+   "ratio": 1.1
+  },
+  {
+   "cell": "2,2",
+   "ref": 0.167,
+   "shot": 0.11,
+   "ratio": 1.5
+  },
+  {
+   "cell": "2,3",
+   "ref": 0.138,
+   "shot": 0.1,
+   "ratio": 1.36
+  },
+  {
+   "cell": "2,4",
+   "ref": 0.181,
+   "shot": 0.07,
+   "ratio": 2.48
+  },
+  {
+   "cell": "2,5",
+   "ref": 0.181,
+   "shot": 0.123,
+   "ratio": 1.45
+  },
+  {
+   "cell": "3,0",
+   "ref": 0.165,
+   "shot": 0.055,
+   "ratio": 2.84
+  },
+  {
+   "cell": "3,1",
+   "ref": 0.141,
+   "shot": 0.047,
+   "ratio": 2.82
+  },
+  {
+   "cell": "3,2",
+   "ref": 0.126,
+   "shot": 0.054,
+   "ratio": 2.21
+  },
+  {
+   "cell": "3,3",
+   "ref": 0.121,
+   "shot": 0.09,
+   "ratio": 1.34
+  },
+  {
+   "cell": "3,4",
+   "ref": 0.158,
+   "shot": 0.082,
+   "ratio": 1.87
+  },
+  {
+   "cell": "3,5",
+   "ref": 0.151,
+   "shot": 0.058,
+   "ratio": 2.49
+  }
+ ],
+ "mode": "shop",
+ "campus": null,
+ "checks": [
+  {
+   "name": "[鏡頭] 消失點位置差 ≤ 2%（左右、上下看的方向一樣）",
+   "ok": false,
+   "info": "2.0%"
+  },
+  {
+   "name": "[鏡頭] 垂直線傾斜差 ≤ 1.5°（俯仰／移軸一樣）",
+   "ok": true,
+   "info": "0.5°"
+  },
+  {
+   "name": "[鏡頭] 畫面比例相同（±3%）",
+   "ok": true,
+   "info": "參考 1.777｜截圖 1.777"
+  },
+  {
+   "name": "[內容] 參考圖東西多很多（邊緣密度比 > 1.8）的格子 ≤ 3／24",
+   "ok": false,
+   "info": "11 格"
+  }
+ ],
+ "info": [
+  {
+   "name": "（參考）line_F 有方向的長直線",
+   "value": "0.36；移開 25% 的平均 0.17；lift +0.20；最佳 2D 對位後 0.41"
+  },
+  {
+   "name": "（參考）ssim_struct 大形狀",
+   "value": "0.44"
+  },
+  {
+   "name": "（參考）最佳 2D 對位",
+   "value": "縮放 0.86、平移 +2.5%／-1.3%（消失點對好以後還差很多＝房間比例／深度不一樣，不是鏡頭）"
+  }
+ ],
+ "vertical_tilt_diff_deg": 0.45564872296034153,
+ "pass_all": false
+}

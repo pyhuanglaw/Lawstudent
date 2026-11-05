@@ -4,6 +4,8 @@
     front     店門口正面
     refcam    參考圖鏡頭（LAWWW2 v2.1，BB-C 16:12）：24 mm＝垂直 FOV 45.7°、眼 (−3.563, 1.504, −1.187) → (−6.543, 1.504, 7.305)、上下移軸 shift_y 0.0867（Blender 單位）、
               1672×941（和參考圖一樣大，可以直接疊圖）
+    wall_front（BB-C 19:03 加；1a191554d ADE-PROPS-1104 挪走電線桿、兩台機車以後）：店門西邊白磁磚壁面上的價目表、布告欄正面——
+              在溫州街的模型裡找名字像 price／board／notice／價目／布告 的物件（x −13～−8.5、店面那一側），對著它們的中心、離 3.2 m 正面拍；找不到＝固定 (−10.8, 1.5, 1.8)→(−10.8, 1.5, 5.2)
   WZ_COPY_SHOP='moved'（劇情選「搬到轉角」以後）：轉角店（北巷，玻璃門 x 3.1、z 6.0～6.95；互動點 (3.9, 6.5)）三張：front、street（從溫州街往巷子看）、oblique。
   另外 A1 每個時段留一張不藏出口標籤的 approach（ade_approach_labels_*；BB-C 15:54 看標籤會不會擋招牌），其他張都藏（cc_det.HIDE_LABELS_JS）。
   做法（同 cc_baseline_probe 的 DET）：遊戲載入前固定種子（cc_det）、路人照 cc_det 藏、HUD 藏；每張停主迴圈、時刻和 shader 時間設回固定值、手動畫一幀再截圖。
@@ -57,6 +59,21 @@ AIM = """(([e,l,h,seed,fov,shift])=>{ const E=GAME.E, G=GAME.G, cam=E.camera; E.
   cam.fov=fov; cam.updateProjectionMatrix(); if(shift){ cam.projectionMatrix.elements[9]+=2*shift*Math.max(1,cam.aspect); cam.projectionMatrixInverse.copy(cam.projectionMatrix).invert(); }
   E._shT=0; E.render(); const ri=E.renderer.info.render; const out={calls:ri.calls, tris:ri.triangles, fov:cam.fov, aspect:+cam.aspect.toFixed(4)};
   cam.fov=fov0; cam.updateProjectionMatrix(); return out; })"""
+WALL = """(()=>{ const z=GAME.E.zone, re=/price|board|notice|bulletin|menu|價目|布告|公告/i, V=THREE.Vector3, hits=[]; if(!z||!z.group) return {hits};
+  z.group.updateMatrixWorld(true); z.group.traverse(o=>{ if(!o.isMesh) return; let nm=''; for(let p=o;p&&p!==z.group;p=p.parent){ if(re.test(p.name||'')){ nm=p.name; break; } } if(!nm) return;
+    const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new V()); if(c.x<-13.2||c.x>-8.4||c.z<3.5||c.z>7) return; hits.push({name:nm, c:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], min:[+b.min.x.toFixed(2),+b.min.y.toFixed(2),+b.min.z.toFixed(2)], max:[+b.max.x.toFixed(2),+b.max.y.toFixed(2),+b.max.z.toFixed(2)]}); });
+  return {hits}; })()"""
+POLES = r"""(()=>{ const z=GAME.E.zone, V=THREE.Vector3, out=[]; if(!z||!z.group) return out; z.group.updateMatrixWorld(true);
+  /* CC-C 11-05：溫州街的正式模型 wz_props.glb 把電線桿做成 EXT_mesh_gpu_instancing（InstancedMesh、名字只有 wz_props.N）＝每一個實例照它自己的世界矩陣量（KOMICHI_VIEW 第一次跑全部量不到＝探針問題）*/
+  { const m=new THREE.Matrix4(), w=new THREE.Matrix4(); z.group.traverse(o=>{ if(!o.isInstancedMesh) return; let hid=false, pn=''; for(let p=o;p&&p!==z.group;p=p.parent){ if(!p.visible) hid=true; if(!pn&&p.name) pn=p.name; } if(hid||!o.visible) return; if(!o.geometry.boundingBox) o.geometry.computeBoundingBox();
+    for(let i=0;i<o.count;i++){ o.getMatrixAt(i,m); w.multiplyMatrices(o.matrixWorld,m); const b=o.geometry.boundingBox.clone().applyMatrix4(w), c=b.getCenter(new V()), sz=b.getSize(new V()); if(c.x<-18.5||c.x>-5||c.z<2.5||c.z>7||sz.y<4) continue; out.push({name:(pn||'instanced')+'#'+i, x:+c.x.toFixed(2), z:+c.z.toFixed(2), h:+sz.y.toFixed(2), inst:true}); } }); }
+  z.group.traverse(o=>{ if(!o.isMesh||!o.visible) return; let nm='', hid=false; for(let p=o;p&&p!==z.group;p=p.parent){ if(!p.visible) hid=true; if(!nm&&/pole|電線桿|utility|lamp_arm|streetlight/i.test(p.name||'')) nm=p.name; } if(!nm||hid) return;
+    const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new V()), sz=b.getSize(new V()); if(c.x<-18.5||c.x>-5||c.z<2.5||c.z>7) return; if(sz.y<4) return;   /* 店門前那一段到日式宿舍院牆前（x −18.5～−5、店面那一側）、高過 4 m 的＝桿子 */
+    out.push({name:nm, x:+c.x.toFixed(2), z:+c.z.toFixed(2), h:+sz.y.toFixed(2)}); });
+  const seen={}; return out.filter(q=>{ const k=q.name+'@'+q.x.toFixed(1); if(seen[k]) return false; seen[k]=1; return true; }); })()"""
+DORMDOOR = r"""(()=>{ const E=GAME.E, P=[-16.0,4.65]; const its=(E.interactables||[]).filter(i=>i&&Math.hypot(i.x-P[0],i.z-P[1])<5&&(i.exit||/門|宿舍|院/.test(i.label||'')));
+  const stand=(x,z)=>E.canStand?!!E.canStand(x,z,0.3):(E.nav&&E.nav.free?!!E.nav.free(x,z):null);
+  return {pole:P, doors:its.map(i=>({label:i.label||'', x:+(+i.x).toFixed(2), z:+(+i.z).toFixed(2), dist:+Math.hypot(i.x-P[0],i.z-P[1]).toFixed(2), stand:stand(i.x,i.z)}))}; })()"""
 COPY = """(()=>{ const z=GAME.E.zone, r={flag:(GAME.G.flags||{}).WZ_COPY_SHOP||'', nodes:{}}; if(z&&z.group) z.group.traverse(o=>{ if(/^COPY_/.test(o.name||'')){ let v=true; for(let p=o;p;p=p.parent) if(!p.visible){ v=false; break; } r.nodes[o.name]=v; } });
   const it=GAME.E.interactables.find(i=>/阿德影印/.test(i.label||'')); r.door=it?[+(+it.x).toFixed(2),+(+it.z).toFixed(2)]:null; return r; })()"""
 
@@ -104,6 +121,32 @@ async def main():
                     await pg.screenshot(path=os.path.join(OUT, fn)); meta[fn] = dict(ri, cam=e, look=l, state='A1', hour=h, labels=True)
                     print('  %s（不藏出口標籤）：calls %s、tris %s' % (fn, ri['calls'], ri['tris']), flush=True)
                 print('  藏起來的出口標籤：%d' % (await pg.evaluate(cc_det.HIDE_LABELS_JS)), flush=True)
+                if not state:   # 使用者 11-04 21:4x（對 LAWWW2「阿德影印前面不應該有電線桿」）→ LAWWW2 38b779db6、開發分支 c744017d3：x −9.2、−12.7 都不能有高過 4 m 的桿子，x −16.0 要有一支（日式宿舍院牆前）
+                    pl = await pg.evaluate(POLES)
+                    near92 = [q for q in pl if abs(q['x'] + 9.2) < 0.8]; near127 = [q for q in pl if abs(q['x'] + 12.7) < 0.8]; near160 = [q for q in pl if abs(q['x'] + 16.0) < 0.8]
+                    check('[A1 %02d%02d] 阿德影印前面沒有電線桿（x −9.2、−12.7 都沒有），x −16.0 有一支（使用者 11-04 21:4x）' % (int(h), int(round(h % 1 * 60))), not near92 and not near127 and bool(near160), J(pl))
+                    dr = await pg.evaluate(DORMDOOR)
+                    check('[A1 %02d%02d] x −16.0 那支桿子旁邊的門（5 m 內的出口、互動點）站得住、離桿子 ≥ 0.8 m（宿舍門沒擋到）' % (int(h), int(round(h % 1 * 60))), bool(dr) and all(d['stand'] is not False and d['dist'] >= 0.8 for d in dr['doors']), J(dr))
+                    if h >= 18:   # 路燈的光圈（晚上；BB-C 21:53）
+                        pe, plk = [-16.0, 1.6, -2.2], [-16.0, 0.2, 4.4]
+                        ri = await pg.evaluate(AIM + '(%s)' % J([pe, plk, h, seed + 9, 50, 0.0]))
+                        fn = 'ade_pole16_night_%02d%02d.png' % (int(h), int(round(h % 1 * 60)))
+                        await pg.screenshot(path=os.path.join(OUT, fn)); meta[fn] = dict(ri, cam=pe, look=plk, hour=h)
+                        print('  %s（x −16.0 的路燈光圈、跨巷電線）：calls %s、tris %s' % (fn, ri['calls'], ri['tris']), flush=True)
+                if not state:   # wall_front：價目表、布告欄正面（BB-C 19:03）
+                    w = await pg.evaluate(WALL)
+                    hs = w.get('hits') or []
+                    if hs:
+                        xs = [q['min'][0] for q in hs] + [q['max'][0] for q in hs]; ys = [q['min'][1] for q in hs] + [q['max'][1] for q in hs]; zs = [q['min'][2] for q in hs]
+                        cx, cy, cz = (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2, min(zs)
+                        we, wl, how = [round(cx, 3), round(max(1.3, cy), 3), round(cz - 3.2, 3)], [round(cx, 3), round(cy, 3), round(cz, 3)], '模型裡找到 %d 個（%s）' % (len(hs), '、'.join(sorted(set(q['name'] for q in hs)))[:160])
+                    else:
+                        we, wl, how = [-10.8, 1.5, 1.8], [-10.8, 1.5, 5.2], '模型裡找不到名字像價目表／布告欄的物件＝用固定鏡頭（白磁磚壁面 x −12.7～−9）'
+                    await pg.evaluate(cc_det.HIDE_PEOPLE_JS)
+                    ri = await pg.evaluate(AIM + '(%s)' % J([we, wl, h, seed + 7, 46, 0.0]))
+                    fn = 'ade_wall_front_%02d%02d.png' % (int(h), int(round(h % 1 * 60)))
+                    await pg.screenshot(path=os.path.join(OUT, fn)); meta[fn] = dict(ri, cam=we, look=wl, state='A1', hour=h, found=hs[:12])
+                    print('  %s（價目表、布告欄正面；%s）：鏡頭 %s → %s、calls %s、tris %s' % (fn, how, we, wl, ri['calls'], ri['tris']), flush=True)
                 for k, (name, e, l, fov, shift) in enumerate(shots):
                     big = name == 'refcam'
                     if big: await pg.set_viewport_size({'width': REF['w'], 'height': REF['h']}); await pg.wait_for_timeout(800)

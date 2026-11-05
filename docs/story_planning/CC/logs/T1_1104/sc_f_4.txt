@@ -1,0 +1,47 @@
+@@HB {"seed":4,"day":"2025-09-17","step":0,"frame":1}
+@@HB {"seed":4,"day":"2025-08-22","step":20,"frame":62}
+@@HB {"seed":4,"day":"2025-08-23","step":127,"frame":514}
+@@HB {"seed":4,"day":"2025-08-24","step":226,"frame":886}
+@@HB {"seed":4,"day":"2025-08-29","step":265,"frame":1074}
+@@HB {"seed":4,"day":"2025-08-30","step":336,"frame":1404}
+@@HB {"seed":4,"day":"2025-08-31","step":394,"frame":2331}
+@@HB {"seed":4,"day":"2025-09-01","step":516,"frame":6209}
+@@HB {"seed":4,"day":"2025-09-02","step":680,"frame":9700}
+@@HB {"seed":4,"day":"2025-09-03","step":803,"frame":13499}
+@@HB {"seed":4,"day":"2025-09-03","step":1118,"frame":20809}
+@@HB {"seed":4,"day":"2025-09-04","step":1146,"frame":21234}
+@@HB {"seed":4,"day":"2025-09-04","step":1538,"frame":28054}
+@@HB {"seed":4,"day":"2025-09-05","step":1689,"frame":33814}
+@@HB {"seed":4,"day":"2025-09-05","step":1819,"frame":38058}
+@@HB {"seed":4,"day":"2025-09-06","step":1899,"frame":40923}
+@@HB {"seed":4,"day":"2025-09-07","step":1914,"frame":41326}
+@@HB {"seed":4,"day":"2025-09-08","step":1982,"frame":41852}
+@@HB {"seed":4,"day":"2025-09-08","step":2091,"frame":47092}
+@@HB {"seed":4,"day":"2025-09-09","step":2095,"frame":47161}
+@@HB {"seed":4,"day":"2025-09-10","step":2269,"frame":50547}
+@@HB {"seed":4,"day":"2025-09-11","step":2330,"frame":51768}
+@@HB {"seed":4,"day":"2025-09-12","step":2540,"frame":56289}
+@@HB {"seed":4,"day":"2025-09-13","step":2744,"frame":59547}
+@@HB {"seed":4,"day":"2025-09-14","step":2933,"frame":64036}
+@@HB {"seed":4,"day":"2025-09-15","step":3098,"frame":68495}
+@@HB {"seed":4,"day":"2025-09-16","step":3282,"frame":72521}
+@@HB {"seed":4,"day":"2025-09-17","step":3380,"frame":75283}
+@@HB {"seed":4,"day":"2025-09-18","step":3541,"frame":78796}
+@@HB {"seed":4,"day":"2025-09-18","step":3782,"frame":84044}
+@@HB {"seed":4,"day":"2025-09-19","step":3807,"frame":84433}
+@@HB {"seed":4,"day":"2025-09-20","step":3919,"frame":87081}
+@@HB {"seed":4,"day":"2025-09-21","step":4073,"frame":92359}
+
+================ 種子 4：PASS ================
+區域 build 205 次、17.9 秒；turbo 格 40524
+到 2025-09-21　步數 4073　格數 92359　虛擬時間 4.8 小時　開頁面 8 次　真實 47.2 秒　（game3d.js：對話有 sayStack）
+結束時：{"attended":13,"day":5,"date":"2025-09-21","evDone":23,"money":35975,"stage":"law","contacts":3,"invites":13,"invDone":3,"goingSeen":0,"msgs":86}
+個性：{"classP":0.7381081443279982,"lateP":0.4967426680959761,"phoneP":0.3359323764801957,"talkP":0.24072168618440629,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001}
+
+注意（不算 FAIL）：
+  61 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_mingxuan/campus/neutral.webp（2025-08-22 08:30 dorm）
+  35 次　3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-09-01 09:21 campus）
+  8 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  1 次　對話重疊：一句話還沒點，另一段的話蓋上來（game3d.js 會在演完後放回去）　例：一句話還沒點，另一段的話蓋上來，演完會放回去（2025-09-09 07:34 dorm）
+@@RESULT {"seed":4,"ok":true,"reached":"2025-09-21","steps":4073,"frames":92359,"vms":17356000,"pages":8,"fails":[],"notes":[{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":61,"ex":"portrait missing → fallback assets/portraits/classmate_mingxuan/campus/neutral.webp（2025-08-22 08:30 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗","n":35,"ex":"unknown asset prop.bike_ride（2025-09-01 09:21 campus）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":8,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"},{"k":"對話重疊：一句話還沒點，另一段的話蓋上來（game3d.js 會在演完後放回去）","n":1,"ex":"一句話還沒點，另一段的話蓋上來，演完會放回去（2025-09-09 07:34 dorm）"}],"missingE":[],"persona":{"classP":0.7381081443279982,"lateP":0.4967426680959761,"phoneP":0.3359323764801957,"talkP":0.24072168618440629,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001},"sayStack":true,"chooseStack":true,"g":{"attended":13,"day":5,"date":"2025-09-21","evDone":23,"money":35975,"stage":"law","contacts":3,"invites":13,"invDone":3,"goingSeen":0,"msgs":86}}
+（47.2 秒）

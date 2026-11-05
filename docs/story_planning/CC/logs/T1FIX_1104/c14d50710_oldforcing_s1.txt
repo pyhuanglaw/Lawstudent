@@ -1,0 +1,16 @@
+
+================ 種子 1：PASS ================
+區域 build 102 次、8.2 秒；turbo 格 13676
+到 2025-09-12　步數 1991　格數 34494　虛擬時間 1.7 小時　開頁面 3 次　真實 24.0 秒　（game3d.js：對話有 sayStack）
+結束時：{"attended":8,"day":-4,"date":"2025-09-12","evDone":16,"money":37000,"stage":"law","contacts":4,"invites":8,"invDone":2,"goingSeen":0,"msgs":88}
+個性：{"classP":0.46377366874367,"lateP":0.21738413767889142,"phoneP":0.34350345729617404,"talkP":0.24267076239921154,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002}
+
+注意（不算 FAIL）：
+  35 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）
+  18 次　3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-08-30 20:36 campus）
+  3 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  2 次　說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）　例：說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-01 08:17 dorm）
+  1 次　migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V　例：G.flags.LIFELINE_V：undefined → 1（2025-09-03 07:48 dorm）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-07 11:57 afar）
+@@RESULT {"seed":1,"scen":{"day":"2025-09-10","res":"PASS","pass":"讀進 _forcing=true 的舊存檔以後：forceHome 叫了 1 次、真的送回去睡 1 次（2025-09-11 26:48 putong → 2025-09-12 07:30 dorm）；NO_FORCEHOME 沒有；現在 2025-09-12 07:31 dorm；G.flags._forcing=\"（沒有）\"","calls":1,"sent":1,"log":["2025-09-11 26:48 putong → 2025-09-12 07:30 dorm"]},"ok":true,"reached":"2025-09-12","steps":1991,"frames":34494,"vms":6190200,"pages":3,"fails":[],"notes":[{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":35,"ex":"portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗","n":18,"ex":"unknown asset prop.bike_ride（2025-08-30 20:36 campus）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":3,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"},{"k":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）","n":2,"ex":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-01 08:17 dorm）","all":[{"at":"2025-09-01 08:17","zone":"dorm","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱","last":["#342 f4304 2025-09-01 08:17 dorm｜選單（2 個）：先不要","#343 f4310 2025-09-01 08:17 dorm｜走去床底下的紙箱（0.6 m）","#344 f4313 2025-09-01 08:17 dorm｜按互動：床底下的紙箱"]},{"at":"2025-09-05 09:01","zone":"dorm","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱","last":["#1233 f21304 2025-09-05 09:00 dorm｜（提示）30 分鐘後上課：09:10 經濟學原理（上）（普通教學館 101）","#1234 f21305 2025-09-05 09:00 dorm｜走去床底下的紙箱（0.6 m）","#1235 f21308 2025-09-05 09:01 dorm｜按互動：床底下的紙箱"]}]},{"k":"migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V","n":1,"ex":"G.flags.LIFELINE_V：undefined → 1（2025-09-03 07:48 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-07 11:57 afar）"}],"missingE":[],"persona":{"classP":0.46377366874367,"lateP":0.21738413767889142,"phoneP":0.34350345729617404,"talkP":0.24267076239921154,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002},"sayStack":true,"chooseStack":true,"g":{"attended":8,"day":-4,"date":"2025-09-12","evDone":16,"money":37000,"stage":"law","contacts":4,"invites":8,"invDone":2,"goingSeen":0,"msgs":88}}
+（24.0 秒）

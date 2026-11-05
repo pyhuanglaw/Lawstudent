@@ -1,0 +1,17 @@
+
+================ 種子 37：PASS ================
+區域 build 53 次、5.6 秒；turbo 格 7850
+到 2025-09-07　步數 1425　格數 25072　虛擬時間 1.1 小時　開頁面 4 次　真實 16.7 秒　（game3d.js：對話有 sayStack）
+結束時：{"attended":4,"day":-9,"date":"2025-09-07","evDone":12,"money":36880,"stage":"law","contacts":4,"invites":3,"invDone":2,"goingSeen":0,"msgs":64}
+個性：{"classP":0.4154755558352917,"lateP":0.3944636720698327,"phoneP":0.3994879828882404,"talkP":0.420992991165258,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001}
+
+注意（不算 FAIL）：
+  42 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）
+  13 次　3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-08-31 16:05 campus）
+  4 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  2 次　3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-04 20:15 cafe）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-08-31 21:23 bookstore）
+  1 次　說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）　例：說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-02 08:13 dorm）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：阿德影印輸出 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-02 20:36 wz_print）
+@@RESULT {"seed":37,"ok":true,"reached":"2025-09-07","steps":1425,"frames":25072,"vms":4082100,"pages":4,"fails":[],"notes":[{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":42,"ex":"portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗","n":13,"ex":"unknown asset prop.bike_ride（2025-08-31 16:05 campus）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":4,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型","n":2,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-04 20:15 cafe）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2025-08-31 21:23 bookstore）"},{"k":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）","n":1,"ex":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-02 08:13 dorm）","all":[{"at":"2025-09-02 08:13","zone":"dorm","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱","last":["#384 f5304 2025-09-02 08:11 dorm｜等一下（5 秒）","#385 f5320 2025-09-02 08:13 dorm｜走去床底下的紙箱（0.6 m）","#386 f5323 2025-09-02 08:13 dorm｜按互動：床底下的紙箱"]}]},{"k":"3D／素材相關的例外（不算，假的 THREE）：阿德影印輸出 室內正式模型載入失敗，用備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-02 20:36 wz_print）"}],"missingE":[],"persona":{"classP":0.4154755558352917,"lateP":0.3944636720698327,"phoneP":0.3994879828882404,"talkP":0.420992991165258,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001},"sayStack":true,"chooseStack":true,"g":{"attended":4,"day":-9,"date":"2025-09-07","evDone":12,"money":36880,"stage":"law","contacts":4,"invites":3,"invDone":2,"goingSeen":0,"msgs":64}}
+（16.7 秒）

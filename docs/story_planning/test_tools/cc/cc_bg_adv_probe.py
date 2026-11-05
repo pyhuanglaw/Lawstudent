@@ -6,7 +6,7 @@
   人物：這幾個事件劇情裡只有可昕一個人出場（祐廷沒有立繪）——每張拍兩個版本：「劇情」＝照劇情只站可昕（約會底圖站以安）；「兩人」＝另一側再站一位（看人物會不會擋住重點）。
   ART-14 另外拼直向、橫向兩張總覽（只拼「劇情」版）。
   要看的（BB 判）：人物有沒有擋住重點、直向裁切後主體還在不在、對話框底下有沒有字被蓋、有沒有看得清楚的真實校名／店名／商標（D77、D115）、有沒有深色木地板（D112）。
-用法：LW_TESTS=<wt>/tests [BGS=ntu_linze,...|all] [DATES=1] python3 cc_bg_adv_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests [BGS=ntu_linze,...|all|none] [DATES=1] [PRE_LB=1] [BLUR=1] python3 cc_bg_adv_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, base64
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests'))
@@ -20,6 +20,8 @@ MAIN = [('ntu_linze', 'kexin', 'heroine_01', 'ART-BG16'), ('ntu_avenue', 'kexin'
         ('ntu_gym_ceremony', 'heroine_01', 'kai', 'ART-GYM-BG1'), ('nccu_dorm', 'kexin', 'heroine_01', 'ART-10'), ('nccu_dorm_day', 'kexin', 'heroine_01', 'ART-10')]
 SEL = [b.strip() for b in (os.environ.get('BGS') or 'all').split(',') if b.strip()]
 DATES = os.environ.get('DATES', '1') == '1'
+PRE_LB = os.environ.get('PRE_LB') == '1'
+BLUR = os.environ.get('BLUR') == '1'
 VP = {'portrait': (390, 844), 'landscape': (844, 390)}
 LINE = '（CC 測試台詞：看對話框底下有沒有字被蓋住。這一行故意寫長一點，兩行以上才看得出來。）'
 
@@ -31,9 +33,12 @@ def check(name, ok, info=''):
 
 
 BGURL_JS = r"""(k=>{ const B=(typeof OUTINGS!=='undefined'&&OUTINGS.BG)||(typeof OUT!=='undefined'&&OUT.BG)||null; const b=B&&B[k]; return b&&b.image?b.image:('assets/bg/'+k+'.webp'); })"""
-SHOW_JS = r"""(async([img,a,b])=>{ if(ADV.active) ADV.end(); ADV.begin({background:{image:img}}); await new Promise(r=>setTimeout(r,300));
+# PRE_LB=1（BB-C 17:08 ADV_LETTERBOX_fix）：先 GM.letterbox(true)（劇情演出的黑邊）再進 ADV，看 7b8474817 的「圖片背景、CG 收起黑邊」有沒有生效；img＝'blur' 時進 3D 模糊背景（黑邊照舊）
+SHOW_JS = r"""(async([img,a,b,preLB])=>{ if(ADV.active) ADV.end(); if(preLB&&GAME.letterbox){ GAME.letterbox(true); await new Promise(r=>setTimeout(r,800)); }
+  if(img==='blur') ADV.begin({background:'blur'}); else ADV.begin({background:{image:img}}); await new Promise(r=>setTimeout(r,300));
   if(a) ADV.show('right',a,'neutral'); if(b) ADV.show('left',b,'neutral');
-  const t0=performance.now(); for(;;){ const el=document.querySelector('#adv .bg, .adv-bg')||ADV.bg; const ok=el&&getComputedStyle(el).backgroundImage!=='none'; if(ok||performance.now()-t0>8000) break; await new Promise(r=>setTimeout(r,200)); }
+  const t0=performance.now(); for(;img!=='blur';){ const el=document.querySelector('#adv .bg, .adv-bg')||ADV.bg; const ok=el&&getComputedStyle(el).backgroundImage!=='none'; if(ok||performance.now()-t0>8000) break; await new Promise(r=>setTimeout(r,200)); }
+  await new Promise(r=>setTimeout(r,preLB?800:0));   /* 黑邊的 height 有 0.6 秒的轉場 */
   return {active:ADV.active, mode:typeof ADV.bgMode==='object'?'image':ADV.bgMode, cls:ADV.root&&ADV.root.className}; })"""
 SAY_JS = "(t=>{ void GAME.say('杜可昕', t); return true; })"
 CLOSE_JS = r"""(async()=>{ for(let i=0;i<6;i++){ const d=document.getElementById('dlg'); if(!d||d.classList.contains('hide')) break; d.click(); await new Promise(r=>setTimeout(r,250)); } if(ADV.active) ADV.end(); return true; })()"""
@@ -44,15 +49,29 @@ MONTAGE_JS = r"""(async([imgs,labels,tw,th,cols])=>{ const rows=Math.ceil(imgs.l
   const b=await c.convertToBlob({type:'image/jpeg',quality:0.85}); const u=new Uint8Array(await b.arrayBuffer()); let s=''; for(let i=0;i<u.length;i+=32768) s+=String.fromCharCode.apply(null,u.subarray(i,i+32768)); return btoa(s); })"""
 
 
+# BB-C 17:07：橫向上下的黑邊是 GM.letterbox 的 #letterT／#letterB（8%、純黑）。每張截圖當下記黑邊的實際高度（computed，含 0.6 秒的轉場）和 D.busyDepth，
+#   分得出是捷徑（GAME.say）剛好碰到，還是那一幕本來就會有黑邊
+LETTER_JS = """(()=>{ const q=id=>document.getElementById(id), cs=e=>e?getComputedStyle(e):null, b=q('letterB'), t=q('letterT'), D=GAME.D||{};
+  return {bH:b?+parseFloat(cs(b).height).toFixed(1):null, bStyle:b?b.style.height:null, tH:t?+parseFloat(cs(t).height).toFixed(1):null, busyDepth:D.busyDepth|0, active:!!D.active, vh:innerHeight}; })()"""
+
+
 async def shoot(pg, key, img, a, b, tag, keep=None):
     out = {}
     for ori, (w, h) in VP.items():
         await pg.set_viewport_size({'width': w, 'height': h}); await pg.wait_for_timeout(700)
-        st = await pg.evaluate(SHOW_JS + '(%s)' % J([img, a, b]))
-        await pg.evaluate(SAY_JS + '(%s)' % J(LINE)); await pg.wait_for_timeout(900)
+        st = await pg.evaluate(SHOW_JS + '(%s)' % J([img, a, b, PRE_LB]))
+        await pg.evaluate(SAY_JS + '(%s)' % J(LINE)); await pg.wait_for_timeout(500)
+        for _ in range(30):   # CC-C 16:1x：台詞是一個字一個字打出來的，打完才拍（不然看不出對話框底下有沒有字被蓋住）
+            n = await pg.evaluate("(()=>((document.getElementById('dlgText')||{}).textContent||'').length)()")
+            if n >= len(LINE) - 1: break
+            await pg.wait_for_timeout(200)
+        await pg.wait_for_timeout(300)
+        lb = await pg.evaluate(LETTER_JS)
         fn = os.path.join(OUT, 'bg_%s_%s_%s.jpg' % (key, tag, ori))
         png = await pg.screenshot(path=fn, type='jpeg', quality=85)
         if keep is not None and ori in keep: keep[ori].append(base64.b64encode(png).decode())
+        st = dict(st or {}, letter=lb)
+        print('  [%s %s %s] #letterB %s px（style %s）、#letterT %s px、D.busyDepth %s、D.active %s' % (key, tag, ori, lb['bH'], lb['bStyle'], lb['tH'], lb['busyDepth'], lb['active']), flush=True)
         out[ori] = st
         await pg.evaluate(CLOSE_JS); await pg.wait_for_timeout(300)
     return out
@@ -76,6 +95,10 @@ async def main():
             print('  約會底圖：%d 張' % len(dl), flush=True)
             items += [(os.path.basename(u)[:-5], 'heroine_01', 'heroine_02', 'ART-14') for u in dl]
         mont = {'portrait': [], 'landscape': []}; labels = []
+        if PRE_LB: print('  [前置／捷徑] 每張進 ADV 之前先 GAME.letterbox(true)（PRE_LB=1，BB-C 17:08）', flush=True)
+        if BLUR:
+            r0 = await shoot(pg, 'blur3d', 'blur', 'kexin', None, 'story')
+            print('  [3D 模糊背景] 直向 %s、橫向 %s' % (J(r0.get('portrait')), J(r0.get('landscape'))), flush=True)
         for key, a, b2, task in items:
             img = await pg.evaluate(BGURL_JS + '(%s)' % J(key)) if not key.startswith('d') or '_base_' not in key else 'assets/bg/%s.webp' % key
             th = await pg.evaluate(THUMB_JS + '(%s)' % J(img))

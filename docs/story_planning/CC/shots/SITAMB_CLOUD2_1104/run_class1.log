@@ -1,0 +1,36 @@
+CC SITAMB 探針 LOC=class CTL=1 modes=ctl；SHA=d3828452a；CC_SEED=1104；SEG_S=12 REC_FPS=10 KINDS=look,side,hair,glance,stretch,page,posture,up VIEW=844x390；Windows＋GPU（Playwright 有視窗）≠ iPhone；只記錄、不判（BB-C 14:41）
+  [前置／捷徑] CC_SEED=1104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+== ctl：http://127.0.0.1:8792/index.html?nositamb
+PASS [流程] [ctl] 遊戲載入  11 秒
+PASS [流程] [ctl] CHAR.sitAmb=False（?nositamb 要 false）、有 CHAR.sitAmbFidget  [false, "function"]
+  [前置／捷徑] 讀檔：classroom、day 8（weekday 3）09.50 時、晴天、條件事件關閉（playlib quiet_events）
+PASS [流程] [ctl] 讀到 霖澤館 201 上課中（day 8 09:30）
+INFO [ctl] classroom 2025-09-24：坐著的人 25（VRM 25、坐姿循環 ambOn 0、跪坐 0、拿書 17、手機平板 0、看桌上 0、聊天 0、互相看著 0）；片段 ready=False sitAmb=False；SEATACT {"zone": null, "place": null, "n": 0, "loaded": false, "acts": []}；pairs 0；等了 8 秒
+PASS [流程] [ctl] 霖澤館 201 有坐著的同學  25 人；替身（不會動的 InstancedMesh）[]
+  [前置／捷徑] 固定鏡頭 classroom_rows（教室正面全景）；手動叫 [[0, ["look"]], [6, ["stretch"]], [7, ["posture"]]]
+  [classroom_rows] 錄 12.0 秒（120 格、10 fps 固定步長）、鏡頭 [[-4.5, 3.288, -6.001], [-0.662, 1.788, 1.018]]、排程 [[0.5, 0, "look"], [0.5, 1, "stretch"], [0.5, 2, "posture"]]
+  [classroom_rows] 148.6 秒（頁面裡 119.7 秒）；畫面 844x390；sitAmbFidget 0/3 叫得動 [["look", null, "-"], ["stretch", null, "-"], ["posture", null, "-"]]；自己開始的小動作 0 個 []；聊天輪替 0 次；每格平均差 0.021、最大 0.029；存了 12 張
+  [前置／捷徑] 固定鏡頭 classroom_feet（側面低角度，看階梯座位的腳）
+  [classroom_feet] 錄 12.0 秒（120 格、10 fps 固定步長）、鏡頭 [[7.338, 1.788, 1.008], [-0.662, 1.338, 1.018]]、排程 []
+  [classroom_feet] 129.6 秒（頁面裡 119.5 秒）；畫面 844x390；sitAmbFidget 0/0 叫得動 []；自己開始的小動作 0 個 []；聊天輪替 0 次；每格平均差 0.026、最大 0.036；存了 5 張
+  [前置／捷徑] 固定鏡頭 classroom_sync（同一排 5 人的全景）；不叫 sitAmbFidget，只記每個人自己開始的小動作 30 秒
+  [classroom_sync] 錄 30.0 秒（300 格、10 fps 固定步長）、鏡頭 [[-4.888, 3.2, -6.619], [-1.05, 1.7, 0.4]]、排程 []
+  [classroom_sync] 337.1 秒（頁面裡 326.2 秒）；畫面 844x390；sitAmbFidget 0/0 叫得動 []；自己開始的小動作 0 個 []；聊天輪替 0 次；每格平均差 0.018、最大 0.027；存了 5 張
+INFO [classroom_sync] 同一排 5 人（[-3.75, 0.4, 0]）：30 秒內開始 0 個；±0.5 秒內和別人同時開始同一種 0 個（比例 None）、±1 秒 None；坐姿循環相位 R=None（1＝同相）
+  [前置／捷徑] 讀檔：boya、day 7（weekday 2）09.50 時、晴天、條件事件關閉（playlib quiet_events）
+PASS [流程] [ctl] 讀到 博思 101 上課中（day 7 09:30）
+INFO [ctl] boya 2025-09-23：坐著的人 16（VRM 16、坐姿循環 ambOn 0、跪坐 0、拿書 0、手機平板 0、看桌上 0、聊天 0、互相看著 0）；片段 ready=False sitAmb=False；SEATACT {"zone": "boya", "place": null, "n": 0, "loaded": false, "acts": []}；pairs 0；等了 8 秒
+PASS [流程] [ctl] 博思 101 有坐著的同學  16 人；替身（不會動的 InstancedMesh）[{"key": "7:chinese_y1:am", "n": 17, "leaving": false, "loaded": true}]
+  [前置／捷徑] 固定鏡頭 boya_rows（教室正面全景）；手動叫 [[0, ["look"]], [3, ["stretch"]], [8, ["posture"]]]
+  [boya_rows] 錄 12.0 秒（120 格、10 fps 固定步長）、鏡頭 [[-7.921, 3.256, 5.796], [-11.756, 1.756, -1.225]]、排程 [[0.5, 0, "look"], [0.5, 1, "stretch"], [0.5, 2, "posture"]]
+  [boya_rows] 116.0 秒（頁面裡 87.8 秒）；畫面 844x390；sitAmbFidget 0/3 叫得動 [["look", null, "-"], ["stretch", null, "-"], ["posture", null, "-"]]；自己開始的小動作 0 個 []；聊天輪替 0 次；每格平均差 0.032、最大 0.046；存了 12 張
+  [前置／捷徑] 固定鏡頭 boya_feet（側面低角度，看階梯座位的腳）
+  [boya_feet] 錄 12.0 秒（120 格、10 fps 固定步長）、鏡頭 [[-6.156, 1.656, -1.221], [-11.756, 1.306, -1.225]]、排程 []
+  [boya_feet] 127.2 秒（頁面裡 105.1 秒）；畫面 844x390；sitAmbFidget 0/0 叫得動 []；自己開始的小動作 0 個 []；聊天輪替 0 次；每格平均差 0.039、最大 0.047；存了 5 張
+  [前置／捷徑] 固定鏡頭 boya_sync（同一排 4 人的全景）；不叫 sitAmbFidget，只記每個人自己開始的小動作 30 秒
+  [boya_sync] 錄 30.0 秒（300 格、10 fps 固定步長）、鏡頭 [[-9.182, 2.9, 4.66], [-11.1, 1.4, 1.15]]、排程 []
+  [boya_sync] 238.8 秒（頁面裡 227.8 秒）；畫面 844x390；sitAmbFidget 0/0 叫得動 []；自己開始的小動作 0 個 []；聊天輪替 0 次；每格平均差 0.071、最大 0.097；存了 5 張
+INFO [boya_sync] 同一排 4 人（[-12.85, 1.15, 0]）：30 秒內開始 0 個；±0.5 秒內和別人同時開始同一種 0 個（比例 None）、±1 秒 None；坐姿循環相位 R=None（1＝同相）
+PASS [流程] [ctl] 沒有 JS 例外  []
+INFO 總共 1153 秒；JSON：sitamb_class.json
+ALL PASS

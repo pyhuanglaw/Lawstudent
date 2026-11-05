@@ -1,0 +1,18 @@
+
+================ 種子 36：PASS ================
+區域 build 58 次、5.4 秒；turbo 格 10187
+到 2025-09-07　步數 1412　格數 28271　虛擬時間 1.4 小時　開頁面 1 次　真實 16.4 秒　（game3d.js：對話有 sayStack）
+結束時：{"attended":3,"day":-9,"date":"2025-09-07","evDone":14,"money":36900,"stage":"law","contacts":4,"invites":4,"invDone":1,"goingSeen":0,"msgs":65}
+個性：{"classP":0.8896594017278403,"lateP":0.14418377517722547,"phoneP":0.21947853247402235,"talkP":0.20712298203725368,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002}
+
+注意（不算 FAIL）：
+  35 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）
+  17 次　3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-08-31 22:19 campus）
+  1 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  1 次　對話重疊：一句話還沒點，另一段的話蓋上來（game3d.js 會在演完後放回去）　例：一句話還沒點，另一段的話蓋上來，演完會放回去（2025-08-31 15:01 gym_arena）
+  1 次　migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V　例：G.flags.LIFELINE_V：undefined → 1（2025-09-04 18:36 xinsheng）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：青木茶室 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-04 20:51 aoki）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-04 21:57 cvs）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-06 21:56 wz_offbeat）
+@@RESULT {"seed":36,"ok":true,"reached":"2025-09-07","steps":1412,"frames":28271,"vms":4866000,"pages":1,"fails":[],"notes":[{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":35,"ex":"portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗","n":17,"ex":"unknown asset prop.bike_ride（2025-08-31 22:19 campus）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":1,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"},{"k":"對話重疊：一句話還沒點，另一段的話蓋上來（game3d.js 會在演完後放回去）","n":1,"ex":"一句話還沒點，另一段的話蓋上來，演完會放回去（2025-08-31 15:01 gym_arena）"},{"k":"migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V","n":1,"ex":"G.flags.LIFELINE_V：undefined → 1（2025-09-04 18:36 xinsheng）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：青木茶室 室內正式模型載入失敗，用備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-04 20:51 aoki）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-04 21:57 cvs）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-06 21:56 wz_offbeat）"}],"missingE":[],"persona":{"classP":0.8896594017278403,"lateP":0.14418377517722547,"phoneP":0.21947853247402235,"talkP":0.20712298203725368,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002},"sayStack":true,"chooseStack":true,"g":{"attended":3,"day":-9,"date":"2025-09-07","evDone":14,"money":36900,"stage":"law","contacts":4,"invites":4,"invDone":1,"goingSeen":0,"msgs":65}}
+（16.4 秒）

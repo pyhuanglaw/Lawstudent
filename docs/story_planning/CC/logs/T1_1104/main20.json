@@ -1,0 +1,634 @@
+{
+ "root": "/tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c",
+ "track": "law",
+ "from": "2025-08-29",
+ "to": "2026-06-30",
+ "ms": 543562,
+ "results": [
+  {
+   "seed": 1,
+   "ok": true,
+   "reached": "2026-07-01",
+   "steps": 27534,
+   "frames": 558494,
+   "vms": 100204900,
+   "pages": 26,
+   "fails": [],
+   "notes": [
+    {
+     "k": "星期和日期對不上（syncWeekday 改回來）",
+     "n": 26,
+     "ex": "星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"
+    },
+    {
+     "k": "立繪缺檔 → 用 neutral（素材，不算）",
+     "n": 198,
+     "ex": "portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗",
+     "n": 288,
+     "ex": "unknown asset prop.bike_ride（2025-08-30 20:36 campus）"
+    },
+    {
+     "k": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）",
+     "n": 6,
+     "ex": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-01 08:17 dorm）"
+    },
+    {
+     "k": "migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V",
+     "n": 1,
+     "ex": "G.flags.LIFELINE_V：undefined → 1（2025-09-03 07:48 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型",
+     "n": 8,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-07 11:57 afar）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型",
+     "n": 9,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-27 14:08 bookstore）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型",
+     "n": 13,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-10-02 21:15 cvs）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：SUNNY SIDE 室內正式模型載入失敗，用備用模型",
+     "n": 5,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-11-02 10:16 wz_brunch）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：青木茶室 室內正式模型載入失敗，用備用模型",
+     "n": 12,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-01-03 20:11 aoki）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：阿德影印輸出 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-01-07 19:34 wz_print）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型",
+     "n": 8,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-01-21 23:13 wz_offbeat）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：一盞 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-03-04 15:24 wz_teahouse）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：Daybreak 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-03-31 08:57 daybreak）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型",
+     "n": 5,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-04-19 20:15 cafe）"
+    }
+   ],
+   "missingE": [],
+   "persona": {
+    "classP": 0.46377366874367,
+    "lateP": 0.21738413767889142,
+    "phoneP": 0.34350345729617404,
+    "talkP": 0.24267076239921154,
+    "reloadP": 0.002,
+    "snapP": 0.0025,
+    "midReloadP": 0.0002
+   },
+   "sayStack": true,
+   "chooseStack": true,
+   "g": {
+    "attended": 150,
+    "day": 288,
+    "date": "2026-07-01",
+    "evDone": 86,
+    "money": 303050,
+    "stage": "law",
+    "contacts": 8,
+    "invites": 53,
+    "invDone": 20,
+    "goingSeen": 1,
+    "msgs": 200
+   },
+   "ms": 543559
+  },
+  {
+   "seed": 2,
+   "ok": true,
+   "reached": "2026-07-01",
+   "steps": 24006,
+   "frames": 543386,
+   "vms": 99847500,
+   "pages": 40,
+   "fails": [],
+   "notes": [
+    {
+     "k": "星期和日期對不上（syncWeekday 改回來）",
+     "n": 40,
+     "ex": "星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"
+    },
+    {
+     "k": "立繪缺檔 → 用 neutral（素材，不算）",
+     "n": 306,
+     "ex": "portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗",
+     "n": 233,
+     "ex": "unknown asset prop.bike_ride（2025-09-03 10:07 campus）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型",
+     "n": 18,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-04 18:24 cvs）"
+    },
+    {
+     "k": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）",
+     "n": 6,
+     "ex": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-16 21:26 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型",
+     "n": 16,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-10-31 12:33 cafe）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型",
+     "n": 10,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-11-03 20:41 afar）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：青木茶室 室內正式模型載入失敗，用備用模型",
+     "n": 8,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-11-13 20:52 aoki）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型",
+     "n": 4,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-11-21 21:54 bookstore）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：小路 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-03-19 22:17 wz_teishoku）"
+    }
+   ],
+   "missingE": [],
+   "persona": {
+    "classP": 0.6224826826713978,
+    "lateP": 0.30833350704051554,
+    "phoneP": 0.18275897033745422,
+    "talkP": 0.27617373878601936,
+    "reloadP": 0.002,
+    "snapP": 0.0025,
+    "midReloadP": 0.001
+   },
+   "sayStack": true,
+   "chooseStack": true,
+   "g": {
+    "attended": 166,
+    "day": 288,
+    "date": "2026-07-01",
+    "evDone": 84,
+    "money": 334190,
+    "stage": "law",
+    "contacts": 10,
+    "invites": 50,
+    "invDone": 13,
+    "goingSeen": 2,
+    "msgs": 200
+   },
+   "ms": 542895
+  },
+  {
+   "seed": 3,
+   "ok": true,
+   "reached": "2026-07-05",
+   "steps": 23082,
+   "frames": 545490,
+   "vms": 97298900,
+   "pages": 46,
+   "fails": [],
+   "notes": [
+    {
+     "k": "星期和日期對不上（syncWeekday 改回來）",
+     "n": 46,
+     "ex": "星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"
+    },
+    {
+     "k": "立繪缺檔 → 用 neutral（素材，不算）",
+     "n": 316,
+     "ex": "portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"
+    },
+    {
+     "k": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）",
+     "n": 11,
+     "ex": "說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-08-30 21:59 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗",
+     "n": 219,
+     "ex": "unknown asset prop.bike_ride（2025-08-31 21:11 campus）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型",
+     "n": 14,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-04 17:20 cvs）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型",
+     "n": 12,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-09 12:20 cafe）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：阿德影印輸出 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-26 15:05 wz_print）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型",
+     "n": 4,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-09-26 20:39 wz_offbeat）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：青木茶室 室內正式模型載入失敗，用備用模型",
+     "n": 7,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-10-17 20:58 aoki）"
+    },
+    {
+     "k": "選單重疊：一個選單蓋在另一個還沒選的選單上",
+     "n": 1,
+     "ex": "選單蓋在另一個還沒選的選單上，選完會放回去（2025-12-20 20:44 dorm）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型",
+     "n": 5,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2025-12-22 12:07 bookstore）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：Daybreak 室內正式模型載入失敗，用備用模型",
+     "n": 1,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-01-31 12:30 daybreak）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：小路 室內正式模型載入失敗，用備用模型",
+     "n": 2,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-02-08 22:32 wz_teishoku）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：SUNNY SIDE 室內正式模型載入失敗，用備用模型",
+     "n": 2,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-04-25 09:54 wz_brunch）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：一盞 室內正式模型載入失敗，用備用模型",
+     "n": 2,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-05-06 14:47 wz_teahouse）"
+    },
+    {
+     "k": "3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型",
+     "n": 2,
+     "ex": "NO_NET（random_play_sim 不下載素材）（2026-05-06 17:18 afar）"
+    }
+   ],
+   "missingE": [],
+   "persona": {
+    "classP": 0.6326218867674469,
+    "lateP": 0.3484894384164363,
+    "phoneP": 0.1522309526684694,
+    "talkP": 0.43800013547297567,
+    "reloadP": 0.0004,
+    "snapP": 0.0025,
+    "midReloadP": 0.001
+   },
+   "sayStack": true,
+   "chooseStack": true,
+   "g": {
+    "attended": 171,
+    "day": 292,
+    "date": "2026-07-05",
+    "evDone": 82,
+    "money": 332235,
+    "stage": "law",
+    "contacts": 9,
+    "invites": 53,
+    "invDone": 19,
+    "goingSeen": 2,
+    "msgs": 200
+   },
+   "ms": 537064
+  },
+  {
+   "seed": 4,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 37
+  },
+  {
+   "seed": 5,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 34
+  },
+  {
+   "seed": 6,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 30
+  },
+  {
+   "seed": 7,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 28
+  },
+  {
+   "seed": 8,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 29
+  },
+  {
+   "seed": 9,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 29
+  },
+  {
+   "seed": 10,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 30
+  },
+  {
+   "seed": 11,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 31
+  },
+  {
+   "seed": 12,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 34
+  },
+  {
+   "seed": 13,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 33
+  },
+  {
+   "seed": 14,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 32
+  },
+  {
+   "seed": 15,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 33
+  },
+  {
+   "seed": 16,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 30
+  },
+  {
+   "seed": 17,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 37
+  },
+  {
+   "seed": 18,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 30
+  },
+  {
+   "seed": 19,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 30
+  },
+  {
+   "seed": 20,
+   "ok": false,
+   "skipped": true,
+   "reached": null,
+   "steps": 0,
+   "frames": 0,
+   "fails": [
+    {
+     "kind": "SKIPPED",
+     "cls": "—",
+     "why": "--out 裡有 STOP（暫停開新的種子），沒有跑",
+     "msg": "",
+     "lastActions": []
+    }
+   ],
+   "ms": 30
+  }
+ ]
+}

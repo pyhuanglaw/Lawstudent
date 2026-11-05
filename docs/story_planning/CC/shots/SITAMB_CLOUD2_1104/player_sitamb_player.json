@@ -1,0 +1,1970 @@
+{
+ "loc": "player",
+ "sha": "d3828452a",
+ "seed": 1104,
+ "seg_s": 12.0,
+ "rec_fps": 10.0,
+ "kinds": [
+  "look",
+  "side",
+  "hair",
+  "glance",
+  "stretch",
+  "page",
+  "posture",
+  "up"
+ ],
+ "view": "844x390",
+ "runs": [
+  {
+   "mode": "amb",
+   "url_extra": "",
+   "stops": [
+    {
+     "zone": "library_hall",
+     "hour": 14.0,
+     "day": 9,
+     "what": "玩家坐下讀書",
+     "seated0": {
+      "zone": "library_hall",
+      "hour": 14.02,
+      "day": 9,
+      "weekday": 4,
+      "date": "2025-09-25",
+      "sitAmb": true,
+      "ready": true,
+      "npcs": 10,
+      "seatact": {
+       "zone": "library_hall",
+       "place": "library",
+       "n": 6,
+       "loaded": true,
+       "acts": [
+        "phone",
+        "tablet",
+        "textbook",
+        "book*",
+        "book*",
+        "book*"
+       ]
+      },
+      "pairs": 0,
+      "fig": [],
+      "player": {
+       "x": 0,
+       "y": 0,
+       "z": 6.6,
+       "lv": 0,
+       "pose": "idle",
+       "seat": false
+      },
+      "seated": [
+       {
+        "i": 1,
+        "name": "",
+        "pose": "read",
+        "x": -8.075,
+        "y": 5,
+        "z": 3.8,
+        "yaw": 3.142,
+        "lv": 1,
+        "seat": {
+         "x": -8.07,
+         "z": 3.8,
+         "table": null,
+         "kind": null,
+         "row": null,
+         "col": null,
+         "room": null,
+         "floor": 0,
+         "y": null
+        },
+        "drv": "vrm",
+        "vis": false,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "phone",
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": {
+         "act": "phone",
+         "set": null,
+         "hold": "phone",
+         "named": false
+        },
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 2.4,
+         "t": 9.989,
+         "rate": 0.4611,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.044,
+          -0.011,
+          0.026
+         ]
+        }
+       },
+       {
+        "i": 2,
+        "name": "",
+        "pose": "read",
+        "x": -9.125,
+        "y": 5,
+        "z": 5.8,
+        "yaw": 0,
+        "lv": 1,
+        "seat": {
+         "x": -9.13,
+         "z": 5.8,
+         "table": null,
+         "kind": null,
+         "row": null,
+         "col": null,
+         "room": null,
+         "floor": 0,
+         "y": null
+        },
+        "drv": "vrm",
+        "vis": false,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "phone",
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": {
+         "act": "tablet",
+         "set": null,
+         "hold": "phone",
+         "named": false
+        },
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 10.11,
+         "t": 8.761,
+         "rate": 0.5502,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.033,
+          0.027,
+          -0.023
+         ]
+        }
+       },
+       {
+        "i": 3,
+        "name": "",
+        "pose": "sit",
+        "x": -7.025,
+        "y": 5,
+        "z": 7.4,
+        "yaw": 3.142,
+        "lv": 1,
+        "seat": {
+         "x": -7.02,
+         "z": 7.4,
+         "table": null,
+         "kind": null,
+         "row": null,
+         "col": null,
+         "room": null,
+         "floor": 0,
+         "y": null
+        },
+        "drv": "vrm",
+        "vis": false,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": {
+         "act": "textbook",
+         "set": null,
+         "hold": null,
+         "named": false
+        },
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 1.42,
+         "t": 7.729,
+         "rate": 0.5645,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.008,
+          -0.041,
+          -0.048
+         ]
+        }
+       },
+       {
+        "i": 7,
+        "name": "歷史系的學生",
+        "pose": "read",
+        "x": 2,
+        "y": 0,
+        "z": -1.405,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 2,
+         "z": -1.41,
+         "table": null,
+         "kind": null,
+         "row": null,
+         "col": null,
+         "room": null,
+         "floor": 0,
+         "y": null
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": true,
+        "partner": -1,
+        "mutual": false,
+        "act": {
+         "act": "book",
+         "set": null,
+         "hold": null,
+         "named": true
+        },
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 5.73,
+         "t": 4.969,
+         "rate": 0.4709,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.011,
+          -0.001,
+          -0.009
+         ]
+        }
+       },
+       {
+        "i": 8,
+        "name": "歷史系的學生",
+        "pose": "read",
+        "x": 3.6,
+        "y": 0,
+        "z": -1.405,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 3.6,
+         "z": -1.41,
+         "table": null,
+         "kind": null,
+         "row": null,
+         "col": null,
+         "room": null,
+         "floor": 0,
+         "y": null
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": true,
+        "partner": -1,
+        "mutual": false,
+        "act": {
+         "act": "book",
+         "set": null,
+         "hold": null,
+         "named": true
+        },
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 11.98,
+         "t": 4.76,
+         "rate": 0.4436,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.015,
+          -0.005,
+          -0.049
+         ]
+        }
+       },
+       {
+        "i": 9,
+        "name": "常在圖書館的男生",
+        "pose": "read",
+        "x": 2.8,
+        "y": 0,
+        "z": -1.405,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 2.8,
+         "z": -1.41,
+         "table": null,
+         "kind": null,
+         "row": null,
+         "col": null,
+         "room": null,
+         "floor": 0,
+         "y": null
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": false,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": true,
+        "partner": -1,
+        "mutual": false,
+        "act": {
+         "act": "book",
+         "set": null,
+         "hold": null,
+         "named": true
+        },
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 14.34,
+         "t": 8.226,
+         "rate": 0.5577,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.029,
+          0.001,
+          0.032
+         ]
+        }
+       }
+      ],
+      "clips": [
+       [
+        "Sitting_Idle_Loop",
+        1.667
+       ],
+       [
+        "Sitting_Idle02_Loop",
+        2.5
+       ],
+       [
+        "Sitting_Idle03_Loop",
+        4.167
+       ],
+       [
+        "Sitting_Talking_Loop",
+        2.933
+       ],
+       [
+        "Sitting_Nodding_Loop",
+        2.933
+       ],
+       [
+        "Sitting_Enter",
+        1.3
+       ],
+       [
+        "Sitting_Exit",
+        1.033
+       ],
+       [
+        "Drink",
+        3
+       ],
+       [
+        "Idle_LookAround_Loop",
+        4.6
+       ],
+       [
+        "Yes",
+        2.5
+       ],
+       [
+        "Consume",
+        1.333
+       ],
+       [
+        "Idle_TalkingPhone_Loop",
+        2.933
+       ]
+      ]
+     },
+     "seated0_wait_s": 8.1,
+     "segs": [
+      {
+       "tag": "player_read",
+       "secs": 12.0,
+       "n": 120,
+       "dt": 0.1,
+       "cam": null,
+       "sched": [
+        [
+         0.5,
+         0,
+         "posture"
+        ],
+        [
+         3.5,
+         0,
+         "page"
+        ],
+        [
+         5.6,
+         0,
+         "posture"
+        ],
+        [
+         8.6,
+         0,
+         "page"
+        ]
+       ],
+       "targets": [
+        "player"
+       ],
+       "fid": [
+        {
+         "f": 5,
+         "t": 0,
+         "i": -1,
+         "kind": "posture",
+         "ok": true,
+         "got": "posture",
+         "live": true,
+         "chat": null
+        },
+        {
+         "f": 35,
+         "t": 0,
+         "i": -1,
+         "kind": "page",
+         "ok": true,
+         "got": "page",
+         "live": true,
+         "chat": null
+        },
+        {
+         "f": 56,
+         "t": 0,
+         "i": -1,
+         "kind": "posture",
+         "ok": true,
+         "got": "posture",
+         "live": true,
+         "chat": null
+        },
+        {
+         "f": 86,
+         "t": 0,
+         "i": -1,
+         "kind": "page",
+         "ok": true,
+         "got": "page",
+         "live": true,
+         "chat": null
+        }
+       ],
+       "starts": [
+        {
+         "f": 5,
+         "i": -1,
+         "kind": "posture"
+        },
+        {
+         "f": 10,
+         "i": 3,
+         "kind": "look"
+        },
+        {
+         "f": 19,
+         "i": 1,
+         "kind": "posture"
+        },
+        {
+         "f": 35,
+         "i": -1,
+         "kind": "page"
+        },
+        {
+         "f": 53,
+         "i": 7,
+         "kind": "stretch"
+        },
+        {
+         "f": 56,
+         "i": -1,
+         "kind": "posture"
+        },
+        {
+         "f": 86,
+         "i": -1,
+         "kind": "page"
+        },
+        {
+         "f": 96,
+         "i": 2,
+         "kind": "posture"
+        },
+        {
+         "f": 115,
+         "i": 8,
+         "kind": "side"
+        },
+        {
+         "f": 117,
+         "i": -1,
+         "kind": "posture"
+        }
+       ],
+       "roles": [],
+       "diff_mean": 0.268,
+       "diffs": [
+        0,
+        14.232,
+        6.54,
+        2.902,
+        1.427,
+        0.946,
+        0.547,
+        0.422,
+        0.256,
+        0.154,
+        0.123,
+        0.082,
+        0.081,
+        0.07,
+        0.066,
+        0.058,
+        0.061,
+        0.038,
+        0.039,
+        0.051,
+        0.04,
+        0.047,
+        0.039,
+        0.035,
+        0.041,
+        0.031,
+        0.031,
+        0.033,
+        0.034,
+        0.037,
+        0.041,
+        0.037,
+        0.038,
+        0.039,
+        0.036,
+        0.028,
+        0.031,
+        0.032,
+        0.047,
+        0.046,
+        0.047,
+        0.049,
+        0.046,
+        0.047,
+        0.048,
+        0.046,
+        0.047,
+        0.038,
+        0.018,
+        0.038,
+        0.032,
+        0.032,
+        0.026,
+        0.026,
+        0.032,
+        0.037,
+        0.051,
+        0.052,
+        0.045,
+        0.054,
+        0.053,
+        0.048,
+        0.054,
+        0.055,
+        0.045,
+        0.034,
+        0.034,
+        0.024,
+        0.041,
+        0.043,
+        0.044,
+        0.045,
+        0.046,
+        0.042,
+        0.044,
+        0.049,
+        0.047,
+        0.045,
+        0.026,
+        0.036,
+        0.033,
+        0.034,
+        0.034,
+        0.03,
+        0.031,
+        0.032,
+        0.033,
+        0.038,
+        0.038,
+        0.034,
+        0.042,
+        0.05,
+        0.049,
+        0.054,
+        0.053,
+        0.039,
+        0.086,
+        0.072,
+        0.061,
+        0.053,
+        0.049,
+        0.04,
+        0.036,
+        0.025,
+        0.024,
+        0.028,
+        0.034,
+        0.043,
+        0.022,
+        0.035,
+        0.035,
+        0.03,
+        0.035,
+        0.033,
+        0.034,
+        0.034,
+        0.034,
+        0.053,
+        0.049,
+        0.053
+       ],
+       "shots": [
+        {
+         "f": 1,
+         "d": 14.232,
+         "top": true,
+         "why": [],
+         "file": "amb/player_read_f0001_top.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 2,
+         "d": 6.54,
+         "top": true,
+         "why": [],
+         "file": "amb/player_read_f0002_top.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 3,
+         "d": 2.902,
+         "top": true,
+         "why": [],
+         "file": "amb/player_read_f0003_top.jpg",
+         "kb": 83.0
+        },
+        {
+         "f": 4,
+         "d": 1.427,
+         "top": true,
+         "why": [],
+         "file": "amb/player_read_f0004_top.jpg",
+         "kb": 82.7
+        },
+        {
+         "f": 5,
+         "d": 0.946,
+         "top": true,
+         "why": [],
+         "file": "amb/player_read_f0005_top.jpg",
+         "kb": 82.9
+        },
+        {
+         "f": 6,
+         "d": 0.547,
+         "top": true,
+         "why": [],
+         "file": "amb/player_read_f0006_top.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 7,
+         "d": 0.422,
+         "top": true,
+         "why": [],
+         "file": "amb/player_read_f0007_top.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 8,
+         "d": 0.256,
+         "top": true,
+         "why": [],
+         "file": "amb/player_read_f0008_top.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 9,
+         "d": 0.154,
+         "top": true,
+         "why": [],
+         "file": "amb/player_read_f0009_top.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 10,
+         "d": 0.123,
+         "top": true,
+         "why": [
+          "posture0_0.5s"
+         ],
+         "file": "amb/player_read_f0010_top_posture0_0p5s.jpg",
+         "kb": 82.9
+        },
+        {
+         "f": 20,
+         "d": 0.04,
+         "top": false,
+         "why": [
+          "posture0_1.5s"
+         ],
+         "file": "amb/player_read_f0020_posture0_1p5s.jpg",
+         "kb": 82.9
+        },
+        {
+         "f": 40,
+         "d": 0.047,
+         "top": false,
+         "why": [
+          "page0_0.5s"
+         ],
+         "file": "amb/player_read_f0040_page0_0p5s.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 50,
+         "d": 0.032,
+         "top": false,
+         "why": [
+          "page0_1.5s"
+         ],
+         "file": "amb/player_read_f0050_page0_1p5s.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 61,
+         "d": 0.048,
+         "top": false,
+         "why": [
+          "posture0_0.5s"
+         ],
+         "file": "amb/player_read_f0061_posture0_0p5s.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 71,
+         "d": 0.045,
+         "top": false,
+         "why": [
+          "posture0_1.5s"
+         ],
+         "file": "amb/player_read_f0071_posture0_1p5s.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 91,
+         "d": 0.05,
+         "top": false,
+         "why": [
+          "page0_0.5s"
+         ],
+         "file": "amb/player_read_f0091_page0_0p5s.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 101,
+         "d": 0.04,
+         "top": false,
+         "why": [
+          "page0_1.5s"
+         ],
+         "file": "amb/player_read_f0101_page0_1p5s.jpg",
+         "kb": 82.8
+        }
+       ],
+       "page_ms": 122356,
+       "canvas": [
+        844,
+        390
+       ],
+       "err": null
+      },
+      {
+       "tag": "player_sit",
+       "secs": 12.0,
+       "n": 120,
+       "dt": 0.1,
+       "cam": null,
+       "sched": [
+        [
+         0.5,
+         0,
+         "posture"
+        ],
+        [
+         3.5,
+         0,
+         "look"
+        ],
+        [
+         7.34,
+         0,
+         "posture"
+        ]
+       ],
+       "targets": [
+        "player"
+       ],
+       "fid": [
+        {
+         "f": 5,
+         "t": 0,
+         "i": -1,
+         "kind": "posture",
+         "ok": true,
+         "got": "posture",
+         "live": true,
+         "chat": null
+        },
+        {
+         "f": 35,
+         "t": 0,
+         "i": -1,
+         "kind": "look",
+         "ok": true,
+         "got": "look",
+         "live": true,
+         "chat": null
+        },
+        {
+         "f": 73,
+         "t": 0,
+         "i": -1,
+         "kind": "posture",
+         "ok": true,
+         "got": "posture",
+         "live": true,
+         "chat": null
+        }
+       ],
+       "starts": [
+        {
+         "f": 5,
+         "i": -1,
+         "kind": "posture"
+        },
+        {
+         "f": 35,
+         "i": -1,
+         "kind": "look"
+        },
+        {
+         "f": 46,
+         "i": 7,
+         "kind": "posture"
+        },
+        {
+         "f": 73,
+         "i": -1,
+         "kind": "posture"
+        },
+        {
+         "f": 86,
+         "i": 3,
+         "kind": "side"
+        },
+        {
+         "f": 95,
+         "i": 2,
+         "kind": "look"
+        }
+       ],
+       "roles": [],
+       "diff_mean": 0.092,
+       "diffs": [
+        0,
+        0.029,
+        0.032,
+        0.032,
+        0.027,
+        0.036,
+        0.041,
+        0.042,
+        0.043,
+        0.048,
+        0.047,
+        0.04,
+        0.033,
+        0.063,
+        0.101,
+        0.111,
+        0.125,
+        0.118,
+        0.068,
+        0.081,
+        0.062,
+        0.047,
+        0.066,
+        0.056,
+        0.078,
+        0.047,
+        0.051,
+        0.08,
+        0.089,
+        0.048,
+        0.084,
+        0.091,
+        0.073,
+        0.072,
+        0.107,
+        0.113,
+        0.099,
+        0.078,
+        0.088,
+        0.096,
+        0.101,
+        0.071,
+        0.054,
+        0.05,
+        0.057,
+        0.068,
+        0.069,
+        0.065,
+        0.057,
+        0.05,
+        0.05,
+        0.052,
+        0.053,
+        0.071,
+        0.054,
+        0.035,
+        0.046,
+        0.032,
+        0.032,
+        0.03,
+        0.028,
+        0.036,
+        0.035,
+        0.034,
+        0.033,
+        0.035,
+        0.039,
+        0.041,
+        0.049,
+        0.046,
+        0.045,
+        0.043,
+        0.03,
+        0.057,
+        0.048,
+        0.058,
+        0.056,
+        0.058,
+        0.051,
+        0.054,
+        0.05,
+        0.048,
+        0.049,
+        0.046,
+        0.047,
+        0.029,
+        0.058,
+        0.057,
+        0.057,
+        0.113,
+        0.122,
+        0.1,
+        0.166,
+        0.143,
+        0.127,
+        0.132,
+        0.121,
+        0.139,
+        0.2,
+        0.223,
+        0.208,
+        0.198,
+        0.193,
+        0.189,
+        0.16,
+        0.142,
+        0.235,
+        0.282,
+        0.284,
+        0.26,
+        0.238,
+        0.22,
+        0.243,
+        0.193,
+        0.197,
+        0.205,
+        0.246,
+        0.231,
+        0.235,
+        0.213
+       ],
+       "shots": [
+        {
+         "f": 10,
+         "d": 0.047,
+         "top": false,
+         "why": [
+          "posture0_0.5s"
+         ],
+         "file": "amb/player_sit_f0010_posture0_0p5s.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 20,
+         "d": 0.062,
+         "top": false,
+         "why": [
+          "posture0_1.5s"
+         ],
+         "file": "amb/player_sit_f0020_posture0_1p5s.jpg",
+         "kb": 82.9
+        },
+        {
+         "f": 40,
+         "d": 0.101,
+         "top": false,
+         "why": [
+          "look0_0.5s"
+         ],
+         "file": "amb/player_sit_f0040_look0_0p5s.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 50,
+         "d": 0.05,
+         "top": false,
+         "why": [
+          "look0_1.5s"
+         ],
+         "file": "amb/player_sit_f0050_look0_1p5s.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 78,
+         "d": 0.051,
+         "top": false,
+         "why": [
+          "posture0_0.5s"
+         ],
+         "file": "amb/player_sit_f0078_posture0_0p5s.jpg",
+         "kb": 82.7
+        },
+        {
+         "f": 88,
+         "d": 0.057,
+         "top": false,
+         "why": [
+          "posture0_1.5s"
+         ],
+         "file": "amb/player_sit_f0088_posture0_1p5s.jpg",
+         "kb": 82.8
+        },
+        {
+         "f": 99,
+         "d": 0.223,
+         "top": true,
+         "why": [],
+         "file": "amb/player_sit_f0099_top.jpg",
+         "kb": 83.2
+        },
+        {
+         "f": 106,
+         "d": 0.235,
+         "top": true,
+         "why": [],
+         "file": "amb/player_sit_f0106_top.jpg",
+         "kb": 83.1
+        },
+        {
+         "f": 107,
+         "d": 0.282,
+         "top": true,
+         "why": [],
+         "file": "amb/player_sit_f0107_top.jpg",
+         "kb": 83.2
+        },
+        {
+         "f": 108,
+         "d": 0.284,
+         "top": true,
+         "why": [],
+         "file": "amb/player_sit_f0108_top.jpg",
+         "kb": 83.2
+        },
+        {
+         "f": 109,
+         "d": 0.26,
+         "top": true,
+         "why": [],
+         "file": "amb/player_sit_f0109_top.jpg",
+         "kb": 83.2
+        },
+        {
+         "f": 110,
+         "d": 0.238,
+         "top": true,
+         "why": [],
+         "file": "amb/player_sit_f0110_top.jpg",
+         "kb": 83.2
+        },
+        {
+         "f": 112,
+         "d": 0.243,
+         "top": true,
+         "why": [],
+         "file": "amb/player_sit_f0112_top.jpg",
+         "kb": 83.2
+        },
+        {
+         "f": 116,
+         "d": 0.246,
+         "top": true,
+         "why": [],
+         "file": "amb/player_sit_f0116_top.jpg",
+         "kb": 83.1
+        },
+        {
+         "f": 117,
+         "d": 0.231,
+         "top": true,
+         "why": [],
+         "file": "amb/player_sit_f0117_top.jpg",
+         "kb": 83.2
+        },
+        {
+         "f": 118,
+         "d": 0.235,
+         "top": true,
+         "why": [],
+         "file": "amb/player_sit_f0118_top.jpg",
+         "kb": 83.1
+        }
+       ],
+       "page_ms": 124238,
+       "canvas": [
+        844,
+        390
+       ],
+       "err": null
+      }
+     ]
+    },
+    {
+     "zone": "cafe",
+     "hour": 15.0,
+     "day": 9,
+     "what": "和坐著的 NPC 說話",
+     "seated0": {
+      "zone": "cafe",
+      "hour": 15.03,
+      "day": 9,
+      "weekday": 4,
+      "date": "2025-09-25",
+      "sitAmb": true,
+      "ready": true,
+      "npcs": 4,
+      "seatact": {
+       "zone": "cafe",
+       "place": "cafe",
+       "n": 3,
+       "loaded": true,
+       "acts": [
+        "textbook",
+        "book",
+        "book*"
+       ]
+      },
+      "pairs": 0,
+      "fig": [],
+      "player": {
+       "x": 0,
+       "y": 0,
+       "z": 4.6,
+       "lv": 0,
+       "pose": "idle",
+       "seat": false
+      },
+      "seated": [
+       {
+        "i": 0,
+        "name": "",
+        "pose": "sit",
+        "x": 4.5,
+        "y": 0,
+        "z": 2.3,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 4.5,
+         "z": 2.3,
+         "table": null,
+         "kind": null,
+         "row": null,
+         "col": null,
+         "room": null,
+         "floor": 0,
+         "y": null
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": true,
+        "partner": -1,
+        "mutual": false,
+        "act": {
+         "act": "textbook",
+         "set": null,
+         "hold": null,
+         "named": false
+        },
+        "amb": {
+         "n": 1,
+         "kinds": {
+          "up": 1
+         },
+         "fx": "up",
+         "next": 11.63,
+         "t": 6.968,
+         "rate": 0.5211,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.058,
+          0.015,
+          -0.05
+         ]
+        }
+       },
+       {
+        "i": 1,
+        "name": "",
+        "pose": "read",
+        "x": -4,
+        "y": 0,
+        "z": 3.3,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": -4,
+         "z": 3.3,
+         "table": null,
+         "kind": null,
+         "row": null,
+         "col": null,
+         "room": null,
+         "floor": 0,
+         "y": null
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": true,
+        "partner": -1,
+        "mutual": false,
+        "act": {
+         "act": "book",
+         "set": null,
+         "hold": "book",
+         "named": false
+        },
+        "amb": {
+         "n": 1,
+         "kinds": {
+          "glance": 1
+         },
+         "fx": "glance",
+         "next": 10.19,
+         "t": 10.565,
+         "rate": 0.479,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.029,
+          -0.0,
+          -0.025
+         ]
+        }
+       },
+       {
+        "i": 3,
+        "name": "抱著一疊講義的女生",
+        "pose": "read",
+        "x": -5.95,
+        "y": 0,
+        "z": 3.95,
+        "yaw": 1.571,
+        "lv": 0,
+        "seat": {
+         "x": -5.95,
+         "z": 3.95,
+         "table": null,
+         "kind": null,
+         "row": null,
+         "col": null,
+         "room": null,
+         "floor": 0,
+         "y": null
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": false,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": true,
+        "partner": -1,
+        "mutual": false,
+        "act": {
+         "act": "book",
+         "set": null,
+         "hold": null,
+         "named": true
+        },
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 1.68,
+         "t": 7.304,
+         "rate": 0.5174,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.037,
+          0.016,
+          -0.005
+         ]
+        }
+       }
+      ],
+      "clips": [
+       [
+        "Sitting_Idle_Loop",
+        1.667
+       ],
+       [
+        "Sitting_Idle02_Loop",
+        2.5
+       ],
+       [
+        "Sitting_Idle03_Loop",
+        4.167
+       ],
+       [
+        "Sitting_Talking_Loop",
+        2.933
+       ],
+       [
+        "Sitting_Nodding_Loop",
+        2.933
+       ],
+       [
+        "Sitting_Enter",
+        1.3
+       ],
+       [
+        "Sitting_Exit",
+        1.033
+       ],
+       [
+        "Drink",
+        3
+       ],
+       [
+        "Idle_LookAround_Loop",
+        4.6
+       ],
+       [
+        "Yes",
+        2.5
+       ],
+       [
+        "Consume",
+        1.333
+       ],
+       [
+        "Idle_TalkingPhone_Loop",
+        2.933
+       ]
+      ]
+     },
+     "seated0_wait_s": 8.0,
+     "talk": {
+      "btn": "坐在角落的沙發",
+      "dialog": false
+     },
+     "segs": [
+      {
+       "tag": "player_talk",
+       "secs": 12.0,
+       "n": 120,
+       "dt": 0.1,
+       "cam": [
+        [
+         -4.836,
+         1.35,
+         3.188
+        ],
+        [
+         -5.95,
+         0.85,
+         3.95
+        ]
+       ],
+       "sched": [
+        [
+         0.5,
+         0,
+         "look"
+        ],
+        [
+         4.34,
+         0,
+         "side"
+        ]
+       ],
+       "targets": [
+        {
+         "i": 3,
+         "name": "抱著一疊講義的女生",
+         "pose": "read",
+         "item": "book",
+         "x": -5.95,
+         "z": 3.95,
+         "lv": 0,
+         "floor": false,
+         "sex": "f",
+         "seat": {
+          "x": -5.95,
+          "z": 3.95,
+          "table": null,
+          "kind": null,
+          "row": null,
+          "col": null,
+          "room": null,
+          "floor": 0,
+          "y": null
+         },
+         "act": {
+          "act": "book",
+          "set": null,
+          "hold": null,
+          "named": true
+         },
+         "chat": null
+        }
+       ],
+       "fid": [
+        {
+         "f": 5,
+         "t": 0,
+         "i": 3,
+         "kind": "look",
+         "ok": true,
+         "got": "look",
+         "live": false,
+         "chat": null
+        },
+        {
+         "f": 43,
+         "t": 0,
+         "i": 3,
+         "kind": "side",
+         "ok": true,
+         "got": "side",
+         "live": true,
+         "chat": null
+        }
+       ],
+       "starts": [
+        {
+         "f": 5,
+         "i": 3,
+         "kind": "look"
+        },
+        {
+         "f": 43,
+         "i": 3,
+         "kind": "side"
+        },
+        {
+         "f": 115,
+         "i": 1,
+         "kind": "page"
+        }
+       ],
+       "roles": [],
+       "diff_mean": 0.151,
+       "diffs": [
+        0,
+        1.014,
+        0.907,
+        0.813,
+        0.713,
+        0.678,
+        0.471,
+        0.538,
+        0.391,
+        0.277,
+        0.205,
+        0.182,
+        0.152,
+        0.098,
+        0.026,
+        0.089,
+        0.087,
+        0.09,
+        0.091,
+        0.091,
+        0.087,
+        0.098,
+        0.109,
+        0.103,
+        0.112,
+        0.106,
+        0.108,
+        0.112,
+        0.119,
+        0.116,
+        0.113,
+        0.118,
+        0.043,
+        0.05,
+        0.052,
+        0.109,
+        0.139,
+        0.138,
+        0.135,
+        0.138,
+        0.137,
+        0.132,
+        0.138,
+        0.221,
+        0.27,
+        0.19,
+        0.162,
+        0.318,
+        0.088,
+        0.093,
+        0.094,
+        0.089,
+        0.088,
+        0.096,
+        0.108,
+        0.105,
+        0.109,
+        0.11,
+        0.108,
+        0.117,
+        0.116,
+        0.113,
+        0.114,
+        0.115,
+        0.053,
+        0.05,
+        0.051,
+        0.086,
+        0.141,
+        0.14,
+        0.137,
+        0.135,
+        0.137,
+        0.136,
+        0.136,
+        0.134,
+        0.14,
+        0.129,
+        0.059,
+        0.079,
+        0.09,
+        0.095,
+        0.097,
+        0.091,
+        0.088,
+        0.091,
+        0.105,
+        0.108,
+        0.106,
+        0.111,
+        0.108,
+        0.114,
+        0.114,
+        0.117,
+        0.118,
+        0.117,
+        0.075,
+        0.051,
+        0.053,
+        0.067,
+        0.142,
+        0.138,
+        0.138,
+        0.138,
+        0.141,
+        0.136,
+        0.139,
+        0.135,
+        0.137,
+        0.138,
+        0.064,
+        0.052,
+        0.089,
+        0.091,
+        0.089,
+        0.094,
+        0.086,
+        0.09,
+        0.104,
+        0.108
+       ],
+       "shots": [
+        {
+         "f": 1,
+         "d": 1.014,
+         "top": true,
+         "why": [],
+         "file": "amb/player_talk_f0001_top.jpg",
+         "kb": 34.6
+        },
+        {
+         "f": 2,
+         "d": 0.907,
+         "top": true,
+         "why": [],
+         "file": "amb/player_talk_f0002_top.jpg",
+         "kb": 34.6
+        },
+        {
+         "f": 3,
+         "d": 0.813,
+         "top": true,
+         "why": [],
+         "file": "amb/player_talk_f0003_top.jpg",
+         "kb": 34.4
+        },
+        {
+         "f": 4,
+         "d": 0.713,
+         "top": true,
+         "why": [],
+         "file": "amb/player_talk_f0004_top.jpg",
+         "kb": 34.6
+        },
+        {
+         "f": 5,
+         "d": 0.678,
+         "top": true,
+         "why": [],
+         "file": "amb/player_talk_f0005_top.jpg",
+         "kb": 34.6
+        },
+        {
+         "f": 6,
+         "d": 0.471,
+         "top": true,
+         "why": [],
+         "file": "amb/player_talk_f0006_top.jpg",
+         "kb": 34.6
+        },
+        {
+         "f": 7,
+         "d": 0.538,
+         "top": true,
+         "why": [],
+         "file": "amb/player_talk_f0007_top.jpg",
+         "kb": 34.5
+        },
+        {
+         "f": 8,
+         "d": 0.391,
+         "top": true,
+         "why": [],
+         "file": "amb/player_talk_f0008_top.jpg",
+         "kb": 34.5
+        },
+        {
+         "f": 9,
+         "d": 0.277,
+         "top": true,
+         "why": [],
+         "file": "amb/player_talk_f0009_top.jpg",
+         "kb": 34.2
+        },
+        {
+         "f": 10,
+         "d": 0.205,
+         "top": false,
+         "why": [
+          "look0_0.5s"
+         ],
+         "file": "amb/player_talk_f0010_look0_0p5s.jpg",
+         "kb": 34.3
+        },
+        {
+         "f": 20,
+         "d": 0.087,
+         "top": false,
+         "why": [
+          "look0_1.5s"
+         ],
+         "file": "amb/player_talk_f0020_look0_1p5s.jpg",
+         "kb": 34.2
+        },
+        {
+         "f": 47,
+         "d": 0.318,
+         "top": true,
+         "why": [],
+         "file": "amb/player_talk_f0047_top.jpg",
+         "kb": 34.3
+        },
+        {
+         "f": 48,
+         "d": 0.088,
+         "top": false,
+         "why": [
+          "side0_0.5s"
+         ],
+         "file": "amb/player_talk_f0048_side0_0p5s.jpg",
+         "kb": 34.2
+        },
+        {
+         "f": 58,
+         "d": 0.108,
+         "top": false,
+         "why": [
+          "side0_1.5s"
+         ],
+         "file": "amb/player_talk_f0058_side0_1p5s.jpg",
+         "kb": 34.2
+        }
+       ],
+       "page_ms": 45641,
+       "canvas": [
+        844,
+        390
+       ],
+       "err": null
+      }
+     ]
+    }
+   ],
+   "js_errors": [],
+   "secs": 502.7,
+   "coverage": {
+    "posture": [
+     "player_read",
+     "player_read",
+     "player_sit",
+     "player_sit"
+    ],
+    "page": [
+     "player_read",
+     "player_read"
+    ],
+    "look": [
+     "player_sit"
+    ],
+    "side": [
+     "player_talk"
+    ]
+   }
+  }
+ ],
+ "secs": 503.8
+}

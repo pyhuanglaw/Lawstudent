@@ -30,7 +30,7 @@
   ENV：k=v 只傳給這一項的子程序（不改 runner 自己的環境，並行時不互相干擾）；
        XARGS（{url} {url2} {out}）、SHA2（第二個 worktree＋伺服器＝{url2}）、RERUN（強制重跑記號）同舊版。
 """
-import argparse, glob, hashlib, json, os, platform, queue, re, shutil, socket, subprocess, sys, threading, time
+import argparse, atexit, glob, hashlib, json, os, platform, queue, re, shutil, socket, subprocess, sys, threading, time
 from collections import OrderedDict, deque
 from datetime import datetime
 
@@ -367,15 +367,116 @@ def read_config(path):
     return d
 
 
-def log(msg):
+# CC-C 11-04 16:4x：runner 自己的輸出交給一條專門的執行緒印到畫面（_emit）。
+#   電腦 23:48 以後停住、沒再推結果：最可能是 Windows 主控台的「快速編輯」——使用者用滑鼠選畫面上的字要複製時，
+#   主控台在選取狀態，程式一印字就整個卡住；以前 log() 拿著 _print_lock 印，三條工作執行緒全部卡在這把鎖，測試跑完也 commit 不了。
+#   改成：先記進 CONSOLE_BUF（跟著結果推上去的 local_out/_console/console.log，畫面卡住也照樣更新），再丟進佇列由 console-writer 印；
+#   畫面卡住只卡那一條執行緒，測試、commit、push 照跑，畫面放開以後補印。結束前 log_flush 最多等 5 秒（atexit）。
+_LOGQ = queue.Queue()
+_LOG_THREAD = []
+
+
+def _raw_out():
+    o = sys.stdout
+    return o.s if isinstance(o, ConsoleTee) else o
+
+
+def _log_writer():
+    while True:
+        t = _LOGQ.get()
+        try:
+            o = _raw_out()
+            o.write(t)
+            o.flush()
+        except Exception:
+            pass
+        finally:
+            _LOGQ.task_done()
+
+
+def _emit(text):
+    if isinstance(sys.stdout, ConsoleTee):
+        with CONSOLE_LOCK:
+            for line in text.rstrip('\n').split('\n'):
+                CONSOLE_BUF.append(ConsoleTee.ANSI.sub('', line).rstrip('\r'))
     with _print_lock:
-        print('[%s] %s' % (datetime.now().strftime('%H:%M:%S'), msg), flush=True)
+        if not _LOG_THREAD:
+            th = threading.Thread(target=_log_writer, name='console-writer', daemon=True)
+            th.start()
+            _LOG_THREAD.append(th)
+    _LOGQ.put(text)
+
+
+def log_flush(timeout=5.0):
+    """佇列裡還沒印的印完（最多等 timeout 秒：畫面卡在選取狀態時不等下去）"""
+    t0 = time.time()
+    while _LOGQ.unfinished_tasks and time.time() - t0 < timeout:
+        time.sleep(0.05)
+    return _LOGQ.unfinished_tasks == 0
+
+
+atexit.register(log_flush)
+
+
+def log(msg):
+    _emit('[%s] %s\n' % (datetime.now().strftime('%H:%M:%S'), msg))
 
 
 def gray(msg):
-    with _print_lock:
-        for line in msg.rstrip().splitlines():
-            print('    ' + line, flush=True)
+    lines = msg.rstrip().splitlines()
+    if lines:
+        _emit(''.join('    %s\n' % line for line in lines))
+
+
+def console_quickedit_off():
+    """Windows 主控台（conhost）的「快速編輯模式」：滑鼠在視窗裡點一下就進入選取，選取的時候程式一印字就停住，按 Esc／Enter 才放開。
+    runner 啟動時把這個視窗的快速編輯關掉（只改這個主控台視窗，關掉視窗就恢復；Windows Terminal 沒有這個問題，關不關都一樣）。
+    之後要複製畫面上的字：視窗標題列按右鍵 → 編輯 → 標記，選好按 Enter（標記的時候一樣會暫停印字，複製完一定要按 Enter／Esc）。回傳狀態字串給 log"""
+    if not IS_WIN:
+        return None
+    try:
+        import ctypes
+        from ctypes import wintypes
+        k = ctypes.windll.kernel32
+        k.CreateFileW.restype = wintypes.HANDLE
+        k.CreateFileW.argtypes = [wintypes.LPCWSTR, wintypes.DWORD, wintypes.DWORD, ctypes.c_void_p, wintypes.DWORD, wintypes.DWORD, wintypes.HANDLE]
+        k.GetConsoleMode.argtypes = [wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD)]
+        k.SetConsoleMode.argtypes = [wintypes.HANDLE, wintypes.DWORD]
+        k.CloseHandle.argtypes = [wintypes.HANDLE]
+        h = k.CreateFileW('CONIN$', 0x80000000 | 0x40000000, 1 | 2, None, 3, 0, None)   # GENERIC_READ|WRITE、FILE_SHARE_READ|WRITE、OPEN_EXISTING
+        if not h or h == wintypes.HANDLE(-1).value:
+            return 'no console window'
+        try:
+            m = wintypes.DWORD()
+            if not k.GetConsoleMode(h, ctypes.byref(m)):
+                return 'GetConsoleMode failed'
+            if not (m.value & 0x0040):
+                return 'already off (mode 0x%x)' % m.value
+            new = (m.value & ~0x0040) | 0x0080   # 拿掉 ENABLE_QUICK_EDIT_MODE；ENABLE_EXTENDED_FLAGS 要一起設才生效
+            return ('off (mode 0x%x -> 0x%x)' % (m.value, new)) if k.SetConsoleMode(h, new) else 'SetConsoleMode failed'
+        finally:
+            k.CloseHandle(h)
+    except Exception as e:
+        return 'error %r' % (e,)
+
+
+def keep_awake():
+    """runner 在跑的時候不讓 Windows 閒置睡眠（螢幕照樣可以關）：SetThreadExecutionState(ES_CONTINUOUS|ES_SYSTEM_REQUIRED)，
+    跟著呼叫的執行緒（主執行緒，runner 結束就自動取消；run_forever 兩輪之間等 5 分鐘時不擋）。回傳狀態字串給 log"""
+    if not IS_WIN:
+        return None
+    try:
+        import ctypes
+        from ctypes import wintypes
+        f = ctypes.windll.kernel32.SetThreadExecutionState
+        f.argtypes = [wintypes.DWORD]
+        f.restype = wintypes.DWORD
+        flags = 0x80000000 | 0x00000001
+        f(flags)
+        prev = f(flags)   # 第二次回傳的「之前的狀態」＝第一次設的；0＝失敗
+        return 'on' if prev == flags else 'SetThreadExecutionState returned 0x%x' % (prev or 0)
+    except Exception as e:
+        return 'error %r' % (e,)
 
 
 GIT = shutil.which('git')
@@ -914,15 +1015,15 @@ class Runner(object):
     # ---------- 1. 結果分支的 worktree ----------
     def setup(self):
         if not GIT:
-            print('git not found'); sys.exit(1)
+            _emit('git not found\n'); sys.exit(1)
         if not os.path.exists(os.path.join(self.repo, '.git')):
-            print('Repo not found: %s' % self.repo); sys.exit(1)
+            _emit('Repo not found: %s\n' % self.repo); sys.exit(1)
         _, em = git('-C', self.repo, 'config', 'user.email', capture=True)
         _, nm = git('-C', self.repo, 'config', 'user.name', capture=True)
         if not em.strip() or not nm.strip():
-            print('git user.name / user.email is not set, so results cannot be committed. Set them once, then rerun:')
-            print('  git config --global user.name "Your Name"')
-            print('  git config --global user.email "you@example.com"')
+            _emit('git user.name / user.email is not set, so results cannot be committed. Set them once, then rerun:' + '\n')
+            _emit('  git config --global user.name "Your Name"' + '\n')
+            _emit('  git config --global user.email "you@example.com"' + '\n')
             sys.exit(1)
         clear_stale_git_locks(os.path.join(self.repo, '.git'))   # 當機留下的 index.lock 等（工作樹的在 .git/worktrees/ 底下）
         log('git fetch')
@@ -954,7 +1055,7 @@ class Runner(object):
         elif rc != 0:
             rc, _ = git('-C', self.work, 'checkout', '-B', self.branch, 'origin/' + CC_BRANCH)
         if rc != 0:
-            print('git checkout/merge failed in %s - fix it and rerun' % self.work); sys.exit(1)
+            _emit('git checkout/merge failed in %s - fix it and rerun\n' % self.work); sys.exit(1)
         self.update_heads()
         log('dev head = %s   lawww2 head = %s' % (self.head, self.lawww2 or '(not fetched)'))
         os.makedirs(self.out_root, exist_ok=True)
@@ -1860,6 +1961,9 @@ class Runner(object):
     # ---------- 主迴圈 ----------
     def main(self):
         install_console_tee()
+        qe, ka = console_quickedit_off(), keep_awake()
+        if qe is not None or ka is not None:
+            log('Windows console: QuickEdit %s; keep awake while running: %s' % (qe, ka))
         log('run_forever round: %s   runner sha256: %s' % (os.environ.get('CC_RF_ROUND') or '- (not started by run_forever)', self.self_hash[:10]))
         self.banner()
         self.setup()
@@ -1989,16 +2093,16 @@ class Runner(object):
                     break
 
         stop_status.set()
-        print('')
-        print('===== SUMMARY =====')
-        print('ran %d item(s), skipped %d already done' % (ran_n, skipped_n))
+        _emit('\n')
+        _emit('===== SUMMARY =====' + '\n')
+        _emit('ran %d item(s), skipped %d already done' % (ran_n, skipped_n) + '\n')
         if ran_n == 0:
-            print('Nothing new in the queue this round.')
+            _emit('Nothing new in the queue this round.' + '\n')
         for line in self.summary:
-            print(line)
-        print('Results: %s  (%s)' % (self.out_root, 'not pushed: --no-push' if self.a.no_push else 'pushed to origin/' + self.branch))
+            _emit(line + '\n')
+        _emit('Results: %s  (%s)' % (self.out_root, 'not pushed: --no-push' if self.a.no_push else 'pushed to origin/' + self.branch) + '\n')
         if self.restart_pending:
-            print('run_queue.py was updated - exit %d so run_forever.ps1 restarts the new version now' % RESTART_EXIT)
+            _emit('run_queue.py was updated - exit %d so run_forever.ps1 restarts the new version now' % RESTART_EXIT + '\n')
             log('正在換新版，馬上會自己重新開始——請不要關 (restarting with the new version - please do not close)')
             return RESTART_EXIT
         log('目前沒有測試在跑，可以關；不關的話 5 分鐘後會自己再檢查有沒有新的測試 (no test running now - safe to close)')
@@ -2027,4 +2131,6 @@ def parse_args(argv):
 
 
 if __name__ == '__main__':
-    sys.exit(Runner(parse_args(sys.argv[1:])).main())
+    _rc = Runner(parse_args(sys.argv[1:])).main()
+    log_flush()
+    sys.exit(_rc)

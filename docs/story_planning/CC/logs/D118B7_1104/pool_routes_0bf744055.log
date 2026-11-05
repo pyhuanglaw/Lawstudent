@@ -1,0 +1,53 @@
+cc_d118_pool_routes　LW_ROOT=/tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/wt_0bf7　SHA=0bf744055
+
+===== 臺灣（2029-07-10，2029 一試）
+人在國外的學期：[]
+修過的課（CLS.takenCourses，28 門）：const_1 憲法（上）、crim_gen1 刑法總則（一）、civ_general 民法總則、const_2 憲法（下）、crim_gen2 刑法總則（二）、oblig_gen1 民法債編總論（一）、admin_law 行政法、crim_spec 刑法分則、property 民法物權、oblig_gen2 民法債編總論（二）、oblig_spec 民法債編各論、family_law 民法身分法、admin_remedy 行政救濟法、legal_english 法學英文／英美法、civpro_1 民事訴訟法甲上、crimpro 刑事訴訟法、company_law 商事法總論及公司法、securities 證券交易法、civpro_2 民事訴訟法甲下、insurance 保險法、negotiable 票據及支付工具法、labor_law 勞動法、enforcement 強制執行法、legal_ethics 法律倫理、ip_law 智慧財產權法、labor_social 勞動社會法、crim_judgment_sem 刑事判決研討、maritime 海商法與海洋法
+一試題池（PG.poolFor）419 題：admin_law 行政法 15、admin_remedy 行政救濟法 8、civ_general 民法總則 18、oblig_gen1 民法債編總論（一） 14、oblig_gen2 民法債編總論（二） 15、oblig_spec 民法債編各論 14、property 民法物權 16、family_law 民法身分法 14、crim_gen1 刑法總則（一） 10、const_1 憲法（上） 11、crim_spec 刑法分則 16、crimpro 刑事訴訟法 1、securities 證券交易法 41、insurance 保險法 11、labor_law 勞動法 11、crim_gen2 刑法總則（二） 21、legal_english 法學英文／英美法 25、civpro_1 民事訴訟法甲上 10、civpro_2 民事訴訟法甲下 10、const_2 憲法（下） 10、company_law 商事法總論及公司法 10、negotiable 票據及支付工具法 10、crim_judgment_sem 刑事判決研討 8、enforcement 強制執行法 8、legal_ethics 法律倫理 8、(QBANK 刑訴) 84
+2029 一試抽到的 20 題來自：{"(QBANK 刑訴)":6,"enforcement":1,"property":1,"legal_english":1,"oblig_spec":1,"family_law":2,"admin_law":3,"insurance":1,"oblig_gen1":2,"negotiable":1,"legal_ethics":1}
+強制執行法 enforcement：修過 true、在題池 true；法律倫理 legal_ethics：修過 true、在題池 true
+
+===== 日本（2030-07-10，2030 一試）
+人在國外的學期：["Y3S2"]
+修過的課（CLS.takenCourses，26 門）：const_1 憲法（上）、crim_gen1 刑法總則（一）、civ_general 民法總則、const_2 憲法（下）、crim_gen2 刑法總則（二）、oblig_gen1 民法債編總論（一）、admin_law 行政法、crim_spec 刑法分則、property 民法物權、oblig_gen2 民法債編總論（二）、oblig_spec 民法債編各論、family_law 民法身分法、admin_remedy 行政救濟法、legal_english 法學英文／英美法、civpro_1 民事訴訟法甲上、crimpro 刑事訴訟法、company_law 商事法總論及公司法、securities 證券交易法、civpro_2 民事訴訟法甲下、insurance 保險法、enforcement 強制執行法、legal_ethics 法律倫理、ip_law 智慧財產權法、labor_social 勞動社會法、crim_judgment_sem 刑事判決研討、maritime 海商法與海洋法
+一試題池（PG.poolFor）398 題：admin_law 行政法 15、admin_remedy 行政救濟法 8、civ_general 民法總則 18、oblig_gen1 民法債編總論（一） 14、oblig_gen2 民法債編總論（二） 15、oblig_spec 民法債編各論 14、property 民法物權 16、family_law 民法身分法 14、crim_gen1 刑法總則（一） 10、const_1 憲法（上） 11、crim_spec 刑法分則 16、crimpro 刑事訴訟法 1、securities 證券交易法 41、insurance 保險法 11、crim_gen2 刑法總則（二） 21、legal_english 法學英文／英美法 25、civpro_1 民事訴訟法甲上 10、civpro_2 民事訴訟法甲下 10、const_2 憲法（下） 10、company_law 商事法總論及公司法 10、crim_judgment_sem 刑事判決研討 8、enforcement 強制執行法 8、legal_ethics 法律倫理 8、(QBANK 刑訴) 84
+2030 一試抽到的 20 題來自：{"(QBANK 刑訴)":4,"property":1,"admin_law":2,"const_1":1,"crim_spec":1,"legal_ethics":1,"securities":4,"crim_gen2":2,"civpro_1":1,"civpro_2":1,"civ_general":1,"family_law":1}
+強制執行法 enforcement：修過 true、在題池 true；法律倫理 legal_ethics：修過 true、在題池 true
+
+===== 美國（2030-07-10，2030 一試）
+人在國外的學期：["Y4S1"]
+修過的課（CLS.takenCourses，23 門）：const_1 憲法（上）、crim_gen1 刑法總則（一）、civ_general 民法總則、const_2 憲法（下）、crim_gen2 刑法總則（二）、oblig_gen1 民法債編總論（一）、admin_law 行政法、crim_spec 刑法分則、property 民法物權、oblig_gen2 民法債編總論（二）、oblig_spec 民法債編各論、family_law 民法身分法、admin_remedy 行政救濟法、legal_english 法學英文／英美法、civpro_1 民事訴訟法甲上、crimpro 刑事訴訟法、company_law 商事法總論及公司法、securities 證券交易法、civpro_2 民事訴訟法甲下、insurance 保險法、negotiable 票據及支付工具法、labor_law 勞動法、maritime 海商法與海洋法
+一試題池（PG.poolFor）395 題：admin_law 行政法 15、admin_remedy 行政救濟法 8、civ_general 民法總則 18、oblig_gen1 民法債編總論（一） 14、oblig_gen2 民法債編總論（二） 15、oblig_spec 民法債編各論 14、property 民法物權 16、family_law 民法身分法 14、crim_gen1 刑法總則（一） 10、const_1 憲法（上） 11、crim_spec 刑法分則 16、crimpro 刑事訴訟法 1、securities 證券交易法 41、insurance 保險法 11、labor_law 勞動法 11、crim_gen2 刑法總則（二） 21、legal_english 法學英文／英美法 25、civpro_1 民事訴訟法甲上 10、civpro_2 民事訴訟法甲下 10、const_2 憲法（下） 10、company_law 商事法總論及公司法 10、negotiable 票據及支付工具法 10、(QBANK 刑訴) 84
+2030 一試抽到的 20 題來自：{"negotiable":1,"securities":2,"(QBANK 刑訴)":6,"crim_spec":2,"civ_general":2,"crim_gen2":2,"company_law":1,"admin_law":2,"oblig_gen1":1,"family_law":1}
+強制執行法 enforcement：修過 false、在題池 false；法律倫理 legal_ethics：修過 false、在題池 false（BB-C：大五上補修「有上課內容就算修過」，LAWWW-C 改好以後再驗；這一輪照實記）
+
+===== 三條路線比較（題池裡每一科：臺灣／日本／美國 幾題）
+(QBANK 刑訴)：84／84／84
+admin_law 行政法：15／15／15
+admin_remedy 行政救濟法：8／8／8
+civ_general 民法總則：18／18／18
+civpro_1 民事訴訟法甲上：10／10／10
+civpro_2 民事訴訟法甲下：10／10／10
+company_law 商事法總論及公司法：10／10／10
+const_1 憲法（上）：11／11／11
+const_2 憲法（下）：10／10／10
+crim_gen1 刑法總則（一）：10／10／10
+crim_gen2 刑法總則（二）：21／21／21
+crim_judgment_sem 刑事判決研討：8／8／0
+crim_spec 刑法分則：16／16／16
+crimpro 刑事訴訟法：1／1／1
+enforcement 強制執行法：8／8／0
+family_law 民法身分法：14／14／14
+insurance 保險法：11／11／11
+labor_law 勞動法：11／0／11
+legal_english 法學英文／英美法：25／25／25
+legal_ethics 法律倫理：8／8／0
+negotiable 票據及支付工具法：10／0／10
+oblig_gen1 民法債編總論（一）：14／14／14
+oblig_gen2 民法債編總論（二）：15／15／15
+oblig_spec 民法債編各論：14／14／14
+property 民法物權：16／16／16
+securities 證券交易法：41／41／41
+一試不考、不收的科（PG.POOL_EXCLUDE_COURSES）：["maritime","ip_law","labor_social","tax_law"]
+
+DONE（只列、不判）

@@ -1,0 +1,28 @@
+CC SITAMB 探針 LOC=player CTL=0 modes=amb；SHA=d3828452a；CC_SEED=1104；SEG_S=12 REC_FPS=10 KINDS=look,side,hair,glance,stretch,page,posture,up VIEW=844x390；Windows＋GPU（Playwright 有視窗）≠ iPhone；只記錄、不判（BB-C 14:41）
+  [前置／捷徑] CC_SEED=1104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+== amb：http://127.0.0.1:8792/index.html
+PASS [流程] [amb] 遊戲載入  12 秒
+PASS [流程] [amb] CHAR.sitAmb=True（一般網址要 true）、有 CHAR.sitAmbFidget  [true, "function"]
+  [前置／捷徑] 讀檔：library_hall、day 9（weekday 4）14.00 時、晴天、條件事件關閉（playlib quiet_events）
+PASS [流程] [amb] 讀到總圖大廳 14:00
+INFO [amb] library_hall 2025-09-25：坐著的人 6（VRM 6、坐姿循環 ambOn 6、跪坐 0、拿書 3、手機平板 2、看桌上 0、聊天 0、互相看著 0）；片段 ready=True sitAmb=True；SEATACT {"zone": "library_hall", "place": "library", "n": 6, "loaded": true, "acts": ["phone", "tablet", "textbook", "book*", "book*", "book*"]}；pairs 0；等了 8 秒
+PASS [流程] [amb] 二樓有空位  13
+  [前置／捷徑] GAME.sitAt(玩家, 二樓 (-7.03, 3.80))＋pose read（story3d.js 讀書時 P.pose='read'）：不走座位選單（選「讀書」會淡出快轉）
+INFO [amb] 玩家坐下 {"seat": {"x": -7.024999999999999, "z": 3.8, "yaw": 3.141592653589793, "lv": 1}, "pose": "read", "cam": "follow"}
+  [player_read] 錄 12.0 秒（120 格、10 fps 固定步長）、鏡頭 遊戲自己的、排程 [[0.5, 0, "posture"], [3.5, 0, "page"], [5.6, 0, "posture"], [8.6, 0, "page"]]
+  [player_read] 192.3 秒（頁面裡 122.4 秒）；畫面 844x390；sitAmbFidget 4/4 叫得動 [["posture", "posture", "live"], ["page", "page", "live"], ["posture", "posture", "live"], ["page", "page", "live"]]；自己開始的小動作 10 個 [[0.5, -1, "posture"], [1.0, 3, "look"], [1.9, 1, "posture"], [3.5, -1, "page"], [5.3, 7, "stretch"], [5.6, -1, "posture"], [8.6, -1, "page"], [9.6, 2, "posture"], [11.5, 8, "side"], [11.7, -1, "posture"]]；聊天輪替 0 次；每格平均差 0.268、最大 14.232；存了 17 張
+  [player_sit] 錄 12.0 秒（120 格、10 fps 固定步長）、鏡頭 遊戲自己的、排程 [[0.5, 0, "posture"], [3.5, 0, "look"], [7.34, 0, "posture"]]
+  [player_sit] 179.7 秒（頁面裡 124.2 秒）；畫面 844x390；sitAmbFidget 3/3 叫得動 [["posture", "posture", "live"], ["look", "look", "live"], ["posture", "posture", "live"]]；自己開始的小動作 6 個 [[0.5, -1, "posture"], [3.5, -1, "look"], [4.6, 7, "posture"], [7.3, -1, "posture"], [8.6, 3, "side"], [9.5, 2, "look"]]；聊天輪替 0 次；每格平均差 0.092、最大 0.284；存了 16 張
+  [前置／捷徑] 讀檔：cafe、day 9（weekday 4）15.00 時、晴天、條件事件關閉（playlib quiet_events）
+PASS [流程] [amb] 讀到兩點半 15:00
+INFO [amb] cafe 2025-09-25：坐著的人 3（VRM 3、坐姿循環 ambOn 3、跪坐 0、拿書 2、手機平板 0、看桌上 0、聊天 0、互相看著 0）；片段 ready=True sitAmb=True；SEATACT {"zone": "cafe", "place": "cafe", "n": 3, "loaded": true, "acts": ["textbook", "book", "book*"]}；pairs 0；等了 8 秒
+PASS [流程] [amb] 有會說話的坐著的 NPC  [[0, ""], [1, ""], [3, "抱著一疊講義的女生"]]
+  [前置／捷徑] 玩家放到 #3 抱著一疊講義的女生 前面 1 m（不是走過去），按互動鍵說話
+INFO [amb] 互動鍵："坐在角落的沙發"
+  [前置／捷徑] 對話沒有開起來：改成手動設定注視（n.lookAt＝玩家，和遊戲說話時一樣）＋過肩鏡頭
+  [player_talk] 錄 12.0 秒（120 格、10 fps 固定步長）、鏡頭 [[-4.836, 1.35, 3.188], [-5.95, 0.85, 3.95]]、排程 [[0.5, 0, "look"], [4.34, 0, "side"]]
+  [player_talk] 63.9 秒（頁面裡 45.6 秒）；畫面 844x390；sitAmbFidget 2/2 叫得動 [["look", "look", "下一格就沒了（?）"], ["side", "side", "live"]]；自己開始的小動作 3 個 [[0.5, 3, "look"], [4.3, 3, "side"], [11.5, 1, "page"]]；聊天輪替 0 次；每格平均差 0.151、最大 1.014；存了 14 張
+PASS [流程] [amb] 沒有 JS 例外  []
+INFO [amb] 每種動作實際開始了：{"posture": 4, "page": 2, "look": 1, "side": 1}；沒做到：["hair", "glance", "stretch", "up"]
+INFO 總共 504 秒；JSON：sitamb_player.json
+ALL PASS

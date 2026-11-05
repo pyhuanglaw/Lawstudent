@@ -1,0 +1,70 @@
+@@HB {"seed":4,"day":"2025-09-17","step":0,"frame":1}
+@@HB {"seed":4,"day":"2025-08-22","step":20,"frame":62}
+@@HB {"seed":4,"day":"2025-08-23","step":127,"frame":514}
+@@HB {"seed":4,"day":"2025-08-24","step":226,"frame":886}
+@@HB {"seed":4,"day":"2025-08-29","step":265,"frame":1074}
+@@HB {"seed":4,"day":"2025-08-30","step":336,"frame":1404}
+@@HB {"seed":4,"day":"2025-08-31","step":394,"frame":2331}
+@@HB {"seed":4,"day":"2025-09-01","step":516,"frame":6209}
+@@HB {"seed":4,"day":"2025-09-02","step":680,"frame":9700}
+@@HB {"seed":4,"day":"2025-09-03","step":803,"frame":13499}
+@@HB {"seed":4,"day":"2025-09-04","step":1146,"frame":21234}
+@@HB {"seed":4,"day":"2025-09-04","step":1527,"frame":27881}
+@@HB {"seed":4,"day":"2025-09-05","step":1689,"frame":33814}
+@@HB {"seed":4,"day":"2025-09-05","step":1831,"frame":38719}
+@@HB {"seed":4,"day":"2025-09-06","step":1899,"frame":40923}
+@@HB {"seed":4,"day":"2025-09-07","step":1914,"frame":41326}
+@@HB {"seed":4,"day":"2025-09-08","step":1982,"frame":41852}
+@@HB {"seed":4,"day":"2025-09-08","step":2091,"frame":47092}
+@@HB {"seed":4,"day":"2025-09-09","step":2095,"frame":47161}
+
+!!! FAIL STUCK（GAME_BUG）busyDepth=1 busy=true by=["globalThis.CLS.S.wakeMenu (src/classes3d.js:887:44)"] ADV=true
+@@HB {"seed":4,"day":"2025-09-10","step":2229,"frame":49380}
+@@HB {"seed":4,"day":"2025-09-11","step":2430,"frame":53402}
+@@HB {"seed":4,"day":"2025-09-12","step":2634,"frame":57267}
+@@HB {"seed":4,"day":"2025-09-13","step":2790,"frame":59826}
+@@HB {"seed":4,"day":"2025-09-14","step":3002,"frame":65400}
+@@HB {"seed":4,"day":"2025-09-18","step":3041,"frame":66083}
+@@HB {"seed":4,"day":"2025-09-19","step":3126,"frame":68668}
+@@HB {"seed":4,"day":"2025-09-20","step":3275,"frame":71344}
+@@HB {"seed":4,"day":"2025-09-21","step":3450,"frame":77021}
+
+================ 種子 4：FAIL ================
+區域 build 146 次、11.6 秒；turbo 格 34878
+到 2025-09-21　步數 3450　格數 77021　虛擬時間 4.1 小時　開頁面 6 次　真實 34.9 秒　（game3d.js：對話沒有 sayStack（新的一句蓋掉沒點的那一句））
+結束時：{"attended":14,"day":5,"date":"2025-09-21","evDone":22,"money":36040,"stage":"law","contacts":3,"invites":9,"invDone":1,"goingSeen":0,"msgs":75}
+個性：{"classP":0.7381081443279982,"lateP":0.4967426680959761,"phoneP":0.3359323764801957,"talkP":0.24072168618440629,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001}
+
+【GAME_BUG：SAY-COVER-1027】STUCK　第 2107 步、第 47560 格
+  為什麼：這一版 game3d.js 的 say 只留一個等點擊的 resolve（沒有 sayStack）：兩段劇情同時說話，先開始的那一段永遠等不到＝停在那一句（同一類在 STUCK-HARDEN-1027 33d24f9db 修好：say 的 sayStack 保底）｜（原本的判斷：劇情鎖住、畫面上沒有對話或選項超過 30 秒（虛擬時間；game3d.js staleCheck 會說「畫面好像停住了」））
+  內容：busyDepth=1 busy=true by=["globalThis.CLS.S.wakeMenu (src/classes3d.js:887:44)"] ADV=true
+  G：{"day":-7,"date":"2025-09-09","hour":7.565,"zone":"dorm","stage":"law","money":36170,"energy":100,"weekday":2,"busy":true,"depth":1,"busyWho":["globalThis.CLS.S.wakeMenu (src/classes3d.js:887:44)"],"evRunning":null,"companion":null,"dating_kexin":true,"invites":[],"evDone":19,"page":5}
+  最後 20 個動作：
+    #2087 f47033 2025-09-08 26:20 linze｜等一下（14 秒）
+    #2088 f47079 2025-09-08 26:26 linze｜走去走出霖澤館（0.7 m）
+    #2089 f47081 2025-09-08 26:26 linze｜按互動：走出霖澤館
+    #2090 f47086 2025-09-08 26:26 linze｜打開手機（today）想跳過時間
+    #2091 f47091 2025-09-08 26:26 linze｜收起手機
+    #2093 f47098 2025-09-08 26:26 campus｜等一下（150 秒）
+    #2094 f47139 2025-09-08 26:31 campus｜點對話：已經凌晨了。你的腳自己往宿舍走。
+    #2095 f47142 2025-09-08 26:31 campus｜點對話：已經凌晨了。你的腳自己往宿舍走。
+    #2096 f47199 2025-09-09 07:31 dorm｜點對話：選課結果出來了。通識「城市與散步」——沒選上。備取十七。
+    #2097 f47204 2025-09-09 07:31 dorm｜點對話：選課結果出來了。通識「城市與散步」——沒選上。備取十七。
+    #2098 f47206 2025-09-09 07:31 dorm｜選單（2 個）：算了，下學期再選。
+    #2099 f47232 2025-09-09 07:34 dorm｜點對話：阿凱的螢幕還亮著，他戴著耳機在打字，鍵盤聲很大。
+    #2100 f47236 2025-09-09 07:34 dorm｜點對話：阿凱的螢幕還亮著，他戴著耳機在打字，鍵盤聲很大。
+    #2101 f47240 2025-09-09 07:34 dorm｜選單（3 個）：「你到底要不要睡？」
+    #2102 f47247 2025-09-09 07:34 dorm｜點對話：你現在是在念我嗎？
+    #2103 f47248 2025-09-09 07:34 dorm｜點對話：我昨天根本沒睡好。
+    #2104 f47249 2025-09-09 07:34 dorm｜點對話：我昨天根本沒睡好。
+    #2105 f47254 2025-09-09 07:34 dorm｜點對話：我也想睡啊，可是程式寫不完。
+    #2106 f47256 2025-09-09 07:34 dorm｜點對話：（兩個人都沒再說話。你出門的時候，他還在打字。）
+    #2107 f47260 2025-09-09 07:34 dorm｜點對話：（兩個人都沒再說話。你出門的時候，他還在打字。）
+  重現：node random_play_sim.js --seed 4 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/wt_7f7f --from 2025-08-29 --to 2025-09-20
+
+注意（不算 FAIL）：
+  50 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_mingxuan/campus/neutral.webp（2025-08-22 08:30 dorm）
+  23 次　3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-09-01 09:21 campus）
+  6 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+@@RESULT {"seed":4,"ok":false,"reached":"2025-09-21","steps":3450,"frames":77021,"vms":14690300,"pages":6,"fails":[{"kind":"STUCK","cls":"GAME_BUG","why":"這一版 game3d.js 的 say 只留一個等點擊的 resolve（沒有 sayStack）：兩段劇情同時說話，先開始的那一段永遠等不到＝停在那一句（同一類在 STUCK-HARDEN-1027 33d24f9db 修好：say 的 sayStack 保底）｜（原本的判斷：劇情鎖住、畫面上沒有對話或選項超過 30 秒（虛擬時間；game3d.js staleCheck 會說「畫面好像停住了」））","msg":"busyDepth=1 busy=true by=[\"globalThis.CLS.S.wakeMenu (src/classes3d.js:887:44)\"] ADV=true","step":2107,"frame":47560,"G":{"day":-7,"date":"2025-09-09","hour":7.565,"zone":"dorm","stage":"law","money":36170,"energy":100,"weekday":2,"busy":true,"depth":1,"busyWho":["globalThis.CLS.S.wakeMenu (src/classes3d.js:887:44)"],"evRunning":null,"companion":null,"dating_kexin":true,"invites":[],"evDone":19,"page":5},"lastActions":["#2087 f47033 2025-09-08 26:20 linze｜等一下（14 秒）","#2088 f47079 2025-09-08 26:26 linze｜走去走出霖澤館（0.7 m）","#2089 f47081 2025-09-08 26:26 linze｜按互動：走出霖澤館","#2090 f47086 2025-09-08 26:26 linze｜打開手機（today）想跳過時間","#2091 f47091 2025-09-08 26:26 linze｜收起手機","#2093 f47098 2025-09-08 26:26 campus｜等一下（150 秒）","#2094 f47139 2025-09-08 26:31 campus｜點對話：已經凌晨了。你的腳自己往宿舍走。","#2095 f47142 2025-09-08 26:31 campus｜點對話：已經凌晨了。你的腳自己往宿舍走。","#2096 f47199 2025-09-09 07:31 dorm｜點對話：選課結果出來了。通識「城市與散步」——沒選上。備取十七。","#2097 f47204 2025-09-09 07:31 dorm｜點對話：選課結果出來了。通識「城市與散步」——沒選上。備取十七。","#2098 f47206 2025-09-09 07:31 dorm｜選單（2 個）：算了，下學期再選。","#2099 f47232 2025-09-09 07:34 dorm｜點對話：阿凱的螢幕還亮著，他戴著耳機在打字，鍵盤聲很大。","#2100 f47236 2025-09-09 07:34 dorm｜點對話：阿凱的螢幕還亮著，他戴著耳機在打字，鍵盤聲很大。","#2101 f47240 2025-09-09 07:34 dorm｜選單（3 個）：「你到底要不要睡？」","#2102 f47247 2025-09-09 07:34 dorm｜點對話：你現在是在念我嗎？","#2103 f47248 2025-09-09 07:34 dorm｜點對話：我昨天根本沒睡好。","#2104 f47249 2025-09-09 07:34 dorm｜點對話：我昨天根本沒睡好。","#2105 f47254 2025-09-09 07:34 dorm｜點對話：我也想睡啊，可是程式寫不完。","#2106 f47256 2025-09-09 07:34 dorm｜點對話：（兩個人都沒再說話。你出門的時候，他還在打字。）","#2107 f47260 2025-09-09 07:34 dorm｜點對話：（兩個人都沒再說話。你出門的時候，他還在打字。）"],"count":1,"known":"SAY-COVER-1027"}],"notes":[{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":50,"ex":"portrait missing → fallback assets/portraits/classmate_mingxuan/campus/neutral.webp（2025-08-22 08:30 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗","n":23,"ex":"unknown asset prop.bike_ride（2025-09-01 09:21 campus）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":6,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"}],"missingE":[],"persona":{"classP":0.7381081443279982,"lateP":0.4967426680959761,"phoneP":0.3359323764801957,"talkP":0.24072168618440629,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001},"sayStack":false,"chooseStack":true,"g":{"attended":14,"day":5,"date":"2025-09-21","evDone":22,"money":36040,"stage":"law","contacts":3,"invites":9,"invDone":1,"goingSeen":0,"msgs":75}}
+（34.9 秒）

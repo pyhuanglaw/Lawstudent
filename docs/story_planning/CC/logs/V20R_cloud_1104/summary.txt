@@ -1,0 +1,13 @@
+=== V20R_reach start 17:26:18 waited 1380s load=0.24 2.08 4.92 others=[]
+=== V20R_reach end 17:31:12 exit=0 294s load=2.48 2.72 4.46 others=[] last: ALL PASS
+=== V20R_zone start 17:31:12 waited 0s load=2.48 2.72 4.46 others=[]
+=== V20R_zone end 17:33:06 exit=0 114s load=2.76 2.76 4.27 others=[] last: ALL PASS
+=== V20R_p0 start 17:33:06 waited 0s load=2.76 2.76 4.27 others=[]
+=== V20R_p0 end 17:36:13 exit=0 187s load=4.21 3.29 4.19 others=[] last: RESULT: ALL PASS
+=== V20R_v7 start 17:36:13 waited 0s load=4.21 3.29 4.19 others=[]
+=== V20R_v7 end 17:40:59 exit=1 286s load=1.71 2.55 3.66 others=[] last: FAILED: v7 各區域 48 個位置的存檔：新版都讀得進來、站得住、走得動
+=== V20R_touch start 17:40:59 waited 0s load=1.71 2.55 3.66 others=[]
+=== V20R_touch end 17:44:01 exit=0 182s load=3.86 3.22 3.73 others=[] last: ALL PASS
+=== V20R_linze start 17:44:01 waited 0s load=3.86 3.22 3.73 others=[]
+=== V20R_linze end 17:53:14 exit=0 553s load=4.07 4.20 4.08 others=[] last: ALL PASS
+=== ALL DONE 17:53:14

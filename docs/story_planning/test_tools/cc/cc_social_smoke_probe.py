@@ -314,7 +314,7 @@ DUMP_JS = r"""(()=>({con:(window.__CCC||[]).slice(-30), errs:(window.__CCE||[]).
   hud:['btnPhone','btnMenu','minimap','btnQuick','interact','joy'].map(id=>{ const e=document.getElementById(id); if(!e) return id+':無'; const cs=getComputedStyle(e), r=e.getBoundingClientRect(); const h=r.width?document.elementFromPoint(r.left+r.width/2,r.top+r.height/2):null;
     return id+':op='+cs.opacity+',pe='+cs.pointerEvents+',hide='+e.classList.contains('hide')+',hit='+(!!h&&(h===e||e.contains(h))); })}))()"""
 HIT_JS = "(id=>{ const e=document.getElementById(id); if(!e) return 'none'; const cs=getComputedStyle(e), r=e.getBoundingClientRect(); if(!r.width||e.classList.contains('hide')) return 'hidden'; if(+cs.opacity<0.5) return 'op'+cs.opacity; if(cs.pointerEvents==='none') return 'pe-none'; const h=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2); return h&&(h===e||e.contains(h))?'ok':'covered:'+(h?(h.id||h.className||h.tagName):'null'); })"
-TG_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, out=[]; for(const r of [2.5,3.5,1.8]) for(let k=0;k<12;k++){ const a=k*Math.PI/6, x=P.x+Math.sin(a)*r, z=P.z+Math.cos(a)*r; if(!E.canStand||E.canStand(x,z,0.3)) out.push([+x.toFixed(2),+z.toFixed(2)]); } return out; })()"""
+TG_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, out=[]; for(const r of [2.5,3.5,1.8]) for(let k=0;k<12;k++){ const a=k*Math.PI/6, x=P.x+Math.sin(a)*r, z=P.z+Math.cos(a)*r; if((!E.canStand||E.canStand(x,z,0.3))&&(!E.nav||!E.nav.path||E.nav.path(P.x,P.z,x,z))) out.push([+x.toFixed(2),+z.toFixed(2)]); } return out; })()"""   # CC-C 11-05：只挑找得到路的點（pool_17 那一次點到研究小間牆外、站得住但走不到的格子；BB-C 02:06 A／B：main 和 d3828 一樣＝TEST_BUG）
 TRIPS_JS = "(id=>(GAME.G.trips||[]).filter(t=>t.who===id).map(t=>({trip:t.trip,day:t.day,depart:t.depart,back:t.back,status:t.status,locs:t.locs,kind:t.kind||null})))"
 INVS_JS = "(id=>(GAME.G.invites||[]).filter(v=>v.who===id).map(v=>({id:v.id,state:v.state,place:v.place,zone:v.zone,day:v.day,h:v.h})))"
 SAY_HOOK = r"""(()=>{ if(window.__CCS) return true; const W=window.__CCS=[]; const s0=GAME.say; if(typeof s0!=='function') return false;
@@ -617,13 +617,18 @@ class Person:
             r = await L.tap_ground(pg, self.cdp, x, z, lv=s0['lv'], verify=True)
             if r: tapped = (x, z); break
         if tapped:
-            mv = 0.0
+            mv = 0.0; evhit = None
             for _ in range(16):
                 await pg.wait_for_timeout(500); s1 = await self.st(); mv = math.hypot(s1['x'] - s0['x'], s1['z'] - s0['z'])
                 if mv >= 0.3: break
-            ok &= R.check('%s：點地走得動（≥0.3 m）' % tag, mv >= 0.3, '點 %s，走了 %.2f m' % (J(tapped), mv))
+                if s1['evr'] and not s0['evr']: evhit = s1['evr']; break   # 走進自動劇情的範圍、劇情接手（玩家停下來看劇情）
+            if evhit and mv < 0.3: R.info('%s：點地以後走進了自動劇情 %s（劇情接手，走了 %.2f m；不判）' % (tag, evhit, mv), J(tapped))
+            else: ok &= R.check('%s：點地走得動（≥0.3 m）' % tag, mv >= 0.3, '點 %s，走了 %.2f m' % (J(tapped), mv))
         else:
             R.info('%s：附近找不到能點的地面（不判）' % tag, '候選 %d 個' % len(pts))
+        sE = await self.st()
+        if sE['evr']:   # CC-C 11-05：搖桿、點地走進了自動劇情的範圍（pool_12 的 ev_sk01_soc「對面的舊系館」）＝劇情照常開始；照玩家點完再接著檢查（不是卡住）
+            R.setup('%s：走路的時候走進了自動劇情 %s，照玩家點完再接著檢查' % (tag, sE['evr'])); await self.drive(lambda ch, menus: 0, tag + ' 走進的自動劇情', max_s=180)
         # 遊戲時間
         h0 = (await self.st())['hour']; await pg.wait_for_timeout(3000); h1 = (await self.st())['hour']
         ok &= R.check('%s：遊戲時間有在走' % tag, h1 > h0, '%.4f→%.4f' % (h0, h1))
@@ -1010,6 +1015,9 @@ class Person:
             sl = {'d': d, 'hr': 14.0, 'zone': 'campus', 'key': '?'}
         await self.load(self.base(sl['d'], sl['hr'], sl['zone'] if slots else 'campus', None if slots else {'x': 30, 'z': 30, 'yaw': 0}), why='%s：%s %s' % (tag, sl.get('key'), sl['hr']))
         await self.setup(setup, '前置：%s' % tag); await self.reload_same('套用關係以後重讀')
+        s0 = await self.st()
+        if s0['evr']:   # CC-C 11-05：讀檔點正好演起自動劇情（pool_12 2025-09-19 campus 的 ev_sk01_soc「對面的舊系館」）＝照玩家點完再開始（v20r_cloud2 pool3 那一次 FAIL 是探針沒點）
+            R.setup('%s：讀檔點正好演自動劇情 %s，照玩家點完再開始' % (tag, s0['evr'])); await self.drive(lambda ch, menus: 0, tag + ' 讀檔點的自動劇情', max_s=180)
         if not await self.check_free(tag + ' 開始前'): return
         fb0, err0 = await self.base_marks()
         if not await self.open_thread(tag): await L.close_panels(pg, self.cdp); return

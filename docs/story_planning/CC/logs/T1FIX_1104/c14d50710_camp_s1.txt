@@ -1,0 +1,12 @@
+
+================ 種子 1：PASS ================
+區域 build 1 次、0.5 秒；turbo 格 0
+到 2025-08-29　步數 129　格數 540　虛擬時間 0.0 小時　開頁面 1 次　真實 1.1 秒　（game3d.js：對話有 sayStack）
+結束時：{"attended":0,"day":-18,"date":"2025-08-29","evDone":8,"money":7000,"stage":"law","contacts":1,"invites":0,"invDone":0,"goingSeen":0,"msgs":3}
+個性：{"classP":0.46377366874367,"lateP":0.21738413767889142,"phoneP":0.34350345729617404,"talkP":0.24267076239921154,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002}
+
+注意（不算 FAIL）：
+  6 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）
+  1 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+@@RESULT {"seed":1,"ok":true,"reached":"2025-08-29","steps":129,"frames":540,"vms":54400,"pages":1,"fails":[],"notes":[{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":6,"ex":"portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":1,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"}],"missingE":[],"persona":{"classP":0.46377366874367,"lateP":0.21738413767889142,"phoneP":0.34350345729617404,"talkP":0.24267076239921154,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002},"sayStack":true,"chooseStack":true,"g":{"attended":0,"day":-18,"date":"2025-08-29","evDone":8,"money":7000,"stage":"law","contacts":1,"invites":0,"invDone":0,"goingSeen":0,"msgs":3}}
+（1.1 秒）

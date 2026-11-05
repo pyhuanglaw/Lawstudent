@@ -1,0 +1,1130 @@
+{
+ "loc": "eat",
+ "sha": "d3828452a",
+ "seed": 1104,
+ "seg_s": 12.0,
+ "rec_fps": 10.0,
+ "kinds": [
+  "look",
+  "side",
+  "hair",
+  "glance",
+  "stretch",
+  "page",
+  "posture",
+  "up"
+ ],
+ "view": "844x390",
+ "runs": [
+  {
+   "mode": "amb",
+   "url_extra": "",
+   "stops": [
+    {
+     "zone": "wz_lin",
+     "hour": 12.25,
+     "day": 9,
+     "seated0": {
+      "zone": "wz_lin",
+      "hour": 12.28,
+      "day": 9,
+      "weekday": 4,
+      "date": "2025-09-25",
+      "sitAmb": true,
+      "ready": true,
+      "npcs": 3,
+      "seatact": {
+       "zone": "wz_lin",
+       "place": "meal",
+       "n": 2,
+       "loaded": true,
+       "acts": [
+        "eat2",
+        "eat2"
+       ]
+      },
+      "pairs": 0,
+      "fig": [],
+      "player": {
+       "x": 1,
+       "y": 0,
+       "z": 3.05,
+       "lv": 0,
+       "pose": "idle",
+       "seat": false
+      },
+      "seated": [
+       {
+        "i": 1,
+        "name": "",
+        "pose": "sit",
+        "x": 1.9,
+        "y": 0,
+        "z": 0.45,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": 1.9,
+         "z": 0.45,
+         "table": 4,
+         "kind": "shop",
+         "row": null,
+         "col": null,
+         "room": null,
+         "floor": 0,
+         "y": null
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": false,
+        "zseat": {
+         "table": "4",
+         "kind": "shop",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": {
+         "act": "eat2",
+         "set": null,
+         "hold": null,
+         "named": false
+        },
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 2.14,
+         "t": 2.684,
+         "rate": 0.5471,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.064,
+          0.037,
+          -0.02
+         ]
+        }
+       },
+       {
+        "i": 2,
+        "name": "",
+        "pose": "sit",
+        "x": 1.9,
+        "y": 0,
+        "z": -1.25,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": 1.9,
+         "z": -1.25,
+         "table": 5,
+         "kind": "shop",
+         "row": null,
+         "col": null,
+         "room": null,
+         "floor": 0,
+         "y": null
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": false,
+        "zseat": {
+         "table": "5",
+         "kind": "shop",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": {
+         "act": "eat2",
+         "set": null,
+         "hold": null,
+         "named": false
+        },
+        "amb": {
+         "n": 1,
+         "kinds": {
+          "hair": 1
+         },
+         "fx": "hair",
+         "next": 14.43,
+         "t": 8.752,
+         "rate": 0.4687,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.031,
+          -0.002,
+          -0.042
+         ]
+        }
+       }
+      ],
+      "clips": [
+       [
+        "Sitting_Idle_Loop",
+        1.667
+       ],
+       [
+        "Sitting_Idle02_Loop",
+        2.5
+       ],
+       [
+        "Sitting_Idle03_Loop",
+        4.167
+       ],
+       [
+        "Sitting_Talking_Loop",
+        2.933
+       ],
+       [
+        "Sitting_Nodding_Loop",
+        2.933
+       ],
+       [
+        "Sitting_Enter",
+        1.3
+       ],
+       [
+        "Sitting_Exit",
+        1.033
+       ],
+       [
+        "Drink",
+        3
+       ],
+       [
+        "Idle_LookAround_Loop",
+        4.6
+       ],
+       [
+        "Yes",
+        2.5
+       ],
+       [
+        "Consume",
+        1.333
+       ],
+       [
+        "Idle_TalkingPhone_Loop",
+        2.933
+       ]
+      ]
+     },
+     "seated0_wait_s": 8.0,
+     "segs": [
+      {
+       "tag": "eat_1",
+       "secs": 13.04,
+       "n": 130,
+       "dt": 0.1,
+       "cam": [
+        [
+         2.662,
+         1.35,
+         -0.136
+        ],
+        [
+         1.9,
+         0.85,
+         -1.25
+        ]
+       ],
+       "sched": [
+        [
+         0.5,
+         0,
+         "look"
+        ],
+        [
+         4.34,
+         0,
+         "side"
+        ],
+        [
+         9.84,
+         0,
+         "stretch"
+        ]
+       ],
+       "targets": [
+        {
+         "i": 2,
+         "name": "",
+         "pose": "sit",
+         "item": null,
+         "x": 1.9,
+         "z": -1.25,
+         "lv": 0,
+         "floor": false,
+         "sex": "f",
+         "seat": {
+          "x": 1.9,
+          "z": -1.25,
+          "table": 5,
+          "kind": "shop",
+          "row": null,
+          "col": null,
+          "room": null,
+          "floor": 0,
+          "y": null
+         },
+         "act": {
+          "act": "eat2",
+          "set": null,
+          "hold": null,
+          "named": false
+         },
+         "chat": null
+        }
+       ],
+       "fid": [
+        {
+         "f": 5,
+         "t": 0,
+         "i": 2,
+         "kind": "look",
+         "ok": true,
+         "got": "look",
+         "live": true,
+         "chat": null
+        },
+        {
+         "f": 43,
+         "t": 0,
+         "i": 2,
+         "kind": "side",
+         "ok": true,
+         "got": "side",
+         "live": true,
+         "chat": null
+        },
+        {
+         "f": 98,
+         "t": 0,
+         "i": 2,
+         "kind": "stretch",
+         "ok": true,
+         "got": "stretch",
+         "live": true,
+         "chat": null
+        }
+       ],
+       "starts": [
+        {
+         "f": 5,
+         "i": 2,
+         "kind": "look"
+        },
+        {
+         "f": 20,
+         "i": 1,
+         "kind": "hair"
+        },
+        {
+         "f": 43,
+         "i": 2,
+         "kind": "side"
+        },
+        {
+         "f": 98,
+         "i": 2,
+         "kind": "stretch"
+        }
+       ],
+       "roles": [],
+       "diff_mean": 0.318,
+       "diffs": [
+        0,
+        0.269,
+        0.241,
+        0.31,
+        0.327,
+        1.729,
+        0.221,
+        0.232,
+        0.59,
+        0.805,
+        0.871,
+        0.586,
+        0.43,
+        0.188,
+        0.117,
+        0.058,
+        0.721,
+        1.127,
+        1.035,
+        0.986,
+        0.785,
+        0.357,
+        0.225,
+        0.188,
+        0.214,
+        0.089,
+        0.561,
+        0.642,
+        0.668,
+        0.585,
+        0.376,
+        0.169,
+        0.197,
+        0.205,
+        0.115,
+        0.112,
+        0.114,
+        0.108,
+        0.146,
+        0.153,
+        0.213,
+        0.219,
+        0.226,
+        0.385,
+        0.618,
+        0.766,
+        0.762,
+        0.723,
+        0.471,
+        0.23,
+        0.206,
+        0.207,
+        0.225,
+        0.228,
+        0.243,
+        0.208,
+        0.23,
+        0.222,
+        0.237,
+        0.297,
+        0.537,
+        0.661,
+        0.713,
+        0.7,
+        0.629,
+        0.445,
+        0.203,
+        0.084,
+        0.102,
+        0.108,
+        0.114,
+        0.115,
+        0.108,
+        0.123,
+        0.15,
+        0.173,
+        0.205,
+        0.24,
+        0.218,
+        0.197,
+        0.118,
+        0.061,
+        0.074,
+        0.07,
+        0.195,
+        0.19,
+        0.179,
+        0.191,
+        0.189,
+        0.201,
+        0.198,
+        0.178,
+        0.167,
+        0.182,
+        0.193,
+        0.122,
+        0.034,
+        0.126,
+        0.247,
+        0.436,
+        0.533,
+        0.536,
+        0.522,
+        0.452,
+        0.262,
+        0.1,
+        0.133,
+        0.144,
+        0.168,
+        0.145,
+        0.128,
+        0.092,
+        0.111,
+        0.161,
+        0.272,
+        0.372,
+        0.401,
+        0.438,
+        0.458,
+        0.459,
+        0.481,
+        0.388,
+        0.323,
+        0.257,
+        0.188,
+        0.196,
+        0.188,
+        0.171,
+        0.178,
+        0.199
+       ],
+       "shots": [
+        {
+         "f": 5,
+         "d": 1.729,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_1_f0005_top.jpg",
+         "kb": 59.4
+        },
+        {
+         "f": 9,
+         "d": 0.805,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_1_f0009_top.jpg",
+         "kb": 59.1
+        },
+        {
+         "f": 10,
+         "d": 0.871,
+         "top": true,
+         "why": [
+          "look0_0.5s"
+         ],
+         "file": "amb/eat_1_f0010_top_look0_0p5s.jpg",
+         "kb": 58.9
+        },
+        {
+         "f": 17,
+         "d": 1.127,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_1_f0017_top.jpg",
+         "kb": 59.1
+        },
+        {
+         "f": 18,
+         "d": 1.035,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_1_f0018_top.jpg",
+         "kb": 59.4
+        },
+        {
+         "f": 19,
+         "d": 0.986,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_1_f0019_top.jpg",
+         "kb": 59.4
+        },
+        {
+         "f": 20,
+         "d": 0.785,
+         "top": true,
+         "why": [
+          "look0_1.5s"
+         ],
+         "file": "amb/eat_1_f0020_top_look0_1p5s.jpg",
+         "kb": 59.5
+        },
+        {
+         "f": 45,
+         "d": 0.766,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_1_f0045_top.jpg",
+         "kb": 59.5
+        },
+        {
+         "f": 46,
+         "d": 0.762,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_1_f0046_top.jpg",
+         "kb": 59.5
+        },
+        {
+         "f": 47,
+         "d": 0.723,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_1_f0047_top.jpg",
+         "kb": 59.5
+        },
+        {
+         "f": 48,
+         "d": 0.471,
+         "top": false,
+         "why": [
+          "side0_0.5s"
+         ],
+         "file": "amb/eat_1_f0048_side0_0p5s.jpg",
+         "kb": 59.5
+        },
+        {
+         "f": 58,
+         "d": 0.237,
+         "top": false,
+         "why": [
+          "side0_1.5s"
+         ],
+         "file": "amb/eat_1_f0058_side0_1p5s.jpg",
+         "kb": 59.5
+        },
+        {
+         "f": 103,
+         "d": 0.452,
+         "top": false,
+         "why": [
+          "stretch0_0.5s"
+         ],
+         "file": "amb/eat_1_f0103_stretch0_0p5s.jpg",
+         "kb": 59.3
+        },
+        {
+         "f": 113,
+         "d": 0.161,
+         "top": false,
+         "why": [
+          "stretch0_1.5s"
+         ],
+         "file": "amb/eat_1_f0113_stretch0_1p5s.jpg",
+         "kb": 59.5
+        }
+       ],
+       "page_ms": 24026,
+       "canvas": [
+        844,
+        390
+       ],
+       "err": null
+      },
+      {
+       "tag": "eat_2",
+       "secs": 15.0,
+       "n": 150,
+       "dt": 0.1,
+       "cam": [
+        [
+         2.662,
+         1.35,
+         1.564
+        ],
+        [
+         1.9,
+         0.85,
+         0.45
+        ]
+       ],
+       "sched": [
+        [
+         0.5,
+         0,
+         "posture"
+        ],
+        [
+         3.5,
+         0,
+         "hair"
+        ],
+        [
+         9.3,
+         0,
+         "glance"
+        ],
+        [
+         13.4,
+         0,
+         "up"
+        ]
+       ],
+       "targets": [
+        {
+         "i": 1,
+         "name": "",
+         "pose": "sit",
+         "item": null,
+         "x": 1.9,
+         "z": 0.45,
+         "lv": 0,
+         "floor": false,
+         "sex": "m",
+         "seat": {
+          "x": 1.9,
+          "z": 0.45,
+          "table": 4,
+          "kind": "shop",
+          "row": null,
+          "col": null,
+          "room": null,
+          "floor": 0,
+          "y": null
+         },
+         "act": {
+          "act": "eat2",
+          "set": null,
+          "hold": null,
+          "named": false
+         },
+         "chat": null
+        }
+       ],
+       "fid": [
+        {
+         "f": 5,
+         "t": 0,
+         "i": 1,
+         "kind": "posture",
+         "ok": true,
+         "got": "posture",
+         "live": true,
+         "chat": null
+        },
+        {
+         "f": 35,
+         "t": 0,
+         "i": 1,
+         "kind": "hair",
+         "ok": true,
+         "got": "hair",
+         "live": true,
+         "chat": null
+        },
+        {
+         "f": 93,
+         "t": 0,
+         "i": 1,
+         "kind": "glance",
+         "ok": true,
+         "got": "glance",
+         "live": true,
+         "chat": null
+        },
+        {
+         "f": 134,
+         "t": 0,
+         "i": 1,
+         "kind": "up",
+         "ok": true,
+         "got": "up",
+         "live": true,
+         "chat": null
+        }
+       ],
+       "starts": [
+        {
+         "f": 5,
+         "i": 1,
+         "kind": "posture"
+        },
+        {
+         "f": 22,
+         "i": 1,
+         "kind": "posture"
+        },
+        {
+         "f": 35,
+         "i": 1,
+         "kind": "hair"
+        },
+        {
+         "f": 68,
+         "i": 2,
+         "kind": "up"
+        },
+        {
+         "f": 93,
+         "i": 1,
+         "kind": "glance"
+        },
+        {
+         "f": 134,
+         "i": 1,
+         "kind": "up"
+        }
+       ],
+       "roles": [],
+       "diff_mean": 0.327,
+       "diffs": [
+        0,
+        0.167,
+        0.129,
+        0.122,
+        0.102,
+        0.541,
+        0.497,
+        0.408,
+        0.351,
+        0.323,
+        0.284,
+        0.222,
+        0.193,
+        0.19,
+        0.188,
+        0.19,
+        0.153,
+        0.103,
+        0.094,
+        0.153,
+        0.245,
+        0.234,
+        0.649,
+        0.594,
+        0.501,
+        0.399,
+        0.361,
+        0.331,
+        0.298,
+        0.24,
+        0.243,
+        0.269,
+        0.232,
+        0.187,
+        0.18,
+        0.32,
+        0.349,
+        0.425,
+        0.614,
+        1.013,
+        1.117,
+        0.82,
+        0.735,
+        0.653,
+        0.541,
+        0.352,
+        0.367,
+        0.446,
+        0.289,
+        0.517,
+        0.278,
+        0.451,
+        0.396,
+        0.426,
+        0.38,
+        0.409,
+        0.501,
+        0.411,
+        0.373,
+        0.504,
+        0.645,
+        0.715,
+        0.756,
+        0.88,
+        0.97,
+        0.892,
+        0.834,
+        0.527,
+        0.315,
+        0.427,
+        0.451,
+        0.443,
+        0.437,
+        0.44,
+        0.393,
+        0.224,
+        0.237,
+        0.172,
+        0.097,
+        0.091,
+        0.118,
+        0.213,
+        0.226,
+        0.222,
+        0.219,
+        0.213,
+        0.225,
+        0.277,
+        0.268,
+        0.294,
+        0.235,
+        0.092,
+        0.166,
+        0.44,
+        0.64,
+        0.625,
+        0.552,
+        0.249,
+        0.121,
+        0.147,
+        0.132,
+        0.145,
+        0.167,
+        0.18,
+        0.224,
+        0.21,
+        0.214,
+        0.213,
+        0.131,
+        0.132,
+        0.086,
+        0.164,
+        0.198,
+        0.195,
+        0.184,
+        0.186,
+        0.189,
+        0.187,
+        0.192,
+        0.211,
+        0.197,
+        0.081,
+        0.307,
+        0.584,
+        0.647,
+        0.621,
+        0.384,
+        0.145,
+        0.145,
+        0.16,
+        0.156,
+        0.135,
+        0.157,
+        0.171,
+        0.322,
+        0.473,
+        0.489,
+        0.465,
+        0.301,
+        0.101,
+        0.088,
+        0.138,
+        0.221,
+        0.221,
+        0.228,
+        0.211,
+        0.198,
+        0.22,
+        0.206,
+        0.206
+       ],
+       "shots": [
+        {
+         "f": 10,
+         "d": 0.284,
+         "top": false,
+         "why": [
+          "posture0_0.5s"
+         ],
+         "file": "amb/eat_2_f0010_posture0_0p5s.jpg",
+         "kb": 64.8
+        },
+        {
+         "f": 20,
+         "d": 0.245,
+         "top": false,
+         "why": [
+          "posture0_1.5s"
+         ],
+         "file": "amb/eat_2_f0020_posture0_1p5s.jpg",
+         "kb": 64.8
+        },
+        {
+         "f": 39,
+         "d": 1.013,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_2_f0039_top.jpg",
+         "kb": 65.5
+        },
+        {
+         "f": 40,
+         "d": 1.117,
+         "top": true,
+         "why": [
+          "hair0_0.5s"
+         ],
+         "file": "amb/eat_2_f0040_top_hair0_0p5s.jpg",
+         "kb": 65.5
+        },
+        {
+         "f": 41,
+         "d": 0.82,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_2_f0041_top.jpg",
+         "kb": 65.4
+        },
+        {
+         "f": 42,
+         "d": 0.735,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_2_f0042_top.jpg",
+         "kb": 65.2
+        },
+        {
+         "f": 50,
+         "d": 0.278,
+         "top": false,
+         "why": [
+          "hair0_1.5s"
+         ],
+         "file": "amb/eat_2_f0050_hair0_1p5s.jpg",
+         "kb": 65.0
+        },
+        {
+         "f": 61,
+         "d": 0.715,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_2_f0061_top.jpg",
+         "kb": 65.3
+        },
+        {
+         "f": 62,
+         "d": 0.756,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_2_f0062_top.jpg",
+         "kb": 65.3
+        },
+        {
+         "f": 63,
+         "d": 0.88,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_2_f0063_top.jpg",
+         "kb": 65.6
+        },
+        {
+         "f": 64,
+         "d": 0.97,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_2_f0064_top.jpg",
+         "kb": 65.5
+        },
+        {
+         "f": 65,
+         "d": 0.892,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_2_f0065_top.jpg",
+         "kb": 65.3
+        },
+        {
+         "f": 66,
+         "d": 0.834,
+         "top": true,
+         "why": [],
+         "file": "amb/eat_2_f0066_top.jpg",
+         "kb": 65.2
+        },
+        {
+         "f": 98,
+         "d": 0.121,
+         "top": false,
+         "why": [
+          "glance0_0.5s"
+         ],
+         "file": "amb/eat_2_f0098_glance0_0p5s.jpg",
+         "kb": 64.8
+        },
+        {
+         "f": 108,
+         "d": 0.131,
+         "top": false,
+         "why": [
+          "glance0_1.5s"
+         ],
+         "file": "amb/eat_2_f0108_glance0_1p5s.jpg",
+         "kb": 64.8
+        },
+        {
+         "f": 139,
+         "d": 0.101,
+         "top": false,
+         "why": [
+          "up0_0.5s"
+         ],
+         "file": "amb/eat_2_f0139_up0_0p5s.jpg",
+         "kb": 64.9
+        },
+        {
+         "f": 149,
+         "d": 0.206,
+         "top": false,
+         "why": [
+          "up0_1.5s"
+         ],
+         "file": "amb/eat_2_f0149_up0_1p5s.jpg",
+         "kb": 64.8
+        }
+       ],
+       "page_ms": 32602,
+       "canvas": [
+        844,
+        390
+       ],
+       "err": null
+      }
+     ],
+     "missing": [
+      {
+       "seg": "eat_phone",
+       "role": "phone",
+       "why": "沒有這種人"
+      }
+     ]
+    }
+   ],
+   "js_errors": [],
+   "secs": 105.3,
+   "coverage": {
+    "look": [
+     "eat_1"
+    ],
+    "side": [
+     "eat_1"
+    ],
+    "stretch": [
+     "eat_1"
+    ],
+    "posture": [
+     "eat_2"
+    ],
+    "hair": [
+     "eat_2"
+    ],
+    "glance": [
+     "eat_2"
+    ],
+    "up": [
+     "eat_2"
+    ]
+   }
+  }
+ ],
+ "secs": 106.2
+}

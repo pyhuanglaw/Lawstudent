@@ -1,0 +1,16 @@
+
+================ 種子 3：PASS ================
+區域 build 126 次、9.5 秒；turbo 格 17756
+到 2025-09-21　步數 2343　格數 55427　虛擬時間 2.5 小時　開頁面 3 次　真實 32.1 秒　（game3d.js：對話有 sayStack）
+結束時：{"attended":15,"day":5,"date":"2025-09-21","evDone":22,"money":36010,"stage":"law","contacts":5,"invites":3,"invDone":1,"goingSeen":0,"msgs":97}
+個性：{"classP":0.6326218867674469,"lateP":0.3484894384164363,"phoneP":0.1522309526684694,"talkP":0.43800013547297567,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001}
+
+注意（不算 FAIL）：
+  43 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）
+  24 次　3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-08-31 21:11 campus）
+  3 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  2 次　說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）　例：說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-08-30 21:59 dorm）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-04 17:20 cvs）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-09 12:20 cafe）
+@@RESULT {"seed":3,"ok":true,"reached":"2025-09-21","steps":2343,"frames":55427,"vms":9098400,"pages":3,"fails":[],"notes":[{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":43,"ex":"portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗","n":24,"ex":"unknown asset prop.bike_ride（2025-08-31 21:11 campus）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":3,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"},{"k":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）","n":2,"ex":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-08-30 21:59 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-04 17:20 cvs）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-09 12:20 cafe）"}],"missingE":[],"persona":{"classP":0.6326218867674469,"lateP":0.3484894384164363,"phoneP":0.1522309526684694,"talkP":0.43800013547297567,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001},"sayStack":true,"chooseStack":true,"g":{"attended":15,"day":5,"date":"2025-09-21","evDone":22,"money":36010,"stage":"law","contacts":5,"invites":3,"invDone":1,"goingSeen":0,"msgs":97}}
+（32.1 秒）
