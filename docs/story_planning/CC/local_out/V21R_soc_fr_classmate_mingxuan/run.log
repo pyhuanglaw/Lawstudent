@@ -1,4 +1,4 @@
-[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8806/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_soc_fr_classmate_mingxuan\out
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_soc_fr_classmate_mingxuan\out
 CASES=["classmate_mingxuan"] STEPS=["first", "greet", "up", "ladder", "menu", "invite", "invite_study", "reload", "phone", "shop", "walk"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
 PASS [classmate_mingxuan] 遊戲載入
 == 人物 classmate_mingxuan 明軒 開始（層 A、可攻略 False、階梯 {}、店內偶遇 [{"spot": "bookstore", "join": "friend"}, {"spot": "wz_lin", "join": null}]、自由出行 []）
@@ -10,20 +10,20 @@ PASS [classmate_mingxuan] 遊戲載入
   [前置／捷徑] [classmate_mingxuan] 前置：還不認識（STRANGER）：{"stage": "STRANGER", "name": "明軒", "fm": false, "lad": null, "contact": false}
   [前置／捷徑] [classmate_mingxuan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.28 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，58 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.20 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，53 秒
   [classmate_mingxuan] first：按「和明軒說話」
 PASS [classmate_mingxuan] first：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "系籃"}
   [classmate_mingxuan] first 選單 ["「好。」", "「我運動白痴。」", "「你上課都不抄筆記喔？」"] → 選「「好。」」
-  [classmate_mingxuan] first 台詞（4 句）：["明軒｜我江明", "明軒｜我江明軒，阿哲的隊友。他說你們同班。", "明軒｜週五練球缺人，來不來？不會打也可以，來當經", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
+  [classmate_mingxuan] first 台詞（4 句）：["明軒｜我江明軒，阿", "明軒｜我江明軒，阿哲的隊友。他說你們同班。", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
 PASS [classmate_mingxuan] first：對話一路點得完  1 個選單
 PASS [classmate_mingxuan] first：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [classmate_mingxuan] first：15 秒內回到可以自由移動
 PASS [classmate_mingxuan] first：GAME.walkFallbacks 沒增加  0→0
 PASS [classmate_mingxuan] first：沒有新的 JS 例外
 PASS [classmate_mingxuan] first：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [classmate_mingxuan] first：搖桿推得動（≥0.3 m）  3.20 m
-PASS [classmate_mingxuan] first：點地走得動（≥0.3 m）  點 [-62.81, 8.11]，走了 1.02 m
-PASS [classmate_mingxuan] first：遊戲時間有在走  16.0078→16.0280
+PASS [classmate_mingxuan] first：搖桿推得動（≥0.3 m）  3.06 m
+PASS [classmate_mingxuan] first：點地走得動（≥0.3 m）  點 [-62.22, 6.64]，走了 1.02 m
+PASS [classmate_mingxuan] first：遊戲時間有在走  15.9694→15.9898
 PASS [classmate_mingxuan] first：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] first：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] first：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -34,30 +34,12 @@ PASS [classmate_mingxuan] first：說完以後認識了（FIRST_MET、名字＝�
   [前置／捷徑] [classmate_mingxuan] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "明軒", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [classmate_mingxuan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.09 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，15 秒
   [classmate_mingxuan] greet：互動鍵是「」，往他再走近
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.22 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.23 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，8 秒
-  [classmate_mingxuan] greet：互動鍵是「坐在社科院中庭的長椅」，往他再走近
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.23 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，10 秒
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.21 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，12 秒
-  [classmate_mingxuan] greet：互動鍵是「」，往他再走近
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.21 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，16 秒
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.23 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，18 秒
-  [classmate_mingxuan] greet：互動鍵是「」，往他再走近
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.23 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，16 秒
-INFO [classmate_mingxuan] greet：這個時段找不到他／走不到他旁邊  {"x": -91.6, "z": -32.94, "lv": 0, "label": "和明軒說話", "name": "明軒", "seat": false, "beh": "wander", "alias": null}
-  [前置／捷徑] [classmate_mingxuan] 讀檔：greet：2025-09-16 15.5 campus（走走）（campus 0 15.50）
-  [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [前置／捷徑] [classmate_mingxuan] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "明軒", "fm": true, "lad": null, "contact": false}
-  [前置／捷徑] [classmate_mingxuan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
-  [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.39 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，53 秒
-  [classmate_mingxuan] greet：互動鍵是「」，往他再走近
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.20 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
   [classmate_mingxuan] greet 連按兩次：按「和明軒說話」（連按兩次，間隔約 200 ms）
-PASS [classmate_mingxuan] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["X.run (http://127.0.0.1:8806/src/events3d.js?v=9.10.19:107:96)"]}
+PASS [classmate_mingxuan] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["X.run (http://127.0.0.1:8807/src/events3d.js?v=9.10.19:107:96)"]}
 PASS [classmate_mingxuan] greet 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [classmate_mingxuan] greet 連按兩次 選單 ["「好。」", "「我運動白痴。」", "「你上課都不抄筆記喔？」"] → 選「「好。」」
   [classmate_mingxuan] greet 連按兩次 台詞（1 句）：["明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
@@ -67,9 +49,9 @@ PASS [classmate_mingxuan] greet 連按兩次：15 秒內回到可以自由移動
 PASS [classmate_mingxuan] greet 連按兩次：GAME.walkFallbacks 沒增加  0→0
 PASS [classmate_mingxuan] greet 連按兩次：沒有新的 JS 例外
 PASS [classmate_mingxuan] greet 連按兩次：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [classmate_mingxuan] greet 連按兩次：搖桿推得動（≥0.3 m）  3.24 m
-PASS [classmate_mingxuan] greet 連按兩次：點地走得動（≥0.3 m）  點 [-51.38, 7.61]，走了 0.99 m
-PASS [classmate_mingxuan] greet 連按兩次：遊戲時間有在走  16.0465→16.0669
+PASS [classmate_mingxuan] greet 連按兩次：搖桿推得動（≥0.3 m）  3.18 m
+PASS [classmate_mingxuan] greet 連按兩次：點地走得動（≥0.3 m）  點 [66.13, -14.89]，走了 1.02 m
+PASS [classmate_mingxuan] greet 連按兩次：遊戲時間有在走  15.8749→15.8952
 PASS [classmate_mingxuan] greet 連按兩次：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] greet 連按兩次：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] greet 連按兩次：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -79,23 +61,20 @@ PASS [classmate_mingxuan] greet 連按兩次：按 #minimap 打得開、關得�
   [前置／捷徑] [classmate_mingxuan] 前置：朋友（FRIEND）、門檻台詞還沒說（relUp＝0）：{"stage": "FRIEND", "name": "明軒", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [classmate_mingxuan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，20 秒
-  [classmate_mingxuan] up：互動鍵是「」，往他再走近
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.22 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，14 秒
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.85 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.25 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，53 秒
   [classmate_mingxuan] up：按「和明軒說話」
 PASS [classmate_mingxuan] up：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "系籃"}
   [classmate_mingxuan] up 選單 ["「好。」", "「我運動白痴。」", "「你上課都不抄筆記喔？」"] → 選「「好。」」
-  [classmate_mingxuan] up 台詞（2 句）：["明軒｜週五練", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
+  [classmate_mingxuan] up 台詞（2 句）：["明軒｜週五練球", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
 PASS [classmate_mingxuan] up：對話一路點得完  1 個選單
 PASS [classmate_mingxuan] up：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [classmate_mingxuan] up：15 秒內回到可以自由移動
 PASS [classmate_mingxuan] up：GAME.walkFallbacks 沒增加  0→0
 PASS [classmate_mingxuan] up：沒有新的 JS 例外
 PASS [classmate_mingxuan] up：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [classmate_mingxuan] up：搖桿推得動（≥0.3 m）  3.27 m
-PASS [classmate_mingxuan] up：點地走得動（≥0.3 m）  點 [-7.08, -8.84]，走了 1.02 m
-PASS [classmate_mingxuan] up：遊戲時間有在走  15.8838→15.9040
+PASS [classmate_mingxuan] up：搖桿推得動（≥0.3 m）  3.21 m
+PASS [classmate_mingxuan] up：點地走得動（≥0.3 m）  點 [-62.15, 9.02]，走了 1.02 m
+PASS [classmate_mingxuan] up：遊戲時間有在走  15.9778→15.9980
 PASS [classmate_mingxuan] up：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] up：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] up：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -108,26 +87,38 @@ SKIP [classmate_mingxuan] ladder：沒有閒聊階梯資料（走一般閒聊 sm
   [前置／捷徑] [classmate_mingxuan] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "明軒", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [classmate_mingxuan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.10 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.05 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，11 秒
   [classmate_mingxuan] menu：互動鍵是「」，往他再走近
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，13 秒
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.08 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.20 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.22 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
   [classmate_mingxuan] menu：互動鍵是「」，往他再走近
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.25 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.22 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.22 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，10 秒
+  [classmate_mingxuan] menu：互動鍵是「」，往他再走近
+  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.24 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，13 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.10 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [classmate_mingxuan] menu：互動鍵是「」，往他再走近
+  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+INFO [classmate_mingxuan] menu：這個時段找不到他／走不到他旁邊  {"x": -58.64, "z": -26.76, "lv": 0, "label": "和明軒說話", "name": "明軒", "seat": false, "beh": "wander", "alias": null}
+  [前置／捷徑] [classmate_mingxuan] 讀檔：menu：2025-09-16 15.5 campus（走走）（campus 0 15.50）
+  [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_mingxuan] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "明軒", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [classmate_mingxuan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.22 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，53 秒
   [classmate_mingxuan] menu 基本：按「和明軒說話」
 PASS [classmate_mingxuan] menu 基本：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "系籃"}
   [classmate_mingxuan] menu 基本 選單 ["「好。」", "「我運動白痴。」", "「你上課都不抄筆記喔？」"] → 選「「好。」」
-  [classmate_mingxuan] menu 基本 台詞（2 句）：["明軒｜週五練球", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
+  [classmate_mingxuan] menu 基本 台詞（2 句）：["明軒｜週五練球缺人，來", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
 PASS [classmate_mingxuan] menu 基本：對話一路點得完  1 個選單
 PASS [classmate_mingxuan] menu 基本：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [classmate_mingxuan] menu 基本：15 秒內回到可以自由移動
 PASS [classmate_mingxuan] menu 基本：GAME.walkFallbacks 沒增加  0→0
 PASS [classmate_mingxuan] menu 基本：沒有新的 JS 例外
 PASS [classmate_mingxuan] menu 基本：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [classmate_mingxuan] menu 基本：搖桿推得動（≥0.3 m）  3.18 m
-PASS [classmate_mingxuan] menu 基本：點地走得動（≥0.3 m）  點 [30.96, -12.78]，走了 1.08 m
-PASS [classmate_mingxuan] menu 基本：遊戲時間有在走  15.9599→15.9800
+PASS [classmate_mingxuan] menu 基本：搖桿推得動（≥0.3 m）  3.21 m
+PASS [classmate_mingxuan] menu 基本：點地走得動（≥0.3 m）  點 [-62.75, 8.5]，走了 1.08 m
+PASS [classmate_mingxuan] menu 基本：遊戲時間有在走  15.9776→15.9979
 PASS [classmate_mingxuan] menu 基本：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] menu 基本：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] menu 基本：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -138,125 +129,103 @@ INFO [classmate_mingxuan] menu：說話以後沒有選單（只有閒聊）  [["
   [前置／捷徑] [classmate_mingxuan] 前置：朋友（FRIEND）、有聯絡方式：{"stage": "FRIEND", "name": "明軒", "fm": true, "lad": null, "contact": true}
   [前置／捷徑] [classmate_mingxuan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.21 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，55 秒
-  [classmate_mingxuan] invite：互動鍵是「」，往他再走近
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.23 m）：點地面 8 次、轉鏡頭 0 次、搖桿 0 次，23 秒
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.24 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，16 秒
-INFO [classmate_mingxuan] invite：互動鍵是「和阿哲說話」（他的是「和明軒說話」），再靠近一點  
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.21 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，53 秒
   [classmate_mingxuan] invite：約「去椰影大道晨跑」（椰影大道，campus；同一區）
   [classmate_mingxuan] invite 約現在：按「和明軒說話」
 PASS [classmate_mingxuan] invite 約現在：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "系籃"}
   [classmate_mingxuan] invite 約現在 選單 ["「好。」", "「我運動白痴。」", "「你上課都不抄筆記喔？」"] → 選「「好。」」
-  [classmate_mingxuan] invite 約現在 台詞（2 句）：["明軒｜週五練球缺", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
+  [classmate_mingxuan] invite 約現在 台詞（2 句）：["明軒｜週五練", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
 PASS [classmate_mingxuan] invite 約現在：對話一路點得完  1 個選單
 PASS [classmate_mingxuan] invite 約現在：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [classmate_mingxuan] invite 約現在：15 秒內回到可以自由移動
 PASS [classmate_mingxuan] invite 約現在：GAME.walkFallbacks 沒增加  0→0
 PASS [classmate_mingxuan] invite 約現在：沒有新的 JS 例外
 PASS [classmate_mingxuan] invite 約現在：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [classmate_mingxuan] invite 約現在：搖桿推得動（≥0.3 m）  3.15 m
-PASS [classmate_mingxuan] invite 約現在：點地走得動（≥0.3 m）  點 [-48.45, 8.33]，走了 1.08 m
-PASS [classmate_mingxuan] invite 約現在：遊戲時間有在走  16.2815→16.3017
+PASS [classmate_mingxuan] invite 約現在：搖桿推得動（≥0.3 m）  3.20 m
+PASS [classmate_mingxuan] invite 約現在：點地走得動（≥0.3 m）  點 [-62.35, 8.94]，走了 1.05 m
+PASS [classmate_mingxuan] invite 約現在：遊戲時間有在走  15.9809→16.0011
 PASS [classmate_mingxuan] invite 約現在：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] invite 約現在：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] invite 約現在：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
   [classmate_mingxuan] invite：約好的 []
-INFO [classmate_mingxuan] invite：她沒有答應（或時間不對）  ["明軒｜週五練球缺", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
+INFO [classmate_mingxuan] invite：她沒有答應（或時間不對）  ["明軒｜週五練", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
 -- [classmate_mingxuan] invite_study
   [前置／捷徑] [classmate_mingxuan] 讀回存檔（回到「走到她旁邊」那一刻（invite 念書））
   [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.20 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，13 秒
-  [classmate_mingxuan] invite 約念書：按「和明軒說話」
-PASS [classmate_mingxuan] invite 約念書：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "系籃"}
-  [classmate_mingxuan] invite 約念書 選單 ["「好。」", "「我運動白痴。」", "「你上課都不抄筆記喔？」"] → 選「「好。」」
-  [classmate_mingxuan] invite 約念書 台詞（2 句）：["明軒｜週五練球缺人", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
-PASS [classmate_mingxuan] invite 約念書：對話一路點得完  1 個選單
-PASS [classmate_mingxuan] invite 約念書：說話途中沒有丟例外（GAME.lastTalkError 空）
-PASS [classmate_mingxuan] invite 約念書：15 秒內回到可以自由移動
-PASS [classmate_mingxuan] invite 約念書：GAME.walkFallbacks 沒增加  0→0
-PASS [classmate_mingxuan] invite 約念書：沒有新的 JS 例外
-PASS [classmate_mingxuan] invite 約念書：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [classmate_mingxuan] invite 約念書：搖桿推得動（≥0.3 m）  3.27 m
-PASS [classmate_mingxuan] invite 約念書：點地走得動（≥0.3 m）  點 [-62.53, 5.09]，走了 1.11 m
-PASS [classmate_mingxuan] invite 約念書：遊戲時間有在走  16.4087→16.4284
-PASS [classmate_mingxuan] invite 約念書：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
-PASS [classmate_mingxuan] invite 約念書：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
-PASS [classmate_mingxuan] invite 約念書：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-INFO [classmate_mingxuan] invite 念書：她沒有答應  ["明軒｜週五練球缺人", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.08 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，28 秒
+  [classmate_mingxuan] invite 念書：互動鍵是「」，往他再走近
+  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.02 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，13 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.11 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [classmate_mingxuan] invite 念書：互動鍵是「聽一句」，往他再走近
+  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.21 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.23 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [classmate_mingxuan] invite 念書：互動鍵是「」，往他再走近
+  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.23 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [classmate_mingxuan] invite 念書：互動鍵是「」，往他再走近
+  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.22 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+INFO [classmate_mingxuan] invite 念書：回到她旁邊以後找不到她  
 -- [classmate_mingxuan] reload
   [前置／捷徑] [classmate_mingxuan] 讀檔：reload：2025-09-15 15.5 campus（走走）（campus -1 15.50）
   [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
   [前置／捷徑] [classmate_mingxuan] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "明軒", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [classmate_mingxuan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.13 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.21 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，52 秒
   [classmate_mingxuan] reload：互動鍵是「」，往他再走近
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
-  [classmate_mingxuan] reload：互動鍵是「聽一句」，往他再走近
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.18 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.88 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [classmate_mingxuan] 走不到「明軒 旁邊（再近一點）」：最後位置 (8.73,-7.91)，目標 (17.16,-8.01)；點地面 22 次、轉鏡頭 0 次、搖桿 0 次
+  [classmate_mingxuan]   這段時間：畫面 1784 格／63 秒、遊戲時間 15.92→16.34、paused=False、開著的面板 []
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
   [classmate_mingxuan] reload：互動鍵是「」，往他再走近
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.23 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，9 秒
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.24 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，13 秒
   [classmate_mingxuan] reload：互動鍵是「」，往他再走近
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
-INFO [classmate_mingxuan] reload：這個時段找不到他／走不到他旁邊  {"x": 23.65, "z": -27.69, "lv": 0, "label": "和明軒說話", "name": "明軒", "seat": false, "beh": "wander", "alias": null}
-  [前置／捷徑] [classmate_mingxuan] 讀檔：reload：2025-09-16 15.5 campus（走走）（campus 0 15.50）
-  [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [前置／捷徑] [classmate_mingxuan] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "明軒", "fm": true, "lad": null, "contact": false}
-  [前置／捷徑] [classmate_mingxuan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
-  [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.20 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，52 秒
-  [classmate_mingxuan] reload：互動鍵是「」，往他再走近
-  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.20 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，20 秒
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [classmate_mingxuan] 到達「明軒 旁邊（再近一點）」附近（0.00 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
   [classmate_mingxuan] reload 之前：按「和明軒說話」
-PASS [classmate_mingxuan] reload 之前：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "系籃"}
+PASS [classmate_mingxuan] reload 之前：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [classmate_mingxuan] reload 之前 選單 ["「好。」", "「我運動白痴。」", "「你上課都不抄筆記喔？」"] → 選「「好。」」
-  [classmate_mingxuan] reload 之前 台詞（2 句）：["明軒｜週五練球缺人", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
+  [classmate_mingxuan] reload 之前 台詞（2 句）：["明軒｜週五練球缺", "明軒｜週五練球缺人，來不來？不會打也可以，來當經理。"]
 PASS [classmate_mingxuan] reload 之前：對話一路點得完  1 個選單
 PASS [classmate_mingxuan] reload 之前：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [classmate_mingxuan] reload 之前：15 秒內回到可以自由移動
 PASS [classmate_mingxuan] reload 之前：GAME.walkFallbacks 沒增加  0→0
 PASS [classmate_mingxuan] reload 之前：沒有新的 JS 例外
 PASS [classmate_mingxuan] reload 之前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [classmate_mingxuan] reload 之前：搖桿推得動（≥0.3 m）  3.24 m
-PASS [classmate_mingxuan] reload 之前：點地走得動（≥0.3 m）  點 [-45.03, 9.03]，走了 1.02 m
-PASS [classmate_mingxuan] reload 之前：遊戲時間有在走  16.1344→16.1548
+PASS [classmate_mingxuan] reload 之前：搖桿推得動（≥0.3 m）  3.15 m
+PASS [classmate_mingxuan] reload 之前：點地走得動（≥0.3 m）  點 [33, -11.49]，走了 1.05 m
+PASS [classmate_mingxuan] reload 之前：遊戲時間有在走  16.6701→16.6903
 PASS [classmate_mingxuan] reload 之前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] reload 之前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] reload 之前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
   [前置／捷徑] [classmate_mingxuan] 讀回存檔（選單「回標題」→「繼續」按不到，改用 GAME.snapshot→applySave（同「繼續」））
   [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [classmate_mingxuan] reload：讀回來（snapshot→applySave）以後在遊戲裡（不在標題畫面）  {"zone": "campus", "key": "2025-09-16", "hour": 16.2258}
+PASS [classmate_mingxuan] reload：讀回來（snapshot→applySave）以後在遊戲裡（不在標題畫面）  {"zone": "campus", "key": "2025-09-15", "hour": 16.7604}
 PASS [classmate_mingxuan] reload 讀回來：15 秒內回到可以自由移動
 PASS [classmate_mingxuan] reload 讀回來：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [classmate_mingxuan] reload 讀回來：搖桿推得動（≥0.3 m）  2.79 m
-PASS [classmate_mingxuan] reload 讀回來：點地走得動（≥0.3 m）  點 [-45.08, 14.1]，走了 1.05 m
-PASS [classmate_mingxuan] reload 讀回來：遊戲時間有在走  16.2467→16.2667
+PASS [classmate_mingxuan] reload 讀回來：搖桿推得動（≥0.3 m）  3.15 m
+PASS [classmate_mingxuan] reload 讀回來：點地走得動（≥0.3 m）  點 [35.93, -9.04]，走了 1.02 m
+PASS [classmate_mingxuan] reload 讀回來：遊戲時間有在走  16.7820→16.8019
 PASS [classmate_mingxuan] reload 讀回來：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] reload 讀回來：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] reload 讀回來：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，23 秒
   [classmate_mingxuan] reload 打招呼：按「和明軒說話」
 PASS [classmate_mingxuan] reload 打招呼：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [classmate_mingxuan] reload 打招呼 選單 ["約他去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
-  [classmate_mingxuan] reload 打招呼 台詞（1 句）：["｜（明軒跟你打了個招呼，又忙自己的事。）"]
+  [classmate_mingxuan] reload 打招呼 台詞（1 句）：["明軒｜「阿哲說週五練球。」"]
 PASS [classmate_mingxuan] reload 打招呼：對話一路點得完  1 個選單
 PASS [classmate_mingxuan] reload 打招呼：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [classmate_mingxuan] reload 打招呼：15 秒內回到可以自由移動
 PASS [classmate_mingxuan] reload 打招呼：GAME.walkFallbacks 沒增加  0→0
 PASS [classmate_mingxuan] reload 打招呼：沒有新的 JS 例外
 PASS [classmate_mingxuan] reload 打招呼：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [classmate_mingxuan] reload 打招呼：搖桿推得動（≥0.3 m）  3.25 m
-PASS [classmate_mingxuan] reload 打招呼：點地走得動（≥0.3 m）  點 [-63.4, 3.53]，走了 1.08 m
-PASS [classmate_mingxuan] reload 打招呼：遊戲時間有在走  16.4139→16.4341
+PASS [classmate_mingxuan] reload 打招呼：搖桿推得動（≥0.3 m）  3.24 m
+PASS [classmate_mingxuan] reload 打招呼：點地走得動（≥0.3 m）  點 [-62.6, 5.87]，走了 1.05 m
+PASS [classmate_mingxuan] reload 打招呼：遊戲時間有在走  17.0282→17.0483
 PASS [classmate_mingxuan] reload 打招呼：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] reload 打招呼：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] reload 打招呼：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.87 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [classmate_mingxuan] 到達「明軒 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
   [classmate_mingxuan] reload 閒聊：按「和明軒說話」
 PASS [classmate_mingxuan] reload 閒聊：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [classmate_mingxuan] reload 閒聊 選單 ["約他去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
@@ -267,9 +236,9 @@ PASS [classmate_mingxuan] reload 閒聊：15 秒內回到可以自由移動
 PASS [classmate_mingxuan] reload 閒聊：GAME.walkFallbacks 沒增加  0→0
 PASS [classmate_mingxuan] reload 閒聊：沒有新的 JS 例外
 PASS [classmate_mingxuan] reload 閒聊：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [classmate_mingxuan] reload 閒聊：搖桿推得動（≥0.3 m）  3.35 m
-PASS [classmate_mingxuan] reload 閒聊：點地走得動（≥0.3 m）  點 [-59.03, 2.36]，走了 1.11 m
-PASS [classmate_mingxuan] reload 閒聊：遊戲時間有在走  16.5400→16.5602
+PASS [classmate_mingxuan] reload 閒聊：搖桿推得動（≥0.3 m）  3.24 m
+PASS [classmate_mingxuan] reload 閒聊：點地走得動（≥0.3 m）  點 [-58.15, 1.03]，走了 1.02 m
+PASS [classmate_mingxuan] reload 閒聊：遊戲時間有在走  17.1837→17.2039
 PASS [classmate_mingxuan] reload 閒聊：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] reload 閒聊：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] reload 閒聊：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -281,9 +250,9 @@ PASS [classmate_mingxuan] reload 閒聊：按 #minimap 打得開、關得掉  {"
   [前置／捷徑] [classmate_mingxuan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
 PASS [classmate_mingxuan] phone 約 開始前：15 秒內回到可以自由移動
 PASS [classmate_mingxuan] phone 約 開始前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [classmate_mingxuan] phone 約 開始前：搖桿推得動（≥0.3 m）  3.33 m
-PASS [classmate_mingxuan] phone 約 開始前：點地走得動（≥0.3 m）  點 [34, -92.17]，走了 1.08 m
-PASS [classmate_mingxuan] phone 約 開始前：遊戲時間有在走  15.5993→15.6196
+PASS [classmate_mingxuan] phone 約 開始前：搖桿推得動（≥0.3 m）  2.79 m
+PASS [classmate_mingxuan] phone 約 開始前：點地走得動（≥0.3 m）  點 [34, -92.71]，走了 1.02 m
+PASS [classmate_mingxuan] phone 約 開始前：遊戲時間有在走  15.6000→15.6203
 PASS [classmate_mingxuan] phone 約 開始前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] phone 約 開始前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] phone 約 開始前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -303,9 +272,9 @@ PASS [classmate_mingxuan] phone 約 之後：15 秒內回到可以自由移動
 PASS [classmate_mingxuan] phone 約 之後：GAME.walkFallbacks 沒增加  0→0
 PASS [classmate_mingxuan] phone 約 之後：沒有新的 JS 例外
 PASS [classmate_mingxuan] phone 約 之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [classmate_mingxuan] phone 約 之後：搖桿推得動（≥0.3 m）  3.21 m
-PASS [classmate_mingxuan] phone 約 之後：點地走得動（≥0.3 m）  點 [34, -86.68]，走了 1.02 m
-PASS [classmate_mingxuan] phone 約 之後：遊戲時間有在走  15.6849→15.7052
+PASS [classmate_mingxuan] phone 約 之後：搖桿推得動（≥0.3 m）  3.24 m
+PASS [classmate_mingxuan] phone 約 之後：點地走得動（≥0.3 m）  點 [34, -87.16]，走了 1.02 m
+PASS [classmate_mingxuan] phone 約 之後：遊戲時間有在走  15.6891→15.7095
 PASS [classmate_mingxuan] phone 約 之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] phone 約 之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] phone 約 之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -321,9 +290,9 @@ PASS [classmate_mingxuan] phone 傳訊息之後：15 秒內回到可以自由移
 PASS [classmate_mingxuan] phone 傳訊息之後：GAME.walkFallbacks 沒增加  0→0
 PASS [classmate_mingxuan] phone 傳訊息之後：沒有新的 JS 例外
 PASS [classmate_mingxuan] phone 傳訊息之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [classmate_mingxuan] phone 傳訊息之後：搖桿推得動（≥0.3 m）  3.24 m
-PASS [classmate_mingxuan] phone 傳訊息之後：點地走得動（≥0.3 m）  點 [34, -81.16]，走了 0.99 m
-PASS [classmate_mingxuan] phone 傳訊息之後：遊戲時間有在走  15.7592→15.7791
+PASS [classmate_mingxuan] phone 傳訊息之後：搖桿推得動（≥0.3 m）  3.21 m
+PASS [classmate_mingxuan] phone 傳訊息之後：點地走得動（≥0.3 m）  點 [34, -81.64]，走了 1.02 m
+PASS [classmate_mingxuan] phone 傳訊息之後：遊戲時間有在走  15.7667→15.7870
 PASS [classmate_mingxuan] phone 傳訊息之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] phone 傳訊息之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] phone 傳訊息之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -339,7 +308,7 @@ PASS [classmate_mingxuan] phone 傳訊息之後：按 #minimap 打得開、關�
   [classmate_mingxuan] shop 一起坐：按「和明軒打招呼」
 PASS [classmate_mingxuan] shop 一起坐：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [classmate_mingxuan] shop 一起坐 選單 ["打招呼", "一起坐", "不打擾"] → 選「一起坐」
-  [classmate_mingxuan] shop 一起坐 台詞（6 句）：["｜他蹲在二手參考書那一排", "｜他蹲在二手參考書那一排，一本一本翻價錢。", "明軒｜你看這本，前面的人畫了好多重點。", "明軒｜……可是畫錯了。算了，還是買。", "｜（你們坐了", "｜（你們坐了一會兒，各做各的事，偶爾說兩句。）"]
+  [classmate_mingxuan] shop 一起坐 台詞（6 句）：["｜他蹲在二手參考書", "｜他蹲在二手參考書那一排，一本一本翻價錢。", "明軒｜你看這本，前面的人畫了好多重點。", "明軒｜……可是畫錯了。算了，還是買。", "｜（你們坐了一", "｜（你們坐了一會兒，各做各的事，偶爾說兩句。）"]
 PASS [classmate_mingxuan] shop 一起坐：對話一路點得完  1 個選單
 PASS [classmate_mingxuan] shop 一起坐：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [classmate_mingxuan] shop 一起坐：15 秒內回到可以自由移動
@@ -348,7 +317,7 @@ PASS [classmate_mingxuan] shop 一起坐：沒有新的 JS 例外
 PASS [classmate_mingxuan] shop 一起坐：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
 PASS [classmate_mingxuan] shop 一起坐：搖桿推得動（≥0.3 m）  1.91 m
 PASS [classmate_mingxuan] shop 一起坐：點地走得動（≥0.3 m）  點 [-2.63, -4.27]，走了 0.90 m
-PASS [classmate_mingxuan] shop 一起坐：遊戲時間有在走  12.9030→12.9231
+PASS [classmate_mingxuan] shop 一起坐：遊戲時間有在走  12.9024→12.9226
 PASS [classmate_mingxuan] shop 一起坐：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] shop 一起坐：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [classmate_mingxuan] shop 一起坐：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -356,7 +325,7 @@ PASS [classmate_mingxuan] shop：一起坐以後玩家站起來了（不是一�
 INFO [classmate_mingxuan] shop：時間 12.37→12.94  
 -- [classmate_mingxuan] walk
 SKIP [classmate_mingxuan] walk：自由出行的偶遇沒有她「一起走一段」
-== 人物 classmate_mingxuan 結果 PASS（176 項；SKIP 2：ladder、walk）
-   用了 19.8 分鐘
+== 人物 classmate_mingxuan 結果 PASS（163 項；SKIP 2：ladder、walk）
+   用了 19.5 分鐘
 ==== 總結：1 人，FAIL 0 人：[]
 ALL PASS
