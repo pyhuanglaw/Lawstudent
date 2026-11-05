@@ -47830,6 +47830,35 @@
     "ack": "自領"
    },
    "src": "UA-LAWWW-1105-40"
+  },
+  {
+   "id": "WINVIEW-AUDIT-1105",
+   "title": "每間店窗外街景照實際位置（青木、Daybreak、頁間、日常失速、定食用錯窗景；新生南路那排待查）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2 先交每間店窗外的表，公館三間先換",
+   "source": "UA-LAWWW-1105-41",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-41",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "每間店窗外是自己那條街、那個位置看出去的樣子",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "src": "UA-LAWWW-1105-41"
   }
  ]
 }
