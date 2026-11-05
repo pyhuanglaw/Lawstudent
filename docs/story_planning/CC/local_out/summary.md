@@ -1467,3 +1467,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 139.5s] page close url=http://127.0.0.1:8805/index.html?turbo&turbo | [gpu_wrap 139.5s] BROWSER DISCONNECTED
 - 2026-11-06T00:26:28  AA0F_reach  sha=aa0f3bcd30eea217ec732963851ea5f3b35e8d97  exit=1  568s    統計：29 個區域、1231 個互動點、15 個劇情走路目的地、85 個出入口到達點 / PASS 沒有 JS 例外  [] / FAILED: noodle：劇情自動走路的 5 個目的地站得住、走得到
       err.log (last 5): [gpu_wrap 515.7s] page close url=http://127.0.0.1:8806/index.html?turbo?turbo | [gpu_wrap 515.7s] BROWSER DISCONNECTED
+- 2026-11-06T00:42:54  V21R_soc_heroine_02_talk  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  1555s       用了 25.4 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
+      err.log (last 5): [gpu_wrap 1524.0s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 1524.0s] BROWSER DISCONNECTED
