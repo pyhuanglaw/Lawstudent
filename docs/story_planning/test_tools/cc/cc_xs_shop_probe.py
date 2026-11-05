@@ -282,16 +282,19 @@ async def dk_study(pg, cdp, tag, hours_pick):
     o2 = await until_menu_or_idle(pg, cdp, 20)
     R.note('%s 讀多久：%s' % (tag, J([x['t'] for x in o2])))
     await pick(pg, cdp, "t=>t.includes(%s)" % J(hours_pick)) or await pick(pg, cdp, "t=>true")
-    t0 = time.time()
+    t0 = time.time(); seen = []
     while time.time() - t0 < 120:
         s = await D.st(pg)
-        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
+        if s['dlg']:   # 讀完的旁白走 game3d.js 裡面的 say()（不經過 GAME.say）：直接讀對話框（等打字機打完）
+            await pg.wait_for_timeout(700); t = (await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")).strip()
+            if t and (not seen or seen[-1] != t): seen.append(t)
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
         o3 = await pg.evaluate(OPTS)
         if o3 and not s['dlg']:
             await pick(pg, cdp, "t=>t.startsWith('起身')||t.startsWith('站起')") or await pick(pg, cdp, "t=>true"); await pg.wait_for_timeout(800); continue
         if not s['busy'] and not s['seat']: break
         await pg.wait_for_timeout(400)
-    Ls = [x['t'] for x in await says(pg, n0)]; h1 = await pg.evaluate("+GAME.G.hour")
+    Ls = [x['t'] for x in await says(pg, n0)] + [t for t in seen]; h1 = await pg.evaluate("+GAME.G.hour")
     R.note('%s 讀書 %.2f → %.2f：台詞 %s' % (tag, h0, h1, J(Ls)))
     return {'lines': Ls, 'h0': h0, 'h1': h1}
 
