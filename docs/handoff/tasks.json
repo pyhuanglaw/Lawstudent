@@ -47287,6 +47287,55 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "SHOP-CROWD-NEW-1105",
+   "title": "新店裡沒有客人（使用者 11-05 06:5x「店裡都沒人??」）：crowd3d shopDefs 加日常失速、木曜日、同弦、南洋、山嵐、大口、大步、好拍、運動廣場",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新店",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "子代理 wt-crowd → 合併 → v9.10.21",
+   "source": "UA-LAWWW-1105-20",
+   "authorized": "使用者原話"
+  },
+  {
+   "id": "SHOP-WINDOW-2D-1105",
+   "title": "店外看店裡很 2D（落地窗後是平面窗卡；使用者 11-05 06:5x）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新店",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2 先做日常失速一間（視差多層或看得到室內 GLB），截圖給使用者看，好再套別間",
+   "source": "UA-LAWWW-1105-21",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者截圖",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從街上看進去有深度",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }

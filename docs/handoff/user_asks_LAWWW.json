@@ -3091,6 +3091,26 @@
    "wants": "X237",
    "task": "CLUB-BOARD-INFO-1105",
    "note": "三件：①店長（貓）只有互動沒有 3D 貓 → LAWWW2 OFFBEAT-CAT-BOARD-1105 ②社團牌子閃（疊面）→ 同一任務 ③布告欄要看得到社團時間、怎麼加入 → AA 寫字、LAWWW 接（CLUB-BOARD-INFO-1105）"
+  },
+  {
+   "id": "UA-LAWWW-1105-20",
+   "at": "2026-11-05T06:5xZ",
+   "quote": "店裡都沒人??（日常失速 10/21 週二 17:29 截圖）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X234",
+   "task": "SHOP-CROWD-NEW-1105",
+   "note": "crowd3d shopDefs 沒列新店（日常失速、木曜日、同弦、南洋、山嵐、大口、大步、好拍、運動廣場）；子代理 wt-crowd"
+  },
+  {
+   "id": "UA-LAWWW-1105-21",
+   "at": "2026-11-05T06:5xZ",
+   "quote": "店外看店裡起來很2d（日常失速晚上從街上看進去的截圖）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X234",
+   "task": "SHOP-WINDOW-2D-1105",
+   "note": "落地窗後是平面窗卡；交 LAWWW2 先做日常失速一間"
   }
  ]
 }
