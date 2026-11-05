@@ -158,7 +158,7 @@ const FEST=(function(){
   S.planDrive=function(G,f,o){ const c=S.cell(f.id,f.k)||{}, P=X.PEOPLE[f.id]||{}, city=o.city, loc=o.loc||X.CITY[city], dr=S.drive(loc,city,G,f.d), day=!o.eve;
     const bg=o.bg||((P.fixedBg||{})[f.k]||{})[city]||(c.tripBg)||((P.homeBy||{})[city])||(P.home&&P.home.city===city?P.home.bg:null)||'dark';
     const h=o.h!=null?o.h:(c.tripH!=null?c.tripH:(day?12:19)), stay=day?(h>=18?2:3):2;
-    const q={id:outId(f),day:f.d,h,late:0.5,place:city,title:S.name(f.k)+(day?'（開車去'+city+'找'+nm(f.id)+'）':'（開車上'+city+'）'),travel:dr.travel,travelH:dr.travelH,back:day?'回到臺北。':undefined,
+    const q={id:outId(f),day:f.d,h,late:0.5,place:city,car:true,title:S.name(f.k)+(day?'（開車去'+city+'找'+nm(f.id)+'）':'（開車上'+city+'）'),travel:dr.travel,travelH:dr.travelH,back:day?'回到臺北。':undefined,
       fest:{id:f.id,k:f.k,y:f.y,mode:'meet',scene:city,bg,after:stay+dr.backH,fare:dr.fare,day,slot:day?'day':'eve'}};
     if(plan(G,q)){ S.book(G,{d:f.d,who:f.id,k:f.k,y:f.y,slot:day?'day':'eve',mode:'meet',ref:q.id}); return q; } return null; };
   /* 視訊、電話（不算外出、不扣錢）：her＝她打來 */
