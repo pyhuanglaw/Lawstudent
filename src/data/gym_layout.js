@@ -14,8 +14,8 @@ const GYM_LAYOUT = {
   partition: {z: 11.0, openings: [[-12, -8], [-2, 2], [8, 12]], note: '大廳和球場之間的牆：三個 4 m 的開口（中間那個有閘門）'},
   front: {door: {x: 0, w: 4.0, note: '玻璃自動門'}, glass: [[-18, -2], [2, 18]]},
   spawn: {x: 0, z: 17.6, yaw: Math.PI},
-  exit: {at: {x: 0, z: 18.4}, label: '離開體育館', to: 'campus', spawn: {x: 74, z: 58.0, yaw: Math.PI}, note: '校園的體育館門口（classes3d 的 gym，x 74、z 59.4）；朝向照門口實際的方向調'},
-  enterAt: {x: 74, z: 59.4, label: '進體育館', note: '取代 classes3d 的「體育館：體育課在這裡上。」（門口上課改成進來上）'},
+  exit: {at: {x: 0, z: 18.4}, label: '離開體育館', to: 'campus', spawn: {x: -75, z: -123.4, yaw: 0}, note: '校園的體育館門口（classes3d 的 gym，x −75、z −125）；XS-GATE-NORTH-1105（使用者 11-05「體育館…遊戲中就改到新月台法學院中間」）搬到北牆邊、門朝南，出來面向南（舊的在 (74, 59.4)）'},
+  enterAt: {x: -75, z: -125.0, label: '進體育館', note: '取代 classes3d 的「體育館：體育課在這裡上。」（門口上課改成進來上）'},
   courts: {
     badminton: [[-8.6, -11.2], [0.0, -11.2], [8.6, -11.2], [-8.6, 3.2], [0.0, 3.2], [8.6, 3.2]],
     badmintonNote: '羽球場 6 面（13.4×6.1 m，長邊沿 z，網在中心的 z）；網柱在 x＝中心 ±3.1',
