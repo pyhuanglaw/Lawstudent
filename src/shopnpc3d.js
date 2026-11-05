@@ -150,6 +150,7 @@ const SHOPNPC=(function(){
 
   /* ---------- 每 0.5 秒（STORY.TICKS）---------- */
   let lastGM=null, busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['shopnpc3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）*/
   S.tick=function(GM){ const G=GM&&GM.G; if(!G||!GM.E) return false; lastGM=GM; try{ S.fixFloor(GM); }catch(e){ console.warn('SHOPNPC.fixFloor',e); }
     if(busy||GM.titleIdle) return false;
     if(sceneFree(GM)&&S.alisonDue(GM)){ busy=true; S.alison(GM).catch(e=>console.warn('SHOPNPC.alison',e)).finally(()=>{ busy=false; }); return true; }
