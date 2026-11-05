@@ -6353,6 +6353,189 @@
    "noDirectIntegrate": false,
    "note": "男一舍門廳牆縫：dorm_hall.py conform_tjunctions（a46a36a71）＋重烘；只換二進位檔（GLB、兩張光照貼圖），不改程式｜dorm_hall_tjunc_unit 修改前 FAIL 2（T 形接頭 176、同網格 128）→ ALL PASS（3 個垂直相接）；36 支 ALL PASS；遊戲內等 CC 照 dorm_hall_lm_1028 同角度重拍",
    "next": "LAWWW-C：git checkout 4eada314b -- 五個檔；CC 重拍 dorm_hall_lm_1028 的 5 張"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "2443c33b8",
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "task": "TEA-SUNKEN-TAP-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/teahouse_tap_1105/README.md",
+    "docs/art-rebuild/second_ai/wip/teahouse_tap_1105/teahouse_tap_1105.patch"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "一盞下沉院子可點面（navTapMesh）＋tests/teahouse_tap_unit.js",
+   "next": "LAWWW-C 已收（v9.10.21）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "137bd8e36",
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "task": "STAIR-TAP-TILT-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/stair_tap_1105/README.md",
+    "docs/art-rebuild/second_ai/wip/stair_tap_1105/stair_tap_1105.patch"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "四間樓梯可點面斜反（rotation.x 符號）＋tests/stair_tap_unit.js",
+   "next": "LAWWW-C 已收（v9.10.21）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "92243344b",
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "task": "SHAOLA-WIRE-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shaola_wire_1105/README.md",
+    "docs/art-rebuild/second_ai/wip/shaola_wire_1105/shaola_wire_1105.patch",
+    "docs/art-rebuild/second_ai/wip/shaola_wire_1105/files.txt"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "公館燒臘接 BB v7（buildShaola）；288 支回歸 ALL PASS；SHOP_VERSIONS 更正",
+   "next": "LAWWW-C 已收（v9.10.21）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "d392564be",
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "task": "NANYANG-BENCH-SIT-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/nanyang_bench_1105/README.md",
+    "docs/art-rebuild/second_ai/wip/nanyang_bench_1105/nanyang_bench_1105.patch"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "南洋長椅坐下範圍 0.8→1.0；nanyang_bench_unit FAIL 4→ALL PASS",
+   "next": "LAWWW-C 已收"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "5e6b48a9b",
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "task": "ADE-SEAT-CLIP-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/ade_seat_clip_1105/README.md",
+    "docs/art-rebuild/second_ai/wip/ade_seat_clip_1105/ade_seat_clip_1105.patch"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "阿德長桌三張椅子往後 0.2 m（v2 40819ba06：0.25 m＋固定種子）",
+   "next": "LAWWW-C 已收 v2（17d83d778）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "9acba9afa",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "OFFBEAT-CAT-BOARD-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/offbeat_cat_board_1105/README.md",
+    "docs/art-rebuild/second_ai/wip/offbeat_cat_board_1105/offbeat_cat_board_1105.patch"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "日常失速店長貓（wz_cat 趴姿）＋佈告欄印刷品重排；FAIL 5→ALL PASS",
+   "next": "LAWWW-C 接；CC 拍貓、佈告欄"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "14052d810",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "XS-GATE-MOVE-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/xs_gate_move_1105/README.md",
+    "docs/art-rebuild/second_ai/wip/xs_gate_move_1105/xs_gate_move_1105.patch",
+    "docs/art-rebuild/second_ai/wip/xs_gate_move_1105/gate_after_actual.jpg"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "新生南路側門搬到映月湖和博思中間 (−66,−99)、斜牆、牆外新生南路；xs_gate_move FAIL 9→ALL PASS（方案 32d0d5d51）",
+   "next": "LAWWW-C 套 patch；CC 拍側門"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "3123e2f39",
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "task": "AFAR-VIEW-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/afar_view_1105/README.md",
+    "docs/art-rebuild/second_ai/wip/afar_view_1105/afar_view_1105.patch",
+    "assets/models/env/second_ai/aa_support/afar_view_day.webp",
+    "assets/models/env/second_ai/aa_support/afar_view_night.webp"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "afar 窗外換公館街景（GG_VIEW）＋v1d",
+   "next": "LAWWW-C 已收 f65f20f4a"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "e7fe1ae70",
+   "receiver": "LAWWW",
+   "ack": "ACKNOWLEDGED",
+   "task": "WINVIEW-AUDIT-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/winview_audit_1105/README.md"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "每間店窗外現況／該看到什麼／要不要換 表",
+   "next": "LAWWW-C 08:05 同意排法"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "bd1014a15",
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "task": "WINVIEW-AUDIT-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/winview_audit_1105/README_gg3.md",
+    "docs/art-rebuild/second_ai/wip/winview_audit_1105/winview_gg3_1105.patch"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "第一包：公館青木、頁間、Daybreak 窗景（GG_VIEW 三筆）；gg_views_1105 FAIL 16→ALL PASS",
+   "next": "LAWWW-C 已收 f4be7869a"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "f73c27f5e",
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "task": "WINVIEW-AUDIT-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/winview_audit_1105/README_wz2.md",
+    "docs/art-rebuild/second_ai/wip/winview_audit_1105/winview_wz2_1105.patch"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "第二包：小路、日常失速前窗（WZ_VIEW＋wzViewSwap）；wz_views_1105 FAILED 10→ALL PASS",
+   "next": "LAWWW-C 已收 f023f1881"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "cbb9a4a36",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "DAYBREAK-SEAT-AP-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/daybreak_seat_ap_1105/README.md",
+    "docs/art-rebuild/second_ai/wip/daybreak_seat_ap_1105/daybreak_seat_ap_1105.patch"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "公館 Daybreak 4 張座位 seat.ap（LAWWW 叫 OFFBEAT-SEAT-AP）；daybreak_seat_ap FAIL 3→ALL PASS；seatscan 站不住 4→0",
+   "next": "LAWWW-C 套 patch（v9.10.21）；CC 點 4 張各坐一次"
   }
  ]
 }
