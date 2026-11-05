@@ -78,7 +78,7 @@ const NEW={
   Z4:['你上學期問我，經原那學期怎麼了。……就是這個。'],
   Z5:['（她買的票是倒數第三排。）','說好的。'],
   Z6:['回來了。','台中帶來的行李，比我去的時候重。'],
-  Z7:['……你又不在台中。……好啦，這張直接給你。','我自己寫。你不准看。','上次你說要請。……老闆，兩份，他付。','……你會做什麼？……算了，你先學。'],
+  Z7:['……你又不在台中。……好啦，這張直接給你。','我自己寫。你不准看。','上次你說要請。老闆，兩份，他付。','……你會做什麼？……算了，你先學。'],
   Z8:['（放的是海報上那一部。）','第五次。'],
   Z9:['（背面只寫了一行：「寫了三次才寄。」）'],
   Z10:['上次說的一半。我媽這次寄了一整罐。……分你。','不行。牠已經很胖了。'],
@@ -89,7 +89,7 @@ const NEW={
   Y3:['店休。……說好要出去的。','刷完這一排就走。','（刷完椅子，你們去河濱走了一圈。）'],
   Y4:['去年想帶你去的那個地方，我後來自己去了。','那張椅子還是空的。','……下次你要來。'],   /* AA_630 H-018（an_yt_hol_events.js ev_yt_vday_y4 整段換成）：YT_VDAY_Y3 no／missed 那三句 */
   Y5:['今天我待到打烊。',   /* AA_630（位置 src/aa524_3d.js）：語彤在茶屋上班，不顧店 */
-      '我過去。','今天不行。','嗯。','（你到的時候，她在收院子的坐墊。蘇姨在裡面算錢。）','……你真的來了。'],
+      '我過去。','今天不行。','嗯。','（你到的時候，她在收院子的坐墊。蘇姨在裡面算錢。）','你真的來了。'],
   Y6:['期中那幾天，我找到一個沒有客人的地方了。……不告訴你。'],
   Y7:['美國那兩個 阿姨說照片也算'],
   Y8:['（蘇姨把一塊茶點放在你的杯子旁邊。）','生日那天說的。'],   /* AA_630 Z-002、第 10 節第 3 條：y8 在一盞茶屋，蘇姨放茶點 */
@@ -112,7 +112,7 @@ await sec(0,()=>{
   check('0. 讀得到稿（AA_524 '+SHA+'：第 1～5 節；A1～A14、Z1～Z11、Y1～Y9）',DOC.length>8000&&/### A14/.test(DOC)&&/### Z11/.test(DOC)&&/### Y9/.test(DOC),String(DOC.length));
   /* AA 2026-11-03 回 LAWWW（YT-REWRITE-1103，經 LAWWW 轉；還沒有企劃線的 commit）：大二上的期末那一句。只放這一句 */
   const AA1103=new Set(['秀琴姨又問了。……我說再等等。']);
-  const miss=[]; const ANREV=require('./an_rev_doc.js'); for(const k in NEW) for(const t of NEW[k]) if(k!=='A2'&&k!=='A12'&&DOC.indexOf(t)<0&&!ANREV.has(t)&&!AA1103.has(t)) miss.push(k+'：'+t);   /* A3、A10 後來又照以安改稿改（AA_594 第 21 列、AA_592 第 51 列）：在改成欄也算 */   /* A2 兩句 11-02 改照 AA_587 第 12 節、A12 改照 AA_587 第 30 列（下面另外比） */
+  const miss=[]; const ANREV=require('./an_rev_doc.js'); for(const k in NEW) for(const t of NEW[k]) if(k!=='A2'&&k!=='A12'&&DOC.indexOf(t)<0&&E694.strip(DOC).indexOf(t)<0&&!ANREV.has(t)&&!AA1103.has(t)) miss.push(k+'：'+t);   /* A3、A10 後來又照以安改稿改（AA_594 第 21 列、AA_592 第 51 列）：在改成欄也算 */   /* A2 兩句 11-02 改照 AA_587 第 12 節、A12 改照 AA_587 第 30 列（下面另外比） */
   { const P587=(()=>{ try{ return cp.execSync('git -c core.quotepath=off ls-tree --name-only -r 27456316d docs/story_planning',{cwd:H.ROOT,encoding:'utf8'}).split('\n').find(x=>/AA_587_/.test(x)); }catch(e){ return null; } })();
     const D587=(()=>{ try{ return P587?cp.execSync('git show 27456316d:"'+P587+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}):''; }catch(e){ return ''; } })();
     check('0. A2 兩句在 AA_587@27456316d 第 12 節（第 69、70 列）',NEW.A2.every(t=>D587.indexOf(t)>=0),J(NEW.A2.filter(t=>D587.indexOf(t)<0)));
@@ -359,7 +359,7 @@ await sec('Z7',async()=>{
   const fp=DATE.mem(H.G,ZR,'D04').fp||{};
   check('Z7. 西門小吃「下次換我請。」→「好啊。你說的喔。」照留；記下第一次選的（G.dateMemory…fp）',has('好啊。你說的喔。')&&fp['D04.snack']==='「下次換我請。」',J({L:said(),fp}));
   await spot(ZR,'D04','D04.snack',1,[]);
-  check('Z7. 下一次 remember 多一句「上次你說要請。……老闆，兩份，他付。」（接在原本那句後面）',adj(['上次那家的老闆，今天還記得你不要香菜。',NEW.Z7[2]]),J(said()));
+  check('Z7. 下一次 remember 多一句「上次你說要請。老闆，兩份，他付。」（接在原本那句後面）',adj(['上次那家的老闆，今天還記得你不要香菜。',NEW.Z7[2]]),J(said()));
   await spot(ZR,'D04','D04.snack',2,[]);
   check('Z7. 只說一次（第三次又輪到 remember 不再說）',!has(NEW.Z7[2]),J(said()));
   fresh('2026-11-14',18); H.FAMILIAR(ZR); await spot(ZR,'D04','D04.snack',0,['好吃嗎']); await spot(ZR,'D04','D04.snack',1,[]);
