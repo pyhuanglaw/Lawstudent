@@ -42,6 +42,9 @@ V21R_guitar_dorm | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story
 V21R_xsgate | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_xs_gate_probe.py | index.html | 40 | CC_HEADLESS=0
 V21R_v12cb | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_v12cb_probe.py | index.html | 40 | CC_HEADLESS=0
 V21R_moveout | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 20 | CC_HEADLESS=0
+V21R_shops_seats | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_v21x_shops_probe.py | index.html | 120 | CC_HEADLESS=0;PARTS=seats
+V21R_shops_acts | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_v21x_shops_probe.py | index.html | 60 | CC_HEADLESS=0;PARTS=acts
+V21R_shops_win | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_v21x_shops_probe.py | index.html | 60 | CC_HEADLESS=0;PARTS=windows
 V21R_soc_heroine_01_talk | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 20 | CASES=heroine_01;STEPS=media,first,greet,up,ladder,menu;CC_HEADLESS=0
 V21R_soc_heroine_01_go | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 20 | CASES=heroine_01;STEPS=invite,invite_study,reload,date,phone,shop,walk;CC_HEADLESS=0
 V21R_soc_heroine_02_talk | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 20 | CASES=heroine_02;STEPS=media,first,greet,up,ladder,menu;CC_HEADLESS=0

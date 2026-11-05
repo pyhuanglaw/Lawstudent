@@ -62,6 +62,9 @@ def lines(sha):
     out += ['V21R_xsgate | %s | probe | %scc_xs_gate_probe.py | index.html | 40 | CC_HEADLESS=0' % (sha, P),
             'V21R_v12cb | %s | probe | %scc_v12cb_probe.py | index.html | 40 | CC_HEADLESS=0' % (sha, P),
             'V21R_moveout | %s | probe | %scc_dorm_moveout_probe.py | index.html | 20 | CC_HEADLESS=0' % (sha, P),
+            'V21R_shops_seats | %s | probe | %scc_v21x_shops_probe.py | index.html | 120 | CC_HEADLESS=0;PARTS=seats' % (sha, P),
+            'V21R_shops_acts | %s | probe | %scc_v21x_shops_probe.py | index.html | 60 | CC_HEADLESS=0;PARTS=acts' % (sha, P),
+            'V21R_shops_win | %s | probe | %scc_v21x_shops_probe.py | index.html | 60 | CC_HEADLESS=0;PARTS=windows' % (sha, P),
             '# ===== V21R 結束 =====']
     return out
 
