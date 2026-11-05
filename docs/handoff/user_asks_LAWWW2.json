@@ -753,7 +753,7 @@
    "replaces": "TRELLIS.2 上傳測試（OPEN_SRC 第 5 節、UA 03:5x「可以上傳試」）→ 取消",
    "note": "①TRELLIS.2 取消（research/TRELLIS2_TRY_1105.md 標 CANCELLED、RULES 工具表那一列改成不用）②三版以內的店由 LAWWW2 決定：只做新生南路大口漢堡、大步、好拍的共用街景窗卡（白天窗外暗，一次做三間＝各第 4 版，到此為止）；其他三版以內的店不改。超過三版的店照 D141 只改使用者說的或擋玩的。窗卡不進 v9.10.21，下一版",
    "notify": "LAWWW-C",
-   "wants": "X225",
+   "wants": "X255",
    "cancelReason": "使用者 11-05 06:4x：「這不用做 我電腦也跑不了」（TRELLIS.2 取消）"
   }
  ]
