@@ -44669,7 +44669,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 21:0x】2:30 AM 外觀第二版（LAWWW2-C 75383530f，MODEL_READY；BB-C 19:02 四點：店內窗卡、五盞鵝頸燈朝招牌、細長垂藤、門口木椅＋轉角側牆兩盞壁燈、灰泥調暖）接進開發分支；畫架阻擋照 LAWWW2 建議改 blockRect(54.45,3.6,0.9,0.9)（tests/cafe230_ext_nav_unit.js 修改前 ② FAIL、修改後 ALL PASS）；瀏覽器 cafe_glb_integration、wz_street_integration、同角度疊圖（refcam 在 cafe230_exterior.md）交 BB／CC｜【LAWWW-C 11-04 12:4x 補進總表】小路深色木立面 v1（188eb0624）已接 060a1a093；SUNNY 轉角窗、林家攤車等在 LAWWW2 分支（ebae33ef、a4c2cc05、badb191a、1e5aadb3）；剩阿德轉角外觀、2:30 AM 外觀（LAWWW2-C 佇列，排在 GG_night 與 CAMPUS-RELAYOUT-1102 盤點之後）",
+   "next": "【LAWWW-C 11-05 03:3x】2:30 AM 外觀第三版（LAWWW2-C 3486d4fbd，轉角小樹）接進 cc0af7f14；側面一整排窗等 AA 改室內、BB 決定｜【LAWWW-C 11-04 21:0x】2:30 AM 外觀第二版（LAWWW2-C 75383530f，MODEL_READY；BB-C 19:02 四點：店內窗卡、五盞鵝頸燈朝招牌、細長垂藤、門口木椅＋轉角側牆兩盞壁燈、灰泥調暖）接進開發分支；畫架阻擋照 LAWWW2 建議改 blockRect(54.45,3.6,0.9,0.9)（tests/cafe230_ext_nav_unit.js 修改前 ② FAIL、修改後 ALL PASS）；瀏覽器 cafe_glb_integration、wz_street_integration、同角度疊圖（refcam 在 cafe230_exterior.md）交 BB／CC｜【LAWWW-C 11-04 12:4x 補進總表】小路深色木立面 v1（188eb0624）已接 060a1a093；SUNNY 轉角窗、林家攤車等在 LAWWW2 分支（ebae33ef、a4c2cc05、badb191a、1e5aadb3）；剩阿德轉角外觀、2:30 AM 外觀（LAWWW2-C 佇列，排在 GG_night 與 CAMPUS-RELAYOUT-1102 盤點之後）",
    "source": "LAWWW2-A 交班清單（second-ai-env-art 5f85444cd）；LAWWW2-C 11-04 12:38 指出總表沒有這個 ID",
    "xai": {
     "spec": "使用者 11-04 參考圖（LAWWW2 wip/wz_five_1104）",
@@ -47005,8 +47005,8 @@
    },
    "source": "BB-C 11-05 02:08（D132 代驗：同弦店內和參考圖差太多）；LAWWW2-C 02:21 排序",
    "authorized": "D132（BB 代驗 LAWWW2 美術標準）、D133（符合參考圖）",
-   "next": "【LAWWW-C 11-05 03:2x】LAWWW2-C b49d3016b 接進 f71d2c545：v4e（camRef、書架西牆、吊盆走道上方）；同弦相關測試 ALL PASS；BB 代驗＋CC 同角度疊圖（D138 --mode shop）",
-   "sha": "f71d2c545",
+   "next": "【LAWWW-C 11-05 03:3x】v4f（308b5c025，BB-C 03:21 MODEL_READY）接進 cc0af7f14｜【LAWWW-C 11-05 03:2x】LAWWW2-C b49d3016b 接進 f71d2c545：v4e（camRef、書架西牆、吊盆走道上方）；同弦相關測試 ALL PASS；BB 代驗＋CC 同角度疊圖（D138 --mode shop）",
+   "sha": "cc0af7f14",
    "xai": {
     "spec": "BB-C 02:08；docs/art-rebuild/second_ai/wip/tongxian_ref_1105/README.md",
     "branch": "claude/focused-cray-c9uwvw",
