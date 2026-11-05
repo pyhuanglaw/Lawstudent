@@ -21,6 +21,7 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
 URL = os.environ.get('LIVE_URL') or URL   # CC-C 11-05 LIVE_V91020：PC 佇列在線上網址跑（runner 給的是本機網址，LIVE_URL 蓋過）
+print('URL=' + URL, flush=True)   # 跑的是哪一個網址（線上 LIVE_URL 或本機）寫進 log
 J = lambda o: json.dumps(o, ensure_ascii=False)
 FAILS = []
 DOOR = (-20.5, 4.6, '進去一盞')
