@@ -19,12 +19,13 @@ sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', 
 sys.path.insert(0, HERE)
 import playlib as L
 import cc_det
+import cc_d141_lib as D
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 PARTS = [x for x in (os.environ.get('PARTS') or 'door,seats,slope,arcade,closed,shots').split(',') if x]
-R = L.Run('nanyang_v1', OUT)
+R = L.Run('nanyang_v1', OUT); D.setup(R, OUT)
 DAY = '2025-10-15'
 ST = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position; const ch=document.getElementById('choices'), it=document.getElementById('interact');
   const choices=(ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).map(b=>(b.innerText||'').trim()):[];
@@ -198,14 +199,34 @@ async def walk_logged(pg, cdp, tx, tz, near, label, max_s=180):
     return ok, list(SAMPLES)
 
 
+# PC 11-05（NANYANG_v1 r1）：走過頭、停在範圍外、坐到隔壁排——改用共用的（等人停下來、先看最近的按鈕是不是這一張）
+use_exit = D.use_exit
+
+
+async def sit_all(pg, cdp, tag):
+    return await D.sit_all(pg, cdp, tag, tag.strip('[]').replace(' ', '_'))
+
+
+async def slope_tap(pg, cdp):
+    """點斜地板：螢幕上那一點的地板（照 floorY 投影）點下去，遊戲會走到哪裡（E.screenToFloor；1 廳沒有 walkMeshes＝打 y 0 的平面）"""
+    r = await pg.evaluate("""(()=>{ const E=GAME.E, H=NANYANG_LAYOUT.hall, ax=(H.aisleR.x0+H.aisleR.x1)/2; const out={walkMeshes:(E.zone.walkMeshes||[]).length, rows:[]};
+      for(const z of [4.3, 2.0, 0.0, -2.0, -3.5, -4.6]){ const y=H.floorY(z); const v=new THREE.Vector3(ax,y,z).project(E.camera); if(v.z>1) continue; const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight; const h=E.screenToFloor(sx,sy);
+        out.rows.push({tap:[+ax.toFixed(2),z,+y.toFixed(2)], lands:h?[+h.x.toFixed(2),+h.z.toFixed(2),+h.y.toFixed(2)]:null, off:h?+Math.hypot(h.x-ax,h.z-z).toFixed(2):null}); }
+      return out; })()""")
+    bad = [x for x in r['rows'] if x['off'] is None or x['off'] > 0.5]
+    R.note('[斜地板 點地面] zone.walkMeshes＝%d；點斜地板（右邊走道，鏡頭在門口）：%s' % (r['walkMeshes'], J(r['rows'])))
+    R.check('[斜地板 點地面] 點斜地板上的一點，遊戲走過去的地方差 ≤0.5 m（E.screenToFloor）', not bad, J(bad))
+
+
 async def part_slope(pg, cdp):
+    await slope_tap(pg, cdp)
     fy = await pg.evaluate("(()=>{ const H=NANYANG_LAYOUT.hall; return {s:H.slope, ax:H.aisleR}; })()")
     R.note('[斜地板] 配置 slope %s、右邊走道 %s' % (J(fy['s']), J(fy['ax'])))
     ax = round((fy['ax']['x0'] + fy['ax']['x1']) / 2, 2)
     legs = [(ax, -4.6, '門口 → 第一排前面（下坡）'), (3.5, 6.2, '第一排前面 → 門口（上坡）')]
     for tx, tz, nm in legs:
         fb0 = (await st(pg))['fb']
-        ok, smp = await walk_logged(pg, cdp, tx, tz, 0.35, '[斜地板] ' + nm, max_s=240)
+        ok, smp = await walk_logged(pg, cdp, tx, tz, 0.35, '[斜地板] ' + nm, max_s=240); await D.settle(pg)
         on = [s for s in smp if s['zone'] == 'xs_nanyang_hall']
         errs = await pg.evaluate("(S=>S.map(s=>{ const f=NANYANG_LAYOUT.hall.floorY(s.z); return [s.z, s.y, +f.toFixed(3), +(s.y-f).toFixed(3), s.stand]; }))", [{'z': s['z'], 'y': s['y'], 'stand': s['stand']} for s in on])
         worst = max(errs, key=lambda e: abs(e[3])) if errs else None
