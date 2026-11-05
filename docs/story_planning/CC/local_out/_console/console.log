@@ -667,3 +667,11 @@
 [19:20:41] [res] cpu=23% mem=42% (13.1/31.4 GB) chrome_testing=9  START V21R_v12cb
 [19:22:09] 正在跑：V21R_tapscan（已跑 7 分／上限 90 分）、V21R_xsgate（已跑 2 分／上限 40 分）、V21R_v12cb（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:22:55] [res] cpu=59% mem=41% (13.1/31.4 GB) chrome_testing=10  END V21R_tapscan
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c0e16b690..ebe213791  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:23:02] ==== END   V21R_tapscan  exit=0  521s   ====
+[19:23:05] memory 42% before starting V21R_moveout (2 running)
+[19:23:05] ==== START V21R_moveout  (probe @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
+[19:23:08] [res] cpu=5% mem=42% (13.2/31.4 GB) chrome_testing=10  START V21R_moveout
+[19:23:56] [res] cpu=13% mem=41% (13.1/31.4 GB) chrome_testing=9  END V21R_xsgate

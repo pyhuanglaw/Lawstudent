@@ -1,0 +1,57 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_xs_gate_probe.py http://127.0.0.1:8806/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_xsgate\out
+CC XS_GATE（新生南路側門搬到映月湖和博思中間）：SHA=83d09d13b0686e51e344b4b771ebb9124d8806a4（worktree 實際 ?）；PARTS=['shots', 'back', 'old']；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [  18.3s] 這一版 XINSHENG_LAYOUT.sideGate：{"lay": {"x": -61.6, "z": -99, "yaw": 1.5708}, "label": "回到首都帝大（新生南路側門）"}
+  [前置／捷徑] 讀檔校園 2025-10-18 14.00、側門東邊步道 (−50, −99)
+PASS [day] 校園的「往新生南路（側門）」出口在映月湖和博思中間那條步道的西端（x −66 附近、z −99）  [-64.4, -99, "往新生南路（側門）"]
+PASS [黑畫面] xsgate_path_west_day 不是黑畫面（平均亮度 112.7、變化 51）  [112.7, 51]
+  [  33.0s] [截圖] xsgate_path_west_day：鏡頭 {"eye": [-44, 1.7, -99.4], "look": [-66, 1.6, -99], "lens": 24, "vfov": 45.75}、亮度 [112.7, 51]
+PASS [黑畫面] xsgate_path_west_near_day 不是黑畫面（平均亮度 112、變化 49.4）  [112, 49.4]
+  [  34.9s] [截圖] xsgate_path_west_near_day：鏡頭 {"eye": [-55, 1.7, -99.6], "look": [-67, 1.8, -99], "lens": 24, "vfov": 45.75}、亮度 [112, 49.4]
+PASS [黑畫面] xsgate_maingate_north_day 不是黑畫面（平均亮度 140.4、變化 51.6）  [140.4, 51.6]
+  [  36.9s] [截圖] xsgate_maingate_north_day：鏡頭 {"eye": [-110, 1.7, -4], "look": [-98, 1.4, -86], "lens": 24, "vfov": 45.75}、亮度 [140.4, 51.6]
+  [  39.1s] [day] 校門往北那張左上（NDC x,y）射線打到：[{"p": [-0.9, 0.9], "d": 312.2, "at": [-239, 94.5, -272.7], "chain": ["Mesh", "Scene"], "mat": "ShaderMaterial", "color": null, "map": false, "side": 1, "transparent": false, "opacity": 1}, {"p": [-0.75, 0.8], "d": 315.6, "at": [-218.6, 89.8, -287], "chain": ["Mesh", "Scene"], "mat": "ShaderMaterial", "color": null, "map": false, "side": 1, "transparent": false, "opacity": 1}, {"p": [-0.6, 0.9], "d": 22.5, "at": [-115.8, 9, -24.5], "chain": ["pav_conc", "campus_pavilion", "campus_pavilion_glb", "Group"], "mat": "ck_pav_conc", "color": "#ffffff", "map": true, "side": 2, "transparent": false, "opacity": 1}, {"p": [-0.85, 0.6], "d": 141.4, "at": [-166.7, 30.8, -130.3], "chain": ["Mesh", "skyline", "Scene"], "mat": "MeshBasicMaterial", "color": "#ffffff", "map": true, "side": 1, "transparent": false, "opacity": 0}, {"p": [-0.5, 0.75], "d": 20.2, "at": [-114.1, 7.4, -22.9], "chain": ["pav_screen", "campus_pavilion", "campus_pavilion_glb", "Group"], "mat": "ck_pav_screen", "color": "#ffffff", "map": true, "side": 2, "transparent": false, "opacity": 1}, {"p": [-0.3, 0.95], "d": 20.2, "at": [-111.4, 9, -22.8], "chain": ["pav_conc", "campus_pavilion", "campus_pavilion_glb", "Group"], "mat": "ck_pav_conc", "color": "#ffffff", "map": true, "side": 2, "transparent": false, "opacity": 1}]
+PASS [黑畫面] xsgate_maingate_north_near_day 不是黑畫面（平均亮度 120.2、變化 59.2）  [120.2, 59.2]
+  [  41.1s] [截圖] xsgate_maingate_north_near_day：鏡頭 {"eye": [-116, 1.7, -44], "look": [-98, 1.4, -86], "lens": 24, "vfov": 45.75}、亮度 [120.2, 59.2]
+PASS [黑畫面] xsgate_slantwall_day 不是黑畫面（平均亮度 113.3、變化 44.4）  [113.3, 44.4]
+  [  43.0s] [截圖] xsgate_slantwall_day：鏡頭 {"eye": [-92, 1.7, -78], "look": [-95, 1.2, -87.5], "lens": 24, "vfov": 45.75}、亮度 [113.3, 44.4]
+  [前置／捷徑] 讀檔校園 2025-10-18 20.50、側門東邊步道 (−50, −99)
+PASS [night] 校園的「往新生南路（側門）」出口在映月湖和博思中間那條步道的西端（x −66 附近、z −99）  [-64.4, -99, "往新生南路（側門）"]
+PASS [黑畫面] xsgate_path_west_night 不是黑畫面（平均亮度 31.9、變化 35）  [31.9, 35]
+  [  56.2s] [截圖] xsgate_path_west_night：鏡頭 {"eye": [-44, 1.7, -99.4], "look": [-66, 1.6, -99], "lens": 24, "vfov": 45.75}、亮度 [31.9, 35]
+PASS [黑畫面] xsgate_path_west_near_night 不是黑畫面（平均亮度 26.1、變化 34.2）  [26.1, 34.2]
+  [  58.2s] [截圖] xsgate_path_west_near_night：鏡頭 {"eye": [-55, 1.7, -99.6], "look": [-67, 1.8, -99], "lens": 24, "vfov": 45.75}、亮度 [26.1, 34.2]
+PASS [黑畫面] xsgate_maingate_north_night 不是黑畫面（平均亮度 38.9、變化 44）  [38.9, 44]
+  [  60.1s] [截圖] xsgate_maingate_north_night：鏡頭 {"eye": [-110, 1.7, -4], "look": [-98, 1.4, -86], "lens": 24, "vfov": 45.75}、亮度 [38.9, 44]
+  [  61.5s] [night] 校門往北那張左上（NDC x,y）射線打到：[{"p": [-0.9, 0.9], "d": 319.8, "at": [-242.2, 96.8, -279.2], "chain": ["Mesh", "Scene"], "mat": "ShaderMaterial", "color": null, "map": false, "side": 1, "transparent": false, "opacity": 1}, {"p": [-0.75, 0.8], "d": 326.8, "at": [-222.5, 92.9, -297], "chain": ["Mesh", "Scene"], "mat": "ShaderMaterial", "color": null, "map": false, "side": 1, "transparent": false, "opacity": 1}, {"p": [-0.6, 0.9], "d": 22.5, "at": [-115.8, 9, -24.5], "chain": ["pav_conc", "campus_pavilion", "campus_pavilion_glb", "Group"], "mat": "ck_pav_conc", "color": "#ffffff", "map": true, "side": 2, "transparent": false, "opacity": 1}, {"p": [-0.85, 0.6], "d": 143.9, "at": [-167.7, 31.3, -132.5], "chain": ["Mesh", "skyline", "Scene"], "mat": "MeshBasicMaterial", "color": "#ffffff", "map": true, "side": 1, "transparent": false, "opacity": 1}, {"p": [-0.5, 0.75], "d": 20.2, "at": [-114.1, 7.4, -22.9], "chain": ["pav_screen", "campus_pavilion", "campus_pavilion_glb", "Group"], "mat": "ck_pav_screen", "color": "#ffffff", "map": true, "side": 2, "transparent": false, "opacity": 1}, {"p": [-0.3, 0.95], "d": 20.2, "at": [-111.4, 9, -22.8], "chain": ["pav_conc", "campus_pavilion", "campus_pavilion_glb", "Group"], "mat": "ck_pav_conc", "color": "#ffffff", "map": true, "side": 2, "transparent": false, "opacity": 1}]
+PASS [黑畫面] xsgate_maingate_north_near_night 不是黑畫面（平均亮度 23.7、變化 30.4）  [23.7, 30.4]
+  [  63.3s] [截圖] xsgate_maingate_north_near_night：鏡頭 {"eye": [-116, 1.7, -44], "look": [-98, 1.4, -86], "lens": 24, "vfov": 45.75}、亮度 [23.7, 30.4]
+PASS [黑畫面] xsgate_slantwall_night 不是黑畫面（平均亮度 23.7、變化 41.4）  [23.7, 41.4]
+  [  64.9s] [截圖] xsgate_slantwall_night：鏡頭 {"eye": [-92, 1.7, -78], "look": [-95, 1.2, -87.5], "lens": 24, "vfov": 45.75}、亮度 [23.7, 41.4]
+  [前置／捷徑] 讀檔新生南路 2025-10-18 14:00（出生點）
+PASS [b] 讀到新生南路  {"zone": "xinsheng", "x": 14.3, "z": 10, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+PASS [b] 有「回到首都帝大」  [{"label": "回到首都帝大（新生南路側門）", "x": 16.8, "z": 10, "r": 2.2, "lv": 0, "to": "campus"}, {"label": "往溫州街", "x": -31, "z": -1.4, "r": 2.4, "lv": 0, "to": "wenzhou"}, {"label": "進大口漢堡（速食（24 小時））", "x": -15.6, "z": 40.4, "r": 1.4, "lv": 0, "to": "xs_dakou"}, {"label": "進南洋戲院（二輪戲院）", "x": -15.6, "z": 25.3, "r": 1.4, "lv": 0, "to": "xs_nanyang"}, {"label": "進山嵐書店（書店（兩層））", "x": -15.6, "z": 10.2, "r": 1.4, "lv": 0, "to": "xs_shanlan"}, {"label": "進同弦樂器（吉他行（二樓））", "x": -15.6, "z": -7.2, "r": 1.4, "lv": 0, "to": "xs_tongxian"}, {"label": "進大步球鞋（球鞋）", "x": -15.6, "z": -16.7, "r": 1.4, "lv": 0, "to": "xs_dabu"}, {"label": "進好拍運動（球拍專賣）", "x": -15.6, "z": -23.2, "r": 1.4, "lv": 0, "to": "xs_haopai"}, {"label": "進新生運動廣場（運動用品（兩層））", "x": -15.6, "z": -33, "r": 1.4, "lv": 0, "to": "xs_xsports"}]
+  [  76.0s] [b] 「回到首都帝大」在 (16.8, 10) 半徑 2.2；走到範圍裡站得住的 {"x": 15.5, "z": 10, "d": 1.1999999999999993}
+PASS [b] 「回到首都帝大」範圍裡有站得住的地方  {"label": "回到首都帝大（新生南路側門）", "x": 16.8, "z": 10, "r": 2.2, "lv": 0, "to": "campus"}
+  [  78.7s] 到達「[b] 回到首都帝大」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [b] 走到那裡，互動按鈕是「回到首都帝大」  {"x": 15.26, "z": 10, "lv": 0, "interact": "回到首都帝大（新生南路側門）"}
+PASS [b] 按下去到了 campus（站得住、沒有被放到目的地）  {"zone": "campus", "x": -61.6, "z": -99, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.1}
+PASS [b] 落點在 campusSpawn (-61.6, -99) 1 m 內、站得住  {"zone": "campus", "x": -61.6, "z": -99, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.1}
+PASS [黑畫面] xsgate_back_landing 不是黑畫面（平均亮度 120.9、變化 45.4）  [120.9, 45.4]
+PASS [b] 落點推得動（搖桿 ≥0.3 m）  3.55
+  [  90.0s] [b] 落點 博思門口：[-38, -72.8, "博思教學館"]
+  [  95.9s] 到達「[b] 落點 → 映月湖南岸步道」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [b] 落點 照玩家走得到映月湖南岸步道 (-36.0, -98.0)（自動放過去 0 次）  {"at": [-36.239, -98.009], "fb": 0, "stand": true}
+  [ 112.2s] 到達「[b] 落點 → 博思門口（博思教學館）」附近（0.22 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，16 秒
+PASS [b] 落點 照玩家走得到博思門口（博思教學館） (-39.16, -73.11)（自動放過去 0 次）  {"at": [-38.937, -73.105], "fb": 0, "stand": true}
+  [ 130.9s] 到達「[b] 落點 → 校門內側」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，18 秒
+PASS [b] 落點 照玩家走得到校門內側 (-110.0, 0.0)（自動放過去 0 次）  {"at": [-109.825, -0.175], "fb": 0, "stand": true}
+  [前置／捷徑] 讀檔校園 2025-10-18 14:00、舊側門 (-120.0, -83.0)（舊存檔的位置；GAME.applySave）
+PASS [d] 舊存檔 (−120, −83) 讀進來落在 (-118.25, -80.25)（BB-C 08:05；容許 0.3 m）、站得住  {"at": [-118.25, -80.25], "d": 0.0, "stand": true}
+PASS [黑畫面] xsgate_old_landing 不是黑畫面（平均亮度 151.1、變化 45.1）  [151.1, 45.1]
+PASS [d] 舊存檔落點推得動（搖桿 ≥0.3 m）  4.55
+  [ 204.4s] 到達「[d] 舊存檔落點 → 校門內側」附近（0.20 m）：點地面 17 次、轉鏡頭 0 次、搖桿 0 次，58 秒
+PASS [d] 從舊存檔落點照玩家走得出去（到校門內側 (−110, 0)，自動放過去 0 次）  {"at": [-110.05, -0.188], "fb": 0}
+PASS 沒有 JS 例外  []
+ALL PASS
