@@ -1370,3 +1370,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 254.5s] page close url=http://127.0.0.1:8805/index.html?turbo | [gpu_wrap 254.5s] BROWSER DISCONNECTED
 - 2026-11-05T18:42:33  WINVIEW_rel_shots  sha=bcb386604502ab9e04674cd587ef5d527a33b570  exit=0  288s    PASS [windows aoki night] 出店 按下去到了 gongguan（站得住、沒有被放到目的地）  {"zone": "gongguan", "x": -54.05, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.65} / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 259.3s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 259.3s] BROWSER DISCONNECTED
+- 2026-11-05T18:45:10  V21R_touch  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  144s    PASS 讀檔後可以走  9.2 / PASS 沒有 JS 例外 / FAILED: 溫州街：NPC 都是正式模型（沒有程序化球體人）
+      err.log (last 5): [gpu_wrap 114.8s] page close url=http://127.0.0.1:8805/index.html?turbo&turbo | [gpu_wrap 114.8s] BROWSER DISCONNECTED
