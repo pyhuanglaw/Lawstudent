@@ -1,4 +1,4 @@
-[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8805/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_soc_heroine_03_go\out
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8806/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_soc_heroine_03_go\out
 CASES=["heroine_03"] STEPS=["invite", "invite_study", "reload", "date", "phone", "shop", "walk"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
 PASS [heroine_03] 遊戲載入
 == 人物 heroine_03 陳語彤 開始（層 D、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 8, "Y2S2": 8, "Y3S1": 8, "Y3S2": 8, "Y4S1": 8, "Y4S2": 9, "Y1S1": 8}、店內偶遇 []、自由出行 ["D12", "D13", "D14", "D18"]）
@@ -11,7 +11,7 @@ PASS [heroine_03] 遊戲載入
   [前置／捷徑] [heroine_03] 前置：朋友（FRIEND）、有聯絡方式：{"stage": "FRIEND", "name": "陳語彤", "fm": true, "lad": null, "contact": true}
   [前置／捷徑] [heroine_03] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_03] 到達「陳語彤 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [heroine_03] 到達「陳語彤 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
   [heroine_03] invite：約「去總圖一起念書」（總圖，library_hall；同一區）
   [heroine_03] invite 約現在：按「和陳語彤說話」
 PASS [heroine_03] invite 約現在：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
@@ -22,9 +22,9 @@ PASS [heroine_03] invite 約現在：15 秒內回到可以自由移動
 PASS [heroine_03] invite 約現在：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_03] invite 約現在：沒有新的 JS 例外
 PASS [heroine_03] invite 約現在：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] invite 約現在：搖桿推得動（≥0.3 m）  3.24 m
-PASS [heroine_03] invite 約現在：點地走得動（≥0.3 m）  點 [-1.52, -8.57]，走了 1.08 m
-PASS [heroine_03] invite 約現在：遊戲時間有在走  9.6520→9.6722
+PASS [heroine_03] invite 約現在：搖桿推得動（≥0.3 m）  3.15 m
+PASS [heroine_03] invite 約現在：點地走得動（≥0.3 m）  點 [-1.4, -8.56]，走了 1.02 m
+PASS [heroine_03] invite 約現在：遊戲時間有在走  9.6699→9.6900
 PASS [heroine_03] invite 約現在：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] invite 約現在：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] invite 約現在：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -37,34 +37,34 @@ INFO [heroine_03] invite：她沒有答應（或時間不對）  ["｜（她抬�
   [前置／捷徑] [heroine_03] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "陳語彤", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_03] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_03] 到達「陳語彤 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [heroine_03] 到達「陳語彤 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
   [heroine_03] reload 之前：按「和陳語彤說話」
 PASS [heroine_03] reload 之前：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
-  [heroine_03] reload 之前 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+  [heroine_03] reload 之前 台詞（1 句）：["｜（她抬頭看到你，點了一下"]
 PASS [heroine_03] reload 之前：對話一路點得完  0 個選單
 PASS [heroine_03] reload 之前：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [heroine_03] reload 之前：15 秒內回到可以自由移動
 PASS [heroine_03] reload 之前：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_03] reload 之前：沒有新的 JS 例外
 PASS [heroine_03] reload 之前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] reload 之前：搖桿推得動（≥0.3 m）  3.24 m
-PASS [heroine_03] reload 之前：點地走得動（≥0.3 m）  點 [-1.55, -8.52]，走了 0.94 m
-PASS [heroine_03] reload 之前：遊戲時間有在走  9.6803→9.7005
+PASS [heroine_03] reload 之前：搖桿推得動（≥0.3 m）  3.18 m
+PASS [heroine_03] reload 之前：點地走得動（≥0.3 m）  點 [-1.45, -8.55]，走了 1.02 m
+PASS [heroine_03] reload 之前：遊戲時間有在走  9.6737→9.6939
 PASS [heroine_03] reload 之前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] reload 之前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] reload 之前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
   [前置／捷徑] [heroine_03] 讀回存檔（選單「回標題」→「繼續」按不到，改用 GAME.snapshot→applySave（同「繼續」））
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_03] reload：讀回來（snapshot→applySave）以後在遊戲裡（不在標題畫面）  {"zone": "library", "key": "2025-09-15", "hour": 9.7696}
+PASS [heroine_03] reload：讀回來（snapshot→applySave）以後在遊戲裡（不在標題畫面）  {"zone": "library", "key": "2025-09-15", "hour": 9.7601}
 PASS [heroine_03] reload 讀回來：15 秒內回到可以自由移動
 PASS [heroine_03] reload 讀回來：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] reload 讀回來：搖桿推得動（≥0.3 m）  1.78 m
-PASS [heroine_03] reload 讀回來：點地走得動（≥0.3 m）  點 [-2.23, -4.58]，走了 0.99 m
-PASS [heroine_03] reload 讀回來：遊戲時間有在走  9.7927→9.8129
+PASS [heroine_03] reload 讀回來：搖桿推得動（≥0.3 m）  2.00 m
+PASS [heroine_03] reload 讀回來：點地走得動（≥0.3 m）  點 [-2.29, -4.44]，走了 0.99 m
+PASS [heroine_03] reload 讀回來：遊戲時間有在走  9.7797→9.7998
 PASS [heroine_03] reload 讀回來：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] reload 讀回來：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] reload 讀回來：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-  [heroine_03] 到達「陳語彤 旁邊」附近（0.16 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+  [heroine_03] 到達「陳語彤 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
   [heroine_03] reload 打招呼：按「和陳語彤說話」
 PASS [heroine_03] reload 打招呼：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [heroine_03] reload 打招呼 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
@@ -75,13 +75,13 @@ PASS [heroine_03] reload 打招呼：15 秒內回到可以自由移動
 PASS [heroine_03] reload 打招呼：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_03] reload 打招呼：沒有新的 JS 例外
 PASS [heroine_03] reload 打招呼：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] reload 打招呼：搖桿推得動（≥0.3 m）  3.23 m
-PASS [heroine_03] reload 打招呼：點地走得動（≥0.3 m）  點 [5.15, -12.38]，走了 1.04 m
-PASS [heroine_03] reload 打招呼：遊戲時間有在走  9.9641→9.9843
+PASS [heroine_03] reload 打招呼：搖桿推得動（≥0.3 m）  3.17 m
+PASS [heroine_03] reload 打招呼：點地走得動（≥0.3 m）  點 [5.07, -12.29]，走了 0.95 m
+PASS [heroine_03] reload 打招呼：遊戲時間有在走  9.9348→9.9550
 PASS [heroine_03] reload 打招呼：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] reload 打招呼：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] reload 打招呼：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-  [heroine_03] 到達「陳語彤 旁邊」附近（0.73 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+  [heroine_03] 到達「陳語彤 旁邊」附近（0.86 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，8 秒
   [heroine_03] reload 閒聊：按「和陳語彤說話」
 PASS [heroine_03] reload 閒聊：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [heroine_03] reload 閒聊 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
@@ -92,9 +92,9 @@ PASS [heroine_03] reload 閒聊：15 秒內回到可以自由移動
 PASS [heroine_03] reload 閒聊：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_03] reload 閒聊：沒有新的 JS 例外
 PASS [heroine_03] reload 閒聊：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] reload 閒聊：搖桿推得動（≥0.3 m）  3.30 m
-PASS [heroine_03] reload 閒聊：點地走得動（≥0.3 m）  點 [-1.05, -8.13]，走了 1.08 m
-PASS [heroine_03] reload 閒聊：遊戲時間有在走  10.1460→10.1661
+PASS [heroine_03] reload 閒聊：搖桿推得動（≥0.3 m）  3.15 m
+PASS [heroine_03] reload 閒聊：點地走得動（≥0.3 m）  點 [-0.77, -7.96]，走了 0.99 m
+PASS [heroine_03] reload 閒聊：遊戲時間有在走  10.0819→10.1020
 PASS [heroine_03] reload 閒聊：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] reload 閒聊：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] reload 閒聊：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -104,24 +104,24 @@ PASS [heroine_03] reload 閒聊：按 #minimap 打得開、關得掉  {"open": t
   [前置／捷徑] [heroine_03] 前置：第 5 階（POSSIBLE_ROMANTIC_INTEREST）、有聯絡方式：{"stage": "POSSIBLE_ROMANTIC_INTEREST", "name": "陳語彤", "fm": true, "lad": null, "contact": true}
   [前置／捷徑] [heroine_03] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_03] 到達「陳語彤 旁邊」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [heroine_03] 到達「陳語彤 旁邊」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
   [heroine_03] date 當面約：按「和陳語彤說話」
 PASS [heroine_03] date 當面約：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
-  [heroine_03] date 當面約 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+  [heroine_03] date 當面約 台詞（1 句）：["｜（她抬頭看到你，點了一下頭"]
 PASS [heroine_03] date 當面約：對話一路點得完  0 個選單
 PASS [heroine_03] date 當面約：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [heroine_03] date 當面約：15 秒內回到可以自由移動
 PASS [heroine_03] date 當面約：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_03] date 當面約：沒有新的 JS 例外
 PASS [heroine_03] date 當面約：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] date 當面約：搖桿推得動（≥0.3 m）  3.24 m
-PASS [heroine_03] date 當面約：點地走得動（≥0.3 m）  點 [-1.54, -8.53]，走了 1.02 m
-PASS [heroine_03] date 當面約：遊戲時間有在走  9.6827→9.7031
+PASS [heroine_03] date 當面約：搖桿推得動（≥0.3 m）  3.15 m
+PASS [heroine_03] date 當面約：點地走得動（≥0.3 m）  點 [-1.39, -8.56]，走了 0.99 m
+PASS [heroine_03] date 當面約：遊戲時間有在走  9.6728→9.6929
 PASS [heroine_03] date 當面約：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
   [heroine_03] date 當面約：第 1 次說話沒有約成（選單 []），回到她旁邊再說一次
-  [heroine_03] 到達「陳語彤 旁邊」附近（0.81 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+  [heroine_03] 到達「陳語彤 旁邊」附近（0.75 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
   [heroine_03] date 當面約（第 2 次）：按「和陳語彤說話」
 PASS [heroine_03] date 當面約（第 2 次）：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [heroine_03] date 當面約（第 2 次） 選單 ["約她去…", "就這樣"] → 選「約她去…」
@@ -131,7 +131,7 @@ PASS [heroine_03] date 當面約（第 2 次）：按了以後開始說話  {"in
   [heroine_03] date 當面約（第 2 次） 選單 ["今天 9/15（一）", "明天 9/16（二）", "9/17（三）", "9/18（四）", "9/19（五）", "9/20（六）", "9/21（日）", "算了"] → 選「今天 9/15（一）」
   [heroine_03] date 當面約（第 2 次） 選單 ["09:00 出發（灰）", "10:00 出發（灰）", "13:00 出發", "14:00 出發", "15:00 出發", "換一天", "算了"] → 選「13:00 出發」
   [heroine_03] date 當面約（第 2 次） 選單 ["就這樣約", "重新選", "算了"] → 選「就這樣約」
-  [heroine_03] date 當面約（第 2 次） 台詞（7 句）：["陳語彤｜（小聲）你吃飯了嗎？", "祐廷｜（小聲）你等一下有空嗎？", "｜和陳語彤去華山1914文創園區：今天 9/15（一）", "｜和陳語彤去華山1914文創園區：今天 9/15（一） 13:00 出發，捷運單程約 25 分鐘，預計花費 60 元，約 16:20 回到首都帝大。", "陳語彤｜（小聲）好。", "陳語彤｜（小聲）我跟蘇姨說那天不排班。", "｜約好了：今天 9/15（一） 13:00，"]
+  [heroine_03] date 當面約（第 2 次） 台詞（8 句）：["陳語彤｜（小聲）你吃飯了嗎？", "祐廷｜（小聲）你等一下有空嗎？", "｜和陳語彤去華山1914文創園區：今天 9/15（一）", "｜和陳語彤去華山1914文創園區：今天 9/15（一） 13:00 出發，捷運單程約 25 分鐘，預計花費 60 元，約 16:20 回到首都帝大。", "陳語彤｜（小聲）好。", "陳語彤｜（小聲）我跟蘇姨說那天不排班。", "｜約好了：今天 9/15（一） 13:00，華", "｜約好了：今天 9/15（一） 13:00，華山1914文創園區。"]
 PASS [heroine_03] date 當面約（第 2 次）：對話一路點得完  7 個選單
 PASS [heroine_03] date 當面約（第 2 次）：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [heroine_03] date 當面約（第 2 次）：15 秒內回到可以自由移動
@@ -139,15 +139,15 @@ PASS [heroine_03] date 當面約（第 2 次）：GAME.walkFallbacks 沒增加  
 PASS [heroine_03] date 當面約（第 2 次）：沒有新的 JS 例外
 PASS [heroine_03] date 當面約（第 2 次）：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
 PASS [heroine_03] date 當面約（第 2 次）：搖桿推得動（≥0.3 m）  3.21 m
-PASS [heroine_03] date 當面約（第 2 次）：點地走得動（≥0.3 m）  點 [3.94, -10.94]，走了 1.05 m
-PASS [heroine_03] date 當面約（第 2 次）：遊戲時間有在走  9.8630→9.8833
+PASS [heroine_03] date 當面約（第 2 次）：點地走得動（≥0.3 m）  點 [3.95, -10.98]，走了 0.99 m
+PASS [heroine_03] date 當面約（第 2 次）：遊戲時間有在走  9.8385→9.8588
 PASS [heroine_03] date 當面約（第 2 次）：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約（第 2 次）：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約（第 2 次）：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] date 當面約：約成一趟（G.trips 多一筆 booked）  [{"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}] ["陳語彤｜（小聲）好。", "陳語彤｜（小聲）我跟蘇姨說那天不排班。", "｜約好了：今天 9/15（一） 13:00，"]
+PASS [heroine_03] date 當面約：約成一趟（G.trips 多一筆 booked）  [{"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}] ["陳語彤｜（小聲）我跟蘇姨說那天不排班。", "｜約好了：今天 9/15（一） 13:00，華", "｜約好了：今天 9/15（一） 13:00，華山1914文創園區。"]
   [前置／捷徑] [heroine_03] 讀回存檔（date 當面約：離出發還有 3.1 小時，存檔的時間改到出發前 54 分鐘（玩家可以用手機「跳過時間」或睡覺做到））
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_03] date 當面約：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.1096, "zone": "library", "text": "手機｜提醒：13:00，你約了陳語彤去華山1914文創園區。", "ch": [{"t": "現在出發", "dim": false}, {"t": "到時間再說", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+PASS [heroine_03] date 當面約：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.1091, "zone": "library", "text": "手機｜提醒：13:00，你約了陳語彤去華山1914文創園區。", "ch": [{"t": "現在出發", "dim": false}, {"t": "到時間再說", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
   [heroine_03] date 當面約 出發 選單 ["現在出發", "到時間再說"] → 選「現在出發」
   [heroine_03] date 當面約 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
   [heroine_03] date 當面約 出發 選單 ["「妳在看人？」", "「那是他的看法。」"] → 選「「妳在看人？」」
@@ -159,7 +159,7 @@ PASS [heroine_03] date 當面約：出發前的提醒出來（「現在出發」
   [heroine_03] date 當面約 出發 選單 ["「很好。」", "「放鬆一點。」"] → 選「「很好。」」
   [heroine_03] date 當面約 台詞（21 句）：["｜手機｜提醒：13:00，你約了陳語彤去華山1914文創園區。", "｜（華山1914文創園區。）", "陳語彤｜嗯。", "陳語彤｜（她看了一圈）週末，大家都出來了。", "陳語彤｜（她沒在看作品，在看旁邊的人）那個阿伯，在每一張前面", "陳語彤｜（她沒在看作品，在看旁邊的人）那個阿伯，在每一張前面都站一樣久。", "…", "陳語彤｜今天走了好多地方。", "陳語彤｜我回去要先睡一下。", "｜（今天去了華山1914文創園區：老倉庫裡的", "｜（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）"]
 PASS [heroine_03] date 當面約：出發、到場、互動點、收尾、結算一路點得完
-PASS [heroine_03] date 當面約：約會中時間有往前走  遊戲時間 3.15 小時（-1 12.11 → -1 15.26）
+PASS [heroine_03] date 當面約：約會中時間有往前走  遊戲時間 3.16 小時（-1 12.11 → -1 15.26）
 INFO [heroine_03] date 當面約：錢 30000 → 29690（-310）  
 PASS [heroine_03] date 當面約：關係或記憶有變化  {"rel": {"fam": 2, "trust": 2, "comf": 8, "rom": 4, "npcRom": 7}, "mem": "1→1 ['FIRST_MET']"}
 PASS [heroine_03] date 當面約：對話沒有空白的句子  []
@@ -186,9 +186,9 @@ PASS [heroine_03] date 當面約 結束：15 秒內回到可以自由移動
 PASS [heroine_03] date 當面約 結束：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_03] date 當面約 結束：沒有新的 JS 例外
 PASS [heroine_03] date 當面約 結束：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] date 當面約 結束：搖桿推得動（≥0.3 m）  2.10 m
-PASS [heroine_03] date 當面約 結束：點地走得動（≥0.3 m）  點 [4.91, -6.9]，走了 1.05 m
-PASS [heroine_03] date 當面約 結束：遊戲時間有在走  15.2832→15.3028
+PASS [heroine_03] date 當面約 結束：搖桿推得動（≥0.3 m）  2.49 m
+PASS [heroine_03] date 當面約 結束：點地走得動（≥0.3 m）  點 [6.43, -6.97]，走了 0.79 m
+PASS [heroine_03] date 當面約 結束：遊戲時間有在走  15.2821→15.3022
 PASS [heroine_03] date 當面約 結束：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 結束：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 結束：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -197,7 +197,7 @@ PASS [heroine_03] date 當面約：那一趟記成 done（或一個點都沒去�
   [heroine_03] date 當面約：約會裡的選單 9 個，換選項重跑 10 次（DATE_BRANCH_MAX=10）
   [前置／捷徑] [heroine_03] 讀回存檔（date 當面約 分支1-1「週末市集」：出發前的提醒之前）
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_03] date 當面約 分支1-1「週末市集」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7528, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+PASS [heroine_03] date 當面約 分支1-1「週末市集」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7518, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
   [heroine_03] date 當面約 分支1-1「週末市集」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
   [heroine_03] date 當面約 分支1-1「週末市集」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「週末市集」
   [heroine_03] date 當面約 分支1-1「週末市集」 出發 選單 ["「我們幫蘇姨挑。」", "「妳自己寫？」"] → 選「「我們幫蘇姨挑。」」
@@ -213,16 +213,16 @@ PASS [heroine_03] date 當面約 分支1-1「週末市集」 回來以後：15 �
 PASS [heroine_03] date 當面約 分支1-1「週末市集」 回來以後：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_03] date 當面約 分支1-1「週末市集」 回來以後：沒有新的 JS 例外
 PASS [heroine_03] date 當面約 分支1-1「週末市集」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] date 當面約 分支1-1「週末市集」 回來以後：搖桿推得動（≥0.3 m）  2.86 m
-PASS [heroine_03] date 當面約 分支1-1「週末市集」 回來以後：點地走得動（≥0.3 m）  點 [6.63, -6.64]，走了 0.54 m
-PASS [heroine_03] date 當面約 分支1-1「週末市集」 回來以後：遊戲時間有在走  15.2893→15.3082
+PASS [heroine_03] date 當面約 分支1-1「週末市集」 回來以後：搖桿推得動（≥0.3 m）  2.89 m
+PASS [heroine_03] date 當面約 分支1-1「週末市集」 回來以後：點地走得動（≥0.3 m）  點 [6.65, -6.64]，走了 0.50 m
+PASS [heroine_03] date 當面約 分支1-1「週末市集」 回來以後：遊戲時間有在走  15.2830→15.3032
 PASS [heroine_03] date 當面約 分支1-1「週末市集」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支1-1「週末市集」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支1-1「週末市集」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支1-1「週末市集」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
   [前置／捷徑] [heroine_03] 讀回存檔（date 當面約 分支1-2「大草地」：出發前的提醒之前）
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_03] date 當面約 分支1-2「大草地」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7515, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+PASS [heroine_03] date 當面約 分支1-2「大草地」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7516, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
   [heroine_03] date 當面約 分支1-2「大草地」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
   [heroine_03] date 當面約 分支1-2「大草地」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「大草地」
   [heroine_03] date 當面約 分支1-2「大草地」 出發 選單 ["「妳喜歡這樣？」", "（陪她坐）"] → 選「「妳喜歡這樣？」」
@@ -238,16 +238,16 @@ PASS [heroine_03] date 當面約 分支1-2「大草地」 回來以後：15 秒�
 PASS [heroine_03] date 當面約 分支1-2「大草地」 回來以後：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_03] date 當面約 分支1-2「大草地」 回來以後：沒有新的 JS 例外
 PASS [heroine_03] date 當面約 分支1-2「大草地」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] date 當面約 分支1-2「大草地」 回來以後：搖桿推得動（≥0.3 m）  2.85 m
-PASS [heroine_03] date 當面約 分支1-2「大草地」 回來以後：點地走得動（≥0.3 m）  點 [6.64, -6.64]，走了 0.54 m
-PASS [heroine_03] date 當面約 分支1-2「大草地」 回來以後：遊戲時間有在走  15.2882→15.3076
+PASS [heroine_03] date 當面約 分支1-2「大草地」 回來以後：搖桿推得動（≥0.3 m）  2.89 m
+PASS [heroine_03] date 當面約 分支1-2「大草地」 回來以後：點地走得動（≥0.3 m）  點 [6.65, -6.64]，走了 0.51 m
+PASS [heroine_03] date 當面約 分支1-2「大草地」 回來以後：遊戲時間有在走  15.2853→15.3051
 PASS [heroine_03] date 當面約 分支1-2「大草地」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支1-2「大草地」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支1-2「大草地」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支1-2「大草地」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
   [前置／捷徑] [heroine_03] 讀回存檔（date 當面約 分支1-3「紅磚牆前」：出發前的提醒之前）
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7526, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7531, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
   [heroine_03] date 當面約 分支1-3「紅磚牆前」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
   [heroine_03] date 當面約 分支1-3「紅磚牆前」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「紅磚牆前」
   [heroine_03] date 當面約 分支1-3「紅磚牆前」 出發 選單 ["「很好。」", "「放鬆一點。」"] → 選「「很好。」」
@@ -263,16 +263,16 @@ PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」 回來以後：15 �
 PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」 回來以後：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」 回來以後：沒有新的 JS 例外
 PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」 回來以後：搖桿推得動（≥0.3 m）  2.87 m
-PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」 回來以後：點地走得動（≥0.3 m）  點 [6.65, -6.64]，走了 0.54 m
-PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」 回來以後：遊戲時間有在走  15.2891→15.3083
+PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」 回來以後：搖桿推得動（≥0.3 m）  2.89 m
+PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」 回來以後：點地走得動（≥0.3 m）  點 [6.65, -6.64]，走了 0.51 m
+PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」 回來以後：遊戲時間有在走  15.2841→15.3044
 PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支1-3「紅磚牆前」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
   [前置／捷徑] [heroine_03] 讀回存檔（date 當面約 分支1-4「就這樣回去」：出發前的提醒之前）
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_03] date 當面約 分支1-4「就這樣回去」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7538, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+PASS [heroine_03] date 當面約 分支1-4「就這樣回去」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7532, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
   [heroine_03] date 當面約 分支1-4「就這樣回去」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
   [heroine_03] date 當面約 分支1-4「就這樣回去」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「就這樣回去」
   [heroine_03] date 當面約 分支1-4「就這樣回去」 台詞（5 句）：["｜今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "｜（華山1914文創園區。）", "陳語彤｜嗯。", "陳語彤｜（她看了一圈）週末，大家都出來了。", "陳語彤｜……就這樣？好。那我回店裡。", "…", "｜（華山1914文創園區。）", "陳語彤｜嗯。", "陳語彤｜（她看了一圈）週末，大家都出來了。", "陳語彤｜……就這樣？好。那我回店裡。"]
@@ -281,16 +281,16 @@ PASS [heroine_03] date 當面約 分支1-4「就這樣回去」 回來以後：1
 PASS [heroine_03] date 當面約 分支1-4「就這樣回去」 回來以後：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_03] date 當面約 分支1-4「就這樣回去」 回來以後：沒有新的 JS 例外
 PASS [heroine_03] date 當面約 分支1-4「就這樣回去」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] date 當面約 分支1-4「就這樣回去」 回來以後：搖桿推得動（≥0.3 m）  2.86 m
-PASS [heroine_03] date 當面約 分支1-4「就這樣回去」 回來以後：點地走得動（≥0.3 m）  點 [6.63, -6.64]，走了 0.54 m
-PASS [heroine_03] date 當面約 分支1-4「就這樣回去」 回來以後：遊戲時間有在走  13.8689→13.8891
+PASS [heroine_03] date 當面約 分支1-4「就這樣回去」 回來以後：搖桿推得動（≥0.3 m）  2.89 m
+PASS [heroine_03] date 當面約 分支1-4「就這樣回去」 回來以後：點地走得動（≥0.3 m）  點 [6.65, -6.64]，走了 0.50 m
+PASS [heroine_03] date 當面約 分支1-4「就這樣回去」 回來以後：遊戲時間有在走  13.8658→13.8859
 PASS [heroine_03] date 當面約 分支1-4「就這樣回去」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支1-4「就這樣回去」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支1-4「就這樣回去」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支1-4「就這樣回去」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "cancelled", "locs": ["D01"], "kind": "half"}]
   [前置／捷徑] [heroine_03] 讀回存檔（date 當面約 分支2-1「「那是他的看法。」：出發前的提醒之前）
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7548, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7506, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
   [heroine_03] date 當面約 分支2-1「「那是他的看法。」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
   [heroine_03] date 當面約 分支2-1「「那是他的看法。」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
   [heroine_03] date 當面約 分支2-1「「那是他的看法。」 出發 選單 ["「妳在看人？」", "「那是他的看法。」"] → 選「「那是他的看法。」」
@@ -306,16 +306,16 @@ PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」 回來�
 PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」 回來以後：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」 回來以後：沒有新的 JS 例外
 PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」 回來以後：搖桿推得動（≥0.3 m）  2.80 m
-PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」 回來以後：點地走得動（≥0.3 m）  點 [6.62, -6.69]，走了 0.55 m
-PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」 回來以後：遊戲時間有在走  15.2873→15.3076
+PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」 回來以後：搖桿推得動（≥0.3 m）  2.87 m
+PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」 回來以後：點地走得動（≥0.3 m）  點 [6.62, -6.64]，走了 0.56 m
+PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」 回來以後：遊戲時間有在走  15.2854→15.3056
 PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支2-1「「那是他的看法。」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
   [前置／捷徑] [heroine_03] 讀回存檔（date 當面約 分支3-1「大草地」：出發前的提醒之前）
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_03] date 當面約 分支3-1「大草地」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7539, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+PASS [heroine_03] date 當面約 分支3-1「大草地」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7532, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
   [heroine_03] date 當面約 分支3-1「大草地」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
   [heroine_03] date 當面約 分支3-1「大草地」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
   [heroine_03] date 當面約 分支3-1「大草地」 出發 選單 ["「妳在看人？」", "「那是他的看法。」"] → 選「「妳在看人？」」
@@ -331,218 +331,12 @@ PASS [heroine_03] date 當面約 分支3-1「大草地」 回來以後：15 秒�
 PASS [heroine_03] date 當面約 分支3-1「大草地」 回來以後：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_03] date 當面約 分支3-1「大草地」 回來以後：沒有新的 JS 例外
 PASS [heroine_03] date 當面約 分支3-1「大草地」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] date 當面約 分支3-1「大草地」 回來以後：搖桿推得動（≥0.3 m）  2.83 m
-PASS [heroine_03] date 當面約 分支3-1「大草地」 回來以後：點地走得動（≥0.3 m）  點 [6.62, -6.66]，走了 0.56 m
-PASS [heroine_03] date 當面約 分支3-1「大草地」 回來以後：遊戲時間有在走  15.2882→15.3079
+PASS [heroine_03] date 當面約 分支3-1「大草地」 回來以後：搖桿推得動（≥0.3 m）  2.89 m
+PASS [heroine_03] date 當面約 分支3-1「大草地」 回來以後：點地走得動（≥0.3 m）  點 [6.65, -6.64]，走了 0.51 m
+PASS [heroine_03] date 當面約 分支3-1「大草地」 回來以後：遊戲時間有在走  15.2856→15.3056
 PASS [heroine_03] date 當面約 分支3-1「大草地」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支3-1「大草地」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支3-1「大草地」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_03] date 當面約 分支3-1「大草地」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
   [前置／捷徑] [heroine_03] 讀回存檔（date 當面約 分支3-2「紅磚牆前」：出發前的提醒之前）
   [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_03] date 當面約 分支3-2「紅磚牆前」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.754, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
-  [heroine_03] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
-  [heroine_03] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
-  [heroine_03] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["「妳在看人？」", "「那是他的看法。」"] → 選「「妳在看人？」」
-  [heroine_03] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["週末市集", "大草地", "紅磚牆前", "差不多了，回去吧"] → 選「紅磚牆前」
-  [heroine_03] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["「很好。」", "「放鬆一點。」"] → 選「「很好。」」
-  [heroine_03] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["週末市集", "大草地", "差不多了，回去吧"] → 選「週末市集」
-  [heroine_03] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["「我們幫蘇姨挑。」", "「妳自己寫？」"] → 選「「我們幫蘇姨挑。」」
-  [heroine_03] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["大草地", "差不多了，回去吧"] → 選「大草地」
-  [heroine_03] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["「妳喜歡這樣？」", "（陪她坐）"] → 選「「妳喜歡這樣？」」
-  [heroine_03] date 當面約 分支3-2「紅磚牆前」 台詞（21 句）：["｜今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "｜（華山1914文創園區。）", "陳語彤｜嗯。", "陳語彤｜（她看了一圈）週末，大家都出來了。", "陳語彤｜（她沒在看作品，在看旁邊的人）那個阿伯，在每一張前面", "陳語彤｜（她沒在看作品，在看旁邊的人）那個阿伯，在每一張前面都站一樣久。", "…", "陳語彤｜今天走了好多地方。", "陳語彤｜我回去要先睡一下。", "｜（今天去了華山1914文創園區：老倉庫裡", "｜（今天去了華山1914文創園區：老倉庫裡的展覽、紅磚牆前、週末市集、大草地。花了 310 元（含來回車資）。）"]
-PASS [heroine_03] date 當面約 分支3-2「紅磚牆前」：出發、到場、互動點、收尾、結算一路點得完
-PASS [heroine_03] date 當面約 分支3-2「紅磚牆前」 回來以後：15 秒內回到可以自由移動
-PASS [heroine_03] date 當面約 分支3-2「紅磚牆前」 回來以後：GAME.walkFallbacks 沒增加  0→0
-PASS [heroine_03] date 當面約 分支3-2「紅磚牆前」 回來以後：沒有新的 JS 例外
-PASS [heroine_03] date 當面約 分支3-2「紅磚牆前」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] date 當面約 分支3-2「紅磚牆前」 回來以後：搖桿推得動（≥0.3 m）  2.84 m
-PASS [heroine_03] date 當面約 分支3-2「紅磚牆前」 回來以後：點地走得動（≥0.3 m）  點 [6.65, -6.67]，走了 0.52 m
-PASS [heroine_03] date 當面約 分支3-2「紅磚牆前」 回來以後：遊戲時間有在走  15.2893→15.3080
-PASS [heroine_03] date 當面約 分支3-2「紅磚牆前」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] date 當面約 分支3-2「紅磚牆前」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] date 當面約 分支3-2「紅磚牆前」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] date 當面約 分支3-2「紅磚牆前」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
-  [前置／捷徑] [heroine_03] 讀回存檔（date 當面約 分支3-3「差不多了，回去吧」：出發前的提醒之前）
-  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_03] date 當面約 分支3-3「差不多了，回去吧」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7533, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
-  [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
-  [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
-  [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 出發 選單 ["「妳在看人？」", "「那是他的看法。」"] → 選「「妳在看人？」」
-  [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 出發 選單 ["週末市集", "大草地", "紅磚牆前", "差不多了，回去吧"] → 選「差不多了，回去吧」
-  [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 台詞（11 句）：["｜今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "｜（華山1914文創園區。）", "陳語彤｜嗯。", "陳語彤｜（她看了一圈）週末，大家都出來了。", "陳語彤｜（她沒在看作品，在看旁邊的人）那個阿伯，在每一張前面", "陳語彤｜（她沒在看作品，在看旁邊的人）那個阿伯，在每一張前面都站一樣久。", "…", "陳語彤｜今天走了好多地方。", "陳語彤｜我回去要先睡一下。", "｜（今天去了華山1914文創園區：老倉庫裡的", "｜（今天去了華山1914文創園區：老倉庫裡的展覽。花了 310 元（含來回車資）。）"]
-PASS [heroine_03] date 當面約 分支3-3「差不多了，回去吧」：出發、到場、互動點、收尾、結算一路點得完
-PASS [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 回來以後：15 秒內回到可以自由移動
-PASS [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 回來以後：GAME.walkFallbacks 沒增加  0→0
-PASS [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 回來以後：沒有新的 JS 例外
-PASS [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 回來以後：搖桿推得動（≥0.3 m）  2.87 m
-PASS [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 回來以後：點地走得動（≥0.3 m）  點 [6.65, -6.64]，走了 0.51 m
-PASS [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 回來以後：遊戲時間有在走  14.3723→14.3920
-PASS [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] date 當面約 分支3-3「差不多了，回去吧」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] date 當面約 分支3-3「差不多了，回去吧」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
-  [前置／捷徑] [heroine_03] 讀回存檔（date 當面約 分支4-1「「妳自己寫？」」：出發前的提醒之前）
-  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_03] date 當面約 分支4-1「「妳自己寫？」」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7522, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
-  [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
-  [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
-  [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 出發 選單 ["「妳在看人？」", "「那是他的看法。」"] → 選「「妳在看人？」」
-  [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 出發 選單 ["週末市集", "大草地", "紅磚牆前", "差不多了，回去吧"] → 選「週末市集」
-  [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 出發 選單 ["「我們幫蘇姨挑。」", "「妳自己寫？」"] → 選「「妳自己寫？」」
-  [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 出發 選單 ["大草地", "紅磚牆前", "差不多了，回去吧"] → 選「大草地」
-  [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 出發 選單 ["「妳喜歡這樣？」", "（陪她坐）"] → 選「「妳喜歡這樣？」」
-  [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 出發 選單 ["紅磚牆前", "差不多了，回去吧"] → 選「紅磚牆前」
-  [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 出發 選單 ["「很好。」", "「放鬆一點。」"] → 選「「很好。」」
-  [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 台詞（22 句）：["｜今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "｜（", "｜（華山1914文創園區。）", "陳語彤｜嗯。", "陳語彤｜（她看了一圈）週末，大家都出來了。", "陳語彤｜（她沒在看作品，在看旁邊的人）那個阿伯，在每一張前", "…", "陳語彤｜今天走了好多地方。", "陳語彤｜我回去要先睡一下。", "｜（今天去了華山1914文創園區：老倉庫裡的", "｜（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）"]
-PASS [heroine_03] date 當面約 分支4-1「「妳自己寫？」」：出發、到場、互動點、收尾、結算一路點得完
-PASS [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 回來以後：15 秒內回到可以自由移動
-PASS [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 回來以後：GAME.walkFallbacks 沒增加  0→0
-PASS [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 回來以後：沒有新的 JS 例外
-PASS [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 回來以後：搖桿推得動（≥0.3 m）  2.84 m
-PASS [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 回來以後：點地走得動（≥0.3 m）  點 [6.6, -6.64]，走了 0.60 m
-PASS [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 回來以後：遊戲時間有在走  15.2862→15.3062
-PASS [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] date 當面約 分支4-1「「妳自己寫？」」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] date 當面約 分支4-1「「妳自己寫？」」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
-  [前置／捷徑] [heroine_03] 讀回存檔（date 當面約 分支5-1「紅磚牆前」：出發前的提醒之前）
-  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_03] date 當面約 分支5-1「紅磚牆前」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-15", "hour": 12.7501, "zone": "library", "text": "今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
-  [heroine_03] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
-  [heroine_03] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
-  [heroine_03] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["「妳在看人？」", "「那是他的看法。」"] → 選「「妳在看人？」」
-  [heroine_03] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["週末市集", "大草地", "紅磚牆前", "差不多了，回去吧"] → 選「週末市集」
-  [heroine_03] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["「我們幫蘇姨挑。」", "「妳自己寫？」"] → 選「「我們幫蘇姨挑。」」
-  [heroine_03] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["大草地", "紅磚牆前", "差不多了，回去吧"] → 選「紅磚牆前」
-  [heroine_03] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["「很好。」", "「放鬆一點。」"] → 選「「很好。」」
-  [heroine_03] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["大草地", "差不多了，回去吧"] → 選「大草地」
-  [heroine_03] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["「妳喜歡這樣？」", "（陪她坐）"] → 選「「妳喜歡這樣？」」
-  [heroine_03] date 當面約 分支5-1「紅磚牆前」 台詞（21 句）：["｜今天 13:00，你約了陳語彤去華山1914文創園區。現在要出發嗎？", "｜（華山1914文創園區。）", "陳語彤｜嗯。", "陳語彤｜（她看了一圈）週末，大家都出來了。", "陳語彤｜（她沒在看作品，在看旁邊的人）那個阿伯，在每一張前面", "陳語彤｜（她沒在看作品，在看旁邊的人）那個阿伯，在每一張前面都站一樣久。", "…", "陳語彤｜今天走了好多地方。", "陳語彤｜我回去要先睡一下。", "｜（今天去了華山1914文創園區：老倉庫裡的", "｜（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、紅磚牆前、大草地。花了 310 元（含來回車資）。）"]
-PASS [heroine_03] date 當面約 分支5-1「紅磚牆前」：出發、到場、互動點、收尾、結算一路點得完
-PASS [heroine_03] date 當面約 分支5-1「紅磚牆前」 回來以後：15 秒內回到可以自由移動
-PASS [heroine_03] date 當面約 分支5-1「紅磚牆前」 回來以後：GAME.walkFallbacks 沒增加  0→0
-PASS [heroine_03] date 當面約 分支5-1「紅磚牆前」 回來以後：沒有新的 JS 例外
-PASS [heroine_03] date 當面約 分支5-1「紅磚牆前」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] date 當面約 分支5-1「紅磚牆前」 回來以後：搖桿推得動（≥0.3 m）  2.83 m
-PASS [heroine_03] date 當面約 分支5-1「紅磚牆前」 回來以後：點地走得動（≥0.3 m）  點 [6.62, -6.65]，走了 0.55 m
-PASS [heroine_03] date 當面約 分支5-1「紅磚牆前」 回來以後：遊戲時間有在走  15.2897→15.3096
-PASS [heroine_03] date 當面約 分支5-1「紅磚牆前」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] date 當面約 分支5-1「紅磚牆前」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] date 當面約 分支5-1「紅磚牆前」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] date 當面約 分支5-1「紅磚牆前」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": -1, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
--- [heroine_03] phone
-  [前置／捷徑] [heroine_03] 讀檔：phone 約：2025-09-15 9.5（library -1 9.50）
-  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [前置／捷徑] [heroine_03] 前置：phone 約：{"stage": "POSSIBLE_ROMANTIC_INTEREST", "name": "陳語彤", "fm": true, "lad": null, "contact": true}
-  [前置／捷徑] [heroine_03] 讀回存檔（套用關係以後重讀）
-  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_03] phone 約 開始前：15 秒內回到可以自由移動
-PASS [heroine_03] phone 約 開始前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] phone 約 開始前：搖桿推得動（≥0.3 m）  2.48 m
-PASS [heroine_03] phone 約 開始前：點地走得動（≥0.3 m）  點 [8.12, -3.55]，走了 0.98 m
-PASS [heroine_03] phone 約 開始前：遊戲時間有在走  9.6018→9.6220
-PASS [heroine_03] phone 約 開始前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] phone 約 開始前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] phone 約 開始前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] phone 約：手機朋友頁他那一行有「訊息」  ‹ 訊息
-語彤
-☆
-傳訊息
-約
-還沒有訊息。按上面的「傳訊息」傳第一則。
-  [heroine_03] phone 約 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"] → 選「念書…」
-  [heroine_03] phone 約 選單 ["去 2:30 AM 念書", "去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "去 afar café 念書", "返回"] → 選「去 2:30 AM 念書」
-  [heroine_03] phone 約 選單 ["今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「今天 12:10」
-INFO [heroine_03] phone 約：手機自己打開（遊戲暫停），按「收起來」  
-  [heroine_03] phone 約 台詞：["陳語彤（手機）｜「好。那天茶屋，我叫蘇姨找別人。」", "｜約好 今天 12:10，2:30 AM。"]
-PASS [heroine_03] phone 約：手機約一路點得完
-PASS [heroine_03] phone 約 之後：15 秒內回到可以自由移動
-PASS [heroine_03] phone 約 之後：GAME.walkFallbacks 沒增加  0→0
-PASS [heroine_03] phone 約 之後：沒有新的 JS 例外
-PASS [heroine_03] phone 約 之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] phone 約 之後：搖桿推得動（≥0.3 m）  3.24 m
-PASS [heroine_03] phone 約 之後：點地走得動（≥0.3 m）  點 [11.38, -5.9]，走了 1.05 m
-PASS [heroine_03] phone 約 之後：遊戲時間有在走  9.7239→9.7443
-PASS [heroine_03] phone 約 之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] phone 約 之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] phone 約 之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] phone 約：G.invites 多一筆（答應或婉拒都算有回覆）  [{"id": "iv1", "state": "accepted", "place": "cafe", "zone": "cafe", "day": -1, "h": 12.167}]
-PASS [heroine_03] phone 傳訊息：手機朋友頁他那一行有「訊息」  ‹ 訊息
-語彤
-☆
-傳訊息
-今天 09:39
-約好了：今天 12:10，2:30 AM（陳語彤）。
-PASS [heroine_03] phone 傳訊息：傳出去了（heroine_03|chat）  訊息 2→3
-PASS [heroine_03] phone 傳訊息之後：15 秒內回到可以自由移動
-PASS [heroine_03] phone 傳訊息之後：GAME.walkFallbacks 沒增加  0→0
-PASS [heroine_03] phone 傳訊息之後：沒有新的 JS 例外
-PASS [heroine_03] phone 傳訊息之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] phone 傳訊息之後：搖桿推得動（≥0.3 m）  3.27 m
-PASS [heroine_03] phone 傳訊息之後：點地走得動（≥0.3 m）  點 [8.14, -3.21]，走了 1.14 m
-PASS [heroine_03] phone 傳訊息之後：遊戲時間有在走  9.8059→9.8262
-PASS [heroine_03] phone 傳訊息之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] phone 傳訊息之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] phone 傳訊息之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-  [前置／捷徑] [heroine_03] 讀檔：phone 約出去玩：2025-09-15 9.5（library -1 9.50）
-  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [前置／捷徑] [heroine_03] 前置：phone 約出去玩：{"stage": "POSSIBLE_ROMANTIC_INTEREST", "name": "陳語彤", "fm": true, "lad": null, "contact": true}
-  [前置／捷徑] [heroine_03] 讀回存檔（套用關係以後重讀）
-  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [heroine_03] phone 約出去玩 開始前：15 秒內回到可以自由移動
-PASS [heroine_03] phone 約出去玩 開始前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] phone 約出去玩 開始前：搖桿推得動（≥0.3 m）  2.46 m
-PASS [heroine_03] phone 約出去玩 開始前：點地走得動（≥0.3 m）  點 [8.14, -3.5]，走了 1.02 m
-PASS [heroine_03] phone 約出去玩 開始前：遊戲時間有在走  9.6030→9.6233
-PASS [heroine_03] phone 約出去玩 開始前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] phone 約出去玩 開始前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] phone 約出去玩 開始前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] phone 約出去玩：手機朋友頁他那一行有「訊息」  ‹ 訊息
-語彤
-☆
-傳訊息
-約
-還沒有訊息。按上面的「傳訊息」傳第一則。
-  [heroine_03] phone 約出去玩 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"] → 選「出去玩…」
-  [heroine_03] phone 約出去玩 選單 ["臺北市：看展・電影…", "臺北市：戶外…", "新北市、桃園：海邊…", "新北市、桃園：老街・山・近郊…", "一整天（宜蘭、中南部）…", "算了"] → 選「臺北市：看展・電影…」
-  [heroine_03] phone 約出去玩 選單 ["華山1914文創園區", "松山文創園區", "參創生活園區", "西門町電影院", "光典臺北", "臺北市立美術館", "返回"] → 選「華山1914文創園區」
-  [heroine_03] phone 約出去玩 選單 ["今天 9/15（一）", "明天 9/16（二）", "9/17（三）", "9/18（四）", "9/19（五）", "9/20（六）", "9/21（日）", "算了"] → 選「今天 9/15（一）」
-  [heroine_03] phone 約出去玩 選單 ["09:00 出發（灰）", "10:00 出發", "13:00 出發", "14:00 出發", "15:00 出發", "換一天", "算了"] → 選「10:00 出發」
-  [heroine_03] phone 約出去玩 選單 ["就這樣約", "重新選", "算了"] → 選「就這樣約」
-INFO [heroine_03] phone 約出去玩：手機自己打開（遊戲暫停），按「收起來」  
-  [heroine_03] phone 約出去玩 選單 ["現在出發", "到時間再說"] → 選「現在出發」
-  [heroine_03] phone 約出去玩 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
-  [heroine_03] phone 約出去玩 選單 ["「妳在看人？」", "「那是他的看法。」"] → 選「「妳在看人？」」
-  [heroine_03] phone 約出去玩 選單 ["週末市集", "大草地", "紅磚牆前", "差不多了，回去吧"] → 選「週末市集」
-  [heroine_03] phone 約出去玩 選單 ["「我們幫蘇姨挑。」", "「妳自己寫？」"] → 選「「我們幫蘇姨挑。」」
-  [heroine_03] phone 約出去玩 選單 ["大草地", "紅磚牆前", "差不多了，回去吧"] → 選「大草地」
-  [heroine_03] phone 約出去玩 選單 ["「妳喜歡這樣？」", "（陪她坐）"] → 選「「妳喜歡這樣？」」
-  [heroine_03] phone 約出去玩 選單 ["紅磚牆前", "差不多了，回去吧"] → 選「紅磚牆前」
-  [heroine_03] phone 約出去玩 選單 ["「很好。」", "「放鬆一點。」"] → 選「「很好。」」
-  [heroine_03] phone 約出去玩 台詞：["陳語彤｜嗯。", "陳語彤｜今天走了好多地方。", "陳語彤｜我回去要先睡一下。", "｜（今天去了華山1914文創園區：老倉庫裡的展", "｜（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）"]
-PASS [heroine_03] phone 約出去玩：手機約一路點得完
-PASS [heroine_03] phone 約出去玩 之後：15 秒內回到可以自由移動
-PASS [heroine_03] phone 約出去玩 之後：GAME.walkFallbacks 沒增加  0→0
-PASS [heroine_03] phone 約出去玩 之後：沒有新的 JS 例外
-PASS [heroine_03] phone 約出去玩 之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_03] phone 約出去玩 之後：搖桿推得動（≥0.3 m）  3.27 m
-PASS [heroine_03] phone 約出去玩 之後：點地走得動（≥0.3 m）  點 [11.41, -6.22]，走了 0.99 m
-PASS [heroine_03] phone 約出去玩 之後：遊戲時間有在走  12.3153→12.3357
-PASS [heroine_03] phone 約出去玩 之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] phone 約出去玩 之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
-PASS [heroine_03] phone 約出去玩 之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-FAIL [heroine_03] phone 約出去玩：約成一趟（booked）  [{"trip": "T0001", "day": -1, "depart": 10, "back": 13.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
--- [heroine_03] shop
-SKIP [heroine_03] shop：店內偶遇沒有她「一起坐」的列（或只在外帶窗口）
--- [heroine_03] walk
-  [前置／捷徑] [heroine_03] 【前置／捷徑】掃時段用的存檔加 flags.YT_MET_JOB＝true（語彤在一盞茶屋認識以後才有作息；正式步驟的 SETUP met 也會設）
-  [前置／捷徑] [heroine_03] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
-  [heroine_03] walk：掃到的景點與時段 []
-SKIP [heroine_03] walk：掃不到她會出現的景點與時段
-== 人物 heroine_03 結果 FAIL（1）：phone 約出去玩：約成一趟（booked）
-   用了 33.2 分鐘
-==== 總結：1 人，FAIL 1 人：[["heroine_03", ["phone 約出去玩：約成一趟（booked）"]]]
-FAILED 1
