@@ -1,0 +1,94 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index cd8a993b8..55673e2c0 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -338,6 +338,7 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
+ | 青木茶室室內 v2c `assets/models/env/second_ai/aa_support/aoki.glb`（配置 `src/data/aoki_layout.js` v3） | 本作 Blender（腳本 `tools/blender/env_second/aa_support/aoki_interior.py`，在 `claude/story-planning`；AA 製作、LAWWW2 驗收 MODEL_READY，story-planning `16c1c6f16`，v2c `697ed69cf`）；店名虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 公館 G01 青木茶室（新區域 `aoki`，GG-SHOPS-REDO-1104） |
+ | afar café 室內 v1b `assets/models/env/second_ai/aa_support/afar.glb`（配置 `src/data/afar_layout.js`） | 本作 Blender（腳本 `tools/blender/env_second/aa_support/afar_interior.py`，在 `claude/story-planning`；AA 製作、LAWWW2 驗收 MODEL_READY，story-planning `8a0bd80f2`）；店名虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 公館 G07 afar café（新區域 `afar`，GG-SHOPS2-1104） |
+ | afar café 窗景照片 `assets/models/env/second_ai/aa_support/afar_view_day.webp`、`afar_view_night.webp` | 本作 Blender 渲染（`tools/blender/env_second/wz_window_view.py --gg-street`：公館區域的正式模型 gongguan_shops／gongguan_far／gongguan_mrt_exit／campus_gate／street_trees／scooter＋遊戲尺寸的路面；LAWWW2-C 11-05 AFAR-VIEW-1105） | 本作 | afar 窗外的街景（白天、晚上） |
++| 公館青木茶室、頁間書屋、Daybreak 窗景照片 `assets/models/env/second_ai/aa_support/{aoki,yejian,daybreak}_view_{day,night}.webp` | 本作 Blender 渲染（`tools/blender/env_second/wz_window_view.py --gg-street`：公館區域的正式模型 gongguan_shops／gongguan_far／gongguan_mrt_exit／campus_gate／street_trees／scooter＋遊戲尺寸的路面；機車照遊戲公館區域的 122 台位置；LAWWW2-C 11-05 WINVIEW-AUDIT-1105） | 本作 | 三間店窗外的街景（白天、晚上） |
+ | 2:30 AM 室內 v1b `assets/models/env/second_ai/aa_support/cafe230.glb`（配置 `src/data/cafe230_layout.js` v2） | 本作 Blender（腳本 `tools/blender/env_second/aa_support/cafe230_interior.py`，在 `claude/story-planning`；AA 製作、LAWWW2 驗收 MODEL_READY，story-planning `8d494790d`）；店名虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街 2:30 AM（區域 `cafe`，取代兩點半 Café 室內 cafe_interior.glb；WZ-SHOPS1-1104） |
+ | 小路 室內 v1f `assets/models/env/second_ai/aa_support/komichi.glb`（配置 `src/data/komichi_layout.js` v3，照抄進 `wz_shops_layout.js` teishoku） | 本作 Blender（`tools/blender/env_second/aa_support/README_komichi.md`，在 `claude/story-planning`；AA 製作、BB 照 LAWWW2 標準驗收 MODEL_READY，story-planning `9d1c3bbe7`，BB_257 §12）；店名虛構（D77），海報片名虛構，貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街 B3 小路（區域 `wz_teishoku`，取代巷子裡定食室內 wz_teishoku_interior.glb；WZ-SHOPS1-1104） |
+ | SUNNY SIDE 室內 v1e（窗景換成溫州街，story-planning `86688bd91`；v1d `8345fe067`） `assets/models/env/second_ai/aa_support/sunnyside.glb`（配置 `src/data/sunnyside_layout.js` v3，照抄進 `wz_shops_layout.js` brunch） | 本作 Blender（`tools/blender/env_second/aa_support/README_sunnyside.md`，在 `claude/story-planning`；AA 製作、BB 照 LAWWW2 標準驗收 MODEL_READY，story-planning `8345fe067`，BB_257 §12）；店名虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街 B7 SUNNY SIDE（區域 `wz_brunch`，取代半熟室內 wz_brunch_interior.glb；WZ-SHOPS1-1104） |
+diff --git a/src/zones3d.js b/src/zones3d.js
+index ff9e0ff2e..ccdca164d 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -2070,7 +2070,10 @@ const Z3 = (function(){
+   /* 公館 AA 的店換窗景照片（AFAR-VIEW-1105，LAWWW2-C 11-05；使用者 08:3x「AFAR看出去不太像公館」）：afar 模型裡的窗景卡（WALL_front_VIEW、材質 afr_window_view）用的是木曜日的樹（mok_view）。
+      換成在 Blender 用公館的正式模型拍的：站在店裡往外看——自己這一棟的騎樓、柱子、停著的機車、羅斯福路、對面的校門和紅磚圍牆、椰子樹（tools/blender/env_second/wz_window_view.py --gg-street；
+      鏡頭在公館 (10.5, 1.4, 26.07)＝窗景卡正中間後面 6.5 m，視野剛好蓋滿那一片 16 × 6.5 m 的卡；照片左右鏡像過，貼上去才是正的）。晚上換夜景那一張、不調暗。*/
+-  const GG_VIEW={afar:{mat:'afr_window_view',day:'assets/models/env/second_ai/aa_support/afar_view_day.webp',night:'assets/models/env/second_ai/aa_support/afar_view_night.webp'}};
++  const GG_VIEW={afar:{mat:'afr_window_view',day:'assets/models/env/second_ai/aa_support/afar_view_day.webp',night:'assets/models/env/second_ai/aa_support/afar_view_night.webp'},
++    aoki:{mat:'aok_window_view',day:'assets/models/env/second_ai/aa_support/aoki_view_day.webp',night:'assets/models/env/second_ai/aa_support/aoki_view_night.webp'},
++    bookstore:{mat:'yej_window_view',day:'assets/models/env/second_ai/aa_support/yejian_view_day.webp',night:'assets/models/env/second_ai/aa_support/yejian_view_night.webp'},
++    daybreak:{mat:'dbk_window_view',day:'assets/models/env/second_ai/aa_support/daybreak_view_day.webp',night:'assets/models/env/second_ai/aa_support/daybreak_view_night.webp'}};   /* WINVIEW-AUDIT-1105（LAWWW2-C；使用者 07:4x「應該很多店面看出去的街景都不對吧」）：青木、頁間、Daybreak 原本也是 mok_view（木曜日的樹）。照 afar 的做法，各在自己那一棟的位置拍（青木 x −52.2、頁間 −41.0、Daybreak 73.1）*/
+   function ggAAattach(E,z,g0,root){ const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
+     if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,z.gg+'_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; }
+     const vm=[]; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)) for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } });
+diff --git a/tests/afar_view_unit.js b/tests/afar_view_unit.js
+index 54526232f..f160e1699 100644
+--- a/tests/afar_view_unit.js
++++ b/tests/afar_view_unit.js
+@@ -3,7 +3,7 @@
+ //   ① 窗景照片兩張都在（afar_view_day.webp、afar_view_night.webp）、長寬比＝窗景卡 16 × 6.5 m（2.46）
+ //   ② 白天（14:00）：窗景卡（材質 afr_window_view）換成白天那一張、不調暗
+ //   ③ 晚上（21:00）：換成晚上那一張、不調暗；回到白天換回來
+-//   ④ 別的店的窗景卡照舊（頁間：晚上照舊調暗，GG_VIEW 只管 afar）
++//   ④ 別的店不會換成 afar 的照片（頁間；WINVIEW-AUDIT-1105 起頁間有自己的照片 yejian_view_*，原本這一項是「頁間照舊調暗」）
+ // 修改前（開發分支 3574b5462）：① ② ③ FAIL（窗景卡是木曜日的樹 mok_view）。用法：node tests/afar_view_unit.js
+ const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
+ const fs=require('fs'), path=require('path'), vm=require('vm');
+@@ -32,6 +32,6 @@ const webpSize=f=>{ const b=fs.readFileSync(f); const t=b.toString('ascii',12,16
+   check('③ 晚上：換成 afar_view_night.webp、不調暗', /afar_view_night\.webp$/.test(n1)&&mat.color.r===1, n1+' color '+mat.color.r);
+   z.applyTime(14,'clear'); check('③ 回到白天換回白天那一張', /afar_view_day\.webp$/.test(src(mat)), src(mat));
+   const yj=Z3.ZONES.bookstore?await build('bookstore'):null;
+-  if(yj&&yj.mat&&yj.z.applyTime){ yj.z.applyTime(21,'clear'); check('④ 頁間的窗景卡照舊（晚上調暗、不換照片）', yj.mat.color.r<0.5&&!/afar_view/.test(src(yj.mat)), 'color '+yj.mat.color.r); } else check('④ 頁間的窗景卡照舊', true, '（頁間沒有窗景卡，不用比）');
++  if(yj&&yj.mat&&yj.z.applyTime){ yj.z.applyTime(21,'clear'); check('④ 頁間的窗景卡不會換成 afar 的照片（WINVIEW-AUDIT-1105 起頁間有自己的 yejian_view_*）', !/afar_view/.test(src(yj.mat)), src(yj.mat)||('color '+yj.mat.color.r)); } else check('④ 頁間的窗景卡不會換成 afar 的照片', true, '（頁間沒有窗景卡，不用比）');
+   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+ })();
+diff --git a/tests/gg_views_1105_unit.js b/tests/gg_views_1105_unit.js
+new file mode 100644
+index 000000000..9c16527c2
+--- /dev/null
++++ b/tests/gg_views_1105_unit.js
+@@ -0,0 +1,39 @@
++// 公館青木、頁間、Daybreak 窗外換成公館的街景（WINVIEW-AUDIT-1105，LAWWW2-C 11-05；使用者 07:4x「應該很多店面看出去的街景都不對吧」）——不需要瀏覽器（D131）。
++// 在 Node 載入遊戲的 three.js、zones3d.js、三間的配置和正式模型，建出真正的區域：
++//   ① 每間的白天、晚上照片都在，長寬比＝那一間窗景卡的寬 × 6.5 m（青木 17、頁間 14、Daybreak 15）
++//   ② 白天（14:00）：窗景卡換成白天那一張、不調暗
++//   ③ 晚上（21:00）：換成晚上那一張、不調暗；回到白天換回來
++//   ④ 三間的窗景卡都不再是木曜日的樹（mok_view）
++// 修改前（開發分支 12cb1426c）：① ② ③ FAIL。用法：node tests/gg_views_1105_unit.js
++const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
++const fs=require('fs'), path=require('path'), vm=require('vm');
++const run=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
++global.innerWidth=844; global.innerHeight=390; global.location={search:''}; global.addEventListener=()=>{}; process.on('unhandledRejection',()=>{});
++const w0=console.warn; console.warn=(...a)=>{ const t=String(a[0]); if(/LOD|Missing|載入失敗/.test(t)) return; w0(...a); };
++for(const f of ['src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/calendar.js','src/data/places.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/cvs_layout.js','src/data/yejian_layout.js','src/data/aoki_layout.js','src/data/afar_layout.js','src/data/daybreak_layout.js','src/data/lane118_layout.js','src/zones3d.js']) if(fs.existsSync(path.join(ROOT,f))) run(f);
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const sleep=ms=>new Promise(r=>setTimeout(r,ms)), MAN=ASSETS.manifest, A='assets/models/env/second_ai/aa_support/';
++const SHOPS=[{zone:'aoki',key:'bldg.aoki_interior',img:'aoki',w:17},{zone:'bookstore',key:'bldg.yejian_interior',img:'yejian',w:14},{zone:'daybreak',key:'bldg.daybreak_interior',img:'daybreak',w:15}];
++const webpSize=f=>{ const b=fs.readFileSync(f); const t=b.toString('ascii',12,16); if(t==='VP8X') return [1+b.readUIntLE(24,3),1+b.readUIntLE(27,3)]; if(t==='VP8 ') return [b.readUInt16LE(26)&0x3fff,b.readUInt16LE(28)&0x3fff]; if(t==='VP8L'){ const v=b.readUInt32LE(21); return [(v&0x3fff)+1,((v>>14)&0x3fff)+1]; } return null; };
++(async()=>{
++  for(const s of SHOPS){ const fs2=['day','night'].map(t=>path.join(ROOT,A+s.img+'_view_'+t+'.webp')), sz=fs2.map(f=>fs.existsSync(f)?webpSize(f):null);
++    check('① '+s.img+'：白天、晚上兩張都在、長寬比≈'+(s.w/6.5).toFixed(2), sz.every(q=>q&&Math.abs(q[0]/q[1]-s.w/6.5)<0.03), JSON.stringify(sz)); }
++  window.ASSET_DATA=window.ASSET_DATA||{}; for(const s of SHOPS){ const m=MAN[s.key]; if(m&&fs.existsSync(path.join(ROOT,m.url))) window.ASSET_DATA[m.url]=fs.readFileSync(path.join(ROOT,m.url)).toString('base64'); }
++  const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++  const build=async id=>{ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.scene.add(z.group);
++    let mat=null; for(let i=0;i<80&&!mat;i++){ await sleep(100); z.group.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)) for(const m of [].concat(o.material)) mat=mat||m; }); } return {z,mat}; };
++  const src=m=>(m&&m.map&&m.map.userData&&m.map.userData.url)||'';   /* zones3d.js 換上的照片在 texture.userData.url 記網址 */
++  for(const s of SHOPS){
++    global.GAME={G:{zone:s.zone,day:30,hour:14,flags:{},money:5000,weather:'clear',visited:{}}};
++    const {z,mat}=await build(s.zone);
++    if(!mat||!z.applyTime){ check(s.img+' 的窗景卡接上了', false); continue; }
++    const img0=mat.userData.ggMap0&&mat.userData.ggMap0.image, name0=(mat.userData.ggMap0&&mat.userData.ggMap0.name)||'';
++    z.applyTime(14,'clear'); const d=src(mat);
++    check('② '+s.img+' 白天：換成 '+s.img+'_view_day.webp、不調暗', new RegExp(s.img+'_view_day\\.webp$').test(d)&&mat.color.r===1, d+' color '+mat.color.r);
++    z.applyTime(21,'clear'); const n=src(mat);
++    check('③ '+s.img+' 晚上：換成 '+s.img+'_view_night.webp、不調暗', new RegExp(s.img+'_view_night\\.webp$').test(n)&&mat.color.r===1, n+' color '+mat.color.r);
++    z.applyTime(14,'clear'); check('③ '+s.img+' 回到白天換回白天那一張', new RegExp(s.img+'_view_day\\.webp$').test(src(mat)), src(mat));
++    check('④ '+s.img+' 的窗景卡不再是木曜日的樹', !/mok_view/.test(src(mat))&&!!src(mat), '原本 '+(name0||'(模型的圖)'));
++  }
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();
