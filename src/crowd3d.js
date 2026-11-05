@@ -228,9 +228,14 @@ const CROWD=(function(){
         return out; },G=>peSlots(G,true));
     /* ---- 3F 主球場 ---- */
     const HOOP=A.court&&A.court.hoops?A.court.hoops[0]:[0,-14.43];
+    S.ARENA_HOOPS=!!S.ARENA_HOOPS;   /* 籃架接上（LAWWW2 ART-ARENA-HOOPS-1105）改 true：打球的人回到籃框半場跑 */
     const arena=mkSpot('arena','gym_arena',[0,-10],DA,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n,this.ix), out=[], np=Math.max(2,n-2);
-        for(let k=0;k<np;k++){ const wp=shuffle([[-4.2,-12.2],[4.0,-12.6],[-2.2,-8.4],[2.4,-8.2],[0,-10.6],[-5.0,-9.2],[5.2,-9.6],[0.8,-12.8]],r).slice(0,4).map(q=>[q[0],q[1],0]);
-          out.push(mk(this,slot,k,{x:wp[0][0],z:wp[0][1],spec:sp[k],role:'basketball',beh:'route',waypoints:wp,ri:0,walkSpeed:2.8,run:true,pauseAt:true,faceYaw:face([wp[0][0],wp[0][1]],HOOP)})); }
+        /* ARENA-NOHOOP-1105（使用者 11-05 07:1x「主球場一群人跑來跑去 連籃框都沒有 還有人穿裙子打籃球??」）：gym_arena.glb 還沒有籃架（LAWWW2：ART-ARENA-HOOPS-1105）、
+           路人也還沒有運動服——籃架接上以前（S.ARENA_HOOPS false），打球的人不上場跑：站在東側場邊等（面向球場），而且只用男生底模（奇數 spec：長裙那四套不上場，同 BUG-GYM-SKIRT-1103）*/
+        if(!S.ARENA_HOOPS){ const WAIT=[[8.7,-12.6],[8.9,-11.6],[8.6,-10.5],[9.0,-9.5],[8.7,-8.4],[9.1,-13.6]];
+          for(let k=0;k<np;k++){ const q=WAIT[k%WAIT.length]; out.push(mk(this,slot,k,{x:q[0],z:q[1],yaw:face(q,[0,q[1]]),spec:sp[k]|1,role:'basketball',pose:k%2?'idle':'talk'})); } }
+        else for(let k=0;k<np;k++){ const wp=shuffle([[-4.2,-12.2],[4.0,-12.6],[-2.2,-8.4],[2.4,-8.2],[0,-10.6],[-5.0,-9.2],[5.2,-9.6],[0.8,-12.8]],r).slice(0,4).map(q=>[q[0],q[1],0]);
+          out.push(mk(this,slot,k,{x:wp[0][0],z:wp[0][1],spec:sp[k]|1,role:'basketball',beh:'route',waypoints:wp,ri:0,walkSpeed:2.8,run:true,pauseAt:true,faceYaw:face([wp[0][0],wp[0][1]],HOOP)})); }
         const REST=[[9.6,-16.8,'talk'],[10.5,-16.2,'idle'],[-9.4,-17.2,'idle']]; for(let k=np;k<n;k++){ const q=REST[(k-np)%REST.length]; out.push(mk(this,slot,k,{x:q[0],z:q[1],yaw:face([q[0],q[1]],[(k-np)===0?10.5:9.6,(k-np)===0?-16.2:-16.8]),spec:sp[k],role:'rest',pose:q[2]})); }
         return out; },G=>{ if(typeof GY3!=='undefined'&&GY3.ceremonyDay&&GY3.ceremonyDay(G)) return []; return daySlots(G,[[2,3],[4,5],[3,5],[6,8]]); });
     for(const sp of [lobby,court,pe,b1,pool,pePool,arena]) sp.bind=S.gymBind;
@@ -366,7 +371,9 @@ const CROWD=(function(){
     const lvUnits=(units,o)=>units.map(u=>Object.assign(u,u.seats&&u.seats[0].lv?{lv:u.seats[0].lv}:{},o||{}));   /* 一組位子在哪一層（S.shopSpots 的 spot.lv）*/
     const add=(zone,kind,door,units,o)=>{ if(units.length) out.push(Object.assign({zone,kind,door,units,ix:out.length},o||{})); };
     /* 公館：阿鳳麵店（中間那張桌留給玩家、阿哲、麵店團：只排東西兩張）、日日便利、舊路書房 */
-    add('noodle','meal',[0,3.5],S.pairUnits([{x:-3,z:-0.3,yaw:0},{x:-3,z:1.3,yaw:Math.PI},{x:3,z:-0.3,yaw:0},{x:3,z:1.3,yaw:Math.PI}]),{noKeep:true});
+    { const SL=typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop?SHAOLA_LAYOUT.shop:null;   /* 燒臘店 v7（SHAOLA-WIRE-1105）：五張桌子裡第 3 張留給玩家、阿哲、麵店團（和舊麵店中間那張一樣），客人坐另外四張 */
+      if(SL) add('noodle','meal',[0,3.4],S.pairUnits(seatsOf(SL.seats.filter(q=>q.table!==3))),{noKeep:true});
+      else add('noodle','meal',[0,3.5],S.pairUnits([{x:-3,z:-0.3,yaw:0},{x:-3,z:1.3,yaw:Math.PI},{x:3,z:-0.3,yaw:0},{x:3,z:1.3,yaw:Math.PI}]),{noKeep:true}); }
     /* 公館三間新室內（GG-SHOPS-REDO-1104）：配置有載入＝照新的貨架、書牆（CVS_LAYOUT／YEJIAN_LAYOUT；站的點離家具 0.75 m、面向架子），青木茶室坐配置的座位；沒有＝舊的室內 */
     const CV=typeof CVS_LAYOUT!=='undefined'&&CVS_LAYOUT.shop?CVS_LAYOUT.shop:null, YJ=typeof YEJIAN_LAYOUT!=='undefined'?YEJIAN_LAYOUT:null, AK=typeof AOKI_LAYOUT!=='undefined'?AOKI_LAYOUT:null, P=Math.PI;
     /* 日和便利店：貨架中間的走道只有 0.8 m（一條走道站一個人）：一號貨架西邊兩個、一二號之間一個、二三號之間兩個、三號東邊一個（面向貨架）；西牆壁架北段一個；冷藏櫃前兩個（面向北）；排隊結帳：收銀機南邊、面向櫃台 */   /* 排隊結帳：原本 (1.45, 2.15)＝收銀機南邊、就站在「包裹暫取」「看熱食櫃」的按鈕上（AA_653 接了那兩個點）；往西退一步站 (0.85, 1.4)，還是面向櫃台 */   /* 配置 v4（模型 v2b，BB 61a107016）：貨架移到 x −3.7、−1.7、0.3，走道 1.05～1.2 m——站的點改在走道中間（西牆和一號之間 x −4.6、一二號之間 −2.7、三號和櫃台之間 1.3）*/

@@ -46,7 +46,7 @@ const NY3=(function(){
     // 燈（暗暖黃：吊燈三盞＋櫃檯；其他燈具的材質自己發光）——之後烘焙光照貼圖時照配置的 lights
     lampsOf(z,[[0.4,3.0,-3.2,3.2,1.8],[0.4,3.0,0.2,3.2,1.8],[0.4,3.0,3.6,3.0,1.6],[-3.2,2.4,-2.6,2.6,1.4,7]]);
     // 座位：右牆兩張木條長椅（座面約 0.45）「坐下等開演」
-    z.seats=[]; for(const s of L.seats){ const seat={x:s.x,z:s.z,yaw:s.yaw,lv:0}; z.seats.push(Object.assign({kind:'shop',nanyang:'bench'},seat)); E.interactables.push({x:s.x,z:s.z,radius:0.8,lv:0,label:s.label||'坐下',seat,shop:'nanyang',nanyang:'bench'}); }
+    z.seats=[]; for(const s of L.seats){ const seat={x:s.x,z:s.z,yaw:s.yaw,lv:0}; z.seats.push(Object.assign({kind:'shop',nanyang:'bench'},seat)); E.interactables.push({x:s.x,z:s.z,radius:1.0,lv:0,label:s.label||'坐下',seat,shop:'nanyang',nanyang:'bench'}); }   /* 範圍 1.0（原本 0.8，NANYANG-BENCH-SIT-1105，BB-C 06:45 擋玩）：長椅的阻擋到 x 3.4，人站得到的最近點離座位 0.65～0.8 m；GM.seatApproach 的候選點只有正前方 0.8 m 那一點站得住、在 0.8 的範圍外——走過去停下來沒有「坐下」。tests/nanyang_bench_unit.js */
     // 出口：入口的玻璃門（新生南路）；後牆右邊那組開著的門＝1 廳
     const ex=L.exit; E.interactables.push({x:ex.x,z:ex.z,radius:ex.r||0.8,lv:0,label:ex.label,exit:{to:'xinsheng',spawn:streetOut()}});
     const hd=L.interact.find(q=>q.kind==='hall'); E.interactables.push({x:hd.x,z:hd.z,radius:0.9,lv:0,label:hd.label||'進 1 廳',exit:{to:ZH,spawn:Object.assign({},LAY().hall.enterAt)}});

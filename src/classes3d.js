@@ -978,7 +978,7 @@ const CLS=(function(){
      遊戲的校園比真的小（校門到霖澤館 160 m，真的大約 1 km）：時間照真實步行算——遊戲距離 ×6、每分鐘 80 m，加 2 分鐘進出建築，四捨五入到 5 分鐘、最少 5 分鐘
      （宿舍→霖澤館約 15 分鐘、霖澤館→溫州街 Café 約 20 分鐘）*/
   const ANCHOR={ linze:[34,-112], classroom:[34,-112], gongtong:[2,33], boya:[-38,-83], putong:[-38,-58.5], wancai:[90.28,-83.2], lawlib:[85.08,-90.58], soclib:(typeof SL3!=='undefined'?[SL3.DOOR.x,SL3.DOOR.z]:[11,-65.7]), library_hall:[80,0], library:[80,0], dorm:[20,68], dorm_hall:[20,68],
-                 gongguan:[-140,0], cvs:[-188,-29], bookstore:[-188,-42], noodle:[-188,-63], wenzhou:[-200,-95], cafe:[-192,-75] };
+                 gongguan:[-140,0], cvs:[-188,-29], bookstore:[-188,-42], noodle:[-188,-63], wenzhou:[-200,-95], cafe:[-192,-75], xinsheng:[-130,-84] };   /* 新生南路：側門外（側門在校園圍牆 (−124,−84)）；那一排的店照 PLACES.base 算新生南路（XS-PHONEMAP-1105）*/
   S.travelMinutes=function(G,fromZone,toZone,pos,toPos){ if(fromZone===toZone&&toZone==='gongguan'&&pos&&toPos){ const d=Math.hypot(pos.x-toPos.x,pos.z-toPos.z); return d<12?0:Math.max(5,Math.round((2+d/13)/5)*5); }   /* 公館有兩個落點（商圈、捷運站）：照距離算，和校園一樣（BB-B 10-23：人在公館時捷運站也寫「你在這裡」）*/
     if(fromZone===toZone&&toZone!=='campus') return 0;
     const anc=z=>ANCHOR[z]||(typeof PLACES!=='undefined'&&PLACES.base?ANCHOR[PLACES.base(z)]:null);   /* 沒有自己位置的樓上樓層、房間：照那一棟（PHONE-UNIFY-1030，手機「朋友」直接過去到霖澤館 3F＝霖澤館）*/
@@ -1094,7 +1094,7 @@ const CLS=(function(){
      樓上樓層、房間照 PLACES.base 對到那一棟（宿舍房間→男生宿舍、總圖 3F→總圖、霖澤館 3F→霖澤館、溫州街的店→溫州街）；
      公館、溫州街從校門進校園。走不到校園的區域（國外、日本、美國…）＝不知道路線，不停（照舊直接到）。 */
   const OUTER={classroom:'linze',lawlib:'wancai',linze:'campus',wancai:'campus',dorm_hall:'campus',library_hall:'campus',gongtong:'campus',putong:'campus',boya:'campus',gym:'campus',soclib:'campus',soclib_2f:'soclib',lane118:'campus',gongguan:'campus',
-               noodle:'gongguan',cvs:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',aoki:'gongguan',afar:'gongguan',daybreak:'gongguan',wenzhou:'gongguan',cafe:'wenzhou'};
+               noodle:'gongguan',cvs:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',aoki:'gongguan',afar:'gongguan',daybreak:'gongguan',wenzhou:'gongguan',cafe:'wenzhou',xinsheng:'campus'};   /* 新生南路從側門進校園（xs_ 的店照 PLACES.base→xinsheng）*/
   const outerOf=z=>{ if(OUTER[z]) return OUTER[z]; const b=typeof PLACES!=='undefined'&&PLACES.base?PLACES.base(z):z; return b&&b!==z?b:null; };
   const upTo=z=>{ const out=[]; for(let q=z,n=0;q&&n<8;n++){ out.push(q); if(q==='campus') return out; q=outerOf(q); } return null; };
   /* 中間經過的區域（不含出發的那一區、不含教室那一區），照走的順序 */

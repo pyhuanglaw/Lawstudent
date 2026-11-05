@@ -53,7 +53,7 @@ const MONPE=(()=>{ for(let d=1;d<120;d++){ const q=CALENDAR.dateOf(d), t=CALENDA
   check('1. B1 健身中心的人都在器材上（照位置放、不走動，小動作不動他們）：12 秒後位置、姿勢不變',fit.length>=1&&fit.every((n,k)=>n.fixedPos&&!n.fid&&n.obj.position.distanceTo(p0[k])<1e-6&&(n.pose==='run'||/^gym_/.test(n.pose))),fit.map(n=>n.crowdRole+':'+n.pose).join(' '));
   Math.random=R0; }
 { const {z}=enter('gym_arena',mkG(SAT,15)); const bb=role('basketball'), rest=role('rest');
-  check('1. 3F 主球場（週六 15:00）：北邊籃框半場有人打球（跑一段停一下、停下來面向籃框）、場邊有人休息',bb.length>=3&&rest.length>=1&&bb.every(n=>n.run&&n.pauseAt&&n.beh==='route'&&n.waypoints.every(q=>q[1]<-6)),'打球 '+bb.length+'、休息 '+rest.length); }
+  check('1. 3F 主球場（週六 15:00）：籃架還沒接上（CROWD.ARENA_HOOPS false，ARENA-NOHOOP-1105）＝打球的人站在東側場邊等、不上場跑；場邊有人休息',CROWD.ARENA_HOOPS===false&&bb.length>=3&&rest.length>=1&&bb.every(n=>!n.waypoints&&n.beh!=='route'&&n.obj.position.x>8),'打球 '+bb.length+'、休息 '+rest.length); }
 // ---------- 2. 站得住、走得到、坐得下；同一時段同一批人 ----------
 const audit=(zid,G)=>{ const {z}=enter(zid,G); const bad=[]; for(const n of ppl()){ const P=n.obj.position;
     if(n.seat){ if(!CROWD.seatSide(E,n.seat)) bad.push(n.crowdRole+' 坐的位子旁邊站不起來'); continue; }

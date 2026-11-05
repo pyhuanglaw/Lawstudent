@@ -192,6 +192,6 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
   // ===== 分類 =====
   { const mon=TD('Y1S2',4,1); fresh(mon,10); know('heroine_01',S6);
     const a=await ask('heroine_01',['念書','返回','散步','返回','算了']);
-    check('2. 分類：法圖在「念書」（總圖、慢讀、法圖）；映月湖在「散步」（溫州街、映月湖）',J(a.opts[1])===J(['去總圖一起念書','去慢讀咖啡念書','去法圖一起念書','返回'])&&J(a.opts[3])===J(['去溫州街散步','去映月湖走走','返回']),J([a.opts[1],a.opts[3]])); }
+    check('2. 分類：法圖在「念書」（2:30 AM、總圖、慢讀、法圖、afar：使用者 11-05「能約念書的地方 應該要有各咖啡館吧」）；映月湖在「散步」（溫州街、映月湖）',J(a.opts[1].filter(t=>/念書/.test(t)||t==='返回'))===J(['去 2:30 AM 念書','去總圖一起念書','去慢讀咖啡念書','去法圖一起念書','去 afar café 念書','返回'])&&J(a.opts[3])===J(['去溫州街散步','去映月湖走走','返回']),J([a.opts[1],a.opts[3]])); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

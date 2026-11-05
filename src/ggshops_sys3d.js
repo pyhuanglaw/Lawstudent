@@ -40,7 +40,7 @@ const GGS=(function(){
     parcelYes:[['店員','「末三碼？」'],[null,'（你報了手機末三碼。店員從後面搬出一個箱子。）']], parcelNo:['店員','「……查不到耶。可能還沒到。」'],
     microYes:'（微波爐轉了一分鐘，叮了一聲。）', microNo:'（微波爐旁邊貼著「請勿加熱鋁箔包裝」。）',
     seat:{window:'（窗外的騎樓有人走過。茶杯的影子落在桌上。）',banquette:'（綠色的卡座很軟，旁邊的書櫃伸手就拿得到。）',middle:'（茶的香味很淡，店裡只聽得到熱水壺的聲音。）',bar:'（吧台前面看得到店員秤茶葉，一克一克地放。）'},
-    close:[['店員','「我們九點打烊。……茶葉要帶走的話，可以幫你包。」'],[null,'（你走出青木茶室。門口的外帶窗口已經關上了。）']],
+    /* 打烊的字（AA_653 的 close）作廢，照 AA_700 一句：XSCLOSE.say（下面 S.closeOut）*/
     doorTyphoon:'（青木茶室的門上貼著「颱風天暫停營業」。）', doorClosed:'（青木茶室的燈關了，外帶窗口也拉下來了。門上的木牌寫著「11:00～21:00」。）' };
   S.HEAT_ITEM='微波義大利麵';   /* story3d.js 便利商店結帳的那一樣（要微波的）*/
 
@@ -97,8 +97,9 @@ const GGS=(function(){
   const sceneFree=GM=>{ if(typeof INV!=='undefined'&&INV.sceneFree) return INV.sceneFree(GM); const E=GM&&GM.E, D=GM&&GM.D; return !(E&&E.player&&E.player.busy)&&!(D&&(D.active||(D.busyDepth|0)>0)); };
   S.closingNow=G=>{ const h=hr(G); return !S.typhoon(G)&&h>=21-1e-6&&h<21.5; };
   S.outSpawn=()=>{ const q=typeof Z3!=='undefined'&&Z3.SHOP_IN&&Z3.SHOP_IN.aoki; return q&&q.out?Object.assign({},q.out):{x:-54.05,z:18,yaw:Math.PI}; };
-  S.closeOut=async function(GM){ const G=GM.G, P=GM.E&&GM.E.player, gen=S.closingNow(G), h=G.hour, d=G.day;
-    if(gen){ GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P); await sayL(GM,S.L.close); } finally { GM.sceneEnd(); } }
+  /* AA_700：這一趟進來時開著、或打烊那一刻＝店員「我們今天要打烊了。」（不另外出旁白；src/xs_close3d.js 的 XSCLOSE）*/
+  S.closeOut=async function(GM){ const G=GM.G, P=GM.E&&GM.E.player, h=G.hour, d=G.day, g0=S.closingNow(G), gen=typeof XSCLOSE!=='undefined'&&XSCLOSE.gen?XSCLOSE.gen(GM,S.AOKI,g0):g0;
+    if(gen){ GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P); if(typeof XSCLOSE!=='undefined'&&XSCLOSE.say) await XSCLOSE.say(GM,'店員'); else await GM.say(CLERK,'我們今天要打烊了。'); } finally { GM.sceneEnd(); } }
     else if(P&&P.seat&&GM.standUp) GM.standUp(P);
     await GM.enter('gongguan',S.outSpawn());
     if(!gen&&typeof PLACES!=='undefined'&&PLACES.closedText) GM.toast(PLACES.closedText(S.AOKI,h,d),5000);

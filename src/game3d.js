@@ -503,8 +503,12 @@ const GAME = (function(){
      直接過去＝到他身邊。同一區（或快速前往落點離他還很遠）：轉場、站到他旁邊（離他 1.1 m、站得住的那一側），照距離算走路的時間；不再改成「帶我去」畫路線 */
   async function snapNear(id){ const n=GM.npc&&GM.npc[id], p=E.player&&E.player.obj; if(!n||!n.obj||!p||n.hidden) return false;
     const nx=n.obj.position.x, nz=n.obj.position.z, lv=n.lv|0, d0=Math.hypot(nx-p.position.x,nz-p.position.z); if(d0<=GM.FGO_NEAR) return true;
-    const a0=Math.atan2(p.position.x-nx,p.position.z-nz); let at=null; for(let k=0;k<12&&!at;k++){ const a=a0+(k%2?1:-1)*Math.ceil(k/2)*Math.PI/6, x=nx+Math.sin(a)*1.1, z=nz+Math.cos(a)*1.1; if(!E.canStand||E.canStand(x,z,0.3,lv)) at={x,z}; }
-    if(!at) at={x:nx+0.9,z:nz}; await fade(true); E.placeAt(E.player,at.x,at.z,lv); if(E.unstick) E.unstick(E.player,2); p.rotation.y=Math.atan2(nx-at.x,nz-at.z);
+    /* FGO-COUNTER-1105（使用者 11-05 07:4x「我從地圖直接過去林芷若在的地方 結果就在吧台卡住」：芷若在 2:30 AM 吧台後面上班，舊做法挑「站得住」的那一側＝吧台裡面，玩家走不出來）：
+       除了站得住，還要從玩家現在的位置（快速前往的落點／同一區原本的位置）找得到路走過去；1.1 m 一圈都不行就往外 1.6～3.5 m 找（吧台前面）；都找不到＝留在原地（不放進封起來的地方）*/
+    const a0=Math.atan2(p.position.x-nx,p.position.z-nz), plv=E.player.lv|0, px0=p.position.x, pz0=p.position.z;
+    const reach=(x,z)=>{ if(E.canStand&&!E.canStand(x,z,0.3,lv)) return false; if(E.simWalk){ const r=E.simWalk(px0,pz0,x,z,{lv0:plv,lv1:lv,dt:1/15}); return !!(r&&r.ok); } if(!E.pathTo) return true; const q=E.pathTo(px0,pz0,plv,x,z,lv); return !!(q&&q.length); };   /* 移動模擬（和 reachability_all 同一套）：找路找得到、但縫比人窄的也算走不到 */
+    let at=null; for(const R of [1.1,1.6,2.2,2.8,3.5]) for(let k=0;k<12&&!at;k++){ const a=a0+(k%2?1:-1)*Math.ceil(k/2)*Math.PI/6, x=nx+Math.sin(a)*R, z=nz+Math.cos(a)*R; if(reach(x,z)) at={x,z}; }
+    if(!at) at={x:px0,z:pz0,stay:true}; await fade(true); if(!at.stay) E.placeAt(E.player,at.x,at.z,lv); if(E.unstick) E.unstick(E.player,2); p.rotation.y=Math.atan2(nx-at.x,nz-at.z);
     const mins=Math.max(1,Math.round(d0/1.3/60)); advance(mins/60); await fade(false); return true; }
   GM.snapNear=snapNear;
   async function goFollow(id){ if(!G) return false; const w=STORY.whereIs&&STORY.whereIs(GM,id); if(!w||w.zone!==G.zone) return false; return snapNear(id); }
@@ -604,7 +608,8 @@ const GAME = (function(){
     body.querySelectorAll('[data-invgo]').forEach(b=>b.onclick=async()=>{ const iv=(G.invites||[]).find(x=>String(x.id)===b.dataset.invgo); if(iv&&typeof INV!=='undefined'&&INV.goNow) await INV.goNow(GM,iv); });
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
     body.querySelectorAll('[data-fgo]').forEach(b=>b.onclick=async()=>{ const id=b.dataset.fgo, fg=friendGo(id,STORY.whereIs&&STORY.whereIs(GM,id),PLACE_LIST()); closePhone(); await GM.friendGoNow(id); });   /* 手機「朋友」的直接過去（PHONE-UNIFY-1030）：按的時候照他現在在哪重算（手機開著的時候他可能已經走了）；沒去過也可以 */
-    body.querySelectorAll('[data-pmapsvg]').forEach(sv=>sv.onclick=e=>{ if(typeof PLACEMAP==='undefined') return; const r=sv.getBoundingClientRect(), V=PLACEMAP.VB; if(!r.width) return; const id=PLACEMAP.pick(V[0]+(e.clientX-r.left)/r.width*V[2],V[1]+(e.clientY-r.top)/r.height*V[3],sv.dataset.pmapsvg.split(',')); if(!id) return; phonePin=phonePin===id?null:id; renderPhone(); });   /* 地點地圖（src/placemap3d.js）：整張圖都可以點，選最近的圖釘（BB-B 10-23：圖釘太小、相鄰的會點錯）*/
+    body.querySelectorAll('[data-pmapsvg]').forEach(sv=>sv.onclick=e=>{ if(typeof PLACEMAP==='undefined') return; const r=sv.getBoundingClientRect(), V=PLACEMAP.VB; if(!r.width) return; const id=PLACEMAP.pick(V[0]+(e.clientX-r.left)/r.width*V[2],V[1]+(e.clientY-r.top)/r.height*V[3],sv.dataset.pmapsvg.split(',')); if(!id) return; phonePin=phonePin===id?null:id; if(phonePin) phoneArea=PLACEMAP.areaOfPin(PLACEMAP.PINS.find(q=>q.id===id)); renderPhone(); });   /* 選了圖釘：下面的全部地點也展開那一區 */
+    body.querySelectorAll('[data-parea]').forEach(b=>b.onclick=()=>{ if(typeof PLACEMAP==='undefined') return; const p=E.player&&E.player.obj&&E.player.obj.position; phoneArea=PLACEMAP.toggleArea(phoneArea,b.dataset.parea,{zone:G.zone,x:p?p.x:null,z:p?p.z:null}); renderPhone(); });   /* 地區：點了展開、再點收起來，一次一區（QUICK-TRAVEL-AREAS-1105）*/   /* 地點地圖（src/placemap3d.js）：整張圖都可以點，選最近的圖釘（BB-B 10-23：圖釘太小、相鄰的會點錯）*/
     body.querySelectorAll('[data-person]').forEach(b=>b.onclick=()=>{ phonePerson=b.dataset.person; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
     if(inTh&&phoneTab==='msg'&&phoneThread) body.scrollTop=atEnd?body.scrollHeight:st0;   /* 對話裡重畫（回覆、新訊息）：本來在最下面就留在最下面，往上看舊訊息就不動（PHONE-LINE-UI-1018）*/
     body.querySelectorAll('[data-fav]').forEach(b=>b.onclick=ev=>{ if(ev) ev.stopPropagation(); if(typeof PHONE==='undefined'||!PHONE.toggleFav) return; const on=PHONE.toggleFav(G,b.dataset.fav); toast((on?'設為最愛：':'取消最愛：')+PHONE.title(G,b.dataset.fav)+(on?'（訊息列表排在最上面）':''),2400); autosave(); renderPhone(); });   /* PHONE-FAV-1103 */
@@ -648,7 +653,8 @@ const GAME = (function(){
     return h; }
   function placesHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); let h='<div class="item"><button class="btn pri" data-bigmap="1">打開整張地圖（也可以點右上角的小地圖）</button></div><div class="item muted">知道的地方可以直接過去，依距離花時間；想看看路上的人和風景，也可以自己走。</div>';   /* 選單「地圖」併進來（2026-10-16）*/
     if(typeof HOME!=='undefined'&&HOME.canGo&&HOME.canGo(G)&&!(HOME.at&&HOME.at(G))) h+='<div class="item phrow"><div>回家<div class="muted">'+(HOME.baseMode&&HOME.baseMode(G)?'捷運＋公車 約 30 分鐘':'捷運＋公車 約 40 分鐘')+'</div></div><button class="btn pri" data-gohome="1">回家</button></div>';
-    if(typeof PLACEMAP!=='undefined'){ const hrs=z=>typeof PLACES!=='undefined'&&PLACES.hours[z]?(PLACES.hours[z].rules?PLACES.todayText(z,G.day):(PLACES.hours[z].open!=null?PLACES.hours[z].text:'')):''; const p=E.player&&E.player.obj&&E.player.obj.position; const mh=PLACEMAP.html(PLACE_LIST(),placeState,phonePin,{zone:G.zone,x:p?p.x:null,z:p?p.z:null},hrs); if(mh) h+=mh+'<div class="item muted">全部地點</div>'; }   /* 地圖（UX-PHONE-MAP-1023，src/placemap3d.js）：點圖釘＝下面列出那裡的地點 */
+    if(typeof PLACEMAP!=='undefined'){ const hrs=z=>typeof PLACES!=='undefined'&&PLACES.hours[z]?(PLACES.hours[z].rules?PLACES.todayText(z,G.day):(PLACES.hours[z].open!=null?PLACES.hours[z].text:'')):''; const p=E.player&&E.player.obj&&E.player.obj.position; const mh=PLACEMAP.html(PLACE_LIST(),placeState,phonePin,{zone:G.zone,x:p?p.x:null,z:p?p.z:null},hrs); if(mh) h+=mh+'<div class="item muted">全部地點</div>';
+      const lh=PLACEMAP.listHTML(PLACE_LIST(),placeState,phoneArea,{zone:G.zone,x:p?p.x:null,z:p?p.z:null},hrs); if(lh) return h+lh; }   /* 全部地點分地區（QUICK-TRAVEL-AREAS-1105）：第一層地區、點了展開那一區；美國、日本（不畫地圖）照舊平鋪 */   /* 地圖（UX-PHONE-MAP-1023，src/placemap3d.js）：點圖釘＝下面列出那裡的地點 */
     for(const pl of PLACE_LIST()){ const st=placeState(pl); const ht=typeof PLACES!=='undefined'&&PLACES.hours[pl[0]]?(PLACES.hours[pl[0]].rules?PLACES.todayText(pl[0],G.day):(PLACES.hours[pl[0]].open!=null?PLACES.hours[pl[0]].text:'')):'';
       h+='<div class="item phrow"><div>'+esc(pl[1])+'<div class="muted">'+(!st.known?'還沒去過':(st.here?'你在這裡':'約 '+st.mins+' 分鐘'+(st.bike?'（騎車）':'')))+(ht?'・'+esc(ht):'')+'</div></div>'+(st.here||!st.known?'':'<button class="btn'+(st.open?' pri':'')+'" data-place="'+esc(pl[0]+'|'+pl[1])+'">'+(st.open?'前往':'已閉館')+'</button>')+'</div>'; }   /* 已閉館的按鈕按了會說幾點開、可以改去哪裡 */
     return h; }
@@ -690,7 +696,8 @@ const GAME = (function(){
   GM.friendGoNow=async id=>{ const w=STORY.whereIs&&STORY.whereIs(GM,id); if(w&&w.zone===G.zone&&!w.away){ if(await snapNear(id)) return true; toast('他不在這附近'); return false; }
     const fg=friendGo(id,w,PLACE_LIST()); if(fg&&fg.pl){ await quickGo(fg.pl,{force:true}); await goFollow(id); return true; } toast(fg&&fg.why?'不能直接過去：'+fg.why:'現在不知道人在哪'); return false; };
   /* 手機「朋友」裡點「資料」：原本選單「人物」頁的內容（科系年級、現在大概在哪、介紹、關係、最近的記憶）——2026-10-16 選單「人物」併進來 */
-  let phonePerson=null, phonePin=null;   /* phonePin：手機「地點」地圖選中的圖釘（UX-PHONE-MAP-1023）*/
+  let phonePerson=null, phonePin=null, phoneArea;   /* phoneArea：手機「地點」全部地點展開的地區（undefined＝你所在的那一區、''＝全部收起來；QUICK-TRAVEL-AREAS-1105）*/
+    /* phonePin：手機「地點」地圖選中的圖釘（UX-PHONE-MAP-1023）*/
   /* 人物頁的進度條（D36；DATE.progress）：不顯示數字，條下面一句寫還差哪一種；交往中只寫「交往中」*/
   function progHTML(id){ if(typeof DATE==='undefined'||!DATE.progress) return ''; const p=DATE.progress(G,id); if(!p) return ''; if(p.dating) return '<div style="color:#ffd88a">交往中</div>';
     const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
@@ -772,7 +779,7 @@ const GAME = (function(){
   function invTodayHTML(){ if(typeof INV==='undefined') return ''; const L=INV.todayLines(G); if(!L.length) return ''; const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
     const go=INV.canGo?(G.invites||[]).filter(iv=>(iv.state==='accepted'||iv.state==='going')&&iv.day===G.day).sort((a,b)=>a.h-b.h).map(iv=>INV.canGo(G,iv)?iv.id:null):[];   /* 和 todayLines 同一個順序；「前往」＝直接到約好的地方（UX-INV-GO-1023）*/
     return '<div class="item"><b>今天約好的</b>'+L.map((t,i)=>go[i]!=null?'<div class="phrow"><div>'+esc(t)+'</div><button class="btn pri" data-invgo="'+esc(go[i])+'">前往</button></div>':'<div>'+esc(t)+'</div>').join('')+'</div>'; }
-  function openPhone(tab,th){ if(!G||GM.titleIdle) return; if(menuOpen) closeMenu(); phoneOpen=true; if(tab) phoneTab=tab; phoneThread=th||null; phonePerson=null; E.paused=true; $('phone').classList.remove('hide'); renderPhone(); phoneBadge(); { const pb=$('phoneBody'); if(pb) pb.scrollTop=th?pb.scrollHeight:0; } }   /* 直接打開某一段對話（自動跳出來的訊息）：捲到最新那一則（使用者 10-18：「還要往下滑，新的在最下面」）；打開列表：回到最上面（待回覆、最新的在最上面——BB 10-22 13:4x：列表留著上一次看對話捲到最下面的位置，大三暑假、大四寒假自動打開時看不到最上面那則待回覆）*/
+  function openPhone(tab,th){ if(!G||GM.titleIdle) return; if(menuOpen) closeMenu(); phoneOpen=true; if(tab) phoneTab=tab; phoneThread=th||null; phonePerson=null; phoneArea=undefined; E.paused=true; $('phone').classList.remove('hide'); renderPhone(); phoneBadge(); { const pb=$('phoneBody'); if(pb) pb.scrollTop=th?pb.scrollHeight:0; } }   /* 直接打開某一段對話（自動跳出來的訊息）：捲到最新那一則（使用者 10-18：「還要往下滑，新的在最下面」）；打開列表：回到最上面（待回覆、最新的在最上面——BB 10-22 13:4x：列表留著上一次看對話捲到最下面的位置，大三暑假、大四寒假自動打開時看不到最上面那則待回覆）*/
   let phoneWaiters=[];
   /* 對話、選項出來的時候，手機、筆記本開著就先收起來（BB-C BB_218：起床約 4 秒後才出「早安。今天的課：」，玩家先打開手機，對話就壓在手機下面；
      2026-10-17 經濟系 9/11 下課選單同樣被手機蓋住）。一定要回的訊息（ask.must）還沒回時不收。不跑 afterPhoneClose（那是玩家自己看完手機的旁白）*/

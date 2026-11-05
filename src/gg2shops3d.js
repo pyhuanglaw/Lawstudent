@@ -9,7 +9,7 @@
    - 看甜點櫃、看看書架（afar）、看菜單：隨機一句、同一句不連續出。
    - 坐下（STORY.onSeat）：照位子的類型說那一句（afar：窗邊長桌／中間方桌／靠牆小桌／卡座；Daybreak：窗邊兩人桌／中間四人桌／長桌／卡座）。
      卡座小桌對面的椅子（afar 小圓桌、Daybreak 卡座小桌的「坐下」）稿上沒有句子：不說。
-   - 打烊（afar 21:00、Daybreak 15:00）人還在店裡：那一刻（關門後半小時內）＝店員一句＋走出去的旁白，回公館店門口；其他（颱風、讀檔回到關門以後）＝回店門口、寫開放時間。
+   - 打烊（afar 21:00、Daybreak 15:00）人還在店裡：這一趟進來時開著、或那一刻（關門後半小時內）＝店員「我們今天要打烊了。」（AA_700，XSCLOSE.say；不另外出旁白），回公館店門口；其他（颱風、讀檔回到關門以後）＝回店門口、寫開放時間。
    - 約去：src/data/invites.js 的地點 afar（喝咖啡）、daybreak（吃飯，08:00～14:00 開始、14:00 以後的旁白）；答應的一句七位在 invites.js，其他人＝一般那句（S.ACC0，包 INV.personal）；
      兩個人坐下以後的開場句＝invites.js 的 seatOpen.afar／daybreak。
    - 店員站在吧台後面（story3d.js populate，zones3d.js SHOP_IN.clerk）；路人照 crowd3d.js（afar＝咖啡、Daybreak＝早午餐）。
@@ -30,8 +30,7 @@ const GG2=(function(){
       look:{pastry:['（玻璃櫃裡三層甜點。最上面一層的起司蛋糕只剩兩塊。）','（櫃子裡的燈很亮，布丁看起來比實際上大一點。）'],
         bookshelf:['（書架上面是旅行的書，下面一層斜放著幾本雜誌。有一本的封面是一座你不知道名字的山。）','（書架上夾著一張手寫的小卡：「歡迎借閱，請放回原位。」）','（有人把一本《民法總則》放在旅行書中間。不知道是忘了帶走，還是故意的。）'],
         menu:['（黑板上寫著 afar COFFEE MENU。手沖那一行旁邊畫了一片小葉子。）']},
-      seat:{window:'（你在窗邊坐下，把桌上的小燈打開。外面騎樓有人牽著腳踏車經過。）',middle:'（你在方桌坐下。隔壁桌有人戴著耳機在寫報告。）',wall:'（靠牆的位子很安靜。牆上那幅畫是一座霧裡的山。）',booth:'（吧台後面那一塊比較暗，卡座很軟。坐下就不太想起來。）'},
-      close:[['店員','我們九點打烊喔。……杯子放著就好。'],[null,'（你走出 afar。騎樓的燈已經暗了一半。）']] },
+      seat:{window:'（你在窗邊坐下，把桌上的小燈打開。外面騎樓有人牽著腳踏車經過。）',middle:'（你在方桌坐下。隔壁桌有人戴著耳機在寫報告。）',wall:'（靠牆的位子很安靜。牆上那幅畫是一座霧裡的山。）',booth:'（吧台後面那一塊比較暗，卡座很軟。坐下就不太想起來。）'} },   /* 打烊的字（AA_652 的 close）作廢，照 AA_700 一句：XSCLOSE */
     daybreak:{
       door:['（一進門就是烤吐司和咖啡的味道。窗外的陽光照到第一排桌子。）','（店員：「早安！幾位？」……「一位的話，窗邊可以嗎？」）','（牆上那個太陽畫得很大。旁邊的卡座已經坐了兩桌。）'],
       ask:'內用的話，點好我們送過去。',
@@ -42,7 +41,6 @@ const GG2=(function(){
       look:{pastry:['（玻璃櫃裡的麵包排得很整齊。可頌旁邊的牌子寫著「今天出爐」。）','（最下面一層的肉桂捲只剩一個。）'],
         menu:['（黑板上寫著 Brunch、Plates、Sandwiches……每一行後面都畫了一條線，沒有寫價錢。價錢在吧台的小菜單上。）']},
       seat:{window:'（窗邊的陽光很亮。桌上的小花瓶插了幾枝滿天星。）',middle:'（四人桌的椅子有一張是綠色坐墊。你坐了那一張。）',long:'（最裡面那張長桌，牆上的層板放滿了罐子和小盆栽。）',booth:'（你在卡座坐下，旁邊的黃色抱枕很軟。牆上的 Daybreak 字就在你頭上。）'},
-      close:[['店員','我們三點休息囉。……明天早上八點見。'],[null,'（你走出 Daybreak。午後的騎樓比早上熱很多。）']],
       sign:'（Daybreak 的門上掛著「今日營業結束」的木牌。）', typhoon:'（Daybreak 的遮雨棚收起來了。門上貼著：「颱風天暫停營業」。）' } };
   /* AA_652（企劃線 89b4367ca）補的門口句：afar 打烊以後、afar 與 Daybreak 颱風假當天 */
   S.L.afar.sign='（afar 的玻璃門後面，椅子都倒扣在桌上了。門上掛著小木牌：「本日營業結束 11:00～21:00」。）'; S.L.afar.typhoon='（afar 的門上貼著一張手寫的紙：「颱風天休息，大家注意安全。」）';
@@ -61,6 +59,9 @@ const GG2=(function(){
   const lastLook={};
   S.look=function(k,kind){ const L=S.L[k]&&S.L[k].look[kind]; if(!L||!L.length) return null; const key=k+':'+kind, i=pickOne(L,lastLook[key]); lastLook[key]=i; return L[i]; };
   const sayAll=async(GM,L)=>{ for(const [w,t] of L) await GM.say(w?CLERK:null,t); };
+  /* 打烊的那一句（AA_700：店員「我們今天要打烊了。」，不另外出旁白；src/xs_close3d.js 的 XSCLOSE）*/
+  const closeSay=GM=>typeof XSCLOSE!=='undefined'&&XSCLOSE.say?XSCLOSE.say(GM,'店員'):GM.say(CLERK,'我們今天要打烊了。');
+  const closeGen=(GM,k,g)=>typeof XSCLOSE!=='undefined'&&XSCLOSE.gen?XSCLOSE.gen(GM,k,g):!!g;
   const sceneFree=GM=>{ if(typeof INV!=='undefined'&&INV.sceneFree) return INV.sceneFree(GM); const E=GM&&GM.E, D=GM&&GM.D; return !(E&&E.player&&E.player.busy)&&!(D&&(D.active||(D.busyDepth|0)>0)); };
   /* 今天這一趟是不是一個人：今天在這間店有約（一起走過來、約好的時間到了、剛見過）＝不是 */
   S.alone=function(G,k){ const h=hr(G); return !(G.invites||[]).some(iv=>iv&&iv.place===k&&iv.day===G.day&&(iv.state==='going'||iv.state==='done'||(iv.state==='accepted'&&h>=iv.h-0.5&&h<iv.h+0.75))); };
@@ -105,8 +106,8 @@ const GG2=(function(){
   /* ---------- 打烊：人還在店裡＝出來 ---------- */
   S.closingNow=function(k,G){ if(typhoon(k,G)) return false; const ws=typeof PLACES!=='undefined'&&PLACES.windowsOf?PLACES.windowsOf(k,G.day):null; if(!ws||!ws.length) return false;
     const c=ws[ws.length-1][1], h=hr(G); return h>=c-1e-6&&h<c+0.5; };
-  S.closeOut=async function(GM){ const G=GM.G, k=G.zone, P=GM.E&&GM.E.player, gen=S.closingNow(k,G), h=G.hour, d=G.day;
-    GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P); if(gen) await sayAll(GM,S.L[k].close); } finally { GM.sceneEnd(); }
+  S.closeOut=async function(GM){ const G=GM.G, k=G.zone, P=GM.E&&GM.E.player, gen=closeGen(GM,k,S.closingNow(k,G)), h=G.hour, d=G.day;
+    GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P); if(gen) await closeSay(GM); } finally { GM.sceneEnd(); }
     const SI=typeof Z3!=='undefined'&&Z3.SHOP_IN&&Z3.SHOP_IN[k]; await GM.enter('gongguan',SI&&SI.out?Object.assign({},SI.out):{x:0,z:-30,yaw:Math.PI});
     if(!gen&&typeof PLACES!=='undefined'&&PLACES.closedText) GM.toast(PLACES.closedText(k,h,d),5000);
     return gen?'close':'out'; };

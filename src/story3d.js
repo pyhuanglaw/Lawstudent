@@ -347,7 +347,7 @@ const STORY = (function(){
     { const clerk=(x,z,yaw,i,kind)=>{ const sp=kind&&typeof SUP519!=='undefined'&&SUP519.clerkSpec?SUP519.clerkSpec(kind,G):null; const o=CHAR.build(sp||extraSpec(i)); o.position.set(x,0,z); o.rotation.y=yaw; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,clerk:true}); if(sp&&n&&SUP519.clerkWire) SUP519.clerkWire(GM,n,kind,sp.aa519Who); };   /* kind：麵店、Café 的店員換成阿姨、老闆的外觀，能說話（AA_519 1-1、3-1，src/sup519_3d.js）；第 9 節第 3 點：2027-06-04 起 Café 照班表，芷若原本的班是小婷 */
       const SI=typeof Z3!=='undefined'&&Z3.SHOP_IN?Z3.SHOP_IN:null, ck=k=>SI&&SI[k]&&SI[k].clerk;   /* 公館三間新室內（GG-SHOPS-REDO-1104）：店員站的地方照配置（zones3d.js SHOP_IN；配置沒載入＝舊的位置）*/
       if(zoneId==='cvs'){ const c=ck('cvs')||{x:4.0,z:-2.35,yaw:0}; clerk(c.x,c.z,c.yaw,41); }              // 收銀機後面，面向結帳的客人（舊的室內：櫃台 (4,-1.5) 後面）
-      if(zoneId==='noodle') clerk(-2.0,-2.75,Math.PI,40,'noodle');    // 廚房工作台前，面向湯鍋（AA_519 1-1：阿姨）
+      if(zoneId==='noodle'){ const ck=(E.zone&&E.zone.spots&&E.zone.spots.clerk)||{x:-2.0,z:-2.75,yaw:Math.PI}; clerk(ck.x,ck.z,ck.yaw,40,'noodle'); }   /* 燒臘店 v7（SHAOLA-WIRE-1105）：老闆在砧板檯後面（配置 clerk）；舊麵店照舊 */    // 廚房工作台前，面向湯鍋（AA_519 1-1：阿姨）
       if(zoneId==='bookstore'){ const c=ck('bookstore')||{x:0.55,z:1.95,yaw:0}; clerk(c.x,c.z,c.yaw,43); }       // 頁間書屋：咖啡吧後面，面向店裡（舊的室內：門口那張桌子後面）
       if(zoneId==='aoki'&&ck('aoki')){ const c=ck('aoki'); clerk(c.x,c.z,c.yaw,52); }
       for(const [k,i] of [['afar',53],['daybreak',54]]) if(zoneId===k&&ck(k)&&(typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen(k,G.hour,G.day))){ const c=ck(k); clerk(c.x,c.z,c.yaw,i); }   // afar café（男店員）、Daybreak（女店員）：吧台後面（GG-SHOPS2-1104，zones3d.js SHOP_IN；打烊沒有人）       // 青木茶室：吧台後面東段，面向客人（AA_647；女店員＝偶數）
@@ -377,7 +377,7 @@ const STORY = (function(){
     if(zoneId==='soclib_2f'){ if(typeof SL2P!=='undefined'){ try{ SL2P.populate(GM,true); }catch(e){ console.warn('SL2P.populate',e); } } if(F.companion==='an') spawnCompanion(GM); }   /* 社科院圖書館東側館：二樓自習室讀書的人、討論室、走動的人（src/soclib2f_people3d.js，SOCLIB-2F-1104）*/
     if(zoneId==='library_stacks'&&typeof LUP!=='undefined'){ try{ LUP.populate(GM,true); }catch(e){ console.warn('LUP.populate',e); } }
     if(zoneId==='library_carrels'&&typeof LUP!=='undefined'&&LUP.populateCarrels){ try{ LUP.populateCarrels(GM,true); }catch(e){ console.warn('LUP.populateCarrels',e); } }   /* 研究小間：其他九間玻璃後面的讀者（src/library_upper3d.js；LAWWW 11-03 12:08）*/   /* 總圖 5F 書庫：窗下閱覽桌的讀者（src/library_upper3d.js）*/   /* 總圖 B1：24 小時自習室在讀書的同學（src/library_b1_3d.js）*/
-    if(zoneId==='noodle'){ if(F.afternoonDone&&hr>=17.5&&hr<20.5&&!F.zheNoodleDone&&F.zheInvite&&(F.zheInviteDay!=null?G.day===F.zheInviteDay:S.mainDay(G)===1)){   /* 第一天下課阿哲約的那一頓：只在約的那一天（BB-B 10-30：沒去的玩家之後每天傍晚、考試週也把阿哲放在麵店）；其他日子照作息 */ GM.spawnNPC('zhe',C.zhe,0,0,{seat:{x:0,z:-0.3,yaw:0},talk:n=>talkZhe(GM,n)}); F.zheAtNoodle=true; } }
+    if(zoneId==='noodle'){ if(F.afternoonDone&&hr>=17.5&&hr<20.5&&!F.zheNoodleDone&&F.zheInvite&&(F.zheInviteDay!=null?G.day===F.zheInviteDay:S.mainDay(G)===1)){   /* 第一天下課阿哲約的那一頓：只在約的那一天（BB-B 10-30：沒去的玩家之後每天傍晚、考試週也把阿哲放在麵店）；其他日子照作息 */ GM.spawnNPC('zhe',C.zhe,0,0,{seat:Object.assign({},(E.zone&&E.zone.spots&&E.zone.spots.zhe_seat)||{x:0,z:-0.3,yaw:0}),talk:n=>talkZhe(GM,n)});   /* 燒臘店 v7：第 3 桌北邊（配置 spots.zhe_seat）*/ F.zheAtNoodle=true; } }
     if(zoneId==='dorm'){ for(const [id,u] of S.dormWho(G)) S.dormSpawn(GM,id,u,false);   /* 進房間：現在在書桌前的室友坐好（誰、幾點照 S.dormWho；待在房間裡時間到了自己進門、上床：S.dormLive，DORM203-MATES-1028）*/   /* 經濟系那一年的室友是阿勳（AA_168 第 5 節；阿凱這一年不出現）；E01 還沒演完時由 E01 自己帶他進門 */   /* 阿凱回宜蘭過年（absentDates，BB_171）的晚上不在房間（HOLIDAY-PRESENCE-1021）；AA_374 第 1 項：只有大一同房（9/6 搬進 312 以後他住別棟）*/   /* AA208-L（AA_208 2-4）：四人房的室友晚上在房間；23:30 以後都在上舖（看不到）。誰、幾點照 S.dormMates */
       if(!S.isEcon(G)){
       if(typeof HOME!=='undefined'){ const hs=(E.zone&&E.zone.spots&&E.zone.spots.home)||[2.35,-0.9]; E.interactables.push({x:hs[0],z:hs[1],radius:0.6,prio:0.3,lv:0,label:'收拾背包回家',home:true,get hidden(){ return !HOME.canGo(GM.G); }}); } } }   /* 週末回家（AA_137 第 6 節）：週五 17:00 以後到週日 21:30 才出現（四人房：門口鞋櫃旁）*/
@@ -1265,7 +1265,7 @@ const STORY = (function(){
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['story3d:springBusy']=()=>{ springBusy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   function noodleRegulars(GM,entering){ const E=GM.E, G=GM.G; if(G.zone!=='noodle'||!E.player) return; const mine=E.npcs.filter(n=>n.ndlRegular);
     const hh=G.day*24+G.hour; if(ndlLastH==null||Math.abs(hh-ndlLastH)>0.2) entering=true; ndlLastH=hh;   /* 時間跳過（跳過時間、讀檔）：照新的時間直接坐好，不從門口走進來 */
-    if(!S.noodleOn(G)){ for(const n of mine){ if(n.leaving) continue; if(GM.standUp) GM.standUp(n); n.leaving=true; n.beh='leave'; if(!E.moveTo(n,0,3.6,()=>E.removeNPC(n))) E.removeNPC(n); } return; }
+    if(!S.noodleOn(G)){ const DR=(E.zone&&E.zone.spots&&E.zone.spots.door)||[0,3.6]; for(const n of mine){ if(n.leaving) continue; if(GM.standUp) GM.standUp(n); n.leaving=true; n.beh='leave'; if(!E.moveTo(n,DR[0],DR[1],()=>E.removeNPC(n))) E.removeNPC(n); } return; }
     const P=E.player.obj.position, cnt=S.noodleCount(G);
     /* 麵店團先拿位子（BB-B 10-30 n15_ndlread：9/30、10/2、10/14、10/16 客人 ×4 先坐滿六個位子的四個，柏翰、芯慈作息在麵店卻沒有位子、沒生出來；客人 ×2 的 10/7、10/21 就有）：
        作息在麵店、還沒在店裡的麵店團幾位（need）就留幾個空位，客人只坐剩下的。S.populate 裡客人比 populateSchedule 先生、S.tick 裡 17:30 客人也會先走進來。測試：node tests/ndl_present_unit.js 第 6 項 */
@@ -1273,13 +1273,14 @@ const STORY = (function(){
     const need=NDL_REGULARS.filter(id=>{ try{ return !(typeof EVENTS!=='undefined'&&EVENTS.npcOf&&EVENTS.npcOf(id))&&!!schedFor(id,'noodle',G); }catch(e){ return false; } }).length;   /* 作息條件讀不到（事件系統還沒綁）＝不留位子 */
     const SEATS=E.zone&&E.zone.seats&&E.zone.seats.length?E.zone.seats:NDL_ALL.map(([x,z])=>({x,z}));   /* 店裡六個位子（zones3d.js 的麵店：三張桌 × 2）；沒有座位資料（單元測試的假區域）照這六個算 */
     let free=SEATS.filter(st=>!taken(st.x,st.z)&&Math.hypot(P.x-st.x,P.z-st.z)>=0.6).length;
-    for(let i=0;i<cnt;i++){ if(mine.some(n=>n.ndlIdx===i)) continue; const [x,z,yaw]=NDL_SEATS[i];
+    const NS=(E.zone&&E.zone.spots&&E.zone.spots.ndlSeats)||NDL_SEATS, DR=(E.zone&&E.zone.spots&&E.zone.spots.door)||[0,3.6];   /* 燒臘店 v7（SHAOLA-WIRE-1105）：固定客人坐第 4、5 桌、從店門口走進來（配置 spots）；舊麵店照舊 */
+    for(let i=0;i<Math.min(cnt,NS.length);i++){ if(mine.some(n=>n.ndlIdx===i)) continue; const [x,z,yaw]=NS[i];
       if(taken(x,z)||Math.hypot(P.x-x,P.z-z)<0.6) continue;   /* 位子有人（阿哲、玩家）就不坐 */
       if(free<=need) break; free--;   /* 留給還沒到的麵店團 */
       const o=CHAR.build(extraSpec(300+((G.day*3+i)%60))), seat={x,z,yaw};
       if(entering){ o.position.set(x,0,z); o.rotation.y=yaw; E.addNPC({obj:o,name:'',beh:'idle',pose:'sit',idlePose:'sit',frozen:true,isExtra:true,seat,ndlRegular:true,ndlIdx:i}); continue; }
       /* 玩家在店裡時 17:30 到了：從門口走進來、走到位子坐下（不在玩家眼前憑空出現）*/
-      o.position.set(0,0,3.6); o.rotation.y=Math.PI; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',isExtra:true,ndlRegular:true,ndlIdx:i,seatTarget:seat});   /* seatTarget：走過去的路上這個位子也算有人（麵店團、下一位客人不坐）*/
+      o.position.set(DR[0],0,DR[1]); o.rotation.y=Math.PI; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',isExtra:true,ndlRegular:true,ndlIdx:i,seatTarget:seat});   /* seatTarget：走過去的路上這個位子也算有人（麵店團、下一位客人不坐）*/
       const sit=()=>{ n.seatTarget=null; if(GM.sitAt) GM.sitAt(n,seat); }; const ap=(GM.seatApproach&&GM.seatApproach(seat))||[x,z+(yaw?0.6:-0.6)]; if(!E.moveTo(n,ap[0],ap[1],sit)) sit(); } }
   S.noodleRegulars=noodleRegulars;
   S.refreshSchedule=refreshSchedule;
@@ -3541,8 +3542,8 @@ const STORY = (function(){
   S.HEAD_CLEAR=0.08;
   S.bedHeadMax=function(sc){ if(sc&&sc.head_max!=null&&isFinite(+sc.head_max)) return +sc.head_max; const R=typeof DORM_ROOM!=='undefined'&&DORM_ROOM&&DORM_ROOM.room; const c=sc&&sc.ceil_y!=null&&isFinite(+sc.ceil_y)?+sc.ceil_y:(R&&isFinite(+R.h)?+R.h:null); return c!=null?c-S.HEAD_CLEAR:null; };
   S.bedEntryPose=sc=>sc&&sc.bed_entry_pose==='stand'?'climb':'kneel';
-  const headOn=(P,sc)=>{ if(P&&P.obj&&P.obj.userData){ const m=S.bedHeadMax(sc); if(m!=null) P.obj.userData.headMax=m; else delete P.obj.userData.headMax; } };
-  const headOff=P=>{ if(P&&P.obj&&P.obj.userData) delete P.obj.userData.headMax; };
+  const headOn=(P,sc)=>{ if(P&&P.obj&&P.obj.userData){ const m=S.bedHeadMax(sc); if(m!=null) P.obj.userData.headMax=m; else delete P.obj.userData.headMax; P.obj.userData.ladder=sc; } };   /* ladder：梯子的路線、每一階兩手抓的點（character3d.js 的 climbIK：手抓扶手、腳踩踏階，CLIMB-GRIPS-FEET-1105；只影響姿勢，人怎麼移動照舊）*/
+  const headOff=P=>{ if(P&&P.obj&&P.obj.userData){ delete P.obj.userData.headMax; delete P.obj.userData.ladder; } };
   const bedEntryOf=sc=>{ const L=sc.lie; return sc.bed_entry||[L.feet[0],L.mattress_top_y!=null?L.mattress_top_y:L.feet[1],L.feet[2]]; };
   /* 爬梯子的鏡頭：踏點中間往床的反方向退 1.8 m、往梯子底下（房間中間）退 1.6 m、高 1.75（L2：(−0.83, 1.75, 2.99) 看梯子；第一版退 1 m、高 1.55 太近，人爬到一半頭出畫面）*/
   S.climbCam=function(sc){ const st=sc.steps, n=st.length, a=sc.approach, L=sc.lie; const mx=(st[0][0]+st[n-1][0])/2, mz=(st[0][2]+st[n-1][2])/2;
@@ -3593,7 +3594,17 @@ const STORY = (function(){
     finally { S._bedBusy=false; GM.sceneEnd(); if(ok&&S._bed) camOn(GM,bedCam(sc),true); }   /* sceneEnd 會把鏡頭放回跟隨：接著睡覺的黑幕要停在睡覺鏡頭 */
     return ok; }
   /* 起床：開燈 → 短淡出 → 最上面一階 → 一階一階下來 → 梯子前。在 sceneBegin 裡面叫（外面的 sceneEnd 放回跟隨鏡頭）*/
+  /* WAKE-AT-DOOR-1105（使用者 11-05 08:5x「我覺得睡覺起來出現在床上 可以不用下床動作 太假了 可以睡在床上 下一秒站好在宿舍門口了」）：
+     起床不演下床（爬梯子）：黑幕裡直接站到房門口（「走出房間」那個出口往房間裡 1 m、面向門），淡入。找不到門＝照舊站到梯子前。S.WAKE_AT_DOOR=false 回到舊的爬下來 */
+  S.WAKE_AT_DOOR=true;
+  S.doorStand=function(E){ const ex=(E.interactables||[]).find(it=>it.exit&&it.exit.to==='dorm_hall'); if(!ex) return null; const ctr=E.zone&&E.zone.spawn||{x:0,z:0};
+    let dx=ctr.x-ex.x, dz=ctr.z-ex.z; const d=Math.hypot(dx,dz)||1; dx/=d; dz/=d; for(const r of [1.0,1.4,0.7,1.8]){ const x=ex.x+dx*r, z=ex.z+dz*r; if(!E.canStand||E.canStand(x,z,0.3,0)) return {x,z,yaw:Math.atan2(ex.x-x,ex.z-z)}; } return null; };
   async function getUp(GM,sc){ const E=GM.E, P=E.player, T=S.SLEEP_T, st=sc.steps; S._bedBusy=true;
+    if(S.WAKE_AT_DOOR){ try{ if(P.obj.userData) P.obj.userData.eyesShut=false; if((S._dark||0)>0) await darkTo(GM,0,0.4); await GM.sleep(300);
+        await GM.fade(true); if(E.cam) E.cam.seeThru=null; P.idlePose='idle'; P.frozen=false; P.pose='idle'; if(P.obj.userData){ P.obj.userData.climbTop=null; P.obj.userData.kneelSnap=false; }
+        const ds=S.doorStand(E), a=sc.approach, at=ds||{x:a[0],z:a[1],yaw:Math.atan2(a[0]-sc.steps[0][0],a[1]-sc.steps[0][2])};
+        if(E.placeAt) E.placeAt(P,at.x,at.z,0); else { P.obj.position.x=at.x; P.obj.position.z=at.z; } P.obj.position.y=0; P.obj.rotation.y=at.yaw; { const fx=Math.sin(at.yaw), fz=Math.cos(at.yaw); camOn(GM,{pos:[at.x-fx*2.6,1.75,at.z-fz*2.6],look:[at.x,1.2,at.z]},true); }   /* 淡入時鏡頭已經在人後面（不閃一下床的鏡頭；sceneEnd 再交回跟隨）*/ await GM.fade(false); }
+      finally { S._bedBusy=false; S.bedClear(GM); } return; }
     try{ if(P.obj.userData) P.obj.userData.eyesShut=false; if((S._dark||0)>0) await darkTo(GM,0,0.4); await GM.sleep(300);
       await GM.fade(true); if(E.cam) E.cam.seeThru=null;   /* 爬下來：不躺了，床欄透空收掉（#120）*/ const top=st[st.length-1], o=P.obj, kp=S.bedEntryPose(sc), be=bedEntryOf(sc); P.idlePose='idle'; P.frozen=false; headOn(P,sc);
       const nx=st.length>1?st[st.length-2]:[sc.approach[0],0,sc.approach[1]]; const c=S.climbCam(sc);

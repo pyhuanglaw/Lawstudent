@@ -58,6 +58,7 @@ const JOINTS=['hips','spine','chest','neck','head','leftUpperLeg','rightUpperLeg
     check(`③ ${LY.name.slice(0,1)} 上床點跪著：臀部離床墊 ≤ 70 cm（站著 ${cm(hips0)}）、兩膝離床墊 ≤ 12 cm`,!!kl&&kl.hipsW-mat<=0.70&&kl.kneeW.every(y=>y-mat<=0.12&&y-mat>=0.0),kl?`臀部 ${cm(kl.hipsW-mat)}、膝 ${kl.kneeW.map(y=>cm(y-mat)).join('／')}（${kn.length} 格）`:'沒有跪在上床點的格子');
     /* 躺下（S.lieDown）→ 起床（getUp）*/
     STORY.lieDown(GM,sc); jumped=true; step(10); frames.length=0;
+    STORY.WAKE_AT_DOOR=false;   /* 起床改成直接站到房門口（WAKE-AT-DOOR-1105）；這支量的是舊的爬下來（S.WAKE_AT_DOOR=false 照樣能用）*/
     await STORY._bedFx.getUp(GM,sc); const dn=frames.slice(); const dnV=dn.filter(f=>f.pose!=='lie'); const dnMax=Math.max(...dnV.map(f=>f.top)), dnW=dnV.reduce((a,f)=>f.top>a.top?f:a,dnV[0]);
     check(`② ${LY.name.slice(0,1)} 起床：跪在床上 → 最上面一階 → 下梯子，每一格頭頂 ≤ ${lim.toFixed(2)} m`,dnMax<=lim,`最高 ${cm(dnMax)}（${dnW.pose}、腳 ${cm(dnW.y)}）、${dnV.length} 格${process.env.DBG_TOP?' fitE '+dnW.fitE+' fitR '+dnW.fitR:''}`);
     const firstSeen=dn.find(f=>!f.black&&f.pose!=='lie');

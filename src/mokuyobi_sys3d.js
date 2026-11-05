@@ -45,7 +45,7 @@ const MOKS=(function(){
       record:['（唱片機在轉，放的是一張沒有歌詞的鋼琴曲。）','（旁邊的木箱裡，唱片照年份一張一張排好。）','（一面放完了。老闆走過來把唱片翻面，又回到吧檯。）'],
       poster:['（《夏の残光》。海報上的女生站在海邊，看著畫面外面。下面一行小字：一九九八年上映。）','（海報的角落有一點泛黃，框是和書櫃一樣的胡桃木。）','（海報下面夾著一張手寫的小卡：「老闆看了七次。」）']},   /* AA_645 第 6 節第 3 點補第三句，三句輪流 */   /* AA_645 第 1 節（海報稿上只有兩句；第三點是 D77 的註）*/
     lookLabel:{bookcase:'看看書櫃',record:'看唱片機',poster:'看海報'},   /* 按鈕的字照配置 interact 的 label */
-    close:[['老闆','「（小聲）十點了。……要打烊了。」'],[null,'（你收好書，走下樓梯。巷子裡只剩路燈。）']],   /* AA_645 第 3 節：一般 22:00 打烊（當晚出過 21:40 溫水＝只出旁白）*/
+    /* 打烊的字（AA_645 第 3 節的 close）作廢，照 AA_700：老闆一句「我們今天要打烊了。」（XSCLOSE.say，下面 S.closeOut；當晚出過溫水也一樣）*/
     xc:[['classmate_xinci','「（小聲）這裡的燈剛好，看書不累。」']],   /* AA_645 5-b：進門看到芯慈 */
     rain:['（下樓的時候，外面的雨變大了。兩個人站在樓梯口的鐵門裡面。）','（巷子裡沒有人。雨打在樓下洗衣店的鐵皮上。）'],   /* 1-7 */
     rainOpts:[{t:'「等雨小一點。」',narr:'（你們站了十分鐘。雨小了，你們一起走出巷子。）',h:10/60},{t:'「我去樓下便利商店買傘。」',narr:'（你跑回來的時候，她笑了。傘只買到一把。）',h:5/60}] };
@@ -128,11 +128,11 @@ const MOKS=(function(){
     const c=CHARACTERS.classmate_bohan; if(!c) return false; const e=STORY.schedEnt(c,Object.assign({},G,{hour:21.9})); if(!e||!e.mokuyobi) return false;
     if(typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.stage('classmate_bohan')==='STRANGER') return false;
     return !(G.invites||[]).some(iv=>iv&&iv.who==='classmate_bohan'&&(iv.state==='going'||(iv.state==='accepted'&&iv.day===G.day))); };
-  /* 一般的 22:00 打烊（AA_645 第 3 節）：那天有開、現在是打烊那一刻（22:00～22:30）；颱風、週二、還沒開、讀檔回到半夜＝照舊只寫開放時間 */
+  /* 一般的 22:00 打烊（AA_700；原 AA_645 第 3 節）：那天有開、現在是打烊那一刻（22:00～22:30）或這一趟進來時開著（XSCLOSE.gen）；颱風、週二、還沒開、讀檔回到半夜＝照舊只寫開放時間 */
   S.closingNow=G=>{ const h=G.hour%24; if(h<22-1e-6||h>=22.5) return false; const ws=typeof PLACES!=='undefined'&&PLACES.windowsOf?PLACES.windowsOf(ZONE,G.day):null; return !!(ws&&ws.length)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(ZONE,G.day)); };
-  S.closeOut=async function(GM){ const G=GM.G, P=GM.E&&GM.E.player; let go=false; const bh=S.bohanOut(G), gen=!bh&&S.closingNow(G), r=S.rec(G);
+  S.closeOut=async function(GM){ const G=GM.G, P=GM.E&&GM.E.player; let go=false; const bh=S.bohanOut(G), c0=S.closingNow(G), gen=!bh&&(typeof XSCLOSE!=='undefined'&&XSCLOSE.gen?XSCLOSE.gen(GM,ZONE,c0):c0);
     GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P);
-      if(gen){ const L0=r.waterDay===G.day?S.L.close.filter(x=>x[0]==null):S.L.close; await sayAll(GM,L0); }   /* 當晚出過溫水：老闆不再說 */
+      if(gen){ if(typeof XSCLOSE!=='undefined'&&XSCLOSE.say) await XSCLOSE.say(GM,'老闆'); else await GM.say(BOSS,'我們今天要打烊了。'); }   /* AA_700：老闆一句，不另外出旁白 */
       if(bh) await S.mute(async()=>{ const w=whoOf(GM,'classmate_bohan'); await GM.say(w,S.L.bhAsk); const k=await GM.choose([{t:S.L.bhGo},{t:S.L.bhHome}]); if(k===0) go=true; else await GM.say(w,S.L.bhBye); }); }
     finally { GM.sceneEnd(); }
     if(go&&typeof INV!=='undefined'&&INV.accept) INV.accept(G,'classmate_bohan','cafe',G.day,G.hour%24,{now:true,by:'npc'});   /* 一起走到兩點半（邀約的「現在一起過去」：他跟著你，到了照兩點半的見面）*/

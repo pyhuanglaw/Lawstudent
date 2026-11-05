@@ -716,8 +716,8 @@ const INV=(function(){
     const hv=!n&&typeof HV!=='undefined'&&typeof HOMETOWN_LINES!=='undefined'&&HV.offer?HV.offer(G,id):null;   /* 寒暑假她在高雄／台中（AA_276 第 1-1、5 節）：「我去高雄找妳？」 */
     const vd=!n&&typeof HV!=='undefined'&&HV.videoOffer?HV.videoOffer(G,id):null;   /* 沛珊交往中、她在台南：「視訊？」（AA_349 K5；晚上 21:00～22:30、一週最多兩次）*/
     const fsO=typeof FEST!=='undefined'&&FEST.flowOpt?FEST.flowOpt(G,id,n,together):null;   /* 約她過節（AA_416，fest3d.js）：她的節日前後多一個「約她過節：…」；約不到的灰掉、選了說原因 */
-    const leafOf=Q=>{ const w=S.placeWhy(G,id,Q); return {t:Q.verb,short:Q.name,hint:w,dim:!!w,P:Q}; };   /* 約不到的地方寫原因（AA_125 第 1 節），選了就說原因、再選一次 */
-    const nodes=S.CATS.map(C=>({t:C.t,items:PL.filter(Q=>S.catsOf(Q).includes(C.id)).map(leafOf)}));
+    const leafOf=(Q,cat)=>{ const w=S.placeWhy(G,id,Q); return {t:cat==='study'&&Q.verbStudy?Q.verbStudy:Q.verb,short:Q.name,hint:w,dim:!!w,P:Q}; };   /* verbStudy：在「念書」那一類的選項字（AA_702，INV-STUDY-CAFES-1105）*/   /* 約不到的地方寫原因（AA_125 第 1 節），選了就說原因、再選一次 */
+    const nodes=S.CATS.map(C=>({t:C.t,items:PL.filter(Q=>S.catsOf(Q).includes(C.id)).map(Q=>leafOf(Q,C.id))}));
     if(dOk){ const ca=DATE.canAsk(G,id,n?{face:true}:null); nodes.push({t:S.OUT_LABEL,hint:ca.ok?'選地點、日期、時間':ca.why,dim:!ca.ok,go:'date'}); }   /* 出去玩（AA_535 第 2 節：不寫「約會」）；當面不用聯絡方式 */
     const sp=[]; if(hv){ const HL=HOMETOWN_LINES[HV.key?HV.key(G,id):id]||HOMETOWN_LINES[id]; sp.push({t:HL.ask,hint:hv.ok?'當天來回　'+HL.travel:hv.why,dim:!hv.ok,go:'hv'}); }   /* 沛珊在台南那一組（HV.key，AA_328 3-09）*/
     if(vd){ const VL=(HOMETOWN_LINES[HV.key(G,id)]||{}).video||{}; sp.push({t:VL.ask||'視訊？',hint:vd.ok?vd.hint:vd.why,dim:!vd.ok,go:'vd'}); }
