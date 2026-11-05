@@ -228,9 +228,14 @@ const CROWD=(function(){
         return out; },G=>peSlots(G,true));
     /* ---- 3F 主球場 ---- */
     const HOOP=A.court&&A.court.hoops?A.court.hoops[0]:[0,-14.43];
+    S.ARENA_HOOPS=!!S.ARENA_HOOPS;   /* 籃架接上（LAWWW2 ART-ARENA-HOOPS-1105）改 true：打球的人回到籃框半場跑 */
     const arena=mkSpot('arena','gym_arena',[0,-10],DA,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n,this.ix), out=[], np=Math.max(2,n-2);
-        for(let k=0;k<np;k++){ const wp=shuffle([[-4.2,-12.2],[4.0,-12.6],[-2.2,-8.4],[2.4,-8.2],[0,-10.6],[-5.0,-9.2],[5.2,-9.6],[0.8,-12.8]],r).slice(0,4).map(q=>[q[0],q[1],0]);
-          out.push(mk(this,slot,k,{x:wp[0][0],z:wp[0][1],spec:sp[k],role:'basketball',beh:'route',waypoints:wp,ri:0,walkSpeed:2.8,run:true,pauseAt:true,faceYaw:face([wp[0][0],wp[0][1]],HOOP)})); }
+        /* ARENA-NOHOOP-1105（使用者 11-05 07:1x「主球場一群人跑來跑去 連籃框都沒有 還有人穿裙子打籃球??」）：gym_arena.glb 還沒有籃架（LAWWW2：ART-ARENA-HOOPS-1105）、
+           路人也還沒有運動服——籃架接上以前（S.ARENA_HOOPS false），打球的人不上場跑：站在東側場邊等（面向球場），而且只用男生底模（奇數 spec：長裙那四套不上場，同 BUG-GYM-SKIRT-1103）*/
+        if(!S.ARENA_HOOPS){ const WAIT=[[8.7,-12.6],[8.9,-11.6],[8.6,-10.5],[9.0,-9.5],[8.7,-8.4],[9.1,-13.6]];
+          for(let k=0;k<np;k++){ const q=WAIT[k%WAIT.length]; out.push(mk(this,slot,k,{x:q[0],z:q[1],yaw:face(q,[0,q[1]]),spec:sp[k]|1,role:'basketball',pose:k%2?'idle':'talk'})); } }
+        else for(let k=0;k<np;k++){ const wp=shuffle([[-4.2,-12.2],[4.0,-12.6],[-2.2,-8.4],[2.4,-8.2],[0,-10.6],[-5.0,-9.2],[5.2,-9.6],[0.8,-12.8]],r).slice(0,4).map(q=>[q[0],q[1],0]);
+          out.push(mk(this,slot,k,{x:wp[0][0],z:wp[0][1],spec:sp[k]|1,role:'basketball',beh:'route',waypoints:wp,ri:0,walkSpeed:2.8,run:true,pauseAt:true,faceYaw:face([wp[0][0],wp[0][1]],HOOP)})); }
         const REST=[[9.6,-16.8,'talk'],[10.5,-16.2,'idle'],[-9.4,-17.2,'idle']]; for(let k=np;k<n;k++){ const q=REST[(k-np)%REST.length]; out.push(mk(this,slot,k,{x:q[0],z:q[1],yaw:face([q[0],q[1]],[(k-np)===0?10.5:9.6,(k-np)===0?-16.2:-16.8]),spec:sp[k],role:'rest',pose:q[2]})); }
         return out; },G=>{ if(typeof GY3!=='undefined'&&GY3.ceremonyDay&&GY3.ceremonyDay(G)) return []; return daySlots(G,[[2,3],[4,5],[3,5],[6,8]]); });
     for(const sp of [lobby,court,pe,b1,pool,pePool,arena]) sp.bind=S.gymBind;

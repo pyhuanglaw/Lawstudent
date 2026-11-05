@@ -188,7 +188,7 @@ const run=async()=>{
     H.G.zone='cafe'; H.said=[]; await STORY.onSeat(GM,{x:-0.9,z:3.1,yaw:0}); check('8 別的店坐下：不說',!GG2.L.afar.seat.window||!H.has(GG2.L.afar.seat.window)); }
   // ---- 9 約會地點 ----
   { const G=fresh('2025-10-15',10,'campus'), A=INV.place('afar'), D=INV.place('daybreak');
-    check('9 約會地點 afar（喝咖啡（AA_652「類型：咖啡、吃飯」）、剛認識就可以、11:00～21:00）、daybreak（吃飯、有點熟以上、早午餐 08:00～14:00 開始）',!!A&&!!D&&A.zone==='afar'&&A.kind==='reason'&&A.minStage==='ACQUAINTANCE'&&J(INV.catsOf(A))===J(['sit'])&&D.zone==='daybreak'&&D.kind==='meal'&&D.minStage==='FAMILIAR'&&J(INV.catsOf(D))===J(['meal']),J([A&&A.kind,D&&D.kind]));
+    check('9 約會地點 afar（喝咖啡（AA_652「類型：咖啡、吃飯」）、剛認識就可以、11:00～21:00）、daybreak（吃飯、有點熟以上、早午餐 08:00～14:00 開始）',!!A&&!!D&&A.zone==='afar'&&A.kind==='reason'&&A.minStage==='ACQUAINTANCE'&&J(INV.catsOf(A))===J(['sit','study'])&&D.zone==='daybreak'&&D.kind==='meal'&&D.minStage==='FAMILIAR'&&J(INV.catsOf(D))===J(['meal']),J([A&&A.kind,D&&D.kind]));
     if(D){ const d=G.day; const ok=h=>INV.slotOpen(G,D,d,h);
       check('9 Daybreak 08:00～14:00 開始約得到（14:00 可以、14:30 不行、07:30 不行）',ok(8)&&ok(13)&&ok(14)&&!ok(14.5)&&!ok(7.5),J([8,13,14,14.5,7.5].map(ok)));
       check('9 Daybreak 時間選項：今天 14:00 以後只有明天的（09:00、10:00、11:30、13:00）',(()=>{ G.hour=14.5; const T=INV.timeOptions(G,false,D); G.hour=10; return T.length===4&&T.every(q=>q.day===d+1); })());

@@ -47336,6 +47336,151 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "INV-STUDY-CAFES-1105",
+   "title": "約念書可以選咖啡館（2:30 AM、afar café 加進「念書」）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "AA 看「去 2:30 AM 坐坐」「去 afar café 坐坐」放在念書那一類要不要改字；BB 測約念書選單",
+   "source": "UA-LAWWW-1105-22",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 07:0x（UA-LAWWW-1105-22、X238）",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "約念書的選單看得到 2:30 AM、afar café",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "使用者 11-05 07:0x（UA-LAWWW-1105-22、X238）"
+  },
+  {
+   "id": "SKIRT-BENCH-CLIP-1105",
+   "title": "坐著的路人裙子穿進長椅（體育館一樓）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "體育館一樓",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2 查坐姿時裙子的處理（裙擺骨頭或坐下時換短版／收窄），體育館一樓長椅那位先修，修好截圖",
+   "source": "UA-LAWWW-1105-23",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 07:0x（UA-LAWWW-1105-23、X239）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "坐在長椅上的路人裙子不穿進椅面",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "src": "使用者 11-05 07:0x（UA-LAWWW-1105-23、X239）"
+  },
+  {
+   "id": "ARENA-NOHOOP-1105",
+   "title": "3F 主球場：籃架接上前打球的人站場邊、只用褲裝底模",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "BB 看 3F 截圖；籃架接上後 CROWD.ARENA_HOOPS 改 true",
+   "source": "UA-LAWWW-1105-24",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-24",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "場上沒有人亂跑、沒有穿裙子打球",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "UA-LAWWW-1105-24"
+  },
+  {
+   "id": "ART-ARENA-HOOPS-1105",
+   "title": "3F 主球場的籃架（從屋頂吊下來的，hoops 座標照 gym_layout）",
+   "area": "SYS",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2 在 gym_arena.glb 加籃架；交件後 LAWWW 把 CROWD.ARENA_HOOPS 改 true",
+   "source": "UA-LAWWW-1105-24",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-24",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "主球場兩端看得到籃架",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "src": "UA-LAWWW-1105-24"
+  },
+  {
+   "id": "XS-PHONEMAP-1105",
+   "title": "手機地點地圖、快速前往加新生南路和那幾家店",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "子代理 wt-xsmap 做完合併、全部 Node",
+   "source": "UA-LAWWW-1105-25",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-25",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "地圖上有新生南路，點了能前往",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "UA-LAWWW-1105-25"
   }
  ]
 }
