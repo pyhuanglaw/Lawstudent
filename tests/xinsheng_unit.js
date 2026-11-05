@@ -1,5 +1,9 @@
 /* 新生南路（ART-XINSHENG-GATE-1103，LAWWW2 11-03）：區域建得起來；從側門進來走得到溫州街巷口、七間店的門口、兩條斑馬線的對面；斑馬線以外的車道走不到；
-   互動點：側門回校園、往溫州街。用法：node tests/xinsheng_unit.js */
+   互動點：側門回校園、往溫州街。
+   17、18（XS-ARCADE-NAV-1105，LAWWW2-C 11-05）：騎樓的導航照正式模型 xinsheng_street.glb——
+     17 柱子：模型的每一根騎樓柱子（wz_pillar 材質，騎樓靠街那一邊）導航都擋住；導航在柱子那一欄擋住的格子，每一格都對得到模型的一根柱子（沒有看不到的柱子）
+     18 沒有騎樓的公寓（南北兩段）：模型那幾段沒有騎樓天花板、一樓的牆在立面往裡 0.2 m；牆裡面站不住、牆外面的人行道站得住；騎樓兩端走不進公寓
+   用法：node tests/xinsheng_unit.js */
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global;
@@ -55,4 +59,36 @@ check('8. 每間店門口有互動點（室內還沒做的是「看」）',L.sho
   check('14. 從新生南路來的溫州街出生點站得住、走得到出口',wFree(ws.x,ws.z)&&!!ex&&wReach([ws.x,ws.z],[ex.x,ex.z]),ws.x+','+ws.z);
   check('15. 溫州街出生點走得到兩點半門口、公館巷口（主巷整條接得起來）',wReach([ws.x,ws.z],[51.7,0])&&wReach([ws.x,ws.z],[51.3,-9.8]));
   check('16. 巷底 W0 照舊擋住（W0 的導航阻擋 (−43.7, −1) 走不到）',!wFree(-43.7,-1)); }
+// 17、18：騎樓的導航照正式模型（XS-ARCADE-NAV-1105）——讀 GLB 的頂點（世界座標＝區域座標；模型沒有位移）
+{ const G=path.join(ROOT,'assets/models/env/second_ai/xinsheng_street.glb'), b=fs.readFileSync(G), jl=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+jl).toString()), bin=b.slice(20+jl+8);
+  const acc=i=>{ const a=J.accessors[i], v=J.bufferViews[a.bufferView], o=(v.byteOffset||0)+(a.byteOffset||0), st=v.byteStride||12, out=[]; for(let k=0;k<a.count;k++) out.push([bin.readFloatLE(o+k*st),bin.readFloatLE(o+k*st+4),bin.readFloatLE(o+k*st+8)]); return out; };
+  const mul=(A,B)=>{ const C=new Array(16).fill(0); for(let r=0;r<4;r++) for(let c=0;c<4;c++) for(let k=0;k<4;k++) C[c*4+r]+=A[k*4+r]*B[c*4+k]; return C; };
+  const TRS=n=>{ if(n.matrix) return n.matrix; const t=n.translation||[0,0,0], q=n.rotation||[0,0,0,1], s=n.scale||[1,1,1], [x,y,zq,w]=q;
+    return [(1-2*(y*y+zq*zq))*s[0],2*(x*y+zq*w)*s[0],2*(x*zq-y*w)*s[0],0,2*(x*y-zq*w)*s[1],(1-2*(x*x+zq*zq))*s[1],2*(y*zq+x*w)*s[1],0,2*(x*zq+y*w)*s[2],2*(y*zq-x*w)*s[2],(1-2*(x*x+y*y))*s[2],0,t[0],t[1],t[2],1]; };
+  const V=[]; const walkN=(i,M)=>{ const n=J.nodes[i], W=mul(M,TRS(n)); if(n.mesh!=null) for(const p of J.meshes[n.mesh].primitives){ const mn=(J.materials[p.material]||{}).name||''; for(const v of acc(p.attributes.POSITION)) V.push([W[0]*v[0]+W[4]*v[1]+W[8]*v[2]+W[12],W[1]*v[0]+W[5]*v[1]+W[9]*v[2]+W[13],W[2]*v[0]+W[6]*v[1]+W[10]*v[2]+W[14],mn]); } (n.children||[]).forEach(c=>walkN(c,W)); };
+  for(const r of J.scenes[J.scene||0].nodes) walkN(r,[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
+  const F=L.facade, AR=L.arcade, colX=AR.x1-0.3;
+  // 模型的柱子：wz_pillar 材質、騎樓靠街那一條（x 立面往裡 0.8 m 以內）、地面附近的頂點，照 z 分群（相鄰 < 0.5 m 是同一根）
+  const pz=V.filter(v=>/pillar/i.test(v[3])&&v[0]>AR.x1-0.8&&v[0]<AR.x1+0.05&&v[1]<0.5).map(v=>v[2]).sort((a,b)=>a-b), cols=[];
+  for(const zz of pz){ const c=cols[cols.length-1]; if(c&&zz-c.z1<0.5) c.z1=zz; else cols.push({z0:zz,z1:zz}); }
+  const missing=cols.filter(c=>!(!freeAt(colX,(c.z0+c.z1)/2)||!nav.clear(colX,(c.z0+c.z1)/2,0.3))).map(c=>((c.z0+c.z1)/2).toFixed(1));
+  const ghost=[]; for(let zz=L.road.z0+0.75;zz<L.road.z1-0.5;zz+=nav.cell){ if(freeAt(colX,zz)) continue; if(zz>L.wenzhouLane.z0-0.3&&zz<L.wenzhouLane.z1+0.3) continue;
+    const near=cols.some(c=>zz>c.z0-0.5&&zz<c.z1+0.5); const fill=!freeAt(colX-0.6,zz)&&!freeAt(colX-1.5,zz); if(!near&&!fill) ghost.push(zz.toFixed(2)); }
+  check('17. 騎樓柱子和正式模型一樣：模型的 '+cols.length+' 根都擋住、導航沒有模型裡沒有的柱子',cols.length>=5&&!missing.length&&!ghost.length,
+    '模型 z '+cols.map(c=>((c.z0+c.z1)/2).toFixed(1)).join(' ')+(missing.length?'｜沒擋：'+missing.join(' '):'')+(ghost.length?'｜看不到的柱子 '+ghost.length+' 格：'+ghost.slice(0,8).join(' ')+(ghost.length>8?' …':''):''));
+  // 沒有騎樓的那幾段：照模型的規則（店面加寬補滿 < 1.5 m 的縫）算出來，再用模型驗證——沒有騎樓天花板、一樓牆在立面往裡 0.2 m
+  const WL=L.wenzhouLane, sh=L.shops.map(q=>({z0:q.z0,z1:q.z1})).sort((a,b)=>a.z0-b.z0);
+  for(let i=0;i+1<sh.length;i++){ const gp=sh[i+1].z0-sh[i].z1; if(gp>0&&gp<1.5) sh[i].z1=sh[i+1].z0; }
+  for(const q of sh){ const a=WL.z0-q.z1, bb=q.z0-WL.z1; if(a>0&&a<1.5) q.z1=WL.z0; if(bb>0&&bb<1.5) q.z0=WL.z1; }
+  const tk=sh.map(q=>[q.z0,q.z1]).concat([[WL.z0,WL.z1]]).sort((a,b)=>a[0]-b[0]), NA=[]; let cur=L.road.z0;
+  for(const [a,bb] of tk){ if(a>cur+0.05) NA.push([cur,a]); cur=Math.max(cur,bb); } if(L.road.z1>cur+0.05) NA.push([cur,L.road.z1]);
+  const bad=[];
+  for(const [a,bb] of NA){ const m0=Math.max(a+0.6,L.road.z0+1.5), m1=Math.min(bb-0.6,L.road.z1-1.5);   // 街的兩頭是導航的邊（區域的盡頭），不算
+    const ceil=V.filter(v=>/arcade_ceiling/.test(v[3])&&v[2]>m0&&v[2]<m1).length, wall=V.filter(v=>v[2]>m0&&v[2]<m1&&v[1]>0.3&&v[1]<2.5&&v[0]>F.upper-0.3&&v[0]<F.upper-0.1).length;
+    const deep=V.filter(v=>v[2]>m0&&v[2]<m1&&v[1]>0.3&&v[1]<2.5&&v[0]>AR.x0+0.1&&v[0]<F.upper-0.35).length;
+    if(ceil||!wall||deep) bad.push(`模型 z ${a}～${bb}：騎樓天花板 ${ceil}、牆 ${wall}、騎樓深處 ${deep} 個頂點`);
+    for(let zz=m0;zz<=m1;zz+=1.0){ if(freeAt(F.upper-0.6,zz)||freeAt(AR.x0+1.0,zz)) bad.push(`(${(F.upper-0.6).toFixed(1)}或${(AR.x0+1).toFixed(1)}, ${zz.toFixed(1)}) 在牆裡面卻走得到`); if(!nav.clear(F.upper+0.6,zz,0.3)) bad.push(`人行道 (${(F.upper+0.6).toFixed(1)}, ${zz.toFixed(1)}) 站不住`); } }
+  const ends=sh.length?[[(AR.x0+F.upper)/2,sh[0].z0+0.6,sh[0].z0-3],[(AR.x0+F.upper)/2,sh[sh.length-1].z1-0.6,sh[sh.length-1].z1+3]]:[];
+  for(const [x,za,zb] of ends) if(reach([x,za],[x,zb])) bad.push(`騎樓 (${x.toFixed(1)}, ${za.toFixed(1)}) 走得進 (${x.toFixed(1)}, ${zb.toFixed(1)}) 的公寓`);
+  check('18. 沒有騎樓的公寓（'+NA.map(([a,bb])=>'z '+a+'～'+bb).join('、')+'）：模型沒有騎樓、牆裡面走不到、人行道站得住、騎樓兩端走不進公寓',NA.length>0&&!bad.length,bad.slice(0,4).join('｜')+(bad.length>4?' …（共 '+bad.length+' 項）':'')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
