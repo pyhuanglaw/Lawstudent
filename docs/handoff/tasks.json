@@ -47981,6 +47981,66 @@
    },
    "src": "UA-LAWWW-1105-29",
    "sha": ""
+  },
+  {
+   "id": "TAP-SEAT-NPC-1105",
+   "title": "點椅子走過去，旁邊站著人時按鈕還是那張椅子（Daybreak 窗邊 #2、長桌 #15）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "engine3d.js nearestInteractable：tapSeat 時人不搶（E.prefNpc 例外）；tests/tap_seat_reach_unit.js 第 6 項（修改前 FAIL 2）；開發線，下一版；BB 瀏覽器驗",
+   "source": "BB_255 SEATSCAN",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "BB_255 08:3x",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "點山嵐靠窗長椅走過去看得到坐靠窗長椅",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "BB-C 08:28 SEATSCAN（山嵐靠窗長椅 6 張擋玩）",
+   "sha": ""
+  },
+  {
+   "id": "DAYBREAK-BOOTH21-1105",
+   "title": "Daybreak 卡座 #21 (2.05,−3.5) 9:23 按兩次「坐卡座」沒坐下，9:00 再試就坐下",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "待查：taken／客人 seatTarget 佔位／SHOP_NAMED 沛珊週六 10:30 前後；BB-C 10:38 P2；下一版",
+   "source": "BB_255 SEATSCAN",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "BB_255 08:3x",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "點山嵐靠窗長椅走過去看得到坐靠窗長椅",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "BB-C 08:28 SEATSCAN（山嵐靠窗長椅 6 張擋玩）",
+   "sha": ""
   }
  ]
 }

@@ -20,4 +20,11 @@ check('2. 推搖桿走到 0.80 m（沒有 tapPref）：照舊沒有按鈕（範�
 check('3. 點的是旁邊那張（1.6, 0）：這一張不多給範圍（停在這張 0.8 m 外＝沒有）',at(0,0.8,[1.6,0.05])===null);
 check('4. 停太遠（1.3 m）：點了也沒有（只多 0.5 m）',at(0,1.3,[0,0])===null);
 check('5. E.TAP_SEAT_REACH＝0.5',E.TAP_SEAT_REACH===0.5);
+/* TAP-SEAT-NPC-1105（BB-C 10:38 Daybreak 窗邊 #2、長桌 #15）：點椅子走過去、旁邊 0.6 m 站著路人（聽一句）／有名字的人：按鈕還是那張椅子；推搖桿（沒有 tapPref）照舊人優先 */
+{ const pass={talk:()=>{},talkLabel:'聽一句',yieldIt:true,obj:{position:{x:0.4,y:0,z:0.9}},name:'路人'}, named={talk:()=>{},talkLabel:'和沛珊說話',obj:{position:{x:0.4,y:0,z:0.9}},name:'沛珊',charId:'classmate_peishan'};
+  const run=(n,tap)=>{ E.npcs=[n]; const r=at(0,0.8,tap); E.npcs=[]; return r; };
+  check('6. 點這張椅子、旁邊站著路人（聽一句）：按鈕是椅子',run(pass,[0.05,0.1])===bench);
+  check('6. 點這張椅子、旁邊站著有名字的人：按鈕還是椅子',run(named,[0.05,0.1])===bench);
+  const r=run(named,null); check('6. 推搖桿走過去（沒有 tapPref）：照舊人優先（和沛珊說話）',!!(r&&r.npc===named));
+  E.prefNpc='classmate_peishan'; const r2=run(named,[0.05,0.1]); E.prefNpc=null; check('6. 「帶我去」找的人（E.prefNpc）：點椅子也是她',!!(r2&&r2.npc===named)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
