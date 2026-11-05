@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "V21R_xs_shanlan",
+  "sha": "83d09d13b0686e51e344b4b771ebb9124d8806a4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_shanlan_v1_probe.py",
+  "env": "CC_HEADLESS=0;CLOSE=aa700",
+  "machine": "MSI",
+  "start": "2026-11-05T18:50:49",
+  "end": "2026-11-05T19:03:47",
+  "seconds": 779,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8805/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 45,
+    "mem": 47,
+    "used_gb": 14.7,
+    "chrome_testing": 15
+  }
+}
