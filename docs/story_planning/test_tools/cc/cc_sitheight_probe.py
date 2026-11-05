@@ -7,7 +7,7 @@
           挑 2 個女生＋1 個最高的男生：大腿（骨盆→膝蓋那一段）最低點離座面、膝蓋高度、肩膀／手肘／眼睛離桌面多高；側面、正面、膝蓋近看各一張。
    swing  溫州街公園鞦韆（20:30）：玩家按「盪鞦韆」坐上去，量骨盆、大腿最低點離座板；側面、正面。
    bar    118 巷（l118_cafe2／l118_omu／l118_pasta／l118_tea）吧台高腳凳：玩家坐上去（找得到 lift 的座位），量同上。
-   （腳踏車後座：要先騎車再載人，這一輪探針還沒做＝沒測到。博雅 101、霖澤 201 的 SITAMB class 鏡頭並排：另外跑 cc_sitamb_probe LOC=class CTL=0 再用 sit_cmp.py 和 d3828 比。）
+   （腳踏車後座：BB-C 00:30 這一輪記「沒測到」，之後找劇情裡載人的段落在 PC 照玩家走。階梯教室：b1ca12646 改到桌下置物架的 201、博思（boya_interior）、共同（gongtong_interior）——座位照位置分間，每一間玩家【捷徑】坐進去也拍。博雅 101、霖澤 201 的 SITAMB class 鏡頭並排：另外跑 cc_sitamb_probe LOC=class CTL=0 再用 sit_cmp.py 和 d3828 比。）
   【前置／捷徑】讀檔指定地點時間（條件事件關閉）、停主迴圈手動推進片段、藏 HUD；鞦韆／吧台用遊戲自己的 GAME.sitAt 坐（互動鍵按不到時，標【捷徑】）。
 用法：LW_TESTS=<wt>/tests [MODE=eat,rooms,swing,bar] python3 cc_sitheight_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -112,6 +112,13 @@ ROOMS_JS = r"""(rooms=>{ const out={}; const ROOMS=(typeof CLS!=='undefined'&&CL
     const s=c.slots[0], b=(COURSES.blocks||{})[s.block]||{}; const d=STORY.termDay(c.term,4,s.wd); const h=(b.from!=null?b.from:(b.start!=null?b.start:9))+0.35; out[R]={course:c.id,name:c.name,term:c.term,day:d,key:d!=null?CALENDAR.dateOf(d).key:null,h,zone:(ROOMS[R]||{}).zone||null}; } return out; })"""
 
 
+SPLIT_JS = r"""(()=>{ const S=(GAME.E.zone.seats||[]).filter(q=>q&&q.x!=null&&q.z!=null); if(!S.length) return [];
+  const cut=(arr,key)=>{ const a=arr.slice().sort((p,q)=>p[key]-q[key]); let gi=-1, gm=0; for(let i=1;i<a.length;i++){ const g=a[i][key]-a[i-1][key]; if(g>gm){ gm=g; gi=i; } } return gm>3?[a.slice(0,gi),a.slice(gi)]:[a]; };
+  let parts=[S]; for(const key of ['x','z']){ const nx=[]; for(const p of parts) nx.push(...cut(p,key)); parts=nx; }
+  return parts.map(p=>{ const xs=p.map(q=>q.x), zs=p.map(q=>q.z), cx=(Math.min(...xs)+Math.max(...xs))/2, cz=(Math.min(...zs)+Math.max(...zs))/2; const m=p.slice().sort((a,b)=>Math.hypot(a.x-cx,a.z-cz)-Math.hypot(b.x-cx,b.z-cz))[0];
+    return {n:p.length, box:[+Math.min(...xs).toFixed(1),+Math.min(...zs).toFixed(1),+Math.max(...xs).toFixed(1),+Math.max(...zs).toFixed(1)], seat:{x:m.x,z:m.z,lv:m.lv|0}}; }); })()"""
+
+
 async def mode_rooms(pg, cdp, M):
     plan = await pg.evaluate(ROOMS_JS, ['L201', 'BOYA', 'GONGTONG', 'PUTONG'])
     info('[rooms] 上課時間（照課表，第 4 週）：%s' % J(plan))
@@ -138,6 +145,17 @@ async def mode_rooms(pg, cdp, M):
             info('[rooms %s #%d] %s（%s、%s）：座面 %s（%s）、大腿最低點離座面 %s m（負＝陷進去）、骨盆離座位地面 %s、膝蓋 %s；肩膀／手肘／眼睛離桌面 %s／%s／%s；截圖 %s' % (
                 tag, i, x['name'], x['body'], x['model'], x['seatH'], x['seatSrc'], x['thighLow_vs_seat'], x['hips_floor'], x['knee_floor'], x['shoulder_desk'], x['elbow_desk'], x['eye_desk'], files))
         M.setdefault('rooms', {})[tag] = {'all': L0, 'pick': pick}
+        if lecture:   # BB-C 00:30：b1ca12646 改到桌下置物架的每一間都拍——這一區的座位照位置分成幾間（x、z 最大的空隙＞3 m 就切開），每一間玩家坐中間那一個位子
+            parts = await pg.evaluate(SPLIT_JS)
+            info('[rooms %s] 座位分成 %d 間：%s' % (tag, len(parts), J([[p_['n'], p_['box']] for p_ in parts])))
+            for j, p_ in enumerate(parts):
+                print('  [前置／捷徑] [rooms %s 第 %d 間] 玩家用 GAME.sitAt 坐進 %s（這一間有沒有排課都一樣）' % (tag, j, J(p_['seat'])), flush=True)
+                await pg.evaluate("(([x,z])=>{ const E=GAME.E, s=(E.zone.seats||[]).find(q=>Math.abs(q.x-x)<0.01&&Math.abs(q.z-z)<0.01); if(s){ if(E.player.seat&&GAME.standUp) GAME.standUp(E.player); GAME.sitAt(E.player,s); } })", [p_['seat']['x'], p_['seat']['z']])
+                await pg.wait_for_timeout(2500)
+                x = await pg.evaluate(PLAYER)
+                files = await shots_for(pg, x, 'sit_%s_room%d_player' % (tag, j), extra_knee=True)
+                info('[rooms %s 第 %d 間 玩家] 座面 %s（%s）、大腿最低點離座面 %s、膝蓋 %s；肩膀／手肘／眼睛離桌面 %s／%s／%s；截圖 %s' % (tag, j, x['seatH'], x['seatSrc'], x['thighLow_vs_seat'], x['knee_floor'], x['shoulder_desk'], x['elbow_desk'], x['eye_desk'], files))
+                M['rooms'][tag].setdefault('player', []).append(x)
         await pg.evaluate(HUD + '(true)')
 
 
