@@ -40238,7 +40238,7 @@
    },
    "source": "D118-B7 子代理交件（a544cc690）「還沒做、要你決定的」第 4、5 點",
    "authorized": "D118（使用者 11-02）",
-   "next": "【LAWWW-C 11-05 01:4x】BB-C 01:32 八件：1～4、7、8 同意；5 要加 cue＋回寫觀念卡 → 63847fe13（d118_b7f q1～q4，改前 FAILED 4）；6 寒假照現在（不改 home3d），條件是家裡書桌入口寒假開得了研究所總複習（CC 驗，開不了 BB 再找 LAWWW）｜【LAWWW-C 11-05 01:3x】合併 7dbe93dfa（子代理 d118b7f-1105 91d9b0ed2）＋860cb2618（字註解定稿）：司法官二試 PG.judgePoolFor、研究所 PG.gradPoolFor（只出修過的；湊不到 10 題＝全部）、總複習 STUDY.review(GM,'judge'／'grad')（6／4 小時）、提醒 judge_remind_／grad_remind_<open|week>_<年>、PG.stops；d118_b7f 71 項（改前 FAILED 52）、相關 42 支、全套 1008 支 ALL PASS；BB 要確認的判斷 6 件（送 BB-C）；CC 用 D118_B7 那一套 Node＋瀏覽器各補一組｜【LAWWW-C 11-05 00:3x】BB-C 00:31 定三件（BB_255）：司法官二試、研究所都只抽修過的課（不到 10 題才退回全部；研究所沒修行政救濟法就三門）；二試 6 小時、研究所 4 小時總複習；開放＝二試：一試放榜且上榜、考前 30 天取晚的，研究所：考前 30 天；提醒開放那天、考前一週週日 20:00，有報名才有；畢業以後跳日期停。二試總複習只給要考司法官二試的人（律師二試沒有作答，LAWWW 定）。暫定字照 AA_690 最小替換，00:3x 送 AA-C 定稿；子代理 /home/user/wt-b7f（d118b7f-1105）實作中｜【LAWWW-C 11-05 00:3x】send_message 問 BB-C 三件（一試＝S.poolFor＋總複習＋提醒；司法官二試 S.drawJudge、研究所 S.drawGrad 現在都沒有）｜國考一試那一套照做到二試、研究所；做之前問 BB 二試題池要不要限修過的課",
+   "next": "【LAWWW-C 11-05 02:0x】BB-C 01:48（CC Node 40 PASS／7 FAIL 在 301a74c2d）三件 → 18e8fb5ac：二試提醒、開放日、週日都照二試第一天；breakRound 加 STUDY.homeOpt；開放那天提醒 12:00（三種考試）；b7f／b7 改期望值、w1；第 4 點另開 HOME-FF-REMIND-ALIGN-1105（P3）；CC 用 cc_d118b7f_node.js 重跑｜【LAWWW-C 11-05 01:4x】BB-C 01:32 八件：1～4、7、8 同意；5 要加 cue＋回寫觀念卡 → 63847fe13（d118_b7f q1～q4，改前 FAILED 4）；6 寒假照現在（不改 home3d），條件是家裡書桌入口寒假開得了研究所總複習（CC 驗，開不了 BB 再找 LAWWW）｜【LAWWW-C 11-05 01:3x】合併 7dbe93dfa（子代理 d118b7f-1105 91d9b0ed2）＋860cb2618（字註解定稿）：司法官二試 PG.judgePoolFor、研究所 PG.gradPoolFor（只出修過的；湊不到 10 題＝全部）、總複習 STUDY.review(GM,'judge'／'grad')（6／4 小時）、提醒 judge_remind_／grad_remind_<open|week>_<年>、PG.stops；d118_b7f 71 項（改前 FAILED 52）、相關 42 支、全套 1008 支 ALL PASS；BB 要確認的判斷 6 件（送 BB-C）；CC 用 D118_B7 那一套 Node＋瀏覽器各補一組｜【LAWWW-C 11-05 00:3x】BB-C 00:31 定三件（BB_255）：司法官二試、研究所都只抽修過的課（不到 10 題才退回全部；研究所沒修行政救濟法就三門）；二試 6 小時、研究所 4 小時總複習；開放＝二試：一試放榜且上榜、考前 30 天取晚的，研究所：考前 30 天；提醒開放那天、考前一週週日 20:00，有報名才有；畢業以後跳日期停。二試總複習只給要考司法官二試的人（律師二試沒有作答，LAWWW 定）。暫定字照 AA_690 最小替換，00:3x 送 AA-C 定稿；子代理 /home/user/wt-b7f（d118b7f-1105）實作中｜【LAWWW-C 11-05 00:3x】send_message 問 BB-C 三件（一試＝S.poolFor＋總複習＋提醒；司法官二試 S.drawJudge、研究所 S.drawGrad 現在都沒有）｜國考一試那一套照做到二試、研究所；做之前問 BB 二試題池要不要限修過的課",
    "sha": "7dbe93dfa"
   },
   {
@@ -46959,6 +46959,28 @@
    "source": "LAWWW2-C 11-05 01:13 DORM-LADDER-HEAD-GRIP-1102 ② 交件 README「給 LAWWW」（動作歸 LAWWW，D128）",
    "authorized": "D100 LAWWW 整合／動畫；D128",
    "next": "【LAWWW-C 11-05 01:1x】開任務；子代理實作（照 README 給 LAWWW 那一節：手照 grips 換手、腳踩踏階不進牆、第 5 階 null＝跪姿手在大腿），Node 量手到扶手、腳到牆的距離",
+   "sha": null
+  },
+  {
+   "id": "HOME-FF-REMIND-ALIGN-1105",
+   "title": "在家快轉停下的時間和提醒對齊：從 10:42 起每小時看一次，停在 20:42 才打開 20:00 那一則（BB-C 01:48 第 4 點）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y4S1",
+    "week": 17,
+    "earliest": "大四寒假在家快轉、收到研究所總複習提醒",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-05 01:48（D118-B7-FOLLOW CC Node）第 4 點",
+   "authorized": "BB 機制（D98）",
+   "next": "P3：HOME.breakJump 的檢查點對齊 PHONE 排定的時間（停在訊息的整點），不急",
    "sha": null
   }
  ]
