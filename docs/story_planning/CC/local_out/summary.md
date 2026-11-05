@@ -1266,3 +1266,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 245.9s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 245.9s] BROWSER DISCONNECTED
 - 2026-11-05T11:37:24  V20R_soc_heroine_01_talk  sha=d3828452abe2d10f1b7bb3b47d8313482f83b2d3  exit=1  41487s       用了 690.7 分鐘 / ==== 總結：1 人，FAIL 1 人：[["heroine_01", ["ladder Y1S1 A-L11 選項1：對話一路點得完（15 秒沒有進展＝卡住；lastTalkError 沒值）", "ladder Y1S1 A-L10 選項1：對話一路點得完（15 秒沒有進展＝卡住；lastTalkError 沒值）"]]] / FAILED 2
       err.log (last 5): [gpu_wrap 41445.1s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 41445.1s] BROWSER DISCONNECTED
+- 2026-11-05T11:44:56  LIVE_V91020_tappref  sha=40c0abedb36bb4a0d7341155a9c8501e8fea51c6  exit=0  121s      按互動鈕「離開一盞」：（沒有字幕／對話）；區域 wenzhou / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 83.0s] page close url=https://pyhuanglaw.github.io/Lawstudent/index.html | [gpu_wrap 83.0s] BROWSER DISCONNECTED

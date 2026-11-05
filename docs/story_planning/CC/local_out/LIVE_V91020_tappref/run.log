@@ -1,0 +1,23 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tappref_zone_probe.py http://127.0.0.1:8805/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LIVE_V91020_tappref\out
+CC TAPPREF_zone：SHA=40c0abedb36bb4a0d7341155a9c8501e8fea51c6；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入  20.6 秒
+  [前置／捷徑] 讀檔：溫州街 (-20.5, 2.4)、14:00、晴；開場已過的旗標＋WZ_TEA_YARD_IN（第一次進門的旁白當看過了，進門後才能馬上按互動鈕）；只關手機自動打開
+PASS 溫州街有「進去一盞」  {"x": -20.5, "z": 4.6, "r": 1.4, "label": "進去一盞"}
+  [   4.5s] 到達「進去一盞」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [偵察] 按之前按鈕「進去一盞」、按下去 True
+PASS [偵察] 按「進去一盞」進得了一盞
+  [偵察] 進門那一刻：{"zone": "wz_teahouse", "zoneId": "wz_teahouse", "pos": [-3, 9], "lv": 0, "tapPref": {"x": -20.5, "z": 4.6, "lv": 0, "zone": "wenzhou"}, "tpActive": false, "inRange": [{"label": "離開一盞", "x": -3, "z": 9.3, "r": 1.3, "prio": 0, "d": 0.3}], "bestNoTp": "離開一盞", "withTp": "離開一盞", "button": "離開一盞"}
+PASS [TAPPREF] 點地面走到門口、按進去：進門後溫州街留下的 tapPref 不生效（tapPref.zone wenzhou、E.zone.id wz_teahouse）  {"x": -20.5, "z": 4.6, "lv": 0, "zone": "wenzhou"}
+  [   2.8s] 到達「進去一盞」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  走到門口：按鈕「進去一盞」
+  點地面：點門口前方的路面 (-17.5, 4.3)（偵察時範圍內只有 1 個互動點，選不出差別）
+PASS 點地面以後按鈕還在，走到一半按「進去一盞」  {"pos": [-20.2, 4.37], "moving": true, "tapPref": {"x": -17.5, "z": 4.3, "lv": 0, "zone": "wenzhou"}}
+  進門前：{"pos": [-20.2, 4.37], "moving": true, "tapPref": {"x": -17.5, "z": 4.3, "lv": 0, "zone": "wenzhou"}}
+PASS 進得了一盞
+  進門後：{"zone": "wz_teahouse", "zoneId": "wz_teahouse", "pos": [-3, 9], "lv": 0, "tapPref": {"x": -17.5, "z": 4.3, "lv": 0, "zone": "wenzhou"}, "tpActive": false, "inRange": [{"label": "離開一盞", "x": -3, "z": 9.3, "r": 1.3, "prio": 0, "d": 0.3}], "bestNoTp": "離開一盞", "withTp": "離開一盞", "button": "離開一盞"}
+PASS [TAPPREF] 進門後溫州街留下的 tapPref 不生效（tapPref.zone wenzhou、E.zone.id wz_teahouse）  {"x": -17.5, "z": 4.3, "lv": 0, "zone": "wenzhou"}
+INFO [TAPPREF] 這一次選不出差別（範圍內 1 個、算 tapPref 和不算都是「離開一盞」）：只驗上面那一條
+  按互動鈕「離開一盞」：（沒有字幕／對話）；區域 wenzhou
+PASS 沒有 JS 例外  []
+ALL PASS
