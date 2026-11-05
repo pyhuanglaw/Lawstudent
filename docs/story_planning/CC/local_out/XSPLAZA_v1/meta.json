@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "XSPLAZA_v1",
+  "sha": "9ea82730f471210c8df143093b7743ce4c9327a8",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_xs_shop_probe.py",
+  "env": "CC_HEADLESS=0;SHOP=xsports",
+  "machine": "MSI",
+  "start": "2026-11-05T15:50:39",
+  "end": "2026-11-05T16:08:32",
+  "seconds": 1073,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8806/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 27,
+    "mem": 44,
+    "used_gb": 14.1,
+    "chrome_testing": 15
+  }
+}
