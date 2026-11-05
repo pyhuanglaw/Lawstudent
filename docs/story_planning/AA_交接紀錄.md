@@ -1,5 +1,15 @@
 值班登記：帳號 C｜AA-C｜session_019evvieJUJD23EGf4nyLPgo｜分支 claude/magical-albattani-bk7b4n｜接班基準 69a24fa5d（快轉合併 AA-B 的 `claude/cool-heisenberg-o8kuqx`，含帳號 A 的 story-planning 81f740cb7）｜2026-11-04 UTC
 上一班：帳號 B｜AA-B｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 69a24fa5d｜正常交班（2026-11-04 12:20 UTC，快照 `2026-11-04T1220Z_B_AA.json`）
+
+## 交班（帳號 C｜AA-C｜2026-11-05 10:4x UTC｜使用者：「現在交班」）
+- **A 本班成果**：11-04 12:2x 接班～11-05 10:4x：`AA_664`～`AA_705`（全部在企劃線，每份都有 outbox 登記、SHA）。重點：台詞分批清（`AA_664`～`AA_683`）、`AA_669` 期末考前圖書館（使用者）、`AA_688`／`AA_689` 語彤畢業以後的舊設定、`AA_694` 約會台詞拿掉多餘「……」（使用者選整批改）、`AA_700` 打烊統一一句（使用者）、`AA_701` 社團布告欄（使用者）、`AA_703` 沛珊客運（使用者截圖）、`AA_704` 望月台、`AA_705` 新店面裡遇得到的人（使用者；只用主要角色、照現在密度）、山嵐模型 v5.1。
+- **B 全部未完成**：見本檔「AA-C 全部待辦」最上面「AA-C 2026-11-05 09:1x 新增」那一節（逐項寫了下一步）；其中 SHOP-NAMED-NPC-1105 已收尾（LAWWW-C `e4426bd6c` 全部接好，撞時段都過）。其他：VAC-GAP-ROUTES 等 AA667-VAC-GAP2-1104；DIALOGUE-DEPTH-1031 語彤共創 **11-11 用選擇題再問使用者**；AA530-PG-CONFESS-1030（P3，語彤列照 `AA_688` 第 5 節）；DRIVE-PICKUP-1105 等 LAWWW2 停車場。
+- **C 正在做**：無（沒有做到一半的檔案；工作樹乾淨）。
+- **D 新決策、規則（使用者 11-05，都記在 `user_asks_AA.json`）**：打烊統一店員一句（X236）；社團布告欄（X237）；店裡遇得到的人只用主要角色、不用每天遇到但要遇得到（X259，規則永久）；「留給下一批的交接紀錄要寫好」；新月台→望月台（`WORLD_NAMING.md` 已加）。
+- **E 跨 AI**：給 LAWWW-C、BB-C 的訊息都 DELIVERED；LAWWW-C 對 `AA_686`～`AA_705` 都回了 ACK／ACTIONED（最後一則 10:35 `e4426bd6c`）。沒有等 ACK 的。
+- **F 測試**：AA 這一班沒有改遊戲程式；台詞都跑過 `line_lint.py`；山嵐 GLB v5.1 重匯核對（三角形合計不變、只有兩盆換樓層）。`asks --role AA` OK。
+- 喚醒：每小時保險喚醒 `trig_01PedZMd3AgfzqkcxWVQrpB8` 交班時停用（D129）。
+
 接班核對（RULE_SOURCE `origin/claude/modest-rubin-2lyp7g`，規則 SHA b61337187；`duty find`：值班沒有人、上一任 B、HV-20 工具版、seq 60；規則讀到 HV-25）：
 - 使用者 11-04 對 AA-C：「你上次沒有交班 使用量就到達上限 你之後有其他帳號接續工作 現在換你接班 有新增一個腳色CC幫助BB測試 你接班之後訊息同個帳號其他AI確認可以傳訊息 我也會通知他們接班」。
   - 我（帳號 C）上一次是 2026-10-28 15:2x 用量到上限、**沒有交班**；之後帳號 A（11-02～11-04 09:0x）、AA-B（11-04 12:1x～12:2x）接過。
