@@ -14,7 +14,7 @@
 | 區域 | 孤島 | gap | 判斷 |
 |---|---|---|---|
 | **山嵐書店** `xs_shanlan` | 店門東邊 (4.4, 8.1)，9 點 | **0.28** | 跳得進去。這一包擋起來（`shanlan_pocket_1105.patch`），修改後 0 點 |
-| **afar café** `afar` | (−2.8, 2.1)，9 點，在「坐窗邊／看看書架」範圍裡 | **0.22** | 跳得進去。配置是 AA 的 `afar_layout.js`，請 LAWWW-C 決定：擋起來，或請 AA 把家具拉開 |
+| **afar café** `afar` | (−2.8, 2.1)，9 點，在「坐窗邊／看看書架」範圍裡 | **0.22** | 跳得進去。LAWWW-C 06:26 決定擋起來（AA 的配置不動）：`afar_pocket_1105.patch`，修改後 0 點 |
 | 總圖閱覽室 `library` | (−10.6, −16.2)，88 點 | 0.50 | 邊界：跑步一步跳不到 |
 | 美國法學院圖書館 2F `us_lawlib_2f` | (−11.6, 1.0)，69 點 | 0.50 | 同上 |
 | 美國公寓、C 棟 `us_apartment`／`us_shared` | (−4.0, −2.6)，4 點 | 0.50 | 同上 |
@@ -26,3 +26,13 @@
   - 那個位置在大盆栽 (3.9, 8.5)、靠窗長椅 (5.3, 7.4)、正面玻璃中間。
   - 套上以後 `shanlan_unit`、`seat_reach_unit` ALL PASS，掃描結果 0 點。在 `001703460` 上乾淨。
 - 瀏覽器沒跑（D131）。
+
+## afar 補件（06:3x）
+
+- `afar_pocket_1105.patch`：只改 `src/zones3d.js` 的 afar 那一行。
+  - 加了 `z.nav.blockRect(-2.8, 2.15, 0.4, 0.5)`，擋的是 x −2.9～−2.7、z 2.0～2.3。
+  - 位置在靠窗長凳西端、吧台南端、西牆層架中間。
+- 在開發分支 `a0979ec3d` 上乾淨。
+- 套上以後：
+  - 掃描結果 afar 0 點。
+  - 這些測試 ALL PASS：`seat_reach`、`gg_shops2_1104`、`aa653_shops`、`shop_enc_seat`、`shop_diners`、`crowd`、`indoor_crowd`、`bike_shop_park`、`gg_glow_shoplit`、`gg_shoplit_reentry`、`invite_menu`、`placemap`、`seat_activity_1104`、`sit_task_wire`、`world_rename`、`zone_dispose`。
