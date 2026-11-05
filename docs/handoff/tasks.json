@@ -47615,7 +47615,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "等 LAWWW2 停車場區域；AA 給名字和取車那一步的字；LAWWW 改 date3d／an_yt_hol3d 的開車出發點",
+   "next": "AA_704（企劃線 55a1c5a53）已定：望月台停車場（宿舍走 5 分鐘）、車旁「開車出發」、約見面點「望月台停車場入口」、第一次取車一句旁白；等 LAWWW2 停車場區域再接 date3d／an_yt_hol3d",
    "source": "UA-LAWWW-1105-31",
    "authorized": "使用者原話",
    "xai": {
@@ -47748,7 +47748,7 @@
    "title": "新店面的有名字人物作息（新生南路、公館、溫州街新店）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47760,7 +47760,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "AA 出第一批作息稿 → LAWWW 白名單接進 schedule",
+   "next": "AA_705（ebea3a2b0）第一批 → 子代理 wt-shopnpc 接作息",
    "source": "UA-LAWWW-1105-37",
    "authorized": "使用者原話",
    "xai": {
