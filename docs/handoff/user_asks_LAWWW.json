@@ -3234,6 +3234,24 @@
    "wants": "X234",
    "task": "SHOP-WINDOW-2D-1105",
    "note": "日常失速試做；不比現在漂亮就不換"
+  },
+  {
+   "id": "UA-LAWWW-1105-35",
+   "at": "2026-11-05T08:3xZ",
+   "quote": "我跟學姊到了AFAR之後 居然坐在四人桌對面有人 桌上沒有燈 對話是學姊說這個燈很可愛?（之後附存檔 day36_1）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X249",
+   "task": "DATE-SEAT-AFAR-1105"
+  },
+  {
+   "id": "UA-LAWWW-1105-36",
+   "at": "2026-11-05T08:3xZ",
+   "quote": "AFAR看出去不太像公館（afar 室內往窗外看的截圖）",
+   "kind": "原話",
+   "status": "還沒做",
+   "wants": "X250",
+   "task": "AFAR-VIEW-1105"
   }
  ]
 }

@@ -47684,6 +47684,64 @@
     "ack": "自領"
    },
    "src": "UA-LAWWW-1105-33"
+  },
+  {
+   "id": "DATE-SEAT-AFAR-1105",
+   "title": "約會兩人座位：不坐有陌生人的桌子；開場句對得上座位",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "子代理 wt-dateseat 交件 → 合併、全部 Node、BB",
+   "source": "UA-LAWWW-1105-35",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-35",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "afar 約會坐空桌、燈那句只在窗邊長桌",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "UA-LAWWW-1105-35"
+  },
+  {
+   "id": "AFAR-VIEW-1105",
+   "title": "afar 窗外換成公館街景",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2 排在現有順序後",
+   "source": "UA-LAWWW-1105-36",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-36",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "afar 往窗外看得出是羅斯福路、騎樓",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "src": "UA-LAWWW-1105-36"
   }
  ]
 }
