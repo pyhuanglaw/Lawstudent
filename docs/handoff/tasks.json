@@ -40025,9 +40025,9 @@
    "title": "法服改純劇情（機制部分）",
    "area": null,
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "【LAWWW-C 11-04 23:0x】派子代理（worktree d118b5-1104，從 530a72ff4）：B5a 機制＋B5b 四場照 AA_604（企劃線 23581d5b6）、LAWCLUB_SAT_FIVE 照 AA_638 ④-7（3271973c6）；新測試 d118_b5a／b5b（修改前要 FAIL）；缺 AA 的字（5/22 前一晚提醒）不自己寫、交件時列出｜見 docs/handoff/D118_PLAN.md 第 4 節 D118-B5a",
+   "next": "【LAWWW-C 11-05 00:3x】合併 b6df3fc09（子代理 d118b5-1104 5a72869cc）：B5a 拿掉值班循環（出發選單、FAFU_TRK、柏翰私訊）、看公告只記 LAWCLUB_NOTICE、fafuMember 看真的加入、加入或去過（S.fafuBeen）、5/22 一次出發選單、只看過公告的不收法服群組；B5b 四場（10/24、4/10、10/23、10/21）照 AA_604 逐字、前一天 20:00 群組、到圓桌按才開始、FAFU_STORY_SEEN≤4；舊存檔 STORY.fafuMigrate。d118_b5a 34 項（修改前 FAILED 19）、d118_b5b 29 項；8 支舊測試照新規則改；子代理全套 1005 支 0 失敗；合併後關鍵 13 支 ALL PASS。要 AA 定的五件 → D118-B5-AA-1104；BB 驗收排 PC｜【LAWWW-C 11-04 23:0x】派子代理（worktree d118b5-1104，從 530a72ff4）：B5a 機制＋B5b 四場照 AA_604（企劃線 23581d5b6）、LAWCLUB_SAT_FIVE 照 AA_638 ④-7（3271973c6）；新測試 d118_b5a／b5b（修改前要 FAIL）；缺 AA 的字（5/22 前一晚提醒）不自己寫、交件時列出｜見 docs/handoff/D118_PLAN.md 第 4 節 D118-B5a",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -40041,16 +40041,20 @@
    "source": "D118_PLAN.md D118-B5a（使用者 11-02 D118）",
    "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
    "parent": "STUDY-EXAM-SYS-1102",
-   "notes": "依賴：無（BB 確認機制即可）；工時：LAWWW 2h；BB 25 分鐘；BB 驗收：大二上存檔：連續兩個月週六都睡覺 → 不跳法服選單、沒有柏翰訊息；5/22 收到提醒、去得了、語彤阿姨那一段照常演；日本路線大三下不會收到法服訊息。約 25 分鐘。"
+   "notes": "依賴：無（BB 確認機制即可）；工時：LAWWW 2h；BB 25 分鐘；BB 驗收：大二上存檔：連續兩個月週六都睡覺 → 不跳法服選單、沒有柏翰訊息；5/22 收到提醒、去得了、語彤阿姨那一段照常演；日本路線大三下不會收到法服訊息。約 25 分鐘。",
+   "sha": [
+    "b6df3fc09",
+    "5a72869cc"
+   ]
   },
   {
    "id": "D118-B5b-1102",
    "title": "法服固定日期劇情場次",
    "area": null,
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "【LAWWW-C 11-04 23:0x】派子代理（worktree d118b5-1104，從 530a72ff4）：B5a 機制＋B5b 四場照 AA_604（企劃線 23581d5b6）、LAWCLUB_SAT_FIVE 照 AA_638 ④-7（3271973c6）；新測試 d118_b5a／b5b（修改前要 FAIL）；缺 AA 的字（5/22 前一晚提醒）不自己寫、交件時列出｜見 docs/handoff/D118_PLAN.md 第 4 節 D118-B5b",
+   "next": "【LAWWW-C 11-05 00:3x】合併 b6df3fc09（子代理 d118b5-1104 5a72869cc）：B5a 拿掉值班循環（出發選單、FAFU_TRK、柏翰私訊）、看公告只記 LAWCLUB_NOTICE、fafuMember 看真的加入、加入或去過（S.fafuBeen）、5/22 一次出發選單、只看過公告的不收法服群組；B5b 四場（10/24、4/10、10/23、10/21）照 AA_604 逐字、前一天 20:00 群組、到圓桌按才開始、FAFU_STORY_SEEN≤4；舊存檔 STORY.fafuMigrate。d118_b5a 34 項（修改前 FAILED 19）、d118_b5b 29 項；8 支舊測試照新規則改；子代理全套 1005 支 0 失敗；合併後關鍵 13 支 ALL PASS。要 AA 定的五件 → D118-B5-AA-1104；BB 驗收排 PC｜【LAWWW-C 11-04 23:0x】派子代理（worktree d118b5-1104，從 530a72ff4）：B5a 機制＋B5b 四場照 AA_604（企劃線 23581d5b6）、LAWCLUB_SAT_FIVE 照 AA_638 ④-7（3271973c6）；新測試 d118_b5a／b5b（修改前要 FAIL）；缺 AA 的字（5/22 前一晚提醒）不自己寫、交件時列出｜見 docs/handoff/D118_PLAN.md 第 4 節 D118-B5b",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -40064,7 +40068,40 @@
    "source": "D118_PLAN.md D118-B5b（使用者 11-02 D118）",
    "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
    "parent": "STUDY-EXAM-SYS-1102",
-   "notes": "依賴：B5a；AA 交 FAFU_STORY 場次表與台詞（aa_asks 第 6 項）；工時：LAWWW 1.5h；BB 15 分鐘；BB 驗收：大二上第一場：當天赴約，看到民眾和回訪 → 第二場故意錯過，沒有任何追問訊息。約 15 分鐘。"
+   "notes": "依賴：B5a；AA 交 FAFU_STORY 場次表與台詞（aa_asks 第 6 項）；工時：LAWWW 1.5h；BB 15 分鐘；BB 驗收：大二上第一場：當天赴約，看到民眾和回訪 → 第二場故意錯過，沒有任何追問訊息。約 15 分鐘。",
+   "sha": [
+    "b6df3fc09",
+    "5a72869cc"
+   ]
+  },
+  {
+   "id": "D118-B5-AA-1104",
+   "title": "法服純劇情（D118-B5）要 AA 定的五件：5/22 前一晚柏翰群組提醒的字；第 3 場 2027-10-23 和主線 6 感冒那一週第一天同一天要不要挪；只剩自己走進去坐圓桌才看得到的句子要不要放進固定場次；第 2 場收尾提到阿姨和照片、沒看過第 1 場的玩家怎麼辦；子代理自己定的記憶、介面字確認",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": 7,
+    "earliest": "大二上第 7 週 10/24 法服第一場",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "D118-B5 子代理交件（b6df3fc09）「要 AA 決定或補字的」",
+   "authorized": "D109（AA 劇情自主）",
+   "xai": {
+    "spec": "src/y2b3d.js 5/22 那一段；src/story3d.js S.FAFU_STORY（四場）、fafuShift 開場六句、柏翰班表兩句、阿伯旁白；AA_604 第 3 節第 2 場收尾",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA 回五件（給字或照留）；LAWWW 照改、跑 d118_b5a／b5b",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "next": "【LAWWW-C 11-05 00:3x】send_message 給 AA-C",
+   "sha": null
   },
   {
    "id": "D118-B6-1102",
