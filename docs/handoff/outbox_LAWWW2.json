@@ -5963,6 +5963,33 @@
    "next": "LAWWW-C：git checkout 這個 SHA -- README 列的檔，python3 tools/gen_dorm_room_layout.py，node tests/dorm_ladder_grips_unit.js",
    "noDirectIntegrate": false,
    "note": "② 靠床那一側的扶手（門那一側下半段鏡像，彎進床尾板）＋sleep_scene.grips（up／down 每一階 [左手, 右手]）／rails；① 頭頂離天花板每一階 1.38／1.06／0.74／0.42／0.14 m、跪 0.34（DORM-CEIL＋STOOP 已處理）；光照重烘（573 秒，同一組點 ±3.4%）；開發分支 ed7600ec5＋這一包：新測試 9 項＋宿舍相關 28 支 Node ALL PASS"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a353148b7",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "GUITAR-SHOP-ZONE-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tongxian_zone_1105/README.md",
+    "docs/art-rebuild/second_ai/wip/tongxian_zone_1105/tongxian_zone_1105.patch",
+    "docs/art-rebuild/second_ai/wip/tongxian_zone_1105/cmp_door.jpg",
+    "docs/art-rebuild/second_ai/wip/tongxian_zone_1105/stair_views.jpg",
+    "docs/art-rebuild/second_ai/wip/tongxian_zone_1105/enter.jpg",
+    "src/tongxian3d.js",
+    "src/data/tongxian_layout.js",
+    "assets/models/env/second_ai/bb_support/tongxian.glb",
+    "assets/models/env/second_ai/bb_support/tongxian.json",
+    "assets/models/env/second_ai/tongxian_stair.glb",
+    "tools/blender/env_second/tongxian_stair.py",
+    "tools/blender/env_second/glb_floor_hole.py",
+    "tests/tongxian_unit.js"
+   ],
+   "state": "已交付",
+   "remaining": "選單、台詞、老闆 NPC、打烊請你出來＝LAWWW（AA_619 第 1、4 節）；CC 的店內等 BB 代驗（D132）、樓梯間的樣子 BB 判；樓梯不能走（進出在店門口）；窗景晚上沒換；瀏覽器沒跑（D131）",
+   "next": "LAWWW-C：git checkout 這個 SHA -- README 列的檔，git apply tongxian_zone_1105.patch（index.html、places.js、story3d.js、seat_reach_unit.js、LICENSES.md），node tests/tongxian_unit.js",
+   "noDirectIntegrate": false,
+   "note": "X196（LAWWW-C 00:43Z）：區域 xs_tongxian（店門程式照 'xs_'+id；任務寫 tongxian）；試琴椅兩張「試彈」、木凳「坐下」、出口「下樓（回新生南路）」；互動點 id：wall_n、wall_s、buy、ukes（try 是子晴 CG 站位、不放按鈕）、老闆 TX3.OWNER；12:00–21:30 週一休颱風關（places.js）；樓梯間 tongxian_stair.glb＋CC 地板挖洞；在乾淨的 ed7600ec5 上 checkout＋git apply 以後 tongxian_unit 15 項、seat_reach_unit ALL PASS；另 19 支相關 ALL PASS"
   }
  ]
 }

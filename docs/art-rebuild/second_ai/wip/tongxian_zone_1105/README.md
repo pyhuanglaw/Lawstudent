@@ -111,7 +111,7 @@ LAWWW2-C，2026-11-05。LAWWW-C 11-05 00:43Z 派的（X196，P2；使用者 11-0
 ## 接法（LAWWW-C）
 
 ```
-git checkout （交件 SHA） -- src/tongxian3d.js src/data/tongxian_layout.js \
+git checkout a353148b7 -- src/tongxian3d.js src/data/tongxian_layout.js \
   assets/models/env/second_ai/bb_support/tongxian.glb assets/models/env/second_ai/bb_support/tongxian.json assets/models/env/second_ai/tongxian_stair.glb \
   tools/blender/env_second/tongxian_stair.py tools/blender/env_second/glb_floor_hole.py tests/tongxian_unit.js
 git apply docs/art-rebuild/second_ai/wip/tongxian_zone_1105/tongxian_zone_1105.patch
