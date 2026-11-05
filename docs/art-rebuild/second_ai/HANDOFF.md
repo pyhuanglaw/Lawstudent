@@ -6,6 +6,34 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
+## 🔁 交班（2026-11-05 10:50 UTC；帳號 C LAWWW2-C；使用者：「現在交班」）
+
+- 分支 `claude/focused-cray-c9uwvw`。成果最後一個 commit `b5ffabc34`（LAWWW-C ACK 登記），交班紀錄在它後面；**SHA 以 `git ls-remote` 為準**。主 worktree 乾淨。
+- 交班登記：`docs/handoff/duty_LAWWW2.json` state `handed-off`、快照 `docs/handoff/snapshots/2026-11-05T1050Z_C_LAWWW2.json`。值班 LAWWW 要跑 `duty sync`。
+- **交班不代表新帳號已經接班**。下一班照 `docs/AI_SESSION_HANDOFF.md` 第 4 節接班，先讀這一節、`TODO_SHORTCUTS.md`、`docs/handoff/user_asks_LAWWW2.json`。
+
+### A. 這一班完成、已交（11-05 上午）
+| 任務 | 交件 | 狀態 |
+|---|---|---|
+| WINVIEW-AUDIT-1105 第四包（慢輪、阿德視差窗；afar／頁間／青木捷運出口修正） | `e29912473` | LAWWW-C 已整合 `b92a2791e` |
+| XS-GATE-NORTH-1105（側門北牆、望月台、停車場、體育館搬到望月台和法學院中間；UA-05、06） | `cf6a29f7e` | LAWWW-C 已整合 `4e2b15eee` |
+| TODO_SHORTCUTS.md（各包「先將就」收成代辦；UA-07） | `1f38c584c` | 完成 |
+| XS-NORTH-EXT-1105＋XS-WINCARD-1105（望月台、體育館照臺大官網照片第 2 版；新生南路圍牆後面；大口一二樓、大步、好拍窗外 8 張；UA-08） | `c6837632e` | LAWWW-C 10:47Z ACK：接進開發線（下一版）、十支 ALL PASS；拍照轉 BB 排 CC |
+
+### B. 沒做完／沒測（都沒在瀏覽器看過，D131 等 CC 拍、BB 判；使用者看過才算美術通過）
+- 上面兩棟、8 張窗外：MODEL_READY。先將就 13 項在 `TODO_SHORTCUTS.md` 最上面那一節（圓頂晚上不亮、戶外大樓梯和望月台門前台階沒做、大口西側窗沒有街景…）。
+- 參考照片（新月台 7 張、體育館 8 張）**刻意沒進 repo**（學校的照片）；網址在 `wip/xs_wincard_1105/README.md`。紀念品店官網的照片放在 irp.cdn-website.com、體育中心官網——這個環境的網路連不上。
+
+### C. 下一班第一步（佇列照順序）
+1. 讀通知、fetch 開發分支 `claude/adoring-meitner-mqzst8`，確認 XS-NORTH-EXT＋XS-WINCARD 是不是已經上線、BB／CC 有沒有回饋（拍照、和照片比）。
+2. 木曜日的窗外（WINVIEW-AUDIT 最後一項，還沒開工）。
+3. 其他照舊：SHOP-WINDOW-2D 日常失速試做 → SKIRT-BENCH-CLIP → ARENA-HOOPS；PERF-WZ-DAY 等 PC 數字；HAIR-NOODLE 等 CC 探針；INCR 記帳。
+
+### D. 沒有遠端備份的（只在這個工作階段的暫存區，容器回收就沒了，都可以重做）
+- 窗外照片的 2048×1024 PNG 原圖（webp 已進 repo；重拍：`bash docs/art-rebuild/second_ai/wip/xs_wincard_1105/render.sh <輸出資料夾>`）。
+- 參考照片（照規則不進 repo；網址在 README，重抓就好）。
+- 暫存 worktree（xw、base56、devtip）：內容都已經在 patch `wip/xs_wincard_1105/xs_north_wincard_1105.patch` 裡。
+
 ## ✅ 值班登記（2026-11-04 12:37 UTC；帳號 C LAWWW2-C；使用者：「你上次沒有交班 使用量就到達上限 你之後有其他帳號接續工作 現在換你接班 有新增一個腳色CC幫助BB測試」）
 - 值班登記：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜分支 claude/focused-cray-c9uwvw｜接班基準 `5f85444cd`（快轉上一任 `claude/second-ai-env-art`）｜2026-11-04 12:37 UTC
 - 上一班：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜最後 commit `af97d745`（交班紀錄）＋`5f85444cd`（快照）｜正常交班（11-04 09:1x）。帳號 B 11-04 12:1x～12:2x 那一班，LAWWW2-B 沒有登記、沒有寫入 LAWWW2 的分支。
