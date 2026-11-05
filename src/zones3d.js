@@ -2366,7 +2366,7 @@ const Z3 = (function(){
       const mk=wzGlbKey(key,L), aaNew=wzAANew(key,L); if(typeof ASSETS!=='undefined'&&ASSETS.manifest[mk]) ASSETS.loadOne(mk).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); if(cz) root.position.z-=cz; attachRoomGLB(z,g0,g,root);
         const stN=n=>aaNew?String(n||'').replace(/^(wzs|kmc|sns|yzn)_/,''):n, ST=(L.seeThru||[]).map(stN);   /* AA 的新室內：材質名的前綴換了（wzs_bulb → SUNNY SIDE 的 sns_bulb），照去掉前綴的名字比 */
         if(ST.length) root.traverse(q=>{ if(!q.isMesh) return; for(const m of [].concat(q.material)){ if(!m||m.userData.seeThrough||!ST.includes(stN(m.name))) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } });
-        if(aaNew) wzAAattach(E,z,g0,root,key,cz); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));   /* L.seeThru：這些材質擋住人、或離鏡頭太近時網點透空（巷子裡定食的和紙燈籠）*/
+        if(aaNew) wzAAattach(E,z,g0,root,key,cz); if(key==='offbeat') offbeatAttach(E,z,g0,root,L); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));   /* L.seeThru：這些材質擋住人、或離鏡頭太近時網點透空（巷子裡定食的和紙燈籠）*/
       return z; } }; }
   /* ---------- 溫州街第一批 AA 的新室內（WZ-SHOPS1-1104／WZ-YIZHAN-1104；AA 製作、BB 照 LAWWW2 標準驗 MODEL_READY，BB_257 §12）----------
      小路（wz_teishoku）komichi.glb＋komichi_layout v3、SUNNY SIDE（wz_brunch）sunnyside.glb＋sunnyside_layout v3、一盞（wz_teahouse）yizhan.glb＋yizhan_layout v2。
@@ -2380,6 +2380,25 @@ const Z3 = (function(){
   function wzGlbKey(key,L){ const base='bldg.wz_'+key+'_interior'; if(typeof ASSETS==='undefined'||!ASSETS.manifest||!L||!L.glb) return base; const m=ASSETS.manifest[base]; if(m&&m.url===L.glb) return base;
     const k2=base+'_v'+(L.version|0); if(!ASSETS.manifest[k2]) ASSETS.manifest[k2]={url:L.glb,type:'building',lazy:true,source:(/\/bb_support\//.test(L.glb)?'本作 Blender（tools/blender/env_second/bb_support/'+String(L.glb).replace(/^.*\/|\.glb$/g,'')+'_interior.py；溫州街「'+L.name+'」'+(WZ_AA_NEW[key]||'')+'，配置 src/data/ade_layout.js 照抄進 src/data/wz_shops_layout.js 的 '+key+'）':'本作 Blender（tools/blender/env_second/aa_support/README_'+String(L.glb).replace(/^.*\/|\.glb$/g,'')+'.md；溫州街「'+L.name+'」'+(WZ_AA_NEW[key]||'')+'，AA〔帳號 A〕製作、BB 照 LAWWW2 標準驗 MODEL_READY（BB_257 §12），配置 src/data/wz_shops_layout.js 的 '+key+'）'),license:'本作；貼圖 Poly Haven CC0＋本作程式產生'};
     return k2; }
+  /* 日常失速接上正式模型以後（OFFBEAT-CAT-BOARD-1105，LAWWW2-C 11-05；使用者 06:5x 兩件）：
+     ① 「沒看到貓」：offbeat_sys3d.js 有「看看店長／摸摸店長」（一隻虎斑貓趴在空椅子上睡覺），模型裡沒有貓（配置 cat_chair 寫「3D 的貓這一版沒做」）。
+        用溫州街那隻貓的模型（bldg.wz_cat，J13）的趴姿（CAT_lie），趴在長桌東端那張空椅子的坐墊上（配置 cat_chair (2.45, 0.15)；坐墊頂面在模型裡量是 0.523 m），會呼吸（WZCAT.breathe）。
+        不是公園那一隻（不照公園的貓長胖、戴牌子、變老：wzCatModel 不給 G）；被收養、颱風天都照舊在店裡。
+     ② 「首都帝大學生社團＆活動那塊牌子一直閃」：東牆佈告欄的標題牌（WALL_right_dof_print，x 5.470）和軟木板面（WALL_right_dof_wood，x 5.470）同一個平面；
+        最裡面兩張傳單和板面只差 0.4、0.8 mm，有兩張傳單互相只差 0.4 mm。每一張印刷品（標題、44 張傳單、便利貼）照原本的前後順序重排：最少在板面前 4 mm、疊在別張上面的再往前 1.5 mm。tests/offbeat_cat_board_unit.js */
+  const OFFBEAT_CAT={x:2.45,y:0.523,z:0.15,yaw:0}, OFFBEAT_PRINT_DX=-0.004;   /* y＝坐墊頂面（模型裡量的）*/
+  function offbeatAttach(E,z,g0,root,L){
+    const pr=root.getObjectByName('WALL_right_dof_print'); if(pr&&!pr.userData.obShift&&pr.geometry&&pr.geometry.attributes.position){ pr.userData.obShift=true; pr.geometry=pr.geometry.clone();   /* 模型可能被別的區域共用（ASSETS 快取）：改複本 */
+      const P=pr.geometry.attributes.position, n=Math.floor(P.count/4), Q=[];   /* 每一張是 4 個頂點的一片（標題、傳單、便利貼），面向店裡（−x）*/
+      for(let q=0;q<n;q++){ let x=0,y0=1e9,y1=-1e9,z0=1e9,z1=-1e9; for(let k=0;k<4;k++){ const i=q*4+k; x+=P.getX(i)/4; y0=Math.min(y0,P.getY(i)); y1=Math.max(y1,P.getY(i)); z0=Math.min(z0,P.getZ(i)); z1=Math.max(z1,P.getZ(i)); } Q.push({q,x,y0,y1,z0,z1,nx:null}); }
+      const ov=(a,b)=>a.y0<b.y1-1e-4&&b.y0<a.y1-1e-4&&a.z0<b.z1-1e-4&&b.z0<a.z1-1e-4;
+      for(const a of Q.slice().sort((a,b)=>b.x-a.x)){ let nx=a.x+OFFBEAT_PRINT_DX; for(const b of Q) if(b.nx!=null&&ov(a,b)) nx=Math.min(nx,b.nx-0.0015); a.nx=nx; for(let k=0;k<4;k++) P.setX(a.q*4+k,P.getX(a.q*4+k)+(nx-a.x)); }   /* 從最裡面那張開始：比板面前 4 mm，疊在別張上面的再往前 1.5 mm（原本 1.2 mm 一層，最裡面兩張只差 0.4 mm）*/
+      P.needsUpdate=true; pr.geometry.computeBoundingBox(); pr.geometry.computeBoundingSphere(); z.offbeatBoardFix=n; }
+    const ch=(L&&L.items||[]).find(q=>q.kind==='cat_chair'), sp=Object.assign({},OFFBEAT_CAT,ch?{x:ch.x,z:ch.z}:{});
+    if(typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.wz_cat']) return;
+    ASSETS.loadOne('bldg.wz_cat').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const m=wzCatModel(c.scene.clone(true),null,'lie'); if(!m) return;
+      const b0=new THREE.Box3().setFromObject(m), lift=isFinite(b0.min.y)?-b0.min.y:0;   /* 趴姿的模型底部在原點下面一點（爪子）：抬到坐墊上 */
+      m.name='OFFBEAT_CAT'; m.position.set(sp.x,sp.y+lift+0.003,sp.z); m.rotation.y=sp.yaw; m.userData.dyn=true; g0.add(m); z.offbeatCat=m; if(typeof WZCAT!=='undefined'&&WZCAT.breathe){ WZCAT.breathe(m); if(!z.obBreath){ z.obBreath=true; const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); WZCAT.update(dt,E2); }; } } })   /* 呼吸：WZCAT.update 每一格動 breathers（溫州街的區域 update 才有呼叫，這裡自己接）*/.catch(e=>console.warn('日常失速的店長（貓的模型）載入失敗',e)); }
   /* AA 新室內接上以後（attachRoomGLB 之後）：GLOW_* 空節點＝燈的光暈（合成一個網格，照開燈切白天／晚上，和 2:30 AM、公館 AA 的店一樣）；窗景卡（WALL_*_VIEW_*）晚上調暗；
      一盞的前院是 LAWWW2 的 wz_teahouse_yard.glb（配置 yard、teaYard，WZ-YIZHAN-1104）*/
   function wzAAattach(E,z,g0,root,key,cz){ const gl=[];

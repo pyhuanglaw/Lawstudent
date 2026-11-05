@@ -47237,7 +47237,7 @@
    "title": "日常失速：店長（貓）要看得到（現在只有互動點、沒有 3D 貓）；社團布告欄牌子一直閃（疊面）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -47249,7 +47249,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2：店長貓模型放在「看看店長」那張空椅子（用溫州街 J13 的貓）；布告欄標題牌疊面拉開；放 v9.10.21",
+   "next": "CC 拍日常失速的貓、佈告欄；v9.10.21 候選",
    "source": "UA-LAWWW-1105-19",
    "authorized": "使用者原話",
    "xai": {
