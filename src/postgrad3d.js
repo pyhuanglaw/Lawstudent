@@ -770,7 +770,7 @@ const PG=(function(){
   S.SOFT=[['2029-06-02',22],['2029-06-28',10]];   /* 別一批的固定時間（1A-12 晚上大伯的信封、1A-15 宿舍期滿）：停一下，讓那邊的程式有機會演 */
   S.stops=[G=>typeof STORY!=='undefined'&&STORY.kxAnniv6Stop?STORY.kxAnniv6Stop(G):null];
   S.stops.push(G=>{ if(typeof STUDY==='undefined'||!STUDY.barRemindNext) return null; const r=STUDY.barRemindNext(G); return r?r.at:null; });   /* D118-B7-REMIND-1104（BB-C 23:46）：國考總複習的兩則提醒（開放那天、一試前一週的週日 20:00）停一下 */
-  for(const k of ['judge','grad']) S.stops.push(G=>{ if(typeof STUDY==='undefined'||!STUDY.examRemindNext) return null; const r=STUDY.examRemindNext(G,k); return r?r.at:null; });   /* D118-B7-FOLLOW：司法官二試、研究所筆試總複習的兩則提醒（同一試：開放那天、考前一週的週日 20:00）——畢業以後篇「跳到下一件事」停一下（研究所 2029 那一場在學期中：在家、宿舍的快轉收到訊息本來就停，不另外加停點）*/   /* 其他模組可以加：G=>絕對時間（小時）或 null。第一個：可昕第六年的週年還沒排的時候，停在該問「出發」的時間（AA_472 第 3 節，story3d.js）*/
+  for(const k of ['judge','grad']){ const f=G=>{ if(!S.on(G)||typeof STUDY==='undefined'||!STUDY.examRemindNext) return null; const r=STUDY.examRemindNext(G,k); return r?r.at:null; }; f._examRemind=k; S.stops.push(f); }   /* D118-B7-FOLLOW：司法官二試、研究所筆試總複習的兩則提醒（同一試：開放那天、考前一週的週日 20:00）——畢業以後篇「跳到下一件事」停一下（研究所 2029 那一場在學期中：在家、宿舍的快轉收到訊息本來就停，不另外加停點）*/   /* 其他模組可以加：G=>絕對時間（小時）或 null。第一個：可昕第六年的週年還沒排的時候，停在該問「出發」的時間（AA_472 第 3 節，story3d.js）*/
   S.RULES=[];   /* 其他模組可以加：(G, GM)=>{}，S.rules 每一次最後跑（src/pgdates3d.js：固定格到了就排成出遊、不再交往就改 skipped）*/
   S.EPI_AFTER_CG=[]; S.EPI_AFTER_ITEMS=[];   /* 尾聲的掛勾（async GM=>…）：③ CG-10 之後、⑥ 桌上的東西之後（⑦ 最後畫面之前）*/
   S.nextStop=function(G){ const now=NOW(G); let best=Infinity; const cand=t=>{ if(t!=null&&t>now+1e-6&&t<best) best=t; };
