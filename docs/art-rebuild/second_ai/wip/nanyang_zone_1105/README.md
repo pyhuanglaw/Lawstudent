@@ -106,7 +106,7 @@
 
 ## 6. 接法（LAWWW-C）
 
-1. 拿檔案：`git checkout <這一包的 SHA> -- src/data/nanyang_layout.js src/nanyang3d.js tests/nanyang_unit.js assets/models/env/second_ai/bb_support/nanyang_lobby.glb assets/models/env/second_ai/bb_support/nanyang_hall.glb tools/blender/env_second/bb_support/nanyang_interior.py tools/blender/env_second/bb_support/nanyang_hall.py`
+1. 拿檔案：`git checkout 9eed89550 -- src/data/nanyang_layout.js src/nanyang3d.js tests/nanyang_unit.js assets/models/env/second_ai/bb_support/nanyang_lobby.glb assets/models/env/second_ai/bb_support/nanyang_hall.glb tools/blender/env_second/bb_support/nanyang_interior.py tools/blender/env_second/bb_support/nanyang_hall.py`
 2. 套 patch：`git apply docs/art-rebuild/second_ai/wip/nanyang_zone_1105/nanyang_wire_1105.patch`（在 `07dfffe15` 上乾淨）。內容：
    - `index.html`：在 tongxian3d.js 後面載入 `src/data/nanyang_layout.js`、`src/nanyang3d.js`。
    - `src/data/places.js`：
