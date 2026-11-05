@@ -47749,7 +47749,7 @@
    "title": "新店面的有名字人物作息（新生南路、公館、溫州街新店）",
    "area": "STORY",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47761,7 +47761,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "AA_705（ebea3a2b0）第一批 → 子代理 wt-shopnpc 接作息",
+   "next": "AA 換兩列時段（以安山嵐週日下午、學姊青木週三下午永遠撞到原作息）；BB 看各店遇到人",
    "source": "UA-LAWWW-1105-37",
    "authorized": "使用者原話",
    "xai": {
