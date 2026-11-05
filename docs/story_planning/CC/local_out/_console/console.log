@@ -233,3 +233,16 @@
 [14:10:27] [res] cpu=7% mem=30% (9.7/31.4 GB) chrome_testing=10  START SHANLAN_v2
 [14:12:08] 正在跑：WZLIN_v1c（已跑 23 分／上限 60 分）、NANYANG_v2（已跑 10 分／上限 75 分）、SHANLAN_v2（已跑 1 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
 [14:13:14] [res] cpu=16% mem=30% (9.5/31.4 GB) chrome_testing=10  END WZLIN_v1c
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       821207b37..850882e39  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:13:21] ==== END   WZLIN_v1c  exit=0  1458s   ====
+[14:13:24] memory 29% before starting D118B5_r3 (2 running)
+[14:13:24] ==== START D118B5_r3  (probe @ 9ea82730f471210c8df143093b7743ce4c9327a8) ====
+[14:13:27] [res] cpu=19% mem=29% (9.3/31.4 GB) chrome_testing=10  START D118B5_r3
+[14:17:08] 正在跑：NANYANG_v2（已跑 15 分／上限 75 分）、SHANLAN_v2（已跑 6 分／上限 120 分）、D118B5_r3（已跑 3 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:22:08] 正在跑：NANYANG_v2（已跑 20 分／上限 75 分）、SHANLAN_v2（已跑 11 分／上限 120 分）、D118B5_r3（已跑 8 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:27:08] 正在跑：NANYANG_v2（已跑 25 分／上限 75 分）、SHANLAN_v2（已跑 16 分／上限 120 分）、D118B5_r3（已跑 13 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:32:08] 正在跑：NANYANG_v2（已跑 30 分／上限 75 分）、SHANLAN_v2（已跑 21 分／上限 120 分）、D118B5_r3（已跑 18 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:37:08] 正在跑：NANYANG_v2（已跑 35 分／上限 75 分）、SHANLAN_v2（已跑 26 分／上限 120 分）、D118B5_r3（已跑 23 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:41:47] [res] cpu=53% mem=37% (11.6/31.4 GB) chrome_testing=10  END NANYANG_v2
