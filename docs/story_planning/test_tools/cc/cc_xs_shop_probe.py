@@ -199,7 +199,8 @@ async def part_hours(pg, cdp):
         await pg.wait_for_timeout(500)
     s = await D.st(pg); Ls = [x['t'] for x in await says(pg, n0)]
     R.note('[打烊時在店裡] XSCLOSE.ZONES 有沒有這一間：%s；過了打烊 %s：現在 %s、台詞 %s' % (xs, J(round(s['hour'], 2)), J({k: s[k] for k in ('zone', 'x', 'z')}), J(Ls)))
-    R.check('[打烊時在店裡] 過了營業時間會被請出去（BB-C 05:27；xs_close3d 包到這一間＝%s）' % xs, bool(e) and e['zone'] == 'xinsheng' and e['stand'], J({'end': e, 'lines': Ls}))
+    # BB-C 06:18：大步、好拍、運動廣場打烊不請出去＝照實記、不算 FAIL（LAWWW-C 之後加進 XSCLOSE，等 AA 的字）
+    R.note('[打烊時在店裡] 過了營業時間有沒有被請出去：%s（xs_close3d 包到這一間＝%s；BB-C 06:18：照實記、不判）' % ('有（到 %s）' % e['zone'] if e else '沒有（還在店裡）', xs) + '  ' + J({'end': e, 'lines': Ls}))
 
 
 async def part_walls(pg, cdp):
