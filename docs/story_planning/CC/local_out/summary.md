@@ -1285,3 +1285,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 299.8s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 299.8s] BROWSER DISCONNECTED
 - 2026-11-05T12:57:46  GUITAR_play  sha=b4746f345486b6bd154cff34975da6d2ab9cb29c  exit=0  529s    PASS [yms] 10:00「（早上十點，校門口。社長學長租了一台小巴，後車廂塞滿琴袋。）」、子晴「今天彈別人的歌。……我的還沒好。」（有 ZQ_ROOFTOP_TUNE）、「（子晴這次在圈子裡彈。）」；18:00 回到  {"st": {"who": null, "t": "（早上十點，校門口。社長學長租了一台小巴，後車廂塞滿琴袋。）", "key": "2026-05-02", "h": 10, "zone": "dorm"}, "end": ["2026-05-02", 18.001]} / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 411.1s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 411.1s] BROWSER DISCONNECTED
+- 2026-11-05T12:59:15  TONGXIAN_REFCAM  sha=07dfffe1514d8239bee1fc0f6a815ea054622982  exit=0  80s    PASS 沒有 JS 例外  [] / VFOV=45.75 / ALL PASS
+      err.log (last 5): [gpu_wrap 46.2s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 46.2s] BROWSER DISCONNECTED

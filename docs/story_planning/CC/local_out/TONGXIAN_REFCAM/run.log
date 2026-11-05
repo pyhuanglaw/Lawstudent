@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tongxian_refcam.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TONGXIAN_REFCAM\out
+CC TONGXIAN_REFCAM：SHA=07dfffe1514d8239bee1fc0f6a815ea054622982；SwiftShader ≠ GPU（顏色、亮度以電腦為準）
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] 讀檔 xs_tongxian 2025-10-14（二）15:00（營業、白天）
+  [  44.5s] 店裡：{"zone": "xs_tongxian", "open": true, "hour": 15.05899666666647, "lights": [7, 7]}
+PASS 在同弦（xs_tongxian）、營業中  {"zone": "xs_tongxian", "open": true, "hour": 15.05899666666647, "lights": [7, 7]}
+  [  44.5s] camRef：{"eye": [-0.4, 1.3, 2.6], "look": [1.41, 1.06, -4.16], "lens": 24, "hfov": 73.74, "vfov": 45.75, "w": 1280, "h": 720}
+PASS 讀得到 TONGXIAN_LAYOUT.shop.camRef
+  [  45.7s] 吊燈 [-1.65, 2.55, -4.15]：畫面上 {"x": 230, "y": 157, "inView": true}；射線打到（前 8 個）[{"obj": "tx_metal<tongxian_interior<Scene", "mat": "tx_metal", "d": 6.989, "p": [-1.65, 2.55, -4.16]}, {"obj": "tx_metal<tongxian_interior<Scene", "mat": "tx_metal", "d": 7.147, "p": [-1.68, 2.58, -4.31]}]
+  [  45.7s] 吊燈前面擋住的：[]；其中是葉子的：[]
+PASS 沒有 JS 例外  []
+VFOV=45.75
+ALL PASS
