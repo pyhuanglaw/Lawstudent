@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GUITAR_play",
+  "sha": "b4746f345486b6bd154cff34975da6d2ab9cb29c",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_guitar_x196_play.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-05T11:47:08",
+  "end": "2026-11-05T11:52:37",
+  "seconds": 329,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8806/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 82,
+    "mem": 53,
+    "used_gb": 16.8,
+    "chrome_testing": 15
+  }
+}

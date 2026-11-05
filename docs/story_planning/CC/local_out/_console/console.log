@@ -38,3 +38,12 @@
 [11:47:11] [res] cpu=39% mem=34% (10.7/31.4 GB) chrome_testing=0  START D118B7_play
 [11:47:30] worktree add b4746f345486b6bd154cff34975da6d2ab9cb29c: invalid reference - fetching main and the commit itself
 [11:51:42] [res] cpu=59% mem=46% (14.5/31.4 GB) chrome_testing=10  END D118B7F_play
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b03640b50..bb006b1b9  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:51:49] ==== END   D118B7F_play  exit=1  275s   ====
+[11:51:55] memory 47% before starting D118B5_play (2 running)
+[11:51:55] ==== START D118B5_play  (probe @ 747dba80dabb454eaf2aaf6f1bee272a271c6ce5) ====
+[11:51:58] [res] cpu=66% mem=47% (15.0/31.4 GB) chrome_testing=10  START D118B5_play
+[11:52:08] 正在跑：GUITAR_play（已跑 4 分／上限 90 分）、D118B7_play（已跑 4 分／上限 60 分）、D118B5_play（已跑 0 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[11:52:37] [res] cpu=31% mem=43% (13.8/31.4 GB) chrome_testing=9  END GUITAR_play
