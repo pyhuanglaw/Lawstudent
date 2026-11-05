@@ -1,11 +1,12 @@
 // 118 巷吧台高腳椅的座位帶 lift（LAWWW2 2026-10-22）——不需要瀏覽器。
 //   lane118_shops.py 的吧台高腳椅（chair 'bar'，座面 0.76 m）原本座位沒寫 lift：GAME.sitAt 用一般椅子的高度（0.45 m），人坐進凳子裡、凳面穿過大腿。
 //   1. 配置（src/data/l118_shop_layouts.js，tools/lane118/gen_shop_layouts.py 由 layout.json 產生）：一一八茶飲 2（等飲料的高腳椅）、咖啡館 4（窗邊）、
-//      義大利麵 6、蛋包飯 5（吧台）個座位都有 lift 0.31（0.76 − 0.45）；其他座位沒有；
+//      義大利麵 6、蛋包飯 5（吧台）個座位都有 lift＝座面 0.76 − 坐下對準的椅面（SIT-HEIGHT-1104 以後 character3d.js 的 C.SIT_TOP 0.47＝0.29；以前照 0.45＝0.31）；其他座位沒有；
 //   2. 區域（src/l118_shops3d.js）：區域座位、坐下按鈕的 seat 都帶 lift。
 // 修改前：1、2 都 FAIL。用法：node tests/l118_bar_lift_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
+const SIT_TOP=+((fs.readFileSync(path.join(ROOT,'src/character3d.js'),'utf8').match(/C\.SIT_TOP=([0-9.]+)/)||[])[1])||0.45, LIFT=+(0.76-SIT_TOP).toFixed(2);   /* 吧台高腳椅座面 0.76 m（lane118_shops.py BAR_LIFT）*/
 global.window=global; global.self=global;
 const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
 global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
@@ -23,9 +24,9 @@ for(const [f,n] of [['src/data/lane118_layout.js','LANE118_LAYOUT'],['src/data/l
   vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='),{filename:f});
 const EXPECT={tea:2,cafe2:4,pasta:6,omu:5};
 for(const [id,n] of Object.entries(EXPECT)){ const L=L118_SHOP_LAYOUTS[id]; const hi=L.seats.filter(s=>s.lift);
-  check('1. '+L.name+'：吧台高腳椅 '+n+' 個座位帶 lift 0.31', hi.length===n&&hi.every(s=>Math.abs(s.lift-0.31)<1e-6), hi.length+' 個'); }
+  check('1. '+L.name+'：吧台高腳椅 '+n+' 個座位帶 lift '+LIFT+'（0.76 − '+SIT_TOP+'）', hi.length===n&&hi.every(s=>Math.abs(s.lift-LIFT)<1e-6), hi.length+' 個：'+hi.map(s=>s.lift).join(',')); }
 { const o=Object.keys(L118_SHOP_LAYOUTS).filter(i=>!EXPECT[i]).flatMap(i=>L118_SHOP_LAYOUTS[i].seats.filter(s=>s.lift).map(()=>i)); check('1. 其他店的座位沒有 lift', o.length===0, o.join(' ')); }
 for(const id of Object.keys(EXPECT)){ loadZone('l118_'+id); const L=L118_SHOP_LAYOUTS[id]; const hi=L.seats.filter(s=>s.lift);
   const zs=hi.map(s=>(E.zone.seats||[]).find(q=>q.x===s.x&&q.z===s.z)), is=hi.map(s=>E.interactables.find(i=>i.seat&&i.seat.x===s.x&&i.seat.z===s.z));
-  check('2. '+L.name+'：區域座位、坐下按鈕的 seat 帶 lift', hi.length>0&&zs.every(q=>q&&q.lift===0.31)&&is.every(i=>i&&i.seat.lift===0.31), '區域 '+zs.map(q=>q&&q.lift).join(',')+'；按鈕 '+is.map(i=>i&&i.seat.lift).join(',')); }
+  check('2. '+L.name+'：區域座位、坐下按鈕的 seat 帶 lift', hi.length>0&&zs.every(q=>q&&Math.abs(q.lift-LIFT)<1e-6)&&is.every(i=>i&&Math.abs(i.seat.lift-LIFT)<1e-6), '區域 '+zs.map(q=>q&&q.lift).join(',')+'；按鈕 '+is.map(i=>i&&i.seat.lift).join(',')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
