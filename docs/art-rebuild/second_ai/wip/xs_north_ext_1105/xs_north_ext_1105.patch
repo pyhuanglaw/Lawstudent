@@ -1,0 +1,28 @@
+diff --git a/src/assets3d.js b/src/assets3d.js
+index f64accf03..f45525ac9 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -127,6 +127,8 @@ const ASSETS = (function(){
+     'prop.seated_figures':{url:'assets/models/env/second_ai/seated_figures.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/seated_figures.py（LAWWW2 167fc2d：坐著的聽眾替身，遊戲路人底模 vroid_npc_f1/f2/m1/m2 減面＋烤色；聽講、抄筆記、滑手機×2 配色×LOD0/LOD1；原點＝座位地面中心、+z 朝講台；VISUAL_REVIEW（second_ai）第 24 節）', license:'本作；底模 VRoid CC0 樣本改作'},
+     'bldg.campus_freshman':{url:'assets/models/env/second_ai/campus_freshman.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_freshman.py（大一女舍 A、B 兩棟外觀＋二樓天橋＋門口；校園世界座標；本體與門廊位置照 zones3d.js campus 區塊的 CK.hall（導航不用改）；外觀是依文字資料的遊戲化設計（米色二丁掛、樓梯間、窗型冷氣、屋頂水塔與太陽能熱水器、背面曬衣），沒有照片；面磚、粉刷、花崗石、隔熱磚貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'bldg.campus_putong':{url:'assets/models/env/second_ai/campus_putong.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_teach.py --set putong（普通教學館外觀；校園世界座標；本體、門廊位置照 zones3d.js 的 CK.hall（導航不用改）；五層（真的樓層數）；紅褐面磚＋洗石子；依文字資料的遊戲化設計，沒有照片；ART-EXT-TEACH，LAWWW2-C 2026-10-18）', license:'CC0（本作）；貼圖 Poly Haven CC0（exterior_wall_cladding_02、granular_concrete、granite_tile_03）'},
++    'bldg.campus_moon':{url:'assets/models/env/second_ai/campus_moon.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_xsnorth.py --set moon（望月台＝新月台外觀；校園世界座標；本體照 zones3d.js 的 XSG.moon；XS-NORTH-EXT-1105，LAWWW2-C）', license:'本作（CC0 貼圖 Poly Haven painted_plaster_wall）'},
++    'bldg.campus_gymext':{url:'assets/models/env/second_ai/campus_gymext.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_xsnorth.py --set gym（體育館外觀；校園世界座標；本體照 zones3d.js 的 XSG.gym；XS-NORTH-EXT-1105，LAWWW2-C）', license:'本作（CC0 貼圖 Poly Haven painted_plaster_wall）'},
+     'bldg.campus_boya':{url:'assets/models/env/second_ai/campus_boya.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_teach.py --set boya（博雅教學館外觀；校園世界座標；本體範圍照 zones3d.js 的 CK.modern（導航不用改）；五層（真的樓層數）；現代建築（淺灰外牆、玻璃大廳、橫向長窗＋鋁鰭）是依文字資料推測，沒有照片；ART-EXT-TEACH，LAWWW2-C 2026-10-18）', license:'CC0（本作）；貼圖 Poly Haven CC0（white_plaster_02、concrete_wall_006、granite_tile_03）'},
+     'bldg.campus_gate':{url:'assets/models/env/second_ai/campus_gate.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_gate.py（臺大校門整座；校門自己的座標，校園、公館共用；照查到的真實配置：門房在正中間、兩側通道、四座燈柱，磚＋石材；尺寸和 campuskit3d.js 的 GATE 一樣；依文字資料的遊戲化設計，沒有照片；ART-EXT-GATE，LAWWW2-C 2026-10-18）', license:'CC0（本作）；貼圖 Poly Haven CC0（exterior_wall_cladding_02、sandstone_blocks_08、granite_tile_03）'},
+     'bldg.campus_male1':{url:'assets/models/env/second_ai/campus_male1.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_male1.py（男一舍外觀；校園世界座標；本體與門廊位置照 zones3d.js campus 區塊的 CK.hall（導航不用改）；地上 4 層照住宿組資料；外觀是依文字資料的遊戲化設計（沒有照片）：馬賽克磚、露明混凝土框架、鏤空花磚樓梯間、背面陽台；ART-EXT-M1，LAWWW2-C 2026-10-18）', license:'CC0（本作）；貼圖 Poly Haven CC0（rounded_square_tiled_wall、painted_plaster_wall、granite_tile_03）＋本作程式產生（m1_breeze.png）'},
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 577c291f2..567e0bf30 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -421,7 +421,9 @@ const Z3 = (function(){
+       { const R=XSG.moon, moon=CK.modern({w:R[3]-R[1],d:R[2]-R[0],floors:2,gfh:4.2,fh:3.6,wall:'#efece4',slab:'#c9c6bd',sign:'望月台'}); moon.userData.ckTag='moon';
+         ckPlace(moon,(R[0]+R[2])/2,(R[1]+R[3])/2,Math.PI/2); buildings.push(moon);
+         const Gy=XSG.gym, gym=CK.modern({w:Gy[2]-Gy[0],d:Gy[3]-Gy[1],floors:4,gfh:5.0,fh:4.4,wall:'#d8d4ca',slab:'#a9aba6',sign:'體育館'}); gym.userData.ckTag='gym_ext';
+-        ckPlace(gym,(Gy[0]+Gy[2])/2,(Gy[1]+Gy[3])/2,0); buildings.push(gym); }
++        ckPlace(gym,(Gy[0]+Gy[2])/2,(Gy[1]+Gy[3])/2,0); buildings.push(gym);
++        for(const [b,key,name] of [[moon,'bldg.campus_moon','campus_moon_glb'],[gym,'bldg.campus_gymext','campus_gymext_glb']]) if(typeof ASSETS!=='undefined'&&ASSETS.manifest[key]){ b.userData.dyn=true;
++          ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||(typeof zone!=='undefined'&&E.zone!==zone)) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag',name,b.userData.ckTag); }).catch(e=>console.warn(name+' 正式模型載入失敗，用套件的外觀',e)); } }   /* XS-NORTH-EXT-1105：Blender 正式外觀（tools/blender/env_second/campus_xsnorth.py），載入後藏起同 ckTag 的套件 */
+       // 系館前的樹列、大道外側的樹、宿舍區與校園邊緣的樹帶（擋住草地直接接到遠景的盡頭）
+       const rows=[
+         [-104,36],[-90,41],[-76,38],[-100,16],[-112,26]].concat(lawnGLB?[]:[[74,-12],[78,14]]).concat([[68,26],   /* X133：有總圖前草皮時，(74,−12)、(78,14) 在草皮上，換成老樟樹、南側的樹 */

@@ -1,0 +1,10 @@
+{
+ "objects": 5,
+ "unique_meshes": 5,
+ "tris": 288,
+ "tris_drawn": 288,
+ "materials": 5,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/2ec5981f-0474-5329-8b76-bb65d93e5c0b/scratchpad/gate_north/campus_moon.glb",
+ "bytes": 65820,
+ "texres": 512
+}
