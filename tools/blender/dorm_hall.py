@@ -830,6 +830,55 @@ _VC = L2.vc_material('dm_vc', rough=0.7)
 L2.vc_consolidate(root, {MAT[k].name: _VC for k in ('red', 'blue', 'yellow', 'green', 'white', 'rubber', 'paper', 'paper2', 'paper3', 'cork', 'navy', 'exitg')})
 for r_, pre in ((L0, 'L0'), (L1, 'L1')): flatten(r_); join_by_material(r_, pre)
 
+
+def conform_tjunctions(mat_prefixes=('dm_plaster', 'dm_dado'), eps=1.5e-4):
+    """LM-SEAM-GEO（LAWWW2-C 11-05）：牆的 T 形接頭補頂點——一條邊的中間夾著別段牆（或同一段門洞上方那一塊）的頂點、自己卻沒有那個頂點時，
+    畫的時候兩邊的三角形邊對不齊，會露出一點一點的縫，看到後面烘成黑的端面（LM-SEAM-1028 只把端面改亮，走廊北牆和樓梯間的接頭放大還看得到）。
+    做法：所有牆（灰泥、腰牆）的頂點當候選點；每一條邊上落在中間的候選點，就在那裡把邊切開、新頂點的座標直接用候選點的值（兩邊完全一樣）。
+    只動牆：門框、踢腳板這些本來就壓在接縫上的零件不用。回傳切了幾刀"""
+    obs = [o for o in scene.objects if o.type == 'MESH' and o.data.materials and o.data.materials[0] and o.data.materials[0].name.startswith(mat_prefixes)]
+    pts = []
+    for o in obs:
+        mw = o.matrix_world
+        for v in o.data.vertices: pts.append(mw @ v.co)
+    cs = 0.25; grid = {}
+    for i, p in enumerate(pts): grid.setdefault((int(math.floor(p.x / cs)), int(math.floor(p.y / cs)), int(math.floor(p.z / cs))), []).append(i)
+    def near(a, b):
+        lo = [int(math.floor(min(a[k], b[k]) / cs)) - 1 for k in range(3)]; hi = [int(math.floor(max(a[k], b[k]) / cs)) + 1 for k in range(3)]
+        for gx in range(lo[0], hi[0] + 1):
+            for gy in range(lo[1], hi[1] + 1):
+                for gz in range(lo[2], hi[2] + 1): yield from grid.get((gx, gy, gz), ())
+    cuts = 0
+    for o in obs:
+        mw = o.matrix_world; inv = mw.inverted(); bm = bmesh.new(); bm.from_mesh(o.data); bm.edges.ensure_lookup_table()
+        todo = []
+        for e in list(bm.edges):
+            A = mw @ e.verts[0].co; B = mw @ e.verts[1].co; d = B - A; L2_ = d.length_squared
+            if L2_ < 1e-6: continue
+            hits = {}
+            for i in near(A, B):
+                P = pts[i]; t = (P - A).dot(d) / L2_
+                if t <= 1e-4 or t >= 1 - 1e-4: continue
+                if (A + d * t - P).length < eps: hits[round(t, 6)] = P.copy()
+            if hits: todo.append((e, sorted(hits.items())))
+        for e, hs in todo:
+            va, vb = e.verts[0], e.verts[1]; cur = e; start = va; prev_t = 0.0
+            for t, P in hs:   # 從 va 往 vb 一刀一刀切：fac 是在剩下那一段（start→vb）上的比例
+                ne, nv = bmesh.utils.edge_split(cur, start, (t - prev_t) / (1.0 - prev_t))
+                nv.co = inv @ P   # 候選點自己的座標：兩邊一模一樣
+                cuts += 1
+                cur = next((x for x in nv.link_edges if x.other_vert(nv) is vb), None)
+                if cur is None: break
+                start = nv; prev_t = t
+        bm.to_mesh(o.data); bm.free()
+    return cuts
+
+_tj = []
+for _ in range(4):   # 切出來的新頂點可能又落在別段牆的邊上：再跑一輪，直到沒有要切的
+    _tj.append(conform_tjunctions())
+    if not _tj[-1]: break
+print('TJUNC_CUTS', _tj)
+
 # ---------------- 匯出 ----------------
 for ob in scene.objects:
     if ob.type == 'MESH':
