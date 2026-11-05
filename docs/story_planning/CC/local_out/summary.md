@@ -1372,3 +1372,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 259.3s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 259.3s] BROWSER DISCONNECTED
 - 2026-11-05T18:45:10  V21R_touch  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  144s    PASS 讀檔後可以走  9.2 / PASS 沒有 JS 例外 / FAILED: 溫州街：NPC 都是正式模型（沒有程序化球體人）
       err.log (last 5): [gpu_wrap 114.8s] page close url=http://127.0.0.1:8805/index.html?turbo&turbo | [gpu_wrap 114.8s] BROWSER DISCONNECTED
+- 2026-11-05T18:47:35  V21R_tappref  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  137s      按互動鈕「離開一盞」：（沒有字幕／對話）；區域 wenzhou / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 71.8s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 71.8s] BROWSER DISCONNECTED
