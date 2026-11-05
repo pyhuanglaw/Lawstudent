@@ -384,7 +384,7 @@ const SIDEQ=(function(){
   S.wallExtra=(G,key)=>{ if(key!=='林家乾麵') return null; const r=S.get(G,'SQ01'); return r&&(r.state==='done'||r.state==='lapsed'&&r.told)?L.SQ01.wall:null; };   /* 過期（老闆自己回了）：菜單牆那一行照樣有（AA_408 1）*/
 
   /* ---------- SQ02：法服（單週六上午的初談；2D 出遊）---------- */
-  S.planFafu=function(G,r){ const s=typeof STORY!=='undefined'&&STORY.fafuSat?STORY.fafuSat(G.day):null; if(!s||typeof OUT==='undefined'){ setAct(r,'fafu',G.day+14); return false; }
+  S.planFafu=function(G,r){ let s=typeof STORY!=='undefined'&&STORY.fafuSat?STORY.fafuSat(G.day):null; for(let i=0;s&&i<4&&STORY.fafuStoryOn&&STORY.fafuStoryOn(G,s.day);i++) s=STORY.fafuSat(s.day);   /* D118-B5b：社員的法服固定場次那天（AA_604；坐圓桌就是那一場、演到 12:00）不排，排下一個值班週六 */ if(!s||typeof OUT==='undefined'){ setAct(r,'fafu',G.day+14); return false; }
     r.fafuDay=s.day; setAct(r,'fafu',s.day); return OUT.plan(G,{id:'sq02_fafu_'+r.day,ev:'ev_sq02_fafu',day:s.day,h:9.5,late:2,place:'法律系館B',title:'法服初談：帝大紅茶的店員',travel:'走路 約 10 分鐘',travelH:1/6}); };
   S.FAFU_EV={ id:'ev_sq02_fafu', title:'法服初談', participants:[], location:'any', trigger:'outing', background:'dark', hours:0.75,
     dialogue:[{scene:'法律系館B・研討室',bg:'wancai_seminar'},{speaker:'值班的學長',text:L.SQ02.fafu}],   /* LEGAL_REVIEW_REQUIRED */

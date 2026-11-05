@@ -125,7 +125,7 @@ const R2Y3B_EVENTS=(function(){
       {speaker:null,text:'（社科院的小教室，坐了不到十個人。阿勳站在投影幕旁邊，手上拿著一張寫滿字的紙。）'},
       {speaker:null,text:'（你坐在最後一排。前二十分鐘，你聽懂了三張投影片。）'},
       {choice:[{text:'舉手問：「你怎麼確定那個數字是原因，不是巧合？」',set:{XUN_PATH_Q:'ask'},goto:'a'},{text:'散場後問他：「累不累？」',set:{XUN_PATH_Q:'tired'},goto:'b'},{text:'不問，報告結束時第一個鼓掌',set:{XUN_PATH_Q:'clap'},goto:'c'}]},
-      {label:'a'},{speaker:'econ_zhengxun',text:'（愣了一下）……這是今天最好的問題。'},{goto:'end'},
+      {label:'a'},{speaker:'econ_zhengxun',text:'（愣了一下）……我沒想過。'},{goto:'end'},
       {label:'b'},{speaker:'econ_zhengxun',text:'累。可是我喜歡。'},{goto:'end'},
       {label:'c'},{speaker:null,text:'（他看了你一眼，把那張紙摺起來。）'},   /* 新寫 */
       {label:'end'},
@@ -554,7 +554,7 @@ const R2Y3B_EVENTS=(function(){
     {label:'end'} ];
   const Z13_TXT={invite:['畢業以後我還有幾個班。','下禮拜四打烊以後，你要不要來？……店裡只剩我。'],   /* 6/8 邀約（BB_98 3-4，AA 的句子）；婉拒照 AA_254 第 4 節（同一般版）*/
     invite2:['畢業以後我還有幾個班。','下禮拜四打烊以後，你要不要來？……上次那句，你想好了嗎？'],   /* 上學期選了「讓我想想」的：第二次（AA_343 D10；杯子那一段不改）*/
-    table:'我這學期翻了一本小說，翻到一半。……主角還沒說出口。',   /* AA_254 第 4 節的飯桌一句，放在 Z13 的飯裡（杯子那一段的伏筆，AA_343 D9）*/
+    table:'我這學期讀了一本小說，讀到一半，一直沒讀完。',   /* AA_254 第 4 節的飯桌一句，放在 Z13 的飯裡（杯子那一段的伏筆，AA_343 D9）*/
     wait:'我多留半小時。……杯子已經寫好了。',   /* 22:15 還沒到：22:30 她傳（BB_98 10-1 第 9 項）*/
     bring:'（店裡只剩吧檯一盞燈。她在等你。）' };   /* 23:00 再沒到＝帶到場（R4）的旁白 */
 

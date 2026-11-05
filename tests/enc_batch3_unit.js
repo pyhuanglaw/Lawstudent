@@ -56,19 +56,21 @@ const why=(G,spot)=>{ const w=[]; ENC.candidates(G,spot,w); return w.join(' '); 
   G=mk(K('2027-02-06'),15); check('3. 2027-02-06 春節初一（週六）：在家，不排',G.weekday===6&&at(G,'D29')==='');
   G=mk(K('2028-07-08'),15); check('3. 大三暑假 2028-07-08 週六：在高雄',G.weekday===6&&at(G,'D29')==='zhe',why(G,'D29'));
   G=mk(K('2029-07-07'),15); check('3. 畢業以後的暑假 2029-07-07：沒有（大四寒假為止）',at(G,'D29')===''); }
-// 4. 語彤 D14：心願以後、寒暑假的週日 15～19、雨天沒有
+// 4. 語彤 D14：心願以後、寒暑假的週日 18～19（AA_684 第 1 項：她 17:00 茶屋下班以後；原本 15～19）、雨天沒有
 { STAGE.heroine_03='FRIEND'; const sun=K('2026-07-05');
-  let G=mk(sun,16,{flags:{WISH_DONE_heroine_03:true}}); check('4. 語彤 D14：大一暑假 2026-07-05 週日 16:00、心願完成、朋友',G.weekday===0&&at(G,'D14')==='heroine_03',at(G,'D14')+' '+why(G,'D14'));
-  G=mk(sun,16); check('4. 心願還沒完成：不在',at(G,'D14')==='');
-  G=mk(sun,16,{flags:{WISH_DONE_heroine_03:true},weather:'rain'}); check('4. 下雨：沒有偶遇',at(G,'D14')==='');
-  G=mk(STORY.termDay('Y1S2',5,7),16,{flags:{WISH_DONE_heroine_03:true}}); check('4. 學期中的週日：不在（照 AA_162 在 D12／D13）',at(G,'D14')==='',why(G,'D14'));
-  STAGE.heroine_03='FAMILIAR'; G=mk(sun,16,{flags:{WISH_DONE_heroine_03:true}}); check('4. 還沒到朋友：不在',at(G,'D14')===''); delete STAGE.heroine_03; }
+  let G=mk(sun,18,{flags:{WISH_DONE_heroine_03:true}}); check('4. 語彤 D14：大一暑假 2026-07-05 週日 18:00、心願完成、朋友',G.weekday===0&&at(G,'D14')==='heroine_03',at(G,'D14')+' '+why(G,'D14'));
+  G=mk(sun,16,{flags:{WISH_DONE_heroine_03:true}}); check('4. 同一天 16:00：她還在一盞茶屋上班（13～17），不在漁人碼頭（AA_684 第 1 項）',at(G,'D14')==='',why(G,'D14'));
+  G=mk(sun,18); check('4. 心願還沒完成：不在',at(G,'D14')==='');
+  G=mk(sun,18,{flags:{WISH_DONE_heroine_03:true},weather:'rain'}); check('4. 下雨：沒有偶遇',at(G,'D14')==='');
+  G=mk(STORY.termDay('Y1S2',5,7),18,{flags:{WISH_DONE_heroine_03:true}}); check('4. 學期中的週日：不在（照 AA_162 在 D12／D13）',at(G,'D14')==='',why(G,'D14'));
+  STAGE.heroine_03='FAMILIAR'; G=mk(sun,18,{flags:{WISH_DONE_heroine_03:true}}); check('4. 還沒到朋友：不在',at(G,'D14')===''); delete STAGE.heroine_03; }
 // 5. weeks 陣列
 { STAGE.classmate_bohan='FAMILIAR';
   let G=mk(STORY.termDay('Y1S2',6,7),11); check('5. 柏翰 D11：大一下第 6 週週日 11:00',at(G,'D11')==='classmate_bohan',why(G,'D11'));
   G=mk(STORY.termDay('Y1S2',8,7),11); check('5. 第 8 週：不在（只有第 6、7 週）',at(G,'D11')==='');
   G=mk(STORY.termDay('Y1S1',6,7),11); check('5. 大一上第 6 週：不在（大一下～大二下）',at(G,'D11')==='');
-  G=mk(STORY.termDay('Y3S1',3,7),14); check('5. Alison D01：大三上第 3 週週日 14:00',at(G,'D01')==='yu',why(G,'D01'));
+  G=mk(STORY.termDay('Y3S1',6,7),14); check('5. Alison D01：大三上第 6 週週日 14:00',at(G,'D01')==='yu',why(G,'D01'));
+  G=mk(STORY.termDay('Y3S1',3,7),14); check('5. Alison D01：大三上第 3 週週日不在華山（她和家人在礁溪，AA_661 第 31 列、AA_611 #4）',!/yu/.test(at(G,'D01')),why(G,'D01'));
   G=mk(STORY.termDay('Y3S1',5,7),14); check('5. 第 5 週：不在（子晴那一週）',at(G,'D01')==='');
   G=mk(STORY.termDay('Y2S1',3,7),14); check('5. 大二：不在（大三起）',at(G,'D01')==='');
   G=mk(STORY.termDay('Y1S1',4,7),14); check('5. 芯慈 D02：第 4 週週日 14:00',at(G,'D02')==='classmate_xinci',why(G,'D02'));

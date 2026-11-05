@@ -4,6 +4,7 @@
 //   B AA_608 第 10 節（10-1～10-7）：遊覽車（坐窗邊、明軒一句印象）、破冰（只有芯慈、Alison 一句印象）、撕名牌（認識阿哲）、自由時間打牌（學測十五級分／哥／為什麼重考，三個分支）、營火（小隊輔帶沛珊來）、早餐（沛珊問「哥？」）；明軒、柏翰、Alison、Kevin 沒有台詞。
 //   D 中途讀檔：新版存檔（campSeqV 2）從 campStep 接著演；舊版存檔（12 段的表）照最後演完那一段的時間換到新表。
 //   E 宿營之後：9/1 ev_zhe_w1_meet 宿營版（AA_205 6-2：書包放旁邊、「欸，早。」／有 ZHE_CALLS_GE「哥，早。」、不換名字、不加熟悉）；明軒系籃開頭（BB_177 第 12 節）；9/27 舊迎新不排（有 CAMP_Y1）。
+//   A2b 換日的日期卡那一刻日期和時間一起換（CAMP-DAYHOUR-1104；修改前 37c354189 FAIL 2）。
 // 修改前（沒有 camp_y1.js、沒有 STORY.campY1）全部 FAIL。用法：node tests/camp_y1_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -250,5 +251,10 @@ const day=k=>STORY.dayOfKey(k);
     fresh(); Object.assign(G.flags,{MAIN_D1:STORY.MAIN_D1_NEW,LAW_START_DAY:day('2025-08-29')}); G.day=day('2025-09-10');
     /* AA_294 ②（企劃 b3ec8820）：第一張延到下一次出席，到第 12 週（原本新局第 1～3 週、第 4 週不行）*/
     check('L6. SK01 第 1～6 週；SK04 第一張便利貼新局第 2 週可以、第 4 週也可以（AA_294 ②：到第 12 週）、第 13 週不行',JSON.stringify(sk01.weeks)==='[1,2,3,4,5,6]'&&!!n1&&(()=>{ const ok2=n1.prereq.custom(G); G.day=day('2025-09-24'); const ok4=n1.prereq.custom(G); G.day=STORY.termDay('Y1S1',13,4); const ok13=n1.prereq.custom(G); return ok2!==false&&ok4!==false&&ok13===false; })()); }
+    { /* A2b（CAMP-DAYHOUR-1104，BB-C 11-04 17:30／CC T1 隨機快轉）：換到下一天的日期卡那一刻，日期和時間要一起換——原本先設 G.day、等 1.6 秒字卡才設 G.hour（8/23 配上 8/22 晚上 19:30，接著退回 17:30）*/
+    const tc0=GM.titleCard, at=[]; GM.titleCard=async(a,b)=>{ at.push({b:b||'',day:G.day,h:G.hour}); };
+    fresh(); await STORY.campY1(GM,{next:false}); GM.titleCard=tc0; const d0=day('2025-08-22');
+    for(const off of [1,2]){ const c=at.find(x=>x.b==='迎新宿營 第 '+(off+1)+' 天'), first=STORY.CAMP_SEQ.find(x=>x[1]===off);
+      check('A2b. 第 '+(off+1)+' 天的日期卡那一刻：日期＝8/'+(22+off)+'、時間＝那天第一段的 '+first[2]+'（不是前一晚的時間）',!!c&&c.day===d0+off&&Math.abs(c.h-first[2])<1e-9,JSON.stringify(c)); } }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

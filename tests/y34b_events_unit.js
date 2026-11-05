@@ -76,15 +76,15 @@ const date=id=>H.date(id);
     check('AA_337 第 6 節 日本路線、可昕知道：只有她那一句，沒有動作', has('……我知道你們同一班。到了傳訊息。兩個都是。')&&!H.said.some(s=>/抱了你一下/.test(s.t))); }
   /* ===== 1B-13 ===== */
   fresh('2028-02-23',20,'dorm'); H.FRIEND('heroine_03'); at('2028-02-23',21); phone();
-  check('1B-13 2/23 21:00 語彤私訊「明天傍晚 麵店門口」「我有事想問你」', JSON.stringify(th('p:heroine_03'))===JSON.stringify(['明天傍晚 麵店門口','我有事想問你']));
-  at('2028-02-24',17); H.G.zone='gongguan'; E.player.obj.position.x=-63; E.player.obj.position.z=22;
-  check('1B-13 2/24 17:00 在麵店門口：第一次到期（離門口遠＝不演）', S.t1FirstDue(H.G,E)&&(()=>{ E.player.obj.position.x=0; const r=S.t1FirstDue(H.G,E); E.player.obj.position.x=-63; return !r; })());
+  check('1B-13 2/23 21:00 語彤私訊「明天傍晚 茶屋門口」「我有事想問你」（AA_679 第 2 列：原本「麵店門口」）', JSON.stringify(th('p:heroine_03'))===JSON.stringify(['明天傍晚 茶屋門口','我有事想問你']));
+  at('2028-02-24',17); H.G.zone='wenzhou'; E.player.obj.position.x=S.t1Door().x; E.player.obj.position.z=S.t1Door().z;
+  check('1B-13 2/24 17:00 在一盞茶屋門口（溫州街，AA_679 第 2 列）：第一次到期（離門口遠＝不演）', S.t1FirstDue(H.G,E)&&(()=>{ E.player.obj.position.x=0; const r=S.t1FirstDue(H.G,E); E.player.obj.position.x=S.t1Door().x; return !r; })());
   H.picks=['我沒交志願表']; await run('ev_yt_thursday_first');
   check('T1 台灣路線：「你沒去交換。」；第二個選項是「我沒交志願表。」；YT_T1', has('你沒去交換。')&&H.opts[0].includes('「我沒交志願表。」')&&!H.opts[0].includes('「我八月才走。」')&&has('嗯。那剛好。')&&H.G.flags.YT_T1===true);
-  { fresh('2028-02-24',17,'gongguan',{},'US'); H.FRIEND('heroine_03'); E.player.obj.position.x=-63; E.player.obj.position.z=22; H.picks=['我八月才走']; await run('ev_yt_thursday_first');
+  { fresh('2028-02-24',17,'wenzhou',{},'US'); H.FRIEND('heroine_03'); E.player.obj.position.x=S.t1Door().x; E.player.obj.position.z=S.t1Door().z; H.picks=['我八月才走']; await run('ev_yt_thursday_first');
     check('T2 美國路線：「你下學期才去交換。」、「我八月才走。」→「嗯。那這學期剛好。」', has('你下學期才去交換。')&&H.opts[0].includes('「我八月才走。」')&&has('嗯。那這學期剛好。')); }
-  { fresh('2028-02-24',17,'gongguan',{},'JP'); H.FRIEND('heroine_03'); E.player.obj.position.x=-63; E.player.obj.position.z=22; check('1B-13 日本路線（AA_341 裁定 4，原本「沒有」）：2/21～3/24 在臺灣，照台灣路線有第一次；3/25 出發以後沒有', S.t1On(H.G)&&S.t1FirstDue(H.G,E)&&(at('2028-03-30',17),!S.t1On(H.G))); }
-  fresh('2028-03-02',17,'gongguan',{YT_T1:true,YT_T1_DAY:D('2028-02-24')}); H.FRIEND('heroine_03'); E.player.obj.position.x=-63; E.player.obj.position.z=22;
+  { fresh('2028-02-24',17,'wenzhou',{},'JP'); H.FRIEND('heroine_03'); E.player.obj.position.x=S.t1Door().x; E.player.obj.position.z=S.t1Door().z; check('1B-13 日本路線（AA_341 裁定 4，原本「沒有」）：2/21～3/24 在臺灣，照台灣路線有第一次；3/25 出發以後沒有', S.t1On(H.G)&&S.t1FirstDue(H.G,E)&&(at('2028-03-30',17),!S.t1On(H.G))); }
+  fresh('2028-03-02',17,'wenzhou',{YT_T1:true,YT_T1_DAY:D('2028-02-24')}); H.FRIEND('heroine_03'); E.player.obj.position.x=S.t1Door().x; E.player.obj.position.z=S.t1Door().z;
   check('1B-13 之後的週四 17:00 在門口：問「今天要去嗎？」', S.t1WeekDue(H.G,E));
   H.said=[]; H.opts=[]; H.picks=[0]; const h0=H.G.hour; await S.t1Week(GM);
   check('1B-13 去＝旁白輪流第一段（地點字幕「公館・水源市場」）、快轉 2 小時、YT_T1_N 1', has('今天要去嗎？')&&has('（水源市場。賣菜的阿嬤講了四十分鐘她媳婦的事。語彤一直點頭，筆記寫了三頁。）')&&caps.includes('公館・水源市場')&&Math.abs(H.G.hour-h0-2)<1e-6&&H.G.flags.YT_T1_N===1&&!S.t1WeekDue(H.G,E));
@@ -95,7 +95,7 @@ const date=id=>H.date(id);
   at('2028-03-30',17); H.said=[]; H.picks=[0,0]; await S.t1Week(GM);
   check('T3 3/23 沒去＝3/30 修鞋店「你們法律系的，問問題都像在找誰錯。」；FIELD_FINDING；AA 的 ID ev_field_finding、快轉 2 小時、不演那一週的旁白', has('你們法律系的，問問題都像在找誰錯。')&&has('嗯。所以你們需要我們。')&&H.G.flags.FIELD_FINDING===true&&H.G.flags.YT_T1_N===3&&H.G.events.done.ev_field_finding===1&&Math.abs(H.G.hour-19)<1e-6&&!has('（巷子裡的鐘錶行。老闆修錶的時候不說話。你們在旁邊站了半小時，他才抬頭：「問吧。」）'));
   at('2028-06-08',17); check('1B-13 第 16 週（期末）不去', !S.t1WeekDue(H.G,E));
-  { fresh('2028-03-09',16.9,'gongguan'); H.FRIEND('heroine_03'); E.player.obj.position.x=-63; E.player.obj.position.z=22; const a=S.t1FirstDue(H.G,E); at('2028-03-09',17); const b=S.t1FirstDue(H.G,E);
+  { fresh('2028-03-09',16.9,'wenzhou'); H.FRIEND('heroine_03'); E.player.obj.position.x=S.t1Door().x; E.player.obj.position.z=S.t1Door().z; const a=S.t1FirstDue(H.G,E); at('2028-03-09',17); const b=S.t1FirstDue(H.G,E);
     at('2028-02-24',16.8); const c=S.t1FirstDue(H.G,E); at('2028-03-09',17); H.said=[]; H.picks=[0]; await run('ev_yt_thursday_first');
     check('AA_337 第 2 題 2/24 沒去：之後的週四 17:00～17:30 在門口演「第一次」（16:54 還不演；2/24 照舊 16:45 起）', !a&&b&&c&&has('你沒去交換。')&&H.G.flags.YT_T1===true&&!S.t1WeekDue(H.G,E));
     at('2028-06-01',17.2); H.G.flags.YT_T1=false; const d=S.t1FirstDue(H.G,E); at('2028-06-08',17.2); const e=S.t1FirstDue(H.G,E); check('AA_337 第 2 題 第一次到第 15 週（6/1）為止', d&&!e); }
@@ -297,21 +297,22 @@ const date=id=>H.date(id);
   /* ===== 1B-20 ===== */
   fresh('2028-12-11',20,'dorm'); H.FAMILIAR('heroine_01'); PHONE.join(H.G,'public_law','公法讀書會'); at('2028-12-11',21); phone();
   check('1B-20 12/11 21:00 讀書會群組：以安「學弟說這週四停一次。」「大家去燒臘店。」', th('g:public_law').join('|')==='學弟說這週四停一次。|大家去燒臘店。');
-  { fresh('2028-12-12',19,'noodle'); H.FAMILIAR('heroine_03'); const a=S.a23TueDue(H.G); GM.npc.heroine_03={obj:{position:{x:0,y:0,z:0},rotation:{y:0}}}; const b=S.a23TueDue(H.G); await run('ev_yt_23rd_notice');
-    check('1B-20 12/12 語彤的班（她在店裡）：「週四，二十三週年。你要來。」', !a&&b&&has('週四，二十三週年。你要來。')); GM.npc={}; }
+  { fresh('2028-12-12',19,'noodle'); H.FAMILIAR('heroine_03'); const a=S.a23TueDue(H.G); GM.npc.heroine_03={obj:{position:{x:0,y:0,z:0},rotation:{y:0}}}; const b=S.a23TueDue(H.G);
+    check('1B-20 12/12「語彤的班」她在店裡約你那一段拿掉（AA_675 2-5：她不在燒臘店工作）——她在店裡也不演、ev_yt_23rd_notice 退場', !a&&!b&&!!STORY_EVENTS.find(e=>e.id==='ev_yt_23rd_notice').retired); GM.npc={}; }
   fresh('2028-12-14',18.9,'noodle',{rain_umbrella:'none'}); H.FRIEND('heroine_03'); H.FAMILIAR('yu'); H.FAMILIAR('heroine_05'); SOCIAL.remember('heroine_03','SHARED_MEAL','她端來的乾麵');
   check('1B-20 12/14 18:45～ 在麵店＝演', S.a23Due(H.G)); H.said=[]; H.cgs=[]; await S.a23Run(GM);
-  check('Y1 Alison「這兩個位子」、阿哲「今天剛好是週四」、阿姨「明年也是。」、最後一碗「乾麵，加滷蛋。」、CG-8、「這次我帶了兩把傘。」、強制下雨；ANNIVERSARY_23', has('（坐下）第四年了。這兩個位子，本來就是我們的。')&&has('……以後也一樣。想吃麵就來，遇到就一起坐。')&&has('（舉起湯勺）明年也是。')&&has('（把最後一碗放在你面前）乾麵，加滷蛋。')&&has('我記得。我記得每個人第一次點什麼。')&&H.cgs.includes('cg_anniversary_23')&&has('這次我帶了兩把傘。')&&has('週年快樂。')&&H.G.weather==='rain'&&H.G.flags.ANNIV23==='there'&&SOCIAL.has('heroine_03','ANNIVERSARY_23'));
+  /* AA_661 第 63 列（AA 定：公館燒臘二十三週年是阿鳳和熟客的場）：燒臘店的字照 AA_612（A-450～A-458）、語彤端碗和語彤的媽媽那幾句拿掉、可昕「你說了三年的叉燒」 */
+  check('Y1 Alison「這兩個位子」、阿哲「想吃飯就來」、阿姨「明年也是。」、語彤不端最後一碗（AA_661 第 63 列）、CG-8、「這次我帶了兩把傘。」、強制下雨；ANNIVERSARY_23', has('（坐下）第四年了。這兩個位子，本來就是我們的。')&&has('……以後也一樣。想吃飯就來，遇到就一起坐。')&&has('（舉起湯勺）明年也是。')&&!has('（把最後一碗放在你面前）乾麵，加滷蛋。')&&!H.said.some(x=>/把最後一碗放在/.test(x.t||''))&&has('我記得。我記得每個人第一次點什麼。')&&H.cgs.includes('cg_anniversary_23')&&has('這次我帶了兩把傘。')&&has('週年快樂。')&&H.G.weather==='rain'&&H.G.flags.ANNIV23==='there'&&SOCIAL.has('heroine_03','ANNIVERSARY_23'));
   { fresh('2028-12-14',18.9,'noodle'); H.FRIEND('heroine_03'); date('heroine_03'); await S.a23Run(GM);
-    check('Y3 和語彤交往中：媽媽多一句、「這把是我們的。」；最後一碗一定給你（沒有備註＝招牌乾麵那句）', has('……他也很少講話。你們兩個怎麼聊天的？')&&has('（撐開另一把）這把是我們的。')&&has('招牌乾麵。你第一次來一定是點這個，大家都是。')&&!has('這次我帶了兩把傘。')); }
+    check('Y3 和語彤交往中：「這把是我們的。」；語彤的媽媽那一句、最後一碗都拿掉（AA_661 第 63 列）', !has('……他也很少講話。你們兩個怎麼聊天的？')&&has('（撐開另一把）這把是我們的。')&&!has('招牌乾麵。你第一次來一定是點這個，大家都是。')&&!has('這次我帶了兩把傘。')); }
   { fresh('2028-12-14',18.9,'noodle',{rain_umbrella:'share'}); H.FRIEND('heroine_03'); date('kexin'); await S.a23Run(GM);
     check('1B-20 和別人交往中：「兩把。你們自己分。」（傘的那幾句不出）；不熟的最後一碗不給你', has('兩把。你們自己分。')&&!has('這次換我送你。')&&!has('（把最後一碗放在你面前）乾麵，加滷蛋。'));
-    const a=idx('你點的是餛飩湯，你記錯了。'), b=idx('（把最後一碗放在阿哲面前）餛飩湯。'), c=idx('……我真的記錯了喔。'), e=idx('我記得。我記得每個人第一次點什麼。');
-    check('AA_337 第 3 節 最後一碗給阿哲：接阿姨那句 →「（把最後一碗放在阿哲面前）餛飩湯。」→ 阿哲「……我真的記錯了喔。」→「我記得。我記得每個人第一次點什麼。」', a>=0&&b>a&&c===b+1&&e===c+1&&/阿哲|哲/.test(H.said[c].who||''), JSON.stringify([a,b,c,e]));
+    const a=idx('你點的是油雞腿飯，你記錯了。'), b=idx('（把最後一碗放在阿哲面前）餛飩湯。'), c=idx('……我真的記錯了喔。'), e=idx('我記得。我記得每個人第一次點什麼。');
+    check('AA_337 第 3 節：阿姨「你點的是油雞腿飯，你記錯了。」（AA_612 A-456）→ 阿哲「……我真的記錯了喔。」→「我記得。我記得每個人第一次點什麼。」；語彤端最後一碗那句拿掉（AA_661 第 63 列）', a>=0&&b<0&&c>a&&e===c+1&&/阿哲|哲/.test(H.said[c].who||''), JSON.stringify([a,b,c,e]));
     at('2028-12-14',22.4); phone(); const k0=th('p:kexin').length; at('2028-12-14',22.5); phone(); const km=(H.G.msgs||[]).filter(m=>m.th==='p:kexin');
     check('AA_337 第 3 節 和可昕交往、她沒見過麵店團：22:30 系統字「（你傳了一張長桌的照片給可昕。）」＋可昕「人好多。」「……下次帶我去。人少的時候。」', k0===0&&km.map(m=>m.text).join('|')==='（你傳了一張長桌的照片給可昕。）|人好多。|……下次帶我去。人少的時候。'&&!km[0].from&&km[1].from==='kexin', JSON.stringify(km.map(m=>[m.from,m.text]))); }
   { fresh('2028-12-14',18.9,'noodle',{KX_MET_NOODLE_TEAM:true}); H.FRIEND('heroine_03'); date('kexin'); await S.a23Run(GM); at('2028-12-14',22.5); phone();
-    check('1B-20 見過麵店團的可昕：她在場（「你說了三年的麵，原來是真的。」）、沒有事後照片', has('你說了三年的麵，原來是真的。')&&!th('p:kexin').length); }
+    check('1B-20 見過麵店團的可昕：她在場（「你說了三年的叉燒，原來是真的。」，AA_661 第 63 列）、沒有事後照片', has('你說了三年的叉燒，原來是真的。')&&!th('p:kexin').length); }
   { fresh('2028-12-11',20,'dorm'); H.FAMILIAR('zhe'); PHONE.join(H.G,'noodle_team','麵店團'); at('2028-12-11',21); phone(); const a=th('g:noodle_team').slice(); at('2028-12-12',21); phone(); const b=th('g:noodle_team').slice(); at('2028-12-13',20.9); phone(); const c=th('g:noodle_team').length; at('2028-12-13',21); phone();
     const L=(H.G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.from+':'+m.text);
     check('AA_337 第 3 節 麵店團群組的倒數：12/11 阿哲「週四 燒臘店二十三週年 倒數三天」（AA_464 4-1 加「麵店」）、12/12 Alison「兩天」、12/13 阿哲「明天七點 不准遲到」柏翰「我六點半到。」', a.join('|')==='週四 燒臘店二十三週年 倒數三天'&&b.slice(-1)[0]==='兩天'&&c===2&&L.join('|')==='zhe:週四 燒臘店二十三週年 倒數三天|yu:兩天|zhe:明天七點 不准遲到|classmate_bohan:我六點半到。', JSON.stringify(L)); }

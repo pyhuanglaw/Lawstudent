@@ -79,9 +79,10 @@ const shift=async(n)=>{ for(const f of JOBS.MID_EV) await f(GM,'tea',n,{}); for(
   /* 5 圖書館三樓（AA_643 第 9-1 節，企劃線 4862b7139）：新遊戲（YT_JOB_V）＝大一下第 10 週以後週末 17:30～19:00、YT_PARENTS_KNOW；舊存檔照舊 21:00～22:00 阿姨那一版 */
   { const T=STORY_EVENTS.find(e=>e.id==='ev_yutong_thanks'), C=T.prereq.custom, g=(wk,wd,h,f)=>({day:tdOf('Y1S2',wk,wd),hour:h,flags:Object.assign({YT_JOB_V:1,YT_PARENTS_KNOW:true},f||{})});
     const A643=(()=>{ try{ return cp.execSync('git -C '+JSON.stringify(ROOT)+' show 4862b7139:"docs/story_planning/AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md"',{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } })();
-    const i=T.dialogue.findIndex(l=>l.label==='v3'), V=T.dialogue.slice(i).filter(l=>l.text).map(l=>l.text);
+    const A673=(()=>{ try{ return cp.execSync('git -C '+JSON.stringify(ROOT)+' show 9198858cf:"docs/story_planning/AA_673_台詞第九批_事件後半.md"',{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } })();   /* AA673-LINES-1104：v3e 那一句照 AA_673 第 1 節第 2 列改短、後面多一句旁白 */
+    const i=T.dialogue.findIndex(l=>l.label==='v3'), V=T.dialogue.slice(i).filter(l=>l.text).map(l=>l.text), inDoc=t=>{ const x=t.replace(/^「|」$/g,''); return A643.includes(x)||A673.includes(x); };
     check('5. 新遊戲：第 10 週週六 18:00＝有；週三、第 9 週、19:30、沒有 YT_PARENTS_KNOW＝沒有；舊存檔（沒有 YT_JOB_V）照舊 21:00～22:00＋yutong_hospital',C(g(10,6,18))&&C(g(12,7,17.6))&&!C(g(10,3,18))&&!C(g(9,6,18))&&!C(g(10,6,19.5))&&!C(g(10,6,18,{YT_PARENTS_KNOW:false}))&&C({day:tdOf('Y1S2',10,2),hour:21.5,flags:{yutong_hospital:true}})&&!C({day:tdOf('Y1S2',10,6),hour:18,flags:{}}));
-    check('5. 新稿的句子都在 AA_643 第 9-1 節（開頭旁白、三句、三個選項的回覆、最後一句）',A643.length>1000&&V.length===8&&V.every(t=>A643.includes(t.replace(/^「|」$/g,''))),JSON.stringify(V.filter(t=>!A643.includes(t)))); }
+    check('5. 新稿的句子都在 AA_643 第 9-1 節（開頭旁白、三句、三個選項的回覆、最後一句；v3e 那一句和後面的旁白照 AA_673 第 1 節第 2 列）',A643.length>1000&&A673.length>500&&V.length===9&&V.every(inDoc)&&A673.includes(V[V.length-1])&&!A643.includes(V[V.length-1]),JSON.stringify(V.filter(t=>!inDoc(t)))); }
   /* 第一次去她家（AA_625；交往以後的第一個平日傍晚 17:00 私訊 → 18:30 去她家，記 YT_HOME_SEEN）＋事件 6 在她家當面版（AA_643 第 5 節）*/
   { global.OUT={bg:k=>k,get:(g,id)=>(g._out||{})[id]||null,plan:(g,o)=>((g._out=g._out||{})[o.id]=Object.assign({state:'planned'},o))};
     const home=async(wk,f)=>{ fresh(); Object.assign(G.flags,{YT_MET_JOB:true,dating_heroine_03:true,romance:{heroine_03:{status:'dating',sinceDay:tdOf('Y2S1',3,1)-1}}},f||{}); G.flags.romance.heroine_03.sinceDay=wk[2]-1; G.day=wk[2]; G.hour=17.1; YTJOB.homePhone(G); PHONE.tick(G);
@@ -89,12 +90,12 @@ const shift=async(n)=>{ for(const f of JOBS.MID_EV) await f(GM,'tea',n,{}); for(
     let m=await home(['Y2S1',3,tdOf('Y2S1',3,2)]); const q=OUT.get(G,'yt_home_first'), E=ev('ev_yt_home_first');
     check('家. 交往以後的平日 17:00：「……今天秀琴姨煮很多。你要不要來吃。」→「好。」＝當天 18:30 去她家（新生南路）',!!m&&m.text==='……今天秀琴姨煮很多。你要不要來吃。'&&!!q&&q.h===18.5&&q.day===G.day&&q.ev==='ev_yt_home_first'&&!!E&&E.trigger==='outing',JSON.stringify([m&&m.text,q]));
     SOCIAL.remember('heroine_03','RENT_RUMOR','');   /* 事件 6 已經在茶屋聽過＝一般版 */
-    said=[]; picks=['一個人住這麼大']; await EVENTS.run(E); const HL=['（新生南路、學校對面的大樓。電梯到七樓。）','你就是祐廷喔？坐、坐。','……嗯。這是秀琴姨。','她都不帶人回來。你是第一個。','秀琴姨。','（晚餐。秀琴姨煮了三菜一湯，收完碗就走了。）','我媽買的。……我只是想知道一個人過日子是什麼感覺。'];
+    said=[]; picks=['一個人住這麼大']; await EVENTS.run(E); const HL=['（新生南路、學校對面的大樓。電梯到七樓。）','你就是祐廷喔？坐、坐。','……嗯。這是秀琴姨。','她都不帶人回來。……我多煮一碗飯。','秀琴姨。','（晚餐。秀琴姨煮了三菜一湯，收完碗就走了。）','我媽買的。……我只是想知道一個人過日子是什麼感覺。'];
     check('家. 那一晚照 AA_625 逐字；記 YT_HOME_SEEN；台詞都在稿裡',HL.every(t=>said.some(x=>is(x,t)))&&G.flags.YT_HOME_SEEN===true&&HL.every(t=>DOC.includes(t.replace(/^（|）$/g,''))),JSON.stringify(said));
     fresh(); Object.assign(G.flags,{YT_MET_JOB:true,dating_heroine_03:true,romance:{heroine_03:{status:'dating',sinceDay:tdOf('Y2S1',3,6)}}}); G.day=tdOf('Y2S1',3,6)+1; G.hour=17.1; YTJOB.homePhone(G); PHONE.tick(G);
     check('家. 週末不問、沒交往不問、去過不問',!(G.msgs||[]).some(x=>x.th==='p:heroine_03')&&(()=>{ fresh(); G.day=tdOf('Y2S1',3,2); G.hour=17.1; YTJOB.homePhone(G); PHONE.tick(G); const a=!(G.msgs||[]).length; return a; })());
     m=await home(['Y1S2',11,tdOf('Y1S2',11,2)]); said=[]; picks=['煮得很好吃']; await EVENTS.run(ev('ev_yt_home_first'));
-    check('家. 事件 6 在她家當面版（大一下第 10 週以後、還沒在茶屋聽過）：秀琴姨坐下來「房東說要把房子賣了。…」、語彤「秀琴姨，妳先吃。」；記 RENT_RUMOR、ev_yutong_landlord 演過',said.some(x=>is(x,'房東說要把房子賣了。我住了十四年。賣了我要住哪裡。'))&&said.some(x=>is(x,'秀琴姨，妳先吃。'))&&!said.some(x=>/收完碗就走了/.test(x))&&said.some(x=>is(x,'嗯。比茶屋的點心好吃。……不要跟蘇姨說。'))&&SOCIAL.has('heroine_03','RENT_RUMOR')&&!!G.events.done.ev_yutong_landlord,JSON.stringify(said)); }
+    check('家. 事件 6 在她家當面版（大一下第 10 週以後、還沒在茶屋聽過）：秀琴姨坐下來「房東說要把房子賣了。…」、語彤「秀琴姨，妳先吃。」；記 RENT_RUMOR、ev_yutong_landlord 演過',said.some(x=>is(x,'房東說要把房子賣了。我住了十四年。賣了我要住哪裡。'))&&said.some(x=>is(x,'秀琴姨，妳先吃。'))&&!said.some(x=>/收完碗就走了/.test(x))&&said.some(x=>is(x,'嗯。比茶屋的點心好吃。……蘇姨聽到會難過。'))&&SOCIAL.has('heroine_03','RENT_RUMOR')&&!!G.events.done.ev_yutong_landlord,JSON.stringify(said)); }
   /* 事件 6 的截止（AA 11-03 回 LAWWW）：兩版都在大二下第 5 週結束前；第 6 週以後還沒聽過＝沒有 */
   { await (async()=>{ fresh(); Object.assign(G.flags,{YT_MET_JOB:true,dating_heroine_03:true,romance:{heroine_03:{status:'dating',sinceDay:tdOf('Y2S2',6,2)-1}}}); G.day=tdOf('Y2S2',6,2); G.hour=17.1; YTJOB.homePhone(G); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.ask); if(m) PHONE.answer(G,m.ask.id,0); YTJOB.homePlan(G); })();
     said=[]; picks=['煮得很好吃']; await EVENTS.run(ev('ev_yt_home_first'));

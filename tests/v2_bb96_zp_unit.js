@@ -41,7 +41,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('她週六 14–18 照作息在溫州街（走得到）',!!sch&&sch.from<=14&&sch.to>=18,JSON.stringify(sch));
     const play=async(pick,dating)=>{ fresh(termDay('Y1S2',12,6),15,'wenzhou',dating?{dating_kexin:true}:{}); SOCIAL.meet('heroine_02','cafe'); R('heroine_02',25,10,10); const r0=Object.assign({},SOCIAL.rel('heroine_02')); picks=[pick]; await EVENTS.run(z); const r1=SOCIAL.rel('heroine_02'); return {L:lines(),d:{trust:r1.trust-r0.trust,aff:(r1.aff||0)-(r0.aff||0),comf:r1.comf-r0.comf,resp:(r1.resp||0)-(r0.resp||0)}}; };
     let r1=await play(0);
-    const base=['林芷若：週六我都在溫州街。這裡的人不會問我週末在幹嘛。','林芷若：交換的申請，我拖了兩個月。不是懶。','林芷若：我媽每天晚上十點打給我。講店裡的事。','林芷若：誰來印考卷、哪一台又卡紙。','林芷若：我去英國的話，那邊是下午三點。','林芷若：……她十點要打給誰？'];
+    const base=['林芷若：週六我都在溫州街。這裡的人不會問我週末在幹嘛。','林芷若：交換的申請，我拖了兩個月。','林芷若：我媽每天晚上十點打給我。講店裡的事。','林芷若：誰來印考卷、哪一台又卡紙。','林芷若：我去英國的話，那邊是下午三點。','林芷若：……她十點要打給誰？'];
     check('Z4 台詞照原文；沒有「你不要跟別人說」',JSON.stringify(r1.L.slice(0,6))===JSON.stringify(base)&&!JSON.stringify(z.dialogue).includes('不要跟別人說'),JSON.stringify(r1.L.slice(0,6).filter((t,i)=>t!==base[i])));
     check('Z4 三個選項照原文',JSON.stringify(opts[0])==='["「妳想去嗎？」","「先交件再說，錄取了再煩惱。」","「家裡的事比較重要吧。」"]',JSON.stringify(opts[0]));
     check('「妳想去嗎？」：（她沉默很久。）「……想。」（捲頭髮三圈）「好可怕。說出來就變成真的了。」；trust+8 aff+3；SHARED_SECRET；Z4_PICK want',JSON.stringify(r1.L.slice(6))==='["她沉默很久。","林芷若：……想。","她用手指捲頭髮，捲了三圈。","林芷若：好可怕。說出來就變成真的了。"]'&&r1.d.trust===8&&r1.d.aff===3&&SOCIAL.has('heroine_02','SHARED_SECRET')&&G.flags.Z4_PICK==='want',JSON.stringify(r1.d));

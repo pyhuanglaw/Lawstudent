@@ -68,7 +68,7 @@ const HCIRCLE_DATA={
     {hc:'c506_3_1',who:'heroine_03',e:{days:[1],from:12.2,to:12.5,zone:'campus',act:'linger',at:[36.6,-97.4,Math.PI/2,0],terms:['Y2S2'],weeks:[2,3,4,5,6,7,10,11,12,13,14,15],noHoliday:true,label:'法律系館A門口（債各下課）'}},
     /* c506_3_3 語彤暑假週二、四 14:30～15:30 在麵店（午休）的作息補：AA_624（使用者 11-03）她從來不在燒臘店，拿掉 */
     /* AA_657 第 1 節（WZ-YIZHAN-1104）：兩列搬到一盞，作息補這兩筆（放在她 daily_schedule 最前面）——c506_3_3 週四、五 14:30～15:30 茶席最東邊（read，seatAt）；c510_3_2 週四 17:30～20:00 水屋旁（linger 在她上班的點 (2.95, 2.4)，圈子那一列成立再坐到木凳、客人進來站起來：hcircle3d.js S.shopSeat）*/
-    {hc:'c506_3_3',who:'heroine_03',e:{days:[4,5],from:14.5,to:15.5,zone:'wz_teahouse',act:'read',seatAt:[-0.7,0.95],dates:[['2027-07-09','2027-09-05']],label:'一盞：茶席最東邊（午後）',note:'AA_657 第 1 節'}},
+    {hc:'c506_3_3',who:'heroine_03',e:{days:[4,5],from:14.5,to:15.5,zone:'wz_teahouse',act:'read',seatAt:[-0.7,0.95],dates:[['2027-07-09','2027-09-05']],taipei:'both',label:'一盞：茶席最東邊（午後）',note:'AA_657 第 1 節；AA_675 1-1：taipei both＝暑假的平日她在淡水的日子也照這一筆（她自己的行程）'}},
     {hc:'c510_3_2',who:'heroine_03',e:{days:[4],from:17.5,to:20,zone:'wz_teahouse',act:'linger',at:[2.95,2.4,-Math.PI/2,0],noPair:true,dates:[['2029-06-04','2029-09-02']],label:'一盞（顧店）',note:'AA_657 第 1 節'}},
     {hc:'c506_4_2',who:'heroine_04',e:{days:[1,2,3,4,5],from:10,to:18,zone:null,act:'out',away:'在實習',dates:[['2027-07-06','2027-09-03']],note:'AA_506 4-1：暑假平日 10:00～18:00 實習（7/6 第一天、9/3 最後一天，AA_506 4-2 第 5 點），不在 3D'}},
     {hc:'c506_4_2',who:'heroine_04',e:{days:[2,4],from:21,to:23.5,zone:'gongguan',act:'read',seatAt:[15.6,19.8],prop:'laptop_lap',at:[16,20.6,Math.PI,0],terms:['Y2S2'],weeks:[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],label:'公館騎樓（插座旁邊）'}},

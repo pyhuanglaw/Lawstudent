@@ -11,7 +11,7 @@
      8-1 語彤顧店的時段阿姨一定在廚房：src/hcircle3d.js S.auntAway、S.kitchen、S.auntOut；src/multirel3d.js S.auntIn。
      8-2 一個人吃麵的旁白：story3d.js noodleScene（阿姨在＝「乾麵很燙。阿姨多給了一匙肉燥。」、不在＝「乾麵很燙。」）。
      8-3 麵店的 2D 事件（阿姨在場或說話：S.auntEvs，載入後掃 STORY_EVENTS 在麵店、台詞提到阿姨的）那一天，圈子表阿姨那幾列一定成立（HCIRCLE.roll 包一層：擲骰當成功）。
-     8-4 2029-04-19～25 阿姨出國：門口那張紙 r2y4b3d.js；語彤那一週在總圖（作息補兩筆，S.applySched）；那一週不排新的麵店出遊（OUT.plan 包一層）、邀約（INVITE_DATA 的 noodle 加 avail）；
+     8-4 2029-04-19～25 阿姨出國：門口那張紙 r2y4b3d.js；（語彤那一週在總圖：AA_679 第 9 列拿掉）；那一週不排新的麵店出遊（OUT.plan 包一層）、邀約（INVITE_DATA 的 noodle 加 avail）；
          麵店團那一週沒有麵店日（STORY.noodleDay 包一層：阿哲不揪、長桌不演），4/23（一）21:00 群組四則（那一週本來有麵店日才發）。
    ■ 第 9 節（169130daf）：
      9-1 颱風夜：大二換一袋滷味（src/data/events.js ev_y2_typhoon_kai）、大三換兩杯熱豆漿（src/data/r2y3a_events.js ev_typhoon_y3_noodle、src/r2y3a3d.js 19:30 那則）。
@@ -250,9 +250,9 @@ const SUP519=(function(){
   S.TRIP=['2029-04-19','2029-04-25'];
   S.tripDay=function(d){ const a=DK(S.TRIP[0]), b=DK(S.TRIP[1]); return a!=null&&b!=null&&d!=null&&d>=a&&d<=b; };
   S.tripBlocks=(G,o)=>law(G)&&!!o&&S.tripDay(o.day)&&((/麵店|燒臘/.test(o.place||'')&&!/麵舖/.test(o.place||''))||(o.goto&&o.goto.zone==='noodle')||/阿鳳麵店|公館燒臘/.test(o.title||''));
-  /* 語彤那一週在總圖（照她 4/19 那則的回覆「我在總圖。期中考，店剛好也沒開。」）：顧店的兩個時段（週二晚上、週六早上）換總圖；放在作息最前面 */
-  S.SCHED_YT=[{days:[2,4],from:17.5,to:20.5,zone:'library',act:'read',dates:[S.TRIP],pri:true,note:'AA_519 第 8 節第 4 點：2029-04-19～25 阿姨出國、店沒開，語彤那一週在總圖（顧店的時段）'},
-    {days:[6],from:9,to:12,zone:'library',act:'read',dates:[S.TRIP],pri:true,note:'AA_519 第 8 節第 4 點：同上，週六早上的備料不去'}];   /* pri：比寫了 terms 的顧店作息優先（週六早上那一筆有 terms）*/
+  /* 語彤那一週在總圖（原本照她 4/19 那則的回覆「我在總圖。期中考，店剛好也沒開。」，顧店的兩個時段換總圖）：AA_679 第 9 列（企劃線 ee055afbe，AA-C 定 D109）拿掉這一條——
+     她的班只在週末的一盞茶屋，燒臘店出國那一週和她的作息無關。S.applySched 照舊叫（加 0 筆）*/
+  S.SCHED_YT=[];
   S.applySched=function(){ if(S._sched||typeof CHARACTERS==='undefined'||!CHARACTERS.heroine_03) return 0; const L0=CHARACTERS.heroine_03.daily_schedule||(CHARACTERS.heroine_03.daily_schedule=[]);
     for(let i=S.SCHED_YT.length-1;i>=0;i--) L0.unshift(Object.assign({},S.SCHED_YT[i],{dates:S.SCHED_YT[i].dates.map(x=>x.slice()),aa519:true})); S._sched=true; return S.SCHED_YT.length; };
   /* 麵店團：那一週本來有麵店日（STORY.noodleDay 原本的判斷）＝4/23（一）21:00 群組四則 */

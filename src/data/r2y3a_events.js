@@ -322,10 +322,10 @@ const R2Y3A_EVENTS=(function(){
   const CW=v=>({custom:G=>!!G.flags&&G.flags._CR_WITH===v});
   const COURT={ id:'ev_crimpro_court_visit', title:'旁聽作業', participants:[], location:'any', trigger:'outing', background:'dark', hours:2,
     beforeOuting:async(G,GM,q)=>{ G.flags._CR_WITH=(q&&q.crWith)||'self'; },
-    dialogue:[ {scene:'地方法院',bg:'court_gallery'},   /* 法院走廊、旁聽席的 2D（AA_252 5-1）開發分支沒有：深色底＋字幕。CG-16「起立」這一版不放（AA 審稿第 1 點）*/
+    dialogue:[ {scene:'地方法院',bg:'court_gallery'},   /* 法院走廊、旁聽席的 2D（AA_252 5-1）開發分支沒有：深色底＋字幕。CG-16「起立」：AA_661 第 91 列（AA 定）接在「法官進來的時候，大家站起來」那一拍（這一場本來就只有去旁聽的玩家才演）；圖要不要重生由 BB 決定（現在的圖是全班加林教授）*/
       {speaker:null,text:'（法院的走廊很長，椅子上坐滿了等開庭的人。有一個阿姨一直在看手上的通知單。）'},
       {speaker:null,text:'（法庭比你想的小。旁聽席三排，坐了不到一半。）'},
-      {speaker:null,text:'（法官進來的時候，大家站起來。坐下的時候，有人的椅子響了一聲。）'},
+      {cg:'cg_court_gallery_rise'},{speaker:null,text:'（法官進來的時候，大家站起來。坐下的時候，有人的椅子響了一聲。）'},
       {speaker:null,text:'（檢察官念起訴的事實，念得很快。被告坐在前面，背對著你們，一直低著頭。）'},
       {speaker:null,text:'（辯護人問證人：「你那天站在哪裡？」證人想了很久。）'},
       {if:CW('an'),speaker:'heroine_01',text:'證人想那麼久，是在想答案，還是在想怎麼說。'},
@@ -388,7 +388,7 @@ const R2Y3A_EVENTS=(function(){
     dialogue:[ {speaker:'classmate_bohan',expression:'tired',text:'（看到祐廷，沒有站起來）……你不要說話。'},
       {speaker:'classmate_bohan',expression:'serious',text:'刑訴。我最喜歡的一科。六十二。'},
       {speaker:'classmate_bohan',text:'你知道我為什麼每天念六小時嗎。'},
-      {speaker:'classmate_bohan',text:'不是因為我很認真。是因為我念得慢。一頁要看三次，才記得住。'},
+      {speaker:'classmate_bohan',text:'我念得慢。一頁要看三次，才記得住。'},
       {speaker:'classmate_bohan',text:'可是看三次的東西，我都不會忘。……這是我唯一確定的事。'},
       {speaker:'classmate_bohan',text:'我問大家第三題怎麼寫，是想知道別人怎麼想。我自己只會一種想法。'},
       {if:{memory:[{npc:'classmate_bohan',tag:'ASKED_BACK'}]},speaker:'classmate_bohan',text:'……那天你反問我錯哪裡。我回家想了很久，我從來沒跟人說過我錯哪裡。'},
@@ -427,7 +427,8 @@ const R2Y3A_EVENTS=(function(){
       {set:{FAIR_Y3:'pass'}} ] };
 
   /* ---------- 2-Y3-16 C4 阿哲的機車：11/19（五）21:00 的訊息在 r2y3a3d.js；回了的（記 ZHE_SCOOTER）＝之後第一次在麵店遇到阿哲（11/23 起的週二、週四 17:30～20:30）---------- */
-  const SCOOTER={ id:'ev_zhe_scooter', title:'阿哲的機車', participants:['zhe'], location:'noodle', trigger:'auto', once:true, background:'blur', npcNear:'zhe', nearDist:3, weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,20.5],
+  /* AA_684 第 4 項（企劃線 0382b8a34，AA-C 定 D109）：原本看麵店日（ndlDay），阿哲的麵店日拿掉（AA_675 1-2）以後演不到——改成看阿哲照作息在燒臘店（npcZone：週二、四 18:00～19:30，characters.js），台詞照舊 */
+  const SCOOTER={ id:'ev_zhe_scooter', title:'阿哲的機車', participants:['zhe'], location:'noodle', trigger:'auto', once:true, background:'blur', npcNear:'zhe', nearDist:3, weekday:[1,2,3,4,5],npcZone:'zhe', time:[17.5,20.5],
     prereq:{memory:[{npc:'zhe',tag:'ZHE_SCOOTER'}],custom:G=>{ const d=D('2027-11-23'); return d!=null&&G.day>=d; }},
     dialogue:[ {if:{flagIs:{YU_C4:'visit'}},speaker:null,text:'（Alison 坐在旁邊剝橘子，剝好了也沒有吃。）'},   /* AA_497 3-5：11/19 23:40 Alison 的私訊回「我明天去看他。」（YU_C4 visit；src/sup497_3d.js）＝開頭多一句旁白 */
       {speaker:'zhe',text:'修車行估了價。對方照估價付了。'},

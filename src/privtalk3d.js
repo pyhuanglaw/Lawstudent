@@ -210,7 +210,8 @@ const PRIVTALK=(function(){
   /* 旁邊有她的人（except 的人不算）*/
   S.exceptOf=(e,id)=>!e||!e.except?null:Array.isArray(e.except)?e.except:(e.except[id]||null);   /* except：陣列＝這一筆都不算；物件＝依人物（{她的 id:[不算的人]}，後補第 5 點）*/
   /* 依人物＋區域（後補第 6 點，企劃線 5ec2fe771）：語彤在麵店，阿姨對她所有私密的都不算（清單每一筆、旁白、第 7 項交往中那一版）；旁邊還有別的圈子同伴照擋；別的區域照舊 */
-  S.PLACE_EXCEPT=[];   /* AA_627 P-18（YT-REWRITE-1103）：語彤不在燒臘店顧店了＝「在麵店、阿姨在旁邊照講」拿掉（她家沒有 3D，秀琴姨那一筆用 KNOW.ytMom）*/
+  S.PLACE_EXCEPT=[{who:'heroine_03',zone:'wz_teahouse',except:['wz_su']}];   /* AA_627 P-18（YT-REWRITE-1103）：語彤不在燒臘店顧店了＝「在麵店、阿姨在旁邊照講」拿掉（她家沒有 3D，秀琴姨那一筆用 KNOW.ytMom）。
+     AA_679 第 8 列（企劃線 ee055afbe，AA-C 定 D109）：改成一盞茶屋＋蘇姨——她在茶屋、旁邊只有蘇姨（圈子表 wz_su）＝不算旁邊有人（蘇姨知道她瞞著家裡來打工，是她信得過的大人）；旁邊還有別的圈子同伴照擋 */
   S.placeExcept=function(G,id){ let o=null; if(!G) return o; for(const q of S.PLACE_EXCEPT) if(q.who===id&&q.zone===G.zone) o=(o||[]).concat(q.except); return o; };
   S.exceptAt=function(G,e,id){ const a=S.exceptOf(e,id), b=S.placeExcept(G,id); return a&&b?a.concat(b):(a||b); };   /* 清單那一筆的＋這個地方的 */
   S.crowd=function(G,id,e,GM){ if(typeof STORY==='undefined') return false; const ex=S.exceptAt(G,e,id); if(STORY.crowdNow) return !!STORY.crowdNow(G,id,null,GM,ex); return !!(STORY.privNow&&!STORY.privNow(G,id,null,GM)); };

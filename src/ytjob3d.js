@@ -41,7 +41,7 @@ const YTJOB=(function(){
   S.sync=G=>{ if(!G||!G.flags) return; const j=typeof JOBS!=='undefined'&&JOBS.at?JOBS.at(G,'tea'):null; G.flags.JOB_TEA=!!j; };
   S.CATS={ ask:[[YT,'……嗯。你下班有事嗎？'],[YT,'要不要一起去找公園的貓？大安森林公園那邊，晚上會有好幾隻出來。']], no:[[YT,'嗯。下次。']],
     a:[[null,'（公園的長椅旁邊，一隻橘貓從草叢裡走出來，在語彤腳邊坐下。）'],[YT,'牠每天都在這裡。我叫牠「橘子」。……很普通的名字。'],[null,'（她蹲下來，摸了摸貓的頭。）'],[YT,'我很想養一隻。'],['player','那就養啊。'],[YT,'我一個人住。白天上課、週末打工，牠會常常自己待在家。'],[YT,'……那樣不好。']],
-    b:[[YT,'嗯。我是新北人，家在淡水。'],[YT,'我爸媽離婚了。上大學以前，我跟我媽住。'],[YT,'淡水到學校太遠，我媽就在學校附近買了房子給我住。'],[YT,'晚上有一個阿姨會來煮飯。秀琴姨。……她煮的比茶屋的點心好吃。不要跟蘇姨說。'],
+    b:[[YT,'嗯。我是新北人，家在淡水。'],[YT,'我爸媽離婚了。上大學以前，我跟我媽住。'],[YT,'淡水到學校太遠，我媽就在學校附近買了房子給我住。'],[YT,'晚上有一個阿姨會來煮飯。秀琴姨。……她煮的比茶屋的點心好吃。蘇姨的點心是買的。'],
       [null,'（橘子吃完你們帶來的小魚乾，走回草叢裡。）'],[null,'（你沒有再問。你們坐著看橘子走遠，坐到十點。）'],[YT,'……謝謝你陪我找貓。']] };
   S.cats=async function(GM){ const G=GM.G, F=G.flags; if(F.YT_CATS||F.YT_CATS_NO) return false; await JOBS.play(GM,S.CATS.ask);
     const k=await ch(GM,[{t:'「好啊。」'},{t:'「今天不行。」',say:S.CATS.no}]); if(k===1){ F.YT_CATS_NO=true; return true; }   /* 不記；之後的班不再問（第一次去她家可以補聽到）*/
@@ -125,7 +125,7 @@ const YTJOB=(function(){
       {speaker:null,text:'（兩房一廳。客廳很大，只有一張長桌、一張沙發。另一間房間的門開著，裡面堆滿書和紙箱。廚房裡，一個阿姨在盛湯。）'},
       {speaker:'秀琴姨',text:'你就是祐廷喔？坐、坐。'},
       {speaker:YT,text:'……嗯。這是秀琴姨。'},
-      {speaker:'秀琴姨',text:'她都不帶人回來。你是第一個。'},
+      {speaker:'秀琴姨',text:'她都不帶人回來。……我多煮一碗飯。'},
       {speaker:YT,text:'秀琴姨。'},
       /* 事件 6「在她家當面」（AA_625 第 6 節；AA_643 第 5 節保留）：大一下第 10 週以後、還沒在茶屋聽她說過 */
       {if:{custom:G=>S.homeRentDue(G)},goto:'rent'},
@@ -139,7 +139,7 @@ const YTJOB=(function(){
       {label:'opt'},
       {choice:[{text:'「妳一個人住這麼大？」',goto:'a'},{text:'「秀琴姨煮得很好吃。」',goto:'b'}]},
       {label:'a'},{speaker:YT,text:'我媽買的。……我只是想知道一個人過日子是什麼感覺。'},{goto:'e'},
-      {label:'b'},{speaker:YT,text:'嗯。比茶屋的點心好吃。……不要跟蘇姨說。'},
+      {label:'b'},{speaker:YT,text:'嗯。比茶屋的點心好吃。……蘇姨聽到會難過。'},
       {label:'e'},{set:{YT_HOME_SEEN:true}} ],
     after:G=>{ G.flags.YT_HOME_SEEN=true; if(G.flags.YT_RENT_AT_HOME&&G.events&&G.events.done) G.events.done.ev_yutong_landlord=G.day; } };
   S.homeInstall=function(){ if(typeof STORY_EVENTS!=='undefined'&&!STORY_EVENTS.some(e=>e&&e.id===S.HOME_EV.id)) STORY_EVENTS.push(S.HOME_EV);
