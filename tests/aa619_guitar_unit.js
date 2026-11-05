@@ -23,7 +23,8 @@
 //  12  大一下「她在做的東西」（ev_ziqing_secret_game）：有 HEARD_HER_SONG 開頭多「宜蘭那首，我寫完了一半。」；沒有照舊
 //  13  經濟系那一年：店、偶遇、2-1、社遊、房間都沒有
 // 原稿用 git show bf0efded8 讀，不經 tests/alison.js（那支的換字表不改 AA_619 本身、只會在後面接別的稿；這裡要逐字比的是原稿）。
-// 修改前（開發分支 ed7600ec5）：沒有 src/guitar3d.js、places.js 沒有同弦、ev_ziqing_secret_game 沒有那一句＝FAILED 20（0、0a 與 1～13 節都失敗或中斷）。修改後 ALL PASS。
+// 修改前（開發分支 ed7600ec5，暫時的 detached worktree 實跑）：沒有 src/guitar3d.js、index.html 沒接、白名單沒有 AA_619、沒有 CLS.CLUB_IN、存檔預設沒有 guitar、places.js 沒有同弦、
+//   ev_ziqing_secret_game 沒有那一句＝FAILED 33（0、0a～13 每一節都失敗或中斷；「不演」那幾項本來就成立的照樣 PASS）。修改後 117 項 ALL PASS。
 // 用法：node tests/aa619_guitar_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -140,7 +141,7 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     check('3-5. 烏克麗麗（稿上沒有字）藏起來；出口不動；還沒去過社課＝試彈藏起來',E.interactables[0].hidden===true&&!E.interactables[1].hidden&&!E.interactables[1].guitar&&gi[2].hidden===true&&!gi[0].hidden&&!gi[3].hidden);
     E.interactables=[{x:1,z:1,label:'看看（吉他牆）',guitar:'look'},{x:2,z:2,label:'買東西（櫃台）',kind:'buy'}]; att(G,TD('Y1S1',5,3)); STORY.populate('xs_tongxian',GM);
     check('3-6. 區域自己放的（guitar 或 kind）照用、不重複補；字換成稿上的；去過社課＝沒有試彈的點也不會補一個',E.interactables.length===2&&E.interactables[0].label==='看看'&&E.interactables[1].guitar==='shop'&&E.interactables[1].label==='買東西',J(E.interactables));
-    E.interactables=[]; STORY.populate('tongxian',GM); check('3-7. 備用的區域 id tongxian 也認（主要是 xs_tongxian）',S.ZONES[0]==='xs_tongxian'&&S.ZONES.includes('tongxian')&&E.interactables.length===0||(H.G.zone!=='tongxian'));
+    check('3-7. 區域 id：主要是 xs_tongxian（新生南路店門照 xs_＋店 id 接）、tongxian 當備用；開放時間、名稱的鍵是 xs_tongxian',S.ZONES[0]==='xs_tongxian'&&S.ZONES.length===2&&S.ZONES.includes('tongxian')&&S.PLACE==='xs_tongxian'&&!!PLACES.hours.xs_tongxian&&!PLACES.hours.tongxian);
     G.zone='tongxian'; E.interactables=[]; STORY.populate('tongxian',GM); check('3-7b. 在 tongxian（備用 id）也補互動點',E.interactables.filter(i=>i.guitar).length===4); G.zone='xs_tongxian';
     H.said=[]; G.money=500; E.interactables=[]; STORY.populate('xs_tongxian',GM); const tr=E.interactables.find(i=>i.guitar==='try'); const r=await STORY.interact(tr,GM);
     check('3-8. STORY.interact 照 guitar 分派（試彈＝旁白）',r===true&&J(H.said)===J([{who:null,t:S.L.tryPlay}])&&!tr.hidden);
