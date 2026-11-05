@@ -94,7 +94,7 @@ const CORE=['hips','spine','chest','neck','head'], LIMB=['leftFoot','rightFoot',
   let w1={ax:0,d3:0,axW:'',d3W:''}; const pt={};
   for(const H of holds){ const rail=RAILS.find(r=>r.k===H.g.on), [dax]=nearP(rail.P,H.C), d3=H.C.distanceTo(V3(H.g.p)), tag=H.nm+' '+H.tag+(H.i?' 右手 ':' 左手 ')+H.g.on;
     if(dax>w1.ax){ w1.ax=dax; w1.axW=tag; } if(d3>w1.d3){ w1.d3=d3; w1.d3W=tag; } const key=(H.dir==='up'?'上':'下')+H.g.p.map(x=>x.toFixed(2)).join(',')+(H.i?'右':'左'); pt[key]=Math.max(pt[key]||0,d3); }
-  check('① 抓著的時候手在扶手上：站在每一階、中間幾階之間走到一半，手握的中心離扶手中心線 ≤ 2.5 cm、離抓的點 ≤ 5 cm',holds.length>=30&&w1.ax<=0.025&&w1.d3<=0.05,
+  check('① 抓著的時候手在扶手上：站在每一階、中間幾階之間走到一半，手握的中心離扶手中心線 ≤ 2.5 cm、離抓的點 ≤ 5 cm',holds.length>=26/* 爬上去站在第 1～4 階（4）＋第 1→2、2→3 一半（2）、爬下來站在第 4～1 階（4）＋4→3、3→2、2→1 一半（3）＝13 格×兩隻手 */&&w1.ax<=0.025&&w1.d3<=0.05,
     `${holds.length} 次；離中心線最遠 ${cm(w1.ax)}（${w1.axW}）、離抓的點最遠 ${cm(w1.d3)}（${w1.d3W}）；超過 2.5 cm 的點（扶手轉彎的地方）：${Object.entries(pt).filter(([k,v])=>v>0.025).map(([k,v])=>k.replace(/^(.)(.*)(.)$/,'$1 $3手 ($2)')+' '+cm(v)).join('、')||'沒有'}`);
   /* ② */
   let w2h={d:0,w:''}, w2m={d:0,w:''};
