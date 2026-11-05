@@ -391,6 +391,7 @@ const CLS=(function(){
       { const q7=ev('ev_ziqing_lab_letter'); if(q7&&here('heroine_04')&&EVENTS.check(q7,{chain:true})) return q7; }   /* 大二上第 3 週：子晴 Q7 實驗室的信（BB_97 3-1）*/ return null; }
     if(a.id==='lawclub_study') return null;   /* 法服讀書會停用（AA_236 A1；activities.js skip）：交接、P4、翰 3 搬到公法讀書會，P1／P1b 也是 */
     return null; };
+  S.CLUB_IN=[];   /* 社課一開始（人物事件演完、入座那一句之後）接著演的：async fn(GM,a,ev)→{narr} 或 null（attendActivity）。吉他社第一次社課（AA_619 2-1）在 src/guitar3d.js */
   /* 社課的旁白（6-8 (d)）：同一學期照順序、每句最多一次；用完了回 ''（只顯示「社課結束了。」）。存在 G.acts.narr['<活動>@<學期>']＝用過幾句（舊存檔沒有＝從頭）*/
   S.clubNarr=function(G,a){ const L=a.narr||[]; if(!L.length||typeof ACTIVITIES==='undefined') return ''; const A=ACTIVITIES.rec(G); if(!A.narr||typeof A.narr!=='object') A.narr={};
     const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, k=a.id+'@'+(t?t.id:'-'), n=A.narr[k]||0; if(n>=L.length) return ''; A.narr[k]=n+1; return L[n]; };
@@ -465,7 +466,8 @@ const CLS=(function(){
     try{
       if(GM.E&&GM.E.zone&&GM.E.zone.setBoard) GM.E.zone.setBoard(a.title,lec?'演講':'活動',hhmm(a.t0)+'–'+hhmm(a.t1));
       if(!ev&&!(club&&a.spot)) await GM.say(null,tour?(hr(G)<a.t0?'你在集合點等「'+a.title+'」開始。':'你跟上「'+a.title+'」的隊伍。'):hr(G)<a.t0?(lec?'你找了位子坐下。台上的人在試麥克風，投影片停在第一頁：「'+a.title+'」。':'你找了位子坐下，等「'+a.title+'」開始。'):(lec?'你輕輕坐下。台上已經開始講「'+a.title+'」了。':'你輕輕坐下。「'+a.title+'」已經開始了。'));   /* 系籃（集合點的社課）：AA 6-8 (c) 選「去練球」→ 直接轉暗 */
-      let narr=''; if(club&&!ev){ narr=rainNarr||S.clubNarr(G,a); if(narr&&a.narrAt==='start') await GM.say(null,narr); if(a.id==='lawclub_study') await S.studyQs(GM); }
+      let cin=null; if(club) for(const f of S.CLUB_IN){ try{ const r=await f(GM,a,ev); if(r) cin=r; }catch(e){ console.warn('CLS.CLUB_IN',e); } }   /* 社課開始、人物事件之後接著演的（S.CLUB_IN.push(async fn(GM,a,ev))；回傳 {narr}＝這一次的旁白換成它，輪流的那幾句不往前；例：AA_619 2-1 吉他社第一次社課，src/guitar3d.js）*/
+      let narr=''; if(club&&cin&&cin.narr!=null){ narr=cin.narr; if(narr&&a.narrAt==='start') await GM.say(null,narr); } else if(club&&!ev){ narr=rainNarr||S.clubNarr(G,a); if(narr&&a.narrAt==='start') await GM.say(null,narr); if(a.id==='lawclub_study') await S.studyQs(GM); }
       if(GM.E&&roomy(GM.E.zone)) S.syncRooms(GM);   /* 快轉前聽眾先坐好（2026-10-13 批次 3：演講開始前 5 分鐘坐下選「聽演講」，聽眾還沒排進來就快轉到結束，散場時沒有人站起來）*/
       await GM.fade(true); S.settleRoom(GM); const h=hr(G); if(h<a.t1) GM.advance(a.t1-h); keepCrowd(G); await GM.fade(false);
       if(narr&&a.narrAt!=='start') await GM.say(null,narr);   /* 社課的旁白：做完以後的一句（系籃：轉暗、時間過去、播旁白）*/
