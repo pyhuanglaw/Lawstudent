@@ -148,6 +148,8 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - SUNNY SIDE 吧檯、小路座位、公館兩個店門口的鏡頭，約會帶路的距離：下一版（RELEASE-V91020-1104 11-04 13:1x）
 - 發布前檢查（048b4c898）：check_orphans 90、check_lines 可能抄錯 1077（不擋、發布後抽查）、題目漏收 0（399 題）（RELEASE-V91020-1104 11-04 14:57）
 
+**線上驗證 PASS**（BB-C 11-05 03:47，使用者電腦 03:4x 恢復後跑線上網址 main `40c0abedb`）：deploy_check ALL PASS（版本字樣 v9.10.20（2026-11-05）、328 個 script 都帶 ?v=）、TAPPREF ALL PASS、p0 ALL PASS。
+
 **統計**
 - 看了：範圍內不含合併的 commit 323 個，改到遊戲檔的 170 個逐一看訊息（另外 33 個合併 commit 看訊息）；d3828452a 以後 2 個（`13fdc1b65`、`ba038059e`）。
 - 列了：第一段 21 項、第二段 6 項、第三段 11 項、第四段 17 項＋1 行「另外」；附錄 8 行。

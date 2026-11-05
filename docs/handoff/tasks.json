@@ -45441,7 +45441,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 21:4x】R1、R2 BB-C 21:25 同意（D128 定案），LAWWW2 dd6cffe64 寫進 ART_DIRECTION 12.2／12.8（含 TripoSR「目前不用」一行），開發分支已帶進來；CLAUDE.md 美術規則第 2 點補一段指過去。剩 LAWWW2 自己要問使用者的（TRELLIS.2 上傳、NVIDIA 顯示卡），記在 user_asks_LAWWW2｜【LAWWW-C 11-04 21:3x】LAWWW2-C 交研究收尾 25349f5f9（docs/art-rebuild/second_ai/research/OPEN_SRC_2D3D_1104.md）：單張圖轉 3D 的 AI 只適合小物件、要 NVIDIA；有用的三種已經在用（參考圖鏡頭＋同角度疊圖、CC0 掃描模型、窗卡）。提案照 D128（美術不經使用者：LAWWW2 提、BB 和 LAWWW 同意就定）：R1（12.2 近景小道具用 Poly Haven／ambientCG CC0 掃描模型）、R2（12.8 照參考圖做的店面附參考圖鏡頭＋同角度疊圖，和 D138 一致）LAWWW 同意，等 BB 同意 → LAWWW2 寫進 ART_DIRECTION（X225「試成功的方法要寫進美術規則」）；HDRI 另開 HDRI-ENV-1104 暫停｜【LAWWW-C 11-04 14:25】BB 的 IMG2-3D-RESEARCH-1104（同一題，使用者也問了 BB-C）試跑 CPU 版工具，成果交 LAWWW2 一起決定｜【LAWWW-C 11-04 14:23】LAWWW2-C 14:19（b8c42ea65）：單張圖轉 3D 的 AI 要 NVIDIA 顯示卡、模型大檔在雲端被擋，只適合小物件；雲端能用：Poly Haven 521 個 CC0 模型＋HDRI、參考圖鏡頭對位疊圖、DeepBump、Depth Anything V2 Small；之後交件開始用 Poly Haven 模型（LICENSES.md 同批補）；會提「低解析 CC0 HDRI 環境貼圖（PMREM）」的引擎提案（現在沒有環境貼圖、金屬度上限 0.45），改引擎 LAWWW 決定（v9.10.20 以後）；阿德轉角改試做：同角度疊圖＋Poly Haven 盆栽、花箱、冷氣",
+   "next": "【LAWWW-C 11-05 03:5x】使用者選「可以上傳試」TRELLIS.2 線上版（挑幾張參考圖、結果好才用），自己加好網域（hf.space、hf.co、blender.org、sketchfab、arxiv、貼圖站），proxy 實測放行｜【LAWWW-C 11-04 21:4x】R1、R2 BB-C 21:25 同意（D128 定案），LAWWW2 dd6cffe64 寫進 ART_DIRECTION 12.2／12.8（含 TripoSR「目前不用」一行），開發分支已帶進來；CLAUDE.md 美術規則第 2 點補一段指過去。剩 LAWWW2 自己要問使用者的（TRELLIS.2 上傳、NVIDIA 顯示卡），記在 user_asks_LAWWW2｜【LAWWW-C 11-04 21:3x】LAWWW2-C 交研究收尾 25349f5f9（docs/art-rebuild/second_ai/research/OPEN_SRC_2D3D_1104.md）：單張圖轉 3D 的 AI 只適合小物件、要 NVIDIA；有用的三種已經在用（參考圖鏡頭＋同角度疊圖、CC0 掃描模型、窗卡）。提案照 D128（美術不經使用者：LAWWW2 提、BB 和 LAWWW 同意就定）：R1（12.2 近景小道具用 Poly Haven／ambientCG CC0 掃描模型）、R2（12.8 照參考圖做的店面附參考圖鏡頭＋同角度疊圖，和 D138 一致）LAWWW 同意，等 BB 同意 → LAWWW2 寫進 ART_DIRECTION（X225「試成功的方法要寫進美術規則」）；HDRI 另開 HDRI-ENV-1104 暫停｜【LAWWW-C 11-04 14:25】BB 的 IMG2-3D-RESEARCH-1104（同一題，使用者也問了 BB-C）試跑 CPU 版工具，成果交 LAWWW2 一起決定｜【LAWWW-C 11-04 14:23】LAWWW2-C 14:19（b8c42ea65）：單張圖轉 3D 的 AI 要 NVIDIA 顯示卡、模型大檔在雲端被擋，只適合小物件；雲端能用：Poly Haven 521 個 CC0 模型＋HDRI、參考圖鏡頭對位疊圖、DeepBump、Depth Anything V2 Small；之後交件開始用 Poly Haven 模型（LICENSES.md 同批補）；會提「低解析 CC0 HDRI 環境貼圖（PMREM）」的引擎提案（現在沒有環境貼圖、金屬度上限 0.45），改引擎 LAWWW 決定（v9.10.20 以後）；阿德轉角改試做：同角度疊圖＋Poly Haven 盆栽、花箱、冷氣",
    "source": "使用者 11-04 14:1x 對 LAWWW2-C（UA-LAWWW2-1104-05，LAWWW2-C 14:19 轉 LAWWW-C）",
    "authorized": "使用者直接要求",
    "xai": {
@@ -47014,6 +47014,83 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    }
+  },
+  {
+   "id": "GHA-BROWSER-1105",
+   "title": "使用者電腦不能用時，功能類瀏覽器測試丟 GitHub 免費機器（D139；使用者 11-05 03:4x 對 BB-C 選「要，電腦不能用時丟 GitHub（建議）」）",
+   "area": "TEST",
+   "owner": "CC",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "CC-C 在 claude/cc-testing 建 .github/workflows/browser-sweep.yml（佇列 tools/gha_browser/queue.txt、一項一個 job），結果推 claude/gha-results 的 docs/story_planning/CC/gha_out/<ID>/；先跑已知結果兩項驗 workflow；第一批 LIVE_V91020（PC 03:4x 已恢復、LIVE 已在 PC PASS，第一批改成驗 workflow 用）；判定 BB",
+   "source": "BB_257 T7（企劃線 1084baf6a）",
+   "authorized": "使用者選擇題（UA-BB-1105-GHA-BROWSER）",
+   "xai": {
+    "spec": "BB_257 T7",
+    "branch": "claude/cc-testing",
+    "acceptance": "兩項已知結果在 GitHub 上跑出同樣結果；結果標 GitHub Actions（ubuntu、SwiftShader、無 GPU）",
+    "receiver": "BB",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "DATE-ELLIPSIS-1105",
+   "title": "約會台詞整批拿掉沒必要的「……」（使用者 11-05 03:4x 選「整批改」；LAWWW-C 代 AA 問）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "AA-C 03:56 交 AA_694（企劃線 1b095a239）：D*.json 34 檔 4,478 句；白名單換到 1b095a239 重匯；源稿外 252 句照 AA_694 第 3 節換；重匯後「句首……」「。……」「）……」都要 0；測試寫死的照新字改",
+   "source": "AA_694",
+   "authorized": "使用者選擇題（UA-LAWWW-1105-06）",
+   "xai": {
+    "spec": "AA_694",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "三種「……」都是 0、date_lines 回歸測試過",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "RULES-2D3D-1105",
+   "title": "2D 轉 3D 一律照疊圖流程寫成規則（使用者 11-05 03:4x 對 LAWWW2-C：「疊圖畫出來的3d真的很棒寫成規則……交接給下一個lawww2」；D140）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已驗收",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2-C cee7c6973 docs/art-rebuild/second_ai/RULES_2D_TO_3D.md（七步流程、工具表 15 列、坑 10 條）；LAWWW-C 帶進開發分支、套 ART_DIRECTION 12.8 一行、CLAUDE.md MANDATORY 第 2 點指過去；有新方法 LAWWW2 加工具表一列",
+   "source": "UA-LAWWW2-1105-01",
+   "authorized": "使用者原話"
   }
  ]
 }
