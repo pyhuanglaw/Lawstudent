@@ -34,12 +34,16 @@ WZLIN_v1d | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planni
 SHANLAN_v2 | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_shanlan_v1_probe.py | index.html | 120 | CC_HEADLESS=0
 D118B5_r3 | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 60 | CC_HEADLESS=0;CASES=aunt,sats
 # BB-C 06:18 第 3 點：三樓閱覽室每個位子的 set／act（NPCTASK_r2 只有 1／10 在做事，LAWWW-C 的 Node 說 4/4 有配件組）＋拍一張；不擋
-NPCTASK_lib3f | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_lib3f_sets_probe.py | index.html | 15 | CC_HEADLESS=0
+# NPCTASK_lib3f | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_lib3f_sets_probe.py | index.html | 15 | CC_HEADLESS=0   ← BB-C 06:36 接過去（Node＋GLB 查），不跑
 # BB-C 05:13～05:42：新生南路新店（D141；9ea82730f）。大口＝LAWWW-C 判（D132）副本 BB-C；大步、好拍、運動廣場＝BB-C 判
 DAKOU_v1 | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_xs_shop_probe.py | index.html | 120 | CC_HEADLESS=0;SHOP=dakou
-XSSHOP_dabu | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_xs_shop_probe.py | index.html | 60 | CC_HEADLESS=0;SHOP=dabu
-XSSHOP_haopai | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_xs_shop_probe.py | index.html | 60 | CC_HEADLESS=0;SHOP=haopai
+XSSHOP_dabu | 4b5a0ebd8b83c19456494f60ca82a81d7f482fcb | probe | docs/story_planning/test_tools/cc/cc_xs_shop_probe.py | index.html | 60 | CC_HEADLESS=0;SHOP=dabu;RERUN=sys
+XSSHOP_haopai | 4b5a0ebd8b83c19456494f60ca82a81d7f482fcb | probe | docs/story_planning/test_tools/cc/cc_xs_shop_probe.py | index.html | 60 | CC_HEADLESS=0;SHOP=haopai;RERUN=sys
 XSPLAZA_v1 | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_xs_shop_probe.py | index.html | 90 | CC_HEADLESS=0;SHOP=xsports
+# BB-C 06:26：DORM_WALL 男一舍牆縫（修改前 9ea82730f、修改後 LAWWW2-C 4eada314b）；SHANLAN_v3 用 4b5a0ebd8（店門口的小孤島擋起來）
+DORM_WALL_before | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_dorm_wall_probe.py | index.html | 40 | CC_HEADLESS=0;TAG=before
+DORM_WALL_after | 4eada314bce1a1c23c5d0dc28723ed27f507fb45 | probe | docs/story_planning/test_tools/cc/cc_dorm_wall_probe.py | index.html | 40 | CC_HEADLESS=0;TAG=after
+SHANLAN_v3 | 4b5a0ebd8b83c19456494f60ca82a81d7f482fcb | probe | docs/story_planning/test_tools/cc/cc_shanlan_v1_probe.py | index.html | 120 | CC_HEADLESS=0
 # BB-C 05:42 GYM_TAP：主球場看台點地（修改前 9ea82730f、修改後 LAWWW-C 001703460 GYM-ARENA-TAP-1105）＋其他有高度的區域掃一遍；LAWWW2-C 05:52 照片
 GYM_TAP_before | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_tapscan_probe.py | index.html | 40 | CC_HEADLESS=0;ZONES=gym_arena;SEATS=gym_arena
 GYM_TAP_after | 001703460efe0809473b158b4b8513926ae9f6b4 | probe | docs/story_planning/test_tools/cc/cc_tapscan_probe.py | index.html | 40 | CC_HEADLESS=0;ZONES=gym_arena;SEATS=gym_arena
