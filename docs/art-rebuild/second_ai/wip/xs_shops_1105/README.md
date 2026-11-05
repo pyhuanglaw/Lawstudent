@@ -80,7 +80,7 @@
 ## 4. 接法（LAWWW-C）
 
 1. **先接大口漢堡那一包**（`../dakou_zone_1105/README.md`）。這一包的 patch 前後文接在大口漢堡那幾行後面，單獨套在 `685337469` 上會失敗。
-2. 拿檔案：`git checkout <本包 SHA> -- $(cat docs/art-rebuild/second_ai/wip/xs_shops_1105/files.txt)`。共 23 個檔：
+2. 拿檔案：`git checkout 67fc2c07b -- $(cat docs/art-rebuild/second_ai/wip/xs_shops_1105/files.txt)`。共 23 個檔：
    - 程式：`src/xsshop3d.js`、`tests/xsshop_unit.js`。
    - CC 的配置：`dabu_layout.js`、`haopai_layout.js`。
    - CC 的模型：兩顆 GLB、兩個 json。
