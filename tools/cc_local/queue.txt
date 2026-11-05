@@ -192,6 +192,10 @@ SITAMB_player | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_pl
 #   遊戲要用的素材＝一定要在 PC 拍（雲端 SwiftShader 拍的不能用）。cc_shop_views_gg.py＝530a 的 tools/shots/shop_views_layers.py 同一份拍攝邏輯（CC-C 22:5x 逐行比過：只差輸入輸出路徑、沒有 numpy／PIL 時先存原始三張、fast_shots 子行程走 gpu_wrap）
 #   推回 cc-local：{out}/assets/models/env/views/{cvs,cvs_wz,yejian,aoki}{,_near}_{day,night}.webp 16 張＋{out}/shop_views_layers.json（景深）；沒有 numpy／PIL＝{out}/raw/*_far／_nb／_nw.png，雲端 CC 用 VIEWS_REMATTE 去背轉 webp 再交 LAWWW-C（填 VIEW_LAYERS）
 GG_VIEWS_530a | 530a72ff44c81385688b3e624f4a65b5dcf5544f | probe | docs/story_planning/test_tools/cc/cc_shop_views_gg.py | index.html | 40 | VIEW_NAMES=cvs,cvs_wz,yejian,aoki;CC_HEADLESS=0
+# LIVE_V91020（BB-C 02:30 P1）：v9.10.20 上線（main 40c0abedb，PR #28，Pages run 41955182303）——線上網址跑 deploy_check（版本 v9.10.20（2026-11-05））、TAPPREF、p0；雲端連不到 github.io，雲端那一份是本機複本
+LIVE_V91020_deploy | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.20（2026-11-05）
+LIVE_V91020_tappref | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | probe | docs/story_planning/test_tools/cc/cc_tappref_zone_probe.py | index.html | 30 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
+LIVE_V91020_p0 | 40c0abedb36bb4a0d7341155a9c8501e8fea51c6 | game | tests/p0_movement.py | index.html | 40 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html
 # PERF-WZ-DAY-1103（LAWWW2-C 02:21，LAWWW-C 派 P1）：溫州街白天尖峰分項量（perf_split_probe.py＝LAWWW2 922445a2c 複製）＋fps_zones 時段順序換 night 先；結果推 cc-local 以後告訴 LAWWW2-C commit
 PERF_WZ_SPLIT | 1344de13d88cccf2f60b2877875d8dbe768a3511 | probe | docs/story_planning/test_tools/cc/perf_split_probe.py | index.html | 30 | ZONES=wenzhou,campus,library_hall;COLD=12;SECS=8;CC_HEADLESS=0
 FPS_WZ_ORDER | 1344de13d88cccf2f60b2877875d8dbe768a3511 | probe | tools/cc_local/fps_zones.py | index.html | 20 | ZONES=wenzhou,library_hall,wancai;SLOTS=night,day,day,rain;CC_HEADLESS=0
