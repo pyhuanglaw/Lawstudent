@@ -33,7 +33,7 @@
          輪到你彈、沒有自己的琴＝借子晴的（BORROWED_ZQ_GUITAR）；頂樓＝ZQ_ROOFTOP_TUNE、子晴的記憶 HEARD_HER_SONG；CG cg_yilan_roof_heroine04 登錄了才出。
      3-2 陽明山一日：大一下第 10 週週一 21:00 社長學長那一句＋報名；600；5/2 12:00 校門口 → 14:00 擎天崗草原 → 19:30 回到學校（事件 ev_guitar_trip_yms）。
      3-3 和子晴交往中：頂樓最後一句換「……你明天坐我旁邊。」；在和別人交往的照樣去、照演。兩場的那段時間子晴的作息是「吉他社社遊」（STORY.SCHED_X），校園、公館遇不到她。
-   存檔：G.guitar＝{items:{entry,solid:買的那天, strings,pick,capo,case:數量}, tuned:調音那天, boss:老闆說過幾句, bossN:說過的那一次進店, c21:第一次社課那天（'own'）,
+   存檔：G.guitar＝{items:{entry,solid:買的那天, strings,pick,capo,case:數量}, tuned:調音那天, boss:老闆說過幾句（輪到第幾句）, c21:第一次社課那天（'own'）,
          enc:偶遇那天, narrX:{學期:有琴那句那天}, loanDay:第三弦那句那天, dorm:彈過幾次, trip:{y1s1,y1s2:'yes'|'no'|'poor'}}——舊存檔沒有＝game3d.js defaults 補 {items:{}}、S.rec 重設壞掉的欄位；
          旗標 OWN_GUITAR、GUITAR_SHOP_WITH_ZQ、BORROWED_ZQ_GUITAR、ZQ_ROOFTOP_TUNE；子晴的記憶 HEARD_HER_SONG（大一下「她在做的東西」ev_ziqing_secret_game 開頭一句，src/data/events.js；
          人物面板的名稱稿上沒有，src/social3d.js 暫用稿上那張 CG 的名稱「宜蘭民宿頂樓，子晴抱著吉他」，等 AA 定）。
@@ -105,13 +105,14 @@ const GUITAR=(function(){
     return true; };
   S.canTry=G=>S.attended(G,false)>0;   /* 「社課教的 C 和弦」*/
   let busy=false;
-  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['guitar3d:busy']=()=>{ busy=false; S.staged=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）*/
+  let bossVisit=null;   /* 老闆這一次進店說過了（GM.enterN；不存檔：讀檔以後 enterN 從頭算）*/
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['guitar3d:busy']=()=>{ busy=false; S.staged=null; bossVisit=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）*/
   const inShop=async(GM,f)=>{ const G=GM&&GM.G; if(!G||!law(G)) return false; if(busy) return true; if(!S.isOpen(G)){ if(GM.caption) GM.caption('',S.closedText(G),3600); return true; }
     busy=true; GM.sceneBegin(); try{ await f(G); } finally { busy=false; GM.sceneEnd(); } return true; };
   S.look=GM=>inShop(GM,async()=>{ await GM.say(null,S.L.look); });
   S.tryPlay=GM=>{ const G=GM&&GM.G; if(!G||!S.canTry(G)) return Promise.resolve(false); return inShop(GM,async()=>{ await GM.say(null,S.L.tryPlay); }); };
   /* 老闆的話（輪流）：一次進店說一句（GM.enterN；測試沒有＝每次都說）*/
-  S.bossLine=async function(GM){ const G=GM.G, r=S.rec(G), n=GM.enterN|0; if(n>0&&r.bossN===n) return null; r.bossN=n; const L=S.L.boss, t=L[(r.boss|0)%L.length]; r.boss=(r.boss|0)+1; await GM.say(BOSS,t); return t; };
+  S.bossLine=async function(GM){ const G=GM.G, r=S.rec(G), n=GM.enterN|0; if(n>0&&bossVisit===n) return null; bossVisit=n; const L=S.L.boss, t=L[(r.boss|0)%L.length]; r.boss=(r.boss|0)+1; await GM.say(BOSS,t); return t; };
   S.shop=GM=>inShop(GM,async G=>{ await S.bossLine(GM);
     const opts=S.menu(G), k=await GM.choose(opts.concat([{t:'不用了'}])), o=opts[k]; if(!o) return;
     const it=S.ITEMS.find(q=>q.id===o.id), res=S.buy(G,o.id,GM.money?d=>GM.money(d):null);

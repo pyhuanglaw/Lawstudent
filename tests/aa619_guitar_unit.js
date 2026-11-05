@@ -24,7 +24,7 @@
 //  13  經濟系那一年：店、偶遇、2-1、社遊、房間都沒有
 // 原稿用 git show bf0efded8 讀，不經 tests/alison.js（那支的換字表不改 AA_619 本身、只會在後面接別的稿；這裡要逐字比的是原稿）。
 // 修改前（開發分支 ed7600ec5，暫時的 detached worktree 實跑）：沒有 src/guitar3d.js、index.html 沒接、白名單沒有 AA_619、沒有 CLS.CLUB_IN、存檔預設沒有 guitar、places.js 沒有同弦、
-//   ev_ziqing_secret_game 沒有那一句＝FAILED 33（0、0a～13 每一節都失敗或中斷；「不演」那幾項本來就成立的照樣 PASS）。修改後 118 項 ALL PASS。
+//   ev_ziqing_secret_game 沒有那一句＝FAILED 33（0、0a～13 每一節都失敗或中斷；「不演」那幾項本來就成立的照樣 PASS）。修改後 119 項 ALL PASS。
 // 用法：node tests/aa619_guitar_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -116,6 +116,8 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     H.said=[]; H.picks=['不用了']; await S.shop(GM); check('2-5. 同一次進店再按：老闆不再說',!H.said.length,J(H.said));
     GM.enterN=6; H.said=[]; H.picks=['不用了']; await S.shop(GM); GM.enterN=7; H.said.length=0; H.picks=['不用了']; await S.shop(GM); GM.enterN=8; H.picks=['不用了']; await S.shop(GM);
     check('2-6. 老闆三句輪流（每一次進店一句；第四次回到第一句）',G.guitar.boss===4&&H.said.map(s=>s.t).join('|')===[S.L.boss[2],S.L.boss[0]].join('|'),J(H.said));
+    { H.said=[]; H.picks=['不用了']; await S.shop(GM); const s1=H.said.length; globalThis.LOADLOCKS['guitar3d:busy'](); H.said=[]; H.picks=['不用了']; await S.shop(GM);
+      check('2-6b. 一次進店的記號不存檔：讀檔以後（enterN 從頭算，碰巧同一個數字）照樣說一句；輪流的位置存在 G.guitar.boss',s1===0&&H.said.length===1&&H.said[0].who==='老闆'&&H.said[0].t===S.L.boss[1]&&G.guitar.boss===5&&!('bossN' in G.guitar),J([s1,H.said,G.guitar])); }
     // 成員：九折＋小字
     G.flags.CLUB_club_guitar=true; let seen=null; const c0=GM.choose; GM.choose=async o=>{ seen=o; return c0(o); }; H.picks=['入門款']; const h0=G.hour, m0=G.money; H.said=[]; GM.enterN=9;
     await S.shop(GM); GM.choose=c0;
