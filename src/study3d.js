@@ -304,7 +304,7 @@ const STUDY=(function(){
     const body=wrong.map(w=>'第 '+w.n+' 題　'+w.q.q+'\n答案：'+w.a+(w.q.core?'\n考點：'+w.q.core:'')+(w.q.explanation&&w.q.explanation!==w.q.core?'\n'+w.q.explanation:'')).join('\n\n');
     return GM.addNote('examfix_'+key,S.FIX_TITLE(c.name,key),body); };
   /* 家裡的選單（週末回家、HOME.MENU_OPTS）*/
-  S.homeOpt=function(G){ const o=S.reviewOpt(G,{home:true}); if(!o) return null; return {t:o.t,hint:o.hint,run:async GM=>{ await S.review(GM,o.kind||'final',{home:true}); }}; };   /* 畢業以後住家裡（HOME.pgHome）：國考總複習也在這裡 */
+  S.homeOpt=function(G){ const o=S.reviewOpt(G,{home:true}); if(!o) return null; return {t:o.t,hint:o.hint,dim:!!o.dim,run:async GM=>{ await S.review(GM,o.kind||'final',{home:true}); }}; };   /* dim：讀不完（太晚）＝灰的，同宿舍書桌（BB-C 02:06）*/   /* 畢業以後住家裡（HOME.pgHome）：國考總複習也在這裡 */
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.remind(G));
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.barRemind(G));   /* D118-B7-REMIND-1104 */
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) for(const k of ['judge','grad']) STORY.PHONE_RULES.push(G=>S.examRemind(G,k));   /* D118-B7-FOLLOW：司法官二試、研究所筆試總複習的提醒 */

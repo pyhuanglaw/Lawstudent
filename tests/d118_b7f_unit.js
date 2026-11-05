@@ -262,9 +262,13 @@ const SKIPJ=['crim_spec','oblig_gen2','civpro_2','const_2'];   /* 司法官二�
     } finally { STORY.onStudy=on0; } });
   /* ---------- w BB-C 01:48 第 2 點：寒暑假住家裡（放假模式的 breakRound）的選單也有「考前總複習」（STUDY.homeOpt；研究所 2029-02-03 在寒假）---------- */
   await sec('w',async()=>{ const G=grad29('2029-01-25',10,{zone:'dorm',flags:{ROOM_Y2:true,ROOM_Y3:1,ROOM_Y4:1}}); const Hm=HOME.rec(G);   /* ROOM_Y2～Y4：搬宿舍房間演過了（不然在家先演拆箱）*/ Hm.at=true; Hm.day=G.day; const B=HOME.lawBreak(G); if(B){ Hm.lbreak=B.key; Hm.brk=B.key; Hm.bskip={key:B.key,n:0,last:-1}; }
-    let menu=null; const seen=[]; const ch=GM.choose; GM.choose=async o=>{ const L=o.map(q=>q.t||q.text); seen.push(L); if(!menu&&L.includes('睡覺')) menu=L; const k=L.indexOf('回宿舍住'); return k>=0?k:0; };
+    let menu=null, seenOpt=null; const seen=[]; const ch=GM.choose; GM.choose=async o=>{ const L=o.map(q=>q.t||q.text); seen.push(L); if(!menu&&L.includes('睡覺')){ menu=L; seenOpt=o.find(q=>q.t==='考前總複習')||null; } const k=L.indexOf('回宿舍住'); return k>=0?k:0; };
     try{ await HOME.loop(GM); } finally { GM.choose=ch; }
-    check('w1. 寒假住家裡（2029-01-25，研究所筆試 2/3 的總複習開放中）：放假的選單有「考前總複習」（breakRound 加 STUDY.homeOpt，同週末在家）',!!B&&!!menu&&menu.includes('考前總複習'),J({b:!!B,menu,seen:seen.slice(0,4),at:HOME.at(G),bm:HOME.breakMode(G),z:G.zone,h:G.hour})); });
+    check('w1. 寒假住家裡（2029-01-25，研究所筆試 2/3 的總複習開放中）：放假的選單有「考前總複習」（breakRound 加 STUDY.homeOpt，同週末在家）',!!B&&!!menu&&menu.includes('考前總複習'),J({b:!!B,menu,seen:seen.slice(0,4),at:HOME.at(G),bm:HOME.breakMode(G),z:G.zone,h:G.hour}));
+    { const G2=grad29('2029-01-25',21,{zone:'dorm',flags:{ROOM_Y2:true,ROOM_Y3:1,ROOM_Y4:1}}); const Hm2=HOME.rec(G2); Hm2.at=true; Hm2.day=G2.day; const B2=HOME.lawBreak(G2); if(B2){ Hm2.lbreak=B2.key; Hm2.brk=B2.key; Hm2.bskip={key:B2.key,n:0,last:-1}; }
+      let r21=null; const ch2=GM.choose; GM.choose=async o=>{ const L=o.map(q=>q.t||q.text); if(!r21&&L.includes('睡覺')) r21=o.find(q=>q.t==='考前總複習')||'none'; const k=L.indexOf('回宿舍住'); return k>=0?k:0; };
+      try{ await HOME.loop(GM); } finally { GM.choose=ch2; }
+      check('w2. 寒假住家裡 21:00：「考前總複習」是灰的（dim）、提示照「要讀四個小時。20:00 以後開始就太晚了。」（同宿舍書桌；BB-C 02:06）；10:00 那一次不是灰的',!!r21&&r21!=='none'&&r21.dim===true&&r21.hint===GT.late&&!!seenOpt&&seenOpt.dim!==true,J({r21,seen10:seenOpt})); } });
   /* ---------- q 第 5 點（BB-C 01:32）：司法官二試、研究所筆試也和一試一樣——讀過那張卡的題目前出 cue、交卷逐題回寫觀念卡（不影響計分）---------- */
   await sec('q',async()=>{ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findIndex(x=>String(x.v)===String(q.answer)); return i<k?right:(right===0?1:0); });
     const shownOf=(qs,L)=>qs.map((q,i)=>{ const j=L.indexOf((i+1)+'／'+qs.length+'　'+q.q); return j>0&&L[j-1].startsWith(STUDY.CUE_PREFIX)?L[j-1]:null; });
