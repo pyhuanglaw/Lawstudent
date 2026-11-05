@@ -1,0 +1,111 @@
+# GHA-BROWSER（BB_257 T7；UA-BB-1105-GHA-BROWSER；CC-C 11-05）：電腦不能用時（或線上網址的檢查），瀏覽器測試丟 GitHub 免費機器。
+# 改了 tools/gha_browser/queue.txt 就跑；一行一項＝一個 matrix job。結果推到 claude/gha-results 的 docs/story_planning/CC/gha_out/<ID>/（log、meta.json、jpg）。
+# 一律是「GitHub Actions（ubuntu、SwiftShader、無 GPU）」：只算功能，效能和顏色等電腦。只用內建的 GITHUB_TOKEN；不推 cc-local、不碰 main、不 force。
+name: browser-sweep
+on:
+  push:
+    branches: [claude/cc-testing]
+    paths: [tools/gha_browser/queue.txt, .github/workflows/browser-sweep.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: browser-sweep
+  cancel-in-progress: false
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.m.outputs.matrix }}
+      any: ${{ steps.m.outputs.any }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/cc-testing
+          fetch-depth: 1
+          sparse-checkout: tools/gha_browser
+      - name: 已經跑過的（claude/gha-results）
+        run: |
+          mkdir -p done
+          if git ls-remote --exit-code --heads origin claude/gha-results >/dev/null 2>&1; then
+            git fetch --depth 1 origin claude/gha-results
+            git archive FETCH_HEAD docs/story_planning/CC/gha_out 2>/dev/null | tar -x -C done 2>/dev/null || true
+          fi
+      - id: m
+        run: python3 tools/gha_browser/plan.py tools/gha_browser/queue.txt done/docs/story_planning/CC/gha_out >> "$GITHUB_OUTPUT"
+  run:
+    needs: plan
+    if: needs.plan.outputs.any == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        item: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    name: ${{ matrix.item.id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/cc-testing
+          fetch-depth: 1
+          path: cc
+      - name: 遊戲版本（git worktree 切到 SHA）
+        run: |
+          git -C cc fetch --depth 1 origin ${{ matrix.item.sha }}
+          git -C cc worktree add --detach "$GITHUB_WORKSPACE/wt" ${{ matrix.item.sha }}
+          git -C wt log --oneline -1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Playwright（只在 GitHub 機器上裝）＋中文字型
+        run: |
+          python -m pip install --quiet playwright==1.63.0 pillow numpy
+          python -m playwright install --with-deps chromium
+          sudo apt-get install -y -q fonts-noto-cjk >/dev/null
+          EXE=$(python -c "from playwright.sync_api import sync_playwright as s; p=s().start(); print(p.chromium.executable_path); p.stop()")
+          sudo mkdir -p /opt/pw-browsers && sudo ln -sf "$EXE" /opt/pw-browsers/chromium
+          /opt/pw-browsers/chromium --version || true
+      - name: 跑 ${{ matrix.item.id }}
+        env:
+          ITEM: ${{ toJSON(matrix.item) }}
+        run: python3 cc/tools/gha_browser/run_item.py --item "$ITEM" --cc cc --wt wt --out "out/${{ matrix.item.id }}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: res-${{ matrix.item.id }}
+          path: out/
+          retention-days: 7
+  collect:
+    needs: [plan, run]
+    if: always() && needs.plan.outputs.any == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: res-*
+          path: res
+          merge-multiple: true
+      - name: 推到 claude/gha-results（撞到別支就合併再推，不 force）
+        run: |
+          git init -q gr && cd gr
+          git config user.name "gha-browser-sweep"; git config user.email "gha-browser-sweep@users.noreply.github.com"
+          git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          if git ls-remote --exit-code --heads origin claude/gha-results >/dev/null 2>&1; then
+            git fetch -q --depth 50 origin claude/gha-results && git checkout -q -B claude/gha-results FETCH_HEAD
+          else
+            git checkout -q --orphan claude/gha-results
+            printf '# claude/gha-results\nGHA-BROWSER（BB_257 T7）的結果：docs/story_planning/CC/gha_out/<ID>/。GitHub Actions（ubuntu、SwiftShader、無 GPU）。\n' > README.md; git add README.md
+          fi
+          mkdir -p docs/story_planning/CC/gha_out
+          cp -r ../res/* docs/story_planning/CC/gha_out/ 2>/dev/null || true
+          git add -A docs/story_planning/CC/gha_out
+          git commit -q -m "gha-browser-sweep：run ${{ github.run_id }}（${{ github.sha }}）" || { echo "沒有新的結果"; exit 0; }
+          for i in 1 2 3 4 5; do
+            if git push -q origin HEAD:claude/gha-results; then echo pushed; exit 0; fi
+            sleep $((i*3)); git fetch -q --depth 50 origin claude/gha-results && git merge -q --no-edit -X ours FETCH_HEAD || true
+          done
+          exit 1

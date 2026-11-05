@@ -1,0 +1,10 @@
+# GHA-BROWSER 佇列（BB_257 T7，CC-C 11-05）：改了這個檔、push 到 claude/cc-testing＝.github/workflows/browser-sweep.yml 跑。
+# 格式和 PC 佇列一樣：ID | SHA | KIND | SCRIPT | URL | TIMEOUT_MIN | ENV（k=v;k=v）。KIND：game／probe／node（tools/gha_browser/run_item.py）。
+# 同一行跑過（claude/gha-results 有同一行的 meta.json）就跳過；要重跑＝ENV 加 RERUN=r2 之類。
+# 結果：claude/gha-results 的 docs/story_planning/CC/gha_out/<ID>/（run.log、meta.json、jpg）。一律標「GitHub Actions（ubuntu、SwiftShader、無 GPU）」——只算功能，效能和顏色等電腦。
+# 電腦正常的時候照舊排電腦（tools/cc_local/queue.txt），兩邊不重複跑同一項。
+# ===== 第一輪：驗證 workflow 本身（BB_257 T7）——兩支結果已知 =====
+#   GV_p0_d3828：p0 在 d3828（雲端 V20R_p0 RESULT: ALL PASS）
+#   GV_yizhan_e9b3：修改前的 e9b3（雲端 WZ4_yizhan_r4_e9b3 FAILED 2：[YARD] 旁白、WZ_TEA_YARD_IN）
+GV_p0_d3828 | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | game | tests/p0_movement.py | index.html | 20 | XARGS={url}
+GV_yizhan_e9b3 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=yizhan;HOURS= ;YARD=1
