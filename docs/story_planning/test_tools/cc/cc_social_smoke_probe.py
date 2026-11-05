@@ -81,6 +81,7 @@ CASES（逗號分隔）：人物 id（heroine_01,zhe…）或群組 rom（可攻
 import os, sys, json, asyncio, time, math, re, traceback
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L
+import cc_phone   # 快速前往分地區（12cb1426c 起）：先點地區
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
@@ -886,6 +887,7 @@ class Person:
             # 一起走過去：手機「地點」的「前往」（玩家可以用的快速前往；她跟著）
             await L.tap(pg, self.cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
             await L.tap(pg, self.cdp, '#phoneTabs [data-ptab="places"]'); await pg.wait_for_timeout(1200)
+            await cc_phone.reveal(pg, self.cdp, v['zone'])
             if not await L.tap(pg, self.cdp, '[data-place^="%s|"]' % v['zone']):
                 await L.close_panels(pg, self.cdp); return R.info('invite：手機地點頁沒有 %s 的「前往」，不測見面' % v['zone'])
         v = dict(v); v['study'] = bool(P.get('study'))
@@ -907,6 +909,7 @@ class Person:
         if v['state'] == 'going' and v['zone'] != (await self.st())['zone']:
             await L.tap(pg, self.cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
             await L.tap(pg, self.cdp, '#phoneTabs [data-ptab="places"]'); await pg.wait_for_timeout(1200)
+            await cc_phone.reveal(pg, self.cdp, v['zone'])
             if not await L.tap(pg, self.cdp, '[data-place^="%s|"]' % v['zone']): await L.close_panels(pg, self.cdp); return R.info('invite 念書：手機地點頁沒有 %s' % v['zone'])
         await self.meet_go('invite 念書（%s）' % sp['verb'], None, v, SeqPlan())
 
@@ -1900,6 +1903,7 @@ class Person:
             R.check('%s：回了以後那一筆約是 %s' % (t, '新的時間 accepted' if ans == 'ok' else 'cancelled'), got == want, J({'iv': v, 'to': c['to']}))
             # 舊的時間：人在總圖大廳等，看會不會開演、帶路
             await L.tap(pg, self.cdp, '#btnPhone'); await pg.wait_for_timeout(1000); await L.tap(pg, self.cdp, '#phoneTabs [data-ptab="places"]'); await pg.wait_for_timeout(1200)
+            await cc_phone.reveal(pg, self.cdp, 'library_hall')
             went = await L.tap(pg, self.cdp, '[data-place^="library_hall|"]'); await pg.wait_for_timeout(8000); await L.close_panels(pg, self.cdp)
             s = await self.st()
             if s['ch'] or s['dlg'] or s['depth']: ok, s, mm, ll = await self.drive(Plan(), t + ' 路上')

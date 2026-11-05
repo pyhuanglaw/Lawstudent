@@ -54,6 +54,7 @@ check（客觀記錄；判定一律 BB，這裡是 CC 初判）：
   PORTRAIT（1）、DAY_MAX（一個遊戲日的上限秒數，900）、TRIP_MAX（600）、STUCK_S（240）、FULL_MAX（full 模式整段上限秒數，14400）。"""
 import os, sys, json, asyncio, re, time, copy, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
+import cc_phone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); import bbplay as P   # bbplay 在上一層（BB 的 test_tools）
 from playwright.async_api import async_playwright
 
@@ -259,6 +260,7 @@ async def tap_sel_js(pg, cdp, js):
 async def quick_go(pg, cdp, zone):
     """手機「地點」→ 前往（aa375_probe.py 的 quick_go）"""
     await P.phone_tab(pg, cdp, 'places')
+    await cc_phone.reveal(pg, cdp, zone)   # 快速前往分地區（QUICK-TRAVEL-AREAS-1105，12cb1426c 起）：先點地區
     got = await tap_sel_js(pg, cdp, "[...document.querySelectorAll('#phoneBody [data-place]')].find(b=>b.dataset.place.startsWith(%s))" % json.dumps(zone + '|'))
     if not got: await L.close_panels(pg, cdp); return False
     for _ in range(60):

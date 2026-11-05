@@ -59,6 +59,7 @@ async def phone_tab(pg, cdp, tab):
 
 async def quick_go(pg, cdp, run, zone):
     await L.close_panels(pg, cdp); await phone_tab(pg, cdp, 'places')
+    await cc_phone.reveal(pg, cdp, zone)   # 快速前往分地區（QUICK-TRAVEL-AREAS-1105，12cb1426c 起）：先點地區
     c = await pg.evaluate("(z=>{ const e=[...document.querySelectorAll('#phoneBody [data-place]')].find(b=>b.dataset.place.startsWith(z+'|')); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })", zone)
     if not c: await L.close_panels(pg, cdp); run.note('手機「地點」沒有 %s' % zone); return False
     await L.touch_tap(cdp, c[0], c[1])

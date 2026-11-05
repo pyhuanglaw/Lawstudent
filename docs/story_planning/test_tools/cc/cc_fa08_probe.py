@@ -37,6 +37,7 @@ check（客觀記錄，判定由 BB 做）：每一輪能不能從床進到「�
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> [NOW_ACTION=go|skip] python3 cc_fa08_probe.py '<URL>/index.html?turbo' <輸出資料夾>"""
 import os, sys, json, asyncio, time, copy, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
+import cc_phone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); import bbplay as P   # bbplay 在上一層（BB 的 test_tools）
 from playwright.async_api import async_playwright
 
@@ -327,6 +328,7 @@ async def go_dorm(pg, cdp, run, case, n):
         c = await P.clock(pg)
         if c['zone'] == 'dorm': o['ok'] = True; break
         txt = await P.phone_tab(pg, cdp, 'places')
+        await cc_phone.reveal(pg, cdp, 'dorm')   # 快速前往分地區（QUICK-TRAVEL-AREAS-1105，12cb1426c 起）：先點地區
         sel = '#phoneBody [data-place^="dorm|"]'
         btn = await pg.evaluate(BTN_TXT, sel)
         if not btn:

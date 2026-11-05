@@ -36,6 +36,7 @@ case camp_peishan（BB 08:53，使用者 v9.10.17 截圖：8/22 宿營加了沛�
 每項一行 PASS／FAIL，最後 ALL PASS 或 FAILED n；exit 0／1。"""
 import os, sys, json, asyncio, time, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
+import cc_phone
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
@@ -133,6 +134,7 @@ async def skip_time(pg, cdp):
 async def quick_go(pg, cdp, key):
     await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
     await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(800)
+    await cc_phone.reveal(pg, cdp, key)   # 快速前往分地區（QUICK-TRAVEL-AREAS-1105，12cb1426c 起）：先點地區
     c = await pg.evaluate("(k=>{ const e=[...document.querySelectorAll('#phoneBody [data-place]')].find(b=>b.dataset.place===k); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,k]; })(%s)" % J(key))
     if c:
         await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)

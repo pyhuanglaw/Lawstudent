@@ -38,6 +38,7 @@
 import os, sys, json, asyncio, time, math, re
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L
+import cc_phone
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
@@ -533,6 +534,7 @@ async def case_aoki(pg, cdp, errs):
     # A5 手機快速前往（已經進過一次）
     await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
     await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(900)
+    await cc_phone.reveal(pg, cdp, 'aoki')   # 快速前往分地區（QUICK-TRAVEL-AREAS-1105，12cb1426c 起）：先點地區
     keys = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-place]')].map(e=>e.getAttribute('data-place'))")
     sel = '#phoneBody [data-place^="aoki|"]'
     has = any(k.startswith('aoki|') for k in keys)
