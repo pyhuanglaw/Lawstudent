@@ -5,6 +5,7 @@
   - 新生南路那一區的圍牆後面，還是「側門開在西牆」那一版（洞洞館、校史館）。
   - 側門搬到北牆（XS-GATE-NORTH-1105）以後，圍牆後面應該是望月台和體育館。
   - 所以先做望月台、體育館的 Blender 外觀，再改新生南路圍牆後面，最後拍三間店的窗外。
+- 使用者 10:0x：「你去台大官網找新月台照片 新體育館照片!!!!」→ 望月台、體育館照官網照片重做（第 2 版，見第一節），窗外照片用第 2 版重拍。
 - 狀態：**已做，交 patch**。Node 驗過；瀏覽器沒跑（D131），請 CC 拍。
 
 ![三間店的窗外（白天、晚上）](views_xs_sheet.jpg)
@@ -122,7 +123,7 @@
   - 2048 × 1024、48 samples；
   - 白天照遊戲 14:00 的太陽；
   - 晚上 `--lamp-k 4 --exposure -0.7`，加路燈光圈。
-- 重拍：`render.sh`。
+- 重拍：`bash docs/art-rebuild/second_ai/wip/xs_wincard_1105/render.sh <輸出資料夾>`。
 
 ## 測試（Node，不用瀏覽器）
 
@@ -130,11 +131,14 @@
   - ① 校園：望月台、體育館的正式模型接上、套件藏起來、範圍對、招牌有字。
   - ② 新生南路：望月台在側門南邊、體育館在北邊、貼圍牆；兩顆正式模型接上、和套件同位置、套件藏起來。
   - ③ 洞洞館、校史館拿掉；樹避開望月台、體育館。
-- `node tests/xs_wincard_1105_unit.js`：REGRESSION_WINCARD
+- `node tests/xs_wincard_1105_unit.js`：ALL PASS。修改前（開發分支 `56035ba30`，沒有視差窗、沒有照片）FAILED 12。
   - ① 片數、照片名字、照片檔；
   - ②③ 在玻璃外面、面向店裡、中心＝照片拍的位置；
   - ④ 在 `z.wins`／`winParts`、換時段、照片設進材質、正面的夜景卡不顯示。
-- 回歸：REGRESSION_LIST
+- 回歸：讀到新生南路、大口、大步、好拍、校園 XSG、視差窗（`shopViewPane`、`ggViewPanes`、`winParts`）、`ground_zfight`、手機地圖的 48 支 `*_unit.js`：
+  - 46 支 ALL PASS；
+  - `shop_npc_unit` FAILED 9、`shop_crowd_new_unit` 沒有結果：**沒改的 `56035ba30` 也一樣**（`shop_npc` 要讀企劃線的 commit，這個 checkout 沒有）。
+- 套在最新的開發分支 `e6335d264` 上：`git apply --check` 通過；套上以後 xs_wincard、xs_north_ext、xs_gate_north、ground_zfight、xinsheng、dakou、xsshop、placemap、nav_buildings 九支 ALL PASS。
 
 ## 先將就的
 
@@ -174,9 +178,9 @@
 
 ## 接法（LAWWW-C）
 
-1. 拿模型、照片：`git checkout <這一包的 commit> -- assets/models/env/second_ai/campus_{moon,gymext}.{glb,json} assets/models/env/views/xs_*_{day,night}.webp`。
+1. 拿模型、照片：`git checkout <這一包的 commit> -- assets/models/env/second_ai/campus_{moon,gymext}.{glb,json} assets/models/env/views/{xs_dakou,xs_dakou_2f,xs_dabu,xs_haopai}_{day,night}.webp`。
 2. `git apply docs/art-rebuild/second_ai/wip/xs_wincard_1105/xs_north_wincard_1105.patch`：
    - 程式：`src/assets3d.js`、`src/zones3d.js`、`src/xinsheng3d.js`、`src/dakou3d.js`、`src/xsshop3d.js`；
    - 兩支新測試；
    - `LICENSES.md` 兩列。
-   - 在開發分支 `56035ba30` 上做的。
+   - 在開發分支 `56035ba30` 上做的；在最新的 `e6335d264` 上 `--check` 通過。

@@ -1,0 +1,278 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index 2094d4388..a6623981b 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -342,6 +342,8 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
+ | afar café 窗景照片 `assets/models/env/second_ai/aa_support/afar_view_day.webp`、`afar_view_night.webp` | 本作 Blender 渲染（`tools/blender/env_second/wz_window_view.py --gg-street`：公館區域的正式模型 gongguan_shops／gongguan_far／gongguan_mrt_exit／campus_gate／street_trees／scooter＋遊戲尺寸的路面；LAWWW2-C 11-05 AFAR-VIEW-1105） | 本作 | afar 窗外的街景（白天、晚上） |
+ | 公館青木茶室、頁間書屋、Daybreak 窗景照片 `assets/models/env/second_ai/aa_support/{aoki,yejian,daybreak}_view_{day,night}.webp` | 本作 Blender 渲染（`tools/blender/env_second/wz_window_view.py --gg-street`：公館區域的正式模型 gongguan_shops／gongguan_far／gongguan_mrt_exit／campus_gate／street_trees／scooter＋遊戲尺寸的路面；機車照遊戲公館區域的 122 台位置；LAWWW2-C 11-05 WINVIEW-AUDIT-1105） | 本作 | 三間店窗外的街景（白天、晚上） |
+ | 慢輪單車、阿德影印的視差窗景照片 `assets/models/env/views/{bikeshop,wz_print}_{day,night}.webp`（WINVIEW-AUDIT-1105 第四包）；afar、頁間、青木窗景照片重拍（捷運出口照遊戲的位置） | 本作 Blender 渲染（`tools/blender/env_second/wz_window_view.py`：公館 `--gg-street`＋gongguan_shops／gongguan_far／campus_gate／street_trees／gongguan_mrt_exit（放在 (−36.6, 0, 11)、轉 90°）、機車照遊戲 122 台；溫州街 wenzhou_street／wz_props／wz_jphouse／wz_park＋路燈光圈），模型都是本作 | 本作 | 公館 `bikeshop`、溫州街 `wz_print` 的視差窗（`Z3.ggViewPanes`）；afar、頁間、青木的窗景卡 |
++| 望月台、體育館外觀 `assets/models/env/second_ai/campus_moon.glb`、`campus_gymext.glb`（XS-NORTH-EXT-1105） | 本作 Blender 腳本 `tools/blender/env_second/campus_xsnorth.py`（第 2 版：照臺大官網、校友雙月刊、Wikimedia Commons 的照片做遊戲版，像但不照抄；照片沒有放進 repo，網址在 `docs/art-rebuild/second_ai/wip/xs_wincard_1105/README.md`）；材質 Poly Haven `red_brick`、`granular_concrete`、`large_floor_tiles_02`（**CC0**） | 本作＋CC0 | 校園西北角（XSG.moon、XSG.gym）；新生南路圍牆後面 |
++| 新生南路大口漢堡、大步球鞋、好拍運動的視差窗景照片 `assets/models/env/views/{xs_dakou,xs_dakou_2f,xs_dabu,xs_haopai}_{day,night}.webp`（XS-WINCARD-1105） | 本作 Blender 渲染（`tools/blender/env_second/wz_window_view.py --slabs --trees --lamps`：xinsheng_street、campus_moon、campus_gymext、street_trees、street_props，場景資料從遊戲的新生南路區域匯出），模型都是本作 | 本作 | 三間店的視差窗（`Z3.shopViewPane`） |
+ | 2:30 AM 室內 v1b `assets/models/env/second_ai/aa_support/cafe230.glb`（配置 `src/data/cafe230_layout.js` v2） | 本作 Blender（腳本 `tools/blender/env_second/aa_support/cafe230_interior.py`，在 `claude/story-planning`；AA 製作、LAWWW2 驗收 MODEL_READY，story-planning `8d494790d`）；店名虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街 2:30 AM（區域 `cafe`，取代兩點半 Café 室內 cafe_interior.glb；WZ-SHOPS1-1104） |
+ | 小路 室內 v1f `assets/models/env/second_ai/aa_support/komichi.glb`（配置 `src/data/komichi_layout.js` v3，照抄進 `wz_shops_layout.js` teishoku） | 本作 Blender（`tools/blender/env_second/aa_support/README_komichi.md`，在 `claude/story-planning`；AA 製作、BB 照 LAWWW2 標準驗收 MODEL_READY，story-planning `9d1c3bbe7`，BB_257 §12）；店名虛構（D77），海報片名虛構，貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街 B3 小路（區域 `wz_teishoku`，取代巷子裡定食室內 wz_teishoku_interior.glb；WZ-SHOPS1-1104） |
+ | SUNNY SIDE 室內 v1e（窗景換成溫州街，story-planning `86688bd91`；v1d `8345fe067`） `assets/models/env/second_ai/aa_support/sunnyside.glb`（配置 `src/data/sunnyside_layout.js` v3，照抄進 `wz_shops_layout.js` brunch） | 本作 Blender（`tools/blender/env_second/aa_support/README_sunnyside.md`，在 `claude/story-planning`；AA 製作、BB 照 LAWWW2 標準驗收 MODEL_READY，story-planning `8345fe067`，BB_257 §12）；店名虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街 B7 SUNNY SIDE（區域 `wz_brunch`，取代半熟室內 wz_brunch_interior.glb；WZ-SHOPS1-1104） |
+diff --git a/src/assets3d.js b/src/assets3d.js
+index f64accf03..f45525ac9 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -127,6 +127,8 @@ const ASSETS = (function(){
+     'prop.seated_figures':{url:'assets/models/env/second_ai/seated_figures.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/seated_figures.py（LAWWW2 167fc2d：坐著的聽眾替身，遊戲路人底模 vroid_npc_f1/f2/m1/m2 減面＋烤色；聽講、抄筆記、滑手機×2 配色×LOD0/LOD1；原點＝座位地面中心、+z 朝講台；VISUAL_REVIEW（second_ai）第 24 節）', license:'本作；底模 VRoid CC0 樣本改作'},
+     'bldg.campus_freshman':{url:'assets/models/env/second_ai/campus_freshman.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_freshman.py（大一女舍 A、B 兩棟外觀＋二樓天橋＋門口；校園世界座標；本體與門廊位置照 zones3d.js campus 區塊的 CK.hall（導航不用改）；外觀是依文字資料的遊戲化設計（米色二丁掛、樓梯間、窗型冷氣、屋頂水塔與太陽能熱水器、背面曬衣），沒有照片；面磚、粉刷、花崗石、隔熱磚貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'bldg.campus_putong':{url:'assets/models/env/second_ai/campus_putong.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_teach.py --set putong（普通教學館外觀；校園世界座標；本體、門廊位置照 zones3d.js 的 CK.hall（導航不用改）；五層（真的樓層數）；紅褐面磚＋洗石子；依文字資料的遊戲化設計，沒有照片；ART-EXT-TEACH，LAWWW2-C 2026-10-18）', license:'CC0（本作）；貼圖 Poly Haven CC0（exterior_wall_cladding_02、granular_concrete、granite_tile_03）'},
++    'bldg.campus_moon':{url:'assets/models/env/second_ai/campus_moon.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_xsnorth.py --set moon（望月台＝新月台外觀；校園世界座標；本體照 zones3d.js 的 XSG.moon；XS-NORTH-EXT-1105，LAWWW2-C）', license:'本作（CC0 貼圖 Poly Haven painted_plaster_wall）'},
++    'bldg.campus_gymext':{url:'assets/models/env/second_ai/campus_gymext.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_xsnorth.py --set gym（體育館外觀；校園世界座標；本體照 zones3d.js 的 XSG.gym；XS-NORTH-EXT-1105，LAWWW2-C）', license:'本作（CC0 貼圖 Poly Haven painted_plaster_wall）'},
+     'bldg.campus_boya':{url:'assets/models/env/second_ai/campus_boya.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_teach.py --set boya（博雅教學館外觀；校園世界座標；本體範圍照 zones3d.js 的 CK.modern（導航不用改）；五層（真的樓層數）；現代建築（淺灰外牆、玻璃大廳、橫向長窗＋鋁鰭）是依文字資料推測，沒有照片；ART-EXT-TEACH，LAWWW2-C 2026-10-18）', license:'CC0（本作）；貼圖 Poly Haven CC0（white_plaster_02、concrete_wall_006、granite_tile_03）'},
+     'bldg.campus_gate':{url:'assets/models/env/second_ai/campus_gate.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_gate.py（臺大校門整座；校門自己的座標，校園、公館共用；照查到的真實配置：門房在正中間、兩側通道、四座燈柱，磚＋石材；尺寸和 campuskit3d.js 的 GATE 一樣；依文字資料的遊戲化設計，沒有照片；ART-EXT-GATE，LAWWW2-C 2026-10-18）', license:'CC0（本作）；貼圖 Poly Haven CC0（exterior_wall_cladding_02、sandstone_blocks_08、granite_tile_03）'},
+     'bldg.campus_male1':{url:'assets/models/env/second_ai/campus_male1.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_male1.py（男一舍外觀；校園世界座標；本體與門廊位置照 zones3d.js campus 區塊的 CK.hall（導航不用改）；地上 4 層照住宿組資料；外觀是依文字資料的遊戲化設計（沒有照片）：馬賽克磚、露明混凝土框架、鏤空花磚樓梯間、背面陽台；ART-EXT-M1，LAWWW2-C 2026-10-18）', license:'CC0（本作）；貼圖 Poly Haven CC0（rounded_square_tiled_wall、painted_plaster_wall、granite_tile_03）＋本作程式產生（m1_breeze.png）'},
+diff --git a/src/dakou3d.js b/src/dakou3d.js
+index 1780e2a98..4bb364792 100644
+--- a/src/dakou3d.js
++++ b/src/dakou3d.js
+@@ -95,6 +95,13 @@ const DK3=(function(){
+       const both=new THREE.Group(); both.name='xs_dakou_glb'; const s1=c1.scene.clone(true); both.add(s1); const s2=c2&&c2.scene?c2.scene.clone(true):null; if(s2) both.add(s2);
+       for(const s of [s1,s2]) if(s) s.traverse(o=>{ if(/^NIGHT_/.test(o.name||'')) nightCards.push(o); if(o.name==='WALL_BANDS') o.name='DK_BANDS'; });   /* WALL_BANDS（一樓東西兩面牆的深藍護牆＋橘線，0～1.08 m）：一個網格跨兩面牆、沒有 dir——不放進淡出清單（矮，不擋人）*/
+       Z3.attachRoomGLB(z,g0,fb0,both); if(s2){ g1.attach(s2); fb1.visible=false; }
++      /* XS-WINCARD-1105（LAWWW2-C 11-05）：玻璃外面接視差窗景（照片 assets/models/env/views/xs_dakou*_{day,night}.webp：Blender 用新生南路的正式模型、圍牆後面的望月台與體育館，從窗中間往外拍）。
++         一樓正面、二樓正面（對面是校園）；二樓那一片放在二樓那一組（剖面視角時跟著藏）。二樓的照片把 4.6 m 以內剪掉（新生南路的外觀二樓蓋在騎樓上面、往外 3 m）。
++         西側不放：店的南牆外 0.6 m 就是隔壁那一棟（xinsheng_layout：大口 z 33.4～47.4、隔壁 48～68），拍不到街景；西側照舊用 BB 的夜景卡 NIGHT_WEST。
++         正面有了視差窗以後 BB 的 NIGHT_FRONT 不再顯示（白天、晚上都是同一套照片）*/
++      if(Z3.shopViewPane){ const P=[[g0,{kind:'xs_dakou',x:0,y:1.6,z:8.3,w:12.4,h:5.84,ry:Math.PI,depth:36}],[g1,{kind:'xs_dakou_2f',x:0,y:5.2,z:8.4,w:12.4,h:3.4,ry:Math.PI,depth:36}]];
++        let n=0; for(const [gr,o] of P) if(Z3.shopViewPane(z,gr,o)) n++;
++        if(n){ for(const o of nightCards) if(/^NIGHT_FRONT/.test(o.name||'')) o.visible=false; for(let i=nightCards.length-1;i>=0;i--) if(/^NIGHT_FRONT/.test(nightCards[i].name||'')) nightCards.splice(i,1); } }
+       lastNight=null; if(z.applyTime&&typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); else setNight(false); }).catch(e=>console.warn('大口漢堡正式模型載入失敗，用備用模型',e));
+     return z; } };
+ 
+diff --git a/src/xinsheng3d.js b/src/xinsheng3d.js
+index 978a0614a..e1b75df4a 100644
+--- a/src/xinsheng3d.js
++++ b/src/xinsheng3d.js
+@@ -64,35 +64,42 @@ const XS3=(function(){
+     { const wallM=M('#a8634a'), capM=M('#d9d3c6'), postM=M('#bdb5a6'); const segs=[[CW.z0,CW.gateGap[0]],[CW.gateGap[1],CW.z1]];
+       for(const [a,b] of segs){ const m=new THREE.Mesh(new THREE.BoxGeometry(0.6,CW.h,b-a),wallM); m.position.set(CW.x,CW.h/2,(a+b)/2); m.userData.dyn=true; g.add(m); const cap=new THREE.Mesh(new THREE.BoxGeometry(0.75,0.12,b-a),capM); cap.position.set(CW.x,CW.h+0.06,(a+b)/2); cap.userData.dyn=true; g.add(cap); nav.blockRect(CW.x,(a+b)/2,0.9,b-a,0); }
+       for(const z of CW.gateGap){ const p=new THREE.Mesh(new THREE.BoxGeometry(1.0,3.0,1.0),postM); p.position.set(CW.x,1.5,z); p.userData.dyn=true; g.add(p); nav.blockRect(CW.x,z,1.2,1.2,0); } }
+-    // 側門裡面的校園（XS-CAMPUS-BACK-1104，LAWWW2）：圍牆後面原本只有一片灰色地面。照校園的配置換算（新生南路 (x,z) → 校園 (x−142.4, z−94)；側門 (18.4,10)＝校園的側門 (−124,−84)）：
+-    //   側門北邊＝校園西北角走不到的樹林（校園 z ≤ −88、x −123～−62，zones3d.js 的「西北角走不到的樹林」）；側門南邊是草地，遠一點是農業陳列館（洞洞館）和校史館
+-    //   （校園的 Blender 正式模型，校園座標，整組平移；載入失敗用套件 CK）。圍牆後面導航本來就整片擋住（只開了圍牆外和門洞），走不到，鏡頭也不會進去。
++    // 側門裡面的校園（XS-CAMPUS-BACK-1104 → XS-NORTH-EXT-1105，LAWWW2）：圍牆後面照校園的配置換算（側門在校園北牆 (−101.4, −141)，下面的 C2X）。
++    //   側門南邊＝望月台、北邊＝體育館（校園的 Blender 正式模型，校園座標，整組轉 90°＋平移；載入失敗用套件 CK.modern），再過去是校園西北角的樹林。圍牆後面導航本來就整片擋住，走不到，鏡頭也不會進去。
+     //   樹用 TK.tree（有正式樹模型時是 TreeField 的 instancing＋遠處卡片，不會一棵一次 draw call）。
+-    { const back=new THREE.Group(); back.name='xs_campus_back'; const OX=CW.x+124, OZ=SG.z+84;   // 校園座標 → 新生南路座標的位移
++    { const back=new THREE.Group(); back.name='xs_campus_back'; // 校園座標 → 新生南路座標：下面的 C2X（XS-NORTH-EXT-1105；舊的是西牆側門的平移 (x+142.4, z+94)）
+       const H=(a,b)=>{ const h=Math.sin(a*12.9898+b*78.233)*43758.5453; return h-Math.floor(h); };
+       const gt=W3.grassTex().clone(); gt.wrapS=gt.wrapT=THREE.RepeatWrapping; const GW=140, GD=170; gt.repeat.set(GW/4,GD/4); gt.needsUpdate=true;
+       const lawn=new THREE.Mesh(new THREE.PlaneGeometry(GW,GD),new THREE.MeshStandardMaterial({map:gt,roughness:0.95})); lawn.rotation.x=-Math.PI/2; lawn.position.set(CW.x+0.35+GW/2,0.004,0); lawn.receiveShadow=true; lawn.userData.dyn=true; back.add(lawn);
+       { const pv=new THREE.Mesh(new THREE.PlaneGeometry(3.4,SG.w+0.6),M('#b77a62')); pv.rotation.x=-Math.PI/2; pv.position.set(CW.x+1.6,0.012,SG.z); pv.receiveShadow=true; pv.userData.dyn=true; back.add(pv); }   // 門洞裡面一小段紅磚（和人行道同色），不是草直接接到門口
+       const trees=new THREE.Group(); trees.name='xs_campus_trees'; let sd=1300;
+       const T=(x,z,h,o)=>{ if(!TK.tree) return; const t=TK.tree(h,sd++,o); t.position.set(x,0,z); t.rotation.y=H(z,x)*6.28; trees.add(t); };
+-      // ① 樹林：校園 x −121～−62、z −88 以北（新生南路這邊 x 21～80、z 6 以北；北端多種到 z −80，不讓圍牆外的人看到樹林突然沒了）
+-      for(let z=SG.z-6;z>=-80;z-=7.5) for(let x=CW.x+3.5;x<=CW.x+62;x+=8){ const tx=x+(H(x,z)-0.5)*4.5, tz=z+(H(z,x)-0.5)*3.5;
+-        T(tx,tz,9.5+H(tx,tz)*5.5,{sp:H(tz,tx)<0.35?'banyan':'camphor',spread:1.15+H(tx,7)*0.25}); }
+-      // ② 圍牆內側一排矮樹（只在樹林那一段的外緣與草地那一段；門洞前後各留 4 m）
+-      for(let z=CW.z0+2;z<=CW.z1-2;z+=5.5){ if(Math.abs(z-SG.z)<SG.w/2+4) continue; if(z<SG.z-6) continue; T(CW.x+2.2+H(z,3)*0.6,z+(H(3,z)-0.5)*1.2,3.6+H(z,5)*1.2,{sp:'camphor',spread:1.3}); }
+-      // ③ 側門南邊的草地：零星幾棵大樹（避開洞洞館、校史館前面）
+-      for(let z=SG.z+9;z<=CW.z1+6;z+=13) for(let x=CW.x+9;x<=CW.x+70;x+=15){ const tx=x+(H(x,z)-0.5)*7, tz=z+(H(z,x)-0.5)*6; if(tz>50&&tx<CW.x+62) continue; if(H(tx,tz)<0.3) continue;
+-        T(tx,tz,10+H(tz,tx)*4,{sp:'camphor',spread:1.25}); }
++      /* XS-NORTH-EXT-1105（LAWWW2-C 11-05；使用者「門就不要往左邊開了直接往上面開」「新月台也貼著上方的最左邊」「體育館…改到新月台法學院中間」）：
++         側門搬到校園北牆以後，圍牆後面照新的換算：新生南路 (x,z) ↔ 校園 (101.4 往西… cx＝−101.4−(z−SG.z)、cz＝−141＋(x−CW.x))——往校園走（+x）＝校園往南（+z）、
++         沿街往北（−z）＝校園往東（+x）。側門南邊（z 14.6～31.6）是望月台，北邊（z −1.4～−31.4）是體育館，再過去是校園西北角的樹林。
++         街的兩頭（z > 32.6＝校園西牆以西、z < −35.4＝辛亥路那一段）不在校園北牆上，照舊只種一排樹。 */
++      const C2X=(cx,cz)=>[CW.x+(cz+141),SG.z-(cx+101.4)], XG=(typeof Z3!=='undefined'&&Z3.XSG)||null;
++      const inXSG=(cx,cz,m)=>{ if(!XG) return false; for(const k of ['moon','plaza','park','path','pathE','gym','gymPlaza']){ const r=XG[k]; if(r&&cx>=r[0]-m&&cx<=r[2]+m&&cz>=r[1]-m&&cz<=r[3]+m) return true; } return false; };
++      // ① 校園西北角的樹林（校園 x −123～−62、z −124～−84；側門、望月台、停車場、體育館、步道上不種）
++      for(let cz=-121;cz<=-86;cz+=7.5) for(let cx=-121;cx<=-62;cx+=8){ const tx=cx+(H(cx,cz)-0.5)*4.5, tz=cz+(H(cz,cx)-0.5)*3.5; if(tz<-124||inXSG(tx,tz,2.5)) continue;   /* 北牆邊（z −141～−124）是望月台、小廣場、體育館；開出來的地方也不種 */
++        const [x,z]=C2X(tx,tz); T(x,z,9.5+H(tx,tz)*5.5,{sp:H(tz,tx)<0.35?'banyan':'camphor',spread:1.15+H(tx,7)*0.25}); }
++      // ② 圍牆內側一排矮樹：只在街的兩頭（不在校園北牆上的那兩段），和望月台、體育館之間的空檔
++      for(let z=CW.z0+2;z<=CW.z1-2;z+=5.5){ const cx=-101.4-(z-SG.z); if(Math.abs(z-SG.z)<SG.w/2+4) continue; if(cx>=-124&&cx<=-56&&inXSG(cx,-139,1.5)) continue;
++        T(CW.x+2.2+H(z,3)*0.6,z+(H(3,z)-0.5)*1.2,3.6+H(z,5)*1.2,{sp:'camphor',spread:1.3}); }
++      // ③ 街的兩頭，圍牆後面再一排大樹（不讓那兩段看起來空）
++      for(let z=CW.z0+4;z<=CW.z1-4;z+=9){ const cx=-101.4-(z-SG.z); if(cx>=-126&&cx<=-54) continue; T(CW.x+7+H(z,9)*3,z+(H(9,z)-0.5)*3,10+H(z,4)*3,{sp:'camphor',spread:1.2}); }
+       const tm=W3.mergeGroup?W3.mergeGroup(trees):trees; tm.name='xs_campus_trees'; tm.traverse(m=>{ if(m.isMesh) m.castShadow=false; }); tm.userData.dyn=true; back.add(tm);   /* 合併（和校園的遠景樹同一套；有正式樹模型時合併的是記號，TreeField 照樣讀） */
+-      // ④ 遠處的兩棟校園建築：套件版（備用）在新生南路座標；正式模型是校園座標的 GLB，包一層平移後交給 Z3.attachWenzhouModel（藏起同標記的套件）
+-      const fbs=[]; const put=(b,cx,cz,tag)=>{ b.position.set(cx+OX,0,cz+OZ); b.userData.xsBack=tag; b.userData.dyn=true; b.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); g.add(b); fbs.push(b); };
+-      if(typeof CK!=='undefined'){ if(CK.pavilion) put(CK.pavilion({w:22,d:14,gfh:4.0,h:9,sign:'農業陳列館'}),-104,-30,'pavilion');
+-        if(CK.hall) put(CK.hall({w:24,d:16,floors:2,gfh:5.0,fh:4.6,wall:'#a25d43',trim:'#d8cfbd',roof:'#43342e',roofH:4.4,arcade:true,porch:{bays:3,depth:2.6,pediment:true,pedH:1.6},sign:'校史館'}),-77,-29,'hist'); }
++      // ④ 校園的建築：套件版（備用）照換算放；正式模型是校園座標的 GLB，包一層「轉 90°＋平移」交給 Z3.attachWenzhouModel（藏起同標記的套件）
++      const fbs=[]; const put=(b,cx,cz,ry,tag)=>{ const [x,z]=C2X(cx,cz); b.position.set(x,0,z); b.rotation.y=ry+Math.PI/2; b.userData.xsBack=tag; b.userData.dyn=true; b.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); g.add(b); fbs.push(b); };
++      if(typeof CK!=='undefined'&&CK.modern&&XG){ const R=XG.moon, Gy=XG.gym;
++        put(CK.modern({w:R[3]-R[1],d:R[2]-R[0],floors:2,gfh:4.2,fh:3.6,wall:'#efece4',slab:'#c9c6bd',sign:'望月台'}),(R[0]+R[2])/2,(R[1]+R[3])/2,Math.PI/2,'moon');
++        put(CK.modern({w:Gy[2]-Gy[0],d:Gy[3]-Gy[1],floors:4,gfh:5.0,fh:4.4,wall:'#d8d4ca',slab:'#a9aba6',sign:'體育館'}),(Gy[0]+Gy[2])/2,(Gy[1]+Gy[3])/2,0,'gym'); }
++      if(XG){ const P=XG.plaza; const pv=new THREE.Mesh(new THREE.PlaneGeometry(P[3]-P[1],P[2]-P[0]),M('#c9c2b4')); pv.rotation.x=-Math.PI/2; const [x,z]=C2X((P[0]+P[2])/2,(P[1]+P[3])/2); pv.position.set(x,0.01,z); pv.receiveShadow=true; pv.userData.dyn=true; back.add(pv); }   // 側門內的小廣場（校園 XSG.plaza 那一塊鋪面）
+       g.add(back);
+       const formal=(key,tag,name)=>{ if(typeof ASSETS==='undefined'||!ASSETS.manifest[key]||!Z3.attachWenzhouModel) return; ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==zoneRef.z) return;
+-          const wrap=new THREE.Group(); wrap.position.set(OX,0,OZ); wrap.add(c.scene.clone(true)); Z3.attachWenzhouModel(E,g,wrap,'xsBack',name,tag); wrap.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); wrap.userData.dyn=true; })
++          const wrap=new THREE.Group(); wrap.position.set(CW.x+141,0,SG.z-101.4); wrap.rotation.y=Math.PI/2; wrap.add(c.scene.clone(true)); Z3.attachWenzhouModel(E,g,wrap,'xsBack',name,tag); wrap.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); wrap.userData.dyn=true; })
+         .catch(e=>console.warn('新生南路：校園'+tag+'正式模型載入失敗，用套件',e)); };
+-      backFormal.push(()=>{ formal('bldg.campus_pavilion','pavilion','xs_campus_pavilion_glb'); formal('bldg.campus_hist','hist','xs_campus_hist_glb'); }); }
++      backFormal.push(()=>{ formal('bldg.campus_moon','moon','xs_campus_moon_glb'); formal('bldg.campus_gymext','gym','xs_campus_gym_glb'); }); }
+     // 店面那一側：備用方塊（正式模型 bldg.xinsheng_street 載入後藏起來）＋鏡頭碰撞
+     const fb=[]; const colM=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide});
+     const addCollider=(x,z,w,d,h)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h||14,d),colM); m.position.set(x,(h||14)/2,z); g.add(m); E.colliders.push(m); };
+diff --git a/src/xsshop3d.js b/src/xsshop3d.js
+index f7af1317c..63b979ac3 100644
+--- a/src/xsshop3d.js
++++ b/src/xsshop3d.js
+@@ -14,11 +14,13 @@ const XSS=(function(){
+   const SHOPS={
+     dabu:{zone:'xs_dabu',name:'大步球鞋',lay:()=>typeof DABU_LAYOUT!=='undefined'?DABU_LAYOUT:null,glbKey:'bldg.xs_dabu',
+       source:'CC〔帳號 A 的建模子代理〕tools/blender/env_second/bb_support/dabu_interior.py v2b，照使用者的參考圖 dabu_int.webp',floor:'#cfa77a',
+-      extra:[[-2.34,-5.05,2.72,1.9],[-1.5,-3.5,0.2,0.2]]},   /* 隔間牆後面的倉庫（x −3.7～−0.98、z −6～−4.1；配置 partition：模型裡封起來）：本來就進不去，站得住的格子擋起來（不然是走不到的小孤島）；
++      extra:[[-2.34,-5.05,2.72,1.9],[-1.5,-3.5,0.2,0.2]],
++      pane:{kind:'xs_dabu',x:-0.1,y:1.6,z:6.23,w:8.0,h:3.2,ry:Math.PI,depth:36}},   /* XS-WINCARD-1105：正面玻璃（x −3.6～3.4、y 0～2.72、z 5.93）外面 0.3 m 的視差窗；照片 views/xs_dabu_{day,night}.webp＝新生南路對面（圍牆、椰子、體育館）*/   /* 隔間牆後面的倉庫（x −3.7～−0.98、z −6～−4.1；配置 partition：模型裡封起來）：本來就進不去，站得住的格子擋起來（不然是走不到的小孤島）；
+                                         長凳 B 尾端、毛巾桶、鞋拔中間的一個點 (−1.5, −3.5)：站得住、四周都站不住（跑步一步 0.4 m 會跳進去），擋起來 */
+     haopai:{zone:'xs_haopai',name:'好拍運動',lay:()=>typeof HAOPAI_LAYOUT!=='undefined'?HAOPAI_LAYOUT.haopai:null,glbKey:'bldg.xs_haopai',
+       source:'CC〔帳號 A 的建模子代理〕tools/blender/env_second/bb_support/haopai_interior.py v2b，照使用者的參考圖 haopai_int.webp',floor:'#d6c9ae',
+-      extra:[[1.45,-1.05,0.6,0.4]]}   /* 特價桶（x 0.74～1.22）和右牆、後段鐵架中間的縫（x 1.3～1.4、z −0.9）：站得住兩點、出不來（v9.3 #31），擋起來；旁邊走道照舊 */
++      extra:[[1.45,-1.05,0.6,0.4]],
++      pane:{kind:'xs_haopai',x:0,y:1.6,z:7.23,w:4.8,h:3.2,ry:Math.PI,depth:36}}   /* XS-WINCARD-1105：正面玻璃（x ±2.08、y 0～2.57、z 6.93）外面 0.3 m */   /* 特價桶（x 0.74～1.22）和右牆、後段鐵架中間的縫（x 1.3～1.4、z −0.9）：站得住兩點、出不來（v9.3 #31），擋起來；旁邊走道照舊 */
+   };
+   /* 店門：正面（+z）、門的 x 照配置；出口的互動點在門內 0.4 m、半徑 1.0；進來站在門內 1.6 m（在出口範圍外面）、面向店裡 */
+   const exitOf=L=>({x:L.front.door.x,z:+(L.d/2-0.4).toFixed(2),r:1.0});
+@@ -48,7 +50,7 @@ const XSS=(function(){
+     E.interactables.push({x:EX.x,z:EX.z,radius:EX.r,lv:0,label:'離開'+C.name,exit:{to:'xinsheng',spawn:streetOut(id)}});
+     // 正式模型
+     if(typeof ASSETS!=='undefined'&&ASSETS.manifest[C.glbKey]) ASSETS.loadOne(C.glbKey).then(c=>{ if(!c||!c.scene||E.zone!==z) return;
+-      const glb=c.scene.clone(true); Z3.attachRoomGLB(z,g,fb,glb);
++      const glb=c.scene.clone(true); Z3.attachRoomGLB(z,g,fb,glb); if(C.pane&&Z3.shopViewPane) Z3.shopViewPane(z,g,C.pane);
+       if(typeof Z3.glowBatch==='function'){ const gl=[]; glb.traverse(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
+         if(gl.length){ const gm=Z3.glowBatch(E,g,glb,gl,C.zone+'_glows',2.5); if(gm&&gm.material) gm.material.emissiveIntensity=z._lampsOn===false?0:1; glowMeshes.push(gm); } }
+       if(z.applyTime&&typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); }).catch(e=>console.warn(C.name+'正式模型載入失敗，用備用模型',e));
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 0185086c9..ab0530152 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -325,7 +325,9 @@ const Z3 = (function(){
+     ground(g,124,44,W3.grassTex(),[31,11],-70,-106,-0.003);   // 湖北邊的地面（方案 A 之前那裡走不到、種了一排樹遮住地面盡頭；湖搬過來之後樹會長在博雅裡面、小路上，2026-10-13 審查拿掉）
+     { const hb=new TK.Bin(); for(let x=-58.6;x<=4.5;x+=1.15) TK.plantClump(hb,x,0,-124.35+((x*7)%2)*0.08,0.9+Math.abs((x*13)%3)*0.06,5,[0.7,0.9,0.66]); hb.build(g); }   /* 方案 A 打開的西北角：北邊界 z=-124 原本只是草地中間一道看不見的牆，種一排矮灌木收邊（導航照舊是 blockOutside）*/
+     /* XS-GATE-NORTH-1105：側門內小廣場、步道、體育館門前、停車場的鋪面；停車場的車位線、汽車（美式小車暫代）、機車 */
+-    { const pv=pavingTex(); for(const k of ['plaza','path','pathE','gymPlaza']){ const r=XSG[k], w=r[2]-r[0], d=r[3]-r[1]; ground(g,w,d,pv,[w/3,d/3],(r[0]+r[2])/2,(r[1]+r[3])/2,0.012); }
++    { const pv=pavingTex(); const PL=XSG.plaza, PA=XSG.path, PE=XSG.pathE, GP=XSG.gymPlaza;
++      /* 鋪面不互相重疊（ground_zfight_unit：同一個高度疊在一起會閃）：步道只鋪小廣場和東西向步道中間那一段；體育館門前從小廣場東邊開始。導航照舊用完整的範圍 */
++      for(const r of [PL,[PA[0],PL[3],PA[2],PE[1]],PE,[Math.max(GP[0],PL[2]),GP[1],GP[2],GP[3]]]){ const w=r[2]-r[0], d=r[3]-r[1]; if(w<=0.01||d<=0.01) continue; ground(g,w,d,pv,[w/3,d/3],(r[0]+r[2])/2,(r[1]+r[3])/2,0.012); }
+       const P=XSG.park, pw=P[2]-P[0], pd=P[3]-P[1]; ground(g,pw,pd,W3.asphaltTex(),[pw/8,pd/8],(P[0]+P[2])/2,(P[1]+P[3])/2,0.011).material.map.userData.asphalt=true;
+       const lb=new TK.Bin(), lw=TK.col('#ecebe4'); for(let i=0;i<=7;i++){ const x=P[0]+1.2+i*2.6; lb.add(lw,TK.boxG(0.12,0.01,5.0),x,0.02,P[1]+2.7); lb.add(lw,TK.boxG(0.12,0.01,5.0),x,0.02,P[3]-2.7); } lb.build(g);   /* 南北兩排車位（2.6 × 5 m），車道在中間 */
+       XSG.cars=[]; for(let i=0;i<7;i++){ const x=P[0]+2.5+i*2.6; if(i!==2) XSG.cars.push({x,z:P[1]+2.7,ry:Math.PI,kind:['car_sedan','car_hatch','car_suv'][i%3]}); if(i%2===0) XSG.cars.push({x,z:P[3]-2.7,ry:0,kind:['car_hatch','car_sedan','car_minivan'][(i/2)%3]}); }
+@@ -421,7 +423,9 @@ const Z3 = (function(){
+       { const R=XSG.moon, moon=CK.modern({w:R[3]-R[1],d:R[2]-R[0],floors:2,gfh:4.2,fh:3.6,wall:'#efece4',slab:'#c9c6bd',sign:'望月台'}); moon.userData.ckTag='moon';
+         ckPlace(moon,(R[0]+R[2])/2,(R[1]+R[3])/2,Math.PI/2); buildings.push(moon);
+         const Gy=XSG.gym, gym=CK.modern({w:Gy[2]-Gy[0],d:Gy[3]-Gy[1],floors:4,gfh:5.0,fh:4.4,wall:'#d8d4ca',slab:'#a9aba6',sign:'體育館'}); gym.userData.ckTag='gym_ext';
+-        ckPlace(gym,(Gy[0]+Gy[2])/2,(Gy[1]+Gy[3])/2,0); buildings.push(gym); }
++        ckPlace(gym,(Gy[0]+Gy[2])/2,(Gy[1]+Gy[3])/2,0); buildings.push(gym);
++        for(const [b,key,name] of [[moon,'bldg.campus_moon','campus_moon_glb'],[gym,'bldg.campus_gymext','campus_gymext_glb']]) if(typeof ASSETS!=='undefined'&&ASSETS.manifest[key]){ b.userData.dyn=true;
++          ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||(typeof zone!=='undefined'&&E.zone!==zone)) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag',name,b.userData.ckTag); }).catch(e=>console.warn(name+' 正式模型載入失敗，用套件的外觀',e)); } }   /* XS-NORTH-EXT-1105：Blender 正式外觀（tools/blender/env_second/campus_xsnorth.py），載入後藏起同 ckTag 的套件 */
+       // 系館前的樹列、大道外側的樹、宿舍區與校園邊緣的樹帶（擋住草地直接接到遠景的盡頭）
+       const rows=[
+         [-104,36],[-90,41],[-76,38],[-100,16],[-112,26]].concat(lawnGLB?[]:[[74,-12],[78,14]]).concat([[68,26],   /* X133：有總圖前草皮時，(74,−12)、(78,14) 在草皮上，換成老樟樹、南側的樹 */
+diff --git a/tests/xs_north_ext_unit.js b/tests/xs_north_ext_unit.js
+new file mode 100644
+index 000000000..69b06529f
+--- /dev/null
++++ b/tests/xs_north_ext_unit.js
+@@ -0,0 +1,59 @@
++/* 望月台、體育館的 Blender 正式外觀＋新生南路圍牆後面照新配置（XS-NORTH-EXT-1105，LAWWW2-C 11-05）
++   ① 校園：campus_moon.glb、campus_gymext.glb 載入後接上、同 ckTag 的套件藏起來；模型的範圍和 XSG.moon／XSG.gym 一樣（±0.8 m；屋簷、雨遮另算）；招牌有字（併進 wz_plates_atlas）
++   ② 新生南路：圍牆後面的望月台在側門南邊、體育館在側門北邊、都貼著圍牆（換算 C2X）；兩顆正式模型載入後接上、套件藏起來
++   ③ 新生南路：圍牆後面的樹不長在望月台、體育館裡面；舊的洞洞館、校史館不再放（那是西牆側門的換算）
++   修改前（XS-GATE-NORTH-1105 那一版）：① ② ③ FAIL。用法：node tests/xs_north_ext_unit.js */
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{});   // 校園的正式模型在 node 裡載不到（fetch 相對網址），不影響導航
++const T=fs.readFileSync(path.join(ROOT,'tests/nav_buildings_unit.js'),'utf8');
++const files=eval(T.match(/const files=(\[[^\]]+\])/)[1]);
++for(const f of ['src/townkit3d.js','src/campuskit3d.js','src/data/xinsheng_layout.js','src/xinsheng3d.js']) if(!files.includes(f)) files.push(f);
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++const warn=console.warn; console.warn=()=>{};
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++const L=XINSHENG_LAYOUT, E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[];
++process.on('unhandledRejection',()=>{});
++window.ASSET_DATA=window.ASSET_DATA||{}; for(const k of ['bldg.campus_moon','bldg.campus_gymext']) if(ASSETS.manifest[k]){ const u=ASSETS.manifest[k].url; if(fs.existsSync(path.join(ROOT,u))) window.ASSET_DATA[u]=fs.readFileSync(path.join(ROOT,u)).toString('base64'); }
++const sleep=ms=>new Promise(r=>setTimeout(r,ms));
++const meshVis=o=>{ let v=0,h=0; o.traverse(m=>{ if(m.isMesh) (m.visible?v++:h++); }); return [v,h]; };
++(async()=>{
++  const XG=Z3.XSG;
++  // ①
++  E.interactables=[]; E.colliders=[]; const cz=Z3.ZONES.campus.build(E); E.zone=cz; E.scene.add(cz.group); await sleep(6000); cz.group.updateMatrixWorld(true);
++  for(const [tag,gname,R,txt] of [['moon','campus_moon_glb',XG.moon,'望月台'],['gym_ext','campus_gymext_glb',XG.gym,'體育館']]){
++    const kit=[]; cz.group.traverse(o=>{ if(o.userData&&o.userData.ckTag===tag&&o.userData.ck) kit.push(o); }); const glb=cz.group.getObjectByName(gname);
++    const bb=glb?new THREE.Box3().setFromObject(glb):null; const fit=bb&&Math.abs(bb.min.x-R[0])<1.8&&Math.abs(bb.max.x-R[2])<1.8&&Math.abs(bb.min.z-R[1])<1.8&&Math.abs(bb.max.z-R[3])<3.4;
++    let plate=false; if(glb) glb.traverse(m=>{ if(m.isMesh&&/plates/.test(m.name||'')&&m.material&&m.material.map) plate=true; });
++    check('① 校園 '+txt+'：正式模型接上、套件藏起來、範圍對（±1.8 m；正面雨遮另算）、招牌有字',!!glb&&kit.length===1&&meshVis(kit[0])[0]===0&&fit&&plate,
++      (glb?'範圍 x '+bb.min.x.toFixed(1)+'～'+bb.max.x.toFixed(1)+' z '+bb.min.z.toFixed(1)+'～'+bb.max.z.toFixed(1):'沒有模型')+'｜套件 '+(kit[0]?meshVis(kit[0]).join('/'):'沒有')); }
++  E.scene.remove(cz.group);
++  // ②③
++  const L=XINSHENG_LAYOUT, CW=L.campusWall, SG=L.sideGate; E.interactables=[]; E.colliders=[];
++  const xz=Z3.ZONES.xinsheng.build(E); E.zone=xz; E.scene.add(xz.group); if(xz.enter) try{ xz.enter(E); }catch(e){}
++  if(XS3&&XS3.zone&&XS3.zone.enter) try{ XS3.zone.enter(E); }catch(e){}
++  await sleep(6000); xz.group.updateMatrixWorld(true);
++  const kits={}; xz.group.traverse(o=>{ if(o.userData&&o.userData.xsBack) kits[o.userData.xsBack]=o; });
++  const C2X=(cx,cz)=>[CW.x+(cz+141),SG.z-(cx+101.4)];
++  const at=(o)=>{ const b=new THREE.Box3().setFromObject(o); return b; };
++  const km=kits.moon, kg=kits.gym;
++  const bm=km&&(()=>{ const s=km.visible; let b=new THREE.Box3(); km.traverse(m=>{ if(m.isMesh){ const v=m.visible; m.visible=true; b.union(new THREE.Box3().setFromObject(m)); m.visible=v; } }); return b; })();
++  const bg=kg&&(()=>{ let b=new THREE.Box3(); kg.traverse(m=>{ if(m.isMesh){ const v=m.visible; m.visible=true; b.union(new THREE.Box3().setFromObject(m)); m.visible=v; } }); return b; })();
++  check('② 新生南路：望月台在側門南邊、貼圍牆；體育館在側門北邊、貼圍牆（套件位置照換算）',!!bm&&!!bg&&bm.min.z>SG.z+SG.w/2-0.5&&bm.min.x<CW.x+2&&bg.max.z<SG.z-SG.w/2+0.5&&bg.min.x<CW.x+2,
++    bm&&bg?'望月台 z '+bm.min.z.toFixed(1)+'～'+bm.max.z.toFixed(1)+' x '+bm.min.x.toFixed(1)+'｜體育館 z '+bg.min.z.toFixed(1)+'～'+bg.max.z.toFixed(1)+' x '+bg.min.x.toFixed(1):'沒有套件');
++  const gm=xz.group.getObjectByName('xs_campus_moon_glb'), gg=xz.group.getObjectByName('xs_campus_gym_glb');
++  const gb=o=>{ if(!o) return null; o.updateMatrixWorld(true); return new THREE.Box3().setFromObject(o); };
++  const b1=gb(gm), b2=gb(gg);
++  check('② 新生南路：兩顆正式模型接上、和套件同一個位置（中心差 ≤ 1.5 m）、套件藏起來',!!b1&&!!b2&&b1.getCenter(new THREE.Vector3()).distanceTo(bm.getCenter(new THREE.Vector3()))<1.5&&b2.getCenter(new THREE.Vector3()).distanceTo(bg.getCenter(new THREE.Vector3()))<1.5&&meshVis(km)[0]===0&&meshVis(kg)[0]===0,
++    (b1?'望月台 中心 '+b1.getCenter(new THREE.Vector3()).toArray().map(v=>v.toFixed(1)).join(','):'沒有')+'｜'+(b2?'體育館 中心 '+b2.getCenter(new THREE.Vector3()).toArray().map(v=>v.toFixed(1)).join(','):'沒有'));
++  const T=xz.group.getObjectByName('xs_campus_trees'); let inB=0, nT=0;
++  if(T) T.traverse(m=>{ if(!m.isMesh) return; const pa=m.geometry&&m.geometry.attributes&&m.geometry.attributes.position; });
++  const trees=[]; if(TK.tree){ } // 樹的位置：查 TreeField 的記號或合併前的群組不容易；改查原始碼的規則
++  const src=fs.readFileSync(path.join(ROOT,'src/xinsheng3d.js'),'utf8');
++  check('③ 新生南路：圍牆後面不再放洞洞館、校史館；樹避開望月台、體育館（inXSG）',!/campus_pavilion|campus_hist/.test(src)&&/if\(tz<-124\|\|inXSG\(tx,tz,2\.5\)\) continue;/.test(src));
++  console.warn=warn; console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();
+diff --git a/tests/xs_wincard_1105_unit.js b/tests/xs_wincard_1105_unit.js
+new file mode 100644
+index 000000000..3e09e1e9c
+--- /dev/null
++++ b/tests/xs_wincard_1105_unit.js
+@@ -0,0 +1,43 @@
++// 新生南路大口漢堡、大步球鞋、好拍運動的窗外接上視差窗景（XS-WINCARD-1105，LAWWW2-C 11-05；使用者 07:4x「應該很多店面看出去的街景都不對吧」）——不需要瀏覽器（D131）。
++// 三間的正式模型（BB 大口、CC 大步／好拍）沒有窗景卡：白天玻璃外面是天空，大口晚上是 BB 的夜景卡。在 Node 建出真正的區域、載入正式模型：
++//   ① 視差窗的片數、照片名字對（大口 4 片：一二樓正面、一二樓西側；大步、好拍各 1 片）、照片檔（白天、晚上）都在
++//   ② 每片在玻璃外面、面向店裡、蓋住那一面的玻璃
++//   ③ 視差窗中心＝照片拍的位置（店內座標；照片在新生南路的座標拍：街 x＝立面 −16.5＋(店內 z − d/2)、街 z＝店的中心 − 店內 x）
++//   ④ 在 z.wins、z.winParts，換時段（14:00、21:00）不出錯、照片設進材質；大口正面的夜景卡 NIGHT_FRONT 不再顯示（西側對著隔壁的牆，照舊用 NIGHT_WEST）
++// 修改前（開發分支 56035ba30）：① FAIL。用法：node tests/xs_wincard_1105_unit.js
++const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
++const fs=require('fs'), path=require('path'), vm=require('vm');
++const run=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
++global.innerWidth=844; global.innerHeight=390; global.location={search:''}; global.addEventListener=()=>{}; process.on('unhandledRejection',()=>{});
++const w0=console.warn; console.warn=(...a)=>{ const t=String(a[0]); if(/LOD|Missing|載入失敗/.test(t)) return; w0(...a); };
++for(const f of ['src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/calendar.js','src/data/places.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/lane118_layout.js','src/data/xinsheng_layout.js','src/data/dakou_layout.js','src/data/dabu_layout.js','src/data/haopai_layout.js','src/zones3d.js','src/xinsheng3d.js','src/dakou3d.js','src/xsshop3d.js']) if(fs.existsSync(path.join(ROOT,f))) run(f);
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const sleep=ms=>new Promise(r=>setTimeout(r,ms)); window.ASSET_DATA=window.ASSET_DATA||{};
++for(const k of Object.keys(ASSETS.manifest)) if(/xs_dakou|xs_dabu|xs_haopai/.test(k)){ const u=ASSETS.manifest[k].url; if(fs.existsSync(path.join(ROOT,u))) window.ASSET_DATA[u]=fs.readFileSync(path.join(ROOT,u)).toString('base64'); }
++/* 照片拍的位置（新生南路座標，tools/blender/env_second/wz_window_view.py 的 --eye；docs/art-rebuild/second_ai/wip/xs_wincard_1105/README.md） */
++const EYE={xs_dabu:[-16.27,1.6,-16.6],xs_haopai:[-16.27,1.6,-23.2],xs_dakou:[-16.2,1.6,40.4],xs_dakou_2f:[-16.1,5.2,40.4]};
++const XL=XINSHENG_LAYOUT, FX=XL.facade.x, CZ=id=>{ const q=XL.shops.find(s=>s.id===id); return (q.z0+q.z1)/2; };
++const CASES=[{id:'xs_dakou',shop:'dakou',d:()=>DAKOU_LAYOUT.shop.d,kinds:['xs_dakou','xs_dakou_2f']},{id:'xs_dabu',shop:'dabu',d:()=>DABU_LAYOUT.d,kinds:['xs_dabu']},{id:'xs_haopai',shop:'haopai',d:()=>HAOPAI_LAYOUT.haopai.d,kinds:['xs_haopai']}];
++(async()=>{ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++  for(const c of CASES){ global.GAME={G:{zone:c.id,day:30,hour:14,flags:{},money:5000,weather:'clear',visited:{}}}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[];
++    const z=Z3.ZONES[c.id].build(E); E.zone=z; E.scene.add(z.group); await sleep(5000); z.group.updateMatrixWorld(true);
++    const panes=[]; z.group.traverse(o=>{ if(o.isMesh&&/^VIEWPANE_/.test(o.name||'')) panes.push(o); });
++    const kinds=panes.map(p=>p.userData.pview).sort(), files=c.kinds.flatMap(k=>['day','night'].map(t=>path.join(ROOT,'assets/models/env/views/'+k+'_'+t+'.webp')));
++    check('① '+c.id+'：'+c.kinds.length+' 片視差窗、照片名字對、照片檔在',JSON.stringify(kinds)===JSON.stringify(c.kinds.slice().sort())&&files.every(f=>fs.existsSync(f)),kinds.join(',')+'｜缺 '+files.filter(f=>!fs.existsSync(f)).map(f=>path.basename(f)).join(','));
++    if(!panes.length){ fails+=3; E.scene.remove(z.group); continue; }
++    const glass=[]; z.group.traverse(o=>{ if(!o.isMesh||/^VIEWPANE_/.test(o.name||'')) return; const mn=(([].concat(o.material)[0])||{}).name||''; if(/glass/i.test(mn+' '+o.name)&&!/case/i.test(o.name||'')) glass.push(new THREE.Box3().setFromObject(o)); });
++    const bad=[]; for(const p of panes){ const n=new THREE.Vector3(0,0,1).applyQuaternion(p.getWorldQuaternion(new THREE.Quaternion())), pb=new THREE.Box3().setFromObject(p), ctr=p.getWorldPosition(new THREE.Vector3());
++      const out=new THREE.Vector3(-n.x,0,-n.z);   /* 往外＝面向店裡的反方向 */
++      const g=glass.reduce((a,b)=>a.union(b),new THREE.Box3()); const gOut=out.x<-0.5?g.min.x:(out.x>0.5?g.max.x:(out.z>0.5?g.max.z:g.min.z)), pOut=out.x<-0.5?pb.min.x:(out.x>0.5?pb.max.x:(out.z>0.5?pb.min.z:pb.max.z));
++      const beyond=(out.x<-0.5)?pOut<gOut+0.001:(out.x>0.5?pb.min.x>g.max.x-0.001:pb.min.z>g.max.z-0.001);
++      if(!(Math.abs(n.y)<0.01&&beyond)) bad.push(p.userData.pview+' 不在玻璃外面');
++      const e=EYE[p.userData.pview], d=c.d(); const want=[FX+(ctr.z-d/2)*(Math.abs(out.z)>0.5?1:0)+(Math.abs(out.x)>0.5?(-d/2+ctr.z-0)*0:0),0,0];
++      const sx=FX+(ctr.z-d/2), sz=CZ(c.shop)-ctr.x; if(!e||Math.abs(sx-e[0])>0.15||Math.abs(ctr.y-e[1])>0.05||Math.abs(sz-e[2])>0.15) bad.push(p.userData.pview+' 中心 ('+sx.toFixed(2)+','+ctr.y.toFixed(2)+','+sz.toFixed(2)+') ≠ 照片 '+(e||[]).join(',')); }
++    check('②③ '+c.id+'：每片在玻璃外面、面向店裡、中心＝照片拍的位置（±0.15 m）',!bad.length,bad.join('｜')||panes.length+' 片');
++    let ok=true; try{ z.applyTime(14,'clear'); z.applyTime(21,'clear'); }catch(e){ ok=false; console.log(e.stack); }
++    const inW=panes.every(p=>(z.wins||[]).includes(p)&&(z.winParts||[]).some(q=>q.obj===p)), mapped=panes.every(p=>p.material.uniforms&&p.material.uniforms.map.value!=null);
++    let night=0; z.group.traverse(o=>{ if(/^NIGHT_FRONT/.test(o.name||'')&&o.visible) night++; });
++    check('④ '+c.id+'：在 z.wins、z.winParts，換時段不出錯、照片設進材質、正面沒有顯示的夜景卡（21:00）',inW&&ok&&mapped&&night===0,'wins '+inW+' applyTime '+ok+' map '+mapped+' 夜景卡 '+night);
++    E.scene.remove(z.group); }
++  console.warn=w0; console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();
