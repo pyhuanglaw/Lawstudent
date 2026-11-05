@@ -47326,7 +47326,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2 先做日常失速一間（視差多層或看得到室內 GLB），截圖給使用者看，好再套別間",
+   "next": "LAWWW2 只拿日常失速試做；不比現在的櫥窗漂亮就照舊（使用者 08:2x UA-LAWWW-1105-34）",
    "source": "UA-LAWWW-1105-21",
    "authorized": "使用者原話",
    "xai": {
@@ -47571,7 +47571,7 @@
   },
   {
    "id": "XS-GATE-MOVE-1105",
-   "title": "新生南路側門搬到映月湖和博思中間",
+   "title": "新生南路側門：搬到映月湖和博思中間、照使用者照片改外觀、加新月台和地下停車場",
    "area": "SCENE",
    "owner": "LAWWW2",
    "status": "待開工",
@@ -47586,7 +47586,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2 先交俯視改前／改後；牽動牆線、xinsheng 接點、門外背景、溫州街出入口、手機地圖圖釘",
+   "next": "LAWWW2 先交俯視改前／改後＋配置；參考圖 docs/art-rebuild/refs/xs_gate_1105/；D136 像但不照抄",
    "source": "UA-LAWWW-1105-29",
    "authorized": "使用者原話",
    "xai": {
@@ -47597,6 +47597,93 @@
     "ack": "SENT"
    },
    "src": "UA-LAWWW-1105-29"
+  },
+  {
+   "id": "DRIVE-PICKUP-1105",
+   "title": "開車出去改成走去新月台停車場取車",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "等 LAWWW2 停車場區域；AA 給名字和取車那一步的字；LAWWW 改 date3d／an_yt_hol3d 的開車出發點",
+   "source": "UA-LAWWW-1105-31",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-31",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "選開車出發＝先到新月台停車場、在車旁邊出發",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "UA-LAWWW-1105-31"
+  },
+  {
+   "id": "XS-FARVIEW-1105",
+   "title": "新生南路遠景（方盒背景、路口外的平地）做像樣",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2 排在側門搬家之後或一起做",
+   "source": "UA-LAWWW-1105-32",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-32",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從新生南路看出去不是一排方盒",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "src": "UA-LAWWW-1105-32"
+  },
+  {
+   "id": "MAP-HOURS-OVERLAP-1105",
+   "title": "大地圖營業時間不蓋住店名",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "BB 看公館大地圖截圖",
+   "source": "UA-LAWWW-1105-33",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-33",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "公館每家店名都看得到",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "UA-LAWWW-1105-33"
   }
  ]
 }

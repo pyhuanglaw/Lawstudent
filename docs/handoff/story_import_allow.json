@@ -182,9 +182,9 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb.json",
-   "sha": "03af79d17",
+   "sha": "47b179e7f",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history",
+   "approvedBy": "AA-C 2026-11-05 07:0x AA_703（企劃線 47b179e7f）：沛珊 P-L6 第 1 句改「我隔週會回台中一趟。禮拜天搭客運回來，過了林口就開始塞。」＋week [4,18]（使用者 07:4x 截圖，PS-BUS-1105）；其他 step 不變",
    "task": "AB65-3-Y1S1／K-D5",
    "history": [
     {
@@ -202,6 +202,10 @@
     {
      "sha": "72ea87f5",
      "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
+    },
+    {
+     "sha": "03af79d17",
+     "approvedBy": "AA（帳號 A）2026-11-02 19:29 學姊階梯源稿照 AA_584 定案改好（企劃線 03af79d17；8 支 build_ladder_bb*.py＋8 個 ladder_bb*.json）：重匯後 ladder.js 和 AA_584 疊稿版逐欄相同，只少 SIS5_LIBRARY_SEAT 的名稱（src/social3d.js 補）；舊版本在 history"
     }
    ],
    "note": "BB-C 13:27：九個檔用 408398d7"
