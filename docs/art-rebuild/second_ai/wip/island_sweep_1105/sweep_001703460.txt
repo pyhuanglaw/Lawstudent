@@ -1,0 +1,100 @@
+classroom ok 13153
+library GAPS L0(-10.6,-16.2)×88 gap 0.50
+library spawn(10.6,-6,lv0) reach 43253 | []
+library ISLANDS 1 pts 88 | L0(-10.6,-16.2)×88
+cafe ok 9420
+cvs ok 3210
+noodle ok 4874
+bookstore GAPS L0(5.2,-1.7)×8 gap 0.70
+bookstore spawn(-4.6,3,lv0) reach 6221 | []
+bookstore ISLANDS 1 pts 8 | L0(5.2,-1.7)×8
+dorm ok 566
+wz_brunch ok 2403
+wz_print ok 1206
+wz_teahouse ok 6878
+wz_lin ok 960
+wz_teishoku ok 1977
+wz_offbeat ok 5535
+aoki GAPS L0(3.8,-2.7)×2 gap 1.60
+aoki spawn(1.85,2.05,lv0) reach 2351 | []
+aoki ISLANDS 1 pts 2 | L0(3.8,-2.7)×2
+afar GAPS L0(-2.8,2.1)×9 gap 0.22
+afar spawn(2.575,2,lv0) reach 3341 | [坐窗邊/看看書架]
+afar ISLANDS 1 pts 9 | L0(-2.8,2.1)×9
+daybreak ok 3218
+xs_tongxian ok 2750
+xs_nanyang ok 6872
+xs_nanyang_hall GAPS L0(-4.7,-3.0)×4 gap 0.90 L0(-4.7,-2.0)×4 gap 1.90 L0(-4.7,0.9)×4 gap 3.90 L0(-4.7,1.9)×4 gap 2.90 L0(-4.7,3.0)×4 gap 1.90 L0(-4.7,-1.0)×2 gap 2.90 L0(-4.7,0.0)×2 gap 3.90 L0(-4.7,3.9)×2 gap 1.00
+xs_nanyang_hall spawn(3.5,6.4,lv0) reach 5566 | [] [] [] []
+xs_nanyang_hall ISLANDS 8 pts 26 | L0(-4.7,-3.0)×4 L0(-4.7,-2.0)×4 L0(-4.7,0.9)×4 L0(-4.7,1.9)×4 L0(-4.7,3.0)×4 L0(-4.7,-1.0)×2
+xs_shanlan ok 25530
+xs_dakou ok 19968
+xs_dabu ok 3933
+xs_haopai ok 1074
+xs_xsports ok 13173
+wz_mokuyobi GAPS L1(-2.5,3.4)×1 gap 0.57
+wz_mokuyobi spawn(-3.75,5.4,lv0) reach 6956 | []
+wz_mokuyobi ISLANDS 1 pts 1 | L1(-2.5,3.4)×1
+linze ok 18866
+wancai ok 24241
+library_hall ok 44250
+library_b1 GAPS L0(-0.2,1.2)×9089 gap 1.20 L0(8.8,10.8)×1421 gap 1.13
+library_b1 spawn(-20.5,-2.4,lv0) reach 60258 | [] []
+library_b1 ISLANDS 2 pts 10510 | L0(-0.2,1.2)×9089 L0(8.8,10.8)×1421
+library_carrels GAPS L0(-4.8,-2.2)×65 gap 1.13 L0(-4.8,2.2)×65 gap 1.20 L0(-2.4,-2.2)×65 gap 1.20 L0(-2.4,2.2)×65 gap 1.20 L0(0.0,-2.2)×65 gap 1.20 L0(0.0,2.2)×65 gap 1.20 L0(2.4,-2.2)×65 gap 1.20 L0(2.4,2.2)×65 gap 1.20
+library_carrels spawn(-7,0,lv0) reach 3455 | [] [] [] []
+library_carrels ISLANDS 11 pts 651 | L0(-4.8,-2.2)×65 L0(-4.8,2.2)×65 L0(-2.4,-2.2)×65 L0(-2.4,2.2)×65 L0(0.0,-2.2)×65 L0(0.0,2.2)×65
+library_stacks ok 22501
+dorm_hall ok 20474
+lawlib ok 20406
+soclib ok 39973
+soclib_2f GAPS L0(-3.3,-1.4)×20 gap 0.90
+soclib_2f spawn(-6.4,-8.4,lv0) reach 28201 | [坐在沙發上]
+soclib_2f ISLANDS 1 pts 20 | L0(-3.3,-1.4)×20
+gym ok 123768
+gym_b1 ok 101067
+gym_arena ok 167538
+gongtong ok 30584
+boya ok 56521
+putong ok 48089
+l118_dian ok 1851
+l118_self ok 2717
+l118_tea ok 221
+l118_home ok 2824
+l118_cafe2 ok 2649
+l118_pasta ok 2528
+l118_korea ok 2476
+l118_omu ok 1623
+l118_noodle2 ok 2262
+linze_3f ok 14017
+linze_4f ok 14341
+linze_5f GAPS L0(5.4,3.0)×1561 gap 1.13
+linze_5f spawn(7,-5.5,lv0) reach 10531 | []
+linze_5f ISLANDS 1 pts 1561 | L0(5.4,3.0)×1561
+wancai_sema ok 2868
+linze_202 ok 5919
+wancai_multi ok 4546
+wancai_semb ok 1584
+linze_office GAPS L0(-0.6,1.1)×807 gap 1.20
+linze_office spawn(2.8,-1.65,lv0) reach 585 | []
+linze_office ISLANDS 1 pts 807 | L0(-0.6,1.1)×807
+gongtong_3f ok 4169
+boya_203 ok 2550
+dorm_laundry ok 621
+dorm_205 ok 549
+library_media ok 3375
+us_bed_c ok 222
+us_lawlib_2f GAPS L0(-11.6,1.0)×69 gap 0.50 L0(11.8,1.0)×45 gap 1.20 L0(-0.6,-9.2)×1 gap 1.20
+us_lawlib_2f spawn(5,-6.3,lv0) reach 10753 | [] [] []
+us_lawlib_2f ISLANDS 3 pts 115 | L0(-11.6,1.0)×69 L0(11.8,1.0)×45 L0(-0.6,-9.2)×1
+airport_dep ok 159804
+us_apartment GAPS L0(-4.0,-2.6)×4 gap 0.50 L0(-2.2,-4.2)×1 gap 1.20
+us_apartment spawn(0.4,4,lv0) reach 2646 | [] []
+us_apartment ISLANDS 2 pts 5 | L0(-4.0,-2.6)×4 L0(-2.2,-4.2)×1
+us_lawlib ok 31862
+us_shared GAPS L0(-4.0,-2.6)×4 gap 0.50 L0(-2.2,-4.2)×1 gap 1.20
+us_shared spawn(0.4,4,lv0) reach 2036 | [] []
+us_shared ISLANDS 2 pts 5 | L0(-4.0,-2.6)×4 L0(-2.2,-4.2)×1
+us_market ok 85036
+us_asian_market ok 8271
+airport_arr ok 106930

@@ -1,0 +1,12 @@
+diff --git a/src/shanlan3d.js b/src/shanlan3d.js
+index d7840b979..51701b963 100644
+--- a/src/shanlan3d.js
++++ b/src/shanlan3d.js
+@@ -32,6 +32,7 @@ const SH3=(function(){
+     nav1.blockOutside(-W/2+0.4,-D/2+0.4,W/2-0.4,D/2-0.4); nav1.setFloor(yU);
+     // 一樓：家具（第 0 筆是樓梯的範圍：接成斜面，不擋）
+     L.blocks.forEach((b,i)=>{ if(i===0) return; nav0.blockRect(b[0],b[1],b[2],b[3],0,0.05); });
++    nav0.blockRect(4.4,8.2,0.5,0.6,0,0);   /* 店門東邊：大盆栽 (3.9, 8.5)、靠窗長椅 (5.3, 7.4)、正面玻璃中間的小縫——站得住 9 點、四周都站不住（跑步一步 0.4 m 會跳進去），擋起來（ISLAND-SWEEP-1105）*/
+     nav0.freeRect(st.x0,st.z0,st.x1,st.z1); nav0.addSurf(Object.assign({},st));
+     nav0.blockRect(S.x+S.w/2+0.05,(st.z0+st.z1)/2,0.14,st.z1-st.z0,0);   // 樓梯東側的實木側板＋玻璃欄杆：從旁邊上不去
+     nav0.blockRect(S.x,st.z0-0.25,S.w,0.42,0);                           // 樓梯頂端北邊的一樓地板（高度差 4.2）：一樓這一層從樓梯頂走不出去，走到上面一定換到第 1 層
