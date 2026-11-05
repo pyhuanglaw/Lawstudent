@@ -31,8 +31,9 @@ WIN_SHOPS = [x for x in (os.environ.get('WIN') or 'aoki,bookstore,daybreak,wz_te
 DAYH = [float(x) for x in (os.environ.get('DAYH') or '14,15,13,18.5').split(',')]
 NIGHTH = [float(x) for x in (os.environ.get('NIGHTH') or '21,20.5,22,23,0.5').split(',')]
 DB4 = [(-1.5, 3.45, '窗邊'), (-4.2, 0.3, '長桌（西側，擦桌角已知）'), (-4.2, 1.5, '長桌（西側，擦桌角已知）'), (2.05, -3.5, '卡座')]
-OPEN_AT = r"""((a)=>{ const [z,day,prefs]=a; const ok=h=>{ try{ return typeof PLACES==='undefined'||!PLACES.isOpen||!!PLACES.isOpen(z,h,day); }catch(e){ return true; } };
-  for(const h of prefs) if(ok(h)) return h; for(let h=8;h<26;h+=0.5) if(ok(h%24)) return h%24; return null; })"""
+OPEN_AT = r"""((a)=>{ const [z,day,prefs,late]=a; const ok=h=>{ try{ return typeof PLACES==='undefined'||!PLACES.isOpen||!!PLACES.isOpen(z,h,day); }catch(e){ return true; } };
+  if(late==='early'){ for(let h=7;h<24;h+=0.5) if(ok(h)&&ok(h+2)) return h; }   /* 座位、互動點：開店以後還有 2 小時的時間（Daybreak 15:00 打烊，11-05 雲端 14:00 開始坐到第 13 張被請出去）*/
+  for(const h of prefs) if(ok(h)) return h; if(late){ for(let h=23.5;h>=12;h-=0.5) if(ok(h)&&ok(h-0.5)) return h-0.5; return null; } for(let h=8;h<26;h+=0.5) if(ok(h%24)) return h%24; return null; })"""   # late：晚上那一張＝最晚有開的時間（Daybreak 晚上沒開，11-05 雲端第一次退回 08:00）
 ACTS = r"""(()=>GAME.E.interactables.filter(i=>!i.hidden&&!i.seat&&!i.exit&&i.label).map(i=>({label:i.label, x:+i.x.toFixed(2), z:+i.z.toFixed(2), r:i.radius||0.9, lv:i.lv|0})))()"""
 VIEWS = r"""(()=>{ const E=GAME.E, z=E.zone, out=[]; z.group.traverse(o=>{ if(o.isMesh&&/VIEW/i.test(o.name)&&o.visible!==false){ o.updateWorldMatrix(true,false); const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new THREE.Vector3()), s=b.getSize(new THREE.Vector3()); const m=[].concat(o.material)[0];
   out.push({name:o.name, c:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], size:[+s.x.toFixed(2),+s.y.toFixed(2),+s.z.toFixed(2)], url:(m&&m.map&&m.map.userData&&m.map.userData.url)||(m&&m.map&&m.map.image&&m.map.image.src||'').slice(-60)}); } }); const sp=z.spawn||{x:0,z:0}; return {views:out, spawn:[sp.x,sp.z]}; })()"""
@@ -42,8 +43,8 @@ async def day_of(pg):
     return await pg.evaluate("(k=>{ if(typeof STORY!=='undefined'&&STORY.dayOfKey) return STORY.dayOfKey(k); for(let d=0;d<4000;d++){ try{ if(CALENDAR.dateOf(d).key===k) return d; }catch(e){} } return null; })('%s')" % DAY)
 
 
-async def open_hour(pg, zone, prefs):
-    return await pg.evaluate(OPEN_AT, [zone, await day_of(pg), prefs])
+async def open_hour(pg, zone, prefs, late=False):
+    return await pg.evaluate(OPEN_AT, [zone, await day_of(pg), prefs, late])
 
 
 async def clear_ui(pg, cdp, n=24):
@@ -57,23 +58,33 @@ async def clear_ui(pg, cdp, n=24):
 
 
 async def part_seats(pg, cdp, zone):
-    h = await open_hour(pg, zone, [14.0, 12.25, 15.0, 19.0, 21.0])
+    h = await open_hour(pg, zone, [14.0, 12.25, 15.0, 19.0, 21.0], late='early')
     R.setup('[seats %s] 讀檔店裡（出生點）%s %s（PLACES.isOpen 挑有開的時間）' % (zone, DAY, h))
     s = await D.load_zone(pg, cdp, zone, DAY, h if h is not None else 14.0, wait=6000)
     if not R.check('[seats %s] 讀到店裡' % zone, s['zone'] == zone, J(s)): return
     await clear_ui(pg, cdp)
-    res = await D.sit_all(pg, cdp, '[seats %s]' % zone, 'seat_%s' % zone, max_walk=240)
+    h0 = h if h is not None else 14.0
+    async def fresh(k, seat):   # 坐了十幾張，遊戲時間走掉一兩個小時（Daybreak 11-05 雲端：第 16 張以後椅子都收了＝快打烊）：超過 1.5 小時就讀檔回原來的時間
+        q = await D.st(pg)
+        if q['hour'] - h0 > 1.5 or q['hour'] < h0 - 0.1 or q['zone'] != zone:
+            R.setup('[seats %s] 第 %d 張前遊戲時間 %.2f、人在 %s：讀檔回 %s %.2f（店裡出生點）' % (zone, k + 1, q['hour'], q['zone'], DAY, h0))
+            await D.load_zone(pg, cdp, zone, DAY, h0, wait=5000); await clear_ui(pg, cdp)
+    res = await D.sit_all(pg, cdp, '[seats %s]' % zone, 'seat_%s' % zone, max_walk=240, before_each=fresh)
     R.note('[seats %s] 每一張：%s' % (zone, J(res)))
     if zone == 'daybreak':
-        seats = await pg.evaluate(D.SEATS)
         for x, z, nm in DB4:
-            k = next((i for i, q in enumerate(seats) if abs(q['sx'] - x) < 0.06 and abs(q['sz'] - z) < 0.06), None)
-            r = res[k] if k is not None and k < len(res) else None
-            R.check('[seats daybreak] BB-C 08:40 那 4 張之一：%s (%s, %s) 點椅子坐下、起身走開（擦桌角不判）' % (nm, x, z), bool(r) and r[1] == 'ok', J({'k': k, 'res': r}))
+            r = next((q for q in res if abs(q[2] - x) < 0.06 and abs(q[3] - z) < 0.06), None)
+            for hh in (h0 + 1.0, h0 + 2.0, h0 + 0.5):   # 有人坐／沒坐成：換個時間只坐這一張（客人會換位子）
+                if r and r[1] == 'ok': break
+                R.setup('[seats daybreak] %s (%s, %s) 第一次＝%s：讀檔 %s %.2f 只坐這一張' % (nm, x, z, r and r[1], DAY, hh))
+                await D.load_zone(pg, cdp, zone, DAY, hh, wait=5000); await clear_ui(pg, cdp)
+                rr = await D.sit_all(pg, cdp, '[seats daybreak 再坐]', 'seat_daybreak_re', max_walk=180, only=[(x, z)])
+                r = rr[0] if rr else r
+            R.check('[seats daybreak] BB-C 08:40 那 4 張之一：%s (%s, %s) 點椅子坐下、起身走開（擦桌角不判）' % (nm, x, z), bool(r) and r[1] == 'ok', J(r))
 
 
 async def part_acts(pg, cdp, zone):
-    h = await open_hour(pg, zone, [14.0, 12.25, 15.0, 19.0, 21.0])
+    h = await open_hour(pg, zone, [14.0, 12.25, 15.0, 19.0, 21.0], late='early')
     R.setup('[acts %s] 讀檔店裡 %s %s' % (zone, DAY, h))
     s = await D.load_zone(pg, cdp, zone, DAY, h if h is not None else 14.0, wait=6000)
     if not R.check('[acts %s] 讀到店裡' % zone, s['zone'] == zone, J(s)): return
@@ -95,7 +106,7 @@ async def part_acts(pg, cdp, zone):
 async def part_windows(pg, cdp, zone):
     street = STREET[zone]
     for tn, prefs in (('day', DAYH), ('night', NIGHTH)):
-        h = await open_hour(pg, zone, prefs)
+        h = await open_hour(pg, zone, prefs, late=(tn == 'night'))
         if h is None: R.note('[windows %s %s] 這一天找不到有開的時間，不拍' % (zone, tn)); continue
         # 先在街上找店門
         R.setup('[windows %s %s] 讀檔 %s %s %05.2f（出生點），找「進店」的門' % (zone, tn, street, DAY, h))
