@@ -374,6 +374,16 @@
    "wants": "X235",
    "note": "BB-C 規則：BB 每批判完看 CC 佇列，CC 排了 5 項以上待跑、BB 手上沒有待判的，BB 自己接不用電腦的那部分（Node 模擬查原因、讀 log、寫探針、雲端單元測試），CC 只留要電腦瀏覽器跑的；反過來 CC 剩 2 項以下照 D121 找 BB 要。LAWWW-C 寫進永久規則、開 USER_WANTS 列。",
    "task": "ROLE-CC-1102"
+  },
+  {
+   "id": "UA-BB-1105-MX-ZHE-NOEXPR",
+   "at": "2026-11-05T09:5xZ",
+   "quote": "明軒、阿哲不用特別做",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "PORTRAIT-HIRES-1103",
+   "wants": "X192",
+   "note": "BB 剛給的表情 20 張裡，明軒 3 張、阿哲 3 張不用生；剩沛珊 9、芯慈 5。兩人的高解析單人圖已到（mingxuan_full、zhe_full），舊表情檔怎麼處理交 LAWWW-C（D100a）。"
   }
  ]
 }
