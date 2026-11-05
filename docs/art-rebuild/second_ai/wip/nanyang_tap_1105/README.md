@@ -23,5 +23,5 @@
   - 瀏覽器沒跑（D131）。CC 的探針「點斜地板落點差 ≤ 0.5 m」要在 PC 上重跑。
 - 這個 patch 和新生南路四間店的三個包不衝突，可以先接、單獨接。
 - 接法：
-  - `git checkout <本包 SHA> -- tests/nanyang_tap_unit.js`
+  - `git checkout a44670a4e -- tests/nanyang_tap_unit.js`
   - `git apply docs/art-rebuild/second_ai/wip/nanyang_tap_1105/nanyang_tap_1105.patch`

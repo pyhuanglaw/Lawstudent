@@ -6302,6 +6302,22 @@
    "noDirectIntegrate": false,
    "note": "新生運動廣場第 1 版進遊戲（D141）：CC 已有 v3c（cc-testing，v1→v3c 五版），直接接成 xs_xsports（src/xsports3d.js）：兩層導航、21 階樓梯、夾層 walk 範圍、欄杆、slabs、L1_／WALL_*_L1_ 分到二樓那一組；5 互動點、試穿椅；裁縫圓凳 npcOnly；五處小孤島擋起來；營業時間 11–22＋店門擋｜xsports_unit 17 項＋38 支 ALL PASS（乾淨 685337469＋大口漢堡包＋大步好拍包＋本包）；先將就 8 項",
    "next": "LAWWW-C：依序接 bf0d45081、67fc2c07b，再 git checkout 1f9de73af -- $(cat files.txt)、git apply xsports_wire_1105.patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a44670a4e",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "NANYANG-HALL-WALKMESH-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/nanyang_tap_1105/nanyang_tap_1105.patch",
+    "tests/nanyang_tap_unit.js",
+    "docs/art-rebuild/second_ai/wip/nanyang_tap_1105/README.md"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "擋玩（CC-C 13700be8f、BB-C／LAWWW-C 05:3x）：南洋 1 廳沒有 zone.walkMeshes，點斜地板退回 y 0 平面、落點往後偏 → nanyang3d.js 加三片可點面（門口平、斜面、舞台前平，walkLv 0）｜nanyang_tap_unit 修改前 FAIL 3（差 0.48／1.14／1.98／2.98 m）→ ALL PASS（≤ 0.04 m）；nanyang 等 14 支 ALL PASS；瀏覽器沒跑，CC 探針要重跑",
+   "next": "LAWWW-C：git checkout a44670a4e -- tests/nanyang_tap_unit.js、git apply nanyang_tap_1105.patch（685337469 上乾淨、和新生南路三包不衝突）；CC 重跑點斜地板探針"
   }
  ]
 }
