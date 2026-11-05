@@ -11,7 +11,7 @@ global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createE
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
 const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js',
   'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/socsci_layout.js','src/data/soclib_layout.js','src/soclib3d.js',
-  'src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/classes3d.js'];
+  'src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/classes3d.js'];
 for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|SL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|SOCLIB_LAYOUT|SOCSCI_LAYOUT|WZ_PARK_LAYOUT|WZ_SHOPS_LAYOUT|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
@@ -68,6 +68,6 @@ for(const k of ['brunch','print','teahouse']){ const L=WZ_SHOPS_LAYOUT[k]; const
   const at=ds=>{ global.GAME={G:{day:dayOf(ds)}}; const r=mk(); Z3.wzParkSeason(r); return r.children[0].visible; };
   check('6. 夏日冰菓室：7 月開（鐵捲門藏起來）、10 月和 1 月冬天休息（鐵捲門）',at('2026-07-10')===false&&at('2025-10-10')===true&&at('2026-01-10')===true&&at('2026-05-02')===false); delete global.GAME; }
 { const gs=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); check('7. 一盞的座位選「讀書」：「這裡不太適合攤開六法。」（AA_164 2-3）',/it\.shop==='teahouse'\) opts\.push\(\{t:'讀書',teaNo:true\}\)/.test(gs)&&gs.indexOf("'這裡不太適合攤開六法。'")>0);
-  const ih=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); check('7. index.html 在 zones3d 之前載入 wz_shops_layout.js',ih.indexOf('src/data/wz_shops_layout.js')>0&&ih.indexOf('src/data/wz_shops_layout.js')<ih.indexOf('src/zones3d.js'));
+  const ih=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); check('7. index.html 在 zones3d 之前載入 wz_shops_layout.js',ih.indexOf('src/data/wz_shops_layout.js','src/data/lin_layout.js')>0&&ih.indexOf('src/data/wz_shops_layout.js','src/data/lin_layout.js')<ih.indexOf('src/zones3d.js'));
   const as=fs.readFileSync(path.join(ROOT,'src/assets3d.js'),'utf8'); check('7. manifest 有三家店的室內模型，檔案都在',['brunch','print','teahouse'].every(k=>as.indexOf("'bldg.wz_"+k+"_interior'")>0&&fs.existsSync(path.join(ROOT,'assets/models/env/second_ai/wz_'+k+'_interior.glb')))); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -19,7 +19,7 @@ global.CHAR={build:spec=>{ const g=new THREE.Group(); g.userData.spec=spec; retu
 global.STORY={extraSpec:i=>({id:'x'+i,sex:i%2===0?'f':'m',i}),CROWD_X:2,dayOfKey:dayOf,noodleDay:()=>false,SCHED_X:[]};
 global.SOCIAL={displayName:id=>({classmate_mingxuan:'明軒',classmate_xinci:'芯慈',kai:'阿凱'})[id]||id};
 let NPC={}; global.EVENTS={npcOf:id=>NPC[id]||null,running:false};
-const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/wz_shops_layout.js','src/data/lane118_layout.js',
+const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/data/lane118_layout.js',
   'src/data/lane118_shops.js','src/data/lane118_props.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/calendar.js','src/data/places.js','src/lane118.js','src/data/l118_shop_layouts.js','src/l118_shops3d.js','src/noodle_closed3d.js','src/crowd3d.js','src/data/shop_enc.js','src/shopenc3d.js'];
 let miss=null; for(const f of files){ const p=path.join(ROOT,f); if(!fs.existsSync(p)){ miss=f; continue; } let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>'globalThis.'+n+'='); vm.runInThisContext(src,{filename:f}); }
 ASSETS.loadOne=()=>new Promise(()=>{});

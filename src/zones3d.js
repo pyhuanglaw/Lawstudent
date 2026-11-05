@@ -1778,11 +1778,14 @@ const Z3 = (function(){
       for(const m of glow){ if(m.userData.emi0==null) m.userData.emi0=m.emissiveIntensity; m.emissiveIntensity=m.userData.emi0*(1-k); }
       for(const l of lights){ if(l.userData.i0==null) l.userData.i0=l.intensity; l.intensity=l.userData.i0*(1-0.9*k); } };
     return Us.size; }
+  /* 牆的淡出方向（往房間裡的法線）：網格自己的 extras.dir；沒有就用上層節點的（GLB-WALLDIR-1105，LAWWW2-C 11-05：BB 的 Blender 套件把 dir 寫在空節點 WALL_back／WALL_left…，
+     底下真正的網格 WALL_back_print…沒有——原本一律當成 [0,0,1]，左、右、前牆在鏡頭從外面看的時候不淡出、擋住人：日和便利店 cvs_interior.glb、林家乾麵 lin_interior.glb。tests/wall_dir_inherit_unit.js）*/
+  function wallDirOf(o,root){ const v=x=>x&&(x.isVector3?[x.x,x.y,x.z]:(Array.isArray(x)&&x.length===3?x:null)); let d=v(o.userData&&o.userData.dir); for(let p=o.parent;!d&&p;p=p.parent){ d=v(p.userData&&p.userData.dir); if(p===root) break; } return d||[0,0,1]; }
   function attachRoomGLB(z,g0,fb,root){ const LMS=root.userData&&root.userData.lightmap; root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)&&!LMS) TK.bounce(o.material,0.5,0.5); } });   /* 有光照貼圖：天花板的亮已經烘焙進去，不另外加自發光 */   /* 天花板：和 room() 的天花板一樣帶自發光 */ g0.add(root); root.updateMatrixWorld(true); const nw=[];
     root.traverse(o=>{ const m=/^TRACE_(SQ\d+)/.exec(o.name); if(m) traceVis(o,m[1]); });   /* 痕跡（見 traceVis）*/
     root.traverse(o=>{ if(o.name==='WZ_CATBOWL') condVis(o,catBowlOn); });   /* 一盞前院的貓碗（ART-WZ6，AA_420 第 9 節）：找到貓以後（WZ_CAT_FOUND）、收養以前（PARK.catGone）*/
     const glassy=[];   /* 本來就半透明的牆面材質（玻璃、紗窗）：不放進淡出清單（淡出邏輯每格會把不透明度設回 1，玻璃會變成不透明的灰板），改成窗的零件：固定透明、牆淡出時一起藏（和 Café 室內一樣）*/
-    root.traverse(o=>{ if(o.isMesh&&/WALL_/.test(o.name)){ const see=o.material.transparent&&o.material.opacity<0.9; o.material=o.material.clone(); o.material.transparent=true; const d=o.userData.dir||[0,0,1]; o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld);
+    root.traverse(o=>{ if(o.isMesh&&/WALL_/.test(o.name)){ const see=o.material.transparent&&o.material.opacity<0.9; o.material=o.material.clone(); o.material.transparent=true; const d=wallDirOf(o,root); o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld);
       if(Array.isArray(o.userData.at)) o.userData.center=new THREE.Vector3().fromArray(o.userData.at).applyMatrix4(root.matrixWorld);   /* 淡出判斷點（GLB 的 at，正式模型的座標）：外框中心不在牆線上的零件用（118 巷店門外兩側的鄰居店面卡：外框中心在牆線外 2.3 m，鏡頭在牆線外 2.3 m 以內不會淡出、會擋住人；LAWWW2 10-22）*/
       if(see){ o.material.depthWrite=false; glassy.push(o); } else nw.push(o); } });
     /* 窗外的景（白天／夜景貼圖、隨時段變色，room() 的 applyTime 照舊換）：從備用模型的窗框組裡拿出來，放到正式模型的玻璃外面 0.3 m（放大一點：斜著看窗洞也看不到外面的空白）；牆淡出時一起藏（不然鏡頭在牆外時會擋住房間）*/
@@ -2400,6 +2403,10 @@ const Z3 = (function(){
   const wz_brunch=wzShop('brunch'), wz_print=wzShop('print'), wz_teahouse=wzShop('teahouse');
   /* 林家乾麵（A4）、巷子裡定食（B3）能進去內用（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364）：同一套 wzShop，配置在 WZ_SHOPS_LAYOUT.lin／teishoku；正式模型 tools/blender/env_second/wz_aa364_shops.py --shop lin|teishoku（118 巷店面的零件）。
      這一版：走得進去、選位子坐下、離開；點餐、店員、營業時間由 LAWWW 接（AA_364 第 4 節 #2）。資產登錄放這裡（和 118 巷店面 l118_shops3d.js 一樣），不動 assets3d.js */
+  /* 林家乾麵 v1c（WZ-SHOPS1-1104，AA_654：BB〔帳號 A〕11-04 照使用者的參考圖 wz_lin_int.webp 重做，LAWWW2-C 11-05 收件；配置 src/data/lin_layout.js v2，模型 bb_support/lin_interior.glb）：
+     門、窗、出口、出生點、enterAt 和舊的 lin 一樣；桌子重排（四張方桌＋紅凳，12 個座位，桌號照舊：明軒「門口那桌」＝桌 1）。配置檔（index.html 在 wz_shops_layout.js 後面載入）一載入就換掉 WZ_SHOPS_LAYOUT.lin；沒載入時照舊。
+     牆的淡出方向寫在空節點（WALL_back…）——attachRoomGLB 的 wallDirOf 沿用上層節點的（GLB-WALLDIR-1105）*/
+  if(typeof LIN_LAYOUT!=='undefined'&&typeof ASSETS!=='undefined'&&!ASSETS.manifest['bldg.wz_lin_interior_v'+(LIN_LAYOUT.version|0)]) ASSETS.manifest['bldg.wz_lin_interior_v'+(LIN_LAYOUT.version|0)]={url:LIN_LAYOUT.glb,type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/bb_support/lin_interior.py＋lin_tex.py（溫州街「林家乾麵」室內 v1c，BB〔帳號 A〕製作、LAWWW2-C 收件；配置 src/data/lin_layout.js，載入時換掉 WZ_SHOPS_LAYOUT.lin）',license:'本作；貼圖 Poly Haven CC0＋本作程式產生'};
   const wz_lin=wzShop('lin'), wz_teishoku=wzShop('teishoku');
   /* 日常失速（WZ-OFFBEAT-1104，LAWWW2 11-04；AA_617、AA_618）：溫州街轉角 W2 一樓。室內是 AA 的 Blender 模型（aa_support/daily_offbeat.glb，配置 src/data/daily_offbeat_layout.js），同一套 wzShop。
      這一版：走得進去、選位子坐下、離開；點東西吃、桌遊、店長（貓）、佈告欄（配置的 interact）由 LAWWW 照 AA_618 接。座位不給讀書（使用者 11-03：「日常失速是吃飯打屁桌遊」）。
