@@ -1,0 +1,83 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index 09e5f9f2e..00d254954 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -343,6 +343,8 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
+ | SUNNY SIDE 窗景夜版 `assets/models/env/second_ai/aa_support/sunnyside_views_night.webp`（由 `tools/blender/env_second/textures/gen/sns_views_night.jpg` 轉 webp；SUNNY SIDE v1e，story-planning `86688bd91`） | 本作：LAWWW2 用溫州街正式模型從 SUNNY SIDE 往外拍（`a485b6722`），AA 拼成上半正面、下半東側 | 本作 | 溫州街 B7 SUNNY SIDE 窗景卡 sns_window_view 晚上換這張（zones3d.js WZ_AA_NIGHTVIEW） |
+ | 2:30 AM 窗景夜版 `assets/models/env/second_ai/aa_support/cafe230_views_night.webp`（由 `tools/blender/env_second/textures/gen/a23_views_night.jpg` 轉 webp；2:30 AM v1f，story-planning `30c2d5998`） | 本作：LAWWW2 從 2:30 AM 往外拍的溫州街（`f785028e6`），AA 拼成上半正面、下半右窗毛玻璃 | 本作 | 溫州街 2:30 AM 窗景卡 a23_window_view 晚上換這張（zones3d.js CAFE230_NIGHTVIEW） |
+ | 阿德影印 室內 v1c `assets/models/env/second_ai/bb_support/ade.glb`（配置 `src/data/ade_layout.js` v3，照抄進 `wz_shops_layout.js` print） | 本作 Blender（`tools/blender/env_second/bb_support/ade_interior.py`、`ade_tex.py`，在 `claude/cc-testing`；CC〔帳號 A〕製作、BB 照 LAWWW2 標準代驗 MODEL_READY，cc-testing `5977272dc`，BB_257、CC_49 v1c）；店名虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街 A1 阿德影印輸出（區域 `wz_print`，取代 wz_print_interior.glb；舊的登錄不動） |
++| 同弦樂器 室內 v4d `assets/models/env/second_ai/bb_support/tongxian.glb`（配置 `src/data/tongxian_layout.js` v4；區域 `xs_tongxian`＝`src/tongxian3d.js`） | 本作 Blender（`tools/blender/env_second/bb_support/tongxian_interior.py`、`tongxian_tex.py`，在 `claude/cc-testing`；CC〔帳號 A〕製作 v4d `0b6033c46`，照使用者給的參考圖；MODEL_READY 待 BB 照 D132 代驗）；樓梯口的地板洞：LAWWW2-C `tools/blender/env_second/glb_floor_hole.py`（只換 `tx_floor` 的幾何，GUITAR-SHOP-ZONE-1105）；店名虛構（D77），吉他、價錢牌沒有真實品牌；貼圖 Poly Haven CC0＋本作程式產生；窗景是 LAWWW2 從新生南路正式模型渲染的 | CC0 貼圖／本作 | 新生南路二樓的吉他行（AA_619 第 1 節） |
++| 同弦樂器 樓梯間 `assets/models/env/second_ai/tongxian_stair.glb` | 本作 Blender 腳本 `tools/blender/env_second/tongxian_stair.py`（LAWWW2-C，GUITAR-SHOP-ZONE-1105）：22 階磨石子樓梯、兩側腰牆、木扶手、樓板、一樓樓梯口、二樓樓梯間的西牆；貼圖 Poly Haven CC0（`terrazzo_tiles`、`white_plaster_02`、`walnut_veneer`，見上表） | CC0 貼圖／本作 | 同弦樂器店門外的樓梯間（區域 `xs_tongxian`） |
+ | 一盞茶屋室內 v1d `assets/models/env/second_ai/aa_support/yizhan.glb`（配置 `src/data/yizhan_layout.js` v2，照抄進 `wz_shops_layout.js` teahouse） | 本作 Blender（`tools/blender/env_second/aa_support/README_yizhan.md`，在 `claude/story-planning`；AA 製作、BB 照 LAWWW2 標準驗收 MODEL_READY v1c `3d0131fe0`，v1d `0c284b614` 只換地板貼圖，BB_257 §12）；貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街一盞（區域 `wz_teahouse` 的主屋與緣側，取代 wz_teahouse_interior.glb；WZ-YIZHAN-1104） |
+ | 一盞前院 `assets/models/env/second_ai/wz_teahouse_yard.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_teahouse_yard.py`（LAWWW2，`claude/second-ai-env-art` `b0bcc117c`）；「一盞」字樣切自企劃組核准的招牌圖（signs_approved/yizhan_*），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街一盞的前院、冠木門、竹垣、石燈籠、老樟樹、簷與瓦屋頂、牆外的街（`bldg.wz_teahouse_yard`，WZ-YIZHAN-1104） |
+ | Daybreak 室內 v1b `assets/models/env/second_ai/aa_support/daybreak.glb`（配置 `src/data/daybreak_layout.js`） | 本作 Blender（腳本 `tools/blender/env_second/aa_support/daybreak_interior.py`，在 `claude/story-planning`；AA 製作、LAWWW2 驗收 MODEL_READY，story-planning `8094770c7`）；店名虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 公館 G14 Daybreak（新區域 `daybreak`，GG-SHOPS2-1104） |
+diff --git a/index.html b/index.html
+index 3e7a445f6..3e0e4de62 100644
+--- a/index.html
++++ b/index.html
+@@ -252,6 +252,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/zones3d.js?v=9.10.19"></script>
+ <script src="src/data/xinsheng_layout.js?v=9.10.19"></script>
+ <script src="src/xinsheng3d.js?v=9.10.19"></script>
++<script src="src/data/tongxian_layout.js?v=9.10.19"></script>
++<script src="src/tongxian3d.js?v=9.10.19"></script>
+ <script src="src/data/mokuyobi_layout.js?v=9.10.19"></script>
+ <script src="src/mokuyobi3d.js?v=9.10.19"></script>
+ <script src="src/data/linze_layout.js?v=9.10.19"></script>
+diff --git a/src/data/places.js b/src/data/places.js
+index da849ff9a..7fdd0aeb1 100644
+--- a/src/data/places.js
++++ b/src/data/places.js
+@@ -5,7 +5,7 @@
+    - 地名座標：區域座標（x 往東、−z 往北；公館的區域座標轉過方向，大地圖照 zones3d.js 的 sunYaw 轉成北朝上），
+      和 zones3d.js 擺建築的位置相同；搬建築時這裡一起改。入口不用寫在這裡：大地圖和入口標記直接讀區域的出口互動點。 */
+ const PLACES={
+-  names:{ gongtong:'共同教學館', boya:'博思教學館', putong:'普通教學館', campus:'首都帝大校園', gongguan:'公館', wenzhou:'溫州街', lane118:'118 巷', cafe:'2:30 AM', cvs:'日和便利店', noodle:'公館燒臘', bikeshop:'慢輪單車', aoki:'青木茶室', afar:'afar café', daybreak:'Daybreak', bookstore:'頁間書屋', wz_brunch:'SUNNY SIDE', wz_print:'阿德影印輸出', wz_teahouse:'一盞', wz_lin:'林家乾麵', wz_teishoku:'小路', wz_tea:'帝大紅茶', wz_books:'溫州書屋', wz_ice:'夏日冰菓室', wz_mokuyobi:'木曜日', wz_offbeat:'日常失速', xinsheng:'新生南路', gym:'綜合體育館', gym_b1:'綜合體育館 B1',
++  names:{ gongtong:'共同教學館', boya:'博思教學館', putong:'普通教學館', campus:'首都帝大校園', gongguan:'公館', wenzhou:'溫州街', lane118:'118 巷', cafe:'2:30 AM', cvs:'日和便利店', noodle:'公館燒臘', bikeshop:'慢輪單車', aoki:'青木茶室', afar:'afar café', daybreak:'Daybreak', bookstore:'頁間書屋', wz_brunch:'SUNNY SIDE', wz_print:'阿德影印輸出', xs_tongxian:'同弦樂器', wz_teahouse:'一盞', wz_lin:'林家乾麵', wz_teishoku:'小路', wz_tea:'帝大紅茶', wz_books:'溫州書屋', wz_ice:'夏日冰菓室', wz_mokuyobi:'木曜日', wz_offbeat:'日常失速', xinsheng:'新生南路', gym:'綜合體育館', gym_b1:'綜合體育館 B1',
+     linze:'法律系館A', linze_3f:'法律系館A 3F 討論區', linze_4f:'法律系館A 4F 自習討論區', classroom:'法律系館A 201 教室', wancai:'法律系館B', library_hall:'總圖書館', library:'總圖 3F 閱覽區', library_b1:'總圖 B1 自習室・討論室', library_carrels:'總圖 2F 研究小間', library_stacks:'總圖 5F 書庫', lawlib:'法律學院圖書館', soclib:'社科院圖書館', dorm:'宿舍房間', dorm_hall:'男生宿舍' },
+   // open／close：小時（close 超過 24＝隔天凌晨）；text：畫面上寫的時間
+   hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{open:8,close:22,text:'08:00–22:00'}, library:{open:8,close:22,text:'08:00–22:00'}, library_carrels:{open:8,close:22,text:'08:00–22:00'}, library_stacks:{open:8,close:22,text:'08:00–22:00'}, lawlib:{ rules:{ term:{wd:[8+10/60,21.75],we:[9+10/60,17]}, break:{wd:[9+10/60,17],we:null}, holiday:null },
+@@ -39,6 +39,8 @@ const PLACES={
+     wz_mokuyobi:{shop:true,rules:{week:[[13,22],[13,22],null,[13,22],[13,22],[13,22],[13,22]]},text:'13:00–22:00；週二公休'},
+     /* 日常失速（AA_617 第 3 節；區域 wz_offbeat，溫州街轉角 W2 一樓）：每天 13:00–01:00（跨午夜照兩點半 Café 的 open／close）；颱風天關；打烊人在店裡＝src/offbeat_sys3d.js 請你出來 */
+     wz_offbeat:{open:13,close:25,text:'每天 13:00–01:00'},
++    /* 同弦樂器（新生南路二樓的吉他行；AA_619 第 1 節，使用者 11-03「安排一家吉他店」；區域 xs_tongxian＝src/tongxian3d.js，GUITAR-SHOP-ZONE-1105）：12:00–21:30、週一公休；颱風天關（typhoonShops）。店門擋在 story3d.js 的 onInteract */
++    xs_tongxian:{shop:true,rules:{week:[[12,21.5],null,[12,21.5],[12,21.5],[12,21.5],[12,21.5],[12,21.5]]},text:'週二～週日 12:00–21:30；週一公休'},
+     /* 美國交換：大超市對面的竹葉亞洲超市（AA_370 L9：照台詞「亞洲超市九點關。」、結帳台的「週日公休」；開門照 AA_291 第 3 節 10:00，AA_370 第 6 節第 2 題）；擋門在 us_life3d.js 的 S.interact（從草原超市過馬路）*/
+     us_asian_market:{shop:true,rules:{week:[null,[10,21],[10,21],[10,21],[10,21],[10,21],[10,21]]},text:'週一～週六 10:00–21:00；週日公休'} },
+   /* 法律學院圖書館（D53，使用者 2026-10-13 查證台大法律圖書館官網）：依日曆（src/data/calendar.js）分學期間／寒暑假／國定假日、平日／週末。
+@@ -64,7 +66,7 @@ const PLACES={
+   /* 這一天在不在開店的月份（rules.months；沒寫＝整年）：夏日冰菓室 5～9 月 */
+   inSeason(zone,day){ const o=PLACES.hours[zone], M=o&&o.rules&&o.rules.months; if(!M) return true; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G&&GAME.G.day)||1; if(typeof CALENDAR==='undefined') return true; return M.includes(CALENDAR.dateOf(day).m); },
+   /* 颱風假店家不開（AA_160 3-4 D，AA-B 2026-10-16：颱風假不能搭捷運、店家不開、不能打工、不能回家）；便利商店照開 */
+-  typhoonShops:['cafe','noodle','bookstore','wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_tea','wz_ice','wz_books','wz_mokuyobi','wz_offbeat','afar','daybreak','aoki'],
++  typhoonShops:['cafe','noodle','bookstore','wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_tea','wz_ice','wz_books','wz_mokuyobi','wz_offbeat','afar','daybreak','aoki','xs_tongxian'],
+   typhoonClosed(zone,day){ if(!PLACES.typhoonShops.includes(zone)) return false; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G)?GAME.G.day:null; return day!=null&&typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&CALENDAR.typhoon(day); },
+   isOpen(zone,h,day){ if(PLACES.typhoonClosed(zone,day)) return false; const o=PLACES.hours[zone]; if(!o) return true; if(h<0||h>=24) h=((h%24)+24)%24; if(o.rules){ const inW=(ws,x)=>!!ws&&ws.some(w=>x>=w[0]-1e-6&&x<w[1]-1e-6); const ws=PLACES.windowsOf(zone,day); if(inW(ws,h)) return true;
+       /* 過午夜的那一段（late：[18,26]＝開到 02:00，小路 AA_655）：遊戲過了午夜還是同一天（G.hour 25，或呼叫的人先 %24 成 1）＝照這一天晚上那一段算（和 cafe 的 close>24 同一個想法）*/
+diff --git a/src/story3d.js b/src/story3d.js
+index 9ab00e366..d637c55ac 100644
+--- a/src/story3d.js
++++ b/src/story3d.js
+@@ -1416,6 +1416,7 @@ const STORY = (function(){
+     const fdIn=!!(it.exit&&it.exit.to==='wz_teahouse'&&typeof AA187!=='undefined'&&AA187.fdDoorOpen&&AA187.fdDoorOpen(G));   /* AA_657 第 2 節：打烊後的那一桌（2029-04-26、邀請送出了）茶屋的門開到 21:00；20:00 以後門口一句旁白（src/aa187_3d.js）*/
+     if(fdIn&&AA187.fdDoorLine&&AA187.fdDoorLine(G)){ GM.sceneBegin(); try{ await GM.say(null,AA187.fdDoorLine(G)); } finally { GM.sceneEnd(); } }
+     if(it.exit&&!fdIn&&/^wz_(brunch|print|teahouse|lin|teishoku|mokuyobi)$/.test(it.exit.to)&&!PLACES.isOpen(it.exit.to,h(G),G.day)){ GM.toast(PLACES.closedText(it.exit.to,h(G),G.day),4500); return true; }   /* 木曜日（AA_617 第 3 節）：13:00–22:00、週二公休——「上二樓（木曜日）」照其他溫州街的店門 */   /* 溫州街新店的營業時間（AA_164 1-2；林家乾麵、巷子裡定食 AA_364 第 2 節：一天兩段、週一／週二公休）*/
++    if(it.exit&&it.exit.to==='xs_tongxian'&&!PLACES.isOpen('xs_tongxian',h(G),G.day)){ GM.toast(PLACES.closedText('xs_tongxian',h(G),G.day),4500); return true; }   /* 同弦樂器（新生南路二樓的吉他行，AA_619 第 1 節；GUITAR-SHOP-ZONE-1105）：12:00–21:30、週一公休——「進同弦樂器」照溫州街的店門（颱風天在上面那一行：typhoonShops）*/
+     if(it.exit&&it.exit.to==='cafe'&&!PLACES.isOpen('cafe',h(G))){ GM.toast(PLACES.closedText('cafe',h(G)),4500); return true; }   /* 開放時間在 src/data/places.js（入口標記、大地圖讀同一份）*/
+     if(it.exit&&it.exit.to==='lawlib'&&G.zone==='wancai'&&!PLACES.isOpen('lawlib',h(G),G.day)){ GM.toast(PLACES.closedText('lawlib',h(G),G.day),5500); return true; }
+     if(it.exit&&it.exit.to==='soclib'&&G.zone==='campus'&&!PLACES.isOpen('soclib',h(G),G.day)){ GM.toast(PLACES.closedText('soclib',h(G),G.day),5500); return true; }   /* 社科院圖書館（D62）：只擋從校園進去 */   /* 法律學院圖書館（D46）：只擋從大廳進去；人在館裡照樣走得出來 */
+diff --git a/tests/seat_reach_unit.js b/tests/seat_reach_unit.js
+index 63dcbe8bb..4a6b5955b 100644
+--- a/tests/seat_reach_unit.js
++++ b/tests/seat_reach_unit.js
+@@ -19,7 +19,8 @@ global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.inne
+ process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
+ const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/cvs_layout.js','src/data/yejian_layout.js','src/data/aoki_layout.js','src/zones3d.js',
+   'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js',
+-  'src/data/socsci_layout.js','src/data/soclib_layout.js','src/soclib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js','src/data/dorm_layout.js','src/data/dorm_room_layout.js','src/dorm3d.js'];
++  'src/data/socsci_layout.js','src/data/soclib_layout.js','src/soclib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js','src/data/dorm_layout.js','src/data/dorm_room_layout.js','src/dorm3d.js',
++  'src/data/calendar.js','src/data/places.js','src/data/xinsheng_layout.js','src/xinsheng3d.js','src/data/tongxian_layout.js','src/tongxian3d.js'];   /* 同弦樂器（xs_tongxian，GUITAR-SHOP-ZONE-1105）：試琴椅、櫃台前的木凳 */
+ for(const f of files){ if(!fs.existsSync(path.join(ROOT,f))) continue; let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
+ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
+ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
