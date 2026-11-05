@@ -4645,12 +4645,18 @@
   },
   {
    "path": "docs/story_planning/AA_705_新店面裡遇得到的人_第一批作息.md",
-   "sha": "ebea3a2b0",
+   "sha": "f8bd25439",
    "status": "approved",
-   "approvedBy": "AA-C D109（AA_705 ebea3a2b0：使用者 11-05 08:4x「店面裡要遇的到NPC」，AA-C 定第一批作息）",
+   "approvedBy": "AA-C D109（AA_705 補一節 f8bd25439，11-05 08:17：山嵐以安改週六 19:30～20:30、青木學姊改單數週週日 15:00～16:30、日常失速芷若週日 14:00～16:00、散步不算撞；AA_615 遞一小杯補旁白）",
    "task": "SHOP-NAMED-NPC-1105",
    "kind": "text",
-   "note": "新店面裡遇得到有名字的人（大一上第一批）：新生南路、公館、溫州街 14 列的星期、時段、位置、act、聽一句（照抄進 src/data/shop_npc.js 的 SHOP_NPC.rows；系統 src/shopnpc3d.js）；芷若那一列照稿「給 LAWWW」的規則改週日下午；tests/shop_npc_unit.js 用 git show ebea3a2b0 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+   "note": "新店面裡遇得到有名字的人（大一上第一批）：新生南路、公館、溫州街 14 列的星期、時段、位置、act、聽一句（照抄進 src/data/shop_npc.js 的 SHOP_NPC.rows；系統 src/shopnpc3d.js）；芷若那一列照稿「給 LAWWW」的規則改週日下午；tests/shop_npc_unit.js 用 git show ebea3a2b0 逐句對照。LAWWW-C 子代理 2026-11-05 代登",
+   "history": [
+    {
+     "sha": "ebea3a2b0",
+     "approvedBy": "AA-C D109（AA_705 ebea3a2b0：使用者 11-05 08:4x「店面裡要遇的到NPC」，AA-C 定第一批作息）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_615_新生南路那一側_公館二輪戲院_爆米花.md",

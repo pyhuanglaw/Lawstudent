@@ -43,7 +43,7 @@ const SHOPNPC=(function(){
   S.calOk=function(G,row,day,h){ if(day==null) day=G.day|0; if(h==null) h=hr(G); if(econ(G)) return false;
     const wd=wdOf(day); if(!row.days.includes(wd)||h<row.from||h>=row.to) return false;
     const T=termOf(day); if(!T||T.id!==S.TERM) return false;
-    if(Array.isArray(row.weeks)){ if(!row.weeks.includes(T.week)) return false; } else { if(T.week<S.WEEK_MIN) return false; if(row.weeks==='even'&&T.week%2!==0) return false; }
+    if(Array.isArray(row.weeks)){ if(!row.weeks.includes(T.week)) return false; } else { if(T.week<S.WEEK_MIN) return false; if(row.weeks==='even'&&T.week%2!==0) return false; if(row.weeks==='odd'&&T.week%2!==1) return false; }
     if(row.noExam&&T.exam) return false;
     if(row.dateFrom&&typeof STORY!=='undefined'&&STORY.dayOfKey){ const d0=STORY.dayOfKey(row.dateFrom); if(d0!=null&&day<d0) return false; }
     if(!isOpen(row.zone,h,day)) return false;
@@ -141,7 +141,7 @@ const SHOPNPC=(function(){
   S.alisonPick=function(G){ const r=(G.flags||{}).NY_ALISON, T=termOf(G.day); if(!r||r.first==null) return 'first';
     const F=G.flags||{}; if(F.KNOWS_SIS_ALISON&&T&&!(r.sis&&r.sis[T.id]!=null)&&hash('nysis|'+G.day)%2===0) return 'sis';
     return hash('nyagain|'+G.day)%(D().alison.again||[1]).length; };
-  S.alisonLines=function(G,pick){ const A=D().alison||{}; if(pick==='first') return A.first.map(l=>Object.assign({},l)); if(pick==='sis') return [{speaker:S.YU,text:A.sis}]; return [{speaker:S.YU,text:A.again[pick]}]; };
+  S.alisonLines=function(G,pick){ const A=D().alison||{}; if(pick==='first') return A.first.map(l=>Object.assign({},l)); if(pick==='sis') return [{speaker:S.YU,text:A.sis}]; const nr=A.againNarr&&A.againNarr[pick]; return (nr?[{speaker:null,text:nr}]:[]).concat([{speaker:S.YU,text:A.again[pick]}]); };
   S.alison=async function(GM){ const G=GM.G, T=termOf(G.day), r=S.ny(G), pick=S.alisonPick(G);
     r.terms[T.id]=G.day|0; if(pick==='first') r.first=G.day|0; if(pick==='sis') r.sis[T.id]=G.day|0;
     GM.sceneBegin({adv:{charId:S.YU,expression:'neutral'}}); try{ await EVENTS.runLines(S.alisonLines(G,pick),{id:'shopnpc_alison',participants:[S.YU]}); } finally { GM.sceneEnd(); }

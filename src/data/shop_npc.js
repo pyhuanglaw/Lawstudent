@@ -13,10 +13,11 @@
      moved：稿上寫的和實際排的不一樣（芷若：AA_705「給 LAWWW」那一段的規則）。
    座位、站的位置照各店的配置檔（src/data/*_layout.js）；稿上的位置配置裡沒有一模一樣的點＝取最近的真的座位（見每一列的註解）。*/
 const SHOP_NPC={
-  src:{AA_705:'ebea3a2b0',AA_615:'ebea3a2b0'},
+  src:{AA_705:'f8bd25439',AA_615:'ebea3a2b0'},   /* AA_705 補一節 f8bd25439（11-05 08:17：兩列換時段、遞一小杯補旁白；表格本身和 ebea3a2b0 一樣）*/
   rows:[
     /* ---------- 新生南路 ---------- */
-    {id:'xs_shanlan_an',shop:'山嵐書店',who:'heroine_01',zone:'xs_shanlan',days:[0],from:14,to:15.5,act:'read',pose:'stand',at:[6.0,-0.75,Math.PI/2,0],
+    {id:'xs_shanlan_an',shop:'山嵐書店',who:'heroine_01',zone:'xs_shanlan',days:[6],from:19.5,to:20.5,   /* AA_705 補一節（f8bd25439）：原本週日 14:00～15:30 永遠撞到 2:30 AM 念書 → 週六 19:30～20:30 */
+     act:'read',pose:'stand',at:[6.0,-0.75,Math.PI/2,0],
       place:'一樓雜誌牆前，站著翻（read）',hear:{who:null,t:'（以安在雜誌牆前面翻一本手帳特刊。翻到一半，拿出自己的手帳對了一下。）'}},   /* 雜誌牆（東牆 x 6.75）、互動點「看雜誌」(6.2, −1.85) 旁邊 1.1 m（導航格站得住的那一格），面向東 */
     {id:'xs_shanlan_sis',shop:'山嵐書店',who:'heroine_05',zone:'xs_shanlan',days:[6],from:10.5,to:12,weeks:'even',act:'read',pose:'floor',at:[6.2,-6,-Math.PI/2,1],
       place:'二樓法律區，坐地板看書（read）',hear:{who:null,t:'（二樓法律區的走道上，學姊靠著書架坐著，膝蓋上是一本研究所的考古題。她沒有抬頭。）'},sisWeek:true},   /* 配置 floorSit 的法律區 (6.2, −6)；她坐著的時候那個「坐在法律區看書」按鈕藏起來。山嵐 11:00 開門＝11:00～12:00 */
@@ -37,7 +38,8 @@ const SHOP_NPC={
       place:'窗邊，筆電寫報告（read）',hear:{who:null,t:'（語彤一個人坐窗邊，筆電旁邊那杯冰紅茶一口都沒喝。）'}},   /* 窗邊吧台（table 6）最西邊那一張 */
     {id:'daybreak_ps',shop:'Daybreak',who:'classmate_peishan',zone:'daybreak',days:[6],from:10.5,to:12,weeks:'even',act:'eat',pose:'seat',seat:[-3.05,3.45,0],
       place:'靠窗的兩人桌，吃早午餐（eat）',hear:{who:'classmate_peishan',t:'這家的鬆餅好大！……我一個人吃不完，可是我還是點了。'}},   /* 靠窗兩人桌（table 1）；留給約好的人那一組就換旁邊的靠窗兩人桌 */
-    {id:'aoki_sis',shop:'青木茶室',who:'heroine_05',zone:'aoki',days:[3],from:15,to:16.5,act:'read',pose:'seat',seat:[-3.25,-2.15,0],
+    {id:'aoki_sis',shop:'青木茶室',who:'heroine_05',zone:'aoki',days:[0],from:15,to:16.5,weeks:'odd',   /* AA_705 補一節（f8bd25439）：原本週三下午永遠撞到總圖／法圖 → 單數週週日 15:00～16:30（和山嵐雙數週週六錯開）*/
+     act:'read',pose:'seat',seat:[-3.25,-2.15,0],
       place:'最裡面那張桌，看書（read）',hear:{who:null,t:'（學姊一個人坐在最裡面，茶壺旁邊攤著一疊影印的判決。）'}},   /* 離店門最遠的那張四人桌（table 5）靠牆那一張 */
     {id:'bikeshop_kai',shop:'慢輪單車',who:'kai',zone:'bikeshop',days:[0],from:15,to:16,act:'wander',pose:'stand',at:[1.5,4.3,Math.PI/2,0],
       place:'門口打氣、看車（wander）',hear:{who:'kai',t:'我只是來打氣。……順便看一下那台變速的。'}},   /* 店門（折門 x −0.5～1.6）進來右手邊，看門口那兩台車（小折）*/
@@ -58,7 +60,8 @@ const SHOP_NPC={
       {label:'ny_thanks'},{speaker:'yu',text:'好好看喔。第二部比較好看。'},{goto:'ny_end'},
       {label:'ny_ok'},{speaker:'yu',text:'多做的本來就要丟。拿去。'},
       {label:'ny_end'},{speaker:null,text:'（你拿到一桶爆米花。）'}],
-    again:['今天焦糖口味。','十一點以後最安靜。我都在這裡寫作業。','你又來了。……一個人？'],   /* 之後再遇到（同一學期最多一次）：隨機一句（「今天焦糖口味。」稿上寫「（遞一小杯）」是動作，沒有旁白句，不另寫）*/
+    again:['今天焦糖口味。','十一點以後最安靜。我都在這裡寫作業。','你又來了。……一個人？'],
+    againNarr:{0:'（她從櫃台下面遞出一小杯，是剛爆好的。）'},   /* AA-C 08:17：「今天焦糖口味。」稿上的（遞一小杯）補字，放在那一句前面 */   /* 之後再遇到（同一學期最多一次）：隨機一句（「今天焦糖口味。」稿上寫「（遞一小杯）」是動作，沒有旁白句，不另寫）*/
     sis:'我姊說她國中常來這間。……那時候還是一輪的。',   /* 有 KNOWS_SIS_ALISON 的時候偶爾一句（一學期最多一次）*/
     movieLine:'（爆米花吃到第二部就沒了。）' }   /* 看電影時旁白多一句：遊戲裡還沒有「看電影」的流程（1 廳的「坐下看電影」還沒接），先記 G.flags.NY_POPCORN（拿到的那一天），接看電影的時候讀 SHOPNPC.popcorn(G) */
 };
