@@ -192,6 +192,9 @@ SITAMB_player | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_pl
 #   遊戲要用的素材＝一定要在 PC 拍（雲端 SwiftShader 拍的不能用）。cc_shop_views_gg.py＝530a 的 tools/shots/shop_views_layers.py 同一份拍攝邏輯（CC-C 22:5x 逐行比過：只差輸入輸出路徑、沒有 numpy／PIL 時先存原始三張、fast_shots 子行程走 gpu_wrap）
 #   推回 cc-local：{out}/assets/models/env/views/{cvs,cvs_wz,yejian,aoki}{,_near}_{day,night}.webp 16 張＋{out}/shop_views_layers.json（景深）；沒有 numpy／PIL＝{out}/raw/*_far／_nb／_nw.png，雲端 CC 用 VIEWS_REMATTE 去背轉 webp 再交 LAWWW-C（填 VIEW_LAYERS）
 GG_VIEWS_530a | 530a72ff44c81385688b3e624f4a65b5dcf5544f | probe | docs/story_planning/test_tools/cc/cc_shop_views_gg.py | index.html | 40 | VIEW_NAMES=cvs,cvs_wz,yejian,aoki;CC_HEADLESS=0
+# PERF-WZ-DAY-1103（LAWWW2-C 02:21，LAWWW-C 派 P1）：溫州街白天尖峰分項量（perf_split_probe.py＝LAWWW2 922445a2c 複製）＋fps_zones 時段順序換 night 先；結果推 cc-local 以後告訴 LAWWW2-C commit
+PERF_WZ_SPLIT | 1344de13d88cccf2f60b2877875d8dbe768a3511 | probe | docs/story_planning/test_tools/cc/perf_split_probe.py | index.html | 30 | ZONES=wenzhou,campus,library_hall;COLD=12;SECS=8;CC_HEADLESS=0
+FPS_WZ_ORDER | 1344de13d88cccf2f60b2877875d8dbe768a3511 | probe | tools/cc_local/fps_zones.py | index.html | 20 | ZONES=wenzhou,library_hall,wancai;SLOTS=night,day,day,rain;CC_HEADLESS=0
 # ===== D118_B7（BB-C 23:46，下一版；國考總複習）：雲端先跑（chain8），PC 恢復以後這裡再跑一次；排在 GG_VIEWS 後面 =====
 D118B7_play | 6a1592a26831ce63470b4869aa9c5aa7e5d8628c | probe | docs/story_planning/test_tools/cc/cc_d118b7_play.py | index.html | 60 | CC_HEADLESS=0
 # D118_B5（BB-C 00:06，下一版；法服改純劇情）：雲端先跑（chain8），PC 恢復以後再跑一次當第二份證據
