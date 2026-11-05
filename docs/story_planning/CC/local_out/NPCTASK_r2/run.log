@@ -1,0 +1,54 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_npctask_probe.py http://127.0.0.1:8805/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NPCTASK_r2\out
+CC NPCTASK_shots：LOCS=['hall', 'lib3f', 'lawlib', 'soc2f', 'b1']、CTL=both、PER=3；SHA=13700be8fbfcaa902b0276713c5c83c7c38e3c79；Windows＋GPU／SwiftShader ≠ iPhone（顏色 ④ 雲端不準）
+== amb：http://127.0.0.1:8805/index.html
+  [前置／捷徑] CC_SEED=1104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [amb] 遊戲載入  22 秒
+PASS [amb] CHAR.sitTask=True（一般網址要 true、?nositask 要 false）  {"sitTask": true, "fn": "function"}
+INFO [amb] ⑥ 第一次進 cafe：484 格／26.6 秒、滑手機的人 0 個；一格裡右手腕最大的跳動 []；≥10 cm 的 []
+INFO [amb] ⑥ 第一次進 library_hall：168 格／27.8 秒、滑手機的人 1 個；一格裡右手腕最大的跳動 [16.3]；≥10 cm 的 [{"k": "?@-8.1,3.8", "n": 135, "maxJump_cm": 16.3, "at": 14.66, "task": [["phone:0.00", 13.91], ["phone:0.20", 14.66], ["phone:0.40", 14.7], ["phone:0.47", 14.74], ["phone:0.57", 22.05], ["phone:0.77", 22.09]]}]
+PASS [amb hall] 讀到 library_hall  library_hall
+INFO [amb hall] 坐著的人 6、在做事的 1（["page"]）；等了 5 秒
+INFO [amb hall #0] page M（Sit_Page_M_Loop）：w 1、shift -0.03、lift -0.0094、桌面 0.76、桌緣 0.3｜① 手腕離桌面 左 0.0547 右 0.0623｜③ 前臂在桌上那段離桌面最近 左 0.0474 右 0.057、筆最低點 None｜身體：肩膀 0.235、胸口 0.145、骨盆 -0.154（離桌面，m）｜相位 1.83
+INFO [amb hall] ② 桌緣 0.42 m 的位子：0 人；shift／lift＝[]（LAWWW-C：往前 0.12、往上 0.015）
+INFO [amb hall] ⑤ 打字的人 0 個（不夠比節奏）
+PASS [amb lib3f] 讀到 library  library
+INFO [amb lib3f] 坐著的人 10、在做事的 1（["phone"]）；等了 3 秒
+INFO [amb lib3f #0] phone M（Sit_Phone_M_Loop）：w 1、shift 0.0766、lift 0.0029、桌面 0.76、桌緣 0.4｜① 手腕離桌面 左 0.0294 右 0.0753｜③ 前臂在桌上那段離桌面最近 左 0.0285 右 0.0753、筆最低點 None｜身體：肩膀 0.229、胸口 0.142、骨盆 -0.147（離桌面，m）｜相位 4.56
+INFO [amb lib3f] ⑤ 打字的人 0 個（不夠比節奏）
+PASS [amb lawlib] 讀到 lawlib  lawlib
+INFO [amb lawlib] 坐著的人 6、在做事的 1（["write"]）；等了 3 秒
+INFO [amb lawlib #0] write M（Sit_Write_M_Loop）：w 1、shift 0.0072、lift 0.0026、桌面 0.77、桌緣 0.35｜① 手腕離桌面 左 0.0319 右 0.0408｜③ 前臂在桌上那段離桌面最近 左 0.03 右 0.0408、筆最低點 -0.0005｜身體：肩膀 0.234、胸口 0.147、骨盆 -0.152（離桌面，m）｜相位 3.9
+INFO [amb lawlib] ⑤ 打字的人 0 個（不夠比節奏）
+PASS [amb soc2f] 讀到 soclib_2f  soclib_2f
+INFO [amb soc2f] 坐著的人 23、在做事的 4（["phone", "write"]）；等了 3 秒
+INFO [amb soc2f #0] write F（Sit_Write_F_Loop）：w 1、shift 0.0903、lift 0.0089、桌面 0.75、桌緣 0.382｜① 手腕離桌面 左 0.0318 右 0.0424｜③ 前臂在桌上那段離桌面最近 左 0.0305 右 0.0422、筆最低點 0.0034｜身體：肩膀 0.21、胸口 0.139、骨盆 -0.142（離桌面，m）｜相位 3.69
+INFO [amb soc2f #1] phone M（Sit_Phone_M_Loop）：w 1、shift 0.0586、lift -0.0021、桌面 0.755、桌緣 0.382｜① 手腕離桌面 左 0.0299 右 0.0775｜③ 前臂在桌上那段離桌面最近 左 0.0288 右 0.0775、筆最低點 None｜身體：肩膀 0.229、胸口 0.142、骨盆 -0.147（離桌面，m）｜相位 0.85
+INFO [amb soc2f #2] phone M（Sit_Phone_M_Loop）：w 1、shift 0.0704、lift 0.015、桌面 0.755、桌緣 0.382｜① 手腕離桌面 左 0.0219 右 0.0654｜③ 前臂在桌上那段離桌面最近 左 0.0206 右 0.0654、筆最低點 None｜身體：肩膀 0.215、胸口 0.13、骨盆 -0.147（離桌面，m）｜相位 0.08
+INFO [amb soc2f] 女生坐著桌面在身體哪裡：[["write", 0.21, 0.139, -0.142]]（肩膀／胸口／骨盆離桌面，m）
+INFO [amb soc2f] ⑤ 打字的 3 人：起始相位 [4.941, 1.341, 4.392]；兩兩相位差 ±0.25 秒以內 0／3；10 秒後 [4.941, 1.341, 4.392]
+PASS [amb b1] 讀到 library_b1  library_b1
+INFO [amb b1] 坐著的人 6、在做事的 6（["page", "phone", "type", "write"]）；等了 0 秒
+INFO [amb b1 #0] page F（Sit_Page_F_Loop）：w 1、shift 0.12、lift 0.0136、桌面 0.75、桌緣 0.487｜① 手腕離桌面 左 0.0542 右 0.0542｜③ 前臂在桌上那段離桌面最近 左 None 右 None、筆最低點 None｜身體：肩膀 0.214、胸口 0.141、骨盆 -0.139（離桌面，m）｜相位 3.53
+INFO [amb b1 #1] write F（Sit_Write_F_Loop）：w 0.77、shift 0.12、lift 0.0129、桌面 0.75、桌緣 0.487｜① 手腕離桌面 左 0.0048 右 0.0369｜③ 前臂在桌上那段離桌面最近 左 None 右 None、筆最低點 0.0008｜身體：肩膀 0.212、胸口 0.139、骨盆 -0.141（離桌面，m）｜相位 4.69
+INFO [amb b1 #2] page M（Sit_Page_M_Loop）：w 1、shift 0.12、lift 0.015、桌面 0.75、桌緣 0.487｜① 手腕離桌面 左 0.0409 右 0.0409｜③ 前臂在桌上那段離桌面最近 左 None 右 None、筆最低點 None｜身體：肩膀 0.203、胸口 0.122、骨盆 -0.147（離桌面，m）｜相位 0.04
+INFO [amb b1] 女生坐著桌面在身體哪裡：[["page", 0.214, 0.141, -0.139], ["write", 0.212, 0.139, -0.141]]（肩膀／胸口／骨盆離桌面，m）
+INFO [amb b1] ⑤ 打字的 2 人：起始相位 [0.283, 1.575]；兩兩相位差 ±0.25 秒以內 0／1；10 秒後 [0.317, 1.608]
+PASS [amb] 沒有 JS 例外  []
+== ctl：http://127.0.0.1:8805/index.html?nositask
+  [前置／捷徑] CC_SEED=1104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [ctl] 遊戲載入  22 秒
+PASS [ctl] CHAR.sitTask=False（一般網址要 true、?nositask 要 false）  {"sitTask": false, "fn": "function"}
+INFO [ctl] ⑥ 第一次進 cafe：514 格／26.3 秒、滑手機的人 0 個；一格裡右手腕最大的跳動 []；≥10 cm 的 []
+INFO [ctl] ⑥ 第一次進 library_hall：144 格／28.2 秒、滑手機的人 0 個；一格裡右手腕最大的跳動 []；≥10 cm 的 []
+PASS [ctl hall] 讀到 library_hall  library_hall
+INFO [ctl hall] 坐著的人 6、在做事的 0（[]）；等了 0 秒
+PASS [ctl lib3f] 讀到 library  library
+INFO [ctl lib3f] 坐著的人 10、在做事的 0（[]）；等了 0 秒
+PASS [ctl lawlib] 讀到 lawlib  lawlib
+INFO [ctl lawlib] 坐著的人 6、在做事的 0（[]）；等了 0 秒
+PASS [ctl soc2f] 讀到 soclib_2f  soclib_2f
+INFO [ctl soc2f] 坐著的人 23、在做事的 0（[]）；等了 0 秒
+PASS [ctl b1] 讀到 library_b1  library_b1
+INFO [ctl b1] 坐著的人 6、在做事的 0（[]）；等了 0 秒
+PASS [ctl] 沒有 JS 例外  []
+ALL PASS
