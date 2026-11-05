@@ -47539,6 +47539,35 @@
     "ack": "SENT"
    },
    "src": "UA-LAWWW-1105-27"
+  },
+  {
+   "id": "FGO-COUNTER-1105",
+   "title": "直接過去不把玩家放進吧台裡（落點要走得到）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "BB 瀏覽器：2:30 AM 芷若上班時從手機朋友直接過去，人在吧台前面、走得動",
+   "source": "UA-LAWWW-1105-28",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-28",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "直接過去以後站在吧台前面、走得動",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "UA-LAWWW-1105-28"
   }
  ]
 }

@@ -3170,6 +3170,15 @@
    "wants": "X243",
    "task": "PS-BUS-1105",
    "note": "ladder P-L6 沒有日期條件；交 AA 改稿，LAWWW 重匯"
+  },
+  {
+   "id": "UA-LAWWW-1105-28",
+   "at": "2026-11-05T07:4xZ",
+   "quote": "我從地圖直接過去林芷若在的地方 結果就在吧台卡住（2:30 AM 吧台裡面截圖）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X244",
+   "task": "FGO-COUNTER-1105"
   }
  ]
 }

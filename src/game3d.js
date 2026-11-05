@@ -503,8 +503,12 @@ const GAME = (function(){
      直接過去＝到他身邊。同一區（或快速前往落點離他還很遠）：轉場、站到他旁邊（離他 1.1 m、站得住的那一側），照距離算走路的時間；不再改成「帶我去」畫路線 */
   async function snapNear(id){ const n=GM.npc&&GM.npc[id], p=E.player&&E.player.obj; if(!n||!n.obj||!p||n.hidden) return false;
     const nx=n.obj.position.x, nz=n.obj.position.z, lv=n.lv|0, d0=Math.hypot(nx-p.position.x,nz-p.position.z); if(d0<=GM.FGO_NEAR) return true;
-    const a0=Math.atan2(p.position.x-nx,p.position.z-nz); let at=null; for(let k=0;k<12&&!at;k++){ const a=a0+(k%2?1:-1)*Math.ceil(k/2)*Math.PI/6, x=nx+Math.sin(a)*1.1, z=nz+Math.cos(a)*1.1; if(!E.canStand||E.canStand(x,z,0.3,lv)) at={x,z}; }
-    if(!at) at={x:nx+0.9,z:nz}; await fade(true); E.placeAt(E.player,at.x,at.z,lv); if(E.unstick) E.unstick(E.player,2); p.rotation.y=Math.atan2(nx-at.x,nz-at.z);
+    /* FGO-COUNTER-1105（使用者 11-05 07:4x「我從地圖直接過去林芷若在的地方 結果就在吧台卡住」：芷若在 2:30 AM 吧台後面上班，舊做法挑「站得住」的那一側＝吧台裡面，玩家走不出來）：
+       除了站得住，還要從玩家現在的位置（快速前往的落點／同一區原本的位置）找得到路走過去；1.1 m 一圈都不行就往外 1.6～3.5 m 找（吧台前面）；都找不到＝留在原地（不放進封起來的地方）*/
+    const a0=Math.atan2(p.position.x-nx,p.position.z-nz), plv=E.player.lv|0, px0=p.position.x, pz0=p.position.z;
+    const reach=(x,z)=>{ if(E.canStand&&!E.canStand(x,z,0.3,lv)) return false; if(E.simWalk){ const r=E.simWalk(px0,pz0,x,z,{lv0:plv,lv1:lv,dt:1/15}); return !!(r&&r.ok); } if(!E.pathTo) return true; const q=E.pathTo(px0,pz0,plv,x,z,lv); return !!(q&&q.length); };   /* 移動模擬（和 reachability_all 同一套）：找路找得到、但縫比人窄的也算走不到 */
+    let at=null; for(const R of [1.1,1.6,2.2,2.8,3.5]) for(let k=0;k<12&&!at;k++){ const a=a0+(k%2?1:-1)*Math.ceil(k/2)*Math.PI/6, x=nx+Math.sin(a)*R, z=nz+Math.cos(a)*R; if(reach(x,z)) at={x,z}; }
+    if(!at) at={x:px0,z:pz0,stay:true}; await fade(true); if(!at.stay) E.placeAt(E.player,at.x,at.z,lv); if(E.unstick) E.unstick(E.player,2); p.rotation.y=Math.atan2(nx-at.x,nz-at.z);
     const mins=Math.max(1,Math.round(d0/1.3/60)); advance(mins/60); await fade(false); return true; }
   GM.snapNear=snapNear;
   async function goFollow(id){ if(!G) return false; const w=STORY.whereIs&&STORY.whereIs(GM,id); if(!w||w.zone!==G.zone) return false; return snapNear(id); }
