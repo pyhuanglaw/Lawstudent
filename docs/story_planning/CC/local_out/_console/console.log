@@ -263,3 +263,18 @@
 [14:44:07] ==== START DAKOU_v1  (probe @ 9ea82730f471210c8df143093b7743ce4c9327a8) ====
 [14:44:10] [res] cpu=50% mem=42% (13.5/31.4 GB) chrome_testing=9  START DAKOU_v1
 [14:45:02] [res] cpu=22% mem=41% (13.1/31.4 GB) chrome_testing=9  END NPCTASK_lib3f
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       bcc0576be..ea344a6d6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:45:07] ==== END   NPCTASK_lib3f  exit=0  184s   ====
+[14:45:15] memory 43% before starting NANYANG_v2 (2 running)
+[14:45:15] ==== START NANYANG_v2  (probe @ 9ea82730f471210c8df143093b7743ce4c9327a8) ====
+[14:45:18] [res] cpu=50% mem=43% (13.6/31.4 GB) chrome_testing=9  START NANYANG_v2
+[14:47:08] 正在跑：SHANLAN_v2（已跑 36 分／上限 120 分）、DAKOU_v1（已跑 3 分／上限 120 分）、NANYANG_v2（已跑 1 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:52:08] 正在跑：SHANLAN_v2（已跑 41 分／上限 120 分）、DAKOU_v1（已跑 8 分／上限 120 分）、NANYANG_v2（已跑 6 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:57:08] 正在跑：SHANLAN_v2（已跑 46 分／上限 120 分）、DAKOU_v1（已跑 13 分／上限 120 分）、NANYANG_v2（已跑 11 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:02:08] 正在跑：SHANLAN_v2（已跑 51 分／上限 120 分）、DAKOU_v1（已跑 18 分／上限 120 分）、NANYANG_v2（已跑 16 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:07:08] 正在跑：SHANLAN_v2（已跑 56 分／上限 120 分）、DAKOU_v1（已跑 23 分／上限 120 分）、NANYANG_v2（已跑 21 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:12:08] 正在跑：SHANLAN_v2（已跑 61 分／上限 120 分）、DAKOU_v1（已跑 28 分／上限 120 分）、NANYANG_v2（已跑 26 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:17:08] 正在跑：SHANLAN_v2（已跑 66 分／上限 120 分）、DAKOU_v1（已跑 33 分／上限 120 分）、NANYANG_v2（已跑 31 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:18:25] [res] cpu=5% mem=38% (12.0/31.4 GB) chrome_testing=10  END NANYANG_v2
