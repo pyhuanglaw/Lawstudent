@@ -720,6 +720,19 @@
    "src": "使用者直接對 LAWWW2-C 工作階段說（同弦 v4e／v4f、2:30 AM 第三版的疊圖交件以後）",
    "note": "寫成 docs/art-rebuild/second_ai/RULES_2D_TO_3D.md（七步流程：拆圖＋左右順序 → 反推 camRef（新工具 fit_refcam.py）＋候選鏡頭 → 建模（改配置要重拍 camRef）→ glb_preview eevee → R2 same_angle_check → 構圖鎖進 Node 測試 → 四格對照交件；工具表 15 列（開源＋新做的）；踩過的坑 10 條）；SCENE_RULES §12、HANDOFF 最上面都指過去；ART_DIRECTION 12.8 一行的 patch 交 LAWWW-C 登記決策；通知 LAWWW-C、BB-C、CC-C｜LAWWW-C 3779b299b 登記 D140（CLAUDE.md 決策表、MANDATORY 第 2 點、PROJECT_DECISIONS、HV-29、USER_WANTS X232）；BB-C 03:45 四點更正 7a06f8d1e",
    "wants": "X232"
+  },
+  {
+   "id": "UA-LAWWW2-1105-02",
+   "at": "2026-11-05T06:0x",
+   "quote": "疊圖畫出來的3d真的很棒寫成規則 以後任何2d轉3d都要參考\n這次透過開源或者新增的各種美術方法都要寫進規則交接給下一個lawww2\n疊圖可以很棒，可是我覺得你應該把我們所有新的店面都趕快先做好，所以你不要在同一個東西上面修改六次最多就三次好不好？",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "task": "RULES-2D3D-1105",
+   "src": "使用者直接對 LAWWW2-C 工作階段說（第二次；第一次 UA-LAWWW2-1105-01）",
+   "replaces": "同 D141（04:2x 經 LAWWW-C）；這次是對 LAWWW2 直接說",
+   "note": "①②：RULES_2D_TO_3D.md 已有（cee7c6973 起），這次補今天的新方法 5 列（兩層店接法、一層小店模組 xsshop3d.js、可點地面 walkMeshes＋點地測試、小孤島總掃 indoor_islands.js、踏面對 GLB）、TRELLIS.2 實測結果、坑 6 條（11～16）③：D141 段落加上這句原話與做法（交件寫第幾版、第 3 版就進遊戲、別人做到第 3 版以上的直接接、沒進遊戲的店優先）。新生南路的店在這之前已經全部 v1 進遊戲（大口、大步、好拍、運動廣場，LAWWW-C 5aeb7fd70），沒有一間改超過三次",
+   "stopped": "無（沒有正在做的精修）",
+   "notify": "LAWWW-C、BB-C、CC-C（副本）"
   }
  ]
 }
