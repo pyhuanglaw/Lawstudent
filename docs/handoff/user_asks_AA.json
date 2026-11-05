@@ -1615,6 +1615,38 @@
    "note": "新劇情＋社科圖 2 樓（讀書室、洗手間）；AA 寫 AA_669（EXAM-LIB-CROWD-1104），2 樓場景 SOCLIB-2F-1104 交 LAWWW2；LAWWW-C cab6d1a50 開了 X228",
    "task": "EXAM-LIB-CROWD-1104",
    "wants": "X228"
+  },
+  {
+   "at": "2026-11-05T03:4x",
+   "kind": "轉述",
+   "src": "使用者對 LAWWW-C（代問 AA 的「醒來要問的」三題），LAWWW-C 11-05 03:53 轉 AA-C",
+   "id": "UA-AA-1105-01",
+   "quote": "四句台詞（可昕 AA_665、以安 AA_668、可昕 AA_670、語彤 AA_677）全部選「照 AA 改」",
+   "status": "已完成",
+   "note": "四句已在開發分支；沒有人選改回，不用拿同類句子出來對",
+   "task": "DIALOGUE-DEPTH-1031",
+   "wants": "X150"
+  },
+  {
+   "at": "2026-11-05T03:4x",
+   "kind": "轉述",
+   "src": "使用者對 LAWWW-C（代問 AA 的「醒來要問的」三題），LAWWW-C 11-05 03:53 轉 AA-C",
+   "id": "UA-AA-1105-02",
+   "quote": "約會台詞 date_lines.js 選「整批改」（把沒必要的「……」拿掉）",
+   "status": "進行中",
+   "note": "LAWWW-C 開 DATE-ELLIPSIS-1105；AA 改源稿交 commit，LAWWW build＋import＋白名單；AA_694 源稿 34 檔＋252 句對照表已交",
+   "task": "DATE-ELLIPSIS-1105"
+  },
+  {
+   "at": "2026-11-05T03:4x",
+   "kind": "轉述",
+   "src": "使用者對 LAWWW-C（代問 AA 的「醒來要問的」三題），LAWWW-C 11-05 03:53 轉 AA-C",
+   "id": "UA-AA-1105-03",
+   "quote": "語彤共創選「再等等」",
+   "status": "暫停",
+   "note": "照舊暫停，2026-11-11 再問",
+   "task": "DIALOGUE-DEPTH-1031",
+   "wants": "X150"
   }
  ]
 }
