@@ -1501,3 +1501,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
 - 2026-11-06T03:28:21  V21R_soc_fr_yu  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  1235s  timeout 20 min  PASS [yu] reload 讀回來：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true} / PASS [yu] reload 讀回來：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true} / PASS [yu] reload 讀回來：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
 - 2026-11-06T03:29:33  V21R_soc_fr_classmate_mingxuan  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  1205s       用了 19.5 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
       err.log (last 5): [gpu_wrap 1169.6s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 1169.6s] BROWSER DISCONNECTED
+- 2026-11-06T03:59:22  V21R_soc_heroine_02_talk  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  1466s       用了 23.8 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
+      err.log (last 5): [gpu_wrap 1430.9s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 1430.9s] BROWSER DISCONNECTED

@@ -1,4 +1,4 @@
-[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_soc_heroine_02_talk\out
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8805/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_soc_heroine_02_talk\out
 CASES=["heroine_02"] STEPS=["media", "first", "greet", "up", "ladder", "menu"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
 PASS [heroine_02] 遊戲載入
 == 人物 heroine_02 林芷若 開始（層 D、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 8, "Y2S2": 8, "Y3S2": 8, "Y1S1": 8}、店內偶遇 []、自由出行 ["D04", "D02", "D25"]）
@@ -12,7 +12,7 @@ PASS [heroine_02] 遊戲載入
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
   [heroine_02] 到達「林芷若 旁邊」附近（0.84 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
   [heroine_02] media FAMILIAR 連按兩次：按「和林芷若說話」（連按兩次，間隔約 200 ms）
-PASS [heroine_02] media FAMILIAR 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8807/src/story3d.js?v=9.10.19:1018:25)"]}
+PASS [heroine_02] media FAMILIAR 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8805/src/story3d.js?v=9.10.19:1018:25)"]}
 PASS [heroine_02] media FAMILIAR 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [heroine_02] media FAMILIAR 連按兩次 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
   [heroine_02] media FAMILIAR 連按兩次 台詞（2 句）：["林芷若｜字幕翻譯的作業。……要看的話坐旁邊那格，耳機去服務台借。", "林芷若｜哈囉，法律系的。"]
@@ -22,9 +22,9 @@ PASS [heroine_02] media FAMILIAR 連按兩次：15 秒內回到可以自由移�
 PASS [heroine_02] media FAMILIAR 連按兩次：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] media FAMILIAR 連按兩次：沒有新的 JS 例外
 PASS [heroine_02] media FAMILIAR 連按兩次：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] media FAMILIAR 連按兩次：搖桿推得動（≥0.3 m）  1.53 m
-PASS [heroine_02] media FAMILIAR 連按兩次：點地走得動（≥0.3 m）  點 [-3.86, 0.77]，走了 0.93 m
-PASS [heroine_02] media FAMILIAR 連按兩次：遊戲時間有在走  14.4251→14.4452
+PASS [heroine_02] media FAMILIAR 連按兩次：搖桿推得動（≥0.3 m）  1.51 m
+PASS [heroine_02] media FAMILIAR 連按兩次：點地走得動（≥0.3 m）  點 [-3.86, 0.79]，走了 0.93 m
+PASS [heroine_02] media FAMILIAR 連按兩次：遊戲時間有在走  14.4273→14.4475
 PASS [heroine_02] media FAMILIAR 連按兩次：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] media FAMILIAR 連按兩次：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] media FAMILIAR 連按兩次：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -44,9 +44,9 @@ PASS [heroine_02] media FAMILIAR 約她去…：15 秒內回到可以自由移�
 PASS [heroine_02] media FAMILIAR 約她去…：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] media FAMILIAR 約她去…：沒有新的 JS 例外
 PASS [heroine_02] media FAMILIAR 約她去…：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] media FAMILIAR 約她去…：搖桿推得動（≥0.3 m）  1.52 m
-PASS [heroine_02] media FAMILIAR 約她去…：點地走得動（≥0.3 m）  點 [-3.86, 0.78]，走了 0.93 m
-PASS [heroine_02] media FAMILIAR 約她去…：遊戲時間有在走  14.4707→14.4908
+PASS [heroine_02] media FAMILIAR 約她去…：搖桿推得動（≥0.3 m）  1.51 m
+PASS [heroine_02] media FAMILIAR 約她去…：點地走得動（≥0.3 m）  點 [-3.86, 0.79]，走了 0.93 m
+PASS [heroine_02] media FAMILIAR 約她去…：遊戲時間有在走  14.4716→14.4917
 PASS [heroine_02] media FAMILIAR 約她去…：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] media FAMILIAR 約她去…：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] media FAMILIAR 約她去…：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -57,7 +57,7 @@ PASS [heroine_02] media FAMILIAR 約她去…：按 #minimap 打得開、關得�
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
   [heroine_02] 到達「林芷若 旁邊」附近（0.84 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
   [heroine_02] media FRIEND 連按兩次：按「和林芷若說話」（連按兩次，間隔約 200 ms）
-PASS [heroine_02] media FRIEND 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8807/src/story3d.js?v=9.10.19:1018:25)"]}
+PASS [heroine_02] media FRIEND 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8805/src/story3d.js?v=9.10.19:1018:25)"]}
 PASS [heroine_02] media FRIEND 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [heroine_02] media FRIEND 連按兩次 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
   [heroine_02] media FRIEND 連按兩次 台詞（2 句）：["林芷若｜字幕翻譯的作業。……要看的話坐旁邊那格，耳機去服務台借。", "林芷若｜欸，你也在！剛好，我正想找人講話。"]
@@ -67,9 +67,9 @@ PASS [heroine_02] media FRIEND 連按兩次：15 秒內回到可以自由移動
 PASS [heroine_02] media FRIEND 連按兩次：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] media FRIEND 連按兩次：沒有新的 JS 例外
 PASS [heroine_02] media FRIEND 連按兩次：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] media FRIEND 連按兩次：搖桿推得動（≥0.3 m）  1.51 m
-PASS [heroine_02] media FRIEND 連按兩次：點地走得動（≥0.3 m）  點 [-3.86, 0.79]，走了 0.93 m
-PASS [heroine_02] media FRIEND 連按兩次：遊戲時間有在走  14.4214→14.4415
+PASS [heroine_02] media FRIEND 連按兩次：搖桿推得動（≥0.3 m）  1.53 m
+PASS [heroine_02] media FRIEND 連按兩次：點地走得動（≥0.3 m）  點 [-3.86, 0.77]，走了 0.93 m
+PASS [heroine_02] media FRIEND 連按兩次：遊戲時間有在走  14.4212→14.4414
 PASS [heroine_02] media FRIEND 連按兩次：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] media FRIEND 連按兩次：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] media FRIEND 連按兩次：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -89,9 +89,9 @@ PASS [heroine_02] media FRIEND 約她去…：15 秒內回到可以自由移動
 PASS [heroine_02] media FRIEND 約她去…：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] media FRIEND 約她去…：沒有新的 JS 例外
 PASS [heroine_02] media FRIEND 約她去…：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] media FRIEND 約她去…：搖桿推得動（≥0.3 m）  1.50 m
-PASS [heroine_02] media FRIEND 約她去…：點地走得動（≥0.3 m）  點 [-3.86, 0.8]，走了 0.93 m
-PASS [heroine_02] media FRIEND 約她去…：遊戲時間有在走  14.4658→14.4859
+PASS [heroine_02] media FRIEND 約她去…：搖桿推得動（≥0.3 m）  1.51 m
+PASS [heroine_02] media FRIEND 約她去…：點地走得動（≥0.3 m）  點 [-3.86, 0.79]，走了 0.93 m
+PASS [heroine_02] media FRIEND 約她去…：遊戲時間有在走  14.4660→14.4861
 PASS [heroine_02] media FRIEND 約她去…：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] media FRIEND 約她去…：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] media FRIEND 約她去…：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -102,7 +102,7 @@ PASS [heroine_02] media FRIEND 約她去…：按 #minimap 打得開、關得掉
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
   [heroine_02] 到達「林芷若 旁邊」附近（0.84 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
   [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：按「和林芷若說話」（連按兩次，間隔約 200 ms）
-PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8807/src/story3d.js?v=9.10.19:1018:25)"]}
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8805/src/story3d.js?v=9.10.19:1018:25)"]}
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
   [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次 台詞（2 句）：["林芷若｜字幕翻譯的作業。……要看的話坐旁邊那格，耳機去服務台借。", "林芷若｜祐廷！哈囉。"]
@@ -112,9 +112,9 @@ PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：15 秒內回�
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：沒有新的 JS 例外
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：搖桿推得動（≥0.3 m）  1.53 m
-PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：點地走得動（≥0.3 m）  點 [-3.86, 0.77]，走了 0.93 m
-PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：遊戲時間有在走  14.4212→14.4413
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：搖桿推得動（≥0.3 m）  1.51 m
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：點地走得動（≥0.3 m）  點 [-3.86, 0.79]，走了 0.93 m
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：遊戲時間有在走  14.4211→14.4413
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -127,16 +127,16 @@ PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：按了以後�
   [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"] → 選「念書…」
   [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去… 選單 ["去 2:30 AM 念書", "去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "去 afar café 念書", "返回"] → 選「去 2:30 AM 念書」
   [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去… 選單 ["現在一起過去", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
-  [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去… 台詞（6 句）：["林芷若｜字幕翻譯的作業", "林芷若｜字幕翻譯的作業。……要看的話坐旁邊那格，耳機去服務台借。", "林芷若｜祐廷！哈囉。", "祐廷｜你等一下有空嗎？", "｜林芷若", "｜林芷若答應了。你們一起去 2:30 AM 坐坐。"]
+  [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去… 台詞（6 句）：["林芷若｜字幕翻譯的作業。", "林芷若｜字幕翻譯的作業。……要看的話坐旁邊那格，耳機去服務台借。", "林芷若｜祐廷！哈囉。", "祐廷｜你等一下有空嗎？", "｜林芷若", "｜林芷若答應了。你們一起去 2:30 AM 坐坐。"]
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：對話一路點得完  4 個選單
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：15 秒內回到可以自由移動
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：沒有新的 JS 例外
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：搖桿推得動（≥0.3 m）  1.50 m
-PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：點地走得動（≥0.3 m）  點 [-3.86, 0.8]，走了 0.93 m
-PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：遊戲時間有在走  14.4657→14.4858
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：搖桿推得動（≥0.3 m）  1.51 m
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：點地走得動（≥0.3 m）  點 [-3.86, 0.79]，走了 0.93 m
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：遊戲時間有在走  14.4658→14.4859
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -150,15 +150,11 @@ SKIP [heroine_02] first：五位女主角的第一次見面是專屬事件（不
   [前置／捷徑] [heroine_02] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "林芷若", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_02] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_02] 到達「林芷若 旁邊」附近（1.02 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，35 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.18 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，30 秒
   [heroine_02] greet：互動鍵是「」，往他再走近
-  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.24 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，9 秒
-  [heroine_02] 到達「林芷若 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
-  [heroine_02] greet：互動鍵是「聽一句」，往他再走近
-  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
-  [heroine_02] 到達「林芷若 旁邊」附近（0.25 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
   [heroine_02] greet 連按兩次：按「和林芷若說話」（連按兩次，間隔約 200 ms）
-PASS [heroine_02] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["X.run (http://127.0.0.1:8807/src/events3d.js?v=9.10.19:107:96)"]}
+PASS [heroine_02] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["X.run (http://127.0.0.1:8805/src/events3d.js?v=9.10.19:107:96)"]}
 PASS [heroine_02] greet 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [heroine_02] greet 連按兩次 選單 ["「妳上完課都在這裡發呆？」"] → 選「「妳上完課都在這裡發呆？」」
   [heroine_02] greet 連按兩次 台詞（2 句）：["林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
@@ -168,9 +164,9 @@ PASS [heroine_02] greet 連按兩次：15 秒內回到可以自由移動
 PASS [heroine_02] greet 連按兩次：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] greet 連按兩次：沒有新的 JS 例外
 PASS [heroine_02] greet 連按兩次：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] greet 連按兩次：搖桿推得動（≥0.3 m）  3.18 m
-PASS [heroine_02] greet 連按兩次：點地走得動（≥0.3 m）  點 [-39.17, 23.48]，走了 1.05 m
-PASS [heroine_02] greet 連按兩次：遊戲時間有在走  11.0521→11.0722
+PASS [heroine_02] greet 連按兩次：搖桿推得動（≥0.3 m）  3.25 m
+PASS [heroine_02] greet 連按兩次：點地走得動（≥0.3 m）  點 [-34.56, 22.95]，走了 1.05 m
+PASS [heroine_02] greet 連按兩次：遊戲時間有在走  10.8707→10.8910
 PASS [heroine_02] greet 連按兩次：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] greet 連按兩次：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] greet 連按兩次：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -180,9 +176,15 @@ PASS [heroine_02] greet 連按兩次：按 #minimap 打得開、關得掉  {"ope
   [前置／捷徑] [heroine_02] 前置：朋友（FRIEND）、門檻台詞還沒說（relUp＝0）：{"stage": "FRIEND", "name": "林芷若", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_02] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_02] 到達「林芷若 旁邊」附近（0.17 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，31 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.83 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，35 秒
   [heroine_02] up：互動鍵是「」，往他再走近
-  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+  [heroine_02] up：互動鍵是「」，往他再走近
+  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [heroine_02] up：互動鍵是「」，往他再走近
+  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.22 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，8 秒
   [heroine_02] up：按「和林芷若說話」
 PASS [heroine_02] up：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "晨思鐘旁邊"}
   [heroine_02] up 選單 ["「妳上完課都在這裡發呆？」"] → 選「「妳上完課都在這裡發呆？」」
@@ -193,9 +195,9 @@ PASS [heroine_02] up：15 秒內回到可以自由移動
 PASS [heroine_02] up：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] up：沒有新的 JS 例外
 PASS [heroine_02] up：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] up：搖桿推得動（≥0.3 m）  3.26 m
-PASS [heroine_02] up：點地走得動（≥0.3 m）  點 [-44.82, 20.79]，走了 1.05 m
-PASS [heroine_02] up：遊戲時間有在走  10.8501→10.8705
+PASS [heroine_02] up：搖桿推得動（≥0.3 m）  3.21 m
+PASS [heroine_02] up：點地走得動（≥0.3 m）  點 [-31.28, 22.59]，走了 1.05 m
+PASS [heroine_02] up：遊戲時間有在走  11.1493→11.1694
 PASS [heroine_02] up：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] up：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] up：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -207,29 +209,36 @@ INFO [heroine_02] up：門檻台詞 relUp 0→0
   [前置／捷徑] [heroine_02] 前置：ACQUAINTANCE、階梯進度設到第 1 層（Z-L1「你是經原同組那個法律系的吧？」）：{"stage": "ACQUAINTANCE", "name": "林芷若", "fm": true, "lad": 0, "contact": false}
   [前置／捷徑] [heroine_02] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_02] 到達「林芷若 旁邊」附近（0.19 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，26 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.59 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，30 秒
   [heroine_02] ladder Y1S1 Z-L1：互動鍵是「」，往他再走近
-  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.24 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，16 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
   [heroine_02] ladder Y1S1 Z-L1 選項1：按「和林芷若說話」
 PASS [heroine_02] ladder Y1S1 Z-L1 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "晨思鐘旁邊"}
   [heroine_02] ladder Y1S1 Z-L1 選項1 選單 ["「妳上完課都在這裡發呆？」"] → 選「「妳上完課都在這裡發呆？」」
-  [heroine_02] ladder Y1S1 Z-L1 選項1 台詞（3 句）：["林芷若｜剛下外文系的課", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+  [heroine_02] ladder Y1S1 Z-L1 選項1 台詞（3 句）：["林芷若｜剛下外文", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
 PASS [heroine_02] ladder Y1S1 Z-L1 選項1：對話一路點得完  1 個選單
 PASS [heroine_02] ladder Y1S1 Z-L1 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [heroine_02] ladder Y1S1 Z-L1 選項1：15 秒內回到可以自由移動
 PASS [heroine_02] ladder Y1S1 Z-L1 選項1：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] ladder Y1S1 Z-L1 選項1：沒有新的 JS 例外
 PASS [heroine_02] ladder Y1S1 Z-L1 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] ladder Y1S1 Z-L1 選項1：搖桿推得動（≥0.3 m）  3.11 m
-PASS [heroine_02] ladder Y1S1 Z-L1 選項1：點地走得動（≥0.3 m）  點 [-34.65, 12.31]，走了 1.08 m
-PASS [heroine_02] ladder Y1S1 Z-L1 選項1：遊戲時間有在走  10.8345→10.8545
+PASS [heroine_02] ladder Y1S1 Z-L1 選項1：搖桿推得動（≥0.3 m）  3.24 m
+PASS [heroine_02] ladder Y1S1 Z-L1 選項1：點地走得動（≥0.3 m）  點 [-28.99, 20.52]，走了 1.02 m
+PASS [heroine_02] ladder Y1S1 Z-L1 選項1：遊戲時間有在走  10.9551→10.9758
 PASS [heroine_02] ladder Y1S1 Z-L1 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] ladder Y1S1 Z-L1 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] ladder Y1S1 Z-L1 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-INFO [heroine_02] ladder Y1S1 Z-L1 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文系的課", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+INFO [heroine_02] ladder Y1S1 Z-L1 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
   [前置／捷徑] [heroine_02] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 Z-L1 換選項））
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_02] 到達「林芷若 旁邊」附近（0.19 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [heroine_02] ladder Y1S1 Z-L1 換選項：互動鍵是「」，往他再走近
+  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.17 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，6 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.96 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_02] ladder Y1S1 Z-L1 換選項：互動鍵是「」，往他再走近
+  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.18 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
   [heroine_02] ladder Y1S1 Z-L1 選項2：按「和林芷若說話」
 PASS [heroine_02] ladder Y1S1 Z-L1 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "晨思鐘旁邊"}
   [heroine_02] ladder Y1S1 Z-L1 選項2 選單 ["「妳上完課都在這裡發呆？」"] → 選「「妳上完課都在這裡發呆？」」
@@ -240,9 +249,9 @@ PASS [heroine_02] ladder Y1S1 Z-L1 選項2：15 秒內回到可以自由移動
 PASS [heroine_02] ladder Y1S1 Z-L1 選項2：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] ladder Y1S1 Z-L1 選項2：沒有新的 JS 例外
 PASS [heroine_02] ladder Y1S1 Z-L1 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] ladder Y1S1 Z-L1 選項2：搖桿推得動（≥0.3 m）  3.30 m
-PASS [heroine_02] ladder Y1S1 Z-L1 選項2：點地走得動（≥0.3 m）  點 [-38.5, 12.45]，走了 1.08 m
-PASS [heroine_02] ladder Y1S1 Z-L1 選項2：遊戲時間有在走  10.9179→10.9375
+PASS [heroine_02] ladder Y1S1 Z-L1 選項2：搖桿推得動（≥0.3 m）  3.24 m
+PASS [heroine_02] ladder Y1S1 Z-L1 選項2：點地走得動（≥0.3 m）  點 [-40.69, 11.27]，走了 1.14 m
+PASS [heroine_02] ladder Y1S1 Z-L1 選項2：遊戲時間有在走  11.2192→11.2395
 PASS [heroine_02] ladder Y1S1 Z-L1 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] ladder Y1S1 Z-L1 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] ladder Y1S1 Z-L1 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -253,49 +262,46 @@ INFO [heroine_02] ladder Y1S1 Z-L1 選項2：階梯沒有推進（這一次被�
   [前置／捷徑] [heroine_02] 前置：ACQUAINTANCE、階梯進度設到第 2 層（Z-L2「你們法律系是不是每天都在背東西？」）：{"stage": "ACQUAINTANCE", "name": "林芷若", "fm": true, "lad": 1, "contact": false}
   [前置／捷徑] [heroine_02] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_02] 到達「林芷若 旁邊」附近（0.21 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，33 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.81 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，36 秒
   [heroine_02] ladder Y1S1 Z-L2：互動鍵是「」，往他再走近
-  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
-  [heroine_02] 到達「林芷若 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.16 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
   [heroine_02] ladder Y1S1 Z-L2 選項1：按「和林芷若說話」
 PASS [heroine_02] ladder Y1S1 Z-L2 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "晨思鐘旁邊"}
   [heroine_02] ladder Y1S1 Z-L2 選項1 選單 ["「妳上完課都在這裡發呆？」"] → 選「「妳上完課都在這裡發呆？」」
-  [heroine_02] ladder Y1S1 Z-L2 選項1 台詞（3 句）：["林芷若｜剛下外文系", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+  [heroine_02] ladder Y1S1 Z-L2 選項1 台詞（3 句）：["林芷若｜剛下外文", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
 PASS [heroine_02] ladder Y1S1 Z-L2 選項1：對話一路點得完  1 個選單
 PASS [heroine_02] ladder Y1S1 Z-L2 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [heroine_02] ladder Y1S1 Z-L2 選項1：15 秒內回到可以自由移動
 PASS [heroine_02] ladder Y1S1 Z-L2 選項1：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] ladder Y1S1 Z-L2 選項1：沒有新的 JS 例外
 PASS [heroine_02] ladder Y1S1 Z-L2 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] ladder Y1S1 Z-L2 選項1：搖桿推得動（≥0.3 m）  2.77 m
-PASS [heroine_02] ladder Y1S1 Z-L2 選項1：點地走得動（≥0.3 m）  點 [-41.85, 23.24]，走了 0.73 m
-PASS [heroine_02] ladder Y1S1 Z-L2 選項1：遊戲時間有在走  10.8934→10.9135
+PASS [heroine_02] ladder Y1S1 Z-L2 選項1：搖桿推得動（≥0.3 m）  3.24 m
+PASS [heroine_02] ladder Y1S1 Z-L2 選項1：點地走得動（≥0.3 m）  點 [-41.01, 24.89]，走了 1.05 m
+PASS [heroine_02] ladder Y1S1 Z-L2 選項1：遊戲時間有在走  10.9012→10.9214
 PASS [heroine_02] ladder Y1S1 Z-L2 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] ladder Y1S1 Z-L2 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] ladder Y1S1 Z-L2 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-INFO [heroine_02] ladder Y1S1 Z-L2 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文系", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+INFO [heroine_02] ladder Y1S1 Z-L2 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
   [前置／捷徑] [heroine_02] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 Z-L2 換選項））
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_02] 到達「林芷若 旁邊」附近（0.22 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，15 秒
-  [heroine_02] ladder Y1S1 Z-L2 換選項：互動鍵是「」，往他再走近
-  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.20 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
   [heroine_02] ladder Y1S1 Z-L2 選項2：按「和林芷若說話」
 PASS [heroine_02] ladder Y1S1 Z-L2 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "晨思鐘旁邊"}
   [heroine_02] ladder Y1S1 Z-L2 選項2 選單 ["「妳上完課都在這裡發呆？」"] → 選「「妳上完課都在這裡發呆？」」
-  [heroine_02] ladder Y1S1 Z-L2 選項2 台詞（3 句）：["林芷若｜剛下外文系的課", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+  [heroine_02] ladder Y1S1 Z-L2 選項2 台詞（3 句）：["林芷若｜剛下外文系的課。今", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
 PASS [heroine_02] ladder Y1S1 Z-L2 選項2：對話一路點得完  1 個選單
 PASS [heroine_02] ladder Y1S1 Z-L2 選項2：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [heroine_02] ladder Y1S1 Z-L2 選項2：15 秒內回到可以自由移動
 PASS [heroine_02] ladder Y1S1 Z-L2 選項2：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] ladder Y1S1 Z-L2 選項2：沒有新的 JS 例外
 PASS [heroine_02] ladder Y1S1 Z-L2 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] ladder Y1S1 Z-L2 選項2：搖桿推得動（≥0.3 m）  3.30 m
-PASS [heroine_02] ladder Y1S1 Z-L2 選項2：點地走得動（≥0.3 m）  點 [-23.68, 17.65]，走了 1.05 m
-PASS [heroine_02] ladder Y1S1 Z-L2 選項2：遊戲時間有在走  11.0684→11.0888
+PASS [heroine_02] ladder Y1S1 Z-L2 選項2：搖桿推得動（≥0.3 m）  3.20 m
+PASS [heroine_02] ladder Y1S1 Z-L2 選項2：點地走得動（≥0.3 m）  點 [-44.58, 19.52]，走了 1.03 m
+PASS [heroine_02] ladder Y1S1 Z-L2 選項2：遊戲時間有在走  11.0111→11.0288
 PASS [heroine_02] ladder Y1S1 Z-L2 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] ladder Y1S1 Z-L2 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] ladder Y1S1 Z-L2 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-INFO [heroine_02] ladder Y1S1 Z-L2 選項2：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文系的課", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+INFO [heroine_02] ladder Y1S1 Z-L2 選項2：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文系的課。今", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
   [前置／捷徑] [heroine_02] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
 SKIP [heroine_02] ladder Y1S1 Z-L3：掃不到她在、這一層播得出來的時段（要 ACQUAINTANCE；{"dateOnly": null, "context": null, "line": "週五經原你是不是坐前面？我坐你後面兩排。"}）
   [前置／捷徑] [heroine_02] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
@@ -304,108 +310,177 @@ SKIP [heroine_02] ladder Y1S1 Z-L3：掃不到她在、這一層播得出來的�
   [前置／捷徑] [heroine_02] 前置：FAMILIAR、階梯進度設到第 4 層（Z-L4「店裡很多熟客一進來就說「跟上次一樣」。」）：{"stage": "FAMILIAR", "name": "林芷若", "fm": true, "lad": 3, "contact": false}
   [前置／捷徑] [heroine_02] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_02] 到達「林芷若 旁邊」附近（0.19 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，29 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
   [heroine_02] ladder Y1S1 Z-L4：互動鍵是「」，往他再走近
-  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.23 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.83 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
   [heroine_02] ladder Y1S1 Z-L4 選項1：按「和林芷若說話」
 PASS [heroine_02] ladder Y1S1 Z-L4 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "晨思鐘旁邊"}
   [heroine_02] ladder Y1S1 Z-L4 選項1 選單 ["「妳上完課都在這裡發呆？」"] → 選「「妳上完課都在這裡發呆？」」
-  [heroine_02] ladder Y1S1 Z-L4 選項1 台詞（3 句）：["林芷若｜剛下外文", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+  [heroine_02] ladder Y1S1 Z-L4 選項1 台詞（3 句）：["林芷若｜剛下外文系", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
 PASS [heroine_02] ladder Y1S1 Z-L4 選項1：對話一路點得完  1 個選單
 PASS [heroine_02] ladder Y1S1 Z-L4 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [heroine_02] ladder Y1S1 Z-L4 選項1：15 秒內回到可以自由移動
 PASS [heroine_02] ladder Y1S1 Z-L4 選項1：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] ladder Y1S1 Z-L4 選項1：沒有新的 JS 例外
 PASS [heroine_02] ladder Y1S1 Z-L4 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] ladder Y1S1 Z-L4 選項1：搖桿推得動（≥0.3 m）  2.77 m
-PASS [heroine_02] ladder Y1S1 Z-L4 選項1：點地走得動（≥0.3 m）  點 [-30.83, 23.99]，走了 1.05 m
-PASS [heroine_02] ladder Y1S1 Z-L4 選項1：遊戲時間有在走  10.8685→10.8887
+PASS [heroine_02] ladder Y1S1 Z-L4 選項1：搖桿推得動（≥0.3 m）  3.31 m
+PASS [heroine_02] ladder Y1S1 Z-L4 選項1：點地走得動（≥0.3 m）  點 [-45.31, 14.5]，走了 1.05 m
+PASS [heroine_02] ladder Y1S1 Z-L4 選項1：遊戲時間有在走  10.8968→10.9172
 PASS [heroine_02] ladder Y1S1 Z-L4 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] ladder Y1S1 Z-L4 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] ladder Y1S1 Z-L4 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-INFO [heroine_02] ladder Y1S1 Z-L4 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+INFO [heroine_02] ladder Y1S1 Z-L4 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文系", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
   [前置／捷徑] [heroine_02] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 Z-L4 換選項））
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_02] 到達「林芷若 旁邊」附近（0.16 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，13 秒
-  [heroine_02] ladder Y1S1 Z-L4 換選項：互動鍵是「」，往他再走近
-  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
-  [heroine_02] 到達「林芷若 旁邊」附近（0.17 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，10 秒
-  [heroine_02] ladder Y1S1 Z-L4 換選項：互動鍵是「」，往他再走近
-  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
-  [heroine_02] 到達「林芷若 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
-  [heroine_02] ladder Y1S1 Z-L4 換選項：互動鍵是「聽一句」，往他再走近
-  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.18 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
-  [heroine_02] 到達「林芷若 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
-  [heroine_02] ladder Y1S1 Z-L4 換選項：互動鍵是「」，往他再走近
-  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
-INFO [heroine_02] ladder Y1S1 Z-L4：回到旁邊以後找不到她  
+  [heroine_02] 到達「林芷若 旁邊」附近（0.16 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_02] ladder Y1S1 Z-L4 選項2：按「和林芷若說話」
+PASS [heroine_02] ladder Y1S1 Z-L4 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "晨思鐘旁邊"}
+  [heroine_02] ladder Y1S1 Z-L4 選項2 選單 ["「妳上完課都在這裡發呆？」"] → 選「「妳上完課都在這裡發呆？」」
+  [heroine_02] ladder Y1S1 Z-L4 選項2 台詞（3 句）：["林芷若｜剛下外文系", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+PASS [heroine_02] ladder Y1S1 Z-L4 選項2：對話一路點得完  1 個選單
+PASS [heroine_02] ladder Y1S1 Z-L4 選項2：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_02] ladder Y1S1 Z-L4 選項2：15 秒內回到可以自由移動
+PASS [heroine_02] ladder Y1S1 Z-L4 選項2：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_02] ladder Y1S1 Z-L4 選項2：沒有新的 JS 例外
+PASS [heroine_02] ladder Y1S1 Z-L4 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_02] ladder Y1S1 Z-L4 選項2：搖桿推得動（≥0.3 m）  1.34 m
+PASS [heroine_02] ladder Y1S1 Z-L4 選項2：點地走得動（≥0.3 m）  點 [-45.97, 14.16]，走了 1.02 m
+PASS [heroine_02] ladder Y1S1 Z-L4 選項2：遊戲時間有在走  10.9566→10.9768
+PASS [heroine_02] ladder Y1S1 Z-L4 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] ladder Y1S1 Z-L4 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] ladder Y1S1 Z-L4 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [heroine_02] ladder Y1S1 Z-L4 選項2：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文系", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
   [前置／捷徑] [heroine_02] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
   [前置／捷徑] [heroine_02] 讀檔：ladder Y1S1 Z-L5：2025-09-02 10.5 campus（走走）（campus -14 10.50）
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
   [前置／捷徑] [heroine_02] 前置：FAMILIAR、階梯進度設到第 5 層（Z-L5「我們上課的教室，窗戶看出去就是椰影大道。」）：{"stage": "FAMILIAR", "name": "林芷若", "fm": true, "lad": 4, "contact": false}
   [前置／捷徑] [heroine_02] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_02] 到達「林芷若 旁邊」附近（0.07 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，27 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.09 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，28 秒
   [heroine_02] ladder Y1S1 Z-L5：互動鍵是「」，往他再走近
-  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
-  [heroine_02] 到達「林芷若 旁邊」附近（0.85 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.16 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，17 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
   [heroine_02] ladder Y1S1 Z-L5 選項1：按「和林芷若說話」
 PASS [heroine_02] ladder Y1S1 Z-L5 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "晨思鐘旁邊"}
   [heroine_02] ladder Y1S1 Z-L5 選項1 選單 ["「妳上完課都在這裡發呆？」"] → 選「「妳上完課都在這裡發呆？」」
-  [heroine_02] ladder Y1S1 Z-L5 選項1 台詞（3 句）：["林芷若｜剛下外文系", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+  [heroine_02] ladder Y1S1 Z-L5 選項1 台詞（3 句）：["林芷若｜剛下外文系的", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
 PASS [heroine_02] ladder Y1S1 Z-L5 選項1：對話一路點得完  1 個選單
 PASS [heroine_02] ladder Y1S1 Z-L5 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [heroine_02] ladder Y1S1 Z-L5 選項1：15 秒內回到可以自由移動
 PASS [heroine_02] ladder Y1S1 Z-L5 選項1：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] ladder Y1S1 Z-L5 選項1：沒有新的 JS 例外
 PASS [heroine_02] ladder Y1S1 Z-L5 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] ladder Y1S1 Z-L5 選項1：搖桿推得動（≥0.3 m）  3.33 m
-PASS [heroine_02] ladder Y1S1 Z-L5 選項1：點地走得動（≥0.3 m）  點 [-44.52, 13.57]，走了 1.05 m
-PASS [heroine_02] ladder Y1S1 Z-L5 選項1：遊戲時間有在走  10.8869→10.9070
+PASS [heroine_02] ladder Y1S1 Z-L5 選項1：搖桿推得動（≥0.3 m）  3.26 m
+PASS [heroine_02] ladder Y1S1 Z-L5 選項1：點地走得動（≥0.3 m）  點 [-34.88, 19.3]，走了 1.02 m
+PASS [heroine_02] ladder Y1S1 Z-L5 選項1：遊戲時間有在走  10.9629→10.9831
 PASS [heroine_02] ladder Y1S1 Z-L5 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] ladder Y1S1 Z-L5 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] ladder Y1S1 Z-L5 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-INFO [heroine_02] ladder Y1S1 Z-L5 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文系", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+INFO [heroine_02] ladder Y1S1 Z-L5 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文系的", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
   [前置／捷徑] [heroine_02] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 Z-L5 換選項））
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_02] 到達「林芷若 旁邊」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
-  [heroine_02] ladder Y1S1 Z-L5 換選項：互動鍵是「」，往他再走近
-  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.78 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
   [heroine_02] ladder Y1S1 Z-L5 選項2：按「和林芷若說話」
 PASS [heroine_02] ladder Y1S1 Z-L5 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "晨思鐘旁邊"}
   [heroine_02] ladder Y1S1 Z-L5 選項2 選單 ["「妳上完課都在這裡發呆？」"] → 選「「妳上完課都在這裡發呆？」」
-  [heroine_02] ladder Y1S1 Z-L5 選項2 台詞（3 句）：["林芷若｜剛下外文系的課。", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+  [heroine_02] ladder Y1S1 Z-L5 選項2 台詞（3 句）：["林芷若｜剛下外文系的課", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
 PASS [heroine_02] ladder Y1S1 Z-L5 選項2：對話一路點得完  1 個選單
 PASS [heroine_02] ladder Y1S1 Z-L5 選項2：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [heroine_02] ladder Y1S1 Z-L5 選項2：15 秒內回到可以自由移動
 PASS [heroine_02] ladder Y1S1 Z-L5 選項2：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] ladder Y1S1 Z-L5 選項2：沒有新的 JS 例外
 PASS [heroine_02] ladder Y1S1 Z-L5 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] ladder Y1S1 Z-L5 選項2：搖桿推得動（≥0.3 m）  3.23 m
-PASS [heroine_02] ladder Y1S1 Z-L5 選項2：點地走得動（≥0.3 m）  點 [-45.28, 22.52]，走了 1.06 m
-PASS [heroine_02] ladder Y1S1 Z-L5 選項2：遊戲時間有在走  10.9900→11.0103
+PASS [heroine_02] ladder Y1S1 Z-L5 選項2：搖桿推得動（≥0.3 m）  3.21 m
+PASS [heroine_02] ladder Y1S1 Z-L5 選項2：點地走得動（≥0.3 m）  點 [-33.82, 21.37]，走了 1.05 m
+PASS [heroine_02] ladder Y1S1 Z-L5 選項2：遊戲時間有在走  11.0284→11.0482
 PASS [heroine_02] ladder Y1S1 Z-L5 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] ladder Y1S1 Z-L5 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] ladder Y1S1 Z-L5 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
-INFO [heroine_02] ladder Y1S1 Z-L5 選項2：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文系的課。", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+INFO [heroine_02] ladder Y1S1 Z-L5 選項2：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文系的課", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
   [前置／捷徑] [heroine_02] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
   [前置／捷徑] [heroine_02] 讀檔：ladder Y1S1 Z-L6：2025-09-02 10.5 campus（走走）（campus -14 10.50）
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
   [前置／捷徑] [heroine_02] 前置：FAMILIAR、階梯進度設到第 6 層（Z-L6「我家在台中開影印店，學校旁邊那種。」）：{"stage": "FAMILIAR", "name": "林芷若", "fm": true, "lad": 5, "contact": false}
   [前置／捷徑] [heroine_02] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_02] 到達「林芷若 旁邊」附近（0.24 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，31 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.20 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，31 秒
   [heroine_02] ladder Y1S1 Z-L6：互動鍵是「」，往他再走近
-  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.25 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.23 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，16 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
   [heroine_02] ladder Y1S1 Z-L6 選項1：按「和林芷若說話」
 PASS [heroine_02] ladder Y1S1 Z-L6 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "晨思鐘旁邊"}
   [heroine_02] ladder Y1S1 Z-L6 選項1 選單 ["「妳上完課都在這裡發呆？」"] → 選「「妳上完課都在這裡發呆？」」
-  [heroine_02] ladder Y1S1 Z-L6 選項1 台詞（3 句）：["林芷若｜剛下外文系的課", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+  [heroine_02] ladder Y1S1 Z-L6 選項1 台詞（3 句）：["林芷若｜剛下外文", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
 PASS [heroine_02] ladder Y1S1 Z-L6 選項1：對話一路點得完  1 個選單
 PASS [heroine_02] ladder Y1S1 Z-L6 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [heroine_02] ladder Y1S1 Z-L6 選項1：15 秒內回到可以自由移動
 PASS [heroine_02] ladder Y1S1 Z-L6 選項1：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] ladder Y1S1 Z-L6 選項1：沒有新的 JS 例外
 PASS [heroine_02] ladder Y1S1 Z-L6 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] ladder Y1S1 Z-L6 選項1：搖桿推得動（≥0.3 m）  3.24 m
-PASS [heroine_02] ladder Y1S1 Z-L6 選項1：點地走得動（≥0.3 m）  點 [-46.5, 20.03]，走了 0.99 m
+PASS [heroine_02] ladder Y1S1 Z-L6 選項1：搖桿推得動（≥0.3 m）  3.21 m
+PASS [heroine_02] ladder Y1S1 Z-L6 選項1：點地走得動（≥0.3 m）  點 [-32.2, 15.95]，走了 0.99 m
+PASS [heroine_02] ladder Y1S1 Z-L6 選項1：遊戲時間有在走  10.9635→10.9839
+PASS [heroine_02] ladder Y1S1 Z-L6 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] ladder Y1S1 Z-L6 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] ladder Y1S1 Z-L6 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [heroine_02] ladder Y1S1 Z-L6 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+  [前置／捷徑] [heroine_02] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 Z-L6 換選項））
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_02] 到達「林芷若 旁邊」附近（0.16 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_02] ladder Y1S1 Z-L6 選項2：按「和林芷若說話」
+PASS [heroine_02] ladder Y1S1 Z-L6 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "晨思鐘旁邊"}
+  [heroine_02] ladder Y1S1 Z-L6 選項2 選單 ["「妳上完課都在這裡發呆？」"] → 選「「妳上完課都在這裡發呆？」」
+  [heroine_02] ladder Y1S1 Z-L6 選項2 台詞（3 句）：["林芷若｜剛下外文", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+PASS [heroine_02] ladder Y1S1 Z-L6 選項2：對話一路點得完  1 個選單
+PASS [heroine_02] ladder Y1S1 Z-L6 選項2：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_02] ladder Y1S1 Z-L6 選項2：15 秒內回到可以自由移動
+PASS [heroine_02] ladder Y1S1 Z-L6 選項2：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_02] ladder Y1S1 Z-L6 選項2：沒有新的 JS 例外
+PASS [heroine_02] ladder Y1S1 Z-L6 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_02] ladder Y1S1 Z-L6 選項2：搖桿推得動（≥0.3 m）  3.15 m
+PASS [heroine_02] ladder Y1S1 Z-L6 選項2：點地走得動（≥0.3 m）  點 [-34.69, 13.65]，走了 0.96 m
+PASS [heroine_02] ladder Y1S1 Z-L6 選項2：遊戲時間有在走  11.0453→11.0653
+PASS [heroine_02] ladder Y1S1 Z-L6 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] ladder Y1S1 Z-L6 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] ladder Y1S1 Z-L6 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [heroine_02] ladder Y1S1 Z-L6 選項2：階梯沒有推進（這一次被別的對話先用掉？）  ["林芷若｜剛下外文", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+  [前置／捷徑] [heroine_02] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+SKIP [heroine_02] ladder Y1S1 Z-L7：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": null, "context": null, "line": "你有沒有那種電影，看完不太想跟別人講的？"}）
+  [前置／捷徑] [heroine_02] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+SKIP [heroine_02] ladder Y1S1 Z-L8：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": null, "context": null, "line": "我發現你點東西都會先看我一眼，才看菜單。"}）
+  [前置／捷徑] [heroine_02] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+-- [heroine_02] menu
+  [前置／捷徑] [heroine_02] 讀檔：menu：2025-09-16 10.5 campus（走走）（campus 0 10.50）
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_02] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "林芷若", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_02] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_02] 到達「林芷若 旁邊」附近（1.08 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，35 秒
+  [heroine_02] menu：互動鍵是「」，往他再走近
+  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.19 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_02] menu：互動鍵是「」，往他再走近
+  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.20 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.22 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_02] menu 基本：按「和林芷若說話」
+PASS [heroine_02] menu 基本：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "晨思鐘旁邊"}
+  [heroine_02] menu 基本 選單 ["「妳上完課都在這裡發呆？」"] → 選「「妳上完課都在這裡發呆？」」
+  [heroine_02] menu 基本 台詞（3 句）：["林芷若｜剛下", "林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+PASS [heroine_02] menu 基本：對話一路點得完  1 個選單
+PASS [heroine_02] menu 基本：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_02] menu 基本：15 秒內回到可以自由移動
+PASS [heroine_02] menu 基本：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_02] menu 基本：沒有新的 JS 例外
+PASS [heroine_02] menu 基本：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_02] menu 基本：搖桿推得動（≥0.3 m）  3.18 m
+PASS [heroine_02] menu 基本：點地走得動（≥0.3 m）  點 [-31.07, 20.54]，走了 1.02 m
+PASS [heroine_02] menu 基本：遊戲時間有在走  11.0655→11.0859
+PASS [heroine_02] menu 基本：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] menu 基本：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] menu 基本：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [heroine_02] menu：說話以後沒有選單（只有閒聊）  [["「妳上完課都在這裡發呆？」"]]
+== 人物 heroine_02 結果 PASS（252 項；SKIP 4：first、ladder Y1S1 Z-L3、ladder Y1S1 Z-L7、ladder Y1S1 Z-L8）
+   用了 23.8 分鐘
+==== 總結：1 人，FAIL 0 人：[]
+ALL PASS
