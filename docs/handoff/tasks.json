@@ -45004,7 +45004,7 @@
    "id": "ADE-SEATS-NAV-1104",
    "title": "阿德影印：四張電腦椅坐不下、後面那張被「印東西」搶、店內點地 222 次到不了、打工三個站位走不到（導航格太窄、走近點被擋）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45016,7 +45016,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 13:1x】不擋 v9.10.20；跑 nav_islands.py、reachability --zones wz_print 看 seatApproach 走近點",
+   "next": "【LAWWW-C 11-05 02:4x】LAWWW2-C b61050c52 接進 bea8fbbed：辦公椅 ap、S.station（阿德影印打工三段站位）；56 支 ALL PASS；CC 瀏覽器（探針三處 LAWWW2 另告 CC）｜【LAWWW-C 11-04 13:1x】不擋 v9.10.20；跑 nav_islands.py、reachability --zones wz_print 看 seatApproach 走近點",
    "source": "BB-C 11-04 13:00（0c2d4997b ADE 判定）",
    "xai": {
     "spec": "BB_255 ADE",
@@ -45024,7 +45024,8 @@
     "acceptance": "四張椅子坐得下、互動點不互搶、站位走得到",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "bea8fbbed"
   },
   {
    "id": "GG-DOOR-CAMS-1104",
