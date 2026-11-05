@@ -1406,3 +1406,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 205.7s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 205.7s] BROWSER DISCONNECTED
 - 2026-11-05T19:25:39  V21R_moveout  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  154s    PASS law_old b 「回臺北的家」有無＝HOME.canGo&&!HOME.at（照程式）  gohome=True 預期=True / PASS 沒有 JS 例外  [] / FAILED 2
       err.log (last 5): [gpu_wrap 120.9s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 120.9s] BROWSER DISCONNECTED
+- 2026-11-05T19:28:19  V21R_v12cb  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  461s    PASS [fgo ② Café 門口] 按下去到了 wenzhou（站得住、沒有被放到目的地）  {"zone": "wenzhou", "x": 51.7, "z": 0, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 19.66} / PASS 沒有 JS 例外  [] / FAILED 1: [afar night] 窗景卡用的是 afar_view_night（commit f65f20f4a）
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 429.1s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 429.1s] BROWSER DISCONNECTED

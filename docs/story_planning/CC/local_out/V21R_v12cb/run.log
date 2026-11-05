@@ -1,0 +1,101 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_v12cb_probe.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_v12cb\out
+CC V12CB（afar 窗景、快速前往兩層、起床站門口、日誌寫約會、大地圖營業時間、直接過去不進吧台）：SHA=83d09d13b0686e51e344b4b771ebb9124d8806a4（worktree 實際 ?）；PARTS=['afar', 'qt', 'wake', 'journal', 'maphours', 'fgo']；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+== afar
+  [前置／捷徑] 讀檔 afar 2025-10-18 14.00（出生點）
+PASS [afar day] 讀到 afar  {"zone": "afar", "x": 2.575, "z": 2, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [  35.6s] [afar day] 窗景卡：{"name": "WALL_front_VIEW_afr_window_view", "c": [0, 2.25, 6.5], "size": [16, 6.5, 0], "spawn": [2.575, 2], "url": "assets/models/env/second_ai/aa_support/afar_view_day.webp", "color": 1}
+PASS [afar day] 窗景卡用的是 afar_view_day（commit f65f20f4a）  "assets/models/env/second_ai/aa_support/afar_view_day.webp"
+PASS [黑畫面] afar_view_day 不是黑畫面（平均亮度 103.4、變化 55.4）  [103.4, 55.4]
+  [  37.6s] [截圖] afar_view_day：鏡頭 {"eye": [0, 1.55, -0.5], "look": [0, 1.6, 6.5], "lens": 24, "vfov": 45.75}、亮度 [103.4, 55.4]
+PASS [黑畫面] afar_view_seat_day 不是黑畫面（平均亮度 125.1、變化 52.7）  [125.1, 52.7]
+  [  39.5s] [截圖] afar_view_seat_day：鏡頭 {"eye": [2, 1.25, 2.5], "look": [0, 1.5, 6.5], "lens": 28, "vfov": 39.76}、亮度 [125.1, 52.7]
+PASS [黑畫面] afar_view_player_day 不是黑畫面（平均亮度 116、變化 55.3）  [116, 55.3]
+  [  41.4s] [截圖] afar_view_player_day：鏡頭 {"eye": [2.575, 1.6, 2], "look": [0, 1.6, 6.5], "lens": 24, "vfov": 45.75}、亮度 [116, 55.3]
+  [前置／捷徑] 讀檔 afar 2025-10-18 21.00（出生點）
+PASS [afar night] 讀到 afar  {"zone": "afar", "x": 2.575, "z": 2, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.01}
+  [  67.2s] [afar night] 窗景卡：null
+FAIL [afar night] 窗景卡用的是 afar_view_night（commit f65f20f4a）  null
+== qt
+  [前置／捷徑] 讀使用者的存檔 tests/fixtures/user_save_day37_1105.json（改成 campus 37 14.0）
+PASS [qt] 讀使用者的存檔到校園  {"zone": "campus", "x": 34, "z": -98, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.05}
+  [  85.2s] [qt land] 地點頁的地區：[{"id": "campus", "on": true}, {"id": "gongguan", "on": false}, {"id": "wenzhou", "on": false}, {"id": "xinsheng", "on": false}, {"id": "lane118", "on": false}]
+PASS [qt land] 手機「地點」打得開、分地區、一開始只展開一個（所在的地區）  {"areas": 5, "on": ["campus"]}
+PASS [qt land] 有「新生南路」地區  [{"id": "campus", "on": true}, {"id": "gongguan", "on": false}, {"id": "wenzhou", "on": false}, {"id": "xinsheng", "on": false}, {"id": "lane118", "on": false}]
+PASS [qt land] 點「新生南路」：只展開它、看得到七間店（大口、南洋、山嵐、同弦、大步、好拍、運動廣場；店沒去過可以沒有「前往」，只看列出來）  {"miss": [], "rows": ["新生南路 [xinsheng|新生南路]", "大口漢堡 [沒有前往]", "南洋戲院 [沒有前往]", "山嵐書店 [沒有前往]", "同弦樂器 [沒有前往]", "大步球鞋 [沒有前往]", "好拍運動 [沒有前往]", "新生運動廣場 [沒有前往]"]}
+  [  87.4s] [qt land] 地點地圖（data-pmapsvg="lane118,linze,wancai,soclib,boya,avenue,gate,library,gongtong,gdorm,dorm,gongguan,wenzhou,xinsheng"）新生南路的圖釘：[["xinsheng", "新生南路"]]
+PASS [qt land] 地點地圖上有新生南路的圖釘  [["xinsheng", "新生南路"]]
+  [  92.0s] [qt port] 地點頁的地區：[{"id": "campus", "on": true}, {"id": "gongguan", "on": false}, {"id": "wenzhou", "on": false}, {"id": "xinsheng", "on": false}, {"id": "lane118", "on": false}]
+PASS [qt port] 手機「地點」打得開、分地區、一開始只展開一個（所在的地區）  {"areas": 5, "on": ["campus"]}
+PASS [qt port] 有「新生南路」地區  [{"id": "campus", "on": true}, {"id": "gongguan", "on": false}, {"id": "wenzhou", "on": false}, {"id": "xinsheng", "on": false}, {"id": "lane118", "on": false}]
+PASS [qt port] 點「新生南路」：只展開它、看得到七間店（大口、南洋、山嵐、同弦、大步、好拍、運動廣場；店沒去過可以沒有「前往」，只看列出來）  {"miss": [], "rows": ["新生南路 [xinsheng|新生南路]", "大口漢堡 [沒有前往]", "南洋戲院 [沒有前往]", "山嵐書店 [沒有前往]", "同弦樂器 [沒有前往]", "大步球鞋 [沒有前往]", "好拍運動 [沒有前往]", "新生運動廣場 [沒有前往]"]}
+  [  94.2s] [qt port] 地點地圖（data-pmapsvg="lane118,linze,wancai,soclib,boya,avenue,gate,library,gongtong,gdorm,dorm,gongguan,wenzhou,xinsheng"）新生南路的圖釘：[["xinsheng", "新生南路"]]
+PASS [qt port] 地點地圖上有新生南路的圖釘  [["xinsheng", "新生南路"]]
+== wake
+  [前置／捷徑] 讀檔宿舍 2025-10-18 23:00（出生點）
+PASS [wake] 讀到宿舍  {"zone": "dorm", "x": 0, "z": 2.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "收拾背包回家", "stand": true, "fb": 0, "hour": 23.05}
+PASS [wake] 房間裡有「睡覺」  {"x": -0.55, "z": 1.505, "r": 0.9, "label": "睡覺"}
+  [ 227.9s] 走不到「[wake] 床邊」：最後位置 (-0.36,1.99)，目標 (-0.4,1.76)；點地面 45 次、轉鏡頭 0 次、搖桿 2 次
+  [ 227.9s]   這段時間：畫面 7218 格／121 秒、遊戲時間 23.05→23.85、paused=False、開著的面板 []
+PASS [wake] 走到床邊，互動按鈕是「睡覺」  {"zone": "dorm", "x": -0.357, "z": 1.995, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "睡覺", "stand": true, "fb": 0, "hour": 23.86}
+PASS [wake] 睡到隔天早上（醒來、不忙）  {"dlg": false, "opts": [], "busy": false, "day": 33, "hour": 7.5, "zone": "dorm"}
+  [ 247.6s] [wake] 醒來那一段（秒、pose、忙、_bedBusy、waking、y、對話）：[[0.0, "lie", false, false, false, 1.86, false], [3.8, "lie", false, false, true, 1.86, false], [4.4, "lie", true, true, true, 1.86, false], [6.3, "idle", true, true, true, 0, false], [13.1, "idle", false, false, false, 0, false]]；點掉的對話：["休學到重考的那", "休學到重考的那幾個月，你不是一個人過的。", "早安。今天讀到哪了？", "我們老師今天講的案例，好像", "我們老師今天講的案例，好像跟你們的是同一個。", "兩個老師講的不一樣。……我", "兩個老師講的不一樣。……我好奇你們的怎麼講。", "……不用回答。我只是想知道", "……不用回答。我只是想知道你讀到哪了。", "選項 [\"讀到一半。案例比想像的長。\", \"我們老師講了兩個小時。\", \"讀到一半，在想妳。\"]", "我也是。讀到一半去泡麵，回來就忘了誰告", "去上課吧。下課再跟我說你讀"]
+PASS [wake] 醒來那一段 40 秒內跑完（不是一直躺在床上）  [[4.4, "lie", true, true, true, 1.86, false], [6.3, "idle", true, true, true, 0, false], [13.1, "idle", false, false, false, 0, false]]
+  [ 247.6s] [wake] 醒來：{"x": 0, "z": 2.3, "yaw": 0, "ds": {"x": 0, "z": 2.3, "yaw": 0}, "ex": {"x": 0, "z": 3.3, "label": "走出房間"}, "flag": true, "stand": true, "y": 0}
+PASS [黑畫面] wake_door_1 不是黑畫面（平均亮度 137.1、變化 57.6）  [137.1, 57.6]
+PASS [wake] 醒來直接站在房門口：離「走出房間」1.00 m（≤1.9 m，commit 2dd9d1bd9：往房間裡 1 m）、在地上、站得住  {"x": 0, "z": 2.3, "yaw": 0, "ds": {"x": 0, "z": 2.3, "yaw": 0}, "ex": {"x": 0, "z": 3.3, "label": "走出房間"}, "flag": true, "stand": true, "y": 0}
+PASS [wake] 面向門（差 0° ≤ 30°）  {"x": 0, "z": 2.3, "yaw": 0, "ds": {"x": 0, "z": 2.3, "yaw": 0}, "ex": {"x": 0, "z": 3.3, "label": "走出房間"}, "flag": true, "stand": true, "y": 0}
+  [ 247.8s] [wake] 醒來站的那一點，互動按鈕是「收拾背包回家」（雲端 12cb：0,2.3～0,2.5 是「收拾背包回家」、0,2.6 才是「走出房間」——給 BB 看要不要算）
+PASS [wake] 推得動（搖桿 ≥0.3 m）  5.06
+  [ 297.1s] 到達「[wake] 房門」附近（0.08 m）：點地面 17 次、轉鏡頭 0 次、搖桿 1 次，47 秒
+PASS [wake] 照玩家走到房門，互動按鈕是「走出房間」  {"zone": "dorm", "x": -0.023, "z": 2.776, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "走出房間", "stand": true, "fb": 0, "hour": 7.87}
+PASS [wake] 按下去走出房間（到 dorm_hall、站得住）  {"zone": "dorm_hall", "x": 5.5, "z": 0.4, "y": 3.6, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "207 寢室", "stand": true, "fb": 0, "hour": 7.88}
+== journal
+  [前置／捷徑] 讀使用者的存檔 tests/fixtures/user_save_day37_1105.json（改成 dorm 37 8.232）
+PASS [journal] 讀使用者的存檔（day37 10/23 宿舍）  {"zone": "dorm", "x": -0.55, "z": 1.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "睡覺", "stand": true, "fb": 0, "hour": 8.28}
+PASS [journal] 選單「日誌」打得開
+  [ 322.8s] [journal 2025-10-21] 點了那一格（True）：["18:19 和沈以安約在新體育館羽球場"]
+PASS [journal 10/21] 有「HH:MM 和以安約在新體育館羽球場」  ["18:19 和沈以安約在新體育館羽球場"]
+  [ 323.9s] [journal 2025-10-22] 點了那一格（True）：["13:41 和溫書瑀約在總圖", "16:52 和溫書瑀約在 afar café", "兩點半的店員", "好像認識的人"]
+PASS [journal 10/22] 最上面兩行是和溫書瑀的兩個約（總圖、afar café），照時間排  ["13:41 和溫書瑀約在總圖", "16:52 和溫書瑀約在 afar café", "兩點半的店員", "好像認識的人"]
+== maphours
+  [前置／捷徑] 讀檔 gongguan 2025-10-18 14.00（出生點）
+PASS [maphours gongguan] 從手機打開大地圖  {"zone": "gongguan", "btn": true}
+  [前置／捷徑] 讀檔 wenzhou 2025-10-18 14.00（出生點）
+PASS [maphours wenzhou] 從手機打開大地圖  {"zone": "wenzhou", "btn": true}
+== fgo
+  [前置／捷徑] 讀使用者的存檔 tests/fixtures/user_save_day37_1105.json（改成 wenzhou 37 19.5）
+PASS [fgo ① 溫州街] 讀使用者的存檔到 wenzhou 19:30  {"zone": "wenzhou", "x": 44, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 19.55}
+PASS [fgo ① 溫州街] 這時候芷若在兩點半 Café 上班（STORY.ladWorking）  true
+PASS [fgo ① 溫州街] 手機「朋友」有芷若的「直接過去」  {"ok": true, "btn": true}
+  [ 383.0s] [fgo ① 溫州街] 按下去的時間軸（秒、區域、忙、芷若在不在 GAME.npc、玩家位置）：[[0.0, "wenzhou", false, false, [44, -1]], [1.8, "cafe", false, true, [0, 5]]]
+  [ 388.1s] [fgo ① 溫州街] 直接過去以後：{"me": [-1.97, -3.01], "zr": [-2.5, -5.15], "ex": {"label": "離開咖啡廳", "x": 0, "z": 5.6, "to": "wenzhou"}, "sim": {"ok": true, "to": [6.123233995736766e-17, 5.1]}}；離芷若 2.20 m
+PASS [黑畫面] fgo_wenzhou 不是黑畫面（平均亮度 46.4、變化 33.6）  [46.4, 33.6]
+PASS [fgo ① 溫州街] 到了兩點半 Café、站得住、離芷若 3.6 m 內（commit 5b054e9b7：1.1～3.5 m）  {"st": {"zone": "cafe", "x": -1.974, "z": -3.014, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "到吧檯點餐", "stand": true, "fb": 0, "hour": 19.67}, "d": 2.2}
+PASS [fgo ① 溫州街] 從落點走得到 Café 的出口（E.simWalk）  {"me": [-1.97, -3.01], "zr": [-2.5, -5.15], "ex": {"label": "離開咖啡廳", "x": 0, "z": 5.6, "to": "wenzhou"}, "sim": {"ok": true, "to": [6.123233995736766e-17, 5.1]}}
+PASS [fgo ① 溫州街] 推得動（搖桿 ≥0.3 m；不在吧台裡卡住）  8.06
+PASS [fgo ① 溫州街] 有「離開咖」  [{"label": "離開咖啡廳", "x": 0, "z": 5.6, "r": 1.6, "lv": 0, "to": "wenzhou"}]
+  [ 390.6s] [fgo ① 溫州街] 「離開咖」在 (0, 5.6) 半徑 1.6；走到範圍裡站得住的 {"x": -0.64, "z": 4.96, "d": 1.3399640242955406}
+PASS [fgo ① 溫州街] 「離開咖」範圍裡有站得住的地方  {"label": "離開咖啡廳", "x": 0, "z": 5.6, "r": 1.6, "lv": 0, "to": "wenzhou"}
+  [ 393.3s] 到達「[fgo ① 溫州街] 離開咖」附近（0.16 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [fgo ① 溫州街] 走到那裡，互動按鈕是「離開咖」  {"x": -0.727, "z": 4.828, "lv": 0, "interact": "離開咖啡廳"}
+PASS [fgo ① 溫州街] 按下去到了 wenzhou（站得住、沒有被放到目的地）  {"zone": "wenzhou", "x": 51.7, "z": 0, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 19.73}
+  [前置／捷徑] 讀使用者的存檔 tests/fixtures/user_save_day37_1105.json（改成 cafe 37 19.5）
+PASS [fgo ② Café 門口] 讀使用者的存檔到 cafe 19:30  {"zone": "cafe", "x": 0, "z": 4.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開咖啡廳", "stand": true, "fb": 0, "hour": 19.55}
+PASS [fgo ② Café 門口] 這時候芷若在兩點半 Café 上班（STORY.ladWorking）  true
+PASS [fgo ② Café 門口] 手機「朋友」有芷若的「直接過去」  {"ok": true, "btn": true}
+  [ 414.7s] [fgo ② Café 門口] 按下去的時間軸（秒、區域、忙、芷若在不在 GAME.npc、玩家位置）：[[0.0, "cafe", false, true, [0, 4.6]], [0.5, "cafe", false, true, [-2, -3]]]
+  [ 417.3s] [fgo ② Café 門口] 直接過去以後：{"me": [-1.95, -3.02], "zr": [-2.5, -5.15], "ex": {"label": "離開咖啡廳", "x": 0, "z": 5.6, "to": "wenzhou"}, "sim": {"ok": true, "to": [6.123233995736766e-17, 5.1]}}；離芷若 2.20 m
+PASS [黑畫面] fgo_cafe 不是黑畫面（平均亮度 46、變化 32.9）  [46, 32.9]
+PASS [fgo ② Café 門口] 到了兩點半 Café、站得住、離芷若 3.6 m 內（commit 5b054e9b7：1.1～3.5 m）  {"st": {"zone": "cafe", "x": -1.954, "z": -3.019, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "到吧檯點餐", "stand": true, "fb": 0, "hour": 19.6}, "d": 2.2}
+PASS [fgo ② Café 門口] 從落點走得到 Café 的出口（E.simWalk）  {"me": [-1.95, -3.02], "zr": [-2.5, -5.15], "ex": {"label": "離開咖啡廳", "x": 0, "z": 5.6, "to": "wenzhou"}, "sim": {"ok": true, "to": [6.123233995736766e-17, 5.1]}}
+PASS [fgo ② Café 門口] 推得動（搖桿 ≥0.3 m；不在吧台裡卡住）  8.1
+PASS [fgo ② Café 門口] 有「離開咖」  [{"label": "離開咖啡廳", "x": 0, "z": 5.6, "r": 1.6, "lv": 0, "to": "wenzhou"}]
+  [ 419.6s] [fgo ② Café 門口] 「離開咖」在 (0, 5.6) 半徑 1.6；走到範圍裡站得住的 {"x": -0.64, "z": 4.96, "d": 1.4189221842186426}
+PASS [fgo ② Café 門口] 「離開咖」範圍裡有站得住的地方  {"label": "離開咖啡廳", "x": 0, "z": 5.6, "r": 1.6, "lv": 0, "to": "wenzhou"}
+  [ 422.4s] 到達「[fgo ② Café 門口] 離開咖」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [fgo ② Café 門口] 走到那裡，互動按鈕是「離開咖」  {"x": -0.767, "z": 4.769, "lv": 0, "interact": "離開咖啡廳"}
+PASS [fgo ② Café 門口] 按下去到了 wenzhou（站得住、沒有被放到目的地）  {"zone": "wenzhou", "x": 51.7, "z": 0, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 19.66}
+PASS 沒有 JS 例外  []
+FAILED 1: [afar night] 窗景卡用的是 afar_view_night（commit f65f20f4a）

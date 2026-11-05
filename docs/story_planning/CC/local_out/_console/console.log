@@ -683,3 +683,12 @@
 [19:24:07] ==== START V21R_shops_seats  (probe @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
 [19:24:10] [res] cpu=20% mem=42% (13.3/31.4 GB) chrome_testing=10  START V21R_shops_seats
 [19:25:39] [res] cpu=52% mem=40% (12.6/31.4 GB) chrome_testing=10  END V21R_moveout
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c4e320b26..3b503eef4  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:25:44] ==== END   V21R_moveout  exit=1  154s   ====
+[19:25:47] memory 40% before starting V21R_shops_acts (2 running)
+[19:25:47] ==== START V21R_shops_acts  (probe @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
+[19:25:50] [res] cpu=13% mem=40% (12.8/31.4 GB) chrome_testing=10  START V21R_shops_acts
+[19:27:09] 正在跑：V21R_v12cb（已跑 6 分／上限 40 分）、V21R_shops_seats（已跑 3 分／上限 120 分）、V21R_shops_acts（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:28:19] [res] cpu=25% mem=38% (12.2/31.4 GB) chrome_testing=10  END V21R_v12cb
