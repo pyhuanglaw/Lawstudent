@@ -1394,3 +1394,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 273.9s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 273.9s] BROWSER DISCONNECTED
 - 2026-11-05T19:15:24  V21R_xs_xsports  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  585s    PASS [黑畫面] user_lv1_night 不是黑畫面（平均亮度 96.5、變化 26.4）  [96.5, 26.4] / PASS 沒有 JS 例外  [] / FAILED 2: [樓梯] 二樓 → 一樓（下樓）：走到了、第 0 層、高度 0.08＝0.00（±0.06）、沒有被放到目的地；[互動點] 走到「看看」(-6.2, 3 第 0 層)，按鈕是它
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 540.2s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 540.2s] BROWSER DISCONNECTED
+- 2026-11-05T19:18:22  V21R_wzlin  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  208s    PASS [牆淡出] 日和便利店 鏡頭繞一圈（8 個方向）：擋在鏡頭和人中間的牆都淡出（opacity ≤0.5）  [] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 176.6s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 176.6s] BROWSER DISCONNECTED
