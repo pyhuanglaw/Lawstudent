@@ -74,15 +74,26 @@ async def says(pg, n=0):
     return await pg.evaluate("(n=>(window.__ccSay||[]).slice(n))", n)
 
 
-async def dlg_text(pg):
-    """等打字機打完（連兩次一樣）再讀對話框，記進 SEEN"""
-    last = None
-    for _ in range(20):
-        t = (await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")).strip()
-        if t and t == last: break
-        last = t; await pg.wait_for_timeout(300)
-    if last and (not SEEN or SEEN[-1] != last): SEEN.append(last)
-    return last
+async def dlg_text(pg, cdp=None):
+    """讀對話框的整句，記進 SEEN：SwiftShader 打字機很慢（雲端 11-05：讀到半句），點一下＝打完；點了以後還是同一句開頭＝那就是整句，沒有就是剛剛那句已經完整"""
+    rd = lambda: pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")
+    t1 = (await rd()).strip(); full = t1
+    if cdp is not None and t1:
+        await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(350)
+        t2 = (await rd()).strip()
+        act = await pg.evaluate("!!(GAME.D&&GAME.D.active)")
+        if act and t2.startswith(t1) and len(t2) >= len(t1): full = t2   # 點一下把字打完（還停在這一句，等下一圈再點掉）
+    else:
+        last = None
+        for _ in range(20):
+            t = (await rd()).strip()
+            if t and t == last: break
+            last = t; await pg.wait_for_timeout(300)
+        full = last
+    if full and (not SEEN or SEEN[-1] != full) and not (SEEN and SEEN[-1].startswith(full)):
+        if SEEN and full.startswith(SEEN[-1]): SEEN[-1] = full
+        else: SEEN.append(full)
+    return full
 
 
 async def pick(pg, cdp, pred):
@@ -99,7 +110,7 @@ async def until_menu_or_idle(pg, cdp, max_s=40, tap_dlg=True):
         o = await pg.evaluate(OPTS)
         if o: return o
         s = await D.st(pg)
-        if s['dlg'] and tap_dlg: await dlg_text(pg); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
+        if s['dlg'] and tap_dlg: await dlg_text(pg, cdp); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
         if not s['dlg'] and not s['busy']: return []
         await pg.wait_for_timeout(300)
     return await pg.evaluate(OPTS)
@@ -109,7 +120,7 @@ async def idle(pg, cdp, max_s=60):
     t0 = time.time()
     while time.time() - t0 < max_s:
         s = await D.st(pg)
-        if s['dlg']: await dlg_text(pg); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
+        if s['dlg']: await dlg_text(pg, cdp); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
         if not s['busy'] and not s['choices']: return s
         await pg.wait_for_timeout(300)
     return await D.st(pg)
@@ -355,8 +366,10 @@ async def dk_study(pg, cdp, tag, hours_pick):
     while time.time() - t0 < 120:
         s = await D.st(pg)
         if s['dlg']:   # 讀完的旁白走 game3d.js 裡面的 say()（不經過 GAME.say）：直接讀對話框（等打字機打完）
-            t = await dlg_text(pg)
-            if t and (not seen or seen[-1] != t): seen.append(t)
+            t = await dlg_text(pg, cdp)
+            if t and (not seen or seen[-1] != t):
+                if seen and t.startswith(seen[-1]): seen[-1] = t
+                else: seen.append(t)
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
         o3 = await pg.evaluate(OPTS)
         if o3 and not s['dlg']:
@@ -432,6 +445,9 @@ async def part_flow(pg, cdp):
     t = next((e for e in (ends or []) if e['lv'] == 1), None); m0 = len(SEEN)
     if t:   # 自己走（看到對話就停下來讀），不讓 go_to 把對話點掉
         await L.go_to(pg, cdp, R, t['x'], t['z'], 0.4, '[大口 深夜] 上二樓', max_s=200, lv=1, stop=lambda st_: bool(st_.get('dlg')))
+        for _ in range(40):   # 走上二樓以後 3～4 秒才出那一句（雲端 11-05 量的；STORY.TICKS 每 0.5 秒）：等最多 12 秒
+            if (await D.st(pg))['dlg']: break
+            await pg.wait_for_timeout(300)
         await idle(pg, cdp, 20)
     Ls = [x['t'] for x in await says(pg, n0)] + SEEN[m0:]
     R.check('[大口 深夜] 01:00 一個人走上二樓：「%s」（AA_621 第 3 節）' % DK['alone'], DK['alone'] in Ls, J(Ls))
