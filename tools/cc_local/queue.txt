@@ -30,7 +30,8 @@ D118B5_r2 | 747dba80dabb454eaf2aaf6f1bee272a271c6ce5 | probe | docs/story_planni
 D118B7F_play | 193d1fd4f1b3ccacc544864c2e02f8faa0ba95f8 | probe | docs/story_planning/test_tools/cc/cc_d118b7f_play.py | index.html | 90 | CC_HEADLESS=0;RERUN=r3;CASES=judge
 D118B7_play | 6a1592a26831ce63470b4869aa9c5aa7e5d8628c | probe | docs/story_planning/test_tools/cc/cc_d118b7_play.py | index.html | 60 | CC_HEADLESS=0;RERUN=r2
 NPCTASK_f5c3 | f5c38f2bae0b4c4f5e871d7da43dbe1994097847 | probe | docs/story_planning/test_tools/cc/cc_npctask_probe.py | index.html | 60 | CTL=both;LOCS=hall,lib3f,lawlib,soc2f,b1;CC_HEADLESS=0
-SITHEIGHT_ed76 | ed7600ec5315abd070dbc7755ec32b53feef9a99 | probe | docs/story_planning/test_tools/cc/cc_sitheight_probe.py | index.html | 80 | CC_HEADLESS=0
+# SITHEIGHT_ed76 r1（PC 11-05 12:01～13:21）：三項一起跑、記憶體到 99%（31.4 GB）→ rooms 第一間就 MemoryError、80 分逾時：單獨重跑（SOLO=1）
+SITHEIGHT_ed76 | ed7600ec5315abd070dbc7755ec32b53feef9a99 | probe | docs/story_planning/test_tools/cc/cc_sitheight_probe.py | index.html | 80 | CC_HEADLESS=0;SOLO=1;RERUN=r2
 TONGXIAN_REFCAM | 07dfffe1514d8239bee1fc0f6a815ea054622982 | probe | docs/story_planning/test_tools/cc/cc_tongxian_refcam.py | index.html | 20 | CC_HEADLESS=0
 PERF_WZ_SPLIT | 1344de13d88cccf2f60b2877875d8dbe768a3511 | probe | docs/story_planning/test_tools/cc/perf_split_probe.py | index.html | 30 | ZONES=wenzhou,campus,library_hall;COLD=12;SECS=8;CC_HEADLESS=0
 FPS_WZ_ORDER | 1344de13d88cccf2f60b2877875d8dbe768a3511 | probe | tools/cc_local/fps_zones.py | index.html | 20 | ZONES=wenzhou,library_hall,wancai;SLOTS=night,day,day,rain;CC_HEADLESS=0

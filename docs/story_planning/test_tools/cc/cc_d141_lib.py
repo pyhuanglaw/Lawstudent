@@ -66,6 +66,25 @@ async def pushable(pg, cdp):
     return 0.0
 
 
+async def settle(pg, ms=600, max_s=6):
+    """等人停下來（PC 的 GPU 跑得快：go_to 說到了，人還在走——11-05 NANYANG_v1 PC：停在目標後面 1.4 m）"""
+    t0 = time.time(); last = None; still = 0
+    while time.time() - t0 < max_s:
+        s = await st(pg); cur = (round(s['x'], 2), round(s['z'], 2))
+        if cur == last: still += 150
+        else: still = 0
+        if still >= ms: return s
+        last = cur; await pg.wait_for_timeout(150)
+    return await st(pg)
+
+
+NEAR_IT = r"""(()=>{ const it=GAME.E.nearestInteractable&&GAME.E.nearestInteractable(); if(!it) return null; return {label:it.label||'', seat:it.seat?[+it.seat.x.toFixed(3),+it.seat.z.toFixed(3)]:null, exit:it.exit?it.exit.to:null}; })()"""
+WIN_CELL = r"""((q)=>{ const E=GAME.E, P=E.player.obj.position; const its=E.interactables.filter(i=>i.seat&&!i.hidden&&((i.lv|0)===q.lv)); const me=its.find(i=>Math.abs(i.seat.x-q.sx)<1e-3&&Math.abs(i.seat.z-q.sz)<1e-3); if(!me) return null; let best=null;
+  for(let x=me.x-1.0;x<=me.x+1.0+1e-6;x+=0.1) for(let z=me.z-1.0;z<=me.z+1.0+1e-6;z+=0.1){ if(!E.canStand(x,z,0.3,q.lv)) continue; const inR=its.filter(i=>Math.hypot(i.x-x,i.z-z)<=(i.radius||0.8)-0.1); if(!inR.length) continue;
+    inR.sort((a,b)=>Math.hypot(a.x-x,a.z-z)-Math.hypot(b.x-x,b.z-z)); if(inR[0]!==me) continue; const second=inR[1]?Math.hypot(inR[1].x-x,inR[1].z-z)-Math.hypot(me.x-x,me.z-z):9; const sc=second*2-Math.hypot(x-q.ap[0],z-q.ap[1]);
+    if(!best||sc>best.sc) best={x:+x.toFixed(2),z:+z.toFixed(2),sc}; } return best; })"""
+
+
 async def standable_near(pg, x, z, r, lv=0):
     """(x,z) 半徑 r 裡、離人最近、站得住的點（出口那一點本身常常在門框裡站不住）"""
     return await pg.evaluate("""((e)=>{ const E=GAME.E, P=E.player.obj.position; let best=null;
@@ -80,11 +99,11 @@ async def use_exit(pg, cdp, tag, label0, to, pred=None):
     ex = next((e for e in exs if e['label'].startswith(label0) and (pred is None or pred(e))), None)
     if not R.check('%s 有「%s」' % (tag, label0), bool(ex), J(exs)): return None
     fb0 = (await st(pg))['fb']
-    tgt = await standable_near(pg, ex['x'], ex['z'], ex['r'] * 0.85, ex['lv'])
+    tgt = await standable_near(pg, ex['x'], ex['z'], ex['r'] * 0.6, ex['lv'])   # 範圍的六成以內（PC 11-05：停在 0.25 m 以外＝出了範圍、沒有按鈕）
     R.note('%s 「%s」在 (%s, %s) 半徑 %s；走到範圍裡站得住的 %s' % (tag, label0, ex['x'], ex['z'], ex['r'], J(tgt)))
     if not R.check('%s 「%s」範圍裡有站得住的地方' % (tag, label0), bool(tgt), J(ex)): return None
-    await L.go_to(pg, cdp, R, tgt['x'], tgt['z'], 0.25, '%s %s' % (tag, label0), max_s=240, lv=ex['lv'])
-    await pg.wait_for_timeout(800); s = await st(pg)
+    await L.go_to(pg, cdp, R, tgt['x'], tgt['z'], 0.12, '%s %s' % (tag, label0), max_s=240, lv=ex['lv'])
+    s = await settle(pg)
     for _ in range(8):
         if s['interact'].startswith(label0): break
         await pg.wait_for_timeout(500); s = await st(pg)
@@ -112,8 +131,18 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300):
         occ = await pg.evaluate("(([x,z])=>(GAME.E.npcs||[]).some(n=>n&&n.seat&&Math.hypot(n.seat.x-x,n.seat.z-z)<0.35))", [s['sx'], s['sz']])
         if occ: R.note('%s 有人坐：遊戲不給坐，跳過（不算 FAIL）' % t); res.append([k + 1, 'occupied']); continue
         tgt = s['ap'] or [s['x'], s['z']]; fb0 = (await st(pg))['fb']
-        await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.3, '%s（seatApproach）' % t, max_s=max_walk, lv=s['slv'])
-        await pg.wait_for_timeout(800); b = await st(pg)
+        await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.12, '%s（seatApproach）' % t, max_s=max_walk, lv=s['slv'])
+        b = await settle(pg)
+        if math.hypot(b['x'] - tgt[0], b['z'] - tgt[1]) > 0.2:   # 走過頭（PC）：再走一次
+            await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.12, '%s（seatApproach 再一次）' % t, max_s=120, lv=s['slv']); b = await settle(pg)
+        ni = await pg.evaluate(NEAR_IT)
+        mine = bool(ni and ni['seat'] and abs(ni['seat'][0] - s['sx']) < 0.01 and abs(ni['seat'][1] - s['sz']) < 0.01)
+        R.check('%s 站在 GAME.seatApproach（點椅子 tapToSeat 走到的那一點；離它 %.2f m）：最近的「坐下」是這一張' % (t, math.hypot(b['x'] - tgt[0], b['z'] - tgt[1])), mine, J({'at': [b['x'], b['z']], 'nearest': ni}))
+        if not mine:   # 那一點的按鈕是別張：照玩家改走到這一張的按鈕範圍裡（離別張比較遠的地方），看這一張坐不坐得下
+            wc = await pg.evaluate(WIN_CELL, {'sx': s['sx'], 'sz': s['sz'], 'lv': s['slv'], 'ap': tgt})
+            R.note('%s 改走到這一張按鈕範圍裡、最近的就是它的一點：%s' % (t, J(wc)))
+            if wc:
+                await L.go_to(pg, cdp, R, wc['x'], wc['z'], 0.08, '%s（這一張的按鈕範圍）' % t, max_s=120, lv=s['slv']); b = await settle(pg)
         for _ in range(6):
             if b['interact'].startswith(s['label']): break
             await pg.wait_for_timeout(500); b = await st(pg)
