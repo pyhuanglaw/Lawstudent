@@ -118,6 +118,12 @@ check(`④ 店門走得到配置的 ${pts.length-1} 個互動點（按鈕範圍 
   let low=Infinity; for(const m of J.meshes){ if(!/leaf/.test(m.name)) continue; for(const pr of m.primitives){ const a=J.accessors[pr.attributes.POSITION], bv=J.bufferViews[a.bufferView], st=bv.byteStride||12, off=bo+(bv.byteOffset||0)+(a.byteOffset||0);
       for(let i=0;i<a.count;i++){ const x=d.readFloatLE(off+i*st), y=d.readFloatLE(off+i*st+4), zz=d.readFloatLE(off+i*st+8); if(Math.hypot(x-hp.x,zz-hp.z)<0.9&&y>1.0&&y<low) low=y; } } }
   check('⑪ 走道上方的吊盆黃金葛：最低的葉子離地 ≥ 1.75 m',low>=1.75&&low<hp.y,'最低 '+(low===Infinity?'—':low.toFixed(2))+' m');
+  /* 從 camRef 的眼睛看得到吊燈（BB-C 11-05 03:21：v4e 的吊盆和吊燈在同一個方向，燈被葉子擋住）：眼睛到燈罩中心的視線 3° 以內、比燈近的地方沒有葉子 */
+  { const pd=L.items.find(i=>i.kind==='pendant'), P=[pd.x,pd.y+0.08,pd.z], Ce=C.eye, v0=[P[0]-Ce[0],P[1]-Ce[1],P[2]-Ce[2]], L0=Math.hypot(...v0); let occ=0, minA=180;
+    for(const m of J.meshes){ if(!/leaf/.test(m.name)) continue; for(const pr of m.primitives){ const a=J.accessors[pr.attributes.POSITION], bv=J.bufferViews[a.bufferView], st=bv.byteStride||12, off=bo+(bv.byteOffset||0)+(a.byteOffset||0);
+      for(let i=0;i<a.count;i++){ const v=[d.readFloatLE(off+i*st)-Ce[0],d.readFloatLE(off+i*st+4)-Ce[1],d.readFloatLE(off+i*st+8)-Ce[2]], Lv=Math.hypot(...v); if(Lv>L0-0.2) continue;
+        const ca=(v[0]*v0[0]+v[1]*v0[1]+v[2]*v0[2])/(Lv*L0), an=Math.acos(Math.max(-1,Math.min(1,ca)))*180/Math.PI; if(an<minA) minA=an; if(an<3) occ++; } } }
+    check('⑪ 從 camRef 看得到吊燈：視線 3° 以內、比燈近的地方沒有葉子',occ===0,'擋住的葉子頂點 '+occ+' 個；最近的葉子離視線 '+minA.toFixed(1)+'°'); }
   /* 店裡的零件都在房間裡：v4e 第一版把書架轉 90° 的時候，連吊燈的電線也轉到牆外（從天花板拉出一大片黑色三角形；用頂點數分新舊，bmesh 刪過頂點以後會錯）。
      北牆以南的頂點：x −3.3～3.3、y −0.05～3.25、z ≤ 5.3（牆的灰泥有厚度、窗外的景板在北牆外面，不算；instancing 的吉他是本地座標，不算） */
   const outB={}; for(const nd of J.nodes){ if(nd.mesh==null||(nd.extensions&&nd.extensions.EXT_mesh_gpu_instancing)||nd.translation||nd.rotation||nd.scale||nd.matrix) continue; const m=J.meshes[nd.mesh]; if(/plaster/.test(m.name)) continue;
