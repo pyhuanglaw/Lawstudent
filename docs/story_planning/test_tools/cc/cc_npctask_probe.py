@@ -11,6 +11,7 @@
   ⑤ 打字節奏：同一個地點所有打字的人，停主迴圈、固定步長 1/30 跑 10 秒，每 0.5 秒記片段時間（u.amb.tt mod 5）＝相位；也算「兩兩相位差 ±0.25 秒以內」的比例。
   ⑥ 第一次進咖啡廳（兩點半 15:00）、第一次進總圖大廳：進區域那一刻起 15 秒，每一格（requestAnimationFrame）記滑手機的人的右手腕世界座標，列每個人一格裡最大的跳動（LAWWW-C：18 cm）。
      只有「片段晚到」才會跳：所以這兩次放在每一輪（新的頁面）最前面。
+  BB-C 08:05：坐著沒片段的人列原因（SEATACT.state().why）；畫面外的人（引擎不畫）先轉鏡頭朝他、再讀一次。V21R 只記不擋。
   CTL：0＝只跑一般網址、1＝只跑 ?nositask、both（預設）＝兩種都跑（同一個時間、同一個種子）。
   【前置／捷徑】讀檔指定地點時間（條件事件關閉）、固定鏡頭、停主迴圈手動推進（⑤）、玩家藏起來。
 用法：LW_TESTS=<wt>/tests [LOCS=hall,lib3f,lawlib,soc2f,b1] [CTL=both] [PER=3] [CC_SEED=...] python3 cc_npctask_probe.py <url> <out>"""
@@ -44,6 +45,7 @@ def info(s): print('INFO ' + s, flush=True)
 HUD = """(on=>{ for(const id of ['hud','hudR','minimap','ctlR','joy','interact','toast']){ const e=document.getElementById(id); if(e) e.style.visibility=on?'':'hidden'; } })"""
 # 坐著做事的人：位置、片段、權重、shift／lift、骨頭世界座標、桌面、量出來的數字
 TASKERS = r"""(()=>{ const E=GAME.E, V=THREE.Vector3, out=[]; if(typeof CHAR==='undefined'||!CHAR.sitTaskOf) return {err:'沒有 CHAR.sitTaskOf', list:out, sitTask:typeof CHAR!=='undefined'?CHAR.sitTask:null};
+  const hid=[], none=[]; (E.npcs||[]).forEach((n,i)=>{ const o=n&&n.obj; if(!o||!(n.seat||n.beh==='sit')) return; const p=o.position; if(o.visible===false) hid.push({i, id:n.charId||n.id||null, name:n.name||'', x:+p.x.toFixed(2), z:+p.z.toFixed(2), hidden:!!n.hidden}); else if(!CHAR.sitTaskOf(o)) none.push({i, id:n.charId||n.id||null, name:n.name||'', x:+p.x.toFixed(2), z:+p.z.toFixed(2), pose:n.pose||null}); });
   for(const n of (E.npcs||[])){ const o=n&&n.obj; if(!o||o.visible===false) continue; const t=CHAR.sitTaskOf(o); const u=o.userData||{}; if(!t) continue;
     const vrm=u.vrm, hb=nm=>{ try{ const b=vrm&&vrm.humanoid&&(vrm.humanoid.getRawBoneNode?vrm.humanoid.getRawBoneNode(nm):vrm.humanoid.getBoneNode(nm)); return b?b.getWorldPosition(new V()):null; }catch(e){ return null; } };
     o.updateWorldMatrix(true,true); const root=o.getWorldPosition(new V()), T=u.sitTask||{}, deskY=root.y+(T.deskH!=null?T.deskH:0.75);
@@ -58,12 +60,13 @@ TASKERS = r"""(()=>{ const E=GAME.E, V=THREE.Vector3, out=[]; if(typeof CHAR==='
       handL:lh?+(lh.y-deskY).toFixed(4):null, handR:rh?+(rh.y-deskY).toFixed(4):null, handLl:P('leftHand'), handRl:P('rightHand'), foreL:fore(ll,lh), foreR:fore(rl,rh), pen,
       shoulder:sh?+(sh.y-deskY).toFixed(3):null, chest:ch?+(ch.y-deskY).toFixed(3):null, hips:hip?+(hip.y-deskY).toFixed(3):null,
       mid:lh&&rh?[+((lh.x+rh.x)/2).toFixed(3),+((lh.y+rh.y)/2).toFixed(3),+((lh.z+rh.z)/2).toFixed(3)]:null, hipW:hip?[+hip.x.toFixed(3),+hip.y.toFixed(3),+hip.z.toFixed(3)]:null}); }
-  return {list:out, sitTask:CHAR.sitTask, seated:(E.npcs||[]).filter(n=>n&&n.obj&&(n.seat||n.beh==='sit')).length}; })()"""
+  return {list:out, hid, none, sitTask:CHAR.sitTask, seated:(E.npcs||[]).filter(n=>n&&n.obj&&(n.seat||n.beh==='sit')).length}; })()"""
 AIM = """(([e,l,fov])=>{ const E=GAME.E, cam=E.camera; E.paused=true; if(E.player&&E.player.obj) E.player.obj.visible=false; const fov0=cam.fov; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l));
   for(let i=0;i<2;i++){ cam.position.set(...e); E.cam.look=new THREE.Vector3(...l); cam.lookAt(E.cam.look); cam.updateMatrixWorld(); }
   cam.fov=fov; cam.updateProjectionMatrix(); E.render(); const ri=E.renderer.info.render; cam.fov=fov0; cam.updateProjectionMatrix(); return {calls:ri.calls, tris:ri.triangles}; })"""
 # 林家乾麵 12:15（BB-C 23:13）：吃飯照 BB 的意見先關著——坐著吃飯的人要播舊的靜態姿勢、不播吃飯片段、手上沒有浮著的筷子（hand_chopsticks）
-SEATED_ALL = r"""(()=>{ const E=GAME.E, V=THREE.Vector3, out=[]; for(const n of (E.npcs||[])){ const o=n&&n.obj; if(!o||o.visible===false) continue; const u=o.userData||{}; const sat=!!(n.seat||n.beh==='sit'||n.pose==='sit'||u.sitPose); if(!sat) continue;
+SEATED_ALL = r"""(()=>{ const E=GAME.E, V=THREE.Vector3, out=[], hid=[]; (E.npcs||[]).forEach((n,i)=>{ const o=n&&n.obj; if(o&&o.visible===false&&(n.seat||n.beh==='sit')) hid.push({i, id:n.charId||n.id||null, name:n.name||'', x:+o.position.x.toFixed(2), z:+o.position.z.toFixed(2), hidden:!!n.hidden}); });
+  for(const n of (E.npcs||[])){ const o=n&&n.obj; if(!o||o.visible===false) continue; const u=o.userData||{}; const sat=!!(n.seat||n.beh==='sit'||n.pose==='sit'||u.sitPose); if(!sat) continue;
     const t=(typeof CHAR!=='undefined'&&CHAR.sitTaskOf)?CHAR.sitTaskOf(o):null; const vrm=u.vrm, hb=nm=>{ try{ const b=vrm&&vrm.humanoid&&(vrm.humanoid.getRawBoneNode?vrm.humanoid.getRawBoneNode(nm):vrm.humanoid.getBoneNode(nm)); return b?b.getWorldPosition(new V()):null; }catch(e){ return null; } };
     o.updateWorldMatrix(true,true); const root=o.getWorldPosition(new V()), lh=hb('leftHand'), rh=hb('rightHand'), hd=hb('head');
     const props=[]; if(u.taskProps) for(const k in u.taskProps){ const q=u.taskProps[k]; let vis=!!(q&&q.visible); for(let x=q;x&&vis;x=x.parent) if(x.visible===false) vis=false; if(vis) props.push(k); }
@@ -72,7 +75,7 @@ SEATED_ALL = r"""(()=>{ const E=GAME.E, V=THREE.Vector3, out=[]; for(const n of 
     out.push({id:n.charId||n.id||null, name:n.name||'', task:t?{kind:t.kind,clip:t.clip,playing:t.playing,w:+(+t.w||0).toFixed(2)}:null, act:u.seatAct||u.sitAct||n.act||null, sitPose:u.sitPose||null, hold:u.holdItem||u.hold||null, props, chop,
       root:[+root.x.toFixed(3),+root.y.toFixed(3),+root.z.toFixed(3)], f:[+f.x.toFixed(3),+f.z.toFixed(3)], s:[+s.x.toFixed(3),+s.z.toFixed(3)],
       mid:lh&&rh?[+((lh.x+rh.x)/2).toFixed(3),+((lh.y+rh.y)/2).toFixed(3),+((lh.z+rh.z)/2).toFixed(3)]:null, head:hd?[+hd.x.toFixed(3),+hd.y.toFixed(3),+hd.z.toFixed(3)]:null}); }
-  return {list:out, sitTask:typeof CHAR!=='undefined'?CHAR.sitTask:null, zone:GAME.G.zone}; })()"""
+  return {list:out, hid, sitTask:typeof CHAR!=='undefined'?CHAR.sitTask:null, zone:GAME.G.zone}; })()"""
 RELEASE = "(()=>{ const E=GAME.E; E.paused=false; if(E.player&&E.player.obj) E.player.obj.visible=true; E.endCinematic&&E.endCinematic(); })()"
 STEP = """(n=>{ const E=GAME.E; E.paused=true; for(let i=0;i<n;i++){ E.update(1/30); } E.render(); return true; })"""
 PHASES = r"""(()=>{ const out=[]; for(const n of (GAME.E.npcs||[])){ const o=n&&n.obj, u=o&&o.userData; const t=o&&CHAR.sitTaskOf&&CHAR.sitTaskOf(o); if(!t||!/^type/.test(t.kind)||!u.amb||u.amb.tt==null) continue; out.push({id:n.charId||n.id||n.name||'', kind:t.kind, ph:+((u.amb.tt%5+5)%5).toFixed(3), w:+(+t.w||0).toFixed(2)}); } return out; })()"""
@@ -84,6 +87,48 @@ REC_ON = r"""(()=>{ window.__ccWr={t0:performance.now(), frames:0, by:{}, kinds:
       const tk=t?t.kind+':'+(+t.w||0).toFixed(2):'none'; if(!A.task.length||A.task[A.task.length-1][0]!==tk) A.task.push([tk,+((performance.now()-R.t0)/1000).toFixed(2)]); } }catch(e){}
   requestAnimationFrame(tick); }; requestAnimationFrame(tick); return true; })()"""
 REC_OFF = "(()=>{ const R=window.__ccWr; if(!R) return null; R.stop=true; const out={frames:R.frames, secs:+((performance.now()-R.t0)/1000).toFixed(1), people:Object.entries(R.by).map(([k,A])=>({k, n:A.n, maxJump_cm:+(A.max*100).toFixed(1), at:A.maxAt, task:A.task.slice(0,6)}))}; window.__ccWr=null; return out; })()"
+
+# BB-C 08:05（NPCTASK 三樓結案後探針改三處）：② 沒片段的原因讀 SEATACT.state() 的 why（照位子座標配對）；③ 畫面外的人（引擎不畫：o.visible===false）先轉鏡頭再判
+WHY = "(()=>{ const s=(typeof SEATACT!=='undefined'&&SEATACT.state)?SEATACT.state():null; return s?(s.list||[]).map(r=>({x:r.x,z:r.z,lv:r.lv,act:r.act,task:r.task,why:r.why,named:r.named,set:r.set})):null; })()"
+FACE = "(([x,z])=>{ const E=GAME.E, p=E.player.obj.position, dx=x-p.x, dz=z-p.z; if(Math.hypot(dx,dz)<0.05) return E.cam.yaw; const y0=E.cam.yaw; E.cam.yaw=Math.atan2(-dx,-dz); return y0; })"   # 鏡頭在玩家的 (sin yaw, cos yaw) 那一側：轉到那個人的反方向＝看得到他
+
+
+async def why_of(pg, people):
+    rows = await pg.evaluate(WHY)
+    if rows is None: return None
+    for x in people:
+        best = min(rows, key=lambda r: math.hypot((r['x'] or 0) - x['x'], (r['z'] or 0) - x['z']), default=None)
+        if best and math.hypot(best['x'] - x['x'], best['z'] - x['z']) <= 0.8:
+            x['why'] = best['why']; x['act'] = best['act']; x['named'] = best['named']; x['set'] = best['set']
+        else: x['why'] = '（SEATACT 沒有這個位子）'
+    return rows
+
+
+async def sweep(pg, js, tag):
+    """畫面外的人：轉鏡頭朝他、等 2 秒、再讀一次，把轉過去才看得到的人併進來（BB-C 08:05）；n.hidden（照設計藏起來的）不轉、只列。"""
+    r = await pg.evaluate(js)
+    hid = [h for h in (r.get('hid') or []) if not h['hidden']]
+    keep = [h for h in (r.get('hid') or []) if h['hidden']]
+    if keep: info('%s 照設計藏起來的（n.hidden，不判）：%s' % (tag, J([[h['name'] or h['id'], h['x'], h['z']] for h in keep])))
+    if not hid: return r
+    key = lambda x: (x.get('id'), x.get('name'), tuple(round(v, 1) for v in (x.get('root') or [])[::2]))
+    have = {key(x) for x in r['list']}
+    y0 = None; still = []
+    for h in hid:
+        y = await pg.evaluate(FACE + '(%s)' % J([h['x'], h['z']])); y0 = y if y0 is None else y0
+        await pg.wait_for_timeout(2000)
+        q = await pg.evaluate(js)
+        if any(abs(g['x'] - h['x']) < 0.05 and abs(g['z'] - h['z']) < 0.05 for g in (q.get('hid') or [])): still.append(h)
+        for x in q['list']:
+            if key(x) not in have: have.add(key(x)); x['turned'] = True; r['list'].append(x)
+        for nm in ('none',):
+            if nm in q:
+                seen = {(a['x'], a['z']) for a in r.get(nm, [])}
+                r.setdefault(nm, []).extend(a for a in q[nm] if (a['x'], a['z']) not in seen)
+    if y0 is not None: await pg.evaluate("(y=>{ GAME.E.cam.yaw=y; })(%s)" % J(y0))
+    info('%s 畫面外的人 %d 個：轉鏡頭過去再讀，看得到了 %d、還是看不到 %d %s' % (tag, len(hid), len(hid) - len(still), len(still), J([[h['name'] or h['id'], h['x'], h['z']] for h in still])))
+    r['hid_after'] = still
+    return r
 
 
 async def enter(pg, cdp, zone, lv, pos, h=14.0):
@@ -129,7 +174,7 @@ async def run_mode(p, mode, meta):
         print('  [前置／捷徑] 讀檔：林家乾麵（wz_lin）12:15、day %d、條件事件關閉' % DAY, flush=True)
         await enter(pg, cdp, 'wz_lin', 0, None, 12.25)
         await pg.wait_for_timeout(8000)
-        r = await pg.evaluate(SEATED_ALL); Ls = r.get('list') or []
+        r = await sweep(pg, SEATED_ALL, '[%s lin]' % mode); Ls = r.get('list') or []
         zok = r.get('zone')
         if check('[%s lin] 讀到 wz_lin、有坐著的客人' % mode, zok == 'wz_lin' and len(Ls) > 0, J({'zone': zok, 'n': len(Ls)})):
             info('[%s lin] 坐著的 %d 人：%s' % (mode, len(Ls), J([[x['name'] or x['id'], x['task'], x['act'], x['sitPose'], x['hold'], x['props'], x['chop']] for x in Ls])))
@@ -155,9 +200,13 @@ async def run_mode(p, mode, meta):
         r, sec = await wait_tasks(pg) if mode == 'amb' else (await pg.evaluate(TASKERS), 0)
         zok = await pg.evaluate("GAME.G.zone")
         if not check('[%s %s] 讀到 %s' % (mode, key, zone), zok == zone, zok): continue
+        r = await sweep(pg, TASKERS, '[%s %s]' % (mode, key))
         L0 = r.get('list') or []
-        info('[%s %s] 坐著的人 %s、在做事的 %d（%s）；等了 %.0f 秒' % (mode, key, r.get('seated'), len(L0), J(sorted(set(x['kind'] for x in L0))), sec))
-        M['locs'][key] = {'all': L0}
+        info('[%s %s] 坐著的人 %s、在做事的 %d（%s，其中轉鏡頭才看到的 %d）；等了 %.0f 秒' % (mode, key, r.get('seated'), len(L0), J(sorted(set(x['kind'] for x in L0))), sum(1 for x in L0 if x.get('turned')), sec))
+        no = r.get('none') or []
+        if await why_of(pg, no) is None: info('[%s %s] 這一版沒有 SEATACT.state()：沒片段的原因讀不到' % (mode, key))
+        info('[%s %s] 坐著沒有片段的 %d 人＋原因（SEATACT.state().why；named＝有名字的照設計不套、body:low＝身材和桌高合不上）：%s' % (mode, key, len(no), J([[x['name'] or x['id'], x['x'], x['z'], x.get('act'), x.get('why')] for x in no])))
+        M['locs'][key] = {'all': L0, 'none': no, 'hid_after': r.get('hid_after') or []}
         # 挑：不同 kind 優先；女生優先一位（量桌面在身體哪裡）
         pick, kinds = [], set()
         for x in sorted(L0, key=lambda x: (x['kind'] in kinds, x['body'] != 'F')):
