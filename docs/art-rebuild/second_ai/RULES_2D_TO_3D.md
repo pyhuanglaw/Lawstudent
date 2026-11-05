@@ -14,6 +14,13 @@
 
 > **D141（使用者 11-05 04:2x，LAWWW-C 轉）：先進遊戲，不要一直精修。**「到第三個版本應該就可以了」——一個場景最多 3 版就先進遊戲；之後只改使用者自己說的、或擋玩的（走不到、坐不下、穿模、卡住、黑畫面，BB-C 04:1x 只擋這五種）。
 > 疊圖、參考圖比對的差距照樣寫進 README，但是當成「給使用者看的意見」，不當退件理由。每次交件列「先將就的」清單給 LAWWW。
+>
+> **使用者 11-05 直接對 LAWWW2-C 再說一次：「疊圖可以很棒，可是我覺得你應該把我們所有新的店面都趕快先做好，所以你不要在同一個東西上面修改六次最多就三次」。**
+> 做法：
+> - 交件前先數這個東西已經第幾版（建模的人自己的版本也算），寫在 README 第一段。
+> - 第 3 版交了就進遊戲，不再為了疊圖的分數重做。
+> - 別人已經做到第 3 版以上的（例如 CC 的運動廣場 v3c），直接接進遊戲，不重做。
+> - 順序：還沒進遊戲的店優先，已經進遊戲的店排後面。
 
 一句話：**參考圖就是規格。先反推參考圖的鏡頭，同一個鏡頭拍我們的模型、疊在參考圖上看；看數字也看圖；差在哪裡、為什麼，照實寫。**
 
@@ -144,7 +151,12 @@
 | T 形接頭 | 找出牆的邊中間夾著別的頂點的地方；Blender 匯出前插進邊裡 | `tools/blender/env_second/glb_tjunctions.js`；`tools/blender/dorm_hall.py` 的 `conform_tjunctions` | LAWWW2-C，11-05（新） |
 | 疊面檢查 | 同一個平面疊兩層（遊戲裡會閃） | `tools/blender/env_second/check_coplanar.py` | LAWWW2 |
 | 光照烘焙 | Cycles 烘白天、晚上兩張光照貼圖；夾在中間的面補光 | `tools/blender/env_second/lightbake/bake_room.py`、`lm_fix_hidden.py` | LAWWW2，10-28 |
-| 單張圖轉 3D 的 AI（開源） | 小物件可以，店面、建築不行（會糊、背面靠猜、走不進去）。TripoSR 只用在玩家走不到 3 m 內、Poly Haven 和 plants.py 做不出來的有機小雜物（D138）；TRELLIS.2 線上版：使用者 11-05 03:5x 同意挑他的參考圖上傳試跑，結果好才考慮用 | `research/OPEN_SRC_2D3D_1104.md` | 研究，11-04 |
+| 兩層店的接法 | 每層一顆 GLB（或一顆 GLB 照名稱分兩組：`L1_`、`WALL_*_L1_`、二樓高度的 `GLOW_`），`levelGroups` 剖面視角、`slabs` 樓板、樓梯上半段兩層共用、樓梯頂北邊和側邊在一樓那一層擋起來 | `src/shanlan3d.js`、`src/dakou3d.js`（兩顆 GLB 先放進同一個 root 給 `attachRoomGLB`，再把二樓那顆 `attach` 到二樓那一組）、`src/xsports3d.js`（夾層：二樓整張先擋、只開 walk 範圍） | LAWWW2-C，11-05（新） |
+| 一層小店共用模組 | 配置＋GLB 就能接成區域：出口、進來的位置、高腳凳抬高、GLOW_ 合成、額外擋的小角落 | `src/xsshop3d.js`（`XSS.SHOPS` 加一列） | LAWWW2-C，11-05（新） |
+| 可點的地面（點地移動） | 有高度的地方（斜地板、看台、樓梯、平台）一定要註冊 `zone.walkMeshes`，不然 `E.screenToFloor` 退回 y 0、落點偏好幾公尺。測試照 `E.screenToFloor` 的算法打射線，落點差 ≤ 0.5 m | `src/nanyang3d.js`（三片）、`src/gym3d.js` 的 `arenaWalk`；`tests/nanyang_tap_unit.js`、`tests/gym_arena_tap_unit.js` | LAWWW2-C，11-05（新） |
+| 小孤島總掃 | 所有室內區域每 0.1 m 一點、從出生點連通；連不到的分群、附 gap（≤ 0.45 m＝跑步一步跳得進去） | `tools/dev_scratch/indoor_islands.js`；每間店的測試也各有一項（`dakou_unit` ⑩、`xsshop_unit` ⑤、`xsports_unit` ⑦） | LAWWW2-C，11-05（新） |
+| 踏面對 GLB | 讀 GLB 的頂點，樓梯每一階最高的點＝導航算的 k×rise（差 ≤ 0.02 m）；踏面頂點在樓梯兩邊，取範圍要包含兩邊 | `tests/dakou_unit.js` ③、`tests/xsports_unit.js` ③ | LAWWW2-C，11-05（新） |
+| 單張圖轉 3D 的 AI（開源） | 小物件可以，店面、建築不行（會糊、背面靠猜、走不進去）。TripoSR 只用在玩家走不到 3 m 內、Poly Haven 和 plants.py 做不出來的有機小雜物（D138）；TRELLIS.2 線上版：使用者 11-05 03:5x 同意挑他的參考圖上傳試跑；11-05 實測：去背成功，產生 3D 被 Hugging Face 免費 GPU 額度擋（要使用者給 `HF_TOKEN`，或在有 NVIDIA 24 GB 的 PC 跑），見 `research/TRELLIS2_TRY_1105.md` | `research/OPEN_SRC_2D3D_1104.md` | 研究，11-04 |
 
 ## 3. 踩過的坑（每一條都真的發生過）
 
@@ -162,6 +174,15 @@
 8. **數字好不等於構圖對**：舊鏡頭的 line_F 比較高，但看不到最重要的窗。先看第 1 步寫的「最重要的那一塊」在不在。
 9. **不准複製貼上同一個東西**（D133）：參考圖那棵白盆小樹另外做，不拿旁邊的橄欖改顏色。
 10. **預覽不是遊戲畫面**：EEVEE 是均勻的天空光。亮度、晚上的樣子、「東西多不多」都要等遊戲內截圖（CC，D131）。
+11. **有高度卻沒有可點面**（南洋 1 廳、體育館看台，11-05）：點斜地板、看台，落點偏 3.4 m、17.9 m，或點了沒反應。手機玩家前排坐不到。新區域只要地板不是 y 0，就加 `walkMeshes`＋點地測試。
+12. **家具中間的小孤島**（每一間新店都有，11-05）：衣架、盆栽、桌子圍出一塊比人窄的縫。引擎移動只檢查目的地，跑步加低幀率一步約 0.4 m，跳得進去。用 `indoor_islands.js` 掃，擋起來或請建模的人拉開家具，寫進「先將就的」。
+13. **跨兩面牆的 WALL_ 網格沒有方向**（大口漢堡 `WALL_BANDS`）：淡出會用錯方向。矮的改名不淡出，高的請建模的人分開。
+14. **改測試的檔案清單別用全文取代**（林家 v1c，11-05）：sed 把 `lin_layout.js` 也插進 `indexOf(…)`、`req(…)` 的括號裡。參數多一個不會報錯，但測試在測錯的東西。改完 `git diff` 一行一行看。
+15. **index.html 的載入順序有測試在看**（`bike_shop_park_unit` 12 要 `bike_layout.js` 緊接在 `daily_offbeat_layout.js` 後面）：新的檔插在別人的中間會讓別人的測試 FAIL。插之前 `grep -l index.html tests/*.js` 看有誰在檢查順序。
+16. **工作樹的安全**（11-05）：
+    - 一行指令裡有 `cd` 的，一律寫 `cd X || exit 1`。`cd` 失敗時，後面的 `git checkout .` 會在別的工作樹跑。
+    - 不要用 `git stash -- 路徑`：它會把整個暫存區一起收走，所有工作樹共用同一個 stash。
+    - 磁碟滿了先刪 scratchpad 裡舊的 worktree（`git worktree remove`）。
 
 ## 4. 交接
 
