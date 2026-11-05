@@ -6536,6 +6536,52 @@
    "noDirectIntegrate": false,
    "note": "公館 Daybreak 4 張座位 seat.ap（LAWWW 叫 OFFBEAT-SEAT-AP）；daybreak_seat_ap FAIL 3→ALL PASS；seatscan 站不住 4→0",
    "next": "LAWWW-C 套 patch（v9.10.21）；CC 點 4 張各坐一次"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "3819d4855",
+   "receiver": "LAWWW",
+   "ack": "ACKNOWLEDGED",
+   "task": "WINVIEW-AUDIT-1105 第三包",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/winview_audit_1105/README_pane3.md",
+    "docs/art-rebuild/second_ai/wip/winview_audit_1105/winview_pane3_1105.patch"
+   ],
+   "state": "已整合（LAWWW 93d4d94df）",
+   "noDirectIntegrate": false,
+   "note": "日和、燒臘、林家把房間的視差窗搬到正式模型玻璃外；shop_viewpanes_1105 FAILED 9→ALL PASS",
+   "next": "CC 拍"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "cf6a29f7e",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "XS-GATE-NORTH-1105（X256＋X257）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/xs_gate_north_1105/README.md",
+    "docs/art-rebuild/second_ai/wip/xs_gate_north_1105/xs_gate_north_1105.patch",
+    "docs/art-rebuild/second_ai/wip/xs_gate_north_1105/gate_north_nav.jpg"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "使用者 09:0x／09:1x／09:2x：側門開北牆往北、望月台西北角、新南停車場、體育館搬到望月台和法學院中間、北牆外西段叫新生南路；取代 XS-GATE-MOVE；xs_gate_north FAILED 14→ALL PASS、52 支回歸 ALL PASS",
+   "next": "LAWWW-C 套 patch；CC 拍；望月台、體育館 Blender 正式外觀"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "e29912473",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "WINVIEW-AUDIT-1105 第四包",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/winview_audit_1105/README_pane4.md",
+    "docs/art-rebuild/second_ai/wip/winview_audit_1105/winview_pane4_1105.patch"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "慢輪、阿德視差窗＋照片；afar／頁間／青木窗景重拍（捷運出口位置修正）；shop_viewpanes2 FAILED 8→ALL PASS、40 支回歸 ALL PASS",
+   "next": "LAWWW-C 換照片＋套 patch；CC 拍"
   }
  ]
 }
