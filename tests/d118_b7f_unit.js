@@ -260,5 +260,21 @@ const SKIPJ=['crim_spec','oblig_gen2','civpro_2','const_2'];   /* 司法官二�
         try{ STUDY.rec(S0); picks=['先讀到這裡']; r=await STUDY.review(GM,'grad'); }catch(e){ err=String(e&&e.stack||e); }
         check('o3. 寒假的舊存檔（沒有 G.study、沒有 flags.PG）做研究所總複習：不報錯、不建 flags.PG、不改 flags',!err&&!!r&&r.kind==='grad'&&!S0.flags.PG&&J(S0.flags)===before,err||''); }
     } finally { STORY.onStudy=on0; } });
+  /* ---------- q 第 5 點（BB-C 01:32）：司法官二試、研究所筆試也和一試一樣——讀過那張卡的題目前出 cue、交卷逐題回寫觀念卡（不影響計分）---------- */
+  await sec('q',async()=>{ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findIndex(x=>String(x.v)===String(q.answer)); return i<k?right:(right===0?1:0); });
+    const shownOf=(qs,L)=>qs.map((q,i)=>{ const j=L.indexOf((i+1)+'／'+qs.length+'　'+q.q); return j>0&&L[j-1].startsWith(STUDY.CUE_PREFIX)?L[j-1]:null; });
+    const backOf=(G,qs,k)=>{ const mi=STUDY.rec(G).miss||[], W=qs.map((q,i)=>({i,u:STUDY.unitsOfQ(q.id)})).filter(x=>x.u.length);
+      return {n:W.length,ok:W.length>0&&W.every(x=>x.i<k?x.u.some(u=>STUDY.status(G,u)==='got'):x.u.every(u=>mi.includes(u.id)))}; };
+    { const G=judgeSave('2029-10-01',9); PG.rec(G).done.e2a_2029=1; picks=['先讀到這裡']; await STUDY.review(GM,'judge'); H.at('2029-10-21',8.5); const s=PG.due(G);
+      const qs=PG.drawJudge(JSON.parse(J(G)),2029), cue=qs.map(q=>STUDY.cueFor(G,q)), k=7; picks=answerK(qs,k); H.said=[]; if(s) await PG.runStep(GM,s);
+      const L=H.said.map(x=>x.t), shown=shownOf(qs,L), b=backOf(G,qs,k);
+      check('q1. 司法官二試（10/21 08:30，e2b）：總複習讀過的卡，題目前面多一行 cue（同一試 STUDY.CUE_PREFIX）；不出的就沒有',!!s&&s.id==='e2b_2029'&&cue.some(Boolean)&&J(shown)===J(cue),J({id:s&&s.id,cue:cue.filter(Boolean).length,shown:shown.filter(Boolean).length}));
+      check('q2. 司法官二試不影響計分（JUDGE_SCORE2_2029＝答對 '+k+' 題）；交卷回寫觀念卡：答對＝答對過、答錯進 miss',G.flags.JUDGE_SCORE2_2029===k&&b.ok,J({score:G.flags.JUDGE_SCORE2_2029,b})); }
+    { const G=grad29('2029-01-16',9); picks=['先讀到這裡']; await STUDY.review(GM,'grad'); H.at('2029-02-03',9);
+      const qs=PG.drawGrad(JSON.parse(J(G)),2029), cue=qs.map(q=>STUDY.cueFor(G,q)), k=6; picks=answerK(qs,k); H.said=[]; const r=await PG.gradQuiz(GM,2029);
+      const L=H.said.map(x=>x.t), shown=shownOf(qs,L), b=backOf(G,qs,k);
+      check('q3. 研究所筆試（2029-02-03）：總複習讀過的卡，題目前面多一行 cue；不出的就沒有',cue.some(Boolean)&&J(shown)===J(cue),J({cue:cue.filter(Boolean).length,shown:shown.filter(Boolean).length}));
+      check('q4. 研究所筆試不影響計分（GRAD_SCORE_2029＝答對 '+k+' 題）；交卷回寫觀念卡',r===k&&G.flags.GRAD_SCORE_2029===k&&b.ok,J({r,b})); }
+  });
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

@@ -230,7 +230,7 @@ const PG=(function(){
     const qs=a.slice(0,S.N_GRAD); X[y]={qs:qs.map(q=>q.id)}; return qs; };
   /* 研究所筆試作答（r2y4a3d.js 2029-02-03 ev_grad_exam、r2y4b3d.js 2030-02-16）：記 GRAD_SCORE_<年>；已經有的（讀檔、舊存檔有 GRAD_EXAM_2029_PASS）不再考 */
   S.gradQuiz=async function(GM,y){ const G=GM.G, F=G.flags; if(typeof F['GRAD_SCORE_'+y]==='number') return F['GRAD_SCORE_'+y]; if(y===2029&&typeof F.GRAD_EXAM_2029_PASS==='boolean') return null;
-    const qs=S.drawGrad(G,y); if(!qs.length) return null; const GE=L()&&L().GRAD_EXAM; if(GE) for(const t of GE.hall) await GM.say(null,t);   /* AA_582 補充二第 1 點：作答畫面前的考場兩句 */ const r=await ask(GM,qs); S.rec(G).grad[y].ans=r.ans; F['GRAD_SCORE_'+y]=r.k; if(y===2029) F.GRAD_EXAM_2029_PASS=r.k>=S.GRAD_PASS; return r.k; };
+    const qs=S.drawGrad(G,y); if(!qs.length) return null; const GE=L()&&L().GRAD_EXAM; if(GE) for(const t of GE.hall) await GM.say(null,t);   /* AA_582 補充二第 1 點：作答畫面前的考場兩句 */ const r=await ask(GM,qs,{cue:true}); S.rec(G).grad[y].ans=r.ans; F['GRAD_SCORE_'+y]=r.k; S.answerCards(G,qs,r.ans);   /* D118-B7-FOLLOW 第 5 點（BB-C 01:32）：同一試——讀過的觀念卡出 cue、逐題回寫觀念卡（不影響計分）*/ if(y===2029) F.GRAD_EXAM_2029_PASS=r.k>=S.GRAD_PASS; return r.k; };
   S.gradNotice=async function(GM,ok){ const GE=L()&&L().GRAD_EXAM; if(!GE) return; const R=ok?GE.pass:GE.fail; await GM.say(null,R.sys); await GM.say(null,R.narr); };   /* 研究所放榜（AA_582 補充二第 1 點）：系統字＋旁白 */
   S.gradPassScore=(G,y)=>{ const k=G.flags&&G.flags['GRAD_SCORE_'+y]; if(typeof k!=='number') return null; return k>=(y===2030&&G.flags.Y5_DAYS==='study'?S.GRAD_PASS-1:S.GRAD_PASS); };   /* null＝沒有作答紀錄（舊存檔：照舊規則算一次） */
   /* ---------- 研究所、職涯（1A-01 的傾向＋考試；尾聲、第一份工作同一套）：研究所的旗標開發分支還沒有（AA_327 2-Y4-06、2-Y4-34）---------- */
@@ -523,7 +523,7 @@ const PG=(function(){
           if(jr){ const c=S.jCard(y,3); if(c&&GM.titleCard) await GM.titleCard(c[0],c[1],2600); }   /* (g)「二試。題目一樣長……」*/
           if(GM.titleCard) await GM.titleCard(Lx.EXAM2.card,S.dateLabel(G.day,G.hour),2200); if(A) A.begin({background:BG('exam_hs_classroom')}); await GM.fade(false);
           if(!jr) for(const t of J.hall) await GM.say(null,t);   /* (a) 第一次進司法官考場 */
-          const qs=S.drawJudge(G,y), r=await ask(GM,qs); S.rec(G).judge[y].ans=r.ans; F['JUDGE_SCORE2_'+y]=r.k; await GM.say(null,'交卷。'); await GM.fade(true); }   /* 答對題數不在這裡說（12 月放榜）*/
+          const qs=S.drawJudge(G,y), r=await ask(GM,qs,{cue:true}); S.rec(G).judge[y].ans=r.ans; F['JUDGE_SCORE2_'+y]=r.k; S.answerCards(G,qs,r.ans);   /* D118-B7-FOLLOW 第 5 點（BB-C 01:32）：同一試出 cue、回寫觀念卡 */ await GM.say(null,'交卷。'); await GM.fade(true); }   /* 答對題數不在這裡說（12 月放榜）*/
         toAtLeast(GM,T(K.e2b,17.5)); if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'',1600); if(A) A.begin({background:BG('exam_hs_classroom')}); await GM.fade(false); await GM.say(null,Lx.EXAM2.end); await GM.fade(true); }
       if(part===1) toAtLeast(GM,T(K.e2a,17.5)); } finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
     await GM.fade(false); }
