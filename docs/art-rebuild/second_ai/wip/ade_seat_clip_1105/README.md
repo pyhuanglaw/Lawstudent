@@ -35,3 +35,14 @@
 ## 接法
 
 `git apply docs/art-rebuild/second_ai/wip/ade_seat_clip_1105/ade_seat_clip_1105.patch`（在 `05ddf1e08` 上做的）：`src/data/wz_shops_layout.js`、`src/zones3d.js`，加新測試。和燒臘、一盞、樓梯、南洋長椅幾包互不相干。
+
+## 第二版（11-05 07:4x，LAWWW-C 回報：開發分支 2258988a5 上第一次跑 ④ M2「0、0、2 點」FAIL、重跑 PASS）
+
+- 原因：
+  - 坐著的小動作是亂數（`CHAR.ambRand`），每次跑不一樣。
+  - 而且 0.2 m 對 M2（手臂長的 nm11）第三張剛好在邊上，偶爾有 2 點穿過桌板。
+- 改法（`ade_seat_clip_v2_1105.patch`，在 `3574b5462` 上做的）：
+  - 往後挪 0.2 → **0.25 m**（座位離桌緣 0.285 m，照 0.30 那一組片段）。
+  - 測試的小動作用固定種子；坐好以後 2～5 秒、每 0.5 秒量一次，取最多的那一次。
+- 結果：`ade_seat_clip_unit` 連跑三次 ALL PASS，M2 三張都是 0 點。
+- 一起跑 ALL PASS：`ade_seats_nav_unit`、`wz_copy_shop_unit`、`wz_shops_unit`、`seat_reach_unit`、`sit_task_wire_unit`、`crowd_unit`。
