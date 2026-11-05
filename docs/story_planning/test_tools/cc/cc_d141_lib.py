@@ -143,13 +143,16 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300):
         occ = await pg.evaluate("(([x,z])=>(GAME.E.npcs||[]).some(n=>n&&n.seat&&Math.hypot(n.seat.x-x,n.seat.z-z)<0.35))", [s['sx'], s['sz']])
         if occ: R.note('%s 有人坐：遊戲不給坐，跳過（不算 FAIL）' % t); res.append([k + 1, 'occupied']); continue
         tgt = s['ap'] or [s['x'], s['z']]; fb0 = (await st(pg))['fb']
-        await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.12, '%s（seatApproach）' % t, max_s=max_walk, lv=s['slv'])
+        await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.22, '%s（seatApproach）' % t, max_s=max_walk, lv=s['slv'])   # PC 11-05 NANYANG_v2：0.12 太嚴（點地走到 0.24 m 就停），白點 110 次
         b = await settle(pg)
-        if math.hypot(b['x'] - tgt[0], b['z'] - tgt[1]) > 0.2:   # 走過頭（PC）：再走一次
-            await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.12, '%s（seatApproach 再一次）' % t, max_s=120, lv=s['slv']); b = await settle(pg)
+        if math.hypot(b['x'] - tgt[0], b['z'] - tgt[1]) > 0.35:   # 走過頭（PC）：再走一次
+            await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.22, '%s（seatApproach 再一次）' % t, max_s=120, lv=s['slv']); b = await settle(pg)
         ni = await pg.evaluate(NEAR_IT)
         mine = bool(ni and ni['seat'] and abs(ni['seat'][0] - s['sx']) < 0.01 and abs(ni['seat'][1] - s['sz']) < 0.01)
         R.check('%s 站在 GAME.seatApproach（點椅子 tapToSeat 走到的那一點；離它 %.2f m）：最近的「坐下」是這一張' % (t, math.hypot(b['x'] - tgt[0], b['z'] - tgt[1])), mine, J({'at': [b['x'], b['z']], 'nearest': ni}))
+        if not mine:
+            gap = await pg.evaluate("((q)=>{ const E=GAME.E, it=E.interactables.find(i=>i.seat&&Math.abs(i.seat.x-q.sx)<1e-3&&Math.abs(i.seat.z-q.sz)<1e-3); if(!it) return null; let best=null; for(let x=it.x-1.5;x<=it.x+1.5+1e-6;x+=0.05) for(let z=it.z-1.5;z<=it.z+1.5+1e-6;z+=0.05){ if(!E.canStand(x,z,0.3,q.lv)) continue; const d=Math.hypot(x-it.x,z-it.z); if(!best||d<best) best=d; } return {radius:it.radius||0.8, nearestStand:best==null?null:+best.toFixed(2)}; })", {'sx': s['sx'], 'sz': s['sz'], 'lv': s['slv']})
+            R.note('%s 這一張按鈕範圍 %s m；站得住的地方離它最近 %s m（走近點在範圍邊上＝停偏一點就沒有按鈕）' % (t, gap and gap['radius'], gap and gap['nearestStand']))
         if not mine:   # 那一點的按鈕是別張：照玩家改走到這一張的按鈕範圍裡（離別張比較遠的地方），看這一張坐不坐得下
             wc = await pg.evaluate(WIN_CELL, {'sx': s['sx'], 'sz': s['sz'], 'lv': s['slv'], 'ap': tgt})
             R.note('%s 改走到這一張按鈕範圍裡、最近的就是它的一點：%s' % (t, J(wc)))
