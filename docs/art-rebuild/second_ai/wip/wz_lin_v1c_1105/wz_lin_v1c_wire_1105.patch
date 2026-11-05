@@ -1,0 +1,169 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index 86da16224..6b8cdcece 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -343,6 +343,7 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
+ | SUNNY SIDE 窗景夜版 `assets/models/env/second_ai/aa_support/sunnyside_views_night.webp`（由 `tools/blender/env_second/textures/gen/sns_views_night.jpg` 轉 webp；SUNNY SIDE v1e，story-planning `86688bd91`） | 本作：LAWWW2 用溫州街正式模型從 SUNNY SIDE 往外拍（`a485b6722`），AA 拼成上半正面、下半東側 | 本作 | 溫州街 B7 SUNNY SIDE 窗景卡 sns_window_view 晚上換這張（zones3d.js WZ_AA_NIGHTVIEW） |
+ | 2:30 AM 窗景夜版 `assets/models/env/second_ai/aa_support/cafe230_views_night.webp`（由 `tools/blender/env_second/textures/gen/a23_views_night.jpg` 轉 webp；2:30 AM v1f，story-planning `30c2d5998`） | 本作：LAWWW2 從 2:30 AM 往外拍的溫州街（`f785028e6`），AA 拼成上半正面、下半右窗毛玻璃 | 本作 | 溫州街 2:30 AM 窗景卡 a23_window_view 晚上換這張（zones3d.js CAFE230_NIGHTVIEW） |
+ | 阿德影印 室內 v1c `assets/models/env/second_ai/bb_support/ade.glb`（配置 `src/data/ade_layout.js` v3，照抄進 `wz_shops_layout.js` print） | 本作 Blender（`tools/blender/env_second/bb_support/ade_interior.py`、`ade_tex.py`，在 `claude/cc-testing`；CC〔帳號 A〕製作、BB 照 LAWWW2 標準代驗 MODEL_READY，cc-testing `5977272dc`，BB_257、CC_49 v1c）；店名虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街 A1 阿德影印輸出（區域 `wz_print`，取代 wz_print_interior.glb；舊的登錄不動） |
++| 林家乾麵 室內 v1c `assets/models/env/second_ai/bb_support/lin_interior.glb`（配置 `src/data/lin_layout.js` v2；區域 `wz_lin`，zones3d.js 的 wzShop） | 本作 Blender（`tools/blender/env_second/bb_support/lin_interior.py`、`lin_tex.py`；BB〔帳號 A〕11-04 照使用者的參考圖 `wz_lin_int.webp` 製作 v1→v1b→v1c，`claude/wonderful-mayer-7fm9g6` `9308d3301`；LAWWW2-C 11-05 收件、接區域）；店名虛構（D77）；貼圖 Poly Haven CC0＋本作程式產生（菜單、月曆、福字） | CC0 貼圖／本作 | 溫州街 A4 林家乾麵店內（不鏽鋼煮麵台、四張方桌、紅凳、白磁磚矮牆、冰箱） |
+ | 同弦樂器 室內 v4e `assets/models/env/second_ai/bb_support/tongxian.glb`（配置 `src/data/tongxian_layout.js` v4；區域 `xs_tongxian`＝`src/tongxian3d.js`） | 本作 Blender（`tools/blender/env_second/bb_support/tongxian_interior.py`、`tongxian_tex.py`；產生的貼圖 `tools/blender/env_second/textures/gen/tongxian_*`）：CC〔帳號 A〕製作 v4d（`claude/cc-testing` `0b6033c46`，照使用者給的參考圖）；LAWWW2-C 接手改 v4e（TONGXIAN-REF-1105，BB-C 11-05 02:08 同意）：書架搬到西牆、吊盆移位、木地板 #d6bc96 改在腳本裡（D112）、參考圖鏡頭重選，腳本和貼圖帶進 repo；MODEL_READY 待 BB 照 D132 代驗；樓梯間的地板洞：LAWWW2-C `tools/blender/env_second/glb_floor_hole.py`（只換 `tx_floor` 的幾何，GUITAR-SHOP-ZONE-1105）；店名虛構（D77），吉他、價錢牌沒有真實品牌；貼圖 Poly Haven CC0＋本作程式產生；窗景是 LAWWW2 從新生南路正式模型渲染的 | CC0 貼圖／本作 | 新生南路二樓的吉他行（AA_619 第 1 節） |
+ | 同弦樂器 樓梯間 `assets/models/env/second_ai/tongxian_stair.glb` | 本作 Blender 腳本 `tools/blender/env_second/tongxian_stair.py`（LAWWW2-C，GUITAR-SHOP-ZONE-1105）：22 階磨石子樓梯、兩側腰牆、木扶手、樓板、一樓樓梯口、二樓樓梯間的西牆、門外平台和樓梯口兩側的磨石子、店門的門檻；貼圖 Poly Haven CC0（`terrazzo_tiles`、`white_plaster_02`、`walnut_veneer`，見上表） | CC0 貼圖／本作 | 同弦樂器店門外的樓梯間（區域 `xs_tongxian`） |
+ | 南洋戲院 大廳 v5b `assets/models/env/second_ai/bb_support/nanyang_lobby.glb`（配置 `src/data/nanyang_layout.js` v5；區域 `xs_nanyang`＝`src/nanyang3d.js`） | 本作 Blender（`tools/blender/env_second/bb_support/nanyang_interior.py`；貼圖由腳本用 PIL 產生到 `tools/blender/env_second/textures/gen/nanyang`）：BB〔帳號 A〕11-03～04 製作（`claude/wonderful-mayer-7fm9g6`，照使用者 11-03 生成的參考圖 `nanyang_lobby.webp`、`nanyang_ext.webp`）；LAWWW2-C 接區域（ART-NANYANG-CINEMA-1103）；店名、片名虛構（D77）；貼圖 Poly Haven CC0（`painted_plaster_wall`、`granite_tile_03`、`wood_table_001`） | CC0 貼圖／本作 | 新生南路南洋戲院一樓大廳（爆米花櫃檯、海報牆、長椅、往 1 廳的門） |
+diff --git a/index.html b/index.html
+index e0c2d2027..34ef12402 100644
+--- a/index.html
++++ b/index.html
+@@ -238,6 +238,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/data/club_fair_expo_layout.js?v=9.10.19"></script>
+ <script src="src/data/wz_shops_layout.js?v=9.10.19"></script>
+ <script src="src/data/daily_offbeat_layout.js?v=9.10.19"></script>
++<script src="src/data/lin_layout.js?v=9.10.19"></script>
+ <script src="src/data/bike_layout.js?v=9.10.19"></script>
+ <script src="src/data/cvs_layout.js?v=9.10.19"></script>
+ <script src="src/data/yejian_layout.js?v=9.10.19"></script>
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 969826337..32bbb8cc0 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -2403,6 +2403,10 @@ const Z3 = (function(){
+   const wz_brunch=wzShop('brunch'), wz_print=wzShop('print'), wz_teahouse=wzShop('teahouse');
+   /* 林家乾麵（A4）、巷子裡定食（B3）能進去內用（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364）：同一套 wzShop，配置在 WZ_SHOPS_LAYOUT.lin／teishoku；正式模型 tools/blender/env_second/wz_aa364_shops.py --shop lin|teishoku（118 巷店面的零件）。
+      這一版：走得進去、選位子坐下、離開；點餐、店員、營業時間由 LAWWW 接（AA_364 第 4 節 #2）。資產登錄放這裡（和 118 巷店面 l118_shops3d.js 一樣），不動 assets3d.js */
++  /* 林家乾麵 v1c（WZ-SHOPS1-1104，AA_654：BB〔帳號 A〕11-04 照使用者的參考圖 wz_lin_int.webp 重做，LAWWW2-C 11-05 收件；配置 src/data/lin_layout.js v2，模型 bb_support/lin_interior.glb）：
++     門、窗、出口、出生點、enterAt 和舊的 lin 一樣；桌子重排（四張方桌＋紅凳，12 個座位，桌號照舊：明軒「門口那桌」＝桌 1）。配置檔（index.html 在 wz_shops_layout.js 後面載入）一載入就換掉 WZ_SHOPS_LAYOUT.lin；沒載入時照舊。
++     牆的淡出方向寫在空節點（WALL_back…）——attachRoomGLB 的 wallDirOf 沿用上層節點的（GLB-WALLDIR-1105）*/
++  if(typeof LIN_LAYOUT!=='undefined'&&typeof ASSETS!=='undefined'&&!ASSETS.manifest['bldg.wz_lin_interior_v'+(LIN_LAYOUT.version|0)]) ASSETS.manifest['bldg.wz_lin_interior_v'+(LIN_LAYOUT.version|0)]={url:LIN_LAYOUT.glb,type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/bb_support/lin_interior.py＋lin_tex.py（溫州街「林家乾麵」室內 v1c，BB〔帳號 A〕製作、LAWWW2-C 收件；配置 src/data/lin_layout.js，載入時換掉 WZ_SHOPS_LAYOUT.lin）',license:'本作；貼圖 Poly Haven CC0＋本作程式產生'};
+   const wz_lin=wzShop('lin'), wz_teishoku=wzShop('teishoku');
+   /* 日常失速（WZ-OFFBEAT-1104，LAWWW2 11-04；AA_617、AA_618）：溫州街轉角 W2 一樓。室內是 AA 的 Blender 模型（aa_support/daily_offbeat.glb，配置 src/data/daily_offbeat_layout.js），同一套 wzShop。
+      這一版：走得進去、選位子坐下、離開；點東西吃、桌遊、店長（貓）、佈告欄（配置的 interact）由 LAWWW 照 AA_618 接。座位不給讀書（使用者 11-03：「日常失速是吃飯打屁桌遊」）。
+diff --git a/tests/aa655_wz_rename_unit.js b/tests/aa655_wz_rename_unit.js
+index 4f6bb6fbe..01d164b2a 100644
+--- a/tests/aa655_wz_rename_unit.js
++++ b/tests/aa655_wz_rename_unit.js
+@@ -20,7 +20,7 @@ const load=f=>{ let src=rd(f); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>NAMES
+ global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
+ const mkObj=()=>({position:{x:0,y:0,z:0,set(x,y,z){ this.x=x; this.y=y; this.z=z; }},rotation:{y:0},userData:{},add(){}});
+ global.CHAR={setExpr(){},build:()=>mkObj()};
+-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/lane118.js','src/data/wz_shops_layout.js','src/wzshops3d.js','src/data/eat_lines.js','src/eat3d.js','src/data/shop_enc.js','src/data/sis_qixi_events.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
++for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/lane118.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/wzshops3d.js','src/data/eat_lines.js','src/eat3d.js','src/data/shop_enc.js','src/data/sis_qixi_events.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+ global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){},narrate(){}};
+ global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
+ let said=[], opts=[], picks=[], G=null, toasts=[], entered=[];
+diff --git a/tests/seat_reach_unit.js b/tests/seat_reach_unit.js
+index 6a0206ecf..9f7fd3395 100644
+--- a/tests/seat_reach_unit.js
++++ b/tests/seat_reach_unit.js
+@@ -17,7 +17,7 @@ const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLin
+ global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
+ global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
+ process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
+-const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/cvs_layout.js','src/data/yejian_layout.js','src/data/aoki_layout.js','src/zones3d.js',
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/data/cvs_layout.js','src/data/yejian_layout.js','src/data/aoki_layout.js','src/zones3d.js',
+   'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js',
+   'src/data/socsci_layout.js','src/data/soclib_layout.js','src/soclib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js','src/data/dorm_layout.js','src/data/dorm_room_layout.js','src/dorm3d.js',
+   'src/data/calendar.js','src/data/places.js','src/data/xinsheng_layout.js','src/xinsheng3d.js','src/data/tongxian_layout.js','src/tongxian3d.js','src/data/nanyang_layout.js','src/nanyang3d.js','src/data/shanlan_layout.js','src/shanlan3d.js'];   /* 同弦樂器（xs_tongxian，GUITAR-SHOP-ZONE-1105）：試琴椅、櫃台前的木凳 */
+diff --git a/tests/shop_diners_unit.js b/tests/shop_diners_unit.js
+index 8bebc52fd..2c5c90146 100644
+--- a/tests/shop_diners_unit.js
++++ b/tests/shop_diners_unit.js
+@@ -25,7 +25,7 @@ const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Ma
+ global.CHAR={build:spec=>{ const g=new THREE.Group(); g.userData.spec=spec; return g; },release(){},setProp(){ return false; }};
+ let NDL=()=>false;
+ global.STORY={extraSpec:i=>({id:'x'+i,sex:i%2===0?'f':'m'}),CROWD_X:2,dayOfKey:dayOf,noodleDay:d=>NDL(d)};
+-for(const f of ['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/wz_shops_layout.js','src/data/lane118_layout.js',
++for(const f of ['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/data/lane118_layout.js',
+   'src/data/lane118_shops.js','src/data/lane118_props.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/calendar.js','src/data/places.js','src/lane118.js','src/data/l118_shop_layouts.js','src/l118_shops3d.js','src/noodle_closed3d.js','src/crowd3d.js']){
+   let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>'globalThis.'+n+'='); vm.runInThisContext(src,{filename:f}); }
+ ASSETS.loadOne=()=>new Promise(()=>{});   /* 正式模型不載入（座位、導航不靠模型）*/
+diff --git a/tests/shop_enc_seat_unit.js b/tests/shop_enc_seat_unit.js
+index 2f266d6eb..0436f3a16 100644
+--- a/tests/shop_enc_seat_unit.js
++++ b/tests/shop_enc_seat_unit.js
+@@ -19,7 +19,7 @@ global.CHAR={build:spec=>{ const g=new THREE.Group(); g.userData.spec=spec; retu
+ global.STORY={extraSpec:i=>({id:'x'+i,sex:i%2===0?'f':'m',i}),CROWD_X:2,dayOfKey:dayOf,noodleDay:()=>false,SCHED_X:[]};
+ global.SOCIAL={displayName:id=>({classmate_mingxuan:'明軒',classmate_xinci:'芯慈',kai:'阿凱'})[id]||id};
+ let NPC={}; global.EVENTS={npcOf:id=>NPC[id]||null,running:false};
+-const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/wz_shops_layout.js','src/data/lane118_layout.js',
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/data/lane118_layout.js',
+   'src/data/lane118_shops.js','src/data/lane118_props.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/calendar.js','src/data/places.js','src/lane118.js','src/data/l118_shop_layouts.js','src/l118_shops3d.js','src/noodle_closed3d.js','src/crowd3d.js','src/data/shop_enc.js','src/shopenc3d.js'];
+ let miss=null; for(const f of files){ const p=path.join(ROOT,f); if(!fs.existsSync(p)){ miss=f; continue; } let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>'globalThis.'+n+'='); vm.runInThisContext(src,{filename:f}); }
+ ASSETS.loadOne=()=>new Promise(()=>{});
+diff --git a/tests/wz_aa364_shops_unit.js b/tests/wz_aa364_shops_unit.js
+index 7dfbed1da..5f59d2497 100644
+--- a/tests/wz_aa364_shops_unit.js
++++ b/tests/wz_aa364_shops_unit.js
+@@ -30,7 +30,7 @@ if(process.argv.includes('--zones')){
+   global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
+   const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js',
+     'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/socsci_layout.js','src/data/soclib_layout.js','src/soclib3d.js',
+-    'src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/classes3d.js','src/wzshops3d.js'];
++    'src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/classes3d.js','src/wzshops3d.js'];
+   for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|SL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|SOCLIB_LAYOUT|SOCSCI_LAYOUT|WZ_PARK_LAYOUT|WZ_SHOPS_LAYOUT|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR|WZS)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
+   ASSETS.loadOne=()=>new Promise(()=>{});   /* 正式模型不載入（按鈕、導航不靠模型）*/
+   const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
+@@ -68,7 +68,7 @@ const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.repla
+ global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
+ const mkObj=()=>({position:{x:0,y:0,z:0,set(x,y,z){ this.x=x; this.y=y; this.z=z; }},rotation:{y:0},userData:{},add(){}});
+ global.CHAR={setExpr(){},build:()=>mkObj()};
+-const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/lane118.js','src/data/wz_shops_layout.js','src/wzshops3d.js','src/data/eat_lines.js','src/eat3d.js'];
++const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/lane118.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/wzshops3d.js','src/data/eat_lines.js','src/eat3d.js'];
+ for(const f of FILES) if(fs.existsSync(path.join(ROOT,f))) load(f);
+ global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){},narrate(){}};
+ global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
+diff --git a/tests/wz_interiors_aa659_unit.js b/tests/wz_interiors_aa659_unit.js
+index 7cdf3ed32..f46680c06 100644
+--- a/tests/wz_interiors_aa659_unit.js
++++ b/tests/wz_interiors_aa659_unit.js
+@@ -28,7 +28,7 @@ global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createE
+ global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
+ process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{};
+ const T=rd('tests/nav_buildings_unit.js');
+-const files=[...new Set([...eval(T.match(/const files=(\[[^\]]+\])/)[1]),'src/data/calendar.js','src/data/places.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js'])];
++const files=[...new Set([...eval(T.match(/const files=(\[[^\]]+\])/)[1]),'src/data/calendar.js','src/data/places.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/lin_layout.js'])];
+ const ord=f=>f.startsWith('lib/')?0:(f.startsWith('src/data/')?1:(f==='src/zones3d.js'?2:4));
+ const pre=files.filter(f=>ord(f)<2).concat(['src/zones3d.js']).concat(files.filter(f=>ord(f)===4&&f!=='src/zones3d.js'));
+ for(const f of pre){ if(!fs.existsSync(path.join(ROOT,f))) continue; let src=rd(f); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
+@@ -47,7 +47,7 @@ const seatApproach=new Function('E',g3.slice(sa0,sa1)+"return best||[seat.x+fx*0
+ const W=WZ_SHOPS_LAYOUT, req=f=>{ delete require.cache[require.resolve(path.join(ROOT,f))]; return require(path.join(ROOT,f)); };
+ const deq=(a,b)=>{ try{ require('assert').deepStrictEqual(a,b); return true; }catch(e){ return false; } };
+ // ---- A0 ----
+-const K=req('src/data/komichi_layout.js'), S=req('src/data/sunnyside_layout.js'), Y=req('src/data/yizhan_layout.js'), WN=req('src/data/wz_shops_layout.js');
++const K=req('src/data/komichi_layout.js'), S=req('src/data/sunnyside_layout.js'), Y=req('src/data/yizhan_layout.js'), WN=req('src/data/wz_shops_layout.js','src/data/lin_layout.js');
+ check('A0 WZ_SHOPS_LAYOUT.teishoku＝AA komichi_layout.js v4（深度比較；2026-11-04 改期望 v3→v4：AA bc021c7e1）',deq(WN.teishoku,K)&&K.version===4&&K.id==='wz_teishoku');
+ check('A0 WZ_SHOPS_LAYOUT.brunch＝AA sunnyside_layout.js v3（深度比較）',deq(WN.brunch,S)&&S.version===3&&S.id==='wz_brunch');
+ const OVER=['spawn','exit','yard','blocks','walkNote','work','interact'],   /* interact：前院的互動點（AA_659 §3 bc021c7e1；2026-11-04 加）*/ strip=o=>{ const c=Object.assign({},o); for(const k of OVER) delete c[k]; return c; };
+diff --git a/tests/wz_shops2_unit.js b/tests/wz_shops2_unit.js
+index c9e778396..347622fb2 100644
+--- a/tests/wz_shops2_unit.js
++++ b/tests/wz_shops2_unit.js
+@@ -9,7 +9,7 @@ global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createE
+ global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
+ const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js',
+   'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/socsci_layout.js','src/data/soclib_layout.js','src/soclib3d.js',
+-  'src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/classes3d.js'];
++  'src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/classes3d.js'];
+ for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|SL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|SOCLIB_LAYOUT|SOCSCI_LAYOUT|WZ_PARK_LAYOUT|WZ_SHOPS_LAYOUT|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
+ ASSETS.loadOne=()=>new Promise(()=>{});   /* 正式模型不載入（導航、座位、互動點不靠模型；第 5 項自己換成假的）*/
+ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+diff --git a/tests/wz_shops_unit.js b/tests/wz_shops_unit.js
+index 84d26d7e1..b71cfc282 100644
+--- a/tests/wz_shops_unit.js
++++ b/tests/wz_shops_unit.js
+@@ -11,7 +11,7 @@ global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createE
+ global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
+ const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js',
+   'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/socsci_layout.js','src/data/soclib_layout.js','src/soclib3d.js',
+-  'src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/classes3d.js'];
++  'src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/lin_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/classes3d.js'];
+ for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|SL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|SOCLIB_LAYOUT|SOCSCI_LAYOUT|WZ_PARK_LAYOUT|WZ_SHOPS_LAYOUT|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
+ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
+@@ -68,6 +68,6 @@ for(const k of ['brunch','print','teahouse']){ const L=WZ_SHOPS_LAYOUT[k]; const
+   const at=ds=>{ global.GAME={G:{day:dayOf(ds)}}; const r=mk(); Z3.wzParkSeason(r); return r.children[0].visible; };
+   check('6. 夏日冰菓室：7 月開（鐵捲門藏起來）、10 月和 1 月冬天休息（鐵捲門）',at('2026-07-10')===false&&at('2025-10-10')===true&&at('2026-01-10')===true&&at('2026-05-02')===false); delete global.GAME; }
+ { const gs=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); check('7. 一盞的座位選「讀書」：「這裡不太適合攤開六法。」（AA_164 2-3）',/it\.shop==='teahouse'\) opts\.push\(\{t:'讀書',teaNo:true\}\)/.test(gs)&&gs.indexOf("'這裡不太適合攤開六法。'")>0);
+-  const ih=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); check('7. index.html 在 zones3d 之前載入 wz_shops_layout.js',ih.indexOf('src/data/wz_shops_layout.js')>0&&ih.indexOf('src/data/wz_shops_layout.js')<ih.indexOf('src/zones3d.js'));
++  const ih=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); check('7. index.html 在 zones3d 之前載入 wz_shops_layout.js',ih.indexOf('src/data/wz_shops_layout.js','src/data/lin_layout.js')>0&&ih.indexOf('src/data/wz_shops_layout.js','src/data/lin_layout.js')<ih.indexOf('src/zones3d.js'));
+   const as=fs.readFileSync(path.join(ROOT,'src/assets3d.js'),'utf8'); check('7. manifest 有三家店的室內模型，檔案都在',['brunch','print','teahouse'].every(k=>as.indexOf("'bldg.wz_"+k+"_interior'")>0&&fs.existsSync(path.join(ROOT,'assets/models/env/second_ai/wz_'+k+'_interior.glb')))); }
+ console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
