@@ -13,6 +13,23 @@
 # ===== V21R（v9.10.21 發布前，BB-C 08:40 P0 最終 SHA 83d09d13b）：照 BB-C 08:30 先回歸 9 支、店的座位互動點，D118、social 放最後（c474 那批訊息晚到、沒跑過，全部改在 83d 跑）=====
 # CC-C 09:4x：V21R_movreg r1 FAIL（B4 以後搖桿都推不動）；雲端 83d 34/42、已上線 v9.10.20 也 37/42（失敗的段落每次不同）＝看起來是這支本來就會隨機失敗。電腦單獨重跑一次確認
 # ===== P0 WINVIEW_rel（BB-C 09:34）：v9.10.21 發布樹 bcb386604＝83d09d13b＋6 張窗景圖；排 V21R 剩下的前面；三樣跑完推截圖給 BB 看 =====
+# ===== P0（BB-C 10:48，v9.10.21 發布樹 aa0f3bcd3）：GO 之前要的；CC-C 16:1x 接班補排（交班時沒排）=====
+AA0F_p0 | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+AA0F_touch | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
+AA0F_reach | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
+# 燒臘店坐下吃飯那一場截圖＋walkFallbacks：探針還沒寫（CC-C 使用量快到，下一班寫；BB-C 可以先在雲端看）
+# ===== V21R social 逾時（20 分）的 11 支重跑：時限 45 分 =====
+V21R_soc_heroine_01_go | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | RERUN=t45;CASES=heroine_01;STEPS=invite,invite_study,reload,date,phone,shop,walk;CC_HEADLESS=0
+V21R_soc_heroine_02_talk | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | RERUN=t45;CASES=heroine_02;STEPS=media,first,greet,up,ladder,menu;CC_HEADLESS=0
+V21R_soc_heroine_02_go | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | RERUN=t45;CASES=heroine_02;STEPS=invite,invite_study,reload,date,phone,shop,walk;CC_HEADLESS=0
+V21R_soc_heroine_03_go | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | RERUN=t45;CASES=heroine_03;STEPS=invite,invite_study,reload,date,phone,shop,walk;CC_HEADLESS=0
+V21R_soc_heroine_04_talk | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | RERUN=t45;CASES=heroine_04;STEPS=media,first,greet,up,ladder,menu;CC_HEADLESS=0
+V21R_soc_heroine_04_go | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | RERUN=t45;CASES=heroine_04;STEPS=invite,invite_study,reload,date,phone,shop,walk;CC_HEADLESS=0
+V21R_soc_heroine_05_talk | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | RERUN=t45;CASES=heroine_05;STEPS=media,first,greet,up,ladder,menu;CC_HEADLESS=0
+V21R_soc_heroine_05_go | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | RERUN=t45;CASES=heroine_05;STEPS=invite,invite_study,reload,date,phone,shop,walk;CC_HEADLESS=0
+V21R_soc_fr_zhe | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | RERUN=t45;CASES=zhe;STEPS=first,greet,up,ladder,menu,invite,invite_study,reload,phone,shop,walk;CC_HEADLESS=0
+V21R_soc_fr_yu | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | RERUN=t45;CASES=yu;STEPS=first,greet,up,ladder,menu,invite,invite_study,reload,phone,shop,walk;CC_HEADLESS=0
+V21R_soc_fr_classmate_mingxuan | 83d09d13b0686e51e344b4b771ebb9124d8806a4 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | RERUN=t45;CASES=classmate_mingxuan;STEPS=first,greet,up,ladder,menu,invite,invite_study,reload,phone,shop,walk;CC_HEADLESS=0
 WINVIEW_rel_deploy | bcb386604502ab9e04674cd587ef5d527a33b570 | game | tests/deploy_check.py | index.html | 30 | XARGS={url} v9.10.21（2026-11-05）;CC_HEADLESS=0
 # WINVIEW_rel_shots r1（PC 18:32）：afar 晚上走到店門 0.12 m 走不到、來回 241 秒→店關了（TEST_BUG，use_exit 改了）；青木沒跑到（40 分逾時）→ r2、60 分
 WINVIEW_rel_shots | bcb386604502ab9e04674cd587ef5d527a33b570 | probe | docs/story_planning/test_tools/cc/cc_v21x_shops_probe.py | index.html | 60 | CC_HEADLESS=0;PARTS=windows;RERUN=r2;WIN=afar,bookstore,aoki;DAYH=14;NIGHTH=20.5
