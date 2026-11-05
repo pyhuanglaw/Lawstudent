@@ -3071,6 +3071,16 @@
    "wants": "X234",
    "task": "SHAOLA-WIRE-1105",
    "note": "查到 BB 做的 shaola_interior.glb v7（MODEL_READY 11-04）只在企劃線、從沒接進遊戲；noodle 區域照舊載 noodle_interior.glb；交 LAWWW2 接（D108），放進 v9.10.21"
+  },
+  {
+   "id": "UA-LAWWW-1105-18",
+   "at": "2026-11-05T06:5xZ",
+   "quote": "影印店坐著的人卡進桌子（附截圖：阿德影印中間長桌，坐著的男生胸口卡進桌子）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X234",
+   "task": "ADE-SEAT-CLIP-1105",
+   "note": "穿模＝D141 擋玩；交 LAWWW2（座位離桌距離，D108），放進 v9.10.21"
   }
  ]
 }

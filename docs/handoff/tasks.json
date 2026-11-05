@@ -47203,6 +47203,34 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "ADE-SEAT-CLIP-1105",
+   "title": "阿德影印坐著的人卡進桌子（使用者 11-05 06:5x 截圖）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "阿德影印",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2：中間長桌座位往後挪／椅子離桌距離照 SIT-HEIGHT 身材，先在開發分支確認還有沒有；Node 穿模測試 → v9.10.21",
+   "source": "UA-LAWWW-1105-18",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者截圖",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "坐著的人身體不進桌面（各種身材）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
