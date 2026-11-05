@@ -18,9 +18,10 @@
      hearLater：{from:學期, hear}＝那一學期起換一句（學姊山嵐：大二起她已經考上研究所＝判決評釋那一句；新的一句，只出一次）；
      hearAny：這一列的聽一句不限大一上，只出一次（可昕：大一下起才排；柏翰考試週：AA_621）；
      examOnly：只有考試那兩週（柏翰大口：考試那兩週照 AA_621 第 2 節 02:30～05:00）；
-     notDating／noPlanDay：和她交往中、那一天跟你有約（邀約、校外約會、出遊）＝這一列不出（可昕，AA_705 第二批第 2 節）；src：這一列的稿（沒寫＝AA_705）。*/
+     notDating／noPlanDay：和她交往中、那一天跟你有約（邀約、校外約會、出遊）＝這一列不出（可昕，AA_705 第二批第 2 節；4f71f7719 起交往中也出＝SHOPNPC.KX_DATING_OFF=false）；src：這一列的稿（沒寫＝AA_705）；
+     hearDating：和她交往中的那一句（可昕，AA_705 補 4f71f7719）；examOnly:'final'＝只有期末考週；to>24＝跨午夜（芯慈週日 22:00～01:00）。*/
 const SHOP_NPC={
-  src:{AA_705:'a0f562527',AA_615:'ebea3a2b0',AA_621:'52e3d83a8'},   /* AA_705 補一節 f8bd25439（11-05 08:17：兩列換時段、遞一小杯補旁白；表格本身和 ebea3a2b0 一樣）→ 4e6755340（青木）→ 44af68368（第二批）；AA_621 第 2 節（柏翰考試週）*/
+  src:{AA_705:'15eb48dfa',AA_615:'ebea3a2b0',AA_621:'52e3d83a8'},   /* AA_705：15eb48dfa（第三批兩列換時段）← 4f71f7719（可昕交往中也出、AA_621 阿哲芯慈也做）← a0f562527（第三批）；補一節 f8bd25439（11-05 08:17：兩列換時段、遞一小杯補旁白；表格本身和 ebea3a2b0 一樣）→ 4e6755340（青木）→ 44af68368（第二批）；AA_621 第 2 節（柏翰考試週）*/
   rows:[
     /* ---------- 新生南路 ---------- */
     {id:'xs_shanlan_an',shop:'山嵐書店',who:'heroine_01',zone:'xs_shanlan',days:[6],from:19.5,to:20.5,   /* AA_705 補一節（f8bd25439）：原本週日 14:00～15:30 永遠撞到 2:30 AM 念書 → 週六 19:30～20:30 */
@@ -41,6 +42,11 @@ const SHOP_NPC={
       place:'櫃台前買弦',hearBy:'guitar'},   /* 「買東西（櫃台）」(0.25, 0.6) 旁邊，面向櫃台；偶遇演完（她拿了一包弦就走）那一天就不在了 */
     {id:'xs_dakou_bh',shop:'大口漢堡',who:'classmate_bohan',zone:'xs_dakou',days:[1,3],from:22+10/60,to:23,noExam:true,act:'read',pose:'seat',seat:[5.05,-5.1,1],
       place:'二樓靠牆有插座那排，讀書（read）',hear:{who:'classmate_bohan',t:'總圖十點關。這裡還可以再讀一個小時。'}},   /* 二樓東牆「坐下讀書（有插座）」那一排的中間 */
+    /* AA_621 第 2 節「同學（考試那兩週）」（AA_705 補 4f71f7719：阿哲、芯慈「也做，照 AA_621 原稿」）：位子在二樓（「坐下讀書」那一層），和柏翰那張錯開 */
+    {id:'xs_dakou_zhe_exam',src:'AA_621',shop:'大口漢堡',who:'zhe',zone:'xs_dakou',days:[0,1,2,3,4,5,6],from:0,to:2,examOnly:'final',terms:['Y1S1'],act:'read',pose:'seat',seat:[3.0,-0.4,1],hearAny:true,
+      place:'大一上期末考週（他從宿舍下來買宵夜，順便坐下來讀）',hear:{who:'zhe',t:'我說好讀一小時。……第三份雞塊了。'}},   /* 00:00～02:00＝日曆上期末考週那幾天的 00:00～02:00（還沒睡的 G.hour 24～26 也算，S.calOk）；二樓樓梯口旁邊那張四人桌（tables4 (2.7, −1.0)）靠樓梯那一張 */
+    {id:'xs_dakou_xc_exam',src:'AA_621',shop:'大口漢堡',who:'classmate_xinci',zone:'xs_dakou',days:[0],from:22,to:25,examOnly:true,act:'read',pose:'seat',seat:[5.05,-4.2,1],hearAny:true,
+      place:'考試那兩週的週日',hear:{who:'classmate_xinci',t:'財金那份報告我在這裡寫完的。……第二份還沒。'}},   /* 週日 22:00～隔天 01:00（to 25＝跨午夜）；考試那兩週照柏翰那一列的讀法（term.exam：第 8、9、16 週）；二樓東牆有插座那排，柏翰那張（z −5.1）旁邊一張（她和柏翰的時段不重疊）*/
     {id:'xs_dakou_bh_exam',src:'AA_621',shop:'大口漢堡',who:'classmate_bohan',zone:'xs_dakou',days:[0,1,2,3,4,5,6],from:2.5,to:5,examOnly:true,act:'read',pose:'seat',seat:[5.05,-5.1,1],hearAny:true,
       place:'考試那兩週，兩點半關門後過來',hear:{who:'classmate_bohan',t:'兩點半關了。這裡不會趕人。'}},   /* AA_705 第二批「例外」：柏翰大口「考試那兩週照 AA_621」＝AA_621 第 2 節「柏翰：02:30～05:00（兩點半關門後過來…）」那一句；位子同上面那一列（二樓靠牆有插座那排）；聽一句不限大一上、只出一次 */
     /* ---------- 公館 ---------- */
@@ -54,9 +60,9 @@ const SHOP_NPC={
     {id:'bikeshop_kai',shop:'慢輪單車',who:'kai',zone:'bikeshop',days:[0],from:15,to:16,act:'wander',pose:'stand',at:[1.5,4.3,Math.PI/2,0],
       place:'門口打氣、看車（wander）',hear:{who:'kai',t:'我只是來打氣。……順便看一下那台變速的。'}},   /* 店門（折門 x −0.5～1.6）進來右手邊，看門口那兩台車（小折）*/
     /* AA_705 第三批（企劃線 dd765aec6／a0f562527；使用者 11-05 09:2x「不要新的人物!!!」「原本的人物就好」「我沒有要求每天去都要遇到人」「但是要遇的到」）：只補 AA_620 第 3-4 節已經寫好的三位，句子照 AA_620 原句；之後不再加人、不加時段 */
-    {id:'xs_dabu_kai',shop:'大步球鞋',who:'kai',zone:'xs_dabu',days:[6],from:18+40/60,to:19+20/60,act:'wander',pose:'stand',at:[-2.75,-2.4,-Math.PI/2,0],
+    {id:'xs_dabu_kai',shop:'大步球鞋',who:'kai',zone:'xs_dabu',days:[0],from:16.5,to:17.25,act:'wander',   /* AA_705 補（15eb48dfa）：原本週六 18:40～19:20 永遠撞（宿舍書桌、週六打工）→ 週日 16:30～17:15（慢輪 15:00～16:00 打氣以後順路）*/pose:'stand',at:[-2.75,-2.4,-Math.PI/2,0],
       place:'跑鞋那一格（wander）',hearAny:true,hear:{who:'kai',t:'我要開始跑步了。……真的。'}},   /* 左牆跑鞋那一格（z −4.1～−1.5）前面；「看看」(−2.75, −3.4) 往北 1 m、阿哲那一列（籃球鞋 z 0.6）往南 3 m */
-    {id:'xs_haopai_bh',shop:'好拍運動',who:'classmate_bohan',zone:'xs_haopai',days:[2],from:20,to:20.5,terms:['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],act:'sit',pose:'seat',seat:[-0.26,2.3,0],
+    {id:'xs_haopai_bh',shop:'好拍運動',who:'classmate_bohan',zone:'xs_haopai',days:[4],from:17.25,to:17.75,   /* AA_705 補（15eb48dfa）：原本週二 20:00～20:30 永遠撞總圖 → 週四 17:15～17:45（週四總圖到 17:00）*/terms:['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],act:'sit',pose:'seat',seat:[-0.26,2.3,0],
       place:'櫃台前等穿線（sit 高腳凳）',hearAny:true,hear:{who:'classmate_bohan',t:'我高中打桌球。……念書念到受不了就去打一下。'}},   /* 大一下起；高腳凳＝配置 seats[0]「坐著等穿線」，他坐著的時候玩家的那一個按鈕照舊藏起來（有人坐）；hearAny：第一次遇到是大一下以後，聽一句照 AA_705 第三批「只一次」 */
     {id:'xs_xsports_yu',shop:'新生運動廣場',who:'yu',zone:'xs_xsports',days:[0],from:13,to:14,terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],act:'wander',pose:'stand',at:[-5.95,-1.85,-Math.PI/2,1],
       place:'二樓運動服那一排（wander）',hearAny:true,hear:{who:'yu',t:'我參加系上的排球。……你不要笑。'}},   /* 大二起；二樓左牆衣架（x −6.88～−6.40）前面、面向衣架；「看看（系隊球衣）」(−4.4, −2.9) 離 1.8 m */
@@ -69,7 +75,8 @@ const SHOP_NPC={
     /* ---------- 第二批：可昕（大一下起；AA_705 第二批第 2 節）---------- */
     {id:'bookstore_kx',shop:'頁間書屋',who:'kexin',zone:'bookstore',days:[6],from:14,to:15.5,weeks:'even',terms:['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],act:'read',pose:'stand',at:[-4.75,-3.95,Math.PI,0],
       hearAny:true,notDating:true,noPlanDay:true,
-      place:'法律書那一櫃前面，站著翻（read）',hear:{who:'kexin',t:'你也來這家？……我只是來看有沒有新出的考古題。'}}   /* 北牆書牆西段（「看看法律書與文具」(−4.0, −3.9) 那一櫃）前面、按鈕西邊 0.75 m，面向書牆；路人站的位置 (−2.3, −4.0)、法律系同學找書的 (0.3, −3.95) 都錯開。
+      place:'法律書那一櫃前面，站著翻（read）',hear:{who:'kexin',t:'你也來這家？……我只是來看有沒有新出的考古題。'},
+      hearDating:{who:'kexin',t:'你也來這家？……我來看考古題，不是來等你的。'}}   /* AA_705 補（4f71f7719）：交往中也出（SHOPNPC.KX_DATING_OFF=false；notDating 留著當開關）、只有那一天跟你有約才不出；交往中的那一句（沒交往照原句）*/   /* 北牆書牆西段（「看看法律書與文具」(−4.0, −3.9) 那一櫃）前面、按鈕西邊 0.75 m，面向書牆；路人站的位置 (−2.3, −4.0)、法律系同學找書的 (0.3, −3.95) 都錯開。
        「她在木柵大學念書，週末才會在公館；和她交往中、或她那一天跟你有約，照約的走，這一列不出」：交往中（G.flags.dating_kexin）、那一天有約（邀約 G.invites、校外約會 G.trips、出遊）＝不出 */
   ],
   /* 照現在、不另外排的（AA_705 表上「照現在」「不另寫」那幾列；測試對稿用）*/

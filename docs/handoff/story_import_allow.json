@@ -4602,10 +4602,10 @@
    "path": "docs/story_planning/AA_621_大口漢堡_24小時速食.md",
    "sha": "52e3d83a8",
    "status": "approved",
-   "approvedBy": "AA-C D109（AA_621 52e3d83a8：店名改大口漢堡那一版；AA_697 指過來）",
+   "approvedBy": "AA-C D109（AA_621 52e3d83a8：店名改大口漢堡那一版；AA_697 指過來）；第 2 節阿哲、芯慈：AA-C D109（AA_705 補 4f71f7719「也做，照 AA_621 原稿」）",
    "task": "XS-SHOPS-REST-1105",
    "kind": "text",
-   "note": "大口漢堡（xs_dakou）：第 1 節菜單八樣（價錢、早餐 05:00～10:30 豬肉滿福堡）、第 2 節讀書的旁白四句輪流＋第一次進去兩句＋天亮一句、第 3 節一個人深夜去一句。照抄進 src/dakou_sys3d.js（DKS.L）；第 2 節同學：柏翰（考試那兩週 02:30～05:00、那一句）照 AA_705 第二批接進 src/data/shop_npc.js（xs_dakou_bh_exam，SHOP_NPC.src.AA_621）；阿哲、芯慈的作息與台詞、第 3 節阿哲宵夜私訊還沒做。tests/dakou_act_unit.js 用 git show 52e3d83a8 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+   "note": "大口漢堡（xs_dakou）：第 1 節菜單八樣（價錢、早餐 05:00～10:30 豬肉滿福堡）、第 2 節讀書的旁白四句輪流＋第一次進去兩句＋天亮一句、第 3 節一個人深夜去一句。照抄進 src/dakou_sys3d.js（DKS.L）；第 2 節同學：柏翰（考試那兩週 02:30～05:00、那一句）照 AA_705 第二批接進 src/data/shop_npc.js（xs_dakou_bh_exam，SHOP_NPC.src.AA_621）；阿哲（大一上期末考週 00:00～02:00）、芯慈（考試那兩週的週日 22:00～01:00）的作息與那一句也接進 shop_npc.js（xs_dakou_zhe_exam、xs_dakou_xc_exam，AA_705 補 4f71f7719）；第 3 節阿哲「宵夜？大口漢堡」私訊還沒做（掛在 AA_614 第 3 節第 1 列，那一列本身還沒做〔AA614-CLASSMATE-JOBS-1103〕，觸發時間要先問 AA）。tests/dakou_act_unit.js 用 git show 52e3d83a8 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
   },
   {
    "path": "docs/story_planning/AA_698_大步球鞋好拍運動互動點的字.md",
@@ -4645,12 +4645,12 @@
   },
   {
    "path": "docs/story_planning/AA_705_新店面裡遇得到的人_第一批作息.md",
-   "sha": "a0f562527",
+   "sha": "15eb48dfa",
    "status": "approved",
-   "approvedBy": "AA-C D109（AA_705 第三批 dd765aec6＋a0f562527，11-05 09:2x：使用者「不要新的人物」「原本的人物就好」→ 只補 AA_620 3-4 三列（阿凱大步週六 18:40～19:20、柏翰好拍大一下起週二 20:00～20:30、Alison 運動廣場大二起週日 13:00～14:00）；「不用每天都遇到人，但要遇得到」→ 照現在密度、不再加；第一、二批照 44af68368）",
+   "approvedBy": "AA-C D109（AA_705 補 4f71f7719＋15eb48dfa，11-05 09:2x 回 LAWWW-C：可昕交往中也會在頁間遇到（只有那一天有約才不出）＋交往版一句；學姊大二起旁白、「第 2 週起」只大一上、柏翰考試週照 LAWWW-C；AA_621 阿哲、芯慈考試週和宵夜訊息「也做」；第三批兩列永遠撞→阿凱大步改週日 16:30～17:15、柏翰好拍改週四 17:15～17:45；第一～三批其他照 a0f562527）",
    "task": "SHOP-NAMED-NPC-1105",
    "kind": "text",
-   "note": "新店面裡遇得到有名字的人：第一批（大一上）新生南路、公館、溫州街 14 列的星期、時段、位置、act、聽一句＋第二批（大一下～大四下、可昕頁間書屋）照抄進 src/data/shop_npc.js 的 SHOP_NPC.rows（系統 src/shopnpc3d.js）；芷若那一列照稿「給 LAWWW」的規則改週日下午；第三批三列（xs_dabu_kai、xs_haopai_bh、xs_xsports_yu）；tests/shop_npc_unit.js 用 git show 44af68368（第一、二批）、a0f562527（第三批）逐句對照。LAWWW-C 子代理 2026-11-05 代登",
+   "note": "新店面裡遇得到有名字的人：第一批（大一上）新生南路、公館、溫州街 14 列的星期、時段、位置、act、聽一句＋第二批（大一下～大四下、可昕頁間書屋）照抄進 src/data/shop_npc.js 的 SHOP_NPC.rows（系統 src/shopnpc3d.js）；芷若那一列照稿「給 LAWWW」的規則改週日下午；第三批三列（xs_dabu_kai、xs_haopai_bh、xs_xsports_yu）；tests/shop_npc_unit.js 用 git show 44af68368（第一、二批）、15eb48dfa（第三批＋09:21、09:25 兩節補）逐句對照；可昕交往中那一句＝SHOP_NPC.rows bookstore_kx.hearDating。LAWWW-C 子代理 2026-11-05 代登",
    "history": [
     {
      "sha": "ebea3a2b0",
@@ -4667,6 +4667,10 @@
     {
      "sha": "44af68368",
      "approvedBy": "AA-C D109（AA_705 第二批 44af68368，11-05 09:0x：第一批延到大一下～大四下、聽一句只在大一上、學姊大二起判決評釋那一句、子晴同弦只有大一上、柏翰考試週照 AA_621、可昕頁間書屋雙數週週六；第一批照 4e6755340）"
+    },
+    {
+     "sha": "a0f562527",
+     "approvedBy": "AA-C D109（AA_705 第三批 dd765aec6＋a0f562527，11-05 09:2x：使用者「不要新的人物」「原本的人物就好」→ 只補 AA_620 3-4 三列（阿凱大步週六 18:40～19:20、柏翰好拍大一下起週二 20:00～20:30、Alison 運動廣場大二起週日 13:00～14:00）；「不用每天都遇到人，但要遇得到」→ 照現在密度、不再加；第一、二批照 44af68368）"
     }
    ]
   },

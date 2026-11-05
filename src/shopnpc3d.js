@@ -23,14 +23,17 @@
        「第 2 週起」只在大一上（S.WEEK_MIN_TERMS：原因是「開學第一週大家還不熟這些店」，只有大一上是這樣）；雙數週、單數週、指定週照每一學期的週次。
      ② 聽一句只在大一上（S.HEAR_TERMS；每人一次）。大一下起照樣在那裡、照一般的「和他說話」，不再出同一句。
      ③ 例外：學姊山嵐大二起換判決評釋那一句（hearLater：新的一句，出一次）；子晴同弦只有大一上（AA_619）；柏翰大口考試那兩週照 AA_621 第 2 節（02:30～05:00，那一句只出一次）。
-     ④ 可昕（大一下起）：頁間書屋雙數週週六 14:00～15:30 法律書那一櫃前面站著翻；和她交往中（G.flags.dating_kexin）、那一天跟你有約（S.planDay：邀約、校外約會、出遊）＝不出（S.KX_DATING_OFF 改 false＝交往中也出）。聽一句一次（hearAny）。
+     ④ 可昕（大一下起）：頁間書屋雙數週週六 14:00～15:30 法律書那一櫃前面站著翻；那一天跟你有約（S.planDay：邀約、校外約會、出遊）＝不出。聽一句一次（hearAny）。
+       AA_705 補（4f71f7719，回 LAWWW-C 09:21）：新遊戲一開始就和她交往＝照第二批「交往中不出」幾乎遇不到 → 交往中也出（S.KX_DATING_OFF=false），交往中的那一句換 hearDating（沒交往照原句）。
+   - AA_705 補（15eb48dfa，回 LAWWW-C 09:25）：第三批兩列永遠撞＝換時段：大步阿凱週日 16:30～17:15、好拍柏翰週四 17:15～17:45。
+   - AA_621 第 2 節（4f71f7719「也做」）：大口漢堡考試週的阿哲（大一上期末考週 00:00～02:00，examOnly:'final'）、芯慈（考試那兩週的週日 22:00～01:00，跨午夜＝S.frame）；那一句只出一次（hearAny）。
      存檔多一個鍵 G.flags.SHOPNPC_HEAR1＝{列 id（hearLater 那一句是 列 id@學期）:那一天}（只出一次的那幾句；舊存檔沒有＝沒聽過）。
    測試：node tests/shop_npc_unit.js */
 'use strict';
 const SHOPNPC=(function(){
   const S={};
   const D=()=>typeof SHOP_NPC!=='undefined'?SHOP_NPC:{rows:[],alison:{}};
-  S.TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2']; S.WEEK_MIN_TERMS=['Y1S1']; S.HEAR_TERMS=['Y1S1']; S.KX_DATING_OFF=true;
+  S.TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2']; S.WEEK_MIN_TERMS=['Y1S1']; S.HEAR_TERMS=['Y1S1']; S.KX_DATING_OFF=false;   /* AA_705 補（4f71f7719）：可昕交往中也會在頁間遇到，只有那一天跟你有約才不出（true＝回到第二批「交往中不出」）*/
   S.WEEK_MIN=2; S.HEAR_R=2.5; S.ALISON_R=2.6; S.CAP_MS=4800;
   const termOf=d=>typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null;
   const wdOf=d=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(d).wd%7:null;
@@ -48,13 +51,17 @@ const SHOPNPC=(function(){
   /* 她原本的作息（不算這裡加的）*/
   S.base=function(c,G){ if(typeof STORY==='undefined'||!STORY.schedEnt||!c) return null; const g=guard; guard=true; try{ return STORY.schedEnt(c,G); }catch(e){ return null; } finally { guard=g; } };
   /* 這一列的日曆條件（不看原本的作息）：星期、時段、學期、週次、考試週、店開著 */
-  S.calOk=function(G,row,day,h){ if(day==null) day=G.day|0; if(h==null) h=hr(G); if(econ(G)) return false;
+  /* 過午夜（AA_621 第 2 節：阿哲 00:00～02:00、芯慈週日 22:00～01:00）：G.hour 24 以上＝還沒睡（G.day 是前一天）＝日曆上是隔天的 (G.hour−24) 點；
+     to>24 的列（芯慈週日 22:00～01:00）00:00～(to−24) 算前一天晚上那一列（星期、學期、考試週都看前一天）。其他列照舊（from／to 都在 24 以內）*/
+  S.calOk=function(G,row,day,h){ if(econ(G)) return false; const raw=+G.hour||0; if(day==null) day=(G.day|0)+(raw>=24?Math.floor(raw/24):0); if(h==null) h=hr(G);
+    const open=isOpen(row.zone,h,day);   /* 店開著：看日曆上的那一天、那一點 */
+    if(row.to>24&&h<row.to-24){ day-=1; h+=24; }   /* 跨午夜的列：00:00～(to−24) 算前一天晚上 */
     const wd=wdOf(day); if(!row.days.includes(wd)||h<row.from||h>=row.to) return false;
     const T=termOf(day); if(!T||!(row.terms||S.TERMS).includes(T.id)) return false;
     if(Array.isArray(row.weeks)){ if(!row.weeks.includes(T.week)) return false; } else { if(S.WEEK_MIN_TERMS.includes(T.id)&&T.week<S.WEEK_MIN) return false; if(row.weeks==='even'&&T.week%2!==0) return false; if(row.weeks==='odd'&&T.week%2!==1) return false; }
-    if(row.noExam&&T.exam) return false; if(row.examOnly&&!T.exam) return false;
+    if(row.noExam&&T.exam) return false; if(row.examOnly&&!T.exam) return false; if(typeof row.examOnly==='string'&&T.exam!==row.examOnly) return false;   /* examOnly:'final'＝只有期末考週（阿哲：大一上期末考週，AA_621 第 2 節）*/
     if(row.dateFrom&&typeof STORY!=='undefined'&&STORY.dayOfKey){ const d0=STORY.dayOfKey(row.dateFrom); if(d0!=null&&day<d0) return false; }
-    if(!isOpen(row.zone,h,day)) return false;
+    if(!open) return false;
     return true; };
   /* 假的 G（同一個存檔、別的時間）：只換日期、時間、星期 */
   const at=(G,day,h)=>Object.assign({},G,{day,hour:h,weekday:wdOf(day)});
@@ -114,7 +121,7 @@ const SHOPNPC=(function(){
     const key='alison|'+(G.day|0)+'|'+b.from+'|'+b.to; let e=entMemo.get(key); if(!e){ e=Object.assign({},b,{zone:row.zone,act:'linger',at:row.at.slice(),away:undefined,noPair:true,shopNpc:row.id,note:'AA_705 南洋戲院（她原本的打工作息，AA_661 第 30 列）'}); delete e.away; entMemo.set(key,e); } return e; };
   S.sched=function(c,G){ if(guard||!c||!c.id||!G||typeof CALENDAR==='undefined') return null;
     if(c.id==='yu'){ const a=S.alisonEnt(c,G); if(a) return a; }   /* 南洋戲院（她的打工）優先；不在戲院的日子照表（AA_705 第三批：大二起週日運動廣場）*/
-    for(const row of S.rows()){ if(row.who!==c.id||row.hearBy==='alison') continue; if(!row.days.includes(G.weekday!=null?G.weekday:wdOf(G.day))) continue; const h=hr(G); if(h<row.from||h>=row.to) continue;
+    for(const row of S.rows()){ if(row.who!==c.id||row.hearBy==='alison') continue;   /* 星期、時段照 S.calOk（過午夜的列看 S.frame）*/
       if(S.on(G,row)) return S.entry(G,row); }
     return null; };
   /* 這個人現在照這張表在哪一列（測試、聽一句用）*/
@@ -141,7 +148,7 @@ const SHOPNPC=(function(){
   const tIdx=id=>S.TERMS.indexOf(id);
   /* 這一學期這一列的聽一句：{hear, once（只出一次的鍵；null＝每學期一次那一種）}；沒有＝null（AA_705 第二批：只在大一上；hearLater、hearAny 是例外）*/
   S.hearFor=function(G,row){ const T=termOf(G.day); if(!T||!row.hear) return null;
-    if(row.hearAny) return heardOnce(G,row.id)?null:{hear:row.hear,once:row.id};
+    if(row.hearAny){ if(heardOnce(G,row.id)) return null; const dt=row.hearDating&&G.flags&&G.flags['dating_'+row.who]===true; return {hear:dt?row.hearDating:row.hear,once:row.id}; }   /* hearDating：和她交往中的那一句（可昕，AA_705 補 4f71f7719）；只出一次（兩句合起來一次）*/
     if(S.HEAR_TERMS.includes(T.id)) return {hear:row.hear,once:null};
     const L=row.hearLater; if(L&&L.hear&&tIdx(T.id)>=0&&tIdx(T.id)>=tIdx(L.from)){ const k=row.id+'@'+L.from; return heardOnce(G,k)?null:{hear:L.hear,once:k}; }
     return null; };
