@@ -397,3 +397,23 @@
 [16:33:54] ==== END   GUITAR_DORM  exit=0  134s   ====
 [16:33:57] solo item SITHEIGHT_ed76 waits: no new items start until the 2 running item(s) finish
 [16:36:29] [res] cpu=1% mem=33% (10.6/31.4 GB) chrome_testing=5  END D118B7F_play
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c5a28027c..23aa38e9b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:36:34] ==== END   D118B7F_play  exit=1  249s   ====
+[16:36:37] solo item SITHEIGHT_ed76 waits: no new items start until the 1 running item(s) finish
+[16:37:08] 正在跑：SHANLAN_v3（已跑 37 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:42:08] 正在跑：SHANLAN_v3（已跑 42 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:47:08] 正在跑：SHANLAN_v3（已跑 47 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:52:08] 正在跑：SHANLAN_v3（已跑 52 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:57:08] 正在跑：SHANLAN_v3（已跑 57 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:02:08] 正在跑：SHANLAN_v3（已跑 62 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:06:59] memory 35% before starting V21R_p0 (1 running)
+[17:06:59] memory 35% before starting V21R_movreg (2 running)
+[17:06:59] ==== START V21R_p0  (game @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
+[17:06:59] ==== START V21R_movreg  (game @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
+[17:07:03] [res] cpu=30% mem=35% (11.2/31.4 GB) chrome_testing=5  START V21R_p0
+[17:07:03] [res] cpu=30% mem=35% (11.2/31.4 GB) chrome_testing=5  START V21R_movreg
+[17:07:03] worktree add 83d09d13b0686e51e344b4b771ebb9124d8806a4: invalid reference - fetching main and the commit itself
+[17:07:08] 正在跑：SHANLAN_v3（已跑 67 分／上限 120 分）、V21R_p0（已跑 0 分／上限 20 分）、V21R_movreg（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:10:15] [res] cpu=23% mem=41% (13.1/31.4 GB) chrome_testing=10  END V21R_p0
