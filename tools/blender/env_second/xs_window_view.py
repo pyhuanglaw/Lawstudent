@@ -1,6 +1,6 @@
 """新生南路西側二樓窗外的景（窗景照片）：從店家二樓的窗往東看——新生南路四線道、分隔島、對面紅磚人行道的大王椰子和樟樹、首都帝大的紅磚圍牆，牆裡面是校園的樹（LAWWW2 11-04，給 CC 的同弦樂器 v4c）。
 照 src/data/xinsheng_layout.js（路、人行道、圍牆、樹、路燈的位置；改那邊要重拍）。樹是 street_trees.glb（⑦行道樹，和遊戲同一組模型）；遊戲裡圍牆後面現在還是空地（側門外的遠景還沒做），這張先放校園的樹。
-用法：/opt/blenv/bin/python tools/blender/env_second/xs_window_view.py -- <店的 z 中心> <輸出 png> [--h 5.75] [--res 1024x640] [--lens 28] [--night] [--layout <xinsheng_layout.js>]
+用法：/opt/blenv/bin/python tools/blender/env_second/xs_window_view.py -- <店的 z 中心> <輸出 png> [--h 5.75] [--res 1024x640] [--lens 28] [--night] [--layout <xinsheng_layout.js>] [--ground（一樓店門裡往外，騎樓）] [--look-dy <鏡頭往下看幾 m，預設 −3.2；--ground 是 0>]
 例：同弦樂器（z −12.4～−6.0，窗在 z −12.2～−9.6）：... -- -10.9 out.png"""
 import json, math, os, random, sys
 import bpy, bmesh
@@ -78,6 +78,16 @@ for i, (x, z) in enumerate(X['trees']['camphor']):
 for k in range(150):   # 校園裡的樹：圍牆內 4～75 m（近的密一點，遠的大一點，從二樓看過去是一整片樹冠）
     x = CW['x'] + 4 + (rnd.random() ** 1.3) * 71; z = ZC - 60 + rnd.random() * 120
     place(rnd.choice(['camphor_a', 'camphor_b', 'banyan_a', 'banyan_a']), x, z, rnd.random() * 6.3, 0.9 + rnd.random() * 0.5 + (x - CW['x']) / 140)
+# --ground（XS-WINCARD-1105，LAWWW2-C 11-05）：一樓店門裡往外看——騎樓的天花板、地磚、每間店靠北那一端的柱子（和 xinsheng3d.js 的騎樓、wz_street.py 的 xs_front 同一套位置）
+GROUND = '--ground' in A
+if GROUND:
+    F = X['facade']; walk0 = WW['x0'] if WW.get('x0') is not None else F['upper']
+    box('arc_floor', mat('arc_tile', '#c9c2b4', 0.85), F['x'], walk0, 0.0, 0.14, Z0, Z1)
+    box('arc_ceil', mat('arc_ceil', '#e7e2d8', 0.9), F['x'], F['upper'] + 0.05, F['groundH'] - 0.05, F['groundH'] + 0.3, Z0, Z1)
+    box('arc_beam', mat('arc_beam', '#d9d3c6', 0.85), F['upper'] - 0.35, F['upper'] + 0.05, F['groundH'] - 0.55, F['groundH'], Z0, Z1)
+    pil = mat('arc_pillar', '#d6cfc1', 0.85)
+    for q in X['shops']:
+        if Z0 < q['z0'] < Z1: box('arc_pillar', pil, F['upper'] - 0.6, F['upper'], 0.0, F['groundH'], q['z0'], q['z0'] + 0.3)
 fac = mat('campus_bldg', '#d9cfbd', 0.85); roofm = mat('campus_roof', '#8a7f72', 0.8); winm = mat('campus_win', '#5e6670', 0.3)
 for (x0, z0, w, d, h) in ((95, ZC - 38, 18, 30, 16), (100, ZC + 8, 14, 26, 13), (120, ZC - 10, 20, 40, 22)):   # 樹後面遠遠的系館（看得到上半截）
     box('cbldg', fac, x0, x0 + w, 0, h, z0, z0 + d); box('croof', roofm, x0 - 0.3, x0 + w + 0.3, h, h + 0.4, z0 - 0.3, z0 + d + 0.3)
@@ -96,7 +106,8 @@ nt.links.new(sky.outputs['Color'], nt.nodes['Background'].inputs['Color']); nt.n
 sun = bpy.data.objects.new('sun', bpy.data.lights.new('sun', 'SUN')); sc.collection.objects.link(sun); sun.data.energy = 0.3 if NIGHT else 2.6
 sun.rotation_euler = (math.radians(48), 0, math.radians(120))
 cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam; cam.data.lens = float(opt('--lens', '28')); cam.data.clip_end = 600
-eye = g2b(X['facade']['upper'] + 0.25, EYE_H, ZC); look = g2b(40.0, EYE_H - 3.2, ZC)
+LOOKDY = float(opt('--look-dy', '0' if GROUND else '-3.2'))
+eye = g2b((X['facade']['x'] - 0.3) if GROUND else (X['facade']['upper'] + 0.25), EYE_H, ZC); look = g2b(40.0, EYE_H + LOOKDY, ZC)
 cam.location = eye; cam.rotation_euler = (look - eye).to_track_quat('-Z', 'Y').to_euler()
 sc.render.resolution_x, sc.render.resolution_y = RW, RH; sc.render.filepath = os.path.abspath(OUTP)
 bpy.ops.render.render(write_still=True); print('render', OUTP, flush=True)
