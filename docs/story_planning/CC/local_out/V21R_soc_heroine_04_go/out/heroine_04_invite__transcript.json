@@ -1,0 +1,312 @@
+{
+ "pid": "heroine_04",
+ "tag": "invite 念書（去總圖一起念書）",
+ "rec0": {
+  "day": 3,
+  "hour": 16.338,
+  "t": 88.338,
+  "money": 30000,
+  "rel": {
+   "fam": 47,
+   "trust": 30,
+   "comf": 25,
+   "aff": 0,
+   "rom": 0,
+   "npcRom": 0
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 3,
+  "hour": 18.2001,
+  "t": 90.2001,
+  "money": 30000,
+  "rel": {
+   "fam": 50,
+   "trust": 32,
+   "comf": 26,
+   "aff": 0,
+   "rom": 1,
+   "npcRom": 1
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "STUDIED_TOGETHER"
+  ],
+  "zone": "library_hall"
+ },
+ "hours": 1.8621000000000123,
+ "say": [
+  {
+   "n": "高子晴",
+   "c": "heroine_04",
+   "t": "「（小聲）二樓靠窗那排比較安靜。」",
+   "h": 16.346,
+   "d": 3,
+   "z": "library_hall",
+   "adv": false
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）",
+   "h": 16.678,
+   "d": 3,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "高子晴",
+   "c": "heroine_04",
+   "t": "「（小聲）圖書館的冷氣好冷。……你外套借我。」",
+   "h": 16.678,
+   "d": 3,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "她推過來一張紙條：「無聊。」你寫：「念書。」",
+   "h": 16.678,
+   "d": 3,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她讀到一半，把一顆喉糖放在你的書旁邊。）",
+   "h": 17.428,
+   "d": 3,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她闔上書，伸了一個懶腰。）",
+   "h": 18.178,
+   "d": 3,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "高子晴",
+   "c": "heroine_04",
+   "t": "「（小聲）走吧。」",
+   "h": 18.178,
+   "d": 3,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "高子晴",
+   "c": "heroine_04",
+   "t": "「我寫了一整頁的程式。你讀了幾頁？」",
+   "h": 18.178,
+   "d": 3,
+   "z": "library_hall",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "高子晴",
+   "text": "「（小",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": false
+  },
+  {
+   "name": "",
+   "text": "（你們在長桌的",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "高子晴",
+   "text": "「（小聲）圖書館的冷氣好冷。……你外套借我。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "她推過來一張紙條：「無聊。」你寫：「念書。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她讀到",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她讀到一半，把一顆喉糖放在你的書旁邊。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她闔上",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "高子晴",
+   "text": "「（小聲）走吧。」",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "高子晴",
+   "text": "「我寫了一整頁的程式。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "library_hall",
+  "lv": 1,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 2.1,
+  "sameGroup": false,
+  "doorD": 6.11,
+  "spawnD": 10.13,
+  "npc": true,
+  "nD": 2.1,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": -7.02,
+  "nz": 2.2,
+  "p": [
+   -9.13,
+   2.2
+  ]
+ }
+}
