@@ -1,0 +1,32 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_xs_photos_probe.py http://127.0.0.1:8805/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\XSPHOTO\out
+CC XSPHOTO（新生南路六間店：店門口＋店裡，白天＋晚上）：SHA=001703460efe0809473b158b4b8513926ae9f6b4（worktree 實際 ?）
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [  41.6s] [day] 新生南路的店門：{"nanyang": [-15.6, 25.3], "shanlan": [-15.6, 10.2], "dakou": [-15.6, 40.4], "dabu": [-15.6, -16.7], "haopai": [-15.6, -23.2], "xsports": [-15.6, -33]}
+PASS [黑畫面] nanyang_door_day 不是黑畫面（平均亮度 67.8、變化 43.5）  [67.8, 43.5]
+PASS [黑畫面] nanyang_inside_day 不是黑畫面（平均亮度 71.8、變化 19.7）  [71.8, 19.7]
+PASS [黑畫面] shanlan_door_day 不是黑畫面（平均亮度 93、變化 37.3）  [93, 37.3]
+PASS [黑畫面] shanlan_inside_day 不是黑畫面（平均亮度 119.8、變化 40.6）  [119.8, 40.6]
+PASS [黑畫面] dakou_door_day 不是黑畫面（平均亮度 104.7、變化 36.4）  [104.7, 36.4]
+PASS [黑畫面] dakou_inside_day 不是黑畫面（平均亮度 149.1、變化 46.8）  [149.1, 46.8]
+PASS [黑畫面] dabu_door_day 不是黑畫面（平均亮度 92.3、變化 40.8）  [92.3, 40.8]
+PASS [黑畫面] dabu_inside_day 不是黑畫面（平均亮度 137.8、變化 47.6）  [137.8, 47.6]
+PASS [黑畫面] haopai_door_day 不是黑畫面（平均亮度 96.5、變化 34.3）  [96.5, 34.3]
+PASS [黑畫面] haopai_inside_day 不是黑畫面（平均亮度 118.6、變化 56.7）  [118.6, 56.7]
+PASS [黑畫面] xsports_door_day 不是黑畫面（平均亮度 92.6、變化 36.4）  [92.6, 36.4]
+PASS [黑畫面] xsports_inside_day 不是黑畫面（平均亮度 143、變化 59.3）  [143, 59.3]
+  [ 225.1s] [night] 新生南路的店門：{"nanyang": [-15.6, 25.3], "shanlan": [-15.6, 10.2], "dakou": [-15.6, 40.4], "dabu": [-15.6, -16.7], "haopai": [-15.6, -23.2], "xsports": [-15.6, -33]}
+PASS [黑畫面] nanyang_door_night 不是黑畫面（平均亮度 57.3、變化 40.6）  [57.3, 40.6]
+PASS [黑畫面] nanyang_inside_night 不是黑畫面（平均亮度 52.5、變化 16.3）  [52.5, 16.3]
+PASS [黑畫面] shanlan_door_night 不是黑畫面（平均亮度 77.9、變化 36.5）  [77.9, 36.5]
+PASS [黑畫面] shanlan_inside_night 不是黑畫面（平均亮度 83.3、變化 26.2）  [83.3, 26.2]
+PASS [黑畫面] dakou_door_night 不是黑畫面（平均亮度 88.7、變化 35.6）  [88.7, 35.6]
+PASS [黑畫面] dakou_inside_night 不是黑畫面（平均亮度 102、變化 39.6）  [102, 39.6]
+PASS [黑畫面] dabu_door_night 不是黑畫面（平均亮度 76.7、變化 39）  [76.7, 39]
+PASS [黑畫面] dabu_inside_night 不是黑畫面（平均亮度 84.3、變化 47.3）  [84.3, 47.3]
+PASS [黑畫面] haopai_door_night 不是黑畫面（平均亮度 80.5、變化 34.7）  [80.5, 34.7]
+PASS [黑畫面] haopai_inside_night 不是黑畫面（平均亮度 90.3、變化 43）  [90.3, 43]
+PASS [黑畫面] xsports_door_night 不是黑畫面（平均亮度 77.5、變化 34.6）  [77.5, 34.6]
+PASS [黑畫面] xsports_inside_night 不是黑畫面（平均亮度 103.1、變化 44.1）  [103.1, 44.1]
+PASS 沒有 JS 例外  []
+ALL PASS
