@@ -494,7 +494,7 @@ const CLS=(function(){
   const DOORS={ common:{zone:'campus',x:2,z:22.8,radius:1.6,label:'共同教學館',mark:true,enter:'gongtong',look:'共同教學館：大一國文、大一英文、通識在這裡上課。'},   /* enter：館內（src/teach3d.js，D55 第二階段）；沒有課時按門就進館，有課時多一個「進去上課」 */   /* 2026-10-13：原本在 (45,22.6) 一棟無名系館門口；共同教學館蓋在真實位置（行政大樓東邊）後搬到它的正門 */
                 putong:{zone:'campus',x:-38,z:-49.4,radius:1.6,label:'普通教學館',mark:true,enter:'putong',look:'普通教學館：文學院後面那棟，很多共同課程、通識在這裡上；二樓有空橋通博思。'},   /* 方案 A（D55）：文學院正後方，正門朝南 */
                 boya:{zone:'campus',x:-38,z:-72.8,radius:1.6,label:'博思教學館',mark:true,enter:'boya',look:'博思教學館：一樓有大階梯教室和自習區，常有演講；北邊就是映月湖。'},   /* 方案 A：普通北邊，正門朝南（空橋底下）*/
-                gym:{zone:'campus',x:74,z:59.4,radius:1.6,label:'體育館',enter:'gym',look:'體育館：體育課在這裡上。'},   /* enter：館內（src/gym3d.js，新體育館第一階段）；體育課照舊可以在門口上（選單「進館裡逛逛」），館內球場中圈也可以 */
+                gym:{zone:'campus',x:-75,z:-125.0,radius:1.6,label:'體育館',enter:'gym',look:'體育館：體育課在這裡上。'},   /* enter：館內（src/gym3d.js，新體育館第一階段）；體育課照舊可以在門口上（選單「進館裡逛逛」），館內球場中圈也可以 */
                 lawlib_desk:{zone:'lawlib',built:true,label:'櫃台',verb:'報到',noToday:true,look:'櫃台：借書、還書、借討論室都在這裡辦。館員正把一疊還回來的書一本一本掃條碼，抬頭說：「還書放旁邊的還書口就好。」'},   /* 服務學習（一）在櫃台報到（AA_110 6-1）；互動點是法律學院圖書館自己的櫃台（lawlib3d.js）*/
                 campus_service:{zone:'campus',x:-40,z:11.2,radius:1.6,label:'服務學習集合點',verb:'報到',terms:['Y2S1'],look:'晨思鐘旁的服務學習集合點。'},   /* 服務學習（二）（大二上；內容 AA 大二前再補）：只在那學期出現 */
                 wancai_seminar:{zone:'wancai',built:true,label:'研討室 A',look:'研討室 A：法律系館B二樓的小教室，大四的研討課在這裡上。'} };   /* built：門的互動點由區域自己建（wancai3d.js 的研討室 A），addDoors 不另外加 */
@@ -1101,7 +1101,7 @@ const CLS=(function(){
   S.routeVia=function(from,to){ const a=upTo(from), b=upTo(to); if(!a||!b) return []; const k=a.findIndex(z=>b.includes(z)); if(k<0) return []; const j=b.indexOf(a[k]);
     return a.slice(1,k+1).concat(b.slice(0,j).reverse()).filter(z=>z!==to&&z!==from); };
   /* 停在校園時站的地方：要走進去的那一棟門口（和各棟「走出去」的落點、手機快速前往的落點一樣）。其他的區域照那一區的出生點（大門、大廳）*/
-  const CAMPUS_AT={ linze:{x:34,z:-98,yaw:0}, wancai:{x:89.21,z:-82.01,yaw:0}, gongtong:{x:2,z:21.4,yaw:0}, putong:{x:-38,z:-47.4,yaw:0}, boya:{x:-38,z:-71.4,yaw:0}, gym:{x:74,z:58,yaw:Math.PI}, library_hall:{x:80,z:0,yaw:-Math.PI/2}, dorm_hall:{x:20,z:54,yaw:Math.PI} };
+  const CAMPUS_AT={ linze:{x:34,z:-98,yaw:0}, wancai:{x:89.21,z:-82.01,yaw:0}, gongtong:{x:2,z:21.4,yaw:0}, putong:{x:-38,z:-47.4,yaw:0}, boya:{x:-38,z:-71.4,yaw:0}, gym:{x:-75,z:-123.4,yaw:0}, library_hall:{x:80,z:0,yaw:-Math.PI/2}, dorm_hall:{x:20,z:54,yaw:Math.PI} };
   /* 到達時就會演的事件（R2）：enter，或不用走近、不是隨機的 auto；地點明確寫了那一區；不靠人物在場、在旁邊、玩家在哪一間（那些要到了現場才知道，走過去的時候再演）*/
   S.arriveEv=(e,z)=>!!e&&(e.trigger==='enter'||(e.trigger==='auto'&&!e.near))&&e.random_weight===undefined&&!e.npcPresent&&!e.npcNear&&!e.npcRoom&&!e.room&&!!e.location&&e.location!=='any'&&[].concat(e.location).includes(z);
   /* 路上第一個要停的地方：照路線順序，每一區「到那裡的時間」照 goPlan 的算法倒推（剩下的路程＝從那一區到教室；到那裡＝現在＋總路程−剩下的），

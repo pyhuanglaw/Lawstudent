@@ -38,6 +38,7 @@ await sec('2',async()=>{
   const E=GM.E; E.player=E.player||{obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0}; E.player.obj.position.x=12; E.player.obj.position.z=-3; E.player.obj.rotation.y=1; E.player.lv=0; E.player.riding=false; E.player.seat=null;
   const calls=[], spawns=[], sits=[]; const enter0=GM.enter, sit0=GM.sitAt, spawn0=GM.spawnCharacter, stand0=GM.standUp;
   GM.enter=async(z,at,o)=>{ calls.push({z,at,o}); H.G.zone=z; }; GM.sitAt=(p,s)=>{ sits.push(s); p.seat=s; }; GM.standUp=p=>{ p.seat=null; }; GM.spawnCharacter=(id,x,z,o)=>{ spawns.push({id,x,z,o}); return {id}; };
+  const k3=TERMEND.KOMICHI_3D; TERMEND.KOMICHI_3D=true;   /* 第 2 節測 3D 那一套（BG-DUSK-1105 以後預設改 2D 傍晚圖，第 3 節）*/
   try{
     const bg0=OUT.bg('teishoku_night');
     const stg=await TERMEND.komichiStage(GM,q(DK('2026-06-20')),ev);
@@ -53,7 +54,19 @@ await sec('2',async()=>{
     const fh=OUT.fromHome; OUT.fromHome=true; const s3=await TERMEND.komichiStage(GM,q(DK('2026-06-20')),ev); OUT.fromHome=fh;
     const s4=await TERMEND.komichiStage(GM,q(DK('2025-12-20')),ev);
     check('2. 騎車、有人跟著、從家裡出發、十二月：不換（照舊 2D 夜景），也沒有換區域',!s1&&!s2&&!s3&&!s4&&calls.length===0,J([!!s1,!!s2,!!s3,!!s4,calls.length]));
-  } finally { GM.enter=enter0; GM.sitAt=sit0; GM.spawnCharacter=spawn0; GM.standUp=stand0; }
+  } finally { GM.enter=enter0; GM.sitAt=sit0; GM.spawnCharacter=spawn0; GM.standUp=stand0; TERMEND.KOMICHI_3D=k3; }
+});
+await sec('3',async()=>{   /* BG-DUSK-1105（BB-C 09:21：使用者生成的小路傍晚 teishoku_dusk 通過）：六月那幾次用這張 2D 背景，不換區域 */
+  H.fresh('2026-06-20',17,'wz'); const E=GM.E; E.player=E.player||{obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0}; E.player.riding=false;
+  const calls=[]; const enter0=GM.enter; GM.enter=async(z,at,o)=>{ calls.push(z); };
+  try{
+    const bg0=OUT.bg('teishoku_night'); const stg=await TERMEND.komichiStage(GM,q(DK('2026-06-20')),ev); const during=OUT.bg('teishoku_night');
+    check('3. 預設（KOMICHI_3D=false）：六月＝小路傍晚圖 teishoku_dusk（assets/bg/teishoku_dusk.webp 在），不換到 3D 小路',TERMEND.KOMICHI_3D===false&&!!stg&&calls.length===0&&during&&during.image==='assets/bg/teishoku_dusk.webp'&&fs.existsSync(path.join(__dirname,'..','assets/bg/teishoku_dusk.webp')),J([calls,during]));
+    await stg.restore(); check('3. 演完背景回到夜景圖',J(OUT.bg('teishoku_night'))===J(bg0)&&!TERMEND.komichiStaged);
+    E.player.riding=true; const s1=await TERMEND.komichiStage(GM,q(DK('2026-06-20')),ev); const d1=OUT.bg('teishoku_night'); if(s1) await s1.restore(); E.player.riding=false;
+    const s4=await TERMEND.komichiStage(GM,q(DK('2025-12-20')),ev);
+    check('3. 六月騎車去也是傍晚圖（2D，不用換區域）；十二月照舊夜景',!!s1&&d1&&d1.image==='assets/bg/teishoku_dusk.webp'&&!s4&&calls.length===0,J([!!s1,d1,!!s4]));
+  } finally { GM.enter=enter0; }
 });
 H.done ? H.done() : (()=>{ const f=H.fails!=null?H.fails:0; console.log(f?'FAILED '+f:'ALL PASS'); process.exit(f?1:0); })();
 })();
