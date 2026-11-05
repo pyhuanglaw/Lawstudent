@@ -65,15 +65,14 @@ const K=t=>'kexin:'+t;
   to('2026-10-10',9.5); G.flags.LAWCLUB_SAT_LAST=null; said=[]; picks=[0,0,0,0]; G.day=D('2026-10-24'); G.weekday=6; await STORY.fafuShift(GM);
   check('1. 第二次值班沒有那一行',!has('（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）')&&G.flags.FAFU_FIRST_SHIFT_Y2===D('2026-09-26'));
   const yto=(key,lv,extra)=>{ fresh(key,18,'noodle',Object.assign({lawclub:true,FAFU_FIRST_SHIFT_Y2:D('2026-09-26')},extra||{})); R('heroine_03',lv||'FAM'); return Y2R2.talkOpts(G,'heroine_03',GM).map(o=>o.t); };
-  /* AA_661 第 17 列（AA_643 第 7 節，AA 定：退場，不搬）：2-Y2-01 語彤麵店閒聊（ev_yt_shift_chat）的對話選項拿掉——她不在麵店、不在法服。下面直接演 S.ytDutyChat 的定義（沒有入口，只確定定義照舊）*/
-  check('1. Y1 9/29 麵店：「禮拜六法服第一次值班。」退場，不出（AA_661 第 17 列）',yto('2026-09-29').length===0,JSON.stringify(yto('2026-09-29')));
-  check('1. Y2 10/6（第 10 天）：「前兩個禮拜，法服第一次值班。」退場，不出',yto('2026-10-06').length===0);
+  check('1. Y1 9/29 麵店：「禮拜六法服第一次值班。」',JSON.stringify(yto('2026-09-29'))===JSON.stringify(['禮拜六法服第一次值班。']),JSON.stringify(yto('2026-09-29')));
+  check('1. Y2 10/6（第 10 天）：「前兩個禮拜，法服第一次值班。」',JSON.stringify(yto('2026-10-06'))===JSON.stringify(['前兩個禮拜，法服第一次值班。']));
   check('1. Y4 第 15 天（10/11）沒有；只是認識（不到 FAMILIAR）沒有；不是法服成員沒有；不在麵店沒有',yto('2026-10-11').length===0&&yto('2026-09-29','ACQ').length===0&&yto('2026-09-29','FAM',{lawclub:false}).length===0&&(()=>{ yto('2026-09-29'); G.zone='cafe'; return Y2R2.talkOpts(G,'heroine_03',GM).length===0; })());
-  yto('2026-10-01'); { const fam0=SOCIAL.rel('heroine_03').fam, o={run:Y2R2.ytDutyChat}; said=[]; picks=[1]; await o.run(GM,{name:'陳語彤',charId:'heroine_03'});
+  yto('2026-10-01'); { const fam0=SOCIAL.rel('heroine_03').fam, o=Y2R2.talkOpts(G,'heroine_03',GM)[0]; said=[]; picks=[1]; await o.run(GM,{name:'陳語彤',charId:'heroine_03'});
     const W=['來的人多嗎？','一個阿伯講了十分鐘，大家都在翻六法。','他是不是一直講他兒子？','妳怎麼知道？','來店裡的阿伯都這樣。重點通常在最後一句。','（她把你的碗收走，又走回來。）','最後一句是什麼？','那就是那個了。','（她沒有再說。）'];
     check('1. 麵店那段逐字（AA_11）、兩選一、選「他兒子不回家」',JSON.stringify(said.map(s=>s.t))===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['「……我沒聽到。大家都在翻書。」','「他說，他兒子不回家。」']),JSON.stringify(said.map(s=>s.t)));
     check('1. YT_DUTY_HEARD、ev_yt_shift_chat 記成演過、語彤熟悉 +1；之後沒有這個選項',G.flags.YT_DUTY_HEARD===true&&!!G.events.done.ev_yt_shift_chat&&SOCIAL.rel('heroine_03').fam===fam0+1&&Y2R2.talkOpts(G,'heroine_03',GM).length===0); }
-  yto('2026-10-01'); { const o={run:Y2R2.ytDutyChat}; said=[]; picks=[0]; await o.run(GM,{name:'陳語彤'}); check('1. 選「……我沒聽到。」→「下次聽完再翻。」',said[said.length-1].t==='下次聽完再翻。'); }
+  yto('2026-10-01'); { const o=Y2R2.talkOpts(G,'heroine_03',GM)[0]; said=[]; picks=[0]; await o.run(GM,{name:'陳語彤'}); check('1. 選「……我沒聽到。」→「下次聽完再翻。」',said[said.length-1].t==='下次聽完再翻。'); }
 
   // 2. 2-Y2-03 K9
   fresh('2026-09-17',20,'dorm'); run('2026-09-17',20.5,21.5); check('2. 不是交往中：沒有 9/17 那則',!PHONE.sent(G,'y2r2_k9_ask'));
@@ -228,7 +227,7 @@ const K=t=>'kexin:'+t;
   await go('y2r2_vday'); picks=[];
   check('10. V1 大一晴天、今年也選晴天：「去年你說晴天，很冷。」……「跟去年一樣。」；最後「情人節快樂。開學那個週末見。」',has('你那邊的天氣？')&&has('去年你說晴天，很冷。')&&has('臺北的冬天很少晴天。……你今年運氣很好。')&&has('跟去年一樣。')&&has('情人節快樂。開學那個週末見。')&&G.flags.KX_VDAY[2]==='video'&&G.flags.KX_VDAY_WX[2]==='sunny'&&!('_y2Vwx' in G.flags));
   fresh('2027-02-08',12,'dorm',{KX_VDAY_WX:{1:'sunny'},KX_VDAY:{1:'video'}}); date('kexin'); run('2027-02-08',12,12.25); said=[]; picks=['下雨']; await EVENTS.run(ev('ev_kexin_valentine_y2'));
-  check('10. 今年選不一樣：沒有「跟去年一樣。」',has('我這邊沒下，二十度。……你那邊有帶傘嗎？')&&!has('跟去年一樣。'));
+  check('10. 今年選不一樣：沒有「跟去年一樣。」',has('我這邊沒下，二十度。……我不是在炫耀。')&&!has('跟去年一樣。'));
   fresh('2027-02-08',12,'dorm'); date('kexin'); run('2027-02-08',12,12.25); miss('y2r2_vday'); run('2027-02-14',20.75,21);
   check('10. V2 沒接：20:30 兩則；最後「開學那個週末見。」、沒有「我們的日子」',JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify([K('打了兩次。你應該在忙。'),K('你那邊的天氣，我自己查了。情人節快樂。開學那個週末見。')])&&!txt('p:kexin').some(t=>/我們的日子/.test(t))&&G.flags.KX_VDAY[2]==='missed');
 
@@ -369,8 +368,8 @@ const K=t=>'kexin:'+t;
   check('17. 5/24 21:00 子晴三則（沒有「好啦這是問句」）',JSON.stringify(txt('p:heroine_04'))===JSON.stringify(['heroine_04:我自己寫的歌要在成發彈','heroine_04:四句歌詞','heroine_04:……你要來'])&&!txt('p:heroine_04').some(t=>/這是問句/.test(t)));
   G.flags.ZQ_SHOW='clap'; await play('ev_ziqing_show2'); check('17. S1 Q5 拍手、這次去：「去年那個 bug 修好了。」＋拍手手勢；ZQ_SHOW2 came',has('去年那個 bug 修好了。')&&has('（她看向觀眾席，找到你，比了一個拍手的手勢。）')&&!has('（發到你的時候）去年的份。')&&G.flags.ZQ_SHOW2==='came');
   fresh('2027-05-28',19,'wancai'); R('heroine_04','FRI'); SOCIAL.remember('heroine_04','INVITED_CLUB',''); check('17. 認識、被邀過：活動事件可以觸發',EVENTS.check(ev('ev_ziqing_show2'),{chain:true}));
-  await play('ev_ziqing_show2'); check('17. S2 Q5 沒去、雙方單身、FRIEND：「去年的份。」、貼紙直接貼在手機殼上；CLAPPED',has('（發到你的時候）去年的份。')&&has('（她沒有遞給你，直接貼在你的手機殼上，什麼都沒說。）')&&SOCIAL.has('heroine_04','CLAPPED'));
-  fresh('2027-05-28',19,'wancai'); R('heroine_04','FRI'); SOCIAL.remember('heroine_04','INVITED_CLUB',''); date('kexin'); await play('ev_ziqing_show2'); check('17. 祐廷有交往對象：貼紙用遞的',has('（她把貼紙遞給你。）')&&!has('（她沒有遞給你，直接貼在你的手機殼上，什麼都沒說。）'));
+  await play('ev_ziqing_show2'); check('17. S2 Q5 沒去、雙方單身、FRIEND：「去年的份。」、貼紙直接貼在手機殼上；CLAPPED',has('（發到你的時候）去年的份。')&&has('（她不是遞給你，是直接貼在你的手機殼上，什麼都沒說。）')&&SOCIAL.has('heroine_04','CLAPPED'));
+  fresh('2027-05-28',19,'wancai'); R('heroine_04','FRI'); SOCIAL.remember('heroine_04','INVITED_CLUB',''); date('kexin'); await play('ev_ziqing_show2'); check('17. 祐廷有交往對象：貼紙用遞的',has('（她把貼紙遞給你。）')&&!has('（她不是遞給你，是直接貼在你的手機殼上，什麼都沒說。）'));
   fresh('2027-05-28',19,'wancai',{ZQ_SHOW:'came'}); R('heroine_04','FRI'); SOCIAL.remember('heroine_04','INVITED_CLUB',''); date('heroine_04'); G.needed={batches:[{d:1,ans:['zq_song']}]}; await play('ev_ziqing_show2');
   { const N='（下台後，她沒有發貼紙給你。她走過來，把一張插座貓貼紙直接貼在你的手機殼上。）';
     check('17. 交往中、看過 Q5、回過 zq_song：「重來」那句；AA_338 第 3 節的旁白「（下台後，她沒有發貼紙給你。……直接貼在你的手機殼上。）」→「第二張。明年還有第三張。」',has('（第四句唱到「重來」兩個字的時候，她看了觀眾席一眼。）')&&idx(N)>=0&&idx('第二張。明年還有第三張。')===idx(N)+1&&!any(/^（下台後她不發貼紙給你/),JSON.stringify(said.map(s=>s.t))); }
@@ -405,10 +404,9 @@ const K=t=>'kexin:'+t;
   // 20. 2-Y2-22 語彤事件 11
   const yth=(key,flags)=>{ fresh(key,18,'noodle',flags); R('heroine_03','FAM'); return Y2R2.talkOpts(G,'heroine_03',GM).map(o=>o.t); };
   check('20. H3 沒有 RENT_CONSULTATION：沒有「幫她」選項',yth('2027-05-25').length===0);
-  /* AA_661 第 17 列（AA_643 第 7 節）：「幫她」三個選項（麵店或總圖）拿掉——想幫她的新版是 AA_625 第 11 節「想幫秀琴姨」（src/ytjob3d.js）。下面直接演 S.ytHelp 的定義（沒有入口）*/
-  SOCIAL.remember('heroine_03','RENT_CONSULTATION',''); check('20. 有 RENT_CONSULTATION：三個「幫她」選項也不出（AA_661 第 17 列）',Y2R2.talkOpts(G,'heroine_03',GM).length===0,JSON.stringify(Y2R2.talkOpts(G,'heroine_03',GM).map(o=>o.t)));
-  { said=[]; await Y2R2.ytHelp(GM,{name:'陳語彤'},'info','我找了一些資料。');
-    check('20. 定義照舊：「我找了一些資料。」→「……嗯。我想一下。」；YT_HELP_OFFERED、HELP_OFFERED、ev_yt_help_offer；選單照樣沒有',has('……嗯。我想一下。')&&G.flags.YT_HELP_OFFERED===true&&SOCIAL.has('heroine_03','HELP_OFFERED')&&!!G.events.done.ev_yt_help_offer&&Y2R2.talkOpts(G,'heroine_03',GM).length===0); }
+  SOCIAL.remember('heroine_03','RENT_CONSULTATION',''); check('20. 有 RENT_CONSULTATION：三個「幫她」選項（麵店）',JSON.stringify(Y2R2.talkOpts(G,'heroine_03',GM).map(o=>o.t))===JSON.stringify(['要不要我問問看有沒有打工？','需要的話，我可以先借妳。','我找了一些資料。']));
+  { const o=Y2R2.talkOpts(G,'heroine_03',GM)[2]; said=[]; await o.run(GM,{name:'陳語彤'});
+    check('20. 選「我找了一些資料。」→「……嗯。我想一下。」；YT_HELP_OFFERED、HELP_OFFERED、ev_yt_help_offer；剩兩個',has('……嗯。我想一下。')&&G.flags.YT_HELP_OFFERED===true&&SOCIAL.has('heroine_03','HELP_OFFERED')&&!!G.events.done.ev_yt_help_offer&&Y2R2.talkOpts(G,'heroine_03',GM).length===2); }
   /* AA_643 第 7 節（YT-REWRITE-1103）：ev_yt_help_dishes（麵店洗碗）整條關掉，由 AA_625 第 11 節「想幫秀琴姨」取代（tests/aa625_yt_unit.js）；下面 H1～H3 直接演定義，只確定舊存檔照舊能演 */
   to('2027-06-03',18); check('20. 6/3（四）18:00 麵店：事件 11 的麵店版關掉（retired、不觸發）',!!ev('ev_yt_help_dishes').retired&&!EVENTS.check(ev('ev_yt_help_dishes')));
   await play('ev_yt_help_dishes',['捲起袖子']);
@@ -428,7 +426,7 @@ const K=t=>'kexin:'+t;
   fresh('2027-05-31',20,'dorm',{MET_PINYU:true,MET_XUN:true}); date('kexin'); run('2027-05-31',20.75,21.25); ans('y2r2_en_ask',1); run('2027-06-04',21.25,21.75); run('2027-06-05',11.75,12.25);
   check('21. E2 沒去、認識阿勳：6/5「經濟系之夜，阿勳問你怎麼沒來。」；KX_ECON_NIGHT alone',txt('p:kexin').slice(-1)[0]===K('經濟系之夜，阿勳問你怎麼沒來。')&&G.flags.KX_ECON_NIGHT==='alone');
   check('21. E3 6/4 沒有 K14（K14 在 6/2）',D('2027-06-02')!==D('2027-06-04')&&!OUT.rec(G).some(q=>q.day===D('2027-06-04')&&/k14/.test(q.id)));
-  fresh('2027-05-31',20,'dorm',{MET_PINYU:true}); run('2027-05-31',20.75,21.25); check('21. 單身：「經濟系之夜你可以來啊，你又不是叛徒。」',txt('p:econ_pinyu')[0]==='econ_pinyu:經濟系之夜你可以來啊，你又不是叛徒。');
+  fresh('2027-05-31',20,'dorm',{MET_PINYU:true}); run('2027-05-31',20.75,21.25); check('21. 單身：「經濟系之夜。你可以來。你又不是叛徒。」',txt('p:econ_pinyu')[0]==='econ_pinyu:經濟系之夜。你可以來。你又不是叛徒。');
   ans('y2r2_en_ask',0); await go('y2r2_en',18.5); check('21. 單身去：品妤「謝謝你來。我們這屆的人，少一個就看得出來。」',has('謝謝你來。我們這屆的人，少一個就看得出來。')&&!any(/一對/));
 
   // 22. 2-Y2-24 以安新 13

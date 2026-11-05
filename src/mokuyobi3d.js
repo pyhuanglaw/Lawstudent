@@ -72,7 +72,7 @@ const MOK3=(function(){
     // 門外的街景卡：晚上調暗（樓梯 GLB 的 WALL_front_VIEW）
     let viewMat=null; const at=z.applyTime; z.applyTime=function(h,w){ if(at) at.call(this,h,w); if(viewMat){ const night=(h%24<6||h%24>=18.8); viewMat.color.setScalar(night?0.16:1); viewMat.emissiveIntensity=night?0.12:0.35; } };
     // 互動點：座位（都在二樓）、離開（一樓門檻）
-    z.seats=[]; for(const s of L.seats){ const lift=s.seatH&&s.seatH>0.6?+(s.seatH-((typeof CHAR!=='undefined'&&CHAR.SIT_TOP)||0.45)).toFixed(2):0, seat=Object.assign({x:s.x,z:s.z,yaw:s.yaw,lv:1},lift?{lift}:{},s.ap?{ap:s.ap.slice()}:{});   /* ap：沙發前面是矮桌，從指定的地方走近（和 Café 的沙發一樣）*/
+    z.seats=[]; for(const s of L.seats){ const lift=s.seatH&&s.seatH>0.6?+(s.seatH-0.45).toFixed(2):0, seat=Object.assign({x:s.x,z:s.z,yaw:s.yaw,lv:1},lift?{lift}:{},s.ap?{ap:s.ap.slice()}:{});   /* ap：沙發前面是矮桌，從指定的地方走近（和 Café 的沙發一樣）*/
       z.seats.push(Object.assign({table:s.table,kind:'shop'},seat)); E.interactables.push({x:s.x,z:s.z,radius:0.9,lv:1,label:s.label||'坐下',seat,shop:'mokuyobi',study:!!s.canStudy}); }
     E.interactables.push({x:IN.x,z:L.d/2-0.25,radius:1.0,lv:0,label:'離開木曜日',exit:{to:'wenzhou',spawn:Object.assign({},OUT)}});
     // 正式模型：店內（AA）放在二樓那一組、樓梯（LAWWW2）放在一樓那一組

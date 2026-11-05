@@ -2,7 +2,6 @@
 //   第一份工作：六種落點的照片（AA_319 1A-19）、只有認識的人傳照片、交換延畢＝補習班的自習室＋「（你的第一天，還在後面。）」（b6757852）；
 //   尾聲：字卡、只有認識的人在那一桌、每人一句（條件由低到高取最後一列，AA_327 2-Y4-53）、前任在店的另一頭、CG-10 的八張（右手邊＝畢業時的伴侶，單身＝阿凱）、
 //   「你一直都是……」、祐廷最後一句、桌上的東西、星期六沒有人講上班的事（AA_319 1A-20 第 5 節、BB 驗收 P1～P5）、方奕廷那句（AA_327 f252a7b5）、回標題。用法：node tests/epilogue_unit.js
-// 2026-11-04 AA_688 第 3 節（企劃線 8dce2f94c；CANON-PURGE-SRC-1104）改的期待值：J1 語彤的照片「（照片：事務所的桌子，旁邊一個茶屋的保溫杯）」＋「我的第一天是八月。現在才傳。」（原本「二試還沒考。在店裡讀。」）
 const H=require('./pg_harness.js'); const {check}=H;
 const graduated=G=>{ G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; };
 const LAWYER={BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:14,BAR_STAGE_2029:'lawyer',BAR_YEAR:2029};
@@ -18,7 +17,7 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
   { const G=await first(Object.assign({},leanA,LAWYER),()=>{ ['zhe','yu','classmate_bohan','heroine_01','heroine_03'].forEach(H.FAMILIAR); });
     const M=H.msgs('g:noodle_team');
     check('J1. 傾向 A、律師：祐廷的照片「法律扶助基金會的櫃台」（第一張，自己傳的）',M[0]==='📷（照片：法律扶助基金會的櫃台。名牌上的字還是新的。）'&&G.msgs.find(m=>m.text===M[0]).from==='player',JSON.stringify(M.slice(0,2)));
-    check('J1. 阿哲、Alison、柏翰、以安、語彤：照片＋一句',M.includes('📷（照片：事務所門口）')&&M.includes('第一天 領帶打了三次')&&M.includes('明年再考司法官。今天先上班。')&&M.includes('論文第一頁。……還是空白的。')&&M.includes('LL.M. 開學了。')&&M.includes('📷（照片：事務所的桌子，旁邊一個茶屋的保溫杯）')&&M.includes('我的第一天是八月。現在才傳。')&&!M.includes('二試還沒考。在店裡讀。'));   /* AA_688 第 3 節（企劃線 8dce2f94c，CANON-PURGE-SRC-1104）：語彤 2029 年考上、2030-08 起在事務所＝照片和那一句換掉（原本「（照片：茶屋的角落，一本攤開的六法）」「二試還沒考。在店裡讀。」）*/
+    check('J1. 阿哲、Alison、柏翰、以安、語彤：照片＋一句',M.includes('📷（照片：事務所門口）')&&M.includes('第一天 領帶打了三次')&&M.includes('明年再考司法官。今天先上班。')&&M.includes('論文第一頁。……還是空白的。')&&M.includes('LL.M. 開學了。')&&M.includes('二試還沒考。在店裡讀。'));
     check('J2. 芯慈不認識＝沒有她的照片',!M.includes('📷（照片：會計師事務所的電腦螢幕，一排 Excel）')&&!M.includes('法遵。四色筆還是要帶。'));
     check('J1. 旁白「（那一年，群組的照片一張一張傳上來。每一張都寫著：我的第一天。）」；FIRST_DAY_SEEN；沒有延畢那一句',H.has('（那一年，群組的照片一張一張傳上來。每一張都寫著：我的第一天。）')&&G.flags.FIRST_DAY_SEEN===true&&!H.has('（你的第一天，還在後面。）')); }
   { const G=await first({EXCHANGE_ROUTE:'JP',BAR_REG_2030:true});   /* AA_357 1-6：延畢的 2030 報名看 BAR_REG_2030 */

@@ -851,18 +851,6 @@ const ENC_WALK={
  {
   "who": "heroine_03",
   "spot": "D14",
-  "act": "D14.lights",
-  "friend": [
-   "橋上的燈亮了。要拍的話就是現在。"
-  ],
-  "dating": [
-   "你站過去一點。好，不要動。"
-  ],
-  "note": "AA_685 C 節第 1 點（企劃線 91f240e50，AA-C 定 D109）：日落以後（寒假 18:00 以後、暑假日落以後）「海風與夕陽」灰掉，同行換「海風與燈」（free_trips.js D14.lights，freetrip3d.js S.nightOn）；第二句和夕陽版同一句。AA_686 第 5 項：源稿 aa_walk_v1.json@1df3c189e 補了這一列（同字）"
- },
- {
-  "who": "heroine_03",
-  "spot": "D14",
   "act": "walk",
   "friend": [
    "這邊的人都在釣魚。我站了十分鐘，沒看到誰釣到。"
@@ -1210,7 +1198,7 @@ const ENC_WALK={
    "who": "classmate_peishan",
    "spot": "D06",
    "friend": "我去書店了。你慢慢看。",
-   "dating": "下午見！我在繪本區。"
+   "dating": "下午見。……如果你來的話。"
   },
   {
    "who": "kexin",
@@ -1486,7 +1474,7 @@ const ENC_WALK={
    "batch": 2,
    "who": "heroine_05",
    "spot": "D24",
-   "normal": "泡腳池。上次學姊一家坐在這裡。",
+   "normal": "泡腳池。上次學姊和她媽媽、奶奶坐在這裡。",
    "afterBreakup": "泡腳池。水還是一樣燙。"
   },
   {
@@ -1669,7 +1657,7 @@ const ENC_WALK={
      "mem": "ENC_D04_ZR3",
      "after": {
       "where": "Café 的閒聊",
-      "line": "那部老片下週重映。週六早場。"
+      "line": "那部老片下週重映。……我只是告訴你。"
      }
     }
    ],

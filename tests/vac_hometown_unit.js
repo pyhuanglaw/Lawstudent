@@ -120,7 +120,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   // 9. VA-10 麵店團出國：香港（AA_256 第 2 節）：7/20 21:00 群組揪 → 我也去 → 8/25 出發的行程；三場（以安交往中最後一晚多一句）；8/28 21:00 群組四則。沒去：阿哲一句、地鐵門外 Alison 的照片、最後「欠一次」
   { const step=(k,h)=>{ G.day=DK(k); G.weekday=wdOf(G.day); G.hour=h; STORY.phoneRules(GM); PHONE.tick(G); }, g='g:noodle_team';
     law('2027-07-20',20,{dating_heroine_01:true}); PHONE.join(G,'noodle_team','麵店團'); step('2027-07-20',21.2);
-    const L=TH(g).filter(m=>!/^dorm_lottery/.test(m.tag||'')), last=L.slice(-1)[0]; check('9. 7/20 21:00 群組十則（阿哲揪…語彤「你們拍蛋塔給我看」（AA_678 第 5 列）），最後一則可以回「我也去。／我那幾天不行。」',L.length===10&&/拍蛋塔給我看/.test(last.text)&&last.ask&&last.ask.opts.map(o=>o.t).join('|')==='我也去。|我那幾天不行。',J(L.map(m=>m.text)));
+    const L=TH(g).filter(m=>!/^dorm_lottery/.test(m.tag||'')), last=L.slice(-1)[0]; check('9. 7/20 21:00 群組十則（阿哲揪…語彤「你們拍麵給我看」），最後一則可以回「我也去。／我那幾天不行。」',L.length===10&&/拍麵給我看/.test(last.text)&&last.ask&&last.ask.opts.map(o=>o.t).join('|')==='我也去。|我那幾天不行。',J(L.map(m=>m.text)));
     /* AA_369 H1：以安 8/9～8/27 在京都，不去香港——她「我那幾天在京都。你們去，拍照給我。」；排行程的兩句改柏翰（沒有「可以。」）*/
     const who=t=>(L.find(m=>m.text===t)||{}).from;
     check('9. AA_369 H1：以安「我那幾天在京都。你們去，拍照給我。」；柏翰「行程我來排？」→ 阿哲「不要…」→ 柏翰「……好。我只排第一天。」；沒有「可以。行程我來排？」',who('我那幾天在京都。你們去，拍照給我。')==='heroine_01'&&who('行程我來排？')==='classmate_bohan'&&who('……好。我只排第一天。')==='classmate_bohan'&&!L.some(m=>m.text==='可以。行程我來排？')&&!L.some(m=>m.from==='heroine_01'&&/排/.test(m.text))&&L.map(m=>m.text).indexOf('行程我來排？')<L.map(m=>m.text).indexOf('不要 這次不排 走到哪吃到哪'),J(L.map(m=>m.from+':'+m.text)));

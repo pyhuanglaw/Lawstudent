@@ -47,7 +47,7 @@ for _k, _v in (('gongtong', ('bldg.campus_gongtong', 'campus_gongtong_glb', ['PL
                ('gate', ('bldg.campus_gate', 'campus_gate_glb', 'PLATE_FACE_GATE_OUT')),
                ('male1', ('bldg.campus_male1', 'campus_male1_glb', 'PLATE_FACE_M1')),
                ('putong', ('bldg.campus_putong', 'campus_putong_glb', 'PLATE_FACE_PUTONG')),
-               ('boya', ('bldg.campus_boya', 'campus_boya_glb', ('PLATE_FACE_BOYA', 'PLATE_FACE_BOYA_GARDEN')))):
+               ('boya', ('bldg.campus_boya', 'campus_boya_glb', 'PLATE_FACE_BOYA'))):
     if ("'%s'" % _v[0]) in _ASSETS_JS: TAGS[_k] = _v
 # 「改之前」那一輪怎麼拿掉正式模型（2026-11-02 LAWWW2）：
 #   刪 key（其他地標）：套件照舊參加整區靜態合併，和換模型之前一模一樣；

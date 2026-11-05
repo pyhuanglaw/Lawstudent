@@ -137,9 +137,9 @@ const TB3=(function(){
     return out; }
   /* ---- 正式家具模組（LAWWW2 furniture_study.glb；VISUAL_REVIEW（second_ai）第 23 節）----
      大廳的自習雙人桌（0.9×0.6、兩張椅子離桌心 0.55）、圓桌（Ø1.0、四張椅子離桌心 0.8）：配置的尺寸對得上才換，每種一個 InstancedMesh；載入前、載入失敗照樣是程序化備用。
-     椅子垂直放大到椅面 0.47 m（CHAR.SIT_TOP：SIT-HEIGHT-1104 以後坐下的大腿底部在座位地面上 0.465 m；原本照 Z3.chair 放大到 0.485），正式椅子的椅面 0.454 m，不放大的話人會浮在椅面上 1.5 公分。
+     椅子垂直放大到椅面 0.485 m：遊戲的坐姿（character3d.js 坐下時往下 0.47 m）是照 Z3.chair 的椅面高度調的，正式椅子的椅面 0.454 m，不放大的話人會浮在椅面上 3 公分。
      階梯教室的講堂椅（座距 0.52、排距 1.0）等 R2 的配置（使用者 2026-10-14：保留 R2、不要沒測試就放大整棟），現在的 6 排配置（座距約 0.73、排距 2.0）照舊用備用模型 */
-  const FURN_KEY='prop.furniture_study', CHAIR_FIT=0.47/0.454, LECT_DESK_TOP=0.75;
+  const FURN_KEY='prop.furniture_study', CHAIR_FIT=0.485/0.454, LECT_DESK_TOP=0.75;
   function furnModule(t){ const near=(a,b,e)=>Math.abs(a-b)<(e||0.02), seats=t.seats||[];
     if(t.shape==='round') return near(t.r,0.5)&&seats.length&&seats.every(s=>near(Math.hypot(s.x-t.x,s.z-t.z),0.8,0.03))?{mod:'round_table',ry:0}:null;
     const ry=near(t.w,0.6)&&near(t.d,0.9)?Math.PI/2:(near(t.w,0.9)&&near(t.d,0.6)?0:null);   /* 模組是 0.9（x）×0.6（z）、椅子在 z 的兩側；配置的桌子長邊南北向（0.6×0.9、椅子在東西兩側）＝整組轉 90° */

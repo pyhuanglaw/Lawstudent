@@ -33,11 +33,9 @@ for(const line of DOC.split('\n')){ const m=/^\|\s*(\d+)\s*\|\s*ladder\.js:3 (\S
 { const want=[]; for(let i=1;i<=78;i++) want.push(i); for(let i=89;i<=93;i++) want.push(i);
   check('1. 稿上 ladder.js 的列＝第 1～78、89～93 列',J(rows.map(r=>r.n).sort((a,b)=>a-b))===J(want),rows.length); }
 { const bad=[], skip=[]; let ok=0;
-  const AA661={'Y1S1 S-L5.lines[0]':['我媽是公務員。從小就一直跟我說，考上司法官很好。','我媽每次見面都說，考上司法官很好。']};   /* AA_661 第 33 列（AA_611 #10：爸爸在她國小時過世、她跟阿公奶奶住）*/
   for(const r of rows){ const inDrop=DROP.some(([t,s])=>t===r.term&&r.path.split('.')[0]===s)||(r.term==='Y2S1'&&/^S3-L6\.extraIf\[0\]/.test(r.path))||r.nw==='（刪這一格）';
     if(inDrop){ skip.push(r.n); continue; }
-    const L661=AA661[r.term+' '+r.path];   /* AA_661（企劃線 5df89d95a，AA 定稿）後來又改的格：遊戲＝AA_661 的字、稿上 AA_584 的改成＝AA_661 的原句 */
-    const v=at(r.term,r.path); if(L661?(v===L661[1]&&r.nw===L661[0]):(v===r.nw&&DOC.includes(r.nw))) ok++; else bad.push([r.n,r.term,r.path,v,r.nw]); }
+    const v=at(r.term,r.path); if(v===r.nw&&DOC.includes(r.nw)) ok++; else bad.push([r.n,r.term,r.path,v,r.nw]); }
   check('1. 刪掉的層、格以外，每一列遊戲資料那個位置＝稿上的「改成」（'+ok+' 列）',bad.length===0&&ok===rows.length-skip.length,J(bad));
   check('1. 在刪掉的層、格裡的列（不用換）：第 5、6、16～25、34、35、38、39、53～57、72～77 列',J(skip.sort((a,b)=>a-b))===J([5,6,16,17,18,19,20,21,22,23,24,25,34,35,38,39,53,54,55,56,57,72,73,74,75,76,77]),J(skip)); }
 

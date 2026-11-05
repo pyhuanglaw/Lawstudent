@@ -34,8 +34,7 @@ const BGN=(function(){
     kai:'我研究過了，這款有必勝法。', kaiN:'（他輸了。）', kaiAsk:'「要不要找阿凱？」', kaiNo:'「（先玩這一局）」',
     end:['（你們玩了三輪。最後一輪明軒輸了，他說是規則書寫得不清楚。）','（玩到第二局，店長跳上桌子，坐在牌堆上。大家只好等牠走。）','（十一點半，店員來問要不要最後點餐。你們又加了一份薯條。）','（明軒把每一局的分數記在手機裡。他說期末要結算。）'],
     group1:'我開個群組，之後在這裡約。',
-    away:'在日常失速玩桌遊',
-    yuIn:'（十一點多，門口的風鈴響了一聲。Alison 還穿著戲院的外套，手上抱著一袋爆米花。）' };   /* AA_684 第 5 項（企劃線 0382b8a34，AA-C 定 D109）：Alison 23:00 從戲院趕到的那一晚，她進門的旁白（S.yuSign）*/
+    away:'在日常失速玩桌遊' };
   S.natHoliday=d=>{ const h=CALENDAR.holiday&&CALENDAR.holiday(d); if(!h) return false; const k=CALENDAR.dateOf(d).key; if(CALENDAR.SCHOOL&&CALENDAR.SCHOOL[k]) return false; if(CALENDAR.typhoon&&CALENDAR.typhoon(d)) return false; return true; };   /* 同 JOBS.natHoliday（勞基法的休假日；校定的不算）*/
   /* 那一天是不是桌遊夜 */
   S.isNight=function(d){ if(!hasCal()||d==null) return false; const t=CALENDAR.termOf(d); if(!t||!S.TERMS.includes(t.id)||t.exam) return false;
@@ -55,13 +54,8 @@ const BGN=(function(){
     for(let x=d-1;x>d-140;x--){ const u=CALENDAR.termOf(x); if(!u||u.id!==t.id) break; if(x>a&&S.isNight(x)) return false; } return true; };
   S.CAST=['classmate_mingxuan','zhe','classmate_xinci','classmate_bohan'];
   S.here=function(G,id,d){ if(d==null) d=G.day; if(!S.isNight(d)) return false; if(S.CAST.includes(id)) return true; if(id==='classmate_peishan') return S.psOn(d); if(id==='kai') return S.kaiOn(G,d); return false; };
-  /* AA_675 1-3（AA_661 第 64 列）：Alison 23:00 從戲院下班趕到的那一次＝大一下第 13～15 週的桌遊夜（照隔週排＝第 14 週）。那一晚 23:00 以後她也在日常失速 */
-  S.YU_LATE={term:'Y1S2',weeks:[13,14,15],h:23};
-  S.yuLate=d=>{ if(!hasCal()||d==null||!S.isNight(d)) return false; const t=CALENDAR.termOf(d); return !!t&&t.id===S.YU_LATE.term&&S.YU_LATE.weeks.includes(t.week); };
   /* 作息：桌遊夜 20:00～23:30 在日常失速（沒有 3D）*/
-  const pres=(G,id)=>{ if(typeof STORY==='undefined'||!STORY.presence) return true; const p=STORY.presence(id,G); return !(p&&p.here===false); };   /* 那一天人不在（出遠門、回老家）＝不來 */
-  S.sched=function(c,G){ if(!c||!G||!law(G)) return null; const hr=G.hour%24; if(c.id==='yu'&&S.yuLate(G.day)&&hr>=S.YU_LATE.h&&hr<S.H1) return pres(G,'yu')?{days:[5],from:S.YU_LATE.h,to:S.H1,zone:null,act:'out',away:L.away,note:'AA_675 1-3 桌遊夜（戲院下班趕到）'}:null;
-    if(hr<S.H0||hr>=S.H1||!S.here(G,c.id)) return null;
+  S.sched=function(c,G){ if(!c||!G||!law(G)) return null; const hr=G.hour%24; if(hr<S.H0||hr>=S.H1||!S.here(G,c.id)) return null;
     if(typeof STORY!=='undefined'&&STORY.presence){ const p=STORY.presence(c.id,G); if(p&&p.here===false) return null; }
     return {days:[5],from:S.H0,to:S.H1,zone:null,act:'out',away:L.away,note:'AA_623 桌遊夜'}; };
   /* 手機：當天 12:00 明軒約 */
@@ -79,44 +73,6 @@ const BGN=(function(){
       F.BGN_INV_N=n+1; PHONE.at(G,d,h,items,'bgn_inv_'+d); }
     if(F.BGN_GO===d&&typeof OUT!=='undefined'&&!OUT.get(G,'bgn_'+d)&&G.day*24+G.hour<d*24+S.H0+0.5)
       OUT.plan(G,{id:'bgn_'+d,ev:S.EV,day:d,h:S.H0,late:0.5,place:S.PLACE,title:'桌遊夜（日常失速）',travel:'走過去約 15 分鐘',travelH:0.25}); };
-  /* ===== AA_675（AA_661 第 42、64 列，企劃線 920791094，AA-C 定 D109；任務 AA675-CANON-FOLLOWUP-1104）=====
-     1-2 長桌閒聊（NOODLE_TABLE，含 src/heard3d.js 加進來的「別人說起她」AA_503～505）搬到桌遊夜：玩家有去的那一次，場景演完、散場以前照原本的順序演一則——
-       挑法同 story3d.js 的 S.ndlTalkPick：一年一組（STORY.ndlTalkGroup）、照 ndlTalkN 輪到第幾則（舊存檔記下的照讀、接著輪）、once／pri、那一則的條件（STORY.ndlTalkIf）、
-       about＝她本人在旁邊就不說；只有在桌遊團群組的玩家才有；在場＝那一晚在桌遊夜的人（S.here；Alison 只有 S.yuLate 那一晚），旁白沒有點名的那幾則＝至少一位認識的長桌常客在；
-       句子裡有燒臘店的東西換不了的（noodle_table.js 標 bgn:false）跳過——AA_684 第 11 項那 10 則已經刪掉、補了四則桌遊夜版（bgn:false 照認，之後再有換不了的照樣標）。在場的人熟悉 +1（SOCIAL 的 classmate），同燒臘店那一套。
-     1-3 ev_yu_sign_seat（events.js，「Alison 每次都坐阿哲旁邊。」）：Alison 23:00 趕到的那一次桌遊夜，接在場景後面演（2D，不等 3D）；條件照事件（認識 Alison、大一下第 13～15 週、只一次），
-       記 yu2SeatDay（第三個徵兆 ev_yu_sign_question_* 照舊讀）、記成演過。 */
-  const REG=['zhe','yu','classmate_bohan','classmate_xinci'];   /* 長桌常客（story3d.js NDL_REGULARS）*/
-  /* AA_685 B5（企劃線 c96613e51，AA-C 定 D109）：每一則每個存檔只演一次，那一學期的用完就不演（不再從頭輪）。演過的記在 G.flags.ndlTalkOnce[key]＝那一天：
-     key＝once（heard3d.js 加的那幾則，原本就只演一次）、id（noodle_table.js 的那幾則）、都沒有＝組＋第幾則。舊存檔沒有這些 key＝一則都還沒演（ndlTalkN 照舊決定從第幾則開始找）*/
-  S.talkKey=(k,i,e)=>(e&&(e.once||e.id))||('bgn_'+k+'_'+i);
-  S.talkHere=(G,id)=>(S.here(G,id,G.day)||(id==='yu'&&S.yuLate(G.day)))&&pres(G,id);
-  S.talkPick=function(G){ if(!G||!G.flags||typeof NOODLE_TABLE==='undefined'||typeof STORY==='undefined'||!STORY.ndlTalkGroup||!inGrp(G)) return null; const k=STORY.ndlTalkGroup(G), T=k&&NOODLE_TABLE[k]; if(!T||!T.length) return null;
-    const F=G.flags, N=F.ndlTalkN||{}, i0=(N[k]|0)%T.length, O=F.ndlTalkOnce||{}, kn=id=>knows(id,G);
-    const ok=(e,i)=>!!e&&!e.retired&&e.bgn!==false&&O[S.talkKey(k,i,e)]==null&&(e.who||[]).concat(e.know||[]).every(kn)&&(!STORY.ndlTalkIf||STORY.ndlTalkIf(G,e.if))
-      &&((e.who&&e.who.length)?e.who.every(id=>S.talkHere(G,id)):REG.some(id=>kn(id)&&S.talkHere(G,id)))
-      &&!(e.about&&typeof HEARD!=='undefined'&&HEARD&&HEARD.herNear&&HEARD.herNear(G,e.about,(e.who||[])[0]));
-    for(let i=0;i<T.length;i++){ const e=T[i]; if(e&&e.pri&&ok(e,i)) return {k,i,e}; }
-    for(let n=0;n<T.length;n++){ const i=(i0+n)%T.length, e=T[i]; if(!e||e.pri||!ok(e,i)) continue; return {k,i,e}; }
-    return null; };
-  S.talk=async function(GM){ const G=GM.G, F=G.flags, p=S.talkPick(G); if(!p) return false; const t=hasCal()?CALENDAR.termOf(G.day):null;
-    F.ndlTalkDay=G.day; if(t) F.ndlTalkWk=t.id+':'+t.week;
-    const NN=F.ndlTalkN&&typeof F.ndlTalkN==='object'?F.ndlTalkN:(F.ndlTalkN={}); if(!p.e.pri) NN[p.k]=p.i+1;
-    { const O=F.ndlTalkOnce&&typeof F.ndlTalkOnce==='object'?F.ndlTalkOnce:(F.ndlTalkOnce={}); O[S.talkKey(p.k,p.i,p.e)]=G.day; }   /* AA_685 B5：每一則都只演一次（原本只有 once 的那幾則）*/
-    const here=(p.e.who&&p.e.who.length)?p.e.who:REG.filter(id=>knows(id,G)&&S.talkHere(G,id));
-    if(typeof ADV!=='undefined'&&ADV.preload) ADV.preload(p.e.who||[]);
-    if(typeof EVENTS!=='undefined'&&EVENTS.runLines) await EVENTS.runLines(p.e.dialogue||[],{id:'bgn_table_'+p.k+'_'+(p.i+1)});
-    if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) for(const id of here){ try{ SOCIAL.activity(id,'classmate'); }catch(e){} }
-    return true; };
-  /* AA_684 第 5 項：那一晚 Alison 進門先一句旁白（L.yuIn）——她真的有來（S.yuLate、那一天人在）、玩家認識她（旁白寫她的名字）就演，徵兆已經演過（舊存檔）也一樣；接著才是「Alison 每次都坐阿哲旁邊。」 */
-  S.yuSign=async function(GM){ const G=GM.G; if(!S.yuLate(G.day)||!pres(G,'yu')) return false;
-    if(knows('yu',G)&&GM.say) await GM.say(null,L.yuIn);
-    if(typeof STORY_EVENTS==='undefined'||typeof EVENTS==='undefined'||!EVENTS.check) return false;
-    const ev=STORY_EVENTS.find(e=>e&&e.id==='ev_yu_sign_seat'); if(!ev) return false; let ok=false; try{ ok=!!EVENTS.check(ev,{chain:true}); }catch(e){ ok=false; } if(!ok) return false;
-    if(typeof ADV!=='undefined'&&ADV.preload) ADV.preload(ev.participants||[]);
-    if(EVENTS.runLines) await EVENTS.runLines(ev.dialogue||[],ev); if(EVENTS.applyConsequences) EVENTS.applyConsequences(ev.consequences);
-    const E=G.events||(G.events={done:{},last:{},count:0}); E.done=E.done||{}; E.last=E.last||{}; E.done[ev.id]=(E.done[ev.id]||0)+1; E.last[ev.id]=G.day; E.count=(E.count|0)+1; if(GM.memo&&ev.title) GM.memo(ev.title);
-    return true; };
   const N=t=>({speaker:null,text:t}), C=f=>({custom:f});
   const first=G=>!(G.flags.BGN_N|0);
   S.EVENT={ id:S.EV, title:'桌遊夜', participants:[MX], location:'any', trigger:'outing', once:false, background:'dark', hours:S.H1-S.H0,
@@ -131,7 +87,6 @@ const BGN=(function(){
       {label:'kai_y'},{call:async G=>{ G.flags.BGN_KAI_ASKED=G.day; }},
       {label:'kai_n'},
       {call:async(G,GM)=>{ const n=G.flags.BGN_N|0; await GM.say(null,L.end[n%L.end.length]); }},
-      {call:async(G,GM)=>{ await S.yuSign(GM); await S.talk(GM); }},   /* AA_675 1-3（Alison 每次都坐阿哲旁邊）、1-2（長桌閒聊一則）：場景演完、散場以前 */
       {if:C(G=>G.flags.noodleTableDay==null&&!inGrp(G)),speaker:MX,text:L.group1},
       {call:async G=>{ const F=G.flags; if(F.noodleTableDay==null&&!inGrp(G)){ F.noodleTableDay=G.day; F.BGN_JOIN='night'; }
         F.BGN_N=(F.BGN_N|0)+1; if(typeof SOCIAL!=='undefined'&&SOCIAL.rel){ try{ SOCIAL.rel(MX).fam+=1; }catch(e){} } }} ],

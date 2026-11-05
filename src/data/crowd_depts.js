@@ -11,7 +11,7 @@ const CROWD_DEPTS={
   SRC:'AA_495 5d7bd4040',
   /* 區域 → 在哪裡 */
   ZONES:{ campus:'椰', gongguan:'館', gym:'體', gym_b1:'體', gym_arena:'體',
-          library_hall:'圖', library:'圖', library_stacks:'圖', library_b1:'圖', library_carrels:'圖', soclib:'圖', soclib_2f:'圖' },   /* soclib_2f：AA-C 11-04 18:2x（企劃線 6a4b6ba22）跟一樓社科圖同一類，系上的同學才會坐到二樓 */
+          library_hall:'圖', library:'圖', library_stacks:'圖', library_b1:'圖', library_carrels:'圖', soclib:'圖' },
   /* 總圖（圖資「只在總圖」）*/
   MAIN_LIB:{ library_hall:1, library:1, library_stacks:1, library_b1:1, library_carrels:1 },
   /* ---- 第 1 節：各系的人，點了說一句（at：在哪裡；mainLib：只在總圖）---- */

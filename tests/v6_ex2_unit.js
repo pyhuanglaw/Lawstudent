@@ -44,8 +44,7 @@ await sec('G',async()=>{
 /* ======================= S 以安新 9 ======================= */
 await sec('S',async()=>{
   const w12=(SYLLABUS.courses.admin_law||[]).find(w=>w.w===12)||{};
-  /* AA_661 第 60 列（AA_600 A2：前任版不演）：tools/syllabus/import_syllabus.py 拿掉 AA_123 4-3b 那一步＝syllabus.js 沒有 exAfter、來源不寫 AA_123（原本資料照留、不接）*/
-  check('S1. syllabus.js：行政法第 12 週（新 9 的課堂）課堂照演、沒有 exAfter「剛剛那個，是課堂上的。」；來源不寫 AA_123（AA_661 第 60 列）',w12.exAfter===undefined&&(w12.react||[]).some(r=>r.text==='……你這樣講，我要改我的答案。')&&!/AA_123@/.test(SYLLABUS.source)&&!/剛剛那個，是課堂上的/.test(J(SYLLABUS)),J([w12.exAfter,SYLLABUS.source]));
+  check('S1. syllabus.js：行政法第 12 週（新 9 的課堂）多 exAfter「剛剛那個，是課堂上的。」（以安）；來源寫 AA_123@d805bceee',J(w12.exAfter)===J([{who:AN,text:'剛剛那個，是課堂上的。'}])&&(w12.react||[]).some(r=>r.text==='……你這樣講，我要改我的答案。')&&/AA_123@d805bceee/.test(SYLLABUS.source),J([w12.exAfter,SYLLABUS.source]));
   const e=ev('ev_an_ex_admin');
   /* AA_600 A2（企劃線 031414cad）：下課後她先開口的那一句＝前任不演——事件不再登錄（syllabus.js 的 exAfter 資料照留，S1）；原本 S2、S3 的期望照 AA_600 換 */
   check('S2. ev_an_ex_admin（AA_600 A2）：不登錄（V6EX.AN_EX_ADMIN_OFF）',!e&&V6EX.AN_EX_ADMIN_OFF===true);

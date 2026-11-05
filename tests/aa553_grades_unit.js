@@ -51,10 +51,10 @@ const talk=async(id,picks)=>{ H.said=[]; H.picks=[].concat(picks||[]); await GRA
   /* 2 芷若 */
   { const G=H.fresh('2026-01-06',15,'campus',{}); setScore(G,'Y1S1',3); H.FAMILIAR('heroine_02');
     const a=await talk('heroine_02'); G.zone='cafe'; const b=await talk('heroine_02');
-    check('2-2. 芷若：不在 Café 不演；在 Café「成績出來了吧。……今天這杯我請。」「……你看起來很需要這一杯。」',a.length===0&&J(b)===J(['成績出來了吧。……今天這杯我請。','……你看起來很需要這一杯。']),J([a,b]));
+    check('2-2. 芷若：不在 Café 不演；在 Café「成績出來了吧。……今天這杯我請。」「不是因為你考得好，是因為你看起來很需要。」',a.length===0&&J(b)===J(['成績出來了吧。……今天這杯我請。','不是因為你考得好，是因為你看起來很需要。']),J([a,b]));
     const G2=H.fresh('2026-01-06',15,'cafe',{GR_STUDY:{Y1S1:{cafe:5}}}); setScore(G2,'Y1S1',3); H.FAMILIAR('heroine_02'); const c=await talk('heroine_02');
     check('2-2. 這學期在 Café 讀書 5 次以上：「成績出來了吧。今天這杯我請。」「這學期你坐那個位子，坐了好多個晚上。」',J(c)===J(['成績出來了吧。今天這杯我請。','這學期你坐那個位子，坐了好多個晚上。']),J(c));
-    const G3=H.fresh('2026-01-06',15,'cafe',{}); setScore(G3,'Y1S1',0); H.FAMILIAR('heroine_02'); const d=await talk('heroine_02'); check('2-2. 被當：「……今天這杯我請。你不用說話。」',J(d)===J(['……今天這杯我請。你不用說話。']),J(d)); }
+    const G3=H.fresh('2026-01-06',15,'cafe',{}); setScore(G3,'Y1S1',0); H.FAMILIAR('heroine_02'); const d=await talk('heroine_02'); check('2-2. 被當：「……今天這杯我請。不是安慰，是剛好。」',J(d)===J(['……今天這杯我請。不是安慰，是剛好。']),J(d)); }
   /* 2 沛珊 */
   { const G=H.fresh('2026-01-06',15,'campus',{}); setScore(G,'Y1S1',4); H.FAMILIAR('classmate_peishan'); const a=await talk('classmate_peishan',[2]);
     check('2-4. 沛珊：「哪一題，你最想再寫一次？」→「全部。」→（她笑了。）「好。那下學期一起念。」、記 PS_STUDY',J(a)===J(['哪一題，你最想再寫一次？','（她笑了。）','好。那下學期一起念。'])&&G.flags.PS_STUDY==='Y1S1',J([a,G.flags.PS_STUDY]));

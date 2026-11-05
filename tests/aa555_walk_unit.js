@@ -90,7 +90,6 @@ const MEMS=[['yu','BREAKFAST_YU'],['yu','YU_ALONE'],['yu','YU_CLUB_BEAR'],['hero
 const NOTDONE=['ev_yu_together','ev_zhe_deposit','ev_bohan_third_floor','ev_an_dorm_appeal_result','ev_yt_moon','ev_yt_ta_news_lib'];
 const STATE=(kind,route)=>{ const G=H.fresh('2025-09-01',10,'campus',{}); G.contacts={}; for(const id of CH) G.contacts[id]=-900; PHONE.rec(G);
   for(const g of ['noodle_team','lawclub_study','public_law']) PHONE.join(G,g,g);
-  if(kind!=='none') Object.assign(G.flags,{lawclub:true,CLUB_lawclub_study:true});   /* D118-B5a（2026-11-04）：柏翰「本週值班表」只給真的加入法服的社員（只看過公告、在群組裡的舊存檔不收）＝在法服群組裡的玩家補上加入的旗標 */
   if(kind!=='none'){ for(const [w,t] of MEMS) SOCIAL.remember(w,t,''); for(const id of CH) H.FRIEND(id);
     Object.assign(G.flags,{YU2_PICK:'a',ZHE2_ASKED:1,YT_TA:true,AN_CHOICE:'dm',SIS_RESULT_OUT:true,SK10_DONE:['Y2S1_6'],EXCHANGE_ROUTE:route||'TW'}); if(kind==='all') Object.assign(G.flags,{ZHE3:true,BH4_DONE:true,STUDYGROUP_LEADER:false});
     for(const ev of ALL_EV){ if(kind==='mixed'&&NOTDONE.includes(ev)) continue; G.events.done[ev]=1; G.events.last[ev]=-500; }

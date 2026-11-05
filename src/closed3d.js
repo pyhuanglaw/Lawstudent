@@ -8,7 +8,7 @@ const CLOSED=(function(){
   S.LINES={
     ta:{ look:['（小窗裡：她站在黑板前面。一年級的學弟妹低著頭在寫。她寫字很快，寫完會停下來等。）','（她在黑板上畫了一張圖，有人舉手，她點了一下頭。）','（她在上課。）'],
       first:'……你在外面看了多久。', firstLover:'我在上課的時候，不要從窗戶看我。……我會分心。' },   /* AA_399 第 6 節 */
-    kai:'這台烘衣機要投兩次。第一次它會假裝在轉。' };   /* AA_399 第 11 節 */
+    kai:'這台烘衣機要投兩次。第一次是騙你的。' };   /* AA_399 第 11 節 */
   S.TA_WEEKS=[4,5,6,7,10,11,12,13,14,15];   /* AA_518 4-14（企劃線 973dd1b74）：第 4 週起（原本第 3 週，和動態 9/29「第一次帶。」對不上）*/
   const T=G=>typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null;
   const hol=G=>typeof CALENDAR!=='undefined'&&!!CALENDAR.holiday(G.day);

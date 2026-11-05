@@ -69,7 +69,7 @@ const plus=(...xs)=>{ const o={}; for(const x of xs) for(const k in x) o[k]=(o[k
     check('0. 以安：FEST_DATA xmas.grp 的單身、交往中逐行照稿（旁白是旁白）',!!ga&&J(txt(ga.s6))===J(exp(0))&&J(txt(ga.dt))===J(exp(1))&&ga.s6[0].speaker===null&&ga.dt[0].speaker===null&&ga.s6[1].speaker===AN,J(ga));
     const ch=gy&&(gy.s6||[]).find(l=>l.choice);
     check('0. 語彤：單身前三行、交往中逐行照稿；單身的選項「好。」／「今天不行。」',!!gy&&J(txt(gy.s6).slice(0,3))===J(exp(2))&&J(txt(gy.dt))===J(exp(3))&&!!ch&&J(ch.choice.map(c=>c.text))===J(['「好。」','「今天不行。」']),J(gy));
-    check('0. 稿裡有選項和兩個結果：「好。」→ 旁白「（洗到九點半，手上都是茶的味道。）」；「今天不行。」→ 語彤「嗯，沒關係。」',s14.includes('選項：「好。」')&&s14.includes('「今天不行。」')&&s14.includes('旁白「（洗到九點半，手上都是茶的味道。）」')&&s14.includes('語彤「嗯，沒關係。」')&&!!gy&&txt(gy.s6).includes('（洗到九點半，手上都是茶的味道。）')&&txt(gy.s6).includes('嗯，沒關係。'));
+    check('0. 稿裡有選項和兩個結果：「好。」→ 旁白「（剝到九點半，手上都是蒜味。）」；「今天不行。」→ 語彤「嗯，沒關係。」',s14.includes('選項：「好。」')&&s14.includes('「今天不行。」')&&s14.includes('旁白「（剝到九點半，手上都是蒜味。）」')&&s14.includes('語彤「嗯，沒關係。」')&&!!gy&&txt(gy.s6).includes('（剝到九點半，手上都是蒜味。）')&&txt(gy.s6).includes('嗯，沒關係。'));
     check('0. 只有 2025 年、接在 xmas_y1（ev_xmas_exchange）後面',!!ga&&!!gy&&J(ga.years)===J([2025])&&J(gy.years)===J([2025])&&ga.q==='xmas_y1'&&gy.q==='xmas_y1');
     check('0. OUT.AFTER 接了群戲散場以後那一段（FEST.grpAfter）',typeof X().grpAfter==='function'&&OUT.AFTER.length>=2);
   });
@@ -105,7 +105,7 @@ const plus=(...xs)=>{ const o={}; for(const x of xs) for(const k in x) o[k]=(o[k
     check('3. 約語彤：晚上場散場以後（不是只能約麵店的 18:30）',!!b&&b.grp==='xmas_y1'&&b.slot==='eve',J({O:a.O,b}));
     at('2025-12-24',18.2); money=[]; const r0=relOf(YT); const g=await goOut('xmas_y1',[0,'「好。」',0]); const T=tail(g,exp(2)[0]);
     check('3. （大家走了以後，語彤還沒走。蘇姨在吧檯後面喊她。）「蘇姨說明天要用的杯子還沒洗。」「打烊以後，你要不要來幫忙。」→ 選項「好。」「今天不行。」',J(T.slice(0,3))===J(exp(2))&&g.O.some(o=>J(o)===J(['「好。」','「今天不行。」'])),J({T,O:g.O}));
-    check('3. 「好。」→（洗到九點半，手上都是茶的味道。）→ 送她禮物（髮圈：「……舊的那條鬆了。你有看到。」）',J(T.slice(3))===J(['（洗到九點半，手上都是茶的味道。）','……舊的那條鬆了。你有看到。'])&&J(g.O.slice(-1)[0])===J(GIFT_YT)&&!g.L.includes('嗯，沒關係。')&&!g.L.includes(ORIG_YT_S6),J(T));
+    check('3. 「好。」→（剝到九點半，手上都是蒜味。）→ 送她禮物（髮圈：「……舊的那條鬆了。你有看到。」）',J(T.slice(3))===J(['（剝到九點半，手上都是蒜味。）','……舊的那條鬆了。你有看到。'])&&J(g.O.slice(-1)[0])===J(GIFT_YT)&&!g.L.includes('嗯，沒關係。')&&!g.L.includes(ORIG_YT_S6),J(T));
     check('3. 好感聖誕＋禮物；HOL_XMAS_2025；錢扣 120；時間到 21:30；done＝meet',sub(dRel(YT,r0),base)===plus(FEST_DATA.REL.day,FEST_DATA.REL.giftOk)&&SOCIAL.has(YT,'HOL_XMAS_2025')&&J(money)===J([-120])&&Math.abs(H.G.hour-21.5)<1e-6&&X().rec(H.G).done[YT+':xmas:2025']==='meet',J({d:dRel(YT,r0),base,money,h:H.G.hour}));
   });
 
@@ -113,7 +113,7 @@ const plus=(...xs)=>{ const o={}; for(const x of xs) for(const k in x) o[k]=(o[k
   await sec('4',async()=>{
     const base=await baseline(YT,false);
     setup({lv:{[YT]:6}}); await ask(YT,[1]); at('2025-12-24',18.2); money=[]; const r0=relOf(YT); const g=await goOut('xmas_y1',[0,'「今天不行。」',0]); const T=tail(g,exp(2)[0]);
-    check('4. 「今天不行。」→ 語彤「嗯，沒關係。」，這一場結束（不送禮、沒有禮物選單）',J(T)===J(exp(2).concat(['嗯，沒關係。']))&&!g.O.some(o=>J(o)===J(GIFT_YT))&&!g.L.includes('（洗到九點半，手上都是茶的味道。）'),J({T,O:g.O}));
+    check('4. 「今天不行。」→ 語彤「嗯，沒關係。」，這一場結束（不送禮、沒有禮物選單）',J(T)===J(exp(2).concat(['嗯，沒關係。']))&&!g.O.some(o=>J(o)===J(GIFT_YT))&&!g.L.includes('（剝到九點半，手上都是蒜味。）'),J({T,O:g.O}));
     check('4. 不扣分、不給節日好感、不記節日記憶、不扣錢；done＝declined；時間照群戲散場（20:30）',sub(dRel(YT,r0),base)==='{}'&&!SOCIAL.has(YT,'HOL_XMAS_2025')&&!money.length&&X().rec(H.G).done[YT+':xmas:2025']==='declined'&&Math.abs(H.G.hour-20.5)<1e-6,J({d:dRel(YT,r0),base,money,h:H.G.hour,done:X().rec(H.G).done}));
     X().phone(H.G); H.said=[]; const p=await X().play(GM,{id:YT,k:'xmas',y:2025,mode:'meet'}); const c=await ask(YT,[1]);
     check('4. 不會再重排、不會 18:00 再開一場：沒有排節日的出遊、S.play 不演、再約＝「那天已經和她約好了」',!(H.G.outings||[]).some(q=>q.fest&&q.fest.id===YT)&&!p&&c.r==null&&c.L.slice(-1)[0]==='那天已經和'+SOCIAL.displayName(YT)+'約好了。',J({p,c:c.L,o:(H.G.outings||[]).map(q=>q.id)}));
@@ -155,8 +155,8 @@ const plus=(...xs)=>{ const o={}; for(const x of xs) for(const k in x) o[k]=(o[k
   /* ======================= 8 舊存檔、中午場、晚上場只能一位 ======================= */
   await sec('8',async()=>{ const x=X(), d=D('2025-12-24');
     setup({lv:{[AN]:5,[YT]:5}}); await ask(AN,[1]); const y=await ask(YT,[1,'算了']); const n=await ask(YT,[0]);
-    /* 中午場：原本語彤第 6 階的聖誕節地點寫死在麵店（fest_events.js venueBy s6:'noodle'；她不在燒臘店＝約不到地方、灰掉）。AA_661 第 80 列（AA_627「AA 的決定」第 2 條）改稿以後第 6 階在一盞茶屋（venueBy s6:'teahouse'）＝中午場約得到一盞 */
-    check('8. 晚上場已經約了以安（散場以後）：語彤的晚上場灰掉（「晚上場已經約了以安」）；中午場約得到一盞（AA_661 第 80 列：第 6 階在一盞茶屋）',y.L.includes('晚上場已經約了'+SOCIAL.displayName(AN)+'。')&&!!n.r&&n.L.some(l=>/^約好 12\/24.*12:00，一盞。$/.test(l))&&!n.L.includes('那個時段約不到地方。'),J({y:y.L,n:n.L}));
+    /* 中午場：語彤第 6 階的聖誕節地點寫死在麵店（fest_events.js venueBy s6:'noodle'）；AA_610／AA_624 她不在燒臘店（INV.NEVER_AT）＝中午場約不到地方、灰掉（原本可以約）。語彤的節日內容待 AA 改稿 */
+    check('8. 晚上場已經約了以安（散場以後）：語彤的晚上場灰掉（「晚上場已經約了以安」）；中午場（地點寫死在燒臘店）也灰掉「那個時段約不到地方」、不成立',y.L.includes('晚上場已經約了'+SOCIAL.displayName(AN)+'。')&&!n.r&&n.L.includes('那個時段約不到地方。'),J({y:y.L,n:n.L}));
     setup({lv:{[AN]:5}}); delete H.G.fest; H.G.fest={bk:[{d,who:AN,k:'xmas',y:2025,slot:'eve',mode:'meet',ref:'iv_old'}],done:{},gifts:{},miss:{}}; at('2025-12-24',18.2); const g=await goOut('xmas_y1',[0]);
     check('8. 舊存檔（G.fest 的約沒有 grp）：群戲散場以後照舊不演',!g.L.includes(exp(0)[0])&&!x.rec(H.G).done[AN+':xmas:2025'],J(g.L.slice(-3)));
     setup({lv:{[AN]:5}}); delete H.G.fest; at('2025-12-24',18.2); const g2=await goOut('xmas_y1',[0]); check('8. 舊存檔（沒有 G.fest）：群戲照演、不出錯',g2.L.includes('（禮物先疊在桌子中間，吃完再抽。）')&&!g2.L.includes(exp(0)[0]));

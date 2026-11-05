@@ -33,7 +33,7 @@ const atHome=()=>{ G.stage='econ'; G.flags.Y0_MOVED_OUT=true; G.flags.LEAVE_WEEK
 (async()=>{
   const D=STORY.dayOfKey('2025-07-10'); const ev=STORY_EVENTS.find(e=>e.id==='ev_y0_e35'), evh=STORY_EVENTS.find(e=>e.id==='ev_y0_e35h');
   check('0. E35 兩個事件都在、7/10 是週四',!!ev&&!!evh&&CALENDAR.dateOf(D).wd===4); if(!ev||!evh){ console.log('FAILED '+fails); process.exit(1); }
-  { const T=evh.dialogue.filter(l=>l.text).map(l=>l.text); check('0. 見面版收尾（AA_303 第 2 節 24：在家裡、不下樓）：最後「好，去睡了。明天要早起。」、背景 home_living；沒有「五分鐘到了」「上樓」、沒有「明天考場見」、沒有電話版',T[T.length-1]==='好，去睡了。明天要早起。'&&evh.dialogue[0].bg==='home_living'&&!T.some(t=>/五分鐘到了|上樓|家樓下/.test(t))&&!evh.dialogue.some(l=>/明天考場見/.test(l.text||''))&&!JSON.stringify(evh.dialogue).includes('E35_PHONE'),JSON.stringify(T.slice(-2))); }
+  { const T=evh.dialogue.filter(l=>l.text).map(l=>l.text); check('0. 見面版收尾（AA_303 第 2 節 24：在家裡、不下樓）：最後「好。去睡。明天要早起。」、背景 home_living；沒有「五分鐘到了」「上樓」、沒有「明天考場見」、沒有電話版',T[T.length-1]==='好。去睡。明天要早起。'&&evh.dialogue[0].bg==='home_living'&&!T.some(t=>/五分鐘到了|上樓|家樓下/.test(t))&&!evh.dialogue.some(l=>/明天考場見/.test(l.text||''))&&!JSON.stringify(evh.dialogue).includes('E35_PHONE'),JSON.stringify(T.slice(-2))); }
   { const L=evh.dialogue, i=L.findIndex(l=>l.label==='c'), c=L[i+1]&&L[i+1].text; check('0. AA_368 H4：選「妳選一家。」→「我選？……那我家巷子裡那家。我從國中吃到現在，每次都在排隊。」（7/12 起她在高雄；原本「公館巷子裡那家」）',c==='我選？……那我家巷子裡那家。我從國中吃到現在，每次都在排隊。'&&!JSON.stringify(L).includes('公館巷子裡'),c); }
   let menus=[], script=[]; GM.choose=async o=>{ const t=o.map(q=>q.t||q.text); menus.push(t); const w=script.shift(); if(w==null) throw new Error('STOP'); const k=t.findIndex(x=>x.includes(w)); return k<0?0:k; };
   const loop=async()=>{ try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; } };

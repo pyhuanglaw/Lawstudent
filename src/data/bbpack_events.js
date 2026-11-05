@@ -359,7 +359,7 @@ const BBPACK_EVENTS=(function(){
   const D4Q=n=>FI('D4C_Q',n);
   const d4q=(n,q,opts)=>[IF(D4Q(n),say(PS,q)),IF(D4Q(n),{choice:opts.map(([t],i)=>({text:t,goto:'d'+n+'_'+(i+1)}))})];
   const d4a=(n,opts)=>opts.flatMap(([,r],i)=>[{label:'d'+n+'_'+(i+1)},say(PS,r),{goto:'end'}]);
-  const D4CQ=[[1,'法律系的人，是不是都很怕遲到？',[['「怕。遲到要寫理由。」','要寫三段喔。……那我以後提早出門。'],['「不怕。依情形而定。」','那我也要學這句。'],['「妳自己呢？」','我怕。所以都提早二十分鐘，在這裡站著。']]],
+  const D4CQ=[[1,'法律系的人，是不是都很怕遲到？',[['「怕。遲到要寫理由。」','要寫三段。……我記住了。'],['「不怕。依情形而定。」','那我也要學這句。'],['「妳自己呢？」','我怕。所以都提早二十分鐘，在這裡站著。']]],
     [2,'讀書會，是去讀書的，還是去見人的？',[['「讀書。」','我也是這樣跟我媽說的。'],['「見人。」','……我也是。一個人讀不下去。'],['「都有。」','你很會回答。法律系的。']]],
     [3,'你早餐都吃什麼？',[['「蛋餅。」','什麼口味？……不用回答，我在心裡幫你煎了。'],['「不吃。」','……這是我今天聽過最難過的事。'],['「便利商店的飯糰。」','那個也很好。可是我家的蛋餅比較好。']]],
     [4,'你覺得老師上課，最重要的是什麼？',[['「講得清楚。」','……我也這麼覺得。我會記起來。'],['「不要點名。」','那是學生最重要的。不是老師的。'],['「讓人想聽。」','嗯。這個最難。']]]];
@@ -452,7 +452,7 @@ const BBPACK_EVENTS=(function(){
       {label:'t'},say('唐睿','那不是經濟學。'),me('是我現在的身分。'),{goto:'w'},
       {label:'e'},say('阿勳','這個詞，可昕說過是你挑的。……犯規。'),nar('（新生大笑。）'),
       {label:'w'},say('新生','學長，經濟系可以轉法律系嗎？'),
-      {choice:[{text:'「我是重考進來的。那一年很累。」',goto:'end'},{text:'「可以。記得帶六法，很重。」',goto:'end'},{text:'「你為什麼想轉？」',goto:'q'}]},
+      {choice:[{text:'「我不是轉的，是重考的。很累，但我不後悔。」',goto:'end'},{text:'「可以。記得帶六法，很重。」',goto:'end'},{text:'「你為什麼想轉？」',goto:'q'}]},
       {label:'q'},say('新生','……其實沒有。我只是想聽故事。'),
       {label:'end'},{set:{SOC_GUEST_SENIOR:true,MET_XUN:true,MET_TANG:true}},{advance:1} ],
     after:G=>{ delete G.flags.SK08_WORD_TEXT; },
@@ -533,12 +533,11 @@ const BBPACK_EVENTS=(function(){
   /* ================= BB_154 S-3 阿凱網拍鍵盤（任務 BB154-KAI-KB；企劃線 BB_154 @968473469，2-1～2-3；BB_70 8b 最後一點 Kevin 家族群組三句 @7fca0df50 的同一版）=================
      大一下第 6～7 週，週一到週四 22:00～24:00 在宿舍房間（阿凱是室友），一次；第 7 週週四 24:00 以前都沒在房間＝不發生（不記 KAI_KEYBOARD，大二 needed_msgs.js kai_kb 走替代版）。
      手機筆記（AA_117）：前三行自動填好，玩家選「請求什麼」；有 U_SALE（民總那一堂的理解）多一個選項。阿凱自在 +2。
-     「那問誰」：加入法服或去過（STORY.fafuBeen；D118-B5a 以前只看 LAWCLUB_SAT_VISITS ≥1）＝「週六法服。」→ 第 7 週週六 9:00～12:00 走進萬才館（ev_kai_keyboard_fafu）；沒去＝12:30 阿凱私訊兩句（BBPACK.phone）。
+     「那問誰」：去過法服（LAWCLUB_SAT_VISITS ≥1）＝「週六法服。」→ 第 7 週週六 9:00～12:00 走進萬才館（ev_kai_keyboard_fafu）；沒去＝12:30 阿凱私訊兩句（BBPACK.phone）。
      沒去過法服＝「我問學長。」→ 當晚 23:00 家族群組 Kevin 三句（BB_70 8b）、23:05 阿凱私訊「你們法律系的人原來要查這麼久」（BBPACK.phone）。三種結尾都記 KAI_KEYBOARD（記憶，BBPACK.kaiKb）。
      BB_154 檔頭（2026-10-18）：2-3「學姊是法服社長，這天她值班」作廢——大一的週六法服是現任社長帶（AA_238 2-1、2-2；story3d.js S.fafuLead），學姊那幾句換成社長說（字不改）。說話人標籤寫全名「法服的社長」（AA_496 第 9 節第 6 點：「社長」法服、吉他社、即興劇社共用）；旁白的「社長」照舊。
      「我問直屬學長。」：直屬只有學姊一個（企劃線 e627d7475），BB_70 8b 寫「問學長：家族的大二學長 Kevin」——這裡用「我問學長。」*/
   const KBA=v=>FI('KAI_KB_ASK',v);
-  const FAFU_BEEN={custom:G=>typeof STORY!=='undefined'&&STORY.fafuBeen?STORY.fafuBeen(G):((+(G.flags||{}).LAWCLUB_SAT_VISITS||0)>0)};   /* D118-B5a（D118_PLAN ④-5）：加入法服或週六去過一次（原本只看 LAWCLUB_SAT_VISITS ≥1）*/
   EV.push({ id:'ev_kai_keyboard', title:'', participants:['kai'], location:'dorm', trigger:'auto', once:true, term:['Y1S2'], weeks:[6,7], weekday:[1,2,3,4], time:[22,24], background:'blur',
     prereq:{custom:G=>{ const b=B(); return !!b&&b.here('kai',G); }},
     dialogue:[ nar('阿凱的鍵盤聲停了。他把椅子轉過來。'),
@@ -550,8 +549,8 @@ const BBPACK_EVENTS=(function(){
       {label:'h'},say('kai','好 一起翻'),nar('你們翻民總課本，翻到網拍相機那一章。看了二十分鐘。'),me('……好像有關，但我說不出來。'),{goto:'who'},
       {label:'u'},say('kai','少付一點也可以喔 那我要少付一顆鍵的錢'),me('……可是要怎麼跟賣家講，我說不清楚。'),
       {label:'who'},say('kai','那問誰'),
-      IF(FAFU_BEEN,me('週六法服。')),IF(FAFU_BEEN,{set:{KAI_KB_ASK:'fafu'}}),
-      UN(FAFU_BEEN,me('我問學長。')),UN(FAFU_BEEN,{set:{KAI_KB_ASK:'kevin'}}),
+      IF({flagNum:{LAWCLUB_SAT_VISITS:{min:1}}},me('週六法服。')),IF({flagNum:{LAWCLUB_SAT_VISITS:{min:1}}},{set:{KAI_KB_ASK:'fafu'}}),
+      UN({flagNum:{LAWCLUB_SAT_VISITS:{min:1}}},me('我問學長。')),UN({flagNum:{LAWCLUB_SAT_VISITS:{min:1}}},{set:{KAI_KB_ASK:'kevin'}}),
       {rel:{kai:{comf:2}}} ],
     after:G=>{ G.flags.KAI_KB_DAY=G.day; } });
   EV.push({ id:'ev_kai_keyboard_fafu', title:'', participants:['kai'], location:'wancai', trigger:'auto', once:true, term:['Y1S2'], weeks:[7], weekday:[6], time:[9,12], background:'blur', portraitLater:true,

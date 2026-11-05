@@ -7,7 +7,6 @@
 //   另外：17:00 阿哲私訊（不發群組）、和可昕交往中麵店最後她到、沒去＝一句旁白、2029 已經考上的沒有這兩段
 // AA_357 1-6（2026-10-21）：交換延畢 2030 有沒有報名改看 BAR_REG_2030（2030-05-10 問；原本 BAR_REG!==false＝沒問就算），延畢的前置條件從 BAR_REG:true 改成 BAR_REG_2030:true。
 // 修改前：沒有 B1_2030（第 1 項 FAIL）。用法：node tests/aa331_postgrad_unit.js
-// 2026-11-04 AA_688（企劃線 8dce2f94c 第 3 節、7cc729232 第 6 節；CANON-PURGE-SRC-1104）改的期待值：R1 旁白「（燒臘店的長桌。…）」、R2 語彤的紅紙寫的是你的名字、「蘇姨寫的。去年貼我的，今年換你。」
 const H=require('./pg_harness.js'); const {check}=H;
 const graduated=G=>{ G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; };
 (async()=>{
@@ -16,11 +15,11 @@ const graduated=G=>{ G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; };
   { const G=H.fresh('2030-07-11',19,'dorm',{EXCHANGE_ROUTE:'JP',BAR_REG_2030:true}); graduated(G);
     check('R1. 交換延畢 2030 要考（sits 2030）',PG.sits(G,2030)===true);
     const L=PG.b1Lines2030(G).map(x=>x[1]); check('R1. 7/11 B1：阿哲第二句「……這句我去年說過。今年說給你聽。」，沒有保鮮盒',L.includes('……這句我去年說過。今年說給你聽。')&&!L.some(t=>/保鮮盒/.test(t))&&L[0]==='（總圖 B1。長桌只坐了一半，考古題疊得一樣高。）',JSON.stringify(L));
-    const N=PG.noodle2030Lines(G).map(x=>x[1]); check('R1. 12/13 燒臘店：兩張紅紙＋阿哲「去年沒吃到的，今年一起吃。」（AA_688 第 6 節：旁白「（麵店的長桌。…）」→「（燒臘店的長桌。…）」）',N[0]==='（燒臘店的長桌。門口貼了兩張紅紙，一張是你，一張是阿哲。）'&&N.includes('（舉起碗）去年沒吃到的，今年一起吃。')&&N.length===2,JSON.stringify(N)); }
+    const N=PG.noodle2030Lines(G).map(x=>x[1]); check('R1. 12/13 麵店：兩張紅紙＋阿哲「去年沒吃到的，今年一起吃。」',N[0]==='（麵店的長桌。門口貼了兩張紅紙，一張是你，一張是阿哲。）'&&N.includes('（舉起碗）去年沒吃到的，今年一起吃。')&&N.length===2,JSON.stringify(N)); }
   // R2
   { const G=H.fresh('2030-07-11',19,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:10,BAR_STAGE_2029:'none',BAR_STUDY_GROUP:['yutong']}); graduated(G);
     const L=PG.b1Lines2030(G).map(x=>x[1]); check('R2. 2029 也報了名：「……去年也是這句。今年要算數。」＋語彤的保鮮盒',L.includes('……去年也是這句。今年要算數。')&&L.includes('（把一個保鮮盒放在滷味旁邊）秀琴姨說，今年換她出菜。'),JSON.stringify(L));
-    const N=PG.noodle2030Lines(G).map(x=>x[1]); check('R2. 燒臘店：紅紙（第一行換掉）、語彤那句照 AA_688 第 3 節「蘇姨寫的。去年貼我的，今年換你。」（她 2029 年就考上了；原本 AA_630 Z-041「…寫的是她自己的名字。」「蘇姨寫的。她說燒臘店那邊貼了，茶屋也要有。」）、阿哲那句還在',N[0]==='（語彤最後到，手上拿著一張捲起來的紅紙，寫的是你的名字。）'&&N.includes('蘇姨寫的。去年貼我的，今年換你。')&&N.includes('（舉起碗）去年沒吃到的，今年一起吃。'),JSON.stringify(N)); }
+    const N=PG.noodle2030Lines(G).map(x=>x[1]); check('R2. 麵店：三張紅紙（第一行換掉）、語彤那句照 AA_630 Z-041「蘇姨寫的。…」、阿哲那句還在',N[0]==='（語彤最後到，手上拿著一張捲起來的紅紙，寫的是她自己的名字。）'&&N.some(t=>/蘇姨寫的。她說燒臘店那邊貼了，茶屋也要有。/.test(t))&&N.includes('（舉起碗）去年沒吃到的，今年一起吃。'),JSON.stringify(N)); }
   // 可昕交往中
   { const G=H.fresh('2030-12-13',17,'dorm',{EXCHANGE_ROUTE:'US',BAR_REG_2030:true}); graduated(G); H.date('kexin');
     const N=PG.noodle2030Lines(G).map(x=>x[1]); check('麵店：和可昕交往中，最後多「（可昕最後到，外套還沒脫。）」「我在事務所就查了。……這次也先查了你的。」',N[N.length-2]==='（可昕最後到，外套還沒脫。）'&&N[N.length-1]==='我在事務所就查了。……這次也先查了你的。',JSON.stringify(N)); }

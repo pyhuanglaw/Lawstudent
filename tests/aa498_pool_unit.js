@@ -206,7 +206,7 @@ await sec('4 黃郁婷',async()=>{ const d0=TD('Y1S1',4,1); fresh(d0,9+10/60-0.1
   check('4. 黃郁婷：隔天在霖澤館一樓「看補給的桌子」＝「（郁婷從桌子後面抽出一包…「第三題不會就先寫第四題。」）」；房間物品「考前補給包的小卡」',!!it&&has(L()[Y].tableYes)&&STORY.roomItemList(H.G).some(x=>x[0]==='考前補給包的小卡'),J(said()));
   /* 秘密 */
   const s1=TD('Y1S2',10,1); set(s1,9+10/60-0.1,'classroom'); rel(Y,25,10); GM.npc={}; spawn(Y); await talk(Y,['不考司法官嗎']);
-  check('4. 黃郁婷 5-4 秘密（大一下第 10 週起、教室門口、有點熟）：選「不考司法官嗎？」→ YT_JUDGE',has('其實……書記官的考試科目，我偷偷查過了。……還沒跟家裡講。')&&has('大家都會這樣問。……我就是想坐在旁邊那個位子。')&&H.G.flags.YT_JUDGE===true&&SOCIAL.has(Y,'SHARED_SECRET'),J(said()));
+  check('4. 黃郁婷 5-4 秘密（大一下第 10 週起、教室門口、有點熟）：選「不考司法官嗎？」→ YT_JUDGE',has('其實……書記官的考試科目，我偷偷查過了。你不要說出去。')&&has('大家都會這樣問。……我就是想坐在旁邊那個位子。')&&H.G.flags.YT_JUDGE===true&&SOCIAL.has(Y,'SHARED_SECRET'),J(said()));
   const pd=D('2029-10-19'); phAt(pd,18.2);
   check('4. 黃郁婷 5-6（2029-10 司法特考放榜，有聯絡方式）：「上了。四等書記官。」「榜單我數了三次。」＋多出來的一句（YT_JUDGE 版）',J(msgs(Y).slice(-3))===J(['上了。四等書記官。','榜單我數了三次。','你大一問我為什麼不考司法官。現在可以回答你了：我想坐的就是這個位子。']),J(msgs(Y).slice(-4))); });
 

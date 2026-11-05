@@ -59,13 +59,11 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     fresh(D('2026-07-07'),18,'dorm',{}); R('heroine_01','FRI'); VAC.signup(G,'C03@Y1','yes'); said=[]; const q2=OUT.get(G,'vac_C03@Y1_0'); G.day=q2.day; G.hour=19; await VAC.outing(GM,q2);
     check('4-1 第 6 點. C03 大一、認識以安：照稿「你也來了。」',lines().includes('沈以安：你也來了。'),J(lines())); }
   // C05 日本五天：以安、語彤同一天不再收到兩次（拿掉 va11_jp_*；出國輪播照舊）
-  const WD8=d=>CALENDAR.dateOf(d).wd%7;
   { fresh(D('2026-08-24'),6,'dorm',{dating_heroine_01:true,dating_heroine_03:true}); R('heroine_01','CLO'); R('heroine_03','CLO'); R('kai','FAM'); VAC.signup(G,'C05@Y1','yes'); said=[]; picks=[0,0,0,0];
     await VAC.outing(GM,OUT.get(G,'vac_C05@Y1')); G.day=D('2026-08-29'); G.hour=12; run(12,12.2);
     const A=allTxt('p:heroine_01'), Y=allTxt('p:heroine_03'), n=(L,t)=>L.filter(x=>x===t).length;
     check('4-3. C05：以安「到了傳一張照片。一張就好。」只收到一次',n(A,'到了傳一張照片。一張就好。')===1,J(A));
-    /* AA_685 A6-4（企劃線 c96613e51）：回來那天「回來了嗎」「蘇姨說幫你留一杯」是講店裡的，只在週六、日傳——C05 8/28 是週五＝不傳（0 次）；當晚 21:00 的重逢邀約照傳 */
-    check('4-4. C05：語彤「回來了嗎」沒有重複（8/28 週五回來：AA_685 A6-4 平日不傳那一則＝0 次）；va11_jp_* 拿掉了；當晚的重逢邀約一次',n(Y,'回來了嗎')===0&&WD8(D('2026-08-28'))===5&&n(Y,'這週六我五點下班')===1&&!VAC_DATA.MSGS.some(m=>/^va11_jpb?_/.test(m.tag)),J(Y)); }
+    check('4-4. C05：語彤「回來了嗎」只收到一次；va11_jp_* 拿掉了',n(Y,'回來了嗎')===1&&!VAC_DATA.MSGS.some(m=>/^va11_jpb?_/.test(m.tag)),J(Y)); }
   // 貓空 D09：大四下她已經交棒（4-3）
   { const row=ENCOUNTERS.rows.find(r=>r.who==='heroine_01'&&r.spot==='D09'), sch=CHARACTERS.heroine_01.daily_schedule.find(q=>q.enc==='D09');
     check('4-3. 偶遇 D09 以安：terms 拿掉 Y4S2（encounters.js、characters.js 作息兩邊）',!!row&&!row.terms.includes('Y4S2')&&row.terms.includes('Y4S1')&&!!sch&&!sch.terms.includes('Y4S2'),J([row&&row.terms,sch&&sch.terms])); }
@@ -85,8 +83,8 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   { const m=VAC_DATA.MSGS.find(x=>x.tag==='va11_exam_yt'); check('4-4. va11_exam_yt：6/18 18:00（筆試考完那天傍晚）',!!m&&m.day==='2026-06-18'&&m.h===18,J(m&&[m.day,m.h]));
     fresh(D('2026-06-18'),17,'dorm',{dating_heroine_03:true}); R('heroine_03','CLO'); run(17,18.2); const got=PHONE.sent(G,'va11_exam_yt');
     const pool=x=>TERMEND_LINES.POOL.Y1S2.heroine_03.map(f=>typeof f==='function'?f(x):f).filter(v=>v!=null);
-    check('4-4. 交往中 6/18 18:00 收到「考完了」那幾則；期末飯她只說「成績七月三號才查得到。」',got&&txt('p:heroine_03')[0]==='考完了'&&J(pool(G))===J(['成績七月三號才查得到。']),J([txt('p:heroine_03'),pool(G)]));
-    fresh(D('2026-06-20'),17,'dorm',{}); check('4-4. 沒收過那則（沒交往）：期末飯照舊兩句',J(pool(G))===J(['考完了。……憲法最後一題寫不完。','成績七月三號才查得到。']),J(pool(G))); }
+    check('4-4. 交往中 6/18 18:00 收到「考完了」那幾則；期末飯她只說「成績單七月三號才寄。」',got&&txt('p:heroine_03')[0]==='考完了'&&J(pool(G))===J(['成績單七月三號才寄。']),J([txt('p:heroine_03'),pool(G)]));
+    fresh(D('2026-06-20'),17,'dorm',{}); check('4-4. 沒收過那則（沒交往）：期末飯照舊兩句',J(pool(G))===J(['考完了。……憲法最後一題寫不完。','成績單七月三號才寄。']),J(pool(G))); }
   check('4-4. 邀約選單「去公館燒臘吃飯」（首都帝大就在公館，不說「去公館」）',INVITE_DATA.places.find(p=>p.id==='noodle').verb==='去公館燒臘吃飯',INVITE_DATA.places.find(p=>p.id==='noodle').verb);
   // 語彤大三跨年（4-1 第 13 點）：交往中 00:01 她打電話來
   { const nye=D('2027-12-31'); fresh(nye,22.8,'dorm',{dating_heroine_03:true}); R('heroine_03','CLO'); run(22.8,23.2); const c=OUT.get(G,'yt_nye_call_y3');
@@ -148,7 +146,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     L=await go(2,['zhe','yu']); check('5-3、5-4. 都認識：照舊是阿哲、Alison',L.includes('阿哲：哥！')&&L.includes('Alison：欸，為什麼重考？'),J(L)); }
   // 柏翰（5-1 第 13 點、5-5）：值班分大二、大三起；大二第一次值班的開場；聽到分開以後第一次說話
   { const MEM={lawclub:true,CLUB_lawclub_study:true}, shift=async(term,w,flags)=>{ fresh(STORY.termDay(term,w,6),9,'wancai',Object.assign({},MEM,flags||{})); G.stage='law'; R('classmate_bohan','FAM'); R('heroine_05','FAM'); picks=['從頭講','先走']; said=[]; await STORY.fafuShift(GM); return lines().filter(t=>/柏翰：/.test(t)); };
-    const a=await shift('Y2S1',11), b=await shift('Y2S1',13,{FAFU_BH_HELLO:1}), c=await shift('Y3S1',3,{FAFU_BH_HELLO:1});   /* D118-B5b（2026-11-04）：大二上第 7 週六 10/24 是 AA_604 法服固定場次第 1 場（坐圓桌＝那一場），一般值班改用第 11、13 週 */
+    const a=await shift('Y2S1',7), b=await shift('Y2S1',11,{FAFU_BH_HELLO:1}), c=await shift('Y3S1',3,{FAFU_BH_HELLO:1});
     check('5-5. 大二第一次值班（他當社長以後）：柏翰開場「這學期起我排班。有事找我。」，那一次不再說班表那句',a.length===1&&a[0].endsWith('：這學期起我排班。有事找我。'),J(a));
     check('5-1 第 13 點. 之後的大二值班：照舊班表那兩句；大三起「我交接了。現在只排我自己的班。」「學弟排錯一格。我沒說。」（不說「我以為社長只要排班」）',b.length===1&&STORY.FAFU_BH.some(t=>b[0].endsWith('：'+t))&&c.length===1&&(STORY.FAFU_BH_Y3||[]).some(t=>c[0].endsWith('：'+t))&&!c.some(t=>/社長只要排班/.test(t)),J([b,c]));
     const f6=STORY.termDay('Y2S1',6,5); fresh(f6,20.9,'dorm',{}); PHONE.join(G,'noodle_team','麵店團'); R('classmate_bohan','FRI'); R('classmate_peishan','FAM'); run(20.9,21.1); const sent=PHONE.sent(G,'ps_split_group');

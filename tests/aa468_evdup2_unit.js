@@ -67,7 +67,7 @@ const model=(R,first4,T,firstExtra)=>{ let c=0, w=0, s=0; const exp=[]; for(cons
     check('1. 大四 回「妳那邊冷嗎？」：「冷。今年我有買手套了。」',J(b)===J([T1['開頭（照舊）'],T1['旁白'],T1['回「妳那邊冷嗎？」'],T1['結尾'],T1['結尾旁白']]),J(b));
     check('1. 大四 選項照舊；ZR_NYE_VIDEO_Y4',J(optsA)===J(['「新年快樂。」','「妳那邊冷嗎？」'])&&H.G.flags.ZR_NYE_VIDEO_Y4===true);
     const G=fresh('2029-01-01',8,'dorm',{}); ev('ev_zr_nye_video_y4').outingMissed(G,GM,{day:d}); H.at('2029-01-01',9); PHONE.tick(G); const miss=(G.msgs||[]).filter(m=>m.tag==='zr_nye_miss_y4');
-    check('1. 大四 沒接（outingMissed）：08:30 芷若「睡吧，新年快樂。醒了再說。」',miss.length===1&&miss[0].text===T1['沒接（08:30）']&&Math.abs(miss[0].h-8.5)<1e-6&&miss[0].th==='p:heroine_02',J(miss.map(m=>m.text)));
+    check('1. 大四 沒接（outingMissed）：08:30 芷若「睡吧。新年快樂。……醒了再說。」',miss.length===1&&miss[0].text===T1['沒接（08:30）']&&Math.abs(miss[0].h-8.5)<1e-6&&miss[0].th==='p:heroine_02',J(miss.map(m=>m.text)));
     fresh('2028-01-01',8,'dorm',{}); const c=await run('ev_zr_nye_video_y3',[0]); fresh('2028-01-01',8,'dorm',{}); const c2=await run('ev_zr_nye_video_y3',[1]);
     const G3=fresh('2028-01-01',8,'dorm',{}); ev('ev_zr_nye_video_y3').outingMissed(G3,GM,{day:D('2028-01-01')}); H.at('2028-01-01',9); PHONE.tick(G3);
     check('1. 大三 ev_zr_nye_video_y3 照舊（旁白、兩個回覆、結尾、結尾旁白、沒接那一則）',c.includes(Y3_OLD[0])&&c.includes(Y3_OLD[1])&&c2.includes(Y3_OLD[2])&&c.includes(Y3_OLD[3])&&c.includes(Y3_OLD[4])&&(G3.msgs||[]).some(m=>m.tag==='zr_nye_miss_y3'&&m.text===Y3_OLD[5]),J([c,c2]));

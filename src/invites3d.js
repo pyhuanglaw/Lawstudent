@@ -273,11 +273,6 @@ const INV=(function(){
     G.invites.push(iv); if(G.invites.length>60){ const keep=G.invites.filter(q=>live(q)); const old=G.invites.filter(q=>!live(q)).slice(-30); G.invites=old.concat(keep); }
     S.msg(G,id,o.now?'和'+nameOf(id)+'一起'+P.verb+'。':'約好了：'+when(G,day,h)+'，'+P.name+'（'+nameOf(id)+'）。',iv); return iv; };
   S.byId=(G,ivId)=>(G.invites||[]).find(q=>q.id===ivId)||null;
-  /* AA_675 1-1（AA_661 第 7 列，企劃線 920791094，AA-C 定 D109）：她寒暑假的平日在老家那個城市（presence 的 vacTown：語彤在淡水），答應臺北的邀約時，答應那一句後面多一句（vacTown.acc，輪流）。
-     現在、約的那一天都在那個城市才說（週末她在臺北、C16 那兩週在臺北＝不說）；輪到第幾句記在 G.flags.TOWN_ACC_N（{人物: 次數}；舊存檔沒有＝從第一句）*/
-  S.townLine=function(G,id,W){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id], V=c&&c.presence&&c.presence.vacTown; if(!V||!Array.isArray(V.acc)||!V.acc.length||typeof STORY==='undefined'||!STORY.presence) return null;
-    const p0=STORY.presence(id,G), p1=W&&W.day!=null?STORY.presence(id,Object.assign({},G,{day:W.day,hour:W.h})):p0; if(!p0||p0.town!==V.town||!p1||p1.town!==V.town) return null;
-    const F=G.flags||(G.flags={}), N=F.TOWN_ACC_N&&typeof F.TOWN_ACC_N==='object'?F.TOWN_ACC_N:(F.TOWN_ACC_N={}), k=N[id]|0; N[id]=k+1; return V.acc[k%V.acc.length]; };
   /* 作息的覆寫（story3d.js 的 schedEnt 先問這裡）：約好的那段時間人在那個地方；正在一起走過去的人跟著玩家 */
   S.entryFor=function(G,id){ if(!G||!Array.isArray(G.invites)||G.noInvite) return null; const h=G.hour%24;
     for(const iv of G.invites){ if(iv.who!==id) continue; const P=S.place(iv.place); if(!P) continue;
@@ -733,6 +728,7 @@ const INV=(function(){
     { const ln=P.lateNote?P.lateNote(G):null; if(ln) await GM.say(null,ln); }   /* 今天已經約不到的時段（Daybreak 14:00 以後：AA_652 第 3 節的旁白）：選時間前先說，時間照常列明天的 */
     for(;;){ const T=S.timeOptions(G,together,P); if(!T.length){ await GM.say(null,'今天太晚了，改天再約吧。'); return null; } const more=!P.when, to=T.map(q=>({t:q.t})); if(more) to.push({t:'其他日子…',hint:'之後 7 天內選一天'}); to.push({t:'算了'});
       k=await GM.choose(to); if(more&&k===T.length){ const w=await S.pickDay(GM,id,P); if(!w) continue; W=Object.assign({},w); break; } if(!(k>=0&&k<T.length)) return null; W=Object.assign({},T[k]); break; }
+    const NC=typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.inviteAdjust?NOODLE_CLOSED.inviteAdjust(G,id,W):null; if(NC) W.h=NC.h;   /* 麵店過年店休那一週約語彤（AA_333 C）：排到 18:00 以後、答應的那一句換掉 */
     if(id==='heroine_05'&&typeof V6EX!=='undefined'&&V6EX.sisExInvite&&V6EX.noContact(G,id)){ const xr=V6EX.sisExInvite(G), w0=n?{name:nm,obj:n.obj,charId:id}:{name:nm+'（手機）',charId:id};   /* AA_600 S9（企劃線 031414cad）：前任的學姊被約——第 1、2 次已讀不回；第 3 次回「最近忙。」；不答應（校外約會、挽回路線照各自的條件）*/
       if(xr==='read') await GM.say(null,n?V6EX.SIS_EX_NOD:V6EX.SIS_EX_READ); else await GM.say(w0,'「'+V6EX.SIS_EX_BUSY+'」'); return null; }
     const r=S.personal(G,id,P,W.day,W.h,Object.assign(S.decide(G,id,P.id,W.day,W.h),n?{face:true}:{})), who=n?{name:nm,obj:n.obj,charId:id}:{name:nm+'（手機）',charId:id};
@@ -743,8 +739,7 @@ const INV=(function(){
     if(W.now&&same&&r.res==='here'){ r.res='accept'; delete r.lines; }   /* 兩個人都在那裡、約「現在」＝直接開始，不念手機那句（學姊平日的總圖「好啊，我在總圖三樓。到了跟我說。」；BB 10-22 03:01；使用者 10-21 23:2x「只要兩個都在場 就不用一起走或說話才能開始」）*/
     if(r.res==='accept'){ act(her+'點點頭。'); if(n&&typeof CHAR!=='undefined'&&CHAR.setExpr) CHAR.setExpr(n.obj,'smile'); const here=!!W.now&&same;   /* 兩個人已經在那個地方（例：在總圖讀完、當場再約一次讀書；使用者 10-21 23:1x）：不用一起走過去 */
       const iv=S.accept(G,id,P.id,W.day,W.h,{now:!!W.now&&!here,by:'player'}); const tail=here?'':(W.now?'你們一起'+P.verb+'。':'約好 '+when(G,W.day,W.h)+'，'+P.name+'。');
-      const tw=S.townLine(G,id,W);   /* AA_675 1-1：語彤寒暑假平日在淡水，答應臺北的邀約，答應那一句後面多一句 */
-      if(r.lines){ await S.playLines(GM,who,r.lines,r); if(tw) await GM.say(who,tw); if(tail) await GM.say(null,tail); } else if(tw){ await GM.say(null,S.reply(G,id,P.id,r)); await GM.say(who,tw); if(tail) await GM.say(null,tail); } else await GM.say(null,S.reply(G,id,P.id,r)+tail);
+      if(NC){ await GM.say(who,'「'+NC.line+'」'); if(tail) await GM.say(null,tail); } else if(r.lines){ await S.playLines(GM,who,r.lines,r); if(tail) await GM.say(null,tail); } else await GM.say(null,S.reply(G,id,P.id,r)+tail);
       S.teMark(GM,iv,id,P,W);
       if(here){ await S.startTogether(GM,iv,n); return iv; }   /* 直接開始（S.accept 已經是 accepted、時間＝現在）*/
       if(W.now&&n){ if(GM.standUp) GM.standUp(n); n.beh='follow'; n.frozen=false; n.followOff=1.1; n.path=null; } return iv; }   /* 坐著被約「現在一起過去」：先起身再跟（使用者 2026-10-16 試玩：Café 約吃麵，以安坐姿懸空跟著走）*/

@@ -267,7 +267,7 @@ const ZRZQ=(function(){
   S.fyEnd=function(G){ const R=G&&G.flags&&G.flags.ZZ; return !!R&&typeof R==='object'&&R.fy==='seeing'&&!(R.state==='held'&&R.held==='uk')&&S.ending(G)==='C'; };
 
   /* ---------- 帶到場 ---------- */
-  S.zoneCat=function(G){ const z=G.zone||''; if(atHome(G)) return 'home'; if(z==='cafe') return 'cafe'; if(['library','library_hall','lawlib','soclib','soclib_2f'].includes(z)) return 'lib';
+  S.zoneCat=function(G){ const z=G.zone||''; if(atHome(G)) return 'home'; if(z==='cafe') return 'cafe'; if(['library','library_hall','lawlib','soclib'].includes(z)) return 'lib';
     if(/^dorm/.test(z)) return 'dorm'; if(['gongguan','noodle','bookstore','bikeshop','aoki','cvs','wenzhou','lane118','afar','daybreak'].includes(z)||/^l118|^wz_/.test(z)) return 'town'; return 'campus'; };
   /* {課名}：那天實際上的最後一堂課（有去上的、在現在以前下課的；am＝只看上午）*/
   S.lastClass=function(G,o){ if(typeof CLS==='undefined'||!CLS.dayItems) return null; const Dn=(G.courses&&G.courses.done)||{};

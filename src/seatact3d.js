@@ -22,9 +22,7 @@
      正式模型還沒載好：找不到桌子的過 1.5 秒、5 秒、之後每 4 秒（模型數量變了）再找一次。
    - 畫面：同一種網格一個 InstancedMesh（每一層樓一個群組，跟著那一層顯示／隱藏）；7 m 內用 LOD0、7.5 m 外換 _lod1（筆、螢光筆省略；單件沒有 _lod1＝照用），12 m 外單件不畫。
      一個區域最多 S.CAP 組（24）。人起身、走了、換區域：那一組拿掉。載入失敗：人照樣坐、桌上沒有東西。
-   - 占著、人不在的位子（EXAM-LIB-CROWD-1104，src/examlib3d.js 期末考前的圖書館）：S.AWAY 給的座位，桌上放「休息」那一組（S.awayTick；測試：node tests/exam_lib_crowd_unit.js）。
-   - 坐在桌前做事的循環（NPC-ANIM-LOOPS-1104）：用筆電、寫筆記、看桌上的書、滑手機、吃飯的路人，桌子合得上的時候播打字、寫字、翻書、滑手機、吃的片段（下面 S.TASK；character3d.js 的 C.SIT_TASK）。
-   - 每 30 格（game3d.js 主迴圈，和 STORY.tick 同一格）跑 S.tick。測試：node tests/seat_activity_1104_unit.js、node tests/sit_task_wire_unit.js
+   - 每 30 格（game3d.js 主迴圈，和 STORY.tick 同一格）跑 S.tick。測試：node tests/seat_activity_1104_unit.js
    平板（S.TABLET_OK）：desk_props 現在沒有平板；美術做了 item_tablet（桌上：原點＝底面中心、+z 離開人、螢幕朝上，約 0.25×0.17×0.007 m）、hold_tablet（手上：同 item 的座標，遊戲端轉到手上）就自動加進去。 */
 'use strict';
 const SEATACT=(function(){
@@ -33,7 +31,7 @@ const SEATACT=(function(){
   S.CAP=24;
   S.FOOD=/(food|snack|bento|cake|sandwich|plate|bowl|toast|bread|noodle|rice|dessert)/i;
   /* 場所：圖書館、咖啡廳（可以用筆電）、輕食（茶屋、早午餐、茶飲：不用筆電）、吃飯的店（只有滑手機、什麼都不做）*/
-  S.LIB_ZONES={library:1,library_hall:1,library_stacks:1,library_carrels:1,library_b1:1,lawlib:1,soclib:1,soclib_2f:1,us_lawlib:1,us_lawlib_2f:1};
+  S.LIB_ZONES={library:1,library_hall:1,library_stacks:1,library_carrels:1,library_b1:1,lawlib:1,soclib:1,us_lawlib:1,us_lawlib_2f:1};
   S.CAFE_ZONES={cafe:1,afar:1,l118_cafe2:1,wz_mokuyobi:1,wz_offbeat:1};
   S.LIGHT_ZONES={daybreak:1,wz_brunch:1,wz_teahouse:1,aoki:1,l118_tea:1,wz_tea:1};
   S.placeOf=function(zone){ if(!zone) return null; if(S.LIB_ZONES[zone]) return 'library'; if(S.CAFE_ZONES[zone]) return 'cafe'; if(S.LIGHT_ZONES[zone]) return 'light';
@@ -70,27 +68,6 @@ const SEATACT=(function(){
     S_meal:[['item_bowl_noodle',0,0.16,0],['item_chopsticks',0.17,0.04,0],['item_plate',-0.2,0.13,0]],
     S_meal2:[['item_bowl',0.02,0.15,0],['item_plate',-0.19,0.14,0],['item_chopsticks',0.18,0.04,0]],
     S_meal_t:[['item_bowl_noodle',0,0.13,0],['item_chopsticks',0.14,0.03,0]] };
-  /* ---------- 坐在桌前做事的循環（NPC-ANIM-LOOPS-1104；片段、配件、合不合得上桌子：character3d.js 的 C.SIT_TASK）----------
-     一個人坐的路人（不是有名字的人）做的事 → 片段：用筆電＝打字（一半的人照種子是「打字＋觸控板」）、寫筆記＝寫字（右手拿筆）、看桌上的書＝翻書、滑手機＝滑手機（右手拿手機、左手放桌上：姿勢從 read 換成 sit）、
-     吃飯（吃飯的店，姿勢本來就不動）＝吃（沒有筷子、碗的配件：LAWWW2 還沒做）。聊天、手上捧書、平板、休息＝照舊（沒有片段）；SEATACT 沒有「喝飲料」這件事（Drink 片段、紙杯配件 character3d.js 有，還沒有人用）。
-     什麼時候用：桌子找到了、不是吧台的高腳椅（st.lift）、桌上真的有那一組（打字＝筆電、寫字＝筆記本、翻書＝書、吃＝碗；desk_props 沒載好＝不用）、CHAR.sitTaskFit 說合得上（片段載好、骨架是女生／男生那兩種、
-     桌高、桌緣）；不合＝照舊（坐姿循環、手放大腿上／拿著手機）。每 30 格再對一次（片段、配件晚一點才載好；正式模型載好、桌子換了）。
-     手上拿著的東西（筆、手機、紙杯）這個位子的桌上也有＝桌上那一件藏起來：自己組的（S_notes…）拿掉那一件；合併成一個網格的（tset_notes、rset_notes）近的時候換成 S.SPLIT 的單件、
-     遠的 _lod1 本來就沒有筆（照用）；有那一件、又拆不開的組＝那個片段先不用（不要桌上一支、手上一支）。起身、走了、換區域＝配件拿掉、桌上放回來 */
-  S.TASK={laptop:'type',notes:'write',textbook:'page',phone:'phone'};   /* NPC-ANIM-LOOPS-1104：吃飯（eat、eat2）先不用片段（LAWWW-C 11-04 21:4x）。11-04 22:5x LAWWW2-C 補件到了（右手筷子 hand_chopsticks、Sit_Eat 照筷子尖重擺、
-     桌上那雙照 S.PROP_FAM 拿掉），可是 BB-C 22:43 看預覽：坐的高度不對（桌子在胸口，吃飯時頭幾乎埋到碗上）——先改坐下的高度，再把 S.TASK_EAT 併回 S.TASK（Object.assign(S.TASK,S.TASK_EAT)）。
-     （原本的說明）     等 LAWWW2 的右手筷子配件（hand_chopsticks）＋S.PROP_FAM 藏桌上那雙，再把 S.TASK_EAT 併回 S.TASK（Object.assign(S.TASK,S.TASK_EAT)）*/
-  S.TASK_EAT={eat:'eat',eat2:'eat'};
-  Object.assign(S.TASK,S.TASK_EAT);   /* 11-05 LAWWW-C 開：SIT-HEIGHT-1104（b1ca12646）坐下高度改好以後，坐在 0.47 椅面、0.75 桌前眼睛離碗女生 37 cm、男生 37 cm（LAWWW2-C 量的；原本 27／32）；要關掉＝刪掉這一行 */
-  S.TASK_NEED={type:/laptop_open|^[tr]set_laptop$/,write:/notebook_open|^[tr]set_notes$/,page:/code_open|^[tr]set_book$/,eat:/^item_bowl/};   /* 桌上要有的東西 */
-  S.TASK_DEPTH={phone:0.1};   /* 左手放在桌上：桌子至少要這麼深 */
-  S.PROP_FAM={hand_pen:/^item_pen$/,hand_cup:/^item_cup$/,hand_phone:/^item_phone_/,hand_chopsticks:/^item_chopsticks$/};   /* 手上的配件 → 桌上同一件東西 */
-  /* 合併成一個網格的組裡有哪些東西（tools/blender/env_second/desk_props.py 的 SETS，名字加 item_；item_book_open＝SETS 的 book_open，GLB 裡沒有單獨的網格）：只用來查「有沒有筆、紙杯、手機」*/
-  S.SET_HAS={tset_notes:['item_notebook_open','item_pen','item_pencil_case','item_cup'],tset_laptop:['item_laptop_open','item_phone_off','item_thermos_navy'],tset_book:['item_book_open','item_highlighter_pink','item_notebook_closed','item_pen'],
-    tset_away:['item_laptop_closed','item_textbook','item_cup','item_phone_off'],rset_notes:['item_notebook_open','item_pen'],rset_laptop:['item_laptop_open'],rset_book:['item_book_open','item_highlighter'],rset_cup:['item_cup','item_notebook_closed_b']};
-  /* 拿掉那一件以後的單件（座標照 desk_props.py 的 SETS：lay(x, 0, z, yaw)，和 S.CUSTOM 同一個寫法）；只列遠處的 _lod1 本來就沒有那一件的（筆）*/
-  S.SPLIT={tset_notes:{hand_pen:[['item_notebook_open',0.055,0.121,0],['item_pencil_case',0.33,0.17,78*Math.PI/180],['item_cup',-0.30,0.21,0]]},
-    rset_notes:{hand_pen:[['item_notebook_open',0.02,0.165,-4*Math.PI/180]]}};
   const prng=seed=>{ let s=(seed>>>0)%2147483646+1; return ()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; }; };
   const hash=str=>{ let h=2166136261; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; };
   const skey=st=>(+st.x).toFixed(2)+','+(+st.z).toFixed(2)+','+(st.lv|0);
@@ -176,13 +153,13 @@ const SEATACT=(function(){
     return {side,oppD}; };
   // ---------- 狀態 ----------
   const R={zone:null,zid:null,on:new Map(),groups:new Map(),dirty:false,props:null,loading:null,failed:false,t:0,day:null};
-  S.state=()=>({zone:R.zid,n:R.on.size,loaded:!!R.props,list:[...R.on.values()].map(r=>({act:r.act,set:r.set,kind:r.kind,named:r.named,x:r.st.x,z:r.st.z,lv:r.st.lv|0,items:(r.items||[]).map(i=>i.name),pose:r.n.pose,hold:r.hold||null,task:r.task||null,clip:r.taskClip||null,hide:r.handHide||null}))});   /* 測試用（BB-C 11-04 13:13：cafe、library、lawlib、afar、daybreak 的 r.items 是 null，探針一讀就例外）*/
+  S.state=()=>({zone:R.zid,n:R.on.size,loaded:!!R.props,list:[...R.on.values()].map(r=>({act:r.act,set:r.set,kind:r.kind,named:r.named,x:r.st.x,z:r.st.z,lv:r.st.lv|0,items:(r.items||[]).map(i=>i.name),pose:r.n.pose,hold:r.hold||null}))});   /* 測試用（BB-C 11-04 13:13：cafe、library、lawlib、afar、daybreak 的 r.items 是 null，探針一讀就例外）*/
   S.groups=()=>[...R.groups.values()];   /* 測試用 */
   function load(){ if(R.props||R.loading||R.failed) return; if(typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[S.PROP_KEY]){ R.failed=true; return; }
     R.loading=ASSETS.loadOne(S.PROP_KEY).then(c=>{ const m={}; if(c&&c.scene) c.scene.traverse(o=>{ if(o.isMesh&&o.name) m[o.name]=o; }); R.props=m; R.loading=null; S.TABLET_OK=!!(m.item_tablet&&m.hold_tablet); R.dirty=true; for(const r of R.on.values()) r.items=null; },
       e=>{ console.warn('SEATACT desk_props（人照樣坐，桌上沒有東西）',e); R.failed=true; R.loading=null; }); }
   S.ready=()=>!!R.props;
-  function clearAll(){ for(const g of R.groups.values()) disposeG(g); R.groups.clear(); for(const r of R.on.values()){ unhold(r); unChat(r); } R.on.clear(); R.dirty=false; awayKeys.clear(); }
+  function clearAll(){ for(const g of R.groups.values()) disposeG(g); R.groups.clear(); for(const r of R.on.values()){ unhold(r); unChat(r); } R.on.clear(); R.dirty=false; }
   /* 同桌聊天的兩個人（NPC-AMBIENT-ANIM-1104，USER_WANTS X222）：兩個都是 chat（crowd3d.js 一桌兩個人、互相看著對方的那一組）、都不是有名字的人＝一組；
      兩個人的 obj.userData.sitChat＝{pair}（共用的 pair：na、nb、輪到誰 turn、時鐘 t、這一輪多久 dur）——character3d.js 的 sitAmbient 照它輪流說話（Sitting_Talking_Loop）、點頭（Sitting_Nodding_Loop）。
      有一個人走了、起身、換區域＝兩個人都拿掉（剩下那一個照舊坐著）。有名字的人照劇情，不配（姿勢、手不動）*/
@@ -193,8 +170,7 @@ const SEATACT=(function(){
       const m=partnerOf(E,r.n), rm=m&&R.on.get(m); if(!rm||rm===r||rm.act!=='chat'||rm.named||rm.pair||partnerOf(E,m)!==r.n) continue;
       const P={na:r.n,nb:m,turn:Math.random()<0.5?0:1,t:0,dur:3+Math.random()*4}; r.pair=rm.pair=P; setChat(r); setChat(rm); } }
   S.pairs=()=>{ const out=new Set(); for(const r of R.on.values()) if(r.pair) out.add(r.pair); return [...out]; };   /* 測試用 */
-  function unhold(r){ if(!r||r.named) return; const o=r.n&&r.n.obj; if(r.hold&&r.hold!=='book'&&o&&typeof CHAR!=='undefined'&&CHAR.setReadItem) CHAR.setReadItem(o,'book'); if(o&&o.userData) delete o.userData.sitFocus;
-    if((r.task||r.handHide)&&o&&typeof CHAR!=='undefined'&&CHAR.setSitTask) CHAR.setSitTask(o,null); r.task=null; r.taskClip=null; r.handHide=null; r.fitSig=''; }   /* 做事的片段、手上的配件拿掉（NPC-ANIM-LOOPS-1104）*/
+  function unhold(r){ if(!r||r.named) return; const o=r.n&&r.n.obj; if(r.hold&&r.hold!=='book'&&o&&typeof CHAR!=='undefined'&&CHAR.setReadItem) CHAR.setReadItem(o,'book'); if(o&&o.userData) delete o.userData.sitFocus; }
   /* 看著桌上的東西（NPC-AMBIENT-ANIM-1104）：用筆電、寫筆記、看桌上的書（sit、桌上有那一組）的路人，obj.userData.sitFocus＝桌上那一組的中間（世界座標）：
      character3d.js 的 sitAmbient 讓他低頭、眼睛看著那裡（舊版：坐著直直看前面）；起身、走了、換區域拿掉 */
   S.FOCUS={laptop:1,notes:1,textbook:1};
@@ -217,59 +193,33 @@ const SEATACT=(function(){
       if(place==='meal') return null; const act=n.pose==='read'?'book':(place==='library'?'notes':'chat'); return {act,named:true}; }
     if(chatting(E,n)) return place==='meal'?null:{act:'chat'};
     const act=S.actAt(G.zone,G.day,st,place,busy); return act?{act}:null; }
-  /* ---------- 做事的片段（NPC-ANIM-LOOPS-1104，上面 S.TASK）：這個人、這個位子合不合得上；手上拿的東西桌上那一件拆不拆得掉 ---------- */
-  function canHide(set,prop){ const fam=S.PROP_FAM[prop]; if(!fam||!set||S.CUSTOM[set]) return true; const has=S.SET_HAS[set]; if(!has||!has.some(n=>fam.test(n))) return true; return !!(S.SPLIT[set]&&S.SPLIT[set][prop]); }
-  function taskFit(r,act){ const k0=S.TASK[act], o=r.n&&r.n.obj; if(!k0||!r.tb||!o||typeof CHAR==='undefined'||!CHAR.sitTaskFit) return null;
-    if((+r.st.lift||0)>0.02) return null;   /* 吧台的高腳椅：先不用（LAWWW2：和參考的桌子差太多）*/
-    const need=S.TASK_NEED[k0]; if(need&&!(R.props&&r.set&&itemsOf(r.set).some(i=>need.test(i.name)&&haveMesh(i.name)))) return null;   /* 桌上真的要有筆電、筆記本、書、碗 */
-    if(S.TASK_DEPTH[k0]&&!((r.tb.depth||0)>=S.TASK_DEPTH[k0])) return null;
-    const kind=k0==='type'&&(hash('task|'+R.zid+'|'+R.day+'|'+skey(r.st))&1)?'typepad':k0;   /* 用筆電：一半的人每 5 秒去摸一下觸控板（照種子：同一天同一個位子一樣）*/
-    const desk={h:r.tb.h-(+r.st.lift||0),edge:r.tb.edge,depth:r.tb.depth};
-    const urgent=k0==='phone';   /* 滑手機要換姿勢（read→sit）：量骨架不排隊，第一次就決定好，不會先拿著手機再換 */
-    const f=CHAR.sitTaskFit(o,kind,desk,urgent)||(kind==='typepad'?CHAR.sitTaskFit(o,'type',desk):null); if(!f) return null;   /* 觸控板摸不到（桌子遠）＝只打字 */
-    if(f.prop&&!canHide(r.set,f.prop)) return null;   /* 手上拿的東西桌上也有、又拆不掉：先不用 */
-    return f; }
-  const fitSig=f=>f?f.clip+'|'+f.shift+'|'+(f.prop||''):'';
-  /* 現在應該是哪一個（和 applyBody 同一套判斷）：吃飯＝坐著才吃；筆電放不上桌子（腿上、改成捧書）＝沒有 */
-  function wantFit(r){ const A=S.ACT[r.act]; if(!A||r.named||r.away) return null; if(!A.pose) return r.n.pose==='sit'?taskFit(r,r.act):null; if(A.lap&&!r.set) return null; return taskFit(r,r.bodyAct||r.act); }
-  function taskSet(r,f){ const o=r.n&&r.n.obj; if(o&&typeof CHAR!=='undefined'&&CHAR.setSitTask&&(f||r.task||r.handHide)) CHAR.setSitTask(o,f||null);
-    const hide=f&&f.prop||null; if(hide!==(r.handHide||null)){ r.handHide=hide; r.items=null; R.dirty=true; }
-    r.task=f?f.kind:null; r.taskClip=f?f.clip:null; r.fitSig=fitSig(f); }
-  /* 套用到人身上（只有路人）：姿勢、手上的東西、腿上的筆電、做事的片段 */
-  function applyBody(r){ if(r.named||r.away) return; const A=S.ACT[r.act]; const n=r.n, o=n.obj; if(!A) return;
-    if(!A.pose){ taskSet(r,n.pose==='sit'?taskFit(r,r.act):null); return; }   /* 吃飯的店：姿勢不動；坐著（sit）的才換成吃的片段 */
+  /* 套用到人身上（只有路人）：姿勢、手上的東西、腿上的筆電 */
+  function applyBody(r){ if(r.named) return; const A=S.ACT[r.act]; const n=r.n, o=n.obj; if(!A||!A.pose) return;
     let act=r.act, pose=A.pose, hold=A.hold||null;
     if(hold==='tablet'&&!S.TABLET_OK){ hold='phone'; }
     const lap=A.lap&&!r.set;   /* 筆電放不上桌子：腿上 */
     if(lap){ const u=o.userData||{}; const has=!!(u.props&&u.props.laptop_lap); if(has&&typeof CHAR!=='undefined'&&CHAR.setProp) CHAR.setProp(o,'laptop_lap',true); else { act='book'; pose='read'; hold='book'; } }
     else if(o.userData&&o.userData.props&&o.userData.props.laptop_lap&&typeof CHAR!=='undefined'&&CHAR.setProp) CHAR.setProp(o,'laptop_lap',false);   /* 筆電在桌上了：腿上那台收起來 */
-    const fit=lap?null:taskFit(r,act);
-    if(fit&&act==='phone'){ pose='sit'; hold=null; }   /* 滑手機的片段：坐著（sit）、右手拿手機、左手放桌上（不是 read 兩手捧著）*/
     if(n.pose!==pose){ n.pose=pose; } n.idlePose=pose; r.pose=pose; r.hold=pose==='read'?hold:null; r.bodyAct=act;
     if(typeof CHAR!=='undefined'&&CHAR.setReadItem) CHAR.setReadItem(o,pose==='read'?(hold||'book'):'book');
-    taskSet(r,fit);
     const fo=focusOf(r,act,pose); if(o.userData){ if(fo) o.userData.sitFocus=fo; else delete o.userData.sitFocus; } }
   // ---------- 每 30 格 ----------
   S.tick=function(GM){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!G) return;
     if(E.zone!==R.zone){ clearAll(); R.zone=E.zone; R.zid=G.zone; R.t=0; S._zoneSeats=(E.zone&&E.zone.seats)||[]; }
     const place=S.placeOf(G.zone); if(!place||!E.zone){ if(R.on.size) clearAll(); return; }
     if(R.day!==G.day){ R.day=G.day; for(const r of [...R.on.values()]) drop(r); }   /* 換日：重新挑 */
-    load(); R.t++; if(typeof CHAR!=='undefined'&&CHAR.sitTaskPrefetch) CHAR.sitTaskPrefetch();   /* 做事的片段、手上的配件先下載（lazy；NPC-ANIM-LOOPS-1104）*/
+    load(); R.t++;
     const live=new Set();
     /* 已經配好的：人還坐著就留著（姿勢被別人改回來的路人＝再套一次） */
-    let awayN=0;
-    for(const r of [...R.on.values()]){ if(r.away){ awayN++; continue; }   /* 占著、人不在的位子：S.awayTick 管 */
-      if(!E.npcs.includes(r.n)||!seatedOk(r.n)||r.n.seat!==r.st){ drop(r); continue; } live.add(r.n);
-      if(!r.named&&r.pose&&r.n.pose!==r.pose&&(r.n.pose==='sit'||r.n.pose==='read')) applyBody(r);
-      else if(!r.named&&r.tb&&fitSig(wantFit(r))!==(r.fitSig||'')) applyBody(r); }   /* 做事的片段：片段、配件晚一點才載好、換了模型＝再套一次 */
+    for(const r of [...R.on.values()]){ if(!E.npcs.includes(r.n)||!seatedOk(r.n)||r.n.seat!==r.st){ drop(r); continue; } live.add(r.n);
+      if(!r.named&&r.pose&&r.n.pose!==r.pose&&(r.n.pose==='sit'||r.n.pose==='read')) applyBody(r); }
     const busy=[...R.on.values()].map(r=>({st:r.st,act:r.act}));
     const PP=E.player&&E.player.obj&&E.player.obj.position, cand=E.npcs.filter(n=>!live.has(n)&&seatedOk(n));
-    if(PP&&cand.length+R.on.size-awayN>S.CAP) cand.sort((a,b)=>Math.hypot(a.seat.x-PP.x,a.seat.z-PP.z)-Math.hypot(b.seat.x-PP.x,b.seat.z-PP.z));   /* 超過上限：離玩家近的先配 */
+    if(PP&&cand.length+R.on.size>S.CAP) cand.sort((a,b)=>Math.hypot(a.seat.x-PP.x,a.seat.z-PP.z)-Math.hypot(b.seat.x-PP.x,b.seat.z-PP.z));   /* 超過上限：離玩家近的先配 */
     const ixDone=indexStep(E.zone,S.INDEX_MS).done;   /* 桌子的索引還在分段算：人先照做的事坐好（手上的照拿），桌上等算好再放 */
-    for(const n of cand){ if(R.on.size-awayN>=S.CAP) break; const d=decide(GM,n,place,busy); if(!d) continue;
+    for(const n of cand){ if(R.on.size>=S.CAP) break; const d=decide(GM,n,place,busy); if(!d) continue;
       const r={n,st:n.seat,act:d.act,named:!!d.named,forced:d.set,set:null,items:null,tb:undefined,tbT:0,tbN:0,pose:null,hold:null,kind:null};
       R.on.set(n,r); busy.push({st:r.st,act:r.act}); if(ixDone) retable(E,r,place); applyBody(r); R.dirty=true; }
-    S.awayTick(GM,place,ixDone);
     /* 還沒找過的；找不到桌子的 1.5 秒、5 秒後再找；模型變了（正式模型載好、備用方塊藏起來＝索引重算完）每個人都重找（桌面高度可能不一樣）*/
     if(ixDone){ const sig=triIx.sig; for(const r of R.on.values()){ const due=!r.tbN||r.tbSig!==sig||(!r.tb&&r.tbN<3&&Date.now()-r.tbT>(r.tbN===1?1500:5000)); if(!due) continue;
         const had=r.set, hy=r.tb&&r.tb.y; retable(E,r,place,sig); if(r.set!==had||r.tbN===1||(r.tb&&r.tb.y)!==hy){ applyBody(r); r.items=null; R.dirty=true; } } }
@@ -284,30 +234,15 @@ const SEATACT=(function(){
     r.set=set; r.kind=r.tb?(r.tb.wide?'wide':(r.tb.depth>=0.3?'narrow':(r.tb.depth>=0.2?'tiny':null))):null; r.items=null; }
   function drop(r){ unChat(r); R.on.delete(r.n); unhold(r); if(r.set) R.dirty=true; }
   S.drop=function(n){ const r=R.on.get(n); if(r){ drop(r); } };
-  /* 占著、人不在的位子（EXAM-LIB-CROWD-1104：期末考前的圖書館，src/examlib3d.js）：S.AWAY＝[fn(GM)→[座位…]]，每個位子桌上放「休息」那一組（圖書館：闔上的筆電、課本、杯子、蓋著的手機／闔上的筆記本）；
-     沒有人坐（座位上有人＝照那個人配）、最多 S.AWAY_CAP 個（離玩家近的先）；位子不在清單上了（有人坐下、占的人回來了、換區域）就拿掉。沒有 AWAY＝照舊 */
-  S.AWAY=[]; S.AWAY_CAP=40;
-  const awayKeys=new Map();   /* 座位鍵 → 代表那個位子的物件（R.on 的鍵；不是人）*/
-  function awayList(GM,E){ const out=new Map(); for(const f of S.AWAY){ let L=null; try{ L=f(GM); }catch(e){ console.warn('SEATACT.AWAY',e); } for(const st of (L||[])){ if(!st) continue; const k=skey(st); if(!out.has(k)) out.set(k,st); } }
-    if(out.size>S.AWAY_CAP){ const P=E.player&&E.player.obj&&E.player.obj.position; const L=[...out.entries()]; if(P) L.sort((a,b)=>Math.hypot(a[1].x-P.x,a[1].z-P.z)-Math.hypot(b[1].x-P.x,b[1].z-P.z)); return new Map(L.slice(0,S.AWAY_CAP)); }
-    return out; }
-  const sitAt=(E,st)=>(E.npcs||[]).some(n=>n&&(n.seat||n.seatTarget)&&Math.hypot((n.seat||n.seatTarget).x-st.x,(n.seat||n.seatTarget).z-st.z)<0.35&&((n.seat||n.seatTarget).lv|0)===(st.lv|0))||!!(E.player&&E.player.seat&&Math.hypot(E.player.seat.x-st.x,E.player.seat.z-st.z)<0.35);
-  S.awayTick=function(GM,place,ixDone){ const E=GM.E; if(!S.AWAY.length&&!awayKeys.size) return; const want=place==='library'?awayList(GM,E):new Map();
-    for(const [k,n] of [...awayKeys.entries()]){ const r=R.on.get(n); if(!r||!want.has(k)||sitAt(E,r.st)){ if(r) drop(r); awayKeys.delete(k); } }   /* !r：換日時整批 drop 掉了＝下面重新放 */
-    for(const [k,st] of want){ if(awayKeys.has(k)||sitAt(E,st)) continue; const n={away:true,key:k};   /* 不是人：applyBody、手上的東西、聊天都不碰 */
-      const r={n,st,act:'rest',named:false,away:true,forced:undefined,set:null,items:null,tb:undefined,tbT:0,tbN:0,pose:null,hold:null,kind:null}; awayKeys.set(k,n); R.on.set(n,r); if(ixDone) retable(E,r,place); R.dirty=true; } };
   S.clear=clearAll;
   // ---------- 畫出來 ----------
   const near=new Map();   /* r → true／false（7 m 內）*/
   function worldItems(r){ if(r.items) return r.items; const out=[]; if(!r.set||!r.tb) return (r.items=out);
     const yaw=r.st.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw), lx=fz, lz=-fx, ex=r.st.x+fx*r.tb.edge, ez=r.st.z+fz*r.tb.edge;
     const lset=/^lset_|^hold_/.test(r.set);
-    /* 手上拿著的東西（做事的片段，r.handHide＝配件名）：桌上同一件不放——自己組的拿掉那一件；合併的組：近的換成拆開的單件（near）、遠的照用 _lod1（far：本來就沒有筆）*/
-    const fam=r.handHide&&S.PROP_FAM[r.handHide], split=fam&&!S.CUSTOM[r.set]&&S.SPLIT[r.set]&&S.SPLIT[r.set][r.handHide];
-    const list=split?split.map(([nm,x,z,yw])=>({name:nm,x,z,yaw:yw,lod:false,near:true})).concat([{name:r.set,x:0,z:0,yaw:0,lod:true,far:true}]):itemsOf(r.set).filter(it=>!(fam&&fam.test(it.name)));
-    for(const it of list){ if(!haveMesh(it.name)) continue;
+    for(const it of itemsOf(r.set)){ if(!haveMesh(it.name)) continue;
       if(lset){ out.push({name:it.name,lod:true,x:r.st.x,y:floorOf(null,r.st),z:r.st.z,yaw}); continue; }   /* 講堂的組：原點＝座位的地面中心 */
-      out.push({name:it.name,lod:it.lod,x:ex+lx*it.x+fx*it.z,y:r.tb.y,z:ez+lz*it.x+fz*it.z,yaw:yaw+it.yaw,near:!!it.near,far:!!it.far}); }
+      out.push({name:it.name,lod:it.lod,x:ex+lx*it.x+fx*it.z,y:r.tb.y,z:ez+lz*it.x+fz*it.z,yaw:yaw+it.yaw}); }
     return (r.items=out); }
   const disposeG=g=>{ if(g.parent) g.parent.remove(g); for(const im of g.children) if(im.dispose) im.dispose(); };   /* InstancedMesh.dispose 只放掉自己的矩陣（網格、材質是 desk_props 共用的，不放）*/
   function rebuild(E){ R.dirty=false; for(const g of R.groups.values()) disposeG(g); R.groups.clear(); near.clear();
@@ -324,7 +259,7 @@ const SEATACT=(function(){
   function lay(g,P,force){ if(!M4){ M4=new THREE.Matrix4(); Q4=new THREE.Quaternion(); V4=new THREE.Vector3(); ONE=new THREE.Vector3(1,1,1); UP=new THREE.Vector3(0,1,0); } const rs=g.userData.rs, ims=g.userData.ims; let ch=!!force;
     for(const r of rs){ const d=P?Math.hypot(r.st.x-P.x,r.st.z-P.z):1e9, was=near.get(r), nr=was==null?d<S.NEAR:(was?d<S.NEAR+0.5:d<S.NEAR-0.5), far2=d>S.ITEM_FAR; const k=(nr?1:0)+(far2?2:0); if(r._lk!==k){ r._lk=k; ch=true; } near.set(r,nr); }
     if(!ch) return false; for(const im of g.children) im.count=0;
-    for(const r of rs){ const nr=near.get(r), far2=r._lk>=2; for(const it of worldItems(r)){ if((it.near&&!nr)||(it.far&&nr)) continue; const e=ims[it.name]; if(!e) continue; if(e.item&&far2) continue; const im=nr?(e.near||e.far):e.far; if(!im) continue;   /* near／far：拆開的單件只在近處、合併那一組的 _lod1 只在遠處（手上拿著筆的人）*/
+    for(const r of rs){ const nr=near.get(r), far2=r._lk>=2; for(const it of worldItems(r)){ const e=ims[it.name]; if(!e) continue; if(e.item&&far2) continue; const im=nr?(e.near||e.far):e.far; if(!im) continue;
         Q4.setFromAxisAngle(UP,it.yaw); V4.set(it.x,it.y,it.z); M4.compose(V4,Q4,ONE); im.setMatrixAt(im.count++,M4); } }
     for(const im of g.children){ im.visible=im.count>0; im.instanceMatrix.needsUpdate=true; if(im.count) im.computeBoundingSphere(); } return true; }
   function lodTick(E){ const P=E.player&&E.player.obj&&E.player.obj.position; for(const g of R.groups.values()) lay(g,P,false); }

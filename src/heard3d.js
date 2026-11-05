@@ -11,7 +11,6 @@
      pass → STORY.TICKS：以安和媽媽在公館窗邊的路過字幕（S.pass；店門口的位置 S.GG_DOORS）。存檔：G.flags.AN_MOM_SEEN＝{學期:那一天}。
    ■ AA_520（AA-C 2026-10-28，481dd8238，予樂自己的線）：phone 的 ask（最後一則可以回：h509_yule 的三個選項，S.askOf）、COND.yuleOwn（yule＋和可昕沒有鬧翻）；
      h503_yule 後面兩句照原本的條件。予樂自己的事（十四則、演講那一晚、23:55、1/12、可昕 9/16）在 src/yule3d.js（tests/aa520_yule_unit.js）。
-   ■ AA_660 G2-3（AA-C 2026-11-04，企劃線 090981ebe）：phone 的 alt（條件成立整份換：h509_kevin 美國路線第一句「學姊跟學弟都回來了」，S.altItems）、COND.usRoute（tests/aa660_vac_gap_unit.js）。
    測試：node tests/aa503_others_unit.js、node tests/aa508_509_feed_unit.js（第 6 段：AA_508、AA_509 的別人說起她）、node tests/aa510_511_feed_unit.js（AA_510 的別人說起她、第五輪補的曾靖雯、阿凱）、
      node tests/aa513_unit.js（阿凱的私訊、窗邊字幕） */
 'use strict';
@@ -62,13 +61,9 @@ const HEARD=(function(){
     /* 子晴的私訊說芷若（AA_508、AA_509 2-4「私訊或公館」：放私訊）：有子晴的聯絡方式、認識芷若 */
     zqZr:G=>hasContact(G,'heroine_04')&&knows('heroine_02'),
     /* 阿凱的私訊說子晴（AA_513 第 1 節）：手機裡有阿凱（開場就有：INVITE_DATA.contacts0）、認識子晴；法律系由 S.phone 本身擋 */
-    kaiZq:G=>hasContact(G,'kai')&&knows('heroine_04'),
-    /* 美國路線（AA_660 G2-3：h509_kevin 的 alt，學弟和學姊同一班飛機回來）*/
-    usRoute:G=>typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US'
+    kaiZq:G=>hasContact(G,'kai')&&knows('heroine_04')
   };
   const condOk=(G,c)=>!c||!!(S.COND[c]&&S.COND[c](G));
-  /* alt：[{cond, items}]——那個條件成立就整份換成那一份 items（第一個成立的；tag、時間、說話的串照舊）。AA_660 G2-3 h509_kevin 的美國路線版 */
-  S.altItems=(G,e)=>{ for(const a of (e&&e.alt)||[]) if(a&&Array.isArray(a.items)&&condOk(G,a.cond)) return a.items; return null; };
   /* ---------- 她本人在旁邊就不說（AA_527 2-1，企劃線 bfede0a62；heard_lines.js 全部、以後的批次照這條）----------
      說的那一刻，說起的那個人（about）和說的人（who）在同一個圈子（HCIRCLE 這一區現在成立的列，兩個人都在那一列；或 3D 裡她跟著說的人：_hcWith、配對、一起走），
      或她在玩家 4 m 內（同一層）＝不說，等下一次（不記說過）。例：12/11 子晴說芷若（兩個人同框）、筱涵說語彤（大三上週二、四 12～13）、晨希說子晴（吉他社）。
@@ -104,7 +99,7 @@ const HEARD=(function(){
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined') return 0; const R=S.rec(G), t=now(G); let n=0;
     for(const e of L.phone||[]){ if(R.ph[e.id]) continue; const w0=S.when(e.at); if(!w0||w0.h==null||abs(w0.day,w0.h)>t+24) continue; const w=S.loc(G,w0), t0=abs(w.day,w.h); if(t<t0) continue;   /* 一天以後的先不算時差 */
       if(t-t0>S.LATE){ R.ph[e.id]='x:late'; continue; } if(!condOk(G,e.cond)){ R.ph[e.id]='x:'+e.cond; continue; }
-      const M=(S.altItems(G,e)||e.items).map(([from,name,text])=>({th:e.th,from,name,text}));   /* items 第 4 欄（有的話）＝那一句的稿（例：'AA_520 2'），遊戲不讀；alt＝條件成立換一份（S.altItems）*/
+      const M=e.items.map(([from,name,text])=>({th:e.th,from,name,text}));   /* items 第 4 欄（有的話）＝那一句的稿（例：'AA_520 2'），遊戲不讀 */
       if(e.ask&&M.length&&condOk(G,e.ask.cond)) M[M.length-1].ask=S.askOf(G,e.ask,M[M.length-1]);
       PHONE.at(G,w.day,w.h,M,'heard_'+e.id); R.ph[e.id]='sent'; n++; }
     return n; };

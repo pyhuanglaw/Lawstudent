@@ -62,7 +62,7 @@ await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show 166dc
   check('1. 每一列的原文、台詞都在 AA_415 裡一字不差',!bad.length,bad.slice(0,6).join('、'));
   const has=(id,s)=>ROWS(id).some(r=>r.lines.some(x=>x===s));
   const SPOT=[['heroine_01','「好。我幫你留位子。」'],['heroine_01','「好。各念各的，坐同一張桌子。」'],['heroine_02','「好。你決定地方。我負責記得我們去過哪裡。」'],['heroine_02','（她把吧檯又擦了一遍，才回你。）'],
-    ['heroine_03','（她只回一個字，可是三秒就回了。）'],['heroine_03','「週四是我的。……分你。」'],['heroine_04','「好。……我為什麼在緊張。」'],['heroine_04','「今天不出門。……我想一個人打電動。」'],
+    ['heroine_03','（她只回一個字，可是三秒就回了。）'],['heroine_03','「週四是我的。……分你。」'],['heroine_04','「好。……我為什麼在緊張。」'],['heroine_04','「今天不想出門。……不是你的問題，是我的被子。」'],
     ['heroine_05','「好啊。」'],['heroine_05','「好。研究室九點關燈。九點十分，樓下。」'],['classmate_peishan','「好啊！！幾點？」'],['classmate_peishan','「讀書會。九點以後可以。」'],
     ['kexin','「那天你敢排別的試試看。……好。」'],['kexin','「好。予樂說我不應該答應。我答應了。」']];
   const miss=SPOT.filter(([id,s])=>!has(id,s)); check('1. 抽查 14 句（七位各兩句）一字不差',!miss.length,J(miss));

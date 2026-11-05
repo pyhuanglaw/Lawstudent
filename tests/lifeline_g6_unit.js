@@ -56,7 +56,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     G.hour=20; check('6-5 睡著：coreCallAt 停在 21:00',STORY.coreCallAt(G)===21);
     G.hour=20.9; const a=EVENTS.check(ev('ev_y0_e35h')); G.hour=21; const b=EVENTS.check(ev('ev_y0_e35h')); picks=['海邊']; await EVENTS.run(ev('ev_y0_e35h')); const L=lines();
     check('6-5 21:00 在家（AA_303 第 2 節 24：在家裡、不下樓，背景 home_living）：「（她房間的門開著。她坐在床邊整理筆袋，准考證放在膝蓋上，翻過來又翻回去。）」→「准考證我看了第四次了。」→ 兩枝 2B 鉛筆 →「考完要去哪？……」、E35_MET、沒有回家的移動（他已經在家）',!a&&b&&L[0]==='（她房間的門開著。她坐在床邊整理筆袋，准考證放在膝蓋上，翻過來又翻回去。）'&&L[1]==='杜可昕：准考證我看了第四次了。'&&L[2]==='（她從筆袋拿出兩枝 2B 鉛筆，分一枝給你。）'&&L[3]==='杜可昕：考完要去哪？先講好，我才睡得著。'&&ev('ev_y0_e35h').dialogue[0].bg==='home_living'&&G.flags.E35_MET===true&&G.flags.E35_PLAN==='sea'&&!ev('ev_y0_e35h').after,J([a,b,L.slice(0,4)]));
-    check('6-5 收尾（AA_303 第 2 節 24）：最後「好，去睡了。明天要早起。」；沒有「五分鐘到了」、上樓、樓下、「我回去了」「巷口」',L[L.length-1]==='杜可昕：好，去睡了。明天要早起。'&&!L.join('').includes('五分鐘到了')&&!L.join('').includes('上樓')&&!L.join('').includes('樓下')&&!L.join('').includes('我回去了')&&!L.join('').includes('巷口'),J(L.slice(-2))); }
+    check('6-5 收尾（AA_303 第 2 節 24）：最後「好。去睡。明天要早起。」；沒有「五分鐘到了」、上樓、樓下、「我回去了」「巷口」',L[L.length-1]==='杜可昕：好。去睡。明天要早起。'&&!L.join('').includes('五分鐘到了')&&!L.join('').includes('上樓')&&!L.join('').includes('樓下')&&!L.join('').includes('我回去了')&&!L.join('').includes('巷口'),J(L.slice(-2))); }
   /* AA_272 第 10 節（7975ffdf）：住在一起——收尾一起上樓；電話版拿掉；21:00 不在家＝「你在哪。明天要早起，早點回來。」，24:00 以前回家就演，都沒回家＝不演 */
   { const d=DK('2025-07-10'); econ(d,20.9,'campus',{E35_ASKED:true},false); G.home={at:false}; run(20.9,21.1);
     const m=txt('p:kexin'); check('6-5 21:00 人在外面：她傳「你在哪。明天要早起，早點回來。」；沒有電話版（E35_PHONE）、外面不演',m.includes('kexin:你在哪。明天要早起，早點回來。')&&!G.flags.E35_PHONE&&!EVENTS.check(ev('ev_y0_e35')),J(m.slice(-2)));
@@ -78,8 +78,8 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   /* E36 */
   { const d=DK('2025-08-13'); econ(d,10,'home',{}); await EVENTS.run(ev('ev_y0_e36rh')); const L=lines();
     check('6-6 E36 早上三句：「（首都帝大法律學系，財經法學組。你的名字在上面。）」「（分數只比那一組的錄取分數高 0.1。）」',J(L)===J(['（八月十三日，早上十點。榜單公布了。）','（首都帝大法律學系，財經法學組。你的名字在上面。）','（分數只比那一組的錄取分數高 0.1。）']),J(L));
-    const D=ev('ev_y0_e36').dialogue.map(x=>x.text); const i=D.indexOf('首都帝大法律。……恭喜你啦，真的。');
-    check('6-6 E36 晚上的電話（AA_298 第 9 節、d744bf3d）：「首都帝大法律。……恭喜你啦，真的。」→ 祐廷「只高 0.1。」→ 可昕「上了就是上了。」→ only_me 兩句拿掉；最後「月底我就上去了。……」',D[i+1]==='只高 0.1。'&&D[i+2]==='上了就是上了。'&&!D.includes('你那天說，你以為只有你。……我現在懂那個感覺了。')&&D.filter(Boolean).pop()==='月底我就上去了。行李很多，你要載我。'); }
+    const D=ev('ev_y0_e36').dialogue.map(x=>x.text); const i=D.indexOf('首都帝大法律。恭喜你。真的。');
+    check('6-6 E36 晚上的電話（AA_298 第 9 節、d744bf3d）：「首都帝大法律。恭喜你。真的。」→ 祐廷「只高 0.1。」→ 可昕「上了就是上了。」→ only_me 兩句拿掉；最後「月底我就上去了。……」',D[i+1]==='只高 0.1。'&&D[i+2]==='上了就是上了。'&&!D.includes('你那天說，你以為只有你。……我現在懂那個感覺了。')&&D.filter(Boolean).pop()==='月底我就上去了。行李很多，你要載我。'); }
   /* AA_272 4-1～4-3：7/24 21:00 邀約 → 7/25 客運版（一整天）／在家版（10:00 手機） */
   { const d24=DK('2025-07-24'), d25=DK('2025-07-25'); econ(d24,20.9,'home',{E35_DONE:true,EXAM2_DONE:true}); run(20.9,21.1);
     const q=(G.msgs||[]).find(x=>x.tag==='y0_kh_ask'&&x.ask); const K=txt('p:kexin');

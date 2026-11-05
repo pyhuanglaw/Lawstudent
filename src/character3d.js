@@ -126,21 +126,6 @@ const CHAR = (function(){
       sm.bind(new THREE.Skeleton(L.names.map(n=>bones[n]),L.names.map((n,i)=>(inv[n]||L.ibm[i]).clone())),ref.bindMatrix.clone()); sm.bindMode=ref.bindMode; ref.parent.add(sm); return sm; });
     return {parts,near}; }
   C.setFar=function(h,far){ const u=h&&h.userData, f=u&&u.farLOD; if(!f) return false; far=!!far&&!C.farOff; if(!!u.isFar===far) return true; u.isFar=far; for(const o of f.near) o.visible=!far; for(const p of f.parts) p.visible=far; if(!far){ const sbm=u.vrm&&!u.vrm.lite&&u.vrm.springBoneManager; if(sbm) try{ sbm.reset(); }catch(e){} } return true; };   /* 切回近的：彈簧骨從靜止的樣子重新開始（遠的時候沒有跑，留著舊的狀態會甩一下）*/
-  /* 坐下往下移多少（SIT-HEIGHT-1104，LAWWW2-C 11-04；LAWWW-C 22:57Z、BB-C 22:43「坐的高度不對，桌子在胸口、頭埋到碗上」、22:55「階梯教室大腿陷進椅面」）：
-     原本一律往下 0.47 m×身高比例（照 vroid_npc_m1 校的）。在遊戲自己的骨架、靜態坐姿量（tools/anim/sit_fit_survey.js）：大腿底部（坐姿時椅面後段最低的那一點）
-     原本離座位地面 0.32～0.48 m（中位數 0.37）——椅面 0.45～0.485，女生、女主角陷進去 10～15 cm，連 npc_m1 也陷 6 cm（椅面 0.485）。
-     改成照每個模型自己的比例：C.SIT_FIT['檔名']＝[ul, bt]（ul＝大腿根離腳底 ÷ 身高、bt＝坐姿大腿根到大腿底部 ÷ 身高；裙子量不到大腿的用 0.06），
-     往下＝身高×(ul−bt)−(SIT_TOP−SIT_PRESS) → 每個人的大腿底部都在座位地面上 0.465 m：遊戲的椅子 0.45～0.485（教室翻椅、Café 0.47～0.475），
-     0.485 的椅子陷 2 cm、0.45 的長椅浮 1.5 cm。表裡沒有的（GLB、vrm_player）照舊 0.47×身高比例。
-     知道座面高度的位子（高腳椅、鞦韆、腳踏車後座）：人物往上抬＝座面－SIT_TOP（C.sitButtOf＝坐下以後大腿底部離座位地面多高）。
-     改了靜態坐姿的腿（SIT_VRM）、人物縮放、VRM 檔：重跑 node tools/anim/sit_fit_survey.js 出.json --js 表.js，貼回 C.SIT_FIT。測試：node tests/sit_height_unit.js */
-  C.SIT_FIT={'bl_classmate_bohan.vrm':[0.5469,0.059],'bl_classmate_peishan.vrm':[0.5511,0.06],'bl_classmate_xinci.vrm':[0.5511,0.06],'bl_econ_jiahao.vrm':[0.5728,0.0482],'bl_econ_pinyu.vrm':[0.5504,0.0619],'bl_econ_tangrui.vrm':[0.5469,0.0613],'bl_econ_weilun.vrm':[0.5785,0.0488],'bl_econ_zhengxun.vrm':[0.5791,0.0487],'bl_heroine_02.vrm':[0.5627,0.0574],'bl_kexin.vrm':[0.5627,0.0861],'bl_npc_nf1.vrm':[0.5627,0.0703],'bl_npc_nf10.vrm':[0.5627,0.06],'bl_npc_nf11.vrm':[0.5504,0.0735],'bl_npc_nf12.vrm':[0.5504,0.06],'bl_npc_nf13.vrm':[0.5627,0.0703],'bl_npc_nf14.vrm':[0.5504,0.06],'bl_npc_nf15.vrm':[0.5504,0.0735],'bl_npc_nf16.vrm':[0.5627,0.06],'bl_npc_nf17.vrm':[0.5504,0.06],'bl_npc_nf18.vrm':[0.5504,0.0735],'bl_npc_nf19.vrm':[0.5627,0.06],'bl_npc_nf2.vrm':[0.5504,0.0597],'bl_npc_nf20.vrm':[0.5504,0.06],'bl_npc_nf3.vrm':[0.5627,0.0591],'bl_npc_nf4.vrm':[0.5504,0.0735],'bl_npc_nf5.vrm':[0.5504,0.0735],'bl_npc_nf6.vrm':[0.5504,0.0735],'bl_npc_nf7.vrm':[0.5627,0.0591],'bl_npc_nf8.vrm':[0.5504,0.0597],'bl_npc_nf9.vrm':[0.5504,0.06],'bl_npc_nm1.vrm':[0.5463,0.0589],'bl_npc_nm10.vrm':[0.5791,0.0482],'bl_npc_nm11.vrm':[0.5463,0.071],'bl_npc_nm12.vrm':[0.5791,0.0482],'bl_npc_nm13.vrm':[0.5463,0.0589],'bl_npc_nm14.vrm':[0.5791,0.0558],'bl_npc_nm15.vrm':[0.5463,0.0589],'bl_npc_nm16.vrm':[0.5791,0.0482],'bl_npc_nm17.vrm':[0.5463,0.0589],'bl_npc_nm18.vrm':[0.5791,0.0482],'bl_npc_nm19.vrm':[0.5463,0.0589],'bl_npc_nm2.vrm':[0.5791,0.0482],'bl_npc_nm20.vrm':[0.5791,0.0558],'bl_npc_nm3.vrm':[0.5463,0.0589],'bl_npc_nm4.vrm':[0.5791,0.0482],'bl_npc_nm5.vrm':[0.5463,0.0589],'bl_npc_nm6.vrm':[0.5791,0.0482],'bl_npc_nm7.vrm':[0.5463,0.0589],'bl_npc_nm8.vrm':[0.5791,0.0482],'bl_npc_nm9.vrm':[0.5463,0.0589],'bl_prof_wei.vrm':[0.5475,0.0614],'bl_su.vrm':[0.5627,0.0703],'bl_su_apron.vrm':[0.5627,0.0703],'bl_xiuqin.vrm':[0.5497,0.06],'bl_xiuqin_apron.vrm':[0.5497,0.06],'bl_yu.vrm':[0.5408,0.06],'bl_zhe.vrm':[0.5785,0.0481],'vrm_sample.vrm':[0.5333,0.0534],'vroid_heroine_01.vrm':[0.5363,0.0661],'vroid_heroine_03.vrm':[0.5349,0.0643],'vroid_heroine_04.vrm':[0.5516,0.0731],'vroid_heroine_05.vrm':[0.5402,0.0632],'vroid_npc_f1.vrm':[0.5402,0.0632],'vroid_npc_f2.vrm':[0.5562,0.0599],'vroid_npc_m1.vrm':[0.5751,0.0648],'vroid_npc_m2.vrm':[0.5417,0.0589],'vroid_yuting.vrm':[0.5417,0.0709]};
-  C.SIT_TOP=0.47; C.SIT_PRESS=0.005;
-  const sitFit=url=>url&&C.SIT_FIT[String(url).split('/').pop()];
-  C.sitDropOf=function(url,H){ const f=sitFit(url); return f?+(H*(f[0]-f[1])-(C.SIT_TOP-C.SIT_PRESS)).toFixed(4):0.47*H/1.75; };
-  C.sitButtOf=function(spec){ const m=spec&&typeof ASSETS!=='undefined'&&ASSETS.manifest&&ASSETS.manifest[spec.model], H=(spec&&spec.height)||(m&&m.height)||1.7; return m&&sitFit(m.url)?C.SIT_TOP-C.SIT_PRESS:0.47*H/1.75; };   /* 坐下以後大腿底部離座位地面多高（鞦韆這種知道座面的位子：抬高＝座面－這個）；表裡沒有的照舊（原本的鞦韆算法）*/
-  const sitDrop=u=>u.sitDrop!=null?u.sitDrop:0.47*(u.k||1);
-  C.sitDrop=h=>sitDrop((h&&h.userData)||{});   /* 測試用 */
   function buildVRM(spec){ const key=spec.model; const m=ASSETS.manifest[key]; const e=ASSETS.acquireVRM(key); if(!e) throw new Error('no free VRM instance'); const vrm=e.vrm; const model=vrm.scene; const hide=m.hide||[]; const realShadow=!m.ambient; model.traverse(o=>{ if(o.isMesh||o.isSkinnedMesh){ o.castShadow=realShadow&&!FACE_PART.test((o.material&&o.material.name)||''); o.receiveShadow=false; o.frustumCulled=false; if(hide.some(h=>o.name===h||o.name.startsWith(h))) o.visible=false; } }); /* 衣服材質整體壓暗一點：MToon 的卡通明暗讓受光面拿到整個太陽亮度（不乘入射角），中午的淺色衣服（米白、淺灰）會曝成全白、看不出顏色。只動 _CLOTH 材質（皮膚、臉、頭髮、眼睛不動）；材質在 pool 裡共用，用 userData 記號避免重複壓暗 */ model.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.name||mt.userData.clothK||!/_CLOTH/.test(mt.name)) continue; mt.userData.clothK=C.CLOTH_K; if(mt.color) mt.color.multiplyScalar(C.CLOTH_K); if(mt.shadeColorFactor) mt.shadeColorFactor.multiplyScalar(C.CLOTH_K); } });
     applyLook(model);
     const v0=!!(vrm.meta&&vrm.meta.metaVersion==='0'); const sx=v0?-1:1;
@@ -159,7 +144,7 @@ const CHAR = (function(){
     const headNode=B.Head; let headY=H*0.9; if(headNode){ root.updateMatrixWorld(true); const wp=new THREE.Vector3(); headNode.getWorldPosition(wp); headY=root.worldToLocal(wp).y; }
     // 隨身配件（後背包、托特包、眼鏡…）：依模型（＝角色）決定，spec.props 可覆寫；掛在骨頭上跟著動
     let props=null; const mf=typeof ASSETS!=='undefined'&&ASSETS.manifest[key]; const plist=spec.props||(mf&&mf.blProps&&mf.url===mf.blUrl?mf.blProps:null)||C.MODEL_PROPS[key];   /* ?blchar 用 Blender 版時可以換一組配件（blProps：溫書瑀的 Blender 頭髮自己有髮圈，不再掛遊戲的髮圈） */ if(plist&&plist.length&&typeof PROPS!=='undefined'){ try{ props=PROPS.attach(vrm,plist,{shadow:realShadow}); }catch(err){ console.warn('props failed',key,err); } }
-    root.userData={driver:'vrm',spec,k:H/1.75,sitDrop:C.sitDropOf(m.url,H),parts:{},model:wrap,vrm,key,v0,sx,tinted,props,full:!!e.full,armOut:(+e.armOut||0)*Math.PI/180,armBack:+e.armBack||0,armFwd:+e.armFwd||0,bones:B,look,headY,anim:{t:Math.random()*10,expr:'normal',pose:'idle',mixer,actions,cur:null,static:false,mouth:0,blink:2+Math.random()*3,blinkT:0}}; if(actions.idle){ actions.idle.play(); root.userData.anim.cur='idle'; }
+    root.userData={driver:'vrm',spec,k:H/1.75,parts:{},model:wrap,vrm,key,v0,sx,tinted,props,full:!!e.full,armOut:(+e.armOut||0)*Math.PI/180,armBack:+e.armBack||0,armFwd:+e.armFwd||0,bones:B,look,headY,anim:{t:Math.random()*10,expr:'normal',pose:'idle',mixer,actions,cur:null,static:false,mouth:0,blink:2+Math.random()*3,blinkT:0}}; if(actions.idle){ actions.idle.play(); root.userData.anim.cur='idle'; }
     // 彈簧骨（頭髮、馬尾）在人物自己的座標系模擬：瞬移、換區域、坐下起身時頭髮不會被甩飛（要在 root.userData 設定之後：three-vrm 把反矩陣快取放在 center.userData）
     /* 裙子的輔助骨頭（VRM 節點的 extras.drive；PS-SKIRT-LEG，LAWWW2 2026-10-22）：沛珊長裙前片中間的「第三條腿」skirt_F／skirt_F_lo＝兩條腿（真實骨架）相對靜止姿勢的旋轉做 slerp，
        偏向往前抬的那一條：t＝0.5＋(max−0.5)·tanh(dir·(抬起角度差)／sig)；後片 skirt_BL／BR（_lo）＝同一側的腿，只在腿往後時才轉（gate；坐下、腿往前時不轉，和原本一樣）。權重在 VRM 裡（tools/blender/char_second/peishan_skirt_bones.py）；沒有這種節點的模型不受影響 */
@@ -185,7 +170,7 @@ const CHAR = (function(){
      穿上時後背包往外放 10%、往上 1.2 cm：外套比上衣厚 1.3 cm，背帶原本的位置會陷進肩膀。什麼時候穿由劇情決定；每次重建人物模型後要再呼叫一次（buildVRM 會重新藏）*/
   C.setJacket=function(h,on){ const u=h&&h.userData; if(!u||u.driver!=='vrm'||!u.model) return false; let n=0; u.model.traverse(o=>{ if(o.name==='JACKET_ECON'){ o.visible=!!on; n++; } }); if(!n) return false; u.jacket=!!on;
     const bp=u.props&&u.props.backpack; if(bp){ if(bp.userData.jk0==null) bp.userData.jk0=bp.position.y; bp.scale.set(on?1.1:1,1,on?1.1:1); bp.position.y=bp.userData.jk0+(on?0.012:0); } return true; };
-  C.release=function(h){ const u=h&&h.userData; if(!u||u.driver!=='vrm') return; try{ if(u.farLOD){ for(const p of u.farLOD.parts){ if(p.parent) p.parent.remove(p); p.skeleton.dispose(); } if(u.isFar) for(const o of u.farLOD.near) o.visible=true; u.farLOD=null; u.isFar=false; }   /* 遠距離版本：拿掉、骨架貼圖放掉；原本的網格恢復顯示（第一個實例會被下一個人重用）*/ if(u.props&&typeof PROPS!=='undefined') PROPS.detach(u.props); u.props=null; if(u.taskProps){ for(const k in u.taskProps){ const o=u.taskProps[k]; if(o&&o.parent) o.parent.remove(o); } u.taskProps=null; u.taskPropOn=null; }   /* 坐著做事的配件（掛在真實骨頭上：VRM 的第一個實例會被下一個人重用）*/ const sbm=u.vrm.springBoneManager; if(sbm) sbm.joints.forEach(j=>{ j.center=null; }); }catch(e){} try{ for(const n in u.anim.actions) u.anim.actions[n].stop(); u.anim.mixer.stopAllAction(); u.vrm.humanoid.resetNormalizedPose(); if(u.vrm.expressionManager) u.vrm.expressionManager.expressions.forEach(ex=>u.vrm.expressionManager.setValue(ex.expressionName,0)); for(const t of (u.tinted||[])){ const cur=Array.isArray(t.mesh.material)?t.mesh.material:[t.mesh.material]; const orig=Array.isArray(t.orig)?t.orig:[t.orig]; cur.forEach((mt,i)=>{ if(mt!==orig[i]){ C.rimMats.delete(mt); if(mt.dispose) mt.dispose(); } }); t.mesh.material=t.orig; } u.tinted=[]; }catch(e){} ASSETS.releaseVRM(u.key,u.vrm); };
+  C.release=function(h){ const u=h&&h.userData; if(!u||u.driver!=='vrm') return; try{ if(u.farLOD){ for(const p of u.farLOD.parts){ if(p.parent) p.parent.remove(p); p.skeleton.dispose(); } if(u.isFar) for(const o of u.farLOD.near) o.visible=true; u.farLOD=null; u.isFar=false; }   /* 遠距離版本：拿掉、骨架貼圖放掉；原本的網格恢復顯示（第一個實例會被下一個人重用）*/ if(u.props&&typeof PROPS!=='undefined') PROPS.detach(u.props); u.props=null; const sbm=u.vrm.springBoneManager; if(sbm) sbm.joints.forEach(j=>{ j.center=null; }); }catch(e){} try{ for(const n in u.anim.actions) u.anim.actions[n].stop(); u.anim.mixer.stopAllAction(); u.vrm.humanoid.resetNormalizedPose(); if(u.vrm.expressionManager) u.vrm.expressionManager.expressions.forEach(ex=>u.vrm.expressionManager.setValue(ex.expressionName,0)); for(const t of (u.tinted||[])){ const cur=Array.isArray(t.mesh.material)?t.mesh.material:[t.mesh.material]; const orig=Array.isArray(t.orig)?t.orig:[t.orig]; cur.forEach((mt,i)=>{ if(mt!==orig[i]){ C.rimMats.delete(mt); if(mt.dispose) mt.dispose(); } }); t.mesh.material=t.orig; } u.tinted=[]; }catch(e){} ASSETS.releaseVRM(u.key,u.vrm); };
   // 走樓梯、台階時的腳步貼合（v9.4，D36；使用者：「人物在樓梯上不能滑動、漂浮或腳穿進階梯」）。
   // 走路動畫是平地做的：腳底永遠在「身體所在那一階」的高度。這裡依每隻腳底下那一階的實際高度把腳移上去／移下來：
   // 兩段式 IK（大腿轉向目標、膝蓋彎曲角用餘弦定理），腳掌維持動畫原本的方向；比身體低的那隻腳搆不到時，整個身體先往下沉。
@@ -215,7 +200,6 @@ const CHAR = (function(){
   // 坐姿的腳（2026-10-10）：坐姿把人物往下移 0.47 m×身高比例讓臀部對到椅面、小腿用固定角度垂下——小腿加腳比椅面高的人物（六位主要人物都是），
   // 腳底沉到地面下 12～14 cm（tests/sit_feet_unit.js），穿短褲的高子晴看起來小腿斷在地面。這裡在真實骨架上讓腳踝停在「站著時腳踝離地的高度」：
   // 先把大腿往上抬（膝蓋比臀部高一點，像坐在比較矮的椅子上；小腿維持原本的方向），抬到上限還不夠才讓小腿往前伸；腳掌保持原本的方向。
-  //（SIT-HEIGHT-1104 以後往下多少照每個模型的大腿厚度（C.sitDropOf），沉下去的少很多；腿比較短的人坐 0.47 m 以上的椅子腳會懸空：反過來把大腿往下放。）
   // （第一版只把小腿往前伸：麵店的椅子上小腿斜 45°、腳伸到桌子底下 70 cm，像半躺著。）站著時量腳踝高度（同一個模型共用），沒量過就用 0.085×身高比例。
   /* 騎腳踏車（rideIK）：車在人物的父節點（玩家的控制器）底下、和人物同一個座標——車頭朝 +z、地面 y=0、中心線 x=0（LAWWW2 bike_ride.glb 的尺寸表，
      VISUAL_REVIEW（second_ai）第 19 節）。在真實骨架上：①整個人物往上、往後移，髖關節在座墊上方（坐骨在座墊頂後面 3–5 cm；腿伸不到最下面的踏板時座位放低一點）；
@@ -465,15 +449,7 @@ const CHAR = (function(){
     if(u.sitFeet===false||u.ride||u.gym||u.anim.staticKind==='lie') return;     // 躺著不調腳；騎車：腳在踏板上（rideIK）。階梯教室的座位（有平台高度、前面是桌子）：腳往前伸會從桌子下面、平台邊緣突出來，維持原樣（GAME.sitAt 設定）
     const ra=RA[key]||0.085*(u.k||1); h.updateWorldMatrix(true,true);
     for(const [a,b,c] of LEGS){ const hip=B[a].getWorldPosition(SFV[1]), knee=B[b].getWorldPosition(SFV[2]), ank=B[c].getWorldPosition(SFV[3]);
-      const target=gy+ra;
-      if(ank.y>target+0.003){   /* 腳懸空（SIT-HEIGHT-1104：照大腿底部坐在椅面上以後，腿比較短的人坐 0.47 m 以上的椅子腳會離地 1～2 cm）：大腿往下放（最多到水平以下 26°），
-           膝蓋反轉同樣的角度——小腿的方向不變、整段往下，腳踩到地（和下面往上抬對稱；腳掌照原本的方向）*/
-        B[c].getWorldQuaternion(IKQ[3]); const tv=SFV[4].copy(knee).sub(hip), Lt=tv.length();
-        if(Lt>1e-3){ const e0=Math.asin(Math.max(-1,Math.min(1,tv.y/Lt))), e1=Math.max(-0.45,Math.asin(Math.max(-1,Math.min(1,(tv.y-(ank.y-target))/Lt)))), al=e1-e0;
-          const ax=new THREE.Vector3().crossVectors(tv,new THREE.Vector3(0,1,0));
-          if(al<-1e-4&&ax.lengthSq()>1e-10){ ax.normalize(); rotWorld(B[a],ax,al); rotWorld(B[b],ax,-al); B[c].parent.getWorldQuaternion(IKQ[0]); B[c].quaternion.copy(IKQ[0].invert().multiply(IKQ[3])); B[c].updateWorldMatrix(false,true); } }
-        continue; }
-      if(ank.y>=target-0.003) continue;
+      const target=gy+ra; if(ank.y>=target-0.003) continue;
       B[c].getWorldQuaternion(IKQ[3]);   // 腳掌原本的方向
       { // 1. 大腿往上抬（最多抬到水平以上 17°），膝蓋同時反轉同樣的角度：小腿的方向不變、整段往上移（試過只補 85%：剩下 2 cm 要靠小腿斜 19° 才補得到——接近垂直時小腿要轉很多角度才抬得高一點）
         const tv=SFV[4].copy(knee).sub(hip), Lt=tv.length();
@@ -607,7 +583,7 @@ const CHAR = (function(){
        來源的骨頭是 UE 人體模型式的名字（pelvis、spine_01～03、neck_01、Head、clavicle_l、upperarm_l…；UAL_BONE 對到 u.bones 的名字，VRM_BONE 再對到 VRM humanoid）。
        兩邊的靜止姿勢都是 T 字、面向 +z、左手在 +x（來源量過；和 VRM 1.0 的 normalized 骨架一樣）：每一根骨頭的「世界旋轉差」D＝動畫中的世界旋轉 × 靜止世界旋轉的反矩陣，
        VRM 的本地旋轉＝（VRM 自己階層裡的）父骨頭的 D 的反矩陣 × 自己的 D——和 mixamoToVRM 同一個做法；VRM 少一根骨頭（例：沒有 upperChest）照樣對。VRM 0.x 的 x、z 反號（同 mixamoToVRM）。
-       試過照骨頭方向補償（retargetClip v2 的 A）：鎖骨的方向兩邊差 41°，補償以後肩膀聳起來；兩邊都是 T 字就不補償。只取旋轉、不取骨盆位移（坐姿的高度照 C.sitDropOf：每個模型自己的大腿厚度，SIT-HEIGHT-1104）。
+       試過照骨頭方向補償（retargetClip v2 的 A）：鎖骨的方向兩邊差 41°，補償以後肩膀聳起來；兩邊都是 T 字就不補償。只取旋轉、不取骨盆位移（坐姿的高度照舊 −0.47×身高比例）。
        第一次有人坐下才下載（manifest lazy）；每一個片段第一次用到才換算（30 fps 取樣，所有模型共用一份）。還沒載好、載入失敗（30 秒後再試，最多 3 次）、C.sitAmb=false（網址 ?nositamb）＝照舊的靜態坐姿；
        片段晚一點才好的時候，已經坐著的人 0.8 秒內從靜態坐姿慢慢換過去（不跳格）。
      每一格（pose sit／read，VRM driver；GLB、程序化的備用人物照舊靜止）：
@@ -617,8 +593,7 @@ const CHAR = (function(){
           腿、骨盆照舊 SIT_VRM（椅子的高度、sitFeet、裙子的輔助骨頭、階梯教室的座位都不受影響；片段的腿本來就不動）；
        ② 手臂：sit、手上沒有東西（不是腿上開著筆電、不是跪坐、手上沒有掛著配件）＝片段的手臂（手放在大腿上）；
           read（手上拿書、手機、平板）、腿上的筆電、跪坐、手上拿著小說／馬克杯…＝照舊（READ_VRM＋readIK、SIT_VRM、SEIZA_VRM），肩膀、手、手指也不吃片段（遮罩）；
-          用筆電、寫筆記、看桌上的書的路人（SEATACT 標的 u.sitFocus＝桌上那一組的位置）：頭低下來（deskPitch）、眼睛看著那裡；
-          桌子合得上參考的（NPC-ANIM-LOOPS-1104，下面 C.SIT_TASK）：換成打字、寫字、翻書、滑手機、吃飯的循環（手在桌上做事；合不上的、片段沒載好的＝手照舊放在大腿上）；
+          用筆電、寫筆記、看桌上的書的路人（SEATACT 標的 u.sitFocus＝桌上那一組的位置）：頭低下來（deskPitch）、眼睛看著那裡（手還是放在大腿上：打字、寫字的循環還沒有）；
        ③ 小動作（每個人每 C.SIT_AMB.gap＝8～25 秒一個；一個做完才開始算下一個）：看看四周（片段 Sitting_Idle02_Loop 一次：頭往左右轉）、往一邊看一下（程式：頭轉過去、停一下）、
           抬頭（read：從書／手機上抬起頭看前面）、伸一下脖子（側彎＋往後仰）、撥頭髮（片段 Sitting_Idle03_Loop 一次；sit、手上沒東西）、換坐姿（m.pst 換一組，1 秒左右慢慢換過去）、
           拿書的翻頁（右手拇指從書的外緣掃過右頁、手腕往書溝轉，readIK 之後）；滑手機、平板：另外每 2～6 秒右手拇指滑一下（readIK 之後）。
@@ -643,9 +618,7 @@ const CHAR = (function(){
   function ambSrc(raw){ const sc=raw.scene; sc.updateMatrixWorld(true); const list=[]; sc.traverse(o=>{ if(o!==sc) list.push(o); }); const ix=new Map(list.map((o,i)=>[o,i]));
     return {sc,list,ix,par:list.map(o=>ix.has(o.parent)?ix.get(o.parent):-1),rest:list.map(o=>o.quaternion.clone()),bsi:list.map(o=>o.getWorldQuaternion(new THREE.Quaternion()).invert()),base:sc.getWorldQuaternion(new THREE.Quaternion()),name:list.map(o=>UAL_BONE[o.name]||null)}; }
   /* 一個片段（第一次用到才算）：每一根對得到的骨頭每一格的世界旋轉差 D（Float32Array，x y z w；正負號連續）*/
-  function ambClip(name){ return clipOf(SITA,name); }
-  /* SR＝片段的來源（SITA：坐姿循環 ual_sit_clips；SITT：做事的循環 ual_sit_tasks，NPC-ANIM-LOOPS-1104），各自的骨架、各自的快取 */
-  function clipOf(SR,name){ const got=SR.clips[name]; if(got!==undefined) return got; const S=SR.src, clip=S&&SR.raw.animations.find(a=>a.name===name); if(!clip){ if(S) SR.clips[name]=null; return null; }
+  function ambClip(name){ const got=SITA.clips[name]; if(got!==undefined) return got; const S=SITA.src, clip=S&&SITA.raw.animations.find(a=>a.name===name); if(!clip){ SITA.clips[name]=null; return null; }
     const ip=S.list.map(()=>null); for(const t of clip.tracks){ const mm=t.name.match(/^(.+)\.quaternion$/); if(!mm) continue; const o=S.sc.getObjectByName(mm[1]); if(o&&S.ix.has(o)) ip[S.ix.get(o)]=t.createInterpolant(); }
     const nF=Math.max(2,Math.round(clip.duration*AMB_FPS)+1), D={}, W=S.list.map(()=>new THREE.Quaternion()), q=new THREE.Quaternion(), d=new THREE.Quaternion();
     for(let i=0;i<S.list.length;i++) if(S.name[i]) D[S.name[i]]=new Float32Array(nF*4);
@@ -655,158 +628,16 @@ const CHAR = (function(){
         const n=S.name[i]; if(!n) continue; d.copy(W[i]).multiply(S.bsi[i]); const A=D[n], o=f*4; if(f&&A[o-4]*d.x+A[o-3]*d.y+A[o-2]*d.z+A[o-1]*d.w<0){ d.x=-d.x; d.y=-d.y; d.z=-d.z; d.w=-d.w; } A[o]=d.x; A[o+1]=d.y; A[o+2]=d.z; A[o+3]=d.w; } }
     /* 頭的平均左右（世界旋轉差的 yaw）：坐姿片段的頭一直往左轉 11°（來源量過）——每個人都往同一邊看。sitAmbient 扣掉它、換成每個人自己的方向（m.hy）*/
     let hy=0; const HD=D.Head; if(HD){ const e=new THREE.Euler(); for(let f=0;f<nF;f++){ q.fromArray(HD,f*4); e.setFromQuaternion(q,'YXZ'); hy+=e.y; } hy/=nF; }
-    return (SR.clips[name]={name,dur:clip.duration,nF,D,hy}); }
+    return (SITA.clips[name]={name,dur:clip.duration,nF,D,hy}); }
   /* 片段可以用了嗎（還沒＝第一次叫的時候開始下載）。下載失敗＝照舊靜止，30 秒後再試（最多 3 次；手機網路斷一下不會整場都不動）；檔案壞了（解析失敗、沒有循環）＝不再試 */
   const AMB_RETRY_MS=30000, AMB_RETRIES=3;
   function ambReady(){ if(SITA.src) return true; if(!C.sitAmb||typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[C.SIT_AMB_KEY]) return false;
     if(SITA.failed){ if(SITA.broken||(SITA.tries|0)>=AMB_RETRIES||Date.now()-(SITA.failT||0)<AMB_RETRY_MS) return false; SITA.failed=false; SITA.loading=false; if(ASSETS.status) delete ASSETS.status[C.SIT_AMB_KEY]; }
     const raw=ASSETS.getRaw&&ASSETS.getRaw(C.SIT_AMB_KEY);
-    if(raw&&raw.scene&&raw.animations){ try{ SITA.raw=raw; SITA.src=ambSrc(raw); if(!ambClip(C.SIT_AMB.base[0])) throw new Error('沒有 '+C.SIT_AMB.base[0]); if(C.sitTaskPrefetch) C.sitTaskPrefetch(); return true; }   /* 坐著做事的片段也開始下載（NPC-ANIM-LOOPS-1104：到咖啡廳、圖書館以前多半就好了）*/catch(e){ SITA.raw=null; SITA.src=null; SITA.clips={}; SITA.failed=true; SITA.broken=true; console.warn('坐姿動作片段不能用（照舊靜止）',e); return false; } }
+    if(raw&&raw.scene&&raw.animations){ try{ SITA.raw=raw; SITA.src=ambSrc(raw); if(!ambClip(C.SIT_AMB.base[0])) throw new Error('沒有 '+C.SIT_AMB.base[0]); return true; }catch(e){ SITA.raw=null; SITA.src=null; SITA.clips={}; SITA.failed=true; SITA.broken=true; console.warn('坐姿動作片段不能用（照舊靜止）',e); return false; } }
     if(!SITA.loading&&ASSETS.loadOne){ SITA.loading=true; SITA.tries=(SITA.tries|0)+1; const fail=e=>{ SITA.failed=true; SITA.failT=Date.now(); console.warn('坐姿動作片段載入失敗（照舊靜止，'+AMB_RETRY_MS/1000+' 秒後再試）',e&&e.message||e); };
       try{ Promise.resolve(ASSETS.loadOne(C.SIT_AMB_KEY)).catch(fail); }catch(e){ fail(e); } }
     return false; }
-  /* ===== 坐在桌前做事的循環（NPC-ANIM-LOOPS-1104；LAWWW2-C 交件 2962616ac，說明 docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/README.md）=====
-     使用者 11-04 13:5x「就算只是拿著書和拿著手機都太不自然了一個人坐在那裡什麼都不做」：SEATACT（src/seatact3d.js）決定要用筆電、寫筆記、看桌上的書、滑手機、吃飯的路人，
-     坐著播「正在做那件事」的循環（C.setSitTask；有名字的人不改）。
-     片段 assets/models/char/second_ai/ual_sit_tasks.glb（ASSETS 'char.ual_sit_tasks'，lazy）：Sit_<Type|TypePad|Write|Phone|Page|Drink|Eat>_<F|M>_Loop，每個 5 秒、頭尾接得起來；
-       格式和 ual_sit_clips 一樣（UAL 骨架名字、只有旋轉軌道），用同一套 ambSrc／clipOf 換算；骨架和 ual_sit_clips 一模一樣，但分開載（各自失敗、各自重試：lazyGet）。
-       速度 1（坐姿循環的 baseRate 0.5 是給 1.7 秒那一個的；這裡已經是 5 秒、手指的節奏照 1 倍做）；每個人起始相位不同（不會同步）。
-     動到的骨頭：脊椎、脖子、頭（片段裡已經前傾、低頭：不再加 deskPitch，也不加每個人自己的坐姿偏移——手要對準桌上的東西）、鎖骨到 30 根手指（grp 2，全部吃片段）；骨盆、腿照舊 SIT_VRM。
-     女生／男生兩份（F＝vroid_npc_f1 那種骨架、M＝vroid_npc_m1）：照骨架分——右前臂／右上臂的長度比（量過：女生 0.977、男生 1.13；本作所有 VRoid 路人底模都是這兩種；LAWWW2 的「前臂 0.214／0.249」換成比例、不受身高影響）。
-       不像這兩種的骨架、VRM 1.0（骨頭方向不一樣，配件掛不對）＝不用片段（照舊）。
-     桌子：片段照參考的桌子擺手（總圖自習桌：桌面離座位的地面 0.75 m、桌緣在座位前面 0.30 m；女生身高 1.62、男生 1.74：ual_sit_tasks.json 的 ref、bodies）。
-       C.sitTaskFit 在這個人自己的骨架上量手會落在哪裡（taskDev，和參考骨架的手 HANDS 比），再看這張桌子：
-       手和桌面的高低合不上（往上下坐一點補完還差太多：下面 liftMax、TOLV；矮桌、太高的桌子、手比參考高或低很多的人；吧台的高腳椅 SEATACT 另外擋）＝不用；
-       桌緣比該在的地方遠＝整個人往前坐（最多 12 cm、手太前面的往後 3 cm；跟著片段的權重慢慢挪過去：u.model；骨盆、腿的姿勢不變）；挪完還是太遠、或比 WIN 近＝不用
-       （太遠：手按在桌子外面；太近：女生的前臂穿進桌子、指尖伸過筆電的鉸鏈——量過的範圍在 WIN，女生、男生各一組）。
-     手上的配件 assets/models/char/second_ai/hand_props.glb（ASSETS 'prop.hand_props'，lazy）：hand_pen（寫字）、hand_phone（滑手機）、hand_cup（喝飲料）、hand_chopsticks（吃飯，LAWWW2-C 補件：片段照筷子尖擺手），已經擺在右手骨頭（J_Bip_R_Hand）的座標裡：
-       複製節點掛到右手的真實骨頭、位置 0、不轉（網格、材質和快取共用）；一次只開一個；換掉、起身、拿掉就藏；C.release 拿下來（VRM 的第一個實例會被下一個人重用）。配件還沒好＝要拿東西的那幾種先不用（照舊）。
-     眼睛：用筆電、寫筆記、看書＝看桌上那一組（SEATACT 的 sitFocus）；滑手機＝看手上的手機；吃飯＝看碗（LOOK）。
-     換過去、換回來：片段的權重 0.5 秒（blend）慢慢換（手從大腿上慢慢放到桌上；往前、往後、往上下坐也跟著慢慢挪）。滑手機從拿著手機（pose read，readIK）換過來那一格手會跳（量過 18 cm）：只有片段晚到才會這樣——
-       片段在第一個人坐下、坐姿循環好了的時候就開始下載（ambReady），SEATACT 量骨架時滑手機的人不排隊（urgent），同一個模型量過就不再量（TDEV）。
-     沒載好、載入失敗（30 秒後再試，最多 3 次）、片段缺、網址 ?nositask＝照舊（坐姿循環＋手放大腿上／拿著手機）、不報錯。遠距離版本（u.isFar）照舊不算手指；每一格不配置新物件。
-     測試：node tests/sit_task_wire_unit.js、node tests/sit_task_loops_unit.js */
-  C.sitTask=!(typeof location!=='undefined'&&/[?&]nositask\b/.test(location.search||''));
-  C.SIT_TASK_KEY='char.ual_sit_tasks'; C.HAND_PROP_KEY='prop.hand_props';
-  C.SIT_TASK={ CLIP:{type:'Type',typepad:'TypePad',write:'Write',phone:'Phone',page:'Page',drink:'Drink',eat:'Eat'},
-    PROP:{write:'hand_pen',phone:'hand_phone',drink:'hand_cup',eat:'hand_chopsticks'},
-    REF:{desk:0.75,edge:0.30}, H:{F:1.62,M:1.74,F2:1.65,M2:1.74,F_E20:1.62,M_E20:1.74}, shiftMax:0.12, blend:0.5,
-    /* 參考的桌子有兩種（CAFE-EDGE-1105，LAWWW2-C 11-05；LAWWW-C 11-04 21:42Z 的 3）：總圖自習桌（桌緣離座位 0.30）、近的桌子（0.20：afar、Daybreak、木曜日、林家、社科圖的桌緣 0.14～0.25，
-       原本往後坐最多 3 cm 也合不上）。近的那一組片段名字多 _E20、HANDS／WIN 的鍵是 F_E20、M_E20（只做 F、M：坐高改了以後 F2、M2 只多補幾個人）；先試桌緣比較接近的那一組 */
-    REFS:[{edge:0.30,sfx:''},{edge:0.20,sfx:'_E20'}],
-    /* F2、M2（LAWWW2-C 補件 2）：同一種骨架（前臂÷上臂）裡，手臂比較短的女生（Victoria_Rubin 改的 nf1、3、7、10、13、16、19：手臂÷身高 0.251，F 0.262）、
-       手臂比較長、肩膀比較低的男生（HairSample_Male 改的 nm1、3…19、m2：0.266，M 0.244）的片段（參考骨架 bl_npc_nf10 1.65 m、bl_npc_nm11 1.74 m）。
-       先試 F（M），合不上再試 F2（M2）：比較高的 HairSample_Female／Darkness_Shibu（nf15、nf17）用 F2 反而合得上，所以不用手臂÷身高分，兩種都量（taskDev 每個片段量一次、有快取；
-       一格量骨架的人數有上限 probesPer，第二種身材常常要等下一次 SEATACT）。WIN 的 F2 和 F 一樣（量到的都比 F 寬）；M2 照量到的收緊（手臂長：前臂越過桌緣的地方比較低）*/
-    ALT:{F:['F','F2'],M:['M','M2']},
-    /* 挪完以後桌緣（參考身材的座標）可以在哪裡，女生／男生各一組（在遊戲裡量過，tests/sit_task_wire_unit.js 會再量一次）：
-       _E20（桌緣 0.20 那一組，CAFE-EDGE-1105，坐高改了以後在遊戲裡量的）：近＝前臂離桌面 1.5 cm、肚子（桌面高度最前面 0.125）＋2 cm、打字指尖不過鉸鏈（0.16）三個裡面最大的（打字、吃飯 0.16，其他 0.145）；
-       遠＝放在桌上的手腕往前 3 cm 還在桌上（打字＋觸控板照參考那一組收 3.5 cm、喝飲料照參考的 0.335）；
-       近：前臂伸到桌面上的那一段離桌面不到 1.5 cm 就算穿進桌子——女生（SIT-HEIGHT-1104 以前肩膀只比桌面高 9 cm）在參考的桌子就已經貼著桌緣，桌子再近就穿進去：女生最近 0.29（坐下高度改了以後肩膀高 21 cm，這一格還沒重量，可以再放寬）；
-           男生照量到的（打字另外要指尖不過筆電的鉸鏈：筆電中心離桌緣 0.11、深 0.21）；
-       遠：放在桌上的手（打字兩手、寫字兩手、滑手機、翻書、吃飯、喝飲料的左手）手腕往前 3 cm（手掌根）還在桌上；喝飲料的杯子放得在桌上；打字＋觸控板：右手摸得到觸控板 */
-    WIN:{type:{F:[0.29,0.365],M:[0.26,0.365],F2:[0.29,0.365],M2:[0.27,0.365],F_E20:[0.16,0.271],M_E20:[0.16,0.271]},typepad:{F:[0.29,0.33],M:[0.26,0.33],F2:[0.29,0.33],M2:[0.27,0.33],F_E20:[0.16,0.236],M_E20:[0.16,0.236]},write:{F:[0.29,0.395],M:[0.29,0.395],F2:[0.29,0.395],M2:[0.29,0.395],F_E20:[0.145,0.304],M_E20:[0.145,0.309]},phone:{F:[0.29,0.37],M:[0.27,0.37],F2:[0.29,0.37],M2:[0.28,0.37],F_E20:[0.145,0.276],M_E20:[0.145,0.275]},
-      page:{F:[0.29,0.375],M:[0.24,0.375],F2:[0.29,0.375],M2:[0.26,0.375],F_E20:[0.145,0.28],M_E20:[0.145,0.279]},drink:{F:[0.28,0.335],M:[0.24,0.335],F2:[0.28,0.335],M2:[0.245,0.335],F_E20:[0.145,0.335],M_E20:[0.145,0.335]},eat:{F:[0.29,0.39],M:[0.29,0.39],F2:[0.29,0.39],M2:[0.29,0.39],F_E20:[0.16,0.294],M_E20:[0.16,0.293]}},
-    LOOK:{eat:[0,0.06,0.15]},   /* 沒有 sitFocus 的眼睛看哪裡（人物座標：x 左手邊、y 桌面以上、z 桌緣往裡面）*/
-    RATIO:{F:[0.93,1.03],M:[1.08,1.19]},
-    /* 參考骨架（vroid_npc_f1 1.62 m、vroid_npc_m1 1.74 m：產生片段用的）坐在參考桌子前、片段 0 秒的兩手手腕（人物座標 x 左、y 上、z 前；遊戲裡量的，和 ual_sit_tasks.json 的 expect 一樣）。
-       每個人的骨架不一樣（LAWWW2 的路人底模分好幾種比例：手臂÷身高 0.251／0.264（女）、0.246／0.266（男），肩膀高低也不同）：同一個片段，手會差到 6 cm。
-       所以每個人第一次要用某一個片段的時候，在他自己的骨架上照片段 0 秒擺一次（taskDev，量完放回去），手腕和這裡差多少＝他的偏差：
-       上下差（扣掉桌子本身的高低）：整個人往上／往下坐一點補（最多 liftMax 1.5 cm，像坐墊的厚薄），補完手和桌面還差超過 TOLV（打字 3 cm：手腕本來就離桌面 5 cm；
-       寫字 1 cm：筆尖要碰到紙；其他 1.5 cm：手放在桌上、書上、杯子在桌上）＝不用（LAWWW2 README 的「桌高差 3 cm」：手和桌面合起來差 3 cm 以內）；
-       前後差用往前／往後坐補（shiftBack～shiftMax），補完桌緣還要在 WIN 裡；左右差超過 tolX＝不用。
-       合不上的人（手臂比較長、肩膀比較低或高的那幾組底模）照舊——要 LAWWW2 照那幾種骨架再出一份片段（量到的結果：tests/sit_task_wire_unit.js、交件報告）*/
-    HANDS:{F:{type:{l:[0.0957,0.7996,0.3465],r:[-0.0901,0.802,0.3512]},typepad:{l:[0.0957,0.7996,0.3465],r:[-0.0901,0.802,0.3512]},write:{l:[0.1385,0.7819,0.3864],r:[-0.0605,0.7963,0.3816]},phone:{l:[0.1367,0.7806,0.3458],r:[-0.0792,0.8205,0.3028]},page:{l:[0.1179,0.8045,0.35],r:[-0.1179,0.8045,0.35]},drink:{l:[0.1467,0.7806,0.3108],r:[-0.2338,0.812,0.3668]},eat:{l:[0.0368,0.7796,0.3654],r:[-0.127,0.8435,0.3207]}},
-      M:{type:{l:[0.096,0.8002,0.3457],r:[-0.0903,0.8025,0.3505]},typepad:{l:[0.096,0.8002,0.3457],r:[-0.0903,0.8025,0.3505]},write:{l:[0.1388,0.7824,0.3857],r:[-0.058,0.7934,0.387]},phone:{l:[0.1371,0.7812,0.3451],r:[-0.0768,0.8232,0.3036]},page:{l:[0.1181,0.8051,0.3493],r:[-0.1181,0.8051,0.3493]},drink:{l:[0.1471,0.7812,0.3101],r:[-0.2288,0.81,0.3685]},eat:{l:[0.0393,0.7778,0.3648],r:[-0.1109,0.8957,0.351]}},
-      F2:{type:{l:[0.0955,0.7991,0.3473],r:[-0.0898,0.8015,0.352]},typepad:{l:[0.0955,0.7991,0.3473],r:[-0.0898,0.8015,0.352]},write:{l:[0.1381,0.7813,0.3871],r:[-0.0597,0.7954,0.3831]},phone:{l:[0.1364,0.7801,0.3466],r:[-0.0792,0.8198,0.3053]},page:{l:[0.1176,0.8039,0.3508],r:[-0.1176,0.8039,0.3508]},drink:{l:[0.1464,0.7801,0.3116],r:[-0.2323,0.812,0.3673]},eat:{l:[0.0364,0.7802,0.3662],r:[-0.1243,0.8428,0.3234]}},
-      M2:{type:{l:[0.0969,0.8024,0.3425],r:[-0.0912,0.8048,0.3473]},typepad:{l:[0.0969,0.8024,0.3425],r:[-0.0912,0.8048,0.3473]},write:{l:[0.1405,0.7846,0.3827],r:[-0.0613,0.7965,0.3812]},phone:{l:[0.1385,0.7835,0.3421],r:[-0.0774,0.8234,0.2979]},page:{l:[0.1193,0.8075,0.3462],r:[-0.1193,0.8075,0.3462]},drink:{l:[0.1485,0.7835,0.3071],r:[-0.2343,0.8099,0.3666]},eat:{l:[0.0413,0.7798,0.3605],r:[-0.1369,0.903,0.3652]}},
-      'F_E20':{type:{l:[0.0957,0.7996,0.2465],r:[-0.0901,0.802,0.2512]},typepad:{l:[0.0957,0.7996,0.2465],r:[-0.0901,0.802,0.2512]},write:{l:[0.1385,0.7819,0.2864],r:[-0.0605,0.7963,0.2816]},phone:{l:[0.1367,0.7806,0.2458],r:[-0.0763,0.8316,0.1925]},page:{l:[0.1179,0.8045,0.25],r:[-0.1179,0.8045,0.25]},drink:{l:[0.1467,0.7806,0.3108],r:[-0.2338,0.812,0.2668]},eat:{l:[0.0385,0.786,0.2641],r:[-0.127,0.8435,0.2207]}},
-      'M_E20':{type:{l:[0.096,0.8002,0.2457],r:[-0.0903,0.8025,0.2505]},typepad:{l:[0.096,0.8002,0.2457],r:[-0.0903,0.8025,0.2505]},write:{l:[0.1388,0.7824,0.2857],r:[-0.058,0.7934,0.287]},phone:{l:[0.1371,0.7812,0.2451],r:[-0.0741,0.8339,0.1944]},page:{l:[0.1181,0.8051,0.2493],r:[-0.1181,0.8051,0.2493]},drink:{l:[0.1471,0.7812,0.3101],r:[-0.2288,0.81,0.2685]},eat:{l:[0.0413,0.7875,0.263],r:[-0.1109,0.8957,0.251]}}},
-    tolX:0.04, liftMax:0.015, tolV:0.015, TOLV:{type:0.03,typepad:0.03,write:0.01}, shiftBack:0.03, probesPer:3 };
-  const SITT={raw:null,src:null,clips:{},failed:false,loading:false}, HPROP={scene:null,failed:false,loading:false};
-  C._task=SITT; C._handProps=HPROP;
-  C._taskReset=function(){ Object.assign(SITT,{raw:null,src:null,clips:{},failed:false,loading:false,broken:false,tries:0,failT:0,done:false}); Object.assign(HPROP,{scene:null,failed:false,loading:false,broken:false,tries:0,failT:0,done:false}); };   /* 測試用 */
-  /* lazy 的檔（還沒＝第一次叫的時候開始下載）：下載失敗 30 秒後再試（最多 3 次）、內容不對＝不再試（同 ambReady）；ok(raw)＝檢查、記下來 */
-  function lazyGet(S,key,ok){ if(S.done) return true; if(typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[key]) return false;
-    if(S.failed){ if(S.broken||(S.tries|0)>=AMB_RETRIES||Date.now()-(S.failT||0)<AMB_RETRY_MS) return false; S.failed=false; S.loading=false; if(ASSETS.status) delete ASSETS.status[key]; }
-    const raw=ASSETS.getRaw&&ASSETS.getRaw(key);
-    if(raw&&raw.scene){ try{ if(!ok(raw)) throw new Error('內容不對'); S.done=true; return true; }catch(e){ S.failed=true; S.broken=true; console.warn(key+' 不能用（坐著做事照舊）',e&&e.message||e); return false; } }
-    if(!S.loading&&ASSETS.loadOne){ S.loading=true; S.tries=(S.tries|0)+1; const fail=e=>{ S.failed=true; S.failT=Date.now(); console.warn(key+' 載入失敗（坐著做事照舊，'+AMB_RETRY_MS/1000+' 秒後再試）',e&&e.message||e); };
-      try{ Promise.resolve(ASSETS.loadOne(key)).catch(fail); }catch(e){ fail(e); } }
-    return false; }
-  const taskOk=raw=>{ if(!raw.animations||!raw.animations.some(a=>/^Sit_\w+_[FM]_Loop$/.test(a.name))) return false; SITT.raw=raw; SITT.src=ambSrc(raw); SITT.clips={}; return true; };
-  const propOk=raw=>{ if(!['hand_cup','hand_phone','hand_pen'].some(n=>raw.scene.getObjectByName(n))) return false; HPROP.scene=raw.scene; return true; };
-  const taskReady=()=>!!C.sitTask&&lazyGet(SITT,C.SIT_TASK_KEY,taskOk);
-  const propReady=nm=>lazyGet(HPROP,C.HAND_PROP_KEY,propOk)&&!!HPROP.scene.getObjectByName(nm);
-  const taskClip=name=>SITT.src?clipOf(SITT,name):null;
-  C.sitTaskReady=()=>!!SITT.src;
-  C.sitTaskPrefetch=function(){ if(!C.sitTask||!C.sitAmb) return; taskReady(); lazyGet(HPROP,C.HAND_PROP_KEY,propOk); };   /* SEATACT 進到有座位的地方就先下載（第一個人坐下以前）*/
-  /* 女生／男生的骨架：右前臂÷右上臂（真實骨頭的距離，和姿勢、縮放無關）；一個人算一次 */
-  const TBV=[new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()];
-  function taskBody(h,u){ if(u.taskBody!==undefined) return u.taskBody; let b=null;
-    try{ const H=u.vrm&&u.vrm.humanoid, ua=H&&H.getRawBoneNode('rightUpperArm'), la=H&&H.getRawBoneNode('rightLowerArm'), hd=H&&H.getRawBoneNode('rightHand');
-      if(ua&&la&&hd){ h.updateWorldMatrix(true,true); const a=la.getWorldPosition(TBV[0]).distanceTo(ua.getWorldPosition(TBV[1])), f=hd.getWorldPosition(TBV[2]).distanceTo(TBV[0]), r=a>1e-4?f/a:0, RT=C.SIT_TASK.RATIO;
-        b=r>=RT.F[0]&&r<=RT.F[1]?'F':(r>=RT.M[0]&&r<=RT.M[1]?'M':null); u.taskRatio=+r.toFixed(4); } }catch(e){ b=null; }
-    return (u.taskBody=b); }
-  /* 這個人的骨架照片段 0 秒擺一次、量兩手手腕（人物座標），量完骨頭全部放回去（正規化的和真實的：不會留下一格錯的畫面）；一個人、一個片段量一次（u.taskDev）。
-     一次最多量 probesPer 個（20 ms 內）：一進區域二十幾個人不會同一格全部量（其他人下一次 SEATACT 再來）*/
-  const PRB={t0:-1e9,n:0}, PRV=new THREE.Vector3(), PRQ=[], TDEV=new Map();   /* TDEV：模型＋縮放＋片段 → 量到的手（同一個模型、同一個縮放＝同一副骨架，所有用它的人共用）*/
-  const prbNow=()=>(typeof performance!=='undefined'&&performance.now)?performance.now():Date.now();
-  C._taskDevCache=TDEV;   /* 測試用 */
-  function taskDev(h,u,c,urgent){ const D=u.taskDev||(u.taskDev={}); if(D[c.name]!==undefined) return D[c.name];   /* 量過了（量不出來的記 false，不再量）*/
-    const key=(u.key||'?')+'|'+(+u.k||1).toFixed(4)+'|'+c.name; if(TDEV.has(key)) return (D[c.name]=TDEV.get(key));
-    if(u.anim&&!u.anim.static&&u.anim.cur) return null;   /* 正在播站著、走路的片段（骨盆被動畫轉過）：量出來不準，等坐下（靜態坐姿，或還沒動過）再量——結果整個模型共用，不能量錯 */
-    const now=prbNow(); if(now-PRB.t0>20){ PRB.t0=now; PRB.n=0; } if(!urgent&&PRB.n>=C.SIT_TASK.probesPer) return null; PRB.n++;
-    const R=ambRig(u), H=u.vrm&&u.vrm.humanoid; if(!R.order.length||!H) return null; const n=R.order.length;
-    const raw=[]; for(const b in VRM_BONE){ const o=H.getRawBoneNode(VRM_BONE[b]); if(o) raw.push(o); }
-    let k=0; const keep=q=>{ const s=PRQ[k]||(PRQ[k]=new THREE.Quaternion()); k++; s.copy(q); };
-    for(let i=0;i<n;i++) keep(R.nodes[i].quaternion); for(const o of raw) keep(o.quaternion); const mz=u.model.position.z, my=u.model.position.y;
-    let out=null;
-    try{ for(let i=0;i<n;i++){ if(R.grp[i]===0) continue; ambSample(c,0,true,R.order[i],AW,i*4); }
-      for(let i=0;i<n;i++){ if(R.grp[i]===0) continue; const p=R.par[i], q=AQ[0].fromArray(AW,i*4); if(p>=0) q.premultiply(AQ[1].fromArray(AW,p*4).invert()); if(u.v0){ q.x=-q.x; q.z=-q.z; } R.nodes[i].quaternion.copy(q); }
-      u.model.position.z=0; u.model.position.y=(u.model.userData.baseY||0)-sitDrop(u); H.update(); h.updateMatrixWorld(true);
-      const lw=h.worldToLocal(H.getRawBoneNode('leftHand').getWorldPosition(PRV)).clone(), rw=h.worldToLocal(H.getRawBoneNode('rightHand').getWorldPosition(PRV)).clone(); out={l:lw,r:rw}; }
-    catch(e){ out=null; }
-    k=0; for(let i=0;i<n;i++) R.nodes[i].quaternion.copy(PRQ[k++]); for(const o of raw) o.quaternion.copy(PRQ[k++]); u.model.position.z=mz; u.model.position.y=my; h.updateMatrixWorld(true);
-    if(out) TDEV.set(key,out); return (D[c.name]=out||false); }
-  C._taskDev=(h,clip)=>{ const u=h&&h.userData, c=taskClip(clip); return u&&c?taskDev(h,u,c):null; };   /* 測試用 */
-  /* 這個人、這張桌子能不能做 kind（type／typepad／write／phone／page／drink／eat）：desk＝{h：桌面離這個人的根（座位的地面＋lift）多高, edge：座位到桌緣, depth}；
-     回傳 null（照舊）或 {kind, clip, body, prop, shift（往前坐幾公尺；負的＝往後）, lift（往上坐幾公尺；負的＝往下）, deskH, edge}。片段、配件還沒下載的會開始下載；第一次會在他的骨架上量一次（taskDev；urgent＝不排隊）*/
-  C.sitTaskFit=function(h,kind,desk,urgent){ const u=h&&h.userData, K=C.SIT_TASK; if(!C.sitTask||!C.sitAmb||!u||u.driver!=='vrm'||!u.v0||!K.CLIP[kind]||!desk) return null;
-    if(!taskReady()) return null;
-    const fam=taskBody(h,u); if(!fam) return null;
-    const prop=K.PROP[kind]||null; if(prop&&!propReady(prop)) return null;   /* 寫字、滑手機、喝飲料、吃飯要拿東西：配件還沒好＝照舊 */
-    const refs=(K.REFS||[{edge:K.REF.edge,sfx:''}]).slice().sort((a,b)=>Math.abs(+desk.edge-a.edge)-Math.abs(+desk.edge-b.edge));   /* 桌緣比較接近的那一組先試（CAFE-EDGE-1105）*/
-    for(const rf of refs) for(const b0 of (K.ALT&&K.ALT[fam])||[fam]){ const body=b0+rf.sfx;   /* 同一種骨架的幾種身材：第一個合得上的（F2、M2，LAWWW2-C 補件 2）*/
-      const clip='Sit_'+K.CLIP[kind]+'_'+body+'_Loop', c=taskClip(clip), R0=K.HANDS[body]&&K.HANDS[body][kind]; if(!c||!R0) continue;   /* 片段檔沒有這一種（舊的 GLB）＝試下一種 */
-      const dv=taskDev(h,u,c,urgent); if(dv===null) return null; if(!dv) continue;   /* null＝還沒量（這一格量不到、排隊）：下次 SEATACT 再來；false＝量不出來 */
-      const dl=[dv.l.x-R0.l[0],dv.l.y-R0.l[1],dv.l.z-R0.l[2]], dr=[dv.r.x-R0.r[0],dv.r.y-R0.r[1],dv.r.z-R0.r[2]];
-      if(Math.max(Math.abs(dl[0]),Math.abs(dr[0]))>K.tolX) continue;   /* 手往旁邊差太多（肩膀寬很多）*/
-      const dy=(dl[1]+dr[1])/2, dz=(dl[2]+dr[2])/2;
-      const dyE=dy-(+desk.h-K.REF.desk), lift=Math.min(K.liftMax,Math.max(-K.liftMax,-dyE)); if(!(Math.abs(dyE+lift)<=(K.TOLV[kind]||K.tolV)+1e-6)) continue;   /* 手的高低和這張桌子合不上（吧台、矮桌、手比參考高或低很多的人）；lift＝往上（＋）／往下坐多少 */
-      const e0=+desk.edge-dz, sh=Math.min(K.shiftMax,Math.max(-K.shiftBack,e0-rf.edge)), e2=e0-sh, w=K.WIN[kind]&&K.WIN[kind][body]; if(!w||!(e2>=w[0]-1e-6&&e2<=w[1]+1e-6)) continue;
-      return {kind,clip,body,prop,shift:+sh.toFixed(4),lift:+lift.toFixed(4),deskH:+desk.h,edge:+desk.edge,ref:rf.edge}; }
-    return null; };
-  /* 套上／拿掉（fit＝C.sitTaskFit 的結果；null＝拿掉）：片段在 sitAmbient 裡慢慢換過去；配件馬上換（SEATACT 同一格把桌上那件藏起來／放回去）*/
-  C.setSitTask=function(h,fit){ const u=h&&h.userData; if(!u) return false; if(!fit){ u.sitTask=null; propVis(u,null); return false; }
-    const T=u.sitTask; if(!T||T.clip!==fit.clip||T.prop!==fit.prop||T.kind!==fit.kind||Math.abs((T.shift||0)-(fit.shift||0))>1e-4||Math.abs((T.lift||0)-(fit.lift||0))>1e-4||T.deskH!==fit.deskH) u.sitTask=Object.assign({},fit); return true; };
-  C.sitTaskOf=function(h){ const u=h&&h.userData, m=u&&u.amb; return u&&u.sitTask?{kind:u.sitTask.kind,clip:u.sitTask.clip,body:u.sitTask.body,prop:u.taskPropOn||null,playing:m&&m.tc||null,w:m&&m.tc?m.tw||0:0,rate:1,shift:u.sitTask.shift,lift:u.sitTask.lift||0,ref:u.sitTask.ref}:null; };   /* 測試用（ref＝用了哪一張參考桌子的片段：0.30／0.20，CAFE-EDGE-1105）*/
-  /* 右手的配件：只開 nm（null＝全部藏）；第一次用到才從 hand_props 複製一份掛上去 */
-  function propVis(u,nm){ if((u.taskPropOn||null)===nm) return; u.taskPropOn=nm||null;
-    if(u.taskProps) for(const k in u.taskProps) u.taskProps[k].visible=k===nm;
-    if(nm&&!(u.taskProps&&u.taskProps[nm])){ const src=HPROP.scene&&HPROP.scene.getObjectByName(nm), bone=u.vrm&&u.vrm.humanoid&&u.vrm.humanoid.getRawBoneNode('rightHand');
-      if(!src||!bone){ u.taskPropOn=null; return; }
-      const o=src.clone(true); o.name='taskProp:'+nm; o.position.set(0,0,0); o.quaternion.set(0,0,0,1); o.scale.set(1,1,1); o.visible=true;
-      o.traverse(x=>{ if(x.isMesh){ x.castShadow=false; x.receiveShadow=false; x.frustumCulled=false; } }); bone.add(o); (u.taskProps||(u.taskProps={}))[nm]=o; } }
-  /* 每一格（sitAmbient 裡）：要播哪一個片段、權重、時間；回傳片段（沒有＝null）。free＝sit、手上沒東西（不是跪坐、腿上沒有筆電）*/
-  function taskStep(u,m,dt,pose,free){ const T=u.sitTask, K=C.SIT_TASK, inc=dt>0?dt/K.blend:0;
-    const want=T&&free&&pose==='sit'&&C.sitTask&&taskClip(T.clip)?T.clip:null;
-    if(m.tc&&m.tc!==want){ m.tw=Math.max(0,(m.tw||0)-inc); if(m.tw<=0) m.tc=null; }
-    if(!m.tc&&want){ m.tc=want; m.tw=0; m.tt=ambRnd(0,5); }
-    if(m.tc&&m.tc===want){ m.tw=Math.min(1,(m.tw||0)+inc); m.tShift=T.shift||0; m.tLift=T.lift||0; }
-    if(m.tc) m.tt=(m.tt||0)+dt;
-    propVis(u,want&&m.tc===want?(T.prop||null):null);
-    return m.tc?taskClip(m.tc):null; }
   /* 這個人的骨頭（一次）：照 VRM normalized 階層排（父在前），par＝階層裡最近的、有對到的父骨頭（-1＝骨盆：骨盆照舊 SIT_VRM＝不轉）；grp 0＝腿（不吃片段）、1＝脊椎到頭、2＝肩膀到手指（看姿勢）*/
   function ambRig(u){ if(u.ambRig) return u.ambRig; const B=u.bones, nm=new Map(); for(const n in B) nm.set(B[n],n); const order=[];
     const walk=o=>{ const n=nm.get(o); if(n&&n!=='Hips') order.push(n); for(const c of o.children) walk(c); }; if(B.Hips) walk(B.Hips);
@@ -824,9 +655,8 @@ const CHAR = (function(){
   const AK=[0,0,0];
   function ambKeys(keys,t){ const o=AK; o[0]=0; o[1]=0; o[2]=0; if(!keys||!keys.length) return o; if(t<=keys[0][0]) return o; for(let i=1;i<keys.length;i++){ const a=keys[i-1], b=keys[i]; if(t<=b[0]){ const s=amb01((t-a[0])/Math.max(1e-3,b[0]-a[0])); for(let j=0;j<3;j++) o[j]=a[j+1]+(b[j+1]-a[j+1])*s; return o; } } return o; }
   /* 挑一個小動作（kind）：看姿勢、手上拿什麼、是不是玩家 */
-  function ambPick(u,pose,kd,armsFree,focus,task){ const player=!!(u.spec&&u.spec.id==='hero_m'); const W=[];
-    if(task){ if(!player) W.push(['glance',3],['side',1],['stretch',1]); }   /* 正在做事（NPC-ANIM-LOOPS-1104）：只做頭的小動作（抬頭、往一邊看、伸脖子）——看四周、撥頭髮、換坐姿會動到身體和手，手就離開桌上的東西 */
-    else if(pose==='read'){ if(kd==='book') W.push(['page',4]); if(!player) W.push(['glance',kd==='book'?3:2],['look',1],['side',1],['stretch',1]); W.push(['posture',2]); }
+  function ambPick(u,pose,kd,armsFree,focus){ const player=!!(u.spec&&u.spec.id==='hero_m'); const W=[];
+    if(pose==='read'){ if(kd==='book') W.push(['page',4]); if(!player) W.push(['glance',kd==='book'?3:2],['look',1],['side',1],['stretch',1]); W.push(['posture',2]); }
     else if(focus){ if(!player){ W.push(['glance',3],['look',1],['side',1],['stretch',1]); if(armsFree) W.push(['hair',1]); } W.push(['posture',2]); }   /* 看著桌上的筆電、筆記：抬頭看一下最多 */
     else { if(!player){ W.push(['look',2],['side',2],['up',2],['stretch',1]); if(armsFree) W.push(['hair',2]); } W.push(['posture',player?1:3]); }
     let s=0; for(const w of W) s+=w[1]; let r=C.ambRand()*s; for(const w of W){ r-=w[1]; if(r<=0) return w[0]; } return W.length?W[W.length-1][0]:null; }
@@ -856,7 +686,6 @@ const CHAR = (function(){
   /* 每一格：①～④ 都在這裡；回傳 false＝片段還沒好（照舊靜止）*/
   function sitAmbient(h,u,dt,st,pose){ if(!C.sitAmb||!ambReady()) return false; const K=C.SIT_AMB, R=ambRig(u); if(!R.order.length) return false; const m=u.amb||(u.amb=ambInit());
     u.ambPose=pose; const kd=pose==='read'?readKind(u):null, armsFree=pose==='sit'&&!u.sitFloor&&!(u.props&&u.props.laptop_lap&&u.props.laptop_lap.visible)&&!handHeld(u), talked=!!st.lookAt;
-    const tc=taskStep(u,m,dt,pose,armsFree), tw=tc?amb01(m.tw||0):0;   /* 坐在桌前做事的片段（NPC-ANIM-LOOPS-1104，上面）：只有手上沒東西的 sit；tw＝它的權重（0.5 秒慢慢換）*/
     const focus=pose==='sit'&&!!u.sitFocus;   /* 看著桌上的筆電、筆記、書（SEATACT 標的 u.sitFocus）：低頭 deskPitch、眼睛看那裡 */
     if(m.inW==null) m.inW=u.ambWasStatic?0:1; if(m.inW<1){ m.inW=Math.min(1,m.inW+(dt>0?dt/K.blendIn:0)); if(m.inW>=1) u.ambWasStatic=false; } const bw=amb01(m.inW);
     // 時間：坐姿循環、換循環的交叉淡入
@@ -868,7 +697,7 @@ const CHAR = (function(){
     // ③ 小動作
     if(m.fx){ m.fx.t+=dt; const once=m.ov&&!m.ovLoop&&m.ov===m.ovWant; if(once){ const oc=ambClip(m.ov); if(!oc||m.ot>=oc.dur-K.ovFade*(m.orate||1)) m.ovWant=null; }   /* 疊一次的片段快完了：慢慢放掉 */
       if(m.fx.t>=m.fx.dur){ m.fx=null; if(m.ovWant&&!m.ovLoop) m.ovWant=null; } }
-    else if(!P){ m.next-=dt; if(m.next<=0){ m.next=ambRnd(K.gap[0],K.gap[1]); const kind=ambPick(u,pose,kd,armsFree,focus,tw>0); if(kind&&!(talked&&kind!=='posture')) ambStart(m,u,kind,armsFree); } }
+    else if(!P){ m.next-=dt; if(m.next<=0){ m.next=ambRnd(K.gap[0],K.gap[1]); const kind=ambPick(u,pose,kd,armsFree,focus); if(kind&&!(talked&&kind!=='posture')) ambStart(m,u,kind,armsFree); } }
     /* 有人跟他說話（對話、聊天的注視）：頭的小動作在 0.5 秒內收回來（權重 fxW），收完就結束；沒有人說話＝權重回到 1 */
     m.fxW=Math.max(0,Math.min(1,(m.fxW==null?1:m.fxW)+(dt>0?(talked?-dt:dt)/0.5:0))); if(talked&&m.fxW<=0&&m.fx&&m.fx.keys&&m.fx.kind!=='page') m.fx=null;
     if(talked&&m.ov&&!m.ovLoop){ m.ovWant=null; if(m.fx&&(m.fx.kind==='look'||m.fx.kind==='hair')) m.fx=null; }   /* 疊一次的片段（看看四周、撥頭髮）也放掉（ovFade 秒）*/
@@ -878,12 +707,10 @@ const CHAR = (function(){
     if(m.ov) m.ot+=dt*(m.orate||1);
     // 片段 → 世界旋轉差（AW）
     const cur=ambClip(m.base), prv=m.prev?ambClip(m.prev):null, ov=m.ov&&m.ow>0?ambClip(m.ov):null; if(!cur) return false;
-    const far=!!u.isFar, n=R.order.length, full=!!tc&&tw>=1;
+    const far=!!u.isFar, n=R.order.length;
     for(let i=0;i<n;i++){ const g=R.grp[i]; if(g===0||(g===2&&!armsFree)||(far&&R.finger[i])) continue; const nm=R.order[i], o=i*4;
-      if(full){ ambSample(tc,m.tt,true,nm,AW,o); continue; }   /* 做事的片段完全換過去了：坐姿循環這幾根不用算 */
       ambSample(cur,m.t,true,nm,AW,o); if(prv){ ambSample(prv,m.pt,true,nm,AS,0); THREE.Quaternion.slerpFlat(AW,o,AS,0,AW,o,m.fw); }
-      if(ov){ ambSample(ov,m.ot,m.ovLoop,nm,AS,0); THREE.Quaternion.slerpFlat(AW,o,AW,o,AS,0,m.ow); }
-      if(tc&&tw>0){ ambSample(tc,m.tt,true,nm,AS,0); THREE.Quaternion.slerpFlat(AW,o,AW,o,AS,0,tw); } }   /* 做事的片段（速度 1）疊上去 */
+      if(ov){ ambSample(ov,m.ot,m.ovLoop,nm,AS,0); THREE.Quaternion.slerpFlat(AW,o,AW,o,AS,0,m.ow); } }
     // 世界旋轉差 → 本地旋轉（VRM 0.x：x、z 反號）
     const sx=u.sx||1, B=u.bones;
     for(let i=0;i<n;i++){ const g=R.grp[i]; if(g===0||(g===2&&!armsFree)||(far&&R.finger[i])) continue; const p=R.par[i], q=AQ[0].fromArray(AW,i*4); if(p>=0) q.premultiply(AQ[1].fromArray(AW,p*4).invert()); if(u.v0){ q.x=-q.x; q.z=-q.z; }
@@ -892,23 +719,18 @@ const CHAR = (function(){
     if(!armsFree) for(let i=0;i<n;i++) if(R.grp[i]===2&&!R.tab[i]) R.nodes[i].quaternion.set(0,0,0,1);
     // 每個人自己的坐姿（往前、往左右、轉身；脊椎、胸口各一半）：換坐姿的時候慢慢換過去
     { const ps=m.pst, pt=m.pstTo, k=dt>0?Math.min(1,dt*K.posture.speed):0; for(let j=0;j<3;j++) ps[j]+=(pt[j]-ps[j])*k;
-      const pw=bw*(1-tw); AE.set(ps[0]*0.5*sx*pw,ps[2]*0.5*pw,ps[1]*0.5*sx*pw); AQ[0].setFromEuler(AE); if(B.Spine) B.Spine.quaternion.multiply(AQ[0]); if(B.Spine1) B.Spine1.quaternion.multiply(AQ[0]); }   /* 正在做事：不加（身體一轉，手就離開桌上的東西）*/
+      AE.set(ps[0]*0.5*sx*bw,ps[2]*0.5*bw,ps[1]*0.5*sx*bw); AQ[0].setFromEuler(AE); if(B.Spine) B.Spine.quaternion.multiply(AQ[0]); if(B.Spine1) B.Spine1.quaternion.multiply(AQ[0]); }
     // 頭的小動作（脖子 40%、頭 60%）＋讀書低頭
     const hk=m.fx&&m.fx.keys?ambKeys(m.fx.keys,m.fx.t):null;
     if(hk&&m.fx.kind!=='page'){ hk[0]*=m.fxW; hk[1]*=m.fxW; hk[2]*=m.fxW; }
     m.head[0]=hk?hk[0]:0; m.head[1]=hk?hk[1]:0; m.head[2]=hk?hk[2]:0;
     if(hk&&B.Neck){ AE.set(hk[0]*0.4*sx*bw,hk[1]*0.4*bw,hk[2]*0.4*sx*bw); B.Neck.quaternion.multiply(AQ[0].setFromEuler(AE)); }
-    if(B.Head){ const rp=pose==='read'?K.readPitch:(focus?K.deskPitch*(1-tw):0), cyB=((cur.hy||0)*(prv?m.fw:1)+(prv?(prv.hy||0)*(1-m.fw):0))*(ov?1-m.ow:1)+(ov?(ov.hy||0)*m.ow:0), cy=tc?cyB*(1-tw)+(tc.hy||0)*tw:cyB;   /* 片段本身的頭的平均左右（扣掉）；做事的片段自己就低頭了（不再加 deskPitch）*/
+    if(B.Head){ const rp=pose==='read'?K.readPitch:(focus?K.deskPitch:0), cy=((cur.hy||0)*(prv?m.fw:1)+(prv?(prv.hy||0)*(1-m.fw):0))*(ov?1-m.ow:1)+(ov?(ov.hy||0)*m.ow:0);   /* 片段本身的頭的平均左右（扣掉）*/
       AE.set(((hk?hk[0]*0.6:0)+rp)*sx*bw,((hk?hk[1]*0.6:0)-cy+m.hy*(1-(ov?m.ow:0)))*bw,(hk?hk[2]*0.6:0)*sx*bw); B.Head.quaternion.multiply(AQ[0].setFromEuler(AE)); }
     // 翻頁、滑手機（readIK 之後在真實骨架上做：u.readTurn、u.readScroll）
     u.readTurn=m.fx&&m.fx.kind==='page'?Math.min(1,m.fx.t/m.fx.dur):0;
     if(pose==='read'&&kd&&kd!=='book'&&!talked){ m.scT-=dt; if(m.scT<=0&&m.sc<=0){ m.sc=ambRnd(0.8,1.6); m.scT=ambRnd(K.scroll[0],K.scroll[1]); } } if(m.sc>0) m.sc=Math.max(0,m.sc-dt);
     u.readScroll=m.sc>0?m.sc:0; u.readScrollT=(u.readScrollT||0)+dt;
-    // 做事的片段：桌子比參考遠的位子整個人往前坐（外面每一格先把 u.model 放回 0）；眼睛看手上的手機、碗（有 sitFocus 的看桌上那一組，外面照舊）
-    if(tc){ u.model.position.z=(m.tShift||0)*tw; u.model.position.y+=(m.tLift||0)*tw; }   /* 外面每一格先把 y 放回坐姿的高度：加上去不會累加 */
-    u.taskLook=null; if(tc&&tw>0.3&&!u.sitFocus){ const T=u.sitTask, hp=u.taskProps&&u.taskProps.hand_phone;
-      if(T&&T.prop==='hand_phone'&&hp&&hp.visible) u.taskLook=hp;
-      else { const L=T&&C.SIT_TASK.LOOK[T.kind]; if(L){ const v=u.taskLookP||(u.taskLookP=new THREE.Vector3()), RF=C.SIT_TASK.REF; v.set(L[0],(T.deskH!=null?T.deskH:RF.desk)+L[1],(T.edge!=null?T.edge:RF.edge)+L[2]); u.taskLook=v; } } }
     return true; }
   C._sitAmbient=sitAmbient;
   /* 馬上做某一個小動作（測試、錄影用；瀏覽器主控台：CHAR.sitAmbFidget(E3.npcs[0].obj,'look')）：kind＝look、side、up、glance、stretch、hair、posture、page；坐著、片段好了才有用 */
@@ -926,7 +748,6 @@ const CHAR = (function(){
     const env=Math.min(1,s/0.25)*Math.min(1,(1.6-Math.min(1.6,s))/0.25+0.0001), up=PGV[0].set(0,1,0).transformDirection(MW), dir=t3.getWorldPosition(PGV[1]).sub(t1.getWorldPosition(PGV[2]));
     const ax=PGV[3].crossVectors(dir,up); if(ax.lengthSq()<1e-10) return; ax.normalize(); rotWorld(t1,ax,0.3*Math.sin((u.readScrollT||0)*2*Math.PI*1.6)*Math.min(1,env)); }
   function animateVRM(h,dt,st){ const u=h.userData; const a=u.anim; a.t+=dt; const pose=st.pose||'idle'; const B=u.bones; const spd=st.speed||0; const vrm=u.vrm; const sx=u.sx||1;
-    if(u.taskPropOn&&(pose!=='sit'||!u.sitTask)) propVis(u,null);   /* 坐著做事的配件（NPC-ANIM-LOOPS-1104）：起身、拿掉了就藏（sitAmbient 沒跑的時候也一樣）*/
     if(u.props){ const sitting=pose==='sit'||pose==='read', lying=pose==='lie'||C.GYM_POSES.includes(pose); for(const k in u.props){ const d=typeof PROPS!=='undefined'&&PROPS.DEF[k]; const o=u.props[k]; if(!o) continue; if(d&&d.sit==='only'){ o.visible=sitting&&!!(u.propOn&&u.propOn[k]===true); continue; } if(!(k==='backpack'||k==='guitar'||k==='bag_yu'||(d&&d.sit==='hide'))) continue; o.visible=!sitting&&!lying&&!(u.propOn&&u.propOn[k]===false); } }   /* 躺在床上也藏（後背包，DORM-SLEEP-1030）*/   /* 坐下時藏：後背包、吉他、側背包＋PROPS.DEF 的 sit:'hide'（垂著拿的東西）；sit:'only'＝坐下而且開了才看得到（NPC-POOL-ART-1028）*/
     u.readOn=pose==='read'&&C.readIK&&!(u.props&&u.props.laptop_lap&&u.props.laptop_lap.visible); readVis(u);   /* 讀書：手上那本打開的書（readIK；腿上開著筆電的時候不拿書）*/
     if(u.props&&pose==='read'!==!!u.readHeldOff){ u.readHeldOff=pose==='read'; for(const k in u.props){ const d=typeof PROPS!=='undefined'&&PROPS.DEF[k], o=u.props[k]; if(!o||!d||!/LowerArm$|Hand$/.test(d.bone)||k==='bandage'||d.sit) continue; o.visible=!u.readHeldOff&&!(u.propOn&&u.propOn[k]===false); } }   /* 讀書的時候手上原本拿的東西（小說、法典、講義、馬克杯…）先收起來：兩手在捧書。繃帶照舊；sit:'hide'／'only' 上面已經處理 */
@@ -935,10 +756,10 @@ const CHAR = (function(){
     if(C.GYM_POSES.includes(pose)){ const g=u.gym||(u.gym={}); if(g.pose!==pose){ g.pose=pose; g.t=Math.random()*20; g.rate=0.85+Math.random()*0.3; g.v=Math.random()<0.5?1:0; g.w=0; } g.t+=dt*g.rate; }   /* 健身房（GYM-USE-1103）：每個人自己的節奏（rate）、起始相位、拉筋的做法（v）*/
     else if(u.gym){ u.gym=null; if(!a.static){ u.model.position.y=u.model.userData.baseY||0; u.model.position.z=0; } }   /* 深蹲改了站姿的高度、前後：換回一般動作時放回去 */   /* 從躺姿起來：整個人轉回直立（DORM-SLEEP-1030）*/
     if(pose==='ride'){ if(!a.static||a.staticKind!=='ride'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='ride'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; setBonesV(B,RIDE_VRM,sx); if(B.Head) B.Head.rotation.set(-0.22*sx,0,0); }   /* 頭往上抬，看前面的路（胸口、頭每一幀都由表重設，下面的注視「加」轉角不會累加）*/   /* 騎車：人物的高度、前後位置在 rideIK 依髖關節對座墊 */
-    else if(pose==='sit'||pose==='read'){ if(!a.static||a.staticKind!=='sit'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='sit'; a.cur=null; vrm.humanoid.resetNormalizedPose(); if(u.amb){ const m=u.amb; m.fx=null; m.ov=null; m.ovWant=null; m.ow=0; m.prev=null; m.fw=1; m.sc=0; } } u.ikDrop=0; u.ikSt=null; u.model.position.y=(u.model.userData.baseY||0)-sitDrop(u); u.model.position.z=0; setBonesV(B,SIT_VRM,sx); if(u.sitFloor) setBonesV(B,SEIZA_VRM,sx);
+    else if(pose==='sit'||pose==='read'){ if(!a.static||a.staticKind!=='sit'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='sit'; a.cur=null; vrm.humanoid.resetNormalizedPose(); if(u.amb){ const m=u.amb; m.fx=null; m.ov=null; m.ovWant=null; m.ow=0; m.prev=null; m.fw=1; m.sc=0; } } u.ikDrop=0; u.ikSt=null; u.model.position.y=(u.model.userData.baseY||0)-0.47*u.k; u.model.position.z=0; setBonesV(B,SIT_VRM,sx); if(u.sitFloor) setBonesV(B,SEIZA_VRM,sx);
       /* 坐著也會動（NPC-AMBIENT-ANIM-1104，上面 sitAmbient）：脊椎、胸口、脖子、頭每一幀由坐姿循環重寫（注視在胸口「加」的轉角照樣不累加）；手上沒有東西的 sit 連手臂也是片段的；片段還沒好＝下面舊的靜態坐姿 */
       if(sitAmbient(h,u,dt,st,pose)){ u.ambOn=true; if(pose==='read') setBonesV(B,READ_VRM,sx); }
-      else { if(u.ambOn){ u.ambOn=false; vrm.humanoid.resetNormalizedPose(); setBonesV(B,SIT_VRM,sx); if(u.sitFloor) setBonesV(B,SEIZA_VRM,sx); } u.readTurn=0; u.readScroll=0; u.ambWasStatic=true; if(u.amb) u.amb.inW=0; u.taskLook=null; if(u.taskPropOn) propVis(u,null);   /* 之後片段好了：從這個靜態坐姿慢慢換過去 */
+      else { if(u.ambOn){ u.ambOn=false; vrm.humanoid.resetNormalizedPose(); setBonesV(B,SIT_VRM,sx); if(u.sitFloor) setBonesV(B,SEIZA_VRM,sx); } u.readTurn=0; u.readScroll=0; u.ambWasStatic=true; if(u.amb) u.amb.inW=0;   /* 之後片段好了：從這個靜態坐姿慢慢換過去 */
         if(pose==='read'){ setBonesV(B,READ_VRM,sx); if(B.Head) B.Head.rotation.set((0.35+Math.sin(a.t*0.6)*0.02)*sx,0,0); } else { if(B.Head) B.Head.rotation.set(Math.sin(a.t*0.7)*0.03*sx,Math.sin(a.t*0.4)*0.15,0); } if(B.Spine) B.Spine.rotation.set(0.06*sx,0,0); if(B.Spine1) B.Spine1.rotation.set(0,0,0); } }   /* 胸口每一幀也要重設：下面的注視是在胸口「加」轉角，坐姿沒有動畫把骨頭蓋回去，不重設就會一直累加、整個上半身在椅子上轉圈（使用者 2026-10-11 回報，tests/seated_look_unit.js）*/
     else if(GYM_SEATED[pose]){ if(!a.static||a.staticKind!=='gym'){ const from={}; for(const n in B) from[n]=B[n].quaternion.clone(); u.gym.from=from; for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='gym'; a.cur=null; vrm.humanoid.resetNormalizedPose(); }   /* 換過來那一刻的骨頭角度（站著的片段）：底子從它慢慢轉到坐姿，不跳格 */
       u.ikDrop=0; u.ikSt=null; setBonesV(B,GYM_BASE,sx); const fr=u.gym.from; if(fr){ const x=Math.min(1,u.gym.w||0), wb=x*x*(3-2*x); if(wb>=1) u.gym.from=null; else for(const n in fr) if(B[n]) B[n].quaternion.slerpQuaternions(fr[n],B[n].quaternion.clone(),wb); } }   /* 健身房坐著的動作：底子是坐姿（每一幀由表重設），臀部、手腳在 gymIK（真實骨架）*/
@@ -960,10 +781,9 @@ const CHAR = (function(){
     // 注視（眼睛＋頭）
     if(st.lookAt){ const local=h.worldToLocal(new THREE.Vector3(st.lookAt.x,u.headY,st.lookAt.z)); u.look.position.copy(local); if(B.Head){ const dx=st.lookAt.x-h.position.x, dz=st.lookAt.z-h.position.z; let ang=Math.atan2(dx,dz)-h.rotation.y; ang=Math.atan2(Math.sin(ang),Math.cos(ang)); ang=Math.max(-0.7,Math.min(0.7,ang)); B.Head.rotation.y+=ang*0.6; if(B.Spine1) B.Spine1.rotation.y+=ang*0.15; } }
     else { const hd=u.ambOn&&a.static&&u.amb&&u.amb.head;   /* 坐著的小動作（NPC-AMBIENT-ANIM-1104）：眼睛跟著頭往左右、上下看；讀書、滑手機的人眼睛看手上的東西（上一格的位置）*/
-      if(hd&&(Math.abs(hd[0])>1e-3||Math.abs(hd[1])>1e-3)){ const hy=u.headY-sitDrop(u); u.look.position.set(Math.sin(hd[1])*3,hy-Math.tan(Math.max(-0.6,Math.min(0.6,hd[0])))*3,Math.cos(hd[1])*3); }
+      if(hd&&(Math.abs(hd[0])>1e-3||Math.abs(hd[1])>1e-3)){ const hy=u.headY-0.47*u.k; u.look.position.set(Math.sin(hd[1])*3,hy-Math.tan(Math.max(-0.6,Math.min(0.6,hd[0])))*3,Math.cos(hd[1])*3); }
       else if(u.ambOn&&a.static&&pose==='read'&&u.readOn){ const kd=readKind(u), it=kd==='book'?u.readBook:(u.readHeld&&u.readHeld[kd]); if(it&&it.visible){ u.look.position.copy(h.worldToLocal(it.getWorldPosition(AMBV))); } else u.look.position.set(0,u.headY,3); }
       else if(u.ambOn&&a.static&&pose==='sit'&&u.sitFocus){ const f=u.sitFocus; u.look.position.copy(h.worldToLocal(AMBV.set(f.x,f.y,f.z))); }   /* 看著桌上的筆電、筆記 */
-      else if(u.ambOn&&a.static&&pose==='sit'&&u.taskLook){ const L=u.taskLook; if(L.isObject3D) u.look.position.copy(h.worldToLocal(L.getWorldPosition(AMBV))); else u.look.position.copy(L); }   /* 做事的片段：看手上的手機（上一格的位置）、碗 */
       else u.look.position.set(0,u.headY,3); }
     if(pose==='lie'&&!st.lookAt) u.look.position.set(0,1.6,-1.4);   /* 躺著：眼睛看天花板（不是看腳那邊）*/
     // 表情：眨眼、嘴型
@@ -1037,7 +857,6 @@ const CHAR = (function(){
     if(u.readItem) nh.userData.readItem=u.readItem;   /* 手上拿的是手機、平板（SEAT-ACTIVITY-1104）：換成正式模型以後照樣 */
     if(u.sitChat) nh.userData.sitChat=u.sitChat;   /* 同桌聊天的那一組（NPC-AMBIENT-ANIM-1104）：換模型以後照樣輪流說話 */
     if(u.sitFocus) nh.userData.sitFocus=u.sitFocus;   /* 看著桌上的筆電、筆記（SEATACT 標的）*/
-    if(u.sitTask) nh.userData.sitTask=u.sitTask;   /* 坐著做事的片段（NPC-ANIM-LOOPS-1104）：接著做；配件在新的骨頭上再掛一份（第一格），女生／男生照新的骨架重算（SEATACT 下一次會再對）*/
     if(u.amb){ nh.userData.amb=u.amb; nh.userData.ambWasStatic=u.ambWasStatic; }   /* 坐著的動作接著做（循環的相位、小動作、坐姿；沒有對模型的資料，換模型沒關係）*/
     if(u.jacket) C.setJacket(nh,true);   /* 祐廷的系外套（X140）：開發用模型換成正式 VRM 時照樣穿著（buildVRM 照 manifest hide 先藏）；之後 STORY.jacketSync 照規則對一次 */
     const p=h.parent; if(p){ p.add(nh); p.remove(h); } C.release(h); return nh; };
@@ -1055,7 +874,7 @@ const CHAR = (function(){
   const READ={LeftArm:[1.2,0,0.9],RightArm:[1.2,0,-0.9],LeftForeArm:[0,0,1.2],RightForeArm:[0,0,-1.2]};
   function setBones(bones,tab,blend){ for(const n in tab){ const b=bones[n]; if(!b) continue; const r=tab[n]; if(blend>=1){ b.rotation.set(r[0],r[1],r[2]); } else { b.rotation.x+=(r[0]-b.rotation.x)*blend; b.rotation.y+=(r[1]-b.rotation.y)*blend; b.rotation.z+=(r[2]-b.rotation.z)*blend; } } }
   C.animate=function(h,dt,st){ const u=h.userData; if(u.driver==='vrm'){ animateVRM(h,dt,st); return; } if(st&&GYM_FALL[st.pose]) st=Object.assign({},st,{pose:GYM_FALL[st.pose]});   /* 備用人物（GLB、程序化）沒有健身房的動作：坐著的照坐下、站著的照站著 */ if(u.driver!=='glb'){ P3.animate(h,dt,st.pose==='lie'||st.pose==='kneel'||st.pose==='climb'||st.pose==='climbdown'?Object.assign({},st,{pose:st.pose==='lie'||st.pose==='kneel'?'idle':'walk'}):st); return; } const a=u.anim; a.t+=dt; const lie=st.pose==='lie', pose=lie||st.pose==='kneel'?'idle':(st.pose==='climb'||st.pose==='climbdown'?'walk':(st.pose||'idle')); const B=u.bones; const spd=st.speed||0; u.model.rotation.x=lie?-Math.PI/2:0;   /* 備用 GLB 人物：躺＝站姿轉 −90°、爬梯子＝走路（DORM-SLEEP-1030）*/
-    if(pose==='sit'||pose==='read'){ if(!a.static){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.cur=null; } u.model.position.y=(u.model.userData.baseY||0)-sitDrop(u); setBones(B,SIT,1); if(pose==='read'){ setBones(B,READ,1); if(B.Head) B.Head.rotation.set(0.35+Math.sin(a.t*0.6)*0.02,0,0); } else { if(B.Head) B.Head.rotation.set(Math.sin(a.t*0.7)*0.03,Math.sin(a.t*0.4)*0.15,0); } if(B.Spine) B.Spine.rotation.set(0.06,0,0); if(B.Spine1) B.Spine1.rotation.set(0,0,0); }   /* 同上：注視在胸口加轉角，坐姿要每一幀重設 */
+    if(pose==='sit'||pose==='read'){ if(!a.static){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.cur=null; } u.model.position.y=(u.model.userData.baseY||0)-0.47*u.k; setBones(B,SIT,1); if(pose==='read'){ setBones(B,READ,1); if(B.Head) B.Head.rotation.set(0.35+Math.sin(a.t*0.6)*0.02,0,0); } else { if(B.Head) B.Head.rotation.set(Math.sin(a.t*0.7)*0.03,Math.sin(a.t*0.4)*0.15,0); } if(B.Spine) B.Spine.rotation.set(0.06,0,0); if(B.Spine1) B.Spine1.rotation.set(0,0,0); }   /* 同上：注視在胸口加轉角，坐姿要每一幀重設 */
     else { if(a.static){ a.static=false; u.model.position.y=u.model.userData.baseY||0; for(const n in B){ B[n].rotation.set(0,0,0); } } const clipName=POSE_CLIP[pose]||'idle'; if(a.cur!==clipName&&a.actions[clipName]){ const prev=a.cur&&a.actions[a.cur]; const next=a.actions[clipName]; next.reset().setEffectiveWeight(1).fadeIn(0.22).play(); if(prev) prev.fadeOut(0.22); a.cur=clipName; } const act=a.actions[a.cur]; if(act){ act.timeScale= a.cur==='walk'?Math.max(0.6,spd/1.45): (a.cur==='run'?Math.max(0.7,spd/4.1):1); } a.mixer.update(dt);
       if(pose==='wave'&&B.RightArm){ const g=Math.sin(a.t*7); B.RightArm.rotation.set(-0.2,0,-2.4+g*0.15); if(B.RightForeArm) B.RightForeArm.rotation.set(0.1,0,-0.5-Math.abs(g)*0.3); if(B.Head) B.Head.rotation.z+=0.08; }
       if(pose==='talk'&&B.Head){ B.Head.rotation.x+=Math.sin(a.t*1.4)*0.05; B.Head.rotation.y+=Math.sin(a.t*0.8)*0.08; if(B.RightArm){ const g=Math.sin(a.t*2.2); B.RightArm.rotation.z-=0.35+g*0.1; if(B.RightForeArm) B.RightForeArm.rotation.z-=0.9+g*0.15; } } }
@@ -1067,7 +886,7 @@ const CHAR = (function(){
     if(u.headMesh){ const d=u.headMesh.morphTargetDictionary, inf=u.headMesh.morphTargetInfluences; if(d.mouthOpen!==undefined){ const target=pose==='talk'?(0.15+Math.abs(Math.sin(a.t*9))*0.35):0; a.mouth+=(target-a.mouth)*Math.min(1,dt*14); inf[d.mouthOpen]=a.mouth; } } };
   C.setExpr=function(h,expr){ const u=h.userData; if(u.driver==='vrm'){ C.setExprVRM(h,expr); return; } if(u.driver!=='glb'){ P3.setExpr(h,expr); return; } u.anim.expr=expr; const hm=u.headMesh; if(!hm) return; const d=hm.morphTargetDictionary, inf=hm.morphTargetInfluences; if(d.mouthSmile!==undefined) inf[d.mouthSmile]=(expr==='smile'?0.55:(expr==='laugh'?0.9:(expr==='shy'?0.3:0))); };
   // 頭部高度（運鏡用）
-  C.headY=function(h){ const u=h.userData; const k=u.k||1; const a=u.anim; const sit=a&&(a.pose==='sit'||a.pose==='read'); if(u.driver==='vrm'){ if(u.anim.staticKind==='lie') return 0.2*k; return (u.anim.static?u.headY-sitDrop(u):u.headY); }   /* 躺著：頭只比 root（床墊）高一點（運鏡 headOf 用）*/ if(u.driver==='glb'){ const st=(u.anim.static); return (st?1.16:1.62)*k; } return (sit?1.19:1.62)*k; };
+  C.headY=function(h){ const u=h.userData; const k=u.k||1; const a=u.anim; const sit=a&&(a.pose==='sit'||a.pose==='read'); if(u.driver==='vrm'){ if(u.anim.staticKind==='lie') return 0.2*k; return (u.anim.static?u.headY-0.47*k:u.headY); }   /* 躺著：頭只比 root（床墊）高一點（運鏡 headOf 用）*/ if(u.driver==='glb'){ const st=(u.anim.static); return (st?1.16:1.62)*k; } return (sit?1.19:1.62)*k; };
   C.isGLB=function(h){ return h&&h.userData&&(h.userData.driver==='glb'||h.userData.driver==='vrm'); };
   return C;
 })();

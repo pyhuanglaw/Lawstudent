@@ -147,10 +147,10 @@ const ANYTHOL_EVENTS=(function(){
         {scene:'河濱',bg:'riverside'},
         N('（河濱的風很大。跑步的人一個一個從旁邊過去。）'),
         Y('我很少這個時間出來。平常這時候在店裡。'),
-        {choice:[{text:'「冷嗎？」',goto:'a'}]},   /* AA_685 A3（企劃線 c96613e51，AA-C 定 D109）：「下次店休也出來。」那個選項拿掉（說了沒做到的約定不要開，AA_524）——它的兩句（「下次店休是明年。」「……那明年也出來。」）一起拿掉，
-                                                     不再記 YT_CLOSED_OUT（AA_683 以後沒有人讀；舊存檔裡有的照留、不影響）*/
-        {label:'a'},Y('……有一點。'),N('（她把手縮進袖子。你們又走了一段。）'),
-        ...endV(YT,'YT_VDAY_Y1','went','YT_VDAY_RIVER') ],
+        {choice:[{text:'「冷嗎？」',goto:'a'},{text:'「下次店休也出來。」',set:{YT_CLOSED_OUT:true},goto:'b'}]},   /* AA_524 Y3：記 YT_CLOSED_OUT（2027 店休刷椅子腳那一場讀，noodle_closed3d.js）*/
+        {label:'a'},Y('……有一點。'),N('（她把手縮進袖子。你們又走了一段。）'),{goto:'c'},
+        {label:'b'},Y('下次店休是明年。'),Y('……那明年也出來。'),
+        {label:'c'},...endV(YT,'YT_VDAY_Y1','went','YT_VDAY_RIVER') ],
       afterOuting:(G,GM,q)=>{ if(q&&q.help&&GM&&GM.advance) GM.advance(1); },
       after:crack(YT), outingMissed:missed },
     /* ---------- 2-2 2027-02-14（日）17:30（AA_630 H-017：她 13～17 在一盞茶屋有班；交往中＝她家（秀琴姨放假、她自己煮）、還沒交往＝茶屋下班一起走新生南路）---------- */

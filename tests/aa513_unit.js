@@ -10,7 +10,7 @@
 //   3  窗邊字幕：大一上第 10 週週五 19:00 走到公館店門口出一次（GM.caption('',句子,6000)）、同一學期第二次不出、5 m 外不出（兩間店中間、人行道）、
 //      時段外（17:59、21:00）不出、別天不出、不認識以安不出、不在公館不出、對話進行中／劇情中不出、經濟系不出；大一下兩版的選法（大一上看過＝第二句，沒看過＝第一句）；
 //      AN_MOM_SEEN（學期 → 那一天；舊存檔沒有、不是物件都從那時起）；接在 STORY.TICKS、回傳 false；圈子的字幕（HCIRCLE._capBusy）在出就等、出這一句的時候圈子也等
-//   4  店門口的清單（heard3d.js S.GG_DOORS）和 src/zones3d.js 公館店面街（shops、FZ、x 起點、前 8 間的 1.2 m、ix、互動點 z）重算一致；麵店、輪轉單車的互動點對得上（y34b3d.js 的 NOODLE_DOOR 跟著 AA_679 第 2 列拿掉）
+//   4  店門口的清單（heard3d.js S.GG_DOORS）和 src/zones3d.js 公館店面街（shops、FZ、x 起點、前 8 間的 1.2 m、ix、互動點 z）重算一致；麵店、輪轉單車的互動點、y34b3d.js NOODLE_DOOR 對得上
 // 修改前（開發分支 44e8ff8b7：src/data/heard_lines.js、src/heard3d.js、src/y34b3d.js、docs/handoff/story_import_allow.json 換回 44e8ff8b7 實際跑過）：FAILED 19——
 //   第 0 段 5 項（遊戲裡沒有 AA_513、兩個方向 0 句、HEARD_LINES.src、白名單、「沒做」還寫先空著）、第 1 段 7 項（三組私訊、條件、晚三天、PHONE_RULES、美國路線）、
 //   第 2 段 5 項（「不了。」、「去。」卻沒到、從子晴那邊到場、舊存檔貓、舊版本排好的）、第 3、4 段各 1 項（沒有 HEARD.pass、HEARD.GG_DOORS 就停）；
@@ -193,8 +193,8 @@ await sec('4',async()=>{ if(!HAS()||!HEARD.GG_DOORS){ check('4. 店門口',false
     !!shops&&shops.length===15&&ixOk&&J(mine)===J(doors)&&D.z===FZ+dz&&FZ===19&&dz===2,J({doors,mine,FZ,dz,z:D.z}));
   const sx=+((/const sx=(-?[\d.]+);/.exec(zs)||[])[1]), bk=+((/\{x:sx-([\d.]+),z:FZ\+2,radius:2\.2,label:'找車行老闆'/.exec(zs)||[])[1]);
   const ib=shops?shops.findIndex(s=>s.type==='bike'):-1, inn=shops?shops.findIndex(s=>s.type==='noodle'):-1;
-  const y34=fs.readFileSync(path.join(H.ROOT,'src/y34b3d.js'),'utf8'), nd=/const NOODLE_DOOR=\{x:(-?[\d.]+),z:(\d+)\}/.exec(y34);   /* AA_679 第 2 列：語彤 T1 搬到一盞茶屋門口，y34b3d.js 不再用公館麵店門口（NOODLE_DOOR 拿掉）*/
-  check('4. 對得上：輪轉單車「找車行老闆」互動點（sx−0.6＝'+(sx-bk)+'）、麵店（'+(inn>=0?doors[inn]:'?')+'）是公館店面街第一間；y34b3d.js 的 T1 不再用麵店門口（AA_679 第 2 列）',ib>=0&&Math.abs(doors[ib]-(sx-bk))<1e-9&&inn===0&&!nd&&/TEA_DOOR=/.test(y34),J({bike:[doors[ib],sx-bk],nd:nd&&nd.slice(1)})); });
+  const y34=fs.readFileSync(path.join(H.ROOT,'src/y34b3d.js'),'utf8'), nd=/const NOODLE_DOOR=\{x:(-?[\d.]+),z:(\d+)\}/.exec(y34);
+  check('4. 對得上：輪轉單車「找車行老闆」互動點（sx−0.6＝'+(sx-bk)+'）、麵店（'+(inn>=0?doors[inn]:'?')+'）＝y34b3d.js NOODLE_DOOR',ib>=0&&Math.abs(doors[ib]-(sx-bk))<1e-9&&inn===0&&!!nd&&+nd[1]===doors[0]&&+nd[2]===D.z,J({bike:[doors[ib],sx-bk],nd:nd&&nd.slice(1)})); });
 
 H.done();
 })();

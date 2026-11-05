@@ -21,12 +21,12 @@ const plan=(term,P)=>{ const w=TERMEND.windowOf(term); H.G.termend=H.G.termend||
 (async()=>{
 await sec(1,()=>{
   const t=(k,id,term)=>TERMEND.nopeText(LX(),k,id,term);
-  check('1. 芷若 knows：大三下「期末我排了很多班。出國以前再說。」、其他學期照舊「期末我排了很多班。開學見。」',t('knows','heroine_02','Y3S2')==='期末我排了很多班。出國以前再說。'&&t('knows','heroine_02','Y2S1')==='期末我排了很多班。開學見。');
-  check('1. 芷若 low：大三下「最近不太想出門。出國以前再約。」、其他學期照舊',t('low','heroine_02','Y3S2')==='最近不太想出門。出國以前再約。'&&t('low','heroine_02','Y1S2')==='最近不太想出門。開學見。');
+  check('1. 芷若 knows：大三下「期末我排了很多班。……出國以前再說。」、其他學期照舊「期末我排了很多班。開學見。」',t('knows','heroine_02','Y3S2')==='期末我排了很多班。……出國以前再說。'&&t('knows','heroine_02','Y2S1')==='期末我排了很多班。開學見。');
+  check('1. 芷若 low：大三下「最近不太想出門。……出國以前再約。」、其他學期照舊',t('low','heroine_02','Y3S2')==='最近不太想出門。……出國以前再約。'&&t('low','heroine_02','Y1S2')==='最近不太想出門。……開學見。');
   check('1. 子晴 knows：大三下「畢業了 我先回家住一陣子」、大四上「這陣子工作室在趕 下次」、其他學期「考完了 我回家了」',t('knows','heroine_04','Y3S2')==='畢業了 我先回家住一陣子'&&t('knows','heroine_04','Y4S1')==='這陣子工作室在趕 下次'&&t('knows','heroine_04','Y2S2')==='考完了 我回家了');
-  check('1. 字串的那幾句不變（以安 knows、子晴 low、partner）',t('knows','heroine_01','Y3S2')==='考完了。這次我不約你了。……你知道為什麼。'&&t('low','heroine_04','Y3S2')==='我最近不太想說話 下次'&&t('partner','heroine_02','Y3S2')==='期末我有約了。下次來店裡，我請你一杯。');
+  check('1. 字串的那幾句不變（以安 knows、子晴 low、partner）',t('knows','heroine_01','Y3S2')==='考完了。這次我不約你了。……你知道為什麼。'&&t('low','heroine_04','Y3S2')==='我最近不太想說話 下次'&&t('partner','heroine_02','Y3S2')==='期末我有約了。……下次來店裡，我請你一杯。');
   H.fresh('2028-06-01',9,'campus'); const w=plan('Y3S2',{nope:{heroine_02:'knows',heroine_04:'knows'}}); phoneRun(w.to,w.to,[20.2]);
-  check('1. 時段最後一天 20:00 手機：芷若、子晴照大三下的句子',H.msgs('p:heroine_02').includes('期末我排了很多班。出國以前再說。')&&H.msgs('p:heroine_04').includes('畢業了 我先回家住一陣子'),J([H.msgs('p:heroine_02'),H.msgs('p:heroine_04')])); });
+  check('1. 時段最後一天 20:00 手機：芷若、子晴照大三下的句子',H.msgs('p:heroine_02').includes('期末我排了很多班。……出國以前再說。')&&H.msgs('p:heroine_04').includes('畢業了 我先回家住一陣子'),J([H.msgs('p:heroine_02'),H.msgs('p:heroine_04')])); });
 
 await sec(2,()=>{
   const f=LX().FRIEND.heroine_05;

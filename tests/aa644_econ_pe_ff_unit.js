@@ -3,7 +3,6 @@
 //    「（體育課暖身跑了六圈。韋綸跑在最前面，回頭喊你們快一點。）」，只出一次；沒跨過體育課不加。
 // ② 語彤交往中的畢業那天學期末的飯：18:30、地點「她家」（字幕「學期末的飯：陳語彤（她家）18:30」）。
 // ③ 畢業後每月固定見面：語彤「一盞茶屋打烊以後」（key noodle 不改）。用法：node tests/aa644_econ_pe_ff_unit.js
-// 2026-11-04 AA_688 第 2 節（企劃線 8dce2f94c，CANON-PURGE-SRC-1104）：方式改週六 17:30「一盞茶屋」（2029 年她下班以後、2030 年週末回去喝茶）＝③ 的地點字幕照新稿查（背景、key 不變）
 const fs=require('fs'), vm=require('vm'), path=require('path'); const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.document={getElementById:()=>null,addEventListener(){}}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CALENDAR|COURSES|CLS|CHARACTERS|ECONFF|POSTGRAD_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
@@ -28,5 +27,5 @@ check('0. 經濟系那一年 9/2～10/31 有體育課（pe_y0s1）',peDays.lengt
   check('① S.advance 兩條路（停在訊息、一般）都在出日期卡（G.day!==d0）時加：r.lines 只記原本那一句',(src.match(/if\(G\.day!==d0\) (ln|line)=S\.peAdd\(G,\1\)/g)||[]).length===2&&/S\._peSkip=false; const res=S\.jumpTo/.test(src)); }
 { const g=POSTGRAD_LINES.TE.GF.heroine_03; check('② 語彤交往中畢業那天：18:30、她家（字幕「學期末的飯：陳語彤（她家）」）',g.h===18.5&&g.placeName==='她家'&&g.invite==='今天不排班。晚上來我家，我煮。',JSON.stringify(g));
   const h=POSTGRAD_LINES.TE.HEART.heroine_03; check('② 還沒交往（心意）那一格照舊一盞茶屋 17:30',h&&h.h===17.5&&h.placeName==='一盞茶屋',JSON.stringify(h)); }
-{ const src=fs.readFileSync(path.join(ROOT,'src/pgdates3d.js'),'utf8'); check('③ 畢業後每月見面：語彤 noodle＝「一盞茶屋」（AA_688 第 2 節；原本 AA_643「一盞茶屋打烊以後」）、背景 wenzhou_teahouse（同 termend_lines tea_closed；key 不改）',/noodle:\{kind:'meet',place:'一盞茶屋',bg:'wenzhou_teahouse'/.test(src)&&!/麵店打烊以後'/.test(src)); }
+{ const src=fs.readFileSync(path.join(ROOT,'src/pgdates3d.js'),'utf8'); check('③ 畢業後每月見面：語彤 noodle＝「一盞茶屋打烊以後」、背景 wenzhou_teahouse（同 termend_lines tea_closed；key 不改）',/noodle:\{kind:'meet',place:'一盞茶屋打烊以後',bg:'wenzhou_teahouse'/.test(src)&&!/麵店打烊以後'/.test(src)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

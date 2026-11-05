@@ -70,9 +70,7 @@ const D=POSTGRAD_LINES.DELAYED;
     const t=(PG.epiLine(G,'classmate_peishan')||[]).map(x=>x[1]).join('|'), tag=route?'交換延畢':'臺灣路線';
     check('6. '+tag+'：尾聲沛珊卡片第一句'+(route?'「'+D.psCard+'」':'照舊')+'、第二句照舊',(route?t.startsWith(D.psCard):t.startsWith(POSTGRAD_LINES.EPI.ps.card[0]))&&t.includes(POSTGRAD_LINES.EPI.ps.card[1]),t); }
   // ---- 7. 第 2 節：語彤週四 17:00～20:00 ----
-  for(const [k,want] of [['2027-12-23','library'],['2028-03-02','田野'],['2028-08-31','田野'],['2028-09-07','library'],['2029-01-11','library'],['2029-03-08','library'],['2029-06-28','library']]){   /* AA_661 第 11 列：四年修完，週四總圖到 2029-06（原本延畢一年到 2030-06-30，2030-03-07 那一格改成下面「畢業以後不在」）*/
+  for(const [k,want] of [['2027-12-23','library'],['2028-03-02','田野'],['2028-08-31','田野'],['2028-09-07','library'],['2029-01-11','library'],['2029-03-08','library'],['2030-03-07','library']]){
     const G=H.fresh(k,18,'campus',{YT_EV13:true,MAIN_D1:-400,afternoonDone:true}); const e=STORY.schedEnt(CHARACTERS.heroine_03,G);
     check('7. '+k+'（週四）18:00 語彤在'+(want==='library'?'總圖三樓':'做田野訪談'),want==='library'?!!e&&e.zone==='library'&&e.act==='read':!!e&&e.act==='out'&&/田野/.test(e.away||''),JSON.stringify(e)); }
-  { const G=H.fresh('2030-03-07',18,'campus',{YT_EV13:true,MAIN_D1:-400,afternoonDone:true}); const e=STORY.schedEnt(CHARACTERS.heroine_03,G);
-    check('7. 2030-03-07（週四）18:00 語彤不在總圖三樓（AA_661 第 11 列：2029-06 畢業以後沒有這一筆）',!(e&&e.zone==='library'&&e.act==='read'&&e.from===17&&e.to===20),JSON.stringify(e)); }
   H.done(); })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

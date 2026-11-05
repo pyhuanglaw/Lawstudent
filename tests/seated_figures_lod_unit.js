@@ -4,7 +4,6 @@
 // 檢查（博雅 101，上課坐一半）：①玩家在門口：遠的替身是 _lod1（和原本一樣）②走到一個 _lod1 替身旁邊（0.9 m）＋figTick：那個位子換成 LOD0（修改前 FAIL）
 //   ③桌上小物跟著換 ④走回門口：換回 _lod1（修改前 FAIL：②沒換）⑤ 6.5～7.5 m 之間不換 ⑥每次重排替身總數＝替身坐的位子數、每個位子剛好一個（不多、不少、不重複）
 //   ⑦下課時空的 InstancedMesh（這一邊沒有人）不算「看得到」：鏡頭看著區域原點、看不到替身 → 整組拿掉
-//   ⑧ STANDIN-LOD-1104：主迴圈每 0.5 秒呼叫 CLS.figLod（不經過 S.tick；修改前 FAIL 2：沒有 figLod、frame 沒有呼叫）
 // 用法：node tests/seated_figures_lod_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -60,12 +59,6 @@ const at=(L,q,desk)=>L.filter(f=>f.desk===!!desk&&Math.abs(f.x-q.x)<1e-3&&Math.a
   check('⑤ 退回 7.0 m：照舊 LOD0（7.5 m 以外才換回）',dir(q,7.0).lod1===false);
   check('⑤ 退到 7.6 m：換回 _lod1',dir(q,7.6).lod1===true);
   whole(list(grp),'來回之後');
-  // ⑧ STANDIN-LOD-1104（BB-C 17:19：博思 101 玩家移到替身中間，3 秒內一個都沒換）：主迴圈每 0.5 秒（真實時間）呼叫 CLS.figLod，不經過 S.tick（每 30 格、上課坐著／劇情裡不跑）
-  check('⑧ CLS.figLod 存在（主迴圈呼叫的換遠近，不經過 S.tick）',typeof CLS.figLod==='function');
-  if(typeof CLS.figLod==='function'){ E.player.obj.position.set(q.x,0,q.z+0.9); CLS.figLod(GM); check('⑧ 只呼叫 figLod（沒有 figTick）：走到旁邊換成 LOD0',at(list(grp),q)[0].lod1===false);
-    E.player.obj.position.set(door.x,0,door.z); CLS.figLod(GM); check('⑧ 只呼叫 figLod：走回門口換回 _lod1',at(list(grp),q)[0].lod1===true); whole(list(grp),'figLod 來回'); }
-  { const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), fr=g3.slice(g3.indexOf('function frame(now)')), ln=(fr.split('\n').find(l=>/CLS\.figLod\(GM\)/.test(l))||'');
-    check('⑧ game3d.js 的 frame：每 0.5 秒（realDt）呼叫 CLS.figLod，不看 busy／對話（上課坐著也換）、在每 30 格那一段前面',!!ln&&/realDt/.test(ln)&&/_figT=0\.5/.test(ln)&&!/player\.busy|D\.active|STORY\.tick/.test(ln.split('/*')[0])&&fr.indexOf(ln)<fr.indexOf('if(E.frame%30===0)'),ln.trim().slice(0,100)); }
   // ⑦ 下課：玩家回到門口（LOD0 那幾個 InstancedMesh 是空的），鏡頭看著區域原點、看不到任何替身 → 整組拿掉（空的 InstancedMesh 包圍球半徑 −1，不能算「看得到」）
   E.player.obj.position.set(door.x,0,door.z); CLS.figTick(GM); L=list(grp);
   const empty=grp.children.filter(im=>im.count===0); check('⑦ 前提：玩家在門口時 LOD0 那幾個 InstancedMesh 是空的（'+empty.length+' 個），而且不畫（visible＝false）',empty.length>0&&empty.every(im=>!im.visible));

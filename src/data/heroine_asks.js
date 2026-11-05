@@ -61,7 +61,7 @@ const HASK_DATA={
     heroine_04:{ send:23.5,
       daily:[
         {place:'gym_badminton',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午打羽球 我需要報仇'},dat:{d:'next',h:[15.5,17.5],line:'明天羽球 這次我要贏一球'}},
-        {place:'cafe',th:3,pre:{d:'next',h:[16],line:'2:30 AM 明天四點 我要點最甜的那個 你陪我'},dat:{d:'next',h:[15.5,17.5],line:'明天去 2:30 AM 我點最甜的 你點最苦的 交換'}},   /* 店名換 2:30 AM：pre 照 AA_660 第 4 節第 3 點（AA_655）；dat 照 AA_494 企劃線 0777c92ac（AA 回 LAWWW-C：「明天兩點半」是店名）。讀稿的換字表 tools/story/aa655_fix.json pairs */
+        {place:'cafe',th:3,pre:{d:'next',h:[16],line:'兩點半 明天四點 我要點最甜的那個 你陪我'},dat:{d:'next',h:[15.5,17.5],line:'明天兩點半 我點最甜的 你點最苦的 交換'}},
         {place:'library',th:5,pre:{d:'next',h:[15.5,17.5],line:'總圖 二樓靠窗有插座那排 明天下午 我寫 code 你念書'},dat:{d:'next',h:[15.5,17.5],line:'總圖 明天下午 插座那排 位子我先佔'}},
         {place:'teahouse',th:5,pre:{d:'sun',h:[15.5,14],line:'一盞 週日下午 挑戰模式'},dat:{d:'sun',h:[15.5,14],line:'一盞 週日下午 挑戰模式第二關'}}],
       out:[
@@ -109,7 +109,7 @@ const HASK_DATA={
     kexin:{ send:21.5,
       daily:[   /* 交往中不另外約日常：已經有每週的「我們的日子」（KX_OUR_DAY，kxod3d.js）；表上只有交往前的句子（AA_494 第 7 節）*/
         {place:'noodle',th:3,pre:{d:'next',h:[18],line:'明天我去首都帝大辦事。六點，公館燒臘。你沒事就來。'}},
-        {place:'cafe',th:3,pre:{d:'next',h:[15],line:'明天下午我在公館。三點，2:30 AM。'}},   /* 店名換 2:30 AM（AA_494 企劃線 0777c92ac；讀稿的換字表 tools/story/aa655_fix.json pairs）*/
+        {place:'cafe',th:3,pre:{d:'next',h:[15],line:'明天下午我在公館。三點，兩點半。'}},
         {place:'wenzhou',th:5,pre:{d:'next',h:[19,21],line:'明天晚上我在公館。吃完走一段，溫州街。'}}],
       out:[
         {loc:'D09',pre:{d:'sat',depart:13,line:'週六下午，貓空。從我們學校後山上去，我帶路。'},dat:{d:'sat',depart:13,line:'週六下午，貓空。從後山上去。這次換你帶路。'}},

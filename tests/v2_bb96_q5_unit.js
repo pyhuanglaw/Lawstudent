@@ -44,7 +44,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const i=L.indexOf(base[0]);
     check('照玩家流程參加成發（attendActivity）：台詞照原文',i>=0&&JSON.stringify(L.slice(i,i+6))===JSON.stringify(base),JSON.stringify(L.slice(i,i+6)));
     check('演出中三選一：拍手／坐著聽完／先走',JSON.stringify(opts[0])==='["（拍手）","（坐著聽完）","（先走）"]',JSON.stringify(opts[0]));
-    check('拍手：「我有看到你。你拍超大聲，很丟臉。……不過謝啦。」＋（她遞給你一張插座貓貼紙。）；CLAPPED；ZQ_SHOW clap',L.includes(nm+'：我有看到你。你拍超大聲，很丟臉。……不過謝啦。')&&L.includes('（她遞給你一張插座貓貼紙。）')&&SOCIAL.has('heroine_04','CLAPPED')&&G.flags.ZQ_SHOW==='clap',JSON.stringify(L.slice(i+6)));
+    check('拍手：「我看到你了。你拍得超大聲。很丟臉。……謝啦。」＋（她遞給你一張插座貓貼紙。）；CLAPPED；ZQ_SHOW clap',L.includes(nm+'：我看到你了。你拍得超大聲。很丟臉。……謝啦。')&&L.includes('（她遞給你一張插座貓貼紙。）')&&SOCIAL.has('heroine_04','CLAPPED')&&G.flags.ZQ_SHOW==='clap',JSON.stringify(L.slice(i+6)));
     L=await show('拍手',{fam:[45,30,30]}); check('雙方都單身、和她朋友以上：貼紙直接貼在你的手機殼上',L.includes('（她把一張插座貓貼紙，直接貼在你的手機殼上。）'),JSON.stringify(L.slice(-3)));
     L=await show('拍手',{fam:[45,30,30],flags:{dating_kexin:true}}); check('交往中：照樣是遞給你（不是貼在手機上）',L.includes('（她遞給你一張插座貓貼紙。）')&&!L.some(t=>/手機殼/.test(t)));
     L=await show('坐著聽完'); check('坐著聽完：（她下台經過，點個頭。）「你有來。」；沒有 CLAPPED；ZQ_SHOW came',L.includes('（她下台經過，點個頭。）')&&L.includes(nm+'：你有來。')&&!SOCIAL.has('heroine_04','CLAPPED')&&G.flags.ZQ_SHOW==='came');

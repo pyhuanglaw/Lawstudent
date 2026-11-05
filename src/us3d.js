@@ -167,7 +167,7 @@ const US3=(function(){
     const IT=E.interactables; z.seats=[]; const seat=(x,zz,yaw,label,extra,lift)=>{ const s={x,z:zz,yaw,lv:0}; if(lift) s.lift=lift; z.seats.push(s); IT.push(Object.assign({x,z:zz,radius:0.8,lv:0,label,seat:s},extra||{})); };
     for(const f of L.furniture){ const t=f.type;
       if(f.room&&!openRoom(f.room)) continue;
-      if(t==='barStool') seat(f.x,f.z,f.ry||0,'坐在吧台',o.bar||null,(f.seatY||0.76)-((typeof CHAR!=='undefined'&&CHAR.SIT_TOP)||0.45));   /* 高腳椅：椅面 0.76（一般椅子 0.45），人往上抬 0.31 */
+      if(t==='barStool') seat(f.x,f.z,f.ry||0,'坐在吧台',o.bar||null,(f.seatY||0.76)-0.45);   /* 高腳椅：椅面 0.76（一般椅子 0.45），人往上抬 0.31 */
       /* 沙發和茶几中間只有 0.4 m（照片的擺法）、單人沙發前面是茶几的角、書桌椅後面是床和行李箱：「坐下」照預設會走到座位前面 0.5 m（被家具擋住），
          所以都指定走近點 ap（和 Café 的沙發同一個做法），互動點也放在那裡 */
       else if(t==='sofa'){ const s={x:f.x,z:f.z,yaw:f.ry,lv:0,ap:[-3.8,f.z]}; z.seats.push(s); IT.push({x:s.ap[0],z:s.ap[1],radius:0.9,lv:0,label:'坐在沙發上',seat:s}); }
@@ -476,7 +476,7 @@ const US3=(function(){
       const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,night(h)?1:0.75); apOutside(outside,h,outPlanes); };   /* 看板、招牌、燈箱白天也亮（室內），晚上再亮一點；窗外的遠景（和入境門外的地面）照時間變暗 */
       // 座位、互動點
       const IT=E.interactables; z.seats=[];
-      for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.y!=null&&Math.abs(s.y-((typeof CHAR!=='undefined'&&CHAR.SIT_TOP)||0.45))>0.02) st.lift=+(s.y-((typeof CHAR!=='undefined'&&CHAR.SIT_TOP)||0.45)).toFixed(3); z.seats.push(st); IT.push({x:s.x,z:s.z,radius:0.7,lv:0,label:'坐在長椅上',seat:st}); }
+      for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.y!=null&&Math.abs(s.y-0.45)>0.02) st.lift=s.y-0.45; z.seats.push(st); IT.push({x:s.x,z:s.z,radius:0.7,lv:0,label:'坐在長椅上',seat:st}); }
       for(const q of L.interact){ const k=/^checkin/.test(q.id)?'checkin':(isDep?q.id:q.id+'_arr'); const t=LOOK_AP[k]||LOOK_AP[q.id]; if(t) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,look:lookText(t)}); }
       if(isDep){ const F=L.farewell, X=L.exit;
         /* 機場不只交換用：寒暑假出國也從這裡出發（使用者 2026-10-17 23:0x）。

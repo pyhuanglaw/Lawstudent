@@ -6,7 +6,6 @@
 //   5 學姊交往中、2030 第二次考的考場那一句換成「同一家便利商店。……我坐去年那個位子。」（2029 照舊；去年她沒在便利商店等的照原句）
 //   6 沛珊 2030-06「說好的，運河一圈。……」（AA_367 白名單改 1ebcf530、重新匯入 pg_dates.js）
 // 每一節都逐字對稿（git 讀企劃線 1ebcf530e 的 AA_472、AA_367）。修改前（243db0938）的結果見檔尾。用法：node tests/aa472_pg_unit.js
-// 2026-11-04 AA_688 第 2 節（企劃線 8dce2f94c，CANON-PURGE-SRC-1104）：AA_367 第 3 節語彤整段換，白名單改成 8dce2f94c（history 留 1ebcf530）——第 6 節「匯入來源」照新的一版查（沛珊那一格不變）
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -117,7 +116,7 @@ await tsec(6,async()=>{ const NEW='說好的，運河一圈。……下學期就
   const row=(PG_DATES.six.classmate_peishan||[]).find(x=>x.ym==='2030-06'), ev=STORY_EVENTS.find(e=>e.id==='ev_pg_date_classmate_peishan_2030-06'), ln=ev&&ev.dialogue.find(l=>l.speaker==='classmate_peishan');
   check('6. pg_dates.js（重新匯入）與那一格的事件：2030-06 那一句、台南',!!row&&row.line===NEW&&row.note==='台南'&&!!ln&&ln.text===NEW,J([row,ln&&ln.text]));
   check('6. 2030-04 視訊那一句照舊（「下次你來，我們走一圈好不好？」）',((PG_DATES.six.classmate_peishan||[]).find(x=>x.ym==='2030-04')||{}).line==='運河那邊晚上很漂亮！下次你來，我們走一圈好不好？');
-  check('6. 匯入來源：AA_367 白名單同一版（1ebcf530 起；AA_688 以後是 8dce2f94c，history 留 1ebcf530；沛珊那一格不變）',/AA_367.*@8dce2f94c/.test(PG_DATES.source.AA_367)&&JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.some(e=>e.path==='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md'&&e.sha==='8dce2f94c'&&e.status==='approved'&&(e.history||[]).some(x=>x.sha==='1ebcf530'))&&git('8dce2f94c','docs/story_planning/AA_367_畢業以後的交往節奏_六位.md').includes('| 2030-06 | 「'+NEW+'」（台南） |')); });
+  check('6. 匯入來源：AA_367@1ebcf530（白名單同一版）',/AA_367.*@1ebcf530/.test(PG_DATES.source.AA_367)&&JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.some(e=>e.path==='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md'&&e.sha==='1ebcf530'&&e.status==='approved')); });
 
 H.done();
 })();

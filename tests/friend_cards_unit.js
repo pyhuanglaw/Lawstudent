@@ -34,7 +34,7 @@ const card=id=>{ const m=(G.social.mem[id]||[]).find(x=>x.tag==='FRIEND_CARD'); 
   const nm={classmate_bohan:['柏翰','許柏翰'],classmate_mingxuan:['明軒','江明軒'],classmate_xinci:['芯慈','吳芯慈'],classmate_peishan:['沛珊','郭沛珊']};
   check('N1. 柏翰、明軒、芯慈、沛珊：name＝大家叫的名字、fullname＝三字全名（同阿哲、阿凱、Alison）；對話框（displayName）、3D 說話按鈕（npcName）都是叫的名字',Object.entries(nm).every(([id,[a,b]])=>CHARACTERS[id].name===a&&CHARACTERS[id].fullname===b&&SOCIAL.displayName(id)===a&&SOCIAL.npcName(id)===a)&&SOCIAL.displayName('zhe')==='阿哲'&&SOCIAL.displayName('kai')==='阿凱'&&SOCIAL.displayName('yu')==='Alison',Object.keys(nm).map(id=>SOCIAL.displayName(id)).join(' '));
   said=[]; await EVENTS.run(ev('ev_mingxuan_ball'));
-  check('N2. 事件的對話框：明軒說話寫「明軒：」，第一次自我介紹那一句照舊是全名',said.length>0&&said.every(t=>!/^江明軒：/.test(t))&&said.some(t=>t==='明軒：我江明軒，阿哲的隊友。他說你們同班。'),said.slice(0,2).join(' / '));
+  check('N2. 事件的對話框：明軒說話寫「明軒：」，第一次自我介紹那一句照舊是全名',said.length>0&&said.every(t=>!/^江明軒：/.test(t))&&said.some(t=>t==='明軒：江明軒。阿哲的隊友。他說你們同班。'),said.slice(0,2).join(' / '));
   fresh(); SOCIAL.meet('classmate_peishan','camp'); SOCIAL.meet('classmate_xinci','camp'); SOCIAL.meet('classmate_mingxuan','classroom'); SOCIAL.meet('classmate_bohan','dorm');
   const cn=id=>SOCIAL.contactName(id);
   check('N3. 手機聯絡人：叫的名字＋來處（宿營認識＝「（宿營同隊）」；明軒沒在宿營認識＝「明軒（系籃）」、柏翰在宿舍認識＝「柏翰」）',cn('classmate_peishan')==='沛珊（宿營同隊）'&&cn('classmate_xinci')==='芯慈（宿營同隊）'&&cn('classmate_mingxuan')==='明軒（系籃）'&&cn('classmate_bohan')==='柏翰',['classmate_peishan','classmate_xinci','classmate_mingxuan','classmate_bohan'].map(cn).join(' / '));

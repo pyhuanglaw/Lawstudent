@@ -78,7 +78,7 @@ await sec(6,async()=>{
     const open=(told,n)=>{ H.fresh('2025-10-20',23.5,'dorm',{introDone:true}); if(told) H.G.flags.KAI_BUG_TOLD=true; H.G.events.done.ev_dorm_late_kai=n; return late.dialogue.filter(l=>l.text!==undefined&&l.speaker==='kai'&&(!l.if||EVENTS.cond(l.if))&&(!l.unless||!EVENTS.cond(l.unless))).map(l=>l.text)[0]; };
     check('6. 半夜的阿凱：還沒講過 bug＝「bug 追到第三小時」；講過以後兩句輪流（「在等編譯，你先洗澡。」）；結尾「（他笑了一聲，轉回去打字）好啦，你贏。」',open(false,1)===B&&open(true,1)===C&&open(true,2)===B&&texts(late).includes('（他笑了一聲，轉回去打字）好啦，你贏。')&&!SRC.includes('幹，好爛。'),J([open(false,1),open(true,1),open(true,2)])); }
   { const all=texts(ev('ev_grad_info_session')).concat(texts(ev('ev_sis_office_together')));
-    check('6. 法研所說明會、許教授研究室：台詞外面多包的一層「」拿掉（第 3 節第 5 點）',!all.some(t=>/^「.*」$/.test(t))&&all.includes('我是碩二的陳冠廷，刑事法組。先講結論：研究所的書，沒有人會幫你畫重點。')&&all.includes('那就先上課。有了再來。'),J(all.filter(t=>/^「/.test(t)))); }
+    check('6. 法研所說明會、許教授研究室：台詞外面多包的一層「」拿掉（第 3 節第 5 點）',!all.some(t=>/^「.*」$/.test(t))&&all.includes('我是碩二的陳冠廷，刑事法組。先講結論：研究所不是延長大學，是換一種讀法。')&&all.includes('那就先上課。有了再來。'),J(all.filter(t=>/^「/.test(t)))); }
   { const pot=texts(ev('ev_fangyt_pothos'));
     check('6. 方奕廷：「你是住我隔壁那間的吧？我方奕廷，森林系二年級。」接原句；「不用啦。我種太多了，房間放不下。」（BB_167 SC4 第 39 列）',pot[0]==='你是住我隔壁那間的吧？我方奕廷，森林系二年級。'&&pot[1]==='我經過的時候看到，你們房間沒有綠色的東西。'&&pot.includes('不用啦。我種太多了，房間放不下。'),J(pot.slice(0,2))); }
   { H.fresh('2025-10-20',8,'campus',{zhiruoShopContactDay:H.D('2025-10-20'),zhiruoFirstOrder:'拿鐵'}); H.G.hour=22.2; STORY.phoneRules(GM); PHONE.tick(H.G); const m=H.msgs('p:heroine_02');

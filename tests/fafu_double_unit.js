@@ -11,7 +11,7 @@ const LINE='（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子�
   check('1. lineAt：FAFU_SHIFT_N++ 在 LAST!==G.day 的 if 裡面',/if\(F\.LAWCLUB_SAT_LAST!==G\.day\)\{ F\.LAWCLUB_SAT_LAST=G\.day; F\.LAWCLUB_SAT_VISITS=\(F\.LAWCLUB_SAT_VISITS\|0\)\+1; if\(S\.fafuMember\(G\)\) F\.FAFU_SHIFT_N=\(F\.FAFU_SHIFT_N\|0\)\+1; \}/.test(W));
   const MEM={lawclub:true,CLUB_lawclub_study:true};
   const shift=async(term,w,flags)=>{ H.fresh(CALENDAR.dateOf(STORY.termDay(term,w,6)).key,9.5,'wancai',Object.assign({},MEM,flags||{})); H.G.stage='law'; H.picks=[0,0,0,0,0,0]; H.said=[]; const ok=STORY.fafuShiftable(H.G); if(ok) await STORY.fafuShift(GM); return ok; };
-  let ok=await shift('Y2S1',11,{FAFU_SHIFT_N:1});   /* D118-B5b（2026-11-04）：原本第 7 週六 10/24，那天是 AA_604 法服固定場次第 1 場（坐圓桌＝那一場，沒有阿伯那一句）；改用一般的值班週六 */
+  let ok=await shift('Y2S1',7,{FAFU_SHIFT_N:1});
   check('2. 大二第一次值班是溫州街線（N＝1、那天沒坐圓桌）：隔週第一次坐圓桌照樣演阿伯那一句、記 FAFU_FIRST_SHIFT_Y2',ok&&H.has(LINE)&&H.G.flags.FAFU_FIRST_SHIFT_Y2===H.G.day&&H.G.flags.FAFU_SHIFT_N===2,J({ok,n:H.G.flags.FAFU_SHIFT_N,f:H.G.flags.FAFU_FIRST_SHIFT_Y2}));
   ok=await shift('Y2S2',3,{FAFU_SHIFT_N:5});
   check('3. 舊存檔 N＝5、沒有 FAFU_FIRST_SHIFT_Y2、還在大二：下一次坐圓桌補演',ok&&H.has(LINE)&&!!H.G.flags.FAFU_FIRST_SHIFT_Y2,J({ok}));

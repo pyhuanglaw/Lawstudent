@@ -18,7 +18,7 @@
      - 舊存檔：從讀檔那一天開始有，以前的不補（G.flags.FEED.start＝第一次建立那一天；新遊戲一開始就建立）。
    ■ 私訊（dms）：時間到了用 PHONE.at 傳（照原本的時間補；回覆照 PHONE.answer），選項的記號寫進 G.flags（資料檔開頭）。
      那一則的時間到了才判斷（階段、聯絡方式、need、after）；判斷過就不再判斷（G.flags.FEED.dm）。私訊的 tag、選項的 ask id 一律「aa503_」＋id（大一上起用的前綴，之後的學期照用）。
-     動態的 if：那一則要的條件（FEED.COND；沛珊大一下第 3 則＝沒有和沛珊交往）。語彤雙主修放榜（AA_504）之後第一次在一盞點東西，蘇姨請（S.ytTreat，src/wzshops3d.js 的 buy；AA_679 第 3 列）。
+     動態的 if：那一則要的條件（FEED.COND；沛珊大一下第 3 則＝沒有和沛珊交往）。語彤雙主修放榜（AA_504）之後第一次在麵店點餐，阿姨請（S.ytTreat，story3d.js 的 noodleScene）。
      可昕「我陪妳熬夜。」＝排出遊（視訊，ev_kexin_video_report，照現有視訊讀書：讀哪一科、兩個小時）；「妳先睡，明天再做。」＝隔天中午以前你傳訊息給她，她中午才回（包住 MSG.replyAt）。
    ■ 分開以後一學期（INV.cool 那段：分開那天到下一個學期第 1 週）：可昕把你設成不看動態——她的動態不出、私訊不傳；之後照朋友的階段再出現。
      V6EX.COOL_IDS 沒有可昕（照 AA_351，INV.cool 對她永遠是 false），所以這裡自己用同一段期間算（ROM 的分開那天＋V6EX.coolUntil）。
@@ -315,7 +315,7 @@ const FEED=(function(){
     if(o.video&&typeof OUT!=='undefined'&&OUT.plan){ const w=S.whenLoc(G,o.video,d.term); if(w) OUT.plan(G,{id:'aa503_kx_video',ev:'ev_kexin_video_report',day:w.day,h:w.h,place:'視訊',title:'可昕的視訊：熬夜做報告',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。'}); }
     if(o.out&&typeof OUT!=='undefined'&&OUT.plan){ const w=S.whenLoc(G,o.out.at,d.term); if(w){ const x=Object.assign({},o.out,{day:w.day,h:w.h}); delete x.at; OUT.plan(G,x); } }   /* 排一趟出遊（語彤「好。」→ 8/22 21:00 麵店的 2D 短場）*/
     if(o.hold){ const w=S.whenLoc(G,o.hold,d.term); if(w) (R.hold||(R.hold={}))[d.q.who]=abs(w.day,w.h); } };
-  /* 語彤雙主修放榜（AA_504 3-2）：7/3 那則私訊傳了以後，第一次在一盞點東西——蘇姨一句、那一杯不用錢（src/wzshops3d.js 的 buy 問 S.ytTreatDue、說完叫 S.ytTreatDone；AA_679 第 3 列，原本燒臘店）*/
+  /* 語彤雙主修放榜（AA_504 3-2）：7/3 那則私訊傳了以後，第一次在麵店點餐——阿姨一句、那一碗不用錢（story3d.js 的 noodleScene 問 S.ytTreatDue、說完叫 S.ytTreatDone）*/
   S.ytTreatOf=()=>{ for(const s of SETS()) if(s.ytTreat) return s.ytTreat; return null; };
   S.ytTreatDue=function(G){ const T=S.ytTreatOf(), R=G&&G.flags&&G.flags.FEED; return !!(T&&R&&R.dm&&R.dm[T.after]==='sent'&&!R.ytTreat); };
   S.ytTreatDone=function(G){ const R=S.rec(G); R.ytTreat=G.day; };

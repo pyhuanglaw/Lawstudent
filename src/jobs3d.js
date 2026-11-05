@@ -120,7 +120,7 @@ const JOBS=(function(){
     if(cap<2) return [first]; const O2=ok.filter(wd=>wd!==first).map(wd=>({t:'再加一天：'+WD[wd],hint,days:[first,wd]})).concat([{t:'就'+WD[first]+'一天',days:[first]}]);
     const i2=await GM.choose(O2.map(o=>({t:o.t,hint:o.hint}))); return (O2[i2]||O2[O2.length-1]).days.sort((a,b)=>a-b); };
   /* 撞時段的提醒（AA_420 第 12 條第 3 點：只有撞到的玩家）*/
-  S.clashLine=(G,k,days)=>{ const F=G.flags||{}; if(k==='brunch'&&days.includes(6)&&(typeof STORY!=='undefined'&&STORY.fafuBeen?STORY.fafuBeen(G):(F.LAWCLUB_SAT_VISITS|0)>0)) return D().clash.brunch;   /* D118-B5a：加入法服或去過一次（原本只看去過的次數）*/
+  S.clashLine=(G,k,days)=>{ const F=G.flags||{}; if(k==='brunch'&&days.includes(6)&&(F.LAWCLUB_SAT_VISITS|0)>0) return D().clash.brunch;
     if(k==='copy'&&days.includes(4)&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'public_law_group')) return D().clash.copy; return null; };
   /* 應徵（或出國回來重選班表）：選班表 → 撞時段那一句 → 記下來 */
   S.apply=async function(GM,k,o){ o=o||{}; const G=GM.G, J=S.rec(G); const days=await S.pickDays(GM,k); if(!days) return false;

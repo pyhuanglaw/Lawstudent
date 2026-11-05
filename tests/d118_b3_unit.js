@@ -8,7 +8,6 @@
 //   g 21 天前做過的總複習，狀態不下降
 //   h 翻頁閱讀：一科一節、答錯過的卡排最前面、白話空的時候用 fallback（黑板＋教授那一句＋重點）、課堂提問的題目／答案／考點；可以「下一張」「跳到下一科」「結束」；結束字幕每科一行 STUDY.line
 // 修改前（開發分支 a1c1d9a59）：STUDY.review 不存在，全部 FAIL。用法：node tests/d118_b3_unit.js
-// 2026-11-04 D118-B7-1102（國考總複習）：座位、書桌選了「考前總複習」改成照那一項的 kind 跑（STUDY.review(GM,opts[i].kind||'final')；期末那一項的 kind 是 'final'＝和原本一樣），e9、e10 的程式碼比對跟著換；其他期待值不動
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -100,8 +99,8 @@ const freshAt=(d,h,zone)=>{ const G=H.fresh('2025-09-01',9,zone||'library_hall',
     check('e8. 經濟系那一年的期末週：沒有',STUDY.reviewInfo(G0,'final')===null&&STUDY.reviewOpt(G0)===null);
     /* 入口（程式碼）：讀書座位、Café 桌、宿舍書桌、家裡的選單 */
     const gs=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'), ss=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');
-    check('e9. 讀書座位、Café 桌（seatMenu）有 STUDY.reviewOpt；選了跑 STUDY.review',/if\(\(it\.study\|\|it\.deskStudy\|\|it\.cafeTable\)&&typeof STUDY!=='undefined'&&STUDY\.reviewOpt\)\{ const rv=STUDY\.reviewOpt\(G\); if\(rv\) opts\.push\(rv\); \}/.test(gs)&&/opts\[i\]\.review\)\{[^}]*STUDY\.review\(GM,opts\[i\]\.kind\|\|'final'\)/.test(gs));
-    check('e10. 宿舍書桌（deskScene）有 STUDY.reviewOpt、STUDY.review',/async function deskScene[\s\S]{0,3000}STUDY\.reviewOpt\(G\)[\s\S]{0,1500}STUDY\.review\(GM,opts\[i\]\.kind\|\|'final'\)/.test(ss)); });
+    check('e9. 讀書座位、Café 桌（seatMenu）有 STUDY.reviewOpt；選了跑 STUDY.review',/if\(\(it\.study\|\|it\.deskStudy\|\|it\.cafeTable\)&&typeof STUDY!=='undefined'&&STUDY\.reviewOpt\)\{ const rv=STUDY\.reviewOpt\(G\); if\(rv\) opts\.push\(rv\); \}/.test(gs)&&/opts\[i\]\.review\)\{[^}]*STUDY\.review\(GM,'final'\)/.test(gs));
+    check('e10. 宿舍書桌（deskScene）有 STUDY.reviewOpt、STUDY.review',/async function deskScene[\s\S]{0,3000}STUDY\.reviewOpt\(G\)[\s\S]{0,1500}STUDY\.review\(GM,'final'\)/.test(ss)); });
   /* f 提醒只發一次 */
   await sec('f',async()=>{ const G=freshAt(weekDay('Y1S1',14,1),8,'dorm'); G.msgs=[];
     const reg=STORY.PHONE_RULES.some(f=>/STUDY|remind/.test(String(f)));

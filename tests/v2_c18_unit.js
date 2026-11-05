@@ -1,5 +1,5 @@
 // 交接包 v2 C18：Alison 語 2「剛好路過」（草稿第 3 節、AA_40 語 2）——不需要瀏覽器。修改前沒有這幾個事件（第 1 項失敗）。
-// 檢查：大一下第 13～15 週的三個徵兆（16 週制，AA-C 11:23 往前補一週）——① 傅鐘的早餐（走到 Alison 附近就演）② 桌遊夜那一晚的一句旁白（AA_675 1-3；原本麵店日的麵店） ③ Alison 問祐廷（吉他社的玩家在社課後、其他玩家在麵店散場後的騎樓），
+// 檢查：大一下第 13～15 週的三個徵兆（16 週制，AA-C 11:23 往前補一週）——① 傅鐘的早餐（走到 Alison 附近就演）② 麵店日的麵店一句旁白 ③ Alison 問祐廷（吉他社的玩家在社課後、其他玩家在麵店散場後的騎樓），
 //   ③ 要先看過 ① 或 ② 其中一個（看到 ③ 的人一定看過兩個以上）；三個選項的反應照 AA_40 的表、都不改變結果（YU2_PICK）；整個存檔只問一次；吉他社大一下也有
 // 用法：node tests/v2_c18_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -9,7 +9,6 @@ global.document={ getElementById:()=>null, addEventListener(){} }; global.naviga
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|YU2_QUESTION)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
-{ let b=fs.readFileSync(path.join(ROOT,'src/bgnight3d.js'),'utf8').replace(/^const BGN\s*=/m,'globalThis.BGN='); vm.runInThisContext(b,{filename:'src/bgnight3d.js'}); }   /* AA_675 1-3：② 改成桌遊夜（BGN.yuLate）*/
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -32,7 +31,7 @@ const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
 (async()=>{
   const eA=ev('ev_yu_sign_soymilk'), eB=ev('ev_yu_sign_seat'), eC1=ev('ev_yu_sign_question_club'), eC2=ev('ev_yu_sign_question_arcade'), GT=ACTIVITIES.list.find(a=>a.id==='club_guitar');
-  check('C18：四個事件都在（① 豆漿、② 桌遊夜、③ 社課後／騎樓）',!!eA&&!!eB&&!!eC1&&!!eC2);
+  check('C18：四個事件都在（① 豆漿、② 麵店、③ 社課後／騎樓）',!!eA&&!!eB&&!!eC1&&!!eC2);
   if(!eA||!eB||!eC1||!eC2){ console.log('FAILED '+fails); process.exit(1); }
   const met=()=>{ G.flags.met_yu=true; };
   /* ① 傅鐘的早餐 */
@@ -46,12 +45,12 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('① 引擎：10 m 外不演、2.6 m 內演',!far&&near&&!!G.events.done.ev_yu_sign_soymilk,JSON.stringify({far,near}));
     check('① 台詞：（阿哲出現，帶著兩杯豆漿。）阿哲「剛好路過。」Alison「你宿舍又不在這邊。」（AA_209）阿哲「……剛好路過。」',JSON.stringify(lines())===JSON.stringify(['阿哲出現，帶著兩杯豆漿。','阿哲：剛好路過。','Alison：你宿舍又不在這邊。','阿哲：……剛好路過。'])&&G.flags.yu2SoymilkDay===G.day,JSON.stringify(lines()));
     E.player.obj.position.x=0; E.player.obj.position.z=0; GM.npc={}; }
-  /* ② 桌遊夜（AA_675 1-3，AA_661 第 64 列：原本麵店日走進麵店；改成 Alison 23:00 從戲院下班趕到的那一次桌遊夜，接在桌遊夜的場景後面演、2D；src/bgnight3d.js BGN.yuSign）*/
-  { const n14=termDay('Y1S2',14,5), n12=termDay('Y1S2',12,5);
-    const at=(d,o)=>{ o=o||{}; fresh(d,23,o.zone||'dorm'); if(!o.notMet) met(); return EVENTS.check(eB); };
-    const r={w14:at(n14),w12:at(n12),thu:at(termDay('Y1S2',14,4)),w16:at(termDay('Y1S2',16,5)),notMet:at(n14,{notMet:true}),y1s1:at(termDay('Y1S1',14,5))};
-    check('② 桌遊夜：大一下第 13～15 週、Alison 23:00 從戲院趕到的那一次（照隔週排＝第 14 週週五）、認識 Alison 才有；第 12 週的桌遊夜、那一週週四、第 16 週、不認識、大一上都沒有；不在燒臘店自己觸發（manual）',r.w14&&!r.w12&&!r.thu&&!r.w16&&!r.notMet&&!r.y1s1&&eB.trigger==='manual'&&!eB.ndlDay&&BGN.yuLate(n14),JSON.stringify(r));
-    fresh(n14,23,'dorm'); met(); await EVENTS.run(eB); check('② 台詞：（Alison 每次都坐阿哲旁邊。）只有一句、沒有選項',JSON.stringify(lines())==='["Alison 每次都坐阿哲旁邊。"]'&&!opts.length&&G.flags.yu2SeatDay===G.day,JSON.stringify(lines())); }
+  /* ② 麵店 */
+  { const ND=(w,k)=>{ const L=[]; for(let wd=1;wd<=5;wd++){ const d=termDay('Y1S2',w,wd); if(d!=null&&STORY.noodleDay(d)) L.push(wd); } return L[k|0]!=null?L[k|0]:L[0]; }, NN=w=>{ for(let wd=1;wd<=5;wd++){ const d=termDay('Y1S2',w,wd); if(d!=null&&!STORY.noodleDay(d)) return wd; } return 3; };   /* AA_542 第 5 節：麵店日每週不固定兩天 */
+    const at=(w,wd,h,o)=>{ o=o||{}; fresh(termDay('Y1S2',w,wd),h,o.zone||'noodle'); if(!o.notMet) met(); if(!o.noTeam) G.flags.noodleTableDay=termDay('Y1S1',6,2); return EVENTS.check(eB); };
+    const r={tue:at(14,ND(14,0),18),thu:at(15,ND(15,1),20.5),wk16:at(16,4,20.5),wed:at(14,NN(14),18),w13:at(12,ND(12,0),18),late:at(14,ND(14,0),21.2),noTeam:at(14,ND(14,0),18,{noTeam:true}),notMet:at(14,ND(14,0),18,{notMet:true}),gg:at(14,ND(14,0),18,{zone:'gongguan'})};
+    check('② 麵店：大一下第 13～15 週的麵店日（AA_542 起每週不固定兩天；AA-C 11:23 往前補一週，第 16 週期末不放）17:30–21:00 走進麵店；在群組、認識 Alison 才有（不是麵店日、第 12 週、21:12、沒有群組、不認識、在公館都沒有）',r.tue&&r.thu&&!r.wk16&&!r.wed&&!r.w13&&!r.late&&!r.noTeam&&!r.notMet&&!r.gg,JSON.stringify(r));
+    at(14,2,18); await EVENTS.run(eB); check('② 台詞：（Alison 每次都坐阿哲旁邊。）只有一句、沒有選項',JSON.stringify(lines())==='["Alison 每次都坐阿哲旁邊。"]'&&!opts.length&&G.flags.yu2SeatDay===G.day,JSON.stringify(lines())); }
   /* 吉他社大一下 */
   { const M=w=>termDay('Y1S2',w,1);
     check('吉他社：大一下也有（第 5～7、10～16 週的週一、三；期中第 8～9 週沒有）；大一上照舊',ACTIVITIES.on(GT,M(14))&&ACTIVITIES.on(GT,termDay('Y1S2',15,3))&&ACTIVITIES.on(GT,M(5))&&!ACTIVITIES.on(GT,M(8))&&!ACTIVITIES.on(GT,M(4))&&ACTIVITIES.on(GT,termDay('Y1S1',5,3)));   /* 大一上第 5 週週一是教師節補假，用週三 */ }
@@ -66,10 +65,10 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   /* ③ 其他玩家：麵店散場後的騎樓（公館） */
   { const T=termDay('Y1S2',14,2);
     const setup=(o)=>{ o=o||{}; fresh(T,18,'noodle'); met(); G.flags.noodleTableDay=termDay('Y1S1',6,2); if(o.club) G.flags.CLUB_club_guitar=true; if(o.sign!==false) G.flags.yu2SeatDay=T;
-      if(o.ate!==false) STORY.zheNdlMark(G);   /* AA_684 第 4 項：在燒臘店、那時候阿哲照作息也在（週二 18:00）＝記 zheNdlDay（story3d.js 的 S.tick 在燒臘店裡每一格叫；原本看麵店日的 ndlDays）*/
+      if(o.ate!==false) STORY.phoneRules(GM);   /* 麵店日 17–21 在麵店＝記 ndlDays（story3d.js）*/
       G.zone='gongguan'; G.hour=o.h||20.6; return EVENTS.check(eC2); };
     const r={ok:setup(),club:setup({club:true}),noSign:setup({sign:false}),notAte:setup({ate:false}),late:setup({h:22.3})};
-    check('③ 騎樓：今天在燒臘店的時候阿哲照作息也在（zheNdlDay，AA_684 第 4 項）、看過 ① 或 ② 其中一個、不是吉他社、走到公館＝演；吉他社的玩家、沒看過其他徵兆、今天沒去麵店、22:18 都沒有',r.ok&&!r.club&&!r.noSign&&!r.notAte&&!r.late,JSON.stringify(r));
+    check('③ 騎樓：麵店團、今天有在麵店（ndlDays）、看過 ① 或 ② 其中一個、不是吉他社、走到公館＝演；吉他社的玩家、沒看過其他徵兆、今天沒去麵店、22:18 都沒有',r.ok&&!r.club&&!r.noSign&&!r.notAte&&!r.late,JSON.stringify(r));
     const play=async k=>{ setup(); picks=[k]; await EVENTS.run(eC2); return lines(); };
     let L=await play(0); check('③ 騎樓（她沒背吉他，AA 50da3a9）選「對每個人都好。」：Alison「……喔。」（她低頭滑手機。）「也是啦。」',JSON.stringify(L.slice(1))===JSON.stringify(['Alison：……喔。','她低頭滑手機。','Alison：也是啦。'])&&G.flags.YU2_PICK==='everyone'&&SOCIAL.has('yu','ASKED_ABOUT_ZHE'),JSON.stringify(L));
     L=await play(1); check('③ 騎樓選「對妳比較好。」：（她停住，然後很大聲地哼了一段成發要彈的旋律。）Alison「欸你很煩！」',JSON.stringify(L.slice(1))===JSON.stringify(['她停住，然後很大聲地哼了一段成發要彈的旋律。','Alison：欸你很煩！'])&&G.flags.YU2_PICK==='you',JSON.stringify(L));

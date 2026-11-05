@@ -125,7 +125,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   answer('y3_xun_path',0); rules(); const xq=OUT.get(G,'y3_xun_path');
   check('X0. 「我去。」→「嗯。三點，社科院。」；排 3/22 15:00 社科院', txt('p:econ_zhengxun').includes('econ_zhengxun:嗯。三點，社科院。')&&xq&&xq.day===D('2028-03-22')&&xq.h===15);
   picks=[0]; await run('ev_xun_path');
-  check('X1. 去了、舉手：「……我沒想過。」（AA_682 第 1 列）', has('（愣了一下）……我沒想過。')&&opts[0].length===3);
+  check('X1. 去了、舉手：「……這是今天最好的問題。」', has('（愣了一下）……這是今天最好的問題。')&&opts[0].length===3);
   check('X2. 散場：「不過你現在的樣子比較好看。」；沒有 XUN_WARM＝沒有「還是很爽」；記 XUN_PATH', has('你留下來的話，現在應該坐我旁邊。')&&has('不過你現在的樣子比較好看。')&&!has('算出來那一下，還是很爽。')&&SOCIAL.has('econ_zhengxun','XUN_PATH'));
   fresh('2028-03-22',15,'dorm',{XUN_WARM:true}); R('econ_zhengxun','FAM'); picks=[2]; await run('ev_xun_path');
   check('X. 有 XUN_WARM：多「算出來那一下，還是很爽。」；鼓掌＝他把紙摺起來', has('算出來那一下，還是很爽。')&&has('（他看了你一眼，把那張紙摺起來。）'));
@@ -532,8 +532,8 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   /* AA_343 D9（改了期待值）：「很久以後」寫成旁白；芷若／祐廷／芷若 */
   { const W=['（她轉過來，看到你在喝，沒有說話。過了很久。）','林芷若：……好喝嗎？','祐廷：很幼稚。','林芷若：對。','（她笑出來，眼眶紅了一下。）'], L=lines(), i=L.indexOf(W[0]);
     check('Z13-C1. D9 喝下去：「（她轉過來，看到你在喝，沒有說話。過了很久。）」「……好喝嗎？」（芷若）「很幼稚。」（祐廷）「對。」（芷若）「（她笑出來，眼眶紅了一下。）」（逐字、順序）→ 交往；ZR_CUP drank；不走回家的路', i>=0&&JSON.stringify(L.slice(i,i+5))===JSON.stringify(W)&&!L.some(t=>/很久以後/.test(t))&&G.flags.dating_heroine_02===true&&G.flags.ZR_CUP==='drank'&&!has('今天吃得很開心。……你要說什麼？'), JSON.stringify(L.slice(i<0?0:i,(i<0?0:i)+6))); }
-  { const L=said.map(x=>x.t), t=L.indexOf('我這學期讀了一本小說，讀到一半，一直沒讀完。'), c=L.indexOf('（她回到吧檯，收完機器，又做了一杯。是你的老樣子。可是杯子上用麥克筆寫的不是你的名字。）');
-    check('Z13-C1. D9 AA_254 的飯桌一句放在 Z13 的飯裡：「我這學期讀了一本小說，讀到一半，一直沒讀完。」（芷若，吃飯的時候、杯子以前）', t>0&&c>t&&said[t].who!==null, JSON.stringify(L.slice(0,8))); }
+  { const L=said.map(x=>x.t), t=L.indexOf('我這學期翻了一本小說，翻到一半。……主角還沒說出口。'), c=L.indexOf('（她回到吧檯，收完機器，又做了一杯。是你的老樣子。可是杯子上用麥克筆寫的不是你的名字。）');
+    check('Z13-C1. D9 AA_254 的飯桌一句放在 Z13 的飯裡：「我這學期翻了一本小說，翻到一半。……主角還沒說出口。」（芷若，吃飯的時候、杯子以前）', t>0&&c>t&&said[t].who!==null, JSON.stringify(L.slice(0,8))); }
   zrSetup(); rules(); answer(zt,0); rules(); at('2028-06-15',21.8); picks=[1,0]; await goOut('te_Y3S2');
   check('Z13-C2. 「芷若。」：「……你要說什麼，等一下再說。我現在沒辦法看你。」→ 台階「……好。你說。」；「我喜歡妳。」→「……我知道。杯子上寫了。」→ 交往；ZR_CUP steps', has('……你要說什麼，等一下再說。我現在沒辦法看你。')&&has('（她把店收完，關了燈。你們坐在店門口的台階上。）')&&has('……好。你說。')&&has('……我知道。杯子上寫了。')&&G.flags.dating_heroine_02===true&&G.flags.ZR_CUP==='steps');
   zrSetup(); R('npc_fangyt','FAM'); rules(); answer(zt,0); rules(); at('2028-06-15',21.8); picks=[2]; await goOut('te_Y3S2');

@@ -156,7 +156,7 @@ const JP=(function(){
     ['2028-04-02','國際學生辦公室週三下午不開。要交表的，請上午去。','收到。週三上午去。',null],
     ['2028-04-09','公寓的垃圾分六種。分類表我拍了，在相簿。','謝謝。寶特瓶的蓋子要拆嗎？',{from:'heroine_01',text:'要。蓋子是另一類。'}],
     ['2028-04-16','學校附近的超市，晚上八點以後便當打折。','八點半去，只剩一個。',{text:'（群組裡有人回了一個笑臉。）'}],
-    ['2028-04-23','日文課的作業，第三課的動詞表有一個印錯。第 12 行。','我也發現了。還以為是我抄錯。',{from:'heroine_01',text:'講義印錯了。我問過老師。'}],
+    ['2028-04-23','日文課的作業，第三課的動詞表有一個印錯。第 12 行。','我也發現了。還以為是我抄錯。',{from:'heroine_01',text:'不是你。是講義。'}],
     ['2028-04-30','黃金週圖書館只開到下午三點。','好。那我早上去。',null],
     ['2028-05-07','町公所的窗口週六也開，只到中午。','好。週六中午以前。',null],   /* 接 5 月的町公所（第 3 步）*/
     ['2028-05-14','比較行政法的報告，我排在第六週。要換的人跟我說。','我第十週，不用換。',null],
@@ -382,7 +382,7 @@ const JP=(function(){
     try{ if(A&&A.active&&A.end) A.end(); await GM.fade(true); const x=CALENDAR.dateOf(G.day);
       if(GM.titleCard){ await GM.titleCard(x.m+' 月 '+x.d+' 日','回程｜關西的機場',2400); await GM.titleCard('飛回臺灣','關西　約 3 小時',2400); }
       if(G.day===r) G.hour=Math.max(13,G.hour+2); if(E) E.hour=G.hour;   /* 日本時間換回臺灣時間（−1）＋飛行約 3 小時（J-S13）*/
-      F.JP_RETURNED=G.day; F.JP_RETURN_H=G.hour; R.place=null; if(GM.updateHUD) GM.updateHUD();   /* JP_RETURN_H：落地的時間（臺灣時間）——AA_660 G5-1 家人群組「到了」那一則的時間（src/aa660_3d.js；舊存檔沒有＝13:00）*/
+      F.JP_RETURNED=G.day; R.place=null; if(GM.updateHUD) GM.updateHUD();
       if(GM.titleCard) await GM.titleCard('抵達','桃園機場　'+hm(G.hour),2200); await GM.fade(false); }
     finally{ GM.sceneEnd(); }
     { const ev=evOf('ev_jp_return_hall'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); }   /* 入境大廳（AA_253 9-2）*/

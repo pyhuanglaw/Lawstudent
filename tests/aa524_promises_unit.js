@@ -414,9 +414,8 @@ await sec('Y1',async()=>{
   f=await din('Y2S2',w('Y2S2')); check('Y1. 大二下起是 tableByTerm（沒有「我媽問你」）＝不記',f==null&&!said().some(t=>/我媽/.test(t)),J(said()));
   const a23=async(flags,dt)=>{ fresh('2028-12-14',19.5,flags); H.FRIEND(YT); if(dt) H.date(YT); H.FAMILIAR('zhe'); await runEv('ev_noodle_23rd'); };
   await a23({YT_MOM_ASKED:D('2025-12-21')},true);
-  /* AA_661 第 63 列（AA 定：公館燒臘二十三週年是阿鳳和熟客的場）：語彤的媽媽那幾句拿掉（她和阿鳳不是親戚）——原本交往中＋聽過「我媽問你」＝她媽媽第一次看到你 */
-  check('Y1. 二十三週年，交往中＋聽過：語彤的媽媽不出現（「問了好幾年，終於看到人了。」「……他也很少講話。」都拿掉，AA_661 第 63 列）',!has(NEW.Y1[3])&&!has('……他也很少講話。你們兩個怎麼聊天的？')&&!H.said.some(x=>x.who==='語彤的媽媽'),J(said().slice(0,6)));
-  await a23({},true); check('Y1. 沒聽過：沒有',!has(NEW.Y1[3])&&!has('……他也很少講話。你們兩個怎麼聊天的？'));
+  check('Y1. 二十三週年，交往中＋聽過：她媽媽第一次看到你「問了好幾年，終於看到人了。」（接著「……他也很少講話。」）',adj([NEW.Y1[3],'……他也很少講話。你們兩個怎麼聊天的？'])&&H.said[idx(NEW.Y1[3])].who==='語彤的媽媽',J(said().slice(0,6)));
+  await a23({},true); check('Y1. 沒聽過：沒有',!has(NEW.Y1[3])&&has('……他也很少講話。你們兩個怎麼聊天的？'));
   await a23({YT_MOM_ASKED:5},false); check('Y1. 沒在交往：沒有',!has(NEW.Y1[3]));
 });
 await sec('Y2',async()=>{
@@ -430,18 +429,16 @@ await sec('Y2',async()=>{
   check('Y2. 沒有旗標：照現有',J(said())===J(['（電話。她那邊很安靜。）','……新年快樂。','茶屋今天提早收。蘇姨說跨年沒有人喝茶。','你那邊好吵。……好，你去看。我掛了。'])&&!H.opts.length,J(said()));
 });
 await sec('Y3',async()=>{
-  /* AA_685 A3（企劃線 c96613e51，AA-C 定 D109）：2026 情人節（ev_yt_vday_y1，已退場、定義留給舊存檔）的「下次店休也出來。」拿掉（說了沒做到的約定不要開，AA_524）——
-     它的兩句不演、不記 YT_CLOSED_OUT；舊存檔有 YT_CLOSED_OUT 的照樣讀得進來（下面店休那幾格照舊只有鐵門的旁白；AA_685 C 節第 3 點：不另外收尾）*/
   fresh('2026-02-14',17); H.FRIEND(YT); await runEv('ev_yt_vday_y1',['下次店休也出來']);
-  check('Y3. 2026 情人節：選項只剩「冷嗎？」→「……有一點。」；「下次店休也出來。」「下次店休是明年。」「……那明年也出來。」都沒有、不記 YT_CLOSED_OUT（AA_685 A3）',
-    J(H.opts.map(o=>[...o]))===J([['「冷嗎？」']])&&has('……有一點。')&&!has('下次店休是明年。')&&!has('……那明年也出來。')&&!('YT_CLOSED_OUT' in H.G.flags)&&!J(ev('ev_yt_vday_y1').dialogue).includes('YT_CLOSED_OUT'),J({o:H.opts,L:said()}));
+  check('Y3. 2026 情人節「下次店休也出來。」→「下次店休是明年。」「……那明年也出來。」、記 YT_CLOSED_OUT',has('……那明年也出來。')&&H.G.flags.YT_CLOSED_OUT===true);
   const door=async(day,flags,pick)=>{ fresh(day,11,flags); H.FRIEND(YT); PHONE.join(H.G,'noodle_team','麵店團'); H.said=[]; H.picks=[pick]; const r=await NOODLE_CLOSED.door(GM); return {r,L:said()}; };
-  /* AA_683 第 1 節（企劃線 ef5c6c742，AA 定稿 D109）：燒臘店過年店休裡語彤自己的那幾段拿掉（新設定她不在燒臘店幫忙）——Y3 的 2027 店休那一場
-     （第一句換「店休。……說好要出去的。」、河濱那一句、AA_526 的「我在外面等妳。」）跟著沒有了：有沒有旗標、哪一年，店休去按門都只有鐵門的旁白。情人節那一段（上面）照留 */
-  const gone=NEW.Y3.concat(NEW526.Y3.slice(1)).concat(['「我來幫忙。」','「那我初四再來。」','嗯。初四見。']);
-  for(const [day,fl,pick,tag] of [['2027-02-01',{YT_CLOSED_OUT:true},0,'2027 店休、有旗標、第一個選項'],['2027-02-01',{YT_CLOSED_OUT:true},1,'2027 店休、有旗標、第二個選項'],['2027-02-01',{},0,'2027 店休、沒有旗標'],['2028-01-20',{YT_CLOSED_OUT:true},0,'2028 店休、有旗標']]){
-    const r=await door(day,fl,pick);
-    check('Y3. '+tag+'：只有鐵門的旁白、沒有選項（AA_683）；舊的那幾句都不在',r.r===true&&J(r.L)===J([NOODLE_CLOSED.L.door])&&!H.opts.length&&!gone.some(s=>r.L.includes(s)),J({L:r.L,o:H.opts})); }
+  let r=await door('2027-02-01',{YT_CLOSED_OUT:true},0);
+  check('Y3. 2027 店休、有旗標：她的第一句換「店休。……說好要出去的。」「刷完這一排就走。」；「我來幫忙。」後面多一句「（刷完椅子，你們去河濱走了一圈。）」',r.r===true&&adj([NOODLE_CLOSED.L.inside].concat(NEW.Y3.slice(0,2)))&&!r.L.includes(NOODLE_CLOSED.L.offer)&&adj(['（刷完一排椅子，阿姨塞給你一袋滷蛋。）',NEW.Y3[2]]),J(r.L));
+  r=await door('2027-02-01',{YT_CLOSED_OUT:true},1);
+  check('Y3. 有旗標：第二個選項換「我在外面等妳。」（AA_526）→「嗯。……很快。」「（她鎖好鐵門出來。你們去河濱走了一圈。）」；沒有「那我初四再來。」',J(H.opts[0])===J(['「我來幫忙。」',NEW526.Y3[0]])&&adj([NEW.Y3[1]].concat(NEW526.Y3.slice(1)))&&!r.L.includes('嗯。初四見。')&&!r.L.includes(NEW.Y3[2])&&!r.L.includes('（刷完一排椅子，阿姨塞給你一袋滷蛋。）'),J({o:H.opts[0],L:r.L}));
+  r=await door('2027-02-01',{},1); check('Y3. 沒有旗標：兩個選項照原本（「那我初四再來。」→「嗯。初四見。」）',J(H.opts[0])===J(['「我來幫忙。」','「那我初四再來。」'])&&r.L.includes('嗯。初四見。')&&!r.L.includes(NEW526.Y3[1]),J({o:H.opts[0],L:r.L}));
+  r=await door('2027-02-01',{},0); check('Y3. 沒有旗標：照原本',r.L.includes(NOODLE_CLOSED.L.offer)&&!r.L.includes(NEW.Y3[0]),J(r.L));
+  r=await door('2028-01-20',{YT_CLOSED_OUT:true},0); check('Y3. 2027 以外的店休：照原本（2027 年沒遇到那一場的，不補）',r.L.includes(NOODLE_CLOSED.L.offer)&&!r.L.includes(NEW.Y3[0]),J(r.L));
 });
 await sec('Y4',async()=>{
   const v=async(val)=>{ fresh('2029-02-14',19,val?{YT_VDAY_Y3:val}:{}); H.FRIEND(YT); await runEv('ev_yt_vday_y4',[0]); };

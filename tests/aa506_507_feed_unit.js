@@ -114,7 +114,7 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i3=sc('src/data/feed_
   check('0. 大二下：動態 40 則（以安 8、芷若 8、語彤 7、子晴 7、學姊 5、沛珊 1、可昕 4）、私訊 1 則；大三上：動態 41 則（7、8、6、7、5、4、4）、私訊 1 則',
     !!SET.Y2S2&&!!SET.Y3S1&&J(cnt(SET.Y2S2))===J([8,8,7,7,5,1,4])&&SET.Y2S2.dms.length===1&&J(cnt(SET.Y3S1))===J([7,8,6,7,5,4,4])&&SET.Y3S1.dms.length===1,J([cnt(SET.Y2S2),cnt(SET.Y3S1)]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
-  check('0. 五個學期的 id 都不重複（動態 43＋46＋38＋40＋41、私訊 10＋7＋3＋1＋1；大二上 38＝AA_514 加的 kx4bc）（大一上 sis2 保溫瓶、大一下 ps2b 志工報名表 2026-11-04 拿掉：D127④、AA_661 第 48、51 列）',ids.length===230&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
+  check('0. 五個學期的 id 都不重複（動態 43＋47＋38＋40＋41、私訊 10＋7＋3＋1＋1；大二上 38＝AA_514 加的 kx4bc）（大一上 sis2 保溫瓶 2026-11-04 拿掉：D127④、AA_661 第 48 列）',ids.length===231&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
   /* 2026-10-28 AA_518 第 4-1、4-5 改的（企劃線 973dd1b74，SIS-B15-1028；對 AA_518 的稿在 tests/aa518_sis_b15_unit.js）：sis4d 私訊回兩版（聽過 S4-Lx＝「你知道的。……美國那邊的書。」，went sisS4Lx）、sis2e 留言回「最近加得比較快。」*/
   const AA518_T=new Set(['你知道的。……美國那邊的書。','最近加得比較快。']), AA518_ROW={sis4d:e=>{ e.dm=[e.dm[0],{no:e.dm[1],yes:'你知道的。……美國那邊的書。'}]; e.went='sisS4Lx'; },sis2e:e=>{ e.cm=[e.cm[0],'最近加得比較快。']; }};
   for(const term of ['Y2S2','Y3S1']){ const S=SET[term], md=doc[term];

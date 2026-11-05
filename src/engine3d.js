@@ -309,7 +309,7 @@ const E3 = (function(){
   E.SPD={walk:1.8,run:6.2,bike:8.5};   /* 跑步 4.8 → 6.2（使用者 2026-10-20「跑步好慢」，X72）；跑步動畫照速度加快（character3d.js run 的 timeScale＝spd/4.1）*/
   /* 騎車的速度：載人時 85%（AA_137 第 5 節）；一起走、不坐後座的人走在旁邊（rideMode 'walk'，目前沒有人用；使用者 10-16 要學姊也坐後座）時騎慢，跟走路差不多 */
   E.bikeSp=function(){ let k=1, cap=Infinity; for(const n of E.npcs){ if(n.beh==='passenger') k=0.85; else if(n.beh==='follow'&&E.rideMode&&E.rideMode(n)==='walk') cap=2.4; } return Math.min(E.SPD.bike*k,cap); };
-  E.PASSENGER={back:0.52,side:0.03,backAstride:0.54,y:0.314,mount:[0.55,-0.75],mountT:1.5};   /* 後座的位置（車的座標，乘上車的縮放）：LAWWW2-B 的載妹墊坐墊頂面在 (0, 0.784, −0.50)；坐姿的人物原點放在坐墊表面往下 0.47 m（CHAR.SIT_TOP：SIT-HEIGHT-1104 以後坐下的大腿底部在原點上 0.465；原本 0.45）——正式 GLB 交付後改讀 passenger_side 節點 */   /* 腳踏車 6.2 → 8.5（使用者 2026-10-15：「騎腳踏車還是好慢」）*/   /* 玩家走路／跑步／騎腳踏車速度（m/s）。2026-10-11 使用者：「走路又很慢完全不想玩遊戲」——原本 1.45／4.1（真實步行速度），校園一頭到另一頭要走兩三分鐘；動畫播放速度跟著速度調整（character3d.js：速度／1.45），不會滑步 */
+  E.PASSENGER={back:0.52,side:0.03,backAstride:0.54,y:0.334,mount:[0.55,-0.75],mountT:1.5};   /* 後座的位置（車的座標，乘上車的縮放）：LAWWW2-B 的載妹墊坐墊頂面在 (0, 0.784, −0.50)；坐姿的人物原點放在坐墊表面往下 0.45 m（坐姿把模型往下 0.47）——正式 GLB 交付後改讀 passenger_side 節點 */   /* 腳踏車 6.2 → 8.5（使用者 2026-10-15：「騎腳踏車還是好慢」）*/   /* 玩家走路／跑步／騎腳踏車速度（m/s）。2026-10-11 使用者：「走路又很慢完全不想玩遊戲」——原本 1.45／4.1（真實步行速度），校園一頭到另一頭要走兩三分鐘；動畫播放速度跟著速度調整（character3d.js：速度／1.45），不會滑步 */
   E.heightAt=function(x,z,lv){ const n=navOf(lv===undefined?(E.player?E.player.lv|0:0):lv); return n?n.heightAt(x,z):0; };
   // 把人物放到某一層的 (x,z)，高度照地板（劇情、讀檔、坐下、電梯用）
   E.placeAt=function(ent,x,z,lv){ if(lv!==undefined&&lv!==null) setLv(ent,lv|0); const o=ent.obj.position; o.x=x; o.z=z; const n=navOf(ent.lv|0); o.y=n?n.heightAt(x,z):0; };

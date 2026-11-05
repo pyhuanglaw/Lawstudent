@@ -149,7 +149,7 @@ const SISG=(function(){
     /* 2-9 上榜聚餐（舊的大二版 ev_sis_results_dinner 不用）：3/23 21:00 Kevin 在家族群組邀、回「去。」＝3/27（五）19:00 公館的日日定食（虛構店名；2D gongguan＋字幕）*/
     { id:'ev_sis_results_dinner_y1', title:'上榜聚餐', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
       dialogue:[ {scene:'公館・日日定食',bg:'gongguan'},
-        {unless:{flags:['SIS_W1']},speaker:'player',text:'學姊好，我是{name}。'},{unless:{flags:['SIS_W1']},speaker:ID,expression:'neutral',text:'……我知道。家聚你都沒來，今天來了就好。'},   /* AA_470 5-1（表上寫 ev_sis_results_dinner＝大一下 3/27 這一場）：還沒認識她的兩句，點菜之前（沒有開場旁白：接在場景後面）；3/20 演過就不會到這裡；演完記 met_sis、SIS_W1 */
+        {unless:{flags:['SIS_W1']},speaker:'player',text:'學姊好，我是{name}。'},{unless:{flags:['SIS_W1']},speaker:ID,expression:'neutral',text:'……我知道。家聚你都沒來。今天來了就好。'},   /* AA_470 5-1（表上寫 ev_sis_results_dinner＝大一下 3/27 這一場）：還沒認識她的兩句，點菜之前（沒有開場旁白：接在場景後面）；3/20 演過就不會到這裡；演完記 met_sis、SIS_W1 */
         {speaker:ID,expression:'neutral',text:'你們真的不用請我。'},
         {speaker:'Kevin',text:'學姊，坐好。今天妳只負責吃。'},
         {speaker:ID,expression:'neutral',text:'……好。'},

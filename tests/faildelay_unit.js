@@ -105,7 +105,5 @@ await sec(6,async()=>{ H.fresh('2029-09-02',9,'dorm',{FAIL_DELAY:true,FAIL_DELAY
   /* 已經過了（FAIL_DELAY_PASS 有值）、不是延畢：沒有重修停點 */
   H.fresh('2029-09-02',9,'dorm',{}); check('6. 不是延畢：沒有重修停點',FD.clsStop(H.G)==null); });
 
-/* D118-B7（BB-C 11-04 23:46 ①）：classes3d.js 的 CLS.Y5_MAKEUP（國考題池算修過的大五上補修）要和 Y5.MAKEUP 同一份 */
-check('D118-B7. CLS.Y5_MAKEUP 和 Y5.MAKEUP 的課一樣（強制執行法、法律倫理）',typeof Y5!=='undefined'&&typeof CLS!=='undefined'&&JSON.stringify(Y5.MAKEUP.map(m=>m.id))===JSON.stringify(CLS.Y5_MAKEUP),JSON.stringify([typeof Y5!=='undefined'&&Y5.MAKEUP&&Y5.MAKEUP.map(m=>m.id),typeof CLS!=='undefined'&&CLS.Y5_MAKEUP]));
 H.done();
 })();

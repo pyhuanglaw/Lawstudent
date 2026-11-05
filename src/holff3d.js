@@ -46,7 +46,7 @@ const HOLFF=(function(){
     {date:'2029-01-24',line:'（寒假第五週。總圖的人比期末考的時候還多。）'} ];
   S.SUM_H=18.5;
   S.sums=function(G,B){ B=B||brk(G); if(!B) return []; const out=[];
-    for(const s of S.SUMS){ const d=DK(s.date); if(d==null||d<B.from||d>B.to) continue; if(HOME.sumSkip&&HOME.sumSkip(G,d)) continue; if(abroadOn(G,d)) continue; if(s.noJP&&route(G)==='JP') continue; if(s.route&&route(G)!==s.route) continue; if(s.homeOnly&&!(HOME.at&&HOME.at(G))) continue; out.push({day:d,h:S.SUM_H,s}); }   /* homeOnly：只有人在家的停（AA_532 2-5 元宵）；route：只有那一條交換路線（'US'／'JP'）的玩家停、出這一句（AA_660 G1-2、G3，src/aa660_3d.js 加進來的列）*/
+    for(const s of S.SUMS){ const d=DK(s.date); if(d==null||d<B.from||d>B.to) continue; if(HOME.sumSkip&&HOME.sumSkip(G,d)) continue; if(abroadOn(G,d)) continue; if(s.noJP&&route(G)==='JP') continue; if(s.homeOnly&&!(HOME.at&&HOME.at(G))) continue; out.push({day:d,h:S.SUM_H,s}); }   /* homeOnly：只有人在家的停（AA_532 2-5 元宵）*/
     return out; };
   /* 日期卡下面那一行（HOME.CARD_LINES）：快轉剛好停在摘要日的 18:30 */
   S.cardLine=function(G,t){ const x=S.sums(G).find(q=>Math.abs(T(q.day,q.h)-t)<1e-6); if(!x) return null; const l=typeof x.s.line==='function'?x.s.line(G):x.s.line; return l||null; };

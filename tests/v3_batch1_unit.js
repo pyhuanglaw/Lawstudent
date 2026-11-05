@@ -96,11 +96,11 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 10a. 語彤不在法服（AA_255 第 4 節第 2 點、AA_259 第 4 節第 3 點；STORY.YT_FAFU 固定 'no'）：9/26 不演、不記 YT_LEGALAID_Y2；週六 9～12 在麵店
   { const dd=dk('2026-09-26'); fresh(dd,9.5,'wancai',{}); G.stage='law'; at(0.5,2.2); const t0=tick(); fresh(dd,13,'dorm',{}); G.stage='law'; run(13,13.1);
     const sn=CHARACTERS.heroine_03.daily_schedule.find(q=>q.zone==='noodle'&&q.days.includes(6)&&q.from===9), sw=CHARACTERS.heroine_03.daily_schedule.find(q=>q.zone==='wancai'&&q.days.includes(6));
-    check('10a. 語彤不在法服：9/26 萬才館不演事件 7、不記 YT_LEGALAID_Y2；萬才館（法服值班）那一格拿掉了（AA_661 第 11 列，原本有、條件不成立）；作息裡沒有任何燒臘店（noodle）的格子（AA_610／AA_624：原本週六 9～12 在麵店）',STORY.YT_FAFU==='no'&&!t0&&!G.flags.YT_LEGALAID_Y2&&!sn&&!CHARACTERS.heroine_03.daily_schedule.some(q=>q.zone==='noodle')&&!sw); }
+    check('10a. 語彤不在法服：9/26 萬才館不演事件 7、不記 YT_LEGALAID_Y2；萬才館那一格不成立；作息裡沒有任何燒臘店（noodle）的格子（AA_610／AA_624：原本週六 9～12 在麵店）',STORY.YT_FAFU==='no'&&!t0&&!G.flags.YT_LEGALAID_Y2&&!sn&&!CHARACTERS.heroine_03.daily_schedule.some(q=>q.zone==='noodle')&&!sw.if.custom({day:dd,stage:'law',flags:{}})); }
   STORY.YT_FAFU='yes';   /* 下面是事件 7 原本的內容（企劃保留）：只在 YT_FAFU='yes' 時演 */
   // 10. 語彤事件 7 法服的第一次值班（9/26）
   const d26=dk('2026-09-26'); check('10. 9/26 是大二上第 3 週週六、法服值班日（單週）',CALENDAR.termOf(d26).week===3&&CALENDAR.dateOf(d26).wd===6&&!!STORY.fafuDuty({day:d26,stage:'law',flags:{}}));
-  check('10. 語彤的作息：法服值班的週六 9～12 萬才館一樓那一筆拿掉了（AA_661 第 11 列：她不在法服，AA_629；原本值班的週六在、國定假日不值班）',!CHARACTERS.heroine_03.daily_schedule.some(q=>q.zone==='wancai'&&q.days.includes(6)));
+  check('10. 語彤的作息：值班的週六 9～12 在萬才館一樓（國定假日不值班）',(()=>{ const sc=CHARACTERS.heroine_03.daily_schedule.find(q=>q.zone==='wancai'&&q.days.includes(6)); return !!sc&&sc.from===9&&sc.to===12&&sc.if.custom({day:d26,stage:'law',flags:{}})&&!sc.if.custom({day:d26-7,stage:'law',flags:{}})&&!sc.if.custom({day:d26+7,stage:'law',flags:{}})&&!sc.if.custom({day:d26+14,stage:'law',flags:{}})&&sc.if.custom({day:d26+28,stage:'law',flags:{}}); })());   /* 10/10 國慶日不值班（AA_184），10/24 照常 */
   // AA_325 2-Y2-01：舊的事件 7（ev_y2_yt_duty）和第 4 週的轉述（ev_y2_yt_duty_heard）退休（AA_11 舊事件 7 已刪），換成大二第一次值班之後的麵店閒聊（src/y2r2_3d.js，tests/y2_round2_unit.js）
   check('10. ev_y2_yt_duty、ev_y2_yt_duty_heard 標 retired（AA_325 2-Y2-01）',!!ev('ev_y2_yt_duty').retired&&!!ev('ev_y2_yt_duty_heard').retired);
   fresh(d26,9.5,'wancai',{}); G.stage='law'; meet('heroine_05'); at(0.5,2.2); check('10. 退休以後：就算 YT_FAFU 是 yes，9/26 萬才館也不演舊的事件 7',!tick()&&!G.flags.YT_DUTY_SEEN);

@@ -74,22 +74,6 @@ const CLS=(function(){
   S.rtTerm=function(courseId,termId){ const G=S._lastG; const L=G&&G.courses&&Array.isArray(G.courses.retake)?G.courses.retake:[]; const r=L.find(x=>x.id===courseId&&x.term===termId); return r?(r.base||r.from):termId; };   /* 重修那一學期抽題用原本那一學期的題庫（重修又被當：base 還是最原本那一學期）*/
   S.LAW_TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
   S.termAway=(G,t)=>(typeof JP!=='undefined'&&JP.skipTerm&&JP.skipTerm(G,t))||(t==='Y4S1'&&typeof STORY!=='undefined'&&STORY.route&&STORY.route(G)==='US');   /* 人在國外的學期：台灣的課不上、不考 */
-  /* 修過的考五題法律課（D118-B7-1102；D118_PLAN 第 1 節 ③-4、第 4 節 B7：國考一試只出修過的範圍，PG.poolFor 用）：
-     法律系八個學期的成績單（R.grades[學期]）上有的課；成績單還沒發、期末考（或大四下補考）已經考過的也算（R.exam 的 '學期:課:final|makeup' status done）。
-     人在國外的學期（S.termAway：日本路線的大三下、美國路線的大四上）不算——舊存檔留著那一學期的成績單、考試紀錄也一樣。
-     重修那一門＝原課（id 一樣）；日本路線的補修（civpro_2_re、insurance_re）＝原課（S.redoOf）；刪掉的舊課（DROPPED）、不考五題的課不算。
-     回傳 COURSES.list 的課（照課程順序、不重複）；沒有 G.courses（新遊戲、舊的測試存檔）＝[]，也不建 G.courses。不改成績單、考試紀錄（S.rec 照舊換舊課程代號）*/
-  S.Y5_MAKEUP=['enforcement','legal_ethics'];   /* 美國路線大五上補修的兩門（同 src/y5s1_3d.js Y5.MAKEUP；Y5 載入了就照 Y5.MAKEUP）*/
-  S.takenCourses=function(G){ if(!G||!G.courses||typeof G.courses!=='object') return []; const R=S.rec(G), seen=new Set();
-    const add=id=>{ const rd=S.redoOf(id), cid=rd?rd.id:id, c=S.byId(cid); if(c&&S.isExamCourse(c)) seen.add(cid); };
-    for(const t of S.LAW_TERMS){ if(S.termAway(G,t)) continue; const g=R.grades&&R.grades[t]; if(g&&typeof g==='object'&&!Array.isArray(g)) for(const id in g) add(id); }
-    const E=R.exam&&typeof R.exam==='object'?R.exam:{};
-    for(const k in E){ const p=String(k).split(':'); if(p.length!==3||(p[2]!=='final'&&p[2]!=='makeup')||!S.LAW_TERMS.includes(p[0])||S.termAway(G,p[0])) continue; const e=E[k]; if(e&&e.status==='done') add(p[1]); }
-    /* BB-C 11-04 23:46（D118-B7 ①）：美國路線大五上補修的強制執行法、法律倫理（src/y5s1_3d.js Y5.MAKEUP）沒有成績單、也沒有考試，可是課是在遊戲裡上過的
-       （Y5.attend 播大四上那兩門的課堂內容 CLS.content）——上過至少一堂（G.y5.cls 有那一門的鍵 '日:課'）＝算修過；不算等於罰去交換的人。Y5 晚載入（y5s1_3d.js 在後面），呼叫的時候才看 */
-    { const y5=G.y5&&G.y5.cls&&typeof G.y5.cls==='object'?G.y5.cls:null, MK=typeof Y5!=='undefined'&&Array.isArray(Y5.MAKEUP)?Y5.MAKEUP.map(m=>m.id):S.Y5_MAKEUP;
-      if(y5){ const ks=Object.keys(y5); for(const id of MK) if(ks.some(k=>y5[k]&&String(k).split(':')[1]===id)) add(id); } }
-    return COURSES.list.filter(c=>seen.has(c.id)); };
   S.retakeTermAfter=function(G,termId){ let i=S.LAW_TERMS.indexOf(termId); if(i<0) return null;
     for(i++;i<S.LAW_TERMS.length;i++){ const t=S.LAW_TERMS[i]; if(S.termAway(G,t)) continue; return t; } return null; };
   S.failedIn=function(G,termId){ const R=S.rec(G), out=[]; if(S.termAway(G,termId)) return out; for(const c of S.termCourses(G,termId)){ if(c.kind==='service') continue;
@@ -873,10 +857,6 @@ const CLS=(function(){
     return seats.length; };
   const figGone=rec=>{ if(rec.group&&rec.group.parent) rec.group.parent.remove(rec.group); for(const st of rec.seats) if(st.taken===rec.key) st.taken=null; FIG.on.delete(rec.key); };
   S.figRemove=function(GM,key,instant){ const rec=FIG.on.get(key); if(!rec) return; if(instant||!rec.group||GM.E.zone!==rec.zone) figGone(rec); else rec.leaving=true; };
-  /* 替身的遠近（STANDIN-LOD-1104，BB-C 17:19「博思 101 的 17 個替身全部是 _lod1……把玩家移到替身中間，7 m 內也沒換」）：原本只在 figTick 換，figTick 在 S.tick 裡——
-     S.tick 每 30 格才一次（SwiftShader 1～4 fps＝8～30 秒），而且在演、對話中、玩家 busy（上課坐著聽講）、睡覺時整段不跑（story3d.js 的 S.tick 開頭就 return）；
-     改成主迴圈每 0.5 秒（真實時間）照玩家現在的位置換，不管忙不忙（game3d.js 的 frame）。figTick 照舊也換（下課拿掉替身照舊在 figTick）*/
-  S.figLod=function(GM){ if(!FIG.on.size) return 0; const E=GM.E, PP=E.player&&E.player.obj&&E.player.obj.position; if(!PP) return 0; let n=0; for(const rec of FIG.on.values()) if(rec.lay&&E.zone===rec.zone&&rec.lay(PP)) n++; return n; };
   let figFr=null;
   S.figTick=function(GM){ if(!FIG.on.size) return; const E=GM.E, PP=E.player&&E.player.obj&&E.player.obj.position; for(const rec of [...FIG.on.values()]){ if(E.zone!==rec.zone){ FIG.on.delete(rec.key); continue; } if(rec.lay&&PP) rec.lay(PP);   /* 照玩家現在的位置換遠近（BUG-03）*/ if(!rec.leaving||!rec.group) continue;
       const cam=E.camera; let seen=false; if(cam&&THREE.Frustum){ figFr=figFr||new THREE.Frustum(); figFr.setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
@@ -1091,7 +1071,7 @@ const CLS=(function(){
   /* 路線（R2；1-3 第 3 點「宿舍 → 校園 → 那棟建築 → 教室」）：每一區出去是哪裡，往外走到校園，再走進要去的那一棟。
      樓上樓層、房間照 PLACES.base 對到那一棟（宿舍房間→男生宿舍、總圖 3F→總圖、霖澤館 3F→霖澤館、溫州街的店→溫州街）；
      公館、溫州街從校門進校園。走不到校園的區域（國外、日本、美國…）＝不知道路線，不停（照舊直接到）。 */
-  const OUTER={classroom:'linze',lawlib:'wancai',linze:'campus',wancai:'campus',dorm_hall:'campus',library_hall:'campus',gongtong:'campus',putong:'campus',boya:'campus',gym:'campus',soclib:'campus',soclib_2f:'soclib',lane118:'campus',gongguan:'campus',
+  const OUTER={classroom:'linze',lawlib:'wancai',linze:'campus',wancai:'campus',dorm_hall:'campus',library_hall:'campus',gongtong:'campus',putong:'campus',boya:'campus',gym:'campus',soclib:'campus',lane118:'campus',gongguan:'campus',
                noodle:'gongguan',cvs:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',aoki:'gongguan',afar:'gongguan',daybreak:'gongguan',wenzhou:'gongguan',cafe:'wenzhou'};
   const outerOf=z=>{ if(OUTER[z]) return OUTER[z]; const b=typeof PLACES!=='undefined'&&PLACES.base?PLACES.base(z):z; return b&&b!==z?b:null; };
   const upTo=z=>{ const out=[]; for(let q=z,n=0;q&&n<8;n++){ out.push(q); if(q==='campus') return out; q=outerOf(q); } return null; };

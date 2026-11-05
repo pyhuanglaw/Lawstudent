@@ -47,8 +47,8 @@ const angEq=(a,b)=>Math.abs(Math.atan2(Math.sin(a-b),Math.cos(a-b)))<0.01;
     const sets=['lset_write','lset_phone','lset_laptop','lset_book','lset_code']; check('A desk_props.glb 有講堂的五組＋各自的 _lod1',sets.every(n=>names(PROPS).includes(n)&&names(PROPS).includes(n+'_lod1')));
     const figs=names(FIGS).filter(n=>/^fig_/.test(n)); check('A 替身的每一種（'+figs.length+' 個網格）都配得到一組桌上小物（姿勢只有聽講、抄筆記、滑手機）',figs.length>0&&figs.every(n=>!!deskSet(n,0)),figs.filter(n=>!deskSet(n,0)).join(','));
     const P=positions(FURN,'study_chair'), c=P.filter(p=>Math.abs(p[0])<0.12&&Math.abs(p[2])<0.12&&p[1]>0.3&&p[1]<0.6), top=Math.max(...c.map(p=>p[1]));
-    const z3top=+((fs.readFileSync(path.join(ROOT,'src/character3d.js'),'utf8').match(/C\.SIT_TOP=([0-9.]+)/)||[])[1])||0.46+0.025;   /* 坐下對準的椅面：SIT-HEIGHT-1104 以後是 character3d.js 的 C.SIT_TOP 0.47（坐下的大腿底部在 0.465；這支測試的 CHAR 是替身，從原始檔讀）；以前照 Z3.chair 的椅面（0.05 厚、中心 0.46）*/
-    check('A 自習椅的椅面（GLB 中間那一圈頂點最高 '+top.toFixed(3)+' m）× 放大 '+CHAIR_FIT.toFixed(3)+'＝'+(top*CHAIR_FIT).toFixed(3)+' m，和坐下對準的椅面 '+z3top+' m 差不到 5 mm（坐下的人不會浮起來、陷進去）',Math.abs(top*CHAIR_FIT-z3top)<0.005); }
+    const z3top=0.46+0.025;   /* Z3.chair：椅面 0.05 厚、中心 0.46 */
+    check('A 自習椅的椅面（GLB 中間那一圈頂點最高 '+top.toFixed(3)+' m）× 放大 '+CHAIR_FIT.toFixed(3)+'＝'+(top*CHAIR_FIT).toFixed(3)+' m，和程序化椅子的椅面 '+z3top+' m 差不到 5 mm（坐下的人不會浮起來、陷進去）',Math.abs(top*CHAIR_FIT-z3top)<0.005); }
   /* ---------- B：博雅大廳 ---------- */
   mode='fail'; const zF=loadZone('boya'); await tick(); await tick();
   const seatsF=JSON.stringify(zF.seats), itF=JSON.stringify(E.interactables.map(i=>[i.x,i.z,i.lv,i.label])), navF=zF.levels.map(n=>Array.from(n.b).join('')).join('|');

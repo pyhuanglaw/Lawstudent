@@ -1,11 +1,11 @@
 {
- "objects": 5,
- "unique_meshes": 5,
- "tris": 8630,
- "tris_drawn": 8630,
- "materials": 14,
+ "objects": 8,
+ "unique_meshes": 8,
+ "tris": 3424,
+ "tris_drawn": 3424,
+ "materials": 11,
  "out": "assets/models/env/second_ai/campus_boya.glb",
- "bytes": 958576,
+ "bytes": 415604,
  "texres": 512,
- "note": "博雅 v2（TEACH-PTBOYA-REF-1104）：南面二樓以上紅磚、清水混凝土大雨遮＋一排小方形天窗、北面長草斜坡到二樓＋木格柵樓梯（底下關著）、入口木格柵、一樓圓柱；照官網照片，D136 像但不照抄"
+ "note": "博雅：五層現代建築（淺灰石材、玻璃大廳、橫向長窗＋鋁鰭）；依文字資料推測（沒有照片）"
 }

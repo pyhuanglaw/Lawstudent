@@ -83,7 +83,7 @@ const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變
   {"id":"zr35","n":35,"k":"resched","stage":"改天","st":[1,7],"tags":[],"cond":"上班","lines":["「我在上班。改天。時間我記得。」"],"say":"「我在上班。改天。時間我記得。」","src":"BB_123"},
   {"id":"zr36","n":36,"k":"decline","stage":"婉拒","st":[1,2],"tags":["library"],"cond":null,"lines":["「總圖太安靜了，我會想講話。」"],"say":"「總圖太安靜了，我會想講話。」","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_02.rule 原本的程式"},
   {"id":"zr37","n":37,"k":"decline","stage":"婉拒","st":[1,4],"tags":["外出"],"cond":"看電影","lines":["「我看電影都一個人。不是討厭你。」"],"say":"「我看電影都一個人。不是討厭你。」","src":"改（BB_123）","off":"外出的地點種類（date3d.js）；外出的邀約接上才用（AA_415 第 8 節）"},
-  {"id":"zr38","n":38,"k":"decline","stage":"婉拒","st":[1,7],"tags":[],"cond":null,"lines":["「這個我還想一下。……你先不要等我。」"],"say":"「這個我還想一下。……你先不要等我。」","src":"BB_123"}
+  {"id":"zr38","n":38,"k":"decline","stage":"婉拒","st":[1,7],"tags":[],"cond":null,"lines":["「這個我還想一下。……不是不要，是還想一下。」"],"say":"「這個我還想一下。……不是不要，是還想一下。」","src":"BB_123"}
  ],
  "heroine_03":[
   {"id":"yt1","n":1,"k":"acc","stage":"1","st":[1,1],"tags":["library"],"cond":null,"lines":["「……我在三樓。」"],"say":"「……我在三樓。」","src":"AA_127"},
@@ -156,7 +156,7 @@ const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變
   {"id":"zq34","n":34,"k":"decline","stage":"婉拒","st":[1,2],"tags":["library"],"cond":null,"lines":["「總圖不能講話。我會死。」"],"say":"「總圖不能講話。我會死。」","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_04.rule 原本的程式"},
   {"id":"zq35","n":35,"k":"decline","stage":"婉拒","st":[1,7],"tags":["library"],"cond":"大四","lines":["「我畢業了啦。總圖要辦校友證，我還沒辦。……兩點半？」"],"say":"「我畢業了啦。總圖要辦校友證，我還沒辦。……兩點半？」","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_04.rule 原本的程式"},
   {"id":"zq36","n":36,"k":"decline","stage":"婉拒","st":[1,4],"tags":["外出"],"cond":null,"lines":["「出去玩？……我們還沒那麼熟吧。」"],"say":"「出去玩？……我們還沒那麼熟吧。」","src":"新"},
-  {"id":"zq37","n":37,"k":"decline","stage":"婉拒","st":[1,7],"tags":[],"cond":null,"lines":["「今天不出門。……我想一個人打電動。」"],"say":"「今天不出門。……我想一個人打電動。」","src":"BB_123"}
+  {"id":"zq37","n":37,"k":"decline","stage":"婉拒","st":[1,7],"tags":[],"cond":null,"lines":["「今天不想出門。……不是你的問題，是我的被子。」"],"say":"「今天不想出門。……不是你的問題，是我的被子。」","src":"BB_123"}
  ],
  "heroine_05":[
   {"id":"sis1","n":1,"k":"acc","stage":"1","st":[1,2],"tags":["cafe"],"cond":null,"lines":["「好。」"],"say":"「好。」","src":"現有","ex":"acc","band":"A"},

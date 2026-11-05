@@ -51,7 +51,7 @@ const NEEDED_MSGS=(function(){
     {id:'bh_scores',who:'classmate_bohan',term:'Y2S2',w:[7,9],tie:true,cond:G=>att(G,'public_law_group')&&done(G,'ev_bohan_scores'),msg:['以安在白板上寫了她這週的進度。她寫字好工整。'],reply:'你自己跟她說。',resp:['……好。'],miss:['讀書會那則，你沒回也沒關係。']},   /* 原 bh_moot（模擬法庭刪除）；只在 ev_bohan_scores 演過才出現 */
     {id:'bh_final',who:'classmate_bohan',term:'Y2S2',w:[14,15],msg:['期末的考古題整理好了，放在讀書會的雲端。'],reply:'謝謝。',resp:['民法那份少一年，我還在找。'],miss:null},
     // 芯慈（AA_179）
-    {id:'xc_econ',who:'classmate_xinci',term:'Y2S1',w:[2,4],tie:true,cond:G=>!!F(G).ECON_TOGETHER,msg:['財金那邊，這學期你還陪我看嗎？'],reply:'好。',resp:['那週三總圖。'],miss:['經濟那邊，你沒回。……我自己去聽了。']},
+    {id:'xc_econ',who:'classmate_xinci',term:'Y2S1',w:[2,4],tie:true,cond:G=>!!F(G).ECON_TOGETHER,msg:['經濟那邊，這學期你還陪我看嗎？'],reply:'好。',resp:['那週三總圖。'],miss:['經濟那邊，你沒回。……我自己去聽了。']},
     {id:'xc_contract',who:'classmate_xinci',term:'Y2S2',w:[8,10],   /* AA_313 5-6：和 Alison 的 yu_overtime（大二上第 6～8 週）幾乎同一則，兩則不要同一學期——搬到大二下第 8～10 週（xc_grade 第 5～7 週、xc_notes 第 11～13 週中間）*/msg:['幫我看一下這份打工的合約。我朋友要簽的。'],reply:'我只能說我看到什麼。要問的話去法服。',resp:['……好。我照你說的跟她講。'],miss:['合約那則你沒回。……我叫我朋友去法服了。']},
     {id:'xc_drama',who:'classmate_xinci',term:'Y2S1',w:[14,16],tie:true,cond:G=>done(G,'ev_xinci_second')||done(G,'ev_xinci_second_b1'),msg:['永和的公車今天提早到了。……我多讀了一章。'],reply:'恭喜？',resp:['謝謝。很少發生。'],miss:['上次公車那則，你沒回。','……沒關係。那班車隔天又誤點了。']},   /* AA_497 第 8 節後補（企劃線 b70bed855）：沒回的那一句，時機照原本 */   /* AA_497 第 8 節第 3 點（企劃線 60fc3b9a3）：追劇減量，三句照稿換；沒回的那一句（原本「大結局那則你沒回。……很好，代表你沒爆雷。」）稿沒給新句＝先不說（miss:null），請 AA 補 */
     {id:'xc_grade',who:'classmate_xinci',term:'Y2S2',w:[5,7],msg:['作業發回來了，不要跟我說以安拿幾分。……我想先自己對完。'],reply:'好。',resp:['謝啦。對完我再請你喝飲料。'],miss:['以安的分數那件，你沒回。……反正不要跟我說就好。']},
