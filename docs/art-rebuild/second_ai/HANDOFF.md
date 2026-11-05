@@ -2,6 +2,10 @@
 
 > **接班必讀（使用者 11-05 03:4x，UA-LAWWW2-1105-01）：任何 2D 轉 3D 都照 `RULES_2D_TO_3D.md` 做**——「疊圖畫出來的3d真的很棒寫成規則 以後任何2d轉3d都要參考這次透過開源或者新增的各種美術方法都要寫進規則交接給下一個lawww2」。流程、工具表、踩過的坑、範例（同弦 `wip/tongxian_ref_1105/`、2:30 AM `wip/wz_five_1104/cafe230_exterior.md`）都在裡面；有新方法就加一列。
 
+> **先將就的待辦（使用者 11-05 09:3x「先將就的：記得放到代辦事項 以免交接後又忘記」）：`TODO_SHORTCUTS.md`**。
+> - 每一包 README 的「先將就」都收在那裡。
+> - 接班的人從那裡挑；新交一包就加上去。
+
 ## ✅ 值班登記（2026-11-04 12:37 UTC；帳號 C LAWWW2-C；使用者：「你上次沒有交班 使用量就到達上限 你之後有其他帳號接續工作 現在換你接班 有新增一個腳色CC幫助BB測試」）
 - 值班登記：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜分支 claude/focused-cray-c9uwvw｜接班基準 `5f85444cd`（快轉上一任 `claude/second-ai-env-art`）｜2026-11-04 12:37 UTC
 - 上一班：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜最後 commit `af97d745`（交班紀錄）＋`5f85444cd`（快照）｜正常交班（11-04 09:1x）。帳號 B 11-04 12:1x～12:2x 那一班，LAWWW2-B 沒有登記、沒有寫入 LAWWW2 的分支。
@@ -63,6 +67,7 @@
 | TONGXIAN-REF-1105（同弦店內照參考圖：camRef 重選、書架搬西牆、吊盆） | `b49d3016b` | DELIVERED LAWWW-C、BB-C；README 在 `wip/tongxian_ref_1105/` |
 
 ### 佇列（照順序）
+0. **先將就的待辦**：`TODO_SHORTCUTS.md`（17 包，使用者 11-05 09:3x 要求列進待辦）。下一步先做：新生南路三間窗景（XS-WINCARD）→ 木曜日窗景 → 望月台、體育館 Blender 正式外觀（XS-GATE-NORTH 先將就 1）。
 1. **PERF-WZ-DAY-1103（P1）**：PC 數字回來就照 `wip/perf_wz_day_1103/README.md` 的表決定修哪一項。
    - 路人換正式模型的尖峰：LAWWW 的 game3d.js，我寫 patch。
    - shader、貼圖、draw call、陰影：我的檔。
