@@ -10,6 +10,9 @@
    ⑧ 營業時間（AA_619）：週二～週日 12:00～21:30 開、週一公休、颱風天關（PLACES.isOpen／typhoonShops）
    ⑨ 正式模型：店內木地板不伸進樓梯間（tools/blender/env_second/glb_floor_hole.py）、是淺色（D112）；樓梯間的平台、樓梯口兩側是磨石子、不和木地板疊面；
       單面的牆正面朝樓梯間；樓梯間的 GLB 22 階對得上樓梯口
+   ⑩ 接線：index.html 載入、店門照營業時間擋
+   ⑪ 參考圖的排法（TONGXIAN-REF-1105，v4e）：camRef 左半邊有窗和試琴角、右半邊有吉他牆和玻璃展示櫃、看試琴角的視線沒有家具擋；
+      走道上方的吊盆葉子離地 1.75 m 以上；店裡的零件都在房間裡（v4d 前兩項 FAIL；v4e 第一版第三項 FAIL）
    這是模擬（證明路走得通），不是真實玩家流程（瀏覽器測試照 D131 排到使用者的電腦）。用法：node tests/tongxian_unit.js */
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -100,6 +103,27 @@ check(`④ 店門走得到配置的 ${pts.length-1} 個互動點（按鈕範圍 
   const N=ex.risers, R=4.2/(N||1), tops=[...new Set(tread.map(p=>p[1].toFixed(4)))].map(Number);   /* extras 的 rise 只有 4 位小數：照一樓高 4.2 ÷ 階數算 */
   let okSteps=N===22&&Math.abs(ex.rise*N-4.2)<0.01; for(let j=1;j<N&&okSteps;j++) if(!tops.some(y=>Math.abs(y+j*R)<0.002)) okSteps=false;
   check('⑨ 樓梯間 22 階、每階 '+(R||0).toFixed(3)+' m、從平台（y 0）到騎樓（−4.2）、寬照 flight（'+F.x0+'～'+F.x1+'）',okSteps&&tread.every(p=>p[0]>=F.x0-1e-3&&p[0]<=F.x1+1e-3),`踏面高 ${tops.length} 種、頂點 ${tread.length}`); }
+// ⑪ 參考圖的構圖（D133，BB-C 02:08；v4e）：camRef 的鏡頭裡窗和試琴角在左半邊、吉他牆和玻璃展示櫃在右半邊；從眼睛到兩張試琴椅、音箱的視線沒有被家具（blocks）擋住
+{ const C=L.camRef, hf=2*Math.atan(18/C.lens), yaw=Math.atan2(C.look[0]-C.eye[0],-(C.look[2]-C.eye[2]));   /* 水平視角（感光元件寬 36 mm）；yaw＝往東偏多少（看向 −z 為 0） */
+  const ang=(x,zz)=>{ let a=Math.atan2(x-C.eye[0],-(zz-C.eye[2]))-yaw; while(a>Math.PI) a-=2*Math.PI; while(a<-Math.PI) a+=2*Math.PI; return a; }, half=hf/2-0.02;
+  const W=L.windows[0], left=[['窗',(W.x0+W.x1)/2,-L.d/2],...L.items.filter(i=>i.kind==='trial_stool').map(i=>['試琴椅',i.x,i.z]),...L.items.filter(i=>i.kind==='amp').map(i=>['音箱',i.x,i.z])];
+  const ctr=L.items.find(i=>i.kind==='counter'), right=[['吉他牆',L.w/2,-3.0],['玻璃展示櫃',ctr.x,ctr.z-0.8]];
+  const okL=left.every(([n,x,zz])=>{ const a=ang(x,zz); return a<0&&a>-half; }), okR=right.every(([n,x,zz])=>{ const a=ang(x,zz); return a>0&&a<half; });
+  const segHit=(x0,z0,x1,z1,b)=>{ const hx=b[2]/2, hz=b[3]/2; for(let t=0.02;t<0.98;t+=0.01){ const x=x0+(x1-x0)*t, zz=z0+(z1-z0)*t; if(Math.abs(x-b[0])<hx&&Math.abs(zz-b[1])<hz) return true; } return false; };
+  const targets=left.slice(1), own=(b,x,zz)=>Math.abs(b[0]-x)<0.4&&Math.abs(b[1]-zz)<0.4, blocked=targets.filter(([n,x,zz])=>L.blocks.some(b=>!own(b,x,zz)&&segHit(C.eye[0],C.eye[2],x,zz,b))).map(([n])=>n);
+  check('⑪ 參考圖的構圖：camRef 左半邊有窗、試琴椅、音箱，右半邊有吉他牆、玻璃展示櫃；看試琴角的視線沒有家具擋',okL&&okR&&!blocked.length,
+    left.concat(right).map(([n,x,zz])=>n+' '+(ang(x,zz)*180/Math.PI).toFixed(0)+'°').join('、')+'（視角 ±'+(hf*90/Math.PI).toFixed(0)+'°）'+(blocked.length?'；擋住：'+blocked.join('、'):''));
+  /* 吊在走道上方的黃金葛：最低的葉子離地 1.75 m 以上（人走過去不會穿過葉子） */
+  const hp=L.items.find(i=>i.kind==='hanging_plant'), d=fs.readFileSync(path.join(ROOT,ASSETS.manifest['bldg.xs_tongxian'].url)), n=d.readUInt32LE(12), J=JSON.parse(d.slice(20,20+n).toString('utf8')), bo=20+n+8;
+  let low=Infinity; for(const m of J.meshes){ if(!/leaf/.test(m.name)) continue; for(const pr of m.primitives){ const a=J.accessors[pr.attributes.POSITION], bv=J.bufferViews[a.bufferView], st=bv.byteStride||12, off=bo+(bv.byteOffset||0)+(a.byteOffset||0);
+      for(let i=0;i<a.count;i++){ const x=d.readFloatLE(off+i*st), y=d.readFloatLE(off+i*st+4), zz=d.readFloatLE(off+i*st+8); if(Math.hypot(x-hp.x,zz-hp.z)<0.9&&y>1.0&&y<low) low=y; } } }
+  check('⑪ 走道上方的吊盆黃金葛：最低的葉子離地 ≥ 1.75 m',low>=1.75&&low<hp.y,'最低 '+(low===Infinity?'—':low.toFixed(2))+' m');
+  /* 店裡的零件都在房間裡：v4e 第一版把書架轉 90° 的時候，連吊燈的電線也轉到牆外（從天花板拉出一大片黑色三角形；用頂點數分新舊，bmesh 刪過頂點以後會錯）。
+     北牆以南的頂點：x −3.3～3.3、y −0.05～3.25、z ≤ 5.3（牆的灰泥有厚度、窗外的景板在北牆外面，不算；instancing 的吉他是本地座標，不算） */
+  const outB={}; for(const nd of J.nodes){ if(nd.mesh==null||(nd.extensions&&nd.extensions.EXT_mesh_gpu_instancing)||nd.translation||nd.rotation||nd.scale||nd.matrix) continue; const m=J.meshes[nd.mesh]; if(/plaster/.test(m.name)) continue;
+    for(const pr of m.primitives){ const a=J.accessors[pr.attributes.POSITION], bv=J.bufferViews[a.bufferView], st=bv.byteStride||12, off=bo+(bv.byteOffset||0)+(a.byteOffset||0);
+      for(let i=0;i<a.count;i++){ const x=d.readFloatLE(off+i*st), y=d.readFloatLE(off+i*st+4), zz=d.readFloatLE(off+i*st+8); if(zz>-5.3&&(Math.abs(x)>3.3||y<-0.05||y>3.25||zz>5.3)) outB[m.name]=(outB[m.name]||0)+1; } } }
+  check('⑪ 店裡的零件都在房間裡（北牆以南：x ±3.3、y −0.05～3.25、z ≤ 5.3；牆的灰泥不算）',!Object.keys(outB).length,Object.keys(outB).length?'跑出去的頂點 '+JSON.stringify(outB):''); }
 // ⑩ 接線（LAWWW 的檔，交件的 patch）：index.html 在新生南路後面載入這兩個檔；story3d.js 的店門照開放時間擋（溫州街的店同一句）；營業時間寫在 places.js
 { const idx=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), pl=fs.readFileSync(path.join(ROOT,'src/data/places.js'),'utf8');
   const a=idx.indexOf('src/xinsheng3d.js'), b=idx.indexOf('src/data/tongxian_layout.js'), c=idx.indexOf('src/tongxian3d.js');

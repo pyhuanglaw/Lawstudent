@@ -1,8 +1,8 @@
 {
  "objects": 179,
  "unique_meshes": 62,
- "tris": 42404,
- "tris_drawn": 57262,
+ "tris": 41747,
+ "tris_drawn": 56605,
  "materials": [
   "tx_ceiling",
   "tx_floor_oak",
@@ -18,11 +18,11 @@
   "tx_wood"
  ],
  "out": "assets/models/env/second_ai/bb_support/tongxian.glb",
- "bytes": 3032464,
+ "bytes": 2995264,
  "texres": 512,
  "shop": "tongxian",
  "layout": 4,
- "drawn_tris": 57262,
+ "drawn_tris": 56605,
  "guitars": {
   "electric_wall": 22,
   "acoustic_wall": 20,
@@ -233,17 +233,8 @@
    "date": "2026-11-05",
    "tool": "tools/blender/env_second/glb_floor_hole.py",
    "args": "tx_floor -3.2,-1.14,1.0,5.2",
-   "why": "樓梯間（門外的平台、樓梯口）整塊挖掉：那裡是 tongxian_stair.glb 的磨石子（BB-C 11-05 01:39Z）。v1（a353148b7）只挖樓梯口 -2.95,-1.45,1.0,4.2"
-  },
-  {
-   "by": "LAWWW2-C",
-   "date": "2026-11-05",
-   "tool": "tools/blender/env_second/glb_tint_image.py",
-   "args": "laminate_floor_02_diff_1k_s1_g1_c49c70 '#d6bc96' --src tools/blender/env_second/textures/laminate_floor_02/laminate_floor_02_diff_1k.jpg",
-   "why": "D112：木地板 #c49c70（L* 67）→ #d6bc96（L* 78），和其他淺色木地板一致（BB-C：中間偏深的咖啡色）"
-  },
-  {
-   "note": "輸入是 CC 的 v4d 原檔（cc-local 0b6033c46 的 assets/models/env/second_ai/bb_support/tongxian.glb）。CC 重新匯出時：tongxian_interior.py 的 floor target 改 #d6bc96，然後重跑地板洞（上面那一行）"
+   "why": "樓梯間（門外的平台、樓梯口）整塊挖掉：那裡是 tongxian_stair.glb 的磨石子"
   }
- ]
+ ],
+ "version": "v4e（LAWWW2-C 11-05，TONGXIAN-REF-1105）：CC v4d 的 tongxian_interior.py＋木地板 #d6bc96（D112）、書架搬到西牆（ry）、吊盆 (−1.2, −1.6)、camRef 重選"
 }

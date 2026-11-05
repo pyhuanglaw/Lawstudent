@@ -1,0 +1,296 @@
+{
+ "ref": "tx/ref_int.jpg",
+ "shot": "tx/final/new_refcam.png",
+ "size": [
+  960,
+  540
+ ],
+ "tol_px": 11.5,
+ "edge": {
+  "precision": 0.759,
+  "recall": 0.514,
+  "F": 0.613
+ },
+ "line": {
+  "precision": 0.163,
+  "recall": 0.134,
+  "F": 0.147,
+  "n_ref": 137,
+  "n_shot": 79
+ },
+ "line_after_best_shift": {
+  "F": 0.292
+ },
+ "lift_vs_shifted_decoys": 0.058,
+ "decoy_F": [
+  0.13,
+  0.084,
+  0.054,
+  0.089
+ ],
+ "vanishing_point": {
+  "ref": [
+   0.17,
+   0.484,
+   0.63
+  ],
+  "shot": [
+   0.32,
+   0.458,
+   0.99
+  ],
+  "diff_pct": 15.29,
+  "note": "[x/寬, y/高, 支持的線長比例]"
+ },
+ "vertical_tilt_deg": {
+  "ref_left_right": [
+   0.4025638621930707,
+   -0.5923152896512169
+  ],
+  "shot_left_right": [
+   1.0721540079846381,
+   -0.6341830270142732
+  ],
+  "note": "線往下走時往右偏為正。左正右負＝往下收攏＝鏡頭往下看；左負右正＝鏡頭往上看；兩邊都≈0＝鏡頭水平（或參考圖用了移軸／AI 圖常見）"
+ },
+ "camera_fix": null,
+ "best_shift": {
+  "scale": 1.095,
+  "dx_pct": 9.5,
+  "dy_pct": 8.0
+ },
+ "ssim_struct": 0.521,
+ "region_color": [
+  {
+   "cell": "0,0",
+   "dE_mean": 22.5,
+   "ab_hist_intersection": 0.23
+  },
+  {
+   "cell": "0,1",
+   "dE_mean": 22.9,
+   "ab_hist_intersection": 0.07
+  },
+  {
+   "cell": "0,2",
+   "dE_mean": 20.5,
+   "ab_hist_intersection": 0.23
+  },
+  {
+   "cell": "1,0",
+   "dE_mean": 13.8,
+   "ab_hist_intersection": 0.43
+  },
+  {
+   "cell": "1,1",
+   "dE_mean": 21.3,
+   "ab_hist_intersection": 0.3
+  },
+  {
+   "cell": "1,2",
+   "dE_mean": 24.3,
+   "ab_hist_intersection": 0.2
+  },
+  {
+   "cell": "2,0",
+   "dE_mean": 19.5,
+   "ab_hist_intersection": 0.2
+  },
+  {
+   "cell": "2,1",
+   "dE_mean": 19.4,
+   "ab_hist_intersection": 0.22
+  },
+  {
+   "cell": "2,2",
+   "dE_mean": 22.3,
+   "ab_hist_intersection": 0.3
+  }
+ ],
+ "detail_gap": [
+  {
+   "cell": "0,0",
+   "ref": 0.093,
+   "shot": 0.022,
+   "ratio": 3.62
+  },
+  {
+   "cell": "0,1",
+   "ref": 0.107,
+   "shot": 0.019,
+   "ratio": 4.74
+  },
+  {
+   "cell": "0,2",
+   "ref": 0.046,
+   "shot": 0.0,
+   "ratio": 10.19
+  },
+  {
+   "cell": "0,3",
+   "ref": 0.066,
+   "shot": 0.021,
+   "ratio": 2.73
+  },
+  {
+   "cell": "0,4",
+   "ref": 0.111,
+   "shot": 0.034,
+   "ratio": 2.99
+  },
+  {
+   "cell": "0,5",
+   "ref": 0.106,
+   "shot": 0.054,
+   "ratio": 1.89
+  },
+  {
+   "cell": "1,0",
+   "ref": 0.092,
+   "shot": 0.044,
+   "ratio": 1.95
+  },
+  {
+   "cell": "1,1",
+   "ref": 0.195,
+   "shot": 0.062,
+   "ratio": 3.0
+  },
+  {
+   "cell": "1,2",
+   "ref": 0.132,
+   "shot": 0.014,
+   "ratio": 7.36
+  },
+  {
+   "cell": "1,3",
+   "ref": 0.133,
+   "shot": 0.031,
+   "ratio": 3.87
+  },
+  {
+   "cell": "1,4",
+   "ref": 0.125,
+   "shot": 0.06,
+   "ratio": 2.01
+  },
+  {
+   "cell": "1,5",
+   "ref": 0.106,
+   "shot": 0.066,
+   "ratio": 1.58
+  },
+  {
+   "cell": "2,0",
+   "ref": 0.032,
+   "shot": 0.058,
+   "ratio": 0.59
+  },
+  {
+   "cell": "2,1",
+   "ref": 0.12,
+   "shot": 0.064,
+   "ratio": 1.82
+  },
+  {
+   "cell": "2,2",
+   "ref": 0.109,
+   "shot": 0.03,
+   "ratio": 3.29
+  },
+  {
+   "cell": "2,3",
+   "ref": 0.103,
+   "shot": 0.012,
+   "ratio": 6.47
+  },
+  {
+   "cell": "2,4",
+   "ref": 0.082,
+   "shot": 0.034,
+   "ratio": 2.24
+  },
+  {
+   "cell": "2,5",
+   "ref": 0.064,
+   "shot": 0.023,
+   "ratio": 2.5
+  },
+  {
+   "cell": "3,0",
+   "ref": 0.033,
+   "shot": 0.002,
+   "ratio": 5.2
+  },
+  {
+   "cell": "3,1",
+   "ref": 0.059,
+   "shot": 0.0,
+   "ratio": 12.79
+  },
+  {
+   "cell": "3,2",
+   "ref": 0.031,
+   "shot": 0.0,
+   "ratio": 7.27
+  },
+  {
+   "cell": "3,3",
+   "ref": 0.083,
+   "shot": 0.002,
+   "ratio": 13.35
+  },
+  {
+   "cell": "3,4",
+   "ref": 0.119,
+   "shot": 0.007,
+   "ratio": 10.34
+  },
+  {
+   "cell": "3,5",
+   "ref": 0.075,
+   "shot": 0.004,
+   "ratio": 9.0
+  }
+ ],
+ "mode": "shop",
+ "campus": null,
+ "checks": [
+  {
+   "name": "[鏡頭] 消失點位置差 ≤ 2%（左右、上下看的方向一樣）",
+   "ok": false,
+   "info": "15.3%"
+  },
+  {
+   "name": "[鏡頭] 垂直線傾斜差 ≤ 1.5°（俯仰／移軸一樣）",
+   "ok": true,
+   "info": "0.7°"
+  },
+  {
+   "name": "[鏡頭] 畫面比例相同（±3%）",
+   "ok": true,
+   "info": "參考 1.777｜截圖 1.778"
+  },
+  {
+   "name": "[內容] 參考圖東西多很多（邊緣密度比 > 1.8）的格子 ≤ 3／24",
+   "ok": false,
+   "info": "22 格"
+  }
+ ],
+ "info": [
+  {
+   "name": "（參考）line_F 有方向的長直線",
+   "value": "0.15；移開 25% 的平均 0.09；lift +0.06；最佳 2D 對位後 0.29"
+  },
+  {
+   "name": "（參考）ssim_struct 大形狀",
+   "value": "0.52"
+  },
+  {
+   "name": "（參考）最佳 2D 對位",
+   "value": "縮放 1.10、平移 +9.5%／+8.0%（消失點對好以後還差很多＝房間比例／深度不一樣，不是鏡頭）"
+  }
+ ],
+ "vertical_tilt_diff_deg": 0.6695901457915674,
+ "pass_all": false
+}
