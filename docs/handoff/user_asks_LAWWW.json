@@ -3061,6 +3061,16 @@
    "wants": "X234",
    "task": "RELEASE-V91021-1105",
    "note": "使用者對 LAWWW2-C 說，LAWWW2-C 06:35 轉；下一版 v9.10.21"
+  },
+  {
+   "id": "UA-LAWWW-1105-17",
+   "at": "2026-11-05T06:4xZ",
+   "quote": "公館燒臘線上版本怎麼還是麵店（附截圖：進去是乾麵 60、陽春麵直條的舊麵店室內）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X234",
+   "task": "SHAOLA-WIRE-1105",
+   "note": "查到 BB 做的 shaola_interior.glb v7（MODEL_READY 11-04）只在企劃線、從沒接進遊戲；noodle 區域照舊載 noodle_interior.glb；交 LAWWW2 接（D108），放進 v9.10.21"
   }
  ]
 }

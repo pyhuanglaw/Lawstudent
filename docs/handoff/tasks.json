@@ -47175,6 +47175,34 @@
    "next": "子代理 wt-close：xs_close3d＋gg2shops／ggshops_sys／offbeat／mokuyobi／guitar／118 巷／溫州街各店的 close 照 AA_700 統一；24 小時的店不加",
    "source": "AA_700（企劃線 4f60052c8）",
    "authorized": "使用者原話（UA-AA-1105-04）"
+  },
+  {
+   "id": "SHAOLA-WIRE-1105",
+   "title": "公館燒臘室內換成 shaola_interior.glb v7（使用者 11-05 06:4x：「公館燒臘線上版本怎麼還是麵店」）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "公館燒臘",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2：noodle 區域改載 BB 的 shaola_interior.glb（企劃線 bb_support，v7 MODEL_READY），區域 id、座位、出口、導航不改；patch＋Node 測試 → LAWWW 接 → v9.10.21",
+   "source": "UA-LAWWW-1105-17",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "企劃線 docs/story_planning/bb_models/shaola/README.md",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "進公館燒臘看到燒臘店室內；座位坐得下；Node ALL PASS",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
