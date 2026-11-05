@@ -1,0 +1,509 @@
+{
+ "pid": "heroine_03",
+ "tag": "date 當面約",
+ "rec0": {
+  "day": -1,
+  "hour": 12.1117,
+  "t": -11.8883,
+  "money": 30000,
+  "rel": {
+   "fam": 52,
+   "trust": 35,
+   "comf": 28,
+   "aff": 0,
+   "rom": 35,
+   "npcRom": 35
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "library",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": -1,
+  "hour": 15.2654,
+  "t": -8.7346,
+  "money": 29690,
+  "rel": {
+   "fam": 54,
+   "trust": 37,
+   "comf": 36,
+   "aff": 0,
+   "rom": 39,
+   "npcRom": 42
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "library"
+ },
+ "hours": 3.153699999999999,
+ "say": [
+  {
+   "n": "",
+   "c": null,
+   "t": "（華山1914文創園區。）",
+   "h": 13.417,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "嗯。",
+   "h": 13.417,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "（她看了一圈）週末，大家都出來了。",
+   "h": 13.417,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "（她沒在看作品，在看旁邊的人）那個阿伯，在每一張前面都站一樣久。",
+   "h": 13.417,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "嗯。社會系的壞習慣。",
+   "h": 13.417,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "（她停在一個賣手寫招牌的攤位）茶屋需要一塊新的招牌。",
+   "h": 13.917,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "嗯。她會說不用。可是她會掛。",
+   "h": 13.917,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "（她坐下，抱著膝蓋）好安靜。",
+   "h": 14.25,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "雖然人很多。",
+   "h": 14.25,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "嗯。坐在這裡，不用招呼客人。",
+   "h": 14.25,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "……差不多了。晚上我要回去，煮飯的阿姨煮了飯。",
+   "h": 14.583,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "拍照？",
+   "h": 14.583,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "（她站到牆前，雙手拿著包包）這樣？",
+   "h": 14.583,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "嗯。",
+   "h": 14.583,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "今天走了好多地方。",
+   "h": 14.833,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "我回去要先睡一下。",
+   "h": 14.833,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）",
+   "h": 14.833,
+   "d": -1,
+   "z": "library",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "",
+   "text": "（華山1914文創園區。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "嗯。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "（她看了一圈）週末，大家都出來了。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "（她沒在看作品，在看旁邊的人）那個阿伯，在每一張前面",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "嗯。社會系的壞習慣。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "（她停在一個賣手寫招牌的攤位）茶屋需要一塊新的招牌。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "嗯。她會說不用。可是她會掛。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "（她坐下，抱著膝蓋）好安靜。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "雖然人很多。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "嗯。坐在這裡，不用招呼客人。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "……差不多了。晚上我要回去，煮飯的阿姨煮了",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "拍照？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "（她站到牆前，雙手拿著包包）這樣？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "嗯。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "今天走了好多地方。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "我回去要先睡一下。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（今天去了華山1914文創園區：老倉庫裡的",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": null
+}
