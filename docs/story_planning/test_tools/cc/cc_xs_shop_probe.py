@@ -367,8 +367,11 @@ async def part_flow(pg, cdp):
         if r and r.get('lines') is not None: got.append(next((t for t in r['lines'] if t in DK['narr'] or t == DK['dawn']), None))
     R.check('[大口 讀書] 讀完兩次：旁白照 AA_621 第 2 節四句輪流（第 1、2 句）', got[:2] == DK['narr'][:2], J(got))
     # 8 一個人深夜去（週三 01:00 上二樓）＋天亮（03:30 讀兩小時跨過 05:00）
-    R.setup('[大口 深夜] 讀檔大口一樓 2025-10-16（四）01:00（不是考試週、沒有約）')
-    await D.load_zone(pg, cdp, ZN, '2025-10-16', 1.0, wait=9000)
+    # 「一趟一次」＝GM.enterN（從店門進來才算新的一趟；讀檔不算。雲端 11-05：同一個瀏覽器 14:00 上過二樓，讀檔到 01:00 被當成同一趟）→ 照玩家從新生南路走進來
+    d = await load_street_near_door(pg, cdp, '2025-10-16', 0.95, '[大口 深夜]')
+    R.setup('[大口 深夜] 2025-10-16（四）00:57 從新生南路走進大口（新的一趟；不是考試週、沒有約）')
+    if not d or not await D.use_exit(pg, cdp, '[大口 深夜 新生南路→大口]', CFG['door'], ZN):
+        R.check('[大口 深夜] 從店門進得去', False, J(d)); return
     await pg.evaluate("(()=>{ window.__ccSayOn=false; })()"); await pg.evaluate(SAYHOOK); n0 = len(await says(pg))
     ends = await pg.evaluate("(()=>{ const w=(GAME.E.zone.walkMeshes||[]).find(m=>m.userData&&m.userData.stairEnds); return w?w.userData.stairEnds:null; })()")
     t = next((e for e in (ends or []) if e['lv'] == 1), None); m0 = len(SEEN)
