@@ -10,7 +10,7 @@
 //   7 第二批（AA_705 最後一節 @ 44af68368）：照稿（第二批那一節、AA_621 第 2 節柏翰那一句）；第一批每一列大一下～大四下都排（同一間、同一時段），人不在臺北照 presence 不出；
 //     子晴同弦只有大一上；柏翰大口考試那兩週照 AA_621（02:30～05:00）；可昕頁間書屋（大一下起雙數週週六 14:00～15:30；交往中、那一天有約＝不出）；學姊一週最多一次（每一學期）
 //   8 第二批的聽一句：只在大一上（大一下起照樣在那裡、不出）；學姊山嵐大二起判決評釋那一句（一次）；可昕、柏翰考試週那一句（一次）
-//   9 第三批（AA_705 @ 15eb48dfa）：表照稿＋「補：回 LAWWW-C 09:25」兩列換時段（大步阿凱週日 16:30～17:15、好拍柏翰週四 17:15～17:45）；撞時段表（0/N＝永遠撞，印 WARN）；阿凱週日慢輪→大步不重疊
+//   9 第三批（AA_705 @ 2c62cdf1e）：表照稿＋「補：回 LAWWW-C 09:25」兩列換時段（大步阿凱週日 16:30～17:15）＋「補：回 LAWWW-C 10:06」好拍柏翰週六 14:00～14:30（原本週四 17:15～17:45 也永遠撞總圖）；撞時段表（0/N＝永遠撞＝FAIL）；阿凱週日慢輪→大步不重疊
 //   10 AA_621 第 2 節阿哲（大一上期末考週 00:00～02:00）、芯慈（考試那兩週的週日 22:00～01:00，跨午夜）照稿、作息、那一句只出一次（AA_705 補 4f71f7719「也做」）；可昕交往中也出、交往版那一句
 //   撞到的次數：大一上一張、大一下～大四下一張（每一列在店裡幾格、撞到什麼；AA 要那張表）
 // 修改前（開發分支 2258988a5）：沒有 src/shopnpc3d.js——FAIL。用法：node tests/shop_npc_unit.js
@@ -48,8 +48,8 @@ sec(0,()=>{ const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), a=f
   const A=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files;
   const f705=A.find(x=>/AA_705_/.test(x.path)), f615=A.find(x=>/AA_615_/.test(x.path));
   const f621=A.find(x=>/AA_621_/.test(x.path));
-  check('0. 劇情匯入白名單：AA_705 @ 15eb48dfa（第三批換時段；舊的 ebea3a2b0、f8bd25439、4e6755340、44af68368、a0f562527 在 history）、AA_615 @ ebea3a2b0、AA_621 @ 52e3d83a8 approved（SHOP_NPC.src 同一個 commit）',!!f705&&!!f615&&!!f621&&f705.sha==='15eb48dfa'&&f621.sha==='52e3d83a8'&&['ebea3a2b0','f8bd25439','4e6755340','44af68368','a0f562527'].every(k=>(f705.history||[]).some(h=>h.sha===k))&&f615.sha==='ebea3a2b0'&&f705.status==='approved'&&f615.status==='approved'&&f621.status==='approved'&&SHOP_NPC.src.AA_705===f705.sha&&SHOP_NPC.src.AA_615===f615.sha&&SHOP_NPC.src.AA_621===f621.sha);
-  check('0. 白名單的檔在那個 commit 找得到',!!git('15eb48dfa',path.basename(f705.path))&&!!git('a0f562527',path.basename(f705.path))&&!!git('44af68368',path.basename(f705.path))&&!!git('ebea3a2b0',path.basename(f615.path))&&!!git('52e3d83a8',path.basename(f621.path))); });
+  check('0. 劇情匯入白名單：AA_705 @ 2c62cdf1e（補 10:06：柏翰好拍週六、阿哲宵夜；舊的 ebea3a2b0、f8bd25439、4e6755340、44af68368、a0f562527、15eb48dfa 在 history）、AA_615 @ ebea3a2b0、AA_621 @ 52e3d83a8 approved（SHOP_NPC.src 同一個 commit）',!!f705&&!!f615&&!!f621&&f705.sha==='2c62cdf1e'&&f621.sha==='52e3d83a8'&&['ebea3a2b0','f8bd25439','4e6755340','44af68368','a0f562527','15eb48dfa'].every(k=>(f705.history||[]).some(h=>h.sha===k))&&f615.sha==='ebea3a2b0'&&f705.status==='approved'&&f615.status==='approved'&&f621.status==='approved'&&SHOP_NPC.src.AA_705===f705.sha&&SHOP_NPC.src.AA_615===f615.sha&&SHOP_NPC.src.AA_621===f621.sha);
+  check('0. 白名單的檔在那個 commit 找得到',!!git('2c62cdf1e',path.basename(f705.path))&&!!git('15eb48dfa',path.basename(f705.path))&&!!git('a0f562527',path.basename(f705.path))&&!!git('44af68368',path.basename(f705.path))&&!!git('ebea3a2b0',path.basename(f615.path))&&!!git('52e3d83a8',path.basename(f621.path))); });
 
 // ---------- 1. 照稿 ----------
 const DOC=git('44af68368','AA_705_新店面裡遇得到的人_第一批作息.md'), DOC621=git('52e3d83a8','AA_621_大口漢堡_24小時速食.md'), DOC615=git('ebea3a2b0','AA_615_新生南路那一側_公館二輪戲院_爆米花.md');
@@ -258,17 +258,21 @@ sec(8,()=>{ const bad=[]; let n=0;
     const d0=daysOf(r,'Y1S1').find(d=>CALENDAR.termOf(d).exam&&SHOPNPC.on(fresh(d,3.5),r)); G=setup(r,d0,3.5,true); SHOPNPC.hear(GM); const c3=caps.slice();
     check('8. 柏翰考試週（AA_621）：02:30～05:00 走到旁邊＝「'+r.hear.t+'」；只出一次（下一次考試週不出）；大一上也可以（不限大一上）',J(c1)===J([want])&&J(c2)===J([])&&J(c3)===J([want]),J([c1,c2,c3])); } });
 
-// ---------- 9. 第三批（AA_705 @ 15eb48dfa；使用者 11-05 09:2x「不要新的人物」：只補 AA_620 3-4 三列；15eb48dfa「補：回 LAWWW-C 09:25」兩列換時段）----------
-sec(9,()=>{ const DOC3=git('15eb48dfa','AA_705_新店面裡遇得到的人_第一批作息.md')||''; const s3=(DOC3.split('## 第三批')[1]||'').split('\n## ')[0]; const bad=[];
+// ---------- 9. 第三批（AA_705 @ 2c62cdf1e；使用者 11-05 09:2x「不要新的人物」：只補 AA_620 3-4 三列；「補：回 LAWWW-C 09:25」兩列換時段；「補：回 LAWWW-C 10:06」柏翰好拍再換週六 14:00～14:30）----------
+sec(9,()=>{ const DOC3=git('2c62cdf1e','AA_705_新店面裡遇得到的人_第一批作息.md')||''; const s3=(DOC3.split('## 第三批')[1]||'').split('\n## ')[0]; const bad=[];
   const s925=(DOC3.split('## 補：回 LAWWW-C 09:25')[1]||'').split('\n## ')[0];
-  check('9. 讀得到 AA_705 第三批那一節（15eb48dfa）：只用主要角色、二十位同學不排、不再加時段',!!s3&&/法律系二十位同學不排進店裡/.test(s3)&&/不再加時段、不加人/.test(s3));
+  check('9. 讀得到 AA_705 第三批那一節（2c62cdf1e）：只用主要角色、二十位同學不排、不再加時段',!!s3&&/法律系二十位同學不排進店裡/.test(s3)&&/不再加時段、不加人/.test(s3));
   const WD={'日':0,'一':1,'二':2,'三':3,'四':4,'五':5,'六':6}, hm=x=>{ const [a,b]=x.split(':').map(Number); return a+b/60; };
   const TERM0={'大一上起':'Y1S1','大一下起':'Y1S2','大二起':'Y2S1'};
   const lines=s3.split('\n').filter(l=>/^\| /.test(l)&&!/^\| 店 /.test(l)&&!/^\|---/.test(l));
   check('9. 第三批的表三列＝SHOP_NPC 的三列（'+B3.join('、')+'）',lines.length===3&&B3.every(id=>!!row(id)),String(lines.length));
   /* 09:25 那張表（選 A 換時段）：「原本」要對得上第三批的表，「改成」（粗體）蓋過去 */
   const REV3={}; for(const l of s925.split('\n').filter(l=>/^\| /.test(l)&&!/^\| 列 /.test(l)&&!/^\|---/.test(l))){ const c=l.split('|').slice(1,-1).map(x=>x.trim()); const k=/^(\S+) (\S+)$/.exec(c[0]), m=/^\*\*(週[日一二三四五六]) (\d+:\d+～\d+:\d+)\*\*/.exec(c[2]||''); if(!k||!m){ bad.push('09:25 表看不懂 '+l); continue; } REV3[k[1]+'|'+k[2]]={orig:c[1],day:m[1],time:m[2]}; }
-  check('9. 讀得到 15eb48dfa「補：回 LAWWW-C 09:25」：大步阿凱、好拍柏翰兩列換時段（句子照舊、Alison 照現在）',Object.keys(REV3).length===2&&!!REV3['大步|阿凱']&&!!REV3['好拍|柏翰']&&/句子照舊；Alison 照現在/.test(s925),J(REV3));
+  check('9. 讀得到 2c62cdf1e「補：回 LAWWW-C 09:25」：大步阿凱、好拍柏翰兩列換時段（句子照舊、Alison 照現在）',Object.keys(REV3).length===2&&!!REV3['大步|阿凱']&&!!REV3['好拍|柏翰']&&/句子照舊；Alison 照現在/.test(s925),J(REV3));
+  /* 最新的補（10:06）：「**好拍 柏翰**：……改 **週六 14:00～14:30**（大一下起；……）。句子照舊。」蓋過 09:25 那一格的「改成」（「原本」照舊對第三批的表）*/
+  const s1006=(DOC3.split('## 補：回 LAWWW-C 10:06')[1]||'').split('\n## ')[0]; let n1006=0;
+  for(const l of s1006.split('\n')){ const m=/^\d+\. \*\*(\S+) (\S+)\*\*：.*改 \*\*(週[日一二三四五六]) (\d+:\d+～\d+:\d+)\*\*（(大一上起|大一下起|大二起)/.exec(l); if(!m) continue; const k=m[1]+'|'+m[2]; if(!REV3[k]){ bad.push('10:06 的列在 09:25 表找不到 '+k); continue; } if(!/句子照舊/.test(l)) bad.push('10:06 '+k+' 沒寫句子照舊'); REV3[k].day=m[3]; REV3[k].time=m[4]; REV3[k].from=m[5]; n1006++; }
+  check('9. 讀得到 2c62cdf1e「補：回 LAWWW-C 10:06」第 1 點：好拍柏翰改週六 14:00～14:30（大一下起、句子照舊）',n1006===1&&REV3['好拍|柏翰'].day==='週六'&&REV3['好拍|柏翰'].time==='14:00～14:30'&&REV3['好拍|柏翰'].from==='大一下起',J(REV3['好拍|柏翰']));
   for(const l of lines){ const c=l.split('|').slice(1,-1).map(x=>x.trim()); const r=ROWS.find(q=>B3.includes(q.id)&&q.shop===c[0]&&NAME[q.who]===c[1]); if(!r){ bad.push(c[0]+' '+c[1]+' 沒有這一列'); continue; }
     { const k=Object.keys(REV3).find(k=>c[0].startsWith(k.split('|')[0])&&c[1]===k.split('|')[1]); if(k){ const v=REV3[k]; if(!v.orig.startsWith(c[3]+' '+c[4].split('（')[0])) bad.push(r.id+' 09:25 的「原本」對不上第三批的表 '+v.orig); c[3]=v.day; c[4]=v.time; } }
     const t0=TERM0[c[2]], want=t0?['Y1S1'].concat(LATER).slice(['Y1S1'].concat(LATER).indexOf(t0)):null; if(!want||J(r.terms||['Y1S1'].concat(LATER))!==J(want)) bad.push(r.id+' 學期 '+c[2]);
@@ -276,15 +280,16 @@ sec(9,()=>{ const DOC3=git('15eb48dfa','AA_705_新店面裡遇得到的人_第�
     const tm=/^(\d+:\d+)～(\d+:\d+)/.exec(c[4]); if(!tm||Math.abs(hm(tm[1])-r.from)>1e-6||Math.abs(hm(tm[2])-r.to)>1e-6) bad.push(r.id+' 時間 '+c[4]);
     if(c[5]!==r.place) bad.push(r.id+' 在哪 '+c[5]+'≠'+r.place);
     const sm=/^([^（：]+)：(.+)$/.exec(c[6]); if(!sm||NAME[r.hear.who]!==sm[1]||r.hear.t!==sm[2]||!r.hearAny) bad.push(r.id+' 聽一句 '+c[6]); }
-  check('9. 三列的店、誰、學期起點、星期、時間（大步阿凱、好拍柏翰照 09:25 換過的）、在哪、聽一句（一次＝hearAny）照稿一字不差',!bad.length,bad.join('｜'));
+  check('9. 三列的店、誰、學期起點、星期、時間（大步阿凱照 09:25、好拍柏翰照 10:06 換過的）、在哪、聽一句（一次＝hearAny）照稿一字不差',!bad.length,bad.join('｜'));
   /* 撞時段（全部學期；撞到＝原本優先）*/
   const info=[]; let shown=0; const wrong=[];
   for(const id of B3){ const r=row(id), c=CHARACTERS[r.who]; const st={on:0,cal:0,why:{}};
     for(const tid of (r.terms||['Y1S1'].concat(LATER))) for(const d of daysOf(r,tid)) { const h=(r.from+r.to)/2; const G=fresh(d,h); if(!SHOPNPC.calOk(G,r)) continue; st.cal++; const why=[]; const on=SHOPNPC.on(G,r,why); const e=STORY.schedEnt(c,G);
       if(on){ st.on++; shown++; if(!e||e.shopNpc!==r.id||e.zone!==r.zone) wrong.push(id+' '+keyOf(d)); } else { const b=SHOPNPC.base(c,G); const k=why[0]==='clash'&&b?(b.zone||b.away||'')+'／'+b.act:why.join(','); st.why[k]=(st.why[k]||0)+1; } }
     info.push(r.shop+' '+NAME[r.who]+' '+st.on+'/'+st.cal+(Object.keys(st.why).length?' 撞到 '+Object.entries(st.why).map(([k,v])=>k+'×'+v).join('；'):'')); }
-  console.log('INFO 第三批撞到原本作息（時段中間一格／每一天；15eb48dfa 換時段以後）：'); for(const x of info) console.log('INFO   '+x);
+  console.log('INFO 第三批撞到原本作息（時段中間一格／每一天；2c62cdf1e 換時段以後）：'); for(const x of info) console.log('INFO   '+x);
   for(const x of info) if(/ 0\/\d+/.test(x)) console.log('WARN   永遠撞（要請 AA 再換時段）：'+x);
+  check('9. 第三批三列都遇得到（沒有永遠撞的列；2c62cdf1e 柏翰好拍改週六以後）',info.length===3&&info.every(x=>!/ 0\/\d+/.test(x)),info.filter(x=>/ 0\/\d+/.test(x)).join('｜'));
   check('9. 沒撞到＝作息就是那間店（Alison 不在戲院的日子也照表，SHOPNPC.sched 的 yu 先看戲院再看表）',!wrong.length&&shown>0,wrong.slice(0,4).join('｜'));
   /* 大一上不排柏翰好拍、大一上～大一下不排 Alison */
   { const bh=row('xs_haopai_bh'), yu=row('xs_xsports_yu'); const y1=daysOf(bh,'Y1S1').some(d=>SHOPNPC.calOk(fresh(d,(bh.from+bh.to)/2),bh)), y1y=['Y1S1','Y1S2'].some(t=>daysOf(yu,t).some(d=>SHOPNPC.on(fresh(d,13.5),yu)));
