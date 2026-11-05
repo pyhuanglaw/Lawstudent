@@ -1,0 +1,312 @@
+{
+ "pid": "zhe",
+ "tag": "invite 念書（去總圖一起念書）",
+ "rec0": {
+  "day": -1,
+  "hour": 16.3648,
+  "t": -7.6352,
+  "money": 30000,
+  "rel": {
+   "fam": 45,
+   "trust": 30,
+   "comf": 25,
+   "aff": 0,
+   "rom": 0,
+   "npcRom": 0
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": -1,
+  "hour": 18.2238,
+  "t": -5.7762,
+  "money": 30000,
+  "rel": {
+   "fam": 48,
+   "trust": 32,
+   "comf": 26,
+   "aff": 0,
+   "rom": 1,
+   "npcRom": 1
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "STUDIED_TOGETHER"
+  ],
+  "zone": "library_hall"
+ },
+ "hours": 1.859,
+ "say": [
+  {
+   "n": "阿哲",
+   "c": "zhe",
+   "t": "「（小聲）二樓靠窗那排比較安靜。」",
+   "h": 16.373,
+   "d": -1,
+   "z": "library_hall",
+   "adv": false
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）",
+   "h": 16.703,
+   "d": -1,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "阿哲",
+   "c": "zhe",
+   "t": "「（小聲）手機先收起來。」",
+   "h": 16.703,
+   "d": -1,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "你和阿哲在總圖一起念書。",
+   "h": 16.703,
+   "d": -1,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "阿哲",
+   "c": "zhe",
+   "t": "「（小聲）你的筆借我。我的沒水了。」",
+   "h": 17.453,
+   "d": -1,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她闔上書，伸了一個懶腰。）",
+   "h": 18.203,
+   "d": -1,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "阿哲",
+   "c": "zhe",
+   "t": "「（小聲）走吧。」",
+   "h": 18.203,
+   "d": -1,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "阿哲",
+   "c": "zhe",
+   "t": "「好累。……可是很好。」",
+   "h": 18.203,
+   "d": -1,
+   "z": "library_hall",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "阿哲",
+   "text": "「（小",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": false
+  },
+  {
+   "name": "",
+   "text": "（你們在長桌",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "阿哲",
+   "text": "「（小聲）手機先收起來。」",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "你和阿哲在總圖一起念書。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "阿哲",
+   "text": "「（小聲",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "阿哲",
+   "text": "「（小聲）你的筆借我。我的沒水了。」",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她闔上書，",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "阿哲",
+   "text": "「（小聲）走吧。」",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "阿哲",
+   "text": "「好累。……可",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "library_hall",
+  "lv": 1,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 2.1,
+  "sameGroup": false,
+  "doorD": 6.11,
+  "spawnD": 10.13,
+  "npc": true,
+  "nD": 2.1,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": -7.02,
+  "nz": 2.2,
+  "p": [
+   -9.13,
+   2.2
+  ]
+ }
+}
