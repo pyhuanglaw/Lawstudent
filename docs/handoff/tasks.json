@@ -48017,7 +48017,7 @@
    "title": "Daybreak 卡座 #21 (2.05,−3.5) 9:23 按兩次「坐卡座」沒坐下，9:00 再試就坐下",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -48029,7 +48029,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "待查：taken／客人 seatTarget 佔位／SHOP_NAMED 沛珊週六 10:30 前後；BB-C 10:38 P2；下一版",
+   "next": "推測原因：路人正走向那張卡座（seatTarget），按鈕照出、按下去 freeSeat 說「有人坐了」；改成單人座位有人走過去時按鈕不出（engine3d.js occupied；tap_seat_reach_unit 第 7 項，修改前 FAIL）。沒有在瀏覽器重現，BB 下一版驗 9:23 那一格。",
    "source": "BB_255 SEATSCAN",
    "authorized": "使用者原話",
    "xai": {
@@ -48047,7 +48047,7 @@
    "title": "seatApproach 判站得住用 0.3、reachability_all 用人物半徑 0.32，兩邊統一",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -48059,7 +48059,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "BB-C 10:43（aa0f3bcd3 雲端 reach noodle：劇情 5 點有 2 點 0.32 站不住但 simWalk 走得到，不擋發布）：統一半徑（BB 建議 seatApproach 改 0.32，宿舍和其他座位一起看 reachability_all／seat_reach_unit），下一版 P2",
+   "next": "reachability_all 的坐下走近點照遊戲 seatApproach（canStand 0.3）判；seatApproach 改 0.32 會讓麵店兩張椅子沒有走近點，不改。BB 下一版重跑 reach noodle。",
    "source": "BB_255 SEATSCAN",
    "authorized": "使用者原話",
    "xai": {

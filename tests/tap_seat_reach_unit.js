@@ -27,4 +27,7 @@ check('5. E.TAP_SEAT_REACH＝0.5',E.TAP_SEAT_REACH===0.5);
   check('6. 點這張椅子、旁邊站著有名字的人：按鈕還是椅子',run(named,[0.05,0.1])===bench);
   const r=run(named,null); check('6. 推搖桿走過去（沒有 tapPref）：照舊人優先（和沛珊說話）',!!(r&&r.npc===named));
   E.prefNpc='classmate_peishan'; const r2=run(named,[0.05,0.1]); E.prefNpc=null; check('6. 「帶我去」找的人（E.prefNpc）：點椅子也是她',!!(r2&&r2.npc===named)); }
+/* DAYBREAK-BOOTH21-1105：有人正走過去要坐（seatTarget）的單人座位不出「坐下」（game3d.js freeSeat 也不讓坐）；長椅（label）照舊 */
+{ const walker={obj:{position:{x:3,y:0,z:3}},seatTarget:{x:0,z:0}}; E.npcs=[walker]; const r1=at(0,0.5,null); bench.seat.label='長椅'; const r2=at(0,0.5,null); delete bench.seat.label; E.npcs=[]; const r3=at(0,0.5,null);
+  check('7. 有人正走向這張（seatTarget）：不出「坐下」；長椅（label）照舊出；沒人走過來照舊出',r1!==bench&&r2===bench&&r3===bench,JSON.stringify([r1&&r1.label,r2&&r2.label,r3&&r3.label])); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
