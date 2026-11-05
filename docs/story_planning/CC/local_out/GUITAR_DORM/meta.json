@@ -1,14 +1,14 @@
 {
-  "rerun": "",
+  "rerun": "r2",
   "id": "GUITAR_DORM",
   "sha": "13700be8fbfcaa902b0276713c5c83c7c38e3c79",
   "kind": "probe",
   "script": "docs/story_planning/test_tools/cc/cc_guitar_dorm_probe.py",
-  "env": "CC_HEADLESS=0",
+  "env": "CC_HEADLESS=0;RERUN=r2",
   "machine": "MSI",
-  "start": "2026-11-05T13:47:57",
-  "end": "2026-11-05T13:50:12",
-  "seconds": 135,
+  "start": "2026-11-05T16:31:34",
+  "end": "2026-11-05T16:33:48",
+  "seconds": 134,
   "exit": 0,
   "error": null,
   "runner": "5ba0949b5e",
@@ -16,9 +16,9 @@
   "url": "http://127.0.0.1:8805/index.html",
   "headless_forced": true,
   "res_peak": {
-    "cpu": 54,
-    "mem": 33,
-    "used_gb": 10.8,
+    "cpu": 8,
+    "mem": 44,
+    "used_gb": 14.3,
     "chrome_testing": 13
   }
 }
