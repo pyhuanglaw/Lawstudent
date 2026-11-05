@@ -47154,7 +47154,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "候選版＝XSPORTS-ACT 合併後的 HEAD（爬梯子 CLIMB-GRIPS-FEET 沒好就不放）→ 全套 Node＋TESTING §5 雲端項 → BB／CC PC 瀏覽器（各店進出坐下、打烊、點地）→ BB GO → 發布樹、PR、Pages、線上驗證",
+   "next": "交班時還沒發布（BB 還沒 GO）。全部細節與步驟：docs/handoff/release_v91021/README.md（發布樹 aa0f3bcd3 已推；還差 deploy_check、PC p0＋燒臘店吃飯截圖、afar 晚上／青木窗景 r2）。",
    "source": "UA-LAWWW-1105-16",
    "authorized": "使用者原話（轉述）"
   },
@@ -48070,6 +48070,29 @@
     "ack": "自領"
    },
    "src": "BB-C 08:28 SEATSCAN（山嵐靠窗長椅 6 張擋玩）",
+   "sha": ""
+  },
+  {
+   "id": "HANDOFF-C-1105",
+   "title": "帳號 C 交班（11-05；使用者：其他職位先交班，LAWWW-C 最後）",
+   "area": "HANDOFF",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "next": "等 LAWWW2／AA／BB／CC 都 duty handoff → duty sync → check／incr／roles／asks → 快照 → duty handoff → 關喚醒",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 11-04 12:2x 對 LAWWW-C",
+   "authorized": "使用者直接要求",
+   "evidence": "五職位帳號 C 登記（LAWWW-C 12:3x、LAWWW2／AA／BB 12:4x、CC-C 13:28）；check 十二項 OK、roles OK、asks OK、incr OK（918→0，水位線前進 e3bde13be）、duty verify OK；三種工具誤報修（45e64135d、cd784999e、d6c74f628）；舊 worktree 備份 wip_backup/handoff_c_1104（e90636eb6）",
    "sha": ""
   }
  ]
