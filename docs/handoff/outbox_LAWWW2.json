@@ -5812,7 +5812,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "3182a6040",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACTIONED",
    "task": "XIAOLU-NIGHT-VIEW-1104",
    "files": [
     "assets/models/env/views/wz_teishoku_day.webp",
@@ -5823,11 +5823,11 @@
     "docs/art-rebuild/second_ai/wip/komichi_nightview_1104/wz_lamp_pools.json",
     "docs/art-rebuild/second_ai/wip/komichi_nightview_1104/wz_scooters_wenzhou.json"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "LAWWW-C 換檔；CC 拍遊戲畫面（小路窗邊座位白天、晚上）；BB 判 ART_APPROVED",
    "next": "只換兩張 webp＋腳本：git checkout 3182a6040 -- assets/models/env/views/wz_teishoku_day.webp assets/models/env/views/wz_teishoku_night.webp tools/blender/env_second/wz_window_view.py（程式不用改）",
    "noDirectIntegrate": false,
-   "note": "KOMICHI-VIEW-POLISH（BB 14:04 兩點，不擋發布）：白天照遊戲 KEY0 的 14:00 太陽（仰角 52.7°、方位 200°，對面整片背光、沒有斜影子；第一版的太陽其實在東北）；晚上 9 個路燈光圈放往下的聚光燈，但電線桿挪到 −16.0（ADE-POLE16-1104）以後窗外一圈都看不到；第一版的電線桿還在 −9.2、在阿德正前面，現在窗外沒有桿子。webp 品質 88：白天 54,760 B、晚上 46,352 B｜BB-C 21:59Z：第二版 PASS，①選 A（照現在、不加壁燈）、②照 14:00；LAWWW-C 接好以後 CC 在小路窗邊座位拍白天、晚上，BB 判 ART_APPROVED"
+   "note": "KOMICHI-VIEW-POLISH（BB 14:04 兩點，不擋發布）：白天照遊戲 KEY0 的 14:00 太陽（仰角 52.7°、方位 200°，對面整片背光、沒有斜影子；第一版的太陽其實在東北）；晚上 9 個路燈光圈放往下的聚光燈，但電線桿挪到 −16.0（ADE-POLE16-1104）以後窗外一圈都看不到；第一版的電線桿還在 −9.2、在阿德正前面，現在窗外沒有桿子。webp 品質 88：白天 54,760 B、晚上 46,352 B｜BB-C 21:59Z：第二版 PASS，①選 A（照現在、不加壁燈）、②照 14:00；LAWWW-C 接好以後 CC 在小路窗邊座位拍白天、晚上，BB 判 ART_APPROVED｜LAWWW-C 3666310f8 已接"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
@@ -5857,7 +5857,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "bc862203f",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACK",
    "task": "NPC-ANIM-LOOPS-1104",
    "files": [
     "assets/models/char/second_ai/ual_sit_tasks.glb",
@@ -5868,11 +5868,11 @@
     "docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/npc_f2m2_1104.patch",
     "docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "21:42Z 的 3（Café 桌緣 0.20）還沒做；Sakurada 比較高的男生（nm2、6、10、14）要的話再出 M3；瀏覽器沒看過（D131）；BB 判 ART｜被 SIT-HEIGHT-1104 267f3d9a9 取代：坐下高度改了以後 F、M、F2、M2 一起重出，sit_height_1104.patch 含 F2／M2 接線，npc_f2m2_1104.patch 不要再套",
    "next": "LAWWW-C：先套筷子那一份（048f3498c），再 checkout 這次的檔＋git apply npc_f2m2_1104.patch（character3d.js HANDS／WIN F2、M2、ALT 先試 F／M 再 F2／M2；接線測試 D2／H）",
    "noDirectIntegrate": false,
-   "note": "補件 2（LAWWW-C 21:42Z）：F2＝Victoria_Rubin（手臂÷身高 0.251，參考 bl_npc_nf10 1.65 m）、M2＝HairSample_Male（0.266，bl_npc_nm11 1.74 m）各 7 個片段；F、M 不變。遊戲 sitTaskFit 量 44 個底模：打字 38→43、寫字 24→38、其他 29→41。開發分支 1e378a386＋兩份 patch：sit_task_loops_unit ALL PASS、sit_task_wire_unit 54 ALL PASS、座位／路人 7 支 ALL PASS"
+   "note": "補件 2（LAWWW-C 21:42Z）：F2＝Victoria_Rubin（手臂÷身高 0.251，參考 bl_npc_nf10 1.65 m）、M2＝HairSample_Male（0.266，bl_npc_nm11 1.74 m）各 7 個片段；F、M 不變。遊戲 sitTaskFit 量 44 個底模：打字 38→43、寫字 24→38、其他 29→41。開發分支 1e378a386＋兩份 patch：sit_task_loops_unit ALL PASS、sit_task_wire_unit 54 ALL PASS、座位／路人 7 支 ALL PASS｜LAWWW-C 226e8ce4e：先不接，坐下高度改完一起重出＝SIT-HEIGHT-1104 267f3d9a9（含 F2／M2，已整合）"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
@@ -5939,7 +5939,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "42cbba73b",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACTIONED",
    "task": "DORM-LADDER-HEAD-GRIP-1102",
    "files": [
     "docs/art-rebuild/second_ai/wip/dorm_ladder_grip_1105/README.md",
@@ -5958,11 +5958,11 @@
     "tools/anim/climb_pose_export.js",
     "tools/blender/env_second/dorm_ladder_preview.py"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "LAWWW 的 climbIK 照 sleep_scene.grips 改（動作歸 LAWWW，D128）；腳是走路片段、最上面兩階伸進牆 23～49 cm（LAWWW 看）；扶手的樣子 BB 判；瀏覽器沒跑（D131，CC 拍 203 梯子三張光照、起床爬下來）",
    "next": "LAWWW-C：git checkout 這個 SHA -- README 列的檔，python3 tools/gen_dorm_room_layout.py，node tests/dorm_ladder_grips_unit.js",
    "noDirectIntegrate": false,
-   "note": "② 靠床那一側的扶手（門那一側下半段鏡像，彎進床尾板）＋sleep_scene.grips（up／down 每一階 [左手, 右手]）／rails；① 頭頂離天花板每一階 1.38／1.06／0.74／0.42／0.14 m、跪 0.34（DORM-CEIL＋STOOP 已處理）；光照重烘（573 秒，同一組點 ±3.4%）；開發分支 ed7600ec5＋這一包：新測試 9 項＋宿舍相關 28 支 Node ALL PASS｜send_message LAWWW-C DELIVERED、副本 BB-C DELIVERED（01:1x／01:4xZ）"
+   "note": "② 靠床那一側的扶手（門那一側下半段鏡像，彎進床尾板）＋sleep_scene.grips（up／down 每一階 [左手, 右手]）／rails；① 頭頂離天花板每一階 1.38／1.06／0.74／0.42／0.14 m、跪 0.34（DORM-CEIL＋STOOP 已處理）；光照重烘（573 秒，同一組點 ±3.4%）；開發分支 ed7600ec5＋這一包：新測試 9 項＋宿舍相關 28 支 Node ALL PASS｜send_message LAWWW-C DELIVERED、副本 BB-C DELIVERED（01:1x／01:4xZ）｜LAWWW-C e118734a3 已接"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
@@ -6038,7 +6038,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "b49d3016b",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "task": "TONGXIAN-REF-1105",
    "files": [
     "src/data/tongxian_layout.js",

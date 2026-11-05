@@ -42,7 +42,42 @@
   建議留 ART-*，另外三個標「取消／被取代」（replacedBy ART-*），由 LAWWW-C 決定。
 - 同一類、也是等 LAWWW2 驗收＋整合的：FASTFOOD-24H-1103（BB 大口漢堡 1F／2F v1）、SPORT-SHOPS-1103（CC 大步 v1，先 BB 驗）。
 
-## 🔨 現在在做（11-04 21:2x UTC，帳號 C LAWWW2-C）
+## 🔨 現在在做（11-05 03:2x UTC，帳號 C LAWWW2-C）
+- 使用者 11-04 15:3x「你繼續做別的事情我要睡覺了很久都不會看」照舊：照順序自己做，每段做完就 push，要使用者決定的記在下面，不叫醒他。
+- 開發分支最新看到 `335b47844`。
+
+### 11-04 21:2x 以後交的（都沒在瀏覽器看過，D131 等 CC 拍、BB 判）
+| 任務 | 交件 | 狀態 |
+|---|---|---|
+| KOMICHI-VIEW-POLISH-1104（小路窗景 14:00 太陽、路燈光圈） | `3182a6040` | LAWWW-C `3666310f8` 已接；BB-C 21:59 第二版 PASS（①A、②14:00） |
+| NPC-ANIM-LOOPS-1104 補件 1、4（筷子、筆尖） | `048f3498c` | 已整合 |
+| NPC-ANIM-LOOPS-1104 補件 2（F2／M2 骨架） | `bc862203f` | LAWWW-C 沒接，併進下一列 |
+| SIT-HEIGHT-1104（坐下高度照大腿厚度，28 片段重出，含 F2／M2） | `267f3d9a9` | LAWWW-C `b1ca12646` 已接 |
+| CAFE-EDGE-1105（Café 近桌 E20 片段 14 個） | `58d238bdd` | 已整合 |
+| DORM-LADDER-HEAD-GRIP-1102 ②（上舖梯子靠床那側扶手） | `42cbba73b` | LAWWW-C `e118734a3` 已接 |
+| GUITAR-SHOP-ZONE-1105（同弦樂器區域 xs_tongxian、樓梯間） | v1 `a353148b7`、v2 `baaef5e54` | 已整合（`1a67c9947`、`2a6633a01`）；BB-C 02:08：樓梯間、地板 PASS |
+| PERF-WZ-DAY-1103（溫州街白天 1% low 7 fps） | 分析＋探針 `922445a2c` | CC-C 排進 PC 佇列（cc-testing `aee4a284b`）：PERF_WZ_SPLIT、FPS_WZ_ORDER。**PC 還沒跑到**：cc-local 03:1x 最新還是 V20R_* |
+| ADE-SEATS-NAV-1104（阿德影印座位、打工站位） | `b61050c52` | LAWWW-C `bea8fbbed` 已接；CC-C 探針三處改了（`13bdfcdeb`），等重跑 |
+| TONGXIAN-REF-1105（同弦店內照參考圖：camRef 重選、書架搬西牆、吊盆） | `b49d3016b` | DELIVERED LAWWW-C、BB-C；README 在 `wip/tongxian_ref_1105/` |
+
+### 佇列（照順序）
+1. **PERF-WZ-DAY-1103（P1）**：PC 數字回來就照 `wip/perf_wz_day_1103/README.md` 的表決定修哪一項。
+   - 路人換正式模型的尖峰：LAWWW 的 game3d.js，我寫 patch。
+   - shader、貼圖、draw call、陰影：我的檔。
+2. **TONGXIAN-REF-1105 回饋**：BB 判、CC 遊戲內 camRef 同角度。BB 如果要線條對位，就改回舊 camRef（README 有兩邊的數字）。
+3. HAIR-NOODLE-1104：等 CC 的近景探針（HAIR_1104）。
+4. 2:30 AM 剩下的：轉角白盆小樹、側窗一整排；垂藤看 CC 近看再決定。
+5. 舊的待辦：LM-SEAM-GEO（男一舍牆接頭）、BALCONY-POTS（P3）、INCR 記帳。
+   - tasks.json 裡我還有很多「待開工」（山嵐書店、南洋戲院、溫州街兩家咖啡廳、運動用品店、速食店…）。照 D99 不自己插隊，等 LAWWW-C 排。
+
+### 這一班學到的（之後的人小心）
+- **bmesh 不能用「頂點數」分新舊**：刪過頂點（倒角方塊會刪）以後，新頂點會補進空出來的位置，排在舊的前面。
+  - 同弦 v4e 第一版因此把吊燈電線轉到牆外。
+  - 要分新舊就先替舊頂點標一個整數層（`tongxian_interior.py` 的 `_mark_old`）。
+- **預覽要用 EEVEE 看顏色**（`glb_preview.py` 第 6 個參數 eevee）：Workbench 不畫頂點色，也不畫發光；同弦的書架看起來像一整塊白。
+- **same_angle_check 雲端裝得起來**：`python3 -m venv`＋`pip install opencv-python-headless scikit-image`（scratchpad，PyPI 通）。以前寫「裝不起來」是舊的。
+
+## 🔨 （舊）現在在做（11-04 21:2x UTC，帳號 C LAWWW2-C）
 - 使用者 15:3x 說：「你繼續做別的事情我要睡覺了很久都不會看」（UA-LAWWW2-1104-07）。照排定的順序自己做，每段做完就 push；要使用者決定的記在下面，等他回來再問，不叫醒他。
 
 ### 本班交件
