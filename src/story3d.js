@@ -3535,8 +3535,8 @@ const STORY = (function(){
   S.HEAD_CLEAR=0.08;
   S.bedHeadMax=function(sc){ if(sc&&sc.head_max!=null&&isFinite(+sc.head_max)) return +sc.head_max; const R=typeof DORM_ROOM!=='undefined'&&DORM_ROOM&&DORM_ROOM.room; const c=sc&&sc.ceil_y!=null&&isFinite(+sc.ceil_y)?+sc.ceil_y:(R&&isFinite(+R.h)?+R.h:null); return c!=null?c-S.HEAD_CLEAR:null; };
   S.bedEntryPose=sc=>sc&&sc.bed_entry_pose==='stand'?'climb':'kneel';
-  const headOn=(P,sc)=>{ if(P&&P.obj&&P.obj.userData){ const m=S.bedHeadMax(sc); if(m!=null) P.obj.userData.headMax=m; else delete P.obj.userData.headMax; } };
-  const headOff=P=>{ if(P&&P.obj&&P.obj.userData) delete P.obj.userData.headMax; };
+  const headOn=(P,sc)=>{ if(P&&P.obj&&P.obj.userData){ const m=S.bedHeadMax(sc); if(m!=null) P.obj.userData.headMax=m; else delete P.obj.userData.headMax; P.obj.userData.ladder=sc; } };   /* ladder：梯子的路線、每一階兩手抓的點（character3d.js 的 climbIK：手抓扶手、腳踩踏階，CLIMB-GRIPS-FEET-1105；只影響姿勢，人怎麼移動照舊）*/
+  const headOff=P=>{ if(P&&P.obj&&P.obj.userData){ delete P.obj.userData.headMax; delete P.obj.userData.ladder; } };
   const bedEntryOf=sc=>{ const L=sc.lie; return sc.bed_entry||[L.feet[0],L.mattress_top_y!=null?L.mattress_top_y:L.feet[1],L.feet[2]]; };
   /* 爬梯子的鏡頭：踏點中間往床的反方向退 1.8 m、往梯子底下（房間中間）退 1.6 m、高 1.75（L2：(−0.83, 1.75, 2.99) 看梯子；第一版退 1 m、高 1.55 太近，人爬到一半頭出畫面）*/
   S.climbCam=function(sc){ const st=sc.steps, n=st.length, a=sc.approach, L=sc.lie; const mx=(st[0][0]+st[n-1][0])/2, mz=(st[0][2]+st[n-1][2])/2;
