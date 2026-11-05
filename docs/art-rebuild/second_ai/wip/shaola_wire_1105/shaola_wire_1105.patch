@@ -1,0 +1,235 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index ba355cb37..74371b29f 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -350,6 +350,7 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
+ | 南洋戲院 1 廳 v2 `assets/models/env/second_ai/bb_support/nanyang_hall.glb`（配置 `src/data/nanyang_layout.js` hall；區域 `xs_nanyang_hall`＝`src/nanyang3d.js`） | 本作 Blender（`tools/blender/env_second/bb_support/nanyang_hall.py`；貼圖由腳本產生到 `tools/blender/env_second/textures/gen/nanyang`）：BB〔帳號 A〕製作（同上分支）；LAWWW2-C 接區域（斜地板導航、九排座位）；貼圖 Poly Haven CC0（`dirty_carpet`、`painted_plaster_wall`、`wood_table_001`） | CC0 貼圖／本作 | 南洋戲院 1 廳（斜地板、紅色座椅、銀幕） |
+ | 山嵐書店 室內 v5 `assets/models/env/second_ai/aa_support/shanlan.glb`（配置 `src/data/shanlan_layout.js` v2；區域 `xs_shanlan`＝`src/shanlan3d.js`） | 本作 Blender（`tools/blender/env_second/aa_support/shanlan_interior.py`＋`shanlan_v2_fill.py`～`v4_fill.py`、`aa_int_tex.py shl`；AA 子代理 11-03～04 製作、LAWWW2 驗收 MODEL_READY v3，照使用者 11-03 的參考圖 `shanlan_int.webp`、`shanlan_ext.webp`）；LAWWW2-C 接區域（兩層導航、樓梯、座位；ART-SHANLAN-BOOKSTORE-1103）；店名原創（D77）；貼圖 Poly Haven CC0（`laminate_floor_02`、`walnut_veneer`、`white_plaster_02`）＋本作程式產生（書背、書封、雜誌） | CC0 貼圖／本作 | 新生南路山嵐書店兩層室內（樓梯、挑空、書架、新書平台、雜誌牆、閱讀桌） |
+ | 大口漢堡 一樓 v2b `assets/models/env/second_ai/bb_support/dakou_1f.glb`、二樓 v2 `dakou_2f.glb`（配置 `src/data/dakou_layout.js` v3；區域 `xs_dakou`＝`src/dakou3d.js`） | 本作 Blender（`tools/blender/env_second/bb_support/dakou_interior.py --floor 1、2`；BB〔帳號 A〕11-03～04 製作，照使用者 11-03 生成的參考圖 `dakou_2f.webp`、`dakou_ext.webp`）；LAWWW2-C 接區域（兩層導航、樓梯、79 個座位；XS-SHOPS-REST-1105）；店名、標誌原創（D77，不用紅黃）；貼圖 Poly Haven CC0（`laminate_floor_02`、`long_white_tiles`）＋本作程式產生（菜單、點餐機畫面、直幅、窗外夜景、課本封面） | CC0 貼圖／本作 | 新生南路大口漢堡兩層室內（點餐櫃檯、高腳吧台、樓梯、二樓學生自習區） |
++| 公館燒臘 室內 v7 `assets/models/env/second_ai/bb_support/shaola_interior.glb`（配置 `src/data/shaola_layout.js` v1；區域 `noodle`＝`src/zones3d.js` buildShaola） | 本作 Blender（`tools/blender/env_second/bb_support/shaola_interior.py`、`shaola_tex.py`：PIL＋numpy 自己畫的貼圖，沒有下載素材；BB〔帳號 A〕11-03～04 製作、LAWWW2 驗收 MODEL_READY，`claude/story-planning` 65c2a43c5） | 本作 | 公館燒臘室內（SHAOLA-WIRE-1105）；店名虛構（D77），沒有真實品牌 |
+ | 大步球鞋 室內 v2b `assets/models/env/second_ai/bb_support/dabu.glb`（配置 `src/data/dabu_layout.js` v2；區域 `xs_dabu`＝`src/xsshop3d.js`） | 本作 Blender（`tools/blender/env_second/bb_support/dabu_interior.py`、`dabu_tex.py`；CC〔帳號 A 的建模子代理〕11-03～04 製作，`claude/cc-testing`，照使用者 11-03 生成的參考圖 `dabu_int.webp`、`dabu_ext.webp`）；LAWWW2-C 接區域（XS-SHOPS-REST-1105）；店名原創、鞋子沒有真實品牌標誌（D77）；貼圖本作程式產生（`textures/gen/dabu_*.png`） | 本作 | 新生南路大步球鞋（鞋牆、試穿長凳、收銀台） |
+ | 好拍運動 室內 v2b `assets/models/env/second_ai/bb_support/haopai.glb`（配置 `src/data/haopai_layout.js` v2；區域 `xs_haopai`＝`src/xsshop3d.js`） | 本作 Blender（`tools/blender/env_second/bb_support/haopai_interior.py`、`haopai_tex.py`；CC〔帳號 A 的建模子代理〕11-03～04 製作，`claude/cc-testing`，照使用者 11-03 生成的參考圖 `haopai_int.webp`、`haopai_ext.webp`）；LAWWW2-C 接區域（XS-SHOPS-REST-1105）；店名原創（D77）；貼圖本作程式產生（`textures/gen/haopai_*.png`） | 本作 | 新生南路好拍運動（球拍牆、穿線機、木櫃台） |
+ | 新生運動廣場 室內 v3c `assets/models/env/second_ai/bb_support/xinsheng_sports.glb`（配置 `src/data/xinsheng_sports_layout.js` v3；區域 `xs_xsports`＝`src/xsports3d.js`） | 本作 Blender（`tools/blender/env_second/bb_support/xinsheng_sports_interior.py`、`xinsheng_tex.py`；CC〔帳號 A 的建模子代理〕11-03～04 製作，`claude/cc-testing`，照使用者 11-03 生成的參考圖 `xinsheng_sports_int`；CC_43）；LAWWW2-C 接區域（兩層導航、樓梯；XS-SPORTS-V1-1105）；店名原創、系名虛構（D77）；貼圖 Poly Haven CC0（`painted_plaster_wall`、`ceiling_interior`、`fine_grained_wood`、`granite_tile_03`）＋本作程式產生（`textures/gen/xs_*.png`） | CC0 貼圖／本作 | 新生南路新生運動廣場兩層室內（球架、衣架、樓梯、夾層、系隊球衣訂做） |
+diff --git a/index.html b/index.html
+index 8626d76f0..27a91329b 100644
+--- a/index.html
++++ b/index.html
+@@ -243,6 +243,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/data/cvs_layout.js?v=9.10.19"></script>
+ <script src="src/data/yejian_layout.js?v=9.10.19"></script>
+ <script src="src/data/aoki_layout.js?v=9.10.19"></script>
++<script src="src/data/shaola_layout.js?v=9.10.19"></script>
+ <script src="src/data/afar_layout.js?v=9.10.19"></script>
+ <script src="src/data/cafe230_layout.js?v=9.10.19"></script>
+ <script src="src/data/daybreak_layout.js?v=9.10.19"></script>
+diff --git a/src/crowd3d.js b/src/crowd3d.js
+index f629fd31a..cf5d3f051 100644
+--- a/src/crowd3d.js
++++ b/src/crowd3d.js
+@@ -359,7 +359,9 @@ const CROWD=(function(){
+     const seatsOf=arr=>(arr||[]).map(s=>({x:+s.x,z:+s.z,yaw:+s.yaw||0,table:Array.isArray(s.table)?s.table.join(','):s.table,bar:!!s.lift}));   /* 118 巷的 table 是桌子中心 [x, z] */
+     const add=(zone,kind,door,units,o)=>{ if(units.length) out.push(Object.assign({zone,kind,door,units,ix:out.length},o||{})); };
+     /* 公館：阿鳳麵店（中間那張桌留給玩家、阿哲、麵店團：只排東西兩張）、日日便利、舊路書房 */
+-    add('noodle','meal',[0,3.5],S.pairUnits([{x:-3,z:-0.3,yaw:0},{x:-3,z:1.3,yaw:Math.PI},{x:3,z:-0.3,yaw:0},{x:3,z:1.3,yaw:Math.PI}]),{noKeep:true});
++    { const SL=typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop?SHAOLA_LAYOUT.shop:null;   /* 燒臘店 v7（SHAOLA-WIRE-1105）：五張桌子裡第 3 張留給玩家、阿哲、麵店團（和舊麵店中間那張一樣），客人坐另外四張 */
++      if(SL) add('noodle','meal',[0,3.4],S.pairUnits(seatsOf(SL.seats.filter(q=>q.table!==3))),{noKeep:true});
++      else add('noodle','meal',[0,3.5],S.pairUnits([{x:-3,z:-0.3,yaw:0},{x:-3,z:1.3,yaw:Math.PI},{x:3,z:-0.3,yaw:0},{x:3,z:1.3,yaw:Math.PI}]),{noKeep:true}); }
+     /* 公館三間新室內（GG-SHOPS-REDO-1104）：配置有載入＝照新的貨架、書牆（CVS_LAYOUT／YEJIAN_LAYOUT；站的點離家具 0.75 m、面向架子），青木茶室坐配置的座位；沒有＝舊的室內 */
+     const CV=typeof CVS_LAYOUT!=='undefined'&&CVS_LAYOUT.shop?CVS_LAYOUT.shop:null, YJ=typeof YEJIAN_LAYOUT!=='undefined'?YEJIAN_LAYOUT:null, AK=typeof AOKI_LAYOUT!=='undefined'?AOKI_LAYOUT:null, P=Math.PI;
+     /* 日和便利店：貨架中間的走道只有 0.8 m（一條走道站一個人）：一號貨架西邊兩個、一二號之間一個、二三號之間兩個、三號東邊一個（面向貨架）；西牆壁架北段一個；冷藏櫃前兩個（面向北）；排隊結帳：收銀機南邊、面向櫃台 */   /* 排隊結帳：原本 (1.45, 2.15)＝收銀機南邊、就站在「包裹暫取」「看熱食櫃」的按鈕上（AA_653 接了那兩個點）；往西退一步站 (0.85, 1.4)，還是面向櫃台 */   /* 配置 v4（模型 v2b，BB 61a107016）：貨架移到 x −3.7、−1.7、0.3，走道 1.05～1.2 m——站的點改在走道中間（西牆和一號之間 x −4.6、一二號之間 −2.7、三號和櫃台之間 1.3）*/
+diff --git a/src/hcircle3d.js b/src/hcircle3d.js
+index 02fb276cd..ec7ecadef 100644
+--- a/src/hcircle3d.js
++++ b/src/hcircle3d.js
+@@ -185,7 +185,7 @@ const HCIRCLE=(function(){
+     if(rs&&rs.length){ const p=P(n), dq=q=>Math.hypot(q[0]-p.x,q[1]-p.z), r=rs.slice().sort((a,b)=>Math.min(...a.map(dq))-Math.min(...b.map(dq)))[0]; n.beh='wander'; n.waypoints=r; n.frozen=false; n.timer=0.3; }
+     else { n.beh='idle'; n.frozen=false; } n.pose=n.idlePose='idle'; };
+   /* 吧檯、廚房的店員（story3d.js S.populate 的 clerk）*/
+-  S.CLERK={cafe:{x:-0.6,z:-5.25,yaw:0},noodle:{x:-2.0,z:-2.75,yaw:Math.PI},wz_teahouse:{x:2.95,z:1.3,yaw:-Math.PI/2}};   /* 一盞茶屋＝水屋（story3d.js S.populate 的 clerk）：AA_630 第 4 節蘇姨站這裡 */
++  S.CLERK={cafe:{x:-0.6,z:-5.25,yaw:0},noodle:(typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop&&SHAOLA_LAYOUT.shop.clerk)?{x:SHAOLA_LAYOUT.shop.clerk.x,z:SHAOLA_LAYOUT.shop.clerk.z,yaw:SHAOLA_LAYOUT.shop.clerk.yaw}:{x:-2.0,z:-2.75,yaw:Math.PI},wz_teahouse:{x:2.95,z:1.3,yaw:-Math.PI/2}};   /* 一盞茶屋＝水屋（story3d.js S.populate 的 clerk）：AA_630 第 4 節蘇姨站這裡 */
+   const clerkNpc=(E,zone)=>{ const c=S.CLERK[zone]; if(!c) return null; return (E.npcs||[]).find(m=>m&&m.clerk&&m.obj&&Math.hypot(m.obj.position.x-c.x,m.obj.position.z-c.z)<0.6)||null; };
+   /* 一個同伴站好 */
+   S.place=function(GM,r,hn,cn,cid,k,refresh){ const E=GM.E, opt=(r.comp&&r.comp[cid])||{}, quiet=quietFor(GM,cn,refresh)&&quietFor(GM,hn,refresh), hp=P(hn); if(!hp||!P(cn)) return;
+diff --git a/src/story3d.js b/src/story3d.js
+index fa701c338..715c1c9a7 100644
+--- a/src/story3d.js
++++ b/src/story3d.js
+@@ -347,7 +347,7 @@ const STORY = (function(){
+     { const clerk=(x,z,yaw,i,kind)=>{ const sp=kind&&typeof SUP519!=='undefined'&&SUP519.clerkSpec?SUP519.clerkSpec(kind,G):null; const o=CHAR.build(sp||extraSpec(i)); o.position.set(x,0,z); o.rotation.y=yaw; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,clerk:true}); if(sp&&n&&SUP519.clerkWire) SUP519.clerkWire(GM,n,kind,sp.aa519Who); };   /* kind：麵店、Café 的店員換成阿姨、老闆的外觀，能說話（AA_519 1-1、3-1，src/sup519_3d.js）；第 9 節第 3 點：2027-06-04 起 Café 照班表，芷若原本的班是小婷 */
+       const SI=typeof Z3!=='undefined'&&Z3.SHOP_IN?Z3.SHOP_IN:null, ck=k=>SI&&SI[k]&&SI[k].clerk;   /* 公館三間新室內（GG-SHOPS-REDO-1104）：店員站的地方照配置（zones3d.js SHOP_IN；配置沒載入＝舊的位置）*/
+       if(zoneId==='cvs'){ const c=ck('cvs')||{x:4.0,z:-2.35,yaw:0}; clerk(c.x,c.z,c.yaw,41); }              // 收銀機後面，面向結帳的客人（舊的室內：櫃台 (4,-1.5) 後面）
+-      if(zoneId==='noodle') clerk(-2.0,-2.75,Math.PI,40,'noodle');    // 廚房工作台前，面向湯鍋（AA_519 1-1：阿姨）
++      if(zoneId==='noodle'){ const ck=(E.zone&&E.zone.spots&&E.zone.spots.clerk)||{x:-2.0,z:-2.75,yaw:Math.PI}; clerk(ck.x,ck.z,ck.yaw,40,'noodle'); }   /* 燒臘店 v7（SHAOLA-WIRE-1105）：老闆在砧板檯後面（配置 clerk）；舊麵店照舊 */    // 廚房工作台前，面向湯鍋（AA_519 1-1：阿姨）
+       if(zoneId==='bookstore'){ const c=ck('bookstore')||{x:0.55,z:1.95,yaw:0}; clerk(c.x,c.z,c.yaw,43); }       // 頁間書屋：咖啡吧後面，面向店裡（舊的室內：門口那張桌子後面）
+       if(zoneId==='aoki'&&ck('aoki')){ const c=ck('aoki'); clerk(c.x,c.z,c.yaw,52); }
+       for(const [k,i] of [['afar',53],['daybreak',54]]) if(zoneId===k&&ck(k)&&(typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen(k,G.hour,G.day))){ const c=ck(k); clerk(c.x,c.z,c.yaw,i); }   // afar café（男店員）、Daybreak（女店員）：吧台後面（GG-SHOPS2-1104，zones3d.js SHOP_IN；打烊沒有人）       // 青木茶室：吧台後面東段，面向客人（AA_647；女店員＝偶數）
+@@ -377,7 +377,7 @@ const STORY = (function(){
+     if(zoneId==='soclib_2f'){ if(typeof SL2P!=='undefined'){ try{ SL2P.populate(GM,true); }catch(e){ console.warn('SL2P.populate',e); } } if(F.companion==='an') spawnCompanion(GM); }   /* 社科院圖書館東側館：二樓自習室讀書的人、討論室、走動的人（src/soclib2f_people3d.js，SOCLIB-2F-1104）*/
+     if(zoneId==='library_stacks'&&typeof LUP!=='undefined'){ try{ LUP.populate(GM,true); }catch(e){ console.warn('LUP.populate',e); } }
+     if(zoneId==='library_carrels'&&typeof LUP!=='undefined'&&LUP.populateCarrels){ try{ LUP.populateCarrels(GM,true); }catch(e){ console.warn('LUP.populateCarrels',e); } }   /* 研究小間：其他九間玻璃後面的讀者（src/library_upper3d.js；LAWWW 11-03 12:08）*/   /* 總圖 5F 書庫：窗下閱覽桌的讀者（src/library_upper3d.js）*/   /* 總圖 B1：24 小時自習室在讀書的同學（src/library_b1_3d.js）*/
+-    if(zoneId==='noodle'){ if(F.afternoonDone&&hr>=17.5&&hr<20.5&&!F.zheNoodleDone&&F.zheInvite&&(F.zheInviteDay!=null?G.day===F.zheInviteDay:S.mainDay(G)===1)){   /* 第一天下課阿哲約的那一頓：只在約的那一天（BB-B 10-30：沒去的玩家之後每天傍晚、考試週也把阿哲放在麵店）；其他日子照作息 */ GM.spawnNPC('zhe',C.zhe,0,0,{seat:{x:0,z:-0.3,yaw:0},talk:n=>talkZhe(GM,n)}); F.zheAtNoodle=true; } }
++    if(zoneId==='noodle'){ if(F.afternoonDone&&hr>=17.5&&hr<20.5&&!F.zheNoodleDone&&F.zheInvite&&(F.zheInviteDay!=null?G.day===F.zheInviteDay:S.mainDay(G)===1)){   /* 第一天下課阿哲約的那一頓：只在約的那一天（BB-B 10-30：沒去的玩家之後每天傍晚、考試週也把阿哲放在麵店）；其他日子照作息 */ GM.spawnNPC('zhe',C.zhe,0,0,{seat:Object.assign({},(E.zone&&E.zone.spots&&E.zone.spots.zhe_seat)||{x:0,z:-0.3,yaw:0}),talk:n=>talkZhe(GM,n)});   /* 燒臘店 v7：第 3 桌北邊（配置 spots.zhe_seat）*/ F.zheAtNoodle=true; } }
+     if(zoneId==='dorm'){ for(const [id,u] of S.dormWho(G)) S.dormSpawn(GM,id,u,false);   /* 進房間：現在在書桌前的室友坐好（誰、幾點照 S.dormWho；待在房間裡時間到了自己進門、上床：S.dormLive，DORM203-MATES-1028）*/   /* 經濟系那一年的室友是阿勳（AA_168 第 5 節；阿凱這一年不出現）；E01 還沒演完時由 E01 自己帶他進門 */   /* 阿凱回宜蘭過年（absentDates，BB_171）的晚上不在房間（HOLIDAY-PRESENCE-1021）；AA_374 第 1 項：只有大一同房（9/6 搬進 312 以後他住別棟）*/   /* AA208-L（AA_208 2-4）：四人房的室友晚上在房間；23:30 以後都在上舖（看不到）。誰、幾點照 S.dormMates */
+       if(!S.isEcon(G)){
+       if(typeof HOME!=='undefined'){ const hs=(E.zone&&E.zone.spots&&E.zone.spots.home)||[2.35,-0.9]; E.interactables.push({x:hs[0],z:hs[1],radius:0.6,prio:0.3,lv:0,label:'收拾背包回家',home:true,get hidden(){ return !HOME.canGo(GM.G); }}); } } }   /* 週末回家（AA_137 第 6 節）：週五 17:00 以後到週日 21:30 才出現（四人房：門口鞋櫃旁）*/
+@@ -1265,7 +1265,7 @@ const STORY = (function(){
+   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['story3d:springBusy']=()=>{ springBusy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
+   function noodleRegulars(GM,entering){ const E=GM.E, G=GM.G; if(G.zone!=='noodle'||!E.player) return; const mine=E.npcs.filter(n=>n.ndlRegular);
+     const hh=G.day*24+G.hour; if(ndlLastH==null||Math.abs(hh-ndlLastH)>0.2) entering=true; ndlLastH=hh;   /* 時間跳過（跳過時間、讀檔）：照新的時間直接坐好，不從門口走進來 */
+-    if(!S.noodleOn(G)){ for(const n of mine){ if(n.leaving) continue; if(GM.standUp) GM.standUp(n); n.leaving=true; n.beh='leave'; if(!E.moveTo(n,0,3.6,()=>E.removeNPC(n))) E.removeNPC(n); } return; }
++    if(!S.noodleOn(G)){ const DR=(E.zone&&E.zone.spots&&E.zone.spots.door)||[0,3.6]; for(const n of mine){ if(n.leaving) continue; if(GM.standUp) GM.standUp(n); n.leaving=true; n.beh='leave'; if(!E.moveTo(n,DR[0],DR[1],()=>E.removeNPC(n))) E.removeNPC(n); } return; }
+     const P=E.player.obj.position, cnt=S.noodleCount(G);
+     /* 麵店團先拿位子（BB-B 10-30 n15_ndlread：9/30、10/2、10/14、10/16 客人 ×4 先坐滿六個位子的四個，柏翰、芯慈作息在麵店卻沒有位子、沒生出來；客人 ×2 的 10/7、10/21 就有）：
+        作息在麵店、還沒在店裡的麵店團幾位（need）就留幾個空位，客人只坐剩下的。S.populate 裡客人比 populateSchedule 先生、S.tick 裡 17:30 客人也會先走進來。測試：node tests/ndl_present_unit.js 第 6 項 */
+@@ -1273,13 +1273,14 @@ const STORY = (function(){
+     const need=NDL_REGULARS.filter(id=>{ try{ return !(typeof EVENTS!=='undefined'&&EVENTS.npcOf&&EVENTS.npcOf(id))&&!!schedFor(id,'noodle',G); }catch(e){ return false; } }).length;   /* 作息條件讀不到（事件系統還沒綁）＝不留位子 */
+     const SEATS=E.zone&&E.zone.seats&&E.zone.seats.length?E.zone.seats:NDL_ALL.map(([x,z])=>({x,z}));   /* 店裡六個位子（zones3d.js 的麵店：三張桌 × 2）；沒有座位資料（單元測試的假區域）照這六個算 */
+     let free=SEATS.filter(st=>!taken(st.x,st.z)&&Math.hypot(P.x-st.x,P.z-st.z)>=0.6).length;
+-    for(let i=0;i<cnt;i++){ if(mine.some(n=>n.ndlIdx===i)) continue; const [x,z,yaw]=NDL_SEATS[i];
++    const NS=(E.zone&&E.zone.spots&&E.zone.spots.ndlSeats)||NDL_SEATS, DR=(E.zone&&E.zone.spots&&E.zone.spots.door)||[0,3.6];   /* 燒臘店 v7（SHAOLA-WIRE-1105）：固定客人坐第 4、5 桌、從店門口走進來（配置 spots）；舊麵店照舊 */
++    for(let i=0;i<Math.min(cnt,NS.length);i++){ if(mine.some(n=>n.ndlIdx===i)) continue; const [x,z,yaw]=NS[i];
+       if(taken(x,z)||Math.hypot(P.x-x,P.z-z)<0.6) continue;   /* 位子有人（阿哲、玩家）就不坐 */
+       if(free<=need) break; free--;   /* 留給還沒到的麵店團 */
+       const o=CHAR.build(extraSpec(300+((G.day*3+i)%60))), seat={x,z,yaw};
+       if(entering){ o.position.set(x,0,z); o.rotation.y=yaw; E.addNPC({obj:o,name:'',beh:'idle',pose:'sit',idlePose:'sit',frozen:true,isExtra:true,seat,ndlRegular:true,ndlIdx:i}); continue; }
+       /* 玩家在店裡時 17:30 到了：從門口走進來、走到位子坐下（不在玩家眼前憑空出現）*/
+-      o.position.set(0,0,3.6); o.rotation.y=Math.PI; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',isExtra:true,ndlRegular:true,ndlIdx:i,seatTarget:seat});   /* seatTarget：走過去的路上這個位子也算有人（麵店團、下一位客人不坐）*/
++      o.position.set(DR[0],0,DR[1]); o.rotation.y=Math.PI; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',isExtra:true,ndlRegular:true,ndlIdx:i,seatTarget:seat});   /* seatTarget：走過去的路上這個位子也算有人（麵店團、下一位客人不坐）*/
+       const sit=()=>{ n.seatTarget=null; if(GM.sitAt) GM.sitAt(n,seat); }; const ap=(GM.seatApproach&&GM.seatApproach(seat))||[x,z+(yaw?0.6:-0.6)]; if(!E.moveTo(n,ap[0],ap[1],sit)) sit(); } }
+   S.noodleRegulars=noodleRegulars;
+   S.refreshSchedule=refreshSchedule;
+diff --git a/src/zones3d.js b/src/zones3d.js
+index ed88bfc4b..84827239d 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -2102,7 +2102,7 @@ const Z3 = (function(){
+     if(!z.gg&&z.wins&&z.wins[0]){ const v=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.7),z.wins[0].material); v.position.set(0,1.25,4.5+0.35); v.rotation.y=Math.PI; g0.add(v); (z.winParts=z.winParts||[]).push({obj:v,at:new THREE.Vector3(0,1.25,4.5),dir:new THREE.Vector3(0,0,-1)}); }
+     return root; }
+   // ---------- 麵店 ----------
+-  const noodle={ id:'noodle', name:'公館燒臘', indoor:true, camDist:4.0, build(E){ const z=room(E,{view:'noodle',viewDepth:24,w:10,d:9,h:3.2,warm:true,wallColor:'#f1e7d6',floorTex:W3.stoneTex('#d9cbb0'),spawn:{x:0,z:3.5,yaw:Math.PI},winWall:'front',winXs:[-3,3]});   /* 窗在店面那一面（後牆是廚房和價目表）*/ const g0=z.group, nav=z.nav;
++  const noodle={ id:'noodle', name:'公館燒臘', indoor:true, camDist:4.0, build(E){ if(typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop) return buildShaola(E);   /* SHAOLA-WIRE-1105：BB 的燒臘店室內（下面 buildShaola）；配置沒載入＝照舊的麵店 */ const z=room(E,{view:'noodle',viewDepth:24,w:10,d:9,h:3.2,warm:true,wallColor:'#f1e7d6',floorTex:W3.stoneTex('#d9cbb0'),spawn:{x:0,z:3.5,yaw:Math.PI},winWall:'front',winXs:[-3,3]});   /* 窗在店面那一面（後牆是廚房和價目表）*/ const g0=z.group, nav=z.nav;
+     // 程序化的畫面全部放在 g（備用模型）：Blender 正式模型（ASSETS 'bldg.noodle_interior'，第二個 AI）載入後整組藏起來；導航、座位、互動點、出口都不受影響
+     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
+     const kitchen=new THREE.Mesh(new THREE.BoxGeometry(6,1.0,1.2),M('#8f9399',{rough:0.4})); kitchen.position.set(-1,0.5,-3.8); g.add(kitchen); nav.blockRect(-1,-3.8,6,1.2,0,0.15); const pot=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.4,0.5,14),M('#3a3f46',{rough:0.4})); pot.position.set(-2,1.25,-3.8); g.add(pot); z.seats=[]; for(let i=0;i<3;i++){ const x=-3+i*3; desk(g,nav,x,0.5,0,1.4,0.9,'#d9cbb0'); for(const s of [-1,1]){ chair(g,x,0.5+s*0.8,s>0?Math.PI:0,'#c9463d'); z.seats.push({x,z:0.5+s*0.8,yaw:s>0?Math.PI:0}); } E.interactables.push({x,z:1.3,radius:1.1,label:'坐下吃飯',seat:{x,z:1.3,yaw:Math.PI},pairSeat:{x,z:-0.3,yaw:0},eat:'noodle'}); }
+@@ -2111,6 +2111,33 @@ const Z3 = (function(){
+     P3.mergeStatic(g);   /* 備用模型自己合併（外層合併會跳過它，正式模型載入後要能整組藏起來）*/
+     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.noodle_interior']) ASSETS.loadOne('bldg.noodle_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachNoodleInterior(z,g0,root); }).catch(e=>console.warn('麵店室內正式模型載入失敗，用程序化備用模型',e));
+     return z; } };
++  /* ---------- 公館燒臘 v7（SHAOLA-WIRE-1105，LAWWW2-C 11-05；使用者 06:4x「公館燒臘線上版本怎麼還是麵店」）----------
++     BB〔帳號 A〕的 shaola_interior.glb v7（企劃線 65c2a43c5，LAWWW2 驗 MODEL_READY）＋配置 src/data/shaola_layout.js v1（BB 原檔，沒改）：6 × 13 × 3.2 m 窄長老店，
++     左邊一排五張不鏽鋼方桌（x −2.1）、中間走道（x −1.3～0.9）、右邊整排櫃台（燒臘櫃、砧板檯、盛飯台）、最裡面廚房門。區域 id 照舊 noodle。
++     · 進門：公館店門的落點照舊 (0, 3.4)（走道上；劇情 OUT.plan、快速前往都用這一點）；z.spawn (0, 4.5)；出口在門內 (0, 5.9)、半徑 0.9（和公館 AA 的店一樣）、回公館照舊 (−63, 18)。
++     · 「坐下吃飯」（eat:'noodle'＝story3d.js noodleScene）：每一張桌子一個，坐面向店裡那一張（桌子南邊），對面那一張是 pairSeat（阿哲的位子是第 3 桌北邊，配置 spots.zhe_seat）。
++     · z.spots：zhe_seat（阿哲）、clerk（老闆，砧板檯後面）、ndlSeats（週二週四的固定客人，第 4、5 桌）、door（從門口走進來、走出去的點）——story3d.js、hcircle3d.js 讀這一份。
++     · 導航：配置的 blocks（桌子、櫃台、層架、冰箱）＋SHAOLA_EXTRA（GLB 根節點 extras.extraBlocks，BB 寫的：工作檯、圓凳、椅疊、紙箱、水桶；tests/shaola_wire_unit.js 對照 GLB）。導航格 0.2 m。
++     · 燈：GLOW_ 光暈（日光燈、燒臘櫃燈泡、電視）合成一個網格，白天晚上都亮（店裡開燈）。 */
++  const SHAOLA_EXTRA=[[-1.625,-6.21,2.55,0.58],[-2.74,4.0,0.36,0.36],[-2.74,2.2,0.36,0.36],[-2.74,0.4,0.36,0.36],[-2.74,-1.4,0.36,0.36],[-2.74,-3.2,0.36,0.36],[-1.5,4.0,0.36,0.36],[-1.5,2.2,0.36,0.36],[-1.5,0.4,0.36,0.36],[-1.5,-1.4,0.36,0.36],[-1.5,-3.2,0.36,0.36],
++    [-1.82,5.78,0.46,0.46],[-2.62,5.9,0.46,0.46],[-2.47,-5.65,0.96,0.44],[2.63,5.47,0.7,1.8],[2.6,3.9,0.46,0.46]];
++  function shaolaSpots(L){ const S=L.spots||{}, sv=s=>s?{x:s.x,z:s.z,yaw:s.yaw}:null, t4=L.seats.find(q=>q.table===4&&q.yaw===0);
++    return {zhe_seat:sv(S.zhe_seat),clerk:L.clerk?{x:L.clerk.x,z:L.clerk.z,yaw:L.clerk.yaw}:null,ndlSeats:[S.regular_1,S.regular_2,S.regular_3,t4].filter(Boolean).map(s=>[s.x,s.z,s.yaw]),door:[L.exit.at.x,+(L.d/2-0.9).toFixed(2)]}; }
++  function buildShaola(E){ const L=SHAOLA_LAYOUT.shop, P=Math.PI;
++    if(typeof ASSETS!=='undefined'&&ASSETS.manifest&&!ASSETS.manifest['bldg.shaola_interior']) ASSETS.manifest['bldg.shaola_interior']={url:L.glb,type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/bb_support/shaola_interior.py（公館燒臘室內 v7，BB〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 65c2a43c5，配置 src/data/shaola_layout.js v1）',license:'本作；貼圖本作程式產生（shaola_tex.py）'};
++    const z=room(E,{w:L.w,d:L.d,h:L.h,cell:0.2,warm:true,wallColor:'#d8c69e',floorTex:W3.stoneTex('#e2d8c4'),spawn:{x:0,z:+(L.d/2-2).toFixed(2),yaw:P},windows:false});
++    const g0=z.group, nav=z.nav; z.shaola=true; z.spots=shaolaSpots(L);
++    const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const c of g0.children.slice()){ if(c.isLight) continue; g0.remove(c); fb.add(c); } g0.add(fb);   /* 正式模型來了整組藏起來 */
++    const fbM=M('#b8bcbe',{rough:0.5}); for(const b of L.blocks.concat(SHAOLA_EXTRA)){ nav.blockRect(b[0],b[1],b[2],b[3],0,0.05); const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],0.85,b[3]),fbM); m.position.set(b[0],0.425,b[1]); fb.add(m); }   /* 備用的家具色塊 */
++    nav.blockRect(2.3,-4.83,0.8,0.66,0,0);   /* 櫃台南端、冰箱、層架圍起來的一小塊（x 1.9～2.7、z −5.15～−4.5）：站得住 6 點、四周都站不住，跑步一步 0.4 m 跳得進去（v9.3 #31）——擋起來；櫃台後面是老闆站的地方，本來就走不進去 */
++    z.seats=L.seats.map(s=>({x:s.x,z:s.z,yaw:s.yaw,table:s.table,kind:'shop'}));
++    for(const t of L.tables){ const s=L.seats.find(q=>q.table===t.n&&q.z>t.z), p=L.seats.find(q=>q.table===t.n&&q.z<t.z); if(!s||!p) continue;
++      E.interactables.push({x:s.x,z:s.z,radius:1.0,label:s.label||'坐下吃飯',seat:{x:s.x,z:s.z,yaw:s.yaw},pairSeat:{x:p.x,z:p.z,yaw:p.yaw},eat:'noodle'}); }   /* 面向店裡那一張（背對店門）；noodleScene 走到 (x, z+0.5)＝椅子後面 */
++    E.interactables.push({x:L.exit.at.x,z:+(L.d/2-0.6).toFixed(2),radius:0.9,label:L.exit.label,exit:{to:'gongguan',spawn:{x:-63,z:18,yaw:P}}});
++    nav._cm=null; P3.mergeStatic(fb);
++    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.shaola_interior']) ASSETS.loadOne('bldg.shaola_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,fb,root);
++      const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); }); if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,'shaola_glows',2.5); mesh.material.emissiveIntensity=1; z.shaolaGlows=gl.length; } }).catch(e=>console.warn('公館燒臘室內正式模型載入失敗，用備用模型',e));
++    return z; }
+   /* 麵店室內的正式模型（第二個 AI：tools/blender/env_second/noodle_interior.py）：日光燈管一直亮；店內材質有燈光感（TK.bounce，只給白色或有貼圖的材質）；
+      價目板（白底深咖啡字）、紅紙菜單（直式黑字）用 canvas 畫；自動門玻璃外放一片窗景（和窗戶同一個材質） */
+   const NDL_BOUNCE={ndl_wall_paint:[0.4,0.5],ndl_wall_tile:[0.35,0.45],ndl_floor:[0.3,0.4],ndl_table_top:[0.35,0.45],ndl_ceiling:[0.4,0.5]};
+diff --git a/tests/shaola_wire_unit.js b/tests/shaola_wire_unit.js
+new file mode 100644
+index 000000000..1614bb850
+--- /dev/null
++++ b/tests/shaola_wire_unit.js
+@@ -0,0 +1,82 @@
++// 公館燒臘室內換成 BB 的燒臘店 v7（SHAOLA-WIRE-1105，LAWWW2-C 11-05；使用者 06:4x「公館燒臘線上版本怎麼還是麵店」）——不需要瀏覽器（D131）。
++// 建出遊戲真正的 noodle 區域（zones3d.js buildShaola），用引擎真正的找路、移動（E.simWalk、E.canStand、E.nearestInteractable）檢查：
++//   ① index.html 在 zones3d／story3d／crowd3d／hcircle3d 前面載入 src/data/shaola_layout.js；區域用燒臘店（6 × 13）、正式模型登錄 shaola_interior.glb、檔案在、是 v7（3,905,580 B）
++//   ② 導航多擋的那幾塊（SHAOLA_EXTRA）＝GLB 根節點 extras.extraBlocks（BB 寫的）
++//   ③ 公館店門的落點 (0, 3.4)（劇情 OUT.plan、快速前往也是這一點）、z.spawn 站得住；出口在門內、走得到、按得到，落點不在出口範圍裡
++//   ④ 五張桌子的「坐下吃飯」（eat:'noodle'）走得到、按得到；noodleScene 走去的點 (x, z+0.5) 走得到；pairSeat＝同一張桌子對面
++//   ⑤ 阿哲的位子（spots.zhe_seat）＝第 3 桌北邊、和那一桌「坐下吃飯」差 < 2.5 m（noodleScene 才會演阿哲那一段）；固定客人 4 個位子不在第 3 桌、都是 z.seats；從門口走得到每一個位子旁邊
++//   ⑥ 老闆的站位（spots.clerk）不在家具裡；hcircle3d 的 CLERK.noodle 照配置
++//   ⑦ 沒有小孤島（每 0.1 m 一點，站得住卻走不到）
++//   ⑧ crowd3d 的客人坐的位子：不在第 3 桌、都在 z.seats 裡
++// 修改前（開發分支 05ddf1e08）：① 就 FAIL（noodle 是舊的 10 × 9 麵店、沒有 shaola_layout.js）。用法：node tests/shaola_wire_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{};
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const r2=v=>+(+v).toFixed(2), J=x=>JSON.stringify(x);
++const ih=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), pos=f=>ih.indexOf('src="'+f);
++const lp=pos('src/data/shaola_layout.js');
++check('① index.html 載入 src/data/shaola_layout.js、在 zones3d／story3d／crowd3d／hcircle3d 前面', lp>0&&['src/zones3d.js','src/story3d.js','src/crowd3d.js','src/hcircle3d.js'].every(f=>pos(f)<0||pos(f)>lp), 'shaola_layout '+lp);
++const T=fs.readFileSync(path.join(ROOT,'tests/nav_buildings_unit.js'),'utf8');
++const files=[...new Set([...eval(T.match(/const files=(\[[^\]]+\])/)[1]),'src/data/calendar.js','src/data/places.js','src/data/shaola_layout.js'])];
++const order=f=>f.startsWith('lib/')?0:(f.startsWith('src/data/')?1:(f==='src/zones3d.js'?2:4));
++const pre=files.filter(f=>order(f)<2).concat(['src/zones3d.js']).concat(files.filter(f=>order(f)===4&&f!=='src/zones3d.js'));
++const run=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
++for(const f of pre){ if(fs.existsSync(path.join(ROOT,f))) try{ run(f); }catch(e){ console.log('（載入 '+f+' 失敗：'+e.message+'）'); } }
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; ASSETS.loadOne=()=>Promise.reject(new Error('no GLB in node'));
++global.GAME={G:{zone:'noodle',day:30,hour:18,flags:{},money:5000,weather:'clear',visited:{}}};
++E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.exits=[]; E.spawnHint=null;
++const z=Z3.ZONES.noodle.build(E); E.zone=z; E.levels=null; E.nav=z.nav; E.nav._cm=null; const N=E.nav, its=E.interactables.slice();
++E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; if(E.fitSeatRadius) E.fitSeatRadius();
++const L=typeof SHAOLA_LAYOUT!=='undefined'?SHAOLA_LAYOUT.shop:null, man=ASSETS.manifest['bldg.shaola_interior'], gp=man&&path.join(ROOT,man.url);
++{ const xs=[], zs2=[]; for(let x=-4;x<=4;x+=0.1) if(E.canStand(x,0,0.32,0)) xs.push(x); for(let zz=-8;zz<=8;zz+=0.1) if(E.canStand(0,zz,0.32,0)) zs2.push(zz);   /* 走得到的範圍：寬 6 m、深 13 m 扣掉牆內 0.4＋人的半徑 */
++  const w=xs.length?xs[xs.length-1]-xs[0]:0, d=zs2.length?zs2[zs2.length-1]-zs2[0]:0;
++  check('① 區域是燒臘店（6 × 13）、正式模型登錄 bldg.shaola_interior', !!L&&!!z.shaola&&d>10.5&&d<12.3&&!!man, `走道（x 0）站得住的長度 ${r2(d)} m（13 m 扣掉牆內 0.4＋半徑；舊麵店 6.4）、z 0 那一排寬 ${r2(w)} m`); }
++const glb=gp&&fs.existsSync(gp)?fs.readFileSync(gp):null;
++check('① GLB 檔案在、是 v7（3,905,580 B）', !!glb&&glb.length===3905580, glb?glb.length+' B':'沒有檔案 '+(man&&man.url));
++if(!L||!z.shaola){ console.log('FAILED '+fails); process.exit(1); }
++// ② 多擋的那幾塊＝GLB extras
++{ const j=JSON.parse(glb.slice(20,20+glb.readUInt32LE(12)).toString()), ex=(j.nodes.find(n=>n.extras&&n.extras.extraBlocks)||{}).extras, eb=ex?(typeof ex.extraBlocks==='string'?JSON.parse(ex.extraBlocks):ex.extraBlocks):[];
++  const src=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8'), mine=eval(src.match(/const SHAOLA_EXTRA=(\[[\s\S]*?\]\]);/)[1]);
++  const same=eb.length===mine.length&&eb.every((b,i)=>b.slice(0,4).every((v,k)=>Math.abs(v-mine[i][k])<1e-6));
++  check('② 導航多擋的 SHAOLA_EXTRA＝GLB 根節點 extras.extraBlocks', same, `${mine.length}／${eb.length} 塊`);
++  for(const b of eb){ const [x,zz]=b; if(E.canStand(x,zz,0.1,0)){ check('② '+b[4]+' 中心站不住',false,J(b.slice(0,4))); } } }
++// ③ 進門、出口
++const walk=(a,b)=>{ for(const dt of [1/30,0.1]){ const r=E.simWalk(a[0],a[1],b[0],b[1],{dt}); if(!r.ok) return Object.assign({dt:r2(dt)},r); } return {ok:true}; };
++const IN=[0,3.4], sp=z.spawn;
++check('③ 公館店門的落點 (0, 3.4)、z.spawn 站得住', E.canStand(IN[0],IN[1],0.32,0)&&E.canStand(sp.x,sp.z,0.32,0), J(sp));
++function touchable(it,from){ const r=(it.radius||1.5)-0.05, P=E.player, c=[];
++  for(let dz=-r;dz<=r+1e-6;dz+=0.1) for(let dx=-r;dx<=r+1e-6;dx+=0.1){ const d=Math.hypot(dx,dz); if(d>r) continue; const x=it.x+dx, zz=it.z+dz; if(E.canStand(x,zz,0.32,0)) c.push([d,x,zz]); }
++  c.sort((a,b)=>a[0]-b[0]); for(const [,x,zz] of c){ P.obj.position.set(x,0,zz); if(E.nearestInteractable&&E.nearestInteractable()!==it) continue; if(from&&!walk(from,[x,zz]).ok) continue; return [r2(x),r2(zz)]; } return null; }
++const ex=its.find(it=>it.exit&&it.exit.to==='gongguan');
++check('③ 出口「離開公館燒臘」走得到、按得到、回公館 (−63, 18)', !!ex&&!!touchable(ex,IN)&&ex.exit.spawn.x===-63&&ex.exit.spawn.z===18, ex&&J({x:ex.x,z:ex.z,r:ex.radius}));
++check('③ 進門的落點不在出口範圍裡', !!ex&&Math.hypot(IN[0]-ex.x,IN[1]-ex.z)>ex.radius&&Math.hypot(sp.x-ex.x,sp.z-ex.z)>ex.radius);
++// ④ 坐下吃飯
++const eats=its.filter(it=>it.eat==='noodle'), bad4=[];
++for(const it of eats){ const t=touchable(it,IN); if(!t) bad4.push(`(${it.x},${it.z}) 按不到`); const ap=[it.seat.x,it.seat.z+0.5]; if(!walk(IN,ap).ok&&!walk(IN,[ap[0],ap[1]-0.15]).ok) bad4.push(`(${it.x},${it.z}) 椅子後面走不到`);
++  if(!(it.pairSeat&&Math.abs(it.pairSeat.x-it.seat.x)<0.01&&it.pairSeat.z<it.seat.z&&Math.abs(it.seat.yaw-Math.PI)<0.01&&Math.abs(it.pairSeat.yaw)<0.01)) bad4.push(`(${it.x},${it.z}) pairSeat 不對`); }
++check('④ 五張桌子的「坐下吃飯」走得到、按得到，椅子後面走得到，pairSeat 是對面那一張', eats.length===5&&!bad4.length, `${eats.length} 個；`+bad4.join('、'));
++// ⑤ 阿哲、固定客人
++const S=z.spots||{}, zs=S.zhe_seat, t3=eats.find(it=>Math.abs(it.z-1.02)<0.05);
++check('⑤ 阿哲的位子＝第 3 桌北邊 (−2.1, −0.22) 面向店門；和第 3 桌「坐下吃飯」差 < 2.5 m', !!zs&&Math.abs(zs.x+2.1)<0.01&&Math.abs(zs.z+0.22)<0.01&&zs.yaw===0&&!!t3&&Math.hypot(zs.x-t3.seat.x,zs.z-t3.seat.z)<2.5, J(zs));
++const ns=S.ndlSeats||[], inSeats=q=>z.seats.some(s=>Math.abs(s.x-q[0])<0.01&&Math.abs(s.z-q[1])<0.01), tab=q=>(L.seats.find(s=>Math.abs(s.x-q[0])<0.01&&Math.abs(s.z-q[1])<0.01)||{}).table;
++check('⑤ 固定客人 4 個位子：不在第 3 桌、都是 z.seats', ns.length===4&&ns.every(q=>inSeats(q)&&tab(q)!==3), ns.map(q=>`第${tab(q)}桌(${q[0]},${q[1]})`).join(' '));
++{ const bad=[]; const dr=S.door||[0,3.6]; if(!E.canStand(dr[0],dr[1],0.32,0)) bad.push('門口點站不住'); for(const q of ns.concat(zs?[[zs.x,zs.z]]:[])){ const near=[[q[0]+0.8,q[1]],[q[0]+0.75,q[1]+0.3],[q[0]+0.75,q[1]-0.3],[q[0],q[1]+(q[1]>0?0.3:-0.3)]].find(p=>E.canStand(p[0],p[1],0.32,0)&&walk(dr,p).ok); if(!near) bad.push(`(${q[0]},${q[1]}) 旁邊走不到`); }
++  check('⑤ 從門口（spots.door）走得到固定客人、阿哲每一個位子旁邊', !bad.length, bad.join('、')); }
++// ⑥ 老闆
++const ck=S.clerk; check('⑥ 老闆的站位（砧板檯後面）不在家具裡', !!ck&&E.canStand(ck.x,ck.z,0.2,0), J(ck));
++// ⑦ 小孤島
++{ const big=new Set(), key=(x,zz)=>Math.round(x*10)+','+Math.round(zz*10), q=[[IN[0],IN[1]]]; big.add(key(IN[0],IN[1]));
++  while(q.length){ const [x,zz]=q.shift(); for(const [dx,dz] of [[0.1,0],[-0.1,0],[0,0.1],[0,-0.1]]){ const nx=r2(x+dx), nz=r2(zz+dz), k=key(nx,nz); if(big.has(k)||!E.canStand(nx,nz,0.32,0)) continue; big.add(k); q.push([nx,nz]); } }
++  const lone=[]; for(let x=-3;x<=3;x=r2(x+0.1)) for(let zz=-6.5;zz<=6.5;zz=r2(zz+0.1)) if(E.canStand(x,zz,0.32,0)&&!big.has(key(x,zz))) lone.push(`(${x},${zz})`);
++  check('⑦ 沒有小孤島（每 0.1 m 一點：站得住的都連得到門口）', !lone.length, `走得到 ${big.size} 點，孤島 ${lone.length} 點 `+lone.slice(0,6).join(' ')); }
++// ⑥ hcircle、⑧ crowd（照 index.html 的順序：配置先載入）
++for(const f of ['src/hcircle3d.js','src/crowd3d.js']){ try{ run(f); }catch(e){ console.log('（載入 '+f+' 失敗：'+e.message+'）'); } }
++check('⑥ hcircle3d 的 CLERK.noodle 照配置的老闆站位', typeof HCIRCLE!=='undefined'&&!!HCIRCLE.CLERK&&!!ck&&HCIRCLE.CLERK.noodle.x===ck.x&&HCIRCLE.CLERK.noodle.z===ck.z, typeof HCIRCLE!=='undefined'&&HCIRCLE.CLERK?J(HCIRCLE.CLERK.noodle):'沒有 HCIRCLE');
++{ const defs=typeof CROWD!=='undefined'&&CROWD.shopDefs?CROWD.shopDefs():[], d=defs.find(x=>x.zone==='noodle'), seats=d?[].concat(...d.units.map(u=>u.seats||[])):[];
++  check('⑧ crowd3d 燒臘店的客人：8 個位子、不在第 3 桌、都在 z.seats', !!d&&seats.length===8&&seats.every(s=>inSeats([s.x,s.z])&&tab([s.x,s.z])!==3), d?seats.map(s=>`${s.x},${s.z}`).join(' '):'沒有 noodle'); }
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

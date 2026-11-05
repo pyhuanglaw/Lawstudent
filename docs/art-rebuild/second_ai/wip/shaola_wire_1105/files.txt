@@ -1,0 +1,4 @@
+assets/models/env/second_ai/bb_support/shaola_interior.glb
+src/data/shaola_layout.js
+tools/blender/env_second/bb_support/shaola_interior.py
+tools/blender/env_second/bb_support/shaola_tex.py
