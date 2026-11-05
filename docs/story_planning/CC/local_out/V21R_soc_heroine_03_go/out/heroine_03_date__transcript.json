@@ -3,8 +3,8 @@
  "tag": "date 當面約",
  "rec0": {
   "day": -1,
-  "hour": 12.1093,
-  "t": -11.8907,
+  "hour": 12.1096,
+  "t": -11.8904,
   "money": 30000,
   "rel": {
    "fam": 52,
@@ -24,8 +24,8 @@
  },
  "rec1": {
   "day": -1,
-  "hour": 15.2636,
-  "t": -8.7364,
+  "hour": 15.2638,
+  "t": -8.7362,
   "money": 29690,
   "rel": {
    "fam": 54,
@@ -41,7 +41,7 @@
   ],
   "zone": "library"
  },
- "hours": 3.154300000000001,
+ "hours": 3.1541999999999994,
  "say": [
   {
    "n": "",
@@ -200,23 +200,6 @@
  "screen": [
   {
    "name": "",
-   "text": "（",
-   "slots": [
-    {
-     "id": "advL",
-     "show": false,
-     "img": false
-    },
-    {
-     "id": "advR",
-     "show": false,
-     "img": false
-    }
-   ],
-   "adv": true
-  },
-  {
-   "name": "",
    "text": "（華山1914文創園區。）",
    "slots": [
     {
@@ -269,23 +252,6 @@
   {
    "name": "陳語彤",
    "text": "（她沒在看作品，在看旁邊的人）那個阿伯，在每一張前面",
-   "slots": [
-    {
-     "id": "advL",
-     "show": false,
-     "img": false
-    },
-    {
-     "id": "advR",
-     "show": true,
-     "img": true
-    }
-   ],
-   "adv": true
-  },
-  {
-   "name": "陳語彤",
-   "text": "（她沒在看作品，在看旁邊的人）那個阿伯，在每一張前面都站一樣久。",
    "slots": [
     {
      "id": "advL",
