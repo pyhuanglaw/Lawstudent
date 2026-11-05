@@ -22713,6 +22713,14 @@
    "branch": "claude/focused-cray-c9uwvw",
    "reason": "SIT-HEIGHT-1104 WIP 檢查點（坐下高度第一版：照大腿根比例 ul、男生 npc_m1 不變＋量測工具；還沒交付）；LAWWW-C 11-04 23:4x 分類（D94）",
    "task": "SIT-HEIGHT-1104"
+  },
+  {
+   "sha": "dabb0de621",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "SIT-HEIGHT-1104 WIP 檢查點（C.SIT_FIT、置物架、片段重出；未交件）；交件版 267f3d9a9 已接進 b1ca12646；LAWWW-C 11-05 01:3x 分類（D94）",
+   "task": "SIT-HEIGHT-1104"
   }
  ],
  "scannedThroughNote": "2026-11-02 05:3x 使用者刪了帳號 B 的分支（funny-albattani、cool-heisenberg、elegant-brown；內容整條在 second-ai-env-art、story-planning）：從這裡拿掉，之後的核對靠 watermarks.json（incr）"
