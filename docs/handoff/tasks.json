@@ -48094,6 +48094,36 @@
    "authorized": "使用者直接要求",
    "evidence": "五職位帳號 C 登記（LAWWW-C 12:3x、LAWWW2／AA／BB 12:4x、CC-C 13:28）；check 十二項 OK、roles OK、asks OK、incr OK（918→0，水位線前進 e3bde13be）、duty verify OK；三種工具誤報修（45e64135d、cd784999e、d6c74f628）；舊 worktree 備份 wip_backup/handoff_c_1104（e90636eb6）",
    "sha": ""
+  },
+  {
+   "id": "XS-NORTH-EXT-1105",
+   "title": "望月台、體育館照臺大官網照片做 Blender 外觀（第 2 版）＋新生南路圍牆後面＋大口／大步／好拍窗景",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "使用者 11-05 10:0x「你去台大官網找新月台照片 新體育館照片!!!!」（UA-LAWWW2-1105-08）；LAWWW2 c6837632e 接進開發線 abf4dbbd5（MODEL_READY）；BB 排 CC 拍、D120 驗收；下一版",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "使用者 11-05 09:1x 經 LAWWW2-C（UA-LAWWW2-1105-06）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "src": "UA-LAWWW-1105-29",
+   "sha": "abf4dbbd5"
   }
  ]
 }
