@@ -1308,3 +1308,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 2059.0s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 2059.0s] BROWSER DISCONNECTED
 - 2026-11-05T14:01:53  D118B7_play  sha=6a1592a26831ce63470b4869aa9c5aa7e5d8628c  exit=1  478s    PASS [9/7] 結果和答對題數一致：顯示的是 lawyer 那一句（13 題）  ["第十四題你選哪個？", "不要對。對了會睡不著。", "已經凌晨了。", "（家。04:00。）", "你房間我沒動。只有吸地。", "七夕。……你不來，我就自己看港口。"] / PASS 沒有 JS 例外  [] / FAILED 2: [8/4] BAR_SCORE_2029＝答對題數 13；[8/4] 交卷以後觀念卡逐題回寫：答對的卡＝got、答錯的卡進 miss
       err.log (last 5): [gpu_wrap 443.6s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 443.6s] BROWSER DISCONNECTED
+- 2026-11-05T14:10:10  WZLIN_v1d  sha=9ea82730f471210c8df143093b7743ce4c9327a8  exit=0  487s    PASS [牆淡出] 日和便利店 鏡頭繞一圈（8 個方向）：擋在鏡頭和人中間的牆都淡出（opacity ≤0.5）  [] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 444.0s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 444.0s] BROWSER DISCONNECTED

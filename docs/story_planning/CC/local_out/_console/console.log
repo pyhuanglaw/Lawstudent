@@ -210,3 +210,17 @@
 [13:57:13] ==== END   NANYANG_v1b  exit=0  2101s   ====
 [13:57:16] solo item SITHEIGHT_ed76 waits: no new items start until the 2 running item(s) finish
 [14:01:53] [res] cpu=12% mem=25% (8.3/31.4 GB) chrome_testing=5  END D118B7_play
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       eb1be94a2..5842b06d2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:01:58] ==== END   D118B7_play  exit=1  478s   ====
+[14:02:04] memory 25% before starting NANYANG_v2 (1 running)
+[14:02:04] memory 25% before starting WZLIN_v1d (2 running)
+[14:02:04] ==== START NANYANG_v2  (probe @ 9ea82730f471210c8df143093b7743ce4c9327a8) ====
+[14:02:04] ==== START WZLIN_v1d  (probe @ 9ea82730f471210c8df143093b7743ce4c9327a8) ====
+[14:02:07] [res] cpu=9% mem=25% (8.0/31.4 GB) chrome_testing=5  START WZLIN_v1d
+[14:02:07] [res] cpu=9% mem=25% (8.0/31.4 GB) chrome_testing=5  START NANYANG_v2
+[14:02:07] worktree add 9ea82730f471210c8df143093b7743ce4c9327a8: invalid reference - fetching main and the commit itself
+[14:02:08] 正在跑：WZLIN_v1c（已跑 13 分／上限 60 分）、NANYANG_v2（已跑 0 分／上限 75 分）、WZLIN_v1d（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:07:08] 正在跑：WZLIN_v1c（已跑 18 分／上限 60 分）、NANYANG_v2（已跑 5 分／上限 75 分）、WZLIN_v1d（已跑 5 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:10:10] [res] cpu=3% mem=30% (9.6/31.4 GB) chrome_testing=10  END WZLIN_v1d
