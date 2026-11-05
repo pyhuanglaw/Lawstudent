@@ -26,7 +26,7 @@
 // 原稿用 git show bf0efded8 讀，不經 tests/alison.js（那支的換字表不改 AA_619 本身、只會在後面接別的稿；這裡要逐字比的是原稿）。
 // 修改前（開發分支 ed7600ec5，暫時的 detached worktree 實跑）：沒有 src/guitar3d.js、index.html 沒接、白名單沒有 AA_619、沒有 CLS.CLUB_IN、存檔預設沒有 guitar、places.js 沒有同弦、
 //   ev_ziqing_secret_game 沒有那一句、沒有同弦區域（src/tongxian3d.js）＝FAILED 28（0、0a～13 每一節都失敗或中斷；「不演」那幾項本來就成立的照樣 PASS）；
-//   合併同弦區域（c028e2cc2）、還沒照真的區域接（沒有 S.buttons、還認 tongxian）＝FAILED 2（3-1、第 3 節中斷）。修改後 123 項 ALL PASS。
+//   合併同弦區域（c028e2cc2）、還沒照真的區域接（沒有 S.buttons、還認 tongxian）＝FAILED 2（3-1、第 3 節中斷）。修改後 124 項 ALL PASS。
 // 用法：node tests/aa619_guitar_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -162,6 +162,10 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     check('3-11. 21:33 人還在店裡：站起來、回到新生南路騎樓的樓梯口外面（TX3.streetOut）、寫開放時間',t===true&&stood===1&&H.entered[0]==='xinsheng'&&toasts[0]===PLACES.closedText('xs_tongxian',21.55,sat),J([H.entered,toasts,so]));
     at(TD('Y1S1',8,1),13,'xs_tongxian'); H.entered=[]; S.tick(GM); await new Promise(r=>setTimeout(r,5)); check('3-12. 週一（公休）讀檔在店裡：一樣請出來',H.entered[0]==='xinsheng');
     at(sat,15,'xs_tongxian'); H.entered=[]; const t2=S.tick(GM); check('3-13. 開門的時候不請人出來',t2===false&&!H.entered.length);
+    { const cb=CHAR.build, an=E.addNPC, pos=[]; CHAR.build=sp=>({position:{set:(x,y,zz)=>pos.push([x,zz])},rotation:{},sp}); E.addNPC=o=>{ E.npcs.push(o); return o; }; E.npcs=[];
+      at(sat,15,'xs_tongxian'); const n1=S.populate(GM), n2=S.populate(GM); E.npcs=[]; at(sat,21.6); const n3=S.populate(GM); at(sat,15,'xinsheng'); const n4=S.populate(GM);
+      CHAR.build=cb; if(an) E.addNPC=an; else delete E.addNPC; E.npcs=[]; G.zone='xs_tongxian'; const ow=TX3.OWNER;
+      check('3-13b. 老闆：開門的時候站在櫃台後面（TX3.OWNER）、不動、算店員、不背包；不重複生；打烊、別的區域不生',!!n1&&n1.guitarBoss&&n1.frozen&&n1.clerk&&J(pos[0])===J([ow.x,ow.z])&&n1.obj.sp.bag===null&&n2===null&&n3===null&&n4===null,J([pos,!!n1,n2,n3,n4])); }
     // 2-3 有區域＝換到店裡（真的 TX3.zone）
     global.Z3={ZONES:{xs_tongxian:TX3.zone,campus:{}}}; G.zone='campus'; E.player.obj.position.x=5; E.player.obj.position.z=6; H.entered=[]; const spawned=[]; GM.spawnCharacter=(id,x,z)=>{ spawned.push([id,x,z]); return {obj:{}}; }; let sat2=null; GM.sitAt=(p,s)=>{ sat2=s; };
     const stg=await S.outingStage(GM,{id:'guitar_zq_shop'},evOf('ev_guitar_zq_shop')); const zq=LY.npc.ziqing_cg, tw=LY.seats.find(x=>x.id==='try_w');

@@ -8,6 +8,7 @@
      - 室內區域 xs_tongxian＝src/tongxian3d.js（TX3，LAWWW2-C；配置 src/data/tongxian_layout.js）：區域只放座位和出口；這裡包住 TX3.zone.build 加兩種按鈕（S.buttons，照木曜日的寫法）：
          看看＝吉他牆兩點（配置 interact 的 wall_n、wall_s，kind look_guitars）、旁白一句；買東西＝櫃台（buy）。try（子晴 CG 的站位）、ukes（烏克麗麗，稿上沒有字）不放按鈕。
          試彈＝坐上試琴椅（座位 try_w、try_e，區域的按鈕「試彈」；STORY.onSeat 照配置的 seats 對位置）＝旁白一句（稿寫「社課教的 C 和弦」：去過一次吉他社社課才有）；櫃台前的木凳沒有字。
+         老闆：開門的時候站在櫃台後面（TX3.OWNER；S.populate，照木曜日用路人底模、不說話）。
          買東西＝老闆一句（三句輪流，一次進店說一句）→ 選單：民謠吉他 入門款 3,800、面單款 6,500、一包弦 350、Pick 20、移調夾 300、「不用了」；
            吉他社成員（CLUB_club_guitar）九折（入門款 3,420、面單款 5,850……，選項小字「九折」）；錢不夠＝「錢不夠」，不扣錢；買了＝扣錢、時間 +0.15 小時（照 story3d.js 的 counter）；
            吉他＝OWN_GUITAR（'entry'｜'solid'）、送一個琴袋、一次調音（旁白用 2-3 那一句「（老闆幫你調好音，把琴裝進琴袋。）」）、日誌「買了○○」；同一款買過就不再列；
@@ -133,6 +134,11 @@ const GUITAR=(function(){
   /* 經濟系那一年：店裡的按鈕藏起來（STORY.populate 換區域的時候）*/
   S.install=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!Array.isArray(E.interactables)||!S.ZONES.includes(G.zone)) return 0; let n=0;
     for(const it of E.interactables) if(it&&it.guitar){ it.hidden=!law(G); n++; } return n; };
+  /* 老闆：開門的時候站在櫃台後面（TX3.OWNER＝配置的 npc.owner；照木曜日 MOKS.populate：路人底模、不說話——他的話用「老闆」那幾句）*/
+  S.populate=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!E.addNPC||typeof CHAR==='undefined'||!CHAR.build||!S.isOpen(G)||!S.ZONES.includes(G.zone)) return null; if((E.npcs||[]).some(n=>n&&n.guitarBoss)) return null;
+    const at=typeof TX3!=='undefined'?TX3.OWNER:null; if(!at) return null; const sp=Object.assign({},typeof STORY!=='undefined'&&STORY.extraSpec?STORY.extraSpec(93):{}); sp.bag=null;   /* 站櫃台不背包 */
+    const o=CHAR.build(sp); if(!o) return null; o.position.set(at.x,0,at.z); o.rotation.y=at.yaw||0;
+    return E.addNPC({obj:o,lv:0,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,clerk:true,guitarBoss:true}); };
   /* 試彈：坐上試琴椅（try_w、try_e）。去過一次社課才有那一句（稿：「社課教的 C 和弦」）；打烊以後不演 */
   S.seatId=function(seat){ const L=S.layout(); if(!L||!seat) return null; let bi=null, bd=0.3; for(const s of (L.seats||[])){ const d=Math.hypot(s.x-seat.x,s.z-seat.z); if(d<bd){ bd=d; bi=s.id||null; } } return bi; };
   S.TRY_SEATS=['try_w','try_e'];
@@ -293,7 +299,7 @@ const GUITAR=(function(){
     if(Array.isArray(STORY.ROOM_EXTRA)&&!STORY.ROOM_EXTRA.includes(S.room)) STORY.ROOM_EXTRA.push(S.room);
     if(Array.isArray(STORY.SCHED_X)&&!STORY.SCHED_X.includes(S.sched)) STORY.SCHED_X.push(S.sched);
     if(!STORY._guitar){ STORY._guitar=true;
-      if(STORY.populate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(S.ZONES.includes(zoneId)) S.install(GM); }catch(e){ console.warn('GUITAR.install',e); } return r; }; }
+      if(STORY.populate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(S.ZONES.includes(zoneId)){ S.install(GM); S.populate(GM); } }catch(e){ console.warn('GUITAR.install',e); } return r; }; }
       if(STORY.interact){ const i0=STORY.interact; STORY.interact=async function(it,GM){ const G=GM&&GM.G;
         if(it&&it.guitar&&G){ if(it.guitar==='look') await S.look(GM); else if(it.guitar==='try') await S.tryPlay(GM); else if(it.guitar==='shop') await S.shop(GM); return true; }   /* 新生南路的店門（營業時間外、颱風天）在 story3d.js 的 onInteract 擋 */
         return i0.apply(this,arguments); }; }
