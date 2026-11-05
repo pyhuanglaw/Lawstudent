@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "NPCTASK_f5c3",
+  "sha": "f5c38f2bae0b4c4f5e871d7da43dbe1994097847",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_npctask_probe.py",
+  "env": "CTL=both;LOCS=hall,lib3f,lawlib,soc2f,b1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-05T11:52:47",
+  "end": "2026-11-05T12:01:06",
+  "seconds": 499,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8806/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 40,
+    "mem": 52,
+    "used_gb": 16.6,
+    "chrome_testing": 14
+  }
+}
