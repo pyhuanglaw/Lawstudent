@@ -1404,3 +1404,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 488.9s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 489.0s] BROWSER DISCONNECTED
 - 2026-11-05T19:23:56  V21R_xsgate  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  238s    PASS [d] 從舊存檔落點照玩家走得出去（到校門內側 (−110, 0)，自動放過去 0 次）  {"at": [-110.05, -0.188], "fb": 0} / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 205.7s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 205.7s] BROWSER DISCONNECTED
+- 2026-11-05T19:25:39  V21R_moveout  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  154s    PASS law_old b 「回臺北的家」有無＝HOME.canGo&&!HOME.at（照程式）  gohome=True 預期=True / PASS 沒有 JS 例外  [] / FAILED 2
+      err.log (last 5): [gpu_wrap 120.9s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 120.9s] BROWSER DISCONNECTED
