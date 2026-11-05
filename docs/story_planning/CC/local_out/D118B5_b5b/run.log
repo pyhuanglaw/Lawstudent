@@ -1,0 +1,22 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b5_play.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\D118B5_b5b\out
+CC D118_B5（法服改純劇情）：CASES=['b5b']；SHA=747dba80dabb454eaf2aaf6f1bee272a271c6ce5；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [b5b] 遊戲載入  21.9 秒
+  [前置／捷徑] [b5b] 讀檔：dorm 2026-10-23 19:54；{"flags": {"CLUB_lawclub_study": true, "lawclub": true, "SIS_CLUB_EXPO": true}, "friends": ["classmate_bohan"]}
+  [  37.2s] [b5b] 設定以後：{"member": true, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 0}
+PASS [b5b] 社員、在法服群組  {"member": true, "joined": true, "inGroup": true, "notice": false, "pure": 1, "seen": 0}
+PASS [b5b] 10/23 20:00 法服群組一則「週六九點，有一位預約的阿姨。人手夠，想來的再來。」（AA_604 第 1 列）  {"text": "週六九點，有一位預約的阿姨。人手夠，想來的再來。", "from": "classmate_bohan", "th": "g:lawclub_study", "key": "2026-10-23", "h": 20}
+  [  52.5s] [b5b] 一鍵「回去睡覺」
+PASS [b5b] 10/24 08:30 跳出發選單（出發／這週請假）  {"dlg": false, "text": "去上課吧。下課再跟我說你讀到哪了。", "opts": ["出發：法服值班（法律系館B一樓 9:00）\n09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"], "hour": 8.503, "day": 403, "key": "2026-10-24", "zone": "dorm", "busy": true}
+PASS [b5b] 出發 → 到萬才館（法律系館B）9:00 前後  {"zone": "wancai", "h": 9}
+  [ 236.6s] 到達「[b5b] 圓桌」附近（0.20 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [ 236.6s] [b5b] 走到圓桌：True、互動鍵 '坐到圓桌（做初談紀錄）'
+PASS [b5b] 圓桌的互動鍵「坐到圓桌（做初談紀錄）」  坐到圓桌（做初談紀錄）
+  [ 247.8s] [b5b] 台詞（9 句）：["（週六上午九點，法律系館B一樓的圓桌。學長已經把紀錄表排好了。）", "這學期起我排班。有事找我。", "（一位阿姨，樓上漏水，天花板發霉，樓上的人不開門。）", "你先問什麼？", "好。先聽完。", "（他講了十五分鐘。最重要的那一句，在最後。）", "我不想吵架。我只想要它不要再滴。", "每一次滴水都拍照、記日期。下次我們一起看。", "（初談紀錄，一頁。學長在最下面簽名。你把日期寫在最上面。）"]；選單 [["「先請他從頭講一次。」", "「先問什麼時候發生的。」", "「先問手上有什麼資料。」"]]
+PASS [b5b] 流程：共同開頭 → 新個案（有「你先問什麼？」的選單）→ 收尾旁白第 1 列（第一場沒有回訪）  {"open": 0, "end": 8, "menus": 1}
+PASS [b5b] 共同開頭後面接柏翰「這學期起我排班。有事找我。」（AA_691 第 3 項）  ["（週六上午九點，法律系館B一樓的圓桌。學長已經把紀錄表排好了。）", "這學期起我排班。有事找我。", "（一位阿姨，樓上漏水，天花板發霉，樓上的人不開門。）"]
+PASS [b5b] 手機記事「法服：做了一份初談紀錄」（AA_691 第 5 項；不寫「值班」）  ["法服：做了一份初談紀錄"]
+PASS [b5b] 演完 12:00、FAFU_STORY_1＝那天（10/24＝403）、FAFU_STORY_SEEN 1  {"k1": 403, "seen": 1, "h": 12.01, "key": "2026-10-24"}
+PASS [b5b] 關係值不變（純劇情，不加數值）  [{"classmate_bohan": [45, 30, 0], "heroine_03": [0, 0, 0], "npc_lawclub_pres": [0, 0, 0]}, {"classmate_bohan": [45, 30, 0], "heroine_03": [0, 0, 0], "npc_lawclub_pres": [0, 0, 0]}]
+PASS [b5b] 沒有 JS 例外  []
+ALL PASS

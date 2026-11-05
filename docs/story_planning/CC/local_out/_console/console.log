@@ -119,3 +119,12 @@
 [12:59:27] [res] cpu=14% mem=52% (16.3/31.4 GB) chrome_testing=9  START PERF_WZ_SPLIT
 [13:02:08] 正在跑：SITHEIGHT_ed76（已跑 60 分／上限 80 分）、NANYANG_v1（已跑 7 分／上限 60 分）、PERF_WZ_SPLIT（已跑 2 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [13:06:02] [res] cpu=16% mem=90% (25.2/31.4 GB) chrome_testing=9  END PERF_WZ_SPLIT
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       16897d093..69e35d0d8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:06:09] ==== END   PERF_WZ_SPLIT  exit=0  397s   ====
+[13:06:12] memory 60% before starting D118B5_b5b (2 running)
+[13:06:12] ==== START D118B5_b5b  (probe @ 747dba80dabb454eaf2aaf6f1bee272a271c6ce5) ====
+[13:06:15] [res] cpu=20% mem=61% (19.1/31.4 GB) chrome_testing=9  START D118B5_b5b
+[13:07:08] 正在跑：SITHEIGHT_ed76（已跑 65 分／上限 80 分）、NANYANG_v1（已跑 12 分／上限 60 分）、D118B5_b5b（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:10:59] [res] cpu=7% mem=75% (23.6/31.4 GB) chrome_testing=9  END D118B5_b5b
