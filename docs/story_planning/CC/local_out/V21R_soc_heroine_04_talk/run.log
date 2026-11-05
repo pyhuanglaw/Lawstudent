@@ -14,12 +14,9 @@ SKIP [heroine_04] first：五位女主角的第一次見面是專屬事件（不
   [前置／捷徑] [heroine_04] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "高子晴", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_04] 到達「高子晴 旁邊」附近（0.13 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.11 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，16 秒
   [heroine_04] greet：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.08 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
-  [heroine_04] greet：互動鍵是「聽一句」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
   [heroine_04] greet 連按兩次：按「和高子晴說話」（連按兩次，間隔約 200 ms）
 PASS [heroine_04] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8807/src/story3d.js?v=9.10.19:1018:25)"]}
 PASS [heroine_04] greet 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
@@ -31,9 +28,9 @@ PASS [heroine_04] greet 連按兩次：15 秒內回到可以自由移動
 PASS [heroine_04] greet 連按兩次：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_04] greet 連按兩次：沒有新的 JS 例外
 PASS [heroine_04] greet 連按兩次：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_04] greet 連按兩次：搖桿推得動（≥0.3 m）  3.18 m
-PASS [heroine_04] greet 連按兩次：點地走得動（≥0.3 m）  點 [28.45, -1.72]，走了 1.02 m
-PASS [heroine_04] greet 連按兩次：遊戲時間有在走  14.2855→14.3058
+PASS [heroine_04] greet 連按兩次：搖桿推得動（≥0.3 m）  3.20 m
+PASS [heroine_04] greet 連按兩次：點地走得動（≥0.3 m）  點 [29.23, -1.16]，走了 1.05 m
+PASS [heroine_04] greet 連按兩次：遊戲時間有在走  14.2629→14.2830
 PASS [heroine_04] greet 連按兩次：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_04] greet 連按兩次：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_04] greet 連按兩次：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -43,64 +40,10 @@ PASS [heroine_04] greet 連按兩次：按 #minimap 打得開、關得掉  {"ope
   [前置／捷徑] [heroine_04] 前置：朋友（FRIEND）、門檻台詞還沒說（relUp＝0）：{"stage": "FRIEND", "name": "高子晴", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_04] 到達「高子晴 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，16 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.10 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，11 秒
   [heroine_04] up：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.20 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，20 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.02 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
-  [heroine_04] up：互動鍵是「聽一句」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（1.41 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，9 秒
-  [heroine_04] up：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.18 m）：點地面 6 次、轉鏡頭 1 次、搖桿 0 次，22 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.31 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
-  [heroine_04] up：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
-INFO [heroine_04] up：這個時段找不到他／走不到他旁邊  {"x": -47.36, "z": -26.8, "lv": 0, "label": "和高子晴說話", "name": "高子晴", "seat": false, "beh": "wander", "alias": null}
-  [前置／捷徑] [heroine_04] 讀檔：up：2025-09-18 14 campus（走走）（campus 2 14.00）
-  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [前置／捷徑] [heroine_04] 前置：朋友（FRIEND）、門檻台詞還沒說（relUp＝0）：{"stage": "FRIEND", "name": "高子晴", "fm": true, "lad": null, "contact": false}
-  [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
-  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_04] up：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
-  [heroine_04] up_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
-  [heroine_04] 到達「高子晴 旁邊」附近（0.02 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，13 秒
-  [heroine_04] up：互動鍵是「」，往他再走近
-  [heroine_04] 「高子晴 旁邊（再近一點）」途中：bigmap 開著（遊戲暫停），先關掉
-  [heroine_04] 「高子晴 旁邊（再近一點）」途中：bigmap 開著（遊戲暫停），先關掉
-  [heroine_04] 「高子晴 旁邊（再近一點）」途中：bigmap 開著（遊戲暫停），先關掉
-  [heroine_04] 「高子晴 旁邊（再近一點）」途中：bigmap 開著（遊戲暫停），先關掉
-  [heroine_04] 「高子晴 旁邊（再近一點）」途中：bigmap 開著（遊戲暫停），先關掉
-  [heroine_04] 「高子晴 旁邊（再近一點）」途中：bigmap 開著（遊戲暫停），先關掉
-  [heroine_04] 「高子晴 旁邊（再近一點）」途中：bigmap 開著（遊戲暫停），先關掉
-  [heroine_04] 「高子晴 旁邊（再近一點）」途中：bigmap 開著（遊戲暫停），先關掉
-  [heroine_04] 「高子晴 旁邊（再近一點）」途中：bigmap 開著（遊戲暫停），先關掉
-  [heroine_04] 「高子晴 旁邊（再近一點）」途中：bigmap 開著（遊戲暫停），先關掉
-  [heroine_04] 「高子晴 旁邊（再近一點）」途中：bigmap 開著（遊戲暫停），先關掉
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.15 m）：點地面 13 次、轉鏡頭 0 次、搖桿 1 次，57 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.24 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，12 秒
-  [heroine_04] up：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，16 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，15 秒
-  [heroine_04] up：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
-  [heroine_04] up：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
-INFO [heroine_04] up：這個時段找不到他／走不到他旁邊  {"x": -18.98, "z": -17.15, "lv": 0, "label": "和高子晴說話", "name": "高子晴", "seat": false, "beh": "wander", "alias": null}
-  [前置／捷徑] [heroine_04] 讀檔：up：2025-09-19 14 campus（走走）（campus 3 14.00）
-  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [前置／捷徑] [heroine_04] 前置：朋友（FRIEND）、門檻台詞還沒說（relUp＝0）：{"stage": "FRIEND", "name": "高子晴", "fm": true, "lad": null, "contact": false}
-  [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
-  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-INFO [heroine_04] up：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
-  [heroine_04] up_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
-  [heroine_04] 到達「高子晴 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
-  [heroine_04] up：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.26 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
-  [heroine_04] up：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.20 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
   [heroine_04] up：按「和高子晴說話」
 PASS [heroine_04] up：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [heroine_04] up 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
@@ -111,9 +54,9 @@ PASS [heroine_04] up：15 秒內回到可以自由移動
 PASS [heroine_04] up：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_04] up：沒有新的 JS 例外
 PASS [heroine_04] up：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_04] up：搖桿推得動（≥0.3 m）  3.19 m
-PASS [heroine_04] up：點地走得動（≥0.3 m）  點 [29.46, -1.51]，走了 1.11 m
-PASS [heroine_04] up：遊戲時間有在走  15.3308→15.3418
+PASS [heroine_04] up：搖桿推得動（≥0.3 m）  3.28 m
+PASS [heroine_04] up：點地走得動（≥0.3 m）  點 [65.86, -14.4]，走了 1.05 m
+PASS [heroine_04] up：遊戲時間有在走  14.3338→14.3541
 PASS [heroine_04] up：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_04] up：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_04] up：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -125,32 +68,62 @@ INFO [heroine_04] up：門檻台詞 relUp 0→3
   [前置／捷徑] [heroine_04] 前置：ACQUAINTANCE、階梯進度設到第 1 層（Q-L1「原來你是阿凱的室友喔，他昨天才跟我講。」）：{"stage": "ACQUAINTANCE", "name": "高子晴", "fm": true, "lad": 0, "contact": false}
   [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_04] 到達「高子晴 旁邊」附近（0.37 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，26 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.00 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，22 秒
   [heroine_04] ladder Y1S1 Q-L1：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.17 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，15 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.20 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.23 m）：點地面 8 次、轉鏡頭 0 次、搖桿 0 次，23 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.01 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
   [heroine_04] ladder Y1S1 Q-L1：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.21 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，10 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.34 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
   [heroine_04] ladder Y1S1 Q-L1：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
-  [heroine_04] ladder Y1S1 Q-L1：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
-INFO [heroine_04] ladder Y1S1 Q-L1：這個時段找不到他／走不到他旁邊  {"x": -98.87, "z": -12.03, "lv": 0, "label": "和高子晴說話", "name": "高子晴", "seat": false, "beh": "wander", "alias": null}
-SKIP [heroine_04] ladder Y1S1 Q-L1：讀檔到 2025-09-02 campus 走不到她旁邊
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_04] ladder Y1S1 Q-L1 選項1：按「和高子晴說話」
+PASS [heroine_04] ladder Y1S1 Q-L1 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_04] ladder Y1S1 Q-L1 選項1 選單 ["「我真的不會彈。」", "「阿凱怎麼形容我的？」"] → 選「「我真的不會彈。」」
+  [heroine_04] ladder Y1S1 Q-L1 選項1 選單 ["約她去…", "就這樣"] → 選「就這樣」
+  [heroine_04] ladder Y1S1 Q-L1 選項1 台詞（3 句）：["高子晴｜原來你是阿凱的室友喔，他昨天才跟我講。", "高子晴｜他說你很安靜。安靜的來社團剛好，我們太吵了。", "高子晴｜會不會彈不重要啦，有來就好。"]
+PASS [heroine_04] ladder Y1S1 Q-L1 選項1：對話一路點得完  2 個選單
+PASS [heroine_04] ladder Y1S1 Q-L1 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_04] ladder Y1S1 Q-L1 選項1：15 秒內回到可以自由移動
+PASS [heroine_04] ladder Y1S1 Q-L1 選項1：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_04] ladder Y1S1 Q-L1 選項1：沒有新的 JS 例外
+PASS [heroine_04] ladder Y1S1 Q-L1 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_04] ladder Y1S1 Q-L1 選項1：搖桿推得動（≥0.3 m）  3.19 m
+PASS [heroine_04] ladder Y1S1 Q-L1 選項1：點地走得動（≥0.3 m）  點 [33.43, -60.34]，走了 1.02 m
+PASS [heroine_04] ladder Y1S1 Q-L1 選項1：遊戲時間有在走  14.7090→14.7291
+PASS [heroine_04] ladder Y1S1 Q-L1 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_04] ladder Y1S1 Q-L1 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_04] ladder Y1S1 Q-L1 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_04] ladder Y1S1 Q-L1 選項1：階梯推進（0→1）
+  [前置／捷徑] [heroine_04] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 Q-L1 換選項））
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_04] 到達「高子晴 旁邊」附近（0.16 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，35 秒
+  [heroine_04] ladder Y1S1 Q-L1 換選項：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.00 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.12 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_04] ladder Y1S1 Q-L1 換選項：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_04] ladder Y1S1 Q-L1 換選項：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_04] ladder Y1S1 Q-L1 換選項：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+INFO [heroine_04] ladder Y1S1 Q-L1：回到旁邊以後找不到她  
   [前置／捷徑] [heroine_04] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
   [前置／捷徑] [heroine_04] 讀檔：ladder Y1S1 Q-L2：2025-09-02 14 campus（走走）（campus -14 14.00）
   [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
   [前置／捷徑] [heroine_04] 前置：ACQUAINTANCE、階梯進度設到第 2 層（Q-L2「你知道資工系館晚上幾點熄燈嗎？十二點。」）：{"stage": "ACQUAINTANCE", "name": "高子晴", "fm": true, "lad": 1, "contact": false}
   [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_04] 到達「高子晴 旁邊」附近（0.00 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，21 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.15 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，13 秒
   [heroine_04] ladder Y1S1 Q-L2：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.20 m）：點地面 10 次、轉鏡頭 0 次、搖桿 0 次，28 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.20 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.19 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.11 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
   [heroine_04] ladder Y1S1 Q-L2：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
   [heroine_04] ladder Y1S1 Q-L2 選項1：按「和高子晴說話」
 PASS [heroine_04] ladder Y1S1 Q-L2 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [heroine_04] ladder Y1S1 Q-L2 選項1 選單 ["「法律系館晚上好像很早就關了。」", "「半夜在系館做什麼？」"] → 選「「法律系館晚上好像很早就關了。」」
@@ -162,40 +135,35 @@ PASS [heroine_04] ladder Y1S1 Q-L2 選項1：15 秒內回到可以自由移動
 PASS [heroine_04] ladder Y1S1 Q-L2 選項1：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_04] ladder Y1S1 Q-L2 選項1：沒有新的 JS 例外
 PASS [heroine_04] ladder Y1S1 Q-L2 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_04] ladder Y1S1 Q-L2 選項1：搖桿推得動（≥0.3 m）  3.18 m
-PASS [heroine_04] ladder Y1S1 Q-L2 選項1：點地走得動（≥0.3 m）  點 [11.09, -5.03]，走了 1.11 m
-PASS [heroine_04] ladder Y1S1 Q-L2 選項1：遊戲時間有在走  14.5558→14.5761
+PASS [heroine_04] ladder Y1S1 Q-L2 選項1：搖桿推得動（≥0.3 m）  3.21 m
+PASS [heroine_04] ladder Y1S1 Q-L2 選項1：點地走得動（≥0.3 m）  點 [31.74, -69.62]，走了 1.02 m
+PASS [heroine_04] ladder Y1S1 Q-L2 選項1：遊戲時間有在走  14.4055→14.4259
 PASS [heroine_04] ladder Y1S1 Q-L2 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_04] ladder Y1S1 Q-L2 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_04] ladder Y1S1 Q-L2 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_04] ladder Y1S1 Q-L2 選項1：階梯推進（1→2）
   [前置／捷徑] [heroine_04] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 Q-L2 換選項））
   [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_04] 到達「高子晴 旁邊」附近（0.21 m）：點地面 14 次、轉鏡頭 0 次、搖桿 0 次，54 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
   [heroine_04] ladder Y1S1 Q-L2 換選項：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.24 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，21 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.22 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，9 秒
-  [heroine_04] ladder Y1S1 Q-L2 換選項：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
-  [heroine_04] ladder Y1S1 Q-L2 換選項：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.26 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
-  [heroine_04] ladder Y1S1 Q-L2 換選項：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_04] ladder Y1S1 Q-L2 換選項：互動鍵是「聽一句」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
   [heroine_04] ladder Y1S1 Q-L2 選項2：按「和高子晴說話」
-PASS [heroine_04] ladder Y1S1 Q-L2 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "高子晴還沒決定。不要問。"}
+PASS [heroine_04] ladder Y1S1 Q-L2 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [heroine_04] ladder Y1S1 Q-L2 選項2 選單 ["「法律系館晚上好像很早就關了。」", "「半夜在系館做什麼？」"] → 選「「半夜在系館做什麼？」」
-  [heroine_04] ladder Y1S1 Q-L2 選項2 台詞（3 句）：["高子晴｜你知道資工系館晚上幾點熄燈嗎？十二點", "高子晴｜可是我有三樓的門禁卡，所以常常待到很晚。", "高子晴｜寫作業啊。晚上人少，比較不會被吵。"]
-PASS [heroine_04] ladder Y1S1 Q-L2 選項2：對話一路點得完  1 個選單
+  [heroine_04] ladder Y1S1 Q-L2 選項2 選單 ["約她去…", "就這樣"] → 選「就這樣」
+  [heroine_04] ladder Y1S1 Q-L2 選項2 台詞（3 句）：["高子晴｜你知道資工系館晚上幾點熄燈嗎", "高子晴｜可是我有三樓的門禁卡，所以常常待到很晚。", "高子晴｜寫作業啊。晚上人少，比較不會被吵。"]
+PASS [heroine_04] ladder Y1S1 Q-L2 選項2：對話一路點得完  2 個選單
 PASS [heroine_04] ladder Y1S1 Q-L2 選項2：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [heroine_04] ladder Y1S1 Q-L2 選項2：15 秒內回到可以自由移動
 PASS [heroine_04] ladder Y1S1 Q-L2 選項2：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_04] ladder Y1S1 Q-L2 選項2：沒有新的 JS 例外
 PASS [heroine_04] ladder Y1S1 Q-L2 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_04] ladder Y1S1 Q-L2 選項2：搖桿推得動（≥0.3 m）  3.29 m
-PASS [heroine_04] ladder Y1S1 Q-L2 選項2：點地走得動（≥0.3 m）  點 [-54.6, -6.62]，走了 1.14 m
-PASS [heroine_04] ladder Y1S1 Q-L2 選項2：遊戲時間有在走  15.3777→15.3983
+PASS [heroine_04] ladder Y1S1 Q-L2 選項2：搖桿推得動（≥0.3 m）  1.32 m
+PASS [heroine_04] ladder Y1S1 Q-L2 選項2：點地走得動（≥0.3 m）  點 [31.99, -6.49]，走了 1.05 m
+PASS [heroine_04] ladder Y1S1 Q-L2 選項2：遊戲時間有在走  14.5984→14.6185
 PASS [heroine_04] ladder Y1S1 Q-L2 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_04] ladder Y1S1 Q-L2 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_04] ladder Y1S1 Q-L2 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -206,19 +174,19 @@ PASS [heroine_04] ladder Y1S1 Q-L2 選項2：階梯推進（1→2）
   [前置／捷徑] [heroine_04] 前置：ACQUAINTANCE、階梯進度設到第 3 層（Q-L3「（她在甩手指）剛剛練太久，手指好痛。」）：{"stage": "ACQUAINTANCE", "name": "高子晴", "fm": true, "lad": 2, "contact": false}
   [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_04] 到達「高子晴 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，17 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.15 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，17 秒
   [heroine_04] ladder Y1S1 Q-L3：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.20 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，17 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.19 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，13 秒
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.00 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.20 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，9 秒
   [heroine_04] ladder Y1S1 Q-L3：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.06 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.26 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
   [heroine_04] ladder Y1S1 Q-L3：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
   [heroine_04] ladder Y1S1 Q-L3：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.21 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
-INFO [heroine_04] ladder Y1S1 Q-L3：這個時段找不到他／走不到他旁邊  {"x": -6.57, "z": -35.83, "lv": 0, "label": "和高子晴說話", "name": "高子晴", "seat": false, "beh": "wander", "alias": null}
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+INFO [heroine_04] ladder Y1S1 Q-L3：這個時段找不到他／走不到他旁邊  {"x": -25.32, "z": -9.06, "lv": 0, "label": "和高子晴說話", "name": "高子晴", "seat": false, "beh": "wander", "alias": null}
 SKIP [heroine_04] ladder Y1S1 Q-L3：讀檔到 2025-09-02 campus 走不到她旁邊
   [前置／捷徑] [heroine_04] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
   [前置／捷徑] [heroine_04] 讀檔：ladder Y1S1 Q-L4：2025-09-02 14 campus（走走）（campus -14 14.00）
@@ -226,49 +194,187 @@ SKIP [heroine_04] ladder Y1S1 Q-L3：讀檔到 2025-09-02 campus 走不到她旁
   [前置／捷徑] [heroine_04] 前置：FAMILIAR、階梯進度設到第 4 層（Q-L4「我早上真的起不來。晚上腦袋比較清楚。」）：{"stage": "FAMILIAR", "name": "高子晴", "fm": true, "lad": 3, "contact": false}
   [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_04] 到達「高子晴 旁邊」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，17 秒
-  [heroine_04] ladder Y1S1 Q-L4：互動鍵是「聽一句」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.22 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，17 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.16 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+  [heroine_04] ladder Y1S1 Q-L4：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.19 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.03 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [heroine_04] ladder Y1S1 Q-L4：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
   [heroine_04] ladder Y1S1 Q-L4 選項1：按「和高子晴說話」
 PASS [heroine_04] ladder Y1S1 Q-L4 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [heroine_04] ladder Y1S1 Q-L4 選項1 選單 ["「我也是晚上比較清醒。」", "「早八其實還好。」"] → 選「「我也是晚上比較清醒。」」
   [heroine_04] ladder Y1S1 Q-L4 選項1 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
-  [heroine_04] ladder Y1S1 Q-L4 選項1 台詞（3 句）：["高子晴｜我早上真的起不來。晚上腦袋比", "高子晴｜你們法律系很多早八吧？好可憐。", "高子晴｜對吧。早上的課根本是在考驗人。"]
+  [heroine_04] ladder Y1S1 Q-L4 選項1 台詞（3 句）：["高子晴｜我早上真的起不來。晚上腦袋比較", "高子晴｜你們法律系很多早八吧？好可憐。", "高子晴｜對吧。早上的課根本是在考驗人。"]
 PASS [heroine_04] ladder Y1S1 Q-L4 選項1：對話一路點得完  2 個選單
 PASS [heroine_04] ladder Y1S1 Q-L4 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [heroine_04] ladder Y1S1 Q-L4 選項1：15 秒內回到可以自由移動
 PASS [heroine_04] ladder Y1S1 Q-L4 選項1：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_04] ladder Y1S1 Q-L4 選項1：沒有新的 JS 例外
 PASS [heroine_04] ladder Y1S1 Q-L4 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_04] ladder Y1S1 Q-L4 選項1：搖桿推得動（≥0.3 m）  3.24 m
-PASS [heroine_04] ladder Y1S1 Q-L4 選項1：點地走得動（≥0.3 m）  點 [36, -5.37]，走了 1.05 m
-PASS [heroine_04] ladder Y1S1 Q-L4 選項1：遊戲時間有在走  14.3552→14.3757
+PASS [heroine_04] ladder Y1S1 Q-L4 選項1：搖桿推得動（≥0.3 m）  3.21 m
+PASS [heroine_04] ladder Y1S1 Q-L4 選項1：點地走得動（≥0.3 m）  點 [68.33, -17.34]，走了 1.02 m
+PASS [heroine_04] ladder Y1S1 Q-L4 選項1：遊戲時間有在走  14.3492→14.3695
 PASS [heroine_04] ladder Y1S1 Q-L4 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_04] ladder Y1S1 Q-L4 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_04] ladder Y1S1 Q-L4 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_04] ladder Y1S1 Q-L4 選項1：階梯推進（3→4）
   [前置／捷徑] [heroine_04] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 Q-L4 換選項））
   [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [heroine_04] 到達「高子晴 旁邊」附近（0.05 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.00 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+  [heroine_04] ladder Y1S1 Q-L4 換選項：互動鍵是「聽一句」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
   [heroine_04] ladder Y1S1 Q-L4 換選項：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
-  [heroine_04] ladder Y1S1 Q-L4 換選項：互動鍵是「」，往他再走近
-  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
-  [heroine_04] 到達「高子晴 旁邊」附近（0.18 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
   [heroine_04] ladder Y1S1 Q-L4 選項2：按「和高子晴說話」
 PASS [heroine_04] ladder Y1S1 Q-L4 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [heroine_04] ladder Y1S1 Q-L4 選項2 選單 ["「我也是晚上比較清醒。」", "「早八其實還好。」"] → 選「「早八其實還好。」」
   [heroine_04] ladder Y1S1 Q-L4 選項2 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
-  [heroine_04] ladder Y1S1 Q-L4 選項2 台詞（3 句）：["高子晴｜我早上真的起不來。晚上腦袋比較清楚。", "高子晴｜你們法律系很多早八吧？好可憐。", "高子晴｜騙人，沒有人覺得早八還好。"]
+  [heroine_04] ladder Y1S1 Q-L4 選項2 台詞（3 句）：["高子晴｜我早上真的起不來。晚上腦袋比較清楚", "高子晴｜你們法律系很多早八吧？好可憐。", "高子晴｜騙人，沒有人覺得早八還好。"]
 PASS [heroine_04] ladder Y1S1 Q-L4 選項2：對話一路點得完  2 個選單
 PASS [heroine_04] ladder Y1S1 Q-L4 選項2：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [heroine_04] ladder Y1S1 Q-L4 選項2：15 秒內回到可以自由移動
 PASS [heroine_04] ladder Y1S1 Q-L4 選項2：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_04] ladder Y1S1 Q-L4 選項2：沒有新的 JS 例外
 PASS [heroine_04] ladder Y1S1 Q-L4 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_04] ladder Y1S1 Q-L4 選項2：搖桿推得動（≥0.3 m）  3.39 m
-PASS [heroine_04] ladder Y1S1 Q-L4 選項2：點地走得動（≥0.3 m）  點 [29.62, -12.71]，走了 1.08 m
-PASS [heroine_04] ladder Y1S1 Q-L4 選項2：遊戲時間有在走  14.6620→14.6822
+PASS [heroine_04] ladder Y1S1 Q-L4 選項2：搖桿推得動（≥0.3 m）  3.23 m
+PASS [heroine_04] ladder Y1S1 Q-L4 選項2：點地走得動（≥0.3 m）  點 [3.05, -10.91]，走了 1.08 m
+PASS [heroine_04] ladder Y1S1 Q-L4 選項2：遊戲時間有在走  14.5765→14.5968
 PASS [heroine_04] ladder Y1S1 Q-L4 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_04] ladder Y1S1 Q-L4 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_04] ladder Y1S1 Q-L4 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_04] ladder Y1S1 Q-L4 選項2：階梯推進（3→4）
+  [前置／捷徑] [heroine_04] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [前置／捷徑] [heroine_04] 讀檔：ladder Y1S1 Q-L5：2025-09-02 14 campus（走走）（campus -14 14.00）
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_04] 前置：FAMILIAR、階梯進度設到第 5 層（Q-L5「欸，你常去總圖吧。二樓跟三樓，哪邊插座比較多？」）：{"stage": "FAMILIAR", "name": "高子晴", "fm": true, "lad": 4, "contact": false}
+  [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_04] 到達「高子晴 旁邊」附近（0.05 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，20 秒
+  [heroine_04] ladder Y1S1 Q-L5：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.25 m）：點地面 10 次、轉鏡頭 0 次、搖桿 0 次，28 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.09 m）：點地面 6 次、轉鏡頭 1 次、搖桿 0 次，21 秒
+  [heroine_04] ladder Y1S1 Q-L5：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+  [heroine_04] ladder Y1S1 Q-L5：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [heroine_04] ladder Y1S1 Q-L5：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+INFO [heroine_04] ladder Y1S1 Q-L5：這個時段找不到他／走不到他旁邊  {"x": 29.59, "z": -34.77, "lv": 0, "label": "和高子晴說話", "name": "高子晴", "seat": false, "beh": "wander", "alias": null}
+SKIP [heroine_04] ladder Y1S1 Q-L5：讀檔到 2025-09-02 campus 走不到她旁邊
+  [前置／捷徑] [heroine_04] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [前置／捷徑] [heroine_04] 讀檔：ladder Y1S1 Q-L6：2025-10-01 20 wancai（社團）（wancai 15 20.00）
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_04] 前置：FAMILIAR、階梯進度設到第 6 層（Q-L6「我這學期又被助教寄信了，說我缺席太多。」）：{"stage": "FAMILIAR", "name": "高子晴", "fm": true, "lad": 5, "contact": false}
+  [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_04] 到達「高子晴 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_04] ladder Y1S1 Q-L6 選項1：按「和高子晴說話」
+PASS [heroine_04] ladder Y1S1 Q-L6 選項1：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "吉他社"}
+  [heroine_04] ladder Y1S1 Q-L6 選項1 選單 ["「教我一個和弦。」", "「上次那個程式比賽，妳怎麼沒去？」", "「妳們平常都在幹嘛？」"] → 選「「教我一個和弦。」」
+  [heroine_04] ladder Y1S1 Q-L6 選項1 台詞（4 句）：["高子晴｜又來", "高子晴｜又來了。今天要學 C 和弦還是要吃洋芋片？", "高子晴｜手指這樣——不對，那是 F，你會痛死。C。壓好。", "｜一個小時後你會了一個和弦，還有手指上兩條紅"]
+PASS [heroine_04] ladder Y1S1 Q-L6 選項1：對話一路點得完  1 個選單
+PASS [heroine_04] ladder Y1S1 Q-L6 選項1：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_04] ladder Y1S1 Q-L6 選項1：15 秒內回到可以自由移動
+PASS [heroine_04] ladder Y1S1 Q-L6 選項1：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_04] ladder Y1S1 Q-L6 選項1：沒有新的 JS 例外
+PASS [heroine_04] ladder Y1S1 Q-L6 選項1：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_04] ladder Y1S1 Q-L6 選項1：搖桿推得動（≥0.3 m）  1.56 m
+PASS [heroine_04] ladder Y1S1 Q-L6 選項1：點地走得動（≥0.3 m）  點 [-1.42, 1.15]，走了 0.83 m
+PASS [heroine_04] ladder Y1S1 Q-L6 選項1：遊戲時間有在走  21.1453→21.1656
+PASS [heroine_04] ladder Y1S1 Q-L6 選項1：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_04] ladder Y1S1 Q-L6 選項1：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_04] ladder Y1S1 Q-L6 選項1：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [heroine_04] ladder Y1S1 Q-L6 選項1：階梯沒有推進（這一次被別的對話先用掉？）  ["高子晴｜又來", "高子晴｜又來了。今天要學 C 和弦還是要吃洋芋片？", "高子晴｜手指這樣——不對，那是 F，你會痛死。C。壓好。", "｜一個小時後你會了一個和弦，還有手指上兩條紅"]
+  [前置／捷徑] [heroine_04] 讀回存檔（回到「走到她旁邊」那一刻（ladder Y1S1 Q-L6 換選項））
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_04] 到達「高子晴 旁邊」附近（0.24 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [heroine_04] ladder Y1S1 Q-L6 選項2：按「和高子晴說話」
+PASS [heroine_04] ladder Y1S1 Q-L6 選項2：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "吉他社"}
+  [heroine_04] ladder Y1S1 Q-L6 選項2 選單 ["「教我一個和弦。」", "「上次那個程式比賽，妳怎麼沒去？」", "「妳們平常都在幹嘛？」"] → 選「「教我一個和弦。」」
+  [heroine_04] ladder Y1S1 Q-L6 選項2 台詞（4 句）：["高子晴｜又來", "高子晴｜又來了。今天要學 C 和弦還是要吃洋芋片？", "高子晴｜手指這樣——不對，那是 F，你會痛死。C。壓好。", "｜一個小時後你會了一個和弦，還有手指上兩條紅"]
+PASS [heroine_04] ladder Y1S1 Q-L6 選項2：對話一路點得完  1 個選單
+PASS [heroine_04] ladder Y1S1 Q-L6 選項2：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_04] ladder Y1S1 Q-L6 選項2：15 秒內回到可以自由移動
+PASS [heroine_04] ladder Y1S1 Q-L6 選項2：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_04] ladder Y1S1 Q-L6 選項2：沒有新的 JS 例外
+PASS [heroine_04] ladder Y1S1 Q-L6 選項2：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_04] ladder Y1S1 Q-L6 選項2：搖桿推得動（≥0.3 m）  1.56 m
+PASS [heroine_04] ladder Y1S1 Q-L6 選項2：點地走得動（≥0.3 m）  點 [-1.43, 1.15]，走了 0.84 m
+PASS [heroine_04] ladder Y1S1 Q-L6 選項2：遊戲時間有在走  21.1931→21.2132
+PASS [heroine_04] ladder Y1S1 Q-L6 選項2：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_04] ladder Y1S1 Q-L6 選項2：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_04] ladder Y1S1 Q-L6 選項2：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+INFO [heroine_04] ladder Y1S1 Q-L6 選項2：階梯沒有推進（這一次被別的對話先用掉？）  ["高子晴｜又來", "高子晴｜又來了。今天要學 C 和弦還是要吃洋芋片？", "高子晴｜手指這樣——不對，那是 F，你會痛死。C。壓好。", "｜一個小時後你會了一個和弦，還有手指上兩條紅"]
+  [前置／捷徑] [heroine_04] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+SKIP [heroine_04] ladder Y1S1 Q-L7：掃不到她在、這一層播得出來的時段（要 FAMILIAR；{"dateOnly": null, "context": null, "line": "你上次玩的時候，第二關卡好久。"}）
+  [前置／捷徑] [heroine_04] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [前置／捷徑] [heroine_04] 讀檔：ladder Y1S1 Q-L8：2025-09-02 14 campus（走走）（campus -14 14.00）
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_04] 前置：FRIEND、階梯進度設到第 8 層（Q-L8「欸，你下次社課要不要來？」）：{"stage": "FRIEND", "name": "高子晴", "fm": true, "lad": 7, "contact": false}
+  [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_04] 到達「高子晴 旁邊」附近（0.07 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，17 秒
+  [heroine_04] ladder Y1S1 Q-L8：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.19 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，20 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.23 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，20 秒
+  [heroine_04] ladder Y1S1 Q-L8：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.20 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，22 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_04] ladder Y1S1 Q-L8：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.22 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.23 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+  [heroine_04] ladder Y1S1 Q-L8：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.19 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，17 秒
+INFO [heroine_04] ladder Y1S1 Q-L8：這個時段找不到他／走不到他旁邊  {"x": 20.84, "z": -7.5, "lv": 0, "label": "和高子晴說話", "name": "高子晴", "seat": false, "beh": "wander", "alias": null}
+SKIP [heroine_04] ladder Y1S1 Q-L8：讀檔到 2025-09-02 campus 走不到她旁邊
+  [前置／捷徑] [heroine_04] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+-- [heroine_04] menu
+  [前置／捷徑] [heroine_04] 讀檔：menu：2025-09-16 14 campus（走走）（campus 0 14.00）
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_04] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "高子晴", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_04] 到達「高子晴 旁邊」附近（0.24 m）：點地面 24 次、轉鏡頭 0 次、搖桿 0 次，110 秒
+  [heroine_04] menu：互動鍵是「」，往他再走近
+  [heroine_04] 走不到「高子晴 旁邊（再近一點）」：最後位置 (-53.95,-6.82)，目標 (27.32,-6.97)；點地面 21 次、轉鏡頭 0 次、搖桿 0 次
+  [heroine_04]   這段時間：畫面 1841 格／61 秒、遊戲時間 14.81→15.21、paused=False、開著的面板 []
+  [heroine_04] 到達「高子晴 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_04] menu 基本：按「和高子晴說話」
+PASS [heroine_04] menu 基本：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "高子晴還沒決定。不要問。"}
+  [heroine_04] menu 基本 選單 ["交換聯絡方式", "就這樣"] → 選「就這樣」
+  [heroine_04] menu 基本 台詞（1 句）：["高子晴｜早。我剛起來。"]
+PASS [heroine_04] menu 基本：對話一路點得完  1 個選單
+PASS [heroine_04] menu 基本：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_04] menu 基本：15 秒內回到可以自由移動
+PASS [heroine_04] menu 基本：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_04] menu 基本：沒有新的 JS 例外
+PASS [heroine_04] menu 基本：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_04] menu 基本：搖桿推得動（≥0.3 m）  3.19 m
+PASS [heroine_04] menu 基本：點地走得動（≥0.3 m）  點 [-49.04, -2.41]，走了 1.11 m
+PASS [heroine_04] menu 基本：遊戲時間有在走  15.2874→15.3076
+PASS [heroine_04] menu 基本：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_04] menu 基本：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_04] menu 基本：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [heroine_04] menu：說話後的選單 ["交換聯絡方式", "就這樣"]
+  [前置／捷徑] [heroine_04] 讀回存檔（回到「走到她旁邊」那一刻（menu 選「交換聯絡方式」））
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_04] 到達「高子晴 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，16 秒
+  [heroine_04] menu 選「交換聯絡方式」：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.05 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [heroine_04] menu 選「交換聯絡方式」：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [heroine_04] menu 選「交換聯絡方式」：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.28 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [heroine_04] menu 選「交換聯絡方式」：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.14 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+INFO [heroine_04] menu：回到旁邊以後找不到她  
+== 人物 heroine_04 結果 PASS（137 項；SKIP 6：media、first、ladder Y1S1 Q-L3、ladder Y1S1 Q-L5、ladder Y1S1 Q-L7、ladder Y1S1 Q-L8）
+   用了 26.5 分鐘
+==== 總結：1 人，FAIL 0 人：[]
+ALL PASS
