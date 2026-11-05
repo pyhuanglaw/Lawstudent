@@ -1386,3 +1386,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 505.5s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 505.5s] BROWSER DISCONNECTED
 - 2026-11-05T19:09:18  V21R_xs_haopai  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  314s    PASS [黑畫面] buy_short_haopai 不是黑畫面（平均亮度 122.1、變化 61.8）  [122.1, 61.8] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 282.3s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 282.3s] BROWSER DISCONNECTED
+- 2026-11-05T19:11:29  V21R_xs_dakou  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  1181s    PASS [大口 天亮] 03:30 讀到 05:30（跨過 05:00）：「（樓下換了早餐的菜單。有人買了滿福堡，邊走邊吃去考試。）」（AA_621 第 2 節）  ["你讀了兩小時的憲法（上）——基本權", "你把〈憲法（一）：憲法是什麼〉的筆記整理了一遍。", "你把〈憲法的最高性〉的筆記整理了一遍。", "（樓下換了早餐的菜單。有人買了滿福堡，邊走邊吃去考試。）"] / PASS 沒有 JS 例外  [] / FAILED 1: [樓梯] 二樓 → 一樓（下樓）：走到了、第 0 層、高度 0.07＝0.00（±0.06）、沒有被放到目的地
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 1149.2s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 1149.2s] BROWSER DISCONNECTED
