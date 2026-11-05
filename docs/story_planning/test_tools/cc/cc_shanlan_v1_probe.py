@@ -117,13 +117,21 @@ async def part_shots(pg, cdp):
     # 剖面視角：人在一樓、遊戲自己的鏡頭；列出二樓高度、卻不在二樓那一組的網格
     await pg.set_viewport_size({'width': 1280, 'height': 720})
     for k, (x, z) in enumerate([(1.5, 2.5), (4.5, 6.5), (-3.0, 3.0)]):
-        await pg.evaluate("(([x,z])=>{ const P=GAME.E.player; P.obj.position.x=x; P.obj.position.z=z; })", [x, z]); await pg.wait_for_timeout(2500)
+        await pg.evaluate("(([x,z])=>{ const P=GAME.E.player; P.obj.position.x=x; P.obj.position.z=z; })", [x, z]); await pg.wait_for_timeout(1500)
+        # 剖面視角＝人在一樓、鏡頭拉高過二樓地板（4.2 m）：把跟隨鏡頭拉遠、往下看（玩家縮放、轉鏡頭做得到的範圍），直到二樓那一組藏起來
+        cut = None
+        for pitch, dist in ((0.6, 8.0), (0.8, 9.0), (1.0, 10.0), (1.15, 11.0)):
+            await pg.evaluate("(([p,d])=>{ const C=GAME.E.cam; C.pitch=p; C.dist=d; C.distTarget=d; })", [pitch, dist]); await pg.wait_for_timeout(1500)
+            cut = await pg.evaluate("(()=>{ const z=GAME.E.zone, g1=z.levelGroups[1].group; return {g1visible:g1.visible, camY:+GAME.E.camera.position.y.toFixed(2)}; })()")
+            if cut['g1visible'] is False: cut['pitch'] = pitch; cut['dist'] = dist; break
+        R.note('[截圖 剖面 %d] 拉鏡頭：%s' % (k + 1, J(cut)))
         fl = await pg.evaluate("""(()=>{ const E=GAME.E, z=E.zone, LG=z&&z.levelGroups, g1=LG&&LG[1]&&LG[1].group; const vis=o=>{ for(let p=o;p;p=p.parent) if(p.visible===false) return false; return true; };
           const inG1=o=>{ for(let p=o;p;p=p.parent) if(p===g1) return true; return false; }; const out=[]; const B=new THREE.Box3();
           E.scene.traverse(o=>{ if(!o.isMesh||!vis(o)||inG1(o)) return; B.setFromObject(o); if(B.min.y>4.05&&B.max.y<8.3) out.push({name:o.name||(o.parent&&o.parent.name)||'?', mat:(Array.isArray(o.material)?o.material[0]:o.material||{}).name||'', y:[+B.min.y.toFixed(2),+B.max.y.toFixed(2)], x:+((B.min.x+B.max.x)/2).toFixed(2), z:+((B.min.z+B.max.z)/2).toFixed(2)}); });
           return {g1visible:g1?g1.visible:null, camY:+E.camera.position.y.toFixed(2), floaters:out.slice(0,30), n:out.length}; })()""")
         R.note('[截圖 剖面 %d] 人在一樓 (%s, %s)：二樓那一組 visible＝%s、鏡頭高 %s；二樓高度卻不在二樓那一組、看得到的網格 %d 個：%s' % (k + 1, x, z, fl['g1visible'], fl['camY'], fl['n'], J(fl['floaters'])))
         await pg.evaluate(D.HUD + '(false)'); await D.shot(pg, 'user_cutaway_%d' % (k + 1)); await pg.evaluate(D.HUD + '(true)')
+        await pg.evaluate("(()=>{ const C=GAME.E.cam; C.pitch=0.22; C.dist=6.0; C.distTarget=6.0; })()")
     R.setup('[截圖] 讀檔山嵐二樓 %s 14:00' % DAY)
     await D.load_zone(pg, cdp, ZN, DAY, 14.0, 5.5, 7.5, -math.pi * 0.75, lv=1, wait=9000)
     await D.user_shot(pg, cdp, 'user_2f_day', {'eye': [6.2, 5.8, 8.4], 'look': [-2.5, 5.0, -5.0], 'lens': 24})
