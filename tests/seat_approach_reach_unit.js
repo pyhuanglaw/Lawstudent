@@ -21,5 +21,9 @@ const seatApproach=new Function('E',g.slice(i0,i1)+"return best||[seat.x+fx*0.5,
 for(const [id,L] of [['gongtong',GONGTONG_LAYOUT],['boya',BOYA_LAYOUT],['putong',PUTONG_LAYOUT]]){ const z=loadZone(id), SP=L.entrance.spawn; E.fitSeatRadius();   /* 和遊戲一樣：區域建好以後放大碰不到的座位範圍（engine3d.js fitSeatRadius）*/ E.player.obj.position.set(SP.x,0,SP.z); E.player.lv=0;
   const its=E.interactables.filter(it=>it.seat&&!it.hidden), bad=[];
   for(const it of its){ const ap=seatApproach(it.seat); const d=Math.hypot(ap[0]-it.x,ap[1]-it.z); if(!(d<(it.radius||1.8))) bad.push({seat:[+it.seat.x.toFixed(2),+it.seat.z.toFixed(2)],ap:[+ap[0].toFixed(2),+ap[1].toFixed(2)],d:+d.toFixed(2),r:it.radius}); }
+  { const wrong=[]; for(const it of its){ const ap=seatApproach(it.seat), lv=it.seat.lv|0, d0=Math.hypot(ap[0]-it.x,ap[1]-it.z); const o=its.find(q=>q!==it&&((q.seat.lv|0)===lv)&&Math.hypot(ap[0]-q.x,ap[1]-q.z)<d0-1e-6&&Math.hypot(ap[0]-q.x,ap[1]-q.z)<(q.radius||1.8));
+      if(o){ const alt=[0.5,0.6,0.55,0.7,0.75,0.8,0.9]; wrong.push([+it.seat.x.toFixed(2),+it.seat.z.toFixed(2)]); } }
+    E.__wrong=(E.__wrong||0)+wrong.length; console.log('  ['+L.name+'] 走近點離別張更近：'+wrong.length+' 個'+(wrong.length?' '+JSON.stringify(wrong.slice(0,4)):'')); }
   check('['+L.name+'] '+its.length+' 個座位：坐下前站的位置都在「坐下」按鈕範圍裡',its.length>0&&bad.length===0,bad.length+' 個超出：'+JSON.stringify(bad.slice(0,4))); }
+check('9. 走近點最近的「坐下」是自己那一張（CC-C 11-05 林家：按下去坐到對面那張）——三間教室合計',(E.__wrong|0)===0,String(E.__wrong|0));
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
