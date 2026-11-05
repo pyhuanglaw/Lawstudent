@@ -259,3 +259,14 @@
 [06:29:57] 正在跑：V21R_soc_heroine_05_go（已跑 13 分／上限 20 分）、V21R_soc_fr_zhe（已跑 1 分／上限 20 分）、V21R_soc_fr_yu（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [06:34:57] 正在跑：V21R_soc_heroine_05_go（已跑 18 分／上限 20 分）、V21R_soc_fr_zhe（已跑 6 分／上限 20 分）、V21R_soc_fr_yu（已跑 5 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [06:36:29] [res] cpu=4% mem=39% (12.3/31.4 GB) chrome_testing=10  END V21R_soc_heroine_05_go
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       89cc01a0a..6433342a3  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:36:37] ==== END   V21R_soc_heroine_05_go  exit=1  1231s  timeout 20 min ====
+[06:36:40] skip V21R_soc_fr_classmate_bohan (already done on 83d09d13b0686e51e344b4b771ebb9124d8806a4)
+[06:36:40] memory 40% before starting V21R_soc_fr_classmate_mingxuan (2 running)
+[06:36:40] ==== START V21R_soc_fr_classmate_mingxuan  (probe @ 83d09d13b0686e51e344b4b771ebb9124d8806a4) ====
+[06:36:43] [res] cpu=15% mem=40% (12.6/31.4 GB) chrome_testing=10  START V21R_soc_fr_classmate_mingxuan
+[06:39:57] 正在跑：V21R_soc_fr_zhe（已跑 11 分／上限 20 分）、V21R_soc_fr_yu（已跑 10 分／上限 20 分）、V21R_soc_fr_classmate_mingxuan（已跑 3 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:44:57] 正在跑：V21R_soc_fr_zhe（已跑 16 分／上限 20 分）、V21R_soc_fr_yu（已跑 15 分／上限 20 分）、V21R_soc_fr_classmate_mingxuan（已跑 8 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:49:02] [res] cpu=10% mem=39% (12.4/31.4 GB) chrome_testing=10  END V21R_soc_fr_zhe
