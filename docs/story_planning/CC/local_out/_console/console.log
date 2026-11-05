@@ -478,3 +478,12 @@
 [17:51:47] worktree add bcb386604502ab9e04674cd587ef5d527a33b570: invalid reference - fetching main and the commit itself
 [17:52:08] 正在跑：SHANLAN_v3（已跑 112 分／上限 120 分）、WINVIEW_rel_deploy（已跑 0 分／上限 30 分）、WINVIEW_rel_shots（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:56:01] [res] cpu=57% mem=43% (13.7/31.4 GB) chrome_testing=10  END WINVIEW_rel_deploy
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8ec99fe54..cf9571939  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:56:07] ==== END   WINVIEW_rel_deploy  exit=0  258s   ====
+[17:56:10] memory 44% before starting WINVIEW_rel_p0 (2 running)
+[17:56:10] ==== START WINVIEW_rel_p0  (game @ bcb386604502ab9e04674cd587ef5d527a33b570) ====
+[17:56:14] [res] cpu=52% mem=44% (14.0/31.4 GB) chrome_testing=10  START WINVIEW_rel_p0
+[17:57:08] 正在跑：SHANLAN_v3（已跑 117 分／上限 120 分）、WINVIEW_rel_shots（已跑 5 分／上限 40 分）、WINVIEW_rel_p0（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:59:24] [res] cpu=17% mem=40% (13.2/31.4 GB) chrome_testing=10  END WINVIEW_rel_p0

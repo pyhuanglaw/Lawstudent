@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "WINVIEW_rel_p0",
+  "sha": "bcb386604502ab9e04674cd587ef5d527a33b570",
+  "kind": "game",
+  "script": "tests/p0_movement.py",
+  "env": "XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-05T17:56:10",
+  "end": "2026-11-05T17:59:24",
+  "seconds": 194,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8806/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 71,
+    "mem": 50,
+    "used_gb": 15.4,
+    "chrome_testing": 15
+  }
+}
