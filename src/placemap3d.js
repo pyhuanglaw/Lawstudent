@@ -26,21 +26,49 @@ const PLACEMAP=(function(){
     {id:'gdorm',name:'女一舍',x:182,y:228,lab:'r',cx:-93,cz:56,m:[['campus','大一女舍（門口）']]},
     {id:'dorm',name:'宿舍・體育館',x:318,y:228,lab:'b',cx:47,cz:60,m:[['dorm','宿舍'],['gym','新體育館（大廳）']]},   /* 新體育館（門口 x 74、z 59）在男宿東邊，圖上放不下另一顆圖釘（至少相隔 52）：和宿舍同一顆（同 博雅・普通）*/
     {id:'gongguan',name:'公館',x:100,y:172,lab:'t',m:[['gongguan','公館商圈'],['gongguan','捷運公館站'],['noodle','公館燒臘'],['bookstore','頁間書屋'],['cvs','日和便利店'],['aoki','青木茶室'],['afar','afar café'],['daybreak','Daybreak']]},
-    {id:'wenzhou',name:'溫州街',x:66,y:82,lab:'t',m:[['wenzhou','溫州街'],['cafe','2:30 AM'],['wz_mokuyobi','木曜日'],['wz_offbeat','日常失速']]}];
+    {id:'wenzhou',name:'溫州街',x:66,y:82,lab:'t',m:[['wenzhou','溫州街'],['cafe','2:30 AM'],['wz_mokuyobi','木曜日'],['wz_offbeat','日常失速']]},
+    /* 新生南路（XS-PHONEMAP-1105）：校園西邊圍牆外、溫州街東邊的那一條；側門在校園北段（校園 z −84，法律系館A 和 博思 中間的高度）。地名寫在下面（上面會碰到「首都帝大校園」、右邊會碰到 博思・普通）*/
+    {id:'xinsheng',name:'新生南路',x:141,y:94,lab:'b',m:[['xinsheng','新生南路'],['xs_shanlan','山嵐書店'],['xs_nanyang','南洋戲院'],['xs_dakou','大口漢堡'],['xs_tongxian','同弦樂器'],['xs_dabu','大步球鞋'],['xs_haopai','好拍運動'],['xs_xsports','新生運動廣場']]}];
   /* 區域的底：校園、公館（羅斯福路那一條）、溫州街 */
   S.AREAS=[{id:'campus',name:'首都帝大校園',x:146,y:52,w:208,h:200,lx:154,ly:68,c:'#2c3a2f'},
     {id:'gongguan',name:'',x:74,y:126,w:62,h:96,c:'#3a3329'},
-    {id:'wenzhou',name:'',x:14,y:56,w:122,h:56,c:'#33302c'}];
+    {id:'wenzhou',name:'',x:14,y:56,w:122,h:56,c:'#33302c'},
+    {id:'xinsheng',name:'',x:137,y:40,w:8,h:182,c:'#3a3633'}];   /* 新生南路：溫州街、公館和校園中間的一條（南北向）*/
   const key=pl=>pl[0]+'|'+pl[1];
   const inPin=(p,pl)=>p.m.some(m=>m[0]===pl[0]&&m[1]===pl[1]);
   S.pinOf=function(pl){ return S.PINS.find(p=>inPin(p,pl))||null; };
   /* 玩家在哪個圖釘：校園照座標找最近的；其他區域＝那一區的圖釘；不在圖上＝null */
   S.ZONE_PIN={linze:'linze',classroom:'linze',wancai:'wancai',lawlib:'wancai',library_hall:'library',library:'library',library_b1:'library',library_carrels:'library',library_stacks:'library',soclib:'soclib',soclib_2f:'soclib',dorm:'dorm',dorm_hall:'dorm',lane118:'lane118',gym:'dorm',gym_b1:'dorm',gym_arena:'dorm',
-    gongguan:'gongguan',noodle:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',aoki:'gongguan',afar:'gongguan',daybreak:'gongguan',cvs:'gongguan',cafe:'wenzhou',wz_mokuyobi:'wenzhou',wz_offbeat:'wenzhou',wenzhou:'wenzhou',boya:'boya',putong:'boya',gongtong:'gongtong'};
+    gongguan:'gongguan',noodle:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',aoki:'gongguan',afar:'gongguan',daybreak:'gongguan',cvs:'gongguan',cafe:'wenzhou',wz_mokuyobi:'wenzhou',wz_offbeat:'wenzhou',wenzhou:'wenzhou',boya:'boya',putong:'boya',gongtong:'gongtong',
+    xinsheng:'xinsheng',xs_shanlan:'xinsheng',xs_nanyang:'xinsheng',xs_nanyang_hall:'xinsheng',xs_dakou:'xinsheng',xs_tongxian:'xinsheng',xs_dabu:'xinsheng',xs_haopai:'xinsheng',xs_xsports:'xinsheng'};
   S.hereId=function(zone,x,z){ if(zone==='campus'&&x!=null){ let b=null, bd=1e9; for(const p of S.PINS){ if(p.cx==null) continue; const d=Math.hypot(p.cx-x,p.cz-z); if(d<bd){ bd=d; b=p.id; } } return b; }
-    return S.ZONE_PIN[zone]||null; };
+    return S.ZONE_PIN[zone]||(typeof PLACES!=='undefined'&&PLACES.base?S.ZONE_PIN[PLACES.base(zone)]:null)||null; };   /* 沒寫的店、樓層：照那一棟、那一條街（PLACES.base：wz_→溫州街、xs_→新生南路）*/
   /* 點地圖的位置（圖上座標）→ 最近的圖釘（只算畫出來的那些；60 以內） */
   S.pick=function(x,y,ids){ let b=null, bd=60; for(const p of S.PINS){ if(ids&&!ids.includes(p.id)) continue; const d=Math.hypot(p.x-x,p.y-y); if(d<bd){ bd=d; b=p.id; } } return b; };
+  /* ===== 快速前往的清單分地區（QUICK-TRAVEL-AREAS-1105，使用者 11-05 07:3x「手機可以快速前往的選項很亂 依照地區區分 點那個地區會出現那個地區的店面可以選 分類階層要整潔好區分」）=====
+     第一層只有地區（首都帝大校園、公館、溫州街、新生南路、118 巷），點了展開那一區的建築、店（每個照舊一顆 data-place 的「前往」；沒去過的寫「還沒去過」、沒有按鈕；關著的寫「已閉館」），
+     再點一次收起來；一次只開一區；預設開你所在的那一區。地區照圖釘算：圖釘在哪一塊底色（S.AREAS）上就是哪一區，不在任何一塊上的（118 巷）自己一區；地區名照 PLACES.names。
+     不在圖釘上的地點（之後新加、還沒放上地圖的）照舊排在最後、不分區。測試：node tests/quick_travel_areas_unit.js */
+  S.GROUPS=['campus','gongguan','wenzhou','xinsheng','lane118'];   /* 地區的順序 */
+  S.areaOfPin=function(p){ if(!p) return null; const a=S.AREAS.find(q=>p.x>=q.x&&p.x<=q.x+q.w&&p.y>=q.y&&p.y<=q.y+q.h); return a?a.id:p.id; };
+  S.areaOf=function(pl){ return S.areaOfPin(S.pinOf(pl)); };
+  S.areaName=function(id){ const a=S.AREAS.find(q=>q.id===id); return (typeof PLACES!=='undefined'&&PLACES.names&&PLACES.names[id])||(a&&a.name)||id; };
+  /* 你所在的地區（預設展開）：照「你在這裡」的圖釘 */
+  S.hereArea=function(here){ if(!here) return null; const id=S.hereId(here.zone,here.x,here.z); return id?S.areaOfPin(S.PINS.find(p=>p.id===id)):null; };
+  S.row=function(pl,st,ht){ return '<div class="item phrow"><div>'+esc(pl[1])+'<div class="muted">'+(!st.known?'還沒去過':(st.here?'你在這裡':'約 '+st.mins+' 分鐘'+(st.bike?'（騎車）':'')))+(ht?'・'+esc(ht):'')+'</div></div>'+(st.here||!st.known?'':'<button class="btn'+(st.open?' pri':'')+'" data-place="'+esc(key(pl))+'">'+(st.open?'前往':'已閉館')+'</button>')+'</div>'; };   /* 和 game3d.js 原本的清單同一個樣子；已閉館的按鈕按了說幾點開 */
+  /* places＝PLACE_LIST()；open＝展開的地區 id（undefined＝你所在的那一區；''／null＝全部收起來）；回傳 '' ＝不分區（美國、日本：照舊平鋪）*/
+  S.listHTML=function(places,state,open,here,hours){ const P=S.PINS.filter(p=>places.some(pl=>inPin(p,pl))); if(P.length<3) return '';
+    if(open===undefined) open=S.hereArea(here);
+    const G={}, rest=[]; for(const pl of places){ const a=S.areaOf(pl); if(a) (G[a]=G[a]||[]).push(pl); else rest.push(pl); }
+    const ids=S.GROUPS.filter(id=>G[id]).concat(Object.keys(G).filter(id=>!S.GROUPS.includes(id)));
+    let out=''; for(const id of ids){ const L=G[id], on=open===id;
+      out+='<div class="item" data-parea-box="'+esc(id)+'"><button class="btn'+(on?' pri':'')+'" data-parea="'+esc(id)+'" aria-expanded="'+on+'" style="width:100%;min-height:44px;display:flex;justify-content:space-between;align-items:center"><span>'+esc(S.areaName(id))+'（'+L.length+'）</span><span aria-hidden="true">'+(on?'▾':'▸')+'</span></button>';
+      if(on) for(const pl of L) out+=S.row(pl,state(pl),hours?hours(pl[0]):'');
+      out+='</div>'; }
+    for(const pl of rest) out+=S.row(pl,state(pl),hours?hours(pl[0]):'');
+    return out; };
+  /* 點了地區：同一區再點一次＝收起來（''），別的區＝換那一區 */
+  S.toggleArea=function(cur,id,here){ const c=cur===undefined?S.hereArea(here):cur; return c===id?'':id; };
   const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
   const FS=13;   /* 地名的字（手機上約 11～12 px）*/
   const label=(p,known)=>{ const f=known?'#f4efe6':'#8a8577', a={t:[p.x,p.y-11,'middle'],b:[p.x,p.y+21,'middle'],l:[p.x-11,p.y+5,'end'],r:[p.x+11,p.y+5,'start']}[p.lab||'t'];
