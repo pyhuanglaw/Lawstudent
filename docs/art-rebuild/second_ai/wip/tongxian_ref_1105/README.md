@@ -7,7 +7,7 @@ LAWWW2-C，2026-11-05（P2，不擋 v9.10.20）。
 
 狀態：**MODEL_READY、可以整合**（BB-C 03:21 R2 判定）。
 
-- 交件：v4e `b49d3016b`；**v4f（BB-C 03:21 的一處）見下一節，交件 commit `<v4f SHA>`**。
+- 交件：v4e `b49d3016b`；**v4f（BB-C 03:21 的一處）見下一節，交件 commit `308b5c025`**。
 - ART_APPROVED 等 CC 的遊戲內同角度截圖（BB 已派）。
 
 ## v4f（BB-C 11-05 03:21 R2 判定）
@@ -32,7 +32,7 @@ BB-C 的判定（全文在企劃線 BB_255 03:2x，ad417bafd）：
 - 在開發分支 335b47844 上換 v4f 的檔：`tongxian_unit` ALL PASS；`aa619_guitar_unit`、`aa619_guitar_zone_unit`、`seat_reach_unit`、`scene_bg_keys_unit` ALL PASS。
 - GLB：畫的三角形 56,605 → 56,641（壓條兩段），2,997,640 bytes。
 
-接法和下面 v4e 的一樣（同一組十個檔＋LICENSES patch），SHA 換成 v4f 的。
+接法和下面 v4e 的一樣（同一組十個檔＋LICENSES patch）；下面的指令已經換成 v4f 的 SHA `308b5c025`。
 
 - 預覽是 Blender EEVEE。光線是均勻的天空光，不是遊戲的燈。
 - 遊戲內畫面還沒拍：照 D131 要 CC 在 PC 上拍。
@@ -159,7 +159,7 @@ GLB 規格：
 - 其他是新檔：CC 的腳本和產生的貼圖，原本只在 cc-testing。
 
 ```
-git checkout b49d3016b -- src/data/tongxian_layout.js \
+git checkout 308b5c025 -- src/data/tongxian_layout.js \
   assets/models/env/second_ai/bb_support/tongxian.glb assets/models/env/second_ai/bb_support/tongxian.json \
   tests/tongxian_unit.js \
   tools/blender/env_second/bb_support/tongxian_interior.py tools/blender/env_second/bb_support/tongxian_tex.py \
