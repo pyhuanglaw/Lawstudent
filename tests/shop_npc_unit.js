@@ -31,7 +31,7 @@ const git=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_plann
 const sec=(n,f)=>{ try{ f(); }catch(e){ check(n+'. 丟出例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
 const asec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
 const ROWS=SHOP_NPC.rows, row=id=>ROWS.find(r=>r.id===id);
-const B2=['xs_dakou_bh_exam','bookstore_kx'], ROWS1=ROWS.filter(r=>!B2.includes(r.id));   /* 第一批的列（第二批多的兩列：柏翰考試週 AA_621、可昕）*/
+const B2=['xs_dakou_bh_exam','bookstore_kx'], B3=['xs_dabu_kai','xs_haopai_bh','xs_xsports_yu'], ROWS1=ROWS.filter(r=>!B2.includes(r.id)&&!B3.includes(r.id));   /* 第三批（AA_705 @ a0f562527，AA_620 3-4 三列）*/   /* 第一批的列（第二批多的兩列：柏翰考試週 AA_621、可昕）*/
 const LATER=['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
 const NAME={kexin:'可昕',heroine_01:'以安',heroine_02:'芷若',heroine_03:'語彤',heroine_04:'子晴',heroine_05:'學姊',zhe:'阿哲',yu:'Alison',classmate_bohan:'柏翰',classmate_xinci:'芯慈',classmate_mingxuan:'明軒',classmate_peishan:'沛珊',kai:'阿凱'};
 const fresh=(d,h,flags)=>{ const G=H.fresh(keyOf(d),h,'campus',Object.assign({afternoonDone:true,MET_ZHE:true},flags||{})); G.hour=h; G.weekday=wdOf(d); SHOPNPC._reset(); return G; };
@@ -46,8 +46,8 @@ sec(0,()=>{ const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), a=f
   const A=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files;
   const f705=A.find(x=>/AA_705_/.test(x.path)), f615=A.find(x=>/AA_615_/.test(x.path));
   const f621=A.find(x=>/AA_621_/.test(x.path));
-  check('0. 劇情匯入白名單：AA_705 @ 44af68368（第二批；舊的 ebea3a2b0、f8bd25439、4e6755340 在 history）、AA_615 @ ebea3a2b0、AA_621 @ 52e3d83a8 approved（SHOP_NPC.src 同一個 commit）',!!f705&&!!f615&&!!f621&&f705.sha==='44af68368'&&['ebea3a2b0','f8bd25439','4e6755340'].every(k=>(f705.history||[]).some(h=>h.sha===k))&&f615.sha==='ebea3a2b0'&&f705.status==='approved'&&f615.status==='approved'&&f621.status==='approved'&&SHOP_NPC.src.AA_705===f705.sha&&SHOP_NPC.src.AA_615===f615.sha&&SHOP_NPC.src.AA_621===f621.sha);
-  check('0. 白名單的檔在那個 commit 找得到',!!git('44af68368',path.basename(f705.path))&&!!git('ebea3a2b0',path.basename(f615.path))&&!!git('52e3d83a8',path.basename(f621.path))); });
+  check('0. 劇情匯入白名單：AA_705 @ a0f562527（第三批；舊的 ebea3a2b0、f8bd25439、4e6755340、44af68368 在 history）、AA_615 @ ebea3a2b0、AA_621 @ 52e3d83a8 approved（SHOP_NPC.src 同一個 commit）',!!f705&&!!f615&&!!f621&&f705.sha==='a0f562527'&&['ebea3a2b0','f8bd25439','4e6755340','44af68368'].every(k=>(f705.history||[]).some(h=>h.sha===k))&&f615.sha==='ebea3a2b0'&&f705.status==='approved'&&f615.status==='approved'&&f621.status==='approved'&&SHOP_NPC.src.AA_705===f705.sha&&SHOP_NPC.src.AA_615===f615.sha&&SHOP_NPC.src.AA_621===f621.sha);
+  check('0. 白名單的檔在那個 commit 找得到',!!git('a0f562527',path.basename(f705.path))&&!!git('44af68368',path.basename(f705.path))&&!!git('ebea3a2b0',path.basename(f615.path))&&!!git('52e3d83a8',path.basename(f621.path))); });
 
 // ---------- 1. 照稿 ----------
 const DOC=git('44af68368','AA_705_新店面裡遇得到的人_第一批作息.md'), DOC621=git('52e3d83a8','AA_621_大口漢堡_24小時速食.md'), DOC615=git('ebea3a2b0','AA_615_新生南路那一側_公館二輪戲院_爆米花.md');
@@ -187,7 +187,7 @@ sec(7,()=>{ const s2=(DOC.split('## 第二批')[1]||''); const bad=[];
       if(pr&&pr.here===false){ presN++; if(on||(e&&e.shopNpc===r.id)) pres.push(r.id+' '+keyOf(d)+' 人不在還在店裡'); }
       if(on){ st.on++; shown++; tt[0]++; const act=r.pose==='stand'?'linger':(r.act==='eat'?'eat':(r.act==='sit'?'sit':'read')); if(!e||e.shopNpc!==r.id||e.zone!==r.zone||e.act!==act) bad2.push(r.id+' '+keyOf(d)+' '+h.toFixed(2)+' 應在店裡：'+(e?e.zone+'/'+e.act:'null')); }
       else { if(e&&e.shopNpc===r.id) bad2.push(r.id+' '+keyOf(d)+' 撞到了還在店裡'); const b=SHOPNPC.base(c,G); const k=why[0]==='clash'&&b?(b.zone||b.away||'')+'／'+b.act+(b.note?'（'+String(b.note).slice(0,18)+'）':(b.label?'（'+b.label+'）':'')):why.join(','); st.why[k]=(st.why[k]||0)+1; } }
-    CLASH2[r.id]=st; if(r.id!=='xs_tongxian_zq'){ const miss=LATER.filter(t=>!(st.term[t]&&st.term[t][1]>0)); if(miss.length) noTerm.push(r.id+' '+miss.join('、')); } }
+    CLASH2[r.id]=st; if(r.id!=='xs_tongxian_zq'){ const miss=LATER.filter(t=>(r.terms||LATER).includes(t)&&!(st.term[t]&&st.term[t][1]>0)); if(miss.length) noTerm.push(r.id+' '+miss.join('、')); } }
   check('7. 第一批每一列（子晴同弦以外）大一下～大四下每一學期都排（同一間、同一時段、週次照每學期）；可昕大一下起每一學期都排',!noTerm.length,noTerm.join('｜'));
   check('7. 大一下～大四下：沒撞到＝作息就是這間店、這個 act；撞到＝照原本的（'+shown+'/'+tot+' 格在店裡）',!bad2.length&&shown>0,bad2.slice(0,5).join('｜'));
   check('7. 人不在臺北（presence：交換、回老家、畢業以後…）的日子不出現（'+presN+' 格人不在）',!pres.length&&presN>0,pres.slice(0,5).join('｜'));
@@ -253,6 +253,35 @@ sec(8,()=>{ const bad=[]; let n=0;
     const d2=daysOf(r,'Y2S1').find(d=>CALENDAR.termOf(d).exam&&SHOPNPC.on(fresh(d,3.5),r)); G=setup(r,d2,3.5,true); G.flags.SHOPNPC_HEAR1=F; SHOPNPC.hear(GM); const c2=caps.slice();
     const d0=daysOf(r,'Y1S1').find(d=>CALENDAR.termOf(d).exam&&SHOPNPC.on(fresh(d,3.5),r)); G=setup(r,d0,3.5,true); SHOPNPC.hear(GM); const c3=caps.slice();
     check('8. 柏翰考試週（AA_621）：02:30～05:00 走到旁邊＝「'+r.hear.t+'」；只出一次（下一次考試週不出）；大一上也可以（不限大一上）',J(c1)===J([want])&&J(c2)===J([])&&J(c3)===J([want]),J([c1,c2,c3])); } });
+
+// ---------- 9. 第三批（AA_705 最後一節 @ a0f562527；使用者 11-05 09:2x「不要新的人物」：只補 AA_620 3-4 三列）----------
+sec(9,()=>{ const DOC3=git('a0f562527','AA_705_新店面裡遇得到的人_第一批作息.md')||''; const s3=DOC3.split('## 第三批')[1]||''; const bad=[];
+  check('9. 讀得到 AA_705 第三批那一節（a0f562527）：只用主要角色、二十位同學不排、不再加時段',!!s3&&/法律系二十位同學不排進店裡/.test(s3)&&/不再加時段、不加人/.test(s3));
+  const WD={'日':0,'一':1,'二':2,'三':3,'四':4,'五':5,'六':6}, hm=x=>{ const [a,b]=x.split(':').map(Number); return a+b/60; };
+  const TERM0={'大一上起':'Y1S1','大一下起':'Y1S2','大二起':'Y2S1'};
+  const lines=s3.split('\n').filter(l=>/^\| /.test(l)&&!/^\| 店 /.test(l)&&!/^\|---/.test(l));
+  check('9. 第三批的表三列＝SHOP_NPC 的三列（'+B3.join('、')+'）',lines.length===3&&B3.every(id=>!!row(id)),String(lines.length));
+  for(const l of lines){ const c=l.split('|').slice(1,-1).map(x=>x.trim()); const r=ROWS.find(q=>B3.includes(q.id)&&q.shop===c[0]&&NAME[q.who]===c[1]); if(!r){ bad.push(c[0]+' '+c[1]+' 沒有這一列'); continue; }
+    const t0=TERM0[c[2]], want=t0?['Y1S1'].concat(LATER).slice(['Y1S1'].concat(LATER).indexOf(t0)):null; if(!want||J(r.terms||['Y1S1'].concat(LATER))!==J(want)) bad.push(r.id+' 學期 '+c[2]);
+    const days=[...c[3].matchAll(/週([日一二三四五六])/g)].map(m=>WD[m[1]]); if(J(days)!==J(r.days)) bad.push(r.id+' 星期');
+    const tm=/^(\d+:\d+)～(\d+:\d+)/.exec(c[4]); if(!tm||Math.abs(hm(tm[1])-r.from)>1e-6||Math.abs(hm(tm[2])-r.to)>1e-6) bad.push(r.id+' 時間 '+c[4]);
+    if(c[5]!==r.place) bad.push(r.id+' 在哪 '+c[5]+'≠'+r.place);
+    const sm=/^([^（：]+)：(.+)$/.exec(c[6]); if(!sm||NAME[r.hear.who]!==sm[1]||r.hear.t!==sm[2]||!r.hearAny) bad.push(r.id+' 聽一句 '+c[6]); }
+  check('9. 三列的店、誰、學期起點、星期、時間、在哪、聽一句（一次＝hearAny）照稿一字不差',!bad.length,bad.join('｜'));
+  /* 撞時段（全部學期；撞到＝原本優先）*/
+  const info=[]; let shown=0; const wrong=[];
+  for(const id of B3){ const r=row(id), c=CHARACTERS[r.who]; const st={on:0,cal:0,why:{}};
+    for(const tid of (r.terms||['Y1S1'].concat(LATER))) for(const d of daysOf(r,tid)) { const h=(r.from+r.to)/2; const G=fresh(d,h); if(!SHOPNPC.calOk(G,r)) continue; st.cal++; const why=[]; const on=SHOPNPC.on(G,r,why); const e=STORY.schedEnt(c,G);
+      if(on){ st.on++; shown++; if(!e||e.shopNpc!==r.id||e.zone!==r.zone) wrong.push(id+' '+keyOf(d)); } else { const b=SHOPNPC.base(c,G); const k=why[0]==='clash'&&b?(b.zone||b.away||'')+'／'+b.act:why.join(','); st.why[k]=(st.why[k]||0)+1; } }
+    info.push(r.shop+' '+NAME[r.who]+' '+st.on+'/'+st.cal+(Object.keys(st.why).length?' 撞到 '+Object.entries(st.why).map(([k,v])=>k+'×'+v).join('；'):'')); }
+  console.log('INFO 第三批撞到原本作息（時段中間一格／每一天）：'); for(const x of info) console.log('INFO   '+x);
+  check('9. 沒撞到＝作息就是那間店（Alison 不在戲院的日子也照表，SHOPNPC.sched 的 yu 先看戲院再看表）',!wrong.length&&shown>0,wrong.slice(0,4).join('｜'));
+  /* 大一上不排柏翰好拍、大一上～大一下不排 Alison */
+  { const bh=row('xs_haopai_bh'), yu=row('xs_xsports_yu'); const y1=daysOf(bh,'Y1S1').some(d=>SHOPNPC.on(fresh(d,20.2),bh)), y1y=['Y1S1','Y1S2'].some(t=>daysOf(yu,t).some(d=>SHOPNPC.on(fresh(d,13.5),yu)));
+    check('9. 柏翰好拍大一下起（大一上不排）、Alison 運動廣場大二起（大一不排）',!y1&&!y1y); }
+  /* Alison 週五週六照舊在戲院 */
+  { const r0=row('xs_nanyang_yu'), d=daysOf(r0,'Y2S1').find(d=>wdOf(d)===5&&CALENDAR.termOf(d).week===5); const e=d!=null?STORY.schedEnt(CHARACTERS.yu,fresh(d,19)):null;
+    check('9. Alison 週五晚上照舊在南洋戲院（第三批沒蓋掉戲院那一列）',!!e&&e.shopNpc==='xs_nanyang_yu',e?e.zone:'null'); } });
 
 // ---------- 5. Alison 送爆米花 ----------
 (async()=>{

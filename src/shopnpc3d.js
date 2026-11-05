@@ -113,7 +113,7 @@ const SHOPNPC=(function(){
     if(!isOpen(row.zone,hr(G),G.day|0)) return null;
     const key='alison|'+(G.day|0)+'|'+b.from+'|'+b.to; let e=entMemo.get(key); if(!e){ e=Object.assign({},b,{zone:row.zone,act:'linger',at:row.at.slice(),away:undefined,noPair:true,shopNpc:row.id,note:'AA_705 南洋戲院（她原本的打工作息，AA_661 第 30 列）'}); delete e.away; entMemo.set(key,e); } return e; };
   S.sched=function(c,G){ if(guard||!c||!c.id||!G||typeof CALENDAR==='undefined') return null;
-    if(c.id==='yu') return S.alisonEnt(c,G);
+    if(c.id==='yu'){ const a=S.alisonEnt(c,G); if(a) return a; }   /* 南洋戲院（她的打工）優先；不在戲院的日子照表（AA_705 第三批：大二起週日運動廣場）*/
     for(const row of S.rows()){ if(row.who!==c.id||row.hearBy==='alison') continue; if(!row.days.includes(G.weekday!=null?G.weekday:wdOf(G.day))) continue; const h=hr(G); if(h<row.from||h>=row.to) continue;
       if(S.on(G,row)) return S.entry(G,row); }
     return null; };

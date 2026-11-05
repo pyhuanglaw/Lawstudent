@@ -20,7 +20,7 @@
      examOnly：只有考試那兩週（柏翰大口：考試那兩週照 AA_621 第 2 節 02:30～05:00）；
      notDating／noPlanDay：和她交往中、那一天跟你有約（邀約、校外約會、出遊）＝這一列不出（可昕，AA_705 第二批第 2 節）；src：這一列的稿（沒寫＝AA_705）。*/
 const SHOP_NPC={
-  src:{AA_705:'44af68368',AA_615:'ebea3a2b0',AA_621:'52e3d83a8'},   /* AA_705 補一節 f8bd25439（11-05 08:17：兩列換時段、遞一小杯補旁白；表格本身和 ebea3a2b0 一樣）→ 4e6755340（青木）→ 44af68368（第二批）；AA_621 第 2 節（柏翰考試週）*/
+  src:{AA_705:'a0f562527',AA_615:'ebea3a2b0',AA_621:'52e3d83a8'},   /* AA_705 補一節 f8bd25439（11-05 08:17：兩列換時段、遞一小杯補旁白；表格本身和 ebea3a2b0 一樣）→ 4e6755340（青木）→ 44af68368（第二批）；AA_621 第 2 節（柏翰考試週）*/
   rows:[
     /* ---------- 新生南路 ---------- */
     {id:'xs_shanlan_an',shop:'山嵐書店',who:'heroine_01',zone:'xs_shanlan',days:[6],from:19.5,to:20.5,   /* AA_705 補一節（f8bd25439）：原本週日 14:00～15:30 永遠撞到 2:30 AM 念書 → 週六 19:30～20:30 */
@@ -53,6 +53,13 @@ const SHOP_NPC={
       place:'最裡面那張桌，看書（read）',hear:{who:null,t:'（學姊一個人坐在最裡面，茶壺旁邊攤著一疊影印的判決。）'}},   /* 離店門最遠的那張四人桌（table 5）靠牆那一張 */
     {id:'bikeshop_kai',shop:'慢輪單車',who:'kai',zone:'bikeshop',days:[0],from:15,to:16,act:'wander',pose:'stand',at:[1.5,4.3,Math.PI/2,0],
       place:'門口打氣、看車（wander）',hear:{who:'kai',t:'我只是來打氣。……順便看一下那台變速的。'}},   /* 店門（折門 x −0.5～1.6）進來右手邊，看門口那兩台車（小折）*/
+    /* AA_705 第三批（企劃線 dd765aec6／a0f562527；使用者 11-05 09:2x「不要新的人物!!!」「原本的人物就好」「我沒有要求每天去都要遇到人」「但是要遇的到」）：只補 AA_620 第 3-4 節已經寫好的三位，句子照 AA_620 原句；之後不再加人、不加時段 */
+    {id:'xs_dabu_kai',shop:'大步球鞋',who:'kai',zone:'xs_dabu',days:[6],from:18+40/60,to:19+20/60,act:'wander',pose:'stand',at:[-2.75,-2.4,-Math.PI/2,0],
+      place:'跑鞋那一格（wander）',hearAny:true,hear:{who:'kai',t:'我要開始跑步了。……真的。'}},   /* 左牆跑鞋那一格（z −4.1～−1.5）前面；「看看」(−2.75, −3.4) 往北 1 m、阿哲那一列（籃球鞋 z 0.6）往南 3 m */
+    {id:'xs_haopai_bh',shop:'好拍運動',who:'classmate_bohan',zone:'xs_haopai',days:[2],from:20,to:20.5,terms:['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],act:'sit',pose:'seat',seat:[-0.26,2.3,0],
+      place:'櫃台前等穿線（sit 高腳凳）',hearAny:true,hear:{who:'classmate_bohan',t:'我高中打桌球。……念書念到受不了就去打一下。'}},   /* 大一下起；高腳凳＝配置 seats[0]「坐著等穿線」，他坐著的時候玩家的那一個按鈕照舊藏起來（有人坐）；hearAny：第一次遇到是大一下以後，聽一句照 AA_705 第三批「只一次」 */
+    {id:'xs_xsports_yu',shop:'新生運動廣場',who:'yu',zone:'xs_xsports',days:[0],from:13,to:14,terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],act:'wander',pose:'stand',at:[-5.95,-1.85,-Math.PI/2,1],
+      place:'二樓運動服那一排（wander）',hearAny:true,hear:{who:'yu',t:'我參加系上的排球。……你不要笑。'}},   /* 大二起；二樓左牆衣架（x −6.88～−6.40）前面、面向衣架；「看看（系隊球衣）」(−4.4, −2.9) 離 1.8 m */
     /* ---------- 溫州街 ---------- */
     {id:'wz_mokuyobi_zq',shop:'木曜日',who:'heroine_04',zone:'wz_mokuyobi',days:[0],from:20,to:21.5,act:'sit',pose:'seat',seat:[-3,-2.15,1],
       place:'角落那桌，戴耳機開筆電（sit）',hear:{who:null,t:'（子晴戴著耳機，在筆電上畫一張地圖。旁邊的拿鐵已經沒有泡了。）'}},   /* 西牆靠裡面那張兩人桌（table 4）*/
