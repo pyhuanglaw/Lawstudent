@@ -81,6 +81,7 @@ const SEATACT=(function(){
      桌上那雙照 S.PROP_FAM 拿掉），可是 BB-C 22:43 看預覽：坐的高度不對（桌子在胸口，吃飯時頭幾乎埋到碗上）——先改坐下的高度，再把 S.TASK_EAT 併回 S.TASK（Object.assign(S.TASK,S.TASK_EAT)）。
      （原本的說明）     等 LAWWW2 的右手筷子配件（hand_chopsticks）＋S.PROP_FAM 藏桌上那雙，再把 S.TASK_EAT 併回 S.TASK（Object.assign(S.TASK,S.TASK_EAT)）*/
   S.TASK_EAT={eat:'eat',eat2:'eat'};
+  Object.assign(S.TASK,S.TASK_EAT);   /* 11-05 LAWWW-C 開：SIT-HEIGHT-1104（b1ca12646）坐下高度改好以後，坐在 0.47 椅面、0.75 桌前眼睛離碗女生 37 cm、男生 37 cm（LAWWW2-C 量的；原本 27／32）；要關掉＝刪掉這一行 */
   S.TASK_NEED={type:/laptop_open|^[tr]set_laptop$/,write:/notebook_open|^[tr]set_notes$/,page:/code_open|^[tr]set_book$/,eat:/^item_bowl/};   /* 桌上要有的東西 */
   S.TASK_DEPTH={phone:0.1};   /* 左手放在桌上：桌子至少要這麼深 */
   S.PROP_FAM={hand_pen:/^item_pen$/,hand_cup:/^item_cup$/,hand_phone:/^item_phone_/,hand_chopsticks:/^item_chopsticks$/};   /* 手上的配件 → 桌上同一件東西 */
