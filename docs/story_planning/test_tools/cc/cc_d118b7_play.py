@@ -1,4 +1,4 @@
-"""CC-C（帳號 C）11-04：D118_B7 國考總複習（BB-C 23:46；LAWWW-C a544cc690 D118-B7-1102）——照玩家操作走一遍。判定歸 BB；期望值照 BB-C 23:46 的派工＋D118_PLAN 第 4 節（暫定字照 STUDY.BAR_TEXT，AA 還沒定稿）。
+"""CC-C（帳號 C）11-04：D118_B7 國考總複習（BB-C 23:46；LAWWW-C a544cc690 D118-B7-1102；11-05 00:06 起跑 6a1592a26：AA_690 定稿字、結束字幕多一行、7/29 提醒＋停點）——照玩家操作走一遍。判定歸 BB；期望值照 BB-C 23:46 的派工＋D118_PLAN 第 4 節（暫定字照 STUDY.BAR_TEXT，AA 還沒定稿）。
   1 【前置／捷徑】讀檔 2029-07-10 09:00 總圖 B1：已經畢業（GRADUATED、grad 演過）、報了 2029 國考（BAR_REG）；成績單照 tests/d118_b7_unit.js 的 transcripts（每一學期的期末考照 CLS.drawExam 抽、答對 3／5，成績單照 CLS.reportFor）
      ＝和玩一遍四年一樣有成績單、有答錯過的題（STUDY 第一次讀到時從舊紀錄 backfill 成 miss）。
   2 玩家：走到 B1 的座位按「坐下」→ 選單「考前總複習」（看 hint：國考要考的 n 科、m 張觀念卡、要六個小時）→ 翻頁：每一科第一張看完就「跳到下一科」，最後一科「先讀到這裡」
@@ -93,7 +93,7 @@ async def sit_and_review(pg, cdp, tag, shot_name):
             if u['text'].startswith('【'): firsts.append(u['text'])
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(250); continue
         c = await pg.evaluate(CAP)
-        if c and c['show'] and '國考範圍' in (c['text'] or ''):
+        if c and c['show'] and ('一試範圍' in (c['text'] or '') or '國考範圍' in (c['text'] or '')):
             await pg.wait_for_timeout(600); c = await pg.evaluate(CAP)
             await R.shot(pg, shot_name); caps.append(c); break
         if not u['dlg'] and not u['opts'] and time.time() - t0 > 30 and len(firsts) > 0:
@@ -105,9 +105,13 @@ async def sit_and_review(pg, cdp, tag, shot_name):
     return {'h0': h0, 'h1': u['hour'], 'firsts': firsts, 'cap': caps[0] if caps else None, 'lines': L1, 'hint': hint}
 
 
+VISITS = []
+WEEK_2029 = '【國考】8/4（六）一試。考前想把四年的筆記讀過一遍，坐到書桌或讀書的位子就可以。'   # AA_690 第 3 節②（企劃線 c860ff820），2029＝8/4（六）
+
+
 async def drive_until(pg, cdp, tag, stop, max_s=900, exam=None):
     """畢業後篇：不動就跳下一件事。點對話、選項（作答＝exam(u)，其他選第一個），直到 stop(u)"""
-    t0 = time.time(); last = None; jumps = 0
+    t0 = time.time(); last = None; jumps = 0; VISITS.clear()
     while time.time() - t0 < max_s:
         u = await pg.evaluate(UI)
         if stop(u): return u, True
@@ -116,7 +120,7 @@ async def drive_until(pg, cdp, tag, stop, max_s=900, exam=None):
             await pick(pg, cdp, "t=>true"); continue
         if u['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
         await L.close_panels(pg, cdp)
-        if (u['key'], u['hour']) != last: last = (u['key'], u['hour']); jumps += 1
+        if (u['key'], u['hour']) != last: last = (u['key'], u['hour']); jumps += 1; VISITS.append('%s %05.2f' % last)
         await pg.wait_for_timeout(1200)
     return await pg.evaluate(UI), False
 
@@ -151,7 +155,9 @@ async def main():
             R.note('[7/10] 每一科第一張：%s' % J(rv['firsts'][:30]))
             R.check('[7/10] 答錯過的卡排在前面：有答錯過的科，第一張就是「（之前答錯過）」那一張', bool(rv['firsts']) and not bad, J(bad[:5]))
             c = rv['cap']; R.note('[7/10] 結束字幕：%s' % J(c))
-            n = len([x for x in (c['text'] if c else '').split('\n') if '國考範圍' in x])
+            n = len([x for x in (c['text'] if c else '').split('\n') if '一試範圍' in x or '國考範圍' in x])
+            seen = len(set(t[1:t.index('　')] for t in rv['firsts'] if '　' in t)); extra = [x for x in (c['text'] if c else '').split('\n') if x.startswith('（另外還翻了')]
+            R.check('[7/10] 翻到 %d 科：超過 8 科時最後一行「（另外還翻了 %d 科。）」（AA_690 第 2 節）' % (seen, max(0, seen - 8)), (seen <= 8 and not extra) or (seen > 8 and extra == ['（另外還翻了 %d 科。）' % (seen - 8)]), J(extra))
             R.check('[7/10 橫向] 結束字幕國考那一段最多 8 科（%d 行）、不能超出畫面' % n, bool(c) and 0 < n <= 8 and c['rect'][1] >= 0 and c['rect'][3] <= c['vh'] and c['rect'][0] >= 0 and c['rect'][2] <= c['vw'] and c['scrollH'] <= c['clientH'] + 2, J(c and {'rect': c['rect'], 'vw': c['vw'], 'vh': c['vh'], 'scrollH': c['scrollH'], 'clientH': c['clientH']}))
         # ---- 第二次：直向（7/11 09:00）----
         snap = await pg.evaluate("JSON.stringify(GAME.snapshot())")
@@ -163,7 +169,9 @@ async def main():
         rv2 = await sit_and_review(pg, cdp, '[7/11 直向]', 'review_caption_portrait')
         if rv2:
             c = rv2['cap']; R.note('[7/11] 結束字幕：%s' % J(c))
-            n = len([x for x in (c['text'] if c else '').split('\n') if '國考範圍' in x])
+            n = len([x for x in (c['text'] if c else '').split('\n') if '一試範圍' in x or '國考範圍' in x])
+            seen2 = len(set(t[1:t.index('　')] for t in rv2['firsts'] if '　' in t)); extra2 = [x for x in (c['text'] if c else '').split('\n') if x.startswith('（另外還翻了')]
+            R.check('[7/11] 翻到 %d 科：超過 8 科時最後一行「（另外還翻了 %d 科。）」' % (seen2, max(0, seen2 - 8)), (seen2 <= 8 and not extra2) or (seen2 > 8 and extra2 == ['（另外還翻了 %d 科。）' % (seen2 - 8)]), J(extra2))
             R.check('[7/11 直向] 結束字幕國考那一段最多 8 科（%d 行）、不能超出畫面' % n, bool(c) and 0 < n <= 8 and c['rect'][1] >= 0 and c['rect'][3] <= c['vh'] and c['rect'][0] >= 0 and c['rect'][2] <= c['vw'] and c['scrollH'] <= c['clientH'] + 2, J(c and {'rect': c['rect'], 'vw': c['vw'], 'vh': c['vh'], 'scrollH': c['scrollH'], 'clientH': c['clientH']}))
         await pg.set_viewport_size({'width': 844, 'height': 390}); await pg.wait_for_timeout(800)
         # ---- 3 站起來、不動＝跳到 8/4 一試 ----
@@ -183,6 +191,7 @@ async def main():
             Q['i'] = i; Q['picked'].append([i, want, want == right['right']])
             return okp
         u, ok = await drive_until(pg, cdp, '[→ 8/4]', lambda u: u['key'] >= '2029-08-04' and (u['text'] or '').startswith('交卷'), max_s=1500, exam=exam)
+        short84 = not ok
         if not ok:
             R.note('[→ 8/4] 沒在時間內走到交卷（%s）→【捷徑】同一份存檔跳到 8/4 07:50' % J(u))
             snap = await pg.evaluate("JSON.stringify(GAME.snapshot())")
@@ -190,6 +199,12 @@ async def main():
             await pg.evaluate("(async()=>{ await GAME.applySave(window.__ccSnap); })()"); await pg.wait_for_timeout(5000); await pg.evaluate(SAYHOOK)
             u, ok = await drive_until(pg, cdp, '[8/4]', lambda u: (u['text'] or '').startswith('交卷'), max_s=900, exam=exam)
         R.check('[8/4] 一試作答到交卷', ok, J(u))
+        rm = await pg.evaluate("(()=>(GAME.G.msgs||[]).filter(m=>/^bar_remind_/.test(m.tag||'')).map(m=>({tag:m.tag,text:m.text,key:CALENDAR.dateOf(m.day).key,h:m.h})))()")
+        R.note('[7/10 → 8/4] 跳過的時間：%s；【國考】提醒：%s' % (J([v for v in VISITS if v.startswith('2029-07-2') or v.startswith('2029-07-3') or v.startswith('2029-08')][:40]), J(rm)))
+        wk = [m for m in rm if m['tag'] == 'bar_remind_week_2029']
+        if short84: R.note('[7/29] 這一輪 7/10 → 8/4 用了【捷徑】跳過去：7/29 的提醒、停點這一輪沒有測到（見 Node cc_d118_remind.js）')
+        else: R.check('[7/29] 20:00 收到②「%s」（BB-C 00:06）' % WEEK_2029, len(wk) == 1 and wk[0]['key'] == '2029-07-29' and abs(wk[0]['h'] - 20) < 0.01 and wk[0]['text'] == WEEK_2029, J(wk))
+        if not short84: R.check('[7/29] 畢業後篇「跳到下一件事」停在 7/29 20:00（玩家看得到那個時間）', any(v.startswith('2029-07-29 20.0') for v in VISITS) or not VISITS, J([v for v in VISITS if v.startswith('2029-07-2')]))
         ex = await pg.evaluate("(()=>{ const G=GAME.G, ex=PG.rec(G).exam&&PG.rec(G).exam[2029]; if(!ex) return null; const all=id=>(EXAM_BANK.questions.find(x=>x.id===id)||QBANK.find(x=>x.id===id)); const tk=CLS.takenCourses(G).map(c=>c.id);"
                                " const qs=ex.qs.map(all); const mi=STUDY.rec(G).miss; return {qs:ex.qs, ans:ex.ans, score:G.flags.BAR_SCORE_2029, sit:G.flags.BAR_SIT_2029, right:qs.map((q,i)=>ex.ans&&String(ex.ans[i])===String(q.answer)),"
                                " courses:qs.map(q=>q.course||'crimpro'), notTaken:qs.filter(q=>!tk.includes(q.course||'crimpro')).map(q=>q.id), st:qs.map(q=>STUDY.unitsOfQ(q.id).map(u=>[STUDY.stateOf(G,u.id), mi.includes(u.id)]))}; })()")
