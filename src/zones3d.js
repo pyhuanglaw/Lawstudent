@@ -2070,7 +2070,10 @@ const Z3 = (function(){
   /* 公館 AA 的店換窗景照片（AFAR-VIEW-1105，LAWWW2-C 11-05；使用者 08:3x「AFAR看出去不太像公館」）：afar 模型裡的窗景卡（WALL_front_VIEW、材質 afr_window_view）用的是木曜日的樹（mok_view）。
      換成在 Blender 用公館的正式模型拍的：站在店裡往外看——自己這一棟的騎樓、柱子、停著的機車、羅斯福路、對面的校門和紅磚圍牆、椰子樹（tools/blender/env_second/wz_window_view.py --gg-street；
      鏡頭在公館 (10.5, 1.4, 26.07)＝窗景卡正中間後面 6.5 m，視野剛好蓋滿那一片 16 × 6.5 m 的卡；照片左右鏡像過，貼上去才是正的）。晚上換夜景那一張、不調暗。*/
-  const GG_VIEW={afar:{mat:'afr_window_view',day:'assets/models/env/second_ai/aa_support/afar_view_day.webp',night:'assets/models/env/second_ai/aa_support/afar_view_night.webp'}};
+  const GG_VIEW={afar:{mat:'afr_window_view',day:'assets/models/env/second_ai/aa_support/afar_view_day.webp',night:'assets/models/env/second_ai/aa_support/afar_view_night.webp'},
+    aoki:{mat:'aok_window_view',day:'assets/models/env/second_ai/aa_support/aoki_view_day.webp',night:'assets/models/env/second_ai/aa_support/aoki_view_night.webp'},
+    bookstore:{mat:'yej_window_view',day:'assets/models/env/second_ai/aa_support/yejian_view_day.webp',night:'assets/models/env/second_ai/aa_support/yejian_view_night.webp'},
+    daybreak:{mat:'dbk_window_view',day:'assets/models/env/second_ai/aa_support/daybreak_view_day.webp',night:'assets/models/env/second_ai/aa_support/daybreak_view_night.webp'}};   /* WINVIEW-AUDIT-1105（LAWWW2-C；使用者 07:4x「應該很多店面看出去的街景都不對吧」）：青木、頁間、Daybreak 原本也是 mok_view（木曜日的樹）。照 afar 的做法，各在自己那一棟的位置拍（青木 x −52.2、頁間 −41.0、Daybreak 73.1）*/
   function ggAAattach(E,z,g0,root){ const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
     if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,z.gg+'_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; }
     const vm=[]; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)) for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } });

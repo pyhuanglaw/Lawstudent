@@ -3,7 +3,7 @@
 //   ① 窗景照片兩張都在（afar_view_day.webp、afar_view_night.webp）、長寬比＝窗景卡 16 × 6.5 m（2.46）
 //   ② 白天（14:00）：窗景卡（材質 afr_window_view）換成白天那一張、不調暗
 //   ③ 晚上（21:00）：換成晚上那一張、不調暗；回到白天換回來
-//   ④ 別的店的窗景卡照舊（頁間：晚上照舊調暗，GG_VIEW 只管 afar）
+//   ④ 別的店不會換成 afar 的照片（頁間；WINVIEW-AUDIT-1105 起頁間有自己的照片 yejian_view_*，原本這一項是「頁間照舊調暗」）
 // 修改前（開發分支 3574b5462）：① ② ③ FAIL（窗景卡是木曜日的樹 mok_view）。用法：node tests/afar_view_unit.js
 const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
 const fs=require('fs'), path=require('path'), vm=require('vm');
@@ -32,6 +32,6 @@ const webpSize=f=>{ const b=fs.readFileSync(f); const t=b.toString('ascii',12,16
   check('③ 晚上：換成 afar_view_night.webp、不調暗', /afar_view_night\.webp$/.test(n1)&&mat.color.r===1, n1+' color '+mat.color.r);
   z.applyTime(14,'clear'); check('③ 回到白天換回白天那一張', /afar_view_day\.webp$/.test(src(mat)), src(mat));
   const yj=Z3.ZONES.bookstore?await build('bookstore'):null;
-  if(yj&&yj.mat&&yj.z.applyTime){ yj.z.applyTime(21,'clear'); check('④ 頁間的窗景卡照舊（晚上調暗、不換照片）', yj.mat.color.r<0.5&&!/afar_view/.test(src(yj.mat)), 'color '+yj.mat.color.r); } else check('④ 頁間的窗景卡照舊', true, '（頁間沒有窗景卡，不用比）');
+  if(yj&&yj.mat&&yj.z.applyTime){ yj.z.applyTime(21,'clear'); check('④ 頁間的窗景卡不會換成 afar 的照片（WINVIEW-AUDIT-1105 起頁間有自己的 yejian_view_*）', !/afar_view/.test(src(yj.mat)), src(yj.mat)||('color '+yj.mat.color.r)); } else check('④ 頁間的窗景卡不會換成 afar 的照片', true, '（頁間沒有窗景卡，不用比）');
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();
