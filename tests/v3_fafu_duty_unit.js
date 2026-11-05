@@ -1,4 +1,7 @@
 // V3-D25 法服週六值班：大二起的社員做初談紀錄（AA_184 定稿 ab663b90、BB_160 51a5d106）——不需要瀏覽器。用法：node tests/v3_fafu_duty_unit.js
+// 2026-11-04 D118-B5a／B5b（使用者 11-02「法律服務社就是純劇情，不要變成需要玩家反覆完成的例行任務」；AA_604）改了期待值：
+//   第 2 項：值班的週六不再有出發選單，只剩 AA_604 固定場次那天（10/24 是第 1 場）的一次性選單；第 7 項：連續三次沒去不再有柏翰私訊、沒有「先不排我」；
+//   第 3～5 項：10/24、大三上第 7 週是固定場次（坐圓桌＝那一場，tests/d118_b5b_unit.js），一般值班改用大二上第 11、13 週、大三上第 11 週。
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -42,12 +45,14 @@ GM.money=function(n){ G.money+=n; };
   mem(sat('Y2S1',9),10); check('1. 期中考週：不開',!STORY.fafuDuty(G));
   fresh(sat('Y2S1',7),10,'wancai',{}); G.stage='law'; check('1. 沒加入法服＝照舊在旁邊看，不能做紀錄',STORY.fafuWatchable(G)&&!STORY.fafuShiftable(G));
   mem(sat('Y1S2',3),10); check('1. 大一的社員照舊旁觀（志工從大二開始）',STORY.fafuWatchable(G)&&!STORY.fafuShiftable(G));
-  // 2. 出發選單
+  // 2. 出發選單（D118-B5a：值班循環拿掉——一般的值班週六沒有出發選單；只剩 AA_604 固定場次那天的一次性選單，字照原本的）
   mem(sat('Y2S1',7),8); STORY.phoneRules(GM); const q=OUT.get(G,'fafu_'+G.day);
-  check('2. 08:30 出發選單「法服值班（萬才館一樓 9:00）」（出發／這週請假），到萬才館一樓',!!q&&q.title==='法服值班（法律系館B一樓 9:00）'&&q.no==='這週請假'&&q.goto&&q.goto.zone==='wancai'&&!OUT.due(G)&&(G.hour=8.5,!!OUT.due(G)),JSON.stringify(q));
-  // 3. 第一次一般值班（10/24）：2026-10-17 起學姊四年都不在法律服務現場（AA_218 17-7、AA_238 第 2 節）——志工值班的學姊句子（BB_160 第 1 節 ①～⑪）跟著拿掉；值班本身照舊
+  check('2. 10/24（AA_604 法服第 1 場）：08:30 一次性的出發選單「法服值班（法律系館B一樓 9:00）」（出發／這週請假），到萬才館一樓',!!q&&q.title==='法服值班（法律系館B一樓 9:00）'&&q.no==='這週請假'&&q.goto&&q.goto.zone==='wancai'&&!OUT.due(G)&&(G.hour=8.5,!!OUT.due(G)),JSON.stringify(q));
+  mem(sat('Y2S1',11),8); STORY.phoneRules(GM); G.hour=8.5; STORY.phoneRules(GM);
+  check('2. 一般的值班週六（11/21）：沒有出發選單（D118-B5a；自己走進萬才館坐圓桌照舊可以，第 3 項）',!OUT.get(G,'fafu_'+G.day)&&!OUT.due(G),JSON.stringify(G.outings));
+  // 3. 第一次一般值班（原本 10/24；D118-B5b 起 10/24 是 AA_604 固定場次第 1 場，改用 11/21）：2026-10-17 起學姊四年都不在法律服務現場（AA_218 17-7、AA_238 第 2 節）——志工值班的學姊句子（BB_160 第 1 節 ①～⑪）跟著拿掉；值班本身照舊
   const SISRE=/^(溫書瑀|溫學姊)：|學姊在最下面簽名|她坐到十二點/;
-  mem(sat('Y2S1',7),9); picks=['從頭講','再待到十二點']; said=[]; opts=[]; await STORY.fafuShift(GM); let L=lines();
+  mem(sat('Y2S1',11),9); picks=['從頭講','再待到十二點']; said=[]; opts=[]; await STORY.fafuShift(GM); let L=lines();
   const iyt=L.findIndex(t=>/^陳語彤：|^語彤：/.test(t)), ibh=L.findIndex(t=>/^(柏翰|.*柏翰)：/.test(t));
   check('3. 開場「今天兩桌。你跟我。」→ 民眾第 1 件 →「你先問什麼？」→ 從頭講 → 民眾「我只停了五分鐘。」；沒有學姊的句子',L[0]==='雅筑學姊：今天兩桌。你跟我。'&&L.includes('你先問什麼？')&&L.includes('民眾：我只停了五分鐘。')&&!L.some(t=>SISRE.test(t)),JSON.stringify(L));
   check('3. 柏翰一句（柏翰第 6 週起是社長）；語彤不在法服（AA_255 第 4 節第 2 點）＝沒有她的句子',iyt<0&&ibh>0,JSON.stringify([iyt,ibh]));
@@ -55,24 +60,22 @@ GM.money=function(n){ G.money+=n; };
   check('3. 同一天不能再做一次',!STORY.fafuShiftable(G)&&!(await STORY.fafuShift(GM)));
   // 4. 之後幾次：民眾依序、沒有學姊；先走＝沒有輪流旁白
   const keep=JSON.parse(JSON.stringify(G.flags)); const next=async(w,pk,term)=>{ mem(sat(term||'Y2S1',w),9); Object.assign(G.flags,JSON.parse(JSON.stringify(keep)),{LAWCLUB_SAT_LAST:null}); picks=pk; said=[]; await STORY.fafuShift(GM); Object.assign(keep,JSON.parse(JSON.stringify(G.flags))); return lines(); };
-  L=await next(11,['時候','先走']); check('4. 第二次：民眾第 2 件、開場第 2 句；沒有學姊',L[0]==='研究所學長：紀錄表在左邊。先寫日期。'&&L.some(t=>/樓上漏水/.test(t))&&!L.some(t=>SISRE.test(t)),JSON.stringify(L));
+  L=await next(13,['時候','先走']); check('4. 第二次：民眾第 2 件、開場第 2 句；沒有學姊',L[0]==='研究所學長：紀錄表在左邊。先寫日期。'&&L.some(t=>/樓上漏水/.test(t))&&!L.some(t=>SISRE.test(t)),JSON.stringify(L));
   check('4. 先走＝沒有輪流旁白、不到 12:00',!L.some(t=>/後來又來了一位|重新抄了一次/.test(t))&&G.hour<12);
   L=await next(3,['從頭講','先走'],'Y2S2'); check('4. 大二下也沒有學姊（原本的②～⑤拿掉）',L.length>0&&!L.some(t=>SISRE.test(t)),JSON.stringify(L));
   L=await next(5,['時候','先走'],'Y2S2'); check('4. 3/19 以後也沒有「九月我還在這裡」',!L.some(t=>/九月我還在這裡/.test(t)));
   // 5. 大三上：都是學長簽名
-  for(const w of [3,5,7]){ L=await next(w,['時候','先走'],'Y3S1'); check('5. 大三上第 '+w+' 週：學長簽名、沒有學姊',L.includes('（初談紀錄，一頁。學長在最下面簽名。）')&&!L.some(t=>SISRE.test(t)),JSON.stringify(L.slice(0,3))); }
+  for(const w of [3,5,11]){ L=await next(w,['時候','先走'],'Y3S1');   /* 第 7 週（10/23）是 AA_604 固定場次第 3 場 */ check('5. 大三上第 '+w+' 週：學長簽名、沒有學姊',L.includes('（初談紀錄，一頁。學長在最下面簽名。）')&&!L.some(t=>SISRE.test(t)),JSON.stringify(L.slice(0,3))); }
   // 6. 學姊四年都不在
   check('6. 學姊四年都不在（STORY.fafuSisHere 一律 false）',['Y1S1','Y2S1','Y2S2','Y3S1','Y4S1','Y4S2'].every(t=>!STORY.fafuSisHere(mem(sat(t,3),9))));
   check('6. 圓桌帶的人：大一社長、大二學長、大三大四值班的學長',STORY.fafuLead(mem(sat('Y1S1',3),9))==='法服的社長'&&STORY.fafuLead(mem(sat('Y2S1',3),9))==='學長'&&STORY.fafuLead(mem(sat('Y3S1',3),9))==='值班的學長'&&STORY.fafuLead(mem(sat('Y4S1',3),9))==='值班的學長');   /* 大一的標籤寫全名「法服的社長」（AA_496 第 9 節第 6 點，2026-10-28；原本「社長」）*/
   { L=await next(3,['時候','先走'],'Y4S1'); check('6. 大四沒有「我只是路過」「她坐到十二點」',!L.some(t=>/我只是路過|她坐到十二點/.test(t))); }
-  // 7. 連續三次沒去：柏翰私訊；「先不排我。」＝這學期不提醒；下學期第一週再問
+  // 7. 連續三次沒去（D118-B5a 拿掉）：沒有柏翰私訊「這學期的班表要排了。你還來嗎？」、沒有「先不排我」、不記 FAFU_TRK；下學期第一週也不問
   { mem(sat('Y2S1',7)-1,20); STORY.phoneRules(GM); for(const w of [7,11,13]){ G.day=sat('Y2S1',w); G.weekday=6; G.hour=8; STORY.phoneRules(GM); G.hour=12.5; STORY.phoneRules(GM); }
-    PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag==='fafu_bohan_Y2S1');
-    check('7. 連續三次沒去（10/24、11/21、12/5）：柏翰私訊「這學期的班表要排了。你還來嗎？」（來。／先不排我。）',!!m&&m.th==='p:classmate_bohan'&&m.text==='這學期的班表要排了。你還來嗎？'&&m.ask.opts.map(o=>o.t).join('／')==='來。／先不排我。');
-    PHONE.answer(G,m.ask.id,1); G.day=sat('Y2S1',15); G.hour=8; STORY.phoneRules(GM); check('7. 先不排我＝這學期不再排出發選單',G.flags.FAFU_OFF==='Y2S1'&&!OUT.get(G,'fafu_'+G.day));
-    G.day=termDay('Y2S2',1,1); G.hour=12.5; STORY.phoneRules(GM); PHONE.tick(G); check('7. 下學期第一週：再問一次',(G.msgs||[]).some(x=>x.tag==='fafu_bohan_Y2S2')&&!G.flags.FAFU_OFF); }
-  { mem(sat('Y2S1',7)-1,20); STORY.phoneRules(GM); for(const w of [7,11]){ G.day=sat('Y2S1',w); G.hour=12.5; STORY.phoneRules(GM); } G.day=sat('Y2S1',13); G.hour=9.5; G.flags.LAWCLUB_SAT_LAST=G.day; G.hour=12.5; STORY.phoneRules(GM); PHONE.tick(G);
-    check('7. 兩次沒去、第三次有去＝不算連續三次',!(G.msgs||[]).some(x=>x.tag==='fafu_bohan_Y2S1')); }
+    PHONE.tick(G); const m=(G.msgs||[]).find(x=>/^fafu_bohan_/.test(x.tag||'')||x.text==='這學期的班表要排了。你還來嗎？');
+    check('7. 連續三次沒去（10/24、11/21、12/5）：沒有柏翰私訊、不記 FAFU_TRK（D118-B5a：法服是純劇情，不追問）',!m&&G.flags.FAFU_TRK==null,JSON.stringify(m||G.flags.FAFU_TRK));
+    G.day=sat('Y2S1',15); G.hour=8; STORY.phoneRules(GM); check('7. 第 15 週（一般的值班週六）：沒有出發選單',!OUT.get(G,'fafu_'+G.day));
+    G.day=termDay('Y2S2',1,1); G.hour=12.5; STORY.phoneRules(GM); PHONE.tick(G); check('7. 下學期第一週：也不問（沒有 fafu_bohan_Y2S2）',!(G.msgs||[]).some(x=>x.tag==='fafu_bohan_Y2S2')); }
   // 8. 大二起沒加入法服的旁觀（AA_238 2-4：說話的人換成學長／值班的學長，每次都在；w5、w8、w11 刪）
   const watch=async(day,flags,n)=>{ fresh(day,9.5,'wancai',Object.assign({},flags)); G.stage='law'; said=[]; const out=[]; for(let i=0;i<(n||1);i++){ G.flags.LAWCLUB_SAT_LAST=null; G.hour=9.5; said=[]; await STORY.fafuWatch(GM); out.push(lines()); } return out; };
   const LD=/^(學長|值班的學長)：/, ldOf=L=>L.filter(t=>LD.test(t)).map(t=>t.replace(LD,''));

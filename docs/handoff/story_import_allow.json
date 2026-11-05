@@ -4386,6 +4386,24 @@
      "note": "（2026-11-04 換成 6a4b6ba22 以前的版本）6a4b6ba22＝AA-C 18:2x 回 LAWWW-C 第 6 節四件：長桌第一次坐下也演（新的一句）、兩種都記 SOCLIB_2F_SEAT、老位子照舊靠窗第三個；crowd_depts 加 soclib_2f"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_604_法服純劇情_FAFU_STORY場次與台詞.md",
+   "sha": "23581d5b6",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_604 23581d5b6）",
+   "task": "D118-B5b-1102",
+   "kind": "text",
+   "note": "法服固定日期的四場（D118-B5b，aa_asks 第 6 項）：第 1 節規則、第 2 節場次表（日期、新個案、回訪、前一天 20:00 法服群組的提醒；第 4 場兩週以後雅筑學姊那一則）、第 3 節共同開頭、沒看過上一場的一句、收尾四句、第 4 節舊存檔（換下一件、八件都演過＝FAFU_LOG 第 1 句）。手抄進 src/story3d.js（S.FAFU_STORY、S.FAFU_STORY_OPEN、S.FAFU_STORY_BACK_MISS、S.FAFU_STORY_AFTER4）；新個案、回訪的法律句子照 S.FAFU_CASES／S.FAFU_BACK 原字（BB_160 查過）。tests/d118_b5b_unit.js 逐字對這份"
+  },
+  {
+   "path": "docs/story_planning/AA_638_總複習介面字定稿_D118三項規則確認.md",
+   "sha": "3271973c6",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_638 3271973c6）",
+   "task": "D118-B5a-1102",
+   "kind": "text",
+   "note": "第 3 節 ④-7：法服旁觀大一第二次來就說「你又來了。明年可以報名當志工，來坐圓桌。」（旗標 LAWCLUB_SAT_FIVE 照舊）——開發分支 90b5cf014 已手抄進 src/story3d.js S.fafuWatch（tests/v1f_fafu_sat_unit.js、tests/d118_b5a_unit.js e1）；④-8 沛珊「我接。」也在同一個 commit。第 1、2 節總複習的介面字是 D118-B3 的事（這一筆只記 ④-7、④-8 已照稿）"
   }
  ]
 }
