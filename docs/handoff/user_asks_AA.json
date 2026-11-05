@@ -1678,7 +1678,8 @@
    "status": "進行中",
    "src": "使用者截圖對 LAWWW-C，LAWWW-C 07:00 轉 AA-C",
    "note": "AA_703：P-L6 改「我隔週會回台中一趟。禮拜天搭客運回來…」、第 4 週起；ladder_bb.json 已改，待 LAWWW 重匯",
-   "task": "PS-BUS-1105"
+   "task": "PS-BUS-1105",
+   "wants": "X243"
   }
  ]
 }
