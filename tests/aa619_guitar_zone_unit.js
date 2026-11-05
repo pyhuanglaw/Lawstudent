@@ -8,6 +8,8 @@
    ⑤ 再進一次店（重建區域）按鈕還是四個（不重複加）；別的區域（新生南路）沒有這些按鈕
    修改前（開發分支 ed7600ec5）：還沒有 src/tongxian3d.js、src/guitar3d.js＝載入就停（FAILED 1）；合併同弦區域（1a67c9947）以後、還沒有按鈕＝FAILED 4。修改後 ALL PASS。
    AA_693 這一輪（分支 guitar2-1105）：程式還沒改（開發分支 0f417a384，烏克麗麗沒有按鈕）＝FAILED 4（② 按鈕、② 一共幾個、③、⑤）；修改後 7 項 ALL PASS。
+   ⑥ 宿舍房間的「彈吉他」按鈕（11-05 BB-C：從「看看房間裡的東西」裡面搬到房間這一層，GUITAR.dormButton）：真的 dorm 區域裡站得住、從房門走得到；
+      站在按鈕上，房間原本的按鈕（坐在書桌前、睡覺、看看房間裡的東西、走出房間）和故事加的（收拾背包回家、床底下的紙箱）都不在範圍內＝出來的是「彈吉他」；站在書桌前照舊是「坐在書桌前」；沒有琴＝藏著（修改前：沒有 GUITAR.dormButton＝FAIL）
    這是模擬（證明路走得通），不是真實玩家流程（瀏覽器測試照 D131 排到使用者的電腦）。用法：node tests/aa619_guitar_zone_unit.js */
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -18,7 +20,7 @@ global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.inne
 process.on('unhandledRejection',()=>{});   // 正式模型在 node 裡載不到（fetch 相對網址），不影響導航
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
 const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js',
-  'src/data/calendar.js','src/data/places.js','src/data/xinsheng_layout.js','src/xinsheng3d.js','src/data/tongxian_layout.js','src/tongxian3d.js','src/guitar3d.js'];
+  'src/data/calendar.js','src/data/places.js','src/data/xinsheng_layout.js','src/xinsheng3d.js','src/data/tongxian_layout.js','src/tongxian3d.js','src/data/dorm_room_layout.js','src/guitar3d.js'];
 const miss=files.filter(f=>!fs.existsSync(path.join(ROOT,f)));
 if(miss.length){ check('① 檔案都在',false,miss.join('、')); console.log('FAILED '+fails); process.exit(1); }
 for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
@@ -47,5 +49,21 @@ check('④ 區域的座位（照座面抬高）對得到配置的 id：try_w、t
 // ⑤
 const z2=loadZone('xs_tongxian'); const n2=E.interactables.filter(q=>q.guitar).length; const xz=loadZone('xinsheng'), n3=E.interactables.filter(q=>q.guitar).length;
 check('⑤ 再進一次店：按鈕還是四個（不重複加）；新生南路沒有這些按鈕',n2===4&&n3===0,J([n2,n3]));
+});
+// ⑥ 宿舍房間的「彈吉他」
+sec('⑥',()=>{
+const z=loadZone('dorm'), U=DORM_ROOM.units.find(u=>u.id===(DORM_ROOM.player_unit||'L2'));
+const G={zone:'dorm',stage:'law',flags:{OWN_GUITAR:'entry'}}, GMx={E,G};
+const b=typeof GUITAR.dormButton==='function'?GUITAR.dormButton(GMx):null;
+if(!b){ check('⑥ 有 GUITAR.dormButton、宿舍房間多一個「彈吉他」按鈕',false,'沒有 GUITAR.dormButton'); return; }
+const extra=[{label:'收拾背包回家',x:z.spots.home[0],z:z.spots.home[1],radius:0.6,prio:0.3},{label:'床底下的紙箱',x:U.seat_approach[0],z:Math.round((U.desk_u[1]+U.stair_u[0])/2*1000)/1000,radius:0.45}];   /* story3d.js populate、y1fill3d.js boxSpot 加的 */
+const others=E.interactables.filter(q=>q!==b).concat(extra), inR=(q,x,zz)=>Math.hypot(q.x-x,q.z-zz)<(q.radius||1.8);
+check('⑥ 按鈕「彈吉他」（S.L.dormLabel）、有琴才出現',b.label==='彈吉他'&&b.hidden===false&&(G.flags.OWN_GUITAR=null,b.hidden===true)&&(G.flags.OWN_GUITAR='entry',true),J([b.label,b.x,b.z,b.radius]));
+const ex=E.interactables.find(q=>q.exit), r=walk([z.spawn.x,z.spawn.z],[b.x,b.z]);
+check('⑥ 按鈕的位置站得住、從房門口（出生點）走得到',E.canStand(b.x,b.z,0.3,0)&&r.ok,J(r));
+check('⑥ 站在「彈吉他」上：房間原本的按鈕、背包、紙箱都不在範圍內',!others.some(q=>inR(q,b.x,b.z)),others.filter(q=>inR(q,b.x,b.z)).map(q=>q.label).join('、'));
+const desk=E.interactables.find(q=>q.deskStudy), ap=desk.seat.ap||[desk.x,desk.z];
+check('⑥ 站在書桌前（坐下前走到的點）照舊是「坐在書桌前」，不是「彈吉他」',!inR(b,ap[0],ap[1])&&inR(desk,ap[0],ap[1]),J(ap));
+const n=GUITAR.dormButton(GMx)&&E.interactables.filter(q=>q.guitar==='dorm').length; check('⑥ 再叫一次不重複加',n===1,J(n));
 });
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
