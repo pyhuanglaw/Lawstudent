@@ -47691,7 +47691,7 @@
    "title": "約會兩人座位：不坐有陌生人的桌子；開場句對得上座位",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47703,7 +47703,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "子代理 wt-dateseat 交件 → 合併、全部 Node、BB",
+   "next": "BB／CC 用 tests/fixtures/user_save_day36_afar_1105.json 約學姊去 afar：坐窗邊長桌、燈那句；其他有地點字的開場句（daybreak 窗邊、coffee/meal 窗邊）之後補 onlyAt",
    "source": "UA-LAWWW-1105-35",
    "authorized": "使用者原話",
    "xai": {
