@@ -47160,7 +47160,7 @@
    "title": "所有店打烊統一一句「我們今天要打烊了。」→ 走出店門（AA_700；使用者 11-05 06:4x 對 AA-C）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -47172,7 +47172,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "子代理 wt-close：xs_close3d＋gg2shops／ggshops_sys／offbeat／mokuyobi／guitar／118 巷／溫州街各店的 close 照 AA_700 統一；24 小時的店不加",
+   "next": "AA 確認稱呼對照（老闆娘→老闆、阿姨／店長→店員、阿德＝老闆）與木曜日樓上小聲；v9.10.21 候選",
    "source": "AA_700（企劃線 4f60052c8）",
    "authorized": "使用者原話（UA-AA-1105-04）"
   },
