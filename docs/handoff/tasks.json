@@ -46903,7 +46903,7 @@
     "receiver": "LAWWW",
     "ack": "DELIVERED"
    },
-   "next": "【LAWWW-C 11-04 23:0x】AA-C 23:03 AA_689 補（企劃線 fc3da48ca）：以安 2030 分開談那一場也改燒臘店（at30 字幕、開場旁白「點了兩份叉燒飯，一盤推到你面前」），3572a0c82｜【LAWWW-C 11-04 23:1x】AA-C 22:36 回 AA_689（企劃線 1f2983981）：39e6f0ca5 照做——PG_TAG 語彤四列、feed_pg yt1i 2029-11-22／yt4i 2029-12-15（字不動）、以安 S.TELL loc30「燒臘店，兩人桌」、study.yutong「她說我的那張明天貼。」；語彤不加 loc30、title 公館燒臘・長桌照現在、AA530 照 P3。還沒做：4-5 註解裡的「麵店」（postgrad3d.js 等 D118-B7 子代理合併以後再改）；要問 AA：r2y4b3d.js 分開談那一場以安 2030（at30 place「麵店，兩人桌」、open30「（麵店，兩人桌。她先到，點了兩碗……）」）要不要也改燒臘店｜【LAWWW-C 11-04 22:5x】開任務、send_message 給 AA-C（附五處的檔案與行）；AA 回了照字改",
+   "next": "【LAWWW-C 11-05 01:2x】4-5 註解裡的「麵店」（國考放榜那一頓）改燒臘店 2bfe432c7（postgrad3d.js、postgrad_lines.js、pgdates3d.js；麵店團照留）；全部做完，等 BB 瀏覽器（AA688_walk 已 17 PASS）｜【LAWWW-C 11-04 23:0x】AA-C 23:03 AA_689 補（企劃線 fc3da48ca）：以安 2030 分開談那一場也改燒臘店（at30 字幕、開場旁白「點了兩份叉燒飯，一盤推到你面前」），3572a0c82｜【LAWWW-C 11-04 23:1x】AA-C 22:36 回 AA_689（企劃線 1f2983981）：39e6f0ca5 照做——PG_TAG 語彤四列、feed_pg yt1i 2029-11-22／yt4i 2029-12-15（字不動）、以安 S.TELL loc30「燒臘店，兩人桌」、study.yutong「她說我的那張明天貼。」；語彤不加 loc30、title 公館燒臘・長桌照現在、AA530 照 P3。還沒做：4-5 註解裡的「麵店」（postgrad3d.js 等 D118-B7 子代理合併以後再改）；要問 AA：r2y4b3d.js 分開談那一場以安 2030（at30 place「麵店，兩人桌」、open30「（麵店，兩人桌。她先到，點了兩碗……）」）要不要也改燒臘店｜【LAWWW-C 11-04 22:5x】開任務、send_message 給 AA-C（附五處的檔案與行）；AA 回了照字改",
    "sha": [
     "39e6f0ca5",
     "3572a0c82"
