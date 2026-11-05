@@ -31,7 +31,7 @@ const ADV2=global.ADV; ADV2.active=false;
   const day=termDay('Y1S2',5,6);
   OUT.BG.d13_base_sunset=OUT.BG.d13_base_sunset||{label:'淡水',image:'x'};
   const go=async(who,picks0,o)=>{ o=o||{}; const b=DATE.book(G,{who,locs:['D13'],transport:'mrt',day:G.day,depart:15}); const q=OUT.get(G,'date_'+b.trip); G.hour=15; said=[]; opts=[]; picks=['出發'].concat(picks0); await OUT.prompt(GM,q); return {b,t:DATE.trip(G,b.trip),L:lines()}; };
-  check('0. date_lines.js 有 D01～D32 全部地點的台詞（白名單＠57de1709，AA-C 10-21 32 個地點口語審完；D13 2026-10-23 換 345234b3：AA_389 第 1 點交換回來版，再換 e78814663：AA_426 第 6 節「……開玩笑的」改掉，再換 efe575813：AA_436 學姊旁白，再換 a5b936a69：AA_439 子晴到達句拿掉「欸不是，」）',Array.from({length:32},(_,k)=>'D'+String(k+1).padStart(2,'0')).every(k=>DATE_LINES.loc&&DATE_LINES.loc[k]&&DATE_LINES.loc[k].lines)&&/D13\.json@(57de1709|345234b3|e78814663|efe575813|a5b936a69|9ba14498e)/.test(DATE_LINES.source),Object.keys(DATE_LINES.loc||{}).join(','));
+  check('0. date_lines.js 有 D01～D32 全部地點的台詞（白名單＠57de1709，AA-C 10-21 32 個地點口語審完；D13 2026-10-23 換 345234b3：AA_389 第 1 點交換回來版，再換 e78814663：AA_426 第 6 節「……開玩笑的」改掉，再換 efe575813：AA_436 學姊旁白，再換 a5b936a69：AA_439 子晴到達句拿掉「欸不是，」，再換 1b095a239：AA_694 拿掉沒必要的「……」）',Array.from({length:32},(_,k)=>'D'+String(k+1).padStart(2,'0')).every(k=>DATE_LINES.loc&&DATE_LINES.loc[k]&&DATE_LINES.loc[k].lines)&&/D13\.json@(57de1709|345234b3|e78814663|efe575813|a5b936a69|9ba14498e|1b095a239)/.test(DATE_LINES.source),Object.keys(DATE_LINES.loc||{}).join(','));
   check('0. 她喜不喜歡讀地點檔（子晴：飲料攤喜歡、長椅不太喜歡）',DATE.likeOf('heroine_04','D13.drink')==='like'&&DATE.likeOf('heroine_04','D13.bench')==='dislike');
   // 芷若第一次去淡水
   fresh(day,9,'dorm',{}); G.money=5000;
@@ -52,7 +52,7 @@ const ADV2=global.ADV; ADV2.active=false;
   fresh(day,9,'dorm',{}); G.money=5000; DATE.mem(G,'heroine_04','D13').picks=['D13.bench']; DATE.log(G,'heroine_04').byLoc.D13=2; r=await go('heroine_04',['自己選','長椅','差不多了']);
   check('3. 子晴、長椅（不太喜歡、以前點過但上一次沒點、第三次來）：「坐著？才剛到耶。」',r.L.some(x=>/坐著？才剛到耶。/.test(x)),r.L.join(' | '));
   fresh(day,9,'dorm',{}); G.money=5000; r=await go('heroine_04',['就這樣回去']);
-  check('3. 一個都沒做就走：子晴那一句（BB_128 3-6）、不算次數',r.L.some(x=>/才剛到？……好。下次補/.test(x))&&!r.L.some(x=>/就這樣？$/.test(x))&&r.t.status==='cancelled',r.L.join(' | '));
+  check('3. 一個都沒做就走：子晴那一句（BB_128 3-6；AA_694 拿掉「？」後的「……」）、不算次數',r.L.some(x=>/才剛到？好。下次補/.test(x))&&!r.L.some(x=>/就這樣？$/.test(x))&&r.t.status==='cancelled',r.L.join(' | '));
   // 語彤：淡水是她的心願地點。心願事件已經做了（wish3d.js，DATE-C4、C5：聊天提到、她主動邀才演整場）；這一項測的是一般的路徑——沒有走心願事件的那一次照普通的抵達句
   fresh(day,9,'dorm',{}); G.money=5000; r=await go('heroine_03',['河邊欄杆',0,'差不多了']);
   check('4. 語彤去淡水、不是心願事件那一次（一般的路徑）：照普通的抵達句（「嗯。淡水。」那一池），不卡住',r.L.some(x=>/淡水|阿姨問我|雲很多/.test(x))&&r.t.status==='done',r.L.join(' | '));
