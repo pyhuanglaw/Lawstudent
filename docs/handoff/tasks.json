@@ -46961,7 +46961,7 @@
    },
    "source": "LAWWW2-C 11-05 01:13 DORM-LADDER-HEAD-GRIP-1102 ② 交件 README「給 LAWWW」（動作歸 LAWWW，D128）",
    "authorized": "D100 LAWWW 整合／動畫；D128",
-   "next": "【LAWWW-C 11-05 01:1x】開任務；子代理實作（照 README 給 LAWWW 那一節：手照 grips 換手、腳踩踏階不進牆、第 5 階 null＝跪姿手在大腿），Node 量手到扶手、腳到牆的距離",
+   "next": "預設不再演爬梯（WAKE-AT-DOOR-1105、SLEEP_FULL false）；ladder_headroom ④ 記為已知",
    "sha": "c863267bd"
   },
   {
@@ -47109,7 +47109,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-05 04:4x】已合併（子代理 eecd95c23／2b2f84aae）；BB／CC PC 瀏覽器｜子代理 wt-lib3f 查 S.probe／deskFor／indexStep，加會先 FAIL 的 Node 測試",
+   "next": "沒有遊戲邏輯錯：5 個有名字的照設計不套片段、滑手機那位身材合不上桌子（body:low）退回拿手機、寫筆記兩位有在播。CC 探針改 CHAR.sitTaskOf(n.obj)、讀 SEATACT.state().why、不要只算看得到的人",
    "source": "BB_255 04:1x",
    "authorized": "BB 判要修（D100）"
   },
@@ -47181,7 +47181,7 @@
    "title": "公館燒臘室內換成 shaola_interior.glb v7（使用者 11-05 06:4x：「公館燒臘線上版本怎麼還是麵店」）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -47193,7 +47193,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2：noodle 區域改載 BB 的 shaola_interior.glb（企劃線 bb_support，v7 MODEL_READY），區域 id、座位、出口、導航不改；patch＋Node 測試 → LAWWW 接 → v9.10.21",
+   "next": "BB 瀏覽器；v9.10.21 候選",
    "source": "UA-LAWWW-1105-17",
    "authorized": "使用者原話",
    "xai": {
@@ -47209,7 +47209,7 @@
    "title": "阿德影印坐著的人卡進桌子（使用者 11-05 06:5x 截圖）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -47221,7 +47221,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2：中間長桌座位往後挪／椅子離桌距離照 SIT-HEIGHT 身材，先在開發分支確認還有沒有；Node 穿模測試 → v9.10.21",
+   "next": "BB 瀏覽器；v9.10.21 候選",
    "source": "UA-LAWWW-1105-18",
    "authorized": "使用者原話",
    "xai": {
@@ -47237,7 +47237,7 @@
    "title": "日常失速：店長（貓）要看得到（現在只有互動點、沒有 3D 貓）；社團布告欄牌子一直閃（疊面）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -47249,7 +47249,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2：店長貓模型放在「看看店長」那張空椅子（用溫州街 J13 的貓）；布告欄標題牌疊面拉開；放 v9.10.21",
+   "next": "CC 拍日常失速的貓、佈告欄；v9.10.21 候選",
    "source": "UA-LAWWW-1105-19",
    "authorized": "使用者原話",
    "xai": {
@@ -47458,7 +47458,7 @@
    "title": "手機地點地圖、快速前往加新生南路和那幾家店",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47470,7 +47470,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "子代理 wt-xsmap 做完合併、全部 Node",
+   "next": "BB／CC 手機截圖看分地區清單；瀏覽器腳本點公館以外的店要先點 [data-parea]（flow_invite_phone.py 等）",
    "source": "UA-LAWWW-1105-25",
    "authorized": "使用者原話",
    "xai": {
@@ -47487,7 +47487,7 @@
    "title": "手機快速前往分兩層：地區 → 那一區的建築和店",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47499,7 +47499,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "子代理 wt-xsmap 做完合併、全部 Node",
+   "next": "BB／CC 手機截圖看分地區清單；瀏覽器腳本點公館以外的店要先點 [data-parea]（flow_invite_phone.py 等）",
    "source": "UA-LAWWW-1105-26",
    "authorized": "使用者原話",
    "xai": {
@@ -47516,7 +47516,7 @@
    "title": "沛珊大一上閒聊 P-L6「每次從台中搭客運上來」改稿",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47538,7 +47538,8 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "src": "UA-LAWWW-1105-27"
+   "src": "UA-LAWWW-1105-27",
+   "sha": "a17515abc"
   },
   {
    "id": "FGO-COUNTER-1105",
@@ -47574,7 +47575,7 @@
    "title": "新生南路側門：搬到映月湖和博思中間、照使用者照片改外觀、加新月台和地下停車場",
    "area": "SCENE",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47586,7 +47587,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2 先交俯視改前／改後＋配置；參考圖 docs/art-rebuild/refs/xs_gate_1105/；D136 像但不照抄",
+   "next": "CC 拍步道往西看側門（白天／晚上）、落點、校門往北看斜牆；望月台＋停車場、XS-FARVIEW 之後",
    "source": "UA-LAWWW-1105-29",
    "authorized": "使用者原話",
    "xai": {
@@ -47615,7 +47616,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "等 LAWWW2 停車場區域；AA 給名字和取車那一步的字；LAWWW 改 date3d／an_yt_hol3d 的開車出發點",
+   "next": "AA_704（企劃線 55a1c5a53）已定：望月台停車場（宿舍走 5 分鐘）、車旁「開車出發」、約見面點「望月台停車場入口」、第一次取車一句旁白；等 LAWWW2 停車場區域再接 date3d／an_yt_hol3d",
    "source": "UA-LAWWW-1105-31",
    "authorized": "使用者原話",
    "xai": {
@@ -47684,6 +47685,180 @@
     "ack": "自領"
    },
    "src": "UA-LAWWW-1105-33"
+  },
+  {
+   "id": "DATE-SEAT-AFAR-1105",
+   "title": "約會兩人座位：不坐有陌生人的桌子；開場句對得上座位",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "子代理 wt-dateseat 交件 → 合併、全部 Node、BB",
+   "source": "UA-LAWWW-1105-35",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-35",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "afar 約會坐空桌、燈那句只在窗邊長桌",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "UA-LAWWW-1105-35"
+  },
+  {
+   "id": "AFAR-VIEW-1105",
+   "title": "afar 窗外換成公館街景",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "v9.10.21 候選；CC 拍 afar 窗外白天／晚上",
+   "source": "UA-LAWWW-1105-36",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-36",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "afar 往窗外看得出是羅斯福路、騎樓",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "src": "UA-LAWWW-1105-36"
+  },
+  {
+   "id": "SHOP-NAMED-NPC-1105",
+   "title": "新店面的有名字人物作息（新生南路、公館、溫州街新店）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "AA_705（ebea3a2b0）第一批 → 子代理 wt-shopnpc 接作息",
+   "source": "UA-LAWWW-1105-37",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-37",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "每間新店大一上至少遇得到一兩個認識的人",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "src": "UA-LAWWW-1105-37"
+  },
+  {
+   "id": "WAKE-AT-DOOR-1105",
+   "title": "起床直接站在房門口（不演爬梯子下來）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "BB 瀏覽器看起床；已知：爬梯動畫（SLEEP_FULL／WAKE_AT_DOOR=false 才用，預設不演）ladder_headroom ④ 平滑 A 22.7、B 32.6 cm 超過一般門檻，記著不擋",
+   "source": "UA-LAWWW-1105-39",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-39",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "醒來淡入時站在房門口",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "UA-LAWWW-1105-39"
+  },
+  {
+   "id": "JOURNAL-DATES-1105",
+   "title": "日誌寫那天約了誰、和誰約會",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "BB 看日誌月曆；AA 可以改「出去玩」「（沒有赴約）」的字",
+   "source": "UA-LAWWW-1105-40",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-40",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "10/21 約以安、10/22 和學姊在日誌上看得到",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "UA-LAWWW-1105-40"
+  },
+  {
+   "id": "WINVIEW-AUDIT-1105",
+   "title": "每間店窗外街景照實際位置（青木、Daybreak、頁間、日常失速、定食用錯窗景；新生南路那排待查）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2 先交每間店窗外的表，公館三間先換",
+   "source": "UA-LAWWW-1105-41",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-41",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "每間店窗外是自己那條街、那個位置看出去的樣子",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "src": "UA-LAWWW-1105-41"
   }
  ]
 }

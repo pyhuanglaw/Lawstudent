@@ -52,9 +52,9 @@ const DOC2=gshow('docs/story_planning/AA_693_回LAWWW_AA619同弦吉他社缺字
 const DOC2AB=DOC2.indexOf('## A.')>=0&&DOC2.indexOf('## C.')>DOC2.indexOf('## A.')?DOC2.slice(DOC2.indexOf('## A.'),DOC2.indexOf('## C.')):'';   /* A 缺字、B 判斷兩節（C 節引了舊的那一句，不算）*/
 const cellA=n=>((new RegExp('\\n\\| '+n+' \\| [^|]+ \\| ([^|]+) \\|').exec(DOC2))||[])[1]||'';   /* AA_693 A 節第 n 列「字」那一欄 */
 /* AA_693 的字（照抄；14-0 確認每一句都在 AA_693 的 A、B 兩節）*/
+const CLOSE700='我們今天要打烊了。';   /* AA_693 A3 作廢：AA_700（企劃線 4f60052c8）所有店打烊統一一句、老闆在顧的店＝老闆 */
 const T93={ song:'宜蘭民宿頂樓，她彈了自己寫的那一段',   /* A1 */
   ukes:'（烏克麗麗掛成一排，顏色都不一樣。最小的那把，比你的手臂還短。）',   /* A2 */
-  close:'九點半了。明天再來。',   /* A3 */
   buyStr:'新生南路有一家同弦，報吉他社打九折。買弦也有。', raised:'（一半的人舉手。你也舉了。）', touch:'（坐你旁邊借社團琴的人，伸手按了一下你的弦。）',   /* A4、B */
   novice:'（你拿下一把，不知道手指要按哪裡，只撥了一下空弦。老闆從櫃檯抬頭看了一眼，又低頭。）',   /* A5 */
   bbq:'（晚上在民宿的院子烤肉。吃完大家擠進客廳，一個一個上去彈一首。）', turn:'（輪到你了。）', ownCase:'（你把自己的琴從琴袋裡拿出來。）', hand:'（子晴把她的琴遞給你。）', fresh:'弦剛換過。',   /* A6 */
@@ -103,7 +103,7 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     check('0a-0. 讀得到 AA_619@c4b14a901（新生南路版、頂樓那一句是 AA_693 C 改過的）',DOC.length>1000&&DOC.includes('新生南路有一家同弦，報吉他社打九折。')&&!DOC.includes('公館有一家同弦')&&DOC.includes('子晴「'+C93.now+'」')&&!DOC.includes('子晴「'+C93.old+'」'));
     check('0a-0b. 讀得到 AA_693@c4b14a901（A 缺字 11 列、B 判斷、C）',DOC2AB.length>500&&DOC2.includes('## C.')&&[1,2,3,4,5,6,7,8,9,10,11].every(n=>cellA(n).length>4),J([DOC2.length,[1,2,3,4,5,6,7,8,9,10,11].map(n=>cellA(n).length)]));
     const all=[]; const push=(w,t)=>all.push([w,t]);
-    for(const k of ['look','tryPlay','tuned','c21Narr','ownNarr','loanNarr','yilanPost','ymsPost','poor','tryNovice','ukes','closeBoss','smallBag']) push('L.'+k,S.L[k]);
+    for(const k of ['look','tryPlay','tuned','c21Narr','ownNarr','loanNarr','yilanPost','ymsPost','poor','tryNovice','ukes','smallBag']) push('L.'+k,S.L[k]);
     for(const t of S.L.boss) push('L.boss',t); for(const t of S.L.dorm) push('L.dorm',t);
     for(const t of textsOf(S.D21)) push('D21',t); for(const t of textsOf(S.D21_OWN)) push('D21_OWN',t); for(const t of textsOf(S.D_ENC)) push('D_ENC',t); for(const k in S.D_ZQPICK) for(const t of textsOf(S.D_ZQPICK[k])) push('D_ZQPICK',t);
     for(const o of S.PICK_OPTS) push('PICK',o.t);
@@ -188,7 +188,7 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     // 打烊：請你出來
     at(sat,21.55,'xs_tongxian'); H.entered=[]; H.said=[]; toasts.length=0; let stood=0; const su=GM.standUp; GM.standUp=()=>{ stood++; }; E.player.seat={x:1,z:1};
     const t=S.tick(GM); await new Promise(r=>setTimeout(r,5)); GM.standUp=su; E.player.seat=null; const so=TX3.streetOut();
-    check('3-11. 21:33 人還在店裡：站起來、老闆「九點半了。明天再來。」（AA_693 A3）、回到新生南路騎樓的樓梯口外面（TX3.streetOut）、寫開放時間',t===true&&stood===1&&J(H.said)===J([{who:'老闆',t:T93.close}])&&H.entered[0]==='xinsheng'&&toasts[0]===PLACES.closedText('xs_tongxian',21.55,sat),J([H.entered,toasts,so,H.said]));
+    check('3-11. 21:33 人還在店裡：站起來、老闆「我們今天要打烊了。」（AA_700）、回到新生南路騎樓的樓梯口外面（TX3.streetOut）、不另外出字',t===true&&stood===1&&J(H.said)===J([{who:'老闆',t:CLOSE700}])&&H.entered[0]==='xinsheng'&&!toasts.length,J([H.entered,toasts,so,H.said]));
     at(TD('Y1S1',8,1),13,'xs_tongxian'); H.entered=[]; H.said=[]; S.tick(GM); await new Promise(r=>setTimeout(r,5)); check('3-12. 週一（公休）讀檔在店裡：一樣請出來（老闆不說那一句）',H.entered[0]==='xinsheng'&&!H.said.length,J(H.said));
     at(sat,15,'xs_tongxian'); H.entered=[]; const t2=S.tick(GM); check('3-13. 開門的時候不請人出來',t2===false&&!H.entered.length);
     { at(sat,21.55,'xs_tongxian'); H.entered=[]; H.said=[]; GM.D.active=true; const t3=S.tick(GM); GM.D.active=false; const t4=S.tick(GM); await new Promise(r=>setTimeout(r,5));
@@ -395,7 +395,7 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     // A3 打烊
     { const seq=[], s0=GM.say, e0=GM.enter; GM.say=async(w,t)=>{ seq.push((w?(w.name||String(w)):'')+'：'+t); return s0(w,t); }; GM.enter=async(z,...r)=>{ seq.push('→'+z); return e0(z,...r); };
       try{ fresh(sat,21.55,'xs_tongxian'); toasts.length=0; const t=S.tick(GM); await new Promise(r=>setTimeout(r,5)); const s1=seq.slice(), t1=toasts.slice();
-        check('14-A3. 打烊（21:30）時還在店裡：老闆「'+T93.close+'」→ 回到新生南路 → 照現在寫開放時間（A3）',cellA(3).startsWith('老闆：'+T93.close)&&t===true&&J(s1)===J(['老闆：'+T93.close,'→xinsheng'])&&t1[0]===PLACES.closedText('xs_tongxian',21.55,sat),J([s1,t1]));
+        check('14-A3. 打烊（21:30）時還在店裡：老闆「'+CLOSE700+'」→ 回到新生南路，不另外出字（AA_700 取代 A3）',t===true&&J(s1)===J(['老闆：'+CLOSE700,'→xinsheng'])&&!t1.length,J([s1,t1]));
         const runAt=async(d,h)=>{ fresh(d,h,'xs_tongxian'); seq.length=0; toasts.length=0; S.tick(GM); await new Promise(r=>setTimeout(r,5)); return [seq.slice(),toasts[0]||'']; };
         const mon=await runAt(TD('Y1S1',8,1),13), late=await runAt(sat,22.5), ty=await runAt(STORY.dayOfKey('2027-10-13'),15);
         check('14-A3b. 週一公休、颱風天、22:00 以後（讀檔回到店裡）：老闆不說那一句，照現在只回到新生南路、寫開放時間（A3）',[mon,late,ty].every(r=>J(r[0])===J(['→xinsheng'])&&!!r[1]),J([mon,late,ty])); }

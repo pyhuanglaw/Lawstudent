@@ -73,6 +73,7 @@ const CORE=['hips','spine','chest','neck','head'], LIMB=['leftFoot','rightFoot',
       cine(){ E.cam.mode='cinematic'; },sceneBegin(){ this.depth++; P.busy=true; },sceneEnd(){ this.depth=Math.max(0,this.depth-1); if(!this.depth){ P.busy=false; E.endCinematic(); } },standUp(ent){ ent.pose='idle'; ent.seat=null; }};
     STORY.SLEEP_FULL=true; h.position.set(0,0,2); h.rotation.y=0; P.pose='idle'; step(10); frames=[];
     await STORY._bedFx.goToBed(GM,SC); const up=frames; frames=[]; dir='down'; STORY.lieDown(GM,SC); jumped=true; step(10); frames=[];
+    STORY.WAKE_AT_DOOR=false;   /* 起床改成直接站到房門口（WAKE-AT-DOOR-1105）；這支量的是舊的爬下來（S.WAKE_AT_DOOR=false 照樣能用）*/
     await STORY._bedFx.getUp(GM,SC); const dn=frames; STORY.SLEEP_FULL=false; scene.remove(h); CHAR.release(h); CHAR.climbIK=true; return {up,dn}; }
   const NEW=await runSeq(true);
   const OLD=await runSeq(false);

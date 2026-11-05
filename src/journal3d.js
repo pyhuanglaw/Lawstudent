@@ -13,8 +13,25 @@ const JOURNAL=(function(){
   S.dayOfYMD=function(y,m,d){ const c=C(); if(!c) return null; return Math.round((Date.UTC(y,m-1,d)-c.tOf(1))/DAYMS)+1; };
   S.ymd=function(day){ const c=C(); return c?c.dateOf(day):null; };
   /* 全部紀錄（照時間）：{day,t,i} */
+  /* 約會、邀約也寫在那一天（JOURNAL-DATES-1105；使用者 11-05 09:0x「日誌都沒有寫我當天約了誰 跟誰約會 像是我10.22跟學姊有約 10.21約了沈以安 都沒有寫 這很重要欸」）：
+     資料直接讀 G.invites（約好的、去了的、沒去的；取消、婉拒的不列）和 G.trips（校外約會，取消的不列），不另外存（舊存檔也看得到以前的約）。
+     字：邀約照它自己的 label（「和溫書瑀約在afar café」，invites3d.js 本來就有的）前面加時間；沒去的加「（沒有赴約）」（手機訊息同一句）；校外約會「和○○出去玩：地點」。同一天約會排在其他紀錄前面、照時間 */
+  const hm=x=>{ const m=Math.round((+x||0)*60); return String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); };
+  const nm=id=>(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):null)||((typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].name)||id);
+  /* AA-C 11-05 07:22：人名用現在的顯示名（祐廷自己寫的日誌：交往前「學姊」…），中文和英文店名之間空一格（「和學姊約在 afar café」）*/
+  const placeName=iv=>{ const P=typeof INVITE_DATA!=='undefined'&&INVITE_DATA.places?INVITE_DATA.places.find(q=>q.id===iv.place):null; return P&&P.name||null; };
+  const sp=t=>/^[A-Za-z0-9]/.test(String(t))?' '+t:String(t);
+  S.dateEntries=function(G){ const out=[];
+    for(const iv of (G&&Array.isArray(G.invites)?G.invites:[])){ if(!iv||!iv.accepted||!['accepted','going','done','missed'].includes(iv.state)||iv.day==null) continue; const pn=placeName(iv), lb=pn?'和'+nm(iv.who)+'約在'+sp(pn):(iv.label||('和'+nm(iv.who)+'有約')); out.push({day:iv.day|0,h:+iv.h||0,t:hm(iv.h)+' '+lb+(iv.state==='missed'?'（沒有赴約）':''),date:true}); }
+    for(const t of (G&&Array.isArray(G.trips)?G.trips:[])){ if(!t||t.day==null||/cancel/.test(String(t.status||''))) continue; const locs=(t.locs||[]).map(l=>(typeof DATE!=='undefined'&&DATE.loc&&(DATE.loc(l)||{}).name)||l).filter(Boolean);
+      out.push({day:t.day|0,h:+t.depart||0,t:(t.depart!=null?hm(t.depart)+' ':'')+'和'+nm(t.who)+'出去玩'+(locs.length?'：'+locs.join('、'):''),date:true}); }
+    return out.sort((a,b)=>a.day-b.day||a.h-b.h); };
   S.entries=function(G){ const L=(typeof STORY!=='undefined'&&STORY.memoShown)?STORY.memoShown(G):((G&&G.memo)||[]);
-    return L.map((m,i)=>({day:m.day|0,t:(typeof STORY!=='undefined'&&STORY.memoText)?STORY.memoText(G,m):m.t,i})).filter(e=>typeof e.t==='string'&&e.t); };
+    const memo=L.map((m,i)=>({day:m.day|0,t:(typeof STORY!=='undefined'&&STORY.memoText)?STORY.memoText(G,m):m.t,i})).filter(e=>typeof e.t==='string'&&e.t);
+    const dt=S.dateEntries(G).map((e,k)=>({day:e.day,t:e.t,i:-1-k,date:true})), all=[];
+    const days=[...new Set(memo.map(e=>e.day).concat(dt.map(e=>e.day)))].sort((a,b)=>a-b);
+    for(const d of days){ for(const e of dt) if(e.day===d) all.push(e); for(const e of memo) if(e.day===d) all.push(e); }
+    return all; };
   S.byDay=function(G){ const M={}; for(const e of S.entries(G)) (M[e.day]||(M[e.day]=[])).push(e); return M; };
   /* 查詢：空白分開的字都要有（不分大小寫）；照時間由新到舊 */
   S.search=function(G,q){ const w=String(q||'').trim().toLowerCase().split(/\s+/).filter(Boolean); if(!w.length) return [];

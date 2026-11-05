@@ -31,7 +31,7 @@ check('4. 斑馬線以外的車道一格都走不到',road===0,road+' 格');
 const cr=L.crossings.filter(c=>!reach([L.walkEast.x0+1.5,c.z],[L.walkWest.x0+1.0,c.z])).map(c=>c.id);
 check('5. 兩條斑馬線從校園那一側走得到店面那一側',!cr.length,cr.join(' '));
 const g=E.interactables.find(q=>q.exit&&q.exit.to==='campus'), w=E.interactables.find(q=>q.exit&&q.exit.to==='wenzhou');
-check('6. 側門「回到首都帝大」→ campus（校園西側圍牆北段那一側）',!!g&&g.exit.spawn.x===L.sideGate.campusSpawn.x&&g.exit.spawn.z===L.sideGate.campusSpawn.z&&reach(sp,[g.x,g.z]));
+check('6. 側門「回到首都帝大」→ campus（映月湖和博思中間的側門，XS-GATE-MOVE-1105）',!!g&&g.exit.spawn.x===L.sideGate.campusSpawn.x&&g.exit.spawn.z===L.sideGate.campusSpawn.z&&reach(sp,[g.x,g.z]));
 check('7. 「往溫州街」→ wenzhou',!!w&&reach(sp,[w.x,w.z]));
 check('8. 每間店門口有互動點（室內還沒做的是「看」）',L.shops.every(q=>E.interactables.some(it=>Math.abs(it.z-q.door.z)<0.01&&(it.look||it.exit))));
 // 校園那一端（西側圍牆北段的側門）

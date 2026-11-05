@@ -126,9 +126,9 @@ const T=()=>said.map(s=>s.t);
   // ===== 13～22. AA_648（企劃線 1ebf7a590）=====
   let s648=''; try{ s648=cp.execSync('git -c core.quotepath=off show 1ebf7a590:"docs/story_planning/AA_648_日常失速補台詞_回LAWWW.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   const in648=t=>s648.includes(String(t).replace(/^「|」$/g,''));
-  { const L0=OFFB.L, all=[].concat(L0.look.board,L0.look.clubs,L0.look.shelf,L0.game.end,[L0.game.none,L0.game.start,L0.menu[0][2],OFFB.ACC0],L0.game.names,L0.close.map(x=>x[1]),L0.chat,
+  { const L0=OFFB.L, all=[].concat(L0.look.board,L0.look.clubs,L0.look.shelf,L0.game.end,[L0.game.none,L0.game.start,L0.menu[0][2],OFFB.ACC0],L0.game.names,L0.chat,
       L0.zheOpts.map(o=>o.t),...L0.zheOpts.map(o=>o.say.map(x=>x[1])),Object.values(INVITE_DATA.offbeatAcc||{}));
-    const bad=all.filter(t=>!in648(t)); check('13. 讀得到 AA_648@1ebf7a590；AA_648 的每一句（'+all.length+' 句）都在稿上',!!s648&&all.length===43&&!bad.length,J(bad));
+    const bad=all.filter(t=>!in648(t)); check('13. 讀得到 AA_648@1ebf7a590；AA_648 的每一句（'+all.length+' 句）都在稿上',!!s648&&all.length===41&&!bad.length&&!L0.close,J(bad));
     check('13. 公告板、佈告欄、桌遊櫃各三句；遊戲四款、結束三句；聊天四句；答應十二人＋一般',L0.look.board.length===3&&L0.look.clubs.length===3&&L0.look.shelf.length===3&&L0.game.names.length===4&&L0.game.end.length===3&&L0.chat.length===4&&Object.keys(INVITE_DATA.offbeatAcc).length===12);
     const f=[].concat(...Object.values(L0.finalAsk).map(x=>[x[1]]),L0.finalNarr); check('13. 期末聚餐的揪人句、三句旁白照 AA_618 2-4 第 2 點',f.every(t=>s2.includes(t)),J(f.filter(t=>!s2.includes(t)))); }
   { fresh(wed,15); E.interactables=[]; Z3.ZONES.wz_offbeat.build(E); const by=k=>E.interactables.filter(q=>q.offLook===k);
@@ -145,7 +145,7 @@ const T=()=>said.map(s=>s.t);
     said=[]; await STORY.interact(ch,GM); check('17. 店員說四句之一；說完今天按鈕就不見',said.length===1&&said[0].who==='店員'&&OFFB.L.chat.includes(said[0].t)&&ch.hidden,J(said));
     G.day++; check('17. 隔天又可以',!ch.hidden); const got=[]; for(let i=0;i<40;i++){ G.day++; said=[]; await OFFB.chat(GM); got.push(T()[0]); } check('17. 四句都會出現、不連續同一句',OFFB.L.chat.every(t=>got.includes(t))&&!got.some((t,i)=>i>0&&t===got[i-1]),J(got.slice(0,6))); delete global.GAME; }
   { fresh(wed,25.05); const r=await OFFB.closeOut(GM);
-    check('18. 01:00 打烊：店員「我們一點打烊喔。……桌遊放回櫃子就好。」＋旁白，出去、不跳開放時間',r==='close'&&J(said)===J([{who:'店員',t:'「我們一點打烊喔。……桌遊放回櫃子就好。」'},{who:null,t:'（你走出店門。巷子很安靜，只剩路燈。）'}])&&!toasts.length&&entered[0][0]==='wenzhou',J([r,said,toasts]));
+    check('18. 01:00 打烊：店員「我們今天要打烊了。」（AA_700）、不另外出旁白，出去、不跳開放時間',r==='close'&&J(said)===J([{who:'店員',t:'我們今天要打烊了。'}])&&!toasts.length&&entered[0][0]==='wenzhou',J([r,said,toasts]));
     fresh(wed,10); const r2=await OFFB.closeOut(GM); check('18. 10:00（讀檔回到店裡）：只寫開放時間',r2==='out'&&!said.length&&toasts.length===1); }
   { const sat=TD('Y1S1',7,6), P=INV.place('offbeat'), ok=[];
     for(const id of Object.keys(INVITE_DATA.offbeatAcc)){ fresh(sat,10,id==='kexin'?{dating_kexin:true}:{}); G.zone='dorm'; G.visited.wz_offbeat=true; know(id,S4); let slot=null; for(const h of [14,15,16,17,18,19,20,13]) if(slot==null&&INV.freeAt(G,id,P,sat,h)) slot=h;

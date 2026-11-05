@@ -1095,23 +1095,25 @@ const CHAR = (function(){
      回傳 null（照舊）或 {kind, clip, body, prop, shift（往前坐幾公尺；負的＝往後）, lift（往上坐幾公尺；負的＝往下）, deskH, edge}。片段、配件還沒下載的會開始下載；第一次會在他的骨架上量一次（taskDev；urgent＝不排隊）*/
   C.sitTaskFit=function(h,kind,desk,urgent){ const u=h&&h.userData, K=C.SIT_TASK; if(!C.sitTask||!C.sitAmb||!u||u.driver!=='vrm'||!u.v0||!K.CLIP[kind]||!desk) return null;
     if(!taskReady()) return null;
-    const fam=taskBody(h,u); if(!fam) return null;
+    const fam=taskBody(h,u); if(!fam){ u.taskWhy='skeleton'; return null; }
     const prop=K.PROP[kind]||null; if(prop&&!propReady(prop)) return null;   /* 寫字、滑手機、喝飲料、吃飯要拿東西：配件還沒好＝照舊 */
     const refs=(K.REFS||[{edge:K.REF.edge,sfx:''}]).slice().sort((a,b)=>Math.abs(+desk.edge-a.edge)-Math.abs(+desk.edge-b.edge));   /* 桌緣比較接近的那一組先試（CAFE-EDGE-1105）*/
+    let why='clip';   /* 合不上的原因（最後一個試的那一組；SEATACT 的 state 看 u.taskWhy：low／high＝手比桌面低／高太多、near／far＝桌緣太近／太遠、wide＝肩膀寬、clip＝片段檔沒有這一種、probe＝量不出來）*/
     for(const rf of refs) for(const b0 of (K.ALT&&K.ALT[fam])||[fam]){ const body=b0+rf.sfx;   /* 同一種骨架的幾種身材：第一個合得上的（F2、M2，LAWWW2-C 補件 2）*/
       const clip='Sit_'+K.CLIP[kind]+'_'+body+'_Loop', c=taskClip(clip), R0=K.HANDS[body]&&K.HANDS[body][kind]; if(!c||!R0) continue;   /* 片段檔沒有這一種（舊的 GLB）＝試下一種 */
-      const dv=taskDev(h,u,c,urgent); if(dv===null) return null; if(!dv) continue;   /* null＝還沒量（這一格量不到、排隊）：下次 SEATACT 再來；false＝量不出來 */
+      const dv=taskDev(h,u,c,urgent); if(dv===null){ u.taskWhy='queue'; return null; } if(!dv){ why='probe'; continue; }   /* null＝還沒量（這一格量不到、排隊）：下次 SEATACT 再來；false＝量不出來 */
       const dl=[dv.l.x-R0.l[0],dv.l.y-R0.l[1],dv.l.z-R0.l[2]], dr=[dv.r.x-R0.r[0],dv.r.y-R0.r[1],dv.r.z-R0.r[2]];
-      if(Math.max(Math.abs(dl[0]),Math.abs(dr[0]))>K.tolX) continue;   /* 手往旁邊差太多（肩膀寬很多）*/
+      if(Math.max(Math.abs(dl[0]),Math.abs(dr[0]))>K.tolX){ why='wide'; continue; }   /* 手往旁邊差太多（肩膀寬很多）*/
       const dy=(dl[1]+dr[1])/2, dz=(dl[2]+dr[2])/2;
-      const dyE=dy-(+desk.h-K.REF.desk), lift=Math.min(K.liftMax,Math.max(-K.liftMax,-dyE)); if(!(Math.abs(dyE+lift)<=(K.TOLV[kind]||K.tolV)+1e-6)) continue;   /* 手的高低和這張桌子合不上（吧台、矮桌、手比參考高或低很多的人）；lift＝往上（＋）／往下坐多少 */
-      const e0=+desk.edge-dz, sh=Math.min(K.shiftMax,Math.max(-K.shiftBack,e0-rf.edge)), e2=e0-sh, w=K.WIN[kind]&&K.WIN[kind][body]; if(!w||!(e2>=w[0]-1e-6&&e2<=w[1]+1e-6)) continue;
-      return {kind,clip,body,prop,shift:+sh.toFixed(4),lift:+lift.toFixed(4),deskH:+desk.h,edge:+desk.edge,ref:rf.edge}; }
-    return null; };
+      const dyE=dy-(+desk.h-K.REF.desk), lift=Math.min(K.liftMax,Math.max(-K.liftMax,-dyE)); if(!(Math.abs(dyE+lift)<=(K.TOLV[kind]||K.tolV)+1e-6)){ why=dyE+lift<0?'low':'high'; continue; }   /* 手的高低和這張桌子合不上（吧台、矮桌、手比參考高或低很多的人）；lift＝往上（＋）／往下坐多少 */
+      const e0=+desk.edge-dz, sh=Math.min(K.shiftMax,Math.max(-K.shiftBack,e0-rf.edge)), e2=e0-sh, w=K.WIN[kind]&&K.WIN[kind][body]; if(!w||!(e2>=w[0]-1e-6&&e2<=w[1]+1e-6)){ why=w&&e2<w[0]?'near':'far'; continue; }
+      u.taskWhy=null; return {kind,clip,body,prop,shift:+sh.toFixed(4),lift:+lift.toFixed(4),deskH:+desk.h,edge:+desk.edge,ref:rf.edge}; }
+    u.taskWhy=why; return null; };
   /* 套上／拿掉（fit＝C.sitTaskFit 的結果；null＝拿掉）：片段在 sitAmbient 裡慢慢換過去；配件馬上換（SEATACT 同一格把桌上那件藏起來／放回去）*/
   C.setSitTask=function(h,fit){ const u=h&&h.userData; if(!u) return false; if(!fit){ u.sitTask=null; propVis(u,null); return false; }
     const T=u.sitTask; if(!T||T.clip!==fit.clip||T.prop!==fit.prop||T.kind!==fit.kind||Math.abs((T.shift||0)-(fit.shift||0))>1e-4||Math.abs((T.lift||0)-(fit.lift||0))>1e-4||T.deskH!==fit.deskH) u.sitTask=Object.assign({},fit); return true; };
-  C.sitTaskOf=function(h){ const u=h&&h.userData, m=u&&u.amb; return u&&u.sitTask?{kind:u.sitTask.kind,clip:u.sitTask.clip,body:u.sitTask.body,prop:u.taskPropOn||null,playing:m&&m.tc||null,w:m&&m.tc?m.tw||0:0,rate:1,shift:u.sitTask.shift,lift:u.sitTask.lift||0,ref:u.sitTask.ref}:null; };   /* 測試用（ref＝用了哪一張參考桌子的片段：0.30／0.20，CAFE-EDGE-1105）*/
+  C.sitTaskOf=function(h){ if(h&&!h.userData&&h.obj&&h.obj.userData) h=h.obj;   /* 傳 NPC（E3.npcs 的那一筆）也可以：SEATACT-LIB3F-R2，探針 cc_lib3f_sets_probe 傳 n、不是 n.obj，三樓每個人都量成沒有片段 */
+    const u=h&&h.userData, m=u&&u.amb; return u&&u.sitTask?{kind:u.sitTask.kind,clip:u.sitTask.clip,body:u.sitTask.body,prop:u.taskPropOn||null,playing:m&&m.tc||null,w:m&&m.tc?m.tw||0:0,rate:1,shift:u.sitTask.shift,lift:u.sitTask.lift||0,ref:u.sitTask.ref}:null; };   /* 測試用（ref＝用了哪一張參考桌子的片段：0.30／0.20，CAFE-EDGE-1105）*/
   /* 右手的配件：只開 nm（null＝全部藏）；第一次用到才從 hand_props 複製一份掛上去 */
   function propVis(u,nm){ if((u.taskPropOn||null)===nm) return; u.taskPropOn=nm||null;
     if(u.taskProps) for(const k in u.taskProps) u.taskProps[k].visible=k===nm;

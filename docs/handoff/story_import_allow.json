@@ -4633,6 +4633,15 @@
    "task": "SPORT-SHOPS-1103",
    "kind": "text",
    "note": "第 1 節打烊那一句（大步、好拍、新生運動廣場）照抄進 src/xs_close3d.js；第 2 節新生運動廣場（xs_xsports）5 個互動點（看看球架、看看球鞋牆、買東西＝AA_620 第 2 節七樣、二樓看看球衣牆、系服訂做兩版）、一樓試穿椅「坐下試穿」旁白；裁縫圓凳不開放。照抄進 src/xsports_sys3d.js（XPA.L）；tests/xsports_act_unit.js 用 git show 0e112816a 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_700_打烊統一一句.md",
+   "sha": "4f60052c8",
+   "status": "approved",
+   "approvedBy": "AA-C D109（AA_700 4f60052c8：使用者 11-05 06:4x 對 AA-C「打烊時間到了就直接安排一個店員說我們今天要打烊了然後玩家就出店面」；取代 AA_695 第 4 節、AA_699 第 1 節）",
+   "task": "CLOSE-UNIFY-1105",
+   "kind": "text",
+   "note": "所有有營業時間、走得進去的店打烊時一句「我們今天要打烊了。」（店員；只有老闆在顧的店＝老闆），玩家走到門口外面、不另外出旁白；24 小時的店沒有。照抄進 src/xs_close3d.js（XSCLOSE.LINE），afar、Daybreak、青木、日常失速、木曜日、同弦各自的打烊也改叫它；tests/close_unify_unit.js 用 git show 4f60052c8 對照。LAWWW-C 子代理 2026-11-05 代登"
   }
  ]
 }

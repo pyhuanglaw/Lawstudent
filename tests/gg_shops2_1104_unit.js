@@ -9,7 +9,7 @@
 //   5 點餐、看甜點櫃、看看書架、看菜單（配置的 interact）按得到、走得到；Daybreak 的看菜單不和點餐疊在一起
 //   6 店員、路人（CROWD）、快速前往、大地圖、引路、路程、城鎮判定、index.html 載入順序、LICENSES.md、劇情匯入白名單
 // 第二部分（B，子程序：tests/pg_harness.js 的遊戲資料＋邀約系統）：
-//   7 營業時間（places.js）、關門時按門（afar 寫開放時間、Daybreak 15:00 以後木牌）、打烊請你出來（那一刻＝店員＋旁白；之後＝只寫開放時間）
+//   7 營業時間（places.js）、關門時按門（afar 寫開放時間、Daybreak 15:00 以後木牌）、打烊請你出來（那一刻＝店員「我們今天要打烊了。」一句，AA_700；之後＝只寫開放時間）
 //   8 進門一天一次（一個人；今天約在這裡不說）、點餐扣錢、錢不夠（店員那一句、不扣錢）、只有點手沖／法式吐司才說的那一句、Daybreak 吃 40 分鐘＋吃完旁白、看的東西、照位子的坐下句
 //   9 約會地點：afar（喝咖啡、剛認識就可以）、daybreak（吃飯、08:00～14:00 開始、14:00 以後的旁白）、七位答應的那一句＋一般那句、坐下以後的開場句
 //   10 台詞逐字對照 AA_652（git show 企劃線；讀不到就 SKIP）
@@ -150,7 +150,7 @@ const run=async()=>{
     finally { PLACES.typhoonClosed=TC; } }
   // ---- 7 打烊請你出來 ----
   for(const [k,c] of [['afar',21.1],['daybreak',15.1]]){ fresh('2025-10-15',c,k); const r=await GG2.closeOut(GM);
-    check(`7 ${k} 打烊那一刻（${c}）：店員一句＋走出去的旁白、回公館`,r==='close'&&J(H.said.map(s=>[s.who,s.t]))===J(GG2.L[k].close.map(x=>[x[0]?'店員':null,x[1]]))&&H.entered[0]==='gongguan',J(said()));
+    check(`7 ${k} 打烊那一刻（${c}）：店員「我們今天要打烊了。」一句（AA_700，不另外出旁白）、回公館`,r==='close'&&J(H.said.map(s=>[s.who,s.t]))===J([['店員','我們今天要打烊了。']])&&H.entered[0]==='gongguan'&&!GG2.L[k].close,J(said()));
     fresh('2025-10-16',k==='afar'?23.5:18,k); const r2=await GG2.closeOut(GM);
     check(`7 ${k} 讀檔回到關門以後：不說話、回公館、寫開放時間`,r2==='out'&&!H.said.length&&H.entered[0]==='gongguan'&&toasts.length===1,J([r2,said(),toasts])); }
   // ---- 8 進門一天一次 ----
@@ -213,7 +213,7 @@ const run=async()=>{
     if(!doc&&fs.existsSync(path.join(ROOT,'docs/story_planning/AA_652_afar與Daybreak店內台詞.md'))) doc=rd('docs/story_planning/AA_652_afar與Daybreak店內台詞.md');
     if(!doc){ console.log('SKIP 10 讀不到 AA_652（企劃線）'); }
     else { const out=[]; const T=t=>{ if(typeof t==='string') out.push(t); };
-      for(const k of ['afar','daybreak']){ const L=GG2.L[k]; L.door.forEach(T); T(L.ask); T(L.short); L.after.forEach(a=>T(a[1])); (L.eat||[]).forEach(T); Object.values(L.look).forEach(a=>a.forEach(T)); Object.values(L.seat).forEach(T); L.close.forEach(a=>T(a[1])); T(L.sign); T(GG2.ACC0[k]);
+      for(const k of ['afar','daybreak']){ const L=GG2.L[k]; L.door.forEach(T); T(L.ask); T(L.short); L.after.forEach(a=>T(a[1])); (L.eat||[]).forEach(T); Object.values(L.look).forEach(a=>a.forEach(T)); Object.values(L.seat).forEach(T); T(L.sign); T(GG2.ACC0[k]);
         Object.values(INVITE_DATA[k+'Acc']||{}).forEach(T); [].concat(...INVITE_DATA.seatOpen[k]).forEach(T); }
       T(INV.place('daybreak').lateNote({hour:15}));
       const strip=t=>t.replace(/^「|」$/g,''), bad=out.filter(t=>doc.indexOf(t)<0&&doc.indexOf(strip(t))<0);

@@ -5,7 +5,7 @@
    出遊的「走路 約 10 分鐘」「走到校門口約 10 分鐘」、地點字幕「遊覽車上」「宜蘭・民宿」「新生南路」）；稿上沒有、遊戲裡也沒有的列在報告的缺字。
    第 1 節　同弦樂器（新生南路那一排的二樓店面；AA-C 11-05 00:45：就是 src/data/xinsheng_layout.js 的 tongxian，不搬；室內區域 id xs_tongxian）
      - 營業：src/data/places.js 的 hours.xs_tongxian（12:00～21:30、週一休）、颱風天關（typhoonShops）；新生南路的店門在 story3d.js 的 onInteract 擋（LAWWW2-C）。S.isOpen／S.closedText。
-       打烊時人還在店裡（S.closeOut）＝站起來、21:30 那一刻（到 22:00；那天有開、不是颱風天）老闆一句（AA_693 A3）、回到新生南路騎樓的樓梯口外面（TX3.streetOut()）、照現在寫開放時間；
+       打烊時人還在店裡（S.closeOut）＝站起來、21:30 那一刻（到 22:00；那天有開、不是颱風天）或這一趟進來時開著＝老闆「我們今天要打烊了。」（AA_700，取代 AA_693 A3）、回到新生南路騎樓的樓梯口外面（TX3.streetOut()）、照現在寫開放時間；
        週一、颱風天、讀檔回到更晚＝不說那一句。
      - 室內區域 xs_tongxian＝src/tongxian3d.js（TX3，LAWWW2-C；配置 src/data/tongxian_layout.js）：區域只放座位和出口；這裡包住 TX3.zone.build 加按鈕（S.buttons，照木曜日的寫法）：
          看看＝吉他牆兩點（配置 interact 的 wall_n、wall_s，kind look_guitars）、烏克麗麗那面牆（ukes，kind look_ukes；AA_693 A2），各一句旁白；買東西＝櫃台（buy）。try（子晴 CG 的站位）不放按鈕。
@@ -71,7 +71,7 @@ const GUITAR=(function(){
     tryPlay:'（你拿下一把，彈了社課教的 C 和弦。老闆從櫃檯抬頭看了一眼，又低頭。）',
     tryNovice:'（你拿下一把，不知道手指要按哪裡，只撥了一下空弦。老闆從櫃檯抬頭看了一眼，又低頭。）',   /* AA_693 A5：試彈、還沒去過社課 */
     boss:['先買好彈的，不要先買好看的。','弦一個月換一次。你們學生都半年才換。','手指痛是正常的，痛兩個禮拜就不痛了。'],   /* 第 1 節：老闆的話（輪流）*/
-    closeBoss:'九點半了。明天再來。',   /* AA_693 A3：打烊（21:30）時還在店裡，老闆一句（之後照現在只出開放時間）*/
+    /* AA_693 A3 的打烊那一句（closeBoss）作廢，照 AA_700：老闆「我們今天要打烊了。」（XSCLOSE.say，下面 S.closeOut）*/
     tuned:'（老闆幫你調好音，把琴裝進琴袋。）',   /* 2-3；第 1 節「買了吉他送一個琴袋、一次調音」一個人來買也用這一句（AA_693 B：照現在）*/
     smallBag:'（老闆把東西裝進一個小紙袋，順手夾了一張收據。）',   /* AA_693 A11：買小東西（弦、Pick、移調夾）以後，三樣共用 */
     c21Narr:'（社團的吉他弦很鏽。按下去手指留了一條黑線。）',   /* 2-1：這次社課的旁白換成 */
@@ -141,7 +141,7 @@ const GUITAR=(function(){
      區域只放座位（試琴椅 try_w／try_e「試彈」、櫃台前的木凳 counter_stool「坐下」）和出口；「看看」「買東西」的按鈕這裡加（照木曜日 mokuyobi_sys3d.js：包住 zone.build，
      點的位置照 TX3.INTERACT()＝配置的 interact）：look_guitars（wall_n、wall_s）＝「看看」、look_ukes（ukes，烏克麗麗那面牆；AA_693 A2）＝「看看」、buy＝「買東西」；try＝子晴 CG 的站位，不放按鈕。
      試彈＝坐上試琴椅（STORY.onSeat：配置的 seats 照位置對到 try_w／try_e）。營業時間的店門在 story3d.js 的 onInteract 擋（places.js 的 hours.xs_tongxian）；
-     打烊時人還在店裡＝站起來、21:30 那一刻老闆一句（AA_693 A3）、走到新生南路騎樓的樓梯口外面（TX3.streetOut()）、寫開放時間（PLACES.closedText）。*/
+     打烊時人還在店裡＝站起來、21:30 那一刻老闆「我們今天要打烊了。」（AA_700）、走到新生南路騎樓的樓梯口外面（TX3.streetOut()）；颱風、讀檔回到打烊以後＝不說、寫開放時間（PLACES.closedText）。*/
   S.BTN={look_guitars:'look',look_ukes:'ukes',buy:'shop'};
   S.layout=()=>typeof TONGXIAN_LAYOUT!=='undefined'&&TONGXIAN_LAYOUT&&TONGXIAN_LAYOUT.shop?TONGXIAN_LAYOUT.shop:null;
   S.buttons=function(E){ if(!E||!Array.isArray(E.interactables)||typeof TX3==='undefined'||!TX3.INTERACT) return 0; let n=0;
@@ -163,10 +163,10 @@ const GUITAR=(function(){
   /* 打烊（21:30、週一、颱風天、讀檔回到晚上）：人還在店裡＝出去。21:30 那一刻（到 22:00；那天有開、不是颱風天）＝老闆先說一句（AA_693 A3），之後照現在寫開放時間 */
   S.closingNow=G=>{ const h=hr(G); if(h<21.5-1e-6||h>=22) return false; const ws=typeof PLACES!=='undefined'&&PLACES.windowsOf?PLACES.windowsOf(S.PLACE,G.day):null;
     return !!(ws&&ws.length)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(S.PLACE,G.day)); };
-  S.closeOut=async function(GM){ const G=GM.G, P=GM.E&&GM.E.player, h=G.hour, d=G.day, gen=S.closingNow(G); if(P&&P.seat&&GM.standUp) GM.standUp(P);
-    if(gen){ GM.sceneBegin(); try{ await GM.say(BOSS,S.L.closeBoss); } finally { GM.sceneEnd(); } }
+  S.closeOut=async function(GM){ const G=GM.G, P=GM.E&&GM.E.player, h=G.hour, d=G.day, g0=S.closingNow(G), gen=typeof XSCLOSE!=='undefined'&&XSCLOSE.gen?XSCLOSE.gen(GM,S.PLACE,g0):g0; if(P&&P.seat&&GM.standUp) GM.standUp(P);
+    if(gen){ GM.sceneBegin(); try{ if(typeof XSCLOSE!=='undefined'&&XSCLOSE.say) await XSCLOSE.say(GM,'老闆'); else await GM.say(BOSS,'我們今天要打烊了。'); } finally { GM.sceneEnd(); } }   /* AA_700：老闆一句、走出去，不另外出字 */
     const out=typeof TX3!=='undefined'&&TX3.streetOut?TX3.streetOut():null; if(GM.enter) await GM.enter('xinsheng',out?Object.assign({},out):undefined);
-    if(GM.toast&&typeof PLACES!=='undefined'&&PLACES.closedText) GM.toast(PLACES.closedText(S.PLACE,h,d),5000); return true; };
+    if(!gen&&GM.toast&&typeof PLACES!=='undefined'&&PLACES.closedText) GM.toast(PLACES.closedText(S.PLACE,h,d),5000); return true; };
   /* ---------- 偶遇子晴（第 1 節）---------- */
   S.ENC_WEEKS=[6,10,14];
   S.ZQ_OUT='guitar_zq_shop';
