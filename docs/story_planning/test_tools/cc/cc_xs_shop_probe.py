@@ -45,7 +45,8 @@ DK = {'menu': [('雙層牛肉堡套餐', 159), ('勁辣雞腿堡套餐', 149), (
       'outlet': '（你把手機插上。旁邊那個人的筆電也插在同一排，螢幕上是一份還沒寫完的報告。）', 'books': '（書架上是幾本舊雜誌和一套沒排齊的漫畫。第三集不見了。）',
       'narr': ['（你點了一杯熱咖啡。四點的時候它已經冷了。）', '（對面那桌的人整理好東西走了。下一個人五分鐘後就坐下來。）', '（窗外新生南路的車越來越少。只剩公車和計程車。）', '（天亮的時候，一樓開始賣早餐。煎蛋的味道飄上來。）'],
       'dawn': '（樓下換了早餐的菜單。有人買了滿福堡，邊走邊吃去考試。）', 'alone': '（二樓只有你和一個在打電腦的人。店員在拖地。）'}
-SAYHOOK = r"""(()=>{ if(window.__ccSayOn) return true; window.__ccSay=[]; const s0=GAME.say; GAME.say=function(who,t){ try{ window.__ccSay.push({who:who?(who.name||String(who)):null, t:String(t), h:+(+GAME.G.hour).toFixed(3), zone:GAME.G.zone}); }catch(e){} return s0.apply(this,arguments); }; window.__ccSayOn=true; return true; })()"""
+SAYHOOK = r"""(()=>{ if(!window.__ccSayWrapped){ const s0=GAME.say; GAME.say=function(who,t){ try{ (window.__ccSay=window.__ccSay||[]).push({who:who?(who.name||String(who)):null, t:String(t), h:+(+GAME.G.hour).toFixed(3), zone:GAME.G.zone}); }catch(e){} return s0.apply(this,arguments); }; window.__ccSayWrapped=true; }   /* 只包一次（11-05 雲端：__ccSayOn=false 重設又包一次＝每句記兩次）*/
+  if(!window.__ccSayOn){ window.__ccSay=[]; window.__ccSayOn=true; } return true; })()"""
 OPTS = r"""(()=>{ const ch=document.getElementById('choices'); if(!ch||ch.classList.contains('hide')) return []; return [...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).map(b=>({t:(b.innerText||'').trim(), dim:b.classList.contains('dim')||b.getAttribute('aria-disabled')==='true'})); })()"""
 
 
@@ -199,7 +200,8 @@ async def part_hours(pg, cdp):
         await pg.wait_for_timeout(500)
     s = await D.st(pg); Ls = [x['t'] for x in await says(pg, n0)]
     R.note('[打烊時在店裡] XSCLOSE.ZONES 有沒有這一間：%s；過了打烊 %s：現在 %s、台詞 %s' % (xs, J(round(s['hour'], 2)), J({k: s[k] for k in ('zone', 'x', 'z')}), J(Ls)))
-    R.check('[打烊時在店裡] 過了營業時間會被請出去（BB-C 05:27；xs_close3d 包到這一間＝%s）' % xs, bool(e) and e['zone'] == 'xinsheng' and e['stand'], J({'end': e, 'lines': Ls}))
+    # BB-C 06:18：大步、好拍、運動廣場打烊不請出去＝照實記、不算 FAIL（LAWWW-C 之後加進 XSCLOSE，等 AA 的字）
+    R.note('[打烊時在店裡] 過了營業時間有沒有被請出去：%s（xs_close3d 包到這一間＝%s；BB-C 06:18：照實記、不判）' % ('有（到 %s）' % e['zone'] if e else '沒有（還在店裡）', xs) + '  ' + J({'end': e, 'lines': Ls}))
 
 
 async def part_walls(pg, cdp):
@@ -280,16 +282,19 @@ async def dk_study(pg, cdp, tag, hours_pick):
     o2 = await until_menu_or_idle(pg, cdp, 20)
     R.note('%s 讀多久：%s' % (tag, J([x['t'] for x in o2])))
     await pick(pg, cdp, "t=>t.includes(%s)" % J(hours_pick)) or await pick(pg, cdp, "t=>true")
-    t0 = time.time()
+    t0 = time.time(); seen = []
     while time.time() - t0 < 120:
         s = await D.st(pg)
-        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
+        if s['dlg']:   # 讀完的旁白走 game3d.js 裡面的 say()（不經過 GAME.say）：直接讀對話框（等打字機打完）
+            await pg.wait_for_timeout(700); t = (await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")).strip()
+            if t and (not seen or seen[-1] != t): seen.append(t)
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); continue
         o3 = await pg.evaluate(OPTS)
         if o3 and not s['dlg']:
             await pick(pg, cdp, "t=>t.startsWith('起身')||t.startsWith('站起')") or await pick(pg, cdp, "t=>true"); await pg.wait_for_timeout(800); continue
         if not s['busy'] and not s['seat']: break
         await pg.wait_for_timeout(400)
-    Ls = [x['t'] for x in await says(pg, n0)]; h1 = await pg.evaluate("+GAME.G.hour")
+    Ls = [x['t'] for x in await says(pg, n0)] + [t for t in seen]; h1 = await pg.evaluate("+GAME.G.hour")
     R.note('%s 讀書 %.2f → %.2f：台詞 %s' % (tag, h0, h1, J(Ls)))
     return {'lines': Ls, 'h0': h0, 'h1': h1}
 

@@ -31,6 +31,8 @@ NANYANG_v2 | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_plann
 WZLIN_v1d | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_wzlin_v1c_probe.py | index.html | 60 | CC_HEADLESS=0
 SHANLAN_v2 | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_shanlan_v1_probe.py | index.html | 120 | CC_HEADLESS=0
 D118B5_r3 | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_d118b5_play.py | index.html | 60 | CC_HEADLESS=0;CASES=aunt,sats
+# BB-C 06:18 第 3 點：三樓閱覽室每個位子的 set／act（NPCTASK_r2 只有 1／10 在做事，LAWWW-C 的 Node 說 4/4 有配件組）＋拍一張；不擋
+NPCTASK_lib3f | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_lib3f_sets_probe.py | index.html | 15 | CC_HEADLESS=0
 # BB-C 05:13～05:42：新生南路新店（D141；9ea82730f）。大口＝LAWWW-C 判（D132）副本 BB-C；大步、好拍、運動廣場＝BB-C 判
 DAKOU_v1 | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_xs_shop_probe.py | index.html | 120 | CC_HEADLESS=0;SHOP=dakou
 XSSHOP_dabu | 9ea82730f471210c8df143093b7743ce4c9327a8 | probe | docs/story_planning/test_tools/cc/cc_xs_shop_probe.py | index.html | 60 | CC_HEADLESS=0;SHOP=dabu
