@@ -39,11 +39,11 @@ sec(0,()=>{ const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), a=f
   check('0. STORY.SCHED_X 有 SHOPNPC.sched、排在最後（別的模組加的作息都比較優先）；STORY.TICKS 有 SHOPNPC.tick',STORY.SCHED_X[STORY.SCHED_X.length-1]===SHOPNPC.sched&&STORY.TICKS.includes(SHOPNPC.tick),String(STORY.SCHED_X.length));
   const A=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files;
   const f705=A.find(x=>/AA_705_/.test(x.path)), f615=A.find(x=>/AA_615_/.test(x.path));
-  check('0. 劇情匯入白名單：AA_705、AA_615 @ ebea3a2b0 approved（SHOP_NPC.src 同一個 commit）',!!f705&&!!f615&&f705.sha==='f8bd25439'&&(f705.history||[]).some(h=>h.sha==='ebea3a2b0')&&f615.sha==='ebea3a2b0'&&f705.status==='approved'&&f615.status==='approved'&&SHOP_NPC.src.AA_705===f705.sha&&SHOP_NPC.src.AA_615===f615.sha);
-  check('0. 白名單的檔在那個 commit 找得到',!!git('f8bd25439',path.basename(f705.path))&&!!git('ebea3a2b0',path.basename(f615.path))); });
+  check('0. 劇情匯入白名單：AA_705、AA_615 @ ebea3a2b0 approved（SHOP_NPC.src 同一個 commit）',!!f705&&!!f615&&f705.sha==='4e6755340'&&(f705.history||[]).some(h=>h.sha==='ebea3a2b0')&&f615.sha==='ebea3a2b0'&&f705.status==='approved'&&f615.status==='approved'&&SHOP_NPC.src.AA_705===f705.sha&&SHOP_NPC.src.AA_615===f615.sha);
+  check('0. 白名單的檔在那個 commit 找得到',!!git('4e6755340',path.basename(f705.path))&&!!git('ebea3a2b0',path.basename(f615.path))); });
 
 // ---------- 1. 照稿 ----------
-const DOC=git('f8bd25439','AA_705_新店面裡遇得到的人_第一批作息.md'), DOC615=git('ebea3a2b0','AA_615_新生南路那一側_公館二輪戲院_爆米花.md');
+const DOC=git('4e6755340','AA_705_新店面裡遇得到的人_第一批作息.md'), DOC615=git('ebea3a2b0','AA_615_新生南路那一側_公館二輪戲院_爆米花.md');
 sec(1,()=>{ check('1. 讀得到企劃線的 AA_705、AA_615（git show ebea3a2b0）',!!DOC&&!!DOC615);
   const WD={'日':0,'一':1,'二':2,'三':3,'四':4,'五':5,'六':6};
   const hm=s=>{ const [a,b]=s.split(':').map(Number); return a+b/60; };
@@ -51,7 +51,7 @@ sec(1,()=>{ check('1. 讀得到企劃線的 AA_705、AA_615（git show ebea3a2b0
   check('1. 三張表共 18 列（新生南路 8、公館 6、溫州街 4）',tab.length===18&&tab.filter(t=>t.area==='新生南路').length===8&&tab.filter(t=>t.area==='公館').length===6&&tab.filter(t=>t.area==='溫州街').length===4,String(tab.length));
   const bad=[]; let n=0;
   /* AA_705 補一節（f8bd25439）：兩列換時段（表格本身沒改）——照補一節那張表的「改成」蓋過去 */
-  const REV={'山嵐書店|以安':{day:'週六',time:'19:30～20:30',src:'**週六 19:30～20:30**'},'青木茶室|學姊':{day:'單數週週日',time:'15:00～16:30',src:'**單數週週日 15:00～16:30**'}};
+  const REV={'山嵐書店|以安':{day:'週六',time:'19:30～20:30',src:'**週六 19:30～20:30**'},'青木茶室|學姊':{day:'單數週週日',time:'16:30～18:00',src:'16:30～18:00'}};
   for(const t of tab){ const rv=REV[t.shop+'|'+t.who]; if(rv){ if(!DOC.includes(rv.src)) bad.push(t.shop+' 補一節找不到 '+rv.src); t.day=rv.day; t.time=rv.time; } }
   for(const t of tab){ const asIs=/^照現在/.test(t.place)||t.day==='—'; const r=ROWS.find(q=>q.shop===t.shop&&NAME[q.who]===t.who);
     if(asIs){ const ok=t.who.split('、').every(w=>(SHOP_NPC.asIs||[]).some(q=>q.shop===t.shop&&NAME[q.who]===w))&&!r; if(!ok) bad.push(t.shop+' 照現在那一列沒有記在 asIs、或多排了'); continue; }
@@ -145,7 +145,7 @@ sec(4,()=>{ const bad=[]; let n=0;
   /* 學姊兩列合起來一學期一次 */
   { const s=row('xs_shanlan_sis'), a=row('aoki_sis'), c5=CHARACTERS.heroine_05, k5=c5.daily_schedule; c5.daily_schedule=[]; try{
       const wed=daysOf(a).find(d=>CALENDAR.termOf(d).week===3), sat=daysOf(s).find(d=>CALENDAR.termOf(d).week===4);
-      let G=setup(a,wed,15.5,true); SHOPNPC.hear(GM); const c1=caps.slice(); const F=G.flags.SHOPNPC_HEAR;
+      let G=setup(a,wed,(a.from+a.to)/2,true); SHOPNPC.hear(GM); const c1=caps.slice();   /* 青木的時段照表（AA_705 補一節：單數週週日 16:30～18:00）*/ const F=G.flags.SHOPNPC_HEAR;
       c5.daily_schedule=k5;   /* 山嵐那一次：照真的作息（青木那一週撞到總圖＝山嵐照常）*/
       G=setup(s,sat,11.5,true); G.flags.SHOPNPC_HEAR=F; SHOPNPC.hear(GM); const c2=caps.slice();
       G=setup(s,sat,11.5,true); SHOPNPC.hear(GM); const c3=caps.slice();

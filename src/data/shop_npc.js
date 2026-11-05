@@ -13,7 +13,7 @@
      moved：稿上寫的和實際排的不一樣（芷若：AA_705「給 LAWWW」那一段的規則）。
    座位、站的位置照各店的配置檔（src/data/*_layout.js）；稿上的位置配置裡沒有一模一樣的點＝取最近的真的座位（見每一列的註解）。*/
 const SHOP_NPC={
-  src:{AA_705:'f8bd25439',AA_615:'ebea3a2b0'},   /* AA_705 補一節 f8bd25439（11-05 08:17：兩列換時段、遞一小杯補旁白；表格本身和 ebea3a2b0 一樣）*/
+  src:{AA_705:'4e6755340',AA_615:'ebea3a2b0'},   /* AA_705 補一節 f8bd25439（11-05 08:17：兩列換時段、遞一小杯補旁白；表格本身和 ebea3a2b0 一樣）*/
   rows:[
     /* ---------- 新生南路 ---------- */
     {id:'xs_shanlan_an',shop:'山嵐書店',who:'heroine_01',zone:'xs_shanlan',days:[6],from:19.5,to:20.5,   /* AA_705 補一節（f8bd25439）：原本週日 14:00～15:30 永遠撞到 2:30 AM 念書 → 週六 19:30～20:30 */
@@ -38,7 +38,7 @@ const SHOP_NPC={
       place:'窗邊，筆電寫報告（read）',hear:{who:null,t:'（語彤一個人坐窗邊，筆電旁邊那杯冰紅茶一口都沒喝。）'}},   /* 窗邊吧台（table 6）最西邊那一張 */
     {id:'daybreak_ps',shop:'Daybreak',who:'classmate_peishan',zone:'daybreak',days:[6],from:10.5,to:12,weeks:'even',act:'eat',pose:'seat',seat:[-3.05,3.45,0],
       place:'靠窗的兩人桌，吃早午餐（eat）',hear:{who:'classmate_peishan',t:'這家的鬆餅好大！……我一個人吃不完，可是我還是點了。'}},   /* 靠窗兩人桌（table 1）；留給約好的人那一組就換旁邊的靠窗兩人桌 */
-    {id:'aoki_sis',shop:'青木茶室',who:'heroine_05',zone:'aoki',days:[0],from:15,to:16.5,weeks:'odd',   /* AA_705 補一節（f8bd25439）：原本週三下午永遠撞到總圖／法圖 → 單數週週日 15:00～16:30（和山嵐雙數週週六錯開）*/
+    {id:'aoki_sis',shop:'青木茶室',who:'heroine_05',zone:'aoki',days:[0],from:16.5,to:18,weeks:'odd',   /* AA_705 補一節（f8bd25439→4e6755340）：原本週三下午永遠撞到總圖／法圖；週日 13:00～16:00 她在美術館 → 單數週週日 16:30～18:00（美術館回來以後；和山嵐雙數週週六錯開）*/
      act:'read',pose:'seat',seat:[-3.25,-2.15,0],
       place:'最裡面那張桌，看書（read）',hear:{who:null,t:'（學姊一個人坐在最裡面，茶壺旁邊攤著一疊影印的判決。）'}},   /* 離店門最遠的那張四人桌（table 5）靠牆那一張 */
     {id:'bikeshop_kai',shop:'慢輪單車',who:'kai',zone:'bikeshop',days:[0],from:15,to:16,act:'wander',pose:'stand',at:[1.5,4.3,Math.PI/2,0],
