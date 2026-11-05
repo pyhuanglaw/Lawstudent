@@ -1534,3 +1534,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
 - 2026-11-06T06:50:14  V21R_soc_fr_yu  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  1231s  timeout 20 min    [yu] phone 約 選單 ["去 2:30 AM 念書", "去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "去 afar café 念書", "返回"] → 選「去 2:30 AM 念書」 /   [yu] phone 約 選單 ["今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「今天 12:10」 / INFO [yu] phone 約：手機自己打開（遊戲暫停），按「收起來」  
 - 2026-11-06T06:53:57  V21R_soc_fr_classmate_mingxuan  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  1037s       用了 16.8 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
       err.log (last 5): [gpu_wrap 1006.6s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 1006.6s] BROWSER DISCONNECTED
+- 2026-11-06T07:23:27  V21R_soc_heroine_02_talk  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  1445s       用了 22.9 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
+      err.log (last 5): [gpu_wrap 1376.9s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 1376.9s] BROWSER DISCONNECTED
