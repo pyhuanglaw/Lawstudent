@@ -309,20 +309,20 @@ const CHAR = (function(){
      u.ladder＝sleep_scene（story3d.js 爬宿舍梯子、上下床的時候設，站回梯子前拿掉）：有的話 climb（爬上去）、climbdown（爬下來）都走這一段；沒有＝照舊（climb 通用的兩手交替、climbdown 走路片段）。
      路線：N0＝梯子前（approach，地上）→ N1…Nn＝每一階的踏點（steps）→ 最上面一階 Nn ↔ 上床點 B（bed_entry）。人在哪一段、走到幾成（e）：root 投影到路線上（story3d.js 的 bedTween 沿直線移，一階 0.38 秒）。
      每一段（爬上去 N(k−1)→Nk、爬下來 Nk→N(k−1)）：
-       前半段（e 0～0.5）帶頭的那隻腳（到第奇數階＝左腳、偶數＝右腳）從原本那一階踩到下一階，對側的手換到下一階的點；後半段另一隻腳跟上、另一隻手換過去。
+       前半段（時間的前一半，t 0～0.5；root 是緩進緩出）帶頭的那隻腳（到第奇數階＝左腳、偶數＝右腳）從原本那一階踩到下一階，對側的手換到下一階的點；後半段另一隻腳跟上、另一隻手換過去。
        ① 腳（ladderLean）：兩段式 IK（ik2，膝蓋往前），腳掌放平（綁定姿勢的腳底朝下）、腳尖朝前方往外 splay；踩在踏階上＝腳底在踏面的高度、
           整個腳的輪廓（綁定姿勢量的腳尖 toe、腳跟 heel、半寬 hw：footRef）在那一階前緣（下一階的立面；最上面一階＝牆）後面 toeM。爬上去先往上（高過踏面 lift）再往前、腳尖微微翹；
           爬下來先往前（腳跟越過踏階的邊）再往下。後面那隻腳搆不到：整個人往下沉（drop，和 footIK 一樣是移 u.model；下一格 fitOff 放回去）。爬上去的第一段：起點＝開始爬那一格兩腳的位置（不跳格）。
        ② 手（ladderArms，headFit 以後）：抓的點 p 在扶手中心線上（離扶手轉折太近的往直的那一段裡面移 bendM：ladGrip）——四指根那一排沿著扶手（大拇指朝上；水平的扶手大拇指朝前），
           手繞著扶手轉到手腕在靠肩膀那一邊、四指從另一邊包過去；握的中心（指根中間往掌心 palm、往指尖 palmF）放在 p，手腕照這個方向擺（readIK 的 palmFrame／basisQ）；
           四指每一節彎到剛好貼著扶手（ladWrap：扶手半徑＋手指半厚的切線）。
-          換手：從上一階的點移到下一階的點，中間往肩膀收（pull）、手指放開一點（open）。第 0 階（地上）＝片段的手；null（最上面一階）＝兩手放在大腿上（和跪姿 kneelArms 同一個位置）：
+          換手：先往手背那邊拿開（away）、手指打開（open），移到下一階的點再貼上去、包起來（中間沒有手的方向的時候往肩膀收 pull）。第 0 階（地上）＝片段的手；null（最上面一階）＝兩手放在大腿上（和跪姿 kneelArms 同一個位置）：
           爬上去最後一段兩手從扶手放到大腿上、爬下來第一段從大腿（跪姿）直接移到第 4 階的點。
        ③ 上身：爬上去照通用的往前靠（up）；爬下來（面向房間）只微微往前、低頭看腳下（down）。
      最上面一階轉身、跪上床（kneel）、從床上起來（kneel→climbdown）、下到地上（idle）：權重照舊是 climbW（慢慢變）——腳照 root 的高度站（轉身時跟著轉、不進牆），跪姿照舊（kneelBody／kneelArms）。
      C.LADDER 是參數；u.ladSt＝現在的狀態（ph：段、e、帶頭的腳；tg：兩腳的目標；hp：兩手；drop；測試用）。C.climbIK=false：整個關掉（照舊的走路片段）。測試：node tests/climb_grips_feet_unit.js */
-  C.LADDER={sep:0.09,splay:0.08,toeM:0.015,lift:0.04,pitchUp:0.12,pitchDn:0.1,reach:0.985,dropMax:0.3,off:0.35,band:0.06,kneeR:0.065,kneeMax:1.2,elbowR:0.05,elbowMax:1.2,handR:0.05,wallM:0.015,wallMax:0.3,palm:0.031,palmF:0.01,railR:0.016,fingR:0.0085,wrapMax:[1.2,1.6,1.4],wrapOpen:0.9,bendM:0.035,bendFar:0.08,armReach:0.97,wristOff:0.085,pull:0.15,open:0.45,thigh:0.25,
-    up:{lean:0.14,chest:0.06,neck:-0.16},down:{lean:0.05,chest:0.03,neck:0.16}};
+  C.LADDER={sep:0.09,splay:0.08,toeM:0.015,lift:0.04,leadEnd:0.5,trailStart:0.5,swUp:[0.4,1,0,0.5,0,0.5],swDn:[0,0.55,0.4,1,0,0.5],pitchUp:0.12,pitchDn:0.1,reach:0.985,dropMax:0.3,off:0.35,band:0.06,kneeR:0.065,kneeMax:1.2,kneeOut:0.12,kneeBack:0.12,kneeUp:0.2,kneeIn:0.35,elbowR:0.05,elbowMax:1.2,handR:0.05,wallM:0.015,wallMax:0.3,palm:0.033,palmF:0.01,away:0.045,railR:0.016,fingR:0.0085,wrapMax:[1.2,1.6,1.4],wrapOpen:0.9,bendM:0.035,bendT:0.04,bendFar:0.08,armReach:0.97,wristOff:0.085,slideMax:0.15,handMinR:0.27,handWide:[0.85,0.15],pull:0.15,open:0.6,thigh:0.25,
+    up:{lean:0.14,chest:0.06,neck:-0.16},down:{lean:0.05,chest:0.03,neck:0.16},leanWall:[0.12,0.35],sideW:0.21,headSoft:1.2,squatBack:0.6};
   const LADG=new WeakMap(), LDV=[0,1,2,3,4,5,6,7].map(()=>new THREE.Vector3()), LDQ=[new THREE.Quaternion(),new THREE.Quaternion()], LDM=[new THREE.Matrix4(),new THREE.Matrix4()], LDUP=new THREE.Vector3(0,1,0);
   const lsm=x=>x<=0?0:x>=1?1:x*x*(3-2*x);
   /* 路線（每個 sleep_scene 算一次）：N[0]＝梯子前（地上）、N[1..n]＝踏點；ax＝往上爬的水平方向（往牆）；T[j]＝第 j 階的中心、踏面高度、前緣 front（沿 ax：下一階的立面，最上面一階＝牆）。
@@ -333,27 +333,43 @@ const CHAR = (function(){
     const be=sc.bed_entry||(Lie.feet?[Lie.feet[0],Lie.mattress_top_y!=null?Lie.mattress_top_y:Lie.feet[1],Lie.feet[2]]:null);
     const ax=new THREE.Vector3().subVectors(N[n],N[n>1?1:0]).setY(0); if(ax.lengthSq()<1e-8) ax.set(0,0,1); ax.normalize();
     const T=[null]; for(let j=1;j<=n;j++){ const d=n>1?Math.abs((j<n?N[j+1].clone().sub(N[j]):N[j].clone().sub(N[j-1])).dot(ax)):0.25; T.push({c:N[j],y:N[j].y,front:N[j].dot(ax)+d/2,d}); }
-    G={n,N,B:be?new THREE.Vector3(+be[0],+be[1],+be[2]):null,ax,T,grips:{up:(sc.grips&&sc.grips.up)||[],down:(sc.grips&&sc.grips.down)||[]},rails:sc.rails||null,adj:new Map()}; LADG.set(sc,G); return G; }
+    G={n,N,B:be?new THREE.Vector3(+be[0],+be[1],+be[2]):null,ax,T,grips:{up:(sc.grips&&sc.grips.up)||[],down:(sc.grips&&sc.grips.down)||[]},rails:sc.rails||null,adj:new Map()}; G.railP=G.rails?Object.keys(G.rails).filter(k=>Array.isArray(G.rails[k])&&G.rails[k].length>1).map(k=>G.rails[k].map(v=>new THREE.Vector3(+v[0],+v[1],+v[2]))):[]; LADG.set(sc,G); return G; }
+  /* 抓的點搆不到（人還在兩階中間、身體還低，或扶手在腰旁邊、比肩膀低一個手臂長）：手沿著扶手往肩膀那邊滑到剛好搆得到的地方（手腕在扶手靠肩膀那一邊 wristOff；最多滑 slideMax）。
+     每一格照現在的肩膀算：身體上來，手就慢慢滑回抓的點（爬梯子的時候手順著扶手往上滑）；抓的點本身搆得到＝不動 */
+  function ladReachOn(G,A,sh,Ra){ const K=C.LADDER, P=A.poly, off=K.wristOff, need=p=>{ const e=sh.clone().sub(p), d=e.length(); return Math.sqrt(Math.max(0,d*d-Math.pow(e.dot(A.dir),2)))>off?p.distanceTo(sh)-off:d; };
+    if(!P||need(A.p)<=Ra) return A; const S=[0]; for(let i=1;i<P.length;i++) S.push(S[i-1]+P[i].distanceTo(P[i-1])); const tot=S[S.length-1];
+    const at=t=>{ t=Math.max(0,Math.min(tot,t)); let i=0; while(i<P.length-2&&S[i+1]<t) i++; const L=S[i+1]-S[i], d=P[i+1].clone().sub(P[i]); return {p:P[i].clone().addScaledVector(d,L>1e-9?(t-S[i])/L:0),d:L>1e-9?d.multiplyScalar(1/L):A.dir.clone()}; };
+    let s0=0, bd=Infinity; for(let i=0;i+1<P.length;i++){ const ab=P[i+1].clone().sub(P[i]), L2=ab.lengthSq(); if(L2<1e-12) continue; const t=Math.max(0,Math.min(1,A.p.clone().sub(P[i]).dot(ab)/L2)), d=P[i].clone().addScaledVector(ab,t).distanceTo(A.p); if(d<bd){ bd=d; s0=S[i]+t*Math.sqrt(L2); } }
+    const sg=need(at(s0+0.01).p)<need(at(s0-0.01).p)?1:-1; let lo=0, hi=null; for(let x=0.01;x<=K.slideMax+1e-9;x+=0.01){ if(need(at(s0+sg*x).p)<=Ra){ hi=x; break; } lo=x; }
+    if(hi==null) hi=K.slideMax; else for(let it=0;it<5;it++){ const m=(lo+hi)/2; if(need(at(s0+sg*m).p)<=Ra) hi=m; else lo=m; }
+    const c=at(s0+sg*hi); return {p:c.p,dir:c.d.dot(A.dir)<0?c.d.negate():c.d,poly:P}; }
   /* 抓的點離扶手的轉折太近（例：門那一側扶手直段和斜段的轉角、上下床扶手頂上的彎）：四指根那一排沿著直的那一段，轉過去的那一段會穿過手指——
-     沿著扶手（sleep_scene.rails 的中心線）找離原本最近、前後 bendM 以內都是直的（離那一段的直線 ≤ 4 mm）的點（最多移 bendFar）。回傳 {p, dir}（世界座標；dir＝那裡的方向）*/
+     沿著扶手（sleep_scene.rails 的中心線）找離原本最近、小指那一邊 bendM、大拇指那一邊 bendT 以內都是直的（離那一段的直線 ≤ 4 mm）的點（最多移 bendFar）。回傳 {p, dir}（世界座標；dir＝那裡的方向）*/
   function ladGrip(G,g){ let A=G.adj.get(g); if(A) return A; const p=new THREE.Vector3(+g.p[0],+g.p[1],+g.p[2]), dir=new THREE.Vector3().fromArray(Array.isArray(g.dir)?g.dir:[0,1,0]); if(dir.lengthSq()<1e-8) dir.set(0,1,0); dir.normalize(); A={p,dir};
     const P=G.rails&&Array.isArray(G.rails[g.on])?G.rails[g.on].map(v=>new THREE.Vector3(+v[0],+v[1],+v[2])):null, M=C.LADDER.bendM, FAR=C.LADDER.bendFar;
     if(P&&P.length>1){ const S=[0]; for(let i=1;i<P.length;i++) S.push(S[i-1]+P[i].distanceTo(P[i-1])); const tot=S[S.length-1];
       const at=t=>{ t=Math.max(0,Math.min(tot,t)); let i=0; while(i<P.length-2&&S[i+1]<t) i++; const L=S[i+1]-S[i]; const d=P[i+1].clone().sub(P[i]); return {p:P[i].clone().addScaledVector(d,L>1e-9?(t-S[i])/L:0),d:L>1e-9?d.multiplyScalar(1/L):dir.clone()}; };
       let s0=0, bd=Infinity; for(let i=0;i+1<P.length;i++){ const ab=P[i+1].clone().sub(P[i]), L2=ab.lengthSq(); if(L2<1e-12) continue; const t=Math.max(0,Math.min(1,p.clone().sub(P[i]).dot(ab)/L2)), d=P[i].clone().addScaledVector(ab,t).distanceTo(p); if(d<bd){ bd=d; s0=S[i]+t*Math.sqrt(L2); } }
-      const straight=t=>{ const c=at(t); if(t-M<-1e-6||t+M>tot+1e-6) return t-M<-1e-6&&t+M>tot+1e-6?false:dev(c,t)<=0.004; return dev(c,t)<=0.004; }, dev=(c,t)=>{ let m=0; for(let x=Math.max(0,t-M);x<=Math.min(tot,t+M)+1e-9;x+=0.004){ const q=at(x).p.sub(c.p); q.addScaledVector(c.d,-q.dot(c.d)); m=Math.max(m,q.length()); } return m; };
+      /* 大拇指那一邊（大拇指朝上：扶手往上的那一頭；水平的照 dir）要直的長一點（食指、大拇指伸出去 bendT），小指那一邊 M */
+      const up=at(s0).d, tu=Math.abs(up.y)>0.1?(up.y>0?1:-1):(up.dot(dir)>=0?1:-1), MT=C.LADDER.bendT, lo=t=>t-(tu>0?M:MT), hi=t=>t+(tu>0?MT:M);
+      const dev=(c,t)=>{ let m=0; for(let x=Math.max(0,lo(t));x<=Math.min(tot,hi(t))+1e-9;x+=0.004){ const q=at(x).p.sub(c.p); q.addScaledVector(c.d,-q.dot(c.d)); m=Math.max(m,q.length()); } return m; }, straight=t=>dev(at(t),t)<=0.004;
       if(bd<0.01&&!straight(s0)){ let best=null; for(let k=1;k*0.004<=FAR;k++){ for(const t of [s0-k*0.004,s0+k*0.004]){ if(t<0||t>tot) continue; if(straight(t)){ best=t; break; } } if(best!=null) break; }
         if(best!=null){ const c=at(best); A={p:c.p,dir:c.d.dot(dir)<0?c.d.clone().negate():c.d.clone()}; } }
       else if(bd<0.01){ const c=at(s0); A={p,dir:c.d.dot(dir)<0?c.d.clone().negate():c.d.clone()}; } }
-    G.adj.set(g,A); return A; }
+    if(P) A.poly=P; G.adj.set(g,A); return A; }
+  /* 這一段裡第 i 隻手換到幾成（0＝還在上一階的點、1＝抓到下一階的點）：先動的手（帶頭那隻腳的對側）時間的前半（t 0～0.5）、另一隻後半；
+     一頭是地上（片段的手）或最上面一階（大腿）的那一段，手要移 0.6～0.9 m：兩隻手都拉長（先動的 0～handWide[0]、另一隻 handWide[1]～1），先動的還是先動、先到
+     （搆不到的時候手沿著扶手往肩膀那邊滑：ladReachOn）*/
+  function ladHandS(ph,i,G){ const f=i!==ph.lead, t=ph.t, c=x=>Math.max(0,Math.min(1,x)), W=C.LADDER.handWide; if(ph.src===0||ph.dst===0||ph.src===G.n||ph.dst===G.n) return f?c(t/W[0]):c((t-W[1])/(1-W[1])); return f?c(t/0.5):c((t-0.5)/0.5); }
   /* root 在路線的哪一段、走到幾成：投影到每一段（N[s−1]→N[s]、最上面一階→上床點）取最近的；離路線超過 off＝不在梯子上（null）。
      src／dst＝這一段從哪一階到哪一階（0＝地上）；lead＝帶頭的腳（0 左、1 右：到第奇數階＝左腳）。兩段接起來的那一點兩邊算出來的姿勢一樣（兩腳都在那一階、手在那一階的點）*/
   function ladPhase(h,G,up){ const p=h.getWorldPosition(LDV[0]); let best=null;
     const seg=(A,B,s,bed)=>{ const ab=LDV[1].subVectors(B,A), L2=ab.lengthSq(), t=L2>1e-9?Math.max(0,Math.min(1,LDV[2].subVectors(p,A).dot(ab)/L2)):0, d=LDV[2].copy(A).addScaledVector(ab,t).distanceTo(p); if(!best||d<best.d-1e-6) best={s,t,d,bed}; };
     for(let s=1;s<=G.n;s++) seg(G.N[s-1],G.N[s],s,false); if(G.B) seg(G.N[G.n],G.B,G.n+1,true);
     if(!best||best.d>C.LADDER.off) return null;
-    if(best.bed) return {bed:true,up,e:up?best.t:1-best.t,src:G.n,dst:G.n,lead:0};
-    const src=up?best.s-1:best.s, dst=up?best.s:best.s-1; return {bed:false,up,e:up?best.t:1-best.t,src,dst,lead:dst%2?0:1}; }
+    const e=up?best.t:1-best.t, t=e<0.5?Math.sqrt(e/2):1-Math.sqrt((1-e)/2);   /* t＝時間的比例：bedTween 沿直線是緩進緩出（二次），e＝位置的比例 */
+    if(best.bed) return {bed:true,up,e,t,src:G.n,dst:G.n,lead:0};
+    const src=up?best.s-1:best.s, dst=up?best.s:best.s-1; return {bed:false,up,e,t,src,dst,lead:dst%2?0:1}; }
   C._ladder={geo:ladGeo,grip:(sc,g)=>{ const G=ladGeo(sc); return G?ladGrip(G,g):null; }};   /* 測試用（tests/climb_grips_feet_unit.js）*/
   /* 腳的輪廓（綁定姿勢＝T 字、腳底平放；腳踝骨頭的座標）：fwd／up／lat＝往前（腳尖的水平方向）、往上、往左；toe、heel＝腳尖往前、腳跟往後多遠，hw＝半寬，sole＝腳踝離腳底（腳踝以下的頂點）；
      toeQ＝腳趾骨頭在綁定姿勢的本地旋轉（踩平時腳趾放直）。每個人物量一次（只有爬梯子的玩家用得到）*/
@@ -377,9 +393,10 @@ const CHAR = (function(){
     const d=F.clone().applyAxisAngle(LDUP,side*K.splay), tr=root?G.T[G.n]:(j>0?G.T[j]:null);
     if(tr){ const da=d.dot(G.ax), ex=p.dot(G.ax)+Math.max(R.toe*da,-R.heel*da)*R.s+Math.abs(d.z*G.ax.x-d.x*G.ax.z)*R.hw*R.s-(tr.front-K.toeM*k); if(ex>0) p.addScaledVector(G.ax,-ex); }
     return {p,d,pitch:0}; }
-  /* 一隻腳從 A 踩到 B（s 0～1）：爬上去先往上（s 0～0.5）再往前（0.4～1）、腳尖翹一點；爬下來先往前（0～0.55）再往下（0.4～1）、腳尖朝下一點；中間多抬 lift */
-  function ladSwing(A,B,s,up,k){ const K=C.LADDER, hs=up?lsm((s-0.4)/0.6):lsm(s/0.55), vs=up?lsm(s/0.5):lsm((s-0.4)/0.6), b=Math.sin(Math.PI*s);
-    const p=A.p.clone(); p.x+=(B.p.x-A.p.x)*hs; p.z+=(B.p.z-A.p.z)*hs; p.y+=(B.p.y-A.p.y)*vs+K.lift*k*b;
+  /* 一隻腳從 A 踩到 B（s 0～1）：swUp／swDn＝[水平開始, 水平結束, 垂直開始, 垂直結束, 往回縮多少, 往回縮到 s 幾]——爬上去先往上再往前（腳尖先高過上一階的踏面再往前）、腳尖翹一點；
+     爬下來先往前（腳跟越過踏階的邊）再往下、腳尖朝下一點；中間多抬 lift；往回縮＝一開始先把腳往後收一點（腳尖離開立面，可以早一點往前）*/
+  function ladSwing(A,B,s,up,k){ const K=C.LADDER, W=up?K.swUp:K.swDn, hs=lsm((s-W[0])/(W[1]-W[0])), vs=lsm((s-W[2])/(W[3]-W[2])), b=Math.sin(Math.PI*s);
+    const p=A.p.clone(); p.x+=(B.p.x-A.p.x)*hs; p.z+=(B.p.z-A.p.z)*hs; p.y+=(B.p.y-A.p.y)*vs+K.lift*k*b; if(W[4]){ const bk=Math.sin(Math.PI*Math.min(1,s/W[5]))*W[4]*k, d=LDV[4].set(B.p.x-A.p.x,0,B.p.z-A.p.z); if(d.lengthSq()>1e-8) p.addScaledVector(d.normalize(),-bk); }
     return {p,d:A.d.clone().lerp(B.d,hs).normalize(),pitch:(up?-K.pitchUp:K.pitchDn)*b}; }
   /* 腳掌的世界方向：腳的 fwd→d（繞左右軸 pitch：正＝腳尖朝下）、up→世界的上 */
   function ladFootQ(R,d,pitch,out){ const lat=LDV[5].set(d.z,0,-d.x).normalize(), fw=LDV[6].copy(d), up=LDV[7].set(0,1,0); if(pitch){ fw.applyAxisAngle(lat,pitch); up.applyAxisAngle(lat,pitch); }
@@ -400,10 +417,21 @@ const CHAR = (function(){
     for(let al=0.05;al<=maxA+1e-6;al+=0.05){ const v=over(al); if(v<=0){ hi=al; break; } if(v<bv){ bv=v; best=al; } lo=al; }
     if(hi==null) hi=best; else for(let it=0;it<6;it++){ const m=(lo+hi)/2; if(over(m)<=0) hi=m; else lo=m; }
     if(hi>1e-4) ik2(a,b,c,T,A0.clone().addScaledVector(d0.clone().multiplyScalar(Math.cos(hi)).addScaledVector(d1,Math.sin(hi)),1)); return hi; }
+  /* 中間的關節繞「根→末端」的軸再往 out 那一邊轉 ang（ladFit 之後，慢慢轉回來用）*/
+  function ladTwist(a,b,c,T,out,ang){ const A=a.getWorldPosition(new THREE.Vector3()), Bp=b.getWorldPosition(new THREE.Vector3()), ax=c.getWorldPosition(new THREE.Vector3()).sub(A), L=ax.length(); if(L<1e-4) return; ax.multiplyScalar(1/L);
+    const A0=A.clone().addScaledVector(ax,Bp.clone().sub(A).dot(ax)), d0=Bp.clone().sub(A0); if(d0.lengthSq()<1e-8) return; d0.normalize(); const d1=new THREE.Vector3().crossVectors(ax,d0); if(d1.dot(out)<0) d1.negate();
+    ik2(a,b,c,T,A0.clone().addScaledVector(d0.clone().multiplyScalar(Math.cos(ang)).addScaledVector(d1,Math.sin(ang)),1)); }
   /* 兩腳：腳踝到 T[i]（膝蓋往前、往外一點；碰到立面或牆＝往外轉 ladFit）、腳掌的世界方向 Q[i] */
   function ladLegs(h,u,G,R,F,Lt,T,Q){ const K=C.LADDER, k=u.k||1;
-    for(let i=0;i<2;i++){ const L=LEGS[i], side=i?-1:1, c=R[L[2]]; ik2(R[L[0]],R[L[1]],c,T[i],R[L[1]].getWorldPosition(new THREE.Vector3()).addScaledVector(F,1).addScaledVector(Lt,side*0.12));
-      ladFit(R[L[0]],R[L[1]],c,T[i],G,K.kneeR*k,LDV[5].copy(Lt).multiplyScalar(side).addScaledVector(G.ax,-0.5),K.kneeMax);
+    const S=u.ladSt, kf=S&&(S.kf||(S.kf=[0,0]));
+    for(let i=0;i<2;i++){ const L=LEGS[i], side=i?-1:1, c=R[L[2]]; ik2(R[L[0]],R[L[1]],c,T[i],R[L[1]].getWorldPosition(new THREE.Vector3()).addScaledVector(F,1).addScaledVector(Lt,side*K.kneeOut));
+      /* 膝蓋碰到立面、牆就往外轉（ladFit）；轉的角度照時間慢慢變（每一格最多 kneeUp、轉回來 kneeBack），不在一格裡甩過去、彈回去 */
+      const ko=()=>LDV[5].copy(Lt).multiplyScalar(side).addScaledVector(G.ax,-0.5), wo=Lt.dot(G.ax)*side;   /* 往外、往後；轉身的時候靠牆那一隻腳的「外」是牆：只轉一點（不往裡面甩過另一隻腳），靠 ladWallFit 把人往外移 */
+      const a=ladFit(R[L[0]],R[L[1]],c,T[i],G,K.kneeR*k,ko(),wo>0.3?K.kneeIn:K.kneeMax);
+      if(kf){ const want=Math.min(kf[i]+K.kneeUp,Math.max(a,kf[i]-K.kneeBack)); let got=a;   /* 每一格最多轉 kneeUp、轉回 kneeBack（弧度）：膝蓋不在一格裡甩過去 */
+        if(Math.abs(want-a)>1e-4){ const pen=()=>{ const kn=R[L[1]].getWorldPosition(LDV[3]); return kn.dot(G.ax)+K.kneeR*k-ladLimit(G,kn.y,K.kneeR*k); }, p0=pen(); ladTwist(R[L[0]],R[L[1]],c,T[i],ko(),want-a);
+          if(pen()>Math.max(0,p0)+0.003) ladTwist(R[L[0]],R[L[1]],c,T[i],ko(),a-want); else got=want; }   /* 慢慢轉回來的角度會讓膝蓋插進立面、牆（轉身的時候）＝不留 */
+        kf[i]=got; }
       if(Q[i]){ c.parent.getWorldQuaternion(LDQ[1]); c.quaternion.copy(LDQ[1].invert().multiply(Q[i])); c.updateWorldMatrix(false,true); } } }
   /* 後面那隻腳搆不到（髖關節到腳踝 > 腿長 × reach）＝要往下沉多少；hipOff＝髖關節要再加的位移（算「走到一半」的樣子）*/
   function ladReach(R,tg,hipOff){ const K=C.LADDER; let drop=0;
@@ -422,27 +450,33 @@ const CHAR = (function(){
     u.ladCap0=null;
     const stand=(j,i)=>j===0&&up&&S.cap?S.cap[i]:ladStand(G,j,i,F,Lt,RF[i],k,null);
     let tg, Dh=0; if(ph.bed){ const rp=h.getWorldPosition(new THREE.Vector3()); tg=[0,1].map(i=>ladStand(G,G.n,i,F,Lt,RF[i],k,rp)); }
-    else { tg=[0,1].map(i=>{ const A=stand(ph.src,i), B=stand(ph.dst,i), s=i===ph.lead?ph.e/0.5:(ph.e-0.5)/0.5; return s<=0?A:s>=1?B:ladSwing(A,B,s,up,k); });
+    else { tg=[0,1].map(i=>{ const A=stand(ph.src,i), B=stand(ph.dst,i), s=i===ph.lead?ph.t/K.leadEnd:(ph.t-K.trailStart)/(1-K.trailStart); return s<=0?A:s>=1?B:ladSwing(A,B,s,up,k); });
       Dh=ladReach(R,[0,1].map(i=>i===ph.lead?stand(ph.dst,i):stand(ph.src,i)),G.N[ph.src].clone().add(G.N[ph.dst]).multiplyScalar(0.5).sub(h.getWorldPosition(new THREE.Vector3()))); }   /* 走到一半（帶頭的腳剛踩到、後面的腳還在原本那一階）要沉多少 */
     let WL=act&&(S.full||(up&&S.cap))?1:(ph.bed&&!up&&act?Math.max(w,lsm(ph.e/0.6)):w); if(act&&WL>=0.999){ WL=1; S.full=true; }   /* 到了 1 就一直是 1（爬到最後一階、站回地上以前不再看時間的權重：不跳）*/   /* 從床上下來（上床點→最上面一階）：照走到幾成換成站在踏階上（跪姿的腳背朝下，慢慢換的話腳尖會插進最上面那一階）*/
-    /* 往下沉：照這一格兩腳的目標要沉多少（後面那隻腳搆得到），和「走到一半要沉的 Dh」的曲線（前半段 sin(πe)、後半段 1−smoothstep）取大的——身體跟著換腳慢慢沉下去、再推上來，不會在後腳離開那一格突然彈起來 */
-    let drop=Math.max(ladReach(R,tg,null),ph.bed?0:Dh*(ph.e<0.5?Math.sin(Math.PI*ph.e):1-lsm((ph.e-0.5)/0.5)));
-    /* 抓著的手搆不到（扶手在腰旁邊、比肩膀低一個手臂長）：再蹲低一點（抓著的那一刻最多、換手的時候慢慢放掉）*/
-    if(!ph.bed){ const E0=(j,i)=>{ if(j===0) return null; const row=(up?G.grips.up:G.grips.down)[j-1], g=row&&row[i]; return g&&Array.isArray(g.p)?g:null; };
-      for(let i=0;i<2;i++){ const s0=Math.max(0,Math.min(1,i!==ph.lead?ph.e/0.5:(ph.e-0.5)/0.5)), g=s0<0.5?E0(ph.src,i):E0(ph.dst,i), hw=1-lsm(Math.min(1,(s0<0.5?s0:1-s0)/0.25)); if(!g||!(hw>0)) continue;
-        const A=ladGrip(G,g), L=ARMS[i], sh=R[L[0]].getWorldPosition(new THREE.Vector3()), Ra=(sh.distanceTo(R[L[1]].getWorldPosition(LDV[2]))+LDV[2].distanceTo(R[L[2]].getWorldPosition(LDV[4])))*K.armReach;
-        const e1=sh.clone().sub(A.p); e1.addScaledVector(A.dir,-e1.dot(A.dir)); const wp=A.p.clone().addScaledVector(e1.lengthSq()>1e-8?e1.normalize():e1,K.wristOff*k), hd=Math.hypot(sh.x-wp.x,sh.z-wp.z);   /* 手腕在扶手靠肩膀那一邊、垂直扶手的方向 */ if(hd<Ra){ const nd=(sh.y-wp.y)-Math.sqrt(Ra*Ra-hd*hd); if(nd*hw>drop) drop=nd*hw; } } }
+    /* 往下沉：照這一格兩腳的目標要沉多少（後面那隻腳搆得到），和「走到一半要沉的 Dh」的曲線（照時間 t：前半段 smoothstep 上去、後半段 smoothstep 下來；兩頭、中間都是平的）取大的——
+       身體跟著換腳慢慢沉下去、再推上來，不會在後腳離開那一格突然彈起來，一階接一階的地方也不頓 */
+    /* 最上面一階站直頭頂會高過天花板的限制（u.headMax）：最後一段爬上去的後半段不完全站起來、停在剛好的蹲低 Dt；爬下來第一段從 Dt 開始（上床點、轉身那幾格也是 Dt）——
+       不要等站上去才讓 headFit 一下子往前彎（頭往牆那邊去、整個人被往後推）*/
+    let Dt=0; if(C.headFitOn&&u.headMax!=null&&headPts(u)){ const HR=C.HEADROOM, stand=headTopW(h,u)-h.getWorldPosition(LDV[4]).y; Dt=Math.min(K.dropMax*k,Math.max(0,G.T[G.n].y+stand-(u.headMax-HR.margin-HR.soft*k*K.headSoft)))*lsm(F.dot(G.ax)/0.7); }   /* 面向牆才蹲（側身、背對牆＝headFit 往前彎，頭沿著牆、往房間那邊去，膝蓋不往牆那邊頂）*/
+    const atTop=(j)=>j===G.n?Dt:0, t=ph.t;
+    let plan=ph.bed?Dt*(up?1-lsm(ph.e/0.6):lsm(ph.e/0.6)):(t<0.5?atTop(ph.src)+(Dh-atTop(ph.src))*lsm(t/0.5):atTop(ph.dst)+(Dh-atTop(ph.dst))*(1-lsm((t-0.5)/0.5)));
+    if(!ph.bed&&Dh<Math.max(atTop(ph.src),atTop(ph.dst))) plan=atTop(ph.src)+(atTop(ph.dst)-atTop(ph.src))*lsm(t);
+    let drop=Math.max(ladReach(R,tg,null),plan);
     drop=Math.min(drop,K.dropMax*k)*WL; if(drop>1e-4){ u.model.position.y-=drop; u.fitOff=true; h.updateWorldMatrix(true,true); }
+    /* 蹲下去的時候屁股往後（面向梯子、牆的時候）：重心留在腳上面，膝蓋不往前頂進立面、牆（不然 ladFit 要把膝蓋往外轉很多，像青蛙腿）*/
+    const sb=K.squatBack*drop*Math.max(0,F.dot(G.ax)); if(sb>1e-4){ u.model.position.z-=sb; u.fitOff=true; h.updateWorldMatrix(true,true); } S.sb=sb;
     /* 兩腳：腳踝到目標（權重 WL 小＝從原本的位置慢慢過去）、腳掌放平、腳趾放直 */
     const T2=[], Q2=[]; for(let i=0;i<2;i++){ const c=R[LEGS[i][2]], q0=c.getWorldQuaternion(new THREE.Quaternion()), T=tg[i].p.clone(); if(WL<1) T.lerp(c.getWorldPosition(LDV[1]),1-WL); T2.push(T);
       const q=ladFootQ(RF[i],tg[i].d,tg[i].pitch,new THREE.Quaternion()); if(WL<1) q.slerp(q0,1-WL); Q2.push(q);
       const t=R[LEGS[i][3]]; if(t&&RF[i].toeQ){ t.quaternion.slerp(RF[i].toeQ,WL); t.updateWorldMatrix(false,true); } }
     ladLegs(h,u,G,R,F,Lt,T2,Q2);
     /* ③ 上身 */
-    const Kd=up?K.up:K.down; if(R.spine) rotWorld(R.spine,Lt,Kd.lean*w); if(R.chest) rotWorld(R.chest,Lt,Kd.chest*w); if(R.neck) rotWorld(R.neck,Lt,Kd.neck*w);
+    /* 爬上去越接近牆（最上面一階離牆只有 10 cm）越站直：往前靠的上身會把頭、胸口推進牆（ladWallFit 就要把整個人往後移很多）*/
+    const Kd=up?K.up:K.down, wl=up&&F.dot(G.ax)>0.5?lsm((G.T[G.n].front-h.getWorldPosition(LDV[4]).dot(G.ax)-K.leanWall[0])/K.leanWall[1]):1, lw=w*wl;
+    if(R.spine) rotWorld(R.spine,Lt,Kd.lean*lw); if(R.chest) rotWorld(R.chest,Lt,Kd.chest*lw); if(R.neck) rotWorld(R.neck,Lt,Kd.neck*lw);
     /* 兩手的計畫：第 0 階＝片段的手（clip）、null＝大腿（thigh）、其他＝抓的點（grip）；先動的手＝帶頭那隻腳的對側 */
     const E=(j,i)=>{ if(j===0) return {k:'clip'}; const row=(up?G.grips.up:G.grips.down)[j-1], g=row&&row[i]; return g&&Array.isArray(g.p)?{k:'grip',g}:{k:'thigh'}; };
-    S.hp=[0,1].map(i=>ph.bed?{A:{k:'thigh'},B:{k:'thigh'},s:1}:{A:E(ph.src,i),B:E(ph.dst,i),s:Math.max(0,Math.min(1,i!==ph.lead?ph.e/0.5:(ph.e-0.5)/0.5))});
+    S.hp=[0,1].map(i=>ph.bed?{A:{k:'thigh'},B:{k:'thigh'},s:1}:{A:E(ph.src,i),B:E(ph.dst,i),s:ladHandS(ph,i,G)});
     S.tg=tg; S.drop=drop; S.Dh=Dh; S.WL=WL; S.WH=act?1:w; S.F=F; S.Lt=Lt; }
   /* 上半身（臀部、脊椎、胸口、脖子、頭、頭髮、大腿根、肩膀；不含再下去的手腳）的頂點，在綁定姿勢取 96 個方向上最外面的那幾點（每一點記蒙皮的骨頭、骨頭座標、權重；同 headPts）：量上半身往牆那邊最遠到哪裡 */
   function bodyPts(u){ if(u.bodySup!==undefined) return u.bodySup; const hm=u.vrm.humanoid, hips=hm.getRawBoneNode('hips'); if(!hips) return (u.bodySup=null);
@@ -459,7 +493,9 @@ const CHAR = (function(){
   /* 上半身不進牆（headFit 以後）：上半身往牆那邊最遠的點超過「牆 − wallM」＝整個人往後移（u.model；最多 wallMax），兩腳照原本的位置、方向重新 IK（腳不動）*/
   function ladWallFit(h,u,G,R,S){ const K=C.LADDER, k=u.k||1, P=bodyPts(u); if(!P) return; h.updateWorldMatrix(true,true); let mx=-Infinity;
     for(const parts of P){ let x=0, z=0; for(let c=0;c<parts.length;c+=3){ const e=parts[c].matrixWorld.elements, q=parts[c+1], wt=parts[c+2]; x+=wt*(e[0]*q.x+e[4]*q.y+e[8]*q.z+e[12]); z+=wt*(e[2]*q.x+e[6]*q.y+e[10]*q.z+e[14]); } const a=x*G.ax.x+z*G.ax.z; if(a>mx) mx=a; }
-    const def=mx-(G.T[G.n].front-K.wallM*k); S.wall=def; if(!(def>1e-4)) return; const sh=Math.min(def,K.wallMax*k)*S.WH; if(!(sh>1e-4)) return;
+    /* 側身對著牆（最上面一階轉身、從床上下來）：身體的半寬 sideW 要在牆外面——照 root 離牆多遠、側過來多少（|左方·往牆|）先算好要往外移多少（跟著轉身慢慢移，不靠量到才推）*/
+    const rd=G.T[G.n].front-h.getWorldPosition(LDV[2]).dot(G.ax), plan=S.Lt?K.sideW*k*Math.abs(S.Lt.dot(G.ax))-(rd-K.wallM*k):0;
+    const def=Math.max(mx-(G.T[G.n].front-K.wallM*k),plan); S.wall=def; if(!(def>1e-4)) return; const sh=Math.min(def,K.wallMax*k)*S.WH; if(!(sh>1e-4)) return;
     const keepT=[0,1].map(i=>R[LEGS[i][2]].getWorldPosition(new THREE.Vector3())), keepQ=[0,1].map(i=>R[LEGS[i][2]].getWorldQuaternion(new THREE.Quaternion()));
     const d=LDV[1].copy(G.ax).multiplyScalar(-sh).applyQuaternion(h.getWorldQuaternion(LDQ[0]).invert()); u.model.position.add(d); u.fitOff=true; h.updateWorldMatrix(true,true); S.shift=sh;
     ladLegs(h,u,G,R,S.F,S.Lt,keepT,keepQ); }
@@ -469,10 +505,11 @@ const CHAR = (function(){
       const FG=u.rawFing||(u.rawFing={}), fb=FG[pre]||(FG[pre]=['Index','Middle','Ring','Little'].map(f=>['Proximal','Intermediate','Distal'].map(j=>hm.getRawBoneNode(pre+f+j))));
       const sh=R[L[0]].getWorldPosition(new THREE.Vector3()), cur=hand.getWorldPosition(new THREE.Vector3()), fc=new THREE.Vector3(), nc=new THREE.Vector3();
       const pf=palmFrame(hand,fb[0][0],fb[1][0],fb[3][0],i===0,fc,nc), qc=pf?basisQ(fc,nc,new THREE.Quaternion()):null;
+      const Ra=(sh.distanceTo(R[L[1]].getWorldPosition(LDV[1]))+LDV[1].distanceTo(cur))*K.armReach;   /* 手腕最遠搆得到 */
       const kn=pf?(()=>{ const v=new THREE.Vector3(); let m=0; for(const row of fb) if(row[0]){ v.add(row[0].getWorldPosition(LDV[1])); m++; } return v.multiplyScalar(1/m); })():null;   /* 四個指根的中間 */
       const ev=D=>{ if(D.k==='clip') return {p:cur.clone(),q:null,c:0};
         if(D.k==='thigh'){ const Q=C.KNEEL, T=R[LEGS[i][0]].getWorldPosition(new THREE.Vector3()).lerp(R[LEGS[i][1]].getWorldPosition(LDV[1]),Q.handF); T.y+=Q.handUp*k; T.addScaledVector(Lt,side*Q.handOut*k); return {p:T,q:null,c:K.thigh}; }
-        const GA=ladGrip(G,D.g), p=GA.p.clone(); if(!pf) return {p,q:null,c:1};
+        const GA=ladReachOn(G,ladGrip(G,D.g),sh,Ra), p=GA.p.clone(); if(!pf) return {p,q:null,c:1};
         const a=GA.dir.clone(), v=LDV[2].subVectors(p,sh).normalize(); if(a.y<-0.1||(Math.abs(a.y)<=0.1&&a.dot(v)<0)) a.negate();   /* 大拇指朝上；水平的扶手朝前（沿著伸手的方向）*/
         /* 手繞著扶手轉到「手腕在扶手靠肩膀那一邊」（四指從另一邊包過去）：握的中心（指根中間往掌心 palm、往指尖 palmF）在 p，手腕離肩膀最近（搆得到、手腕不用硬折）。
            手掌座標（f＝手指、n＝掌心）裡手腕→握的中心＝(cf, cn, ca)；f 在垂直扶手的平面上轉 γ：手腕的方向＝肩膀的方向 e1 */
@@ -480,17 +517,30 @@ const CHAR = (function(){
         const e1=sh.clone().sub(p); e1.addScaledVector(a,-e1.dot(a)); if(e1.lengthSq()<1e-8){ e1.copy(Lt).multiplyScalar(-side); e1.addScaledVector(a,-e1.dot(a)); } e1.normalize(); const e2=new THREE.Vector3().crossVectors(a,e1);
         const ga=i===0?-Math.atan2(cn,-cf):-Math.atan2(-cn,-cf), f=e1.clone().multiplyScalar(Math.cos(ga)).addScaledVector(e2,Math.sin(ga)).normalize();
         const n=i===0?new THREE.Vector3().crossVectors(f,a):new THREE.Vector3().crossVectors(a,f); n.normalize();
-        return {p:p.addScaledVector(f,-cf).addScaledVector(n,-cn).addScaledVector(a,-ca),q:basisQ(f,n,new THREE.Quaternion()),c:1}; };
-      const A=ev(P.A), B=ev(P.B), m=lsm(P.s), T=A.p.clone().lerp(B.p,m); if(P.s>0&&P.s<1) T.lerp(sh,K.pull*Math.sin(Math.PI*P.s)); if(WH<1) T.lerp(cur,1-WH);
-      const pole=h.localToWorld(h.worldToLocal(sh.clone()).add(LDV[2].set(side*0.5*k,-0.6*k,-0.1*k))); if(WH<1) pole.lerp(R[L[1]].getWorldPosition(LDV[3]),1-WH);
+        return {p:p.addScaledVector(f,-cf).addScaledVector(n,-cn).addScaledVector(a,-ca),q:basisQ(f,n,new THREE.Quaternion()),n,f,c:1}; };
+      /* 換手：先把手從扶手上拿開（往手背那邊 away，一開始就拿開、快到才貼上去：bump 中間是平的），再移到下一個點；手指一開始就打開、快到才包起來 */
+      const A=ev(P.A), B=ev(P.B), m=lsm(P.s), bump=lsm(Math.min(1,P.s/0.3))*lsm(Math.min(1,(1-P.s)/0.3)), T=A.p.clone().lerp(B.p,m);
+      if(bump>0){ const aw=new THREE.Vector3(); if(A.n) aw.addScaledVector(A.n,-(1-m)); if(B.n) aw.addScaledVector(B.n,-m); if(aw.lengthSq()>1e-8) T.addScaledVector(aw.normalize(),K.away*k*bump); else T.lerp(sh,K.pull*bump);
+        /* 換手的途中別穿過旁邊的扶手（例：床尾板頂→上下床扶手）：手腕、指根、指尖附近（沿手指方向 0、6、10 cm）離每一根扶手的中心線至少 扶手半徑＋5／3／2 cm，不夠就往外推（貼上去的那一刻 bump＝0：不推）*/
+        const r0=(G.rails&&+G.rails.r)||K.railR, fd=new THREE.Vector3(); if(A.f) fd.addScaledVector(A.f,1-m); if(B.f) fd.addScaledVector(B.f,m); if(fd.lengthSq()<1e-8) fd.copy(T).sub(sh); fd.normalize();
+        for(let it=0;it<3;it++){ let best=null, bd=0; for(const [o,c] of [[0,K.handR],[0.06,0.03],[0.1,0.02]]){ const hc=T.clone().addScaledVector(fd,o*k); for(const RP of G.railP){ const q=ladNear(RP,hc), d=q.distanceTo(hc), need=r0+c*k-d; if(need>bd&&d>1e-5){ bd=need; best=hc.sub(q).multiplyScalar(1/d); } } }
+          if(!best) break; T.addScaledVector(best,bd*bump); } }
+      { const d=T.distanceTo(sh), mr=K.handMinR*k; if(d<mr&&d>1e-5) T.sub(sh).multiplyScalar(mr/d).add(sh); }   /* 手腕不經過肩膀旁邊（手臂折太緊，手肘會繞一圈）*/
+      if(WH<1) T.lerp(cur,1-WH);
+      /* 手肘的方向：往外下（p1）、往外後（p2），各取垂直「肩膀→手腕」的部分，照 p1 有多垂直混（手腕在肩膀外下方、扶手在腰旁邊的時候 p1 和手臂幾乎平行，只用 p1 手肘會繞一圈）*/
+      const ax3=T.clone().sub(sh), al=ax3.length(), hq=h.getWorldQuaternion(LDQ[0]); let pole;
+      if(al>1e-4){ ax3.multiplyScalar(1/al); const q1=LDV[6].set(side*0.5,-0.6,-0.1).normalize().applyQuaternion(hq), q2=LDV[7].set(side*0.6,0,-0.8).normalize().applyQuaternion(hq); q1.addScaledVector(ax3,-q1.dot(ax3)); q2.addScaledVector(ax3,-q2.dot(ax3));
+        const w1=Math.min(1,q1.lengthSq()/0.25); pole=sh.clone().addScaledVector(q1,w1*0.6*k).addScaledVector(q2,(1-w1)*0.6*k); }
+      else pole=h.localToWorld(h.worldToLocal(sh.clone()).add(LDV[2].set(side*0.5*k,-0.6*k,-0.1*k)));
+      if(WH<1) pole.lerp(R[L[1]].getWorldPosition(LDV[3]),1-WH);
       { const ov=T.dot(G.ax)+K.handR*k-ladLimit(G,T.y,K.handR*k); if(ov>0) T.addScaledVector(G.ax,-ov); }   /* 手（大腿、片段的位置）不伸進牆、立面 */
       ik2(R[L[0]],R[L[1]],hand,T,pole); ladFit(R[L[0]],R[L[1]],hand,T,G,K.elbowR*k,LDV[5].copy(G.ax).negate(),K.elbowMax);   /* 手肘、上臂、前臂碰到牆、立面：往後轉 */
       if(pf&&(A.q||B.q)&&palmFrame(hand,fb[0][0],fb[1][0],fb[3][0],i===0,fc,nc)){ const qn=basisQ(fc,nc,new THREE.Quaternion()), qt=(A.q||qn).clone().slerp(B.q||qn,m); if(WH<1) qt.slerp(qn,1-WH); rotWorldQ(hand,qt.multiply(qn.invert())); }   /* 手掌方向 */
-      let cu=A.c+(B.c-A.c)*m; if(A.q&&B.q&&P.s>0&&P.s<1) cu*=1-K.open*Math.sin(Math.PI*P.s); cu*=WH;   /* 手指彎多少（0＝片段、1＝握住）*/
+      let cu=(A.c+(B.c-A.c)*m)*(A.q||B.q?1-K.open*bump:1)*WH;   /* 手指彎多少（0＝片段、1＝握住）*/
       /* 握住：四指沿著扶手包起來（ladWrap）；還在換手（離扶手遠）照通用的 ⑤ 彎法（C.CLIMB.grip），越接近抓的那一刻越照包的角度 */
-      const D=P.s<0.5?P.A:P.B, gr=D.k==='grip'?D.g:null, wq=gr?(P.s<=0||P.s>=1?1:1-Math.sin(Math.PI*P.s)):0;
+      const D=P.s<0.5?P.A:P.B, gr=D.k==='grip'?D.g:null, wq=gr?1-bump:0;
       if(cu>1e-3&&fb[0][0]&&fb[3][0]){ const ax=fb[0][0].getWorldPosition(LDV[4]).sub(fb[3][0].getWorldPosition(LDV[5])); if(ax.lengthSq()>1e-8){ ax.normalize();
-        ladWrap(u,pre,fb,ax,i?1:-1,gr?ladGrip(G,gr):null,((G.rails&&+G.rails.r)||K.railR)+K.fingR*k,wq,cu,C.CLIMB.grip); } }
+        ladWrap(u,G,pre,fb,ax,i?1:-1,gr?ladGrip(G,gr):null,((G.rails&&+G.rails.r)||K.railR)+K.fingR*k,wq,cu,C.CLIMB.grip); } }
       P.T=T; P.cu=cu; } }
   /* 指尖在遠節骨頭座標的位置（綁定姿勢的手指是直的：遠節＋中節→遠節的 0.85 倍）：每個人物量一次 */
   function fingTips(u,pre,fb){ const F=u.fingTip||(u.fingTip={}); if(F[pre]) return F[pre]; const out=[];
@@ -498,22 +548,35 @@ const CHAR = (function(){
         const pI=new THREE.Vector3().setFromMatrixPosition(LDM[0].copy(o.skeleton.boneInverses[ii]).invert()), pD=new THREE.Vector3().setFromMatrixPosition(LDM[0].copy(o.skeleton.boneInverses[di]).invert());
         t=pD.clone().addScaledVector(pD.clone().sub(pI),0.85).applyMatrix4(o.skeleton.boneInverses[di]); }); } out.push(t); }
     return (F[pre]=out); }
-  /* 四指包住扶手：每一節（指根→中節→遠節，依序）繞指根那一排的連線 ax 轉 sg×θ（θ＞0＝往掌心彎）：θ＝這一節的骨頭線從現在的方向彎到「剛好碰到」扶手（扶手中心線外 rho＝扶手半徑＋手指半厚）的那條切線；
-     已經插進去就往回打開到切線（最多 wrapOpen：片段的手指本來就半彎）；扶手不在彎的那一邊＝照通用的角度。wq＝包的權重（換手的途中照通用的 gen×cu）*/
-  function ladWrap(u,pre,fb,ax,sg,g,rho,wq,cu,gen){ const MX=C.LADDER.wrapMax, tips=fingTips(u,pre,fb), O=g?g.p:null, Dr=g?g.dir:null;
-    fb.forEach((row,r)=>{ for(let j=0;j<3;j++){ const b=row[j]; if(!b) break; let th=gen[j];
-      if(O&&wq>0){ const Bp=b.getWorldPosition(new THREE.Vector3()), Cw=j<2&&row[j+1]?row[j+1].getWorldPosition(new THREE.Vector3()):(tips[r]?b.localToWorld(tips[r].clone()):null);
-        if(Cw){ const c=Cw.sub(Bp); c.addScaledVector(ax,-c.dot(ax)); const L=c.length();
-          if(L>1e-4){ const e1=c.multiplyScalar(1/L), e2=new THREE.Vector3().crossVectors(ax,e1), o=O.clone().addScaledVector(Dr,Bp.clone().sub(O).dot(Dr)).sub(Bp); o.addScaledVector(ax,-o.dot(ax));
-            const Dd=Math.hypot(o.dot(e1),o.dot(e2)), psi=Math.atan2(sg*o.dot(e2),o.dot(e1)), be=Dd>rho?Math.asin(rho/Dd):Math.PI/2; let t=psi-be;
-            if(psi+be<0) t=MX[j]; t=Math.max(-C.LADDER.wrapOpen,Math.min(MX[j],t)); th=gen[j]+(t/Math.max(cu,1e-3)-gen[j])*wq; } } }
-      rotWorld(b,ax,sg*th*cu); } });
-    /* 大拇指：整根（掌骨）繞 ax 轉到「根→指尖」這條線剛好貼著扶手（兩條切線裡轉得少的那一條；本來就沒碰到＝不動）：大拇指沿著扶手、不插進扶手 */
-    if(O&&wq>0){ const hm=u.vrm.humanoid, t0=hm.getRawBoneNode(pre+'ThumbMetacarpal')||hm.getRawBoneNode(pre+'ThumbProximal'), tip=thumbTip(u,pre);
-      if(t0&&tip){ const Bp=t0.getWorldPosition(new THREE.Vector3()), c=tip.b.localToWorld(tip.v.clone()).sub(Bp); c.addScaledVector(ax,-c.dot(ax)); const L=c.length();
-        if(L>1e-4){ const e1=c.multiplyScalar(1/L), e2=new THREE.Vector3().crossVectors(ax,e1), o=O.clone().addScaledVector(Dr,Bp.clone().sub(O).dot(Dr)).sub(Bp); o.addScaledVector(ax,-o.dot(ax));
-          const Dd=Math.hypot(o.dot(e1),o.dot(e2)), psi=Math.atan2(o.dot(e2),o.dot(e1)), be=Dd>rho?Math.asin(rho/Dd):Math.PI/2;
-          if(Math.abs(psi)<be){ const t=Math.abs(psi-be)<Math.abs(psi+be)?psi-be:psi+be; rotWorld(t0,ax,t*wq*Math.min(1,cu)); } } } } }
+  /* 四指包住扶手：每一節（指根→中節→遠節，依序）繞指根那一排的連線 ax 轉 sg×θ（θ＞0＝往掌心彎）。每一根扶手（抓的那一根＝g 的直線；旁邊的＝G.railP 的中心線離這一節最近的那一段）
+     都算一個 θ：這一節的骨頭線從現在的方向彎到「剛好碰到」那根扶手（中心線外 rho＝扶手半徑＋手指半厚）的那條切線（已經插進去＝往回打開到切線，最多 wrapOpen：片段的手指本來就半彎），
+     取最小的＝最多可以彎到哪裡。抓著（wq 1）＝彎到 θ（貼著扶手）；放開、換手的途中＝通用的 gen×cu，但不超過 θ；附近沒有扶手＝通用的 */
+  function ladWrap(u,G,pre,fb,ax,sg,g,rho,wq,cu,gen){ const MX=C.LADDER.wrapMax, OP=C.LADDER.wrapOpen, tips=fingTips(u,pre,fb), near=rho+0.04;
+    const lim=(Bp,Cw,j,sgn)=>{ const c=Cw.clone().sub(Bp); c.addScaledVector(ax,-c.dot(ax)); const L=c.length(); if(L<1e-4) return null; const e1=c.multiplyScalar(1/L), e2=new THREE.Vector3().crossVectors(ax,e1), mid=Bp.clone().lerp(Cw,0.5);
+      const obs=[]; if(g) obs.push([g.p,g.dir]); for(const RP of G.railP){ const q=ladNear(RP,mid,LDV[6]); if(q.distanceTo(mid)<near) obs.push([q.clone(),LDV[6].clone()]); }
+      let t=null; for(const [O,Dr] of obs){ const o=O.clone().addScaledVector(Dr,Bp.clone().sub(O).dot(Dr)).sub(Bp); o.addScaledVector(ax,-o.dot(ax)); const Dd=Math.hypot(o.dot(e1),o.dot(e2)); if(Dd>near+L) continue;
+        const psi=Math.atan2(sgn*o.dot(e2),o.dot(e1)), be=Dd>rho?Math.asin(rho/Dd):Math.PI/2; let tt=psi-be; if(psi+be<0) tt=MX[j]; tt=Math.max(-OP,Math.min(MX[j],tt)); if(t==null||tt<t) t=tt; }
+      return t; };
+    fb.forEach((row,r)=>{ for(let j=0;j<3;j++){ const b=row[j]; if(!b) break; let ph=gen[j]*cu;
+      const Bp=b.getWorldPosition(new THREE.Vector3()), Cw=j<2&&row[j+1]?row[j+1].getWorldPosition(new THREE.Vector3()):(tips[r]?b.localToWorld(tips[r].clone()):null);
+      const t=Cw?lim(Bp,Cw,j,sg):null; if(t!=null){ const lo=Math.min(ph,t); ph=lo+(t-lo)*(g?wq:0); }
+      if(Cw&&G.railP.length){ const v0=Cw.clone().sub(Bp), L=v0.length(), NR=G.railP.filter(RP=>ladNear(RP,Bp).distanceTo(Bp)<L+rho+0.02);   /* 再檢查一次（扶手和手指彎的平面斜交、旁邊的扶手）：這一節的中間、末端離每一根扶手中心線 ≥ rho，不夠就換一個角度 */
+        const pen=phi=>{ const v=v0.clone().applyAxisAngle(ax,sg*phi); for(const t2 of [0.5,1]){ const P=Bp.clone().addScaledVector(v,t2); for(const RP of NR) if(ladNear(RP,P).distanceTo(P)<rho) return true; } return false; };
+        if(NR.length&&pen(ph)){ for(let k2=1;k2<=26;k2++){ const a1=ph-k2*0.06, a2=ph+k2*0.06; if(a1>=-OP&&!pen(a1)){ ph=a1; break; } if(a2<=MX[j]&&!pen(a2)){ ph=a2; break; } } } }   /* 往兩邊找最近的不碰的角度（旁邊的扶手在手指張開的那一邊＝多彎一點）*/
+      rotWorld(b,ax,sg*ph); } });
+    /* 大拇指：整根（掌骨）繞 ax 轉到「根→指尖」這條線剛好貼著抓的那根扶手（兩條切線裡轉得少的那一條；本來就沒碰到＝不動）；
+       再看大拇指的關節、指尖離每一根扶手中心線最近的那一點（扶手在那裡轉彎、旁邊別的扶手），往外轉到剛好不碰（一次最多 0.6 弧度）*/
+    const hm=u.vrm.humanoid, t0=hm.getRawBoneNode(pre+'ThumbMetacarpal')||hm.getRawBoneNode(pre+'ThumbProximal'), tip=thumbTip(u,pre); if(!t0||!tip) return;
+    if(g){ const Bp=t0.getWorldPosition(new THREE.Vector3()), c=tip.b.localToWorld(tip.v.clone()).sub(Bp); c.addScaledVector(ax,-c.dot(ax)); const L=c.length();
+      if(L>1e-4){ const e1=c.multiplyScalar(1/L), e2=new THREE.Vector3().crossVectors(ax,e1), o=g.p.clone().addScaledVector(g.dir,Bp.clone().sub(g.p).dot(g.dir)).sub(Bp); o.addScaledVector(ax,-o.dot(ax));
+        const Dd=Math.hypot(o.dot(e1),o.dot(e2)), psi=Math.atan2(o.dot(e2),o.dot(e1)), be=Dd>rho?Math.asin(rho/Dd):Math.PI/2;
+        if(Math.abs(psi)<be){ const tt=Math.abs(psi-be)<Math.abs(psi+be)?psi-be:psi+be; rotWorld(t0,ax,tt); } } }
+    const ch=['ThumbProximal','ThumbDistal'].map(n=>hm.getRawBoneNode(pre+n)).filter(b=>b&&b!==t0);
+    for(let it=0;it<3;it++){ let tw=null, q=null, d=Infinity; for(const P of ch.map(b=>b.getWorldPosition(new THREE.Vector3())).concat([tip.b.localToWorld(tip.v.clone())])) for(const RP of G.railP){ const qq=ladNear(RP,P), dd=qq.distanceTo(P); if(dd<d){ d=dd; tw=P; q=qq.clone(); } }
+      if(!(d<rho-1e-4)) break; const Bp2=t0.getWorldPosition(new THREE.Vector3()), td=tw.clone().sub(Bp2), aw=tw.clone().sub(q), axr=new THREE.Vector3().crossVectors(td,aw); if(axr.lengthSq()<1e-12||td.lengthSq()<1e-8) break; axr.normalize();
+      rotWorld(t0,axr,Math.min(0.6,(rho-d+0.002)/td.length())); } }
+  /* 折線 P 上離 v 最近的點（dir 給了＝放那一段的方向）*/
+  function ladNear(P,v,dir){ let bd=Infinity; const out=new THREE.Vector3(), ab=new THREE.Vector3(), c=new THREE.Vector3(); for(let i=0;i+1<P.length;i++){ ab.subVectors(P[i+1],P[i]); const L2=ab.lengthSq(); const t=L2>1e-12?Math.max(0,Math.min(1,c.subVectors(v,P[i]).dot(ab)/L2)):0; c.copy(P[i]).addScaledVector(ab,t); const d=c.distanceToSquared(v); if(d<bd){ bd=d; out.copy(c); if(dir&&L2>1e-12) dir.copy(ab).multiplyScalar(1/Math.sqrt(L2)); } } return out; }
   /* 大拇指尖在大拇指遠節座標的位置（綁定姿勢：遠節＋前一節→遠節的 0.85 倍）*/
   function thumbTip(u,pre){ const F=u.thumbTipC||(u.thumbTipC={}); if(F[pre]!==undefined) return F[pre]; const hm=u.vrm.humanoid, ch=['ThumbMetacarpal','ThumbProximal','ThumbDistal'].map(n=>hm.getRawBoneNode(pre+n)).filter(Boolean); let out=null;
     if(ch.length>=2){ const I=ch[ch.length-2], Dd=ch[ch.length-1]; u.vrm.scene.traverse(o=>{ if(out||!o.isSkinnedMesh||!o.skeleton) return; const bs=o.skeleton.bones, ii=bs.indexOf(I), di=bs.indexOf(Dd); if(ii<0||di<0) return;
