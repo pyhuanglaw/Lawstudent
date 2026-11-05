@@ -6175,6 +6175,44 @@
    "note": "第 1 版進遊戲（D141）：AA v5 模型原封不動；兩層導航（樓梯 25 階、上半段兩層共用、挑空站不住）、L2_ 網格搬二樓組（剖面視角）、slabs、16 座位；坐地板 10、互動點 7 給 LAWWW（SH3.FLOOR_SIT／INTERACT）｜測試：07dfffe15＋南洋接線＋騎樓＋這一包 shanlan_unit 19 項、seat_reach（16 座位）＋26 支 ALL PASS｜先將就 8 項在 README 第 2 節（二樓兩盆大盆栽在一樓網格要 AA 改、窗外沒街景、沒烘光照、店門字括號套括號…）｜LAWWW-C 9c124e41c 已接",
    "next": "LAWWW-C：git checkout af845b3a5 -- 五個檔；先套 nanyang_wire_1105.patch 再套 shanlan_wire_1105.patch（index.html、places.js、story3d.js、seat_reach、LICENSES）；坐地板、互動點台詞照 AA_613 接",
    "remaining": "瀏覽器沒跑（D131）；二樓兩盆盆栽 AA 改 Blender；窗卡；光照；颱風天等 AA"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "ee917acd3",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "GLB-WALLDIR-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/wz_lin_v1c_1105/walldir_1105.patch",
+    "tests/wall_dir_inherit_unit.js",
+    "docs/art-rebuild/second_ai/wip/wz_lin_v1c_1105/README.md"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "擋玩（遊戲裡現在就有）：attachRoomGLB 的 WALL_ 網格沒有 extras.dir 時一律 [0,0,1]；BB 套件把 dir 寫在空節點 → 日和便利店 cvs_interior.glb 5 塊有 4 塊（前、左、右）鏡頭從外面看不淡出、擋住人｜zones3d.js wallDirOf：沿用上層節點的 dir｜tests/wall_dir_inherit_unit.js 修改前 FAIL 2 → ALL PASS；自己有 dir 的（阿德、日常失速）照舊",
+   "next": "LAWWW-C：git checkout ee917acd3 -- tests/wall_dir_inherit_unit.js；git apply walldir_1105.patch（9c124e41c 上乾淨，可以單獨接）",
+   "remaining": "瀏覽器沒跑（D131）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "ee917acd3",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "WZ-SHOPS1-1104",
+   "files": [
+    "src/data/lin_layout.js",
+    "assets/models/env/second_ai/bb_support/lin_interior.glb",
+    "tools/blender/env_second/bb_support/lin_interior.py",
+    "tools/blender/env_second/bb_support/lin_tex.py",
+    "tests/wz_lin_v1c_unit.js",
+    "docs/art-rebuild/second_ai/wip/wz_lin_v1c_1105/wz_lin_v1c_wire_1105.patch",
+    "docs/art-rebuild/second_ai/wip/wz_lin_v1c_1105/README.md"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "林家乾麵 v1c（BB 9308d3301，LAWWW2-C 收件 MODEL_READY）進遊戲：lin_layout.js 載入就換掉 WZ_SHOPS_LAYOUT.lin；門窗出口出生點不變、四桌 12 位子、桌號照舊｜擋玩兩處：左欄兩張紅凳 npcOnly（0.6 m 的縫）、那一條擋起來（原本 5 點小孤島）｜其他四間（2:30 AM、小路、SUNNY SIDE、阿德）開發分支已是最新｜測試：wz_lin_v1c_unit 舊配置 FAILED 5 → ALL PASS；wz_shops2_unit 加新配置 FAIL 2 → ALL PASS；本包 11 支＋另外 32 支 ALL PASS",
+   "next": "LAWWW-C：git checkout ee917acd3 -- 六個檔；git apply wz_lin_v1c_wire_1105.patch（index.html、zones3d.js 登錄 GLB、LICENSES、8 支測試清單；9c124e41c 上乾淨）",
+   "remaining": "瀏覽器沒跑（D131）；先將就 4 項在 README 第 3 節"
   }
  ]
 }

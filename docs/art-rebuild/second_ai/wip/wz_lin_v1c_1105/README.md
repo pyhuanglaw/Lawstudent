@@ -63,7 +63,7 @@
 
 ## 4. 接法（LAWWW-C）
 
-1. 拿檔案：`git checkout <SHA> -- src/data/lin_layout.js assets/models/env/second_ai/bb_support/lin_interior.glb tools/blender/env_second/bb_support/lin_interior.py tools/blender/env_second/bb_support/lin_tex.py tests/wall_dir_inherit_unit.js tests/wz_lin_v1c_unit.js`
+1. 拿檔案：`git checkout ee917acd3 -- src/data/lin_layout.js assets/models/env/second_ai/bb_support/lin_interior.glb tools/blender/env_second/bb_support/lin_interior.py tools/blender/env_second/bb_support/lin_tex.py tests/wall_dir_inherit_unit.js tests/wz_lin_v1c_unit.js`
 2. 套 patch：
    - `git apply docs/art-rebuild/second_ai/wip/wz_lin_v1c_1105/walldir_1105.patch`
    - `git apply docs/art-rebuild/second_ai/wip/wz_lin_v1c_1105/wz_lin_v1c_wire_1105.patch`
