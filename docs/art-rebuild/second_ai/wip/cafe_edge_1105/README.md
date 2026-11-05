@@ -76,7 +76,7 @@ LAWWW2-C，2026-11-05。來源：LAWWW-C 11-04 21:42Z 的第 3 點「Café 桌�
 1. 先接 SIT-HEIGHT-1104（267f3d9a9）：`git checkout` 那一串＋`git apply sit_height_1104.patch`。
 2. 再 checkout 這次的檔，取代 SIT-HEIGHT 那一份的 ual_sit_tasks：
    ```
-   git checkout <交件 SHA> -- assets/models/char/second_ai/ual_sit_tasks.glb assets/models/char/second_ai/ual_sit_tasks.json \
+   git checkout 58d238bdd -- assets/models/char/second_ai/ual_sit_tasks.glb assets/models/char/second_ai/ual_sit_tasks.json \
      tests/sit_task_loops_unit.js tools/anim/sit_task_loops.py tools/anim/preview_vrm_clip.py
    ```
 3. `git apply docs/art-rebuild/second_ai/wip/cafe_edge_1105/cafe_edge_1105.patch`：在 226e8ce4e＋sit_height_1104.patch 上面乾淨。
