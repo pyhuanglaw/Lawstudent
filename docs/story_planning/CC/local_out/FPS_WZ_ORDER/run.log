@@ -1,0 +1,15 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\fps_zones.py http://127.0.0.1:8805/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FPS_WZ_ORDER\out
+OK   wenzhou       night avg 28.3 fps  1%low 1.89 fps  worst 1516.6 ms  n=425  zone=wenzhou h=21.01 w=sunny q=medium draw=295 
+OK   wenzhou       day   avg 36.19 fps  1%low 15.0 fps  worst 83.3 ms  n=544  zone=wenzhou h=11.03 w=sunny q=medium draw=360 
+OK   wenzhou       day   avg 37.45 fps  1%low 19.97 fps  worst 50.1 ms  n=563  zone=wenzhou h=11.03 w=sunny q=medium draw=357 
+OK   wenzhou       rain  avg 38.25 fps  1%low 18.75 fps  worst 66.6 ms  n=575  zone=wenzhou h=15.03 w=rain q=medium draw=384 
+OK   library_hall  night avg 32.85 fps  1%low 3.64 fps  worst 566.7 ms  n=496  zone=library_hall h=21.01 w=sunny q=medium draw=171 
+OK   library_hall  day   avg 26.9 fps  1%low 5.72 fps  worst 199.9 ms  n=404  zone=library_hall h=11.03 w=sunny q=medium draw=216 
+OK   library_hall  day   avg 28.78 fps  1%low 5.33 fps  worst 250 ms  n=436  zone=library_hall h=11.03 w=sunny q=medium draw=216 
+OK   library_hall  rain  avg 32.63 fps  1%low 10.91 fps  worst 200 ms  n=490  zone=library_hall h=15.03 w=rain q=medium draw=219 
+OK   wancai        night avg 58.07 fps  1%low 12.97 fps  worst 83.4 ms  n=872  zone=wancai h=21.04 w=sunny q=medium draw=150 
+OK   wancai        day   avg 56.29 fps  1%low 8.57 fps  worst 350 ms  n=848  zone=wancai h=11.03 w=sunny q=medium draw=174 
+OK   wancai        day   avg 56.74 fps  1%low 9.79 fps  worst 216.7 ms  n=851  zone=wancai h=11.03 w=sunny q=medium draw=177 
+OK   wancai        rain  avg 59.74 fps  1%low 39.84 fps  worst 66.6 ms  n=896  zone=wancai h=15.03 w=rain q=medium draw=178 
+JS 例外 0 個
+ALL PASS（量測完成 12 格）

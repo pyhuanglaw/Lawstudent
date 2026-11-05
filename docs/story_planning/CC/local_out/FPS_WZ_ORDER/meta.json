@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "FPS_WZ_ORDER",
+  "sha": "1344de13d88cccf2f60b2877875d8dbe768a3511",
+  "kind": "probe",
+  "script": "tools/cc_local/fps_zones.py",
+  "env": "ZONES=wenzhou,library_hall,wancai;SLOTS=night,day,day,rain;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-05T23:07:57",
+  "end": "2026-11-05T23:13:50",
+  "seconds": 354,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8805/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 25,
+    "mem": 34,
+    "used_gb": 10.8,
+    "chrome_testing": 9
+  }
+}

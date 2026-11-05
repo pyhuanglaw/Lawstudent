@@ -1440,3 +1440,16 @@
 [23:08:04] skip D_RUN_movreg (already done on ffeec06e0)
 [23:08:04] skip V18_LIBTOUR (already done on ffeec06e0)
 [23:11:47] [res] cpu=10% mem=27% (8.5/31.4 GB) chrome_testing=4  END EXAMLIB_play
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7f210a7e8..4a0d2effe  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:11:55] ==== END   EXAMLIB_play  exit=0  230s   ====
+[23:11:59] blender item MD_tx_v3 waits until the 1 running item(s) finish; other items go first
+[23:11:59] blender item MD_dabu_v1 waits until the 1 running item(s) finish; other items go first
+[23:11:59] blender item MD_haopai_v1 waits until the 1 running item(s) finish; other items go first
+[23:11:59] blender item MD_xinsheng_v1 waits until the 1 running item(s) finish; other items go first
+[23:11:59] blender item MD_xinsheng_v2 waits until the 1 running item(s) finish; other items go first
+[23:11:59] blender item MD_tx_v2 waits until the 1 running item(s) finish; other items go first
+[23:11:59] blender item MD_tx_v2b waits until the 1 running item(s) finish; other items go first
+[23:12:10] 正在跑：FPS_WZ_ORDER（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:13:50] [res] cpu=0% mem=20% (6.4/31.4 GB) chrome_testing=0  END FPS_WZ_ORDER
