@@ -7,9 +7,12 @@
           挑 2 個女生＋1 個最高的男生：大腿（骨盆→膝蓋那一段）最低點離座面、膝蓋高度、肩膀／手肘／眼睛離桌面多高；側面、正面、膝蓋近看各一張。
    swing  溫州街公園鞦韆（20:30）：玩家按「盪鞦韆」坐上去，量骨盆、大腿最低點離座板；側面、正面。
    bar    118 巷（l118_cafe2／l118_omu／l118_pasta／l118_tea）吧台高腳凳：玩家坐上去（找得到 lift 的座位），量同上。
+   cafe   （BB-C 00:3x，ed7600ec5＝CAFE-EDGE-1105 桌緣近的 _E20 片段）afar、青木、Daybreak、木曜日、林家、社科圖（soclib＋soclib_2f）：開店時間進去，
+          每一個坐著的路人記桌面高度／桌緣（SEATACT.probe）、播哪一組片段（_E20／一般／沒有片段＝手照舊放大腿；0.85 高桌照設計兩組都合不上）、
+          左右手腕離桌面、前臂最低點離桌面；每家挑 1～2 人拍手的近景、側面、正面（CAFES=afar,… 只跑幾家）。
    （腳踏車後座：BB-C 00:30 這一輪記「沒測到」，之後找劇情裡載人的段落在 PC 照玩家走。階梯教室：b1ca12646 改到桌下置物架的 201、博思（boya_interior）、共同（gongtong_interior）——座位照位置分間，每一間玩家【捷徑】坐進去也拍。博雅 101、霖澤 201 的 SITAMB class 鏡頭並排：另外跑 cc_sitamb_probe LOC=class CTL=0 再用 sit_cmp.py 和 d3828 比。）
   【前置／捷徑】讀檔指定地點時間（條件事件關閉）、停主迴圈手動推進片段、藏 HUD；鞦韆／吧台用遊戲自己的 GAME.sitAt 坐（互動鍵按不到時，標【捷徑】）。
-用法：LW_TESTS=<wt>/tests [MODE=eat,rooms,swing,bar] python3 cc_sitheight_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests [MODE=eat,rooms,swing,bar,cafe] [CAFES=afar,aoki,daybreak,mokuyobi,lin,soclib,soclib_2f] python3 cc_sitheight_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests'))
@@ -20,7 +23,7 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
-MODES = [m for m in (os.environ.get('MODE') or 'eat,rooms,swing,bar').split(',') if m]
+MODES = [m for m in (os.environ.get('MODE') or 'eat,rooms,swing,bar,cafe').split(',') if m]
 FAILS = []
 
 
@@ -209,6 +212,83 @@ async def mode_bar(pg, cdp, M):
         return
 
 
+CAFE_JS = r"""(()=>{ """ + BONES + r""" const E=GAME.E, SA=typeof SEATACT!=='undefined'?SEATACT:null, st=SA&&SA.state?SA.state():{list:[]}, out=[];
+  for(const n of (E.npcs||[])){ const o=n&&n.obj; if(!o||o.visible===false||!n.seat) continue; const u=o.userData||{}; if(!u.vrm) continue; if(!(n.pose==='sit'||n.pose==='read')) continue;
+    const S=n.seat, yaw=S.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw), tb=SA&&SA.probe?SA.probe(E,S):null, m=meas(n,o), T=u.sitTask||null;
+    const row=(st.list||[]).find(q=>Math.abs(q.x-S.x)<0.01&&Math.abs(q.z-S.z)<0.01&&(q.lv|0)===(S.lv|0))||null;
+    const top=tb?tb.y:null, fw=p=>p?(p.x-S.x)*fx+(p.z-S.z)*fz:null;
+    const H=k=>{ const p=hb(u,k); if(!p) return null; const f=fw(p); return {dy:top!=null?+(p.y-top).toFixed(3):null, fw:+f.toFixed(3), over:tb?f>=tb.edge-0.01:null}; };
+    const fore=(a,b)=>{ const A=hb(u,a), B=hb(u,b); if(!A||!B||top==null) return null; let mn=null; for(let i=0;i<=10;i++){ const p=A.clone().lerp(B,i/10); if(fw(p)<tb.edge) continue; const d=p.y-top; if(mn==null||d<mn) mn=d; } return mn==null?null:+mn.toFixed(3); };
+    const lh=hb(u,'leftHand'), rh=hb(u,'rightHand');
+    const grp=T?((T.ref===0.2||/_E20/.test(T.clip||''))?'_E20':'一般'):'沒有片段';
+    out.push(Object.assign(m,{seat:{x:+S.x.toFixed(3),z:+S.z.toFixed(3),lv:S.lv|0,seatH:S.seatH!=null?S.seatH:null,lift:S.lift||0}, tb, act:row&&row.act, items:row&&row.items, hold:row&&row.hold, pose:n.pose,
+      grp, clip:T&&T.clip||null, kind:T&&T.kind||null, ref:T&&T.ref!=null?T.ref:null, shift:T&&T.shift, tlift:T&&T.lift, handProp:u.taskPropOn||null, playing:(CHAR.sitTaskOf&&CHAR.sitTaskOf(o)||{}).playing||null,
+      lH:H('leftHand'), rH:H('rightHand'), lFore:fore('leftLowerArm','leftHand'), rFore:fore('rightLowerArm','rightHand'),
+      mid:lh&&rh?r3(lh.clone().add(rh).multiplyScalar(0.5)):null, deskTop:top})); }
+  return {ready:SA&&SA.ready?SA.ready():null, indexing:SA&&SA.indexing?SA.indexing():null, n:st.n, list:out}; })()"""
+# BB-C 00:3x（ed7600ec5，CAFE-EDGE-1105）：afar、青木、Daybreak、木曜日、林家、社科圖 坐著的路人每家一張近景；記桌面高度、播哪一組片段（_E20／一般／沒有片段＝手照舊放大腿）
+CAFES = [('afar', 'afar', (15.0, 19.0)), ('aoki', 'aoki', (15.0, 19.0)), ('daybreak', 'daybreak', (10.5, 12.5)), ('mokuyobi', 'wz_mokuyobi', (15.5, 19.5)),
+         ('lin', 'wz_lin', (12.25, 18.25)), ('soclib', 'soclib', (14.5, 10.5)), ('soclib_2f', 'soclib_2f', (14.5, 10.5), (-0.4, -0.2), 1)]   # soclib_2f 第 1 層（和 cc_npctask_probe 的 soc2f 同一點）
+OPENDAY = """(([z,h])=>{ for(let d=9;d<40;d++){ if(typeof PLACES==='undefined'||PLACES.isOpen(z,h,d)) return d; } return 9; })"""
+
+
+async def mode_cafe(pg, cdp, M):
+    sel = [c for c in (os.environ.get('CAFES') or '').split(',') if c]
+    for ent in CAFES:
+        tag, zone, hours = ent[:3]; pos, lv = (ent[3], ent[4]) if len(ent) > 3 else (None, 0)
+        if sel and tag not in sel: continue
+        r = None
+        for h in hours:
+            day = await pg.evaluate(OPENDAY, [zone, h])
+            await enter(pg, cdp, zone, day, h, pos, lv)
+            zok = await pg.evaluate("GAME.G.zone")
+            if zok != zone: info('[cafe %s] 讀不到 %s（%s）' % (tag, zone, zok)); r = None; break
+            t0 = time.time(); last = None; stable = 0
+            while time.time() - t0 < 60:
+                r = await pg.evaluate(CAFE_JS)
+                sig = J([(x['seat'], x['grp'], x['clip']) for x in r['list']])
+                stable = stable + 1 if (sig == last and r['ready'] and not r['indexing'] and r['list']) else 0; last = sig
+                if stable >= 3: break
+                await pg.wait_for_timeout(2500)
+            info('[cafe %s] 第 %d 天 %.2f 點：坐著的路人 %d 個（SEATACT ready=%s、indexing=%s、等了 %.0f 秒）' % (tag, day, h, len(r['list']), r['ready'], r['indexing'], time.time() - t0))
+            if r['list']: break
+        if not check('[cafe %s] 有坐著的路人' % tag, bool(r and r['list']), ''): continue
+        L0 = r['list']
+        for x in L0:
+            tb = x['tb'] or {}
+            info('[cafe %s] %s（%s）座位 %s：桌面高 %s、桌緣 %s、深 %s；做的事 %s、手上 %s、桌上 %s；片段＝%s（%s、ref %s、往前 %s、抬 %s）；左手離桌面 %s（在桌上方 %s）、右手 %s（%s）；前臂最低離桌面 左 %s 右 %s' % (
+                tag, x['name'], x['body'], J(x['seat']), tb.get('h'), tb.get('edge'), tb.get('depth'), x['act'], x['handProp'] or x['hold'], J(x['items']), x['grp'], x['clip'], x['ref'], x['shift'], x['tlift'],
+                (x['lH'] or {}).get('dy'), (x['lH'] or {}).get('over'), (x['rH'] or {}).get('dy'), (x['rH'] or {}).get('over'), x['lFore'], x['rFore']))
+        # 穿進桌子：手腕（hand 骨頭）在桌子上方、又比桌面低 2 cm 以上；前臂在桌子上方的那一段比桌面低 1 cm 以上（CAFE-EDGE：_E20 前臂離桌面 1.5 cm）
+        for x in L0:
+            if x['grp'] == '沒有片段': continue
+            bad = [k for k in ('lH', 'rH') if x[k] and x[k]['over'] and x[k]['dy'] is not None and x[k]['dy'] < -0.02] + [k for k in ('lFore', 'rFore') if x[k] is not None and x[k] < -0.01]
+            check('[cafe %s] %s（%s）手、前臂沒有穿進桌子' % (tag, x['name'], x['clip']), not bad, J({k: x[k] for k in ('lH', 'rH', 'lFore', 'rFore')}))
+        hs = sorted(set((x['tb'] or {}).get('h') for x in L0 if x['tb']), key=lambda v: (v is None, v))
+        cnt = {}
+        for x in L0: cnt[x['grp']] = cnt.get(x['grp'], 0) + 1
+        info('[cafe %s] 總計：桌面高度 %s；片段 %s；0.85 的高桌（照設計手放大腿）%d 個' % (tag, J(hs), J(cnt), sum(1 for x in L0 if x['tb'] and x['tb']['h'] >= 0.83)))
+        pick = []
+        for g in ('_E20', '一般', '沒有片段'):
+            y = next((x for x in L0 if x['grp'] == g and x not in pick), None)
+            if y and len(pick) < 2: pick.append(y)
+        await pg.evaluate(HUD + '(false)')
+        for i, x in enumerate(pick):
+            top = x['deskTop'] if x['deskTop'] is not None else x['root'][1] + 0.75
+            mid = x['mid'] or [x['root'][0] + x['f'][0] * 0.35, top + 0.05, x['root'][2] + x['f'][1] * 0.35]
+            f, s, ro = x['f'], x['s'], x['root']
+            cams = {'hands': ([mid[0] - f[0] * 0.2 + s[0] * 0.6, mid[1] + 0.4, mid[2] - f[1] * 0.2 + s[1] * 0.6], mid, 45),
+                    'side': ([ro[0] + s[0] * 1.2 + f[0] * 0.25, top + 0.05, ro[2] + s[1] * 1.2 + f[1] * 0.25], [ro[0] + f[0] * 0.25, top - 0.05, ro[2] + f[1] * 0.25], 50),
+                    'front': ([mid[0] + f[0] * 0.9, mid[1] + 0.35, mid[2] + f[1] * 0.9], [mid[0], mid[1] + 0.1, mid[2]], 50)}
+            files = []
+            for cn, (e, l, fov) in cams.items():
+                await pg.evaluate(AIM + '(%s)' % J([e, l, fov])); fn = 'cafe_%s_%d_%s.png' % (tag, i, cn); await pg.screenshot(path=os.path.join(OUT, fn)); files.append(fn)
+            await pg.evaluate(RELEASE)
+            info('[cafe %s #%d] %s（%s）桌面 %s、片段 %s（%s）：截圖 %s' % (tag, i, x['name'], x['body'], (x['tb'] or {}).get('h'), x['grp'], x['clip'], files))
+        await pg.evaluate(HUD + '(true)')
+        M.setdefault('cafe', {})[tag] = {'zone': zone, 'all': L0, 'pick': [x['seat'] for x in pick]}
+
+
 async def main():
     os.makedirs(OUT, exist_ok=True)
     print('CC SIT-HEIGHT：MODE=%s；SHA=%s；SwiftShader ≠ iPhone（只看穿模、高度；顏色 PC 補）' % (MODES, os.environ.get('SHA', '?')), flush=True)
@@ -220,7 +300,7 @@ async def main():
         if not ok: await b.close(); sys.exit(1)
         await pg.evaluate("localStorage.clear(); if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}")
         for m in MODES:
-            try: await {'eat': mode_eat, 'rooms': mode_rooms, 'swing': mode_swing, 'bar': mode_bar}[m](pg, cdp, meta)
+            try: await {'eat': mode_eat, 'rooms': mode_rooms, 'swing': mode_swing, 'bar': mode_bar, 'cafe': mode_cafe}[m](pg, cdp, meta)
             except Exception as e: check('[%s] 探針沒有例外' % m, False, repr(e)[:300])
         check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
