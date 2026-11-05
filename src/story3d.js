@@ -1421,6 +1421,7 @@ const STORY = (function(){
     if(it.exit&&it.exit.to==='xs_shanlan'&&!PLACES.isOpen('xs_shanlan',h(G),G.day)){ GM.toast(PLACES.closedText('xs_shanlan',h(G),G.day),4500); return true; }   /* 山嵐書店（AA_613 第 3 節；ART-SHANLAN-BOOKSTORE-1103）：週日～週四 11:00–22:00、週五週六到 23:00 */
     if(it.exit&&it.exit.to==='xs_dabu'&&!PLACES.isOpen('xs_dabu',h(G),G.day)){ GM.toast(PLACES.closedText('xs_dabu',h(G),G.day),4500); return true; }   /* 大步球鞋（AA_620 第 1 節；XS-SHOPS-REST-1105）：每天 11:00–22:00 */
     if(it.exit&&it.exit.to==='xs_haopai'&&!PLACES.isOpen('xs_haopai',h(G),G.day)){ GM.toast(PLACES.closedText('xs_haopai',h(G),G.day),4500); return true; }   /* 好拍運動（AA_620 第 1 節；XS-SHOPS-REST-1105）：12:00–21:00、週日休 */
+    if(it.exit&&it.exit.to==='xs_xsports'&&!PLACES.isOpen('xs_xsports',h(G),G.day)){ GM.toast(PLACES.closedText('xs_xsports',h(G),G.day),4500); return true; }   /* 新生運動廣場（AA_620 第 1 節；XS-SPORTS-V1-1105）：每天 11:00–22:00 */
     if(it.exit&&it.exit.to==='cafe'&&!PLACES.isOpen('cafe',h(G))){ GM.toast(PLACES.closedText('cafe',h(G)),4500); return true; }   /* 開放時間在 src/data/places.js（入口標記、大地圖讀同一份）*/
     if(it.exit&&it.exit.to==='lawlib'&&G.zone==='wancai'&&!PLACES.isOpen('lawlib',h(G),G.day)){ GM.toast(PLACES.closedText('lawlib',h(G),G.day),5500); return true; }
     if(it.exit&&it.exit.to==='soclib'&&G.zone==='campus'&&!PLACES.isOpen('soclib',h(G),G.day)){ GM.toast(PLACES.closedText('soclib',h(G),G.day),5500); return true; }   /* 社科院圖書館（D62）：只擋從校園進去 */   /* 法律學院圖書館（D46）：只擋從大廳進去；人在館裡照樣走得出來 */

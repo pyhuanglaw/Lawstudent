@@ -232,7 +232,7 @@ const GUITAR=(function(){
      位置：自己書桌前、往走道 0.6 m（站在書桌前照舊是「坐在書桌前」；離「看看房間裡的東西」、紙箱、梯子都超過它們的範圍）。3D 的琴還沒有（LAWWW2）：先只有互動點 */
   S.dormOn=G=>!!(G&&G.flags&&G.zone==='dorm'&&S.hasGuitar(G)&&law(G));
   S.dormSpot=function(){ const R=typeof DORM_ROOM!=='undefined'?DORM_ROOM:null, U=R&&R.units?R.units.find(u=>u.id===(R.player_unit||'L2')):null;
-    if(U&&U.seat_approach&&U.seat) return [Math.round((U.seat_approach[0]+0.6)*1000)/1000,U.seat.z]; return [0.05,0.142]; };
+    if(U&&U.seat_approach&&U.seat) return [Math.round((U.seat_approach[0]+0.5)*1000)/1000,U.seat.z]; return [-0.05,0.142]; };
   S.dormButton=function(GM){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!Array.isArray(E.interactables)||!G||G.zone!=='dorm') return null; let it=E.interactables.find(q=>q&&q.guitar==='dorm'); if(it) return it;
     const p=S.dormSpot(); it={x:p[0],z:p[1],radius:0.5,lv:0,label:S.L.dormLabel,guitar:'dorm',get hidden(){ return !S.dormOn(GM.G); }}; E.interactables.push(it); return it; };
   /* ---------- 第 3 節：社遊 ---------- */
