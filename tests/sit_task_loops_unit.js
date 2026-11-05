@@ -19,14 +19,15 @@ const cm=v=>(v*100).toFixed(1)+' cm', mm=v=>(v*1000).toFixed(1)+' mm';
 const DT=1/30, DESK=0.75, PAPER=0.0041;
 const V3=a=>new THREE.Vector3(a[0],a[1],a[2]);
 (async()=>{
-  const KEYS={F:'char.npc_f1',M:'char.npc_m1',F2:'char.npc_nf10',M2:'char.npc_nm11'}, BODIES=Object.keys(JS.bodies).filter(b=>KEYS[b]);
-  await preload(BODIES.map(b=>KEYS[b]));
+  const KEYS0={F:'char.npc_f1',M:'char.npc_m1',F2:'char.npc_nf10',M2:'char.npc_nm11'}, base=b=>b.split('_E')[0];   /* _E20＝桌緣 0.20 的那一組（CAFE-EDGE-1105），骨架和 F、M 一樣 */
+  const BODIES=[...new Set((JS.clips||[]).map(c=>c.body))].filter(b=>KEYS0[base(b)]), KEYS=Object.fromEntries(BODIES.map(b=>[b,KEYS0[base(b)]])), HGT=b=>JS.bodies[base(b)].height;
+  await preload([...new Set(BODIES.map(b=>KEYS[b]))]);
   const K=CHAR.SIT_AMB; if(!K||!CHAR._ambReset){ check('0 遊戲有 NPC-AMBIENT-ANIM（CHAR.SIT_AMB）',false,'這個分支還沒有坐姿動作片段'); process.exit(1); }
   const man=ASSETS.manifest['char.ual_sit_clips']; man.url=GLB; window.ASSET_DATA[GLB]=fs.readFileSync(path.join(ROOT,GLB)).toString('base64');
   await ASSETS.loadOne('char.ual_sit_clips');
   const raw=ASSETS.getRaw('char.ual_sit_clips'), names=raw&&raw.animations?raw.animations.map(a=>a.name):[];
-  const NCLIP=7*Object.keys(JS.bodies).length;
-  check('① 片段載得到（'+NCLIP+' 個＝7 種 × '+Object.keys(JS.bodies).join('、')+'，每個 5 秒）',names.length===NCLIP&&raw.animations.every(a=>Math.abs(a.duration-5)<0.02),names.length+' 個：'+names.slice(0,3).join('、')+'…');
+  const NCLIP=7*BODIES.length;
+  check('① 片段載得到（'+NCLIP+' 個＝7 種 × '+BODIES.join('、')+'，每個 5 秒；名字和 ual_sit_tasks.json 一樣）',names.length===NCLIP&&raw.animations.every(a=>Math.abs(a.duration-5)<0.02)&&(JS.clips||[]).every(c=>names.includes(c.name)),names.length+' 個：'+names.slice(0,3).join('、')+'…');
   /* 手上配件：遊戲的 ASSETS 那一筆（prop.hand_props）指到這個 GLB */
   let HP=null; const pm=ASSETS.manifest['prop.hand_props'];
   if(pm){ pm.url=PGLB; window.ASSET_DATA[PGLB]=fs.readFileSync(path.join(ROOT,PGLB)).toString('base64'); await ASSETS.loadOne('prop.hand_props'); const r=ASSETS.getRaw('prop.hand_props'); HP=r&&r.scene; }
@@ -42,7 +43,7 @@ const V3=a=>new THREE.Vector3(a[0],a[1],a[2]);
   for(const B of BODIES){
     for(const kind of ['type','drink','write','eat']){
       const clip='Sit_'+kind[0].toUpperCase()+kind.slice(1)+'_'+B+'_Loop'; K.base=[clip]; CHAR._ambReset(); man.url=GLB;
-      const h=CHAR.build({model:KEYS[B],height:JS.bodies[B].height}); scene.add(h); h.position.set(0,0,0); h.rotation.y=0;
+      const h=CHAR.build({model:KEYS[B],height:HGT(B)}); scene.add(h); h.position.set(0,0,0); h.rotation.y=0;
       const u=h.userData; for(let i=0;i<60;i++){ CHAR.animate(h,DT,{pose:'sit',speed:0}); scene.updateMatrixWorld(true); }
       const prop=kind==='eat'?attach(u,'hand_chopsticks'):(kind==='write'?attach(u,'hand_pen'):null), bone=u.vrm.humanoid.getRawBoneNode('rightHand');
       let worst=0, wb='', hy={}, tips={}, low={};

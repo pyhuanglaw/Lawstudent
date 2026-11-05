@@ -18,7 +18,7 @@ import sit_task_loops as T
 
 ap = argparse.ArgumentParser()
 ap.add_argument('--vrm', required=True); ap.add_argument('--src', required=True); ap.add_argument('--clips', required=True); ap.add_argument('--out', required=True)
-ap.add_argument('--names', default=''); ap.add_argument('--times', default='0,1.8,2.3'); ap.add_argument('--res', type=int, default=520); ap.add_argument('--body', default='F'); ap.add_argument('--props', default='')
+ap.add_argument('--names', default=''); ap.add_argument('--edge', type=float, default=None); ap.add_argument('--times', default='0,1.8,2.3'); ap.add_argument('--res', type=int, default=520); ap.add_argument('--body', default='F'); ap.add_argument('--props', default='')
 A = ap.parse_args(sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else sys.argv[1:])
 os.makedirs(A.out, exist_ok=True)
 
@@ -30,6 +30,7 @@ bpy.ops.wm.read_factory_settings(use_empty=True)
 tmp = os.path.join(A.out, '_in.glb'); shutil.copyfile(A.vrm, tmp)
 bpy.ops.import_scene.gltf(filepath=tmp); os.remove(tmp)
 arm = next(o for o in bpy.data.objects if o.type == 'ARMATURE')
+if A.edge is not None: T.REF['edge'] = A.edge                    # 桌緣比較近的那一組（_E20：0.20）
 V = T.VSkel(A.vrm, T.BODIES[A.body][1]); T.set_body(V)
 HP = {}
 if A.props:                                                      # 手上配件 GLB（sit_task_props.py）：照遊戲的掛法——右手骨頭底下、不轉

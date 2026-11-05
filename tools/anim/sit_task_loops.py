@@ -603,7 +603,12 @@ BODIES = {'F': ('assets/models/char/vroid_npc_f1.vrm', 1.62), 'M': ('assets/mode
 #（HairSample_Male 改的 nm1、3、5…19、m2：0.266，M 是 0.244；肩膀也比同身高的 M 低 1.6 cm）。身高取那一組的中位數（nf10 1.65、nm11 1.74）
 
 
-def build(src, bodies=None, only=None):
+def edge_sfx(e):
+    """桌緣離座位 e 公尺的那一組片段名字的尾巴：參考的 0.30＝''、其他＝_E<公分>（0.20＝_E20）"""
+    return '' if abs(e - 0.30) < 1e-6 else '_E%02d' % int(round(e * 100))
+
+
+def build(src, bodies=None, only=None, edges=(0.30,)):
     """每一種身材、每一個動作：①UAL 坐姿循環的世界旋轉差 D 套到 VRoid 骨架（骨盆不轉，同遊戲）②在 VRoid 骨架上擺手（桌子照參考位置）
     ③VRoid 的世界旋轉差寫回 UAL 骨架（W＝D × UAL 的靜止世界旋轉；沒對到的節點照坐姿循環）→ 遊戲換算回來就是 ②"""
     J, d, bo = load_glb(src); sk = Skel(J)
@@ -612,7 +617,8 @@ def build(src, bodies=None, only=None):
     assert abs(LOOP / base_len - round(LOOP / base_len)) < 0.02, ('LOOP 要是坐姿循環的整數倍', LOOP, base_len)
     R0u = sk.fk(sk.r)[0]
     clips = []
-    for bk in (bodies or BODIES):
+    for (bk, e) in [(b, e) for e in edges for b in (bodies or BODIES)]:
+        REF['edge'] = e; sfx = edge_sfx(e)                                    # 桌緣比較近的桌子（Café、吃飯的店：桌緣 0.14～0.25）另外一組：名字多 _E20（CAFE-EDGE-1105）
         vrm, H = BODIES[bk]; V = VSkel(vrm, H); set_body(V)
         for name, kind, desc in CLIPS:
             if only and kind not in only: continue
@@ -628,7 +634,8 @@ def build(src, bodies=None, only=None):
                     out[i] = qnorm(qmul(qinv(Wu[p]), Wu[i])) if p >= 0 else Wu[i]
                 frames.append(out)
             frames[-1] = [q.copy() for q in frames[0]]                          # 頭尾一樣（循環）
-            clips.append((name.replace('_Loop', '_%s_Loop' % bk), kind, desc + '（%s：%s，身高 %.2f m）' % ('女生' if bk == 'F' else '男生', os.path.basename(vrm), H), frames, bk))
+            clips.append((name.replace('_Loop', '_%s%s_Loop' % (bk, sfx)), kind, desc + '（%s：%s，身高 %.2f m%s）' % ('女生' if bk[0] == 'F' else '男生', os.path.basename(vrm), H, '；桌緣 %.2f m' % e if sfx else ''), frames, bk + sfx))
+    REF['edge'] = edges[0]
     return J, d, bo, sk, times, clips
 
 
@@ -660,7 +667,7 @@ def write_glb(out, J, sk, times, clips, tol=0.0015):
         if mn is not None: a['min'] = mn; a['max'] = mx
         js['accessors'].append(a); return len(js['accessors']) - 1
     for name, kind, desc, frames, bk in clips:
-        an = {'name': name, 'channels': [], 'samplers': [], 'extras': {'desc': desc, 'loop': LOOP, 'kind': kind, 'body': bk, 'ref': dict(REF, height=BODIES[bk][1])}}
+        an = {'name': name, 'channels': [], 'samplers': [], 'extras': {'desc': desc, 'loop': LOOP, 'kind': kind, 'body': bk, 'ref': dict(REF, edge=(int(bk.split('_E')[1]) / 100 if '_E' in bk else REF['edge']), height=BODIES[bk.split('_E')[0]][1])}}
         for i in range(sk.n):
             if sk.par[i] < 0: continue
             qs = [qnorm(f[i]) for f in frames]
@@ -687,14 +694,21 @@ def write_glb(out, J, sk, times, clips, tol=0.0015):
 if __name__ == '__main__':
     ap = argparse.ArgumentParser(); ap.add_argument('--src', default='assets/models/char/ual_sit_clips.glb'); ap.add_argument('--out', default='assets/models/char/ual_sit_tasks.glb')
     ap.add_argument('--json'); ap.add_argument('--only', nargs='*'); ap.add_argument('--bodies', nargs='*'); ap.add_argument('--tol', type=float, default=0.0015)
+    ap.add_argument('--edges', default='0.30', help='參考桌緣（逗號分開）：0.30＝總圖自習桌；0.20＝Café、吃飯的店的近桌（片段名字 _E20），第二個以後只做 --near-bodies')
+    ap.add_argument('--near-bodies', nargs='*', default=['F', 'M'])
     A = ap.parse_args()
-    J, d, bo, sk, times, clips = build(A.src, A.bodies, A.only)
+    EDGES = [float(x) for x in A.edges.split(',')]
+    J, d, bo, sk, times, clips = build(A.src, A.bodies, A.only, EDGES[:1])
+    if len(EDGES) > 1:
+        for e in EDGES[1:]: clips += build(A.src, A.near_bodies, A.only, (e,))[5]
+    PAIRS = [(bk, EDGES[0]) for bk in (A.bodies or BODIES)] + [(bk, e) for e in EDGES[1:] for bk in A.near_bodies]
     n = write_glb(A.out, J, sk, times, clips, A.tol)
     expect = {}
     J2, d2, bo2 = load_glb(A.src); sk2 = Skel(J2); tt = [0.0, 1.0, 2.35]; bs, _ = sample_clip(J2, d2, bo2, sk2, 'Sitting_Idle_Loop', tt)
     chop = {}; hands0 = {}
-    for bk in (A.bodies or BODIES):
-        V = VSkel(*BODIES[bk]); set_body(V); drop = sit_drop(V)
+    for bk0, e in PAIRS:
+        REF['edge'] = e; bk = bk0 + edge_sfx(e)
+        V = VSkel(*BODIES[bk0]); set_body(V); drop = sit_drop(V)
         sv = lambda p: [round(float(p[0]), 4), round(float(p[1] - drop), 4), round(float(p[2]), 4)]   # 坐下以後的人物座標
         for kind in ('type', 'drink', 'write', 'eat'):
             for k, t in enumerate(tt):
@@ -708,12 +722,14 @@ if __name__ == '__main__':
             rv = vroid_pose(sk2, bs[0], V, kind, 0.0); wv, pv = V.fk(rv)
             hands0.setdefault(bk, {})[kind] = {'l': sv(pv[V.idx['hand_l']]), 'r': sv(pv[V.idx['hand_r']])}
     sip = {}
-    for bk in (A.bodies or BODIES):
-        V = VSkel(*BODIES[bk]); set_body(V); rv = vroid_pose(sk2, bs[2], V, 'drink', 2.35); wv, pv = V.fk(rv)
+    for bk0, e in PAIRS:
+        REF['edge'] = e; bk = bk0 + edge_sfx(e)
+        V = VSkel(*BODIES[bk0]); set_body(V); rv = vroid_pose(sk2, bs[2], V, 'drink', 2.35); wv, pv = V.fk(rv)
         f, nn, b = hand_axes(pv, V, 'r'); grip = pv[V.idx['hand_r']] + basis(f, nn) @ np.array(CUP_HAND); rim = grip + b * (CUP_H - CUP_GRIP)
         mo = head_point(V, rv, MOUTH); tw = mo - rim; tw = tw - b * np.dot(tw, b); near = rim + tw / np.linalg.norm(tw) * CUP_R   # 杯緣靠嘴那一點
         sip[bk] = {'rim_center': round(float(np.linalg.norm(rim - mo)), 4), 'rim_near': round(float(np.linalg.norm(near - mo)), 4)}
-    info = {'out': A.out, 'bytes': n, 'fps': FPS, 'loop': LOOP, 'ref': REF, 'bodies': {k: {'vrm': v[0], 'height': v[1]} for k, v in BODIES.items()},
+    REF['edge'] = EDGES[0]
+    info = {'out': A.out, 'bytes': n, 'fps': FPS, 'loop': LOOP, 'ref': REF, 'refs': {(edge_sfx(e) or 'base'): e for e in EDGES}, 'bodies': {k: {'vrm': v[0], 'height': v[1]} for k, v in BODIES.items()},
             'expect': {'note': '坐下以後的人物座標（x 左手邊、y 上、z 前；原點＝座位的地面）：手腕 hand、中指根 middle_01、頭；sip＝喝的那一下（2.35 秒）杯口中心離嘴幾公尺；'
                                'chop＝吃飯 0／1／2.35 秒筷子尖（hand_chopsticks 掛在右手）、嘴、碗裡夾麵的那一點；hands0＝每一種片段 0 秒的兩手手腕（character3d.js C.SIT_TASK.HANDS）；tests/sit_task_loops_unit.js 用',
                        'pos': expect, 'sip': sip, 'chop': chop, 'hands0': hands0},
