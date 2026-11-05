@@ -1382,3 +1382,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 486.0s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 486.0s] BROWSER DISCONNECTED
 - 2026-11-05T19:03:47  V21R_xs_shanlan  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  779s      [ 745.9s] [截圖] user_2f_day：鏡頭 {"eye": [6.2, 5.8, 8.4], "look": [-2.5, 5, -5], "lens": 24, "vfov": 45.75}、亮度 [121.3, 54.6] / PASS 沒有 JS 例外  [] / FAILED 3: [孤島] 第 0 層：站得住的格子都連得到（孤島 0）；[打烊 stand] 出「我們今天要打烊了。」（AA_695 第 4 節）、走到新生南路店門外（SH3.streetOut 0.6 m 內）、站得住；[挑空] 二樓導航：挑空裡（樓梯以外 94 點）都站不住
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 746.4s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 746.5s] BROWSER DISCONNECTED
+- 2026-11-05T19:05:28  V21R_xs_dabu  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  537s    PASS [黑畫面] buy_short_dabu 不是黑畫面（平均亮度 130.9、變化 46.4）  [130.9, 46.4] / PASS 沒有 JS 例外  [] / FAILED 1: [互動點] 走到「照鏡子」(-2.5, -3.55 第 0 層)，按鈕是它
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 505.5s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 505.5s] BROWSER DISCONNECTED
