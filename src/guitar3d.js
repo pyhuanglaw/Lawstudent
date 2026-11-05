@@ -175,8 +175,9 @@ const GUITAR=(function(){
     const t=term(G); if(!t||t.id!=='Y1S1'||!S.ENC_WEEKS.includes(t.week)||wd7(G.day)!==6) return false; const h=hr(G); if(h<15||h>=16) return false;
     if(!S.isOpen(G)||!knows(G)||!present(G)||abroad(G)) return false; return !S.zqShopPlanned(G); };
   S.encounter=async function(GM){ const G=GM.G; S.rec(G).enc=G.day; GM.sceneBegin({adv:{charId:ZQ,expression:'neutral'}}); try{ await EVENTS.runLines(S.D_ENC,{id:'guitar_enc',participants:[ZQ]}); } finally { GM.sceneEnd(); } if(GM.autosave) GM.autosave(); return true; };
-  /* 每 0.5 秒（STORY.TICKS）：人在店裡——打烊優先（請你出來），再來偶遇子晴 */
-  S.tick=function(GM){ const G=GM&&GM.G; if(!G||busy||S.staged||GM.titleIdle||!S.ZONES.includes(G.zone)) return false;
+  /* 每 0.5 秒（STORY.TICKS）：人在店裡——打烊優先（請你出來），再來偶遇子晴；別的對話、事件、該出發的出遊還在＝等它結束（照 ggshops_sys3d.js 的 sceneFree）*/
+  const sceneFree=GM=>{ if(typeof INV!=='undefined'&&INV.sceneFree) return INV.sceneFree(GM); const E=GM&&GM.E, D=GM&&GM.D; return !(E&&E.player&&E.player.busy)&&!(D&&(D.active||(D.busyDepth|0)>0)); };
+  S.tick=function(GM){ const G=GM&&GM.G; if(!G||busy||S.staged||GM.titleIdle||!S.ZONES.includes(G.zone)||!sceneFree(GM)) return false;
     let p=null; if(!S.isOpen(G)) p=S.closeOut(GM); else if(S.encDue(G)) p=S.encounter(GM); if(!p) return false;
     busy=true; p.catch(e=>console.warn('GUITAR.tick',e)).finally(()=>{ busy=false; }); return true; };
   /* ---------- 第 2 節：社課 ---------- */

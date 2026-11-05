@@ -7,7 +7,7 @@
 //   2  店裡：看看、試彈（去過社課＝C 和弦那一句；還沒去過＝AA_693 A5 那一句）的旁白；買東西＝老闆一句（三句輪流、一次進店一句）＋選單（價錢、九折、小字、不用了）；買吉他扣錢、OWN_GUITAR、琴袋、調音那一句、時間 +0.15、
 //      同一款不再列；錢不夠＝「錢不夠」不扣錢；小東西記數量、小紙袋那一句（AA_693 A11）
 //   3  真的區域 xs_tongxian（src/tongxian3d.js）：按鈕照 TX3.INTERACT()（吉他牆兩點「看看」、櫃台「買東西」、烏克麗麗「看看」（AA_693 A2）；子晴 CG 的站位不放）、沒有 TX3／Z3＝不出錯也不加；
-//      STORY.interact 分派；經濟系那一年藏；試彈＝坐上試琴椅 try_w／try_e（打烊不演、木凳沒有）；打烊（21:30＝老闆那一句（A3）；週一）人在店裡＝請出來到 TX3.streetOut()；
+//      STORY.interact 分派；經濟系那一年藏；試彈＝坐上試琴椅 try_w／try_e（打烊不演、木凳沒有）；打烊（21:30＝老闆那一句（A3）；週一）人在店裡＝請出來到 TX3.streetOut()（別的對話還在＝等它結束）；
 //      2-3 有區域＝換到店裡（試琴椅、子晴的位置；已經有自己的琴＝站在門口、子晴在櫃台前）、演完回原處。建 3D、按鈕走得到：tests/aa619_guitar_zone_unit.js
 //   4  偶遇子晴：大一上第 6、10、14 週週六 15:00～16:00、人在店裡、認識她才有（一次）；其他週、週日、16:00、14:59、不認識、2-3 排過、店外都不演；三句照稿
 //   5  2-1 第一次社課：初遇 → 社長學長那一段 → 兩個選項（「一定要買嗎？」接他那一句）→ 這次的旁白是鏽弦那一句（輪流的六句不往前）；第二次社課不再演；
@@ -31,7 +31,9 @@
 // 修改前（開發分支 ed7600ec5，暫時的 detached worktree 實跑）：沒有 src/guitar3d.js、index.html 沒接、白名單沒有 AA_619、沒有 CLS.CLUB_IN、存檔預設沒有 guitar、places.js 沒有同弦、
 //   ev_ziqing_secret_game 沒有那一句、沒有同弦區域（src/tongxian3d.js）＝FAILED 28（0、0a～13 每一節都失敗或中斷；「不演」那幾項本來就成立的照樣 PASS）；
 //   合併同弦區域（c028e2cc2）、還沒照真的區域接（沒有 S.buttons、還認 tongxian）＝FAILED 2（3-1、第 3 節中斷）。修改後 124 項 ALL PASS。
-// AA_693 這一輪（2026-11-05，分支 guitar2-1105）：程式還沒改（開發分支 0f417a384＝2b0fac3da 合併以後）、測試先改成 c4b14a901＝@@BASE@@；修改後 @@AFTER@@。
+// AA_693 這一輪（2026-11-05，分支 guitar2-1105）：程式還沒改（開發分支 0f417a384＝2b0fac3da 合併以後）、測試先改成 c4b14a901＝FAILED 38
+//   （148 項裡 110 項 PASS——「不演」「時間」那幾項本來就成立；失敗的：白名單 0c、0c-2，0a-1，2-2，2-11，3-2，3-9，3-11，3-13c，3-18，5-1，5-8，7-8，10-8，10-9，10-12，11-2～11-5，
+//   第 14 節 20 項裡 18 項（14-0 對稿、14-A3b「不說那一句」本來就成立））；修改後 148 項 ALL PASS。
 // 用法：node tests/aa619_guitar_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -189,6 +191,8 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     check('3-11. 21:33 人還在店裡：站起來、老闆「九點半了。明天再來。」（AA_693 A3）、回到新生南路騎樓的樓梯口外面（TX3.streetOut）、寫開放時間',t===true&&stood===1&&J(H.said)===J([{who:'老闆',t:T93.close}])&&H.entered[0]==='xinsheng'&&toasts[0]===PLACES.closedText('xs_tongxian',21.55,sat),J([H.entered,toasts,so,H.said]));
     at(TD('Y1S1',8,1),13,'xs_tongxian'); H.entered=[]; H.said=[]; S.tick(GM); await new Promise(r=>setTimeout(r,5)); check('3-12. 週一（公休）讀檔在店裡：一樣請出來（老闆不說那一句）',H.entered[0]==='xinsheng'&&!H.said.length,J(H.said));
     at(sat,15,'xs_tongxian'); H.entered=[]; const t2=S.tick(GM); check('3-13. 開門的時候不請人出來',t2===false&&!H.entered.length);
+    { at(sat,21.55,'xs_tongxian'); H.entered=[]; H.said=[]; GM.D.active=true; const t3=S.tick(GM); GM.D.active=false; const t4=S.tick(GM); await new Promise(r=>setTimeout(r,5));
+      check('3-13c. 打烊的時候別的對話還在（GM.D.active）：等它結束才請人出來、老闆才說那一句',t3===false&&t4===true&&H.entered[0]==='xinsheng'&&H.said.length===1,J([t3,t4,H.entered,H.said])); }
     { const cb=CHAR.build, an=E.addNPC, pos=[]; CHAR.build=sp=>({position:{set:(x,y,zz)=>pos.push([x,zz])},rotation:{},sp}); E.addNPC=o=>{ E.npcs.push(o); return o; }; E.npcs=[];
       at(sat,15,'xs_tongxian'); const n1=S.populate(GM), n2=S.populate(GM); E.npcs=[]; at(sat,21.6); const n3=S.populate(GM); at(sat,15,'xinsheng'); const n4=S.populate(GM);
       CHAR.build=cb; if(an) E.addNPC=an; else delete E.addNPC; E.npcs=[]; G.zone='xs_tongxian'; const ow=TX3.OWNER;

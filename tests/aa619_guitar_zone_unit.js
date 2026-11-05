@@ -7,7 +7,7 @@
    ④ 區域的座位（照座面抬高的那一份）對得到配置的 id：try_w、try_e＝試彈（GUITAR.onSeat）、counter_stool 不是
    ⑤ 再進一次店（重建區域）按鈕還是四個（不重複加）；別的區域（新生南路）沒有這些按鈕
    修改前（開發分支 ed7600ec5）：還沒有 src/tongxian3d.js、src/guitar3d.js＝載入就停（FAILED 1）；合併同弦區域（1a67c9947）以後、還沒有按鈕＝FAILED 4。修改後 ALL PASS。
-   AA_693 這一輪（分支 guitar2-1105）：程式還沒改（開發分支 0f417a384，烏克麗麗沒有按鈕）＝@@BASE@@；修改後 @@AFTER@@。
+   AA_693 這一輪（分支 guitar2-1105）：程式還沒改（開發分支 0f417a384，烏克麗麗沒有按鈕）＝FAILED 4（② 按鈕、② 一共幾個、③、⑤）；修改後 7 項 ALL PASS。
    這是模擬（證明路走得通），不是真實玩家流程（瀏覽器測試照 D131 排到使用者的電腦）。用法：node tests/aa619_guitar_zone_unit.js */
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
