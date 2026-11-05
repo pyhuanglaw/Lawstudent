@@ -153,8 +153,8 @@ await sec('3',async()=>{ if(!HAS()||!HEARD.pass){ check('3. 窗邊字幕',false,
   check('3. 同一學期再走到別間店門口（咖啡・輕食 9.9,21）：不再出',r2===false&&c2===1,J({c2}));
   /* 店門口 5 m */
   const near=(x,z)=>{ wf('Y1S1',19); stand(x,z); HEARD.pass(GM); return caps.length; };
-  const n=[near(-63,16.1),near(-63,15.9),near(-35.5,21),near(0,8),near(73.1,25.9),near(-0.3,21)];
-  check('3. 5 m 內才出：麵店門口往人行道 4.9 m 有、5.1 m 沒有；兩間店中間（−35.5，離最近的門口 6.1 m）沒有；人行道（0,8）沒有；最東一間 4.9 m 有；輪轉單車門口有',J(n)===J([1,0,0,0,1,1]),J(n));
+  const n=[near(-63,16.1),near(-63,15.9),near(-44.6,21),near(0,8),near(73.1,25.9),near(-0.3,21)];
+  check('3. 5 m 內才出：麵店門口往人行道 4.9 m 有、5.1 m 沒有；兩間店中間（−44.6，離最近的門口 8.2 m；2026-11-04 頁間書屋的門移到 −36.4 以前是 −35.5）沒有；人行道（0,8）沒有；最東一間 4.9 m 有；輪轉單車門口有',J(n)===J([1,0,0,0,1,1]),J(n));
   /* 時段、別天 */
   const when=(d,h)=>{ fresh(d,h,{},'gongguan'); meet('heroine_01'); caps.length=0; stand(-63,21); HEARD.pass(GM); return caps.length; };
   const tm=[when(d1,17.99),when(d1,18),when(d1,20.99),when(d1,21),when(d1-1,19),when(d1+7,19),when(d1-7,19),when(d1+1,19)];
@@ -187,7 +187,7 @@ await sec('4',async()=>{ if(!HAS()||!HEARD.GG_DOORS){ check('4. 店門口',false
   const shops=(()=>{ const m=/const shops=(\[[\s\S]*?\]);/.exec(seg); return m?vm.runInNewContext(m[1]):null; })();
   const FZ=+((/const FZ=(\d+(?:\.\d+)?), GH=/.exec(seg)||[])[1]), x0=+((/let x=(-?\d+(?:\.\d+)?); shops\.forEach/.exec(seg)||[])[1]);
   const gm=/X1=x\+s\.w\+\(i<(\d+)&&!last\?([\d.]+):0\)/.exec(seg), ixOk=/const ix=x\+s\.w\/2;/.test(seg), dz=+((/E\.interactables\.push\(\{x:ix,z:FZ\+(\d+(?:\.\d+)?)/.exec(seg)||[])[1]);
-  const doors=[]; if(shops&&gm){ let x=x0; shops.forEach((s,i)=>{ const last=i===shops.length-1; doors.push(+(x+s.w/2).toFixed(3)); x=x+s.w+(i<+gm[1]&&!last?+gm[2]:0); }); }
+  const doors=[]; if(shops&&gm){ let x=x0; shops.forEach((s,i)=>{ const last=i===shops.length-1; doors.push(+(s.door!=null?s.door:x+s.w/2).toFixed(3));   /* door：店門不在店面中間的（頁間書屋 −36.4，2026-11-04 LAWWW2 新外觀）*/ x=x+s.w+(i<+gm[1]&&!last?+gm[2]:0); }); }
   const D=HEARD.GG_DOORS, mine=D.x.map(v=>+v.toFixed(3));
   check('4. heard3d.js S.GG_DOORS＝zones3d.js 公館店面街重算（shops '+(shops?shops.length:0)+' 間、x 從 '+x0+' 起、前 '+(gm?gm[1]:'?')+' 間多 '+(gm?gm[2]:'?')+' m、門口 ix＝x0＋w/2、z＝FZ＋'+dz+'＝'+(FZ+dz)+'）',
     !!shops&&shops.length===15&&ixOk&&J(mine)===J(doors)&&D.z===FZ+dz&&FZ===19&&dz===2,J({doors,mine,FZ,dz,z:D.z}));

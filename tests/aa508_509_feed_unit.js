@@ -53,6 +53,10 @@ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 const NDL=require('./alison.js').ndl;   /* AA_546（NO-COMPARE-1030，D116）後來改的句子照 tools/story/nocmp_fix.json 換（第三批第 8 節：可昕 kx3g「他講得很好。我抄了兩頁筆記。」）*/
 const doc={Y3S2:NDL(show(SHA508,DOC.Y3S2.spec)),Y4S1:NDL(show(SHA,DOC.Y4S1.spec))}, mid508=show(SHA,DOC.Y3S2.spec), old={Y3S2:show(OLD508,DOC.Y3S2.spec),Y4S1:show(OLD509,DOC.Y4S1.spec)};
+/* YT-REWRITE-1103：稿上語彤那一節（### 3-）照 AA_630 第 3 節（F 列）、AA_627 表 A 換成新句再比（tests/aa630_expect.js；只換位置是那一個 feed 檔的列）*/
+const Yf=s=>require('./aa630_expect.js').fix(s,'src/data/feed_y3s2.js');   /* 語彤的句子照 AA_630 第 3 節（F 列）換（YT-REWRITE-1103）*/
+{ const Y630=require('./aa630_expect.js'), FF={Y3S2:'src/data/feed_y3s2.js',Y4S1:'src/data/feed_y4s1.js'}; for(const k in FF) if(doc[k]) doc[k]=Y630.fixLines(doc[k],FF[k],(l,h)=>/^### 3-/.test(h)); }
+doc.Y3S2=doc.Y3S2.replace('| 3 | 第 12 週週二（5/9）21:00 | 朋友 | 茶屋吧檯上','| 3 | 第 12 週週六（5/13）17:30 | 朋友 | 茶屋吧檯上');   /* AA_630 F-049：語彤第 3 則改到第 12 週週六 17:30（她下班；稿的日期一起換）*/
 
 /* ---------- 共用 ---------- */
 const DK=k=>PG.DK(k);
@@ -131,7 +135,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
   check('0. 大三下：動態 41 則（以安 7、芷若 7、語彤 7、子晴 7、學姊 4、沛珊 5、可昕 4）、私訊 1 則、2D 短場 1 場；大四上：動態 33 則（6、5、5、5、4、4、4）、沒有私訊',
     HAS2()&&J(cnt(SET.Y3S2))===J([7,7,7,7,4,5,4])&&SET.Y3S2.dms.length===1&&(SET.Y3S2.events||[]).length===1&&J(cnt(SET.Y4S1))===J([6,5,5,5,4,4,4])&&SET.Y4S1.dms.length===0,J([cnt(SET.Y3S2),cnt(SET.Y4S1)]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
-  check('0. 七個學期的 id 都不重複（動態 44＋47＋38＋40＋41＋41＋33、私訊 10＋7＋3＋1＋1＋1＋0；大二上 38＝AA_514 加的 kx4bc）',ids.length===307&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
+  check('0. 七個學期的 id 都不重複（動態 43＋47＋38＋40＋41＋41＋33、私訊 10＋7＋3＋1＋1＋1＋0；大二上 38＝AA_514 加的 kx4bc）（大一上 sis2 保溫瓶 2026-11-04 拿掉：D127④、AA_661 第 48 列）',ids.length===306&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
   /* 2026-10-28 AA_518 第 4-4 改的（企劃線 973dd1b74，SIS-B15-1028；對 AA_518 的稿在 tests/aa518_sis_b15_unit.js）：sis4f 留言回「他說要三匙。我沒給。」（對齊陳助教那一句）*/
   const AA518_T=new Set(['他說要三匙。我沒給。']), AA518_ROW={sis4f:e=>{ e.cm=[e.cm[0],'他說要三匙。我沒給。']; }};
   for(const term of ['Y3S2','Y4S1']){ const S=SET[term], md=doc[term];
@@ -173,13 +177,13 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
     !!P('zr3g').dm&&P('zr3g').dm[1]==='不知道。我叫牠房東。牠坐在長椅上的樣子，像長椅是牠的。'&&P('kx1g').say==='第四年。'&&P('kx1g').pic==='宿舍窗外的山，和大一那張同一個角度'
     &&(old.Y4S1||'').length>2000&&GONE9.every(t=>old.Y4S1.includes(t)&&!m9.includes(t)&&!src.includes(t)),J(GONE9.filter(t=>src.includes(t)||!(old.Y4S1||'').includes(t))));
   /* AA_509 0-1 改 AA_508 的四處：4c3dc1491 就改好了（28f981438 的 AA_508 和 4c3dc1491 一字不差）*/
-  const four=['宿舍的書桌，一個日本帶回來的便當盒','還沒。想留到開學，大家都在的時候。','（阿姨先說「沒什麼好講的」。然後一直講到很晚。）','……不能說。她說要先給我媽聽。','謝謝。……公園那隻貓，幫我看一下。'];
+  const four=['宿舍的書桌，一個日本帶回來的便當盒','還沒。想留到開學，大家都在的時候。',Yf('（阿姨先說「沒什麼好講的」。然後一直講到很晚。）'),'……不能說。她說十週年那天再說。','謝謝。……公園那隻貓，幫我看一下。'];
   check('0. AA_509 0-1 改 AA_508 的四處（以安第 6 則、語彤短場與第 7 則、芷若第 7 則、學姊章數）在 '+OLD508+' 就改好了、28f981438 的 AA_508 一樣；遊戲裡照新的',
     !!old.Y3S2&&old.Y3S2===mid508&&four.every(t=>m8.includes(t)&&src.includes(t))&&!m8.includes('2029 年還在寫第三章'),J(four.filter(t=>!src.includes(t))));
   const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files, sh=k=>(allow.find(e=>e.path.indexOf('docs/story_planning/'+k+'_')===0)||{}).sha;
   check('0. 白名單：AA_508＝ce6e87a99（第 9 節實作時定的）、AA_509＝28f981438（AA_510 0-1 更正）；AA_506＝691a26400（第 9 節出遊途中）',sh('AA_508')===SHA508&&sh('AA_509')===SHA&&sh('AA_506')==='691a26400',J({AA_506:sh('AA_506'),AA_508:sh('AA_508'),AA_509:sh('AA_509')}));
   const ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_aa508_yt_aunt'):null;
-  check('0. 語彤 8/22 的 2D 短場接進 STORY_EVENTS（出遊事件、深色底、一小時、第一格「公館燒臘・長桌」noodle_table）',!!ev&&ev.trigger==='outing'&&ev.background==='dark'&&ev.hours===1&&ev.dialogue[0].bg==='noodle_table'&&ev.dialogue.slice(1).every(d=>d.speaker===null),J(ev&&ev.dialogue[0])); });
+  check('0. 語彤 8/22 的 2D 短場接進 STORY_EVENTS（出遊事件、深色底、一小時、第一格照 AA_630 F-062「一盞茶屋・吧檯」，背景用溫州街一盞茶屋的圖 wenzhou_teahouse）',!!ev&&ev.trigger==='outing'&&ev.background==='dark'&&ev.hours===1&&ev.dialogue[0].scene==='一盞茶屋・吧檯'&&ev.dialogue[0].bg==='wenzhou_teahouse'&&ev.dialogue.slice(1).every(d=>d.speaker===null),J(ev&&ev.dialogue[0])); });
 
 /* ---------- 1 階段、聯絡方式、時間、舊存檔 ---------- */
 await sec('1',async()=>{ if(!HAS2()){ check('1. 動態',false,'沒有資料'); return; }
@@ -246,8 +250,8 @@ await sec('3',async()=>{ if(!HAS2()){ check('3. 時差',false,'沒有資料'); r
   const j2=item('an2f');
   check('3. 日本路線、人在日本（時鐘是日本時間）：4/16 以安第 2 則在當地 21:00 才出（20:59 還沒有）、手機上寫 21:00',!j0&&!j1&&!!j2&&j2.day===D416&&Math.abs(j2.h-21)<0.01&&HT().includes('今天 21:00'),J(j2));
   fresh(D416,19.5); who('heroine_01','ACQ'); walk(D416,20.01); check('3. 臺灣路線同一則：臺灣 20:00 出（不變）',!!item('an2f')&&Math.abs(item('an2f').h-20)<0.01,J(item('an2f')));
-  const D509=DK('2028-05-09'); fresh(D509,20.5,{EXCHANGE_ROUTE:'JP'}); who('heroine_03','FRIEND'); walk(D509,21.5); const y0=item('yt3f'); walk(D509,22.01);
-  check('3. 日本路線、人在日本：在臺灣的語彤 5/9 21:00 貼的，當地 22:00 收到',!y0&&!!item('yt3f')&&Math.abs(item('yt3f').h-22)<0.01,J(item('yt3f')));
+  const D509=DK('2028-05-13'); fresh(D509,17,{EXCHANGE_ROUTE:'JP'}); who('heroine_03','FRIEND'); walk(D509,18.4); const y0=item('yt3f'); walk(D509,18.51);   /* AA_630 F-049：第 12 週週六 17:30（她下班）＝日本 18:30 */
+  check('3. 日本路線、人在日本：在臺灣的語彤 5/13 17:30 貼的，當地 18:30 收到',!y0&&!!item('yt3f')&&Math.abs(item('yt3f').h-18.5)<0.01,J(item('yt3f')));
   /* AA_516 第 1 節 1-4（企劃線 a9b87c588）：美國路線「而且交往中」才是「你的」那一版；挽回中、挽回不成看一般版 */
   const D914=DK('2028-09-14'); fresh(D914,8,{EXCHANGE_ROUTE:'US',dating_heroine_05:true}); who('heroine_05','FRIEND'); walk(D914,9.1); const u0=item('sis1g'); walk(D914,9.2); const u1=item('sis1g'), hu=HT();
   check('3. 美國路線交往中、人在美國（時鐘是美東時間）：學姊 9/14 第 1 則（臺灣 21:10）在當地 09:10 出、照片是美國路線那一版（池邊多一雙拖鞋——是你的）',!u0&&!!u1&&u1.day===D914&&Math.abs(u1.h-(9+10/60))<0.01&&u1.v==='yes'&&hu.includes('池邊多一雙拖鞋——是你的'),J(u1));
@@ -270,26 +274,26 @@ await sec('4',async()=>{ if(!HAS2()){ check('4. 私訊',false,'沒有資料'); r
   const st=((((LADDER.byTerm||{}).Y3S2||{}).heroine_03||{}).steps||[]).find(s=>s.id==='Y6-L8');
   const lad=async(pick)=>{ fresh(DK('2028-05-29'),17); who('heroine_03','FRIEND'); H.said=[]; H.picks=[pick]; await STORY.ladPlay(GM,{name:'語彤',charId:'heroine_03'},'heroine_03',st); return {f:H.G.flags.YT6_WITH,said:H.said.map(s=>s.t),mem:SOCIAL.has('heroine_03','YT6_ASK_AUNT')}; };
   const l1=await lad('我可以陪妳問'), l2=await lad('這次她會說');
-  check('4. 閒聊 Y6-L8 選「我可以陪妳問。」→ YT6_WITH；選「這次她會說。」不記；兩個都照原本說完（她的回覆、這一層的記憶 YT6_ASK_AUNT）',!!st&&l1.f===true&&l1.said.includes('……嗯。你坐旁邊就好。不要說話。阿姨看到你會想煮麵。')&&l1.mem&&l2.f===undefined&&l2.said.includes('……不知道。可是這次我會等她說完。')&&l2.mem,J({l1,l2}));
+  check('4. 閒聊 Y6-L8 選「我可以陪妳問。」→ YT6_WITH；選「這次她會說。」不記；兩個都照原本說完（她的回覆、這一層的記憶 YT6_ASK_AUNT）',!!st&&l1.f===true&&l1.said.includes('……嗯。你坐旁邊就好。不要說話。蘇姨看到你會想泡茶給你喝。')&&l1.mem&&l2.f===undefined&&l2.said.includes('……不知道。可是這次我會等她說完。')&&l2.mem,J({l1,l2}));
   fresh(DK('2028-05-29'),17); who('heroine_03','FRIEND'); const st7=(LADDER.byTerm.Y3S2.heroine_03.steps||[]).find(s=>s.id!=='Y6-L8'&&s.choices&&s.choices.length); H.picks=[0]; const ok7=await STORY.ladPlay(GM,{name:'語彤',charId:'heroine_03'},'heroine_03',st7);
   check('4. 別的層照舊（不經過記號）',ok7===true&&H.G.flags.YT6_WITH===undefined);
   const D821=DK('2028-08-21'), D822=D821+1;
   const setup=(lv,flags,more)=>{ fresh(D821,19,Object.assign({YT6_WITH:true},flags||{})); who('heroine_03',lv); if(more) more(); };
   setup('FRIEND'); walk(D821,19.98); const b=tagged('yt_ask_aunt').length; walk(D821,20.02); const m=dm('yt_ask_aunt');
-  check('4. 8/21 20:00（朋友、選過 Y6-L8「我可以陪妳問。」）：「明天晚上，打烊以後。」「要問阿姨。」「你說要坐旁邊。」；19:59 還沒有；三個選項、回到 8/22 21:00',
-    b===0&&J(tagged('yt_ask_aunt'))===J(['明天晚上，打烊以後。','要問阿姨。','你說要坐旁邊。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','我那天不行。','（不回）'])&&m.ask.until===T(D822,21),J(m&&m.ask));
+  check('4. 8/21 20:00（朋友、選過 Y6-L8「我可以陪妳問。」）：「明天晚上，她煮完飯以後。」「要問阿姨。」「你說要坐旁邊。」；19:59 還沒有；三個選項、回到 8/22 21:00',
+    b===0&&J(tagged('yt_ask_aunt'))===J(['明天晚上，打烊以後。','要問阿姨。','你說要坐旁邊。'].map(Yf))&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','我那天不行。','（不回）'].map(Yf))&&m.ask.until===T(D822,21),J(m&&m.ask));
   /* 「好。」→ 出遊 → 2D 短場 → 23:30 第 7 則 */
   const got=answer('yt_ask_aunt',0), q=OUT.get(H.G,'aa508_yt_aunt');
-  check('4. 選「好。」→ 她回「九點。不要說話。」、YT_AUNT_DM ok；排出遊 8/22 21:00 麵店（走過去約 10 分鐘）',J(got)===J(['九點。不要說話。'])&&H.G.flags.YT_AUNT_DM==='ok'&&!!q&&q.day===D822&&q.h===21&&q.place==='麵店'&&q.ev==='ev_aa508_yt_aunt'&&q.state==='planned',J(q));
+  check('4. 選「好。」→ 她回「九點。不要說話。」、YT_AUNT_DM ok；排出遊 8/22 21:00 麵店（走過去約 10 分鐘）',J(got)===J(['九點。不要說話。'])&&H.G.flags.YT_AUNT_DM==='ok'&&!!q&&q.day===D822&&q.h===21&&q.place===Yf('麵店')&&q.ev==='ev_aa508_yt_aunt'&&q.state==='planned',J(q));
   at(D822,20.8); H.said=[]; H.bgs=[]; await OUT.go(GM,q); const nar=H.said.filter(s=>s.who===null).map(s=>s.t);
   check('4. 8/22 21:00 麵店的 2D 短場：旁白四句照稿（「（店裡的燈只開一半。……）」…「（講完，阿姨站起來：「餓不餓？」）」）、底圖 noodle_table；演完 22:00',
-    J(nar.filter(t=>/^（/.test(t)).slice(0,4))===J(['（店裡的燈只開一半。阿姨坐在長桌的另一頭，語彤把錄音筆放在中間。）','（阿姨先說「沒什麼好講的」。然後一直講到很晚。）','（你一句話都沒說。語彤也是。）','（講完，阿姨站起來：「餓不餓？」）'])
-    &&q.state==='done'&&H.G.day===D822&&Math.abs(H.G.hour-22)<0.01&&H.bgs.some(x=>x&&x.image&&/noodle_table/.test(x.image)),J({nar,state:q.state,h:H.G.hour,bgs:H.bgs}));
+    J(nar.filter(t=>/^（/.test(t)).slice(0,4))===J(['（店裡的燈只開一半。阿姨坐在長桌的另一頭，語彤把錄音筆放在中間。）','（阿姨先說「沒什麼好講的」。然後一直講到很晚。）','（你一句話都沒說。語彤也是。）','（講完，阿姨站起來：「餓不餓？」）'].map(Yf))
+    &&q.state==='done'&&H.G.day===D822&&Math.abs(H.G.hour-22)<0.01&&H.bgs.some(x=>x&&x.image&&/wenzhou_teahouse/.test(x.image)),J({nar,state:q.state,h:H.G.hour,bgs:H.bgs}));
   walk(D822,23.6); const it7=item('yt7f'); FEED.respond(H.G,'yt7f','dm'); const r7=th('heroine_03').slice(-2).map(x=>x.text);
   check('4. 23:30 第 7 則（錄音筆「阿姨」）：陪她去的＝只是朋友也看得到；私訊問「說了什麼？」→「你在。你聽到了。」',!!it7&&it7.v==='yes'&&J(r7)===J(['說了什麼？','你在。你聽到了。']),J({it7,r7}));
   /* 「我那天不行。」*/
   setup('CLOSE'); walk(D821,20.1); const g2=answer('yt_ask_aunt',1); walk(D822,23.6); const i2=item('yt7f'); FEED.respond(H.G,'yt7f','dm'); const r2=th('heroine_03').slice(-2).map(x=>x.text);
-  check('4. 選「我那天不行。」→「嗯。我自己問。」、沒有出遊；很熟的照表看得到第 7 則，私訊問的回答「……不能說。她說要先給我媽聽。」',J(g2)===J(['嗯。我自己問。'])&&H.G.flags.YT_AUNT_DM==='cant'&&!OUT.get(H.G,'aa508_yt_aunt')&&!!i2&&i2.v==='no'&&J(r2)===J(['說了什麼？','……不能說。她說要先給我媽聽。']),J({g2,r2}));
+  check('4. 選「我那天不行。」→「嗯。我自己問。」、沒有出遊；很熟的照表看得到第 7 則，私訊問的回答「……不能說。她說十週年那天再說。」',J(g2)===J(['嗯。我自己問。'])&&H.G.flags.YT_AUNT_DM==='cant'&&!OUT.get(H.G,'aa508_yt_aunt')&&!!i2&&i2.v==='no'&&J(r2)===J(['說了什麼？','……不能說。她說十週年那天再說。']),J({g2,r2}));
   setup('FRIEND'); walk(D821,20.1); answer('yt_ask_aunt',1); walk(D822,23.6); check('4. 只是朋友、沒有陪她去：第 7 則不出（x:stage）',R().done.yt7f==='x:stage',J(R().done.yt7f));
   setup('FRIEND'); walk(D821,20.1); const n0=(H.G.msgs||[]).length; answer('yt_ask_aunt',2); const n1=(H.G.msgs||[]).length;
   check('4. 選「（不回）」：不替你傳、她不回、YT_AUNT_DM none',n1===n0&&H.G.flags.YT_AUNT_DM==='none'&&!OUT.get(H.G,'aa508_yt_aunt'));
@@ -407,7 +411,7 @@ await sec('6',async()=>{ if(typeof HEARD==='undefined'){ check('6. HEARD',false,
   check('6. AA_508 1-4：Alison 4/5 21:20 麵店團群組「以安傳在群組的日本照片，每一張都有說明。像在寫報告。」',y0===0&&J(msgs('h508_yu_an').map(m=>[m.th,m.from,m.name,m.text]))===J([['g:noodle_team','yu','Alison','以安傳在群組的日本照片，每一張都有說明。像在寫報告。']]),J(msgs('h508_yu_an')));
   fresh(D45,21,{}); run(D45,21.4); check('6. 不在麵店團群組：沒有（x:noodleGroup）',!msgs('h508_yu_an').length&&HEARD.rec(H.G).ph.h508_yu_an==='x:noodleGroup');
   const D727=DK('2028-07-27'); fresh(D727,21,{}); PHONE.join(H.G,'noodle_team','麵店團'); run(D727,21.4);
-  check('6. AA_508 3-4：Alison 7/27 21:20（語彤 7/24～8/6 在宜蘭）「語彤去宜蘭兩個禮拜。……她沒有。」',J(msgs('h508_yu_yt').map(m=>m.text))===J(['語彤去宜蘭兩個禮拜。阿姨每天問我們，她有沒有在群組講話。……她沒有。']));
+  check('6. AA_508 3-4：Alison 7/27 21:20（語彤 7/24～8/6 在宜蘭）「語彤去宜蘭兩個禮拜。……她沒有。」',J(msgs('h508_yu_yt').map(m=>m.text))===J(['語彤去宜蘭兩個禮拜。蘇姨每天問我們，她有沒有在群組講話。……她沒有。']));
   const D95=DK('2028-09-05'); fresh(D95,23,{}); who('heroine_04','ACQ'); meet('heroine_02'); run(D95,23.6);
   check('6. AA_508 2-4：子晴 9/5 23:30 私訊「芷若走了。這次一年。她把那把很醜的傘留給我了。」（有子晴的聯絡方式、認識芷若）',J(msgs('h508_zq_zr').map(m=>[m.th,m.from,m.text]))===J([['p:heroine_04','heroine_04','芷若走了。這次一年。她把那把很醜的傘留給我了。']]),J(msgs('h508_zq_zr')));
   fresh(D95,23,{}); who('heroine_04','ACQ'); run(D95,23.6); const zx=HEARD.rec(H.G).ph.h508_zq_zr; fresh(D95,23,{}); rel('heroine_04','ACQ'); meet('heroine_02'); run(D95,23.6); const zy2=HEARD.rec(H.G).ph.h508_zq_zr;

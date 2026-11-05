@@ -200,7 +200,7 @@ const POOL=(function(){
   S.QUEST={ PQ_ZJW:{who:Z,title:'陪靖雯去旁聽'}, PQ_YT1:{who:Y,title:'黃郁婷：考前補給包'}, PQ_YT2:{who:Y,title:'黃郁婷：迎新報到桌'},
     PQ_CJ:{who:C,title:'林采潔：第三章'}, PQ_YS:{who:YS,title:'鄭元碩：法律系的一天'}, PQ_QJQ:{who:Q,title:'邱家齊：代收媽媽的箱子'} };
   const HINT={ PQ_ZJW:{court:r=>md(r.outDay)+'（'+wdTxt(r.outDay)+'）14:00 陪靖雯去臺北地方法院旁聽'}, PQ_YT1:{pack:()=>'今天 19:00～21:00 到法律系館B一樓幫忙包考前補給包'},
-    PQ_YT2:{desk:r=>md(r.outDay)+'（三）08:30 到法律系館A一樓的迎新報到桌'}, PQ_CJ:{read:()=>'在舊路書房或教室找采潔，讀她的第三章'},
+    PQ_YT2:{desk:r=>md(r.outDay)+'（三）08:30 到法律系館A一樓的迎新報到桌'}, PQ_CJ:{read:()=>'在頁間書屋或教室找采潔，讀她的第三章'},
     PQ_YS:{shoot:r=>md(r.outDay)+'（六）07:00 起當「法律系的一天」的主角'}, PQ_QJQ:{pick:r=>md(r.satDay)+'（六）10:00～18:00 到男一舍門廳領包裹',fridge:()=>'把箱子放進男一舍交誼廳的冰箱'} };
   S.hint=(id,r)=>{ const h=HINT[id]&&HINT[id][r.step]; return typeof h==='function'?h(r):(h||''); };
   S.HINT=HINT;   /* 第二批以後的順手的事在 src/pool_more3d.js 加進來（S.QUEST、S.HINT，再叫一次 S.register）*/

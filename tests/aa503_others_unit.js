@@ -50,7 +50,7 @@ const SPEC={AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一�
   AA_514:['docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md','9bca0f407'],   /* AA_514 第 4 節第 3 點：晨希叫子晴不加「學姊」（h507_cx_zq、h508_cx_zq 改字，src 'AA_514 4'）*/
   AA_520:['docs/story_planning/AA_520_予樂自己的線_辦活動的人不在照片裡.md','481dd8238']};   /* AA_520 第 2 節：h503_yule 後面兩句（items 第 4 欄 'AA_520 2'）；其他在 tests/aa520_yule_unit.js */
 const show0=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
-const show=(sha,f)=>require('./an_rev_doc.js').overlay(show0(sha,f),/^heard_lines\.js/)[0];   /* 以安改稿④b（AA_594 第 35 列：Alison「…她把另一半貼在手帳裡了。」→「…收起來了。」）：讀稿時照改成欄換（逐列核對在 tests/aa594_an_4b_unit.js）*/
+const show=(sha,f)=>require('./an_rev_doc.js').overlay(show0(sha,f),/^heard_lines\.js/)[0].replace(/三號桌的阿伯/g,'一盞那個常來的阿伯');   /* 2026-11-04：一盞「三號桌的阿伯」五句照 AA 11-04 07:07 訊息改成「一盞那個常來的阿伯」（開發分支 97713958b；語彤搬到一盞茶屋，AA_610／AA_624）——讀稿時照改再比 */   /* 以安改稿④b（AA_594 第 35 列：Alison「…她把另一半貼在手帳裡了。」→「…收起來了。」）：讀稿時照改成欄換（逐列核對在 tests/aa594_an_4b_unit.js）*/
 const DOC={}; for(const k in SPEC) DOC[k]=show(SPEC[k][1],SPEC[k][0]);
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
 const errs=[];
@@ -183,7 +183,7 @@ await sec('3',async()=>{ if(!HAS()||typeof NOODLE_TABLE==='undefined'){ check('3
   setup(NDt('Y1S2',11,0)); H.G.flags.ndlTalkN={Y1:3}; const p4=STORY.ndlTalkPick(H.G); check('3. AA_527 第 2 點的順延也不會挑它（retired）',!!p4&&p4.e.once!=='h504_zhe_hand');
   /* 大一上：輪到才演、只演一次 */
   const W6=NDt('Y1S1',6,0); setup(W6); H.G.flags.ndlTalkN={Y1:8}; const g=STORY.ndlTalkPick(H.G); H.said=[]; await STORY.ndlTalk(GM); const sg=said();
-  check('3. AA_503：大一上輪到第 9 則＝阿哲「語彤今天又在剝蒜頭。我去幫忙，被阿姨趕出來。」；演完輪到第 10 則',!!g&&g.e.once==='h503_zhe_garlic'&&J(sg)===J(['語彤今天又在剝蒜頭。我去幫忙，被阿姨趕出來。'])&&H.G.flags.ndlTalkN.Y1===9,J({sg,N:H.G.flags.ndlTalkN}));
+  check('3. AA_503：大一上輪到第 9 則＝阿哲「語彤今天又在洗杯子。我去幫忙，被蘇姨趕出來。」；演完輪到第 10 則',!!g&&g.e.once==='h503_zhe_garlic'&&J(sg)===J(['語彤今天又在洗杯子。我去幫忙，被蘇姨趕出來。'])&&H.G.flags.ndlTalkN.Y1===9,J({sg,N:H.G.flags.ndlTalkN}));
   H.G.flags.ndlTalkN={Y1:8}; at(NDt('Y1S1',7,0),18); const g2=STORY.ndlTalkPick(H.G); check('3. 演過了：下一輪輪到它就跳過（只演一次）',!!g2&&g2.e.once!=='h503_zhe_garlic',J(g2&&[g2.i,g2.e.once]));
   setup(NDt('Y1S2',3,0)); H.G.flags.ndlTalkN={Y1:8}; const g3=STORY.ndlTalkPick(H.G); check('3. 大一下輪到它：不演（大一上才有）',!!g3&&g3.e.once!=='h503_zhe_garlic');
   });
@@ -237,7 +237,7 @@ await sec('5',async()=>{ if(!HAS()){ check('5. 第三輪',false,'沒有 HEARD');
   check('5. AA_506 6-4：柏翰「沛珊去台南了。我在動態看到的。……我按了愛心。」9/4 20:00（她那則動態）以後才說',!p0&&id(p1)==='h506_bh_ps',J([id(p0),id(p1)]));
   const D1128=TDt('Y3S1',12,7); fresh(D1128,20,{}); meet('classmate_bohan','classmate_peishan','heroine_03'); H.said=[]; await HEARD.preTalk(GM,who('柏翰'),'classmate_bohan'); await HEARD.preTalk(GM,who('柏翰'),'classmate_bohan'); const s1=said();
   at(D1128+1,12); H.said=[]; await HEARD.preTalk(GM,who('柏翰'),'classmate_bohan'); const s2=said();
-  check('5. AA_507：柏翰說語彤的租約（11/25 起）、說沛珊寫黑板（第 12 週週日 19:30 起）兩句都在的那天：一天一句，隔天說另一句',J(s1)===J(['語彤阿姨的新租約，是她一條一條念給阿姨聽的。念到一半，阿姨說，妳念的比房東清楚。'])&&J(s2)===J(['沛珊在寫黑板。她的字變大了。……我在動態看到的。']),J({s1,s2}));
+  check('5. AA_507：柏翰說語彤的租約（11/25 起）、說沛珊寫黑板（第 12 週週日 19:30 起）兩句都在的那天：一天一句，隔天說另一句',J(s1)===J(['秀琴姨的新租約，是語彤一條一條念給她聽的。念到一半，秀琴姨說，妳念的比房東清楚。'])&&J(s2)===J(['沛珊在寫黑板。她的字變大了。……我在動態看到的。']),J({s1,s2}));
   fresh(D1128,20,{}); meet('classmate_bohan','classmate_peishan'); const p2=HEARD.talkDue(H.G,'classmate_bohan');
   check('5. 不認識語彤：柏翰直接說沛珊那一句（about 要 FIRST_MET）',id(p2)==='h507_bh_ps',J(id(p2)));
   /* 陳助教、筱涵、芷若 */

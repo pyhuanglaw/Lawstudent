@@ -11,12 +11,13 @@ AA_518（學姊第十五批）第 4 節 4-2、4-15：學姊 S4-L7 一句＋註�
 AA_525（說了沒發生（二））：子晴 Q2-L5、沛珊 P3-L3／P5-L2、可昕 K2-L8／K3-L5／K6-L6 的選項（字、回覆）整句相同才換（_swap，大一下～大三下各學期）；選了哪一個要記的旗標在 src/aa525_3d.js。
 AA_523（學姊第十六批）第 6 節 6-1、6-2：學姊 S7-L3 週次、S7-L8 選項②的回覆用 _fix 疊在大四下的階梯上（byTerm.Y4S2）；6-10：大四上招呼的 base 加一句（_fix_greet_base，byTerm.Y4S1）。
 AA_524（說了沒發生（一））：以安 A2-L5、A4-L6 選項②的回覆、A3-L8 extraIf，芷若 Z3-L4 選項②的回覆、Z5-L5 extraIf 用 _fix 疊上去（旗標 AN_COOK_PROMISE、ZR_LUROU_HALF 在 src/aa524_3d.js 記）。
-用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔）"""
+用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref] [--out 檔名]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔；--out：寫到那個檔、不改 src/data/ladder.js，tests/ladder_reimport_unit.js 用）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
 import import_guard as G
 ALLOW = G.load(ROOT)
+_rf = lambda x: json.loads(G.read_fix(json.dumps(x, ensure_ascii=False)))   # 這支程式裡寫死的舊句、改成：和讀稿一樣先 read_fix（AA_612 麵店→燒臘店以後，稿裡讀出來的字已經換了；2026-11-03）
 APPROVED = G.approved_files(ALLOW, 'docs/story_planning/ladder/')
 for p, s in APPROVED.items():
     ok, why = G.allowed(p, s, ALLOW)
@@ -38,8 +39,11 @@ show = lambda p: json.loads(G.read_fix(subprocess.check_output(['git', '-C', ROO
 srcs = sorted(set(APPROVED.values()))
 out = {'source': '白名單 ' + '＋'.join(f'{v}（{sum(1 for x in APPROVED.values() if x == v)} 檔）' for v in srcs), 'characters': {}, 'terms': {}, 'byTerm': {}, 'kaiDorm': [], 'bikeSeat': {}}
 files = sorted(os.path.basename(p)[:-5] for p in APPROVED)
+import aa630   # AA_630（語彤台詞改寫，白名單上的版本）：第 1 節的列照 JSON 路徑換在源稿上（其他疊句照舊在後面）
+R630 = aa630.load(ROOT, ALLOW, G); LOG630 = []
 for f in files:
     d = show(f'docs/story_planning/ladder/{f}.json')
+    aa630.apply_json(R630, f'docs/story_planning/ladder/{f}.json', d, LOG630)
     term = d.get('term')
     if not re.match(r'^Y\d+S[12]$', term or ''): sys.exit(f'{f}：term 不對（{term}）')
     bt = out['byTerm'].setdefault(term, {})
@@ -69,6 +73,7 @@ def mems(cs):
                 if x.get('mem'): yield x['mem']
 skipped = {}
 dst = os.path.join(ROOT, 'src', 'data', 'ladder.js')
+OUT = sys.argv[sys.argv.index('--out') + 1] if '--out' in sys.argv else dst   # LADDER-IMPORT-AA657-1104：--out 檔名＝寫到別的地方（測試比對重匯結果用；上一次匯入的版本照舊讀 src/data/ladder.js）
 try:   # 上一次匯入的版本：缺中文名稱的學期先保留舊的（不讓那一學期整個消失）
     _s = open(dst, encoding='utf8').read(); OLD = json.loads(_s[_s.index('{'):_s.index(';\nLADDER.byTerm.Y1S1')])
 except Exception: OLD = {}
@@ -126,7 +131,7 @@ def _approved_md(prefix):   # 白名單上的修正稿（AA_376、AA_377）：(�
     if not ok: sys.exit('拒絕匯入：' + why)
     return P, S, G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S}:{P}'], text=True))
 def _swap(tag, md, chars, rows):   # 整句相同才換（同 AA_372、AA_373）：rows＝[(第幾項, 人物, 舊句, 新句, 稿裡的「改成」)]
-    for item, cid, old, new, quote in rows:
+    for item, cid, old, new, quote in _rf(rows):
         if quote not in md: sys.exit(f'{tag} 裡找不到{item}的「改成」：{quote}')
         ch = chars.get(cid) or {}
         n = _walk(ch, old, new)
@@ -136,7 +141,7 @@ def _step(chars, cid, sid, tag):
     if st is None: sys.exit(f'{tag}：找不到 {cid} 的 {sid}')
     return st
 def _add_choice(tag, md, chars, rows):   # 多一個選項（加在原本那個後面；複製原本的回覆、rel，再蓋上新的字）：哪一個玩家看得到由 src/y3fill3d.js 的 LADDER_CHOICE_IF 決定
-    for item, cid, sid, base_t, over, quotes in rows:
+    for item, cid, sid, base_t, over, quotes in _rf(rows):
         for q in quotes:
             if q not in md: sys.exit(f'{tag} 裡找不到{item}的「改成」：{q}')
         st = _step(chars, cid, sid, tag); C = st.get('choices') or []
@@ -145,7 +150,7 @@ def _add_choice(tag, md, chars, rows):   # 多一個選項（加在原本那個�
         if i is None: sys.exit(f'{tag} {item}：{cid} {sid} 找不到選項「{base_t}」')
         nc = dict(C[i]); nc.update(over); C.insert(i + 1, nc)
 def _add_lines_if(tag, md, chars, rows):   # 多一套 linesIf（放在最前面＝先比）：rows＝[(第幾項, 人物, 層, 條件, 台詞, 稿裡的「改成」)]
-    for item, cid, sid, cond, lines, quote in rows:
+    for item, cid, sid, cond, lines, quote in _rf(rows):
         if quote not in md: sys.exit(f'{tag} 裡找不到{item}的「改成」：{quote}')
         st = _step(chars, cid, sid, tag); L = st.setdefault('linesIf', [])
         if any(x.get('lines') == lines for x in L): continue
@@ -202,7 +207,7 @@ def _fix(prefix, label, patches):
     ok, why = G.allowed(P, SHA, ALLOW)
     if not ok: sys.exit('拒絕匯入：' + why)
     md = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{SHA}:{P}'], text=True))
-    for item, term, cid, sid, field, old, new, quote in patches:
+    for item, term, cid, sid, field, old, new, quote in _rf(patches):
         if quote not in md: sys.exit(f'{os.path.basename(P)[:6]}@{SHA} 裡找不到{item}的「改成」：{quote}')
         st = next((x for x in (((out['byTerm'].get(term) or {}).get(cid) or {}).get('steps') or []) if x.get('id') == sid), None)
         if st is None: sys.exit(f'{os.path.basename(P)[:6]} {item}：{term} {cid} 沒有 {sid}')
@@ -407,7 +412,8 @@ if X595:
     P595, S595, md595 = X595
     _swap(f'AA_595@{S595}', md595, y1, [('4-1', 'heroine_01', '寒假你回臺北的家，對吧。', '寒假你會回家住嗎？', '「寒假你會回家住嗎？」')])
     out['source'] += f'＋{os.path.basename(P595)[:6]}@{S595}（以安 A-L10 一句）'
-with open(dst, 'w', encoding='utf8') as fo:
+if R630: out['source'] += f'＋AA_630@{R630["sha"]}（語彤 {sum(int(re.search(r"(\d+) 列", x).group(1)) for x in LOG630)} 列）'
+with open(OUT, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n')
-print('wrote', dst, 'Y1S1', {k: len(v['steps']) for k, v in out['characters'].items()}, {t: {k: len(v['steps']) for k, v in c.items()} for t, c in out['byTerm'].items()}, 'kaiDorm', len(out['kaiDorm']))
+print('wrote', OUT, 'Y1S1', {k: len(v['steps']) for k, v in out['characters'].items()}, {t: {k: len(v['steps']) for k, v in c.items()} for t, c in out['byTerm'].items()}, 'kaiDorm', len(out['kaiDorm']))

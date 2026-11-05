@@ -8,7 +8,7 @@ const {check,GM}=H, J=JSON.stringify;
 GM.toast=()=>{}; GM.caption=()=>{};
 const keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7;
 const ev=STORY_EVENTS.find(e=>e.id==='ev_term_last_meal_y2s2');
-check('0. 有 ev_term_last_meal_y2s2（麵店、enter、大二下、一次）',!!ev&&ev.location==='noodle'&&ev.trigger==='enter'&&J(ev.term)===J(['Y2S2'])&&ev.once===true);
+check('0. 有 ev_term_last_meal_y2s2（麵店——AA_648 以後也可以是日常失速，地點照 OFFB.finalZone；enter、大二下、一次）',!!ev&&[].concat(ev.location).includes('noodle')&&[].concat(ev.location).includes('wz_offbeat')&&ev.trigger==='enter'&&J(ev.term)===J(['Y2S2'])&&ev.once===true);
 (async()=>{
   const G0=H.fresh('2027-06-01',10,'noodle',{noodleTableDay:1}); const e=CLS.lastExamEnd(G0,'Y2S2','final');
   check('0. 大二下有最後一科期末考',!!e,J(e));

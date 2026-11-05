@@ -156,7 +156,7 @@ const VACFILL=(function(){
     {flag:'VF_Y0_0818',v:['go'],stage:'econ',q:{id:'vf_y0_0818',ev:'ev_vf_y0_0818',day:'2025-08-18',h:19,late:0.5,place:'公館',title:'和經濟系那一群吃飯',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
     {flag:'VF_Y2_0623',v:['go'],q:{id:'vf_y2_0623',goto:NOODLE,day:'2027-06-23',h:18,late:0.75,place:'公館',title:'公館燒臘',travel:'走過去約 15 分鐘',travelH:0.25}},
     {flag:'VF_Y2_0729',v:['go','find'],q:{id:'vf_y2_0729',ev:'ev_vf_y2_0729',day:'2027-07-29',h:14,late:0.5,place:'法圖',title:'法圖',travel:'走過去約 10 分鐘',travelH:1/6}},
-    {flag:'VF_Y2_0731',v:['go'],q:{id:'vf_y2_0801',ev:'ev_vf_y2_0801',day:'2027-08-01',h:15,late:0.5,place:'兩點半 Café',title:'兩點半 Café',travel:'走過去約 15 分鐘',travelH:0.25}},
+    {flag:'VF_Y2_0731',v:['go'],q:{id:'vf_y2_0801',ev:'ev_vf_y2_0801',day:'2027-08-01',h:15,late:0.5,place:'2:30 AM',title:'2:30 AM',travel:'走過去約 15 分鐘',travelH:0.25}},
     {flag:'VF_Y3_0204',v:['go'],q:{id:'vf_y3_0204',ev:'ev_vf_y3_0204',day:'2028-02-04',h:18.5,late:0.5,place:'公館',title:'公館燒臘',travel:'走過去約 15 分鐘',travelH:0.25}},
     {flag:'VF_Y3_LANTERN',v:['go'],q:{id:'vf_y3_0209',ev:'ev_vf_y3_0209',day:'2028-02-09',h:19,late:0.5,place:'元宵的燈會',title:'元宵的燈會',travel:'捷運 約 30 分鐘',travelH:0.5}},
     {flag:'VF_Y3_0214',v:['go'],q:{id:'vf_y3_0214',ev:'ev_vf_y3_0214',day:'2028-02-14',h:10,late:0.5,place:'法圖',title:'法圖',travel:'走過去約 10 分鐘',travelH:1/6}},

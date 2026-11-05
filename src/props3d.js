@@ -186,5 +186,19 @@ const PROPS = (function(){
         done(n); }).catch(e=>{ console.warn('book glb',e); done(bookFallback()); });
     else done(bookFallback());
     return g; }
-  return {attach,detach,DEF,readBook};
+  /* ---- 坐著滑手機、看平板（SEAT-ACTIVITY-1104，src/seatact3d.js；character3d.js 的 readIK、C.READ_ITEM）：手上的東西＝desk_props.glb 的單件（LAWWW2；item_phone_on，平板 item_tablet 之後才有）----
+     單件的座標：原點＝底面中心、y 往上（螢幕那一面）、+z＝離開坐的人（手機的頂端）。換到讀書的座標（x＝人物的右邊、y＝往上、+z＝朝讀的人）：
+     單件 +x（人物的左邊）→ −x、+z（頂端）→ +y、+y（螢幕）→ +z；厚度的中間放在 0。和講堂桌上的同一個網格、同一個材質（不另外做一份）。
+     GLB 還沒到：什麼都不顯示；沒有這個單件或載入失敗：userData.failed（readIK 照拿書）*/
+  const HELD={phone:'item_phone_on',tablet:'item_tablet'};
+  function readHeld(kind){ const nm=HELD[kind]; if(!nm) return null; const g=new THREE.Group(); g.name='readHeld:'+kind; g.userData.loading=true;
+    const fail=()=>{ g.userData.loading=false; g.userData.failed=true; };
+    if(typeof ASSETS==='undefined'||!ASSETS.manifest['prop.desk_props']){ fail(); return g; }
+    ASSETS.loadOne('prop.desk_props').then(c=>{ let src=null; if(c&&c.scene) c.scene.traverse(o=>{ if(!src&&o.isMesh&&o.name===nm) src=o; }); if(!src){ fail(); return; }
+      const m=new THREE.Mesh(src.geometry,src.material); m.name=nm; m.castShadow=false; m.receiveShadow=false; m.frustumCulled=false;
+      if(!src.geometry.boundingBox) src.geometry.computeBoundingBox(); const bb=src.geometry.boundingBox, th=bb?(bb.max.y-bb.min.y):0.008;
+      m.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(new THREE.Vector3(-1,0,0),new THREE.Vector3(0,0,1),new THREE.Vector3(0,1,0))); m.position.set(0,0,-(bb?bb.min.y:0)-th/2);
+      g.add(m); g.userData.loading=false; g.userData.ready=true; },()=>fail());
+    return g; }
+  return {attach,detach,DEF,readBook,readHeld,HELD};
 })();

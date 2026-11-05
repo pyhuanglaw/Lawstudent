@@ -56,6 +56,11 @@ async def walk_to(pg, t, x, z, label, tol=1.3, max_s=150):
     t0 = time.time(); st = await state(pg)
     while time.time() - t0 < max_s:
         st = await state(pg)
+        # 走路的時候跳出對話（例：進 2:30 AM 才抽到的隨機事件 ev_wrong_coffee，enter、random_weight 0.35、兩個選項；
+        # 進門後的 advance_dialogue 可能在事件出來之前就結束了）：像玩家一樣先回答完再走（BB-C 11-04 V20_touchwz_909c TEST_BUG）
+        if st['dlg'] or st['choices']:
+            print('  [玩家操作] 走路的時候跳出對話 → 先回答再走：', (st['name'] or '旁白') + '：' + (st['text'] or '')[:40], flush=True)
+            await advance_dialogue(pg, t); continue
         d = math.hypot(st['x'] - x, st['z'] - z)
         if d < tol: return st
         sx, sy, sz = await screen_of(pg, x, z)
@@ -134,7 +139,7 @@ async def main():
         st = await walk_to(pg, t, 53.4, 0.0, 'cafe door', tol=0.9)
         await pg.wait_for_timeout(1500); st = await state(pg)
         await pg.screenshot(path=SHOTS+'/flow_02_cafe_front.png')
-        check('走到 Café 門口出現「進入兩點半 Café」', '兩點半' in st['interact'], st)
+        check('走到 Café 門口出現「進入 2:30 AM」', '2:30 AM' in st['interact'], st)   # WORLD_NAMING：兩點半 Café 改名 2:30 AM（zones3d.js 門口 label；BB-C 11-04 13:00 ADE 判定：舊字讓 relsuite 一直 FAIL）
         ov = await pg.evaluate("(()=>{ const a=document.getElementById('interact').getBoundingClientRect(), j=document.getElementById('joy').getBoundingClientRect(); return !(a.right<j.left||a.left>j.right||a.bottom<j.top||a.top>j.bottom); })()")
         check('互動按鈕不會蓋住搖桿', not ov)
         # 要回的訊息（D103）在門口站滿 1.5 秒以後、下一次 STORY.tick 自己打開手機：可能剛好在 tap_el 檢查完、按下去之前打開，按到手機上（BB-C 10-28 v9.10.12 relsuite：flow_03 停在手機訊息頁）。
@@ -146,7 +151,7 @@ async def main():
                 await pg.wait_for_timeout(500)
                 if await pg.evaluate("(GAME.G&&GAME.G.zone==='cafe')||!document.getElementById('dlg').classList.contains('hide')||(!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())&&!document.getElementById('fade').classList.contains('on')&&!GAME.E.player.busy)"): break
             if await pg.evaluate("GAME.G.zone==='cafe'||!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"): break
-            print('  [玩家操作] 按門的時候手機自己打開了（要回的訊息）→ 收起來、再按一次「進入兩點半 Café」')
+            print('  [玩家操作] 按門的時候手機自己打開了（要回的訊息）→ 收起來、再按一次「進入 2:30 AM」')
             await t.phone_away(); await pg.wait_for_timeout(500)
         await advance_dialogue(pg, t)
         st = await state(pg); check('進入 Café', st['zone'] == 'cafe', st)

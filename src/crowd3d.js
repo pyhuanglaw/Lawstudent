@@ -153,6 +153,12 @@ const CROWD=(function(){
       const q=quiet(G)||(typeof CALENDAR!=='undefined'&&!!CALENDAR.holiday(G.day)), w=wk(G); const cuts=[[a,12,0],[12,14,1],[14,17.5,2],[17.5,b,3]];
       return cuts.map(([t0,t1,i])=>({t0:Math.max(t0,a),t1:Math.min(t1,b),i})).filter(c=>c.t1-c.t0>0.05).map(c=>{ let n=busy[c.i].slice(); if(w) n=[Math.max(n[0],busy[3][0]-1),Math.max(n[1],busy[3][1]-1)]; if(q) n=[Math.max(0,n[0]-1),Math.max(1,n[1]-1)];
         return {key:'g'+c.i,t0:c.t0,t1:c.t1,n,fixed:true,pose:'idle',talk:0,enter:'door',leave:'door'}; }); };
+    /* 玩家的體育課（課表的體育課，門口 gym）：[開始前 30 分鐘, 下課, 那一堂]；swim＝游泳週在 B1 上的（CLS.peSwim，AA_644）、false＝在 1F 球場上的 */
+    const peWin=(G,swim)=>{ if(typeof CLS==='undefined'||!CLS.dayItems) return []; return CLS.dayItems(G).filter(it=>it.room&&it.room.door==='gym'&&!!(CLS.peSwim&&CLS.peSwim(G,it))===!!swim).map(it=>[it.t0-0.5,it.t1,it]); };
+    /* 把一天的時段切開：和體育課重疊的那一段 pe:true（沒切到的時段 key 不變：同一天同一時段同一批人）*/
+    const cutPE=(slots,W)=>{ if(!W.length) return slots; const out=[]; for(const s of slots){ let segs=[[s.t0,s.t1,false]];
+        for(const [a,b] of W){ const nx=[]; for(const [p,q,f] of segs){ if(f||b<=p||a>=q){ nx.push([p,q,f]); continue; } if(a>p) nx.push([p,a,false]); nx.push([Math.max(p,a),Math.min(q,b),true]); if(b<q) nx.push([b,q,false]); } segs=nx; }
+        segs.forEach(([p,q,f],i)=>{ if(q-p>0.05) out.push(Object.assign({},s,{key:s.key+(segs.length>1?'_'+i:''),t0:p,t1:q,pe:f})); }); } return out; };
     let IX=0; const mkSpot=(id,zone,c,door,people,slots,extra)=>Object.assign({id:'gym_'+id,zone,label:'體育館',gym:id,ix:IX++,c,spread:[1,1],door,road:door,people,slots,fidget:true},extra||{});   /* fidget：站著的人（器材旁、場邊、體育課的同學）也有小動作 */
     const D1=[0,17.9], DB=[18,7.6], DA=[0,24.8];   /* 進出的地方：1F 大門、B1 上樓的樓梯、3F 入口通道 */
     const B=L.b1, A=L.arena, eq=n=>(B.equipment.find(e=>e.node===n)||{at:[]}).at;
@@ -168,12 +174,22 @@ const CROWD=(function(){
     const court=mkSpot('court','gym',[0,-4],D1,function(G,slot,r){ const nc=Math.min(COURTS.length,Math.max(1,Math.round(cnt(r,slot)/2))), sp=specs(r,nc*2,this.ix), out=[];
         for(let c=0;c<nc;c++){ const [cx,cz]=COURTS[c]; for(const sd of [-1,1]){ const k=out.length, z0=cz+sd*3.0, wp=[[cx-1.2,z0+sd*0.5],[cx+1.1,z0-sd*0.6],[cx+0.5,z0+sd*1.4],[cx-0.8,z0-sd*0.9]].map(q=>[+q[0].toFixed(2),+q[1].toFixed(2),0]);
           out.push(mk(this,slot,k,{x:wp[0][0],z:wp[0][1],spec:sp[k],role:'badminton',beh:'route',waypoints:wp,ri:Math.floor(r()*wp.length),walkSpeed:2.6,run:true,pauseAt:true,faceYaw:face([cx,z0],[cx,cz])})); } }
-        return out; },G=>{ const w=wk(G); return daySlots(G,[[0,0],[2,4],[2,4],[4,6]],w?9:12,w?17:21).filter(s=>s.n[1]>0); });
-    /* ---- 1F 球場：體育課（玩家自己的體育課上課中）---- */
-    const pe=mkSpot('pe','gym',[0,-6],D1,function(G,slot,r){ const sp=specs(r,7,this.ix), out=[]; const c=slot.course;
-        out.push(mk(this,slot,0,{x:0,z:-7.9,yaw:0,spec:Object.assign({},(typeof CLS!=='undefined'&&CLS.teacherSpec&&c)?CLS.teacherSpec(c):STORY.extraSpec(sp[0])),role:'pe_teacher',name:(typeof CLS!=='undefined'&&CLS.teacherName&&c)?CLS.teacherName(c):'體育老師',rawSpec:true}));
-        [-4.2,-3.0,-1.8,1.8,3.0,4.2].forEach((x,k)=>out.push(mk(this,slot,k+1,{x,z:-6.0+(k%2?0.25:0),yaw:Math.PI,spec:sp[k+1],role:'pe_student',pose:k%3===1?'talk':'idle'})));
-        return out; },G=>{ if(typeof CLS==='undefined'||!CLS.dayItems) return []; return CLS.dayItems(G).filter(it=>it.room&&it.room.door==='gym').map(it=>({key:'pe|'+it.key,t0:it.t0-0.5,t1:it.t1,n:[7,7],fixed:true,pose:'idle',talk:0,enter:'door',leave:'door',course:it.c})); });
+        return out; },G=>{ const w=wk(G); return cutPE(daySlots(G,[[0,0],[2,4],[2,4],[4,6]],w?9:12,w?17:21),peWin(G,false)).filter(s=>s.n[1]>0&&!s.pe); });   /* 玩家的體育課在球場上的時候（AA_644：整個球場是那一班的）兩面羽球場不打 */
+    /* ---- 1F 球場：體育課（玩家自己的體育課上課中）----
+       AA_644 第 1 節：老師在中圈北邊、面向南（面向學生）；同學在南邊排成半圈，大約 10 人（路人底模；運動服的外觀還沒有：LAWWW2）。
+       半圈的圓心 (0, −6.8)、半徑 4.2 m：最南邊那一格（0, −2.6）是玩家（CLS.PE_IN_GYM），兩側各 5 格（每格 20°，相隔約 1.46 m）、面向老師；序號 1、2＝玩家左右兩邊，越大越遠。
+       有修這堂、在場的朋友由 CLS.peCast 換掉序號最小的幾個（換掉的位子記在 CLS.peTakenKey，人群重排時空著）。
+       游泳週（CLS.peSwim：B1 開著）這裡沒有人，整班在 B1 游泳池（gym_pe_pool）*/
+    S.PE_RING={c:[0,-6.8],r:4.2,step:20,teacher:[0,-7.0]};
+    const ringAt=k=>{ const R=S.PE_RING, j=Math.ceil(k/2), sd=k%2?1:-1, a=sd*j*R.step*Math.PI/180; return [+(R.c[0]+R.r*Math.sin(a)).toFixed(2),+(R.c[1]+R.r*Math.cos(a)).toFixed(2)]; };   /* k＝1…10 */
+    S.peRingAt=ringAt;
+    const taken=key=>typeof CLS!=='undefined'&&CLS.peTakenKey&&CLS.peTakenKey(key);
+    const tName=c=>(typeof CLS!=='undefined'&&CLS.teacherName&&c)?CLS.teacherName(c):'體育老師', tSpec=(c,sp)=>Object.assign({},(typeof CLS!=='undefined'&&CLS.teacherSpec&&c)?CLS.teacherSpec(c):STORY.extraSpec(sp));
+    const peSlots=(G,swim)=>peWin(G,swim).map(([t0,t1,it])=>({key:'pe|'+it.key,t0,t1,n:[11,11],fixed:true,pose:'idle',talk:0,enter:'door',leave:'door',course:it.c}));
+    const pe=mkSpot('pe','gym',[0,-6],D1,function(G,slot,r){ const sp=specs(r,11,this.ix), out=[]; const c=slot.course, T=S.PE_RING.teacher;
+        out.push(mk(this,slot,0,{x:T[0],z:T[1],yaw:0,spec:tSpec(c,sp[0]),role:'pe_teacher',name:tName(c),rawSpec:true}));
+        for(let k=1;k<=10;k++){ const q=ringAt(k), o=mk(this,slot,k,{x:q[0],z:q[1],yaw:face(q,T),spec:sp[k],role:'pe_student',pose:k%3===1?'talk':'idle'}); if(!taken(o.key)) out.push(o); }
+        return out; },G=>peSlots(G,false));
     /* ---- B1 ---- */
     const TM=eq('GYM_TREADMILL'), SQ=eq('GYM_SQUAT_RACK'), DBR=eq('GYM_DB_RACK'), BN=eq('GYM_BENCH'), MAT=eq('GYM_MAT');
     const BK=eq('GYM_BIKE'), RW=eq('GYM_ROWER');
@@ -192,15 +208,24 @@ const CROWD=(function(){
       [MAT[0],MAT[2]].filter(Boolean).map(q=>G_([q[0],q[1]-0.55],{pose:'gym_stretch',role:'mat'})));   /* 坐在墊子靠南那一端、腿往北伸 */
     const b1=mkSpot('b1','gym_b1',[-6,9],DB,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n+1,this.ix), out=[];
         out.push(mk(this,slot,0,{x:B.desk.staff.x,z:B.desk.staff.z,yaw:0,spec:sp[0]&~1,role:'desk_b1',name:'櫃台阿姨',fixed:true}));   /* 櫃台後面，面向客人（偶數＝女生）*/
-        const pick=shuffle(fit,r).slice(0,n); pick.forEach((q,k)=>out.push(mk(this,slot,k+1,Object.assign({spec:sp[k+1]},q))));
+        const pick=shuffle(fit,r).slice(0,n); pick.forEach((q,k)=>out.push(mk(this,slot,k+1,Object.assign({spec:q.role==='mat'?(sp[k+1]|1):sp[k+1]},q))));   /* BUG-GYM-SKIRT-1103（BB／CC 11-03）：墊子上拉筋＝坐在地上，女生路人底模有四套長裙（nf10／14／17／19），裙子後片掛在臀部、坐地就穿進地板 0.33～0.50 m——墊子上的人用男生底模（奇數 spec）*/
         return out; },G=>daySlots(G,[[2,3],[3,4],[2,4],[4,6]]));
     /* ---- B1 游泳池（BUG-GYM-POOL-EMPTY-1103；使用者 11-03 截圖：「游泳池完全沒人？」）：池邊救生員高椅旁站著的救生員（面向池子）、池邊長椅坐著休息的人。
        水裡游泳的人要游泳的動作和泳裝模型（LAWWW2：ART-GYM-POOL-SWIMMERS-1103），還沒有；池子導航整個擋住，人不會走進水裡 */
     const LG=(B.entryProps.find(e=>e.node==='GYM2_LIFEGUARD')||{at:[[14.2,-12]]}).at[0], PB=B.poolBenches||[];
     const pool=mkSpot('pool','gym_b1',[0,-2],DB,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n,this.ix), out=[];
         out.push(mk(this,slot,0,{x:+(LG[0]-1.0).toFixed(2),z:LG[1],yaw:-Math.PI/2,spec:sp[0],role:'lifeguard',name:'救生員',fixed:true}));   /* 高椅西邊、面向池子（-x）*/
+        if(slot.pe) return out;   /* 游泳週的體育課（AA_644）：長椅給那一班，池邊只有救生員 */
         const bs=shuffle(PB,r); for(let k=1;k<n&&k-1<bs.length;k++){ const q=bs[k-1]; out.push(mk(this,slot,k,{x:q[0],z:+(q[1]-0.1).toFixed(2),yaw:Math.PI,spec:sp[k],role:'pool_bench',seat:{x:q[0],z:+(q[1]-0.1).toFixed(2),yaw:Math.PI}})); }   /* 長椅四張：至少空一張給玩家（n 最多 3）*/
-        return out; },G=>daySlots(G,[[2,3],[2,3],[2,3],[3,3]]));   /* 放假、國定假日少一個：至少救生員＋一個人 */
+        return out; },G=>cutPE(daySlots(G,[[2,3],[2,3],[2,3],[3,3]]),peWin(G,true)));   /* 放假、國定假日少一個：至少救生員＋一個人 */
+    /* ---- B1 游泳池：游泳週的體育課（AA_644 第 1 節：整班改到 B1 游泳池，老師站池邊，同學坐在池邊的長椅）----
+       東側兩張長椅一張坐三個（面向池子）、旁邊站兩個；老師站在長椅和池子中間、面向長椅；玩家站在長椅西邊（CLS.PE_POOL）。序號越小離玩家越近（CLS.peCast 先換那幾個）*/
+    S.PE_POOL_CAST={teacher:[19.8,-3.4],seats:[[17.95,-1.1],[18.6,-1.1],[19.25,-1.1],[20.35,-1.1],[21.0,-1.1],[21.65,-1.1]],stand:[[22.8,-1.7],[22.7,-2.7]]};
+    const pePool=mkSpot('pe_pool','gym_b1',[19.8,-2.2],DB,function(G,slot,r){ const sp=specs(r,9,this.ix), out=[], C=S.PE_POOL_CAST, c=slot.course;
+        out.push(mk(this,slot,0,{x:C.teacher[0],z:C.teacher[1],yaw:0,spec:tSpec(c,sp[0]),role:'pe_swim_teacher',name:tName(c),rawSpec:true}));
+        C.seats.forEach((q,i)=>{ const o=mk(this,slot,i+1,{x:q[0],z:q[1],yaw:Math.PI,spec:sp[i+1],role:'pe_swim',seat:{x:q[0],z:q[1],yaw:Math.PI}}); if(!taken(o.key)) out.push(o); });
+        C.stand.forEach((q,i)=>{ const k=C.seats.length+1+i, o=mk(this,slot,k,{x:q[0],z:q[1],yaw:face(q,C.teacher),spec:sp[k],role:'pe_swim'}); if(!taken(o.key)) out.push(o); });
+        return out; },G=>peSlots(G,true));
     /* ---- 3F 主球場 ---- */
     const HOOP=A.court&&A.court.hoops?A.court.hoops[0]:[0,-14.43];
     const arena=mkSpot('arena','gym_arena',[0,-10],DA,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n,this.ix), out=[], np=Math.max(2,n-2);
@@ -208,8 +233,8 @@ const CROWD=(function(){
           out.push(mk(this,slot,k,{x:wp[0][0],z:wp[0][1],spec:sp[k],role:'basketball',beh:'route',waypoints:wp,ri:0,walkSpeed:2.8,run:true,pauseAt:true,faceYaw:face([wp[0][0],wp[0][1]],HOOP)})); }
         const REST=[[9.6,-16.8,'talk'],[10.5,-16.2,'idle'],[-9.4,-17.2,'idle']]; for(let k=np;k<n;k++){ const q=REST[(k-np)%REST.length]; out.push(mk(this,slot,k,{x:q[0],z:q[1],yaw:face([q[0],q[1]],[(k-np)===0?10.5:9.6,(k-np)===0?-16.2:-16.8]),spec:sp[k],role:'rest',pose:q[2]})); }
         return out; },G=>{ if(typeof GY3!=='undefined'&&GY3.ceremonyDay&&GY3.ceremonyDay(G)) return []; return daySlots(G,[[2,3],[4,5],[3,5],[6,8]]); });
-    for(const sp of [lobby,court,pe,b1,pool,arena]) sp.bind=S.gymBind;
-    return [lobby,court,pe,b1,pool,arena]; };
+    for(const sp of [lobby,court,pe,b1,pool,pePool,arena]) sp.bind=S.gymBind;
+    return [lobby,court,pe,b1,pool,pePool,arena]; };
   /* 體育館路人「聽一句」（AA_489 第 4 節，AA-C 2026-10-27 定稿，句子照抄；使用者 X108「體育館不管哪裡都沒有人」）：
      每個人一句；同一次進來（GM.enterN＋區域）不重複，一種人的句子用完了其他人就不說；照區域輪（下一次進來從下一句開始：G.flags.gymHear＝{種類: 從第幾句}）。
      散步的人、1F 長椅上的人：AA_489 沒寫句子；AA_495（路人分科系）起是「體」的系（電機、醫學），說那個系的句子（S.deptGymOne）。B1 健身房的人（跑步機、深蹲架、啞鈴、重訓椅、墊子）＝運動的人；體育老師說話時用課堂上的稱呼。
@@ -305,7 +330,7 @@ const CROWD=(function(){
   S.shopWindows=function(def,G){ if(typhoon(def.zone,G)) return []; const z=def.zone;
     if(/^l118_/.test(z)){ const id=z.slice(5), s=typeof L118!=='undefined'&&L118.shop?L118.shop(id):null; if(!s||!s.hours) return []; return s.hours.open.filter(([a,b])=>L118.isOpen(id,Object.assign({},G,{hour:(a+b)/2}))).map(w=>w.slice()); }
     if(z==='noodle') return typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G)?[]:[[11,14],[17,21]];
-    if(z==='bookstore') return [[11,21]]; if(z==='cvs') return [[0,24]];
+    if(z==='bookstore') return [[11,21]]; if(z==='cvs') return [[0,24]]; if(z==='aoki') return [[11,21]];   /* 青木茶室（GG-SHOPS-REDO-1104）：稿上沒有營業時間，門整天開著；客人只排 11:00～21:00 */
     if(typeof PLACES!=='undefined'&&PLACES.windowsOf){ if(PLACES.typhoonClosed&&PLACES.typhoonClosed(z,G.day)) return []; const ws=PLACES.windowsOf(z,G.day); return ws?ws.map(w=>[w[0],Math.min(24,w[1])]):[]; }
     return []; };
   /* 有人跟著你、今天約好在這間店（邀約的地點）：客人少一半（劇情、約會的那一桌旁邊不要太擠）*/
@@ -330,12 +355,23 @@ const CROWD=(function(){
     const add=(zone,kind,door,units,o)=>{ if(units.length) out.push(Object.assign({zone,kind,door,units,ix:out.length},o||{})); };
     /* 公館：阿鳳麵店（中間那張桌留給玩家、阿哲、麵店團：只排東西兩張）、日日便利、舊路書房 */
     add('noodle','meal',[0,3.5],S.pairUnits([{x:-3,z:-0.3,yaw:0},{x:-3,z:1.3,yaw:Math.PI},{x:3,z:-0.3,yaw:0},{x:3,z:1.3,yaw:Math.PI}]),{noKeep:true});
-    add('cvs','cvs',[0,3.5],standUnits(shelfPts([[-3.75,-4.2,0,4.5,[1]],[4.5,-4.2,0,3,[1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[-1]]])).concat(standUnits([[4.6,-0.55,Math.PI]],'pay')));
-    add('bookstore','book',[0,4],standUnits(shelfPts([[0,-4.7,0,11,[1]],[-5.7,0,Math.PI/2,8,[1]],[5.7,0,Math.PI/2,8,[-1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[1,-1]]])));
+    /* 公館三間新室內（GG-SHOPS-REDO-1104）：配置有載入＝照新的貨架、書牆（CVS_LAYOUT／YEJIAN_LAYOUT；站的點離家具 0.75 m、面向架子），青木茶室坐配置的座位；沒有＝舊的室內 */
+    const CV=typeof CVS_LAYOUT!=='undefined'&&CVS_LAYOUT.shop?CVS_LAYOUT.shop:null, YJ=typeof YEJIAN_LAYOUT!=='undefined'?YEJIAN_LAYOUT:null, AK=typeof AOKI_LAYOUT!=='undefined'?AOKI_LAYOUT:null, P=Math.PI;
+    /* 日和便利店：貨架中間的走道只有 0.8 m（一條走道站一個人）：一號貨架西邊兩個、一二號之間一個、二三號之間兩個、三號東邊一個（面向貨架）；西牆壁架北段一個；冷藏櫃前兩個（面向北）；排隊結帳：收銀機南邊、面向櫃台 */   /* 排隊結帳：原本 (1.45, 2.15)＝收銀機南邊、就站在「包裹暫取」「看熱食櫃」的按鈕上（AA_653 接了那兩個點）；往西退一步站 (0.85, 1.4)，還是面向櫃台 */   /* 配置 v4（模型 v2b，BB 61a107016）：貨架移到 x −3.7、−1.7、0.3，走道 1.05～1.2 m——站的點改在走道中間（西牆和一號之間 x −4.6、一二號之間 −2.7、三號和櫃台之間 1.3）*/
+    if(CV) add('cvs','cvs',[CV.spawn.x,CV.spawn.z],standUnits([[-4.6,-2.7,P/2],[-4.6,-0.5,P/2],[-2.7,-1.6,P/2],[-0.8,-2.6,P/2],[-0.8,-0.4,P/2],[1.3,-2.8,-P/2],[-4.6,-3.6,-P/2],[2.3,-4.3,P],[4.1,-4.3,P]]).concat(standUnits([[0.85,1.4,P/2]],'pay')));
+    else add('cvs','cvs',[0,3.5],standUnits(shelfPts([[-3.75,-4.2,0,4.5,[1]],[4.5,-4.2,0,3,[1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[-1]]])).concat(standUnits([[4.6,-0.55,Math.PI]],'pay')));
+    if(YJ) add('bookstore','book',[YJ.spawn.x,YJ.spawn.z],standUnits([[-2.3,-4.0,P],[2.3,-4.0,P],[-0.6,1.55,0],[3.0,1.55,0]]));   /* 北牆書牆前兩個（西段是買法律書的互動點、梯子東邊 (0.3,−3.95) 是法律系同學「找書的女生」的位子 src/data/pool_story.js）、窗前兩座斜面書架北邊（書架面向北）*/
+    else add('bookstore','book',[0,4],standUnits(shelfPts([[0,-4.7,0,11,[1]],[-5.7,0,Math.PI/2,8,[1]],[5.7,0,Math.PI/2,8,[-1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[1,-1]]])));
+    /* afar café（咖啡）、Daybreak（早午餐）（GG-SHOPS2-1104）：配置的座位；營業時間照 places.js */
+    for(const [zk,kind,L] of [['afar','cafe',typeof AFAR_LAYOUT!=='undefined'?AFAR_LAYOUT:null],['daybreak','brunch',typeof DAYBREAK_LAYOUT!=='undefined'?DAYBREAK_LAYOUT:null]]){ if(L) add(zk,kind,[L.exit.at.x,+(L.d/2-2).toFixed(2)],S.pairUnits(seatsOf(L.seats))); }
+    if(AK) add('aoki','tea',[AK.spawn.x,AK.spawn.z],S.pairUnits(seatsOf(AK.seats.map(q=>q.seatH>0.6?Object.assign({},q,{lift:+(q.seatH-0.45).toFixed(2)}):q))));   /* 吧台高腳椅（seatH 0.72）＝bar */
     /* 溫州街：半熟、一盞、林家乾麵、巷子裡定食（配置檔的座位；打工的、阿芃的位子不算）、阿德影印（櫃台前、文具架前、自助影印旁邊站著）*/
     if(WZ){ for(const [k,kind] of [['brunch','brunch'],['teahouse','tea'],['lin','meal'],['teishoku','meal']]){ const L=WZ[k]; if(!L||!L.spawn) continue;
-        add('wz_'+k,kind,[L.spawn.x,L.spawn.z],S.pairUnits(seatsOf((L.seats||[]).filter(s=>!s.npcOnly&&!/打工/.test(s.label||''))))); }
-      if(WZ.print&&WZ.print.spawn) add('wz_print','print',[WZ.print.spawn.x,WZ.print.spawn.z],standUnits([[-1.55,1.95,Math.PI],[1.15,3.25,Math.PI/2],[0.25,1.95,Math.PI]])); }
+        add('wz_'+k,kind,[L.spawn.x,L.spawn.z],S.pairUnits(seatsOf((L.seats||[]).filter(s=>!s.npcOnly&&!/打工/.test(s.label||'')))));   /* 走不進去的位子在配置寫 npcOnly（小路 v4 起；原本的 Z3.wzNoSit 拿掉）*/ }
+      /* 阿德影印 v1c（ade_layout v3，CC 5977272dc；BB_257、CC_49 v1c）：站著的三點讀配置的 stands（原本寫死 (−1.55,1.95)、(1.15,3.25)、(0.25,1.95)，新配置前後兩點在自助影印機、長桌裡）；
+         自助電腦那四張椅子客人可以坐（LAWWW 07:16 決定：等印東西時坐；原本影印店只有站著的客人）——同時最多 2 位照舊（SHOP_KIND.print.cap）。櫃台後面的辦公椅（打工）、阿芃的凳子（npcOnly）不算 */
+      if(WZ.print&&WZ.print.spawn){ const LP=WZ.print, st=(LP.stands&&LP.stands.length?LP.stands:[[-1.55,1.95,Math.PI],[1.15,3.25,Math.PI/2],[0.25,1.95,Math.PI]]);
+        add('wz_print','print',[LP.spawn.x,LP.spawn.z],S.pairUnits(seatsOf((LP.seats||[]).filter(s=>!s.npcOnly&&!/打工/.test(s.label||'')))).concat(standUnits(st))); } }
     /* 118 巷九間（L118_SHOP_LAYOUTS，LAWWW2-C）：一一八茶飲（drink）兩張高腳椅＋櫃台前等飲料的一個；慢讀咖啡（cafe）；其他七間吃飯 */
     if(LS) for(const id of Object.keys(LS)){ const L=LS[id]; if(!L||!L.spawn) continue; const kind=id==='tea'?'drink':(id==='cafe2'?'cafe':'meal');
       let units=S.pairUnits(seatsOf(L.seats)); if(id==='tea'&&L.order) units=units.concat(standUnits([[L.order.x+0.7,L.order.z+0.1,Math.PI]],'wait'));

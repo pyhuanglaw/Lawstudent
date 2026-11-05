@@ -69,7 +69,7 @@ const B7B=part(BB70,'## 7b.','## 7c.');
 /* AA_547（芯慈新個性，使用者 10-30 19:2x 點選；企劃線 e9504c889＝第 2～4 節）取代了 AA_497 第 2 節芯慈的幾場：新句在 X547 裡也算「在稿裡」；被取代的舊句列在 SUPERSEDED_547（稿 → 遊戲那一項不再要求）*/
 const X547=git('e9504c889','AA_547_芯慈新個性_各場怎麼改.md');
 const SUPERSEDED_547=new Set(['（那個女生停了一下。）','……吳芯慈。','（以安點點頭，轉回去翻講義。那個女生看著她的後腦勺看了很久，才把筆蓋打開。）','（最後是以安先印。芯慈等她走遠了才印，印完站在原地，把那一份看了很久。）','……我贏了。','（她說得很小聲，像在確認一件事。）',
-  '明天下午四點，你有空嗎。兩點半 Café。我想跟你說一件事。跟筆記沒有關係。','法律系的同學。你們系上誰最強？','（車裡的人點了點頭。芯慈的手放在車門上，沒有動。）','那妳要跟人家學。','（芯慈抬頭看你。）','她？……好，好。','（他笑了。芯慈上車的時候，沒有看你。）','不比，怎麼知道自己在哪裡。',
+  '明天下午四點，你有空嗎。2:30 AM。我想跟你說一件事。跟筆記沒有關係。','法律系的同學。你們系上誰最強？','（車裡的人點了點頭。芯慈的手放在車門上，沒有動。）','那妳要跟人家學。','（芯慈抬頭看你。）','她？……好，好。','（他笑了。芯慈上車的時候，沒有看你。）','不比，怎麼知道自己在哪裡。',
   '你答得很誠實。我比較希望你不要那麼誠實。','你不用幫我講話。……我爸在車上一直笑。我很久沒看他那樣笑了。','「我們不比這個」。我在車上一直想這句話。我們家每天都在比。',
   '我上一次贏她，是大一在影印機前面猜拳。','我打電話跟我爸說了。他問：那沈以安第幾？','我打電話跟我爸說了。他說，你那個同學早就說了。','（她看著手機很久，最後沒有打給任何人。）','……一點都不好玩。','謝謝。我爸也這樣說。','因為往上看，沒有人了。','她最早傳訊息來的。只有兩個字：「恭喜。」……跟她以前一樣。']);
 const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
@@ -371,15 +371,15 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
     /* 補救：大二下第 2 週週一 21:00 */
     const fixSet=(o)=>{ o=o||{}; const mon=TD('Y2S2',2,1); fresh(mon,20,'dorm'); if(o.fam!==false) fam(XC); contact(XC); if(o.done) H.G.events.done.ev_xinci_second=1; ruleAt(mon,20.5); ruleAt(mon,21.05); return mon; };
     let mon=fixSet(); let m=byTag('xc_fix')[0];
-    check('2-3. 補救：慈 3 沒演到、大二下第 2 週週一 21:00 她約「明天下午四點，你有空嗎。兩點半 Café。……」（「好。」「明天不行。」）',!!m&&m.text===X.fix.ask&&J(askOpts('xc_fix'))===J(X.fix.opts));
+    check('2-3. 補救：慈 3 沒演到、大二下第 2 週週一 21:00 她約「明天下午四點，你有空嗎。2:30 AM。……」（「好。」「明天不行。」）',!!m&&m.text===X.fix.ask&&J(askOpts('xc_fix'))===J(X.fix.opts));
     { fixSet({done:true}); const a=!byTag('xc_fix').length; fixSet({fam:false}); check('2-3. 慈 3 演過了、或不到有點熟＝不約',a&&!byTag('xc_fix').length); }
     mon=fixSet(); answer('xc_fix',1); check('2-3. 「明天不行。」→「好。那就不說了。」；沒有約、之後不記 XINCI_SECOND',texts('p:'+XC).slice(-1)[0]===X.fix.no&&!(H.G.invites||[]).some(iv=>iv.who===XC)&&H.G.flags.XC_FIX==='no');
     mon=fixSet(); answer('xc_fix',0); const iv=(H.G.invites||[]).find(q=>q.who===XC);
-    check('2-3. 「好。」→ 約好週二 16:00 兩點半 Café（INV，答應了），見面演白天版',!!iv&&iv.state==='accepted'&&iv.place==='cafe'&&iv.day===mon+1&&iv.h===16&&iv.ev==='ev_xinci_second_day',J(iv));
+    check('2-3. 「好。」→ 約好週二 16:00 2:30 AM（INV，答應了），見面演白天版',!!iv&&iv.state==='accepted'&&iv.place==='cafe'&&iv.day===mon+1&&iv.h===16&&iv.ev==='ev_xinci_second_day',J(iv));
     at(mon+1,16); H.G.zone='cafe'; await meetIv(iv,[1]); const dt=H.said.map(q=>q.t);
     check('2-3. 白天版（AA_547 3-2）：開頭 fix.open＋「你來了。」「我剛算完財管的作業。……」；選第二個（什麼時候開始喜歡的）照便利商店版；結尾「四點半了。我要去上財管。」；記 XINCI_NIGHT；沒有「你也還沒睡。」',J(dt.slice(0,3))===J([X.fix.open,X.fix.come,X.fix.calc])&&J(dt.slice(3,5))===J(ot.slice(5,7))&&dt.slice(-1)[0]===X.fix.end&&X.fix.end==='四點半了。我要去上財管。'&&!dt.includes('你也還沒睡。')&&SOCIAL.has(XC,'XINCI_NIGHT')&&!!H.G.events.done.ev_xinci_second_day,J(dt));
     { const DV=S().buildDay(), dc=DV.dialogue.find(l=>Array.isArray(l.choice)), dtx=DV.dialogue.filter(l=>l.text).map(l=>l.text);
-      check('2-3. 白天版第三個選項「（坐下來）」→「（她把菜單推過來。）」「這杯我請。說好的。」；約她那一則「……我欠你一杯咖啡。」',dc.choice[2].text===X.fix.sit.opt&&J(dtx.slice(-3,-1))===J(X.fix.sit.r.map(r=>r[1]))&&X.fix.ask==='明天下午四點，你有空嗎。兩點半 Café。……我欠你一杯咖啡。',J([dc.choice.map(o=>o.text),dtx.slice(-3)])); } });
+      check('2-3. 白天版第三個選項「（坐下來）」→「（她把菜單推過來。）」「這杯我請。說好的。」；約她那一則「……我欠你一杯咖啡。」',dc.choice[2].text===X.fix.sit.opt&&J(dtx.slice(-3,-1))===J(X.fix.sit.r.map(r=>r[1]))&&X.fix.ask==='明天下午四點，你有空嗎。2:30 AM。……我欠你一杯咖啡。',J([dc.choice.map(o=>o.text),dtx.slice(-3)])); } });
 
   await sec('2-4',async()=>{ const A=L().xc.dad, d=D('2027-04-23');
     check('2-4. 日子：2027-04-23 是週五、大二下第 9 週',CALENDAR.dateOf(d).wd===5&&CALENDAR.termOf(d).id==='Y2S2'&&CALENDAR.termOf(d).week===9);

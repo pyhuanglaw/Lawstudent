@@ -37,6 +37,10 @@ const sec=(name,fn)=>{ try{ fn(); }catch(e){ check(name+'（例外）',false,Str
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 const doc={Y2S2:show(SHA,DOC.Y2S2.spec),Y3S1:show(SHA,DOC.Y3S1.spec)}, old={Y2S2:show(OLD,DOC.Y2S2.spec),Y3S1:show(OLD,DOC.Y3S1.spec)};
+/* YT-REWRITE-1103：稿上語彤那一節（### 3-）照 AA_630 第 3 節（F 列）、AA_627 表 A 換成新句再比（tests/aa630_expect.js；只換位置是那一個 feed 檔的列）*/
+{ const Y630=require('./aa630_expect.js'), FF={Y2S2:'src/data/feed_y2s2.js',Y3S1:'src/data/feed_y3s1.js'}; for(const k in FF) if(doc[k]) doc[k]=Y630.fixLines(doc[k],FF[k],(l,h)=>/^### 3-/.test(h)); }
+/* AA_657 補二（企劃線 65a1b2fe9，WZ-YIZHAN-1104）：一盞沒有桌號，yt5d、ytBday、yt3e 的「三號桌」照逐句表換成定稿再比（tests/aa657b2.js）*/
+const A657=require('./aa657b2.js'); for(const k in doc) if(doc[k]) doc[k]=A657.fix(doc[k]);
 /* 2026-10-28 AA_512 13-2「連帶」、第 4 節第 5 點（企劃線 c444f0757）：feed_y3s1 學姊第 1 則她的一句「第二次。」改「又煮了。」（5/9 家族在她新家吃的那一鍋已經是第二次）——
    那一格照 AA_512 的「→」右邊比；新句子要在 AA_512 裡（tests/aa512_sis_b13_unit.js 也查）*/
 const DOC512=show('c444f0757','docs/story_planning/AA_512_學姊第十三批_她自己的事當面演_說了沒發生九件.md');
@@ -110,7 +114,7 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i3=sc('src/data/feed_
   check('0. 大二下：動態 40 則（以安 8、芷若 8、語彤 7、子晴 7、學姊 5、沛珊 1、可昕 4）、私訊 1 則；大三上：動態 41 則（7、8、6、7、5、4、4）、私訊 1 則',
     !!SET.Y2S2&&!!SET.Y3S1&&J(cnt(SET.Y2S2))===J([8,8,7,7,5,1,4])&&SET.Y2S2.dms.length===1&&J(cnt(SET.Y3S1))===J([7,8,6,7,5,4,4])&&SET.Y3S1.dms.length===1,J([cnt(SET.Y2S2),cnt(SET.Y3S1)]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
-  check('0. 五個學期的 id 都不重複（動態 44＋47＋38＋40＋41、私訊 10＋7＋3＋1＋1；大二上 38＝AA_514 加的 kx4bc）',ids.length===232&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
+  check('0. 五個學期的 id 都不重複（動態 43＋47＋38＋40＋41、私訊 10＋7＋3＋1＋1；大二上 38＝AA_514 加的 kx4bc）（大一上 sis2 保溫瓶 2026-11-04 拿掉：D127④、AA_661 第 48 列）',ids.length===231&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
   /* 2026-10-28 AA_518 第 4-1、4-5 改的（企劃線 973dd1b74，SIS-B15-1028；對 AA_518 的稿在 tests/aa518_sis_b15_unit.js）：sis4d 私訊回兩版（聽過 S4-Lx＝「你知道的。……美國那邊的書。」，went sisS4Lx）、sis2e 留言回「最近加得比較快。」*/
   const AA518_T=new Set(['你知道的。……美國那邊的書。','最近加得比較快。']), AA518_ROW={sis4d:e=>{ e.dm=[e.dm[0],{no:e.dm[1],yes:'你知道的。……美國那邊的書。'}]; e.went='sisS4Lx'; },sis2e:e=>{ e.cm=[e.cm[0],'最近加得比較快。']; }};
   for(const term of ['Y2S2','Y3S1']){ const S=SET[term], md=doc[term];
@@ -223,7 +227,7 @@ sec('4',()=>{ if(!HAS()||!SET.Y2S2||!SET.Y3S1){ check('4. 私訊',false,'沒有�
   const n=(H.G.msgs||[]).length; PHONE.answer(H.G,'yt_bday_y2',0); const gr=(H.G.msgs||[]).slice(n).map(m=>[m.th,m.from,m.text]);
   check('4. 語彤 7/9 12:00（在麵店團群組）：Alison「今天語彤生日！」→「傳一句生日快樂」→ 你「生日快樂。」、她在群組回「……謝謝。今天第一次去田野。……」、YT_BDAY_Y2',
     g0===0&&g.length===1&&g[0].th==='g:noodle_team'&&g[0].from==='yu'&&g[0].text==='今天語彤生日！'&&J(g[0].ask.opts.map(o=>o.t))===J(['傳一句生日快樂'])
-    &&J(gr)===J([['g:noodle_team','player','生日快樂。'],['g:noodle_team','heroine_03','……謝謝。今天第一次去田野。乾麵的阿伯說，生日還出來工作，很乖。']])&&H.G.flags.YT_BDAY_Y2===true,J({g:g.map(m=>[m.th,m.from,m.text]),gr}));
+    &&J(gr)===J([['g:noodle_team','player','生日快樂。'],['g:noodle_team','heroine_03','……謝謝。今天第一次去田野。常來的那個阿伯說，生日還出來工作，很乖。']])&&H.G.flags.YT_BDAY_Y2===true,J({g:g.map(m=>[m.th,m.from,m.text]),gr}));
   walk(D79,21.1); check('4. 同一天 21:00 動態第 5 則（錄音筆、乾麵；留言「生日快樂！」→「謝謝。」）',!!item('yt5d')&&HT().includes('生日快樂！'));
   fresh(D79,11); who('heroine_03','FAM'); walk(D79,12.1); const s=bmsg();
   check('4. 不在群組、和語彤有點熟：她的私訊放系統字「今天是語彤的生日。」，同一個按鈕',s.length===1&&s[0].th==='p:heroine_03'&&!s[0].from&&s[0].text==='今天是語彤的生日。'&&J(s[0].ask.opts.map(o=>o.t))===J(['傳一句生日快樂']),J(s.map(m=>[m.th,m.from,m.text])));

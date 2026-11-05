@@ -1,4 +1,4 @@
-// 1A-19 第一份工作（2030-10-01 21:00 群組）＋1A-20 尾聲（2034-06-03 19:00 兩點半 Café，CG-10）（AA_319；src/postgrad3d.js）——不需要瀏覽器。
+// 1A-19 第一份工作（2030-10-01 21:00 群組）＋1A-20 尾聲（2034-06-03 19:00 2:30 AM，CG-10）（AA_319；src/postgrad3d.js）——不需要瀏覽器。
 //   第一份工作：六種落點的照片（AA_319 1A-19）、只有認識的人傳照片、交換延畢＝補習班的自習室＋「（你的第一天，還在後面。）」（b6757852）；
 //   尾聲：字卡、只有認識的人在那一桌、每人一句（條件由低到高取最後一列，AA_327 2-Y4-53）、前任在店的另一頭、CG-10 的八張（右手邊＝畢業時的伴侶，單身＝阿凱）、
 //   「你一直都是……」、祐廷最後一句、桌上的東西、星期六沒有人講上班的事（AA_319 1A-20 第 5 節、BB 驗收 P1～P5）、方奕廷那句（AA_327 f252a7b5）、回標題。用法：node tests/epilogue_unit.js
@@ -35,9 +35,9 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
   // ---- 1A-20 尾聲 ----
   // P1：單身、傾向 A、律師
   { const G=await epi(Object.assign({},leanA,LAWYER),()=>{ H.FRIEND('zhe'); });
-    check('P1. 字卡「五年後」→「2034 年 6 月 3 日」「兩點半 Café」→ 演完「法條之外」',JSON.stringify(H.cards)===JSON.stringify([['五年後',''],['2034 年 6 月 3 日','兩點半 Café'],['法條之外','']]),JSON.stringify(H.cards));
-    check('P1. 兩點半 Café（3D 區域＋模糊背景），19:00',H.entered.includes('cafe')&&H.bgs.includes('blur')&&G.hour===19&&G.day===PG.DK('2034-06-03'));
-    check('P1. 開場旁白：窗邊那張雙人桌、阿哲的習慣',H.said[0].t==='（兩點半 Café。窗邊那張雙人桌坐滿了人，旁邊的桌子都被併過來了。）'&&H.said[1].t==='（阿哲的習慣。五年了，還是一樣。）');
+    check('P1. 字卡「五年後」→「2034 年 6 月 3 日」「2:30 AM」→ 演完「法條之外」',JSON.stringify(H.cards)===JSON.stringify([['五年後',''],['2034 年 6 月 3 日','2:30 AM'],['法條之外','']]),JSON.stringify(H.cards));
+    check('P1. 2:30 AM（3D 區域＋模糊背景），19:00',H.entered.includes('cafe')&&H.bgs.includes('blur')&&G.hour===19&&G.day===PG.DK('2034-06-03'));
+    check('P1. 開場旁白：窗邊那張雙人桌、阿哲的習慣',H.said[0].t==='（2:30 AM。窗邊那張雙人桌坐滿了人，旁邊的桌子都被併過來了。）'&&H.said[1].t==='（阿哲的習慣。五年了，還是一樣。）');
     check('P1. CG-10 阿凱在旁邊（單身）',JSON.stringify(H.cgs)===JSON.stringify(['cg_reunion_window_table_kai']));
     check('P1. 阿凱（律師）「……喔對，你現在是律師。」；阿哲「我在事務所，每天寫狀子。」',said('阿凱','……喔對，你現在是律師。')&&said('阿哲','我在事務所，每天寫狀子。'));
     check('P1. ④ 阿哲「你一直都是這樣。誰有事，你就先去查。」（CG 以後）',said('阿哲','你一直都是這樣。誰有事，你就先去查。')&&idx('你一直都是這樣。誰有事，你就先去查。')>=cgAt[0]);
@@ -67,9 +67,9 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
     check('P3. B（分開又回來）：多「我們兩個是不是很笨？……好，這題不算。」',H.has('書狀寫到一半。……先吃。')&&H.has('我們兩個是不是很笨？……好，這題不算。')); }
   // P4：和語彤分手過
   { const G=await epi(Object.assign({},leanA,LAWYER),()=>{ H.FRIEND('zhe'); H.FRIEND('heroine_03'); H.date('heroine_03'); ROM.end(H.G,'heroine_03','apart_talk'); });
-    const y=SOCIAL.displayName('heroine_03'), a=H.said.findIndex(s=>s.t==='麵店還在。你們有空來吃。');
-    check('P4. 語彤在店的另一頭：起身經過時「麵店還在。你們有空來吃。」＋她自己的那一句「我在事務所，租賃的案子比較多。」',said(y,'麵店還在。你們有空來吃。')&&H.said[a+1].t==='我在事務所，租賃的案子比較多。');
-    check('P4. 不在那一桌：沒有「阿姨說你很久沒來了。下禮拜二來吃。」，在同一桌的人說完以後',!H.has('阿姨說你很久沒來了。下禮拜二來吃。')&&a>idx('……喔對，你現在是律師。')&&a<cgAt[0]);
+    const y=SOCIAL.displayName('heroine_03'), a=H.said.findIndex(s=>s.t==='茶屋還在。你們有空來喝茶。');
+    check('P4. 語彤在店的另一頭：起身經過時「茶屋還在。你們有空來喝茶。」＋她自己的那一句「我在事務所，租賃的案子比較多。」',said(y,'茶屋還在。你們有空來喝茶。')&&H.said[a+1].t==='我在事務所，租賃的案子比較多。');
+    check('P4. 不在那一桌：沒有「蘇姨說你很久沒來了。週末來，吧檯最旁邊那個位子還在。」，在同一桌的人說完以後',!H.has('蘇姨說你很久沒來了。週末來，吧檯最旁邊那個位子還在。')&&a>idx('……喔對，你現在是律師。')&&a<cgAt[0]);
     check('P4. 不在旁邊、不在對面：CG-10 是阿凱那張；沒有「麵店還開著」的旁白',JSON.stringify(H.cgs)===JSON.stringify(['cg_reunion_window_table_kai'])&&!H.has('（麵店還開著。牆上的紅紙又多了好幾張。）')); }
   // 阿勳「好久不見」＋前任以安「你們都在啊。」
   { await epi(Object.assign({PLAYED_Y0:true},leanA,LAWYER),()=>{ H.FRIEND('heroine_01'); H.date('heroine_01'); ROM.end(H.G,'heroine_01','apart_talk'); });
@@ -100,7 +100,7 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
     check('P5. 阿哲、Alison 同一桌＝兩人那一組（Alison「他現在每次都說『有事』。很煩。」阿哲「有事啊。我餓了。」）',said('Alison','他現在每次都說『有事』。很煩。')&&said('阿哲','有事啊。我餓了。')&&!H.has('我在事務所，每天寫狀子。'));
     check('P5. 經濟系那桌（沒講過）阿勳「好久不見」在同一桌的人之後',H.has('好久不見')&&idx('好久不見')>idx('……喔對，你現在是律師。'));
     check('P5. 學姊（不是戀人、傾向 A、律師）「我的研究，用的是你們法扶的申請統計。」',H.has('我的研究，用的是你們法扶的申請統計。'));
-    check('P5. 語彤 FRIEND（結局 4）「我在事務所，租賃的案子比較多。」「阿姨說你很久沒來了。下禮拜二來吃。」',H.has('我在事務所，租賃的案子比較多。')&&H.has('阿姨說你很久沒來了。下禮拜二來吃。')); }
+    check('P5. 語彤 FRIEND（結局 4）「我在事務所，租賃的案子比較多。」「蘇姨說你很久沒來了。週末來，吧檯最旁邊那個位子還在。」',H.has('我在事務所，租賃的案子比較多。')&&H.has('蘇姨說你很久沒來了。週末來，吧檯最旁邊那個位子還在。')); }
   // 尾聲等第一份工作、等 2030 那一輪
   { const G=H.fresh('2034-06-03',19,'dorm',{}); graduated(G);
     check('W1. 第一份工作還沒演（FIRST_DAY_SEEN 沒有）：先演 2030-10-01 那一段，不是尾聲',PG.due(G)&&PG.due(G).id==='first');

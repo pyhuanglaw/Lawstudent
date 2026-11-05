@@ -209,6 +209,20 @@ dv['scannedThrough'] = {br: 'deadbeef'}
 open(os.path.join(d, 'docs/handoff/deliveries.json'), 'w').write(json.dumps(dv, ensure_ascii=False))
 code, out = run(d, 'git')
 expect('6 掃描：commit 找不到 → 「沒有檢查」、不報 OK', code == 1 and '[沒有檢查]' in out, out)
+# 6 和 incr 不重複報（2026-11-04 帳號 C 快轉後 24 項誤報）：分支是現在某職位的分支、那個職位有水位線 → 交給 incr，不用關鍵字再報；
+#   沒有水位線的職位照舊掃（incr 會因為沒有水位線報異常，兩邊都不會漏）
+g('update-ref', 'refs/remotes/origin/lw2', 'HEAD')
+dv['scannedThrough'] = {'origin/lw2': base}
+dv['deliveries'] = [x for x in dv['deliveries'] if x['id'] != 'DLV-2']
+dv['ignored'] = []
+open(os.path.join(d, 'docs/handoff/deliveries.json'), 'w').write(json.dumps(dv, ensure_ascii=False))
+os.makedirs(os.path.join(d, 'docs/handoff'), exist_ok=True)
+open(os.path.join(d, 'docs/handoff/duty.json'), 'w').write(json.dumps({'roles': {'LAWWW2': {'account': 'C', 'branch': 'lw2', 'state': 'on'}}}, ensure_ascii=False))
+code, out = run(d, 'git')
+expect('6 掃描：職位沒有水位線 → 照舊用關鍵字報（兩個）', out.count('[異常 6]') == 2, out)
+open(os.path.join(d, 'docs/handoff/watermarks.json'), 'w').write(json.dumps({'roles': {'LAWWW2': {'branch': 'lw2', 'sha': g('rev-parse', base)}}}, ensure_ascii=False))
+code, out = run(d, 'git')
+expect('6 掃描：職位有水位線 → 交給 incr、不重複報（結束碼 0、印出交給 incr）', code == 0 and '[異常 6]' not in out and '交給 incr' in out, out)
 shutil.rmtree(d)
 
 # 10 跨 AI 任務的 xai 欄位（D84 第 3 條）
@@ -248,6 +262,53 @@ d = setup(piped(3), deliv=dv)
 code, out = run(d)
 expect('11 LAWWW2 的交付停在 DELIVERED → 異常 11（沒 ACK）', '[異常 11] DLV-1' in out, out)
 shutil.rmtree(d)
+
+# 12 等使用者的任務（ASK-USER-LIST-1104）：VAC-GAP-ROUTES 的真實案例——暫停、恢復條件「使用者說繼續」，帳號 A 記了要問、沒問就交班，舊工具 OK
+def t12(**k):
+    b = copy.deepcopy(BASE)
+    b['tasks'].append(task('VAC-GAP-ROUTES', '暫停', owner='AA', pausedReason='等使用者', resumeWhen='使用者說繼續，或角色共創告一段落（要先問使用者）', **k))
+    return b
+d = setup(t12())
+code, out = run(d)
+expect('12 暫停、恢復條件寫「使用者說繼續」、沒寫 waitUser → 異常 12（舊工具看不到）', '[異常 12] VAC-GAP-ROUTES' in out and code == 1, out)
+shutil.rmtree(d)
+d = setup(t12(waitUser={'ask': '要不要恢復補缺口', 'how': '選擇題'}))
+code, out = run(d)
+expect('12 有 waitUser、這一班沒有紀錄 → 異常 12', '[異常 12] VAC-GAP-ROUTES（AA）等使用者' in out, out)
+shutil.rmtree(d)
+d = setup(t12(waitUser={'ask': '要不要恢復補缺口', 'how': '選擇題', 'log': [{'at': '2026-11-03T10:00Z', 'by': 'AA', 'result': '沒問', 'why': '醒來要問'}]}))
+open(os.path.join(d, 'docs/handoff/duty.json'), 'w').write(json.dumps({'roles': {'LAWWW': {'account': 'C', 'since': '2026-11-04T12:38Z', 'state': 'on'}}}))
+code, out = run(d)
+expect('12 紀錄是上一班的（早於這一班 LAWWW 接班）→ 異常 12', '[異常 12] VAC-GAP-ROUTES（AA）等使用者' in out and '2026-11-04T12:38Z' in out, out)
+shutil.rmtree(d)
+d = setup(t12(waitUser={'ask': '要不要恢復補缺口', 'how': '選擇題', 'log': [{'at': '2026-11-04T13:00Z', 'by': 'LAWWW-C', 'result': '沒問'}]}))
+open(os.path.join(d, 'docs/handoff/duty.json'), 'w').write(json.dumps({'roles': {'LAWWW': {'account': 'C', 'since': '2026-11-04T12:38Z', 'state': 'on'}}}))
+code, out = run(d)
+expect('12 這一班「沒問」沒寫原因 → 異常 12（格式）', '[異常 12] VAC-GAP-ROUTES：waitUser.log' in out, out)
+shutil.rmtree(d)
+d = setup(t12(waitUser={'ask': '要不要恢復補缺口', 'how': '選擇題', 'log': [{'at': '2026-11-04T13:00Z', 'by': 'LAWWW-C', 'result': '問了'}]}))
+open(os.path.join(d, 'docs/handoff/duty.json'), 'w').write(json.dumps({'roles': {'LAWWW': {'account': 'C', 'since': '2026-11-04T12:38Z', 'state': 'on'}}}))
+code, out = run(d)
+expect('12 這一班問了 → 沒有異常 12', '[異常 12]' not in out, out)
+buf = io.StringIO()
+with redirect_stdout(buf):
+    rc = H.main(['--root', d, 'askuser'])
+expect('askuser：列出這一班已處理、結束碼 0', rc == 0 and '[這一班已處理] VAC-GAP-ROUTES' in buf.getvalue(), buf.getvalue())
+shutil.rmtree(d)
+d = setup(t12(notWaitUser='恢復條件是 AA 自己的共創進度'))
+code, out = run(d)
+expect('12 寫 notWaitUser（不是在等使用者）→ 沒有異常 12', '[異常 12]' not in out, out)
+shutil.rmtree(d)
+b = copy.deepcopy(BASE); b['tasks'].append(task('VAC-GAP-2', '進行中', next='使用者 13:0x 選擇題「恢復，現在就補」'))
+d = setup(b)
+code, out = run(d)
+expect('12 進行中的任務（記的是使用者已經回答）不算等使用者', '[異常 12]' not in out, out)
+buf = io.StringIO()
+d2 = setup(t12())
+with redirect_stdout(buf):
+    rc = H.main(['--root', d2, 'askuser'])
+expect('askuser：還沒分類的列出來、結束碼 1', rc == 1 and '[還沒分類] VAC-GAP-ROUTES' in buf.getvalue(), buf.getvalue())
+shutil.rmtree(d); shutil.rmtree(d2)
 
 # queue：P0 先、再照學期（Y0 在 Y1 前）
 d = setup()

@@ -105,4 +105,24 @@ const C=LU.carrels, S=LU.stacks, door=LL.doors.find(d=>d.id==='carrels');
   check('7. story3d.js 進來、待著都叫 LUP.populate（書庫）', /zoneId==='library_stacks'&&typeof LUP!=='undefined'\)\{ try\{ LUP\.populate\(GM,true\)/.test(st)&&/LUP\.populate\(GM,false\)/.test(st));
   check('7. guide3d.js（大廳 ⇄ 研究小間、電梯 ⇄ 書庫）、placemap 的地圖釘（總圖）、places 的名字和開館時間', /library_hall:\['campus','library','library_b1','library_carrels'\]/.test(g)&&/library_carrels:\['library_hall'\]/.test(g)&&/library_stacks:\['library_hall','library'\]/.test(g)
     &&/library_carrels:'library',library_stacks:'library'/.test(pm)&&/library_carrels:'總圖 2F 研究小間'/.test(pl)&&/library_stacks:'總圖 5F 書庫'/.test(pl)&&/library_stacks:\{open:8,close:22/.test(pl)); }
+// 8. 研究小間玻璃後面的讀者（LAWWW 11-03 12:08；CARREL-FREE-1103）
+{ const C=LIBRARY_UPPER_LAYOUTS.carrels, ids=C.carrels.map(c=>c.id); let any=0, bad=[];
+  for(let d=1; d<=30; d++) for(const h of [9,14,20]){ const w=LUP.carrelWant({day:d,hour:h}); any+=w.length; if(w.some(id=>id==='08'||id==='03'||!ids.includes(id))) bad.push(d+'/'+h+':'+w.join(',')); }
+  check('8. 研究小間的讀者：只坐 08、03 以外的那八間；30 天×三個時段平均每次 3～7 間有人', !bad.length&&any/90>=3&&any/90<=7, (any/90).toFixed(2)+' 間；'+bad.slice(0,3).join(' '));
+  check('8. 研究小間的讀者：閉館（07:00、22:30）沒有人', LUP.carrelWant({day:5,hour:7}).length===0&&LUP.carrelWant({day:5,hour:22.5}).length===0);
+  const npcs=[]; const GMf={G:{zone:'library_carrels',day:9,hour:15,flags:{}},E:{zone:{},npcs,addNPC:o=>{ npcs.push(o); return o; }}};
+  const keep=global.CHAR, keepS=global.STORY; global.CHAR={build:()=>({position:{set(){}},rotation:{y:0},visible:true})}; global.STORY={extraSpec:i=>({i})};
+  const n1=LUP.populateCarrels(GMf,true), n2=LUP.populateCarrels(GMf,false); GMf.G.hour=23; LUP.populateCarrels(GMf,false); const hid=npcs.every(n=>n.hidden&&n.obj.visible===false);
+  global.CHAR=keep; global.STORY=keepS;
+  check('8. populateCarrels：進來放好（坐椅子、read、frozen）、待著不重複放、閉館藏起來', n1===LUP.carrelWant({day:9,hour:15}).length&&n1>0&&n2===0&&npcs.every(n=>n.pose==='read'&&n.frozen&&n.seat)&&hid, n1+' 位');
+  const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
+  check('8. story3d.js 進來、待著都叫 LUP.populateCarrels（研究小間）', /zoneId==='library_carrels'&&typeof LUP!=='undefined'&&LUP\.populateCarrels\)\{ try\{ LUP\.populateCarrels\(GM,true\)/.test(st)&&/LUP\.populateCarrels\(GM,false\)/.test(st)); }
+// 9. 坐在 08 的時候鏡頭拉近、轉到背後（BB 11-03 13:42 P3）
+{ global.GAME={G:{day:300,hour:15,flags:{}}}; const s8=LIBRARY_UPPER_LAYOUTS.carrels.spots.my_seat;
+  const Ex={interactables:[],cam:{yaw:0.3,distTarget:4.2,manualT:0},player:{obj:{position:{x:s8.x,y:0,z:s8.z}},seat:{x:s8.x,z:s8.z,yaw:0}}};
+  const z9=Z3.ZONES.library_carrels.build(Ex);
+  if(z9.update) for(let i=0;i<60;i++) z9.update(0.05,Ex);
+  const yawOK=Math.abs(Math.atan2(Math.sin(Ex.cam.yaw-Math.PI),Math.cos(Ex.cam.yaw-Math.PI)))<0.1, distOK=Ex.cam.distTarget===1.7;
+  Ex.player.seat=null; if(z9.update) z9.update(0.05,Ex); const back=Ex.cam.distTarget===4.2;
+  check('9. 坐在 08：鏡頭拉近 1.7 m、轉到背後（yaw≈π，門那一側）；站起來回到 4.2 m', !!z9.update&&yawOK&&distOK&&back, 'yaw '+(+Ex.cam.yaw).toFixed(2)+' dist '+Ex.cam.distTarget); }
 console.log(fails?('\n'+fails+' FAIL'):'\nALL PASS'); process.exit(fails?1:0);

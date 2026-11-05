@@ -14,7 +14,7 @@ const GUIDE=(function(){
   let GM=null, E=null;
   // 區域之間怎麼走（只有名字；第一步一定用當下區域真正的出口）。宿舍走廊（dorm_hall）還在開發分支外，存在時才會用到
   const LINKS={ dorm:['campus','dorm_hall'], dorm_hall:['campus','dorm'], campus:['gongguan','linze','wancai','library_hall','dorm','dorm_hall','gongtong','putong','boya','soclib'], gongtong:['campus'], boya:['campus'], putong:['campus'],   /* 博雅：校園上還沒有門（位置等使用者決定），只連出去 */
-    gongguan:['campus','wenzhou','cvs','noodle','bookstore'], wenzhou:['gongguan','cafe'], cafe:['wenzhou'], cvs:['gongguan'], noodle:['gongguan'], bookstore:['gongguan'],
+    gongguan:['campus','wenzhou','afar','daybreak','cvs','noodle','bookstore','bikeshop','aoki'], wenzhou:['gongguan','cafe','wz_mokuyobi','wz_offbeat'], cafe:['wenzhou'], wz_mokuyobi:['wenzhou'], wz_offbeat:['wenzhou'], cvs:['gongguan'], noodle:['gongguan'], bookstore:['gongguan'], bikeshop:['gongguan'], aoki:['gongguan'], afar:['gongguan'], daybreak:['gongguan'],
     linze:['campus','classroom','linze_3f','linze_202'], classroom:['linze'], linze_202:['linze'], linze_3f:['linze','linze_4f'], linze_4f:['linze_3f'], linze_5f:['linze_4f'], wancai:['campus','lawlib','wancai_multi','wancai_sema'], wancai_multi:['wancai'], wancai_sema:['wancai'], lawlib:['wancai'], library_hall:['campus','library','library_b1','library_carrels'], library:['library_hall'], library_b1:['library_hall'], library_carrels:['library_hall'], soclib:['campus'] };
   const ELEV={ library:['library_hall','library_stacks'], library_hall:['library','library_stacks'], library_stacks:['library_hall','library'], linze:['linze_3f','linze_4f'], linze_3f:['linze','linze_4f'], linze_4f:['linze','linze_3f'], linze_5f:['linze','linze_3f','linze_4f'] };   // 搭電梯可以到的別的區域（總圖：閱覽室 ⇄ 大廳；霖澤館 1F、2F ⇄ 3F、4F，LINZE-34F-TABLES-1020；5F 研究室只能往下，往 5F 要學姊開門，不指路）
   const st={ key:'', route:null, routeKey:'', reT:0, tgt:null, info:null, uiT:0, markers:[], markerZone:null, view:null, open:false, tipT:0, bmImgs:[] };
@@ -36,7 +36,7 @@ const GUIDE=(function(){
     [/萬才館|法律系館B/, {zone:'wancai',name:'法律系館B'}],
     [/共同教學館/, {zone:'campus',label:'共同教學館',name:'共同教學館'}],
     [/大一女舍|女舍/, {zone:'campus',label:'大一女舍 A 棟（傳達室）',name:'大一女舍'}],
-    [/溫州街|兩點半|Café|咖啡廳/, {zone:'cafe',name:'兩點半 Café'}],
+    [/溫州街|兩點半|Café|2:30 AM|咖啡廳/, {zone:'cafe',name:'2:30 AM'}],
     [/自習區|總圖/, LIB2F],
     [/麵店|燒臘/, {zone:'noodle',name:'公館燒臘'}],
   ];
@@ -153,7 +153,7 @@ const GUIDE=(function(){
   /* 大地圖的「認識的人現在大概在」（BB-B 10-30：一打開地圖清單就蓋住大半張地圖——直向蓋住大半、共同教學館蓋住「★ 102」、寬螢幕蓋住農業陳列館）：
      預設收起；自由的日子（原本自動打開的時候，使用者 10-11「自由那天根本不知道其他 NPC 在哪」）👥 亮一個點提示；玩家自己按 👥 打開過＝之後打開地圖照樣展開、收起來就照樣收起（st.who）。測試：node tests/bigmap_people_unit.js */
   function whoShow(who,goal,goalDest){ const free=/自由/.test(goal||'')||!goalDest; return {show:who===true,hot:free&&who!==true}; }
-  function renderPeoplePanel(){ const el=$('bmPeople'); if(!el) return; const ppl=people(); el.innerHTML='<b>認識的人現在大概在</b>'+(ppl.length?ppl.map(q=>'<div class="row2" style="justify-content:space-between;gap:6px"><span>'+q.name+'：'+q.text+'</span><button class="btn" data-find="'+q.id+'">帶我去</button></div>').join(''):'<div class="muted">'+((typeof STORY!=='undefined'&&STORY.opening?STORY.opening(GM.G):GM.G.day<=2)&&!GM.G.flags.afternoonDone?'第一、二天的劇情還在進行，大家的行程還沒開始':'現在沒有人有固定的行程。去總圖、公館、溫州街走走，說不定會遇到')+'</div>'); el.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(GM.findPerson&&GM.findPerson(b.dataset.find)){ st.routeKey='~'; drawMap(); } }); }
+  function renderPeoplePanel(){ const el=$('bmPeople'); if(!el) return; const ppl=people(); el.innerHTML='<b>認識的人現在大概在</b>'+(ppl.length?ppl.map(q=>'<div class="row2" style="justify-content:space-between;gap:6px"><span>'+q.name+'：'+q.text+'</span>'+(()=>{ const g=GM.friendGoInfo&&GM.friendGoInfo(q.id); return g&&!g.why?'<button class="btn" data-fgo="'+q.id+'">直接過去'+(g.mins?'（約 '+g.mins+' 分鐘）':'')+'</button>':''; })()+'</div>').join(''):'<div class="muted">'+((typeof STORY!=='undefined'&&STORY.opening?STORY.opening(GM.G):GM.G.day<=2)&&!GM.G.flags.afternoonDone?'第一、二天的劇情還在進行，大家的行程還沒開始':'現在沒有人有固定的行程。去總圖、公館、溫州街走走，說不定會遇到')+'</div>'); el.querySelectorAll('[data-fgo]').forEach(b=>b.onclick=async()=>{ closeMap(); if(GM.friendGoNow) await GM.friendGoNow(b.dataset.fgo); }); }   /* 直接過去（MAP-FRIEND-GO-1103）：先關地圖再轉場 */
   function closeMap(){ $('bigmap').classList.add('hide'); st.open=false; E.paused=!!st.wasPaused; freeCanvas($('bmCanvas')); }   /* 關掉就釋放大地圖畫布（手機 2 倍解析度約 5 MB；下次打開 drawMap 重設大小）*/
   function toScreen(v,W,H,wx,wz){ const dx=wx-v.cx, dz=wz-v.cz, c=Math.cos(v.th), s=Math.sin(v.th); return [W/2+(dx*c-dz*s)*v.k, H/2+(dx*s+dz*c)*v.k]; }
   function drawMap(){ const v=st.view; if(!v) return; const cv=$('bmCanvas'); const dpr=Math.min(2,window.devicePixelRatio||1); const W=cv.clientWidth, H=cv.clientHeight; if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){ cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); }

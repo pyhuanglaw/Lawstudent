@@ -48,7 +48,7 @@ const ask=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); 
 const goOut=async(qid,picks)=>{ const q=OUT.get(H.G,qid); H.said=[]; H.opts=[]; H.bgs=[]; H.cgs=[]; H.cards=[]; H.picks=(picks||[]).slice(); const R0=Math.random; Math.random=()=>0.5; try{ await OUT.go(GM,q); } finally { Math.random=R0; } return {q,L:said(),S:H.said.slice(),O:H.opts.slice()}; };
 let money=[]; GM.money=n=>{ money.push(n); H.G.money+=n; };
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中斷這一節）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
-const GIFT_AN=['一支好寫的鋼筆','一本空白的手帳','一本商事法的書','一束花','（沒有準備）'], GIFT_YT=['一條髮圈','一把新的傘','一雙顧店穿的布鞋','一瓶香水','（沒有準備）'];
+const GIFT_AN=['一支好寫的鋼筆','一本空白的手帳','一本商事法的書','一束花','（沒有準備）'], GIFT_YT=['一條髮圈','一把新的傘','一雙上班穿的布鞋','一瓶香水','（沒有準備）'];
 const ORIG_AN_S6='聖誕節。……這一天我本來沒排事情。', ORIG_YT_S6='聖誕節麵店照常。……打烊以後，你要不要來剝蒜頭。', ORIG_YT_DT='今天打烊早。阿姨說，聖誕節要給年輕人。', ORIG_AN_DT='字很少。回去再看。';
 /* 群戲演完以後的那一段（從 1-4 的第一句起）*/
 const tail=(g,first)=>{ const i=g.L.indexOf(first); return i<0?[]:g.L.slice(i); };
@@ -104,7 +104,7 @@ const plus=(...xs)=>{ const o={}; for(const x of xs) for(const k in x) o[k]=(o[k
     setup({lv:{[YT]:5}}); const a=await ask(YT,[1]); const b=X().rec(H.G).bk.find(x=>x.who===YT);
     check('3. 約語彤：晚上場散場以後（不是只能約麵店的 18:30）',!!b&&b.grp==='xmas_y1'&&b.slot==='eve',J({O:a.O,b}));
     at('2025-12-24',18.2); money=[]; const r0=relOf(YT); const g=await goOut('xmas_y1',[0,'「好。」',0]); const T=tail(g,exp(2)[0]);
-    check('3. （大家走了以後，語彤還沒走。阿姨在櫃台後面喊她。）「阿姨說明天要用的蒜頭還沒剝。」「打烊以後，你要不要來幫忙。」→ 選項「好。」「今天不行。」',J(T.slice(0,3))===J(exp(2))&&g.O.some(o=>J(o)===J(['「好。」','「今天不行。」'])),J({T,O:g.O}));
+    check('3. （大家走了以後，語彤還沒走。蘇姨在吧檯後面喊她。）「蘇姨說明天要用的杯子還沒洗。」「打烊以後，你要不要來幫忙。」→ 選項「好。」「今天不行。」',J(T.slice(0,3))===J(exp(2))&&g.O.some(o=>J(o)===J(['「好。」','「今天不行。」'])),J({T,O:g.O}));
     check('3. 「好。」→（剝到九點半，手上都是蒜味。）→ 送她禮物（髮圈：「……舊的那條鬆了。你有看到。」）',J(T.slice(3))===J(['（剝到九點半，手上都是蒜味。）','……舊的那條鬆了。你有看到。'])&&J(g.O.slice(-1)[0])===J(GIFT_YT)&&!g.L.includes('嗯，沒關係。')&&!g.L.includes(ORIG_YT_S6),J(T));
     check('3. 好感聖誕＋禮物；HOL_XMAS_2025；錢扣 120；時間到 21:30；done＝meet',sub(dRel(YT,r0),base)===plus(FEST_DATA.REL.day,FEST_DATA.REL.giftOk)&&SOCIAL.has(YT,'HOL_XMAS_2025')&&J(money)===J([-120])&&Math.abs(H.G.hour-21.5)<1e-6&&X().rec(H.G).done[YT+':xmas:2025']==='meet',J({d:dRel(YT,r0),base,money,h:H.G.hour}));
   });
@@ -123,7 +123,7 @@ const plus=(...xs)=>{ const o={}; for(const x of xs) for(const k in x) o[k]=(o[k
   await sec('5',async()=>{
     const base=await baseline(YT,true);
     setup({lv:{[YT]:'dt'}}); await ask(YT,[1]); at('2025-12-24',18.2); money=[]; const r0=relOf(YT); const g=await goOut('xmas_y1',[0,2]); const T=tail(g,exp(3)[0]);
-    check('5. 交往中：（大家走了以後，語彤從櫃台底下拿出一個紙袋。）「給你。圍巾。」「你騎車脖子都露在外面。」→ 送她禮物（布鞋：「店裡的地板很滑。……你怎麼知道。」）；沒有選項',J(T)===J(exp(3).concat(['店裡的地板很滑。……你怎麼知道。']))&&!g.O.some(o=>J(o)===J(['「好。」','「今天不行。」'])),J({T,O:g.O}));
+    check('5. 交往中：（大家走了以後，語彤從吧檯底下拿出一個紙袋。）「給你。圍巾。」「你騎車脖子都露在外面。」→ 送她禮物（布鞋：「店裡的地板很滑。……你怎麼知道。」）；沒有選項',J(T)===J(exp(3).concat(['店裡的地板很滑。……你怎麼知道。']))&&!g.O.some(o=>J(o)===J(['「好。」','「今天不行。」'])),J({T,O:g.O}));
     check('5. 不演 AA_416 交往中那兩句（「今天打烊早。……」「交換禮物我抽到一條圍巾。……」）',!g.L.includes(ORIG_YT_DT)&&!g.L.includes('交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。'));
     check('5. 好感聖誕＋禮物；HOL_XMAS_2025；錢扣 500；21:30',sub(dRel(YT,r0),base)===plus(FEST_DATA.REL.day,FEST_DATA.REL.giftOk)&&SOCIAL.has(YT,'HOL_XMAS_2025')&&J(money)===J([-500])&&Math.abs(H.G.hour-21.5)<1e-6,J({d:dRel(YT,r0),base,money,h:H.G.hour}));
   });
@@ -143,7 +143,7 @@ const plus=(...xs)=>{ const o={}; for(const x of xs) for(const k in x) o[k]=(o[k
   /* ======================= 7 沒去群戲 ======================= */
   await sec('7',async()=>{ const x=X(), d=D('2025-12-24');
     setup({lv:{[AN]:5},group:false}); const a=await ask(AN,[1,'兩點半 Café']); const iv=a.r;
-    check('7. 不在麵店團（沒有 xmas_y1）：晚上場照舊選地點、排 18:30 的邀約（iv.fest）',!OUT.get(H.G,'xmas_y1')&&a.O.length===2&&a.O[1].includes('兩點半 Café')&&!!iv&&iv.h===18.5&&iv.fest&&iv.fest.slot==='eve'&&!x.rec(H.G).bk.find(b=>b.who===AN).grp,J({O:a.O,iv}));
+    check('7. 不在麵店團（沒有 xmas_y1）：晚上場照舊選地點、排 18:30 的邀約（iv.fest）',!OUT.get(H.G,'xmas_y1')&&a.O.length===2&&a.O[1].includes('2:30 AM')&&!!iv&&iv.h===18.5&&iv.fest&&iv.fest.slot==='eve'&&!x.rec(H.G).bk.find(b=>b.who===AN).grp,J({O:a.O,iv}));
     at('2025-12-24',18.5); H.said=[]; H.opts=[]; H.picks=[4]; await x.meet(GM,iv,{name:'以安'});
     check('7. 見面照 AA_416 原本的台詞（「聖誕節。……這一天我本來沒排事情。」「現在有了。」）',J(said().slice(0,2))===J([ORIG_AN_S6,'現在有了。']),J(said()));
     setup({lv:{[AN]:5}}); await ask(AN,[1]); at('2025-12-24',18.2); H.picks=[2]; const q=OUT.get(H.G,'xmas_y1'); const r0=relOf(AN); await OUT.prompt(GM,q); x.phone(H.G);

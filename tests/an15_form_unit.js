@@ -41,8 +41,8 @@ const cafe=async(p)=>{ G.day=d17; G.hour=15.5; G.zone='cafe'; said=[]; opts=[]; 
 (async()=>{
   // 1. 信箱、私訊
   fresh(d15,8,'dorm'); runPhone(d15,8.9,9.1); check('1. 11/15 09:00 學校信箱（系統字）', txt('sys').includes('交換學生申請：11/18（四）中午截止。'), JSON.stringify(txt('sys')));
-  fresh(d16,20,'dorm'); R('heroine_01','FAM'); runPhone(d16,20.9,21.1); check('1. 11/16 21:00 以安私訊（一般）', JSON.stringify(txt('p:heroine_01'))===JSON.stringify(['明天下午三點半，兩點半 Café。交換的志願表，後天截止。']), JSON.stringify(txt('p:heroine_01')));
-  fresh(d16,20,'dorm'); date('heroine_01'); runPhone(d16,20.9,21.1); check('1. 11/16 21:00 以安私訊（交往中）', JSON.stringify(txt('p:heroine_01'))===JSON.stringify(['明天下午三點半，兩點半 Café。我們一起填。']));
+  fresh(d16,20,'dorm'); R('heroine_01','FAM'); runPhone(d16,20.9,21.1); check('1. 11/16 21:00 以安私訊（一般）', JSON.stringify(txt('p:heroine_01'))===JSON.stringify(['明天下午三點半，2:30 AM。交換的志願表，後天截止。']), JSON.stringify(txt('p:heroine_01')));
+  fresh(d16,20,'dorm'); date('heroine_01'); runPhone(d16,20.9,21.1); check('1. 11/16 21:00 以安私訊（交往中）', JSON.stringify(txt('p:heroine_01'))===JSON.stringify(['明天下午三點半，2:30 AM。我們一起填。']));
   fresh(d16,20,'dorm'); R('heroine_01','FAM'); G.flags.romance=G.flags.romance||{}; ROM.get(G,'heroine_01').status='ex'; runPhone(d16,20.9,21.1); check('1. 和以安分手了（ex）：沒有私訊', txt('p:heroine_01').length===0);
   // 7. F6
   fresh(d16,20,'dorm'); runPhone(d16,20.9,21.1); check('7. F6 不認識以安：沒有私訊', txt('p:heroine_01').length===0);

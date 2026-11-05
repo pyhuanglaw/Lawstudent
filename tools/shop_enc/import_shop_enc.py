@@ -14,6 +14,7 @@ V1 = 'docs/story_planning/shop_enc/shop_enc_aa_v1.json'
 V2 = 'docs/story_planning/shop_enc/shop_enc_aa_v2.json'
 HEAR = 'docs/story_planning/AA_640_店裡客人的路人句.md'
 A641 = 'docs/story_planning/AA_641_店內偶遇_回LAWWW四件.md'
+A655 = 'docs/story_planning/AA_655_溫州街第一批_改名規則與小路居酒屋菜單.md'   # WZ-SHOPS1-1104：學姊的店內偶遇搬到林家乾麵（第 4 節）；店名照 tools/story/aa655_fix.json（read_fix）
 OUT = os.path.join(ROOT, 'src', 'data', 'shop_enc.js')
 FIXED = []
 
@@ -57,6 +58,36 @@ def aa641(t):
             'joinH': int(j.group(1)) / 60, 'joinLine': jl.group(1), 'joinHint': '等一下有'}
 
 
+def aa655(t, rows):
+    """AA_655 第 4 節（WZ-SHOPS1-1104，企劃線 a22e53016）：小路 18:00 才開——學姊的店內偶遇（spot wz_teishoku）搬到林家乾麵（wz_lin），時段照舊、memo 不改；
+    why、away、第二句照第 4 節換（一字不改照稿；稿和 JSON 對不上就停）。"""
+    a, b = t.find('## 4.'), t.find('## 5.')
+    if a < 0 or b < 0: sys.exit(A655 + '：找不到第 4 節')
+    sec = t[a:b]
+    mv = re.search(r"搬到林家乾麵\*\*（`spot:'(wz_\w+)'`）", sec)
+    why = re.search(r'`why`：「(.+?)」', sec); away = re.search(r'`away`：「(.+?)」', sec)
+    ln = re.search(r'「([^「」]+)」照舊；「([^「」]+)」→「([^「」]+)」', sec)
+    memo = re.search(r"`memo:'(\w+)'` 不改", sec)
+    if not (mv and why and away and ln and memo): sys.exit(A655 + '：第 4 節讀不到 spot／why／away／台詞／memo')
+    hit = [r for r in rows if r.get('who') == 'heroine_05' and r.get('spot') == 'wz_teishoku' and r.get('memo') == memo.group(1)]
+    if len(hit) != 1: sys.exit(A655 + '：JSON 裡找不到學姊在定食店的那一列（memo ' + memo.group(1) + '）')
+    r = hit[0]; acq = (r.get('lines') or {}).get('acq') or []
+    if ln.group(1) not in acq or ln.group(2) not in acq: sys.exit(A655 + '：學姊那一列的台詞和稿不同：' + json.dumps(acq, ensure_ascii=False))
+    r['spot'] = mv.group(1); r['why'] = why.group(1); r['away'] = away.group(1)
+    r['lines'] = dict(r['lines'], acq=[ln.group(3) if x == ln.group(2) else x for x in acq])
+    r['src'] = r.get('src', '') + '＋AA_655'
+    # 第 7 節（10020abda）：學姊在林家交往版那句「今天的魚分你一半」→「今天的餛飩分你一半。」（一字不改照稿；稿或 JSON 對不上就停）
+    s7 = t[t.find('## 7.'):] if t.find('## 7.') >= 0 else ''
+    m7 = re.search(r'「(今天的魚分你一半)」\*\*：改成「([^「」]+)」', s7)
+    if s7 and not m7: sys.exit(A655 + '：第 7 節讀不到「今天的魚分你一半」那一句')
+    if m7:
+        old, new = m7.group(1) + '。', m7.group(2)
+        dt = (r.get('lines') or {}).get('dating') or []
+        if not any(old in x for x in dt): sys.exit(A655 + '：學姊那一列的交往版台詞沒有「' + old + '」：' + json.dumps(dt, ensure_ascii=False))
+        r['lines'] = dict(r['lines'], dating=[x.replace(old, new) for x in dt])
+        r['src'] = r['src'] + '§7'
+
+
 def build():
     s1, t1 = src(V1); s2, t2 = src(V2); s3, t3 = src(HEAR); s4, t4 = src(A641)
     a, b = json.loads(t1), json.loads(t2)
@@ -66,7 +97,14 @@ def build():
         # AA_633 表下第一點：學姊「只有玩家自己走進定食店才會遇到，不是固定作息去等她；一週最多一次」（JSON 沒有欄位）
         if r.get('who') == 'heroine_05' and r.get('spot') == 'wz_teishoku':
             r['weekMax'] = 1; r['selfOnly'] = True
+        # WZ-SHOPS1-1104（AA cafe230_layout.js v2 seatPlan.sofa）：2:30 AM 以安「她坐在沙發那一區」＝挑 tag sofa 的位子（src/shopenc3d.js S.seatPick 照 row.tag 挑；JSON 沒有欄位）
+        if r.get('spot') == 'cafe' and '坐在沙發' in (r.get('why') or ''):
+            r['tag'] = 'sofa'
+        # WZ-SHOPS1-1104（AA_659 第 2 節「坐吧台」：店內偶遇「阿哲坐在吧檯，面前三個空盤子」就挑這兩張，sunnyside_layout v3 的 tag bar）
+        if r.get('spot') == 'wz_brunch' and '坐在吧檯' in (r.get('why') or ''):
+            r['tag'] = 'bar'
         rows.append(r)
+    s5, t5 = src(A655); aa655(t5, rows)
     m = re.search(r'```json\s*(\{.*?\})\s*```', t3, re.S)
     if not m: sys.exit(HEAR + '：找不到 JSON')
     hear = json.loads(m.group(1))
@@ -78,7 +116,7 @@ def build():
     hear['quietUse'] = {'book': [0, 1, 2, 3, 4, 5], 'cafe': [1, 2, 3, 4, 6]}   # 第幾句（0 起）：書店 1～6、Café 2～5、7
     hear['quietExam'] = ex.group(1)   # LAWWW 決定加（AA_640 給 LAWWW 的小註最後一點）：只在考試週、放 quiet
     x = aa641(t4); x['src'] = A641 + '@' + s4
-    d = {'src': [V1 + '@' + s1, V2 + '@' + s2, HEAR + '@' + s3, A641 + '@' + s4],
+    d = {'src': [V1 + '@' + s1, V2 + '@' + s2, HEAR + '@' + s3, A641 + '@' + s4, A655 + '@' + s5],
          'rules': {'v1': a.get('rules'), 'v2': b.get('rules')},
          'rows': rows, 'newPeople': a.get('newPeople', []), 'shopkeepers': b.get('shopkeepers', []),
          'hear': hear, 'aa641': x}
@@ -89,7 +127,7 @@ def main():
     d = build()
     js = ('/* 店內偶遇（SHOP-ENCOUNTER-1103；AA_632 第一批、AA_633 第二批、AA_641 修正）＋店裡客人的路人句（SHOP-DINERS-1103；AA_640）。自動產生，不要手改：python3 tools/shop_enc/import_shop_enc.py\n'
           '   來源：' + '、'.join(d['src']) + '（劇情匯入白名單）。台詞照抄 AA 的 JSON。\n'
-          '   rows 的格式照 src/data/encounters.js（spot＝店的 zone id；巷口茶飲 wz_tea、夏日冰菓室 wz_ice 是溫州街的外帶窗口）；AA_633 的 examOK、months；學姊定食店的 weekMax、selfOnly 是匯入工具照 AA_633 表下第一點加的。\n'
+          '   rows 的格式照 src/data/encounters.js（spot＝店的 zone id；巷口茶飲 wz_tea、夏日冰菓室 wz_ice 是溫州街的外帶窗口）；AA_633 的 examOK、months；學姊定食店的 weekMax、selfOnly 是匯入工具照 AA_633 表下第一點加的；2:30 AM 以安那一列的 tag（sofa）是匯入工具照 cafe230_layout.js seatPlan 加的、SUNNY SIDE 阿哲那一列的 tag（bar）照 AA_659 第 2 節加的。\n'
           '   aa641：宋知寧加聯絡人以後的六則訊息（znMsgs）、她的回覆（znReplies）、第 5 則以後她在的店（znMove）、「一起坐」的時間與旁白（joinH、joinLine）——AA_641 第 2、5 節。\n'
           '   程式：src/shopenc3d.js（SHOPENC）。*/\n'
           'const SHOP_ENC=' + json.dumps(d, ensure_ascii=False, indent=1) + ';\n'

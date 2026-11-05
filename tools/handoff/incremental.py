@@ -243,6 +243,13 @@ def any_owner(files, role, outboxes):
     return None
 
 
+GAME = re.compile(r'^(src/|assets/|tests/|lib/|index\.html$)')   # D135（使用者 2026-11-04 12:5x 選擇題「只分類會改遊戲的」）：會改到遊戲（或遊戲測試）的路徑；lib/ 是遊戲載入的 three.js
+
+
+def touches_game(files):
+    return any(GAME.match(f) for f in files)
+
+
 def commit_files(root, sha):
     rc, out = _git(root, '-c', 'core.quotepath=off', 'diff-tree', '--no-commit-id', '--name-only', '-r', sha)   # 中文檔名不要轉成 \345… 跳脫（2026-10-17：不加這個，中文檔名永遠比對不到）
     return out.splitlines() if rc == 0 else []
@@ -344,6 +351,9 @@ def scan(root, wm, dv, tasks, duty, remote=True, outboxes=None, roles=None):
                 r['classified'] += 1
             elif any_owner(commit_files(root, s), role, outboxes):   # 只改 outbox 已登記的檔案或交接檔（企劃線互相合併：別的職位登記的檔案也算那個職位的）
                 r['classified'] += 1
+            elif not touches_game(commit_files(root, s)):   # D135：沒改到遊戲的 commit（只改文件、企劃、交接紀錄、工具）不逐筆分類——由該職位交班時的「全部待辦」與快照涵蓋（roles、asks、check_orphans 照查）
+                r['classified'] += 1
+                r['docsOnly'] = r.get('docsOnly', 0) + 1
             else:
                 r['unclassified'].append((s[:8], subj[:80]))
         for i in w.get('open') or []:

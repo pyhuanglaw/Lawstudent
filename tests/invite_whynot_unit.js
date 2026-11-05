@@ -36,7 +36,7 @@ check('5. 學姊「認識」：開場就有聯絡方式，手機上可以約',I.
 // 6. 已經約好了
 G.invites.push({id:'t1',who:'heroine_01',place:'cafe',zone:'cafe',day:21,h:15.5,state:'accepted',by:'player'});
 const wd21=['日','一','二','三','四','五','六'][((G.weekday+1)%7)];
-check('6. 已經約好了 →「你們已經約好了：週'+wd21+' 15:30，兩點半 Café。」',I.whyNot(G,'heroine_01')==='你們已經約好了：週'+wd21+' 15:30，兩點半 Café。',I.whyNot(G,'heroine_01'));
+check('6. 已經約好了 →「你們已經約好了：週'+wd21+' 15:30，2:30 AM。」',I.whyNot(G,'heroine_01')==='你們已經約好了：週'+wd21+' 15:30，2:30 AM。',I.whyNot(G,'heroine_01'));
 G.invites[0].day=19; check('6. 過去的約不算',I.whyNot(G,'heroine_01')==='',I.whyNot(G,'heroine_01'));
 G.invites[0].state='declined'; G.invites[0].day=22; check('6. 拒絕了的不算',I.whyNot(G,'heroine_01')==='',I.whyNot(G,'heroine_01'));
 // 7. 不在學校（presence 的 kind）

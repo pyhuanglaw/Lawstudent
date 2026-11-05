@@ -71,12 +71,16 @@ for l in lines[s3:s4]:
     else:
         m3 = re.match(r'^「([^」]+)」', same); same = m3.group(1) if m3 else same
     staff[m.group(1).strip()] = {'who': m.group(2).strip(), 'line5': m.group(3), 'same': same, 'alt': alt}
-yt = re.search(r'語彤：(……阿姨說，你的不用問。)', '\n'.join(lines[s3:s4])).group(1)
+yt = re.search(r'語彤：(……[阿蘇]姨說，你的不用問。)', '\n'.join(lines[s3:s4])).group(1)   # 讀稿照 aa630_fix 換過＝「蘇姨說」（AA_630，YT-REWRITE-1103）
 # AA_336 A4：便利商店上次沒加熱的，店員第 5 次那一句改說另一句，回一句（AA-C：「上次沒加熱的，店員改說「**一樣不用加熱，對吧。**」，回「好。」」）
 a4 = next(l for l in src_a.split('\n') if l.startswith('| A4 |'))
 m4 = re.search(r'上次沒加熱的，店員改說「\*\*([^*」]+)\*\*」，回「([^」]+)」', a4)
 if not m4: raise SystemExit('AA_336 A4 那一列格式變了：' + a4)
 staff['公館的便利商店']['line5Alt'] = {'when': '沒加熱', 't': m4.group(1), 'reply': m4.group(2)}
+# WZ-SHOPS1-1104（AA_655 第 1 節）：讀稿 read_fix 把店名換成新名（2:30 AM、溫州街・SUNNY SIDE），可是 first／staff 的 key 是存檔裡次數的店名（src/eat3d.js 的 EAT.count），
+# key 照舊用舊字（畫面上的店名 eat3d.js S.SHOW 換）。換回 key、句子照新字
+KEY_OLD = {'2:30 AM': '兩點半 Café', '溫州街・SUNNY SIDE': '溫州街・半熟'}
+first = {KEY_OLD.get(k, k): v for k, v in first.items()}; staff = {KEY_OLD.get(k, k): v for k, v in staff.items()}
 data = {'source': f'AA_329（企劃 {SHA}）＋AA_336 第 A 節（企劃 {SHA_A}）＋AA_497 第 8 節第 3 點換一句（企劃 60fc3b9a3）', 'open': OPEN, 'closeRecycle': RECYCLE, 'closeDoor': DOOR, 'doorShops': door_shops,
         'together': together, 'first': first, 'staff': staff, 'staffYutong': ['heroine_03', yt]}
 n = sum(len(v) for g in together.values() for v in g.values())
@@ -88,3 +92,8 @@ out = ('/* ===== 吃東西（X67，使用者 10-20「吃東西好像只是花錢
        "'use strict';\nconst EAT_LINES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
 open(os.path.join(ROOT, 'src/data/eat_lines.js'), 'w', encoding='utf-8').write(out)
 print(f'wrote src/data/eat_lines.js：一起吃 {len(together)} 人、{n} 句；吃過的 {len(first)} 間；店員 {len(staff)} 間；來源 AA_329@{SHA}、AA_336@{SHA_A}')
+# AA_630／AA_627 表 B（語彤台詞改寫，YT-REWRITE-1103）：寫完再照白名單上的逐句表換一次（整句相同才換；tools/story/aa630.py）
+import sys as _sys, os as _os
+_R0 = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))); _sys.path.insert(0, _os.path.join(_R0, 'tools', 'story'))
+import aa630 as _aa630, import_guard as _ig
+_aa630.patch_file(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/eat_lines.js', _R0)

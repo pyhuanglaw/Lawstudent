@@ -1,0 +1,58 @@
+[
+ {
+  "file": "arts_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40447",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2006",
+  "caption": "側邊的三拱走廊（夜）：面磚、半圓拱、拱內白粉牆、腳踏車",
+  "size": "640×480",
+  "src_id": "map q=40447"
+ },
+ {
+  "file": "arts_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40446",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2006",
+  "caption": "中庭（夜）：大樹、草地、黃磚小路，四周二層樓拱窗",
+  "size": "640×480",
+  "src_id": "map q=40446"
+ },
+ {
+  "file": "arts_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40445",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2006",
+  "caption": "從紅磚拱門看中庭：大樹、二層樓拱窗",
+  "size": "640×480",
+  "src_id": "map q=40445"
+ },
+ {
+  "file": "arts_web_04.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40444",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2006",
+  "caption": "室內：環狀樓梯（木扶手）、高拱窗、白色天花線腳、吊燈",
+  "size": "640×480",
+  "src_id": "map q=40444"
+ },
+ {
+  "file": "arts_web_05.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40443",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2006",
+  "caption": "從椰林大道看文學院：大王椰子、杜鵑、正面山牆",
+  "size": "640×480",
+  "src_id": "map q=40443"
+ },
+ {
+  "file": "arts_web_06.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40442",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2006",
+  "caption": "側翼：土黃色面磚、二層拱窗、山牆、腳踏車",
+  "size": "640×480",
+  "src_id": "map q=40442"
+ },
+ {
+  "file": "arts_web_07.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40441",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2006",
+  "caption": "正面車寄（門廊）：三個拱、山牆、面磚、前面石磚廣場",
+  "size": "640×480",
+  "src_id": "map q=40441"
+ }
+]

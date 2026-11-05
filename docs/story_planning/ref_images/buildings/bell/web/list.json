@@ -1,0 +1,66 @@
+[
+ {
+  "file": "bell_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42025",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=11",
+  "caption": "夜景：傅鐘和前面長方形水池的倒影，後面是白色建築",
+  "size": "480×640",
+  "src_id": "map q=42025"
+ },
+ {
+  "file": "bell_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42024",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=11",
+  "caption": "夜景：兩排椰子樹之間的紅色鐘架",
+  "size": "480×640",
+  "src_id": "map q=42024"
+ },
+ {
+  "file": "bell_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42023",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=11",
+  "caption": "鐘架近景（黃昏）：紅色鋼管框架、兩道圓環、吊在頂上的鐘；後面是磚造建築",
+  "size": "640×480",
+  "src_id": "map q=42023"
+ },
+ {
+  "file": "bell_web_04.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42022",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=11",
+  "caption": "剪影：大樹、吊鐘",
+  "size": "640×480",
+  "src_id": "map q=42022"
+ },
+ {
+  "file": "bell_web_05.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42021",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=11",
+  "caption": "傅鐘＋杜鵑：紅色鐘架、石砌台座；後面遠處是二層樓的面磚建築",
+  "size": "640×480",
+  "src_id": "map q=42021"
+ },
+ {
+  "file": "bell_web_06.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42020",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=11",
+  "caption": "正面：長方形噴水池＋紅色花圃、紅色鐘架、後面長條二層建築、大王椰子",
+  "size": "640×480",
+  "src_id": "map q=42020"
+ },
+ {
+  "file": "bell_web_07.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42018",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=11",
+  "caption": "鐘的台座：石砌台階、幾塊石碑、紅色鋼架",
+  "size": "640×480",
+  "src_id": "map q=42018"
+ },
+ {
+  "file": "bell_web_08.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42016",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=11",
+  "caption": "鐘架仰視（剪影）：圓環＋吊鐘",
+  "size": "640×480",
+  "src_id": "map q=42016"
+ }
+]

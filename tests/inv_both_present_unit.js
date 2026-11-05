@@ -10,12 +10,13 @@
 //       8. 在 3F 閱覽室（或大廳）當面約學姊「現在一起過去」總圖：直接開始，不念手機那句（BB 10-22 03:01；修改前 3F 那一項 FAIL）。
 //       7. 一盞的緣側（並排、相距 1.8 m）：你坐她旁邊；2 m 外的隔壁桌、前後排、背對背不配對（BB 10-22 02:23；修改前第一項 FAIL）。
 //       9. Café 的學姊是舊代號 sis 生成的（GM.npc.sis）：一起走到照樣一起坐下（BB 10-22 05:4x；修改前開發分支 b7c250b0 FAIL）。
+//      （INV-SIT-TOGETHER-1104 第 2 項：見面演完她解凍、起身回自己的作息——「她坐下」改成看有沒有坐過（ent._sat）、演完沒有 frozen）
 //      10. 一起走的路上改去宿舍、回家：作息不再把她生在你旁邊（BUG-WALK-DORM-FOLLOW-1022，BB 10-22 06:1x；修改前開發分支 c045438d FAIL）。
 // 修改前：第 1、2、3、5 項 FAIL。用法：node tests/inv_both_present_unit.js
 const H=require('./pg_harness.js');
 const {check,GM,E}=H;
 const W=ms=>new Promise(r=>setTimeout(r,ms));
-GM.sitAt=(ent,seat)=>{ ent.seat=seat; ent.pose='sit'; ent.idlePose='sit'; ent.frozen=true; if(ent.obj){ ent.obj.position.x=seat.x; ent.obj.position.z=seat.z; } };
+GM.sitAt=(ent,seat)=>{ ent._sat=seat; ent.seat=seat; ent.pose='sit'; ent.idlePose='sit'; ent.frozen=true; if(ent.obj){ ent.obj.position.x=seat.x; ent.obj.position.z=seat.z; } };
 GM.standUp=ent=>{ ent.seat=null; ent.pose='idle'; ent.idlePose='idle'; ent.frozen=false; };
 GM.sleep=()=>Promise.resolve();
 const fades=[]; GM.fade=v=>{ fades.push(v); return Promise.resolve(); };
@@ -27,12 +28,12 @@ const npc=id=>{ const n={id,obj:{position:{x:3,z:3},rotation:{y:0}},beh:'idle',p
   { const G=setup('2025-09-12',18.9,'library_hall'); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','library',G.day,19,{by:'player'}); const n=npc('heroine_05');
     INV.tick(GM); await W(30);
     check('1. 19:00 約在總圖、你在總圖大廳、她也在：不用說話就開始（state done）',iv.state==='done',JSON.stringify({st:iv.state}));
-    check('1. 有座位的地方：兩個人一起坐下（她在相鄰的位子）、有淡出淡入；演完你站起來',!!n.seat&&fades.length>=2&&E.player.seat==null&&H.said.length>0,JSON.stringify({her:n.seat,fades,said:H.said.length})); }
+    check('1. 有座位的地方：兩個人一起坐下（她在相鄰的位子）、有淡出淡入；演完你站起來；她演完解凍',!!n._sat&&!n.frozen&&fades.length>=2&&E.player.seat==null&&H.said.length>0,JSON.stringify({her:n.seat,fades,said:H.said.length})); }
   /* 2 已經在那個地方、當面約「現在一起過去」 */
-  { const G=setup('2025-09-12',20.7,'library_hall'); H.FRIEND('heroine_05'); const n=npc('heroine_05'); n.seat={x:0,z:0,lv:0}; E.zone.seats[0]=n.seat;
+  { const G=setup('2025-09-12',20.7,'library_hall'); H.FRIEND('heroine_05'); const n=npc('heroine_05'); n.seat={x:0,z:0,lv:0}; n._sat=n.seat; E.zone.seats[0]=n.seat;
     const d0=INV.decide; INV.decide=()=>({res:'accept'}); H.picks=['去總圖一起念書','現在一起過去'];
     let iv=null; try{ iv=await INV.flow(GM,'heroine_05',n,true); } finally { INV.decide=d0; }
-    check('2. 已經在總圖、當場再約「現在一起過去」讀書：不變成跟著走，直接開始（state done、她坐著、你在她旁邊坐過）',!!iv&&iv.state==='done'&&n.beh!=='follow'&&!!n.seat&&!iv.now,JSON.stringify(iv&&{st:iv.state,now:iv.now,beh:n.beh})); }
+    check('2. 已經在總圖、當場再約「現在一起過去」讀書：不變成跟著走，直接開始（state done、她坐著、你在她旁邊坐過）',!!iv&&iv.state==='done'&&n.beh!=='follow'&&!!n._sat&&!n.frozen&&!iv.now,JSON.stringify(iv&&{st:iv.state,now:iv.now,beh:n.beh})); }
   /* 3 一起走過去的路上回宿舍、回家 */
   { const G=setup('2025-09-12',15,'campus'); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','cafe',G.day,15,{now:true,by:'player'}); const n=npc('heroine_05'); n.beh='follow';
     G.zone='dorm_hall'; await INV.arrive(GM,'dorm_hall');
@@ -48,7 +49,7 @@ const npc=id=>{ const n={id,obj:{position:{x:3,z:3},rotation:{y:0}},beh:'idle',p
   /* 5 一起走到約定的地方 */
   { const G=setup('2025-09-12',15,'campus'); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','cafe',G.day,15,{now:true,by:'player'}); const n=npc('heroine_05'); n.beh='follow';
     G.zone='cafe'; H.at('2025-09-12',15.2); G.zone='cafe'; await INV.arrive(GM,'cafe');
-    check('5. 一起走到 Café：直接開始、一起坐下（不再等你坐到她旁邊或跟她說話）',iv.state==='done'&&!!n.seat&&!iv.waitSeat,JSON.stringify({st:iv.state,seat:!!n.seat,ws:iv.waitSeat})); }
+    check('5. 一起走到 Café：直接開始、一起坐下（不再等你坐到她旁邊或跟她說話）',iv.state==='done'&&!!n._sat&&!n.frozen&&!iv.waitSeat,JSON.stringify({st:iv.state,seat:!!n._sat,ws:iv.waitSeat})); }
   /* 6 麵店（一張桌子兩個位子面對面、相距 1.6 m）：她坐著，你坐她對面（BB 10-22 01:3x：原本只找 1.3 m 內的空位，麵店永遠找不到，你站在門口演完）*/
   { const G=setup('2025-09-12',18.9,'noodle'); E.zone={seats:[{x:-3,z:-0.3,lv:0},{x:-3,z:1.3,lv:0},{x:0,z:-0.3,lv:0},{x:0,z:1.3,lv:0},{x:3,z:-0.3,lv:0},{x:3,z:1.3,lv:0}],roomAt:()=>null};
     H.FRIEND('zhe'); const iv=INV.accept(G,'zhe','noodle',G.day,19,{by:'player'}); const n=npc('zhe'); n.seat=E.zone.seats[5]; E.player.obj.position.x=0; E.player.obj.position.z=3.4;
@@ -73,7 +74,7 @@ const npc=id=>{ const n={id,obj:{position:{x:3,z:3},rotation:{y:0}},beh:'idle',p
   /* 9 Café 的學姊是舊代號 sis 生成的（story3d.js 照作息生成 GM.npc.sis，沒有 GM.npc.heroine_05）：一起走到 Café 照樣一起坐下（BB 10-22 05:4x 讀碼：S.arrive 只找 GM.npc[iv.who]，找不到就沒安排座位）*/
   { const G=setup('2025-09-12',15,'campus'); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','cafe',G.day,15,{now:true,by:'player'}); const n=npc('sis'); n.charId='heroine_05'; n.beh='follow';
     G.zone='cafe'; H.at('2025-09-12',15.2); G.zone='cafe'; await INV.arrive(GM,'cafe');
-    check('9. Café 的學姊是 GM.npc.sis：一起走到＝直接開始、她坐下（修改前沒坐下）',iv.state==='done'&&!!n.seat&&!iv.waitSeat,JSON.stringify({st:iv.state,seat:!!n.seat,ws:iv.waitSeat})); }
+    check('9. Café 的學姊是 GM.npc.sis：一起走到＝直接開始、她坐下（修改前沒坐下）',iv.state==='done'&&!!n._sat&&!n.frozen&&!iv.waitSeat,JSON.stringify({st:iv.state,seat:!!n._sat,ws:iv.waitSeat})); }
   /* 10 一起走的路上改去宿舍、回家（BUG-WALK-DORM-FOLLOW-1022，BB 10-22 06:1x：手機快速前往宿舍，約作罷了、她卻被帶進男生宿舍的房間）：作息不再把她生在你旁邊；公館、校園、目的地照樣跟著 */
   { const G=setup('2025-09-26',19.5,'gongguan'); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','cafe',G.day,19.5,{now:true,by:'player'});
     const at=z=>{ G.zone=z; const e=INV.entryFor(G,'heroine_05'); return e?e.act:null; };

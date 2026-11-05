@@ -134,7 +134,7 @@ const SISB13=(function(){
 
   /* ---------------- 第 2 節第 8 點：二月那一頁（醉月湖跨年 2026-12-31 選「寫到哪裡？」＝SIS_NYE_PLAN_Q；交往中）---------------- */
   S.FEB={ask:'2029-01-31',day:'2029-02-01'};
-  S.FEB_OUT={id:'sisb13_feb',ev:'ev_sis13_feb_plan',h:15,late:0.5,place:'兩點半 Café',title:'兩點半 Café（二月那一頁）',travel:'走路 約 10 分鐘',travelH:1/6,hours:2};
+  S.FEB_OUT={id:'sisb13_feb',ev:'ev_sis13_feb_plan',h:15,late:0.5,place:'2:30 AM',title:'2:30 AM（二月那一頁）',travel:'走路 約 10 分鐘',travelH:1/6,hours:2};
   S.feb=function(G){ const F=G.flags, a=D(S.FEB.ask), d=D(S.FEB.day), tag='sisb13_feb_ask'; if(a==null||d==null||G.day<a||G.day>d+1) return;
     if(!sent(G,tag)&&G.day<=a&&F.SIS_NYE_PLAN_Q&&S.dating(G)&&contact(G)){ const M=(L.febMsg||[]).map(dm); M[M.length-1].ask={id:tag,until:T(d,14.5),opts:(L.febOpts||[]).map(o=>Object.assign(reply(o),{set:{SIS13_FEB_GO:true}}))}; PHONE.at(G,a,21,M,tag); }
     if(F.SIS13_FEB_GO===true&&F.SIS_FEB_PLAN==null&&S.dating(G)&&now(G)<T(d,S.FEB_OUT.h+S.FEB_OUT.late)) plan(G,Object.assign({},S.FEB_OUT,{day:d})); };

@@ -91,7 +91,10 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
     const out=E.interactables.find(i=>i.exit&&i.exit.to==='gongguan'); await enter('gongguan',out.exit.spawn);
     check('10 出店：車停在門口、有「騎腳踏車」',!!parkedObj()&&!!parkedIt()&&E.canStand(G.bike.x,G.bike.z,0.45,0));
     { const dd=Math.hypot(G.bike.x-shop.x,G.bike.z-shop.z), ux=(G.bike.x-shop.x)/dd, uz=(G.bike.z-shop.z)/dd, sx=G.bike.x+ux*0.8, sz=G.bike.z+uz*0.8;
-      check('10b 車停在門口旁邊、離門 2 m 以上（停在門正前方時，走回車旁按鈕常是「進入便利商店」；v9.7 回歸 2026-10-14）；站在車旁（離門遠的那邊 0.8 m）車比門近',dd>=2&&dd<=3&&Math.hypot(sx-G.bike.x,sz-G.bike.z)<Math.hypot(sx-shop.x,sz-shop.z)-1,JSON.stringify({dd:+dd.toFixed(2)})); } }
+      /* 2026-11-04 改期望（AA_646 第 3 節、使用者 11-04「自動出現在我剛離開的建築外合法停車的地方」）：出店時車停到離門最近的合法停車處（公館：騎樓柱子外那一排機車的端點），
+         不再是 parkBeside 的 2～3 m；「不擋門、站在車旁車比門近」照舊 */
+      const legal=BIKE.parkSpots(E,'gongguan').some(q=>Math.hypot(q.x-G.bike.x,q.z-G.bike.z)<1e-6);
+      check('10b 出店：車停在最近的合法停車處（人行道上那一排的端點、不在騎樓 z<19）、離門 2 m 以上、'+BIKE.MAXD+' m 以內；站在車旁（離門遠的那邊 0.8 m）車比門近',legal&&G.bike.z<19&&dd>=2&&dd<=BIKE.MAXD&&Math.hypot(sx-G.bike.x,sz-G.bike.z)<Math.hypot(sx-shop.x,sz-shop.z)-1,JSON.stringify({dd:+dd.toFixed(2)})); } }
   // ---- 11 快速前往室內（離門口很遠）：車停到那棟建築的門外 ----
   { P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); P.obj.position.x-=3; await enter('library_hall');
     const ex=E.interactables.find(i=>i.exit&&BIKE.ok(i.exit.to)); const sp=ex.exit.spawn;

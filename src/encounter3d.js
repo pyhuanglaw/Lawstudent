@@ -149,7 +149,7 @@ const ENC=(function(){
     return true; };
   /* 之後在學校：有那一筆記憶、還沒說過、在對的地方 → 這一次的聊天說這一句（story3d.js talkCharacter，在閒聊階梯之前）。說過記在 G.daily.encSaid */
   /* 小支線最後一步的「之後在學校」那一句（芷若 Café、柏翰總圖；enc_walk.js side 的 after）*/
-  const sideSchool=()=>{ const o={}; for(const sd of (W().side||[])) for(const st of sd.steps) if(st.mem&&st.after&&st.after.line){ const wh=st.after.where||''; o[st.mem]={who:sd.who,lines:[st.after.line],place:/Café/.test(wh)?['cafe']:(/總圖/.test(wh)?['library','library_hall']:null)}; } return o; };
+  const sideSchool=()=>{ const o={}; for(const sd of (W().side||[])) for(const st of sd.steps) if(st.mem&&st.after&&st.after.line){ const wh=st.after.where||''; o[st.mem]={who:sd.who,lines:[st.after.line],place:/Café|2:30 AM/.test(wh)?['cafe']:(/總圖/.test(wh)?['library','library_hall']:null)}; } return o; };
   S.schoolLine=function(G,id){ const SC=Object.assign({},sideSchool(),D().school||{}); const said=(G.daily&&G.daily.encSaid)||{};
     for(const tag in SC){ const q=SC[tag]; if(q.who!==id||!q.lines||said[tag]) continue; if(!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(id,tag))) continue; if(S.Q6_GATED[tag]&&!PT()) continue; if(q.place&&!q.place.includes(G.zone)) continue;
       const M=G.social&&G.social.mem&&G.social.mem[id]; const m=M&&M.find(x=>x.tag===tag); if(m&&m.day>=G.day) continue;   /* 遇到的那一天不說 */

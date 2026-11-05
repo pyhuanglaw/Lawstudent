@@ -87,9 +87,9 @@ const PGDATE=(function(){
   S.MODE={
     lib:{kind:'meet',place:'總圖 B1 的長桌',bg:'ntu_lib_b1',travel:'走過去約 15 分鐘',travelH:0.25,hours:2},   /* 以安臺北：週六 15:00，總圖 B1 的長桌，她讀完一起走出來 */
     ny:{kind:'video',place:'視訊（紐約）',bg:'video',hours:1},   /* 以安 2030-08-11 以後：視訊，臺灣時間週日 08:00（紐約週六晚上）*/
-    cafe:{kind:'meet',place:'兩點半 Café 打烊以後',bg:'dark',travel:'走過去約 15 分鐘',travelH:0.25,hours:1},   /* 芷若雙月：週六 22:00，Café 打烊以後（字幕照 termend_lines.js PLACE.cafe）*/
+    cafe:{kind:'meet',place:'2:30 AM 打烊以後',bg:'dark',travel:'走過去約 15 分鐘',travelH:0.25,hours:1},   /* 芷若雙月：週六 22:00，Café 打烊以後（字幕照 termend_lines.js PLACE.cafe）*/
     movie:{kind:'meet',place:'早場電影',bg:'gongguan_cinema',travel:'走過去約 15 分鐘',travelH:0.25,hours:2},   /* 芷若單月：週日早上 10:00，早場電影 */
-    noodle:{kind:'meet',place:'麵店打烊以後',bg:'noodle_table',travel:'走過去約 15 分鐘',travelH:0.25,hours:1},   /* 語彤：週六 21:30，麵店打烊以後 */
+    noodle:{kind:'meet',place:'一盞茶屋打烊以後',bg:'wenzhou_teahouse',travel:'走過去約 15 分鐘',travelH:0.25,hours:1},   /* 語彤：週六 21:30，一盞茶屋打烊以後（AA_643 第 11 節第 2 點；key 名 noodle 是內部 id 不改）*/
     yexiao:{kind:'meet',place:'公館宵夜',bg:'gongguan_luwei',travel:'走過去約 15 分鐘',travelH:0.25,hours:1},   /* 子晴：週六 23:00，公館宵夜 */
     eatery:{kind:'meet',place:'法圖旁邊那家',bg:'xiaofu',travel:'走過去約 10 分鐘',travelH:1/6,hours:1.5},   /* 學姊：週六 18:30，法圖旁邊那家（背景照期末飯那一家 termend_lines.js PLACE.eatery_lib）*/
     video:{kind:'video',place:'視訊',bg:'video',hours:1},   /* 沛珊平常：週六 22:00 視訊 */

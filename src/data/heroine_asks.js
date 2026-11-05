@@ -36,7 +36,7 @@ const HASK_DATA={
     heroine_02:{ send:22+40/60, sendOff:20,
       daily:[
         {place:'cafe',th:3,pre:{d:'next',h:[15],off:true,line:'欸我明天沒班，可是我想去店裡當客人。你要不要來？下午三點。'},dat:{d:'next',h:[15,15.5],off:true,line:'明天我沒班。我們去當客人，換我點你的那一杯。'}},
-        {place:'brunch',th:5,pre:{d:'sat',h:[10,9],line:'週六早上要不要去半熟？我想偷學他們的蛋。'},dat:{d:'sat',h:[10,9],line:'週六早上半熟。我點和上次一樣的，你點不一樣的，我要吃你的。'}},
+        {place:'brunch',th:5,pre:{d:'sat',h:[10,9],line:'週六早上要不要去 SUNNY SIDE？我想偷學他們的蛋。'},dat:{d:'sat',h:[10,9],line:'週六早上 SUNNY SIDE。我點和上次一樣的，你點不一樣的，我要吃你的。'}},
         {place:'teahouse',th:5,pre:{d:'sun',h:[15.5,14],line:'一盞那家你去過嗎？週日下午。我想試試看能不能等三分鐘。'},dat:{d:'sun',h:[15.5,14],line:'週日下午一盞。這次我不看手機，等它泡好。'}},
         {place:'wenzhou',th:5,pre:{d:'next',h:[22.5],line:'明天下班以後走一段？十點半，店門口。'},dat:{d:'next',h:[22.5],line:'下班以後，溫州街。走到公園就好。'}}],
       out:[
@@ -48,12 +48,12 @@ const HASK_DATA={
       later:'好啦，那下次。', no:'喔。好啦。', yes:'好！那明天見。', yesOut:'好！那到時候見。' },
     heroine_03:{ send:21+40/60,
       daily:[
-        {place:'noodle',th:3,here:true,pre:{d:'next',h:[19,17.5],line:'阿姨說明天有滷牛腱。……她叫我問你要不要來。'},dat:{d:'next',h:[21],line:'明天晚上來店裡。我顧到九點，九點以後一起吃。'}},
+        {place:'noodle',th:3,here:true,pre:{d:'next',h:[19,17.5],line:'秀琴姨說明天有滷牛腱。……她叫我問你要不要來。'},dat:{d:'next',h:[21],line:'明天晚上來店裡。我顧到九點，九點以後一起吃。'}},
         {place:'library',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午我在總圖寫報告。三樓。……你要來的話，旁邊有位子。',vac:{line:'明天下午我在總圖看書。三樓。……你要來的話，旁邊有位子。'}},dat:{d:'next',h:[15.5,17.5],line:'明天下午總圖。三樓，我旁邊。'}},
         {place:'wenzhou',th:5,here:true,pre:{d:'sat',h:[15.5,14],line:'週六下午我在溫州街。你來的話，我們走到公園。'},dat:{d:'sat',h:[15.5,14],line:'週六下午溫州街。我帶你去一家你沒去過的。'}},
-        {place:'run_avenue',th:5,pre:{d:'next',h:[6.5],line:'明天早上六點半。跑完我要去備料。'},dat:{d:'next',h:[6.5],line:'明天六點半。跑完一起吃早餐，再去備料。'}}],
+        {place:'run_avenue',th:5,pre:{d:'next',h:[6.5],line:'明天早上六點半。跑完我要回去洗澡，下午要上班。'},dat:{d:'next',h:[6.5],line:'明天六點半。跑完一起吃早餐，我再去茶屋。'}}],
       out:[
-        {loc:'D21',pre:{d:'sun',depart:13,line:'週日我沒有顧店。三峽，你去過嗎？'},dat:{d:'sun',depart:13,line:'週日去三峽。搭捷運再轉公車，我查好了。'}},
+        {loc:'D21',pre:{d:'sun',depart:13,line:'這個週日我跟蘇姨請假了。三峽，你去過嗎？'},dat:{d:'sun',depart:13,line:'週日去三峽。搭捷運再轉公車，我查好了。'}},
         {loc:'D09',dat:{d:'sun',depart:13,line:'週日下午，貓空。我想坐纜車。……我沒坐過。'}}],
       vacTerm:{ summer:{place:'noodle',v:{d:'next',h:[19,17.5],line:'明天店裡不忙。你要來就來。',first:'阿姨說夏天要吃涼麵。我做的。'}},
         winter:{place:'noodle',v:{d:'next',h:[19,17.5],line:'店裡有麻油雞。明天晚上。',first:'多喝湯。阿姨說的。'}} },   /* AA_549 3-6：換麵店那一句（她顧店的麵店，here 照那一筆）；總圖照 AA_532 放假版 */
@@ -82,7 +82,7 @@ const HASK_DATA={
         /* AA_539（企劃線 c9f6dd6cb → 90d0a41d0；SIS-LEAD-1021）第 2 節：三種通用邀約輪流、同一句四週內不重複（alt＝原句以外的句子；h 照句子：「五點」17:00、「五點以後」17:30、沒寫鐘點的照原句）；
            5-1（90d0a41d0）：1-3 作廢（學生證停了是不能借書，不是進不去總圖）；慢讀那兩句當總圖的第五句（place＝慢讀、15:00），慢讀有開、那個時間她可以的日子才出（週二店休；平日 9～17 的規則照舊），不行就輪到下一句；
            1-2：有研究室以前（9/21 21:00 sisy23_lab_ask「研究室分到位子了。」，約的那一天 ≦ 9/21），交往版晨跑的原句換 noLab。規則在 src/heroine_asks3d.js S.pickVar */
-        {place:'brunch',th:3,pre:{d:'sun',h:[9],line:'週日九點，半熟。不要遲到。'},dat:{d:'sun',h:[9],line:'週日九點，半熟。你點什麼，我點一樣的。'}},
+        {place:'brunch',th:3,pre:{d:'sun',h:[9],line:'週日九點，SUNNY SIDE。不要遲到。'},dat:{d:'sun',h:[9],line:'週日九點，SUNNY SIDE。你點什麼，我點一樣的。'}},
         {place:'cafe',th:5,pre:{d:'sat',h:[15.5,14],line:'週六下午，Café。帶你的筆記。'},dat:{d:'sat',h:[15.5,14],line:'週六下午，Café。不帶筆記。'}},
         {place:'teahouse',th:5,pre:{d:'sat',h:[14],line:'週六下午兩點，一盞。那一壺，我想再喝一次。'},dat:{d:'sat',h:[15.5,14],line:'週六下午，一盞。這次你點。'}},
         {place:'run_avenue',th:5,pre:{d:'next',h:[6.5],line:'明天六點半，晨思鐘前面。跑一圈就好。'},dat:{d:'next',h:[6.5],line:'明天六點半。跑完一起去吃早餐，再去研究室。',
@@ -98,7 +98,7 @@ const HASK_DATA={
     classmate_peishan:{ send:21,
       daily:[
         {place:'library',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午要不要一起去總圖？我有一題想問你！'},dat:{d:'next',h:[15.5,17.5],line:'明天下午總圖！我坐你旁邊，不吵你。'}},
-        {place:'brunch',th:3,pre:{d:'sat',h:[10,9],line:'週六早上半熟！我上次沒看清楚他們怎麼翻蛋。'},dat:{d:'sat',h:[10,9],line:'週六早上半熟！我想跟你說我家的蛋怎麼翻。'}},
+        {place:'brunch',th:3,pre:{d:'sat',h:[10,9],line:'週六早上 SUNNY SIDE！我上次沒看清楚他們怎麼翻蛋。'},dat:{d:'sat',h:[10,9],line:'週六早上 SUNNY SIDE！我想跟你說我家的蛋怎麼翻。'}},
         {place:'wenzhou',th:5,pre:{d:'today',h:[19,21],line:'晚上要不要走一下溫州街？我有很多問題，走路比較好問。'},dat:{d:'today',h:[19,21],line:'今天晚上溫州街好不好？我想走慢一點。'}},
         {place:'run_avenue',th:5,pre:{d:'next',h:[6.5],line:'明天早上要不要跑步？我五點就醒了……六點半等你！'},dat:{d:'next',h:[6.5],line:'明天六點半！我先到，你慢慢來。'}}],
       out:[

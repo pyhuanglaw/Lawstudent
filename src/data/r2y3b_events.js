@@ -29,20 +29,20 @@ const R2Y3B_EVENTS=(function(){
 
   /* ---------- 2-Y3-26 開學第一頓（大三下）：2028-02-22（二）19:00 麵店長桌（17:00 阿哲揪；沒去＝21:30 群組照片）---------- */
   const FIRST_MEAL={ id:'ev_y3s2_first_meal', title:'開學第一頓（大三下）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'公館燒臘・長桌',bg:'noodle_table'},
-      {speaker:null,text:'（麵店的長桌。語彤在廚房門口，圍裙還沒脫。）'},
+    dialogue:[ {scene:'日常失速・長桌',bg:'boardgame_gg'},
+      {speaker:null,text:'（日常失速的八人長桌。語彤坐在最裡面，背包還沒放下。）'},
       {if:kn('zhe','heroine_01'),speaker:'zhe',text:'這學期以安只吃一個月。'},
       {if:kn('heroine_01'),speaker:'heroine_01',text:'一個月又三天。三月二十五號的飛機。'},
       {if:kn('yu','heroine_01'),speaker:'yu',text:'那三月以前每一頓都要來喔。'},
       {if:kn('heroine_01','yu'),speaker:'heroine_01',text:'……好。我盡量。'},
       {if:{custom:G=>route(G)==='JP'&&knows('zhe',G)&&knows('heroine_01',G)},speaker:'zhe',text:'（轉向你）你也是。一個月又三天。'},   /* 日本路線多一句 */
-      {if:kn('heroine_03'),speaker:'heroine_03',text:'（端麵過來）……今天週二。週四我不在店裡了。'},
+      {if:kn('heroine_03'),speaker:'heroine_03',text:'……這學期週四，我去做田野。'},
       {if:kn('heroine_03','zhe'),speaker:'zhe',text:'她週四有自己的事了。'},
       {choice:[{text:'「先吃。」',goto:'a'},{text:'「週四妳去哪？」',if:kn('heroine_03'),goto:'b'}]},
       {label:'a'},{if:kn('zhe'),speaker:'zhe',text:'對。先吃。'},{goto:'end'},
-      {label:'b'},{speaker:'heroine_03',text:'……去問人問題。'},{speaker:null,text:'（她回廚房了。）'},
+      {label:'b'},{speaker:'heroine_03',text:'……去問人問題。'},{speaker:null,text:'（她低頭吃飯了。）'},
       {label:'end'} ],
-    consequences:{flags:{Y3S2_FIRST_MEAL:true},memo:'大三下的開學第一頓（公館燒臘）'},
+    consequences:{flags:{Y3S2_FIRST_MEAL:true},memo:'大三下的開學第一頓（日常失速）'},
     outingMissed:G=>{ const x=X(); if(x) x.firstMealPhoto(G); } };
 
   /* ---------- 2-Y3-27 228 河濱：2028-02-28（一）14:00～17:00 公館河濱（2/27 21:00 阿哲揪；沒去＝17:30 Alison 在群組）---------- */
@@ -241,8 +241,8 @@ const R2Y3B_EVENTS=(function(){
       {if:gk('yu'),speaker:'yu',text:'你瘦了！……不對，是鏡頭。'},
       {if:gk('classmate_bohan'),speaker:'classmate_bohan',text:'你那邊的課跟得上嗎？跟不上的話，筆記拍給我，我幫你對。'},   /* AA_377 第 14 項：日本路線（原「這週的筆記我留了。回來再給你。」是臺灣的說法）*/
       {if:{custom:G=>gk('classmate_xinci').custom(G)&&plg(G)},speaker:'classmate_xinci',text:'讀書會你的位子，我們沒有人坐。'},   /* AA_377 第 3 項：玩家參加過讀書會才說 */
-      {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_03','FAMILIAR')},speaker:'heroine_03',text:'（她從廚房探出頭，舉起田野筆記，沒說話。）'},
-      {if:inG,speaker:'阿姨',name:'阿姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},
+      {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_03','FAMILIAR')},speaker:null,text:'（語彤坐在長桌最旁邊，舉起田野筆記，沒說話。）'},   /* AA_642 第 5 節：大家在公館燒臘跟祐廷視訊，她不在燒臘店工作 */
+      {if:inG,speaker:'阿姨',name:'燒臘店阿姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},   /* AA_642 第 5 節：燒臘店的阿姨（A-256 改蘇姨作廢）*/
       {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_01','FRIEND')},speaker:null,text:'（手機亮了一下，以安傳來：「他吃飯糰。便利商店比較近。」）'},   /* 原稿「理由：」拿掉（檔尾裁定 #19）*/
       {speaker:'zhe',text:'好了，飯要涼了。……你自己也要吃。'},
       {speaker:null,text:'（畫面關掉。房間比剛才安靜。）'},
@@ -261,8 +261,8 @@ const R2Y3B_EVENTS=(function(){
       {if:gk('yu'),speaker:'yu',text:'你瘦了！……不對，是鏡頭。'},
       {if:gk('classmate_bohan'),speaker:'classmate_bohan',text:'強制執行法的筆記，我留了一份。你大五補修用得到。'},
       {if:{custom:G=>gk('classmate_xinci').custom(G)&&plg(G)},speaker:'classmate_xinci',text:'讀書會你的位子，我們沒有人坐。'},
-      {if:{custom:G=>inG.custom(G)&&stAt(G,'heroine_03','FAMILIAR')},speaker:null,text:'（語彤從廚房探出頭，舉起田野筆記，沒說話。）'},
-      {if:inG,speaker:'阿姨',name:'阿姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},
+      {if:{custom:G=>inG.custom(G)&&stAt(G,'heroine_03','FAMILIAR')},speaker:null,text:'（語彤坐在長桌最旁邊，舉起田野筆記，沒說話。）'},
+      {if:inG,speaker:'阿姨',name:'燒臘店阿姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},   /* AA_642 第 5 節（同日本版；A-259、A-260 作廢）*/
       {if:{custom:G=>inG.custom(G)&&longMet(G)},speaker:null,text:'（樓下有人經過，是何俊朗，手上提著一袋早餐。他抬頭看到你在講視訊。）'},
       {if:{custom:G=>inG.custom(G)&&longMet(G)},speaker:'何俊朗',text:'Hello，台灣！'},
       {speaker:'zhe',text:'好了，飯要涼了。……你自己也要吃。'},
@@ -480,7 +480,7 @@ const R2Y3B_EVENTS=(function(){
   const AN_AIRPORT={ id:'ev_an_airport_y3', title:'接以安', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'桃園機場・入境大廳',bg:'airport_arr'},cg('cg_airport_return_heroine01'),{speaker:null,text:'（她一出來就看到你。行李箱上貼著一張商店街的七夕貼紙。）'},{speaker:'heroine_01',text:'……你真的來了。'} ] };   /* CG-35（AA_597；BB 2026-11-02 19:4x）放在第一句旁白 */
   const AN_NOTEBOOK={ id:'ev_an_notebook', title:'日本的手帳', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'兩點半 Café・窗邊',bg:'cafe_window'},{speaker:'heroine_01',text:'（從包包拿出一本日本的手帳）給你。'},{unless:SHOP_SEEN,speaker:null,text:'（第一頁的標題是「想去的店」。上面還沒有店名，最下面一行只寫著：和你。）',consequences:{mem:[{npc:'heroine_01',tag:'AN_SHOP_PAGE',note:''}]}},
+    dialogue:[ {scene:'2:30 AM・窗邊',bg:'cafe_window'},{speaker:'heroine_01',text:'（從包包拿出一本日本的手帳）給你。'},{unless:SHOP_SEEN,speaker:null,text:'（第一頁的標題是「想去的店」。上面還沒有店名，最下面一行只寫著：和你。）',consequences:{mem:[{npc:'heroine_01',tag:'AN_SHOP_PAGE',note:''}]}},
       {if:SHOP_SEEN,speaker:null,text:'（是那一本舊手帳。翻到「想去的店」，最下面還是「和你」。旁邊多畫了一個空的勾勾格。）'},{set:{AN_NOTEBOOK_GIFT:true}} ] };   /* AA_589 第 80 列＋第 10 節：第一次看到「想去的店」那一頁＝記 AN_SHOP_PAGE；看過的（期末飯她先說過）換承接的寫法；事件標題「理由欄」→「日本的手帳」（7-1）*/
 
   /* ---------- 2-Y3-53 台灣、美國路線：和以安交往中的遠距（AA_187 1-4 原句）：3/14（二）白色情人節公館當面（交往中一律有，AA_343 D1）；4/13（四）22:30 視訊（日本 23:30）---------- */
@@ -510,7 +510,7 @@ const R2Y3B_EVENTS=(function(){
 
   /* ---------- 2-Y3-54 芷若「十二張點單」（BB_165 3-2，AA-C 10-18 審過、照 10-18 加註＝AA_343 D8；AA_185 1-3、AA_326 2-Y3-54）：8/5（六）14:00 兩點半（店休），和芷若交往中；日本路線 8/12 ---------- */
   const SLIPS={ id:'ev_zhiruo_twelve_slips', title:'十二張點單', participants:['heroine_02'], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
-    dialogue:[ {scene:'兩點半 Café（店休）',bg:'cafe_closed'},   /* 打烊的兩點半，窗簾拉下來，只開吧檯燈（2D 沒有＝深色底＋字幕）*/
+    dialogue:[ {scene:'2:30 AM（店休）',bg:'cafe_closed'},   /* 打烊的兩點半，窗簾拉下來，只開吧檯燈（2D 沒有＝深色底＋字幕）*/
       {speaker:'heroine_02',text:'（開門）你敲了四下。……算了，進來。'},
       {speaker:'heroine_02',text:'吧檯借我們一個下午。投影機是二輪戲院的老闆借我的。他說，九月以前要還。'},
       {speaker:null,text:'（吧檯上排著十二張點單，每一張寫著一部電影的片名，最後一張是空白的。）'},

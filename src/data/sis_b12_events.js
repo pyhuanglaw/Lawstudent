@@ -149,7 +149,7 @@ const SISB12_EVENTS=(function(){
       outingMissed:G=>{ if(G.flags.SIS_FAM_STUDY_LAST==null) G.flags.SIS_FAM_STUDY_LAST='missed'; } },
     /* ---------- 12-7 大四寒假：空白的一月（1/2～2/8 週一、二、四 19:00～21:30 兩點半 Café，找她說話先演；朋友版）---------- */
     { id:'ev_sis_blank_jan', title:'空白的一月', participants:[ID], location:'cafe', trigger:'manual', once:true, background:'blur',
-      dialogue:[ N('（兩點半 Café。她坐在老位子，桌上一杯熱水、一本新的計畫本。）'),
+      dialogue:[ N('（2:30 AM。她坐在老位子，桌上一杯熱水、一本新的計畫本。）'),
         Object.assign({if:up},SIS('{name}。坐。')),Object.assign({unless:up},SIS('學弟。坐。')),
         {if:gx,goto:'m'},   /* 考研究所的玩家不問選項一，直接接「接著」那一段（她翻開自己的計畫本）；選項二、「另外一本」、結尾照舊（AA_492 第 2 節）*/
         Object.assign({if:{flags:['SIS_PLAN_POSTED']}},SIS('十月那份讀書計畫。後來照著做了多少？')),   /* 十月在家族群組貼過讀書計畫（r3_3d.js r3_sis_plan_a）*/

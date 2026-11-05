@@ -67,7 +67,7 @@ const ZRZQ=(function(){
     home:{key:'home',ev:'ev_zz_home_together',week:3,wd:3,h:21.5,meet:21+50/60,end:24,need:['friends'],at:CAFE_FRONT,
       grad:{h:21.5,meet:21+50/60,end:24,at:CAFE_FRONT}},
     next:{key:'next',ev:'ev_zz_next_time',week:10,wd:4,h:16+40/60,end:18,need:['feelings_emerging'],at:{zone:'gongguan',x:-35.6,z:13.2,yaw:0},
-      grad:{h:18,end:20,at:{zone:'gongguan',x:-42,z:18,yaw:Math.PI}}},   /* 畢業以後：公館的書店待到六點（舊路書房門口）*/
+      grad:{h:18,end:20,at:{zone:'gongguan',x:-38.6,z:18,yaw:Math.PI}}},   /* 畢業以後：公館的書店待到六點（頁間書屋門口；店門 2026-11-04 移到 −36.4，原本 (−42,18)）*/
     serious:{key:'serious',ev:'ev_zz_serious',week:15,wd:5,h:14.5,end:18,need:['mutual_interest','held'],at:{zone:'campus',x:-34.5,z:-97.2,yaw:Math.PI},
       grad:{h:17.5,end:19.5,at:PARK_GATE}} };   /* 醉月湖南岸步道；畢業以後：溫州街的小公園（傍晚，去麵店買晚餐）*/
   S.ORDER=['home','next','serious'];
@@ -268,7 +268,7 @@ const ZRZQ=(function(){
 
   /* ---------- 帶到場 ---------- */
   S.zoneCat=function(G){ const z=G.zone||''; if(atHome(G)) return 'home'; if(z==='cafe') return 'cafe'; if(['library','library_hall','lawlib','soclib'].includes(z)) return 'lib';
-    if(/^dorm/.test(z)) return 'dorm'; if(['gongguan','noodle','bookstore','cvs','wenzhou','lane118'].includes(z)||/^l118|^wz_/.test(z)) return 'town'; return 'campus'; };
+    if(/^dorm/.test(z)) return 'dorm'; if(['gongguan','noodle','bookstore','bikeshop','aoki','cvs','wenzhou','lane118','afar','daybreak'].includes(z)||/^l118|^wz_/.test(z)) return 'town'; return 'campus'; };
   /* {課名}：那天實際上的最後一堂課（有去上的、在現在以前下課的；am＝只看上午）*/
   S.lastClass=function(G,o){ if(typeof CLS==='undefined'||!CLS.dayItems) return null; const Dn=(G.courses&&G.courses.done)||{};
     const Lc=CLS.dayItems(G,G.day).filter(it=>Dn[it.key]&&it.t1<=o.upTo+1e-6&&(!o.am||it.t1<=12.5)); return Lc.length?Lc[Lc.length-1]:null; };

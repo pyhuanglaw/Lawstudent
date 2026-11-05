@@ -121,7 +121,10 @@ const SHOPENC=(function(){
     const pts=def.units.filter(u=>u.stand&&u.kind!=='pay').map(u=>u.stand).filter(p=>!(E.interactables||[]).some(i=>!i.seat&&!i.hidden&&Math.hypot(i.x-p[0],i.z-p[1])<(i.exit?1.0:0.45))&&(!E.canStand||E.canStand(p[0],p[1],0.3,0)));
     if(!pts.length) return null; const taken=(C.shopStandRes&&C.shopStandRes[spot])||{}; const free=pts.filter(p=>!taken[p[0].toFixed(2)+','+p[1].toFixed(2)]); const L=free.length?free:pts;
     return L[hash(k)%L.length]; };
-  S.seatPick=function(GM,spot){ const E=GM.E, G=GM.G, C=typeof CROWD!=='undefined'?CROWD:null; if(!E.zone||!Array.isArray(E.zone.seats)) return null;
+  /* row.tag（WZ-SHOPS1-1104）：偶遇資料寫了 tag＝只挑那一種位子（座位的 tag：2:30 AM 的 sofa、bar、booth…；以安「她坐在沙發那一區」＝sofa）；沒有空的那一種＝沒有位子（句子寫的是那一區，不坐別的地方）。
+     沒寫 tag 照舊：Café 不坐學姊的位子（5）、吧檯、沙發、今天的客人坐的位子；其他店 CROWD.shopSeatPick */
+  S.seatPick=function(GM,spot,row){ const E=GM.E, G=GM.G, C=typeof CROWD!=='undefined'?CROWD:null; if(!E.zone||!Array.isArray(E.zone.seats)) return null;
+    if(row&&row.tag){ const ok=E.zone.seats.filter((q,i)=>q.tag===row.tag&&!(spot==='cafe'&&i===5)&&!(C&&C.seatBusy&&C.seatBusy(E,q))&&!(C&&C.shopReserved&&C.shopReserved(spot,q,G))); return ok[0]||null; }
     if(spot==='cafe'){ const want=typeof STORY!=='undefined'&&STORY.cafeCustomers?STORY.cafeCustomers(G,E.zone.seats):[];   /* 兩點半：學姊的位子（5）、吧檯、沙發、今天的客人坐的位子不要 */
       const ok=E.zone.seats.filter((q,i)=>i!==5&&!q.bar&&!q.sofa&&!q.label&&!want.includes(i)&&!(C&&C.seatBusy&&C.seatBusy(E,q))); return ok[0]||null; }
     return C&&C.shopSeatPick?C.shopSeatPick(GM):null; };
@@ -133,7 +136,7 @@ const SHOPENC=(function(){
     if(!row.np&&typeof CHARACTERS!=='undefined'&&CHARACTERS[d.who]){ const b=S.baseSched(CHARACTERS[d.who],G); if(b&&b.zone===zoneId&&!S.soft(CHARACTERS[d.who],b)){ d.place={sched:true}; return d; } }   /* 作息本來就在這間店：populateSchedule 照作息生、坐她自己的位子 */
     if(S.STAND_SPOTS.includes(zoneId)){ const p=(d.place&&d.place.stand)||S.standPick(GM,zoneId,k); if(!p){ d.cancel='沒有站的地方'; return d; } d.place={stand:[p[0],p[1],p[2]]}; if(C&&C.shopStandTake) C.shopStandTake(zoneId,p,{day:G.day,until:to,whoId:d.who}); return d; }
     let st=null; if(d.place&&d.place.seat){ st=(GM.E.zone.seats||[]).find(q=>Math.hypot(q.x-d.place.seat.x,q.z-d.place.seat.z)<0.12)||null; if(st&&C&&C.seatBusy&&C.seatBusy(GM.E,st)&&!(C.shopReserved&&C.shopReserved(zoneId,st,G))) st=null; }
-    if(!st) st=S.seatPick(GM,zoneId); if(!st){ d.cancel='沒有位子'; if(d.who) delete R.who[d.who]; return d; }
+    if(!st) st=S.seatPick(GM,zoneId,row); if(!st){ d.cancel='沒有位子'; if(d.who) delete R.who[d.who]; return d; }
     d.place={seat:{x:st.x,z:st.z,lv:st.lv|0}}; if(C&&C.shopSeatTake) C.shopSeatTake(zoneId,st,{G,day:G.day,until:to,whoId:d.who,instant:true}); return d; };
   /* populate 最後：她的按鈕換成「和○○打招呼」；宋知寧（不是作息的人）在這裡生 */
   S.after=function(GM,zoneId){ const G=GM.G, E=GM.E; if(!G||!S.spots().includes(zoneId)) return; const R=S.rec(G), d=R.dec[S.key(G,zoneId)]; if(!d||!d.who||d.cancel||R.met.includes(d.who)) return;

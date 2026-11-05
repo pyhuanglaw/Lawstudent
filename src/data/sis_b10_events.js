@@ -91,7 +91,7 @@ const SISB10_EVENTS=(function(){
       dialogue:[ {scene:'法圖・二樓',bg:'law_library'},
         N('（法圖的櫃台叫住你：有人放了一個紙袋給你。裡面是你的東西。）'),N('（紙袋裡是你的筆記本，還有一支你以為弄丟的筆。）') ] },
     { id:'ev_sis_ex_2', title:'Café 的椅子', participants:[ID], location:'cafe', trigger:'manual', once:true, background:'blur',
-      dialogue:[ {scene:'兩點半 Café',bg:'cafe_night'},
+      dialogue:[ {scene:'2:30 AM',bg:'cafe_night'},
         N('（她在老位子。對面的椅子上放著她的包包。）'),N('（她看到你，點了一下頭。包包沒有拿起來。）'),
         {choice:[{text:'（坐到吧檯）',goto:'a'},{text:'（走過去打招呼）',goto:'b'}]},
         {label:'a'},N('（你在吧檯坐了一個小時。）'),N('（十點，她經過吧檯，沒有停下來。）'),{goto:'c'},   /* AA_600 B3：「……回去小心。」刪、改旁白；前一句的「十點，她收好書，經過你旁邊。」拿掉（和新旁白重複）*/

@@ -101,15 +101,19 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y3s1.json",
-   "sha": "759e5c000",
+   "sha": "65a1b2fe9",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者確認精選 10 句）：第 24、25 列",
    "task": "SYS-15",
-   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）",
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）；65a1b2fe9：AA_657 補二「三號桌」→「常來的阿伯」逐句定稿（AA 2026-11-04 07:11，D109）",
    "history": [
     {
      "sha": "b5acbaad",
      "approvedBy": "（2026-11-02 換成 759e5c000 以前的版本；AA_580 以安改稿第二批）"
+    },
+    {
+     "sha": "759e5c000",
+     "note": "65a1b2fe9 之前的版本"
     }
    ]
   },
@@ -430,10 +434,17 @@
   },
   {
    "path": "docs/story_planning/date_system/date_locations.json",
-   "sha": "d85c1309",
+   "sha": "9ba14498e",
    "status": "approved",
    "approvedBy": "AA-B 交付（AA_128 第 2 節地點表、AA_148 互動點時間花費）；32 處校外約會已授權（CLAUDE.md D79 第 7 點、AA_128 使用者原話三條）",
-   "task": "DATE-S2"
+   "task": "DATE-S2",
+   "history": [
+    {
+     "sha": "d85c1309",
+     "note": "2026-11-03 以前（AA_631 新增 D33 信義區・光年影城（院線，CG 處理，不做 3D））"
+    }
+   ],
+   "note": "9ba14498e：AA_631 新增 D33 信義區・光年影城（院線，CG 處理，不做 3D）"
   },
   {
    "path": "docs/story_planning/date_system/point_specs.json",
@@ -562,15 +573,19 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D13.json",
-   "sha": "a5b936a69",
+   "sha": "9ba14498e",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA-B 2026-10-23 AA_389 改原檔（第 1 點 D13 交換回來版 ZR_UK_BACK、第 7 點以安放鴿子兩句），LAWWW-B 重新匯入（AA389-L-1023）",
    "task": "DATE-S6",
-   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）；a5b936a69：AA_439 禁用句總掃描；9ba14498e：AA 2026-11-03 語彤第三版（AA_624～AA_626，d72ae942d：不問爸爸、警衛說溜嘴、交往前不到家裡；D13 心願與重訪句照新背景、notMomCheckup→notTeaShift）",
    "history": [
     {
      "sha": "efe575813",
      "note": "AA_439 以前"
+    },
+    {
+     "sha": "a5b936a69",
+     "note": "2026-11-03 以前（AA 2026-11-03 語彤第三版（AA_624～AA_626，d72ae9）"
     }
    ]
   },
@@ -2703,16 +2718,20 @@
   },
   {
    "path": "docs/story_planning/date_system/wish/wish_aa.json",
-   "sha": "482c7f6e9",
+   "sha": "9ba14498e",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109；心願事件七位的資料檔，BB 那三位的台詞 D100 起由 AA 定稿）",
    "task": "DATE-C4",
    "kind": "text",
-   "note": "tools/date/import_wish.py → src/data/date_wish.js；子晴、學姊、可昕三位違反人物規則的句子在 DATE_WISH.hold 先不演（已轉 AA 改稿，改好重匯就解除）；2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；482c7f6e9：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入",
+   "note": "tools/date/import_wish.py → src/data/date_wish.js；子晴、學姊、可昕三位違反人物規則的句子在 DATE_WISH.hold 先不演（已轉 AA 改稿，改好重匯就解除）；2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；482c7f6e9：AA_475 禁用句第五輪（AA-C 2026-10-27 劇情總監自主清查，企劃線 claude/magical-albattani-bk7b4n；第 1 節「我記住了」／「我第一次覺得」、第 3 節句號版「不是 X。是 Y。」）LAWWW-C 10-27 換版重新匯入；9ba14498e：AA 2026-11-03 語彤第三版（AA_624～AA_626，d72ae942d：不問爸爸、警衛說溜嘴、交往前不到家裡；D13 心願與重訪句照新背景、notMomCheckup→notTeaShift）",
    "history": [
     {
      "sha": "967b4273a",
      "note": "AA_475 以前"
+    },
+    {
+     "sha": "482c7f6e9",
+     "note": "2026-11-03 以前（AA 2026-11-03 語彤第三版（AA_624～AA_626，d72ae9）"
     }
    ]
   },
@@ -4072,6 +4091,65 @@
    "note": "以安動態與零星台詞 32 列（tools/story/apply_line_table.py 自動換 31 列，第 19 列 r2y3a_events.js 手改、註解順手改）；第 8 節 (a) 她先傳的動態私訊分手後不送（feed3d.js S.dmBlocked 走 V6EX.noContact，不走 coolSkip）；(b) 已在 ec2814492。企劃源稿（AA_503～AA_511、AA_504 6-4）還是舊句，讀稿比對用 tools/story/aa602_fix.json。tests/aa602_feed_unit.js。子代理 2026-11-02 代登（ex600 分支），給值班 LAWWW 核"
   },
   {
+   "path": "docs/story_planning/AA_630_語彤台詞改寫.md",
+   "sha": "bb4401fd3",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-03 定稿（D109，第②級；816 列＋第 10 節 AA 對第 8 節的十條決定；使用者 11-03 重定語彤背景 AA_624 第三版）",
+   "task": "YT-REWRITE-1103",
+   "kind": "text",
+   "note": "共用工具 tools/story/aa630.py：第 1 節閒聊階梯（ladder_aa*.json 的 JSON 路徑）在 tools/ladder/import_ladder.py 讀源稿以後套；第 2 節約會（Dxx.json）在 tools/date/import_date_lines.py 套；企劃稿位置（AA_127、AA_329、AA_415、AA_531、build_solo_before.py）在各匯入工具寫檔前 patch_text；src 手寫檔 tools/story/apply_aa630_src.py 一次改。JOB_TEA／TEA_SHIFTS 是 AA 暫名，src/ytjob3d.js 照打工系統記同名旗標。子代理 2026-11-03 代登，給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/date_system/lines/D33.json",
+   "sha": "9ba14498e",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-03 定稿（AA_631，D109；七位 211 行，d9d1c2a0f 審稿修四句）",
+   "task": "DATE-D33-1103",
+   "note": "D33 信義區・光年影城：tools/date/import_date_lines.py；企劃線 ca876b23d 是 AA 子代理用錯分支的壞 commit，不用。底圖 d33_base 還沒有（CG 由使用者處理），S.listable 有底圖才列；互動點的時間花費 point_specs 沒有 D33，src/date3d.js S.POINT_X 暫定（LAWWW）"
+  },
+  {
+   "path": "docs/story_planning/AA_626_語彤D13淡水_新背景改寫.md",
+   "sha": "9ba14498e",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-03 定稿（D109；語彤第三版 d72ae942d）",
+   "task": "YT-REWRITE-1103",
+   "kind": "text",
+   "note": "tools/date/import_wish.py 逐句對 wish_aa.json 語彤 D13 的新句子用（AA_127 第 2 節衝突的句子被它取代）"
+  },
+  {
+   "path": "docs/story_planning/AA_625_語彤新版事件台詞.md",
+   "sha": "65a1b2fe9",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-03 定稿（D109；第三版 d72ae942d＋f6ef9278b 一起念書）",
+   "task": "YT-REWRITE-1103",
+   "kind": "text",
+   "note": "語彤四年的事件台詞（AA_624 結構）；手抄進 src（tests/aa625_yt_unit.js 逐句對這份）；65a1b2fe9：AA_657 補二「三號桌」→「常來的阿伯」逐句定稿（AA 2026-11-04 07:11，D109）",
+   "history": [
+    {
+     "sha": "9ba14498e",
+     "note": "65a1b2fe9 之前的版本"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_637_好朋友的自動劇情_第二批_第6到16週.md",
+   "sha": "b1ad8aa99",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-03 定稿（D109；九場 F2-01～F2-09＋第 3 節名字卡建議，LAWWW 決定做名字淡入）",
+   "task": "STORY-FRIENDS-EVENTS-1103",
+   "kind": "text",
+   "note": "手抄進 src/friends2_3d.js（tests/aa637_friends2_unit.js 逐句對這份）"
+  },
+  {
+   "path": "docs/story_planning/AA_627_語彤舊設定清查.md",
+   "sha": "40374c664",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-03（D109）：AA_630 開頭「AA_627 表上標【改句】【換字】【刪】的其他列，照 AA_627 的建議做」；表上【AA 決定】的最後的字在 AA_630 第 7 節；最後一節 AA 的決定六條",
+   "task": "YT-REWRITE-1103",
+   "kind": "text",
+   "note": "表 A（src 手寫檔）tools/story/apply_aa630_src.py 照「建議改成」換；表 B 的 ladder、Dxx 以 AA_630 第 1、2 節為準"
+  },
+  {
    "path": "docs/story_planning/shop_enc/shop_enc_aa_v1.json",
    "sha": "6adb0e47c",
    "status": "approved",
@@ -4106,6 +4184,115 @@
    "task": "SHOP-ENCOUNTER-1103",
    "kind": "text",
    "note": "店內偶遇回 LAWWW 四件：宋知寧加聯絡人以後的六則「看到一本書」訊息（每學期最多兩則、平日 21:00 左右、考試週寒暑假不發；第 5 則以後她改到山嵐書店，山嵐還沒開就先跳過）＋她只回「哈哈。」「好。」；「一起坐」30 分鐘、旁白一句、撞到課或約變灰「等一下有…」。匯入讀第 2、5 節（tools/shop_enc/import_shop_enc.py）"
+  },
+  {
+   "path": "docs/story_planning/AA_618_木曜日與日常失速_台詞.md",
+   "sha": "ca876b23d",
+   "status": "approved",
+   "approvedBy": "AA 定稿（AA_618，使用者 11-03 同意 AA_617、D109）",
+   "task": "AA617-WZ-CAFES-1103",
+   "kind": "text",
+   "note": "木曜日第 1 節（1-1～1-7）台詞照抄進 src/mokuyobi_sys3d.js（子代理 cfeeeff49，tests/mokuyobi_aa618_unit.js 逐字對照 ca876b23d）；第 2 節日常失速等場景"
+  },
+  {
+   "path": "docs/story_planning/AA_645_木曜日補台詞_回LAWWW.md",
+   "sha": "350c90382",
+   "status": "approved",
+   "approvedBy": "AA 定稿（AA_645，D109）",
+   "task": "AA617-WZ-CAFES-1103",
+   "kind": "text",
+   "note": "木曜日補台詞：看書櫃／唱片機／海報、朋友先到、一般 22:00 打烊、約去木曜日答應的一句、芯慈作息（子代理 01a9fbfd3 照抄進 src/mokuyobi_sys3d.js、invites.js；mokuyobi_aa618_unit 第 15～20 項逐字對照）；第 6 節三題（叫法、明軒「好。我帶筆電去。」、海報第三句）350c90382"
+  },
+  {
+   "path": "docs/story_planning/AA_651_回LAWWW_1104_02點_單車店小東西_約念書兩句_機場便利店.md",
+   "sha": "d07e6d124",
+   "status": "approved",
+   "approvedBy": "AA 定稿（AA_651，第②級，D109）",
+   "task": "BIKE-SHOP-PARK-1104",
+   "kind": "text",
+   "note": "單車店小東西／補胎／換車台詞（bikeshop3d.js）、約念書早到旁白（invites3d.js）、以安總圖見面旁白改館內（rel_lines.js、libquiet3d OUT_LINES 拿掉）、機場便利商店改日和便利店（us_layouts.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_652_afar與Daybreak店內台詞.md",
+   "sha": "89b4367ca",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "GG-SHOPS2-1104",
+   "kind": "text",
+   "note": "afar café、Daybreak 店內台詞：進門（一天一次）、點餐（含錢不夠）、看甜點櫃／書架／菜單、照位子的坐下句、打烊、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；gg_shops2_1104_unit 逐字對照；同一份內容也在 4a98d57f6）；89b4367ca 補 afar 打烊以後、afar／Daybreak 颱風假門口句"
+  },
+  {
+   "path": "docs/story_planning/AA_653_回LAWWW_公館三間室內缺的台詞_青木外帶與讀書.md",
+   "sha": "d26fecd2f",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "GG-SHOPS-REDO-1104",
+   "kind": "text",
+   "note": "公館三間室內缺的台詞：日和便利店（熱食櫃、日和咖啡、包裹暫取、微波、冷藏櫃）、頁間書屋（書牆、新書、點咖啡）、青木茶室（書櫃、茶具櫃、茶罐、內用點茶、坐下、21:00 打烊、打烊／颱風天門口、約去答應的一句、開場句）；青木門口外帶＋店內內用、可以讀書、每天 11–21（§0，d26fecd2f）。照抄進 src/ggshops_sys3d.js、src/data/invites.js（tests/aa653_shops_unit.js 逐字對照）"
+  },
+  {
+   "path": "docs/story_planning/AA_655_溫州街第一批_改名規則與小路居酒屋菜單.md",
+   "sha": "10020abda",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "WZ-SHOPS1-1104",
+   "kind": "text",
+   "note": "溫州街第一批五間店（USER_WANTS X212；使用者 11-04 04:5x：2:30 AM 11:00～02:30 照舊、小路 18:00～02:00）：換字規則（兩點半 Café→2:30 AM、當店名的半熟→SUNNY SIDE、巷子裡定食／溫州街的定食店→小路；key 不改）、小路的台詞與居酒屋菜單、點酒那一句、中午的內容（學姊偶遇搬到林家乾麵）、門口三句、SUNNY SIDE／林家／阿德的價目、2:30 AM 招牌（a22e53016）。照抄進 src/wzshops3d.js、src/sideq3d.js、src/data/places.js、src/data/sis_qixi_events.js、src/zones3d.js；讀稿換字表 tools/story/aa655_fix.json；店內偶遇 shop_enc.js 由 tools/shop_enc/import_shop_enc.py 照第 4 節改（tests/aa655_wz_rename_unit.js 逐字對照）；10020abda 加第 7 節（明軒 100 元、學姊點清酒那一句、r2y3b3d 地點字幕 2:30 AM（店休）、七夕「烤雞串。」、林家交往版「今天的餛飩分你一半。」、備用招牌 居酒屋／酒処／本日のおすすめ、可昕「紅茶。……也可以。」拿掉）——照抄進 src/story3d.js、src/wzshops3d.js、src/r2y3b3d.js、src/data/sis_qixi_events.js、src/zones3d.js、src/townkit3d.js、src/data/food_fav_lines.js；shop_enc.js 由 import_shop_enc.py 照第 7 節改（tests/wz_interiors_aa659_unit.js）",
+   "history": [
+    {
+     "sha": "a22e53016",
+     "note": "第 1～6 節（改名規則、小路菜單、中午搬家、SUNNY SIDE／林家／阿德價目、2:30 AM 招牌）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_658_溫州街第二批_改名對照.md",
+   "sha": "6ee7ea3a5",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "WZ-SECOND-1104",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "6af703d63",
+     "note": "第 1～3 節（改名對照）；6ee7ea3a5 加第 4 節帝大紅茶菜單、第 5 節溫州書屋營業時間"
+    }
+   ],
+   "note": "溫州街第二批改名（使用者 11-04 05:4x）：巷口書房→溫州書屋、巷口茶飲→帝大紅茶、阿忠水果→阿忠鮮果、自助洗衣→常在洗衣（夏日冰菓室不改；key 不改）；帝大紅茶菜單（紅茶／奶茶／檸檬紅茶 中、大）、firstLine、可昕那一杯的品項照換；溫州書屋 週二～週日 10:00–20:00、週一公休、櫥窗四句（6ee7ea3a5）。照抄進 src/zones3d.js、src/data/places.js、src/wzshops3d.js、src/sideq3d.js、src/foodfav3d.js、src/data/food_fav_lines.js；讀稿換字表 tools/story/aa658_fix.json；shop_enc.js 重新匯入（tests/aa655_wz_rename_unit.js 第 8 節逐字對照）"
+  },
+  {
+   "path": "docs/story_planning/AA_659_溫州街新室內_店內台詞.md",
+   "sha": "bc021c7e1",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "WZ-SHOPS1-1104",
+   "kind": "text",
+   "note": "bc021c7e1（AA 11-04 07:49）：第 1 節 2:30 AM（看唱片、看蛋糕櫃、坐吧檯）、第 2 節 SUNNY SIDE（菜單、看今日推薦、舊存檔老樣子、吧台 tag bar）照舊；第 3 節一盞全部接：掛軸兩句（第 2 句加括號）、前院五個互動點（看院子搬到 (0.2, 8.2)、看石燈籠 (−1.5, 8.2)、看樟樹 (3.1, 8.4)、看貓碗 (4.05, 8.3)＋碗 (4.0, 8.7) 只在 WZ_CATBOWL、看門口的木牌 (−2.1, 9.0)）、第一次進前院的旁白（旗標 WZ_TEA_YARD_IN）。照抄進 src/wzshops3d.js S.TOKONOMA／S.YARD、src/data/wz_shops_layout.js 一盞前院 interact（tests/wz_interiors_aa659_unit.js、tests/cafe230_aa657_unit.js 逐字對照）。21beb9d12 在 history",
+   "history": [
+    {
+     "sha": "21beb9d12",
+     "approvedBy": "AA（D109）；2026-11-04 換成 bc021c7e1（AA 回 LAWWW 07:43：前院五個互動點座標、掛軸兩句統一加括號）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_657_一盞茶屋_劇情對位置的決定.md",
+   "sha": "65a1b2fe9",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "WZ-YIZHAN-1104",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "ff94eff38",
+     "note": "第一版；1aadca7e4 更正 c510_3_2 standAt (2.3,3.4)、c506_3_3 坐長桌最東"
+    },
+    {
+     "sha": "1aadca7e4",
+     "note": "65a1b2fe9 之前的版本"
+    }
+   ],
+   "note": "一盞：c510_3_2、c506_3_3 從麵店搬到 wz_teahouse（座標、時間、「常來的阿伯」、place 說明）；ev_yt_family_dinner 當天 20:00～21:00 茶屋的門讓玩家進去、20:00 以後門口旁白。照抄進 src/data/heroine_circle.js、src/hcircle3d.js、src/aa187_3d.js、src/story3d.js（tests/cafe230_aa657_unit.js）；65a1b2fe9：AA_657 補二「三號桌」→「常來的阿伯」逐句定稿（AA 2026-11-04 07:11，D109）"
   }
  ]
 }

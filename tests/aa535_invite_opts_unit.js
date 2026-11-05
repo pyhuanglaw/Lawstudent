@@ -3,6 +3,7 @@
 //   七位各約一次慢讀（第一次＋第二次）；學姊第 5 週連約兩次（都答應）、第 11 週同一週約兩次（第二次婉拒）、第 15 週約 Café（婉拒→「那一起念書。」→約到總圖或慢讀）；
 //   晚上在 Café 找學姊，選單有「約她去…」；週二約慢讀：系統說週二休；經濟系那一年：選單沒有慢讀。另外：分類名稱、出去玩第二層、她說過想去的、常客作息與招呼、讀書旁白、路人。
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
+require('./alison.js');   /* YT-REWRITE-1103：讀稿照匯入工具同一套換（語彤的句子照 AA_630／AA_627，aa630_fix.json）*/
 const ROOT=path.resolve(__dirname,'..'), GIT=process.env.SPEC_GIT_DIR||ROOT, SPEC_SHA='dbd49dca7', SPEC_PATH='docs/story_planning/AA_535_約她選項_分層與新地點_第一份_慢讀咖啡_學姊上限_分類名稱.md';
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:'?noriders'};
@@ -91,13 +92,13 @@ const band=id=>['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel(id))?'R':'A
     const dk=DATE.check(G,{who:'heroine_05',locs:['D13'],transport:'mrt',day:b,depart:14});
     check('2. DATE.check 也擋（同一週已經約過）',!dk.ok&&dk.why==='這週已經約過她了',J(dk)); }
   { const w15=TD('Y1S1',15,2); fresh(w15,10,{met_sis:true}); know('heroine_05',S4);
-    const a=await ask('heroine_05',['喝咖啡','兩點半','明天 19:00','那一起念書。']); const iv=(G.invites||[]).slice(-1)[0]||{};
+    const a=await ask('heroine_05',['喝咖啡','2:30 AM','明天 19:00','那一起念書。']); const iv=(G.invites||[]).slice(-1)[0]||{};
     check('2. 第 15 週約 Café：婉拒（換成兩句裡的一句）→「那一起念書。」／「不用了。」',a.L.some(t=>SISG.DECLINE_OFF.includes(t))&&a.opts.some(o=>J(o)===J(['那一起念書。','不用了。'])),J([a.L,a.opts.slice(-2)]));
     check('2. 選「那一起念書。」：平日＝同一個時間約到總圖、她說「好。我帶刑訴。……」',iv.who==='heroine_05'&&iv.place==='library'&&iv.state==='accepted'&&iv.by==='player'&&iv.day===w15+1&&iv.h===19&&a.L.includes(SISG.STUDY_YES),J([iv,a.L]));
     const sat=TD('Y1S1',15,6); fresh(sat-1,10,{met_sis:true}); know('heroine_05',S4);
-    const b=await ask('heroine_05',['喝咖啡','兩點半','明天 12:10','那一起念書。']); const iv2=(G.invites||[]).slice(-1)[0]||{};
+    const b=await ask('heroine_05',['喝咖啡','2:30 AM','明天 12:10','那一起念書。']); const iv2=(G.invites||[]).slice(-1)[0]||{};
     check('2. 週末（週六 12:10）：約到慢讀咖啡',iv2.place==='slowread'&&iv2.day===sat&&b.L.includes(SISG.STUDY_YES),J([iv2,b.L]));
-    fresh(w15,10,{met_sis:true}); know('heroine_05',S4); const c=await ask('heroine_05',['喝咖啡','兩點半','明天 19:00','不用了。']);
+    fresh(w15,10,{met_sis:true}); know('heroine_05',S4); const c=await ask('heroine_05',['喝咖啡','2:30 AM','明天 19:00','不用了。']);
     check('2. 選「不用了。」：什麼都不發生',!(G.invites||[]).length,J(G.invites));
     const sr=INV.personal(G,'heroine_05',P,TD('Y1S1',15,6),10,INV.decide(G,'heroine_05','slowread',TD('Y1S1',15,6),10));
     check('2. 第 15 週約慢讀（念書）：照常答應、念「好。我帶刑訴。……」',sr.res==='accept'&&J(sr.lines)===J([SISG.STUDY_YES]),J([sr.res,sr.lines]));

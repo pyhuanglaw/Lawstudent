@@ -133,7 +133,7 @@ DV = {'deliveries': [], 'ignored': []}
 WM = {'version': 1, 'roles': {'CC': {'branch': 'cc', 'sha': bp, 'at': '2026-11-02T03:53Z', 'by': 'LAWWW', 'open': []}}}
 DUTY = {'roles': {'CC': {'branch': 'cc'}}}
 r = I.scan(d, WM, DV, TASKS, DUTY, remote=False, roles=['CC'])['CC']
-expect('四 CC 水位線（分岔點）以後 3 個 commit：交接檔、duty_CC.json 照路徑分類，probe 沒登記 → 未分類', r['new'] == 3 and r['classified'] == 2 and [u[0] for u in r['unclassified']] == [probe[:8]], r)
+expect('四 CC 水位線（分岔點）以後 3 個 commit：交接檔、duty_CC.json 照路徑分類；probe 在 docs/ 底下、沒改到遊戲 → D135 不逐筆分類（docsOnly 1）', r['new'] == 3 and r['classified'] == 3 and not r['unclassified'] and r.get('docsOnly') == 1, r)   # 2026-11-04 D135：原本期待 probe 沒登記＝未分類
 OB = {'role': 'CC', 'entries': [{'task': 'CC-PROBE-1102', 'branch': 'cc', 'sha': probe[:8], 'files': ['docs/story_planning/test_tools/cc/'], 'state': '已交付', 'next': 'BB 審', 'noDirectIntegrate': True, 'receiver': 'BB', 'ack': 'SENT'}]}
 r = I.scan(d, WM, DV, TASKS, DUTY, remote=False, outboxes={'CC': OB}, roles=['CC'])['CC']
 expect('四 outbox_CC 登記了 probe → 全部分類、可以前進', not r['unclassified'] and not r['problems'], r)
@@ -171,13 +171,13 @@ shutil.rmtree(d, ignore_errors=True)
 # ---------- 六、真實資料（工作目錄的 duty.json、watermarks.json） ----------
 dj = json.load(open(os.path.join(ROOT, 'docs/handoff/duty.json'), encoding='utf-8'))
 cc = dj['roles'].get('CC') or {}
-expect('六 duty.json 有 roles.CC：帳號 A、session_01TdESzxBpdGoPhdkPD2ENce、claude/cc-testing、交接檔 CC_00',
-       cc.get('account') == 'A' and cc.get('session') == 'session_01TdESzxBpdGoPhdkPD2ENce' and cc.get('branch') == 'claude/cc-testing'
+expect('六 duty.json 有 roles.CC：帳號 A／B／C／D、session_…、claude/cc-testing、交接檔 CC_00（2026-11-04 起不寫死帳號 A 的工作階段：換帳號就會變）',
+       cc.get('account') in ('A', 'B', 'C', 'D') and str(cc.get('session', '')).startswith('session_') and cc.get('branch') == 'claude/cc-testing'
        and str(cc.get('progressFile', '')).startswith(CC_FILE) and cc.get('state') in D.ROLE_STATES, cc)
 wm = json.load(open(os.path.join(ROOT, 'docs/handoff/watermarks.json'), encoding='utf-8'))
 w = wm['roles'].get('CC') or {}
-expect('六 watermarks.json 有 CC：claude/cc-testing、AA 已核對的水位線 b4893fd5（完整 SHA；不能用分岔點 7340266599e7，會讓 AA、BB 少核對）、open／history 是陣列',
-       w.get('branch') == 'claude/cc-testing' and w.get('sha', '').startswith('b4893fd5') and len(w.get('sha', '')) == 40 and isinstance(w.get('open'), list) and isinstance(w.get('history'), list), w)
+expect('六 watermarks.json 有 CC：claude/cc-testing、完整 SHA、不是分岔點 7340266599e7（會讓 AA、BB 少核對）、open／history 是陣列（2026-11-04 起不寫死 b4893fd5：水位線會前進）',
+       w.get('branch') == 'claude/cc-testing' and len(w.get('sha', '')) == 40 and not w.get('sha', '').startswith('7340266599e7') and isinstance(w.get('open'), list) and isinstance(w.get('history'), list), w)
 out = []
 D.verify(type('A', (), {'root': ROOT, 'ref': None, 'no_git': True})(), d=dj, out=out)
 expect('六 duty verify（--no-git）沒有 CC 的值班紀錄異常', not any('CC' in m for _, m in out), out)

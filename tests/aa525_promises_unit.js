@@ -190,7 +190,7 @@ await sec('2-2',async()=>{
   at('2026-07-29',8); const T2=await trip();
   check('2-2. 第二次：先走那一條（旁白、「國中三年，每天走這條！」「……那時候覺得好遠。現在走起來好近。」），記 PS_SCHOOLROAD walked',seq(['（她帶你走了一條窄窄的巷子，兩邊都是透天厝。）','國中三年，每天走這條！','……那時候覺得好遠。現在走起來好近。'])&&H.G.flags.PS_SCHOOLROAD==='walked'&&!T2.includes('我小時候在這裡學騎腳踏車。我爸在後面扶，扶到一半就偷偷放手。'),J(T2.slice(0,8)));
   at('2026-08-12',8); const T3=await trip(); at('2026-08-19',8); const T4=await trip();
-  check('2-2. 走過以後不再走；三選一的輪流照舊（第三次＝公園、第四次＝書店：那條路不佔順位）',!T3.includes('國中三年，每天走這條！')&&T3.includes('我小時候在這裡學騎腳踏車。我爸在後面扶，扶到一半就偷偷放手。')&&T4.includes('這間比舊路書房大很多。可是我比較喜歡舊路書房。'),J([T3.slice(2,4),T4.slice(2,4)]));
+  check('2-2. 走過以後不再走；三選一的輪流照舊（第三次＝公園、第四次＝書店：那條路不佔順位）',!T3.includes('國中三年，每天走這條！')&&T3.includes('我小時候在這裡學騎腳踏車。我爸在後面扶，扶到一半就偷偷放手。')&&T4.includes('這間比頁間書屋大很多。可是我比較喜歡頁間書屋。'),J([T3.slice(2,4),T4.slice(2,4)]));
   fresh('2026-07-15',8,{dating_classmate_peishan:true}); H.FRIEND(PS); H.date(PS); H.G.flags.HV_N={classmate_peishan:1}; const T5=await trip();
   check('2-2. 沒有聽過那一句（沒有 PS_SCHOOLROAD）＝照舊三選一',!T5.includes('國中三年，每天走這條！'),J(T5.slice(2,4)));
 });

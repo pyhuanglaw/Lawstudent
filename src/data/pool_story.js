@@ -35,9 +35,9 @@ const POOL_STORY=(function(){
      cls：必修課（story3d.js 的 S.classmateClass，和以安、阿哲同一套：祐廷那一堂必修正在上＝人在那間教室）——seat 第幾排第幾個（霖澤館 201 有排；其他教室沒有排＝一般座位）、door＝上課前 10 分鐘在門口。
      model：路人底模（ASSETS 的 char.npc_nf*／nm*，第 3 節的外觀挑最接近的）；props：現成的道具（props3d.js；沒有的列在回報「給 LAWWW2」）。*/
   const PEOPLE={
-    pool_1:{ card:'在寫一篇兇手是律師的推理小說', before:'常在舊路書房看推理小說的同學', personality:'嘴上說「你不要猜」，其實很想有人看她寫的東西', place:'舊路書房',
+    pool_1:{ card:'在寫一篇兇手是律師的推理小說', before:'常在頁間書屋看推理小說的同學', personality:'嘴上說「你不要猜」，其實很想有人看她寫的東西', place:'頁間書屋',
       model:'char.npc_nf17', props:['tote','novel'],   /* 布書袋＝tote；封面朝內的推理小說＝novel（NPC-POOL-ART-1028）；鯊魚夾沒有（髮型配件，D99）*/
-      where:[ {days:WD,from:13,to:17,zone:'bookstore',act:'linger',at:[-3.2,0.5,-P/2,0],noHoliday:true,desc:'蹲在書架前找書的女生',label:'舊路書房，找書'} ],   /* 稿寫「溫州街舊路書房」：遊戲裡舊路書房在公館（zones3d.js gongguan 的店面街 → bookstore）。西側兩排書架中間，面向牆邊的書架（蹲下的動作沒有，站著找）*/
+      where:[ {days:WD,from:13,to:17,zone:'bookstore',act:'linger',at:[0.3,-3.95,P,0],noHoliday:true,desc:'蹲在書架前找書的女生',label:'頁間書屋，找書'} ],   /* 稿寫「溫州街舊路書房」：遊戲裡舊路書房在公館（zones3d.js gongguan 的店面街 → bookstore）。頁間書屋 v2（GG-SHOPS-REDO-1104，src/data/yejian_layout.js）：北牆整面書牆前、梯子東邊，面向書牆（蹲下的動作沒有，站著找）；原本 (−3.2, 0.5) 是舊室內西側兩排書架中間 */
       cls:{seat:[2,1],desc:'坐第三排的人'} },
     pool_2:{ card:'雙主修財金，在學日文', personality:'修太多學分的人', place:'總圖',
       model:'char.npc_nm11', props:['calc','handouts'],   /* 計算機＝calc（左手）；一疊財金的講義＝handouts（右手，NPC-POOL-ART-1028）*/
@@ -51,9 +51,9 @@ const POOL_STORY=(function(){
       where:[ {days:[3],from:12+10/60,to:12+40/60,zone:'classroom',act:'linger',at:[1.2,6.9,-1.2,0],terms:['Y1S1'],weeks:[7],noHoliday:true,pri:true,door:true,desc:'總是最後進教室的人',label:'教室門口'},   /* 5-3：期中考前一週的週三下課（大一上第 7 週週三，刑總 9:10～12:10 在霖澤館 201）在教室門口 */
         {days:[1],from:8,to:18,zone:'linze',act:'linger',at:[4.4,1.6,P/2,0],terms:['Y2S1'],weeks:[1],noHoliday:true,desc:'拿著點名板的女生',label:'法律系館A一樓，迎新'} ],   /* 5-5：大二上第 1 週週一在霖澤館一樓（沒有聯絡方式的當面問）*/
       cls:{door:true,seat:[5,0],desc:'總是最後進教室的人'} },   /* 上課前 10 分鐘在教室門口（霖澤館 201 的後門口；其他教室沒有門口的站位＝直接坐）、上課時坐最後一排（表上只寫門口：她是同班同學，上課照樣在）*/
-    pool_5:{ card:'吉他社，怕蟑螂', personality:'', place:'兩點半 Café',
+    pool_5:{ card:'吉他社，怕蟑螂', personality:'', place:'2:30 AM',
       model:'char.npc_nf9', props:['folder'],   /* 抱著一疊講義＝folder；撥片鑰匙圈沒有 */
-      where:[ {days:ALL,from:11,to:17,zone:'cafe',act:'read',noHoliday:true,desc:'抱著一疊講義的女生',label:'兩點半 Café'} ] },
+      where:[ {days:ALL,from:11,to:17,zone:'cafe',act:'read',noHoliday:true,desc:'抱著一疊講義的女生',label:'2:30 AM'} ] },
     pool_6:{ card:'系上活動的照片都是他拍的', personality:'照片裡從來沒有他自己', place:'椰影大道',
       model:'char.npc_nm9', props:['camera_film'],   /* 底片相機＝camera_film（背帶照這個底模量過，換底模要重量；NPC-POOL-ART-1028）；格子襯衫沒有（衣服，D99）*/
       where:[ {days:[1,2,3],from:12,to:13,zone:'campus',act:'linger',at:[33,-112,0,0],terms:['Y2S2'],weeks:[15],noHoliday:true,pri:true,desc:'脖子上掛相機的學長',label:'法律系館A穿堂，展覽'},   /* 7-4 展覽那三天 12～13 點在霖澤館一樓穿堂（校園的穿堂，地坪 0.9 m）*/
@@ -91,7 +91,7 @@ const POOL_STORY=(function(){
       where:[ {days:WD,from:13,to:16,zone:'campus',act:'sit',seatAt:[-25,-12.94],noHoliday:true,desc:'很會問問題的女生',label:'文學院前的長椅'} ] },   /* 文學院（大道北側 −38,−34）前面、大道上的長椅 */
     pool_16:{ card:'宥辰的朋友，背法條用唱的', before:'常幫人搬音響的同學', personality:'', place:'公館',
       model:'char.npc_nm14', props:['audio_cable'],   /* 音源線＝audio_cable（坐下時藏，NPC-POOL-ART-1028）*/
-      where:[ {days:[5],from:20,to:24,zone:'gongguan',act:'linger',at:[55.6,20.5,P,0],noHoliday:true,desc:'幫人搬音響的男生',label:'公館，二手唱片行的騎樓'} ] },   /* 宥辰放歌的那間 bar 遊戲裡沒有：店面街「二手唱片」的騎樓 */
+      where:[ {days:[5],from:20,to:24,zone:'gongguan',act:'linger',at:[55.6,20.5,P,0],noHoliday:true,desc:'幫人搬音響的男生',label:'公館，轉角唱片的騎樓'} ] },   /* 宥辰放歌的那間 bar 遊戲裡沒有：店面街「二手唱片」的騎樓 */
     pool_17:{ card:'筆記王', personality:'', place:'總圖',
       model:'char.npc_nf5', props:['folder'],   /* 一疊用迴紋針夾好的筆記＝folder */
       where:[ {days:WD,from:19,to:22,zone:'library_b1',act:'read',noHoliday:true,desc:'筆記借人看的人',label:'總圖 B1'} ] },
@@ -205,7 +205,7 @@ const POOL_STORY=(function(){
       meetQ:[ L('q'), {choice:[{text:'「看。」',goto:'a'},{text:'「很少。」',goto:'b'},{text:'「法律系的課本算嗎？」',goto:'c'}]},
         L('a'), c('那我們之後可以交換。先說好，借你的時候我不會告訴你兇手。'), GO('e'), L('b'), c('沒關係。念法律的人，遲早會看的。'), GO('e'), L('c'), c('算。兇手都寫在條文裡，只是要自己找。'), L('e') ],
       talk:[ {t:'「我在看一本推理小說，兇手是律師。……我還沒看完，你不要猜。」',when:'met'}, {t:'「總圖那一區的推理小說，我大概看完一半了。剩下那一半都被借走。」',when:'met'},
-        {t:'「刑法老師舉例的時候，我都在想那個人後來怎麼了。老師都不說。」',when:'Y1S1'}, {t:'「舊路書房的老闆說，推理小說的二手書最好賣。大家看完就不想留，因為已經知道兇手了。」',when:'Y1S2'},
+        {t:'「刑法老師舉例的時候，我都在想那個人後來怎麼了。老師都不說。」',when:'Y1S1'}, {t:'「頁間書屋的老闆說，推理小說的二手書最好賣。大家看完就不想留，因為已經知道兇手了。」',when:'Y1S2'},
         {t:'「我寫的那篇卡在第三章：兇手的動機，連我自己都不信。……法律系的課，會教怎麼判斷動機嗎？」',when:'secret'}, {t:'「文學獎的截稿日是下個月。我現在每天晚上寫到兩點，早上的課都在補眠。」',when:'Y2S2'},
         {t:'「我把小說放到網路上了。看的人不多，有一個人每一章都留言。……是你嗎？」',when:'Y3'}, {t:'「第二本的兇手，我想寫成書記官。郁婷說不行，書記官很忙，沒時間殺人。」',when:'Y4metYT'} ],
       greet:['「你不要猜。」','（她把手上那本書的封面轉過去，不讓你看到書名。）','「今天那堂課，老師舉的例子可以寫成一篇。」'],

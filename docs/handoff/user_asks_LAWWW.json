@@ -2630,6 +2630,287 @@
    "kind": "轉述",
    "status": "規則（永久）",
    "wants": "X194"
+  },
+  {
+   "id": "UA-LAWWW-1103-64",
+   "at": "2026-11-03T22:5x",
+   "quote": "體育課上課 用對話呈現?你明明體育館都已經建立好了甚至都有羽球場還有健身房的還有游泳池了",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X202",
+   "task": "BUG-PE-DOOR-2D-1103"
+  },
+  {
+   "id": "UA-LAWWW-1103-65",
+   "at": "2026-11-03T22:5x",
+   "quote": "然後背景是校園?",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X202",
+   "task": "BUG-PE-DOOR-2D-1103"
+  },
+  {
+   "id": "UA-LAWWW-1103-66",
+   "at": "2026-11-03T22:5x",
+   "quote": "我希望地圖上看到朋友在那邊可以選直接過去",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X203",
+   "task": "MAP-FRIEND-GO-1103"
+  },
+  {
+   "id": "UA-LAWWW-1103-67",
+   "at": "2026-11-03T22:5x",
+   "quote": "不需要再有帶我去這個功能不管是手機裡的還是地圖上的都不需要我要直接過去",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X203",
+   "task": "MAP-FRIEND-GO-1103"
+  },
+  {
+   "id": "UA-LAWWW-1103-68",
+   "at": "2026-11-03T22:5x",
+   "quote": "不能直接過去的人只有「帶我去」，例如你人在國外時。我仍在國外到底要怎麼帶我去",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X203",
+   "task": "MAP-FRIEND-GO-1103"
+  },
+  {
+   "id": "UA-LAWWW-1103-69",
+   "at": "2026-11-03T22:5x",
+   "quote": "反正如果沒辦法客觀上的讓我真的能走路到達的就不要有直接過去也不需要有帶我去",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X203",
+   "task": "MAP-FRIEND-GO-1103"
+  },
+  {
+   "id": "UA-LAWWW-1103-70",
+   "at": "2026-11-03T22:5x",
+   "quote": "但如果說我花時間就能過去的也不需要再帶我去了直接過去",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X203",
+   "task": "MAP-FRIEND-GO-1103"
+  },
+  {
+   "id": "UA-LAWWW-1104-71",
+   "at": "2026-11-04T02:1x",
+   "quote": "所有便利商店都是24小時",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X208",
+   "task": "GG-SHOPS-REDO-1104"
+  },
+  {
+   "id": "UA-LAWWW-1104-72",
+   "at": "2026-11-04T05:5x",
+   "quote": "Lawww2沒空驗收的話 你給BB 請他按照lawww2美術標準",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "wants": "X215",
+   "task": "WZ-SHOPS1-1104"
+  },
+  {
+   "id": "UA-LAWWW-1104-73",
+   "at": "2026-11-04T06:2x",
+   "quote": "有一個認真要請你想的坐下讀書的人他不一定是讀書，現在是不是臉書都沒有可是有可能會出現筆記型電腦、平板或者單純在滑手機，這才是現代人坐下在咖啡廳或者圖書館最常見的事情桌上要有東西呀",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X217",
+   "task": "SEAT-ACTIVITY-1104"
+  },
+  {
+   "id": "UA-LAWWW-1104-74",
+   "at": "2026-11-04T07:4x",
+   "quote": "每週使用量到達93% 應該至少還有兩小時還沒有要交班 但如果有手邊做到一半的東西 先放到GitHub 通知每個AI 包含cc",
+   "kind": "原話",
+   "status": "已完成",
+   "wants": "X218"
+  },
+  {
+   "id": "UA-LAWWW-1104-75",
+   "at": "2026-11-04T09:0x",
+   "quote": "等其他AI交班後你檢查完畢可以交班 不用再每小時啟動",
+   "kind": "原話",
+   "status": "已完成",
+   "wants": "X219"
+  },
+  {
+   "id": "UA-LAWWW-1104-80",
+   "at": "2026-11-04T12:0x",
+   "quote": "現在接班 請同步 GitHub 最新進度，接續工作 接班之後跟其他AI試著傳訊息",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "HANDOFF-B-1104",
+   "src": "使用者對 LAWWW-B，2026-11-04 12:0x UTC",
+   "checked": "LAWWW-B 12:17 接班（9f4d237e2）；12:18 對 AA-B、BB-B、LAWWW2-B、CC-B 傳訊息（都 DELIVERED），等 ACK｜12:18 AA-B、CC-B 回 ACK（通訊正常）；BB-B、LAWWW2-B 沒回就交班"
+  },
+  {
+   "id": "UA-LAWWW-1104-81",
+   "at": "2026-11-04T12:2x",
+   "quote": "我開錯帳號了 你們使用量快沒了 現在交班.....你把能十分鐘內完成的做完 等其他人交班你交班",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "HANDOFF-B-1104",
+   "src": "使用者對 LAWWW-B，2026-11-04 12:2x UTC",
+   "checked": "P0 換班：只做收尾（D134 cherry-pick、duty sync）；等 AA-B、BB-B、LAWWW2-B 交班後 LAWWW-B 存快照、duty handoff、停用保險喚醒 trig_017NNfTyMTM1X5Bv9sFBGmBv｜12:2x LAWWW-B 交班完成（b61337187）"
+  },
+  {
+   "id": "UA-LAWWW-1104-82",
+   "at": "2026-11-04T12:2x",
+   "quote": "你上次沒有交班 使用量就到達上限 你之後有其他帳號接續工作 現在換你接班 有新增一個腳色CC幫助BB測試 你交班之後訊息同個帳號其他AI確認可以傳訊息 我也會通知他們接班",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "HANDOFF-C-1104",
+   "src": "使用者對 LAWWW-C，2026-11-04 12:2x UTC",
+   "checked": "12:3x LAWWW-C 十四步做到登記（duty register）；通訊測試接著做"
+  },
+  {
+   "id": "UA-LAWWW-1104-83",
+   "at": "2026-11-04T12:3x",
+   "quote": "等你接班後 認真看一下接班花了多久 現在接班規則有點長 我們討論要不要精簡一下接班規則 怕重複 但原則上仍然要完整接班 最怕不同帳號交接的時候 有些交代過的事情下個帳號不知道 或做到一半之後就完全沒人做 只是看是不是規則有些重複的事情可以刪掉",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "HANDOFF-SLIM-1104",
+   "src": "使用者對 LAWWW-C，2026-11-04 12:3x UTC（接班途中）",
+   "checked": "12:5x LAWWW-C 量了接班時間、列了重複，用選擇題問（UA-LAWWW-1104-84、85）"
+  },
+  {
+   "id": "UA-LAWWW-1104-84",
+   "at": "2026-11-04T12:5x",
+   "quote": "接班規則的文件要怎麼精簡？→ 合併重複章節（建議）",
+   "kind": "選擇題答案",
+   "status": "已完成",
+   "task": "HANDOFF-SLIM-1104",
+   "src": "使用者對 LAWWW-C 選擇題（AskUserQuestion），2026-11-04 12:5x UTC；沒選「接班流程只寫一處」「啟動提示詞改一份範本」",
+   "checked": "D135：CLAUDE.md 重複的合成一份（訊息優先 6 節→1、自主連續 5 節→1、分工 4 節→1），已被取代的舊條文搬到 docs/history（內容保留）"
+  },
+  {
+   "id": "UA-LAWWW-1104-85",
+   "at": "2026-11-04T12:5x",
+   "quote": "增量核對（incr）每個 commit 都要逐筆分類……以後要怎麼做？→ 只分類會改遊戲的（建議）",
+   "kind": "選擇題答案",
+   "status": "已完成",
+   "task": "HANDOFF-SLIM-1104",
+   "src": "使用者對 LAWWW-C 選擇題（AskUserQuestion），2026-11-04 12:5x UTC",
+   "checked": "D135：incr 只逐筆分類改到 src／assets／tests／index.html 的 commit 和交付；只改文件、交接紀錄的 commit 由該職位交班時的「全部待辦」和快照涵蓋，水位線整批前進"
+  },
+  {
+   "id": "UA-LAWWW-1104-86",
+   "at": "2026-11-04T13:5xZ",
+   "quote": "關於N PC要有什麼動作？難道沒有任何開源？可以去查嗎？只能自己設計嗎？就算只是拿著書和拿著手機都太不自然了一個人坐在那裡什麼都不做 你不能查GitHub 別人怎麼設計嗎",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X222",
+   "task": "NPC-AMBIENT-ANIM-1104"
+  },
+  {
+   "id": "UA-LAWWW-1104-87",
+   "at": "2026-11-04T14:04Z",
+   "quote": "那個是因為介面游戲介面跟手機裡的介面日期不同而且已經修好了所以你們現在當然重現不出來",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "BUG-DATE-0831-1018",
+   "note": "選擇題「8/31 日期」自己打字回答"
+  },
+  {
+   "id": "UA-LAWWW-1104-88",
+   "at": "2026-11-04T14:04Z",
+   "quote": "加 lz-string（建議）",
+   "kind": "選擇題答案",
+   "status": "還沒做",
+   "task": "SAVE-LZ-1104"
+  },
+  {
+   "id": "UA-LAWWW-1104-89",
+   "at": "2026-11-04T14:04Z",
+   "quote": "我之後給照片",
+   "kind": "選擇題答案",
+   "status": "暫停",
+   "task": "ART-PHOTO-CMP-1021"
+  },
+  {
+   "id": "UA-LAWWW-1104-90",
+   "at": "2026-11-04T14:05Z",
+   "quote": "共同教學館（附 4 張照片）",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "ART-PHOTO-CMP-1021",
+   "note": "照片存 docs/story_planning/ref_images/buildings/common_teaching_1104/"
+  },
+  {
+   "id": "UA-LAWWW-1104-91",
+   "at": "2026-11-04T14:08Z",
+   "quote": "大一女介紹 你自己去這個網址抓圖好不好 超多的 內裝也有https://osa_dorm.ntu.edu.tw/Freshman_House 是要走上二樓到一個平台(第一張照片) 才會到宿舍入口 一樓是一些店面（附 2 張照片）",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "ART-PHOTO-CMP-1021",
+   "note": "網址在雲端環境連不到（osa_dorm.ntu.edu.tw 要加進 Allowed domains）；兩張照片存 docs/story_planning/ref_images/buildings/freshman_women_dorm_1104/；14:1x 使用者說 osa_dorm 格式不對加不進去→改加 *.ntu.edu.tw，14:16 抓到官網 24 張"
+  },
+  {
+   "id": "UA-LAWWW-1104-92",
+   "at": "2026-11-04T14:19Z",
+   "quote": "*.ntu.edu.tw 加入了 這個就是我的大學的網站裡有任何建筑物請你都去查它裡面一定會有圖片介紹你要好好檢查你現在圖片裡的游戲裡",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X223",
+   "task": "NTU-REF-AUDIT-1104"
+  },
+  {
+   "id": "UA-LAWWW-1104-93",
+   "at": "2026-11-04T14:31Z",
+   "quote": "（貼了目前環境 Allowed domains 清單）你給我的我那些沒有 直接給我可以複製貼上的",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "NTU-REF-AUDIT-1104",
+   "note": "回覆時給了清單裡還沒有的網域（可以直接貼）"
+  },
+  {
+   "id": "UA-LAWWW-1104-94",
+   "at": "2026-11-04T15:05Z",
+   "quote": "我有個意見就是你的建筑也不能真的都弄得一模一樣因為我們不知道建筑本身它的設計師有沒有著作權臺大雖然是公開的",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "wants": "X226",
+   "task": "NTU-REF-AUDIT-1104"
+  },
+  {
+   "id": "UA-LAWWW-1104-95",
+   "at": "2026-11-04T15:05Z",
+   "quote": "只有校園建築",
+   "kind": "選擇題答案",
+   "status": "規則（永久）",
+   "wants": "X226",
+   "note": "選擇題：這條要不要也套在店面？選「只有校園建築」（店面照舊照參考圖 D133）"
+  },
+  {
+   "id": "UA-LAWWW-1104-96",
+   "at": "2026-11-04T15:05Z",
+   "quote": "我覺得可以有部分相同但絕對不可以照抄",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "wants": "X226"
+  },
+  {
+   "id": "UA-LAWWW-1104-97",
+   "at": "2026-11-04T15:1xZ",
+   "quote": "說到這個 普通 博雅 教學館目前感覺跟真正的太不向了／不像",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X227",
+   "task": "TEACH-PTBOYA-REF-1104"
+  },
+  {
+   "id": "UA-LAWWW-1104-98",
+   "at": "2026-11-04T15:3xZ",
+   "quote": "博雅是現在的博思 普通也是改名後的版本 你去找／就是我不是要你新增兩棟他們已經在了隻是不叫學校裡的名字",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X227",
+   "task": "TEACH-PTBOYA-REF-1104",
+   "note": "說明範圍：不是新增兩棟，是改遊戲裡已經有的普通教學館（WORLD_NAMING 第 5 節列在不改名，遊戲裡照舊叫普通教學館）和博思教學館（＝博雅），在原位置改外觀；回覆時已說明普通沒有改名、想改名再說"
   }
  ]
 }

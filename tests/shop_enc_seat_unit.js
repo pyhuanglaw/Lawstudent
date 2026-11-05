@@ -45,16 +45,16 @@ const DAYS=[]; for(let d=dayOf('2025-09-22');DAYS.length<12;d++) if(CALENDAR.kin
 const SATS=[]; for(let d=dayOf('2025-09-27');SATS.length<8;d+=7) if(CALENDAR.termOf(d)&&!CALENDAR.termOf(d).exam) SATS.push(d);
 // ---------- 1. 坐著的店 ----------
 { const bad=[], info=[]; let n=0;
-  for(const [z,who,hs,days] of [['wz_brunch','classmate_xinci',[10.25,11.5],SATS],['wz_lin','classmate_mingxuan',[18.25,18.5],DAYS],['wz_teishoku','heroine_05',[12.5,13.25],DAYS],['noodle','zhe',[18.25,19.25],DAYS]]){
+  for(const [z,who,hs,days] of [['wz_brunch','classmate_xinci',[10.25,11.5],SATS],['wz_lin','classmate_mingxuan',[18.25,18.5],DAYS],['wz_lin','heroine_05',[12.5,13.25],DAYS],['noodle','zhe',[18.25,19.25],DAYS]]){
     for(const d of days) for(const h of hs){ const G=mkG(d,h); const r=enter(z,G,who); if(!r.d||!r.d.place||!r.d.place.seat){ bad.push(z+' 沒有位子 '+d+'@'+h+' '+JSON.stringify(r.d)); continue; } n++;
       const s=r.d.place.seat; if(ppl().some(m=>near(m.seat,s.x,s.z)||near(m.seatTarget,s.x,s.z))) bad.push(z+' 路人坐了預約的位子 '+d+'@'+h);
       const st=r.z.seats.find(q=>near(q,s.x,s.z,0.12)); if(!st) bad.push(z+' 預約的不是店裡的座位'); else if(!CROWD.shopReserved(z,st,G)) bad.push(z+' 沒有預約');
       const def=CROWD.SHOP_ZONES[z], pl=CROWD.shopPlan(def,G), keep=pl.keep>=0?def.units[pl.keep].seats:[]; if(keep.some(q=>near(q,s.x,s.z,0.12))) bad.push(z+' 坐了留給玩家的那一組'); } info.push(z); }
   check('1. 半熟、林家、定食、燒臘：朋友的位子預約了，路人客人不坐、也不是留給玩家的那一組（'+n+' 次）',!bad.length&&n>=60,bad.slice(0,4).join('；'));
   /* 原本那個位子有路人坐的日子：預約以後就沒有（拿 shop_diners 第 11 項的同一套比較）*/
-  let had=0, freed=0; for(const d of DAYS) for(const h of [12.5,13,18.5]){ const G=mkG(d,h); build('wz_teishoku',G); for(const k in CROWD.shopRes) delete CROWD.shopRes[k]; CROWD.enter(GM,'wz_teishoku'); const pick=CROWD.shopSeatPick(GM); if(!pick) continue;
-    const G2=mkG(d,h); const r=enter('wz_teishoku',G2,'heroine_05'); const s=r.d&&r.d.place&&r.d.place.seat; if(!s) continue; const G3=mkG(d,h); build('wz_teishoku',G3); for(const k in CROWD.shopRes) delete CROWD.shopRes[k]; CROWD.enter(GM,'wz_teishoku');
-    if(ppl().some(m=>near(m.seat,s.x,s.z))){ had++; const G4=mkG(d,h); enter('wz_teishoku',G4,'heroine_05'); if(!ppl().some(m=>near(m.seat,s.x,s.z))) freed++; } }
+  let had=0, freed=0; for(const d of DAYS) for(const h of [12.5,13,18.5]){ const G=mkG(d,h); build('wz_lin',G); for(const k in CROWD.shopRes) delete CROWD.shopRes[k]; CROWD.enter(GM,'wz_lin'); const pick=CROWD.shopSeatPick(GM); if(!pick) continue;   /* 2026-11-04：學姊的偶遇 AA_655 第 4 節搬到林家乾麵 */
+    const G2=mkG(d,h); const r=enter('wz_lin',G2,'heroine_05'); const s=r.d&&r.d.place&&r.d.place.seat; if(!s) continue; const G3=mkG(d,h); build('wz_lin',G3); for(const k in CROWD.shopRes) delete CROWD.shopRes[k]; CROWD.enter(GM,'wz_lin');
+    if(ppl().some(m=>near(m.seat,s.x,s.z))){ had++; const G4=mkG(d,h); enter('wz_lin',G4,'heroine_05'); if(!ppl().some(m=>near(m.seat,s.x,s.z))) freed++; } }
   check('1. 沒有預約時路人會坐的那個位子（'+had+' 次），預約以後一次都沒有人坐',had===freed,had+'/'+freed);
   const G=mkG(SATS[0],10.5); const r1=enter('wz_brunch',G,'classmate_xinci'); const s1=JSON.stringify(r1.d.place); const r2=enter('wz_brunch',G,'classmate_xinci'); check('1. 同一天同一時段再進來：同一個位子',JSON.stringify(r2.d.place)===s1);
   const Gp=mkG(SATS[0],10.5); build('wz_brunch',Gp); const st=E.zone.seats[3]; E.player.seat=st; const R=SHOPENC.rec(Gp), k=SHOPENC.key(Gp,'wz_brunch'); R.dec[k]={who:'classmate_xinci',spot:'wz_brunch'}; const d=SHOPENC.enter(GM,'wz_brunch'); check('1. 玩家坐著的位子不給她',!!d.place&&!near(d.place.seat,st.x,st.z,0.12)); }
@@ -71,8 +71,9 @@ const SATS=[]; for(let d=dayOf('2025-09-27');SATS.length<8;d+=7) if(CALENDAR.ter
 // ---------- 3. 兩點半 Café ----------
 { const bad=[]; for(const d of SATS) for(const h of [14.25,15.5,16.5]){ global.STORY.cafeCustomers=()=>[0,2]; const G=mkG(d,h); const z=build('cafe',G); for(const k in CROWD.shopRes) delete CROWD.shopRes[k];
     const R=SHOPENC.rec(G), k=SHOPENC.key(G,'cafe'); R.dec[k]={who:'heroine_01',spot:'cafe'}; const dd=SHOPENC.enter(GM,'cafe'); const s=dd.place&&dd.place.seat; if(!s){ bad.push('沒有位子'); continue; }
-    const i=z.seats.findIndex(q=>near(q,s.x,s.z,0.12)); const q=z.seats[i]; if(i===5||i===0||i===2||q.bar||q.sofa) bad.push('坐了 '+i+(q.bar?' 吧檯':'')+(q.sofa?' 沙發':'')); if(!CROWD.shopReserved('cafe',q,G)) bad.push('沒有預約'); }
-  check('3. Café：不坐學姊的位子（5）、吧檯、沙發、今天客人的位子（0、2）；有預約',!bad.length,bad.join('；')); delete global.STORY.cafeCustomers; }
+    const i=z.seats.findIndex(q=>near(q,s.x,s.z,0.12)); const q=z.seats[i]; if(i===5||i===0||i===2||q.bar||!q.sofa) bad.push('坐了 '+i+(q.bar?' 吧檯':'')+(q.sofa?' 沙發':'')); if(!CROWD.shopReserved('cafe',q,G)) bad.push('沒有預約'); }
+  /* 2026-11-04（WZ-SHOPS1-1104，AA cafe230_layout.js seatPlan.sofa）：以安那一列「她坐在沙發那一區」＝shop_enc.js tag sofa，SHOPENC.seatPick 照 tag 挑沙發（原本排除沙發：文字和位子對不上，FIXED_COORDS 第 1 節）*/
+  check('3. Café：以安坐沙發（偶遇資料 tag sofa）；不坐學姊的位子（5）、吧檯、今天客人的位子（0、2）；有預約',!bad.length,bad.join('；')); delete global.STORY.cafeCustomers; }
 // ---------- 4. SHOPENC.after ----------
 { const G=mkG(SATS[0],15), r=enter('bookstore',G,'npc_songzn'); SHOPENC.after(GM,'bookstore'); const zn=E.npcs.find(n=>n.shopZn);
   check('4. 宋知寧站在書架前（預約的那一點）、按鈕「看二手書架」、女生的路人底模、17:00 走',!!zn&&Math.hypot(zn.obj.position.x-r.d.place.stand[0],zn.obj.position.z-r.d.place.stand[1])<0.01&&zn.talkLabel==='看二手書架'&&zn.obj.userData.spec.sex==='f'&&zn.until===17&&typeof zn.talk==='function');
@@ -81,11 +82,11 @@ const SATS=[]; for(let d=dayOf('2025-09-27');SATS.length<8;d+=7) if(CALENDAR.ter
   const G3=mkG(SATS[0],12); enter('bookstore',G3,'classmate_mingxuan'); NPC.classmate_mingxuan={name:'明軒',talkLabel:'和明軒說話'}; SHOPENC.after(GM,'bookstore'); check('4. 朋友的按鈕：「和明軒打招呼」',NPC.classmate_mingxuan.talkLabel==='和明軒打招呼'&&NPC.classmate_mingxuan.shopEnc===true); }
 // ---------- 5. 路人句 ----------
 (async()=>{
-  { let pairs=0, singles=0, bad=[]; for(const d of DAYS.slice(0,6)) for(const z of ['wz_teishoku','wz_lin','l118_korea','l118_home']){ const G=mkG(d,12.5); enter(z,G); const by={};
+  { let pairs=0, singles=0, bad=[]; for(const d of DAYS.slice(0,6)) for(const z of ['wz_teishoku','wz_lin','l118_korea','l118_home']){ const G=mkG(d,z==='wz_teishoku'?19:12.5);   /* 小路 18:00 才開（AA_655）*/ enter(z,G); const by={};
       for(const n of ppl()){ (by[n.crowd]||(by[n.crowd]=[])).push(n); }
       for(const id in by){ const L=by[id]; if(L.length===2){ pairs++; if(!(L.every(m=>m.talkLabel==='聽一句'&&m.yieldIt))) bad.push(z+' 兩人一桌沒有「聽一句」'); } else { singles++; if(L.some(m=>m.talk)) bad.push(z+' 一個人吃飯的也說'); } } }
     check('5. 吃飯的店：兩人一桌兩個人都可以點（聽一句、yieldIt）；一個人吃飯的不說（'+pairs+' 桌兩人、'+singles+' 組一人）',!bad.length&&pairs>=10,bad.slice(0,3).join('；')); }
-  { const G=mkG(DAYS[0],12.5); enter('wz_teishoku',G); const tb=ppl().filter(n=>n.talk); const a=tb[0], b=tb.find(m=>m!==a&&m.crowd===a.crowd); SAYS.length=0; await a.talk(); const first=SAYS.slice(); SAYS.length=0; await b.talk(); const second=SAYS.slice();
+  { const G=mkG(DAYS[0],19); enter('wz_teishoku',G); const tb=ppl().filter(n=>n.talk);   /* 2026-11-04：小路 18:00 才開（AA_655）*/ const a=tb[0], b=tb.find(m=>m!==a&&m.crowd===a.crowd); SAYS.length=0; await a.talk(); const first=SAYS.slice(); SAYS.length=0; await b.talk(); const second=SAYS.slice();
     const dine=SHOP_ENC.hear.dine.map(q=>q.pair.map(x=>'路人：'+x[1]).join('|'));
     check('5. 點一桌：照 A／B 講完那一組（說話的人「路人」）；點同一桌另一個人是同一組',first.length>=2&&dine.includes(first.join('|'))&&first.join()===second.join(),JSON.stringify(first));
     const used=new Set([first.join('|')]); let dup=false, n=1; for(const z of ['wz_lin','l118_korea','l118_home','l118_omu','l118_dian','l118_self']){ G.zone=z; enter(z,G); const by={}; for(const m of ppl()) if(m.talk) (by[m.crowd]||(by[m.crowd]=m)); for(const id in by){ SAYS.length=0; await by[id].talk(); if(!SAYS.length) continue; n++; const k=SAYS.join('|'); if(used.has(k)) dup=true; used.add(k); } }

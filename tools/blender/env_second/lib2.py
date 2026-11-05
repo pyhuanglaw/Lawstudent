@@ -184,6 +184,87 @@ def lathe(profile, seg=16):
     bm.normal_update(); return bm
 
 
+PH_DIR = os.path.join(ROOT, 'tools', 'blender', 'models_ph')   # Poly Haven（CC0）模型的下載快取（.gitignore；第一次用自動抓：api.polyhaven.com、dl.polyhaven.org）
+
+
+def ph_fetch(pid, res='1k'):
+    """Poly Haven 模型 pid 的 glTF（res：1k／2k…）下載到 PH_DIR/<pid>/，回傳 .gltf 路徑；已經有就不重抓。授權 CC0（https://polyhaven.com/license）"""
+    d = os.path.join(PH_DIR, pid); g = os.path.join(d, f'{pid}_{res}.gltf')
+    if os.path.exists(g): return g
+    import urllib.request
+    get = lambda u: urllib.request.urlopen(urllib.request.Request(u, headers={'User-Agent': 'lawstudent-asset-fetch/1.0'}), timeout=60).read()
+    e = json.loads(get('https://api.polyhaven.com/files/' + pid))['gltf'][res]['gltf']
+    for u, rel in [(e['url'], os.path.basename(e['url']))] + [(v['url'], k) for k, v in e.get('include', {}).items()]:
+        q = os.path.join(d, rel); os.makedirs(os.path.dirname(q), exist_ok=True)
+        if not os.path.exists(q): open(q, 'wb').write(get(u))
+    return g
+
+
+def ph_model(pid, nodes=None, ratio=1.0, name=None, res='1k', texres=512, anchor='bottom', back=False):
+    """Poly Haven（CC0）模型 → 一個網格（多個材質槽，可以 B.instance）。OPEN-SRC-2D3D-1104（LAWWW2-C 2026-11-04）。
+    nodes＝只留這幾個節點（名稱；None＝全部）；ratio＝減面比例（一個數字，或 {節點名: 比例}）；
+    貼圖縮成 texres（街景 512）；BLEND 材質改 alpha clip（遊戲不排序透明）；
+    anchor＝'bottom'：原點移到底部中央；back＝True：再把背面（Blender +Y 最大＝遊戲 −z）對齊原點（掛在牆上的東西：冷氣室外機）"""
+    g = _ph_small(ph_fetch(pid, res), texres); before = set(bpy.data.objects); mats_before = set(bpy.data.materials)
+    bpy.ops.import_scene.gltf(filepath=g)
+    new = [o for o in bpy.data.objects if o not in before]
+    keep = [o for o in new if o.type == 'MESH' and (nodes is None or o.name.split('.')[0] in nodes)]
+    dg = bpy.context.evaluated_depsgraph_get(); parts = []
+    for o in keep:
+        r = ratio.get(o.name.split('.')[0], 1.0) if isinstance(ratio, dict) else ratio
+        if r < 1.0:
+            md = o.modifiers.new('ph_dec', 'DECIMATE'); md.ratio = r; md.use_collapse_triangulate = True
+            dg.update(); me = bpy.data.meshes.new_from_object(o.evaluated_get(dg)); o.modifiers.clear()
+        else: me = o.data.copy()
+        me.transform(o.matrix_world); parts.append(me)
+    for o in new: bpy.data.objects.remove(o)
+    bm = bmesh.new(); mats = []
+    for me in parts:
+        idx = []
+        for m in me.materials:
+            if m not in mats: mats.append(m)
+            idx.append(mats.index(m))
+        t = bmesh.new(); t.from_mesh(me)
+        for f in t.faces: f.material_index = idx[f.material_index] if f.material_index < len(idx) else 0
+        tm = bpy.data.meshes.new('_ph_tmp'); t.to_mesh(tm); t.free(); bm.from_mesh(tm); bpy.data.meshes.remove(tm); bpy.data.meshes.remove(me)
+    vs = [v.co for v in bm.verts]
+    if vs and anchor == 'bottom':
+        mn = Vector((min(v.x for v in vs), min(v.y for v in vs), min(v.z for v in vs))); mx = Vector((max(v.x for v in vs), max(v.y for v in vs), max(v.z for v in vs)))
+        off = Vector(((mn.x + mx.x) / 2, mx.y if back else (mn.y + mx.y) / 2, mn.z))
+        bmesh.ops.translate(bm, verts=bm.verts, vec=-off)
+    out = bpy.data.meshes.new(name or ('ph_' + pid)); bm.to_mesh(out); bm.free()
+    for m in mats: out.materials.append(m)
+    for m in set(bpy.data.materials) - mats_before:   # 半透明（散熱格柵、葉子）一律 alpha clip：glTF 匯出器看到 Alpha 前面接 ROUND 才輸出 MASK（Blender 4.2 以後 blend_method 不算數）
+        if getattr(m, 'blend_method', 'OPAQUE') == 'BLEND': m.blend_method = 'CLIP'
+        if hasattr(m, 'surface_render_method'): m.surface_render_method = 'DITHERED'
+        if not m.use_nodes: continue
+        bs = next((n for n in m.node_tree.nodes if n.type == 'BSDF_PRINCIPLED'), None)
+        if bs is None or not bs.inputs['Alpha'].links: continue
+        src = bs.inputs['Alpha'].links[0].from_socket
+        if src.node.type == 'MATH' and src.node.operation == 'ROUND': continue
+        r = m.node_tree.nodes.new('ShaderNodeMath'); r.operation = 'ROUND'; m.node_tree.links.new(src, r.inputs[0]); m.node_tree.links.new(r.outputs[0], bs.inputs['Alpha'])
+    return out
+
+
+def _ph_small(g, texres):
+    """貼圖先在磁碟上縮成 texres（PIL），再讓 Blender 匯入一份改了圖片路徑的 glTF：
+    在 Blender 裡 Image.scale() 過的圖，glTF 匯出器合併 metal／rough 通道時存不起來（11-04 第一次試：potted_plant_02 的 rough 圖 Could not write image）"""
+    from PIL import Image
+    d = os.path.dirname(g); out = g[:-5] + f'_t{texres}rgb.gltf'
+    if os.path.exists(out): return out
+    J = json.load(open(g, encoding='utf-8'))
+    for im in J.get('images', []):
+        u = im.get('uri')
+        if not u: continue
+        src = os.path.join(d, u); dst_rel = os.path.join(f'textures_{texres}rgb', os.path.basename(u)); dst = os.path.join(d, dst_rel)
+        if not os.path.exists(dst):
+            os.makedirs(os.path.dirname(dst), exist_ok=True); I = Image.open(src)
+            if I.width > texres: I = I.resize((texres, max(1, round(I.height * texres / I.width))), Image.LANCZOS)
+            I.convert('RGB').save(dst, quality=92)   # 灰階（rough、opacity）也存成 RGB：匯出 WEBP 不支援單通道（OpenImageIO：webp does not support 1-channel images）
+        im['uri'] = dst_rel.replace(os.sep, '/')
+    json.dump(J, open(out, 'w', encoding='utf-8')); return out
+
+
 def write_json(path, data):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'w', encoding='utf-8') as f: json.dump(data, f, ensure_ascii=False, indent=1)
@@ -460,14 +541,16 @@ def _uv_clip(poly, u0, u1, v0, v1):
     return poly
 
 
-def atlas_tiles(root, out_base, mat_name, only, cell=256, pad=12, keep=lambda ob: False, reps=None):
+def atlas_tiles(root, out_base, mat_name, only, cell=256, pad=12, keep=lambda ob: False, reps=None, solid=None, orm_div=1):
     """磁磚、木紋、地板這類「兩個方向都有細節、會重複」的貼圖材質合成一張 2D 貼圖集，不糊（效能第四輪，2026-10-16）：
     - 每個面先沿 UV 的整數格線切開（每一塊只落在一個週期裡），UV 平移到 0～1，再對到貼圖集的一格。
     - 每一格四周用貼圖自己繞回來的像素墊邊（wrap）：遠處的 mipmap 混到的是同一張貼圖，不會混到隔壁格。
     - 底色、法線（強度烤進像素）、ORM（G 粗糙度、B 金屬度）三張圖同一個排列；一個材質。
     - 代價：大面積的面會切成好幾塊（三角形變多）。atlas_rows（一列一個材質）只適合 v 方向不變的條紋，這個給其他的。
     only：要收的材質名。reps：{材質名: k}，一格放 k×k 個週期（切線只在 k 的倍數上，三角形少；每個週期的像素變成 1/k）。
-    回傳收進去的材質名。之後再 merge_by_material，同一個貼圖集材質的網格合成一個。"""
+    回傳收進去的材質名。之後再 merge_by_material，同一個貼圖集材質的網格合成一個。
+    solid：{'color': '#ffffff', 'rough': 0.55, 'metal': 0.0, 'px': 32}——貼圖集最上面多一條純色帶（給 fold_vc：頂點色的零件 UV 全部指到帶子中間，顏色照舊用頂點色），
+           帶子中間的 UV 寫回 solid['uv']（TEACH-EAST-DRAWCALL，2026-11-04）。orm_div：ORM 圖縮小幾倍（每一格只有一個粗糙度、金屬度，不用和底色一樣大）。"""
     reps = reps or {}
     import numpy as np
     from PIL import Image as _I
@@ -502,13 +585,18 @@ def atlas_tiles(root, out_base, mat_name, only, cell=256, pad=12, keep=lambda ob
         for m in ob.data.materials:
             if m and m.name in only and m.name not in srcs: srcs[m.name] = src(m)
     sel = [nm for nm in sorted(srcs) if srcs[nm]]
-    if len(sel) < 2: print(json.dumps({'atlas_tiles': 0})); return []
-    n = len(sel); cols = math.ceil(math.sqrt(n)); rows = math.ceil(n / cols); W, H = cols * cell, rows * cell; inner = cell - 2 * pad
-    pos = {nm: ((k % cols) * cell, H - (k // cols + 1) * cell) for k, nm in enumerate(sel)}   # 每格左下角（UV 的 v 從下面算）
+    if len(sel) < (1 if solid else 2): print(json.dumps({'atlas_tiles': 0})); return []
+    n = len(sel); cols = math.ceil(math.sqrt(n)); rows = math.ceil(n / cols); SP = int(solid.get('px', 32)) if solid else 0
+    W, HC = cols * cell, rows * cell; H = HC + SP; inner = cell - 2 * pad   # 純色帶在最上面（HC～H）
+    pos = {nm: ((k % cols) * cell, HC - (k // cols + 1) * cell) for k, nm in enumerate(sel)}   # 每格左下角（UV 的 v 從下面算）
     def pix(img, srgb_in):   # Blender 像素（第 0 列在下面）→ 上到下、0～1 的 RGB 浮點
         a = np.array(img.pixels[:], np.float32).reshape(img.size[1], img.size[0], img.channels)[::-1, :, :3]
         return a
     base = np.zeros((H, W, 3), np.uint8); nor = np.zeros((H, W, 3), np.uint8); nor[...] = (128, 128, 255); orm = np.zeros((H, W, 3), np.uint8); orm[..., 0] = 255
+    if solid:
+        hx = solid.get('color', '#ffffff').lstrip('#'); base[:SP] = tuple(int(hx[i:i + 2], 16) for i in (0, 2, 4))
+        orm[:SP, :, 1] = int(np.clip(solid.get('rough', 0.55), 0, 1) * 255); orm[:SP, :, 2] = int(np.clip(min(solid.get('metal', 0.0), 0.45), 0, 1) * 255)
+        solid['uv'] = (0.5, (HC + SP / 2) / H)
     def place(arr, tile, nm):
         x0, yb = pos[nm]; top = H - (yb + cell)
         t = np.pad(tile, ((pad, pad), (pad, pad), (0, 0)), mode='wrap'); arr[top:top + cell, x0:x0 + cell] = t
@@ -525,7 +613,8 @@ def atlas_tiles(root, out_base, mat_name, only, cell=256, pad=12, keep=lambda ob
             im = _I.fromarray((np.clip(nn, 0, 1) * 255).astype(np.uint8)).resize((inner, inner), _I.LANCZOS); place(nor, np.array(im), nm)
         t = np.zeros((inner, inner, 3), np.uint8); t[..., 0] = 255; t[..., 1] = int(np.clip(s_['rough'], 0, 1) * 255); t[..., 2] = int(np.clip(min(s_['metal'], 0.45), 0, 1) * 255); place(orm, t, nm)
     paths = {k: f'{out_base}_{k}.png' for k in ('base', 'nor', 'orm')}
-    _I.fromarray(base).save(paths['base']); _I.fromarray(nor).save(paths['nor']); _I.fromarray(orm).save(paths['orm'])
+    _I.fromarray(base).save(paths['base']); _I.fromarray(nor).save(paths['nor'])
+    (_I.fromarray(orm).resize((max(1, W // orm_div), max(1, H // orm_div)), _I.NEAREST) if orm_div > 1 else _I.fromarray(orm)).save(paths['orm'])
     am = bpy.data.materials.new(mat_name); am.use_nodes = True; nt = am.node_tree; bs = nt.nodes['Principled BSDF']
     tb = nt.nodes.new('ShaderNodeTexImage'); tb.image = bpy.data.images.load(paths['base']); nt.links.new(tb.outputs['Color'], bs.inputs['Base Color'])
     tn = nt.nodes.new('ShaderNodeTexImage'); tn.image = bpy.data.images.load(paths['nor']); tn.image.colorspace_settings.name = 'Non-Color'
@@ -576,8 +665,50 @@ def atlas_tiles(root, out_base, mat_name, only, cell=256, pad=12, keep=lambda ob
                 for p in me.polygons:
                     if p.material_index > i: p.material_index -= 1
                 me.materials.pop(index=i)
-    print(json.dumps({'atlas_tiles': len(sel), 'materials': sel, 'size': [W, H], 'tris_before': tris_before, 'tris_after': tris_after, 'per': per}))
+    print(json.dumps({'atlas_tiles': len(sel), 'materials': sel, 'size': [W, H], 'solid_uv': solid and solid['uv'], 'tris_before': tris_before, 'tris_after': tris_after, 'per': per}))
     return sel
+
+
+def fold_vc(root, vc_name, atlas_name, uv, new_name=None):
+    """頂點色材質（vc_material）的面併進貼圖集材質（atlas_tiles 帶 solid 做的），之後 merge_by_material 就是一個網格（TEACH-EAST-DRAWCALL，2026-11-04）：
+    - 頂點色零件的 UV 全部指到貼圖集的純色帶（uv＝solid['uv']），顏色照舊是頂點色 Col；
+    - 貼圖集零件的頂點色補白（1,1,1）；
+    - 貼圖集材質的底色改成 貼圖 × 頂點色（Mix MULTIPLY；glTF 匯出 baseColorTexture＋COLOR_0，three.js 照 COLOR_0 開 vertexColors）。
+    頂點色材質刪掉；new_name：貼圖集材質改名（例如沿用 wz_vc_*，遊戲的投影規則照舊）。要在 atlas_tiles 之後、merge_by_material 之前呼叫。"""
+    am, vm = bpy.data.materials.get(atlas_name), bpy.data.materials.get(vc_name)
+    assert am is not None and vm is not None, (atlas_name, vc_name)
+    nt = am.node_tree; bs = nt.nodes['Principled BSDF']; tex = bs.inputs['Base Color'].links[0].from_node
+    vcn = nt.nodes.new('ShaderNodeVertexColor'); vcn.layer_name = 'Col'
+    mix = nt.nodes.new('ShaderNodeMix'); mix.data_type = 'RGBA'; mix.blend_type = 'MULTIPLY'; mix.inputs['Factor'].default_value = 1.0
+    nt.links.new(tex.outputs['Color'], mix.inputs[6]); nt.links.new(vcn.outputs['Color'], mix.inputs[7]); nt.links.new(mix.outputs[2], bs.inputs['Base Color'])
+    meshes = {ob.data for ob in [root] + list(root.children_recursive) if ob.type == 'MESH'}
+    uvname = next((me.uv_layers.active.name for me in meshes if me.uv_layers.active and any(m and m.name == atlas_name for m in me.materials)), 'UVMap')
+    st = {'meshes': 0, 'vc_faces': 0, 'atlas_faces': 0}
+    for me in meshes:
+        names = [m.name if m else None for m in me.materials]
+        if atlas_name not in names and vc_name not in names: continue
+        ca = me.color_attributes.get('Col'); fresh = ca is None
+        if fresh: ca = me.color_attributes.new('Col', 'FLOAT_COLOR', 'CORNER'); ca.data.foreach_set('color', [1.0] * (4 * len(ca.data)))
+        assert ca.domain == 'CORNER' and ca.data_type == 'FLOAT_COLOR', (me.name, ca.domain, ca.data_type)
+        ul = me.uv_layers.get(uvname) or me.uv_layers.new(name=uvname)
+        if atlas_name not in names: me.materials.append(am); names.append(atlas_name)
+        ai = names.index(atlas_name); vi = names.index(vc_name) if vc_name in names else -1
+        cols = [0.0] * (4 * len(ca.data)); ca.data.foreach_get('color', cols)
+        for p in me.polygons:
+            if p.material_index == vi:
+                for li in p.loop_indices: ul.data[li].uv = uv
+                p.material_index = ai; st['vc_faces'] += 1
+            elif p.material_index == ai:
+                for li in p.loop_indices: cols[li * 4:li * 4 + 4] = [1.0, 1.0, 1.0, 1.0]
+                st['atlas_faces'] += 1
+        ca.data.foreach_set('color', cols)
+        used = {p.material_index for p in me.polygons}
+        for i in reversed(range(len(me.materials))):
+            if i not in used: me.materials.pop(index=i)
+        st['meshes'] += 1
+    bpy.data.materials.remove(vm)
+    if new_name: am.name = new_name
+    print(json.dumps({'fold_vc': st, 'material': am.name})); return st
 
 
 def realize_small_instances(root, max_users=3, max_tris=2000, keep=lambda ob: False):

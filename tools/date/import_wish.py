@@ -168,7 +168,9 @@ if A594:
         return n
     for n, old, new, want in rows594:
         cnt = lambda: json.dumps(EV['heroine_01'], ensure_ascii=False).count(json.dumps(new, ensure_ascii=False)[1:-1])
-        c0 = cnt(); _sub594(EV['heroine_01'], old, new); got = cnt() - c0   # 輸出裡多了幾處（AA_127 大一版收尾和一般版共用同一個旁白物件，算輸出的處數）
+        c0 = cnt(); hit = _sub594(EV['heroine_01'], old, new); got = cnt() - c0   # 輸出裡多了幾處（AA_127 大一版收尾和一般版共用同一個旁白物件，算輸出的處數）
+        if hit == 0 and c0 > 0:   # AA_661 第 61 列：源稿（AA_127 那幾格）已經是新字＝跳過，和 tools/story/aa630.py 一樣；兩個都不是照舊停下來
+            FIX592.add(new); FIX592.add('（' + new + '）'); continue
         if got != want:
             sys.exit(f'AA_594 第 {n} 列：以安 D07「{old}」換了 {got} 處（應該是 {want} 處）')
         FIX592.add(new); FIX592.add('（' + new + '）')
@@ -190,10 +192,16 @@ def all_text(o, path=''):
         for n, v in enumerate(o): yield from all_text(v, path + f'[{n}]')
 def norm(t): return re.sub(r'[\s　]', '', t).replace('『', '「').replace('』', '」')
 MDN = {k: norm(v) for k, v in MD.items()}
+# AA_626（語彤 D13 照新背景改寫，2026-11-03，白名單 9ba14498e）：wish_aa.json 語彤那一段的新句子對 AA_626（AA_127 第 2 節衝突的句子被它取代）
+A626 = G.approved_files(ALLOW, SP + 'AA_626_')
+if A626:
+    _p, _s = next(iter(A626.items())); _ok, _why = G.allowed(_p, _s, ALLOW)
+    if not _ok: sys.exit('拒絕匯入：' + _why)
+    MDN['aa'] += norm(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{_s}:{_p}'], text=True)))
 miss, extra = [], []
 FROM_FREE = re.compile(r'freeVisited')   # 「你來過一次」（AA_160 4-4）：AA_271 第 3 節、BB_213／AB-25 後來加的，不在 AA_127、BB_128
 def found(md, p):
-    c = {p, p.rstrip('。：'), p.lstrip('她'), p.lstrip('她').rstrip('。：')}
+    c = {p, p.rstrip('。：'), p.lstrip('她'), p.lstrip('她').rstrip('。：'), re.sub(r'^……嗯。', '', p)}   # 語彤每場第一句的「……嗯。」開頭（AA_186 第 5 節）：AA_626 的稿只寫後面那一句
     return any(x and x in md for x in c)
 def walk_ifs(e, k):
     for i, x in enumerate((e.get('arrive') or {}).get('extraIf') or []):

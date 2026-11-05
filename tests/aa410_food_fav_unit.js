@@ -40,7 +40,10 @@ const T=a=>(a||[]).map(x=>x[1]);
 const seq=a=>a.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(a[i-1])));
 
 (async()=>{
-let doc=''; try{ doc=cp.execSync('git show 38b3c9dd:"docs/story_planning/AA_410_女主角各自喜歡吃的東西.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }   /* 38b3c9dd＝86016b84＋第 4 節補充（缺字、記憶名稱）*/
+let doc=''; try{ doc=cp.execSync('git show 38b3c9dd:"docs/story_planning/AA_410_女主角各自喜歡吃的東西.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+/* 2026-11-04 改期望（WZ-SECOND-1104；AA_658 第 4 節，企劃線 6ee7ea3a5）：帝大紅茶（原本的巷口茶飲）的菜單換成紅茶／奶茶／檸檬紅茶（中、大），可昕那一杯的品項照換：青茶→紅茶、珍珠奶茶（珍奶）→奶茶、冬瓜檸檬→檸檬紅茶。
+   稿（AA_410）照這幾句換了再比；「紅茶。……也可以。」那一句變成用不到（紅茶是選對的那一樣），報告給 AA */
+doc=doc.split('可昕：珍奶。……你是故意的吧。').join('可昕：奶茶。……你是故意的吧。').split('「冬瓜檸檬？這個甜死了。」').join('「檸檬紅茶？這個甜死了。」').split('可昕：青茶，無糖。她只喝無糖的。').join('可昕：紅茶，無糖。她只喝無糖的。');   /* 38b3c9dd＝86016b84＋第 4 節補充（缺字、記憶名稱）*/
 /* ---- 0 ---- */
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到；index.html：loans3d.js → data/food_fav_lines.js → foodfav3d.js → GAME.boot()',ok&&!!X()&&!!FL()&&/loans3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/food_fav_lines\.js\?v=[^"]+"><\/script>\n<script src="src\/foodfav3d\.js\?v=[^"]+"><\/script>\n(?:<script src="[^"]+"><\/script>\n)*<script>GAME\.boot\(\);/.test(html),err);
@@ -161,26 +164,27 @@ await sec(6,async()=>{ const KX='kexin', d=td('Y2S1',17,4);
   const tea=async(picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); return WZS.order364(GM,'tea'); };
   const date=async(term)=>{ H.said=[]; H.opts=[]; H.picks=[]; return TERMEND.kexinDinner(GM,{term:term||'Y2S1',who:KX,kind:'kexin'}); };
   setup(16.2); await tea(['紅茶']); check('6. 出發（17:20）前一小時以前（16:12）：巷口茶飲沒有「帶一杯給可昕」',!H.opts.some(o=>o.includes('帶一杯給可昕')),J(H.opts));
-  setup(16.5); let m0=H.G.money; await tea(['紅茶','帶一杯給可昕','青茶','半糖']);
-  check('6. 出發前一小時內（16:30）：點完自己的「帶一杯給可昕」→ 紅茶／青茶／珍珠奶茶／冬瓜檸檬 →「無糖」「半糖」；錢照扣',J(H.opts.slice(1,4))===J([['帶一杯給可昕','（就這樣）'],['紅茶　30 元','青茶　30 元','珍珠奶茶　55 元','冬瓜檸檬　45 元'],['無糖','半糖']])&&H.G.money===m0-60,J(H.opts));
+  setup(16.5); let m0=H.G.money; await tea(['紅茶','帶一杯給可昕','紅茶','半糖']);
+  check('6. 出發前一小時內（16:30）：點完自己的「帶一杯給可昕」→ 帝大紅茶的六樣（AA_658 第 4 節）→「無糖」「半糖」；錢照扣',J(H.opts.slice(1,4))===J([['帶一杯給可昕','（就這樣）'],['紅茶（中）　30 元','紅茶（大）　35 元','奶茶（中）　45 元','奶茶（大）　55 元','檸檬紅茶（中）　45 元','檸檬紅茶（大）　55 元'],['無糖','半糖']])&&H.G.money===m0-60,J(H.opts));
   check('6. 當場她不在：沒有反應（約會開頭才演）',!H.said.some(x=>x.who===SOCIAL.displayName(KX)));
   H.G.hour=16.6; await tea(['紅茶']); check('6. 同一趟已經帶了一杯：不再問',!H.opts.some(o=>o.includes('帶一杯給可昕')));
   const r0=rel(KX); await date();
   const PL=TERMEND_LINES.KX_PLACE.nccu, first=TERMEND_LINES.KX.Y2S1.table[0];
-  check('6. 第一次帶有糖的青茶：約會開頭（「'+PL.open+'」之後、她的第一句之前）「……有糖。」「我只喝無糖的。你下次記得。」→ KNOW_FAV_KX、筆記本「可昕：青茶，無糖。她只喝無糖的。」；不加分',seq([PL.open].concat(T(L(KX).know),[first]))&&SOCIAL.has(KX,'KNOW_FAV_KX')&&noteOf(KX)==='可昕：青茶，無糖。她只喝無糖的。'&&J(rel(KX))===J(r0),J({s:said(),notes}));
+  check('6. 第一次帶有糖的紅茶（原本的青茶）：約會開頭（「'+PL.open+'」之後、她的第一句之前）「……有糖。」「我只喝無糖的。你下次記得。」→ KNOW_FAV_KX、筆記本「可昕：紅茶，無糖。她只喝無糖的。」；不加分',seq([PL.open].concat(T(L(KX).know),[first]))&&SOCIAL.has(KX,'KNOW_FAV_KX')&&noteOf(KX)==='可昕：紅茶，無糖。她只喝無糖的。'&&J(rel(KX))===J(r0),J({s:said(),notes}));
   await date(); check('6. 那一杯演過了：下一次約會開頭沒有',!has('……有糖。'));
-  setup(16.5); await tea(['紅茶','帶一杯給可昕','珍珠奶茶','無糖']); await date();
-  check('6. 珍奶：「珍奶。……你是故意的吧。」「（她還是插了吸管。）」（不扣分）',seq(T(L(KX).wrong['珍珠奶茶']))&&!X().right(H.G,KX),J(said()));
-  setup(16.5); SOCIAL.remember(KX,'KNOW_FAV_KX',''); await tea(['紅茶','帶一杯給可昕','冬瓜檸檬','半糖']); await date();
-  check('6. 冬瓜檸檬：「冬瓜檸檬？這個甜死了。」「（她還是喝了半杯。）」（AA_410 第 4 節；開頭旁白之後、她的第一句之前）',H.said[0].t===PL.open&&seq(T(L(KX).wrong['冬瓜檸檬']))&&H.said[3].t===first,J(said()));
-  setup(16.5); SOCIAL.remember(KX,'KNOW_FAV_KX',''); await tea(['紅茶','帶一杯給可昕','紅茶','無糖']); await date();
-  check('6. 紅茶：「紅茶。……也可以。」',seq(T(L(KX).wrong['紅茶'])),J(said()));
-  setup(16.5); SOCIAL.remember(KX,'KNOW_FAV_KX',''); await tea(['紅茶','帶一杯給可昕','青茶','半糖']); await date();
+  setup(16.5); await tea(['紅茶','帶一杯給可昕','奶茶（大）','無糖']); await date();
+  check('6. 奶茶（原本的珍奶；大杯也一樣）：「奶茶。……你是故意的吧。」「（她還是插了吸管。）」（不扣分）',seq(T(L(KX).wrong['奶茶']))&&!X().right(H.G,KX),J(said()));
+  setup(16.5); SOCIAL.remember(KX,'KNOW_FAV_KX',''); await tea(['紅茶','帶一杯給可昕','檸檬紅茶','半糖']); await date();
+  check('6. 檸檬紅茶（原本的冬瓜檸檬）：「檸檬紅茶？這個甜死了。」「（她還是喝了半杯。）」（AA_410 第 4 節；開頭旁白之後、她的第一句之前）',H.said[0].t===PL.open&&seq(T(L(KX).wrong['檸檬紅茶']))&&H.said[3].t===first,J(said()));
+  setup(16.5); SOCIAL.remember(KX,'KNOW_FAV_KX',''); await tea(['紅茶','帶一杯給可昕','紅茶（大）','無糖']); await date();
+  check('6. 紅茶大杯＋無糖＝選對（AA_658 起紅茶是她要的那一樣；「紅茶。……也可以。」用不到）',seq(T(L(KX).right)),J(said()));
+  check('6. 舊存檔已經買好的那一杯（舊品名）：青茶＝紅茶、珍珠奶茶＝奶茶、冬瓜檸檬＝檸檬紅茶',X().outcome(KX,'青茶',0)==='right'&&X().outcome(KX,'青茶',1)==='itemOnly'&&X().outcome(KX,'珍珠奶茶',0)==='wrong'&&X().base(KX,'珍珠奶茶')==='奶茶'&&X().base(KX,'冬瓜檸檬')==='檸檬紅茶');
+  setup(16.5); SOCIAL.remember(KX,'KNOW_FAV_KX',''); await tea(['紅茶','帶一杯給可昕','紅茶','半糖']); await date();
   check('6. 已經知道以後又帶半糖：「半糖？……你上次明明知道。」（不扣分、不加分）',seq(T(L(KX).itemOnly))&&!X().right(H.G,KX),J(said()));
-  setup(16.5); const r1=rel(KX); await tea(['紅茶','帶一杯給可昕','青茶','無糖']);
+  setup(16.5); const r1=rel(KX); await tea(['紅茶','帶一杯給可昕','紅茶','無糖']);
   const kept=X().rec(H.G).kx; await date('Y2S2'); check('6. 別的學期的約會：那一杯不演',!has('無糖。……你記得。')); X().rec(H.G).kx=kept;
   await date(); const r2=rel(KX);
-  check('6. 選對（青茶＋無糖）：「無糖。……你記得。」「我以為你只記得考試的東西。」；熟悉 +2、她的戀愛 +1、REMEMBERED_HER；筆記本',seq(T(L(KX).right))&&r2.fam===r1.fam+2&&r2.npcRom===r1.npcRom+1&&SOCIAL.has(KX,'REMEMBERED_HER')&&noteOf(KX)==='可昕：青茶，無糖。她只喝無糖的。',J({s:said(),r1,r2}));
+  check('6. 選對（紅茶＋無糖）：「無糖。……你記得。」「我以為你只記得考試的東西。」；熟悉 +2、她的戀愛 +1、REMEMBERED_HER；筆記本',seq(T(L(KX).right))&&r2.fam===r1.fam+2&&r2.npcRom===r1.npcRom+1&&SOCIAL.has(KX,'REMEMBERED_HER')&&noteOf(KX)==='可昕：紅茶，無糖。她只喝無糖的。',J({s:said(),r1,r2}));
   setup(16.5); SOCIAL.remember(KX,'REMEMBERED_HER',''); await tea(['紅茶']); check('6. 選對以後不再問',!H.opts.some(o=>o.includes('帶一杯給可昕')));
   fresh(d,16.5,'wenzhou'); plan(); await tea(['紅茶']); check('6. 沒有在交往：沒有',!H.opts.some(o=>o.includes('帶一杯給可昕')));
   fresh(d,16.5,'wenzhou',{dating_kexin:true}); await tea(['紅茶']); check('6. 沒有排學期末約會：沒有',!H.opts.some(o=>o.includes('帶一杯給可昕'))); });

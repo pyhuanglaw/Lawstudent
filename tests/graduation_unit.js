@@ -28,7 +28,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     check('2. 時間：12:00 開始（字卡 6/2（六）12:00）、13:30 結束',H.cards[0][0]==='6/2（六）12:00'&&Math.abs(G.hour-13.5)<1e-6,JSON.stringify(H.cards)+' '+G.hour);
     check('2. 旗標：GRADUATED、SIS_THERMOS、GRAD_PHOTO（同班 FAMILIAR 以上）、以安的記憶 IMPORTANT_CONVERSATION',G.flags.GRADUATED===PG.gradDay()&&G.flags.SIS_THERMOS===true&&G.flags.GRAD_PHOTO.includes('zhe')&&!G.flags.GRAD_PHOTO.includes('classmate_mingxuan')&&SOCIAL.has('heroine_01','IMPORTANT_CONVERSATION'),JSON.stringify(G.flags.GRAD_PHOTO));
     check('2. 阿凱（所有玩家）：「畢業快樂。宵夜？」「……現在才中午。」「那晚上。」',H.has('畢業快樂。宵夜？')&&H.has('……現在才中午。')&&H.has('那晚上。'));
-    check('2. E2：單身、沒人邀＝以安約 Café「晚上五點半，兩點半 Café。我訂了窗邊。」、排出遊 17:30',H.has('晚上五點半，兩點半 Café。我訂了窗邊。')&&OUT.get(G,'pg_grad_cafe')&&OUT.get(G,'pg_grad_cafe').h===17.5);
+    check('2. E2：單身、沒人邀＝以安約 Café「晚上五點半，2:30 AM。我訂了窗邊。」、排出遊 17:30',H.has('晚上五點半，2:30 AM。我訂了窗邊。')&&OUT.get(G,'pg_grad_cafe')&&OUT.get(G,'pg_grad_cafe').h===17.5);
     check('2. 13:30 家人的午餐（1A-12）還沒演：先不跳、床照舊',PG.on(G)&&STORY.gradLunchDue(G)&&PG.y4Due(G)&&!PG.bedOptions(G));
     await STORY.gradLunch(GM);
     check('2. 午餐演完：畢業後篇、床「睡覺：到下一件事」',PG.on(G)&&!PG.y4Due(G)&&STORY.bedOptions(G)[0].hint==='到下一件事');
@@ -85,7 +85,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
   // ---- E3：和以安交往 ----
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_01'); H.date('heroine_01'); H.FRIEND('heroine_03'); H.picks=[0,'好。'];
     await H.run('grad');
-    check('10. E3：以安「今天不讀書。……晚上的位子我訂好了。」；Café 那句由別人說（語彤 FRIEND）',H.has('今天不讀書。……晚上的位子我訂好了。')&&!H.has('晚上五點半，兩點半 Café。我訂了窗邊。')&&H.has('晚上要不要一起吃？店今天沒開，我們去兩點半。')&&OUT.get(G,'te_gf_Y4S2_heroine_01'),JSON.stringify(H.lines().slice(-4))); }
+    check('10. E3：以安「今天不讀書。……晚上的位子我訂好了。」；Café 那句由別人說（語彤 FRIEND）',H.has('今天不讀書。……晚上的位子我訂好了。')&&!H.has('晚上五點半，2:30 AM。我訂了窗邊。')&&H.has('晚上要不要一起吃？今天不排班，我們去兩點半。')   /* AA_643 第 8 節 */&&OUT.get(G,'te_gf_Y4S2_heroine_01'),JSON.stringify(H.lines().slice(-4))); }
   // ---- 第二次（之前說過「讓我想想」）：以安 18:00 ----
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_01'); heart('heroine_01'); TERMEND.rec(G).think.heroine_01='Y4S1'; H.picks=['好。'];
     await H.run('grad'); check('11. 第二次：「典禮完，六點，同一家。」「上次那一頁，最下面那一行還沒勾。」→ 18:00',H.has('典禮完，六點，同一家。')&&H.has('上次那一頁，最下面那一行還沒勾。')&&OUT.get(G,'te_Y4S2').h===18); }

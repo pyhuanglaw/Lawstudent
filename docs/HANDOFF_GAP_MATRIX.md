@@ -26,32 +26,42 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
-### 帳號 A → 下一個帳號（看使用者對哪一邊說話）｜LAWWW（`session_01Eds6msqpsuzNEw98sdw8JX`）｜2026-11-03 02:0x UTC 交班（使用者「現在交班」；這一班＝11-03 00:4x 重新接班以後，HANDOFF-A-1103）
+### 帳號 B 短暫接班又交班｜LAWWW-B（`session_01DvRVNNnivf7da7qqWuGmw6`）｜2026-11-04 12:1x～12:2x UTC（使用者 12:0x「現在接班……接班之後跟其他AI試著傳訊息」；12:2x「我開錯帳號了 你們使用量快沒了 現在交班」；HANDOFF-B-1104）
 
-**A｜本班成果（都在開發分支 `claude/confident-ritchie-8rwh7t`，最後 `0f66c4215`＋本次交班 commit；沒有發布）**
-- **上一班中斷的全部併進來了**：int/m591（學姊第四批、宿舍、AA_603、國考題池、ADV 打字中略過、尾聲、B1、爬梯手勢）＋sisdate（AA_598）＋libq2／libq3（小聲講、走出館外旁白）＋anb（以安改稿 AA_587§14／589／592／594／601、CG-119）＋ex600（AA_600／602、AA_591 九件）。合併衝突的處理寫在各 merge commit（七夕短冊照 AA_600 3-2、借六法留 AA_595 便利貼、date_lines.js 用工具重產）。
-- **測試**：7224af47a 全部 Node 在 GitHub 有 7 支失敗——全是期望值過時（改稿後的新句子），`cb7957fb2` 照現行定稿改好；save_compat_v95 照 BB X_G6b 判定改成先按「收起來」（`df70106e8`）。
-- **GitHub Actions 免費跑全部 Node**（使用者 01:0x 選「現在就丟給 GitHub」；GHA-TEST-OFFLOAD-1103）：分支 `claude/gha-node-sweep`、`.github/workflows/node-sweep.yml`；改 `gha/target.txt` 的 SHA＝跑一次；失敗清單印在執行紀錄最後（用 get_job_logs 讀，artifact 網址被雲端代理擋）。實測：GitHub 12 分鐘、Claude 雲端機器約 13 分鐘、使用者 PC 49 分鐘（BB_250：Node 以後給 GHA）。細節 `docs/handoff/GHA_TEST_OFFLOAD_1103.md` 第六節。
-- **規則**：D129／HV-23 交班以後就不用喚醒（使用者 11-03）；AA、CC 的保險喚醒 00:54 已關。
-- **BB 驗收**：BUG-ADV-SKIP（Y_A1）、BAR-POOL（Y_P1）都 PASS→已驗收；BB_247 五項 ART_APPROVED→已驗收。
-- **新任務**：GHA-TEST-OFFLOAD-1103（進行中）、PERF-WZ-DAY-1103（LAWWW2，P1）、BAKE-PC-1102-S2、ART-OLDROAD-SHELF-1103（LAWWW2）、RULE-NO-WAKE-AFTER-HANDOFF-1103、GHA-NODE-TRIAL-1103。
+**下一班先讀這一段，再讀下面帳號 A 09:2x 的交班（那一段的 B1～B7 全部原封不動，這一班沒有做）。**
+- **A｜成果**：LAWWW-B 快轉合併帳號 A 的 `e52a77030`，接班登記 `9f4d237e2`；**RULE_SOURCE 現在是 `claude/modest-rubin-2lyp7g`**（下一個 LAWWW 用 `duty find` 找；帳號 A 回來要把這條快轉／合併回 `confident-ritchie`）。CC-B 推在舊 RULE_SOURCE 的 D134／HV-25（`28f5f5287`，CC 可以直接聯絡任何職位；使用者選擇題「交給 LAWWW 寫」）已 cherry-pick 成 `ad3ccf750`——`confident-ritchie` 上也有原本那一個，合併時內容一樣。tasks.json 補 HANDOFF-B-1104、CC-CONTACT-1104（aliases D134）。
+- **通訊測試（使用者要的）**：12:18 LAWWW-B → AA-B、BB-B、LAWWW2-B、CC-B 四則都 DELIVERED；**四個都回了**（AA-B、CC-B ACK；LAWWW2-B、BB-B ACK＋交班）。帳號 B 內部 send_message 正常（AI_SESSION_HANDOFF 第 9 節表格）。
+- **B｜未完成**：帳號 A 09:2x 那一段的 B1～B7 照舊（GG_night 擋 v9.10.20、PC 結果沒判讀、incr 918 項、GHA 全套沒看……）；第五批 10 張背景提示詞（AA299-IMAGES-1018）圖還沒到。AA-B 交班：一盞前院五點寫回 AA_659 §3（cool-heisenberg）、ASK-5NAMES 帳號 A 已做（AA_639 afed9e592），剩 voice_canon 兩份、ladder_aa_y3s2.json 沒換名。
+- **C｜正在做**：沒有。**D｜規則**：D134（上面）。**E｜各職位**：AA-B 12:2x 交班（duty sync 收了）、CC-B 12:19 交班（手動標 handed-off，duty handoff 當時被拒，sync 收了）、LAWWW2-B、BB-B **沒有接班**（沒 register、沒寫入，duty.json 照舊帳號 A 的交班）。**F｜測試**：沒跑新測試（沒有改程式）；check OK、roles OK、asks OK（526 筆）。LAWWW-B 每小時保險喚醒 `trig_017NNfTyMTM1X5Bv9sFBGmBv` 已停用（D129）。
+
+### 帳號 A → 下一個帳號（看使用者對哪一邊說話）｜LAWWW（`session_01Eds6msqpsuzNEw98sdw8JX`）｜2026-11-04 09:2x UTC 交班（使用者 09:0x「等其他AI交班後你檢查完畢可以交班 不用再每小時啟動」；HANDOFF-A-1104，USER_WANTS X219）
+
+**A｜本班成果（開發分支 `claude/confident-ritchie-8rwh7t`；沒有發布，線上照舊 v9.10.19.1 `b0c3032af`）**
+- **溫州街第一批六間室內全部進遊戲**：2:30 AM v1f（AA 30c2d5998＋LAWWW2 烘焙 aede8b99a，夜景換圖；BB ART_APPROVED）、小路 v4（BB ART_APPROVED）、SUNNY SIDE v1e（BB ART_APPROVED；夜景換圖；桌 4 北側座位 ap 修走近卡住）、一盞 v1e＋前院第二版（LAWWW2 26bc41c6b；五個前院互動點拉開＋第一次進冠木門旁白；ART 待判）、阿德影印 v1c（客人可以坐 4 張）、林家（等 v1c）。
+- **SEAT-ACTIVITY-1104（X217）**：坐著的人筆電、寫筆記、看書、滑手機、平板、休息，桌上小物；吃飯的店碗盤筷（LAWWW2 desk_props 60fd15d38）。
+- **溫州街外觀**：SUNNY 轉角窗、lane_east 減面（419,713 tris PASS）、小路深色木立面（188eb0624）。
+- **公館**：打烊窗卡乘數 0.03＋光暈熄燈、停車合併、量法第二版（騎士／npc_far 移出）；**GG_night 仍 FAIL**（見 B1）。
+- **AA_657 補二**「三號桌的阿伯」八句、AA_655 §7、AA_659、2:30 AM cafe 測試修正（?nobldg、卡座座高／走近）。
+- 交班檢查：`check` 23→0（xai、evidence、first.term、交付整合狀態、GAP_MATRIX 縮寫；check_handoff MD_ID 不從 GHA-…／STUDY-EXAM-… 中間切 ID）。
 
 **B｜全部未完成工作**（以 tasks.json 為準）
-1. **下一版**：最後驗收版本＝**`0f66c4215`**（BB 已收到）。擋發布兩項都 PASS；BB 在 PC 跑 Y_ 回歸、X_G5b、X_G6b、新三支探測。**GO 等這些＋GHA 確認 run https://github.com/pyhuanglaw/Lawstudent/actions/runs/41563231494 （0f66c4215，交班時還在跑）**。下一班 LAWWW：先看這個 run（失敗清單在紀錄最後；success＝全過）→ 有失敗就修 → BB GO 後跑 TESTING.md 第五節發布前清單、發布。
-2. **GHA-TEST-OFFLOAD-1103**：照 GHA_TEST_OFFLOAD_1103.md 交白話評估報告（使用者要的六問）。
-3. **LAWWW2 下一班**：PERF-WZ-DAY-1103、BAKE-PC-1102-S2、ART-OLDROAD-SHELF-1103、DORM-LADDER-HEAD-GRIP-1102、LAW-RELAYOUT-1102（d73588749 WIP）。
-4. **AA_593 學姊手機**（待開工）、D118 STUDY-EXAM-SYS-1102。
-5. 其餘照 D99 → D81，`check_handoff.py queue --owner LAWWW`。
+1. **v9.10.20 擋發布**：GG_night——乘數 0.03 生效但打烊店亮度比沒變（r8：0.36～0.64），把 NOSHADOW_xs_fronts_lit 設黑畫面不變＝畫面上的窗卡是另一份網格／材質；CC 已排 GG_night_r8b（列出所有 xs_fronts／wz_xs 材質網格的名字、uuid、parent），結果在 cc-local，下一班 LAWWW＋LAWWW2 看。公館 draw call 1.43 待 GG_glb_measure2（0f8b320ff）；lane_east 已 PASS。
+2. **PC 佇列結果沒人判讀**（BB 交班）：WZ4 RERUN（060a1a093：一盞前院、和室、冠木門旁白）、SUNNY reach（46d459625）、一盞前院互動點重跑（0310aa37a）、GG_glb_measure2、CAFE230v4。下一任 BB 判 PASS／FAIL／GO、ART（一盞前院第二版、小路木立面、SUNNY 新版）。
+3. **AA 要同步**（AA 已交班，下一任 AA）：一盞前院五點新座標（0310aa37a：看院子 (0.4,7.7)、石燈籠 (−0.85,8.9)、樟樹 (2.95,8.75)、貓碗 (3.95,7.9)／碗 (4.05,8.35)、木牌 (−2.0,8.4)）寫回 AA_659 §3 與 wz 配置；AA 交班「等你接的」五件都已接（只剩 2:30 AM 光照已接）。
+4. **LAWWW2**：阿德轉角外觀、2:30 AM 外觀（佇列）；溫州街其他室內光照貼圖（#201）。
+5. LAWWW 待辦：#198 ?nobldg 其他 bldg.* 登錄、#202 seatApproach 退回點不檢查、STUDY-EXAM-SYS-1102（D118）、AA_608／606。
+6. **增量核對（incr）異常 918 項未處理**：AA 179、BB 179、CC 359、LAWWW2 192 個 commit 沒有分類（多是 11-02 以後各職位自己分支的 commit；outbox LAWWW2 第 259～266 筆 ack／state 不是列舉值、CGI-TESTS-1102 不在總表）；水位線沒有前進。**交接不能宣稱完整**，下一班先照 D94 分類（不重掃全部歷史）。
+7. GHA 全套：target `e9023bae7` 的結果還沒看；之後的 commit（到本次交班）沒丟 GHA。
 
-**C｜正在做的**：沒有。本機分支全部已併進開發分支（int/m591、ex600、anb、libq3、sisdate、libq2 都是 0 個未合併 commit）；沒有沒 commit 的檔案。GHA run 41563231494 在 GitHub 上自己跑，不需要本機。
+**C｜正在做的**：沒有。子代理全部已合併、worktree 已清；沒有只在本機的東西。
 
-**D｜最新決策與規則**：D129／HV-23；使用者要求 UA-LAWWW-1103-01～09。
+**D｜最新決策與規則**：使用者 UA-LAWWW-1104-71～75（D132 BB 代驗 MODEL_READY、D133 美術符合參考圖不複製、X217 坐著的人、X218 93% 先推 GitHub、X219 交班）；LAWWW 自己決定：影印店客人可以坐、SUNNY／2:30 AM 夜景換圖、2:30 AM manifest 指烘焙版（CAFE230_BAKED）。
 
-**收尾（02:09）**：LAWWW 等其他職位都交完才最後收尾（使用者 02:0x）——BB（story-planning 3b6765ba3）、CC（cc-testing 90a3cd480）、AA（story-planning f6a59f5f6）都 duty handoff 了（BB、CC 一開始漏跑，LAWWW 請它們補）；duty sync 後五個職位都不是值班中；roles OK（CC 九個測試案例編號進 reconcileIgnore、BUG-Y4S2-RESCUE-OVERREACH-1102 補進總表）；帳號 A 沒有開著的保險喚醒。新規則 D130／HV-24：LAWWW 可以直接聯絡 CC。
+**E｜跨 AI 協作**：AA（story-planning 81f740cb7）、BB（222cc98d0）、CC（cc-testing b63bc232c）、LAWWW2（second-ai-env-art 5f85444cd）都已交班、喚醒已關（CC 是刪除不是停用；LAWWW2 的 duty handoff 被工具拒絕——RULE_SOURCE 的 duty.json 裡 LAWWW2 是 off，11-03 08:2x 的值班登記沒 sync；它手動改 duty_LAWWW2.json，LAWWW duty sync 收進來，記成異常）。LAWWW2 最後兩件 26bc41c6b（一盞前院第二版）、01b2b4786（量法第二版）LAWWW 都已接（5dc06d913、0f8b320ff）。
 
-**E｜跨 AI 協作**：BB、CC 值班中（使用者 01:0x 叫回），0f66c4215 與 7 支失敗說明已送 BB（DELIVERED）。LAWWW2、AA 休班（D75）。
+**收尾（09:2x）**：四職位交班後 LAWWW：duty sync（四職位）、職位快照路徑修成檔名、check OK、roles OK、asks OK、duty verify 只剩換班中的 5 項；incr 918 項未分類（B6）；之後 snapshot＋duty handoff、停用 LAWWW 每小時保險喚醒 trig_01WqEgbbq2VjstnVcJePRKXa。
 
-**F｜測試與問題**：0f66c4215 全部 Node 在 GHA 跑（交班時進行中）；本機只跑了改過的 7 支＋相關 46 支，ALL PASS。瀏覽器、iPhone 實機沒驗（BB／CC 在 PC 跑；Playwright≠iPhone）。check_handoff check 剩 6 項舊異常（GAP_MATRIX 提到 ART-NO-USER、BUG-CLIMB-ZOMBIE、SYS-1102 的縮寫；CLUBFAIR、LAMPSHADE、LINZE 三筆交付狀態）沒處理。
+**F｜測試與問題**：本機只跑改到的 Node 單元測試（每批相關 3～41 支 ALL PASS）；handoff_cc_unit 1 項 FAIL 是舊的（watermarks CC 已前進、測試寫死 b4893fd5，改前就 FAIL）。瀏覽器全在使用者電腦（D131），Playwright≠iPhone。
 
 ## 2. 試玩 Bug 與技術問題（BUG）
 
@@ -328,6 +338,34 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 
 ## 11. 交班快照歷史
 
+### 帳號 A → 下一個帳號（看使用者對哪一邊說話）｜LAWWW（`session_01Eds6msqpsuzNEw98sdw8JX`）｜2026-11-03 02:0x UTC 交班（使用者「現在交班」；這一班＝11-03 00:4x 重新接班以後，HANDOFF-A-1103）
+
+**A｜本班成果（都在開發分支 `claude/confident-ritchie-8rwh7t`，最後 `0f66c4215`＋本次交班 commit；沒有發布）**
+- **上一班中斷的全部併進來了**：int/m591（學姊第四批、宿舍、AA_603、國考題池、ADV 打字中略過、尾聲、B1、爬梯手勢）＋sisdate（AA_598）＋libq2／libq3（小聲講、走出館外旁白）＋anb（以安改稿 AA_587§14／589／592／594／601、CG-119）＋ex600（AA_600／602、AA_591 九件）。合併衝突的處理寫在各 merge commit（七夕短冊照 AA_600 3-2、借六法留 AA_595 便利貼、date_lines.js 用工具重產）。
+- **測試**：7224af47a 全部 Node 在 GitHub 有 7 支失敗——全是期望值過時（改稿後的新句子），`cb7957fb2` 照現行定稿改好；save_compat_v95 照 BB X_G6b 判定改成先按「收起來」（`df70106e8`）。
+- **GitHub Actions 免費跑全部 Node**（使用者 01:0x 選「現在就丟給 GitHub」；GHA-TEST-OFFLOAD-1103）：分支 `claude/gha-node-sweep`、`.github/workflows/node-sweep.yml`；改 `gha/target.txt` 的 SHA＝跑一次；失敗清單印在執行紀錄最後（用 get_job_logs 讀，artifact 網址被雲端代理擋）。實測：GitHub 12 分鐘、Claude 雲端機器約 13 分鐘、使用者 PC 49 分鐘（BB_250：Node 以後給 GHA）。細節 `docs/handoff/GHA_TEST_OFFLOAD_1103.md` 第六節。
+- **規則**：D129／HV-23 交班以後就不用喚醒（使用者 11-03）；AA、CC 的保險喚醒 00:54 已關。
+- **BB 驗收**：BUG-ADV-SKIP-1018（Y_A1）、BAR-POOL（Y_P1）都 PASS→已驗收；BB_247 五項 ART_APPROVED→已驗收。
+- **新任務**：GHA-TEST-OFFLOAD-1103（進行中）、PERF-WZ-DAY-1103（LAWWW2，P1）、BAKE-PC-1102-S2、ART-OLDROAD-SHELF-1103（LAWWW2）、RULE-NO-WAKE-AFTER-HANDOFF-1103、GHA-NODE-TRIAL-1103。
+
+**B｜全部未完成工作**（以 tasks.json 為準）
+1. **下一版**：最後驗收版本＝**`0f66c4215`**（BB 已收到）。擋發布兩項都 PASS；BB 在 PC 跑 Y_ 回歸、X_G5b、X_G6b、新三支探測。**GO 等這些＋GHA 確認 run https://github.com/pyhuanglaw/Lawstudent/actions/runs/41563231494 （0f66c4215，交班時還在跑）**。下一班 LAWWW：先看這個 run（失敗清單在紀錄最後；success＝全過）→ 有失敗就修 → BB GO 後跑 TESTING.md 第五節發布前清單、發布。
+2. **GHA-TEST-OFFLOAD-1103**：照 GHA_TEST_OFFLOAD_1103.md 交白話評估報告（使用者要的六問）。
+3. **LAWWW2 下一班**：PERF-WZ-DAY-1103、BAKE-PC-1102-S2、ART-OLDROAD-SHELF-1103、DORM-LADDER-HEAD-GRIP-1102、LAW-RELAYOUT-1102（d73588749 WIP）。
+4. **AA_593 學姊手機**（待開工）、D118 STUDY-EXAM-SYS-1102。
+5. 其餘照 D99 → D81，`check_handoff.py queue --owner LAWWW`。
+
+**C｜正在做的**：沒有。本機分支全部已併進開發分支（int/m591、ex600、anb、libq3、sisdate、libq2 都是 0 個未合併 commit）；沒有沒 commit 的檔案。GHA run 41563231494 在 GitHub 上自己跑，不需要本機。
+
+**D｜最新決策與規則**：D129／HV-23；使用者要求 UA-LAWWW-1103-01～09。
+
+**收尾（02:09）**：LAWWW 等其他職位都交完才最後收尾（使用者 02:0x）——BB（story-planning 3b6765ba3）、CC（cc-testing 90a3cd480）、AA（story-planning f6a59f5f6）都 duty handoff 了（BB、CC 一開始漏跑，LAWWW 請它們補）；duty sync 後五個職位都不是值班中；roles OK（CC 九個測試案例編號進 reconcileIgnore、BUG-Y4S2-RESCUE-OVERREACH-1102 補進總表）；帳號 A 沒有開著的保險喚醒。新規則 D130／HV-24：LAWWW 可以直接聯絡 CC。
+
+**E｜跨 AI 協作**：BB、CC 值班中（使用者 01:0x 叫回），0f66c4215 與 7 支失敗說明已送 BB（DELIVERED）。LAWWW2、AA 休班（D75）。
+
+**F｜測試與問題**：0f66c4215 全部 Node 在 GHA 跑（交班時進行中）；本機只跑了改過的 7 支＋相關 46 支，ALL PASS。瀏覽器、iPhone 實機沒驗（BB／CC 在 PC 跑；Playwright≠iPhone）。check_handoff check 剩 6 項舊異常（GAP_MATRIX 提到 ART-NO-USER-1102、BUG-CLIMB-ZOMBIE-1102、STUDY-EXAM-SYS-1102 的縮寫；CLUBFAIR、LAMPSHADE、LINZE 三筆交付狀態）沒處理。
+
+
 ### 帳號 A → 下一個帳號（看使用者對哪一邊說話）｜LAWWW（`session_01Eds6msqpsuzNEw98sdw8JX`）｜2026-11-02 23:0x UTC 交班（使用者「現在交班」，HANDOFF-A-1102；LAWWW2 22:56、BB 22:59 已先交班）
 
 > **11-03 更新（帳號 A LAWWW 重新接班後）**：int/m591＋sisdate＋libq2 已併進開發分支 **`c89a5f9be`**（全部 Node 902 支 ALL PASS）——**接班的 BB／CC 請用這個 SHA 驗 BAR-POOL-PREFIX、ADV-SKIP 打字中略過**（BB 11-02 22:59 說擋發布的兩項）。還沒進的：libq3、anb、ex600（見 B3）。
@@ -336,7 +374,7 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 - **發布**：v9.10.16 在線上（見 docs/RELEASES.md）。之後的都在開發分支 `claude/confident-ritchie-8rwh7t`（遠端 `5ec3a0836`＋本次交班 commit）和整合線，**沒有發布**。
 - **開發分支已合併**：int/m590（`ec2814492`→ 開發分支 `62d98bfa5`）：AA_590／AA_595（小聲講、空保溫瓶拿掉、家）、AA_599 不接送、AA_603 重考生、CG 批次＋CG-27、ADV 視窗 GAME 修正、NTU_ZONES gym、LAWWW2 library_hall_v2、LIB-FRONT v3.1／v3.2、宿舍閣樓比例。
 - **規則**：D128（美術驗收全部不經使用者，CLAUDE.md 第 8 點、PROJECT_DECISIONS）；D123 現況（Python runner、run_forever.ps1、cc-testing 自動換版）；AI_SESSION_HANDOFF 第 4 節第 5 步（BB／CC 先讀 BB_00、CC_29）。
-- **總表**：BB_245 95 項改「取消／被取代」、BB_247 31 項改「已驗收」；新增 AA591／593／587-B3／589／592／594／598／599／600／602、CG-BATCH、CG27、ART-NO-USER、BUG-CLIMB-ZOMBIE、DORM-LADDER-HEAD-GRIP。
+- **總表**：BB_245 95 項改「取消／被取代」、BB_247 31 項改「已驗收」；新增 AA591／593／587-B3／589／592／594／598／599／600／602、CG-BATCH、CG27、ART-NO-USER-1102、BUG-CLIMB-ZOMBIE-1102、DORM-LADDER-HEAD-GRIP。
 
 **B｜全部未完成工作**（以 tasks.json 為準；LAWWW 未結：進行中 28、待開工 24、等待其他AI／素材 19、已實作待整合 7、暫停 4、已整合待測試 629）
 1. **下一版擋在 BB 的 GO**：BB 22:59「擋發布的是 BAR-POOL-PREFIX、ADV-SKIP 打字中按略過，兩項都在 int/m591。請把下一批 SHA 交給接班的 BB 和 CC。」→ **下一班 LAWWW 第一件**：把 int/m591 併進開發分支、跑整套 Node，SHA 交接班的 BB／CC。
