@@ -1515,3 +1515,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 2460.1s] page close url=http://127.0.0.1:8806/index.html | [gpu_wrap 2460.1s] BROWSER DISCONNECTED
 - 2026-11-06T05:00:04  V21R_soc_heroine_05_talk  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=0  1581s       用了 25.7 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
       err.log (last 5): [gpu_wrap 1542.3s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 1542.3s] BROWSER DISCONNECTED
+- 2026-11-06T05:24:06  V21R_soc_fr_yu  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  1430s       用了 23.2 分鐘 / ==== 總結：1 人，FAIL 1 人：[["yu", ["invite 見面（去椰影大道晨跑）：到了約定的地方、見面那一場有開始", "invite 念書（去總圖一起念書）：約念書開演時兩個人坐在同一張桌子（使用者 11-04：約念書不能在門口結束，要一起坐下）", "invite 念書（去總圖一起念書）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）"]]] / FAILED 3
+      err.log (last 5): [gpu_wrap 1392.9s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 1392.9s] BROWSER DISCONNECTED

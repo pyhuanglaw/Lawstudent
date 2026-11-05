@@ -10,19 +10,19 @@ PASS [yu] 遊戲載入
   [前置／捷徑] [yu] 前置：還不認識（STRANGER）：{"stage": "STRANGER", "name": "Alison", "fm": false, "lad": null, "contact": false}
   [前置／捷徑] [yu] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [yu] 到達「Alison 旁邊」附近（0.89 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
+  [yu] 到達「Alison 旁邊」附近（0.83 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
   [yu] first：按「和Alison說話」
 PASS [yu] first：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
-  [yu] first 台詞（2 句）：["Alison｜「你好，我是Alison。", "｜精力旺盛。"]
+  [yu] first 台詞（2 句）：["Alison｜「你好，我是Alison", "｜精力旺盛。"]
 PASS [yu] first：對話一路點得完  0 個選單
 PASS [yu] first：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [yu] first：15 秒內回到可以自由移動
 PASS [yu] first：GAME.walkFallbacks 沒增加  0→0
 PASS [yu] first：沒有新的 JS 例外
 PASS [yu] first：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] first：搖桿推得動（≥0.3 m）  0.73 m
-PASS [yu] first：點地走得動（≥0.3 m）  點 [-29.23, 22.99]，走了 0.90 m
-PASS [yu] first：遊戲時間有在走  9.7873→9.8074
+PASS [yu] first：搖桿推得動（≥0.3 m）  1.29 m
+PASS [yu] first：點地走得動（≥0.3 m）  點 [-29.03, 23.53]，走了 1.02 m
+PASS [yu] first：遊戲時間有在走  9.7875→9.8078
 PASS [yu] first：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] first：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] first：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -33,7 +33,7 @@ PASS [yu] first：說完以後認識了（FIRST_MET、名字＝Alison）
   [前置／捷徑] [yu] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "Alison", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [yu] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [yu] 到達「Alison 旁邊」附近（0.87 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
+  [yu] 到達「Alison 旁邊」附近（0.83 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
   [yu] greet 連按兩次：按「和Alison說話」（連按兩次，間隔約 200 ms）
 PASS [yu] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8805/src/story3d.js?v=9.10.19:1018:25)"]}
 PASS [yu] greet 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
@@ -45,9 +45,9 @@ PASS [yu] greet 連按兩次：15 秒內回到可以自由移動
 PASS [yu] greet 連按兩次：GAME.walkFallbacks 沒增加  0→0
 PASS [yu] greet 連按兩次：沒有新的 JS 例外
 PASS [yu] greet 連按兩次：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] greet 連按兩次：搖桿推得動（≥0.3 m）  0.86 m
-PASS [yu] greet 連按兩次：點地走得動（≥0.3 m）  點 [-29.16, 23.08]，走了 0.99 m
-PASS [yu] greet 連按兩次：遊戲時間有在走  9.7902→9.8103
+PASS [yu] greet 連按兩次：搖桿推得動（≥0.3 m）  1.48 m
+PASS [yu] greet 連按兩次：點地走得動（≥0.3 m）  點 [-28.96, 23.73]，走了 1.02 m
+PASS [yu] greet 連按兩次：遊戲時間有在走  9.7900→9.8101
 PASS [yu] greet 連按兩次：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] greet 連按兩次：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] greet 連按兩次：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -57,20 +57,20 @@ PASS [yu] greet 連按兩次：按 #minimap 打得開、關得掉  {"open": true
   [前置／捷徑] [yu] 前置：朋友（FRIEND）、門檻台詞還沒說（relUp＝0）：{"stage": "FRIEND", "name": "Alison", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [yu] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [yu] 到達「Alison 旁邊」附近（0.90 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
+  [yu] 到達「Alison 旁邊」附近（0.88 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
   [yu] up：按「和Alison說話」
 PASS [yu] up：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [yu] up 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
-  [yu] up 台詞（2 句）：["Alison｜禮拜六要不要去吃那家早午餐？", "Alison｜禮拜六要不要去吃那家早午餐？我想去很久了，一直找不到人陪。"]
+  [yu] up 台詞（2 句）：["Alison｜禮拜六要不要去吃那家早午餐？我", "Alison｜禮拜六要不要去吃那家早午餐？我想去很久了，一直找不到人陪。"]
 PASS [yu] up：對話一路點得完  1 個選單
 PASS [yu] up：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [yu] up：15 秒內回到可以自由移動
 PASS [yu] up：GAME.walkFallbacks 沒增加  0→0
 PASS [yu] up：沒有新的 JS 例外
 PASS [yu] up：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] up：搖桿推得動（≥0.3 m）  0.61 m
-PASS [yu] up：點地走得動（≥0.3 m）  點 [-29.33, 22.98]，走了 0.71 m
-PASS [yu] up：遊戲時間有在走  9.7911→9.8112
+PASS [yu] up：搖桿推得動（≥0.3 m）  0.73 m
+PASS [yu] up：點地走得動（≥0.3 m）  點 [-29.22, 22.99]，走了 0.91 m
+PASS [yu] up：遊戲時間有在走  9.7893→9.8094
 PASS [yu] up：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] up：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] up：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -83,7 +83,7 @@ SKIP [yu] ladder：沒有閒聊階梯資料（走一般閒聊 smallTalk）
   [前置／捷徑] [yu] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "Alison", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [yu] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [yu] 到達「Alison 旁邊」附近（0.87 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
+  [yu] 到達「Alison 旁邊」附近（0.83 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
   [yu] menu 基本：按「和Alison說話」
 PASS [yu] menu 基本：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [yu] menu 基本 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
@@ -94,16 +94,16 @@ PASS [yu] menu 基本：15 秒內回到可以自由移動
 PASS [yu] menu 基本：GAME.walkFallbacks 沒增加  0→0
 PASS [yu] menu 基本：沒有新的 JS 例外
 PASS [yu] menu 基本：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] menu 基本：搖桿推得動（≥0.3 m）  0.76 m
-PASS [yu] menu 基本：點地走得動（≥0.3 m）  點 [-29.21, 23]，走了 0.96 m
-PASS [yu] menu 基本：遊戲時間有在走  9.7933→9.8135
+PASS [yu] menu 基本：搖桿推得動（≥0.3 m）  1.25 m
+PASS [yu] menu 基本：點地走得動（≥0.3 m）  點 [-29.04, 23.5]，走了 0.99 m
+PASS [yu] menu 基本：遊戲時間有在走  9.7908→9.8111
 PASS [yu] menu 基本：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] menu 基本：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] menu 基本：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
   [yu] menu：說話後的選單 ["約她去…", "交換聯絡方式", "就這樣"]
   [前置／捷徑] [yu] 讀回存檔（回到「走到她旁邊」那一刻（menu 選「約她去…」））
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [yu] 到達「Alison 旁邊」附近（0.87 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] 到達「Alison 旁邊」附近（0.83 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [yu] menu 選「約她去…」：按「和Alison說話」
 PASS [yu] menu 選「約她去…」：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [yu] menu 選「約她去…」 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「約她去…」
@@ -111,41 +111,41 @@ PASS [yu] menu 選「約她去…」：按了以後開始說話  {"interact": ""
   [yu] menu 選「約她去…」 選單 ["去 2:30 AM 念書", "去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "去 afar café 念書", "返回"] → 選「去 2:30 AM 念書」
   [yu] menu 選「約她去…」 選單 ["現在一起過去", "今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
   [yu] menu 選「約她去…」 選單 ["好，就 今天 11:00", "下次再說"] → 選「好，就 今天 11:00」
-  [yu] menu 選「約她去…」 台詞（5 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "｜2:3", "｜2:30 AM那個時間沒開。Alison問 今天 11:00 可不可以。", "｜約好 今天 11:00，2:30 AM。"]
+  [yu] menu 選「約她去…」 台詞（5 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "｜2:30", "｜2:30 AM那個時間沒開。Alison問 今天 11:00 可不可以。", "｜約好 今天 11:00，2:30 AM。"]
 PASS [yu] menu 選「約她去…」：對話一路點得完  5 個選單
 PASS [yu] menu 選「約她去…」：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [yu] menu 選「約她去…」：15 秒內回到可以自由移動
 PASS [yu] menu 選「約她去…」：GAME.walkFallbacks 沒增加  0→0
 PASS [yu] menu 選「約她去…」：沒有新的 JS 例外
 PASS [yu] menu 選「約她去…」：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] menu 選「約她去…」：搖桿推得動（≥0.3 m）  2.37 m
-PASS [yu] menu 選「約她去…」：點地走得動（≥0.3 m）  點 [-31.6, 24.17]，走了 1.05 m
-PASS [yu] menu 選「約她去…」：遊戲時間有在走  9.8392→9.8594
+PASS [yu] menu 選「約她去…」：搖桿推得動（≥0.3 m）  2.15 m
+PASS [yu] menu 選「約她去…」：點地走得動（≥0.3 m）  點 [-31.42, 24.15]，走了 1.02 m
+PASS [yu] menu 選「約她去…」：遊戲時間有在走  9.9404→9.9607
 PASS [yu] menu 選「約她去…」：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] menu 選「約她去…」：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] menu 選「約她去…」：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
   [前置／捷徑] [yu] 讀回存檔（回到「走到她旁邊」那一刻（menu 選「交換聯絡方式」））
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [yu] 到達「Alison 旁邊」附近（0.87 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] 到達「Alison 旁邊」附近（0.83 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [yu] menu 選「交換聯絡方式」：按「和Alison說話」
 PASS [yu] menu 選「交換聯絡方式」：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [yu] menu 選「交換聯絡方式」 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「交換聯絡方式」
-  [yu] menu 選「交換聯絡方式」 台詞（3 句）：["Alison｜「溫州街的貓你有看到", "Alison｜「溫州街的貓你有看到嗎？」", "Alison｜「欸你還不在我的群組裡？我拉你。三個。」"]
+  [yu] menu 選「交換聯絡方式」 台詞（2 句）：["Alison｜「溫州街的貓你有看到嗎？」", "Alison｜「欸你還不在我的群組裡？我拉你。三個。」"]
 PASS [yu] menu 選「交換聯絡方式」：對話一路點得完  1 個選單
 PASS [yu] menu 選「交換聯絡方式」：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [yu] menu 選「交換聯絡方式」：15 秒內回到可以自由移動
 PASS [yu] menu 選「交換聯絡方式」：GAME.walkFallbacks 沒增加  0→0
 PASS [yu] menu 選「交換聯絡方式」：沒有新的 JS 例外
 PASS [yu] menu 選「交換聯絡方式」：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] menu 選「交換聯絡方式」：搖桿推得動（≥0.3 m）  2.37 m
-PASS [yu] menu 選「交換聯絡方式」：點地走得動（≥0.3 m）  點 [-31.58, 24.19]，走了 0.99 m
-PASS [yu] menu 選「交換聯絡方式」：遊戲時間有在走  9.8418→9.8620
+PASS [yu] menu 選「交換聯絡方式」：搖桿推得動（≥0.3 m）  2.09 m
+PASS [yu] menu 選「交換聯絡方式」：點地走得動（≥0.3 m）  點 [-31.39, 24.09]，走了 0.99 m
+PASS [yu] menu 選「交換聯絡方式」：遊戲時間有在走  9.8387→9.8588
 PASS [yu] menu 選「交換聯絡方式」：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] menu 選「交換聯絡方式」：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] menu 選「交換聯絡方式」：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
   [前置／捷徑] [yu] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…吃飯…））
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [yu] 到達「Alison 旁邊」附近（0.87 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] 到達「Alison 旁邊」附近（0.83 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [yu] menu 約→吃飯…：按「和Alison說話」
 PASS [yu] menu 約→吃飯…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [yu] menu 約→吃飯… 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「約她去…」
@@ -159,15 +159,15 @@ PASS [yu] menu 約→吃飯…：15 秒內回到可以自由移動
 PASS [yu] menu 約→吃飯…：GAME.walkFallbacks 沒增加  0→0
 PASS [yu] menu 約→吃飯…：沒有新的 JS 例外
 PASS [yu] menu 約→吃飯…：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] menu 約→吃飯…：搖桿推得動（≥0.3 m）  2.32 m
-PASS [yu] menu 約→吃飯…：點地走得動（≥0.3 m）  點 [-31.57, 24.12]，走了 1.10 m
-PASS [yu] menu 約→吃飯…：遊戲時間有在走  9.8397→9.8599
+PASS [yu] menu 約→吃飯…：搖桿推得動（≥0.3 m）  2.15 m
+PASS [yu] menu 約→吃飯…：點地走得動（≥0.3 m）  點 [-31.42, 24.15]，走了 0.99 m
+PASS [yu] menu 約→吃飯…：遊戲時間有在走  9.8356→9.8557
 PASS [yu] menu 約→吃飯…：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] menu 約→吃飯…：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] menu 約→吃飯…：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
   [前置／捷徑] [yu] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…喝咖啡、喝茶…））
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [yu] 到達「Alison 旁邊」附近（0.87 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] 到達「Alison 旁邊」附近（0.83 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [yu] menu 約→喝咖啡、喝茶…：按「和Alison說話」
 PASS [yu] menu 約→喝咖啡、喝茶…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [yu] menu 約→喝咖啡、喝茶… 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「約她去…」
@@ -175,44 +175,44 @@ PASS [yu] menu 約→喝咖啡、喝茶…：按了以後開始說話  {"interac
   [yu] menu 約→喝咖啡、喝茶… 選單 ["去 2:30 AM 坐坐", "去一盞喝茶", "去慢讀咖啡念書", "去 afar café 坐坐", "返回"] → 選「去 2:30 AM 坐坐」
   [yu] menu 約→喝咖啡、喝茶… 選單 ["現在一起過去", "今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
   [yu] menu 約→喝咖啡、喝茶… 選單 ["好，就 今天 11:00", "下次再說"] → 選「好，就 今天 11:00」
-  [yu] menu 約→喝咖啡、喝茶… 台詞（5 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "｜2:3", "｜2:30 AM那個時間沒開。Alison問 今天 11:00 可不可以。", "｜約好 今天 11:00，2:30 AM。"]
+  [yu] menu 約→喝咖啡、喝茶… 台詞（5 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "｜2:", "｜2:30 AM那個時間沒開。Alison問 今天 11:00 可不可以。", "｜約好 今天 11:00，2:30 AM。"]
 PASS [yu] menu 約→喝咖啡、喝茶…：對話一路點得完  5 個選單
 PASS [yu] menu 約→喝咖啡、喝茶…：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [yu] menu 約→喝咖啡、喝茶…：15 秒內回到可以自由移動
 PASS [yu] menu 約→喝咖啡、喝茶…：GAME.walkFallbacks 沒增加  0→0
 PASS [yu] menu 約→喝咖啡、喝茶…：沒有新的 JS 例外
 PASS [yu] menu 約→喝咖啡、喝茶…：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] menu 約→喝咖啡、喝茶…：搖桿推得動（≥0.3 m）  2.33 m
-PASS [yu] menu 約→喝咖啡、喝茶…：點地走得動（≥0.3 m）  點 [-31.57, 24.14]，走了 0.99 m
-PASS [yu] menu 約→喝咖啡、喝茶…：遊戲時間有在走  9.8381→9.8580
+PASS [yu] menu 約→喝咖啡、喝茶…：搖桿推得動（≥0.3 m）  2.15 m
+PASS [yu] menu 約→喝咖啡、喝茶…：點地走得動（≥0.3 m）  點 [-31.42, 24.15]，走了 0.99 m
+PASS [yu] menu 約→喝咖啡、喝茶…：遊戲時間有在走  9.8356→9.8558
 PASS [yu] menu 約→喝咖啡、喝茶…：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] menu 約→喝咖啡、喝茶…：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] menu 約→喝咖啡、喝茶…：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
   [前置／捷徑] [yu] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…散步…））
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [yu] 到達「Alison 旁邊」附近（0.87 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] 到達「Alison 旁邊」附近（0.83 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [yu] menu 約→散步…：按「和Alison說話」
 PASS [yu] menu 約→散步…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [yu] menu 約→散步… 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「約她去…」
   [yu] menu 約→散步… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「散步…」
   [yu] menu 約→散步… 選單 ["去溫州街散步", "去映月湖走走", "返回"] → 選「去溫州街散步」
   [yu] menu 約→散步… 選單 ["現在一起過去", "今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
-  [yu] menu 約→散步… 台詞（4 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "｜Al", "｜Alison答應了。你們一起去溫州街散步。"]
+  [yu] menu 約→散步… 台詞（4 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "｜Ali", "｜Alison答應了。你們一起去溫州街散步。"]
 PASS [yu] menu 約→散步…：對話一路點得完  4 個選單
 PASS [yu] menu 約→散步…：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [yu] menu 約→散步…：15 秒內回到可以自由移動
 PASS [yu] menu 約→散步…：GAME.walkFallbacks 沒增加  0→0
 PASS [yu] menu 約→散步…：沒有新的 JS 例外
 PASS [yu] menu 約→散步…：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] menu 約→散步…：搖桿推得動（≥0.3 m）  2.38 m
-PASS [yu] menu 約→散步…：點地走得動（≥0.3 m）  點 [-31.59, 24.19]，走了 1.02 m
-PASS [yu] menu 約→散步…：遊戲時間有在走  9.8401→9.8604
+PASS [yu] menu 約→散步…：搖桿推得動（≥0.3 m）  2.19 m
+PASS [yu] menu 約→散步…：點地走得動（≥0.3 m）  點 [-31.45, 24.17]，走了 1.05 m
+PASS [yu] menu 約→散步…：遊戲時間有在走  9.8371→9.8574
 PASS [yu] menu 約→散步…：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] menu 約→散步…：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] menu 約→散步…：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
   [前置／捷徑] [yu] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…運動…））
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [yu] 到達「Alison 旁邊」附近（0.87 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] 到達「Alison 旁邊」附近（0.83 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [yu] menu 約→運動…：按「和Alison說話」
 PASS [yu] menu 約→運動…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [yu] menu 約→運動… 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「約她去…」
@@ -220,16 +220,16 @@ PASS [yu] menu 約→運動…：按了以後開始說話  {"interact": "", "dep
   [yu] menu 約→運動… 選單 ["去新體育館打羽球", "去椰影大道晨跑", "返回"] → 選「去新體育館打羽球」
   [yu] menu 約→運動… 選單 ["現在一起過去", "今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
   [yu] menu 約→運動… 選單 ["好，就 今天 12:00", "下次再說"] → 選「好，就 今天 12:00」
-  [yu] menu 約→運動… 台詞（4 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "｜新體育館羽球場那個時間沒開。Alison問 今天 12:00 可不可以。", "｜約好 今天 12:00，新體育館羽球場。"]
+  [yu] menu 約→運動… 台詞（5 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "｜新體育", "｜新體育館羽球場那個時間沒開。Alison問 今天 12:00 可不可以。", "｜約好 今天 12:00，新體育館羽球場。"]
 PASS [yu] menu 約→運動…：對話一路點得完  5 個選單
 PASS [yu] menu 約→運動…：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [yu] menu 約→運動…：15 秒內回到可以自由移動
 PASS [yu] menu 約→運動…：GAME.walkFallbacks 沒增加  0→0
 PASS [yu] menu 約→運動…：沒有新的 JS 例外
 PASS [yu] menu 約→運動…：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] menu 約→運動…：搖桿推得動（≥0.3 m）  2.36 m
-PASS [yu] menu 約→運動…：點地走得動（≥0.3 m）  點 [-31.59, 24.17]，走了 1.02 m
-PASS [yu] menu 約→運動…：遊戲時間有在走  9.8392→9.8588
+PASS [yu] menu 約→運動…：搖桿推得動（≥0.3 m）  2.09 m
+PASS [yu] menu 約→運動…：點地走得動（≥0.3 m）  點 [-31.41, 24.07]，走了 1.05 m
+PASS [yu] menu 約→運動…：遊戲時間有在走  9.8359→9.8561
 PASS [yu] menu 約→運動…：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] menu 約→運動…：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] menu 約→運動…：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -239,7 +239,7 @@ PASS [yu] menu 約→運動…：按 #minimap 打得開、關得掉  {"open": tr
   [前置／捷徑] [yu] 前置：朋友（FRIEND）、有聯絡方式：{"stage": "FRIEND", "name": "Alison", "fm": true, "lad": null, "contact": true}
   [前置／捷徑] [yu] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [yu] 到達「Alison 旁邊」附近（0.82 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
+  [yu] 到達「Alison 旁邊」附近（0.90 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
   [yu] invite：約「去椰影大道晨跑」（椰影大道，campus；同一區）
   [yu] invite 約現在：按「和Alison說話」
 PASS [yu] invite 約現在：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
@@ -254,69 +254,68 @@ PASS [yu] invite 約現在：15 秒內回到可以自由移動
 PASS [yu] invite 約現在：GAME.walkFallbacks 沒增加  0→0
 PASS [yu] invite 約現在：沒有新的 JS 例外
 PASS [yu] invite 約現在：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] invite 約現在：搖桿推得動（≥0.3 m）  1.50 m
-PASS [yu] invite 約現在：點地走得動（≥0.3 m）  點 [-28.94, 23.73]，走了 1.02 m
-PASS [yu] invite 約現在：遊戲時間有在走  9.7862→9.8063
+PASS [yu] invite 約現在：搖桿推得動（≥0.3 m）  0.62 m
+PASS [yu] invite 約現在：點地走得動（≥0.3 m）  點 [-29.32, 22.98]，走了 0.76 m
+PASS [yu] invite 約現在：遊戲時間有在走  9.7907→9.8109
 PASS [yu] invite 約現在：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] invite 約現在：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] invite 約現在：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
   [yu] invite：約好的 [{"id": "iv1", "state": "accepted", "place": "run_avenue", "zone": "campus", "day": 0, "h": 6.5}]
 PASS [yu] invite 見面（去椰影大道晨跑）：出發、到場、見面那一場一路點得完
-FAIL [yu] invite 見面（去椰影大道晨跑）：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 11.8366, "iv": [{"id": "iv1", "state": "accepted", "place": "run_avenue", "zone": "campus", "day": 0, "h": 6.5}]}
+FAIL [yu] invite 見面（去椰影大道晨跑）：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 11.8452, "iv": [{"id": "iv1", "state": "accepted", "place": "run_avenue", "zone": "campus", "day": 0, "h": 6.5}]}
 -- [yu] invite_study
   [前置／捷徑] [yu] 讀回存檔（回到「走到她旁邊」那一刻（invite 念書））
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [yu] 到達「Alison 旁邊」附近（0.82 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] 到達「Alison 旁邊」附近（0.90 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
   [yu] invite 約念書：按「和Alison說話」
 PASS [yu] invite 約念書：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [yu] invite 約念書 選單 ["約她去…", "就這樣"] → 選「約她去…」
   [yu] invite 約念書 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「念書…」
   [yu] invite 約念書 選單 ["去 2:30 AM 念書", "去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "去 afar café 念書", "返回"] → 選「去總圖一起念書」
   [yu] invite 約念書 選單 ["現在一起過去", "今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
-  [yu] invite 約念書 台詞（5 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "Alison｜「總圖", "Alison｜「總圖喔……好啊，可是我會一直想跟你講話。」", "｜你們一起去總圖一起念書。"]
+  [yu] invite 約念書 台詞（5 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "Alison｜「總圖喔", "Alison｜「總圖喔……好啊，可是我會一直想跟你講話。」", "｜你們一起去總圖一起念書。"]
 PASS [yu] invite 約念書：對話一路點得完  4 個選單
 PASS [yu] invite 約念書：說話途中沒有丟例外（GAME.lastTalkError 空）
 PASS [yu] invite 約念書：15 秒內回到可以自由移動
 PASS [yu] invite 約念書：GAME.walkFallbacks 沒增加  0→0
 PASS [yu] invite 約念書：沒有新的 JS 例外
 PASS [yu] invite 約念書：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] invite 約念書：搖桿推得動（≥0.3 m）  2.04 m
-PASS [yu] invite 約念書：點地走得動（≥0.3 m）  點 [-31.35, 24.1]，走了 0.99 m
-PASS [yu] invite 約念書：遊戲時間有在走  9.8312→9.8507
+PASS [yu] invite 約念書：搖桿推得動（≥0.3 m）  2.44 m
+PASS [yu] invite 約念書：點地走得動（≥0.3 m）  點 [-31.66, 24.13]，走了 1.03 m
+PASS [yu] invite 約念書：遊戲時間有在走  9.8361→9.8563
 PASS [yu] invite 約念書：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] invite 約念書：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] invite 約念書：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
   [yu] 總圖大廳的座位數（不含有名字的位子）：{"lv1": 16, "lv0": 30}
-  [yu] 帶路：{"zone": "library_hall", "ph": "go", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": 0.16, "z": 4.68, "lv": 0, "seat": null, "frozen": false, "beh": "idle", "ivLead": "iv1", "pose": "walk"}}
+  [yu] 帶路：{"zone": "library_hall", "ph": "go", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": 0.17, "z": 4.77, "lv": 0, "seat": null, "frozen": false, "beh": "idle", "ivLead": "iv1", "pose": "walk"}}
   [yu] 到達「跟著Alison（go）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
-  [yu] 到達「跟著Alison（go）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
-  [yu] 到達「跟著Alison（go）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
-  [yu] 「跟著Alison（go）」：停在離目標 7.66 m（點到的地面偏了），用搖桿往目標推一下
-  [yu] 到達「跟著Alison（go）」附近（0.75 m）：點地面 1 次、轉鏡頭 0 次、搖桿 6 次，16 秒
-  [yu] 到達「跟著Alison（go）」附近（0.12 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，18 秒
+  [yu] 到達「跟著Alison（go）」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [yu] 到達「跟著Alison（go）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [yu] 「跟著Alison（go）」：停在離目標 7.38 m（點到的地面偏了），用搖桿往目標推一下
+  [yu] 到達「跟著Alison（go）」附近（1.58 m）：點地面 1 次、轉鏡頭 0 次、搖桿 5 次，15 秒
+  [yu] 到達「跟著Alison（go）」附近（1.00 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，16 秒
   [yu] 帶路：{"zone": "library_hall", "ph": "wait", "her": {"x": -7.03, "z": 2.2, "lv": 1}, "me": {"x": -9.13, "z": 2.2, "lv": 1}, "look": null, "n": {"x": -7.02, "z": 2.2, "lv": 1, "seat": {"x": -7.02, "z": 2.2, "lv": 1}, "frozen": true, "beh": "idle", "ivLead": "iv1", "pose": "read"}}
-  [yu] 「跟著Alison（wait）」途中停下（離目標 0.30 m）：「（小聲）二樓靠窗那排比較安靜。」
+  [yu] 「跟著Alison（wait）」途中停下（離目標 1.18 m）：「（小聲）二樓靠窗那排比較安靜。」
 PASS [yu] invite 念書（去總圖一起念書）：出發、到場、見面那一場一路點得完
 PASS [yu] invite 念書（去總圖一起念書）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 2.1, "sameGroup": false, "doorD": 6.11, "spawnD": 10.13, "npc": true, "nD": 2.1, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 2.2, "p": [-9.13, 2.2]}
-PASS [yu] invite 念書（去總圖一起念書）：約會中時間有往前走  遊戲時間 1.86 小時（-1 10.04 → -1 11.91）
+PASS [yu] invite 念書（去總圖一起念書）：約會中時間有往前走  遊戲時間 1.85 小時（-1 10.05 → -1 11.90）
 INFO [yu] invite 念書（去總圖一起念書）：錢 30000 → 30000（+0）  
 PASS [yu] invite 念書（去總圖一起念書）：關係或記憶有變化  {"rel": {"fam": 3, "trust": 2, "comf": 1, "rom": 1, "npcRom": 1}, "mem": "1→2 ['FIRST_MET', 'STUDIED_TOGETHER']"}
 PASS [yu] invite 念書（去總圖一起念書）：對話沒有空白的句子  []
 PASS [yu] invite 念書（去總圖一起念書）：說話的人名字不是 id  []
-  [yu] invite 念書（去總圖一起念書）：對話紀錄 9 句 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_soc_fr_yu\out\yu_invite__transcript.json
+  [yu] invite 念書（去總圖一起念書）：對話紀錄 8 句 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21R_soc_fr_yu\out\yu_invite__transcript.json
     Alison｜「（小聲）二樓靠窗那排比較安靜。」
     （旁白）｜（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）
     Alison｜「（小聲）我讀到六點。你呢？」
     （旁白）｜你和Alison在總圖一起念書。
-    Alison｜「（小聲）……休息五分鐘。」
-    （旁白）｜（她趴在桌上。五分鐘後準時坐起來。）
+    （旁白）｜（她讀到一半，把一顆喉糖放在你的書旁邊。）
     （旁白）｜（她闔上書，伸了一個懶腰。）
     Alison｜「（小聲）走吧。」
-    Alison｜「好累。……可是很好。」
+    Alison｜「今天讀得比我想的多。……下次再約。」
 FAIL [yu] invite 念書（去總圖一起念書）：約念書開演時兩個人坐在同一張桌子（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 2.1, "sameGroup": false, "doorD": 6.11, "spawnD": 10.13, "npc": true, "nD": 2.1, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 2.2, "p": [-9.13, 2.2]}
 PASS [yu] invite 念書（去總圖一起念書）：約念書開演的位置離門口 ≥ 3 m（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"doorD": 6.11, "spawnD": 10.13}
 PASS [yu] invite 念書（去總圖一起念書）：總圖要在二樓（lv1）長桌或 3F 閱覽區（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"zone": "library_hall", "lv": 1}
-FAIL [yu] invite 念書（去總圖一起念書）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）  取樣 62 次，最遠 9.31 m：[1.81, 4.22, 4.37, 4.32, 6.57, 6.12, 1.54, 1.13, 0.77, 0.51, 0.42, 0.38, 0.45, 0.62, 0.84, 1.08, 1.32, 1.56, 1.8, 2.06]
+FAIL [yu] invite 念書（去總圖一起念書）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）  取樣 63 次，最遠 9.36 m：[1.7, 4.18, 4.28, 4.72, 6.65, 8.12, 1.18, 1.54, 1.11, 0.76, 0.49, 0.42, 0.35, 0.42, 0.61, 0.82, 1.06, 1.31, 1.55, 1.79]
 PASS [yu] invite 念書（去總圖一起念書）：X207 ④ 道別那一刻兩個人在大廳門口附近或已經在校園  {"zone": "library_hall", "doorD": 2.01, "nD": 1.08, "pseat": false, "nseat": false}
 PASS [yu] invite 念書（去總圖一起念書）：AA_649 帶路句「（小聲）二樓靠窗那排比較安靜。」
 PASS [yu] invite 念書（去總圖一起念書）：AA_649 坐下旁白  （你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）
@@ -328,24 +327,24 @@ PASS [yu] invite 念書（去總圖一起念書） 結束：15 秒內回到可�
 PASS [yu] invite 念書（去總圖一起念書） 結束：GAME.walkFallbacks 沒增加  0→0
 PASS [yu] invite 念書（去總圖一起念書） 結束：沒有新的 JS 例外
 PASS [yu] invite 念書（去總圖一起念書） 結束：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] invite 念書（去總圖一起念書） 結束：搖桿推得動（≥0.3 m）  3.03 m
-PASS [yu] invite 念書（去總圖一起念書） 結束：點地走得動（≥0.3 m）  點 [-2.89, 6.3]，走了 0.96 m
-PASS [yu] invite 念書（去總圖一起念書） 結束：遊戲時間有在走  11.9269→11.9472
+PASS [yu] invite 念書（去總圖一起念書） 結束：搖桿推得動（≥0.3 m）  2.99 m
+PASS [yu] invite 念書（去總圖一起念書） 結束：點地走得動（≥0.3 m）  點 [-3.77, 7.21]，走了 1.02 m
+PASS [yu] invite 念書（去總圖一起念書） 結束：遊戲時間有在走  11.9185→11.9388
 PASS [yu] invite 念書（去總圖一起念書） 結束：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] invite 念書（去總圖一起念書） 結束：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] invite 念書（去總圖一起念書） 結束：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] invite 念書（去總圖一起念書）：人在約定的地點（G.zone＝library_hall）  library_hall
-PASS [yu] invite 念書（去總圖一起念書）：那一筆約記成 done  [{"id": "iv1", "state": "done", "place": "library", "zone": "library_hall", "day": -1, "h": 10.05}]
+PASS [yu] invite 念書（去總圖一起念書）：那一筆約記成 done  [{"id": "iv1", "state": "done", "place": "library", "zone": "library_hall", "day": -1, "h": 10.056}]
 PASS [yu] invite 念書（去總圖一起念書）：結束後玩家起身了  {"seat": false}
-PASS [yu] invite 念書（去總圖一起念書）：約念書結束後她也起身（或走了）  {"zone": "library_hall", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 1.81, "spawnD": 2.71, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [-2.7, 6.36]}
-PASS [yu] invite 念書（去總圖一起念書）：她回到自己的行程（150 秒內離開，不黏在原地）  {"where": null, "npc": {"zone": "library_hall", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 1.81, "spawnD": 2.71, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [-2.7, 6.36]}}
+PASS [yu] invite 念書（去總圖一起念書）：約念書結束後她也起身（或走了）  {"zone": "library_hall", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 1.43, "spawnD": 3.69, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [-3.61, 7.33]}
+PASS [yu] invite 念書（去總圖一起念書）：她回到自己的行程（150 秒內離開，不黏在原地）  {"where": {"zone": "campus", "away": null, "act": "坐著"}, "npc": {"zone": "library_hall", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 1.43, "spawnD": 3.69, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [-3.61, 7.33]}}
 -- [yu] reload
   [前置／捷徑] [yu] 讀檔：reload：2025-09-15 9.5 campus（坐著）（campus -1 9.50）
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
   [前置／捷徑] [yu] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "Alison", "fm": true, "lad": null, "contact": false}
   [前置／捷徑] [yu] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-  [yu] 到達「Alison 旁邊」附近（0.83 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
+  [yu] 到達「Alison 旁邊」附近（0.92 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，24 秒
   [yu] reload 之前：按「和Alison說話」
 PASS [yu] reload 之前：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
   [yu] reload 之前 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
@@ -356,20 +355,137 @@ PASS [yu] reload 之前：15 秒內回到可以自由移動
 PASS [yu] reload 之前：GAME.walkFallbacks 沒增加  0→0
 PASS [yu] reload 之前：沒有新的 JS 例外
 PASS [yu] reload 之前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] reload 之前：搖桿推得動（≥0.3 m）  1.27 m
-PASS [yu] reload 之前：點地走得動（≥0.3 m）  點 [-29.03, 23.51]，走了 1.02 m
-PASS [yu] reload 之前：遊戲時間有在走  9.7914→9.8117
+PASS [yu] reload 之前：搖桿推得動（≥0.3 m）  0.61 m
+PASS [yu] reload 之前：點地走得動（≥0.3 m）  點 [-29.36, 23]，走了 0.70 m
+PASS [yu] reload 之前：遊戲時間有在走  9.7880→9.8081
 PASS [yu] reload 之前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] reload 之前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] reload 之前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
   [前置／捷徑] [yu] 讀回存檔（選單「回標題」→「繼續」按不到，改用 GAME.snapshot→applySave（同「繼續」））
   [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
-PASS [yu] reload：讀回來（snapshot→applySave）以後在遊戲裡（不在標題畫面）  {"zone": "campus", "key": "2025-09-15", "hour": 9.879}
+PASS [yu] reload：讀回來（snapshot→applySave）以後在遊戲裡（不在標題畫面）  {"zone": "campus", "key": "2025-09-15", "hour": 9.8772}
 PASS [yu] reload 讀回來：15 秒內回到可以自由移動
 PASS [yu] reload 讀回來：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [yu] reload 讀回來：搖桿推得動（≥0.3 m）  1.41 m
-PASS [yu] reload 讀回來：點地走得動（≥0.3 m）  點 [-29.18, 27.18]，走了 0.57 m
-PASS [yu] reload 讀回來：遊戲時間有在走  9.8990→9.9187
+PASS [yu] reload 讀回來：搖桿推得動（≥0.3 m）  2.46 m
+PASS [yu] reload 讀回來：點地走得動（≥0.3 m）  點 [-27.68, 26.41]，走了 0.98 m
+PASS [yu] reload 讀回來：遊戲時間有在走  9.8974→9.9174
 PASS [yu] reload 讀回來：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] reload 讀回來：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [yu] reload 讀回來：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [yu] 到達「Alison 旁邊」附近（1.09 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+  [yu] reload 打招呼：按「和Alison說話」
+PASS [yu] reload 打招呼：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [yu] reload 打招呼 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [yu] reload 打招呼 台詞（2 句）：["｜（Alison跟你打了個招呼，又忙自己", "｜（Alison跟你打了個招呼，又忙自己的事。）"]
+PASS [yu] reload 打招呼：對話一路點得完  1 個選單
+PASS [yu] reload 打招呼：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [yu] reload 打招呼：15 秒內回到可以自由移動
+PASS [yu] reload 打招呼：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] reload 打招呼：沒有新的 JS 例外
+PASS [yu] reload 打招呼：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [yu] reload 打招呼：搖桿推得動（≥0.3 m）  2.25 m
+PASS [yu] reload 打招呼：點地走得動（≥0.3 m）  點 [-28.93, 20.39]，走了 1.05 m
+PASS [yu] reload 打招呼：遊戲時間有在走  10.0519→10.0722
+PASS [yu] reload 打招呼：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [yu] reload 打招呼：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [yu] reload 打招呼：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [yu] 到達「Alison 旁邊」附近（1.18 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] reload 閒聊：按「和Alison說話」
+PASS [yu] reload 閒聊：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [yu] reload 閒聊 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [yu] reload 閒聊 台詞（2 句）：["｜（Alison跟你打了個招呼，又忙", "｜（Alison跟你打了個招呼，又忙自己的事。）"]
+PASS [yu] reload 閒聊：對話一路點得完  1 個選單
+PASS [yu] reload 閒聊：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [yu] reload 閒聊：15 秒內回到可以自由移動
+PASS [yu] reload 閒聊：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] reload 閒聊：沒有新的 JS 例外
+PASS [yu] reload 閒聊：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [yu] reload 閒聊：搖桿推得動（≥0.3 m）  0.49 m
+PASS [yu] reload 閒聊：點地走得動（≥0.3 m）  點 [-29.49, 22.98]，走了 0.68 m
+PASS [yu] reload 閒聊：遊戲時間有在走  10.1494→10.1697
+PASS [yu] reload 閒聊：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [yu] reload 閒聊：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [yu] reload 閒聊：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+-- [yu] phone
+  [前置／捷徑] [yu] 讀檔：phone 約：2025-09-15 9.5（campus -1 9.50）
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [yu] 前置：phone 約：{"stage": "FRIEND", "name": "Alison", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [yu] 讀回存檔（套用關係以後重讀）
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [yu] phone 約 開始前：15 秒內回到可以自由移動
+PASS [yu] phone 約 開始前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [yu] phone 約 開始前：搖桿推得動（≥0.3 m）  3.09 m
+PASS [yu] phone 約 開始前：點地走得動（≥0.3 m）  點 [34, -92.41]，走了 0.99 m
+PASS [yu] phone 約 開始前：遊戲時間有在走  9.6013→9.6216
+PASS [yu] phone 約 開始前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [yu] phone 約 開始前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [yu] phone 約 開始前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [yu] phone 約：手機朋友頁他那一行有「訊息」  ‹ 訊息
+Alison
+☆
+傳訊息
+約
+還沒有訊息。按上面的「傳訊息」傳第一則。
+  [yu] phone 約 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「念書…」
+  [yu] phone 約 選單 ["去 2:30 AM 念書", "去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "去 afar café 念書", "返回"] → 選「去 2:30 AM 念書」
+  [yu] phone 約 選單 ["今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「今天 12:10」
+INFO [yu] phone 約：手機自己打開（遊戲暫停），按「收起來」  
+  [yu] phone 約 台詞：["｜Alison答應了。約好 今天 12:10，2:30"]
+PASS [yu] phone 約：手機約一路點得完
+PASS [yu] phone 約 之後：15 秒內回到可以自由移動
+PASS [yu] phone 約 之後：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] phone 約 之後：沒有新的 JS 例外
+PASS [yu] phone 約 之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [yu] phone 約 之後：搖桿推得動（≥0.3 m）  3.15 m
+PASS [yu] phone 約 之後：點地走得動（≥0.3 m）  點 [34, -86.98]，走了 1.02 m
+PASS [yu] phone 約 之後：遊戲時間有在走  9.6857→9.7057
+PASS [yu] phone 約 之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [yu] phone 約 之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [yu] phone 約 之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [yu] phone 約：G.invites 多一筆（答應或婉拒都算有回覆）  [{"id": "iv1", "state": "accepted", "place": "cafe", "zone": "cafe", "day": -1, "h": 12.167}]
+PASS [yu] phone 傳訊息：手機朋友頁他那一行有「訊息」  ‹ 訊息
+Alison
+☆
+傳訊息
+今天 09:39
+約好了：今天 12:10，2:30 AM（Alison）。
+PASS [yu] phone 傳訊息：傳出去了（yu|chat）  訊息 2→3
+PASS [yu] phone 傳訊息之後：15 秒內回到可以自由移動
+PASS [yu] phone 傳訊息之後：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] phone 傳訊息之後：沒有新的 JS 例外
+PASS [yu] phone 傳訊息之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [yu] phone 傳訊息之後：搖桿推得動（≥0.3 m）  3.21 m
+PASS [yu] phone 傳訊息之後：點地走得動（≥0.3 m）  點 [34, -81.49]，走了 1.02 m
+PASS [yu] phone 傳訊息之後：遊戲時間有在走  9.7595→9.7794
+PASS [yu] phone 傳訊息之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [yu] phone 傳訊息之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [yu] phone 傳訊息之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+-- [yu] shop
+SKIP [yu] shop：店內偶遇沒有她「一起坐」的列（或只在外帶窗口）
+-- [yu] walk
+  [前置／捷徑] [yu] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [yu] walk：掃到的景點與時段 [{"d": 25, "wd": 6, "hr": 9, "arr": 10, "spot": "D20", "name": "烏來", "walk": "逛烏來老街", "m": 1, "key": "2025-10-11"}]
+  [前置／捷徑] [yu] 讀檔：walk：2025-10-11 9 公館捷運站入口旁（gongguan 25 9.00）
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [yu] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "Alison", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [yu] 讀回存檔（套用關係以後重讀）
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [yu] 到達「捷運公館站入口」附近（0.99 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [yu] walk 自由出行 選單 ["西門町（灰）", "臺北市立美術館", "大稻埕碼頭與迪化街（灰）", "淡水金色水岸（灰）", "貓空纜車與茶館（灰）", "烏來", "華山1914文創園區（灰）", "松山文創園區", "參創生活園區（灰）", "光典臺北（灰）", "國家人權博物館景美紀念園區", "臺北市立動物園", "碧潭（灰）", "新北投溫泉區", "淡水漁人碼頭（灰）", "三峽老街", "九份老街（外縣市・要轉車）（灰）", "宜蘭礁溪（外縣市・要轉車）", "宜蘭外澳海灘（外縣市・要轉車）（灰）", "野柳地質公園（外縣市・要轉車）", "金瓜石（外縣市・要轉車）", "臺中草悟道與國立臺灣美術館（外縣市・要轉車）（灰）", "嘉義檜意森活村（外縣市・要轉車）", "臺南國立臺灣文學館與安平（外縣市・要轉車）", "高雄駁二藝術特區（外縣市・要轉車）", "花蓮七星潭（外縣市・要轉車）（灰）", "南投日月潭（外縣市・要轉車）", "不去了"] → 選「烏來」
+  [yu] walk 台詞：["｜捷運公", "｜捷運公館站。台北的地方搭捷運就到；外縣市的要先搭捷運，再轉火車、高鐵或客運。要去哪裡？", "｜今天上午有一件事。"]
+PASS [yu] walk：自由出行一路點得完、回到公館
+INFO [yu] walk：這一趟沒有遇到她（偶遇是擲骰的）  {"met": false, "joined": false, "walks": 0, "after": 0}
+PASS [yu] walk 回來以後：15 秒內回到可以自由移動
+PASS [yu] walk 回來以後：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] walk 回來以後：沒有新的 JS 例外
+PASS [yu] walk 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [yu] walk 回來以後：搖桿推得動（≥0.3 m）  3.12 m
+PASS [yu] walk 回來以後：點地走得動（≥0.3 m）  點 [-35.6, 17.61]，走了 0.96 m
+PASS [yu] walk 回來以後：遊戲時間有在走  9.1416→9.1618
+PASS [yu] walk 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [yu] walk 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [yu] walk 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+== 人物 yu 結果 FAIL（3）：invite 見面（去椰影大道晨跑）：到了約定的地方、見面那一場有開始；invite 念書（去總圖一起念書）：約念書開演時兩個人坐在同一張桌子（使用者 11-04：約念書不能在門口結束，要一起坐下）；invite 念書（去總圖一起念書）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）
+   用了 23.2 分鐘
+==== 總結：1 人，FAIL 1 人：[["yu", ["invite 見面（去椰影大道晨跑）：到了約定的地方、見面那一場有開始", "invite 念書（去總圖一起念書）：約念書開演時兩個人坐在同一張桌子（使用者 11-04：約念書不能在門口結束，要一起坐下）", "invite 念書（去總圖一起念書）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）"]]]
+FAILED 3
