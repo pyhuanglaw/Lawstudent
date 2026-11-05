@@ -209,6 +209,8 @@ D118B7F_play | 193d1fd4f1b3ccacc544864c2e02f8faa0ba95f8 | probe | docs/story_pla
 NPCTASK_f5c3 | f5c38f2bae0b4c4f5e871d7da43dbe1994097847 | probe | docs/story_planning/test_tools/cc/cc_npctask_probe.py | index.html | 60 | CTL=both;LOCS=hall,lib3f,lawlib,soc2f,b1;CC_HEADLESS=0
 # BB-C 00:38：SITHEIGHT 改 ed7600ec5（CAFE-EDGE-1105）；多 MODE cafe（afar、青木、Daybreak、木曜日、林家、社科圖：桌面高度、哪一組片段、手的近景）
 SITHEIGHT_ed76 | ed7600ec5315abd070dbc7755ec32b53feef9a99 | probe | docs/story_planning/test_tools/cc/cc_sitheight_probe.py | index.html | 80 | CC_HEADLESS=0
+# GUITAR_X196（BB-C 03:14）：吉他店同弦、吉他社、社遊照玩家操作（雲端先跑，chain11 SITHEIGHT 後；Node cc_guitar_x196_node.js ALL PASS 30）
+GUITAR_play | b4746f345486b6bd154cff34975da6d2ab9cb29c | probe | docs/story_planning/test_tools/cc/cc_guitar_x196_play.py | index.html | 90 | CC_HEADLESS=0
 # NTU_REF_teach（LAWWW-C 15:20：使用者 15:1x「普通 博雅 教學館目前感覺跟真正的太不像了」TEACH-PTBOYA-REF-1104；總表第 107～109 列的角度、14:00、現在的 head＝修改前；BB 可以調順序）
 NTU_REF_teach | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_ntu_ref_probe.py | index.html | 15 | ONLY=boya_n,boya_lake,putong;HOUR=14;CC_HEADLESS=0
 # PTBOYA v2（BB-C 16:30；TEACH-PTBOYA-REF-1104；不進 v9.10.20；使用者點名 X227）：排在 V20R、SITAMB 後面，阿德 v2、AA663、AA660 前面

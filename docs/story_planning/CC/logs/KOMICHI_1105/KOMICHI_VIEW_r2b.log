@@ -1,0 +1,128 @@
+CC KOMICHI_VIEW_r2：DATE=2026-06-20；SCAN=True；LCLOCK=True；SHA=391603230；SwiftShader ≠ iPhone（顏色以電腦重拍為準）
+  [前置／捷徑] CC_SEED=20261104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入  11.6 秒
+  [前置／捷徑] 讀檔：小路（wz_teishoku）窗邊、2026-06-20（day 277，{"key": "2026-06-20", "wd": 6}）14:00、晴、條件事件關閉
+PASS 小路的窗景照片白天、晚上都載入了（W3.viewPhoto wz_teishoku）  {"zone": "wz_teishoku", "wins": 1, "pview": ["wz_teishoku"], "day": true, "night": true, "dayUrl": "wz_teishoku_day.webp", "nightUrl": "wz_teishoku_night.webp"}
+  [捷徑] GAME.sitAt 直接坐窗邊第一桌門那一側 (−0.15, 2.9)：{"seat": [-0.15, 2.9, 1.571], "pos": [-0.15, 0, 2.9], "pose": "sit"}
+PASS 坐到窗邊第一桌（門那一側）  {"seat": [-0.15, 2.9, 1.571], "pos": [-0.15, 0, 2.9], "pose": "sit"}
+  2026-06-20 臺北日落（engine3d.js sunsetAt）18.762＝1846
+  door_out：窗的區域占畫面 42.6%
+  door_east：窗的區域占畫面 51.5%
+  opp_ade：窗的區域占畫面 45.6%
+  komichi_A_door_out_1400.png：光線 14.000、窗景 day（photo 1、xf 0、tint #ffffff）、窗區亮度 {"mean": 101.3, "p95": 140.6, "bright": 0.055, "n": 98484}、窗外 {"mean": 70.3, "p95": 141.0, "bright": 0.097, "n": 131916}
+PASS [door_out 1400] 窗景用照片（photo=1），白天的那一張  {"pos": [-0.0, 1.25, 4.3], "size": [5.5, 1.8], "map": "day", "photo": 1, "xf": 0, "map2": "none", "tint": "#ffffff", "depth": 10, "scr": [[-1505, 1010, 0.857], [2618, 1010, 0.857], [-1473, -378, 0.859], [2589, -378, 0.859]]}
+  komichi_A_door_east_1400.png：光線 14.000、窗景 day（photo 1、xf 0、tint #ffffff）、窗區亮度 {"mean": 105.3, "p95": 143.8, "bright": 0.13, "n": 118734}、窗外 {"mean": 52.7, "p95": 104.5, "bright": 0.022, "n": 111666}
+PASS [door_east 1400] 窗景用照片（photo=1），白天的那一張  {"pos": [-0.0, 1.25, 4.3], "size": [5.5, 1.8], "map": "day", "photo": 1, "xf": 0, "map2": "none", "tint": "#ffffff", "depth": 10, "scr": [[-157, 679, 0.931], [-14380, -4192, 2.02], [-151, 0, 0.932], [-15972, 6275, 2.128]]}
+  komichi_A_opp_ade_1400.png：光線 14.000、窗景 day（photo 1、xf 0、tint #ffffff）、窗區亮度 {"mean": 102.5, "p95": 182.4, "bright": 0.1, "n": 105408}、窗外 {"mean": 51.0, "p95": 139.0, "bright": 0.039, "n": 124992}
+PASS [opp_ade 1400] 窗景用照片（photo=1），白天的那一張  {"pos": [-0.0, 1.25, 4.3], "size": [5.5, 1.8], "map": "day", "photo": 1, "xf": 0, "map2": "none", "tint": "#ffffff", "depth": 10, "scr": [[11927, -4044, 1.99], [1350, 626, 0.947], [18298, 8501, 2.548], [1336, 102, 0.948]]}
+  komichi_A_game_1400.png：遊戲自己的鏡頭（坐著）{"cam": [3.56, 3.13, 2.9], "seat": [-0.15, 2.9], "pose": "sit", "hour": 14.003}
+  komichi_A_door_out_2200.png：光線 22.000、窗景 night（photo 1、xf 0、tint #ffffff）、窗區亮度 {"mean": 65.0, "p95": 134.4, "bright": 0.048, "n": 98484}、窗外 {"mean": 53.5, "p95": 104.9, "bright": 0.0, "n": 131916}
+    （22:00 夜景不黑的參考數字：窗區平均 65.0、p95 134.4、亮像素（>140）4.8%——只記錄，BB 判）
+PASS [door_out 2200] 窗景用照片（photo=1），晚上的那一張  {"pos": [-0.0, 1.25, 4.3], "size": [5.5, 1.8], "map": "night", "photo": 1, "xf": 0, "map2": "none", "tint": "#ffffff", "depth": 10, "scr": [[-1505, 1010, 0.857], [2618, 1010, 0.857], [-1473, -378, 0.859], [2589, -378, 0.859]]}
+  komichi_A_door_east_2200.png：光線 22.000、窗景 night（photo 1、xf 0、tint #ffffff）、窗區亮度 {"mean": 66.3, "p95": 114.4, "bright": 0.043, "n": 118734}、窗外 {"mean": 40.8, "p95": 76.7, "bright": 0.008, "n": 111666}
+    （22:00 夜景不黑的參考數字：窗區平均 66.3、p95 114.4、亮像素（>140）4.3%——只記錄，BB 判）
+PASS [door_east 2200] 窗景用照片（photo=1），晚上的那一張  {"pos": [-0.0, 1.25, 4.3], "size": [5.5, 1.8], "map": "night", "photo": 1, "xf": 0, "map2": "none", "tint": "#ffffff", "depth": 10, "scr": [[-157, 679, 0.931], [-14380, -4192, 2.02], [-151, 0, 0.932], [-15972, 6275, 2.128]]}
+  komichi_A_opp_ade_2200.png：光線 22.000、窗景 night（photo 1、xf 0、tint #ffffff）、窗區亮度 {"mean": 66.1, "p95": 146.6, "bright": 0.052, "n": 105408}、窗外 {"mean": 39.1, "p95": 102.5, "bright": 0.0, "n": 124992}
+    （22:00 夜景不黑的參考數字：窗區平均 66.1、p95 146.6、亮像素（>140）5.2%——只記錄，BB 判）
+PASS [opp_ade 2200] 窗景用照片（photo=1），晚上的那一張  {"pos": [-0.0, 1.25, 4.3], "size": [5.5, 1.8], "map": "night", "photo": 1, "xf": 0, "map2": "none", "tint": "#ffffff", "depth": 10, "scr": [[11927, -4044, 1.99], [1350, 626, 0.947], [18298, 8501, 2.548], [1336, 102, 0.948]]}
+  komichi_A_game_2200.png：遊戲自己的鏡頭（坐著）{"cam": [3.56, 3.13, 2.9], "seat": [-0.15, 2.9], "pose": "sit", "hour": 22.002}
+    T/door_out 1836：光線 18.780、窗景 day xf 0.301 tint #8a8aa8、窗區平均 63.8（前一張差 None）、窗外平均 53.6（差 None）、hemi 0.8
+    T/door_out 1842：光線 18.885、窗景 day xf 0.476 tint #8a8aa8、窗區平均 64.8（前一張差 1.0）、窗外平均 53.6（差 0.0）、hemi 0.8
+    T/door_out 1848：光線 18.985、窗景 day xf 0.642 tint #8a8aa8、窗區平均 65.3（前一張差 0.5）、窗外平均 53.5（差 -0.1）、hemi 0.8
+    T/door_out 1854：光線 19.077、窗景 day xf 0.795 tint #8a8aa8、窗區平均 65.5（前一張差 0.2）、窗外平均 53.5（差 0.0）、hemi 0.8
+    T/door_out 1900：光線 19.168、窗景 day xf 0.947 tint #8a8aa8、窗區平均 65.3（前一張差 -0.2）、窗外平均 53.5（差 0.0）、hemi 0.8
+    T/door_out 1906：光線 19.260、窗景 night xf 0 tint #ffffff、窗區平均 65.0（前一張差 -0.3）、窗外平均 53.5（差 0.0）、hemi 0.8
+    T/door_out 1912：光線 19.352、窗景 night xf 0 tint #ffffff、窗區平均 65.0（前一張差 0.0）、窗外平均 53.5（差 0.0）、hemi 0.8
+    T/door_out：窗區前後兩張的差，最大 1.0、中位數 0.3（最大／中位數 3.3 倍；只記錄，BB 判有沒有跳）
+    T/door_east 1836：光線 18.780、窗景 day xf 0.301 tint #8a8aa8、窗區平均 65.7（前一張差 None）、窗外平均 41.0（差 None）、hemi 0.8
+    T/door_east 1842：光線 18.885、窗景 day xf 0.476 tint #8a8aa8、窗區平均 66.6（前一張差 0.9）、窗外平均 41.0（差 0.0）、hemi 0.8
+    T/door_east 1848：光線 18.985、窗景 day xf 0.642 tint #8a8aa8、窗區平均 67.0（前一張差 0.4）、窗外平均 40.9（差 -0.1）、hemi 0.8
+    T/door_east 1854：光線 19.077、窗景 day xf 0.795 tint #8a8aa8、窗區平均 67.0（前一張差 0.0）、窗外平均 40.9（差 0.0）、hemi 0.8
+    T/door_east 1900：光線 19.168、窗景 day xf 0.947 tint #8a8aa8、窗區平均 66.6（前一張差 -0.4）、窗外平均 40.8（差 -0.1）、hemi 0.8
+    T/door_east 1906：光線 19.260、窗景 night xf 0 tint #ffffff、窗區平均 66.3（前一張差 -0.3）、窗外平均 40.8（差 0.0）、hemi 0.8
+    T/door_east 1912：光線 19.352、窗景 night xf 0 tint #ffffff、窗區平均 66.3（前一張差 0.0）、窗外平均 40.8（差 0.0）、hemi 0.8
+    T/door_east：窗區前後兩張的差，最大 0.9、中位數 0.4（最大／中位數 2.2 倍；只記錄，BB 判有沒有跳）
+    T/opp_ade 1836：光線 18.780、窗景 day xf 0.301 tint #8a8aa8、窗區平均 64.4（前一張差 None）、窗外平均 39.2（差 None）、hemi 0.8
+    T/opp_ade 1842：光線 18.885、窗景 day xf 0.476 tint #8a8aa8、窗區平均 65.6（前一張差 1.2）、窗外平均 39.2（差 0.0）、hemi 0.8
+    T/opp_ade 1848：光線 18.985、窗景 day xf 0.642 tint #8a8aa8、窗區平均 66.4（前一張差 0.8）、窗外平均 39.2（差 0.0）、hemi 0.8
+    T/opp_ade 1854：光線 19.077、窗景 day xf 0.795 tint #8a8aa8、窗區平均 66.8（前一張差 0.4）、窗外平均 39.1（差 -0.1）、hemi 0.8
+    T/opp_ade 1900：光線 19.168、窗景 day xf 0.947 tint #8a8aa8、窗區平均 66.6（前一張差 -0.2）、窗外平均 39.1（差 0.0）、hemi 0.8
+    T/opp_ade 1906：光線 19.260、窗景 night xf 0 tint #ffffff、窗區平均 66.1（前一張差 -0.5）、窗外平均 39.1（差 0.0）、hemi 0.8
+    T/opp_ade 1912：光線 19.352、窗景 night xf 0 tint #ffffff、窗區平均 66.1（前一張差 0.0）、窗外平均 39.1（差 0.0）、hemi 0.8
+    T/opp_ade：窗區前後兩張的差，最大 1.2、中位數 0.5（最大／中位數 2.4 倍；只記錄，BB 判有沒有跳）
+  [捷徑] L 組：E.sunsetFix＝18.95（engine3d.js 測試用：光線＝時鐘），時鐘 18:36～19:12＝光線 18.6～19.2（W3.photoFade 整段）
+    L/door_out 1836：光線 18.600、窗景 day xf 0 tint #8a8aa8、窗區平均 58.9（前一張差 None）、窗外平均 53.6（差 None）、hemi 0.8
+    L/door_out 1842：光線 18.700、窗景 day xf 0.167 tint #8a8aa8、窗區平均 62.5（前一張差 3.6）、窗外平均 53.6（差 0.0）、hemi 0.8
+    L/door_out 1848：光線 18.800、窗景 day xf 0.333 tint #8a8aa8、窗區平均 64.0（前一張差 1.5）、窗外平均 53.6（差 0.0）、hemi 0.8
+    L/door_out 1854：光線 18.900、窗景 day xf 0.5 tint #8a8aa8、窗區平均 64.9（前一張差 0.9）、窗外平均 53.6（差 0.0）、hemi 0.8
+    L/door_out 1900：光線 19.000、窗景 day xf 0.667 tint #8a8aa8、窗區平均 65.4（前一張差 0.5）、窗外平均 53.5（差 -0.1）、hemi 0.8
+    L/door_out 1906：光線 19.100、窗景 day xf 0.833 tint #8a8aa8、窗區平均 65.5（前一張差 0.1）、窗外平均 53.5（差 0.0）、hemi 0.8
+    L/door_out 1912：光線 19.200、窗景 night xf 0 tint #ffffff、窗區平均 65.0（前一張差 -0.5）、窗外平均 53.5（差 0.0）、hemi 0.8
+    L/door_out：窗區前後兩張的差，最大 3.6、中位數 0.9（最大／中位數 4.0 倍；只記錄，BB 判有沒有跳）
+    L/opp_ade 1836：光線 18.600、窗景 day xf 0 tint #8a8aa8、窗區平均 59.6（前一張差 None）、窗外平均 39.2（差 None）、hemi 0.8
+    L/opp_ade 1842：光線 18.700、窗景 day xf 0.167 tint #8a8aa8、窗區平均 62.9（前一張差 3.3）、窗外平均 39.2（差 0.0）、hemi 0.8
+    L/opp_ade 1848：光線 18.800、窗景 day xf 0.333 tint #8a8aa8、窗區平均 64.6（前一張差 1.7）、窗外平均 39.2（差 0.0）、hemi 0.8
+    L/opp_ade 1854：光線 18.900、窗景 day xf 0.5 tint #8a8aa8、窗區平均 65.8（前一張差 1.2）、窗外平均 39.2（差 0.0）、hemi 0.8
+    L/opp_ade 1900：光線 19.000、窗景 day xf 0.667 tint #8a8aa8、窗區平均 66.5（前一張差 0.7）、窗外平均 39.2（差 0.0）、hemi 0.8
+    L/opp_ade 1906：光線 19.100、窗景 day xf 0.833 tint #8a8aa8、窗區平均 66.8（前一張差 0.3）、窗外平均 39.1（差 -0.1）、hemi 0.8
+    L/opp_ade 1912：光線 19.200、窗景 night xf 0 tint #ffffff、窗區平均 66.1（前一張差 -0.7）、窗外平均 39.1（差 0.0）、hemi 0.8
+    L/opp_ade：窗區前後兩張的差，最大 3.3、中位數 1.2（最大／中位數 2.8 倍；只記錄，BB 判有沒有跳）
+    scan/opp_ade 1730：光線 17.625、窗景 day xf 0 tint #ffcfa0、窗區平均 84.9（前一張差 None）、窗外平均 46.1（差 None）、hemi 1.1
+    scan/opp_ade 1733：光線 17.678、窗景 day xf 0 tint #ffcfa0、窗區平均 84.9（前一張差 0.0）、窗外平均 46.0（差 -0.1）、hemi 1.1
+    scan/opp_ade 1736：光線 17.730、窗景 day xf 0 tint #ffcfa0、窗區平均 84.9（前一張差 0.0）、窗外平均 45.9（差 -0.1）、hemi 1.1
+    scan/opp_ade 1739：光線 17.783、窗景 day xf 0 tint #ffcfa0、窗區平均 84.8（前一張差 -0.1）、窗外平均 45.9（差 0.0）、hemi 1.1
+    scan/opp_ade 1742：光線 17.835、窗景 day xf 0 tint #ffcfa0、窗區平均 84.8（前一張差 0.0）、窗外平均 45.8（差 -0.1）、hemi 1.1
+    scan/opp_ade 1745：光線 17.888、窗景 day xf 0 tint #ffcfa0、窗區平均 84.8（前一張差 0.0）、窗外平均 45.7（差 -0.1）、hemi 1.1
+    scan/opp_ade 1748：光線 17.940、窗景 day xf 0 tint #ffcfa0、窗區平均 84.8（前一張差 0.0）、窗外平均 45.6（差 -0.1）、hemi 1.1
+    scan/opp_ade 1751：光線 17.993、窗景 day xf 0 tint #ffcfa0、窗區平均 84.7（前一張差 -0.1）、窗外平均 45.5（差 -0.1）、hemi 1.1
+    scan/opp_ade 1754：光線 18.045、窗景 day xf 0 tint #ffcfa0、窗區平均 81.8（前一張差 -2.9）、窗外平均 39.5（差 -6.0）、hemi 0.8
+    scan/opp_ade 1757：光線 18.098、窗景 day xf 0 tint #ffcfa0、窗區平均 81.8（前一張差 0.0）、窗外平均 39.5（差 0.0）、hemi 0.8
+    scan/opp_ade 1800：光線 18.150、窗景 day xf 0 tint #ffcfa0、窗區平均 81.8（前一張差 0.0）、窗外平均 39.5（差 0.0）、hemi 0.8
+    scan/opp_ade 1803：光線 18.203、窗景 day xf 0 tint #ffcfa0、窗區平均 81.8（前一張差 0.0）、窗外平均 39.5（差 0.0）、hemi 0.8
+    scan/opp_ade 1806：光線 18.255、窗景 day xf 0 tint #ffcfa0、窗區平均 81.8（前一張差 0.0）、窗外平均 39.5（差 0.0）、hemi 0.8
+    scan/opp_ade 1809：光線 18.308、窗景 day xf 0 tint #ffcfa0、窗區平均 81.8（前一張差 0.0）、窗外平均 39.5（差 0.0）、hemi 0.8
+    scan/opp_ade 1812：光線 18.360、窗景 day xf 0 tint #ffcfa0、窗區平均 81.8（前一張差 0.0）、窗外平均 39.5（差 0.0）、hemi 0.8
+    scan/opp_ade 1815：光線 18.413、窗景 day xf 0 tint #8a8aa8、窗區平均 59.6（前一張差 -22.2）、窗外平均 39.3（差 -0.2）、hemi 0.8
+    scan/opp_ade 1818：光線 18.465、窗景 day xf 0 tint #8a8aa8、窗區平均 59.6（前一張差 0.0）、窗外平均 39.3（差 0.0）、hemi 0.8
+    scan/opp_ade 1821：光線 18.518、窗景 day xf 0 tint #8a8aa8、窗區平均 59.6（前一張差 0.0）、窗外平均 39.3（差 0.0）、hemi 0.8
+    scan/opp_ade 1824：光線 18.570、窗景 day xf 0 tint #8a8aa8、窗區平均 59.6（前一張差 0.0）、窗外平均 39.3（差 0.0）、hemi 0.8
+    scan/opp_ade 1827：光線 18.623、窗景 day xf 0.038 tint #8a8aa8、窗區平均 60.7（前一張差 1.1）、窗外平均 39.3（差 0.0）、hemi 0.8
+    scan/opp_ade 1830：光線 18.675、窗景 day xf 0.126 tint #8a8aa8、窗區平均 62.3（前一張差 1.6）、窗外平均 39.3（差 0.0）、hemi 0.8
+    scan/opp_ade 1833：光線 18.728、窗景 day xf 0.213 tint #8a8aa8、窗區平均 63.4（前一張差 1.1）、窗外平均 39.3（差 0.0）、hemi 0.8
+    scan/opp_ade 1836：光線 18.780、窗景 day xf 0.301 tint #8a8aa8、窗區平均 64.3（前一張差 0.9）、窗外平均 39.3（差 0.0）、hemi 0.8
+    scan/opp_ade 1839：光線 18.833、窗景 day xf 0.388 tint #8a8aa8、窗區平均 65.1（前一張差 0.8）、窗外平均 39.3（差 0.0）、hemi 0.8
+    scan/opp_ade 1842：光線 18.885、窗景 day xf 0.476 tint #8a8aa8、窗區平均 65.6（前一張差 0.5）、窗外平均 39.3（差 0.0）、hemi 0.8
+    scan/opp_ade 1845：光線 18.938、窗景 day xf 0.563 tint #8a8aa8、窗區平均 66.1（前一張差 0.5）、窗外平均 39.2（差 -0.1）、hemi 0.8
+    scan/opp_ade 1848：光線 18.985、窗景 day xf 0.642 tint #8a8aa8、窗區平均 66.4（前一張差 0.3）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade 1851：光線 19.031、窗景 day xf 0.718 tint #8a8aa8、窗區平均 66.6（前一張差 0.2）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade 1854：光線 19.077、窗景 day xf 0.795 tint #8a8aa8、窗區平均 66.7（前一張差 0.1）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade 1857：光線 19.123、窗景 day xf 0.871 tint #8a8aa8、窗區平均 66.7（前一張差 0.0）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade 1900：光線 19.168、窗景 day xf 0.947 tint #8a8aa8、窗區平均 66.5（前一張差 -0.2）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade 1903：光線 19.214、窗景 night xf 0 tint #ffffff、窗區平均 66.1（前一張差 -0.4）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade 1906：光線 19.260、窗景 night xf 0 tint #ffffff、窗區平均 66.1（前一張差 0.0）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade 1909：光線 19.306、窗景 night xf 0 tint #ffffff、窗區平均 66.1（前一張差 0.0）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade 1912：光線 19.352、窗景 night xf 0 tint #ffffff、窗區平均 66.1（前一張差 0.0）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade 1915：光線 19.397、窗景 night xf 0 tint #ffffff、窗區平均 66.1（前一張差 0.0）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade 1918：光線 19.443、窗景 night xf 0 tint #ffffff、窗區平均 66.1（前一張差 0.0）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade 1921：光線 19.489、窗景 night xf 0 tint #ffffff、窗區平均 66.1（前一張差 0.0）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade 1924：光線 19.535、窗景 night xf 0 tint #ffffff、窗區平均 66.1（前一張差 0.0）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade 1927：光線 19.581、窗景 night xf 0 tint #ffffff、窗區平均 66.1（前一張差 0.0）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade 1930：光線 19.626、窗景 night xf 0 tint #ffffff、窗區平均 66.1（前一張差 0.0）、窗外平均 39.2（差 0.0）、hemi 0.8
+    scan/opp_ade：窗區前後兩張的差，最大 22.2、中位數 0.0（最大／中位數 222.0 倍；只記錄，BB 判有沒有跳）
+    光線跨過 18.0：1751（光線 17.993）→ 1754（光線 18.045）窗區 84.7 → 81.8、窗外 45.5 → 39.5
+    光線跨過 18.4：1812（光線 18.360）→ 1815（光線 18.413）窗區 81.8 → 59.6、窗外 39.5 → 39.3
+    光線跨過 18.6：1824（光線 18.570）→ 1827（光線 18.623）窗區 59.6 → 60.7、窗外 39.3 → 39.3
+    光線跨過 19.2：1900（光線 19.168）→ 1903（光線 19.214）窗區 66.5 → 66.1、窗外 39.2 → 39.2
+  [前置／捷徑] 讀檔：溫州街 小路門口出來的落點 (−4.8, −4.1) 朝 +z、2026-06-20 1400
+  outside_exit_game_1400.png：從小路出來、遊戲自己的鏡頭（玩家看得到）
+  店門前 x −18.5～−5、高過 4 m 的桿子：[{"name": "utility_pole#1", "x": -16, "z": 4.65, "h": 9, "inst": true}, {"name": "utility_pole_1#1", "x": -16, "z": 4.65, "h": 5.91, "inst": true}, {"name": "utility_pole_2#1", "x": -16, "z": 4.65, "h": 8.61, "inst": true}]
+PASS 溫州街 x −9.2、−12.7 沒有桿子，x −16.0 有一支（使用者 11-04 21:4x；同 ADE_v2）  [{"name": "utility_pole#1", "x": -16, "z": 4.65, "h": 9, "inst": true}, {"name": "utility_pole_1#1", "x": -16, "z": 4.65, "h": 5.91, "inst": true}, {"name": "utility_pole_2#1", "x": -16, "z": 4.65, "h": 8.61, "inst": true}]
+  outside_photo_1400.png：窗景照片的鏡頭（眼 [-2.8, 1.25, -4.6] → [-2.8, 1.25, 40.0]、水平 90°）；桿子／阿德門口在這個畫面的位置 [[-16, {"x": 1243, "y": 104, "inFront": true, "inView": false}], [-16, {"x": 1243, "y": 104, "inFront": true, "inView": false}], [-16, {"x": 1243, "y": 104, "inFront": true, "inView": false}], ["ADE門口", {"x": 801, "y": 242, "inFront": true, "inView": true}]]
+  outside_ade_1400.png：同一個眼往阿德門口 (−8.0, 4.6)（對應室內 opp_ade）
+  [前置／捷徑] 讀檔：溫州街 小路門口出來的落點 (−4.8, −4.1) 朝 +z、2026-06-20 2200
+  outside_exit_game_2200.png：從小路出來、遊戲自己的鏡頭（玩家看得到）
+  店門前 x −18.5～−5、高過 4 m 的桿子：[{"name": "utility_pole#1", "x": -16, "z": 4.65, "h": 9, "inst": true}, {"name": "utility_pole_1#1", "x": -16, "z": 4.65, "h": 5.91, "inst": true}, {"name": "utility_pole_2#1", "x": -16, "z": 4.65, "h": 8.61, "inst": true}]
+  outside_photo_2200.png：窗景照片的鏡頭（眼 [-2.8, 1.25, -4.6] → [-2.8, 1.25, 40.0]、水平 90°）；桿子／阿德門口在這個畫面的位置 [[-16, {"x": 1243, "y": 104, "inFront": true, "inView": false}], [-16, {"x": 1243, "y": 104, "inFront": true, "inView": false}], [-16, {"x": 1243, "y": 104, "inFront": true, "inView": false}], ["ADE門口", {"x": 801, "y": 242, "inFront": true, "inView": true}]]
+  outside_ade_2200.png：同一個眼往阿德門口 (−8.0, 4.6)（對應室內 opp_ade）
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -1,0 +1,14 @@
+CC KOMICHI_STAGE（瀏覽器、玩家操作）：CASES=['jun', 'dec']；晚餐 18.0；開場旁白 （六點，小路的布簾剛掛出來。你們是今天第一組客人。）；SHA=391603230；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [jun] 遊戲載入  13.4 秒
+  [前置／捷徑] [jun] 讀檔：宿舍、2026-06-11（Y1S2 期末時段第一天）09:00；語彤朋友（fam 45、trust 30）、聯絡點數 12；重算這學期的期末邀約
+  [  20.8s] [jun] 設定：{"dbg": {"score": 12, "away": false, "friendOk": false, "inFRIEND": true, "back": 268, "examStart": 268, "dating": false, "rom": "none", "cool": false, "noContact": false}, "stage": "FRIEND", "w": {"id": "Y1S2", "from": "2026-06-11", "to": "2026-06-21"}, "friend": [], "heart": [], "nope": {}, "d0": 268, "d0key": "2026-06-11"}
+FAIL [jun] 語彤是這學期朋友的期末邀約（TERMEND.plan friend）  {"dbg": {"score": 12, "away": false, "friendOk": false, "inFRIEND": true, "back": 268, "examStart": 268, "dating": false, "rom": "none", "cool": false, "noContact": false}, "stage": "FRIEND", "w": {"id": "Y1S2", "from": "2026-06-11", "to": "2026-06-21"}, "friend": [], "heart": [], "nope": {}, "d0": 268, "d0key": "2026-06-11"}
+PASS [jun] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [dec] 遊戲載入  12.5 秒
+  [前置／捷徑] [dec] 讀檔：宿舍、2025-12-18（Y1S1 期末時段第一天）09:00；語彤朋友（fam 45、trust 30）、聯絡點數 12；重算這學期的期末邀約
+  [  42.4s] [dec] 設定：{"dbg": {"score": 12, "away": false, "friendOk": false, "inFRIEND": true, "back": 93, "examStart": 93, "dating": false, "rom": "none", "cool": false, "noContact": false}, "stage": "FRIEND", "w": {"id": "Y1S1", "from": "2025-12-18", "to": "2025-12-28"}, "friend": [], "heart": [], "nope": {}, "d0": 93, "d0key": "2025-12-18"}
+FAIL [dec] 語彤是這學期朋友的期末邀約（TERMEND.plan friend）  {"dbg": {"score": 12, "away": false, "friendOk": false, "inFRIEND": true, "back": 93, "examStart": 93, "dating": false, "rom": "none", "cool": false, "noContact": false}, "stage": "FRIEND", "w": {"id": "Y1S1", "from": "2025-12-18", "to": "2025-12-28"}, "friend": [], "heart": [], "nope": {}, "d0": 93, "d0key": "2025-12-18"}
+PASS [dec] 沒有 JS 例外  []
+FAILED 2: [jun] 語彤是這學期朋友的期末邀約（TERMEND.plan friend）；[dec] 語彤是這學期朋友的期末邀約（TERMEND.plan friend）

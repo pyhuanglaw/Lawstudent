@@ -1,0 +1,81 @@
+CC KOMICHI_STAGE（瀏覽器、玩家操作）：CASES=['jun', 'dec']；晚餐 18.0；開場旁白 （六點，小路的布簾剛掛出來。你們是今天第一組客人。）；SHA=391603230；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [jun] 遊戲載入  12.1 秒
+  [前置／捷徑] [jun] 讀檔：宿舍、2026-06-11（Y1S2 期末時段第一天）09:00；語彤朋友（YT_MET_JOB＝一盞茶屋認識、fam 45、trust 30）、聯絡點數 12；重算這學期的期末邀約
+  [  18.0s] [jun] 設定：{"dbg": {"score": 12, "away": false, "friendOk": true, "inFRIEND": true, "back": 268, "examStart": 268, "dating": false, "rom": "none", "cool": false, "noContact": false}, "stage": "FRIEND", "w": {"id": "Y1S2", "from": "2026-06-11", "to": "2026-06-21"}, "friend": ["heroine_03"], "heart": [], "nope": {}, "d0": 268, "d0key": "2026-06-11"}
+PASS [jun] 語彤是這學期朋友的期末邀約（TERMEND.plan friend）  {"dbg": {"score": 12, "away": false, "friendOk": true, "inFRIEND": true, "back": 268, "examStart": 268, "dating": false, "rom": "none", "cool": false, "noContact": false}, "stage": "FRIEND", "w": {"id": "Y1S2", "from": "2026-06-11", "to": "2026-06-21"}, "friend": ["heroine_03"], "heart": [], "nope": {}, "d0": 268, "d0key": "2026-06-11"}
+  [前置／捷徑] [jun] 讀檔（同一份存檔）跳到邀約那天 2026-06-11 20:24 宿舍
+  [  35.6s] [jun] 收到的邀約：{"day": 268, "key": "2026-06-11", "h": 20.5, "texts": ["考完了。我十八號還有雙主修的筆試。考完那個禮拜六，下班以後吃飯嗎。"], "ask": {"id": "te_Y1S2_heroine_03", "opts": ["好。", "那天有約了。"]}}
+PASS [jun] 2026-06-11 20:30 語彤傳期末飯的邀約（可以回覆）  {"day": 268, "key": "2026-06-11", "h": 20.5, "texts": ["考完了。我十八號還有雙主修的筆試。考完那個禮拜六，下班以後吃飯嗎。"], "ask": {"id": "te_Y1S2_heroine_03", "opts": ["好。", "那天有約了。"]}}
+PASS [jun] 邀約那天 2026-06-11、20:30（最後一科考完那天，AA_687 第 5 項）  ["2026-06-11", 20.5]
+PASS [jun] 邀約的字逐字「考完了。我十八號還有雙主修的筆試。考完那個禮拜六，下班以後吃飯嗎。」  ["考完了。我十八號還有雙主修的筆試。考完那個禮拜六，下班以後吃飯嗎。"]
+  [  42.9s] [jun] 手機：私訊 True、回「好。」True；‹ 訊息 / 語彤 / ☆ / 傳訊息 / 約 / 今天 20:30 / 考完了。我十八號還有雙主修的筆試。考完那個禮拜六，下班以後吃飯嗎。 / 今天 20:56 / 好。
+PASS [jun] 答應以後晚餐排 2026-06-20（六）18:00 溫州街・小路（AA_687）  {"id": "te_Y1S2", "day": 277, "key": "2026-06-20", "h": 18, "place": "溫州街・小路", "state": "planned"}
+  [前置／捷徑] [jun] 讀檔（同一份存檔）跳到 2026-06-20 16:30 宿舍——跳過中間的日子
+  [  53.6s] [jun] 一鍵「到下一個約會地點」：{"t": "到下一個約會地點\n學期末的飯：陳語彤（溫州街・小路）（18:00）", "dim": false}
+  [  56.2s] [jun] 確認框：{"title": "到下一個約會地點", "body": "去：學期末的飯：陳語彤（溫州街・小路）（18:00）\n現在：週六 16:31\n路程：走過去約 15 分鐘\n現在去會太早：先跳過時間到 17:30 出發（等 59 分鐘；中途有約好的事、劇情會先停下來）\n到了以後時間直接到 18:00（約好的時間）\n約會本身照常演"}
+PASS [jun] 一鍵「到下一個約會地點」→ 確定（出發去小路）  {"title": "到下一個約會地點", "body": "去：學期末的飯：陳語彤（溫州街・小路）（18:00）\n現在：週六 16:31\n路程：走過去約 15 分鐘\n現在去會太早：先跳過時間到 17:30 出發（等 59 分鐘；中途有約好的事、劇情會先停下來）\n到了以後時間直接到 18:00（約好的時間）\n約會本身照常演"}
+  [ 102.5s] [jun] 晚餐的台詞（5 句）：["（六點，小路的布簾剛掛出來。你們是今天第一組客人。）", "考完了。……憲法最後一題寫不完。", "嗯。", "成績七月三號才查得到。", "（出來的時候，巷子裡的燈都亮了。她往新生南路那邊走，到巷口回頭揮了一下手。）"]
+  [ 102.5s] [jun] 選單：[]
+  [ 102.5s] [jun] 演的時候：{"zone": "wz_teishoku", "hour": 18, "lightH": 17.625, "seat": [-0.15, 2.9], "pose": "sit", "pp": [-0.15, 2.9], "yt": {"seat": [1.1, 2.9], "pose": "sit", "frozen": true, "pos": [1.1, 2.9]}, "headMe": {"w": [-0.15, 1.25, 2.9], "scr": [423, 199], "inView": true, "visible": true}, "headYt": {"w": [1.1, 1.25, 2.9], "scr": [563, 199], "inView": true, "visible": true}, "cam": [-0.19, 3.09, 6.57], "camMode": "follow", "win": {"map": "day", "photo": 1, "xf": 0, "tint": "#ffcfa0"}, "advBg": "none", "advNight": false, "staged": "te_Y1S2", "text": "（六點，小路的"}
+  [ 102.5s] [jun] 演的時候：{"zone": "wz_teishoku", "hour": 18, "lightH": 17.625, "seat": [-0.15, 2.9], "pose": "sit", "pp": [-0.15, 2.9], "yt": {"seat": [1.1, 2.9], "pose": "sit", "frozen": true, "pos": [1.1, 2.9]}, "headMe": {"w": [-0.15, 1.25, 2.9], "scr": [422, 200], "inView": true, "visible": true}, "headYt": {"w": [1.1, 1.25, 2.9], "scr": [560, 200], "inView": true, "visible": true}, "cam": [-0.15, 3.13, 6.61], "camMode": "follow", "win": {"map": "day", "photo": 1, "xf": 0, "tint": "#ffcfa0"}, "advBg": "none", "advNight": false, "staged": "te_Y1S2", "text": "考完了。……憲法最後一題寫不完。"}
+  [ 102.5s] [jun] 演的時候：{"zone": "wz_teishoku", "hour": 18, "lightH": 17.625, "seat": [-0.15, 2.9], "pose": "sit", "pp": [-0.15, 2.9], "yt": {"seat": [1.1, 2.9], "pose": "sit", "frozen": true, "pos": [1.1, 2.9]}, "headMe": {"w": [-0.15, 1.25, 2.9], "scr": [422, 200], "inView": true, "visible": true}, "headYt": {"w": [1.1, 1.25, 2.9], "scr": [560, 200], "inView": true, "visible": true}, "cam": [-0.15, 3.13, 6.61], "camMode": "follow", "win": {"map": "day", "photo": 1, "xf": 0, "tint": "#ffcfa0"}, "advBg": "none", "advNight": false, "staged": "te_Y1S2", "text": "嗯。"}
+  [ 102.5s] [jun] 演的時候：{"zone": "wz_teishoku", "hour": 18, "lightH": 17.625, "seat": [-0.15, 2.9], "pose": "sit", "pp": [-0.15, 2.9], "yt": {"seat": [1.1, 2.9], "pose": "sit", "frozen": true, "pos": [1.1, 2.9]}, "headMe": {"w": [-0.15, 1.25, 2.9], "scr": [422, 200], "inView": true, "visible": true}, "headYt": {"w": [1.1, 1.25, 2.9], "scr": [560, 200], "inView": true, "visible": true}, "cam": [-0.15, 3.13, 6.61], "camMode": "follow", "win": {"map": "day", "photo": 1, "xf": 0, "tint": "#ffcfa0"}, "advBg": "none", "advNight": false, "staged": "te_Y1S2", "text": "成績七月三號才查得到。"}
+  [ 102.5s] [jun] 演的時候：{"zone": "wz_teishoku", "hour": 18, "lightH": 17.625, "seat": [-0.15, 2.9], "pose": "sit", "pp": [-0.15, 2.9], "yt": {"seat": [1.1, 2.9], "pose": "sit", "frozen": true, "pos": [1.1, 2.9]}, "headMe": {"w": [-0.15, 1.25, 2.9], "scr": [422, 200], "inView": true, "visible": true}, "headYt": {"w": [1.1, 1.25, 2.9], "scr": [560, 200], "inView": true, "visible": true}, "cam": [-0.15, 3.13, 6.61], "camMode": "follow", "win": {"map": "day", "photo": 1, "xf": 0, "tint": "#ffcfa0"}, "advBg": "none", "advNight": false, "staged": "te_Y1S2", "text": "（出來的時候，巷子裡的燈都亮了。她往新生南路那邊走，到巷口回頭揮了一下手。）"}
+  [ 102.5s] [jun] OUT.bg（teishoku_night）：[{"id": "teishoku_night", "r": "blur", "zone": "wz_teishoku", "h": 18}]
+  [ 102.5s] [jun] 演完以後：{"out": {"state": "done"}, "hour": 20.02, "zone": "dorm", "pos": [0, 2.4], "busy": false, "frozen": false, "seat": false, "staged": null}
+PASS [jun] 晚餐演了（出遊 done、有台詞）  {"out": {"state": "done"}, "hour": 20.02, "zone": "dorm", "pos": [0, 2.4], "busy": false, "frozen": false, "seat": false, "staged": null}
+PASS [jun] 開場旁白「（六點，小路的布簾剛掛出來。你們是今天第一組客人。）」有出現（AA_687）  ["（六點，小路的布簾剛掛出來。你們是今天第一組客人。）", "考完了。……憲法最後一題寫不完。", "嗯。", "成績七月三號才查得到。"]
+PASS [jun] 真的切到 wz_teishoku 演（5／5 句在小路）  ["wz_teishoku", "wz_teishoku", "wz_teishoku", "wz_teishoku", "wz_teishoku"]
+PASS [jun] 玩家坐窗邊第一桌靠門那一側（−0.15, 2.9）  [-0.15, 2.9]
+PASS [jun] 語彤坐對面（1.1, 2.9）、坐著  {"seat": [1.1, 2.9], "pose": "sit", "frozen": true, "pos": [1.1, 2.9]}
+PASS [jun] 鏡頭兩個人的頭都在畫面裡（5／5 句）  [[true, true], [true, true], [true, true], [true, true], [true, true]]
+PASS [jun] 窗外是白天的照片（窗景 map＝day、photo＝1）  [[18, 17.625, {"map": "day", "photo": 1, "xf": 0, "tint": "#ffcfa0"}], [18, 17.625, {"map": "day", "photo": 1, "xf": 0, "tint": "#ffcfa0"}], [18, 17.625, {"map": "day", "photo": 1, "xf": 0, "tint": "#ffcfa0"}], [18, 17.625, {"map": "day", "photo": 1, "xf": 0, "tint": "#ffcfa0"}], [18, 17.625, {"map": "day", "photo": 1, "xf": 0, "tint": "#ffcfa0"}]]
+  [ 102.5s] [jun] （只記錄）窗景色調：["#ffcfa0"]——光線 18.4 以後白天照片調成 0x8a8aa8（W3.photoTint）
+PASS [jun] 演的時候 OUT.bg(teishoku_night)＝blur（3D 背景）  [{"id": "teishoku_night", "r": "blur", "zone": "wz_teishoku", "h": 18}]
+PASS [jun] 演完回到原本的地方（不在 wz_teishoku、沒有卡在劇情鎖、沒有坐著）  {"out": {"state": "done"}, "hour": 20.02, "zone": "dorm", "pos": [0, 2.4], "busy": false, "frozen": false, "seat": false, "staged": null}
+  [ 106.4s] [jun] 一鍵「回去睡覺」：{"t": "回去睡覺\n宿舍 203（爬上床直接睡）", "dim": false}
+  [ 109.1s] [jun] 確認框：{"title": "回去睡覺", "body": "去：宿舍 203（爬上床直接睡）\n現在：週六 20:02\n你就在這裡\n睡：睡到明天早上（07:30）。07:30（明天沒有課）"}
+  [ 111.4s] [jun] 一鍵「回去睡覺」：True {"title": "回去睡覺", "body": "去：宿舍 203（爬上床直接睡）\n現在：週六 20:02\n你就在這裡\n睡：睡到明天早上（07:30）。07:30（明天沒有課）"}
+PASS [jun] 回到宿舍（一鍵「回去睡覺」走回去）  {"zone": "dorm", "hour": 7.5, "busy": false, "dlg": false}
+PASS [jun] walkFallbacks 0（前 0、後 0）  [0, 0]
+PASS [jun] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [dec] 遊戲載入  11.7 秒
+  [前置／捷徑] [dec] 讀檔：宿舍、2025-12-18（Y1S1 期末時段第一天）09:00；語彤朋友（YT_MET_JOB＝一盞茶屋認識、fam 45、trust 30）、聯絡點數 12；重算這學期的期末邀約
+  [ 131.8s] [dec] 設定：{"dbg": {"score": 12, "away": false, "friendOk": true, "inFRIEND": true, "back": 93, "examStart": 93, "dating": false, "rom": "none", "cool": false, "noContact": false}, "stage": "FRIEND", "w": {"id": "Y1S1", "from": "2025-12-18", "to": "2025-12-28"}, "friend": ["heroine_03"], "heart": [], "nope": {}, "d0": 93, "d0key": "2025-12-18"}
+PASS [dec] 語彤是這學期朋友的期末邀約（TERMEND.plan friend）  {"dbg": {"score": 12, "away": false, "friendOk": true, "inFRIEND": true, "back": 93, "examStart": 93, "dating": false, "rom": "none", "cool": false, "noContact": false}, "stage": "FRIEND", "w": {"id": "Y1S1", "from": "2025-12-18", "to": "2025-12-28"}, "friend": ["heroine_03"], "heart": [], "nope": {}, "d0": 93, "d0key": "2025-12-18"}
+  [前置／捷徑] [dec] 讀檔（同一份存檔）跳到邀約那天 2025-12-18 20:24 宿舍
+  [ 150.8s] [dec] 收到的邀約：{"day": 93, "key": "2025-12-18", "h": 20.5, "texts": ["禮拜六我上到五點。下班以後，要吃飯嗎？"], "ask": {"id": "te_Y1S1_heroine_03", "opts": ["好。", "那天有約了。"]}}
+PASS [dec] 2025-12-18 20:30 語彤傳期末飯的邀約（可以回覆）  {"day": 93, "key": "2025-12-18", "h": 20.5, "texts": ["禮拜六我上到五點。下班以後，要吃飯嗎？"], "ask": {"id": "te_Y1S1_heroine_03", "opts": ["好。", "那天有約了。"]}}
+PASS [dec] 邀約那天 2025-12-18、20:30（最後一科考完那天，AA_687 第 5 項）  ["2025-12-18", 20.5]
+PASS [dec] 邀約的字逐字「禮拜六我上到五點。下班以後，要吃飯嗎？」  ["禮拜六我上到五點。下班以後，要吃飯嗎？"]
+  [ 158.7s] [dec] 手機：私訊 True、回「好。」True；‹ 訊息 / 語彤 / ☆ / 傳訊息 / 約 / 今天 20:30 / 禮拜六我上到五點。下班以後，要吃飯嗎？ / 今天 20:56 / 好。
+PASS [dec] 答應以後晚餐排 2025-12-20（六）18:00 溫州街・小路（AA_687）  {"id": "te_Y1S1", "day": 95, "key": "2025-12-20", "h": 18, "place": "溫州街・小路", "state": "planned"}
+  [前置／捷徑] [dec] 讀檔（同一份存檔）跳到 2025-12-20 16:30 宿舍——跳過中間的日子
+  [ 169.4s] [dec] 一鍵「到下一個約會地點」：{"t": "到下一個約會地點\n學期末的飯：陳語彤（溫州街・小路）（18:00）", "dim": false}
+  [ 171.9s] [dec] 確認框：{"title": "到下一個約會地點", "body": "去：學期末的飯：陳語彤（溫州街・小路）（18:00）\n現在：週六 16:31\n路程：走過去約 15 分鐘\n現在去會太早：先跳過時間到 17:30 出發（等 59 分鐘；中途有約好的事、劇情會先停下來）\n到了以後時間直接到 18:00（約好的時間）\n約會本身照常演"}
+PASS [dec] 一鍵「到下一個約會地點」→ 確定（出發去小路）  {"title": "到下一個約會地點", "body": "去：學期末的飯：陳語彤（溫州街・小路）（18:00）\n現在：週六 16:31\n路程：走過去約 15 分鐘\n現在去會太早：先跳過時間到 17:30 出發（等 59 分鐘；中途有約好的事、劇情會先停下來）\n到了以後時間直接到 18:00（約好的時間）\n約會本身照常演"}
+  [ 201.1s] [dec] 晚餐的台詞（7 句）：["（六點，小路的布簾剛掛出來。你們是今天第一組客人。）", "我們系的期末考比較少，大部分是報告。", "嗯。", "蘇姨說寒假茶屋照開，過年前一週休息。", "真的假的。", "（她在吃飯，沒有說話。）", "（出來的時候，巷子裡的燈都亮了。她往新生南路那邊走，到巷口回頭揮了一下手。）"]
+  [ 201.1s] [dec] 選單：[]
+  [ 201.1s] [dec] 演的時候：{"zone": "dorm", "hour": 18, "lightH": 19.14, "seat": null, "pose": "idle", "pp": [0, 2.4], "yt": null, "headMe": {"w": [0, 1.25, 2.4], "scr": [422, 200], "inView": true, "visible": true}, "headYt": null, "cam": [-0.0, 2.99, 5.74], "camMode": "follow", "win": {"map": "other", "photo": 1, "xf": 0.9, "tint": "#8a8aa8"}, "advBg": "none", "advNight": false, "staged": null, "text": "（六點，小路的布簾剛掛出來。你們是今天第一組客人。）"}
+  [ 201.1s] [dec] 演的時候：{"zone": "dorm", "hour": 18, "lightH": 19.14, "seat": null, "pose": "idle", "pp": [0, 2.4], "yt": null, "headMe": {"w": [0, 1.25, 2.4], "scr": [422, 200], "inView": true, "visible": true}, "headYt": null, "cam": [-0.0, 2.99, 5.74], "camMode": "follow", "win": {"map": "other", "photo": 1, "xf": 0.9, "tint": "#8a8aa8"}, "advBg": "none", "advNight": false, "staged": null, "text": "我們系的期末考比較少，大部分是報告。"}
+  [ 201.1s] [dec] 演的時候：{"zone": "dorm", "hour": 18, "lightH": 19.14, "seat": null, "pose": "idle", "pp": [0, 2.4], "yt": null, "headMe": {"w": [0, 1.25, 2.4], "scr": [422, 200], "inView": true, "visible": true}, "headYt": null, "cam": [-0.0, 2.99, 5.74], "camMode": "follow", "win": {"map": "other", "photo": 1, "xf": 0.9, "tint": "#8a8aa8"}, "advBg": "none", "advNight": false, "staged": null, "text": "嗯。"}
+  [ 201.1s] [dec] 演的時候：{"zone": "dorm", "hour": 18, "lightH": 19.14, "seat": null, "pose": "idle", "pp": [0, 2.4], "yt": null, "headMe": {"w": [0, 1.25, 2.4], "scr": [422, 200], "inView": true, "visible": true}, "headYt": null, "cam": [-0.0, 2.99, 5.74], "camMode": "follow", "win": {"map": "other", "photo": 1, "xf": 0.9, "tint": "#8a8aa8"}, "advBg": "none", "advNight": false, "staged": null, "text": "蘇姨說寒假茶屋照開，過年前一週休息。"}
+  [ 201.1s] [dec] 演的時候：{"zone": "dorm", "hour": 18, "lightH": 19.14, "seat": null, "pose": "idle", "pp": [0, 2.4], "yt": null, "headMe": {"w": [0, 1.25, 2.4], "scr": [422, 200], "inView": true, "visible": true}, "headYt": null, "cam": [-0.0, 2.99, 5.74], "camMode": "follow", "win": {"map": "other", "photo": 1, "xf": 0.9, "tint": "#8a8aa8"}, "advBg": "none", "advNight": false, "staged": null, "text": "真的假的。"}
+  [ 201.1s] [dec] 演的時候：{"zone": "dorm", "hour": 18, "lightH": 19.14, "seat": null, "pose": "idle", "pp": [0, 2.4], "yt": null, "headMe": {"w": [0, 1.25, 2.4], "scr": [422, 200], "inView": true, "visible": true}, "headYt": null, "cam": [-0.0, 2.99, 5.74], "camMode": "follow", "win": {"map": "other", "photo": 1, "xf": 0.9, "tint": "#8a8aa8"}, "advBg": "none", "advNight": false, "staged": null, "text": "（她在吃飯，沒有說話。）"}
+  [ 201.1s] [dec] 演的時候：{"zone": "dorm", "hour": 18, "lightH": 19.14, "seat": null, "pose": "idle", "pp": [0, 2.4], "yt": null, "headMe": {"w": [0, 1.25, 2.4], "scr": [422, 200], "inView": true, "visible": true}, "headYt": null, "cam": [-0.0, 2.99, 5.74], "camMode": "follow", "win": {"map": "other", "photo": 1, "xf": 0.9, "tint": "#8a8aa8"}, "advBg": "none", "advNight": false, "staged": null, "text": "（出來的時候，巷子裡的燈都亮了。她往新生南路那邊走，到巷口回頭揮了一下手。）"}
+  [ 201.1s] [dec] OUT.bg（teishoku_night）：[{"id": "teishoku_night", "r": "image:teishoku_night.webp", "zone": "dorm", "h": 18}]
+  [ 201.1s] [dec] 演完以後：{"out": {"state": "done"}, "hour": 20.02, "zone": "dorm", "pos": [0, 2.4], "busy": false, "frozen": false, "seat": false, "staged": null}
+PASS [dec] 晚餐演了（出遊 done、有台詞）  {"out": {"state": "done"}, "hour": 20.02, "zone": "dorm", "pos": [0, 2.4], "busy": false, "frozen": false, "seat": false, "staged": null}
+PASS [dec] 開場旁白「（六點，小路的布簾剛掛出來。你們是今天第一組客人。）」有出現（AA_687）  ["（六點，小路的布簾剛掛出來。你們是今天第一組客人。）", "我們系的期末考比較少，大部分是報告。", "嗯。", "蘇姨說寒假茶屋照開，過年前一週休息。"]
+PASS [dec] 對照：沒有換到 wz_teishoku（照舊 2D）  ["dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm"]
+PASS [dec] 對照：OUT.bg(teishoku_night)＝圖（不是 blur）  [{"id": "teishoku_night", "r": "image:teishoku_night.webp", "zone": "dorm", "h": 18}]
+PASS [dec] 演完回到原本的地方（不在 wz_teishoku、沒有卡在劇情鎖、沒有坐著）  {"out": {"state": "done"}, "hour": 20.02, "zone": "dorm", "pos": [0, 2.4], "busy": false, "frozen": false, "seat": false, "staged": null}
+  [ 204.8s] [dec] 一鍵「回去睡覺」：{"t": "回去睡覺\n宿舍 203（爬上床直接睡）", "dim": false}
+  [ 207.7s] [dec] 確認框：{"title": "回去睡覺", "body": "去：宿舍 203（爬上床直接睡）\n現在：週六 20:02\n你就在這裡\n睡：睡到明天早上（07:30）。07:30（明天沒有課）"}
+  [ 209.9s] [dec] 一鍵「回去睡覺」：True {"title": "回去睡覺", "body": "去：宿舍 203（爬上床直接睡）\n現在：週六 20:02\n你就在這裡\n睡：睡到明天早上（07:30）。07:30（明天沒有課）"}
+PASS [dec] 回到宿舍（一鍵「回去睡覺」走回去）  {"zone": "dorm", "hour": 7.5, "busy": false, "dlg": false}
+PASS [dec] walkFallbacks 0（前 0、後 0）  [0, 0]
+PASS [dec] 沒有 JS 例外  []
+ALL PASS
