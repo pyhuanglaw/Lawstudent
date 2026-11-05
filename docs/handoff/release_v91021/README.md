@@ -5,6 +5,7 @@
 - LAWWW-C：候選 098aafb74 全部 Node 1051 支，2 支已知（bookstore_exit_unit 誤報、ladder_headroom_unit ④ 梯子動畫預設不播）。
 - GitHub Actions（node-unit-auto）在開發線抓到本機 full.sh 漏掉的一支：wz_interiors_aa659_unit A6「小路窗景卡晚上調暗」在發布樹 aa0f3bcd3 也 FAIL——是測試的舊期望（小路窗景 11-05 換成街景照片、晚上改換夜版圖不調暗，wz_views_1105_unit ③ 查這件），遊戲行為正確；開發線 tests 已改期望。發布時可以不管，或把這一支測試帶進發布樹。另外 full.sh 只看最後一行，最後一行是 ALL PASS 但 exit 1 的會漏：以 GitHub Actions 的結果為準。
 - BB 已過：WINVIEW r1、V21R p0／class／mini／zone、noodle_seat_ap Node、版本字樣 358 處、雲端 reach noodle（2 點是半徑 0.32 的誤報，不擋，NOODLE-AP-RADIUS-1105）。
+- **BB-C 11:09 更正**：那三樣（PC p0、燒臘店吃飯截圖＋walkFallbacks、touch 重跑）**還沒排進 PC 佇列、沒開始跑**（CC-C 也已交班）；下一班 BB 第一步就是排進去（或雲端先跑 p0、touch）。
 - 還差（BB 說過了就 GO）：`aa0f3bcd3` 的 deploy_check、PC 的 p0＋燒臘店吃飯截圖（walkFallbacks 要 0）、afar 晚上／青木窗景 r2。
 - 發布步驟：BB GO →（工作目錄乾淨）`bash docs/handoff/release_v91021/make_release_tree.sh aa0f3bcd3 9.10.21 <當天日期> HEAD` → 它印出 RELEASE_TREE、BACK 兩個 commit（commit-tree 做的，沒簽章；要讓 hook 不擋就照 LAWWW-C 的做法：`git restore --source=<RELEASE_TREE> --staged --worktree :/` 後一般 commit，核對 tree 相同）→ 加 RELEASES.md（草稿 `RELEASES_draft.md`，填 GO 時間、PR、Pages run、測試結果）→ push → PR（head＝這條分支 tip）→ 合併 → Pages → 換回開發檔案（BACK）→ BB 排線上檢查。
 - 不准為了交班趕著發布（P0 換班口令第 7 條）。
