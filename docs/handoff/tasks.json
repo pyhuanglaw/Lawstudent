@@ -46947,7 +46947,7 @@
    "title": "爬宿舍梯子：手抓靠床那側新扶手（climbIK 讀 sleep_scene.grips）、最上面兩階腳伸進牆（走路片段的腳；爬上 28／49 cm、爬下 23／44 cm）改成踩在踏階上",
    "area": "ANIM",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -46962,7 +46962,7 @@
    "source": "LAWWW2-C 11-05 01:13 DORM-LADDER-HEAD-GRIP-1102 ② 交件 README「給 LAWWW」（動作歸 LAWWW，D128）",
    "authorized": "D100 LAWWW 整合／動畫；D128",
    "next": "【LAWWW-C 11-05 01:1x】開任務；子代理實作（照 README 給 LAWWW 那一節：手照 grips 換手、腳踩踏階不進牆、第 5 階 null＝跪姿手在大腿），Node 量手到扶手、腳到牆的距離",
-   "sha": null
+   "sha": "c863267bd"
   },
   {
    "id": "HOME-FF-REMIND-ALIGN-1105",
@@ -47568,6 +47568,35 @@
     "ack": "自領"
    },
    "src": "UA-LAWWW-1105-28"
+  },
+  {
+   "id": "XS-GATE-MOVE-1105",
+   "title": "新生南路側門搬到映月湖和博思中間",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2 先交俯視改前／改後；牽動牆線、xinsheng 接點、門外背景、溫州街出入口、手機地圖圖釘",
+   "source": "UA-LAWWW-1105-29",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "UA-LAWWW-1105-29",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "從映月湖和博思中間走出去就是新生南路；門外看不到公館",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "src": "UA-LAWWW-1105-29"
   }
  ]
 }
