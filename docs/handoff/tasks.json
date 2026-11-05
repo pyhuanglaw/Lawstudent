@@ -47859,6 +47859,64 @@
     "ack": "SENT"
    },
    "src": "UA-LAWWW-1105-41"
+  },
+  {
+   "id": "TAP-SEAT-REACH-1105",
+   "title": "點椅子走過去一定看得到「坐下」（點的那張範圍 +0.5 m）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "BB 電腦重跑 SHANLAN_v2 #1～#4；日常失速 4 張走近點站不住交 LAWWW2（OFFBEAT-SEAT-AP-1105）",
+   "source": "BB_255 SEATSCAN",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "BB_255 08:3x",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "點山嵐靠窗長椅走過去看得到坐靠窗長椅",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "src": "BB-C 08:28 SEATSCAN（山嵐靠窗長椅 6 張擋玩）"
+  },
+  {
+   "id": "OFFBEAT-SEAT-AP-1105",
+   "title": "日常失速 4 張座位的走近點都站不住（窗邊 (−1.5,3.45)、長桌 (−4.2,0.3)(−4.2,1.5)、卡座 (2.05,−3.5)）",
+   "area": "SYS",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約人念書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2 給那 4 張 seat.ap 或調導航阻擋",
+   "source": "BB_255 SEATSCAN",
+   "authorized": "使用者原話",
+   "xai": {
+    "spec": "BB_255 08:3x",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "4 張都走得到、按得到坐下",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "src": "BB_255 SEATSCAN"
   }
  ]
 }
