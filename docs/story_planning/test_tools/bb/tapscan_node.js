@@ -19,7 +19,7 @@ const rows=[];
 for(const id of Object.keys(Z3.ZONES)){
   let z; try{ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; G.zone=id; z=Z3.ZONES[id].build(E); }catch(e){ rows.push([id,'BUILD_ERR',String(e).slice(0,80)]); continue; }
   const L=z.levels||[z.nav]; if(!L||!L[0]) continue; if(z.group) z.group.updateMatrixWorld(true);
-  const wm=(z.walkMeshes||[]).filter(Boolean);
+  const wm=(z.walkMeshes||[]).filter(Boolean); for(const m of wm){ try{ m.updateWorldMatrix(true,false); }catch(e){} }   /* LAWWW2-C 11-05：可點面不一定掛在 z.group 底下，要各自更新 matrixWorld（遊戲每一幀都會更新）*/
   for(let lv=0;lv<L.length;lv++){ const n=L[lv]; if(!n||!n.surf) continue; let need=0, miss=0, worst=0, ex=null;
     const mine=wm.filter(m=>((m.userData&&m.userData.walkLv)|0)===lv);
     for(let cz=0;cz<n.rows;cz+=2) for(let cx=0;cx<n.cols;cx+=2){ if(n.blocked(cx,cz)) continue; const [x,zz]=n.toWorld(cx,cz); const h=n.heightAt(x,zz); if(Math.abs(h-n.y0)<=0.15) continue; need++;
