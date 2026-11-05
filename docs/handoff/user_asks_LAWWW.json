@@ -3100,7 +3100,7 @@
    "status": "進行中",
    "wants": "X234",
    "task": "SHOP-CROWD-NEW-1105",
-   "note": "crowd3d shopDefs 沒列新店（日常失速、木曜日、同弦、南洋、山嵐、大口、大步、好拍、運動廣場）；子代理 wt-crowd"
+   "note": "crowd3d shopDefs 沒列新店（日常失速、木曜日、同弦、南洋、山嵐、大口、大步、好拍、運動廣場）；子代理 wt-crowd；新店客人已在開發分支（shop-crowd f1a70b18f），跟著 X234 v9.10.21 發布"
   },
   {
    "id": "UA-LAWWW-1105-21",

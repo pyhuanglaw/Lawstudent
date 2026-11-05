@@ -47293,7 +47293,7 @@
    "title": "新店裡沒有客人（使用者 11-05 06:5x「店裡都沒人??」）：crowd3d shopDefs 加日常失速、木曜日、同弦、南洋、山嵐、大口、大步、好拍、運動廣場",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -47305,7 +47305,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "子代理 wt-crowd → 合併 → v9.10.21",
+   "next": "v9.10.21 候選；CC 截圖日常失速 10/21 17:29、各新店熱鬧時段",
    "source": "UA-LAWWW-1105-20",
    "authorized": "使用者原話"
   },
