@@ -47048,7 +47048,7 @@
    "title": "約會台詞整批拿掉沒必要的「……」（使用者 11-05 03:4x 選「整批改」；LAWWW-C 代 AA 問）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "META",
@@ -47060,7 +47060,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "AA-C 03:56 交 AA_694（企劃線 1b095a239）：D*.json 34 檔 4,478 句；白名單換到 1b095a239 重匯；源稿外 252 句照 AA_694 第 3 節換；重匯後「句首……」「。……」「）……」都要 0；測試寫死的照新字改",
+   "next": "AA_694 已進開發分支 a51028476（下一版）；BB 驗約會台詞刪節號。",
    "source": "AA_694",
    "authorized": "使用者選擇題（UA-LAWWW-1105-06）",
    "xai": {
@@ -47069,7 +47069,8 @@
     "acceptance": "三種「……」都是 0、date_lines 回歸測試過",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "a51028476"
   },
   {
    "id": "RULES-2D3D-1105",
