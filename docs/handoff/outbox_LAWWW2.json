@@ -6582,6 +6582,24 @@
    "noDirectIntegrate": false,
    "note": "慢輪、阿德視差窗＋照片；afar／頁間／青木窗景重拍（捷運出口位置修正）；shop_viewpanes2 FAILED 8→ALL PASS、40 支回歸 ALL PASS",
    "next": "LAWWW-C 換照片＋套 patch；CC 拍"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "c6837632e",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "XS-NORTH-EXT-1105＋XS-WINCARD-1105",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/xs_wincard_1105/README.md",
+    "docs/art-rebuild/second_ai/wip/xs_wincard_1105/xs_north_wincard_1105.patch",
+    "assets/models/env/second_ai/campus_moon.glb",
+    "assets/models/env/second_ai/campus_gymext.glb",
+    "assets/models/env/views/xs_dakou_day.webp"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "望月台、體育館照臺大官網照片重做（第 2 版：紅磚角落店面＋露台；粉橘基座、銀白懸挑環、薄膜圓頂）；新生南路圍牆後面照北牆側門；大口、大步、好拍視差窗 8 張；xs_wincard FAILED 12→ALL PASS；48 支回歸 46 ALL PASS（另兩支 base 一樣）；e6335d264 --check 通過",
+   "next": "LAWWW-C checkout 模型、照片＋git apply patch；CC 拍；使用者看過才算美術通過"
   }
  ]
 }

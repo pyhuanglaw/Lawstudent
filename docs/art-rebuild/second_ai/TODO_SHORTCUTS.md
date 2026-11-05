@@ -11,7 +11,7 @@
 
 ### 望月台、體育館正式外觀（照官網照片）＋新生南路圍牆後面＋三間店的窗外（XS-NORTH-EXT-1105＋XS-WINCARD-1105，LAWWW2-C 2026-11-05）
 
-- 來源：[wip/xs_wincard_1105/README.md](wip/xs_wincard_1105/README.md)
+- 來源：[wip/xs_wincard_1105/README.md](wip/xs_wincard_1105/README.md)（交件 c6837632e）
 - 狀態：**待做**（做了就在這一節寫 commit 和日期，整節做完再搬到最下面「做完的」）
 
 1. **沒有和照片同角度比過**：第 2 版照官網照片做，但遊戲截圖要瀏覽器（CC）。使用者看過之前是 MODEL_READY。
