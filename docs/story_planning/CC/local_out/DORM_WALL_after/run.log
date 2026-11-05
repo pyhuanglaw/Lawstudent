@@ -1,0 +1,5 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_dorm_wall_probe.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\DORM_WALL_after\out
+CC DORM_WALL（男一舍牆縫，after）：SHA=4eada314bce1a1c23c5d0dc28723ed27f507fb45（worktree 實際 ?）；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [day 1_entrance] 讀檔男生宿舍 2025-10-15 14.00、人在 (0.0, 5.6) 第 0 層

@@ -319,3 +319,12 @@
 [15:53:54] [res] cpu=2% mem=37% (11.6/31.4 GB) chrome_testing=10  START DORM_WALL_before
 [15:57:08] 正在跑：SHANLAN_v2（已跑 106 分／上限 120 分）、XSPLAZA_v1（已跑 6 分／上限 90 分）、DORM_WALL_before（已跑 3 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:58:21] [res] cpu=5% mem=37% (11.7/31.4 GB) chrome_testing=10  END DORM_WALL_before
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       64b4fce2e..3391b4b11  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:58:28] ==== END   DORM_WALL_before  exit=0  270s   ====
+[15:58:32] memory 38% before starting DORM_WALL_after (2 running)
+[15:58:32] ==== START DORM_WALL_after  (probe @ 4eada314bce1a1c23c5d0dc28723ed27f507fb45) ====
+[15:58:35] [res] cpu=5% mem=38% (12.0/31.4 GB) chrome_testing=10  START DORM_WALL_after
+[15:58:35] worktree add 4eada314bce1a1c23c5d0dc28723ed27f507fb45: invalid reference - fetching main and the commit itself
+[15:59:37] [res] cpu=2% mem=38% (12.0/31.4 GB) chrome_testing=10  END DORM_WALL_after
