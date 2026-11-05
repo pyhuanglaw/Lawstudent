@@ -352,8 +352,9 @@
    "quote": "Node不是用GitHub免費就好嗎（BB 回 Node 全套已經在 GitHub 跑，接著問瀏覽器測試要不要也丟 GitHub；選擇題選「要，電腦不能用時丟 GitHub（建議）」）",
    "kind": "選擇題答案",
    "status": "進行中",
-   "task": "TEST-METHODS-1104",
-   "note": "選項全文：電腦卡住或關機時，功能測試和線上網址檢查改丟 GitHub 免費機器；效能、畫面顏色照舊等使用者電腦；電腦正常時照舊排電腦。修改 D131（瀏覽器測試一律排使用者電腦）——LAWWW-C 寫規則、開 USER_WANTS 列。CC-C 建 workflow（claude/cc-testing），結果推回 git（雲端讀不到 artifact）。T1 隨機遊玩 30 個種子也改丟 GitHub（BB 自己決定，UA-BB-1104-TEST-METHODS-DELEG）"
+   "task": "GHA-BROWSER-1105",
+   "note": "選項全文：電腦卡住或關機時，功能測試和線上網址檢查改丟 GitHub 免費機器；效能、畫面顏色照舊等使用者電腦；電腦正常時照舊排電腦。修改 D131（瀏覽器測試一律排使用者電腦）——LAWWW-C 寫規則、開 USER_WANTS 列。CC-C 建 workflow（claude/cc-testing），結果推回 git（雲端讀不到 artifact）。T1 隨機遊玩 30 個種子也改丟 GitHub（BB 自己決定，UA-BB-1104-TEST-METHODS-DELEG）",
+   "wants": "X230"
   }
  ]
 }
