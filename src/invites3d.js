@@ -690,7 +690,8 @@ const INV=(function(){
     if(depth!=null&&GM.sceneDepth&&GM.sceneEnd){ let k=0; while(GM.sceneDepth()>depth&&k++<64) GM.sceneEnd(); }
     if(GM.fade) Promise.resolve().then(()=>GM.fade(false)).catch(()=>{}); };
   /* 手機的回呼要不要再打開手機（game3d.js：手機約人、改天之後）：剛演完見面（30 秒內）、她正在帶路、一起走過去的途中＝不打開（手機打開遊戲會停，玩家以為卡住）*/
-  S.phoneBack=function(G){ if(lastMeetEnd!=null&&S._now()-lastMeetEnd<30000) return false; if(!G||!Array.isArray(G.invites)) return true; return !G.invites.some(iv=>iv.day===G.day&&(iv.state==='going'||S.leadOn(G,iv))); };
+  S.phoneBack=function(G){ if(lastMeetEnd!=null&&S._now()-lastMeetEnd<30000) return false; if(!G||!Array.isArray(G.invites)) return true; const h=G.hour%24;
+    return !G.invites.some(iv=>iv.day===G.day&&(iv.state==='going'||S.leadOn(G,iv)||(iv.state==='accepted'&&h>=iv.h-0.5&&h<iv.h+1))); };   /* 約好的見面前 30 分鐘到開始後 1 小時：手機不自己打開（BB-B 11-07 AA_717 第 2 次見面：約完收起手機、走到她旁邊，手機又自己打開＝遊戲暫停、時間停在 12:01、那一場一直不開始，玩家會以為卡住）。訊息照樣留著，見面完再看 */
   /* ---------- 對方約你、臨時改約（給事件用；內容由 AA、BB 寫，使用者批准後才放）---------- */
   S.offer=function(G,who,pid,day,h,text,at){ S.rec(G); const P=S.place(pid); if(!P) return null; if(S.cool(G,who)) return null; if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,who)) return null;   /* AA_600 S3：以安、學姊是前任＝她那一方不約 */   /* 分開以後一個學期，她那一方的邀約不發（AA_434 4-3）*/ G.invSeq=(G.invSeq|0)+1;
     const iv={id:'iv'+G.invSeq,who,place:pid,zone:P.zone,day,h:+h.toFixed(3),state:'offered',accepted:false,by:'npc',label:nameOf(who)+'約你去'+P.name}; G.invites.push(iv);

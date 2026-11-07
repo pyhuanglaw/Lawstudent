@@ -165,5 +165,10 @@ const dEnt=s=>Math.hypot(s.x-SPAWN.x,s.z-SPAWN.z);
     check('13. 她不在那個位子上、你離得遠：她走回那個位子坐下（不會兩邊都不動）',!!L&&back&&L.ph==='wait'&&n.seat===her&&iv.state==='accepted',JSON.stringify({back,ph:L&&L.ph,seat:n.seat,st:iv.state}));
     GM.standUp(n); n.path=null; const said0=H.said.length; place(E.player,n.obj.position.x+0.4,n.obj.position.z+0.6,1); G.hour=15.3; INV.tick(GM); await W(20);
     check('13. 她不在那個位子上、你走到她本人旁邊：照樣開演（她坐回那個位子、演完 done）',iv.state==='done'&&lines().slice(said0).includes(LS.seated),JSON.stringify({st:iv.state,said:lines().slice(said0,said0+3)})); }
+  /* ---- 14 BB-B 11-07 10:42（AA_717 探針第 2 次見面）：約完收起手機、走去找她，手機又自己打開＝暫停、時間停住、那一場不開始——約好的時間前 30 分鐘到開始後 1 小時手機不自己打開 ---- */
+  { const G=setup('2025-09-13',11,'campus',[{x:0,z:0,yaw:0,lv:0}],{x:0,z:4,lv:0}); H.FRIEND('heroine_01'); const iv=INV.accept(G,'heroine_01','library',G.day,12,{by:'player'}); INV._now=()=>Date.now()+5e9;   /* 離上一項的見面很久了（不是「剛演完 30 秒內」）*/
+    const at=h=>{ G.hour=h; return INV.phoneBack(G); }; const r=[at(11.4),at(11.6),at(12.01),at(12.9),at(13.1)];
+    check('14. 約好 12:00：11:24 可以自己打開；11:36～12:54 不自己打開；13:06 以後可以',JSON.stringify(r)===JSON.stringify([true,false,false,false,true]),JSON.stringify(r));
+    iv.state='cancelled'; check('14. 約取消了：照常可以打開',at(12.01)===true); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
