@@ -5,7 +5,7 @@
 //   1 建得起來、尺寸照配置、正式模型的資產登錄、配置的導航阻擋都擋住、沒有走進去出不來的小孤島（0.1 m 取樣）
 //   2 公館店門口「進入 洋洋鹹酥雞」：門＝那一棟中心 −9.4 − 配置的門 x 1.2＝−10.6（騎樓機車讓開的 DOORS 同一個位置）、按得到、從人行道走得到
 //   3 進門站的地方站得住、不在出口範圍（＋0.2 m）裡；出口按得到、走得到；出來回公館站得住、不在公館任何出口的範圍裡、就在店門前
-//   4 座位：22 張（四人桌 4、兩人桌 3）；玩家坐得到的 20 張每一張都按得到、走得到（四人桌四南側兩張夾在桌子和後牆中間：只給路人）；不能讀書
+//   4 座位：22 張（四人桌 4、兩人桌 3）；玩家坐得到的 20 張每一張都按得到、走得到、坐下前的走近點站得住（四人桌四南側兩張夾在桌子和後牆中間：只給路人）；不能讀書
 //   5 點炸物（店內）、看菜單、看炸物櫃、看自助區、看冷飲櫃、看廚房（AA_724 第 5 節的 id：case／menu／self／fridge／kitchen）按得到、走得到；騎樓那一側的點餐這一版不接
 //   6 老闆、第二個店員站在櫃台後面（站不住的地方）、路人（CROWD）、快速前往、大地圖、引路、路程、城鎮判定、index.html 載入順序、zone_assets.js、LICENSES.md、劇情匯入白名單
 // 第二部分（B，子程序：tests/pg_harness.js 的遊戲資料＋邀約系統＋gg2shops3d.js＋xs_close3d.js）：
@@ -91,6 +91,13 @@ if(R){ const z=R.z, its=R.its;
   check('4 座位 22 張（照配置：四人桌 4、兩人桌 3）；四人桌四南側兩張（−3.18／−2.62, −4.9）只給路人坐、不出「坐下」',z.seats.length===22&&L.seats.length===22&&seats.length===20&&J(npc)===J([[-3.18,-4.9],[-2.62,-4.9]]),seats.length+'／'+z.seats.length+' '+J(npc));
   const bad=[]; for(const it of seats){ if(!touchable(it,[sp.x,sp.z])) bad.push([it.seat.x,it.seat.z]); }
   check('4 玩家坐得到的 20 張每一張都按得到、從進門的地方走得到',!bad.length,J(bad));
+  /* 坐下前走到的點（game3d.js seatApproach 的八個候選：前 0.5、後 0.6、兩側 0.55、後 0.7／0.75、前 0.8、後 0.9）：至少一個站得住（半徑 0.3）、在「坐下」的範圍裡、從進門的地方找得到路
+     （DAYBREAK-SEAT-AP-1105：八個都站不住＝走到站不住的備用點）*/
+  const noAp=[]; for(const it of seats){ const s=it.seat, fx=Math.sin(s.yaw||0), fz=Math.cos(s.yaw||0), reach=(it.radius||1.8)-0.05;
+    const ok=[[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]].some(([dx,dz])=>{ const x=s.x+dx, zz=s.z+dz;
+      if(!E.canStand(x,zz,0.3,0)||Math.hypot(x-it.x,zz-it.z)>reach) return false; const p=E.pathTo(sp.x,sp.z,0,x,zz,0); return !!p&&p.length>0&&Math.hypot(p[p.length-1][0]-x,p[p.length-1][1]-zz)<=0.6; });
+    if(!ok) noAp.push([s.x,s.z]); }
+  check('4 每一張的走近點（seatApproach 的八個候選）至少一個站得住、在範圍裡、找得到路',!noAp.length,J(noAp));
   check('4 座位的 shop＝yangyang、字「坐下吃」（配置）、不能讀書（配置沒有 canStudy）',seats.every(q=>q.shop==='yangyang'&&q.label==='坐下吃'&&!q.study));
   const WANT={order:'點炸物（店內）',menu:'看菜單',case:'看炸物櫃',self:'自助區（餐具、醬料、水）',fridge:'看冷飲櫃',kitchen:'看廚房'};
   const gi=its.filter(q=>q.gg2==='yangyang'); check('5 店裡的按鈕剛好六個：點炸物＋AA_724 第 5 節的 case／menu／self／fridge／kitchen（騎樓 order_street、配置的 drink／selfserve 換成稿上的 id）',J(gi.map(q=>q.kind).sort())===J(Object.keys(WANT).sort()),J(gi.map(q=>q.kind)));
