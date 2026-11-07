@@ -1,24 +1,24 @@
 {
-  "rerun": "r2",
+  "rerun": "",
   "id": "LIVE_V91021_deploy",
   "sha": "92c3daad8adf1bb5f707b0b411640c7b13ff7052",
   "kind": "game",
   "script": "tests/deploy_check.py",
-  "env": "RERUN=r2;XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.21（2026-11-05）",
+  "env": "XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.21（2026-11-05）",
   "machine": "MSI",
-  "start": "2026-11-07T13:28:40",
-  "end": "2026-11-07T13:32:12",
-  "seconds": 212,
+  "start": "2026-11-07T13:32:25",
+  "end": "2026-11-07T13:36:46",
+  "seconds": 261,
   "exit": 0,
   "error": null,
   "runner": "5ba0949b5e",
   "rf_round": "11",
-  "url": "http://127.0.0.1:8800/index.html",
+  "url": "http://127.0.0.1:8801/index.html",
   "headless_forced": true,
   "res_peak": {
-    "cpu": 29,
-    "mem": 60,
-    "used_gb": 19.0,
+    "cpu": 45,
+    "mem": 61,
+    "used_gb": 19.2,
     "chrome_testing": 9
   }
 }
