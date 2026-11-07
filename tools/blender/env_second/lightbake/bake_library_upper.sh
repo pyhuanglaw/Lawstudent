@@ -14,9 +14,9 @@ LB=tools/blender/env_second/lightbake
 TMP=$(mktemp -d)
 case "$WHICH" in
   carrels) NAME=library_carrels; BLOB=312b581d6eadcf71da28ca13036be7836333745d; OPEN=E; SUN="${SUN:-90,30,0}"
-    EXTRA=(--dayemit "CARREL_SKY=${SKYW:-2.0}") ;;
+    EXTRA=(--dayemit "CARREL_SKY=${SKYW:-2.0}"); TW=5; UW=4 ;;   # 試烘 128：白天／晚上 0.35／0.30（總圖 3F 0.31）→ 照舊
   stacks) NAME=library_stacks; BLOB=4a26982f65fa666523437d660b38ff54137d7b9c; OPEN=S; SUN="${SUN:-180,35,0}"
-    EXTRA=(--keep-instances) ;;
+    EXTRA=(--keep-instances); TW=4; UW=3.2 ;;   # 試烘 128（5／4 W）：0.45／0.41 偏亮（書庫；長條燈 66 條）→ ×0.8
   *) echo "用法：$0 carrels|stacks [取樣數] [輸出資料夾] [邊長]"; exit 1 ;;
 esac
 PLAIN="$TMP/${NAME}_plain.glb"
@@ -24,8 +24,8 @@ git cat-file -p "$BLOB" > "$PLAIN"
 HIDE='glass|frost'
 NOLM="^(?!(${NAME}_floorm|${NAME}_ceiling|WALL_[A-Z0-9]+_(wall|wain))\$)"
 COL=${LCOL:-0.95,0.98,1.0}
-LIGHTS=$(python3 $LB/mesh_lights.py "$PLAIN" WALL_C_tube cells --w "${TUBEW:-5}" --y -0.03 --col "$COL")
-POINTS=$(python3 $LB/mesh_lights.py "$PLAIN" WALL_C_tube up --w "${UPW:-4}" --y -0.9 --col "$COL")
+LIGHTS=$(python3 $LB/mesh_lights.py "$PLAIN" WALL_C_tube cells --w "${TUBEW:-$TW}" --y -0.03 --col "$COL")
+POINTS=$(python3 $LB/mesh_lights.py "$PLAIN" WALL_C_tube up --w "${UPW:-$UW}" --y -0.9 --col "$COL")
 echo "lights $(echo "$LIGHTS" | tr ';' '\n' | wc -l), points $(echo "$POINTS" | tr ';' '\n' | wc -l)"
 /opt/blenv/bin/python $LB/bake_room.py -- --in "$PLAIN" --out "$OUTDIR/$NAME.glb" \
   --lm "$TMP/lm" --url assets/models/env/second_ai/${NAME}_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
