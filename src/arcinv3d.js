@@ -62,7 +62,7 @@ const ARCINV=(function(){
     const p=o&&o.arcPlan; if(!p||p==='none'){ r.st='none'; S.npMsg(G,e,r); return; }
     const slot=p==='next'?r.sc.next:(p==='late'?r.sc.late:r.sc.this); if(!slot){ r.st='none'; return; }
     r.mode=p; r.plan=slot; r.st='planned';
-    if(typeof OUT!=='undefined'&&OUT.plan) OUT.plan(G,{id:'arcinv_'+key.replace(':','_'),ev:S.evId(key),day:slot.d,h:slot.h,late:0.5,place:e.place,title:e.title,travel:e.travel,travelH:e.travelH||0.25,arcinv:key}); };
+    if(typeof OUT!=='undefined'&&OUT.plan) OUT.plan(G,Object.assign({id:'arcinv_'+key.replace(':','_'),ev:S.evId(key),day:slot.d,h:slot.h,late:0.5,place:e.place,title:e.title,travel:e.travel,travelH:e.travelH||0.25,arcinv:key},e.end&&e.end.back?{back:e.end.back}:null)); };
   /* 沛珊：沒排成＝那個週六早上她一個人去，傳照片 */
   S.npMsg=function(G,e,r){ if(!e.noPlanMsg||!e.noPlan.length||typeof PHONE==='undefined'||!PHONE.at) return; const d=r.sc&&r.sc.this?r.sc.this.d:G.day, t=Math.max(T(d,7.5),now(G)), dd=Math.floor(t/24); PHONE.at(G,dd,t-dd*24,e.noPlan.map(x=>dm(e,x)),'arcinv_np_'+e.key); };
   /* 見面的中途（ARCS.rotPick）：沒排成的那一次，她說一次 noPlan */
@@ -81,11 +81,19 @@ const ARCINV=(function(){
     for(const [mem,b] of Object.entries(e.by||{})) for(const t of b.end||[]){ const it=line(t); it.if=C(G=>ans(G,e,mem)); dlg.push(it); }
     dlg.push({call:async(G,GM)=>{ S.finish(G,GM,e); }});
     return {id:S.evId(key),title:e.title,participants:[e.who],location:'any',trigger:'outing',once:true,background:'dark',hours:e.hours,dialogue:dlg,
+      afterBack:(G,GM)=>S.placeAfter(GM,e),   /* 演完人在哪（BB-B 11-07：原本回到出發前的地方＝學姊騎車演完 23:00 回到已經閉館的總圖大廳）*/
       outingMissed:(G)=>{ const r=S.rec(G)[key]; if(r&&r.st==='planned'){ r.st='missed'; r.npFrom=G.day; S.npMsg(G,e,r); } }}; };
   S.finish=function(G,GM,e){ const r=S.rec(G)[e.key]||(S.rec(G)[e.key]={}); r.st='done'; r.doneDay=G.day; const f=F(G); if(e.set&&f[e.set]==null) f[e.set]=G.day;
     if(e.dateLoc&&typeof DATE!=='undefined'&&DATE.countVisit){ const w=DATE.wishOf?DATE.wishOf(e.who):null; const c=DATE.countVisit(G,e.who,e.place,{wish:w===e.dateLoc}); if(c&&c.counted){ const L=DATE.log(G,e.who); L.byLoc[e.dateLoc]=(L.byLoc[e.dateLoc]|0)+1; } }
     if(e.cost&&(G.money|0)>=e.cost){ G.money=(G.money|0)-e.cost; r.paid=e.cost; if(GM&&GM.toast) GM.toast('買了襯衫（－'+e.cost+' 元）'); }   /* 可昕塞給你的那件襯衫：錢夠就買 */
     if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(e.who,'walk'); };   /* 一起出去一整段：和一起散步同一級（social3d.js ACT）*/
+  /* 演完把人放到那一場最後的地方：校園、公館、體育館（PLACES.quickList 的落點，tests/quick_travel_unit.js 驗過站得住）；遠的（淡水、外澳、木柵）＝回家／回宿舍 */
+  S.enterSpot=async function(GM,label){ const L=typeof PLACES!=='undefined'&&PLACES.quickList?PLACES.quickList():[], p=L.find(q=>q[1]===label); if(!p||!GM.enter) return false; await GM.fade(true); await GM.enter(p[0],p[2]||undefined); await GM.fade(false); return true; };
+  S.placeAfter=async function(GM,e){ const G=GM&&GM.G, E=e&&e.end; if(!G||!E||!GM.enter) return false;
+    if(E.home){ if(typeof HOME!=='undefined'&&HOME.livesHome&&HOME.livesHome(G)&&HOME.arriveQuiet){ await HOME.arriveQuiet(GM); return true; } return S.enterSpot(GM,'宿舍'); }
+    if(E.spot) return S.enterSpot(GM,E.spot);
+    if(E.zone){ await GM.fade(true); await GM.enter(E.zone,{x:E.x,z:E.z,yaw:E.yaw||0,lv:E.lv|0}); await GM.fade(false); return true; }
+    return false; };
   S.install=function(){ if(typeof STORY_EVENTS!=='undefined') for(const e of D()){ const ev=S.event(e); if(!STORY_EVENTS.some(x=>x&&x.id===ev.id)) STORY_EVENTS.push(ev); }
     if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)&&!STORY.PHONE_RULES.includes(S.tick)) STORY.PHONE_RULES.push(S.tick);
     if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.ON_ANSWER)&&!PHONE.ON_ANSWER.includes(S.onAnswer)) PHONE.ON_ANSWER.push(S.onAnswer); };

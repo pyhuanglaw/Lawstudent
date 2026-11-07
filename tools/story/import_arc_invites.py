@@ -15,19 +15,19 @@ PLANS = {'this', 'next', 'late', 'none'}
 # offer：dd＝拍演完以後第幾天（0＝當天）、h＝幾點；'break'＝沛珊（下一個寒暑假開始前 3 天 21:00，消失期例外）
 # day：this／next 怎麼算（arcinv3d.js S.planDay）；hours＝那一場演多久；bg：[第一幕標籤, 圖]；bgAt：[[那一行含的字, 標籤, 圖]]
 CFG = {
-    'heroine_03:7': {'offer': {'dd': 2, 'h': 21}, 'day': 'sat', 'hours': 4, 'travelH': 55 / 60,
+    'heroine_03:7': {'offer': {'dd': 2, 'h': 21}, 'day': 'sat', 'hours': 4, 'travelH': 55 / 60, 'end': {'home': True},
                      'bg': ['淡水', 'd13_base_sunset'], 'bgAt': []},
-    'heroine_04:3': {'offer': {'dd': 1, 'h': 20}, 'day': 'nextwed', 'hours': 1.5, 'travelH': 5 / 60,
+    'heroine_04:3': {'offer': {'dd': 1, 'h': 20}, 'day': 'nextwed', 'hours': 1.5, 'travelH': 5 / 60, 'end': {'spot': '新體育館（大廳）', 'back': '新體育館。'},
                      'bg': ['新體育館 B1・健身中心', 'gym_b1_fitness'], 'bgAt': []},   # LAWWW2-B AA716-GYM-BG（1c5696b4b）
-    'heroine_05:3': {'offer': {'dd': 0, 'h': 21.5}, 'day': 'same', 'hours': 1, 'travelH': 0.1,
+    'heroine_05:3': {'offer': {'dd': 0, 'h': 21.5}, 'day': 'same', 'hours': 1, 'travelH': 0.1, 'end': {'zone': 'campus', 'x': -38, 'z': -98.4, 'yaw': 3.14159, 'back': '映月湖。'},
                      'bg': ['總圖門口', 'library_gate_night'], 'bgAt': [['椰影大道', '首都帝大・椰影大道', 'ntu_avenue'], ['映月湖', '映月湖', 'zuiyue_night']]},
-    'heroine_05:7': {'offer': {'dd': 2, 'h': 21}, 'day': 'fri', 'hours': 1.5, 'travelH': 10 / 60,
+    'heroine_05:7': {'offer': {'dd': 2, 'h': 21}, 'day': 'fri', 'hours': 1.5, 'travelH': 10 / 60, 'end': {'spot': '公館商圈', 'back': '公館。'},
                      'bg': ['公館', 'gongguan'], 'bgAt': [['河堤', '河濱', 'riverside']]},
-    'classmate_peishan:6': {'offer': 'break', 'day': 'break', 'hours': 6, 'travelH': 2,
+    'classmate_peishan:6': {'offer': 'break', 'day': 'break', 'hours': 6, 'travelH': 2, 'end': {'home': True},
                             'bg': ['宜蘭・外澳', 'trip_sea'], 'bgAt': []},
-    'kexin:4': {'offer': {'dd': 2, 'h': 21}, 'day': 'sat', 'hours': 3, 'travelH': 50 / 60,
+    'kexin:4': {'offer': {'dd': 2, 'h': 21}, 'day': 'sat', 'hours': 3, 'travelH': 50 / 60, 'end': {'home': True},
                 'bg': ['木柵大學・校門口', 'nccu_gate'], 'bgAt': [['山上的風', '木柵大學・校園裡的路', 'nccu_campus']]},
-    'kexin:6': {'offer': {'dd': 0, 'h': 21}, 'day': 'satsun', 'hours': 2, 'travelH': 10 / 60, 'cost': 590,
+    'kexin:6': {'offer': {'dd': 0, 'h': 21}, 'day': 'satsun', 'hours': 2, 'travelH': 10 / 60, 'cost': 590, 'end': {'spot': '公館商圈', 'back': '公館。'},
                 'bg': ['公館', 'gongguan'], 'bgAt': []},
 }
 MARK = re.compile(r'^@(early|late|fit|unfit)')
@@ -86,7 +86,7 @@ def build(src, sha):
                  'noPlan': L(x.get('noPlan'), w + '.noPlan', False),
                  'place': IG.read_fix(P['place']), 'title': IG.read_fix(P['title']), 'travel': IG.read_fix(P.get('travel', '')),
                  'h': P['h'], 'hLate': P.get('hLate'), 'dateLoc': P.get('dateLoc')}
-            e.update({k: c[k] for k in ('offer', 'day', 'hours', 'travelH', 'bg', 'bgAt')})
+            e.update({k: c[k] for k in ('offer', 'day', 'hours', 'travelH', 'bg', 'bgAt', 'end')})   # end：演完人在哪（BB-B 11-07：學姊騎車演完回到已經閉館的總圖大廳）
             if c.get('cost'):
                 e['cost'] = c['cost']
             if hid == 'classmate_peishan':

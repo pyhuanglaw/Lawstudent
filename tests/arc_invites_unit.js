@@ -68,6 +68,15 @@ const goOut=async(G,key,picks)=>{ const q=OUT.get(G,'arcinv_'+key.replace(':','_
   /* 6 學姊騎車 */
   { const SIS='heroine_05', K='heroine_05:3'; const G=fresh('2026-04-13',22.5,'library_hall'); beat(G,SIS,3,G.day); at(G,G.day,22.5); const r=ARCINV.rec(G)[K];
     check('6. 學姊騎車：拍演得太晚（22:30，原本約 22:00）＝「這次」改成隔天 22:00',r&&r.sc.this.d===G.day+1&&r.sc.this.h===22&&msgOf(G,K),J(r&&r.sc)); }
+  /* 8 演完人在哪（BB-B 11-07 P2：學姊騎車演完回到已經閉館的總圖大廳）*/
+  { const spawns=[]; const E0=GM.enter; GM.enter=async(z,sp)=>{ spawns.push([z,sp]); return E0(z,sp); };
+    const SIS='heroine_05', K='heroine_05:3'; const G=fresh('2026-04-13',21.6,'library_hall'); beat(G,SIS,3,G.day); at(G,G.day,21.6); PHONE.answer(G,msgOf(G,K).ask.id,0); await goOut(G,K);
+    const s1=spawns.slice(-1)[0]||[]; spawns.length=0;
+    check('8. 學姊騎車演完：人在校園映月湖邊（不在已經閉館的總圖大廳），地點字幕「映月湖。」',s1[0]==='campus'&&s1[1]&&Math.abs(s1[1].x+38)<0.01&&Math.abs(s1[1].z+98.4)<0.01&&G.zone==='campus',J(s1));
+    const G2=fresh('2026-04-13',15,'cafe'); beat(G2,'heroine_03',7,G2.day); at(G2,G2.day+2,21.1); PHONE.answer(G2,msgOf(G2,'heroine_03:7').ask.id,0); await goOut(G2,'heroine_03:7'); const s2=spawns.slice(-1)[0]||[]; spawns.length=0;
+    check('8. 淡水那一場（遠的）演完：回宿舍',s2[0]==='dorm',J(s2));
+    const G3=fresh('2026-04-13',15,'cafe'); G3.money=2000; beat(G3,'kexin',6,G3.day); at(G3,G3.day,21.1); PHONE.answer(G3,msgOf(G3,'kexin:6').ask.id,0); await goOut(G3,'kexin:6'); const s3=spawns.slice(-1)[0]||[];
+    check('8. 可昕買外套演完：在公館商圈',s3[0]==='gongguan',J(s3)); GM.enter=E0; }
   /* 7 */
   { const G=fresh('2026-04-13',15,'cafe'); delete G.flags.ARCINV; delete G.flags.ARC_INVITE; let err=null; try{ ARCINV.tick(G); STORY.phoneRules(GM); }catch(e){ err=e; }
     check('7. 舊存檔（沒有 ARCINV、ARC_INVITE）：不丟例外、不傳',!err&&!(PHONE.rec(G),G.msgs||[]).some(m=>m.ask&&/^arcinv:/.test(m.ask.id)),String(err)); }

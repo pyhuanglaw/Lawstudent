@@ -88,7 +88,10 @@ const ARC_INV={
     "淡水",
     "d13_base_sunset"
    ],
-   "bgAt": []
+   "bgAt": [],
+   "end": {
+    "home": true
+   }
   },
   {
    "key": "heroine_04:3",
@@ -172,7 +175,11 @@ const ARC_INV={
     "新體育館 B1・健身中心",
     "gym_b1_fitness"
    ],
-   "bgAt": []
+   "bgAt": [],
+   "end": {
+    "spot": "新體育館（大廳）",
+    "back": "新體育館。"
+   }
   },
   {
    "key": "heroine_05:3",
@@ -257,7 +264,14 @@ const ARC_INV={
      "映月湖",
      "zuiyue_night"
     ]
-   ]
+   ],
+   "end": {
+    "zone": "campus",
+    "x": -38,
+    "z": -98.4,
+    "yaw": 3.14159,
+    "back": "映月湖。"
+   }
   },
   {
    "key": "heroine_05:7",
@@ -349,7 +363,11 @@ const ARC_INV={
      "河濱",
      "riverside"
     ]
-   ]
+   ],
+   "end": {
+    "spot": "公館商圈",
+    "back": "公館。"
+   }
   },
   {
    "key": "classmate_peishan:6",
@@ -430,6 +448,9 @@ const ARC_INV={
     "trip_sea"
    ],
    "bgAt": [],
+   "end": {
+    "home": true
+   },
    "noPlanMsg": true
   },
   {
@@ -518,7 +539,10 @@ const ARC_INV={
      "木柵大學・校園裡的路",
      "nccu_campus"
     ]
-   ]
+   ],
+   "end": {
+    "home": true
+   }
   },
   {
    "key": "kexin:6",
@@ -606,6 +630,10 @@ const ARC_INV={
     "gongguan"
    ],
    "bgAt": [],
+   "end": {
+    "spot": "公館商圈",
+    "back": "公館。"
+   },
    "cost": 590
   }
  ]
