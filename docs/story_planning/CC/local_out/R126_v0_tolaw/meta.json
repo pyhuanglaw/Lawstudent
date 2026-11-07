@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "R126_v0_tolaw",
+  "sha": "126bdf93e82886673518705566dbe83b582c32c1",
+  "kind": "game",
+  "script": "tests/flow_v0_tolaw.py",
+  "env": "XARGS={url} {out};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T19:21:37",
+  "end": "2026-11-07T19:24:32",
+  "seconds": 175,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "35",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 35,
+    "mem": 58,
+    "used_gb": 18.2,
+    "chrome_testing": 15
+  }
+}
