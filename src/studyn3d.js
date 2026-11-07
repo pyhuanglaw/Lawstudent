@@ -15,23 +15,19 @@
 'use strict';
 const STUDYN=(function(){
   const S={};
-  const D=()=>(typeof STUDY_SCENES!=='undefined'&&STUDY_SCENES.people)||{};
-  S.rec=G=>{ const F=G.flags||(G.flags={}); const R=F.STUDYN&&typeof F.STUDYN==='object'?F.STUDYN:(F.STUDYN={}); return R; };
-  S.of=(G,id)=>{ const R=S.rec(G); let r=R[id]; if(!r||typeof r!=='object') r=R[id]={n:0,k:1,last:null,rot:-1}; if(!(r.k>=1)) r.k=1; if(typeof r.n!=='number') r.n=0; if(typeof r.rot!=='number') r.rot=-1; return r; };
-  S.has=id=>!!D()[id];
-  S.count=(G,id)=>S.of(G,id).n;
+  /* 一起活動第 N 次（AA_708，STUDY-DATE-PROGRESS-1107）：吃飯 eat、咖啡 cafe、電影 movie、書店 bookstore 和念書同一套，各自計數（G.flags.ACTN[kind][人物]）；
+     念書照舊 G.flags.STUDYN（第 6 場算一次正式約會只有念書）。活動的場數照稿（吃飯、咖啡 4 場，電影、書店 3 場），演完才輪換 */
+  const DK=kind=>kind==='study'?((typeof STUDY_SCENES!=='undefined'&&STUDY_SCENES.people)||{}):((typeof ACTIVITY_SCENES!=='undefined'&&ACTIVITY_SCENES.kinds&&ACTIVITY_SCENES.kinds[kind]&&ACTIVITY_SCENES.kinds[kind].people)||{});
+  const recOf=(G,kind)=>{ const F=G.flags||(G.flags={}); if(kind==='study') return F.STUDYN&&typeof F.STUDYN==='object'?F.STUDYN:(F.STUDYN={}); const A=F.ACTN&&typeof F.ACTN==='object'?F.ACTN:(F.ACTN={}); return A[kind]&&typeof A[kind]==='object'?A[kind]:(A[kind]={}); };
+  S.rec=G=>recOf(G,'study');
   /* alt 的條件（AA 寫的中文條件 → 這裡；對照在 tools/story/import_study_scenes.py 的 ALT_COND）*/
   S.ALT={
     ytMomKnows:G=>{ const F=G.flags||{}; return !!(F.YT_MOM_HERE||F.YT_MOM_TOLD||F.YT_MOM_BACK); },   /* AA_624 事件 10'（src/ytjob3d.js：媽媽在茶屋出現／蘇姨轉述／她回來上班）*/
+    notCafe:G=>G.zone!=='cafe',   /* AA_708 芷若咖啡第 2 場：不在 2:30 AM（在 2:30 AM 而她沒班時她是客人）*/
     sisGrad:G=>{ if(typeof CALENDAR==='undefined'||!CALENDAR.dateOf) return false; const d=CALENDAR.dateOf(G.day); return !!d&&(d.y>2026||(d.y===2026&&d.m>=8)); },   /* 學姊上了法研所（2026-08 起）*/
   };
   const stage=id=>typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(id):1;
   const flagOn=(G,f)=>!f||!!(G.flags&&G.flags[f]!=null&&G.flags[f]!==false);
-  /* 這一次演什麼：{k, seat, mid, opts, pack, bye, set, unlock} 或 {rot:i, …}；null＝照一般句（沒有稿、今天已經算過、階段不夠）*/
-  S.pick=function(G,id){ const T=D()[id]; if(!T||!G) return null; const r=S.of(G,id); if(r.last===G.day) return null;
-    if(r.k<=6){ const sc=T.scenes&&T.scenes[String(r.k)]; if(!sc||stage(id)<(sc.need|0)) return {generic:true}; return S.resolve(G,sc,{k:r.k}); }
-    const L=(T.rot||[]).map((x,i)=>[x,i]).filter(([x])=>flagOn(G,x.if)); if(!L.length) return {generic:true};
-    const nx=L.find(([,i])=>i>r.rot)||L[0]; return Object.assign({rot:nx[1]},nx[0]); };
   S.resolve=function(G,sc,o){ const A=sc.alt, on=!!(A&&S.ALT[A.cond]&&S.ALT[A.cond](G)); const out=Object.assign({},sc,o); delete out.alt;
     if(on) for(const k of ['seat','mid','pack','bye','opts']) if(A[k]) out[k]=A[k];
     return out; };
@@ -43,11 +39,24 @@ const STUDYN=(function(){
     if(sc.opts&&sc.opts.length&&GM.choose){ const k=await GM.choose(sc.opts.map(o=>({t:S.text(GM.G,o.t)}))); const o=sc.opts[k]||sc.opts[0];
       if(o){ if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(id,o.rel); await S.play(GM,who,o.reply); } }
     return true; };
-  /* 念完：次數 +1（一天一次）；演了第 k 場＝下一場、記旗標；第 6 場＝正式約會一次 */
-  S.done=function(G,id,sc){ if(!G||!S.has(id)) return null; const r=S.of(G,id); if(r.last===G.day) return null; r.n+=1; r.last=G.day; const F=G.flags||(G.flags={});
-    if(sc&&sc.k){ r.k=sc.k+1; if(sc.set) F[sc.set]=G.day; if(sc.unlock){ const U=F.STUDY_UNLOCK||(F.STUDY_UNLOCK={}); if(U[sc.unlock]==null) U[sc.unlock]=G.day; }
-      if(sc.k===6&&typeof DATE!=='undefined'&&DATE.log){ const L=DATE.log(G,id); if(L.study6==null){ L.count=(L.count|0)+1; L.study6=G.day; } } }
-    else if(sc&&sc.rot!=null) r.rot=sc.rot;
-    return r; };
+  /* 每種活動一份：of（記錄）、pick（這一次演什麼：{k,…} 或 {rot,…}；{generic:true}＝照一般句；null＝今天已經算過／沒有稿）、done（次數 +1、下一場、旗標；念書第 6 場＝正式約會一次）*/
+  function mk(kind){ const K={kind}, Dk=()=>DK(kind);
+    K.of=(G,id)=>{ const R=recOf(G,kind); let r=R[id]; if(!r||typeof r!=='object') r=R[id]={n:0,k:1,last:null,rot:-1}; if(!(r.k>=1)) r.k=1; if(typeof r.n!=='number') r.n=0; if(typeof r.rot!=='number') r.rot=-1; return r; };
+    K.has=id=>!!Dk()[id];
+    K.count=(G,id)=>K.of(G,id).n;
+    K.size=id=>{ const T=Dk()[id]; return T&&T.scenes?Object.keys(T.scenes).length:0; };
+    K.pick=function(G,id){ const T=Dk()[id]; if(!T||!G) return null; const r=K.of(G,id); if(r.last===G.day) return null; const N=K.size(id);
+      if(r.k<=N){ const sc=T.scenes&&T.scenes[String(r.k)]; if(!sc||stage(id)<(sc.need|0)) return {generic:true}; return S.resolve(G,sc,{k:r.k,kind}); }
+      const L=(T.rot||[]).map((x,i)=>[x,i]).filter(([x])=>flagOn(G,x.if)); if(!L.length) return {generic:true};
+      const nx=L.find(([,i])=>i>r.rot)||L[0]; return Object.assign({rot:nx[1],kind},nx[0]); };
+    K.done=function(G,id,sc){ if(!G||!K.has(id)) return null; const r=K.of(G,id); if(r.last===G.day) return null; r.n+=1; r.last=G.day; const F=G.flags||(G.flags={});
+      if(sc&&sc.k){ r.k=sc.k+1; if(sc.set) F[sc.set]=G.day; if(sc.unlock){ const U=F.STUDY_UNLOCK||(F.STUDY_UNLOCK={}); if(U[sc.unlock]==null) U[sc.unlock]=G.day; }
+        if(kind==='study'&&sc.k===6&&typeof DATE!=='undefined'&&DATE.log){ const L=DATE.log(G,id); if(L.study6==null){ L.count=(L.count|0)+1; L.study6=G.day; } } }
+      else if(sc&&sc.rot!=null) r.rot=sc.rot;
+      return r; };
+    return K; }
+  const ACT={}; S.act=kind=>ACT[kind]||(ACT[kind]=mk(kind));
+  const ST=S.act('study'); S.of=ST.of; S.has=ST.has; S.count=ST.count; S.pick=ST.pick; S.done=ST.done;   /* 念書（舊的呼叫照用）*/
+  S.KINDS=['eat','cafe','movie','bookstore'];
   return S;
 })();

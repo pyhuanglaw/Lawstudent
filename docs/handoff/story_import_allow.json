@@ -4760,6 +4760,15 @@
    "task": "INVITE-PLACES-1107",
    "kind": "json",
    "note": "七個新地點 × 七位：acc（答應句）＋firstAt（第一次一起去）；tools/story/import_place_acc.py → src/data/invite_place_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_708_activity_scenes.json",
+   "sha": "8af1417f2",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 05:30「AA_708 改好了，可以接（取消不整合）」：只留活動的樣子、心事在 AA_712）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "吃飯、咖啡各 4 場、電影、書店各 3 場＋輪換；tools/story/import_activity_scenes.py → src/data/activity_scenes.js"
   }
  ]
 }
