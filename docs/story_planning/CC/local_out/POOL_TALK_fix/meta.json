@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "POOL_TALK_fix",
+  "sha": "b550eb6c18076bef376794a8971bc405ba8b1185",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_pool_talk_probe.py",
+  "env": "EXPECT=fixed;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T13:07:54",
+  "end": "2026-11-07T13:11:14",
+  "seconds": 199,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 13,
+    "mem": 59,
+    "used_gb": 18.6,
+    "chrome_testing": 13
+  }
+}

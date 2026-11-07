@@ -86,3 +86,12 @@
 [13:08:58] [res] cpu=4% mem=52% (16.2/31.4 GB) chrome_testing=9  START POOL_TALK_before
 [13:09:11] 正在跑：DBK_seat2_fix（已跑 1 分／上限 40 分）、POOL_TALK_fix（已跑 1 分／上限 30 分）、POOL_TALK_before（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [13:10:32] [res] cpu=9% mem=53% (16.8/31.4 GB) chrome_testing=8  END DBK_seat2_fix
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       cb22f03f6..1a4e188d1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:10:37] ==== END   DBK_seat2_fix  exit=0  160s   ====
+[13:10:40] skip DBK_seat2 (already done on abf4dbbd5abc4e842b5d92d481cfa9a39084166c)
+[13:10:40] memory 52% before starting LIVE_V91021_deploy (2 running)
+[13:10:40] ==== START LIVE_V91021_deploy  (game @ 92c3daad8adf1bb5f707b0b411640c7b13ff7052) ====
+[13:10:43] [res] cpu=5% mem=52% (16.5/31.4 GB) chrome_testing=8  START LIVE_V91021_deploy
+[13:11:14] [res] cpu=13% mem=52% (16.3/31.4 GB) chrome_testing=8  END POOL_TALK_fix
