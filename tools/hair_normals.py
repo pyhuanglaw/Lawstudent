@@ -10,7 +10,9 @@
   - 新法線＝normalize((1−k)·原本的法線＋k·外形的法線)：k＝1 整頭一塊、k＝0 照原本；保留一部分原本的法線，髮束之間還有一點層次。
   - 認頭髮：材質名字有 HAIR（和遊戲 character3d.js 的 /HAIR/ 一樣）；頭的位置：骨架裡 J_Bip_C_Head（或名字是 head 的骨頭）的綁定位置；
     頭頂：頭的垂直軸 15 cm 內最高的頭髮頂點。
-用法：python3 tools/hair_normals.py --in <a.vrm> --out <b.vrm> [--k 0.6] [--drop 0.115]
+用法：python3 tools/hair_normals.py --in <a.vrm> --out <b.vrm> [--k 0.6] [--drop 0.115] [--hair-gain 1.0]
+     --hair-gain：頭髮材質的底色（MToon _Color、baseColorFactor）和陰影色（_ShadeColor）乘這個數（上限 1）——語彤（heroine_03）法線改了以後背面看起來比較暗，
+     LAWWW-B 11-07 08:40 要她一個人提亮一點（CC 截圖量：背面頭髮中央 −3%，其他角度 +2～5%；用 1.04）
      （同一個檔重跑會疊加：一律從沒有改過的 VRM 開始。檔案裡的 extras.hairNormals 會記 k、drop，重跑前會擋下來）
 遊戲裡不用改程式。探針 docs/art-rebuild/second_ai/wip/hair_noodle_1107/ 的 HAIRFIX 在瀏覽器裡做同樣的事（給 CC 拍改前改後）。
 """
@@ -72,11 +74,29 @@ def apply(v, k=0.6, drop=0.115):
     return rep
 
 
+def hair_gain(v, gain):
+    """頭髮材質的底色、陰影色乘 gain（RGB，上限 1；alpha 不動）。VRM 0.x 的 MToon 在 extensions.VRM.materialProperties，glTF 的 baseColorFactor 也一起改（three-vrm 讀前者）"""
+    j = v.j; names = {m for _, _, _, m in hair_prims(v)}; out = []
+    cl = lambda c: [min(1.0, x * gain) for x in c[:3]] + list(c[3:])
+    for m in j['materials']:
+        if m.get('name') in names:
+            pb = m.setdefault('pbrMetallicRoughness', {}); pb['baseColorFactor'] = cl(pb.get('baseColorFactor', [1, 1, 1, 1]))
+    for mp in ((j.get('extensions') or {}).get('VRM') or {}).get('materialProperties', []):
+        if mp.get('name') in names:
+            vp = mp.setdefault('vectorProperties', {})
+            for key in ('_Color', '_ShadeColor'):
+                if key in vp: vp[key] = cl(vp[key])
+            out.append({'mat': mp['name'], '_Color': [round(x, 3) for x in vp.get('_Color', [])], '_ShadeColor': [round(x, 3) for x in vp.get('_ShadeColor', [])]})
+    j['asset']['extras']['hairNormals']['gain'] = gain
+    return out
+
+
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('--in', dest='inp', required=True); ap.add_argument('--out', required=True)
-    ap.add_argument('--k', type=float, default=0.6); ap.add_argument('--drop', type=float, default=0.115)
+    ap.add_argument('--k', type=float, default=0.6); ap.add_argument('--drop', type=float, default=0.115); ap.add_argument('--hair-gain', type=float, default=1.0)
     a = ap.parse_args()
     v = VB.VRM(a.inp)
     print(json.dumps(apply(v, a.k, a.drop), ensure_ascii=False, indent=1))
+    if a.hair_gain != 1.0: print(json.dumps({'hair_gain': hair_gain(v, a.hair_gain)}, ensure_ascii=False))
     n = v.save(a.out); print('saved', a.out, round(n / 1e6, 2), 'MB')

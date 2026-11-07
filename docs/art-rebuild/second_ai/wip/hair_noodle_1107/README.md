@@ -151,3 +151,29 @@ HAIR_FIX | <開發分支最新 SHA> | probe | docs/story_planning/test_tools/cc/
 **選了以後**：
 - 法線：`tools/hair_normals.py --k 0.6` 烘進 VRM，只換檔、不改程式（Node 已驗：和探針逐點一樣）；
 - 貼圖：照 README 上面「看了遊戲內截圖以後」那一表重畫。
+
+## (a) 法線 0.6 烘進 VRM（LAWWW-B 11-07 08:40 選 (a)，D100a）
+
+**換了哪些檔**（遊戲預設用的那一個，`ASSETS.manifest` 的 `url`；只換檔，不改程式）：
+
+| 人物 | 檔案 | 頭髮頂點 | 備註 |
+|---|---|---|---|
+| 祐廷 | `assets/models/char/vroid_yuting.vrm` | 7,725 | |
+| 以安 | `vroid_heroine_01.vrm` | 8,553 | |
+| 芷若 | `bl_heroine_02.vrm` | 9,600 | 她的預設是 Blender 版 |
+| 語彤 | `vroid_heroine_03.vrm` | 17,161 | 另外頭髮底色、陰影色 ×1.04 |
+| 子晴 | `vroid_heroine_04.vrm` | 9,239 | |
+| 學姊 | `vroid_heroine_05.vrm` | 12,468 | |
+
+- 每個檔的 `asset.extras.hairNormals` 都記了 `{k:0.6, drop:0.115}`；語彤多記 `gain:1.04`。
+- **驗證**（Node，遊戲的 `ASSETS.parseVRM`）：
+  - 六個檔逐點和探針 HAIRFIX `n0.6` 的瀏覽器算法比，最多差 0.023～0.024°（float 捨入），頂點位置 0 個不同；
+  - 頂點數和 CC 遊戲內探針改到的一樣。
+- **語彤的亮度**（CC 截圖量，頭髮區）：
+  - 背面頭髮中央 −3%，45°／側面／正面 +2～5%，平均差不多；
+  - 但亮的髮束少了，看起來比較暗。照 LAWWW-B 的意思只提亮一點，×1.04。
+- **子晴背後的黑色長方形**：是她的吉他袋。`props3d.js` 的 `guitarBag`，`#1e1f22`，掛在上胸骨，`character3d.js` 的 `MODEL_PROPS['char.heroine_04']`。本來就在，不是穿模。
+- **沒換的**：
+  - `blUrl`（`?blchar` 的 Blender 版）：`bl_yuting`、`bl_heroine_01／03／04／05`；
+  - 路人底模（LAWWW-B：先不動）。
+- **請 CC 同一組鏡頭重拍**：HAIRFIX=0，因為新檔本身就是 n0.6。祐廷用 JPG（`HAIR_JPG=1`）。
