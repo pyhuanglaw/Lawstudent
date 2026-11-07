@@ -1,0 +1,206 @@
+{
+ "shots": [
+  {
+   "name": "xsnorth_gate_day",
+   "cam": {
+    "eye": [
+     -101.4,
+     1.7,
+     -142
+    ],
+    "look": [
+     -56,
+     2,
+     -230
+    ],
+    "lens": 30,
+    "vfov": 37.3
+   },
+   "pool": null
+  },
+  {
+   "name": "xsnorth_gym_day",
+   "cam": {
+    "eye": [
+     -75,
+     1.7,
+     -141.9
+    ],
+    "look": [
+     -56,
+     2,
+     -230
+    ],
+    "lens": 30,
+    "vfov": 37.3
+   },
+   "pool": null
+  },
+  {
+   "name": "xsnorth_high_day",
+   "cam": {
+    "eye": [
+     -56,
+     9,
+     -150
+    ],
+    "look": [
+     -56,
+     0,
+     -225
+    ],
+    "lens": 26,
+    "vfov": 42.55
+   },
+   "pool": []
+  },
+  {
+   "name": "xsnorth_gate_night",
+   "cam": {
+    "eye": [
+     -101.4,
+     1.7,
+     -142
+    ],
+    "look": [
+     -56,
+     2,
+     -230
+    ],
+    "lens": 30,
+    "vfov": 37.3
+   },
+   "pool": null
+  },
+  {
+   "name": "xsnorth_gym_night",
+   "cam": {
+    "eye": [
+     -75,
+     1.7,
+     -141.9
+    ],
+    "look": [
+     -56,
+     2,
+     -230
+    ],
+    "lens": 30,
+    "vfov": 37.3
+   },
+   "pool": null
+  },
+  {
+   "name": "xsnorth_high_night",
+   "cam": {
+    "eye": [
+     -56,
+     9,
+     -150
+    ],
+    "look": [
+     -56,
+     0,
+     -225
+    ],
+    "lens": 26,
+    "vfov": 42.55
+   },
+   "pool": []
+  }
+ ],
+ "geo": {
+  "day": {
+   "xsg": {
+    "x": -101.4,
+    "xh": -56,
+    "gz": null,
+    "gym": [
+     -90,
+     -140.4,
+     -60,
+     -126.4
+    ]
+   },
+   "names": {
+    "zebra_xs_north": 2,
+    "zebra_xs_branch": 1,
+    "xs_north_branch_road": 1,
+    "xs_north_branch_walk": 2,
+    "xs_north_branch_median": 1,
+    "xs_north_branch_lines": 1
+   },
+   "intrude": [],
+   "nIntrude": 0,
+   "glows": 0,
+   "glowsOn": 0,
+   "lampGlowsAll": 115,
+   "windowsLit": false
+  },
+  "night": {
+   "xsg": {
+    "x": -101.4,
+    "xh": -56,
+    "gz": null,
+    "gym": [
+     -90,
+     -140.4,
+     -60,
+     -126.4
+    ]
+   },
+   "names": {
+    "zebra_xs_north": 2,
+    "zebra_xs_branch": 1,
+    "xs_north_branch_road": 1,
+    "xs_north_branch_walk": 2,
+    "xs_north_branch_median": 1,
+    "xs_north_branch_lines": 1
+   },
+   "intrude": [],
+   "nIntrude": 0,
+   "glows": 0,
+   "glowsOn": 0,
+   "lampGlowsAll": 115,
+   "windowsLit": false
+  }
+ },
+ "ref": {
+  "day": {
+   "glows": 13,
+   "cam": {
+    "eye": [
+     0,
+     6,
+     22
+    ],
+    "look": [
+     10,
+     0,
+     6
+    ],
+    "lens": 26,
+    "vfov": 42.55
+   },
+   "pool": []
+  },
+  "night": {
+   "glows": 13,
+   "cam": {
+    "eye": [
+     0,
+     6,
+     22
+    ],
+    "look": [
+     10,
+     0,
+     6
+    ],
+    "lens": 26,
+    "vfov": 42.55
+   },
+   "pool": []
+  }
+ }
+}

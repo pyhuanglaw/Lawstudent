@@ -1,0 +1,24 @@
+{
+  "rerun": "r2",
+  "id": "XS_NORTH_ROAD_r2",
+  "sha": "fa79dd7bc32e1e177a8187a070b8c7baf6ef2924",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_xs_north_road_probe.py",
+  "env": "RERUN=r2;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T16:53:43",
+  "end": "2026-11-07T16:55:57",
+  "seconds": 134,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "30",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 4,
+    "mem": 47,
+    "used_gb": 14.9,
+    "chrome_testing": 9
+  }
+}
