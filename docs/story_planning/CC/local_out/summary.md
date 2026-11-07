@@ -1668,3 +1668,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 306.0s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 306.0s] BROWSER DISCONNECTED
 - 2026-11-07T15:04:07  FITMORPH_r2  sha=41bfc5cbe635a410046dba106e14575e9474f4ee  exit=0  366s    PASS [fit 90] 坐下那一組拍到了 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 286.5s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 286.5s] BROWSER DISCONNECTED
+- 2026-11-07T15:05:08  GG2_afar_date_03_32e1_r2  sha=32e10b130ddc01f9f41007c01e032d44a35d11af  exit=1  197s        陳語彤｜這裡的茶泡太久了。可是位子很舒服。 / == afar_date 結果：FAIL 1：afar：①她挑的是空桌（同一桌、1.2 m 內沒有其他客人坐著） / FAILED 1: [date afar] afar：①她挑的是空桌（同一桌、1.2 m 內沒有其他客人坐著）
+      err.log (last 5): [gpu_wrap 161.3s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 161.3s] BROWSER DISCONNECTED

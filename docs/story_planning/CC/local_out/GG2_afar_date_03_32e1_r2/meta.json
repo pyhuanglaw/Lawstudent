@@ -1,0 +1,24 @@
+{
+  "rerun": "y03",
+  "id": "GG2_afar_date_03_32e1_r2",
+  "sha": "32e10b130ddc01f9f41007c01e032d44a35d11af",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py",
+  "env": "CASES=afar_date;GG2_DATE_PID_AFAR=heroine_03;RERUN=y03;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T15:01:51",
+  "end": "2026-11-07T15:05:08",
+  "seconds": 197,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "18",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 13,
+    "mem": 56,
+    "used_gb": 17.8,
+    "chrome_testing": 14
+  }
+}
