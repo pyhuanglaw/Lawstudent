@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "SPORTSWEAR_0f4b",
+  "sha": "0f4b0394a0fdbae5c48a5107a960bb9a5e05569b",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_sportswear_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T14:33:16",
+  "end": "2026-11-07T14:37:38",
+  "seconds": 263,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "16",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 16,
+    "mem": 50,
+    "used_gb": 15.8,
+    "chrome_testing": 10
+  }
+}

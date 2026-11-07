@@ -1656,3 +1656,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 88.7s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 88.7s] BROWSER DISCONNECTED
 - 2026-11-07T14:35:52  FITMORPH_41bf  sha=41bfc5cbe635a410046dba106e14575e9474f4ee  exit=0  314s    PASS [fit 90] 坐下那一組拍到了 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 279.9s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 279.9s] BROWSER DISCONNECTED
+- 2026-11-07T14:37:38  SPORTSWEAR_0f4b  sha=0f4b0394a0fdbae5c48a5107a960bb9a5e05569b  exit=0  263s      [ 205.3s] [截圖] sw_fit90_side：鏡頭 {"eye": [5.999470449670392, 1.3, 3.999999946072393], "look": [6, 1, 1.4], "lens": 35, "vfov": 32.27}、亮度 [117.2, 21.8] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 205.8s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 205.8s] BROWSER DISCONNECTED

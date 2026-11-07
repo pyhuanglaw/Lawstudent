@@ -1,0 +1,70 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_sportswear_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SPORTSWEAR_0f4b\out
+CC SPORTSWEAR（祐廷短袖運動服）：SHA=0f4b0394a0fdbae5c48a5107a960bb9a5e05569b（worktree 實際 ?）；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [①] 讀檔 gym_b1 走廊 (6.0, 1.40) 2025-10-15 10:00
+PASS [①] B1：穿運動服（gymWear、GYM_TOP、GYM_SHORTS 看得到）、後背包拿下  {"zone": "gym_b1", "gymWear": true, "top": true, "shorts": true, "jacket": false, "backpack": false, "pe": null, "x": 6, "z": 1.4, "yaw": -1.571, "pose": "idle"}
+PASS [黑畫面] sw_b1_stand_front 不是黑畫面（平均亮度 95、變化 44）  [95, 44]
+  [  46.5s] [截圖] sw_b1_stand_front：鏡頭 {"eye": [3.4000000539276067, 1.3, 1.3994704496703925], "look": [6, 1, 1.4], "lens": 35, "vfov": 32.27}、亮度 [95, 44]
+PASS [黑畫面] sw_b1_stand_side 不是黑畫面（平均亮度 117.1、變化 21.7）  [117.1, 21.7]
+  [  48.7s] [截圖] sw_b1_stand_side：鏡頭 {"eye": [5.999470449670392, 1.3, 3.999999946072393], "look": [6, 1, 1.4], "lens": 35, "vfov": 32.27}、亮度 [117.1, 21.7]
+PASS [黑畫面] sw_b1_run_front 不是黑畫面（平均亮度 96.4、變化 41.3）  [96.4, 41.3]
+  [  54.0s] [截圖] sw_b1_run_front：鏡頭 {"eye": [2.1100000539276067, 1.3, 1.3994704496703925], "look": [4.71, 1, 1.4], "lens": 35, "vfov": 32.27}、亮度 [96.4, 41.3]
+PASS [黑畫面] sw_b1_run_side 不是黑畫面（平均亮度 109.8、變化 48.5）  [109.8, 48.5]
+  [  56.2s] [截圖] sw_b1_run_side：鏡頭 {"eye": [4.709470449670392, 1.3, 3.999999946072393], "look": [4.71, 1, 1.4], "lens": 35, "vfov": 32.27}、亮度 [109.8, 48.5]
+  [  66.3s] 到達「[①] 走廊往西跑 12 m」附近（0.24 m）：點地面 2 次、轉鏡頭 2 次、搖桿 0 次，18 秒
+  [  66.3s] [①] 跑的那一刻 {"zone": "gym_b1", "gymWear": true, "top": true, "shorts": true, "jacket": false, "backpack": false, "pe": null, "x": 4.71, "z": 1.4, "yaw": -1.571, "pose": "walk"}
+  [前置／捷徑] [②] 讀檔 gym_b1 健身中心裡 2025-10-15 10:00；【前置】會員卡
+PASS [②] 有沒人在用的腳踏車機  [{"x": -0.5, "z": 8.15, "label": "用腳踏車機"}, {"x": 1, "z": 8.15, "label": "用腳踏車機"}, {"x": 2.5, "z": 8.15, "label": "用腳踏車機"}, {"x": 4, "z": 8.15, "label": "用腳踏車機"}]
+  [  79.8s] 到達「[②] 走到腳踏車機」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [黑畫面] sw_bike_front 不是黑畫面（平均亮度 86.4、變化 46）  [86.4, 46]
+  [  84.7s] [截圖] sw_bike_front：鏡頭 {"eye": [-0.5, 1.3, 12], "look": [-0.5, 1, 9.4], "lens": 35, "vfov": 32.27}、亮度 [86.4, 46]
+PASS [黑畫面] sw_bike_side 不是黑畫面（平均亮度 58.7、變化 45.7）  [58.7, 45.7]
+  [  86.9s] [截圖] sw_bike_side：鏡頭 {"eye": [2.1, 1.3, 9.4], "look": [-0.5, 1, 9.4], "lens": 35, "vfov": 32.27}、亮度 [58.7, 45.7]
+PASS [②] 騎腳踏車機時穿運動服  {"zone": "gym_b1", "gymWear": true, "top": true, "shorts": true, "jacket": false, "backpack": false, "pe": null, "x": -0.5, "z": 9.4, "yaw": 0, "pose": "gym_bike"}
+PASS [②] 腳踏車機那一刻拍到了
+  [前置／捷徑] [③] 讀檔 gym（1F 大廳）2025-10-15 14:00；【捷徑】CLS.peWear＝probe → FIT.gymWearSync
+PASS [③] 上體育課（CLS.peWear）穿運動服、後背包拿下  {"before": {"zone": "gym", "gymWear": false, "top": false, "shorts": false, "jacket": false, "backpack": true, "pe": null, "x": 0, "z": 17.6, "yaw": 3.142, "pose": "idle"}, "pe": {"zone": "gym", "gymWear": true, "top": true, "shorts": true, "jacket": false, "backpack": false, "pe": "probe", "x": 0, "z": 17.6, "yaw": 3.142, "pose": "idle"}}
+PASS [黑畫面] sw_pe_front 不是黑畫面（平均亮度 172.7、變化 49.9）  [172.7, 49.9]
+  [ 114.2s] [截圖] sw_pe_front：鏡頭 {"eye": [-0.001059100637247708, 1.3, 15.000000215710426], "look": [0, 1, 17.6], "lens": 35, "vfov": 32.27}、亮度 [172.7, 49.9]
+PASS [黑畫面] sw_pe_side 不是黑畫面（平均亮度 109.9、變化 59.6）  [109.9, 59.6]
+  [ 116.2s] [截圖] sw_pe_side：鏡頭 {"eye": [-2.599999784289576, 1.3, 17.60105910063725], "look": [0, 1, 17.6], "lens": 35, "vfov": 32.27}、亮度 [109.9, 59.6]
+PASS [③] 下課（peWear 清掉）換回原本的、後背包照原樣  {"before": {"zone": "gym", "gymWear": false, "top": false, "shorts": false, "jacket": false, "backpack": true, "pe": null, "x": 0, "z": 17.6, "yaw": 3.142, "pose": "idle"}, "after": {"zone": "gym", "gymWear": false, "top": false, "shorts": false, "jacket": false, "backpack": true, "pe": null, "x": 0, "z": 17.6, "yaw": 3.142, "pose": "idle"}}
+  [前置／捷徑] [④] 讀檔 gym_b1 出口旁 2025-10-15 10:00
+PASS [黑畫面] sw_exit_before_front 不是黑畫面（平均亮度 91.9、變化 43.9）  [91.9, 43.9]
+  [ 129.8s] [截圖] sw_exit_before_front：鏡頭 {"eye": [18, 1.3, 9.2], "look": [18, 1, 6.6], "lens": 35, "vfov": 32.27}、亮度 [91.9, 43.9]
+PASS [黑畫面] sw_exit_before_side 不是黑畫面（平均亮度 114.4、變化 33.5）  [114.4, 33.5]
+  [ 132.0s] [截圖] sw_exit_before_side：鏡頭 {"eye": [20.6, 1.3, 6.6], "look": [18, 1, 6.6], "lens": 35, "vfov": 32.27}、亮度 [114.4, 33.5]
+PASS [④] 有「上樓回大廳」  [{"label": "上樓回大廳", "x": 18, "z": 7.8, "r": 0.6, "lv": 0, "to": "gym"}]
+  [ 132.1s] [④] 「上樓回大廳」在 (18, 7.8) 半徑 0.6；走到範圍裡站得住的 {"x": 18, "z": 7.5, "d": 0.9000000000000004}
+PASS [④] 「上樓回大廳」範圍裡有站得住的地方  {"label": "上樓回大廳", "x": 18, "z": 7.8, "r": 0.6, "lv": 0, "to": "gym"}
+  [ 136.9s] 到達「[④] 上樓回大廳」附近（0.03 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，5 秒
+PASS [④] 走到那裡，互動按鈕是「上樓回大廳」  {"x": 18, "z": 7.47, "lv": 0, "interact": "上樓回大廳"}
+PASS [④] 按下去到了 gym（站得住、沒有被放到目的地）  {"zone": "gym", "x": 16.8, "z": 18.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.14}
+PASS [④] 回到 1F：換回原本的衣服（gymWear false、GYM_TOP 藏）、後背包回來  {"before": {"zone": "gym_b1", "gymWear": true, "top": true, "shorts": true, "jacket": false, "backpack": false, "pe": null, "x": 18, "z": 6.6, "yaw": 0, "pose": "idle"}, "after": {"zone": "gym", "gymWear": false, "top": false, "shorts": false, "jacket": false, "backpack": true, "pe": null, "x": 16.8, "z": 18.4, "yaw": 0, "pose": "idle"}}
+PASS [黑畫面] sw_exit_after_front 不是黑畫面（平均亮度 109.9、變化 47）  [109.9, 47]
+  [ 146.7s] [截圖] sw_exit_after_front：鏡頭 {"eye": [16.8, 1.3, 21], "look": [16.8, 1, 18.4], "lens": 35, "vfov": 32.27}、亮度 [109.9, 47]
+PASS [黑畫面] sw_exit_after_side 不是黑畫面（平均亮度 133.8、變化 62.9）  [133.8, 62.9]
+  [ 148.6s] [截圖] sw_exit_after_side：鏡頭 {"eye": [19.400000000000002, 1.3, 18.4], "look": [16.8, 1, 18.4], "lens": 35, "vfov": 32.27}、亮度 [133.8, 62.9]
+  [前置／捷徑] [⑤ fit 0] 讀檔 gym_b1 走廊 (6.0, 1.40)；【捷徑】fit＝0 → FIT.sync
+PASS [黑畫面] sw_fit00_front 不是黑畫面（平均亮度 95、變化 44）  [95, 44]
+  [ 160.8s] [截圖] sw_fit00_front：鏡頭 {"eye": [3.4000000539276067, 1.3, 1.3994704496703925], "look": [6, 1, 1.4], "lens": 35, "vfov": 32.27}、亮度 [95, 44]
+PASS [黑畫面] sw_fit00_side 不是黑畫面（平均亮度 117.1、變化 21.6）  [117.1, 21.6]
+  [ 162.9s] [截圖] sw_fit00_side：鏡頭 {"eye": [5.999470449670392, 1.3, 3.999999946072393], "look": [6, 1, 1.4], "lens": 35, "vfov": 32.27}、亮度 [117.1, 21.6]
+  [前置／捷徑] [⑤ fit 30] 讀檔 gym_b1 走廊 (6.0, 1.40)；【捷徑】fit＝30 → FIT.sync
+PASS [黑畫面] sw_fit30_front 不是黑畫面（平均亮度 94.9、變化 44.1）  [94.9, 44.1]
+  [ 174.9s] [截圖] sw_fit30_front：鏡頭 {"eye": [3.4000000539276067, 1.3, 1.3994704496703925], "look": [6, 1, 1.4], "lens": 35, "vfov": 32.27}、亮度 [94.9, 44.1]
+PASS [黑畫面] sw_fit30_side 不是黑畫面（平均亮度 117.2、變化 21.7）  [117.2, 21.7]
+  [ 177.0s] [截圖] sw_fit30_side：鏡頭 {"eye": [5.999470449670392, 1.3, 3.999999946072393], "look": [6, 1, 1.4], "lens": 35, "vfov": 32.27}、亮度 [117.2, 21.7]
+  [前置／捷徑] [⑤ fit 60] 讀檔 gym_b1 走廊 (6.0, 1.40)；【捷徑】fit＝60 → FIT.sync
+PASS [黑畫面] sw_fit60_front 不是黑畫面（平均亮度 94.9、變化 44.2）  [94.9, 44.2]
+  [ 189.1s] [截圖] sw_fit60_front：鏡頭 {"eye": [3.4000000539276067, 1.3, 1.3994704496703925], "look": [6, 1, 1.4], "lens": 35, "vfov": 32.27}、亮度 [94.9, 44.2]
+PASS [黑畫面] sw_fit60_side 不是黑畫面（平均亮度 117.2、變化 21.7）  [117.2, 21.7]
+  [ 191.2s] [截圖] sw_fit60_side：鏡頭 {"eye": [5.999470449670392, 1.3, 3.999999946072393], "look": [6, 1, 1.4], "lens": 35, "vfov": 32.27}、亮度 [117.2, 21.7]
+  [前置／捷徑] [⑤ fit 90] 讀檔 gym_b1 走廊 (6.0, 1.40)；【捷徑】fit＝90 → FIT.sync
+PASS [黑畫面] sw_fit90_front 不是黑畫面（平均亮度 94.9、變化 44.3）  [94.9, 44.3]
+  [ 203.2s] [截圖] sw_fit90_front：鏡頭 {"eye": [3.4000000539276067, 1.3, 1.3994704496703925], "look": [6, 1, 1.4], "lens": 35, "vfov": 32.27}、亮度 [94.9, 44.3]
+PASS [黑畫面] sw_fit90_side 不是黑畫面（平均亮度 117.2、變化 21.8）  [117.2, 21.8]
+  [ 205.3s] [截圖] sw_fit90_side：鏡頭 {"eye": [5.999470449670392, 1.3, 3.999999946072393], "look": [6, 1, 1.4], "lens": 35, "vfov": 32.27}、亮度 [117.2, 21.8]
+PASS 沒有 JS 例外  []
+ALL PASS
