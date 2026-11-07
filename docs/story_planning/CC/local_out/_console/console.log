@@ -96,3 +96,11 @@
 [16:38:29] [res] cpu=2% mem=36% (11.4/31.4 GB) chrome_testing=0  START XS_NIGHT_player
 [16:38:29] worktree add fa79dd7bc32e1e177a8187a070b8c7baf6ef2924: invalid reference - fetching main and the commit itself
 [16:40:22] [res] cpu=3% mem=49% (15.4/31.4 GB) chrome_testing=8  END GYM_DOME_r3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7000af389..4bc8faa4b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:40:28] ==== END   GYM_DOME_r3  exit=0  116s   ====
+[16:40:35] memory 43% before starting SOC_peishan_date_r5 (2 running)
+[16:40:35] ==== START SOC_peishan_date_r5  (probe @ fa79dd7bc32e1e177a8187a070b8c7baf6ef2924) ====
+[16:40:38] [res] cpu=12% mem=43% (13.6/31.4 GB) chrome_testing=4  START SOC_peishan_date_r5
+[16:40:43] [res] cpu=11% mem=43% (13.1/31.4 GB) chrome_testing=4  END GYM_DOME_r2

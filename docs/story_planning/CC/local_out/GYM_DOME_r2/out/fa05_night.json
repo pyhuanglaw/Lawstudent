@@ -1,0 +1,115 @@
+{
+ "dome": {
+  "night": {
+   "lit": [
+    {
+     "mesh": "gym_dome",
+     "mat": "ck_glass_lit",
+     "emissive": "ffd49a",
+     "ei": 1,
+     "emap": true,
+     "vis": true
+    },
+    {
+     "mesh": "soc_ceilL",
+     "mat": "ck_glass_lit",
+     "emissive": "ffd49a",
+     "ei": 1,
+     "emap": true,
+     "vis": true
+    }
+   ],
+   "nLit": 2,
+   "otherLit": [
+    {
+     "mesh": "gym_glass",
+     "mat": "ck_glass",
+     "emissive": "ffd49a",
+     "ei": 1,
+     "emap": true,
+     "vis": true
+    }
+   ],
+   "nOther": 1
+  },
+  "night_sidegate": {
+   "eye": [
+    -124.29,
+    8,
+    -168.02
+   ],
+   "look": [
+    -75,
+    18.65,
+    -133.8
+   ],
+   "lens": 30,
+   "vfov": 37.3
+  },
+  "night_plaza": {
+   "eye": [
+    -119.7,
+    8,
+    -173.83
+   ],
+   "look": [
+    -75,
+    18.65,
+    -133.8
+   ],
+   "lens": 30,
+   "vfov": 37.3
+  },
+  "day": {
+   "lit": [
+    {
+     "mesh": "gym_dome",
+     "mat": "ck_glass_lit",
+     "emissive": "ffd49a",
+     "ei": 0,
+     "emap": true,
+     "vis": true
+    },
+    {
+     "mesh": "soc_ceilL",
+     "mat": "ck_glass_lit",
+     "emissive": "ffd49a",
+     "ei": 0,
+     "emap": true,
+     "vis": true
+    }
+   ],
+   "nLit": 2,
+   "otherLit": [],
+   "nOther": 0
+  },
+  "day_sidegate": {
+   "eye": [
+    -124.29,
+    8,
+    -168.02
+   ],
+   "look": [
+    -75,
+    18.65,
+    -133.8
+   ],
+   "lens": 30,
+   "vfov": 37.3
+  },
+  "day_plaza": {
+   "eye": [
+    -119.7,
+    8,
+    -173.83
+   ],
+   "look": [
+    -75,
+    18.65,
+    -133.8
+   ],
+   "lens": 30,
+   "vfov": 37.3
+  }
+ }
+}

@@ -1,0 +1,28 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_fa05_night_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GYM_DOME_r2\out
+CC FA05_NIGHT（新生南路四家店窗外夜景、體育館圓頂）：SHA=79214e4e10275fb47c0d95ec667cab2964b77b5c（worktree 實際 ?）；PARTS=['dome']；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+== night dome
+  [前置／捷徑] [night dome] 讀檔校園（新生南路側門內）2025-10-18 21.00
+PASS [night dome] 校園有 Z3.XSG（新生南路側門、體育館）  {"xsg": {"x": -101.4, "gz": null, "gym": [-90, -140.4, -60, -126.4]}, "sg": {"x": 18.4, "z": 10, "w": 6.4, "label": "回到首都帝大（新生南路側門）", "name": "新生南路側門", "campusSpawn": {"x": -101.4, "z": -137.2, "yaw": 0}, "spawn": {"x": 14.3, "z": 10, "yaw": -1.5708}, "note": "門柱寫「首都帝大」、鐵柵門開著、門柱上一盞燈（參考圖）。校園那一側的門開在北側圍牆 (−101.4, −141)、靠西北角，門內是望月台（新月台）前的小廣場（XS-GATE-NORTH-1105，使用者 11-05 09:0x「門就不要往左邊開了 直接往上面開 跟公館不同側」）；回到校園落在門內 (−101.4, −137.2)、面向南。之前：西牆 (−124, −84)（ART-XINSHENG-GATE-1103）、x −66 往西（XS-GATE-MOVE-1105）"}}
+  [  42.9s] [night dome] 圓頂材質 ck_glass_lit 2 個：[{"mesh": "gym_dome", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 1, "emap": true, "vis": true}, {"mesh": "soc_ceilL", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 1, "emap": true, "vis": true}]；其他看起來會亮的體育館材質 1 個：[{"mesh": "gym_glass", "mat": "ck_glass", "emissive": "ffd49a", "ei": 1, "emap": true, "vis": true}]
+PASS [night dome] 晚上圓頂（ck_glass_lit）會發光（emissive 不是黑、intensity > 0）  [{"mesh": "gym_dome", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 1, "emap": true, "vis": true}, {"mesh": "soc_ceilL", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 1, "emap": true, "vis": true}]
+  [  44.8s] [night dome] sidegate 遠景找角度：{"eye": [-124.29, 8, -168.02], "look": [-75, 18.65, -133.8], "D": 60, "da": 0.52, "tried": 46, "dome": true, "top": 19.5, "r": 15.95}
+PASS [黑畫面] gymdome_sidegate_far_night 不是黑畫面（平均亮度 14.9、變化 31.1）  [14.9, 31.1]
+  [  46.9s] [截圖] gymdome_sidegate_far_night：鏡頭 {"eye": [-124.29, 8, -168.02], "look": [-75, 18.65, -133.8], "lens": 30, "vfov": 37.3}、亮度 [14.9, 31.1]
+  [  47.0s] [night dome] plaza 遠景找角度：{"eye": [-119.7, 8, -173.83], "look": [-75, 18.65, -133.8], "D": 60, "da": 0, "tried": 1, "dome": true, "top": 19.5, "r": 15.95}
+PASS [黑畫面] gymdome_plaza_far_night 不是黑畫面（平均亮度 21.1、變化 43.6）  [21.1, 43.6]
+  [  48.9s] [截圖] gymdome_plaza_far_night：鏡頭 {"eye": [-119.7, 8, -173.83], "look": [-75, 18.65, -133.8], "lens": 30, "vfov": 37.3}、亮度 [21.1, 43.6]
+== day dome
+  [前置／捷徑] [day dome] 讀檔校園（新生南路側門內）2025-10-18 14.00
+PASS [day dome] 校園有 Z3.XSG（新生南路側門、體育館）  {"xsg": {"x": -101.4, "gz": null, "gym": [-90, -140.4, -60, -126.4]}, "sg": {"x": 18.4, "z": 10, "w": 6.4, "label": "回到首都帝大（新生南路側門）", "name": "新生南路側門", "campusSpawn": {"x": -101.4, "z": -137.2, "yaw": 0}, "spawn": {"x": 14.3, "z": 10, "yaw": -1.5708}, "note": "門柱寫「首都帝大」、鐵柵門開著、門柱上一盞燈（參考圖）。校園那一側的門開在北側圍牆 (−101.4, −141)、靠西北角，門內是望月台（新月台）前的小廣場（XS-GATE-NORTH-1105，使用者 11-05 09:0x「門就不要往左邊開了 直接往上面開 跟公館不同側」）；回到校園落在門內 (−101.4, −137.2)、面向南。之前：西牆 (−124, −84)（ART-XINSHENG-GATE-1103）、x −66 往西（XS-GATE-MOVE-1105）"}}
+  [  63.3s] [day dome] 圓頂材質 ck_glass_lit 2 個：[{"mesh": "gym_dome", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 0, "emap": true, "vis": true}, {"mesh": "soc_ceilL", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 0, "emap": true, "vis": true}]；其他看起來會亮的體育館材質 0 個：[]
+PASS [day dome] 白天圓頂（ck_glass_lit）不發光（emissive 黑或 intensity 0）  [{"mesh": "gym_dome", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 0, "emap": true, "vis": true}, {"mesh": "soc_ceilL", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 0, "emap": true, "vis": true}]
+  [  65.5s] [day dome] sidegate 遠景找角度：{"eye": [-124.29, 8, -168.02], "look": [-75, 18.65, -133.8], "D": 60, "da": 0.52, "tried": 46, "dome": true, "top": 19.5, "r": 15.95}
+PASS [黑畫面] gymdome_sidegate_far_day 不是黑畫面（平均亮度 44.9、變化 60.8）  [44.9, 60.8]
+  [  67.7s] [截圖] gymdome_sidegate_far_day：鏡頭 {"eye": [-124.29, 8, -168.02], "look": [-75, 18.65, -133.8], "lens": 30, "vfov": 37.3}、亮度 [44.9, 60.8]
+  [  67.8s] [day dome] plaza 遠景找角度：{"eye": [-119.7, 8, -173.83], "look": [-75, 18.65, -133.8], "D": 60, "da": 0, "tried": 1, "dome": true, "top": 19.5, "r": 15.95}
+PASS [黑畫面] gymdome_plaza_far_day 不是黑畫面（平均亮度 50.9、變化 54.8）  [50.9, 54.8]
+  [  69.7s] [截圖] gymdome_plaza_far_day：鏡頭 {"eye": [-119.7, 8, -173.83], "look": [-75, 18.65, -133.8], "lens": 30, "vfov": 37.3}、亮度 [50.9, 54.8]
+PASS 沒有 JS 例外  []
+ALL PASS
