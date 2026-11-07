@@ -1,0 +1,47 @@
+{
+ "device": "CPU",
+ "blender": "5.2.2 LTS",
+ "bake_seconds": 1503.9,
+ "scale": 2.0,
+ "intensity": 6.283185307179586,
+ "res": 1024,
+ "samples": 512,
+ "emit": {},
+ "dayemit": {},
+ "sun": [
+  160.0,
+  35.0,
+  2.0
+ ],
+ "sky": 1.0,
+ "nightsky": 0.03,
+ "shell": "X",
+ "daylights": 1.0,
+ "knee": null,
+ "dayscale": null,
+ "lights": "-3.010,-2.990,-1.810,-1.790,2.969,1,1,30,1.10,0.50;-0.010,0.010,-1.810,-1.790,2.969,1,1,30,1.10,0.50;2.990,3.010,-1.810,-1.790,2.969,1,1,30,1.10,0.50;-3.010,-2.990,1.190,1.210,2.969,1,1,30,1.10,0.50;-0.010,0.010,1.190,1.210,2.969,1,1,30,1.10,0.50;2.990,3.010,1.190,1.210,2.969,1,1,30,1.10,0.50",
+ "points": null,
+ "dayfill": null,
+ "wb": {
+  "day": null,
+  "night": null
+ },
+ "objects": [
+  "library_media_ceiling",
+  "library_media_floorm",
+  "library_media_prints",
+  "library_media_woodparts",
+  "WALL_E_print",
+  "WALL_E_trim",
+  "WALL_E_wall",
+  "WALL_N_print",
+  "WALL_N_trim",
+  "WALL_N_wall",
+  "WALL_S_print",
+  "WALL_S_trim",
+  "WALL_S_wall",
+  "WALL_W_print",
+  "WALL_W_trim",
+  "WALL_W_wall"
+ ]
+}
