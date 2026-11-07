@@ -77,11 +77,14 @@ async def talk_to(pg, cdp, tag, cid):
     """走到那個人旁邊（1 m 內）→ 互動按鈕 → 點"""
     p = await pg.evaluate("(id=>{ const n=GAME.npc&&GAME.npc[id]; if(!n||!n.obj) return null; return {x:n.obj.position.x, z:n.obj.position.z, vis:n.obj.visible}; })", cid)
     if not R.check('%s %s 在場' % (tag, cid), bool(p), J(p)): return None
-    await L.go_to(pg, cdp, R, p['x'] + 0.9, p['z'] + 0.6, 0.35, '%s 走到 %s 旁邊' % (tag, cid), max_s=120)
-    await pg.wait_for_timeout(900)
-    lab = await pg.evaluate("(()=>{ const e=document.getElementById('interact'); return e&&!e.classList.contains('hide')?e.innerText.trim():null; })()")
+    lab = None
+    for dx, dz in ((0.0, 1.0), (0.9, 0.6), (-0.9, 0.6), (1.0, 0.0), (-1.0, 0.0), (0.0, -1.0)):   # 社博人多：換幾個方向走到她旁邊，互動按鈕是「和…說話」才點
+        await L.go_to(pg, cdp, R, p['x'] + dx, p['z'] + dz, 0.3, '%s 走到 %s 旁邊 (%+.1f,%+.1f)' % (tag, cid, dx, dz), max_s=90)
+        await pg.wait_for_timeout(900)
+        lab = await pg.evaluate("(()=>{ const e=document.getElementById('interact'); return e&&!e.classList.contains('hide')?e.innerText.trim():null; })()")
+        if lab and '說話' in lab: break
     R.note('%s 互動按鈕：%s' % (tag, lab))
-    if not lab: return None
+    if not lab or '說話' not in lab: return None
     await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1000)
     return lab
 
@@ -176,7 +179,7 @@ async def main():
                     tag = '[⑤系籃攤位]'
                     bs = await pg.evaluate("(()=>{ const b=CLUB_FAIR.BOOTHS.find(x=>x.id==='basketball'); return b?{say:b.say, who:b.who, pos:CLUB_FAIR.POS.basketball}:null; })()")
                     R.note('%s club_fair.js basketball：%s' % (tag, J(bs)))
-                    it = await pg.evaluate("(()=>{ const i=GAME.E.interactables.filter(i=>!i.hidden&&(/系籃|系學會/.test(i.label||'')||(i.booth&&/basketball/.test(String(i.booth))))).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2)})); return i; })()")
+                    it = await pg.evaluate("(()=>{ const i=GAME.E.interactables.filter(i=>!i.hidden&&/系學會/.test(i.label||'')&&!/練球/.test(i.label||'')).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2)})); return i; })()")   # 攤位＝「法律系系學會（系籃）」（不是「系籃練球」那個點）
                     R.note('%s 系籃攤位的互動點：%s' % (tag, J(it)))
                     if R.check('%s 找得到系籃攤位' % tag, bool(it), ''):
                         await L.go_to(pg, cdp, R, it[0]['x'], it[0]['z'] + 0.6, 0.3, tag + ' 走到攤位前', max_s=150); await pg.wait_for_timeout(900)
