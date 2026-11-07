@@ -38,6 +38,12 @@ from playwright.async_api import async_playwright
 ZONES = [z for z in os.environ.get('ZONES', 'wenzhou,library_hall').split(',') if z]
 VARIANTS = [v for v in os.environ.get('VARIANTS', 'base,pre,prewarm').split(',') if v]
 COLD = float(os.environ.get('COLD', '12')); LAND = os.environ.get('LAND', '1') != '0'
+# CC-B 11-07（BB-B 10:18，PERF-COLD (B) 877fb250e）：NET=4g＝用 CDP 模擬 4G（下載 9 Mbps、上傳 1.5 Mbps、延遲 60 ms）；
+#   VARIANTS 多一種 near＝先讀檔到「有出口通到目標區域」的那一區、站在出口 10 m 內，等 ASSETS.prefetch 把目標區域的模型下載完（最多 NEAR_WAIT 秒），再照 base 進目標區域
+NET = os.environ.get('NET', ''); NEAR_WAIT = float(os.environ.get('NEAR_WAIT', '120'))
+NETS = {'4g': {'offline': False, 'latency': 60, 'downloadThroughput': 9e6 / 8, 'uploadThroughput': 1.5e6 / 8},
+        '3g': {'offline': False, 'latency': 150, 'downloadThroughput': 1.6e6 / 8, 'uploadThroughput': 0.75e6 / 8}}
+NEAR_FROM = ['campus', 'gongguan', 'wenzhou', 'xinsheng']
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
 COLS = ['dt', 'upd', 'rnd', 'story', 'upg', 'upgN', 'prog', 'tex', 'geo', 'calls', 'tris', 't']
 
@@ -174,6 +180,32 @@ def analyse(run):
     return out
 
 
+async def near_prefetch(pg, zone):
+    """near：在通到 zone 的出口 10 m 內站著，讓遊戲自己 ASSETS.prefetchNear（30 m 內）下載 zone 的模型；回傳下載了什麼、花多久"""
+    info = {'from': None}
+    for src in NEAR_FROM:
+        if src == zone: continue
+        await L.load_state(pg, {'zone': src, 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': None, 'flags': FLAGS}, quiet_events=True, quiet_phone=True)
+        await pg.wait_for_timeout(3000)
+        ex = await pg.evaluate("z=>{ const E=GAME.E; const it=(E.interactables||[]).find(i=>i&&i.exit&&i.exit.to===z); return it?{x:it.x,z:it.z,label:it.label}:null; }", zone)
+        if not ex: continue
+        keys = await pg.evaluate("z=>(typeof ZONE_ASSETS!=='undefined'&&ZONE_ASSETS[z])||null", zone)
+        if not keys: info.update({'from': src, 'exit': ex, 'err': 'ZONE_ASSETS 沒有這一區（這一版沒有預先下載）'}); return info
+        # 站到出口旁邊 3 m（還沒進去）
+        await L.load_state(pg, {'zone': src, 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': ex['x'] + 3.0, 'z': ex['z'] + 3.0, 'yaw': 0}, 'flags': FLAGS}, quiet_events=True, quiet_phone=True)
+        t0 = await pg.evaluate("performance.now()")
+        st = None
+        for _ in range(int(NEAR_WAIT * 2)):
+            st = await pg.evaluate("ks=>{ const A=ASSETS; return {done:ks.filter(k=>A.prefetched&&A.prefetched[k]!==undefined||A.cache&&A.cache[k]).length, n:ks.length, cur:A._pf&&A._pf.cur, q:A._pf?A._pf.q.length:null, bytes:A.prefetchBytes, ok:A.prefetchOK?A.prefetchOK():null}; }", keys)
+            if st['done'] >= st['n'] and not st['cur']: break
+            await pg.wait_for_timeout(500)
+        t1 = await pg.evaluate("performance.now()")
+        info.update({'from': src, 'exit': ex, 'keys': keys, 'state': st, 'wait_ms': round(t1 - t0)})
+        return info
+    info['err'] = '找不到有出口通到 %s 的區域（%s）' % (zone, NEAR_FROM)
+    return info
+
+
 async def one_run(p, url, zone, variant, preload_keys):
     run = {'zone': zone, 'variant': variant}
     b, ctx, pg, cdp, errs = await L.launch(p, landscape=LAND)
@@ -181,6 +213,10 @@ async def one_run(p, url, zone, variant, preload_keys):
         await pg.goto(url)
         if not await L.wait_loaded(pg):
             run['err'] = '遊戲載入逾時'; return run
+        if NET in NETS:
+            await cdp.send('Network.enable'); await cdp.send('Network.emulateNetworkConditions', NETS[NET]); run['net'] = NET
+        if variant == 'near':
+            run['near'] = await near_prefetch(pg, zone)
         run['hooks'] = json.loads(await pg.evaluate(HOOK_JS))
         if variant in ('pre', 'prewarm') and preload_keys:
             run['preload'] = await pg.evaluate(PRELOAD_JS, preload_keys); await pg.wait_for_timeout(1500)
@@ -218,6 +254,8 @@ def text(run):
     t = ['%-13s %-8s 黑畫面 %s ms（預熱 %s）｜淡入後 %d 格 avg %.1f fps 1%%low %.2f 最慢 %.0f ms、>100 ms %d 格、>500 ms %d 格｜進區域以後才載 %d 個%s' % (
         z, v, r['black_ms'], r['prewarm_ms'], r['n_after_fade'], r['avg_fps'], r['low1_fps'], r['worst_ms'], r['over100'], r['over500'], len(r['late_assets']),
         '｜黑畫面多畫一次 %s' % (r['warmrender'],) if r['warmrender'] else '')]
+    if run.get('near'): t.append('    near：%s' % json.dumps(run['near'], ensure_ascii=False)[:400])
+    if run.get('net'): t.append('    網路模擬：%s' % run['net'])
     if run.get('preload'): t.append('    先載好：%d 個、%s ms，失敗 %s' % (len(run['preload']['ok']), run['preload']['ms'], run['preload']['fail'][:5]))
     if r['late_assets']: t.append('    進區域以後才載：' + '、'.join(r['late_assets'][:20]))
     for x in r['loaded'][:12]: t.append('      載好 %s（%s）%s ms，進區域後 %s ms' % tuple(x))
