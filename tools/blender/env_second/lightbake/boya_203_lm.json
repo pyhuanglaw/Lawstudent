@@ -1,0 +1,51 @@
+{
+ "device": "CPU",
+ "blender": "5.2.2 LTS",
+ "bake_seconds": 1446.4,
+ "scale": 2.0,
+ "intensity": 6.283185307179586,
+ "res": 1024,
+ "samples": 512,
+ "emit": {},
+ "dayemit": {},
+ "sun": [
+  160.0,
+  35.0,
+  2.0
+ ],
+ "sky": 1.0,
+ "nightsky": 0.03,
+ "shell": "S",
+ "daylights": 1.0,
+ "knee": null,
+ "dayscale": null,
+ "lights": "-0.010,0.010,-1.510,-1.490,3.169,1,1,30,1.14,0.54;2.990,3.010,-1.510,-1.490,3.169,1,1,30,1.14,0.54;-0.010,0.010,1.490,1.510,3.169,1,1,30,1.14,0.54;2.990,3.010,1.490,1.510,3.169,1,1,30,1.14,0.54",
+ "points": null,
+ "dayfill": null,
+ "wb": {
+  "day": null,
+  "night": null
+ },
+ "objects": [
+  "boya_203_ceiling",
+  "boya_203_floorm",
+  "boya_203_prints",
+  "boya_203_woodparts",
+  "WALL_E_trim",
+  "WALL_E_wain",
+  "WALL_E_wall",
+  "WALL_N_door",
+  "WALL_N_print",
+  "WALL_N_trim",
+  "WALL_N_wain",
+  "WALL_N_wall",
+  "WALL_S_frame",
+  "WALL_S_trim",
+  "WALL_S_wain",
+  "WALL_S_wall",
+  "WALL_W_board",
+  "WALL_W_trim",
+  "WALL_W_wain",
+  "WALL_W_wall"
+ ]
+}
