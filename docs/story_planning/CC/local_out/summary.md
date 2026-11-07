@@ -1684,3 +1684,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 300.7s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 300.7s] BROWSER DISCONNECTED
 - 2026-11-07T15:59:21  HAIR_FIX_v2  sha=62d7f3b5412fc940da37c20669b6ec201aa754df  exit=0  177s      [campus] 總覽 hair_overview_campus11_n0.6_tex.png（6 人 × 5 張） / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 144.7s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 144.7s] BROWSER DISCONNECTED
+- 2026-11-07T16:13:35  HAIR_FIX_v3  sha=62d7f3b5412fc940da37c20669b6ec201aa754df  exit=0  209s      [campus] 總覽 hair_overview_campus11_tex.png（6 人 × 5 張） / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 174.9s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 174.9s] BROWSER DISCONNECTED
