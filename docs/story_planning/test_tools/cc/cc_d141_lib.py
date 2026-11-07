@@ -17,7 +17,9 @@ SEATS = r"""(()=>GAME.E.interactables.filter(i=>i.seat&&!i.hidden).map(i=>{ cons
 EXITS = r"""(()=>GAME.E.interactables.filter(i=>i.exit&&!i.hidden).map(i=>({label:i.label, x:+i.x.toFixed(2), z:+i.z.toFixed(2), r:i.radius||1, lv:(i.lv|0), to:i.exit.to})))()"""
 CAM = r"""((C)=>{ const E=GAME.E, cam=E.camera, V=THREE.Vector3; const hf=2*Math.atan(18/(C.lens||24)), vf=2*Math.atan(Math.tan(hf/2)/(innerWidth/innerHeight));
   E.paused=true; E.cinematic&&E.cinematic(new V(...C.eye),new V(...C.look));
-  for(let i=0;i<2;i++){ cam.position.set(...C.eye); E.cam.look=new V(...C.look); cam.lookAt(E.cam.look); cam.updateMatrixWorld(); } cam.fov=vf*180/Math.PI; cam.updateProjectionMatrix(); E.render();
+  for(let i=0;i<2;i++){ cam.position.set(...C.eye); E.cam.look=new V(...C.look); cam.lookAt(E.cam.look); cam.updateMatrixWorld(); } cam.fov=vf*180/Math.PI; cam.updateProjectionMatrix();
+  try{ if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(cam,E.player.obj.position); if(E.updateLevelVis) E.updateLevelVis(); }catch(e){}   /* LAWWW2-B 08:37（6b92262a6）：暫停以後 fadeWalls 不會照新的鏡頭重算——鏡頭搬進店裡，窗景卡還是「鏡頭在牆外」那時藏起來的狀態（FA05_NIGHT 一樓三張只看到天空）*/
+  E.render();
   return {eye:C.eye, look:C.look, lens:C.lens||24, vfov:+(vf*180/Math.PI).toFixed(2)}; })"""
 UNCAM = r"""(()=>{ const E=GAME.E; E.paused=false; if(E.endCinematic) E.endCinematic(); return true; })()"""
 HUD = r"""(on=>{ for(const id of ['hud','hudR','minimap','ctlR','joy','interact','toast','choices','btnGo','btnQuick']){ const e=document.getElementById(id); if(e) e.style.visibility=on?'':'hidden'; } })"""
