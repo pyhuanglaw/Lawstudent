@@ -116,7 +116,7 @@ async def run_an(pg, cdp, run):
     await back_out(pg, cdp)
     s1 = base_state(sl['who'], sl['flag']); await load(pg, cdp, s1)
     run.setup('【前置／捷徑】設 AN_STUDY_SHOP（念完第 6 次）')
-    pe.WHO = sl['who']
+    pe.WHO = sl['who']; pe.GO_EARLY = -0.01   # 小路 18:00 才開門：17:50 按「前往」會說還沒開（quickGo st.open），撥到 18:00 再按
     await pg.evaluate("(()=>{ window.__money=[]; if(GAME.money&&!GAME.__mW){ const f=GAME.money; GAME.money=function(v,why){ try{ window.__money.push({v,why}); }catch(e){} return f.apply(this,arguments); }; GAME.__mW=1; } })()")
     said, picked = await pe.meet_once(pg, cdp, run, '吃飯', '手帳', '小路')
     hist = await pg.evaluate("(typeof ADV!=='undefined'&&Array.isArray(ADV.history))?ADV.history.map(x=>(x.name||'')+'｜'+x.text):[]")
@@ -130,7 +130,7 @@ async def run_an(pg, cdp, run):
     run.check('④ 扣 200、記 AN_SHOP1_DONE、STUDYSLOT n=1', len(paid) == 1 and st['done'] is not None and ((st['rec'] or {}).get('an_shop1') or {}).get('n') == 1, json.dumps(st, ensure_ascii=False))
     await run.shot(pg, 'an_shop1_after')
     lst = await cat_list(pg, cdp, sl['who'], '吃飯')
-    run.check('⑤ 演完以後不再列（一次性）', not any('手帳' in x['t'] for x in (lst or [])), json.dumps([x['t'] for x in (lst or [])], ensure_ascii=False))
+    run.check('⑤ 演完以後不再列（一次性；選單要真的打開）', bool(lst) and not any('手帳' in x['t'] for x in (lst or [])), json.dumps([x['t'] for x in (lst or [])], ensure_ascii=False))
     await back_out(pg, cdp)
 
 

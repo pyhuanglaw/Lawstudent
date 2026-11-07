@@ -13,6 +13,7 @@ URL, SAVES, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
 WHO = os.environ.get('WHO', 'heroine_01')
 ROUNDS = int(os.environ.get('ROUNDS', '4'))
 SHIFT = int(os.environ.get('DAYSHIFT', '-14'))
+GO_EARLY = 0.17   # 撥到約好的前幾小時再按「前往」；約在開門那一刻的店（小路 18:00 開）設 -0.01
 PLAN = [('念書', '總圖'), ('喝咖啡', '2:30 AM'), ('念書', '總圖'), ('喝咖啡', '2:30 AM')]
 
 
@@ -92,8 +93,8 @@ async def meet_once(pg, cdp, run, cat, word, tag):
     if not iv:
         run.check('[%s] 約成了（%s）' % (tag, t['t']), False, json.dumps(log[-5:], ensure_ascii=False)); return None, None
     v = iv[-1]
-    run.setup('[%s]【捷徑】時間撥到約好的 %.2f 前 10 分鐘' % (tag, v['h']))
-    await pg.evaluate("(h=>{ GAME.G.hour=h; })(%f)" % (v['h'] - 0.17)); await pg.wait_for_timeout(1200)
+    run.setup('[%s]【捷徑】時間撥到約好的 %.2f %s' % (tag, v['h'], '前 10 分鐘' if GO_EARLY > 0 else '整點（店那時候才開門）'))
+    await pg.evaluate("(h=>{ GAME.G.hour=h; })(%f)" % (v['h'] - GO_EARLY)); await pg.wait_for_timeout(1200)
     await phone(pg, cdp, 'today')
     if not await tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % v['id']):
         here = await pg.evaluate("(p=>{ const P=INV.place(p)||{}; return GAME.G.zone===P.zone; })(%s)" % json.dumps(v['place']))
