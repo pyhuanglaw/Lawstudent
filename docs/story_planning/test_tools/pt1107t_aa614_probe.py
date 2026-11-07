@@ -226,11 +226,15 @@ async def main():
             run.check('週六晚上在櫃檯碰到 Alison 以後：資料頁多「打工：南洋戲院（週五、週六晚上）」', bool(ny) and any('打工：南洋戲院（週五、週六晚上）' in x for x in u1), J([ny, u1]))
         elif MODE == 'movie':
             BH, KAI = 'classmate_bohan', 'kai'
-            s, d = await P.base(pg, base, '2025-11-01', 11.8, 'dorm')
+            ms = os.environ.get('MOVIE_SAVE')   # 要四人房（DORM_FOUR）的存檔，例：qa_saves 的 9/1 那份
+            mbase = json.load(open(ms, encoding='utf-8')) if ms else base
+            mbase = mbase.get('G', mbase)
+            s, d = await P.base(pg, mbase, '2025-11-01', 11.7, 'dorm')
             s.setdefault('flags', {}).pop('AA614_MOVIE', None)
             s['outings'] = [o for o in (s.get('outings') or []) if o.get('id') != 'aa614_movie']
             await P.load(pg, cdp, s); await P.init(pg)
-            run.setup('[前置] day46 存檔 2025-11-01（六，大一上第 9 週）11:48 宿舍房間')
+            await pg.wait_for_timeout(6000)
+            run.setup('[前置] %s 存檔改到 2025-11-01（六，大一上第 9 週）11:42 宿舍房間' % (os.path.basename(ms) if ms else 'day46'))
             Lm = await pg.evaluate("({g3:AA614.L.g3, three:AA614.L.three, movie:AA614.L.g3movie})")
             pre = await pg.evaluate("({grp:PHONE.inGroup(GAME.G,'r203'), bh:STORY.knows('classmate_bohan',GAME.G), kai:STORY.knows('kai',GAME.G), sent:PHONE.sent(GAME.G,'aa614_r3')})")
             run.check('[前置] 在宿舍 203 群組、認識柏翰和阿凱、這則還沒傳過', pre['grp'] and pre['bh'] and pre['kai'] and not pre['sent'], J(pre))
