@@ -10,7 +10,8 @@
 
 | 項目 | 狀態 | 位置 |
 |---|---|---|
-| 光照第一級第三批：SUNNY SIDE、小路、木曜日、一盞、日常失速（AA）、阿德（CC） | **六間都烘好、push**（512 取樣；白天／晚上：0.39/0.31、0.28/0.26、0.30/0.30、0.31/0.22、0.42/0.32、0.51/0.50）；gg_new_lm_unit 加六間 開發原樣 FAILED 6 → ALL PASS；相關 77 支 Node 重跑中，跑完就交 LAWWW-B | `wip/gg_lm3_1107/`（README、lm_maps.jpg、gg_lm3_1107_tests.patch） |
+| 光照第一級第三批：SUNNY SIDE、小路、木曜日、一盞、日常失速（AA）、阿德（CC） | **已交 LAWWW-B（50dab3abd），LAWWW-B ACK 20:46：本機接好 d2f414e0e、gg_new_lm_unit ALL PASS、65 支過，GHA 綠了就推**；CC 拍、BB 判 | `wip/gg_lm3_1107/` |
+| 光照第二級①：總圖 B1（4.1 版，我的模型） | **試烘中**：舊腳本照 10-23 版模型寫死燈位，4.1 版燈位全換 → 改寫 bake_library_b1.sh（輸入 blob 87f1da5e、燈位從模型讀 mesh_lights.py 131 支日光燈＋76 盞檯燈、西牆外中庭天光只白天亮）；LAWWW-B 20:46 同意做第二級 | `1e866f58e` |
 | 林家乾麵（BB lin_interior） | **不烘**：沒有天花板燈具；交件時提 | — |
 | BB-B 19:24 兩件 P3 | **已回 BB-B**（DELIVERED）：書屋西牆暗帶＝黃金葛白天影子＋書櫃牆角（要亮可以藏黃金葛重烘）；nm17 not loaded＝標題畫面校園 17:55 先建出 pool_14、lazy 還沒下載，CHAR.failures 不清；模型本身載得起來 | — |
 
