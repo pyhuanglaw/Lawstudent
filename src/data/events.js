@@ -2311,7 +2311,7 @@ const STORY_EVENTS=[
     consequences:{meet:['econ_pinyu']},
     after:(G,GM)=>{ if(G.hour%24<15) GM.advance(15-G.hour%24); if(G.zone!=='campus'&&GM.enter) GM.enter('campus',{x:15,z:-68.5,yaw:Math.PI/2}); } },
   /* P2 下課後的一群人（BB_105 第 137 行；AA_154 第 101 行）：Y0S1 第 3～5 週週四，初等會計學下課（普通教學館門口的腳踏車停放區）；第一次（之後的 P2b 另做）。
-     選公館＝接 ★E05（同一天）；選別的、今天先回去、沒去＝E05 在 9/20（五）傍晚照自己的觸發（ev_y0_e05 的 auto 條件）。韋綸、唐睿還沒有人物資料，先用名字說話 */
+     選公館＝接 ★E05（同一天，人就在普通教學館）；選別的、今天先回去、沒去＝9/20（五）17:00 她傳訊息、回了才在普通教學館前見面演 E05（AA_727；story3d.js S.e05Step）。韋綸、唐睿還沒有人物資料，先用名字說話 */
   { id:'ev_y0_p2', stage:'econ', title:'下課後的一群人', participants:['kexin'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[3,4,5], background:'blur',
     prereq:{custom:G=>!G.flags.P2_PICK||G.flags.P2_PICK==='home'},   /* 去成一次就不再演；「今天先回去」的玩家下一次會計課下課再演一次（BB_105 P2「那下次！」＝P2b 補上第一次聚會），到第 5 週為止 */
     dialogue:[ {speaker:'韋綸',text:'走啦！'},{speaker:'econ_pinyu',expression:'neutral',text:'去哪？先說好，我只有一百五。'},{speaker:null,text:'（唐睿在旁邊講電話，朝你們比了一個 OK。）'},{speaker:'kexin',expression:'neutral',text:'（牽著腳踏車）你決定。'},
@@ -2321,11 +2321,15 @@ const STORY_EVENTS=[
       {label:'home'},{speaker:'韋綸',text:'那下次！'},
       {label:'end'} ],
     consequences:{meet:['econ_pinyu']},
-    after:(G,GM)=>{ const p=G.flags.P2_PICK; if(p==='gongguan'){ const e=STORY_EVENTS.find(x=>x.id==='ev_y0_e05'); if(e&&typeof EVENTS!=='undefined'&&!(G.events&&G.events.done&&G.events.done.ev_y0_e05)) setTimeout(()=>{ void EVENTS.run(e); },0); } else if(p==='river'||p==='library') GM.advance(1.5); } },
+    after:(G,GM)=>{ const p=G.flags.P2_PICK; if(p==='gongguan'){ const e=STORY_EVENTS.find(x=>x.id==='ev_y0_e05'); if(e&&typeof EVENTS!=='undefined'&&!(G.events&&G.events.done&&G.events.done.ev_y0_e05)&&G.flags.E05_OPEN!=='self') setTimeout(()=>{ void EVENTS.run(e); },0); } else if(p==='river'||p==='library') GM.advance(1.5); } },   /* E05_OPEN 'self'：9/20 那一次沒演（沒回她、或回了沒到，AA_727）——之後的 P2（9/26、10/3）選公館不再補演 */
   /* ★E05 鏈子掉了（BB_104 第 8-2 節；AA_154 第 102 行；AA_303 第 2 節 4 整段換：你幫她裝回鏈子、她還洗好的制服、請你喝飲料）：P2 選公館接著演。
-     E05_OPEN 固定記 'fix'（E06／D2 讀它才會發；E06 第一句「你今天說要幫我修車，」待 AA 對新場景確認）。演完記 E05_DAY、E05_END（E06／D2 用）。
-     原本 P2 選公館才有的「品妤挑了一家一百二十元吃到飽的……」隨整段替換拿掉 */
-  { id:'ev_y0_e05', stage:'econ', title:'鏈子掉了', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S1'], weeks:[3], weekday:[5], time:[17,19.5], once:true, background:'blur',   /* P2 選公館＝P2 演完直接接（9/19）；其他＝9/20（五）17:00～19:30 自動（固定核心）*/
+     E05_OPEN 演到裝回鏈子記 'fix'（E06／D2 讀它才會發）；9/20 那一次沒演＝'self'（story3d.js，E06／D2 不發）。演完記 E05_DAY、E05_END（E06／D2 用）。
+     原本 P2 選公館才有的「品妤挑了一家一百二十元吃到飽的……」隨整段替換拿掉。
+     地點（AA_727，企劃線 2e81aac12；Y0-E05-BIKE-LOCATION-1107；BB_255 CC 試玩在男舍前面看到她的立繪）：普通教學館前的腳踏車停放區（zone putong，P2 那一群人站的地方），背景用 3D（freeze，不模糊）。
+     P2 選公館＝人已經在 putong，P2 演完直接接（9/19，不看下面的條件）；9/20（五）＝17:00 她傳訊息、回了（E05_MEET）才排見面，到了 putong 才演（story3d.js S.e05Step；經濟系事件接事件由 econff3d.js 第 9 步帶過去）。
+     time 到 20:30：最晚 18:59 回、從家裡出發 30 分鐘 */
+  { id:'ev_y0_e05', stage:'econ', title:'鏈子掉了', participants:['kexin'], location:'putong', trigger:'auto', term:['Y0S1'], weeks:[3], weekday:[5], time:[17,20.5], once:true, background:'freeze',
+    prereq:{custom:G=>!!G.flags.E05_MEET&&G.flags.E05_OPEN!=='self'},
     dialogue:[ {speaker:null,text:'（可昕的腳踏車鏈子掉了，她蹲在路邊研究。車籃裡放著一件折好的制服。你的。）'},
       {speaker:'kexin',expression:'neutral',text:'（抬頭）……你會修嗎？'},
       {speaker:null,text:'（你蹲下來，把鏈子一節一節掛回齒輪上。手都是油。）'},{set:{E05_OPEN:'fix'}},
@@ -2337,7 +2341,7 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:'kexin',expression:'smile',text:'走，去公館。我請你喝飲料。'},
       /* AA_726 e05_after（企劃線 8255634fb；BB_255 CC 試玩第 3 件「走，去公館。」下一格就是 18:30 在宿舍、沒交代去了沒）：照抄三句；P2 選公館接 E05（9/19）一樣 */
       {speaker:null,text:'（她騎在前面，帶你到公館一間手搖店。她點了兩杯一樣的，一杯塞給你。）'},{speaker:'kexin',expression:'neutral',text:'修車的錢。'},{speaker:null,text:'（喝完，天已經暗了。你們在校門口分開，各自騎回去。）'} ],
-    after:(G,GM)=>{ GM.advance(1.5); G.flags.E05_DAY=G.day; G.flags.E05_END=G.hour%24; } },
+    after:(G,GM)=>{ GM.advance(1.5); G.flags.E05_DAY=G.day; G.flags.E05_END=G.hour%24; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y0_e05'):null; if(q&&q.state==='planned') q.state='done'; } },   /* 自己先走到了（舊流程）：演完把出發選單收掉（同 L5a）*/
   /* ★E08 中秋系烤（BB_153，AA-B 核對通過、數值照 BB 建議定案；AA_154 第 88 行、A3：中秋後的週六 9/21 17:00 河濱）：9/16 全班群組揪、9/21 16:00 韋綸私訊，回「好」＝出遊（story3d.js）。
      AA_305 第 4 節（使用者選「柚子帽」）：誰生火的三選一拿掉，換成柚子帽（戴上／拿著，不記旗標）；唐睿那頂留給品妤、品妤不要＝12/31 跨年接。月亮收租已經拿掉（AA_302 第 5 列）。數值：可昕熟悉 +2；品妤、阿勳 +1（韋綸、唐睿還沒有人物資料——AA_159 建好時補 +1）。
      participants 不放可昕：演完不接她的閒聊階梯（結尾是回宿舍的路上）*/

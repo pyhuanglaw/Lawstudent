@@ -1,6 +1,8 @@
 // v0 P2 下課後的一群人 → ★E05「要我載妳嗎？」→ ★E06 第一則私訊／D2（BB_104 8-2、8-3；BB_105 P2、D2；AA_154 第 101～103 行）——不需要瀏覽器。
 // 檢查：P2 在 Y0S1 第 3～5 週會計課下課後；選公館接 E05（同一天、最後是吃到飽那句）；其他選項有自己的旁白、E05 改在 9/20 17:00～19:30；E05 三種開口記 E05_OPEN；
 //       當晚經過女舍門口 30 m 內＝D2，沒有就 22:30 E06（第一句照開口）；只會有一個版本。修改前：沒有 ev_y0_p2（第 1 項就失敗）。用法：node tests/v0_e05_unit.js
+// 2026-11-07 AA_727（Y0-E05-BIKE-LOCATION-1107）：9/20 那一次改成 17:00 她傳訊息、回了才在普通教學館（putong）演——第 2、4 項的「9/20 自己的觸發」改成回了訊息（E05_MEET）、人在 putong；
+//       訊息、見面、快轉、沒回的那一則在 tests/e05_putong_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -29,14 +31,15 @@ const settle=async()=>{ for(let i=0;i<50;i++){ await new Promise(r=>setTimeout(r
   const p2=ev('ev_y0_p2'), e5=ev('ev_y0_e05'); check('1. P2（會計課下課後 trigger class）、E05（auto 9/20 備用）都在、stage econ',!!p2&&!!e5&&p2.trigger==='class'&&p2.afterClass==='acct_y0'&&p2.stage==='econ'&&e5.stage==='econ'&&e5.once);
   if(!p2||!e5){ console.log('FAILED '+fails); process.exit(1); }
   const D19=STORY.dayOfKey('2024-09-19'), D20=STORY.dayOfKey('2024-09-20');
-  const ck=(e,day,h,o)=>{ fresh(day,h,'campus',o||{}); G.stage='econ'; return EVENTS.check(e); };
+  const ck=(e,day,h,o,z)=>{ fresh(day,h,z||'campus',o||{}); G.stage='econ'; return EVENTS.check(e); };
   check('2. P2：9/19（四，Y0S1 第 3 週）會計課下課後可以；第 6 週不行；法律系不行',ck(p2,D19,15.2)&&!ck(p2,D19+21,15.2)&&!(()=>{ fresh(D19,15.2,'campus'); G.stage='law'; return EVENTS.check(p2); })());
-  check('2. E05 自己的觸發：9/20（五）17:00～19:30；9/19、9/20 16:30 不行',ck(e5,D20,17.5)&&!ck(e5,D19,17.5)&&!ck(e5,D20,16.5));
+  { const M={E05_MEET:'walk'};   /* AA_727（Y0-E05-BIKE-LOCATION-1107）：9/20 那一次要先回她 17:00 的訊息（E05_MEET）、人在普通教學館（putong）才演；細節 tests/e05_putong_unit.js */
+    check('2. E05 9/20 那一次：回了她的訊息、人在普通教學館，9/20（五）17:00～20:30；9/19、9/20 16:30 不行；人在校園（不在 putong）、沒回訊息不行',ck(e5,D20,17.5,M,'putong')&&ck(e5,D20,20.4,M,'putong')&&!ck(e5,D19,17.5,M,'putong')&&!ck(e5,D20,16.5,M,'putong')&&!ck(e5,D20,17.5,M,'campus')&&!ck(e5,D20,17.5,{},'putong')); }
   { fresh(D19,15.2,'campus'); G.stage='econ'; picks=['公館','妳真的洗了']; await EVENTS.run(p2); await settle(); const L=lines();
     check('3. P2 原文四句（韋綸、品妤、唐睿、可昕）→ 選公館 → 接 E05（AA_303 第 2 節 4 整段換）：鏈子掉了、車籃裡洗好的制服 →「……你會修嗎？」→ 你裝回鏈子 →「妳真的洗了。」→「當然。我又不是那種人。」→ 最後「走，去公館。我請你喝飲料。」＋AA_726 e05_after 三句（手搖店、「修車的錢。」、校門口分開）；沒有吃到飽那句；E05_OPEN fix、E05_DAY',JSON.stringify(L.slice(0,4))===JSON.stringify(['走啦！','去哪？先說好，我只有一百五。','（唐睿在旁邊講電話，朝你們比了一個 OK。）','（牽著腳踏車）你決定。'])&&L[4]==='（可昕的腳踏車鏈子掉了，她蹲在路邊研究。車籃裡放著一件折好的制服。你的。）'&&L[5]==='（抬頭）……你會修嗎？'&&L[6]==='（你蹲下來，把鏈子一節一節掛回齒輪上。手都是油。）'&&L.includes('（從車籃拿出制服）洗好了。')&&L.includes('當然。我又不是那種人。')&&L[L.length-4]==='走，去公館。我請你喝飲料。'&&JSON.stringify(L.slice(-3))===JSON.stringify(['（她騎在前面，帶你到公館一間手搖店。她點了兩杯一樣的，一杯塞給你。）','修車的錢。','（喝完，天已經暗了。你們在校門口分開，各自騎回去。）'])&&!L.some(t=>/吃到飽/.test(t))&&G.flags.E05_OPEN==='fix'&&G.flags.E05_DAY===D19,JSON.stringify(L.slice(4)));
     check('3. E05 做過了：9/20 不會再演',(()=>{ G.day=D20; G.hour=17.5; G.weekday=5; return !EVENTS.check(e5); })()); }
   { fresh(D19,15.2,'campus'); G.stage='econ'; picks=['河濱']; await EVENTS.run(p2); await settle(); const L=lines();
-    check('4. 選河濱騎腳踏車：「韋綸的鏈子掉了兩次。」＋可昕「你那台要不要拿去修？我的也怪怪的，一起去。」、沒有接 E05；9/20 傍晚 E05 照自己的觸發',L.includes('韋綸的鏈子掉了兩次。')&&L.includes('你那台要不要拿去修？我的也怪怪的，一起去。')&&!G.flags.E05_OPEN&&(()=>{ G.day=D20; G.hour=17.5; G.weekday=5; return EVENTS.check(e5); })());
+    check('4. 選河濱騎腳踏車：「韋綸的鏈子掉了兩次。」＋可昕「你那台要不要拿去修？我的也怪怪的，一起去。」、沒有接 E05；9/20 傍晚回了她的訊息、到普通教學館才演（AA_727）',L.includes('韋綸的鏈子掉了兩次。')&&L.includes('你那台要不要拿去修？我的也怪怪的，一起去。')&&!G.flags.E05_OPEN&&(()=>{ G.day=D20; G.hour=17.5; G.weekday=5; G.zone='putong'; G.flags.E05_MEET='walk'; return EVENTS.check(e5); })());
     picks=['下次再借妳穿']; said=[]; await EVENTS.run(e5); const L2=lines(); check('4. E05「下次再借妳穿。」：「……誰要穿你的。」→「（她把制服塞給你。）」→「走，去公館。我請你喝飲料。」；沒有吃到飽那句；E05_OPEN fix',JSON.stringify(L2.slice(-6))===JSON.stringify(['……誰要穿你的。','（她把制服塞給你。）','走，去公館。我請你喝飲料。'].concat(['（她騎在前面，帶你到公館一間手搖店。她點了兩杯一樣的，一杯塞給你。）','修車的錢。','（喝完，天已經暗了。你們在校門口分開，各自騎回去。）']))&&!L2.some(t=>/吃到飽/.test(t))&&G.flags.E05_OPEN==='fix'&&G.flags.E05_DAY===D20,JSON.stringify(L2)); }
   { fresh(D19,15.2,'campus'); G.stage='econ'; picks=['總圖']; await EVENTS.run(p2); await settle(); const a=lines(); fresh(D19,15.2,'campus'); G.stage='econ'; picks=['今天先回去']; await EVENTS.run(p2); await settle(); const b=lines();
     check('4. 總圖念書：「唐睿講了四十分鐘的話。」品妤「今天一頁都沒讀。」；今天先回去：韋綸「那下次！」',a.includes('唐睿講了四十分鐘的話。')&&a.includes('今天一頁都沒讀。')&&b[b.length-1]==='那下次！'); }
