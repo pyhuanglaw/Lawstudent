@@ -1698,3 +1698,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 171.6s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 171.6s] BROWSER DISCONNECTED
 - 2026-11-07T16:43:00  XS_NORTH_ROAD  sha=fa79dd7bc32e1e177a8187a070b8c7baf6ef2924  exit=0  108s      [  71.0s] [截圖] xsnorth_high_night：鏡頭 {"eye": [-56, 9, -150], "look": [-56, 0, -225], "lens": 26, "vfov": 42.55}、亮度 [25.9, 49.2] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 71.5s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 71.6s] BROWSER DISCONNECTED
+- 2026-11-07T16:46:15  WV1107_cam  sha=fa79dd7bc32e1e177a8187a070b8c7baf6ef2924  exit=0  164s      [ 127.5s] [flicker 21:00 二樓] NIGHT_WEST 連拍 10 張（鏡頭每張橫移 1 cm、隔 0.3 秒）張與張的差（畫面中間，0～255）：最大 1.10、平均 1.08、像素差 >40 的比例最大 0.0003；dakou_flicker_lv1_night_west_00～09.png / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 128.0s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 128.0s] BROWSER DISCONNECTED
