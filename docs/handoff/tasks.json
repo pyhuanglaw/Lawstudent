@@ -48659,9 +48659,9 @@
    "title": "買飲料、早餐送給別人；可以選的撩妹（曖昧）對話選項（原話「買飲料 早餐 給別人」「也沒有撩妹對話可以選 也沒辦法送早餐飲料」）",
    "area": "PLAYTEST",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【11-07 04:4x LAWWW-B】AA-B 交 AA_711 撩妹（a7f20f304：七位各 5 則 need 3～5，ok／early，need 5 太早說小扣自在）；AA_710 以安早餐那句不寫蛋餅（4be26c44d）要重匯。 ｜ 【11-07 04:1x LAWWW-B】送東西那一半 a641c0459：AA_710 e2e92dcf4 → src/data/gift_lines.js（tools/story/import_gifts.py）、src/gift3d.js；便利商店、2:30 AM「買一份帶走送人…」10 樣、最多 3 樣、隔天沒了；當面「送她○○」照階段反應、同一種一天一次、fav 第一次記 REMEMBERED_HER；tests/gift_unit.js。還沒做：撩妹（AA_711 寫中）、早餐店（蛋餅、蘿蔔糕，遊戲沒有早餐店）、送給女主以外的人。 ｜ 【11-07 03:4x LAWWW-B】查現有的背包／購買系統、閒聊階梯的選項；定欄位給 AA",
+   "next": "【11-07 05:0x LAWWW-B】撩妹那一半：AA_711 09e3a8d03 → tools/story/import_flirt.py → src/data/flirt_lines.js、src/flirt3d.js：當面說話多「（說點不一樣的）」，一天一次、列這學期還沒說過的前 3 句，階段夠＝ok、不夠＝early，好感照稿；tests/flirt_unit.js。送東西、撩妹兩半都接了，等 BB 瀏覽器。 ｜ 【11-07 04:4x LAWWW-B】AA-B 交 AA_711 撩妹（a7f20f304：七位各 5 則 need 3～5，ok／early，need 5 太早說小扣自在）；AA_710 以安早餐那句不寫蛋餅（4be26c44d）要重匯。 ｜ 【11-07 04:1x LAWWW-B】送東西那一半 a641c0459：AA_710 e2e92dcf4 → src/data/gift_lines.js（tools/story/import_gifts.py）、src/gift3d.js；便利商店、2:30 AM「買一份帶走送人…」10 樣、最多 3 樣、隔天沒了；當面「送她○○」照階段反應、同一種一天一次、fav 第一次記 REMEMBERED_HER；tests/gift_unit.js。還沒做：撩妹（AA_711 寫中）、早餐店（蛋餅、蘿蔔糕，遊戲沒有早餐店）、送給女主以外的人。 ｜ 【11-07 03:4x LAWWW-B】查現有的背包／購買系統、閒聊階梯的選項；定欄位給 AA",
    "first": {
     "term": "Y1S1",
     "week": 6,

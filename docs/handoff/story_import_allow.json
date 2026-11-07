@@ -4729,6 +4729,15 @@
    "task": "MSG-REPLY-1107",
    "kind": "json",
    "note": "女主角主動傳的「分享生活」私訊，最後一則掛三個回覆選項（rel、她的回話）；tools/story/import_msg_replies.py → src/data/msg_replies.js"
+  },
+  {
+   "path": "docs/story_planning/AA_711_flirt.json",
+   "sha": "09e3a8d03",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 04:10「AA_709、AA_711 都推了」）",
+   "task": "GIFT-FLIRT-1107",
+   "kind": "json",
+   "note": "七位各 5 則（need 3～5、ok／early）；tools/story/import_flirt.py → src/data/flirt_lines.js"
   }
  ]
 }
