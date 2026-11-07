@@ -38,7 +38,7 @@ async def main():
         run.check('遊戲載入', await L.wait_loaded(pg))
         run.setup('讀使用者存檔 day46；【捷徑】day %+d、清邀約、清 ARCINV／ARC_INVITE；【捷徑】%s 的故事線從第 %d 拍開始' % (SHIFT, WHO, K))
         await L.load_state(pg, s, quiet_phone=True); await pg.wait_for_timeout(3500); await pe.settle(pg, cdp, [], 60)
-        e = await pg.evaluate("(k=>{ const e=(typeof ARCINV!=='undefined'&&ARCINV.get)?ARCINV.get(k):null; return e?{msgs:e.msgs, opts:e.opts.map(o=>({t:o.t,plan:o.plan,say:o.say})), lines:(e.lines||[]).slice(0,4), set:e.set, h:e.h, day:e.day, offer:e.offer, title:e.title}:null; })(%s)" % json.dumps(KEY))
+        e = await pg.evaluate("(k=>{ const e=(typeof ARCINV!=='undefined'&&ARCINV.get)?ARCINV.get(k):null; return e?{msgs:e.msgs, opts:e.opts.map(o=>({t:o.t,plan:o.plan,say:o.say})), lines:(e.scene||e.lines||[]).slice(), set:e.set, h:e.h, day:e.day, offer:e.offer, title:e.title}:null; })(%s)" % json.dumps(KEY))
         run.check('這一版有 ARCINV、%s（%s）' % (KEY, e and e['title']), bool(e), json.dumps(e, ensure_ascii=False)[:500])
         if not e: await b.close(); return run.finish()
         st0 = await pg.evaluate("(w=>({stageNum:DATE.stageNum(w), stage:INV.stageOf(GAME.G,w)}))(%s)" % json.dumps(WHO))
@@ -105,8 +105,11 @@ async def main():
         hist = await pg.evaluate("(typeof ADV!=='undefined'&&Array.isArray(ADV.history))?ADV.history.map(x=>(x.name||'')+'｜'+x.text):[]")
         allt = said4 + hist
         first = e['lines'][0].strip('（）「」')[:10] if e['lines'] else ''
+        core = lambda t: t.strip('（）「」')[:9]
+        miss = [t for t in e['lines'] if core(t) and not any(core(t) in x for x in allt)]
         run.check('④ 跳出「出發」而且按了', went, json.dumps(said4[:12], ensure_ascii=False))
         run.check('④ 那一場演了（第一句「%s」出現）' % first, bool(first) and any(first in t for t in allt), json.dumps({'said': said4[-12:], 'hist': hist[-10:]}, ensure_ascii=False))
+        run.check('④ 那一場 %d 句全部出現（逐句對 arc_invites scene）' % len(e['lines']), bool(e['lines']) and not miss, json.dumps({'miss': miss}, ensure_ascii=False))
         a5 = await arc_state(pg)
         flag = await pg.evaluate("(k=>(GAME.G.flags||{})[k]!=null)(%s)" % json.dumps(e['set'])) if e.get('set') else True
         run.check('④ 演完 ARCINV st done、記 %s' % e.get('set'), (a5['rec'] or {}).get('st') == 'done' and flag, json.dumps(a5, ensure_ascii=False)[:500])
