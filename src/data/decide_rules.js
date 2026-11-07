@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_decide_rules.py（docs/story_planning/AA_719_decide_rules.json@3788d00c1）。不要手改，改企劃 AA_719 再重新匯入。
+/* 自動產生：tools/story/import_decide_rules.py（docs/story_planning/AA_719_decide_rules.json@851167f68）。不要手改，改企劃 AA_719 再重新匯入。
    決定拍的規則：她有自己的想法（播放 src/decide3d.js）*/
 'use strict';
 const DECIDE_RULES={
- "src": "docs/story_planning/AA_719_decide_rules.json@3788d00c1",
+ "src": "docs/story_planning/AA_719_decide_rules.json@851167f68",
  "keys": [
   {
    "id": "AN-1",
@@ -73,7 +73,12 @@ const DECIDE_RULES={
     ]
    },
    "closes": {},
-   "keyNote": "（她低頭看著桌面。好像有一件事，要看你怎麼回答才決定說不說。）"
+   "keyNote": "（她低頭看著桌面。好像有一件事，要看你怎麼回答才決定說不說。）",
+   "before": "2027-03-17",
+   "revealAt": {
+    "day": "2027-03-08",
+    "h": 21.0
+   }
   },
   {
    "id": "AN-2",
@@ -157,7 +162,8 @@ const DECIDE_RULES={
     ]
    },
    "closes": {},
-   "keyNote": "（她握著筆，等你說話。這句話好像對她很重要。）"
+   "keyNote": "（她握著筆，等你說話。這句話好像對她很重要。）",
+   "before": "2028-03-24"
   },
   {
    "id": "ZR-1",
@@ -260,7 +266,8 @@ const DECIDE_RULES={
      "event:ev_zr_scholar_1"
     ]
    },
-   "closes": {}
+   "closes": {},
+   "before": "2027-05-10"
   },
   {
    "id": "ZR-2",
@@ -359,7 +366,8 @@ const DECIDE_RULES={
     ]
    },
    "closes": {},
-   "keyNote": "（她問得很輕。可是她在等你的答案。）"
+   "keyNote": "（她問得很輕。可是她在等你的答案。）",
+   "before": "2027-08-31"
   },
   {
    "id": "YT-1",
@@ -525,7 +533,8 @@ const DECIDE_RULES={
      "msg:「上了。」「雙主修。」那則改成見面講"
     ]
    },
-   "keyNote": "（她好像很在意你會怎麼說。）"
+   "keyNote": "（她好像很在意你會怎麼說。）",
+   "before": "2026-07-02"
   },
   {
    "id": "ZQ-1",
@@ -624,7 +633,8 @@ const DECIDE_RULES={
      "event:ev_zq_dad_angry"
     ]
    },
-   "keyNote": "（她嘴上說準備好了，可是一直在等你開口。）"
+   "keyNote": "（她嘴上說準備好了，可是一直在等你開口。）",
+   "before": "2026-06-20"
   },
   {
    "id": "ZQ-2",
@@ -700,7 +710,8 @@ const DECIDE_RULES={
     "cat": "第二關是貓找回家的路"
    },
    "opens": {},
-   "closes": {}
+   "closes": {},
+   "before": "2028-03-07"
   },
   {
    "id": "SIS-1",
@@ -925,7 +936,8 @@ const DECIDE_RULES={
     "hide": "她繼續藏"
    },
    "opens": {},
-   "closes": {}
+   "closes": {},
+   "before": "2026-12-17"
   },
   {
    "id": "PS-2",
@@ -991,7 +1003,8 @@ const DECIDE_RULES={
     ]
    },
    "closes": {},
-   "keyNote": "（她笑著。可是好像在等你再問一次。）"
+   "keyNote": "（她笑著。可是好像在等你再問一次。）",
+   "before": "2026-12-17"
   },
   {
    "id": "KX-1",
@@ -1088,7 +1101,8 @@ const DECIDE_RULES={
     ]
    },
    "closes": {},
-   "keyNote": "（她不說話。你說什麼，她都會記得。）"
+   "keyNote": "（她不說話。你說什麼，她都會記得。）",
+   "before": "2027-06-30"
   },
   {
    "id": "KX-2",

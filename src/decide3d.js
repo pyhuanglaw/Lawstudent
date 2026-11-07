@@ -52,10 +52,11 @@ const DECIDE=(function(){
     for(let j=0;j<e.rules.length;j++){ const r=e.rules[j]; if(r.stance!==stance) continue; if(r.trust==='hi'&&!hi) continue; if(r.trust==='lo'&&hi) continue; if(r.opt!=null&&r.opt!==k) continue; if(!condOk(G,r.if)) continue; return {r,j,stance}; }
     return {r:null,j:-1,stance}; };
   S.decideBeat=function(G,e,k){ if(!G||!e||S.has(G,e.who,e.key)) return null;
-    if(e.before&&typeof ARCS!=='undefined'&&ARCS.dayOf){ const d=ARCS.dayOf(e.before); if(d!=null&&G.day>=d){ S.set(G,e.who,e.key,e.default,{late:true}); return {v:e.default}; } }
+    if(e.before&&typeof ARCS!=='undefined'&&ARCS.dayOf){ const d=ARCS.dayOf(e.before), date=/^\d{4}-/.test(e.before); if(d!=null&&(date?G.day>d:G.day>=d)){ S.set(G,e.who,e.key,e.default,{late:true}); return {v:e.default}; } }   /* before：日期＝過了那天才演到、學期週＝那一週開始以後＝default（AA_719；台詞照演，只是不記決定、不開事件）*/
     const {r,j,stance}=S.pickRule(G,e,k); const v=r?r.result:e.default; S.set(G,e.who,e.key,v,{stance,rule:j});
     if(r&&r.rel&&Object.keys(r.rel).length&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ const d=Object.assign({},r.rel); if(typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum(e.who)<3) delete d.npcRom; SOCIAL.adjust(e.who,d); }
-    if(r&&r.say&&r.say.length){ const L=S.says(G); L.push({who:e.who,key:e.key,due:G.day+(r.delay|0),say:r.say.slice(),played:false}); }
+    if(r&&r.say&&r.say.length){ let due=G.day+(r.delay|0); if(e.revealAt&&r.delay>0&&typeof ARCS!=='undefined'&&ARCS.dayOf){ const rd=ARCS.dayOf(e.revealAt.day); if(rd!=null) due=Math.max(G.day,rd); }   /* revealAt：結果要等到那天才說（AN-1 說明會的前一週；取代 delay）*/
+      const L=S.says(G); L.push({who:e.who,key:e.key,due,say:r.say.slice(),played:false}); }
     return {v,rule:j}; };
   S.says=G=>{ const f=F(G); if(!Array.isArray(f.DECIDE_SAY)) f.DECIDE_SAY=[]; return f.DECIDE_SAY; };
   S.due=(G,who)=>G&&G.flags&&Array.isArray(G.flags.DECIDE_SAY)?G.flags.DECIDE_SAY.find(x=>x.who===who&&!x.played&&x.due<=G.day)||null:null;

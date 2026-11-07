@@ -13,6 +13,8 @@ PATH = 'docs/story_planning/AA_719_decide_rules.json'
 OUT = 'src/data/decide_rules.js'
 STANCE = re.compile(r'^(push:[A-Za-z0-9_]+|support|space|tease)$')
 STYLES = {'contrary', 'reassure', 'think', 'own'}
+DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
+REVEAL = re.compile(r'^(\d{4}-\d{2}-\d{2}) (\d{1,2}):(\d{2})$')
 # 稿裡的中文條件 → 遊戲（AA_719 3788d00c1）
 SPECIAL = {
     'YT-1': {'if': {'before': 'Y1S2W9'}},   # 只在大一下第 9 週（媽媽發現）以前演到第 4 拍才算；已經過了＝default（found）
@@ -75,7 +77,16 @@ def build(src, sha):
         if v.get('keyNote'):
             e['keyNote'] = IG.read_fix(v['keyNote'])
         if (sp.get('if') or {}).get('before'):
-            e['before'] = sp['if']['before']
+            e['before'] = sp['if']['before']   # 學期週（YxSyWz）：那一週開始以後才演到＝default
+        if v.get('before'):
+            if not DATE.match(v['before']):
+                raise SystemExit(f'{w}.before「{v["before"]}」：要 YYYY-MM-DD')
+            e['before'] = v['before']   # 日期：過了那天才演到＝default（台詞照演，不記決定、不開事件）
+        if v.get('revealAt'):
+            m = REVEAL.match(v['revealAt'])
+            if not m:
+                raise SystemExit(f'{w}.revealAt「{v["revealAt"]}」：要 YYYY-MM-DD HH:MM')
+            e['revealAt'] = {'day': m.group(1), 'h': int(m.group(2)) + int(m.group(3)) / 60}   # 結果要等到那天才說（取代 delay）
         out.append(e)
     return {'src': f'{PATH}@{sha}', 'keys': out}
 

@@ -48,7 +48,7 @@ const PLAIN={n:2,need:1,lines:['今天好熱。'],ask:['你喜歡夏天嗎？'],
     check('6. 有表（contrary）：你 push:intern，她決定 game（不是照你選的）',DECIDE.get(G,ZQ,'summer')==='game',J(G.flags.DECIDE)); delete DECIDE.RULES[ZQ]; }
   /* 7 AA_719 */
   { const cp=require('child_process'); let out='', okI=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_decide_rules.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); okI=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
-    check('7. src/data/decide_rules.js 和 AA_719@3788d00c1 一致；14 個決定拍、七位各 2、預設值登記好',okR&&okI&&DECIDE_RULES.keys.length===14&&DECIDE.get(H.fresh('2026-04-13',15,'cafe'),'heroine_04','summer')==='game',out.trim().slice(0,160));
+    check('7. src/data/decide_rules.js 和 AA_719@851167f68 一致；14 個決定拍、七位各 2、預設值登記好',okR&&okI&&DECIDE_RULES.keys.length===14&&DECIDE.get(H.fresh('2026-04-13',15,'cafe'),'heroine_04','summer')==='game',out.trim().slice(0,160));
     const E1=DECIDE.byKey(ZQ,'summer'), B8=HEROINE_ARCS.people[ZQ].beats[E1.beat-1], it=i=>E1.opts.findIndex(o=>o.i===i);
     const run=async(stance,trust)=>{ const G=fresh(); const R=SOCIAL.rel(ZQ); R.trust=trust; R.fam=50; const DS=DATE.stageNum; DATE.stageNum=()=>3; const k=E1.opts.find(o=>o.stance===stance).i; H.picks=[k,0]; H.said=[]; const b=ARCS.resolve(G,ZQ,B8); await ARCS.run(GM,who,ZQ,b); DATE.stageNum=DS; return {G,b}; };
     { const {G,b}=await run('tease',5); const x=DECIDE.due(G,ZQ); 
@@ -63,6 +63,11 @@ const PLAIN={n:2,need:1,lines:['今天好熱。'],ask:['你喜歡夏天嗎？'],
       check('7. push:game＋信任低：還是 game，但兩天後「我自己決定的。」「不是因為你說。」',DECIDE.get(G,ZQ,'summer')==='game'&&x&&x.say[0]==='我自己決定的。'&&x.due===G.day+2,J(x)); }
     { const YT='heroine_03', E2=DECIDE.byKey(YT,'mom'), B4=HEROINE_ARCS.people[YT].beats[E2.beat-1]; const G=fresh(); G.day=ARCS.dayOf('Y1S2W9')+1; H.picks=[0,0]; await ARCS.run(GM,{name:'陳語彤',charId:YT},YT,ARCS.resolve(G,YT,B4));
       check('7. 語彤 YT-1：過了大一下第 9 週才演到那一拍＝found（媽媽自己發現），不照規則',DECIDE.get(G,YT,'mom')==='found'&&G.flags.DECIDE[YT].mom.late===true,J(G.flags.DECIDE)); } }
+  /* 9 before／revealAt（AA_719 851167f68）*/
+  { const E1=DECIDE.byKey(ZQ,'summer'), B8=HEROINE_ARCS.people[ZQ].beats[E1.beat-1]; const G=fresh(); G.day=ARCS.dayOf('2026-06-21'); const R=SOCIAL.rel(ZQ); R.trust=5; H.picks=[E1.opts.find(o=>o.stance==='tease').i,0]; const DS=DATE.stageNum; DATE.stageNum=()=>3; await ARCS.run(GM,who,ZQ,ARCS.resolve(G,ZQ,B8)); DATE.stageNum=DS;
+    check('9. before：子晴 summer 過了 2026-06-20 才演到＝default（game），不記規則、不排「我想了想」',DECIDE.get(G,ZQ,'summer')==='game'&&G.flags.DECIDE[ZQ].summer.late===true&&!(G.flags.DECIDE_SAY||[]).length,J(G.flags.DECIDE)); }
+  { const AN='heroine_01', E2=DECIDE.byKey(AN,'jp_tell'), B6=HEROINE_ARCS.people[AN].beats[E2.beat-1]; const G=fresh(); const R=SOCIAL.rel(AN); R.trust=70; const DS=DATE.stageNum; DATE.stageNum=()=>4; H.picks=[E2.opts.find(o=>o.stance==='support').i,0]; await ARCS.run(GM,{name:'沈以安',charId:AN},AN,ARCS.resolve(G,AN,B6)); DATE.stageNum=DS; const x=(G.flags.DECIDE_SAY||[])[0];
+    check('9. revealAt：以安 AN-1（support＋信任高＝first）大一下就演到，說明會那件事等到 2027-03-08 才說（不是三天後）',DECIDE.get(G,AN,'jp_tell')==='first'&&x&&x.due===ARCS.dayOf('2027-03-08')&&!DECIDE.due(G,AN),J({v:DECIDE.get(G,AN,'jp_tell'),x})); }
   /* 8 信任門檻（BB-B 06:50：need 4 的拍原本幾乎都是 hi）*/
   { const G=fresh(); const R=SOCIAL.rel(ZQ); const DS=DATE.stageNum; const at=(st,t)=>{ DATE.stageNum=()=>st; R.trust=t; return DECIDE.trustHi(G,ZQ); };
     const r=[at(4,45),at(4,59),at(4,60),at(3,39),at(3,40),at(2,90)]; DATE.stageNum=DS;
