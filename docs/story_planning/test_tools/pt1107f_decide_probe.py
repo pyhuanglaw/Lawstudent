@@ -126,6 +126,9 @@ async def meet_once(pg, cdp, run, tag, beat_opts, rec):
                 await choose(pg, cdp, ans, True); continue
             pick = ts[0]; said.append('選項：' + '｜'.join(ts) + ' → ' + pick)
             await choose(pg, cdp, pick, True); continue
+        if os.environ.get('DBG') and _ % 10 == 0:
+            dbg = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).find(x=>String(x.id)===String(id)); let sf=null; try{ sf=INV.sceneFree(GAME); }catch(e){ sf='ERR'; } return {zone:GAME.G.zone, hour:+GAME.G.hour.toFixed(3), day:GAME.G.day, ivZone:v&&v.zone, ivH:v&&v.h, ivSt:v&&v.state, lead:!!(v&&v.lead), sceneFree:sf, plv:GAME.E.player.lv|0}; })(%s)" % json.dumps(v['id']))
+            print('   [DBG %d]' % _, json.dumps(dbg, ensure_ascii=False), flush=True)
         if st and (st['ph'] == 'wait' or (st['st'] == 'accepted' and not st['ph'])):
             n = await pg.evaluate("(w=>{ const n=GAME.E.npcs.find(q=>q.id===w||q.charId===w); return n?{x:n.obj.position.x,z:n.obj.position.z,lv:n.lv|0}:null; })(%s)" % json.dumps(WHO))
             if n: await L.go_to(pg, cdp, run, n['x'], n['z'], 1.8, '走到她旁邊', lv=n['lv']); await pg.wait_for_timeout(1000); continue
