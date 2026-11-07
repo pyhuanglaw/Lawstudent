@@ -183,22 +183,35 @@ async def run_an_alone(pg, cdp, run):
     s1 = base_state('heroine_01', 'AN_STUDY_SHOP'); await load(pg, cdp, s1)
     run.setup('【前置／捷徑】設 AN_STUDY_SHOP；交往狀態照使用者存檔（和可昕交往、以安知道）')
     pe.WHO = 'heroine_01'
-    kn = await pg.evaluate("(()=>({knows:(typeof ROM!=='undefined'&&ROM.knows)?ROM.knows(GAME.G,'heroine_01'):null, dk:(GAME.G.flags||{}).dating_kexin}))()")
-    print('   交往狀態', json.dumps(kn, ensure_ascii=False), flush=True)
+    kn = await pg.evaluate("(()=>({knows:(typeof ROM!=='undefined'&&ROM.knows)?ROM.knows(GAME.G,'heroine_01'):null, dk:(GAME.G.flags||{}).dating_kexin, near:(()=>{ const n=GAME.E.npcs.find(q=>q.id==='heroine_01'||q.charId==='heroine_01'); return n?{zone:GAME.G.zone, d:+Math.hypot(n.obj.position.x-GAME.E.player.obj.position.x,n.obj.position.z-GAME.E.player.obj.position.z).toFixed(1)}:null; })()}))()")
+    print('   交往狀態、她在不在同一個地方', json.dumps(kn, ensure_ascii=False), flush=True)
+    # 2026-11-07 11:3x BB-B：她下午就在同一間店看書＝玩家一打開約她的選單就算「當面說話」，那兩句在這時候就說了（AA_722：見面開場＋當面說話前 STORY.PRE_TALK）。從一開始記 GM.say、對話點完
+    await pg.evaluate("(()=>{ if(window.__said) return; window.__said=[]; const o=GAME.say; GAME.say=function(w,t){ try{ window.__said.push(String(t||'')); }catch(e){} return o.apply(this,arguments); }; })()")
+    async def drain():
+        for _ in range(40):
+            q = await L.state(pg)
+            if q['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(400); continue
+            break
     seen = []
     for cat in ('吃飯', '念書', '喝咖啡'):
         lst = await cat_list(pg, cdp, 'heroine_01', cat)
         seen += [x['t'] for x in (lst or [])]
+        await drain()
         await back_out(pg, cdp)
+        await drain()
+    early = await pg.evaluate("window.__said||[]")
+    print('   打開約她的選單時她說的', json.dumps(early[-6:], ensure_ascii=False), flush=True)
     run.check('① 交往中、她知道：選單裡沒有「小路（她手帳上的第一家）」', not any('手帳' in t for t in seen), json.dumps(seen, ensure_ascii=False)[:600])
     await pg.evaluate("(()=>{ if(typeof ADV!=='undefined'&&Array.isArray(ADV.history)) ADV.history.length=0; })()")
     said, _ = await pe.meet_once(pg, cdp, run, '念書', '總圖', '念書')
     hist = await pg.evaluate("(typeof ADV!=='undefined'&&Array.isArray(ADV.history))?ADV.history.map(x=>(x.name||'')+'｜'+x.text):[]")
-    allt = (said or []) + hist
+    allsaid = await pg.evaluate("window.__said||[]")
+    allt = (said or []) + hist + allsaid
     want = ['你有女朋友。……第一家，我就不約你了。', '我昨天自己去了。點了今天的定食。原來只要這樣說就好。']
     miss = [w for w in want if not any(core(w) in x for x in allt)]
     f = await pg.evaluate("((GAME.G.flags||{}).AN_SHOP1_DONE)")
-    run.check('② 解鎖後第一次見面她說那兩句', said is not None and not miss, json.dumps({'miss': miss, 'hist': hist[-14:]}, ensure_ascii=False))
+    run.check('② 解鎖後第一次當面（打開約她的選單或見面開場）她說那兩句', not miss, json.dumps({'miss': miss, 'said': allsaid[:8], 'hist': hist[-8:]}, ensure_ascii=False))
+    run.check('② 只說一次（後面見面不再說）', sum(1 for x in allsaid if core(want[0]) in x) <= 1, json.dumps(allsaid, ensure_ascii=False)[:600])
     run.check('② 記 AN_SHOP1_DONE＝alone（%s）' % f, f == 'alone', json.dumps(f))
     st = await pg.evaluate("(()=>{ const r=ARCS.rec(GAME.G,'heroine_01'); return {k:r.k}; })()")
     print('   以安故事線', json.dumps(st), flush=True)
