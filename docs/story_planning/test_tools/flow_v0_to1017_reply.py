@@ -124,10 +124,10 @@ async def main():
             s = await L.state(pg)
             # BB-B 11-07 探針複本（BB_218 n40_cardsdiag3 的做法）：手機自己打開、有「待回覆」＝像玩家一樣點進去回第一個能按的，再收起來（原本只會關手機，9/24 22:00 床一直按不出選單）
             if not s['dlg'] and not s['choices'] and await pg.evaluate("!document.getElementById('phone').classList.contains('hide')"):
-                ths = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-th]')].filter(e=>(e.innerText||'').includes('待回覆')).map(e=>e.dataset.th)")
+                ths = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-th]')].filter(e=>{ const t=(e.innerText||'').trim(); return t.includes('待回覆')||/\\n\\d+$/.test(t); }).map(e=>e.dataset.th)")
                 if not ths and await pg.evaluate("!!document.querySelector('#phoneTabs button[data-ptab=\"msg\"]')"):
                     await P.phone_tab(pg, cdp, 'msg')
-                    ths = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-th]')].filter(e=>(e.innerText||'').includes('待回覆')).map(e=>e.dataset.th)")
+                    ths = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-th]')].filter(e=>{ const t=(e.innerText||'').trim(); return t.includes('待回覆')||/\\n\\d+$/.test(t); }).map(e=>e.dataset.th)")
                 did = False
                 for th in ths[:3]:
                     t = await P.phone_thread(pg, cdp, th, open_folds=False)
@@ -138,8 +138,9 @@ async def main():
                     await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
                     print('   （手機待回覆）%s 回「%s」' % (th, ok[0]['t'][:20]), flush=True); did = True; break
                 if did: continue
-                if ths:
-                    shut = await L.close_panels(pg, cdp); print('   （手機待回覆沒有能按的鍵）關掉', shut, flush=True); continue
+                # 沒有要回的（只有未讀、沒有回覆鍵）＝像玩家一樣看完就收起來／按「跳過」，不要乾等 4 分鐘（11-07 12:5x：每天 22:00 手機自己打開，等 4 分鐘×4 次，探針自己放棄在 9/29）
+                if await pg.evaluate("!document.getElementById('phone').classList.contains('hide')"):
+                    shut = await L.close_panels(pg, cdp); print('   （手機自己打開，沒有要回的）收起來', shut, flush=True); await pg.wait_for_timeout(800); continue
             sig = (s['dtext'], s['choices'], s['zone'], round(s['x'], 1), round(s['z'], 1), s['hour'])
             if sig != last_sig: last_sig = sig; stuck_t = time.time()
             elif time.time() - stuck_t > 240:
