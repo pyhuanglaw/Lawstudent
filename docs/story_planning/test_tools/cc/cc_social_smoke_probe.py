@@ -1261,6 +1261,12 @@ class Person:
             json.dump({'pid': self.pid, 'tag': tag, 'rec0': rec0, 'rec1': rec1, 'hours': dur, 'say': say, 'screen': self.tx, 'seat': self.seat_sample}, f, ensure_ascii=False, indent=1)
         R.note('%s：對話紀錄 %d 句 → %s' % (tag, len(say), fn))
         for x in say[:60]: print('    %s｜%s' % (x['n'] or '（旁白）', x['t']), flush=True)
+        if study and iv_id:   # CC-B 11-07（BB-B 06:15）：「離門口 ≥ 3 m」只給約念書；喝咖啡（afar 這種）改查開演時兩個人都坐著
+            isst = await self.pg.evaluate("((id)=>{ const iv=(GAME.G.invites||[]).find(v=>v.id===id); if(!iv) return null; try{ return typeof INV!=='undefined'&&INV.isStudy?!!INV.isStudy(iv):null; }catch(e){ return null; } })", iv_id)
+            if isst is False:
+                ss = self.seat_sample or {}
+                R.check('%s：喝咖啡／吃飯的約會：開演時兩個人都坐著（不查離門口距離，那條只給約念書）' % tag, bool(ss.get('pseat') and ss.get('nseat')), J(ss))
+                study = False
         if study:
             ss = self.seat_sample or {}
             lim = 2.3 if variant == 'seatmeet' else 1.5   # 座位選單坐下：INV.leadScene／seatMeet 認 2.3 m 內（同一張桌子對面 1.6 m、斜對面 1.9 m）
