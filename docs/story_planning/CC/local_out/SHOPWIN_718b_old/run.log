@@ -1,0 +1,38 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_offbeat_front_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHOPWIN_718b_old\out
+CC OFFBEAT_FRONT（日常失速店面 old）：SHA=b550eb6c18076bef376794a8971bc405ba8b1185（worktree 實際 ?）；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+PASS 溫州街有「進去日常失速」的店門（exit.to＝wz_offbeat）  {"door": {"x": -36.5, "z": -9.6, "label": "進去日常失速", "hidden": false}, "exits": [{"to": "xinsheng", "label": "往新生南路", "x": -33.4, "z": -28.4}, {"to": "wz_offbeat", "label": "進去日常失速", "x": -36.5, "z": -9.6}, {"to": "cafe", "label": "進入 2:30 AM", "x": 54.2, "z": 0}, {"to": "wz_mokuyobi", "label": "上二樓（木曜日）", "x": 7.4, "z": -4.55}, {"to": "wz_brunch", "label": "進去 SUNNY SIDE", "x": 42, "z": -4.6}, {"to": "wz_print", "label": "進去阿德影印輸出", "x": -8, "z": 4.6}, {"to": "wz_teahouse", "label": "進去一盞", "x": -20.5, "z": 4.6}, {"to": "wz_lin", "label": "進去林家乾麵", "x": 35, "z": 4.6}, {"to": "wz_teishoku", "label": "進去小路", "x": -4.8, "z": -4.6}, {"to": "gongguan", "label": "回公館", "x": 51.3, "z": -13.4}]}
+  [  51.9s] 店門 (-36.5, -9.6)；鏡頭點（站得住、到店門沒擋）：{"front": {"x": -35.13, "z": -5.84, "r": 4, "a": 20, "clear": 1, "hit": null, "sc": 10}, "corner": {"x": -31.36, "z": -15.73, "r": 8, "a": 140, "clear": 1, "hit": null, "sc": 10}, "lane": {"x": -36.5, "z": 8.4, "r": 18, "a": 0, "clear": 1, "hit": null, "sc": 10}}
+PASS [front] 找得到站得住、看得到店門的鏡頭點（clear ≥ 0.9）  {"x": -35.13, "z": -5.84, "r": 4, "a": 20, "clear": 1, "hit": null, "sc": 10}
+PASS [corner] 找得到站得住、看得到店門的鏡頭點（clear ≥ 0.9）  {"x": -31.36, "z": -15.73, "r": 8, "a": 140, "clear": 1, "hit": null, "sc": 10}
+PASS [lane] 找得到站得住、看得到店門的鏡頭點（clear ≥ 0.9）  {"x": -36.5, "z": 8.4, "r": 18, "a": 0, "clear": 1, "hit": null, "sc": 10}
+  [前置／捷徑] [day front] 讀檔溫州街 (-35.13, -5.84) 2025-10-18 14.00 面向店門
+PASS [黑畫面] offbeat_old_front_day 不是黑畫面（平均亮度 89.9、變化 57.9）  [89.9, 57.9]
+  [  65.1s] [截圖] offbeat_old_front_day：鏡頭 {"eye": [-35.13, 1.6, -5.84], "look": [-36.5, 1.6, -9.6], "lens": 22, "vfov": 49.43}、亮度 [89.9, 57.9]
+  [前置／捷徑] [day corner] 讀檔溫州街 (-31.36, -15.73) 2025-10-18 14.00 面向店門
+PASS [黑畫面] offbeat_old_corner_day 不是黑畫面（平均亮度 95.3、變化 53.7）  [95.3, 53.7]
+  [  76.8s] [截圖] offbeat_old_corner_day：鏡頭 {"eye": [-31.36, 1.7, -15.73], "look": [-36.5, 1.6, -9.6], "lens": 22, "vfov": 49.43}、亮度 [95.3, 53.7]
+  [前置／捷徑] [day lane] 讀檔溫州街 (-36.5, 8.4) 2025-10-18 14.00 面向店門
+PASS [黑畫面] offbeat_old_lane_day 不是黑畫面（平均亮度 97.3、變化 42.7）  [97.3, 42.7]
+  [  88.5s] [截圖] offbeat_old_lane_day：鏡頭 {"eye": [-36.5, 2.2, 8.4], "look": [-36.5, 1.6, -9.6], "lens": 30, "vfov": 37.3}、亮度 [97.3, 42.7]
+  [前置／捷徑] [night front] 讀檔溫州街 (-35.13, -5.84) 2025-10-18 20.50 面向店門
+PASS [黑畫面] offbeat_old_front_night 不是黑畫面（平均亮度 48.8、變化 43.1）  [48.8, 43.1]
+  [  99.4s] [截圖] offbeat_old_front_night：鏡頭 {"eye": [-35.13, 1.6, -5.84], "look": [-36.5, 1.6, -9.6], "lens": 22, "vfov": 49.43}、亮度 [48.8, 43.1]
+  [前置／捷徑] [night corner] 讀檔溫州街 (-31.36, -15.73) 2025-10-18 20.50 面向店門
+PASS [黑畫面] offbeat_old_corner_night 不是黑畫面（平均亮度 80.4、變化 57.2）  [80.4, 57.2]
+  [ 110.0s] [截圖] offbeat_old_corner_night：鏡頭 {"eye": [-31.36, 1.7, -15.73], "look": [-36.5, 1.6, -9.6], "lens": 22, "vfov": 49.43}、亮度 [80.4, 57.2]
+  [前置／捷徑] [night lane] 讀檔溫州街 (-36.5, 8.4) 2025-10-18 20.50 面向店門
+PASS [黑畫面] offbeat_old_lane_night 不是黑畫面（平均亮度 56.1、變化 22.6）  [56.1, 22.6]
+  [ 121.2s] [截圖] offbeat_old_lane_night：鏡頭 {"eye": [-36.5, 2.2, 8.4], "look": [-36.5, 1.6, -9.6], "lens": 30, "vfov": 37.3}、亮度 [56.1, 22.6]
+  [ 137.0s] 到達「走到日常失速店門」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
+PASS 門口互動點「進去日常失速」還在、走到門口看得到  {"x": -36.275, "z": -9.551, "interact": "進去日常失速"}
+  [前置／捷徑] [fps 巷子一端（進入 2:30 AM 往裡）] 讀檔溫州街 (51.22, -0.32) 14:00，面向日常失速
+  [ 160.9s] [fps 巷子一端（進入 2:30 AM 往裡）] 10 秒：{"frames": 310, "fpsAvg": 30.9, "fpsMin": 7.5, "msWorst": 133.3, "calls": 392, "tris": 604635}；鏡頭 {"eye": [55.06, 2.47, 0.09], "yaw": -96, "pitch": -16.8, "fov": 37.3}
+  [前置／捷徑] [fps 巷子一端（回公館 往裡）] 讀檔溫州街 (48.3, -13.27) 14:00，面向日常失速
+  [ 184.6s] [fps 巷子一端（回公館 往裡）] 10 秒：{"frames": 357, "fpsAvg": 35.6, "fpsMin": 20, "msWorst": 50, "calls": 336, "tris": 507628}；鏡頭 {"eye": [53.37, 2.78, -13.49], "yaw": -87.5, "pitch": -16.3, "fov": 37.3}
+  [前置／捷徑] [fps 日常失速前] 讀檔溫州街 (-35.13, -5.84) 14:00，面向日常失速
+  [ 207.5s] [fps 日常失速前] 10 秒：{"frames": 534, "fpsAvg": 53.3, "fpsMin": 20, "msWorst": 50, "calls": 133, "tris": 201911}；鏡頭 {"eye": [-33.39, 2.78, -1.07], "yaw": -160, "pitch": -16.3, "fov": 37.3}
+  [ 207.5s] 總表（offbeat_shots.json）：[{"where": "巷子一端（進入 2:30 AM 往裡）", "pos": [51.22, -0.32], "cam": {"eye": [55.06, 2.47, 0.09], "yaw": -96, "pitch": -16.8, "fov": 37.3}, "frames": 310, "fpsAvg": 30.9, "fpsMin": 7.5, "msWorst": 133.3, "calls": 392, "tris": 604635}, {"where": "巷子一端（回公館 往裡）", "pos": [48.3, -13.27], "cam": {"eye": [53.37, 2.78, -13.49], "yaw": -87.5, "pitch": -16.3, "fov": 37.3}, "frames": 357, "fpsAvg": 35.6, "fpsMin": 20, "msWorst": 50, "calls": 336, "tris": 507628}, {"where": "日常失速前", "pos": [-35.13, -5.84], "cam": {"eye": [-33.39, 2.78, -1.07], "yaw": -160, "pitch": -16.3, "fov": 37.3}, "frames": 534, "fpsAvg": 53.3, "fpsMin": 20, "msWorst": 50, "calls": 133, "tris": 201911}]
+PASS 沒有 JS 例外  []
+ALL PASS

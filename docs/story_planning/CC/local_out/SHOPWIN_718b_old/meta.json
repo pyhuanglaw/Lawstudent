@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "SHOPWIN_718b_old",
+  "sha": "b550eb6c18076bef376794a8971bc405ba8b1185",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_offbeat_front_probe.py",
+  "env": "TAG=old;SOLO=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T13:19:17",
+  "end": "2026-11-07T13:23:19",
+  "seconds": 242,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 12,
+    "mem": 49,
+    "used_gb": 15.5,
+    "chrome_testing": 5
+  }
+}
