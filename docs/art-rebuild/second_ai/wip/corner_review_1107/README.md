@@ -8,7 +8,59 @@
 - 腳本 `tools/blender/env_second/bb_support/corner_interior.py`、`corner_tex.py`、`corner_render.py`
 - 說明 `docs/story_planning/CC/CC_47_轉角唱片室內.md`
 
-**結論：還不能標 MODEL_READY。** 有一項一定要改（右牆的音響會浮在空中），其他都可以接，或要在遊戲裡看。
+**結論（第二輪，15:2x）：MODEL_READY。**
+- 第一輪找到的「音響、唱盤會浮在空中」由 LAWWW2-B 改好了。LAWWW-B 15:00「改，照 (a)」；CC〔帳號 A〕休班，D75。
+- 其他項目照下面，有的要 LAWWW 接區域時補，有的要 CC 在遊戲裡看。
+- 光照烘焙等區域接好再做；ART_APPROVED 由 BB 判。
+
+## 第二輪：改了什麼（CORNER-IN-1107）
+
+**腳本**：`tools/blender/env_second/bb_support/corner_interior.py`。檔案開頭註明了是誰改的、為什麼。照放的地方分原型：
+
+| 原型 | 改成 |
+|---|---|
+| 擴大機、收音機、卡座 | `side='right'`（只放在鐵架上） |
+| 喇叭 | `SPK`＝右（鐵架 10＋試聽吧台 1）、`SPK_L`＝左（音響櫃 1） |
+| 唱盤 | `TT`＝右（鐵架 3）、`TT_L`＝左（音響櫃 1）、`TT_B`＝後（展示龕 1） |
+
+- 幾何、位置、材質、貼圖都沒動。
+- 網格名字變成 `WALL_<面>_…`；`fix_instanced_names` 補 `extras.dir`，遊戲照那面牆淡出。
+- 只放一台的（左邊唱盤、喇叭，後面唱盤）不是 instancing，照材質併進那面牆的網格。
+- 原本單獨的 `WALL_back_curtain_*`、`WALL_left_leftwall_deco_vcm` 也一起併進那面牆的網格；遊戲程式、配置都沒有用到這兩個名字。
+
+**怎麼確認只改了這些**：
+- 先用同一個 `lib2.py`（LAWWW2 分支的；cc-testing 那一份太舊、沒有 `Mesh.rbox`）**不改腳本**重產一次。
+- 和 CC 的 corner.glb 逐節點比：三角形、材質、instance 數、牆的方向、位置、貼圖全部一樣。
+- 再改腳本重產。
+
+**數字**：
+
+| | CC v1c | 改後 |
+|---|---|---|
+| 三角形（含 instancing） | 55,004 | 55,004 |
+| 材質 | 11 | 11 |
+| 節點 | 63 | 65（多了左、後兩台唱盤的玻璃蓋） |
+| GLB | 3.79 MB | 3.87 MB（三台不是 instancing 了，幾何多一份） |
+
+**新測試 `tests/corner_glb_unit.js`**（`corner_in_1107.patch`，和 LICENSES 那一行一起）：
+
+| | 結果 |
+|---|---|
+| 沒有 GLB | FAIL 1 |
+| CC v1c 原檔 | FAIL 3：靠牆、放在家具上的 76 個 instance 不跟著淡出 |
+| 改後 | **ALL PASS**：64 個都在那面牆底下 |
+
+76 和 64 不一樣：原檔一個 instancing 節點裡，有的 instance 靠牆、有的不靠牆，一起算。
+
+檢查四件事：
+- ① 三角形、材質、只有玻璃雙面；
+- ② 四面牆的節點和 dir；
+- ③ 靠牆 0.6 m 內、離地 0.3 m 以上的 instance 都在那面牆的 WALL_ 節點底下；
+- ④ 配置的店門照外觀 G12。
+
+## 第一輪（15:0x）
+
+**當時的結論：還不能標 MODEL_READY。** 有一項一定要改（右牆的音響會浮在空中），其他都可以接，或要在遊戲裡看。
 
 ## 一定要改
 
@@ -85,10 +137,10 @@
 
 手機效能要 CC 量。
 
-**7. LICENSES**：要補一行「轉角唱片室內自製貼圖（corner_tex.py 程式畫的封面、海報、招牌、地毯、磨石子、葉子；字型文泉驛正黑）」。
+**7. LICENSES**：補了一行，在 `corner_in_1107.patch`，接在慢輪單車那一行後面。
 
-## 接下來（照 LAWWW-B 決定）
-1. 第 1 項改好，我再驗一次 → MODEL_READY。
+## 接下來
+1. ~~第 1 項改好，我再驗一次 → MODEL_READY。~~ 完成（第二輪）。
 2. LAWWW-B 接區域：照 afar，補 exit、enterAt；`places.corner_records` 已經有每天 12–21。
 3. AA 寫台詞：試聽、翻唱片、問店員；互動點的 label 現在是草稿。
 4. CC 遊戲內拍照：第 3～6 項；BB 判畫面。

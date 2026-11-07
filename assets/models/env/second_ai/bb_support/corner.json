@@ -1,0 +1,105 @@
+{
+ "objects": 160,
+ "unique_meshes": 65,
+ "tris": 46086,
+ "tris_drawn": 55004,
+ "materials": [
+  "cr_alpha",
+  "cr_concrete",
+  "cr_emit",
+  "cr_floor_terrazzo",
+  "cr_glass",
+  "cr_goods",
+  "cr_plaster",
+  "cr_sign",
+  "cr_vc",
+  "cr_vc_metal",
+  "cr_wood"
+ ],
+ "out": "assets/models/env/second_ai/bb_support/corner.glb",
+ "bytes": 3865148,
+ "texres": 1024,
+ "shop": "corner",
+ "layout": 1,
+ "drawn_tris": 55004,
+ "protos": {
+  "lpstack34_0": 2,
+  "lpstack34_1": 2,
+  "lpstack34_2": 2,
+  "lpstack34_3": 1,
+  "lpstack34_4": 1,
+  "lpstack34_5": 1,
+  "lpstack33_3": 2,
+  "lpstack33_4": 2,
+  "lpstack33_5": 2,
+  "lpstack33_0": 1,
+  "lpstack33_1": 1,
+  "lpstack33_2": 1,
+  "lpstack17_1": 1,
+  "lpstack17_2": 1,
+  "spot": 18,
+  "pendant": 3,
+  "armchair": 2,
+  "turntable_right": 3,
+  "turntable_left": 1,
+  "turntable_back": 1,
+  "speaker_right": 11,
+  "speaker_left": 1,
+  "amp_right": 4,
+  "receiver_right": 3,
+  "deck_right": 2,
+  "stool": 2
+ },
+ "records_in_bins": 637,
+ "single_side": {
+  "（翻面）cr_emit": [
+   80,
+   0
+  ],
+  "cr_emit": [
+   80,
+   42
+  ],
+  "cr_vc_metal": [
+   5456,
+   96
+  ],
+  "cr_goods": [
+   3744,
+   0
+  ],
+  "cr_vc": [
+   7852,
+   7358
+  ],
+  "cr_wood": [
+   10304,
+   0
+  ],
+  "cr_plaster": [
+   108,
+   0
+  ],
+  "cr_alpha": [
+   3464,
+   0
+  ],
+  "cr_concrete": [
+   38,
+   0
+  ],
+  "cr_floor_terrazzo": [
+   12,
+   0
+  ],
+  "（翻面）cr_vc": [
+   482,
+   0
+  ],
+  "cr_sign": [
+   4,
+   0
+  ]
+ },
+ "note": "CORNER-IN-1107（LAWWW2-B 11-07）：牆邊家具上的音響、唱盤照放的地方分原型（跟著那面牆淡出），見 corner_interior.py 開頭"
+}

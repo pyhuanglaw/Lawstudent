@@ -1,0 +1,50 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index 18ba681c9..a597058e0 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -337,6 +337,7 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
+ | 日常失速室內 `assets/models/env/second_ai/aa_support/daily_offbeat.glb` | 本作 Blender（AA 室內、LAWWW2 驗收整合），貼圖 Poly Haven CC0 | CC0 貼圖／本作 | 溫州街 W2 日常失速（WZ-OFFBEAT-1104，second-ai-env-art 82d541853） |
+ | 溫州街店面圖集 `wz_fronts_atlas`（嵌在 `wenzhou_street.glb`；`tools/blender/env_second/xs_front_tex.py`） | 使用者提供的參考圖裁切的招牌＋本作渲染的店內 | 使用者提供／本作 | 日常失速 W2 的招牌、玻璃後面的店內 |
+ | 慢輪單車室內 `assets/models/env/second_ai/bb_support/bike.glb`（配置 `src/data/bike_layout.js` v2） | 本作 Blender（腳本 `tools/blender/env_second/bb_support/bike_interior.py`，在 `claude/cc-testing`；CC 製作、LAWWW2 驗收 MODEL_READY，cc-testing `08378f56d`）；車架、店名都虛構（D77） | 本作 | 公館 G06 慢輪單車（`src/bikeshop3d.js`） |
++| 轉角唱片室內 v1c `assets/models/env/second_ai/bb_support/corner.glb`（配置 `src/data/corner_layout.js` v1） | 本作 Blender（腳本 `tools/blender/env_second/bb_support/corner_interior.py`；CC〔帳號 A〕製作 cc-testing `4fc38d513`，LAWWW2-B 驗收 MODEL_READY 時改原型分組 CORNER-IN-1107）；封面、海報、招牌、地毯、磨石子、葉子是 `corner_tex.py` 程式畫的自製貼圖（字型文泉驛正黑，GPL＋字型例外，嵌進圖片）；唱片、店名、海報都虛構（D77）；貼圖 Poly Haven CC0（painted_plaster_wall、granular_concrete、walnut_veneer） | CC0 貼圖／本作 | 公館 G12 轉角唱片（CORNER-IN-1107） |
+ | 日和便利店室內 v2b `assets/models/env/second_ai/bb_support/cvs_interior.glb`（配置 `src/data/cvs_layout.js` v4） | 本作 Blender（腳本 `tools/blender/env_second/bb_support/cvs_interior.py`，在 `claude/story-planning`；BB 製作、LAWWW2 驗收 MODEL_READY，story-planning `53275eaf4`，v2b `61a107016`）；包裝、店名都虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 公館 G03 日和便利店（`cvs` 區域，GG-SHOPS-REDO-1104；舊的 `second_ai/cvs_interior.glb` 是配置沒載入時的備用） |
+ | 頁間書屋室內 v3b `assets/models/env/second_ai/aa_support/yejian.glb`（配置 `src/data/yejian_layout.js` v3） | 本作 Blender（腳本 `tools/blender/env_second/aa_support/yejian_interior.py`，在 `claude/story-planning`；AA 製作、LAWWW2 驗收 MODEL_READY，story-planning `a6d78f484`，v3b `d593be119`），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 公館 G02 頁間書屋（`bookstore` 區域，GG-SHOPS-REDO-1104；舊的 `second_ai/bookstore_interior.glb` 是配置沒載入時的備用） |
+ | 青木茶室室內 v2c `assets/models/env/second_ai/aa_support/aoki.glb`（配置 `src/data/aoki_layout.js` v3） | 本作 Blender（腳本 `tools/blender/env_second/aa_support/aoki_interior.py`，在 `claude/story-planning`；AA 製作、LAWWW2 驗收 MODEL_READY，story-planning `16c1c6f16`，v2c `697ed69cf`）；店名虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 公館 G01 青木茶室（新區域 `aoki`，GG-SHOPS-REDO-1104） |
+diff --git a/tests/corner_glb_unit.js b/tests/corner_glb_unit.js
+new file mode 100644
+index 000000000..bda06f5fd
+--- /dev/null
++++ b/tests/corner_glb_unit.js
+@@ -0,0 +1,32 @@
++// 轉角唱片（公館 G12）室內正式模型的 MODEL_READY 檢查（CORNER-IN-1107；LAWWW2-B 2026-11-07；模型 CC v1c，LAWWW2-B 改 corner_interior.py）——不需要瀏覽器。
++//   1. GLB 在；三角形（含 instancing）≤ 60,000、材質 ≤ 12、只有玻璃雙面
++//   2. 四面牆的淡出節點（WALL_front／back／left／right_…）都在、每個都有 extras.dir（往室內）
++//   3. 牆邊家具上的東西跟著那面牆淡出：GPU instancing 節點的每一個 instance，離右牆（x 3.88）、左牆（x −3.88）、後牆（z −5.63）0.6 m 以內、
++//      而且離地 0.3 m 以上（放在鐵架、音響櫃、展示龕、吧台上，不是放在地上的沙發、高腳椅）的，節點要是那面牆的 WALL_ 節點、extras.dir 對
++//      （v1c 原檔：擴大機、卡座、收音機、喇叭、唱盤的 instancing 掛在根節點，鐵架淡出時浮在空中）
++//   4. 門窗照外觀 G12（wz_street.py：木門 x 0.84～2.42、櫥窗 x −3.39～0.69）：配置的 front.door 在這個範圍
++// 用法：node tests/corner_glb_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const P=path.join(ROOT,'assets/models/env/second_ai/bb_support/corner.glb');
++if(!fs.existsSync(P)){ check('1. corner.glb 在', false); console.log('FAILED '+fails); process.exit(1); }
++const b=fs.readFileSync(P), n=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+n).toString('utf8')), BIN=b.slice(20+n+8);
++const accF=i=>{ const a=J.accessors[i], bv=J.bufferViews[a.bufferView], off=(bv.byteOffset||0)+(a.byteOffset||0), nc={SCALAR:1,VEC2:2,VEC3:3,VEC4:4}[a.type]; const out=[]; for(let k=0;k<a.count;k++){ const v=[]; for(let c=0;c<nc;c++) v.push(BIN.readFloatLE(off+(k*nc+c)*4)); out.push(v); } return out; };
++let tris=0; for(const nd of J.nodes){ if(nd.mesh==null) continue; const inst=(nd.extensions||{}).EXT_mesh_gpu_instancing, cnt=inst?J.accessors[inst.attributes.TRANSLATION].count:1; for(const p of J.meshes[nd.mesh].primitives) if(p.indices!=null) tris+=J.accessors[p.indices].count/3*cnt; }
++const ds=J.materials.filter(m=>m.doubleSided).map(m=>m.name);
++check('1. 三角形（含 instancing）≤ 60,000、材質 ≤ 12、只有玻璃雙面', tris<=60000&&J.materials.length<=12&&ds.every(x=>/glass/.test(x)), tris+' 三角形、'+J.materials.length+' 材質、雙面 '+ds.join('、'));
++const DIR={front:[0,0,-1],back:[0,0,1],left:[1,0,0],right:[-1,0,0]};
++const walls=J.nodes.filter(nd=>/^WALL_(front|back|left|right)_/.test(nd.name||'')), sides=new Set(walls.map(nd=>nd.name.split('_')[1]));
++const badDir=walls.filter(nd=>{ const d=(nd.extras||{}).dir, w=DIR[nd.name.split('_')[1]]; return !d||d.join()!==w.join(); }).map(nd=>nd.name);
++check('2. 四面牆的淡出節點都在、extras.dir 都對（'+walls.length+' 個）', ['front','back','left','right'].every(s=>sides.has(s))&&!badDir.length, badDir.join('、'));
++const near=t=>t[1]>0.3?(t[0]>3.88-0.6?'right':(t[0]<-3.88+0.6?'left':(t[2]<-5.63+0.6?'back':null))):null;
++const bad=[]; let nOn=0;
++for(const nd of J.nodes){ const inst=(nd.extensions||{}).EXT_mesh_gpu_instancing; if(!inst) continue;
++  for(const t of accF(inst.attributes.TRANSLATION)){ const s=near(t); if(!s) continue; nOn++; const d=(nd.extras||{}).dir;
++    if(!(nd.name||'').startsWith('WALL_'+s+'_')||!d||d.join()!==DIR[s].join()) bad.push(nd.name+'@'+t.map(v=>v.toFixed(2)).join(',')); } }
++check('3. 靠牆、放在家具上的 instance（'+nOn+' 個）都在那面牆的 WALL_ 節點底下、跟著淡出', nOn>0&&!bad.length, bad.slice(0,6).join('；')+(bad.length>6?'…共 '+bad.length:''));
++global.window=global; const lay=fs.readFileSync(path.join(ROOT,'src/data/corner_layout.js'),'utf8'); let C=null; try{ eval(lay+';C=CORNER_LAYOUT;'); }catch(e){}
++const L=C&&(C.corner||C), d=L&&L.front&&L.front.door;
++check('4. 配置的店門照外觀 G12（木門 x 0.84～2.42）', !!d&&Math.abs(d.x-d.w/2-0.84)<0.02&&Math.abs(d.x+d.w/2-2.42)<0.02, d?JSON.stringify(d):'沒有配置');
++console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
