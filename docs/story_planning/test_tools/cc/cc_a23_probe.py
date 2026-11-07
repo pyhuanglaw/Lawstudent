@@ -82,11 +82,14 @@ async def main():
                 if not R.check('%s 遊戲載入' % tag, ok, ''): continue
                 await pg.evaluate("localStorage.clear()")
                 met = await setup(pg, cdp, tag, mode)
-                t0 = time.time()   # 等開演（ANNIV23 有值）：18:45（noodle）或 19:30 電話
-                while time.time() - t0 < 400:
-                    if await pg.evaluate("(GAME.G.flags||{}).ANNIV23!=null||!!(GAME.D&&GAME.D.active)"): break
+                t0 = time.time(); picks = []; adv = set()   # 等開演（ANNIV23 有值）：18:45（noodle）或 19:30 電話；中間先演的別的事件（例：學姊的楓葉信）照玩家點完、繼續等
+                while time.time() - t0 < 700:
+                    st = await pg.evaluate("({a:(GAME.G.flags||{}).ANNIV23!=null, d:!!(GAME.D&&GAME.D.active)||!!document.querySelector('#choices button'), h:+GAME.G.hour})")
+                    if st['d']:
+                        pk, ad = await run_scene(pg, cdp, tag, idle_end=4); picks += pk; adv |= set(ad); continue
+                    if st['a'] or st['h'] >= 21.5: break
                     await pg.wait_for_timeout(1500)
-                picks, adv = await run_scene(pg, cdp, tag)
+                pk, ad = await run_scene(pg, cdp, tag); picks += pk; adv = sorted(adv | set(ad))
                 says = await pg.evaluate("window.__says||[]")
                 wx = await pg.evaluate("({w:GAME.G.weather, h:GAME.G.hour, zone:GAME.G.zone, anniv:(GAME.G.flags||{}).ANNIV23})")
                 await R.shot(pg, 'a23_' + mode)
