@@ -1,24 +1,24 @@
 {
   "rerun": "b1107",
   "id": "GG2_afar_date",
-  "sha": "9cff7a00bce4a412ca08841c73123c899a4b916e",
+  "sha": "b550eb6c18076bef376794a8971bc405ba8b1185",
   "kind": "probe",
   "script": "docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py",
   "env": "CASES=afar_date;RERUN=b1107;CC_HEADLESS=0",
   "machine": "MSI",
-  "start": "2026-11-07T12:52:27",
-  "end": "2026-11-07T12:55:32",
-  "seconds": 185,
+  "start": "2026-11-07T13:04:11",
+  "end": "2026-11-07T13:08:47",
+  "seconds": 276,
   "exit": 1,
   "error": null,
   "runner": "5ba0949b5e",
-  "rf_round": "9",
-  "url": "http://127.0.0.1:8801/index.html",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8802/index.html",
   "headless_forced": true,
   "res_peak": {
-    "cpu": 29,
-    "mem": 66,
-    "used_gb": 20.5,
-    "chrome_testing": 15
+    "cpu": 43,
+    "mem": 67,
+    "used_gb": 21.0,
+    "chrome_testing": 14
   }
 }

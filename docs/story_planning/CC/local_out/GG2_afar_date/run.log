@@ -1,4 +1,4 @@
-[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_shops2_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG2_afar_date\out
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_shops2_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG2_afar_date\out
 CASES=["afar_date"]
 == afar_date：約會（cc_social_smoke_probe.py 的 Person）
 PASS [heroine_02] 遊戲載入
@@ -13,8 +13,8 @@ PASS [heroine_02] afar：認識（ACQUAINTANCE）就約得到（INV.placeWhy 空
 PASS [heroine_02] afar 約之前：15 秒內回到可以自由移動
 PASS [heroine_02] afar 約之前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
 PASS [heroine_02] afar 約之前：搖桿推得動（≥0.3 m）  3.15 m
-PASS [heroine_02] afar 約之前：點地走得動（≥0.3 m）  點 [-20, 17.65]，走了 0.99 m
-PASS [heroine_02] afar 約之前：遊戲時間有在走  9.0936→9.1138
+PASS [heroine_02] afar 約之前：點地走得動（≥0.3 m）  點 [-20, 17.65]，走了 1.05 m
+PASS [heroine_02] afar 約之前：遊戲時間有在走  9.0954→9.1154
 PASS [heroine_02] afar 約之前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] afar 約之前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] afar 約之前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -38,9 +38,9 @@ PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：沒有新的 JS 例外
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
-PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：搖桿推得動（≥0.3 m）  3.18 m
-PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：點地走得動（≥0.3 m）  點 [-17.5, 20.64]，走了 1.02 m
-PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：遊戲時間有在走  9.2122→9.2324
+PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：搖桿推得動（≥0.3 m）  3.33 m
+PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：點地走得動（≥0.3 m）  點 [-17.83, 19.54]，走了 0.96 m
+PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：遊戲時間有在走  9.2130→9.2332
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
@@ -50,8 +50,8 @@ PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 約：約�
   [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 選單 ["直接過去：和林芷若約在afar café（12:10）", "自己走過去"] → 選「直接過去：和林芷若約在afar café（12:10）」
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：出發、到場、見面那一場一路點得完
   [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：沒有看到 AA_649 的坐下旁白，開演位置用見面第一句那一刻
-PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4]}
-PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：約會中時間有往前走  遊戲時間 1.29 小時（21 11.73 → 21 13.02）
+PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4], "ptable": 5, "ntable": 5, "others": ["?"]}
+PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：約會中時間有往前走  遊戲時間 1.46 小時（21 11.73 → 21 13.18）
 INFO [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：錢 30000 → 30000（+0）  
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：關係或記憶有變化  {"rel": {"fam": 3, "trust": 1, "comf": 2}, "mem": "1→2 ['FIRST_MET', 'CAFE_AFTERNOON']"}
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：對話沒有空白的句子  []
@@ -60,35 +60,38 @@ PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：說話�
     （旁白）｜（她把兩杯咖啡的杯墊對齊，一杯推給你。）
     （旁白）｜你和林芷若在 afar café 坐坐。
     林芷若｜那我先走囉。下次來店裡找我啊。
-PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：約念書開演時兩個人坐在同一張桌子（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4]}
+PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：約念書開演時兩個人坐在同一張桌子（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4], "ptable": 5, "ntable": 5, "others": ["?"]}
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：約念書開演的位置離門口 ≥ 3 m（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"doorD": 9.19, "spawnD": 8.2}
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：總圖要在二樓（lv1）長桌或 3F 閱覽區（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"zone": "afar", "lv": 0}
-FAIL [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）  取樣 1 次，最遠 8.20 m：[8.2]
+FAIL [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）  取樣 5 次，最遠 8.20 m：[8.2, 8.2, 8.2, 0.25, 0.25]
 FAIL [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：X207 ④ 道別那一刻兩個人在大廳門口附近或已經在校園  {"zone": "afar", "doorD": 9.19, "nD": 1.05, "pseat": true, "nseat": true}
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 結束：15 秒內回到可以自由移動
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 結束：GAME.walkFallbacks 沒增加  0→0
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 結束：沒有新的 JS 例外
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 結束：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 結束：搖桿推得動（≥0.3 m）  0.69 m
-PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 結束：點地走得動（≥0.3 m）  點 [-0.8, -3.27]，走了 0.37 m
-PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 結束：遊戲時間有在走  13.0383→13.0577
+PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 結束：點地走得動（≥0.3 m）  點 [-0.8, -3.27]，走了 0.34 m
+PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 結束：遊戲時間有在走  13.2023→13.2220
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 結束：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 結束：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10） 結束：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：人在約定的地點（G.zone＝afar）  afar
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：那一筆約記成 done  [{"id": "iv1", "state": "done", "place": "afar", "zone": "afar", "day": 21, "h": 12.167}]
 PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：結束後玩家起身了  {"seat": false}
-PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：約念書結束後她也起身（或走了）  {"zone": "afar", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 7.58, "spawnD": 6.39, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [-1.03, -3.27]}
-PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：她回到自己的行程（150 秒內離開，不黏在原地）  {"where": null, "npc": {"zone": "afar", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 7.58, "spawnD": 6.39, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [-1.03, -3.27]}}
+PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：約念書結束後她也起身（或走了）  {"zone": "afar", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 7.58, "spawnD": 6.39, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [-1.03, -3.27], "ptable": null, "ntable": null, "others": []}
+PASS [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：她回到自己的行程（150 秒內離開，不黏在原地）  {"where": null, "npc": {"zone": "afar", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 7.58, "spawnD": 6.39, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [-1.03, -3.27], "ptable": null, "ntable": null, "others": []}}
   [heroine_02] afar 約會（去 afar café 坐坐 今天 12:10）：見面那一場的選單 1 個，換選項重跑 0 次
 PASS [heroine_02] afar：答應的一句（AA_652：「afar？好。……窗邊那一排的燈很好看。」；手機對話＋訊息＋見面）  {"phone": ["林芷若（手機）｜「afar？好。……窗邊那一排的燈很好看。」", "｜約好 今天 12:10，afar café"], "msgs": ["約好了：今天 12:10，afar café（林芷若）。", "和林芷若在afar café。"]}
-  [heroine_02] afar：開演那一刻 {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4]}
-PASS [heroine_02] afar：X207 坐下才開演、兩個人同一桌（玩家坐、她坐、≤ 2.3 m 或同一張桌子）  {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4]}
-FAIL [heroine_02] afar：X207 帶路時她離玩家 ≤ 3 m  取樣 4 次，最遠 8.20 m
-PASS [heroine_02] afar：X207 道別那一刻她在旁邊（≤ 4 m）  {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4]}
+  [heroine_02] afar：開演那一刻 {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4], "ptable": 5, "ntable": 5, "others": ["?"]}
+PASS [heroine_02] afar：X207 坐下才開演、兩個人同一桌（玩家坐、她坐、≤ 2.3 m 或同一張桌子）  {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4], "ptable": 5, "ntable": 5, "others": ["?"]}
+FAIL [heroine_02] afar：X207 帶路時她離玩家 ≤ 3 m  取樣 5 次，最遠 8.20 m
+PASS [heroine_02] afar：X207 道別那一刻她在旁邊（≤ 4 m）  {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4], "ptable": 5, "ntable": 5, "others": ["?"]}
 PASS [heroine_02] afar：坐下以後的開場句（AA_652 seatOpen 兩句之一，逐字）  ["（她把兩杯咖啡的杯墊對齊，一杯推給你。）", "你和林芷若在 afar café 坐坐。", "那我先走囉。下次來店裡找我啊。"]
+FAIL [heroine_02] afar：①她挑的是空桌（同一桌、1.2 m 內沒有其他客人坐著）  {"ptable": 5, "ntable": 5, "others": ["?"]}
+INFO [heroine_02] afar：②這一趟坐的是 table 5（不是窗邊長桌 6）——窗邊長桌那一點這次沒碰到  
+PASS [heroine_02] afar：③不是窗邊長桌（table 5）不說檯燈那一句（seatOpen.afar onlyAt table 6）  ["（她把兩杯咖啡的杯墊對齊，一杯推給你。）", "你和林芷若在 afar café 坐坐。", "那我先走囉。下次來店裡找我啊。"]
     （旁白）｜（她把兩杯咖啡的杯墊對齊，一杯推給你。）
     （旁白）｜你和林芷若在 afar café 坐坐。
     林芷若｜那我先走囉。下次來店裡找我啊。
-== afar_date 結果：FAIL 3：afar 約會（去 afar café 坐坐 今天 12:10）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）；afar 約會（去 afar café 坐坐 今天 12:10）：X207 ④ 道別那一刻兩個人在大廳門口附近或已經在校園；afar：X207 帶路時她離玩家 ≤ 3 m
-FAILED 3: [date afar] afar 約會（去 afar café 坐坐 今天 12:10）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）；[date afar] afar 約會（去 afar café 坐坐 今天 12:10）：X207 ④ 道別那一刻兩個人在大廳門口附近或已經在校園；[date afar] afar：X207 帶路時她離玩家 ≤ 3 m
+== afar_date 結果：FAIL 4：afar 約會（去 afar café 坐坐 今天 12:10）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）；afar 約會（去 afar café 坐坐 今天 12:10）：X207 ④ 道別那一刻兩個人在大廳門口附近或已經在校園；afar：X207 帶路時她離玩家 ≤ 3 m；afar：①她挑的是空桌（同一桌、1.2 m 內沒有其他客人坐著）
+FAILED 4: [date afar] afar 約會（去 afar café 坐坐 今天 12:10）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）；[date afar] afar 約會（去 afar café 坐坐 今天 12:10）：X207 ④ 道別那一刻兩個人在大廳門口附近或已經在校園；[date afar] afar：X207 帶路時她離玩家 ≤ 3 m；[date afar] afar：①她挑的是空桌（同一桌、1.2 m 內沒有其他客人坐著）
