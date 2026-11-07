@@ -1,0 +1,96 @@
+--- a/src/character3d.js	2026-11-07 05:35:23.643297603 +0000
++++ b/src/character3d.js	2026-11-07 05:43:04.936557805 +0000
+@@ -161,6 +161,10 @@
+     let props=null; const mf=typeof ASSETS!=='undefined'&&ASSETS.manifest[key]; const plist=spec.props||(mf&&mf.blProps&&mf.url===mf.blUrl?mf.blProps:null)||C.MODEL_PROPS[key];   /* ?blchar 用 Blender 版時可以換一組配件（blProps：溫書瑀的 Blender 頭髮自己有髮圈，不再掛遊戲的髮圈） */ if(plist&&plist.length&&typeof PROPS!=='undefined'){ try{ props=PROPS.attach(vrm,plist,{shadow:realShadow}); }catch(err){ console.warn('props failed',key,err); } }
+     root.userData={driver:'vrm',spec,k:H/1.75,sitDrop:C.sitDropOf(m.url,H),parts:{},model:wrap,vrm,key,v0,sx,tinted,props,full:!!e.full,armOut:(+e.armOut||0)*Math.PI/180,armBack:+e.armBack||0,armFwd:+e.armFwd||0,bones:B,look,headY,anim:{t:Math.random()*10,expr:'normal',pose:'idle',mixer,actions,cur:null,static:false,mouth:0,blink:2+Math.random()*3,blinkT:0}}; if(actions.idle){ actions.idle.play(); root.userData.anim.cur='idle'; }
+     // 彈簧骨（頭髮、馬尾）在人物自己的座標系模擬：瞬移、換區域、坐下起身時頭髮不會被甩飛（要在 root.userData 設定之後：three-vrm 把反矩陣快取放在 center.userData）
++    /* 體態第二階段（GYM-FIT-1107，LAWWW2-B 11-07；使用者 11-07「肌肉線條更明顯」）：玩家 VRM 的身體＋衣服（含系外套）有 morph target「fit」（tools/anim/fit_body_morph.py：
++       沿上臂、前臂、肩、胸、大腿、小腿往外撐，二頭肌、三角肌、胸肌、小腿肚有隆起；腰微收；和離骨頭軸的距離成比例，衣服在外面撐得多一點，不會穿模）。
++       強度 u.fitBody（0～1，fit3d.js 照體能四階設；下面 animate 套上）；骨頭長度不變：動作、腳步貼合、坐姿不受影響。沒有這個 morph 的模型不受影響 */
++    { const fm=[]; model.traverse(o=>{ const d=o.isMesh&&o.morphTargetDictionary; if(d&&d.fit!=null&&o.morphTargetInfluences) fm.push([o,d.fit]); }); if(fm.length){ root.userData.fitMorph=fm; root.userData.fitMorphW=0; } }
+     /* 裙子的輔助骨頭（VRM 節點的 extras.drive；PS-SKIRT-LEG，LAWWW2 2026-10-22）：沛珊長裙前片中間的「第三條腿」skirt_F／skirt_F_lo＝兩條腿（真實骨架）相對靜止姿勢的旋轉做 slerp，
+        偏向往前抬的那一條：t＝0.5＋(max−0.5)·tanh(dir·(抬起角度差)／sig)；後片 skirt_BL／BR（_lo）＝同一側的腿，只在腿往後時才轉（gate；坐下、腿往前時不轉，和原本一樣）。權重在 VRM 裡（tools/blender/char_second/peishan_skirt_bones.py）；沒有這種節點的模型不受影響 */
+     { const hu=vrm.humanoid, raw=n=>hu.getRawBoneNode(n), hp=raw('hips'), drv=[]; if(hp){ model.updateMatrixWorld(true); const hq=hp.getWorldQuaternion(new THREE.Quaternion()).invert(), dn=new THREE.Vector3(0,-1,0).applyQuaternion(hq), fw=new THREE.Vector3(0,0,1).applyQuaternion(hq), i0=b=>b.quaternion.clone().invert();
+@@ -1256,6 +1260,7 @@
+     if(pose==='climb'&&!(u.climbW>0)&&C.climbIK&&u.ladder&&u.vrm){ const hm=u.vrm.humanoid; u.ladCap0=['leftFoot','rightFoot'].map(n=>{ const b=hm.getRawBoneNode(n); if(!b) return null; const p=new THREE.Vector3(), q=new THREE.Quaternion(); b.matrixWorld.decompose(p,q,LDV[0]); return {p,q}; }); if(u.ladCap0.some(x=>!x)) u.ladCap0=null; }   /* 爬梯子的第一格：兩腳在前一格（片段換成走路以前）的位置（matrixWorld 還是上一格的）*/
+     u.ride=pose==='ride'?(st.ride||{crank:0}):null;   u.climbOn=pose==='climb'||(pose==='climbdown'&&C.climbIK&&!!ladGeo(u.ladder)); u.ladPose=pose; u.ladDt=dt;   /* 爬梯子：手、上身在 climbIK（真實骨架）；權重 climbW 在下面（updateVRM 以前）。爬下來（climbdown）只有宿舍的梯子（u.ladder，CLIMB-GRIPS-FEET-1105）才用 climbIK，其他照舊是走路片段 */
+     if(pose!=='lie'&&u.model.rotation.x!==0) u.model.rotation.x=0;
++    if(u.fitMorph){ const w=Math.max(0,Math.min(1,+u.fitBody||0)); if(u.fitMorphW!==w){ u.fitMorphW=w; for(const [o,i] of u.fitMorph) o.morphTargetInfluences[i]=w; } }   /* 體態第二階段（見建立 VRM 的地方）*/
+     if(C.GYM_POSES.includes(pose)){ const g=u.gym||(u.gym={}); if(g.pose!==pose){ g.pose=pose; g.t=Math.random()*20; g.rate=0.85+Math.random()*0.3; g.v=Math.random()<0.5?1:0; g.w=0; } g.t+=dt*g.rate; }   /* 健身房（GYM-USE-1103）：每個人自己的節奏（rate）、起始相位、拉筋的做法（v）*/
+     else if(u.gym){ u.gym=null; if(!a.static){ u.model.position.y=u.model.userData.baseY||0; u.model.position.z=0; } }   /* 深蹲改了站姿的高度、前後：換回一般動作時放回去 */   /* 從躺姿起來：整個人轉回直立（DORM-SLEEP-1030）*/
+     if(pose==='ride'){ if(!a.static||a.staticKind!=='ride'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='ride'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; setBonesV(B,RIDE_VRM,sx); if(B.Head) B.Head.rotation.set(-0.22*sx,0,0); }   /* 頭往上抬，看前面的路（胸口、頭每一幀都由表重設，下面的注視「加」轉角不會累加）*/   /* 騎車：人物的高度、前後位置在 rideIK 依髖關節對座墊 */
+--- a/src/fit3d.js	2026-11-07 05:35:23.646894045 +0000
++++ b/src/fit3d.js	2026-11-07 05:35:36.046094917 +0000
+@@ -47,8 +47,11 @@
+   const PB={Spine1:[-0.035,0,0],Spine2:[-0.02,0,0],Neck:[0.03,0,0],LeftShoulder:[0,0.06,0],RightShoulder:[0,-0.06,0]};
+   const scaleP=k=>{ const o={}; for(const n in PB) o[n]=PB[n].map(v=>+(v*k).toFixed(4)); return o; };
+   S.POSTURE=[null,scaleP(1),scaleP(1.8),scaleP(2.8)];   /* 經常鍛鍊：肩膀往後約 4 cm、頭往後約 4 cm（瀏覽器量的，test_shots/fit_posture_1027）*/
++  /* 體態第二階段（GYM-FIT-1107，LAWWW2-B 11-07；使用者 11-07「肌肉線條更明顯」）：身體形狀——玩家 VRM 的 morph「fit」（上臂、肩、胸、大腿、小腿撐開，見 character3d.js），
++     四階 0／0.4／0.7／1（經常鍛鍊：上臂、肩最多撐開約 2.7 cm）。只有祐廷；換存檔、讀檔跟著（sync 每 0.5 秒）*/
++  S.BODY=[0,0.4,0.7,1];
+   S.sync=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E) return false; const i=S.stageIx(rec(G).fit|0); E.fitWalk=S.WALK[i]; E.fitBike=S.BIKE[i];
+-    const P=E.player, u=P&&P.obj&&P.obj.userData; if(u) u.posture=S.POSTURE[i]; return false; };
++    const P=E.player, u=P&&P.obj&&P.obj.userData; if(u){ u.posture=S.POSTURE[i]; u.fitBody=S.BODY[i]; } return false; };
+   /* 升階以後第一次見到阿哲 */
+   S.preTalk=async function(GM,who,id){ const G=GM.G, r=rec(G), i=S.stageIx(r.fit|0); if(i<1) return;
+     if(id==='zhe'){ if((r.zheSeen|0)>=i) return; r.zheSeen=i; await GM.say(who,S.LINES.zhe); return; }
+--- /dev/null
++++ b/tests/fit_body_unit.js	2026-11-07 05:43:52.535383765 +0000
+@@ -0,0 +1,57 @@
++// 健身的 3D 體態第二階段：身體形狀（GYM-FIT-1107，LAWWW2-B 2026-11-07；使用者 11-07「肌肉線條更明顯」）——不需要瀏覽器。
++// 祐廷的 VRM（vroid_yuting.vrm，?blchar 的 bl_yuting.vrm）身體＋衣服（含系外套）有 morph「fit」（tools/anim/fit_body_morph.py），FIT.sync 照體能四階設 u.fitBody＝0／0.4／0.7／1。
++// 檢查：① 兩個 VRM 的身體、衣服有 fit；vroid 版的系外套也有；臉、頭髮沒有
++//       ② FIT.BODY 四階、FIT.sync 照體能設 u.fitBody；遊戲（CHAR.animate）照 u.fitBody 開 morph，0 就關
++//       ③ 經常鍛鍊（1）：上臂比普通粗 ≥ 10%（離骨頭軸的平均距離）；手掌、頭、腳掌不動（< 2 mm），脖子底部跟著胸口一點（< 5 mm）
++//       ④ 衣服在外面：上臂、胸口的皮膚頂點跑到毛衣外面的數量沒有變多（站姿）
++//       ⑤ 坐下：大腿底部往下 < 1 cm（坐的高度照 C.SIT_FIT，不重算）
++// 修改前（開發 c244ce20e）：① FAIL（沒有 fit）、② FAIL（沒有 FIT.BODY）。用法：node tests/fit_body_unit.js
++const {preload}=require('../tools/dev_scratch/spring_sim/harness.js');
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(n,ok,i)=>{ console.log((ok?'PASS ':'FAIL ')+n+(i?'　'+i:'')); if(!ok) fails++; };
++const glb=f=>{ const b=fs.readFileSync(path.join(ROOT,f)), jl=b.readUInt32LE(12); return JSON.parse(b.slice(20,20+jl).toString('utf8')); };
++(async()=>{
++  // ① VRM
++  for(const f of ['assets/models/char/vroid_yuting.vrm','assets/models/char/bl_yuting.vrm']){ const J=glb(f), has={}; J.meshes.forEach(m=>{ has[m.name]=((m.extras||{}).targetNames||[]).includes('fit'); });
++    const body=Object.keys(has).filter(n=>/Body|Clothes|JACKET/.test(n)), face=Object.keys(has).filter(n=>/Face|Hair/.test(n));
++    check('① '+path.basename(f)+'：身體、衣服'+(/vroid/.test(f)?'、系外套':'')+'有 morph fit，臉、頭髮沒有',body.length>=2&&body.every(n=>has[n])&&face.every(n=>!has[n])&&(!/vroid/.test(f)||has.JACKET_ECON),JSON.stringify(has)); }
++  // ② FIT
++  vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/fit3d.js'),'utf8').replace(/^const FIT\s*=/m,'globalThis.FIT='),{filename:'src/fit3d.js'});
++  check('② FIT.BODY 四階 0～1、越來越大',Array.isArray(FIT.BODY)&&FIT.BODY.length===4&&FIT.BODY[0]===0&&FIT.BODY[3]===1&&FIT.BODY[1]<FIT.BODY[2]&&FIT.BODY[2]<FIT.BODY[3],JSON.stringify(FIT.BODY));
++  { const got=[0,30,60,90].map(f=>{ const o={userData:{}}; FIT.sync({G:{day:30,daily:{gym:{fit:f}},flags:{}},E:{player:{obj:o}}}); return o.userData.fitBody; });
++    check('② FIT.sync 照體能設 u.fitBody',Array.isArray(FIT.BODY)&&got.every((v,i)=>v===FIT.BODY[i]),JSON.stringify(got)); }
++  await preload(['char.yuting']);
++  const h=CHAR.build({id:'player',model:'char.yuting',height:1.75,sex:'m'}), u=h.userData;
++  if(u.driver!=='vrm'){ check('（前提）祐廷的 VRM 載得到',false,u.driver); console.log('FAILED '+fails); process.exit(1); }
++  const step=(n,st)=>{ for(let i=0;i<n;i++) CHAR.animate(h,1/30,st||{pose:'idle',speed:0}); h.updateMatrixWorld(true); };
++  u.fitBody=1; step(2); const on=(u.fitMorph||[]).length>=4&&u.fitMorph.every(([o,i])=>o.morphTargetInfluences[i]===1); u.fitBody=0; step(2); const off=(u.fitMorph||[]).every(([o,i])=>o.morphTargetInfluences[i]===0);
++  check('② CHAR.animate 照 u.fitBody 開關 morph（網格 '+((u.fitMorph||[]).length)+' 個）',on&&off);
++  // 量：頂點（世界座標）＋主要骨頭
++  const H=u.vrm.humanoid, bw=n=>new THREE.Vector3().setFromMatrixPosition(H.getRawBoneNode(n).matrixWorld), V=new THREE.Vector3();
++  const meshes=[]; h.traverse(o=>{ if(o.isSkinnedMesh&&o.visible&&o.name!=='npc_far'){ const mn=(Array.isArray(o.material)?o.material[0]:o.material).name||''; meshes.push({o,mn}); } });
++  const domBone=(o,i)=>{ const si=o.geometry.attributes.skinIndex, sw=o.geometry.attributes.skinWeight, acc={}; for(let c=0;c<4;c++){ const w=sw.getComponent(i,c); if(w>0){ const n=o.skeleton.bones[si.getComponent(i,c)].name; acc[n]=(acc[n]||0)+w; } } let b=null,bwv=0; for(const k in acc) if(acc[k]>bwv){ bwv=acc[k]; b=k; } return b; };
++  const snap=k=>{ u.fitBody=k; u.anim.t=0; step(1); const out=[]; for(const {o,mn} of meshes){ const used=new Set(o.geometry.index?o.geometry.index.array:[]); for(const i of used){ o.getVertexPosition(i,V); o.localToWorld(V); out.push({mn,b:domBone(o,i),p:V.clone()}); } } return {v:out,ua:[bw('leftUpperArm'),bw('leftLowerArm')],sh:bw('rightUpperArm').distanceTo(bw('leftUpperArm'))}; };
++  const A=snap(0), B=snap(1);
++  const rad=(p,a,b)=>{ const d=b.clone().sub(a), t=Math.max(0,Math.min(1,p.clone().sub(a).dot(d)/d.lengthSq())); return p.distanceTo(a.clone().add(d.multiplyScalar(t))); };
++  const armR=S=>{ let s=0,n=0; S.v.forEach(q=>{ if(q.b==='J_Bip_L_UpperArm'){ s+=rad(q.p,S.ua[0],S.ua[1]); n++; } }); return s/Math.max(1,n); };
++  const ra=armR(A), rb=armR(B);
++  let still=0, neck=0; for(let i=0;i<A.v.length;i++){ const b=A.v[i].b||''; if(/Hair/.test(A.v[i].mn)) continue; const d=A.v[i].p.distanceTo(B.v[i].p); if(/Neck/.test(b)) neck=Math.max(neck,d); else if(/Hand|Head|Foot|Toe|Eye/.test(b)) still=Math.max(still,d); }
++  check('③ 經常鍛鍊：上臂比普通粗 ≥ 10%',rb/ra>=1.10,'離骨頭軸平均 '+(ra*100).toFixed(2)+' → '+(rb*100).toFixed(2)+' cm（'+((rb/ra-1)*100).toFixed(1)+'%）');
++  check('③ 手掌、頭、腳掌不動（< 2 mm；同一個動畫時間點，idle 本身的雜訊約 0.7 mm）；脖子底部跟著胸口一點（< 5 mm）',still<0.002&&neck<0.005,'手／頭／腳 '+(still*1000).toFixed(2)+' mm、脖子 '+(neck*1000).toFixed(2)+' mm');
++  // ④ 皮膚跑到毛衣外面：每一個皮膚頂點（上臂、胸口）和同一根骨頭、同一個角度、同一段的衣服頂點比離軸距離
++  const outside=S=>{ const bins={}, axis={J_Bip_L_UpperArm:S.ua}; const key=(q,a)=>{ const d=a[1].clone().sub(a[0]), t=Math.floor(Math.max(0,Math.min(0.999,q.p.clone().sub(a[0]).dot(d)/d.lengthSq()))*8), r=q.p.clone().sub(a[0]); return t; };
++    let n=0, tot=0; const top=S.v.filter(q=>q.b==='J_Bip_L_UpperArm'&&/Tops|Knit/.test(q.mn)), skin=S.v.filter(q=>q.b==='J_Bip_L_UpperArm'&&/Body_00_SKIN/.test(q.mn));
++    const a=S.ua, d=a[1].clone().sub(a[0]).normalize(), up=new THREE.Vector3(0,1,0), e1=new THREE.Vector3().crossVectors(d,up).normalize(), e2=new THREE.Vector3().crossVectors(d,e1);
++    const cell=q=>{ const r=q.p.clone().sub(a[0]), t=r.dot(d)/a[1].distanceTo(a[0]); const rr=r.clone().sub(d.clone().multiplyScalar(r.dot(d))); const ang=Math.atan2(rr.dot(e2),rr.dot(e1)); return Math.floor(Math.max(0,Math.min(0.999,t))*8)+'|'+Math.floor((ang+Math.PI)/(Math.PI/6)); };
++    for(const q of top){ const k=cell(q), r=rad(q.p,a[0],a[1]); bins[k]=Math.max(bins[k]||0,r); }
++    for(const q of skin){ const k=cell(q); if(bins[k]==null) continue; tot++; if(rad(q.p,a[0],a[1])>bins[k]+0.002) n++; } return {n,tot}; };
++  const oa=outside(A), ob=outside(B);
++  check('④ 上臂皮膚跑到毛衣外面的頂點沒有變多（站姿）',ob.n<=oa.n+2,'普通 '+oa.n+'／'+oa.tot+' → 經常鍛鍊 '+ob.n+'／'+ob.tot);
++  check('③ 骨頭位置不變（兩邊上臂根的距離一樣；變寬的是肩膀的肉，不是骨架）',Math.abs(B.sh-A.sh)<0.0005,(A.sh*100).toFixed(2)+' → '+(B.sh*100).toFixed(2)+' cm');
++  // ⑤ 坐下：大腿底部
++  const thighBottom=k=>{ u.fitBody=k; step(40,{pose:'sit',speed:0}); let lo=1e9; for(const {o} of meshes){ const used=new Set(o.geometry.index?o.geometry.index.array:[]); for(const i of used){ if(!/UpperLeg/.test(domBone(o,i)||'')) continue; o.getVertexPosition(i,V); o.localToWorld(V); h.worldToLocal(V); if(Math.abs(V.x)<0.22&&V.z>-0.2&&V.z<0.12&&V.y<lo) lo=V.y; } } return lo; };
++  const t0=thighBottom(0), t1=thighBottom(1);
++  check('⑤ 坐下：大腿底部往下 < 1 cm',t0-t1<0.01,((t0-t1)*100).toFixed(2)+' cm');
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})().catch(e=>{ console.error(e); process.exit(2); });
