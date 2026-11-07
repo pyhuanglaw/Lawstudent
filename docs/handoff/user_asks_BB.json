@@ -424,6 +424,26 @@
    "task": "STUDY-DATE-PROGRESS-1107",
    "wants": "X263",
    "note": "BB-B 用 AskUserQuestion 問「改變到哪幾種」，使用者選這三項；「她之後的故事不一樣（只是內容不同）」沒有選。"
+  },
+  {
+   "id": "UA-BB-1107-CAREFUL-HINT",
+   "at": "2026-11-07T06:3xZ",
+   "quote": "如果真的影響能不能交往的選項 應該要有 小心選擇的提示",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "wants": "X263",
+   "note": "BB_305 第 10-5 節；轉 LAWWW-B、AA-B。"
+  },
+  {
+   "id": "UA-BB-1107-CAREFUL-HINT-Q",
+   "at": "2026-11-07T06:3xZ",
+   "quote": "提示樣式：上方一行字＋選完確認",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "wants": "X263",
+   "note": "BB-B AskUserQuestion 四選一（只一行字／小圖示／只確認／一行字＋確認），使用者選一行字＋確認。"
   }
  ]
 }
