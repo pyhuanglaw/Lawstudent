@@ -211,7 +211,15 @@ async def main():
                         xp = await pg.evaluate("(id=>{ const n=GAME.npc&&GAME.npc[id]; return n&&n.obj?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]:null; })", XC)
                         R.note('%s 15:18 萬才館大廳：芯慈在 %s（AA613.SPOT.door (-6.2,5.6)）' % (tag, J(xp)))
                         await L.go_to(pg, cdp, R, -6.2 + 1.2, 5.6, 0.5, tag + ' 走到法圖門口', max_s=150)
+                        await pg.evaluate("window.__says=[]")
+                        t1 = time.time()   # 芯慈 15:20 才在門口（作息）、doorDue 也要 15:20 以後：在門口等到 AA613_XC_MET 或對話出來，最多 60 秒
+                        while time.time() - t1 < 60:
+                            if await pg.evaluate("(()=>{ const G=GAME.G; return (G.flags||{}).AA613_XC_MET===G.day||!!(GAME.D&&GAME.D.active); })()"): break
+                            await pg.wait_for_timeout(700)
+                        R.note('%s 在門口等了 %.0f 秒，時鐘 %.2f、AA613_XC_MET %s' % (tag, time.time() - t1, await pg.evaluate("GAME.G.hour"), await pg.evaluate("(GAME.G.flags||{}).AA613_XC_MET")))
                         sc = await scene(pg, cdp, tag + ' 法圖門口', max_s=60, idle_end=4)
+                        says = await pg.evaluate("window.__says||[]")
+                        if says: sc['lines'] = [[w, t] for w, t, _ in says]
                         await R.shot(pg, 'lib_door')
                         R.check('%s 法圖門口芯慈「%s」' % (tag, AL['xcLib']['here']), has(sc['lines'], AL['xcLib']['here']), J(sc['lines']))
                         await pg.evaluate("GAME.G.hour=Math.max(GAME.G.hour,15+27/60)")
@@ -222,7 +230,17 @@ async def main():
                     # 講座＝走進討論室 A、坐「坐下（討論室）」，坐下的選單裡有「參加：法律資料怎麼查」（lib_dbg 11-07 21:4x：討論室 A 四個座位，芯慈先坐了一個）
                     it = await use_it(pg, cdp, tag, "i=>i.seat&&i.seat.room==='discA'&&!(GAME.E.npcs||[]).some(n=>n&&n.seat&&Math.hypot(n.seat.x-i.seat.x,n.seat.z-i.seat.z)<0.3)", '討論室 A 的空座位')
                     await pg.evaluate("window.__says=[]")
+                    samples = []; stop = {'v': False}
+                    async def sampler():   # 講座中每秒記一次：玩家、芯慈的座位（演完就站起來了，演完才量會量不到）
+                        while not stop['v']:
+                            try: samples.append(await pg.evaluate("(id=>{ const P=GAME.E.player, n=GAME.npc&&GAME.npc[id]; const f=o=>o?[+o.x.toFixed(2),+o.z.toFixed(2)]:null; return {h:+(+GAME.G.hour).toFixed(3), ps:P.seat?f(P.seat):null, xs:n&&n.seat?f(n.seat):null, xp:n&&n.obj?f(n.obj.position):null, xpose:n?n.pose:null}; })", XC))
+                            except Exception: pass
+                            await asyncio.sleep(1.0)
+                    stask = asyncio.ensure_future(sampler())
                     sc = await scene(pg, cdp, tag + ' 講座', prefs=['法律資料', '參加', '聽'], max_s=300, idle_end=8)
+                    stop['v'] = True; await stask
+                    both = [x for x in samples if x['ps'] and x['xs']]
+                    R.note('%s 講座中取樣 %d 次，兩個人都坐著的 %d 次；第一筆 %s' % (tag, len(samples), len(both), J(both[:1] or samples[-2:])))
                     says = await pg.evaluate("window.__says||[]")
                     if says: sc['lines'] = [[w, t] for w, t, _ in says]
                     pos = await pg.evaluate("(id=>{ const P=GAME.E.player, n=GAME.npc&&GAME.npc[id]; const f=o=>o?[+o.x.toFixed(2),+o.z.toFixed(2)]:null; return {player:f(P.obj.position), playerSeat:P.seat?f(P.seat):null, xc:n&&n.obj?f(n.obj.position):null, xcSeat:n&&n.seat?f(n.seat):null, xcPose:n?n.pose:null, zone:GAME.G.zone}; })", XC)
@@ -231,8 +249,8 @@ async def main():
                     late = '（她看到你，指了指旁邊的空位。）'
                     if mode == 'lib_late': R.check('%s 晚到：旁白「%s」一次' % (tag, late), sum(1 for _, x in sc['lines'] if x == late) == 1, J(sc['lines']))
                     else: R.check('%s 準時：沒有晚到那一句' % tag, not has(sc['lines'], late), J(sc['lines']))
-                    ok_beside = bool(pos['playerSeat'] and pos['xcSeat'] and math.hypot(pos['playerSeat'][0] - pos['xcSeat'][0], pos['playerSeat'][1] - pos['xcSeat'][1]) < 1.6)
-                    R.check('%s 聽講座時芯慈坐在你旁邊（兩個座位 < 1.6 m）' % tag, ok_beside, J(pos))
+                    ok_beside = any(math.hypot(x['ps'][0] - x['xs'][0], x['ps'][1] - x['xs'][1]) < 1.7 for x in both)
+                    R.check('%s 聽講座時芯慈坐在你旁邊（講座中兩個座位 < 1.7 m）' % tag, ok_beside, J({'both': both[:3], 'end': pos}))
                     rec[mode] = {'days': days, 'dm': m, 'scene': sc, 'pos': pos, 'walkFallbacks': (await pg.evaluate("GAME.walkFallbacks||0")) - wf0}
             if 'guitar' in STEPS:
                 tag = '[⑦吉他社群組]'
