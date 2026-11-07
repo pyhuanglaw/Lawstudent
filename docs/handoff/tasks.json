@@ -35847,7 +35847,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 13:3x LAWWW-B】霖澤 3F／4F 光照 67b128e4d、萬才研討室 A／B 光照 84ee85447 推了；BB 判（D120）、CC 遊戲內拍。 ｜ 【11-07 11:0x LAWWW-B】LAWWW2-B 5a2ab6c75：霖澤 3F／4F 光照烘焙（linze_3f／4f.glb＋4 張 lightmap webp；linze_upper3d.js 看 extras.lightmap 自動接；tests/linze_upper_lm_unit.js 的 patch）READY_FOR_ART_REVIEW——v9.10.22 發布以後接（候選已鎖），接完 BB 判、CC 遊戲內拍。 ｜ 【11-01 08:3x LAWWW-B】美國收尾第二輪整合（DL-LW2-US-WRAPUP2-1101：鄰居門白天壓暗、合租戶客廳東邊補光）→ BB 看；LAWWW2 下一件 ZQ-ARCADE（a）（b）｜【11-01 06:5x LAWWW-B】美國收尾（LAWWW2 ccf717fe0：公寓第八版屋外白天壓暗、C 棟合租戶光照第二版）整合，DL-LW2-US-WRAPUP-1101 → BB 看美國公寓 14:00 陽台、合租戶 14:00／20:30；LAWWW2 下一步先收合租戶客廳東邊偏暗、207 門偏亮（D99 第三項），ZQ-ARCADE（P3）排在 D99 美術收完以後｜【11-01 03:0x LAWWW-B】BB-B n37_gymlm（BB_218 3295744fe，基準 39f68236c）：體育館 1F 14:00／20:30、3F 14:00／20:30／典禮 都有 lightMap、沒有純黑材質，19 張固定鏡頭沒有整片黑白＝ALL PASS（READY_FOR_ART_REVIEW）；B1 樓梯、3F 上層看台偏暗照舊；美國收尾（C 棟合租戶、公寓平台／陽台偏白）已派 LAWWW2｜【10-31 19:0x】LAWWW2 更正：baec2acc2 的體育館 1F 白天高窗四周牆一圈白光暈（高窗發光面補的反面朝牆 4 cm、把牆照爆）→ 第五版重烘中（高窗不補反面＋bake_room --emit-oneside），已跟 BB 說 1F 先不驗｜【10-31 18:3x】體育館 1F（大廳＋1F 球場）光照整合（LAWWW2 3094e123b，gym_lm_1031）；已知：大廳天花板比改前暗、靠玻璃石材偏冷、往 B1 樓梯下半段很暗（README 有可調參數，等 BB 看）；LAWWW2 發現 Blender 重匯後樓梯口指標字面變雙面→ glb_restore_sides.py（之前交的房間沒查過）｜【10-31 16:0x】一盞門口木柱：LAWWW2 量過（8d69eae00 README）跟隨鏡頭在屋簷上方、柱子在畫面外，BB 位置與進門點玩家看得到 36～50%（拉近到下限 3.9 m 也一樣）＝BB 那張是探針固定鏡頭放在屋簷下，不改模型；之後若有劇情固定鏡頭在那裡再標 wzs_post 透視｜【10-31 15:4x】書店、溫州街三家光照 BB-B n33_shoplm ALL PASS（光照網格 8／17／18／21、沒有純黑死白、明暗差 86～178）；一盞門口往裡一根木柱擋鏡頭（晚上全黑、沒有網點透空）→ 轉 LAWWW2 看是不是進門預設鏡頭也這樣｜【10-31 14:4x】書店（舊路書房，bookstore_lm_1031）、溫州街三家（半熟、阿德影印輸出、一盞，wz_shops_lm_1031，LAWWW2 267c6a804）光照整合；bookstore_interior_lm_unit、wz_shops_lm_unit → BB 看畫面；下一間體育館｜【10-31 12:2x】便利商店光照 BB-B n30_cvslm ALL PASS（19 個網格接光照、黑 ≤3%、死白 ≤0.6%、有影子；分類牌 8 面單面、兩邊都是正字）｜【10-31 09:1x】便利商店光照整合（LAWWW2 1908a3c83：cvs_interior.glb＋光照貼圖兩張，燈條＋燈下點光源＋飲料櫃背光；有光照貼圖的材質不加 CVS_BOUNCE；cvs_interior_lm_unit、singleside 2c）→ BB 看畫面；下一間書店→溫州街三家→體育館→美國｜【LAWWW-C 2026-10-28 03:0x UTC】201 v2 示範整合進開發分支 7b90397a4（DL-LW2-201V2）；READY_FOR_ART_REVIEW，等使用者看；其他室內等使用者看過 201 再推（LAWWW2）｜【LAWWW-C 2026-10-28 02:3x UTC】LAWWW2 檢討文件 038fe55b1、光照烘焙工具 WIP 297822def、201 示範進行中。溫州街公園卡點（WZ-PARK-POCKET-1028，v9.10.12 唯一阻塞）請 LAWWW2 插在中間先修；改善計畫的每一批交件時附改前改後遊戲截圖（D38 第 8 點），LAWWW 接、BB 測；建築與場景的 ART_APPROVED 只有使用者能標",
+   "next": "【11-07 14:3x LAWWW-B】LAWWW2-B f7f4b80e8：第三批光照五間（共同 3F 301、霖澤辦公室、博思 203、宿舍洗衣間、總圖視聽室）推了 3957b071e（d49167b05）；rooms_ab3_lm_unit＋49 支 ALL PASS。BB 判（D120）、CC 遊戲內拍；LAWWW2 接著 205 寢室（h 3.0→3.4）、美國臥室 C。 ｜ 【11-07 13:3x LAWWW-B】霖澤 3F／4F 光照 67b128e4d、萬才研討室 A／B 光照 84ee85447 推了；BB 判（D120）、CC 遊戲內拍。 ｜ 【11-07 11:0x LAWWW-B】LAWWW2-B 5a2ab6c75：霖澤 3F／4F 光照烘焙（linze_3f／4f.glb＋4 張 lightmap webp；linze_upper3d.js 看 extras.lightmap 自動接；tests/linze_upper_lm_unit.js 的 patch）READY_FOR_ART_REVIEW——v9.10.22 發布以後接（候選已鎖），接完 BB 判、CC 遊戲內拍。 ｜ 【11-01 08:3x LAWWW-B】美國收尾第二輪整合（DL-LW2-US-WRAPUP2-1101：鄰居門白天壓暗、合租戶客廳東邊補光）→ BB 看；LAWWW2 下一件 ZQ-ARCADE（a）（b）｜【11-01 06:5x LAWWW-B】美國收尾（LAWWW2 ccf717fe0：公寓第八版屋外白天壓暗、C 棟合租戶光照第二版）整合，DL-LW2-US-WRAPUP-1101 → BB 看美國公寓 14:00 陽台、合租戶 14:00／20:30；LAWWW2 下一步先收合租戶客廳東邊偏暗、207 門偏亮（D99 第三項），ZQ-ARCADE（P3）排在 D99 美術收完以後｜【11-01 03:0x LAWWW-B】BB-B n37_gymlm（BB_218 3295744fe，基準 39f68236c）：體育館 1F 14:00／20:30、3F 14:00／20:30／典禮 都有 lightMap、沒有純黑材質，19 張固定鏡頭沒有整片黑白＝ALL PASS（READY_FOR_ART_REVIEW）；B1 樓梯、3F 上層看台偏暗照舊；美國收尾（C 棟合租戶、公寓平台／陽台偏白）已派 LAWWW2｜【10-31 19:0x】LAWWW2 更正：baec2acc2 的體育館 1F 白天高窗四周牆一圈白光暈（高窗發光面補的反面朝牆 4 cm、把牆照爆）→ 第五版重烘中（高窗不補反面＋bake_room --emit-oneside），已跟 BB 說 1F 先不驗｜【10-31 18:3x】體育館 1F（大廳＋1F 球場）光照整合（LAWWW2 3094e123b，gym_lm_1031）；已知：大廳天花板比改前暗、靠玻璃石材偏冷、往 B1 樓梯下半段很暗（README 有可調參數，等 BB 看）；LAWWW2 發現 Blender 重匯後樓梯口指標字面變雙面→ glb_restore_sides.py（之前交的房間沒查過）｜【10-31 16:0x】一盞門口木柱：LAWWW2 量過（8d69eae00 README）跟隨鏡頭在屋簷上方、柱子在畫面外，BB 位置與進門點玩家看得到 36～50%（拉近到下限 3.9 m 也一樣）＝BB 那張是探針固定鏡頭放在屋簷下，不改模型；之後若有劇情固定鏡頭在那裡再標 wzs_post 透視｜【10-31 15:4x】書店、溫州街三家光照 BB-B n33_shoplm ALL PASS（光照網格 8／17／18／21、沒有純黑死白、明暗差 86～178）；一盞門口往裡一根木柱擋鏡頭（晚上全黑、沒有網點透空）→ 轉 LAWWW2 看是不是進門預設鏡頭也這樣｜【10-31 14:4x】書店（舊路書房，bookstore_lm_1031）、溫州街三家（半熟、阿德影印輸出、一盞，wz_shops_lm_1031，LAWWW2 267c6a804）光照整合；bookstore_interior_lm_unit、wz_shops_lm_unit → BB 看畫面；下一間體育館｜【10-31 12:2x】便利商店光照 BB-B n30_cvslm ALL PASS（19 個網格接光照、黑 ≤3%、死白 ≤0.6%、有影子；分類牌 8 面單面、兩邊都是正字）｜【10-31 09:1x】便利商店光照整合（LAWWW2 1908a3c83：cvs_interior.glb＋光照貼圖兩張，燈條＋燈下點光源＋飲料櫃背光；有光照貼圖的材質不加 CVS_BOUNCE；cvs_interior_lm_unit、singleside 2c）→ BB 看畫面；下一間書店→溫州街三家→體育館→美國｜【LAWWW-C 2026-10-28 03:0x UTC】201 v2 示範整合進開發分支 7b90397a4（DL-LW2-201V2）；READY_FOR_ART_REVIEW，等使用者看；其他室內等使用者看過 201 再推（LAWWW2）｜【LAWWW-C 2026-10-28 02:3x UTC】LAWWW2 檢討文件 038fe55b1、光照烘焙工具 WIP 297822def、201 示範進行中。溫州街公園卡點（WZ-PARK-POCKET-1028，v9.10.12 唯一阻塞）請 LAWWW2 插在中間先修；改善計畫的每一批交件時附改前改後遊戲截圖（D38 第 8 點），LAWWW 接、BB 測；建築與場景的 ART_APPROVED 只有使用者能標",
    "xai": {
     "spec": "使用者原話；LAWWW2 的檢討文件 038fe55b1（INTERIOR-AAA-REVIEW-1028）",
     "branch": "claude/focused-cray-c9uwvw",
@@ -44421,7 +44421,7 @@
    "priority": "P1",
    "title": "公館第二批四間：Afar café（G07）、洋洋鹹酥雞（G05）、轉角唱片（G12）、daybreak（G14）改名＋進得去（USER_WANTS X209；AA_650）",
    "status": "已整合待測試",
-   "next": "【11-07 11:0x LAWWW-B】LAWWW2-B：洋洋 v1c 模型 ART_APPROVED（9ef8a17cf，AA_650 授權 LAWWW2 驗）；接法照 gg2（G05、places.yangyang），步驟 docs/art-rebuild/second_ai/wip/yangyang_review_1107/README.md——v9.10.22 發布以後接。 ｜ afar、Daybreak 進遊戲（964d0ad11、809163ee4）等 BB 驗收；洋洋（BB v1c MODEL_READY）、轉角唱片（CC）還沒接",
+   "next": "【11-07 14:3x LAWWW-B】AA-B 交洋洋店內台詞 AA_724（4bab808dd）；YANGYANG-IN-1107 子代理接區域（G05 門口、17:00～01:00、點餐＋調味兩題、look 五個、約去 19:00～23:00）。 ｜ 【11-07 11:0x LAWWW-B】LAWWW2-B：洋洋 v1c 模型 ART_APPROVED（9ef8a17cf，AA_650 授權 LAWWW2 驗）；接法照 gg2（G05、places.yangyang），步驟 docs/art-rebuild/second_ai/wip/yangyang_review_1107/README.md——v9.10.22 發布以後接。 ｜ afar、Daybreak 進遊戲（964d0ad11、809163ee4）等 BB 驗收；洋洋（BB v1c MODEL_READY）、轉角唱片（CC）還沒接",
    "xai": {
     "spec": "AA_650（企劃線 7193e1349）§4、§6",
     "branch": "claude/second-ai-env-art",
@@ -49158,7 +49158,7 @@
    "id": "UX-QUICKGO-BEFORE-OPEN-1107",
    "title": "手機「今天約好的」在店開門以前就給「前往」：按了只出「還沒開」、要等開門再按一次（BB-B 11-07 AA_722 小路 18:00）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -49170,13 +49170,14 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 10:5x LAWWW-B 定】BB 提二選一，選 2：前往按鈕旁邊寫「18:00 開門」，開門那一刻才亮（不加「先走到門口等」的移動）。v9.10.22 不放（不擋、不是 D141 五件），發布後做。"
+   "next": "【11-07 14:3x LAWWW-B】做好推了 3957b071e（1e27f9d68）：手機「今天約好的」店還沒開＝寫「18:00 開門」、開門起才有「前往」；公休＝「現在沒有開」；tests/inv_go_opens_unit.js。BB 測 AA_722 小路 18:00（17:40 看手機）。 ｜ 【11-07 10:5x LAWWW-B 定】BB 提二選一，選 2：前往按鈕旁邊寫「18:00 開門」，開門那一刻才亮（不加「先走到門口等」的移動）。v9.10.22 不放（不擋、不是 D141 五件），發布後做。",
+   "sha": "1e27f9d68"
   },
   {
    "id": "AA723-CONFESS-PS-1107",
    "title": "AA_723（fca9bcb69）：告白看她的 heart（AA_719 key 加總）＋失敗後的接法（fail／normal／ready／second，再約 2 次＋14 天、第二次一定成功）；沛珊沒交往的線（2026-12-18 起群組不說話、私訊不回、reply1、2028-12-26 重聚林家乾麵 PS_REUNION）＋要關掉／改條件的事件清單 peishan.remove",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -49188,7 +49189,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 10:5x LAWWW-B】使用者 11-07 10:4x 回 AA 四題（AA_718 第 4 節 f3eec1eec）；AA-B 10:51 交 AA_723 fca9bcb69。v9.10.22 發布後接：先加白名單＋匯入工具，再改 confess（DATE.confessDecide → heart）與沛珊時間表、照 peishan.remove 逐項關掉或改條件；交往中全部照舊。結局分版本等 AA_720。",
+   "next": "【11-07 14:3x LAWWW-B】推了 3957b071e：告白 heart＋fail／normal／ready／second／pending（AA_723 fca9bcb69＋21e9f6c50；14:26 改：她的決定一個都沒演到＝照原本答應，f68c998cc）＋沛珊沒交往的線第一批（沉默期 2026-12-18～2028-12-29 18:30、私訊只已送達、reply1、12/26 群組、12/29 林家乾麵重聚、remove 清單；tests/ps_silence_unit.js、confess723_unit.js）。第二批（AA 14:15 f5cb310d6／d8570a14b：沉默期動態全關、柏翰改一句、不在群組 12/30 私訊、林家乾麵 wz_lin）子代理做中。 ｜ 【11-07 10:5x LAWWW-B】使用者 11-07 10:4x 回 AA 四題（AA_718 第 4 節 f3eec1eec）；AA-B 10:51 交 AA_723 fca9bcb69。v9.10.22 發布後接：先加白名單＋匯入工具，再改 confess（DATE.confessDecide → heart）與沛珊時間表、照 peishan.remove 逐項關掉或改條件；交往中全部照舊。結局分版本等 AA_720。",
    "xai": {
     "spec": "AA_723 fca9bcb69（企劃線 claude/cool-heisenberg-o8kuqx）",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -49196,7 +49197,8 @@
     "receiver": "LAWWW（實作）、BB（測）",
     "ack": "ACK",
     "owner": "LAWWW"
-   }
+   },
+   "sha": "3957b071e"
   },
   {
    "id": "INV-CLOSEDDAY-DIM-1107",
@@ -49239,7 +49241,7 @@
    "id": "BUG-Y0-GOAL-AFTER-SKIP-1107",
    "title": "經濟系跳日以後目標列還寫早上的課、9/2 狀態列寫「放假中」",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -49251,7 +49253,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。"
+   "next": "【11-07 14:3x LAWWW-B】修好推了 3957b071e（fe120569e＋d04bad69a）：updateHUD 換日（goalDay≠G.day）就 CLS.refreshGoal＋CLS.updateHUD，只改課表自己設的目標；tests/goal_daychange_unit.js（修改前 FAIL）。BB 測：經濟系 9/2 早上狀態列不是「放假中」、跳到 9/12 21:00 目標換成 9/12 的課。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "sha": "d04bad69a"
   },
   {
    "id": "BUG-ONETAP-DORM203-1107",
@@ -49419,6 +49422,32 @@
     "receiver": "LAWWW（整合）、BB（測）",
     "ack": "SENT",
     "owner": "LAWWW2"
+   }
+  },
+  {
+   "id": "YANGYANG-IN-1107",
+   "title": "洋洋鹹酥雞（公館 G05）進得去：區域、點餐（調味兩題）、看店裡、坐下、打烊、約去（AA_724 4bab808dd；模型 BB v1c、LAWWW2 ART_APPROVED 9ef8a17cf）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次走到公館 G05",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 11-07「還有哪些店面還沒做好的還沒有放進遊戲的」（LAWWW2-B 盤點）；D141 還沒進遊戲的店優先；USER_WANTS X209",
+   "next": "【11-07 14:3x LAWWW-B】子代理照 afar／Daybreak（gg2shops3d.js、ggRoom）做，回來審、合、推；之後 LAWWW2 烘光照、CC 拍、BB 驗。",
+   "xai": {
+    "spec": "AA_724（企劃線 4bab808dd）、AA_650 §4、yangyang_layout.js v3（企劃線）、LAWWW2 README yangyang_review_1107",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "G05 進得去、點餐扣錢、調味兩題、坐下吃、打烊回門口、約去 19:00～23:00；Node 測試＋BB 瀏覽器",
+    "receiver": "BB",
+    "ack": "ACK"
    }
   }
  ]
