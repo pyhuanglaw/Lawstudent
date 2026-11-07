@@ -38,11 +38,9 @@ async def run_scene(pg, cdp, tag, iv_id, max_s=420):
             c = await pg.evaluate("(()=>{ const b=document.querySelector('#choices button'); b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
             await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1000); last = time.time(); continue
         if s['dlg']:
-            for _w in range(20):   # 對話框打字效果：等這一句打完（0.35 秒內沒有變）才記、才點（不然記到半句，點一下又跳過）
-                _a = await pg.evaluate("(()=>{ const e=document.getElementById('dlgText'); return e?e.innerText.trim():''; })()")
-                await pg.wait_for_timeout(350)
-                _b = await pg.evaluate("(()=>{ const e=document.getElementById('dlgText'); return e?e.innerText.trim():''; })()")
-                if _a == _b: break
+            for _w in range(40):   # 對話框打字效果：等這一句打完（#dlgNext 變成 visible，game3d.js dlgTick）才記、才點；最多 10 秒
+                if await pg.evaluate("(()=>{ const n=document.getElementById('dlgNext'); return !n||n.style.visibility!=='hidden'; })()"): break
+                await pg.wait_for_timeout(250)
             who = await pg.evaluate("(()=>{ const e=document.getElementById('dlgName'); return e?e.innerText.trim():''; })()")
             t = await pg.evaluate("(()=>{ const e=document.getElementById('dlgText'); return e?e.innerText.trim():''; })()") or s['dtext']
             if t:
