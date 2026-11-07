@@ -509,7 +509,13 @@ const CROWD=(function(){
   S.seatBusy=function(E,st,self){ if(!st) return false; if(st.taken) return true; { const G=G0(); if(G&&S.shopRes[G.zone]&&S.shopReserved(G.zone,st,G)) return true; }   /* 預約的位子（shopSeatTake）*/ const near=q=>!!q&&(q.lv|0)===(st.lv|0)&&Math.hypot(q.x-st.x,q.z-st.z)<0.4; const P=E&&E.player; if(P&&near(P.seat)) return true;
     return !!E&&(E.npcs||[]).some(m=>m&&m!==self&&(near(m.seat)||near(m.seatTarget))); };
   /* 玩家坐著的那一桌（DATE-SEAT-AFAR-1105，使用者 11-05：和學姊在 afar 坐下，四人桌對面有人）：路人不來坐（同一桌＝invites3d.js INV.tableMates：四個位子以內的桌子整桌、長桌 1.8 m 內）*/
-  S.playerTable=function(E,st){ const P=E&&E.player, ps=P&&P.seat; if(!ps||!st) return false; if(typeof INV!=='undefined'&&INV.tableMates) return INV.tableMates(E,ps,st); return (ps.lv|0)===(st.lv|0)&&Math.hypot(ps.x-st.x,ps.z-st.z)<1.8; };
+  /* 玩家那一桌（DATE-SEAT-AFAR-1105）＋約會已經選好的那一桌（BUG-AFAR-DATE-OCCUPIED-1107，BB-B 11-07：約念書、約會她先坐好、你還沒坐下的那一段，
+     店裡新來的客人坐進同一桌——原本只看玩家自己坐的位子）：她坐的位子、帶路選好的兩個位子（iv.lead.her／me）、和你一起來的人坐著的位子都算 */
+  S.dateSeats=function(E){ const out=[]; const P=E&&E.player; if(P&&P.seat) out.push(P.seat); const G=G0();
+    if(G&&Array.isArray(G.invites)) for(const iv of G.invites){ if(iv&&iv.lead&&iv.state==='accepted'&&iv.day===G.day){ if(iv.lead.her) out.push(iv.lead.her); if(iv.lead.me) out.push(iv.lead.me); } }
+    for(const m of (E&&E.npcs)||[]){ if(m&&(m._ivLead||m.beh==='follow')&&(m.seat||m.seatTarget)) out.push(m.seat||m.seatTarget); }
+    return out; };
+  S.playerTable=function(E,st){ if(!st) return false; const L=S.dateSeats(E); if(!L.length) return false; const tm=(a,b)=>typeof INV!=='undefined'&&INV.tableMates?INV.tableMates(E,a,b):((a.lv|0)===(b.lv|0)&&Math.hypot(a.x-b.x,a.z-b.z)<1.8); return L.some(q=>tm(q,st)); };
   S.shopFree=E=>((E&&E.zone&&E.zone.seats)||[]).filter(st=>!S.seatBusy(E,st)).length;
   S.shopNeed=E=>E&&E.player&&E.player.seat?1:Math.min(2,Math.max(1,((E&&E.zone&&E.zone.seats)||[]).length-1));   /* 玩家還沒坐：至少兩個空位（自己＋一起來的人；一一八茶飲只有兩張高腳椅＝一個）；坐下了：一個 */
   S.shopCount=(E,zone)=>((E&&E.npcs)||[]).filter(n=>n&&typeof n.crowd==='string'&&n.crowd.indexOf('shop_'+zone+'_')===0&&!n.leaving).length;

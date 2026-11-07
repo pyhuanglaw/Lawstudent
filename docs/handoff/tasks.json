@@ -48972,7 +48972,7 @@
    "id": "BUG-AFAR-DATE-OCCUPIED-1107",
    "title": "afar café 約會挑了有人的桌子：她和玩家坐 table 5（卡座小圓桌），同桌 1.2 m 內還有一位客人（BB-B 11-07 GAME_BUG 候選，b550eb6c1）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "BB-B 11-07 05:3x（elegant-brown 90a10d010 BB_255）",
    "first": {
@@ -48985,7 +48985,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 05:4x LAWWW-B】查 INV.pairSeats：同一張桌子（table）已經有客人坐的不挑",
+   "next": "【11-07 06:3x LAWWW-B】原因：路人不坐玩家那一桌（CROWD.playerTable）只看玩家自己坐的位子；約會、約念書她先坐好、你還沒坐下的那一段，新來的客人坐進同一桌。改：她坐的位子（_ivLead、follow）、帶路選好的兩個位子（iv.lead.her／me）都算（CROWD.dateSeats）。tests/date_seat_afar_1105_unit.js 7b。 ｜ 【11-07 05:4x LAWWW-B】查 INV.pairSeats：同一張桌子（table）已經有客人坐的不挑",
    "sha": null
   },
   {
