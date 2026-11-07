@@ -87,6 +87,8 @@ HAIR_FIX_v2 | 62d7f3b5412fc940da37c20669b6ec201aa754df | probe | docs/story_plan
 HAIR_FIX_v3 | 62d7f3b5412fc940da37c20669b6ec201aa754df | probe | docs/story_planning/test_tools/cc/cc_hair_fix_probe.py | index.html | 40 | HAIRFIX=0,tex;HAIR_JPG=1;RERUN=v3;CC_HEADLESS=0
 # BB-B 08:01（fa05ed8c5，場景美術 D120 BB 判）：新生南路四家店窗外夜景（大口一樓、二樓、大步、好拍）、體育館圓頂晚上像燈籠；21:00＋14:00 對照
 FA05_NIGHT | fa05ed8c5c5c5b3d298a09b3b1d0925696f8ee23 | probe | docs/story_planning/test_tools/cc/cc_fa05_night_probe.py | index.html | 40 | CC_HEADLESS=0
+# BB-B 08:14 GYMBG_7921：陪子晴去健身房那一場（ev_arcinv_heroine_04_3，背景 gym_b1_fitness）直向／橫向對話畫面
+GYMBG_7921 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_gymbg_probe.py | index.html | 20 | CC_HEADLESS=0
 # BB-B 07:16 PERF_COLD（LAWWW2-B 的探針，低優先、排最後）：第一次進溫州街／總圖大廳那一頓是載路人模型還是 GPU 第一次畫；結果交 LAWWW2-B（D108）
 PERF_COLD | b987cb1cf7fff1bc587dd77eb22b0c6a4e8a2dac | probe | docs/story_planning/test_tools/cc/perf_cold_probe.py | index.html | 40 | ZONES=wenzhou,library_hall;VARIANTS=base,pre,prewarm;COLD=12;CC_HEADLESS=0
 POOL_TALK_fix | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | EXPECT=fixed;CC_HEADLESS=0
