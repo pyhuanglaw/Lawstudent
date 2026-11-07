@@ -1,4 +1,4 @@
-// 送早餐、飲料（GIFT-FLIRT-1107，USER_WANTS X262；台詞 AA_710 第二版 74aa33345）——不需要瀏覽器（D131）。
+// 送早餐、飲料（GIFT-FLIRT-1107，USER_WANTS X262；台詞 AA_710 第二版 be775af69）——不需要瀏覽器（D131）。
 // 使用者 11-07 試玩：「買飲料 早餐 給別人」「也沒辦法送早餐飲料?」；AA-B 05:39「AA_710 第二版，請重匯」。
 // 句子一律從 src/data/gift_lines.js 讀來比對（不寫死台詞）。檢查：
 //   0. gift_lines.js 和白名單上的 AA_710 一致（import_gifts.py --check）；七位都有飲料、早餐、fav；每格 pool、lines＝pool 第一組；品項都是遊戲買得到的
@@ -32,7 +32,7 @@ const same=(a,b)=>J(a)===J(b);
   /* 0 資料 */
   { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_gifts.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
     const src=ok1?GIFT_LINES.src:'';
-    check('0. src/data/gift_lines.js 和白名單上的 AA_710 一致（import_gifts.py --check；第二版 74aa33345）',ok1&&ok2&&ok&&/@74aa33345$/.test(src),out.trim().slice(0,200)+' '+src); }
+    check('0. src/data/gift_lines.js 和白名單上的 AA_710 一致（import_gifts.py --check；第二版 be775af69）',ok1&&ok2&&ok&&/@be775af69$/.test(src),out.trim().slice(0,200)+' '+src); }
   if(!ok1||!ok2){ H.done(); return; }
   const LN=GIFT_LINES.people;
   const ITEMN=Object.keys(GIFT.TEMP);
@@ -48,7 +48,7 @@ const same=(a,b)=>J(a)===J(b);
     check('0. 七位都有飲料、早餐：need 1、交往中那一格、pool（lines＝第一組）、no；fav／opinion 的品項都是遊戲買得到的',!bad.length,bad.join('；'));
     check('0. 七位都有最喜歡的（fav；以安豆漿、語彤紅茶拿鐵、沛珊米漿是第二版新的）',IDS.every(id=>LN[id].drink.fav)&&LN.heroine_01.drink.fav.n==='豆漿'&&LN.heroine_03.drink.fav.n==='紅茶拿鐵'&&LN.classmate_peishan.drink.fav.n==='米漿',J(IDS.map(id=>(LN[id].drink.fav||{}).n)));
     const py=(code)=>{ try{ cp.execFileSync('python3',['-c',code],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); return 'ran'; }catch(e){ return String(e.stderr||''); } };
-    const pre="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;d=json.loads(subprocess.check_output(['git','show','74aa33345:'+M.PATH]).decode());I=M.game_items();";
+    const pre="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;d=json.loads(subprocess.check_output(['git','show','be775af69:'+M.PATH]).decode());I=M.game_items();";
     const e1=py(pre+"d['heroine_01']['drink']['fav']['item']='珍珠奶茶';M.build(d,'x',I)");
     const e2=py(pre+"d['heroine_01']['drink']['ctx']['night']=[['x']];M.build(d,'x',I)");
     const e3=py(pre+"d['heroine_01']['drink']['yes'][0]['lines']=['x'];M.build(d,'x',I)");
@@ -146,7 +146,7 @@ const same=(a,b)=>J(a)===J(b);
         const cold=neutral(id,c).find(x=>GIFT.TEMP[x]==='cold'); if(cold){ const G2=fresh('2026-07-10'); const h2=await give(G2,id,cold); if(h2.r==='summerHot') bad.push(id+'.'+c+' 夏天送冰的也算 summerHot'); } } }
     check('6. 情境（ctx）：每一位每一種都測（again 連續兩天、exam 期末週不含期中週、night 晚上送早餐、winterCold 冬天冰的、summerHot 夏天熱的）',!bad.length&&GIFT.CTX.every(k=>seen[k]>0),J(seen)+' '+bad.join('；'));
     { const G=fresh('2025-09-16',18); const h=await give(G,'heroine_01','飯糰'); const G2=fresh('2025-09-16',21); const h2=await give(G2,'heroine_01','飯糰');
-      check('6. 以安「現在是晚上九點」只在 21 點；18 點送早餐照一般',h.r==='yes'&&h2.r==='night',J([h.r,h2.r])); }
+      check('6. 以安晚上送早餐（AA_710 be775af69 改成「……這個時間買早餐？」，不限幾點）：18 點、21 點都是 night',h.r==='night'&&h2.r==='night',J([h.r,h2.r])); }
     { const G=fresh('2025-12-15'); stageOf.heroine_01=2; const h=await give(G,'heroine_01','無糖綠茶');
       check('6. 期末週又是冬天：exam 先於 winterCold（照 notes 的順序）',h.r==='exam',h.r); } }
   /* 7 交往中 */

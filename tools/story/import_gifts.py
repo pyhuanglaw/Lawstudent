@@ -30,12 +30,10 @@ ALIAS = {'青茶（有加糖）': '青茶'}         # 稿的寫法 → 遊戲的
 #   swap＝[原本的字, 換成, 送她第幾次起]：學姊（notes「學姊第 1～2 次叫「學弟」，之後 {name}」）——送到第 3 次起那一句的「學弟」換成 {name}，其他字不動。
 def BOUND(items):
     cold = sorted(n for n, it in items.items() if it['t'] == 'cold')
-    sugar_free = ['無糖綠茶', '無糖綠茶（去冰）', '青茶（無糖）', '美式咖啡', '美式咖啡（冰的）']
+    # AA_710 be775af69（11-07 06:02）：以安「……這個時間買早餐？」不限幾點、語彤交往中「……每次都是你買。下次換我。」不配無糖——那兩條拿掉
     return [
         ('heroine_01', 'breakfast', '三明治分成兩半', {'only': ['三明治']}),
-        ('heroine_01', 'breakfast', '現在是晚上九點', {'hour': [21, 22]}),
         ('heroine_03', 'breakfast', '這個飯糰', {'only': ['飯糰']}),
-        ('heroine_03', 'drink', '記得我不加糖', {'only': sugar_free}),
         ('heroine_04', 'breakfast', '把飯糰吃完', {'only': ['飯糰']}),
         ('heroine_04', 'drink', '冰你一下', {'only': cold}),
         ('heroine_04', 'drink', '冰美式', {'only': ['美式咖啡（冰的）']}),

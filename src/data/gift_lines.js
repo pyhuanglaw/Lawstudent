@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@74aa33345）。不要手改，改企劃 AA_710 再重新匯入。
+/* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@be775af69）。不要手改，改企劃 AA_710 再重新匯入。
    送早餐、飲料（GIFT-FLIRT-1107；播放 src/gift3d.js）*/
 'use strict';
 const GIFT_LINES={
- "src": "docs/story_planning/AA_710_gifts.json@74aa33345",
+ "src": "docs/story_planning/AA_710_gifts.json@be775af69",
  "people": {
   "heroine_01": {
    "drink": {
@@ -255,12 +255,8 @@ const GIFT_LINES={
      "night": [
       {
        "lines": [
-        "……現在是晚上九點。",
+        "……這個時間買早餐？",
         "這是明天的早餐嗎？好，我明天吃。"
-       ],
-       "hour": [
-        21,
-        22
        ]
       }
      ]
@@ -349,7 +345,7 @@ const GIFT_LINES={
      },
      {
       "lines": [
-       "我今天咖啡因超標了。你喝。"
+       "我剛下班，喝不下了。你喝。"
       ]
      }
     ],
@@ -387,8 +383,8 @@ const GIFT_LINES={
       "pool": [
        {
         "lines": [
-         "美式。你知道我們店的美式是怎麼煮的嗎？",
-         "……好，不講了。謝謝你。"
+         "美式。我上班一直聞，下班還是想喝。",
+         "……謝謝你。"
         ]
        }
       ],
@@ -572,14 +568,7 @@ const GIFT_LINES={
        },
        {
         "lines": [
-         "你每次都記得我不加糖。"
-        ],
-        "only": [
-         "無糖綠茶",
-         "無糖綠茶（去冰）",
-         "青茶（無糖）",
-         "美式咖啡",
-         "美式咖啡（冰的）"
+         "……每次都是你買。下次換我。"
         ]
        }
       ],
@@ -834,7 +823,7 @@ const GIFT_LINES={
     "no": [
      {
       "lines": [
-       "我今天咖啡因已經超標了。手在抖。"
+       "我今天喝太多了，手在抖。"
       ]
      },
      {
@@ -1562,7 +1551,7 @@ const GIFT_LINES={
       "pool": [
        {
         "lines": [
-         "你買全糖的？",
+         "你買有糖的？",
          "……你明明知道我喝無糖的。",
          "（她還是喝了，邊喝邊瞪你。）"
         ]
