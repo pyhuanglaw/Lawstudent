@@ -1,0 +1,45 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 6698d7427..818a6f9af 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1979,13 +1979,13 @@ const Z3 = (function(){
+     /* 套件的部分（溫州街 buildWenzhou 裡同樣的參數）：路口兩棵行道樹、斑馬線、路燈＋地上的光圈、Café 門口的燈光。材質複製一份（套件的材質是共用的，要照時段壓暗） */
+     const mine=o=>{ o.traverse(q=>{ if(!q.isMesh) return; q.castShadow=false; q.receiveShadow=false; q.material=[].concat(q.material).map(m=>{ const c=m.clone(); c.userData=Object.assign({},m.userData); own.add(c); return c; }); if(q.material.length===1) q.material=q.material[0]; }); return o; };
+     for(const [tx,tz,sc] of [[48.9,-5.6,0.95],[48.9,6.0,1.05]]){ const t=mine(TK.tree(7*sc)); t.position.set(tx,0,tz); st.add(t); }
+-    const pools=[]; const pool=(x,zz,r,col,sx,max)=>{ const p=TK.lightPool(r,col); p.position.set(x,0.031,zz); if(sx) p.scale.set(1,sx,1); if(max) p.userData.poolMax=max; st.add(p); pools.push(p); };
++    const pools=[]; const pool=(x,zz,r,col,sx,max)=>{ const p=TK.lightPool(r,col); p.material.clippingPlanes=clip; p.position.set(x,0.031,zz); if(sx) p.scale.set(1,sx,1); if(max) p.userData.poolMax=max; st.add(p); pools.push(p); };   /* 光圈也只畫玻璃外（Café 門口那一圈半徑 3.6 m，有一截在店內的地板上；TK.lightPool 每次新建材質，加裁切不會動到溫州街）*/
+     for(const px of [12.2,34.2,45.5]) pool(px,4.65-1.9,4.5,'rgba(255,214,150,1)');   /* 電線桿上的路燈（電線桿在 wz_props.glb；燈頭在桿子往巷子 1.9 m） */
+     { const L=mine(W3.lampPost()); L.position.set(47.75,0,11.8); L.rotation.y=Math.PI/2; st.add(L); pool(48.5,11.8,4.4,'rgba(255,214,150,1)'); const gs=TK.glowSprite('rgba(255,214,150,1)',1.8,0,0.85); gs.position.set(48.5,3.9,11.8); st.add(gs); }   /* 路口北側的路燈 */
+     pool(53.2,0,3.6,'rgba(255,190,120,1)',1.75,0.5);   /* Café 自己的燈光灑在門口 */
+     { const zt=TK.tex('zebra',256,64,(x,w,h)=>{ x.clearRect(0,0,w,h); x.fillStyle='rgba(240,238,230,0.92)'; for(let i=0;i<w;i+=32) x.fillRect(i+4,0,18,h); },false); const m=new THREE.Mesh(new THREE.PlaneGeometry(8.4,2.4),new THREE.MeshStandardMaterial({map:zt,transparent:true,roughness:0.9,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2})); m.rotation.x=-Math.PI/2; m.rotation.z=Math.PI/2; m.position.set(46.4,0.012,0); st.add(m); own.add(m.material); }
+     /* 天空：街景後面一個大的半球（溫州街區域有引擎的天空，Café 是室內區域沒有），白天、黃昏、晚上換顏色 */
+-    const skyM=new THREE.MeshBasicMaterial({color:0xffffff,side:THREE.BackSide,fog:false,depthWrite:false}); const sky=new THREE.Mesh(new THREE.SphereGeometry(140,24,12,0,Math.PI*2,0,Math.PI/2),skyM); sky.position.set(10,-2,0); sky.renderOrder=-1; st.add(sky);
++    const skyM=new THREE.MeshBasicMaterial({color:0xffffff,side:THREE.BackSide,fog:false,depthWrite:false,clippingPlanes:clip});   /* 天空也只畫玻璃外面（BB-B 11-07 P3：鏡頭在側牆外、牆淡出時，看到的是整個半球的內壁——16:27 黃昏那一組下半部是橘色，畫面左邊一大塊橘色斜面）*/ const sky=new THREE.Mesh(new THREE.SphereGeometry(140,24,12,0,Math.PI*2,0,Math.PI/2),skyM); sky.position.set(10,-2,0); sky.renderOrder=-1; st.add(sky);
+     const skyTex={}; const skyOf=k=>skyTex[k]||(skyTex[k]=cafeCanvas(8,256,(x,w,h)=>{ const g=x.createLinearGradient(0,0,0,h); const S={day:['#7fa9d6','#b9d3ea','#e4ecf2'],dusk:['#4f5f8a','#d98a5e','#f3c58e'],night:['#0e1424','#1b2438','#2c3348']}[k]; g.addColorStop(0,S[0]); g.addColorStop(0.75,S[1]); g.addColorStop(1,S[2]); x.fillStyle=g; x.fillRect(0,0,w,h); }));
+     z.winParts.push({obj:st,at:new THREE.Vector3(0,1.7,6),dir:new THREE.Vector3(0,0,-1)});
+     let lastH=null; const tint=new THREE.Color(); const applyNow=()=>{ const h=(lastH==null?(E.hour||12):lastH)%24, k=cafeStreetNight(h); TK.setNight(k);
+diff --git a/tests/cafe_street_live_unit.js b/tests/cafe_street_live_unit.js
+index 355fa0c23..bb998690e 100644
+--- a/tests/cafe_street_live_unit.js
++++ b/tests/cafe_street_live_unit.js
+@@ -4,6 +4,7 @@
+ //   2. 畫的街景（view）在 3D 街接上以後從 winParts 拿掉（winParts 每一幀照鏡頭重設顯示，不拿掉會蓋在 3D 街前面）
+ //   3. 路人的路線全部在玻璃外（裁切平面外）
+ //   4. 複製材質（不動到溫州街本身共用的材質）、晚上 TK.setNight、白天補亮、晚上壓暗
++//   5. 天空、光圈也只畫玻璃外面；沒有裁切的東西整個在玻璃外（BB-B 11-07 P3：側牆淡出時看到天空半球的內壁＝一大塊橘色）
+ // 畫面：tools/blender/env_second/shots/cafe_window_shots.py（瀏覽器，白天／黃昏／晚上同角度改前改後）
+ const fs=require('fs'), path=require('path'); const Z=fs.readFileSync(path.join(__dirname,'..','src','zones3d.js'),'utf8');
+ let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info?'  '+info:'')); if(!ok) fails++; };
+@@ -23,5 +24,12 @@ const pts=routes.flat(); const bad=pts.filter(p=>OFF-p[0]<=CLIP+0.3);
+ check('3. 路人路線都在玻璃外（裁切平面外 0.3 m 以上）', pts.length>=8&&bad.length===0, pts.length+' 個點'+(bad.length?'；不行：'+JSON.stringify(bad):''));
+ check('4. 材質複製一份再改（裁切、補亮、壓暗不動到溫州街共用的材質）', /const c=m\.clone\(\); c\.userData=Object\.assign\(\{\},m\.userData\); delete c\.userData\.wzReg; c\.clippingPlanes=clip;/.test(Z));
+ check('4. 晚上照溫州街的時段公式 TK.setNight', /function cafeStreetNight\(h\)\{ const k=h>=19\.2\|\|h<5\.6\?1:\(h>=17\.4\?\(h-17\.4\)\/1\.8:\(h<6\.3\?\(6\.3-h\)\/0\.7:0\)\);/.test(Z)&&/TK\.setNight\(k\);/.test(Z));
++check('5. 天空的半球也只畫玻璃外面（BB-B 11-07 P3：牆淡出時側牆外一大塊橘色＝黃昏的天空半球內壁）', /const skyM=new THREE\.MeshBasicMaterial\(\{[^}]*clippingPlanes:clip[^}]*\}\)/.test(Z));
++check('5. 路燈、店門口的光圈只畫玻璃外面（門口那一圈有一截在店內地板上）', /const p=TK\.lightPool\(r,col\); p\.material\.clippingPlanes=clip;/.test(Z));
++{ /* 沒有裁切的東西（行道樹、路口的路燈、斑馬線：材質複製、沒加裁切）要整個在玻璃外：溫州街 x → Café z＝OFF−x，減掉樹冠／燈臂的半徑還在裁切平面外 */
++  const F=Z.slice(Z.indexOf('function cafeStreetLive('),Z.indexOf('z.winParts.push({obj:st'));   /* 只看 cafeStreetLive 裡面（溫州街區域有一樣寫法的迴圈）*/
++  const tr=[...F.matchAll(/for\(const \[tx,tz,sc\] of (\[\[[^;]*?\]\])\)/g)].map(m=>JSON.parse(m[1])).flat(), lamp=/L\.position\.set\(([\d.]+),0,[\d.]+\); L\.rotation\.y=Math\.PI\/2;/.exec(F), zeb=/m\.position\.set\(([\d.]+),0\.012,0\)/.exec(F);
++  const zs=tr.map(t=>OFF-t[0]-3.5*t[2]).concat(lamp?[OFF-(+lamp[1])-1.0]:[NaN]).concat(zeb?[OFF-(+zeb[1])-4.2]:[NaN]);
++  check('5. 沒有裁切的東西（行道樹、路燈、斑馬線）整個在玻璃外', tr.length===2&&zs.every(v=>v>CLIP), 'Café z 最靠近玻璃的一點：'+zs.map(v=>v.toFixed(2)).join('、')+'（裁切 '+CLIP+'）'); }
+ check('4. 載入失敗時照舊用畫的街景（catch 不藏 view）', /\.catch\(e=>console\.warn\('Café 窗外的溫州街載入失敗，照舊用畫的街景',e\)\)/.test(Z));
+ console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
