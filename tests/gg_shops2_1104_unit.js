@@ -3,7 +3,7 @@
 //   Daybreak（新區域 daybreak：AA 的 aa_support/daybreak.glb＋src/data/daybreak_layout.js，8094770c7）；台詞 AA_652（企劃線 303cded56）、系統 src/gg2shops3d.js。
 // 第一部分（A）建出遊戲真正的區域（公館＋兩間室內，zones3d.js 真正的程式），用引擎真正的找路與移動（E.simWalk：30 fps＋低幀率）檢查：
 //   1 兩間建得起來、尺寸照配置、正式模型的資產登錄、配置的導航阻擋都擋住
-//   2 公館店門口「進入 afar café」「進入 Daybreak」：門＝那一棟中心 − 配置的門 x（7.93、70.94）、按得到、從人行道走得到；洋洋鹹酥雞、轉角唱片的門口照舊站得住、沒有按鈕擋著
+//   2 公館店門口「進入 afar café」「進入 Daybreak」：門＝那一棟中心 − 配置的門 x（7.93、70.94）、按得到、從人行道走得到；轉角唱片的門口照舊站得住、沒有按鈕擋著（洋洋鹹酥雞 11-07 起進得去：tests/yangyang_shop_unit.js）
 //   3 進門站的地方站得住、不在出口範圍（＋0.2 m）裡；出口按得到、走得到；出來回公館站得住、不在公館任何出口的範圍裡
 //   4 座位：數量照配置（afar 26、Daybreak 23：配置 v2 拿掉長桌西側中間那張，AA 68c166ed2）、玩家坐得到的每一個按得到、走得到（走不到的四張只給路人坐）；能讀書的照 canStudy
 //   5 點餐、看甜點櫃、看看書架、看菜單（配置的 interact）按得到、走得到；Daybreak 的看菜單不和點餐疊在一起
@@ -59,7 +59,8 @@ for(const k of ['afar','daybreak']){ const S=SPEC[k], door=gIts.find(q=>q.exit&&
   E.zone=GG.z; E.nav=gNav; E.interactables=gIts; const tp=touchable(door);
   check(`2 ${S.name}：店門口按得到（範圍裡站得住、最近的互動就是它）`,!!tp,J(tp));
   if(tp){ const w=walk([door.x,15],tp); check(`2 ${S.name}：從羅斯福路人行道 (${door.x.toFixed(1)}, 15) 走到店門口`,w.ok,J(w).slice(0,200)); } }
-for(const [nm,dx] of [['洋洋鹹酥雞',-10.6],['轉角唱片',53.97]]){ const near=gIts.filter(q=>!q.hidden&&Math.hypot(q.x-dx,q.z-21)<1.2).map(q=>q.label);
+/* 洋洋鹹酥雞（G05）2026-11-07 起進得去（YANGYANG-IN-1107）：門口「進入 洋洋鹹酥雞」在 tests/yangyang_shop_unit.js 測（這支沒有載入 yangyang_layout.js）；這裡只剩轉角唱片 */
+for(const [nm,dx] of [['轉角唱片',53.97]]){ const near=gIts.filter(q=>!q.hidden&&Math.hypot(q.x-dx,q.z-21)<1.2).map(q=>q.label);
   check(`2 ${nm}（這次不做）門口 (${dx}, 20.6～21.0) 照舊站得住、沒有按鈕疊在門口`,gNav.clear(dx,20.6,0.3)&&gNav.clear(dx,21.0,0.3)&&!near.length,J(near)); }
 // ---- 1、3、4、5 兩間室內 ----
 for(const k of ['afar','daybreak']){ const S=SPEC[k], L=S.L; let R;
@@ -95,7 +96,7 @@ for(const k of ['afar','daybreak']){ const S=SPEC[k], L=S.L; let R;
 { const Q=PLACES.quickList(), q=k=>Q.find(p=>p[0]===k);
   check('6 快速前往：afar café、Daybreak 的落點＝進門站的地方',['afar','daybreak'].every(k=>q(k)&&SI[k]&&J(q(k)[2])===J({x:SI[k].x,z:SI[k].z,yaw:SI[k].yaw}))&&q('afar')[1]==='afar café'&&q('daybreak')[1]==='Daybreak',J(['afar','daybreak'].map(k=>q(k))));
   check('6 地點名：afar＝afar café、daybreak＝Daybreak',PLACES.names.afar==='afar café'&&PLACES.names.daybreak==='Daybreak');
-  check('6 大地圖、引路、路程、城鎮判定：afar、daybreak 都算公館',/\['aoki','青木茶室'\],\['afar','afar café'\],\['daybreak','Daybreak'\]/.test(rd('src/placemap3d.js'))&&/afar:'gongguan',daybreak:'gongguan'/.test(rd('src/placemap3d.js'))&&/afar:\['gongguan'\], daybreak:\['gongguan'\]/.test(rd('src/guide3d.js'))&&/'wenzhou','afar','daybreak','cvs'/.test(rd('src/guide3d.js'))&&/afar:'gongguan',daybreak:'gongguan'/.test(rd('src/classes3d.js'))&&/'lane118','afar','daybreak'\]/.test(rd('src/zrzq3d.js')));
+  check('6 大地圖、引路、路程、城鎮判定：afar、daybreak 都算公館',/\['aoki','青木茶室'\],\['afar','afar café'\],\['daybreak','Daybreak'\]/.test(rd('src/placemap3d.js'))&&/afar:'gongguan',daybreak:'gongguan'/.test(rd('src/placemap3d.js'))&&/afar:\['gongguan'\], daybreak:\['gongguan'\]/.test(rd('src/guide3d.js'))&&/'wenzhou','afar','daybreak','cvs'/.test(rd('src/guide3d.js'))&&/afar:'gongguan',daybreak:'gongguan'/.test(rd('src/classes3d.js'))&&/'lane118','afar','daybreak'(,'yangyang')?\]/.test(rd('src/zrzq3d.js')));
   check('6 story3d.js：兩間的店員照 Z3.SHOP_IN、打烊沒有人',/\[\['afar',53\],\['daybreak',54\]\]\) if\(zoneId===k&&ck\(k\)&&\(typeof PLACES==='undefined'\|\|!PLACES\.isOpen\|\|PLACES\.isOpen\(k,G\.hour,G\.day\)\)\)/.test(rd('src/story3d.js')));
   const h=rd('index.html'), sc=[...h.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]), ix=f=>sc.indexOf(f);
   check('6 index.html：兩個配置檔在 zones3d.js 前面；gg2shops3d.js 在 invites3d、story3d、wzshops3d、eat3d、offbeat_sys3d 之後、bbpack_events.js 前面',LAYS.every(f=>ix(f)>0&&ix(f)<ix('src/zones3d.js'))&&ix('src/gg2shops3d.js')>Math.max(ix('src/invites3d.js'),ix('src/story3d.js'),ix('src/wzshops3d.js'),ix('src/eat3d.js'),ix('src/offbeat_sys3d.js'))&&ix('src/gg2shops3d.js')<ix('src/data/bbpack_events.js'),J(LAYS.map(ix).concat([ix('src/zones3d.js'),ix('src/gg2shops3d.js')])));

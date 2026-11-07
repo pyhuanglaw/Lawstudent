@@ -108,7 +108,10 @@ const INV=(function(){
   const winOk=(G,P,day,h)=>{ if(Array.isArray(P.windows)&&P.windows.length) return (!P.days||P.days.includes(wdOf(G,day)))&&(!P.avail||P.avail(G,day))&&P.windows.some(w=>h>=w[0]-1e-6&&h+P.stay<=w[1]+1e-6); if(P.hoursFrom&&typeof PLACES!=='undefined'&&PLACES.windowsOf){ const ws=PLACES.windowsOf(P.hoursFrom,day); if(ws!==undefined&&ws&&ws.length>1) return (!P.days||P.days.includes(wdOf(G,day)))&&(!P.avail||P.avail(G,day))&&ws.some(w=>h>=w[0]-1e-6&&h+P.stay<=w[1]+1e-6); }   /* 一天兩段（林家乾麵 11–14、17–21；INVITE-PLACES-1107）：哪一段都可以 */ const hr=hoursOf(G,P,day); return (!P.days||P.days.includes(wdOf(G,day)))&&(!P.avail||P.avail(G,day))&&(!hr||(h>=hr[0]-1e-6&&h+P.stay<=hr[1]+1e-6)); };   /* 只有某些星期、某段時間能約的地點（DL-12：半熟週末早上、一盞週三到週日下午）*/
   const myExam=(G,day,h,stay)=>typeof CLS!=='undefined'&&CLS.examAt?CLS.examAt(G,day,h,h+stay):null;   /* 祐廷自己的考試（D14-T3：邀約避開）*/
   const tripAt=(G,day,h,stay)=>typeof DATE!=='undefined'&&DATE.tripAt?DATE.tripAt(G,day,h,stay):null;   /* 已經約好的校外約會那段時間（BUG-DATE-OVERLAP-1021；兩天一夜佔兩天）：和「你那個時間已經約了別人」一樣處理 */
-  const free=(G,id,P,day,h)=>h>=(P.hours&&P.hours[0]<8?P.hours[0]:8)&&h+P.stay<=23.5&&isOpen(P.zone,h,day)&&winOk(G,P,day,h)&&!clash(G,id,day,h,P.stay)&&!clash(G,null,day,h,P.stay)&&!tripAt(G,day,h,P.stay)&&!busyAt(G,id,day,h,P.stay)&&!myExam(G,day,h,P.stay);
+  /* whoLast：這個人在這個地點只排到幾點開始（洋洋鹹酥雞：可昕 21:00，AA_724 第 8 節「十點以前，我還要回木柵」）；超過＝和「那個時間沒開」一樣改天 */
+  const lastOk=(P,id,h)=>!(P&&P.whoLast&&P.whoLast[id]!=null&&h>P.whoLast[id]+1e-6);
+  S.lastOk=lastOk;
+  const free=(G,id,P,day,h)=>h>=(P.hours&&P.hours[0]<8?P.hours[0]:8)&&h+P.stay<=23.5&&lastOk(P,id,h)&&isOpen(P.zone,h,day)&&winOk(G,P,day,h)&&!clash(G,id,day,h,P.stay)&&!clash(G,null,day,h,P.stay)&&!tripAt(G,day,h,P.stay)&&!busyAt(G,id,day,h,P.stay)&&!myExam(G,day,h,P.stay);
   S.freeAt=(G,id,P,day,h)=>free(G,id,P,day,h);
   S.busyAt=(G,id,day,h,stay)=>busyAt(G,id,day,h,stay);   /* 校外約會的預約檢查用（date3d.js 的 DATE.check：她那時候上課、上班）*/   /* 這個時間本身可不可以（個人規則用：柏翰「九點十分」）*/
   /* 改天：從 h0 起找下一個可以的時間（同一天每 30 分鐘，之後三天的固定時間）*/
@@ -127,7 +130,7 @@ const INV=(function(){
     if(P.rainTo&&day===G.day&&G.weather==='rain'){ const Q=S.place(P.rainTo); const ok=Q&&free(G,id,Q,day,h); return {res:'resched',why:'weather',alt:ok?{day,h,place:Q.id}:S.nextFree(G,id,P,day+1,10)}; }
     if(clash(G,null,day,h,P.stay)||tripAt(G,day,h,P.stay)) return {res:'resched',why:'mine',alt:S.nextFree(G,id,P,day,h+0.5)};   /* 你那個時間已經約了別人（校外約會也算，BUG-DATE-OVERLAP-1021）；改天的時間跳過約會那段 */
     const other=clash(G,id,day,h,P.stay); if(other) return {res:'resched',why:'booked',alt:S.nextFree(G,id,P,day,other.h+((S.place(other.place)||{}).stay||1))};
-    if(!isOpen(P.zone,h,day)||!winOk(G,P,day,h)||h+P.stay>23.5) return {res:'resched',why:'closed',day,alt:S.nextFree(G,id,P,day,h+0.5)};
+    if(!isOpen(P.zone,h,day)||!winOk(G,P,day,h)||h+P.stay>23.5||!lastOk(P,id,h)) return {res:'resched',why:'closed',day,alt:S.nextFree(G,id,P,day,h+0.5)};
     const b=busyAt(G,id,day,h,P.stay); if(b){ const end=b.to<=24?b.to:b.to-24; return {res:'resched',why:'busy',act:b.act,alt:S.nextFree(G,id,P,day,end>h?end:h+0.5)}; }
     return {res:'accept'}; };
   /* ---------- 個性（INVITE_DATA.people；AA_70 第 2 節＋BB_121、BB_70，2026-10-14 第②級）----------

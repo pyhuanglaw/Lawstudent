@@ -351,6 +351,7 @@ const STORY = (function(){
       if(zoneId==='bookstore'){ const c=ck('bookstore')||{x:0.55,z:1.95,yaw:0}; clerk(c.x,c.z,c.yaw,43); }       // 頁間書屋：咖啡吧後面，面向店裡（舊的室內：門口那張桌子後面）
       if(zoneId==='aoki'&&ck('aoki')){ const c=ck('aoki'); clerk(c.x,c.z,c.yaw,52); }
       for(const [k,i] of [['afar',53],['daybreak',54]]) if(zoneId===k&&ck(k)&&(typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen(k,G.hour,G.day))){ const c=ck(k); clerk(c.x,c.z,c.yaw,i); }   // afar café（男店員）、Daybreak（女店員）：吧台後面（GG-SHOPS2-1104，zones3d.js SHOP_IN；打烊沒有人）       // 青木茶室：吧台後面東段，面向客人（AA_647；女店員＝偶數）
+      if(zoneId==='yangyang'&&ck('yangyang')&&(typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen('yangyang',G.hour,G.day))){ const c=ck('yangyang'), c2=SI.yangyang.clerk2; clerk(c.x,c.z,c.yaw,55); if(c2) clerk(c2.x,c2.z,c2.yaw,58); }   // 洋洋鹹酥雞（YANGYANG-IN-1107）：老闆在臨騎樓的炸物櫃台後面（面向騎樓）、第二個店員在店內炸物櫃後面（面向店裡）；打烊沒有人
       if(zoneId==='bikeshop'&&E.zone&&E.zone.bikeOwner){ const o=E.zone.bikeOwner; clerk(o.x,o.z,o.yaw,51); }   // 慢輪單車的老闆（男，奇數）：白天修車架旁、17:00 起櫃台後面（src/bikeshop3d.js 的 ownerSpot；AA_646 第 1 節）
       /* 2026-10-14 使用者試玩 v9.6：「有一些店面還是沒有店員」——兩點半在芷若沒班的時段吧檯沒人、總圖服務台沒有館員 */
       if(zoneId==='cafe') clerk(-0.6,-5.25,0,44,'cafe');           // 吧檯後面靠東邊（芷若上班時站中間 (-2.5,-5.15)，兩個人不重疊；咖啡機在西邊 (-4.5,-4.8)）。AA_519 3-1：老闆（男、中年、馬克杯）

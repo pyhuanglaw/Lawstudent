@@ -327,6 +327,8 @@ const CROWD=(function(){
        bistro＝日常失速（吃飯、聊天、桌遊；13:00～01:00，晚上最多）；study＝木曜日（很多人念書；一個人的大多看書、用筆電）；study24＝大口漢堡二樓自習區（24 小時，晚上、半夜念書的人多）；
        bookseat＝山嵐書店的長椅、閱讀桌（坐著看書）；shop＝吉他行、球鞋、運動用品店（站著看的人）；cinema＝南洋戲院大廳（10:00／13:00／16:00／19:30 開演前等的人）*/
     bistro:{L:[[0,0.3],[1,0.2],[13,0.3],[15,0.35],[17,0.45],[18,0.7],[20.5,0.7],[22,0.55],[24,0.35]],dur:[0.8,1.8],face:0.6,side:0.35},
+    /* snack＝洋洋鹹酥雞（宵夜，17:00～01:00；YANGYANG-IN-1107）：晚餐以後到半夜最多、坐得比吃飯的店短；店的種類照舊算 meal（seatact3d.js：吃飯的店），這一組照 snack 的時段（sk）*/
+    snack:{L:[[0,0.4],[1,0.25],[17,0.25],[18,0.4],[19.5,0.5],[21,0.65],[23,0.6],[24,0.5]],dur:[0.35,0.75],face:0.6,side:0.35},
     study:{L:[[13,0.35],[15,0.5],[17,0.5],[18,0.4],[19.5,0.55],[21.5,0.45],[22,0.3]],dur:[1.0,2.5],face:0.35,side:0.15,alone:[['read',0.6],['laptop',0.3]]},
     study24:{L:[[0,0.35],[3,0.15],[6,0.06],[9,0.1],[12,0.2],[15,0.3],[19,0.45],[22,0.55],[24,0.45]],dur:[1.0,2.5],face:0.3,side:0.15,alone:[['read',0.6],['laptop',0.3]]},
     bookseat:{L:[[11,0.15],[13,0.3],[15,0.35],[17,0.4],[20,0.4],[22,0.2],[23,0.1]],dur:[0.3,0.9],face:0.25,side:0.3,alone:[['read',0.85]],cap:8},
@@ -384,6 +386,8 @@ const CROWD=(function(){
     else add('bookstore','book',[0,4],standUnits(shelfPts([[0,-4.7,0,11,[1]],[-5.7,0,Math.PI/2,8,[1]],[5.7,0,Math.PI/2,8,[-1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[1,-1]]])));
     /* afar café（咖啡）、Daybreak（早午餐）（GG-SHOPS2-1104）：配置的座位；營業時間照 places.js */
     for(const [zk,kind,L] of [['afar','cafe',typeof AFAR_LAYOUT!=='undefined'?AFAR_LAYOUT:null],['daybreak','brunch',typeof DAYBREAK_LAYOUT!=='undefined'?DAYBREAK_LAYOUT:null]]){ if(L) add(zk,kind,[L.exit.at.x,+(L.d/2-2).toFixed(2)],S.pairUnits(seatsOf(L.seats))); }
+    /* 洋洋鹹酥雞（YANGYANG-IN-1107）：配置的座位（四人桌 4、兩人桌 3；四人桌四南側那兩張玩家坐不到、路人照坐）；營業時間照 places.js（17:00～01:00：跨午夜那一段 shopWindows 只排到 24:00）*/
+    { const YY=typeof YANGYANG_LAYOUT!=='undefined'&&YANGYANG_LAYOUT.shop?YANGYANG_LAYOUT.shop:null; if(YY) add('yangyang','meal',[YY.exit.at.x,+(YY.d/2-1.4).toFixed(2)],S.pairUnits(seatsOf(YY.seats)).map(u=>Object.assign(u,{sk:'snack'}))); }
     if(AK) add('aoki','tea',[AK.spawn.x,AK.spawn.z],S.pairUnits(seatsOf(AK.seats.map(q=>q.seatH>0.6?Object.assign({},q,{lift:+(q.seatH-((typeof CHAR!=='undefined'&&CHAR.SIT_TOP)||0.45)).toFixed(2)}):q))));   /* 吧台高腳椅（seatH 0.72）＝bar */
     /* 溫州街：半熟、一盞、林家乾麵、巷子裡定食（配置檔的座位；打工的、阿芃的位子不算）、阿德影印（櫃台前、文具架前、自助影印旁邊站著）*/
     if(WZ){ for(const [k,kind] of [['brunch','brunch'],['teahouse','tea'],['lin','meal'],['teishoku','meal']]){ const L=WZ[k]; if(!L||!L.spawn) continue;

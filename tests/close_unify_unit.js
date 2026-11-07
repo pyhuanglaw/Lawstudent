@@ -34,7 +34,7 @@ await sec(0,()=>{ check('0. 程式載得到（xs_close3d.js 和各家打烊系�
   check('0. index.html 載入 xs_close3d.js（在各家系統後面）',html.indexOf('src/xs_close3d.js')>html.indexOf('src/guitar3d.js')&&html.indexOf('src/guitar3d.js')>0);
   const want={xs_shanlan:'店員',xs_nanyang:'店員',xs_nanyang_hall:'店員',xs_dabu:'店員',xs_haopai:'老闆',xs_xsports:'店員',cafe:'店員',wz_brunch:'店員',wz_print:'老闆',wz_teahouse:'店員',wz_lin:'老闆',wz_teishoku:'老闆',bikeshop:'老闆',us_asian_market:'店員',
     l118_dian:'老闆娘',l118_self:'店員',l118_tea:'店員',l118_home:'老闆娘',l118_cafe2:'店員',l118_pasta:'老闆',l118_korea:'老闆',l118_omu:'店員',l118_noodle2:'老闆',
-    afar:'店員',daybreak:'店員',aoki:'店員',wz_offbeat:'店員',wz_mokuyobi:'老闆',xs_tongxian:'老闆'};
+    afar:'店員',daybreak:'店員',aoki:'店員',wz_offbeat:'店員',wz_mokuyobi:'老闆',xs_tongxian:'老闆',yangyang:'老闆'};   /* 洋洋鹹酥雞（YANGYANG-IN-1107）：自己的打烊系統（gg2shops3d.js，AA_724 第 7 節老闆自己那一句），這裡只記進來時開著＋說話的人；那一句在 tests/yangyang_shop_unit.js */
   const bad=Object.keys(want).filter(z=>X.whoOf(z)!==want[z]);
   check('0. 表上 '+Object.keys(want).length+' 個區域、說話的人（店員／老闆）',!bad.length&&Object.keys(X.ZONES).length+Object.keys(X.PLACE_OF).length===Object.keys(want).length,J(bad.map(z=>[z,X.whoOf(z)])));
   check('0. 118 巷九間都在表上（l118_shop_layouts 的每一間）',Object.keys(L118_SHOP_LAYOUTS).every(id=>!!X.ZONES['l118_'+id]),J(Object.keys(L118_SHOP_LAYOUTS))); });

@@ -535,6 +535,18 @@ INVITE_DATA.places.push({id:'daybreak',zone:'daybreak',name:'Daybreak',verb:'去
     classmate_peishan:'「好啊！那家的卡座好可愛。」',kexin:'「好啊。我早一點從木柵出發。」'};
   INVITE_DATA.afarAcc=AF; INVITE_DATA.daybreakAcc=DB;
   for(const [pid,ACC] of [['afar',AF],['daybreak',DB]]) for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={}))[pid]=[ACC[id]]; } })();
+/* ---------- 洋洋鹹酥雞（公館 G05，區域 yangyang；YANGYANG-IN-1107）當邀約地點（AA_724 第 8～10 節，AA 定稿 D109，企劃線 4bab808dd，一字照稿）----------
+   開放約：吃飯那一類（meal：有點熟以上、和 Daybreak 同一把尺；兩個人單獨吃飯＝partnerBlock 照吃飯的規則擋）；宵夜，19:00～23:00（約會在這段時間裡：19:00、20:00、21:00、22:00 開始，
+   23:00 以後不排約會；營業到 01:00，深夜一個人來照常）。可昕只排到 21:00 開始（「十點以前，我還要回木柵」：whoLast，src/invites3d.js）；她照現在的規則（只在她在臺北、約得到的時候）。
+   芷若：她的班表照現有作息（2:30 AM 上班＝busyActs 的 barista），有班的時間約不到（改天）。稿上沒寫要先自己走去過一次（不加 show，和 Daybreak 一樣）。
+   兩個人一起坐下先找四人桌（prefTable 1～4：開場句第一則寫「你們在四人桌坐下」，那一則只在四人桌抽，onlyAt）。
+   答應的那一句：七位各一句（people[人].acc.yangyang）；沒列的人＝「一般」那句（src/gg2shops3d.js 的 GG2.ACC0）；不答應照一般回覆表。*/
+INVITE_DATA.places.push({id:'yangyang',zone:'yangyang',name:'洋洋鹹酥雞',verb:'去洋洋鹹酥雞吃宵夜',kind:'meal',minStage:'FAMILIAR',stay:0.75,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],hours:[19,23],times:[19,20,21,22],
+  whoLast:{kexin:21},prefTable:[1,2,3,4]});
+(function(){ const YY={heroine_01:'「……宵夜？好。我只吃一點。」',heroine_02:'「好。我下班剛好餓。」',heroine_03:'「鹹酥雞？……好。我沒有在店裡吃過。」',heroine_04:'「好！！我要雞皮。很多雞皮。」',heroine_05:'「好。讀完書，剛好。」',
+    classmate_peishan:'「好啊！我要九層塔加很多！」',kexin:'「好。十點以前，我還要回木柵。」'};
+  INVITE_DATA.yangyangAcc=YY;
+  for(const id in YY){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={})).yangyang=[YY[id]]; } })();
 /* ---------- 青木茶室（公館店面街 G01，區域 aoki；GG-SHOPS-REDO-1104，AA_653 第 3 節，企劃線 d26fecd2f，AA 定稿 D109）當邀約地點 ----------
    有理由的（喝茶、念書，reason：和木曜日同一把尺——認識以上）；每天 11:00～21:00、颱風假不開（places.js hours.aoki）；自己走去過一次才列（show，和木曜日、日常失速一樣）。
    座位照配置 canStudy 可以讀書（cats 有 study）；見面兩個人一起坐下（seatPose），坐下以後的開場句＝seatOpen.aoki（AA_653：店員把茶壺放下……「……你先喝。」）。
@@ -586,6 +598,9 @@ INVITE_DATA.seatOpen={
   byPlace:{cafe:'coffee',brunch:'coffee',noodle:'meal',afar:'afar',daybreak:'daybreak'}   /* 兩點半、半熟＝咖啡（AA_649 寫「咖啡（兩點半、半熟這種）」）；公館燒臘＝吃飯 */
 };
 INVITE_DATA.seatOpen.aoki=[['（店員把茶壺放下，她先幫你倒了第一杯。）','「……你先喝。」']]; INVITE_DATA.seatOpen.byPlace.aoki='aoki';   /* 青木茶室（AA_653 第 3 節：和她坐下以後的開場句）*/
+/* 洋洋鹹酥雞（AA_724 第 9 節：吃飯那一類，用洋洋自己的句子）：第一則寫「四人桌」＝只在四人桌（table 1～4）抽 */
+INVITE_DATA.seatOpen.yangyang=[Object.assign(['（你們在四人桌坐下。她把紙袋撕開攤平，當成盤子。）','「這樣比較好拿。」'],{onlyAt:{table:[1,2,3,4]}}),['（她先夾了一塊，吹了很久才放進嘴裡。）','「……好燙。可是好好吃。」']];
+INVITE_DATA.seatOpen.byPlace.yangyang='yangyang';
 /* ---------- 更多可以約的地方（INVITE-PLACES-1107；使用者 11-07 試玩：「daybreak 不能約?」「社科院圖書館也可以唸書吧」「吃飯餐廳也新增很多了沒有每個放進來」「有的店面都可以約吧 看書或吃飯或聊天 南洋戲院可以約看電影」）----------
    系統的資料（地點、時間、哪一類）；答應的那一句、見面的台詞還沒有稿＝照一般的（「○○答應了。」、見面旁白；一起念書的第 N 場照 AA_707）。等 AA 補 acc／firstAt（登記在 INVITE-PLACES-1107）。
    - 都要自己走去過一次才列（show：G.visited，和木曜日、日常失速一樣）；開放時間照 places.js 那一區（hoursFrom）。

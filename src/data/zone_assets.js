@@ -84,5 +84,6 @@ const ZONE_ASSETS={
   "xs_nanyang_hall":["bldg.xs_nanyang_hall"],
   "xs_shanlan":["bldg.xs_shanlan"],
   "xs_tongxian":["bldg.xs_tongxian","bldg.xs_tongxian_stair"],
-  "xs_xsports":["bldg.xs_xsports"]
+  "xs_xsports":["bldg.xs_xsports"],
+  "yangyang":["bldg.yangyang_interior"]
 };
