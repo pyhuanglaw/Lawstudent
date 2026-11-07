@@ -245,3 +245,42 @@ PERF_COLD | <開發分支最新 SHA> | probe | docs/story_planning/test_tools/cc
 - 修：等數字決定第一次進的那一項。
 - 穩定以後的 draw call：等分項（機車那一列可能是舊數字，先不動）。
 - 驗收：BB 用同一支 F1／F2 重量。
+
+## 第三步：PERF_COLD 的結果和 (A) patch（11-07，LAWWW-B 08:41 選 (A)）
+
+**PC 冷快取的數字**（CC-B PERF_COLD b987cb1cf，cc-local `local_out/PERF_COLD/out/perf_cold.txt`）：
+
+| 區域 | 原樣 | 先載好再淡入 | 先算一次畫面 |
+|---|---|---|---|
+| 溫州街 | 黑 18.0 s；淡入後 avg 8.8 fps、最慢 5.25 s | 黑 21.7 s；27.5 fps、最慢 1.85 s | 黑 39.4 s → 不要 |
+| 總圖大廳 | 黑 11.7 s；3.1 fps、最慢 5.8 s | 黑 13.7 s；19.2 fps、最慢 1.7 s | — |
+
+**原因**（`game3d.js` enter → `ASSETS.waitLoaded`）：
+1. 只等 `type==='building'`：NPC 的 VRM（溫州街兩次 parseVRM 共 3.7 s）、動作檔都在淡入後才載完。
+2. 要等的清單在建完區域就收了（reqTake），`STORY.populate` 放的 NPC 的 VRM 根本沒進清單。
+3. 上限 6 s：冷快取時溫州街主模型第 18.5 s 才到，先淡入，接上那一格 5.1 s JS。
+
+**patch** `perf_cold_wait_1107.patch`（對開發 `79214e4e1`，`git apply --check` OK）：
+- `src/assets3d.js`：`A.WAIT_TYPES={building,vrm,clips}`，waitLoaded 照這個名單等。
+- `src/game3d.js`：
+  - reqTake 移到淡入前（`STORY.populate` 之後），NPC 的 VRM 也進清單；
+  - 上限 `GM.zoneWaitCap(zoneId)`：這次開遊戲第一次進這一區 12 s（`ZONE_LOAD_WAIT_FIRST_MS`），再來 6 s；
+  - 不用存檔的 `G.visited`，因為重開遊戲快取又是冷的；
+  - 沒有加新的 UI，黑幕照舊。
+- `tests/zone_popin_wait_unit.js`：第 ② 項原本寫「角色 VRM 不等」，這次照 LAWWW-B 的決定改成也等，測試跟著改。不是放寬標準。
+- 新測試 `tests/zone_wait_npc_unit.js`：
+  - ① VRM、動作檔也等；
+  - ② populate → reqTake → waitLoaded 的順序；
+  - ③ 12 s／6 s。
+
+**測試**：
+
+| | 開發原樣 | 加 patch |
+|---|---|---|
+| `zone_wait_npc_unit` | FAIL 3 | ALL PASS |
+| `zone_popin_wait_unit`（改過） | — | ALL PASS |
+| 會載 `game3d.js` 或讀 waitLoaded／reqTake 的 Node 測試 | — | 129 支全部過 |
+
+**還沒驗**：
+- 瀏覽器裡的黑畫面多久、淡入後的 fps。請 CC 用 `perf_cold_probe.py` 的 `base` 再跑一次溫州街、總圖大廳，冷快取，和上一輪比。
+- 手機實機沒測。
