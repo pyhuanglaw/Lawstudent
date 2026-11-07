@@ -49276,7 +49276,7 @@
    "id": "BUG-LAW830-ATTEND-CARRY-1107",
    "title": "法律系 8/30 課表帶著經濟系的出席「缺 4 次」、標題寫「大一上（下學期）」",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -49288,7 +49288,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。"
+   "next": "【11-07 13:5x LAWWW-B】修好 1af0ecb4c：CLS.rollStat 學期還沒開始＝0 次（原本 4 個點名週全算點過）、標題（下學期）→（還沒開學）；tests/attend_preterm_unit.js（修改前 2 FAIL）。BB 測 8/28→8/30 那一段的課表。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "sha": "1af0ecb4c"
   },
   {
    "id": "Y0-920-GONGGUAN-GAP-1107",
