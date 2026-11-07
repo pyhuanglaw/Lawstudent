@@ -199,7 +199,7 @@ const evText=id=>{ const e=evOf(id); return e?e.dialogue.filter(l=>typeof l.text
     const cross=['Y1S2','Y2S1'].map(t=>gw(t).find(w=>w.t==='（她帶著一排小孩過馬路，對你點頭）……等一下！')||null);
     check('7. 階梯招呼「（她帶著一排小孩過馬路，對你點頭）……等一下！」（大一下、大二上）搬到週三 20:50～21:10 溫州街、字不動',typeof LADDER!=='undefined'&&cross.every(w=>w&&J(w.weekday)===J([3])&&Math.abs(w.time[0]-(20+50/60))<1e-9&&Math.abs(w.time[1]-(21+10/60))<1e-9&&J(w.location)===J(['wenzhou'])),J(cross));
     const p23=st('Y1S2').find(x=>x&&x.id==='P2-L3');
-    check('7. P2-L3「一週兩天。」→「每個禮拜三。」',!!p23&&p23.lines[0]==='我在溫州街的課輔班當志工。每個禮拜三。'&&!J(p23.lines).includes('一週兩天')&&doc.includes('P2-L3「一週兩天。」→「每個禮拜三。」'),J(p23&&p23.lines));
+    check('7. P2-L3「當志工。一週兩天。」→「當助教。每個禮拜三。」（AA-B 22:03）',!!p23&&p23.lines[0]==='我在溫州街的課輔班當助教。每個禮拜三。'&&!J(p23.lines).includes('一週兩天')&&doc.includes('P2-L3「一週兩天。」→「每個禮拜三。」'),J(p23&&p23.lines));
     const rows=id=>((typeof WHOIS!=='undefined'&&WHOIS.R)||{})[id]||[], job=id=>rows(id).find(r=>r.id==='job');
     const jk=job(KAI), jp=job(PS);
     fresh('2025-10-04',10); const k0=!!(jk&&jk.if(H.G)), p0=!!(jp&&jp.if(H.G));
