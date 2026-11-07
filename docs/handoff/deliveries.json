@@ -18105,8 +18105,8 @@
    "msg": "ACK",
    "what": "霖澤 3F／4F 光照烘焙",
    "task": "INTERIOR-AAA-REVIEW-1028",
-   "integration": "未整合",
-   "note": "v9.10.22 發布以後接",
+   "integration": "已整合待測試",
+   "note": "v9.10.22 發布以後接；13:3x 推了（67b128e4d／75bbb5186）",
    "ack": "ACK"
   },
   {
@@ -18133,8 +18133,50 @@
    "msg": "ACK",
    "what": "PERF-COLD-RT ① 溫州街主模型 13.6 → 10.3 MB（法線、頂點色量化）",
    "task": "PERF-WZ-DAY-1103",
-   "integration": "未整合",
-   "note": "暫存 worktree 9bcdfc8f1（備份 wip_backup/postrel_v91022_1107.bundle）；v9.10.22 發布以後推；② Meshopt 等 CC 查 Pages gzip",
+   "integration": "已整合待測試",
+   "note": "暫存 worktree 9bcdfc8f1（備份 wip_backup/postrel_v91022_1107.bundle）；v9.10.22 發布以後推；② Meshopt 等 CC 查 Pages gzip；13:3x 推了（67b128e4d／75bbb5186）",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-L2-SEMLM",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "eb36f6844",
+   "msg": "ACK",
+   "what": "萬才研討室 A／B 光照（B 兩套：平常／推甄面試）",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "84ee85447",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-L2-WZSHADERS",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "3179b12b5",
+   "msg": "ACK",
+   "what": "溫州街、118 巷少編 shader（模型端）",
+   "task": "PERF-WZ-DAY-1103",
+   "integration": "已整合待測試",
+   "note": "f6afc3ec6",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-L2-FIXLIGHTS",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "de102c699",
+   "msg": "ACK",
+   "what": "FIXLIGHTS／PINPROG 實驗開關",
+   "task": "PERF-WZ-DAY-1103",
+   "integration": "已整合待測試",
+   "note": "6da721819；網址沒加參數照舊",
    "ack": "ACK"
   }
  ],
