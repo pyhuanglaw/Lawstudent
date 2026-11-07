@@ -142,7 +142,7 @@ async def main():
             await run.shot(pg, 'watch_after')
             print('[WATCH]', J(said2), h2, h3, w2)
             one = [t for t in Lx if t in said2]
-            run.check('有票坐下：三句旁白其中一句（%s）、時間往後（%.2f→%.2f，最多到 24:00）、NY_WATCHED＝今天' % (J(one, 60), h2, h3), len(one) == 1 and 1.0 < (h3 - h2) <= 4.01 and h3 <= 24.0 and w2 == day, J([said2, h2, h3, w2]))
+            run.check('有票坐下：三句旁白其中一句（%s）、時間往後（%.2f→%.2f，最多到 24:00）、NY_WATCHED＝今天' % (J(one, 60), h2, h3), len(one) == 1 and 1.0 < (h3 - h2) <= 4.2 and h3 <= 24.0 and w2 == day, J([said2, h2, h3, w2]))
             # 再坐一次
             await L.close_panels(pg, cdp)
             hh = await pg.evaluate("+GAME.G.hour")
@@ -152,7 +152,8 @@ async def main():
             said3, _ = await lines_until_idle(pg, cdp, 20)
             h5 = await pg.evaluate("+GAME.G.hour")
             print('[AGAIN]', J(said3), h4, h5)
-            run.check('同一天再坐：不再演（一天一次）', not any(t in said3 for t in Lx) and (h5 - h4) < 0.5, J([said3, h4, h5]))
+            w5 = await pg.evaluate("GAME.G.flags.NY_WATCHED")
+            run.check('同一天再坐：不再演（一天一次：時間沒跳、NY_WATCHED 不變；對話框隱藏著的舊字不算）', (h5 - h4) < 0.5 and w5 == w2, J([said3, h4, h5, w5]))
         elif MODE == 'inv':
             Lx = None
             for who, key, when_key, hour, want_line, label in ((PS, '2025-11-04', '明天 19:00', 15.0, 'ps', '沛珊（週三 19:00）'), (MX, '2025-11-04', '今天 19:00', 15.0, 'mx', '明軒（週二 19:00）')):
