@@ -91,7 +91,7 @@ async def main():
                 th2 = await P.phone_thread(pg, cdp, 'p:' + YT); sysm = await pg.evaluate("(GAME.G.msgs||[]).filter(m=>!m.who&&!m.th).slice(-3).map(m=>m.text)")
                 tail = th2.get('text', '')[-200:]
                 print('[BUSY]', J([dg, tail, sysm]))
-                run.check('真的撞到（已答應以安 15:30）：first＝busy、語彤串「嗯。下次。」、系統字「那個時間你已經約了別人。」、沒排約', dg['R'].get('first') == 'busy' and '嗯。下次。' in tail and any('那個時間你已經約了別人' in t for t in sysm) and not any(v['day'] == d['d'] + 1 and abs(v['h'] - 14) < 0.05 for v in ivs), J([dg['R'], tail, sysm, ivs]))
+                run.check('真的撞到（已答應以安 15:30）：first＝busy、語彤串「那天你有約了？」「……嗯。下次。」、系統字「那個時間你已經約了別人。」、沒排約', dg['R'].get('first') == 'busy' and '那天你有約了？' in tail and '……嗯。下次。' in tail and any('那個時間你已經約了別人' in t for t in sysm) and not any(v['day'] == d['d'] + 1 and abs(v['h'] - 14) < 0.05 for v in ivs), J([dg['R'], tail, sysm, ivs]))
                 run.check('沒有 JS 例外', not errs, J(errs[:5])); await b.close(); return run.finish()
             run.check('回「好。」＝約好 3/11（三）14:00 木曜日（一起念書）', any(v['day'] == d['d'] + 1 and abs(v['h'] - 14) < 0.05 and v['state'] == 'accepted' for v in ivs), J(ivs))
             st0 = await pg.evaluate("(GAME.G.stats&&GAME.G.stats.study)||0")
