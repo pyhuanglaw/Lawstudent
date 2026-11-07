@@ -1572,3 +1572,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 157.7s] page close url=http://127.0.0.1:8802/index.html?turbo?turbo | [gpu_wrap 157.7s] BROWSER DISCONNECTED
 - 2026-11-07T12:27:33  R9CF_class  sha=9cff7a00bce4a412ca08841c73123c899a4b916e  exit=0  143s    PASS 回到法律系館A二樓、站得住、搖桿走得動  {"zone": "linze", "x": -2.02, "z": -3.52, "ry": -0.0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "還有——你剛剛那個，很帥。", "choices": 0, "interact": "", "hour": 15.31, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 4.2, "lv": 1, "frame": 1927, "paused": false} 推了 1 次、走了 2.48 m / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 108.9s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 108.9s] BROWSER DISCONNECTED
+- 2026-11-07T12:30:03  R9CF_reach  sha=9cff7a00bce4a412ca08841c73123c899a4b916e  exit=0  533s    統計：29 個區域、1231 個互動點、15 個劇情走路目的地、85 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 496.1s] page close url=http://127.0.0.1:8801/index.html?turbo?turbo | [gpu_wrap 496.1s] BROWSER DISCONNECTED
