@@ -1626,3 +1626,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 167.0s] page close url=https://pyhuanglaw.github.io/Lawstudent/index.html?turbo | [gpu_wrap 167.0s] BROWSER DISCONNECTED
 - 2026-11-07T13:42:24  SOC_peishan_date_r3  sha=8618f9d80aa0c94f9b10844f5bee7a69e22c1a93  exit=1  410s       用了 6.1 分鐘 / ==== 總結：1 人，FAIL 1 人：[["classmate_peishan", ["date 當面約：約成一趟（G.trips 多一筆 booked）", "phone 約出去玩：約成一趟（booked）"]]] / FAILED 2
       err.log (last 5): [gpu_wrap 364.2s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 364.2s] BROWSER DISCONNECTED
+- 2026-11-07T13:43:29  SOC_xinci_date_r3  sha=8618f9d80aa0c94f9b10844f5bee7a69e22c1a93  exit=1  391s       用了 5.9 分鐘 / ==== 總結：1 人，FAIL 1 人：[["classmate_xinci", ["date 當面約：約成一趟（G.trips 多一筆 booked）", "phone 約出去玩：約成一趟（booked）"]]] / FAILED 2
+      err.log (last 5): [gpu_wrap 353.6s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 353.6s] BROWSER DISCONNECTED

@@ -1,0 +1,24 @@
+{
+  "rerun": "r3",
+  "id": "SOC_xinci_date_r3",
+  "sha": "8618f9d80aa0c94f9b10844f5bee7a69e22c1a93",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_social_smoke_probe.py",
+  "env": "CASES=classmate_xinci;STEPS=date,phone;RERUN=r3;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T13:36:58",
+  "end": "2026-11-07T13:43:29",
+  "seconds": 391,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "11",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 57,
+    "mem": 64,
+    "used_gb": 20.2,
+    "chrome_testing": 15
+  }
+}
