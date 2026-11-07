@@ -1812,6 +1812,28 @@
    "src": "使用者 11-07 06:2x 對 BB-B 說，BB-B 06:28 轉給 AA-B；BB-B 用選擇題問，使用者選三項：她做的決定不一樣、會打開或錯過事件、影響感情和結局（沒選「只差內容」）。規格 BB_305 第 10 節（claude/elegant-brown-fcos7n 78df0c37e）",
    "checked": "AA 寫每位至少 2 個決定拍（decide／opens／closes、後面真的不同）、可改結果／只改過程的表；結局和感情走向用選擇題問使用者（D109、D117）",
    "wants": ""
+  },
+  {
+   "id": "UA-AA-1107-08",
+   "at": "2026-11-07T06:3x",
+   "quote": "如果真的影響能不能交往的選項 應該要有 小心選擇的提示",
+   "kind": "轉述",
+   "status": "進行中",
+   "task": "PLAYTEST-1107",
+   "src": "使用者 11-07 06:3x 對 BB-B；樣式選「上方一行字＋選完確認」（BB_305 10-5，910528d1f）；BB-B 06:30 轉 AA-B",
+   "checked": "AA_719 每位 1～2 組 key_true＋keyNote（照她的情境寫，不像系統警告）；確認的字照預設",
+   "wants": ""
+  },
+  {
+   "id": "UA-AA-1107-09",
+   "at": "2026-11-07T06:4x",
+   "quote": "也不能我建議他做什麼他就都聽我的啊，有人要反而不想",
+   "kind": "轉述",
+   "status": "進行中",
+   "task": "PLAYTEST-1107",
+   "src": "使用者 11-07 06:4x 對 BB-B；BB_305 10-6（729ca4a76）；BB-B 06:30 轉 AA-B",
+   "checked": "AA_719：每個決定拍 lean、style（contrary／reassure／think／own）、每個選項 stance，結果照 stance×信任查表，有晚幾天才說、跟你想的不一樣的那一場",
+   "wants": ""
   }
  ]
 }

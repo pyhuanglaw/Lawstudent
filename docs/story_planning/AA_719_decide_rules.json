@@ -1,0 +1,1231 @@
+{
+ "_meta": {
+  "doc": "AA_719 決定拍的規則：她有自己的想法（BB_305 第 10-5、10-6 節）",
+  "by": "AA-B 2026-11-07",
+  "task": "PLAYTEST-1107（UA-AA-1107-07、-08、-09）",
+  "notes": [
+   "使用者：「我想要的是我的選項會改變故事」「如果真的影響能不能交往的選項 應該要有 小心選擇的提示」「也不能我建議他做什麼他就都聽我的啊，有人要反而不想」。",
+   "取代 AA_718 第 2 節「選 A 就是 A」的對應：選項只給 stance（你怎麼說），她最後選哪一邊照這份的 rules（她本來的傾向 lean × 個性 style × 你怎麼說 stance × 信任 trust）。AA_718 的事件、打開／關掉的內容照舊。",
+   "trust：hi＝她對祐廷的 trust ≥ 30，而且階段 ≥ FRIEND；其他是 lo（數值 LAWWW 調）。",
+   "rules 由上往下找第一條符合的（stance、trust、有 opt 的要那個選項、有 if 的要那個條件）。",
+   "delay＝她幾天後才告訴你（0＝當場；>0＝那天播 say，她自己傳訊息或下次見面先說）；say 的「我想了想，還是……」就是她跟你想的不一樣的那一場。",
+   "rel 是決定拍另外加的（那一拍選項原本的 rel 照算）；關鍵的 npcRom 比一般重。",
+   "key_true：會影響告白、交往的那一組，照 BB_305 10-5 上方一行字（keyNote）＋選完確認（確認的字照預設「確定嗎？」「確定」「再想想」）。",
+   "使用者定過的結果（以安日本交換與出路、芷若去英國、語彤雙主修、學姊考上、沛珊休學重考、可昕律師）都不變：這些 key 改的是過程（有沒有先跟你說、你在不在、她怎麼撐過去）。",
+   "default＝舊存檔、還沒演到那一拍、那一拍被 closes 或過了 until 時的值。",
+   "result 要等使用者回答的：子晴 ZQ-1 的 intern（第 3 節 Q1）；告白要不要看這些 key（Q2）、結局分版本（Q3）、沛珊（Q4）。使用者答案記在 AA_718 第 4 節。"
+  ]
+ },
+ "styles": {
+  "contrary": "被推反而不想（子晴、可昕）：push 她本來的方向＝照做但要說是自己決定的；push 別的方向＝更堅持原本的；space 最舒服；tease 信任夠才有用。",
+  "reassure": "要有人站在她這邊才敢（語彤、沛珊、芷若出國的錢）：support＋信任夠＝敢做比較難的那一邊；不夠＝留在安全的那邊。",
+  "think": "要一起想，被替她決定會不舒服（以安）：陪她想＝讓你進來；給答案或留空間＝她自己決定，晚一點才說。",
+  "own": "早就決定了（學姊、芷若遠距離）：結果多半是她本來的；你影響的是她要不要先告訴你、讓不讓你在旁邊。"
+ },
+ "keys": [
+  {
+   "id": "AN-1",
+   "who": "heroine_01",
+   "beat": 6,
+   "key": "jp_tell",
+   "style": "think",
+   "lean": "later",
+   "default": "later",
+   "key_true": true,
+   "keyNote": "（她低頭看著桌面。好像有一件事，要看你怎麼回答才決定說不說。）",
+   "values": {
+    "first": "她先跟你說要申請日本交換，約你一起去說明會",
+    "later": "你從 Alison 那裡知道"
+   },
+   "opts": [
+    {
+     "i": 0,
+     "stance": "support"
+    },
+    {
+     "i": 1,
+     "stance": "space"
+    },
+    {
+     "i": 2,
+     "stance": "support"
+    }
+   ],
+   "rules": [
+    {
+     "stance": "support",
+     "trust": "hi",
+     "result": "first",
+     "rel": {
+      "trust": 3,
+      "npcRom": 3
+     },
+     "delay": 3,
+     "say": [
+      "（隔了幾天，她在總圖門口等你。）",
+      "我要申請日本交換。……我還沒跟 Alison 說。",
+      "三月十八號有說明會。你要不要坐我旁邊？",
+      "不是要你去日本。我只是想有人坐旁邊。"
+     ]
+    },
+    {
+     "stance": "support",
+     "trust": "lo",
+     "result": "later",
+     "rel": {
+      "trust": 1
+     },
+     "delay": 0
+    },
+    {
+     "stance": "space",
+     "trust": "any",
+     "result": "later",
+     "rel": {
+      "trust": 1
+     },
+     "delay": 0
+    }
+   ],
+   "opens": {
+    "first": [
+     "event:ev_an_expo_together（2027-03-18 交換說明會）"
+    ]
+   },
+   "after": {
+    "later": "2027-03 Alison 在群組說「以安要去日本交換了！她自己都不講！」，以安私訊「……你應該已經聽 Alison 說了。」；aa555 y2s2_an_expo 那則照原本",
+    "first": "y2s2_an_expo 那則換成「說明會的資料四十頁，我讀完了。你那天坐我旁邊，第三頁的時候睡著了。」"
+   }
+  },
+  {
+   "id": "AN-2",
+   "who": "heroine_01",
+   "beat": 8,
+   "key": "grad",
+   "style": "think",
+   "lean": "alone",
+   "default": "alone",
+   "key_true": true,
+   "keyNote": "（她握著筆，等你說話。這句話好像對她很重要。）",
+   "values": {
+    "together": "她讓你陪她一組一組想；出國那天她讓你送機",
+    "alone": "她自己決定，選好才跟你說"
+   },
+   "opts": [
+    {
+     "i": 0,
+     "stance": "space"
+    },
+    {
+     "i": 1,
+     "stance": "space"
+    },
+    {
+     "i": 2,
+     "stance": "support"
+    }
+   ],
+   "rules": [
+    {
+     "stance": "support",
+     "trust": "hi",
+     "result": "together",
+     "rel": {
+      "trust": 3,
+      "npcRom": 4
+     },
+     "delay": 0
+    },
+    {
+     "stance": "support",
+     "trust": "lo",
+     "result": "alone",
+     "rel": {
+      "trust": 2
+     },
+     "delay": 3,
+     "say": [
+      "我想了想，還是自己決定比較好。",
+      "……可是謝謝你說要陪我。我選好了，第一個跟你說。"
+     ]
+    },
+    {
+     "stance": "space",
+     "trust": "hi",
+     "result": "alone",
+     "rel": {
+      "trust": 1
+     },
+     "delay": 2,
+     "say": [
+      "我選好了。商法組。",
+      "你說選錯可以再改。……這句我記在心裡。"
+     ]
+    },
+    {
+     "stance": "space",
+     "trust": "lo",
+     "result": "alone",
+     "rel": {},
+     "delay": 5,
+     "say": [
+      "研究所我決定考商法組。"
+     ]
+    }
+   ],
+   "opens": {
+    "together": [
+     "event:ev_an_grad_think（總圖，一組一組寫在紙上刪）",
+     "event:ev_an_airport（2028-03-25 送機）"
+    ]
+   },
+   "after": {
+    "alone": "出國那天只有一則訊息「我上飛機了。」",
+    "together": "她選商法組時說「是那天晚上剩下的那一張。」"
+   }
+  },
+  {
+   "id": "ZR-1",
+   "who": "heroine_02",
+   "beat": 6,
+   "key": "fund",
+   "style": "reassure",
+   "lean": "scholar",
+   "default": "scholar",
+   "key_true": false,
+   "values": {
+    "tell": "她跟媽媽說實話",
+    "scholar": "她先申請獎學金，不跟家裡開口",
+    "both": "她先聽你講你家，然後打給媽媽，也申請獎學金"
+   },
+   "opts": [
+    {
+     "i": 0,
+     "stance": "push:tell"
+    },
+    {
+     "i": 1,
+     "stance": "support"
+    },
+    {
+     "i": 2,
+     "stance": "space"
+    }
+   ],
+   "rules": [
+    {
+     "stance": "push:tell",
+     "trust": "hi",
+     "result": "tell",
+     "rel": {
+      "trust": 3
+     },
+     "delay": 4,
+     "say": [
+      "我想了想，還是打了。",
+      "我媽說好。然後她說，她早就在存了。",
+      "……我在店後門哭了一下。不要問。"
+     ]
+    },
+    {
+     "stance": "push:tell",
+     "trust": "lo",
+     "result": "scholar",
+     "rel": {},
+     "delay": 2,
+     "say": [
+      "實話我還是說不出口。",
+      "我先查獎學金。查到了再說。"
+     ]
+    },
+    {
+     "stance": "support",
+     "trust": "any",
+     "result": "scholar",
+     "rel": {
+      "comf": 2,
+      "npcRom": 1
+     },
+     "delay": 0
+    },
+    {
+     "stance": "space",
+     "trust": "hi",
+     "result": "both",
+     "rel": {
+      "trust": 4,
+      "npcRom": 2
+     },
+     "delay": 1,
+     "say": [
+      "你上次說你家也是你媽一個人撐。",
+      "我想了一個晚上。……我們都要學開口。我先打，你陪我。"
+     ]
+    },
+    {
+     "stance": "space",
+     "trust": "lo",
+     "result": "scholar",
+     "rel": {
+      "trust": 1
+     },
+     "delay": 0
+    }
+   ],
+   "opens": {
+    "tell": [
+     "event:ev_zr_call_mom（她在店後門打給媽媽，你在旁邊；delay 那天）"
+    ],
+    "scholar": [
+     "event:ev_zr_scholar_1",
+     "event:ev_zr_scholar_2（總圖一起查英文的獎學金）"
+    ],
+    "both": [
+     "event:ev_zr_call_mom",
+     "event:ev_zr_scholar_1"
+    ]
+   },
+   "after": {
+    "scholar": "2027-05 錄取那則多一句「獎學金拿到一半。」",
+    "tell": "英國那幾則訊息講媽媽寄來的滷肉作法",
+    "both": "兩個都有"
+   }
+  },
+  {
+   "id": "ZR-2",
+   "who": "heroine_02",
+   "beat": 8,
+   "key": "distance",
+   "style": "own",
+   "lean": "letters",
+   "default": "letters",
+   "key_true": true,
+   "keyNote": "（她問得很輕。可是她在等你的答案。）",
+   "values": {
+    "visit": "她回臺灣那天你去接機",
+    "call": "她在英國那一學期，每週固定電話",
+    "letters": "她寫信寄到店裡；出發那天你去送機，她把第一封交給你"
+   },
+   "opts": [
+    {
+     "i": 0,
+     "stance": "push:visit"
+    },
+    {
+     "i": 1,
+     "stance": "push:call"
+    },
+    {
+     "i": 2,
+     "stance": "space"
+    }
+   ],
+   "rules": [
+    {
+     "stance": "push:visit",
+     "trust": "hi",
+     "result": "visit",
+     "rel": {
+      "npcRom": 3,
+      "comf": 2
+     },
+     "delay": 0
+    },
+    {
+     "stance": "push:visit",
+     "trust": "lo",
+     "result": "letters",
+     "rel": {
+      "comf": 1
+     },
+     "delay": 2,
+     "say": [
+      "你不用存錢。",
+      "寫信給我就好。……我會回。"
+     ]
+    },
+    {
+     "stance": "push:call",
+     "trust": "hi",
+     "result": "call",
+     "rel": {
+      "npcRom": 3
+     },
+     "delay": 0
+    },
+    {
+     "stance": "push:call",
+     "trust": "lo",
+     "result": "letters",
+     "rel": {
+      "comf": 1
+     },
+     "delay": 2,
+     "say": [
+      "我想了想，還是寫信。",
+      "我怕我會一直在等電話。"
+     ]
+    },
+    {
+     "stance": "space",
+     "trust": "any",
+     "result": "letters",
+     "rel": {
+      "trust": 2,
+      "npcRom": 2
+     },
+     "delay": 0
+    }
+   ],
+   "opens": {
+    "visit": [
+     "event:ev_zr_return_airport（2028-02-15 接機）"
+    ],
+    "call": [
+     "msg:每週兩則「現在十點半了嗎？」（英國那一學期）"
+    ],
+    "letters": [
+     "event:ev_zr_sendoff_airport（2027-09-02 送機，接 AA_390）"
+    ]
+   },
+   "after": {
+    "all": "三個都會去英國（使用者定的）；E07 視訊照這個值換句"
+   }
+  },
+  {
+   "id": "YT-1",
+   "who": "heroine_03",
+   "beat": 4,
+   "key": "mom",
+   "style": "reassure",
+   "lean": "found",
+   "default": "found",
+   "key_true": true,
+   "keyNote": "（她看著杯子，等你說話。這件事她從來沒跟別人講過。）",
+   "values": {
+    "tell": "她自己請媽媽來茶屋說",
+    "found": "媽媽臨時來臺北發現（原本）"
+   },
+   "opts": [
+    {
+     "i": 0,
+     "stance": "support"
+    },
+    {
+     "i": 1,
+     "stance": "support"
+    },
+    {
+     "i": 2,
+     "stance": "push:tell"
+    }
+   ],
+   "rules": [
+    {
+     "stance": "push:tell",
+     "trust": "hi",
+     "result": "tell",
+     "rel": {
+      "trust": 3
+     },
+     "delay": 5,
+     "say": [
+      "我想了想，還是我自己說。",
+      "下週六，我請我媽來茶屋。……你不用來。我只是想讓你知道。"
+     ]
+    },
+    {
+     "stance": "push:tell",
+     "trust": "lo",
+     "result": "found",
+     "rel": {},
+     "delay": 0
+    },
+    {
+     "stance": "support",
+     "trust": "hi",
+     "result": "tell",
+     "rel": {
+      "trust": 4,
+      "npcRom": 2
+     },
+     "delay": 7,
+     "say": [
+      "你上次說，我是在找。",
+      "我想找我媽。……我要自己跟她說。"
+     ],
+     "opt": 1
+    },
+    {
+     "stance": "support",
+     "trust": "any",
+     "result": "found",
+     "rel": {
+      "comf": 2
+     },
+     "delay": 0
+    }
+   ],
+   "if": "只在大一下第 9 週（媽媽發現）以前演到第 4 拍才算；已經過了＝found",
+   "opens": {
+    "tell": [
+     "event:ev_yt_tell_mom（取代 AA_624 事件 10' 媽媽發現）"
+    ]
+   },
+   "after": {
+    "tell": "第 6 拍「她在媽媽面前把茶倒完」換成她說了的版本（AA_720 寫）"
+   }
+  },
+  {
+   "id": "YT-2",
+   "who": "heroine_03",
+   "beat": 8,
+   "key": "dm",
+   "style": "reassure",
+   "lean": "alone",
+   "default": "alone",
+   "key_true": true,
+   "keyNote": "（她好像很在意你會怎麼說。）",
+   "values": {
+    "with": "放榜那天她約你一起看",
+    "alone": "她自己看，傳訊息給你（原本）"
+   },
+   "opts": [
+    {
+     "i": 0,
+     "stance": "support"
+    },
+    {
+     "i": 1,
+     "stance": "space"
+    },
+    {
+     "i": 2,
+     "stance": "support"
+    }
+   ],
+   "rules": [
+    {
+     "stance": "support",
+     "trust": "hi",
+     "result": "with",
+     "rel": {
+      "npcRom": 4
+     },
+     "delay": 0,
+     "opt": 2
+    },
+    {
+     "stance": "support",
+     "trust": "lo",
+     "result": "alone",
+     "rel": {
+      "comf": 1
+     },
+     "delay": 2,
+     "say": [
+      "你那句很犯規。",
+      "……放榜那天，我想自己看。看完第一個打給你。"
+     ],
+     "opt": 2
+    },
+    {
+     "stance": "support",
+     "trust": "any",
+     "result": "alone",
+     "rel": {
+      "trust": 2
+     },
+     "delay": 0,
+     "opt": 0
+    },
+    {
+     "stance": "space",
+     "trust": "any",
+     "result": "alone",
+     "rel": {
+      "trust": 1
+     },
+     "delay": 0
+    }
+   ],
+   "opens": {
+    "with": [
+     "event:ev_yt_result_together（2026-07-03 總圖門口一起看網頁）"
+    ]
+   },
+   "closes": {
+    "with": [
+     "msg:「上了。」「雙主修。」那則改成見面講"
+    ]
+   }
+  },
+  {
+   "id": "ZQ-1",
+   "who": "heroine_04",
+   "beat": 8,
+   "key": "summer",
+   "style": "contrary",
+   "lean": "game",
+   "default": "game",
+   "key_true": true,
+   "keyNote": "（她嘴上說準備好了，可是一直在等你開口。）",
+   "values": {
+    "game": "暑假在家做遊戲（原本），爸爸生氣那一場會出現",
+    "intern": "她動搖了，暑假去爸爸介紹的公司（要使用者同意，Q1）"
+   },
+   "opts": [
+    {
+     "i": 0,
+     "stance": "push:game"
+    },
+    {
+     "i": 1,
+     "stance": "space"
+    },
+    {
+     "i": 2,
+     "stance": "tease"
+    }
+   ],
+   "rules": [
+    {
+     "stance": "push:game",
+     "trust": "hi",
+     "result": "game",
+     "rel": {
+      "trust": 2
+     },
+     "delay": 0
+    },
+    {
+     "stance": "push:game",
+     "trust": "lo",
+     "result": "game",
+     "rel": {
+      "comf": -1
+     },
+     "delay": 2,
+     "say": [
+      "我自己決定的。",
+      "不是因為你說。"
+     ]
+    },
+    {
+     "stance": "space",
+     "trust": "any",
+     "result": "game",
+     "rel": {
+      "trust": 3,
+      "npcRom": 2
+     },
+     "delay": 0
+    },
+    {
+     "stance": "tease",
+     "trust": "hi",
+     "result": "game",
+     "rel": {
+      "npcRom": 3
+     },
+     "delay": 0
+    },
+    {
+     "stance": "tease",
+     "trust": "lo",
+     "result": "intern",
+     "rel": {
+      "comf": -1
+     },
+     "delay": 4,
+     "say": [
+      "我想了想，還是去了我爸說的那間。",
+      "……先去看看。做不到也沒關係，你說的。"
+     ]
+    }
+   ],
+   "opens": {
+    "game": [
+     "event:ev_zq_dad_angry（原本的爸爸生氣）"
+    ],
+    "intern": [
+     "msg:暑假講公司（打卡、會議、午休偷寫遊戲）",
+     "event:ev_zq_quit_intern（大二上她自己辭掉延長的實習）"
+    ]
+   },
+   "closes": {
+    "intern": [
+     "event:ev_zq_dad_angry"
+    ]
+   },
+   "after": {
+    "intern": "life 第 3、4 階延後一學期（第一關大二上才做好）；AA_717 子晴 life 輪換句跟著換（AA_720 寫）"
+   }
+  },
+  {
+   "id": "ZQ-2",
+   "who": "heroine_04",
+   "beat": 7,
+   "key": "level",
+   "style": "contrary",
+   "lean": "cat",
+   "default": "cat",
+   "key_true": false,
+   "values": {
+    "shop": "第二關的角落有一間五金行",
+    "tainan": "第二關有一條台南的巷子",
+    "cat": "第二關是貓找回家的路"
+   },
+   "opts": [
+    {
+     "i": 0,
+     "stance": "push:shop"
+    },
+    {
+     "i": 1,
+     "stance": "push:tainan"
+    },
+    {
+     "i": 2,
+     "stance": "space"
+    }
+   ],
+   "rules": [
+    {
+     "stance": "push:shop",
+     "trust": "hi",
+     "result": "shop",
+     "rel": {
+      "comf": 2,
+      "npcRom": 1
+     },
+     "delay": 0
+    },
+    {
+     "stance": "push:shop",
+     "trust": "lo",
+     "result": "cat",
+     "rel": {},
+     "delay": 0
+    },
+    {
+     "stance": "push:tainan",
+     "trust": "hi",
+     "result": "tainan",
+     "rel": {
+      "comf": 2,
+      "npcRom": 1
+     },
+     "delay": 0
+    },
+    {
+     "stance": "push:tainan",
+     "trust": "lo",
+     "result": "cat",
+     "rel": {},
+     "delay": 0
+    },
+    {
+     "stance": "space",
+     "trust": "any",
+     "result": "cat",
+     "rel": {
+      "trust": 1
+     },
+     "delay": 0
+    }
+   ],
+   "after": {
+    "all": "2028-03-08 她把測試版給你（AA_400）那一場照這個值：shop＝「你說的五金行，我放在第二關的角落。不是因為你說的。」；tainan＝「第二關有一條巷子。我沒去過台南，照你說的畫。」；cat＝原本"
+   }
+  },
+  {
+   "id": "SIS-1",
+   "who": "heroine_05",
+   "beat": 6,
+   "key": "exam",
+   "style": "own",
+   "lean": "alone",
+   "default": "alone",
+   "key_true": true,
+   "keyNote": "（她的聲音很小，像是怕你走掉。）",
+   "values": {
+    "stay": "考前最後一晚，她讓你坐旁邊到閉館",
+    "alone": "考前她一個人，考完傳一則訊息"
+   },
+   "opts": [
+    {
+     "i": 0,
+     "stance": "space"
+    },
+    {
+     "i": 1,
+     "stance": "space"
+    },
+    {
+     "i": 2,
+     "stance": "support"
+    }
+   ],
+   "rules": [
+    {
+     "stance": "support",
+     "trust": "hi",
+     "result": "stay",
+     "rel": {
+      "npcRom": 4,
+      "trust": 2
+     },
+     "delay": 0
+    },
+    {
+     "stance": "support",
+     "trust": "lo",
+     "result": "alone",
+     "rel": {
+      "comf": 2
+     },
+     "delay": 1,
+     "say": [
+      "謝謝你的綠茶。",
+      "最後一晚，我想一個人。……考完請你吃飯。"
+     ]
+    },
+    {
+     "stance": "space",
+     "trust": "hi",
+     "result": "stay",
+     "rel": {
+      "trust": 3,
+      "npcRom": 2
+     },
+     "delay": 0
+    },
+    {
+     "stance": "space",
+     "trust": "lo",
+     "result": "alone",
+     "rel": {
+      "trust": 1
+     },
+     "delay": 0
+    }
+   ],
+   "opens": {
+    "stay": [
+     "event:ev_sis_last_night（考前一晚她傳「今天可以坐到閉館嗎。」）"
+    ]
+   },
+   "after": {
+    "all": "考試照樣考上（使用者定的）"
+   }
+  },
+  {
+   "id": "SIS-2",
+   "who": "heroine_05",
+   "beat": 8,
+   "key": "tell_sis",
+   "style": "own",
+   "lean": "wait",
+   "default": "wait",
+   "key_true": true,
+   "keyNote": "（她看著你，好像這件事你說了算。其實她心裡已經有答案了。）",
+   "values": {
+    "guess": "Alison 自己猜到了",
+    "zhe": "她說是阿哲（之後 Alison 去問阿哲）",
+    "wait": "她準備好了才自己跟家裡說"
+   },
+   "opts": [
+    {
+     "i": 0,
+     "stance": "push:guess"
+    },
+    {
+     "i": 1,
+     "stance": "tease"
+    },
+    {
+     "i": 2,
+     "stance": "space"
+    }
+   ],
+   "rules": [
+    {
+     "stance": "push:guess",
+     "trust": "hi",
+     "result": "guess",
+     "rel": {
+      "comf": 2
+     },
+     "delay": 0
+    },
+    {
+     "stance": "push:guess",
+     "trust": "lo",
+     "result": "wait",
+     "rel": {},
+     "delay": 0
+    },
+    {
+     "stance": "tease",
+     "trust": "hi",
+     "result": "zhe",
+     "rel": {
+      "comf": 3,
+      "npcRom": 1
+     },
+     "delay": 0
+    },
+    {
+     "stance": "tease",
+     "trust": "lo",
+     "result": "wait",
+     "rel": {
+      "comf": 1
+     },
+     "delay": 0
+    },
+    {
+     "stance": "space",
+     "trust": "any",
+     "result": "wait",
+     "rel": {
+      "trust": 3,
+      "npcRom": 2
+     },
+     "delay": 0
+    }
+   ],
+   "opens": {
+    "guess": [
+     "event:ev_sis_alison_guess（讀書會群組）"
+    ],
+    "zhe": [
+     "event:ev_sis_alison_asks_zhe（阿哲：「什麼？誰？我？」）"
+    ],
+    "wait": [
+     "event:ev_sis_grandma_dinner（交往中才有；她自己說，奶奶家吃飯）"
+    ]
+   },
+   "if": "這一拍說「我妹」或 Alison 照 KNOWS_SIS_ALISON（AA_712 alt）"
+  },
+  {
+   "id": "PS-1",
+   "who": "classmate_peishan",
+   "beat": 5,
+   "key": "future",
+   "style": "reassure",
+   "lean": "hide",
+   "default": "hide",
+   "key_true": false,
+   "values": {
+    "seen": "她開始想，自己是不是想教小朋友",
+    "hide": "她繼續藏"
+   },
+   "opts": [
+    {
+     "i": 0,
+     "stance": "support"
+    },
+    {
+     "i": 1,
+     "stance": "support"
+    },
+    {
+     "i": 2,
+     "stance": "push:hide"
+    }
+   ],
+   "rules": [
+    {
+     "stance": "support",
+     "trust": "hi",
+     "result": "seen",
+     "rel": {
+      "trust": 3
+     },
+     "delay": 0
+    },
+    {
+     "stance": "support",
+     "trust": "lo",
+     "result": "hide",
+     "rel": {
+      "comf": 1
+     },
+     "delay": 0
+    },
+    {
+     "stance": "push:hide",
+     "trust": "any",
+     "result": "hide",
+     "rel": {},
+     "delay": 0
+    }
+   ]
+  },
+  {
+   "id": "PS-2",
+   "who": "classmate_peishan",
+   "beat": 7,
+   "key": "tell",
+   "style": "reassure",
+   "lean": "after",
+   "default": "after",
+   "key_true": true,
+   "keyNote": "（她笑著。可是好像在等你再問一次。）",
+   "values": {
+    "before": "她走以前先跟你說，你可以去車站送她",
+    "after": "她安靜離開，你從群組知道（原本）"
+   },
+   "opts": [
+    {
+     "i": 0,
+     "stance": "support"
+    },
+    {
+     "i": 1,
+     "stance": "support"
+    },
+    {
+     "i": 2,
+     "stance": "space"
+    }
+   ],
+   "rules": [
+    {
+     "stance": "support",
+     "trust": "hi",
+     "result": "before",
+     "rel": {
+      "trust": 4,
+      "npcRom": 2
+     },
+     "delay": 0
+    },
+    {
+     "stance": "support",
+     "trust": "lo",
+     "result": "after",
+     "rel": {
+      "comf": 1
+     },
+     "delay": 0
+    },
+    {
+     "stance": "space",
+     "trust": "any",
+     "result": "after",
+     "rel": {},
+     "delay": 0
+    }
+   ],
+   "ruleIf": "第一條還要 dec:classmate_peishan.future=seen；future＝hide 的話 support＋hi 也是 after",
+   "opens": {
+    "before": [
+     "event:ev_ps_before_leave（2026-12-17 晚上溫州街課輔班門口）",
+     "event:ev_ps_station_sendoff（隔天臺北車站，可以不去）",
+     "msg:2027-08-06 放榜她先傳給你"
+    ]
+   },
+   "after": {
+    "all": "休學重考照樣發生（使用者定的）；交往中的線照 AA_276 例外"
+   }
+  },
+  {
+   "id": "KX-1",
+   "who": "kexin",
+   "beat": 7,
+   "key": "after_fail",
+   "style": "contrary",
+   "lean": "quiet",
+   "default": "quiet",
+   "key_true": true,
+   "keyNote": "（她不說話。你說什麼，她都會記得。）",
+   "values": {
+    "rehearse": "下一輪面試前，你當面試官陪她練",
+    "quiet": "她自己準備，面試完才跟你說",
+    "eat": "當晚你請她吃一頓"
+   },
+   "opts": [
+    {
+     "i": 0,
+     "stance": "support"
+    },
+    {
+     "i": 1,
+     "stance": "space"
+    },
+    {
+     "i": 2,
+     "stance": "tease"
+    }
+   ],
+   "rules": [
+    {
+     "stance": "support",
+     "trust": "hi",
+     "result": "rehearse",
+     "rel": {
+      "trust": 3,
+      "npcRom": 2
+     },
+     "delay": 3,
+     "say": [
+      "我想了想。",
+      "下次面試前，你當面試官。你問得比較兇。"
+     ]
+    },
+    {
+     "stance": "support",
+     "trust": "lo",
+     "result": "quiet",
+     "rel": {
+      "trust": 1
+     },
+     "delay": 0
+    },
+    {
+     "stance": "space",
+     "trust": "any",
+     "result": "quiet",
+     "rel": {
+      "trust": 3,
+      "npcRom": 3
+     },
+     "delay": 0
+    },
+    {
+     "stance": "tease",
+     "trust": "hi",
+     "result": "eat",
+     "rel": {
+      "comf": 2,
+      "npcRom": 1
+     },
+     "delay": 0
+    },
+    {
+     "stance": "tease",
+     "trust": "lo",
+     "result": "quiet",
+     "rel": {
+      "comf": -1
+     },
+     "delay": 0,
+     "say": [
+      "我現在不想吃。",
+      "……你先回去。"
+     ]
+    }
+   ],
+   "opens": {
+    "rehearse": [
+     "event:ev_kx_mock_interview"
+    ],
+    "eat": [
+     "plan:當晚公館，祐廷請（AA_716 那種 plan）"
+    ]
+   },
+   "after": {
+    "all": "2027 暑假的事務所實習照原本"
+   }
+  },
+  {
+   "id": "KX-2",
+   "who": "kexin",
+   "beat": 8,
+   "key": "slot",
+   "style": "contrary",
+   "lean": "sat",
+   "default": "sat",
+   "key_true": true,
+   "keyNote": "（她把行程表推到你面前，等你看。）",
+   "values": {
+    "wed": "每週三晚上固定是你們的",
+    "sat": "每週六下午固定",
+    "show": "沒有固定的一格；有一次她等你、你沒出現"
+   },
+   "opts": [
+    {
+     "i": 0,
+     "stance": "space"
+    },
+    {
+     "i": 1,
+     "stance": "support"
+    },
+    {
+     "i": 2,
+     "stance": "tease"
+    }
+   ],
+   "rules": [
+    {
+     "stance": "support",
+     "trust": "hi",
+     "result": "wed",
+     "rel": {
+      "npcRom": 3
+     },
+     "delay": 0
+    },
+    {
+     "stance": "support",
+     "trust": "lo",
+     "result": "sat",
+     "rel": {
+      "comf": 1
+     },
+     "delay": 1,
+     "say": [
+      "你不用換家教。",
+      "……週六下午。我照我排的。"
+     ]
+    },
+    {
+     "stance": "space",
+     "trust": "any",
+     "result": "sat",
+     "rel": {
+      "trust": 2
+     },
+     "delay": 0
+    },
+    {
+     "stance": "tease",
+     "trust": "hi",
+     "result": "show",
+     "rel": {
+      "comf": 2
+     },
+     "delay": 0
+    },
+    {
+     "stance": "tease",
+     "trust": "lo",
+     "result": "sat",
+     "rel": {
+      "comf": -1
+     },
+     "delay": 0,
+     "say": [
+      "你不要每次都這樣講。",
+      "週六下午。不准遲到。"
+     ]
+    }
+   ],
+   "opens": {
+    "wed": [
+     "invite:約可昕多一格「週三晚上」"
+    ],
+    "sat": [
+     "invite:約可昕多一格「週六下午」"
+    ],
+    "show": [
+     "event:ev_kx_waited（那週沒約她，她在公館等了一個小時）"
+    ]
+   }
+  }
+ ]
+}
