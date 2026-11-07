@@ -20,8 +20,8 @@
 #   LIVE 重跑：上一次線上 deploy、p0 載入時 github.io 回 ERR_HTTP2_PROTOCOL_ERROR（網路），再跑一次（RERUN=r2）
 #   常備（D121）：開發線最新 9cff7a00b 的回歸組（p0、reach、zone、mini、class、touch）
 GYMFIT_1107 | 9cff7a00bce4a412ca08841c73123c899a4b916e | probe | docs/story_planning/test_tools/cc/cc_gymfit_1107_probe.py | index.html | 30 | CC_HEADLESS=0
-LIVE_V91021_deploy | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | game | tests/deploy_check.py | index.html | 30 | RERUN=r2;XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.21（2026-11-05）
-LIVE_V91021_p0 | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | game | tests/p0_movement.py | index.html | 40 | RERUN=r2;XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html
+# [CC-B 11-07 05:3x：已跑完（同名會輪流重跑，停掉）] LIVE_V91021_deploy | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | game | tests/deploy_check.py | index.html | 30 | RERUN=r2;XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.21（2026-11-05）
+# [CC-B 11-07 05:3x：已跑完（同名會輪流重跑，停掉）] LIVE_V91021_p0 | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | game | tests/p0_movement.py | index.html | 40 | RERUN=r2;XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html
 R9CF_p0 | 9cff7a00bce4a412ca08841c73123c899a4b916e | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
 R9CF_reach | 9cff7a00bce4a412ca08841c73123c899a4b916e | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
 R9CF_zone | 9cff7a00bce4a412ca08841c73123c899a4b916e | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
@@ -44,6 +44,10 @@ DBK_seat2_fix | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story_pl
 #   BB-B 05:08 SHOP_WINDOW_718b：日常失速立體店面（718b59ec7＝LAWWW2-B 95a86f15d）vs 2D 櫥窗（b550eb6c1）——同角度截圖日夜＋主巷三點 10 秒 fps／calls／tris；兩支都 SOLO（量 fps 不要和別的一起跑）
 SHOPWIN_718b_new | 718b59ec7a1eb39f63336f23500b77217cae69b0 | probe | docs/story_planning/test_tools/cc/cc_offbeat_front_probe.py | index.html | 30 | TAG=new;SOLO=1;CC_HEADLESS=0
 SHOPWIN_718b_old | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story_planning/test_tools/cc/cc_offbeat_front_probe.py | index.html | 30 | TAG=old;SOLO=1;CC_HEADLESS=0
+#   CC-B 05:4x：PC 那一輪的修正重跑（8618f9d80）——CLOSE_EXC 讀檔前先掛台詞紀錄（PC 快、那一句在讀檔等待時就說掉了）；沛珊／芯慈約會印 G.invites（當面說話後手機說「已經約好了」＝哪裡來的邀約）
+CLOSE_EXC_r2 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_close_all_probe.py | index.html | 90 | STAFF=1;RERUN=r2;CC_HEADLESS=0
+SOC_peishan_date_r3 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | CASES=classmate_peishan;STEPS=date,phone;RERUN=r3;CC_HEADLESS=0
+SOC_xinci_date_r3 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | CASES=classmate_xinci;STEPS=date,phone;RERUN=r3;CC_HEADLESS=0
 POOL_TALK_fix | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | EXPECT=fixed;CC_HEADLESS=0
 POOL_TALK_before | 3b170607e | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | CC_HEADLESS=0
 # ===== ★ CC-B 11-07 03:4x（BB-B 03:34／03:38）：照這個順序最先跑 =====
@@ -51,9 +55,9 @@ POOL_TALK_before | 3b170607e | probe | docs/story_planning/test_tools/cc/cc_pool
 #   ② LIVE_V91021：v9.10.21 上線 main 92c3daad8（PR #29），線上網址 deploy_check、p0、標題版本截圖（RELEASE-V91021-1105；雲端連不到 github.io）
 #   ③ XSNE_park：停車場重拍（改成自動找沒擋的角度，日夜各一張；PARTS=campus 只拍校園那幾張）
 DBK_seat2 | abf4dbbd5abc4e842b5d92d481cfa9a39084166c | probe | docs/story_planning/test_tools/cc/cc_dbk_seat2_probe.py | index.html | 40 | SEQ=1;HOURS_ADD=0,0.5,1,2;CC_HEADLESS=0
-LIVE_V91021_deploy | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.21（2026-11-05）
-LIVE_V91021_p0 | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | game | tests/p0_movement.py | index.html | 40 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html
-LIVE_V91021_title | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | probe | docs/story_planning/test_tools/cc/cc_live_title_probe.py | index.html | 40 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;WANT_VER=v9.10.21;CC_HEADLESS=0
+# [CC-B 11-07 05:3x：已跑完（同名會輪流重跑，停掉）] LIVE_V91021_deploy | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.21（2026-11-05）
+# [CC-B 11-07 05:3x：已跑完（同名會輪流重跑，停掉）] LIVE_V91021_p0 | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | game | tests/p0_movement.py | index.html | 40 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html
+# [CC-B 11-07 05:3x：已跑完（同名會輪流重跑，停掉）] LIVE_V91021_title | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | probe | docs/story_planning/test_tools/cc/cc_live_title_probe.py | index.html | 40 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;WANT_VER=v9.10.21;CC_HEADLESS=0
 XSNE_park | abf4dbbd5abc4e842b5d92d481cfa9a39084166c | probe | docs/story_planning/test_tools/cc/cc_xsne_shots_probe.py | index.html | 40 | PARTS=campus;RERUN=park;CC_HEADLESS=0
 #   ④⑤（BB-B 03:50，LAWWW2-B 345574e2d）MOKU_WINVIEW、DAKOU_FLICKER：先跑改之前的對照（abf4dbbd5）；改好的要等 LAWWW 把 patch 套進開發線給 SHA，再排 _fix
 WV1107_before | abf4dbbd5abc4e842b5d92d481cfa9a39084166c | probe | docs/story_planning/test_tools/cc/cc_winview_1107_probe.py | index.html | 30 | EXPECT=before;CC_HEADLESS=0

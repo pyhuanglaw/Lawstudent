@@ -987,7 +987,7 @@ class Person:
         """CC-B 11-07（BB-B 03:36 ④）：約之前先問遊戲 DATE.canAsk（當面＝face、手機）——V21R 沛珊、芯慈「約成一趟」FAIL 沒印為什麼。
         芯慈：XCROM.ON 關著（D116，芯慈的線先關）＝DATE.HEROINES 沒有她＝不能約是預期，記 SKIP。其他不給約的原因照實印、照舊 FAIL（BB 判）。"""
         q = await self.pg.evaluate("((id)=>{ const G=GAME.G; const r=o=>{ try{ return DATE.canAsk(G,id,o); }catch(e){ return {ok:null,why:String(e)}; } };"
-                                   " return {face:r({face:true}), phone:r(null), inHero:DATE.HEROINES.includes(id), xcrom:typeof XCROM!=='undefined'?!!XCROM.ON:null, stage:DATE.stageNum(id), key:CALENDAR.dateOf(G.day).key,"
+                                   " return {invites:(G.invites||[]).filter(v=>v.who===id).map(v=>({id:v.id,place:v.place,day:v.day,h:v.h,state:v.state,by:v.by})), face:r({face:true}), phone:r(null), inHero:DATE.HEROINES.includes(id), xcrom:typeof XCROM!=='undefined'?!!XCROM.ON:null, stage:DATE.stageNum(id), key:CALENDAR.dateOf(G.day).key,"
                                    " partner:(typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].partner)||null}; })", self.pid)
         self.R.note('%s 約之前 DATE.canAsk：%s' % (tag, J(q)))
         if self.pid == 'classmate_xinci' and q['xcrom'] is False and not q['inHero']:

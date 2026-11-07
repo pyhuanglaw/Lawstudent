@@ -60,9 +60,9 @@ async def main():
                 h0 = end - 0.035
                 try:
                     R.setup('%s 讀檔進店（出生點）%05.2f' % (tag, h0))
+                    await pg.evaluate(SAYHOOK)   # CC-B 11-07：讀檔以前就掛好（PC GPU 快：讀檔等 4 秒時遊戲時間已經跑到打烊、那一句先說掉了＝PC CLOSE_EXC 17 項 lines []）
                     s = await D.load_zone(pg, cdp, sh['k'], sh['key'], h0, wait=4000)
                     if s['zone'] != sh['k']: R.check('%s 讀得進店裡' % tag, False, J(s)); continue
-                    await pg.evaluate(SAYHOOK)
                     t0 = time.time(); e = None
                     while time.time() - t0 < 120:
                         q = await D.st(pg)
@@ -89,6 +89,7 @@ async def main():
                     R.setup('%s 讀檔進店 %05.2f；【前置／捷徑】G.jobs.%s.worked 加今天（JOBS.worked＝true）' % (tag, end - 0.035, keys[sh['k']]))
                     s = await D.load_zone(pg, cdp, sh['k'], sh['key'], end - 0.035, wait=4000)
                     if s['zone'] != sh['k']: R.check('%s 讀得進店裡' % tag, False, J(s)); continue
+                    await pg.evaluate(SAYHOOK)
                     w = await pg.evaluate("((k)=>{ const G=GAME.G, J=JOBS.rec(G); const j=J[k]&&typeof J[k]==='object'?J[k]:(J[k]={}); j.worked=(j.worked||[]).concat([G.day]); return {worked:JOBS.worked(G,k,G.day), staff:typeof XSCLOSE!=='undefined'&&XSCLOSE.staffToday?XSCLOSE.staffToday(G,G.zone):null}; })", keys[sh['k']])
                     R.note('%s 打工紀錄：%s' % (tag, J(w)))
                     await pg.evaluate(SAYHOOK)
