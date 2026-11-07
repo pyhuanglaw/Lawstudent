@@ -18402,6 +18402,34 @@
    "integration": "已整合待測試",
    "note": "f7444d194",
    "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-AA-667C",
+   "date": "2026-11-07",
+   "from": "AA",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "0ba033578",
+   "msg": "ACK",
+   "what": "AA_667 第 7 節補（18:47 四點）",
+   "task": "AA667-VAC-GAP2-1104",
+   "integration": "已整合待測試",
+   "note": "9c0120628",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-L2-SCOOT",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "14f43e529",
+   "msg": "ACK",
+   "what": "公館商圈落點避開機車",
+   "task": "CAM-GONGGUAN-GATE-1107",
+   "integration": "已整合待測試",
+   "note": "9c0120628",
+   "ack": "ACK"
   }
  ],
  "ignored": [
