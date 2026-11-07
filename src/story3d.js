@@ -3859,6 +3859,9 @@ const STORY = (function(){
     if(!here&&!(typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G))&&typeof OUT!=='undefined'&&OUT.plan){ const day=Math.floor(at/24), hh=at-day*24;   /* 舊流程（?nofastecon）：出發選單 */
       OUT.plan(G,{id:'y0_e05',goto:Object.assign({},S.E05_GOTO),day,h:hh,late:S.E05_NOSHOW,must:true,silent:true,place:'普通教學館',title:'普通教學館前',travel:F.E05_MEET_TR,travelH:home?0.5:min/60}); }
     return true; };
+  /* 跳過時間的停點（CLS.STOP_FNS）：回了她、約好的見面還沒演＝停在見面前 10 分鐘（BB-B 11-07 17:20 P3：回了以後自己按「等到晚上（20:00）」，這一跳不停，睡覺時才演 E05、晚了三小時）；
+     停下來以後經濟系快轉（ECONFF 第 9 步）照見面時間帶到 putong 演，舊流程照出發選單 */
+  S.e05StopAt=function(G){ const m=S.e05Meet(G), F=(G&&G.flags)||{}; if(!m||F.E05_OPEN||S.e05Done(G)) return null; const d=Math.floor(m.t/24); if(d!==G.day) return null; const at=m.t-d*24, h0=((+G.hour||0)%24+24)%24; return at-1/6>h0+0.02?at-1/6:Math.max(h0+0.01,at-1/60); };   /* 「我過去。」10 分鐘後見面＝見面前 10 分鐘就是現在：改停在見面前 1 分鐘 */
   S.e05Meet=function(G){ const F=G.flags||{}; if(!F.E05_MEET||F.E05_MEET_AT==null) return null; const g=S.E05_GOTO; return {t:F.E05_MEET_AT,zone:g.zone,at:{x:g.x,z:g.z,yaw:g.yaw},title:'普通教學館前',travel:F.E05_MEET_TR||''}; };
   /* econff3d.js 第 9 步（dyn:'e05'）：{done}＝演過或不演了；{t, zone, at, card}＝見面（帶過去演）；{t}＝下一個要停的時間（17:00 訊息、19:00 還沒回的那一則）*/
   S.e05Step=function(G){ const F=G.flags||{}, d=S.e05Day(); if(d==null) return null; if(S.e05Done(G)||F.E05_OPEN) return {done:true};
