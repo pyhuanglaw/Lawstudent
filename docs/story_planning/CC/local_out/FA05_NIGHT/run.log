@@ -1,0 +1,74 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_fa05_night_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FA05_NIGHT\out
+CC FA05_NIGHT（新生南路四家店窗外夜景、體育館圓頂）：SHA=fa05ed8c5c5c5b3d298a09b3b1d0925696f8ee23（worktree 實際 ?）；PARTS=['shops', 'dome']；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+== night xs_dakou lv0
+  [前置／捷徑] [night xs_dakou lv0] 讀檔 xs_dakou 2025-10-18 21.00（店裡出生點）
+  [  43.2s] [night xs_dakou lv0] 窗景卡 {"wins": [{"name": "VIEWPANE_xs_dakou", "c": [0, 1.6, 8.3], "size": [12.4, 5.84, 0]}, {"name": "VIEWPANE_xs_dakou_2f", "c": [0, 5.2, 8.4], "size": [12.4, 3.4, 0]}], "spawn": [0, 6.4], "n": 2}
+PASS [night xs_dakou lv0] 找得到窗景卡  {"wins": [{"name": "VIEWPANE_xs_dakou", "c": [0, 1.6, 8.3], "size": [12.4, 5.84, 0]}, {"name": "VIEWPANE_xs_dakou_2f", "c": [0, 5.2, 8.4], "size": [12.4, 3.4, 0]}], "spawn": [0, 6.4], "n": 2}
+PASS [黑畫面] xsnight_xs_dakou_lv0_win0_night 不是黑畫面（平均亮度 23.4、變化 5.1）  [23.4, 5.1]
+  [  45.1s] [截圖] xsnight_xs_dakou_lv0_win0_night：鏡頭 {"eye": [0, 1.5, 4.800000000000001], "look": [0, 1.6, 8.3], "lens": 24, "vfov": 45.75}、亮度 [23.4, 5.1]
+== night xs_dakou lv1
+  [前置／捷徑] [night xs_dakou lv1] 讀檔 xs_dakou 2025-10-18 21.00（店裡二樓站得住的點）
+PASS [night xs_dakou lv1] 二樓有站得住的地方  {"x": 0, "z": 1.5, "d": 0.5}
+  [  63.6s] [night xs_dakou lv1] 窗景卡 {"wins": [{"name": "VIEWPANE_xs_dakou_2f", "c": [0, 5.2, 8.4], "size": [12.4, 3.4, 0]}], "spawn": [0, 6.4], "n": 2}
+PASS [night xs_dakou lv1] 找得到窗景卡  {"wins": [{"name": "VIEWPANE_xs_dakou_2f", "c": [0, 5.2, 8.4], "size": [12.4, 3.4, 0]}], "spawn": [0, 6.4], "n": 2}
+PASS [黑畫面] xsnight_xs_dakou_lv1_win0_night 不是黑畫面（平均亮度 47.8、變化 26.3）  [47.8, 26.3]
+  [  65.6s] [截圖] xsnight_xs_dakou_lv1_win0_night：鏡頭 {"eye": [0, 5.1, 4.9], "look": [0, 5.2, 8.4], "lens": 24, "vfov": 45.75}、亮度 [47.8, 26.3]
+== night xs_dabu lv0
+  [前置／捷徑] [night xs_dabu lv0] 讀檔 xs_dabu 2025-10-18 21.00（店裡出生點）
+  [  81.7s] [night xs_dabu lv0] 窗景卡 {"wins": [{"name": "VIEWPANE_xs_dabu", "c": [-0.1, 1.6, 6.23], "size": [8, 3.2, 0]}], "spawn": [2.5, 4.4], "n": 1}
+PASS [night xs_dabu lv0] 找得到窗景卡  {"wins": [{"name": "VIEWPANE_xs_dabu", "c": [-0.1, 1.6, 6.23], "size": [8, 3.2, 0]}], "spawn": [2.5, 4.4], "n": 1}
+PASS [黑畫面] xsnight_xs_dabu_lv0_win0_night 不是黑畫面（平均亮度 13.8、變化 20.4）  [13.8, 20.4]
+  [  83.4s] [截圖] xsnight_xs_dabu_lv0_win0_night：鏡頭 {"eye": [-0.1, 1.5, 2.7300000000000004], "look": [-0.1, 1.6, 6.23], "lens": 24, "vfov": 45.75}、亮度 [13.8, 20.4]
+== night xs_haopai lv0
+  [前置／捷徑] [night xs_haopai lv0] 讀檔 xs_haopai 2025-10-18 21.00（店裡出生點）
+  [  96.1s] [night xs_haopai lv0] 窗景卡 {"wins": [{"name": "VIEWPANE_xs_haopai", "c": [0, 1.6, 7.23], "size": [4.8, 3.2, 0]}], "spawn": [0, 5.4], "n": 1}
+PASS [night xs_haopai lv0] 找得到窗景卡  {"wins": [{"name": "VIEWPANE_xs_haopai", "c": [0, 1.6, 7.23], "size": [4.8, 3.2, 0]}], "spawn": [0, 5.4], "n": 1}
+PASS [黑畫面] xsnight_xs_haopai_lv0_win0_night 不是黑畫面（平均亮度 22.9、變化 27.5）  [22.9, 27.5]
+  [  97.9s] [截圖] xsnight_xs_haopai_lv0_win0_night：鏡頭 {"eye": [0, 1.5, 3.7300000000000004], "look": [0, 1.6, 7.23], "lens": 24, "vfov": 45.75}、亮度 [22.9, 27.5]
+== night dome
+  [前置／捷徑] [night dome] 讀檔校園（新生南路側門內）2025-10-18 21.00
+PASS [night dome] 校園有 Z3.XSG（新生南路側門、體育館）  {"xsg": {"x": -101.4, "gz": null, "gym": [-90, -140.4, -60, -126.4]}, "sg": {"x": 18.4, "z": 10, "w": 6.4, "label": "回到首都帝大（新生南路側門）", "name": "新生南路側門", "campusSpawn": {"x": -101.4, "z": -137.2, "yaw": 0}, "spawn": {"x": 14.3, "z": 10, "yaw": -1.5708}, "note": "門柱寫「首都帝大」、鐵柵門開著、門柱上一盞燈（參考圖）。校園那一側的門開在北側圍牆 (−101.4, −141)、靠西北角，門內是望月台（新月台）前的小廣場（XS-GATE-NORTH-1105，使用者 11-05 09:0x「門就不要往左邊開了 直接往上面開 跟公館不同側」）；回到校園落在門內 (−101.4, −137.2)、面向南。之前：西牆 (−124, −84)（ART-XINSHENG-GATE-1103）、x −66 往西（XS-GATE-MOVE-1105）"}}
+  [ 115.7s] [night dome] 圓頂材質 ck_glass_lit 2 個：[{"mesh": "gym_dome", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 1, "emap": true, "vis": true}, {"mesh": "soc_ceilL", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 1, "emap": true, "vis": true}]；其他看起來會亮的體育館材質 1 個：[{"mesh": "gym_glass", "mat": "ck_glass", "emissive": "ffd49a", "ei": 1, "emap": true, "vis": true}]
+PASS [night dome] 晚上圓頂（ck_glass_lit）會發光（emissive 不是黑、intensity > 0）  [{"mesh": "gym_dome", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 1, "emap": true, "vis": true}, {"mesh": "soc_ceilL", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 1, "emap": true, "vis": true}]
+PASS [黑畫面] gymdome_sidegate_night 不是黑畫面（平均亮度 24.7、變化 31.5）  [24.7, 31.5]
+  [ 118.1s] [截圖] gymdome_sidegate_night：鏡頭 {"eye": [-101.4, 1.7, -135.7], "look": [-75, 6, -133.4], "lens": 24, "vfov": 45.75}、亮度 [24.7, 31.5]
+PASS [黑畫面] gymdome_plaza_night 不是黑畫面（平均亮度 25.2、變化 31.2）  [25.2, 31.2]
+  [ 120.2s] [截圖] gymdome_plaza_night：鏡頭 {"eye": [-101.4, 1.7, -134.2], "look": [-75, 6, -133.4], "lens": 24, "vfov": 45.75}、亮度 [25.2, 31.2]
+== day xs_dakou lv0
+  [前置／捷徑] [day xs_dakou lv0] 讀檔 xs_dakou 2025-10-18 14.00（店裡出生點）
+  [ 128.9s] [day xs_dakou lv0] 窗景卡 {"wins": [{"name": "VIEWPANE_xs_dakou", "c": [0, 1.6, 8.3], "size": [12.4, 5.84, 0]}, {"name": "VIEWPANE_xs_dakou_2f", "c": [0, 5.2, 8.4], "size": [12.4, 3.4, 0]}], "spawn": [0, 6.4], "n": 2}
+PASS [day xs_dakou lv0] 找得到窗景卡  {"wins": [{"name": "VIEWPANE_xs_dakou", "c": [0, 1.6, 8.3], "size": [12.4, 5.84, 0]}, {"name": "VIEWPANE_xs_dakou_2f", "c": [0, 5.2, 8.4], "size": [12.4, 3.4, 0]}], "spawn": [0, 6.4], "n": 2}
+PASS [黑畫面] xsnight_xs_dakou_lv0_win0_day 不是黑畫面（平均亮度 185.4、變化 16）  [185.4, 16]
+  [ 130.7s] [截圖] xsnight_xs_dakou_lv0_win0_day：鏡頭 {"eye": [0, 1.5, 4.800000000000001], "look": [0, 1.6, 8.3], "lens": 24, "vfov": 45.75}、亮度 [185.4, 16]
+== day xs_dakou lv1
+  [前置／捷徑] [day xs_dakou lv1] 讀檔 xs_dakou 2025-10-18 14.00（店裡二樓站得住的點）
+PASS [day xs_dakou lv1] 二樓有站得住的地方  {"x": 0, "z": 1.5, "d": 0.5}
+  [ 147.8s] [day xs_dakou lv1] 窗景卡 {"wins": [{"name": "VIEWPANE_xs_dakou_2f", "c": [0, 5.2, 8.4], "size": [12.4, 3.4, 0]}], "spawn": [0, 6.4], "n": 2}
+PASS [day xs_dakou lv1] 找得到窗景卡  {"wins": [{"name": "VIEWPANE_xs_dakou_2f", "c": [0, 5.2, 8.4], "size": [12.4, 3.4, 0]}], "spawn": [0, 6.4], "n": 2}
+PASS [黑畫面] xsnight_xs_dakou_lv1_win0_day 不是黑畫面（平均亮度 147.2、變化 61.2）  [147.2, 61.2]
+  [ 149.7s] [截圖] xsnight_xs_dakou_lv1_win0_day：鏡頭 {"eye": [0, 5.1, 4.9], "look": [0, 5.2, 8.4], "lens": 24, "vfov": 45.75}、亮度 [147.2, 61.2]
+== day xs_dabu lv0
+  [前置／捷徑] [day xs_dabu lv0] 讀檔 xs_dabu 2025-10-18 14.00（店裡出生點）
+  [ 159.1s] [day xs_dabu lv0] 窗景卡 {"wins": [{"name": "VIEWPANE_xs_dabu", "c": [-0.1, 1.6, 6.23], "size": [8, 3.2, 0]}], "spawn": [2.5, 4.4], "n": 1}
+PASS [day xs_dabu lv0] 找得到窗景卡  {"wins": [{"name": "VIEWPANE_xs_dabu", "c": [-0.1, 1.6, 6.23], "size": [8, 3.2, 0]}], "spawn": [2.5, 4.4], "n": 1}
+PASS [黑畫面] xsnight_xs_dabu_lv0_win0_day 不是黑畫面（平均亮度 184.2、變化 27）  [184.2, 27]
+  [ 160.9s] [截圖] xsnight_xs_dabu_lv0_win0_day：鏡頭 {"eye": [-0.1, 1.5, 2.7300000000000004], "look": [-0.1, 1.6, 6.23], "lens": 24, "vfov": 45.75}、亮度 [184.2, 27]
+== day xs_haopai lv0
+  [前置／捷徑] [day xs_haopai lv0] 讀檔 xs_haopai 2025-10-18 14.00（店裡出生點）
+  [ 170.8s] [day xs_haopai lv0] 窗景卡 {"wins": [{"name": "VIEWPANE_xs_haopai", "c": [0, 1.6, 7.23], "size": [4.8, 3.2, 0]}], "spawn": [0, 5.4], "n": 1}
+PASS [day xs_haopai lv0] 找得到窗景卡  {"wins": [{"name": "VIEWPANE_xs_haopai", "c": [0, 1.6, 7.23], "size": [4.8, 3.2, 0]}], "spawn": [0, 5.4], "n": 1}
+PASS [黑畫面] xsnight_xs_haopai_lv0_win0_day 不是黑畫面（平均亮度 171.6、變化 40.5）  [171.6, 40.5]
+  [ 172.6s] [截圖] xsnight_xs_haopai_lv0_win0_day：鏡頭 {"eye": [0, 1.5, 3.7300000000000004], "look": [0, 1.6, 7.23], "lens": 24, "vfov": 45.75}、亮度 [171.6, 40.5]
+== day dome
+  [前置／捷徑] [day dome] 讀檔校園（新生南路側門內）2025-10-18 14.00
+PASS [day dome] 校園有 Z3.XSG（新生南路側門、體育館）  {"xsg": {"x": -101.4, "gz": null, "gym": [-90, -140.4, -60, -126.4]}, "sg": {"x": 18.4, "z": 10, "w": 6.4, "label": "回到首都帝大（新生南路側門）", "name": "新生南路側門", "campusSpawn": {"x": -101.4, "z": -137.2, "yaw": 0}, "spawn": {"x": 14.3, "z": 10, "yaw": -1.5708}, "note": "門柱寫「首都帝大」、鐵柵門開著、門柱上一盞燈（參考圖）。校園那一側的門開在北側圍牆 (−101.4, −141)、靠西北角，門內是望月台（新月台）前的小廣場（XS-GATE-NORTH-1105，使用者 11-05 09:0x「門就不要往左邊開了 直接往上面開 跟公館不同側」）；回到校園落在門內 (−101.4, −137.2)、面向南。之前：西牆 (−124, −84)（ART-XINSHENG-GATE-1103）、x −66 往西（XS-GATE-MOVE-1105）"}}
+  [ 187.7s] [day dome] 圓頂材質 ck_glass_lit 2 個：[{"mesh": "gym_dome", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 0, "emap": true, "vis": true}, {"mesh": "soc_ceilL", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 0, "emap": true, "vis": true}]；其他看起來會亮的體育館材質 0 個：[]
+PASS [day dome] 白天圓頂（ck_glass_lit）不發光（emissive 黑或 intensity 0）  [{"mesh": "gym_dome", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 0, "emap": true, "vis": true}, {"mesh": "soc_ceilL", "mat": "ck_glass_lit", "emissive": "ffd49a", "ei": 0, "emap": true, "vis": true}]
+PASS [黑畫面] gymdome_sidegate_day 不是黑畫面（平均亮度 93、變化 46.2）  [93, 46.2]
+  [ 189.9s] [截圖] gymdome_sidegate_day：鏡頭 {"eye": [-101.4, 1.7, -135.7], "look": [-75, 6, -133.4], "lens": 24, "vfov": 45.75}、亮度 [93, 46.2]
+PASS [黑畫面] gymdome_plaza_day 不是黑畫面（平均亮度 94.5、變化 45.6）  [94.5, 45.6]
+  [ 192.1s] [截圖] gymdome_plaza_day：鏡頭 {"eye": [-101.4, 1.7, -134.2], "look": [-75, 6, -133.4], "lens": 24, "vfov": 45.75}、亮度 [94.5, 45.6]
+PASS 沒有 JS 例外  []
+ALL PASS

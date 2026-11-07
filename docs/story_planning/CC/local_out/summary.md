@@ -1686,3 +1686,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 144.7s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 144.7s] BROWSER DISCONNECTED
 - 2026-11-07T16:13:35  HAIR_FIX_v3  sha=62d7f3b5412fc940da37c20669b6ec201aa754df  exit=0  209s      [campus] 總覽 hair_overview_campus11_tex.png（6 人 × 5 張） / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 174.9s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 174.9s] BROWSER DISCONNECTED
+- 2026-11-07T16:14:32  FA05_NIGHT  sha=fa05ed8c5c5c5b3d298a09b3b1d0925696f8ee23  exit=0  266s      [ 192.1s] [截圖] gymdome_plaza_day：鏡頭 {"eye": [-101.4, 1.7, -134.2], "look": [-75, 6, -133.4], "lens": 24, "vfov": 45.75}、亮度 [94.5, 45.6] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 192.6s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 192.6s] BROWSER DISCONNECTED

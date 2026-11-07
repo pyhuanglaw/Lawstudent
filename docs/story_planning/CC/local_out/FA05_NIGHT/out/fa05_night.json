@@ -1,0 +1,373 @@
+{
+ "shops": [
+  {
+   "name": "xsnight_xs_dakou_lv0_win0_night.png",
+   "zone": "xs_dakou",
+   "lv": 0,
+   "card": {
+    "name": "VIEWPANE_xs_dakou",
+    "c": [
+     0,
+     1.6,
+     8.3
+    ],
+    "size": [
+     12.4,
+     5.84,
+     0
+    ]
+   },
+   "cam": {
+    "eye": [
+     0,
+     1.5,
+     4.800000000000001
+    ],
+    "look": [
+     0,
+     1.6,
+     8.3
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   }
+  },
+  {
+   "name": "xsnight_xs_dakou_lv1_win0_night.png",
+   "zone": "xs_dakou",
+   "lv": 1,
+   "card": {
+    "name": "VIEWPANE_xs_dakou_2f",
+    "c": [
+     0,
+     5.2,
+     8.4
+    ],
+    "size": [
+     12.4,
+     3.4,
+     0
+    ]
+   },
+   "cam": {
+    "eye": [
+     0,
+     5.1,
+     4.9
+    ],
+    "look": [
+     0,
+     5.2,
+     8.4
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   }
+  },
+  {
+   "name": "xsnight_xs_dabu_lv0_win0_night.png",
+   "zone": "xs_dabu",
+   "lv": 0,
+   "card": {
+    "name": "VIEWPANE_xs_dabu",
+    "c": [
+     -0.1,
+     1.6,
+     6.23
+    ],
+    "size": [
+     8,
+     3.2,
+     0
+    ]
+   },
+   "cam": {
+    "eye": [
+     -0.1,
+     1.5,
+     2.7300000000000004
+    ],
+    "look": [
+     -0.1,
+     1.6,
+     6.23
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   }
+  },
+  {
+   "name": "xsnight_xs_haopai_lv0_win0_night.png",
+   "zone": "xs_haopai",
+   "lv": 0,
+   "card": {
+    "name": "VIEWPANE_xs_haopai",
+    "c": [
+     0,
+     1.6,
+     7.23
+    ],
+    "size": [
+     4.8,
+     3.2,
+     0
+    ]
+   },
+   "cam": {
+    "eye": [
+     0,
+     1.5,
+     3.7300000000000004
+    ],
+    "look": [
+     0,
+     1.6,
+     7.23
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   }
+  },
+  {
+   "name": "xsnight_xs_dakou_lv0_win0_day.png",
+   "zone": "xs_dakou",
+   "lv": 0,
+   "card": {
+    "name": "VIEWPANE_xs_dakou",
+    "c": [
+     0,
+     1.6,
+     8.3
+    ],
+    "size": [
+     12.4,
+     5.84,
+     0
+    ]
+   },
+   "cam": {
+    "eye": [
+     0,
+     1.5,
+     4.800000000000001
+    ],
+    "look": [
+     0,
+     1.6,
+     8.3
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   }
+  },
+  {
+   "name": "xsnight_xs_dakou_lv1_win0_day.png",
+   "zone": "xs_dakou",
+   "lv": 1,
+   "card": {
+    "name": "VIEWPANE_xs_dakou_2f",
+    "c": [
+     0,
+     5.2,
+     8.4
+    ],
+    "size": [
+     12.4,
+     3.4,
+     0
+    ]
+   },
+   "cam": {
+    "eye": [
+     0,
+     5.1,
+     4.9
+    ],
+    "look": [
+     0,
+     5.2,
+     8.4
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   }
+  },
+  {
+   "name": "xsnight_xs_dabu_lv0_win0_day.png",
+   "zone": "xs_dabu",
+   "lv": 0,
+   "card": {
+    "name": "VIEWPANE_xs_dabu",
+    "c": [
+     -0.1,
+     1.6,
+     6.23
+    ],
+    "size": [
+     8,
+     3.2,
+     0
+    ]
+   },
+   "cam": {
+    "eye": [
+     -0.1,
+     1.5,
+     2.7300000000000004
+    ],
+    "look": [
+     -0.1,
+     1.6,
+     6.23
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   }
+  },
+  {
+   "name": "xsnight_xs_haopai_lv0_win0_day.png",
+   "zone": "xs_haopai",
+   "lv": 0,
+   "card": {
+    "name": "VIEWPANE_xs_haopai",
+    "c": [
+     0,
+     1.6,
+     7.23
+    ],
+    "size": [
+     4.8,
+     3.2,
+     0
+    ]
+   },
+   "cam": {
+    "eye": [
+     0,
+     1.5,
+     3.7300000000000004
+    ],
+    "look": [
+     0,
+     1.6,
+     7.23
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   }
+  }
+ ],
+ "dome": {
+  "night": {
+   "lit": [
+    {
+     "mesh": "gym_dome",
+     "mat": "ck_glass_lit",
+     "emissive": "ffd49a",
+     "ei": 1,
+     "emap": true,
+     "vis": true
+    },
+    {
+     "mesh": "soc_ceilL",
+     "mat": "ck_glass_lit",
+     "emissive": "ffd49a",
+     "ei": 1,
+     "emap": true,
+     "vis": true
+    }
+   ],
+   "nLit": 2,
+   "otherLit": [
+    {
+     "mesh": "gym_glass",
+     "mat": "ck_glass",
+     "emissive": "ffd49a",
+     "ei": 1,
+     "emap": true,
+     "vis": true
+    }
+   ],
+   "nOther": 1
+  },
+  "night_sidegate": {
+   "eye": [
+    -101.4,
+    1.7,
+    -135.7
+   ],
+   "look": [
+    -75,
+    6,
+    -133.4
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  },
+  "night_plaza": {
+   "eye": [
+    -101.4,
+    1.7,
+    -134.2
+   ],
+   "look": [
+    -75,
+    6,
+    -133.4
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  },
+  "day": {
+   "lit": [
+    {
+     "mesh": "gym_dome",
+     "mat": "ck_glass_lit",
+     "emissive": "ffd49a",
+     "ei": 0,
+     "emap": true,
+     "vis": true
+    },
+    {
+     "mesh": "soc_ceilL",
+     "mat": "ck_glass_lit",
+     "emissive": "ffd49a",
+     "ei": 0,
+     "emap": true,
+     "vis": true
+    }
+   ],
+   "nLit": 2,
+   "otherLit": [],
+   "nOther": 0
+  },
+  "day_sidegate": {
+   "eye": [
+    -101.4,
+    1.7,
+    -135.7
+   ],
+   "look": [
+    -75,
+    6,
+    -133.4
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  },
+  "day_plaza": {
+   "eye": [
+    -101.4,
+    1.7,
+    -134.2
+   ],
+   "look": [
+    -75,
+    6,
+    -133.4
+   ],
+   "lens": 24,
+   "vfov": 45.75
+  }
+ }
+}

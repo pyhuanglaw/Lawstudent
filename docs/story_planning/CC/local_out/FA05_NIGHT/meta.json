@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "FA05_NIGHT",
+  "sha": "fa05ed8c5c5c5b3d298a09b3b1d0925696f8ee23",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_fa05_night_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T16:10:06",
+  "end": "2026-11-07T16:14:32",
+  "seconds": 266,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "26",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 45,
+    "mem": 52,
+    "used_gb": 16.4,
+    "chrome_testing": 8
+  }
+}
