@@ -113,10 +113,10 @@ aa_sunnyside|aa_komichi|aa_mokuyobi|aa_yizhan|aa_offbeat|aa_afar|aa_aoki|aa_dayb
     aa_mokuyobi)  GLB=aa_support/mokuyobi.glb;  P=mok; OPEN=S; GSD=2.6 ;;     # 木曜日（wz_mokuyobi）9 × 14 × 3.0
     aa_yizhan)    GLB=aa_support/yizhan.glb;    P=yzn; OPEN=S; GSD=6 ;;     # 一盞（wz_teahouse）8.4 × 10 × 2.6＋緣側：格子玻璃拉門朝 +z（燈只有紙燈 3、行燈 3）
     aa_offbeat)   GLB=aa_support/daily_offbeat.glb; P=dof; OPEN=S,E; GSD=1.5 ;;   # 日常失速（wz_offbeat）11 × 10 × 3.4：店面＋右牆窗
-    # 第二級（11-07 21:xx）：公館 AA 三間，命名一樣；店面在 +z（S）。倍數先用 2.4 試烘再照試烘亮度改
+    # 第二級（11-07 21:xx）：公館 AA 三間，命名一樣；店面在 +z（S）。試烘 128（倍數 2.4）晚上：afar 0.31、青木 0.38、Daybreak 0.38 → afar 照舊、青木／Daybreak 1.7
     aa_afar)      GLB=aa_support/afar.glb;      P=afr; OPEN=S; GSD=${GSD_AFAR:-2.4} ;;    # afar（公館）：吊燈 5、投射燈 8、檯燈 10
-    aa_aoki)      GLB=aa_support/aoki.glb;      P=aok; OPEN=S; GSD=${GSD_AOKI:-2.4} ;;    # 青木（公館）：投射燈 16
-    aa_daybreak)  GLB=aa_support/daybreak.glb;  P=dbk; OPEN=S; GSD=${GSD_DBK:-2.4} ;;     # Daybreak（公館）：吊燈 7、投射燈 8
+    aa_aoki)      GLB=aa_support/aoki.glb;      P=aok; OPEN=S; GSD=${GSD_AOKI:-1.7} ;;    # 青木（公館）：投射燈 16
+    aa_daybreak)  GLB=aa_support/daybreak.glb;  P=dbk; OPEN=S; GSD=${GSD_DBK:-1.7} ;;     # Daybreak（公館）：吊燈 7、投射燈 8
   esac
   # 瓦數倍數 GSD（GLOW 的預設瓦數 × 倍數）：試烘第二輪（光源已放到燈罩口下）晚上的光照貼圖平均（WebP）小路 0.13、SUNNY SIDE 0.21、木曜日 0.20、一盞 0.09、日常失速 0.27，
   #   目標咖啡店、西式 0.32、日式 0.25（洋洋 0.38、轉角 0.32、頁間 0.29）；WebP 值大約是線性的 0.49 次方 → 倍數＝(目標／試烘)^2.04。GS＝環境變數蓋過。
@@ -131,7 +131,7 @@ bb_bike)
   # 燈：GLOW_pendant_1～11（吊燈，燈罩是 GPU instancing 的 bk_pendant_0_*_inst——烘的時候藏起來，光源才不會被燈罩擋住）、GLOW_tube_1～7（天花板日光燈 5 W）。
   # 烘：地板、天花板（含樑）、隔間牆、四面牆。其他（貨架、商品、腳踏車、輪子、木作、頂點色、金屬、植物、招牌、玻璃）照舊即時光；instancing 不展開、烘完補回節點名字。
   GLB=bb_support/bike.glb
-  PTS=$(python3 $LB/glow_points.py assets/models/env/second_ai/$GLB --scale "${GS:-1.0}")
+  PTS=$(python3 $LB/glow_points.py assets/models/env/second_ai/$GLB --scale "${GS:-1.8}")   # 試烘 128（×1.0）白天／晚上 0.28／0.24 偏暗 → ×1.8
   LIGHTS=""
   HIDE='glass|pendant'
   NOLM="^(?!(bk_floor_floor|bk_concrete|bk_partition_wall|WALL_[a-z]+_wall_wall|WALL_front_front_wall)\$)"
