@@ -145,6 +145,8 @@ PERF_COLD_RT | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_pla
 # LAWWW2-B 10:53 LZ-UPPER-LM：霖澤 3F／4F 光照烘焙，前＝5a2ab6c75 的上一個 commit、後＝5a2ab6c75（玩家跟隨鏡頭：出電梯往南、討論區往北；11:00、20:00）
 LZLM_before | 9ef8a17cf55c429321c09c0e9b58ed6911e06ecc | probe | docs/story_planning/test_tools/cc/cc_linze_lm_probe.py | index.html | 20 | TAG=before;CC_HEADLESS=0
 LZLM_after | 5a2ab6c75566cb3aaa0e78c4caafdd460da7145e | probe | docs/story_planning/test_tools/cc/cc_linze_lm_probe.py | index.html | 20 | TAG=after;CC_HEADLESS=0
+# LAWWW2-B 11:19 PAGES-GZIP：GitHub Pages 的 .glb 有沒有壓縮傳（只讀標頭＋實收 bytes，不開瀏覽器；SHA 只是 runner 要的）
+PAGES_GZIP | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/cc_pages_gzip_probe.py | index.html | 10 | CC_HEADLESS=0
 # LAWWW2-B 11:15 PERF_COLD_PERSIST：磁碟快取（persistent context）＋進區域前 only-if-cached 檢查——分辨 13.6 MB wenzhou_street.glb 沒進快取是不是測試瀏覽器記憶體快取的上限
 PERF_COLD_PERSIST | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/perf_cold_probe.py | index.html | 50 | ZONES=wenzhou;VARIANTS=base,near;NET=4g;PERSIST=1;COLD=12;CC_HEADLESS=0
 # CC-B 11:1x：LZLM 第一輪兩版都例外（舊版 playlib.load_state 沒有 quiet_phone；cc_d141_lib 已相容）→ 重跑放在常備前面
