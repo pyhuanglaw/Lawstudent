@@ -174,10 +174,14 @@ async def movie(pg, cdp, run):
     await back_out(pg, cdp)
     if not n or n['dim']: return
     await pg.evaluate("(()=>{ window.__money=[]; if(GAME.money&&!GAME.__mW){ const f=GAME.money; GAME.money=function(v,why){ try{ window.__money.push({v,why,day:GAME.G.day,h:+GAME.G.hour.toFixed(2)}); }catch(e){} return f.apply(this,arguments); }; GAME.__mW=1; } })()")
+    await pg.evaluate("(()=>{ if(typeof ADV!=='undefined'&&Array.isArray(ADV.history)) ADV.history.length=0; })()")
     said2, _ = await pe.meet_once(pg, cdp, run, '看電影', '南洋', '南洋')
     ivs = await pg.evaluate("(w=>(GAME.G.invites||[]).filter(v=>v.who===w).slice(-3).map(v=>({place:v.place,day:v.day,h:v.h,state:v.state})))(%s)" % json.dumps(WHO))
+    hist = await pg.evaluate("(typeof ADV!=='undefined'&&Array.isArray(ADV.history))?ADV.history.map(x=>(x.name||'')+'｜'+x.text):[]")
     print('   南洋 said', json.dumps((said2 or [])[-14:], ensure_ascii=False)[:1500], '邀約', json.dumps(ivs, ensure_ascii=False), flush=True)
-    run.check('南洋：見面演了、有「燈暗下來，電影開始了。」', said2 is not None and any('燈暗下來' in x for x in (said2 or [])), json.dumps({'said': (said2 or [])[-10:], 'ivs': ivs}, ensure_ascii=False))
+    print('   南洋 ADV 紀錄', json.dumps(hist, ensure_ascii=False)[:2000], flush=True)
+    allm = (said2 or []) + hist   # PC 跑得快，畫面上的句子探針只抓得到幾句：加 ADV 紀錄（BB-B 11:1x）
+    run.check('南洋：見面演了、有「燈暗下來，電影開始了。」', said2 is not None and any('燈暗下來' in x for x in allm), json.dumps({'said': (said2 or [])[-10:], 'hist': hist[-14:], 'ivs': ivs}, ensure_ascii=False))
     mv = await pg.evaluate("({money:GAME.G.money, log:window.__money||[], tk:(GAME.G.flags||{}).NY_TICKET, day:GAME.G.day})")
     tick = [x for x in mv['log'] if x.get('why') == '電影票']
     run.check('南洋：那一場扣了 150（電影票）、記 NY_TICKET＝今天', len(tick) == 1 and tick[0]['v'] == -150 and mv['tk'] == mv['day'], json.dumps(mv, ensure_ascii=False))
