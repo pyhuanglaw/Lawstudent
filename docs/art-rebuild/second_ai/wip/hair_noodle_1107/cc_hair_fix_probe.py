@@ -2,11 +2,15 @@
   原檔：CC-C 的 docs/story_planning/test_tools/cc/cc_hair_compare_probe.py（cc-testing cc8c8ae6b；11-04 寫好、一直沒排進 PC 佇列）。改了：
   - HAIRFIX＝逗號分隔的做法，預設 0,n0.6,tex,n0.6+tex：
       0：原樣；
-      nK：頭髮法線往膠囊狀的頭部外形混合 K（0～1；頭頂下 11.5 cm 以上是球面、以下是垂直軸）＝ tools/hair_normals.py 同一個算法；
+      nK：頭髮法線往膠囊狀的頭部外形混合 K（0～1；頭頂下 11.5 cm 以上是球面、以下是垂直軸；頭頂、頭的軸只看頭髮的幾何）＝ tools/hair_normals.py 同一個算法；
       tex：頭髮貼圖的細線柔化（原圖 25%＋模糊 1.4 px 的 75%）；
       n0.6+tex：兩個一起。
   - 每個人只放一次，同一個位置連拍每一種做法（同一個鏡頭、同一個光）；檔名、總覽多一段做法：hair_<id>_<角度>_<光>_<做法>.png、hair_overview_<光>_<做法>.png。
   - 預設 WHO＝祐廷＋五位女主角、ENVS＝校園白天（campus@11）；要室內晚上加 ENVS=campus@11,linze@20。
+  - 第二版（11-07 08:0x）：
+      CC-B 雲端試跑抓到兩件——① PLACE_JS 回傳的 model 是整個 VRM 物件，Python 記錄時循環參照（CC-B 改成名字，這一版照收）；
+      ② 遊戲建好的人物骨架 boneInverses 帶了人在世界的位置，用頭骨算頭的位置對不上頂點，法線一個都沒改到（「頭頂附近沒有頭髮」）
+      → 頭的中心改成只看頭髮的幾何（頭頂＝最高的頭髮頂點；頭的軸＝頭頂往下 8 cm 那一圈的中心；同一個人的頭髮共用）。
 以下是 CC-C 原本的說明。
 CC-C（帳號 C）11-04：頭髮對照（使用者 13:2x 對 CC-C：「人物的頭髮真的太像泡麵了」；BB-C 13:17 排；3D 頭髮 LAWWW2 做、角色美術照 D100a／D128 由 LAWWW 驗）。
   規格（LAWWW2-C 13:19 為主＋BB-C 13:17）：誰＝祐廷（玩家）、以安、芷若、語彤、子晴、學姊、可昕、阿凱、沛珊（「小語」CHARACTERS 找不到 id，等 LAWWW2-C）；
@@ -52,22 +56,24 @@ PLACE_JS = r"""(async([id,x,z,yaw])=>{ const E=GAME.E; let o=null, n=null, made=
   await new Promise(r=>setTimeout(r,800));
   const V=THREE.Vector3; let head=null; try{ const v=o.userData.vrm, H=v&&v.humanoid; const b=H&&((H.getRawBoneNode&&H.getRawBoneNode('head'))||H.getNormalizedBoneNode('head')); if(b) head=b.getWorldPosition(new V()); }catch(e){}
   if(!head){ const bb=new THREE.Box3().setFromObject(o); head=new V(x,bb.max.y-0.12,z); }
-  return {id, driver:o.userData&&o.userData.driver||null, model:(o.userData&&o.userData.model)||null, made, head:[+head.x.toFixed(3),+head.y.toFixed(3),+head.z.toFixed(3)], pos:[+o.position.x.toFixed(2),+o.position.z.toFixed(2)]}; })"""
+  return {id, driver:o.userData&&o.userData.driver||null, model:(o.userData&&(typeof o.userData.model==='string'?o.userData.model:(o.userData.key||null)))||null, made, head:[+head.x.toFixed(3),+head.y.toFixed(3),+head.z.toFixed(3)], pos:[+o.position.x.toFixed(2),+o.position.z.toFixed(2)]}; })"""
 # LAWWW2-B：頭髮改法（只改放好的那個人的子樹；原本的法線、貼圖記在 userData，換下一種做法前先還原）
 APPLY_JS = r"""(([id,fix])=>{ const E=GAME.E, V=THREE.Vector3; const o=id==='player'?E.player.obj:(window.__ccHairN&&window.__ccHairN.obj); if(!o) return {err:'找不到人'};
   const k=(/n([0-9.]+)/.exec(fix)||[])[1]!=null?+(/n([0-9.]+)/.exec(fix)[1]):0, tex=/tex/.test(fix), out={fix,k,tex,meshes:0,verts:0,texs:0,skip:[]};
   const hairMat=m=>m&&/HAIR/i.test(m.name||''); const mats=m=>Array.isArray(m.material)?m.material:[m.material];
-  o.traverse(m=>{ if(!m.isMesh||!mats(m).some(hairMat)) return; const g=m.geometry, N=g&&g.attributes.normal, P=g&&g.attributes.position; if(!N||!P) return;
+  const hm=[]; o.traverse(m=>{ if(m.isMesh&&mats(m).some(hairMat)&&m.geometry&&m.geometry.attributes.normal&&m.geometry.attributes.position) hm.push(m); });
+  /* 頭的中心只看頭髮的幾何（和 tools/hair_normals.py 一樣；不用骨架：遊戲建好的人物 boneInverses 帶了人在世界的位置，和頂點的座標對不上——CC-B 11-07 雲端試跑「頭頂附近沒有頭髮」）：
+     頭頂＝所有頭髮頂點最高的一點；頭的軸＝頭頂往下 8 cm 內那一圈頂點的 x、z 中心；同一個人的頭髮網格共用 */
+  let top=-1e9; for(const m of hm){ const P=m.geometry.attributes.position; for(let i=0;i<P.count;i++) top=Math.max(top,P.getY(i)); }
+  let sx=0, sz=0, sn=0; for(const m of hm){ const P=m.geometry.attributes.position; for(let i=0;i<P.count;i++) if(P.getY(i)>top-0.08){ sx+=P.getX(i); sz+=P.getZ(i); sn++; } }
+  const S=sn?new V(sx/sn,top-0.115,sz/sn):null; out.center=S?S.toArray().map(v=>+v.toFixed(3)):null;
+  for(const m of hm){ const g=m.geometry, N=g.attributes.normal, P=g.attributes.position;
     if(!g.userData.__n0) g.userData.__n0=N.array.slice(0); const n0=g.userData.__n0; N.array.set(n0);
-    if(k>0){ const sk=m.skeleton; let hi=-1; if(sk){ hi=sk.bones.findIndex(b=>/J_Bip_C_Head$/.test(b.name)); if(hi<0) hi=sk.bones.findIndex(b=>/(^|_)head$/i.test(b.name)); }
-      if(hi<0){ out.skip.push(m.name+'：找不到頭骨'); }
-      else { const hb=new V().setFromMatrixPosition(new THREE.Matrix4().copy(sk.boneInverses[hi]).invert()).applyMatrix4(m.bindMatrixInverse);
-        let top=-1e9; for(let i=0;i<P.count;i++){ const x=P.getX(i)-hb.x, z=P.getZ(i)-hb.z; if(x*x+z*z<0.0225) top=Math.max(top,P.getY(i)); }
-        if(top<-1e8) out.skip.push(m.name+'：頭頂附近沒有頭髮');
-        else { const S=new V(hb.x,top-0.115,hb.z), p=new V(), d=new V(), n=new V();
-          for(let i=0;i<P.count;i++){ p.fromBufferAttribute(P,i); const cy=Math.min(S.y,Math.max(p.y,S.y-0.8)); d.set(p.x-S.x,p.y-cy,p.z-S.z); const L=d.length(); if(L<1e-6) continue; d.multiplyScalar(1/L);
-            n.set(n0[3*i],n0[3*i+1],n0[3*i+2]).multiplyScalar(1-k).addScaledVector(d,k); const ln=n.length(); if(ln<1e-6) continue; n.multiplyScalar(1/ln); N.setXYZ(i,n.x,n.y,n.z); }
-          out.meshes++; out.verts+=P.count; } } }
+    if(k>0){ if(!S) out.skip.push(m.name+'：沒有頭髮頂點');
+      else { const p=new V(), d=new V(), n=new V();
+        for(let i=0;i<P.count;i++){ p.fromBufferAttribute(P,i); const cy=Math.min(S.y,Math.max(p.y,S.y-0.8)); d.set(p.x-S.x,p.y-cy,p.z-S.z); const L=d.length(); if(L<1e-6) continue; d.multiplyScalar(1/L);
+          n.set(n0[3*i],n0[3*i+1],n0[3*i+2]).multiplyScalar(1-k).addScaledVector(d,k); const ln=n.length(); if(ln<1e-6) continue; n.multiplyScalar(1/ln); N.setXYZ(i,n.x,n.y,n.z); }
+        out.meshes++; out.verts+=P.count; } }
     N.needsUpdate=true;
     for(const mt of mats(m)){ if(!hairMat(mt)) continue; const U=mt.uniforms||{}; const cur=mt.map||(U.map&&U.map.value);
       if(mt.userData.__map0===undefined) mt.userData.__map0=cur||null; const m0=mt.userData.__map0; let use=m0;
@@ -75,7 +81,7 @@ APPLY_JS = r"""(([id,fix])=>{ const E=GAME.E, V=THREE.Vector3; const o=id==='pla
           x.drawImage(im,0,0); x.globalAlpha=0.75; x.filter='blur(1.4px)'; x.drawImage(im,0,0); const t=new THREE.CanvasTexture(c);
           for(const key of ['flipY','colorSpace','wrapS','wrapT','magFilter','minFilter','anisotropy','offset','repeat','channel']) if(m0[key]!==undefined){ if(m0[key]&&m0[key].clone) t[key]=m0[key].clone(); else t[key]=m0[key]; }
           t.needsUpdate=true; m0.userData.__soft=t; } use=m0.userData.__soft; out.texs++; }
-      if('map' in mt) mt.map=use; if(U.map) U.map.value=use; if(U.shadeMultiplyTexture&&(U.shadeMultiplyTexture.value===m0||U.shadeMultiplyTexture.value===m0.userData.__soft)) U.shadeMultiplyTexture.value=use; mt.needsUpdate=true; } });
+      if('map' in mt) mt.map=use; if(U.map) U.map.value=use; if(U.shadeMultiplyTexture&&(U.shadeMultiplyTexture.value===m0||U.shadeMultiplyTexture.value===m0.userData.__soft)) U.shadeMultiplyTexture.value=use; mt.needsUpdate=true; } }
   return out; })"""
 UNPLACE_JS = r"""(([id,made])=>{ const E=GAME.E; if(id==='player'){ return true; } const n=window.__ccHairN; if(n&&made){ try{ E.removeNPC(n); }catch(e){} if(GAME.npc) delete GAME.npc[id]; } else if(n){ n.frozen=false; } window.__ccHairN=null; return true; })"""
 AIM = """(async(e,l,hidePlayer)=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.visible=!hidePlayer;

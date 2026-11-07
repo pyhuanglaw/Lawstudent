@@ -19,7 +19,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vroid_build as VB
 
-R_TOP = 0.15      # 找頭頂：頭的垂直軸這個半徑內的頭髮頂點
+CAP = 0.08        # 頭的軸：頭頂往下這一段的頭髮頂點的 x、z 中心
 CAPSULE = 0.8     # 膠囊往下多長（公尺）
 
 
@@ -30,21 +30,6 @@ def hair_prims(v):
             mat = v.j['materials'][p['material']]['name'] if 'material' in p else ''
             if 'HAIR' in mat.upper(): out.append((mi, pi, p, mat))
     return out
-
-
-def skin_of_mesh(v, mi):
-    for n in v.j['nodes']:
-        if n.get('mesh') == mi and 'skin' in n: return n['skin']
-    return None
-
-
-def head_pos(v, skin):
-    names, ibm = v.skin_mats(skin)
-    hi = next((i for i, n in enumerate(names) if n.endswith('J_Bip_C_Head')), None)
-    if hi is None: hi = next((i for i, n in enumerate(names) if n.lower() in ('head', 'j_head') or n.lower().endswith('_head')), None)
-    if hi is None: return None, None
-    M = np.linalg.inv(ibm[hi])          # 綁定時頭骨在網格空間的位置
-    return M[:3, 3].copy(), names[hi]
 
 
 def proxy_dirs(P, S, cap=CAPSULE):
@@ -62,19 +47,16 @@ def apply(v, k=0.6, drop=0.115):
     # 每一個 NORMAL accessor 只改一次：同一個 accessor 可能有好幾個 primitive 共用（VRoid 多材質網格）——只改頭髮用到的頂點，其他照舊
     by_acc = {}
     for mi, pi, p, mat in H:
-        sk = skin_of_mesh(v, mi)
-        if sk is None: rep['prims'].append({'mesh': j['meshes'][mi]['name'], 'mat': mat, 'skip': '沒有骨架'}); continue
-        hp, hn = head_pos(v, sk)
-        if hp is None: rep['prims'].append({'mesh': j['meshes'][mi]['name'], 'mat': mat, 'skip': '找不到頭骨'}); continue
         A = p['attributes']; idx = np.unique(v.acc(p['indices']).astype(np.int64)) if 'indices' in p else None
-        e = by_acc.setdefault(A['NORMAL'], {'pos': A['POSITION'], 'verts': set(), 'head': hp, 'hn': hn, 'prims': []})
+        e = by_acc.setdefault(A['NORMAL'], {'pos': A['POSITION'], 'verts': set(), 'prims': []})
         e['verts'].update((idx if idx is not None else np.arange(j['accessors'][A['POSITION']]['count'])).tolist()); e['prims'].append((mi, pi, mat))
+    # 頭的中心只看頭髮的幾何（不用骨架；和探針 HAIRFIX 一樣）：頭頂＝所有頭髮頂點最高的一點，頭的軸＝頭頂往下 CAP m 內那一圈頂點的 x、z 中心；所有頭髮共用
+    allP = np.concatenate([v.acc(e['pos']).astype(np.float64)[np.array(sorted(e['verts']), np.int64)] for e in by_acc.values()])
+    top = allP[:, 1].max(); cap = allP[allP[:, 1] > top - CAP]
+    S = np.array([cap[:, 0].mean(), top - drop, cap[:, 2].mean()]); rep['center'] = [round(x, 4) for x in S.tolist()]; rep['top'] = round(float(top), 4)
     for na, e in by_acc.items():
         P = v.acc(e['pos']).astype(np.float64); N = v.acc(na).astype(np.float64)
-        sel = np.array(sorted(e['verts']), np.int64); hp = e['head']
-        r = np.hypot(P[sel, 0] - hp[0], P[sel, 2] - hp[2]); near = sel[r < R_TOP]
-        if not len(near): rep['prims'].append({'acc': na, 'skip': '頭頂附近沒有頭髮頂點'}); continue
-        top = P[near, 1].max(); S = np.array([hp[0], top - drop, hp[2]])
+        sel = np.array(sorted(e['verts']), np.int64)
         D, L = proxy_dirs(P[sel], S)
         n0 = N[sel] / np.maximum(1e-8, np.linalg.norm(N[sel], axis=1, keepdims=True))
         n1 = (1 - k) * n0 + k * D; n1 /= np.maximum(1e-8, np.linalg.norm(n1, axis=1, keepdims=True))
@@ -84,8 +66,7 @@ def apply(v, k=0.6, drop=0.115):
         for m in j['meshes']:
             for p in m['primitives']:
                 if p['attributes'].get('NORMAL') == na: p['attributes']['NORMAL'] = new
-        rep['prims'].append({'mats': [x[2] for x in e['prims']], 'verts': int(len(sel)), 'head_bone': e['hn'], 'head': [round(x, 4) for x in hp.tolist()],
-                             'top': round(float(top), 4), 'center': [round(x, 4) for x in S.tolist()], 'turn_deg_median': round(float(np.median(ang)), 1),
+        rep['prims'].append({'mats': [x[2] for x in e['prims']], 'verts': int(len(sel)), 'turn_deg_median': round(float(np.median(ang)), 1),
                              'turn_deg_p90': round(float(np.percentile(ang, 90)), 1), 'below_center_pct': round(float((P[sel, 1] < S[1]).mean() * 100), 1)})
     j.setdefault('asset', {}).setdefault('extras', {})['hairNormals'] = {'k': k, 'drop': drop, 'tool': 'tools/hair_normals.py'}
     return rep
