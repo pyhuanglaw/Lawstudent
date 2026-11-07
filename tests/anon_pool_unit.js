@@ -7,6 +7,7 @@
 //    上一輪有、這一輪沒挑到、也沒有人在用的放掉（ASSETS.has 變 false），還有人在用的留著。
 // 5. ASSETS.unloadVRM：樣板借出或有複製品時不放；都還回去才放；放掉以後可以重新下載。
 // 修改前（?npcnew 才載入、全部一起預載、沒有輪替）：第 1 段「預設打開」、第 4、5 段失敗。用法：node tests/anon_pool_unit.js
+// 第 2 段「直接指定還沒下載的 lazy 底模」：修改前（開發分支 db7966bf6）FAIL（記一筆 not loaded）。
 // 第 4 段的「每次只換 1 女 1 男」：修改前（開發分支 5c2a173f，一次 8 個全部換新）FAIL。
 const {execFileSync}=require('child_process');
 const fs=require('fs'), path=require('path');
@@ -25,6 +26,7 @@ if(process.argv[2]==='child'){
   (async()=>{
     await preload(OLD);
     if(process.argv[3]==='npcold'){ out.old=[]; for(let i=0;i<8;i++) out.old.push(CHAR.resolveModel({id:'x'+i,sex:i%2?'m':'f'}).model); console.log(JSON.stringify(out)); process.exit(0); }
+    { const k=ANON.find(q=>!ASSETS.cache[q]), f1=CHAR.failures.length; const rm=CHAR.resolveModel; CHAR.resolveModel=q=>q; let h2=null; try{ h2=k?CHAR.build(Object.assign(X('t0',M[k].sex),{model:k})):null; } finally{ CHAR.resolveModel=rm; }   /* 開機那一刻還沒有任何路人底模可以替代（resolveModel 原樣回傳）*/ out.direct={k,driver:h2&&h2.userData.driver,newFailures:CHAR.failures.slice(f1)}; }   /* 直接指定還沒下載的 lazy 路人底模（標題畫面背景 pool_14，BB-B 11-07 20:0x：開機就有一筆 char.npc_nm17: not loaded）*/
     window.ASSET_DATA=window.ASSET_DATA||{}; for(const k of ANON) window.ASSET_DATA[M[k].url]=fs.readFileSync(path.join(ROOT,M[k].url)).toString('base64');   /* 有資料但還沒載入（refresh 才下載）*/
     out.loadedBefore=ANON.filter(k=>ASSETS.has(k));
     // 2. 還沒下載完
@@ -71,6 +73,7 @@ if(process.argv[2]==='child'){
   check('1. ?npcold：manifest 裡沒有路人底模，無名路人用舊的四個樣本',!o.error&&o.anon.length===0&&o.old.every(k=>OLD.includes(k)),JSON.stringify(o.error||o.old));
   const e=d.early||{};
   check('2. 還沒下載完：先建成隱藏的備用人物，不算載入失敗，池子在背景下載',e.driver==='proc'&&e.hidden&&!(e.newFailures||[]).length&&e.loading>0,JSON.stringify(e));
+  check('2. 直接指定還沒下載的 lazy 路人底模（標題畫面背景）：不算載入失敗（CHAR.failures 不記，deploy_check 才不會被它擋）',!!(d.direct&&d.direct.k)&&!(d.direct.newFailures||[]).length,JSON.stringify(d.direct));
   check('2. 下載完：needsUpgrade → 換成分到的女生底模，看得到',e.needs===true&&e.after&&e.after.driver==='vrm'&&(d.anon||[]).some(a=>a.k===e.after.key&&a.sex==='f')&&!e.after.hidden,JSON.stringify(e.after));
   const u=d.uses||{}, uv=Object.values(u);
   check('3. 同一個區域：16 個路人（8 女 8 男）平均分到池子裡的底模（每個 2 次）、性別對',d.pickSexOk&&uv.length===8&&uv.every(n=>n===2),JSON.stringify(u));
