@@ -4735,9 +4735,9 @@
   },
   {
    "path": "docs/story_planning/AA_709_msg_replies.json",
-   "sha": "c8cceccf9",
+   "sha": "1e9257401",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 06:08「AA_709 第四批」）",
+   "approvedBy": "AA-B D109（11-07 06:18「AA_709 第五批」、06:26「第六批」）",
    "task": "MSG-REPLY-1107",
    "kind": "json",
    "note": "女主角主動傳的「分享生活」私訊，最後一則掛三個回覆選項（rel、她的回話）；tools/story/import_msg_replies.py → src/data/msg_replies.js",
@@ -4749,6 +4749,10 @@
     {
      "sha": "b6019bbd1",
      "approvedBy": "（11-07 06:0x 以前；c8cceccf9 加第四批：大二上＋跨年 20 串）"
+    },
+    {
+     "sha": "c8cceccf9",
+     "approvedBy": "（11-07 06:3x 以前；1e9257401 加第五批 7a01b883e 大二寒假＋大二下 15 串、第六批大二暑假＋大三上 24 串）"
     }
    ]
   },
