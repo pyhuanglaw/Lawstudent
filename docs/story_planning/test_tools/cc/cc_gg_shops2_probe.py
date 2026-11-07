@@ -519,7 +519,7 @@ def date_cls(SM):
             pre = []
             for x in g['samples']:
                 if x['zone'] == S['zone'] and x['smp'].get('pseat'): break
-                if x['zone'] == S['zone'] and x['smp'].get('nD') is not None: pre.append(x['smp']['nD'])
+                if x['zone'] == S['zone'] and x['smp'].get('nD') is not None and not x['smp'].get('nseat'): pre.append(x['smp']['nD'])   # BB-B 06:53：她已經坐好的取樣不算帶路
             if len(pre) > 2: R.check('%s：X207 帶路時她離玩家 ≤ 3 m' % k, max(pre[2:]) <= 3.0, '取樣 %d 次，最遠 %.2f m' % (len(pre), max(pre[2:])))
             else: R.info('%s：X207 帶路的取樣不夠（一進門就坐下？）' % k, J(pre))
             dl = [x for x in g['samples'] if x['dlg']]

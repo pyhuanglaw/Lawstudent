@@ -69,18 +69,25 @@ async def use_one(pg, cdp, tag, kind, shot_prefix):
     dh = round(f1['hour'] - f0['hour'] + 24 * (f1['day'] - f0['day']), 3)
     R.note('%s 旁白 %s；toast %s；時間 %.3f→%.3f（+%.2f h）；體能 %d→%d（這週第 %d 次）；行動 %s → %s；錢 %d→%d；姿勢 %s' % (tag, J([s['t'] for s in says]), J(toasts), f0['hour'], f1['hour'], dh, f0['fit'], f1['fit'], f1['fitN'], f0['slots'], f1['slots'], f0['money'], f1['money'], J(poses)))
     end = shots.get('end') or {}
+    if f1['hour'] >= 21.4 or f1['day'] != f0['day']: end = None   # 晚上那一格用完會走回宿舍（設計）：不查站回旁邊，改查下面的軌跡
     # BB-B 06:49：fitDone＝advance 1＋slotUse＋queueJump（跳到時段結束，和 ACTION-BUDGET 一樣）＝至少 +1 小時，而且這個時段的次數有扣
     try: u0 = json.loads(f0['slots'] or 'null') or {}; u1 = json.loads(f1['slots'] or 'null') or {}
     except Exception: u0, u1 = {}, {}
     used = lambda u: sum(((u.get('used') or {}).get(k) or 0) for k in ('am', 'pm', 'ev')) if isinstance(u, dict) else 0
     R.check('%s 用完：時間至少 +1 小時、這個時段的次數有扣（CLS slots）' % tag, dh >= 0.95 and used(u1) > used(u0 if u0.get('day') == u1.get('day') else {}), J({'hour': [f0['hour'], f1['hour']], 'slots': [f0['slots'], f1['slots']]}))
     if f1['hour'] >= 21.4 or f1['day'] != f0['day']:   # BB-B 06:49 請查：晚上用完人不在 stand 旁邊——21:30 清場帶到門口？還是晚上那一格用完回去睡（00d5fd0f4，3880 有）？印之後 10 秒
-        trail = []
-        for _ in range(20):
-            await pg.wait_for_timeout(500); q_ = await D.st(pg); trail.append([q_['zone'], q_['hour'], q_['x'], q_['z'], q_['busy'], q_['dlg']])
-            if q_['dlg']: await L.tap(pg, cdp, '#dlg')
-        R.note('%s 晚上用完以後 10 秒（zone、hour、x、z、busy、dlg）：%s' % (tag, J(trail)))
-    R.check('%s 用完：站回旁邊、不是在器材上（姿勢 idle、離 stand ≤ 0.5 m）' % tag, end.get('pose') == 'idle' and abs(end.get('x', 99) - it['x']) <= 0.5 and abs(end.get('z', 99) - it['z']) <= 0.5, J(end))
+        trail = []; d0 = f0['day']
+        for _ in range(180):   # BB-B 06:53（LAWWW-B：設計）：晚上那一格用完 → 走回宿舍（15 分鐘）→ 進房間 → 睡到隔天早上；最多等 90 秒
+            await pg.wait_for_timeout(500); q_ = await D.st(pg); fx = await pg.evaluate(FIT)
+            if not trail or trail[-1][0] != q_['zone'] or fx['day'] != trail[-1][1]: trail.append([q_['zone'], fx['day'], q_['hour'], q_['x'], q_['z']])
+            if q_['dlg']: await L.tap(pg, cdp, '#dlg'); continue
+            if q_['choices']: await L.tap(pg, cdp, '#choices button:first-child'); continue
+            if fx['day'] > d0 and q_['hour'] < 12 and not q_['busy']: break
+        q_ = await D.st(pg); fx = await pg.evaluate(FIT)
+        R.note('%s 晚上用完以後的軌跡（zone、day、hour、x、z）：%s' % (tag, J(trail)))
+        R.check('%s 晚上用完：回到宿舍、睡到隔天早上（day+1、12 點前）' % tag, any(str(t[0]).startswith('dorm') for t in trail) and fx['day'] == d0 + 1 and q_['hour'] < 12, J({'now': [q_['zone'], fx['day'], q_['hour']], 'trail': trail[-6:]}))
+        return {'id': it['id'], 'night_home': trail}
+    if end is not None: R.check('%s 用完：站回旁邊、不是在器材上（姿勢 idle、離 stand ≤ 0.5 m）' % tag, end.get('pose') == 'idle' and abs(end.get('x', 99) - it['x']) <= 0.5 and abs(end.get('z', 99) - it['z']) <= 0.5, J(end))
     mv = await D.pushable(pg, cdp); R.check('%s 用完推得動（≥0.3 m）' % tag, mv >= 0.3, J(mv))
     return {'id': it['id'], 'says': [s['t'] for s in says], 'toasts': toasts, 'dh': dh, 'fit': [f0['fit'], f1['fit']], 'slots': [f0['slots'], f1['slots']], 'poses': poses, 'shots': {k: v for k, v in shots.items()}}
 
