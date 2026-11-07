@@ -1,0 +1,92 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 818a6f9af..78309fa8d 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -503,10 +503,25 @@ const Z3 = (function(){
+         const mg=W3.mergeGroup(lg); mg.traverse(m=>{ if(m.isMesh){ m.castShadow=false; } }); far.add(mg); }
+       /* XS-GATE-NORTH-1105：北牆外的路口——新生南路（側門前那一段＋往北那一段）、辛亥路（路口以東）；斑馬線：側門前、路口西側；路名牌（綠底白字，和溫州街巷口同一款）*/
+       { for(const zx of [XSG.x,XSG.xh-9]){ const zb=zebraMesh(22,5); zb.name='zebra_xs_north'; zb.rotation.z=Math.PI/2; zb.position.set(zx,0.05,-156); far.add(zb); }
+-        { const zb=zebraMesh(12,4); zb.name='zebra_xs_branch'; zb.position.set(XSG.xh,0.05,-169); far.add(zb); }
++        { const zb=zebraMesh(16,4); zb.name='zebra_xs_branch'; zb.position.set(XSG.xh,0.05,-169); far.add(zb); }   /* XS-NORTH-ROAD-1107：12 → 16 m，和往北那一段的車道一樣寬 */
+         const pole=(x,z,names)=>{ const p=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,3.0,8),M('#7d8288')); p.position.set(x,1.5,z); far.add(p);
+           names.forEach(([t,ry],k)=>{ const st=TK.signTex(t,{bg:'#2f6b4f',color:'#ffffff',size:80}); for(const f of [0,Math.PI]){ const sg=new THREE.Mesh(new THREE.PlaneGeometry(1.2,0.3),new THREE.MeshStandardMaterial({map:st,roughness:0.6})); sg.position.set(x+Math.sin(ry)*0.62,2.85-k*0.36,z+Math.cos(ry)*0.62); sg.rotation.y=ry+Math.PI/2+f; far.add(sg); } }); };
+         pole(XSG.x+3.8,-143.2,[['新生南路',Math.PI/2]]); pole(XSG.xh+7.2,-143.2,[['辛亥路',Math.PI/2],['新生南路',0]]); }
++      /* XS-NORTH-ROAD-1107（LAWWW2-B 2026-11-07；XS-GATE-NORTH-1105 先將就第 6 點「往北那一段只是把對面的房子空出來，路面是城市底色的柏油，沒有車道線、分隔島、行道樹」）：
++         路口往北（z −167 → −262）：16 m 車道（兩向各兩線 3.5 m）＋中間 2 m 分隔島（新生南路蓋在瑠公圳上，中間一長條綠帶）＋兩側 3 m 人行道；
++         兩排房子空出來的寬度 ±7 → ±11 m（下面 city 那一段）；z −214 以北補兩排面向這條路的房子（不然路直直通到空地）；分隔島的行道樹、兩側路燈在下面 props／trees 那一段（一起合併）。
++         只是遠景：北牆外本來就走不到（nav.blockOutside），導航不動。 */
++      { const X=XSG.xh, Z0=-167, Z1=-262, L=Z0-Z1, zc=(Z0+Z1)/2;
++        const at=W3.asphaltTex().clone(); at.needsUpdate=true; at.wrapS=at.wrapT=THREE.RepeatWrapping; at.repeat.set(16/5,L/5);
++        const road=new THREE.Mesh(new THREE.PlaneGeometry(16,L),texMat(at)); road.rotation.x=-Math.PI/2; road.position.set(X,0.016,zc); road.receiveShadow=true; road.name='xs_north_branch_road'; far.add(road);   /* y 0.016：蓋過路口北側那一條人行道（0.012）——路口不是人行道 */
++        for(const sd of [-1,1]){ const sw=ground(far,3,L-4,stoneT,[0.75,(L-4)/4],X+sd*9.5,zc-2,0.012); if(sw) sw.name='xs_north_branch_walk'; }   // 兩側人行道（從路口北側那一條人行道往北接）
++        const cm=new THREE.Mesh(new THREE.BoxGeometry(2,0.2,L-6),M('#a9a59c')); cm.position.set(X,0.1,zc-3); cm.name='xs_north_branch_median'; far.add(cm);   // 分隔島的緣石（路口那一頭留 6 m 給斑馬線）
++        { const gt=W3.grassTex().clone(); gt.needsUpdate=true; gt.wrapS=gt.wrapT=THREE.RepeatWrapping; gt.repeat.set(0.5,(L-6.3)/3);
++          const gm=new THREE.Mesh(new THREE.PlaneGeometry(1.7,L-6.3),new THREE.MeshStandardMaterial({map:gt,roughness:0.95})); gm.rotation.x=-Math.PI/2; gm.position.set(X,0.205,zc-3); gm.receiveShadow=true; far.add(gm); }   // 分隔島上的草
++        const lg=new THREE.Group(), wl=new THREE.MeshStandardMaterial({color:0xe6e6e0,roughness:0.8});
++        for(const sd of [-1,1]){ for(let z=Z0-8;z>Z1+2;z-=8){ const d=new THREE.Mesh(new THREE.PlaneGeometry(0.15,4),wl); d.rotation.x=-Math.PI/2; d.position.set(X+sd*4.5,0.022,z-2); lg.add(d); }   // 車道之間的白虛線（4 m 畫、4 m 空）
++          const e=new THREE.Mesh(new THREE.PlaneGeometry(0.15,L-4),wl); e.rotation.x=-Math.PI/2; e.position.set(X+sd*7.8,0.022,zc-2); lg.add(e); }   // 靠人行道的白實線
++        const lmg=W3.mergeGroup(lg); lmg.name='xs_north_branch_lines'; lmg.traverse(m=>{ if(m.isMesh) m.castShadow=false; }); far.add(lmg); }
+       // 街屋與大樓（TK.bgCity：一個 style 合併成 4～5 個 draw call）
+       const city=[], halls=[], cityRows=[];   /* cityRows：公館那兩排（x −189 第一排、x −212 第二排）——有正式模型（bldg.campus_gongguan_bd，LAWWW2-C gg_backdrop.py）時是載入前、載入失敗的備用 */
+       { let gx=-68; [10,8,12,10,8,8,9,9,8,9,9,10,8,9,9].forEach((w,i,a)=>{ const W=w+(i<8&&i<a.length-1?1.2:0); cityRows.push({x:-189,z:gx+W/2,w:W,d:16,floors:4+((i*5)%4),gh:4.2,ry:Math.PI/2,color:WALLC[i%7]}); gx+=W; });   // 公館南側那一排（gx -68–77.6）
+@@ -517,7 +532,8 @@ const Z3 = (function(){
+         // 北：馬路對面兩排（立面朝 +z）
+         for(let x=-260;x<262;){ const w=10+Math.round(H(x,7)*8); city.push({x:x+w/2,z:-171,w,d:16,floors:5+Math.floor(H(x,8)*6),gh:4.0,ry:0,color:WALLC[Math.floor(H(x,9)*7)],shop:H(x,21)<0.4}); x+=w; }   /* shop：只有四成有店面，其他一樓也是窗（LAWWW2-B 10-24 巡查③：從醉月湖看，整排 500 m 都是彩色招牌，像舞台布景；辛亥路對面多是住宅大樓）*/
+         for(let x=-262;x<262;){ const w=16+Math.round(H(x,10)*10); city.push({x:x+w/2,z:-194,w,d:18,floors:6+Math.floor(H(x,11)*8),gh:4.0,ry:0,color:TALLC[Math.floor(H(x,12)*7)],shop:false}); x+=w+3+Math.floor(H(x,20)*3)*3; }
+-        for(let i=city.length-1;i>=0;i--){ const c=city[i]; if((c.z===-171||c.z===-194)&&Math.abs(c.x-XSG.xh)<c.w/2+7) city.splice(i,1); }   /* XS-GATE-NORTH-1105：新生南路往北那一段（x XSG.xh ± 6）兩排都空出來 */
++        for(let i=city.length-1;i>=0;i--){ const c=city[i]; if((c.z===-171||c.z===-194)&&Math.abs(c.x-XSG.xh)<c.w/2+11) city.splice(i,1); }   /* XS-GATE-NORTH-1105：新生南路往北那一段兩排都空出來；XS-NORTH-ROAD-1107：±7 → ±11 m（16 m 車道＋兩側 3 m 人行道）*/
++        for(const sd of [-1,1]) for(let z=-214;z>-262;){ const w=10+Math.round(H(z,30+sd)*7); city.push({x:XSG.xh+sd*11,z:z-w/2,w,d:16,floors:5+Math.floor(H(z,32+sd)*6),gh:4.0,ry:sd<0?Math.PI/2:-Math.PI/2,color:WALLC[Math.floor(H(z,34+sd)*7)],shop:H(z,36+sd)<0.5,xsBranch:true}); z-=w; }   /* XS-NORTH-ROAD-1107：往北那一段兩側、第二排背後（z −214 以北）補一排面向這條路的房子（x＝正面那一條線，西側朝東、東側朝西）*/
+         // 東、南：再遠一排城市大樓（基隆路、長興街方向；只是遠景）
+         for(let z=-230;z<230;){ const w=14+Math.round(H(z,13)*10); city.push({x:214,z:z+w/2,w,d:16,floors:5+Math.floor(H(z,14)*5),gh:4.0,ry:-Math.PI/2,color:TALLC[Math.floor(H(z,15)*7)]}); z+=w+2; }
+         for(let x=-200;x<214;){ const w=14+Math.round(H(x,16)*10); city.push({x:x+w/2,z:150,w,d:16,floors:5+Math.floor(H(x,17)*5),gh:4.0,ry:Math.PI,color:TALLC[Math.floor(H(x,18)*7)]}); x+=w+2; }
+@@ -562,6 +578,8 @@ const Z3 = (function(){
+         if(XH.on) along(14,12.8,(x,z)=>{ if(x<215) T(x+H(x,3)*1.5,z,6.4*1.3); });   // 辛亥路彎道的行道樹
+         for(let x=8;x<=104;x+=9){ if(x>26&&x<42) continue; T(x+H(x,2)*2,-125.5); }   // 法學院後面的中庭（霖澤館穿堂正後方留空，看得到後面那棟）
+         T(29,-128,6.4*1.5); T(44,-127.5,6.4*1.4);
++        for(let z=-178;z>=-258;z-=10){ const t=TK.tree(6.4*(1.25+H(z,41)*0.25)); t.position.set(XSG.xh,0.2,z+(H(z,42)-0.5)*1.5); t.rotation.y=H(z,43)*6.28; trees.add(t); }   // XS-NORTH-ROAD-1107：新生南路往北那一段，分隔島上一排行道樹
++        for(let z=-176;z>=-256;z-=20) for(const sd of [-1,1]){ const a=W3.lampPost(); a.position.set(XSG.xh+sd*8.6,0,z); a.rotation.y=sd<0?Math.PI/2:-Math.PI/2; props.add(a); }   // 兩側路燈（燈臂朝馬路）
+         for(let z=-98;z>=-136;z-=9.5) for(let x=-116;x<=2;x+=12){ const tx=x+H(x,z)*5, tz=z+H(z,x)*3; if(tx>-64&&tz>-127) continue; if(xsIn(tx,tz,2.2)) continue; T(tx,tz); }   /* XS-GATE-NORTH-1105：側門、望月台、停車場、體育館、步道上不種 */   // 西北角走不到的樹林（方案 A：湖和博雅那一塊打開，樹只留在西邊和圍牆外）
+         for(const x of [130,142,155]) for(let z=-46;z<=46;z+=9) T(x+H(x,z)*3,z+H(z,x)*3);   // 總圖後面的樹帶
+         for(let x=-124;x<=200;x+=13) T(x+H(x,9)*2,99);   // 南側道路旁
+diff --git a/tests/xs_north_road_unit.js b/tests/xs_north_road_unit.js
+new file mode 100644
+index 000000000..bd8716287
+--- /dev/null
++++ b/tests/xs_north_road_unit.js
+@@ -0,0 +1,36 @@
++/* 新生南路往北那一段（校園北牆外，路口 x XSG.xh 往北）做成像樣的路（XS-NORTH-ROAD-1107，LAWWW2-B 2026-11-07；XS-GATE-NORTH-1105 先將就第 6 點：
++   「往北那一段只是把對面的房子空出來。路面就是城市底色的柏油，沒有車道線、分隔島、行道樹」）
++   ① 路的範圍（x XSG.xh ± 10.5、z −171～−258）從上往下打射線：沒有打到 12 m 以上的東西（房子不壓到車道、人行道）
++   ② 兩側（x XSG.xh ± 19、z −216～−256）打得到房子（≥ 12 m 高的佔八成以上）：路不是直直通到空地
++   ③ 路面：x XSG.xh、z −200 往下打，打到的是 xs_north_branch_road（不是城市底色的柏油）；有分隔島、車道線、兩側人行道
++   ④ 路口北邊那一條斑馬線 16 m 寬（和車道一樣）
++   修改前（開發 fa05ed8c5）：① ② ③ ④ FAIL。用法：node tests/xs_north_road_unit.js */
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{});   // 校園的正式模型在 node 裡載不到（fetch 相對網址），不影響導航
++const T=fs.readFileSync(path.join(ROOT,'tests/nav_buildings_unit.js'),'utf8');
++const files=eval(T.match(/const files=(\[[^\]]+\])/)[1]);
++for(const f of ['src/townkit3d.js','src/campuskit3d.js','src/data/xinsheng_layout.js','src/xinsheng3d.js']) if(!files.includes(f)) files.push(f);
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++const warn=console.warn; console.warn=()=>{};
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++const L=XINSHENG_LAYOUT, E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[];
++(async()=>{
++  E.interactables=[]; E.colliders=[]; const cz=Z3.ZONES.campus.build(E); E.zone=cz; E.scene.add(cz.group); cz.group.updateMatrixWorld(true);
++  const X=Z3.XSG.xh, far=cz.group.getObjectByName('campusBackdrop'), rc=new THREE.Raycaster(), down=new THREE.Vector3(0,-1,0);
++  const meshes=[]; (far||cz.group).traverse(o=>{ if((o.isMesh||o.isInstancedMesh)&&o.visible!==false) meshes.push(o); });
++  const top=(x,z)=>{ rc.set(new THREE.Vector3(x,80,z),down); rc.far=120; const h=rc.intersectObjects(meshes,false); return h.length?h[0]:null; };
++  let tall=[], n=0; for(const dx of [-10.5,-6.5,6.5,10.5]) for(let z=-171;z>=-258;z-=4){ n++; const h=top(X+dx,z); if(h&&h.point.y>12) tall.push([dx,z,+h.point.y.toFixed(1)]); }
++  check('① 路的範圍（± 10.5 m）沒有房子',tall.length===0,'打了 '+n+' 點，12 m 以上 '+tall.length+(tall.length?'（例：'+JSON.stringify(tall.slice(0,3))+'）':''));
++  let side=0, sn=0; for(const dx of [-19,19]) for(let z=-216;z>=-256;z-=4){ sn++; const h=top(X+dx,z); if(h&&h.point.y>12) side++; }
++  check('② 兩側有面向這條路的房子（≥ 12 m 佔八成以上）',side>=sn*0.8,side+'／'+sn);
++  const h0=top(X+3,-200), road=far&&far.getObjectByName('xs_north_branch_road'), med=far&&far.getObjectByName('xs_north_branch_median'), lines=far&&far.getObjectByName('xs_north_branch_lines'); let walks=0; if(far) far.traverse(o=>{ if(o.name==='xs_north_branch_walk') walks++; });
++  check('③ 往北那一段有路面（不是城市底色）、分隔島、車道線、兩側人行道',!!road&&!!h0&&h0.object===road&&!!med&&!!lines&&walks===2,'打到 '+(h0?(h0.object.name||'(沒有名字)')+' y '+h0.point.y.toFixed(3):'沒有')+'｜分隔島 '+!!med+' 車道線 '+!!lines+' 人行道 '+walks);
++  const zb=far&&far.getObjectByName('zebra_xs_branch'); let zw=0; if(zb){ const b=new THREE.Box3().setFromObject(zb); zw=b.max.x-b.min.x; }
++  check('④ 路口北邊的斑馬線 16 m 寬',Math.abs(zw-16)<0.6,'寬 '+zw.toFixed(1)+' m');
++  console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
++})();
