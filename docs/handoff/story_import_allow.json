@@ -4705,6 +4705,15 @@
      "approvedBy": "（11-07 04:05 以前的版本；c47f8ab4d 取代：以安第 1 場旁白、語彤第 5 場 alt 改成完整 opts）"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_710_gifts.json",
+   "sha": "e2e92dcf4",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 04:07「AA_710 送早餐飲料」）",
+   "task": "GIFT-FLIRT-1107",
+   "kind": "json",
+   "note": "七位送飲料、早餐：yes（need 1／4）、no（一天第二次）、fav（芷若、子晴、學姊、可昕，AA_410）；tools/story/import_gifts.py → src/data/gift_lines.js"
   }
  ]
 }
