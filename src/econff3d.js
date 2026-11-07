@@ -93,7 +93,7 @@ const ECONFF=(()=>{
   /* 第 4 節：日期卡下面那一句（照「跳過的日子」；每句一次；同一天、隔一天的不出）*/
   S.CARDS=[['2024-08-26','2024-08-31','（宿營回來，暑假只剩一個禮拜。）'],
     ['2024-09-02','2024-09-12','（開學第一週。新生座談、第一堂經原、第一堂會計。阿勳每一堂都坐你旁邊，品妤每一堂都坐可昕旁邊。）'],
-    ['2024-09-14','2024-09-18','（下課以後，常常是同一群人一起走出教室：韋綸、唐睿、品妤、阿勳，還有她。）'],
+    ['2024-09-14','2024-09-15','（保齡球那晚以後的週末，你在宿舍把經原的第一章讀完了。那件制服，還在可昕那裡。）'],['2024-09-17','2024-09-19','（下課以後，常常是同一群人一起走出教室：韋綸、唐睿、品妤、阿勳，還有她。）'],['2024-09-20','2024-09-20','（晚上，你在宿舍洗手上的油。洗了三次，指甲縫還是黑的。）',{fromH:18.5,toH:23}],
     ['2024-09-22','2024-09-29','（系烤以後，經濟系的群組每天都有人講話。阿勳每一則都回，品妤每一則都已讀。）'],   /* AA_368 H1（企劃線 e55fda50）：颱風假是 9/30（calendar.js TYPHOON），原本一句 9/22～10/11、9/24 的停點就用過去式講完了——拆兩張，颱風那句 10/1 起 */
     ['2024-10-01','2024-10-11','（颱風假那天，你和阿勳在宿舍泡了一整晚的泡麵。之後，小松的午餐常常是同一桌。）'],
     ['2024-10-13','2024-10-14','（期中考的範圍公布了。阿勳把考試日期寫在一張紙上，貼在桌前。）'],
@@ -131,13 +131,14 @@ const ECONFF=(()=>{
   S.KEY_LINES=['（十二月底，可昕拿給你一個小紙袋。裡面是一個長頸鹿鑰匙圈，脖子很短。）','（她說聖誕節那天忘了給。你把它掛在家裡的鑰匙上。）'];
   S.keyDue=G=>!!(G&&G.flags&&G.flags.Y0_KEY_CARD==='due');
   S.keyWake=async function(GM){ const G=GM.G; if(!S.keyDue(G)) return false; G.flags.Y0_KEY_CARD=G.day; for(const l of S.KEY_LINES) await GM.say(null,l); return true; };
-  S.cardLine=function(G,d0,d1){ if(!S.short(G)) return null; const t=S.cardLine1(G,d0,d1);
+  S.cardLine=function(G,d0,d1,h0,h1){ if(!S.short(G)) return null; const t=S.cardLine1(G,d0,d1,h0,h1);
     if(S.keyDue(G)&&S.on2(G)){ G.flags.Y0_KEY_CARD=G.day; return [t].concat(S.KEY_LINES).filter(Boolean).join('<br>'); }   /* 幾句一張卡（home3d.js y0Jump 照 <br> 的數目放久一點）*/
     return t; };
-  S.cardLine1=function(G,d0,d1){ const r=S.rec(G);
+  S.cardLine1=function(G,d0,d1,h0,h1){ const r=S.rec(G);
     if(d1>d0) for(const [k,t] of S.PIN){ if(DK(k)===d1&&!r.lines.includes(t)){ r.lines.push(t); return t; } }
+    if(d1===d0&&h0!=null&&h1!=null){ for(const [a,,t,hh] of S.CARDS){ if(!hh||DK(a)!==d0||!t||r.lines.includes(t)) continue; if(h0<=hh.fromH+0.01&&h1>=hh.toH-0.01){ r.lines.push(t); return t; } } return null; }   /* 同一天往後跳的那幾句（第四格 {fromH,toH}＝那天幾點到幾點，跳的範圍蓋住它才出；AA_726 ④ 9/20 18:30→23:00，BUG-Y0-DAYSKIP-CARD-1107）*/
     if(d1-d0<2) return null; const k0=d0+1, k1=d1-1;
-    const out=[]; for(const [a,b,t0] of S.CARDS){ const t=typeof t0==='function'?t0(G):t0; if(!t||r.lines.includes(t)) continue; const da=DK(a), db=DK(b); if(da!=null&&db!=null&&da<=k1&&db>=k0){ r.lines.push(t); out.push(t); if(out.length>=2) break; } }
+    const out=[]; for(const [a,b,t0,hh] of S.CARDS){ if(hh) continue; const t=typeof t0==='function'?t0(G):t0; if(!t||r.lines.includes(t)) continue; const da=DK(a), db=DK(b); if(da!=null&&db!=null&&da<=k1&&db>=k0){ r.lines.push(t); out.push(t); if(out.length>=2) break; } }
     return out.length?out.join('<br>'):null; };   /* 一跳跨過兩段（BB n36 三輪都是 4/24 直接跳 6/8：AA_529 6-5 拆的兩張只出第一張）＝一張卡兩行，照日子順序；最多兩行 */   /* 第三格可以是函式（G）→ 句子或 null＝這一跳不出（AA_348：7/15～7/23 看 E35_PLAN）*/
   /* 沒演到的事件，旗標的預設（AA_300 第 4 節最後）：MATH_100＝true（對答案那句寫了全對）；E22B_TOLD 不記；CRAM_FREE_KNOWN 照 LIFE_FIXED */
   S.defaults=function(G){ if(!S.short(G)) return; const F=G.flags, d=DK('2025-07-12'), c=DK('2024-12-13'); if(d!=null&&G.day>=d&&F.MATH_100==null) F.MATH_100=true;
@@ -206,11 +207,11 @@ const ECONFF=(()=>{
       S._peSkip=false; const res=S.jumpTo(GM,day,h);
       S.attendBetween(G,G.day*24+G.hour,d0);
       if(res==='msg'){ if(GM.updateHUD) GM.updateHUD();
-        { let ln=S.short(G)?S.cardLine(G,d0,G.day):S.lineFor(G,d0,G.day); if(ln&&!S.short(G)) r.lines.push(ln); if(G.day!==d0) ln=S.peAdd(G,ln); if(GM.titleCard&&bigJump()) await GM.titleCard(S.dateLabel(G.day,G.hour),ln||'',ln?3200:1800); }   /* AA_348 B2：停在手機訊息上也先出日期卡＋那一句（原本直接打開手機，玩家看不到今天幾號，9/2～10/28 的四句典型玩家都看不到；同 home3d.js 的 y0Jump）*/
+        { let ln=S.short(G)?S.cardLine(G,d0,G.day,now-d0*24,G.hour):S.lineFor(G,d0,G.day); if(ln&&!S.short(G)) r.lines.push(ln); if(G.day!==d0) ln=S.peAdd(G,ln); if(GM.titleCard&&bigJump()) await GM.titleCard(S.dateLabel(G.day,G.hour),ln||'',ln?3200:1800); }   /* AA_348 B2：停在手機訊息上也先出日期卡＋那一句（原本直接打開手機，玩家看不到今天幾號，9/2～10/28 的四句典型玩家都看不到；同 home3d.js 的 y0Jump）*/
         await GM.fade(false); if(GM.phoneThread) GM.phoneThread(S.newestTh(G),{skip:true}); else if(GM.openPhone) GM.openPhone(); return true; }   /* AA_300 第 6 節：直接打開那一段對話，按「跳過」關掉、繼續跳 */   /* 收到要回的訊息：先回，回完下一次再接 */
       if(s.zone&&G.zone!==s.zone&&GM.enter) await GM.enter(s.zone,s.at?Object.assign({lv:0},s.at):undefined,{noFade:true});
       else if(s.at&&E&&E.placeAt){ E.placeAt(E.player,s.at.x,s.at.z,0); E.player.obj.rotation.y=s.at.yaw||0; }
-      let line=S.short(G)?S.cardLine(G,d0,G.day):S.lineFor(G,d0,G.day); if(line&&!S.short(G)) r.lines.push(line); if(G.day!==d0) line=S.peAdd(G,line);   /* AA_300 第 4 節的句子（cardLine 自己記用過）*/
+      let line=S.short(G)?S.cardLine(G,d0,G.day,now-d0*24,G.hour):S.lineFor(G,d0,G.day); if(line&&!S.short(G)) r.lines.push(line); if(G.day!==d0) line=S.peAdd(G,line);   /* AA_300 第 4 節的句子（cardLine 自己記用過）*/
       if(GM.updateHUD) GM.updateHUD(); if(E&&E.setWeather) E.setWeather(G.weather);
       if(GM.titleCard&&bigJump()) await GM.titleCard(S.dateLabel(G.day,G.hour),line||'',line?3200:1800);   /* 同一天往後跳兩小時以上也出日期卡（BB-B 11-07 BUG-Y0-DAYSKIP-CARD-1107：9/20 18:30 按「走出房間」→ 23:00 沒有卡）；句子照舊只有跨日才有（cardLine）*/
       await GM.fade(false); } finally { if(sb) GM.sceneEnd(); } }

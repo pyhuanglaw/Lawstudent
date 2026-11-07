@@ -2334,7 +2334,9 @@ const STORY_EVENTS=[
       {choice:[{text:'「妳真的洗了。」',goto:'w'},{text:'「下次再借妳穿。」',goto:'n'}]},
       {label:'w'},{speaker:'kexin',expression:'teasing',text:'當然。我又不是那種人。'},{goto:'end'},
       {label:'n'},{speaker:'kexin',expression:'embarrassed',text:'……誰要穿你的。'},{speaker:null,text:'（她把制服塞給你。）'},
-      {label:'end'},{speaker:'kexin',expression:'smile',text:'走，去公館。我請你喝飲料。'} ],
+      {label:'end'},{speaker:'kexin',expression:'smile',text:'走，去公館。我請你喝飲料。'},
+      /* AA_726 e05_after（企劃線 8255634fb；BB_255 CC 試玩第 3 件「走，去公館。」下一格就是 18:30 在宿舍、沒交代去了沒）：照抄三句；P2 選公館接 E05（9/19）一樣 */
+      {speaker:null,text:'（她騎在前面，帶你到公館一間手搖店。她點了兩杯一樣的，一杯塞給你。）'},{speaker:'kexin',expression:'neutral',text:'修車的錢。'},{speaker:null,text:'（喝完，天已經暗了。你們在校門口分開，各自騎回去。）'} ],
     after:(G,GM)=>{ GM.advance(1.5); G.flags.E05_DAY=G.day; G.flags.E05_END=G.hour%24; } },
   /* ★E08 中秋系烤（BB_153，AA-B 核對通過、數值照 BB 建議定案；AA_154 第 88 行、A3：中秋後的週六 9/21 17:00 河濱）：9/16 全班群組揪、9/21 16:00 韋綸私訊，回「好」＝出遊（story3d.js）。
      AA_305 第 4 節（使用者選「柚子帽」）：誰生火的三選一拿掉，換成柚子帽（戴上／拿著，不記旗標）；唐睿那頂留給品妤、品妤不要＝12/31 跨年接。月亮收租已經拿掉（AA_302 第 5 列）。數值：可昕熟悉 +2；品妤、阿勳 +1（韋綸、唐睿還沒有人物資料——AA_159 建好時補 +1）。
