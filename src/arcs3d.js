@@ -54,7 +54,7 @@ const ARCS=(function(){
   const play=async(GM,who,lines)=>{ for(const t of lines||[]){ const s=S.text(GM.G,t); if(/^（/.test(s)) await GM.say(null,s); else await GM.say(who,s); } };
   /* 演一拍：回傳選了哪一個 */
   S.play=async function(GM,who,id,b){ const G=GM.G; await play(GM,who,b.lines); await play(GM,who,b.ask);
-    const k=!GM.choose?0:(typeof DECIDE!=='undefined'?await DECIDE.choose(GM,b.opts,{text:t=>S.text(G,t),note:b.keyNote}):await GM.choose(b.opts.map(o=>({t:S.text(G,o.t)})))); const o=b.opts[k]||b.opts[0];   /* key:true 的那一組：上方一行字＋選完確認（BB_305 10-5）*/
+    const k=!GM.choose?0:(typeof DECIDE!=='undefined'?await DECIDE.choose(GM,b.opts,{text:t=>S.text(G,t),note:b.keyNote,ask:b.ask&&b.ask.length?S.text(G,b.ask[b.ask.length-1]):null}):await GM.choose(b.opts.map(o=>({t:S.text(G,o.t)})))); const o=b.opts[k]||b.opts[0];   /* key:true 的那一組：上方一行字＋選完確認（BB_305 10-5）*/
     if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&o.rel&&Object.keys(o.rel).length){ const d=Object.assign({},o.rel); if(stage(id)<3) delete d.npcRom; SOCIAL.adjust(id,d); }   /* 她的戀愛只在朋友以上才算（和送東西、念書選項一樣）*/
     await play(GM,who,o.reply); return k; };
   /* 演完：下一拍、今天演過、記答案和講過的事、旗標、邀約 */

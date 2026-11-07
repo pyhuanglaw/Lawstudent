@@ -70,7 +70,7 @@ const DECIDE=(function(){
   S.careful=opts=>Array.isArray(opts)&&opts.some(o=>o&&o.key);
   S.choose=async function(GM,opts,o){ o=o||{}; const view=opts.map(q=>Object.assign({},q,{t:o.text?o.text(q.t):q.t}));
     if(!S.careful(opts)) return GM.choose(view);
-    for(let guard=0;guard<20;guard++){ const k=await GM.choose(view,{note:o.note||S.CAREFUL}); const c=await GM.choose([{t:S.CONFIRM.yes},{t:S.CONFIRM.no}],{note:S.CONFIRM.q}); if(c!==1) return k; }
+    for(let guard=0;guard<20;guard++){ const k=await GM.choose(view,Object.assign({note:o.note||S.CAREFUL},o.ask?{ask:o.ask}:null)); const c=await GM.choose([{t:S.CONFIRM.yes},{t:S.CONFIRM.no}],{note:S.CONFIRM.q}); if(c!==1) return k; }   /* o.ask：她問的那一句，放在那一行字下面（對話框被收掉也看得到）*/
     return 0; };
   return S;
 })();

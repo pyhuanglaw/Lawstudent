@@ -16,8 +16,8 @@ const fs=require('fs'), path=require('path'), vm=require('vm');
 const loadG=(f,names)=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let s=fs.readFileSync(p,'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); return true; };
 loadG('src/data/heroine_arcs.js',['HEROINE_ARCS']); loadG('src/data/arc_rot.js',['ARC_ROT']); const okR=loadG('src/data/decide_rules.js',['DECIDE_RULES']); const ok=loadG('src/decide3d.js',['DECIDE']); loadG('src/arcs3d.js',['ARCS']);
 const ZQ='heroine_04', who={name:'高子晴',charId:ZQ};
-const optsSeen=[], notes=[]; const C0=GM.choose; GM.choose=async(o,opt)=>{ optsSeen.push(o.map(q=>q.t)); notes.push(opt&&opt.note||null); return C0(o,opt); };
-const fresh=()=>{ const G=H.fresh('2026-04-13',15,'cafe'); optsSeen.length=0; notes.length=0; return G; };
+const optsSeen=[], notes=[], asks=[]; const C0=GM.choose; GM.choose=async(o,opt)=>{ optsSeen.push(o.map(q=>q.t)); notes.push(opt&&opt.note||null); asks.push(opt&&opt.ask||null); return C0(o,opt); };
+const fresh=()=>{ const G=H.fresh('2026-04-13',15,'cafe'); optsSeen.length=0; notes.length=0; asks.length=0; return G; };
 /* 測試用的一拍（照 BB_305 10-1 的例子：子晴的暑假）*/
 const BEAT={n:1,need:1,lines:['暑假的實習，我拿到了。'],ask:['……你覺得我要去嗎？'],keyNote:'（她在等你說什麼。）',opts:[
   {t:'去吧，履歷會好看。',rel:{},reply:['……喔。'],decide:{key:'summer',value:'intern'},stance:'push:intern',key:true,closes:['beat:3']},
@@ -28,6 +28,7 @@ const PLAIN={n:2,need:1,lines:['今天好熱。'],ask:['你喜歡夏天嗎？'],
   if(!ok){ H.done(); return; }
   /* 3 確認 + 1 記決定 */
   { const G=fresh(); H.picks=[0,1,1,0]; const k=await ARCS.run(GM,who,ZQ,BEAT);
+    check('3. key 那一組：她問的那一句也在選單上（opt.ask＝「……你覺得我要去嗎？」，對話框被收掉也看得到）；確認那一頁沒有',asks[0]==='……你覺得我要去嗎？'&&asks[1]===null,J(asks));
     check('3. key 那一組：選單上方一行字（keyNote）、選完問「確定嗎？」；按「再想想」回到同一組重選',notes[0]==='（她在等你說什麼。）'&&J(optsSeen[1])===J(['確定','再想想'])&&notes[1]==='確定嗎？'&&J(optsSeen[2])===J(optsSeen[0])&&optsSeen.length===4,J({optsSeen,notes}));
     check('1. 第一次選「去吧」、再想想；第二次選「做遊戲」、確定＝記 summer＝game（不是 intern）',k===1&&DECIDE.get(G,ZQ,'summer')==='game'&&G.flags.DECIDE[ZQ].summer.stance==='support',J(G.flags.DECIDE));
     check('2. opens：地點 wz_offbeat 打開（STUDY_UNLOCK）、旗標 ZQ_SUMMER_GAME',G.flags.STUDY_UNLOCK&&G.flags.STUDY_UNLOCK.wz_offbeat===G.day&&G.flags.ZQ_SUMMER_GAME===G.day,J(G.flags.STUDY_UNLOCK));
