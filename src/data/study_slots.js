@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_study_slots.py（docs/story_planning/AA_722_study_unlock_slots.json@9bb7e3cc9）。不要手改，改企劃 AA_722（台詞）或匯入工具的 CFG（時間、錢、怎麼演）再重新匯入。
+/* 自動產生：tools/story/import_study_slots.py（docs/story_planning/AA_722_study_unlock_slots.json@bbeb58f34）。不要手改，改企劃 AA_722（台詞）或匯入工具的 CFG（時間、錢、怎麼演）再重新匯入。
    一起念書第 6 次解鎖的「她那一格」：src/studyslot3d.js 讀 */
 'use strict';
 const STUDY_SLOTS={
- "src": "docs/story_planning/AA_722_study_unlock_slots.json@9bb7e3cc9",
+ "src": "docs/story_planning/AA_722_study_unlock_slots.json@bbeb58f34",
  "slots": [
   {
    "id": "an_shop1",
@@ -113,14 +113,15 @@ const STUDY_SLOTS={
    "id": "yt_after_close",
    "who": "heroine_03",
    "flag": "YT_STUDY_TEA",
-   "label": "茶屋下班以後",
+   "label": "茶屋下班以後（她下班、店還開著）",
    "repeat": true,
    "acc": [
     "「五點。你不要先吃飽。」"
    ],
    "first": [
-    "（一盞茶屋的鐵門拉下一半。她從裡面探出頭。）",
-    "「進來。今天打烊了，現在是我的時間。」",
+    "（一盞茶屋。她剛把圍裙解下來，摺好放在櫃台後面。）",
+    "「我下班了。現在是我的時間。」",
+    "（蘇姨在櫃台那邊招呼客人，朝你點了一下頭。她帶你坐到最裡面靠窗的那一桌。）",
     "（她從包包裡拿出一小罐茶葉，是她自己帶的。）",
     "（燒水、溫杯、倒茶。她每一個動作都很慢，像在跟茶說話。）",
     "「我還沒有泡給客人以外的人喝過。」",
