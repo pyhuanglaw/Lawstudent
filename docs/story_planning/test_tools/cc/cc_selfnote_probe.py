@@ -45,12 +45,16 @@ async def study_here(pg, cdp, tag):
         its = await pg.evaluate("(()=>GAME.E.interactables.filter(i=>!i.hidden).map(i=>[i.label, i.seat?'seat':'', i.study?'study':'', i.shop||'']))()")
         R.note('%s 沒有 study 位子；這一區的互動：%s' % (tag, J(its)))
     if not R.check('%s 有可以讀書的位子' % tag, bool(seats), ''): return None
-    s = seats[0]; ap = s['ap'] or [s['x'], s['z']]
-    R.setup('%s 【捷徑】玩家放在第一張讀書位子的 seatApproach (%.2f,%.2f)（走路不是這一件要測的）' % (tag, ap[0], ap[1]))
-    await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.x=a[0]; P.position.z=a[1]; })", ap)
-    await pg.wait_for_timeout(1500)
-    lab = await pg.evaluate("(()=>{ const e=document.getElementById('interact'); return e&&!e.classList.contains('hide')?e.innerText.trim():null; })()")
+    lab = None
+    for s in seats[:4]:   # 互動按鈕要剛好是這張位子（afar 第一張窗邊位的 seatApproach 離書架比較近，會變成「看看書架」）
+        ap = s['ap'] or [s['x'], s['z']]
+        await L.go_to(pg, cdp, R, ap[0], ap[1], 0.35, '%s 走到讀書位子 (%.2f,%.2f) 旁邊' % (tag, s['x'], s['z']), max_s=150)   # 真的走過去（直接放過去互動按鈕不會出來）
+        await pg.wait_for_timeout(1200)
+        lab = await pg.evaluate("(()=>{ const e=document.getElementById('interact'); return e&&!e.classList.contains('hide')?e.innerText.trim():null; })()")
+        if lab and s['label'] in lab: break
+    R.note('%s 走到讀書位子 (%.2f,%.2f) 的 seatApproach (%.2f,%.2f)' % (tag, s['x'], s['z'], ap[0], ap[1]))
     R.note('%s 互動按鈕：%s' % (tag, lab))
+    if not R.check('%s 互動按鈕是位子（「%s」）' % (tag, s['label']), bool(lab and s['label'] in lab), str(lab)): return None
     await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
     picked = []; lines = []; t0 = time.time()
     while time.time() - t0 < 240:
@@ -104,7 +108,7 @@ async def main():
             for zone, day, h, nm in CASES:
                 tag = '[%s]' % nm
                 try:
-                    if first:
+                    if first or os.environ.get('FRESH') == '1':
                         R.setup('%s 【前置／捷徑】讀檔進 %s %s %s:00（條件事件關閉；法律系大一、還沒開學）' % (tag, zone, day, h))
                         s = await D.load_zone(pg, cdp, zone, day, float(h), wait=6000)
                     else:
