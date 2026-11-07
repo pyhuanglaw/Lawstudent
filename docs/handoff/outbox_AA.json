@@ -5850,6 +5850,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "AA_713 加墊子（mat，伸展）四階各三句；line_lint 0 條"
+  },
+  {
+   "task": "PLAYTEST-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_709_msg_replies.json"
+   ],
+   "state": "已交付",
+   "remaining": "大三上起（照 D81 往後掃）",
+   "next": "LAWWW-B 接 batch:5 的 15 串；芯慈 needed_msgs.js:57 照 D116 改字（見訊息）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_709 第五批：大二寒假＋大二下她們主動傳、不能回的 15 串（可昕 5、以安 4、芯慈 2、芷若 1、語彤 3）；剩下 1 條 7-9 是遊戲原句（以安「好問題」），不改；line_lint 其他 0 條"
   }
  ],
  "items": [
