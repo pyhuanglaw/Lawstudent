@@ -5683,6 +5683,22 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "只留活動的樣子：和 AA_712 重複的家人／夢想／心事換掉；以安不提手帳；學姊不命令；可昕予樂只剩吃飯、書店各一次；旗標改名兩個（KX_EAT_RETAKE→KX_EAT_PICKY、YT_CAFE_MOM→YT_CAFE_CUP）；line_lint 0 條"
+  },
+  {
+   "task": "PLAYTEST-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_709_msg_replies.json",
+    "docs/story_planning/AA_712_heroine_arcs.json"
+   ],
+   "state": "已交付",
+   "remaining": "AA_710 照 BB_304 第 7 節改（下一批）",
+   "next": "LAWWW-B 重匯 AA_709；new 的五串要排進手機",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_709：語彤拿掉秀琴姨試菜、新一串捷運蘭花；可昕「加油」回應改、新兩串（被叫妹妹不爽、圖書館停電）；學姊新兩串（法圖雞排、奶奶貼圖）；過年芷若、以安加 tell dad 選項（以安那則原本的宿舍走廊選項錯了，除夕他在家）；以安兩串 set AN_MSG_MOM_OK／AN_MSG_JAPAN；AA_712 以安第 4 拍加 alt 接 AN_MSG_MOM_OK"
   }
  ],
  "items": [
