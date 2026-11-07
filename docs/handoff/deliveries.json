@@ -18248,6 +18248,48 @@
    "integration": "已整合待測試",
    "note": "7b02ee2f0（28c3d3c7c）",
    "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-L2-CORNER-MR",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "38f4021e1",
+   "msg": "ACK",
+   "what": "轉角唱片 MODEL_READY（corner.glb 重新匯出、corner_interior.py 改、corner_glb_unit patch、LICENSES）",
+   "task": "CORNER-IN-1107",
+   "integration": "未整合",
+   "note": "洋洋以後接",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-AA-725",
+   "date": "2026-11-07",
+   "from": "AA",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "08248d66a",
+   "msg": "ACK",
+   "what": "AA_725 轉角唱片店內台詞",
+   "task": "CORNER-IN-1107",
+   "integration": "未整合",
+   "note": "",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-AA-726",
+   "date": "2026-11-07",
+   "from": "AA",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "8255634fb",
+   "msg": "ACK",
+   "what": "AA_726 經濟系序章跳日子字卡＋E05 之後三句",
+   "task": "BUG-Y0-DAYSKIP-CARD-1107",
+   "integration": "已實作待整合",
+   "note": "87b1fd5fd（本機，GHA 綠了推）",
+   "ack": "ACK"
   }
  ],
  "ignored": [
