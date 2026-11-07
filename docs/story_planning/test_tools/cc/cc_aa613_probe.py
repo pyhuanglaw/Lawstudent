@@ -219,8 +219,12 @@ async def main():
                         await pg.evaluate("GAME.enter('lawlib')"); await D.wait_zone(pg, cdp, 'lawlib', max_s=40); await pg.wait_for_timeout(3000)
                     else:
                         await jump(pg, cdp, tag, '2025-09-24', 15 + 35 / 60, 'lawlib')
-                    it = await use_it(pg, cdp, tag, "i=>/講座|法律資料|聽/.test(i.label||'')||(i.act&&/lawlib_intro/.test(String(i.act.id||i.act)))", '聽講座')
-                    sc = await scene(pg, cdp, tag + ' 講座', prefs=['聽', '參加', '坐', '法律資料'], max_s=240, idle_end=4)
+                    # 講座＝走進討論室 A、坐「坐下（討論室）」，坐下的選單裡有「參加：法律資料怎麼查」（lib_dbg 11-07 21:4x：討論室 A 四個座位，芯慈先坐了一個）
+                    it = await use_it(pg, cdp, tag, "i=>i.seat&&i.seat.room==='discA'&&!(GAME.E.npcs||[]).some(n=>n&&n.seat&&Math.hypot(n.seat.x-i.seat.x,n.seat.z-i.seat.z)<0.3)", '討論室 A 的空座位')
+                    await pg.evaluate("window.__says=[]")
+                    sc = await scene(pg, cdp, tag + ' 講座', prefs=['法律資料', '參加', '聽'], max_s=300, idle_end=8)
+                    says = await pg.evaluate("window.__says||[]")
+                    if says: sc['lines'] = [[w, t] for w, t, _ in says]
                     pos = await pg.evaluate("(id=>{ const P=GAME.E.player, n=GAME.npc&&GAME.npc[id]; const f=o=>o?[+o.x.toFixed(2),+o.z.toFixed(2)]:null; return {player:f(P.obj.position), playerSeat:P.seat?f(P.seat):null, xc:n&&n.obj?f(n.obj.position):null, xcSeat:n&&n.seat?f(n.seat):null, xcPose:n?n.pose:null, zone:GAME.G.zone}; })", XC)
                     await R.shot(pg, 'lib_lecture_' + mode)
                     R.note('%s 講座時位置：%s' % (tag, J(pos)))
