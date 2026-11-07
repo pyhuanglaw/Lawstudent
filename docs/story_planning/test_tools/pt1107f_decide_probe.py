@@ -142,7 +142,7 @@ async def meet_once(pg, cdp, run, tag, beat_opts, rec):
         if os.environ.get('DBG') and _ % 10 == 0:
             dbg = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).find(x=>String(x.id)===String(id)); let sf=null; try{ sf=INV.sceneFree(GAME); }catch(e){ sf='ERR'; } return {zone:GAME.G.zone, hour:+GAME.G.hour.toFixed(3), day:GAME.G.day, ivZone:v&&v.zone, ivH:v&&v.h, ivSt:v&&v.state, lead:!!(v&&v.lead), sceneFree:sf, plv:GAME.E.player.lv|0, paused:!!GAME.E.paused, hidden:document.hidden, phoneOpen:!document.getElementById('phone').classList.contains('hide'), pBusy:!!(GAME.E.player&&GAME.E.player.busy), D:(GAME.D?{active:GAME.D.active,busyDepth:GAME.D.busyDepth,busyWho:GAME.D.busyWho}:null), evRunning:(typeof EVENTS!=='undefined'?EVENTS.running:null), outDue:(typeof OUT!=='undefined'&&OUT.due?String(OUT.due).slice(0,40):null), npcHere:!!GAME.E.npcs.find(q=>q.id==='heroine_01'||q.charId==='heroine_01')}; })(%s)" % json.dumps(v['id']))
             print('   [DBG %d]' % _, json.dumps(dbg, ensure_ascii=False), flush=True)
-        if st and (st['ph'] == 'wait' or (st['st'] == 'accepted' and not st['ph'])):
+        if st and not q['dlg'] and not q['busy'] and (st['ph'] == 'wait' or (st['st'] == 'accepted' and not st['ph'])):   # 2026-11-07 BB-B：對話框開著先點對話（第 2 次已經在館裡、沒有帶路時，原本一直「走到她旁邊」不點門口那句＝TEST_BUG）
             n = await pg.evaluate("(w=>{ const n=GAME.E.npcs.find(q=>q.id===w||q.charId===w); return n?{x:n.obj.position.x,z:n.obj.position.z,lv:n.lv|0}:null; })(%s)" % json.dumps(WHO))
             if n: await L.go_to(pg, cdp, run, n['x'], n['z'], 1.8, '走到她旁邊', lv=n['lv']); await pg.wait_for_timeout(1000); continue
         if q['dlg']: await L.tap(pg, cdp, '#dlg')

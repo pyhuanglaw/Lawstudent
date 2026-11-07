@@ -70,10 +70,10 @@ async def cat_list(pg, cdp, who, cat):
 async def invite(pg, cdp, run, sl, tag):
     """約那一格（選單 → 地點 → 今天的時間），回傳 (選到的時間字, 說過的話)"""
     lst = await cat_list(pg, cdp, sl['who'], sl['cat'])
-    item = next((x for x in (lst or []) if sl['name'][:4] in x['t']), None)
+    item = next((x for x in (lst or []) if sl.get('key', sl['name'][:4]) in x['t']), None)
     run.check('[%s] 「%s」有「%s」（沒灰掉）' % (tag, sl['cat'], sl['name']), bool(item) and not item['dim'], json.dumps([x['t'] for x in (lst or [])], ensure_ascii=False))
     if not item: await back_out(pg, cdp); return None, []
-    await pe.choose(pg, cdp, sl['name'][:4])
+    await pe.choose(pg, cdp, sl.get('key', sl['name'][:4]))
     t = await pe.opts(pg)
     pick = next((x for x in t if x['t'].startswith('今天') and not x['dim']), None) or next((x for x in t if not x['dim'] and any(c.isdigit() for c in x['t'])), None)
     run.check('[%s] 有可以選的時間' % tag, bool(pick), json.dumps(t, ensure_ascii=False))
@@ -139,7 +139,7 @@ async def run_an(pg, cdp, run):
 
 
 async def run_zq(pg, cdp, run):
-    sl = {'who': 'heroine_04', 'cat': '吃飯', 'name': '公館滷味', 'flag': 'ZQ_STUDY_LUWEI'}
+    sl = {'who': 'heroine_04', 'cat': '吃飯', 'name': '公館滷味', 'key': '吃滷味', 'flag': 'ZQ_STUDY_LUWEI'}   # 選單顯示 verb「讀完去公館吃滷味」（2026-11-07 BB-B：原本找「公館滷味」＝TEST_BUG）
     data = await pg.evaluate("STUDYSLOT.get('zq_luwei')")
     s1 = base_state(sl['who'], sl['flag']); await load(pg, cdp, s1)
     run.setup('【前置／捷徑】設 ZQ_STUDY_LUWEI（念完第 6 次）')
@@ -152,7 +152,7 @@ async def run_zq(pg, cdp, run):
     run.check('② 變成排好的出遊（OUT 有 slot、邀約清單沒有這筆）', bool(p['out']) and p['out'][-1]['state'] == 'planned' and not [x for x in p['inv'] if x in ('accepted', 'pending')], json.dumps(p, ensure_ascii=False))
     await pe.close_phone(pg, cdp)
     lst = await cat_list(pg, cdp, sl['who'], '吃飯')
-    run.check('② 已經約好的不重複列', not any('公館滷味' in x['t'] for x in (lst or [])), json.dumps([x['t'] for x in (lst or [])], ensure_ascii=False))
+    run.check('② 已經約好的不重複列', not any(sl['key'] in x['t'] for x in (lst or [])), json.dumps([x['t'] for x in (lst or [])], ensure_ascii=False))
     await back_out(pg, cdp)
     allt, o = await go_out(pg, cdp, run, sl, '第 1 次')
     if allt is None: run.check('③ 有排好的出遊可以出發', False); return
