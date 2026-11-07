@@ -1,0 +1,218 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\perf_cold_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\PERF_COLD\out
+wenzhou       base     黑畫面 18022.8 ms（預熱 0.3）｜淡入後 107 格 avg 8.8 fps 1%low 0.19 最慢 5250 ms、>100 ms 8 格、>500 ms 3 格｜進區域以後才載 9 個
+    進區域以後才載：bldg.wz_cat、bldg.wenzhou_street、bldg.wz_scooter、bldg.wz_park、bldg.wz_props、bldg.wz_jphouse、bldg.cafe_exterior、char.npc_nf5、char.npc_nm5
+      載好 bldg.wz_scooter（building）12654.5 ms，進區域後 13793 ms
+      載好 bldg.wz_cat（building）13801.9 ms，進區域後 14717 ms
+      載好 bldg.wz_jphouse（building）13591.5 ms，進區域後 14731 ms
+      載好 bldg.cafe_exterior（building）16075.9 ms，進區域後 17216 ms
+      載好 bldg.wz_props（building）16164.4 ms，進區域後 17304 ms
+      載好 char.npc_nf5（vrm）16915.8 ms，進區域後 18081 ms
+      載好 char.npc_nm5（vrm）16993.3 ms，進區域後 18160 ms
+      載好 bldg.wz_park（building）17053.4 ms，進區域後 18193 ms
+      載好 bldg.wenzhou_street（building）18455.7 ms，進區域後 19540 ms
+      parseVRM 進區域後 14422 ms：同步 2.2 ms、2651124 bytes
+      parseVRM 進區域後 14458 ms：同步 2 ms、2384312 bytes
+      parseVRM 做完 進區域後 18078 ms：共 3655.7 ms
+      parseVRM 做完 進區域後 18158 ms：共 3699.2 ms
+    慢格：淡入後 6663 ms，5249.8 ms（update 7.2、render 96.2、換模型 1 次 85.2 ms、新 shader 0）；這段時間 JS 5236.3 ms、不是 JS 13.5 ms
+         5137.8 ms  FrameRequestCallback frame @ src/game3d.js:579
+          110.8 ms  Promise.resolve (匿名) @ lib/three.bundle.js:50550
+        事件：loaded 104 bldg.wenzhou_street building
+    慢格：淡入後 8863 ms，1933.2 ms（update 11.3、render 21.6、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 1927.5 ms、不是 JS 5.7 ms
+         1929.5 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 813 ms，716.7 ms（update 5.4、render 297.6、換模型 1 次 93 ms、新 shader 1）；這段時間 JS 682.4 ms、不是 JS 34.3 ms
+          642.6 ms  FrameRequestCallback frame @ src/game3d.js:579
+           30.8 ms  FrameRequestCallback frame @ src/game3d.js:579
+           19.6 ms  Promise.resolve (匿名) @ lib/three.bundle.js:50550
+           12.8 ms  Promise.resolve (匿名) @ lib/three.bundle.js:50550
+            5.7 ms  Promise.resolve (匿名) @ lib/three.bundle.js:50550
+        事件：parseVRMdone 38 3699.2；loaded 40 char.npc_nm5 vrm；loaded 73 bldg.wz_park building
+    慢格：淡入後 1213 ms，400 ms（update 6.7、render 21.8、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 398.0 ms、不是 JS 2.0 ms
+          642.6 ms  FrameRequestCallback frame @ src/game3d.js:579
+          396.9 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 6863 ms，200 ms（update 12.1、render 23、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 197.6 ms、不是 JS 2.4 ms
+         5137.8 ms  FrameRequestCallback frame @ src/game3d.js:579
+          189.2 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 1347 ms，133.3 ms（update 7.2、render 25.8、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 7.6 ms、不是 JS 125.7 ms
+          396.9 ms  FrameRequestCallback frame @ src/game3d.js:579
+    淡入後 JS 加總前幾名：
+         8541.0 ms  FrameRequestCallback frame @ src/game3d.js:579
+          183.8 ms  Promise.resolve (匿名) @ lib/three.bundle.js:50550
+    穩定以後的分項（整個場景 373 draw call／581296 三角形，含陰影那一輪；每一組單獨畫）：
+         117 calls    252124 tris   110 個網格  wenzhou_street_glb < Group
+          43 calls     91250 tris    22 個網格  human
+          36 calls     63498 tris    29 個網格  wz_park_glb < Group
+          29 calls     31494 tris    31 個網格  Group
+          24 calls     26013 tris    17 個網格  wz_jphouse_glb < Group
+          23 calls     66374 tris    16 個網格  human
+          23 calls     27874 tris    31 個網格  Group
+          23 calls     67318 tris    16 個網格  human
+          20 calls     23850 tris    15 個網格  wz_props_glb < Group
+          16 calls     19350 tris    84 個網格  Group < Group
+          14 calls     35608 tris     5 個網格  street_trees_field < Group
+           8 calls     16690 tris     3 個網格  skyline
+           8 calls     16318 tris     3 個網格  Group < Group
+           8 calls     22507 tris    16 個網格  human
+           8 calls     22553 tris    16 個網格  human
+           8 calls     22481 tris    16 個網格  human
+           7 calls     19298 tris     1 個網格  Mesh < Group
+           7 calls     22602 tris     1 個網格  Mesh < Group
+           7 calls     19502 tris     1 個網格  Mesh < Group
+           7 calls     16426 tris     1 個網格  Mesh < Group
+           6 calls     17266 tris     1 個網格  Mesh
+           6 calls     16308 tris     1 個網格  Group < Group
+           6 calls     16308 tris     1 個網格  Group < Group
+           6 calls     16308 tris     1 個網格  Group < Group
+           6 calls     16308 tris     1 個網格  Group < Group
+    PERFPANEL：wenzhou：黑畫面 18.0 秒（建區域 1.8、預熱 12.6）；淡入後 10 秒最長一格 5.25 秒、卡 7 次；shader 黑畫面 +56、淡入後 +24｜prewarm None｜warmup {'zone': 'wenzhou', 'objects': 31, 'programs': 3, 'textures': 0, 'mpix': 0, 'depth': False, 'depthPrograms': 0, 'ticks': 15, 'parallel': True, 'done': False, 'ms': 0, 'settled': 106}｜平行編譯 True｜ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)
+wenzhou       pre      黑畫面 21753.1 ms（預熱 0.3）｜淡入後 331 格 avg 27.5 fps 1%low 1.49 最慢 1850 ms、>100 ms 1 格、>500 ms 1 格｜進區域以後才載 0 個
+    先載好：9 個、1789 ms，失敗 []
+    慢格：淡入後 2100 ms，1849.9 ms（update 10.8、render 21.6、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 1846.2 ms、不是 JS 3.7 ms
+         1851.0 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 2200 ms，100 ms（update 6.8、render 23、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 64.4 ms、不是 JS 35.6 ms
+         1851.0 ms  FrameRequestCallback frame @ src/game3d.js:579
+           75.6 ms  TimerHandler:setTimeout step @ src/zones3d.js:2742
+    淡入後 JS 加總前幾名：
+         2272.9 ms  FrameRequestCallback frame @ src/game3d.js:579
+          100.1 ms  TimerHandler:setTimeout step @ src/zones3d.js:2742
+    PERFPANEL：wenzhou：黑畫面 21.7 秒（建區域 1.8、預熱 0.2）；淡入後 10 秒最長一格 1.85 秒、卡 1 次；shader 黑畫面 +77、淡入後 +15｜prewarm None｜warmup {'zone': 'wenzhou', 'objects': 418, 'programs': 15, 'textures': 0, 'mpix': 0, 'depth': False, 'depthPrograms': 0, 'ticks': 36, 'parallel': True, 'done': False, 'ms': 0, 'settled': 118}｜平行編譯 True｜ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)
+wenzhou       prewarm  黑畫面 39414.9 ms（預熱 0.3）｜淡入後 318 格 avg 26.4 fps 1%low 1.40 最慢 1917 ms、>100 ms 3 格、>500 ms 1 格｜進區域以後才載 0 個｜黑畫面多畫一次 [18530.7, 76, 743, None]
+    先載好：9 個、1548 ms，失敗 []
+    慢格：淡入後 2522 ms，1916.7 ms（update 10.2、render 20.2、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 1901.9 ms、不是 JS 14.8 ms
+         1916.2 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 10172 ms，116.7 ms（update 11.1、render 87.6、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 106.7 ms、不是 JS 10.0 ms
+          114.1 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 2672 ms，116.6 ms（update 10.2、render 20.9、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 101.6 ms、不是 JS 15.0 ms
+           80.0 ms  TimerHandler:setTimeout step @ src/zones3d.js:2742
+           28.9 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 10272 ms，100 ms（update 12.2、render 20.8、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 99.4 ms、不是 JS 0.6 ms
+          114.1 ms  FrameRequestCallback frame @ src/game3d.js:579
+           99.2 ms  FrameRequestCallback frame @ src/game3d.js:579
+    淡入後 JS 加總前幾名：
+         2498.3 ms  FrameRequestCallback frame @ src/game3d.js:579
+           80.0 ms  TimerHandler:setTimeout step @ src/zones3d.js:2742
+    PERFPANEL：wenzhou：黑畫面 39.4 秒（建區域 1.6、預熱 18.7）；淡入後 10 秒最長一格 1.92 秒、卡 2 次；shader 黑畫面 +153、淡入後 +6｜prewarm None｜warmup {'zone': 'wenzhou', 'objects': 218, 'programs': 11, 'textures': 0, 'mpix': 0, 'depth': False, 'depthPrograms': 0, 'ticks': 34, 'parallel': True, 'done': False, 'ms': 0, 'settled': 190}｜平行編譯 True｜ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)
+library_hall  base     黑畫面 11674.1 ms（預熱 0.3）｜淡入後 38 格 avg 3.1 fps 1%low 0.17 最慢 5800 ms、>100 ms 5 格、>500 ms 4 格｜進區域以後才載 12 個
+    進區域以後才載：bldg.library_copier、bldg.library_hall_v2、char.npc_nf5、char.npc_nm5、char.ual_sit_clips、prop.book_open、prop.calc_engineering、prop.handouts、char.npc_nm11、char.ual_sit_tasks、prop.hand_props、prop.desk_props
+      載好 bldg.library_copier（building）10209 ms，進區域後 10812 ms
+      載好 char.ual_sit_clips（clips）9809.4 ms，進區域後 10860 ms
+      載好 prop.calc_engineering（building）9247.7 ms，進區域後 10865 ms
+      載好 char.ual_sit_tasks（clips）432.3 ms，進區域後 11343 ms
+      載好 prop.handouts（building）9937.1 ms，進區域後 11555 ms
+      載好 prop.book_open（building）10517 ms，進區域後 11571 ms
+      載好 char.npc_nf5（vrm）10723.7 ms，進區域後 11594 ms
+      載好 char.npc_nm5（vrm）10802.8 ms，進區域後 11674 ms
+      載好 char.npc_nm11（vrm）10110.3 ms，進區域後 11752 ms
+      載好 prop.hand_props（building）919.8 ms，進區域後 11831 ms
+      載好 bldg.library_hall_v2（building）11063.7 ms，進區域後 11927 ms
+      載好 prop.desk_props（building）670.1 ms，進區域後 22133 ms
+      parseVRM 進區域後 11097 ms：同步 2.6 ms、2651124 bytes
+      parseVRM 進區域後 11132 ms：同步 1.7 ms、2384312 bytes
+      parseVRM 進區域後 11195 ms：同步 2.3 ms、2506188 bytes
+      parseVRM 做完 進區域後 11591 ms：共 493.5 ms
+      parseVRM 做完 進區域後 11672 ms：共 539.3 ms
+      parseVRM 做完 進區域後 11749 ms：共 554 ms
+    慢格：淡入後 6025 ms，5799.8 ms（update 23.2、render 1911.3、換模型 2 次 210 ms、新 shader 5）；這段時間 JS 5775.6 ms、不是 JS 24.2 ms
+         5770.5 ms  FrameRequestCallback frame @ src/game3d.js:579
+            9.4 ms  Promise.resolve (匿名) @ lib/three.bundle.js:50550
+        事件：loaded 27 bldg.library_hall_v2 building
+    慢格：淡入後 8175 ms，2150 ms（update 21.5、render 429.6、換模型 1 次 93.8 ms、新 shader 1）；這段時間 JS 2146.4 ms、不是 JS 3.6 ms
+         5770.5 ms  FrameRequestCallback frame @ src/game3d.js:579
+         2145.5 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 10258 ms，2083.1 ms（update 25.3、render 98、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 2081.0 ms、不是 JS 2.1 ms
+         2145.5 ms  FrameRequestCallback frame @ src/game3d.js:579
+         2017.9 ms  FrameRequestCallback frame @ src/game3d.js:579
+           70.0 ms  IMG[src="assets/models/env/second_ai/library_hall_v2_lm_day.webp"].onload onImageLoad @ lib/three.bundle.js:45733
+        事件：load 1613 prop.desk_props building
+    慢格：淡入後 11092 ms，616.7 ms（update 23.3、render 16.8、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 603.3 ms、不是 JS 13.4 ms
+          613.6 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 10475 ms，216.7 ms（update 188、render 425、換模型 0 次 0 ms、新 shader 1）；這段時間 JS 145.0 ms、不是 JS 71.7 ms
+         2017.9 ms  FrameRequestCallback frame @ src/game3d.js:579
+          123.6 ms  FrameRequestCallback frame @ src/game3d.js:579
+           11.1 ms  ReadableStreamDefaultReader.read.then (匿名) @ src/assets3d.js:284
+        事件：loaded 200 prop.desk_props building
+    淡入後 JS 加總前幾名：
+        10818.6 ms  FrameRequestCallback frame @ src/game3d.js:579
+           70.0 ms  IMG[src="assets/models/env/second_ai/library_hall_v2_lm_day.webp"].onload onImageLoad @ lib/three.bundle.js:45733
+           43.3 ms  Promise.resolve (匿名) @ lib/three.bundle.js:50550
+           11.1 ms  ReadableStreamDefaultReader.read.then (匿名) @ src/assets3d.js:284
+    穩定以後的分項（整個場景 216 draw call／301991 三角形，含陰影那一輪；每一組單獨畫）：
+          83 calls     56306 tris   249 個網格  L0 < Group
+          38 calls     74944 tris    22 個網格  human
+          32 calls     85008 tris   242 個網格  L1 < Group
+          21 calls       508 tris    20 個網格  elevator < Group
+          19 calls     51672 tris    24 個網格  human
+           4 calls      6598 tris    18 個網格  human
+           4 calls      6306 tris    18 個網格  human
+           3 calls      6175 tris    16 個網格  human
+           3 calls      6630 tris    16 個網格  human
+           3 calls      6562 tris    16 個網格  human
+           2 calls       160 tris     1 個網格  Mesh < Group
+           2 calls       160 tris     1 個網格  Mesh < Group
+           1 calls       960 tris     1 個網格  Mesh
+           1 calls         2 tris     1 個網格  Sprite < Group
+           0 calls         0 tris     1 個網格  CAMCOL_bookstair < Group
+           0 calls         0 tris     1 個網格  CAMCOL_column < Group
+           0 calls         0 tris     1 個網格  CAMCOL_column < Group
+           0 calls         0 tris     1 個網格  CAMCOL_column < Group
+           0 calls         0 tris     1 個網格  CAMCOL_column < Group
+           0 calls         0 tris     1 個網格  CAMCOL_column < Group
+           0 calls         0 tris     1 個網格  CAMCOL_column < Group
+    PERFPANEL：library_hall：黑畫面 11.6 秒（建區域 1.7、預熱 9.4）；淡入後 10 秒最長一格 5.80 秒、卡 3 次；shader 黑畫面 +30、淡入後 +20｜prewarm None｜warmup {'zone': 'library_hall', 'objects': 0, 'programs': 0, 'textures': 0, 'mpix': 0, 'depth': False, 'depthPrograms': 0, 'ticks': 7, 'parallel': True, 'done': False, 'ms': 0, 'settled': 56}｜平行編譯 True｜ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)
+library_hall  pre      黑畫面 13724.0 ms（預熱 0.6）｜淡入後 232 格 avg 19.2 fps 1%low 0.65 最慢 1733 ms、>100 ms 8 格、>500 ms 2 格｜進區域以後才載 1 個
+    先載好：12 個、1072 ms，失敗 []
+    進區域以後才載：char.npc_nm11
+      載好 char.npc_nm11（vrm）12758.1 ms，進區域後 14113 ms
+      parseVRM 進區域後 13775 ms：同步 1.9 ms、2506188 bytes
+      parseVRM 做完 進區域後 14111 ms：共 335.2 ms
+    慢格：淡入後 5301 ms，1733.3 ms（update 23.5、render 15.8、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 1732.5 ms、不是 JS 0.8 ms
+         1729.0 ms  FrameRequestCallback frame @ src/game3d.js:579
+           55.1 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 1934 ms，1333.3 ms（update 24.7、render 13.9、換模型 1 次 144.7 ms、新 shader 0）；這段時間 JS 1328.3 ms、不是 JS 5.0 ms
+         1335.6 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 2568 ms，450 ms（update 19.3、render 11.8、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 448.7 ms、不是 JS 1.3 ms
+          446.3 ms  FrameRequestCallback frame @ src/game3d.js:579
+          184.8 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 8451 ms，233.4 ms（update 21、render 16.4、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 225.9 ms、不是 JS 7.5 ms
+          214.2 ms  FrameRequestCallback frame @ src/game3d.js:579
+           13.2 ms  TimerHandler:setTimeout step @ src/zones3d.js:2742
+    慢格：淡入後 3118 ms，200 ms（update 14、render 12.7、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 183.3 ms、不是 JS 16.7 ms
+          194.1 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 2118 ms，183.4 ms（update 23.1、render 422.8、換模型 0 次 0 ms、新 shader 1）；這段時間 JS 180.9 ms、不是 JS 2.5 ms
+         1335.6 ms  FrameRequestCallback frame @ src/game3d.js:579
+          184.8 ms  FrameRequestCallback frame @ src/game3d.js:579
+    淡入後 JS 加總前幾名：
+         5037.2 ms  FrameRequestCallback frame @ src/game3d.js:579
+           55.8 ms  TimerHandler:setTimeout step @ src/zones3d.js:2742
+           35.4 ms  Promise.resolve (匿名) @ src/assets3d.js:284
+           18.6 ms  Promise.resolve (匿名) @ lib/three.bundle.js:50550
+            5.7 ms  ReadableStreamDefaultReader.read.then (匿名) @ src/assets3d.js:284
+    PERFPANEL：library_hall：黑畫面 13.7 秒（建區域 1.4、預熱 0.0）；淡入後 10 秒最長一格 1.73 秒、卡 8 次；shader 黑畫面 +40、淡入後 +20｜prewarm None｜warmup {'zone': 'library_hall', 'objects': 446, 'programs': 14, 'textures': 0, 'mpix': 0, 'depth': True, 'depthPrograms': 0, 'ticks': 30, 'parallel': True, 'done': False, 'ms': 0, 'settled': 86, 'depthMs': 16}｜平行編譯 True｜ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)
+library_hall  prewarm  黑畫面 26363.9 ms（預熱 0.6）｜淡入後 207 格 avg 17.1 fps 1%low 0.65 最慢 1767 ms、>100 ms 8 格、>500 ms 2 格｜進區域以後才載 1 個｜黑畫面多畫一次 [12779.1, 37, 528, None]
+    先載好：12 個、1224 ms，失敗 []
+    進區域以後才載：char.npc_nm11
+      載好 char.npc_nm11（vrm）25358.4 ms，進區域後 26714 ms
+      parseVRM 進區域後 26372 ms：同步 2.6 ms、2506188 bytes
+      parseVRM 做完 進區域後 26712 ms：共 339.6 ms
+    慢格：淡入後 5408 ms，1766.7 ms（update 21.7、render 15.8、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 1765.5 ms、不是 JS 1.2 ms
+         1764.7 ms  FrameRequestCallback frame @ src/game3d.js:579
+           63.1 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 1892 ms，1333.3 ms（update 22.5、render 11.1、換模型 1 次 142 ms、新 shader 0）；這段時間 JS 1324.0 ms、不是 JS 9.3 ms
+         1324.0 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 11674 ms，466.7 ms（update 13.9、render 14.1、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 462.4 ms、不是 JS 4.3 ms
+          476.6 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 2508 ms，450 ms（update 15.4、render 13.7、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 447.1 ms、不是 JS 2.9 ms
+          438.1 ms  FrameRequestCallback frame @ src/game3d.js:579
+          176.5 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 8441 ms，266.7 ms（update 23.2、render 16.4、換模型 0 次 0.1 ms、新 shader 0）；這段時間 JS 266.1 ms、不是 JS 0.6 ms
+          256.7 ms  FrameRequestCallback frame @ src/game3d.js:579
+           36.1 ms  FrameRequestCallback frame @ src/game3d.js:579
+    慢格：淡入後 3092 ms，233.3 ms（update 14.2、render 11.9、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 226.3 ms、不是 JS 7.0 ms
+          239.4 ms  FrameRequestCallback frame @ src/game3d.js:579
+    淡入後 JS 加總前幾名：
+         5563.9 ms  FrameRequestCallback frame @ src/game3d.js:579
+           63.4 ms  TimerHandler:setTimeout step @ src/zones3d.js:2742
+           34.8 ms  Promise.resolve (匿名) @ src/assets3d.js:284
+           14.5 ms  Promise.resolve (匿名) @ lib/three.bundle.js:50550
+    PERFPANEL：library_hall：黑畫面 26.3 秒（建區域 1.4、預熱 12.8）；淡入後 10 秒最長一格 1.77 秒、卡 7 次；shader 黑畫面 +78、淡入後 +16｜prewarm None｜warmup {'zone': 'library_hall', 'objects': 344, 'programs': 13, 'textures': 0, 'mpix': 0, 'depth': False, 'depthPrograms': 0, 'ticks': 26, 'parallel': True, 'done': False, 'ms': 0, 'settled': 125}｜平行編譯 True｜ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)
+ALL PASS（6 次）

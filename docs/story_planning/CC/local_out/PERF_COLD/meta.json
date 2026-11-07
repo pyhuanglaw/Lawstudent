@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "PERF_COLD",
+  "sha": "b987cb1cf7fff1bc587dd77eb22b0c6a4e8a2dac",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/perf_cold_probe.py",
+  "env": "ZONES=wenzhou,library_hall;VARIANTS=base,pre,prewarm;COLD=12;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T15:22:01",
+  "end": "2026-11-07T15:29:07",
+  "seconds": 426,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "20",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 93,
+    "mem": 55,
+    "used_gb": 17.4,
+    "chrome_testing": 14
+  }
+}
