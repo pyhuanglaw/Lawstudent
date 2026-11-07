@@ -121,8 +121,126 @@ FPS_WZ_ORDER  | <同一個 SHA>       | probe | tools/cc_local/fps_zones.py     
 | D：nonpc 比 base 快很多 | 人物 | 遠的人物 LOD、少幾個路人 | LAWWW |
 | D：base 的 rnd（CPU）大、draw 多 | draw call | `wenzhou_street.glb` 材質合併（像公館店面的 atlas、霖澤館大廳的頂點色）、機車 primitive 合併 | 我 |
 
+## 第二步：PC 的數字回來了（LAWWW2-B 2026-11-07）
+
+- **PC 結果**：cc-local（MSI RX 6600M，844×390，dpr 1，畫質中），開發 `1344de13d`：
+  - `PERF_WZ_SPLIT`：11-05 13:06（台灣）；
+  - `FPS_WZ_ORDER`：11-05 23:13；
+  - 在 `docs/story_planning/CC/local_out/` 下面。
+- 上一班交班時還沒跑到，這一班才讀。
+
+### ① 證實：尖峰是「第一次進區域」，不是白天
+
+`FPS_WZ_ORDER` 把順序換成晚上先：
+
+| 溫州街 | 晚上（第一次進） | 白天（第二次） | 白天（第三次） | 下雨 |
+|---|---|---|---|---|
+| 1% low（fps） | **1.9** | 15.0 | 20.0 | 18.8 |
+| 最慢一格（ms） | **1,517** | 83 | 50 | 67 |
+
+- 尖峰跟著換到晚上，兩次白天都沒有。
+- 總圖大廳同樣是晚上（第一次）最差：1% low 3.6 fps。
+- **CC F1／F2 的「白天 1% low 7 fps」＝第一次進溫州街的成本。** 白天本身沒有額外的尖峰。
+
+### ② 第一次進溫州街（`PERF_WZ_SPLIT` A_cold）
+
+**黑畫面 15.5 秒**：
+- 建區域 1.7 秒；
+- 「預熱」11.5 秒：大部分是 `ASSETS.waitLoaded` 在等溫州街的正式模型載完，prewarm 本身最多 2 秒。
+- 第二次進只要 4.3 秒。
+
+**淡入後的長格**：
+
+| 淡入後 | 一格 | update | render | 換模型 | 新 shader | 多傳的貼圖 | 不在遊戲程式裡（gap） |
+|---|---|---|---|---|---|---|---|
+| 第 2 格 | **4,600 ms** | 6 | 84 | 1 次（71 ms） | 0 | 23 | **4,510** |
+| 第 5 格 | 1,933 ms | 11 | 20 | 0 | 0 | 0 | 1,903 |
+
+- 總圖大廳第一次進也一樣：7,266 ms 一格，換模型 1 次、gap 6,816 ms。
+- 再進一次（B_again）最長只有 200 ms。
+
+**gap 是什麼**：探針的 rAF 排在遊戲後面，所以 gap 發生在「換模型那一格」的**前面**。比較像是兩格之間：
+- 在載入、解析某個模型，載好了下一格才換上；
+- 或是 GPU 那邊第一次畫新東西（編譯、傳貼圖），瀏覽器排不出下一格。
+
+另外兩件事：
+- `ASSETS.waitLoaded` 黑畫面時只等 `type:'building'`，路人的 VRM 不等；
+- 校園穩定以後（D_base）還是有「換模型 5」：有些路人模型是走進區域才載的。
+
+這兩種要用第二支探針分清楚（下面）。
+
+### ③ 穩定以後（D）：每一格要等兩個 vsync
+
+| 溫州街 | 平均 fps | p50 | 1% low | E.update | E.render（CPU） | draw call | 三角形 |
+|---|---|---|---|---|---|---|---|
+| base | 33.9 | 33.3 ms | 20.0 | 8.4 ms | 19.3 ms | 360 | 52.7 萬 |
+| 陰影不每格重畫 | 40.1 | **16.8 ms** | 20.0 | 6.2 | 17.2 | 289 | 46.6 萬 |
+| NPC 藏起來 | 36.0 | 33.3 | 20.0 | 8.3 | 18.0 | 349 | 51.1 萬 |
+| 不畫 | 60.0 | 16.7 | 59.5 | 8.3 | 0 | — | — |
+
+- 光是 `E.render` 的 CPU 就 19 ms，加上 `E.update` 8 ms，一格超過 16.7 ms，所以只能 30 fps。
+- 陰影那一輪大約 70 個 draw call、2～3 ms。關掉以後一半的格子回到 60 fps（p50 16.8 ms）。
+- NPC 只佔 1 ms 左右。
+- **要回到 60 fps，要省的是畫面的 draw call（CPU 那一邊）和陰影那一輪**。
+
+溫州街模型的 draw call 都是我的檔：
+- 主巷 112；
+- 機車 76（每台 70 個 primitive）；
+- 公園 29、道具 24。
+
+校園：
+- base 24.5 fps，CPU 30 ms，458 個 draw call；
+- 陰影不重畫 → 358 個 draw call、1% low 2.5 → 12 fps。
+
+## 第二支探針：`perf_cold_probe.py`（第一次進的那一格是誰）
+
+**做法**：每一個「區域 × 做法」開一個新的瀏覽器（真的第一次進）：
+- **base**：照原本。
+- **pre**：先把 base 那一次「進區域以後才開始載」的資產全部載好，再進同一區。
+  - 長格消失＝是載入、解析；
+  - 還在＝是 GPU 第一次畫。
+- **prewarm**：pre，再加上黑畫面裡把整個場景不剔除地畫一次到小畫布、讀一個像素。
+  - 淡入後再變少＝「第一次畫」的成本可以搬進黑畫面（之後修法的候選）。
+
+**記錄**：
+- Chrome 的 **Long Animation Frames**（LoAF）：每一個長格裡跑了哪幾段 JS（呼叫方式、函式名、`檔案:行`、毫秒）。
+  - 長格裡沒有對應的 JS＝主執行緒在等 GPU 或瀏覽器。
+- `ASSETS.loadOne`（開始載、載好）、`ASSETS.parseVRM`、`CHAR.upgrade`、`Z3.prewarm`／`Z3.warmup` 的時間點。
+
+**遊戲程式不用改**：都是在探針裡包 `ASSETS`、`Z3`、`CHAR` 的屬性。
+
+**驗過的**：
+- Python、四段 JS 用 `node --check` 過；
+- 用假資料跑過分析和輸出（行號對應）；
+- 照 D131 沒有在雲端開瀏覽器。
+
+**排進 cc-local**：探針先複製到 cc-testing 的 `docs/story_planning/test_tools/cc/perf_cold_probe.py`。
+
+```
+PERF_COLD | <開發分支最新 SHA> | probe | docs/story_planning/test_tools/cc/perf_cold_probe.py | index.html | 40 | ZONES=wenzhou,library_hall;VARIANTS=base,pre,prewarm;COLD=12;CC_HEADLESS=0
+```
+
+- 6 次開瀏覽器，每次約 1 分鐘。
+- 輸出 `perf_cold.txt`、`perf_cold.json`。
+
+## 看了第二支的數字以後怎麼修
+
+| 第二支量到的 | 修法 | 誰的檔 |
+|---|---|---|
+| base 的長格裡是 `parseVRM`、`loadOne` 的 JS，pre 就沒有 | 黑畫面的 `waitLoaded` 也等這一區要用的路人 VRM（現在只等 building）；或路人的 VRM 改在標題畫面背景載 | LAWWW（`game3d.js`、`assets3d.js`），我寫 patch |
+| 長格裡沒有 JS（pre 也還在），prewarm 就沒有 | 黑畫面裡整個場景畫一次（`Z3.prewarm` 最後加這一步） | 我（`zones3d.js`）＋ LAWWW 接 |
+| 都還在 | 看 LoAF 列出來的函式再說 | — |
+
+**穩定以後的 30 fps**（和第一次進無關，可以先做）：
+- 溫州街機車 76 個 draw call：每台 70 個 primitive，照材質合併；
+- 主巷 112：材質合併成貼圖集；
+- 不需要投影子的小東西不投影（陰影那一輪約 70 個）。
+
+做完請 CC 用 `perf_split_probe.py` 的 D 重量。
+
 ## 還沒做
 
-- PC 的數字（等 CC-C 排、PC 跑）。
-- 修：等數字決定修哪一項。
+- 第二支探針的 PC 數字（等 CC-B 排）。
+- 修：等數字決定第一次進的那一項。
+- 穩定以後的 draw call：機車合併先做（我的檔、不用等數字）。
 - 驗收：BB 用同一支 F1／F2 重量。
