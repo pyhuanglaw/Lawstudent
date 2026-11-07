@@ -115,6 +115,8 @@ SKIRT_SIT_cam | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_pl
 GG2_afar_same_01 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_01;RERUN=s01;CC_HEADLESS=0
 GG2_afar_same_03 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_03;RERUN=s03;CC_HEADLESS=0
 GG2_afar_same_04 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_04;RERUN=s04;CC_HEADLESS=0
+# BB-B 09:44：小路門口那一面（窗景卡做在 komichi.glb 裡？）新 CAM＋玩家視角窗前 1.5 m；營業 18:00～02:00
+V21X_teishoku_front | c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb | probe | docs/story_planning/test_tools/cc/cc_teishoku_front_probe.py | index.html | 20 | CC_HEADLESS=0
 SOC_peishan_date_r4 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | CASES=classmate_peishan;STEPS=date,phone;RERUN=r4;CC_HEADLESS=0
 SOC_xinci_date_r4 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | CASES=classmate_xinci;STEPS=date,phone;RERUN=r4;CC_HEADLESS=0
 R7921_p0 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
