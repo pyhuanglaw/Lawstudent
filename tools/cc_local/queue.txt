@@ -140,6 +140,9 @@ PT1107I_meet_kx | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_
 PT1107G_h05_k3 | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/pt1107g_arcinv_probe.py | index.html?turbo | 40 | WHO=heroine_05;K=3;PICK=0;CC_HEADLESS=0
 # LAWWW2-B 10:48：PERF_COLD Resource Timing 版（2ad41bd2f），溫州街 base、near、near（看變異），4G
 PERF_COLD_RT | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/perf_cold_probe.py | index.html | 50 | ZONES=wenzhou;VARIANTS=base,near,near;NET=4g;COLD=12;CC_HEADLESS=0
+# LAWWW2-B 10:53 LZ-UPPER-LM：霖澤 3F／4F 光照烘焙，前＝5a2ab6c75 的上一個 commit、後＝5a2ab6c75（玩家跟隨鏡頭：出電梯往南、討論區往北；11:00、20:00）
+LZLM_before | 9ef8a17cf55c429321c09c0e9b58ed6911e06ecc | probe | docs/story_planning/test_tools/cc/cc_linze_lm_probe.py | index.html | 20 | TAG=before;CC_HEADLESS=0
+LZLM_after | 5a2ab6c75566cb3aaa0e78c4caafdd460da7145e | probe | docs/story_planning/test_tools/cc/cc_linze_lm_probe.py | index.html | 20 | TAG=after;CC_HEADLESS=0
 # CC-B 10:3x 常備（使用者「沒有東西可以跑」→ D121 常備：LAWWW 最新 head 8fdb294aa 回歸組＋真實流程；最慢的在前）
 R8FDB_main12 | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R8FDB_classreal | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
