@@ -1584,3 +1584,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 56.6s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 56.6s] BROWSER DISCONNECTED
 - 2026-11-07T12:48:20  GUITAR_r3  sha=9cff7a00bce4a412ca08841c73123c899a4b916e  exit=0  177s    PASS [dorm] 彈吉他：轉暗、30 分鐘（按下去 22.07 → 旁白那一刻 22.573）、旁白兩句之一  [{"who": null, "t": "（你彈了一首社課教的歌，彈到副歌就忘了。）", "key": "2025-10-14", "h": 22.573, "zone": "dorm"}, {"who": null, "t": "（你彈了一首社課教的歌，彈到副歌就忘了。）", "key": "2025-10-14", "h": 22.573, "zone": "dorm"}] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 135.3s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 135.3s] BROWSER DISCONNECTED
+- 2026-11-07T12:52:18  SOC_peishan_date  sha=9cff7a00bce4a412ca08841c73123c899a4b916e  exit=1  414s       用了 5.9 分鐘 / ==== 總結：1 人，FAIL 1 人：[["classmate_peishan", ["date 當面約：約成一趟（G.trips 多一筆 booked）", "phone 約出去玩：約成一趟（booked）"]]] / FAILED 2
+      err.log (last 5): [gpu_wrap 357.4s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 357.4s] BROWSER DISCONNECTED
