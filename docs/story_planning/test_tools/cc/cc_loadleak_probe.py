@@ -95,7 +95,7 @@ async def main():
                     R.setup('%s 【前置】書店 13:48 的存檔寫進 fatiao3d_slot_1（GAME.snapshot）' % tag)
                 ivs = await cafe_date(pg, cdp, tag)
                 R.check('%s 咖啡第 3 場演完（done）' % tag, ivs == 'done', str(ivs))
-                if when == 'wait3': await pg.wait_for_timeout(3000)
+                if when.startswith('wait'): await pg.wait_for_timeout(int(when[4:]) * 1000)   # wait3／wait10／wait30（BB-B 19:10）
                 before = await pg.evaluate(SNAP); busy = await pg.evaluate(BUSY)
                 inv_pre = await pg.evaluate("(()=>({gInvites:(GAME.G.invites||[]).map(q=>[q.id,q.who,q.place,q.day,q.h,q.state]), defaultsInvites:(GAME.defaults('x').invites||null), defaultsSame:GAME.defaults('x').invites===GAME.defaults('y').invites}))()")
                 R.note('%s 讀檔前：G.invites %s；GAME.defaults().invites %s（兩次 defaults 同一個陣列：%s）' % (tag, J(inv_pre['gInvites']), J(inv_pre['defaultsInvites']), inv_pre['defaultsSame']))
