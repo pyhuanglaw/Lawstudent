@@ -34,7 +34,7 @@ await sec(0,()=>{ check('0. 程式載得到（xs_close3d.js 和各家打烊系�
   check('0. index.html 載入 xs_close3d.js（在各家系統後面）',html.indexOf('src/xs_close3d.js')>html.indexOf('src/guitar3d.js')&&html.indexOf('src/guitar3d.js')>0);
   const want={xs_shanlan:'店員',xs_nanyang:'店員',xs_nanyang_hall:'店員',xs_dabu:'店員',xs_haopai:'老闆',xs_xsports:'店員',cafe:'店員',wz_brunch:'店員',wz_print:'老闆',wz_teahouse:'店員',wz_lin:'老闆',wz_teishoku:'老闆',bikeshop:'老闆',us_asian_market:'店員',
     l118_dian:'老闆娘',l118_self:'店員',l118_tea:'店員',l118_home:'老闆娘',l118_cafe2:'店員',l118_pasta:'老闆',l118_korea:'老闆',l118_omu:'店員',l118_noodle2:'老闆',
-    afar:'店員',daybreak:'店員',aoki:'店員',wz_offbeat:'店員',wz_mokuyobi:'老闆',xs_tongxian:'老闆',yangyang:'老闆'};   /* 洋洋鹹酥雞（YANGYANG-IN-1107）：自己的打烊系統（gg2shops3d.js，AA_724 第 7 節老闆自己那一句），這裡只記進來時開著＋說話的人；那一句在 tests/yangyang_shop_unit.js */
+    afar:'店員',daybreak:'店員',aoki:'店員',wz_offbeat:'店員',wz_mokuyobi:'老闆',xs_tongxian:'老闆',yangyang:'老闆'};   /* 洋洋鹹酥雞（YANGYANG-IN-1107）：自己的打烊系統（gg2shops3d.js），說話的人老闆、字照 AA_700（AA_724 第 7 節 bf5c3e6c6）；細節在 tests/yangyang_shop_unit.js */
   const bad=Object.keys(want).filter(z=>X.whoOf(z)!==want[z]);
   check('0. 表上 '+Object.keys(want).length+' 個區域、說話的人（店員／老闆）',!bad.length&&Object.keys(X.ZONES).length+Object.keys(X.PLACE_OF).length===Object.keys(want).length,J(bad.map(z=>[z,X.whoOf(z)])));
   check('0. 118 巷九間都在表上（l118_shop_layouts 的每一間）',Object.keys(L118_SHOP_LAYOUTS).every(id=>!!X.ZONES['l118_'+id]),J(Object.keys(L118_SHOP_LAYOUTS))); });
@@ -82,11 +82,11 @@ await sec(3,async()=>{ let d=BASE; while(!(winsOf('wz_lin',d)||[]).length||(wins
 await sec(4,async()=>{ const res=[]; for(const [z,h] of [['cvs',3],['xs_dakou',4],['library_hall',23],['noodle',23]]){ fresh(BASE,h,z); GM.enterN=400; const r=await tickWait(); res.push(r===false&&!H.said.length&&!H.entered.length); }
   check('4. 24 小時的店（日和便利店 03:00、大口漢堡 04:00）、不是店（總圖 23:00）、沒有營業時間的店（阿鳳麵店）：沒有這一句、不請你出去',res.every(Boolean)&&!X.ZONES.cvs&&!X.ZONES.xs_dakou&&!X.PLACE_OF.cvs,J(res)); });
 await sec(5,async()=>{ const rows=[];
-  const sys=[['afar',()=>GG2.closeOut(GM),'gongguan'],['daybreak',()=>GG2.closeOut(GM),'gongguan'],['aoki',()=>GGS.closeOut(GM),'gongguan'],['wz_offbeat',()=>OFFB.closeOut(GM),'wenzhou'],['wz_mokuyobi',()=>MOKS.closeOut(GM),'wenzhou'],['xs_tongxian',()=>GUITAR.closeOut(GM),'xinsheng']];
+  const sys=[['afar',()=>GG2.closeOut(GM),'gongguan'],['daybreak',()=>GG2.closeOut(GM),'gongguan'],['aoki',()=>GGS.closeOut(GM),'gongguan'],['wz_offbeat',()=>OFFB.closeOut(GM),'wenzhou'],['wz_mokuyobi',()=>MOKS.closeOut(GM),'wenzhou'],['xs_tongxian',()=>GUITAR.closeOut(GM),'xinsheng'],['yangyang',()=>GG2.closeOut(GM),'gongguan']];   /* 洋洋鹹酥雞（YANGYANG-IN-1107；01:00 打烊＝隔天 01:06）*/
   for(const [z,fn,to] of sys){ const place=X.PLACE_OF[z]; let d=BASE, ws; for(;d<BASE+14;d++){ ws=X.windows(place,d); if(ws&&ws.length) break; } const c=Math.max(...ws.map(w=>w[1]));
     const [d1,h1]=at(d,c+0.1); fresh(d1,h1,z); GM.enterN=500; const r=await fn();
     const good=J(said())===J([[X.whoOf(z),LINE]])&&H.entered[0]===to&&!toasts.length; if(!good) rows.push([z,r,said(),H.entered,toasts.slice()]); }
-  check('5. 自己有打烊系統的六間（afar、Daybreak、青木、日常失速、木曜日、同弦）打烊那一刻：剛好一句（店員／老闆）、走出去、不另外出字',!rows.length,J(rows));
+  check('5. 自己有打烊系統的七間（afar、Daybreak、青木、日常失速、木曜日、同弦、洋洋鹹酥雞）打烊那一刻：剛好一句（店員／老闆）、走出去、不另外出字',!rows.length,J(rows));
   /* 這一趟進來的時候開著、打烊後過了半小時才輪到（例：坐著讀書轉暗）：一樣說 */
   { const ws=X.windows('afar',BASE), c=Math.max(...ws.map(w=>w[1])); fresh(BASE,c-1,'afar'); GM.enterN=501; X.tick(GM); H.G.hour=c+1.2; await GG2.closeOut(GM);
     check('5. afar：進來時開著、打烊後 1.2 小時才輪到：一樣店員那一句',J(said())===J([['店員',LINE]]),J(said())); }

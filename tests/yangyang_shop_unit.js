@@ -1,6 +1,6 @@
 // 洋洋鹹酥雞進得去（YANGYANG-IN-1107；公館 G05；AA_650、AA_724）——不需要瀏覽器（D131）。
 //   新區域 yangyang：BB 的 bb_support/yangyang_interior.glb（v1c，LAWWW2 驗收 ART_APPROVED）＋src/data/yangyang_layout.js v3（企劃線 claude/cool-heisenberg-o8kuqx）；
-//   台詞 AA_724（企劃線 4bab808dd）、系統 src/gg2shops3d.js（照 afar café、Daybreak 的做法：tests/gg_shops2_1104_unit.js）。
+//   台詞 AA_724（企劃線 bf5c3e6c6：打烊照 AA_700 一句；原稿 4bab808dd）、系統 src/gg2shops3d.js（照 afar café、Daybreak 的做法：tests/gg_shops2_1104_unit.js）。
 // 第一部分（A）建出遊戲真正的區域（公館＋洋洋室內，zones3d.js 真正的程式），用引擎真正的找路與移動（E.simWalk：30 fps＋低幀率）檢查：
 //   1 建得起來、尺寸照配置、正式模型的資產登錄、配置的導航阻擋都擋住、沒有走進去出不來的小孤島（0.1 m 取樣）
 //   2 公館店門口「進入 洋洋鹹酥雞」：門＝那一棟中心 −9.4 − 配置的門 x 1.2＝−10.6（騎樓機車讓開的 DOORS 同一個位置）、按得到、從人行道走得到
@@ -9,10 +9,10 @@
 //   5 點炸物（店內）、看菜單、看炸物櫃、看自助區、看冷飲櫃、看廚房（AA_724 第 5 節的 id：case／menu／self／fridge／kitchen）按得到、走得到；騎樓那一側的點餐這一版不接
 //   6 老闆、第二個店員站在櫃台後面（站不住的地方）、路人（CROWD）、快速前往、大地圖、引路、路程、城鎮判定、index.html 載入順序、zone_assets.js、LICENSES.md、劇情匯入白名單
 // 第二部分（B，子程序：tests/pg_harness.js 的遊戲資料＋邀約系統＋gg2shops3d.js＋xs_close3d.js）：
-//   7 營業時間 17:00～01:00（places.js）、關門時按門（01:00 以後鐵門那一句、還沒開門寫開放時間、颱風那一句）、打烊請你出來（老闆一句＋走出去的旁白；之後＝只寫開放時間）
+//   7 營業時間 17:00～01:00（places.js）、關門時按門（01:00 以後鐵門那一句、還沒開門寫開放時間、颱風那一句）、打烊請你出來（老闆「我們今天要打烊了。」一句、不另外出旁白；之後＝只寫開放時間）
 //   8 進門一天一次、點炸物（內用還外帶、可以夾好幾樣、價錢照菜單板、錢不夠拿掉一樣、調味兩題一次點餐只問一次、大辣多一句、不動關係）、等 10 分鐘、內用吃 30 分鐘＋吃完旁白、看的東西、坐下句
 //   9 約會地點：吃飯那一類、19:00～23:00、可昕只排到 21:00、芷若有班約不到、七位答應的那一句＋一般那句、partnerBlock 照吃飯、坐下以後的開場句（四人桌那一則只在四人桌）
-//   10 台詞逐字對照 AA_724（git show 4bab808dd；讀不到就 SKIP）、選單價錢對照 AA_650 第 4 節
+//   10 台詞逐字對照 AA_724（git show bf5c3e6c6；讀不到就 SKIP）、選單價錢對照 AA_650 第 4 節
 // 修改前（開發分支 6e8ff8d83）：沒有 yangyang 區域、門口沒有按鈕、GG2 沒有洋洋、沒有約會地點——第 1～10 節都 FAIL。
 // 用法：node tests/yangyang_shop_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -121,7 +121,7 @@ if(R){ const z=R.z, its=R.its;
   const za=rd('src/data/zone_assets.js'); check('6 zone_assets.js：yangyang 用 bldg.yangyang_interior（node tools/gen_zone_assets.js --check）',/"yangyang":\["bldg\.yangyang_interior"\]/.test(za));
   const lic=rd('LICENSES.md'); check('6 LICENSES.md：GLB 一行（本作 Blender、BB 製作、LAWWW2 驗收）',/\| [^\n]*bb_support\/yangyang_interior\.glb[^\n]*本作 Blender[^\n]*BB[^\n]*LAWWW2 驗收/.test(lic));
   const al=JSON.parse(rd('docs/handoff/story_import_allow.json')), ent=(al.files||[]).find(e=>e&&e.path===AA724);
-  check('6 劇情匯入白名單：AA_724（路徑＋來源 commit 4bab808dd＋approved＋AA（D109））',!!ent&&ent.status==='approved'&&ent.approvedBy==='AA（D109）'&&ent.sha==='4bab808dd',J(ent)); }
+  check('6 劇情匯入白名單：AA_724（路徑＋來源 commit bf5c3e6c6＋approved＋AA（D109））',!!ent&&ent.status==='approved'&&ent.approvedBy==='AA（D109）'&&ent.sha==='bf5c3e6c6',J(ent)); }
 // ---- B 子程序 ----
 const rB=cp.spawnSync(process.execPath,[__filename,'B'],{encoding:'utf8',cwd:ROOT,timeout:120000});
 process.stdout.write(rB.stdout||''); if(rB.status!==0){ fails+=((rB.stdout||'').match(/^FAIL /mg)||[]).length||1; if(rB.stderr) console.log('B stderr:',rB.stderr.split('\n').slice(0,6).join(' / ')); }
@@ -161,9 +161,9 @@ const run=async()=>{
     check('7 營業中（20:00）按門：不擋（照一般的進門）',!H.has(Y.sign)&&!toasts.some(t=>/洋洋鹹酥雞/.test(t)),J([ret,said(),toasts,H.entered.length-before])); }
   // ---- 7 打烊請你出來 ----
   { XSCLOSE._resetSeen(); fresh('2025-10-15',25.1,'yangyang'); GM.enterN=20; const r=await GG2.closeOut(GM);
-    check('7 打烊那一刻（01:06）：老闆「要收了喔。……明天再來。」→ 回公館店門口 →（你走出洋洋鹹酥雞。騎樓的鐵門一間一間拉下來了。）（AA_724 第 7 節）、不另外寫字',r==='close'&&J(pairs())===J([[BOSS,'要收了喔。……明天再來。'],[null,'（你走出洋洋鹹酥雞。騎樓的鐵門一間一間拉下來了。）']])&&H.entered[0]==='gongguan'&&!toasts.length,J([r,pairs(),H.entered,toasts]));
+    check('7 打烊那一刻（01:06）：老闆「我們今天要打烊了。」一句（AA_724 第 7 節 bf5c3e6c6＝AA_700）、回公館店門口、不另外出旁白、不寫字',r==='close'&&J(pairs())===J([[BOSS,'我們今天要打烊了。']])&&XSCLOSE.LINE==='我們今天要打烊了。'&&H.entered[0]==='gongguan'&&!toasts.length&&!Y.close&&!Y.closeNarr,J([r,pairs(),H.entered,toasts]));
     XSCLOSE._resetSeen(); fresh('2025-10-15',24.6,'yangyang'); GM.enterN=21; const seen=XSCLOSE.markSeen(GM); H.G.hour=26.4; const r2=await GG2.closeOut(GM);
-    check('7 這一趟進來的時候開著（00:36）、坐著讀到 02:24 才輪到：一樣老闆那一句（AA_700 的規則，XSCLOSE.gen）',seen===true&&r2==='close'&&H.has('要收了喔。……明天再來。'),J([seen,r2,said()]));
+    check('7 這一趟進來的時候開著（00:36）、坐著讀到 02:24 才輪到：一樣老闆那一句（AA_700 的規則，XSCLOSE.gen）',seen===true&&r2==='close'&&J(pairs())===J([[BOSS,'我們今天要打烊了。']]),J([seen,r2,said()]));
     XSCLOSE._resetSeen(); fresh('2025-10-16',10,'yangyang'); GM.enterN=22; const r3=await GG2.closeOut(GM);
     check('7 讀檔回到關門以後（10:00）：不說話、回公館、寫開放時間',r3==='out'&&!H.said.length&&H.entered[0]==='gongguan'&&toasts.length===1&&/17:00/.test(toasts[0]),J([r3,said(),toasts]));
     check('7 XSCLOSE：洋洋在表上（自己的打烊系統、說話的人「老闆」）',XSCLOSE.PLACE_OF.yangyang==='yangyang'&&XSCLOSE.whoOf('yangyang')==='老闆'); }
@@ -240,15 +240,16 @@ const run=async()=>{
         const a=pairs(); H.said=[]; E.player.seat={x:3.5,z:-1.15,yaw:0,table:6}; await INV.seatOpenLines(GM,{who:'heroine_04'},{name:'高子晴'},P); const b=pairs(); Math.random=R0; E.player.seat=PS0;
         check('9 兩個人坐在四人桌（table 1）：紙袋那一則（旁白＋她一句）；兩人桌（table 6）：不抽四人桌那一則',J(a)===J([[null,'（你們在四人桌坐下。她把紙袋撕開攤平，當成盤子。）'],['高子晴','「這樣比較好拿。」']])&&J(b)===J([[null,'（她先夾了一塊，吹了很久才放進嘴裡。）'],['高子晴','「……好燙。可是好好吃。」']]),J([a,b])); } } }
   // ---- 10 逐字對照 AA_724、價錢對照 AA_650 ----
-  { const doc=gitShow(['4bab808dd','origin/claude/cool-heisenberg-o8kuqx'],AA724);
-    if(!doc) console.log('SKIP 10 讀不到 AA_724（企劃線 4bab808dd）');
+  { const doc=gitShow(['bf5c3e6c6','origin/claude/cool-heisenberg-o8kuqx'],AA724);
+    if(!doc) console.log('SKIP 10 讀不到 AA_724（企劃線 bf5c3e6c6）');
     else { const out=[]; const T=t=>{ if(typeof t==='string') out.push(t); };
       Y.door.forEach(T); T(Y.ask); T(Y.short); T(Y.basil[0]); Y.basil[1].forEach(T); T(Y.spicy[0]); Y.spicy[1].forEach(T); T(Y.spicyBig); Y.wait.forEach(w=>T(w[1])); Y.eat.forEach(e=>T(e[0]));
-      Object.values(Y.look).forEach(a=>a.forEach(T)); Object.values(Y.seat).forEach(T); T(Y.close); T(Y.closeNarr); T(Y.sign); T(Y.typhoon); T(GG2.ACC0.yangyang);
+      Object.values(Y.look).forEach(a=>a.forEach(T)); Object.values(Y.seat).forEach(T); T(Y.sign); T(Y.typhoon); T(GG2.ACC0.yangyang);
       Object.values(INVITE_DATA.yangyangAcc||{}).forEach(T); [].concat(...INVITE_DATA.seatOpen.yangyang).forEach(T);
       const strip=t=>t.replace(/^「|」$/g,''), bad=out.filter(t=>doc.indexOf(t)<0&&doc.indexOf(strip(t))<0);
-      check('10 台詞逐字在 AA_724 裡（'+out.length+' 句：進門、點餐、調味、錢不夠、等、吃完、看、坐下、打烊、鐵門、颱風、答應、開場句）',!bad.length&&out.length>=45,J(bad));
-      check('10 說話的人：稿上「老闆：」開頭的那幾句都是老闆說',['夾好給我。……內用還外帶？','九層塔、蒜要不要？','辣嗎？','大辣喔？……好，你說的。','這樣不夠喔。……拿掉一樣？','十分鐘。號碼牌拿好。','要收了喔。……明天再來。'].every(t=>doc.indexOf('老闆：「'+t+'」')>=0||doc.indexOf('老闆多一句：「'+t+'」')>=0)); }
+      check('10 台詞逐字在 AA_724 裡（'+out.length+' 句：進門、點餐、調味、錢不夠、等、吃完、看、坐下、鐵門、颱風、答應、開場句；打烊是 AA_700 那一句）',!bad.length&&out.length>=43,J(bad));
+      check('10 說話的人：稿上「老闆：」開頭的那幾句都是老闆說',['夾好給我。……內用還外帶？','九層塔、蒜要不要？','辣嗎？','大辣喔？……好，你說的。','這樣不夠喔。……拿掉一樣？','十分鐘。號碼牌拿好。'].every(t=>doc.indexOf('老闆：「'+t+'」')>=0||doc.indexOf('老闆多一句：「'+t+'」')>=0));
+      check('10 打烊照稿（bf5c3e6c6）：「老闆：我們今天要打烊了。」、不另外出旁白（舊的「要收了喔」、走出去的旁白拿掉了）',doc.indexOf('老闆：我們今天要打烊了。')>=0&&doc.indexOf('要收了喔')<0&&!/要收了喔|你走出洋洋鹹酥雞/.test(rd('src/gg2shops3d.js'))); }
     const d650=gitShow(['origin/claude/cool-heisenberg-o8kuqx','4bab808dd'],AA650);
     check('8 選單品項、價錢＝菜單板（AA_650 第 4 節）',J(Y.menu)===J(MENU));
     if(!d650) console.log('SKIP 10 讀不到 AA_650'); else check('10 選單品項、價錢逐項在 AA_650 第 4 節（洋洋那一段）',(()=>{ const a=d650.indexOf('**洋洋鹹酥雞**（室內菜單板）'), sec=a<0?'':d650.slice(a,d650.indexOf('**轉角唱片**：',a)); return [].concat(...Y.menu.map(c=>c[1])).every(([n,p])=>sec.indexOf(n+' '+p)>=0)&&Y.menu.every(c=>sec.indexOf(c[0])>=0); })()); }

@@ -535,7 +535,7 @@ INVITE_DATA.places.push({id:'daybreak',zone:'daybreak',name:'Daybreak',verb:'去
     classmate_peishan:'「好啊！那家的卡座好可愛。」',kexin:'「好啊。我早一點從木柵出發。」'};
   INVITE_DATA.afarAcc=AF; INVITE_DATA.daybreakAcc=DB;
   for(const [pid,ACC] of [['afar',AF],['daybreak',DB]]) for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={}))[pid]=[ACC[id]]; } })();
-/* ---------- 洋洋鹹酥雞（公館 G05，區域 yangyang；YANGYANG-IN-1107）當邀約地點（AA_724 第 8～10 節，AA 定稿 D109，企劃線 4bab808dd，一字照稿）----------
+/* ---------- 洋洋鹹酥雞（公館 G05，區域 yangyang；YANGYANG-IN-1107）當邀約地點（AA_724 第 8～10 節，AA 定稿 D109，企劃線 bf5c3e6c6，一字照稿）----------
    開放約：吃飯那一類（meal：有點熟以上、和 Daybreak 同一把尺；兩個人單獨吃飯＝partnerBlock 照吃飯的規則擋）；宵夜，19:00～23:00（約會在這段時間裡：19:00、20:00、21:00、22:00 開始，
    23:00 以後不排約會；營業到 01:00，深夜一個人來照常）。可昕只排到 21:00 開始（「十點以前，我還要回木柵」：whoLast，src/invites3d.js）；她照現在的規則（只在她在臺北、約得到的時候）。
    芷若：她的班表照現有作息（2:30 AM 上班＝busyActs 的 barista），有班的時間約不到（改天）。稿上沒寫要先自己走去過一次（不加 show，和 Daybreak 一樣）。

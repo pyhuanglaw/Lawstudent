@@ -13,7 +13,7 @@
    - 約去：src/data/invites.js 的地點 afar（喝咖啡）、daybreak（吃飯，08:00～14:00 開始、14:00 以後的旁白）；答應的一句七位在 invites.js，其他人＝一般那句（S.ACC0，包 INV.personal）；
      兩個人坐下以後的開場句＝invites.js 的 seatOpen.afar／daybreak。
    - 店員站在吧台後面（story3d.js populate，zones3d.js SHOP_IN.clerk）；路人照 crowd3d.js（afar＝咖啡、Daybreak＝早午餐）。
-   洋洋鹹酥雞（區域 yangyang，G05；YANGYANG-IN-1107）：台詞 AA_724（AA 定稿 D109，企劃線 4bab808dd），一字照抄；說話的人寫「老闆」。
+   洋洋鹹酥雞（區域 yangyang，G05；YANGYANG-IN-1107）：台詞 AA_724（AA 定稿 D109，企劃線 bf5c3e6c6），一字照抄；說話的人寫「老闆」。
    - 營業時間：每天 17:00～01:00（places.js；颱風天關）。關門時按店門：01:00～06:00＝鐵門那一句（AA_724 第 7 節「打烊以後到門口」）、颱風假當天＝颱風那一句、其他（還沒開門）＝寫開放時間。
    - 點炸物（店內炸物櫃的「點炸物（店內）」）：老闆「夾好給我。……內用還外帶？」→ 內用／外帶 → 選單照菜單板（AA_650 第 4 節五類，可以夾好幾樣、加起來算錢）
      → 錢不夠＝老闆「這樣不夠喔。……拿掉一樣？」（選一樣拿掉、或不用了；不扣錢）→ 調味兩題（九層塔蒜、辣；大辣多一句），同一次點餐只問一次、只是口味（S.last 記著，不存檔、不動關係）
@@ -21,7 +21,7 @@
      只點冷飲（紅茶、可樂）：不問調味、不用等、不坐下吃。「紙袋底下剩一點胡椒粉和九層塔……鹹酥雞」那一句只在有點鹹酥雞、又加了九層塔的時候說。
    - 看炸物櫃、看菜單、看自助區、看冷飲櫃、看廚房（AA_724 第 5 節 case／menu／self／fridge／kitchen）：隨機一句、同一句不連續出。
    - 坐下：四人桌（table 1～4）／兩人桌（table 6～8）那一句。
-   - 打烊（01:00）人還在店裡（這一趟進來時開著、或那一刻）：老闆「要收了喔。……明天再來。」→ 走到公館店門口 →（你走出洋洋鹹酥雞。騎樓的鐵門一間一間拉下來了。）（AA_724 第 7 節；
+   - 打烊（01:00）人還在店裡（這一趟進來時開著、或那一刻）：老闆「我們今天要打烊了。」一句、走到公館店門口，不另外出旁白（AA_724 第 7 節 bf5c3e6c6＝AA_700；
      什麼時候說照 AA_700＝XSCLOSE.gen）；颱風、讀檔回到打烊以後＝回店門口、寫開放時間。
    - 約去：invites.js 的地點 yangyang（吃飯、19:00～23:00、可昕只排到 21:00）；答應的一句七位在 invites.js，其他人＝一般那句（S.ACC0）；坐下以後的開場句＝seatOpen.yangyang。
    測試：node tests/gg_shops2_1104_unit.js、node tests/yangyang_shop_unit.js */
@@ -57,7 +57,7 @@ const GG2=(function(){
       sign:'（Daybreak 的門上掛著「今日營業結束」的木牌。）', typhoon:'（Daybreak 的遮雨棚收起來了。門上貼著：「颱風天暫停營業」。）' } };
   /* AA_652（企劃線 89b4367ca）補的門口句：afar 打烊以後、afar 與 Daybreak 颱風假當天 */
   S.L.afar.sign='（afar 的玻璃門後面，椅子都倒扣在桌上了。門上掛著小木牌：「本日營業結束 11:00～21:00」。）'; S.L.afar.typhoon='（afar 的門上貼著一張手寫的紙：「颱風天休息，大家注意安全。」）';
-  /* ---------- 洋洋鹹酥雞（AA_724，企劃線 4bab808dd，一字照抄；說話框寫「老闆」）---------- */
+  /* ---------- 洋洋鹹酥雞（AA_724，企劃線 bf5c3e6c6，一字照抄；說話框寫「老闆」）---------- */
   S.L.yangyang={
     door:['（紅色門簾一掀開，熱油和九層塔的味道一起撲過來。）','（騎樓那邊排了三個人，每個人手上都拿著一個塑膠籃子。）','（油鍋滋滋響。老闆頭也沒抬：「籃子在旁邊，自己夾喔。」）'],
     ask:'夾好給我。……內用還外帶？',
@@ -79,7 +79,6 @@ const GG2=(function(){
       fridge:['（冷飲櫃裡只有兩種：紅茶 25、可樂 30。玻璃門上起了一層霧。）'],
       kitchen:['（三個油鍋同時在炸。老闆一手撈籃子，一手撒胡椒，動作很快。）']},
     seat:{four:'（你在四人桌坐下。桌上有一罐牙籤和一疊紙巾，玻璃隔間外面就是騎樓。）',two:'（靠牆的兩人桌有一點晃。你墊了一張紙巾在桌腳，就不晃了。）'},
-    close:'要收了喔。……明天再來。', closeNarr:'（你走出洋洋鹹酥雞。騎樓的鐵門一間一間拉下來了。）',   /* AA_724 第 7 節（照 AA_700 的寫法：老闆一句、走出去）*/
     sign:'（洋洋的鐵門拉下來了，門上用紅字寫著「17:00～01:00」。）', typhoon:'（洋洋的門口貼著一張紙：「颱風天休息」。）' };
   S.EAT_KEY={afar:'afar café',daybreak:'Daybreak',yangyang:'洋洋鹹酥雞'};
   S.HRS={afar:0.15,daybreak:40/60,yangyang:{wait:10/60,eat:30/60}};   /* afar 點完的時間照兩點半 Café 的櫃台（稿上沒寫）；Daybreak「時間過 40 分鐘（吃飯）」；洋洋：等炸好 10 分鐘、內用 30 分鐘（AA_724 第 3、4 節）*/
@@ -97,7 +96,7 @@ const GG2=(function(){
   S.look=function(k,kind){ const L=S.L[k]&&S.L[k].look[kind]; if(!L||!L.length) return null; const key=k+':'+kind, i=pickOne(L,lastLook[key]); lastLook[key]=i; return L[i]; };
   const sayAll=async(GM,L)=>{ for(const [w,t] of L) await GM.say(w?CLERK:null,t); };
   /* 打烊的那一句（AA_700：店員「我們今天要打烊了。」，不另外出旁白；src/xs_close3d.js 的 XSCLOSE）*/
-  const closeSay=GM=>typeof XSCLOSE!=='undefined'&&XSCLOSE.say?XSCLOSE.say(GM,'店員'):GM.say(CLERK,'我們今天要打烊了。');
+  const closeSay=(GM,k)=>typeof XSCLOSE!=='undefined'&&XSCLOSE.say?XSCLOSE.say(GM,S.WHO[k]||'店員'):GM.say(who(k),'我們今天要打烊了。');   /* 洋洋是老闆說（AA_700：只有老闆在顧的店＝老闆，字一樣）*/
   const closeGen=(GM,k,g)=>typeof XSCLOSE!=='undefined'&&XSCLOSE.gen?XSCLOSE.gen(GM,k,g):!!g;
   const sceneFree=GM=>{ if(typeof INV!=='undefined'&&INV.sceneFree) return INV.sceneFree(GM); const E=GM&&GM.E, D=GM&&GM.D; return !(E&&E.player&&E.player.busy)&&!(D&&(D.active||(D.busyDepth|0)>0)); };
   /* 今天這一趟是不是一個人：今天在這間店有約（一起走過來、約好的時間到了、剛見過）＝不是 */
@@ -173,10 +172,8 @@ const GG2=(function(){
   S.closingNow=function(k,G){ if(typhoon(k,G)) return false; const ws=typeof PLACES!=='undefined'&&PLACES.windowsOf?PLACES.windowsOf(k,G.day):null; if(!ws||!ws.length) return false;
     const c=ws[ws.length-1][1], h=hr(G); return [h,h+24].some(x=>x>=c-1e-6&&x<c+0.5); };   /* 過了半夜才關的店（洋洋 [17, 25]）：凌晨 1 點＝25 */
   S.closeOut=async function(GM){ const G=GM.G, k=G.zone, P=GM.E&&GM.E.player, gen=closeGen(GM,k,S.closingNow(k,G)), h=G.hour, d=G.day;
-    const own=k==='yangyang'?S.L.yangyang:null;   /* 洋洋：AA_724 第 7 節自己的一句＋走出去的旁白（老闆） */
-    GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P); if(gen){ if(own) await GM.say(who(k),own.close); else await closeSay(GM); } } finally { GM.sceneEnd(); }
+    GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P); if(gen) await closeSay(GM,k); } finally { GM.sceneEnd(); }
     const SI=typeof Z3!=='undefined'&&Z3.SHOP_IN&&Z3.SHOP_IN[k]; await GM.enter('gongguan',SI&&SI.out?Object.assign({},SI.out):{x:0,z:-30,yaw:Math.PI});
-    if(gen&&own&&own.closeNarr){ GM.sceneBegin(); try{ await GM.say(null,own.closeNarr); } finally { GM.sceneEnd(); } }
     if(!gen&&typeof PLACES!=='undefined'&&PLACES.closedText) GM.toast(PLACES.closedText(k,h,d),5000);
     return gen?'close':'out'; };
 

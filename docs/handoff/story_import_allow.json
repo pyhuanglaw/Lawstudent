@@ -4892,12 +4892,12 @@
   },
   {
    "path": "docs/story_planning/AA_724_洋洋鹹酥雞店內台詞.md",
-   "sha": "4bab808dd",
+   "sha": "bf5c3e6c6",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "YANGYANG-IN-1107",
    "kind": "text",
-   "note": "洋洋鹹酥雞店內台詞：進門（一天一次）、點炸物（內用還外帶、錢不夠、調味兩題、大辣多一句）、等炸好、吃完、看炸物櫃／菜單板／自助區／冷飲櫃／廚房、四人桌／兩人桌的坐下句、01:00 打烊（老闆一句＋走出去的旁白）、鐵門、颱風假、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；yangyang_shop_unit 逐字對照）"
+   "note": "洋洋鹹酥雞店內台詞：進門（一天一次）、點炸物（內用還外帶、錢不夠、調味兩題、大辣多一句）、等炸好、吃完、看炸物櫃／菜單板／自助區／冷飲櫃／廚房、四人桌／兩人桌的坐下句、01:00 打烊（bf5c3e6c6：照 AA_700 老闆「我們今天要打烊了。」一句、不加旁白）、鐵門、颱風假、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；yangyang_shop_unit 逐字對照）"
   }
  ]
 }
