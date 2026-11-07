@@ -25,7 +25,8 @@ CASES = [c for c in (os.environ.get('CASES') or 'shop,zqshop,dorm,yilan,yms').sp
 R = L.Run('guitar_x196_play', OUT)
 # 期望的字（AA_619／AA_693，c4b14a901）
 T = {'look': '（牆上的吉他從三千多到三萬多。最貴的那把，標籤寫「不賣，老闆的」。）', 'ukes': '（烏克麗麗掛成一排，顏色都不一樣。最小的那把，比你的手臂還短。）',
-     'try': '（你拿下一把，彈了社課教的 C 和弦。老闆從櫃檯抬頭看了一眼，又低頭。）', 'tuned': '（老闆幫你調好音，把琴裝進琴袋。）', 'close': '九點半了。明天再來。',
+     'try': '（你拿下一把，彈了社課教的 C 和弦。老闆從櫃檯抬頭看了一眼，又低頭。）', 'tuned': '（老闆幫你調好音，把琴裝進琴袋。）', 'close': '我們今天要打烊了。',   # CC-B 11-07（BB-B ②）：AA_700 打烊那一句統一（xs_close3d.js XSCLOSE.LINE；同弦是老闆說），原本「九點半了。明天再來。」
+    
      'boss': ['先買好彈的，不要先買好看的。', '弦一個月換一次。你們學生都半年才換。', '手指痛是正常的，痛兩個禮拜就不痛了。'],
      'z1': '（子晴已經在樓梯口了，耳機掛在脖子上。）', 'z8': '哪一把比較好按？', 'zr1': '那就那把。……貴的你現在也彈不出差別。', 'zout': '有自己的琴以後，回家才會彈。……社團的琴你不會帶回家。',
      'dorm': ['（你練了刷法。阿凱戴上耳機。）', '（你彈了一首社課教的歌，彈到副歌就忘了。）'],
@@ -182,27 +183,14 @@ async def case_dorm(pg, cdp):
         await load(pg, cdp, 'dorm', '2025-10-14', 22.0, 'dorm', None, {'member': True}); await pg.evaluate("(()=>{ GAME.G.flags.OWN_GUITAR='entry'; GUITAR.rec(GAME.G).items.entry=GAME.G.day-1; })()"); R.setup('[dorm] 【前置】OWN_GUITAR')
     else:
         R.setup('[dorm] 【捷徑】同一份存檔換到宿舍 2025-10-14 22:00'); await jump(pg, '2025-10-14', 22.0, 'dorm')
-    # 「彈吉他」是房間物件（STORY.ROOM_EXTRA → STORY.roomItemList；guitar3d.js S.room）：在「看看房間裡的東西」的選單裡（PC 11-05：原本找外層按鈕）
-    its = await pg.evaluate(ITS); it = next((i for i in its if i['label'].startswith('看看房間裡的東西')), None)
-    lst = await pg.evaluate("(()=>STORY.roomItemList(GAME.G).map(r=>r[0]))()")
-    R.note('[dorm] 房間的按鈕 %s；房間物件 %s' % (J([i['label'] for i in its]), J(lst)))
-    if not R.check('[dorm] 宿舍房間物件（看看房間裡的東西）有「彈吉他」', bool(it) and '彈吉他' in lst, J(lst)): return
-    h0 = (await pg.evaluate(UI))['hour']; n0 = len(await says(pg))
-    await use_it(pg, cdp, '[dorm]', it, 0.6)
-    menu = None
-    for _ in range(20):
-        u = await pg.evaluate(UI)
-        if u['opts']: menu = u['opts']; break
-        if u['dlg']: await L.tap(pg, cdp, '#dlg')
-        await pg.wait_for_timeout(500)
-    R.check('[dorm] 「看看房間裡的東西」選單有「彈吉他」', bool(menu) and any(o.startswith('彈吉他') for o in menu), J(menu))
-    if not menu or not any(o.startswith('彈吉他') for o in menu): return
-    h0 = (await pg.evaluate(UI))['hour']; n0 = len(await says(pg))   # 按下去那一刻（走過去的時間不算，雲端 11-05 量到 0.72）
-    await pick(pg, cdp, "t=>t.startsWith('彈吉他')")
-    u, ok, _ = await play(pg, cdp, ['不看了'], lambda u: not u['dlg'] and any(o.startswith('不看了') for o in u['opts']), max_s=120)
-    h1 = u['hour']
-    await pick(pg, cdp, "t=>t.startsWith('不看了')")
-    u, ok, _ = await play(pg, cdp, [], lambda u: not u['dlg'] and not u['busy'] and not u['opts'], max_s=60); u['hour'] = h1
+    # 「彈吉他」＝房間裡的按鈕（guitar3d.js S.dormButton，guitar:'dorm'；BB-C 11-05 起不在「看看房間裡的東西」裡面；CC-B 11-07 照 BB-B ② 改）
+    its = await pg.evaluate(ITS); it = next((i for i in its if i['guitar'] == 'dorm' or i['label'].startswith('彈吉他')), None)
+    R.note('[dorm] 房間的按鈕 %s' % J([[i['label'], i['x'], i['z']] for i in its if not i['seat']]))
+    if not R.check('[dorm] 宿舍房間有「彈吉他」按鈕（有琴、不在「看看房間裡的東西」裡面）', bool(it), J([i['label'] for i in its])): return
+    await L.go_to(pg, cdp, R, it['x'], it['z'], 0.3, '[dorm] 走到「彈吉他」', max_s=120); await pg.wait_for_timeout(800)
+    h0 = (await pg.evaluate(UI))['hour']; n0 = len(await says(pg))   # 按下去之前那一刻（走過去的時間不算）
+    if not R.check('[dorm] 走到旁邊、按得到「彈吉他」', await use_it(pg, cdp, '[dorm]', it, 0.3), ''): return
+    u, ok, _ = await play(pg, cdp, [], lambda u: not u['dlg'] and not u['busy'] and not u['opts'], max_s=90)
     S1 = await says(pg, n0); L1 = [x['t'] for x in S1]; nar = next((x for x in S1 if x['t'] in T['dorm']), None)
     R.check('[dorm] 彈吉他：轉暗、30 分鐘（按下去 %.2f → 旁白那一刻 %s）、旁白兩句之一' % (h0, nar and nar['h']), bool(nar) and abs(nar['h'] - h0 - 0.5) < 0.1, J(S1))
 
