@@ -138,6 +138,8 @@ HAIR_b_8fdb | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_plan
 PT1107I_menu_kx | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/pt1107i_invplaces_probe.py | index.html?turbo | 30 | MODE=menu;WHO=kexin;KX=0;CC_HEADLESS=0
 PT1107I_meet_kx | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/pt1107i_invplaces_probe.py | index.html?turbo | 40 | MODE=meet;WHO=kexin;DAYSHIFT=-14;CC_HEADLESS=0
 PT1107G_h05_k3 | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/pt1107g_arcinv_probe.py | index.html?turbo | 40 | WHO=heroine_05;K=3;PICK=0;CC_HEADLESS=0
+# BB-B 10:54：PT1107I_movie_kx 最前面（126bdf93e，探針 18fda7b28；週六 11:00 當天約南洋、當天看）
+PT1107I_movie_kx | 126bdf93e82886673518705566dbe83b582c32c1 | probe | docs/story_planning/test_tools/cc/pt1107i_invplaces_probe.py | index.html?turbo | 40 | MODE=movie;WHO=kexin;DAYSHIFT=-14;CC_HEADLESS=0
 # LAWWW2-B 10:48：PERF_COLD Resource Timing 版（2ad41bd2f），溫州街 base、near、near（看變異），4G
 PERF_COLD_RT | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/perf_cold_probe.py | index.html | 50 | ZONES=wenzhou;VARIANTS=base,near,near;NET=4g;COLD=12;CC_HEADLESS=0
 # LAWWW2-B 10:53 LZ-UPPER-LM：霖澤 3F／4F 光照烘焙，前＝5a2ab6c75 的上一個 commit、後＝5a2ab6c75（玩家跟隨鏡頭：出電梯往南、討論區往北；11:00、20:00）
