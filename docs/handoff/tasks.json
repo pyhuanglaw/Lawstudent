@@ -48893,9 +48893,9 @@
    "title": "南洋戲院看電影的畫面：使用者問能不能做 CG（銀幕上的電影畫面）",
    "area": "PLAYTEST",
    "owner": "BB",
-   "status": "待開工",
+   "status": "等待其他AI／素材",
    "priority": "P3",
-   "next": "【11-07 03:4x LAWWW-B】等 INVITE-PLACES 定出看電影流程；BB 寫提示詞",
+   "next": "【11-07 10:0x LAWWW-B】BB-B 5ab24e8eb（BB_132 第 116 組）：10 張原創電影畫面提示詞 movie_01～10（純場景）；提案：一般約南洋「預告片開始了」之後一張照次數輪流、芷若早場 first「電影開始」之後一張、老電影那組固定 movie_01；出現位置等 AA-B 定。誰決定：BB-B（使用者這幾天沒空給圖）。為什麼：要使用者生圖。負責人：BB（要圖）、AA（定哪一句）、LAWWW（接）。恢復條件：使用者給圖＋AA 定位置。下次檢查日：2026-11-14 或下一次發布。圖到之前銀幕維持現狀。 ｜ 【11-07 03:4x LAWWW-B】等 INVITE-PLACES 定出看電影流程；BB 寫提示詞",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -48914,7 +48914,9 @@
     "acceptance": "電影畫面 CG 提示詞（D97 一次十張、沒有真實電影、原創）給使用者",
     "receiver": "BB",
     "ack": "未派"
-   }
+   },
+   "pausedReason": "等使用者生 movie_01～10（BB 提示詞 5ab24e8eb）與 AA 定出現位置",
+   "resumeWhen": "使用者給圖＋AA 定位置；下次檢查 2026-11-14 或下一次發布"
   },
   {
    "id": "WINDOW-FLICKER-1107",
