@@ -5896,6 +5896,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "14 個決定拍的 lean／style／default／stance／rules（stance×trust→result、rel、delay、say）／opens／closes；key_true 11 組"
+  },
+  {
+   "task": "PLAYTEST-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_721_l118_invite_acc.json"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B 照 AA_714 的做法接 118 巷七家（acc、firstAt、no）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "INVITE-PLACES-1107 第二批：118 巷 7 家 × 七位；可昕不去好家自助餐（平日）；不先講破 AA_410 的喜好；line_lint 0 條"
   }
  ],
  "items": [
