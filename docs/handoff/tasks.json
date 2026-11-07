@@ -43489,7 +43489,7 @@
    "status": "已整合待測試",
    "priority": "P1",
    "note": "DORM-CEIL-1103 的動作部分（LAWWW2 11-03 分工）",
-   "next": "BB 測（遊戲預設 SLEEP_FULL false：玩家看得到的是起床跪著→下梯）；LAWWW2 同鏡頭截圖"
+   "next": "【11-07 05:3x LAWWW-B】tests/ladder_headroom_unit.js ④ 平滑（A、B 兩種版面：手腳相鄰兩格移動量差 22.7／32.6 cm，上限 8 cm）在 GHA 全套一直 FAIL（11-07 03:5x 起看到，改動前後一樣）；要查是哪一個 commit 開始、動畫本身還是門檻。 ｜ BB 測（遊戲預設 SLEEP_FULL false：玩家看得到的是起床跪著→下梯）；LAWWW2 同鏡頭截圖"
   },
   {
    "first": {
@@ -48590,7 +48590,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "【11-07 03:4x LAWWW-B】拆成 ACTION-BUDGET／MSG-REPLY／GIFT-FLIRT／INVITE-PLACES／STUDY-DATE-PROGRESS／SHOP-STAFF／GYM-FIT／BUG-PE-CLASS／BUG-YIZHAN／YT-INVITE-LINES／BUG-YT-MET／CINEMA-CG／WINDOW-FLICKER（都是 -1107）",
+   "next": "【11-07 05:3x LAWWW-B】GHA node-unit-auto 全套 8618f9d80：只剩 tests/ladder_headroom_unit.js ④（上下床梯子的動畫平滑度，11-07 以前就 FAIL，和試玩修正無關）。 ｜ 【11-07 03:4x LAWWW-B】拆成 ACTION-BUDGET／MSG-REPLY／GIFT-FLIRT／INVITE-PLACES／STUDY-DATE-PROGRESS／SHOP-STAFF／GYM-FIT／BUG-PE-CLASS／BUG-YIZHAN／YT-INVITE-LINES／BUG-YT-MET／CINEMA-CG／WINDOW-FLICKER（都是 -1107）",
    "first": {
     "term": "Y1S1",
     "week": 6,
