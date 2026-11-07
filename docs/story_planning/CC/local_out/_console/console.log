@@ -140,3 +140,12 @@
 [12:45:27] [res] cpu=4% mem=43% (13.4/31.4 GB) chrome_testing=0  START SOC_peishan_date
 [12:45:27] [res] cpu=4% mem=43% (13.4/31.4 GB) chrome_testing=0  START MOVEOUT_r2
 [12:47:39] [res] cpu=11% mem=53% (16.8/31.4 GB) chrome_testing=10  END MOVEOUT_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       adecdfbea..d9bd57210  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:47:44] ==== END   MOVEOUT_r2  exit=0  136s   ====
+[12:47:47] memory 54% before starting SOC_xinci_date (2 running)
+[12:47:47] ==== START SOC_xinci_date  (probe @ 9cff7a00bce4a412ca08841c73123c899a4b916e) ====
+[12:47:50] [res] cpu=4% mem=54% (17.0/31.4 GB) chrome_testing=10  START SOC_xinci_date
+[12:47:55] 正在跑：GUITAR_r3（已跑 2 分／上限 60 分）、SOC_peishan_date（已跑 2 分／上限 45 分）、SOC_xinci_date（已跑 0 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
+[12:48:20] [res] cpu=3% mem=52% (16.4/31.4 GB) chrome_testing=9  END GUITAR_r3

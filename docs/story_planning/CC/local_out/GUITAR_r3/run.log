@@ -1,0 +1,36 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_guitar_x196_play.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GUITAR_r3\out
+CC GUITAR_X196（照玩家操作）：CASES=['shop', 'dorm']；SHA=9cff7a00bce4a412ca08841c73123c899a4b916e（worktree 實際 9cff7a00b）；Windows＋GPU／SwiftShader ≠ iPhone；CG／背景深色底不判
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入  22.3 秒
+  [前置／捷徑] [shop] 讀檔 2025-10-14 20.67 xinsheng；前置 {"member": true, "att": ["2025-09-29", "2025-10-01"], "money": 20000} → {"member": true, "att": 2, "knows": false, "money": 20000, "out": []}
+  [  34.0s] [shop] 新生南路同弦的樓梯口：{"x": -15.6, "z": -7.2, "label": "進同弦樂器（吉他行（二樓））", "guitar": null, "tongxian": null, "exit": "xs_tongxian", "seat": false, "kind": null}
+PASS [shop] 新生南路有同弦的店門（exit.to＝xs_tongxian）  [{"x": 16.8, "z": 10, "label": "回到首都帝大（新生南路側門）", "guitar": null, "tongxian": null, "exit": "campus", "seat": false, "kind": null}, {"x": -31, "z": -1.4, "label": "往溫州街", "guitar": null, "tongxian": null, "exit": "wenzhou", "seat": false, "kind": null}, {"x": -15.6, "z": 40.4, "label": "進大口漢堡（速食（24 小時））", "guitar": null, "tongxian": null, "exit": "xs_dakou", "seat": false, "kind": null}, {"x": -15.6, "z": 25.3, "label": "進南洋戲院（二輪戲院）", "guitar": null, "tongxian": null, "exit": "xs_nanyang", "seat": false, "kind": null}, {"x": -15.6, "z": 10.2, "label": "進山嵐書店（書店（兩層））", "guitar": null, "tongxian": null, "exit": "xs_shanlan", "seat": false, "kind": null}, {"x": -15.6, "z": -7.2, "label": "進同弦樂器（吉他行（二樓））", "guitar": null, "tongxian": null, "exit": "xs_tongxian", "seat": false, "kind": null}]
+  [前置／捷徑] [shop] 站到樓梯口旁邊 1.5 m
+  [  39.4s] 到達「[shop] 進同弦樂器（吉他行（二樓））」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [shop] 按樓梯口進到同弦（xs_tongxian）  {"dlg": false, "text": "", "opts": [], "phone": false, "hour": 20.748, "day": 28, "key": "2025-10-14", "zone": "xs_tongxian", "money": 20000, "busy": false, "seat": false, "interact": "進同弦樂器（吉他行（二樓））"}
+  [  53.3s] [shop] 店裡的按鈕：[{"x": -2.2, "z": -4.05, "label": "試彈", "guitar": null, "tongxian": "try_w", "exit": null, "seat": true, "kind": null}, {"x": -1.1, "z": -3.85, "label": "試彈", "guitar": null, "tongxian": "try_e", "exit": null, "seat": true, "kind": null}, {"x": 0.42, "z": 1.3, "label": "坐下", "guitar": null, "tongxian": "counter_stool", "exit": null, "seat": true, "kind": null}, {"x": -0.6, "z": 4.63, "label": "下樓（回新生南路）", "guitar": null, "tongxian": null, "exit": "xinsheng", "seat": false, "kind": null}, {"x": 2.3, "z": -2.6, "label": "看看", "guitar": "look", "tongxian": "wall_n", "exit": null, "seat": false, "kind": null}, {"x": 2.3, "z": -0.8, "label": "看看", "guitar": "look", "tongxian": "wall_s", "exit": null, "seat": false, "kind": null}, {"x": 0.25, "z": 0.6, "label": "買東西", "guitar": "shop", "tongxian": "buy", "exit": null, "seat": false, "kind": null}, {"x": -2.4, "z": -2.95, "label": "看看", "guitar": "ukes", "tongxian": "ukes", "exit": null, "seat": false, "kind": null}]
+  [  58.9s] 到達「[shop 看看0] 看看」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [  72.2s] 到達「[shop 看看1] 看看」附近（0.24 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，10 秒
+  [  81.7s] 到達「[shop 看看2] 看看」附近（0.13 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
+  [  84.4s] [shop] 看看：[["look", ["（牆上的吉他從三千多到三萬多。最貴的那把，標籤寫「不賣，老闆的」。）"]], ["look", ["（牆上的吉他從三千多到三萬多。最貴的那把，標籤寫「不賣，老闆的」。）"]], ["ukes", ["（烏克麗麗掛成一排，顏色都不一樣。最小的那把，比你的手臂還短。）"]]]
+PASS [shop] 「看看」吉他牆兩點都是「（牆上的吉他從三千多到三萬多。最貴的那把，標籤寫「不賣，老闆的」。）」  [["look", ["（牆上的吉他從三千多到三萬多。最貴的那把，標籤寫「不賣，老闆的」。）"]], ["look", ["（牆上的吉他從三千多到三萬多。最貴的那把，標籤寫「不賣，老闆的」。）"]], ["ukes", ["（烏克麗麗掛成一排，顏色都不一樣。最小的那把，比你的手臂還短。）"]]]
+PASS [shop] 烏克麗麗的「看看」是「（烏克麗麗掛成一排，顏色都不一樣。最小的那把，比你的手臂還短。）」（AA_693 A2）  [["look", ["（牆上的吉他從三千多到三萬多。最貴的那把，標籤寫「不賣，老闆的」。）"]], ["look", ["（牆上的吉他從三千多到三萬多。最貴的那把，標籤寫「不賣，老闆的」。）"]], ["ukes", ["（烏克麗麗掛成一排，顏色都不一樣。最小的那把，比你的手臂還短。）"]]]
+  [  90.8s] 到達「[shop 買東西] 買東西」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，6 秒
+  [  94.8s] [shop] 買東西：台詞 ["先買好彈的，不要先買好看的。", "（老闆幫你調好音，把琴裝進琴袋。）"]；選單 ["民謠吉他 入門款　3,420 元\n九折", "民謠吉他 面單款　5,850 元\n九折", "一包弦　315 元\n九折", "Pick　18 元\n九折", "移調夾　270 元\n九折", "不用了"]；錢 20000 → 16580
+PASS [shop] 老闆一句（三句之一）  ["先買好彈的，不要先買好看的。", "（老闆幫你調好音，把琴裝進琴袋。）"]
+PASS [shop] 選單：社員九折（入門款 3,420、面單款 5,850、有「九折」小字）、「不用了」  ["民謠吉他 入門款　3,420 元\n九折", "民謠吉他 面單款　5,850 元\n九折", "一包弦　315 元\n九折", "Pick　18 元\n九折", "移調夾　270 元\n九折", "不用了"]
+PASS [shop] 買入門款：扣 3,420、調音裝袋那一句  [3420, ["先買好彈的，不要先買好看的。", "（老闆幫你調好音，把琴裝進琴袋。）"]]
+  [ 101.9s] 到達「[shop 試彈] 試彈」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
+PASS [shop] 坐試琴椅「試彈」：「（你拿下一把，彈了社課教的 C 和弦。老闆從櫃檯抬頭看了一眼，又低頭。）」（去過社課）  [false, ["（你拿下一把，彈了社課教的 C 和弦。老闆從櫃檯抬頭看了一眼，又低頭。）", "我們今天要打烊了。"]]
+  [ 111.8s] [shop] 不用撥時間：現在 xinsheng 21.53（店裡途中就到打烊）
+  [ 112.1s] [shop] 打烊那一句：[{"who": "老闆", "t": "我們今天要打烊了。", "key": "2025-10-14", "h": 21.512, "zone": "xs_tongxian"}]
+PASS [shop] 21:30 還在店裡：「老闆：我們今天要打烊了。」（21:30 以後、在 xs_tongxian 說的），接著回到新生南路  {"cl": [{"who": "老闆", "t": "我們今天要打烊了。", "key": "2025-10-14", "h": 21.512, "zone": "xs_tongxian"}], "L": [{"who": "老闆", "t": "先買好彈的，不要先買好看的。", "key": "2025-10-14", "h": 20.972, "zone": "xs_tongxian"}, {"who": null, "t": "（老闆幫你調好音，把琴裝進琴袋。）", "key": "2025-10-14", "h": 21.122, "zone": "xs_tongxian"}, {"who": null, "t": "（你拿下一把，彈了社課教的 C 和弦。老闆從櫃檯抬頭看了一眼，又低頭。）", "key": "2025-10-14", "h": 21.176, "zone": "xs_tongxian"}, {"who": "老闆", "t": "我們今天要打烊了。", "key": "2025-10-14", "h": 21.512, "zone": "xs_tongxian"}], "zone": "xinsheng", "h": 21.53}
+  [前置／捷徑] [dorm] 【捷徑】同一份存檔換到宿舍 2025-10-14 22:00
+  [ 128.1s] [dorm] 房間的按鈕 [["睡覺", -0.55, 1.5], ["走出房間", 0, 3.3], ["看看房間裡的東西", -0.55, -0.73], ["彈吉他", -0.05, 0.14], ["床底下的紙箱", -0.55, 0.93]]
+PASS [dorm] 宿舍房間有「彈吉他」按鈕（有琴、不在「看看房間裡的東西」裡面）  ["坐在書桌前", "睡覺", "走出房間", "看看房間裡的東西", "彈吉他", "床底下的紙箱"]
+  [ 130.7s] 到達「[dorm] 走到「彈吉他」」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 131.6s] 到達「[dorm] 彈吉他」附近（0.22 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS [dorm] 走到旁邊、按得到「彈吉他」
+PASS [dorm] 彈吉他：轉暗、30 分鐘（按下去 22.07 → 旁白那一刻 22.573）、旁白兩句之一  [{"who": null, "t": "（你彈了一首社課教的歌，彈到副歌就忘了。）", "key": "2025-10-14", "h": 22.573, "zone": "dorm"}, {"who": null, "t": "（你彈了一首社課教的歌，彈到副歌就忘了。）", "key": "2025-10-14", "h": 22.573, "zone": "dorm"}]
+PASS 沒有 JS 例外  []
+ALL PASS
