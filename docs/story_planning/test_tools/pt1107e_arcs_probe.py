@@ -122,7 +122,7 @@ async def meet_once(pg, cdp, run, cat, word, tag):
             pick = tell or ts[0]
             picked.append({'opts': ts, 'pick': pick}); said.append('選項：' + '｜'.join(ts) + ' → ' + pick)
             await choose(pg, cdp, pick, True); continue
-        if st and not q['dlg'] and not q['busy'] and (st['ph'] == 'wait' or (st['st'] == 'accepted' and not st['ph'])):   # 2026-11-07 BB-B：對話框開著先點對話（第 2 次已經在館裡、沒有帶路時，原本一直「走到她旁邊」不點門口那句＝TEST_BUG）
+        if st and not q['dlg'] and (st['ph'] == 'wait' or (st['st'] == 'accepted' and not st['ph'])):   # 2026-11-07 BB-B：對話框開著先點對話；不看 busy（11:2x 加了 busy 以後，玩家 busy 時永遠不走過去＝以安 an_alone 沒開演、時間跑到半夜）（第 2 次已經在館裡、沒有帶路時，原本一直「走到她旁邊」不點門口那句＝TEST_BUG）
             n = await pg.evaluate("(w=>{ const n=GAME.E.npcs.find(q=>q.id===w||q.charId===w); return n?{x:n.obj.position.x,z:n.obj.position.z,lv:n.lv|0}:null; })(%s)" % json.dumps(WHO))
             if n: await L.go_to(pg, cdp, run, n['x'], n['z'], 1.8, '走到她旁邊', lv=n['lv']); await pg.wait_for_timeout(1000); continue
         if q['dlg']: await L.tap(pg, cdp, '#dlg')
