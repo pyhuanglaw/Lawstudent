@@ -1,0 +1,10 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_hair_fix_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\HAIR_FIX\out
+CC 頭髮對照 player,heroine_01,heroine_02,heroine_03,heroine_04,heroine_05；campus@11；做法 0,n0.6,tex,n0.6+tex；SHA=62d7f3b5412fc940da37c20669b6ec201aa754df；Playwright，不是手機實機
+PASS 遊戲載入  19.4 秒
+== campus（11:00）
+  [前置／捷徑] 讀檔：校園椰林大道 (-60.0, 0.0)、2025-09-23（二）11:00、晴、條件事件關閉
+PASS [campus] 進到區域  campus
+  [campus] 場景 mesh 1200；人物站在 (-60.00, 0.00)
+FAIL [campus@11] 探針沒有例外  ValueError('Circular reference detected')
+PASS 沒有 JS 例外  []
+FAILED 1: [campus@11] 探針沒有例外

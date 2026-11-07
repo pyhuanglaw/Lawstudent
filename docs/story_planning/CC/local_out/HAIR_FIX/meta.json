@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "HAIR_FIX",
+  "sha": "62d7f3b5412fc940da37c20669b6ec201aa754df",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_hair_fix_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T15:39:45",
+  "end": "2026-11-07T15:45:37",
+  "seconds": 351,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 15,
+    "mem": 51,
+    "used_gb": 16.2,
+    "chrome_testing": 4
+  }
+}
