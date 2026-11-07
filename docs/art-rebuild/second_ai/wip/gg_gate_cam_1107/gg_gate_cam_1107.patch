@@ -1,0 +1,83 @@
+diff --git a/src/data/places.js b/src/data/places.js
+index 68051cba7..27b115183 100644
+--- a/src/data/places.js
++++ b/src/data/places.js
+@@ -113,7 +113,8 @@ const PLACES={
+     /* BUG-YIZHAN-1107（使用者 11-07 試玩「一盞不見了？」）：一盞（wz_teahouse）進得去，但手機「地點」、大地圖、導航都沒列；落點 null＝區域出生點（從冠木門進來站的地方）。營業週三～週日 12–20 */
+     return [['campus','首都帝大校園（法律系館A前）',{x:34,z:-98,yaw:0}],['campus','椰影大道・晨思鐘',{x:-38,z:6,yaw:0}],['campus','校門口',{x:-112,z:0,yaw:-Math.PI/2}],['campus','共同教學館',{x:2,z:21.4,yaw:0}],['campus','普通教學館',{x:-38,z:-47.4,yaw:0}],['campus','博思教學館',{x:-38,z:-71.4,yaw:0}],['campus','大一女舍（門口）',{x:-93,z:56,yaw:0}],GY&&['gym','新體育館（大廳）',GY],
+       L1&&['linze','法律系館A（大廳）',L1],['classroom','法律系館A 201 教室',null],['wancai','法律系館B（大廳）',{x:0,z:5,yaw:Math.PI}],LL&&['lawlib','法律學院圖書館',LL],LB&&['library_hall','總圖書館（大廳）',LB],SC&&['soclib','社科院圖書館',SC],
+-      ['gongguan','公館商圈',{x:0,z:-30,yaw:Math.PI}],['gongguan','捷運公館站',{x:-35.6,z:13.2,yaw:0}],['noodle','公館燒臘',{x:0,z:3.4,yaw:Math.PI}],['cvs','日和便利店',IN('cvs')||{x:0,z:3.4,yaw:Math.PI}],['bookstore','頁間書屋',IN('bookstore')||{x:0,z:4,yaw:Math.PI}],AK&&['aoki','青木茶室',AK],AF&&['afar','afar café',AF],DB&&['daybreak','Daybreak',DB],YY&&['yangyang','洋洋鹹酥雞',YY],CR&&['corner_records','轉角唱片',CR],
++      /* 公館商圈：面向南邊的店（yaw 0；鏡頭在背後、校門那一側）。原本 yaw π 面向校門，店在鏡頭後面，要去店裡只能往鏡頭走（CAM-GONGGUAN-GATE-1107，LAWWW2-B）*/
++      ['gongguan','公館商圈',{x:0,z:-30,yaw:0}],['gongguan','捷運公館站',{x:-35.6,z:13.2,yaw:0}],['noodle','公館燒臘',{x:0,z:3.4,yaw:Math.PI}],['cvs','日和便利店',IN('cvs')||{x:0,z:3.4,yaw:Math.PI}],['bookstore','頁間書屋',IN('bookstore')||{x:0,z:4,yaw:Math.PI}],AK&&['aoki','青木茶室',AK],AF&&['afar','afar café',AF],DB&&['daybreak','Daybreak',DB],YY&&['yangyang','洋洋鹹酥雞',YY],CR&&['corner_records','轉角唱片',CR],
+       ['wenzhou','溫州街',{x:20,z:0,yaw:-Math.PI/2}],['lane118','118 巷',{x:0,z:47.6,yaw:Math.PI}],['cafe','2:30 AM',{x:0,z:5,yaw:Math.PI}],['wz_mokuyobi','木曜日',{x:-3.75,z:5.4,yaw:Math.PI,lv:0}],['wz_offbeat','日常失速',{x:-3.9,z:3.0,yaw:Math.PI}],['wz_teahouse','一盞',null]].concat(XS,[['dorm','宿舍',{x:0,z:2.5,yaw:Math.PI}]]).filter(Boolean); },
+   /* 一個區域在哪一棟、哪一條街（PHONE-UNIFY-1030）：樓上樓層、房間、店面對到它的那一棟／那條街（霖澤館 3F→linze、總圖 B1→library_hall、118 巷的店→lane118、溫州街的店→wenzhou、新生南路的店（xs_）→xinsheng、宿舍 205→dorm_hall）；
+      其他照原樣。用在：手機「朋友」直接過去的開放時間（那一棟關門＝進不去）、休學退宿以後不回台大、路程的時間（classes3d.js travelMinutes 沒有那一區的位置時照那一棟算）*/
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 97d7248a9..87e438348 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1013,7 +1013,9 @@ const Z3 = (function(){
+        子晴（heroine_04）linger 在 (16, 20.6)「坐在騎樓下的插座旁邊，筆電開著」：作息的 seatAt 找這一張（3.5 m 內最近的空位）；玩家也坐得下去。凳子只在正式模型裡，模型沒有登記就不放座位 */
+     const seats=ggGLB?[{x:15.6,z:19.8,yaw:0,label:'坐在騎樓的板凳',kind:'stool'}]:[];
+     for(const s of seats) E.interactables.push({x:s.x,z:s.z,radius:1.4,label:s.label,seat:s});
+-    const zone={group:g,nav,spawn:{x:0,z:-30,yaw:Math.PI},lamps,buildings,seats,applyTimeOutdoor:zoneTime,onLamps(on){}};
++    /* 預設落點（沒給落點就用這個；手機「地點」的「公館商圈」同一點，src/data/places.js）：面向南邊的店（yaw 0），鏡頭在背後、校門那一側。
++       原本 yaw π（面向校門）：鏡頭在羅斯福路那一側看著校門，店在鏡頭後面——要去店裡只能往鏡頭走，鏡頭不會轉（CAM-GONGGUAN-GATE-1107，CC 試玩 8/30 07:51，LAWWW2-B）*/
++    const zone={group:g,nav,spawn:{x:0,z:-30,yaw:0},lamps,buildings,seats,applyTimeOutdoor:zoneTime,onLamps(on){}};
+     // 店面街的 Blender 正式模型（第二個 AI）：載入後藏起套件外觀（和溫州街同一套接法；招牌、直立招牌合成一張 atlas，晚上照 TK.setNight 發光）；失敗或 ?nobldg 時維持套件
+     gateGLB(E,g,gate,0,-46,0,zone);   /* 校門（ART-EXT-GATE）：和校園同一個模型 */
+     if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); attachWenzhouModel(E,g,r,'ggShop','gongguan_shops_glb'); propBlocks(nav,GG_PROP_BLOCKS); propReStand(E,nav); ggShopLit(r,zone); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));
+diff --git a/tests/gg_gate_cam_1107_unit.js b/tests/gg_gate_cam_1107_unit.js
+new file mode 100644
+index 000000000..bc20512f1
+--- /dev/null
++++ b/tests/gg_gate_cam_1107_unit.js
+@@ -0,0 +1,48 @@
++// 公館校門口往後走鏡頭不轉（CAM-GONGGUAN-GATE-1107，LAWWW-B 11-07 16:13 派工，LAWWW2-B 修）——不需要瀏覽器（D131）。
++// CC 以玩家試玩（BB_255 第 8 件後半，截圖 cc-testing docs/story_planning/CC/shots/play1107_8b_gongguan_gate_camera.png，8/30 07:51「去公館買缺的東西」）：
++//   鏡頭在羅斯福路那一側、看著校門，人往鏡頭走（往南、去店那邊）——店在鏡頭後面，一路看不到要去的地方。
++// 原因：手機「地點」的「公館商圈」（src/data/places.js；回家出門、約完人放回來的地方也是這一點）和公館區域的預設落點都是 (0,−30) yaw π＝面向校門。
++//   進區域時鏡頭在人背後（cam.yaw＝spawn.yaw＋π）→ 鏡頭在南邊、看北邊的校門；店（南邊騎樓，店門 z 約 21）在鏡頭後面，要去店裡只能拉搖桿往後走。
++//   跟隨鏡頭本來就不會跟著人轉（只有貼著隔間牆時 autoSwing 會轉開），所以一路都是往鏡頭走。
++// 做法：落點的方向改成面向南邊的店（yaw 0）：鏡頭在背後、校門那一側，推搖桿往前就是往店走。位置不動（tests/quick_travel_unit.js 驗過站得住）。
++// 檢查（在 Node 建出遊戲真正的公館區域）：
++//   ① 「公館商圈」落點：推搖桿往前（畫面的前方）的方向，和落點到最近的店門的方向差 45° 以內——修改前差 180° 左右
++//   ② 公館區域的預設落點和「公館商圈」同一點、同一個方向
++//   ③ 落點的跟隨鏡頭沒有被擋（退滿 4.8 m），在人背後（校門那一側），不在校門的門房、門柱裡
++//   ④ 從落點推搖桿往前一直走到騎樓（z 15），每 0.5 m 都站得住（不會一推就撞到東西）
++//   ⑤ 公館其他落點（捷運公館站）不變
++// 用法：node tests/gg_gate_cam_1107_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
++const _warn=console.warn; console.warn=(...a)=>{ if(/載入失敗|LOD|Missing/.test(String(a[0]))) return; _warn(...a); };
++const src0=fs.readFileSync(path.join(ROOT,'tests/nav_buildings_unit.js'),'utf8'); const files=eval(src0.match(/const files=(\[[^\]]*\])/)[1]);
++for(const f of files.concat(['src/data/places.js'].filter(f=>!files.includes(f)))){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster(); E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.extras=[];
++global.GAME={G:{zone:'gongguan',day:10,hour:14,flags:{},weather:'clear',visited:{}}};
++const z=Z3.ZONES.gongguan.build(E); E.zone=z; E.levels=z.levels; E.nav=z.nav; E.scene.add(z.group); E.scene.updateMatrixWorld(true);
++E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
++const QL=PLACES.quickList().filter(p=>p&&p[0]==='gongguan'), GG=QL.find(p=>p[1]==='公館商圈'), MRT=QL.find(p=>p[1]==='捷運公館站');
++if(!GG){ check('手機「地點」有「公館商圈」', false); console.log('FAILED '+fails); process.exit(1); }
++const sp=GG[2], camYaw=(sp.yaw||0)+Math.PI;   /* E.enterZone：cam.yaw＝spawn.yaw＋π */
++const fwd={x:-Math.sin(camYaw), z:-Math.cos(camYaw)};   /* 推搖桿往前＝畫面的前方（engine3d.js：鏡頭在 (sin yaw, cos yaw) 那一側，前是 (−sin yaw, −cos yaw)）*/
++const doors=E.interactables.filter(i=>/^進入/.test(i.label||'')&&i.exit);
++const nearest=doors.map(d=>({d, r:Math.hypot(d.x-sp.x,d.z-sp.z)})).sort((a,b)=>a.r-b.r)[0];
++{ const d=nearest&&nearest.d, dx=d?d.x-sp.x:0, dz=d?d.z-sp.z:0, ang=d?Math.acos((fwd.x*dx+fwd.z*dz)/Math.hypot(dx,dz))*180/Math.PI:999;
++  check('① 「公館商圈」落點：推搖桿往前的方向和最近的店門差 45° 以內（店在畫面前方，不是在鏡頭後面）', !!d&&ang<=45,
++    `落點 (${sp.x},${sp.z}) yaw ${(+sp.yaw).toFixed(2)}；往前 (${fwd.x.toFixed(2)},${fwd.z.toFixed(2)})；最近的店門「${d?d.label:'—'}」(${d?d.x.toFixed(1):''},${d?d.z.toFixed(1):''}) 差 ${ang.toFixed(0)}°`); }
++{ const zs=z.spawn||Z3.ZONES.gongguan.spawn||{};
++  check('② 公館區域的預設落點和「公館商圈」同一點、同一個方向', zs.x===sp.x&&zs.z===sp.z&&Math.abs((zs.yaw||0)-(sp.yaw||0))<1e-6, JSON.stringify(zs)); }
++{ const t=new THREE.Vector3(sp.x,1.45,sp.z), out=new THREE.Vector3(); const r=E.followCam(t,camYaw,0.38,4.8,0,out);
++  const gateZ=-46, behindGateSide=out.z<sp.z;   /* 校門在 z −46：鏡頭在人和校門之間 */
++  check('③ 落點的跟隨鏡頭退滿 4.8 m（沒被擋）、在人背後的校門那一側、離門房還有距離', r.dist>=4.79&&!r.inner&&behindGateSide&&out.z>gateZ+2.5,
++    `鏡頭 (${out.toArray().map(v=>v.toFixed(2)).join(', ')})、退 ${r.dist.toFixed(2)} m`); }
++{ let ok=true, bad=null, n=0; for(let s=0.5; ; s+=0.5){ const x=sp.x+fwd.x*s, zz=sp.z+fwd.z*s; if(zz>=15||zz<=-60||n>200) break; n++; if(!E.canStand(x,zz,0.32,0)){ ok=false; bad=[x.toFixed(1),zz.toFixed(1)]; break; } }
++  check('④ 從落點推搖桿往前一直走到騎樓（z 15），每 0.5 m 都站得住', ok&&n>20, ok?`${n} 步`:`(${bad}) 站不住`); }
++check('⑤ 「捷運公館站」落點不變（(−35.6, 13.2) yaw 0）', !!MRT&&MRT[2].x===-35.6&&MRT[2].z===13.2&&MRT[2].yaw===0, MRT?JSON.stringify(MRT[2]):'—');
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

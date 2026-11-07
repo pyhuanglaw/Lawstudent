@@ -6,7 +6,21 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-07 17:3x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-07 18:0x UTC，帳號 B LAWWW2-B）
+
+分支 `claude/funny-albattani-iawshm`；開發分支 `claude/modest-rubin-2lyp7g` 最新 `951543b9c`（LAWWW-B 已把 a6509d2a0 整合成 `4fcd3c45b`，303 支過）。瀏覽器都沒跑（D131，交 CC）。
+工作樹：`$S/devnow`＝開發 03e92c411＋gg_new＋兩件 CAM；`$S/wt_dev`＝開發 951543b9c＋CAM-GONGGUAN-GATE（patch 從這裡產生）。
+
+| 項目 | 狀態 | 位置 |
+|---|---|---|
+| CAM-LIBHALL-DOOR-1107（總圖大廳一進門鏡頭在玻璃帷幕外） | **已交 LAWWW-B**（17:4x）；camCols 加 `CAMCOL_facade`；新測試開發原樣 FAILED 3 → ALL PASS；72 支總圖 Node 過；遊戲內等 CC | `38596122`，`wip/libhall_door_cam_1107/` |
+| CAM-GONGGUAN-GATE-1107（公館校門口往後走鏡頭不轉） | **已交 LAWWW-B**（18:1x；相關 53 支 Node 過）：「公館商圈」落點和公館預設落點 yaw π→0（原本面向校門、店在鏡頭後面；CC 截圖 play1107_8b）；新測試開發原樣 FAILED 3 → ALL PASS；patch 對 951543b9c | `wip/gg_gate_cam_1107/` |
+| 公館三間光照＋窗景 | LAWWW-B **已整合** `4fcd3c45b`；CC 拍、BB 判 | `a6509d2a0` |
+| 霖澤 5F 研究室窗外夜景 | 已交，等 LAWWW-B 接、CC 重拍 | `fd06def16` |
+
+**下一步**：CAM-GONGGUAN-GATE 回歸跑完就交 → lm_audit_1107 第一級剩下的店（燒臘、頁間、SUNNY SIDE、阿德、驛站、小路、林家、日常失速、木曜日）。
+
+## 🔨 （舊）現在在做（11-07 17:3x UTC，帳號 B LAWWW2-B）
 
 分支 `claude/funny-albattani-iawshm`；開發分支 `claude/modest-rubin-2lyp7g`（`03e92c411`）。瀏覽器都沒跑（D131，交 CC）。工作樹 `$S/devnow`＝開發 03e92c411＋gg_new_1107.patch＋新 assets；`$S/devclean`＝開發原樣。
 
