@@ -11,6 +11,8 @@
 #   - 檯燈：亮片下面 3 cm 一顆暖黃點光源。
 #   - 中庭天光：西牆玻璃外的下沉中庭，上面的 GLOW_library_b1_courtsky（4.45 m 高的發光面）只在白天那一張發光（--dayemit），晚上不亮。
 #     西面不包黑殼（--shell W），其他五面包；沒有太陽、沒有天空（--sky 0）：白天比晚上多的只有中庭進來的光。
+# 瓦數（11-07 試烘定的）：試烘 128 取樣、日光燈 10 W＋燈下 8 W：白天／晚上 0.52／0.52（總圖 3F 0.31、社科圖 0.40）→ 日光燈 4.7 W、燈下 3.8 W、檯燈 3 W、中庭 3：
+#   512 正式 0.38／0.38、過曝 0%。白天、晚上整體差不多：中庭的天光只照亮西牆玻璃邊那一塊（下沉中庭本來就這樣）。
 # 只烘地板、天花板、柱子、牆（牆面、護牆板、木護牆板）、木牆板；其他（桌椅、檯燈、書架、隔板、櫃台、影印機、印刷品、玻璃……）照舊即時光。
 # 玻璃、霧面玻璃烘焙時藏起來（--hide），照樣輸出。桌椅、檯燈是 GPU instancing（--keep-instances：不展開、照舊寫回 EXT_mesh_gpu_instancing）。
 set -e
@@ -24,12 +26,12 @@ git cat-file -p 87f1da5e2805d0109c1d5bcaf7ffd37cf670f33b > "$PLAIN"
 HIDE='glass|frost'
 NOLM="^(?!(library_b1_floorm|library_b1_ceiling|library_b1_columns|library_b1_woodpanels|WALL_[A-Z0-9]+_(wall|wain|woodwain))\$)"
 COL=${LCOL:-0.95,0.98,1.0}
-LIGHTS=$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_tubes cells --w "${TUBEW:-10}" --y -0.03 --col "$COL")
-POINTS="$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_tubes up --w "${UPW:-8}" --y -0.9 --col "$COL");$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_warm points --w "${LAMPW:-3}" --y -0.03 --col 1.0,0.82,0.6)"
+LIGHTS=$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_tubes cells --w "${TUBEW:-4.7}" --y -0.03 --col "$COL")
+POINTS="$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_tubes up --w "${UPW:-3.8}" --y -0.9 --col "$COL");$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_warm points --w "${LAMPW:-3}" --y -0.03 --col 1.0,0.82,0.6)"
 echo "lights $(echo "$LIGHTS" | tr ';' '\n' | wc -l), points $(echo "$POINTS" | tr ';' '\n' | wc -l)"
 /opt/blenv/bin/python $LB/bake_room.py -- --in "$PLAIN" --out "$OUTDIR/library_b1.glb" \
   --lm "$TMP/b1" --url assets/models/env/second_ai/library_b1_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
-  --sun 0,30,0 --sky 0 --nightsky 0 --dayemit "GLOW_library_b1_courtsky=${SKYW:-4.0}" --lights "$LIGHTS" --points "$POINTS" --daylights 1.0 --smooth 1 --shell W --keep-instances
+  --sun 0,30,0 --sky 0 --nightsky 0 --dayemit "GLOW_library_b1_courtsky=${SKYW:-3}" --lights "$LIGHTS" --points "$POINTS" --daylights 1.0 --smooth 1 --shell W --keep-instances
 python3 $LB/to_webp.py "$TMP/b1" "$OUTDIR/library_b1_lm" 90
 /opt/blenv/bin/python $LB/lm_fix_hidden.py -- --in "$OUTDIR/library_b1.glb" --out "$OUTDIR/library_b1.glb" --lm "$OUTDIR/library_b1_lm"
 python3 - "$TMP/b1.json" "$PLAIN" <<'PY'
