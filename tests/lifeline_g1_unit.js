@@ -95,6 +95,6 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     const s8=mig(DK('2024-12-01'),12,{E19_ASK:'joke'}); s8.flags.LIFELINE_V=1; const again=STORY.lifeLineMigrate(s8);
     check('A9-2 只做一次（LIFELINE_V）',again===false); }
   /* ---------- kx1 ---------- */
-  check('A-21：kx1（可昕大一上的手機小事）到 10/17 車上為止（KX_CAR 有值就停）',(()=>{ const src=require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8'); return src.includes("const kx1=G=>!!G.flags.E06_DONE&&!G.flags.KX_CAR"); })());
+  check('A-21：kx1（可昕大一上的手機小事）到 10/17 車上為止（KX_CAR 有值就停）',(()=>{ const src=require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8'); return /const kx1=G=>(!!G\.flags\.E06_DONE|\(!!G\.flags\.E06_DONE\|\|G\.flags\.E05_OPEN==='self'\))&&!G\.flags\.KX_CAR/.test(src); })());   /* AA_727（Y0-E05-BIKE-LOCATION-1107）：9/20 沒回她（E05_OPEN self，沒有 E06）也從那時候開；到 KX_CAR 為止照舊 */
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
