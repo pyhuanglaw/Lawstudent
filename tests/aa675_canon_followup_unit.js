@@ -12,6 +12,7 @@
 // AA_684（企劃線 0382b8a34，AA-C 定 D109；AA684-CANON-FIX-1104）改了其中幾件，期望值照 AA_684 換（tests/aa684_canon_fix_unit.js 測新的部分）：
 //   第 2 節：阿哲週二、四 18:00～19:30 照一般作息在燒臘店（和麵店日無關）；bgn:false 的 10 則刪了、大一第 2 則換成桌遊夜版（便利貼）
 //   第 3 節：大一第 7 則（憲法課）往前一則＝第 6 則；第 7 節：ENC_D24_SIS 的名稱中性、「Alison 是她妹妹」另外一條（KNOWS_SIS_ALISON）；第 9 節：invite「這週六我五點下班」
+// AA_611 第 1 節第 1 列（企劃線 3f85566f4）把 AA_609 第 8 節的稿改兩處：旁白「她姊姊考上法研所了」、Alison「他是我們班的啊！」——第 7 節這兩句的期望值照 AA_611 換（tests/aa611_sisters_unit.js 測新的部分）
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -35,6 +36,7 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const doc=(sha,p)=>{ try{ return cp.execFileSync('git',['-C',H.ROOT,'show',sha+':'+p],{encoding:'utf8',maxBuffer:64*1024*1024}); }catch(e){ return ''; } };
 const AA675=doc('920791094','docs/story_planning/AA_675_回LAWWW_AA661接線的八件.md'), AA609=doc('615e981b5','docs/story_planning/AA_609_學姊的奶奶_取代爸爸.md');
 const inDoc=(D,t)=>!!D&&D.includes(t);
+const AA611_FIX=['（你想起 Alison 說過，她姊姊考上法研所了。原來就是學姊。）','他是我們班的啊！……姊，他是妳直屬？'];   /* AA_611 第 1 列（企劃線 3f85566f4）改的兩句 */
 const says=()=>H.said.map(s=>(s.who?s.who+'：':'')+s.t);
 /* 記下說話的人物 id（ENC.meet、INV.flow 用 {name,charId}）*/
 const sayIds=[]; const say0=GM.say; GM.say=async(who,t,o)=>{ sayIds.push({id:who&&who.charId||null,name:who?(who.name||String(who)):null,t:String(t).replace('{name}',H.G&&H.G.name||'祐廷')}); return say0(who,t,o); };
@@ -175,18 +177,18 @@ await sec(7,async()=>{
   const row=ENCOUNTERS.rows.find(r=>r.who===SIS&&r.spot==='D24'), TX=x=>typeof x==='string'?x:(x.narr||x.t);
   check('7. 偶遇的開頭：「她和家人坐在泡腳池邊：媽媽、阿公、奶奶，還有一個背對你的女生。」（AA_609）',row.why==='她和家人坐在泡腳池邊：媽媽、阿公、奶奶，還有一個背對你的女生。'&&inDoc(AA609,row.why));
   const all=[].concat(row.lines.acq,row.lines.friend,row.lines.dating).map(TX);
-  check('7. 「爸媽排好了」拿掉；每一句都在 AA_609 第 8 節（字照稿）',!all.some(t=>/爸媽/.test(t))&&!/爸媽排好了/.test(strip(src('src/data/encounters.js')))&&all.every(t=>inDoc(AA609,t.replace('{name}','{name}'))),J(all.filter(t=>!inDoc(AA609,t))));
+  check('7. 「爸媽排好了」拿掉；每一句都在 AA_609 第 8 節（字照稿）',!all.some(t=>/爸媽/.test(t))&&!/爸媽排好了/.test(strip(src('src/data/encounters.js')))&&all.every(t=>inDoc(AA609,t)||AA611_FIX.includes(t)),J(all.filter(t=>!inDoc(AA609,t)&&!AA611_FIX.includes(t))));   /* AA_611 第 1 列改的兩句不在 AA_609 */
   const SUN=STORY.termDayIn('Y3S1',3,7);
   const meet=async(tier,flags)=>{ fresh(SUN,11,'dorm',flags); H.G.trip={id:'D24'}; if(tier==='dating'){ H.FRIEND(SIS); H.G.flags['dating_'+SIS]=true; } else if(tier==='friend') H.FRIEND(SIS); else H.FAMILIAR(SIS); H.FAMILIAR('yu');
     sayIds.length=0; H.said=[]; H.picks=['打招呼']; const r=await ENC.meet(GM,row,ENC.tier(H.G,SIS)); return {r,L:sayIds.slice()}; };
   let m=await meet('acq');
   const yuL=m.L.filter(x=>x.id==='yu').map(x=>x.t), sisL=m.L.filter(x=>x.id===SIS).map(x=>x.t);
-  check('7. 認識（有點熟）：學姊「學弟。……我們一家來泡腳。」→ 旁白 Alison 轉過頭來 → Alison 那幾句用她的立繪（charId yu）放在同一段對話',sisL[0]==='學弟。……我們一家來泡腳。'&&m.L.some(x=>x.id==null&&x.t==='（那個背對你的女生轉過頭來。是 Alison。）')&&J(yuL)===J(['欸？祐廷？！你怎麼在這裡！','他是阿哲的同學啊！……姊，他是妳直屬？','（看看你，又看看她）你們都沒說過！','……我是想說，又沒人問。']),J(m.L));
+  check('7. 認識（有點熟）：學姊「學弟。……我們一家來泡腳。」→ 旁白 Alison 轉過頭來 → Alison 那幾句用她的立繪（charId yu）放在同一段對話',sisL[0]==='學弟。……我們一家來泡腳。'&&m.L.some(x=>x.id==null&&x.t==='（那個背對你的女生轉過頭來。是 Alison。）')&&J(yuL)===J(['欸？祐廷？！你怎麼在這裡！','他是我們班的啊！……姊，他是妳直屬？','（看看你，又看看她）你們都沒說過！','……我是想說，又沒人問。']),J(m.L));
   check('7. 沒聽過 Alison 說姊姊在考法研所（沒有 HEARD_YU_SISTER）＝沒有「你想起…」那一句；不是朋友＝沒有「坐下來一起泡吧」',!m.L.some(x=>/你想起 Alison 說過/.test(x.t))&&!m.L.some(x=>/坐下來一起泡吧/.test(x.t)));
   check('7. 演完記 KNOWS_SIS_ALISON、記憶 ENC_D24_SIS（AA_684 第 8 項：名稱中性「在礁溪遇到學姊一家」；「Alison 是她妹妹」另外一條 KNOWS_SIS_ALISON）',H.G.flags.KNOWS_SIS_ALISON===true&&SOCIAL.has(SIS,'ENC_D24_SIS')&&SOCIAL.MEMORY_LABEL.ENC_D24_SIS==='在礁溪遇到學姊一家'&&SOCIAL.has(SIS,'KNOWS_SIS_ALISON')&&SOCIAL.MEMORY_LABEL.KNOWS_SIS_ALISON==='Alison 是她妹妹'&&inDoc(AA609,'在礁溪遇到學姊一家，Alison 是她妹妹'));
   { const w=[]; const r=ENC.eligible(H.G,row,w); check('7. 只一次：打過招呼以後同一場不再出現（大三下、大四下的第 3 週也一樣）',!r&&w.some(x=>/演過了/.test(x)),J(w)); }
   m=await meet('friend',{HEARD_YU_SISTER:true});
-  check('7. 朋友＋聽過 Alison 說姊姊：多「（你想起 Alison 說過，她姊姊在考法研所。原來就是學姊。）」和最後「坐下來一起泡吧。阿公說人多比較好。」',m.L.some(x=>x.t==='（你想起 Alison 說過，她姊姊在考法研所。原來就是學姊。）')&&m.L.some(x=>x.id===SIS&&x.t==='坐下來一起泡吧。阿公說人多比較好。'),J(m.L));
+  check('7. 朋友＋聽過 Alison 說姊姊：多「（你想起 Alison 說過，她姊姊考上法研所了。原來就是學姊。）」（AA_611 第 1 列）和最後「坐下來一起泡吧。阿公說人多比較好。」',m.L.some(x=>x.t==='（你想起 Alison 說過，她姊姊考上法研所了。原來就是學姊。）')&&m.L.some(x=>x.id===SIS&&x.t==='坐下來一起泡吧。阿公說人多比較好。'),J(m.L));
   m=await meet('dating');
   check('7. 交往中：「你怎麼在這裡？」→ 旁邊的女生轉過頭來 → Alison「祐廷？！……姊，妳男朋友是他？」→「……我好像沒跟你講過。這是我妹。」',m.L.some(x=>x.id==='yu'&&x.t==='祐廷？！……姊，妳男朋友是他？')&&m.L.some(x=>x.id===SIS&&x.t==='……我好像沒跟你講過。這是我妹。')&&m.L.some(x=>x.t==='（學姊看了你一眼，回去坐好。）')&&H.G.flags.KNOWS_SIS_ALISON===true,J(m.L));
   /* 舊存檔：看過舊版（已經有 ENC_D24_SIS）＝不重演、不設 KNOWS_SIS_ALISON */

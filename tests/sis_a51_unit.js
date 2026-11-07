@@ -5,6 +5,7 @@
 //   C2：交往中＋C1 演過：7/11 已交往＝當天 15:00 房間、16:00 私訊；之後才交往＝隔 3 天以上的第一個週六（第一句換「搬家後還有幾箱沒拆。」）；沒交往不演
 // 修改前：沒有這些群組、訊息和事件（全部失敗）
 // 2026-10-28 AA_518 第 4-12 改的（企劃線 973dd1b74，SIS-B15-1028）：C1 要見過她（met_sis）——第 4 節的前置多 met_sis；沒見過的不演在 tests/aa518_sis_b15_unit.js。
+// 2026-11-07 AA_611 第 1 節第 11 列（企劃線 3f85566f4）：C2 7/11 那一句換成學姊說「阿公奶奶要搬到小一點的房子。我在幫忙打包。」（搬的是阿公奶奶家；第 5 節期望值照換）。
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -91,7 +92,7 @@ GM.money=function(n){ G.money+=n; };
   const c2=ev('ev_sis_c2_room'); const dat=(sinceDay,day,h)=>{ fresh(sinceDay,12,'dorm',{SIS_FESTIVAL_MET:true}); G.stage='law'; ROM.start(G,'heroine_05'); G.day=day; G.weekday=wdOf(day); G.hour=h; STORY.phoneRules(GM); };
   dat(j11-30,j11,14.9); check('5. 7/11 以前就交往：C2 日子＝7/11；15:00 以前不演',STORY.sisC2Day(G)===j11&&!EVENTS.check(c2),String(STORY.sisC2Day(G)));
   G.hour=15; check('5. 7/11 15:00 演',EVENTS.check(c2));
-  said=[]; await EVENTS.run(c2); L=lines(); check('5. 房間：「（家裡要搬家。她的房間地上好幾個紙箱……）」＋筆記本拍照',JSON.stringify(L)===JSON.stringify(['（家裡要搬家。她的房間地上好幾個紙箱，一半已經封起來。）','（書架最下面一層，一本封面有點皺的筆記本。大一的通識課。她翻開，停在一頁，笑了一下，拿起手機拍照。）'])&&G.flags.SIS_C2_ROOM===j11,JSON.stringify(L));
+  said=[]; await EVENTS.run(c2); L=lines(); check('5. 房間：學姊「阿公奶奶要搬到小一點的房子。我在幫忙打包。」（AA_611 第 11 列，企劃線 3f85566f4：原本旁白「（家裡要搬家。……）」）＋筆記本拍照',L.length===2&&/^[^：]+：阿公奶奶要搬到小一點的房子。我在幫忙打包。$/.test(L[0])&&L[1]==='（書架最下面一層，一本封面有點皺的筆記本。大一的通識課。她翻開，停在一頁，笑了一下，拿起手機拍照。）'&&G.flags.SIS_C2_ROOM===j11,JSON.stringify(L));
   check('5. 相簿收「筆記本那一頁」（不放圖）',(G.album||[]).filter(a=>a.id==='sis_notebook').length===1&&G.album.find(a=>a.id==='sis_notebook').bg==='');
   check('5. 房間只演她：participants 空的（不算期末的一起在場）',c2.participants.length===0);
   run(15.1,15.9); check('5. 16:00 以前沒有私訊',!PHONE.sent(G,'sis_c2_msg'));

@@ -334,7 +334,7 @@ const PG=(function(){
   /* ---------- 出遊（可以不去的）---------- */
   S.PLAZA={x:-34,z:12.5,yaw:Math.PI};   /* 傅鐘廣場北緣（zones3d.js：傅鐘 (-38,16.5)）*/
   S.planTe=function(G,who,kind){ if(typeof TERMEND==='undefined'||typeof OUT==='undefined') return false; const TE=L().TE, spec=(kind==='heart'?TE.HEART:TE.GF)[who]; if(!spec) return false;
-    const second=kind==='heart'&&(TERMEND.rec(G).think||{})[who]!=null, h=(second&&spec.h2)||spec.h||17.5;
+    const second=kind==='heart'&&(TERMEND.rec(G).think||{})[who]!=null, h=(kind==='gf'&&spec.hSis&&S.knowsSis(G)&&spec.sis)?spec.hSis:((second&&spec.h2)||spec.h||17.5);   /* AA_611 第 14 列：學姊「我七點才到」＝那頓飯 19:00（TE.GF.heroine_05.hSis）*/
     const te=kind==='heart'?TERMEND.heart(who,'Y4S2'):TERMEND.gf(who,'Y4S2'), PL=(typeof TERMEND_LINES!=='undefined'&&TERMEND_LINES.PLACE[te&&te.place])||{}, pname=(te&&te.placeName)||PL.name||'';
     TERMEND.rec(G,'Y4S2').picked={who,kind,day:G.day};
     const c=OUT.get(G,'pg_grad_cafe'); if(c&&c.state==='planned') c.state='cancelled';   /* 接了一對一的不去 Café */
@@ -392,9 +392,10 @@ const PG=(function(){
   S.CLASS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxuan','heroine_01','classmate_youchen'];   /* 同班（大合照）*/
   S.PARTNER_ORDER=['kexin','heroine_05','heroine_01','heroine_03','heroine_04','heroine_02'];   /* 沛珊在台南：前一晚的訊息、18:00 視訊 */
   /* AA_392 第 8 節 fatherGradDue／fatherGrad（典禮上的她爸爸）：AA_591 決1 甲刪過；AA_609 第 7 節改成她奶奶——和她交往中、演過 3/17 的晚餐（MET_SIS_FATHER，'grad'＝舊版在典禮上見過的不算）*/
+  S.knowsSis=G=>!!(G&&G.flags&&G.flags.KNOWS_SIS_ALISON);   /* AA_611：礁溪那天知道學姊和 Alison 是姊妹（encounters.js D24 的 setFlag）*/
   S.fatherGradDue=G=>{ const F=G.flags, m=F.MET_SIS_FATHER; return S.dating(G,'heroine_05')&&!!m&&m!=='grad'; };
   S.fatherGrad=async function(GM){ const G=GM.G, W=L().THERMOS.fatherGrad; if(!W) return; await S.play(GM,W.lines.map(x=>[x[0],String(x[1]).replace('{name}',G.name||'祐廷')]));
-    const k=await GM.choose(W.opts.map(o=>({t:o.t}))); await S.play(GM,(W.opts[k]||W.opts[0]).say); };
+    const k=await GM.choose(W.opts.map(o=>({t:o.t}))), o=W.opts[k]||W.opts[0]; await S.play(GM,o.sayKnows&&S.knowsSis(G)?o.sayKnows:o.say); };   /* AA_611 第 13 列：知道 Alison 是她妹妹＝sayKnows */
   S.thermos=async function(GM){ const G=GM.G, F=G.flags, W=L().THERMOS, sis=S.who(G,'heroine_05'); if(S.fatherGradDue(G)) await S.fatherGrad(GM); await S.play(GM,[].concat(...W.lines.map(x=>Array.isArray(x)&&x[0]==='heroine_05'&&x[1]==='恭喜畢業。'?(W.hug&&S.dating(G,'heroine_05')?[[null,W.hug]]:[]).concat([[x[0],DLY(G,'thermos2',x[1])]]):[x])));   /* AA_591 第 175 列「恭喜畢業。」；決9（新7）交往中先抱一下 */   /* 交換延畢：「學士服借的吧。……一月還要再穿一次。」*/
     if(F.HOT_WATER) await GM.say(sis,W.hotWater);   /* 黑咖啡那一句（THERMOS 的 helped）拿掉：連著空的保溫瓶那一次（AA 2026-11-02 20:26，D127、AA_595）*/
     if(F.SIS7_PHOTO&&typeof SISB16_LINES!=='undefined'&&Array.isArray(SISB16_LINES.thermosPhoto)) await S.play(GM,SISB16_LINES.thermosPhoto);   /* AA_523 5-5（企劃線 0d7b5388b）：階梯 S7-L8 選「一起參加典禮。」（她回「嗯。那天記得拍照。」，記 SIS7_PHOTO）＝最後多兩句 */
@@ -424,6 +425,7 @@ const PG=(function(){
       if(S.dating(G,id)) kind='gf'; else { let h=false; try{ h=!!w&&TERMEND.heartWhy(G,id,w)===true; }catch(e){ h=false; } if(h) kind='heart'; }
       if(!kind) continue; asked.add(id); const who=S.who(G,id);
       for(const t of [].concat(kind==='gf'?TE.GF[id].invite:(think[id]!=null?TE.HEART[id].invite2:TE.HEART[id].invite))) await GM.say(who,t);
+      if(kind==='gf'&&TE.GF[id].sis&&S.knowsSis(G)) await GM.say(who,TE.GF[id].sis);   /* AA_611 第 14 列：訂位那句後「晚上要先陪 Alison 拍照，我七點才到。」*/
       const hd=id==='heroine_05'?DLY(G,'sisDecline',TE.HEART[id].decline):TE.HEART[id].decline, ng=(typeof TERMEND_LINES!=='undefined'&&((S.exchDelayed(G)&&TERMEND_LINES.AUTO_NO_GRAD_DELAYED)||TERMEND_LINES.AUTO_NO_GRAD))||{};   /* 交換延畢：「好。……今天恭喜。」／「好。今天恭喜。」*/
       const dec=kind==='heart'?hd:(ng[id]||hd);
       if(picked){ await GM.say(S.who(G,'me'),TE.ME_NO.replace(/[「」]/g,'')); await GM.say(who,dec); continue; }   /* 已經接了一個：同一個晚上只有一場一對一 */
@@ -452,7 +454,7 @@ const PG=(function(){
     } finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
     await GM.fade(true); toAtLeast(GM,gd*24+13.5); await GM.fade(false); }
   async function cafeScene(GM){ const G=GM.G, F=G.flags, C=L().CAFE, A=adv(); GM.sceneBegin(); try{ if(A) A.begin({background:'blur'});
-      await S.play(GM,C.open); await S.play(GM,C.pool.filter(x=>S.at(G,x[0],'FAMILIAR')).slice(0,3)); await S.play(GM,C.close); F.GRAD_EVENING='cafe'; }
+      await S.play(GM,C.open); if(C.sis&&S.knowsSis(G)) await S.play(GM,C.sis); await S.play(GM,C.pool.filter(x=>S.at(G,x[0],'FAMILIAR')).slice(0,3)); await S.play(GM,C.close); F.GRAD_EVENING='cafe'; }
     finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
     await GM.fade(true); toAtLeast(GM,S.gradDay()*24+19.75); await GM.fade(false); }
   /* 送禮物（AA_345 G9）：四選一；她的反應＋合適的那一句；只算一次（SIS_BDAY_GIFT_Y4）、不扣錢 */
@@ -490,6 +492,7 @@ const PG=(function(){
   S.noteScene=async function(GM,y){ const G=GM.G, N=L().NOTE, sis=S.who(G,'heroine_05'), d=S.dating(G,'heroine_05');
     if(y===2030&&S.retaker(G)) await GM.say(null,N.retake.note); else await S.play(GM,N.lines);
     if(d) await GM.say(sis,y===2030&&N.lover2030&&S.sisWaited2029(G)?N.lover2030:N.lover);   /* 戀人版當面給：最後多一句；AA_472 第 5 節：2030 第二次考、去年她也在便利商店等＝換句 */
+    if(d&&y===2029&&N.loverSis&&S.knowsSis(G)) await GM.say(sis,N.loverSis);   /* AA_611 第 15 列：2029 國考 Alison 也考（EXAM.go 群組有她）；知道是姊妹＝便利商店那句後多一句 */
     if(y===2029) G.flags.SIS_STORE_2029=d; };   /* 2029 那一次她有沒有說「我在對面的便利商店等」（AA_472 第 5 節）*/
   /* 2029 一試那天她在對面的便利商店等過（戀人版當面給便條）：記 SIS_STORE_2029；舊存檔沒有＝2029 有考、現在這一段交往在 2029-08-04 以前就開始 */
   S.sisWaited2029=G=>{ const F=G.flags||{}; if(F.SIS_STORE_2029!=null) return F.SIS_STORE_2029===true; if(F.BAR_SIT_2029!==true||!S.dating(G,'heroine_05')) return false;

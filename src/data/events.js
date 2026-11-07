@@ -363,7 +363,7 @@ const STORY_EVENTS=[
   { id:'ev_sis_c2_room', title:'筆記本', participants:[],   /* 只演她、祐廷不在場：不算期末的「一起在場」*/ location:'any', trigger:'auto', time:[15,23], once:true, priority:7, background:'dark',
     prereq:{flags:['dating_heroine_05','SIS_FESTIVAL_MET'],custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.sisC2Day?STORY.sisC2Day(G):null; return d!=null&&G.day>=d; }},
     dialogue:[ {scene:'溫學姊的房間',bg:'sis_room_moving'},   /* 11-02 使用者生成（搬家的紙箱；原本沒有 bg＝深色底）*/
-      {if:{custom:G=>G.day===STORY.dayOfKey('2026-07-11')},speaker:null,text:'（家裡要搬家。她的房間地上好幾個紙箱，一半已經封起來。）'},
+      {if:{custom:G=>G.day===STORY.dayOfKey('2026-07-11')},speaker:'heroine_05',expression:'neutral',text:'阿公奶奶要搬到小一點的房子。我在幫忙打包。'},   /* AA_611 第 1 節第 11 列（企劃線 3f85566f4）：搬的是阿公奶奶家（原本旁白「（家裡要搬家。她的房間地上好幾個紙箱，一半已經封起來。）」；紙箱在背景 sis_room_moving）*/
       {unless:{custom:G=>G.day===STORY.dayOfKey('2026-07-11')},speaker:null,text:'（搬家後還有幾箱沒拆。）'},
       {speaker:null,text:'（書架最下面一層，一本封面有點皺的筆記本。大一的通識課。她翻開，停在一頁，笑了一下，拿起手機拍照。）'} ],
     after:G=>{ G.flags.SIS_C2_ROOM=G.day; G.flags.SIS_C2_H=Math.min(23.5,Math.max(16,(G.hour%24)+0.25)); if(typeof STORY!=='undefined'&&STORY.albumMemory) STORY.albumMemory(G,'sis_notebook','筆記本那一頁',''); } },   /* Life Album 收「筆記本那一頁」（BB_188 C2）：號碼不能看得清楚，先不放圖 */
@@ -5065,6 +5065,7 @@ STORY_EVENTS.push({ id:'ev_grad_debate_teach', title:'這一段你來講', parti
       dialogue:[ {speaker:null,text:'（刑總下課。走廊上，阿哲已經在點人數。）'},
         {speaker:'zhe',text:'考完那天，吃飯。柏翰、明軒、Alison、{name}。芯慈呢？'},
         {speaker:'yu',text:'她說要提前一天約才算數。我幫她約了！'},
+        {speaker:'yu',text:'我姊二月要考研究所，法律的。她最近都在讀書，我傳訊息她都沒回。'},{set:{HEARD_YU_SISTER:true}},   /* AA_609 8-1（AA_606 第 4 節，企劃線 7b9fee50b）：不提學校、不提名字；記 HEARD_YU_SISTER＝礁溪那一場（encounters.js D24）多「你想起 Alison 說過……」那一句旁白 */
         {speaker:'classmate_bohan',text:'最後一科考完是下午三點十分。'},
         {speaker:'classmate_mingxuan',text:'燒臘店四點半才開。……我知道一家三點就開的。'},
         {speaker:'zhe',text:'所以哪家？'},

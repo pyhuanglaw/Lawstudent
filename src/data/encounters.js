@@ -113,15 +113,17 @@ const ENCOUNTERS={
        「爸媽排好了」那一句照它換；相認用 2D：Alison 那幾句放進同一段對話、用她的立繪（{who:'yu'}，encounter3d.js S.meet），3D 場景不多放人；不改成手機訊息（X25）。
        ifFlag：聽 Alison 說過她姊姊在考法研所（HEARD_YU_SISTER，AA_609 8-1）才有那一句旁白；friend 多最後一句（同行照舊）。
        onceMemo＝打過招呼（記了 ENC_D24_SIS）就不再遇到這一場（舊存檔看過舊版的也不重演）；setFlag＝演完記 KNOWS_SIS_ALISON（舊存檔看過舊版的不設）。
-       AA_684 第 8 項：setMem＝演完在學姊的人物頁另外記一條 KNOWS_SIS_ALISON（「Alison 是她妹妹」，labels 那一條；舊存檔看過舊版的不記），ENC_D24_SIS 的字改回中性 */
+       AA_684 第 8 項：setMem＝演完在學姊的人物頁另外記一條 KNOWS_SIS_ALISON（「Alison 是她妹妹」，labels 那一條；舊存檔看過舊版的不記），ENC_D24_SIS 的字改回中性。
+       AA_611 第 1 節第 1 列（企劃線 3f85566f4，AA 定 D109）：稿改兩處——旁白「她姊姊在考法研所」→「她姊姊考上法研所了」（大三的時候學姊已經碩二）、Alison「他是阿哲的同學啊！」→「他是我們班的啊！」（祐廷就是她同班同學） */
     {who:'heroine_05',spot:'D24',why:'她和家人坐在泡腳池邊：媽媽、阿公、奶奶，還有一個背對你的女生。',days:[0],from:10,to:17,terms:['Y3S1','Y3S2','Y4S2'],weeks:[3],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D24_SIS',away:'和家人在礁溪',onceMemo:true,setFlag:'KNOWS_SIS_ALISON',setMem:'KNOWS_SIS_ALISON',
-      lines:{acq:['學弟。……我們一家來泡腳。',{narr:'（那個背對你的女生轉過頭來。是 Alison。）'},{who:'yu',t:'欸？{name}？！你怎麼在這裡！'},{narr:'（你想起 Alison 說過，她姊姊在考法研所。原來就是學姊。）',ifFlag:'HEARD_YU_SISTER'},'……你們認識？',{who:'yu',t:'他是阿哲的同學啊！……姊，他是妳直屬？'},'嗯。',{who:'yu',t:'（看看你，又看看她）你們都沒說過！'},'妳也沒說。',{who:'yu',t:'……我是想說，又沒人問。'}],friend:['學弟。……我們一家來泡腳。',{narr:'（那個背對你的女生轉過頭來。是 Alison。）'},{who:'yu',t:'欸？{name}？！你怎麼在這裡！'},{narr:'（你想起 Alison 說過，她姊姊在考法研所。原來就是學姊。）',ifFlag:'HEARD_YU_SISTER'},'……你們認識？',{who:'yu',t:'他是阿哲的同學啊！……姊，他是妳直屬？'},'嗯。',{who:'yu',t:'（看看你，又看看她）你們都沒說過！'},'妳也沒說。',{who:'yu',t:'……我是想說，又沒人問。'},'坐下來一起泡吧。阿公說人多比較好。'],
+      lines:{acq:['學弟。……我們一家來泡腳。',{narr:'（那個背對你的女生轉過頭來。是 Alison。）'},{who:'yu',t:'欸？{name}？！你怎麼在這裡！'},{narr:'（你想起 Alison 說過，她姊姊考上法研所了。原來就是學姊。）',ifFlag:'HEARD_YU_SISTER'},'……你們認識？',{who:'yu',t:'他是我們班的啊！……姊，他是妳直屬？'},'嗯。',{who:'yu',t:'（看看你，又看看她）你們都沒說過！'},'妳也沒說。',{who:'yu',t:'……我是想說，又沒人問。'}],friend:['學弟。……我們一家來泡腳。',{narr:'（那個背對你的女生轉過頭來。是 Alison。）'},{who:'yu',t:'欸？{name}？！你怎麼在這裡！'},{narr:'（你想起 Alison 說過，她姊姊考上法研所了。原來就是學姊。）',ifFlag:'HEARD_YU_SISTER'},'……你們認識？',{who:'yu',t:'他是我們班的啊！……姊，他是妳直屬？'},'嗯。',{who:'yu',t:'（看看你，又看看她）你們都沒說過！'},'妳也沒說。',{who:'yu',t:'……我是想說，又沒人問。'},'坐下來一起泡吧。阿公說人多比較好。'],
         dating:['你怎麼在這裡？',{narr:'（她旁邊的女生轉過頭來。是 Alison。）'},{who:'yu',t:'{name}？！……姊，妳男朋友是他？'},'……我好像沒跟你講過。這是我妹。',{who:'yu',t:'妳都沒講！'},'妳也沒講。',{narr:'（學姊看了你一眼，回去坐好。）'}]},src:'BB_150 1、2-3（交往中不一起泡：同行台詞 cond notDating）；AA_609 第 8 節（AA_675 2-4）'},
     {who:'heroine_02',spot:'D25',why:'她坐在堤防上，手上一台底片相機，等著一道浪。',days:[6],from:14,to:18.5,terms:['Y1S1','Y2S1','Y3S2'],weeks:[4],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D25_ZR',away:'在外澳拍照',
       lines:{acq:['你也來看海？','我在拍照。底片的，一卷只有三十六張。'],friend:['別動。你站在那裡，風就小了。','這一張我想拍很久了。浪剛好要碎掉的那一秒。'],dating:['你怎麼會在這裡？','我還剩最後一張。拍你好了。']},src:'BB_150 1、2-5'}
   ],
   /* 第一次在這裡打招呼以後，她（他）下一次正常聊天時說一次（AA_162 第 4 節、BB_144 第 4 節；R7：劇情事件不讀 ENC_）。
-     place：只在那個區域說（芷若在 Café）；phone：改成手機小事（語彤傳照片、可昕不在台大）。 */
+     place：只在那個區域說（芷若在 Café）；phone：改成手機小事（語彤傳照片、可昕不在台大）；
+     linesIfNot：沒有那一筆記憶＝換那一套；linesIfFlag：有那個旗標＝換那一套（AA_611 第 2 列：礁溪 KNOWS_SIS_ALISON）。 */
   school:{
     ENC_D04_ZR:{who:'heroine_02',place:['cafe'],lines:['上次在西門町，那部你後來有去看嗎？']},
     ENC_D12_ZQ:{who:'heroine_04',lines:['大稻埕那天我在改的那關，後來改簡單了。']},
@@ -154,7 +156,7 @@ const ENCOUNTERS={
     ENC_D18_XC:{who:'classmate_xinci',lines:['我們後來找到那個角度了。光差一點，不過還是拍了。']},
     ENC_D09_KX:{who:'kexin',phone:['貓空那天，兩分四十秒是對的。邵鈞到現在還在講。']},
     ENC_D18_ZQ:{who:'heroine_04',lines:['九份那些燈籠，我做成一關了。下次給你玩。']},
-    ENC_D24_SIS:{who:'heroine_05',lines:['礁溪那天以後，我媽問了你好幾次。我跟她說你很好。']},
+    ENC_D24_SIS:{who:'heroine_05',lines:['礁溪那天以後，我媽問了你好幾次。我跟她說你很好。'],linesIfFlag:{flag:'KNOWS_SIS_ALISON',lines:['Alison 回家講了一整晚。']}},   /* AA_611 第 1 節第 2 列（企劃線 3f85566f4）：知道 Alison 是她妹妹（KNOWS_SIS_ALISON，新版礁溪演過才有）＝換這一句；舊存檔看過舊版的照舊 */
     ENC_D20_PS:{who:'classmate_peishan',lines:['烏來那天回去，有個小孩寫作文寫到你。']},
     ENC_D25_ZR:{who:'heroine_02',place:['cafe'],lines:['外澳那卷底片洗出來了。有一張你在角落，我拿給你。']},
     ENC_D04_ZR:{who:'heroine_02',place:['cafe'],lines:['上次那部片。……結局我猜錯了。']}   /* AA_524 Z11：西門偶遇「今天的片，下次在 Café 說。」（enc_walk.js）——照 ENC_D02_ZR 的做法，下一次在 Café 說 */

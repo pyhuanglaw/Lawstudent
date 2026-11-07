@@ -4,7 +4,7 @@
 //      不在研究室＝21:00 私訊同兩句；兩種都排 3/17 18:30 的出遊（must）
 //   2  3/17 ev_sis_y4_father「她奶奶的晚餐」（第 2 節＋協調者 11-03 的修正：開頭三句「你就是{name}？來，多吃一點。」「奶奶，他自己會夾。」「好、好。」）：
 //      不 retired、沒有 outingMissed、沒有她爸爸的四句追問；MET_SIS_FATHER＋記憶「三月在公館和她奶奶吃過的那一頓」；出發選單只有「出發」；AA_591 版標成 missed 的舊存檔改回 planned
-//   3  祐廷畢業典禮（第 7 節）：交往中＋MET_SIS_FATHER＝她奶奶「{name}，畢業快樂。」＋兩個選項；THERMOS.father 拿掉；沒交往、沒見過的不演
+//   3  祐廷畢業典禮（第 7 節）：交往中＋MET_SIS_FATHER＝她奶奶「{name}，畢業快樂。」＋兩個選項；THERMOS.father 拿掉；沒交往、沒見過的不演（第二個選項的回答照 AA_611 第 13 列換了）
 //   4  美國 208 剪報 ev_us208_clipping（第 4 節）：七場回到七場、她奶奶寄的、他→她、記憶名稱
 //   5  出來走一圈（第 5 節）：剪報那一段恢復成「我奶奶寄了一份剪報給我。……」
 //   6  其他（第 6 節）：pg_dates 照媽媽、礁溪偶遇／重訪／記憶「媽媽、奶奶」、她的畢業典禮「來，拍一張。」給學姊的奶奶、「九月開學？」照媽媽
@@ -80,7 +80,7 @@ await sec(3,async()=>{
   check('3. THERMOS.father（「我奶奶叫我跟你說：恭喜。」）拿掉；fatherGrad 在',W.father===undefined&&!!W.fatherGrad);
   for(const k of [0,1]){ const G=setup('2029-06-02',12,'campus','CLOSE',{MET_SIS_FATHER:true,SIS_FATHER_ASKED:'face'}); H.date(ID); G.name='祐廷'; H.said=[]; H.opts=[]; H.picks=[k];
     await PG.thermos(GM); const L=said();
-    const want=['（典禮結束，學姊身邊站著她奶奶。）','祐廷，畢業快樂。','（她拍了拍你的手臂。）',k?'書瑀說你今天畢業，我就跟來了。':'好、好。有空再來吃飯。'];
+    const want=['（典禮結束，學姊身邊站著她奶奶。）','祐廷，畢業快樂。','（她拍了拍你的手臂。）',k?'今天我孫女也畢業，我就來了。':'好、好。有空再來吃飯。'];   /* AA_611 第 13 列（企劃線 3f85566f4）：「書瑀說你今天畢業，我就跟來了。」改成不點名的這一句（KNOWS_SIS_ALISON 那一版在 tests/aa611_sisters_unit.js）*/
     check('3. 交往中、見過奶奶：保溫瓶前先演她奶奶（選 '+k+'）；說話人「書瑀奶奶」',J(L.slice(0,4))===J(want)&&J(H.opts[0])===J(['「謝謝奶奶。」','「奶奶怎麼也來了？」'])&&who('祐廷，畢業快樂。')==='書瑀奶奶'&&L.includes('恭喜畢業。')&&L.indexOf('恭喜畢業。')>3,J(L));
     check('3. 沒有「爸」、沒有「上次的飯沒吃到」「上次對不起」、沒有轉交的「恭喜。」',!L.some(t=>DAD.test(t)||/上次的飯沒吃到|上次對不起|叫我跟你說：恭喜/.test(t))&&!H.opts.flat().some(o=>/上次對不起|伯父/.test(o))&&H.G.flags.SIS_THERMOS===true,J(L)); }
   for(const [fl,dt,why] of [[{MET_SIS_FATHER:true},false,'見過、沒交往'],[{SIS_FATHER_ASKED:'msg'},true,'交往中、沒見過'],[{MET_SIS_FATHER:'grad'},true,'舊版在典禮見過（grad）']]){
