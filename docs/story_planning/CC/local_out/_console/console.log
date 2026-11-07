@@ -604,3 +604,29 @@
        68e089cb2..3ef3e36ab  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [13:32:15] ==== END   LIVE_V91021_p0  exit=0  208s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3ef3e36ab..130c477f5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:32:19] ==== END   LIVE_V91021_deploy  exit=0  212s   ====
+[13:32:22] memory 42% before starting LIVE_V91021_p0 (1 running)
+[13:32:22] blender item MD_tx_v3 waits until the 2 running item(s) finish; other items go first
+[13:32:22] blender item MD_dabu_v1 waits until the 2 running item(s) finish; other items go first
+[13:32:22] blender item MD_haopai_v1 waits until the 2 running item(s) finish; other items go first
+[13:32:22] blender item MD_xinsheng_v1 waits until the 2 running item(s) finish; other items go first
+[13:32:22] blender item MD_xinsheng_v2 waits until the 2 running item(s) finish; other items go first
+[13:32:22] blender item MD_tx_v2 waits until the 2 running item(s) finish; other items go first
+[13:32:22] blender item MD_tx_v2b waits until the 2 running item(s) finish; other items go first
+[13:32:22] ==== START LIVE_V91021_p0  (game @ 92c3daad8adf1bb5f707b0b411640c7b13ff7052) ====
+[13:32:25] [res] cpu=0% mem=42% (13.4/31.4 GB) chrome_testing=0  START LIVE_V91021_p0
+[13:32:25] memory 42% before starting LIVE_V91021_deploy (1 running)
+[13:32:25] blender item MD_tx_v3 waits until the 2 running item(s) finish; other items go first
+[13:32:25] blender item MD_dabu_v1 waits until the 2 running item(s) finish; other items go first
+[13:32:25] blender item MD_haopai_v1 waits until the 2 running item(s) finish; other items go first
+[13:32:25] blender item MD_xinsheng_v1 waits until the 2 running item(s) finish; other items go first
+[13:32:25] blender item MD_xinsheng_v2 waits until the 2 running item(s) finish; other items go first
+[13:32:25] blender item MD_tx_v2 waits until the 2 running item(s) finish; other items go first
+[13:32:25] blender item MD_tx_v2b waits until the 2 running item(s) finish; other items go first
+[13:32:25] ==== START LIVE_V91021_deploy  (game @ 92c3daad8adf1bb5f707b0b411640c7b13ff7052) ====
+[13:32:28] [res] cpu=7% mem=44% (13.4/31.4 GB) chrome_testing=0  START LIVE_V91021_deploy
+[13:33:40] 正在跑：LIVE_V91021_p0（已跑 1 分／上限 40 分）、LIVE_V91021_deploy（已跑 1 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:35:24] [res] cpu=19% mem=52% (16.3/31.4 GB) chrome_testing=4  END LIVE_V91021_p0
