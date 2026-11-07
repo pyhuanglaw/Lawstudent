@@ -43489,7 +43489,7 @@
    "status": "已整合待測試",
    "priority": "P1",
    "note": "DORM-CEIL-1103 的動作部分（LAWWW2 11-03 分工）",
-   "next": "【11-07 05:3x LAWWW-B】tests/ladder_headroom_unit.js ④ 平滑（A、B 兩種版面：手腳相鄰兩格移動量差 22.7／32.6 cm，上限 8 cm）在 GHA 全套一直 FAIL（11-07 03:5x 起看到，改動前後一樣）；要查是哪一個 commit 開始、動畫本身還是門檻。 ｜ BB 測（遊戲預設 SLEEP_FULL false：玩家看得到的是起床跪著→下梯）；LAWWW2 同鏡頭截圖"
+   "next": "【11-07 07:4x LAWWW-B】ladder_headroom ④ GHA 一直紅：二分搜尋 db832b6bf 過、fb8a5b0ff（CLIMB-GRIPS-FEET 手腳踩踏階、換手）起 FAIL；④ 換階那幾格改照 climb_grips_feet ⑨ 規格（≤28 cm、每格 ≤26 cm）量 → A（遊戲版面）PASS 22.7／23.7 cm；B（備用版面 3.0 m 天花板、遊戲沒用）換階 32.6／36.2 cm 超過，印 NOTE【已知】不擋——要重新打開爬梯子演出（SLEEP_FULL）時再修 B 最上面兩階的腳步（333931c12）。 ｜ 【11-07 05:3x LAWWW-B】tests/ladder_headroom_unit.js ④ 平滑（A、B 兩種版面：手腳相鄰兩格移動量差 22.7／32.6 cm，上限 8 cm）在 GHA 全套一直 FAIL（11-07 03:5x 起看到，改動前後一樣）；要查是哪一個 commit 開始、動畫本身還是門檻。 ｜ BB 測（遊戲預設 SLEEP_FULL false：玩家看得到的是起床跪著→下梯）；LAWWW2 同鏡頭截圖"
   },
   {
    "first": {
@@ -47003,7 +47003,7 @@
    },
    "source": "LAWWW2-C 11-05 01:13 DORM-LADDER-HEAD-GRIP-1102 ② 交件 README「給 LAWWW」（動作歸 LAWWW，D128）",
    "authorized": "D100 LAWWW 整合／動畫；D128",
-   "next": "預設不再演爬梯（WAKE-AT-DOOR-1105、SLEEP_FULL false）；ladder_headroom ④ 記為已知",
+   "next": "【11-07 07:4x LAWWW-B】ladder_headroom ④ GHA 一直紅：二分搜尋 db832b6bf 過、fb8a5b0ff（CLIMB-GRIPS-FEET 手腳踩踏階、換手）起 FAIL；④ 換階那幾格改照 climb_grips_feet ⑨ 規格（≤28 cm、每格 ≤26 cm）量 → A（遊戲版面）PASS 22.7／23.7 cm；B（備用版面 3.0 m 天花板、遊戲沒用）換階 32.6／36.2 cm 超過，印 NOTE【已知】不擋——要重新打開爬梯子演出（SLEEP_FULL）時再修 B 最上面兩階的腳步（333931c12）。 ｜ 預設不再演爬梯（WAKE-AT-DOOR-1105、SLEEP_FULL false）；ladder_headroom ④ 記為已知",
    "sha": "c863267bd"
   },
   {
