@@ -49389,7 +49389,7 @@
    "id": "BUG-LOAD-INVITE-LEAK-1107",
    "title": "約會演完馬上讀早一點的存檔：新的一局 2.5～4.5 秒後時鐘跳到 18:00（上一局排的「下午用完、跳下一段」CLS._jump 讀檔沒清），畫面還是上一局的約會提醒",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -49401,7 +49401,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 19:2x LAWWW-B】b97fcf59e 推到開發分支（9c0120628 GHA 綠了以後）；SHA 給 BB-B，CC-B 用 cc_loadleak_probe 四種讀法重跑。 ｜ 【11-07 19:3x LAWWW-B】原因：INV.meet 演完 S.spendSlot→CLS.queueJump 排 CLS._jump（下午用完），演完那一刻還在 busy＝留著；讀檔沒清（LOADLOCKS 沒登記），新的一局空下來 STORY.tick 讀 CLS._jump 跳 18:00。提醒 toast 是上一局畫面上的字（#toast 藏起來 innerText 還在）。修：classes3d.js LOADLOCKS classes3d:jump＋排跳轉記下哪一局（WeakMap，別局排的丟掉）；game3d.js toastClear（loadRelease 呼叫）。tests/load_jump_leak_unit.js（修改前 FAIL）。等 GHA 綠了推，SHA 給 BB-B，CC-B 用 cc_loadleak_probe 四種讀法重跑。",
+   "next": "【11-07 19:5x LAWWW-B】BB-B FIXED＝已驗收。 ｜ 【11-07 19:2x LAWWW-B】b97fcf59e 推到開發分支（9c0120628 GHA 綠了以後）；SHA 給 BB-B，CC-B 用 cc_loadleak_probe 四種讀法重跑。 ｜ 【11-07 19:3x LAWWW-B】原因：INV.meet 演完 S.spendSlot→CLS.queueJump 排 CLS._jump（下午用完），演完那一刻還在 busy＝留著；讀檔沒清（LOADLOCKS 沒登記），新的一局空下來 STORY.tick 讀 CLS._jump 跳 18:00。提醒 toast 是上一局畫面上的字（#toast 藏起來 innerText 還在）。修：classes3d.js LOADLOCKS classes3d:jump＋排跳轉記下哪一局（WeakMap，別局排的丟掉）；game3d.js toastClear（loadRelease 呼叫）。tests/load_jump_leak_unit.js（修改前 FAIL）。等 GHA 綠了推，SHA 給 BB-B，CC-B 用 cc_loadleak_probe 四種讀法重跑。",
    "xai": {
     "spec": "BB-B 11-07 19:10、CC-B 19:13（claude/cc-testing 21e107409 docs/story_planning/CC/logs/LOADLEAK_e647/、探針 cc_loadleak_probe.py）",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -49410,7 +49410,7 @@
     "ack": "ACK",
     "owner": "LAWWW"
    },
-   "evidence": "",
+   "evidence": "2026-11-07 BB-B／CC-B 瀏覽器（雲端 Playwright＋SwiftShader，不是 iPhone），aa2a719bf（修在 b97fcf59e）：cc_loadleak_probe 四種讀法（選單／load_state × 演完馬上／等 3 秒）讀檔後時鐘照常走、沒有上一局的約會提醒、busyDepth 一直 0，書店走 1 分鐘沒冒出東西；連續讀欄位 1→2→1 都對；修正前同一支探針 2.5～9.5 秒跳 18:00（cc-testing 1461de63ac，BB_255 649b0cb30）；Node load_jump_leak_unit（修改前 FAIL）等 10 支 ALL PASS。「選單＋等 3 秒」3 次有 2 次探針沒按到「讀取」（探針問題，CC 查），讀到的那次 PASS",
    "sha": "b97fcf59e"
   },
   {
