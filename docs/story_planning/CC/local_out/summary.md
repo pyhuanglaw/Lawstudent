@@ -1748,3 +1748,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1971.2s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 1971.2s] BROWSER DISCONNECTED
 - 2026-11-07T18:00:13  PERF_WZ_DC_after  sha=8530a4b2623634e3a189abf0c286dc8c86dd00a0  exit=0  155s      [  95.7s] [after night] crowd：這個時段 12 m 內最多只有 3 人（不到 5 人，沒另外拍）；spawn 那個鏡頭入鏡 6 人——人物多的鏡頭就看 spawn / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 96.2s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 96.2s] BROWSER DISCONNECTED
+- 2026-11-07T18:00:57  HAIR_a_c8b0  sha=c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb  exit=0  196s      [campus] 總覽 hair_overview_campus11_0.png（6 人 × 5 張） / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 117.5s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 117.5s] BROWSER DISCONNECTED
