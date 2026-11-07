@@ -1,0 +1,24 @@
+{
+  "rerun": "r3",
+  "id": "FITMORPH_r3_b987",
+  "sha": "b987cb1cf7fff1bc587dd77eb22b0c6a4e8a2dac",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_fitmorph_probe.py",
+  "env": "ZONE=gym;CAMDIST=4.2;FITS=0,60,90;RERUN=r3;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T15:10:34",
+  "end": "2026-11-07T15:16:31",
+  "seconds": 356,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "19",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 63,
+    "mem": 51,
+    "used_gb": 15.9,
+    "chrome_testing": 10
+  }
+}

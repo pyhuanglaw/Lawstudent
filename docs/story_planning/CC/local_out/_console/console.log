@@ -631,3 +631,16 @@
 [15:10:37] [res] cpu=5% mem=38% (12.1/31.4 GB) chrome_testing=0  START FITMORPH_r3_b987
 [15:10:37] worktree add b987cb1cf7fff1bc587dd77eb22b0c6a4e8a2dac: invalid reference - fetching main and the commit itself
 [15:14:47] [res] cpu=2% mem=44% (13.9/31.4 GB) chrome_testing=5  END SPORTSWEAR_b987
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2f15a0254..175e3c164  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:14:56] ==== END   SPORTSWEAR_b987  exit=0  253s   ====
+[15:14:59] blender item MD_tx_v3 waits until the 1 running item(s) finish; other items go first
+[15:14:59] blender item MD_dabu_v1 waits until the 1 running item(s) finish; other items go first
+[15:14:59] blender item MD_haopai_v1 waits until the 1 running item(s) finish; other items go first
+[15:14:59] blender item MD_xinsheng_v1 waits until the 1 running item(s) finish; other items go first
+[15:14:59] blender item MD_xinsheng_v2 waits until the 1 running item(s) finish; other items go first
+[15:14:59] blender item MD_tx_v2 waits until the 1 running item(s) finish; other items go first
+[15:14:59] blender item MD_tx_v2b waits until the 1 running item(s) finish; other items go first
+[15:15:34] 正在跑：FITMORPH_r3_b987（已跑 4 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:16:31] [res] cpu=2% mem=39% (12.2/31.4 GB) chrome_testing=0  END FITMORPH_r3_b987
