@@ -126,3 +126,17 @@
 [12:42:55] ==== START SITHEIGHT_moku  (probe @ 9cff7a00bce4a412ca08841c73123c899a4b916e) ====
 [12:42:57] [res] cpu=4% mem=41% (13.1/31.4 GB) chrome_testing=0  START SITHEIGHT_moku
 [12:45:15] [res] cpu=1% mem=42% (13.3/31.4 GB) chrome_testing=0  END SITHEIGHT_moku
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b870e596b..adecdfbea  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:45:21] ==== END   SITHEIGHT_moku  exit=1  140s   ====
+[12:45:24] memory 42% before starting GUITAR_r3 (0 running)
+[12:45:24] memory 42% before starting MOVEOUT_r2 (1 running)
+[12:45:24] memory 42% before starting SOC_peishan_date (2 running)
+[12:45:24] ==== START GUITAR_r3  (probe @ 9cff7a00bce4a412ca08841c73123c899a4b916e) ====
+[12:45:24] ==== START MOVEOUT_r2  (probe @ 9cff7a00bce4a412ca08841c73123c899a4b916e) ====
+[12:45:24] ==== START SOC_peishan_date  (probe @ 9cff7a00bce4a412ca08841c73123c899a4b916e) ====
+[12:45:27] [res] cpu=4% mem=43% (13.4/31.4 GB) chrome_testing=0  START GUITAR_r3
+[12:45:27] [res] cpu=4% mem=43% (13.4/31.4 GB) chrome_testing=0  START SOC_peishan_date
+[12:45:27] [res] cpu=4% mem=43% (13.4/31.4 GB) chrome_testing=0  START MOVEOUT_r2
+[12:47:39] [res] cpu=11% mem=53% (16.8/31.4 GB) chrome_testing=10  END MOVEOUT_r2
