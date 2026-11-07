@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "XS_NIGHT_r2",
+  "sha": "fa79dd7bc32e1e177a8187a070b8c7baf6ef2924",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_fa05_night_probe.py",
+  "env": "PARTS=shops,player;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T16:43:00",
+  "end": "2026-11-07T16:48:20",
+  "seconds": 320,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "30",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 25,
+    "mem": 54,
+    "used_gb": 16.9,
+    "chrome_testing": 13
+  }
+}
