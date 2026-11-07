@@ -1,0 +1,16 @@
+{
+ "id": "LIVE_V91022_deploy",
+ "sha": "74cb8314d578f63448802d95a38ba8fcbaa6bf03",
+ "kind": "game",
+ "script": "tests/deploy_check.py",
+ "env": "XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.22（2026-11-07）",
+ "line_hash": "7071635bcf96",
+ "cmd": "/opt/hostedtoolcache/Python/3.12.16/x64/bin/python3 tests/deploy_check.py https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.22（2026-11-07）",
+ "exit": 0,
+ "timeout": false,
+ "seconds": 186,
+ "result": "ALL PASS",
+ "where": "GitHub Actions（ubuntu、SwiftShader、無 GPU）",
+ "run": "https://github.com/pyhuanglaw/Lawstudent/actions/runs/42376677300",
+ "finished": "2026-11-07 13:27:42Z"
+}
