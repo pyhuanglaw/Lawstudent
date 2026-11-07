@@ -49181,7 +49181,7 @@
    "id": "AA723-CONFESS-PS-1107",
    "title": "AA_723（fca9bcb69）：告白看她的 heart（AA_719 key 加總）＋失敗後的接法（fail／normal／ready／second，再約 2 次＋14 天、第二次一定成功）；沛珊沒交往的線（2026-12-18 起群組不說話、私訊不回、reply1、2028-12-26 重聚林家乾麵 PS_REUNION）＋要關掉／改條件的事件清單 peishan.remove",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -49193,7 +49193,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 18:2x LAWWW-B】改回已整合待測試：secondYes（6f69b94b2）是新的、還沒測；原本的告白重試、沛珊重聚 BB 已驗（evidence 照留）。 ｜ 【11-07 18:2x LAWWW-B】AA-B eca6139aa secondYes：第二次告白接原本答應那一場的換句（以安、語彤、子晴換，其他 keep）推了 3cd6f2797（6f69b94b2，CF723.swapYes；tests/confess723_secondyes_unit.js）。BB 測。 ｜ 【11-07 18:0x LAWWW-B】BB-B 瀏覽器都驗完＝已驗收。剩 AA 內容：第二次答應沿用原本那一場，以安最後一句「只是想說等你先講。」和被拒絕過接不上（BB 已交 AA-B，AA 定改不改）；結局分版本等 AA_720。 ｜ 【11-07 16:0x LAWWW-B】BB-B：沛珊 12/29 林家乾麵重聚 3D＝PASS（瀏覽器，捷徑標示；BB_255 99a4876f2）：換 wz_lin、blur；沛珊桌 4 最裡面、你對面、Alison 紅凳、阿哲／以安桌 3；第一句四人都在畫面；演完回原地、PS_REUNION；有人跟著＝深色底照演；台詞 9 句對 AA_723。 ｜ 【11-07 14:5x LAWWW-B】BB-B：告白 Node PASS、沛珊第一部分 Node PASS；瀏覽器等第二、三部分（7b02ee2f0）一起走（第一次告白失敗→再約→ready；12/29 林家乾麵）。 ｜ 【11-07 14:5x LAWWW-B】沛珊第二、三部分推了 7b02ee2f0（3b2cf9053：f68c998cc 沉默期動態 13 則全關、動態私訊不回、柏翰 h506～h509 關、2027-06-18 21:00 柏翰私訊兩句、不在群組 12/30 21:00 她私訊三則＋optAlt、PS_REUNION 記 12/30；28c3d3c7c：70b0b51a9 12/29 重聚在 3D wz_lin 演（OUT.STAGE，沛珊最裡面、Alison 同桌、阿哲／以安隔壁桌，進不去退回 2D 暗底）；tests/ps_silence_unit.js、ps_reunion_lin_unit.js；相關 261 支全過）。BB 測；瀏覽器沒看過鏡頭和五個人坐的樣子。結局分版本等 AA_720。 ｜ 【11-07 14:3x LAWWW-B】推了 3957b071e：告白 heart＋fail／normal／ready／second／pending（AA_723 fca9bcb69＋21e9f6c50；14:26 改：她的決定一個都沒演到＝照原本答應，f68c998cc）＋沛珊沒交往的線第一批（沉默期 2026-12-18～2028-12-29 18:30、私訊只已送達、reply1、12/26 群組、12/29 林家乾麵重聚、remove 清單；tests/ps_silence_unit.js、confess723_unit.js）。第二批（AA 14:15 f5cb310d6／d8570a14b：沉默期動態全關、柏翰改一句、不在群組 12/30 私訊、林家乾麵 wz_lin）子代理做中。 ｜ 【11-07 10:5x LAWWW-B】使用者 11-07 10:4x 回 AA 四題（AA_718 第 4 節 f3eec1eec）；AA-B 10:51 交 AA_723 fca9bcb69。v9.10.22 發布後接：先加白名單＋匯入工具，再改 confess（DATE.confessDecide → heart）與沛珊時間表、照 peishan.remove 逐項關掉或改條件；交往中全部照舊。結局分版本等 AA_720。",
+   "next": "【11-07 18:3x LAWWW-B】BB-B secondYes PASS（瀏覽器以安；語彤、子晴 Node）＝已驗收。KX 電影插第 1 拍＝兩次各讀新存檔（不是 bug），同一份存檔連兩場 CC 排了。結局分版本等 AA_720。 ｜ 【11-07 18:2x LAWWW-B】改回已整合待測試：secondYes（6f69b94b2）是新的、還沒測；原本的告白重試、沛珊重聚 BB 已驗（evidence 照留）。 ｜ 【11-07 18:2x LAWWW-B】AA-B eca6139aa secondYes：第二次告白接原本答應那一場的換句（以安、語彤、子晴換，其他 keep）推了 3cd6f2797（6f69b94b2，CF723.swapYes；tests/confess723_secondyes_unit.js）。BB 測。 ｜ 【11-07 18:0x LAWWW-B】BB-B 瀏覽器都驗完＝已驗收。剩 AA 內容：第二次答應沿用原本那一場，以安最後一句「只是想說等你先講。」和被拒絕過接不上（BB 已交 AA-B，AA 定改不改）；結局分版本等 AA_720。 ｜ 【11-07 16:0x LAWWW-B】BB-B：沛珊 12/29 林家乾麵重聚 3D＝PASS（瀏覽器，捷徑標示；BB_255 99a4876f2）：換 wz_lin、blur；沛珊桌 4 最裡面、你對面、Alison 紅凳、阿哲／以安桌 3；第一句四人都在畫面；演完回原地、PS_REUNION；有人跟著＝深色底照演；台詞 9 句對 AA_723。 ｜ 【11-07 14:5x LAWWW-B】BB-B：告白 Node PASS、沛珊第一部分 Node PASS；瀏覽器等第二、三部分（7b02ee2f0）一起走（第一次告白失敗→再約→ready；12/29 林家乾麵）。 ｜ 【11-07 14:5x LAWWW-B】沛珊第二、三部分推了 7b02ee2f0（3b2cf9053：f68c998cc 沉默期動態 13 則全關、動態私訊不回、柏翰 h506～h509 關、2027-06-18 21:00 柏翰私訊兩句、不在群組 12/30 21:00 她私訊三則＋optAlt、PS_REUNION 記 12/30；28c3d3c7c：70b0b51a9 12/29 重聚在 3D wz_lin 演（OUT.STAGE，沛珊最裡面、Alison 同桌、阿哲／以安隔壁桌，進不去退回 2D 暗底）；tests/ps_silence_unit.js、ps_reunion_lin_unit.js；相關 261 支全過）。BB 測；瀏覽器沒看過鏡頭和五個人坐的樣子。結局分版本等 AA_720。 ｜ 【11-07 14:3x LAWWW-B】推了 3957b071e：告白 heart＋fail／normal／ready／second／pending（AA_723 fca9bcb69＋21e9f6c50；14:26 改：她的決定一個都沒演到＝照原本答應，f68c998cc）＋沛珊沒交往的線第一批（沉默期 2026-12-18～2028-12-29 18:30、私訊只已送達、reply1、12/26 群組、12/29 林家乾麵重聚、remove 清單；tests/ps_silence_unit.js、confess723_unit.js）。第二批（AA 14:15 f5cb310d6／d8570a14b：沉默期動態全關、柏翰改一句、不在群組 12/30 私訊、林家乾麵 wz_lin）子代理做中。 ｜ 【11-07 10:5x LAWWW-B】使用者 11-07 10:4x 回 AA 四題（AA_718 第 4 節 f3eec1eec）；AA-B 10:51 交 AA_723 fca9bcb69。v9.10.22 發布後接：先加白名單＋匯入工具，再改 confess（DATE.confessDecide → heart）與沛珊時間表、照 peishan.remove 逐項關掉或改條件；交往中全部照舊。結局分版本等 AA_720。",
    "xai": {
     "spec": "AA_723 fca9bcb69（企劃線 claude/cool-heisenberg-o8kuqx）",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -49203,7 +49203,7 @@
     "owner": "LAWWW"
    },
    "sha": "28c3d3c7c",
-   "evidence": "2026-11-07 BB-B 瀏覽器（雲端 Playwright＋SwiftShader，不是 iPhone）：告白重試 pt1107o（174b45e26，以安）12 項 ALL PASS——失敗隔天先說 normal 不重複、約不到 2 次或沒過 14 天不出、ready→先不說→下次直接問→告訴她＝second＋原本那一場、JS 0；沛珊 12/29 林家乾麵 3D 重聚 PASS（BB_255 99a4876f2）；Node confess723_unit、ps_silence_unit、ps_reunion_lin_unit"
+   "evidence": "2026-11-07 BB-B 瀏覽器（雲端 Playwright＋SwiftShader，不是 iPhone）：告白重試 pt1107o（174b45e26，以安）12 項 ALL PASS——失敗隔天先說 normal 不重複、約不到 2 次或沒過 14 天不出、ready→先不說→下次直接問→告訴她＝second＋原本那一場、JS 0；沛珊 12/29 林家乾麵 3D 重聚 PASS（BB_255 99a4876f2）；Node confess723_unit、ps_silence_unit、ps_reunion_lin_unit；secondYes：2026-11-07 BB-B 瀏覽器 pt1107o 重跑（3cd6f2797）13 項 ALL PASS——以安第二次答應說「上次你講完，我把手帳那一頁看了好幾次。」、原本兩句沒了、交往中、CONF_FAIL second:1、JS 0（BB_255 b3f8e97f5）；語彤、子晴的換句只有 Node（confess723_secondyes_unit）"
   },
   {
    "id": "INV-CLOSEDDAY-DIM-1107",

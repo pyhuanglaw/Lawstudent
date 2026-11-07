@@ -18371,7 +18371,7 @@
    "msg": "ACK",
    "what": "AA_723 secondYes",
    "task": "AA723-CONFESS-PS-1107",
-   "integration": "已整合待測試",
+   "integration": "已驗收",
    "note": "3cd6f2797（6f69b94b2）",
    "ack": "ACK"
   },
