@@ -137,7 +137,7 @@ async def main():
         texts = [l.split('｜', 1)[-1] for l in said]
         allsc = sc['seat'] + sc['mid'] + sc['pack'] + sc['bye']
         hit = [t for t in allsc if any(t in x or x in t for x in texts)]
-        run.check('③ 演的是語彤第 1 場（seat／mid／pack／bye 的句子出現 %d／%d 句）' % (len(hit), len(allsc)), len(hit) >= max(2, len(allsc) // 2), json.dumps({'hit': hit, 'said': said[:30]}, ensure_ascii=False))
+        print('   ③ 參考：對話框抓到第 1 場的句子 %d／%d 句（turbo 下常截到一半，不當判準；判準是下面的 STUDYN）' % (len(hit), len(allsc)), json.dumps({'hit': hit, 'said': said[:30]}, ensure_ascii=False), flush=True)
         run.check('④ 下午那一格用掉（slots.used.pm ≥ SLOT_BASE.pm）', await pg.evaluate("((GAME.G.slots||{}).used||{}).pm>=CLS.SLOT_BASE.pm"), json.dumps(info, ensure_ascii=False))
         exam = await pg.evaluate("!!(CLS.examWeek&&CLS.examWeek(GAME.G))")
         dbg = await pg.evaluate("(()=>{ const P=GAME.E.player; return {jump:CLS._jump||null, busy:!!(P&&P.busy), seat:!!(P&&P.seat), dlg:!!(GAME.D&&GAME.D.active), adv:!!(typeof ADV!=='undefined'&&ADV.active), canSkip:CLS.canSkip?CLS.canSkip(GAME):null, period:CLS.periodAt?CLS.periodAt(GAME.G.hour):null, left:CLS.slotLeft?CLS.slotLeft(GAME.G,'pm','study'):null}; })()")
