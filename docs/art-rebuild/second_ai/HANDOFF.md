@@ -6,12 +6,39 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-07 04:0x UTC，帳號 B LAWWW2-B）
-- 交了兩包（都在 `claude/funny-albattani-iawshm`，patch 對開發 `77195b12a`；瀏覽器沒跑，D131）：
-  - **WINDOW-FLICKER-1107**（使用者 11-07 試玩「大口……外面窗景一直閃」）：一樓、二樓兩顆模型各一張夜景卡在同一個平面 → z-fighting。改成只顯示玩家那一層的。`wip/window_flicker_1107/`；Node：v9.10.21 FAIL 5、開發原樣 FAIL 5、patch ALL PASS。
-  - **WINVIEW-AUDIT 木曜日**：窗外手繪樹 → 溫州街正式模型白天、晚上。`wip/winview_moku_1107/`；Node：開發原樣 FAIL 5、patch＋照片 ALL PASS。
-- 下一步：GYM-FIT-1107 美術（健身房玻璃門看不出是門），再來 LAWWW2-C 交班 C 節的佇列。
-- 使用者的四個存檔＝11-07 試玩回報（企劃線 `docs/story_planning/user_saves/2026-11-07/`）。
+## 🔨 現在在做（11-07 05:5x UTC，帳號 B LAWWW2-B）
+
+分支 `claude/funny-albattani-iawshm` @ `655729e66`。patch 都對開發 `c244ce20e`，git apply --check 過。瀏覽器都沒跑（D131，交 CC）。
+
+**11-07 交了七包：**
+
+| 項目 | 內容 | 位置 | 測試 |
+|---|---|---|---|
+| WINDOW-FLICKER-1107 | — | `345574e2d` | 已整合 |
+| 木曜日窗景 | — | `345574e2d` | 已整合 |
+| GYM-FIT 健身房玻璃門 | — | `7e8e59883` | 已整合 |
+| SKIRT-BENCH-CLIP-1105 第一批：8 個路人 | 坐下時才打開的裙子形狀 `skirt_sit`；路人遠距離版本也有 | `wip/skirt_sit_1107/`（`768da51ab`） | 長椅椅面裡 251～282 → 0；開發原樣 FAIL 32 → ALL PASS |
+| SKIRT 第二批：有名字的角色 | 沛珊、芯慈、予樂、秀琴兩套；遊戲端用第一批的 patch | `33bc9fe48`；測試 patch `skirt_named_1107.patch` | 248～645 → 0 |
+| ART-ARENA-HOOPS-1105：3F 籃架 | 從「收在 17.6 m、沒籃框」改成放下來的吊掛式（籃框 3.05 m），整組 SET_HOOPS；典禮那天收起；ARENA_HOOPS 預設 true | `wip/arena_hoops_1107/`（`101ab2728`、`e92e8c517`） | arena_hoops：FAIL 16 → ALL PASS |
+| GYM-FIT-1107 ① 器材資料 | gym_layout.js 的 b1.fitness.equip（22 件：use、stand） | `wip/gym_fit_equip_1107/`（`4f05d68d0`） | gym_fit_equip：ALL PASS |
+| GYM-FIT-1107 ② 體態第二階段 | 祐廷 VRM 的 morph `fit`（上臂、肩、胸、大腿、小腿撐開，衣服、外套跟著撐），四階 0／0.4／0.7／1 | `wip/fit_body_1107/`（`655729e66`） | fit_body：FAIL 6 → ALL PASS |
+
+**全部 Node**（skirt、hoops、equip 三包一起）：1,068 PASS／8 FAIL。8 支開發原樣也 FAIL：
+
+- Daybreak 加了、測試沒改：3 支；
+- worktree 缺故事分支的 commit：4 支；
+- ladder_headroom：1 支。
+
+**ACK 狀態：**
+
+- LAWWW-B：裙子第一批已 ACK（GHA 跑完接）；其他幾包都 DELIVERED，等 ACK。
+- BB-B：裙子 Blender 圖給了「通過」的意見（ART_APPROVED 照 D100a 由 LAWWW 標）；日常失速立體店面判「換新版」。
+
+**下一步：**
+
+1. BB-B 的 P3：兩點半 Café 左邊的橘色斜面。截圖在 elegant-brown `18d820c63` 的 pt1107/gift718_0{1,2}；疑似 X132 窗外街景在牆淡出以後露出來。
+2. 日常失速店內加顏色點（植物、靠墊、杯子），查店前 fps 8.6／+4.4 萬三角形。
+3. 舊佇列：PERF-WZ-DAY、HAIR-NOODLE，以及 TODO_SHORTCUTS 裡的停車場灰牆、大口夜景。
 
 ## ✅ 值班登記（2026-11-07 03:4x UTC；帳號 B LAWWW2-B；使用者：「現在接班 我也會跟其他AI講」）
 - 值班登記：帳號 B｜LAWWW2-B｜session_01GV1WG3UeT2DhuDpxeWJsvD｜分支 `claude/funny-albattani-iawshm`（11-02 清理時刪過，這次從接班基準重新推）｜接班基準 `629e042e2`（快轉上一任 `claude/focused-cray-c9uwvw`）。
