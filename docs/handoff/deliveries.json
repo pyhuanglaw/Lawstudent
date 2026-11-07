@@ -17850,7 +17850,7 @@
    "account": "B",
    "branch": "claude/funny-albattani-iawshm",
    "sha": "5442841464",
-   "msg": "新生南路四張夜景重拍",
+   "msg": "ACK",
    "what": "assets/models/env/views/xs_{dakou,dakou_2f,dabu,haopai}_night.webp",
    "task": "XS-NIGHT-1107",
    "integration": "已驗收",
