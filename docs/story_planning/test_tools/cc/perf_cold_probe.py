@@ -1,4 +1,4 @@
-# 【CC-B 11-07 複製自 LAWWW2-B claude/funny-albattani-iawshm 8802cce88 docs/art-rebuild/second_ai/wip/perf_wz_day_1103/perf_cold_probe.py，沒改內容（BB-B 07:16 派）；看過：只讀遊戲檔、只寫輸出資料夾，沒有寫死路徑】
+# 【CC-B 11-07 複製自 LAWWW2-B claude/funny-albattani-iawshm bc7e0ff5e docs/art-rebuild/second_ai/wip/perf_wz_day_1103/perf_cold_probe.py（換掉 8802cce88 那一版，LAWWW2-B 07:19），沒改內容；看過新增部分：沒有寫檔、沒有寫死路徑、沒有改遊戲檔】
 # -*- coding: utf-8 -*-
 """LAWWW2-B（PERF-WZ-DAY-1103 第二支探針，2026-11-07）：第一次進區域、淡入以後那一格 4.6 秒是誰——給 cc-local 的 PC 跑（D131）。
 用法：python perf_cold_probe.py <遊戲網址 index.html> <輸出資料夾>
@@ -22,7 +22,8 @@
 另外記：Chrome 的 Long Animation Frames（LoAF，Chrome 123 以上）——每一個很長的格子裡跑了哪幾段 JS（呼叫方式、函式名、檔案:行、毫秒）；
   ASSETS.loadOne（開始載、載好）、ASSETS.parseVRM（同步那一段、全部做完）、CHAR.upgrade、Z3.prewarm／warmup 的時間點。
   一格很長、LoAF 裡沒有對應的 JS＝主執行緒閒著在等＝GPU 或瀏覽器那一邊。
-輸出：perf_cold.json（每一格、每一筆事件）、perf_cold.txt（每一種做法一段：最慢的格子、那段時間跑了什麼）
+另外 base 那一次量完以後：場景照模型分組、每一組單獨畫一次，記 draw call／三角形（含陰影那一輪）＝穩定以後 30 fps 要從哪一組省。
+輸出：perf_cold.json（每一格、每一筆事件）、perf_cold.txt（每一種做法一段：最慢的格子、那段時間跑了什麼、分項）
 
 【前置／捷徑】讀檔直接放到區域（和 perf_split_probe、fps_zones 一樣），不是玩家流程。雲端 SwiftShader 只能驗證會不會跑；D131：瀏覽器探針排使用者電腦。
 """
@@ -84,6 +85,20 @@ WARM_RENDER_JS = r"""()=>{ const S=window.__PC; S.warmRender=function(E_){ const
     catch(e){ err=String(e).slice(0,200); }
     finally{ R.setRenderTarget(prev); for(const o of off) o.frustumCulled=true; rt.dispose(); R.shadowMap.needsUpdate=true; }
     return [+(performance.now()-t).toFixed(1), ((R.info.programs)||[]).length-p0, off.length, err]; }; return true; }"""
+
+# 穩定以後的分項（只在 base 那一次、量完以後）：場景照模型分組（大的群組往下拆一層），每一組單獨畫一次，記 draw call、三角形（含陰影那一輪）
+BREAKDOWN_JS = r"""()=>{ const E=GAME.E, R=E.renderer, sc=E.scene, ar=R.info.autoReset;
+  const nMesh=o=>{ let n=0; o.traverse(c=>{ if(c.isMesh||c.isPoints||c.isLine||c.isSprite) n++; }); return n; };
+  let parts=[]; for(const o of sc.children){ if(!o.visible) continue; if(nMesh(o)>40&&o.children.length>1){ for(const c of o.children) if(c.visible&&nMesh(c)) parts.push(c); } else if(nMesh(o)) parts.push(o); }
+  const keep=new Map(); sc.traverse(o=>keep.set(o,o.visible));
+  const count=()=>{ R.info.reset(); R.shadowMap.needsUpdate=true; R.render(sc,E.camera); return [R.info.render.calls,R.info.render.triangles]; };
+  R.info.autoReset=false; const out={all:null,parts:[]};
+  try{ out.all=count();
+    for(const p of parts){ sc.traverse(o=>{ if(o.isMesh||o.isPoints||o.isLine||o.isSprite) o.visible=false; }); p.traverse(o=>{ if(keep.has(o)) o.visible=keep.get(o); });
+      for(let a=p.parent;a;a=a.parent) a.visible=true; const c=count(); out.parts.push([(p.name||p.type)+(p.parent&&p.parent!==sc?' < '+(p.parent.name||p.parent.type):''),c[0],c[1],nMesh(p)]);
+      for(const [o,v] of keep) o.visible=v; } }
+  finally{ for(const [o,v] of keep) o.visible=v; R.info.autoReset=ar; R.shadowMap.needsUpdate=true; }
+  out.parts.sort((a,b)=>b[1]-a[1]); out.parts=out.parts.slice(0,40); return out; }"""
 
 PRELOAD_JS = r"""async keys=>{ const t=performance.now(), out={ok:[],fail:[]};
   await Promise.all(keys.map(k=>ASSETS.manifest[k]?ASSETS.loadOne(k).then(()=>out.ok.push(k),e=>out.fail.push(k+': '+((e&&e.message)||e))):Promise.resolve(out.fail.push(k+': 不在 manifest'))));
@@ -184,6 +199,9 @@ async def one_run(p, url, zone, variant, preload_keys):
         run['loaf'] = await pg.evaluate("window.__PC.loaf")
         run['longtask'] = await pg.evaluate("window.__PC.lt")
         run['info'] = await pg.evaluate(INFO_JS)
+        if variant == 'base':
+            try: run['breakdown'] = await pg.evaluate(BREAKDOWN_JS)
+            except Exception as e: run['breakdown'] = {'err': repr(e)[:200]}
         run['js_errors'] = list(errs)[:20]
         run['res'] = analyse(run)
     except Exception as e:
@@ -213,6 +231,11 @@ def text(run):
     if r['top_js_after_fade']:
         t.append('    淡入後 JS 加總前幾名：')
         for lab, d in r['top_js_after_fade']: t.append('        %7.1f ms  %s' % (d, lab))
+    bd = run.get('breakdown')
+    if bd and bd.get('parts'):
+        t.append('    穩定以後的分項（整個場景 %s draw call／%s 三角形，含陰影那一輪；每一組單獨畫）：' % tuple(bd['all'] or ('?', '?')))
+        for nm, c, tr, nm_ in bd['parts'][:25]: t.append('        %4d calls %9d tris  %4d 個網格  %s' % (c, tr, nm_, nm))
+    elif bd: t.append('    分項：%s' % bd.get('err'))
     t.append('    PERFPANEL：%s｜prewarm %s｜warmup %s｜平行編譯 %s｜%s' % (info.get('perf'), info.get('prewarm'), info.get('warmup'), info.get('parallel'), info.get('renderer')))
     if run.get('js_errors'): t.append('    JS 例外 %d：%s' % (len(run['js_errors']), run['js_errors'][:3]))
     return t
