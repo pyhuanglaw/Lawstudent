@@ -167,7 +167,8 @@ const run=async()=>{
   { const G=fresh('2025-10-15',15,ZID); GM.enterN=5; const due=GG2.doorDue(GM); const r=await GG2.enterLine(GM);
     check('8 一天第一次進來：隨機一句進門旁白（AA_725 第 1 節三句）',due&&r==='door'&&H.said.length===1&&C.door.includes(H.said[0].t)&&H.said[0].who===null&&C.door.length===3,J(said()));
     GM.enterN=6; check('8 同一天再進來：不說',!GG2.doorDue(GM));
-    G.day++; check('8 隔天再進來：又說',GG2.doorDue(GM));
+    G.day++; check('8 同一趟待到隔天（00:00 換日、人還在店裡）：不再說（BB-B 11-07 P3 ③）',!GG2.doorDue(GM));
+    GM.enterN=(GM.enterN|0)+1; check('8 隔天再進來：又說',GG2.doorDue(GM));
     G.invites=[{who:'heroine_03',place:ZID,day:G.day,h:15,state:'going'}]; H.said=[]; const r2=await GG2.enterLine(GM);
     check('8 今天約在這裡（一起走過來）：不說',r2==='together'&&!H.said.length); }
   // ---- 8 翻唱片 ----

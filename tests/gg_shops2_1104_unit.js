@@ -156,7 +156,8 @@ const run=async()=>{
   { const G=fresh('2025-10-15',12,'afar'); GM.enterN=5; const due=GG2.doorDue(GM); const r=await GG2.enterLine(GM);
     check('8 afar 一天第一次進來：隨機一句進門旁白',due&&r==='door'&&H.said.length===1&&GG2.L.afar.door.includes(H.said[0].t)&&H.said[0].who===null,J(said()));
     GM.enterN=6; check('8 同一天再進來：不說',!GG2.doorDue(GM));
-    G.day++; check('8 隔天再進來：又說',GG2.doorDue(GM));
+    G.day++; check('8 同一趟待到隔天（00:00 換日、人還在店裡）：不再說（BB-B 11-07 P3 ③）',!GG2.doorDue(GM));
+    GM.enterN=(GM.enterN|0)+1; check('8 隔天再進來：又說',GG2.doorDue(GM));
     G.invites=[{who:'heroine_01',place:'afar',day:G.day,h:12,state:'going'}]; H.said=[]; const r2=await GG2.enterLine(GM);
     check('8 今天約在這裡（一起走過來）：不說',r2==='together'&&!H.said.length);
     fresh('2025-10-15',10,'afar'); GM.enterN=9; check('8 關門的時候：不說進門句（打烊那一段優先）',!GG2.doorDue(GM)); }

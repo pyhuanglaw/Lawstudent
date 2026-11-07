@@ -169,7 +169,7 @@ const GG2=(function(){
       const opts=D.menu.map(([c,items])=>({t:c+'…',hint:items.map(m=>m[0]).join('、'),sub:items.map(nm)}));   /* sub：這一類的每一樣（畫面不用；測試照名稱找到那一類）*/
       if(bk.length) opts.push({t:'夾好了',hint:bk.map(m=>m[0]).join('、')+'　共 '+tot()+' 元'}); opts.push({t:'不用了'});
       const c=await GM.choose(opts);
-      if(c>=0&&c<D.menu.length){ const items=D.menu[c][1], j=await GM.choose(items.map(m=>({t:nm(m),dim:(G.money|0)<tot()+m[1]})).concat([{t:'返回'}])); if(j>=0&&j<items.length) bk.push(items[j]); continue; }
+      if(c>=0&&c<D.menu.length){ const items=D.menu[c][1], j=await GM.choose(items.map(m=>({t:nm(m)})).concat([{t:'返回'}]));   /* 錢不夠的也能夾，結帳時老闆才說「這樣不夠喔。……拿掉一樣？」（BB-B 11-07 P3 ②：原本直接灰掉，那一句永遠出不來）*/ if(j>=0&&j<items.length) bk.push(items[j]); continue; }
       if(!(bk.length&&c===D.menu.length)) return null;   /* 不用了 */
       if((G.money|0)>=tot()) break;
       await GM.say(B,D.short);   /* 錢不夠：老闆那一句（AA_724），選一樣拿掉；不用了＝不買、不扣錢 */
@@ -184,7 +184,8 @@ const GG2=(function(){
     if(food){ const a=D.wait[Math.min(D.wait.length-1,Math.floor(S.rand()*D.wait.length))]; await GM.say(a[0]?B:null,a[1]); GM.advance(S.HRS.yangyang.wait); }   /* 等炸好（時間過 10 分鐘）*/
     const E_=S.eatReg(); if(E_&&E_.ordered){ try{ await E_.ordered(GM,S.EAT_KEY.yangyang,items.join('、')); }catch(e){ console.warn('EAT.ordered',e); } }
     if(food&&dine){ const run=async()=>{ GM.advance(S.HRS.yangyang.eat); const pool=D.eat.filter(e=>!e[1]||e[1](o)); const t=pool[Math.min(pool.length-1,Math.floor(S.rand()*pool.length))]; if(t) await GM.say(null,t[0]); };   /* 內用：時間過 30 分鐘、吃完一句 */
-      if(typeof WZS!=='undefined'&&WZS._seated) await WZS._seated(GM,run); else await run(); }   /* 坐到最近的空位吃（和 Daybreak 一樣）*/
+      const was=!!(GM.E&&GM.E.player&&GM.E.player.seat), run2=async()=>{ const st=GM.E&&GM.E.player&&GM.E.player.seat; if(!was&&st) await S.onSeat(GM,st); await run(); };   /* 自動帶位也說 AA_724 第 6 節坐下那一句（BB-B 11-07 P3 ①：原本只有自己按「坐下吃」才說）；本來就坐著＝坐下時已經說過 */
+      if(typeof WZS!=='undefined'&&WZS._seated) await WZS._seated(GM,run2); else await run(); }   /* 坐到最近的空位吃（和 Daybreak 一樣）*/
     if(GM.autosave) GM.autosave(); return items.join('、'); };
 
   /* ---------- 轉角唱片：翻唱片、試聽、買唱片（AA_725 第 2～4 節）---------- */
@@ -230,7 +231,8 @@ const GG2=(function(){
   let doorVisit=null, busy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['gg2shops3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）*/
   S.doorDue=function(GM){ const G=GM.G; if(!G||!S.ZONES.includes(G.zone)||doorVisit===(GM.enterN|0)||!S.isOpen(G.zone,G)) return false; const F=G.flags||(G.flags={}), r=F.GG2_DOOR;
-    return !(r&&typeof r==='object'&&r[G.zone]===G.day); };
+    if(r&&typeof r==='object'&&r[G.zone]===G.day){ doorVisit=GM.enterN|0; return false; }   /* 今天說過＝這一趟也算說過（BB-B 11-07 P3 ③：同一天第二次進店沒記這一趟，待到 00:00 換日人在店裡又說一次進門句）*/
+    return true; };
   S.enterLine=async function(GM){ const G=GM.G, k=G.zone, F=G.flags||(G.flags={}); doorVisit=GM.enterN|0;
     if(!F.GG2_DOOR||typeof F.GG2_DOOR!=='object'||Array.isArray(F.GG2_DOOR)) F.GG2_DOOR={};
     if(!S.alone(G,k)) return 'together';   /* 今天約在這裡：不說（進門句是一個人的）*/

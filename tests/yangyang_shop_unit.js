@@ -171,7 +171,8 @@ const run=async()=>{
   { const G=fresh('2025-10-15',19,'yangyang'); GM.enterN=5; const due=GG2.doorDue(GM); const r=await GG2.enterLine(GM);
     check('8 一天第一次進來：隨機一句進門旁白（AA_724 第 1 節三句）',due&&r==='door'&&H.said.length===1&&Y.door.includes(H.said[0].t)&&H.said[0].who===null&&Y.door.length===3,J(said()));
     GM.enterN=6; check('8 同一天再進來：不說',!GG2.doorDue(GM));
-    G.day++; check('8 隔天再進來：又說',GG2.doorDue(GM));
+    G.day++; check('8 同一趟待到隔天（00:00 換日、人還在店裡）：不再說（BB-B 11-07 P3 ③）',!GG2.doorDue(GM));
+    GM.enterN=7; check('8 隔天再進來：又說',GG2.doorDue(GM));
     G.invites=[{who:'heroine_04',place:'yangyang',day:G.day,h:20,state:'going'}]; H.said=[]; const r2=await GG2.enterLine(GM);
     check('8 今天約在這裡（一起走過來）：不說',r2==='together'&&!H.said.length);
     fresh('2025-10-15',15,'yangyang'); GM.enterN=9; check('8 關門的時候：不說進門句（打烊那一段優先）',!GG2.doorDue(GM)); }
@@ -202,6 +203,10 @@ const run=async()=>{
     ({G,r}=await order(['外帶','雞排','夾好了','不用了'],50,0));
     check('8 錢不夠又選「不用了」：不扣錢、不問調味、時間不動',r==='short'&&G.money===50&&cnt('九層塔、蒜要不要？')===0&&cnt('這樣不夠喔。……拿掉一樣？')===1);
     ({G,r}=await order(['內用','鹹酥雞','鹹酥雞','夾好了','都要','不辣'],5000,0)); check('8 同一樣可以夾兩份（鹹酥雞 ×2＝140 元）',G.money===4860&&r==='鹹酥雞、鹹酥雞',J([r,G.money]));
+    check('8 錢不夠的品項不灰掉（結帳時老闆才說那一句；BB-B 11-07 P3 ②）',!/dim:\(G\.money\|0\)<tot\(\)\+m\[1\]/.test(rd('src/gg2shops3d.js')));
+    { const W0=globalThis.WZS, P=GM.E&&GM.E.player; globalThis.WZS={_seated:async(GM2,fn)=>{ const sv=P&&P.seat; if(P) P.seat={x:1.2,z:0,table:1}; try{ await fn(); } finally { if(P) P.seat=sv; } }};
+      ({G,r}=await order(['內用','鹹酥雞','夾好了','都要','不辣'],5000,0)); const four=Y.seat&&Y.seat.four; globalThis.WZS=W0;
+      check('8 內用自動帶位：說 AA_724 第 6 節四人桌那一句（BB-B 11-07 P3 ①）',!!four&&H.has(four),J(said().slice(-4))); }
     check('8 吃過的登記到 eat3d（店名「公館・洋洋鹹酥雞」，說話的人「老闆」；沒有 EAT 的環境照常）',/addShop\(key,\{shop:'公館・'\+key,staff:\{who:S\.WHO\[k\]/.test(rd('src/gg2shops3d.js'))&&GG2.EAT_KEY.yangyang==='洋洋鹹酥雞'&&GG2.WHO.yangyang==='老闆'); }
   // ---- 8 看的東西、坐下 ----
   { fresh('2025-10-15',20,'yangyang'); GG2.rand=Math.random; const seen=new Set(); let rep=false, prev=null; for(let i=0;i<30;i++){ const t=GG2.look('yangyang','case'); if(t===prev) rep=true; prev=t; seen.add(t); }
