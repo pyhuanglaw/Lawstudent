@@ -1742,3 +1742,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 94.7s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 94.7s] BROWSER DISCONNECTED
 - 2026-11-07T17:57:20  SOC_xinci_date_r4  sha=79214e4e10275fb47c0d95ec667cab2964b77b5c  exit=0  1720s       用了 28.0 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
       err.log (last 5): [gpu_wrap 1683.7s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 1683.7s] BROWSER DISCONNECTED
+- 2026-11-07T17:57:29  PERF_WZ_DC_before  sha=285c0505234c451ce6e4c31b4fc9004fd4a904c1  exit=0  144s      [  94.9s] [before night] crowd：這個時段 12 m 內最多只有 3 人（不到 5 人，沒另外拍）；spawn 那個鏡頭入鏡 6 人——人物多的鏡頭就看 spawn / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 95.4s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 95.4s] BROWSER DISCONNECTED
