@@ -380,3 +380,7 @@
 - **吊燈、椅子**：造型簡單（椅子是直角的板子）；參考圖的椅子有彎的椅背。
 - **窗邊陽光**：參考圖有樹影灑在地上；遊戲沒有，渲染也沒有。
 - 只有 Blender 渲染，還沒有遊戲截圖、手機模擬；遊戲裡材質名和舊的 cvs 不一樣（見上面），整合要改 `attachCvsInterior`。
+
+## 2026-11-07 17:4x 光照烘焙知會（LAWWW-B 4fcd3c45b，LAWWW2-B a6509d2a0）
+- LAWWW2-B 直接在這一版 GLB 上烘光照：加第二套 UV、lightmap、拆共用材質（洋洋還多一個窗景卡節點）。sha256 記在 LAWWW2 的 docs/art-rebuild/second_ai/wip/gg_new_lm_1107/README.md。
+- **BB 以後如果重新匯出這個 GLB（改模型、改材質），要通知 LAWWW2-B 再烘一次**，不然光照貼圖和窗景卡會掉。

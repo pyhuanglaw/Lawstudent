@@ -307,3 +307,7 @@
    - BB 決定照這樣，不移桌、不重匯模型。其他 20 個位子玩家走得到，夠用（D141：不擋）。
    - 以後要是因為別的原因重做這間的模型，再順便把桌 4 往北移約 0.35 m（`src/data/yangyang_layout.js`＋`yangyang_interior.py` 一起改）。
 2. **約去洋洋的 2D 背景**：這一版不要。店裡是 3D 室內，見面在 3D 演。AA_724 要是有指定 2D 或 CG 的段落，再照 BB_132 開提示詞。
+
+## 2026-11-07 17:4x 光照烘焙知會（LAWWW-B 4fcd3c45b，LAWWW2-B a6509d2a0）
+- LAWWW2-B 直接在這一版 GLB 上烘光照：加第二套 UV、lightmap、拆共用材質（洋洋還多一個窗景卡節點）。sha256 記在 LAWWW2 的 docs/art-rebuild/second_ai/wip/gg_new_lm_1107/README.md。
+- **BB 以後如果重新匯出這個 GLB（改模型、改材質），要通知 LAWWW2-B 再烘一次**，不然光照貼圖和窗景卡會掉。
