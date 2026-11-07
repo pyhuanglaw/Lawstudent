@@ -104,12 +104,15 @@ async def main():
         for _ in range(15):
             if await pg.evaluate("GAME.G.zone") == 'yangyang': break
             await pg.wait_for_timeout(1000)
-        await run_flow(pg, cdp, [], max_s=60, label='進門')
+        door = (await pg.evaluate(D))['door']
+        for _ in range(40):   # 進門句由 GG2.tick（STORY.TICKS）說：雲端 SwiftShader 每 30 格才跑一次（約 10 秒），等它出來
+            await run_flow(pg, cdp, [], max_s=3, label='進門')
+            if any(t in door for t in await said(pg, n0)): break
+            await pg.wait_for_timeout(1000)
         sA = await said(pg, n0); stA = await pg.evaluate(STATE)
         say('   A 進門', J(sA, 800)); await run.shot(pg, 'A_in')
-        door = dd['door']
         run.check('A 公館 G05 按鈕「%s」→ 進到 yangyang' % lab, ok and lab.startswith('進入 洋洋') and stA['zone'] == 'yangyang', J(stA))
-        run.check('A 進門的句子是 AA_724 那幾句', any(t in door for t in sA) and all((t in door) or not t.startswith('（') or t.startswith('（你') for t in sA[:3]), J(sA))
+        run.check('A 進門：說了一句 AA_724 的進門句（一次一句、隨機）', len([t for t in sA if t in door]) == 1, J(sA))
         # ---- B 座位 ----
         sb = await pg.evaluate("""(()=>{ const its=(GAME.E.interactables||[]).filter(i=>i.seat&&!i.hidden), ss=(GAME.E.zone&&GAME.E.zone.seats)||[];
           return {its:its.length, seats:ss.length, npcOnly:ss.filter(q=>q.npcOnly).map(q=>({x:q.x,z:q.z,table:q.table})), npcItem:ss.filter(q=>q.npcOnly).filter(q=>its.some(i=>Math.hypot(i.seat.x-q.x,i.seat.z-q.z)<0.05)).length,
@@ -117,11 +120,14 @@ async def main():
         run.check('B 玩家點得到的座位 20 張、npcOnly 的 %d 張沒有「坐下」' % len(sb['npcOnly']), sb['its'] == 20 and sb['npcItem'] == 0 and len(sb['npcOnly']) == 2, J(sb))
         # ---- C 看五處 ----
         for kind in ['case', 'menu', 'self', 'fridge', 'kitchen']:
-            n0 = await pg.evaluate(LOGN); ok, lab, it = await use(pg, cdp, run, {'gg2': 'yangyang', 'kind': kind}, '看 ' + kind)
+            n0 = await pg.evaluate(LOGN); ok, lab, it = await use(pg, cdp, run, {'gg2': 'yangyang', 'kind': kind}, '看 ' + kind, near=0.25)
+            if lab.startswith('坐下'): say('   ! %s：按鈕是「%s」' % (kind, lab))
             await run_flow(pg, cdp, [], max_s=40, label=kind); sc = await said(pg, n0)
-            run.check('C 看 %s（按鈕「%s」）：說 AA_724 那一處的句子' % (kind, lab), ok and len(sc) >= 1 and all(t in dd['look'][kind] for t in sc), J(sc))
+            run.check('C 看 %s（按鈕「%s」）：說 AA_724 那一處的句子' % (kind, lab), ok and len(sc) == 1 and sc[0] in dd['look'][kind], J(sc))
+            if (await pg.evaluate(STATE))['seat']: await pg.evaluate("GAME.standUp&&GAME.standUp(GAME.E.player)"); await pg.wait_for_timeout(600)
         await run.shot(pg, 'C_look')
         # ---- D 內用 ----
+        if (await pg.evaluate(STATE))['seat']: await pg.evaluate("GAME.standUp&&GAME.standUp(GAME.E.player)"); await pg.wait_for_timeout(600)
         st0 = await pg.evaluate(STATE); n0 = await pg.evaluate(LOGN)
         ok, lab, it = await use(pg, cdp, run, {'gg2': 'yangyang', 'kind': 'order'}, '點炸物')
         seen_seat = False
