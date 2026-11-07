@@ -140,6 +140,8 @@ async def main():
         run.check('③ 演的是語彤第 1 場（seat／mid／pack／bye 的句子出現 %d／%d 句）' % (len(hit), len(allsc)), len(hit) >= max(2, len(allsc) // 2), json.dumps({'hit': hit, 'said': said[:30]}, ensure_ascii=False))
         run.check('④ 下午那一格用掉（slots.used.pm ≥ SLOT_BASE.pm）', await pg.evaluate("((GAME.G.slots||{}).used||{}).pm>=CLS.SLOT_BASE.pm"), json.dumps(info, ensure_ascii=False))
         exam = await pg.evaluate("!!(CLS.examWeek&&CLS.examWeek(GAME.G))")
+        dbg = await pg.evaluate("(()=>{ const P=GAME.E.player; return {jump:CLS._jump||null, busy:!!(P&&P.busy), seat:!!(P&&P.seat), dlg:!!(GAME.D&&GAME.D.active), adv:!!(typeof ADV!=='undefined'&&ADV.active), canSkip:CLS.canSkip?CLS.canSkip(GAME):null, period:CLS.periodAt?CLS.periodAt(GAME.G.hour):null, left:CLS.slotLeft?CLS.slotLeft(GAME.G,'pm','study'):null}; })()")
+        print('   演完以後的狀態', dbg, flush=True)
         stn = await pg.evaluate("(w=>{ const r=((GAME.G.flags||{}).STUDYN||{})[w]; return r?{n:r.n,k:r.k,last:r.last}:null; })(%s)" % json.dumps(WHO))
         run.check('③ STUDYN 記到第 1 場演過（n=1、下一場 k=2）', bool(stn) and stn.get('n') == 1 and stn.get('k') == 2, json.dumps(stn))
         if EV:
