@@ -110,8 +110,11 @@ const INV=(function(){
   const tripAt=(G,day,h,stay)=>typeof DATE!=='undefined'&&DATE.tripAt?DATE.tripAt(G,day,h,stay):null;   /* 已經約好的校外約會那段時間（BUG-DATE-OVERLAP-1021；兩天一夜佔兩天）：和「你那個時間已經約了別人」一樣處理 */
   /* whoLast：這個人在這個地點只排到幾點開始（洋洋鹹酥雞：可昕 21:00，AA_724 第 8 節「十點以前，我還要回木柵」）；超過＝和「那個時間沒開」一樣改天 */
   const lastOk=(P,id,h)=>!(P&&P.whoLast&&P.whoLast[id]!=null&&h>P.whoLast[id]+1e-6);
+  /* whoDays：這個人在這個地點只排這幾天（星期，0＝日、6＝六；轉角唱片：可昕只排週末，AA-B 11-07 15:36「平日下午她在木柵上課；平日那一格不出現就好，不用另外寫婉拒」）*/
+  const dayOk=(G,P,id,day)=>!(P&&P.whoDays&&Array.isArray(P.whoDays[id])&&!P.whoDays[id].includes(wdOf(G,day)));
+  S.dayOk=(G,P,id,day)=>dayOk(G,P,id,day);
   S.lastOk=lastOk;
-  const free=(G,id,P,day,h)=>h>=(P.hours&&P.hours[0]<8?P.hours[0]:8)&&h+P.stay<=23.5&&lastOk(P,id,h)&&isOpen(P.zone,h,day)&&winOk(G,P,day,h)&&!clash(G,id,day,h,P.stay)&&!clash(G,null,day,h,P.stay)&&!tripAt(G,day,h,P.stay)&&!busyAt(G,id,day,h,P.stay)&&!myExam(G,day,h,P.stay);
+  const free=(G,id,P,day,h)=>h>=(P.hours&&P.hours[0]<8?P.hours[0]:8)&&h+P.stay<=23.5&&lastOk(P,id,h)&&dayOk(G,P,id,day)&&isOpen(P.zone,h,day)&&winOk(G,P,day,h)&&!clash(G,id,day,h,P.stay)&&!clash(G,null,day,h,P.stay)&&!tripAt(G,day,h,P.stay)&&!busyAt(G,id,day,h,P.stay)&&!myExam(G,day,h,P.stay);
   S.freeAt=(G,id,P,day,h)=>free(G,id,P,day,h);
   S.busyAt=(G,id,day,h,stay)=>busyAt(G,id,day,h,stay);   /* 校外約會的預約檢查用（date3d.js 的 DATE.check：她那時候上課、上班）*/   /* 這個時間本身可不可以（個人規則用：柏翰「九點十分」）*/
   /* 改天：從 h0 起找下一個可以的時間（同一天每 30 分鐘，之後三天的固定時間）*/
@@ -130,7 +133,7 @@ const INV=(function(){
     if(P.rainTo&&day===G.day&&G.weather==='rain'){ const Q=S.place(P.rainTo); const ok=Q&&free(G,id,Q,day,h); return {res:'resched',why:'weather',alt:ok?{day,h,place:Q.id}:S.nextFree(G,id,P,day+1,10)}; }
     if(clash(G,null,day,h,P.stay)||tripAt(G,day,h,P.stay)) return {res:'resched',why:'mine',alt:S.nextFree(G,id,P,day,h+0.5)};   /* 你那個時間已經約了別人（校外約會也算，BUG-DATE-OVERLAP-1021）；改天的時間跳過約會那段 */
     const other=clash(G,id,day,h,P.stay); if(other) return {res:'resched',why:'booked',alt:S.nextFree(G,id,P,day,other.h+((S.place(other.place)||{}).stay||1))};
-    if(!isOpen(P.zone,h,day)||!winOk(G,P,day,h)||h+P.stay>23.5||!lastOk(P,id,h)) return {res:'resched',why:'closed',day,alt:S.nextFree(G,id,P,day,h+0.5)};
+    if(!isOpen(P.zone,h,day)||!winOk(G,P,day,h)||h+P.stay>23.5||!lastOk(P,id,h)||!dayOk(G,P,id,day)) return {res:'resched',why:'closed',day,alt:S.nextFree(G,id,P,day,h+0.5)};
     const b=busyAt(G,id,day,h,P.stay); if(b){ const end=b.to<=24?b.to:b.to-24; return {res:'resched',why:'busy',act:b.act,alt:S.nextFree(G,id,P,day,end>h?end:h+0.5)}; }
     return {res:'accept'}; };
   /* ---------- 個性（INVITE_DATA.people；AA_70 第 2 節＋BB_121、BB_70，2026-10-14 第②級）----------
@@ -722,7 +725,7 @@ const INV=(function(){
   S.upcoming=function(G){ return (G.invites||[]).filter(iv=>iv.state==='accepted'&&(iv.day>G.day||(iv.day===G.day&&iv.h+0.75>G.hour%24))).sort((a,b)=>a.day-b.day||a.h-b.h); };
   /* 約的時間的選項：在一起的時候「現在一起過去」；今天還沒過的固定時間；明天 */
   S.timesOf=(G,P,day)=>P.timesBy?([0,6].includes(wdOf(G,day))?P.timesBy.we:P.timesBy.wk):(P.times||D().times);   /* timesBy：平日、週末不同的時間（慢讀咖啡：平日 12:10、15:30，週末多 10:00、14:00；AA_535 4-1）*/
-  S.timeOptions=function(G,together,P){ const out=[]; const h=G.hour%24;
+  S.timeOptions=function(G,together,P,id){ const out=[]; const h=G.hour%24; if(P&&P.whoDays&&id!=null&&Array.isArray(P.whoDays[id])) return S.timeOptions(G,together,Object.assign({},P,{whoDays:null}),null).filter(q=>dayOk(G,P,id,q.day));   /* whoDays：那幾天以外的時間不列（不是灰掉）*/
     if(P&&P.when) return (P.when(G,together)||[]).map(q=>Object.assign({t:q.now?'現在一起過去':when(G,q.day,q.h)},q));   /* 只有某些日子的地點（溫州街的茶席：每月第三個週日下午，src/wzlines3d.js）：日子、時間由那個地點給 */
     if(P&&(P.times||P.timesBy)){ const hr=P.hours||[0,24]; if(together&&h>=hr[0]-1e-6&&h+P.stay<=hr[1]+1e-6) out.push({t:'現在一起過去',now:true,day:G.day,h});   /* 只有固定時間的地點（晨跑 06:30～07:30，AA_126 6-6）：今天還沒過的、明天的那幾個時間 */
       for(const t of S.timesOf(G,P,G.day)) if(t>h+0.4) out.push({t:'今天 '+hh(t),day:G.day,h:t}); for(const t of S.timesOf(G,P,G.day+1)) out.push({t:'明天 '+hh(t),day:G.day+1,h:t});
@@ -770,7 +773,7 @@ const INV=(function(){
   S.dayLabel=(G,day)=>{ const d=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(day):null; return (d&&d.m?d.m+'/'+d.d:'第 '+day+' 天')+'（週'+WK[wdOf(G,day)]+'）'; };
   S.moreDays=G=>{ const out=[]; for(let k=2;k<=7;k++) out.push(G.day+k); return out; };
   S.slotOpen=(G,P,day,h)=>h>=(P.hours&&P.hours[0]<8?P.hours[0]:8)-1e-6&&h+P.stay<=23.5&&isOpen(P.zone,h,day)&&winOk(G,P,day,h);
-  S.pickDay=async function(GM,id,P){ const G=GM.G; for(;;){ const days=S.moreDays(G); const di=await GM.choose(days.map(d=>({t:S.dayLabel(G,d)})).concat([{t:'返回'}])); if(!(di>=0&&di<days.length)) return null; const day=days[di];
+  S.pickDay=async function(GM,id,P){ const G=GM.G; for(;;){ const days=S.moreDays(G).filter(d=>dayOk(G,P,id,d));   /* whoDays 以外的日子不列 */ const di=await GM.choose(days.map(d=>({t:S.dayLabel(G,d)})).concat([{t:'返回'}])); if(!(di>=0&&di<days.length)) return null; const day=days[di];
       const rows=(P.times||P.timesBy?S.timesOf(G,P,day):S.MORE_TIMES).map(h=>({h,ok:S.slotOpen(G,P,day,h)})), no=S.offWhy(G,P,day)||P.name+'那個時間沒開';
       for(;;){ const ti=await GM.choose(rows.map(r=>({t:hh(r.h),hint:r.ok?'':no,dim:!r.ok})).concat([{t:'換一天'}])); if(!(ti>=0&&ti<rows.length)) break; const r=rows[ti];
         if(!r.ok){ await GM.say(null,no+'。'); continue; } return {t:when(G,day,r.h),day,h:r.h}; } } };
@@ -801,7 +804,7 @@ const INV=(function(){
     if(!x) return null; if(x.go==='date') return DATE.menu(GM,id,n); if(x.go==='hv') return HV.ask(GM,id); if(x.go==='vd') return HV.video(GM,id); if(x.go==='fest') return FEST.ask(GM,id,n);
     P=x.P; let W=null; const pickCat=x.cat||null;   /* 選的是哪一類（念書：一起念書第 N 次，STUDY-DATE-PROGRESS-1107）*/
     { const ln=P.lateNote?P.lateNote(G):null; if(ln) await GM.say(null,ln); }   /* 今天已經約不到的時段（Daybreak 14:00 以後：AA_652 第 3 節的旁白）：選時間前先說，時間照常列明天的 */
-    for(;;){ const T=S.timeOptions(G,together,P); if(!T.length){ await GM.say(null,'今天太晚了，改天再約吧。'); return null; } const more=!P.when, to=T.map(q=>({t:q.t,hint:q.hint,dim:q.dim})); if(more) to.push({t:'其他日子…',hint:'之後 7 天內選一天'}); to.push({t:'算了'});
+    for(;;){ const T=S.timeOptions(G,together,P,id); if(!T.length&&!(P&&P.whoDays&&P.whoDays[id])){ await GM.say(null,'今天太晚了，改天再約吧。'); return null; } const more=!P.when, to=T.map(q=>({t:q.t,hint:q.hint,dim:q.dim})); if(more) to.push({t:'其他日子…',hint:'之後 7 天內選一天'}); to.push({t:'算了'});
       k=await GM.choose(to); if(more&&k===T.length){ const w=await S.pickDay(GM,id,P); if(!w) continue; W=Object.assign({},w); break; } if(!(k>=0&&k<T.length)) return null; if(T[k].dim){ await GM.say(null,T[k].hint+'。'); continue; } W=Object.assign({},T[k]); break; }
     if(id==='heroine_05'&&typeof V6EX!=='undefined'&&V6EX.sisExInvite&&V6EX.noContact(G,id)){ const xr=V6EX.sisExInvite(G), w0=n?{name:nm,obj:n.obj,charId:id}:{name:nm+'（手機）',charId:id};   /* AA_600 S9（企劃線 031414cad）：前任的學姊被約——第 1、2 次已讀不回；第 3 次回「最近忙。」；不答應（校外約會、挽回路線照各自的條件）*/
       if(xr==='read') await GM.say(null,n?V6EX.SIS_EX_NOD:V6EX.SIS_EX_READ); else await GM.say(w0,'「'+V6EX.SIS_EX_BUSY+'」'); return null; }

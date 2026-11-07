@@ -553,7 +553,7 @@ INVITE_DATA.places.push({id:'yangyang',zone:'yangyang',name:'洋洋鹹酥雞',ve
    兩個人一起坐下先找試聽的高腳椅（prefTable 'listen'：zones3d.js 給的桌號）；開場句第二則「試聽區有兩副耳機……」只在那裡抽（onlyAt）。
    答應的那一句：七位各一句（people[人].acc.corner_records）；沒列的人＝「一般」那句（src/gg2shops3d.js 的 GG2.ACC0）；可昕照現在的規則（只在她在臺北、約得到的時候）。*/
 INVITE_DATA.places.push({id:'corner_records',zone:'corner_records',name:'轉角唱片',verb:'去轉角唱片逛逛',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'BOOKSTORE_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['fun'],hours:[13,20],times:[13,15.5,17.5,19],
-  prefTable:'listen',show:G=>!!G&&!!G.visited&&!!G.visited.corner_records});
+  prefTable:'listen',whoDays:{kexin:[0,6]},show:G=>!!G&&!!G.visited&&!!G.visited.corner_records});   /* 可昕只排週末（AA-B 11-07 15:36：平日下午她在木柵上課；平日那一格不出現）*/
 (function(){ const CR={heroine_01:'「好。……我不太懂音樂，你不要笑。」',heroine_02:'「轉角唱片？好。我想找一張電影原聲帶。」',heroine_03:'「好。……我喜歡那間的味道。舊紙的味道。」',heroine_04:'「好！我要找遊戲配樂的靈感。」',
     heroine_05:'「好。……讀累了，聽一點音樂也好。」',classmate_peishan:'「好啊！我想找動畫的原聲帶！」',kexin:'「好。週末的話。」'};
   INVITE_DATA.cornerAcc=CR;
