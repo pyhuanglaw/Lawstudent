@@ -1,0 +1,57 @@
+CC 燒臘、頁間書屋光照（before）：SHA=?（worktree 實際 e647887c72）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [before shaola 1400] 讀檔 noodle 2025-10-18 14.0（條件事件關閉）
+PASS [before shaola 1400] 進得了 noodle  {"zone": "noodle", "x": 0, "z": 4.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [  30.8s] [before shaola 1400] 材質／光照貼圖：{"meshes": 42, "mats": 42, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 13, "views": [{"n": "VIEWPANE_noodle", "vis": false}], "charFailures": ["char.npc_nm17: not loaded"], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_before_shaola_1400_door 不是黑畫面（平均亮度 127.2、變化 54.7）  [127.2, 54.7]
+  [  34.6s] [截圖] s5_before_shaola_1400_door：鏡頭 {"eye": [0, 1.6, 6], "look": [0, 1, -5], "lens": 18, "vfov": 58.72}、亮度 [127.2, 54.7]
+PASS [黑畫面] s5_before_shaola_1400_top 不是黑畫面（平均亮度 177.2、變化 41.3）  [177.2, 41.3]
+  [  37.9s] [截圖] s5_before_shaola_1400_top：鏡頭 {"eye": [0, 8.5, 1], "look": [0, 0, -0.5], "lens": 16, "vfov": 64.65}、亮度 [177.2, 41.3]
+PASS [黑畫面] s5_before_shaola_1400_seat 不是黑畫面（平均亮度 138.0、變化 51.8）  [138.0, 51.8]
+  [  40.9s] [截圖] s5_before_shaola_1400_seat：鏡頭 {"eye": [-0.6, 1.4, 3.6], "look": [-2.1, 0.6, 1.6], "lens": 22, "vfov": 49.43}、亮度 [138.0, 51.8]
+PASS [黑畫面] s5_before_shaola_1400_out 不是黑畫面（平均亮度 120.4、變化 49.6）  [120.4, 49.6]
+  [  43.1s] [截圖] s5_before_shaola_1400_out：鏡頭 {"eye": [0.4, 1.5, 1.2], "look": [0, 1.4, 8], "lens": 20, "vfov": 53.7}、亮度 [120.4, 49.6]
+PASS [黑畫面] s5_before_shaola_1400_clerk 不是黑畫面（平均亮度 135.9、變化 46.4）  [135.9, 46.4]
+  [  46.7s] [截圖] s5_before_shaola_1400_clerk：鏡頭 {"eye": [0, 1.6, 0.4], "look": [2.4, 1.2, 0.6], "lens": 24, "vfov": 45.75}、亮度 [135.9, 46.4]
+  [前置／捷徑] [before shaola 2100] 讀檔 noodle 2025-10-18 21.0（條件事件關閉）
+PASS [before shaola 2100] 進得了 noodle  {"zone": "noodle", "x": 0, "z": 4.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.01}
+  [  62.5s] [before shaola 2100] 材質／光照貼圖：{"meshes": 42, "mats": 42, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 13, "views": [{"n": "VIEWPANE_noodle", "vis": false}], "charFailures": ["char.npc_nm17: not loaded"], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_before_shaola_2100_door 不是黑畫面（平均亮度 102.2、變化 49.6）  [102.2, 49.6]
+  [  66.2s] [截圖] s5_before_shaola_2100_door：鏡頭 {"eye": [0, 1.6, 6], "look": [0, 1, -5], "lens": 18, "vfov": 58.72}、亮度 [102.2, 49.6]
+PASS [黑畫面] s5_before_shaola_2100_top 不是黑畫面（平均亮度 63.0、變化 57.2）  [63.0, 57.2]
+  [  69.4s] [截圖] s5_before_shaola_2100_top：鏡頭 {"eye": [0, 8.5, 1], "look": [0, 0, -0.5], "lens": 16, "vfov": 64.65}、亮度 [63.0, 57.2]
+PASS [黑畫面] s5_before_shaola_2100_seat 不是黑畫面（平均亮度 109.6、變化 42.0）  [109.6, 42.0]
+  [  72.3s] [截圖] s5_before_shaola_2100_seat：鏡頭 {"eye": [-0.6, 1.4, 3.6], "look": [-2.1, 0.6, 1.6], "lens": 22, "vfov": 49.43}、亮度 [109.6, 42.0]
+PASS [黑畫面] s5_before_shaola_2100_out 不是黑畫面（平均亮度 77.1、變化 35.2）  [77.1, 35.2]
+  [  74.8s] [截圖] s5_before_shaola_2100_out：鏡頭 {"eye": [0.4, 1.5, 1.2], "look": [0, 1.4, 8], "lens": 20, "vfov": 53.7}、亮度 [77.1, 35.2]
+PASS [黑畫面] s5_before_shaola_2100_clerk 不是黑畫面（平均亮度 112.0、變化 40.9）  [112.0, 40.9]
+  [  77.4s] [截圖] s5_before_shaola_2100_clerk：鏡頭 {"eye": [0, 1.6, 0.4], "look": [2.4, 1.2, 0.6], "lens": 24, "vfov": 45.75}、亮度 [112.0, 40.9]
+  [前置／捷徑] [before yejian 1400] 讀檔 bookstore 2025-10-18 14.0（條件事件關閉）
+PASS [before yejian 1400] 進得了 bookstore  {"zone": "bookstore", "x": -4.6, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "應徵：週末缺人。會搬書、不怕灰塵。", "stand": true, "fb": 0, "hour": 14.02}
+  [  93.2s] [before yejian 1400] 材質／光照貼圖：{"meshes": 37, "mats": 37, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 4, "views": [{"n": "WALL_front_VIEW_yej_window_view", "vis": true}], "charFailures": ["char.npc_nm17: not loaded"], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_before_yejian_1400_door 不是黑畫面（平均亮度 109.2、變化 48.9）  [109.2, 48.9]
+  [  96.7s] [截圖] s5_before_yejian_1400_door：鏡頭 {"eye": [-4.6, 1.6, 4.4], "look": [2, 1, -4], "lens": 18, "vfov": 58.72}、亮度 [109.2, 48.9]
+PASS [黑畫面] s5_before_yejian_1400_top 不是黑畫面（平均亮度 136.1、變化 42.0）  [136.1, 42.0]
+  [ 100.6s] [截圖] s5_before_yejian_1400_top：鏡頭 {"eye": [0, 9, 1], "look": [0, 0, -0.5], "lens": 16, "vfov": 64.65}、亮度 [136.1, 42.0]
+PASS [黑畫面] s5_before_yejian_1400_seat 不是黑畫面（平均亮度 131.7、變化 51.9）  [131.7, 51.9]
+  [ 103.2s] [截圖] s5_before_yejian_1400_seat：鏡頭 {"eye": [0.2, 1.5, 1.8], "look": [0.2, 0.8, 4.05], "lens": 22, "vfov": 49.43}、亮度 [131.7, 51.9]
+PASS [黑畫面] s5_before_yejian_1400_out 不是黑畫面（平均亮度 133.2、變化 49.8）  [133.2, 49.8]
+  [ 105.4s] [截圖] s5_before_yejian_1400_out：鏡頭 {"eye": [0.5, 1.6, 2.2], "look": [1, 1.4, 8], "lens": 20, "vfov": 53.7}、亮度 [133.2, 49.8]
+PASS [黑畫面] s5_before_yejian_1400_clerk 不是黑畫面（平均亮度 107.7、變化 45.1）  [107.7, 45.1]
+  [ 108.7s] [截圖] s5_before_yejian_1400_clerk：鏡頭 {"eye": [-1, 1.6, 0.5], "look": [-3.5, 1.2, -3], "lens": 20, "vfov": 53.7}、亮度 [107.7, 45.1]
+  [前置／捷徑] [before yejian 2100] 讀檔 bookstore 2025-10-18 21.0（條件事件關閉）
+PASS [before yejian 2100] 進得了 bookstore  {"zone": "bookstore", "x": -4.6, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "應徵：週末缺人。會搬書、不怕灰塵。", "stand": true, "fb": 0, "hour": 21.02}
+  [ 123.2s] [before yejian 2100] 材質／光照貼圖：{"meshes": 37, "mats": 37, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 4, "views": [{"n": "WALL_front_VIEW_yej_window_view", "vis": true}], "charFailures": ["char.npc_nm17: not loaded"], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_before_yejian_2100_door 不是黑畫面（平均亮度 79.7、變化 36.5）  [79.7, 36.5]
+  [ 127.0s] [截圖] s5_before_yejian_2100_door：鏡頭 {"eye": [-4.6, 1.6, 4.4], "look": [2, 1, -4], "lens": 18, "vfov": 58.72}、亮度 [79.7, 36.5]
+PASS [黑畫面] s5_before_yejian_2100_top 不是黑畫面（平均亮度 94.1、變化 28.7）  [94.1, 28.7]
+  [ 130.1s] [截圖] s5_before_yejian_2100_top：鏡頭 {"eye": [0, 9, 1], "look": [0, 0, -0.5], "lens": 16, "vfov": 64.65}、亮度 [94.1, 28.7]
+PASS [黑畫面] s5_before_yejian_2100_seat 不是黑畫面（平均亮度 88.3、變化 41.8）  [88.3, 41.8]
+  [ 133.1s] [截圖] s5_before_yejian_2100_seat：鏡頭 {"eye": [0.2, 1.5, 1.8], "look": [0.2, 0.8, 4.05], "lens": 22, "vfov": 49.43}、亮度 [88.3, 41.8]
+PASS [黑畫面] s5_before_yejian_2100_out 不是黑畫面（平均亮度 75.5、變化 42.8）  [75.5, 42.8]
+  [ 135.3s] [截圖] s5_before_yejian_2100_out：鏡頭 {"eye": [0.5, 1.6, 2.2], "look": [1, 1.4, 8], "lens": 20, "vfov": 53.7}、亮度 [75.5, 42.8]
+PASS [黑畫面] s5_before_yejian_2100_clerk 不是黑畫面（平均亮度 82.8、變化 31.6）  [82.8, 31.6]
+  [ 137.7s] [截圖] s5_before_yejian_2100_clerk：鏡頭 {"eye": [-1, 1.6, 0.5], "look": [-3.5, 1.2, -3], "lens": 20, "vfov": 53.7}、亮度 [82.8, 31.6]
+PASS 沒有 JS 例外  []
+ALL PASS
