@@ -49158,7 +49158,7 @@
    "id": "UX-QUICKGO-BEFORE-OPEN-1107",
    "title": "手機「今天約好的」在店開門以前就給「前往」：按了只出「還沒開」、要等開門再按一次（BB-B 11-07 AA_722 小路 18:00）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -49170,8 +49170,9 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 14:3x LAWWW-B】做好推了 3957b071e（1e27f9d68）：手機「今天約好的」店還沒開＝寫「18:00 開門」、開門起才有「前往」；公休＝「現在沒有開」；tests/inv_go_opens_unit.js。BB 測 AA_722 小路 18:00（17:40 看手機）。 ｜ 【11-07 10:5x LAWWW-B 定】BB 提二選一，選 2：前往按鈕旁邊寫「18:00 開門」，開門那一刻才亮（不加「先走到門口等」的移動）。v9.10.22 不放（不擋、不是 D141 五件），發布後做。",
-   "sha": "1e27f9d68"
+   "next": "【11-07 14:5x LAWWW-B】BB-B FIXED（BB_255）。 ｜ 【11-07 14:3x LAWWW-B】做好推了 3957b071e（1e27f9d68）：手機「今天約好的」店還沒開＝寫「18:00 開門」、開門起才有「前往」；公休＝「現在沒有開」；tests/inv_go_opens_unit.js。BB 測 AA_722 小路 18:00（17:40 看手機）。 ｜ 【11-07 10:5x LAWWW-B 定】BB 提二選一，選 2：前往按鈕旁邊寫「18:00 開門」，開門那一刻才亮（不加「先走到門口等」的移動）。v9.10.22 不放（不擋、不是 D141 五件），發布後做。",
+   "sha": "1e27f9d68",
+   "evidence": "2026-11-07 BB-B 瀏覽器（雲端 Playwright＋SwiftShader，不是 iPhone），3957b071e，pt1107k_goopen_probe 7 項 ALL PASS：17:40「18:00 開門」沒有前往、18:00 有前往、週二「現在沒有開」、總圖照舊前往（BB_255）；Node tests/inv_go_opens_unit.js（修改前 FAIL）"
   },
   {
    "id": "AA723-CONFESS-PS-1107",
@@ -49189,7 +49190,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 14:5x LAWWW-B】沛珊第二、三部分推了 7b02ee2f0（3b2cf9053：f68c998cc 沉默期動態 13 則全關、動態私訊不回、柏翰 h506～h509 關、2027-06-18 21:00 柏翰私訊兩句、不在群組 12/30 21:00 她私訊三則＋optAlt、PS_REUNION 記 12/30；28c3d3c7c：70b0b51a9 12/29 重聚在 3D wz_lin 演（OUT.STAGE，沛珊最裡面、Alison 同桌、阿哲／以安隔壁桌，進不去退回 2D 暗底）；tests/ps_silence_unit.js、ps_reunion_lin_unit.js；相關 261 支全過）。BB 測；瀏覽器沒看過鏡頭和五個人坐的樣子。結局分版本等 AA_720。 ｜ 【11-07 14:3x LAWWW-B】推了 3957b071e：告白 heart＋fail／normal／ready／second／pending（AA_723 fca9bcb69＋21e9f6c50；14:26 改：她的決定一個都沒演到＝照原本答應，f68c998cc）＋沛珊沒交往的線第一批（沉默期 2026-12-18～2028-12-29 18:30、私訊只已送達、reply1、12/26 群組、12/29 林家乾麵重聚、remove 清單；tests/ps_silence_unit.js、confess723_unit.js）。第二批（AA 14:15 f5cb310d6／d8570a14b：沉默期動態全關、柏翰改一句、不在群組 12/30 私訊、林家乾麵 wz_lin）子代理做中。 ｜ 【11-07 10:5x LAWWW-B】使用者 11-07 10:4x 回 AA 四題（AA_718 第 4 節 f3eec1eec）；AA-B 10:51 交 AA_723 fca9bcb69。v9.10.22 發布後接：先加白名單＋匯入工具，再改 confess（DATE.confessDecide → heart）與沛珊時間表、照 peishan.remove 逐項關掉或改條件；交往中全部照舊。結局分版本等 AA_720。",
+   "next": "【11-07 14:5x LAWWW-B】BB-B：告白 Node PASS、沛珊第一部分 Node PASS；瀏覽器等第二、三部分（7b02ee2f0）一起走（第一次告白失敗→再約→ready；12/29 林家乾麵）。 ｜ 【11-07 14:5x LAWWW-B】沛珊第二、三部分推了 7b02ee2f0（3b2cf9053：f68c998cc 沉默期動態 13 則全關、動態私訊不回、柏翰 h506～h509 關、2027-06-18 21:00 柏翰私訊兩句、不在群組 12/30 21:00 她私訊三則＋optAlt、PS_REUNION 記 12/30；28c3d3c7c：70b0b51a9 12/29 重聚在 3D wz_lin 演（OUT.STAGE，沛珊最裡面、Alison 同桌、阿哲／以安隔壁桌，進不去退回 2D 暗底）；tests/ps_silence_unit.js、ps_reunion_lin_unit.js；相關 261 支全過）。BB 測；瀏覽器沒看過鏡頭和五個人坐的樣子。結局分版本等 AA_720。 ｜ 【11-07 14:3x LAWWW-B】推了 3957b071e：告白 heart＋fail／normal／ready／second／pending（AA_723 fca9bcb69＋21e9f6c50；14:26 改：她的決定一個都沒演到＝照原本答應，f68c998cc）＋沛珊沒交往的線第一批（沉默期 2026-12-18～2028-12-29 18:30、私訊只已送達、reply1、12/26 群組、12/29 林家乾麵重聚、remove 清單；tests/ps_silence_unit.js、confess723_unit.js）。第二批（AA 14:15 f5cb310d6／d8570a14b：沉默期動態全關、柏翰改一句、不在群組 12/30 私訊、林家乾麵 wz_lin）子代理做中。 ｜ 【11-07 10:5x LAWWW-B】使用者 11-07 10:4x 回 AA 四題（AA_718 第 4 節 f3eec1eec）；AA-B 10:51 交 AA_723 fca9bcb69。v9.10.22 發布後接：先加白名單＋匯入工具，再改 confess（DATE.confessDecide → heart）與沛珊時間表、照 peishan.remove 逐項關掉或改條件；交往中全部照舊。結局分版本等 AA_720。",
    "xai": {
     "spec": "AA_723 fca9bcb69（企劃線 claude/cool-heisenberg-o8kuqx）",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -49235,13 +49236,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。"
+   "next": "【11-07 14:5x LAWWW-B】BB-B 觀察：跳到 9/12 21:00 人在博思教學館裡（同 10/12 Café「跳日以後的落點」）——一起看。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。"
   },
   {
    "id": "BUG-Y0-GOAL-AFTER-SKIP-1107",
    "title": "經濟系跳日以後目標列還寫早上的課、9/2 狀態列寫「放假中」",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -49253,8 +49254,9 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 14:3x LAWWW-B】修好推了 3957b071e（fe120569e＋d04bad69a）：updateHUD 換日（goalDay≠G.day）就 CLS.refreshGoal＋CLS.updateHUD，只改課表自己設的目標；tests/goal_daychange_unit.js（修改前 FAIL）。BB 測：經濟系 9/2 早上狀態列不是「放假中」、跳到 9/12 21:00 目標換成 9/12 的課。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
-   "sha": "d04bad69a"
+   "next": "【11-07 14:5x LAWWW-B】BB-B FIXED（BB_255）。觀察 P3：跳到 9/12 21:00 人在博思教學館裡（併 BUG-Y0-DAYSKIP-CARD-1107「跳日以後的落點」）。 ｜ 【11-07 14:3x LAWWW-B】修好推了 3957b071e（fe120569e＋d04bad69a）：updateHUD 換日（goalDay≠G.day）就 CLS.refreshGoal＋CLS.updateHUD，只改課表自己設的目標；tests/goal_daychange_unit.js（修改前 FAIL）。BB 測：經濟系 9/2 早上狀態列不是「放假中」、跳到 9/12 21:00 目標換成 9/12 的課。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "sha": "d04bad69a",
+   "evidence": "2026-11-07 BB-B 瀏覽器（雲端 Playwright＋SwiftShader ?turbo，不是 iPhone），3957b071e，經濟系 9/1～9/13 照玩家玩：9/2 07:00 目標「今天的課：09:10 經濟學原理（上）」、下一堂「09:10 經濟學原理（上）（博思教學館 101）」不是「放假中」；跳到 9/12 21:00 目標換成 9/12 的課、「今天的課都結束了」；卡住保險 0、黑幕 0、JS 例外 0（BB_255 elegant-brown）；Node tests/goal_daychange_unit.js（修改前 FAIL）"
   },
   {
    "id": "BUG-ONETAP-DORM203-1107",
@@ -49291,7 +49293,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 13:5x LAWWW-B】修好 1af0ecb4c：CLS.rollStat 學期還沒開始＝0 次（原本 4 個點名週全算點過）、標題（下學期）→（還沒開學）；tests/attend_preterm_unit.js（修改前 2 FAIL）。BB 測 8/28→8/30 那一段的課表。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "next": "【11-07 14:5x LAWWW-B】BB-B Node PASS（attend_preterm，3957b071e）；瀏覽器下一輪。 ｜ 【11-07 13:5x LAWWW-B】修好 1af0ecb4c：CLS.rollStat 學期還沒開始＝0 次（原本 4 個點名週全算點過）、標題（下學期）→（還沒開學）；tests/attend_preterm_unit.js（修改前 2 FAIL）。BB 測 8/28→8/30 那一段的課表。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
    "sha": "1af0ecb4c"
   },
   {
