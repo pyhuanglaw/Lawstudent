@@ -104,6 +104,20 @@ def glass_mat():
     g = L.vc_material('ck_glass', rough=0.12); add_emit(g, emit_image('win_lit_grad', True)); return g
 
 
+def dome_mat():
+    """體育館的白色薄膜圓頂晚上像一座燈籠（照片；XS-NORTH-EXT-1105 先將就第 3 點，LAWWW2-B 2026-11-07 XS-GYM-DOME-NIGHT-1107）。
+    材質名 ck_glass_lit：遊戲 zones3d.js 的 WZ_NIGHT 已經有（[0xffd49a, 晚上 1.0, 白天 0]），校園、新生南路接正式模型都走 attachWenzhouModel → 不用改程式。
+    白天底色和 ck_gym_white 一樣；自發光貼圖是中性灰的漸層（v＝0 圓頂邊緣 0.75 → v＝1 頂 0.5），遊戲再乘暖色：邊緣比較亮、頂上柔和，不會整片刺眼。
+    名字開頭 ck_glass → WZ_NO_SHADOW：圓頂不投影子（橢圓環、牆照舊投影）。"""
+    m = L.flat('ck_glass_lit', '#eef0ed', rough=0.5)
+    im = bpy.data.images.new('dome_glow', 8, 64, alpha=False); px = []
+    for j in range(64):
+        g = 0.75 - 0.25 * (j / 63) ** 1.3
+        px += [g, g, g, 1.0] * 8
+    im.pixels = px; im.pack()
+    add_emit(m, im); return m
+
+
 def mullions(K, m, fr, ua, ub, va, vb, step, d=0.03, w=0.05, skip=()):
     n = max(1, round((ub - ua) / step)); s = (ub - ua) / n
     for k in range(1, n):
@@ -221,7 +235,8 @@ def build_gym(out):
          'silver': L.flat('ck_gym_silver', '#c3c8cd', rough=0.35, metal=0.4),
          'white': L.flat('ck_gym_white', '#eef0ed', rough=0.5),
          'teal': L.flat('ck_gym_teal', '#4d8e8a', rough=0.18, metal=0.25),
-         'glass': glass_mat(), 'board': L.flat('ck_board', '#f4f2ec', rough=0.8)}
+         'glass': glass_mat(), 'board': L.flat('ck_board', '#f4f2ec', rough=0.8),
+         'dome': dome_mat()}   # 薄膜圓頂：白天和 white 一樣，晚上像燈籠（XS-GYM-DOME-NIGHT-1107）
     K = Kit(place, M, 'gym_'); tm, t2, cm, mm, sm, wm = (K.acc(k) for k in ('tile', 'tile2', 'conc', 'metal', 'silver', 'white'))
     F1 = Fr((0, 0, FZ), (1, 0, 0), (0, 0, 1)); BK = Fr((0, 0, -D / 2), (-1, 0, 0), (0, 0, -1)); RT = Fr((W / 2, 0, 0), (0, 0, -1), (1, 0, 0)); LT = Fr((-W / 2, 0, 0), (0, 0, 1), (-1, 0, 0))
     SIDES = ((F1, W / 2, 'f'), (BK, W / 2, 'b'), (RT, None, 'r'), (LT, None, 'l'))
@@ -310,14 +325,19 @@ def build_gym(out):
     Re = ring(a1 + 0.15, b1 + 0.15); loft(sm, Rg, yg1, Re, yg1, dn); loft(sm, Re, yg1, Re, ye, out_h)
     Rd = ring(a1 - 0.25, b1 - 0.25); loft(sm, Re, ye, Rd, ye, up)
     # 白色薄膜淺圓頂（拱高 3.4 m）
-    RISE, NR = 3.4, 6; prev, py = Rd, ye
+    RISE, NR = 3.4, 6; prev, py = Rd, ye; dm = K.acc('dome')   # 圓頂自己一個材質（晚上亮）；桁架、窗的直條照舊 white
     for k in range(1, NR + 1):
-        t = k / NR; sc = math.cos(t * math.pi / 2); y = ye + RISE * math.sin(t * math.pi / 2)
+        t = k / NR; sc = math.cos(t * math.pi / 2); y = ye + RISE * math.sin(t * math.pi / 2); v0, v1 = (k - 1) / NR, k / NR
         if k == NR:
             for i in range(NS):
-                j = (i + 1) % NS; K.face(wm, [(prev[i][0], py, prev[i][1] + zc), (prev[j][0], py, prev[j][1] + zc), (0, y, zc)], (0, 1, 0))
+                j = (i + 1) % NS; K.face(dm, [(prev[i][0], py, prev[i][1] + zc), (prev[j][0], py, prev[j][1] + zc), (0, y, zc)], (0, 1, 0), uvs=[(0.5, v0), (0.5, v0), (0.5, v1)])
         else:
-            cur = ring((a1 - 0.25) * sc, (b1 - 0.25) * sc); loft(wm, prev, py, cur, y, lambda mx, mz: (mx / a1, 1.5, mz / b1)); prev, py = cur, y
+            cur = ring((a1 - 0.25) * sc, (b1 - 0.25) * sc)
+            for i in range(NS):
+                j = (i + 1) % NS; mx = (prev[i][0] + prev[j][0] + cur[i][0] + cur[j][0]) / 4; mz = (prev[i][1] + prev[j][1] + cur[i][1] + cur[j][1]) / 4
+                K.face(dm, [(prev[i][0], py, prev[i][1] + zc), (prev[j][0], py, prev[j][1] + zc), (cur[j][0], y, cur[j][1] + zc), (cur[i][0], y, cur[i][1] + zc)],
+                       (mx / a1, 1.5, mz / b1), uvs=[(0.5, v0), (0.5, v0), (0.5, v1), (0.5, v1)])
+            prev, py = cur, y
     # 兩道白色鋼桁架拱（沿長向，跨過圓頂）
     A_, B_ = a1 - 0.25, b1 - 0.25
     def dome_y(x, z):
