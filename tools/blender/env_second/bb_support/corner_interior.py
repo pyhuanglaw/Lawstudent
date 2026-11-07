@@ -15,7 +15,12 @@ CORNER-IN-1107（LAWWW2-B 2026-11-07 改；MODEL_READY 第一輪，LAWWW-B 15:00
   牆邊家具上的音響、唱盤要跟著那面牆淡出。原本的原型（Proto 'speaker'／'amp'／'receiver'／'deck'／'turntable'）沒有 side：
   匯出的 GPU instancing 節點掛在根節點、網格名字不是 WALL_ 開頭，fix_instanced_names 不補 extras.dir——鐵架（WALL_right）、音響櫃（WALL_left）、
   展示龕（WALL_back）、試聽吧台（WALL_right）淡出時，上面的機器留在空中。改成照放的地方分原型：擴大機、收音機、卡座 side right（只在鐵架）；
-  喇叭 SPK＝right（鐵架、吧台）、SPK_L＝left（音響櫃）；唱盤 TT＝right（鐵架）、TT_L＝left（音響櫃）、TT_B＝back（展示龕）。幾何、位置、材質都沒動。"""
+  喇叭 SPK＝right（鐵架、吧台）、SPK_L＝left（音響櫃）；唱盤 TT＝right（鐵架）、TT_L＝left（音響櫃）、TT_B＝back（展示龕）。幾何、位置、材質都沒動。
+CORNER-CEIL-1107／CORNER-FADE-1107（LAWWW2-B 2026-11-07 第二次改；BB-B 16:04 判 e66781d1f：P2 天花板切掉時樑、白色燈盒〔冷氣〕、店名飾板從上面擋住畫面；
+  P3 鏡頭在東側時右牆的 instancing 音響一起淡出、黃金葛架沒跟著）——幾何、位置、材質都沒動，只改分組、名字、extras：
+  - 樑、管線、軌道、投射燈、吸頂冷氣＝side 'ceil'（網格名字 CEIL_ 開頭，合併成自己一組）；左牆上半段的店名飾板自己一組 WALL_left_TOP_…、extras.ceilHide。
+    遊戲（zones3d.js attachRoomGLB，patch 給 LAWWW-B）：鏡頭高過天花板時藏起來。吊燈、吊繩照舊（和其他店一樣）。
+  - 每一面牆的零件（含 instancing 節點）都給同一個淡出判斷點 extras.at：那一面最靠店裡的東西那條線（右牆＝鐵架前緣 x 2.71）。"""
 import json, math, os, random, re, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..', '..'))
@@ -133,13 +138,18 @@ class UM:
 UVK = ('goods', 'alpha', 'emit', 'sign')
 
 
+def pre(side):
+    """網格名字的開頭：side＝left／right／back／front → WALL_<面>_（那面牆的淡出組）；'ceil' → CEIL_（貼著天花板的東西：鏡頭高過天花板時遊戲把它藏起來）；沒有 → cr_"""
+    return 'CEIL_' if side == 'ceil' else (f'WALL_{side}_' if side else P)
+
+
 class Part:
     """一件東西（可以有好幾種材質）：在自己的座標建好，最後套一個變換；side＝放進哪一面牆的淡出組"""
     def __init__(self, name, side=None, T=None, smooth=True): self.name, self.side, self.T, self.smooth, self.m = name, side, T, smooth, {}
 
     def __getitem__(self, key):
         if key not in self.m:
-            nm = (f'WALL_{self.side}_' if self.side else P) + f'{self.name}_{key}'
+            nm = pre(self.side) + f'{self.name}_{key}'
             self.m[key] = L.CMesh(nm, M[key]) if key in ('vc', 'vcm') else (UM(nm, M[key]) if key in UVK else Mesh(nm, M[key]))
         return self.m[key]
 
@@ -151,7 +161,7 @@ class Part:
             else: ob = m.finish(root, uv=True)
             if ob is None: continue
             if self.T is not None: ob.matrix_basis = self.T
-            if self.side: ob['dir'] = DIRS[self.side]
+            if self.side in DIRS: ob['dir'] = DIRS[self.side]
             if self.smooth and key not in ('floor', 'wall', 'ceil', 'glass', 'sign', 'goods', 'alpha', 'emit'): L.smooth_mesh(ob, angle=0.6)
             obs.append(ob)
         self.m = {}; return obs
@@ -161,9 +171,9 @@ def inst(obs, name, T, side=None):
     out = []
     for ob in obs:
         key = ob.name.rsplit('_', 1)[-1]
-        no = bpy.data.objects.new((f'WALL_{side}_' if side else P) + f'{name}_{key}', ob.data); B.scene().collection.objects.link(no); no.parent = root
+        no = bpy.data.objects.new(pre(side) + f'{name}_{key}', ob.data); B.scene().collection.objects.link(no); no.parent = root
         no.matrix_basis = T
-        if side: no['dir'] = DIRS[side]
+        if side in DIRS: no['dir'] = DIRS[side]
         out.append(no)
     return out
 
@@ -331,11 +341,11 @@ def stack_proto(n, variant):
 # ======================================================================
 fl = Part('floor', smooth=False); fl['floor'].box(X0, X1, -0.02, 0.0, Z0, Z1); fl.done()
 ce = Part('ceiling', smooth=False); ce['ceil'].quad([(XI0, H, ZI0), (XI1, H, ZI0), (XI1, H, ZI1), (XI0, H, ZI1)]); ce.done()
-bm_ = Part('beams', smooth=False)
+bm_ = Part('beams', side='ceil', smooth=False)   # CORNER-CEIL-1107：樑、管線、軌道、投射燈、冷氣＝CEIL_（BB-B 16:04：天花板切掉時，樑、燈盒從上面擋住畫面）
 for zb in (3.1, -1.0, -4.1):   # 外露的樑（沿 x）
     bm_['ceil'].box(XI0 + 0.46, XI1, H - 0.36, H, zb - 0.15, zb + 0.15)   # 左端停在唱片牆、飾板前面
 bm_.done()
-pp = Part('pipes')   # 管線（沿 z）：消防水管、電線導管
+pp = Part('pipes', side='ceil')   # 管線（沿 z）：消防水管、電線導管
 for (x, y, r, col) in ((-3.2, H - 0.12, 0.045, '#c9c2b4'), (-0.95, H - 0.09, 0.025, '#b9b4aa'), (0.75, H - 0.1, 0.018, '#d0cbc0'), (3.05, H - 0.13, 0.05, '#c0b9ad')):
     ccyl(pp['vcm'], (x, y, ZI1), (x, y, ZI0), r, col, seg=8)
     zz = ZI1 - 0.6
@@ -354,7 +364,7 @@ while zz > zf1:
     zz -= 1.2
 for zg in (3.4, 0.6, -2.2): crb(pp['vcm'], dx_ - 0.2, dx_ + 0.2, H - 0.64, H - 0.62, zg - 0.12, zg + 0.12, '#5a5c5e', r=0.004)   # 出風口
 pp.done()
-pp = Part('pipes2')
+pp = Part('pipes2', side='ceil')
 for (x, col) in ((-2.3, '#3a3a3a'), (-2.2, '#d8d2c4'), (2.2, '#3a3a3a'), (2.55, '#c9c4b8'), (-1.35, '#b9b4aa')):
     ccyl(pp['vcm'], (x, H - 0.05, ZI1), (x, H - 0.05, ZI0), 0.012, col, seg=5)
 for zz in (4.0, 1.4, -1.6, -4.4):
@@ -406,7 +416,7 @@ mat_ = Part('doormat'); crb(mat_['vc'], da + 0.1, db - 0.1, 0.0, 0.012, ZI1 - 0.
 # 天花板：軌道燈（暖色投射燈）、白色吊燈、吸頂冷氣
 # ======================================================================
 LT = LAY['lights']
-trk = Part('tracks')
+trk = Part('tracks', side='ceil')
 for (x, za, zb) in LT['tracks']: crb(trk['vcm'], x - 0.018, x + 0.018, H - 0.07, H - 0.035, zb, za, '#1d1d1f', r=0.004); [crb(trk['vcm'], x - 0.01, x + 0.01, H - 0.04, H, zz - 0.01, zz + 0.01, '#1d1d1f', r=0.002) for zz in (za - 0.3, (za + zb) / 2, zb + 0.3)]
 trk.done()
 
@@ -420,8 +430,8 @@ def spot_build(pt):
     pt['emit'].face([(0.028 * math.cos(2 * math.pi * i / n), 0.028 * math.sin(2 * math.pi * i / n), 0.074) for i in range(n)], [uv] * n)
 
 
-SPOT = Proto('spot', spot_build)
-ARM = Part('spot_arms')
+SPOT = Proto('spot', spot_build, side='ceil')
+ARM = Part('spot_arms', side='ceil')
 for (x, z, tx_, ty_) in LT['spots']:
     y = H - 0.25; aim = V(tx_ - x, ty_ - y, 0.0 if abs(tx_ - x) > 0.5 else -0.8)
     yaw = math.atan2(aim.x, aim.z); pit = math.atan2(-aim.y, math.hypot(aim.x, aim.z))
@@ -450,7 +460,7 @@ for (x, y, z) in LT['pendants']:
     ccyl(cords['vc'], (x, y + 0.04, z), (x, H, z), 0.004, '#1f1f1f', seg=4); crb(cords['vc'], x - 0.045, x + 0.045, H - 0.025, H, z - 0.045, z + 0.045, '#ece6d8', r=0.006)
     CL.glow(root, 'pendant', x, y - 0.15, z, color='rgba(255,220,170,1)', size=1.5, day=0.3, night=1.0)
 cords.done()
-ac = IT['ac']; pa = Part('ac'); aw = ac['w']
+ac = IT['ac']; pa = Part('ac', side='ceil'); aw = ac['w']
 crb(pa['vc'], ac['x'] - aw / 2, ac['x'] + aw / 2, H - 0.06, H, ac['z'] - aw / 2, ac['z'] + aw / 2, '#e6e4dc', r=0.01)
 pa['goods'].rect((ac['x'], H - 0.061, ac['z']), (1, 0, 0), (0, 0, 1), aw / 2 - 0.01, aw / 2 - 0.01, ATL['ac_grille'])
 pa.done()
@@ -614,6 +624,7 @@ pw = Part('leftwall_deco', side='left'); xw = XI0 + 0.012
 pt_ = IT['poster_taipei']; frame_on_wall(pw, xw, pt_['y'], pt_['z'], pt_['w'], pt_['h'], 'poster_taipei', fcol='#2a2622', depth=0.02)
 ps_ = IT['plant_shelf']; pw['wood'].rbox(XI0, XI0 + 0.24, ps_['y'] - 0.03, ps_['y'], ps_['z'] - ps_['d'] / 2, ps_['z'] + ps_['d'] / 2, r=0.004)
 for zz in (ps_['z'] - ps_['d'] / 2 + 0.1, ps_['z'] + ps_['d'] / 2 - 0.1): ccyl(pw['vcm'], (XI0, ps_['y'] - 0.12, zz), (XI0 + 0.2, ps_['y'] - 0.03, zz), 0.006, '#2a2b2d', seg=4)
+pw.done(); pw = Part('TOP_logo', side='left')   # CORNER-CEIL-1107：店名飾板自己一組（WALL_left_TOP_…、extras.ceilHide）：BB-B 16:04 坐沙發時鏡頭在天花板上面，飾板在畫面上方擋一大塊
 lpn = IT['logo_panel']   # 上半段的飾板（深灰綠漆面＋字：從店門那一端開始寫）
 pw['vc'].crbox(XI0, XI0 + 0.02, lpn['y'] - lpn['h'] / 2, lpn['y'] + lpn['h'] / 2, lpn['z'] - lpn['d'] / 2, lpn['z'] + lpn['d'] / 2, '#43504d', r=0.004)
 pw['sign'].rect((XI0 + 0.0215, lpn['y'], lpn['z']), (0, 0, -1), (0, 1, 0), lpn['d'] / 2, lpn['h'] / 2, ATL['logo_panel'])
@@ -890,9 +901,24 @@ pfs.done()
 # ======================================================================
 for ob in list(root.children):
     if ob.type == 'MESH' and len(ob.data.polygons) == 0: bpy.data.objects.remove(ob)
-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
+L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: 'CEIL' if ob.name.startswith('CEIL_') else (('WALL_' + ob.name.split('_')[1] + ('_TOP' if '_TOP_' in ob.name else '')) if ob.name.startswith('WALL_') else ''))
 for ob in root.children:
     if ob.type == 'MESH' and ob.name.startswith('WALL_') and 'dir' not in ob: ob['dir'] = DIRS[ob.name.split('_')[1]]
+    if ob.type == 'MESH' and '_TOP_' in ob.name: ob['ceilHide'] = 1
+# CORNER-FADE-1107（BB-B 16:04 P3：鏡頭在東側時右牆的 instancing 音響一起淡出、黃金葛架沒有）：遊戲照每個網格自己的外框中心判斷要不要淡出，
+#   同一面牆的零件中心不一樣（牆 3.94、鐵架 3.3、黃金葛架 3.53；instancing 的網格在原點附近＝鏡頭過 x 0 就淡出）→ 同一面牆的東西不一起淡出。
+#   改成每一面牆一個淡出判斷點（extras.at，attachRoomGLB 支援）：放在那一面「最靠店裡的東西」那條線上（右牆＝鐵架前緣），鏡頭一到那些東西上面整組一起淡出
+AT_IN = {}
+for ob in root.children:
+    if ob.type != 'MESH' or not ob.name.startswith('WALL_') or 'glass' in ob.name: continue
+    sd = ob.name.split('_')[1]; bb = [ob.matrix_world @ Vector(c) for c in ob.bound_box]   # Blender 座標（x, −z, y）
+    gx = [c.x for c in bb]; gz = [-c.y for c in bb]
+    v = {'right': min(gx), 'left': max(gx), 'back': max(gz), 'front': min(gz)}[sd]
+    AT_IN[sd] = v if sd not in AT_IN else ({'right': min, 'left': max, 'back': max, 'front': min}[sd])(AT_IN[sd], v)
+def at_of(sd): return [round(AT_IN[sd], 3), 1.6, 0.0] if sd in ('left', 'right') else [0.0, 1.6, round(AT_IN[sd], 3)]
+for ob in root.children:
+    if ob.type == 'MESH' and ob.name.startswith('WALL_'): ob['at'] = at_of(ob.name.split('_')[1])
+print('wall fade points', {k: round(v, 3) for k, v in AT_IN.items()})
 ss = None if os.environ.get('CR_NOSS') else L.single_side(root, keep=r'glass', nodup=r'cr_(plaster|wood|floor_terrazzo|concrete|goods|sign|alpha)')
 info = L.export(OUT, gpu_instances=True)
 
@@ -906,7 +932,7 @@ def fix_instanced_names(path):
         if 'EXT_mesh_gpu_instancing' not in nd.get('extensions', {}): continue
         mn = j['meshes'][nd['mesh']]['name']; nd['name'] = mn + '_inst'; k += 1
         m_ = re.match(r'WALL_(front|back|left|right)_', mn)
-        if m_: nd.setdefault('extras', {})['dir'] = DIRS[m_.group(1)]
+        if m_: nd.setdefault('extras', {})['dir'] = DIRS[m_.group(1)]; nd['extras']['at'] = at_of(m_.group(1))   # 淡出判斷點和那面牆一樣（CORNER-FADE-1107）
     js = json.dumps(j, ensure_ascii=False, separators=(',', ':')).encode('utf-8'); js += b' ' * ((4 - len(js) % 4) % 4)
     out = b[:12] + struct.pack('<I', len(js)) + b'JSON' + js + rest
     out = out[:8] + struct.pack('<I', len(out)) + out[12:]; open(path, 'wb').write(out); print('instanced nodes renamed', k)

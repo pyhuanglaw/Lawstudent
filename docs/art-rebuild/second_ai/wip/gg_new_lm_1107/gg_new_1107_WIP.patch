@@ -1,0 +1,202 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index 8687b9789..bc3127df4 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -347,6 +347,7 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
+ | 慢輪單車、阿德影印的視差窗景照片 `assets/models/env/views/{bikeshop,wz_print}_{day,night}.webp`（WINVIEW-AUDIT-1105 第四包）；afar、頁間、青木窗景照片重拍（捷運出口照遊戲的位置） | 本作 Blender 渲染（`tools/blender/env_second/wz_window_view.py`：公館 `--gg-street`＋gongguan_shops／gongguan_far／campus_gate／street_trees／gongguan_mrt_exit（放在 (−36.6, 0, 11)、轉 90°）、機車照遊戲 122 台；溫州街 wenzhou_street／wz_props／wz_jphouse／wz_park＋路燈光圈），模型都是本作 | 本作 | 公館 `bikeshop`、溫州街 `wz_print` 的視差窗（`Z3.ggViewPanes`）；afar、頁間、青木的窗景卡 |
+ | 望月台、體育館外觀 `assets/models/env/second_ai/campus_moon.glb`、`campus_gymext.glb`（XS-NORTH-EXT-1105） | 本作 Blender 腳本 `tools/blender/env_second/campus_xsnorth.py`（第 2 版：照臺大官網、校友雙月刊、Wikimedia Commons 的照片做遊戲版，像但不照抄；照片沒有放進 repo，網址在 `docs/art-rebuild/second_ai/wip/xs_wincard_1105/README.md`）；材質 Poly Haven `red_brick`、`granular_concrete`、`large_floor_tiles_02`（**CC0**） | 本作＋CC0 | 校園西北角（XSG.moon、XSG.gym）；新生南路圍牆後面 |
+ | 新生南路大口漢堡、大步球鞋、好拍運動的視差窗景照片 `assets/models/env/views/{xs_dakou,xs_dakou_2f,xs_dabu,xs_haopai}_{day,night}.webp`（XS-WINCARD-1105） | 本作 Blender 渲染（`tools/blender/env_second/wz_window_view.py --slabs --trees --lamps`：xinsheng_street、campus_moon、campus_gymext、street_trees、street_props，場景資料從遊戲的新生南路區域匯出），模型都是本作 | 本作 | 三間店的視差窗（`Z3.shopViewPane`） |
++| 洋洋鹹酥雞、轉角唱片窗景照片 `assets/models/env/second_ai/bb_support/{yangyang,corner}_view_{day,night}.webp`；兩間正式模型裡的窗景卡（`WALL_front_VIEW_yy／cr_window_view`） | 本作 Blender 渲染（`tools/blender/env_second/gg_shop_views.sh`＝`wz_window_view.py --gg-street`：公館區域的正式模型 gongguan_shops／gongguan_far／gongguan_mrt_exit／campus_gate＋street_trees（照遊戲公館區域 103 棵的位置、樹種）、street_props 路燈（46 盞）、scooter（122 台）＋遊戲尺寸的路面；窗景卡 `tools/blender/env_second/lightbake/glb_add_viewcard.py`；LAWWW2-B 11-07） | 本作 | 兩間店窗外的街景（白天、晚上） |
+ | 2:30 AM 室內 v1b `assets/models/env/second_ai/aa_support/cafe230.glb`（配置 `src/data/cafe230_layout.js` v2） | 本作 Blender（腳本 `tools/blender/env_second/aa_support/cafe230_interior.py`，在 `claude/story-planning`；AA 製作、LAWWW2 驗收 MODEL_READY，story-planning `8d494790d`）；店名虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街 2:30 AM（區域 `cafe`，取代兩點半 Café 室內 cafe_interior.glb；WZ-SHOPS1-1104） |
+ | 小路 室內 v1f `assets/models/env/second_ai/aa_support/komichi.glb`（配置 `src/data/komichi_layout.js` v3，照抄進 `wz_shops_layout.js` teishoku） | 本作 Blender（`tools/blender/env_second/aa_support/README_komichi.md`，在 `claude/story-planning`；AA 製作、BB 照 LAWWW2 標準驗收 MODEL_READY，story-planning `9d1c3bbe7`，BB_257 §12）；店名虛構（D77），海報片名虛構，貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街 B3 小路（區域 `wz_teishoku`，取代巷子裡定食室內 wz_teishoku_interior.glb；WZ-SHOPS1-1104） |
+ | SUNNY SIDE 室內 v1e（窗景換成溫州街，story-planning `86688bd91`；v1d `8345fe067`） `assets/models/env/second_ai/aa_support/sunnyside.glb`（配置 `src/data/sunnyside_layout.js` v3，照抄進 `wz_shops_layout.js` brunch） | 本作 Blender（`tools/blender/env_second/aa_support/README_sunnyside.md`，在 `claude/story-planning`；AA 製作、BB 照 LAWWW2 標準驗收 MODEL_READY，story-planning `8345fe067`，BB_257 §12）；店名虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街 B7 SUNNY SIDE（區域 `wz_brunch`，取代半熟室內 wz_brunch_interior.glb；WZ-SHOPS1-1104） |
+diff --git a/src/zones3d.js b/src/zones3d.js
+index e73fc1086..0d88ebd15 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1862,7 +1862,15 @@ const Z3 = (function(){
+     /* 窗外的景（白天／夜景貼圖、隨時段變色，room() 的 applyTime 照舊換）：從備用模型的窗框組裡拿出來，放到正式模型的玻璃外面 0.3 m（放大一點：斜著看窗洞也看不到外面的空白）；牆淡出時一起藏（不然鏡頭在牆外時會擋住房間）*/
+     const wp=[]; if(z.wins) for(const w of z.wins){ const part=w.parent; const ent=z.winParts&&z.winParts.find(p=>p.obj===part); const d=ent?ent.dir:new THREE.Vector3(1,0,0); w.position.addScaledVector(d,-0.42); w.scale.set(1.35,1.4,1); if(w.material.uniforms&&w.material.uniforms.sxy) w.material.uniforms.sxy.value.set(1.35,1.4); part.remove(w); g0.add(w); wp.push({obj:w,at:ent?ent.at:w.position.clone(),dir:d}); }
+     for(const o of glassy) wp.push({obj:o,at:o.userData.center,dir:o.userData.dir,partition:!!o.userData.partition});
+-    fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; if(LMS) roomLightmap(z,root,LMS); if(LMS&&LMS.dark) roomDarkMap(z,root,LMS); seatFold(z,root); }
++    fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; if(LMS) roomLightmap(z,root,LMS); if(LMS&&LMS.dark) roomDarkMap(z,root,LMS); seatFold(z,root); ceilHide(z,root); }
++  /* 貼著天花板的東西（GLB 的 CEIL_* 網格、extras.ceilHide；CORNER-CEIL-1107，LAWWW2-B 11-07；BB-B 16:04 判轉角唱片：天花板切掉時，樑、吸頂冷氣、店名飾板從上面擋住畫面）：
++     天花板是單面朝下，鏡頭高過天花板就看不到；樑、管線、軌道燈這些還在，從上面擋住房間——鏡頭高過天花板時一起藏起來（和美國公寓的屋頂、吊扇同一個做法，us3d.js）。
++     天花板高度＝CEIL_ 網格最高的地方（不是 instancing 的）；沒有 CEIL_ 的模型不受影響 */
++  function ceilHide(z,root){ const list=[]; let top=0; root.updateMatrixWorld(true);
++    root.traverse(o=>{ if(!o.isMesh||!(/^CEIL_/.test(o.name||'')||(o.userData&&o.userData.ceilHide))) return; list.push(o); if(!o.isInstancedMesh&&/^CEIL_/.test(o.name)) top=Math.max(top,new THREE.Box3().setFromObject(o).max.y); });
++    if(!list.length) return 0; const lim=(top||3)-0.02; z.ceilHideList=list; z.ceilTop=lim;
++    const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); const cam=E2&&E2.camera; if(!cam) return; const v=cam.position.y<=lim; if(v!==z._ceilVis){ z._ceilVis=v; for(const o of list) o.visible=v; } };
++    return list.length; }
+   // ---------- 萬才館大廳／研討室 ----------
+   // 萬才館（室內兩層樓）：src/wancai3d.js（萬才館第三階段，D42；一樓大廳的座標和 v9.3 一樣）
+   // ---------- 總圖閱覽室 ----------
+@@ -2153,7 +2161,12 @@ const Z3 = (function(){
+   const GG_VIEW={afar:{mat:'afr_window_view',day:'assets/models/env/second_ai/aa_support/afar_view_day.webp',night:'assets/models/env/second_ai/aa_support/afar_view_night.webp'},
+     aoki:{mat:'aok_window_view',day:'assets/models/env/second_ai/aa_support/aoki_view_day.webp',night:'assets/models/env/second_ai/aa_support/aoki_view_night.webp'},
+     bookstore:{mat:'yej_window_view',day:'assets/models/env/second_ai/aa_support/yejian_view_day.webp',night:'assets/models/env/second_ai/aa_support/yejian_view_night.webp'},
+-    daybreak:{mat:'dbk_window_view',day:'assets/models/env/second_ai/aa_support/daybreak_view_day.webp',night:'assets/models/env/second_ai/aa_support/daybreak_view_night.webp'}};   /* WINVIEW-AUDIT-1105（LAWWW2-C；使用者 07:4x「應該很多店面看出去的街景都不對吧」）：青木、頁間、Daybreak 原本也是 mok_view（木曜日的樹）。照 afar 的做法，各在自己那一棟的位置拍（青木 x −52.2、頁間 −41.0、Daybreak 73.1）*/
++    daybreak:{mat:'dbk_window_view',day:'assets/models/env/second_ai/aa_support/daybreak_view_day.webp',night:'assets/models/env/second_ai/aa_support/daybreak_view_night.webp'},
++    yangyang:{mat:'yy_window_view',day:'assets/models/env/second_ai/bb_support/yangyang_view_day.webp',night:'assets/models/env/second_ai/bb_support/yangyang_view_night.webp'},
++    corner_records:{mat:'cr_window_view',day:'assets/models/env/second_ai/bb_support/corner_view_day.webp',night:'assets/models/env/second_ai/bb_support/corner_view_night.webp'}};   /* WINVIEW-AUDIT-1105（LAWWW2-C；使用者 07:4x「應該很多店面看出去的街景都不對吧」）：青木、頁間、Daybreak 原本也是 mok_view（木曜日的樹）。照 afar 的做法，各在自己那一棟的位置拍（青木 x −52.2、頁間 −41.0、Daybreak 73.1）*/
++  /* 洋洋鹹酥雞、轉角唱片（LAWWW2-B 11-07；LAWWW-B 15:35「兩間的 GLB 都沒有窗外的景，從店裡看玻璃外面是空的」）：BB／CC 的模型沒有窗景卡，LAWWW2-B 烘光照時加了一張
++     （tools/blender/env_second/lightbake/glb_add_viewcard.py：照 afar，玻璃外 2.5 m、16 × 6.5 m；WALL_front_VIEW_yy／cr_window_view）。照片 tools/blender/env_second/gg_shop_views.sh：
++     洋洋 x −9.4、轉角唱片 55.6；機車、行道樹、路燈照遊戲公館區域的實際位置（gg_scene/*.json）*/
+   function ggAAattach(E,z,g0,root){ const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
+     if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,z.gg+'_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; }
+     const vm=[]; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)) for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } });
+diff --git a/tests/corner_ceil_1107_unit.js b/tests/corner_ceil_1107_unit.js
+new file mode 100644
+index 000000000..8fa1f62ed
+--- /dev/null
++++ b/tests/corner_ceil_1107_unit.js
+@@ -0,0 +1,39 @@
++// 轉角唱片：鏡頭高過天花板時樑、冷氣、投射燈、店名飾板藏起來；同一面牆的東西一起淡出（CORNER-CEIL-1107／CORNER-FADE-1107，LAWWW2-B 11-07；
++//   BB-B 16:04 判 e66781d1f：P2「天花板切掉的時候，樑、燈盒、招牌要跟著藏起來」、P3「鏡頭在東側時右牆整組淡出，只剩 WALL_right_pothos_rack_alpha 沒跟著」）——不需要瀏覽器（D131）。
++// 在 Node 載入遊戲的 three.js、zones3d.js、配置和正式模型 bb_support/corner.glb，建出真正的 corner_records 區域：
++//   ① 模型載好以後，區域有「貼著天花板的東西」清單（CEIL_ 網格＋ceilHide 的店名飾板）：樑、冷氣、投射燈（instancing）、飾板都在裡面
++//   ② 鏡頭 2.0 m（天花板下面）：都看得到；鏡頭 4.5 m（天花板上面）：都藏起來；回到 2.0 m 又看得到
++//   ③ 鏡頭在店裡東側、鐵架上面（x 3.2、高 4.2，玩家在店中間）：右牆的每一個零件（牆、鐵架、黃金葛架、架上的機器）都淡出
++//   ④ 鏡頭在店中間（x 1.5）：右牆的零件都不淡出（不會只淡出一部分）
++// 修改前（開發分支 03e92c411）：① ② ③ FAIL。用法：node tests/corner_ceil_1107_unit.js
++const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
++const fs=require('fs'), path=require('path'), vm=require('vm');
++const run=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
++global.innerWidth=844; global.innerHeight=390; global.location={search:''}; global.addEventListener=()=>{}; process.on('unhandledRejection',()=>{});
++const w0=console.warn; console.warn=(...a)=>{ const t=String(a[0]); if(/LOD|Missing|載入失敗/.test(t)) return; w0(...a); };
++for(const f of ['src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/calendar.js','src/data/places.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/cvs_layout.js','src/data/yejian_layout.js','src/data/aoki_layout.js','src/data/afar_layout.js','src/data/daybreak_layout.js','src/data/yangyang_layout.js','src/data/corner_layout.js','src/data/lane118_layout.js','src/zones3d.js']) if(fs.existsSync(path.join(ROOT,f))) run(f);
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const sleep=ms=>new Promise(r=>setTimeout(r,ms));
++(async()=>{
++  const m=ASSETS.manifest['bldg.corner_interior']; if(!m||!Z3.ZONES.corner_records){ check('轉角唱片的區域、正式模型登錄都在', false); console.log('FAILED '+fails); process.exit(1); }
++  window.ASSET_DATA=window.ASSET_DATA||{}; window.ASSET_DATA[m.url]=fs.readFileSync(path.join(ROOT,m.url)).toString('base64');
++  global.GAME={G:{zone:'corner_records',day:30,hour:14,flags:{},money:5000,weather:'clear',visited:{}}};
++  const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++  const z=Z3.ZONES.corner_records.build(E); E.zone=z; E.scene.add(z.group);
++  for(let i=0;i<100&&!z.formal;i++) await sleep(100);
++  if(!z.formal){ check('正式模型載入了', false); console.log('FAILED '+fails); process.exit(1); }
++  z.group.updateMatrixWorld(true);
++  const L=z.ceilHideList||[], names=L.map(o=>o.name).join(' ');
++  check('① 有貼著天花板的東西清單：樑、冷氣、投射燈、店名飾板', L.length>=6&&/CEIL_beams/.test(names)&&/CEIL_ac/.test(names)&&/CEIL_spot/.test(names)&&/TOP_logo/.test(names), L.length+' 個：'+names);
++  const vis=()=>L.map(o=>o.visible);
++  const cam=y=>({camera:{position:new THREE.Vector3(1,y,0)}});
++  if(z.update){ z.update(0.016,cam(2.0)); const a=vis(); z.update(0.016,cam(4.5)); const b=vis(); z.update(0.016,cam(2.0)); const c=vis();
++    check('② 鏡頭 2.0 m 看得到、4.5 m 藏起來、回到 2.0 m 又看得到', L.length>0&&a.every(v=>v)&&b.every(v=>!v)&&c.every(v=>v), '天花板 '+(z.ceilTop||'?')+' m；2.0：'+a.filter(v=>v).length+'／'+L.length+'、4.5：'+b.filter(v=>v).length+'、再 2.0：'+c.filter(v=>v).length); }
++  else check('② 區域有每格的 update（藏天花板上的東西）', false);
++  const R=z.walls.filter(w=>/^WALL_right_/.test(w.name||'')), pp=new THREE.Vector3(0,0,0);
++  const fadeAt=x=>{ const c=new THREE.PerspectiveCamera(); c.position.set(x,4.2,0); z.fadeWalls(c,pp); return R.filter(w=>w.material.opacity<0.5).map(w=>w.name); };
++  const f3=fadeAt(3.2), f15=fadeAt(1.5), miss=R.filter(w=>!f3.includes(w.name)).map(w=>w.name);
++  check('③ 鏡頭在鐵架上面（x 3.2）：右牆每一個零件都淡出（含黃金葛架、架上的機器）', R.length>=10&&!miss.length&&f3.some(n=>/pothos/.test(n))&&f3.some(n=>/_inst$/.test(n)), f3.length+'／'+R.length+(miss.length?' 沒淡出：'+miss.join('、'):''));
++  check('④ 鏡頭在店中間（x 1.5）：右牆的零件都不淡出', R.length>0&&!f15.length, f15.join('、'));
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();
+diff --git a/tests/corner_glb_unit.js b/tests/corner_glb_unit.js
+index bda06f5fd..794b51502 100644
+--- a/tests/corner_glb_unit.js
++++ b/tests/corner_glb_unit.js
+@@ -5,6 +5,8 @@
+ //      而且離地 0.3 m 以上（放在鐵架、音響櫃、展示龕、吧台上，不是放在地上的沙發、高腳椅）的，節點要是那面牆的 WALL_ 節點、extras.dir 對
+ //      （v1c 原檔：擴大機、卡座、收音機、喇叭、唱盤的 instancing 掛在根節點，鐵架淡出時浮在空中）
+ //   4. 門窗照外觀 G12（wz_street.py：木門 x 0.84～2.42、櫥窗 x −3.39～0.69）：配置的 front.door 在這個範圍
++//   5. 貼著天花板的東西（CORNER-CEIL-1107，BB-B 16:04 P2）：樑、冷氣、投射燈是 CEIL_ 節點、沒有 extras.dir；店名飾板 extras.ceilHide
++//   6. 同一面牆的零件（含 instancing）淡出判斷點 extras.at 都一樣，在那一面最靠店裡的東西那條線上（CORNER-FADE-1107，BB-B 16:04 P3：黃金葛架沒跟右牆淡出）
+ // 用法：node tests/corner_glb_unit.js
+ const fs=require('fs'), path=require('path');
+ const ROOT=path.resolve(__dirname,'..');
+@@ -29,4 +31,10 @@ check('3. 靠牆、放在家具上的 instance（'+nOn+' 個）都在那面牆
+ global.window=global; const lay=fs.readFileSync(path.join(ROOT,'src/data/corner_layout.js'),'utf8'); let C=null; try{ eval(lay+';C=CORNER_LAYOUT;'); }catch(e){}
+ const L=C&&(C.corner||C), d=L&&L.front&&L.front.door;
+ check('4. 配置的店門照外觀 G12（木門 x 0.84～2.42）', !!d&&Math.abs(d.x-d.w/2-0.84)<0.02&&Math.abs(d.x+d.w/2-2.42)<0.02, d?JSON.stringify(d):'沒有配置');
++const ceil=J.nodes.filter(nd=>/^CEIL_/.test(nd.name||'')), cn=ceil.map(nd=>nd.name).join(' ');
++const logo=J.nodes.filter(nd=>/^WALL_left_TOP_logo/.test(nd.name||''));
++check('5. 樑、冷氣、投射燈是 CEIL_、沒有淡出方向；店名飾板 ceilHide', /CEIL_beams/.test(cn)&&/CEIL_ac/.test(cn)&&/CEIL_spot.*_inst/.test(cn)&&ceil.every(nd=>!(nd.extras||{}).dir)&&logo.length>=2&&logo.every(nd=>(nd.extras||{}).ceilHide), cn+'；飾板 '+logo.map(nd=>nd.name).join(' '));
++const AT={}, bad6=[]; for(const nd of walls){ const sd=nd.name.split('_')[1], a=JSON.stringify((nd.extras||{}).at); if(!(nd.extras||{}).at) bad6.push(nd.name+' 沒有 at'); else if(AT[sd]==null) AT[sd]=a; else if(AT[sd]!==a) bad6.push(nd.name+' '+a+'≠'+AT[sd]); }
++const rx=AT.right?JSON.parse(AT.right)[0]:99; let maxIn=-99; for(const nd of J.nodes){ const inst=(nd.extensions||{}).EXT_mesh_gpu_instancing; if(!inst||!/^WALL_right_/.test(nd.name||'')) continue; for(const t of accF(inst.attributes.TRANSLATION)) maxIn=Math.max(maxIn,3.88-t[0]); }
++check('6. 每一面牆的零件淡出判斷點都一樣（右牆在鐵架前緣、所有架上的機器外面）', !bad6.length&&Object.keys(AT).length===4&&rx<=3.88-maxIn, bad6.slice(0,4).join('；')+' '+JSON.stringify(AT));
+ console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/gg_new_lm_unit.js b/tests/gg_new_lm_unit.js
+new file mode 100644
+index 000000000..cd5336982
+--- /dev/null
++++ b/tests/gg_new_lm_unit.js
+@@ -0,0 +1,30 @@
++// AA／BB／CC 新做的店內（aa_support／bb_support）光照烘焙（INTERIOR-AAA lm_audit_1107 第一級；LAWWW2-B 2026-11-07；tools/blender/env_second/lightbake/bake_gg_new.sh）——不需要瀏覽器。
++//   日和便利店（BB，bb_support/cvs_interior.glb）、洋洋鹹酥雞（BB，bb_support/yangyang_interior.glb；LAWWW-B 15:35 插隊）
++//   遊戲走 Z3.attachRoomGLB（zones3d.js 的 ggRoom／wzShop），GLB 有 extras.lightmap 就接，不用改程式。
++//   1. 每間的 GLB 有 extras.lightmap，白天、晚上的貼圖檔都在
++//   2. 地板、天花板、牆有第二套 UV（烘焙）；發光的（GLOW_）、玻璃沒有（照舊即時光）
++//   3. 沒有材質同時給「有第二套 UV」和「沒有」的網格用（遊戲把光照貼圖接在材質上）
++//   4. 淡出的牆節點都在（烘焙不改節點名字）
++// 修改前：GLB 沒有 extras.lightmap（第 1 項失敗）。用法：node tests/gg_new_lm_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const exists=u=>!!u&&fs.existsSync(path.join(ROOT,u));
++const SHOPS={
++  'bb_support/cvs_interior':{ bake:/^(FLOOR|CEILING|WALL_(back|left|right)_vc)$/, live:/(GLOW|glass|GLASS_|cvs_vc$|cvs_goods)/, walls:['WALL_back_vc','WALL_front_vc','WALL_left_vc','WALL_right_vc'] },
++  'bb_support/yangyang_interior':{ bake:/^(FLOOR|CEILING|WALL_(back|left|right)_wall|WALL_(back|front|left|right)_vc|yy_wood)$/, live:/(GLOW|glass|GLASS_|yy_food|^yy_vc$|VIEW)/, walls:['WALL_back','WALL_front','WALL_left','WALL_right','WALL_front_vc','WALL_front_vm'] },
++};
++for(const [id,R] of Object.entries(SHOPS)){ const buf=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/'+id+'.glb')), J=JSON.parse(buf.slice(20,20+buf.readUInt32LE(12)).toString('utf8'));
++  const l=((J.scenes[0].extras||{}).lightmap)||null;
++  check('1. '+id+'：extras.lightmap 白天、晚上的貼圖都在', !!l&&exists(l.day)&&exists(l.night)&&l.intensity>0, l?l.day:'沒有');
++  if(!l) continue;
++  const ms=J.nodes.filter(n=>n.mesh!=null).map(n=>({name:n.name, prims:J.meshes[n.mesh].primitives.map(p=>({uv1:p.attributes.TEXCOORD_1!=null, mat:p.material!=null?J.materials[p.material].name:null}))}));
++  const bake=ms.filter(m=>R.bake.test(m.name)), noUV=bake.filter(m=>!m.prims.every(p=>p.uv1)).map(m=>m.name);
++  check('2. '+id+'：地板、天花板、牆有第二套 UV（'+bake.length+' 個）', bake.length>=4&&!noUV.length, noUV.join('、'));
++  const live=ms.filter(m=>R.live.test(m.name)||m.prims.some(p=>/^GLOW_/.test(p.mat||''))), bad=live.filter(m=>m.prims.some(p=>p.uv1)).map(m=>m.name);
++  check('2. '+id+'：發光的、玻璃、商品沒有第二套 UV（'+live.length+' 個）', live.length>=3&&!bad.length, bad.join('、'));
++  const w=new Set(), wo=new Set(); for(const m of ms) for(const p of m.prims) (p.uv1?w:wo).add(p.mat); const both=[...w].filter(x=>wo.has(x));
++  check('3. '+id+'：沒有材質同時給有／沒有第二套 UV 的網格', !both.length, both.join('、'));
++  const names=new Set(J.nodes.map(n=>n.name)), miss=R.walls.filter(n=>!names.has(n));
++  check('4. '+id+'：淡出的牆節點都在', !miss.length, miss.join('、')); }
++console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/gg_views_1107_unit.js b/tests/gg_views_1107_unit.js
+new file mode 100644
+index 000000000..af6f24236
+--- /dev/null
++++ b/tests/gg_views_1107_unit.js
+@@ -0,0 +1,44 @@
++// 洋洋鹹酥雞、轉角唱片的窗外補上公館街景（LAWWW2-B 11-07；LAWWW-B 15:35「兩間的 GLB 都沒有窗外的景（view card），從店裡看玻璃外面是空的，烘的時候順便看要不要補一張（照 afar 的做法）」）——不需要瀏覽器（D131）。
++// 在 Node 載入遊戲的 three.js、zones3d.js、兩間的配置和正式模型，建出真正的區域：
++//   ① 每間的白天、晚上照片都在，長寬比＝窗景卡 16 × 6.5 m
++//   ② 模型裡有窗景卡：名字有 VIEW、在店面玻璃外 2.5 m（照 afar）、寬 16 m、跟著前牆淡出（extras.dir 0,0,−1）、沒有第二套 UV（不吃光照貼圖）
++//   ③ 白天（14:00）：窗景卡換成白天那一張、不調暗
++//   ④ 晚上（21:00）：換成晚上那一張、不調暗；回到白天換回來
++// 修改前（開發分支 03e92c411）：① ② ③ ④ FAIL（沒有照片、模型沒有窗景卡）。用法：node tests/gg_views_1107_unit.js
++const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
++const fs=require('fs'), path=require('path'), vm=require('vm');
++const run=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
++global.innerWidth=844; global.innerHeight=390; global.location={search:''}; global.addEventListener=()=>{}; process.on('unhandledRejection',()=>{});
++const w0=console.warn; console.warn=(...a)=>{ const t=String(a[0]); if(/LOD|Missing|載入失敗/.test(t)) return; w0(...a); };
++for(const f of ['src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/calendar.js','src/data/places.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/cvs_layout.js','src/data/yejian_layout.js','src/data/aoki_layout.js','src/data/afar_layout.js','src/data/daybreak_layout.js','src/data/yangyang_layout.js','src/data/corner_layout.js','src/data/lane118_layout.js','src/zones3d.js']) if(fs.existsSync(path.join(ROOT,f))) run(f);
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const sleep=ms=>new Promise(r=>setTimeout(r,ms)), MAN=ASSETS.manifest, A='assets/models/env/second_ai/bb_support/';
++const SHOPS=[{zone:'yangyang',key:'bldg.yangyang_interior',img:'yangyang',glb:'yangyang_interior',front:5.5},{zone:'corner_records',key:'bldg.corner_interior',img:'corner',glb:'corner',front:5.75}];
++const webpSize=f=>{ const b=fs.readFileSync(f); const t=b.toString('ascii',12,16); if(t==='VP8X') return [1+b.readUIntLE(24,3),1+b.readUIntLE(27,3)]; if(t==='VP8 ') return [b.readUInt16LE(26)&0x3fff,b.readUInt16LE(28)&0x3fff]; if(t==='VP8L'){ const v=b.readUInt32LE(21); return [(v&0x3fff)+1,((v>>14)&0x3fff)+1]; } return null; };
++(async()=>{
++  for(const s of SHOPS){ const fs2=['day','night'].map(t=>path.join(ROOT,A+s.img+'_view_'+t+'.webp')), sz=fs2.map(f=>fs.existsSync(f)?webpSize(f):null);
++    check('① '+s.img+'：白天、晚上兩張都在、長寬比≈'+(16/6.5).toFixed(2), sz.every(q=>q&&Math.abs(q[0]/q[1]-16/6.5)<0.03), JSON.stringify(sz));
++    const p=path.join(ROOT,A+s.glb+'.glb'), b=fs.readFileSync(p), J=JSON.parse(b.slice(20,20+b.readUInt32LE(12)).toString('utf8'));
++    const cards=J.nodes.filter(n=>/VIEW/.test(n.name||'')&&n.mesh!=null), c=cards[0];
++    const pr=c&&J.meshes[c.mesh].primitives[0], a=pr&&J.accessors[pr.attributes.POSITION];
++    check('② '+s.img+'：模型裡有窗景卡、在玻璃外 2.5 m、寬 16 m、跟著前牆淡出、沒有第二套 UV',
++      !!c&&/^WALL_front_VIEW_/.test(c.name)&&Math.abs(a.min[2]-(s.front+2.5))<0.05&&Math.abs(a.max[0]-a.min[0]-16)<0.05&&JSON.stringify((c.extras||{}).dir)==='[0,0,-1]'&&pr.attributes.TEXCOORD_1==null,
++      c?c.name+' z '+a.min[2].toFixed(2)+' 寬 '+(a.max[0]-a.min[0]).toFixed(2)+' dir '+JSON.stringify((c.extras||{}).dir):'沒有窗景卡'); }
++  window.ASSET_DATA=window.ASSET_DATA||{}; for(const s of SHOPS){ const m=MAN[s.key]; if(m&&fs.existsSync(path.join(ROOT,m.url))) window.ASSET_DATA[m.url]=fs.readFileSync(path.join(ROOT,m.url)).toString('base64'); }
++  const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++  const build=async id=>{ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.scene.add(z.group);
++    let mat=null; for(let i=0;i<80&&!mat;i++){ await sleep(100); z.group.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)) for(const m of [].concat(o.material)) mat=mat||m; }); } return {z,mat}; };
++  const src=m=>(m&&m.map&&m.map.userData&&m.map.userData.url)||'';   /* zones3d.js 換上的照片在 texture.userData.url 記網址 */
++  for(const s of SHOPS){
++    if(!Z3.ZONES[s.zone]){ check(s.img+' 的區域在', false); continue; }
++    global.GAME={G:{zone:s.zone,day:30,hour:14,flags:{},money:5000,weather:'clear',visited:{}}};
++    const {z,mat}=await build(s.zone);
++    if(!mat||!z.applyTime){ check('③ '+s.img+' 的窗景卡接上了', false, mat?'沒有 applyTime':'區域裡沒有窗景卡'); continue; }
++    z.applyTime(14,'clear'); const d=src(mat);
++    check('③ '+s.img+' 白天：換成 '+s.img+'_view_day.webp、不調暗', new RegExp(s.img+'_view_day\\.webp$').test(d)&&mat.color.r===1, d+' color '+mat.color.r);
++    z.applyTime(21,'clear'); const n=src(mat);
++    check('④ '+s.img+' 晚上：換成 '+s.img+'_view_night.webp、不調暗', new RegExp(s.img+'_view_night\\.webp$').test(n)&&mat.color.r===1, n+' color '+mat.color.r);
++    z.applyTime(14,'clear'); check('④ '+s.img+' 回到白天換回白天那一張', new RegExp(s.img+'_view_day\\.webp$').test(src(mat)), src(mat));
++  }
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();
