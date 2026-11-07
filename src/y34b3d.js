@@ -779,6 +779,7 @@ const Y34B=(function(){
     {if:C(()=>met('yu')),speaker:'zhe',text:'妳每次都點這個。……還有，阿姨說妳大一第一次點的也是這個。'},
     {if:C(G=>kxIn(G)&&!!G.flags.KX_MET_NOODLE_TEAM),speaker:'kexin',expression:'laugh',text:'你說了三年的叉燒，原來是真的。'},
     {if:C(()=>met('heroine_05')&&met('yu')),speaker:null,text:'（Alison 把手機給大家看。）'},   /* AA-B 11-07 回 LAWWW-B（A23 剩下五處；AA_624：語彤從來不在燒臘店，這一場整個沒有她） 第 1 點：照片是美國的學姊傳的，給大家看的是她妹妹 Alison（原本語彤）；Alison 有出現（認識她，同上面那幾句的 met）才有這一句 */
+    {if:C(()=>met('heroine_05')&&!met('yu')),speaker:null,text:'（有人把手機傳過來給大家看。）'},   /* AA-B 11-07 23:13：不認識 Alison＝中性的一句，後面學姊那兩句照舊 */
     {if:C(()=>met('heroine_05')),speaker:'heroine_05',text:'（照片：她在美國煮的一碗麵）'},
     {if:C(()=>met('heroine_05')),speaker:'heroine_05',text:'週年快樂。'},
     {if:C(G=>met('heroine_05')&&met('yu')&&!!(G.flags&&G.flags.KNOWS_SIS_ALISON)),speaker:'yu',text:'她昨天也傳給我了。'},{if:C(G=>met('heroine_05')&&met('yu')&&!!(G.flags&&G.flags.KNOWS_SIS_ALISON)),speaker:'yu',text:'……她想家的時候，才會煮麵。'},   /* AA_611 第 16 列（企劃線 91df9a906，AA-B 11-07 18:05 改句；原本 Alison 說照片是她拍的那句作廢：學姊那時在美國）：知道兩人是姊妹、認識 Alison */
