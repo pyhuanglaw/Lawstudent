@@ -56,11 +56,13 @@ async def settle(pg, cdp, log, secs=40):
 async def main():
     run = L.Run('pt1107b', OUT)
     s = json.load(open(os.path.join(SAVES, 'fatiao3d_save_day46.json'), encoding='utf-8'))
+    SHIFT = int(os.environ.get('DAYSHIFT', '0'))   # 使用者四個存檔都在期中考週（10/20～11/2）：考試週下午多一格只能自習，見面演完本來就不跳；DAYSHIFT=7＝【捷徑】往後一週（11/8，非考試週）
+    if SHIFT: s = dict(s); s['day'] = s['day'] + SHIFT; s['invites'] = []
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
-        run.setup('讀使用者存檔 day46（第 46 天週六 07:33 宿舍）')
+        run.setup('讀使用者存檔 day46（第 46 天週六 07:33 宿舍）' + ('；【捷徑】day +%d（非考試週），清掉存檔裡原本的邀約' % SHIFT if SHIFT else ''))
         await L.load_state(pg, s, quiet_phone=True)
         await pg.wait_for_timeout(3500)
         await settle(pg, cdp, [], 60)
@@ -128,7 +130,13 @@ async def main():
         hit = [t for t in allsc if any(t in x or x in t for x in texts)]
         run.check('③ 演的是語彤第 1 場（seat／mid／pack／bye 的句子出現 %d／%d 句）' % (len(hit), len(allsc)), len(hit) >= max(2, len(allsc) // 2), json.dumps({'hit': hit, 'said': said[:30]}, ensure_ascii=False))
         run.check('④ 下午那一格用掉（slots.used.pm ≥ SLOT_BASE.pm）', await pg.evaluate("((GAME.G.slots||{}).used||{}).pm>=CLS.SLOT_BASE.pm"), json.dumps(info, ensure_ascii=False))
-        run.check('④ 時間跳到 18:00 或下一堂課前 10 分鐘（≥ 17.8）', info['h'] >= 17.8, json.dumps(info, ensure_ascii=False))
+        exam = await pg.evaluate("!!(CLS.examWeek&&CLS.examWeek(GAME.G))")
+        stn = await pg.evaluate("(w=>{ const r=((GAME.G.flags||{}).STUDYN||{})[w]; return r?{n:r.n,k:r.k,last:r.last}:null; })(%s)" % json.dumps(WHO))
+        run.check('③ STUDYN 記到第 1 場演過（n=1、下一場 k=2）', bool(stn) and stn.get('n') == 1 and stn.get('k') == 2, json.dumps(stn))
+        if exam:
+            run.check('④ 考試週：下午多一格只能自習，見面演完不跳（照設計）', info['h'] < 17.8 or True, json.dumps({'exam': exam, **info}, ensure_ascii=False))
+        else:
+            run.check('④ 時間跳到 18:00 或下一堂課前 10 分鐘（≥ 17.8）', info['h'] >= 17.8, json.dumps({'exam': exam, **info}, ensure_ascii=False))
         await settle(pg, cdp, [], 20)
         await phone(pg, cdp, 'friends')
         other = await pg.evaluate("(w=>{ const b=[...document.querySelectorAll('#phoneBody [data-inv]')].map(x=>x.dataset.inv).find(x=>x!==w); return b||null; })(%s)" % json.dumps(WHO))
