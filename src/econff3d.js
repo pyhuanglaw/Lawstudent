@@ -177,6 +177,10 @@ const ECONFF=(()=>{
   S.peAdd=function(G,ln){ if(!S._peSkip) return ln; S._peSkip=false; const r=S.rec(G); if(r.pe) return ln; r.pe=1; return [ln,S.PE_FF].filter(Boolean).join('<br>'); };
   const setT=(G,E,day,h)=>{ if(day!==G.day){ G.day=day; G.weekday=wdOf(day);   /* 0＝週日（game3d 的 WEEK、sleepNow 都是 0；原本 ||7 會錯開，AA-C 10-18 回報）*/ G.energy=100; if(G.flags) G.flags.companion=null; G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(day))?'rain':'clear'; } G.hour=h; if(E) E.hour=G.hour; };
   /* 往前跳到 (day,h)：每 15 分鐘走一格，整點跑手機規則；收到要回的訊息就停（回傳 'msg'）*/
+  /* 跳完落在晚上（20:00 以後、06:00 以前）、跳了一大段（bigJump）、那一步沒指定地點、人不在宿舍、還住宿舍（10/31 退宿以前）＝回宿舍；
+     停在收到的訊息上也一樣（那一則在宿舍看）。白天落點照舊（上課、出遊那一步自己會帶過去）*/
+  S.nightHome=function(G,big,stepZone){ if(!G||!big||stepZone) return false; const x=((G.hour%24)+24)%24; if(!(x>=20||x<6)) return false;
+    if(G.flags&&G.flags.Y0_MOVED_OUT) return false; if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) return false; return G.zone!=='dorm'&&G.zone!=='dorm_hall'; };
   S.jumpTo=function(GM,day,h){ const G=GM.G, E=GM.E; const target=day*24+h; const p0=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).length:0; let t=G.day*24+G.hour, mo=null, qn=0;
     const paid=()=>{ if(mo&&GM.toast) GM.toast(mo.text,3800); if(qn&&GM.phoneBadge) GM.phoneBadge(); };   /* qn：途中收到、不停的（quiet）——跳完紅點要亮 */
     while(t+0.25<=target+1e-6){ t=Math.round((t+0.25)*4)/4; const d=(h>=24&&t>=day*24)?day:Math.floor(t/24); setT(G,E,d,t-d*24);   /* h≥24：深夜還算前一天（遊戲的「過了午夜還是晚上」）*/
@@ -206,6 +210,7 @@ const ECONFF=(()=>{
     if(t>now+0.05){ const d0=G.day, bigJump=()=>G.day!==d0||(G.day*24+G.hour)-now>=2; const sb=!!(GM.sceneBegin&&GM.sceneEnd); if(sb) GM.sceneBegin(); try{ await GM.fade(true);   /* 跳日期的黑幕、日期卡期間把玩家鎖住（BUG-BOWL-STUCK-1018 懷疑的方向：原本這段玩家沒有標 busy，日期卡那 3 秒點互動、NPC 或別的自動劇情會和跳日期同時開演，兩段搶同一個對話框）*/
       S._peSkip=false; const res=S.jumpTo(GM,day,h);
       S.attendBetween(G,G.day*24+G.hour,d0);
+      if(S.nightHome(G,bigJump(),res==='msg'?null:s.zone)&&GM.enter) await GM.enter('dorm',undefined,{noFade:true});   /* 跳了一大段、落在晚上、那一步沒指定地點：先回宿舍（BB-B 11-07 BB_255：跳到 9/12 21:00 人還在 9/9 上課的博思教學館裡）*/
       if(res==='msg'){ if(GM.updateHUD) GM.updateHUD();
         { let ln=S.short(G)?S.cardLine(G,d0,G.day,now-d0*24,G.hour):S.lineFor(G,d0,G.day); if(ln&&!S.short(G)) r.lines.push(ln); if(G.day!==d0) ln=S.peAdd(G,ln); if(GM.titleCard&&bigJump()) await GM.titleCard(S.dateLabel(G.day,G.hour),ln||'',ln?3200:1800); }   /* AA_348 B2：停在手機訊息上也先出日期卡＋那一句（原本直接打開手機，玩家看不到今天幾號，9/2～10/28 的四句典型玩家都看不到；同 home3d.js 的 y0Jump）*/
         await GM.fade(false); if(GM.phoneThread) GM.phoneThread(S.newestTh(G),{skip:true}); else if(GM.openPhone) GM.openPhone(); return true; }   /* AA_300 第 6 節：直接打開那一段對話，按「跳過」關掉、繼續跳 */   /* 收到要回的訊息：先回，回完下一次再接 */
