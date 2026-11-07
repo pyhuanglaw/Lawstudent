@@ -82,7 +82,19 @@
 - `assets3d.js` 的 GLTFLoader 加 `setMeshoptDecoder`；
 - LICENSES 加一列。
 
-**還要先解決**：預設會量化位置、改節點的變換，招牌、門牌會畫錯。要改成位置不量化、只壓縮資料，大小會比 4.9 MB 大一些，還沒量。
+**還要先解決**：預設會量化位置、改節點的變換，招牌、門牌會畫錯。
+
+**改法**：在第一階段的檔上只做 Meshopt 無損壓縮（EncoderMethod.QUANTIZE，不再量化），節點、格式都不動。量到的大小：
+
+| | 檔案 | gzip 以後 |
+|---|---|---|
+| 第一階段 | 10.28 MB | 4.28 MB |
+| 第一階段＋Meshopt（無損） | **5.67 MB** | 3.82 MB |
+
+- 線上沒有 gzip：少 4.6 MB。
+- 線上有 gzip：只少 0.46 MB。
+
+還沒做的：用解碼器在 Node 解開、逐網格比對（LAWWW-B 決定要做才做）。
 
 **GitHub Pages 有沒有 gzip `.glb`**：雲端查不到（代理擋 github.io），已請 CC 查（PAGES-GZIP）。有 gzip 的話：
 - 玩家實際只下載約 4.6 MB；
