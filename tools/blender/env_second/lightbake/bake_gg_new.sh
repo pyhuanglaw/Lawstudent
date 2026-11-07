@@ -10,7 +10,7 @@
 #   - 晚上：只有店裡的燈。
 #   - 頂點色的小東西、貨架上的商品、金屬件、玻璃、發光的東西照舊即時光（--nolm），照樣擋光：地上的接觸陰影照樣烘進去。
 set -e
-SHOP=${1:?cvs|yangyang}
+SHOP=${1:?cvs|yangyang|corner|shaola|yejian}
 SAMPLES=${2:-512}
 OUT=${OUTDIR:-}
 LB=tools/blender/env_second/lightbake
@@ -63,7 +63,43 @@ corner)
   EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --points "$PTS" --keep-instances)
   CARD=(--name WALL_front_VIEW_cr_window_view --mat cr_window_view --img assets/models/env/second_ai/bb_support/corner_view_day.webp --x0 -8 --x1 8 --y0 -1 --y1 5.5 --z 8.25)
   ;;
-*) echo "不認得的店 $SHOP（cvs、yangyang、corner）"; exit 1;;
+shaola)
+  # 公館燒臘 v7（BB 製作，bb_support/shaola_interior.glb；noodle 區域，公館 G00）：6 × 13 m、天花板 3.2 m；店面（+z）中間玻璃門、兩邊窗。窄長老店。
+  # 窗外的景：遊戲已經有（zones3d.js buildShaola 的 shopViewPane 視差窗，WINVIEW-AUDIT-1105），不加卡。
+  # 燈：天花板 9 組雙管日光燈（sl_tube，每組兩支 1.22 m，y 3.08），tube_lights.py 讀出 18 支，每支 14 W（試烘 12 W：比轉角唱片、洋洋暗一點）；
+  #     燒臘玻璃櫃上面 5 顆暖色燈泡（sl_warm，x 1.3、y 2.34）每顆 6 W、左牆 2 盞暖色小壁燈（WALL_left_warm）每盞 6 W。
+  #     後牆外廚房那支燈管（WALL_back_tube，z −7.4，布簾門後面）不算：玩家看不到廚房裡面。
+  # 烘：地板、天花板、四面牆（WALL_*_wall）。
+  #   牆上的頂點色零件（WALL_left／right／back_vc：層架、櫃台後面、廚房裡）不烘：試烘時佔了光照貼圖 26%，其中 72～97% 是全黑（貼著牆、在櫃台後面、在廚房），地板、牆分到的解析度被吃掉。
+  # 不烘：桌凳和小東西（sl_vc 1.9 萬個三角形）、燒臘和調味罐（sl_gloss 2.3 萬）、不鏽鋼、金屬、燈、螢幕、印刷品、玻璃、
+  #       牆上的頂點色零件、店面外面的騎樓立面（WALL_front_vc，z 6.5～9.2，在店外）。
+  GLB=bb_support/shaola_interior.glb
+  LIGHTS=$(python3 $LB/tube_lights.py assets/models/env/second_ai/$GLB --mesh 'sl_tube$' --w "${LW:-14}" --shrink 0.0)
+  BW=${BW:-6}; WC=1.0,0.76,0.50
+  PTS=""
+  for zz in 2.5 3.15 3.8 4.45 5.1; do PTS="$PTS${PTS:+;}1.3,2.3,$zz,$BW,$WC,0.05"; done
+  for zz in 0.43 0.77; do PTS="$PTS;-2.65,2.3,$zz,$BW,$WC,0.05"; done
+  HIDE='glass'
+  NOLM='_vc$|sl_vm|_vm$|gloss|steel|tube|warm|screens|print|glass'
+  EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --points "$PTS")
+  ;;
+yejian)
+  # 頁間書屋 v3b（AA 製作，aa_support/yejian.glb；bookstore 區域，公館）：12 × 10 m、天花板 3.8 m；店面（+z）西端木門、東邊整片窗（x −3.6～5.6）。
+  # 窗外的景：模型已經有（WALL_front_VIEW_yej_window_view，windowView），烘的時候藏起來（不擋天光），照樣輸出。
+  # 燈：全部是燈泡（yej_bulb），tube_lights.py 讀出每一顆的位置，照高度換成點光源（暖色 2700K），燈泡本身烘的時候藏起來（點光源在燈泡裡面會被擋住）：
+  #     天花板裸燈泡 14 顆（y 3.52）每顆 10 W；吊燈（閱讀桌上、窗邊、右邊，y 2.1～2.4）每盞 7 W；吧台黃銅檯燈、落地燈、右牆那支（y 1.6 以下）每盞 4 W。
+  # 烘：地板、天花板、四面牆（WALL_*_wall 奶油色漆）、牆上的木作（WALL_*_yej_wood：護牆板、窗框，島少）。
+  # 不烘：家具和書櫃的木頭（yej_wood 6400 個三角形、島太多）、書、黃金葛、印刷品、頂點色的小東西（yej_vc／vcg／vcm）、燈泡、玻璃、窗景卡。
+  GLB=aa_support/yejian.glb
+  CW=${CW:-10}; PW=${PW:-7}; DW=${DW:-4}; WC=1.0,0.78,0.55
+  PTS=$(python3 $LB/tube_lights.py assets/models/env/second_ai/$GLB --mesh 'yej_bulb$' --w 1 --shrink 0.0 | tr ';' '\n' | \
+    awk -F, -v cw="$CW" -v pw="$PW" -v dw="$DW" -v wc="$WC" '{x=($1+$2)/2; z=($3+$4)/2; y=$5; w=(y>3.3)?cw:((y>1.9)?pw:dw); printf "%s%.3f,%.3f,%.3f,%s,%s,0.05", (NR>1?";":""), x, y-0.02, z, w, wc}')
+  LIGHTS=""
+  HIDE='glass|VIEW|bulb'
+  NOLM='^yej_wood$|books|pothos|print|_vc$|vcg|vcm|bulb|glass|VIEW'
+  EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --points "$PTS")
+  ;;
+*) echo "不認得的店 $SHOP（cvs、yangyang、corner、shaola、yejian）"; exit 1;;
 esac
 SRC=assets/models/env/second_ai/$GLB
 NAME=$(basename "$GLB" .glb)
