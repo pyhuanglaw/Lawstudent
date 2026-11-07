@@ -1,0 +1,415 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SOC_peishan_date_r5\out
+CASES=["classmate_peishan"] STEPS=["date"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
+PASS [classmate_peishan] 遊戲載入
+== 人物 classmate_peishan 沛珊 開始（層 A、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 8, "Y3S1": 8, "Y3S2": 8, "Y4S1": 8, "Y4S2": 8, "Y1S1": 8}、店內偶遇 [{"spot": "wz_tea", "join": null}, {"spot": "wz_ice", "join": "friend"}]、自由出行 ["D12", "D08"]）
+-- [classmate_peishan] date
+  [前置／捷徑] [classmate_peishan] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [classmate_peishan] 她在 3D 的時段（前 8 個，照區域排）：[["2025-09-16", 14, "campus", "文學院前的長椅（哲學概論旁聽）"], ["2025-09-18", 14, "campus", "文學院前的長椅（哲學概論旁聽）"], ["2025-09-23", 14, "campus", "文學院前的長椅（哲學概論旁聽）"], ["2025-09-30", 14, "campus", "文學院前的長椅（哲學概論旁聽）"], ["2025-10-07", 14, "campus", "文學院前的長椅（哲學概論旁聽）"], ["2025-10-14", 14, "campus", "文學院前的長椅（哲學概論旁聽）"], ["2025-10-21", 14, "campus", "文學院前的長椅（哲學概論旁聽）"], ["2025-10-28", 14, "campus", "文學院前的長椅（哲學概論旁聽）"]]
+  [前置／捷徑] [classmate_peishan] 讀檔：date：2025-09-16 14 campus（文學院前的長椅（哲學概論旁聽））（campus 0 14.00）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_peishan] 前置：第 5 階（POSSIBLE_ROMANTIC_INTEREST）、有聯絡方式：{"stage": "POSSIBLE_ROMANTIC_INTEREST", "name": "沛珊", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [classmate_peishan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.12 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，22 秒
+  [classmate_peishan] date 當面約 約之前 DATE.canAsk：{"invites": [], "face": {"ok": true}, "phone": {"ok": true}, "inHero": true, "xcrom": true, "stage": 5, "key": "2025-09-16", "partner": {"from": "2026-04-06", "untilWeek": {"term": "Y2S1", "week": 6}, "endEvent": "ev_peishan_split", "unlessFlag": "dating_classmate_peishan"}}
+  [classmate_peishan] date 當面約 時段 1 重現資料：{"key": "2025-09-16", "day": 0, "zone": "campus", "h": 14.22, "stage": "POSSIBLE_ROMANTIC_INTEREST", "invStage": "POSSIBLE_ROMANTIC_INTEREST", "whyNot": "", "near": [{"id": null, "charId": null, "d": 1.1, "stage": null}, {"id": "pool_15", "charId": "pool_15", "d": 0.96, "stage": "STRANGER"}], "canInvite": true, "privOk": false, "company": ["pool_15"], "crowd": true, "privWait": null}
+  [classmate_peishan] date 當面約：按「和沛珊說話」
+PASS [classmate_peishan] date 當面約：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "很會問問題的女生那如果……"}
+  [classmate_peishan] date 當面約 選單 ["（說點不一樣的）", "就這樣"] → 選「就這樣」
+  [classmate_peishan] date 當面約 台詞（1 句）：["沛珊｜（她朝你笑了一下）"]
+PASS [classmate_peishan] date 當面約：對話一路點得完  1 個選單
+PASS [classmate_peishan] date 當面約：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] date 當面約：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約：搖桿推得動（≥0.3 m）  3.18 m
+PASS [classmate_peishan] date 當面約：點地走得動（≥0.3 m）  點 [-24.05, -7.03]，走了 1.05 m
+PASS [classmate_peishan] date 當面約：遊戲時間有在走  14.2717→14.2920
+PASS [classmate_peishan] date 當面約：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [classmate_peishan] date 當面約：第 1 次說話沒有約成（選單 [["（說點不一樣的）", "就這樣"]]；這個時段看過「約她去…」：False），回到她旁邊再說一次
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [classmate_peishan] date 當面約（時段 1 第 2 次）：按「和沛珊說話」
+PASS [classmate_peishan] date 當面約（時段 1 第 2 次）：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] date 當面約（時段 1 第 2 次） 選單 ["（說點不一樣的）", "就這樣"] → 選「就這樣」
+  [classmate_peishan] date 當面約（時段 1 第 2 次） 台詞（1 句）：["沛珊｜（她揮了揮手上的筆記）"]
+PASS [classmate_peishan] date 當面約（時段 1 第 2 次）：對話一路點得完  1 個選單
+PASS [classmate_peishan] date 當面約（時段 1 第 2 次）：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] date 當面約（時段 1 第 2 次）：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約（時段 1 第 2 次）：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約（時段 1 第 2 次）：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約（時段 1 第 2 次）：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約（時段 1 第 2 次）：搖桿推得動（≥0.3 m）  3.26 m
+PASS [classmate_peishan] date 當面約（時段 1 第 2 次）：點地走得動（≥0.3 m）  點 [-22.76, -14.21]，走了 1.08 m
+PASS [classmate_peishan] date 當面約（時段 1 第 2 次）：遊戲時間有在走  14.4349→14.4552
+PASS [classmate_peishan] date 當面約（時段 1 第 2 次）：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約（時段 1 第 2 次）：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約（時段 1 第 2 次）：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [classmate_peishan] date 當面約：第 2 次說話沒有約成（選單 [["（說點不一樣的）", "就這樣"]]；這個時段看過「約她去…」：False），回到她旁邊再說一次
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.14 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [classmate_peishan] date 當面約（時段 1 第 3 次）：按「和沛珊說話」
+PASS [classmate_peishan] date 當面約（時段 1 第 3 次）：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] date 當面約（時段 1 第 3 次） 選單 ["（說點不一樣的）", "就這樣"] → 選「就這樣」
+  [classmate_peishan] date 當面約（時段 1 第 3 次） 台詞（1 句）：["沛珊｜嗨！"]
+PASS [classmate_peishan] date 當面約（時段 1 第 3 次）：對話一路點得完  1 個選單
+PASS [classmate_peishan] date 當面約（時段 1 第 3 次）：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] date 當面約（時段 1 第 3 次）：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約（時段 1 第 3 次）：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約（時段 1 第 3 次）：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約（時段 1 第 3 次）：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約（時段 1 第 3 次）：搖桿推得動（≥0.3 m）  3.22 m
+PASS [classmate_peishan] date 當面約（時段 1 第 3 次）：點地走得動（≥0.3 m）  點 [-26.38, -8.19]，走了 1.05 m
+PASS [classmate_peishan] date 當面約（時段 1 第 3 次）：遊戲時間有在走  14.5580→14.5779
+PASS [classmate_peishan] date 當面約（時段 1 第 3 次）：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約（時段 1 第 3 次）：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約（時段 1 第 3 次）：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [classmate_peishan] date 當面約：第 3 次說話沒有約成（選單 [["（說點不一樣的）", "就這樣"]]；這個時段看過「約她去…」：False），回到她旁邊再說一次
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.17 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+  [classmate_peishan] date 當面約：上一個時段沒有「約她去…」，換時段 ["2025-09-15", 17, "library", "看書"]
+  [前置／捷徑] [classmate_peishan] 讀檔：date 換時段：2025-09-15 17 library（看書）（library -1 17.00）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_peishan] 前置：第 5 階、有聯絡方式：{"stage": "POSSIBLE_ROMANTIC_INTEREST", "name": "沛珊", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [classmate_peishan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_peishan] 到達「沛珊 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [classmate_peishan] date 當面約 時段 2 重現資料：{"key": "2025-09-15", "day": -1, "zone": "library", "h": 17.1, "stage": "POSSIBLE_ROMANTIC_INTEREST", "invStage": "POSSIBLE_ROMANTIC_INTEREST", "whyNot": "", "near": [{"id": "classmate_bohan", "charId": "classmate_bohan", "d": 1.65, "stage": "STRANGER"}, {"id": "classmate_xinci", "charId": "classmate_xinci", "d": 1.65, "stage": "STRANGER"}], "canInvite": true, "privOk": true, "company": [], "crowd": false, "privWait": null}
+  [classmate_peishan] date 當面約（時段 2 第 1 次）：按「和沛珊說話」
+PASS [classmate_peishan] date 當面約（時段 2 第 1 次）：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] date 當面約（時段 2 第 1 次） 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [classmate_peishan] date 當面約（時段 2 第 1 次）：對話一路點得完  0 個選單
+PASS [classmate_peishan] date 當面約（時段 2 第 1 次）：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] date 當面約（時段 2 第 1 次）：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約（時段 2 第 1 次）：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約（時段 2 第 1 次）：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約（時段 2 第 1 次）：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約（時段 2 第 1 次）：搖桿推得動（≥0.3 m）  3.33 m
+PASS [classmate_peishan] date 當面約（時段 2 第 1 次）：點地走得動（≥0.3 m）  點 [-0.75, -11.94]，走了 1.02 m
+PASS [classmate_peishan] date 當面約（時段 2 第 1 次）：遊戲時間有在走  17.1440→17.1643
+PASS [classmate_peishan] date 當面約（時段 2 第 1 次）：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約（時段 2 第 1 次）：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約（時段 2 第 1 次）：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [classmate_peishan] date 當面約：第 1 次說話沒有約成（選單 []；這個時段看過「約她去…」：False），回到她旁邊再說一次
+  [classmate_peishan] 到達「沛珊 旁邊」附近（1.04 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+INFO [classmate_peishan] date 再說一次（不讀檔，剛才那句已經說過）：互動鍵是「和芯慈說話」（他的是「和沛珊說話」），再靠近一點  
+  [classmate_peishan] 到達「沛珊 旁邊（再近一點）」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [classmate_peishan] date 當面約（時段 2 第 2 次）：按「和沛珊說話」
+PASS [classmate_peishan] date 當面約（時段 2 第 2 次）：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_peishan] date 當面約（時段 2 第 2 次） 選單 ["（說點不一樣的）", "約她去…", "就這樣"] → 選「約她去…」
+  [classmate_peishan] date 當面約（時段 2 第 2 次） 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "去頁間書屋逛逛", "散步…", "運動…", "出去玩…", "算了"] → 選「出去玩…」
+  [classmate_peishan] date 當面約（時段 2 第 2 次） 選單 ["臺北市：看展・電影…", "臺北市：戶外…", "新北市、桃園：海邊…", "新北市、桃園：老街・山・近郊…", "一整天（宜蘭、中南部）…", "算了"] → 選「臺北市：看展・電影…」
+  [classmate_peishan] date 當面約（時段 2 第 2 次） 選單 ["華山1914文創園區", "松山文創園區", "參創生活園區", "西門町電影院", "光典臺北", "臺北市立美術館", "返回"] → 選「華山1914文創園區」
+  [classmate_peishan] date 當面約（時段 2 第 2 次） 選單 ["今天 9/15（一）", "明天 9/16（二）", "9/17（三）", "9/18（四）", "9/19（五）", "9/20（六）", "9/21（日）", "算了"] → 選「今天 9/15（一）」
+  [classmate_peishan] date 當面約（時段 2 第 2 次） 選單 ["09:00 出發（灰）", "10:00 出發（灰）", "13:00 出發（灰）", "14:00 出發（灰）", "15:00 出發（灰）", "換一天", "算了"] → 選「換一天」
+  [classmate_peishan] date 當面約（時段 2 第 2 次） 選單 ["今天 9/15（一）", "明天 9/16（二）", "9/17（三）", "9/18（四）", "9/19（五）", "9/20（六）", "9/21（日）", "算了"] → 選「明天 9/16（二）」
+  [classmate_peishan] date 當面約（時段 2 第 2 次） 選單 ["09:00 出發（灰）", "10:00 出發（灰）", "13:00 出發", "14:00 出發", "15:00 出發", "換一天", "算了"] → 選「13:00 出發」
+  [classmate_peishan] date 當面約（時段 2 第 2 次） 選單 ["就這樣約", "重新選", "算了"] → 選「就這樣約」
+  [classmate_peishan] date 當面約（時段 2 第 2 次） 台詞（7 句）：["沛珊｜（小聲）嗨。你也來讀書喔？", "祐廷｜（小聲）你等一下有空嗎？", "｜和沛珊去華山1914文創園區：明天 9/16（二）", "｜和沛珊去華山1914文創園區：明天 9/16（二） 13:00 出發，捷運單程約 25 分鐘，預計花費 60 元，約 16:20 回到首都帝大。", "沛珊｜（小聲）好。謝謝你約我。", "｜約好了：明天 9/16（二） 13:00，", "｜約好了：明天 9/16（二） 13:00，華山1914文創園區。"]
+PASS [classmate_peishan] date 當面約（時段 2 第 2 次）：對話一路點得完  9 個選單
+PASS [classmate_peishan] date 當面約（時段 2 第 2 次）：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_peishan] date 當面約（時段 2 第 2 次）：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約（時段 2 第 2 次）：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約（時段 2 第 2 次）：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約（時段 2 第 2 次）：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約（時段 2 第 2 次）：搖桿推得動（≥0.3 m）  3.24 m
+PASS [classmate_peishan] date 當面約（時段 2 第 2 次）：點地走得動（≥0.3 m）  點 [4.99, -5.3]，走了 1.05 m
+PASS [classmate_peishan] date 當面約（時段 2 第 2 次）：遊戲時間有在走  17.3404→17.3605
+PASS [classmate_peishan] date 當面約（時段 2 第 2 次）：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約（時段 2 第 2 次）：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約（時段 2 第 2 次）：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約：約成一趟（G.trips 多一筆，booked／現在出發的 done 都算）  [{"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}] ["沛珊｜（小聲）好。謝謝你約我。", "｜約好了：明天 9/16（二） 13:00，", "｜約好了：明天 9/16（二） 13:00，華山1914文創園區。"]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（date 當面約：離出發還有 19.6 小時，存檔的時間改到出發前 54 分鐘（玩家可以用手機「跳過時間」或睡覺做到））
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [classmate_peishan] date 當面約：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-16", "hour": 12.1092, "zone": "library", "text": "手機｜提醒：13:00，你約了沛珊去華山1914文創園區。", "ch": [{"t": "現在出發", "dim": false}, {"t": "到時間再說", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+  [classmate_peishan] date 當面約 出發 選單 ["現在出發", "到時間再說"] → 選「現在出發」
+  [classmate_peishan] date 當面約 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
+  [classmate_peishan] date 當面約 出發 選單 ["「可以，早上五點的那張。」", "「妳想拍嗎？」"] → 選「「可以，早上五點的那張。」」
+  [classmate_peishan] date 當面約 出發 選單 ["週末市集", "大草地", "紅磚牆前", "差不多了，回去吧"] → 選「週末市集」
+  [classmate_peishan] date 當面約 出發 選單 ["「第八個？」", "「送妳。」"] → 選「「第八個？」」
+  [classmate_peishan] date 當面約 出發 選單 ["大草地", "紅磚牆前", "差不多了，回去吧"] → 選「大草地」
+  [classmate_peishan] date 當面約 出發 選單 ["「因為他們不怕。」", "「跌倒了就爬起來。」"] → 選「「因為他們不怕。」」
+  [classmate_peishan] date 當面約 出發 選單 ["紅磚牆前", "差不多了，回去吧"] → 選「紅磚牆前」
+  [classmate_peishan] date 當面約 出發 選單 ["「拍一張就好。」", "「那拍牆。」"] → 選「「拍一張就好。」」
+  [classmate_peishan] date 當面約 台詞（22 句）：["｜手機｜提醒：13:00，你約了沛珊去華山1914文創園區。", "｜（華山1914文創園區。）", "沛珊｜這裡以前是酒廠？", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一種心情來。", "沛珊｜（是一個關於「家」的攝影展）每一張都是別人的家。", "…", "沛珊｜今天好像什麼都沒做，又好像做了很多。", "沛珊｜這種一天，我很少有。", "｜（今天去了華山1914文創園區：老倉庫裡的", "｜（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）"]
+PASS [classmate_peishan] date 當面約：出發、到場、互動點、收尾、結算一路點得完
+PASS [classmate_peishan] date 當面約：約會中時間有往前走  遊戲時間 3.15 小時（0 12.11 → 0 15.26）
+INFO [classmate_peishan] date 當面約：錢 30000 → 29690（-310）  
+PASS [classmate_peishan] date 當面約：關係或記憶有變化  {"rel": {"fam": 2, "trust": 2, "comf": 7, "rom": 4, "npcRom": 7}, "mem": "1→1 ['FIRST_MET']"}
+PASS [classmate_peishan] date 當面約：對話沒有空白的句子  []
+PASS [classmate_peishan] date 當面約：說話的人名字不是 id  []
+  [classmate_peishan] date 當面約：對話紀錄 19 句 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SOC_peishan_date_r5\out\classmate_peishan_date__transcript.json
+    （旁白）｜（華山1914文創園區。）
+    沛珊｜這裡以前是酒廠？
+    沛珊｜好奇怪，同一個地方，換一個用途，大家就換一種心情來。
+    沛珊｜（是一個關於「家」的攝影展）每一張都是別人的家。
+    沛珊｜我在想，我們家的早餐店，可以拍成一張嗎？
+    沛珊｜對。煎台剛熱的時候。你怎麼知道？
+    沛珊｜（她拿起一個手做的書籤）這個好便宜。
+    沛珊｜可是我書籤已經有七個了。
+    沛珊｜好。第八個。這個給你的書用。
+    沛珊｜（她看著一群在草地上跑的小孩）小孩跑步的時候，都不看前面。
+    沛珊｜可是他們很少跌倒。好奇怪。
+    沛珊｜可能吧。我現在走樓梯都要看腳。
+    沛珊｜我有點累了。是好的那種累。
+    沛珊｜大家都在這面牆前面拍照。
+    沛珊｜我拍你好了。我不太會被拍。
+    沛珊｜（她站好，手放在書包帶子上）這樣可以嗎？
+    沛珊｜今天好像什麼都沒做，又好像做了很多。
+    沛珊｜這種一天，我很少有。
+    （旁白）｜（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）
+PASS [classmate_peishan] date 當面約 結束：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約 結束：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約 結束：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約 結束：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約 結束：搖桿推得動（≥0.3 m）  3.18 m
+PASS [classmate_peishan] date 當面約 結束：點地走得動（≥0.3 m）  點 [5.07, 0.19]，走了 1.02 m
+PASS [classmate_peishan] date 當面約 結束：遊戲時間有在走  15.2859→15.3051
+PASS [classmate_peishan] date 當面約 結束：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 結束：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 結束：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約：結束後玩家起身了  {"seat": false}
+PASS [classmate_peishan] date 當面約：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
+  [classmate_peishan] date 當面約：約會裡的選單 9 個，換選項重跑 10 次（DATE_BRANCH_MAX=10）
+  [前置／捷徑] [classmate_peishan] 讀回存檔（date 當面約 分支1-1「週末市集」：出發前的提醒之前）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [classmate_peishan] date 當面約 分支1-1「週末市集」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-16", "hour": 12.7501, "zone": "library", "text": "今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+  [classmate_peishan] date 當面約 分支1-1「週末市集」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
+  [classmate_peishan] date 當面約 分支1-1「週末市集」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「週末市集」
+  [classmate_peishan] date 當面約 分支1-1「週末市集」 出發 選單 ["「第八個？」", "「送妳。」"] → 選「「第八個？」」
+  [classmate_peishan] date 當面約 分支1-1「週末市集」 出發 選單 ["老倉庫裡的展覽", "大草地", "紅磚牆前", "差不多了，回去吧"] → 選「老倉庫裡的展覽」
+  [classmate_peishan] date 當面約 分支1-1「週末市集」 出發 選單 ["「可以，早上五點的那張。」", "「妳想拍嗎？」"] → 選「「可以，早上五點的那張。」」
+  [classmate_peishan] date 當面約 分支1-1「週末市集」 出發 選單 ["大草地", "紅磚牆前", "差不多了，回去吧"] → 選「大草地」
+  [classmate_peishan] date 當面約 分支1-1「週末市集」 出發 選單 ["「因為他們不怕。」", "「跌倒了就爬起來。」"] → 選「「因為他們不怕。」」
+  [classmate_peishan] date 當面約 分支1-1「週末市集」 出發 選單 ["紅磚牆前", "差不多了，回去吧"] → 選「紅磚牆前」
+  [classmate_peishan] date 當面約 分支1-1「週末市集」 出發 選單 ["「拍一張就好。」", "「那拍牆。」"] → 選「「拍一張就好。」」
+  [classmate_peishan] date 當面約 分支1-1「週末市集」 台詞（22 句）：["｜今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "｜（華山1914文創園區。）", "沛珊｜這裡以前是酒廠？", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一種心情來。", "沛珊｜（她拿起一個手做的書籤）這個好便宜。", "…", "沛珊｜今天好像什麼都沒做，又好像做了很多。", "沛珊｜這種一天，我很少有。", "｜（今天去了華山1914文創園區：週末市集、", "｜（今天去了華山1914文創園區：週末市集、老倉庫裡的展覽、大草地、紅磚牆前。花了 310 元（含來回車資）。）"]
+PASS [classmate_peishan] date 當面約 分支1-1「週末市集」：出發、到場、互動點、收尾、結算一路點得完
+PASS [classmate_peishan] date 當面約 分支1-1「週末市集」 回來以後：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約 分支1-1「週末市集」 回來以後：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約 分支1-1「週末市集」 回來以後：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約 分支1-1「週末市集」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約 分支1-1「週末市集」 回來以後：搖桿推得動（≥0.3 m）  2.94 m
+PASS [classmate_peishan] date 當面約 分支1-1「週末市集」 回來以後：點地走得動（≥0.3 m）  點 [5.06, -0.05]，走了 0.99 m
+PASS [classmate_peishan] date 當面約 分支1-1「週末市集」 回來以後：遊戲時間有在走  15.2851→15.3049
+PASS [classmate_peishan] date 當面約 分支1-1「週末市集」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支1-1「週末市集」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支1-1「週末市集」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支1-1「週末市集」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（date 當面約 分支1-2「大草地」：出發前的提醒之前）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [classmate_peishan] date 當面約 分支1-2「大草地」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-16", "hour": 12.7502, "zone": "library", "text": "今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+  [classmate_peishan] date 當面約 分支1-2「大草地」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
+  [classmate_peishan] date 當面約 分支1-2「大草地」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「大草地」
+  [classmate_peishan] date 當面約 分支1-2「大草地」 出發 選單 ["「因為他們不怕。」", "「跌倒了就爬起來。」"] → 選「「因為他們不怕。」」
+  [classmate_peishan] date 當面約 分支1-2「大草地」 出發 選單 ["老倉庫裡的展覽", "週末市集", "紅磚牆前", "差不多了，回去吧"] → 選「老倉庫裡的展覽」
+  [classmate_peishan] date 當面約 分支1-2「大草地」 出發 選單 ["「可以，早上五點的那張。」", "「妳想拍嗎？」"] → 選「「可以，早上五點的那張。」」
+  [classmate_peishan] date 當面約 分支1-2「大草地」 出發 選單 ["週末市集", "紅磚牆前", "差不多了，回去吧"] → 選「週末市集」
+  [classmate_peishan] date 當面約 分支1-2「大草地」 出發 選單 ["「第八個？」", "「送妳。」"] → 選「「第八個？」」
+  [classmate_peishan] date 當面約 分支1-2「大草地」 出發 選單 ["紅磚牆前", "差不多了，回去吧"] → 選「紅磚牆前」
+  [classmate_peishan] date 當面約 分支1-2「大草地」 出發 選單 ["「拍一張就好。」", "「那拍牆。」"] → 選「「拍一張就好。」」
+  [classmate_peishan] date 當面約 分支1-2「大草地」 台詞（22 句）：["｜今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "｜（華山1914文創園區。）", "沛珊｜這裡以前是酒廠？", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一種心情來。", "沛珊｜（她看著一群在草地上跑的小孩）小孩跑步的時候，都不看", "…", "沛珊｜今天好像什麼都沒做，又好像做了很多。", "沛珊｜這種一天，我很少有。", "｜（今天去了華山1914文創園區：大草地、老", "｜（今天去了華山1914文創園區：大草地、老倉庫裡的展覽、週末市集、紅磚牆前。花了 310 元（含來回車資）。）"]
+PASS [classmate_peishan] date 當面約 分支1-2「大草地」：出發、到場、互動點、收尾、結算一路點得完
+PASS [classmate_peishan] date 當面約 分支1-2「大草地」 回來以後：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約 分支1-2「大草地」 回來以後：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約 分支1-2「大草地」 回來以後：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約 分支1-2「大草地」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約 分支1-2「大草地」 回來以後：搖桿推得動（≥0.3 m）  2.94 m
+PASS [classmate_peishan] date 當面約 分支1-2「大草地」 回來以後：點地走得動（≥0.3 m）  點 [5.06, -0.05]，走了 0.99 m
+PASS [classmate_peishan] date 當面約 分支1-2「大草地」 回來以後：遊戲時間有在走  15.2844→15.3044
+PASS [classmate_peishan] date 當面約 分支1-2「大草地」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支1-2「大草地」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支1-2「大草地」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支1-2「大草地」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（date 當面約 分支1-3「紅磚牆前」：出發前的提醒之前）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [classmate_peishan] date 當面約 分支1-3「紅磚牆前」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-16", "hour": 12.7513, "zone": "library", "text": "今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+  [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
+  [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「紅磚牆前」
+  [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 出發 選單 ["「拍一張就好。」", "「那拍牆。」"] → 選「「拍一張就好。」」
+  [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "差不多了，回去吧"] → 選「老倉庫裡的展覽」
+  [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 出發 選單 ["「可以，早上五點的那張。」", "「妳想拍嗎？」"] → 選「「可以，早上五點的那張。」」
+  [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 出發 選單 ["週末市集", "大草地", "差不多了，回去吧"] → 選「週末市集」
+  [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 出發 選單 ["「第八個？」", "「送妳。」"] → 選「「第八個？」」
+  [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 出發 選單 ["大草地", "差不多了，回去吧"] → 選「大草地」
+  [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 出發 選單 ["「因為他們不怕。」", "「跌倒了就爬起來。」"] → 選「「因為他們不怕。」」
+  [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 台詞（22 句）：["｜今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "｜（華山1914文創園區。）", "沛珊｜這裡以前是酒廠？", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一種心情來。", "沛珊｜大家都在這面牆前面拍照。", "…", "沛珊｜今天好像什麼都沒做，又好像做了很多。", "沛珊｜這種一天，我很少有。", "｜（今天去了華山1914文創園區：紅磚牆前、", "｜（今天去了華山1914文創園區：紅磚牆前、老倉庫裡的展覽、週末市集、大草地。花了 310 元（含來回車資）。）"]
+PASS [classmate_peishan] date 當面約 分支1-3「紅磚牆前」：出發、到場、互動點、收尾、結算一路點得完
+PASS [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 回來以後：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 回來以後：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 回來以後：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 回來以後：搖桿推得動（≥0.3 m）  2.97 m
+PASS [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 回來以後：點地走得動（≥0.3 m）  點 [5.06, -0.02]，走了 1.02 m
+PASS [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 回來以後：遊戲時間有在走  15.2843→15.3048
+PASS [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支1-3「紅磚牆前」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支1-3「紅磚牆前」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（date 當面約 分支1-4「就這樣回去」：出發前的提醒之前）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [classmate_peishan] date 當面約 分支1-4「就這樣回去」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-16", "hour": 12.752, "zone": "library", "text": "今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+  [classmate_peishan] date 當面約 分支1-4「就這樣回去」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
+  [classmate_peishan] date 當面約 分支1-4「就這樣回去」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「就這樣回去」
+  [classmate_peishan] date 當面約 分支1-4「就這樣回去」 台詞（6 句）：["｜今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "｜（華山1914文創園區。）", "沛珊｜這裡以前是酒廠？", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一種心情來。", "沛珊｜回去了嗎？好。我本來也不知道要做什麼。", "…", "沛珊｜這裡以前是酒廠？", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一種心情來。", "沛珊｜回去了嗎？好。我本來也不知道要做什麼。"]
+PASS [classmate_peishan] date 當面約 分支1-4「就這樣回去」：出發、到場、互動點、收尾、結算一路點得完
+PASS [classmate_peishan] date 當面約 分支1-4「就這樣回去」 回來以後：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約 分支1-4「就這樣回去」 回來以後：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約 分支1-4「就這樣回去」 回來以後：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約 分支1-4「就這樣回去」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約 分支1-4「就這樣回去」 回來以後：搖桿推得動（≥0.3 m）  3.15 m
+PASS [classmate_peishan] date 當面約 分支1-4「就這樣回去」 回來以後：點地走得動（≥0.3 m）  點 [5.06, 0.16]，走了 0.99 m
+PASS [classmate_peishan] date 當面約 分支1-4「就這樣回去」 回來以後：遊戲時間有在走  13.8672→13.8873
+PASS [classmate_peishan] date 當面約 分支1-4「就這樣回去」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支1-4「就這樣回去」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支1-4「就這樣回去」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支1-4「就這樣回去」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "cancelled", "locs": ["D01"], "kind": "half"}]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（date 當面約 分支2-1「「妳想拍嗎？」」：出發前的提醒之前）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-16", "hour": 12.7512, "zone": "library", "text": "今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+  [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
+  [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
+  [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 出發 選單 ["「可以，早上五點的那張。」", "「妳想拍嗎？」"] → 選「「妳想拍嗎？」」
+  [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 出發 選單 ["週末市集", "大草地", "紅磚牆前", "差不多了，回去吧"] → 選「週末市集」
+  [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 出發 選單 ["「第八個？」", "「送妳。」"] → 選「「第八個？」」
+  [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 出發 選單 ["大草地", "紅磚牆前", "差不多了，回去吧"] → 選「大草地」
+  [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 出發 選單 ["「因為他們不怕。」", "「跌倒了就爬起來。」"] → 選「「因為他們不怕。」」
+  [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 出發 選單 ["紅磚牆前", "差不多了，回去吧"] → 選「紅磚牆前」
+  [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 出發 選單 ["「拍一張就好。」", "「那拍牆。」"] → 選「「拍一張就好。」」
+  [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 台詞（22 句）：["｜今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "｜（華山1914文創園區。）", "沛珊｜這裡以前是酒廠？", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一種心情來。", "沛珊｜（是一個關於「家」的攝影展）每一張都是別人的家。", "…", "沛珊｜今天好像什麼都沒做，又好像做了很多。", "沛珊｜這種一天，我很少有。", "｜（今天去了華山1914文創園區：老倉庫裡的", "｜（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）"]
+PASS [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」：出發、到場、互動點、收尾、結算一路點得完
+PASS [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 回來以後：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 回來以後：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 回來以後：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 回來以後：搖桿推得動（≥0.3 m）  3.06 m
+PASS [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 回來以後：點地走得動（≥0.3 m）  點 [5.06, 0.07]，走了 0.99 m
+PASS [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 回來以後：遊戲時間有在走  15.2839→15.3040
+PASS [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支2-1「「妳想拍嗎？」」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（date 當面約 分支3-1「大草地」：出發前的提醒之前）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [classmate_peishan] date 當面約 分支3-1「大草地」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-16", "hour": 12.7534, "zone": "library", "text": "今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+  [classmate_peishan] date 當面約 分支3-1「大草地」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
+  [classmate_peishan] date 當面約 分支3-1「大草地」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
+  [classmate_peishan] date 當面約 分支3-1「大草地」 出發 選單 ["「可以，早上五點的那張。」", "「妳想拍嗎？」"] → 選「「可以，早上五點的那張。」」
+  [classmate_peishan] date 當面約 分支3-1「大草地」 出發 選單 ["週末市集", "大草地", "紅磚牆前", "差不多了，回去吧"] → 選「大草地」
+  [classmate_peishan] date 當面約 分支3-1「大草地」 出發 選單 ["「因為他們不怕。」", "「跌倒了就爬起來。」"] → 選「「因為他們不怕。」」
+  [classmate_peishan] date 當面約 分支3-1「大草地」 出發 選單 ["週末市集", "紅磚牆前", "差不多了，回去吧"] → 選「週末市集」
+  [classmate_peishan] date 當面約 分支3-1「大草地」 出發 選單 ["「第八個？」", "「送妳。」"] → 選「「第八個？」」
+  [classmate_peishan] date 當面約 分支3-1「大草地」 出發 選單 ["紅磚牆前", "差不多了，回去吧"] → 選「紅磚牆前」
+  [classmate_peishan] date 當面約 分支3-1「大草地」 出發 選單 ["「拍一張就好。」", "「那拍牆。」"] → 選「「拍一張就好。」」
+  [classmate_peishan] date 當面約 分支3-1「大草地」 台詞（23 句）：["｜今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "｜（華山1914文創園區。）", "沛珊｜這裡以前是酒廠？", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一種心情來。", "沛珊｜（是一個關於「家」的攝影展）每一張都是別人的家。", "…", "沛珊｜今天好像什麼都沒做，又好像做了很多。", "沛珊｜這種一天，我很少有。", "｜（今天去了華山1914文創園區：老倉庫裡的", "｜（今天去了華山1914文創園區：老倉庫裡的展覽、大草地、週末市集、紅磚牆前。花了 310 元（含來回車資）。）"]
+PASS [classmate_peishan] date 當面約 分支3-1「大草地」：出發、到場、互動點、收尾、結算一路點得完
+PASS [classmate_peishan] date 當面約 分支3-1「大草地」 回來以後：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約 分支3-1「大草地」 回來以後：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約 分支3-1「大草地」 回來以後：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約 分支3-1「大草地」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約 分支3-1「大草地」 回來以後：搖桿推得動（≥0.3 m）  3.00 m
+PASS [classmate_peishan] date 當面約 分支3-1「大草地」 回來以後：點地走得動（≥0.3 m）  點 [5.06, 0.01]，走了 0.99 m
+PASS [classmate_peishan] date 當面約 分支3-1「大草地」 回來以後：遊戲時間有在走  15.2846→15.3048
+PASS [classmate_peishan] date 當面約 分支3-1「大草地」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支3-1「大草地」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支3-1「大草地」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支3-1「大草地」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（date 當面約 分支3-2「紅磚牆前」：出發前的提醒之前）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [classmate_peishan] date 當面約 分支3-2「紅磚牆前」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-16", "hour": 12.7522, "zone": "library", "text": "今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+  [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
+  [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
+  [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["「可以，早上五點的那張。」", "「妳想拍嗎？」"] → 選「「可以，早上五點的那張。」」
+  [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["週末市集", "大草地", "紅磚牆前", "差不多了，回去吧"] → 選「紅磚牆前」
+  [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["「拍一張就好。」", "「那拍牆。」"] → 選「「拍一張就好。」」
+  [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["週末市集", "大草地", "差不多了，回去吧"] → 選「週末市集」
+  [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["「第八個？」", "「送妳。」"] → 選「「第八個？」」
+  [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["大草地", "差不多了，回去吧"] → 選「大草地」
+  [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 出發 選單 ["「因為他們不怕。」", "「跌倒了就爬起來。」"] → 選「「因為他們不怕。」」
+  [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 台詞（24 句）：["｜今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "｜（", "｜（華山1914文創園區。）", "沛珊｜這裡以前是酒廠？", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一種心情來。", "…", "沛珊｜今天好像什麼都沒做，又好像做了很多。", "沛珊｜這種一天，我很少有。", "｜（今天去了華山1914文創園區：老倉庫裡的", "｜（今天去了華山1914文創園區：老倉庫裡的展覽、紅磚牆前、週末市集、大草地。花了 310 元（含來回車資）。）"]
+PASS [classmate_peishan] date 當面約 分支3-2「紅磚牆前」：出發、到場、互動點、收尾、結算一路點得完
+PASS [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 回來以後：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 回來以後：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 回來以後：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 回來以後：搖桿推得動（≥0.3 m）  2.91 m
+PASS [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 回來以後：點地走得動（≥0.3 m）  點 [5.06, -0.08]，走了 0.96 m
+PASS [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 回來以後：遊戲時間有在走  15.2843→15.3046
+PASS [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支3-2「紅磚牆前」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支3-2「紅磚牆前」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（date 當面約 分支3-3「差不多了，回去吧」：出發前的提醒之前）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-16", "hour": 12.7519, "zone": "library", "text": "今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+  [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
+  [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
+  [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 出發 選單 ["「可以，早上五點的那張。」", "「妳想拍嗎？」"] → 選「「可以，早上五點的那張。」」
+  [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 出發 選單 ["週末市集", "大草地", "紅磚牆前", "差不多了，回去吧"] → 選「差不多了，回去吧」
+  [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 台詞（13 句）：["｜今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "｜（華山", "｜（華山1914文創園區。）", "沛珊｜這裡以前是酒廠？", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一種心情來。", "…", "沛珊｜今天好像什麼都沒做，又好像做了很多。", "沛珊｜這種一天，我很少有。", "｜（今天去了華山1914文創園區：老倉庫裡的", "｜（今天去了華山1914文創園區：老倉庫裡的展覽。花了 310 元（含來回車資）。）"]
+PASS [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」：出發、到場、互動點、收尾、結算一路點得完
+PASS [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 回來以後：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 回來以後：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 回來以後：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 回來以後：搖桿推得動（≥0.3 m）  3.03 m
+PASS [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 回來以後：點地走得動（≥0.3 m）  點 [5.06, 0.04]，走了 0.99 m
+PASS [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 回來以後：遊戲時間有在走  14.3669→14.3867
+PASS [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支3-3「差不多了，回去吧」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（date 當面約 分支4-1「「送妳。」」：出發前的提醒之前）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [classmate_peishan] date 當面約 分支4-1「「送妳。」」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-16", "hour": 12.7533, "zone": "library", "text": "今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+  [classmate_peishan] date 當面約 分支4-1「「送妳。」」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
+  [classmate_peishan] date 當面約 分支4-1「「送妳。」」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
+  [classmate_peishan] date 當面約 分支4-1「「送妳。」」 出發 選單 ["「可以，早上五點的那張。」", "「妳想拍嗎？」"] → 選「「可以，早上五點的那張。」」
+  [classmate_peishan] date 當面約 分支4-1「「送妳。」」 出發 選單 ["週末市集", "大草地", "紅磚牆前", "差不多了，回去吧"] → 選「週末市集」
+  [classmate_peishan] date 當面約 分支4-1「「送妳。」」 出發 選單 ["「第八個？」", "「送妳。」"] → 選「「送妳。」」
+  [classmate_peishan] date 當面約 分支4-1「「送妳。」」 出發 選單 ["大草地", "紅磚牆前", "差不多了，回去吧"] → 選「大草地」
+  [classmate_peishan] date 當面約 分支4-1「「送妳。」」 出發 選單 ["「因為他們不怕。」", "「跌倒了就爬起來。」"] → 選「「因為他們不怕。」」
+  [classmate_peishan] date 當面約 分支4-1「「送妳。」」 出發 選單 ["紅磚牆前", "差不多了，回去吧"] → 選「紅磚牆前」
+  [classmate_peishan] date 當面約 分支4-1「「送妳。」」 出發 選單 ["「拍一張就好。」", "「那拍牆。」"] → 選「「拍一張就好。」」
+  [classmate_peishan] date 當面約 分支4-1「「送妳。」」 台詞（23 句）：["｜今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "｜（", "｜（華山1914文創園區。）", "沛珊｜這裡以前是酒廠？", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一種心情來。", "…", "沛珊｜今天好像什麼都沒做，又好像做了很多。", "沛珊｜這種一天，我很少有。", "｜（今天去了華山1914文創園區：老倉庫裡的", "｜（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）"]
+PASS [classmate_peishan] date 當面約 分支4-1「「送妳。」」：出發、到場、互動點、收尾、結算一路點得完
+PASS [classmate_peishan] date 當面約 分支4-1「「送妳。」」 回來以後：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約 分支4-1「「送妳。」」 回來以後：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約 分支4-1「「送妳。」」 回來以後：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約 分支4-1「「送妳。」」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約 分支4-1「「送妳。」」 回來以後：搖桿推得動（≥0.3 m）  3.03 m
+PASS [classmate_peishan] date 當面約 分支4-1「「送妳。」」 回來以後：點地走得動（≥0.3 m）  點 [5.06, 0.04]，走了 0.99 m
+PASS [classmate_peishan] date 當面約 分支4-1「「送妳。」」 回來以後：遊戲時間有在走  15.2824→15.3027
+PASS [classmate_peishan] date 當面約 分支4-1「「送妳。」」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支4-1「「送妳。」」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支4-1「「送妳。」」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支4-1「「送妳。」」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
+  [前置／捷徑] [classmate_peishan] 讀回存檔（date 當面約 分支5-1「紅磚牆前」：出發前的提醒之前）
+  [前置／捷徑] [classmate_peishan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [classmate_peishan] date 當面約 分支5-1「紅磚牆前」：出發前的提醒出來（「現在出發」或「出發」）  {"key": "2025-09-16", "hour": 12.7503, "zone": "library", "text": "今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "ch": [{"t": "出發", "dim": false}, {"t": "改時間", "dim": false}, {"t": "今天不去了", "dim": false}], "cap": ""} 行程 {"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "booked", "locs": ["D01"], "kind": "half"}
+  [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["出發", "改時間", "今天不去了"] → 選「出發」
+  [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["老倉庫裡的展覽", "週末市集", "大草地", "紅磚牆前", "就這樣回去"] → 選「老倉庫裡的展覽」
+  [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["「可以，早上五點的那張。」", "「妳想拍嗎？」"] → 選「「可以，早上五點的那張。」」
+  [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["週末市集", "大草地", "紅磚牆前", "差不多了，回去吧"] → 選「週末市集」
+  [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["「第八個？」", "「送妳。」"] → 選「「第八個？」」
+  [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["大草地", "紅磚牆前", "差不多了，回去吧"] → 選「紅磚牆前」
+  [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["「拍一張就好。」", "「那拍牆。」"] → 選「「拍一張就好。」」
+  [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["大草地", "差不多了，回去吧"] → 選「大草地」
+  [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 出發 選單 ["「因為他們不怕。」", "「跌倒了就爬起來。」"] → 選「「因為他們不怕。」」
+  [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 台詞（23 句）：["｜今天 13:00，你約了沛珊去華山1914文創園區。現在要出發嗎？", "｜（華山1914文創園區。）", "沛珊｜這裡以前是酒廠？", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一", "沛珊｜好奇怪，同一個地方，換一個用途，大家就換一種心情來。", "沛珊｜（是一個關於「家」的攝影展）每一張都是別人的家。", "…", "沛珊｜今天好像什麼都沒做，又好像做了很多。", "沛珊｜這種一天，我很少有。", "｜（今天去了華山1914文創園區：老倉庫裡的", "｜（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、紅磚牆前、大草地。花了 310 元（含來回車資）。）"]
+PASS [classmate_peishan] date 當面約 分支5-1「紅磚牆前」：出發、到場、互動點、收尾、結算一路點得完
+PASS [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 回來以後：15 秒內回到可以自由移動
+PASS [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 回來以後：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 回來以後：沒有新的 JS 例外
+PASS [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 回來以後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 回來以後：搖桿推得動（≥0.3 m）  3.00 m
+PASS [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 回來以後：點地走得動（≥0.3 m）  點 [5.06, 0.01]，走了 0.99 m
+PASS [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 回來以後：遊戲時間有在走  15.2824→15.3026
+PASS [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 回來以後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 回來以後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支5-1「紅磚牆前」 回來以後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_peishan] date 當面約 分支5-1「紅磚牆前」：那一趟記成 done（或一個點都沒去＝cancelled）  [{"trip": "T0001", "day": 0, "depart": 13, "back": 16.333333333333332, "status": "done", "locs": ["D01"], "kind": "half"}]
+== 人物 classmate_peishan 結果 PASS（215 項；SKIP 0：）
+   用了 29.5 分鐘
+==== 總結：1 人，FAIL 0 人：[]
+ALL PASS

@@ -1706,3 +1706,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 279.8s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 279.8s] BROWSER DISCONNECTED
 - 2026-11-07T16:55:57  XS_NORTH_ROAD_r2  sha=fa79dd7bc32e1e177a8187a070b8c7baf6ef2924  exit=0  134s      [  98.7s] [night 對照 xinsheng] xsnorth_ref_xinsheng_night 燈下地面亮度 vs 兩盞中間（截圖 12×12 px 平均，灰階 0～255）：[] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 99.2s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 99.2s] BROWSER DISCONNECTED
+- 2026-11-07T17:10:44  SOC_peishan_date_r5  sha=fa79dd7bc32e1e177a8187a070b8c7baf6ef2924  exit=0  1810s       用了 29.5 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
+      err.log (last 5): [gpu_wrap 1772.3s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 1772.3s] BROWSER DISCONNECTED
