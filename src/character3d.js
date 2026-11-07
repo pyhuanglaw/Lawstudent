@@ -99,6 +99,14 @@ const CHAR = (function(){
   function collectRim(model){ model.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.isMToonMaterial||C.rimMats.has(mt)) continue; if(/FACE|EYE|Face|Eye|MOUTH|BROW|Outline/.test(mt.name||'')) continue; const rw=/HAIR/i.test(mt.name||'')?1:(/Tops/.test(mt.name||'')?0.45:0); if(!rw) continue;   /* 頭髮全強度、上衣一半；褲子、鞋子、皮膚不加（深色褲子加了會變成偏棕的塑膠光澤）*/ /* 原始值：路人換色時 clone 會連 userData 一起複製，所以黃昏時才 clone 的材質也拿得到「改之前」的值 */ if(!mt.userData.rim0){ const c=mt.parametricRimColorFactor; mt.userData.rim0={c:{r:c.r,g:c.g,b:c.b},p:mt.parametricRimFresnelPowerFactor,l:mt.parametricRimLiftFactor,w:rw}; } C.rimMats.add(mt); } }); }
   /* 臉上的小零件（眼白、虹膜、高光、睫毛、眼線、眉毛、嘴）：包在頭裡，影子被頭和頭髮蓋住；不投影＝每個 VRM 人物陰影那一輪少 8 次 draw call（2026-10-16 溫州街效能）*/
   const FACE_PART=/(FaceMouth|FaceBrow|FaceEyelash|FaceEyeline|EyeIris|EyeHighlight|EyeWhite|EyeExtra)/;
+  /* 描邊不進影子那一輪（PERF-WZ-DC-1107，LAWWW2-B；LAWWW-B 11-07 09:04 同意）：three-vrm 的 MToon 描邊是同一個網格的第二個材質（同一份幾何、名字 "...(Outline)"），
+     影子那一輪 three.js 每個 group 用深度材質各畫一次——描邊那一份和本體的深度完全一樣（深度材質不會把描邊往外推），畫出來的影子一模一樣、白畫一次。
+     主角、女主角這種會投影的人物每人 5 個（臉、身體、上衣、褲子、鞋；路人本來就不投影）。建 VRM 時記下描邊材質；engine3d.js 的 shadowLevels 在畫影子之前暫時藏起來、畫完還原。
+     測試：node tests/char_outline_shadow_unit.js */
+  C.OUTLINE_MATS=new Set();
+  const isOutline=mt=>!!mt&&(mt.isOutline===true||/\(Outline\)$/.test(mt.name||''));
+  C.shadowPassBegin=function(){ const hid=[]; for(const m of C.OUTLINE_MATS){ if(m.visible){ m.visible=false; hid.push(m); } } return hid; };
+  C.shadowPassEnd=function(hid){ if(hid) for(const m of hid) m.visible=true; };
   /* 遠距離版本（PERF-CROWD-LOD-1021，LAWWW2）：無名路人離鏡頭 18 m 外（室外；原本 30 m，PERF-PATROL-ECON-1025 改）換成 tools/lod/npc_lod.py 做的低面數網格
      （2 個網格、約 6,400 三角形；原本 13～14 個網格＋描邊、約 3 萬）。綁在這個人自己的骨頭上（照骨頭名字；反向綁定矩陣用他自己 skeleton 的），
      動作、位置、朝向完全跟著原本的模型走；18 m 內完全是原本的模型。遠近由 engine3d.js 的 NPC 迴圈決定（C.setFar）；網址加 ?nofar 整個關掉（比較用）。
@@ -141,7 +149,7 @@ const CHAR = (function(){
   C.sitButtOf=function(spec){ const m=spec&&typeof ASSETS!=='undefined'&&ASSETS.manifest&&ASSETS.manifest[spec.model], H=(spec&&spec.height)||(m&&m.height)||1.7; return m&&sitFit(m.url)?C.SIT_TOP-C.SIT_PRESS:0.47*H/1.75; };   /* 坐下以後大腿底部離座位地面多高（鞦韆這種知道座面的位子：抬高＝座面－這個）；表裡沒有的照舊（原本的鞦韆算法）*/
   const sitDrop=u=>u.sitDrop!=null?u.sitDrop:0.47*(u.k||1);
   C.sitDrop=h=>sitDrop((h&&h.userData)||{});   /* 測試用 */
-  function buildVRM(spec){ const key=spec.model; const m=ASSETS.manifest[key]; const e=ASSETS.acquireVRM(key); if(!e) throw new Error('no free VRM instance'); const vrm=e.vrm; const model=vrm.scene; const hide=m.hide||[]; const realShadow=!m.ambient; model.traverse(o=>{ if(o.isMesh||o.isSkinnedMesh){ o.castShadow=realShadow&&!FACE_PART.test((o.material&&o.material.name)||''); o.receiveShadow=false; o.frustumCulled=false; if(hide.some(h=>o.name===h||o.name.startsWith(h))) o.visible=false; } }); /* 衣服材質整體壓暗一點：MToon 的卡通明暗讓受光面拿到整個太陽亮度（不乘入射角），中午的淺色衣服（米白、淺灰）會曝成全白、看不出顏色。只動 _CLOTH 材質（皮膚、臉、頭髮、眼睛不動）；材質在 pool 裡共用，用 userData 記號避免重複壓暗 */ model.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.name||mt.userData.clothK||!/_CLOTH/.test(mt.name)) continue; mt.userData.clothK=C.CLOTH_K; if(mt.color) mt.color.multiplyScalar(C.CLOTH_K); if(mt.shadeColorFactor) mt.shadeColorFactor.multiplyScalar(C.CLOTH_K); } });
+  function buildVRM(spec){ const key=spec.model; const m=ASSETS.manifest[key]; const e=ASSETS.acquireVRM(key); if(!e) throw new Error('no free VRM instance'); const vrm=e.vrm; const model=vrm.scene; const hide=m.hide||[]; const realShadow=!m.ambient; model.traverse(o=>{ if(o.isMesh||o.isSkinnedMesh){ o.castShadow=realShadow&&!FACE_PART.test((o.material&&o.material.name)||''); if(o.castShadow&&Array.isArray(o.material)) for(const mt of o.material) if(isOutline(mt)) C.OUTLINE_MATS.add(mt); o.receiveShadow=false; o.frustumCulled=false; if(hide.some(h=>o.name===h||o.name.startsWith(h))) o.visible=false; } }); /* 衣服材質整體壓暗一點：MToon 的卡通明暗讓受光面拿到整個太陽亮度（不乘入射角），中午的淺色衣服（米白、淺灰）會曝成全白、看不出顏色。只動 _CLOTH 材質（皮膚、臉、頭髮、眼睛不動）；材質在 pool 裡共用，用 userData 記號避免重複壓暗 */ model.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.name||mt.userData.clothK||!/_CLOTH/.test(mt.name)) continue; mt.userData.clothK=C.CLOTH_K; if(mt.color) mt.color.multiplyScalar(C.CLOTH_K); if(mt.shadeColorFactor) mt.shadeColorFactor.multiplyScalar(C.CLOTH_K); } });
     applyLook(model);
     const v0=!!(vrm.meta&&vrm.meta.metaVersion==='0'); const sx=v0?-1:1;
     // 外層 wrap：縮放與坐下時的高度都改 wrap，VRM 本身的 180° 修正（VRM 0.x）保持不動

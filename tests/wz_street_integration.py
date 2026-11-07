@@ -135,11 +135,11 @@ async def check(pg, run, formal):
         # 第二輪減量（LAWWW 18:54Z：同一鏡頭 ≤ 約 310 次 draw call）：純色零件合成頂點色材質、窗戶共用原型
         vc = await pg.evaluate("""(()=>{ const z=GAME.E.zone, OLD=/^(cafe_alu|cafe_iron_black|cafe_brass|cafe_grille|cafe_tank_steel|cafe_ac_body|cafe_ac_fan|cafe_roof_slab|cafe_pipe|cafe_curtain|wz_mailbox|wz_door_|wz_frame_|wz_awning_|wz_arcade_ceiling|wz_laundry|jp_ridge|jp_gutter|jp_meter|wz_galv|wz_porcelain|wz_stripe_|wz_poster|wz_transformer|wz_signpole|wz_lamp_body|wz_mirror_orange|park_steel|park_bar_green)/;
             const out={old:[], vc:{}, win:{}}; for(const n of ['wenzhou_street_glb','wz_jphouse_glb','wz_props_glb','wz_park_glb']){ const r=z.group.getObjectByName(n); if(!r) continue;
-              r.traverse(o=>{ if(!o.isMesh) return; const mn=o.material.name; if(OLD.test(mn)) out.old.push(n+':'+mn); if(/^wz_vc_/.test(mn)) out.vc[n+':'+mn+(o.isInstancedMesh?'[inst]':'')]=o.castShadow;
+              r.traverse(o=>{ if(!o.isMesh) return; const mn=o.material.name; if(OLD.test(mn)) out.old.push(n+':'+mn); if(/^(wz_vc_|cafe_vc_wz_pack$)/.test(mn)) out.vc[n+':'+mn+(o.isInstancedMesh?'[inst]':'')]=o.castShadow;
                 if(n==='wenzhou_street_glb'&&/^(wz_stain|wz_room_lit|cafe_room_dark)$/.test(mn)){ const k=mn+(o.isInstancedMesh?'':'[merged]'); const e=out.win[k]||(out.win[k]={meshes:0,count:0}); e.meshes++; e.count+=o.isInstancedMesh?o.count:1; } }); }
             return out; })()""")
-        run.check('純色零件都合成頂點色材質（門、雨遮、鋁框、鐵件、窗簾、曬的衣服…沒有剩下原本的單獨材質）', not vc['old'] and any(k.startswith('wenzhou_street_glb:wz_vc_matte') for k in vc['vc']) and any(k.startswith('wenzhou_street_glb:wz_vc_metal') for k in vc['vc']), json.dumps(vc, ensure_ascii=False))
-        run.check('頂點色合併的網格（不是 instancing）會投影、instancing 的不投影', all(v == (not k.endswith('[inst]')) for k, v in vc['vc'].items()), json.dumps(vc['vc'], ensure_ascii=False))
+        run.check('純色零件都合成頂點色材質（門、雨遮、鋁框、鐵件、窗簾、曬的衣服…沒有剩下原本的單獨材質）', not vc['old'] and (any(k.startswith('wenzhou_street_glb:wz_vc_pack') for k in vc['vc']) or (any(k.startswith('wenzhou_street_glb:wz_vc_matte') for k in vc['vc']) and any(k.startswith('wenzhou_street_glb:wz_vc_metal') for k in vc['vc']))), json.dumps(vc, ensure_ascii=False))
+        run.check('頂點色合併的網格（不是 instancing）會投影、instancing 的不投影（cafe_vc_wz_pack＝PERF-WZ-DC-1107 打包後的不投影那一組：不管是不是 instancing 都不投影）', all(v == (not k.endswith('[inst]') and ':cafe_vc_wz_pack' not in k) for k, v in vc['vc'].items()), json.dumps(vc['vc'], ensure_ascii=False))
         wn = vc['win']; st_, li_, da_ = wn.get('wz_stain', {}), wn.get('wz_room_lit', {}), wn.get('cafe_room_dark', {})
         # 效能第一輪（LAWWW2-B 86df67a3）起：亮燈的窗內合成一個網格（wz_room_lit[merged]），沒亮燈的窗內改成頂點色（沒有 cafe_room_dark）；之前是兩個 InstancedMesh、扇數相加＝窗框
         lim_ = wn.get('wz_room_lit[merged]', {})
