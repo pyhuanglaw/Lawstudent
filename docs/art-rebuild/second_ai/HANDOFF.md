@@ -6,7 +6,33 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-07 12:3x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-07 13:4x UTC，帳號 B LAWWW2-B）
+
+分支 `claude/funny-albattani-iawshm`；開發分支 `claude/modest-rubin-2lyp7g`（`e9d8c668f`）。瀏覽器都沒跑（D131，交 CC）。
+
+**已整合**：LAWWW-B 把下面那一批全部整合進開發分支 `6da721819`：
+- 霖澤 3F／4F、萬才研討室的光照；
+- 溫州街 10.3 MB、少編 shader；
+- FIXLIGHTS／PINPROG。
+
+**CC 的量測**：照 BB-B 13:25 的 P6／LZLM6／WSEM6 清單跑，改前 `126bdf93e`、改後 `6da721819`。我補了兩項：
+- WZ6：溫州街、118 巷改前改後的畫面，看價目牌、黑板改單面以後從街上看不看得到；
+- `wz_street_integration.py`：改前改後各跑一次。
+
+我之前請 CC 跑的舊項目都改用這份。工作樹 `$S/gwbase` 現在是開發 `e9d8c668f`＋`tests/rooms_ab3_lm_unit.js`。
+
+| 項目 | 內容 | 位置 | 狀態 |
+|---|---|---|---|
+| INTERIOR-AAA 第三批光照 | 共同 3F、霖澤辦公室、博雅 203、洗衣間、總圖視聽室；燈用 tube_lights.py 從 GLB 讀；不用改程式 | `bake_rooms_ab3.sh`；測試 `wip/rooms_ab3_lm_1107/`（`c3075c03c`，開發原樣 FAILED 5） | **烘焙中**：前三間好了（直接寫在 assets，還沒 commit），洗衣間、視聽室還在烘 |
+| INTERIOR-AAA 最後兩間 | 205 寢室、美國臥室 C | `bake_rooms_last2.sh`（新） | 腳本寫好，等上一批烘完再跑 |
+
+**205 寢室要先跟上 203**：
+- assets 裡的 `dorm_205.glb` 是 11-02 版，天花板 3.0 m、梯子沒有扶手。
+- 11-03 天花板改 3.4 m、11-05 梯子加扶手，這兩次都只重產了 203。
+- 用現在的 `dorm_room4.py --only 205` 重產：配置只差 `h` 3.0 → 3.4，座位、阻擋、走近點都一樣（暫存資料夾試過）。
+- 所以 `room_glb_layouts.js` 的 dorm_205 要改 `h`，會附 patch。
+
+## 🔨 （舊）現在在做（11-07 12:3x UTC，帳號 B LAWWW2-B）
 
 分支 `claude/funny-albattani-iawshm`；開發分支 `claude/modest-rubin-2lyp7g`（`126bdf93e`）。瀏覽器都沒跑（D131，交 CC）。工作樹 `$S/gwbase`＝開發 126bdf93e＋下面三包 patch（rooms_glb3d、engine3d、測試）。
 
