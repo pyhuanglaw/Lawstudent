@@ -1779,6 +1779,17 @@
    "src": "使用者對 AA-B（AskUserQuestion）",
    "checked": "一起念書第 6 次（AA_706 階段 ≥5 才會到）算一次正式約會，計入告白要的 4 次；其他條件（戀愛 ≥30、含一次心願地點、她願意）照舊。LAWWW 改 TERMEND.cond／dateLog；AA_707 第 6 次那場寫成約會的感覺",
    "wants": ""
+  },
+  {
+   "id": "UA-AA-1107-05",
+   "at": "2026-11-07T04:3x",
+   "quote": "（選擇題「舊存檔要怎麼處理（語彤在舊版麵店就認識）？」）舊存檔照留",
+   "kind": "選擇題答案",
+   "status": "還沒做",
+   "task": "PLAYTEST-1107",
+   "src": "使用者對 AA-B（AskUserQuestion）",
+   "checked": "舊存檔照舊算已認識語彤（AA_610「舊存檔演過的照留」不變）；只修「還沒認識就觸發」的判斷（總圖事件等改看 STORY.knows／YT_MET_JOB），新遊戲不再發生。已轉 LAWWW-B",
+   "wants": ""
   }
  ]
 }
