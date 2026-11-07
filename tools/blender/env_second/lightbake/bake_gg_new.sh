@@ -18,11 +18,11 @@ TMP=$(mktemp -d)
 case $SHOP in
 cvs)
   # 日和便利店 v2b（BB 製作，bb_support/cvs_interior.glb；公館 G03）：11.4 × 11.2 m、天花板 3.3 m；店面（+z）整面玻璃＋自動門。24 小時，晚上很亮。
-  # 燈：天花板 29 條 LED 燈條（cvs_led，0.10 × 2.24 m，在 3.245 m），tube_lights.py 讀出來，每條 22 W。冷藏櫃的發光（GLOW_cvs_cooler）照樣發光、會照到地上。
+  # 燈：天花板 29 條 LED 燈條（cvs_led，0.10 × 2.24 m，在 3.245 m），tube_lights.py 讀出來，每條 14 W（試烘 22 W：白天平均 0.63、最亮的頂到 1.0，天花板燈條附近吃掉）。冷藏櫃的發光（GLOW_cvs_cooler）照樣發光、會照到地上。
   # 烘：地板、天花板、四面牆（WALL_*_vc：頂點色、沒有貼圖 UV，bake_room 自己展第二套 UV）、木作（cvs_wood）。
   # 不烘：貨架和商品（cvs_vc 4.8 萬個三角形、cvs_goods）、金屬（cvs_vm、WALL_front_vm 門框）、燈條、冷藏櫃、螢幕、印刷品、店面貼紙（DECAL_front）、玻璃。
   GLB=bb_support/cvs_interior.glb
-  LIGHTS=$(python3 $LB/tube_lights.py assets/models/env/second_ai/$GLB --mesh 'cvs_led$' --w "${LW:-22}" --shrink 0.0)
+  LIGHTS=$(python3 $LB/tube_lights.py assets/models/env/second_ai/$GLB --mesh 'cvs_led$' --w "${LW:-14}" --shrink 0.0)
   HIDE='glass|GLASS_'
   NOLM='^cvs_vc$|cvs_vm|_vm$|cvs_goods|cvs_led|cvs_cooler|cvs_screens|cvs_prints|DECAL_|glass|GLASS_'
   EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S)
