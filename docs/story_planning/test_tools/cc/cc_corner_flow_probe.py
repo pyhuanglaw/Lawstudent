@@ -53,6 +53,11 @@ async def scene(pg, cdp, tag, prefs, max_s=150, idle_end=2.5):
             await L.touch_tap(cdp, c[0], c[1]); out['picked'].append(bs[k] if k < len(bs) else None); await pg.wait_for_timeout(1000); continue
         if s['dlg']:
             quiet = None
+            for _w in range(20):   # 對話框打字效果：等這一句打完（0.35 秒內沒有變）才記、才點（不然記到半句，點一下又跳過）
+                _a = await pg.evaluate("(()=>{ const e=document.getElementById('dlgText'); return e?e.innerText.trim():''; })()")
+                await pg.wait_for_timeout(350)
+                _b = await pg.evaluate("(()=>{ const e=document.getElementById('dlgText'); return e?e.innerText.trim():''; })()")
+                if _a == _b: break
             who = await pg.evaluate("(()=>{ const e=document.getElementById('dlgName')||document.querySelector('#dlg .name'); return e?e.innerText.trim():''; })()")
             full = await pg.evaluate("(()=>{ const e=document.getElementById('dlgText')||document.querySelector('#dlg .text'); return e?e.innerText.trim():''; })()")
             t = full or s['dtext']
