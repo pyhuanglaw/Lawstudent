@@ -48,6 +48,9 @@ SHOPWIN_718b_old | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story
 CLOSE_EXC_r2 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_close_all_probe.py | index.html | 90 | STAFF=1;RERUN=r2;CC_HEADLESS=0
 SOC_peishan_date_r3 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | CASES=classmate_peishan;STEPS=date,phone;RERUN=r3;CC_HEADLESS=0
 SOC_xinci_date_r3 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | CASES=classmate_xinci;STEPS=date,phone;RERUN=r3;CC_HEADLESS=0
+#   BB-B 05:22 SKIRT_SIT_8618：穿裙子的路人坐下開 skirt_sit（8618f9d80＝LAWWW2-B 768da51ab）vs 改之前 718b59ec7——體育館大廳、201 教室、兩點半；近 1.8 m／遠 8.5 m（室內 7 m 外換遠距離模型）
+SKIRT_SIT_new | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_skirt_sit_probe.py | index.html | 40 | TAG=new;CC_HEADLESS=0
+SKIRT_SIT_old | 718b59ec7a1eb39f63336f23500b77217cae69b0 | probe | docs/story_planning/test_tools/cc/cc_skirt_sit_probe.py | index.html | 40 | TAG=old;CC_HEADLESS=0
 POOL_TALK_fix | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | EXPECT=fixed;CC_HEADLESS=0
 POOL_TALK_before | 3b170607e | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | CC_HEADLESS=0
 # ===== ★ CC-B 11-07 03:4x（BB-B 03:34／03:38）：照這個順序最先跑 =====

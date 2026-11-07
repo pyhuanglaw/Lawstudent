@@ -87,11 +87,15 @@ async def main():
                 n = ns.get(n0['id'], n0)
                 fx, fz = math.sin(n['yaw']), math.cos(n['yaw'])   # 人物面向 +z（rotation.y＝yaw）
                 look = [n['x'], n['y'] + 0.75, n['z']]
-                for nm, dist, eh in (('near', 1.8, 1.2), ('far', 7.0, 1.6)):
+                for nm, dist, eh in (('near', 1.8, 1.2), ('far', 8.5, 1.6)):   # 室內遠距離模型：鏡頭離她 > 7 m 才換（CHAR.FAR_OUT_IN 7、換回 6.5）＝拍 8.5 m
                     eye = [n['x'] + fx * dist, n['y'] + eh, n['z'] + fz * dist]
                     # 遠近模型照「玩家」離她多遠切換（不是鏡頭）：先把玩家（藏起來）放到鏡頭正下方、等 1.5 秒讓 LOD 換好再拍
                     await pg.evaluate("((q)=>{ const P=GAME.E.player; P.obj.position.x=q[0]; P.obj.position.z=q[1]; })", [eye[0], eye[2]]); await pg.wait_for_timeout(1500)
-                    c = await D.user_shot(pg, cdp, 'skirt_%s_%s_%d_%s' % (TAG, pl, k + 1, nm), {'eye': eye, 'look': look, 'lens': 35 if nm == 'near' else 50})
+                    cam = {'eye': eye, 'look': look, 'lens': 35 if nm == 'near' else 50}
+                    # LOD 在主迴圈裡照「鏡頭」距離換；user_shot 停主迴圈＝不會換：先把鏡頭擺好、讓主迴圈跑 1 秒（鏡頭照舊擺著）再拍
+                    await pg.evaluate(D.CAM, cam); await pg.evaluate("(()=>{ GAME.E.paused=false; })()"); await pg.wait_for_timeout(1000)
+                    await pg.evaluate(D.CAM, cam); await pg.evaluate(D.UNCAM)
+                    c = await D.user_shot(pg, cdp, 'skirt_%s_%s_%d_%s' % (TAG, pl, k + 1, nm), cam)
                     after = {q['id']: q for q in await pg.evaluate(SK)}.get(n['id'])
                     rec['places'][pl]['shots'].append({'name': 'skirt_%s_%s_%d_%s.png' % (TAG, pl, k + 1, nm), 'npc': n['id'], 'model': n['model'], 'seat': n['seat'], 'cam': c, 'morph': after and after['vals']})
                     R.note('[%s %s #%d %s] %s 坐 %s；skirt_sit %s' % (pl, TAG, k + 1, nm, n['id'], J(n['seat']), J(after and after['vals'])))
