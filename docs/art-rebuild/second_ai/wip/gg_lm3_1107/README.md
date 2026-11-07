@@ -12,7 +12,7 @@
 | 木曜日 | `assets/models/env/second_ai/aa_support/mokuyobi.glb` | **AA**（子代理，`tools/blender/env_second/aa_support/mokuyobi_interior.py`；開發 aa8cb5beb 取進） | `24f7d6406f2a496cd2956f8ec8997e1259ef9f11d58db907f1537bbe6434fe72` | 3,835,064 → 4,008,412 B |
 | 一盞 | `assets/models/env/second_ai/aa_support/yizhan.glb` | **AA**（v1e，同 SUNNY SIDE） | `a4d1bc30917e7463a6bc1b33ed6731be4e3eb67ad3210927c83a0a890f86a529` | 1,095,532 → 1,134,060 B |
 | 日常失速 | `assets/models/env/second_ai/aa_support/daily_offbeat.glb` | **AA**（開發 42467c2dc 取進） | `edf01702b399a9192cac808cd12f98a81f5cfc0355f0cb10497fa71399be7495` | 3,187,260 → 3,303,876 B |
-| 阿德影印 | `assets/models/env/second_ai/bb_support/ade.glb` | **CC**（v1c `5977272dc`；開發 cfd402363 取進） | `e4d554c959a0ef123f51f00d194e05a6e6120d5ac765f9cd2a9d6304f2945be6` | 1,704,624 → ？ |
+| 阿德影印 | `assets/models/env/second_ai/bb_support/ade.glb` | **CC**（v1c `5977272dc`；開發 cfd402363 取進） | `e4d554c959a0ef123f51f00d194e05a6e6120d5ac765f9cd2a9d6304f2945be6` | 1,704,624 → 1,752,856 B |
 
 原作者以後重新匯出，光照貼圖會不見，要再跑 `bash tools/blender/env_second/lightbake/bake_gg_new.sh aa_sunnyside`（`aa_komichi`、`aa_mokuyobi`、`aa_yizhan`、`aa_offbeat`、`bb_ade`）。
 `tools/blender/env_second/offbeat_storefront.py`（日常失速從街上看的店內）、`xs_front_tex.py` 讀 `daily_offbeat.glb`／`sunnyside.glb` 渲染店面圖：重跑時讀到的是烘過的檔，多一套 UV、多一個 `_rt` 材質，畫面不受影響（那兩支不用光照貼圖）。
@@ -39,9 +39,11 @@ AA 的店裡，燈位是 `GLOW_<種類>_<編號>` 空節點（extras 有 `glow` 
 | 木曜日 | 9.3 × 14.3 × 3.0 m | 南 | 26 盞（1.6～23.4 W） | ×2.6 | 沒有 |
 | 一盞 | 8.7 × 11.3 × 2.6 m | 南（緣側） | 6 盞（24～36 W；只有 6 個燈位，倍數最大） | ×6 | `yzn_post` → `yzn_post_rt` |
 | 日常失速 | 11.3 × 10.3 × 3.4 m | 南、東（轉角落地窗） | 30 盞（4.5～13.5 W） | ×1.5 | `dof_wood_light` → `dof_wood_light_rt` |
-| 阿德影印 | | 南 | 天花板平板燈 → 0.4 × 1.2 m 面光源，14 W | | |
+| 阿德影印 | 4.4 × 9.2 × 3.0 m | 南 | 天花板平板燈 10 片 → 0.4 × 1.2 m 面光源，各 14 W（冷白） | — | 沒有（只烘地板、天花板、四面牆；架子、影印機照舊即時光）；6 個 GPU instancing 節點的名字、extras 用 `glb_fix_instnames.py` 照原檔補回，烘前烘後一樣 |
 
 一盞晚上比日式店的目標（0.25）暗一點（燈位只有 6 個）；遊戲裡看起來怎樣還沒拍。BB 判太暗的話，倍數 ×1.3 重烘（約 20 分鐘）就到 0.25。
+
+阿德影印比較亮、白天晚上差不多：整片天花板平板燈，只有店面一面開口（參考：便利商店 0.57／0.51）。過曝 1% 是天花板上 10 片燈板的位置（下面總覽圖阿德的天花板那一塊，一格一格的白長條）；遊戲裡燈板模型蓋在上面，實際看不看得到要遊戲內確認。
 
 倍數是先用 128 取樣試烘、量亮度，再照「目標／量到」^2.04 算的（編碼後亮度 ≈ 線性^0.49）。目標：晚上咖啡店、西式店 0.32 左右，日式店 0.25 左右。
 
@@ -53,8 +55,10 @@ AA 的店裡，燈位是 `GLOW_<種類>_<編號>` 空節點（extras 有 `glow` 
 | 木曜日 | 0.30 | 0.30 | 0% |
 | 一盞 | 0.31 | 0.22 | 0.1% |
 | 日常失速 | 0.42 | 0.32 | 0% |
-| 阿德影印 | | | |
+| 阿德影印 | 0.51 | 0.50 | 1.0% |
 | （參考）燒臘／書屋 | 0.44／0.36 | 0.46／0.29 | |
+
+![光照貼圖（六間，白天｜晚上）](lm_maps.jpg)
 
 ## 測試（Node，D131）
 （跑完補）

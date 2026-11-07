@@ -1,0 +1,33 @@
+diff --git a/tests/gg_new_lm_unit.js b/tests/gg_new_lm_unit.js
+index b6e2610fd..696485f0d 100644
+--- a/tests/gg_new_lm_unit.js
++++ b/tests/gg_new_lm_unit.js
+@@ -1,6 +1,7 @@
+ // AA／BB／CC 新做的店內（aa_support／bb_support）光照烘焙（INTERIOR-AAA lm_audit_1107 第一級；LAWWW2-B 2026-11-07；tools/blender/env_second/lightbake/bake_gg_new.sh）——不需要瀏覽器。
+ //   日和便利店（BB，bb_support/cvs_interior.glb）、洋洋鹹酥雞（BB，bb_support/yangyang_interior.glb）、轉角唱片（CC，bb_support/corner.glb）——LAWWW-B 15:35 插隊
+ //   第二批（11-07 18:xx）：公館燒臘（BB，bb_support/shaola_interior.glb，noodle 區域）、頁間書屋（AA，aa_support/yejian.glb，bookstore 區域）
++//   第三批（11-07 19:xx）：溫州街——SUNNY SIDE、小路、木曜日、一盞、日常失速（AA，aa_support/），阿德影印（CC，bb_support/ade.glb：GPU instancing，烘完補回節點名字）
+ //   遊戲走 Z3.attachRoomGLB（zones3d.js 的 ggRoom／wzShop），GLB 有 extras.lightmap 就接，不用改程式。
+ //   1. 每間的 GLB 有 extras.lightmap，白天、晚上的貼圖檔都在
+ //   2. 地板、天花板、牆有第二套 UV（烘焙）；發光的（GLOW_）、玻璃沒有（照舊即時光）
+@@ -22,6 +23,20 @@ const SHOPS={
+     walls:['WALL_back_yej_wall','WALL_front_yej_wall','WALL_left_yej_wall','WALL_right_yej_wall','WALL_front_yej_wood','WALL_left_yej_wood','WALL_right_yej_wood','WALL_front_yej_glass','WALL_front_VIEW_yej_window_view'],
+     extras:{'WALL_front_VIEW_yej_window_view':{dir:[0,0,-1],windowView:true},'WALL_back_yej_wall':{dir:[0,0,1]},'WALL_left_yej_wood':{dir:[1,0,0]},'WALL_right_yej_wall':{dir:[-1,0,0]}} },
+ };
++/* 第三批 AA 五間：命名一樣（<字首>_floor／_ceiling／_tatami、WALL_<面>_<字首>_wall／_wood／_post、窗景卡 WALL_<面>_VIEW_<字首>_window_view）*/
++const AA3=(P,walls,views)=>({ bake:new RegExp('^('+P+'_(floor|ceiling|tatami)|WALL_[a-z]+_'+P+'_(wall|wood|post))$'), live:new RegExp('(GLOW|glass|bulb|washi|VIEW|_vc$|_vcg$|_vcm$|^'+P+'_vc|print|pothos|alpha)'),
++  walls:walls.map(f=>'WALL_'+f+'_'+P+'_wall').concat(views.map(f=>'WALL_'+f+'_VIEW_'+P+'_window_view')),
++  extras:Object.fromEntries(views.map(f=>['WALL_'+f+'_VIEW_'+P+'_window_view',{windowView:true}]).concat([['WALL_back_'+P+'_wall',{dir:[0,0,1]}]])) });
++Object.assign(SHOPS,{
++  'aa_support/sunnyside':AA3('sns',['back','front','left','right'],['front','right']),
++  'aa_support/komichi':AA3('kmc',['back','front','left','right'],['front']),
++  'aa_support/mokuyobi':AA3('mok',['back','front','left','right'],['front']),
++  'aa_support/yizhan':AA3('yzn',['back','engawa','left','right'],[]),
++  'aa_support/daily_offbeat':AA3('dof',['back','front','left','right'],['front','right']),
++  'bb_support/ade':{ bake:/^(ad_floor_floor|ad_ceiling_ceil|WALL_[a-z]+_wall_wall|WALL_front_front_wall)$/, live:/(GLOW|glass|_goods|_vc|_vcm|_alpha|_emit|_sign|_inst$)/,
++    walls:['WALL_back_wall_wall','WALL_front_front_wall','WALL_left_wall_wall','WALL_right_wall_wall','WALL_back_back_wallshelf_vcm','ad_ceilfx_panel_0_emit_inst','ad_chair_0_vc_inst','ad_table_0_wood_inst'],
++    extras:{'WALL_back_wall_wall':{dir:[0,0,1]},'WALL_right_wall_wall':{dir:[-1,0,0]}} },
++});
+ for(const [id,R] of Object.entries(SHOPS)){ const buf=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/'+id+'.glb')), J=JSON.parse(buf.slice(20,20+buf.readUInt32LE(12)).toString('utf8'));
+   const l=((J.scenes[0].extras||{}).lightmap)||null;
+   check('1. '+id+'：extras.lightmap 白天、晚上的貼圖都在', !!l&&exists(l.day)&&exists(l.night)&&l.intensity>0, l?l.day:'沒有');
