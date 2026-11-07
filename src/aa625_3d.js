@@ -125,9 +125,13 @@ const AA625=(function(){
   /* 回了第一次那一則（PHONE.ON_ANSWER）：「好。」＝那天 14:00 木曜日 */
   S.onAsk=function(G,m,o,k){ const id=m&&m.ask&&m.ask.id; if(id!==S.FIRST_TAG||!G) return; const R=S.rec(G); if(R.first!=='sent') return;
     if(k!==0){ R.first='no'; return; }
-    R.first='yes'; const d=R.fday; if(d==null||typeof INV==='undefined'||!INV.accept) return;
-    const P=place('mokuyobi'); if(INV.mineAt&&P&&INV.mineAt(G,d,S.FIRST_H,P.stay)){ if(INV.msg) INV.msg(G,null,'那個時間你已經約了別人。'); return; }   /* 系統字照 INV.answer */
-    const iv=INV.accept(G,YT,'mokuyobi',d,S.FIRST_H,{by:'npc'}); if(iv){ iv.cat='study'; iv.yts={k:'first',first:true}; } };
+    const d=R.fday; if(d==null||typeof INV==='undefined'||!INV.accept){ R.first='yes'; return; }
+    /* 撞到的只算已經答應的（accepted／going／changed）、校外約會、考試；別人約你、你還沒回的（offered）不擋（BUG-YTS-FIRST-CLASH-1107，BB-B 11-07 23:25：
+       同一晚 21:30 以安約 3/11 15:30 總圖、21:40 語彤約 14:00 木曜日，回「好。」被那則還沒回的擋掉，語彤停在「好。」、系統串多一句「那個時間你已經約了別人。」）*/
+    const P=place('mokuyobi'), Gx=Object.assign({},G,{invites:(G.invites||[]).filter(iv=>iv&&iv.state!=='offered')});
+    if(INV.mineAt&&P&&INV.mineAt(Gx,d,S.FIRST_H,P.stay)){ R.first='busy'; if(INV.msg) INV.msg(G,null,'那個時間你已經約了別人。');   /* 系統字照 INV.answer；真的撞到＝當成這次不行（不扣分），她回「嗯。下次。」，之後照一般的約 */
+      if(typeof PHONE!=='undefined'&&PHONE.post) PHONE.post(G,ytItem(L.firstNo)); return; }
+    R.first='yes'; const iv=INV.accept(G,YT,'mokuyobi',d,S.FIRST_H,{by:'npc'}); if(iv){ iv.cat='study'; iv.yts={k:'first',first:true}; } };
   /* 第一次那一則過了期限還沒回：當成這次不行（不扣分）*/
   S.firstExpire=function(G){ const R=S.rec(G); if(R.first==='sent'&&R.fday!=null&&NOW(G)>T(R.fday,S.FIRST_UNTIL)){ const m=typeof PHONE!=='undefined'&&PHONE.byAsk?PHONE.byAsk(G,S.FIRST_TAG):null; if(!m||m.ans==null) R.first='late'; } };
   /* 之後的約：排（S.plan）→ 到了傳的時間才真的傳（S.fire）*/

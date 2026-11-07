@@ -75,6 +75,13 @@ const said=()=>H.said.map(s=>s.t);
     at(tue3,22); const r=PHONE.answer(H.G,S.FIRST_TAG,0); const iv=ytOffers()[0];
     check('1. 「好。」＝當週週三 14:00 木曜日、她約的、念書、第一次',!!r&&!!iv&&iv.place==='mokuyobi'&&iv.day===w3&&iv.h===14&&iv.state==='accepted'&&iv.by==='npc'&&iv.cat==='study'&&!!iv.yts.first,J(iv));
     check('1. 存檔：YTSTUDY.first yes、fday 週三',H.G.flags.YTSTUDY.first==='yes'&&H.G.flags.YTSTUDY.fday===w3,J(H.G.flags.YTSTUDY)); }
+  /* BUG-YTS-FIRST-CLASH-1107（BB-B 11-07 23:25）：別人約你、還沒回的（offered）不擋；真的撞到（已經答應的）＝當成這次不行，她回「嗯。下次。」 */
+  { fresh(mon3,10); runAt(tue3,21.2); H.G.invites=(H.G.invites||[]).concat([{id:'ivAN',who:'heroine_01',place:'library',zone:'library',day:w3,h:15.5,state:'offered',accepted:false,by:'npc'}]);
+    runAt(tue3,21+41/60); at(tue3,22); PHONE.answer(H.G,S.FIRST_TAG,0); const iv=ytOffers()[0], sys=(H.G.msgs||[]).filter(m=>/那個時間你已經約了別人/.test(m.text||''));
+    check('1. 以安約的 15:30 總圖還沒回（offered）：回「好。」照樣排 14:00 木曜日，沒有「那個時間你已經約了別人。」（BUG-YTS-FIRST-CLASH-1107，修改前 FAIL）',!!iv&&iv.day===w3&&iv.h===14&&iv.state==='accepted'&&H.G.flags.YTSTUDY.first==='yes'&&!sys.length,J({iv,first:H.G.flags.YTSTUDY.first,sys:sys.length})); }
+  { fresh(mon3,10); runAt(tue3,21.2); H.G.invites=(H.G.invites||[]).concat([{id:'ivAN2',who:'heroine_01',place:'mokuyobi',zone:'mokuyobi',day:w3,h:14,state:'accepted',accepted:true,by:'player'}]);
+    runAt(tue3,21+41/60); at(tue3,22); PHONE.answer(H.G,S.FIRST_TAG,0); const mine=ytOffers().filter(q=>q.who===YT), th=(H.G.msgs||[]).filter(m=>m.th==='p:'+YT).map(m=>m.text), sys=(H.G.msgs||[]).filter(m=>/那個時間你已經約了別人/.test(m.text||''));
+    check('1. 真的撞到（那個時間已經答應別人）：不排、系統字一句、她回「嗯。下次。」、first 不是 yes（之後照一般的約）',!mine.length&&sys.length===1&&th[th.length-1]===L.firstNo&&H.G.flags.YTSTUDY.first==='busy',J({mine:mine.length,sys:sys.length,last:th[th.length-1],first:H.G.flags.YTSTUDY.first})); }
   { fresh(mon3,10); runAt(tue3,22); PHONE.answer(H.G,S.FIRST_TAG,1); const th=(H.G.msgs||[]).filter(m=>m.th==='p:'+YT).map(m=>m.text);
     check('1. 「這週不行。」＝她回「嗯。下次。」、沒有約、記 no',th.slice(-2).join('|')===L.firstOpts[1]+'|'+L.firstNo&&!ytOffers().length&&H.G.flags.YTSTUDY.first==='no',J(th.slice(-3))); }
   { fresh(mon3,10); runAt(tue3,22); runAt(w3,13.6); check('1. 沒回、過了週三 13:30＝當成不行（late）、不能再回',H.G.flags.YTSTUDY.first==='late'&&PHONE.answer(H.G,S.FIRST_TAG,0)===null&&!ytOffers().length); }
