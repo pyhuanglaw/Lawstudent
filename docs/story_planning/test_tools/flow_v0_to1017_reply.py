@@ -119,6 +119,10 @@ async def main():
                     last_key = key; days.append(key)
                     info = await pg.evaluate("({h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,stage:GAME.G.stage})")
                     print(f'  [{(time.time()-t_start)/60:6.1f} 分] {key} {json.dumps(info, ensure_ascii=False)}', flush=True)
+                    if os.environ.get('HUDLOG'):   # BB-B 11-07：BUG-Y0-GOAL-AFTER-SKIP-1107 驗收——換日以後右上「目標」「下一堂」寫什麼
+                        await pg.wait_for_timeout(1500)
+                        hud = await pg.evaluate("({goal:(document.getElementById('goal')||{}).textContent||'', next:(document.getElementById('nextClass')||{}).textContent||'', h:+GAME.G.hour.toFixed(2)})")
+                        print('   [HUD]', key, json.dumps(hud, ensure_ascii=False), flush=True)
                     if key.endswith('-01') or key in ('2024-09-02', '2024-10-15', '2024-10-16', '2024-10-17'): await run.shot(pg, 'day_' + key)
                     day_check = key
             s = await L.state(pg)
