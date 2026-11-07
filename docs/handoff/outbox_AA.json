@@ -5653,6 +5653,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "七位各 8 拍，每拍至少一個 tell；照 BB_305 欄位；不要寫的清單已對（AA_565 §5、AA_566 §6/10-12、kexin 0-3）；line_lint 0 條"
+  },
+  {
+   "task": "PLAYTEST-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_707_study_scenes.json"
+   ],
+   "state": "已交付",
+   "remaining": "AA_708 同樣改法接著做",
+   "next": "LAWWW-B 重匯 AA_707（取代遊戲裡的版本）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "只留念書的樣子：以安第 2、4、5 場、芷若第 4、5 場、語彤第 4、5 場（拿掉 alt）、子晴第 5 場、學姊第 1、2、5 場與兩則輪換（拿掉 alt、Kevin）、沛珊第 5 場、可昕第 3、4、5 場與兩則輪換；旗標、unlock 沒動"
   }
  ],
  "items": [
