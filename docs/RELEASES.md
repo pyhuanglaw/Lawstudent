@@ -93,7 +93,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 
 ### 發布
 - BB-B 13:10 UTC「GO 確定」→ 發布樹 `5c855a881`（mk_release_tree.sh）→ 乾淨 worktree deploy_check ALL PASS（3262 個網址、各區域進得去、沒有 JS 例外、版本字樣 v9.10.22）→ PR #30 合併 main `74cb8314d` → Pages run 42376299962（build、deploy success，deploy 13:20:16 UTC；部署的 head_sha＝74cb8314d，那個 commit 的 index.html 標題「版本 v9.10.22（2026-11-07）」）。
-- **線上驗證**（CC-B，GitHub Actions ubuntu、SwiftShader、無 GPU，run 42376677300；結果 claude/gha-results gha_out/LIVE_V91022_*）：deploy_check ALL PASS（線上版本字樣 v9.10.22（2026-11-07）、383 個 script 帶 ?v=、3240 個資源都載得到、沒有 JS 例外）；p0_movement ALL PASS。判定歸 BB。iPhone 實機沒測。
+- **線上驗證**（CC-B，GitHub Actions ubuntu、SwiftShader、無 GPU，run 42376677300；結果 claude/gha-results gha_out/LIVE_V91022_*）：deploy_check ALL PASS（線上版本字樣 v9.10.22（2026-11-07）、383 個 script 帶 ?v=、3240 個資源都載得到、沒有 JS 例外）；p0_movement ALL PASS。**BB-B 判定 PASS**（13:34 UTC：deploy_check 38 項、p0_movement 27 項 316 秒結束碼 0；讀原始 run.log，claude/gha-results 8b539437a）。模擬，不是 iPhone 實機；效能、顏色沒量（GitHub 機器沒有顯示卡）。
 - 開發分支不用換回：發布樹的遊戲檔案就是開發分支的（126bdf93e 以後只有文件、wip_backup）；發布以後才推的 7 個 commit（wip_backup/postrel_v91022_1107.bundle）接著推。
 
 ## v9.10.21（2026-11-05 23:28 UTC 合併 `92c3daad8`，PR [pyhuanglaw/Lawstudent#29](https://github.com/pyhuanglaw/Lawstudent/pull/29)；發布樹 `317479933`；GitHub Pages run 42129622113（第 1 次 deploy 在 syncing_files 卡 10 分鐘逾時被取消、線上照舊 v9.10.20；重跑失敗的 job，第 2 次 23:42:12 UTC success）；遊戲檔案＝發布樹 `aa0f3bcd3`（候選 `83d09d13b`＋afar／頁間／青木窗景 6 張重拍＋NOODLE-AP-1105 麵店自動走路修正＋版本字樣）；BB-C 判條件已過（使用者 23:2x 轉述，BB 交班中沒有寫 GO 紀錄），LAWWW-C 依使用者「BB說可以go 照條件可以發布」發布）
