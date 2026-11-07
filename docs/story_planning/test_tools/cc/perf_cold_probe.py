@@ -222,6 +222,12 @@ async def one_run(p, url, zone, variant, preload_keys):
             run['preload'] = await pg.evaluate(PRELOAD_JS, preload_keys); await pg.wait_for_timeout(1500)
         if variant == 'prewarm':
             await pg.evaluate(WARM_RENDER_JS)
+        if os.environ.get('FROM'):   # CC-B 11-07（LAWWW2-B 12:09 FIXLIGHTS）：先進 FROM 區域（例 gongguan，沒有點光源）、站一下，再量進目標區域——「從沒有點光源的區域走進去」差別最明顯
+            await L.load_state(pg, {'zone': os.environ['FROM'], 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': None, 'flags': FLAGS}, quiet_events=True, quiet_phone=True)
+            for _ in range(240):
+                if await pg.evaluate("z=>{ const E=GAME.E, id=E.zone&&E.zone.def&&E.zone.def.id; return id===z; }", os.environ['FROM']): break
+                await pg.wait_for_timeout(250)
+            await pg.wait_for_timeout(int(float(os.environ.get('FROM_WAIT', '8')) * 1000)); run['from'] = os.environ['FROM']
         await pg.evaluate("window.__PC.start()")
         run['t_enter'] = await pg.evaluate("performance.now()")
         await L.load_state(pg, {'zone': zone, 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': None, 'flags': FLAGS}, quiet_events=True, quiet_phone=True)

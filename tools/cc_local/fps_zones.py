@@ -47,6 +47,8 @@ async def main(url, od):
     os.makedirs(od, exist_ok=True); rows = []; errs_all = []
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=LAND)
+        if os.environ.get('CPU_THROTTLE'):   # CC-B 11-07（LAWWW2-B 12:09「PC 和手機模擬都要」）：CDP 把 CPU 降速 N 倍，近似手機
+            await cdp.send('Emulation.setCPUThrottlingRate', {'rate': float(os.environ['CPU_THROTTLE'])}); print('CPU 降速 %s 倍（手機模擬）' % os.environ['CPU_THROTTLE'], flush=True)
         await pg.goto(url)
         if not await L.wait_loaded(pg):
             print('FAIL 遊戲載入'); await b.close(); return 1
