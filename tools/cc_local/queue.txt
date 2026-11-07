@@ -41,6 +41,9 @@ CLOSE_EXC | 9cff7a00bce4a412ca08841c73123c899a4b916e | probe | docs/story_planni
 GG2_afar_date | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;RERUN=b1107;CC_HEADLESS=0
 #   BB-B 04:59（b550eb6c1）：Daybreak #2 修好版（預約中的位子不出按鈕；EXPECT=fixed）、B1 池邊不選到牆後的櫃台阿姨（SHOP-STAFF-1107 第 3 件）＋改之前（f607b0a22 的前一個 3b170607e）對照
 DBK_seat2_fix | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story_planning/test_tools/cc/cc_dbk_seat2_probe.py | index.html | 40 | EXPECT=fixed;SEQ=1;HOURS_ADD=0,0.5,1,2;CC_HEADLESS=0
+#   BB-B 05:08 SHOP_WINDOW_718b：日常失速立體店面（718b59ec7＝LAWWW2-B 95a86f15d）vs 2D 櫥窗（b550eb6c1）——同角度截圖日夜＋主巷三點 10 秒 fps／calls／tris；兩支都 SOLO（量 fps 不要和別的一起跑）
+SHOPWIN_718b_new | 718b59ec7a1eb39f63336f23500b77217cae69b0 | probe | docs/story_planning/test_tools/cc/cc_offbeat_front_probe.py | index.html | 30 | TAG=new;SOLO=1;CC_HEADLESS=0
+SHOPWIN_718b_old | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story_planning/test_tools/cc/cc_offbeat_front_probe.py | index.html | 30 | TAG=old;SOLO=1;CC_HEADLESS=0
 POOL_TALK_fix | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | EXPECT=fixed;CC_HEADLESS=0
 POOL_TALK_before | 3b170607e | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | CC_HEADLESS=0
 # ===== ★ CC-B 11-07 03:4x（BB-B 03:34／03:38）：照這個順序最先跑 =====
