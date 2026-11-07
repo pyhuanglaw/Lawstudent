@@ -1,4 +1,4 @@
-# 【CC-B 11-07 複製自 LAWWW2-B claude/funny-albattani-iawshm b9c61acc7 docs/art-rebuild/second_ai/wip/hair_noodle_1107/cc_hair_fix_probe.py，沒改內容；看過：只寫輸出資料夾、遊戲檔／VRM 不動（HAIR-NOODLE-1104）】
+# 【CC-B 11-07 複製自 LAWWW2-B claude/funny-albattani-iawshm b9c61acc7 docs/art-rebuild/second_ai/wip/hair_noodle_1107/cc_hair_fix_probe.py；CC-B 只改一處：PLACE_JS 回傳的 model 原本是整個 VRM 物件（Python 記錄時 Circular reference，雲端 11-07），改成模型名字。看過：只寫輸出資料夾、遊戲檔／VRM 不動（HAIR-NOODLE-1104）】
 """LAWWW2-B 2026-11-07 延伸（HAIR-NOODLE-1104）：同一個人、同一個鏡頭，連拍幾種頭髮改法（HAIRFIX，在瀏覽器裡改，遊戲檔、VRM 都不動）。
   原檔：CC-C 的 docs/story_planning/test_tools/cc/cc_hair_compare_probe.py（cc-testing cc8c8ae6b；11-04 寫好、一直沒排進 PC 佇列）。改了：
   - HAIRFIX＝逗號分隔的做法，預設 0,n0.6,tex,n0.6+tex：
@@ -53,7 +53,7 @@ PLACE_JS = r"""(async([id,x,z,yaw])=>{ const E=GAME.E; let o=null, n=null, made=
   await new Promise(r=>setTimeout(r,800));
   const V=THREE.Vector3; let head=null; try{ const v=o.userData.vrm, H=v&&v.humanoid; const b=H&&((H.getRawBoneNode&&H.getRawBoneNode('head'))||H.getNormalizedBoneNode('head')); if(b) head=b.getWorldPosition(new V()); }catch(e){}
   if(!head){ const bb=new THREE.Box3().setFromObject(o); head=new V(x,bb.max.y-0.12,z); }
-  return {id, driver:o.userData&&o.userData.driver||null, model:(o.userData&&o.userData.model)||null, made, head:[+head.x.toFixed(3),+head.y.toFixed(3),+head.z.toFixed(3)], pos:[+o.position.x.toFixed(2),+o.position.z.toFixed(2)]}; })"""
+  return {id, driver:o.userData&&o.userData.driver||null, model:(o.userData&&(typeof o.userData.model==='string'?o.userData.model:(o.userData.key||null)))||null, made, head:[+head.x.toFixed(3),+head.y.toFixed(3),+head.z.toFixed(3)], pos:[+o.position.x.toFixed(2),+o.position.z.toFixed(2)]}; })"""
 # LAWWW2-B：頭髮改法（只改放好的那個人的子樹；原本的法線、貼圖記在 userData，換下一種做法前先還原）
 APPLY_JS = r"""(([id,fix])=>{ const E=GAME.E, V=THREE.Vector3; const o=id==='player'?E.player.obj:(window.__ccHairN&&window.__ccHairN.obj); if(!o) return {err:'找不到人'};
   const k=(/n([0-9.]+)/.exec(fix)||[])[1]!=null?+(/n([0-9.]+)/.exec(fix)[1]):0, tex=/tex/.test(fix), out={fix,k,tex,meshes:0,verts:0,texs:0,skip:[]};
