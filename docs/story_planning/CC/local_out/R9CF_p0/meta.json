@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "R9CF_p0",
+  "sha": "9cff7a00bce4a412ca08841c73123c899a4b916e",
+  "kind": "game",
+  "script": "tests/p0_movement.py",
+  "env": "XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T12:20:29",
+  "end": "2026-11-07T12:23:32",
+  "seconds": 183,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 71,
+    "mem": 66,
+    "used_gb": 20.6,
+    "chrome_testing": 13
+  }
+}
