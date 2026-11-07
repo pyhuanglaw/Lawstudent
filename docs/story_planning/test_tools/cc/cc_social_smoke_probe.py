@@ -999,7 +999,12 @@ class Person:
         q = await self.pg.evaluate("""((id)=>{ const G=GAME.G, E=GAME.E; const ents=(E&&E.npcs)||[]; const me=ents.find(e=>e&&e.charId===id&&e.obj);
           const st=x=>{ try{ return SOCIAL.stage?SOCIAL.stage(x):null; }catch(e){ return String(e); } }; const iv=x=>{ try{ return INV.stageOf?INV.stageOf(G,x):null; }catch(e){ return String(e); } };
           const near=me?ents.filter(e=>e&&e!==me&&e.obj&&Math.hypot(e.obj.position.x-me.obj.position.x,e.obj.position.z-me.obj.position.z)<=3).map(e=>({id:e.id,charId:e.charId||null,d:+Math.hypot(e.obj.position.x-me.obj.position.x,e.obj.position.z-me.obj.position.z).toFixed(2),stage:e.charId?st(e.charId):null})):null;
-          return {key:CALENDAR.dateOf(G.day).key, day:G.day, zone:G.zone, h:+(+G.hour).toFixed(2), stage:st(id), invStage:iv(id), whyNot:INV.whyNot?INV.whyNot(G,id):null, near}; })""", self.pid)
+          return {key:CALENDAR.dateOf(G.day).key, day:G.day, zone:G.zone, h:+(+G.hour).toFixed(2), stage:st(id), invStage:iv(id), whyNot:INV.whyNot?INV.whyNot(G,id):null, near,
+            canInvite:(()=>{ try{ return INV.canInvite(G,id); }catch(e){ return String(e); } })(),
+            privOk:(()=>{ try{ return STORY.privOk?STORY.privOk(G,id,'invite',GAME,me):null; }catch(e){ return String(e); } })(),
+            company:(()=>{ try{ return STORY.companyOf?STORY.companyOf(G,id,me,GAME):null; }catch(e){ return String(e); } })(),
+            crowd:(()=>{ try{ return (typeof PRIVTALK!=='undefined'&&PRIVTALK.crowd)?PRIVTALK.crowd(G,id,PRIVTALK.byKey.invite,GAME):null; }catch(e){ return String(e); } })(),
+            privWait:(()=>{ try{ const f=(G.flags||{}).PRIVTALK; return f?JSON.parse(JSON.stringify(f)):null; }catch(e){ return String(e); } })()}; })""", self.pid)
         self.R.note('%s 重現資料：%s' % (tag, J(q)))
         return q
 

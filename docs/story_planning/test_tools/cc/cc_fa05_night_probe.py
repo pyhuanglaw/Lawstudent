@@ -78,11 +78,16 @@ async def dome(pg, cdp, tn, h, rec):
         if tn == 'night': R.check('%s 晚上圓頂（ck_glass_lit）會發光（emissive 不是黑、intensity > 0）' % tag, on, J(d['lit']))
         else: R.check('%s 白天圓頂（ck_glass_lit）不發光（emissive 黑或 intensity 0）' % tag, not on, J(d['lit']))
     else: R.check('%s 這一版有圓頂材質 ck_glass_lit' % tag, False, J(d))
+    gy_look = None
     for nm, eye in (('sidegate', [gx, 1.7, gz + 1.5]), ('plaza', [cs.get('x', gx), 1.7, cs.get('z', gz) + 3.0])):
-        if DOME_FAR:   # 從原本那一點的方向往外退，離體育館中心 60 m、高 8 m
-            dx, dz = eye[0] - gy[0], eye[2] - gy[1]; L_ = math.hypot(dx, dz) or 1.0
-            eye = [gy[0] + dx / L_ * 60.0, 8.0, gy[1] + dz / L_ * 60.0]
-        cam = await D.user_shot(pg, cdp, 'gymdome_%s%s_%s' % (nm, '_far' if DOME_FAR else '', tn), {'eye': eye, 'look': [gy[0], 6.0, gy[1]], 'lens': 30 if DOME_FAR else 24})
+        if DOME_FAR:   # BB-B 08:27：退到 50～70 m、高 6～10 m；從原本那一點的方向開始左右轉找「看圓頂三點都沒被擋」的位置（雲端第一版 60 m 正西被紅磚牆擋住）
+            a0 = math.atan2(eye[2] - gy[1], eye[0] - gy[0]) + (0.0 if nm == 'sidegate' else 0.7)
+            pk = await pg.evaluate(DOME_PICK, {'gx': gy[0], 'gz': gy[1], 'a0': a0})
+            R.note('[%s dome] %s 遠景找角度：%s' % (tn, nm, J(pk)))
+            eye = pk['eye'] if pk and pk.get('eye') else [gy[0] + math.cos(a0) * 60.0, 8.0, gy[1] + math.sin(a0) * 60.0]
+            if pk and pk.get('look'): gy_look = pk['look']
+        look = (gy_look if DOME_FAR and gy_look else [gy[0], 6.0, gy[1]])
+        cam = await D.user_shot(pg, cdp, 'gymdome_%s%s_%s' % (nm, '_far' if DOME_FAR else '', tn), {'eye': eye, 'look': look, 'lens': 30 if DOME_FAR else 24})
         rec['dome'][tn + '_' + nm] = cam
 
 
@@ -93,6 +98,17 @@ CARDINFO = r"""((nm)=>{ const z=GAME.E.zone; let o=null; z.group.traverse(q=>{ i
   const pr=g&&g.parameters||{}, wp=new THREE.Vector3(); o.getWorldPosition(wp);
   return {type:m&&m.type, uniforms:un, plane:[pr.width,pr.height], worldPos:[+wp.x.toFixed(2),+wp.y.toFixed(2),+wp.z.toFixed(2)], mat:m&&m.name, map:t?{src:((t.image&&(t.image.currentSrc||t.image.src))||'').slice(-60), w:t.image&&t.image.width, h:t.image&&t.image.height, repeat:[t.repeat.x,t.repeat.y], offset:[+t.offset.x.toFixed(3),+t.offset.y.toFixed(3)], flipY:t.flipY}:null,
     uv:uv?[+u0.toFixed(3),+u1.toFixed(3),+v0.toFixed(3),+v1.toFixed(3)]:null, verts:g&&g.attributes.position.count}; })"""
+
+
+DOME_PICK = r"""((o)=>{ const z=GAME.E.zone; let dome=null; z.group.traverse(q=>{ if(!dome&&q.isMesh&&q.name==='gym_dome') dome=q; });
+  const bb=new THREE.Box3(); let cx=o.gx, cz=o.gz, cy=8, top=12, rr=15; if(dome){ bb.setFromObject(dome); const c=bb.getCenter(new THREE.Vector3()); cx=c.x; cz=c.z; cy=c.y; top=bb.max.y; rr=Math.max(bb.max.x-bb.min.x,bb.max.z-bb.min.z)/2; }
+  const meshes=[]; z.group.traverse(q=>{ if(q.isMesh&&q.visible&&q!==dome&&!/VIEWPANE|sky/i.test(q.name||'')) meshes.push(q); }); if(GAME.E.npcs) for(const n of GAME.E.npcs) if(n.obj) n.obj.traverse(q=>{ if(q.isMesh) meshes.push(q); });
+  const rc=new THREE.Raycaster(); const tgt=[[cx,top,cz],[cx,cy,cz],[cx,bb.min.y||2,cz]];
+  const offs=[0,0.26,-0.26,0.52,-0.52,0.79,-0.79,1.05,-1.05,1.31,-1.31,1.57,-1.57,2.1,-2.1,2.6,-2.6,3.14];
+  let tried=0; for(const da of offs) for(const D of [60,55,65,50,70]) for(const H of [8,10,6]){ const a=o.a0+da, ex=cx+Math.cos(a)*D, ez=cz+Math.sin(a)*D; const eye=new THREE.Vector3(ex,H,ez); let ok=true; tried++;
+    for(const t of tgt){ const tv=new THREE.Vector3(t[0],t[1],t[2]); const dir=tv.clone().sub(eye); const L=dir.length(); dir.normalize(); rc.set(eye,dir); rc.far=Math.max(1,L-rr*0.9); const h=rc.intersectObjects(meshes,false); if(h.length){ ok=false; break; } }
+    if(ok) return {eye:[+ex.toFixed(2),H,+ez.toFixed(2)], look:[+cx.toFixed(2),+((top+cy)/2).toFixed(2),+cz.toFixed(2)], D, da:+da.toFixed(2), tried, dome:!!dome, top:+top.toFixed(2), r:+rr.toFixed(2)}; }
+  return {eye:null, tried, dome:!!dome}; })"""
 
 
 async def player_view(pg, cdp, tn, h, zone, rec):

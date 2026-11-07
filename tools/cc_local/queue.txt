@@ -92,6 +92,9 @@ GYMBG_7921 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_plann
 # CC-B 11-07 08:3x（BB-B 08:27 重拍兩項＋afar 同桌、社交約會 r4；使用者「電腦沒有測試再跑」→ 補回歸組）
 GYM_DOME_r2 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_fa05_night_probe.py | index.html | 30 | PARTS=dome;DOME_FAR=1;CC_HEADLESS=0
 XS_NIGHT_player | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_fa05_night_probe.py | index.html | 30 | PARTS=player;CC_HEADLESS=0
+# CC-B 08:4x：圓頂改用射線找沒被擋的角度（雲端 60 m、高 8 m 看得到整個圓頂）；BB-B 08:33 改 fa79dd7bc；LAWWW-B 08:34 r5 多印 INV.canInvite／privOk／companyOf／PRIVTALK.crowd／G.flags.PRIVTALK
+GYM_DOME_r3 | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_fa05_night_probe.py | index.html | 30 | PARTS=dome;DOME_FAR=1;CC_HEADLESS=0
+SOC_peishan_date_r5 | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | CASES=classmate_peishan;STEPS=date;RERUN=r5;CC_HEADLESS=0
 GG2_afar_same_01 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_01;RERUN=s01;CC_HEADLESS=0
 GG2_afar_same_03 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_03;RERUN=s03;CC_HEADLESS=0
 GG2_afar_same_04 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_04;RERUN=s04;CC_HEADLESS=0
