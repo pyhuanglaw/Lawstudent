@@ -1570,3 +1570,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 48.2s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 48.2s] BROWSER DISCONNECTED
 - 2026-11-07T12:25:43  R9CF_zone  sha=9cff7a00bce4a412ca08841c73123c899a4b916e  exit=0  196s    PASS 校門 → 公館：回到校園後走得到霖澤館前 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 157.7s] page close url=http://127.0.0.1:8802/index.html?turbo?turbo | [gpu_wrap 157.7s] BROWSER DISCONNECTED
+- 2026-11-07T12:27:33  R9CF_class  sha=9cff7a00bce4a412ca08841c73123c899a4b916e  exit=0  143s    PASS 回到法律系館A二樓、站得住、搖桿走得動  {"zone": "linze", "x": -2.02, "z": -3.52, "ry": -0.0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "還有——你剛剛那個，很帥。", "choices": 0, "interact": "", "hour": 15.31, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 4.2, "lv": 1, "frame": 1927, "paused": false} 推了 1 次、走了 2.48 m / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 108.9s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 108.9s] BROWSER DISCONNECTED
