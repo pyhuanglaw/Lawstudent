@@ -5,7 +5,8 @@
     推搖桿往前（真的觸控）＝往店走（z 變大），不是撞校門。
 直向（390×844）、橫向（844×390）各跑一次。修正前的畫面＝CC 試玩第 8 件截圖（cc-testing play1107_8a／8b）。
 [前置／捷徑] 讀使用者存檔 day46，14:00 校園；站到總圖門口 3 m 內（placeNear）；回頭那一張的鏡頭角度是【捷徑】。
-用法：LW_TESTS=<測試樹>/tests python3 pt1107q_cam_door_gate_probe.py URL 存檔資料夾 輸出資料夾"""
+用法：LW_TESTS=<測試樹>/tests [GG_SPAWN=-2.5,-29] [ONLY=BP] python3 pt1107q_cam_door_gate_probe.py URL 存檔資料夾 輸出資料夾
+  GG_SPAWN＝「公館商圈」落點（預設 0,-30；LAWWW2-B 14f43e529 起 -2.5,-29）；ONLY 含 B＝只跑公館、含 P＝只跑直向"""
 import asyncio, json, math, os, sys
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.dirname(__file__))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -15,6 +16,8 @@ from playwright.async_api import async_playwright
 
 URL, SAVES, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
 J = lambda x, n=500: json.dumps(x, ensure_ascii=False)[:n]
+GX, GZ = [float(v) for v in (os.environ.get('GG_SPAWN') or '0,-30').split(',')]   # 「公館商圈」落點；LAWWW2-B 14f43e529 起是 -2.5,-29（避開機車）
+ONLY = os.environ.get('ONLY', '')   # ONLY=B：只跑公館；ONLY=P：只跑直向
 CAM = """(()=>{ const E=GAME.E, c=E.camera.position, p=E.player.obj.position; return {zone:GAME.G.zone, cx:+c.x.toFixed(2), cy:+c.y.toFixed(2), cz:+c.z.toFixed(2),
   px:+p.x.toFixed(2), pz:+p.z.toFixed(2), yaw:+(E.cam&&E.cam.yaw||0).toFixed(2), dHead:+Math.hypot(c.x-p.x,c.y-(p.y+1.6),c.z-p.z).toFixed(2), busy:!!E.player.busy}; })()"""
 
@@ -28,14 +31,7 @@ async def zone_settle(pg, zone, max_s=60):
     return await pg.evaluate(CAM)
 
 
-async def one(p, run, base, landscape):
-    tag = 'L' if landscape else 'P'
-    b, ctx, pg, cdp, errs = await L.launch(p, landscape=landscape)
-    await pg.goto(URL); run.check('%s 遊戲載入' % tag, await L.wait_loaded(pg))
-    await P.init(pg)
-    s = json.loads(json.dumps(base)); s['hour'] = 14.0; s['zone'] = 'campus'; s['pos'] = None
-    await P.load(pg, cdp, s); await P.init(pg)
-    # ── A 總圖
+async def part_a(pg, cdp, run, tag):
     pl = await P.place_near(pg, run, 86.4, 0, R=3.0, what='總圖門口')
     lab = ''
     for _ in range(10):
@@ -54,6 +50,16 @@ async def one(p, run, base, landscape):
     await run.shot(pg, 'A_libhall_lookdoor_' + tag)
     print('[A%s 回頭]' % tag, J(c2))
     run.setup('【捷徑】%s A 鏡頭轉 180°（E.cam.yaw +π）＝回頭往門口看' % tag)
+
+
+async def one(p, run, base, landscape):
+    tag = 'L' if landscape else 'P'
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=landscape)
+    await pg.goto(URL); run.check('%s 遊戲載入' % tag, await L.wait_loaded(pg))
+    await P.init(pg)
+    s = json.loads(json.dumps(base)); s['hour'] = 14.0; s['zone'] = 'campus'; s['pos'] = None
+    await P.load(pg, cdp, s); await P.init(pg)
+    if 'B' not in ONLY: await part_a(pg, cdp, run, tag)   # ── A 總圖
     # ── B 公館商圈
     await P.phone_tab(pg, cdp, 'places')
     sel = '#phoneBody [data-place="gongguan|公館商圈"]'
@@ -67,7 +73,7 @@ async def one(p, run, base, landscape):
     c3 = await pg.evaluate(CAM)
     await run.shot(pg, 'B_gongguan_arrive_' + tag)
     print('[B%s 到]' % tag, J(c3))
-    run.check('%s B 落點 (0,-30)、鏡頭在校門那一側（鏡頭 z < 人 z − 2）' % tag, c3['zone'] == 'gongguan' and abs(c3['px']) < 1.5 and abs(c3['pz'] + 30) < 1.5 and c3['cz'] < c3['pz'] - 2, J(c3))
+    run.check('%s B 落點 (%g,%g)、鏡頭在校門那一側（鏡頭 z < 人 z − 2）' % (tag, GX, GZ), c3['zone'] == 'gongguan' and abs(c3['px'] - GX) < 1.5 and abs(c3['pz'] - GZ) < 1.5 and c3['cz'] < c3['pz'] - 2, J(c3))
     moved, k, st = await L.push_until(pg, cdp, 0, -40, 2.5, max_pushes=5, ms=2000)
     c4 = await pg.evaluate(CAM)
     await run.shot(pg, 'B_gongguan_forward_' + tag)
@@ -81,7 +87,7 @@ async def main():
     run = L.Run('pt1107q_cam_door_gate', OUT)
     base = json.load(open(os.path.join(SAVES, 'fatiao3d_save_day46.json'), encoding='utf-8'))
     async with async_playwright() as p:
-        for landscape in (False, True):
+        for landscape in ((False,) if 'P' in ONLY else (False, True)):
             await one(p, run, base, landscape)
     return run.finish()
 
