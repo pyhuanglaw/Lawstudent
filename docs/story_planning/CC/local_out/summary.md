@@ -1664,3 +1664,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 236.2s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 236.2s] BROWSER DISCONNECTED
 - 2026-11-07T15:01:41  GG2_afar_date_01_32e1_r2  sha=32e10b130ddc01f9f41007c01e032d44a35d11af  exit=0  220s        沈以安｜這裡的位子很好寫字。下次我還要來。 / == afar_date 結果：PASS / ALL PASS
       err.log (last 5): [gpu_wrap 162.9s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 162.9s] BROWSER DISCONNECTED
+- 2026-11-07T15:03:42  GYMUSE_3880_r2  sha=38808711072fa54b74ff60892417beefaebae813  exit=0  341s    PASS [跨階] 同一階再用一次：不再出現升階那一句  {"fit": [26, 28], "toasts": []} / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 306.0s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 306.0s] BROWSER DISCONNECTED

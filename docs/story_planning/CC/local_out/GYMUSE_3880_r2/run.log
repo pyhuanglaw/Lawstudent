@@ -1,0 +1,123 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gymuse_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GYMUSE_3880_r2\out
+CC GYMUSE（B1 健身中心器材一台一台用）：SHA=38808711072fa54b74ff60892417beefaebae813（worktree 實際 ?）；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [  24.0s] 健身中心 {"x0": -24, "x1": 10, "z0": 3, "z1": 14, "n": 22}
+  [前置／捷徑] [day] 讀檔 gym_b1 健身中心裡 (1.0, 6.0) 2025-10-15 10.00；【前置】會員卡（G.daily.gym.card＝今天）
+PASS [day] 讀到 gym_b1、站得住  {"zone": "gym_b1", "x": 1, "z": 6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.05}
+  [  41.4s] [day] 器材互動點 22 個：[["treadmill_1", "treadmill", "用跑步機", false], ["treadmill_2", "treadmill", "用跑步機", false], ["treadmill_3", "treadmill", "用跑步機", false], ["treadmill_4", "treadmill", "用跑步機", false], ["treadmill_5", "treadmill", "用跑步機", false], ["bike_1", "bike", "用腳踏車機", false], ["bike_2", "bike", "用腳踏車機", false], ["bike_3", "bike", "用腳踏車機", false], ["bike_4", "bike", "用腳踏車機", false], ["rower_1", "rower", "用划船機", false], ["rower_2", "rower", "用划船機", true], ["squat_rack_1", "squat_rack", "用深蹲架", false], ["squat_rack_2", "squat_rack", "用深蹲架", false], ["smith_1", "smith", "用史密斯機", false], ["db_rack_1", "db_rack", "用啞鈴", false], ["bench_1", "bench", "用臥推椅", true], ["bench_2", "bench", "用臥推椅", false], ["bench_3", "bench", "用臥推椅", false], ["mat_1", "mat", "做伸展", false], ["mat_2", "mat", "做伸展", false], ["mat_3", "mat", "做伸展", false], ["mat_4", "mat", "做伸展", false]]
+== day treadmill
+  [前置／捷徑] [day treadmill] 讀檔回 2025-10-15 10.00 健身中心裡；【前置】會員卡
+PASS [day treadmill] 有沒人在用的跑步機（互動點沒藏）  [{"id": "treadmill_1", "kind": "treadmill", "label": "用跑步機", "x": -0.5, "z": 10.95, "hidden": false, "use": [[-0.5, 12.2]]}, {"id": "treadmill_2", "kind": "treadmill", "label": "用跑步機", "x": 1.2, "z": 10.95, "hidden": false, "use": [[1.2, 12.2]]}, {"id": "treadmill_3", "kind": "treadmill", "label": "用跑步機", "x": 2.9, "z": 10.95, "hidden": false, "use": [[2.9, 12.2]]}, {"id": "treadmill_4", "kind": "treadmill", "label": "用跑步機", "x": 4.6, "z": 10.95, "hidden": false, "use": [[4.6, 12.2]]}, {"id": "treadmill_5", "kind": "treadmill", "label": "用跑步機", "x": 6.3, "z": 10.95, "hidden": false, "use": [[6.3, 12.2]]}]
+  [  55.1s] 到達「[day treadmill] 走到 treadmill_1 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [day treadmill] 走到旁邊，互動按鈕是「用跑步機」  {"x": -0.687, "z": 10.813, "interact": "用跑步機"}
+PASS [黑畫面] gymuse_day_treadmill_2mid 不是黑畫面（平均亮度 62、變化 45.7）  [62, 45.7]
+  [  56.5s] [day treadmill] 選單 ["「單次。」", "「這個月的月票。」"] → 選 "「單次。」"
+PASS [黑畫面] gymuse_day_treadmill_1start 不是黑畫面（平均亮度 66.1、變化 50.1）  [66.1, 50.1]
+PASS [黑畫面] gymuse_day_treadmill_3end 不是黑畫面（平均亮度 72.3、變化 43.4）  [72.3, 43.4]
+  [  61.6s] [day treadmill] 旁白 ["這個月要買月票嗎？", "你把速度調到六。走了十分鐘，才敢調到七。"]；toast []；時間 10.083→12.010（+1.93 h）；體能 0→2（這週第 1 次）；行動 null → {"day":29,"used":{"am":1,"pm":0,"ev":0}}；錢 22000→21950；姿勢 ["idle", "walk"]
+PASS [day treadmill] 用完：時間至少 +1 小時、這個時段的次數有扣（CLS slots）  {"hour": [10.083, 12.01], "slots": ["null", "{\"day\":29,\"used\":{\"am\":1,\"pm\":0,\"ev\":0}}"]}
+PASS [day treadmill] 用完：站回旁邊、不是在器材上（姿勢 idle、離 stand ≤ 0.5 m）  {"x": -0.5, "y": 0, "z": 10.95, "pose": "idle", "busy": false}
+PASS [day treadmill] 用完推得動（≥0.3 m）  7.25
+== day bike
+  [前置／捷徑] [day bike] 讀檔回 2025-10-15 10.00 健身中心裡；【前置】會員卡
+PASS [day bike] 有沒人在用的腳踏車機（互動點沒藏）  [{"id": "bike_1", "kind": "bike", "label": "用腳踏車機", "x": -0.5, "z": 8.15, "hidden": false, "use": [[-0.5, 9.4]]}, {"id": "bike_2", "kind": "bike", "label": "用腳踏車機", "x": 1, "z": 8.15, "hidden": false, "use": [[1, 9.4]]}, {"id": "bike_3", "kind": "bike", "label": "用腳踏車機", "x": 2.5, "z": 8.15, "hidden": false, "use": [[2.5, 9.4]]}, {"id": "bike_4", "kind": "bike", "label": "用腳踏車機", "x": 4, "z": 8.15, "hidden": false, "use": [[4, 9.4]]}]
+  [  76.0s] 到達「[day bike] 走到 bike_1 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [day bike] 走到旁邊，互動按鈕是「用腳踏車機」  {"x": -0.373, "z": 7.968, "interact": "用腳踏車機"}
+PASS [黑畫面] gymuse_day_bike_2mid 不是黑畫面（平均亮度 61.6、變化 41.5）  [61.6, 41.5]
+  [  77.3s] [day bike] 選單 ["「單次。」", "「這個月的月票。」"] → 選 "「單次。」"
+PASS [黑畫面] gymuse_day_bike_1start 不是黑畫面（平均亮度 68.3、變化 45.7）  [68.3, 45.7]
+PASS [黑畫面] gymuse_day_bike_3end 不是黑畫面（平均亮度 76.2、變化 41.6）  [76.2, 41.6]
+  [  82.8s] [day bike] 旁白 ["這個月要買月票嗎？", "阻力調到三。騎了十分鐘，大腿已經在燒。"]；toast []；時間 10.073→12.010（+1.94 h）；體能 0→2（這週第 1 次）；行動 null → {"day":29,"used":{"am":1,"pm":0,"ev":0}}；錢 22000→21950；姿勢 ["idle", "gym_bike"]
+PASS [day bike] 用完：時間至少 +1 小時、這個時段的次數有扣（CLS slots）  {"hour": [10.073, 12.01], "slots": ["null", "{\"day\":29,\"used\":{\"am\":1,\"pm\":0,\"ev\":0}}"]}
+PASS [day bike] 用完：站回旁邊、不是在器材上（姿勢 idle、離 stand ≤ 0.5 m）  {"x": -0.5, "y": 0, "z": 8.15, "pose": "idle", "busy": false}
+PASS [day bike] 用完推得動（≥0.3 m）  4.43
+== day squat_rack
+  [前置／捷徑] [day squat_rack] 讀檔回 2025-10-15 10.00 健身中心裡；【前置】會員卡
+PASS [day squat_rack] 有沒人在用的深蹲架（互動點沒藏）  [{"id": "squat_rack_1", "kind": "squat_rack", "label": "用深蹲架", "x": -21.5, "z": 12.55, "hidden": false, "use": [[-21.5, 12.55]]}, {"id": "squat_rack_2", "kind": "squat_rack", "label": "用深蹲架", "x": -18.4, "z": 12.55, "hidden": false, "use": [[-18.4, 12.55]]}]
+  [ 115.0s] 到達「[day squat_rack] 走到 squat_rack_1 旁邊」附近（0.24 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，22 秒
+PASS [day squat_rack] 走到旁邊，互動按鈕是「用深蹲架」  {"x": -21.259, "z": 12.56, "interact": "用深蹲架"}
+PASS [黑畫面] gymuse_day_squat_rack_2mid 不是黑畫面（平均亮度 50.9、變化 48.7）  [50.9, 48.7]
+  [ 116.1s] [day squat_rack] 選單 ["「單次。」", "「這個月的月票。」"] → 選 "「單次。」"
+PASS [黑畫面] gymuse_day_squat_rack_1start 不是黑畫面（平均亮度 52.5、變化 51.3）  [52.5, 51.3]
+PASS [黑畫面] gymuse_day_squat_rack_3end 不是黑畫面（平均亮度 49.3、變化 49.3）  [49.3, 49.3]
+  [ 120.8s] [day squat_rack] 旁白 ["這個月要買月票嗎？", "你只用空槓。蹲下去，站起來，腿已經在抖。"]；toast []；時間 10.200→12.007（+1.81 h）；體能 0→2（這週第 1 次）；行動 null → {"day":29,"used":{"am":1,"pm":0,"ev":0}}；錢 22000→21950；姿勢 ["idle", "gym_squat"]
+PASS [day squat_rack] 用完：時間至少 +1 小時、這個時段的次數有扣（CLS slots）  {"hour": [10.2, 12.007], "slots": ["null", "{\"day\":29,\"used\":{\"am\":1,\"pm\":0,\"ev\":0}}"]}
+PASS [day squat_rack] 用完：站回旁邊、不是在器材上（姿勢 idle、離 stand ≤ 0.5 m）  {"x": -21.5, "y": 0, "z": 12.55, "pose": "idle", "busy": false}
+PASS [day squat_rack] 用完推得動（≥0.3 m）  1.96
+  [ 126.4s] [day] 有人在用（互動點藏起來）的：[["treadmill_5", "treadmill"], ["bike_3", "bike"], ["mat_1", "mat"]]
+  [ 166.0s] 到達「[day] 走到有人在用的 treadmill_5 旁邊」附近（0.23 m）：點地面 15 次、轉鏡頭 0 次、搖桿 0 次，40 秒
+PASS [day] 有人在用的 treadmill_5：互動按鈕不是「用跑步機」  {"interact": "", "near": null}
+PASS [黑畫面] gymuse_day_busy_treadmill_5 不是黑畫面（平均亮度 74.3、變化 43.9）  [74.3, 43.9]
+  [前置／捷徑] [night] 讀檔 gym_b1 健身中心裡 (1.0, 6.0) 2025-10-15 20.50；【前置】會員卡（G.daily.gym.card＝今天）
+PASS [night] 讀到 gym_b1、站得住  {"zone": "gym_b1", "x": 1, "z": 6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.56}
+  [ 176.1s] [night] 器材互動點 22 個：[["treadmill_1", "treadmill", "用跑步機", false], ["treadmill_2", "treadmill", "用跑步機", false], ["treadmill_3", "treadmill", "用跑步機", false], ["treadmill_4", "treadmill", "用跑步機", false], ["treadmill_5", "treadmill", "用跑步機", false], ["bike_1", "bike", "用腳踏車機", false], ["bike_2", "bike", "用腳踏車機", false], ["bike_3", "bike", "用腳踏車機", false], ["bike_4", "bike", "用腳踏車機", false], ["rower_1", "rower", "用划船機", false], ["rower_2", "rower", "用划船機", false], ["squat_rack_1", "squat_rack", "用深蹲架", true], ["squat_rack_2", "squat_rack", "用深蹲架", false], ["smith_1", "smith", "用史密斯機", false], ["db_rack_1", "db_rack", "用啞鈴", false], ["bench_1", "bench", "用臥推椅", true], ["bench_2", "bench", "用臥推椅", false], ["bench_3", "bench", "用臥推椅", false], ["mat_1", "mat", "做伸展", false], ["mat_2", "mat", "做伸展", false], ["mat_3", "mat", "做伸展", true], ["mat_4", "mat", "做伸展", false]]
+== night treadmill
+  [前置／捷徑] [night treadmill] 讀檔回 2025-10-15 20.50 健身中心裡；【前置】會員卡
+PASS [night treadmill] 有沒人在用的跑步機（互動點沒藏）  [{"id": "treadmill_1", "kind": "treadmill", "label": "用跑步機", "x": -0.5, "z": 10.95, "hidden": false, "use": [[-0.5, 12.2]]}, {"id": "treadmill_2", "kind": "treadmill", "label": "用跑步機", "x": 1.2, "z": 10.95, "hidden": false, "use": [[1.2, 12.2]]}, {"id": "treadmill_3", "kind": "treadmill", "label": "用跑步機", "x": 2.9, "z": 10.95, "hidden": false, "use": [[2.9, 12.2]]}, {"id": "treadmill_4", "kind": "treadmill", "label": "用跑步機", "x": 4.6, "z": 10.95, "hidden": false, "use": [[4.6, 12.2]]}, {"id": "treadmill_5", "kind": "treadmill", "label": "用跑步機", "x": 6.3, "z": 10.95, "hidden": false, "use": [[6.3, 12.2]]}]
+  [ 189.0s] 到達「[night treadmill] 走到 treadmill_1 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [night treadmill] 走到旁邊，互動按鈕是「用跑步機」  {"x": -0.683, "z": 10.816, "interact": "用跑步機"}
+PASS [黑畫面] gymuse_night_treadmill_2mid 不是黑畫面（平均亮度 57.3、變化 44.1）  [57.3, 44.1]
+  [ 190.1s] [night treadmill] 選單 ["「單次。」", "「這個月的月票。」"] → 選 "「單次。」"
+PASS [黑畫面] gymuse_night_treadmill_1start 不是黑畫面（平均亮度 60.6、變化 48.8）  [60.6, 48.8]
+PASS [黑畫面] gymuse_night_treadmill_3end 不是黑畫面（平均亮度 3.7、變化 25.3）  [3.7, 25.3]
+  [ 199.0s] [night treadmill] 旁白 ["這個月要買月票嗎？", "你把速度調到六。走了十分鐘，才敢調到七。"]；toast ["晚上的時間用完了，回去睡覺。"]；時間 20.583→21.843（+1.26 h）；體能 0→2（這週第 1 次）；行動 null → {"day":29,"used":{"am":0,"pm":0,"ev":1}}；錢 22000→21950；姿勢 ["idle", "walk"]
+PASS [night treadmill] 用完：時間至少 +1 小時、這個時段的次數有扣（CLS slots）  {"hour": [20.583, 21.843], "slots": ["null", "{\"day\":29,\"used\":{\"am\":0,\"pm\":0,\"ev\":1}}"]}
+  [ 202.1s] [night treadmill] 晚上用完以後的軌跡（zone、day、hour、x、z）：[["dorm", 29, 21.84, 0, 2.4], ["dorm", 30, 8.17, -1.485, 0.97]]
+PASS [night treadmill] 晚上用完：回到宿舍、睡到隔天早上（day+1、12 點前）  {"now": ["dorm", 30, 8.17], "trail": [["dorm", 29, 21.84, 0, 2.4], ["dorm", 30, 8.17, -1.485, 0.97]]}
+== night bike
+  [前置／捷徑] [night bike] 讀檔回 2025-10-15 20.50 健身中心裡；【前置】會員卡
+PASS [night bike] 有沒人在用的腳踏車機（互動點沒藏）  [{"id": "bike_1", "kind": "bike", "label": "用腳踏車機", "x": -0.5, "z": 8.15, "hidden": false, "use": [[-0.5, 9.4]]}, {"id": "bike_2", "kind": "bike", "label": "用腳踏車機", "x": 1, "z": 8.15, "hidden": false, "use": [[1, 9.4]]}, {"id": "bike_3", "kind": "bike", "label": "用腳踏車機", "x": 2.5, "z": 8.15, "hidden": false, "use": [[2.5, 9.4]]}, {"id": "bike_4", "kind": "bike", "label": "用腳踏車機", "x": 4, "z": 8.15, "hidden": false, "use": [[4, 9.4]]}]
+  [ 214.4s] 到達「[night bike] 走到 bike_1 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [night bike] 走到旁邊，互動按鈕是「用腳踏車機」  {"x": -0.373, "z": 7.968, "interact": "用腳踏車機"}
+PASS [黑畫面] gymuse_night_bike_2mid 不是黑畫面（平均亮度 55.8、變化 39.7）  [55.8, 39.7]
+  [ 215.7s] [night bike] 選單 ["「單次。」", "「這個月的月票。」"] → 選 "「單次。」"
+PASS [黑畫面] gymuse_night_bike_1start 不是黑畫面（平均亮度 61.1、變化 43.7）  [61.1, 43.7]
+PASS [黑畫面] gymuse_night_bike_3end 不是黑畫面（平均亮度 110.4、變化 58.6）  [110.4, 58.6]
+  [ 221.7s] [night bike] 旁白 ["這個月要買月票嗎？", "阻力調到三。騎了十分鐘，大腿已經在燒。"]；toast ["晚上的時間用完了，回去睡覺。"]；時間 20.571→21.830（+1.26 h）；體能 0→2（這週第 1 次）；行動 null → {"day":29,"used":{"am":0,"pm":0,"ev":1}}；錢 22000→21950；姿勢 ["idle", "gym_bike"]
+PASS [night bike] 用完：時間至少 +1 小時、這個時段的次數有扣（CLS slots）  {"hour": [20.571, 21.83], "slots": ["null", "{\"day\":29,\"used\":{\"am\":0,\"pm\":0,\"ev\":1}}"]}
+  [ 224.4s] [night bike] 晚上用完以後的軌跡（zone、day、hour、x、z）：[["dorm", 29, 21.83, 0, 2.4], ["dorm", 30, 8.17, -1.485, 0.97]]
+PASS [night bike] 晚上用完：回到宿舍、睡到隔天早上（day+1、12 點前）  {"now": ["dorm", 30, 8.17], "trail": [["dorm", 29, 21.83, 0, 2.4], ["dorm", 30, 8.17, -1.485, 0.97]]}
+== night squat_rack
+  [前置／捷徑] [night squat_rack] 讀檔回 2025-10-15 20.50 健身中心裡；【前置】會員卡
+PASS [night squat_rack] 有沒人在用的深蹲架（互動點沒藏）  [{"id": "squat_rack_1", "kind": "squat_rack", "label": "用深蹲架", "x": -21.5, "z": 12.55, "hidden": true, "use": [[-21.5, 12.55]]}, {"id": "squat_rack_2", "kind": "squat_rack", "label": "用深蹲架", "x": -18.4, "z": 12.55, "hidden": false, "use": [[-18.4, 12.55]]}]
+  [ 252.8s] 到達「[night squat_rack] 走到 squat_rack_2 旁邊」附近（0.24 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，19 秒
+PASS [night squat_rack] 走到旁邊，互動按鈕是「用深蹲架」  {"x": -18.164, "z": 12.571, "interact": "用深蹲架"}
+PASS [黑畫面] gymuse_night_squat_rack_2mid 不是黑畫面（平均亮度 52.4、變化 48）  [52.4, 48]
+  [ 254.2s] [night squat_rack] 選單 ["「單次。」", "「這個月的月票。」"] → 選 "「單次。」"
+PASS [黑畫面] gymuse_night_squat_rack_1start 不是黑畫面（平均亮度 53.2、變化 49.9）  [53.2, 49.9]
+PASS [黑畫面] gymuse_night_squat_rack_3end 不是黑畫面（平均亮度 96.1、變化 51.7）  [96.1, 51.7]
+  [ 259.1s] [night squat_rack] 旁白 ["這個月要買月票嗎？", "你只用空槓。蹲下去，站起來，腿已經在抖。"]；toast ["晚上的時間用完了，回去睡覺。"]；時間 20.685→21.946（+1.26 h）；體能 0→2（這週第 1 次）；行動 null → {"day":29,"used":{"am":0,"pm":0,"ev":1}}；錢 22000→21950；姿勢 ["idle", "gym_squat"]
+PASS [night squat_rack] 用完：時間至少 +1 小時、這個時段的次數有扣（CLS slots）  {"hour": [20.685, 21.946], "slots": ["null", "{\"day\":29,\"used\":{\"am\":0,\"pm\":0,\"ev\":1}}"]}
+  [ 261.8s] [night squat_rack] 晚上用完以後的軌跡（zone、day、hour、x、z）：[["dorm", 29, 21.95, 0, 2.4], ["dorm", 30, 8.17, -1.485, 0.97]]
+PASS [night squat_rack] 晚上用完：回到宿舍、睡到隔天早上（day+1、12 點前）  {"now": ["dorm", 30, 8.17], "trail": [["dorm", 29, 21.95, 0, 2.4], ["dorm", 30, 8.17, -1.485, 0.97]]}
+  [ 261.8s] [night] 有人在用（互動點藏起來）的：[]
+  [ 261.8s] [night] 這一刻沒有路人在用器材（③ 沒測到）
+  [前置／捷徑] [跨階] 讀檔 gym_b1 2025-10-15 10:00；【捷徑】體能 fit 24、這週次數 0、upIx 0
+PASS [跨階 第 1 次] 有沒人在用的跑步機（互動點沒藏）  [{"id": "treadmill_1", "kind": "treadmill", "label": "用跑步機", "x": -0.5, "z": 10.95, "hidden": false, "use": [[-0.5, 12.2]]}, {"id": "treadmill_2", "kind": "treadmill", "label": "用跑步機", "x": 1.2, "z": 10.95, "hidden": false, "use": [[1.2, 12.2]]}, {"id": "treadmill_3", "kind": "treadmill", "label": "用跑步機", "x": 2.9, "z": 10.95, "hidden": false, "use": [[2.9, 12.2]]}, {"id": "treadmill_4", "kind": "treadmill", "label": "用跑步機", "x": 4.6, "z": 10.95, "hidden": false, "use": [[4.6, 12.2]]}, {"id": "treadmill_5", "kind": "treadmill", "label": "用跑步機", "x": 6.3, "z": 10.95, "hidden": false, "use": [[6.3, 12.2]]}]
+  [ 276.0s] 到達「[跨階 第 1 次] 走到 treadmill_1 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [跨階 第 1 次] 走到旁邊，互動按鈕是「用跑步機」  {"x": -0.683, "z": 10.816, "interact": "用跑步機"}
+PASS [黑畫面] gymuse_up1_2mid 不是黑畫面（平均亮度 59.4、變化 44.8）  [59.4, 44.8]
+  [ 277.3s] [跨階 第 1 次] 選單 ["「單次。」", "「這個月的月票。」"] → 選 "「單次。」"
+PASS [黑畫面] gymuse_up1_1start 不是黑畫面（平均亮度 63.6、變化 49.6）  [63.6, 49.6]
+PASS [黑畫面] gymuse_up1_3end 不是黑畫面（平均亮度 71.9、變化 46.3）  [71.9, 46.3]
+  [ 283.2s] [跨階 第 1 次] 旁白 ["這個月要買月票嗎？", "你跑完二十分鐘，才想起來今天沒有看時間。", "（騎上坡沒有以前喘了。）"]；toast ["體能：有在運動（走路、騎腳踏車快了一點）"]；時間 10.090→12.005（+1.92 h）；體能 24→26（這週第 1 次）；行動 null → {"day":29,"used":{"am":1,"pm":0,"ev":0}}；錢 22000→21950；姿勢 ["idle", "walk"]
+PASS [跨階 第 1 次] 用完：時間至少 +1 小時、這個時段的次數有扣（CLS slots）  {"hour": [10.09, 12.005], "slots": ["null", "{\"day\":29,\"used\":{\"am\":1,\"pm\":0,\"ev\":0}}"]}
+PASS [跨階 第 1 次] 用完：站回旁邊、不是在器材上（姿勢 idle、離 stand ≤ 0.5 m）  {"x": -0.5, "y": 0, "z": 10.95, "pose": "idle", "busy": false}
+PASS [跨階 第 1 次] 用完推得動（≥0.3 m）  7.25
+  [前置／捷徑] [跨階 第 2 次] 讀檔回 2025-10-15 10:00；【捷徑】體能接著第 1 次的結果（fit 26、upIx 1、這週 1 次）
+PASS [跨階 第 2 次] 有沒人在用的腳踏車機（互動點沒藏）  [{"id": "bike_1", "kind": "bike", "label": "用腳踏車機", "x": -0.5, "z": 8.15, "hidden": false, "use": [[-0.5, 9.4]]}, {"id": "bike_2", "kind": "bike", "label": "用腳踏車機", "x": 1, "z": 8.15, "hidden": false, "use": [[1, 9.4]]}, {"id": "bike_3", "kind": "bike", "label": "用腳踏車機", "x": 2.5, "z": 8.15, "hidden": false, "use": [[2.5, 9.4]]}, {"id": "bike_4", "kind": "bike", "label": "用腳踏車機", "x": 4, "z": 8.15, "hidden": false, "use": [[4, 9.4]]}]
+  [ 296.4s] 到達「[跨階 第 2 次] 走到 bike_1 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [跨階 第 2 次] 走到旁邊，互動按鈕是「用腳踏車機」  {"x": -0.359, "z": 7.949, "interact": "用腳踏車機"}
+PASS [黑畫面] gymuse_up2_2mid 不是黑畫面（平均亮度 59.7、變化 41.1）  [59.7, 41.1]
+  [ 297.7s] [跨階 第 2 次] 選單 ["「單次。」", "「這個月的月票。」"] → 選 "「單次。」"
+PASS [黑畫面] gymuse_up2_1start 不是黑畫面（平均亮度 66.7、變化 45.6）  [66.7, 45.6]
+PASS [黑畫面] gymuse_up2_3end 不是黑畫面（平均亮度 74.4、變化 41.8）  [74.4, 41.8]
+  [ 303.0s] [跨階 第 2 次] 旁白 ["這個月要買月票嗎？", "阻力五，騎了三十分鐘。螢幕上的里程，比你騎去公館還遠。"]；toast []；時間 10.073→12.009（+1.94 h）；體能 26→28（這週第 1 次）；行動 null → {"day":29,"used":{"am":1,"pm":0,"ev":0}}；錢 22000→21950；姿勢 ["idle", "gym_bike"]
+PASS [跨階 第 2 次] 用完：時間至少 +1 小時、這個時段的次數有扣（CLS slots）  {"hour": [10.073, 12.009], "slots": ["null", "{\"day\":29,\"used\":{\"am\":1,\"pm\":0,\"ev\":0}}"]}
+PASS [跨階 第 2 次] 用完：站回旁邊、不是在器材上（姿勢 idle、離 stand ≤ 0.5 m）  {"x": -0.5, "y": 0, "z": 8.15, "pose": "idle", "busy": false}
+PASS [跨階 第 2 次] 用完推得動（≥0.3 m）  4.43
+PASS [跨階] 24→26：有「體能：○○（走路、騎腳踏車快了一點）」  {"fit": [24, 26], "toasts": ["體能：有在運動（走路、騎腳踏車快了一點）"], "says": ["這個月要買月票嗎？", "你跑完二十分鐘，才想起來今天沒有看時間。", "（騎上坡沒有以前喘了。）"]}
+PASS [跨階] 同一階再用一次：不再出現升階那一句  {"fit": [26, 28], "toasts": []}
+PASS 沒有 JS 例外  []
+ALL PASS

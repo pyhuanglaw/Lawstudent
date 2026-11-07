@@ -1,0 +1,24 @@
+{
+  "rerun": "r2",
+  "id": "GYMUSE_3880_r2",
+  "sha": "38808711072fa54b74ff60892417beefaebae813",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gymuse_probe.py",
+  "env": "RERUN=r2;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T14:58:01",
+  "end": "2026-11-07T15:03:42",
+  "seconds": 341,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "18",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 24,
+    "mem": 57,
+    "used_gb": 17.9,
+    "chrome_testing": 15
+  }
+}
