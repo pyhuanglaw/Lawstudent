@@ -74,6 +74,8 @@ async def main():
         await tap_sel(pg, cdp, '#phoneBody [data-inv="%s"]' % WHO); await pg.wait_for_timeout(1500)
         await choose(pg, cdp, '念書'); await choose(pg, cdp, '總圖')
         o = await opts(pg); print('   時間', o, flush=True)
+        if not o:
+            q = await L.state(pg); print('   沒有時間選項：對話', q.get('dtext'), '｜exam', await pg.evaluate("!!(CLS.examWeek&&CLS.examWeek(GAME.G))"), '｜', await pg.evaluate("JSON.stringify(CALENDAR.dateOf(GAME.G.day))"), flush=True)
         EV = os.environ.get('SLOT', '') == 'ev'   # SLOT=ev：約晚上（05df3a848：晚上那一格用完、後面沒有約＝回去睡到隔天早上；UA-LAWWW-1107-03）
         HRS = ('19:', '20:') if EV else ('13:', '14:', '15:', '16:')
         pm = next((x for x in o if x['t'].startswith('今天') and not x['dim'] and any(h in x['t'] for h in HRS)), None)
