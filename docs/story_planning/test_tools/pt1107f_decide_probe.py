@@ -151,7 +151,7 @@ async def main():
         run.check('遊戲載入', await L.wait_loaded(pg))
         run.setup('讀使用者存檔 day46；【捷徑】day %+d、清掉原本的邀約、清掉 DECIDE／DECIDE_SAY；【捷徑】%s 的故事線從第 %d 拍開始%s' % (SHIFT, WHO, K, ('；【捷徑】關係改 trust=%s npcRom=%s' % (TRUST, NPCROM)) if (TRUST or NPCROM) else ''))
         await L.load_state(pg, s, quiet_phone=True); await pg.wait_for_timeout(3500); await settle(pg, cdp, [], 60)
-        info = await pg.evaluate("((w,k,n)=>{ const T=((HEROINE_ARCS||{}).people||{})[w]; const b=T&&T.beats.find(x=>x.n===n); const e=typeof DECIDE!=='undefined'&&DECIDE.byKey?DECIDE.byKey(w,k):null; const r=b&&typeof ARCS!=='undefined'?ARCS.resolve(GAME.G,w,b):null; return {has:!!(typeof DECIDE!=='undefined'&&DECIDE.decideBeat), beat:b?{need:b.need, ask:(b.ask||[]).join('')}:null, opts:r?r.opts.map(o=>ARCS.text(GAME.G,o.t)):null, rule:e?{beat:e.beat,keyTrue:!!e.key_true||!!e.keyTrue,keyNote:e.keyNote||null,def:e.default,opts:e.opts,rules:e.rules.map(x=>({stance:x.stance,trust:x.trust,opt:x.opt,result:x.result,delay:x.delay,say:x.say||null}))}:null}; })(%s,%s,%d)" % (json.dumps(WHO), json.dumps(KEY), K))
+        info = await pg.evaluate("((w,k,n)=>{ const T=((HEROINE_ARCS||{}).people||{})[w]; const b=T&&T.beats.find(x=>x.n===n); const e=typeof DECIDE!=='undefined'&&DECIDE.byKey?DECIDE.byKey(w,k):null; const r=b&&typeof ARCS!=='undefined'?ARCS.resolve(GAME.G,w,b):null; return {has:!!(typeof DECIDE!=='undefined'&&DECIDE.decideBeat), beat:b?{need:b.need, ask:(b.ask||[]).join('')}:null, opts:r?r.opts.map(o=>ARCS.text(GAME.G,o.t)):null, rule:e?{beat:e.beat,keyTrue:!!e.key_true||!!e.keyTrue,keyNote:e.keyNote||null,def:e.default,revealDay:(e.revealAt&&typeof ARCS!=='undefined'&&ARCS.dayOf)?ARCS.dayOf(e.revealAt.day):null,revealAt:e.revealAt||null,opts:e.opts,rules:e.rules.map(x=>({stance:x.stance,trust:x.trust,opt:x.opt,result:x.result,delay:x.delay,say:x.say||null}))}:null}; })(%s,%s,%d)" % (json.dumps(WHO), json.dumps(KEY), K))
         run.check('這一版有 DECIDE.decideBeat、%s 的 %s（第 %d 拍）' % (WHO, KEY, K), bool(info['has'] and info['rule'] and info['beat'] and info['rule']['beat'] == K), json.dumps(info, ensure_ascii=False)[:600])
         if not (info['has'] and info['rule'] and info['opts']): await b.close(); return run.finish()
         d0 = await dec(pg)
@@ -181,7 +181,14 @@ async def main():
         delay = (exp_rule or {}).get('delay') or 0; say = (exp_rule or {}).get('say') or []
         if say:
             x = next((q for q in d1['says'] if q['key'] == KEY), None)
-            run.check('④ DECIDE_SAY 有一筆、due＝第 %d 天＋%d' % (d1['day'], delay), bool(x) and x['due'] == d1['day'] + delay and not x['played'], json.dumps(d1['says'], ensure_ascii=False))
+            due_want = max(d1['day'], rule['revealDay']) if (rule.get('revealDay') is not None and delay > 0) else d1['day'] + delay
+            run.check('④ DECIDE_SAY 有一筆、due＝第 %d 天（%s）' % (due_want, ('revealAt %s' % rule['revealAt']) if rule.get('revealDay') is not None else '那天＋%d' % delay), bool(x) and x['due'] == due_want and not x['played'], json.dumps(d1['says'], ensure_ascii=False))
+            if x and rule.get('revealDay') is not None:
+                pre = x['due'] - 1
+                run.setup('【捷徑】day 撥到 revealAt 前一天（%d）09:00，見面前她不能先說' % pre)
+                await pg.evaluate("(d=>{ GAME.G.day=d; GAME.G.hour=9; })(%d)" % pre); await pg.wait_for_timeout(1500); await settle(pg, cdp, [], 30)
+                dpre = await dec(pg); xp = next((q for q in dpre['says'] if q['key'] == KEY), {})
+                run.check('④ revealAt 前一天：還沒說（played 還是 false）', not xp.get('played'), json.dumps(xp, ensure_ascii=False))
             if x and delay > 0 and FOLLOW == 'meet':
                 run.setup('【捷徑】day 撥到 due（%d）09:00' % x['due'])
                 await pg.evaluate("(d=>{ GAME.G.day=d; GAME.G.hour=9; })(%d)" % x['due']); await pg.wait_for_timeout(1500); await settle(pg, cdp, [], 30)
