@@ -314,7 +314,10 @@ const ASSETS = (function(){
   /* PERF-ZONE-POPIN-1103（使用者 11-03：「進入新場景的時候 都會先出現畫質很爛的版本 卡一下才出現完整的……溫州街地圖還沒讀取完畢……也會看到腳踏車自己在動」）：
      換區域時記下區域建立當下要的正式模型（A.reqStart／A.reqTake），淡入以前等它們載好（A.waitLoaded，最多 cap 毫秒）；原本第一次去的地方先淡入、看到方塊備用模型，GLB 載好才換 */
   A._req=null; A.reqStart=function(){ A._req=new Set(); }; A.reqTake=function(){ const r=A._req?Array.from(A._req):[]; A._req=null; return r; };
-  A.waitLoaded=async function(keys,cap){ const pend=(keys||[]).filter(k=>!A.cache[k]&&A.status[k]&&(A.manifest[k]||{}).type==='building'); const out={pending:pend.length,waited:0,timedOut:false}; if(!pend.length) return out;
+  /* PERF-COLD-1107（LAWWW2-B；LAWWW-B 11-07 08:41 選 (A)）：NPC 的 VRM、動作檔（clips）也等。原本只等 building——PC 冷快取量（CC-B PERF_COLD b987cb1cf）：
+     溫州街淡入以後才 parseVRM（兩次共 3.7 s）、主模型第 18.5 s 才到、接上那一格 5.1 s；總圖大廳淡入後還有 12 個在載（3.1 fps）。先載好再淡入：溫州街 8.8→27.5 fps、總圖大廳 3.1→19.2 fps，黑畫面多 2～4 s */
+  A.WAIT_TYPES={building:1,vrm:1,clips:1};
+  A.waitLoaded=async function(keys,cap){ const pend=(keys||[]).filter(k=>!A.cache[k]&&A.status[k]&&A.WAIT_TYPES[(A.manifest[k]||{}).type]); const out={pending:pend.length,waited:0,timedOut:false}; if(!pend.length) return out;
     const t0=Date.now(); let to=null; const all=Promise.all(pend.map(k=>Promise.resolve(A.status[k]).catch(()=>null)));
     const ok=await Promise.race([all.then(()=>true),new Promise(r=>{ to=setTimeout(()=>r(false),Math.max(0,cap|0)); })]); clearTimeout(to);
     await new Promise(r=>setTimeout(r,0));   /* 載好以後區域的 .then（接上正式模型、藏起備用方塊）先跑完 */
