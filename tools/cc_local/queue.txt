@@ -138,6 +138,8 @@ HAIR_b_8fdb | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_plan
 PT1107I_menu_kx | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/pt1107i_invplaces_probe.py | index.html?turbo | 30 | MODE=menu;WHO=kexin;KX=0;CC_HEADLESS=0
 PT1107I_meet_kx | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/pt1107i_invplaces_probe.py | index.html?turbo | 40 | MODE=meet;WHO=kexin;DAYSHIFT=-14;CC_HEADLESS=0
 PT1107G_h05_k3 | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/pt1107g_arcinv_probe.py | index.html?turbo | 40 | WHO=heroine_05;K=3;PICK=0;CC_HEADLESS=0
+# LAWWW2-B 10:48：PERF_COLD Resource Timing 版（2ad41bd2f），溫州街 base、near、near（看變異），4G
+PERF_COLD_RT | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/perf_cold_probe.py | index.html | 50 | ZONES=wenzhou;VARIANTS=base,near,near;NET=4g;COLD=12;CC_HEADLESS=0
 # CC-B 10:3x 常備（使用者「沒有東西可以跑」→ D121 常備：LAWWW 最新 head 8fdb294aa 回歸組＋真實流程；最慢的在前）
 R8FDB_main12 | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R8FDB_classreal | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
