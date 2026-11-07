@@ -107,7 +107,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('6. 沛珊作息：每週三 18:00～21:00 在溫州街（課輔班；AA-B 11-07，原本週二、四 16:00～18:00）',A.every(z=>z==='wenzhou'),J(A));
     check('6. 週二、四 16:00～18:00 不在溫州街了（AA-B 11-07）',A2.every(z=>z!=='wenzhou'),J(A2));
     check('6. 對照：週一、五 16～19 照舊在總圖；第 4 週週二照舊在總圖；第 16 週週二（4/6～6/14 和柏翰那一段）＝總圖大廳二樓自習區（AA_527 2-5，原本三樓閱覽區）',J(B)===J(['library','library','library','library_hall']),J(B));
-    const T=evText('ev_peishan_tutoring'); check('6. 溫州街課輔班（P3b）：「喔，是你。我在這裡當志工。每個禮拜三。」（AA-B 11-07，原本「一週兩天。」）',T.includes('喔，是你。我在這裡當志工。每個禮拜三。')&&!T.some(t=>/一週三天|一週兩天/.test(t)),J(T.slice(0,2)));
+    const T=evText('ev_peishan_tutoring'); check('6. 溫州街課輔班（P3b）：「喔，是你。我在這裡當助教。每個禮拜三。」（AA-B 11-07，原本「一週兩天。」）',T.includes('喔，是你。我在這裡當助教。每個禮拜三。')&&!T.some(t=>/一週三天|一週兩天/.test(t)),J(T.slice(0,2)));
     const L3=LADDER.byTerm.Y1S2.classmate_peishan.steps.find(s=>s.id==='P2-L3');
     check('6. 閒聊階梯 P2-L3：「我在溫州街的課輔班當志工。一週兩天。」',!!L3&&L3.lines[0]==='我在溫州街的課輔班當志工。一週兩天。',L3&&L3.lines[0]);
     fresh(termDay('Y1S2',6,2),17,'wenzhou',{}); R('classmate_peishan','FAM'); const g=[]; for(let i=0;i<6;i++){ const t=STORY.ladGreet(G,'classmate_peishan'); if(t) g.push(t); }

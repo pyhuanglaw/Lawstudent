@@ -1905,7 +1905,7 @@ const STORY_EVENTS=[
     prereq:{events:['ev_peishan_doubt']},
     dialogue:[ {scene:'溫州街・課輔班門口',bg:'wenzhou_tutoring'},
       {speaker:null,text:'她帶著一群國小生從課輔班走出來。門口有幾個家長在等，她手上還拿著一疊作業本。'},   /* AA-B 2026-11-07 改 */
-      {speaker:'classmate_peishan',expression:'smile',text:'喔，是你。我在這裡當志工。每個禮拜三。'},   /* AA-B 2026-11-07 改（原本「一週兩天」）：作息週三 18:00～21:00 在溫州街課輔班（characters.js，AA_614 第 1 節）*/
+      {speaker:'classmate_peishan',expression:'smile',text:'喔，是你。我在這裡當助教。每個禮拜三。'},   /* AA-B 2026-11-07 改（原本「一週兩天」；22:00 說法統一成「助教」，AA_614 32a5f7e12）：作息週三 18:00～21:00 在溫州街課輔班（characters.js，AA_614 第 1 節）*/
       {speaker:null,text:'一個小孩拉她的衣角。她蹲下來聽他講完，站起來。'},
       {speaker:'classmate_peishan',expression:'thinking',text:'……我在這裡的時候，不會看時間。'},
       /* BB_161 ④：第二個選項只給去過讀書會的玩家（出席紀錄，不是博覽會填表的 CLUB_lawclub_study）*/
@@ -1913,7 +1913,7 @@ const STORY_EVENTS=[
       {label:'a'},{speaker:'classmate_peishan',expression:'thinking',text:'有嗎。'},{speaker:null,text:'她想了一下。'},{speaker:'classmate_peishan',expression:'smile',text:'……有。'},{goto:'end'},
       {label:'b'},{speaker:'classmate_peishan',expression:'neutral',text:'嗯。我還是會去，只是比較少。'},{speaker:null,text:'她不躲這個問題。'},{speaker:'classmate_peishan',expression:'thinking',text:'我在找我比較想待的地方。'},{goto:'end'},
       {label:'c'},{speaker:'classmate_peishan',expression:'smile',text:'謝謝。……你走路很慢，跟小孩一樣。'},{speaker:null,text:'小孩們笑。'},
-      {label:'end'},{mem:[{npc:'classmate_peishan',tag:'SAW_HER_TEACH',note:'溫州街的課輔班：她在當志工'}]} ] },
+      {label:'end'},{mem:[{npc:'classmate_peishan',tag:'SAW_HER_TEACH',note:'溫州街的課輔班：她在當助教'}]} ] },
   /* Alison 語 2「剛好路過」（交接包 v2 C18；草稿第 3 節、AA_40 語 2）：大一下第 14～16 週，阿哲和 Alison 的三個徵兆。三個選項都不改變結果（大二上兩人在一起），只記 YU2_PICK（之後 Alison 怎麼跟祐廷說）。
      交往中的玩家也一樣（這是 Alison 和阿哲的事）。只有認識 Alison 的玩家有（met_yu）；阿哲開場就認識。
      「徵兆保證觸發」（AA_40 要開發組評估）的做法：

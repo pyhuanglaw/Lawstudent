@@ -16,7 +16,7 @@ const loadErr=[];
 const loadG=f=>{ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/^const ([A-Z_][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); };
 for(const f of ['src/data/shop_npc.js','src/data/heroine_circle.js','src/whois3d.js','src/aa614_3d.js']){ if(!fs.existsSync(path.join(H.ROOT,f))){ loadErr.push(f+'：沒有這個檔'); continue; } try{ loadG(f); }catch(e){ loadErr.push(f+'：'+String(e&&e.message||e).slice(0,160)); } }
 const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
-const SHA614='73ee9256d', DOC614='docs/story_planning/AA_614_同學也在打工_約了不能來.md', SHA615='ba26f7f7d', DOC615='docs/story_planning/AA_615_新生南路那一側_公館二輪戲院_爆米花.md';
+const SHA614='32a5f7e12', DOC614='docs/story_planning/AA_614_同學也在打工_約了不能來.md', SHA615='ba26f7f7d', DOC615='docs/story_planning/AA_615_新生南路那一側_公館二輪戲院_爆米花.md';
 const doc=git(SHA614,DOC614), doc5=git(SHA615,DOC615);
 const A=()=>typeof AA614!=='undefined'&&AA614&&AA614.L?AA614:null;
 const D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h, wd=d=>CALENDAR.dateOf(d).wd%7, key=d=>CALENDAR.dateOf(d).key, TD=(t,w,w7)=>STORY.termDayIn(t,w,w7);
@@ -34,7 +34,7 @@ const evOf=id=>STORY_EVENTS.find(e=>e.id===id);
 const evText=id=>{ const e=evOf(id); return e?e.dialogue.filter(l=>typeof l.text==='string').map(l=>l.text):[]; };
 (async()=>{
   /* ================= 0 ================= */
-  check('0. AA_614（73ee9256d）、AA_615（ba26f7f7d）讀得到',doc.length>1500&&doc.includes('## 2. 玩家約他們，撞到上班時間')&&doc5.length>1500&&doc5.includes('## 4. 在戲院打工的同學：Alison'),doc?'':'git fetch origin claude/cool-heisenberg-o8kuqx');
+  check('0. AA_614（32a5f7e12）、AA_615（ba26f7f7d）讀得到',doc.length>1500&&doc.includes('## 2. 玩家約他們，撞到上班時間')&&doc5.length>1500&&doc5.includes('## 4. 在戲院打工的同學：Alison'),doc?'':'git fetch origin claude/cool-heisenberg-o8kuqx');
   check('0. AA_615 ba26f7f7d 和白名單上的 ebea3a2b0 內容一樣',doc5===git('ebea3a2b0',DOC615));
   check('0. 模組都載得到（AA614、WHOIS、SHOP_NPC）',!loadErr.length&&!!A()&&typeof WHOIS!=='undefined',J(loadErr));
   if(!A()){ H.done(); return; }
@@ -43,7 +43,7 @@ const evText=id=>{ const e=evOf(id); return e?e.dialogue.filter(l=>typeof l.text
     check('0. index.html：aa614_3d.js（?v=9.10.22）緊接在 aa613_3d.js 後面，在 invites3d、phone3d、story3d、outings3d、jobs3d 之後',ia>0&&html.includes('<script src="src/aa614_3d.js?v=9.10.22"></script>')&&sc[ia-1]==='src/aa613_3d.js'&&['src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js','src/outings3d.js','src/jobs3d.js','src/whois3d.js'].every(f=>sc.indexOf(f)>=0&&sc.indexOf(f)<ia),J(ia)); }
   { let W=null; try{ W=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')); }catch(e){}
     const e=W&&W.files&&W.files.find(x=>x.path===DOC614), e5=W&&W.files&&W.files.find(x=>x.path===DOC615);
-    check('0. 劇情匯入白名單：AA_614＝73ee9256d、approved、AA（D109）、AA614-CLASSMATE-JOBS-1103；AA_615 那一列記了 AA615-ALISON-CINEMA-1103',!!e&&e.sha===SHA614&&e.status==='approved'&&/^AA（D109）/.test(e.approvedBy)&&e.task==='AA614-CLASSMATE-JOBS-1103'&&e.kind==='text'&&!!e5&&e5.status==='approved'&&e5.note.includes('AA615-ALISON-CINEMA-1103'),J(e&&{sha:e.sha,st:e.status,by:e.approvedBy})); }
+    check('0. 劇情匯入白名單：AA_614＝32a5f7e12、approved、AA（D109）、AA614-CLASSMATE-JOBS-1103；AA_615 那一列記了 AA615-ALISON-CINEMA-1103',!!e&&e.sha===SHA614&&e.status==='approved'&&/^AA（D109）/.test(e.approvedBy)&&e.task==='AA614-CLASSMATE-JOBS-1103'&&e.kind==='text'&&!!e5&&e5.status==='approved'&&e5.note.includes('AA615-ALISON-CINEMA-1103'),J(e&&{sha:e.sha,st:e.status,by:e.approvedBy})); }
   /* 每一句都在稿裡 */
   { const all=[], add=x=>{ if(x==null) return; if(typeof x==='string'){ all.push(x); return; } if(Array.isArray(x)){ if(x.length===2&&typeof x[0]==='string'&&typeof x[1]==='string'&&NM[x[0]]){ all.push(x[1]); return; } for(const y of x) add(y); return; } if(typeof x==='object') for(const k of Object.keys(x)) add(x[k]); };
     const L614=Object.assign({},L); delete L614.watch; delete L614.three; const i5=Object.assign({},L.inv); delete i5.yu; L614.inv=i5;
@@ -75,7 +75,7 @@ const evText=id=>{ const e=evOf(id); return e?e.dialogue.filter(l=>typeof l.text
     check('1. 女主角的圈子 c504_6_3（AA_504 6-1「週二、四 課輔班（現有）」，小朋友那兩句）跟著搬到週三 18:00～21:00、句子不變',!!c3&&J(c3.days)===J([3])&&c3.from===18&&c3.to===21&&c3.zone==='wenzhou'&&c3.heard==='小朋友：老師！這題我會了！／沛珊：好棒！……那下一題呢？',J(c3&&[c3.days,c3.from,c3.to]));
     const p=evOf('ev_peishan_tutoring'), t=evText('ev_peishan_tutoring');
     check('1. ev_peishan_tutoring：週三 20:45～21:15、標題「課輔班的晚上」、大一下第 5～15 週（照舊）、走進溫州街、P2 之後',!!p&&J(p.weekday)===J([3])&&J(p.time)===J([20.75,21.25])&&p.title==='課輔班的晚上'&&J(p.term)===J(['Y1S2'])&&J(p.weeks)===J([5,6,7,8,9,10,11,12,13,14,15])&&p.trigger==='enter'&&p.location==='wenzhou'&&J(p.prereq)===J({events:['ev_peishan_doubt']}),J(p&&[p.weekday,p.time,p.title]));
-    check('1. 兩句照 AA-B 11-07 改：開頭旁白、「每個禮拜三。」',t[0]==='她帶著一群國小生從課輔班走出來。門口有幾個家長在等，她手上還拿著一疊作業本。'&&t[1]==='喔，是你。我在這裡當志工。每個禮拜三。',J(t.slice(0,2)));
+    check('1. 兩句照 AA-B 11-07 改：開頭旁白、「每個禮拜三。」',t[0]==='她帶著一群國小生從課輔班走出來。門口有幾個家長在等，她手上還拿著一疊作業本。'&&t[1]==='喔，是你。我在這裡當助教。每個禮拜三。',J(t.slice(0,2)));
     check('1. 舊的兩句不在了',!t.includes('她帶著一群國小生從課輔班走出來，手上拿著一疊作業本。')&&!t.includes('喔，是你。我在這裡當志工。一週兩天。')&&!t.some(x=>/一週兩天/.test(x)));
     check('1. 其他句子照舊',t[2]==='一個小孩拉她的衣角。她蹲下來聽他講完，站起來。'&&t[3]==='……我在這裡的時候，不會看時間。'&&t.includes('有嗎。')&&t.includes('……有。'),J(t.slice(2,4)));
     const ok=(d,h)=>{ fresh(d,h,'wenzhou'); H.G.events.done.ev_peishan_doubt=1; return EVENTS.check(p); };
@@ -116,7 +116,7 @@ const evText=id=>{ const e=evOf(id); return e?e.dialogue.filter(l=>typeof l.text
     r=go(YU,TD('Y1S1',6,5),'wenzhou',19);
     check('2. Alison 週五 19:00：「禮拜五晚上我在戲院。……禮拜天下午？」→ 那個週日 14:00',r.res==='resched'&&tx(r)===J([L.inv.yu])&&r.alt&&r.alt.day===H.G.day+2&&wd(r.alt.day)===0&&r.alt.h===14,J(r));
     r=go(YU,TD('Y1S1',6,6),'wenzhou',19); check('2. Alison 週六 19:00：「週六我在南洋上班，到很晚。……禮拜天下午可以嗎？」→ 週日 14:00（接線時補的 73ee9256d）',r.res==='resched'&&tx(r)===J([L.inv.yuSat])&&L.inv.yuSat==='「週六我在南洋上班，到很晚。……禮拜天下午可以嗎？」'&&r.alt&&wd(r.alt.day)===0&&r.alt.day===H.G.day+1&&r.alt.h===14,J(r));
-    check('2. 接線時補的：「國小生」「五年級的」（國小課輔班）',L.psDoor==='你怎麼在這？……我在這裡當助教。國小生。'&&L.talk.ps==='課輔班有一個五年級的，每次都說數學沒用。……我也這樣想過。'&&!J(L).includes('國中生')&&!J(L).includes('國二的'));
+    check('2. 接線時補的：「教國小的小朋友」「五年級的」（國小課輔班，32a5f7e12 說法統一）',L.psDoor==='你怎麼在這？……我在這裡當助教。教國小的小朋友。'&&L.talk.ps==='課輔班有一個五年級的，每次都說數學沒用。……我也這樣想過。'&&!J(L).includes('國中生')&&!J(L).includes('國二的'));
     r=go(YU,TD('Y1S1',3,5),'wenzhou',19); check('2. 對照：大一上第 3 週週五（第 4 週才開始打工）照舊答應',r.res==='accept',J(r));
     r=go(YU,TD('Y1S1',6,5),'wenzhou',17); check('2. 對照：Alison 週五 17:00（17:45 結束）照舊答應',r.res==='accept',J(r)); }
 
