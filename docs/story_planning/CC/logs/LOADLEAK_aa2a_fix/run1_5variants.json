@@ -1,0 +1,1387 @@
+{
+ "sha": "aa2a719bff",
+ "runs": [
+  {
+   "when": "now",
+   "how": "shortcut",
+   "before": {
+    "zone": "cafe",
+    "hour": 14.838,
+    "day": 32
+   },
+   "busyBefore": {
+    "econff": false,
+    "eventsRunning": null,
+    "dlg": false,
+    "dlgText": "店關了沒關係。人還在就好。",
+    "gameD": {
+     "active": false,
+     "busyDepth": 0,
+     "stale": false
+    },
+    "scene": null,
+    "invRunning": {
+     "running": null,
+     "busy": null
+    },
+    "dateRunning": {
+     "running": null,
+     "busy": null
+    },
+    "choices": 0
+   },
+   "busyAtLoad": {
+    "econff": false,
+    "eventsRunning": null,
+    "dlg": false,
+    "dlgText": "店關了沒關係。人還在就好。",
+    "gameD": {
+     "active": false,
+     "busyDepth": 0,
+     "stale": false
+    },
+    "scene": null,
+    "invRunning": {
+     "running": null,
+     "busy": null
+    },
+    "dateRunning": {
+     "running": null,
+     "busy": null
+    },
+    "choices": 0
+   },
+   "seq": [
+    [
+     0.0,
+     "bookstore",
+     13.803,
+     32,
+     0
+    ],
+    [
+     0.5,
+     "bookstore",
+     13.803,
+     32,
+     0
+    ],
+    [
+     1.0,
+     "bookstore",
+     13.803,
+     32,
+     0
+    ],
+    [
+     1.5,
+     "bookstore",
+     13.804,
+     32,
+     0
+    ],
+    [
+     2.0,
+     "bookstore",
+     13.805,
+     32,
+     0
+    ],
+    [
+     2.5,
+     "bookstore",
+     13.806,
+     32,
+     0
+    ],
+    [
+     3.0,
+     "bookstore",
+     13.807,
+     32,
+     0
+    ],
+    [
+     3.5,
+     "bookstore",
+     13.809,
+     32,
+     0
+    ],
+    [
+     4.0,
+     "bookstore",
+     13.81,
+     32,
+     0
+    ],
+    [
+     4.5,
+     "bookstore",
+     13.811,
+     32,
+     0
+    ],
+    [
+     5.0,
+     "bookstore",
+     13.812,
+     32,
+     0
+    ],
+    [
+     5.5,
+     "bookstore",
+     13.813,
+     32,
+     0
+    ],
+    [
+     6.0,
+     "bookstore",
+     13.815,
+     32,
+     0
+    ],
+    [
+     6.5,
+     "bookstore",
+     13.816,
+     32,
+     0
+    ],
+    [
+     7.0,
+     "bookstore",
+     13.817,
+     32,
+     0
+    ],
+    [
+     7.5,
+     "bookstore",
+     13.819,
+     32,
+     0
+    ],
+    [
+     8.0,
+     "bookstore",
+     13.82,
+     32,
+     0
+    ],
+    [
+     8.5,
+     "bookstore",
+     13.821,
+     32,
+     0
+    ],
+    [
+     9.0,
+     "bookstore",
+     13.823,
+     32,
+     0
+    ],
+    [
+     9.5,
+     "bookstore",
+     13.824,
+     32,
+     0
+    ],
+    [
+     10.0,
+     "bookstore",
+     13.825,
+     32,
+     0
+    ],
+    [
+     10.5,
+     "bookstore",
+     13.827,
+     32,
+     0
+    ],
+    [
+     11.0,
+     "bookstore",
+     13.828,
+     32,
+     0
+    ],
+    [
+     11.5,
+     "bookstore",
+     13.829,
+     32,
+     0
+    ],
+    [
+     12.0,
+     "bookstore",
+     13.83,
+     32,
+     0
+    ],
+    [
+     12.5,
+     "bookstore",
+     13.831,
+     32,
+     0
+    ],
+    [
+     13.0,
+     "bookstore",
+     13.833,
+     32,
+     0
+    ],
+    [
+     13.5,
+     "bookstore",
+     13.834,
+     32,
+     0
+    ],
+    [
+     14.0,
+     "bookstore",
+     13.835,
+     32,
+     0
+    ],
+    [
+     14.5,
+     "bookstore",
+     13.837,
+     32,
+     0
+    ],
+    [
+     15.0,
+     "bookstore",
+     13.838,
+     32,
+     0
+    ],
+    [
+     15.5,
+     "bookstore",
+     13.839,
+     32,
+     0
+    ],
+    [
+     16.0,
+     "bookstore",
+     13.841,
+     32,
+     0
+    ],
+    [
+     16.5,
+     "bookstore",
+     13.842,
+     32,
+     0
+    ],
+    [
+     17.0,
+     "bookstore",
+     13.843,
+     32,
+     0
+    ],
+    [
+     17.5,
+     "bookstore",
+     13.845,
+     32,
+     0
+    ],
+    [
+     18.0,
+     "bookstore",
+     13.846,
+     32,
+     0
+    ],
+    [
+     18.5,
+     "bookstore",
+     13.847,
+     32,
+     0
+    ],
+    [
+     19.0,
+     "bookstore",
+     13.849,
+     32,
+     0
+    ],
+    [
+     19.5,
+     "bookstore",
+     13.85,
+     32,
+     0
+    ]
+   ],
+   "jump": null
+  },
+  {
+   "when": "wait3",
+   "how": "shortcut",
+   "before": {
+    "zone": "cafe",
+    "hour": 14.823,
+    "day": 32
+   },
+   "busyBefore": {
+    "econff": false,
+    "eventsRunning": null,
+    "dlg": false,
+    "dlgText": "店關了沒關係。人還在就好。",
+    "gameD": {
+     "active": false,
+     "busyDepth": 1,
+     "stale": false
+    },
+    "scene": null,
+    "invRunning": {
+     "running": null,
+     "busy": null
+    },
+    "dateRunning": {
+     "running": null,
+     "busy": null
+    },
+    "choices": 0
+   },
+   "busyAtLoad": {
+    "econff": false,
+    "eventsRunning": null,
+    "dlg": false,
+    "dlgText": "店關了沒關係。人還在就好。",
+    "gameD": {
+     "active": false,
+     "busyDepth": 0,
+     "stale": false
+    },
+    "scene": null,
+    "invRunning": {
+     "running": null,
+     "busy": null
+    },
+    "dateRunning": {
+     "running": null,
+     "busy": null
+    },
+    "choices": 0
+   },
+   "seq": [
+    [
+     0.0,
+     "bookstore",
+     13.801,
+     32,
+     0
+    ],
+    [
+     0.5,
+     "bookstore",
+     13.801,
+     32,
+     0
+    ],
+    [
+     1.0,
+     "bookstore",
+     13.801,
+     32,
+     0
+    ],
+    [
+     1.5,
+     "bookstore",
+     13.802,
+     32,
+     0
+    ],
+    [
+     2.0,
+     "bookstore",
+     13.803,
+     32,
+     0
+    ],
+    [
+     2.5,
+     "bookstore",
+     13.804,
+     32,
+     0
+    ],
+    [
+     3.0,
+     "bookstore",
+     13.806,
+     32,
+     0
+    ],
+    [
+     3.5,
+     "bookstore",
+     13.807,
+     32,
+     0
+    ],
+    [
+     4.0,
+     "bookstore",
+     13.808,
+     32,
+     0
+    ],
+    [
+     4.5,
+     "bookstore",
+     13.809,
+     32,
+     0
+    ],
+    [
+     5.0,
+     "bookstore",
+     13.81,
+     32,
+     0
+    ],
+    [
+     5.5,
+     "bookstore",
+     13.812,
+     32,
+     0
+    ],
+    [
+     6.0,
+     "bookstore",
+     13.813,
+     32,
+     0
+    ],
+    [
+     6.5,
+     "bookstore",
+     13.814,
+     32,
+     0
+    ],
+    [
+     7.0,
+     "bookstore",
+     13.816,
+     32,
+     0
+    ],
+    [
+     7.5,
+     "bookstore",
+     13.817,
+     32,
+     0
+    ],
+    [
+     8.0,
+     "bookstore",
+     13.818,
+     32,
+     0
+    ],
+    [
+     8.5,
+     "bookstore",
+     13.82,
+     32,
+     0
+    ],
+    [
+     9.0,
+     "bookstore",
+     13.821,
+     32,
+     0
+    ],
+    [
+     9.5,
+     "bookstore",
+     13.822,
+     32,
+     0
+    ],
+    [
+     10.0,
+     "bookstore",
+     13.823,
+     32,
+     0
+    ],
+    [
+     10.5,
+     "bookstore",
+     13.824,
+     32,
+     0
+    ],
+    [
+     11.0,
+     "bookstore",
+     13.826,
+     32,
+     0
+    ],
+    [
+     11.5,
+     "bookstore",
+     13.827,
+     32,
+     0
+    ],
+    [
+     12.0,
+     "bookstore",
+     13.828,
+     32,
+     0
+    ],
+    [
+     12.5,
+     "bookstore",
+     13.829,
+     32,
+     0
+    ],
+    [
+     13.0,
+     "bookstore",
+     13.83,
+     32,
+     0
+    ],
+    [
+     13.5,
+     "bookstore",
+     13.832,
+     32,
+     0
+    ],
+    [
+     14.0,
+     "bookstore",
+     13.833,
+     32,
+     0
+    ],
+    [
+     14.5,
+     "bookstore",
+     13.834,
+     32,
+     0
+    ],
+    [
+     15.0,
+     "bookstore",
+     13.836,
+     32,
+     0
+    ],
+    [
+     15.5,
+     "bookstore",
+     13.836,
+     32,
+     0
+    ],
+    [
+     16.0,
+     "bookstore",
+     13.838,
+     32,
+     0
+    ],
+    [
+     16.5,
+     "bookstore",
+     13.839,
+     32,
+     0
+    ],
+    [
+     17.0,
+     "bookstore",
+     13.84,
+     32,
+     0
+    ],
+    [
+     17.5,
+     "bookstore",
+     13.842,
+     32,
+     0
+    ],
+    [
+     18.0,
+     "bookstore",
+     13.843,
+     32,
+     0
+    ],
+    [
+     18.5,
+     "bookstore",
+     13.844,
+     32,
+     0
+    ],
+    [
+     19.0,
+     "bookstore",
+     13.846,
+     32,
+     0
+    ],
+    [
+     19.5,
+     "bookstore",
+     13.847,
+     32,
+     0
+    ]
+   ],
+   "jump": null
+  },
+  {
+   "when": "now",
+   "how": "menu",
+   "before": {
+    "zone": "cafe",
+    "hour": 14.828,
+    "day": 32
+   },
+   "busyBefore": {
+    "econff": false,
+    "eventsRunning": null,
+    "dlg": false,
+    "dlgText": "店關了沒關係。人還在就好。",
+    "gameD": {
+     "active": false,
+     "busyDepth": 0,
+     "stale": false
+    },
+    "scene": null,
+    "invRunning": {
+     "running": null,
+     "busy": null
+    },
+    "dateRunning": {
+     "running": null,
+     "busy": null
+    },
+    "choices": 0
+   },
+   "busyAtLoad": {
+    "econff": false,
+    "eventsRunning": null,
+    "dlg": false,
+    "dlgText": "店關了沒關係。人還在就好。",
+    "gameD": {
+     "active": false,
+     "busyDepth": 0,
+     "stale": false
+    },
+    "scene": null,
+    "invRunning": {
+     "running": null,
+     "busy": null
+    },
+    "dateRunning": {
+     "running": null,
+     "busy": null
+    },
+    "choices": 0
+   },
+   "seq": [
+    [
+     0.0,
+     "bookstore",
+     13.81,
+     32,
+     0
+    ],
+    [
+     0.5,
+     "bookstore",
+     13.81,
+     32,
+     0
+    ],
+    [
+     1.0,
+     "bookstore",
+     13.811,
+     32,
+     0
+    ],
+    [
+     1.5,
+     "bookstore",
+     13.811,
+     32,
+     0
+    ],
+    [
+     2.0,
+     "bookstore",
+     13.811,
+     32,
+     0
+    ],
+    [
+     2.5,
+     "bookstore",
+     13.811,
+     32,
+     0
+    ],
+    [
+     3.0,
+     "bookstore",
+     13.812,
+     32,
+     0
+    ],
+    [
+     3.5,
+     "bookstore",
+     13.813,
+     32,
+     0
+    ],
+    [
+     4.0,
+     "bookstore",
+     13.814,
+     32,
+     0
+    ],
+    [
+     4.5,
+     "bookstore",
+     13.815,
+     32,
+     0
+    ],
+    [
+     5.0,
+     "bookstore",
+     13.816,
+     32,
+     0
+    ],
+    [
+     5.5,
+     "bookstore",
+     13.818,
+     32,
+     0
+    ],
+    [
+     6.0,
+     "bookstore",
+     13.819,
+     32,
+     0
+    ],
+    [
+     6.5,
+     "bookstore",
+     13.82,
+     32,
+     0
+    ],
+    [
+     7.0,
+     "bookstore",
+     13.822,
+     32,
+     0
+    ],
+    [
+     7.5,
+     "bookstore",
+     13.823,
+     32,
+     0
+    ],
+    [
+     8.0,
+     "bookstore",
+     13.824,
+     32,
+     0
+    ],
+    [
+     8.5,
+     "bookstore",
+     13.826,
+     32,
+     0
+    ],
+    [
+     9.0,
+     "bookstore",
+     13.827,
+     32,
+     0
+    ],
+    [
+     9.5,
+     "bookstore",
+     13.828,
+     32,
+     0
+    ],
+    [
+     10.0,
+     "bookstore",
+     13.829,
+     32,
+     0
+    ],
+    [
+     10.5,
+     "bookstore",
+     13.83,
+     32,
+     0
+    ],
+    [
+     11.0,
+     "bookstore",
+     13.832,
+     32,
+     0
+    ],
+    [
+     11.5,
+     "bookstore",
+     13.833,
+     32,
+     0
+    ],
+    [
+     12.0,
+     "bookstore",
+     13.834,
+     32,
+     0
+    ],
+    [
+     12.5,
+     "bookstore",
+     13.836,
+     32,
+     0
+    ],
+    [
+     13.0,
+     "bookstore",
+     13.837,
+     32,
+     0
+    ],
+    [
+     13.5,
+     "bookstore",
+     13.838,
+     32,
+     0
+    ],
+    [
+     14.0,
+     "bookstore",
+     13.839,
+     32,
+     0
+    ],
+    [
+     14.5,
+     "bookstore",
+     13.84,
+     32,
+     0
+    ],
+    [
+     15.0,
+     "bookstore",
+     13.842,
+     32,
+     0
+    ],
+    [
+     15.5,
+     "bookstore",
+     13.842,
+     32,
+     0
+    ],
+    [
+     16.0,
+     "bookstore",
+     13.844,
+     32,
+     0
+    ],
+    [
+     16.5,
+     "bookstore",
+     13.844,
+     32,
+     0
+    ],
+    [
+     17.0,
+     "bookstore",
+     13.846,
+     32,
+     0
+    ],
+    [
+     17.5,
+     "bookstore",
+     13.847,
+     32,
+     0
+    ],
+    [
+     18.0,
+     "bookstore",
+     13.848,
+     32,
+     0
+    ],
+    [
+     18.5,
+     "bookstore",
+     13.85,
+     32,
+     0
+    ],
+    [
+     19.0,
+     "bookstore",
+     13.85,
+     32,
+     0
+    ],
+    [
+     19.5,
+     "bookstore",
+     13.852,
+     32,
+     0
+    ]
+   ],
+   "jump": null
+  }
+ ],
+ "chain": [
+  {
+   "slot": 1,
+   "toast": "已讀取",
+   "seq": [
+    [
+     0.0,
+     "bookstore",
+     13.811,
+     0
+    ],
+    [
+     0.5,
+     "bookstore",
+     13.811,
+     0
+    ],
+    [
+     1.0,
+     "bookstore",
+     13.812,
+     0
+    ],
+    [
+     1.5,
+     "bookstore",
+     13.814,
+     0
+    ],
+    [
+     2.0,
+     "bookstore",
+     13.815,
+     0
+    ],
+    [
+     2.5,
+     "bookstore",
+     13.816,
+     0
+    ],
+    [
+     3.0,
+     "bookstore",
+     13.817,
+     0
+    ],
+    [
+     3.5,
+     "bookstore",
+     13.818,
+     0
+    ],
+    [
+     4.0,
+     "bookstore",
+     13.82,
+     0
+    ],
+    [
+     4.5,
+     "bookstore",
+     13.822,
+     0
+    ],
+    [
+     5.0,
+     "bookstore",
+     13.823,
+     0
+    ],
+    [
+     5.5,
+     "bookstore",
+     13.824,
+     0
+    ],
+    [
+     6.0,
+     "bookstore",
+     13.826,
+     0
+    ],
+    [
+     6.5,
+     "bookstore",
+     13.827,
+     0
+    ],
+    [
+     7.0,
+     "bookstore",
+     13.828,
+     0
+    ],
+    [
+     7.5,
+     "bookstore",
+     13.829,
+     0
+    ],
+    [
+     8.0,
+     "bookstore",
+     13.83,
+     0
+    ],
+    [
+     8.5,
+     "bookstore",
+     13.832,
+     0
+    ],
+    [
+     9.0,
+     "bookstore",
+     13.833,
+     0
+    ],
+    [
+     9.5,
+     "bookstore",
+     13.834,
+     0
+    ]
+   ]
+  },
+  {
+   "slot": 2,
+   "toast": "已讀取",
+   "seq": [
+    [
+     0.0,
+     "gongguan",
+     15.01,
+     0
+    ],
+    [
+     0.5,
+     "gongguan",
+     15.01,
+     0
+    ],
+    [
+     1.0,
+     "gongguan",
+     15.01,
+     0
+    ],
+    [
+     1.5,
+     "gongguan",
+     15.01,
+     0
+    ],
+    [
+     2.0,
+     "gongguan",
+     15.011,
+     0
+    ],
+    [
+     2.5,
+     "gongguan",
+     15.012,
+     0
+    ],
+    [
+     3.0,
+     "gongguan",
+     15.013,
+     0
+    ],
+    [
+     3.5,
+     "gongguan",
+     15.014,
+     0
+    ],
+    [
+     4.0,
+     "gongguan",
+     15.014,
+     0
+    ],
+    [
+     4.5,
+     "gongguan",
+     15.015,
+     0
+    ],
+    [
+     5.0,
+     "gongguan",
+     15.016,
+     0
+    ],
+    [
+     5.5,
+     "gongguan",
+     15.016,
+     0
+    ],
+    [
+     6.0,
+     "gongguan",
+     15.017,
+     0
+    ],
+    [
+     6.5,
+     "gongguan",
+     15.018,
+     0
+    ],
+    [
+     7.0,
+     "gongguan",
+     15.018,
+     0
+    ],
+    [
+     7.5,
+     "gongguan",
+     15.02,
+     0
+    ],
+    [
+     8.0,
+     "gongguan",
+     15.02,
+     0
+    ],
+    [
+     8.5,
+     "gongguan",
+     15.021,
+     0
+    ],
+    [
+     9.0,
+     "gongguan",
+     15.022,
+     0
+    ],
+    [
+     9.5,
+     "gongguan",
+     15.023,
+     0
+    ]
+   ]
+  },
+  {
+   "slot": 1,
+   "toast": "",
+   "seq": [
+    [
+     0.0,
+     "bookstore",
+     13.811,
+     0
+    ],
+    [
+     0.5,
+     "bookstore",
+     13.811,
+     0
+    ],
+    [
+     1.0,
+     "bookstore",
+     13.812,
+     0
+    ],
+    [
+     1.5,
+     "bookstore",
+     13.812,
+     0
+    ],
+    [
+     2.0,
+     "bookstore",
+     13.813,
+     0
+    ],
+    [
+     2.5,
+     "bookstore",
+     13.814,
+     0
+    ],
+    [
+     3.0,
+     "bookstore",
+     13.816,
+     0
+    ],
+    [
+     3.5,
+     "bookstore",
+     13.818,
+     0
+    ],
+    [
+     4.0,
+     "bookstore",
+     13.818,
+     0
+    ],
+    [
+     4.5,
+     "bookstore",
+     13.82,
+     0
+    ],
+    [
+     5.0,
+     "bookstore",
+     13.822,
+     0
+    ],
+    [
+     5.5,
+     "bookstore",
+     13.824,
+     0
+    ],
+    [
+     6.0,
+     "bookstore",
+     13.825,
+     0
+    ],
+    [
+     6.5,
+     "bookstore",
+     13.826,
+     0
+    ],
+    [
+     7.0,
+     "bookstore",
+     13.828,
+     0
+    ],
+    [
+     7.5,
+     "bookstore",
+     13.83,
+     0
+    ],
+    [
+     8.0,
+     "bookstore",
+     13.831,
+     0
+    ],
+    [
+     8.5,
+     "bookstore",
+     13.832,
+     0
+    ],
+    [
+     9.0,
+     "bookstore",
+     13.834,
+     0
+    ],
+    [
+     9.5,
+     "bookstore",
+     13.836,
+     0
+    ]
+   ]
+  }
+ ]
+}
