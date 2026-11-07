@@ -46,6 +46,7 @@ async def main():
             a = await pg.evaluate(Q, WHO2); R.note('[a] %s' % J(a)); rec['a'] = a
             R.check('[a] 還沒進過：可昕、%s 的地點清單都沒有轉角唱片（show=false）' % WHO2, not a['visited'] and not a['kexin']['show'] and not a['other']['show'], J([a['visited'], a['kexin']['show'], a['other']['show']]))
             # b 照玩家進店一次
+            R.setup('[b] 【捷徑】時間撥到 12:30（店 12:00 開；11:00 按門進不去）'); await pg.evaluate("GAME.G.hour=12.5")
             its = await pg.evaluate("(()=>GAME.E.interactables.filter(i=>!i.hidden&&/轉角/.test(i.label||'')).map(i=>({label:i.label,x:i.x,z:i.z})))()")
             if R.check('[b] 公館有「轉角唱片」的店門', bool(its), J(its)):
                 d = its[0]; await L.go_to(pg, cdp, R, d['x'], d['z'], 0.3, '[b] 走到轉角唱片店門', max_s=120); await pg.wait_for_timeout(900)

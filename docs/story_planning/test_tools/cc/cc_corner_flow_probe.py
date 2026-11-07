@@ -43,9 +43,10 @@ async def scene(pg, cdp, tag, prefs, max_s=150, idle_end=2.5):
     while time.time() - t0 < max_s:
         s = await L.state(pg)
         if s['choices']:
-            quiet = None; out['choices'].append(s['choices'])
+            quiet = None
             want = prefs[pi] if pi < len(prefs) else None; pi += 1
             bs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.innerText.trim())")
+            out['choices'].append(bs)
             k = next((i for i, t in enumerate(bs) if want and want in t), len(bs) - 1)
             await pg.evaluate("(i=>{ document.querySelectorAll('#choices button')[i].scrollIntoView({block:'center'}); })(%d)" % k)
             c = await pg.evaluate("(i=>{ const r=document.querySelectorAll('#choices button')[i].getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%d)" % k)
@@ -103,6 +104,12 @@ async def enter_shop(pg, cdp, tag):
     it = await use(pg, cdp, tag, lambda i: '轉角' in (i['label'] or '') and not i['seat'], '轉角唱片的店門')
     if not it: return None
     await D.wait_zone(pg, cdp, 'corner_records', max_s=40)
+    t0 = time.time()   # 進門句等店的模型載好、場景空下來才出（雲端 SwiftShader 實測進店後 11～12 秒）：等 G.flags.GG2_DOOR 記下今天或對話出來，最多 25 秒
+    while time.time() - t0 < 25:
+        f = await pg.evaluate("(()=>{ const r=(GAME.G.flags||{}).GG2_DOOR; const d=document.getElementById('dlg'); return {door:r&&r.corner_records===GAME.G.day, dlg:!!d&&!d.classList.contains('hide')}; })()")
+        if f['door'] or f['dlg']: break
+        await pg.wait_for_timeout(500)
+    R.note('%s 進店後 %.1f 秒：%s' % (tag, time.time() - t0, J(f)))
     return await scene(pg, cdp, tag + ' 進門', [], max_s=40, idle_end=4)
 
 
