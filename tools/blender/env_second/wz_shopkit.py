@@ -912,8 +912,12 @@ def xs_front(spec, xf, W, wall):
     """新生南路的一間店（一樓騎樓＋店面）：c＝spec['xs']（wz_street.py 的 XS_FRONTS）"""
     c = spec['xs']; dep = c.get('dep', 3.5); D = 0.8; fr = acc(frame_mat(c.get('frame', '#3a3a38'))); cream = acc(frame_mat('#e8e2d6'))
     gx0, gx1 = c.get('glass', (-W / 2 + 0.3, W / 2 - 0.3)); gy1 = c.get('glass_h', 2.95); z = -dep
-    # 店內（景深卡＋地板、兩側牆、天花板的燈）
-    if c.get('int'):
+    # 店內（景深卡＋地板、兩側牆、天花板的燈）；int3d（日常失速，SHOP-WINDOW-2D-1105）：玻璃後面是立體的店內（wz_street.py 擺 offbeat_storefront.glb），這裡只畫玻璃和窗框
+    if c.get('int3d'):
+        xf.quad(acc(M['glass']), [(gx0, 0.12, z + 0.01), (gx1, 0.12, z + 0.01), (gx1, gy1, z + 0.01), (gx0, gy1, z + 0.01)])
+        for (a, b) in ((gx0 - 0.05, gx0 + 0.02), (gx1 - 0.02, gx1 + 0.05)): xf.box(fr, a, b, 0.0, gy1 + 0.05, z - 0.04, z + 0.05)
+        xf.box(fr, gx0, gx1, gy1, gy1 + 0.08, z - 0.04, z + 0.05); xf.box(fr, gx0, gx1, 0.0, 0.12, z - 0.04, z + 0.05)
+    elif c.get('int'):
         _xq(xf, c['int'], gx0, gx1, 0.12, gy1, z - D, tiles=c.get('int_tiles'))
         xf.box(acc(SK['f_terrazzo']), gx0, gx1, -0.02, 0.12, z - D, z)
         for xx in (gx0, gx1): xf.box(cream, xx - 0.03, xx + 0.03, 0.12, gy1, z - D, z)
@@ -1043,12 +1047,13 @@ def xs_side_window(spec, xf, W, c, sd):
     """側面（本地 x＝+W/2 那一面）的落地窗：玻璃退 dep、後面 0.8 m 是店內的景深卡（從街上渲染 AA 的室內 GLB），一樓牆體在 wz_street.apartment 挖開"""
     z0, z1, y1, dep, D = sd['z0'], sd['z1'], sd.get('glass_h', 3.1), sd.get('dep', 0.3), 0.8
     xg = W / 2 - dep; xc = xg - D; fr = acc(SK['black']); cream = acc(frame_mat('#e8e2d6'))
-    if sd.get('int') in XS_ATLAS:
-        u0, v0, u1, v1 = XS_ATLAS[sd['int']][:4]
-        _XSQ.append(([xf.p(xc, 0.12, z1), xf.p(xc, 0.12, z0), xf.p(xc, y1, z0), xf.p(xc, y1, z1)], (u0, v0, u1, v1), True, sd['int']))
-    xf.box(acc(SK['f_terrazzo']), xc, xg, -0.02, 0.12, z0, z1)
-    for zz in (z0, z1): xf.box(cream, xc, xg, 0.12, y1, zz - 0.03, zz + 0.03)
-    xf.box(cream, xc, xg, y1, y1 + 0.05, z0, z1)
+    if not c.get('int3d'):   # int3d（SHOP-WINDOW-2D-1105）：立體的店內，不畫景深卡和淺盒子
+        if sd.get('int') in XS_ATLAS:
+            u0, v0, u1, v1 = XS_ATLAS[sd['int']][:4]
+            _XSQ.append(([xf.p(xc, 0.12, z1), xf.p(xc, 0.12, z0), xf.p(xc, y1, z0), xf.p(xc, y1, z1)], (u0, v0, u1, v1), True, sd['int']))
+        xf.box(acc(SK['f_terrazzo']), xc, xg, -0.02, 0.12, z0, z1)
+        for zz in (z0, z1): xf.box(cream, xc, xg, 0.12, y1, zz - 0.03, zz + 0.03)
+        xf.box(cream, xc, xg, y1, y1 + 0.05, z0, z1)
     xf.quad(acc(M['glass']), [(xg + 0.01, 0.12, z1), (xg + 0.01, 0.12, z0), (xg + 0.01, y1, z0), (xg + 0.01, y1, z1)])
     for zz in (z0, z1): xf.box(fr, xg - 0.04, xg + 0.05, 0.0, y1 + 0.05, zz - 0.05, zz + 0.05)
     xf.box(fr, xg - 0.04, xg + 0.05, y1, y1 + 0.08, z0, z1); xf.box(fr, xg - 0.04, xg + 0.05, 0.0, 0.12, z0, z1)

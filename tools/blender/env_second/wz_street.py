@@ -82,7 +82,8 @@ OFFBEAT_XS = dict(arcade=False, dep=0.3, glass=(-4.55, 5.25), glass_h=3.1, int='
                   panel=dict(x0=-5.3, x1=5.3, y0=3.4, y1=4.2, color='#efe4cc', text=[('offbeat_sign', -2.0, 2.66, 3.48, 4.21)]),
                   lamps=[(-4.6, 3.55), (-3.1, 3.55)],
                   side=dict(z0=-8.8, z1=-4.7, glass_h=3.1, dep=0.3, int='offbeat_side', awning=dict(y0=3.36, y1=3.0, d=0.9, color='#3f6a4a')),
-                  clutter=[('aboard', -5.0, 0.42), ('bistro', 4.5, 0.42)], lit=True)
+                  clutter=[('aboard', -5.0, 0.42), ('bistro', 4.5, 0.42)], lit=True,
+                  int3d=os.path.exists(os.path.join(L.ROOT, 'assets/models/env/second_ai/offbeat_storefront.glb')) and '--no-int3d' not in ARGS)   # SHOP-WINDOW-2D-1105：有立體店內就不畫景深卡
 
 # ---------------- 公館（--set gongguan）：照 zones3d.js gongguan 區塊的 shops（位置、寬度、樓層、牆、顏色、招牌、柱子），改那邊要一起改這裡 ----------------
 if SET == 'gongguan':
@@ -781,6 +782,11 @@ def apartment(spec):
     elif spec.get('xs', {}).get('stair'):   # 新生南路同弦樂器：樓梯口那一段挖開（裡面的踏階在 wz_shopkit.xs_stair）
         st = spec['xs']['stair']; dz = spec['xs'].get('dep', 3.5) + st['depth']
         xf.box(wall, -W / 2, st['x0'], 0, GH, -D, -rec); xf.box(wall, st['x1'], W / 2, 0, GH, -D, -rec); xf.box(wall, st['x0'], st['x1'], GH - 0.38, GH, -D, -rec); xf.box(wall, st['x0'], st['x1'], 0, GH - 0.38, -D, -dz)
+    elif spec.get('xs', {}).get('int3d'):   # 日常失速（W2）有立體店內（SHOP-WINDOW-2D-1105）：一樓量體只留店內後面那一段（室內 z −5～5＝本地 z −10～0），北面窗兩側是薄牆
+        sd = spec['xs']['side']; xg = W / 2 - sd.get('dep', 0.3); IZ = -10.0
+        xf.box(wall, -W / 2, W / 2, 0, GH, -D, IZ)
+        xf.box(wall, xg + 0.05, W / 2, 0, GH, IZ, sd['z0']); xf.box(wall, xg + 0.05, W / 2, 0, GH, sd['z1'], -rec)
+        xf.box(wall, xg + 0.05, W / 2, sd.get('glass_h', 3.1) + 0.08, GH, sd['z0'], sd['z1'])   # 窗上的牆
     elif spec.get('xs', {}).get('side'):   # 日常失速（W2）：側面（本地 x＝+W/2）的落地窗那一段挖進去 dep＋0.85 m（裡面是 wz_shopkit.xs_side_window 的景深卡）
         sd = spec['xs']['side']; xi = W / 2 - sd.get('dep', 0.3) - 0.85
         xf.box(wall, -W / 2, xi, 0, GH, -D, -rec); xf.box(wall, xi, W / 2, 0, GH, -D, sd['z0']); xf.box(wall, xi, W / 2, 0, GH, sd['z1'], -rec)
@@ -1010,6 +1016,17 @@ if SET == 'wenzhou' and os.path.exists(WZ7):
     _put7('WZ7_RECYCLE', 44 + 3.2, 0.0, 5 + 0.45, math.pi - 0.08)      # 日日便利（A5）門廊的西端（門在東邊）：要拿去回收的紙箱捆＋一袋寶特瓶
     for _o in _new:
         if _o.name in bpy.data.objects: bpy.data.objects.remove(_o)
+
+# 日常失速的立體店內（SHOP-WINDOW-2D-1105 試做，LAWWW2-B 11-07）：offbeat_storefront.glb（offbeat_storefront.py：AA 的室內拿掉臨街兩面牆、燈光烘成一張自發光貼圖）
+#   擺在 W2 的一樓：室內 (x, z) → 溫州街 (z − 42.2, −13.5 − x)＝遊戲 rotation.y π/2、位置 (−42.2, −13.5)。OFFBEAT_XS 的 int3d 讓外觀不畫景深卡。
+STOREFRONT = os.path.join(L.ROOT, arg('--storefront', 'assets/models/env/second_ai/offbeat_storefront.glb'))
+if SET == 'wenzhou' and OFFBEAT_XS.get('int3d') and os.path.exists(STOREFRONT):
+    _before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=STOREFRONT); _new = [o for o in bpy.data.objects if o not in _before]
+    _gs = B.group('offbeat_storefront', root); _gs.rotation_mode = 'XYZ'; _gs.location = g2b(-42.2, 0.01, -13.5); _gs.rotation_euler = (0, 0, math.pi / 2)
+    _gs.scale = (1, 1, 0.99)   # 抬 1 cm、高度縮 1%：店內地板（0）和街面、天花板（3.4）和樓上量體的底面不在同一個平面（會閃）
+    for _o in _new:
+        if _o.parent is None: _o.parent = _gs; _o.matrix_parent_inverse.identity()
+    print('storefront', len(_new), flush=True)
 
 if "goods_finish" in globals(): goods_finish()   # 店裡的商品（wz_shopkit.goods；2026-10-23）：整條街一個網格、一張貼圖
 
