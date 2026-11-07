@@ -202,17 +202,17 @@ const ECONFF=(()=>{
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['econff3d:busy']=()=>{ S.busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.advance=async function(GM){ const G=GM.G, E=GM.E; const s=S.next(G); if(!s) return false; const r=S.rec(G); const t=S.tOf(G,s), now=G.day*24+G.hour;
     const day=DK(s.key); let h=s.cls?(t-day*24):s.h;
-    if(t>now+0.05){ const d0=G.day; const sb=!!(GM.sceneBegin&&GM.sceneEnd); if(sb) GM.sceneBegin(); try{ await GM.fade(true);   /* 跳日期的黑幕、日期卡期間把玩家鎖住（BUG-BOWL-STUCK-1018 懷疑的方向：原本這段玩家沒有標 busy，日期卡那 3 秒點互動、NPC 或別的自動劇情會和跳日期同時開演，兩段搶同一個對話框）*/
+    if(t>now+0.05){ const d0=G.day, bigJump=()=>G.day!==d0||(G.day*24+G.hour)-now>=2; const sb=!!(GM.sceneBegin&&GM.sceneEnd); if(sb) GM.sceneBegin(); try{ await GM.fade(true);   /* 跳日期的黑幕、日期卡期間把玩家鎖住（BUG-BOWL-STUCK-1018 懷疑的方向：原本這段玩家沒有標 busy，日期卡那 3 秒點互動、NPC 或別的自動劇情會和跳日期同時開演，兩段搶同一個對話框）*/
       S._peSkip=false; const res=S.jumpTo(GM,day,h);
       S.attendBetween(G,G.day*24+G.hour,d0);
       if(res==='msg'){ if(GM.updateHUD) GM.updateHUD();
-        { let ln=S.short(G)?S.cardLine(G,d0,G.day):S.lineFor(G,d0,G.day); if(ln&&!S.short(G)) r.lines.push(ln); if(G.day!==d0) ln=S.peAdd(G,ln); if(GM.titleCard&&G.day!==d0) await GM.titleCard(S.dateLabel(G.day,G.hour),ln||'',ln?3200:1800); }   /* AA_348 B2：停在手機訊息上也先出日期卡＋那一句（原本直接打開手機，玩家看不到今天幾號，9/2～10/28 的四句典型玩家都看不到；同 home3d.js 的 y0Jump）*/
+        { let ln=S.short(G)?S.cardLine(G,d0,G.day):S.lineFor(G,d0,G.day); if(ln&&!S.short(G)) r.lines.push(ln); if(G.day!==d0) ln=S.peAdd(G,ln); if(GM.titleCard&&bigJump()) await GM.titleCard(S.dateLabel(G.day,G.hour),ln||'',ln?3200:1800); }   /* AA_348 B2：停在手機訊息上也先出日期卡＋那一句（原本直接打開手機，玩家看不到今天幾號，9/2～10/28 的四句典型玩家都看不到；同 home3d.js 的 y0Jump）*/
         await GM.fade(false); if(GM.phoneThread) GM.phoneThread(S.newestTh(G),{skip:true}); else if(GM.openPhone) GM.openPhone(); return true; }   /* AA_300 第 6 節：直接打開那一段對話，按「跳過」關掉、繼續跳 */   /* 收到要回的訊息：先回，回完下一次再接 */
       if(s.zone&&G.zone!==s.zone&&GM.enter) await GM.enter(s.zone,s.at?Object.assign({lv:0},s.at):undefined,{noFade:true});
       else if(s.at&&E&&E.placeAt){ E.placeAt(E.player,s.at.x,s.at.z,0); E.player.obj.rotation.y=s.at.yaw||0; }
       let line=S.short(G)?S.cardLine(G,d0,G.day):S.lineFor(G,d0,G.day); if(line&&!S.short(G)) r.lines.push(line); if(G.day!==d0) line=S.peAdd(G,line);   /* AA_300 第 4 節的句子（cardLine 自己記用過）*/
       if(GM.updateHUD) GM.updateHUD(); if(E&&E.setWeather) E.setWeather(G.weather);
-      if(GM.titleCard&&G.day!==d0) await GM.titleCard(S.dateLabel(G.day,G.hour),line||'',line?3200:1800);
+      if(GM.titleCard&&bigJump()) await GM.titleCard(S.dateLabel(G.day,G.hour),line||'',line?3200:1800);   /* 同一天往後跳兩小時以上也出日期卡（BB-B 11-07 BUG-Y0-DAYSKIP-CARD-1107：9/20 18:30 按「走出房間」→ 23:00 沒有卡）；句子照舊只有跨日才有（cardLine）*/
       await GM.fade(false); } finally { if(sb) GM.sceneEnd(); } }
     try{ if(s.cls) await storyClass(GM,s);
       else { await runEv(GM,s.ev); if(s.then) await runEv(GM,s.then); } }
@@ -288,8 +288,10 @@ const ECONFF=(()=>{
     const today=typeof OUT!=='undefined'&&OUT.rec?OUT.rec(G).some(q=>q.day===G.day&&q.state==='planned'&&G.hour<q.h+(q.late!=null?q.late:0.75)):false;   /* 只等今天還沒到時間的出遊（舊寫法：只要今天有一筆沒做完的就不回家——瀏覽器探測 8/7 一直留在博雅）*/
     if(!free||today){ idle2=0; return; } const now=Date.now(); if(!idle2){ idle2=now; return; } if(now-idle2<3000) return;
     idle2=0; S.busy=true; HOME.go(GM).then(ok=>{ if(!ok) console.warn('ECONFF home: HOME.go 沒有回家',{canGo:HOME.canGo&&HOME.canGo(G),at:HOME.at(G)}); }).catch(e=>console.warn('ECONFF home',e)).finally(()=>{ S.busy=false; }); };   /* 出遊演完人在外面、空下來 3 秒：自動回家（休學在家，D102 ③）*/
+  /* 玩家還在走：自動走路（path）、搖桿按著、或剛停下不到 1 秒（lastMoveT，同 story3d.js 手機自動打開 PHONE_AUTO_STILL）——不跳（BB-B 11-07 BUG-Y0-DAYSKIP-CARD-1107：CC 試玩「跳在玩家正在走路的時候」）*/
+  S.walking=(E,P)=>!!P&&(!!(P.path&&P.path.length)||!!(E&&E.input&&E.input.joy&&E.input.joy.active)||(!!E&&typeof E.time==='number'&&P.lastMoveT!=null&&E.time-P.lastMoveT<1));
   S.tick=function(GM){ const G=GM.G; S.tick2(GM); if(!S.on(G)||S.busy){ idleSince=0; return; } const E=GM.E, P=E&&E.player;
-    const free=!!P&&!E.paused&&!P.busy&&!P.seat&&!(GM.D&&GM.D.active)&&!GM.titleIdle&&!(P.path&&P.path.length)&&!(typeof EVENTS!=='undefined'&&EVENTS.running);
+    const free=!!P&&!E.paused&&!P.busy&&!P.seat&&!(GM.D&&GM.D.active)&&!GM.titleIdle&&!S.walking(E,P)&&!(typeof EVENTS!=='undefined'&&EVENTS.running);
     if(!free){ idleSince=0; return; } const now=Date.now(); if(!idleSince){ idleSince=now; return; } if(now-idleSince<1500) return;
     idleSince=0; S.busy=true; S.advance(GM).catch(e=>console.warn('ECONFF',e)).finally(()=>{ S.busy=false; }); };
   return S;
