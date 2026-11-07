@@ -50,7 +50,7 @@ const SAT=dayOf('2025-10-04');   // 大一上第 5 週週六（沒有課）
     const G=mkG(SAT,13); CLS._jump=null; CLS.queueJump(G); check('8. 下午還沒用：不跳',CLS._jump===null);
     G.hour=15; CLS.slotUse(G,['pm']); CLS.queueJump(G); check('8. 下午 1／1 用完（週六 15:00）：排「到下一個時段」',CLS._jump&&CLS._jump.p==='pm'&&CLS.jumpTarget(G,'pm')===18,JSON.stringify(CLS._jump));
     const gm=GMx(G); const ok=await CLS.afterSlot(gm); check('8. 跳到 18:00、字幕寫「下午的時間用完了」',ok&&Math.abs(G.hour-18)<1e-6&&/下午的時間用完了/.test(gm.caps[0]||''),G.hour+' '+JSON.stringify(gm.caps));
-    const G2=mkG(SAT,19); G2.slots={day:SAT,used:{am:0,pm:0,ev:1}}; CLS._jump=null; CLS.queueJump(G2); check('8. 晚上用完：不跳（照舊去睡）',CLS._jump===null);
+    const G2=mkG(SAT,19); G2.slots={day:SAT,used:{am:0,pm:0,ev:1}}; CLS._jump=null; CLS.queueJump(G2); check('8. 晚上用完：排「回去睡」（使用者 2026-11-07 選擇題「直接跳到隔天早上」，取代 10-16 的「晚上用完不跳」；ACTION-BUDGET-1107）',CLS._jump&&CLS._jump.p==='ev',JSON.stringify(CLS._jump)); CLS._jump=null;
     const G3=mkG(SAT,10.5); CLS.slotUse(G3,['am']); CLS.queueJump(G3); const gm3=GMx(G3); await CLS.afterSlot(gm3); check('8. 上午 1／1 用完（10:30）：跳到 12:00',Math.abs(G3.hour-12)<1e-6,String(G3.hour));
     let wd=null, it0=null; for(let d=SAT+2;d<SAT+7&&!wd;d++){ const Gt=mkG(d,13); const its=CLS.dayItems(Gt).filter(it=>it.t0>=12.5&&it.t0<17.5); if(its.length){ wd=d; it0=its[0]; } }
     if(wd){ const G4=mkG(wd,12.1); G4.slots={day:wd,used:{am:0,pm:0,ev:0}}; CLS.slotUse(G4,['pm']); CLS.queueJump(G4); const t=CLS.jumpTarget(G4,'pm'); check('8. 今天下午還有課（'+it0.c.name+' '+it0.t0.toFixed(2)+'）：只跳到上課前 10 分鐘',Math.abs(t-(it0.t0-1/6))<1e-6,String(t)); }

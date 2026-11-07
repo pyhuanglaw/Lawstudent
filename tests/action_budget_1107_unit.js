@@ -6,6 +6,7 @@
 //   3. 約時間：今天已經排滿的時段灰掉、寫「這個下午已經排滿了」，選了說原因；明天照常
 //   4. 約好的照樣能去（時段用過了也照樣演）
 //   5. 開場兩天（slotsOn false）不算；今天的時間說明不再寫「約好的見面不算」
+//   6. 晚上用完（使用者 11-07 選「直接跳到隔天早上」）：後面沒有約就回去睡（ONETAP 的回去睡覺）；後面還有約就不睡
 // 修改前：1、2、3、5 FAIL。用法：node tests/action_budget_1107_unit.js
 const H=require('./pg_harness.js');
 const {check,GM,E}=H;
@@ -38,6 +39,15 @@ CLS.canSkip=()=>false;   /* 測試沒有場景：當成可以跳（afterSlot 在
   /* 4 約好的照樣能去 */
   { const G=fresh('2025-10-15',15,'cafe'), id='heroine_02'; H.FRIEND(id); CLS.slotUse(G,['pm']); const iv=INV.accept(G,id,'cafe',G.day,15,{by:'player'}); const n=npc(id); H.said=[];
     await INV.meet(GM,iv,n,{}); check('4. 下午已經用過：約好的照樣演（iv done）',iv.state==='done'&&H.said.length>0,iv.state); }
+  /* 6 晚上用完：直接回去睡（使用者 11-07 選擇題「直接跳到隔天早上」）*/
+  { const slept=[]; global.ONETAP={sleepPlan:()=>({ok:true,k:'sleep'}),goSleep:async(GM2,p)=>{ slept.push(p); }};
+    const G=fresh('2025-10-15',19,'cafe'), id='heroine_02'; H.FRIEND(id); const iv=INV.accept(G,id,'cafe',G.day,19,{by:'player'}); const n=npc(id); skips.length=0;
+    await INV.meet(GM,iv,n,{}); check('6. 晚上 19:00 的見面演完：晚上那一格填滿、排了跳轉（ev）',(CLS.slotRec(G).used.ev|0)>=1&&CLS._jump&&CLS._jump.p==='ev',JSON.stringify({R:CLS.slotRec(G),j:CLS._jump}));
+    await CLS.afterSlot(GM); check('6. 空下來：直接回去睡（ONETAP.goSleep），不是跳時間',slept.length===1&&skips.length===0,JSON.stringify({slept,skips}));
+    const G2=fresh('2025-10-15',19,'cafe'); H.FRIEND(id); H.FRIEND('heroine_01'); const iv2=INV.accept(G2,id,'cafe',G2.day,19,{by:'player'}); INV.accept(G2,'heroine_01','library',G2.day,21,{by:'player'}); slept.length=0;
+    await INV.meet(GM,iv2,npc(id),{}); await CLS.afterSlot(GM);
+    check('6. 後面還有約（21:00 以安）：不睡',slept.length===0,JSON.stringify(slept));
+    delete global.ONETAP; }
   /* 5 */
   { const G=fresh('2025-09-08',14,'cafe'); const on=CLS.slotsOn(G); const html=CLS.slotHTML(fresh('2025-10-15',14,'cafe'));
     check('5. 今天的時間說明：約好的見面也算一件，不再寫「約好的見面不算」',/約好的見面也算一件/.test(html)&&!/約好的見面不算/.test(html),html.slice(-160));
