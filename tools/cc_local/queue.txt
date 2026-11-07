@@ -84,6 +84,7 @@ GG2_afar_date_03_32e1_r2 | 32e10b130ddc01f9f41007c01e032d44a35d11af | probe | do
 # LAWWW2-B 07:36 HAIR_FIX（HAIR-NOODLE-1104，使用者 11-04「頭髮太像泡麵」，P1）：六人 × 四種做法 × 5 張，結果給 LAWWW2-B＋LAWWW-B（D100a）
 HAIR_FIX | 62d7f3b5412fc940da37c20669b6ec201aa754df | probe | docs/story_planning/test_tools/cc/cc_hair_fix_probe.py | index.html | 40 | CC_HEADLESS=0
 HAIR_FIX_v2 | 62d7f3b5412fc940da37c20669b6ec201aa754df | probe | docs/story_planning/test_tools/cc/cc_hair_fix_probe.py | index.html | 40 | HAIRFIX=n0.6,n0.6+tex;RERUN=v2;CC_HEADLESS=0
+HAIR_FIX_v3 | 62d7f3b5412fc940da37c20669b6ec201aa754df | probe | docs/story_planning/test_tools/cc/cc_hair_fix_probe.py | index.html | 40 | HAIRFIX=0,tex;HAIR_JPG=1;RERUN=v3;CC_HEADLESS=0
 # BB-B 08:01（fa05ed8c5，場景美術 D120 BB 判）：新生南路四家店窗外夜景（大口一樓、二樓、大步、好拍）、體育館圓頂晚上像燈籠；21:00＋14:00 對照
 FA05_NIGHT | fa05ed8c5c5c5b3d298a09b3b1d0925696f8ee23 | probe | docs/story_planning/test_tools/cc/cc_fa05_night_probe.py | index.html | 40 | CC_HEADLESS=0
 # BB-B 07:16 PERF_COLD（LAWWW2-B 的探針，低優先、排最後）：第一次進溫州街／總圖大廳那一頓是載路人模型還是 GPU 第一次畫；結果交 LAWWW2-B（D108）
