@@ -1632,3 +1632,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 488.6s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 488.6s] BROWSER DISCONNECTED
 - 2026-11-07T13:47:03  SKIRT_SIT_new  sha=8618f9d80aa0c94f9b10844f5bee7a69e22c1a93  exit=0  270s    PASS 這一版有路人模型帶 skirt_sit（userData.sitMorph） / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 233.3s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 233.4s] BROWSER DISCONNECTED
+- 2026-11-07T13:48:07  SKIRT_SIT_old  sha=718b59ec7a1eb39f63336f23500b77217cae69b0  exit=0  268s      [ 231.1s] [cafe old #2 far] pool_5 坐 [-5.95, 3.95, 1.57]；skirt_sit [] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 231.7s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 231.7s] BROWSER DISCONNECTED
