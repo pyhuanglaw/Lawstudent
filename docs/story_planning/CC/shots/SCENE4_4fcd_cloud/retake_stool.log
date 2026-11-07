@@ -1,0 +1,15 @@
+CC 公館三間＋轉角 P2／P3＋大口二樓（['retake']）：SHA=?（worktree 實際 4fcd3c45b1）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [補拍 轉角高腳椅] 讀檔 corner_records 2025-10-18 14.0（條件事件關閉）
+PASS [補拍 轉角高腳椅] 進得了 corner_records  {"zone": "corner_records", "x": 1.63, "z": 4.25, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [  32.0s] [補拍 轉角高腳椅] 高腳椅：{"label": "坐下", "ap": [2.4000000000000004, 3.2], "seat": {"x": 2.95, "z": 3.2, "y": null, "lift": 0.27}}
+  [ 154.5s] 走不到「[補拍 轉角高腳椅] 走到高腳椅附近」：最後位置 (1.92,2.95)，目標 (1.6000000000000003,3.2)；點地面 8 次、轉鏡頭 0 次、搖桿 0 次
+  [ 154.5s]   這段時間：畫面 396 格／121 秒、遊戲時間 14.01→14.27、paused=False、開著的面板 []
+  [ 157.0s] [補拍 轉角高腳椅] 點椅子以後互動按鈕：坐下
+  [ 161.6s] [補拍 轉角高腳椅] 坐下 3 秒後：{"seat": {"x": 2.95, "z": 3.2, "y": null, "lift": 0.27}, "y": 0.27, "x": 2.95, "z": 3.2, "pose": "sit", "idlePose": "sit", "hipY": 0.902, "cur": null}
+PASS [補拍 轉角高腳椅] 坐著（P.seat 有、pose 含 sit）  {"seat": {"x": 2.95, "z": 3.2, "y": null, "lift": 0.27}, "y": 0.27, "x": 2.95, "z": 3.2, "pose": "sit", "idlePose": "sit", "hipY": 0.902, "cur": null}
+PASS [黑畫面] rt_corner_stool_close 不是黑畫面（平均亮度 82.2、變化 46.3）  [82.2, 46.3]
+PASS [黑畫面] rt_corner_stool_side 不是黑畫面（平均亮度 78.1、變化 48.8）  [78.1, 48.8]
+PASS 沒有 JS 例外  []
+ALL PASS

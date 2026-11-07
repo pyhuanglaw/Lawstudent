@@ -118,20 +118,11 @@ async def retake(pg, cdp, rec):
             await L.tap_ground(pg, cdp, it['seat']['x'], it['seat']['z'])   # 照玩家點椅子本身（tapRedirect 走到 seatApproach、這一張的「坐下」優先；同 cc_d141_lib.sit_all）
             await D.settle(pg); lab = await pg.evaluate("(()=>{ const e=document.getElementById('interact'); return e&&!e.classList.contains('hide')?e.innerText.trim():null; })()")
             R.note('%s 點椅子以後互動按鈕：%s' % (tag, lab))
-            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
-            for _ in range(10):
-                st_ = await L.state(pg)
-                if st_['choices']:
-                    bs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.innerText.trim())")
-                    k = next((i for i, t in enumerate(bs) if '坐' in t), 0)
-                    c = await pg.evaluate("(i=>{ const b=document.querySelectorAll('#choices button')[i]; b.scrollIntoView({block:'center'}); const q=b.getBoundingClientRect(); return [q.left+q.width/2,q.top+q.height/2]; })(%d)" % k)
-                    await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1200); continue
-                if st_['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(800); continue
-                break
-            if not await pg.evaluate("!!GAME.E.player.seat"):
-                R.note('%s 第一次沒坐上去，再點一次互動按鈕' % tag); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
-                await L.advance_dialogs(pg, cdp, R, lambda s_: not s_['dlg'] and not s_['choices'], max_steps=10)
-            await pg.wait_for_timeout(3000)
+            await L.tap(pg, cdp, '#interact')
+            for _ in range(12):   # 坐下以後不選任何選項（「坐一下，看看四周」會過 20 分鐘再站起來）：等 player.seat
+                await pg.wait_for_timeout(500)
+                if await pg.evaluate("!!GAME.E.player.seat"): break
+            await pg.wait_for_timeout(3000)   # 坐下以後 3 秒（BB-B 18:14），對話、選單照開著，不點
             info = await pg.evaluate("(()=>{ const P=GAME.E.player, u=P.obj.userData||{}, an=u.anim||{}; let hip=null; try{ const h=u.vrm.humanoid.getRawBoneNode('hips').getWorldPosition(new THREE.Vector3()); hip=+h.y.toFixed(3); }catch(e){} return {seat:P.seat?{x:P.seat.x,z:P.seat.z,y:P.seat.y==null?null:P.seat.y,lift:P.seat.lift==null?null:P.seat.lift}:null, y:+P.obj.position.y.toFixed(3), x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), pose:P.pose||null, idlePose:P.idlePose||null, hipY:hip, cur:an.cur||null}; })()")
             R.note('%s 坐下 3 秒後：%s' % (tag, J(info)))
             R.check('%s 坐著（P.seat 有、pose 含 sit）' % tag, bool(info['seat']) and 'sit' in str(info['pose'] or '') + str(info['idlePose'] or ''), J(info))
