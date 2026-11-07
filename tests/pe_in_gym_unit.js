@@ -34,5 +34,16 @@ const MON=dayOf('2025-09-22');   /* 週一 pm2：大一上體育（pe_y1s1）*/
   const src=fs.readFileSync(path.join(ROOT,'src/classes3d.js'),'utf8'), gsrc=fs.readFileSync(path.join(ROOT,'src/gym3d.js'),'utf8');
   check('3. attend：inGym＝ADV 背景 freeze（看得到館內）',/const dBg=door&&o\.inGym\?'freeze'/.test(src));
   check('4. 館內中圈「體育課集合」也帶 inGym',/CLS\.attend\(GM,it,\{door:true,inGym:true\}\)/.test(gsrc));
+  /* 5～6 BUG-PE-CLASS-1107（使用者 11-07 試玩：一鍵上課直接過去，還是顯示在法律系館A前方上完）：goClass 也要進體育館、帶 inGym */
+  { const it=it0.x; const run=async(zone)=>{ const G2={day:MON,hour:it0.h,zone,flags:{},weekday:1,courses:G.courses}, c2=[];
+      const GM2={G:G2,E:E3,sceneBegin(){},sceneEnd(){},fade:async()=>{},caption(){},sleep:async()=>{},advance(){},toast(m){ c2.push(['toast',m]); },choose:async()=>0,enter:async(z,sp)=>{ c2.push(['enter',z,sp]); G2.zone=z; }};
+      const a0=CLS.attend, s0=CLS.canGo, r0=CLS.routeStop; CLS.attend=async(gm,x,o)=>{ c2.push(['attend',x.c.id,o]); return true; }; CLS.canGo=()=>''; CLS.routeStop=()=>null;
+      try{ await CLS.goClass(GM2,it,{}); } finally { CLS.attend=a0; CLS.canGo=s0; CLS.routeStop=r0; }
+      return c2; };
+    const P=CLS.pePlace({day:MON,hour:it0.h,flags:{}},it);
+    const c1=await run('dorm'), e1=c1.find(c=>c[0]==='enter'), a1=c1.find(c=>c[0]==='attend');
+    check('5. 一鍵上課（從宿舍）：進的是體育館（'+P.zone+'）上課位置、不是校園；上課帶 inGym',!!e1&&e1[1]===P.zone&&!!e1[2]&&Math.abs(e1[2].x-P.x)<0.01&&Math.abs(e1[2].z-P.z)<0.01&&!!a1&&a1[2].inGym===true,JSON.stringify(c1));
+    const c3=await run(P.zone), e3=c3.find(c=>c[0]==='enter'), a3=c3.find(c=>c[0]==='attend');
+    check('6. 人已經在體育館裡按一鍵上課：不會被帶出館外（不進校園）、直接 inGym 上課',!c3.some(c=>c[0]==='enter'&&c[1]==='campus')&&!!a3&&a3[2].inGym===true,JSON.stringify(c3)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('ERR',e.stack); process.exit(1); });

@@ -4,7 +4,7 @@
    ② 建出來的區域：配置 interact 7 個點都有按鈕（名字照配置、樓層照配置、位置照配置），旁白一字照 AA_695 第 1 節；
       floorSit 10 處都有按鈕（坐在書架中間看書／坐在法律區看書、樓層照配置）；原本 16 個座位、出口不變；再建一次不重複；新生南路沒有這些按鈕
    ③ 看看：說 AA_695 那一句、時間不動
-   ④ 坐地板：走過去、坐在地上（sitAt 的 floor＝跪坐那一套、樓層照配置）、轉暗、時間剛好過一小時、那一區那一句、起身；
+   ④ 坐地板：走過去、坐在地上（sitAt 的 floor＝跪坐那一套、樓層照配置）、手上拿書（read 姿勢；BUG-SHANLAN-BOOK，使用者 11-07）、轉暗、時間剛好過一小時、那一區那一句、起身；
       藝術區 17:00 以前白天那一句、17:00 以後「窗外已經暗了」；G 除了時間以外什麼都沒變（D118：不加讀書進度、不加數值）
    ⑤ 打烊前不到一小時（週四 21:30；AA_613 22:00 關）坐地板按鈕藏起來、按了也不過時間；週四 20:30、週五 21:30（23:00 關）照常
    ⑥ AA_695 原稿（git show 88ed60310）逐句找得到程式裡的每一句
@@ -64,7 +64,7 @@ function mkGM(hour,day){ const G={hour,day,zone:'xs_shanlan',stats:{study:5,char
   const log={said:[],walk:[],sit:[],stand:0,fade:[],adv:[],scene:0};
   const P=E.player; P.seat=null;
   const GM={G,E,
-    say:async(sp,t)=>{ log.said.push([sp,t]); }, sceneBegin(){ log.scene++; }, sceneEnd(){ log.scene--; },
+    say:async(sp,t)=>{ log.said.push([sp,t,E.player.pose]); }, sceneBegin(){ log.scene++; }, sceneEnd(){ log.scene--; },
     walkTo:async(ent,x,zz,o)=>{ log.walk.push([x,zz,o&&o.lv]); }, seatApproach:s=>[s.x+Math.sin(s.yaw)*0.6,s.z+Math.cos(s.yaw)*0.6],
     sitAt(ent,s){ log.sit.push(Object.assign({},s)); ent.seat=s; ent.pose='sit'; }, standUp(ent){ log.stand++; ent.seat=null; ent.pose='idle'; },
     fade:async on=>{ log.fade.push(on); }, advance(h){ log.adv.push(h); G.hour+=h; }, autosave(){}, toast(){} };
@@ -82,7 +82,7 @@ await asec('④',async()=>{ z=loadZone('xs_shanlan'); const bad=[];
   for(const it of E.interactables.filter(q=>q.shlSit)){ for(const h of [15,18]){ const {G,GM,log}=mkGM(h,THU), before=strip(G), r=await STORY.interact(it,GM), sp=it.shlSit;
     const want=sp.section==='藝術'&&h<17?ART_DAY:SIT[sp.section], s=log.sit[0]||{};
     const ok=r===true&&log.walk.length===1&&log.walk[0][2]===sp.lv&&log.sit.length===1&&s.x===sp.x&&s.z===sp.z&&s.yaw===sp.yaw&&s.lv===sp.lv&&s.floor>0&&s.floor<0.1
-      &&J(log.fade)===J([true,false])&&J(log.adv)===J([1])&&Math.abs(G.hour-(h+1))<1e-9&&log.said.length===1&&log.said[0][0]===null&&log.said[0][1]===want&&log.stand===1&&!E.player.seat&&strip(G)===before&&log.scene===0;
+      &&J(log.fade)===J([true,false])&&J(log.adv)===J([1])&&Math.abs(G.hour-(h+1))<1e-9&&log.said.length===1&&log.said[0][0]===null&&log.said[0][1]===want&&log.said[0][2]==='read'&&log.stand===1&&!E.player.seat&&strip(G)===before&&log.scene===0;
     if(!ok) bad.push(sp.section+'('+sp.x+','+sp.z+')@'+h+' '+J(log).slice(0,240)); } }
   check('④ 坐地板 10 處（15:00、18:00 各一次）：走過去、坐在地上（floor）、轉暗、過一小時、那一區那一句、起身；G 除了時間都沒變',!bad.length,bad.join('｜'));
   const art=E.interactables.find(q=>q.shlSit&&q.shlSit.section==='藝術');

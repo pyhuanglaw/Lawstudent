@@ -541,6 +541,9 @@ const CLS=(function(){
   S.peFriends=function(G,it){ const T=S.peTable(it&&it.c); return T?T.friends.filter(id=>S.peHere(G,id,it)):[]; };
   S.peNarr=function(G,it){ const T=S.peTable(it&&it.c); if(!T) return null; let t=T.lines[(it.week|0)-1]; if(!t) return null; if(S.peSwimWeek(it)&&!S.b1Open(G)) return (it.week|0)===16?S.PE_SWIM_CLOSED16:((it.week|0)>=11?S.PE_SWIM_CLOSED_MID:S.PE_SWIM_CLOSED);   /* AA_644 §5：第 10 週還沒下過水＝講安全守則；11～15 週＝在球場練划手換氣；16 週＝改考體適能 */
     for(const nm in T.name){ if(t.indexOf(nm)<0||S.peHere(G,T.name[nm],it)) continue; t=t.split(nm+(/^[A-Za-z]/.test(nm)?' ':'')).join('有人'); } return S.PE_ANON_FIX[t]||t; };
+  /* BUG-PE-CLASS-1107（使用者 11-07 試玩：「體育館上課 直接過去 還是顯示在法律系館a前方上完所有課」）：一鍵上課（goClass）原本 GM.enter('campus') 沒有落點＝校園預設出生點（法律系館A前）、2D 上課；
+     體育課改照門口那條路（doorInteract）：進體育館（或 B1 游泳池）站到上課位置、inGym 上課 */
+  S.peGoClass=(G,it)=>it&&it.room&&it.room.door==='gym'&&S.PE_IN_GYM&&typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES.gym?S.pePlace(G,it):null;
   S.pePlace=(G,it)=>S.peSwim(G,it)?Object.assign({zone:'gym_b1'},S.PE_POOL):Object.assign({zone:'gym'},S.PE_IN_GYM);
   /* 朋友站進半圈（坐上長椅）：換掉這一堂離玩家最近的路人同學（crowd3d.js 的 pe_student／pe_swim，crowdKey 最後的序號＝離玩家的遠近），朋友照那個位置、朝向、座位；
      下課（it.t1）照作息離開（story3d.js n.until）。換掉的位子記在 S._peTaken：人群重排時那幾個位子不再放路人 */
@@ -1182,13 +1185,14 @@ const CLS=(function(){
     delete S.rec(G).note['plan_skip_'+it.key]; let pl=S.goPlan(GM,it); if(!pl) return false; if(o.fromHome){ pl=Object.assign({},pl,{mins:o.mins||43,bike:false,mrt:true}); }   /* 從家出發（DL-05）：捷運＋公車；等待在 HOME.homeWake 做完了 */
     if(!o.forced&&!o.fromHome&&hr(G)<pl.depart-0.02&&pl.depart-hr(G)>0.06){ const ok=await S.skipTo(GM,pl.depart); if(!ok) return false; if(hr(G)<pl.depart-0.02){ contP={day:G.day,key:it.key}; return false; } pl=S.goPlan(GM,it); }   /* BUG-GOCLASS-WINDOW-1102（BB_218 6865）：離出門不到 3 分鐘＝直接出門（skipTo 對 3 分鐘以內的跳轉回 false，原本按了沒反應）。等待照跳過時間的規則（停點：約好的時間、特殊課堂、劇情）；停下來的話，劇情演完出「繼續去上課」*/
     if(S.status(G,it)==='missed'){ GM.toast(it.c.name+'已經快下課了，現在進去不算出席。',3600); return false; }
-    const d=pl.d; if(G.zone!==d.zone||o.fromHome){ if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);
+    const d=pl.d, pe=S.peGoClass(G,it); if(G.zone!==(pe?pe.zone:d.zone)||o.fromHome){   /* BUG-PE-CLASS-1107：體育課的目的地是體育館裡（球場中圈／游泳週 B1），不是校園門口 */ if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);
       const stop=o.forced?null:S.routeStop(GM,it,pl,o);   /* 路上的事件（R2，DL-04B）：經過的區域有到達時就會演的【固】【必】＝停在那裡，照常進去讓事件演（STORY.onEnter→EVENTS.onEnter、auto 照 tick）；
                                                               演完 S.oneTick 出「繼續去上課」（contP），從那裡照 goPlan 接著走、時間照實際的算（可能因此遲到）。考試帶進考場（forced）不停 */
       if(stop){ GM.sceneBegin(); try{ await GM.fade(true); GM.caption('',(pl.mrt?'坐捷運、轉公車往':(pl.bike?'騎腳踏車往':'走路往'))+bldName(it)+'去。',2400); GM.advance(stop.leg/60); await GM.sleep(500); } finally { GM.sceneEnd(); }
         await GM.enter(stop.zone,stop.spawn); contP={day:G.day,key:it.key}; return false; }
       GM.sceneBegin(); try{ await GM.fade(true); GM.caption('',o.forced?S.examName(it)+'快開始了。你收拾東西往考場走。':(pl.mrt?'坐捷運、轉公車到':(pl.bike?'騎腳踏車到':'走路到'))+bldName(it)+'。',2400); GM.advance(pl.mins/60); await GM.sleep(500); } finally { GM.sceneEnd(); }
-      await GM.enter(d.zone); }
+      if(pe) await GM.enter(pe.zone,{x:pe.x,z:pe.z,yaw:pe.yaw||0,lv:0}); else await GM.enter(d.zone); }
+    if(pe) return S.attend(GM,it,{door:true,inGym:true,lateOk:!!o.forced});   /* 已經在體育館裡也一樣：館內 3D 背景上課（同門口 doorInteract 的 inGym）*/
     if(d.door) return S.attend(GM,it,{door:true,lateOk:!!o.forced});   /* 門口上課（萬才館研討室、法圖櫃台、服務學習、體育館）：不選座位 */
     return S.seatPick(GM,it,o); };
   /* 坐哪裡（1-3 第 5 點）：老位子（G.courses.seat[課程]）／坐在○○旁邊（在場、認識以上、旁邊有空位，最多兩位）／自己找位子 */

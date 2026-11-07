@@ -50,6 +50,7 @@ const SHL=(function(){
     const seat={x:spot.x,z:spot.z,yaw:spot.yaw,lv:spot.lv|0,floor:0.02};   /* floor：坐在地上（跪坐那一套，坐墊高度幾乎 0）*/
     if(GM.walkTo){ const ap=GM.seatApproach?GM.seatApproach(seat):[spot.x+Math.sin(spot.yaw)*0.6,spot.z+Math.cos(spot.yaw)*0.6]; await GM.walkTo(P,ap[0],ap[1],{lv:seat.lv}); }
     if(GM.sitAt) GM.sitAt(P,seat);
+    P.pose='read'; P.idlePose='read';   /* BUG-SHANLAN-BOOK（使用者 11-07 試玩：「山嵐書店坐在書架間看書 手上沒有書」）：書只在 read 姿勢畫出來（character3d.js READ_VRM）；坐地板的腿照 sitFloor（SEIZA_VRM），手換成拿書 */
     const line=S.sitText(spot.section,G.hour);   /* 坐下那一刻的時間決定藝術區那一句 */
     if(GM.fade) await GM.fade(true); if(GM.advance) GM.advance(1); if(GM.fade) await GM.fade(false);
     await GM.say(null,line);
