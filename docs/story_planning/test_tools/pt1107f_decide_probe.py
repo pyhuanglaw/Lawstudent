@@ -97,7 +97,11 @@ async def meet_once(pg, cdp, run, tag, beat_opts, rec):
     run.setup('[%s]【捷徑】時間撥到約好的 %.2f 前 10 分鐘' % (tag, v['h']))
     await pg.evaluate("(h=>{ GAME.G.hour=h; })(%f)" % (v['h'] - 0.17)); await pg.wait_for_timeout(1200)
     await phone(pg, cdp, 'today')
-    if not await tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % v['id']): run.check('[%s] 手機「今天」有「現在過去」' % tag, False); return None
+    if not await tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % v['id']):
+        here = await pg.evaluate("(p=>{ const P=INV.place(p)||{}; return GAME.G.zone===P.zone; })(%s)" % json.dumps(v['place']))
+        if not here: run.check('[%s] 手機「今天」有「現在過去」' % tag, False); return None
+        run.setup('[%s] 人已經在約好的地方，手機不給「前往」＝照設計，直接走去找她' % tag)
+        if await pg.evaluate("!document.getElementById('phone').classList.contains('hide')"): await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(800)
     said = []; asked = 0
     for _ in range(900):
         q = await L.state(pg)
@@ -122,7 +126,7 @@ async def meet_once(pg, cdp, run, tag, beat_opts, rec):
                 await choose(pg, cdp, ans, True); continue
             pick = ts[0]; said.append('選項：' + '｜'.join(ts) + ' → ' + pick)
             await choose(pg, cdp, pick, True); continue
-        if st and st['ph'] == 'wait':
+        if st and (st['ph'] == 'wait' or (st['st'] == 'accepted' and not st['ph'])):
             n = await pg.evaluate("(w=>{ const n=GAME.E.npcs.find(q=>q.id===w||q.charId===w); return n?{x:n.obj.position.x,z:n.obj.position.z,lv:n.lv|0}:null; })(%s)" % json.dumps(WHO))
             if n: await L.go_to(pg, cdp, run, n['x'], n['z'], 1.8, '走到她旁邊', lv=n['lv']); await pg.wait_for_timeout(1000); continue
         if q['dlg']: await L.tap(pg, cdp, '#dlg')
