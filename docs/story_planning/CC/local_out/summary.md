@@ -1716,3 +1716,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 80.6s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 80.6s] BROWSER DISCONNECTED
 - 2026-11-07T17:20:15  XSSHOP_dabu_cam  sha=fa79dd7bc32e1e177a8187a070b8c7baf6ef2924  exit=0  555s    PASS [黑畫面] buy_short_dabu 不是黑畫面（平均亮度 130.9、變化 46.4）  [130.9, 46.4] / PASS 沒有 JS 例外  [] / FAILED 1: [互動點] 走到「照鏡子」(-2.5, -3.55 第 0 層)，按鈕是它
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 520.3s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 520.3s] BROWSER DISCONNECTED
+- 2026-11-07T17:21:26  GYM3F_HOOP_cam  sha=fa79dd7bc32e1e177a8187a070b8c7baf6ef2924  exit=0  128s      [  91.7s] [截圖] hoop_ceremony_stands：鏡頭 {"eye": [24, 6, -6.43], "look": [0, 3.05, -14.43], "lens": 28, "vfov": 39.76}、亮度 [73.3, 60.7] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 92.1s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 92.1s] BROWSER DISCONNECTED
