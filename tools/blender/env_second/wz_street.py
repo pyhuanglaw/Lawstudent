@@ -1266,6 +1266,8 @@ if SET in ('wenzhou', 'lane118', 'xinsheng_far'):   # PERF-SINGLESIDE-GLB-1025�
     for _m in {s.material for o in root.children_recursive if o.type == 'MESH' for s in o.material_slots if s.material}:
         if re.match(r'(wz_in_goods|wz_in_shop|wz_wall_|wz_in_tiles_|wz_room_lit|wz_pillar_|wz_ground_wall)', _m.name): _m.use_backface_culling = True
 info = L.export(OUT, gpu_instances=True)
+if SET == 'wenzhou' and not os.environ.get('WZ_NOSLIM'):   # PERF-COLD-RT（LAWWW2-B 11-07；CC-B：第一次進溫州街慢在下載這個檔）：法線 8 位元、頂點色 0～255，位置、UV、節點不動；
+    import glb_slim; info['slim'] = glb_slim.slim(OUT, OUT); info['bytes'] = os.path.getsize(OUT)   # 招牌、門牌、景深卡（遊戲會改幾何）不碰；見 glb_slim.py
 info.update({'buildings': [s['id'] for s in SPECS]})
 L.write_json(OUT[:-4] + '.json', info)
 L.write_json(OUT[:-4] + '.props.json', {'set': SET, 'note': '地上雜物的腳印（世界座標 [minx,minz,maxx,maxz]、高度）；tests/street_props_nav_unit.js 用', 'props': PROP_FP})
