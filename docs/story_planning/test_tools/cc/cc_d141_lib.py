@@ -19,6 +19,10 @@ CAM = r"""((C)=>{ const E=GAME.E, cam=E.camera, V=THREE.Vector3; const hf=2*Math
   E.paused=true; E.cinematic&&E.cinematic(new V(...C.eye),new V(...C.look));
   for(let i=0;i<2;i++){ cam.position.set(...C.eye); E.cam.look=new V(...C.look); cam.lookAt(E.cam.look); cam.updateMatrixWorld(); } cam.fov=vf*180/Math.PI; cam.updateProjectionMatrix();
   try{ if(E.sky) E.sky.position.copy(cam.position); if(E.skyline) E.skyline.position.set(cam.position.x,0,cam.position.z); }catch(e){}   /* CC-B 08:4x：天空球跟著鏡頭走是主迴圈做的（engine3d 主迴圈 E.sky.position.copy(camera.position)）；暫停後搬鏡頭到 60 m 外，天空停在原地＝鏡頭在天空球外面、畫面上半部全黑（GYM_DOME_r3 PC）*/
+  try{ const fr=new THREE.Frustum(), sp=new THREE.Sphere(), M=new THREE.Matrix4(); cam.updateMatrixWorld(); M.multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse); fr.setFromProjectionMatrix(M);
+    const lim0=E.q&&E.q.level==='low'?34:(E.q&&E.q.level==='high'?95:60);
+    for(const n of (E.npcs||[])){ const o=n&&n.obj; if(!o) continue; const cd=Math.hypot(cam.position.x-o.position.x,cam.position.z-o.position.z); const lim=n.lodLim&&E.q&&n.lodLim[E.q.level]?Math.min(lim0,n.lodLim[E.q.level]):lim0;
+      sp.center.set(o.position.x,o.position.y+0.9,o.position.z); sp.radius=1.3; o.visible=!n.hidden&&(cd<lim||!n.isExtra)&&fr.intersectsSphere(sp)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5); } }catch(e){}   /* CC-B 09:1x（LAWWW2-B 09:14）：NPC 顯不顯示是主迴圈 updateNPC 照跟隨鏡頭的視錐設的；暫停後換角度，原本在畫面外的人會一直藏著——照同一條規則（engine3d.js updateNPC 的 vis）用新鏡頭重算，不呼叫 updateNPC（會動到路線、動作）*/
   try{ for(const x of (E.extras||[])) if(x&&x.obj&&x.obj.name==='treeFieldExtra'&&x.update){ x.last=null; x.update(0); } }catch(e){}   /* CC-B 09:1x：行道樹（TK TreeField）照鏡頭的視錐重排，是主迴圈 extras.update 做的；暫停後搬鏡頭，樹還是舊視錐那一批（XS_NORTH_ROAD_r2 PC 分隔島 9 棵樹全不見）*/
   try{ if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(cam,E.player.obj.position); if(E.updateLevelVis) E.updateLevelVis(); }catch(e){}   /* LAWWW2-B 08:37（6b92262a6）：暫停以後 fadeWalls 不會照新的鏡頭重算——鏡頭搬進店裡，窗景卡還是「鏡頭在牆外」那時藏起來的狀態（FA05_NIGHT 一樓三張只看到天空）*/
   E.render();
