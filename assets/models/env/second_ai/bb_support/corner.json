@@ -1,6 +1,6 @@
 {
- "objects": 160,
- "unique_meshes": 65,
+ "objects": 165,
+ "unique_meshes": 70,
  "tris": 46086,
  "tris_drawn": 55004,
  "materials": [
@@ -16,8 +16,8 @@
   "cr_vc_metal",
   "cr_wood"
  ],
- "out": "assets/models/env/second_ai/bb_support/corner.glb",
- "bytes": 3865148,
+ "out": "../corner2/corner.glb",
+ "bytes": 3868588,
  "texres": 1024,
  "shop": "corner",
  "layout": 1,
@@ -37,7 +37,7 @@
   "lpstack33_2": 1,
   "lpstack17_1": 1,
   "lpstack17_2": 1,
-  "spot": 18,
+  "spot_ceil": 18,
   "pendant": 3,
   "armchair": 2,
   "turntable_right": 3,
@@ -52,20 +52,28 @@
  },
  "records_in_bins": 637,
  "single_side": {
-  "（翻面）cr_emit": [
-   80,
-   0
-  ],
   "cr_emit": [
    80,
    42
+  ],
+  "cr_plaster": [
+   108,
+   0
+  ],
+  "cr_alpha": [
+   3464,
+   0
+  ],
+  "cr_goods": [
+   3744,
+   0
   ],
   "cr_vc_metal": [
    5456,
    96
   ],
-  "cr_goods": [
-   3744,
+  "cr_concrete": [
+   38,
    0
   ],
   "cr_vc": [
@@ -76,16 +84,8 @@
    10304,
    0
   ],
-  "cr_plaster": [
-   108,
-   0
-  ],
-  "cr_alpha": [
-   3464,
-   0
-  ],
-  "cr_concrete": [
-   38,
+  "（翻面）cr_emit": [
+   80,
    0
   ],
   "cr_floor_terrazzo": [
@@ -100,6 +100,5 @@
    4,
    0
   ]
- },
- "note": "CORNER-IN-1107（LAWWW2-B 11-07）：牆邊家具上的音響、唱盤照放的地方分原型（跟著那面牆淡出），見 corner_interior.py 開頭"
+ }
 }

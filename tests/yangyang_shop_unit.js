@@ -76,7 +76,7 @@ let R=null; if(!L||!Z3.ZONES.yangyang) check('1 區域 yangyang 存在（配置 
 else { try{ R=loadZone('yangyang'); }catch(e){ check('1 區域建得起來',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } }
 if(R){ const z=R.z, its=R.its;
   check(`1 區域建得起來、尺寸照配置 ${L.w}×${L.d}×${L.h}、名字「洋洋鹹酥雞」、SHOP_IN.gg`,z.bounds.w===L.w&&z.bounds.d===L.d&&Z3.ZONES.yangyang.name==='洋洋鹹酥雞'&&z.gg==='yangyang'&&IN.gg===true,J(z.bounds));
-  const man=ASSETS.manifest['bldg.yangyang_interior']; check('1 正式模型登錄 bldg.yangyang_interior＝配置的 glb（檔案在、building、v1c 3,406,332 B）',!!man&&man.url===L.glb&&fs.existsSync(path.join(ROOT,L.glb))&&man.type==='building'&&fs.statSync(path.join(ROOT,L.glb)).size===3406332,J(man&&man.url));
+  const man=ASSETS.manifest['bldg.yangyang_interior']; check('1 正式模型登錄 bldg.yangyang_interior＝配置的 glb（檔案在、building、v1c＋LAWWW2-B 11-07 光照＋窗景卡 3,690,084 B）',!!man&&man.url===L.glb&&fs.existsSync(path.join(ROOT,L.glb))&&man.type==='building'&&fs.statSync(path.join(ROOT,L.glb)).size===3690084,J(man&&man.url));
   const onSeat=b=>L.seats.some(s=>Math.abs(b[0]-s.x)<0.05&&Math.abs(b[1]-s.z)<0.05), BL=L.blocks.filter(b=>!onSeat(b)), blk=BL.filter(b=>E.canStand(b[0],b[1],0.05,0));
   check(`1 配置的導航阻擋 ${BL.length} 個都擋住（中心站不住；椅子本身不擋）`,BL.length===12&&!blk.length,BL.length+' '+J(blk));
   const sp=z.spawn, isl=islands([sp.x,sp.z],-L.w/2,L.w/2,-L.d/2,L.d/2);

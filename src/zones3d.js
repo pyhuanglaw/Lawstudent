@@ -1862,7 +1862,15 @@ const Z3 = (function(){
     /* 窗外的景（白天／夜景貼圖、隨時段變色，room() 的 applyTime 照舊換）：從備用模型的窗框組裡拿出來，放到正式模型的玻璃外面 0.3 m（放大一點：斜著看窗洞也看不到外面的空白）；牆淡出時一起藏（不然鏡頭在牆外時會擋住房間）*/
     const wp=[]; if(z.wins) for(const w of z.wins){ const part=w.parent; const ent=z.winParts&&z.winParts.find(p=>p.obj===part); const d=ent?ent.dir:new THREE.Vector3(1,0,0); w.position.addScaledVector(d,-0.42); w.scale.set(1.35,1.4,1); if(w.material.uniforms&&w.material.uniforms.sxy) w.material.uniforms.sxy.value.set(1.35,1.4); part.remove(w); g0.add(w); wp.push({obj:w,at:ent?ent.at:w.position.clone(),dir:d}); }
     for(const o of glassy) wp.push({obj:o,at:o.userData.center,dir:o.userData.dir,partition:!!o.userData.partition});
-    fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; if(LMS) roomLightmap(z,root,LMS); if(LMS&&LMS.dark) roomDarkMap(z,root,LMS); seatFold(z,root); }
+    fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; if(LMS) roomLightmap(z,root,LMS); if(LMS&&LMS.dark) roomDarkMap(z,root,LMS); ceilHide(z,root); seatFold(z,root); }
+  /* 貼著天花板的東西（GLB 的 CEIL_* 網格、extras.ceilHide；CORNER-CEIL-1107，LAWWW2-B 11-07；BB-B 16:04 判轉角唱片：天花板切掉時，樑、吸頂冷氣、店名飾板從上面擋住畫面）：
+     天花板是單面朝下，鏡頭高過天花板就看不到；樑、管線、軌道燈這些還在，從上面擋住房間——鏡頭高過天花板時一起藏起來（和美國公寓的屋頂、吊扇同一個做法，us3d.js）。
+     天花板高度＝CEIL_ 網格最高的地方（不是 instancing 的）；沒有 CEIL_ 的模型不受影響 */
+  function ceilHide(z,root){ const list=[]; let top=0; root.updateMatrixWorld(true);
+    root.traverse(o=>{ if(!o.isMesh||!(/^CEIL_/.test(o.name||'')||(o.userData&&o.userData.ceilHide))) return; list.push(o); if(!o.isInstancedMesh&&/^CEIL_/.test(o.name)) top=Math.max(top,new THREE.Box3().setFromObject(o).max.y); });
+    if(!list.length) return 0; const lim=(top||3)-0.02; z.ceilHideList=list; z.ceilTop=lim;
+    const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); const cam=E2&&E2.camera; if(!cam) return; const v=cam.position.y<=lim; if(v!==z._ceilVis){ z._ceilVis=v; for(const o of list) o.visible=v; } };
+    return list.length; }
   // ---------- 萬才館大廳／研討室 ----------
   // 萬才館（室內兩層樓）：src/wancai3d.js（萬才館第三階段，D42；一樓大廳的座標和 v9.3 一樣）
   // ---------- 總圖閱覽室 ----------
@@ -2153,7 +2161,12 @@ const Z3 = (function(){
   const GG_VIEW={afar:{mat:'afr_window_view',day:'assets/models/env/second_ai/aa_support/afar_view_day.webp',night:'assets/models/env/second_ai/aa_support/afar_view_night.webp'},
     aoki:{mat:'aok_window_view',day:'assets/models/env/second_ai/aa_support/aoki_view_day.webp',night:'assets/models/env/second_ai/aa_support/aoki_view_night.webp'},
     bookstore:{mat:'yej_window_view',day:'assets/models/env/second_ai/aa_support/yejian_view_day.webp',night:'assets/models/env/second_ai/aa_support/yejian_view_night.webp'},
-    daybreak:{mat:'dbk_window_view',day:'assets/models/env/second_ai/aa_support/daybreak_view_day.webp',night:'assets/models/env/second_ai/aa_support/daybreak_view_night.webp'}};   /* WINVIEW-AUDIT-1105（LAWWW2-C；使用者 07:4x「應該很多店面看出去的街景都不對吧」）：青木、頁間、Daybreak 原本也是 mok_view（木曜日的樹）。照 afar 的做法，各在自己那一棟的位置拍（青木 x −52.2、頁間 −41.0、Daybreak 73.1）*/
+    daybreak:{mat:'dbk_window_view',day:'assets/models/env/second_ai/aa_support/daybreak_view_day.webp',night:'assets/models/env/second_ai/aa_support/daybreak_view_night.webp'},
+    yangyang:{mat:'yy_window_view',day:'assets/models/env/second_ai/bb_support/yangyang_view_day.webp',night:'assets/models/env/second_ai/bb_support/yangyang_view_night.webp'},
+    corner_records:{mat:'cr_window_view',day:'assets/models/env/second_ai/bb_support/corner_view_day.webp',night:'assets/models/env/second_ai/bb_support/corner_view_night.webp'}};   /* WINVIEW-AUDIT-1105（LAWWW2-C；使用者 07:4x「應該很多店面看出去的街景都不對吧」）：青木、頁間、Daybreak 原本也是 mok_view（木曜日的樹）。照 afar 的做法，各在自己那一棟的位置拍（青木 x −52.2、頁間 −41.0、Daybreak 73.1）*/
+  /* 洋洋鹹酥雞、轉角唱片（LAWWW2-B 11-07；LAWWW-B 15:35「兩間的 GLB 都沒有窗外的景，從店裡看玻璃外面是空的」）：BB／CC 的模型沒有窗景卡，LAWWW2-B 烘光照時加了一張
+     （tools/blender/env_second/lightbake/glb_add_viewcard.py：照 afar，玻璃外 2.5 m、16 × 6.5 m；WALL_front_VIEW_yy／cr_window_view）。照片 tools/blender/env_second/gg_shop_views.sh：
+     洋洋 x −9.4、轉角唱片 55.6；機車、行道樹、路燈照遊戲公館區域的實際位置（gg_scene/*.json）*/
   function ggAAattach(E,z,g0,root){ const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
     if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,z.gg+'_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; }
     const vm=[]; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)) for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } });
