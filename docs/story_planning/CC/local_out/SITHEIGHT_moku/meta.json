@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "SITHEIGHT_moku",
+  "sha": "9cff7a00bce4a412ca08841c73123c899a4b916e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_sitheight_probe.py",
+  "env": "MODE=cafe;CAFES=mokuyobi;SOLO=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T12:42:55",
+  "end": "2026-11-07T12:45:15",
+  "seconds": 140,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 7,
+    "mem": 50,
+    "used_gb": 16.3,
+    "chrome_testing": 4
+  }
+}

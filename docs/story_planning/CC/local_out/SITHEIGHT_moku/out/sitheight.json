@@ -1,0 +1,32 @@
+{
+ "cafe": {
+  "mokuyobi": {
+   "zone": "wz_mokuyobi",
+   "all": [
+    {
+     "name": "",
+     "id": null,
+     "body": "?",
+     "model": {
+      "isObject3D": true,
+      "uuid": "e5d017c9-60c9-438c-a058-19020bcbc51a",
+      "name": "vrmWrap",
+      "type": "Group",
+      "parent": {
+       "isObject3D": true,
+       "uuid": "85c5290e-ec30-434c-b987-31a55991a459",
+       "name": "human",
+       "type": "Group",
+       "parent": {
+        "isObject3D": true,
+        "uuid": "d4724f19-3a46-4b67-9517-4e2c9735ff7d",
+        "name": "",
+        "type": "Scene",
+        "parent": null,
+        "children": [
+         {
+          "isObject3D": true,
+          "uuid": "5f0e8c9e-498f-4f0d-a27c-f160180d8a1c",
+          "name": "",
+          "type": "HemisphereLight",
+          "parent": 

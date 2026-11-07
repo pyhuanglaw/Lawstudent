@@ -1,0 +1,15 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_sitheight_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SITHEIGHT_moku\out
+CC SIT-HEIGHT：MODE=['cafe']；SHA=9cff7a00bce4a412ca08841c73123c899a4b916e；SwiftShader ≠ iPhone（只看穿模、高度；顏色 PC 補）
+  [前置／捷徑] CC_SEED=1105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入  22 秒
+INFO [cafe mokuyobi] 第 9 天 15.50 點：坐著的路人 4 個（SEATACT ready=True、indexing=False、等了 63 秒）
+PASS [cafe mokuyobi] 有坐著的路人
+INFO [cafe mokuyobi] （?）座位 {"x": -1.45, "z": 6.15, "lv": 1, "seatH": null, "lift": 0}：桌面高 0.74、桌緣 0.22、深 0.3；做的事 phone、手上 hand_phone、桌上 []；片段＝_E20（Sit_Phone_F_E20_Loop、ref 0.2、往前 0.0246、抬 0.0036）；左手離桌面 0.031（在桌上方 True）、右手 0.081（True）；前臂最低離桌面 左 0.027 右 None
+INFO [cafe mokuyobi] （?）座位 {"x": -3, "z": 0.05, "lv": 1, "seatH": null, "lift": 0}：桌面高 0.74、桌緣 0.225、深 0.3；做的事 chat、手上 None、桌上 []；片段＝沒有片段（None、ref None、往前 None、抬 None）；左手離桌面 -0.098（在桌上方 False）、右手 -0.108（False）；前臂最低離桌面 左 None 右 None
+INFO [cafe mokuyobi] （?）座位 {"x": -3, "z": 1.15, "lv": 1, "seatH": null, "lift": 0}：桌面高 0.74、桌緣 0.225、深 0.3；做的事 chat、手上 None、桌上 []；片段＝沒有片段（None、ref None、往前 None、抬 None）；左手離桌面 0.1（在桌上方 True）、右手 0.149（True）；前臂最低離桌面 左 0.1 右 0.149
+INFO [cafe mokuyobi] （?）座位 {"x": -2.45, "z": -4.92, "lv": 1, "seatH": null, "lift": 0.23}：桌面高 1、桌緣 0.367、深 0.3；做的事 phone、手上 phone、桌上 []；片段＝沒有片段（None、ref None、往前 None、抬 None）；左手離桌面 0.04（在桌上方 False）、右手 0.038（False）；前臂最低離桌面 左 None 右 None
+PASS [cafe mokuyobi] （Sit_Phone_F_E20_Loop）手、前臂沒有穿進桌子  {"lH": {"dy": 0.031, "fw": 0.265, "over": true}, "rH": {"dy": 0.081, "fw": 0.213, "over": true}, "lFore": 0.027, "rFore": null}
+INFO [cafe mokuyobi] 總計：桌面高度 [0.74, 1]；片段 {"_E20": 1, "沒有片段": 3}；0.85 的高桌（照設計手放大腿）1 個
+INFO [cafe mokuyobi #0] （?）桌面 0.74、片段 _E20（Sit_Phone_F_E20_Loop）：截圖 ['cafe_mokuyobi_0_hands.png', 'cafe_mokuyobi_0_side.png', 'cafe_mokuyobi_0_front.png']
+INFO [cafe mokuyobi #1] （?）桌面 0.74、片段 沒有片段（None）：截圖 ['cafe_mokuyobi_1_hands.png', 'cafe_mokuyobi_1_side.png', 'cafe_mokuyobi_1_front.png']
+PASS 沒有 JS 例外  []
