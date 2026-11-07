@@ -62,7 +62,12 @@ const FIT=(function(){
      四階 0／0.4／0.7／1（經常鍛鍊：上臂、肩最多撐開約 2.7 cm）。只有祐廷；換存檔、讀檔跟著（sync 每 0.5 秒）*/
   S.BODY=[0,0.4,0.7,1];
   S.sync=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E) return false; const i=S.stageIx(rec(G).fit|0); E.fitWalk=S.WALK[i]; E.fitBike=S.BIKE[i];
-    const P=E.player, u=P&&P.obj&&P.obj.userData; if(u){ u.posture=S.POSTURE[i]; u.fitBody=S.BODY[i]; } return false; };
+    const P=E.player, u=P&&P.obj&&P.obj.userData; if(u){ u.posture=S.POSTURE[i]; u.fitBody=S.BODY[i]; } S.gymWearSync(GM); return false; };
+  /* 健身短袖運動服（GYM-FIT-1107 ③，LAWWW-B 05:46 定案）：只在 B1（健身中心、游泳池那一層，置物櫃在這一層）、上體育課（CLS.peWear，classes3d.js attend 的 inGym）的時候穿，出來換回原本的。
+     模型：祐廷 VRM 的 GYM_TOP、GYM_SHORTS（CHAR.setGymWear）。值變了才換；換區域、讀檔、換正式模型以後下一次 sync 對一次 */
+  S.GYM_WEAR_ZONES=['gym_b1'];
+  S.gymWearOn=function(GM){ const G=GM&&GM.G; if(!G) return false; return S.GYM_WEAR_ZONES.indexOf(G.zone)>=0||!!(typeof CLS!=='undefined'&&CLS.peWear); };
+  S.gymWearSync=function(GM){ const E=GM&&GM.E, P=E&&E.player, u=P&&P.obj&&P.obj.userData; if(!u||typeof CHAR==='undefined'||!CHAR.setGymWear) return null; const on=S.gymWearOn(GM); if(!!u.gymWear!==on) CHAR.setGymWear(P.obj,on); return on; };
   /* 升階以後第一次見到阿哲 */
   S.preTalk=async function(GM,who,id){ const G=GM.G, r=rec(G), i=S.stageIx(r.fit|0); if(i<1) return;
     if(id==='zhe'){ if((r.zheSeen|0)>=i) return; r.zheSeen=i; await GM.say(who,S.LINES.zhe); return; }

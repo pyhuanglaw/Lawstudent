@@ -190,8 +190,19 @@ const CHAR = (function(){
     return h2=>{ const x=h2||h, v=x&&x.userData; if(!v) return; for(const [k,on,vis] of was){ if(on!==undefined){ C.setProp(x,k,on); continue; } if(v.propOn) delete v.propOn[k]; const o=v.props&&v.props[k]; if(o) o.visible=vis; } }; };
   /* 祐廷的經濟系系外套（X140 SK02-LINE-JACKET-1030，LAWWW2-B）：VRM 裡的 JACKET_ECON 網格（同一副骨架；manifest 的 hide 讓每次建模型都先藏起來）。
      穿上時後背包往外放 10%、往上 1.2 cm：外套比上衣厚 1.3 cm，背帶原本的位置會陷進肩膀。什麼時候穿由劇情決定；每次重建人物模型後要再呼叫一次（buildVRM 會重新藏）*/
-  C.setJacket=function(h,on){ const u=h&&h.userData; if(!u||u.driver!=='vrm'||!u.model) return false; let n=0; u.model.traverse(o=>{ if(o.name==='JACKET_ECON'){ o.visible=!!on; n++; } }); if(!n) return false; u.jacket=!!on;
+  C.setJacket=function(h,on){ const u=h&&h.userData; if(!u||u.driver!=='vrm'||!u.model) return false; let n=0; u.model.traverse(o=>{ if(o.name==='JACKET_ECON'){ o.visible=!!on&&!u.gymWear; n++; } }); if(!n) return false; u.jacket=!!on;   /* 穿著運動服（C.setGymWear）的時候外套先不顯示，脫下運動服再照 u.jacket */
     const bp=u.props&&u.props.backpack; if(bp){ if(bp.userData.jk0==null) bp.userData.jk0=bp.position.y; bp.scale.set(on?1.1:1,1,on?1.1:1); bp.position.y=bp.userData.jk0+(on?0.012:0); } return true; };
+  /* 祐廷的健身短袖運動服（GYM-FIT-1107 ③，LAWWW2-B 11-07；LAWWW-B 05:46 定案，人物外觀 D128）：VRM 裡的 GYM_TOP、GYM_SHORTS（tools/gym_wear.py；同一副骨架、一樣有 fit 形狀；manifest 的 hide 先藏）。
+     穿上＝顯示運動服，藏原本的上衣（Body 的 _Tops_ 那一塊）、褲子（_Bottoms_）、系外套，拿下後背包；脫下＝照原樣（外套照 u.jacket、後背包照穿之前的狀態）。鞋子照舊。
+     什麼時候穿由 FIT.gymWearSync 決定（B1、體育課）；每次重建人物模型後要再呼叫一次（buildVRM 照 manifest hide 先藏；CHAR.upgrade 會帶過去）*/
+  C.setGymWear=function(h,on){ const u=h&&h.userData; if(!u||u.driver!=='vrm'||!u.model) return false; on=!!on; let n=0;
+    u.model.traverse(o=>{ if(o.isMesh&&(o.name==='GYM_TOP'||o.name==='GYM_SHORTS')){ o.visible=on; n++; } }); if(!n) return false;
+    u.model.traverse(o=>{ if(!o.isMesh||!o.parent||o.parent.name!=='Body') return; const mn=((Array.isArray(o.material)?o.material[0]:o.material)||{}).name||''; if(/_(Tops|Bottoms)_\d+_CLOTH/.test(mn)) o.visible=!on; });
+    const was=!!u.gymWear; u.gymWear=on; u.model.traverse(o=>{ if(o.name==='JACKET_ECON') o.visible=!!u.jacket&&!on; });
+    const bp=u.props&&u.props.backpack;
+    if(bp&&on&&!was){ u.gymBp=u.propOn&&Object.prototype.hasOwnProperty.call(u.propOn,'backpack')?u.propOn.backpack:null; C.setProp(h,'backpack',false); }   /* null＝原本沒設過（照角色預設顯示）*/
+    else if(bp&&!on&&was){ if(u.gymBp==null){ if(u.propOn) delete u.propOn.backpack; bp.visible=true; } else C.setProp(h,'backpack',u.gymBp); u.gymBp=undefined; }
+    return true; };
   C.release=function(h){ const u=h&&h.userData; if(!u||u.driver!=='vrm') return; try{ if(u.farLOD){ for(const p of u.farLOD.parts){ if(p.parent) p.parent.remove(p); p.skeleton.dispose(); } if(u.isFar) for(const o of u.farLOD.near) o.visible=true; u.farLOD=null; u.isFar=false; }   /* 遠距離版本：拿掉、骨架貼圖放掉；原本的網格恢復顯示（第一個實例會被下一個人重用）*/ if(u.props&&typeof PROPS!=='undefined') PROPS.detach(u.props); u.props=null; if(u.taskProps){ for(const k in u.taskProps){ const o=u.taskProps[k]; if(o&&o.parent) o.parent.remove(o); } u.taskProps=null; u.taskPropOn=null; }   /* 坐著做事的配件（掛在真實骨頭上：VRM 的第一個實例會被下一個人重用）*/ const sbm=u.vrm.springBoneManager; if(sbm) sbm.joints.forEach(j=>{ j.center=null; }); }catch(e){} try{ for(const n in u.anim.actions) u.anim.actions[n].stop(); u.anim.mixer.stopAllAction(); u.vrm.humanoid.resetNormalizedPose(); if(u.vrm.expressionManager) u.vrm.expressionManager.expressions.forEach(ex=>u.vrm.expressionManager.setValue(ex.expressionName,0)); for(const t of (u.tinted||[])){ const cur=Array.isArray(t.mesh.material)?t.mesh.material:[t.mesh.material]; const orig=Array.isArray(t.orig)?t.orig:[t.orig]; cur.forEach((mt,i)=>{ if(mt!==orig[i]){ C.rimMats.delete(mt); if(mt.dispose) mt.dispose(); } }); t.mesh.material=t.orig; } u.tinted=[]; }catch(e){} ASSETS.releaseVRM(u.key,u.vrm); };
   // 走樓梯、台階時的腳步貼合（v9.4，D36；使用者：「人物在樓梯上不能滑動、漂浮或腳穿進階梯」）。
   // 走路動畫是平地做的：腳底永遠在「身體所在那一階」的高度。這裡依每隻腳底下那一階的實際高度把腳移上去／移下來：
@@ -1372,7 +1383,8 @@ const CHAR = (function(){
     if(u.sitFocus) nh.userData.sitFocus=u.sitFocus;   /* 看著桌上的筆電、筆記（SEATACT 標的）*/
     if(u.sitTask) nh.userData.sitTask=u.sitTask;   /* 坐著做事的片段（NPC-ANIM-LOOPS-1104）：接著做；配件在新的骨頭上再掛一份（第一格），女生／男生照新的骨架重算（SEATACT 下一次會再對）*/
     if(u.amb){ nh.userData.amb=u.amb; nh.userData.ambWasStatic=u.ambWasStatic; }   /* 坐著的動作接著做（循環的相位、小動作、坐姿；沒有對模型的資料，換模型沒關係）*/
-    if(u.jacket) C.setJacket(nh,true);   /* 祐廷的系外套（X140）：開發用模型換成正式 VRM 時照樣穿著（buildVRM 照 manifest hide 先藏）；之後 STORY.jacketSync 照規則對一次 */
+    if(u.jacket) C.setJacket(nh,true);
+    if(u.gymWear){ C.setGymWear(nh,true); nh.userData.gymBp=u.gymBp; }   /* 健身運動服（GYM-FIT-1107 ③）：換成正式模型時照樣穿著；脫下時後背包照穿之前的狀態 */   /* 祐廷的系外套（X140）：開發用模型換成正式 VRM 時照樣穿著（buildVRM 照 manifest hide 先藏）；之後 STORY.jacketSync 照規則對一次 */
     const p=h.parent; if(p){ p.add(nh); p.remove(h); } C.release(h); return nh; };
   function buildOne(spec){ spec=C.resolveModel(spec); if(C.canVRM(spec)){ try{ return buildVRM(spec); }catch(e){ console.error('VRM character failed, fallback',spec&&spec.model,e); C.failures.push((spec&&spec.model)+': '+e.message); } } else if(spec&&spec.model&&!spec.anonPick&&ASSETS.manifest[spec.model]&&ASSETS.manifest[spec.model].type==='vrm'){ C.failures.push(spec.model+': not loaded'); }   /* 路人底模還在背景下載：不算失敗 */ if(C.canGLB(spec)){ try{ return buildGLB(spec); }catch(e){ console.warn('GLB character failed, fallback to procedural',e); } } if(spec.fallbackModel){ const s2=Object.assign({},spec,{model:spec.fallbackModel,fallbackModel:null}); if(C.canGLB(s2)){ try{ return buildGLB(s2); }catch(e){ console.warn('fallback GLB failed',e); } } } const o=P3.build(spec); o.userData.driver='proc'; o.userData.placeholder=true; return o; };
   function buildGLB(spec){ const key=spec.model; const m=ASSETS.manifest[key]; const tpl=ASSETS.getRaw(key); const model=THREE_JSM.SkeletonUtils.clone(tpl.scene); const hide=m.hide||[]; let headMesh=null; model.traverse(o=>{ if(o.isMesh||o.isSkinnedMesh){ o.castShadow=true; o.receiveShadow=false; o.frustumCulled=false; if(hide.some(h=>o.name.includes(h))) o.visible=false; if(o.morphTargetDictionary&&o.morphTargetDictionary.mouthSmile!==undefined) headMesh=o; } });
