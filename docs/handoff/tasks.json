@@ -49341,7 +49341,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 16:5x LAWWW-B】推了 e647887c7（子代理 38f3d2da2／46d41ae45）：E05 在 putong 一樓門口演、freeze（3D 不模糊）；9/20 17:00 可昕兩則＋兩個回覆→ 10／20 分鐘後 putong 見面才演（快轉停在訊息、回了跳到見面）；19:00 沒回＝「沒事了。路過的人幫我裝好了。」、E05_OPEN=self、E06／D2 不發、kx1 照開；9/20「洗手上的油」那張卡只在 E05 那天演過才出；tests/e05_putong_unit.js（修改前 FAILED 33）；全部 1,120 支單元測試過（子代理）。AA 定 self 路線五處（D2、制服、P2 空分支…）；BB 測。 ｜ 【11-07 16:3x LAWWW-B】AA-B AA_727（2e81aac12）：E05 在普通教學館前（putong）演、不 blur；9/20 17:00 改成可昕傳兩則＋兩個回覆→ 10／20 分鐘後 putong 見面才演；沒回＝19:00「沒事了…」E05 不演（E05_OPEN 怎麼記 LAWWW 看）。子代理做中（e05-putong-1107）。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "next": "【11-07 17:1x LAWWW-B】AA_727 第二版（85ce68113）五點推了 7d5472cec（子代理 7348ab186）：①self 也發 D2（她那則訊息到當天 23:00）、E06 不發 ②19:00 後多一則「制服我洗好了。下次上課拿給你。」，之後下一堂一起的經濟系課下課（真的上課）或快轉跨過那堂課以後的第一張日期卡下面加兩句 ③洗手上的油照舊 ④之後 P2 選公館（E05 演過或 self）兩句、時間 +1.5 小時 ⑤回了 30 分鐘沒到＝「你不用來了。」「我牽去車行了。……」記 self；e05_putong_unit 64 項（修改前 FAILED 13）；全部 1,121 支單元測試結束碼 0（子代理）。BB 測。 ｜ 【11-07 16:5x LAWWW-B】推了 e647887c7（子代理 38f3d2da2／46d41ae45）：E05 在 putong 一樓門口演、freeze（3D 不模糊）；9/20 17:00 可昕兩則＋兩個回覆→ 10／20 分鐘後 putong 見面才演（快轉停在訊息、回了跳到見面）；19:00 沒回＝「沒事了。路過的人幫我裝好了。」、E05_OPEN=self、E06／D2 不發、kx1 照開；9/20「洗手上的油」那張卡只在 E05 那天演過才出；tests/e05_putong_unit.js（修改前 FAILED 33）；全部 1,120 支單元測試過（子代理）。AA 定 self 路線五處（D2、制服、P2 空分支…）；BB 測。 ｜ 【11-07 16:3x LAWWW-B】AA-B AA_727（2e81aac12）：E05 在普通教學館前（putong）演、不 blur；9/20 17:00 改成可昕傳兩則＋兩個回覆→ 10／20 分鐘後 putong 見面才演；沒回＝19:00「沒事了…」E05 不演（E05_OPEN 怎麼記 LAWWW 看）。子代理做中（e05-putong-1107）。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
    "xai": {
     "spec": "BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版",
     "branch": "claude/cool-heisenberg-o8kuqx",
@@ -49350,7 +49350,7 @@
     "ack": "SENT",
     "owner": "AA"
    },
-   "sha": "e647887c7"
+   "sha": "7d5472cec"
   },
   {
    "id": "KX-MOVIE-BYE-1107",
