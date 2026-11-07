@@ -5820,6 +5820,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "AA_709 第四批：大二上學期中＋跨年，她們主動傳、不能回的 20 串（學姊 3、語彤 2、以安 2、芷若 2、子晴 1、芯慈 2、可昕 8）；line_lint 0 條"
+  },
+  {
+   "task": "PLAYTEST-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_717_rot_life.json"
+   ],
+   "state": "已交付",
+   "remaining": "cite_later 接到訊息、偶遇（等 LAWWW-B 的欄位）",
+   "next": "LAWWW-B 照 BB_305 第 5、6 節接：rot（when／beat／if／life／lifeMax／from／until）＋life（每人 7～12 階，只看日期）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "七位各 15～19 則輪換句（期末週、颱風、過年前、開學週、月份、故事線回扣、她的生活進度）＋life 階段（從 AA_503～511 整理，附來源）；line_lint 0 條"
   }
  ],
  "items": [
