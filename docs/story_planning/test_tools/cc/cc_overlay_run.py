@@ -39,6 +39,11 @@ try:
         git('checkout', OSHA, '--', f, cwd=wt2)
         a = git('rev-parse', '%s:%s' % (head, f), check=False); b = git('rev-parse', '%s:%s' % (OSHA, f))
         print('[overlay] 換檔 %s：%s → %s（%d bytes）' % (f, a[:9], b[:9], os.path.getsize(os.path.join(wt2, f))), flush=True)
+    for pp in [x for x in os.environ.get('OVERLAY_PATCH', '').split(',') if x]:   # OVERLAY_PATCH：OVERLAY_SHA 裡的 patch 檔路徑（逗號分隔），套進暫存工作樹（LAWWW2-B 11:57 萬才研討室要 rooms_glb3d.js 的 patch）
+        pf = os.path.join(tmp, 'ov_%d.patch' % abs(hash(pp)))
+        with open(pf, 'w', encoding='utf-8', newline='') as fh: fh.write(git('show', '%s:%s' % (OSHA, pp)) + '\n')
+        out = git('apply', '--whitespace=nowarn', pf, cwd=wt2)
+        print('[overlay] 套 patch %s：OK %s' % (pp, out[:100]), flush=True)
     port = free_port()
     srv = subprocess.Popen([sys.executable, '-m', 'http.server', str(port), '--bind', '127.0.0.1', '--directory', wt2], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     time.sleep(2)
