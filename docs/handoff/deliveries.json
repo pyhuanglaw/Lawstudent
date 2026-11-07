@@ -18048,7 +18048,7 @@
    "sha": "a535443e2",
    "msg": "ACK",
    "what": "PERF-WZ-DC-1107 d）1＋2：人物描邊不進影子那一輪、溫州街頂點色材質打包",
-   "task": "PERF-WZ-DC-1107",
+   "task": "PERF-WZ-DAY-1103",
    "integration": "已整合待測試",
    "note": "8530a4b26（GHA 42361208528 全綠）；CC 在 PC 量 calls 前後對照",
    "ack": "ACK"
@@ -18062,7 +18062,7 @@
    "sha": "7eff8f7a4",
    "msg": "ACK",
    "what": "PERF-COLD-1107 (B) 走到出口附近先下載那一區的模型＋大步照鏡子按得到",
-   "task": "PERF-COLD-1107",
+   "task": "PERF-WZ-DAY-1103",
    "integration": "已整合待測試",
    "note": "5b956198d＋877fb250e（看看旁白座標跟著挪）；zone_prefetch ① 過期改 WARN、發布前重跑；CC perf_cold_probe near 4g",
    "ack": "ACK"

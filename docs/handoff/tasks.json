@@ -42193,7 +42193,7 @@
    "status": "已整合待測試",
    "priority": "P1",
    "note": "BB 11-03 01:11（CC_35，b1b，F1／F2 fps 探針；結果在 cc-local F1_fps_hl／F2_fps_hd）：萬才館、霖澤館、公館 50～70 fps；桌機都這樣，iPhone 只會更差。不擋這一版，手機優先要排高。場景效能歸 LAWWW2（D108）；NPC 數量、GC 牽涉 story3d／engine3d 的由 LAWWW 協助",
-   "next": "【11-07 09:1x LAWWW-B】PERF_COLD (A)：LAWWW2 c0792610e 接進 474312d38（waitLoaded 等 building＋vrm＋clips、reqTake 移到淡入前、第一次 12 s）；141 支 ALL PASS；CC 冷快取重量。接著：人物臉部零件不投影（LAWWW2 patch，LAWWW-B 同意）、wenzhou_street_glb −13 calls、(B) 預先載入。 ｜ LAWWW2 下一班：讀 cc-local F1_fps_hl／F2_fps_hd → 分項量（關陰影、關 NPC、關樹）找最大來源 → 修 → 排 cc-local 重量 fps（交 BB 判）",
+   "next": "【11-07 10:3x LAWWW-B】接著的三項都接了：d）1＋2 人物描邊不進影子、溫州街頂點色材質打包（LAWWW2 a535443e2 → 8530a4b26）；(B) 走到出口 30 m 內先下載那一區的模型（7eff8f7a4 → 5b956198d；zone_prefetch ① 過期只印 WARN、發布前清單重跑 gen_zone_assets）。臉部零件本來就不投影（LAWWW2 更正）。請 CC：溫州街同鏡頭 calls 前後（285c05052 → 8530a4b26）、perf_cold_probe ZONES=wenzhou,library_hall VARIANTS=base,near NET=4g。 ｜ 【11-07 09:1x LAWWW-B】PERF_COLD (A)：LAWWW2 c0792610e 接進 474312d38（waitLoaded 等 building＋vrm＋clips、reqTake 移到淡入前、第一次 12 s）；141 支 ALL PASS；CC 冷快取重量。接著：人物臉部零件不投影（LAWWW2 patch，LAWWW-B 同意）、wenzhou_street_glb −13 calls、(B) 預先載入。 ｜ LAWWW2 下一班：讀 cc-local F1_fps_hl／F2_fps_hd → 分項量（關陰影、關 NPC、關樹）找最大來源 → 修 → 排 cc-local 重量 fps（交 BB 判）",
    "xai": {
     "spec": "BB 11-03 01:11 send_message（CC_35）",
     "branch": "claude/second-ai-env-art",
@@ -42202,7 +42202,7 @@
     "ack": "未派",
     "owner": "LAWWW2"
    },
-   "sha": "474312d38"
+   "sha": "5b956198d"
   },
   {
    "first": {
@@ -48916,7 +48916,19 @@
     "ack": "未派"
    },
    "pausedReason": "等使用者生 movie_01～10（BB 提示詞 5ab24e8eb）與 AA 定出現位置",
-   "resumeWhen": "使用者給圖＋AA 定位置；下次檢查 2026-11-14 或下一次發布"
+   "resumeWhen": "使用者給圖＋AA 定位置；下次檢查 2026-11-14 或下一次發布",
+   "waitUser": {
+    "ask": "生 10 張原創電影畫面 movie_01～10（BB_132 第 116 組 5ab24e8eb 的提示詞）",
+    "how": "BB 在使用者有空給圖時排最前面",
+    "log": [
+     {
+      "at": "2026-11-07T10:3xZ",
+      "by": "LAWWW-B",
+      "result": "沒問",
+      "why": "BB-B 10:02 轉：使用者這幾天沒空給圖；提示詞先存著，BB 等使用者有空時再要（D97），LAWWW 不另外催；圖到之前銀幕維持現狀、燈暗那一句已經接（8c07196b7）"
+     }
+    ]
+   }
   },
   {
    "id": "WINDOW-FLICKER-1107",
