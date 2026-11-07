@@ -78,7 +78,7 @@ const MOK3=(function(){
     // 正式模型：店內（AA）放在二樓那一組、樓梯（LAWWW2）放在一樓那一組
     let stairWalls=[]; const reWalls=()=>{ for(const w of stairWalls) if(z.walls.indexOf(w)<0) z.walls.push(w); };
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_mokuyobi_interior']) ASSETS.loadOne('bldg.wz_mokuyobi_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return;
-      root.updateMatrixWorld(true); Z3.attachRoomGLB(z,g1,fb1,c.scene.clone(true)); reWalls(); }).catch(e=>console.warn('木曜日室內正式模型載入失敗，用備用模型',e));
+      root.updateMatrixWorld(true); const r1=c.scene.clone(true); Z3.attachRoomGLB(z,g1,fb1,r1); if(Z3.wzViewSwap) Z3.wzViewSwap(z,r1,'mokuyobi'); reWalls(); })   /* 窗外換成溫州街街景照片（WINVIEW-AUDIT 木曜日，LAWWW2-B 11-07；Z3.WZ_VIEW.mokuyobi）*/.catch(e=>console.warn('木曜日室內正式模型載入失敗，用備用模型',e));
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_mokuyobi_stair']) ASSETS.loadOne('bldg.wz_mokuyobi_stair').then(c=>{ if(!c||!c.scene||E.zone!==z) return;
       const r=c.scene.clone(true); r.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(/VIEW/.test(o.name)) viewMat=o.material; } }); g0.add(r); root.updateMatrixWorld(true);
       stairWalls=prepWalls(r); if(viewMat&&stairWalls.length){ const v=stairWalls.find(o=>/VIEW/.test(o.name)); if(v) viewMat=v.material; } fb0.visible=false; reWalls(); if(z.applyTime&&typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12); }).catch(e=>console.warn('木曜日樓梯正式模型載入失敗，用備用模型',e));

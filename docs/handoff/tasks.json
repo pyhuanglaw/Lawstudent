@@ -47897,12 +47897,12 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2 先交每間店窗外的表，公館三間先換",
+   "next": "【11-07 03:5x LAWWW-B】木曜日窗景（mok_window_view）換成溫州街正式模型白天／晚上照片（LAWWW2-B 345574e2d winview_moku_1107.patch）接進開發；tests/mok_view_1107_unit.js；等 CC-B 木曜日二樓窗邊白天／晚上。門前種樹：不種（D99、D141，窗外照真的街景）。其他店的窗景照舊待做。 ｜ LAWWW2 先交每間店窗外的表，公館三間先換",
    "source": "UA-LAWWW-1105-41",
    "authorized": "使用者原話",
    "xai": {
     "spec": "UA-LAWWW-1105-41",
-    "branch": "claude/focused-cray-c9uwvw",
+    "branch": "claude/funny-albattani-iawshm",
     "acceptance": "每間店窗外是自己那條街、那個位置看出去的樣子",
     "receiver": "LAWWW",
     "ack": "SENT"
@@ -48826,9 +48826,9 @@
    "title": "語彤的邀約回覆不對：總圖約念書回「好我先把菜洗完」、富二代設定卻說咖啡廳很貴——整批照現行設定改",
    "area": "PLAYTEST",
    "owner": "AA",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
-   "next": "【11-07 03:3x LAWWW-B】AA-B c71772fbc（AA_415 語彤 5 句）匯入：story_import_allow AA_415→c71772fbc、build_replies 重跑（WHEN 表 yt14 新句）、invites.js:103 婉拒句「……咖啡廳我坐不住。」（why restless）、REPLY_COND 加「（＝茶屋的班）」兩個別名；測試 aa415、invite_people、v1_inv_wording(2) 跟著改。待 BB 瀏覽器看：總圖約語彤念書、約 Café｜【11-07 03:4x LAWWW-B】AA 改稿（D109）；LAWWW 重跑 build_replies",
+   "next": "【11-07 03:5x LAWWW-B】BB-B PASS（elegant-brown 723a35397，BB_255：使用者 day46 存檔觸控從手機約；總圖「好。我坐靠窗。你坐哪裡都可以。」、2:30 AM「……咖啡廳我坐不住。」「總圖可以。」，舊句沒出現）。 ｜ 【11-07 03:3x LAWWW-B】AA-B c71772fbc（AA_415 語彤 5 句）匯入：story_import_allow AA_415→c71772fbc、build_replies 重跑（WHEN 表 yt14 新句）、invites.js:103 婉拒句「……咖啡廳我坐不住。」（why restless）、REPLY_COND 加「（＝茶屋的班）」兩個別名；測試 aa415、invite_people、v1_inv_wording(2) 跟著改。待 BB 瀏覽器看：總圖約語彤念書、約 Café｜【11-07 03:4x LAWWW-B】AA 改稿（D109）；LAWWW 重跑 build_replies",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -48903,9 +48903,9 @@
    "title": "大口漢堡外面的窗景一直閃",
    "area": "PLAYTEST",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【11-07 03:4x LAWWW-B】查窗卡是不是兩層重疊",
+   "next": "【11-07 03:5x LAWWW-B】LAWWW2-B 345574e2d（dakou_nightcard_1107.patch：1F／2F 夜景卡同平面 z-fighting，晚上只顯示玩家那一層）接進開發；tests/dakou_nightcard_unit.js ALL PASS；等 CC-B 使用者電腦：大口一二樓晚上窗外不閃。v9.10.21 main 要熱修照同一做法改。 ｜ 【11-07 03:4x LAWWW-B】查窗卡是不是兩層重疊",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -48920,10 +48920,10 @@
    "authorized": "使用者直接要求",
    "xai": {
     "spec": "UA-LAWWW-1107-01",
-    "branch": "claude/focused-cray-c9uwvw",
+    "branch": "claude/funny-albattani-iawshm",
     "acceptance": "窗景不閃（z-fighting 或兩層窗卡）",
     "receiver": "LAWWW2",
-    "ack": "未派"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -48946,6 +48946,26 @@
    },
    "source": "BB-B 11-07 03:34（BB_255）",
    "authorized": "BB 判定候選（D100）"
+  },
+  {
+   "id": "BUG-INV-CONFLICT-SKIP-REPLY-1107",
+   "title": "約的時間撞到已經約好的事 →「你那個時間已經約了別人。改成 今天 13:30？」→ 按「好」就直接約好，對方沒有回覆，連照設計要婉拒的也約成了（BB-B 11-07 GAME_BUG 候選，語彤 FAMILIAR 約 2:30 AM 念書）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "BB-B 11-07 03:5x（elegant-brown 723a35397 BB_255 最後一節）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "手機約人、改時間",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 03:5x LAWWW-B】查 invites3d.js 改時間那一支：改好時間以後要重新走一次對方的回覆判斷（REPLY_COND／decline），不能直接當成答應",
+   "sha": null
   }
  ]
 }
