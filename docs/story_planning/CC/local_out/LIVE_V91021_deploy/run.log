@@ -4,7 +4,7 @@ PASS 標題畫面顯示
 PASS 標題畫面有版本字樣（預期含「v9.10.21（2026-11-05）」）  版本 v9.10.21（2026-11-05）
 PASS 358 個 script 都帶版本號 ?v=  []
 PASS ?v= 全部是同一個版號、和標題字樣一樣（標題 9.10.21）  ["9.10.21"]
-PASS 進入 campus  {"ok": true, "player": "vrm", "npc": {"vrm": 23, "proc": 2}}
+PASS 進入 campus  {"ok": true, "player": "vrm", "npc": {"vrm": 24, "proc": 1}}
 PASS 玩家是正式 VRM（不是 placeholder）  vrm
 PASS 進入 gongguan  {"ok": true, "player": "vrm", "npc": {"vrm": 10, "proc": 2}}
 PASS 進入 wenzhou  {"ok": true, "player": "vrm", "npc": {"vrm": 6, "proc": 1}}
