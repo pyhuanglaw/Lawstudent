@@ -4928,12 +4928,12 @@
   },
   {
    "path": "docs/story_planning/AA_614_同學也在打工_約了不能來.md",
-   "sha": "a0b8a3e40",
+   "sha": "73ee9256d",
    "status": "approved",
    "approvedBy": "AA（D109）；第 1 節沛珊每週三 18:00～21:00、做到 2026-12-17＝AA-B 2026-11-07 21:11～21:12",
    "task": "AA614-CLASSMATE-JOBS-1103",
    "kind": "text",
-   "note": "同學也在打工（第 1 節作息：src/data/characters.js 阿凱週六程式教室、沛珊週三課輔班、Alison 南洋戲院，作息那一筆的 job；第 2 節邀約撞到上班五人的句子與改約時間；第 3 節群組、私訊五則（第 3 列「好。」＝當天 19:30 南洋戲院出遊）；第 4 節路上遇到沛珊、阿凱；第 5 節阿凱、沛珊閒聊各一句）。照抄進 src/aa614_3d.js（AA614.L）；ev_peishan_tutoring 搬到週三 20:45～21:15、兩句照 AA-B 11-07 改（src/data/events.js）。人物頁「打工：……」稿上沒有字＝沒做（問 AA）。tests/aa614_jobs_unit.js 用 git show a0b8a3e40 逐句對照"
+   "note": "同學也在打工（第 1 節作息：src/data/characters.js 阿凱週六程式教室、沛珊週三課輔班、Alison 南洋戲院，作息那一筆的 job；第 2 節邀約撞到上班五人的句子與改約時間；第 3 節群組、私訊五則（第 3 列「好。」＝當天 19:30 南洋戲院出遊）；第 4 節路上遇到沛珊、阿凱；第 5 節阿凱、沛珊閒聊各一句）。照抄進 src/aa614_3d.js（AA614.L）；ev_peishan_tutoring 搬到週三 20:45～21:15、兩句照 AA-B 11-07 改（src/data/events.js）。人物頁「打工：……」稿上沒有字＝沒做（問 AA）。tests/aa614_jobs_unit.js 用 git show a0b8a3e40 逐句對照；73ee9256d（AA-B 11-07 21:56「接線時補的」）：國小生／五年級的、E7 改週四、階梯招呼搬週三 20:50～21:10、P2-L3「每個禮拜三。」、Alison 週六那句、whois 打工兩行"
   }
  ]
 }

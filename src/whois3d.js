@@ -107,6 +107,7 @@ const WHOIS=(()=>{
 
   /* ---------------- 沛珊（AA 11-03：只有「怎麼認識」一行）---------------- */
   R[PS]=[
+    {c:1,id:'job',if:G=>typeof AA614!=='undefined'&&AA614.knowsJob&&AA614.knowsJob(G,PS),t:'打工：溫州街的國小課輔班（助教）'},   /* AA_614 接線時補的（73ee9256d）：聽過她閒聊那句或在課輔班門口遇到以後 */
     {c:2,id:'camp',if:G=>camp(G,PS),t:'宿營第二天晚上才到，坐你旁邊。'} ];
 
   /* ---------------- 1-5 江明軒 ---------------- */
@@ -141,6 +142,7 @@ const WHOIS=(()=>{
   /* ---------------- 1-7 阿凱 ---------------- */
   R.kai=[
     {c:1,id:'name',t:'阿凱。資工系。'},
+    {c:1,id:'job',if:G=>typeof AA614!=='undefined'&&AA614.knowsJob&&AA614.knowsJob(G,'kai'),t:'打工：新生南路的兒童程式教室（助教）'},   /* AA_614 接線時補的（企劃線 73ee9256d，AA-B 11-07 21:56）：聽過他閒聊那句（打工）或在程式教室門口遇到以後 */
     {c:1,id:'full',if:ev('ev_ziqing_q12'),t:'全名王凱翔，子晴發表會的製作名單上有他。'},
     {c:1,id:'home',if:G=>{ const T=G.termend&&G.termend.Y2S2; return !!(T&&T.done&&T.done.who==='kai'); },t:'宜蘭人。'},   /* 大二下期末飯（termend_lines.js POOL.Y2S2.kai「八月想回宜蘭」）*/
     {c:2,id:'room',if:G=>typeof STORY==='undefined'||!STORY.kaiRoommate||STORY.kaiRoommate(G),t:'大一的室友，搬宿舍那天認識的。'},

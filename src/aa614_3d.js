@@ -1,4 +1,4 @@
-/* ===== AA_614 同學也在打工：約了會說「我要上班」＋AA_615 南洋戲院剩下的（企劃線 claude/cool-heisenberg-o8kuqx：AA_614 a0b8a3e40、AA_615 ba26f7f7d＝ebea3a2b0 同一份；
+/* ===== AA_614 同學也在打工：約了會說「我要上班」＋AA_615 南洋戲院剩下的（企劃線 claude/cool-heisenberg-o8kuqx：AA_614 a0b8a3e40＋接線時補的 73ee9256d、AA_615 ba26f7f7d＝ebea3a2b0 同一份；
    AA 2026-11-03 照 D109 自己定；任務 AA614-CLASSMATE-JOBS-1103、AA615-ALISON-CINEMA-1103；第①級）=====
    使用者 11-03：「有在打工的同學也不是只有我啊 要可以遇到同學約什麼不能來因為在打工」「也要遇到在電影院打工的同學 遇到玩家送爆米花」「不是有電影情節嗎 怎麼沒有電影院阿」。
    原則（AA_614 開頭）：打工是生活的一部分，不是用來卡玩家的關卡；不能來的人一定給一個改約的時間（invites.js 的 resched）；不加數值、不加懲罰。台詞一字照稿（S.L）。
@@ -12,7 +12,7 @@
      週六晚上稿上沒有句子＝改天、不說話（系統的那一句）。
    - AA_614 第 3 節：五則群組／私訊（S.phone，STORY.PHONE_RULES）；第 3 列「好。」＝當天 19:30 南洋戲院（出遊 ev_aa614_movie；那天 Alison 在櫃檯＝AA_615「三位？……你們三個看同一部喔。」）。
    - AA_614 第 4 節：路上遇到（trigger:'auto' 的兩個事件）——沛珊週三 18:20 溫州街、阿凱週六 17:50 新生南路（各一天一次）。
-   - AA_614 第 5 節：閒聊各一句（阿凱：SMALLTALK；沛珊每學期都有閒聊階梯＝STORY.ladderTalk 前面包一層），一次。人物頁「打工：……」那一行稿上沒有字（照第 1 節）＝沒做，問 AA。
+   - AA_614 第 5 節：閒聊各一句（阿凱：SMALLTALK；沛珊每學期都有閒聊階梯＝STORY.ladderTalk 前面包一層），一次。人物頁「打工：……」那一行：AA-B 接線時補的（73ee9256d）＝S.WHOIS（src/whois3d.js）。
    - AA_615 第 3、4 節：1 廳「坐下看電影」（STORY.onSeat：有今天的票、今天還沒看過＝場燈關掉、時間過去、三句旁白隨機一句；今天拿到爆米花＝多一句）；Alison 人物頁那一行在 src/whois3d.js。
    存檔：G.flags.AA614_MOVIE（第 3 列說「好。」那一天）、AA614_PSDOOR／AA614_PSDOOR_N（沛珊課輔班門口：最近一次那天、第幾次）、AA614_KAIDOOR（阿凱程式教室門口那天）、
      AA614_TALK（{kai, ps}：閒聊那一句說過的那天）、NY_WATCHED（1 廳看完電影那天）；舊存檔沒有＝沒發生過。
@@ -36,7 +36,7 @@ const AA614=(function(){
   S.L={
     /* AA_614 第 2 節（說的話）＋AA_615 第 4 節（Alison）*/
     inv:{ mx:'「我那時候家教。……九點半以後可以，公館？」', ps:'「禮拜三我在課輔班，九點才下課。……禮拜四好不好？」', kai:'「禮拜六下午我在上班。……晚上？我六點半回宿舍。」',
-      ytBoth:'「我們兩個都在上班啊。」', ytOff:'「我在茶屋。……五點以後可以。」', yu:'「禮拜五晚上我在戲院。……禮拜天下午？」' },
+      ytBoth:'「我們兩個都在上班啊。」', ytOff:'「我在茶屋。……五點以後可以。」', yu:'「禮拜五晚上我在戲院。……禮拜天下午？」', yuSat:'「週六我在南洋上班，到很晚。……禮拜天下午可以嗎？」' },   /* yuSat：接線時補的（73ee9256d）*/
     /* AA_614 第 3 節（群組、私訊；說的人照稿）*/
     g1:[[ZHE,'宵夜？公館。'],[MX,'我剛家教完，在公車上。……你們先吃，我到再說。'],[ZHE,'好，幫你點。']],
     g2:[[XC,'今晚有人要讀民總嗎？法圖。'],[PS,'我在課輔班～九點下課。明天可以！']],
@@ -45,10 +45,10 @@ const AA614=(function(){
     g4:[[YU,'誰要去吃火鍋？'],[MX,'我禮拜二禮拜四都在家教。禮拜三我可以。'],[YU,'那禮拜三！']],
     g5:[[YT,'今天茶屋好多人。……下午你不在，蘇姨問你去哪了。']],
     /* AA_614 第 4 節（路上遇到）*/
-    psDoor:'你怎麼在這？……我在這裡當助教。國中生。', psDoorAgain:'（課輔班的窗戶裡，沛珊在白板前面講題目。）',
+    psDoor:'你怎麼在這？……我在這裡當助教。國小生。', psDoorAgain:'（課輔班的窗戶裡，沛珊在白板前面講題目。）',
     kaiDoor:'（阿凱站在門口，一個一個看家長來接。看到你，他比了一個累的手勢。）',
     /* AA_614 第 5 節（閒聊）*/
-    talk:{ kai:'我禮拜六去教小學生寫程式。他們問我會不會做遊戲，我說會。……其實還不會。', ps:'課輔班有一個國二的，每次都說數學沒用。……我也這樣想過。' },
+    talk:{ kai:'我禮拜六去教小學生寫程式。他們問我會不會做遊戲，我說會。……其實還不會。', ps:'課輔班有一個五年級的，每次都說數學沒用。……我也這樣想過。' },
     /* AA_615 第 3 節：1 廳坐下來看（隨機一句）；第 4 節：和朋友一起來 */
     watch:['（第一部是一年前很紅的那部。你這次才看懂結局。）','（第二部看到一半，前面有人睡著了。）','（散場的時候已經很晚，羅斯福路上的車少了。）'],
     three:'三位？……你們三個看同一部喔。' };
@@ -80,7 +80,7 @@ const AA614=(function(){
       return {res:'resched',why:'work',act:'work',lines:[S.meTea(G,c.day)?S.L.inv.ytBoth:S.L.inv.ytOff],alt:atOr(I,G,id,c.P,c.day,17.5)}; }
     if(id===YU){ if(!(c.wd===5||c.wd===6)||!over(c,18,23)||!S.jobOn(G,YU,'yu_cinema',c.day)) return null;
       let sun=c.day+1; while(wdOf(sun)!==0&&sun<c.day+8) sun++; const alt=atOr(I,G,id,c.P,sun,14);
-      return c.wd===5?{res:'resched',why:'work',act:'work',lines:[S.L.inv.yu],alt}:{res:'resched',why:'busy',act:'work',alt};   /* 週六晚上：稿上只有「禮拜五晚上」那一句＝不說話，系統那一句（「Alison那時候有事。問你…」）*/ }
+      return {res:'resched',why:'work',act:'work',lines:[c.wd===5?S.L.inv.yu:S.L.inv.yuSat],alt}; }   /* 週六晚上：AA-B 接線時補的那一句（73ee9256d）*/
     return null; };
   S.INV_IDS=[MX,PS,KAI,YT,YU];
   S.installInv=function(){ if(typeof INVITE_DATA==='undefined'||!INVITE_DATA.people) return false; const PP=INVITE_DATA.people;
@@ -165,6 +165,23 @@ const AA614=(function(){
     if(!STORY._aa614Seat){ const os=STORY.onSeat; STORY.onSeat=async function(GM,seat){ const r=os?await os.apply(this,arguments):false; try{ if(GM&&GM.G&&GM.G.zone===S.HALL) await S.onSeat(GM,seat); }catch(e){ console.warn('AA614.onSeat',e); } return r; }; STORY._aa614Seat=true; } }
   if(typeof SMALLTALK!=='undefined'){ const A=SMALLTALK[KAI]||(SMALLTALK[KAI]=[]); if(!A.some(e=>e&&e.aa614)) A.push(S.KAI_SMALL); }
   if(typeof STORY_EVENTS!=='undefined') for(const e of S.EVENTS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
+  /* ---------------- 接線時補的（AA-B 2026-11-07 21:56，企劃線 73ee9256d）---------------- */
+  /* 閒聊階梯（ladder.js 是匯入產生的檔，不手改；這裡在載入時改）：
+     大一下、大二上沛珊的招呼「（她帶著一排小孩過馬路，對你點頭）……等一下！」原本綁週二、四 16:30～18:00 溫州街＝課輔班搬到週三晚上以後演不到 → 週三 20:50～21:10（下課送小孩到路口），字不動；
+     P2-L3「一週兩天。」→「每個禮拜三。」 */
+  S.PS_CROSS='（她帶著一排小孩過馬路，對你點頭）……等一下！';
+  S.P2L3={from:'我在溫州街的課輔班當志工。一週兩天。',to:'我在溫州街的課輔班當志工。每個禮拜三。'};
+  S.fixLadder=function(Ld){ const B=Ld&&Ld.byTerm; if(!B) return 0; let n=0;
+    for(const t of Object.keys(B)){ const p=B[t]&&B[t][PS]; if(!p) continue;
+      for(const w of ((p.greet||{}).when||[])) if(w&&w.t===S.PS_CROSS&&(w.location||[]).includes('wenzhou')){ w.weekday=[3]; w.time=[20+50/60,21+10/60]; n++; }
+      for(const st of (p.steps||[])){ if(!st) continue; const fix=L=>Array.isArray(L)?L.map(x=>x===S.P2L3.from?(n++,S.P2L3.to):x):L; if(st.id==='P2-L3') st.lines=fix(st.lines); } }
+    return n; };
+  if(typeof LADDER!=='undefined') S.fixLadder(LADDER);
+  /* 人物頁「打工：……」：聽過第 5 節那句（閒聊）或第 4 節在上班的地方遇到以後才出現（whois3d.js 讀這兩個）*/
+  S.knowsJob=function(G,who){ if(!G) return false; const F=F_(G);
+    if(who===KAI){ const r=G.social&&G.social.small&&G.social.small[KAI]; return !!(r&&r.once&&r.once[S.KAI_SMALL.t])||F.AA614_KAIDOOR!=null; }
+    if(who===PS) return S.heard(G,'ps')||(F.AA614_PSDOOR_N|0)>0;
+    return false; };
   return S;
 })();
 if(typeof window!=='undefined') window.AA614=AA614;
