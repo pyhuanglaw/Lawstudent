@@ -17798,7 +17798,8 @@
    "what": "docs/story_planning/AA_717_rot_life.json",
    "task": "STUDY-DATE-PROGRESS-1107",
    "integration": "已整合待測試（dbf648fa8）",
-   "note": "ACK；tests/arc_rot_unit.js"
+   "note": "ACK；tests/arc_rot_unit.js",
+   "ack": "ACK"
   },
   {
    "id": "DLV-1107-LAWWW2-GYMWEAR",
@@ -17810,8 +17811,93 @@
    "msg": "GYM-FIT-1107 ③ 短袖運動服",
    "what": "assets/models/char/vroid_yuting.vrm、tools/gym_wear.py、gym_wear_1107.patch",
    "task": "GYM-FIT-1107",
-   "integration": "已整合待測試（c1fe4f3f0）",
-   "note": "READY_FOR_ART_REVIEW；D100a 等 CC 遊戲內截圖"
+   "integration": "已驗收",
+   "note": "READY_FOR_ART_REVIEW；D100a 等 CC 遊戲內截圖；11-07 07:2x LAWWW-B ART_APPROVED（第二版 cc1371cc7，CC SPORTSWEAR_b987）",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-LAWWW2-GYMWEAR2",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "cc1371cc7",
+   "msg": "運動服第二版（領口灰色、短褲穿出上衣、白短襪）",
+   "what": "assets/models/char/vroid_yuting.vrm、gym_wear_v2_1107.patch",
+   "task": "GYM-FIT-1107",
+   "integration": "已驗收",
+   "note": "b987cb1cf 接；ART_APPROVED LAWWW-B 07:2x",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-LAWWW2-OFFBEAT2",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "e9b8fe9ba",
+   "msg": "ACK",
+   "what": "wenzhou_street.glb／.json、offbeat_storefront.glb",
+   "task": "SHOP-WINDOW-2D-1105",
+   "integration": "已整合待測試",
+   "note": "737db65d5；BB 判、CC SHOPWIN_v2",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-LAWWW2-XSNIGHT",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "5442841464",
+   "msg": "新生南路四張夜景重拍",
+   "what": "assets/models/env/views/xs_{dakou,dakou_2f,dabu,haopai}_night.webp",
+   "task": "XS-NIGHT-1107",
+   "integration": "已整合待測試",
+   "note": "bcf4ad72a；BB 判、CC 晚上",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-AA719",
+   "date": "2026-11-07",
+   "from": "AA",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "851167f68",
+   "msg": "AA_719 決定拍規則（3788d00c1＋before／revealAt）",
+   "what": "docs/story_planning/AA_719_decide_rules.json",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "integration": "已整合待測試",
+   "note": "8f4185616、e334abf78；tests/decide_unit.js",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-AA716",
+   "date": "2026-11-07",
+   "from": "AA",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "026a2dd34",
+   "msg": "AA_716 故事線的約",
+   "what": "docs/story_planning/AA_716_arc_invites.json",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "integration": "已整合待測試",
+   "note": "fd878c557；tests/arc_invites_unit.js",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-AA709-56",
+   "date": "2026-11-07",
+   "from": "AA",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "1e9257401",
+   "msg": "AA_709 第五、六批訊息回覆",
+   "what": "docs/story_planning/AA_709_msg_replies.json",
+   "task": "PLAYTEST-1107",
+   "integration": "已整合待測試",
+   "note": "a8cf29a30",
+   "ack": "ACK"
   }
  ],
  "ignored": [
