@@ -2315,13 +2315,16 @@ const STORY_EVENTS=[
   { id:'ev_y0_p2', stage:'econ', title:'下課後的一群人', participants:['kexin'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[3,4,5], background:'blur',
     prereq:{custom:G=>!G.flags.P2_PICK||G.flags.P2_PICK==='home'},   /* 去成一次就不再演；「今天先回去」的玩家下一次會計課下課再演一次（BB_105 P2「那下次！」＝P2b 補上第一次聚會），到第 5 週為止 */
     dialogue:[ {speaker:'韋綸',text:'走啦！'},{speaker:'econ_pinyu',expression:'neutral',text:'去哪？先說好，我只有一百五。'},{speaker:null,text:'（唐睿在旁邊講電話，朝你們比了一個 OK。）'},{speaker:'kexin',expression:'neutral',text:'（牽著腳踏車）你決定。'},
-      {choice:[{text:'公館吃飯',set:{P2_PICK:'gongguan'},goto:'end'},{text:'河濱騎腳踏車',set:{P2_PICK:'river'},goto:'river'},{text:'總圖念書',set:{P2_PICK:'library'},goto:'lib'},{text:'「今天先回去。」',set:{P2_PICK:'home'},goto:'home'}]},
+      {choice:[{text:'公館吃飯',set:{P2_PICK:'gongguan'},goto:'gg'},{text:'河濱騎腳踏車',set:{P2_PICK:'river'},goto:'river'},{text:'總圖念書',set:{P2_PICK:'library'},goto:'lib'},{text:'「今天先回去。」',set:{P2_PICK:'home'},goto:'home'}]},
+      /* AA_727 p2LaterGongguan（企劃線 85ce68113；照抄）：之後的場次（9/26、10/3）選公館、E05 已經演過或 'self'（9/20 沒演）＝這兩句（不接 E05）；第一次（E05 還沒演）照舊接 E05 */
+      {label:'gg'},{if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_e05)||G.flags.E05_OPEN==='self'},speaker:null,text:'（你們六個人擠在公館一間小吃店。品妤點了最便宜的那一份，阿勳把湯喝光了。）'},
+      {if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_e05)||G.flags.E05_OPEN==='self'},speaker:null,text:'（散場的時候，可昕騎在最前面，回頭喊了一聲：「下次換河濱！」）'},{goto:'end'},
       {label:'river'},{speaker:null,text:'韋綸的鏈子掉了兩次。'},{speaker:'kexin',expression:'smile',text:'你那台要不要拿去修？我的也怪怪的，一起去。'},{goto:'end'},
       {label:'lib'},{speaker:null,text:'唐睿講了四十分鐘的話。'},{speaker:'econ_pinyu',expression:'neutral',text:'今天一頁都沒讀。'},{goto:'end'},
       {label:'home'},{speaker:'韋綸',text:'那下次！'},
       {label:'end'} ],
     consequences:{meet:['econ_pinyu']},
-    after:(G,GM)=>{ const p=G.flags.P2_PICK; if(p==='gongguan'){ const e=STORY_EVENTS.find(x=>x.id==='ev_y0_e05'); if(e&&typeof EVENTS!=='undefined'&&!(G.events&&G.events.done&&G.events.done.ev_y0_e05)&&G.flags.E05_OPEN!=='self') setTimeout(()=>{ void EVENTS.run(e); },0); } else if(p==='river'||p==='library') GM.advance(1.5); } },   /* E05_OPEN 'self'：9/20 那一次沒演（沒回她、或回了沒到，AA_727）——之後的 P2（9/26、10/3）選公館不再補演 */
+    after:(G,GM)=>{ const p=G.flags.P2_PICK; if(p==='gongguan'){ const e=STORY_EVENTS.find(x=>x.id==='ev_y0_e05'); if(e&&typeof EVENTS!=='undefined'&&!(G.events&&G.events.done&&G.events.done.ev_y0_e05)&&G.flags.E05_OPEN!=='self') setTimeout(()=>{ void EVENTS.run(e); },0); else GM.advance(1.5); } else if(p==='river'||p==='library') GM.advance(1.5); } },   /* E05_OPEN 'self'：9/20 那一次沒演（沒回她、或回了沒到，AA_727）——之後的 P2（9/26、10/3）選公館不再補演，演上面 gg 那兩句、時間照河濱、總圖往後 1.5 小時 */
   /* ★E05 鏈子掉了（BB_104 第 8-2 節；AA_154 第 102 行；AA_303 第 2 節 4 整段換：你幫她裝回鏈子、她還洗好的制服、請你喝飲料）：P2 選公館接著演。
      E05_OPEN 演到裝回鏈子記 'fix'（E06／D2 讀它才會發）；9/20 那一次沒演＝'self'（story3d.js，E06／D2 不發）。演完記 E05_DAY、E05_END（E06／D2 用）。
      原本 P2 選公館才有的「品妤挑了一家一百二十元吃到飽的……」隨整段替換拿掉。
@@ -2342,6 +2345,13 @@ const STORY_EVENTS=[
       /* AA_726 e05_after（企劃線 8255634fb；BB_255 CC 試玩第 3 件「走，去公館。」下一格就是 18:30 在宿舍、沒交代去了沒）：照抄三句；P2 選公館接 E05（9/19）一樣 */
       {speaker:null,text:'（她騎在前面，帶你到公館一間手搖店。她點了兩杯一樣的，一杯塞給你。）'},{speaker:'kexin',expression:'neutral',text:'修車的錢。'},{speaker:null,text:'（喝完，天已經暗了。你們在校門口分開，各自騎回去。）'} ],
     after:(G,GM)=>{ GM.advance(1.5); G.flags.E05_DAY=G.day; G.flags.E05_END=G.hour%24; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y0_e05'):null; if(q&&q.state==='planned') q.state='done'; } },   /* 自己先走到了（舊流程）：演完把出發選單收掉（同 L5a）*/
+  /* E05 沒演（E05_OPEN 'self'）的制服（AA_727 self.uniform，企劃線 85ce68113；照抄，「「洗好了。」」＝她說的那一句）：'self' 以後下一堂和她一起的經濟系課（經濟學原理、初等會計學）下課，一次。
+     收的是 9/14～9/15 日期卡「那件制服，還在可昕那裡。」。真的去上那堂課才演（classAlso：同一堂下課別的事件演完接著演）；
+     經濟系事件接事件快轉自動算出席的課＝econff3d.js 記 E05_UNIFORM 'due'，之後第一張日期卡下面兩句（S.uniAdd），這個事件不再演 */
+  { id:'ev_y0_e05_uniform', stage:'econ', title:'制服', participants:['kexin'], location:'any', trigger:'class', afterClass:it=>!!(it&&it.c&&(it.c.id==='econ_principles_y0'||it.c.id==='acct_y0')), classAlso:true, term:['Y0S1'], once:true, background:'blur',
+    prereq:{custom:G=>G.flags.E05_OPEN==='self'&&!G.flags.E05_UNIFORM},
+    dialogue:[ {speaker:null,text:'（下課的時候，她把一個紙袋塞給你。裡面是那件制服，摺得很整齊。）'},{speaker:'kexin',expression:'neutral',text:'洗好了。'} ],
+    after:G=>{ G.flags.E05_UNIFORM=G.day; } },
   /* ★E08 中秋系烤（BB_153，AA-B 核對通過、數值照 BB 建議定案；AA_154 第 88 行、A3：中秋後的週六 9/21 17:00 河濱）：9/16 全班群組揪、9/21 16:00 韋綸私訊，回「好」＝出遊（story3d.js）。
      AA_305 第 4 節（使用者選「柚子帽」）：誰生火的三選一拿掉，換成柚子帽（戴上／拿著，不記旗標）；唐睿那頂留給品妤、品妤不要＝12/31 跨年接。月亮收租已經拿掉（AA_302 第 5 列）。數值：可昕熟悉 +2；品妤、阿勳 +1（韋綸、唐睿還沒有人物資料——AA_159 建好時補 +1）。
      participants 不放可昕：演完不接她的閒聊階梯（結尾是回宿舍的路上）*/

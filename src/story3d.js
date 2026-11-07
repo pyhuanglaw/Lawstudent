@@ -1895,16 +1895,20 @@ const STORY = (function(){
     if(S.isEcon(G)){ const d=S.e05Day(); if(d!=null&&!S.e05Done(G)&&!F.E05_OPEN){ const K=(t,o)=>Object.assign({th:'p:kexin',from:'kexin',text:t},o||{}), hh=h(G), now=G.day*24+G.hour;
         if(G.day===d&&hh>=17&&hh<S.E05_SKIP_H&&!PHONE.sent(G,'y0_e05_ask')) PHONE.at(G,d,Math.max(17,hh),[K('我的腳踏車鏈子掉了。'),K('……你在學校嗎？普通教學館前面。',{ask:{id:'y0_e05_ask',until:d*24+S.E05_SKIP_H-1/60,opts:S.E05_OPTS.map(o=>({t:o.t,say:o.say.map(t=>K(t)),set:{E05_MEET:o.k}}))}})],'y0_e05_ask');   /* 回的期限 18:59（19:00 那一則送出以後不能再回）*/
         if(F.E05_MEET&&F.E05_MEET_AT==null) S.e05Plan(G);   /* 回了、PHONE.ON_ANSWER 沒排到（舊存檔、沒載 OUT）：照現在排 */
-        if(!F.E05_MEET&&now>=d*24+S.E05_SKIP_H&&PHONE.sent(G,'y0_e05_ask')&&!PHONE.sent(G,'y0_e05_skip')){ PHONE.at(G,d,S.E05_SKIP_H,[K('沒事了。路過的人幫我裝好了。')],'y0_e05_skip'); F.E05_OPEN='self'; }
-        else if(F.E05_MEET&&now>d*24+S.E05_END_H) F.E05_OPEN='self'; }   /* 回了卻一直沒到（舊流程 20:30 以前都沒走到普通教學館；事件接事件會帶過去）：不演，她不另外傳（AA_727 沒寫這一種）*/
+        if(!F.E05_MEET&&now>=d*24+S.E05_SKIP_H&&PHONE.sent(G,'y0_e05_ask')&&!PHONE.sent(G,'y0_e05_skip')){ PHONE.at(G,d,S.E05_SKIP_H,[K('沒事了。路過的人幫我裝好了。'),K('制服我洗好了。下次上課拿給你。')],'y0_e05_skip'); S.e05Self(G,d,S.E05_SKIP_H); }   /* AA_727 self.msgAfter19（企劃線 85ce68113）*/
+        else if(F.E05_MEET&&F.E05_MEET_AT!=null&&now>=F.E05_MEET_AT+S.E05_NOSHOW-1e-3&&G.zone!==S.E05_GOTO.zone&&!PHONE.sent(G,'y0_e05_noshow')){ const t=Math.min(now,F.E05_MEET_AT+S.E05_NOSHOW);   /* 晚跑到（在劇情裡）＝時間照 30 分鐘那一刻 */   /* AA_727 noShow（85ce68113）：回了，約好的時間過了 30 分鐘還沒到 putong（哪一種流程都一樣）*/
+          PHONE.at(G,Math.floor(t/24),t-Math.floor(t/24)*24,[K('你不用來了。'),K('我牽去車行了。……制服下次上課拿給你。')],'y0_e05_noshow'); S.e05Self(G,Math.floor(t/24),t-Math.floor(t/24)*24);
+          if(typeof OUT!=='undefined'&&OUT.get){ const q=OUT.get(G,'y0_e05'); if(q&&q.state==='planned') q.state='missed'; } } }
       if(typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G)&&typeof OUT!=='undefined'&&OUT.get){ const q=OUT.get(G,'y0_e05'); if(q&&q.state==='planned') q.state='done'; } }   /* 事件接事件（ECONFF）由第 9 步帶過去：舊流程排的出發選單收掉（不然兩邊同時帶人過去）*/
     /* ★E06／D2（BB_104 第 8-3 節、BB_105 D2；AA_154 第 103 行、A4）：E05 那一晚。E05 結束到 23:00 之間經過大一女舍門口 30 m 內＝D2（她在三樓看到你）；
-       沒有就 22:30 E06（她先傳；第一句照 E05 的開口）。只會有一個版本。E05 沒演（E05_OPEN 'self'，AA_727）＝都不發 */
-    if(S.isEcon(G)&&F.E05_OPEN&&F.E05_OPEN!=='self'&&!F.E06_DONE&&F.E05_DAY!=null&&(G.day===F.E05_DAY||G.day===F.E05_DAY+1)){   /* 22:30 以前睡著：隔天醒來收到 E05 那晚 22:30 的 E06（BB_214 第 2 節）*/ const K=(t,o)=>Object.assign({th:'p:kexin',from:'kexin',text:t},o||{}), P=GM.E&&GM.E.player&&GM.E.player.obj&&GM.E.player.obj.position, hh=h(G);
-      if(G.day===F.E05_DAY&&G.zone==='campus'&&P&&hh<23&&hh>=(F.E05_END||0)&&Math.hypot(P.x+93,P.z-56)<30){ F.E06_DONE='d2';
+       沒有就 22:30 E06（她先傳；第一句照 E05 的開口）。只會有一個版本。
+       E05 沒演（E05_OPEN 'self'，AA_727 self.rule，企劃線 85ce68113）：E06 不發；D2 照發（沒提修車）——時間窗從她那一則（19:00「沒事了。」或沒到的「你不用來了。」）到 23:00 */
+    { const self=F.E05_OPEN==='self', dd=self?(F.E05_SELF_DAY!=null?F.E05_SELF_DAY:S.e05Day()):F.E05_DAY, end=self?(F.E05_SELF_H!=null?F.E05_SELF_H:S.E05_SKIP_H):F.E05_END;
+    if(S.isEcon(G)&&F.E05_OPEN&&!F.E06_DONE&&dd!=null&&(G.day===dd||G.day===dd+1)){   /* 22:30 以前睡著：隔天醒來收到 E05 那晚 22:30 的 E06（BB_214 第 2 節）*/ const K=(t,o)=>Object.assign({th:'p:kexin',from:'kexin',text:t},o||{}), P=GM.E&&GM.E.player&&GM.E.player.obj&&GM.E.player.obj.position, hh=h(G);
+      if(G.day===dd&&G.zone==='campus'&&P&&hh<23&&hh>=(end||0)&&Math.hypot(P.x+93,P.z-56)<30){ F.E06_DONE='d2';
         PHONE.at(G,G.day,G.hour,[K('我剛剛在三樓，看到一個很像你的人經過我們宿舍。'),K('是你嗎？',{ask:{opts:[{t:'是我。',say:[K('我就知道。我還在想要不要從窗戶叫你。')]},{t:'不是。',say:[K('好喔，那是我看錯了。')]},{t:'妳在監視我？',say:[K('我在吹頭髮。窗戶剛好在那邊。')]}]}})],'y0_d2'); }
-      else if(hh>=22.5||G.day>F.E05_DAY){ F.E06_DONE='e06'; 
-        PHONE.at(G,F.E05_DAY,22.5,[K('今天謝謝你。'),K('我洗了三次手，還是有鏈條油的味道。……你的呢？',{ask:{opts:[{t:'我的也是。',say:[K('那我們扯平。晚安。')]},{t:'下次掉了再叫我。',say:[K('好。那下次我的車鏈掉，你要負責。')]},{t:'飲料很好喝。',say:[K('……你很會。晚安。')]}]}})],'y0_e06'); } }   /* AA_307 第 9 列（E05 他真的修好了；原本的「廉價訊號」拿掉）*/
+      else if(!self&&(hh>=22.5||G.day>F.E05_DAY)){ F.E06_DONE='e06';
+        PHONE.at(G,F.E05_DAY,22.5,[K('今天謝謝你。'),K('我洗了三次手，還是有鏈條油的味道。……你的呢？',{ask:{opts:[{t:'我的也是。',say:[K('那我們扯平。晚安。')]},{t:'下次掉了再叫我。',say:[K('好。那下次我的車鏈掉，你要負責。')]},{t:'飲料很好喝。',say:[K('……你很會。晚安。')]}]}})],'y0_e06'); } } }   /* AA_307 第 9 列（E05 他真的修好了；原本的「廉價訊號」拿掉）*/
     /* 經濟系那一年的兩個群組（AA_157）：全班群組 econ_class「經濟系 大一（全班）」在 E02 迎新那天加入（寫法照法律系的全班群組：不發訊息）；
        「走啦」econ_friends 在 P2 第一次去成的那晚由韋綸建立（第一則是系統訊息，照麵店團）。今天先回去的玩家等下一次（P2b，ev_y0_p2b）。
        AA_529 第 2 節：P2、P2b 在 30 分鐘版都剪了＝一般玩家建不起來——10/15 聚會（ev_y0_gather）演完、回家的路上建（S.zoulaGather）；P2、P2b 有演的照原本 */
@@ -3834,10 +3838,14 @@ const STORY = (function(){
      （不在校內照路程算、取比較久的；在家＝捷運＋公車 30 分鐘）在普通教學館一樓門口（putong）見面，到了才演 ev_y0_e05（背景用 3D）。
      經濟系事件接事件（ECONFF.on）：econff3d.js 第 9 步問 S.e05Step——還沒回＝停在 19:00；回了＝跳到見面的時間、帶到 putong、演（快轉不會跳過去）。
      ?nofastecon 的舊流程：排一個出發選單（OUT goto，只有「出發」）；自己先走到普通教學館也演（events.js 的條件只看 E05_MEET）。
-     一直沒回＝19:00「沒事了。路過的人幫我裝好了。」、E05 不演；回了卻 20:30 以前都沒到（只有舊流程會）也不演。不演＝E05_OPEN 'self'：E06、D2 不發（events.js 的 E05 不再演，P2 選公館也不補），
-     可昕大一上的手機小事（kx1）從那一則以後照開。P2 選公館（9/19，人已經在 putong）照舊演完 P2 直接接，這裡不傳 */
+     一直沒回＝19:00「沒事了。路過的人幫我裝好了。」「制服我洗好了。下次上課拿給你。」、E05 不演；回了、約好的時間過了 30 分鐘還沒到 putong＝「你不用來了。」「我牽去車行了。……制服下次上課拿給你。」、也不演
+     （AA_727 self、noShow，企劃線 85ce68113；句子照抄，沒有匯入工具）。不演＝E05_OPEN 'self'（S.e05Self，記那一則的時間 E05_SELF_DAY／E05_SELF_H）：
+     E06 不發、D2 照發（時間窗從那一則到 23:00）；events.js 的 E05 不再演，之後的 P2 選公館接 p2LaterGongguan 兩句；可昕大一上的手機小事（kx1）照開；
+     制服＝下一堂和她一起的經濟系課（經濟學原理、初等會計學）：真的去上＝下課演 ev_y0_e05_uniform，快轉自動算出席＝之後第一張日期卡下面兩句（econff3d.js S.uniAdd）。
+     P2 選公館（9/19，人已經在 putong）照舊演完 P2 直接接，這裡不傳 */
   S.E05_GOTO={zone:'putong',x:0,z:5.8,yaw:Math.PI};   /* 普通教學館一樓門口（PUTONG_LAYOUT.entrance.spawn：從校園進來站的地方，P2 那一群人站的地方）*/
-  S.E05_SKIP_H=19; S.E05_END_H=20.5;   /* 19:00 還沒回＝她那一則；E05 的時間窗（events.js time）到 20:30 */
+  S.E05_SKIP_H=19; S.E05_END_H=20.5; S.E05_NOSHOW=0.5;   /* 19:00 還沒回＝她那一則；E05 的時間窗（events.js time）到 20:30；約好的時間過了 30 分鐘還沒到＝noShow */
+  S.e05Self=function(G,day,hh){ const F=G.flags; F.E05_OPEN='self'; F.E05_SELF_DAY=day; F.E05_SELF_H=+(+hh).toFixed(4); };   /* E05 不演了：D2 的時間窗、制服要在這之後的課 */
   S.E05_OPTS=[{t:'我過去。',say:['好。我在停車架這邊。'],k:'walk',min:10,travel:'走過去'},{t:'等我一下，我騎過去。',say:['嗯。不用急。……我也修不好。'],k:'bike',min:20,travel:'騎過去'}];   /* AA_727 opts 原句 */
   S.E05_IN=['campus','linze','classroom','wancai','lawlib','soclib','library_hall','dorm_hall','gym','gongtong','boya','putong'];   /* 校內（PLACES.base 以後）：照回的那一句的分鐘 */
   S.e05Day=()=>S.termDay('Y0S1',3,5);
@@ -3849,7 +3857,7 @@ const STORY = (function(){
     const here=G.zone===S.E05_GOTO.zone, home=!here&&typeof HOME!=='undefined'&&HOME.at&&HOME.at(G), min=here?0:S.e05Min(G,o), at=G.day*24+G.hour+min/60;   /* here：回的時候人就在普通教學館＝現在就演（不排、不出字卡）*/
     F.E05_MEET_AT=+at.toFixed(4); F.E05_MEET_TR=here?'':home?'捷運＋公車 約 30 分鐘':o.travel+'約 '+min+' 分鐘';
     if(!here&&!(typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G))&&typeof OUT!=='undefined'&&OUT.plan){ const day=Math.floor(at/24), hh=at-day*24;   /* 舊流程（?nofastecon）：出發選單 */
-      OUT.plan(G,{id:'y0_e05',goto:Object.assign({},S.E05_GOTO),day,h:hh,late:Math.max(0.25,S.E05_END_H-hh),must:true,silent:true,place:'普通教學館',title:'普通教學館前',travel:F.E05_MEET_TR,travelH:home?0.5:min/60}); }
+      OUT.plan(G,{id:'y0_e05',goto:Object.assign({},S.E05_GOTO),day,h:hh,late:S.E05_NOSHOW,must:true,silent:true,place:'普通教學館',title:'普通教學館前',travel:F.E05_MEET_TR,travelH:home?0.5:min/60}); }
     return true; };
   S.e05Meet=function(G){ const F=G.flags||{}; if(!F.E05_MEET||F.E05_MEET_AT==null) return null; const g=S.E05_GOTO; return {t:F.E05_MEET_AT,zone:g.zone,at:{x:g.x,z:g.z,yaw:g.yaw},title:'普通教學館前',travel:F.E05_MEET_TR||''}; };
   /* econff3d.js 第 9 步（dyn:'e05'）：{done}＝演過或不演了；{t, zone, at, card}＝見面（帶過去演）；{t}＝下一個要停的時間（17:00 訊息、19:00 還沒回的那一則）*/

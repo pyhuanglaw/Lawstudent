@@ -6,11 +6,16 @@
 //   4 回「我過去。」＝10 分鐘後、「等我一下，我騎過去。」＝20 分鐘後在 putong 見面；到了才演（人在宿舍不演；沒回之前在 putong 也不演）；
 //     回的時候人就在 putong＝現在就演；在家＝照路程 30 分鐘
 //   5 經濟系事件接事件（ECONFF）：從 9/19 往後跳，停在 17:00 那兩則（打開她的對話）；回了以後跳到見面的時間、帶到 putong、演；快轉不會跳過去
-//   6 一直沒回：快轉停在 19:00「沒事了。路過的人幫我裝好了。」、E05 不演、E05_OPEN 'self'、下一步是 9/21 系烤；之後 putong 也不演、P2 選公館不補
-//   7 E06／D2：fix＝22:30 照舊；self＝都不發；可昕大一上的手機小事（kx1）self 也開；9/20 晚上「洗手上的油」那張卡只有演過才出
+//   6 一直沒回：快轉停在 19:00「沒事了。路過的人幫我裝好了。」「制服我洗好了。下次上課拿給你。」、E05 不演、E05_OPEN 'self'、下一步是 9/21 系烤；之後 putong 也不演、P2 選公館不補
+//   7 E06／D2：fix＝22:30 照舊；self＝E06 不發、D2 照發（她那一則以後、當天）；可昕大一上的手機小事（kx1）self 也開；9/20 晚上「洗手上的油」那張卡只有 9/20 演過才出
 //   8 ?nofastecon 舊流程：回了＝出發選單（只有「出發」）→ 帶到 putong、到了演；自己先走到也演、演完出發選單收掉
 //   9 不能回家（homeHold）：沒回到 19:00、回了到演完；self 不擋；舊存檔（E05 演過）照舊
-// 修改前（f186ad035 的 src）：FAILED 33（PASS 10＝P2 選公館照舊接 E05、E06 fix 照舊、舊存檔等對照組；第 4 節最後丟例外 STORY.e05Step is not a function）；修改後 ALL PASS（45 項）。用法：node tests/e05_putong_unit.js
+//   以下 AA_727 第二版（企劃線 85ce68113，讀稿對字）：
+//   10 回了、約好的時間過了 30 分鐘還沒到 putong（兩種流程）：「你不用來了。」「我牽去車行了。……制服下次上課拿給你。」、self（D2 照發、E06 不發）；人在 putong 不傳
+//   11 制服：self 以後下一堂和她一起的經濟系課——快轉自動出席＝之後第一張日期卡下面兩句；舊流程真的去上＝下課演；一次；fix 不出
+//   12 之後的 P2（9/26）選公館、E05 演過或 self：p2LaterGongguan 兩句、時間往後 1.5 小時；第一次照舊接 E05
+// 修改前（f186ad035 的 src，第一版）：FAILED 33、PASS 10（當時 45 項）。
+// 第二版修改前（e647887c7 的 src；git archive 出來沒有 .git＝兩項讀稿只印 NOTE）：FAILED 13、PASS 49（第 6 節第二則、第 7 節 D2、第 10～12 節）；修改後 ALL PASS（64 項，含兩項讀稿）。用法：node tests/e05_putong_unit.js
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -42,13 +47,21 @@ const settle=async()=>{ for(let i=0;i<80;i++){ await new Promise(r=>setTimeout(r
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const E05L1='（可昕的腳踏車鏈子掉了，她蹲在路邊研究。車籃裡放著一件折好的制服。你的。）';
 const played=()=>H.said.some(s=>s.t===E05L1);
+const selfF=G=>Object.assign(G.flags,{E05_OPEN:'self',E05_SELF_DAY:d20,E05_SELF_H:19});   /* 9/20 19:00 沒回＝self（同 STORY.e05Self）*/
+const uW=(G,t)=>!!(ECONFF.uniWant&&ECONFF.uniWant(G,t)), uA=(G,l)=>ECONFF.uniAdd?ECONFF.uniAdd(G,l):'(沒有 ECONFF.uniAdd)';   /* 修改前沒有這兩個：照 FAIL 算、不丟例外 */
 const bgOfE05=()=>{ /* E05 那一段 ADV.begin 的背景：最後一個 begin（P2 選公館：第一個是 P2 的） */ return H.bgs[H.bgs.length-1]; };
 /* AA_727（企劃線 2e81aac12）的原句；讀得到那個 commit（本機 repo 有企劃線）就逐字對稿，讀不到（GitHub Actions 的淺 clone、git archive 出來的目錄）只印一行說明 */
 const MSGS=['我的腳踏車鏈子掉了。','……你在學校嗎？普通教學館前面。'], OPTS=['我過去。','等我一下，我騎過去。'], SAYS=['好。我在停車架這邊。','嗯。不用急。……我也修不好。'], SKIPMSG='沒事了。路過的人幫我裝好了。';
+/* AA_727 第二版（企劃線 85ce68113）：self 19:00 的第二則、制服、沒到（noShow）、之後的 P2 選公館 */
+const SKIP2='制服我洗好了。下次上課拿給你。', NOSHOW=['你不用來了。','我牽去車行了。……制服下次上課拿給你。'], UNI=['（下課的時候，她把一個紙袋塞給你。裡面是那件制服，摺得很整齊。）','「洗好了。」'],
+  P2L=['（你們六個人擠在公館一間小吃店。品妤點了最便宜的那一份，阿勳把湯喝光了。）','（散場的時候，可昕騎在最前面，回頭喊了一聲：「下次換河濱！」）'];
+let SPEC2=null; try{ SPEC2=JSON.parse(cp.execSync('git -c core.quotepath=false show 85ce68113:"docs/story_planning/AA_727_E05地點.json"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']})).location; }catch(e){ SPEC2=null; }
 let SPEC=null; try{ SPEC=JSON.parse(cp.execSync('git -c core.quotepath=false show 2e81aac12:"docs/story_planning/AA_727_E05地點.json"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']})).location; }catch(e){ SPEC=null; }
 (async()=>{
   if(SPEC) check('0. 讀稿：遊戲用的句子和 AA_727（2e81aac12）一字不差（兩則、兩個回覆、她的兩句、19:00 那一則）',J(SPEC.msgs)===J(MSGS)&&J(SPEC.opts.map(o=>o.t))===J(OPTS)&&J(SPEC.opts.map(o=>o.say[0]))===J(SAYS)&&(/「([^」]+)」/.exec(SPEC.skip)||[])[1]===SKIPMSG);
   else console.log('NOTE 0. 讀不到 AA_727（2e81aac12 不在這個 checkout）：用測試裡抄的原句');
+  if(SPEC2) check('0. 讀稿：第二版（85ce68113）self 19:00 兩則、制服兩句、noShow 兩則、之後的 P2 選公館兩句，和遊戲用的一字不差',J(SPEC2.self.msgAfter19)===J([SKIPMSG,SKIP2])&&J(SPEC2.self.uniform.lines)===J(UNI)&&J(SPEC2.noShow.msgs)===J(NOSHOW)&&J(SPEC2.p2LaterGongguan.lines)===J(P2L));
+  else console.log('NOTE 0. 讀不到 AA_727 第二版（85ce68113 不在這個 checkout）：用測試裡抄的原句');
   check('0. 9/20 是 Y0S1 第 3 週的週五',STORY.termDay('Y0S1',3,5)===d20&&CALENDAR.dateOf(d20).wd===5);
 
   await sec('1',async()=>{
@@ -103,8 +116,9 @@ let SPEC=null; try{ SPEC=JSON.parse(cp.execSync('git -c core.quotepath=false sho
     let n=0; while(n++<12&&!PHONE.sent(G,'y0_e05_ask')){ await ECONFF.advance(GM); }
     const at17=G.day===d20&&Math.abs(G.hour-17)<1e-6; phoneOpened.length=0;
     await ECONFF.advance(GM);   /* 沒回、關掉手機 */
-    const sk=KX().filter(m=>m.text===SKIPMSG);
+    const sk=KX().filter(m=>m.text===SKIPMSG), sk2=KX().filter(m=>m.text===SKIP2);
     check('6. 一直沒回：下一跳停在 19:00、她傳「'+SKIPMSG+'」、打開她的對話',at17&&G.day===d20&&Math.abs(G.hour-19)<1e-6&&sk.length===1&&Math.abs(sk[0].h-19)<0.02&&phoneOpened[phoneOpened.length-1]==='p:kexin',J({h:G.hour,kx:kxT(),ph:phoneOpened}));
+    check('6. 接著第二則「'+SKIP2+'」（AA_727 self.msgAfter19，85ce68113）',sk2.length===1&&KX().indexOf(sk2[0])===KX().indexOf(sk[0])+1&&Math.abs(sk2[0].h-19)<0.05,J(kxT()));
     check('6. E05 不演；E05_OPEN self；19:00 以後不能再回她的訊息',!played()&&!done5()&&G.flags.E05_OPEN==='self'&&PHONE.answer(G,'y0_e05_ask',0)===null);
     check('6. 第 9 步算做完、下一步是 9/21 系烤',ECONFF.stepDone(G,ECONFF.STEPS.find(s=>s.n===9))&&(ECONFF.next(G)||{}).ev==='ev_y0_e08',J((ECONFF.next(G)||{}).ev));
     G.zone='putong'; G.hour=19.25; check('6. 之後在 putong 也不演',!EVENTS.check(e5));
@@ -116,7 +130,11 @@ let SPEC=null; try{ SPEC=JSON.parse(cp.execSync('git -c core.quotepath=false sho
       check('7. fix（9/20 在 putong 演完）：22:30 E06「今天謝謝你。」「我洗了三次手……」照舊',kxT().includes('今天謝謝你。')&&kxT().includes('我洗了三次手，還是有鏈條油的味道。……你的呢？')&&G.flags.E06_DONE==='e06',J(kxT())); }
     { const G=econ('2024-09-20',19,{P2_PICK:'river'},'dorm'); G.msgs=[]; PHONE.rec(G).q=[]; setAt(d20,17); ph(); runPh(17.25,19.5); const sk=PHONE.sent(G,'y0_e05_skip');
       setAt(d20,20.5); G.zone='campus'; E.player.obj.position={x:-93,y:0,z:56}; ph(); setAt(d20,22.6); G.zone='dorm'; ph(); setAt(d21,9); ph();
-      check('7. self（沒回）：19:00 那一則有；女舍門口不發 D2、22:30／隔天都不發 E06',sk&&G.flags.E05_OPEN==='self'&&!PHONE.sent(G,'y0_d2')&&!PHONE.sent(G,'y0_e06')&&!G.flags.E06_DONE,J(kxT()));
+      check('7. self（沒回）：19:00 那一則有；20:30 經過女舍門口＝D2 照發（AA_727 self.rule，85ce68113：沒提修車）；22:30／隔天都不發 E06',sk&&G.flags.E05_OPEN==='self'&&PHONE.sent(G,'y0_d2')&&kxT().includes('我剛剛在三樓，看到一個很像你的人經過我們宿舍。')&&G.flags.E06_DONE==='d2'&&!PHONE.sent(G,'y0_e06')&&!kxT().includes('今天謝謝你。'),J(kxT()));
+      { const g=econ('2024-09-20',19,{P2_PICK:'river'},'dorm'); setAt(d20,17); ph(); runPh(17.25,19.5); setAt(d20,22.6); ph(); setAt(d21,9); ph(); setAt(d21,20.5); g.zone='campus'; E.player.obj.position={x:-93,y:0,z:56}; ph();
+        check('7. self、那晚沒經過女舍：22:30／隔天都沒有 E06，隔天經過女舍也不發 D2',g.flags.E05_OPEN==='self'&&!PHONE.sent(g,'y0_e06')&&!PHONE.sent(g,'y0_d2')&&!g.flags.E06_DONE,J(kxT())); }
+      { const g=econ('2024-09-20',18.5,{P2_PICK:'river'},'dorm'); setAt(d20,17); ph(); setAt(d20,18.5); g.zone='campus'; E.player.obj.position={x:-93,y:0,z:56}; ph();
+        check('7. 還沒到她那一則（18:30 經過女舍、還能回）：不發 D2',!PHONE.sent(g,'y0_d2')&&!g.flags.E05_OPEN); E.player.obj.position={x:0,y:0,z:0}; }
       const kx=STORY.DAILY_PHONE&&STORY.DAILY_PHONE.find(x=>x.id==='y0_kx_luroufan'); const w4=STORY.termDay('Y0S1',4,2);
       check('7. self：可昕大一上的手機小事（kx1，例：小松滷肉飯）照開；什麼都沒有（沒 E06、沒 self）＝不開',!!kx&&kx.ok(G,w4)&&!kx.ok(Object.assign({},G,{flags:{}}),w4)); }
     { const N='（晚上，你在宿舍洗手上的油。洗了三次，指甲縫還是黑的。）';
@@ -145,11 +163,60 @@ let SPEC=null; try{ SPEC=JSON.parse(cp.execSync('git -c core.quotepath=false sho
     const G=econ('2024-09-20',17.5,{P2_PICK:'river'},'campus'); ph();
     check('9. 9/20 17:30 還沒回：不能回家（homeHold e05）',STORY.homeHold(G)==='e05'&&!HOME.canGo(G));
     G.hour=19.2; check('9. 19:00 以後還沒回（她說沒事了）：可以回家',!STORY.homeHold(G));
-    const g2=econ('2024-09-20',17,{P2_PICK:'river'},'campus'); ph(); PHONE.answer(g2,'y0_e05_ask',0); g2.hour=19.4;
-    check('9. 回了、還沒演：19:00 以後也不能回家（等見面）',STORY.homeHold(g2)==='e05');
+    const g2=econ('2024-09-20',18.8,{P2_PICK:'river'},'campus'); setAt(d20,18.8); ph(); PHONE.answer(g2,'y0_e05_ask',1); g2.hour=19.1;
+    check('9. 18:48 回了、還沒演：19:00 以後也不能回家（等 19:08 的見面）',STORY.homeHold(g2)==='e05');
     g2.flags.E05_OPEN='self'; check('9. self：不擋',!STORY.homeHold(g2));
     const g3=econ('2024-09-20',17,{P2_PICK:'gongguan',E05_OPEN:'fix',E05_DAY:d19,E05_END:17}); g3.events.done.ev_y0_e05=1; ph();
     check('9. 舊存檔（E05 已經演過）：不擋、9/20 不傳訊息、快轉不停第 9 步',!STORY.homeHold(g3)&&!PHONE.sent(g3,'y0_e05_ask')&&ECONFF.stepDone(g3,ECONFF.STEPS.find(s=>s.n===9)));
+  });
+
+  /* ---------- AA_727 第二版（企劃線 85ce68113）---------- */
+  await sec('10',async()=>{
+    { const G=econ('2024-09-20',17,{P2_PICK:'river'},'dorm'); ph(); PHONE.answer(G,'y0_e05_ask',0); runPh(17.25,17.5,1/12);
+      const before=PHONE.sent(G,'y0_e05_noshow'); setAt(d20,17+40/60); ph(); const L=KX().filter(m=>NOSHOW.includes(m.text));
+      check('10. 回了「我過去。」（17:10 見面）、17:40 還沒到 putong：她傳「你不用來了。」「我牽去車行了。……制服下次上課拿給你。」（時間 17:40）；17:30 還沒',!before&&J(L.map(m=>m.text))===J(NOSHOW)&&L.every(m=>Math.abs(m.h-(17+40/60))<0.05),J(kxT()));
+      check('10. noShow 以後＝self：E05_OPEN self、之後到 putong 也不演、快轉第 9 步算做完、不擋回家',G.flags.E05_OPEN==='self'&&(()=>{ G.zone='putong'; const ok=!EVENTS.check(e5); G.zone='dorm'; return ok; })()&&ECONFF.stepDone(G,ECONFF.STEPS.find(s=>s.n===9))&&!STORY.homeHold(G));
+      setAt(d20,20.5); G.zone='campus'; E.player.obj.position={x:-93,y:0,z:56}; ph(); setAt(d20,22.6); G.zone='dorm'; ph();
+      check('10. noShow 的 self 也照 self：D2 照發、E06 不發',PHONE.sent(G,'y0_d2')&&!PHONE.sent(G,'y0_e06'),J(kxT())); E.player.obj.position={x:0,y:0,z:0}; }
+    { const G=econ('2024-09-20',17,{P2_PICK:'river'},'dorm'); ph(); PHONE.answer(G,'y0_e05_ask',0); setAt(d20,17+40/60); G.zone='putong'; ph();
+      check('10. 30 分鐘到了人在 putong（到了、還沒演）：不傳 noShow',!PHONE.sent(G,'y0_e05_noshow')&&!G.flags.E05_OPEN); }
+    { const loc0=global.location; global.location={search:'?nofastecon'};
+      try{ const G=econ('2024-09-20',17,{P2_PICK:'river'},'dorm'); ph(); PHONE.answer(G,'y0_e05_ask',1); const q=OUT.get(G,'y0_e05'); setAt(d20,17+50/60); ph();
+        check('10. ?nofastecon 也一樣：「等我一下，我騎過去。」（17:20）17:50 還沒到＝noShow 兩則、self、出發選單收掉（不再問「出發」）',PHONE.sent(G,'y0_e05_noshow')&&G.flags.E05_OPEN==='self'&&!!q&&q.state==='missed'&&!OUT.due(G),q&&q.state); }
+      finally { global.location=loc0; } }
+  });
+
+  await sec('11',async()=>{
+    const d23=D('2024-09-23'), N='（下課的時候', UL=UNI.join('<br>');
+    { /* 快轉：9/20 19:00 self → 跳到之後的事，跨過 9/23（一）的經濟學原理（自動算出席）→ 之後第一張日期卡下面兩句 */
+      const G=econ('2024-09-20',19.1,{P2_PICK:'river'},'dorm'); G.flags.ECONFF={done:{},lines:[]}; selfF(G); const R=ECONFF.rec(G); for(const s of ECONFF.STEPS){ const t=ECONFF.tOf(G,s); if(t!=null&&t<d20*24+19.1) R.done[s.n]=1; }
+      check('11. 9/20 19:00 以前的課不算（還沒 self）；之後的經濟學原理算',!uW(G,d20*24+10)&&uW(G,d23*24+9));
+      H.cards.length=0; let n=0; while(n++<15&&typeof G.flags.E05_UNIFORM!=='number'&&G.day<d23+10){ const ok=await ECONFF.advance(GM); if(!ok) break; }
+      const withU=H.cards.filter(c=>(c[1]||'').includes(N));
+      check('11. 快轉跨過 9/23 的經濟學原理（自動出席）以後，第一張日期卡下面加制服那兩句（照抄，85ce68113）；記 E05_UNIFORM',withU.length===1&&withU[0][1].endsWith(UL)&&typeof G.flags.E05_UNIFORM==='number'&&G.flags.E05_UNIFORM>=d23&&!!CLS.rec(G).done[(CLS.dayItems(G,d23).find(it=>it.c&&it.c.id==='econ_principles_y0')||{}).key],J({cards:H.cards.map(c=>c[0]+'｜'+c[1]),u:G.flags.E05_UNIFORM}));
+      check('11. 只出一次（之後的卡沒有）',uA(G,'x')==='x'); }
+    { const G=econ('2024-09-23',8,{E05_OPEN:'fix',E05_DAY:d20,E05_END:19}); G.events.done.ev_y0_e05=1; G.flags.ECONFF={done:{},lines:[]}; ECONFF.attendBetween(G,d23*24+13,d23);
+      check('11. fix（E05 演過）：跨過課也不出制服',!G.flags.E05_UNIFORM&&uA(G,'x')==='x'); }
+    { /* 舊流程：真的去上 9/23 的經濟學原理，下課演 ev_y0_e05_uniform */
+      const loc0=global.location; global.location={search:'?nofastecon'};
+      try{ const G=econ('2024-09-23',11.9,{P2_PICK:'river'},'boya'); selfF(G); const it=CLS.dayItems(G,d23).find(x=>x.c&&x.c.id==='econ_principles_y0');
+        H.said.length=0; await CLS.afterClassEvent(GM,it); await settle();
+        check('11. 舊流程：self 以後下一堂經濟學原理下課＝旁白「（下課的時候，她把一個紙袋塞給你……）」＋可昕「洗好了。」；記 E05_UNIFORM',!!it&&H.lines().includes(UNI[0])&&H.said.some(s=>s.t==='洗好了。'&&/可昕/.test(s.who||''))&&typeof G.flags.E05_UNIFORM==='number',J(H.lines()));
+        H.said.length=0; const it2=CLS.dayItems(G,D('2024-09-26')).find(x=>x.c&&x.c.id==='acct_y0'); G.day=D('2024-09-26'); await CLS.afterClassEvent(GM,it2); await settle();
+        check('11. 只一次（9/26 會計下課不再演）',!H.lines().includes(UNI[0]),J(H.lines()));
+        const g2=econ('2024-09-23',11.9,{E05_OPEN:'fix',E05_DAY:d20}); g2.events.done.ev_y0_e05=1; H.said.length=0; await CLS.afterClassEvent(GM,it); await settle();
+        check('11. fix（E05 演過）：下課不演制服',!H.lines().includes(UNI[0])); }
+      finally { global.location=loc0; } }
+  });
+
+  await sec('12',async()=>{
+    const run=async(flags,done)=>{ const g=econ('2024-09-26',15.2,Object.assign({P2_PICK:'home'},flags),'putong'); if(done) g.events.done.ev_y0_e05=1; H.picks=['公館']; const h0=g.hour; await EVENTS.run(p2); await settle(); return {g,L:H.lines(),dh:g.hour-h0}; };
+    { const {L,dh}=await run({E05_OPEN:'fix',E05_DAY:d20},true); const i=L.indexOf(P2L[0]);
+      check('12. 9/26 P2 選公館、E05 已經演過：接 p2LaterGongguan 兩句（照抄，85ce68113），不接 E05；時間往後 1.5 小時',i>=0&&L[i+1]===P2L[1]&&!L.includes(E05L1)&&Math.abs(dh-1.5)<1e-6,J({L:L.slice(-3),dh})); }
+    { const {L}=await run({E05_OPEN:'self',E05_SELF_DAY:d20,E05_SELF_H:19},false);
+      check('12. 9/26 P2 選公館、self：也是那兩句',L.includes(P2L[0])&&L.includes(P2L[1])&&!L.includes(E05L1),J(L.slice(-3))); }
+    { const g=econ('2024-09-19',15.2,{},'putong'); H.picks=['公館','妳真的洗了']; await EVENTS.run(p2); await settle(); const L=H.lines();
+      check('12. 第一次（E05 還沒演）選公館：照舊接 E05，沒有那兩句',L.includes(E05L1)&&!L.includes(P2L[0])); }
   });
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

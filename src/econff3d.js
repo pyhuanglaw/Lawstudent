@@ -174,11 +174,18 @@ const ECONFF=(()=>{
   S.dateLabel=(day,h)=>{ const D=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(day):{m:0,d:0}; const hh=Math.floor(h%24), mm=Math.round((h%1)*60)%60; return D.m+'/'+D.d+'（'+WD[wdOf(day)]+'）'+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0'); };
   /* 跳過的課：自動算出席（不發翹課的轉述）*/
   S.attendBetween=function(G,t1,d0){ if(typeof CLS==='undefined') return 0; const R=CLS.rec(G); let n=0; const d1=Math.floor(t1/24);   /* d0：跳之前那一天（S.advance 是跳完才算，這時 G.day 已經是跳到的那天；原本只算到最後一天，9/2→9/13 只記到 9/12 一堂會計，v9.10.3 發布前 flow_v0_start 查到）*/
-    for(let d=(d0!=null&&d0<G.day)?d0:G.day;d<=d1;d++) for(const it of (CLS.dayItems(G,d)||[])){ if(R.done[it.key]||d*24+it.t1>t1+1e-6) continue; if(it.exam) continue; if(it.c&&it.c.id==='pe_y0s1') S._peSkip=true; R.done[it.key]=1; R.attend[it.c.id]=(R.attend[it.c.id]||0)+1; R.prep[it.c.id]=(R.prep[it.c.id]||0)+1; R.note['skip_'+it.key]=1; n++; }
+    for(let d=(d0!=null&&d0<G.day)?d0:G.day;d<=d1;d++) for(const it of (CLS.dayItems(G,d)||[])){ if(R.done[it.key]||d*24+it.t1>t1+1e-6) continue; if(it.exam) continue; if(it.c&&it.c.id==='pe_y0s1') S._peSkip=true; if(it.c&&S.UNI_CLS.includes(it.c.id)&&S.uniWant(G,d*24+it.t0)) G.flags.E05_UNIFORM='due'; R.done[it.key]=1; R.attend[it.c.id]=(R.attend[it.c.id]||0)+1; R.prep[it.c.id]=(R.prep[it.c.id]||0)+1; R.note['skip_'+it.key]=1; n++; }
     return n; };
   /* AA_644 第 6 節（企劃線 27c0193e9，選 C）：快轉第一次跨過經濟系的體育課（pe_y0s1，attendBetween 自動算出席的那一堂），日期卡多一句，只出一次（r.pe；同一天裡的跳不出日期卡＝這次不算，下一次跨過再出）；?nofastecon 舊流程照 classes3d.js 的 PE_Y0 */
   S.PE_FF='（體育課暖身跑了六圈。韋綸跑在最前面，回頭喊你們快一點。）';
   S.peAdd=function(G,ln){ if(!S._peSkip) return ln; S._peSkip=false; const r=S.rec(G); if(r.pe) return ln; r.pe=1; return [ln,S.PE_FF].filter(Boolean).join('<br>'); };
+  /* AA_727 self.uniform（企劃線 85ce68113；照抄）：9/20 E05 沒演（E05_OPEN 'self'）以後，快轉自動算出席的第一堂和她一起的經濟系課（經濟學原理、初等會計學）＝記 E05_UNIFORM 'due'，
+     之後第一張日期卡下面加兩句（同 KEY_LINES；那張卡本來的句子照留在前面），出過記那一天。真的去上那堂課＝events.js ev_y0_e05_uniform 下課演 */
+  S.UNI_CLS=['econ_principles_y0','acct_y0'];
+  S.UNI_LINES=['（下課的時候，她把一個紙袋塞給你。裡面是那件制服，摺得很整齊。）','「洗好了。」'];
+  S.uniWant=(G,t)=>{ const F=(G&&G.flags)||{}; if(F.E05_OPEN!=='self'||F.E05_UNIFORM) return false; return F.E05_SELF_DAY==null||t>=F.E05_SELF_DAY*24+(+F.E05_SELF_H||0); };   /* 她那一則以後的課才算 */
+  S.uniAdd=function(G,ln){ const F=(G&&G.flags)||{}; if(F.E05_UNIFORM!=='due') return ln; F.E05_UNIFORM=G.day; return [ln].concat(S.UNI_LINES).filter(Boolean).join('<br>'); };
+  S.cardMs=ln=>ln?3200+1600*Math.max(0,String(ln).split('<br>').length-2):1800;   /* 有句子 3.2 秒；三行以上（制服那兩句加在後面）每多一行多 1.6 秒（兩行的照舊） */
   const setT=(G,E,day,h)=>{ if(day!==G.day){ G.day=day; G.weekday=wdOf(day);   /* 0＝週日（game3d 的 WEEK、sleepNow 都是 0；原本 ||7 會錯開，AA-C 10-18 回報）*/ G.energy=100; if(G.flags) G.flags.companion=null; G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(day))?'rain':'clear'; } G.hour=h; if(E) E.hour=G.hour; };
   /* 往前跳到 (day,h)：每 15 分鐘走一格，整點跑手機規則；收到要回的訊息就停（回傳 'msg'）*/
   /* 跳完落在晚上（20:00 以後、06:00 以前）、跳了一大段（bigJump）、那一步沒指定地點、人不在宿舍、還住宿舍（10/31 退宿以前）＝回宿舍；
@@ -217,13 +224,13 @@ const ECONFF=(()=>{
       S.attendBetween(G,G.day*24+G.hour,d0);
       if(S.nightHome(G,bigJump(),res==='msg'?null:sz)&&GM.enter) await GM.enter('dorm',undefined,{noFade:true});   /* 跳了一大段、落在晚上、那一步沒指定地點：先回宿舍（BB-B 11-07 BB_255：跳到 9/12 21:00 人還在 9/9 上課的博思教學館裡）*/
       if(res==='msg'){ if(GM.updateHUD) GM.updateHUD();
-        { let ln=S.short(G)?S.cardLine(G,d0,G.day,now-d0*24,G.hour):S.lineFor(G,d0,G.day); if(ln&&!S.short(G)) r.lines.push(ln); if(G.day!==d0) ln=S.peAdd(G,ln); if(GM.titleCard&&bigJump()) await GM.titleCard(S.dateLabel(G.day,G.hour),ln||'',ln?3200:1800); }   /* AA_348 B2：停在手機訊息上也先出日期卡＋那一句（原本直接打開手機，玩家看不到今天幾號，9/2～10/28 的四句典型玩家都看不到；同 home3d.js 的 y0Jump）*/
+        { let ln=S.short(G)?S.cardLine(G,d0,G.day,now-d0*24,G.hour):S.lineFor(G,d0,G.day); if(ln&&!S.short(G)) r.lines.push(ln); if(G.day!==d0) ln=S.peAdd(G,ln); if(bigJump()) ln=S.uniAdd(G,ln); if(GM.titleCard&&bigJump()) await GM.titleCard(S.dateLabel(G.day,G.hour),ln||'',S.cardMs(ln)); }   /* AA_348 B2：停在手機訊息上也先出日期卡＋那一句（原本直接打開手機，玩家看不到今天幾號，9/2～10/28 的四句典型玩家都看不到；同 home3d.js 的 y0Jump）*/
         await GM.fade(false); if(GM.phoneThread) GM.phoneThread(S.newestTh(G),{skip:true}); else if(GM.openPhone) GM.openPhone(); return true; }   /* AA_300 第 6 節：直接打開那一段對話，按「跳過」關掉、繼續跳 */   /* 收到要回的訊息：先回，回完下一次再接 */
       if(sz&&G.zone!==sz&&GM.enter) await GM.enter(sz,sat?Object.assign({lv:0},sat):undefined,{noFade:true});
       else if(sat&&E&&E.placeAt){ E.placeAt(E.player,sat.x,sat.z,0); E.player.obj.rotation.y=sat.yaw||0; }
-      let line=S.short(G)?S.cardLine(G,d0,G.day,now-d0*24,G.hour):S.lineFor(G,d0,G.day); if(line&&!S.short(G)) r.lines.push(line); if(G.day!==d0) line=S.peAdd(G,line);   /* AA_300 第 4 節的句子（cardLine 自己記用過）*/
+      let line=S.short(G)?S.cardLine(G,d0,G.day,now-d0*24,G.hour):S.lineFor(G,d0,G.day); if(line&&!S.short(G)) r.lines.push(line); if(G.day!==d0) line=S.peAdd(G,line); if(bigJump()) line=S.uniAdd(G,line);   /* AA_727：制服那兩句（有日期卡才出）*/   /* AA_300 第 4 節的句子（cardLine 自己記用過）*/
       if(GM.updateHUD) GM.updateHUD(); if(E&&E.setWeather) E.setWeather(G.weather);
-      if(GM.titleCard&&bigJump()) await GM.titleCard(S.dateLabel(G.day,G.hour),line||'',line?3200:1800);   /* 同一天往後跳兩小時以上也出日期卡（BB-B 11-07 BUG-Y0-DAYSKIP-CARD-1107：9/20 18:30 按「走出房間」→ 23:00 沒有卡）；句子照舊只有跨日才有（cardLine）*/
+      if(GM.titleCard&&bigJump()) await GM.titleCard(S.dateLabel(G.day,G.hour),line||'',S.cardMs(line));   /* 同一天往後跳兩小時以上也出日期卡（BB-B 11-07 BUG-Y0-DAYSKIP-CARD-1107：9/20 18:30 按「走出房間」→ 23:00 沒有卡）；句子照舊只有跨日才有（cardLine）*/
       else if(GM.titleCard&&x&&x.card) await GM.titleCard(x.card[0],x.card[1]||'',2400);   /* 約好的見面（E05 普通教學館前）：同出遊的字卡（地點＋路程）*/
       await GM.fade(false); } finally { if(sb) GM.sceneEnd(); } }
     else if(x&&sz&&G.zone!==sz&&GM.enter){ const sb=!!(GM.sceneBegin&&GM.sceneEnd); if(sb) GM.sceneBegin(); try{ await GM.fade(true); await GM.enter(sz,sat?Object.assign({lv:0},sat):undefined,{noFade:true}); if(GM.titleCard&&x.card) await GM.titleCard(x.card[0],x.card[1]||'',2400); await GM.fade(false); } finally { if(sb) GM.sceneEnd(); } }   /* 見面的時間已經到了、人還不在那裡：帶過去 */
