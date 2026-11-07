@@ -1813,3 +1813,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 87.2s] page close url=http://127.0.0.1:54116/index.html | [gpu_wrap 87.2s] BROWSER DISCONNECTED | [gpu_wrap 131.1s] page close url=http://127.0.0.1:54116/index.html?nobldg | [gpu_wrap 131.1s] BROWSER DISCONNECTED
 - 2026-11-07T19:39:53  WZ_SLIM2_before  sha=8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a  exit=0  132s      [  93.2s] [slim_before night] crowd：這個時段 12 m 內最多只有 3 人（不到 5 人，沒另外拍）；spawn 那個鏡頭入鏡 6 人——人物多的鏡頭就看 spawn / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 93.7s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 93.7s] BROWSER DISCONNECTED
+- 2026-11-07T19:41:52  WZ_SLIM2_after  sha=8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a  exit=0  171s      [  96.8s] [slim_after night] crowd：這個時段 12 m 內最多只有 3 人（不到 5 人，沒另外拍）；spawn 那個鏡頭入鏡 6 人——人物多的鏡頭就看 spawn / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 128.0s] page close url=http://127.0.0.1:50814/index.html | [gpu_wrap 128.0s] BROWSER DISCONNECTED

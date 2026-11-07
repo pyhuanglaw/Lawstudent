@@ -1,0 +1,184 @@
+{
+ "tag": "slim_after",
+ "sha": "",
+ "day": {
+  "fps": {
+   "frames": 82,
+   "fpsAvg": 27,
+   "fpsMin": 15,
+   "msWorst": 66.7,
+   "calls": 384,
+   "tris": 620368
+  },
+  "spawn": {
+   "dc": {
+    "total": {
+     "calls": 344,
+     "tris": 552986
+    },
+    "shadow": {
+     "calls": 60,
+     "tris": 84397,
+     "passes": 1
+    },
+    "main": {
+     "calls": 284,
+     "tris": 468589
+    },
+    "npcVis": 7,
+    "outlineMats": 13,
+    "outlineInVisibleChars": 35,
+    "outlineOnCasters": 5,
+    "shadowsOn": true
+   },
+   "cam": {
+    "eye": [
+     49.07,
+     2.78,
+     -1
+    ],
+    "look": [
+     44,
+     1.2,
+     -1
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "lum": [
+    94.3,
+    45.1
+   ]
+  },
+  "lane": {
+   "dc": {
+    "total": {
+     "calls": 193,
+     "tris": 241453
+    },
+    "shadow": {
+     "calls": 47,
+     "tris": 50877,
+     "passes": 1
+    },
+    "main": {
+     "calls": 146,
+     "tris": 190576
+    },
+    "npcVis": 0,
+    "outlineMats": 13,
+    "outlineInVisibleChars": 0,
+    "outlineOnCasters": 0,
+    "shadowsOn": true
+   },
+   "cam": {
+    "eye": [
+     38,
+     2.2,
+     -1
+    ],
+    "look": [
+     74,
+     1.5,
+     -1
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "lum": [
+    89.3,
+    46.4
+   ]
+  }
+ },
+ "night": {
+  "fps": {
+   "frames": 104,
+   "fpsAvg": 34.5,
+   "fpsMin": 20,
+   "msWorst": 50.1,
+   "calls": 283,
+   "tris": 518486
+  },
+  "spawn": {
+   "dc": {
+    "total": {
+     "calls": 347,
+     "tris": 549419
+    },
+    "shadow": {
+     "calls": 66,
+     "tris": 57002,
+     "passes": 1
+    },
+    "main": {
+     "calls": 281,
+     "tris": 492417
+    },
+    "npcVis": 6,
+    "outlineMats": 13,
+    "outlineInVisibleChars": 30,
+    "outlineOnCasters": 0,
+    "shadowsOn": true
+   },
+   "cam": {
+    "eye": [
+     49.07,
+     2.78,
+     -1
+    ],
+    "look": [
+     44,
+     1.2,
+     -1
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "lum": [
+    80.5,
+    42.1
+   ]
+  },
+  "lane": {
+   "dc": {
+    "total": {
+     "calls": 264,
+     "tris": 342901
+    },
+    "shadow": {
+     "calls": 66,
+     "tris": 57002,
+     "passes": 1
+    },
+    "main": {
+     "calls": 198,
+     "tris": 285899
+    },
+    "npcVis": 1,
+    "outlineMats": 13,
+    "outlineInVisibleChars": 5,
+    "outlineOnCasters": 0,
+    "shadowsOn": true
+   },
+   "cam": {
+    "eye": [
+     38,
+     2.2,
+     -1
+    ],
+    "look": [
+     74,
+     1.5,
+     -1
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "lum": [
+    84.9,
+    48.5
+   ]
+  }
+ }
+}
