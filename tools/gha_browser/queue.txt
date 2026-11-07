@@ -11,3 +11,5 @@ GV_yizhan_e9b3 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_p
 # ===== CC-B 11-07 13:2x：v9.10.22 上線（main 74cb8314d，Pages 13:20:16 UTC）；使用者電腦 19:41（台灣）後停住 → D139 丟 GitHub（LAWWW-B 13:21）=====
 LIVE_V91022_deploy | 74cb8314d578f63448802d95a38ba8fcbaa6bf03 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.22（2026-11-07）
 LIVE_V91022_p0 | 74cb8314d578f63448802d95a38ba8fcbaa6bf03 | game | tests/p0_movement.py | index.html | 40 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html
+# ===== CC-B 11-07 13:4x：WZ_TPOSE（BB-B 13:29；PC 停住 → GitHub 功能性先跑）=====
+WZ_TPOSE_6da_gha | 6da721819b8d351fe12e0b848ca7e06f52553819 | probe | docs/story_planning/test_tools/cc/cc_tpose_probe.py | index.html | 20 |

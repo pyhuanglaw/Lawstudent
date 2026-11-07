@@ -17,7 +17,7 @@ J = D.J
 R = L.Run('tpose', OUT); D.setup(R, OUT)
 ZONE = os.environ.get('ZONE') or 'wenzhou'; DAY = os.environ.get('DAY') or '2025-10-18'; H = float(os.environ.get('HOUR') or 11)
 TARGET = [float(x) for x in (os.environ.get('TARGET') or '-8,2.2,4.6').split(',')]
-TIMES = [int(x) for x in (os.environ.get('AT') or '5,20,60').split(',')]
+TIMES = [int(x) for x in (os.environ.get('AT') or '0,5,20,60').split(',')]
 
 CLEAR = r"""((o)=>{ const z=GAME.E.zone; const meshes=[]; z.group.traverse(q=>{ if(q.isMesh&&q.visible&&!/VIEW|sky/i.test(q.name||'')) meshes.push(q); }); const rc=new THREE.Raycaster();
   for(let k=0;k<16;k++){ const a=o.a0+(k%2?1:-1)*Math.ceil(k/2)*0.39; const ex=o.c[0]+Math.cos(a)*o.d, ez=o.c[1]+Math.sin(a)*o.d; const eye=new THREE.Vector3(ex,o.h,ez), t=new THREE.Vector3(o.c[0],1.2,o.c[1]); const dir=t.clone().sub(eye); const L=dir.length(); rc.set(eye,dir.normalize()); rc.far=L-1.5;
@@ -29,10 +29,11 @@ NPCS = r"""((onlyVis)=>{ const E=GAME.E, cam=E.camera; const fr=new THREE.Frustu
   for(const n of (E.npcs||[])){ const o=n&&n.obj; if(!o) continue; S.center.set(o.position.x,o.position.y+0.9,o.position.z); S.radius=1.0; const inView=o.visible&&fr.intersectsSphere(S);
     if(onlyVis&&!inView) continue;
     const u=o.userData||{}; const an=u.anim||{}; const acts=u.actions||an.actions||null; const mixer=u.mixer||an.mixer||null;
-    let playing=[]; if(acts) for(const k in acts){ const a=acts[k]; try{ const w=a.getEffectiveWeight?a.getEffectiveWeight():null; if(a.isRunning&&a.isRunning()||(w&&w>0.01)) playing.push({clip:k, w:w!=null?+w.toFixed(2):null, run:!!(a.isRunning&&a.isRunning()), t:+(a.time||0).toFixed(2)}); }catch(e){} }
+    let playing=[]; if(acts) for(const k in acts){ const a=acts[k]; try{ const w=a.getEffectiveWeight?a.getEffectiveWeight():null; if(a.isRunning&&a.isRunning()&&w>0.01) playing.push({clip:k, w:w!=null?+w.toFixed(2):null, run:!!(a.isRunning&&a.isRunning()), t:+(a.time||0).toFixed(2)}); }catch(e){} }
+    let arm=null; try{ const hm=u.vrm&&u.vrm.humanoid; if(hm){ const f=s=>{ const a=hm.getRawBoneNode(s+'UpperArm'), b=hm.getRawBoneNode(s+'LowerArm'); if(!a||!b) return null; const pa=a.getWorldPosition(new THREE.Vector3()), pb=b.getWorldPosition(new THREE.Vector3()); const d=pb.sub(pa).normalize(); return +(Math.asin(Math.max(-1,Math.min(1,d.y)))*180/Math.PI).toFixed(0); }; arm=[f('left'),f('right')]; } }catch(e){}
     const mf=(typeof ASSETS!=='undefined'&&ASSETS.manifest&&u.key)?ASSETS.manifest[u.key]:null;
     out.push({id:n.id||null, charId:n.charId||null, pos:[+o.position.x.toFixed(2),+o.position.z.toFixed(2)], dist:+Math.hypot(o.position.x-cam.position.x,o.position.z-cam.position.z).toFixed(1), inView, beh:n.beh||null, pose:n.pose||null, speed:n.speed||0,
-      driver:u.driver||null, key:u.key||null, url:mf?String(mf.url||'').split('/').pop():null, placeholder:!!u.placeholder, failed:!!u.failed, isFar:!!u.isFar, cur:an.cur||u.cur||null, hasMixer:!!mixer, nActions:acts?Object.keys(acts).length:0, playing});
+      driver:u.driver||null, key:u.key||null, url:mf?String(mf.url||'').split('/').pop():null, placeholder:!!u.placeholder, failed:!!u.failed, isFar:!!u.isFar, cur:an.cur||u.cur||null, arm, tpose:!!(arm&&arm[0]!=null&&arm[0]>-35&&arm[1]>-35), hasMixer:!!mixer, nActions:acts?Object.keys(acts).length:0, playing});
   }
   return out; })"""
 
@@ -65,12 +66,12 @@ async def main():
                     await pg.evaluate(D.CAM, {'eye': eye, 'look': look, 'lens': 24})
                     vis = await pg.evaluate(NPCS, True); allv = await pg.evaluate(NPCS, False)
                     await pg.evaluate(D.UNCAM)
-                    still = [n for n in allv if not n['playing']]
+                    still = [n for n in allv if n.get('tpose') or (not n['playing'] and n['pose'] not in ('sit',))]   # 坐著的是靜態坐姿（沒有 action、手臂往下），不算
                     R.note('[%ds] 畫面裡 NPC %d 個：%s' % (at, len(vis), J(vis)))
-                    R.note('[%ds] 整區 NPC %d 個，沒有任何 action 在播的 %d 個：%s' % (at, len(allv), len(still), J([{k: n[k] for k in ('id', 'charId', 'pos', 'beh', 'pose', 'driver', 'url', 'placeholder', 'isFar', 'cur', 'hasMixer', 'nActions')} for n in still])))
+                    R.note('[%ds] 整區 NPC %d 個，上臂接近水平（T 字，上臂和水平夾角 > -35°）或沒坐著卻沒有 action 在播的 %d 個：%s' % (at, len(allv), len(still), J([{k: n[k] for k in ('id', 'charId', 'pos', 'beh', 'pose', 'driver', 'url', 'placeholder', 'isFar', 'cur', 'hasMixer', 'nActions', 'arm', 'tpose')} for n in still])))
                     rec['shots'].append({'at': at, 'cam': cam, 'visible': vis, 'noAction': still, 'nAll': len(allv)})
                 last = rec['shots'][-1] if rec['shots'] else None
-                if last: R.check('60 秒時整區沒有「沒在播任何動作」的 NPC（T 字的候選）', not last['noAction'], J([n['id'] for n in last['noAction']]))
+                if last: R.check('每一個時間點整區都沒有 T 字候選（沒在播動作或上臂接近水平）', not any(x['noAction'] for x in rec['shots']), J([(x['at'], [(n['url'], n['pos'], n['arm']) for n in x['noAction']]) for x in rec['shots'] if x['noAction']]))
             R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     json.dump(rec, open(os.path.join(OUT, 'tpose.json'), 'w'), ensure_ascii=False, indent=1)
