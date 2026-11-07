@@ -56,6 +56,8 @@ EVSLEEP_c82 | c82a39be1a59e1e679a640175e5ab7897a103b6b | probe | docs/story_plan
 EVSLEEP_LATER_c82 | c82a39be1a59e1e679a640175e5ab7897a103b6b | probe | docs/story_planning/test_tools/cc/cc_pt1107b_probe.py | index.html | 40 | DAYSHIFT=-14;SLOT=ev;LATER=1;CC_HEADLESS=0
 #   BB-B 06:07 GYMUSE_3880：B1 健身中心器材一台一台用（388087110；有視窗）
 GYMUSE_3880 | 38808711072fa54b74ff60892417beefaebae813 | probe | docs/story_planning/test_tools/cc/cc_gymuse_probe.py | index.html | 40 | CC_HEADLESS=0
+#   BB-B 06:08（41bfc5cbe）：3F 主球場籃架（平常放下、典禮收起）；祐廷體態四階（探針雲端試跑中，過了再排 FITMORPH）
+GYM3F_HOOP_41bf | 41bfc5cbe635a410046dba106e14575e9474f4ee | probe | docs/story_planning/test_tools/cc/cc_gym3f_hoop_probe.py | index.html | 30 | CC_HEADLESS=0
 #   BB-B 05:35：afar 約會 ②窗邊長桌多試幾次——換約的人（時段、她挑的位子跟著變），ID 不同不會輪流重跑
 GG2_afar_date_01 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_01;RERUN=w01;CC_HEADLESS=0
 GG2_afar_date_03 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_03;RERUN=w03;CC_HEADLESS=0
