@@ -48611,7 +48611,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "【11-07 03:4x LAWWW-B】查 CLS 時段／行動次數（DEC-SLOTS-1018 slotFillSpan）怎麼算約會，改成約好的出遊、約念書都佔一個行動；用完自動推進到下一個時段（不要卡著）",
+   "next": "【11-07 03:5x LAWWW-B 查核】一天三時段各 1 次（SLOT_BASE classes3d.js:1266，考試週多 1 次只能自習）；slotUse 扣 1（自習、健身、自由出行）、slotFill／slotFillSpan 填滿（上課、活動、打工、出遊、校外約會）；**約好的見面完全不算**（classes3d.js:1263、1291 說明文字也這樣寫；INV.meet invites3d.js:336-363、meetEv 318-327、期末飯 338、outings goto 141 都沒扣）；次數用完只灰掉選項，queueJump（1283）只在自習健身後、只管上午下午。改法：S.meet 記 h0、演完 slotUse(slotPlan(...,'meet').uses)＋queueJump；meetEv、期末飯照做；timeOptions／pickDay 今天已滿的時段灰掉；outings goto 補 fill；slotUse／slotFill 結尾自動 queueJump，queueJump／jumpTarget 加晚上（跳到就寢或回宿舍提示），下課選單還在時 afterSlot 延後｜【11-07 03:4x LAWWW-B】查 CLS 時段／行動次數（DEC-SLOTS-1018 slotFillSpan）怎麼算約會，改成約好的出遊、約念書都佔一個行動；用完自動推進到下一個時段（不要卡著）",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -48688,7 +48688,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "【11-07 03:4x LAWWW-B】列出遊戲裡所有能進的店面／讀書地點 × 邀約清單（invites3d、date、study）對照表，缺的補進去；電影院要有看電影的流程",
+   "next": "【11-07 03:5x LAWWW-B 查核】INV 可約：2:30 AM、總圖、法圖、慢讀、afar、青木（先去過）、木曜日（先去過）念書；公館燒臘、SUNNY、Daybreak（只在吃飯類、有點熟、09／10／11:30／13）、日常失速、Pasta118（交往中）吃飯；一盞坐坐；溫州街、映月湖散步；羽球、晨跑運動。不能約：118 巷滇香、好家自助餐、巷口家常菜、韓食小廚、蛋包飯研究所、六張犁麵舖、一一八茶飲、林家乾麵、小路、大口漢堡（吃飯）；社科院圖書館 1F／2F、library_b1、linze_3f／4f、大口 2F、頁間書屋、Daybreak（念書）；頁間、山嵐（看書聊天）；南洋戲院（沒有電影類，invites.js:573，seatOpen.movie／movieEnd／bookstore 開場句已寫沒接）；健身房、游泳池、主球場、新生運動廣場（運動）。Daybreak 約不到的原因：兩人單獨類型＋可昕交往被知道就擋（invites3d.js:87-93）、14:00 後只能約明天。法圖被歸成咖啡、映月湖沒歸散步（invites3d.js:352）加的數值不對｜【11-07 03:4x LAWWW-B】列出遊戲裡所有能進的店面／讀書地點 × 邀約清單（invites3d、date、study）對照表，缺的補進去；電影院要有看電影的流程",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -48707,9 +48707,9 @@
    "title": "一起讀書、一起活動每次都不一樣、有進展、會觸發劇情；約念書中間和讀完要有對話；總圖每次講一樣的話；看第幾次可以告白、要有友情戀愛進度（進度條）（使用者第二則原話：「就算一起念書五次還是覺得很不熟啊 我希望每一次念書或者一起活動都要有不同 進展的感覺 會觸發劇情 然後看第幾次可以告白?」）",
    "area": "PLAYTEST",
    "owner": "AA",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
-   "next": "【11-07 03:4x LAWWW-B】AA 寫每位女主的進展骨架（D109）；LAWWW 查現在告白門檻、進度數值，做進度條、把台詞接到約念書中間／讀完",
+   "next": "【11-07 03:5x LAWWW-B 查核】只有總圖走坐下流程（meetOpen→lead→seated→meetLine 每人每階段 1 句→mid 4 則隨機→pack／bye）；其他約念書地點沒有、也不算讀書時數；沒有第幾次的台詞。關係：總圖念書 熟悉+3 信任+2 自在+1、日常不加戀愛（朋友以上單獨見面雙方戀愛各+1／天）；告白＝期末心意邀約（她的戀愛≥30＋校外約會≥4 含心願地點，termend3d.js:66-71），TERMEND.ON 約會結尾不告白。念 5 次＝有點熟（和使用者感受一致）。進度條已有（手機朋友→人物頁，game3d.js:701-714、date3d.js:52-74）但朋友以前戀愛條 0 沒提示、第 5 階以後照舊的第 6 階規則（55／30）會誤導。AA_706 骨架＋LAWWW 欄位規格已給 AA（03:5x，JSON：docs/story_planning/AA_707_study_scenes.json）｜【11-07 03:4x LAWWW-B】AA 寫每位女主的進展骨架（D109）；LAWWW 查現在告白門檻、進度數值，做進度條、把台詞接到約念書中間／讀完",
    "first": {
     "term": "Y1S1",
     "week": 6,
