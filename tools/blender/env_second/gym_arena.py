@@ -189,11 +189,98 @@ for k in range(4):
     xf = Xf(0.0, -2.0, k * math.pi / 2)
     img_quad(f'score_{k}', M['score'], [xf.p(-2.4, 13.5, 2.62), xf.p(2.4, 13.5, 2.62), xf.p(2.4, 16.1, 2.62), xf.p(-2.4, 16.1, 2.62)])
 for (dx, dz) in ((-2.0, -2.0), (2.0, -2.0), (-2.0, 2.0), (2.0, 2.0)): acc('steel_dk').cyl((dx, 16.4, -2.0 + dz), (dx * 1.6, HH - 1.8, -2.0 + dz * 1.6), 0.02, seg=4)
-# 籃架（吊掛式，收在上面——平常是活動場地，所以吊高；比賽時放下來）
+# 籃架（ART-ARENA-HOOPS-1105，LAWWW2-B 2026-11-07；使用者 11-05「主球場一群人跑來跑去 連籃框都沒有 還有人穿裙子打籃球??」）：
+#   屋頂吊下來的籃架、放下來的樣子（v1–v8 是「收在上面」：籃板吊在 17.6 m、大螢幕上方，沒有籃框——從場上看就是沒有籃框）。
+#   尺寸照比賽規格：籃框上緣 3.05 m、內徑 45 cm；籃板 1.80×1.05 m、下緣 2.90 m、板面在端線內 1.20 m；籃框中心離板面 37.5 cm（gym_layout 的 hoops）；
+#   板上白線：外框、籃框上方的小方框（59×45 cm，下緣和籃框同高）；籃板下緣、兩側下段有深藍護墊；籃網 12 個掛鉤、兩段菱形網目。
+#   吊架：籃板後面的框 → 兩支水平臂 → 兩支直立主桿（板後 1.1 m）一路到屋頂；主桿之間交叉斜撐；往端牆那一側的斜撐到下一榀桁架；
+#   左右兩條防晃拉索；屋頂兩支 H 型鋼橫梁跨在兩榀桁架的下弦上（桁架每 6 m，籃架剛好在兩榀中間）；橫梁上一台捲揚機（收放用）。
+#   整組在 SET_HOOPS：不和別的材質合併（遊戲可以整組開關）；烘焙時藏起來（bake_gym.sh 的 HIDE 'SET_'）、不吃光照貼圖。
+#   典禮那天北端有舞台（籃架會在舞台前緣上方），遊戲把 SET_HOOPS 收起來（wip/arena_hoops_1107 的 gym3d.js patch）。地上沒有東西：導航不用改。
+hg = B.group('SET_HOOPS', root, {'set': 'hoops'})
+HM = {'glass': M['glass'], 'frame': M['steel'], 'mast': L.flat(P + 'hoop_mast', '#2f3a4a', rough=0.45, metal=0.35),
+      'line': L.flat(P + 'hoop_line', '#f4f4f1', rough=0.5), 'rim': L.flat(P + 'hoop_rim', '#d9541e', rough=0.4, metal=0.3),
+      'net': L.flat(P + 'hoop_net', '#f2f2ee', rough=0.95), 'pad': L.flat(P + 'hoop_pad', '#1d2b52', rough=0.85), 'winch': L.flat(P + 'hoop_winch', '#4a5058', rough=0.5, metal=0.3)}
+hm = {k: Mesh('SET_HOOPS_' + k, m) for k, m in HM.items()}
+TRUSS_Z = [NZ + 3.0 + 6.0 * k for k in range(12)]                 # 桁架的位置（和上面屋頂的迴圈一樣）
+YC = HH - 1.8 - 0.12                                                # 桁架下弦的底面
 for (hx, hz) in A['court']['hoops']:
-    s = 1 if hz < 0 else -1; bz = hz - s * 0.375
-    acc('glass').box(hx - 0.9, hx + 0.9, 17.6, 18.65, bz - 0.025, bz + 0.025); acc('steel').box(hx - 0.92, hx + 0.92, 17.56, 17.62, bz - 0.03, bz + 0.03)   # v2：收到大螢幕上面（v1 擋在螢幕前）
-    for dx in (-0.6, 0.6): acc('steel').cyl((hx + dx, 18.65, bz - s * 0.05), (hx + dx * 1.3, HH - 1.8, bz - s * 0.05), 0.05, seg=8)
+    s = 1 if hz < 0 else -1                                         # 往場中央的方向（北邊那一個 +z）
+    bz = hz - s * 0.375                                             # 板面（面向場中央）
+    gl, fr, ms, ln, rm, nt, pd, wn = (hm[k] for k in ('glass', 'frame', 'mast', 'line', 'rim', 'net', 'pad', 'winch'))
+    zb = lambda d: bz - s * d                                       # 板面往後 d 公尺
+    zmin = lambda a, b: (min(a, b), max(a, b))
+    # 籃板：強化玻璃 2.5 cm＋鋁框
+    gl.box(hx - 0.9, hx + 0.9, 2.90, 3.95, *zmin(zb(0.0), zb(0.025)))
+    for (x0, x1, y0, y1) in ((hx - 0.92, hx + 0.92, 3.95, 3.97), (hx - 0.92, hx - 0.9, 2.90, 3.97), (hx + 0.9, hx + 0.92, 2.90, 3.97)):
+        fr.box(x0, x1, y0, y1, *zmin(zb(-0.004), zb(0.03)))
+    # 白線（板面前 2 mm）：外框 5 cm、小方框 59×45（線 5 cm；下緣上沿＝籃框上緣 3.05）
+    zl = zb(-0.002)
+    def hline(x0, x1, y0, y1):
+        q = [(x0, y0, zl), (x1, y0, zl), (x1, y1, zl), (x0, y1, zl)]
+        ln.quad(q if s < 0 else q[::-1])
+    for (x0, x1, y0, y1) in ((hx - 0.9, hx + 0.9, 3.90, 3.95), (hx - 0.9, hx + 0.9, 2.90, 2.95), (hx - 0.9, hx - 0.85, 2.95, 3.90), (hx + 0.85, hx + 0.9, 2.95, 3.90),
+                             (hx - 0.295, hx + 0.295, 3.00, 3.05), (hx - 0.295, hx + 0.295, 3.40, 3.45), (hx - 0.295, hx - 0.245, 3.05, 3.40), (hx + 0.245, hx + 0.295, 3.05, 3.40)):
+        hline(x0, x1, y0, y1)
+    # 護墊：下緣一整條、兩側到 3.25 m（往前凸 3 cm、往後包住）
+    Xf(0, 0).rbox(pd, hx - 0.93, hx + 0.93, 2.82, 2.905, *zmin(zb(-0.035), zb(0.06)), r=0.02, seg=2)
+    for sx in (-1, 1):
+        Xf(0, 0).rbox(pd, min(hx + sx * 0.905, hx + sx * 0.955), max(hx + sx * 0.905, hx + sx * 0.955), 2.82, 3.25, *zmin(zb(-0.035), zb(0.06)), r=0.015, seg=2)
+    # 籃框：圈（管徑 1.8 cm）＋板面上的固定板＋兩支斜撐；掛網的 12 個鉤
+    R = 0.225 + 0.009; ny = 3.05 - 0.009; NS = 24
+    for k in range(NS):
+        a0, a1 = 2 * math.pi * k / NS, 2 * math.pi * (k + 1) / NS
+        rm.cyl((hx + R * math.cos(a0), ny, hz + R * math.sin(a0)), (hx + R * math.cos(a1), ny, hz + R * math.sin(a1)), 0.009, seg=6, caps=False)
+    rm.box(hx - 0.14, hx + 0.14, 2.92, 3.08, *zmin(zb(-0.012), zb(0.0)))                       # 固定板
+    rm.box(hx - 0.07, hx + 0.07, ny - 0.012, ny + 0.006, *zmin(zb(-0.012), zb(-0.15)))          # 頸部（板面到圈的後緣 15 cm）
+    for sx in (-1, 1): rm.cyl((hx + sx * 0.10, 2.94, zb(-0.012)), (hx + sx * 0.05, ny - 0.01, zb(-0.13)), 0.008, seg=5)
+    # 籃網：圈 → 中段（低 20 cm、半徑 0.19）→ 下緣（低 42 cm、半徑 0.15）；菱形（每一段往左右各斜一格）
+    rings = [(ny - 0.01, R - 0.005), (ny - 0.21, 0.19), (ny - 0.42, 0.15)]
+    NK = 12
+    for (ya, ra), (yb, rb) in zip(rings[:-1], rings[1:]):
+        for k in range(NK):
+            a = 2 * math.pi * k / NK
+            for d in (-0.5, 0.5):
+                b = 2 * math.pi * (k + d) / NK
+                nt.cyl((hx + ra * math.cos(a), ya, hz + ra * math.sin(a)), (hx + rb * math.cos(b), yb, hz + rb * math.sin(b)), 0.0045, seg=4, caps=False)
+    for k in range(NK):                                                                       # 下緣一圈
+        a0, a1 = 2 * math.pi * (k + 0.5) / NK, 2 * math.pi * (k + 1.5) / NK
+        nt.cyl((hx + 0.15 * math.cos(a0), ny - 0.42, hz + 0.15 * math.sin(a0)), (hx + 0.15 * math.cos(a1), ny - 0.42, hz + 0.15 * math.sin(a1)), 0.004, seg=4, caps=False)
+    # 板後的框：兩根橫的、兩根直的（6 cm 方管）
+    zf0, zf1 = zmin(zb(0.04), zb(0.10))
+    for y in (3.00, 3.86): fr.box(hx - 0.62, hx + 0.62, y, y + 0.06, zf0, zf1)
+    for dx in (-0.6, 0.6): fr.box(hx + dx - 0.03, hx + dx + 0.03, 2.98, 3.94, zf0, zf1)
+    # 水平臂：框 → 主桿（板後 1.1 m）；上面那一支斜一點往上
+    zm = zb(1.1)
+    for dx in (-0.4, 0.4):
+        ms.box(hx + dx - 0.035, hx + dx + 0.035, 3.02, 3.09, *zmin(zb(0.10), zm))
+        ms.cyl((hx + dx, 3.90, zb(0.10)), (hx + dx, 4.60, zm), 0.032, seg=8)
+    # 主桿（8 cm 方管）一路到屋頂橫梁；中間交叉斜撐（每 3 m 一格）
+    YT = YC - 0.30
+    for dx in (-0.4, 0.4): ms.box(hx + dx - 0.04, hx + dx + 0.04, 2.98, YT, zm - 0.04, zm + 0.04)
+    y = 4.6
+    while y + 3.0 <= YT:
+        ms.cyl((hx - 0.4, y, zm), (hx + 0.4, y + 3.0, zm), 0.018, seg=5); ms.cyl((hx + 0.4, y, zm), (hx - 0.4, y + 3.0, zm), 0.018, seg=5)
+        ms.box(hx - 0.4, hx + 0.4, y - 0.03, y + 0.03, zm - 0.03, zm + 0.03); y += 3.0
+    ms.box(hx - 0.4, hx + 0.4, y - 0.03, y + 0.03, zm - 0.03, zm + 0.03)
+    # 屋頂：兩榀桁架（籃架前後各一榀）之間的 H 型鋼橫梁（翼板＋腹板），主桿掛在上面；捲揚機
+    za = max(t for t in TRUSS_Z if (t - zm) * s < 0) if s > 0 else min(t for t in TRUSS_Z if (t - zm) * s < 0)   # 端牆那一側的桁架
+    zc = min(t for t in TRUSS_Z if (t - zm) * s > 0) if s > 0 else max(t for t in TRUSS_Z if (t - zm) * s > 0)   # 場中央那一側
+    for dx in (-0.4, 0.4):
+        z0_, z1_ = zmin(za, zc)
+        ms.box(hx + dx - 0.08, hx + dx + 0.08, YT + 0.26, YT + 0.30, z0_, z1_); ms.box(hx + dx - 0.08, hx + dx + 0.08, YT, YT + 0.04, z0_, z1_); ms.box(hx + dx - 0.006, hx + dx + 0.006, YT + 0.04, YT + 0.26, z0_, z1_)
+    wn.box(hx - 0.30, hx + 0.30, YT - 0.32, YT, *zmin(zm + s * 0.25, zm + s * 0.75))           # 捲揚機（往場中央那一側，貼著橫梁下面）
+    wn.cyl((hx - 0.22, YT - 0.16, zm + s * 0.5), (hx + 0.22, YT - 0.16, zm + s * 0.5), 0.13, seg=10)
+    fr.cyl((hx, YT - 0.32, zm + s * 0.5), (hx, 4.0, zb(0.07)), 0.006, seg=4, caps=False)      # 捲揚機的鋼索到板後的框
+    # 往端牆那一側的斜撐：主桿 4.6 m → 端牆那一榀桁架的下弦（兩支，中間兩根橫撐）
+    for dx in (-0.4, 0.4): ms.cyl((hx + dx, 4.6, zm), (hx + dx, YT + 0.02, za), 0.035, seg=8)
+    for t in (0.35, 0.7):
+        yy = 4.6 + (YT + 0.02 - 4.6) * t; zz = zm + (za - zm) * t
+        ms.box(hx - 0.4, hx + 0.4, yy - 0.025, yy + 0.025, zz - 0.025, zz + 0.025)
+    # 左右防晃拉索：主桿 6 m → 屋頂橫梁 x ±3.6（同一個 z）
+    for sx in (-1, 1): fr.cyl((hx + sx * 0.4, 6.0, zm), (hx + sx * 3.6, YC, zm), 0.010, seg=5, caps=False)
+    for sx in (-1, 1): ms.box(hx + sx * 3.6 - 0.12, hx + sx * 3.6 + 0.12, YC - 0.06, YC, zm - 0.12, zm + 0.12)
+for k_, m in hm.items(): m.finish(hg, uv=False, smooth=(k_ in ('rim',)))
 
 # ======================== 下層看台（3F）：東、西、南 ========================
 seat_m = Mesh('arena_seat_proto', M['seat']); sx_ = Xf(0, 0)
