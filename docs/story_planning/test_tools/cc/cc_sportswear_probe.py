@@ -27,6 +27,15 @@ WEAR = r"""(()=>{ const P=GAME.E.player, h=P.obj; let u=null; h.traverse(o=>{ if
     x:+o.x.toFixed(2), z:+o.z.toFixed(2), yaw:+h.rotation.y.toFixed(3), pose:P.pose||null}; })()"""
 
 
+async def wear_wait(pg, want, max_s=10.0):
+    """CC-B 11-07：換區域以後換裝要等 FIT 的 tick（雲端 b987：進 B1 以後 4 秒才換、回 1F 以後 2 秒才換回來）——等到換好，記花了幾秒"""
+    t = 0.0; w = await pg.evaluate(WEAR)
+    while w['gymWear'] != want and t < max_s:
+        await pg.wait_for_timeout(250); t += 0.25; w = await pg.evaluate(WEAR)
+    w['waitS'] = t
+    return w
+
+
 def cams(x, z, yaw):
     fx, fz = math.sin(yaw), math.cos(yaw); rx, rz = math.cos(yaw), -math.sin(yaw)
     return {'front': {'eye': [x + fx * 2.6, 1.3, z + fz * 2.6], 'look': [x, 1.0, z], 'lens': 35},
@@ -57,8 +66,8 @@ async def main():
         cz = (B['cor']['z0'] + B['cor']['z1']) / 2; cx = 6.0
         # ① 走廊站著、跑
         R.setup('[①] 讀檔 gym_b1 走廊 (%.1f, %.2f) %s 10:00' % (cx, cz, DAY))
-        await D.load_zone(pg, cdp, 'gym_b1', DAY, 10.0, x=cx, z=cz, yaw=-1.5708, wait=8000); await pg.wait_for_timeout(1500)
-        w = await pg.evaluate(WEAR); rec['b1_stand'] = w
+        await D.load_zone(pg, cdp, 'gym_b1', DAY, 10.0, x=cx, z=cz, yaw=-1.5708, wait=8000)
+        w = await wear_wait(pg, True); rec['b1_stand'] = w; R.note('[①] 讀進 B1 以後 %.2f 秒換上運動服' % w['waitS'])
         R.check('[①] B1：穿運動服（gymWear、GYM_TOP、GYM_SHORTS 看得到）、後背包拿下', w['gymWear'] and w['top'] and w['shorts'] and w['backpack'] in (False, None), J(w))
         await two(pg, cdp, 'sw_b1_stand', w)
         wr = None
@@ -102,30 +111,31 @@ async def main():
             else: R.note('[②] 走到旁邊按鈕是 %r' % q['interact'])
         # ③ 體育課（捷徑）
         R.setup('[③] 讀檔 gym（1F 大廳）%s 14:00；【捷徑】CLS.peWear＝probe → FIT.gymWearSync' % DAY)
-        await D.load_zone(pg, cdp, 'gym', DAY, 14.0, wait=8000); await pg.wait_for_timeout(1200)
-        w0 = await pg.evaluate(WEAR)
-        await pg.evaluate("(()=>{ CLS.peWear='probe'; FIT.gymWearSync(GAME); })()"); await pg.wait_for_timeout(800)
-        w1 = await pg.evaluate(WEAR); rec['pe_on'] = w1
+        await D.load_zone(pg, cdp, 'gym', DAY, 14.0, wait=8000)
+        w0 = await wear_wait(pg, False); R.note('[③] 讀進 1F 以後 %.2f 秒是原本的衣服' % w0['waitS'])
+        await pg.evaluate("(()=>{ CLS.peWear='probe'; FIT.gymWearSync(GAME); })()")
+        w1 = await wear_wait(pg, True); rec['pe_on'] = w1
         R.check('[③] 上體育課（CLS.peWear）穿運動服、後背包拿下', w1['gymWear'] and w1['top'] and w1['backpack'] in (False, None), J({'before': w0, 'pe': w1}))
         await two(pg, cdp, 'sw_pe', w1)
-        await pg.evaluate("(()=>{ CLS.peWear=null; FIT.gymWearSync(GAME); })()"); await pg.wait_for_timeout(800)
-        w2 = await pg.evaluate(WEAR); rec['pe_off'] = w2
+        await pg.evaluate("(()=>{ CLS.peWear=null; FIT.gymWearSync(GAME); })()")
+        w2 = await wear_wait(pg, False); rec['pe_off'] = w2
         R.check('[③] 下課（peWear 清掉）換回原本的、後背包照原樣', not w2['gymWear'] and not w2['top'] and w2['backpack'] == w0['backpack'] and w2['jacket'] == w0['jacket'], J({'before': w0, 'after': w2}))
         # ④ B1 走出去回到 1F
         R.setup('[④] 讀檔 gym_b1 出口旁 %s 10:00' % DAY)
         ex = B['exit']['at']
-        await D.load_zone(pg, cdp, 'gym_b1', DAY, 10.0, x=ex['x'], z=ex['z'] - 1.2, wait=8000); await pg.wait_for_timeout(1200)
-        wa = await pg.evaluate(WEAR); await two(pg, cdp, 'sw_exit_before', wa)
+        await D.load_zone(pg, cdp, 'gym_b1', DAY, 10.0, x=ex['x'], z=ex['z'] - 1.2, wait=8000)
+        wa = await wear_wait(pg, True); await two(pg, cdp, 'sw_exit_before', wa)
         s = await D.use_exit(pg, cdp, '[④]', '上樓回大廳', 'gym')
-        await pg.wait_for_timeout(1500); wb = await pg.evaluate(WEAR); rec['exit'] = {'before': wa, 'after': wb}
+        wb = await wear_wait(pg, False); rec['exit'] = {'before': wa, 'after': wb}
+        R.note('[④] 走上樓回到 1F 以後 %.2f 秒換回原本的衣服（換區域到換好之間看得到舊衣服＝給 LAWWW 判是不是「閃一下」）' % wb['waitS'])
         R.check('[④] 回到 1F：換回原本的衣服（gymWear false、GYM_TOP 藏）、後背包回來', wb['zone'] == 'gym' and not wb['gymWear'] and not wb['top'] and wb['backpack'] in (True, None), J({'before': wa, 'after': wb}))
         await two(pg, cdp, 'sw_exit_after', wb)
         # ⑤ 四階體態 × 運動服
         for fit in (0, 30, 60, 90):
             R.setup('[⑤ fit %d] 讀檔 gym_b1 走廊 (%.1f, %.2f)；【捷徑】fit＝%d → FIT.sync' % (fit, cx, cz, fit))
             await D.load_zone(pg, cdp, 'gym_b1', DAY, 10.0, x=cx, z=cz, yaw=-1.5708, wait=7000)
-            await pg.evaluate("((f)=>{ const G=GAME.G; G.daily=G.daily||{}; const r=G.daily.gym=G.daily.gym||{}; r.fit=f; FIT.sync(GAME); FIT.gymWearSync(GAME); })", fit); await pg.wait_for_timeout(1200)
-            wf = await pg.evaluate(WEAR); rec['fit%d' % fit] = wf
+            await pg.evaluate("((f)=>{ const G=GAME.G; G.daily=G.daily||{}; const r=G.daily.gym=G.daily.gym||{}; r.fit=f; FIT.sync(GAME); FIT.gymWearSync(GAME); })", fit); await pg.wait_for_timeout(800)
+            wf = await wear_wait(pg, True); rec['fit%d' % fit] = wf
             await two(pg, cdp, 'sw_fit%02d' % fit, wf)
         with open(os.path.join(OUT, 'sportswear.json'), 'w', encoding='utf-8') as f:
             json.dump(rec, f, ensure_ascii=False, indent=1)
