@@ -17,16 +17,16 @@ const GIFT=(function(){
     {n:'豆漿',cat:'drink',p:25},{n:'米漿',cat:'drink',p:25},{n:'飯糰',cat:'breakfast',p:35},{n:'三明治',cat:'breakfast',p:39},
     {n:'無糖綠茶',cat:'drink',p:25,opt:[['正常冰',''],['去冰','（去冰）']]},{n:'青茶',cat:'drink',p:25,opt:[['微糖',''],['無糖','（無糖）']]},{n:'紅茶拿鐵',cat:'drink',p:45},
     {n:'美式咖啡',cat:'drink',p:45,cafe:100,opt:[['熱的',''],['冰的','（冰的）']]},{n:'拿鐵',cat:'drink',p:55,cafe:120},{n:'熱可可',cat:'drink',p:50,cafe:110,opt:[['就這樣',''],['加一份濃縮','（加一份濃縮）',20]]}];
-  S.SHOPS={'便利商店':it=>true,'兩點半 Café':it=>it.cafe!=null};   /* 蛋餅、蘿蔔糕：遊戲裡還沒有早餐店（AA_710 _items 有，等早餐店）*/
+  S.sells=(shop,it)=>shop==='便利商店'||(shop==='兩點半 Café'&&it.cafe!=null);   /* 便利商店全部；2:30 AM 只有咖啡、熱可可（店名 key 照 story3d.js counter）。蛋餅、蘿蔔糕：遊戲裡還沒有早餐店（AA_710 _items 有，等早餐店）*/
   S.MAX=3;
   S.SHOP_OPT='買一份帶走送人…';
   const F=G=>{ const f=G.flags||(G.flags={}); const g=f.GIFT&&typeof f.GIFT==='object'?f.GIFT:(f.GIFT={}); g.day=g.day||{}; g.fav=g.fav||{}; g.n=g.n||{}; return g; };
   S.carry=G=>{ if(!Array.isArray(G.carry)) G.carry=[]; G.carry=G.carry.filter(x=>x&&x.n&&x.day===G.day); return G.carry; };   /* 隔天就沒了 */
   S.price=(it,shop)=>shop==='兩點半 Café'&&it.cafe!=null?it.cafe:it.p;
-  S.shopOpt=function(G,shop){ const ok=S.SHOPS[shop]; if(!ok||!Object.keys(L()).length) return null; const full=S.carry(G).length>=S.MAX; return {t:S.SHOP_OPT,hint:full?'手上已經拿了 '+S.MAX+' 樣':'飲料、早餐，帶在身上，見面的時候送她',dim:full}; };
+  S.shopOpt=function(G,shop){ if(!S.ITEMS.some(it=>S.sells(shop,it))||!Object.keys(L()).length) return null; const full=S.carry(G).length>=S.MAX; return {t:S.SHOP_OPT,hint:full?'手上已經拿了 '+S.MAX+' 樣':'飲料、早餐，帶在身上，見面的時候送她',dim:full}; };
   /* 買：品項 → 再選一次（有的話）→ 扣錢、帶著 */
-  S.buy=async function(GM,shop){ const G=GM.G, ok=S.SHOPS[shop]; if(!ok) return null; if(S.carry(G).length>=S.MAX){ GM.toast&&GM.toast('手上已經拿了 '+S.MAX+' 樣了'); return null; }
-    const L2=S.ITEMS.filter(ok), opts=L2.map(it=>({t:it.n+'　'+S.price(it,shop)+' 元',dim:G.money<S.price(it,shop)})); opts.push({t:'算了'});
+  S.buy=async function(GM,shop){ const G=GM.G; if(!S.ITEMS.some(it=>S.sells(shop,it))) return null; if(S.carry(G).length>=S.MAX){ GM.toast&&GM.toast('手上已經拿了 '+S.MAX+' 樣了'); return null; }
+    const L2=S.ITEMS.filter(it=>S.sells(shop,it)), opts=L2.map(it=>({t:it.n+'　'+S.price(it,shop)+' 元',dim:G.money<S.price(it,shop)})); opts.push({t:'算了'});
     const i=await GM.choose(opts); const it=L2[i]; if(!it) return null; let name=it.n, p=S.price(it,shop);
     if(it.opt){ const k=await GM.choose(it.opt.map(o=>({t:o[0]+(o[2]?'（+'+o[2]+' 元）':'')}))); const o=it.opt[k]||it.opt[0]; name+=o[1]; p+=o[2]|0; }
     if(G.money<p){ GM.toast&&GM.toast('錢不夠'); return null; }

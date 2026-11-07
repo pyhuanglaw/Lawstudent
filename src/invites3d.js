@@ -337,13 +337,13 @@ const INV=(function(){
   S.isStudy=(iv,P)=>!!(P&&iv&&!iv.ev&&!iv.te&&(iv.cat==='study'||(S.catsOf(P).includes('study')&&!S.catsOf(P).some(c=>c==='sit'||c==='meal'))));
   S.firstAt=function(G,iv){ if(iv.faDone) return null; let FA=((D().people[iv.who]||{}).firstAt||{})[iv.place]; if(typeof FA==='function') FA=FA(G); return FA&&!(G.invites||[]).some(q=>q!==iv&&q.who===iv.who&&q.place===iv.place&&q.state==='done')?FA:null; };
   /* 約好的見面也算一件主要的事（ACTION-BUDGET-1107，使用者 11-07：「約好見面也要算行動次數 不然幾乎無限」「可行動次數沒了要直接跳下一個階段」；取代 DEC-SLOTS-1018「約好的見面不算」）：
-     見面那段時間（開始的時段＋跨進 30 分鐘以上的下一個時段）填滿，和上課、出遊一樣（CLS.slotFillSpan）；約好的照樣能去（時段用過了也能赴約），演完上午、下午用完就跳到下一個時段（CLS.queueJump → CLS.afterSlot） */
+     見面那段時間（開始的時段＋跨進 30 分鐘以上的下一個時段）填滿，和上課、出遊一樣（CLS.slotFillSpan）；約好的照樣能去（時段用過了也能赴約），演完上午、下午用完就跳到下一個時段：這裡只排（CLS.queueJump），等空下來（對話、劇情都結束）story3d.js 的 tick 讀 CLS._jump 再跳——
+     不在這裡直接 CLS.afterSlot：演完那一刻玩家還在 busy，afterSlot 會把排好的跳轉丟掉（BB-B 11-07 判 PARTIAL：演完 17:2x 時間照常走）*/
   S.spendSlot=function(G,h0){ if(typeof CLS==='undefined'||!CLS.slotFillSpan||h0==null) return; CLS.slotFillSpan(G,h0,Math.max(G.hour,h0+0.5)); if(CLS.queueJump) CLS.queueJump(G); };
-  S.slotJump=async GM=>{ if(typeof CLS!=='undefined'&&CLS.afterSlot){ try{ await CLS.afterSlot(GM); }catch(e){ console.warn('INV.slotJump',e); } } };
   S.meet=async function(GM,iv,n,o){ o=o||{}; const G=GM.G, P=S.place(iv.place), nm=nameOf(iv.who); if(!P) return; const h0=G.hour;
-    if(iv.ev&&await S.meetEv(GM,iv,n)){ S.spendSlot(G,h0); await S.slotJump(GM); return; }
+    if(iv.ev&&await S.meetEv(GM,iv,n)){ S.spendSlot(G,h0); return; }
     if(iv.te&&typeof TERMEND!=='undefined'&&TERMEND.dinner){ iv.state='done'; GM.sceneBegin({adv:iv.who}); try{ await TERMEND.dinner(GM,{te:{who:iv.who,kind:iv.te.kind,term:iv.te.term,place:iv.place,placeName:P.name}}); await GM.fade(true); GM.advance(P.stay); await GM.fade(false);
-        if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(iv.who,'meal'); S.msg(G,iv.who,'和'+nm+'吃了學期末的飯。',iv); } finally { GM.sceneEnd(); lastMeetEnd=S._now(); } S.release(GM,n,iv); S.spendSlot(G,h0); if(GM.autosave) GM.autosave(); await S.slotJump(GM); return; }   /* 玩家自己約的期末飯：整場照 TERMEND.dinner（心意的接回家的路上）*/
+        if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(iv.who,'meal'); S.msg(G,iv.who,'和'+nm+'吃了學期末的飯。',iv); } finally { GM.sceneEnd(); lastMeetEnd=S._now(); } S.release(GM,n,iv); S.spendSlot(G,h0); if(GM.autosave) GM.autosave(); return; }   /* 玩家自己約的期末飯：整場照 TERMEND.dinner（心意的接回家的路上）*/
     iv.state='done'; iv.mid=1; GM.sceneBegin({adv:iv.who}); const LQ=typeof LIBQ!=='undefined'&&LIBQ.scope?LIBQ.scope():null;   /* 圖書館：走出館外那一句起到道別都不加（小聲）（AA_595 1-D10、Q16）*/ try{ const lines=((D().people[iv.who]||{}).scene||{})[P.id], who={name:nm,obj:n&&n.obj,charId:iv.who}, SO=typeof SOCIAL!=='undefined'?SOCIAL:{};
       if(!iv.opened) await S.meetOpen(GM,iv,who);   /* 開場（路上的選項句、假期版第一句、節日、升階的門檻台詞）；約念書在門口就演過了（S.leadStart，iv.opened）*/
       const SNx=typeof STUDYN!=='undefined'&&S.isStudy(iv,P)?STUDYN.pick(G,iv.who):null, SN=SNx&&!SNx.generic?SNx:null;   /* 一起念書第 N 次（AA_707）：null＝照一般句 */
@@ -373,7 +373,7 @@ const INV=(function(){
       if(SNx&&typeof STUDYN!=='undefined') STUDYN.done(G,iv.who,SN);   /* 次數 +1（一天一次）、下一場、旗標、第 6 場＝正式約會一次 */
       S.msg(G,iv.who,'和'+nm+'在'+P.name+'。',iv); delete iv.mid;   /* 演完才拿掉：途中出錯＝S.unwind 看到 iv.mid 改成作罷（CC 11-04 讀程式：原本一開始就記 done，出錯停在 done）*/
     } finally { if(LQ) LQ.end(); GM.sceneEnd(); lastMeetEnd=S._now(); }
-    S.release(GM,n,iv); if(iv.state==='done') S.spendSlot(G,h0); if(GM.autosave) GM.autosave(); await S.slotJump(GM); };
+    S.release(GM,n,iv); if(iv.state==='done') S.spendSlot(G,h0); if(GM.autosave) GM.autosave(); };
   /* 每次 STORY.tick：過了約好的時間 45 分鐘還沒見到＝沒赴約（不扣分，留一筆「放過鴿子」）；一起走過去超過 2 小時沒到＝作罷；對方約你、過了時間沒回＝作罷 */
   /* 約好要真的同行（AA_137 第 7 節，使用者 2026-10-15）：約定前 30 分鐘提醒；過了 15 分鐘還沒到，她傳「你在哪？」（有聯絡方式的話）；過了 30 分鐘她自己走掉＝沒赴約（原本 45 分鐘）*/
   S.WAIT_H=0.5;
