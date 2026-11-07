@@ -405,12 +405,13 @@ class Plan:
 
     def default(self, opts, menus):
         T = [o['t'] for o in opts]
-        sig = tuple(T); seen = sum(1 for m in menus if tuple(m['opts']) == sig)
-        if seen >= 3: return len(opts) - 1   # 同一個選單出現第 4 次：選最後一個（算了／返回／就這樣），不在灰掉的項目上打轉
+        sig = tuple(T); prev = [m for m in menus if tuple(m['opts']) == sig]; seen = len(prev)
+        if seen >= 7: return len(opts) - 1   # 同一個選單出現第 8 次：選最後一個（算了／返回／就這樣），不在灰掉的項目上打轉
         for i, t in enumerate(T):
             if t in END_TXT: return i
+        tried = {m['pick'] for m in prev}   # CC-B 11-07（SOC_xinci_date_r3）：「換一天」回來的日期選單不要再選同一天（今天的時段全灰 → 換一天 → 又選今天，繞三圈）
         for i, o in enumerate(opts):
-            if not o['dim'] and o['t'] not in CANCEL_TXT: return i
+            if not o['dim'] and o['t'] not in CANCEL_TXT and i not in tried: return i
         return len(opts) - 1
 
     def __call__(self, opts, menus):
@@ -993,6 +994,20 @@ class Person:
                 await self.date_go('%s 分支%d-%d「%s」' % (tag, mi, oi, t[:8]), trip, forced=fz, record=False, go_snap=go)
         return m
 
+    async def near_log(self, tag):
+        """CC-B 11-07（LAWWW-B 要的重現資料）：日期、區域、時間；兩人的 SOCIAL.stage、INV.stageOf；她旁邊 3 m 內有誰"""
+        q = await self.pg.evaluate("""((id)=>{ const G=GAME.G, E=GAME.E; const ents=(E&&E.npcs)||[]; const me=ents.find(e=>e&&e.charId===id&&e.obj);
+          const st=x=>{ try{ return SOCIAL.stage?SOCIAL.stage(x):null; }catch(e){ return String(e); } }; const iv=x=>{ try{ return INV.stageOf?INV.stageOf(G,x):null; }catch(e){ return String(e); } };
+          const near=me?ents.filter(e=>e&&e!==me&&e.obj&&Math.hypot(e.obj.position.x-me.obj.position.x,e.obj.position.z-me.obj.position.z)<=3).map(e=>({id:e.id,charId:e.charId||null,d:+Math.hypot(e.obj.position.x-me.obj.position.x,e.obj.position.z-me.obj.position.z).toFixed(2),stage:e.charId?st(e.charId):null})):null;
+          return {key:CALENDAR.dateOf(G.day).key, day:G.day, zone:G.zone, h:+(+G.hour).toFixed(2), stage:st(id), invStage:iv(id), whyNot:INV.whyNot?INV.whyNot(G,id):null, near,
+            canInvite:(()=>{ try{ return INV.canInvite(G,id); }catch(e){ return String(e); } })(),
+            privOk:(()=>{ try{ return STORY.privOk?STORY.privOk(G,id,'invite',GAME,me):null; }catch(e){ return String(e); } })(),
+            company:(()=>{ try{ return STORY.companyOf?STORY.companyOf(G,id,me,GAME):null; }catch(e){ return String(e); } })(),
+            crowd:(()=>{ try{ return (typeof PRIVTALK!=='undefined'&&PRIVTALK.crowd)?PRIVTALK.crowd(G,id,PRIVTALK.byKey.invite,GAME):null; }catch(e){ return String(e); } })(),
+            privWait:(()=>{ try{ const f=(G.flags||{}).PRIVTALK; return f?JSON.parse(JSON.stringify(f)):null; }catch(e){ return String(e); } })()}; })""", self.pid)
+        self.R.note('%s 重現資料：%s' % (tag, J(q)))
+        return q
+
     async def date_blocked(self, tag):
         """CC-B 11-07（BB-B 03:36 ④）：約之前先問遊戲 DATE.canAsk（當面＝face、手機）——V21R 沛珊、芯慈「約成一趟」FAIL 沒印為什麼。
         芯慈：XCROM.ON 關著（D116，芯慈的線先關）＝DATE.HEROINES 沒有她＝不能約是預期，記 SKIP。其他不給約的原因照實印、照舊 FAIL（BB 判）。"""
@@ -1011,16 +1026,27 @@ class Person:
         setup = {'met': True, 'rel': REL['POSSIBLE_ROMANTIC_INTEREST'], 'relUp': 4, 'ladEnd': True, 'contact': True}
         sl, w = await self.go_any(setup, '前置：第 5 階（POSSIBLE_ROMANTIC_INTEREST）、有聯絡方式', 'date')
         if w and await self.date_blocked('date 當面約'): return
-        plan = Plan([{'when': '^就這樣$', 'pick': r'^約.去'}, {'when': '^出去玩', 'pick': '^出去玩'}, {'when': '^就這樣約$', 'pick': '^就這樣約$'}])
+        mkplan = lambda: Plan([{'when': '^就這樣$', 'pick': r'^約.去'}, {'when': '^出去玩', 'pick': '^出去玩'}, {'when': '^就這樣約$', 'pick': '^就這樣約$'}])   # 每次說話新的一份（舊的「約她去…」用過就丟，第 3 次會選「就這樣」）
         if w:
-            n0 = len(await pg.evaluate(TRIPS_JS, self.pid))
-            for k in range(3):   # 第一次說話可能被一句情境台詞／階梯台詞用掉（11-04 SOC_*_zr：「妳上完課都在這裡發呆？」那一段沒有約的選單）→ 再說一次
-                ok, menus, lines, s = await self.talk('date 當面約' + ('' if k == 0 else '（第 %d 次）' % (k + 1)), plan)
-                trips = await pg.evaluate(TRIPS_JS, self.pid)
-                if len(trips) > n0: break
-                R.note('date 當面約：第 %d 次說話沒有約成（選單 %s），回到她旁邊再說一次' % (k + 1, J([x.get('opts') if isinstance(x, dict) else x for x in menus][:3])))
-                if not await self.walk_to('date 再說一次（不讀檔，剛才那句已經說過）'): break
-            if not R.check('date 當面約：約成一趟（G.trips 多一筆 booked）', len(trips) > n0 and trips[-1]['status'] == 'booked', J(trips[-2:]) + ' ' + J(lines[-3:])): return
+            n0 = len(await pg.evaluate(TRIPS_JS, self.pid)); trips = []; lines = []
+            slots = await self.find_slot(); tried_sl = [sl]
+            for si in range(3):   # CC-B 11-07（BB-B／LAWWW-B）：這個時段三次都沒有「約她去…」＝可能被事件取代／旁邊有她的圈子 → 換一個時段（不同天、不同地點優先）再試
+                if si:
+                    nxt = next((o for o in slots if all(o['zone'] != t['zone'] and o['d'] != t['d'] for t in tried_sl)), None) or next((o for o in slots if all(o['d'] != t['d'] for t in tried_sl)), None)
+                    if not nxt: break
+                    tried_sl.append(nxt); R.note('date 當面約：上一個時段沒有「約她去…」，換時段 %s' % J([nxt['key'], nxt['hr'], nxt['zone'], nxt.get('act')]))
+                    if not await self.go_slot(nxt, setup, 'date 換時段', '前置：第 5 階、有聯絡方式'): continue
+                await self.near_log('date 當面約 時段 %d' % (si + 1))
+                saw_inv = False
+                for k in range(3):   # 第一次說話可能被一句情境台詞／階梯台詞用掉（11-04 SOC_*_zr：「妳上完課都在這裡發呆？」那一段沒有約的選單）→ 再說一次
+                    ok, menus, lines, s = await self.talk('date 當面約' + ('' if k == 0 and si == 0 else '（時段 %d 第 %d 次）' % (si + 1, k + 1)), mkplan())
+                    saw_inv = saw_inv or any(re.search(r'^約.去', o) for x in menus if isinstance(x, dict) for o in x.get('opts', []))
+                    trips = await pg.evaluate(TRIPS_JS, self.pid)
+                    if len(trips) > n0: break
+                    R.note('date 當面約：第 %d 次說話沒有約成（選單 %s；這個時段看過「約她去…」：%s），回到她旁邊再說一次' % (k + 1, J([x.get('opts') if isinstance(x, dict) else x for x in menus][:3]), saw_inv))
+                    if not await self.walk_to('date 再說一次（不讀檔，剛才那句已經說過）'): break
+                if len(trips) > n0 or saw_inv: break
+            if not R.check('date 當面約：約成一趟（G.trips 多一筆，booked／現在出發的 done 都算）', len(trips) > n0 and trips[-1]['status'] in ('booked', 'going', 'done'), J(trips[-2:]) + ' ' + J(lines[-3:])): return
             await self.date_go('date 當面約', trips[-1])
         else:
             R.info('date：找不到她在 3D 的時段，改用手機約')
@@ -1062,7 +1088,7 @@ class Person:
         await self.check_free(tag + ' 之後', fb0, err0)
         if plan_date:
             trips = await pg.evaluate(TRIPS_JS, self.pid)
-            if R.check('%s：約成一趟（booked）' % tag, len(trips) > n0 and trips[-1]['status'] == 'booked', J(trips[-2:])) and go:
+            if R.check('%s：約成一趟（booked；選了「現在出發」演完的 done 也算）' % tag, len(trips) > n0 and trips[-1]['status'] in ('booked', 'going', 'done'), J(trips[-2:])) and go and trips[-1]['status'] == 'booked':
                 await self.date_go(tag, trips[-1])
         else:
             ivs = await pg.evaluate(INVS_JS, self.pid)

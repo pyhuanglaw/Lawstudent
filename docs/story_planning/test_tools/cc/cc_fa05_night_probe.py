@@ -22,7 +22,8 @@ URL, OUT = sys.argv[1], sys.argv[2]
 J = D.J
 R = L.Run('fa05_night', OUT); D.setup(R, OUT)
 DAY = '2025-10-18'
-PARTS = [x for x in (os.environ.get('PARTS') or 'shops,dome').split(',') if x]
+PARTS = [x for x in (os.environ.get('PARTS') or 'shops,dome').split(',') if x]   # BB-B 08:27 再加 player（玩家跟隨鏡頭站窗前 1.5 m）
+DOME_FAR = os.environ.get('DOME_FAR') == '1'   # 圓頂退到 50～70 m、鏡頭高 6～10 m（看得到整個圓頂和天空）
 TIMES = (('night', 21.0), ('day', 14.0))
 WINS = r"""((lvMin)=>{ const z=GAME.E.zone, out=[]; const W=z&&(z.wins||[]); for(const w of W){ const o=w.mesh||w.obj||w; if(!o||!o.isObject3D) continue; o.updateWorldMatrix(true,false); const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new THREE.Vector3()), s=b.getSize(new THREE.Vector3());
   if(lvMin!=null&&c.y<lvMin) continue; out.push({name:o.name||'', c:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], size:[+s.x.toFixed(2),+s.y.toFixed(2),+s.z.toFixed(2)]}); } const sp=z.spawn||{x:0,z:0}; return {wins:out, spawn:[sp.x,sp.z], n:W.length}; })"""
@@ -77,9 +78,58 @@ async def dome(pg, cdp, tn, h, rec):
         if tn == 'night': R.check('%s 晚上圓頂（ck_glass_lit）會發光（emissive 不是黑、intensity > 0）' % tag, on, J(d['lit']))
         else: R.check('%s 白天圓頂（ck_glass_lit）不發光（emissive 黑或 intensity 0）' % tag, not on, J(d['lit']))
     else: R.check('%s 這一版有圓頂材質 ck_glass_lit' % tag, False, J(d))
+    gy_look = None
     for nm, eye in (('sidegate', [gx, 1.7, gz + 1.5]), ('plaza', [cs.get('x', gx), 1.7, cs.get('z', gz) + 3.0])):
-        cam = await D.user_shot(pg, cdp, 'gymdome_%s_%s' % (nm, tn), {'eye': eye, 'look': [gy[0], 6.0, gy[1]], 'lens': 24})
+        if DOME_FAR:   # BB-B 08:27：退到 50～70 m、高 6～10 m；從原本那一點的方向開始左右轉找「看圓頂三點都沒被擋」的位置（雲端第一版 60 m 正西被紅磚牆擋住）
+            a0 = math.atan2(eye[2] - gy[1], eye[0] - gy[0]) + (0.0 if nm == 'sidegate' else 0.7)
+            pk = await pg.evaluate(DOME_PICK, {'gx': gy[0], 'gz': gy[1], 'a0': a0})
+            R.note('[%s dome] %s 遠景找角度：%s' % (tn, nm, J(pk)))
+            eye = pk['eye'] if pk and pk.get('eye') else [gy[0] + math.cos(a0) * 60.0, 8.0, gy[1] + math.sin(a0) * 60.0]
+            if pk and pk.get('look'): gy_look = pk['look']
+        look = (gy_look if DOME_FAR and gy_look else [gy[0], 6.0, gy[1]])
+        cam = await D.user_shot(pg, cdp, 'gymdome_%s%s_%s' % (nm, '_far' if DOME_FAR else '', tn), {'eye': eye, 'look': look, 'lens': 30 if DOME_FAR else 24})
         rec['dome'][tn + '_' + nm] = cam
+
+
+CARDINFO = r"""((nm)=>{ const z=GAME.E.zone; let o=null; z.group.traverse(q=>{ if(!o&&q.isMesh&&q.name===nm) o=q; }); if(!o) return null; const m=[].concat(o.material)[0], t=m&&m.map, g=o.geometry, uv=g&&g.attributes.uv;
+  let u0=1e9,u1=-1e9,v0=1e9,v1=-1e9; if(uv) for(let i=0;i<uv.count;i++){ const u=uv.getX(i), v=uv.getY(i); u0=Math.min(u0,u); u1=Math.max(u1,u); v0=Math.min(v0,v); v1=Math.max(v1,v); }
+  const U=m&&m.uniforms, tx=q=>q&&q.image?{src:((q.image.currentSrc||q.image.src)||'').slice(-60), w:q.image.width, h:q.image.height}:null;
+  const un=U?{map:tx(U.map&&U.map.value), map2:tx(U.map2&&U.map2.value), nmap:tx(U.nmap&&U.nmap.value), depth:U.depth&&U.depth.value, photo:U.photo&&U.photo.value, sxy:U.sxy&&U.sxy.value?[+U.sxy.value.x.toFixed(3),+U.sxy.value.y.toFixed(3)]:null, near:U.near&&U.near.value, xf:U.xf&&U.xf.value}:null;
+  const pr=g&&g.parameters||{}, wp=new THREE.Vector3(); o.getWorldPosition(wp);
+  return {type:m&&m.type, uniforms:un, plane:[pr.width,pr.height], worldPos:[+wp.x.toFixed(2),+wp.y.toFixed(2),+wp.z.toFixed(2)], mat:m&&m.name, map:t?{src:((t.image&&(t.image.currentSrc||t.image.src))||'').slice(-60), w:t.image&&t.image.width, h:t.image&&t.image.height, repeat:[t.repeat.x,t.repeat.y], offset:[+t.offset.x.toFixed(3),+t.offset.y.toFixed(3)], flipY:t.flipY}:null,
+    uv:uv?[+u0.toFixed(3),+u1.toFixed(3),+v0.toFixed(3),+v1.toFixed(3)]:null, verts:g&&g.attributes.position.count}; })"""
+
+
+DOME_PICK = r"""((o)=>{ const z=GAME.E.zone; let dome=null; z.group.traverse(q=>{ if(!dome&&q.isMesh&&q.name==='gym_dome') dome=q; });
+  const bb=new THREE.Box3(); let cx=o.gx, cz=o.gz, cy=8, top=12, rr=15; if(dome){ bb.setFromObject(dome); const c=bb.getCenter(new THREE.Vector3()); cx=c.x; cz=c.z; cy=c.y; top=bb.max.y; rr=Math.max(bb.max.x-bb.min.x,bb.max.z-bb.min.z)/2; }
+  const meshes=[]; z.group.traverse(q=>{ if(q.isMesh&&q.visible&&q!==dome&&!/VIEWPANE|sky/i.test(q.name||'')) meshes.push(q); }); if(GAME.E.npcs) for(const n of GAME.E.npcs) if(n.obj) n.obj.traverse(q=>{ if(q.isMesh) meshes.push(q); });
+  const rc=new THREE.Raycaster(); const tgt=[[cx,top,cz],[cx,cy,cz],[cx,bb.min.y||2,cz]];
+  const offs=[0,0.26,-0.26,0.52,-0.52,0.79,-0.79,1.05,-1.05,1.31,-1.31,1.57,-1.57,2.1,-2.1,2.6,-2.6,3.14];
+  let tried=0; for(const da of offs) for(const D of [60,55,65,50,70]) for(const H of [8,10,6]){ const a=o.a0+da, ex=cx+Math.cos(a)*D, ez=cz+Math.sin(a)*D; const eye=new THREE.Vector3(ex,H,ez); let ok=true; tried++;
+    for(const t of tgt){ const tv=new THREE.Vector3(t[0],t[1],t[2]); const dir=tv.clone().sub(eye); const L=dir.length(); dir.normalize(); rc.set(eye,dir); rc.far=Math.max(1,L-rr*0.9); const h=rc.intersectObjects(meshes,false); if(h.length){ ok=false; break; } }
+    if(ok) return {eye:[+ex.toFixed(2),H,+ez.toFixed(2)], look:[+cx.toFixed(2),+((top+cy)/2).toFixed(2),+cz.toFixed(2)], D, da:+da.toFixed(2), tried, dome:!!dome, top:+top.toFixed(2), r:+rr.toFixed(2)}; }
+  return {eye:null, tried, dome:!!dome}; })"""
+
+
+async def player_view(pg, cdp, tn, h, zone, rec):
+    """BB-B 08:27 XS_NIGHT_player：玩家正常的跟隨鏡頭，站到窗前 1.5 m 面向窗景卡拍一張（確認玩家看到的是不是也只有天空）；印窗景卡的 UV／貼圖範圍"""
+    tag = '[%s %s player]' % (tn, zone)
+    s = await D.load_zone(pg, cdp, zone, DAY, h, wait=7000)
+    if s['zone'] != zone: R.note('%s 讀不進店裡' % tag); return
+    w = await pg.evaluate(WINS, None); cards = [c for c in w['wins'] if c['c'][1] < 3.6]
+    if not R.check('%s 找得到一樓的窗景卡' % tag, bool(cards), J(w)): return
+    c = cards[0]; sp = [s['x'], s['z']]
+    stand = inward(c, sp, 1.5); yaw = math.atan2(c['c'][0] - stand[0], c['c'][2] - stand[2])
+    ok_st = await pg.evaluate("((q)=>GAME.E.canStand(q[0],q[1],0.3,0))", [stand[0], stand[2]])
+    if not ok_st: stand = inward(c, sp, 2.0); yaw = math.atan2(c['c'][0] - stand[0], c['c'][2] - stand[2])
+    R.setup('%s 讀檔站在窗前 (%.2f, %.2f) 面向窗景卡（跟隨鏡頭照遊戲自己的）' % (tag, stand[0], stand[2]))
+    s = await D.load_zone(pg, cdp, zone, DAY, h, x=stand[0], z=stand[2], yaw=yaw, wait=7000)
+    await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(1500)
+    m = await D.shot(pg, 'xsplayer_%s_%s' % (zone, tn))
+    await pg.evaluate(D.HUD + '(true)')
+    info = await pg.evaluate(CARDINFO, c['name'])
+    R.note('%s 跟隨鏡頭截圖亮度 %s；窗景卡 %s 的 UV／貼圖：%s' % (tag, J(m), c['name'], J(info)))
+    rec.setdefault('player', []).append({'zone': zone, 't': tn, 'stand': [round(stand[0], 2), round(stand[2], 2)], 'lum': m, 'card': c, 'cardInfo': info})
 
 
 async def main():
@@ -98,6 +148,11 @@ async def main():
                     print('== %s %s lv%d' % (tn, zone, lv), flush=True)
                     try: await shop(pg, cdp, tn, h, zone, lv, rec)
                     except Exception as ex: R.check('[%s %s lv%d] 探針沒有例外' % (tn, zone, lv), False, repr(ex)[:300])
+            if 'player' in PARTS:
+                for zone in ('xs_dakou', 'xs_dabu', 'xs_haopai'):
+                    print('== %s %s player' % (tn, zone), flush=True)
+                    try: await player_view(pg, cdp, tn, h, zone, rec)
+                    except Exception as ex: R.check('[%s %s player] 探針沒有例外' % (tn, zone), False, repr(ex)[:300])
             if 'dome' in PARTS:
                 print('== %s dome' % tn, flush=True)
                 try: await dome(pg, cdp, tn, h, rec)
