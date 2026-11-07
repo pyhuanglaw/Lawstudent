@@ -210,8 +210,8 @@ async def main():
                         await jump(pg, cdp, tag, '2025-09-24', 15 + 18 / 60, 'wancai')
                         xp = await pg.evaluate("(id=>{ const n=GAME.npc&&GAME.npc[id]; return n&&n.obj?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]:null; })", XC)
                         R.note('%s 15:18 萬才館大廳：芯慈在 %s（AA613.SPOT.door (-6.2,5.6)）' % (tag, J(xp)))
+                        await pg.evaluate("window.__says=[]")   # 走路途中就會演「這邊。」：記錄要在走之前清
                         await L.go_to(pg, cdp, R, -6.2 + 1.2, 5.6, 0.5, tag + ' 走到法圖門口', max_s=150)
-                        await pg.evaluate("window.__says=[]")
                         t1 = time.time()   # 芯慈 15:20 才在門口（作息）、doorDue 也要 15:20 以後：在門口等到 AA613_XC_MET 或對話出來，最多 60 秒
                         while time.time() - t1 < 60:
                             if await pg.evaluate("(()=>{ const G=GAME.G; return (G.flags||{}).AA613_XC_MET===G.day||!!(GAME.D&&GAME.D.active); })()"): break
