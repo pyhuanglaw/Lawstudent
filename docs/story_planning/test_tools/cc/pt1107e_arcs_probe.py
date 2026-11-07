@@ -1,4 +1,4 @@
-# 【CC-B 11-07 複製自 BB-B claude/elegant-brown-fcos7n bb8c7a8d7；只改參數：runner 給 <url> <out> 時存檔資料夾用 SAVES 環境變數（預設 fixtures/user_saves_1107）】
+# 【CC-B 11-07 複製自 BB-B claude/elegant-brown-fcos7n 18fda7b28；只改參數：runner 給 <url> <out> 時存檔資料夾用 SAVES 環境變數（預設 fixtures/user_saves_1107）】
 """BB-B 2026-11-07：女主角故事線（BB_305 第 9 節第 10 項；LAWWW-B f01f54039 src/arcs3d.js、AA_712 7a24f8ce1）瀏覽器驗收。
 [前置／捷徑] 讀使用者存檔 day46，【捷徑】DAYSHIFT 天（預設 -14＝10/18，非考試週）、清掉原本的邀約。之後全部觸控：手機「朋友」→ WHO「約」→ 一類 → 地方 → 時間。
   每一輪：【捷徑】把時間撥到約好的前 10 分鐘 → 手機「今天」按「現在過去」→ 跟她走、坐下 → 對話照實點；故事線的選項優先選「講自己的事」那一個（有 tell 的）。
@@ -15,6 +15,7 @@ else: URL, OUT = sys.argv[1], sys.argv[2]; SAVES = os.environ.get('SAVES') or os
 WHO = os.environ.get('WHO', 'heroine_01')
 ROUNDS = int(os.environ.get('ROUNDS', '4'))
 SHIFT = int(os.environ.get('DAYSHIFT', '-14'))
+GO_EARLY = 0.17   # 撥到約好的前幾小時再按「前往」；約在開門那一刻的店（小路 18:00 開）設 -0.01
 PLAN = [('念書', '總圖'), ('喝咖啡', '2:30 AM'), ('念書', '總圖'), ('喝咖啡', '2:30 AM')]
 
 
@@ -94,8 +95,8 @@ async def meet_once(pg, cdp, run, cat, word, tag):
     if not iv:
         run.check('[%s] 約成了（%s）' % (tag, t['t']), False, json.dumps(log[-5:], ensure_ascii=False)); return None, None
     v = iv[-1]
-    run.setup('[%s]【捷徑】時間撥到約好的 %.2f 前 10 分鐘' % (tag, v['h']))
-    await pg.evaluate("(h=>{ GAME.G.hour=h; })(%f)" % (v['h'] - 0.17)); await pg.wait_for_timeout(1200)
+    run.setup('[%s]【捷徑】時間撥到約好的 %.2f %s' % (tag, v['h'], '前 10 分鐘' if GO_EARLY > 0 else '整點（店那時候才開門）'))
+    await pg.evaluate("(h=>{ GAME.G.hour=h; })(%f)" % (v['h'] - GO_EARLY)); await pg.wait_for_timeout(1200)
     await phone(pg, cdp, 'today')
     if not await tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % v['id']):
         here = await pg.evaluate("(p=>{ const P=INV.place(p)||{}; return GAME.G.zone===P.zone; })(%s)" % json.dumps(v['place']))
