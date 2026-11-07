@@ -38,8 +38,9 @@ async def wear_wait(pg, want, max_s=10.0):
 
 def cams(x, z, yaw):
     fx, fz = math.sin(yaw), math.cos(yaw); rx, rz = math.cos(yaw), -math.sin(yaw)
-    return {'front': {'eye': [x + fx * 2.6, 1.3, z + fz * 2.6], 'look': [x, 1.0, z], 'lens': 35},
-            'side': {'eye': [x + rx * 2.6, 1.3, z + rz * 2.6], 'look': [x, 1.0, z], 'lens': 35}}
+    # CC-B 11-07（PC b987：sw_b1_run_side 腳被切掉；B1 走廊 3.2 m 寬，鏡頭退不開）：廣角 22 mm、眼睛 1.1 m、看 0.85 m＝站著到腳都在畫面裡
+    return {'front': {'eye': [x + fx * 2.6, 1.1, z + fz * 2.6], 'look': [x, 0.85, z], 'lens': 22},
+            'side': {'eye': [x + rx * 2.6, 1.1, z + rz * 2.6], 'look': [x, 0.85, z], 'lens': 22}}
 
 
 async def two(pg, cdp, name, w):
