@@ -1642,3 +1642,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 148.8s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 148.8s] BROWSER DISCONNECTED
 - 2026-11-07T14:01:16  EVSLEEP_LATER_c82  sha=c82a39be1a59e1e679a640175e5ab7897a103b6b  exit=1  259s    PASS ④ 同一晚 21:00 後面還有約：不睡（還是今天、還在晚上）  {"slept": {"day": 32, "hour": 21.77, "zone": "cafe"}, "iv": {"id": "iv54", "h": 19, "place": "library", "state": "accepted", "cat": null}} / PASS 沒有 JS 例外  [] / FAILED: ④ 下午那一格用掉（slots.used.pm ≥ SLOT_BASE.pm）
       err.log (last 5): [gpu_wrap 209.1s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 209.1s] BROWSER DISCONNECTED
+- 2026-11-07T14:01:34  EVSLEEP_c82  sha=c82a39be1a59e1e679a640175e5ab7897a103b6b  exit=1  277s    FAIL 選了排滿的下午：說「這個下午已經排滿了。」  ["「好。我先去占位子。」", "約好 今天 12:10，2:30 ", "約好 今天 12:10，2:30 AM。"] / PASS 沒有 JS 例外  [] / FAILED: ④ 下午那一格用掉（slots.used.pm ≥ SLOT_BASE.pm）, 演完以後再約別人：今天下午的時間灰掉或寫已排滿（沒有今天下午的選項也算）, 選了排滿的下午：說「這個下午已經排滿了。」
+      err.log (last 5): [gpu_wrap 204.3s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 204.4s] BROWSER DISCONNECTED
