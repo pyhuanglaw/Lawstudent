@@ -545,7 +545,9 @@ const GAME = (function(){
     const sm=LEGAL.summary(); const met=Object.values(sm.bySec).some(b=>b.total-b.unseen>0);
     if(met){ add('<b>刑事訴訟法（讀書會、課堂遇到的題目）</b>','muted'); for(const sec in sm.bySec){ const b=sm.bySec[sec]; if(b.total-b.unseen<=0) continue; add('<b>刑事訴訟法・'+sec+'</b><div class="muted">聽過 '+b.seen+' · 混淆 '+b.confused+' · 學到 '+b.learned+' · 理解 '+b.understood+' · 熟練 '+b.mastered+'（遇到 '+(b.total-b.unseen)+' 個爭點）</div>'); } }
     if(sm.misc.length) add('<b>你容易混淆的地方</b>'+sm.misc.map(m=>'<div>· '+esc(m.label)+'（'+m.n+' 次）</div>').join(''));
-    if(!LC.length&&!met) add('還沒上過課。上課、讀書會、和同學討論以後，學到的東西會記在這裡。','muted');
+    const selfN=(G.notes||[]).filter(n=>n&&typeof n.id==='string'&&/^law_/.test(n.id)&&!(ST&&ST.unit&&ST.unit(n.id)));   /* 自己讀書讀到的（總圖、Café 的「讀書」：民總的 studyTopics law_154、law_88…，刑訴題庫的 law_<題號>）——沒有觀念卡，原本法律頁看不到（BB-B 11-07 BB_255 CC 試玩第 7 件：讀了兩小時有兩句內容，法律頁還寫「還沒上過課」；D118「讀書時顯示學習進度」）*/
+    if(selfN.length) add('<b>自己讀的筆記</b>'+selfN.map(n=>'<div>· '+esc(n.title||'')+'</div>').join('')+'<div class="muted">在總圖、咖啡廳讀書整理的。完整內容在「筆記」。</div>');
+    if(!LC.length&&!met&&!selfN.length) add('還沒上過課。上課、讀書會、和同學討論以後，學到的東西會記在這裡。','muted');
     else add('上課、讀書會、同學討論裡學到的會記在這裡；讀書可以把混淆的地方讀懂。','muted'); }
   function renderMap(){ const box=$('mapList'); box.innerHTML='';
     /* 快速前往（2026-10-11 使用者：走路太慢；大地圖的 🚶 也開這裡）：多了霖澤館、萬才館、總圖、Café、公館的店（有開放時間的地方關門時不能去，寫幾點開）。D54：時間依距離（CLS.travelMinutes）；「已知」的地方才能去（placeState 的 KNOWN0＋去過的店）*/
