@@ -6,7 +6,27 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-07 09:5x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-07 10:2x UTC，帳號 B LAWWW2-B）
+
+分支 `claude/funny-albattani-iawshm` @ `692873e87`。開發分支 `claude/modest-rubin-2lyp7g`（`e70d19503`）。瀏覽器都沒跑（D131，交 CC）。
+
+**LAWWW-B 09:04 的順序都交了**：d) 1 描邊、d) 2 溫州街主模型 → (B) 預先載入 → 頭髮 (b)。等他派下一項；沒有的話推 INTERIOR-AAA 下一間室內（#113）。
+
+**11-07 上午後段交的**：
+
+| 項目 | 內容 | 位置 | 狀態 |
+|---|---|---|---|
+| d) 1 描邊不投影 | MToon 描邊在影子那一輪和本體同一份深度，每個會投影的人物少 5 次；更正：臉上零件本來就不投影 | `wip/wz_dc_1107/char_outline_shadow_1107.patch`（`a535443e2`） | LAWWW-B ACK，整合中 |
+| d) 2 溫州街頂點色打包 | 五個頂點色材質合成兩個（粗糙度／金屬度放小貼圖）；primitive 28→16、主畫面 −10～−12、影子 −1；逐三角形比對一樣 | `wenzhou_street.glb`＋`wz_vc_pack_1107.patch`（`a535443e2`） | LAWWW-B ACK，整合中；CC 量 calls |
+| PERF-COLD (B) | 走到出口 30 m 內先下載那一區的模型（只下載不解析）；`zone_assets.js` 由 `tools/gen_zone_assets.js` 產生 | `wip/perf_cold_prefetch_1107/`（`7eff8f7a4`） | LAWWW-B ACK：過期改 WARN；CC 跑 `perf_cold_probe` near＋NET=4g |
+| 大步照鏡子 | 照鏡子 (−2.6,−3.6)、看看 (−2.85,−2.95)；照鏡子按得到 1→10 格 | `src/data/dabu_layout.js`（`7eff8f7a4`） | LAWWW-B 接；CC 重跑 XSSHOP_dabu_cam |
+| 頭髮 (b) | 五個 VRM 頭髮貼圖去細線（`tools/hair_texture.py`） | `wip/hair_noodle_1107/`（`692873e87`） | READY_FOR_ART_REVIEW；等 CC 重拍、LAWWW 標 |
+
+**給 CC-B 的提醒（已傳）**：截圖工具暫停後，NPC 的顯示也照跟隨鏡頭的視錐（engine3d.js:335），換角度要自己重算。
+
+**暫存區**（不進 repo）：`$S/vcpack`（溫州街打包前後的 GLB）、`$S/pf`（zone key 探針、套件結果）、`$S/hairb`（頭髮貼圖、預覽）。
+
+## 🔨 （舊）現在在做（11-07 09:5x UTC，帳號 B LAWWW2-B）
 
 分支 `claude/funny-albattani-iawshm` @ `07deb7085`（下面的最新一包）。開發分支是 `claude/modest-rubin-2lyp7g`（`79214e4e1`）。瀏覽器都沒跑（D131，交 CC）。
 
