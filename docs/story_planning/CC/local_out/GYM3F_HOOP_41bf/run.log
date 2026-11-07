@@ -1,0 +1,32 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gym3f_hoop_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GYM3F_HOOP_41bf\out
+CC GYM3F_HOOP（3F 主球場籃架）：SHA=41bfc5cbe635a410046dba106e14575e9474f4ee（worktree 實際 ?）；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+PASS 這一版有 gym_arena
+  [  24.6s] 籃架 [[0, -14.43], [0, 10.43]]；典禮 {"2025-08-31": "open", "2029-06-02": "grad"}
+  [前置／捷徑] [normal 2025-10-15 17.00] 讀檔 gym_arena 出生點
+PASS [normal 2025-10-15 17.00] 讀到 gym_arena  {"zone": "gym_arena", "x": 0, "z": 21, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 17.06}
+  [  47.8s] [normal 2025-10-15 17.00] SET_HOOPS {"found": true, "vis": true, "cer": false}；場上路人 3 位，離籃框最近 4 m；籃框 1.2 m 內：[]
+PASS [normal 2025-10-15 17.00] 平常日子：籃架放下來看得到（SET_HOOPS 存在、visible）  {"found": true, "vis": true, "cer": false}
+PASS [黑畫面] hoop_normal_courtside 不是黑畫面（平均亮度 96.9、變化 53.2）  [96.9, 53.2]
+  [  49.9s] [截圖] hoop_normal_courtside：鏡頭 {"eye": [8, 1.7, -8.43], "look": [0, 3.05, -14.43], "lens": 24, "vfov": 45.75}、亮度 [96.9, 53.2]
+PASS [黑畫面] hoop_normal_stands 不是黑畫面（平均亮度 109.9、變化 52.9）  [109.9, 52.9]
+  [  52.1s] [截圖] hoop_normal_stands：鏡頭 {"eye": [24, 6, -6.43], "look": [0, 3.05, -14.43], "lens": 28, "vfov": 39.76}、亮度 [109.9, 52.9]
+  [前置／捷徑] [normal_am 2025-10-15 10.00] 讀檔 gym_arena 出生點
+PASS [normal_am 2025-10-15 10.00] 讀到 gym_arena  {"zone": "gym_arena", "x": 0, "z": 21, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.07}
+  [  66.0s] [normal_am 2025-10-15 10.00] SET_HOOPS {"found": true, "vis": true, "cer": false}；場上路人 2 位，離籃框最近 2 m；籃框 1.2 m 內：[]
+PASS [normal_am 2025-10-15 10.00] 平常日子：籃架放下來看得到（SET_HOOPS 存在、visible）  {"found": true, "vis": true, "cer": false}
+PASS [黑畫面] hoop_normal_am_courtside 不是黑畫面（平均亮度 100.4、變化 52.4）  [100.4, 52.4]
+  [  68.2s] [截圖] hoop_normal_am_courtside：鏡頭 {"eye": [8, 1.7, -8.43], "look": [0, 3.05, -14.43], "lens": 24, "vfov": 45.75}、亮度 [100.4, 52.4]
+PASS [黑畫面] hoop_normal_am_stands 不是黑畫面（平均亮度 115、變化 51.6）  [115, 51.6]
+  [  70.4s] [截圖] hoop_normal_am_stands：鏡頭 {"eye": [24, 6, -6.43], "look": [0, 3.05, -14.43], "lens": 28, "vfov": 39.76}、亮度 [115, 51.6]
+  [前置／捷徑] [ceremony 2025-08-31 09.00] 讀檔 gym_arena 出生點
+PASS [ceremony 2025-08-31 09.00] 讀到 gym_arena  {"zone": "gym_arena", "x": 0, "z": 21, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 9.07}
+  [  84.3s] [ceremony 2025-08-31 09.00] SET_HOOPS {"found": true, "vis": false, "cer": true}；場上路人 0 位，離籃框最近 None m；籃框 1.2 m 內：[]
+PASS [ceremony 2025-08-31 09.00] 典禮那天：籃架收起來（SET_HOOPS 看不到）  {"found": true, "vis": false, "cer": true}
+PASS [黑畫面] hoop_ceremony_courtside 不是黑畫面（平均亮度 53.8、變化 54.8）  [53.8, 54.8]
+  [  86.2s] [截圖] hoop_ceremony_courtside：鏡頭 {"eye": [8, 1.7, -8.43], "look": [0, 3.05, -14.43], "lens": 24, "vfov": 45.75}、亮度 [53.8, 54.8]
+PASS [黑畫面] hoop_ceremony_stands 不是黑畫面（平均亮度 73.3、變化 60.7）  [73.3, 60.7]
+  [  88.2s] [截圖] hoop_ceremony_stands：鏡頭 {"eye": [24, 6, -6.43], "look": [0, 3.05, -14.43], "lens": 28, "vfov": 39.76}、亮度 [73.3, 60.7]
+PASS 沒有 JS 例外  []
+ALL PASS
