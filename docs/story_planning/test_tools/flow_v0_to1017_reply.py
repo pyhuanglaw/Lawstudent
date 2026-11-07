@@ -92,7 +92,7 @@ async def main():
         else:
             await L.tap(pg, cdp, '#btnNew')
         if os.environ.get('HUDLOG'):   # BB-B 11-07：BUG-Y0-DAYSKIP-CARD-1107 驗收（GAME 是 const、不在 window 上：用 typeof 判斷）——記下每一張日期卡（字、下面那一句、當時的日期時間）和所有台詞
-            await pg.evaluate("(()=>{ window.__cards=[]; window.__said=[]; const hook=()=>{ if(typeof GAME==='undefined'||GAME.__bbHook) return typeof GAME!=='undefined'&&!!GAME.__bbHook; const tc=GAME.titleCard; if(tc){ GAME.titleCard=function(t,s,ms){ try{ window.__cards.push({t:String(t||''),s:String(s||''),key:CALENDAR.dateOf(GAME.G.day).key,h:+GAME.G.hour.toFixed(2)}); }catch(e){} return tc.apply(this,arguments); }; } const sy=GAME.say; if(sy){ GAME.say=function(w,t){ try{ window.__said.push(String(t||'')); }catch(e){} return sy.apply(this,arguments); }; } GAME.__bbHook=1; return true; }; if(!hook()) { const iv=setInterval(()=>{ if(hook()) clearInterval(iv); },200); } })()")
+            await pg.evaluate("(()=>{ window.__cards=[]; window.__said=[]; const hook=()=>{ if(typeof GAME==='undefined'||GAME.__bbHook) return typeof GAME!=='undefined'&&!!GAME.__bbHook; const tc=GAME.titleCard; if(tc){ GAME.titleCard=function(t,s,ms){ try{ window.__cards.push({t:String(t||''),s:String(s||''),key:CALENDAR.dateOf(GAME.G.day).key,h:+GAME.G.hour.toFixed(2)}); }catch(e){} return tc.apply(this,arguments); }; } const sy=GAME.say; if(sy){ GAME.say=function(w,t){ try{ window.__said.push(String(t||'')); if(/鏈子掉了/.test(String(t||''))) (window.__e05z=window.__e05z||[]).push({zone:GAME.G.zone, bg:(typeof ADV!=='undefined'&&ADV.active)?ADV.bgMode:null, key:CALENDAR.dateOf(GAME.G.day).key, h:+GAME.G.hour.toFixed(2)}); }catch(e){} return sy.apply(this,arguments); }; } GAME.__bbHook=1; return true; }; if(!hook()) { const iv=setInterval(()=>{ if(hook()) clearInterval(iv); },200); } })()")
         seg_saved = False; first_key = None; seg_try = 0
         days, last_key, stuck_t, last_sig, fade_block, recover = [], None, time.time(), None, 0, 0
         fade_run = 0
@@ -232,6 +232,7 @@ async def main():
             said = await pg.evaluate("window.__said||[]")
             k = next((i for i, t in enumerate(said) if '走，去公館' in t), None)
             print('   [E05]', json.dumps(said[k:k+8] if k is not None else [], ensure_ascii=False), flush=True)
+            print('   [E05Z]', json.dumps(await pg.evaluate("window.__e05z||[]"), ensure_ascii=False), flush=True)
         run.check('沒有用到卡住保險', st['fb'] == 0, str(st['fb']))
         run.check('黑幕沒有擋住對話', fade_block == 0, str(fade_block))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))
