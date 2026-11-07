@@ -141,10 +141,10 @@ async def main():
     f = dict(s.get('flags') or {})
     for x in ('DECIDE', 'DECIDE_SAY', 'ARC_INVITE'): f.pop(x, None)
     B = dict(f.get('BEATS') or {}); B[WHO] = {'k': K, 'last': None, 'ans': {}, 'missed': []}; f['BEATS'] = B; s['flags'] = f
-    rel = dict(s.get('rel') or {}); r = dict(rel.get(WHO) or {})
+    soc = dict(s.get('social') or {}); rel = dict(soc.get('rel') or {}); r = dict(rel.get(WHO) or {})   # 關係在 social.rel（不是頂層 rel）
     if TRUST is not None: r['trust'] = int(TRUST)
     if NPCROM is not None: r['npcRom'] = int(NPCROM)
-    rel[WHO] = r; s['rel'] = rel
+    rel[WHO] = r; soc['rel'] = rel; s['social'] = soc
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
