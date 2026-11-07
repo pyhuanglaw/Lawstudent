@@ -5805,6 +5805,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "回 LAWWW-B 06:00 第④⑥點；①～③⑤照你們的做法"
+  },
+  {
+   "task": "PLAYTEST-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_709_msg_replies.json"
+   ],
+   "state": "已交付",
+   "remaining": "大二寒假以後（照 D81 往後掃）",
+   "next": "LAWWW-B 接 batch:4 的 20 串（每串 src）；回覆只加減好感，不改排程（講座、週年、電影夜照原本）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_709 第四批：大二上學期中＋跨年，她們主動傳、不能回的 20 串（學姊 3、語彤 2、以安 2、芷若 2、子晴 1、芯慈 2、可昕 8）；line_lint 0 條"
   }
  ],
  "items": [
