@@ -45144,7 +45144,7 @@
    "title": "人物的頭髮太像泡麵（使用者 11-04 13:2x 對 CC-C：「人物的頭髮真的太像泡麵了」；UA-CC-1104-03）：先找原因（近景探針），再提改法",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -45156,7 +45156,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 10:3x LAWWW-B】(b) 頭髮貼圖去細線（LAWWW2 692873e87）接進 8fdb294aa：五個 VRM 只差頭髮貼圖（LAWWW-B 逐一比對）、讀 VRM 的 27 支 Node ALL PASS；READY_FOR_ART_REVIEW，D100a 等 CC 重拍 HAIR_FIX（HAIRFIX=0、祐廷 HAIR_JPG=1）和 (a) 並排。 ｜ 【11-07 09:1x LAWWW-B】(a) LAWWW2 5ca9da146 接進 1e1345518（六人 VRM 法線 0.6、語彤 ×1.04）；19 支 ALL PASS；CC HAIRFIX=0、HAIR_JPG=1 重拍 → D100a。 ｜ 【11-07 08:4x LAWWW-B｜D100a 選 (a)】CC HAIR_FIX_v2／v3（四種做法）＋LAWWW2 game_zoom（a25346f19）看過：只柔化貼圖幾乎沒差；法線 0.6 差最多（學姊背面、以安 45° 髮束條紋淡、整頭像一塊），語彤變暗。決定：(a) 法線 0.6 烘進祐廷＋五位女主角 VRM（語彤頭髮底色提亮一點）→ CC 同鏡頭拍 → 標 ART_APPROVED；(b) 重畫頭髮貼圖（去掉每束重複細黑線）排在後面；(c) 改幾何不做；路人先不動。 ｜ 【LAWWW-C 11-04 13:3x】LAWWW2-C 13:1x：人物 3D 是 LAWWW2 的，請 CC 排近景探針先找原因（髮片幾何、matcap、法線、彈簧骨？），原因出來提改法；人物外觀改法 LAWWW 驗收（D100a、D128），BB 可給意見；不擋 v9.10.20",
+   "next": "【11-07 10:5x LAWWW-B｜ART_APPROVED（D100a 角色美術）】頭髮 (b)（LAWWW2 692873e87 → 8fdb294aa）：CC PC HAIR_a_c8b0／HAIR_b_8fdb 同鏡頭（校園 11:00 正面、45°、側面、背面、跟隨），並排 cc-testing 530a7a431、原圖 cc-local local_out/HAIR_*。學姊背面 (a) 後腦一根一根的深色細線 → (b) 一整塊、柔和明暗、高光帶還在；語彤背面條紋變少；祐廷差不多；顏色、臉、瀏海、衣服沒變；馬尾、髮尾分幾束是幾何本身（貼圖改不到）。通過。 ｜ 【11-07 10:3x LAWWW-B】(b) 頭髮貼圖去細線（LAWWW2 692873e87）接進 8fdb294aa：五個 VRM 只差頭髮貼圖（LAWWW-B 逐一比對）、讀 VRM 的 27 支 Node ALL PASS；READY_FOR_ART_REVIEW，D100a 等 CC 重拍 HAIR_FIX（HAIRFIX=0、祐廷 HAIR_JPG=1）和 (a) 並排。 ｜ 【11-07 09:1x LAWWW-B】(a) LAWWW2 5ca9da146 接進 1e1345518（六人 VRM 法線 0.6、語彤 ×1.04）；19 支 ALL PASS；CC HAIRFIX=0、HAIR_JPG=1 重拍 → D100a。 ｜ 【11-07 08:4x LAWWW-B｜D100a 選 (a)】CC HAIR_FIX_v2／v3（四種做法）＋LAWWW2 game_zoom（a25346f19）看過：只柔化貼圖幾乎沒差；法線 0.6 差最多（學姊背面、以安 45° 髮束條紋淡、整頭像一塊），語彤變暗。決定：(a) 法線 0.6 烘進祐廷＋五位女主角 VRM（語彤頭髮底色提亮一點）→ CC 同鏡頭拍 → 標 ART_APPROVED；(b) 重畫頭髮貼圖（去掉每束重複細黑線）排在後面；(c) 改幾何不做；路人先不動。 ｜ 【LAWWW-C 11-04 13:3x】LAWWW2-C 13:1x：人物 3D 是 LAWWW2 的，請 CC 排近景探針先找原因（髮片幾何、matcap、法線、彈簧骨？），原因出來提改法；人物外觀改法 LAWWW 驗收（D100a、D128），BB 可給意見；不擋 v9.10.20",
    "source": "使用者 11-04 13:2x 對 CC-C（UA-CC-1104-03，CC-C 13:16 轉 LAWWW-C）",
    "authorized": "使用者直接要求",
    "xai": {
