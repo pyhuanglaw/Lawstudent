@@ -18217,7 +18217,7 @@
    "msg": "ACK",
    "what": "AA_723 沛珊第二批（f5cb310d6 動態全關、柏翰一句、noGroup；d8570a14b optAlt）＋告白 rule 第 3 點（沒演到＝答應）",
    "task": "AA723-CONFESS-PS-1107",
-   "integration": "已整合待測試",
+   "integration": "已驗收",
    "note": "7b02ee2f0（3b2cf9053、28c3d3c7c）",
    "ack": "ACK"
   },
@@ -18245,7 +18245,7 @@
    "msg": "ACK",
    "what": "AA_723 重聚第一句改「兩張小方桌併在一起」、plan.place wz_lin",
    "task": "AA723-CONFESS-PS-1107",
-   "integration": "已整合待測試",
+   "integration": "已驗收",
    "note": "7b02ee2f0（28c3d3c7c）",
    "ack": "ACK"
   },
