@@ -50,13 +50,14 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     r1=await play(2); check('「家裡的事比較重要吧。」：不扣分——「嗯。」（她點頭。）「我也這樣跟自己說了兩個月。」；trust+2、comf 沒有減',JSON.stringify(r1.L.slice(6))==='["林芷若：嗯。","她點頭。","林芷若：我也這樣跟自己說了兩個月。"]'&&r1.d.trust===2&&r1.d.comf>=0&&G.flags.Z4_PICK==='family',JSON.stringify(r1.d)); }
   /* P3b */
   { const at=(w,wd,h,o)=>{ o=o||{}; fresh(termDay('Y1S2',w,wd),h,o.zone||'wenzhou'); if(!o.noP2) G.events.done.ev_peishan_doubt=1; return EVENTS.check(p); };
-    const r={ok:at(5,2,17),thu:at(9,4,16.6),w4:at(4,2,17),wed:at(5,3,17),early:at(5,2,16),late:at(5,2,18.1),noP2:at(5,2,17,{noP2:true}),gg:at(5,2,17,{zone:'gongguan'})};
-    check('P3b：第 5 週起的週二、週四 16:30–18:00 走進溫州街、P2 之後（第 4 週、週三、16:00、18:06、沒有 P2、在公館都沒有）',r.ok&&r.thu&&!r.w4&&!r.wed&&!r.early&&!r.late&&!r.noP2&&!r.gg,JSON.stringify(r));
+    /* AA-B 2026-11-07 21:11～21:12（AA_614 第 1 節 a0b8a3e40；AA614-CLASSMATE-JOBS-1103）：課輔班改每週三，P3b 跟著搬到週三 20:45–21:15（原本週二、週四 16:30–18:00）——照新的時間改 */
+    const r={ok:at(5,3,21),wed2:at(9,3,20.8),w4:at(4,3,21),tue:at(5,2,17),thu:at(9,4,16.6),early:at(5,3,20.6),late:at(5,3,21.3),noP2:at(5,3,21,{noP2:true}),gg:at(5,3,21,{zone:'gongguan'})};
+    check('P3b：第 5 週起的週三 20:45–21:15 走進溫州街、P2 之後（第 4 週、週二、週四、20:36、21:18、沒有 P2、在公館都沒有）',r.ok&&r.wed2&&!r.w4&&!r.tue&&!r.thu&&!r.early&&!r.late&&!r.noP2&&!r.gg,JSON.stringify(r));
     check('P3b：走進溫州街就演（enter）；2D 背景「溫州街・課輔班門口」（不需要臨時位置）',p.trigger==='enter'&&p.dialogue[0].bg==='wenzhou_tutoring'&&!!OUT.BG.wenzhou_tutoring);
-    const play=async(pick,club,formOnly)=>{ fresh(termDay('Y1S2',5,2),17,'wenzhou',club||formOnly?{CLUB_lawclub_study:true}:{}); if(club){ G.acts={att:{}}; G.acts.att['lawclub_study@'+(G.day-7)]={h:19}; } G.events.done.ev_peishan_doubt=1; picks=[pick]; await EVENTS.run(p); return lines(); };   /* BB_161 ④：去過讀書會＝出席紀錄；只有博覽會填表（CLUB_lawclub_study）不算 */
+    const play=async(pick,club,formOnly)=>{ fresh(termDay('Y1S2',5,3),21,'wenzhou',club||formOnly?{CLUB_lawclub_study:true}:{}); if(club){ G.acts={att:{}}; G.acts.att['lawclub_study@'+(G.day-7)]={h:19}; } G.events.done.ev_peishan_doubt=1; picks=[pick]; await EVENTS.run(p); return lines(); };   /* BB_161 ④：去過讀書會＝出席紀錄；只有博覽會填表（CLUB_lawclub_study）不算 */
     let L=await play('開心');
     const nm=(CHARACTERS.classmate_peishan&&CHARACTERS.classmate_peishan.name)||'郭沛珊';
-    check('P3b 台詞照原文',JSON.stringify(L.slice(0,4))===JSON.stringify(['她帶著一群國小生從課輔班走出來，手上拿著一疊作業本。',nm+'：喔，是你。我在這裡當志工。一週兩天。'/* AA_373 #6 */,'一個小孩拉她的衣角。她蹲下來聽他講完，站起來。',nm+'：……我在這裡的時候，不會看時間。']),JSON.stringify(L.slice(0,4)));
+    check('P3b 台詞照原文（開頭旁白、「每個禮拜三。」照 AA-B 11-07 改）',JSON.stringify(L.slice(0,4))===JSON.stringify(['她帶著一群國小生從課輔班走出來。門口有幾個家長在等，她手上還拿著一疊作業本。',nm+'：喔，是你。我在這裡當志工。每個禮拜三。'/* AA_373 #6 → AA-B 11-07 */,'一個小孩拉她的衣角。她蹲下來聽他講完，站起來。',nm+'：……我在這裡的時候，不會看時間。']),JSON.stringify(L.slice(0,4)));
     check('沒去過讀書會：兩個選項（沒有「讀書會最近比較少看到妳」）',JSON.stringify(opts[0])==='["「妳看起來很開心。」","（幫她拿一半的作業本）"]',JSON.stringify(opts[0]));
     check('「妳看起來很開心。」：「有嗎。」（她想了一下。）「……有。」；SAW_HER_TEACH',JSON.stringify(L.slice(4))===JSON.stringify([nm+'：有嗎。','她想了一下。',nm+'：……有。'])&&SOCIAL.has('classmate_peishan','SAW_HER_TEACH'),JSON.stringify(L.slice(4)));
     { const Lf=await play('看起來',false,true); check('BB_161 ④：只在博覽會填了表、沒去過讀書會＝沒有「讀書會最近比較少看到妳。」',!opts[0].includes('「讀書會最近比較少看到妳。」'),JSON.stringify(opts[0])); }

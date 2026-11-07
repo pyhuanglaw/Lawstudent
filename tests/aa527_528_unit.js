@@ -141,7 +141,8 @@ const docRe=(n,re)=>re.test(docOf(n));
     check('2-5. 沛珊「總圖二樓」三列（c504_6_1、c505_6_1、c505_6_2）＝總圖大廳二樓自習區（library_hall）',['c504_6_1','c505_6_1','c505_6_2'].every(id=>row(id)&&row(id).zone==='library_hall'));
     const z=(k,h)=>{ fresh(k,h,'library_hall'); const e=STORY.schedEnt(CHARACTERS.classmate_peishan,H.G); return e&&e.zone; };
     const r=[z('2026-04-06',16.5),z('2026-04-07',16.5),z('2026-04-07',18.5),z('2026-09-14',16.5),z('2025-09-15',16.5),z('2026-03-23',16.5)];
-    check('2-5. 沛珊作息：4/6～6/14 週一 16:30 總圖大廳；週二 16:30 溫州街課輔班（照舊）、18:30 總圖大廳；大二上總圖大廳；大一上、4/6 以前照舊三樓閱覽區',J(r)===J(['library_hall','wenzhou','library_hall','library_hall','library','library']),J(r));
+    /* 週二 16:30：AA-B 2026-11-07（AA_614 第 1 節 a0b8a3e40，AA614-CLASSMATE-JOBS-1103）課輔班改每週三 18:00～21:00＝週二 16:30 在總圖大廳（原本溫州街課輔班）——照新的作息改 */
+    check('2-5. 沛珊作息：4/6～6/14 週一 16:30 總圖大廳；週二 16:30 總圖大廳（課輔班改週三，AA-B 11-07）、18:30 總圖大廳；大二上總圖大廳；大一上、4/6 以前照舊三樓閱覽區',J(r)===J(['library_hall','library_hall','library_hall','library_hall','library','library']),J(r));
     fresh('2026-09-14',16.5,'library_hall'); const rows=HCIRCLE.rowsIn(H.G,'library_hall').map(x=>x.id), bh=STORY.schedEnt(CHARACTERS.classmate_bohan,H.G);
     check('2-5. 大二上第 2 週週一 16:30：圈子 c505_6_1 在總圖大廳成立，柏翰跟著她（在 library_hall）',rows.includes('c505_6_1')&&!!bh&&bh.zone==='library_hall',J([rows,bh&&bh.zone]));
     const on=k=>{ fresh(k,19,'gongguan'); return HCIRCLE.rowsIn(H.G,'gongguan').map(x=>x.id); };

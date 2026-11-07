@@ -58,6 +58,7 @@ const WHOIS=(()=>{
     {c:1,id:'name',if:f('met_yu'),t:'Alison。法律系，跟你同班，坐你前面右邊。'},
     {c:1,id:'home',if:ev('ev_yu_breakfast'),t:'從板橋通勤。'},
     {c:1,id:'sis',if:f('KNOWS_SIS_ALISON'),t:'學姊的妹妹。'},   /* AA_611 第 1 節第 8 列（企劃線 3f85566f4）：礁溪那天知道了（KNOWS_SIS_ALISON）才多這一行 */
+    {c:1,id:'job',if:G=>{ const N=F(G).NY_ALISON; return !!(N&&typeof N==='object'&&N.first!=null); },t:'打工：南洋戲院（週五、週六晚上）'},   /* AA_615 第 4 節（企劃線 ba26f7f7d；AA615-ALISON-CINEMA-1103）：第一次在櫃檯遇到以後（src/shopnpc3d.js 記 G.flags.NY_ALISON.first）*/
     {c:3,id:'bkf1',if:ev('ev_yu_breakfast'),t:'大一上，在晨思鐘旁邊一起吃過早餐。'},
     {c:3,id:'zh',keep:true,if:G=>F(G).YU_ZHE_TOLD==='here',t:'大二上學期末，她和阿哲在一起了。是她在燒臘店親口跟你說的。'},
     {c:3,id:'zc',keep:true,if:G=>F(G).YU_ZHE_TOLD==='call',t:'大二上學期末，她和阿哲在一起了。她打電話跟你說的。'},

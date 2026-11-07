@@ -131,7 +131,7 @@ const HCIRCLE_DATA={
     {id:'c504_6_1',doc:'AA_504',sec:'6-1',k:1,who:'classmate_peishan',with:['classmate_bohan'],days:[1,2,4,5],from:16,to:19,terms:['Y1S2'],dates:[['2026-04-06','2026-06-14']],zone:'library_hall',cond:'psBohan',aa527:'2-5',heard:'柏翰：五十分鐘到了。休息十分鐘。／沛珊：我這頁還沒看完……好啦。',
       place:'總圖二樓＝總圖大廳二樓自習區（library_hall 二樓；AA_527 2-5，企劃線 bfede0a62；原本放總圖三樓閱覽區）：沛珊那幾格的作息在 characters.js 改 library_hall，柏翰照圈子跟著她（STORY.SCHED_WITH）；週二、四 16～18 第 5～15 週她在溫州街課輔班（作息在前面）'},
     {id:'c504_6_2',doc:'AA_504',sec:'6-1',k:2,who:'classmate_peishan',ref:true,heard:'照現有'},
-    {id:'c504_6_3',doc:'AA_504',sec:'6-1',k:3,who:'classmate_peishan',with:['hc_kid'],days:[2,4],from:16,to:18,terms:['Y1S2'],wk:[5,15],zone:'wenzhou',heard:'小朋友：老師！這題我會了！／沛珊：好棒！……那下一題呢？'},
+    {id:'c504_6_3',doc:'AA_504',sec:'6-1',k:3,who:'classmate_peishan',with:['hc_kid'],days:[3],from:18,to:21,terms:['Y1S2'],wk:[5,15],zone:'wenzhou',note:'AA_504 6-1 寫「週二、四 課輔班（現有）」＝跟著課輔班的作息；AA-B 2026-11-07（AA_614 第 1 節 a0b8a3e40）課輔班改每週三 18:00～21:00＝這一列跟著搬（原本週二、四 16～18；AA614-CLASSMATE-JOBS-1103）',heard:'小朋友：老師！這題我會了！／沛珊：好棒！……那下一題呢？'},
     /* ===================== AA_505 大二上＋寒假 ===================== */
     {id:'c505_1_1',doc:'AA_505',sec:'1-1',k:1,who:'heroine_01',with:['yu'],always:true,days:[1,3],from:18,to:18+50/60,terms:['Y2S1'],wk:[1,7],zone:'campus',cond:'beforePlgRules',heard:'Alison：欸讀書會的規則妳又寫了幾條？／以安：十二條。／Alison：……我等一下撕一半。',
       place:'「只在第 7 週以前說」＝第 1～7 週、ev_plg_rules（Alison 撕掉一半）還沒演'},

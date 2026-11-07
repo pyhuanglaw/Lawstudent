@@ -1897,14 +1897,15 @@ const STORY_EVENTS=[
       {speaker:'heroine_05',expression:'neutral',text:'Kevin，下次的地方你選。'},
       {if:{flags:['SAID_HAS_CAR']},speaker:null,text:'家聚結束，你順路載三個人回學校。學姊坐後座，一路在問學弟妹下學期選什麼課。'},{unless:{flags:['SIS_W1']},set:{SIS_W1:true,met_sis:true}} ],
     after:G=>{ if(typeof SOCIAL==='undefined') return; SOCIAL.remember('heroine_05','FAMILY_DINNER','永康街的咖哩'); if(G.flags.SAID_TREAT_SIS){ G.flags.TREATED_FAMILY=true; SOCIAL.remember('heroine_05','TREATED_FAMILY','說要請全家族飲料，真的請了'); } } },
-  /* 沛珊 P3b「課輔班的下午」（BB_96 3-3，交接包 v2）：大一下第 5 週起，週二或週四 16:30–18:00 走進溫州街，P2（ev_peishan_doubt）之後、只一次。
+  /* 沛珊 P3b「課輔班的晚上」（BB_96 3-3，交接包 v2；原本「課輔班的下午」）：大一下第 5～15 週，週三 20:45–21:15 走進溫州街（下課、家長來接），P2（ev_peishan_doubt）之後、只一次。
+     AA-B 2026-11-07 21:11～21:12（AA614-CLASSMATE-JOBS-1103；AA_614 第 1 節 a0b8a3e40：課輔班每週三 18:00～21:00）：原本週二、四 16:30–18:00；開頭旁白、「一週兩天」兩句照 AA-B 改，其他台詞不動。
      她不用在 3D 裡出現：直接換成 2D 背景「溫州街・課輔班門口」（圖還沒有＝深色底＋字幕）。第二個選項只給去過法服讀書會的玩家（CLUB_lawclub_study）。
      記 SAW_HER_TEACH（大二 P3「我要重考。去念教育」的伏筆；不寫成憂鬱或逃避）*/
-  { id:'ev_peishan_tutoring', title:'課輔班的下午', participants:['classmate_peishan'], location:'wenzhou', trigger:'enter', term:['Y1S2'], weeks:[5,6,7,8,9,10,11,12,13,14,15], weekday:[2,4], time:[16.5,18], once:true, background:'dark',
+  { id:'ev_peishan_tutoring', title:'課輔班的晚上', participants:['classmate_peishan'], location:'wenzhou', trigger:'enter', term:['Y1S2'], weeks:[5,6,7,8,9,10,11,12,13,14,15], weekday:[3], time:[20.75,21.25], once:true, background:'dark',
     prereq:{events:['ev_peishan_doubt']},
     dialogue:[ {scene:'溫州街・課輔班門口',bg:'wenzhou_tutoring'},
-      {speaker:null,text:'她帶著一群國小生從課輔班走出來，手上拿著一疊作業本。'},
-      {speaker:'classmate_peishan',expression:'smile',text:'喔，是你。我在這裡當志工。一週兩天。'},   /* AA_373 #6：作息週二、四 16:00～18:00 在溫州街課輔班（characters.js）*/
+      {speaker:null,text:'她帶著一群國小生從課輔班走出來。門口有幾個家長在等，她手上還拿著一疊作業本。'},   /* AA-B 2026-11-07 改 */
+      {speaker:'classmate_peishan',expression:'smile',text:'喔，是你。我在這裡當志工。每個禮拜三。'},   /* AA-B 2026-11-07 改（原本「一週兩天」）：作息週三 18:00～21:00 在溫州街課輔班（characters.js，AA_614 第 1 節）*/
       {speaker:null,text:'一個小孩拉她的衣角。她蹲下來聽他講完，站起來。'},
       {speaker:'classmate_peishan',expression:'thinking',text:'……我在這裡的時候，不會看時間。'},
       /* BB_161 ④：第二個選項只給去過讀書會的玩家（出席紀錄，不是博覽會填表的 CLUB_lawclub_study）*/

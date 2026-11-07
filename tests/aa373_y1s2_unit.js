@@ -102,14 +102,17 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('5. 烏來的偶遇（自由出行）：4/4 不排、4/18 照排；大一上第 6 週照舊（對照）',!e1.ok&&e2.ok&&e3.ok,J([e1.why,e2.why,e3.why])); }
   // ===== 第 6 項：沛珊的課輔班 =====
   { const ps=CHARACTERS.classmate_peishan, at=(wk,wd,h)=>{ fresh(termDay('Y1S2',wk,wd),h,'wenzhou',{}); return STORY.schedEnt(ps,G)||{}; };
-    const A=[[5,2,16],[5,4,17.5],[9,2,16.5],[15,4,17.9]].map(x=>at(...x).zone), B=[[5,1,16.5],[5,5,18.5],[4,2,16.5],[16,2,16.5]].map(x=>at(...x).zone);
-    check('6. 沛珊作息：大一下第 5～15 週週二、四 16:00～18:00 在溫州街（課輔班）',A.every(z=>z==='wenzhou'),J(A));
+    /* AA-B 2026-11-07 21:11～21:12（AA_614 第 1 節 a0b8a3e40；AA614-CLASSMATE-JOBS-1103）：課輔班改每週三 18:00～21:00（原本 AA_373 #6 週二、四 16:00～18:00）——這一項照新的作息改 */
+    const A=[[5,3,18],[5,3,20.5],[9,3,19],[15,3,20.9]].map(x=>at(...x).zone), A2=[[5,2,16],[5,4,17.5],[9,2,16.5],[15,4,17.9]].map(x=>at(...x).zone), B=[[5,1,16.5],[5,5,18.5],[4,2,16.5],[16,2,16.5]].map(x=>at(...x).zone);
+    check('6. 沛珊作息：每週三 18:00～21:00 在溫州街（課輔班；AA-B 11-07，原本週二、四 16:00～18:00）',A.every(z=>z==='wenzhou'),J(A));
+    check('6. 週二、四 16:00～18:00 不在溫州街了（AA-B 11-07）',A2.every(z=>z!=='wenzhou'),J(A2));
     check('6. 對照：週一、五 16～19 照舊在總圖；第 4 週週二照舊在總圖；第 16 週週二（4/6～6/14 和柏翰那一段）＝總圖大廳二樓自習區（AA_527 2-5，原本三樓閱覽區）',J(B)===J(['library','library','library','library_hall']),J(B));
-    const T=evText('ev_peishan_tutoring'); check('6. 溫州街課輔班（P3b）：「喔，是你。我在這裡當志工。一週兩天。」',T.includes('喔，是你。我在這裡當志工。一週兩天。')&&!T.some(t=>/一週三天/.test(t)),J(T.slice(0,2)));
+    const T=evText('ev_peishan_tutoring'); check('6. 溫州街課輔班（P3b）：「喔，是你。我在這裡當志工。每個禮拜三。」（AA-B 11-07，原本「一週兩天。」）',T.includes('喔，是你。我在這裡當志工。每個禮拜三。')&&!T.some(t=>/一週三天|一週兩天/.test(t)),J(T.slice(0,2)));
     const L3=LADDER.byTerm.Y1S2.classmate_peishan.steps.find(s=>s.id==='P2-L3');
     check('6. 閒聊階梯 P2-L3：「我在溫州街的課輔班當志工。一週兩天。」',!!L3&&L3.lines[0]==='我在溫州街的課輔班當志工。一週兩天。',L3&&L3.lines[0]);
     fresh(termDay('Y1S2',6,2),17,'wenzhou',{}); R('classmate_peishan','FAM'); const g=[]; for(let i=0;i<6;i++){ const t=STORY.ladGreet(G,'classmate_peishan'); if(t) g.push(t); }
-    check('6. 第 6 週週二 17:00 她在溫州街，招呼「（她帶著一排小孩過馬路，對你點頭）……等一下！」接得上（她真的在那裡）',STORY.schedEnt(ps,G).zone==='wenzhou'&&g.includes('（她帶著一排小孩過馬路，對你點頭）……等一下！'),J(g)); }
+    /* AA-B 11-07 以後週二 17:00 她不在溫州街（在總圖）：招呼的條件（ladder.js 的 when：週二、四 16:30～18:00）是 AA 的資料，沒有改——已問 AA（AA614 回報）；這裡只確認資料還在、她週二不在溫州街 */
+    check('6. 第 6 週週二 17:00：招呼「（她帶著一排小孩過馬路，對你點頭）……等一下！」的資料照舊；她已經不在溫州街（AA-B 11-07 課輔班改週三）',STORY.schedEnt(ps,G).zone!=='wenzhou'&&g.includes('（她帶著一排小孩過馬路，對你點頭）……等一下！'),J([STORY.schedEnt(ps,G).zone,g])); }
   // ===== 第 7 項＋BB-5：語彤大一下期末邀約「禮拜五」=====
   { const inv=(term,kind)=>{ const w=TERMEND.windowOf(term); fresh(w.from,20,'dorm',{}); R('heroine_03','FRI'); TERMEND.rec(G,term).plan={back:w.from,heart:kind==='heart'?['heroine_03']:[],friend:kind==='friend'?['heroine_03']:[],fallback:null,gf:[],nope:{},kx:false};
       G.hour=20.9; TERMEND.phone(GM); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag==='te_'+term+'_heroine_03'); return m?m.text:null; };

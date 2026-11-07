@@ -17,11 +17,12 @@ const ROWS=[]; for(const id in CHARACTERS) for(const e of (CHARACTERS[id].daily_
 check('0. AA_320 的 16 列都在（118 巷 11、霖澤館樓上 5；以安大三下、大二上大四上（5-1 提早）另兩列、沛珊大二上另一列＝19 筆）', ROWS.length===19, String(ROWS.length));
 // 找日期：這一列的學期、週次、星期，不是假日
 const D0=STORY.dayOfKey('2025-08-25'), D1=STORY.dayOfKey('2029-06-30');
-const sample=(e,pred)=>{ for(let d=D0;d<=D1;d++){ const T=CALENDAR.termOf(d); if(!T||!e.terms.includes(T.id)||(e.weeks&&!e.weeks.includes(T.week))) continue; if(!e.days.includes(CALENDAR.dateOf(d).wd%7)) continue; if(e.noHoliday&&CALENDAR.holiday(d)) continue; if(pred&&!pred(d,T)) continue; return d; } return null; };
+const offD=(e,d)=>!!e.notDates&&STORY.inDates({day:d},e.notDates);   /* notDates：這幾段日子這一列不排（AA_320 E7 的週三：2026-11-07 起課輔班，AA_614 第 1 節）*/
+const sample=(e,pred)=>{ for(let d=D0;d<=D1;d++){ const T=CALENDAR.termOf(d); if(!T||!e.terms.includes(T.id)||(e.weeks&&!e.weeks.includes(T.week))||offD(e,d)) continue; if(!e.days.includes(CALENDAR.dateOf(d).wd%7)) continue; if(e.noHoliday&&CALENDAR.holiday(d)) continue; if(pred&&!pred(d,T)) continue; return d; } return null; };
 const IMPORTANT=/家教|顧店|顧麵店|社課|讀書會|打工|助教/;
 const bad1=[], bad2=[], cls=[], hits=[];
 for(const {id,e} of ROWS){ const c=CHARACTERS[id]; let shown=0;
-  for(let d=D0;d<=D1;d++){ const T=CALENDAR.termOf(d); if(!T||!e.terms.includes(T.id)||(e.weeks&&!e.weeks.includes(T.week))||!e.days.includes(CALENDAR.dateOf(d).wd%7)||(e.noHoliday&&CALENDAR.holiday(d))) continue;
+  for(let d=D0;d<=D1;d++){ const T=CALENDAR.termOf(d); if(!T||!e.terms.includes(T.id)||(e.weeks&&!e.weeks.includes(T.week))||!e.days.includes(CALENDAR.dateOf(d).wd%7)||(e.noHoliday&&CALENDAR.holiday(d))||offD(e,d)) continue;
     for(const h of [e.from+0.05,(e.from+e.to)/2,e.to-0.05]){ const G=mkG(d,h); if(c.presence&&!STORY.reachable(id,G)) continue; shown++;
       const got=STORY.schedEnt(c,G); if(got===e) continue;
       if(got&&got.act==='class'&&STORY.classmateClass(c,G)){ cls.push(id+' '+CALENDAR.dateOf(d).key+' '+h.toFixed(2)+' '+(got.course||got.room||got.zone||'')); continue; }   /* 同班同學的課表優先（上課不動，AA_320 開頭）*/

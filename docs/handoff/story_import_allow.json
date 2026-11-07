@@ -4689,7 +4689,7 @@
    "approvedBy": "AA-C D109（AA_615 第 4 節：AA_705 南洋戲院那一列指過來「遇到她、送爆米花照原稿」）",
    "task": "SHOP-NAMED-NPC-1105",
    "kind": "text",
-   "note": "只用第 4 節「遇到她、送爆米花」：第一次（櫃檯）旁白兩句、Alison 四句、兩個選項的回話、拿到爆米花的旁白；之後再遇到三句隨機；KNOWS_SIS_ALISON 那一句。照抄進 src/data/shop_npc.js（SHOP_NPC.alison）；和朋友一起來、人物頁打工那一行、看電影時多一句還沒做。tests/shop_npc_unit.js 用 git show ebea3a2b0 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+   "note": "只用第 4 節「遇到她、送爆米花」：第一次（櫃檯）旁白兩句、Alison 四句、兩個選項的回話、拿到爆米花的旁白；之後再遇到三句隨機；KNOWS_SIS_ALISON 那一句。照抄進 src/data/shop_npc.js（SHOP_NPC.alison）；和朋友一起來、人物頁打工那一行、看電影時多一句：AA615-ALISON-CINEMA-1103（LAWWW-B 11-07）照 ba26f7f7d（和 ebea3a2b0 內容相同）補——第 3 節 1 廳坐下來看三句旁白隨機一句、第 4 節「三位？……你們三個看同一部喔。」（AA_614 第 3 節第 3 列那一場）、「禮拜五晚上我在戲院。……禮拜天下午？」（邀約撞到她的班）照抄進 src/aa614_3d.js（AA614.L），人物頁「打工：南洋戲院（週五、週六晚上）」在 src/whois3d.js；tests/aa614_jobs_unit.js 對稿。tests/shop_npc_unit.js 用 git show ebea3a2b0 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
   },
   {
    "path": "docs/story_planning/AA_707_study_scenes.json",
@@ -4925,6 +4925,15 @@
    "task": "AA613-OPENING-ACTS-1103",
    "kind": "text",
    "note": "開學活動有同學約一起去、系籃怎麼加入（第 1 節：社博阿哲私訊＋第七小隊群組＋合唱團攤位、法律資料怎麼查芯慈、第一次社課群組、開學典禮柏翰旁白、說了好沒來；第 2 節：2-1 晨思鐘、2-2 攤位兩句、2-3 第一次練球前一天、2-4 球場學長兩句＋阿哲）。照抄進 src/aa613_3d.js（S.L）、src/data/club_fair.js（2-2 BOOTHS basketball.say 後兩句、2-4 DOOR_SAY_BY）；第 3 節（兩層樓的書店）不在這裡。tests/aa613_opening_acts_unit.js 對稿；232fe4149（AA-B 11-07 20:3x「接線時補的」）：晨思鐘晚到版開頭旁白、填表系統字移到「好欸。」後面、芯慈 15:30 以後到的旁白"
+  },
+  {
+   "path": "docs/story_planning/AA_614_同學也在打工_約了不能來.md",
+   "sha": "a0b8a3e40",
+   "status": "approved",
+   "approvedBy": "AA（D109）；第 1 節沛珊每週三 18:00～21:00、做到 2026-12-17＝AA-B 2026-11-07 21:11～21:12",
+   "task": "AA614-CLASSMATE-JOBS-1103",
+   "kind": "text",
+   "note": "同學也在打工（第 1 節作息：src/data/characters.js 阿凱週六程式教室、沛珊週三課輔班、Alison 南洋戲院，作息那一筆的 job；第 2 節邀約撞到上班五人的句子與改約時間；第 3 節群組、私訊五則（第 3 列「好。」＝當天 19:30 南洋戲院出遊）；第 4 節路上遇到沛珊、阿凱；第 5 節阿凱、沛珊閒聊各一句）。照抄進 src/aa614_3d.js（AA614.L）；ev_peishan_tutoring 搬到週三 20:45～21:15、兩句照 AA-B 11-07 改（src/data/events.js）。人物頁「打工：……」稿上沒有字＝沒做（問 AA）。tests/aa614_jobs_unit.js 用 git show a0b8a3e40 逐句對照"
   }
  ]
 }
