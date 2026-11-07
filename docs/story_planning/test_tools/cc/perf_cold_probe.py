@@ -106,6 +106,11 @@ BREAKDOWN_JS = r"""()=>{ const E=GAME.E, R=E.renderer, sc=E.scene, ar=R.info.aut
   finally{ for(const [o,v] of keep) o.visible=v; R.info.autoReset=ar; R.shadowMap.needsUpdate=true; }
   out.parts.sort((a,b)=>b[1]-a[1]); out.parts=out.parts.slice(0,40); return out; }"""
 
+# CC-B 11-07（LAWWW2-B 11:15）：near 下載完、進區域前，問瀏覽器快取裡有沒有那個檔（only-if-cached：沒有就失敗，不會去下載）
+CACHE_JS = r"""async k=>{ if(!k) return null; const A=ASSETS, m=A.manifest&&A.manifest[k]; if(!m) return {key:k, err:'manifest 沒有'}; const u=new URL(m.url, location.href).href;
+  let r=null; try{ const res=await fetch(u,{cache:'only-if-cached',mode:'same-origin'}); const b=await res.arrayBuffer(); r={status:res.status, bytes:b.byteLength}; }catch(e){ r={err:String(e)}; }
+  return Object.assign({key:k, url:u.slice(-60), prefetched:A.prefetched?A.prefetched[k]:null}, r); }"""
+
 NEAR_JS = r"""async zone=>{ const A=ASSETS, t=performance.now(); if(!A.prefetch||typeof ZONE_ASSETS==='undefined') return {err:'沒有 ASSETS.prefetch／ZONE_ASSETS（(B) 還沒整合）'};
   const keys=ZONE_ASSETS[zone]||[], n=A.prefetch(keys); for(let i=0;i<1800&&(A._pf.cur||A._pf.q.length);i++) await new Promise(r=>setTimeout(r,100));
   return {keys, queued:n, ok:A.prefetchOK(), ms:Math.round(performance.now()-t), bytes:keys.map(k=>A.prefetched[k])}; }"""
@@ -187,7 +192,20 @@ def analyse(run):
 
 async def one_run(p, url, zone, variant, preload_keys):
     run = {'zone': zone, 'variant': variant}
-    b, ctx, pg, cdp, errs = await L.launch(p, landscape=LAND)
+    if os.environ.get('PERSIST') == '1':   # CC-B 11-07（LAWWW2-B 11:15 PERF_COLD_PERSIST）：磁碟快取（persistent context，每一輪一個新的空資料夾）——分辨「測試瀏覽器記憶體快取不收 13.6 MB 單檔」
+        import tempfile
+        ud = tempfile.mkdtemp(prefix='pc_persist_'); run['userDataDir'] = ud
+        vp = {'width': 844, 'height': 390} if LAND else {'width': 390, 'height': 844}
+        ep = '/opt/pw-browsers/chromium'; kw = {}
+        if os.path.exists(ep): kw['executable_path'] = ep
+        if os.environ.get('CC_GPU') == '1':   # PC 的 gpu_wrap 只 patch launch，不管 launch_persistent_context：照它的 GPU 參數、無視窗設定自己來
+            args = ['--ignore-gpu-blocklist', '--use-gl=angle', '--use-angle=d3d11', '--enable-gpu-rasterization']; kw['headless'] = os.environ.get('CC_HEADLESS', '1') != '0'
+        else: args = list(L.ARGS)
+        ctx = await p.chromium.launch_persistent_context(ud, args=args, viewport=vp, device_scale_factor=1, has_touch=True, is_mobile=True, user_agent=L.UA, **kw)
+        b = ctx; pg = ctx.pages[0] if ctx.pages else await ctx.new_page(); cdp = await ctx.new_cdp_session(pg); errs = []
+        pg.on('pageerror', lambda e: errs.append(str(e)))
+    else:
+        b, ctx, pg, cdp, errs = await L.launch(p, landscape=LAND)
     try:
         await pg.goto(url)
         if not await L.wait_loaded(pg):
@@ -198,6 +216,7 @@ async def one_run(p, url, zone, variant, preload_keys):
             await cdp.send('Network.enable'); await cdp.send('Network.emulateNetworkConditions', NETS[NET]); run['net'] = NET
         if variant == 'near':
             run['near'] = await pg.evaluate(NEAR_JS, zone)
+            run['cacheCheck'] = await pg.evaluate(CACHE_JS, 'bldg.wenzhou_street' if zone == 'wenzhou' else ((run['near'] or {}).get('keys') or [None])[0])
             if run['near'].get('err'): run['err'] = run['near']['err']; return run
         if variant in ('pre', 'prewarm') and preload_keys:
             run['preload'] = await pg.evaluate(PRELOAD_JS, preload_keys); await pg.wait_for_timeout(1500)
