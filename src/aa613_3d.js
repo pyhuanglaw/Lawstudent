@@ -1,4 +1,4 @@
-/* ===== AA_613 開學活動有同學約一起去、系籃怎麼加入（企劃線 claude/cool-heisenberg-o8kuqx 52e3d83a8，AA 2026-11-03 照 D109 自己定；任務 AA613-OPENING-ACTS-1103；第①級）=====
+/* ===== AA_613 開學活動有同學約一起去、系籃怎麼加入（企劃線 claude/cool-heisenberg-o8kuqx 52e3d83a8，AA 2026-11-03 照；接線時補的 232fe4149（AA-B 11-07 20:3x：第 4、6、9 點）； D109 自己定；任務 AA613-OPENING-ACTS-1103；第①級）=====
    使用者 11-03：「社團博覽會要有同學邀請一起去啊」「系藍怎麼參加的要說阿」「學校開學的活動要有同學約一起去啊 不然先認識同學要幹嘛」。
    台詞照稿第 1、2 節一字不改（S.L；說的人照稿）。第 3 節（兩層樓的書店）在別的地方做，這裡不做。
    約人的原則（稿開頭）：約的人都是玩家之前已經認識的（STORY.knows）；玩家說不去，活動照樣可以自己去；沒去的不懲罰。
@@ -44,7 +44,7 @@ const AA613=(function(){
     zheFair:{dm:['明天社博要不要一起去？','十點，晨思鐘。我要去系籃那攤。'],opts:['好。','我晚點自己去。']},   /* 1-1 */
     squad:[[XC,'明天社博有人要去嗎？我想去看合唱團。'],[PS,'我！我十一點才能到。']],   /* 1-2 群組 */
     choir:{ask:'你填了什麼？',none:'還沒。',dance:'我想去看熱舞。十一點半。'},   /* 1-2 合唱團的攤位前面（沛珊）*/
-    xcLib:{dm:['明天下午法圖有教怎麼查判決，三點半。之後寫報告會用到。','我想去。你要不要？'],opts:['好。','這次先不用。'],here:'這邊。'},   /* 1-3 */
+    xcLib:{dm:['明天下午法圖有教怎麼查判決，三點半。之後寫報告會用到。','我想去。你要不要？'],opts:['好。','這次先不用。'],here:'這邊。',late:'（她看到你，指了指旁邊的空位。）'},   /* 1-3；late：15:30 以後才到（接線時補的第 9 點，232fe4149）*/
     clubGrp:{club_guitar:'明天第一次社課，七點，B館多功能教室。沒有吉他的可以借。',club_debate:'明天七點博思 201。第一次只講規則。',club_hiking:'週四行前會七點半，普通 201。'},   /* 1-4（學長）*/
     ceremony:'（你和柏翰一起走過去。）',   /* 開學典禮：自動流程的那一句旁白 */
     noShow:{dm:'你沒來喔？系籃我幫你填了。',opts:['不要啦。','好。']},   /* 1：說了「好。」又沒來 */
@@ -53,6 +53,7 @@ const AA613=(function(){
       ['顧攤的學長','好，名字寫這裡。（他看你）你呢？'],['顧攤的學長','系籃是系學會的，法律系都可以來。不用會打，練球週五五點半，第五週開始。']],   /* 2-1 */
     bellOpts:[{t:'我也寫。',join:true,say:[[ZHE,'好欸。']]},{t:'我先看看。',say:[[ZHE,'好啦，想來再跟我說。']]}],
     bellEnd:[ZHE,'我去看別的。你逛你的，中午舞台有表演。'],
+    bellLate:[null,'（晨思鐘。社團博覽會已經開始一陣子了，攤位前面都是人。阿哲站在系籃的攤位旁邊，手上拿著三張傳單。）'],   /* 10:30 以後才到：換掉開頭旁白（接線時補的第 4 點，232fe4149）*/
     ball:{dm:['明天系籃第一次練球。','五點半，映月湖旁邊的球場。系上的都可以來，不用報名。'],opts:['好，我去看看。','這學期先不要。'],no:'OK。',
       grp:'明天第一次練球，17:30 球場。大一的穿球鞋就好，球我們有。'},   /* 2-3 */
     told:'我就說吧。' };   /* 2-4 阿哲 */
@@ -128,13 +129,15 @@ const AA613=(function(){
   S.bellScene=async function(GM){ const G=GM.G, F=F_(G), E=GM.E; if(bellBusy) return false; bellBusy=true; F.AA613_BELL_MET=G.day;
     { const C=fair(), A=C&&C.expo(); if(A&&!ACTIVITIES.attendedAny(G,A.id,G.day)) ACTIVITIES.markAttended(G,A); }   /* 去過博覽會（同攤位、服務台）*/
     GM.sceneBegin(); try{ const L=S.L.bell;   /* 3D 畫面（同社博的攤位）：中間要一起走到系籃的攤位 */
-      await sayAll(GM,L.slice(0,3));
+      await sayAll(GM,(hr(G)>=10.5?[S.L.bellLate]:L.slice(0,1)).concat(L.slice(1,3)));   /* 10:30 以後才到＝晚到版的開頭旁白；10:00～10:30 照原本 */
       { const C=fair(), b=C&&C.pos('basketball'), n=GM.npc&&GM.npc[ZHE]; if(b&&GM.walkTo&&E&&E.player){ const w=[GM.walkTo(E.player,b.x,b.z)]; if(n){ if(n.seat&&GM.standUp) GM.standUp(n); n.frozen=false; n.waypoints=null; n.beh='idle'; w.push(GM.walkTo(n,S.SPOT.booth[0],S.SPOT.booth[1]).then(()=>{ if(n.obj) n.obj.rotation.y=S.SPOT.booth[2]; n.pose=n.idlePose='idle'; })); }
         await Promise.all(w); if(GM.face) GM.face(E.player,b.x,b.z+1); } }   /* 「系籃在那邊。走。」：一起走到攤位前面 */
       await sayAll(GM,L.slice(3));
       const O=S.L.bellOpts, k=await GM.choose(O.map(o=>({t:o.t}))), o=O[k]||O[1];
-      if(o.join){ const had=!!F.CLUB_dept_basketball; F.CLUB_dept_basketball=true; F.FAIR_JOIN=true; if(!had){ const ba=act('dept_basketball'); await GM.say(null,'你在「'+((ba&&(ba.clubName||ba.title))||'系籃')+'」的攤位填了表。'); } }   /* 加入＝照現在（clubfair3d.js 攤位填表那一句）*/
-      await sayAll(GM,o.say||[]); await sayAll(GM,[S.L.bellEnd]);
+      const had=!!F.CLUB_dept_basketball; if(o.join){ F.CLUB_dept_basketball=true; F.FAIR_JOIN=true; }
+      await sayAll(GM,o.say||[]);
+      if(o.join&&!had){ const ba=act('dept_basketball'); await GM.say(null,'你在「'+((ba&&(ba.clubName||ba.title))||'系籃')+'」的攤位填了表。'); }   /* 加入＝照現在（clubfair3d.js 攤位填表那一句）；放在阿哲「好欸。」後面（接線時補的第 6 點，232fe4149）*/
+      await sayAll(GM,[S.L.bellEnd]);
     } finally { GM.sceneEnd(); bellBusy=false; }
     if(GM.autosave) GM.autosave(); return true; };
   S.tick=function(GM){ if(!S.bellDue(GM)) return false; S.bellScene(GM).catch(e=>console.warn('AA613.bellScene',e)); return true; };
@@ -156,6 +159,9 @@ const AA613=(function(){
     const L=E.zone.seats.filter(st=>st&&(st.room||st.table)===room&&(st.lv|0)===(ps.lv|0)&&!busy(st)); if(!L.length) return false;
     const side=L.filter(st=>Math.abs(st.x-ps.x)<0.1); const pick=(side.length?side:L).sort((u,v)=>Math.hypot(u.x-ps.x,u.z-ps.z)-Math.hypot(v.x-ps.x,v.z-ps.z))[0];
     if(n.seat&&Math.hypot(n.seat.x-pick.x,n.seat.z-pick.z)<0.1) return true; if(n.seat&&GM.standUp) GM.standUp(n); GM.sitAt(n,pick); n.pose=n.idlePose='read'; return true; };
+
+  /* 15:30 以後才到（沒在門口碰到她）：她已經在討論室 A 裡面，旁白一句（接線時補的第 9 點，232fe4149）；一次 */
+  S.lateDue=function(GM,a){ const G=GM&&GM.G; if(!G||!a||a.id!=='lawlib_intro_y1s1'||G.zone!=='lawlib') return false; const F=F_(G); return F.AA613_XC_LIB===G.day&&F.AA613_XC_MET!==G.day&&F.AA613_XC_LATE!==G.day&&hr(G)>=15.5; };
 
   /* ---------------- 開學典禮的那一句旁白（story3d.js S.ceremonyY1 叫）---------------- */
   S.ceremonyWalk=async function(GM){ const G=GM&&GM.G; if(!G||!knows(BH,G)) return false; await GM.say(null,S.L.ceremony); return true; };
@@ -185,7 +191,7 @@ const AA613=(function(){
   if(typeof STORY!=='undefined'&&STORY.presence&&!STORY.presence._aa613){ const p0=STORY.presence; STORY.presence=Object.assign(function(id,G){ if(id===PS&&S.psFairHere(G)) return {here:true}; return p0.apply(this,arguments); },p0,{_aa613:true}); }
   if(typeof STORY_EVENTS!=='undefined') for(const e of S.EVENTS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
   if(typeof CLUBFAIR!=='undefined'&&Array.isArray(CLUBFAIR.DOOR_AFTER)&&!CLUBFAIR.DOOR_AFTER.includes(S.doorAfter)) CLUBFAIR.DOOR_AFTER.push(S.doorAfter);
-  if(typeof CLS!=='undefined'&&CLS.attendActivity&&!CLS.attendActivity._aa613){ const a0=CLS.attendActivity; CLS.attendActivity=Object.assign(async function(GM,a,o){ try{ S.sitBeside(GM,a); }catch(e){ console.warn('AA613.sitBeside',e); } return a0.apply(this,arguments); },a0,{_aa613:true}); }
+  if(typeof CLS!=='undefined'&&CLS.attendActivity&&!CLS.attendActivity._aa613){ const a0=CLS.attendActivity; CLS.attendActivity=Object.assign(async function(GM,a,o){ try{ if(S.lateDue(GM,a)){ F_(GM.G).AA613_XC_LATE=GM.G.day; GM.sceneBegin(); try{ await GM.say(null,S.L.xcLib.late); } finally { GM.sceneEnd(); } } S.sitBeside(GM,a); }catch(e){ console.warn('AA613.sitBeside',e); } return a0.apply(this,arguments); },a0,{_aa613:true}); }
   return S;
 })();
 if(typeof window!=='undefined') window.AA613=AA613;

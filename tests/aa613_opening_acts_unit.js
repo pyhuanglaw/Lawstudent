@@ -16,7 +16,7 @@ const loadErr=[];
 const loadG=f=>{ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/^const ([A-Z_][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); };
 for(const f of ['src/data/club_fair_expo_layout.js','src/data/club_fair.js','src/clubfair3d.js','src/aa613_3d.js']){ if(!fs.existsSync(path.join(H.ROOT,f))){ loadErr.push(f+'：沒有這個檔'); continue; } try{ loadG(f); }catch(e){ loadErr.push(f+'：'+String(e&&e.message||e).slice(0,160)); } }
 const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
-const SHA='52e3d83a8', DOC='docs/story_planning/AA_613_開學活動同學約_系籃怎麼加入_兩層書店.md';
+const SHA='232fe4149', DOC='docs/story_planning/AA_613_開學活動同學約_系籃怎麼加入_兩層書店.md';
 const doc=git(SHA,DOC);
 const A=()=>typeof AA613!=='undefined'&&AA613&&AA613.L?AA613:null;
 const D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h, wd=d=>CALENDAR.dateOf(d).wd%7, key=d=>CALENDAR.dateOf(d).key;
@@ -43,7 +43,7 @@ const caps=[]; GM.caption=(w,t)=>{ caps.push(t); };
   check('0. index.html：aa613_3d.js（?v=9.10.22）在 phone3d、story3d、classes3d、clubfair3d、aa667_3d 之後',ia>0&&html.includes('<script src="src/aa613_3d.js?v=9.10.22"></script>')&&['src/phone3d.js','src/story3d.js','src/classes3d.js','src/clubfair3d.js','src/aa667_3d.js'].every(f=>sc.indexOf(f)>=0&&sc.indexOf(f)<ia),J(ia));
   { let W=null; try{ W=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')); }catch(e){}
     const e=W&&W.files&&W.files.find(x=>x.path===DOC);
-    check('0. 劇情匯入白名單：AA_613＝52e3d83a8、approved、approvedBy「AA（D109）」、任務 AA613-OPENING-ACTS-1103',!!e&&e.sha===SHA&&e.status==='approved'&&e.approvedBy==='AA（D109）'&&e.task==='AA613-OPENING-ACTS-1103',J(e&&{sha:e.sha,st:e.status})); }
+    check('0. 劇情匯入白名單：AA_613＝232fe4149、approved、approvedBy「AA（D109）」、任務 AA613-OPENING-ACTS-1103',!!e&&e.sha===SHA&&e.status==='approved'&&e.approvedBy==='AA（D109）'&&e.task==='AA613-OPENING-ACTS-1103',J(e&&{sha:e.sha,st:e.status})); }
   /* 每一句都在稿裡 */
   { const L=A().L, all=[];
     const add=(x,sp)=>{ if(x==null) return; if(typeof x==='string'){ all.push(x); return; } if(Array.isArray(x)){ if(x.length===2&&(x[0]===null||typeof x[0]==='string')&&typeof x[1]==='string'&&(x[0]===null||/^[a-z_]+$/.test(x[0])||x[0]==='顧攤的學長')){ all.push(x[1]); return; } for(const y of x) add(y); return; }
@@ -95,12 +95,13 @@ const caps=[]; GM.caption=(w,t)=>{ caps.push(t); };
     H.said=[]; H.picks=['我也寫。']; await AA613.bellScene(GM); const L=said();
     check('2-1. 那一段照稿（旁白、阿哲、顧攤的學長…）',J(L.slice(0,8))===J(['（10:00，晨思鐘。阿哲已經在了，手上拿著三張傳單。）','阿哲：你來了。我先拿了一些。','阿哲：系籃在那邊。走。','（系學會的攤位，招牌寫「法律系系學會（系籃）」。）','顧攤的學長：法律系的？系籃缺人。','阿哲：學長，我高中有打。','顧攤的學長：好，名字寫這裡。（他看你）你呢？','顧攤的學長：系籃是系學會的，法律系都可以來。不用會打，練球週五五點半，第五週開始。']),J(L));
     check('2-1. 選項「我也寫。」／「我先看看。」',J(H.opts[0])===J(['我也寫。','我先看看。']),J(H.opts));
-    check('2-1.「我也寫。」＝加入（CLUB_dept_basketball、FAIR_JOIN；填表那一句照現在）→ 阿哲「好欸。」→「我去看別的。你逛你的，中午舞台有表演。」',H.G.flags.CLUB_dept_basketball===true&&H.G.flags.FAIR_JOIN===true&&J(L.slice(8))===J(['你在「系籃（系學會）」的攤位填了表。','阿哲：好欸。','阿哲：我去看別的。你逛你的，中午舞台有表演。']),J(L.slice(8)));
+    check('2-1.「我也寫。」＝加入（CLUB_dept_basketball、FAIR_JOIN）→ 阿哲「好欸。」→ 填表那一句（照現在；放在「好欸。」後面，232fe4149 第 6 點）→「我去看別的。你逛你的，中午舞台有表演。」',H.G.flags.CLUB_dept_basketball===true&&H.G.flags.FAIR_JOIN===true&&J(L.slice(8))===J(['阿哲：好欸。','你在「系籃（系學會）」的攤位填了表。','阿哲：我去看別的。你逛你的，中午舞台有表演。']),J(L.slice(8)));
     check('2-1. 去過博覽會（出席紀錄）、只演一次',ACTIVITIES.attendedAny(H.G,'club_expo_y1s1',d6)&&H.G.flags.AA613_BELL_MET===d6&&!AA613.bellDue(GM));
     at(d6,11.5); const e2=sched(ZHE); at(d6,12); const e3=sched(ZHE);
     check('2-1. 之後阿哲 12:00 前在系籃攤位旁邊（作息），12:00 離開',e2===AA613.SCHED.zheBooth&&e3!==AA613.SCHED.zheBooth&&e3!==AA613.SCHED.zheBell,J([e2&&e2.label,e3&&e3.label]));
     H.said=[]; await CLUBFAIR.booth(GM,'basketball'); check('2-1. 之後再去系籃的攤位：「表你已經填過了」',/表你已經填過了/.test(said().join('|')),J(said()));
     goFair(); at(d6,11); H.G.zone='campus'; place(-36,12.5); H.said=[]; H.picks=['我先看看。']; await AA613.bellScene(GM);
+    check('2-1. 10:30 以後才到：開頭旁白換晚到版（232fe4149 第 4 點），後面照原本',said()[0]===AA613.L.bellLate[1]&&AA613.L.bellLate[1]==='（晨思鐘。社團博覽會已經開始一陣子了，攤位前面都是人。阿哲站在系籃的攤位旁邊，手上拿著三張傳單。）'&&said()[1]==='阿哲：你來了。我先拿了一些。'&&!said().includes('（10:00，晨思鐘。阿哲已經在了，手上拿著三張傳單。）'),J(said().slice(0,2)));
     check('2-1.「我先看看。」＝沒加入、阿哲「好啦，想來再跟我說。」',!H.G.flags.CLUB_dept_basketball&&J(said().slice(8))===J(['阿哲：好啦，想來再跟我說。','阿哲：我去看別的。你逛你的，中午舞台有表演。']),J(said().slice(8)));
     fresh('2025-09-05',20.5); runAt('2025-09-05',21.2); PHONE.answer(H.G,'aa613_zhe_fair',1); at(d6,10.5); H.G.zone='campus'; place(-36,12.5);
     check('2-1. 回「我晚點自己去。」：阿哲不在晨思鐘、不演',sched(ZHE)!==AA613.SCHED.zheBell&&!AA613.bellDue(GM)); }
@@ -137,6 +138,11 @@ const caps=[]; GM.caption=(w,t)=>{ caps.push(t); };
       E.zone={seats,roomAt:()=>null}; E.npcs=[n]; GM.npc[XC]=n; GM.sitAt=(m,st)=>{ sat=[m,st]; m.seat=st; }; E.player.seat=seats[1];
       const ok=AA613.sitBeside(GM,a); check('1-3. 坐下聽講座：她坐到你旁邊（同一邊的空位）',ok&&sat&&sat[0]===n&&sat[1]===seats[0],J(sat&&sat[1]));
       E.zone=z0; GM.sitAt=sit0; E.npcs=np0; delete GM.npc[XC]; E.player.seat=null; }
+    check('1-3. 在門口碰到她了：聽講座時不出晚到的旁白',!AA613.lateDue(GM,a));
+    /* 15:30 以後才到（232fe4149 第 9 點）*/
+    { fresh('2025-09-23',12); runAt('2025-09-23',21.5); PHONE.answer(H.G,'aa613_xc_lib_'+L1,0); at(L1,15.6); H.G.zone='lawlib';
+      const due=AA613.lateDue(GM,a); H.said=[]; await CLS.attendActivity(GM,a); const s1=said(); const due2=AA613.lateDue(GM,a);
+      check('1-3. 15:30 以後才到（沒在門口碰到）：聽講座時旁白「（她看到你，指了指旁邊的空位。）」，一次',due&&s1[0]==='（她看到你，指了指旁邊的空位。）'&&AA613.L.xcLib.late==='（她看到你，指了指旁邊的空位。）'&&!s1.includes('芯慈：這邊。')&&!due2,J({due,s1:s1.slice(0,2),due2})); }
     /* 第二場 */
     fresh('2025-09-23',12); runAt('2025-09-23',21.5); PHONE.answer(H.G,'aa613_xc_lib_'+L1,1); runAt('2025-09-30',21.1); const M2=byTag('aa613_xc_lib_'+L2);
     check('1-3. 9/24 沒去：9/30 21:00 再傳一次（同兩則）',M2.length===2&&J(tx(M2))===J(AA613.L.xcLib.dm)&&M2[0].day===L2-1,J(M2.map(m=>[m.day,m.text])));
