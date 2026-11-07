@@ -140,7 +140,10 @@ async def main():
         allsc = sc['seat'] + sc['mid'] + sc['pack'] + sc['bye']
         hit = [t for t in allsc if any(t in x or x in t for x in texts)]
         run.check('③ 演的是語彤第 1 場（seat／mid／pack／bye 的句子出現 %d／%d 句）' % (len(hit), len(allsc)), len(hit) >= max(2, len(allsc) // 2), json.dumps({'hit': hit, 'said': said[:30]}, ensure_ascii=False))
-        run.check('④ 下午那一格用掉（slots.used.pm ≥ SLOT_BASE.pm）', await pg.evaluate("((GAME.G.slots||{}).used||{}).pm>=CLS.SLOT_BASE.pm"), json.dumps(info, ensure_ascii=False))
+        if os.environ.get('SLOT', '') == 'ev':   # CC-B 11-07（BB-B 06:47）：SLOT=ev 不查下午那一格，改查晚上那一格（slots.used.ev ≥ 1）
+            run.check('④ 晚上那一格用掉（slots.used.ev ≥ 1）', await pg.evaluate("((GAME.G.slots||{}).used||{}).ev>=1"), json.dumps(info, ensure_ascii=False))
+        else:
+          run.check('④ 下午那一格用掉（slots.used.pm ≥ SLOT_BASE.pm）', await pg.evaluate("((GAME.G.slots||{}).used||{}).pm>=CLS.SLOT_BASE.pm"), json.dumps(info, ensure_ascii=False))
         exam = await pg.evaluate("!!(CLS.examWeek&&CLS.examWeek(GAME.G))")
         dbg = await pg.evaluate("(()=>{ const P=GAME.E.player; return {jump:CLS._jump||null, busy:!!(P&&P.busy), seat:!!(P&&P.seat), dlg:!!(GAME.D&&GAME.D.active), adv:!!(typeof ADV!=='undefined'&&ADV.active), canSkip:CLS.canSkip?CLS.canSkip(GAME):null, period:CLS.periodAt?CLS.periodAt(GAME.G.hour):null, left:CLS.slotLeft?CLS.slotLeft(GAME.G,'pm','study'):null}; })()")
         print('   演完以後的狀態', dbg, flush=True)
@@ -163,7 +166,9 @@ async def main():
         await settle(pg, cdp, [], 20)
         await phone(pg, cdp, 'friends')
         other = await pg.evaluate("(w=>{ const b=[...document.querySelectorAll('#phoneBody [data-inv]')].map(x=>x.dataset.inv).find(x=>x!==w); return b||null; })(%s)" % json.dumps(WHO))
-        if other:
+        if other and os.environ.get('SLOT', '') == 'ev':
+            print('   SLOT=ev：「演完以後再約別人，今天下午灰掉／排滿」兩項只給下午（pm），這一輪跳過（BB-B 06:47）', flush=True)
+        elif other:
             await tap_sel(pg, cdp, '#phoneBody [data-inv="%s"]' % other); await pg.wait_for_timeout(1500)
             await choose(pg, cdp, '念書'); o1 = await opts(pg)
             if not any(x['t'].startswith('今天') or x['t'].startswith('明天') for x in o1):

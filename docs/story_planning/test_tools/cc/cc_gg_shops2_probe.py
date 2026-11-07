@@ -526,7 +526,11 @@ def date_cls(SM):
             if dl: R.check('%s：X207 道別那一刻她在旁邊（≤ 4 m）' % k, (dl[-1]['smp'].get('nD') or 99) <= 4, J(dl[-1]['smp']))
             else: R.check('%s：見面有對話（道別）' % k, False, '沒有取到對話中的位置')
             T = [x['t'] for x in g['say']]
-            R.check('%s：坐下以後的開場句（AA_652 seatOpen 兩句之一，逐字）' % k, any(NZ(o) in [NZ(t) for t in T] for o in A['open']), J(T[:12]))
+            so = any(NZ(o) in [NZ(t) for t in T] for o in A['open'])
+            if so: R.check('%s：坐下以後的開場句（AA_652 seatOpen 兩句之一，逐字）' % k, True, J(T[:12]))
+            else:   # CC-B 11-07（BB-B 06:47）：invites3d.js 361：有「一起喝咖啡／吃飯第 N 場」（AA_708 STUDYN.act，AX）＝不說 seatOpen，照那一場；故事線那一拍（AA_712 ARCS）放中途——二選一
+                R.check('%s：坐下以後有開場（seatOpen 或 AA_708 第 N 場／AA_712 故事線那一拍；坐下以後有她的台詞）' % k, any(x.get('n') for x in g['say'][:12]), J(T[:12]))
+            R.note('%s：X207 帶路取樣（進這一區以後、玩家還沒坐下；每一筆＝她離玩家 m、她坐著沒）：%s' % (k, J([[x['smp'].get('nD'), x['smp'].get('nseat'), x['smp'].get('p')] for x in g['samples'] if x['zone'] == S['zone']][:8])))
             if k == 'afar':   # CC-B 11-07（BB-B 04:59）：afar 約會座位——①空桌（不和客人同桌）②窗邊長桌（table 6）坐得下 ③開場句照座位（seatOpen.afar 第一句 onlyAt table 6）
                 R.check('afar：①她挑的是空桌（同一桌、1.2 m 內沒有其他客人坐著）', not ss.get('others'), J({'ptable': ss.get('ptable'), 'ntable': ss.get('ntable'), 'others': ss.get('others')}))
                 lamp = NZ('（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）')
