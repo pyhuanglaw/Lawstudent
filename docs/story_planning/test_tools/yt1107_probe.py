@@ -11,6 +11,8 @@ sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.dirname(__file__))
 import playlib as L
 
 URL, SAVE, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
+PREF = os.environ.get('PREF', '')   # 例：PREF='今天 12:10'＝故意撞到那天已經有的約（BUG-INV-CONFLICT-SKIP-REPLY-1107 重現）
+ONLY = os.environ.get('ONLY', '')   # 只跑某一個情境（lib／cafe_drink／cafe_study）
 OLD = ['先把菜洗完', '那裡很貴', '我點最小杯的', '我媽會等我']
 PLACES = [('lib', '念書', '總圖'), ('cafe_drink', '喝咖啡', '2:30 AM'), ('cafe_study', '念書', '2:30 AM')]   # 手機地點選單兩層：活動 → 店（2:30 AM＝兩點半 Café）
 
@@ -42,6 +44,7 @@ async def main():
         allowed = await pg.evaluate("(()=>{ const P=(INVITE_REPLIES.people||{}).heroine_03||[]; const s=new Set(); for(const r of P) for(const l of (r.lines||[])) s.add(l); return [...s]; })()")
         run.check('遊戲裡的語彤回覆表照 c71772fbc', await pg.evaluate("INVITE_REPLIES.sha") == 'c71772fbc', await pg.evaluate("INVITE_REPLIES.sha"))
         for key, cat, word in PLACES:
+            if ONLY and key != ONLY: continue
             run.setup('讀使用者存檔 %s（第 %s 天 %s:%02d %s）' % (os.path.basename(SAVE), save.get('day'), int(save.get('hour', 0)), int(round((save.get('hour', 0) % 1) * 60)), save.get('zone')))
             await L.load_state(pg, save, quiet_phone=True)
             await pg.wait_for_timeout(3500)
@@ -67,7 +70,7 @@ async def main():
                 if q['dtext'] and (not said or said[-1] != q['dtext']): said.append(q['dtext'])
                 if q['choices']:
                     o = await opts(pg); print('   選項', o, flush=True)
-                    t = next((x for x in o if x.startswith('好，就')), None) or next((x for x in o if x.startswith('明天 19:00')), None) or next((x for x in o if x.startswith('今天') or x.startswith('明天')), None) or next((x for x in o if '算了' not in x and '返回' not in x), o[0])
+                    t = next((x for x in o if x.startswith('好，就')), None) or next((x for x in o if PREF and x.startswith(PREF)), None) or next((x for x in o if x.startswith('明天 19:00')), None) or next((x for x in o if x.startswith('今天') or x.startswith('明天')), None) or next((x for x in o if '算了' not in x and '返回' not in x), o[0])
                     picked.append(await choose(pg, cdp, t)); continue
                 if not q['busy'] and not q['dlg']: break
                 await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(1200)
@@ -75,6 +78,9 @@ async def main():
             msgs = await pg.evaluate("(m0=>(GAME.G.msgs||[]).slice(m0).map(m=>[m.from||m.who||'',m.text||'']))(%d)" % m0)
             print('   新訊息', msgs, flush=True)
             said += [t for w, t in msgs if 'heroine_03' in str(w) or '語彤' in str(w)]
+            ivs = await pg.evaluate("(GAME.G.invites||[]).filter(i=>i.who==='heroine_03'&&i.state!=='done').map(i=>({place:i.place,day:i.day,h:i.h,state:i.state}))")
+            print('   [%s] 約好的（語彤）' % key, ivs, '選了', picked, flush=True)
+            if PREF and key != 'lib': run.check('[%s] 撞時間改時間以後：2:30 AM 沒有約成（她不去咖啡廳）' % key, not any(v['place'] == 'cafe' for v in ivs), json.dumps({'ivs': ivs, 'picked': picked}, ensure_ascii=False))
             await run.shot(pg, 'yt_%s' % key)
             print('   她說', said, flush=True)
             bad = [l for l in said if any(w in l for w in OLD)]
