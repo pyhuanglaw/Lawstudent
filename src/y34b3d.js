@@ -785,6 +785,7 @@ const Y34B=(function(){
     {if:C(()=>met('heroine_05')),speaker:null,text:'（語彤把手機給大家看。）'},
     {if:C(()=>met('heroine_05')),speaker:'heroine_05',text:'（照片：她在美國煮的一碗麵）'},
     {if:C(()=>met('heroine_05')),speaker:'heroine_05',text:'週年快樂。'},
+    {if:C(G=>met('heroine_05')&&met('yu')&&!!(G.flags&&G.flags.KNOWS_SIS_ALISON)),speaker:'yu',text:'她昨天也傳給我了。'},{if:C(G=>met('heroine_05')&&met('yu')&&!!(G.flags&&G.flags.KNOWS_SIS_ALISON)),speaker:'yu',text:'……她想家的時候，才會煮麵。'},   /* AA_611 第 16 列（企劃線 91df9a906，AA-B 11-07 18:05 改句；原本 Alison 說照片是她拍的那句作廢：學姊那時在美國）：知道兩人是姊妹、認識 Alison */
     {speaker:'zhe',text:'阿姨，三年前我說，我們會常來。'},
     {speaker:'zhe',text:'我們有做到喔。（停了一下）……大部分有。'},
     {speaker:'zhe',text:'……以後也一樣。想吃飯就來，遇到就一起坐。'},

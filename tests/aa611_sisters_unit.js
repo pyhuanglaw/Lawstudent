@@ -129,5 +129,9 @@ await sec(15,async()=>{
     check('15. '+y+(k?'、KNOWS_SIS_ALISON':'、還不知道')+'：'+(k&&y===2029?'「'+STORE+'」的下一句「'+STORE_SIS+'」':'沒有 Alison 那一句'),i>=0&&(k&&y===2029?L[i+1]===STORE_SIS:!L.includes(STORE_SIS)),J(L)); }
 });
 
+/* ---------- 16 二十三週年（AA_611 第 16 列 91df9a906 改句；原句「這張是我拍的」作廢）---------- */
+{ const y=require('fs').readFileSync(require('path').join(H.ROOT,'src/y34b3d.js'),'utf8'), i=y.indexOf("text:'週年快樂。'"), seg=i>0?y.slice(i,i+600):'';
+  check('16. 「週年快樂。」之後：知道兩人是姊妹、認識 Alison＝Alison「她昨天也傳給我了。」「……她想家的時候，才會煮麵。」；沒有「這張是我拍的」',
+    /KNOWS_SIS_ALISON[^\n]*speaker:'yu',text:'她昨天也傳給我了。'/.test(seg)&&/speaker:'yu',text:'……她想家的時候，才會煮麵。'/.test(seg)&&!/這張是我拍的/.test(y)); }
 H.done();
 })();
