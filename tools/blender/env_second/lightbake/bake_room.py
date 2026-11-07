@@ -151,7 +151,7 @@ if FLIP:
 # 這種材質自動複製一份給不烘的物件用（名字後面加 _rt＝即時光）；不同物件本來就各畫一次，draw call 不會變多
 OBJS = set(objs); mine = {m for o in objs for m in mats(o)}; split = {}
 for o in bpy.data.objects:
-    if o.type != 'MESH' or not len(o.data.polygons) or o in OBJS or hidden(o): continue
+    if o.type != 'MESH' or not len(o.data.polygons) or o in OBJS: continue   # --hide 的也要複製（11-07：研討室 B 面試那一套家具烘的時候藏起來，但照樣輸出；共用烘焙的材質，遊戲會拿沒有的第二套 UV 讀光照貼圖）
     for sl in o.material_slots:
         m = sl.material
         if m and m.name in mine:
