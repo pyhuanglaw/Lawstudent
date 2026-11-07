@@ -1674,3 +1674,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 201.6s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 201.6s] BROWSER DISCONNECTED
 - 2026-11-07T15:16:31  FITMORPH_r3_b987  sha=b987cb1cf7fff1bc587dd77eb22b0c6a4e8a2dac  exit=0  356s    PASS [fit 90] 坐下那一組拍到了 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 282.5s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 282.5s] BROWSER DISCONNECTED
+- 2026-11-07T15:26:51  FITMORPH_r4_bcf4  sha=bcf4ad72a2b96c0d7fbfa97002c00a674a212fd9  exit=0  288s    PASS [fit 90] 坐下那一組拍到了 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 236.3s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 236.3s] BROWSER DISCONNECTED
