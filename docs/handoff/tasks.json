@@ -49386,6 +49386,33 @@
    "evidence": "2026-11-07 BB-B／CC-B 瀏覽器（雲端 Playwright＋SwiftShader，不是 iPhone），e647887c7：電影第 1 場 14:00 白天兩句、19:30「末班車還有。好險。」、電影第 3 場、咖啡第 3 場、書店第 3 場（公館 13:48 走進頁間書屋「時間還早。我們再看一本。」）都 PASS；同一份存檔連看兩場故事線第 1 拍只演一次；Node kx_movie_day_unit（修改前 FAIL）"
   },
   {
+   "id": "BUG-LOAD-INVITE-LEAK-1107",
+   "title": "約會演完馬上讀早一點的存檔：新的一局 2.5～4.5 秒後時鐘跳到 18:00（上一局排的「下午用完、跳下一段」CLS._jump 讀檔沒清），畫面還是上一局的約會提醒",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "約會、打工演完以後讀檔",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 19:3x LAWWW-B】原因：INV.meet 演完 S.spendSlot→CLS.queueJump 排 CLS._jump（下午用完），演完那一刻還在 busy＝留著；讀檔沒清（LOADLOCKS 沒登記），新的一局空下來 STORY.tick 讀 CLS._jump 跳 18:00。提醒 toast 是上一局畫面上的字（#toast 藏起來 innerText 還在）。修：classes3d.js LOADLOCKS classes3d:jump＋排跳轉記下哪一局（WeakMap，別局排的丟掉）；game3d.js toastClear（loadRelease 呼叫）。tests/load_jump_leak_unit.js（修改前 FAIL）。等 GHA 綠了推，SHA 給 BB-B，CC-B 用 cc_loadleak_probe 四種讀法重跑。",
+   "xai": {
+    "spec": "BB-B 11-07 19:10、CC-B 19:13（claude/cc-testing 21e107409 docs/story_planning/CC/logs/LOADLEAK_e647/、探針 cc_loadleak_probe.py）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "cc_loadleak_probe 四種讀法（馬上／等 3 秒 × load_state／選單）都不跳、沒有上一局的約會提醒",
+    "receiver": "BB（測）",
+    "ack": "ACK",
+    "owner": "LAWWW"
+   },
+   "evidence": ""
+  },
+  {
    "id": "CAM-LIBHALL-DOOR-1107",
    "title": "總圖大廳一進門鏡頭卡在玻璃門框後",
    "owner": "LAWWW2",
