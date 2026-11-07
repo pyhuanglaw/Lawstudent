@@ -1,0 +1,26 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_dc_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\PERF_WZ_DC_after\out
+CC PERF_WZ_DC（after）：SHA=8530a4b2623634e3a189abf0c286dc8c86dd00a0（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+== day
+  [前置／捷徑] [after day] 讀檔 wenzhou 2025-10-18 14.00 晴（條件事件關閉）
+PASS [after day] 進得了 wenzhou  {"zone": "wenzhou", "x": 44, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.02}
+  [  64.9s] [after day] 出生點跟隨鏡頭 fps（參考）：{"frames": 81, "fpsAvg": 26.9, "fpsMin": 15, "msWorst": 66.7, "calls": 390, "tris": 632790}
+PASS [黑畫面] wzdc_after_spawn_day 不是黑畫面（平均亮度 94.4、變化 45）  [94.4, 45]
+  [  67.2s] [after day] spawn：draw call（主畫面／影子／合計）{"total": {"calls": 366, "tris": 609303}, "shadow": {"calls": 60, "tris": 84397, "passes": 1}, "main": {"calls": 306, "tris": 524906}, "npcVis": 9, "outlineMats": 13, "outlineInVisibleChars": 45, "outlineOnCasters": 5, "shadowsOn": true}；鏡頭 {"eye": [49.07, 2.78, -1], "look": [44, 1.2, -1], "lens": 24, "vfov": 45.75}；亮度 [94.4, 45]
+PASS [黑畫面] wzdc_after_lane_day 不是黑畫面（平均亮度 89.3、變化 46.4）  [89.3, 46.4]
+  [  69.3s] [after day] lane：draw call（主畫面／影子／合計）{"total": {"calls": 193, "tris": 241453}, "shadow": {"calls": 47, "tris": 50877, "passes": 1}, "main": {"calls": 146, "tris": 190576}, "npcVis": 0, "outlineMats": 13, "outlineInVisibleChars": 0, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [38, 2.2, -1], "look": [74, 1.5, -1], "lens": 24, "vfov": 45.75}；亮度 [89.3, 46.4]
+  [  69.3s] [after day] 路人分布：{"npcs": 13, "best": {"n": 3, "c": [16.42, -2.66]}}
+  [  69.3s] [after day] crowd：這個時段 12 m 內最多只有 3 人（不到 5 人，沒另外拍）；spawn 那個鏡頭入鏡 9 人——人物多的鏡頭就看 spawn
+== night
+  [前置／捷徑] [after night] 讀檔 wenzhou 2025-10-18 21.00 晴（條件事件關閉）
+PASS [after night] 進得了 wenzhou  {"zone": "wenzhou", "x": 44, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.07}
+  [  91.5s] [after night] 出生點跟隨鏡頭 fps（參考）：{"frames": 114, "fpsAvg": 37.8, "fpsMin": 20, "msWorst": 50, "calls": 286, "tris": 486770}
+PASS [黑畫面] wzdc_after_spawn_night 不是黑畫面（平均亮度 80.6、變化 42）  [80.6, 42]
+  [  93.5s] [after night] spawn：draw call（主畫面／影子／合計）{"total": {"calls": 330, "tris": 505524}, "shadow": {"calls": 66, "tris": 57002, "passes": 1}, "main": {"calls": 264, "tris": 448522}, "npcVis": 6, "outlineMats": 13, "outlineInVisibleChars": 30, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [49.07, 2.78, -1], "look": [44, 1.2, -1], "lens": 24, "vfov": 45.75}；亮度 [80.6, 42]
+PASS [黑畫面] wzdc_after_lane_night 不是黑畫面（平均亮度 85.7、變化 49）  [85.7, 49]
+  [  95.6s] [after night] lane：draw call（主畫面／影子／合計）{"total": {"calls": 247, "tris": 294031}, "shadow": {"calls": 66, "tris": 57002, "passes": 1}, "main": {"calls": 181, "tris": 237029}, "npcVis": 0, "outlineMats": 13, "outlineInVisibleChars": 0, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [38, 2.2, -1], "look": [74, 1.5, -1], "lens": 24, "vfov": 45.75}；亮度 [85.7, 49]
+  [  95.7s] [after night] 路人分布：{"npcs": 10, "best": {"n": 3, "c": [16.74, -1.66]}}
+  [  95.7s] [after night] crowd：這個時段 12 m 內最多只有 3 人（不到 5 人，沒另外拍）；spawn 那個鏡頭入鏡 6 人——人物多的鏡頭就看 spawn
+PASS 沒有 JS 例外  []
+ALL PASS
