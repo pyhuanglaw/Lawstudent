@@ -38,7 +38,7 @@ async def main():
         run.check('遊戲載入', await L.wait_loaded(pg))
         run.setup('讀使用者存檔 day46；【捷徑】day %+d、清邀約、清 ARCINV／ARC_INVITE；【捷徑】%s 的故事線從第 %d 拍開始' % (SHIFT, WHO, K))
         await L.load_state(pg, s, quiet_phone=True); await pg.wait_for_timeout(3500); await pe.settle(pg, cdp, [], 60)
-        e = await pg.evaluate("(k=>{ const e=(typeof ARCINV!=='undefined'&&ARCINV.get)?ARCINV.get(k):null; return e?{msgs:e.msgs, opts:e.opts.map(o=>({t:o.t,plan:o.plan,say:o.say})), lines:(e.scene||e.lines||[]).slice(), set:e.set, h:e.h, day:e.day, offer:e.offer, title:e.title}:null; })(%s)" % json.dumps(KEY))
+        e = await pg.evaluate("(k=>{ const e=(typeof ARCINV!=='undefined'&&ARCINV.get)?ARCINV.get(k):null; return e?{msgs:e.msgs, opts:e.opts.map(o=>({t:o.t,plan:o.plan,say:o.say})), lines:(e.scene||e.lines||[]).slice(), set:e.set, end:e.end||null, h:e.h, day:e.day, offer:e.offer, title:e.title}:null; })(%s)" % json.dumps(KEY))
         run.check('這一版有 ARCINV、%s（%s）' % (KEY, e and e['title']), bool(e), json.dumps(e, ensure_ascii=False)[:500])
         if not e: await b.close(); return run.finish()
         st0 = await pg.evaluate("(w=>({stageNum:DATE.stageNum(w), stage:INV.stageOf(GAME.G,w)}))(%s)" % json.dumps(WHO))
@@ -87,6 +87,7 @@ async def main():
         o = (a3['outs'] or [{}])[0]
         if 'day' not in o:
             run.check('⑤ 沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False)); await b.close(); return run.finish()
+        await pg.evaluate("(()=>{ window.__caps=[]; if(GAME.caption&&!GAME.__capW){ const f=GAME.caption; GAME.caption=function(w,t){ try{ window.__caps.push(String(t)); }catch(e){} return f.apply(this,arguments); }; GAME.__capW=1; } })()")   # 只記字幕，不改行為
         run.setup('【捷徑】時間撥到出發前（第 %s 天 %.2f）' % (o.get('day'), o.get('h', 0) - 0.2))
         await pg.evaluate("((d,h)=>{ GAME.G.day=d; GAME.G.hour=h; })(%d,%f)" % (o['day'], o['h'] - 0.2))
         said4, went = [], False
@@ -113,6 +114,25 @@ async def main():
         a5 = await arc_state(pg)
         flag = await pg.evaluate("(k=>(GAME.G.flags||{})[k]!=null)(%s)" % json.dumps(e['set'])) if e.get('set') else True
         run.check('④ 演完 ARCINV st done、記 %s' % e.get('set'), (a5['rec'] or {}).get('st') == 'done' and flag, json.dumps(a5, ensure_ascii=False)[:500])
+        # ④b 演完人在哪（LAWWW-B 285c05052：arc_invites end——zone＝那個座標、spot＝那個地點、home＝回宿舍／家）
+        end = e.get('end')
+        for _ in range(20):
+            q = await L.state(pg)
+            if not q['busy'] and not q['dlg']: break
+            await pg.wait_for_timeout(700)
+        pos = await pg.evaluate("(()=>{ const p=GAME.E.player&&GAME.E.player.obj; const H=(typeof PLACES!=='undefined'&&PLACES.hours)?PLACES.hours[GAME.G.zone]:null; return {zone:GAME.G.zone, x:p?+p.position.x.toFixed(2):null, z:p?+p.position.z.toFixed(2):null, lv:GAME.E.player?GAME.E.player.lv|0:null, hour:+GAME.G.hour.toFixed(2), closeAt:H&&typeof H.close==='number'?H.close:null}; })()")
+        hist2 = await pg.evaluate("(typeof ADV!=='undefined'&&Array.isArray(ADV.history))?ADV.history.slice(-6).map(x=>(x.name||'')+'｜'+x.text):[]")
+        caps = ' ｜ '.join(await pg.evaluate("(window.__caps||[]).slice(-6)"))
+        if end:
+            if end.get('zone'):
+                d = ((pos['x'] - end['x']) ** 2 + (pos['z'] - end['z']) ** 2) ** 0.5 if pos['x'] is not None else 99
+                run.check('④b 演完人在 %s (%s,%s) 附近（實際 %s (%s,%s)，差 %.1f m）' % (end['zone'], end['x'], end['z'], pos['zone'], pos['x'], pos['z'], d), pos['zone'] == end['zone'] and d < 3, json.dumps({'pos': pos, 'end': end}, ensure_ascii=False))
+            else:
+                run.check('④b 演完人不在打烊的地方（end %s → %s）' % (json.dumps(end, ensure_ascii=False), pos['zone']), not (pos['closeAt'] is not None and pos['hour'] >= pos['closeAt']), json.dumps(pos, ensure_ascii=False))
+            if end.get('back'):
+                run.check('④b 回程字幕「%s」' % end['back'], any(end['back'].strip('。') in t for t in hist2 + [caps]) or any(end['back'].strip('。') in t for t in said4[-4:]), json.dumps({'hist': hist2, 'cap': caps, 'said': said4[-4:]}, ensure_ascii=False))
+        else:
+            run.check('④b （這一版沒有 end）演完的位置', True, json.dumps(pos, ensure_ascii=False))
         await run.shot(pg, 'arcinv_after')
         run.check('⑤ 沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))
         await b.close()
