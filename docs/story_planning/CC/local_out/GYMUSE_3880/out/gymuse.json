@@ -1,0 +1,286 @@
+{
+ "runs": [
+  {
+   "id": "treadmill_1",
+   "says": [
+    "這個月要買月票嗎？",
+    "你把速度調到六。走了十分鐘，才敢調到七。"
+   ],
+   "toasts": [],
+   "dh": 1.925,
+   "fit": [
+    0,
+    2
+   ],
+   "slots": [
+    "null",
+    "{\"day\":29,\"used\":{\"am\":1,\"pm\":0,\"ev\":0}}"
+   ],
+   "poses": [
+    "idle",
+    "walk"
+   ],
+   "shots": {
+    "mid": {
+     "x": -0.68,
+     "y": 0,
+     "z": 10.82,
+     "pose": "idle",
+     "busy": true
+    },
+    "start": {
+     "x": -0.5,
+     "y": 0.18,
+     "z": 12.2,
+     "pose": "walk",
+     "busy": true
+    },
+    "end": {
+     "x": -0.5,
+     "y": 0,
+     "z": 10.95,
+     "pose": "idle",
+     "busy": false
+    }
+   },
+   "t": "day",
+   "kind": "treadmill"
+  },
+  {
+   "id": "bike_1",
+   "says": [
+    "這個月要買月票嗎？",
+    "阻力調到三。騎了十分鐘，大腿已經在燒。"
+   ],
+   "toasts": [],
+   "dh": 1.938,
+   "fit": [
+    0,
+    2
+   ],
+   "slots": [
+    "null",
+    "{\"day\":29,\"used\":{\"am\":1,\"pm\":0,\"ev\":0}}"
+   ],
+   "poses": [
+    "idle",
+    "gym_bike"
+   ],
+   "shots": {
+    "mid": {
+     "x": -0.37,
+     "y": 0,
+     "z": 7.97,
+     "pose": "idle",
+     "busy": true
+    },
+    "start": {
+     "x": -0.5,
+     "y": 0,
+     "z": 9.4,
+     "pose": "gym_bike",
+     "busy": true
+    },
+    "end": {
+     "x": -0.5,
+     "y": 0,
+     "z": 8.15,
+     "pose": "idle",
+     "busy": false
+    }
+   },
+   "t": "day",
+   "kind": "bike"
+  },
+  {
+   "id": "squat_rack_1",
+   "says": [
+    "這個月要買月票嗎？",
+    "你只用空槓。蹲下去，站起來，腿已經在抖。"
+   ],
+   "toasts": [],
+   "dh": 1.808,
+   "fit": [
+    0,
+    2
+   ],
+   "slots": [
+    "null",
+    "{\"day\":29,\"used\":{\"am\":1,\"pm\":0,\"ev\":0}}"
+   ],
+   "poses": [
+    "idle",
+    "gym_squat"
+   ],
+   "shots": {
+    "mid": {
+     "x": -21.26,
+     "y": 0,
+     "z": 12.56,
+     "pose": "idle",
+     "busy": true
+    },
+    "start": {
+     "x": -21.5,
+     "y": 0,
+     "z": 12.55,
+     "pose": "gym_squat",
+     "busy": true
+    },
+    "end": {
+     "x": -21.5,
+     "y": 0,
+     "z": 12.55,
+     "pose": "idle",
+     "busy": false
+    }
+   },
+   "t": "day",
+   "kind": "squat_rack"
+  },
+  {
+   "id": "treadmill_1",
+   "says": [
+    "這個月要買月票嗎？",
+    "你把速度調到六。走了十分鐘，才敢調到七。"
+   ],
+   "toasts": [
+    "晚上的時間用完了，回去睡覺。"
+   ],
+   "dh": 1.258,
+   "fit": [
+    0,
+    2
+   ],
+   "slots": [
+    "null",
+    "{\"day\":29,\"used\":{\"am\":0,\"pm\":0,\"ev\":1}}"
+   ],
+   "poses": [
+    "idle",
+    "walk"
+   ],
+   "shots": {
+    "mid": {
+     "x": -0.68,
+     "y": 0,
+     "z": 10.82,
+     "pose": "idle",
+     "busy": true
+    },
+    "start": {
+     "x": -0.5,
+     "y": 0.18,
+     "z": 12.2,
+     "pose": "walk",
+     "busy": true
+    },
+    "end": {
+     "x": 0,
+     "y": 0,
+     "z": 2.4,
+     "pose": "idle",
+     "busy": false
+    }
+   },
+   "t": "night",
+   "kind": "treadmill"
+  },
+  {
+   "id": "bike_1",
+   "says": [
+    "這個月要買月票嗎？",
+    "阻力調到三。騎了十分鐘，大腿已經在燒。"
+   ],
+   "toasts": [
+    "晚上的時間用完了，回去睡覺。"
+   ],
+   "dh": 1.261,
+   "fit": [
+    0,
+    2
+   ],
+   "slots": [
+    "null",
+    "{\"day\":29,\"used\":{\"am\":0,\"pm\":0,\"ev\":1}}"
+   ],
+   "poses": [
+    "idle",
+    "gym_bike"
+   ],
+   "shots": {
+    "mid": {
+     "x": -0.37,
+     "y": 0,
+     "z": 7.97,
+     "pose": "idle",
+     "busy": true
+    },
+    "start": {
+     "x": -0.5,
+     "y": 0,
+     "z": 9.4,
+     "pose": "gym_bike",
+     "busy": true
+    },
+    "end": {
+     "x": 0,
+     "y": 0,
+     "z": 2.4,
+     "pose": "idle",
+     "busy": false
+    }
+   },
+   "t": "night",
+   "kind": "bike"
+  },
+  {
+   "id": "squat_rack_2",
+   "says": [
+    "這個月要買月票嗎？",
+    "你只用空槓。蹲下去，站起來，腿已經在抖。"
+   ],
+   "toasts": [
+    "晚上的時間用完了，回去睡覺。"
+   ],
+   "dh": 1.259,
+   "fit": [
+    0,
+    2
+   ],
+   "slots": [
+    "null",
+    "{\"day\":29,\"used\":{\"am\":0,\"pm\":0,\"ev\":1}}"
+   ],
+   "poses": [
+    "idle",
+    "gym_squat"
+   ],
+   "shots": {
+    "mid": {
+     "x": -18.2,
+     "y": 0,
+     "z": 12.57,
+     "pose": "idle",
+     "busy": true
+    },
+    "start": {
+     "x": -18.4,
+     "y": 0,
+     "z": 12.55,
+     "pose": "gym_squat",
+     "busy": true
+    },
+    "end": {
+     "x": -18.4,
+     "y": 0,
+     "z": 12.55,
+     "pose": "idle",
+     "busy": false
+    }
+   },
+   "t": "night",
+   "kind": "squat_rack"
+  }
+ ]
+}
