@@ -48609,9 +48609,9 @@
    "title": "行動次數：約好的見面也要扣行動次數（不然幾乎無限）；行動次數用完直接跳到下一個時段（原話「約好見面也要算行動次數 不然幾乎無限」「可行動次數沒了要直接跳下一個階段」）",
    "area": "PLAYTEST",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【11-07 03:4x LAWWW-B 查核】一天三時段各 1 次（SLOT_BASE classes3d.js:1266，考試週多 1 次只能自習）；slotUse 扣 1（自習、健身、自由出行）、slotFill／slotFillSpan 填滿（上課、活動、打工、出遊、校外約會）；**約好的見面完全不算**（classes3d.js:1263、1291 說明文字也這樣寫；INV.meet invites3d.js:336-363、meetEv 318-327、期末飯 338、outings goto 141 都沒扣）；次數用完只灰掉選項，queueJump（1283）只在自習健身後、只管上午下午。改法：S.meet 記 h0、演完 slotUse(slotPlan(...,'meet').uses)＋queueJump；meetEv、期末飯照做；timeOptions／pickDay 今天已滿的時段灰掉；outings goto 補 fill；slotUse／slotFill 結尾自動 queueJump，queueJump／jumpTarget 加晚上（跳到就寢或回宿舍提示），下課選單還在時 afterSlot 延後｜【11-07 03:4x LAWWW-B】查 CLS 時段／行動次數（DEC-SLOTS-1018 slotFillSpan）怎麼算約會，改成約好的出遊、約念書都佔一個行動；用完自動推進到下一個時段（不要卡著）",
+   "next": "【11-07 04:1x LAWWW-B】a641c0459：約好的見面演完把那段時間的時段填滿（INV.spendSlot → CLS.slotFillSpan，約好的照樣能去；期末飯、事件見面也算），上午、下午用完跳下一個時段；約時間時今天排滿的時段灰掉、選了說原因；說明字改「約好的見面也算一件」。tests/action_budget_1107_unit.js。晚上用完要不要直接跳到隔天：問使用者（選擇題）。等 GHA 全套、BB 瀏覽器。 ｜ 【11-07 03:4x LAWWW-B 查核】一天三時段各 1 次（SLOT_BASE classes3d.js:1266，考試週多 1 次只能自習）；slotUse 扣 1（自習、健身、自由出行）、slotFill／slotFillSpan 填滿（上課、活動、打工、出遊、校外約會）；**約好的見面完全不算**（classes3d.js:1263、1291 說明文字也這樣寫；INV.meet invites3d.js:336-363、meetEv 318-327、期末飯 338、outings goto 141 都沒扣）；次數用完只灰掉選項，queueJump（1283）只在自習健身後、只管上午下午。改法：S.meet 記 h0、演完 slotUse(slotPlan(...,'meet').uses)＋queueJump；meetEv、期末飯照做；timeOptions／pickDay 今天已滿的時段灰掉；outings goto 補 fill；slotUse／slotFill 結尾自動 queueJump，queueJump／jumpTarget 加晚上（跳到就寢或回宿舍提示），下課選單還在時 afterSlot 延後｜【11-07 03:4x LAWWW-B】查 CLS 時段／行動次數（DEC-SLOTS-1018 slotFillSpan）怎麼算約會，改成約好的出遊、約念書都佔一個行動；用完自動推進到下一個時段（不要卡著）",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -48623,7 +48623,8 @@
     "confirmed": true
    },
    "source": "使用者 11-07 03:2x 試玩（對 LAWWW-B、AA-B；UA-LAWWW-1107-01／02、UA-AA-1107-01；存檔 docs/story_planning/user_saves/2026-11-07/）",
-   "authorized": "使用者直接要求"
+   "authorized": "使用者直接要求",
+   "sha": "a641c0459"
   },
   {
    "id": "MSG-REPLY-1107",
@@ -48658,9 +48659,9 @@
    "title": "買飲料、早餐送給別人；可以選的撩妹（曖昧）對話選項（原話「買飲料 早餐 給別人」「也沒有撩妹對話可以選 也沒辦法送早餐飲料」）",
    "area": "PLAYTEST",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
-   "next": "【11-07 03:4x LAWWW-B】查現有的背包／購買系統、閒聊階梯的選項；定欄位給 AA",
+   "next": "【11-07 04:1x LAWWW-B】送東西那一半 a641c0459：AA_710 e2e92dcf4 → src/data/gift_lines.js（tools/story/import_gifts.py）、src/gift3d.js；便利商店、2:30 AM「買一份帶走送人…」10 樣、最多 3 樣、隔天沒了；當面「送她○○」照階段反應、同一種一天一次、fav 第一次記 REMEMBERED_HER；tests/gift_unit.js。還沒做：撩妹（AA_711 寫中）、早餐店（蛋餅、蘿蔔糕，遊戲沒有早餐店）、送給女主以外的人。 ｜ 【11-07 03:4x LAWWW-B】查現有的背包／購買系統、閒聊階梯的選項；定欄位給 AA",
    "first": {
     "term": "Y1S1",
     "week": 6,
