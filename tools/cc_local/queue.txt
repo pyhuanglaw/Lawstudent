@@ -178,6 +178,8 @@ R126_zone | 126bdf93e82886673518705566dbe83b582c32c1 | game | tests/zone_transit
 R126_mini | 126bdf93e82886673518705566dbe83b582c32c1 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
 R126_movreg | 126bdf93e82886673518705566dbe83b582c32c1 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
 R126_touch | 126bdf93e82886673518705566dbe83b582c32c1 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
+# LAWWW-B 11:42／LAWWW2-B 11:43 WZ-PROGRAMS：溫州街 renderer.info.programs＋每個材質用哪個 program（開發 787f312df；白天 11:00 冷進場、晚上 20:00；淡入後 5 秒）——排在 v9.10.22 發布前那幾項後面
+WZ_PROGRAMS | 787f312df8d9e030a32c111b7b46400b84b02548 | probe | docs/story_planning/test_tools/cc/cc_wz_shaders_probe.py | index.html | 20 | CC_HEADLESS=0
 # CC-B 10:3x 常備（使用者「沒有東西可以跑」→ D121 常備：LAWWW 最新 head 8fdb294aa 回歸組＋真實流程；最慢的在前）
 R8FDB_main12 | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R8FDB_classreal | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
