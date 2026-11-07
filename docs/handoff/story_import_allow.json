@@ -4792,12 +4792,18 @@
   },
   {
    "path": "docs/story_planning/AA_713_gym_equip.json",
-   "sha": "60f8f6b6a",
+   "sha": "89da798d1",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 05:48 交付 AA_713）",
+   "approvedBy": "AA-B D109（11-07 05:51「AA_713 補一個修正」）",
    "task": "GYM-FIT-1107",
    "kind": "json",
-   "note": "健身房七種器材（treadmill、bike、rower、dumbbell↔db_rack、squat↔squat_rack、smith、bench；墊子沒有稿）四階各三句＋levelUp（升階以後第一次練完一句）；tools/story/import_gym_equip.py → src/data/gym_equip_lines.js（GYM_EQUIP_LINES），播放 src/gym3d.js（器材）、src/fit3d.js（升階）。LAWWW-B 子代理 2026-11-07 代登"
+   "note": "健身房七種器材（treadmill、bike、rower、dumbbell↔db_rack、squat↔squat_rack、smith、bench；墊子沒有稿）四階各三句＋levelUp（升階以後第一次練完一句）；tools/story/import_gym_equip.py → src/data/gym_equip_lines.js（GYM_EQUIP_LINES），播放 src/gym3d.js（器材）、src/fit3d.js（升階）。LAWWW-B 子代理 2026-11-07 代登",
+   "history": [
+    {
+     "sha": "60f8f6b6a",
+     "approvedBy": "（11-07 05:48；89da798d1 取代：健身中心在 B1，拿掉一句窗戶、兩句喝水）"
+    }
+   ]
   }
  ]
 }

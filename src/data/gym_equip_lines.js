@@ -1,15 +1,15 @@
-/* 自動產生：tools/story/import_gym_equip.py（docs/story_planning/AA_713_gym_equip.json@60f8f6b6a）。不要手改，改企劃 AA_713 再重新匯入。
+/* 自動產生：tools/story/import_gym_equip.py（docs/story_planning/AA_713_gym_equip.json@89da798d1）。不要手改，改企劃 AA_713 再重新匯入。
    健身房用器材的旁白（GYM-FIT-1107）：kinds＝器材種類（gym_layout.js b1.fitness.equip 的 kind；稿的 dumbbell＝db_rack、squat＝squat_rack）×體能階段，三句輪流（src/gym3d.js）；
    墊子（mat）沒有稿＝用 FIT_LINES。levelUp＝升到那一階以後第一次練完，播一句（src/fit3d.js S.upNote）*/
 'use strict';
 const GYM_EQUIP_LINES={
- "src": "docs/story_planning/AA_713_gym_equip.json@60f8f6b6a",
+ "src": "docs/story_planning/AA_713_gym_equip.json@89da798d1",
  "kinds": {
   "treadmill": {
    "普通": [
     "你把速度調到六。走了十分鐘，才敢調到七。",
     "跑了五分鐘，你按了暫停，扶著把手喘氣。螢幕還在算時間。",
-    "你看著窗外的操場跑了一陣子，發現自己一直在看時間。"
+    "你看著前面的鏡子跑了一陣子，發現自己一直在看時間。"
    ],
    "有在運動": [
     "你跑完二十分鐘，才想起來今天沒有看時間。",
@@ -66,7 +66,7 @@ const GYM_EQUIP_LINES={
     "拉的時候，你感覺得到是背在出力。"
    ],
    "經常鍛鍊": [
-    "五千公尺。你下來喝水，手沒有在抖。",
+    "五千公尺。你下來擦汗，手沒有在抖。",
     "你划了二十分鐘，節奏一下都沒亂。",
     "划完，你把把手放回去，扇葉慢慢停下來。你也慢慢停下來。"
    ]
@@ -154,7 +154,7 @@ const GYM_EQUIP_LINES={
     "你推完最後一下，放回架上，躺著笑了一下。"
    ],
    "經常鍛鍊": [
-    "你在臥推椅上做完五組，起來喝水，換下一個動作。",
+    "你在臥推椅上做完五組，起來甩甩手，換下一個動作。",
     "有人問你這張椅子還要不要用。你說再一組。",
     "你推起來的時候，很穩，沒有在晃。"
    ]
