@@ -4,7 +4,7 @@
 播放：src/gym3d.js（用器材：照器材種類×體能階段三句輪流）、src/fit3d.js（升階以後第一次練完：levelUp 一句）。
 - 來源一定要在 docs/handoff/story_import_allow.json（路徑＋commit＋approved），不在名單就拒絕（D94 第 5 點）。
 - 讀稿照 import_guard.read_fix。
-- 稿的器材名稱換成遊戲的（gym_layout.js b1.fitness.equip 的 kind）：dumbbell→db_rack、squat→squat_rack，其他一樣；墊子（mat）沒有稿。
+- 稿的器材名稱換成遊戲的（gym_layout.js b1.fitness.equip 的 kind）：dumbbell→db_rack、squat→squat_rack，其他一樣；墊子（mat）a6cb4f488 補了。
   稿裡有遊戲沒有的器材、少了哪一階、少了升階的哪一階，就停下來。
 用法：python3 tools/story/import_gym_equip.py [--ref <commit>] [--check]"""
 import json, os, subprocess, sys
@@ -15,7 +15,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 PATH = 'docs/story_planning/AA_713_gym_equip.json'
 OUT = 'src/data/gym_equip_lines.js'
 STAGES = ('普通', '有在運動', '結實', '經常鍛鍊')   # src/fit3d.js S.STAGES
-KIND = {'treadmill': 'treadmill', 'bike': 'bike', 'rower': 'rower', 'dumbbell': 'db_rack', 'squat': 'squat_rack', 'smith': 'smith', 'bench': 'bench'}   # 稿 → 遊戲
+KIND = {'treadmill': 'treadmill', 'bike': 'bike', 'rower': 'rower', 'dumbbell': 'db_rack', 'squat': 'squat_rack', 'smith': 'smith', 'bench': 'bench', 'mat': 'mat'}   # 稿 → 遊戲（mat：AA_713 a6cb4f488 補）
 
 
 def git(*a):

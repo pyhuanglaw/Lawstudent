@@ -1,9 +1,9 @@
-/* 自動產生：tools/story/import_gym_equip.py（docs/story_planning/AA_713_gym_equip.json@89da798d1）。不要手改，改企劃 AA_713 再重新匯入。
+/* 自動產生：tools/story/import_gym_equip.py（docs/story_planning/AA_713_gym_equip.json@a6cb4f488）。不要手改，改企劃 AA_713 再重新匯入。
    健身房用器材的旁白（GYM-FIT-1107）：kinds＝器材種類（gym_layout.js b1.fitness.equip 的 kind；稿的 dumbbell＝db_rack、squat＝squat_rack）×體能階段，三句輪流（src/gym3d.js）；
    墊子（mat）沒有稿＝用 FIT_LINES。levelUp＝升到那一階以後第一次練完，播一句（src/fit3d.js S.upNote）*/
 'use strict';
 const GYM_EQUIP_LINES={
- "src": "docs/story_planning/AA_713_gym_equip.json@89da798d1",
+ "src": "docs/story_planning/AA_713_gym_equip.json@a6cb4f488",
  "kinds": {
   "treadmill": {
    "普通": [
@@ -157,6 +157,28 @@ const GYM_EQUIP_LINES={
     "你在臥推椅上做完五組，起來甩甩手，換下一個動作。",
     "有人問你這張椅子還要不要用。你說再一組。",
     "你推起來的時候，很穩，沒有在晃。"
+   ]
+  },
+  "mat": {
+   "普通": [
+    "你在墊子上坐下，手往前伸。指尖離腳尖還很遠。",
+    "你學牆上的伸展圖，做到第三張就看不懂了。",
+    "你躺在墊子上拉背。起來的時候，背發出一點聲音。"
+   ],
+   "有在運動": [
+    "你拉了十分鐘的筋。手指碰到腳尖了，一下下。",
+    "練完你在墊子上拉腿，大腿後面還是很緊。",
+    "你在墊子上做平板支撐。撐到四十秒，手開始抖。"
+   ],
+   "結實": [
+    "平板支撐撐了一分鐘。你放下來，趴著喘氣。",
+    "你在墊子上做完一組捲腹，換一個角度再做一組。",
+    "你拉完筋，整個人坐在墊子上，覺得身體鬆開了。"
+   ],
+   "經常鍛鍊": [
+    "你練完一定在墊子上拉筋十五分鐘。這已經是順序的一部分。",
+    "你的手掌可以平放在地上了。你記得以前只碰得到小腿。",
+    "你在墊子上慢慢呼吸，把今天練過的地方一個一個拉開。"
    ]
   }
  },

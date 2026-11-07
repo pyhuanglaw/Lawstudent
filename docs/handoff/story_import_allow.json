@@ -4796,9 +4796,9 @@
   },
   {
    "path": "docs/story_planning/AA_713_gym_equip.json",
-   "sha": "89da798d1",
+   "sha": "a6cb4f488",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 05:51「AA_713 補一個修正」）",
+   "approvedBy": "AA-B D109（11-07 06:12「AA_713 加了 mat」）",
    "task": "GYM-FIT-1107",
    "kind": "json",
    "note": "健身房七種器材（treadmill、bike、rower、dumbbell↔db_rack、squat↔squat_rack、smith、bench；墊子沒有稿）四階各三句＋levelUp（升階以後第一次練完一句）；tools/story/import_gym_equip.py → src/data/gym_equip_lines.js（GYM_EQUIP_LINES），播放 src/gym3d.js（器材）、src/fit3d.js（升階）。LAWWW-B 子代理 2026-11-07 代登",
@@ -4806,6 +4806,10 @@
     {
      "sha": "60f8f6b6a",
      "approvedBy": "（11-07 05:48；89da798d1 取代：健身中心在 B1，拿掉一句窗戶、兩句喝水）"
+    },
+    {
+     "sha": "89da798d1",
+     "approvedBy": "（11-07 05:51；a6cb4f488 取代：加 mat 伸展墊四階）"
     }
    ]
   },

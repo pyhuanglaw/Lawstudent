@@ -1,7 +1,7 @@
 // 健身房的器材一台一台能用＋升階看得出來（GYM-FIT-1107；使用者 11-07 試玩「健身器材我還是不能用 應該要讓騎腳踏車變快 肌肉線條更明顯」）——不需要瀏覽器。
 // 在 Node 建出遊戲真正的 B1（Z3.ZONES.gym_b1＋CROWD＋FIT），器材資料是 gym_layout.js b1.fitness.equip（LAWWW2-B 4f05d68d0），旁白是 AA_713（src/data/gym_equip_lines.js）：
 //   1. 22 件器材在 stand 各有一個互動點，字照種類（用跑步機、用腳踏車機、用划船機、用深蹲架、用史密斯機、用啞鈴、用臥推椅、做伸展）；
-//      src/data/gym_equip_lines.js 和 AA_713@89da798d1 一致（tools/story/import_gym_equip.py --check）、七種器材四階各三句、levelUp 三階；index.html 載入
+//      src/data/gym_equip_lines.js 和 AA_713@a6cb4f488 一致（tools/story/import_gym_equip.py --check）、七種器材四階各三句、levelUp 三階；index.html 載入
 //   2. 只在健身中心裡面出現：站在 stand 按鈕就是它（引擎真的 nearestInteractable）；走廊、游泳池看不到
 //   3. 每一種器材按了：規則和「去健身房」同一套——扣一小時、扣這個時段的行動次數、體能 +2、fitDay；說旁白的時候人在那一台的 use（位置、朝向、跑步機皮帶 0.18 m）、
 //      動作對（跑步機在「普通」用走的、之後用跑的；engine 的 poseHold 擋住）；旁白是 AA_713 那一種那一階的；做完站回 stand、姿勢 idle、poseHold 放開
@@ -62,8 +62,8 @@ const gymR=G=>G.daily.gym;
   check('1. 22 件器材在 stand 各一個互動點、字照種類（'+KINDS.map(k=>LABEL[k]).join('、')+'）',EQ.length===22&&its.length===22&&!bad.length,its.length+' 個；不對 '+bad.join('、'));
   let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(ROOT,'tools/story/import_gym_equip.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
   const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
-  const shape=eqData&&KINDS.filter(k=>k!=='mat').every(k=>['普通','有在運動','結實','經常鍛鍊'].every(s=>(AAL(k,s)||[]).length===3))&&!AAL('mat','普通')&&['有在運動','結實','經常鍛鍊'].every(s=>(GYM_EQUIP_LINES.levelUp[s]||[]).length===2)&&/AA_713_gym_equip\.json@89da798d1/.test(GYM_EQUIP_LINES.src);
-  check('1. src/data/gym_equip_lines.js 和 AA_713@89da798d1 一致（import_gym_equip.py --check）；七種器材四階各三句（dumbbell＝db_rack、squat＝squat_rack；墊子沒有稿）、levelUp 三階各兩句；index.html 在 gym3d.js 前面載入',ok&&shape&&/gym_layout\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/gym_equip_lines\.js\?v=[^"]+"><\/script>\n<script src="src\/gym3d\.js/.test(html),out.trim().slice(0,200)); }
+  const shape=eqData&&KINDS.every(k=>['普通','有在運動','結實','經常鍛鍊'].every(s=>(AAL(k,s)||[]).length===3))&&['有在運動','結實','經常鍛鍊'].every(s=>(GYM_EQUIP_LINES.levelUp[s]||[]).length===2)&&/AA_713_gym_equip\.json@a6cb4f488/.test(GYM_EQUIP_LINES.src);
+  check('1. src/data/gym_equip_lines.js 和 AA_713@a6cb4f488 一致（import_gym_equip.py --check）；八種器材四階各三句（dumbbell＝db_rack、squat＝squat_rack；墊子 a6cb4f488 補了）、levelUp 三階各兩句；index.html 在 gym3d.js 前面載入',ok&&shape&&/gym_layout\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/gym_equip_lines\.js\?v=[^"]+"><\/script>\n<script src="src\/gym3d\.js/.test(html),out.trim().slice(0,200)); }
 // ---------- 2 ----------
 { const G=mkG(WED,10); enterB1(G); const bad=[];
   for(const e of EQ){ standAt(e); const it=itOf(e.id), n=E.nearestInteractable(); if(it.hidden||n!==it) bad.push(e.id+'→'+(n&&n.label)); }
@@ -95,8 +95,8 @@ const gymR=G=>G.daily.gym;
   const G3=mkG(WED,10); const b=byId('bench_1'); enterB1(G3,b.stand); const day0=G3.day; for(let k=0;k<4;k++){ G3.day=day0+k; G3.hour=10; await press(G3,b.id); }
   const wk=[0,1,2,3].map(k=>CALENDAR.dateOf(day0+k).wd); check('4. 同一週第 4 次起不加體能（每週最多 3 次，和「去健身房」同一個計數）',gymR(G3).fit===6&&gymR(G3).fitN===3,J([gymR(G3).fit,wk]));
   const m=byId('mat_1'), st=['普通','有在運動','結實','經常鍛鍊'], said={}; for(const [i,f] of [[0,0],[1,30],[2,55],[3,80]]){ const G4=mkG(WED,10,{gym:{card:1,pass:'2025-10',fit:f}}); enterB1(G4,m.stand); const gm=await press(G4,m.id); said[st[i]]=gm.L.at.map(a=>a.t); }
-  const FL=GY3.FIT_LINES, ok=said['普通'].length===0&&J(said['有在運動'])===J([FL['有在運動'][0]])&&said['結實'].length===0&&J(said['經常鍛鍊'])===J([FL['經常鍛鍊'][0]]);
-  check('4. 墊子（AA_713 沒有稿）：「有在運動」那句提到伸展、「經常鍛鍊」沒提到器材的三句輪流；「普通」「結實」FIT_LINES 每句都在講別的器材＝不說話（還是照樣練、扣時間）',ok,J(said)); }
+  const ok=st.every(x=>J(said[x])===J([AAL('mat',x)[0]]));
+  check('4. 墊子（AA_713 a6cb4f488 補了）：四階各照 AA_713 的第一句',ok,J(said)); }
 // ---------- 5 ----------
 { const G=mkG(WED,10); const e=byId('treadmill_1'); enterB1(G,e.stand); const n=fake(e.use[0].x,e.use[0].z); const it=itOf(e.id);
   const h1=it.hidden, nb=E.nearestInteractable(); const gm=await press(G,e.id);
