@@ -347,7 +347,9 @@ const INV=(function(){
     iv.state='done'; iv.mid=1; GM.sceneBegin({adv:iv.who}); const LQ=typeof LIBQ!=='undefined'&&LIBQ.scope?LIBQ.scope():null;   /* 圖書館：走出館外那一句起到道別都不加（小聲）（AA_595 1-D10、Q16）*/ try{ const lines=((D().people[iv.who]||{}).scene||{})[P.id], who={name:nm,obj:n&&n.obj,charId:iv.who}, SO=typeof SOCIAL!=='undefined'?SOCIAL:{};
       if(!iv.opened) await S.meetOpen(GM,iv,who);   /* 開場（路上的選項句、假期版第一句、節日、升階的門檻台詞）；約念書在門口就演過了（S.leadStart，iv.opened）*/
       const SNx=typeof STUDYN!=='undefined'&&S.isStudy(iv,P)?STUDYN.pick(G,iv.who):null, SN=SNx&&!SNx.generic?SNx:null;   /* 一起念書第 N 次（AA_707）：null＝照一般句 */
-      const LB=!!o.lib, lib1=LB&&!SN?S.libFirst(G,iv.who):null;   /* 約念書兩個人坐下以後（INV-SIT-TOGETHER-1104、AA_649）：坐下的旁白＋她一句 */
+      const LB=!!o.lib, lib1=LB&&!SN?S.libFirst(G,iv.who):null;
+      const AQ=typeof LIBQ!=='undefined'&&LIBQ.studyAt&&GM.E&&GM.E.player&&GM.E.player.obj?LIBQ.studyAt(G.zone,GM.E.player.lv|0,GM.E.player.obj.position.x,GM.E.player.obj.position.z):false;
+      const ARC=typeof ARCS!=='undefined'&&!P.scene&&!P.ownMeal&&!P.sport&&!(lines&&lines.length)?ARCS.pick(G,iv.who,{kind:ARCS.kindOf(iv,P,S.isStudy(iv,P)),quiet:AQ}):null;   /* 她自己的故事線（AA_712、BB_305）：這一次的「中途那件事」換成下一拍；null＝照活動自己的 */   /* 約念書兩個人坐下以後（INV-SIT-TOGETHER-1104、AA_649）：坐下的旁白＋她一句 */
       if(LB){ await GM.say(null,LS().seated); if(SN) await STUDYN.play(GM,who,SN.seat); else await GM.say(who,lib1&&lib1.sit||pick(LS().sit)); }
       else if(o.sat) await S.seatOpenLines(GM,iv,who,P);   /* 其他約會兩個人一起坐下：開場句（AA_649 第 4 節）*/
       const ml=SO.meetLine?SO.meetLine(iv.who,P.id):null;   /* 見面時的旁白：地點×階段（BB_120 第 1 節；沒有那一格照舊） */
@@ -358,7 +360,8 @@ const INV=(function(){
       else { if(lines&&lines.length){ for(const t of lines) await GM.say(who,t); } else if(P.scene) await P.scene(GM,iv,who); /* 地點自己的見面（茶席：AA_167，src/wzlines3d.js）*/ else if(ml){ if(LQ) LQ.chk(ml); await GM.say(/^「/.test(ml)?who:null,ml); } else await GM.say(null,'你和'+nm+P.verb.replace(/^去/,'在')+'。');
         { const FA=FAof(); if(FA) await S.playLines(GM,who,FA,undefined,LQ); } }   /* 第一次和她（他）去那個地方：在那裡多說的（BB_158 的 first：點完餐、脫鞋、老闆娘說的三分四十秒）*/
       const SNo=SN&&!LB&&!(lines&&lines.length)&&!P.scene&&!P.ownMeal;
-      if(LB) await S.libStay(GM,iv,who,P,SN); else if(SNo){ await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); await STUDYN.mid(GM,who,iv.who,SN); await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(G.stats) G.stats.study=(G.stats.study|0)+Math.max(1,Math.round(P.stay)); if(typeof STORY!=='undefined'&&STORY.onStudy){ try{ STORY.onStudy(GM,P.stay); }catch(e){ console.warn('STORY.onStudy',e); } } }   /* 其他地方一起念書：時間一半、中途那件事、另一半；讀書照算（和總圖一樣）*/
+      if(LB) await S.libStay(GM,iv,who,P,SN,ARC); else if(SNo){ await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(ARC) await ARCS.run(GM,who,iv.who,ARC); else await STUDYN.mid(GM,who,iv.who,SN); await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(G.stats) G.stats.study=(G.stats.study|0)+Math.max(1,Math.round(P.stay)); if(typeof STORY!=='undefined'&&STORY.onStudy){ try{ STORY.onStudy(GM,P.stay); }catch(e){ console.warn('STORY.onStudy',e); } } }   /* 其他地方一起念書：時間一半、中途那件事、另一半；讀書照算（和總圖一樣）*/
+      else if(!P.ownMeal&&ARC){ await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); await ARCS.run(GM,who,iv.who,ARC); await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); }   /* 吃飯、咖啡、電影、書店：時間一半 → 故事線那一拍 → 另一半 */
       else if(!P.ownMeal){ await GM.fade(true); GM.advance(P.stay); await GM.fade(false); } GM.caption('',[P.name,nm,'（'+(P.stay>=1?P.stay+' 小時':Math.round(P.stay*60)+' 分鐘')+'）'].join('・'),2600);   /* ownMeal：地點的 scene 自己點餐、走時間（Pasta 118 照 L118.order，AA_480 第 5 節）*/
       if(typeof SOCIAL!=='undefined'){ if(SOCIAL.remember) SOCIAL.remember(iv.who,P.memory,P.name); if(SOCIAL.activity){ SOCIAL.activity(iv.who,P.sport?'sport':({cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk',brunch:'meal',teahouse:'cafe',slowread:'library'}[P.id]||(P.kind==='meal'?'meal':'cafe'))); if(iv.by==='npc') SOCIAL.activity(iv.who,'acceptInvite'); } else if(SOCIAL.adjust) SOCIAL.adjust(iv.who,{fam:2}); }
       if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum(iv.who)>=3&&iv.who!=='kexin'){ const DY=G.daily||(G.daily={}), k='romAlone_'+iv.who; if(DY[k]!==G.day){ DY[k]=G.day; SOCIAL.adjust(iv.who,{npcRom:1,rom:1}); } }   /* 校園單獨約出來（AA_128 1-1）：她的戀愛 +1、祐廷的戀愛 +1，同一個人一天一次；AA_243 第 1 節（BB_199 P0-1 方案 A）：從朋友（第 3 階）開始，不是第 5 階 */   /* AA_124 1-2：照地點（Café、總圖、吃飯、溫州街）；對方約的又赴約，信任 +1 */
@@ -632,10 +635,10 @@ const INV=(function(){
   /* 第一次和她約念書：AA_649 第 3 節她自己那兩句（沒有列的人、第二次以後＝第 2 節隨機）*/
   S.libFirst=function(G,id){ const T=(LS().first||{})[id]; const F=G.flags||(G.flags={}), M=F.libStudy1||(F.libStudy1={}); if(!T||M[id]!=null) return null; M[id]=G.day; return T; };
   /* 一起讀的時間：照地點的 stay（閉館前十分鐘收），過到一半出一則（AA_649 第 1 節 5）；讀書照算（G.stats.study、STORY.onStudy，和自己坐下讀書一樣算小時）*/
-  S.libStay=async function(GM,iv,who,P,SN){ const G=GM.G, h0=G.hour%24, HR=typeof PLACES!=='undefined'&&PLACES.hours?PLACES.hours[G.zone]:null, cl=HR&&typeof HR.close==='number'?HR.close:null;
+  S.libStay=async function(GM,iv,who,P,SN,ARC){ const G=GM.G, h0=G.hour%24, HR=typeof PLACES!=='undefined'&&PLACES.hours?PLACES.hours[G.zone]:null, cl=HR&&typeof HR.close==='number'?HR.close:null;
     let st=P.stay||1; if(cl!=null&&h0+st>cl-1/6) st=Math.max(0.25,cl-1/6-h0); iv.closing=cl!=null&&h0+st>=cl-1/6-1e-6;
     await GM.fade(true); GM.advance(st/2); await GM.fade(false);
-    if(SN) await STUDYN.mid(GM,who,iv.who,SN); else { const m=pick(LS().mid); if(m) await S.playLines(GM,who,m); }   /* 第 N 場的中途那件事（AA_707）*/
+    if(ARC) await ARCS.run(GM,who,iv.who,ARC); else if(SN) await STUDYN.mid(GM,who,iv.who,SN); else { const m=pick(LS().mid); if(m) await S.playLines(GM,who,m); }   /* 故事線那一拍（AA_712）＞第 N 場的中途那件事（AA_707）＞一般句 */
     await GM.fade(true); GM.advance(st/2); await GM.fade(false);
     if(G.stats) G.stats.study=(G.stats.study|0)+Math.max(1,Math.round(st));
     if(typeof STORY!=='undefined'&&STORY.onStudy){ try{ STORY.onStudy(GM,st); }catch(e){ console.warn('STORY.onStudy',e); } } };

@@ -21,6 +21,10 @@ const files=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).m
 const found=new Map(); for(const f of files){ for(const s of lits(fs.readFileSync(path.join(ROOT,f),'utf8'))) if(RE.test(s)){ const k=s.trim(); if(!found.has(k)) found.set(k,f); } }
 /* ---- 看過、可以留的 ---- */
 const OK={
+  '她自己決定的第一件事':'AA_712 以安第 8 拍的 topic（題目標籤、不播出）：不是學姊在數件數',
+  '你有沒有一件事，是自己學會的？沒有人教你。':'語彤（AA_712 第 3 拍問祐廷的那句）：「一件事」不是學姊在數件數',
+  '我繼續倒完了。那是我第一次在她面前，把一件事做完。':'語彤（AA_712 第 6 拍）：「一件事」不是學姊在數件數',
+  '我那時候覺得，我好像會把一件事做得很好。只是那件事不是法律。':'沛珊（AA_712 第 8 拍）：「一件事」不是學姊在數件數',
   '今天讀完，我想問你一件事。':'沛珊（AA_707 一起念書第 6 場坐下那一句，src/data/study_scenes.js）：「一件事」不是學姊在數件數',
   '剛認識時的一件事':'人物面板的記憶名稱（FRIEND_CARD，AA 11-03 定字；不是學姊的句子）',
   /* 系統字、說明 */

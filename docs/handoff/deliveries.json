@@ -17656,6 +17656,32 @@
    "task": "GYM-FIT-1107",
    "integration": "未整合",
    "note": "未整合的兩包會動 gym3d.js、fit3d.js、character3d.js，等 GYM-FIT 器材子代理交件再一起合"
+  },
+  {
+   "id": "DL-AA-7a24f8ce1",
+   "date": "2026-11-07T05:34Z",
+   "from": "AA",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "7a24f8ce1",
+   "msg": "ACTIONED",
+   "what": "AA_712 七位女主角故事線各 8 拍（BB_305 欄位、toldAlt、alt）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "integration": "已整合待測試",
+   "note": "e7f268ddc、3208339d6 被這一版取代；LAWWW-B 06:0x 匯入"
+  },
+  {
+   "id": "DL-BB-c6678f264",
+   "date": "2026-11-07T05:12Z",
+   "from": "BB",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "c6678f264",
+   "msg": "ACTIONED",
+   "what": "BB_305 女主角故事線條件與觸發規格",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "integration": "已整合待測試",
+   "note": "src/arcs3d.js 照第 1～4、7 節做；第 5、6 節（輪換、life）等 AA 的資料"
   }
  ],
  "ignored": [

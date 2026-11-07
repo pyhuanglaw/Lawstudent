@@ -4742,6 +4742,15 @@
    "task": "GIFT-FLIRT-1107",
    "kind": "json",
    "note": "七位各 5 則（need 3～5、ok／early）；tools/story/import_flirt.py → src/data/flirt_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_712_heroine_arcs.json",
+   "sha": "7a24f8ce1",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 05:22「AA_712 七位故事線完成」、05:28 照 BB_306 改版、05:34 以安第 4 拍 alt）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "七位各 8 拍（BB_305 欄位）；tools/story/import_arcs.py → src/data/heroine_arcs.js；src/arcs3d.js 播放"
   }
  ]
 }
