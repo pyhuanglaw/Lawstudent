@@ -106,6 +106,9 @@ async def main():
             run.check('② 見面坐下：她多一句「%s」' % Lx['extra'], any(Lx['extra'] in t for t in lines), J(lines, 1200))
             run.check('② 坐下讀書以後：四句輪流的其中一句', any(any(dl in t for t in lines) for dl in dur), J(lines, 1200))
             run.check('② 讀書時數有加（%s → %s）' % (st0, st1), st1 > st0, J([st0, st1]))
+            if os.environ.get('NEWLINE'):   # 4ce5a0ba6：第 1 場開頭改「你先讀。我把這一章看完就好。」、木曜日「（小聲）…」外面不再有「」（AA-B 23:38）
+                run.check('③ 第 1 場開頭「你先讀。我把這一章看完就好。」、沒有「我讀社會學。你讀什麼？」', any('你先讀。我把這一章看完就好。' in t for t in lines) and not any('你讀什麼' in t for t in lines), J(lines, 1200))
+                run.check('③ 木曜日的「（小聲）…」外面沒有「」', any(t.startswith('（小聲）') for t in lines) and not any(t.startswith('「（小聲）') for t in lines), J([t for t in lines if '小聲' in t]))
         else:
             s, d = await P.base(pg, base, '2025-11-03', 14.8, 'campus')
             s['invites'] = [v for v in s.get('invites', []) if v.get('who') != AN]
