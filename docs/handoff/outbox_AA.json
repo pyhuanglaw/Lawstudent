@@ -5714,6 +5714,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "第二版：pool 輪換、dating 交往中、ctx（again／exam／night／winterCold／summerHot）、opinion 品項、七位都有 fav（以安豆漿、語彤紅茶拿鐵、沛珊米漿、芷若熱可可加濃縮、子晴冰美式、學姊無糖綠茶、可昕青茶無糖）；只用遊戲買得到的 10 樣；line_lint 0 條"
+  },
+  {
+   "task": "PLAYTEST-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_714_invite_places_acc.json"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B 接到 INVITE_DATA.people[人].acc[地點]（和 afar／daybreak 同樣做法）；firstAt 第一次一起到那裡時播",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "INVITE-PLACES-1107 第一批：soclib、wz_lin、wz_teishoku、xs_dakou、xs_nanyang、bookstore、xs_shanlan × 七位，各一句 acc＋一兩句 firstAt；Daybreak 已有 daybreakAcc（AA_652）不重寫；line_lint 0 條"
   }
  ],
  "items": [
