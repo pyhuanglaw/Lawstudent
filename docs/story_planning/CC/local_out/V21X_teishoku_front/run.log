@@ -1,0 +1,24 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_teishoku_front_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V21X_teishoku_front\out
+CC V21X_teishoku_front（小路門口那一面）：SHA=c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+== dusk
+  [前置／捷徑] [dusk] 讀檔進 wz_teishoku 2025-10-15 18.20（條件事件關閉）
+PASS [dusk] 進得了 wz_teishoku  {"zone": "wz_teishoku", "x": -2, "z": 3.05, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開小路", "stand": true, "fb": 0, "hour": 18.26}
+  [  52.0s] [dusk] 門口、窗、玻璃相關的網格：{"exits": [{"label": "離開小路", "x": -2, "z": 3.55}], "wins": [{"n": "kmc_glass", "mat": "kmc_glass", "type": "MeshStandardMaterial", "map": null, "vis": true, "c": [1.45, 1.71, 0.79], "size": [3.92, 1.22, 6.38]}, {"n": "WALL_front_kmc_glass", "mat": "kmc_glass", "type": "MeshStandardMaterial", "map": null, "vis": false, "c": [-0.15, 1.14, 4.07], "size": [7.1, 2.25, 0]}, {"n": "WALL_front_VIEW_kmc_window_view", "mat": "kmc_window_view", "type": "MeshStandardMaterial", "map": "s/env/second_ai/aa_support/komichi_view_night.webp", "vis": false, "c": [0, 1.75, 6.5], "size": [14, 5.5, 0]}], "nWins": 3, "zmax": 6.5, "spawn": [-2, 3.05], "viewPanes": 0}
+PASS [黑畫面] teishoku_front_dusk 不是黑畫面（平均亮度 60.4、變化 37.3）  [60.4, 37.3]
+  [  54.6s] [截圖] teishoku_front_dusk：鏡頭 {"eye": [-2, 1.6, 2.55], "look": [-2, 1.4, 5.05], "lens": 20, "vfov": 53.7}、亮度 [60.4, 37.3]
+  [前置／捷徑] [dusk] 玩家站在門口那一面前 (-2.00, 2.55) 面向 +z（跟隨鏡頭照遊戲自己的）
+PASS [黑畫面] teishoku_front_player_dusk 不是黑畫面（平均亮度 46.8、變化 36.1）  [46.8, 36.1]
+  [  67.8s] [dusk] 玩家視角那一格：窗景卡顯示狀態 {"views": [{"n": "WALL_front_VIEW_kmc_window_view", "self": true, "eff": true}], "cam": [-2, 3.13, -1.16]}
+== night
+  [前置／捷徑] [night] 讀檔進 wz_teishoku 2025-10-15 21.00（條件事件關閉）
+PASS [night] 進得了 wz_teishoku  {"zone": "wz_teishoku", "x": -2, "z": 3.05, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開小路", "stand": true, "fb": 0, "hour": 21.07}
+  [  81.1s] [night] 門口、窗、玻璃相關的網格：{"exits": [{"label": "離開小路", "x": -2, "z": 3.55}], "wins": [{"n": "kmc_glass", "mat": "kmc_glass", "type": "MeshStandardMaterial", "map": null, "vis": true, "c": [1.45, 1.71, 0.79], "size": [3.92, 1.22, 6.38]}, {"n": "WALL_front_kmc_glass", "mat": "kmc_glass", "type": "MeshStandardMaterial", "map": null, "vis": false, "c": [-0.15, 1.14, 4.07], "size": [7.1, 2.25, 0]}, {"n": "WALL_front_VIEW_kmc_window_view", "mat": "kmc_window_view", "type": "MeshStandardMaterial", "map": "s/env/second_ai/aa_support/komichi_view_night.webp", "vis": false, "c": [0, 1.75, 6.5], "size": [14, 5.5, 0]}], "nWins": 3, "zmax": 6.5, "spawn": [-2, 3.05], "viewPanes": 0}
+PASS [黑畫面] teishoku_front_night 不是黑畫面（平均亮度 60.4、變化 37.3）  [60.4, 37.3]
+  [  83.1s] [截圖] teishoku_front_night：鏡頭 {"eye": [-2, 1.6, 2.55], "look": [-2, 1.4, 5.05], "lens": 20, "vfov": 53.7}、亮度 [60.4, 37.3]
+  [前置／捷徑] [night] 玩家站在門口那一面前 (-2.00, 2.55) 面向 +z（跟隨鏡頭照遊戲自己的）
+PASS [黑畫面] teishoku_front_player_night 不是黑畫面（平均亮度 46.5、變化 35.9）  [46.5, 35.9]
+  [  94.2s] [night] 玩家視角那一格：窗景卡顯示狀態 {"views": [{"n": "WALL_front_VIEW_kmc_window_view", "self": true, "eff": true}], "cam": [-2, 3.13, -1.16]}
+PASS 沒有 JS 例外  []
+ALL PASS

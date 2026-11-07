@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "V21X_teishoku_front",
+  "sha": "c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_teishoku_front_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T17:52:36",
+  "end": "2026-11-07T17:54:47",
+  "seconds": 131,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "30",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 5,
+    "mem": 52,
+    "used_gb": 16.4,
+    "chrome_testing": 14
+  }
+}
