@@ -76,7 +76,7 @@ async def yangyang(pg, cdp, rec):
         r['door'] = await D.user_shot(pg, cdp, 'yy_%s_door' % tn, {'eye': [1.2, 1.6, 4.9], 'look': [0.0, 1.0, -4.0], 'lens': 18})
         r['counter'] = await D.user_shot(pg, cdp, 'yy_%s_counter' % tn, {'eye': [0.8, 1.6, 1.6], 'look': [-2.3, 1.2, 4.8], 'lens': 20})
         r['top'] = await D.user_shot(pg, cdp, 'yy_%s_top' % tn, {'eye': [0.3, 7.5, 2.2], 'look': [0.0, 0.0, -0.6], 'lens': 16})
-        r['t4_south'] = await D.user_shot(pg, cdp, 'yy_%s_t4south' % tn, {'eye': [-2.9, 1.35, -1.9], 'look': [-2.9, 0.5, -3.8], 'lens': 24})
+        r['t4_south'] = await D.user_shot(pg, cdp, 'yy_%s_t4south' % tn, {'eye': [-0.5, 1.5, -4.9], 'look': [-2.9, 0.45, -3.7], 'lens': 22})
         r['window'] = await D.user_shot(pg, cdp, 'yy_%s_window' % tn, {'eye': [0.9, 1.5, 2.4], 'look': [2.7, 1.4, 5.5], 'lens': 20})
         ppl = await pg.evaluate(PEOPLE)
         bad = [p_ for p_ in ppl if not p_['clerk'] and ((p_['seat'] and p_['seat']['d'] > 0.15) or p_['stand'] is False)]
