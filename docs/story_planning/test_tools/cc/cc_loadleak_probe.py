@@ -74,6 +74,40 @@ async def cafe_date(pg, cdp, tag):
     return ivs
 
 
+async def load_menu(pg, cdp, slot):
+    """照玩家：☰ → 存檔頁 → 欄位 N「讀取」（有確認就按讀取／確定）；回傳有沒有點到"""
+    if await pg.evaluate("document.getElementById('menu').classList.contains('hide')"):
+        await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(1200)
+    await L.tap(pg, cdp, '#menu .tabs button[data-tab="save"]'); await pg.wait_for_timeout(1200)
+    c = await pg.evaluate("""(n=>{ const it=[...document.querySelectorAll('#saveSlots .item')].find(x=>new RegExp('欄位 '+n).test(x.innerText)); if(!it) return null; const b=[...it.querySelectorAll('button')].find(x=>x.textContent==='讀取'); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })""", slot)
+    if not c: return False
+    await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(800)
+    for _ in range(5):
+        st = await L.state(pg)
+        if not st['choices']: break
+        k = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')]; const i=bs.findIndex(b=>/讀取|確定|是/.test(b.innerText)); return i<0?0:i; })()")
+        cc = await pg.evaluate("(i=>{ const b=document.querySelectorAll('#choices button')[i]; const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%d)" % k)
+        await L.touch_tap(cdp, cc[0], cc[1]); await pg.wait_for_timeout(800)
+    return True
+
+
+async def chain_loads(pg, cdp, tag, rec):
+    """BB-B 19:26：同一頁連續讀 欄位 1 → 欄位 2 → 欄位 1，每次 10 秒看時鐘、toast、busyDepth"""
+    out = []
+    for slot, zone, h in ((1, 'bookstore', 13.8), (2, 'gongguan', 15.0), (1, 'bookstore', 13.8)):
+        ok = await load_menu(pg, cdp, slot); await pg.wait_for_timeout(1500)
+        toast = await pg.evaluate("(()=>{ const e=document.getElementById('toast'); return e?e.innerText.trim():''; })()")
+        seq = []
+        for i in range(20):
+            cur = await pg.evaluate("(()=>({zone:GAME.G.zone, hour:+(+GAME.G.hour).toFixed(3), bd:GAME.D?GAME.D.busyDepth:null}))()")
+            seq.append([round(i * 0.5, 1), cur['zone'], cur['hour'], cur['bd']]); await pg.wait_for_timeout(500)
+        good = ok and all(x[1] == zone and abs(x[2] - h) < 0.3 and not x[3] for x in seq) and '提醒：14:00' not in toast
+        R.note('%s 連續讀 欄位 %d（%s %.2f）：toast %s；%s' % (tag, slot, zone, h, J(toast), J(seq)))
+        R.check('%s 連續讀 欄位 %d：進 %s、時鐘在 %.2f 附近不跳、busyDepth 0、沒有上一局的提醒' % (tag, slot, zone, h), good, J({'toast': toast, 'seq': seq[:4] + seq[-2:]}))
+        out.append({'slot': slot, 'toast': toast, 'seq': seq})
+    rec['chain'] = out
+
+
 async def main():
     real = os.popen('git -C "%s" rev-parse --short HEAD 2>/dev/null' % os.path.join(os.environ.get('LW_TESTS') or '.', '..')).read().strip()
     print('CC 讀檔時鐘跳（書店 18:00）重現：SHA=%s（worktree 實際 %s）；VARIANTS=%s' % (os.environ.get('SHA', '?'), real or '?', VARIANTS), flush=True)
@@ -89,9 +123,13 @@ async def main():
                 await pg.evaluate("localStorage.clear()")
                 d = await pg.evaluate("(k=>STORY.dayOfKey(k))('%s')" % DAY)
                 book_st = {'zone': 'bookstore', 'day': d, 'hour': 13.8}
-                if how == 'menu':
+                if how in ('menu', 'chain'):
                     await L.load_state(pg, book_st, quiet_events=True, quiet_phone=True); await pg.wait_for_timeout(3000)
                     await pg.evaluate("(()=>{ localStorage.setItem('fatiao3d_slot_1', JSON.stringify(GAME.snapshot())); })()")
+                    if how == 'chain':
+                        await L.load_state(pg, {'zone': 'gongguan', 'day': d, 'hour': 15.0}, quiet_events=True, quiet_phone=True); await pg.wait_for_timeout(3000)
+                        await pg.evaluate("(()=>{ localStorage.setItem('fatiao3d_slot_2', JSON.stringify(GAME.snapshot())); })()")
+                        R.setup('%s 【前置】公館 15:00 的存檔寫進 fatiao3d_slot_2' % tag)
                     R.setup('%s 【前置】書店 13:48 的存檔寫進 fatiao3d_slot_1（GAME.snapshot）' % tag)
                 ivs = await cafe_date(pg, cdp, tag)
                 R.check('%s 咖啡第 3 場演完（done）' % tag, ivs == 'done', str(ivs))
@@ -100,6 +138,8 @@ async def main():
                 inv_pre = await pg.evaluate("(()=>({gInvites:(GAME.G.invites||[]).map(q=>[q.id,q.who,q.place,q.day,q.h,q.state]), defaultsInvites:(GAME.defaults('x').invites||null), defaultsSame:GAME.defaults('x').invites===GAME.defaults('y').invites}))()")
                 R.note('%s 讀檔前：G.invites %s；GAME.defaults().invites %s（兩次 defaults 同一個陣列：%s）' % (tag, J(inv_pre['gInvites']), J(inv_pre['defaultsInvites']), inv_pre['defaultsSame']))
                 R.note('%s 讀檔前一刻：時鐘 %.2f、zone %s；在跑的東西 %s' % (tag, before['hour'], before['zone'], J(busy)))
+                if how == 'chain':
+                    await chain_loads(pg, cdp, tag, rec); R.check('%s 沒有 JS 例外' % tag, not errs, J(errs[:3])); continue
                 if how == 'shortcut':
                     R.setup('%s 【捷徑】L.load_state 讀檔進書店 13:48（條件事件關閉）' % tag)
                     await L.load_state(pg, book_st, quiet_events=True, quiet_phone=True)
@@ -119,6 +159,8 @@ async def main():
                             await L.touch_tap(cdp, cc[0], cc[1]); await pg.wait_for_timeout(800)
                         else: break
                 toast_txt = await pg.evaluate("(()=>{ const e=document.getElementById('toast'); return e?e.innerText.trim():''; })()")
+                toast_vis = await pg.evaluate("(()=>{ const e=document.getElementById('toast'); if(!e) return false; const cs=getComputedStyle(e); return !e.classList.contains('hide')&&cs.display!=='none'&&cs.visibility!=='hidden'&&+cs.opacity>0.05; })()")
+                R.note('%s 讀檔後 toast 看得到：%s' % (tag, toast_vis))
                 R.note('%s 讀檔後 toast：%s' % (tag, J(toast_txt)))
                 at_load = await pg.evaluate(BUSY)
                 inv_post = await pg.evaluate("(()=>(GAME.G.invites||[]).map(q=>[q.id,q.who,q.place,q.day,q.h,q.state]))()")
@@ -126,7 +168,8 @@ async def main():
                 seq = []; prev = await pg.evaluate(SNAP); jump = None
                 for i in range(40):
                     cur = await pg.evaluate(SNAP)
-                    seq.append([round(i * 0.5, 1), cur['zone'], cur['hour'], cur['day']])
+                    bd = await pg.evaluate("(()=>GAME.D?GAME.D.busyDepth:null)()")
+                    seq.append([round(i * 0.5, 1), cur['zone'], cur['hour'], cur['day'], bd])
                     if jump is None and prev['zone'] == cur['zone'] and cur['day'] == prev['day'] and abs(cur['hour'] - prev['hour']) > 0.3:
                         jump = {'at': i * 0.5, 'diff': gdiff(prev, cur), 'busyAfter': await pg.evaluate(BUSY), 'invites': await pg.evaluate("(()=>(GAME.G.invites||[]).map(q=>[q.id,q.who,q.place,q.day,q.h,q.state]))()"), 'toast': await pg.evaluate("(()=>{ const e=document.getElementById('toast'); return e?e.innerText.trim():''; })()"), 'dlg': await pg.evaluate("(()=>(document.getElementById('dlgText')||{}).innerText||null)()")}
                     if jump is None and cur['day'] != prev['day']: jump = {'at': i * 0.5, 'diff': gdiff(prev, cur), 'busyAfter': await pg.evaluate(BUSY)}
@@ -137,6 +180,19 @@ async def main():
                 first = seq[0] if seq else None
                 R.check('%s 讀檔後進了書店、時鐘在 13:48 附近（第一格 %s）' % (tag, J(first)), bool(first) and first[1] == 'bookstore' and abs(first[2] - 13.8) < 0.3, J(seq[:4]))
                 R.check('%s 讀檔後 20 秒內時鐘沒有跳' % tag, jump is None, J(jump))
+                R.check('%s 讀檔後 #toast 不是上一局的約會提醒（空的，或不含「提醒：14:00」）' % tag, '提醒：14:00' not in (toast_txt or ''), J(toast_txt))
+                R.check('%s 讀檔後畫面上沒有顯示「提醒：14:00…」toast' % tag, not (toast_vis and '提醒：14:00' in (toast_txt or '')), J([toast_vis, toast_txt]))
+                R.check('%s 讀檔後 20 秒 D.busyDepth 一直是 0' % tag, all((x[4] or 0) == 0 for x in seq), J([x for x in seq if (x[4] or 0) != 0][:5]))
+                if os.environ.get('WALK') == '1':   # BB-B 19:26：讀完以後在書店照常走 1 分鐘
+                    t1 = time.time(); w = []; pts = [(-2.0, 2.0), (2.0, -2.0), (-3.5, -2.5), (0.0, 3.0)]; k = 0
+                    while time.time() - t1 < 60:
+                        x_, z_ = pts[k % len(pts)]; k += 1
+                        await L.go_to(pg, cdp, R, x_, z_, 0.6, '%s 書店裡走走 (%.1f,%.1f)' % (tag, x_, z_), max_s=20)
+                        cur = await pg.evaluate(SNAP); st_ = await L.state(pg)
+                        w.append([round(time.time() - t1, 1), cur['zone'], cur['hour'], st_['dlg'], st_['choices'], await pg.evaluate("(()=>GAME.D?GAME.D.busyDepth:null)()")])
+                    R.note('%s 走 1 分鐘（[秒, zone, hour, 對話, 選項, busyDepth]）：%s' % (tag, J(w)))
+                    hrs = [x[2] for x in w]
+                    R.check('%s 走 1 分鐘：時鐘照常（沒有一次跳 >0.3 小時）、還在書店、沒有冒出對話或劇情' % tag, all(b2 - a2 < 0.3 for a2, b2 in zip(hrs, hrs[1:])) and all(x[1] == 'bookstore' for x in w) and not any(x[3] or (x[5] or 0) for x in w), J(w))
                 await R.shot(pg, 'leak_%s_%s' % (when, how))
                 rec['runs'].append({'when': when, 'how': how, 'before': {k: before[k] for k in ('zone', 'hour', 'day')}, 'busyBefore': busy, 'busyAtLoad': at_load, 'seq': seq, 'jump': jump})
                 R.check('%s 沒有 JS 例外' % tag, not errs, J(errs[:3]))
