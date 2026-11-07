@@ -45155,7 +45155,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 13:3x】LAWWW2-C 13:1x：人物 3D 是 LAWWW2 的，請 CC 排近景探針先找原因（髮片幾何、matcap、法線、彈簧骨？），原因出來提改法；人物外觀改法 LAWWW 驗收（D100a、D128），BB 可給意見；不擋 v9.10.20",
+   "next": "【11-07 08:4x LAWWW-B｜D100a 選 (a)】CC HAIR_FIX_v2／v3（四種做法）＋LAWWW2 game_zoom（a25346f19）看過：只柔化貼圖幾乎沒差；法線 0.6 差最多（學姊背面、以安 45° 髮束條紋淡、整頭像一塊），語彤變暗。決定：(a) 法線 0.6 烘進祐廷＋五位女主角 VRM（語彤頭髮底色提亮一點）→ CC 同鏡頭拍 → 標 ART_APPROVED；(b) 重畫頭髮貼圖（去掉每束重複細黑線）排在後面；(c) 改幾何不做；路人先不動。 ｜ 【LAWWW-C 11-04 13:3x】LAWWW2-C 13:1x：人物 3D 是 LAWWW2 的，請 CC 排近景探針先找原因（髮片幾何、matcap、法線、彈簧骨？），原因出來提改法；人物外觀改法 LAWWW 驗收（D100a、D128），BB 可給意見；不擋 v9.10.20",
    "source": "使用者 11-04 13:2x 對 CC-C（UA-CC-1104-03，CC-C 13:16 轉 LAWWW-C）",
    "authorized": "使用者直接要求",
    "xai": {
