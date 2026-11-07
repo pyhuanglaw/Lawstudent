@@ -42190,10 +42190,10 @@
    "id": "PERF-WZ-DAY-1103",
    "title": "溫州街白天卡頓：PC 桌機（RX 6600M）白天只有 30～40 fps、1% low 只有 7 fps（校園白天也 30～40）；查來源（NPC 數量、陰影、樹的 draw call、GC）並修",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "BB 11-03 01:11（CC_35，b1b，F1／F2 fps 探針；結果在 cc-local F1_fps_hl／F2_fps_hd）：萬才館、霖澤館、公館 50～70 fps；桌機都這樣，iPhone 只會更差。不擋這一版，手機優先要排高。場景效能歸 LAWWW2（D108）；NPC 數量、GC 牽涉 story3d／engine3d 的由 LAWWW 協助",
-   "next": "LAWWW2 下一班：讀 cc-local F1_fps_hl／F2_fps_hd → 分項量（關陰影、關 NPC、關樹）找最大來源 → 修 → 排 cc-local 重量 fps（交 BB 判）",
+   "next": "【11-07 09:1x LAWWW-B】PERF_COLD (A)：LAWWW2 c0792610e 接進 474312d38（waitLoaded 等 building＋vrm＋clips、reqTake 移到淡入前、第一次 12 s）；141 支 ALL PASS；CC 冷快取重量。接著：人物臉部零件不投影（LAWWW2 patch，LAWWW-B 同意）、wenzhou_street_glb −13 calls、(B) 預先載入。 ｜ LAWWW2 下一班：讀 cc-local F1_fps_hl／F2_fps_hd → 分項量（關陰影、關 NPC、關樹）找最大來源 → 修 → 排 cc-local 重量 fps（交 BB 判）",
    "xai": {
     "spec": "BB 11-03 01:11 send_message（CC_35）",
     "branch": "claude/second-ai-env-art",
@@ -42201,7 +42201,8 @@
     "receiver": "LAWWW（整合）、BB（量測）",
     "ack": "未派",
     "owner": "LAWWW2"
-   }
+   },
+   "sha": "474312d38"
   },
   {
    "first": {
@@ -45143,7 +45144,7 @@
    "title": "人物的頭髮太像泡麵（使用者 11-04 13:2x 對 CC-C：「人物的頭髮真的太像泡麵了」；UA-CC-1104-03）：先找原因（近景探針），再提改法",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -45155,7 +45156,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 08:4x LAWWW-B｜D100a 選 (a)】CC HAIR_FIX_v2／v3（四種做法）＋LAWWW2 game_zoom（a25346f19）看過：只柔化貼圖幾乎沒差；法線 0.6 差最多（學姊背面、以安 45° 髮束條紋淡、整頭像一塊），語彤變暗。決定：(a) 法線 0.6 烘進祐廷＋五位女主角 VRM（語彤頭髮底色提亮一點）→ CC 同鏡頭拍 → 標 ART_APPROVED；(b) 重畫頭髮貼圖（去掉每束重複細黑線）排在後面；(c) 改幾何不做；路人先不動。 ｜ 【LAWWW-C 11-04 13:3x】LAWWW2-C 13:1x：人物 3D 是 LAWWW2 的，請 CC 排近景探針先找原因（髮片幾何、matcap、法線、彈簧骨？），原因出來提改法；人物外觀改法 LAWWW 驗收（D100a、D128），BB 可給意見；不擋 v9.10.20",
+   "next": "【11-07 09:1x LAWWW-B】(a) LAWWW2 5ca9da146 接進 1e1345518（六人 VRM 法線 0.6、語彤 ×1.04）；19 支 ALL PASS；CC HAIRFIX=0、HAIR_JPG=1 重拍 → D100a。 ｜ 【11-07 08:4x LAWWW-B｜D100a 選 (a)】CC HAIR_FIX_v2／v3（四種做法）＋LAWWW2 game_zoom（a25346f19）看過：只柔化貼圖幾乎沒差；法線 0.6 差最多（學姊背面、以安 45° 髮束條紋淡、整頭像一塊），語彤變暗。決定：(a) 法線 0.6 烘進祐廷＋五位女主角 VRM（語彤頭髮底色提亮一點）→ CC 同鏡頭拍 → 標 ART_APPROVED；(b) 重畫頭髮貼圖（去掉每束重複細黑線）排在後面；(c) 改幾何不做；路人先不動。 ｜ 【LAWWW-C 11-04 13:3x】LAWWW2-C 13:1x：人物 3D 是 LAWWW2 的，請 CC 排近景探針先找原因（髮片幾何、matcap、法線、彈簧骨？），原因出來提改法；人物外觀改法 LAWWW 驗收（D100a、D128），BB 可給意見；不擋 v9.10.20",
    "source": "使用者 11-04 13:2x 對 CC-C（UA-CC-1104-03，CC-C 13:16 轉 LAWWW-C）",
    "authorized": "使用者直接要求",
    "xai": {
@@ -45164,7 +45165,8 @@
     "acceptance": "近景截圖頭髮不再像一條條泡麵（髮束有層次、不是等粗圓管）；LAWWW 看遊戲內截圖驗收",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "1e1345518"
   },
   {
    "id": "CANON-PURGE-1104",
@@ -47682,7 +47684,7 @@
    "title": "新生南路遠景（方盒背景、路口外的平地）做像樣",
    "area": "SCENE",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47694,7 +47696,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2 排在側門搬家之後或一起做",
+   "next": "【11-07 09:1x LAWWW-B】LAWWW2 07deb7085／567b76230 接進 c8b09bcf0（xinsheng_far.glb、xinsheng3d.js 延伸到 ±178、engine3d noSkylineCity）；43 支 ALL PASS；BB 判、CC 遊戲內（側門往北往南、往東看不再有方盒、白天晚上、draw call）。 ｜ LAWWW2 排在側門搬家之後或一起做",
    "source": "UA-LAWWW-1105-32",
    "authorized": "使用者原話",
    "xai": {
@@ -47704,7 +47706,8 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "src": "UA-LAWWW-1105-32"
+   "src": "UA-LAWWW-1105-32",
+   "sha": "c8b09bcf0"
   },
   {
    "id": "MAP-HOURS-OVERLAP-1105",
@@ -49052,6 +49055,65 @@
    },
    "sha": "bcf4ad72a",
    "next": "【11-07 07:18 LAWWW-B】LAWWW2 5442841464 四張夜景接進 bcf4ad72a（Blender 前後對照看過）；BB 判、CC 遊戲內晚上。"
+  },
+  {
+   "id": "XS-GYM-DOME-NIGHT-1107",
+   "title": "體育館圓頂晚上像燈籠（XS-NORTH-EXT-1105 先將就第 3 點）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已驗收",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新生南路（側門外）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "XS-NORTH-EXT-1105 TODO_SHORTCUTS 第 3 點",
+   "authorized": "D110／D141（場景美術 BB 判）",
+   "xai": {
+    "spec": "XS-NORTH-EXT-1105 TODO_SHORTCUTS 第 3 點",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "遊戲內白天晚上看得到、BB 判",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   },
+   "sha": "fa05ed8c5",
+   "next": "【11-07 09:1x LAWWW-B】LAWWW2 72099725f 接進 fa05ed8c5；BB ART_APPROVED（BB_255）。",
+   "evidence": "BB-B ART_APPROVED（企劃線 BB_255；CC 遊戲內 14:00／21:00）；tests/gym_dome_night_unit.js；真機沒看"
+  },
+  {
+   "id": "XS-NORTH-ROAD-1107",
+   "title": "新生南路往北那一段（校園北牆外）：車道線、分隔島、行道樹、人行道、路燈、兩側房子",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新生南路（側門外）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "XS-GATE-NORTH 第 6 點（LAWWW-B 07:46 派）",
+   "authorized": "D110／D141（場景美術 BB 判）",
+   "xai": {
+    "spec": "XS-GATE-NORTH 第 6 點（LAWWW-B 07:46 派）",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "遊戲內白天晚上看得到、BB 判",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   },
+   "sha": "fa79dd7bc",
+   "next": "【11-07 09:1x LAWWW-B】LAWWW2 b501e871e 接進 fa79dd7bc；BB 功能 PASS、兩點 P3 交 LAWWW2；CC 遊戲內白天晚上。"
   }
  ]
 }
