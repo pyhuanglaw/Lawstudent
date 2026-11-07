@@ -5911,6 +5911,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "INVITE-PLACES-1107 第二批：118 巷 7 家 × 七位；可昕不去好家自助餐（平日）；不先講破 AA_410 的喜好；line_lint 0 條"
+  },
+  {
+   "task": "PLAYTEST-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_722_study_unlock_slots.json"
+   ],
+   "state": "已交付",
+   "remaining": "三張 2D 背景（子晴滷味、沛珊課輔班、可昕木柵大學圖書館）要 BB 跟使用者要",
+   "next": "LAWWW-B 把六格接進邀約選單（STUDY_UNLOCK→她那一格）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "念書第 6 次解鎖的六格：以安小路（一次性，記 AN_SHOP1_DONE）、芷若週六早場、語彤茶屋下班後、子晴公館滷味、沛珊週三課輔班（到 12/17）、可昕木柵圖書館；每格 acc、first、rot、時間、錢；line_lint 0 條"
   }
  ],
  "items": [
