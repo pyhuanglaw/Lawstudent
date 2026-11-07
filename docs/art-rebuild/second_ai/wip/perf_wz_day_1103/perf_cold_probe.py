@@ -108,6 +108,8 @@ BREAKDOWN_JS = r"""()=>{ const E=GAME.E, R=E.renderer, sc=E.scene, ar=R.info.aut
 NEAR_JS = r"""async zone=>{ const A=ASSETS, t=performance.now(); if(!A.prefetch||typeof ZONE_ASSETS==='undefined') return {err:'沒有 ASSETS.prefetch／ZONE_ASSETS（(B) 還沒整合）'};
   const keys=ZONE_ASSETS[zone]||[], n=A.prefetch(keys); for(let i=0;i<1800&&(A._pf.cur||A._pf.q.length);i++) await new Promise(r=>setTimeout(r,100));
   return {keys, queued:n, ok:A.prefetchOK(), ms:Math.round(performance.now()-t), bytes:keys.map(k=>A.prefetched[k])}; }"""
+# 每個模型檔什麼時候下載完、是不是從快取來的（Resource Timing；transferSize 0＝快取）。11-07 加：PERF_COLD_877 的 near 溫州街主模型 30 MB 都在快取了，還是進區域後 22.5 s 才載好——分清楚是下載還是解析
+RES_JS = r"""()=>performance.getEntriesByType('resource').filter(e=>/\.(glb|vrm)(\?|$)/.test(e.name)).map(e=>({u:e.name.split('/').pop().split('?')[0],s:e.startTime,e:e.responseEnd,tx:e.transferSize,b:e.encodedBodySize}))"""
 PRELOAD_JS = r"""async keys=>{ const t=performance.now(), out={ok:[],fail:[]};
   await Promise.all(keys.map(k=>ASSETS.manifest[k]?ASSETS.loadOne(k).then(()=>out.ok.push(k),e=>out.fail.push(k+': '+((e&&e.message)||e))):Promise.resolve(out.fail.push(k+': 不在 manifest'))));
   out.ms=Math.round(performance.now()-t); return out; }"""
@@ -190,6 +192,7 @@ async def one_run(p, url, zone, variant, preload_keys):
         if not await L.wait_loaded(pg):
             run['err'] = '遊戲載入逾時'; return run
         run['hooks'] = json.loads(await pg.evaluate(HOOK_JS))
+        await pg.evaluate("performance.setResourceTimingBufferSize(5000)")
         if NET in NETS:   # 遊戲載好以後才限速（標題畫面的載入照原本的速度）
             await cdp.send('Network.enable'); await cdp.send('Network.emulateNetworkConditions', NETS[NET]); run['net'] = NET
         if variant == 'near':
@@ -212,6 +215,7 @@ async def one_run(p, url, zone, variant, preload_keys):
         run['loaf'] = await pg.evaluate("window.__PC.loaf")
         run['longtask'] = await pg.evaluate("window.__PC.lt")
         run['info'] = await pg.evaluate(INFO_JS)
+        run['res_t'] = await pg.evaluate(RES_JS)
         if variant == 'base':
             try: run['breakdown'] = await pg.evaluate(BREAKDOWN_JS)
             except Exception as e: run['breakdown'] = {'err': repr(e)[:200]}
@@ -235,6 +239,9 @@ def text(run):
     if run.get('near'): nr = run['near']; t.append('    先下載（只下載、不解析）：%d 個、%.1f MB、%s ms（省流量判斷 %s）%s' % (len(nr['keys']), sum(b for b in nr['bytes'] if b and b > 0) / 1e6, nr['ms'], nr['ok'], '｜限速 ' + run['net'] if run.get('net') else ''))
     if r['late_assets']: t.append('    進區域以後才載：' + '、'.join(r['late_assets'][:20]))
     for x in r['loaded'][:12]: t.append('      載好 %s（%s）%s ms，進區域後 %s ms' % tuple(x))
+    te = run.get('t_enter') or 0
+    for e in sorted(run.get('res_t') or [], key=lambda e: e['e'])[-14:]:   # 下載完最晚的幾個；開始時間是進區域後幾 ms（負的＝進區域以前，near 先下載的）
+        t.append('      檔案 %s：開始 %d、下載完 %d ms（進區域後）、傳輸 %s bytes%s' % (e['u'], e['s'] - te, e['e'] - te, e['tx'], '（快取）' if not e['tx'] and e['b'] else ''))
     for x in r['parseVRM'][:8]: t.append('      parseVRM 進區域後 %s ms：同步 %s ms、%s bytes' % tuple(x))
     for x in r['parseVRMdone'][:8]: t.append('      parseVRM 做完 進區域後 %s ms：共 %s ms' % tuple(x))
     for s in r['slow']:
