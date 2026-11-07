@@ -6,7 +6,16 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-07 18:0x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-07 18:4x UTC，帳號 B LAWWW2-B）
+
+| 項目 | 狀態 | 位置 |
+|---|---|---|
+| 光照第一級第二批：公館燒臘（BB shaola v7）、頁間書屋（AA yejian v3b） | **已交 LAWWW-B**（18:4x）；原檔上烘、sha256 記在 *_lm.json；相關 46 支 Node 過；CC 拍、BB 判 | `09bbfefe2`，`wip/gg_lm2_1107/` |
+| 光照第一級第三批：溫州街 7 間（SUNNY SIDE aa sunnyside、阿德 bb ade、一盞 aa yizhan、小路 aa komichi、林家 bb lin_interior、日常失速 aa daily_offbeat、木曜日 aa mokuyobi） | **開始做**：每間的燈多半是 GLOW_* 空節點（extras 有 glow 顏色、size、night），讀位置換點光源；有 VIEW 卡的烘時藏起來 | `bake_gg_new.sh` |
+| 兩件 CAM（總圖門廳、公館商圈落點） | LAWWW-B 已套上、測試中（17:49） | `38596122`、`1c90c4cf1` |
+| BB-B 18:14 判第一批：轉角 P2／P3 FIXED、窗景 PASS、洋洋 PASS；ART_APPROVED 等 PC | 不用回 | — |
+
+## 🔨 （舊）現在在做（11-07 18:0x UTC，帳號 B LAWWW2-B）
 
 分支 `claude/funny-albattani-iawshm`；開發分支 `claude/modest-rubin-2lyp7g` 最新 `951543b9c`（LAWWW-B 已把 a6509d2a0 整合成 `4fcd3c45b`，303 支過）。瀏覽器都沒跑（D131，交 CC）。
 工作樹：`$S/devnow`＝開發 03e92c411＋gg_new＋兩件 CAM；`$S/wt_dev`＝開發 951543b9c＋CAM-GONGGUAN-GATE（patch 從這裡產生）。
