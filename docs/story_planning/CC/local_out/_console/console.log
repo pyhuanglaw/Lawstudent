@@ -157,3 +157,12 @@
 [12:48:28] ==== START CLOSE_EXC  (probe @ 9cff7a00bce4a412ca08841c73123c899a4b916e) ====
 [12:48:31] [res] cpu=5% mem=53% (16.8/31.4 GB) chrome_testing=9  START CLOSE_EXC
 [12:52:18] [res] cpu=4% mem=56% (17.9/31.4 GB) chrome_testing=10  END SOC_peishan_date
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7e8e2cb09..e7045b364  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:52:24] ==== END   SOC_peishan_date  exit=1  414s   ====
+[12:52:27] memory 55% before starting GG2_afar_date (2 running)
+[12:52:27] ==== START GG2_afar_date  (probe @ 9cff7a00bce4a412ca08841c73123c899a4b916e) ====
+[12:52:30] [res] cpu=7% mem=56% (17.5/31.4 GB) chrome_testing=10  START GG2_afar_date
+[12:52:55] 正在跑：SOC_xinci_date（已跑 5 分／上限 45 分）、CLOSE_EXC（已跑 4 分／上限 90 分）、GG2_afar_date（已跑 0 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
+[12:54:18] [res] cpu=13% mem=57% (18.1/31.4 GB) chrome_testing=10  END SOC_xinci_date
