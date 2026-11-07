@@ -206,6 +206,7 @@ const CROWD=(function(){
       BK.filter((q,i)=>i%2===0).map(q=>G_(q,{pose:'gym_bike',role:'bike'})),
       RW.map(q=>G_(q,{yaw:Math.PI/2,pose:'gym_row',role:'rower'})),   /* 划船機 ry π/2：使用的人面向 +x */
       [MAT[0],MAT[2]].filter(Boolean).map(q=>G_([q[0],q[1]-0.55],{pose:'gym_stretch',role:'mat'})));   /* 坐在墊子靠南那一端、腿往北伸 */
+    for(const q of fit) q.yieldPlayer=true;   /* 玩家站在那裡（GYM-FIT-1107：用完器材站回 stand＝深蹲架、史密斯機、啞鈴架的 use）＝這一段不放人（spawnPeople）*/
     const b1=mkSpot('b1','gym_b1',[-6,9],DB,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n+1,this.ix), out=[];
         out.push(mk(this,slot,0,{x:B.desk.staff.x,z:B.desk.staff.z,yaw:0,spec:sp[0]&~1,role:'desk_b1',name:'櫃台阿姨',fixed:true}));   /* 櫃台後面，面向客人（偶數＝女生）*/
         const pick=shuffle(fit,r).slice(0,n); pick.forEach((q,k)=>out.push(mk(this,slot,k+1,Object.assign({spec:q.role==='mat'?(sp[k+1]|1):sp[k+1]},q))));   /* BUG-GYM-SKIRT-1103（BB／CC 11-03）：墊子上拉筋＝坐在地上，女生路人底模有四套長裙（nf10／14／17／19），裙子後片掛在臀部、坐地就穿進地板 0.33～0.50 m——墊子上的人用男生底模（奇數 spec）*/
@@ -713,6 +714,7 @@ const CROWD=(function(){
     grp.forEach((p,k)=>{ const st=p.seat||null; let d=0;
       if(p.pass){ if(!route) return; d=passD(GM,slot,p,k,fromDoor); if(d>=route.len) return; }   /* 已經走過去了 */
       else if(st){ if(!S.seatSide(E,st)||S.seatBusy(E,st)) return; }   /* 有人坐了（玩家、劇情的人）不坐上去 */ else if(!p.fixed&&!E.canStand(p.x,p.z,0.3,lv)) return;   /* fixed：照位置放（跑步機上、櫃台後面：導航擋住的地方，人不走動）*/
+      if(p.yieldPlayer&&E.player&&E.player.obj&&(E.player.lv|0)===lv&&Math.hypot(E.player.obj.position.x-p.x,E.player.obj.position.z-p.z)<0.5) return;   /* 健身房器材：玩家站在那一台（GYM-FIT-1107）＝不放在玩家身上 */
       const spec=p.rawSpec?Object.assign({},p.spec):STORY.extraSpec(p.spec); if(p.height) spec.height=p.height; if(p.props) spec.props=p.props.slice(); if(st&&st.surf!=null) st.lift=Math.max(0,+(st.surf-(CHAR.sitButtOf?CHAR.sitButtOf(spec):0.47*(spec.height||1.7)/1.75)).toFixed(3));   /* 鞦韆：坐姿的大腿底部抬到座面（SIT-HEIGHT-1104：坐下以後大腿底部離座位地面 CHAR.sitButtOf＝0.465；表裡沒有的模型照舊 0.47×身高比例）*/
       const o=CHAR.build(spec); if(p.prop){ const u=o.userData||(o.userData={}); (u.propOn=u.propOn||{})[p.prop]=true; if(CHAR.setProp) CHAR.setProp(o,p.prop,true); }   /* 腿上的筆電（慢讀咖啡）：坐下才看得到（PROPS laptop_lap sit:'only'）；模型還在載入時先記在 propOn，換上正式模型時照它打開 */ const start=fromDoor&&!p.pass?spot.door:(st?[st.x,st.z]:[p.x,p.z]); o.position.set(start[0],0,start[1]); o.rotation.y=p.yaw||0;
       const n=E.addNPC({obj:o,name:p.name||'',beh:'idle',pose:'idle',idlePose:'idle',isExtra:true,crowd:spot.id,crowdSpot:spot.id,crowdKey:p.key,crowdRole:p.role,frozen:true,walkSpeed:p.walkSpeed||1.15,lv:fromDoor&&!p.pass&&spot.doorLv!=null?spot.doorLv|0:lv});   /* 從門口進來：門口那一層（兩層的店：門在一樓、位子在二樓）*/

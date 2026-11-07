@@ -4789,6 +4789,15 @@
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
    "note": "吃飯、咖啡各 4 場、電影、書店各 3 場＋輪換；tools/story/import_activity_scenes.py → src/data/activity_scenes.js"
+  },
+  {
+   "path": "docs/story_planning/AA_713_gym_equip.json",
+   "sha": "60f8f6b6a",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 05:48 交付 AA_713）",
+   "task": "GYM-FIT-1107",
+   "kind": "json",
+   "note": "健身房七種器材（treadmill、bike、rower、dumbbell↔db_rack、squat↔squat_rack、smith、bench；墊子沒有稿）四階各三句＋levelUp（升階以後第一次練完一句）；tools/story/import_gym_equip.py → src/data/gym_equip_lines.js（GYM_EQUIP_LINES），播放 src/gym3d.js（器材）、src/fit3d.js（升階）。LAWWW-B 子代理 2026-11-07 代登"
   }
  ]
 }
