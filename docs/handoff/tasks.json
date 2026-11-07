@@ -49341,7 +49341,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "next": "【11-07 16:3x LAWWW-B】AA-B AA_727（2e81aac12）：E05 在普通教學館前（putong）演、不 blur；9/20 17:00 改成可昕傳兩則＋兩個回覆→ 10／20 分鐘後 putong 見面才演；沒回＝19:00「沒事了…」E05 不演（E05_OPEN 怎麼記 LAWWW 看）。子代理做中（e05-putong-1107）。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
    "xai": {
     "spec": "BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版",
     "branch": "claude/cool-heisenberg-o8kuqx",
@@ -49355,7 +49355,7 @@
    "id": "KX-MOVIE-BYE-1107",
    "title": "可昕看電影第 1 場的散場句「末班車還有。好險。」下午 14:00 那一場也會說（activity_scenes.js people.kexin.scenes.1.bye）",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -49367,7 +49367,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "next": "【11-07 16:3x LAWWW-B】AA-B e0e92919e 加 day（電影第 1、3 場 bye、咖啡第 3 場 seat、書店第 3 場 bye：18:00 以前開始換句）→ LAWWW 接（import_activity_scenes 收 day、STUDYN.resolve）；tests/kx_movie_day_unit.js。BB 測。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
    "xai": {
     "spec": "BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版",
     "branch": "claude/cool-heisenberg-o8kuqx",
