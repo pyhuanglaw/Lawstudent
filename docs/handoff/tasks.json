@@ -39733,7 +39733,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "B0 計畫完成（docs/handoff/D118_PLAN.md）；照 B1→B9 實作，B1 先做"
+   "next": "【11-07 11:4x LAWWW-B】BB-B：自己讀書沒進「☰ → 法律」學習紀錄（D118）——下一版。 ｜ B0 計畫完成（docs/handoff/D118_PLAN.md）；照 B1→B9 實作，B1 先做"
   },
   {
    "id": "STUDY-EXAM-STORY-1102",
@@ -49148,7 +49148,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【11-07 10:4x LAWWW-B】使用者選擇題「等 BB 測完再發布（推薦）」（UA-LAWWW-1107-04、X264）。要過的：BB／CC 今天最後一批瀏覽器（118 巷 pt1107i、票錢、AA_722 六格＋partnerBlock、約念書不開演 DBG、手機表頭 P3、燈暗、頭髮 (b) D100a、PERF_COLD near、XSSHOP_dabu、PERF_WZ_DC）＋GHA 全綠＋docs/TESTING.md 第五節發布前清單（含 gen_zone_assets --check）＋BB GO → 發布樹 → PR 合併 main → Pages → CC 線上 deploy_check。沒過的先修或先拿掉。",
+   "next": "【11-07 11:4x LAWWW-B】BB-B 11:45 GO（條件：經濟系 9/1→10/17 實玩 flow_v0_to1017_reply 通過，CC 電腦 12:20 前）；126bdf93e 上以安第 2 次見面、AA_722 小路／partnerBlock／滷味、南洋、v0_start、8/28→8/29、法律系第一二天主線都 PASS。 ｜ 【11-07 10:4x LAWWW-B】使用者選擇題「等 BB 測完再發布（推薦）」（UA-LAWWW-1107-04、X264）。要過的：BB／CC 今天最後一批瀏覽器（118 巷 pt1107i、票錢、AA_722 六格＋partnerBlock、約念書不開演 DBG、手機表頭 P3、燈暗、頭髮 (b) D100a、PERF_COLD near、XSSHOP_dabu、PERF_WZ_DC）＋GHA 全綠＋docs/TESTING.md 第五節發布前清單（含 gen_zone_assets --check）＋BB GO → 發布樹 → PR 合併 main → Pages → CC 線上 deploy_check。沒過的先修或先拿掉。",
    "note": "候選：開發分支 8fdb294aa 起（GHA 跑中）"
   },
   {
@@ -49212,6 +49212,208 @@
     "confirmed": true
    },
    "next": "【11-07 11:0x LAWWW-B】修好（暫存 worktree 73f489a06；patch 備份 wip_backup/invite_closedday_dim_1107.patch）：timeOptions 的 times 那一支照 S.slotOpen 灰掉、hint offWhy；tests/invite_l118_1107_unit.js；邀約 402 支 ALL PASS。BB-B 10:58：v9.10.22 不放（P3、會走到晨跑／慢讀／南洋等固定時段，要多驗一輪），v9.10.22 發布以後 cherry-pick；BB 測 118 巷公休灰掉＋晨跑 06:30、慢讀週末 10:00、南洋早場 09:50 不誤灰。"
+  },
+  {
+   "id": "BUG-Y0-DAYSKIP-CARD-1107",
+   "title": "經濟系序章跳日子沒有過場字卡、而且跳在玩家走路中（字卡文字 AA、跳的時機 LAWWW）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系序章",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。"
+  },
+  {
+   "id": "BUG-Y0-GOAL-AFTER-SKIP-1107",
+   "title": "經濟系跳日以後目標列還寫早上的課、9/2 狀態列寫「放假中」",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系 9/1～9/2",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。"
+  },
+  {
+   "id": "BUG-ONETAP-DORM203-1107",
+   "title": "src/onetap3d.js:38「回去睡覺」把「宿舍 203」寫死（經濟系是 412）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系住宿舍",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。"
+  },
+  {
+   "id": "BUG-LAW830-ATTEND-CARRY-1107",
+   "title": "法律系 8/30 課表帶著經濟系的出席「缺 4 次」、標題寫「大一上（下學期）」",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "8/30 進法律系",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。"
+  },
+  {
+   "id": "Y0-920-GONGGUAN-GAP-1107",
+   "title": "9/20 可昕說「走，去公館」，下一格就在宿舍，中間缺一句",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系 9/20",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "xai": {
+    "spec": "BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "BB 瀏覽器重跑同一條路線",
+    "receiver": "LAWWW（整合）、BB（測）",
+    "ack": "SENT",
+    "owner": "AA"
+   }
+  },
+  {
+   "id": "Y0-E05-BIKE-LOCATION-1107",
+   "title": "修腳踏車 ev_y0_e05 寫 location:'any'＋background:'blur'，底圖變成玩家當時所在的宿舍：AA 定地點、LAWWW 接 location（要 2D 底圖 BB 要）",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系修腳踏車",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "xai": {
+    "spec": "BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "BB 瀏覽器重跑同一條路線",
+    "receiver": "LAWWW（整合）、BB（測）",
+    "ack": "SENT",
+    "owner": "AA"
+   }
+  },
+  {
+   "id": "KX-MOVIE-BYE-1107",
+   "title": "可昕看電影第 1 場的散場句「末班車還有。好險。」下午 14:00 那一場也會說（activity_scenes.js people.kexin.scenes.1.bye）",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "約可昕看電影",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "xai": {
+    "spec": "BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "BB 瀏覽器重跑同一條路線",
+    "receiver": "LAWWW（整合）、BB（測）",
+    "ack": "SENT",
+    "owner": "AA"
+   }
+  },
+  {
+   "id": "CAM-LIBHALL-DOOR-1107",
+   "title": "總圖大廳一進門鏡頭卡在玻璃門框後",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "進總圖大廳",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "xai": {
+    "spec": "BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "BB 瀏覽器重跑同一條路線",
+    "receiver": "LAWWW（整合）、BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW2"
+   }
+  },
+  {
+   "id": "CAM-GONGGUAN-GATE-1107",
+   "title": "公館校門口往後走鏡頭不轉",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館校門口",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "xai": {
+    "spec": "BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "BB 瀏覽器重跑同一條路線",
+    "receiver": "LAWWW（整合）、BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW2"
+   }
   }
  ]
 }
