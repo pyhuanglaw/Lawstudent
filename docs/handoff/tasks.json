@@ -47184,7 +47184,7 @@
    "title": "v9.10.21 發布：開發分支上所有新店面（新生南路 7 間、溫州街、公館、118 巷）＋之後的修正（使用者 11-05 06:3x 經 LAWWW2-C）",
    "area": "REL",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "META",
@@ -47196,7 +47196,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【11-07 03:4x LAWWW-B】BB-B 補判：AA0F p0／touch／reach 照條件 PASS、GO 有效（BB_255 5b4c0ced4）；LIVE 檢查待 BB 排｜BB 排線上檢查（LIVE：deploy_check、p0 對 https://pyhuanglaw.github.io/Lawstudent/），通過改已驗收",
+   "next": "【11-07 05:4x LAWWW-B】BB-B：雲端那一半之前 PASS；CC 電腦跑線上網址 LIVE_V91021 deploy_check、p0 都 PASS，線上是 v9.10.21（90a10d010）。 ｜ 【11-07 03:4x LAWWW-B】BB-B 補判：AA0F p0／touch／reach 照條件 PASS、GO 有效（BB_255 5b4c0ced4）；LIVE 檢查待 BB 排｜BB 排線上檢查（LIVE：deploy_check、p0 對 https://pyhuanglaw.github.io/Lawstudent/），通過改已驗收",
    "source": "UA-LAWWW-1105-16",
    "authorized": "使用者原話（轉述）",
    "sha": "92c3daad8",
@@ -47361,7 +47361,7 @@
    "title": "店外看店裡很 2D（落地窗後是平面窗卡；使用者 11-05 06:5x）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47373,7 +47373,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 05:1x LAWWW-B】BB-B 要看（04:59）：LAWWW2-B 95a86f15d 日常失速立體店面（wenzhou_street.glb／json＋singleside_streets 測試數字）接進開發，溫州街相關 23 支 Node ALL PASS；判定照使用者「比現在的櫥窗漂亮才換」，BB 排 CC 同角度截圖＋效能；不換就回到舊檔。 ｜ LAWWW2 只拿日常失速試做；不比現在的櫥窗漂亮就照舊（使用者 08:2x UA-LAWWW-1105-34）",
+   "next": "【11-07 05:4x LAWWW-B】BB-B 判換新版（90a10d010，D120／D128；CC 電腦同角度白天晚上並排 test_shots/shopwin1107/）：新版看得到店裡深度和暖色燈；主巷遠看一樣；店前最低 fps 8.6（舊 20）、三角形 +4.4 萬，不擋；店內偏黃綠轉 LAWWW2 參考。 ｜ 【11-07 05:1x LAWWW-B】BB-B 要看（04:59）：LAWWW2-B 95a86f15d 日常失速立體店面（wenzhou_street.glb／json＋singleside_streets 測試數字）接進開發，溫州街相關 23 支 Node ALL PASS；判定照使用者「比現在的櫥窗漂亮才換」，BB 排 CC 同角度截圖＋效能；不換就回到舊檔。 ｜ LAWWW2 只拿日常失速試做；不比現在的櫥窗漂亮就照舊（使用者 08:2x UA-LAWWW-1105-34）",
    "source": "UA-LAWWW-1105-21",
    "authorized": "使用者原話",
    "xai": {
@@ -48633,7 +48633,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "【11-07 04:5x LAWWW-B】AA_709 bc0e755be → tools/story/import_msg_replies.py → src/data/msg_replies.js（7 人 21 串，text 逐字在 src 找得到才匯）；src/msgreply3d.js：訊息送出那一刻（PHONE.ON_MK）掛三個選項、回了照 rel 加減好感（PHONE.ON_ANSWER）、一天半後收起來、沒回不扣分；舊存檔已收到的不補。tests/msg_reply_unit.js。 ｜ 【11-07 04:4x LAWWW-B】AA-B 交 AA_709（a7f20f304 大一上 10 串、bc0e755be 大一下 13 串；text＝那一串最後一則逐字、三個選項、沒回不扣分、交往中那幾串有 cond）。LAWWW 做：匯入、PHONE.ask 加 rel、照 text 對到訊息掛選項。 ｜ 【11-07 03:4x LAWWW-B】LAWWW 先定欄位（訊息 id → options[{t, rel 變化, 回覆後她的下一句}]）給 AA；先做可攻略的六位＋芯慈的 dp 私訊",
+   "next": "【11-07 05:4x LAWWW-B】AA-B AA_709 改版待重匯：新寫五串（new:true，要排進手機）、拿掉語彤秀琴姨試菜的回覆、以安除夕選項換、以安兩串 set AN_MSG_MOM_OK／AN_MSG_JAPAN。 ｜ 【11-07 04:5x LAWWW-B】AA_709 bc0e755be → tools/story/import_msg_replies.py → src/data/msg_replies.js（7 人 21 串，text 逐字在 src 找得到才匯）；src/msgreply3d.js：訊息送出那一刻（PHONE.ON_MK）掛三個選項、回了照 rel 加減好感（PHONE.ON_ANSWER）、一天半後收起來、沒回不扣分；舊存檔已收到的不補。tests/msg_reply_unit.js。 ｜ 【11-07 04:4x LAWWW-B】AA-B 交 AA_709（a7f20f304 大一上 10 串、bc0e755be 大一下 13 串；text＝那一串最後一則逐字、三個選項、沒回不扣分、交往中那幾串有 cond）。LAWWW 做：匯入、PHONE.ask 加 rel、照 text 對到訊息掛選項。 ｜ 【11-07 03:4x LAWWW-B】LAWWW 先定欄位（訊息 id → options[{t, rel 變化, 回覆後她的下一句}]）給 AA；先做可攻略的六位＋芯慈的 dp 私訊",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -48661,7 +48661,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "【11-07 05:0x LAWWW-B】撩妹那一半：AA_711 09e3a8d03 → tools/story/import_flirt.py → src/data/flirt_lines.js、src/flirt3d.js：當面說話多「（說點不一樣的）」，一天一次、列這學期還沒說過的前 3 句，階段夠＝ok、不夠＝early，好感照稿；tests/flirt_unit.js。送東西、撩妹兩半都接了，等 BB 瀏覽器。 ｜ 【11-07 04:4x LAWWW-B】AA-B 交 AA_711 撩妹（a7f20f304：七位各 5 則 need 3～5，ok／early，need 5 太早說小扣自在）；AA_710 以安早餐那句不寫蛋餅（4be26c44d）要重匯。 ｜ 【11-07 04:1x LAWWW-B】送東西那一半 a641c0459：AA_710 e2e92dcf4 → src/data/gift_lines.js（tools/story/import_gifts.py）、src/gift3d.js；便利商店、2:30 AM「買一份帶走送人…」10 樣、最多 3 樣、隔天沒了；當面「送她○○」照階段反應、同一種一天一次、fav 第一次記 REMEMBERED_HER；tests/gift_unit.js。還沒做：撩妹（AA_711 寫中）、早餐店（蛋餅、蘿蔔糕，遊戲沒有早餐店）、送給女主以外的人。 ｜ 【11-07 03:4x LAWWW-B】查現有的背包／購買系統、閒聊階梯的選項；定欄位給 AA",
+   "next": "【11-07 05:4x LAWWW-B】BB-B 送飲料 PASS（18d820c63）；P3「送她紅茶拿鐵飲料」小字拿掉（只寫「送她○○」）。AA-B 交 AA_710 第二版（pool、dating、ctx、opinion、七位都有 fav）待接；送早餐、fav、熟了那一格 BB 還沒測。 ｜ 【11-07 05:0x LAWWW-B】撩妹那一半：AA_711 09e3a8d03 → tools/story/import_flirt.py → src/data/flirt_lines.js、src/flirt3d.js：當面說話多「（說點不一樣的）」，一天一次、列這學期還沒說過的前 3 句，階段夠＝ok、不夠＝early，好感照稿；tests/flirt_unit.js。送東西、撩妹兩半都接了，等 BB 瀏覽器。 ｜ 【11-07 04:4x LAWWW-B】AA-B 交 AA_711 撩妹（a7f20f304：七位各 5 則 need 3～5，ok／early，need 5 太早說小扣自在）；AA_710 以安早餐那句不寫蛋餅（4be26c44d）要重匯。 ｜ 【11-07 04:1x LAWWW-B】送東西那一半 a641c0459：AA_710 e2e92dcf4 → src/data/gift_lines.js（tools/story/import_gifts.py）、src/gift3d.js；便利商店、2:30 AM「買一份帶走送人…」10 樣、最多 3 樣、隔天沒了；當面「送她○○」照階段反應、同一種一天一次、fav 第一次記 REMEMBERED_HER；tests/gift_unit.js。還沒做：撩妹（AA_711 寫中）、早餐店（蛋餅、蘿蔔糕，遊戲沒有早餐店）、送給女主以外的人。 ｜ 【11-07 03:4x LAWWW-B】查現有的背包／購買系統、閒聊階梯的選項；定欄位給 AA",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -48689,7 +48689,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "【11-07 05:2x LAWWW-B】GHA 718b59ec7：aa535b、gg_shops2_1104、invite_menu 三支 FAIL＝我把 Daybreak 加進「念書」。改回：Daybreak 照 AA_652 只在吃飯；使用者「daybreak 不能約?」的原因是和可昕交往、她知道＝「兩個人單獨去吃飯不太好」（partnerBlock，照設計）。大口漢堡留在念書（AA_621 考試那兩週大家在這裡念書）。 ｜ 【11-07 05:1x LAWWW-B】第一批（src/data/invites.js 最後、invites3d.js S.CATS fun）：社科圖念書、Daybreak 念書（原本只有吃飯）、林家乾麵（中午、晚上兩段都能約；winOk 照兩段）、小路晚上、大口漢堡吃飯／念書、南洋戲院看電影（早場 09:50、14:00、19:30，散場 AA_649 movieEnd）、頁間書屋、山嵐書店逛逛（新的一類「看電影、逛書店」）；都要自己去過才列；tests/invite_places_1107_unit.js。還沒：118 巷各店、健身房／游泳池運動（等 GYM-FIT 器材、AA 運動台詞）、AA_707 unlock 的特別地點（一盞下班後、滷味、課輔班、木柵圖書館、以安的店）、各地點答應那一句（AA 補 acc）、看電影要不要扣票錢。 ｜ 【11-07 03:4x LAWWW-B 查核】INV 可約：2:30 AM、總圖、法圖、慢讀、afar、青木（先去過）、木曜日（先去過）念書；公館燒臘、SUNNY、Daybreak（只在吃飯類、有點熟、09／10／11:30／13）、日常失速、Pasta118（交往中）吃飯；一盞坐坐；溫州街、映月湖散步；羽球、晨跑運動。不能約：118 巷滇香、好家自助餐、巷口家常菜、韓食小廚、蛋包飯研究所、六張犁麵舖、一一八茶飲、林家乾麵、小路、大口漢堡（吃飯）；社科院圖書館 1F／2F、library_b1、linze_3f／4f、大口 2F、頁間書屋、Daybreak（念書）；頁間、山嵐（看書聊天）；南洋戲院（沒有電影類，invites.js:573，seatOpen.movie／movieEnd／bookstore 開場句已寫沒接）；健身房、游泳池、主球場、新生運動廣場（運動）。Daybreak 約不到的原因：兩人單獨類型＋可昕交往被知道就擋（invites3d.js:87-93）、14:00 後只能約明天。法圖被歸成咖啡、映月湖沒歸散步（invites3d.js:352）加的數值不對｜【11-07 03:4x LAWWW-B】列出遊戲裡所有能進的店面／讀書地點 × 邀約清單（invites3d、date、study）對照表，缺的補進去；電影院要有看電影的流程",
+   "next": "【11-07 05:4x LAWWW-B】BB-B（3c28e20b0）：沒去過不列、社科圖在念書、南洋／頁間／山嵐在看電影逛書店、Daybreak 不在念書、南洋三個場次 PASS。大口放在念書卻被吃飯規則擋＝拿掉（只在吃飯）。BUG-INV-FUN-AWAY-1107 候選：使用者 day38 存檔約以安看電影說「還沒熟到可以兩個人出去」「這學期不在學校」——Node 用新存檔、和可昕交往兩種都約得成，請 BB 用那個存檔印 INV.decide／STORY.presence。看電影的門檻照資料 FRIEND。 ｜ 【11-07 05:2x LAWWW-B】GHA 718b59ec7：aa535b、gg_shops2_1104、invite_menu 三支 FAIL＝我把 Daybreak 加進「念書」。改回：Daybreak 照 AA_652 只在吃飯；使用者「daybreak 不能約?」的原因是和可昕交往、她知道＝「兩個人單獨去吃飯不太好」（partnerBlock，照設計）。大口漢堡留在念書（AA_621 考試那兩週大家在這裡念書）。 ｜ 【11-07 05:1x LAWWW-B】第一批（src/data/invites.js 最後、invites3d.js S.CATS fun）：社科圖念書、Daybreak 念書（原本只有吃飯）、林家乾麵（中午、晚上兩段都能約；winOk 照兩段）、小路晚上、大口漢堡吃飯／念書、南洋戲院看電影（早場 09:50、14:00、19:30，散場 AA_649 movieEnd）、頁間書屋、山嵐書店逛逛（新的一類「看電影、逛書店」）；都要自己去過才列；tests/invite_places_1107_unit.js。還沒：118 巷各店、健身房／游泳池運動（等 GYM-FIT 器材、AA 運動台詞）、AA_707 unlock 的特別地點（一盞下班後、滷味、課輔班、木柵圖書館、以安的店）、各地點答應那一句（AA 補 acc）、看電影要不要扣票錢。 ｜ 【11-07 03:4x LAWWW-B 查核】INV 可約：2:30 AM、總圖、法圖、慢讀、afar、青木（先去過）、木曜日（先去過）念書；公館燒臘、SUNNY、Daybreak（只在吃飯類、有點熟、09／10／11:30／13）、日常失速、Pasta118（交往中）吃飯；一盞坐坐；溫州街、映月湖散步；羽球、晨跑運動。不能約：118 巷滇香、好家自助餐、巷口家常菜、韓食小廚、蛋包飯研究所、六張犁麵舖、一一八茶飲、林家乾麵、小路、大口漢堡（吃飯）；社科院圖書館 1F／2F、library_b1、linze_3f／4f、大口 2F、頁間書屋、Daybreak（念書）；頁間、山嵐（看書聊天）；南洋戲院（沒有電影類，invites.js:573，seatOpen.movie／movieEnd／bookstore 開場句已寫沒接）；健身房、游泳池、主球場、新生運動廣場（運動）。Daybreak 約不到的原因：兩人單獨類型＋可昕交往被知道就擋（invites3d.js:87-93）、14:00 後只能約明天。法圖被歸成咖啡、映月湖沒歸散步（invites3d.js:352）加的數值不對｜【11-07 03:4x LAWWW-B】列出遊戲裡所有能進的店面／讀書地點 × 邀約清單（invites3d、date、study）對照表，缺的補進去；電影院要有看電影的流程",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -48710,7 +48710,7 @@
    "owner": "AA",
    "status": "進行中",
    "priority": "P1",
-   "next": "【11-07 05:1x LAWWW-B】AA-B 05:10：AA_708 先不要接（會改）；改做每位女主角一條故事線 AA_712（8 拍，所有一起的活動共用、見面演下一拍），活動第 1～N 次只留「活動的樣子」，心事搬進故事線；條件、觸發 BB-B 寫規格。AA_707 已在遊戲裡的照留、等 AA 改版再換；AA_709～711 不受影響。 ｜ 【11-07 05:1x LAWWW-B】使用者 05:1x 對 BB-B（UA-BB-1107-STORY-REVIEW，USER_WANTS X263）：BB 審 AA 的稿、給意見（無聊、不對勁、像跟機器人說話的）；每個人有自己的故事、煩惱、生活、目標夢想、自我懷疑，這些都是要聊的；有人想健身、有人想旅遊——要看得到那個世界觀。BB 審稿意見 f48ce96b9 BB_304 已交 AA；BB 提案「每位女主角一條自己的故事線，所有一起的活動共用、每拍只演一次」，AA 同意的話 BB 寫條件和觸發規格給 LAWWW。健身、旅遊等新活動要新地點或流程時 BB 找 LAWWW 排。 ｜ 【11-07 04:4x LAWWW-B】BB-B 第 1 場 PASS（BB_255：使用者 day46 約語彤總圖，她先上二樓坐好，第 1 場坐下、中途、收書、道別都演）。 ｜ 【11-07 04:0x LAWWW-B】e3387b8e8 七位第 1～6 場＋輪換接進遊戲（tools/story/import_study_scenes.py → src/data/study_scenes.js、src/studyn3d.js、invites3d.js；第 6 場算一次正式約會；tests/study_scenes_unit.js）；AA c47f8ab4d 修以安第 1 場、語彤 alt.opts 重匯。還沒做：unlock 的地點（INVITE-PLACES-1107）、AA_708 一起吃飯（WIP）、人物頁看得到「一起念書第幾次」。 ｜ 【11-07 03:5x LAWWW-B】AA-B 49d01b2b2 交 AA_707 第一批（以安、芷若、語彤：第 1～6 次＋輪換 6 則；need 階段下限、choice 選項加減好感、set 旗標、unlock 下一個地點、alt）；使用者選「第 6 次算一次約會」（UA-AA-1107-04）。LAWWW-B 做：匯入工具→src/data/study_scenes.js、每人一起念書次數（一天算一次）、總圖和其他念書地點都照第 N 次播、第 6 次記一次正式約會（TERMEND.cond）、圖書館自動加（小聲）。第二批（子晴、學姊、沛珊、可昕）AA 接著寫。 ｜ 【11-07 03:4x LAWWW-B 查核】只有總圖走坐下流程（meetOpen→lead→seated→meetLine 每人每階段 1 句→mid 4 則隨機→pack／bye）；其他約念書地點沒有、也不算讀書時數；沒有第幾次的台詞。關係：總圖念書 熟悉+3 信任+2 自在+1、日常不加戀愛（朋友以上單獨見面雙方戀愛各+1／天）；告白＝期末心意邀約（她的戀愛≥30＋校外約會≥4 含心願地點，termend3d.js:66-71），TERMEND.ON 約會結尾不告白。念 5 次＝有點熟（和使用者感受一致）。進度條已有（手機朋友→人物頁，game3d.js:701-714、date3d.js:52-74）但朋友以前戀愛條 0 沒提示、第 5 階以後照舊的第 6 階規則（55／30）會誤導。AA_706 骨架＋LAWWW 欄位規格已給 AA（03:5x，JSON：docs/story_planning/AA_707_study_scenes.json）｜【11-07 03:4x LAWWW-B】AA 寫每位女主的進展骨架（D109）；LAWWW 查現在告白門檻、進度數值，做進度條、把台詞接到約念書中間／讀完",
+   "next": "【11-07 05:4x LAWWW-B】AA_707 6a0018b90 重匯（心事搬到 AA_712、只留念書的樣子；旗標、unlock、need、第 6 場不動）；tests/study_scenes_unit.js 改成照資料比對。AA_712 七位故事線 3208339d6（BB_305 欄位、toldAlt、學姊 alt）、AA_708 改版（可以接、旗標 KX_EAT_PICKY、YT_CAFE_CUP）待接。 ｜ 【11-07 05:1x LAWWW-B】AA-B 05:10：AA_708 先不要接（會改）；改做每位女主角一條故事線 AA_712（8 拍，所有一起的活動共用、見面演下一拍），活動第 1～N 次只留「活動的樣子」，心事搬進故事線；條件、觸發 BB-B 寫規格。AA_707 已在遊戲裡的照留、等 AA 改版再換；AA_709～711 不受影響。 ｜ 【11-07 05:1x LAWWW-B】使用者 05:1x 對 BB-B（UA-BB-1107-STORY-REVIEW，USER_WANTS X263）：BB 審 AA 的稿、給意見（無聊、不對勁、像跟機器人說話的）；每個人有自己的故事、煩惱、生活、目標夢想、自我懷疑，這些都是要聊的；有人想健身、有人想旅遊——要看得到那個世界觀。BB 審稿意見 f48ce96b9 BB_304 已交 AA；BB 提案「每位女主角一條自己的故事線，所有一起的活動共用、每拍只演一次」，AA 同意的話 BB 寫條件和觸發規格給 LAWWW。健身、旅遊等新活動要新地點或流程時 BB 找 LAWWW 排。 ｜ 【11-07 04:4x LAWWW-B】BB-B 第 1 場 PASS（BB_255：使用者 day46 約語彤總圖，她先上二樓坐好，第 1 場坐下、中途、收書、道別都演）。 ｜ 【11-07 04:0x LAWWW-B】e3387b8e8 七位第 1～6 場＋輪換接進遊戲（tools/story/import_study_scenes.py → src/data/study_scenes.js、src/studyn3d.js、invites3d.js；第 6 場算一次正式約會；tests/study_scenes_unit.js）；AA c47f8ab4d 修以安第 1 場、語彤 alt.opts 重匯。還沒做：unlock 的地點（INVITE-PLACES-1107）、AA_708 一起吃飯（WIP）、人物頁看得到「一起念書第幾次」。 ｜ 【11-07 03:5x LAWWW-B】AA-B 49d01b2b2 交 AA_707 第一批（以安、芷若、語彤：第 1～6 次＋輪換 6 則；need 階段下限、choice 選項加減好感、set 旗標、unlock 下一個地點、alt）；使用者選「第 6 次算一次約會」（UA-AA-1107-04）。LAWWW-B 做：匯入工具→src/data/study_scenes.js、每人一起念書次數（一天算一次）、總圖和其他念書地點都照第 N 次播、第 6 次記一次正式約會（TERMEND.cond）、圖書館自動加（小聲）。第二批（子晴、學姊、沛珊、可昕）AA 接著寫。 ｜ 【11-07 03:4x LAWWW-B 查核】只有總圖走坐下流程（meetOpen→lead→seated→meetLine 每人每階段 1 句→mid 4 則隨機→pack／bye）；其他約念書地點沒有、也不算讀書時數；沒有第幾次的台詞。關係：總圖念書 熟悉+3 信任+2 自在+1、日常不加戀愛（朋友以上單獨見面雙方戀愛各+1／天）；告白＝期末心意邀約（她的戀愛≥30＋校外約會≥4 含心願地點，termend3d.js:66-71），TERMEND.ON 約會結尾不告白。念 5 次＝有點熟（和使用者感受一致）。進度條已有（手機朋友→人物頁，game3d.js:701-714、date3d.js:52-74）但朋友以前戀愛條 0 沒提示、第 5 階以後照舊的第 6 階規則（55／30）會誤導。AA_706 骨架＋LAWWW 欄位規格已給 AA（03:5x，JSON：docs/story_planning/AA_707_study_scenes.json）｜【11-07 03:4x LAWWW-B】AA 寫每位女主的進展骨架（D109）；LAWWW 查現在告白門檻、進度數值，做進度條、把台詞接到約念書中間／讀完",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -48738,7 +48738,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "【11-07 04:4x LAWWW-B】山嵐坐地板 BB-B PASS（04cf8bc09：二樓 #24 read 姿勢、手上有書）。南洋戲院店員＋買票（9f2b0404f、293ae9a35：src/nanyang_sys3d.js，買票 150 元、Alison 那兩天店員站爆米花機旁）、大口漢堡櫃檯店員（3b170607e：src/dakou_sys3d.js）、游泳池隔牆說話（f607b0a22：E.talkBlocked，玩家胸口到那個人胸口中間撞到牆就不算）——LAWWW-B 子代理做、cherry-pick 進開發；等 Node、BB 瀏覽器。 ｜ 【11-07 03:5x LAWWW-B】山嵐書架間坐下看書手上沒書 修好（src/shanlan_sys3d.js floorSit 改 read 姿勢，tests/shanlan_act_unit.js ④）；接著：游泳池說話者（E.nearestInteractable 不看牆）、南洋戲院店員＋買票（nanyang3d.js NY3.INTERACT/CLERK/TICKET 沒接）、大口漢堡店員（dakou3d.js:111 被濾掉）。 ｜ 【11-07 03:4x LAWWW-B】店員 NPC 站位、坐下讀書的 prop、游泳池說話者對不上 NPC 外觀",
+   "next": "【11-07 05:4x LAWWW-B】BB-B：游泳池 POOL_TALK ALL PASS，池邊沒有 NPC、修法還沒被實地驗到（等情境）。 ｜ 【11-07 04:4x LAWWW-B】山嵐坐地板 BB-B PASS（04cf8bc09：二樓 #24 read 姿勢、手上有書）。南洋戲院店員＋買票（9f2b0404f、293ae9a35：src/nanyang_sys3d.js，買票 150 元、Alison 那兩天店員站爆米花機旁）、大口漢堡櫃檯店員（3b170607e：src/dakou_sys3d.js）、游泳池隔牆說話（f607b0a22：E.talkBlocked，玩家胸口到那個人胸口中間撞到牆就不算）——LAWWW-B 子代理做、cherry-pick 進開發；等 Node、BB 瀏覽器。 ｜ 【11-07 03:5x LAWWW-B】山嵐書架間坐下看書手上沒書 修好（src/shanlan_sys3d.js floorSit 改 read 姿勢，tests/shanlan_act_unit.js ④）；接著：游泳池說話者（E.nearestInteractable 不看牆）、南洋戲院店員＋買票（nanyang3d.js NY3.INTERACT/CLERK/TICKET 沒接）、大口漢堡店員（dakou3d.js:111 被濾掉）。 ｜ 【11-07 03:4x LAWWW-B】店員 NPC 站位、坐下讀書的 prop、游泳池說話者對不上 NPC 外觀",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -48759,7 +48759,7 @@
    "owner": "LAWWW2",
    "status": "進行中",
    "priority": "P2",
-   "next": "【11-07 05:1x LAWWW-B】查核：體能 G.daily.gym.fit（0～100）已經讓走路 +4/8/12%、騎車 +5/10/15%（src/fit3d.js），朋友會注意到；但器材只有櫃台旁一顆「去健身房」，升階沒有提示、3D 體態沒做。派工：LAWWW2-B 給 gym_layout.js b1.fitness.equip（22 件器材的位置、用的站位、姿勢）＋評估肌肉線條（骨頭縮放或法線貼圖）；AA-B 寫 AA_713 器材×體能四階的旁白＋升階那一刻的旁白。LAWWW 接互動（一台一台用、扣行動次數、加體能、升階提示）。 ｜ 【11-07 04:0x LAWWW-B】門的美術：LAWWW2-B 7e8e59883（gym_b1.glb 深色門框、門楣、自動門機箱、會亮的「健身中心 FITNESS CENTER 入口」招牌、拉開的門扇、防撞貼條、地墊；B1 光照重烘；導航不變）接進開發，tests/gym_fit_door_unit.js＋gym 相關 10 支 ALL PASS；等 CC 瀏覽器：B1 走廊往健身中心看、門口正面。還沒做（LAWWW）：器材互動、運動效果（騎腳踏車變快、肌肉線條）。 ｜ 【11-07 03:4x LAWWW-B】門的外觀 LAWWW2；器材互動、運動效果 LAWWW",
+   "next": "【11-07 05:4x LAWWW-B】LAWWW2-B 4f05d68d0 交器材資料（gym_layout.js b1.fitness.equip 22 件：kind、at、ry、use[{x,z,yaw,pose}]、stand、area、train、label；tests/gym_fit_equip_unit.js）；肌肉線條評估：法線貼圖看不到，改做 CHAR.setFit 骨頭四階（做一版給 LAWWW 驗）。 ｜ 【11-07 05:1x LAWWW-B】查核：體能 G.daily.gym.fit（0～100）已經讓走路 +4/8/12%、騎車 +5/10/15%（src/fit3d.js），朋友會注意到；但器材只有櫃台旁一顆「去健身房」，升階沒有提示、3D 體態沒做。派工：LAWWW2-B 給 gym_layout.js b1.fitness.equip（22 件器材的位置、用的站位、姿勢）＋評估肌肉線條（骨頭縮放或法線貼圖）；AA-B 寫 AA_713 器材×體能四階的旁白＋升階那一刻的旁白。LAWWW 接互動（一台一台用、扣行動次數、加體能、升階提示）。 ｜ 【11-07 04:0x LAWWW-B】門的美術：LAWWW2-B 7e8e59883（gym_b1.glb 深色門框、門楣、自動門機箱、會亮的「健身中心 FITNESS CENTER 入口」招牌、拉開的門扇、防撞貼條、地墊；B1 光照重烘；導航不變）接進開發，tests/gym_fit_door_unit.js＋gym 相關 10 支 ALL PASS；等 CC 瀏覽器：B1 走廊往健身中心看、門口正面。還沒做（LAWWW）：器材互動、運動效果（騎腳踏車變快、肌肉線條）。 ｜ 【11-07 03:4x LAWWW-B】門的外觀 LAWWW2；器材互動、運動效果 LAWWW",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -48934,7 +48934,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "【11-07 04:5x LAWWW-B】engine3d.js nearestInteractable 的 occupied 和 game3d.js freeSeat 同一個判斷（0.4 m、正在走過去的人不管她是不是還坐在別的位子上；原本要 !n.seat、0.35 m）；tests/daybreak_seat2_1107_unit.js。 ｜ 【11-07 04:4x LAWWW-B】BB-B GAME_BUG 確定（26d1babdc，電腦重現）：NPC 已經預約 #2、正在走過去，座位按鈕還顯示「坐窗邊」，按了才說「有人坐了。」，2.5 秒後她坐上去。修法：預約中的座位（npc.seatTarget）不出按鈕，或改指最近的空位。 ｜ 【11-07 03:4x LAWWW-B】查占用判斷或座位物件對錯（和 TAP-SEAT-NPC-1105 不同原因）；CC 補印資料（BB_255 elegant-brown 5b4c0ced4）",
+   "next": "【11-07 05:4x LAWWW-B】BB-B（90a10d010）：功能沒壞、ALL PASS，但電腦四個時段都沒碰到「有客人正走向 #2」；已整合、等情境。 ｜ 【11-07 04:5x LAWWW-B】engine3d.js nearestInteractable 的 occupied 和 game3d.js freeSeat 同一個判斷（0.4 m、正在走過去的人不管她是不是還坐在別的位子上；原本要 !n.seat、0.35 m）；tests/daybreak_seat2_1107_unit.js。 ｜ 【11-07 04:4x LAWWW-B】BB-B GAME_BUG 確定（26d1babdc，電腦重現）：NPC 已經預約 #2、正在走過去，座位按鈕還顯示「坐窗邊」，按了才說「有人坐了。」，2.5 秒後她坐上去。修法：預約中的座位（npc.seatTarget）不出按鈕，或改指最近的空位。 ｜ 【11-07 03:4x LAWWW-B】查占用判斷或座位物件對錯（和 TAP-SEAT-NPC-1105 不同原因）；CC 補印資料（BB_255 elegant-brown 5b4c0ced4）",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -48952,7 +48952,7 @@
    "id": "BUG-INV-CONFLICT-SKIP-REPLY-1107",
    "title": "約的時間撞到已經約好的事 →「你那個時間已經約了別人。改成 今天 13:30？」→ 按「好」就直接約好，對方沒有回覆，連照設計要婉拒的也約成了（BB-B 11-07 GAME_BUG 候選，語彤 FAMILIAR 約 2:30 AM 念書）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "source": "BB-B 11-07 03:5x（elegant-brown 723a35397 BB_255 最後一節）",
    "first": {
@@ -48965,7 +48965,27 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 05:2x LAWWW-B】修好：撞到自己的約、系統提的新時間（why mine）選了以後重新問她（decide＋personal），她的回答照播；婉拒的不再約成；她自己提的新時間照舊直接約好；最多再問三次。tests/inv_conflict_reply_1107_unit.js（語彤 2:30 AM 念書照設計婉拒、以安總圖答應那句照播）。 ｜ 【11-07 03:5x LAWWW-B】查 invites3d.js 改時間那一支：改好時間以後要重新走一次對方的回覆判斷（REPLY_COND／decline），不能直接當成答應",
+   "next": "【11-07 05:4x LAWWW-B】BB-B FIXED（29be32fa4）：照原重現步驟，改時間以後她回「……咖啡廳我坐不住。」「總圖可以。」，沒有約成。 ｜ 【11-07 05:2x LAWWW-B】修好：撞到自己的約、系統提的新時間（why mine）選了以後重新問她（decide＋personal），她的回答照播；婉拒的不再約成；她自己提的新時間照舊直接約好；最多再問三次。tests/inv_conflict_reply_1107_unit.js（語彤 2:30 AM 念書照設計婉拒、以安總圖答應那句照播）。 ｜ 【11-07 03:5x LAWWW-B】查 invites3d.js 改時間那一支：改好時間以後要重新走一次對方的回覆判斷（REPLY_COND／decline），不能直接當成答應",
+   "sha": null
+  },
+  {
+   "id": "BUG-AFAR-DATE-OCCUPIED-1107",
+   "title": "afar café 約會挑了有人的桌子：她和玩家坐 table 5（卡座小圓桌），同桌 1.2 m 內還有一位客人（BB-B 11-07 GAME_BUG 候選，b550eb6c1）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "BB-B 11-07 05:3x（elegant-brown 90a10d010 BB_255）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "約會在 afar café",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 05:4x LAWWW-B】查 INV.pairSeats：同一張桌子（table）已經有客人坐的不挑",
    "sha": null
   }
  ]

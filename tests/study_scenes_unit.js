@@ -1,8 +1,8 @@
-// 一起念書第 N 次（STUDY-DATE-PROGRESS-1107，USER_WANTS X263；台詞 AA_707 c47f8ab4d；規則 AA_706 第 1 節）——不需要瀏覽器（D131）。
+// 一起念書第 N 次（STUDY-DATE-PROGRESS-1107，USER_WANTS X263；台詞 AA_707 6a0018b90；規則 AA_706 第 1 節）——不需要瀏覽器（D131）。
 // 使用者 11-07：「總部的每次念書都講一樣的話吧……就算一起念書五次還是覺得很不熟啊 我希望每一次念書或者一起活動都要有不同 進展的感覺 會觸發劇情 然後看第幾次可以告白?」
 // 使用者 11-07 03:4x（對 AA-B，UA-AA-1107-04）：「第6次算一次約會」。
 // 檢查：
-//   0. src/data/study_scenes.js 和 AA_707@c47f8ab4d 一致（tools/story/import_study_scenes.py --check）；七位都有第 1～6 場
+//   0. src/data/study_scenes.js 和 AA_707@6a0018b90 一致（tools/story/import_study_scenes.py --check）；七位都有第 1～6 場
 //   1. 第 1～6 場依序演、一天只算一次（同一天第二次＝一般句、不算）
 //   2. 階段不夠（第 3 場要 ≥3）：演一般句、次數照算、下一場不跳過；階段到了接著演第 3 場
 //   3. 選項：照選的加減好感、播她的回話
@@ -19,7 +19,7 @@ const loadG=(f,names)=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) retu
 const ok1=loadG('src/data/study_scenes.js',['STUDY_SCENES']), ok2=loadG('src/studyn3d.js',['STUDYN']);
 const W=ms=>new Promise(r=>setTimeout(r,ms));
 const SC=ok1?STUDY_SCENES.people:{};
-const said=()=>H.said.map(s=>s.t);
+const said=()=>H.said.map(s=>s.t); const J=JSON.stringify;
 const T=(id,k)=>SC[id]&&SC[id].scenes[String(k)];
 const fresh=(key,h,zone)=>{ const G=H.fresh(key,h,zone); G.invites=[]; G.stats=G.stats||{}; E.zone={seats:[],spawn:{x:0,z:0,yaw:0},roomAt:()=>null}; E.npcs=[]; E.player.seat=null; INV._now=()=>Date.now()+1e9; return G; };
 const stageOf={}; const DS=DATE.stageNum; DATE.stageNum=id=>stageOf[id]!=null?stageOf[id]:DS(id);
@@ -27,7 +27,7 @@ const next=G=>{ G.day+=1; };
 (async()=>{
   /* ---- 0 匯入一致 ---- */
   { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_study_scenes.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
-    check('0. src/data/study_scenes.js 和 AA_707@c47f8ab4d 一致（import_study_scenes.py --check）',ok1&&ok2&&ok,out.trim().slice(0,200));
+    check('0. src/data/study_scenes.js 和 AA_707@6a0018b90 一致（import_study_scenes.py --check）',ok1&&ok2&&ok,out.trim().slice(0,200));
     const ids=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'];
     check('0. 七位都有第 1～6 場＋輪換 6 則',ids.every(id=>SC[id]&&[1,2,3,4,5,6].every(k=>T(id,k)&&T(id,k).seat.length&&T(id,k).mid.length)&&SC[id].rot.length===6),JSON.stringify(Object.keys(SC))); }
   if(!ok2){ H.done(); return; }
@@ -36,9 +36,9 @@ const next=G=>{ G.day+=1; };
     const a=STUDYN.pick(G,id); check('1. 第一次：第 1 場（坐下那一句是 AA_707 的）',a&&a.k===1&&a.seat[0]===T(id,1).seat[0],JSON.stringify(a&&a.seat));
     STUDYN.done(G,id,a); const b=STUDYN.pick(G,id); check('1. 同一天再約一次：一般句（null）、次數不加',b===null&&STUDYN.count(G,id)===1,JSON.stringify(b));
     next(G); const c=STUDYN.pick(G,id); check('1. 隔天：第 2 場',c&&c.k===2&&c.mid[0]===T(id,2).mid[0]);
-    H.said=[]; H.opts=[]; H.picks=['想真的弄懂']; const r0=Object.assign({},SOCIAL.rel(id)); const who={name:'沈以安',charId:id};
-    await STUDYN.mid(GM,who,id,c); const r1=SOCIAL.rel(id), o=T(id,2).opts[1];
-    check('3. 第 2 場的選項：兩個選項照 AA_707、選「想真的弄懂」照稿加好感（trust +2、comf +1、npcRom +1）、播她的回話',JSON.stringify(H.opts[0]&&[...H.opts[0]])===JSON.stringify(T(id,2).opts.map(q=>q.t))&&(r1.trust-(r0.trust||0))===o.rel.trust&&(r1.comf-(r0.comf||0))===o.rel.comf&&((r1.npcRom||0)-(r0.npcRom||0))===o.rel.npcRom&&said().includes(o.reply[0]),JSON.stringify({opts:H.opts[0],said:said()}));
+    const O2=T(id,2).opts||[]; H.said=[]; H.opts=[]; H.picks=[1]; const r0=Object.assign({},SOCIAL.rel(id)); const who={name:'沈以安',charId:id};
+    await STUDYN.mid(GM,who,id,c); const r1=SOCIAL.rel(id), o=O2[1];
+    check('3. 第 2 場的選項：照 AA_707 列、選第 2 個照稿加好感、播她的回話',O2.length>=2&&J([...(H.opts[0]||[])])===J(O2.map(q=>q.t))&&Object.keys(o.rel).every(k=>((r1[k]||0)-(r0[k]||0))===o.rel[k])&&said().includes(o.reply[0]),J({opts:H.opts[0],said:said()}));
     STUDYN.done(G,id,c); next(G); const d=STUDYN.pick(G,id);
     check('2. 第 3 場要階段 ≥3、現在 2：一般句（generic）',d&&d.generic===true,JSON.stringify(d));
     STUDYN.done(G,id,null); check('2. 一般句那次也算次數（3）、下一場還是第 3 場',STUDYN.count(G,id)===3&&STUDYN.of(G,id).k===3,JSON.stringify(STUDYN.of(G,id)));
@@ -56,10 +56,11 @@ const next=G=>{ G.day+=1; };
     const needF=SC[id].rot.map((x,i)=>x.if?i:null).filter(x=>x!=null);
     check('5. 沒記過旗標：寫 if 的那幾則不出現',rs.every(i=>!needF.includes(i)),JSON.stringify({rs,needF})); }
   /* ---- 6 alt ---- */
-  { const G=fresh('2026-03-02',14,'cafe'), id='heroine_03'; stageOf[id]=5; STUDYN.of(G,id).k=5;
-    const a=STUDYN.pick(G,id); check('6. 語彤第 5 場（媽媽還不知道）：原本的中途',a&&a.mid.join()===T(id,5).mid.join());
-    G.flags.YT_MOM_BACK=G.day-3; const b=STUDYN.pick(G,id), A=T(id,5).alt;
-    check('6. 媽媽知道以後（YT_MOM_BACK）：中途換 alt、選「我不會說。」的回話換成「她已經知道了。……可是謝謝你這樣說。」',b&&b.mid.join()===A.mid.join()&&b.opts.find(o=>o.t==='我不會說。').reply[0]==='她已經知道了。……可是謝謝你這樣說。',JSON.stringify(b&&b.opts));
+  { /* AA_707 6a0018b90：語彤第 5 場、學姊第 5 場的 alt 拿掉了；alt 的機制用學姊第 4 場（上了法研所以後換中途）測 */
+    const G=fresh('2025-11-02',14,'cafe'), id='heroine_05'; stageOf[id]=5; STUDYN.of(G,id).k=4; const a=STUDYN.pick(G,id), A=T(id,4).alt;
+    const G2=fresh('2026-09-15',14,'cafe'); STUDYN.of(G2,id).k=4; const b=STUDYN.pick(G2,id);
+    check('6. alt：學姊第 4 場，2025 年＝原本的中途；2026-09（上了法研所）＝alt 的中途',!!A&&a&&a.mid.join()===T(id,4).mid.join()&&b&&b.mid.join()===A.mid.join(),J([a&&a.mid[0],b&&b.mid[0]])); }
+  {
     const G3=fresh('2025-10-01',14,'library_hall'), s1=STUDYN.pick(G3,'heroine_05'); const G4=fresh('2026-09-10',14,'library_hall'), s2=STUDYN.pick(G4,'heroine_05');
     check('6. 學姊：2025 年＝計時寫考古題；2026-09＝寫研究所的報告（alt）',s1&&s1.seat[0]===T('heroine_05',1).seat[0]&&s2&&s2.seat[0]===T('heroine_05',1).alt.seat[0],JSON.stringify([s1&&s1.seat[0],s2&&s2.seat[0]]));
     const G5=fresh('2025-10-01',14,'cafe'); STUDYN.of(G5,'heroine_05').k=3; stageOf.heroine_05=3; const s3=STUDYN.pick(G5,'heroine_05'), txt=s3.seat.concat(s3.mid,s3.pack||[],s3.bye||[]).join('');

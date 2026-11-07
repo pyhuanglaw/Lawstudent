@@ -43,7 +43,7 @@ const GIFT=(function(){
     if(E.fav&&c.n===E.fav.item&&R.fav[id]==null){ R.fav[id]=G.day; await play(GM,who,E.fav.lines); adj(id,E.fav.rel); if(typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!(SOCIAL.has&&SOCIAL.has(id,'REMEMBERED_HER'))) SOCIAL.remember(id,'REMEMBERED_HER',c.n); return 'fav'; }
     const st=stage(id); let y=E.yes[0]; for(const q of E.yes) if(st>=q.need) y=q; await play(GM,who,y.lines); adj(id,y.rel); return 'yes'; };
   /* 當面說話的選項（STORY.TALK_OPTS）：帶著的每一樣一個 */
-  S.talkOpts=function(G,id){ const T=L()[id]; if(!T||!G) return []; return S.carry(G).filter(c=>T[c.cat]).map(c=>({t:'送她'+c.n,hint:c.cat==='drink'?'飲料':'早餐',run:async(GM,who)=>{ await S.give(GM,who,id,c); }})); };
+  S.talkOpts=function(G,id){ const T=L()[id]; if(!T||!G) return []; return S.carry(G).filter(c=>T[c.cat]).map(c=>({t:'送她'+c.n,run:async(GM,who)=>{ await S.give(GM,who,id,c); }})); };
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.TALK_OPTS)) STORY.TALK_OPTS.push((G,id)=>S.talkOpts(G,id));
   return S;
 })();

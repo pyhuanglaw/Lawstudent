@@ -4693,9 +4693,9 @@
   },
   {
    "path": "docs/story_planning/AA_707_study_scenes.json",
-   "sha": "c47f8ab4d",
+   "sha": "6a0018b90",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 04:05「A 改好」：以安第 1 場不重複翻手機、語彤第 5 場 alt.opts）",
+   "approvedBy": "AA-B D109（11-07 05:25／05:28「AA_707 改版，請重匯」：心事搬到 AA_712 故事線；旗標、unlock、need、第 6 場算約會不動）",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
    "note": "七位一起念書第 1～6 次＋輪換 6 則；tools/story/import_study_scenes.py → src/data/study_scenes.js（第一批 49d01b2b2 被這一版取代）",
@@ -4703,6 +4703,10 @@
     {
      "sha": "05d8a816e",
      "approvedBy": "（11-07 04:05 以前的版本；c47f8ab4d 取代：以安第 1 場旁白、語彤第 5 場 alt 改成完整 opts）"
+    },
+    {
+     "sha": "c47f8ab4d",
+     "approvedBy": "（11-07 05:2x 以前的版本；6a0018b90 取代：心事搬進 AA_712，只留一起念書的樣子）"
     }
    ]
   },
