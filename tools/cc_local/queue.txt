@@ -59,6 +59,7 @@ GYMUSE_3880 | 38808711072fa54b74ff60892417beefaebae813 | probe | docs/story_plan
 #   BB-B 06:08（41bfc5cbe）：3F 主球場籃架（平常放下、典禮收起）；祐廷體態四階（探針雲端試跑中，過了再排 FITMORPH）
 GYM3F_HOOP_41bf | 41bfc5cbe635a410046dba106e14575e9474f4ee | probe | docs/story_planning/test_tools/cc/cc_gym3f_hoop_probe.py | index.html | 30 | CC_HEADLESS=0
 FITMORPH_41bf | 41bfc5cbe635a410046dba106e14575e9474f4ee | probe | docs/story_planning/test_tools/cc/cc_fitmorph_probe.py | index.html | 40 | CC_HEADLESS=0
+SPORTSWEAR_0f4b | 0f4b0394a0fdbae5c48a5107a960bb9a5e05569b | probe | docs/story_planning/test_tools/cc/cc_sportswear_probe.py | index.html | 40 | CC_HEADLESS=0
 #   BB-B 05:35：afar 約會 ②窗邊長桌多試幾次——換約的人（時段、她挑的位子跟著變），ID 不同不會輪流重跑
 GG2_afar_date_01 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_01;RERUN=w01;CC_HEADLESS=0
 GG2_afar_date_03 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_03;RERUN=w03;CC_HEADLESS=0
