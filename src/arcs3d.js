@@ -25,7 +25,7 @@ const ARCS=(function(){
     ytCats:G=>{ const f=F(G); return !!(f.YT_CATS||f.YT_FAMILY_HEARD); },   /* 找公園的貓（src/ytjob3d.js S.cats）；沒去找貓、之後在別的地方聽到家裡的事也算（不卡死）*/
     ytMomKnows:G=>{ const f=F(G); return !!(f.YT_MOM_HERE||f.YT_MOM_TOLD||f.YT_MOM_BACK); },   /* AA_624 事件 10' */
   };
-  S.cond=(G,c)=>{ if(!c) return true; if(c.indexOf('flag:')===0){ const v=F(G)[c.slice(5)]; return v!=null&&v!==false; } const f=S.COND[c]; return f?!!f(G):false; };
+  S.cond=(G,c)=>{ if(!c) return true; if(c.indexOf('dec:')===0) return typeof DECIDE!=='undefined'&&DECIDE.cond(G,c); if(c.indexOf('flag:')===0){ const v=F(G)[c.slice(5)]; return v!=null&&v!==false; } const f=S.COND[c]; return f?!!f(G):false; };
   /* 日期：YYYY-MM-DD 或 Y1S2W8（那一學期第幾週的第一天）→ 第幾天 */
   S.dayOf=function(s){ if(!s||typeof CALENDAR==='undefined') return null; let m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
     if(m){ if(typeof STORY!=='undefined'&&STORY.dayOfKey) return STORY.dayOfKey(s); return null; }
@@ -37,6 +37,7 @@ const ARCS=(function(){
   /* 這一次演哪一拍：null＝不演（今天演過、沒有稿、條件不夠、全部演完）*/
   S.pick=function(G,id,ctx){ ctx=ctx||{}; const T=D()[id]; if(!T||!G) return null; const r=S.rec(G,id); if(r.last===G.day) return null;
     for(let guard=0;guard<10&&r.k<=T.beats.length;guard++){ const b=T.beats[r.k-1]; if(!b) return null;
+      if(r.missed.includes(b.n)){ r.k+=1; continue; }   /* 被你的選項錯過的那一拍（DECIDE closes）：不演，接著看下一拍 */
       const until=b.until?S.dayOf(b.until):null; if(until!=null&&G.day>until){ if(b.late==='skip'||!b.late){ if(!r.missed.includes(b.n)) r.missed.push(b.n); r.k+=1; continue; } }   /* 過了 until：跳過，接著看下一拍 */
       if(stage(id)<(b.need|0)) return null;
       const from=b.from?S.dayOf(b.from):null; if(from!=null&&G.day<from) return null;
@@ -52,7 +53,7 @@ const ARCS=(function(){
   const play=async(GM,who,lines)=>{ for(const t of lines||[]){ const s=S.text(GM.G,t); if(/^（/.test(s)) await GM.say(null,s); else await GM.say(who,s); } };
   /* 演一拍：回傳選了哪一個 */
   S.play=async function(GM,who,id,b){ const G=GM.G; await play(GM,who,b.lines); await play(GM,who,b.ask);
-    const k=GM.choose?await GM.choose(b.opts.map(o=>({t:S.text(G,o.t)}))):0; const o=b.opts[k]||b.opts[0];
+    const k=!GM.choose?0:(typeof DECIDE!=='undefined'?await DECIDE.choose(GM,b.opts,{text:t=>S.text(G,t),note:b.keyNote}):await GM.choose(b.opts.map(o=>({t:S.text(G,o.t)})))); const o=b.opts[k]||b.opts[0];   /* key:true 的那一組：上方一行字＋選完確認（BB_305 10-5）*/
     if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&o.rel&&Object.keys(o.rel).length){ const d=Object.assign({},o.rel); if(stage(id)<3) delete d.npcRom; SOCIAL.adjust(id,d); }   /* 她的戀愛只在朋友以上才算（和送東西、念書選項一樣）*/
     await play(GM,who,o.reply); return k; };
   /* 演完：下一拍、今天演過、記答案和講過的事、旗標、邀約 */
@@ -61,6 +62,7 @@ const ARCS=(function(){
     if(o.tell){ const T=f.YT_TOLD||(f.YT_TOLD={}), t=T[o.tell]||(T[o.tell]={}); if(t[id]==null) t[id]=G.day; }
     if(b.set&&f[b.set]==null) f[b.set]=G.day;
     if(b.invite){ const I=f.ARC_INVITE||(f.ARC_INVITE={}), m=I[id]||(I[id]={}); if(m[b.n]==null) m[b.n]=G.day; }
+    if(typeof DECIDE!=='undefined'&&(o.decide||o.opens||o.closes)) DECIDE.apply(G,id,o);   /* 她的決定、打開／錯過（BB_305 第 10 節）*/
     return r; };
   /* ===== 故事線那一拍不演的時候：輪換句跟著日期和故事走＋她的生活自己往前（AA_717，src/data/arc_rot.js；BB_305 第 5、6 節）=====
      挑法：條件具體的優先——when（期末週、颱風當天或隔天、過年前兩週、開學第一週、某月）＞beat／if／life（故事線走到哪、你選過什麼、她的生活到哪）＞沒條件；

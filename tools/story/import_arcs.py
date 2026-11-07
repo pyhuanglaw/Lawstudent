@@ -18,6 +18,9 @@ REL = ('fam', 'trust', 'comf', 'npcRom', 'rom')
 TELL = ('econ', 'retake', 'dad', 'mom', 'sister', 'bday')
 WHERE = ('any', 'study', 'eat', 'cafe', 'movie', 'book', 'gym', 'trip')
 # AA 寫的中文條件 → 遊戲的條件（src/arcs3d.js S.COND；flag:旗標名＝那個旗標有值）
+DKEY = re.compile(r'^[A-Za-z][A-Za-z0-9_]*$')
+STANCE = re.compile(r'^(push:[A-Za-z0-9_]+|support|space|tease)$')
+OPEN = re.compile(r'^(beat:\d+|place:[a-z0-9_]+|flag:[A-Z0-9_]+)$')
 COND = {
     '以安手帳「想去的店」第一家那一場演過（AN_STUDY_SHOP，或 AA_587 第一家）': 'flag:AN_STUDY_SHOP',
     '找公園的貓演過（AA_624；旗標照 LAWWW）': 'ytCats',
@@ -80,6 +83,8 @@ def build(src, sha):
             e = {'n': i + 1, 'need': int(b.get('need', 1)), 'lines': lines(b.get('lines'), w + '.lines'), 'ask': lines(b.get('ask'), w + '.ask')}
             if b.get('topic'):
                 e['topic'] = b['topic']
+            if b.get('keyNote'):
+                e['keyNote'] = IG.read_fix(b['keyNote'])   # 小心選擇那一行字（BB_305 10-5；有 key:true 的選項才用）
             opts = []
             for j, o in enumerate(b.get('opts') or []):
                 wo = f'{w}.opts[{j}]'
@@ -94,6 +99,25 @@ def build(src, sha):
                     q['tell'] = o['tell']
                 if o.get('toldAlt'):
                     q['toldAlt'] = IG.read_fix(o['toldAlt']) if isinstance(o['toldAlt'], str) else o['toldAlt']
+                # 選項會改變故事（BB_305 第 10 節；src/decide3d.js）：decide 記她的決定、stance 你怎麼說、key 小心選擇、opens／closes 打開或錯過
+                if o.get('decide'):
+                    d = o['decide']
+                    if not isinstance(d, dict) or not DKEY.match(str(d.get('key', ''))) or not isinstance(d.get('value'), str):
+                        raise SystemExit(f'{wo}.decide：要 {{key, value}}')
+                    q['decide'] = {'key': d['key'], 'value': d['value']}
+                if o.get('stance'):
+                    if not STANCE.match(o['stance']):
+                        raise SystemExit(f'{wo}.stance「{o["stance"]}」：只能是 push:X／support／space／tease')
+                    q['stance'] = o['stance']
+                if o.get('key'):
+                    q['key'] = True
+                for k in ('opens', 'closes'):
+                    if o.get(k):
+                        L = o[k] if isinstance(o[k], list) else [o[k]]
+                        for x in L:
+                            if not OPEN.match(str(x)):
+                                raise SystemExit(f'{wo}.{k}「{x}」：只能是 beat:N、place:地點、flag:旗標')
+                        q[k] = L
                 opts.append(q)
             if len(opts) < 2:
                 raise SystemExit(f'{w}：選項至少 2 個')
