@@ -6,7 +6,7 @@
   MODE=noshow（第 3 項）：回「好。」、9/6 一直待在宿舍 → 16:00 阿哲「你沒來喔？系籃我幫你填了。」（送到就算填了）→ 回「不要啦。」＝取消
 [前置／捷徑] 讀使用者 10-18 實測存檔「9 月 1 日上完憲法」（宿營、轉系都走過），【前置】同一份進度跳到 9/5 20:50 宿舍、9/6 09:50 校園；
 走到晨思鐘用真的移動（L.go_to：點地面、轉鏡頭），回覆用手機回覆鍵，選項照玩家點。
-用法：LW_TESTS=<測試樹>/tests MODE=yes|noshow python3 pt1107s_aa613_probe.py URL 存檔.json 輸出資料夾"""
+用法：LW_TESTS=<測試樹>/tests MODE=yes|late|noshow python3 pt1107s_aa613_probe.py URL 存檔.json 輸出資料夾"""
 import asyncio, json, os, sys, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.dirname(__file__))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -30,7 +30,7 @@ async def main():
         await P.init(pg)
         await P.load(pg, cdp, save.get('G', save)); await P.init(pg)
         run.setup('[前置] 讀使用者 10-18 實測存檔（9/1 上完憲法，宿營、轉系都走過）')
-        L6 = await pg.evaluate("(()=>{ const L=AA613.L||{}; return {zf:L.zheFair||L.zhe||null, squad:L.squad||null, bell:L.bell||null, noshow:L.noShow||null}; })()")
+        L6 = await pg.evaluate("(()=>{ const L=AA613.L||{}; return {zf:L.zheFair||L.zhe||null, squad:L.squad||null, bell:L.bell||null, noshow:L.noShow||null, late:L.bellLate||null}; })()")
         info = await pg.evaluate("({hint:CLUBFAIR.hintOn(GAME.G), fair:CLUBFAIR.fairDay(GAME.G), key:CALENDAR.dateOf(CLUBFAIR.fairDay(GAME.G)).key, knowsZhe:STORY.knows('zhe',GAME.G), squad:PHONE.inGroup(GAME.G,'camp_squad_y1'), club:!!GAME.G.flags.CLUB_dept_basketball})")
         print('[INFO]', J(info)); print('[L]', J(L6, 2500))
         run.check('[前置] 社博在 9/6（六）、認識阿哲、在第七小隊群組、還沒填系籃', info['hint'] and info['key'] == '2025-09-06' and info['knowsZhe'] and info['squad'] and not info['club'], J(info))
@@ -48,10 +48,11 @@ async def main():
         r = await P.phone_answer(pg, cdp, 'p:zhe', '好。')
         run.check('回「好。」', r is not None and await pg.evaluate("GAME.G.flags.AA613_ZHE_FAIR!=null"), J(await pg.evaluate("GAME.G.flags.AA613_ZHE_FAIR")))
         await L.close_panels(pg, cdp)
-        if MODE == 'yes':
-            await P.jump(pg, cdp, run, '2025-09-06', 9.85, zone='campus', pos={'x': BELL[0], 'z': BELL[1] - 22}, note='晨思鐘南邊 22 m'); await P.init(pg)
+        if MODE in ('yes', 'late'):
+            T0 = 10.6 if MODE == 'late' else 9.85
+            await P.jump(pg, cdp, run, '2025-09-06', T0, zone='campus', pos={'x': BELL[0], 'z': BELL[1] - 22}, note='晨思鐘南邊 22 m'); await P.init(pg)
             n0 = await P.say_hook(pg)
-            await P.wait_hour(pg, cdp, 10.02, max_s=600)
+            await P.wait_hour(pg, cdp, 10.7 if MODE == 'late' else 10.02, max_s=600)
             wf0 = await pg.evaluate("GAME.walkFallbacks|0")
             zw = await P.who(pg, 'zhe'); print('[ZHE AT]', J(zw))
             run.check('9/6 10:00 阿哲在晨思鐘', bool(zw) and abs(zw['x'] - BELL[0]) < 2.5 and abs(zw['z'] - BELL[1]) < 2.5, J(zw))
@@ -64,7 +65,14 @@ async def main():
             me = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return {x:+o.x.toFixed(1),z:+o.z.toFixed(1)}; })()")
             print('[LINES]', J(lines, 3000)); print('[ST]', J(st), J(me), 'wf0', wf0)
             bell = [t for _, t in (L6.get('bell') or [])]
+            first = bell[0] if bell else ''
+            if MODE == 'late':
+                lt = (L6.get('late') or [None, ''])[1]
+                run.check('④ 10:30 以後才到：開頭旁白換晚到版「%s」、沒有「%s」' % (lt[:20], first[:16]), bool(lt) and any(lt in x for x in lines) and not any(first in x for x in lines), J(lines[:4]))
+                bell = bell[1:]
             run.check('② 晨思鐘那一段照台詞表（%d 句都有）' % len(bell), bell and all(any(t in x for x in lines) for t in bell), J([t for t in bell if not any(t in x for x in lines)]))
+            iy = next((i for i, x in enumerate(lines) if '好欸。' in x), -1); ifl = next((i for i, x in enumerate(lines) if '的攤位填了表' in x), -1)
+            run.check('⑥ 「你在「系籃（系學會）」的攤位填了表。」在阿哲「好欸。」後面', iy >= 0 and ifl > iy, J([iy, ifl, lines[ifl] if ifl >= 0 else None]))
             run.check('② 選「我也寫。」→ 阿哲「好欸。」、加入系籃（CLUB_dept_basketball）、AA613_BELL_MET', any('好欸。' in x for x in lines) and st['club'] and st['met'] is not None, J(st))
             run.check('② 一起走到系籃攤位不卡（walkFallbacks 0）', st['wf'] - wf0 == 0, J([wf0, st['wf'], me]))
         else:
