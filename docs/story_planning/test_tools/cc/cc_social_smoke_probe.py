@@ -332,7 +332,9 @@ SEAT_JS = r"""(id=>{ const E=GAME.E, P=E.player, G=GAME.G, AL={heroine_01:'an',h
     doorD:doors.length?Math.min(...doors):null, spawnD:sp&&sp.x!=null?+Math.hypot(sp.x-pp.x,sp.z-pp.z).toFixed(2):null, npc:!!(n&&n.obj), nD:n&&n.obj?+Math.hypot(n.obj.position.x-pp.x,n.obj.position.z-pp.z).toFixed(2):null,
     nbeh:n?n.beh||null:null, nleaving:!!(n&&n.leaving), nx:n&&n.obj?+n.obj.position.x.toFixed(2):null, nz:n&&n.obj?+n.obj.position.z.toFixed(2):null, p:[+pp.x.toFixed(2),+pp.z.toFixed(2)],
     ptable:ps?(ps.table!=null?ps.table:null):null, ntable:ns?(ns.table!=null?ns.table:null):null,
-    others:ps?(E.npcs||[]).filter(q=>q&&q!==n&&q.seat&&((grp(ps)!=null&&grp(q.seat)===grp(ps))||Math.hypot(q.seat.x-ps.x,q.seat.z-ps.z)<1.2)).map(q=>q.id||q.charId||q.name||'?'):[]}; })"""
+    others:ps?(E.npcs||[]).filter(q=>q&&q!==n&&q.seat&&((grp(ps)!=null&&grp(q.seat)===grp(ps))||Math.hypot(q.seat.x-ps.x,q.seat.z-ps.z)<1.2)).map(q=>q.id||q.charId||q.name||'?'):[],
+    othersInfo:ps?(E.npcs||[]).filter(q=>q&&q!==n&&q.seat&&((grp(ps)!=null&&grp(q.seat)===grp(ps))||Math.hypot(q.seat.x-ps.x,q.seat.z-ps.z)<1.2)).map(q=>{ const p_=q.obj?q.obj.position:null; let key=null; if(q.obj) q.obj.traverse(o=>{ if(!key&&o.userData&&o.userData.driver) key=o.userData.key||o.userData.model||null; });
+      return {id:q.id||null, charId:q.charId||null, crowdKey:q.crowdKey||null, crowdRole:q.crowdRole||null, model:key, isExtra:!!q.isExtra, beh:q.beh||null, pose:q.pose||null, seat:[+q.seat.x.toFixed(2),+q.seat.z.toFixed(2),q.seat.table!=null?q.seat.table:null], pos:p_?[+p_.x.toFixed(2),+p_.z.toFixed(2)]:null, sameAsHer:!!(n&&q===n)}; }):[]}; })"""
 WHERE_JS = "(id=>{ let w=null; try{ w=STORY.whereIs(GAME,id); }catch(e){} return w?{zone:w.zone||null,away:w.away||null,act:w.act||''}:null; })"
 PRED_JS = r"""(id=>{ const G=GAME.G, D=typeof INVITE_DATA!=='undefined'?INVITE_DATA:{places:[]}, out=[];
   for(const P of (D.places||[])){ if(INV.placeWhy(G,id,P)) continue; if(P.show&&!P.show(G,id)) continue; if(INV.neverAt&&INV.neverAt(id,P)) continue; if(P.when) continue;
@@ -576,7 +578,15 @@ class Person:
                 if self.study_on: self.last_seat = await pg.evaluate(SEAT_JS, self.pid)
                 if self.seat_pending and s['depth'] > 0:
                     smp = await pg.evaluate(SEAT_JS, self.pid)
-                    if not self.study_on: self.seat_sample = smp; self.seat_pending = False
+                    if not self.study_on:
+                        self.seat_sample = smp; self.seat_pending = False
+                        if smp.get('others'):   # CC-B 11-07（BB-B 06:47）：同桌有人＝開演那一刻從上面往下拍一張（BUG-AFAR-DATE-OCCUPIED）
+                            try:
+                                await pg.evaluate("((p)=>{ const E=GAME.E, c=E.camera, V=THREE.Vector3; E.paused=true; c.position.set(p[0],7.5,p[1]+0.01); c.lookAt(new V(p[0],0,p[1])); c.updateMatrixWorld(); E.render(); })", smp['p'])
+                                await self.shot((self.mid_tag or 'date') + '_topdown_open')
+                            finally:
+                                await pg.evaluate("(()=>{ GAME.E.paused=false; })()")
+                            self.R.note('開演那一刻同桌／1.2 m 內的人：%s' % J(smp.get('othersInfo')))
                     else:   # 約念書：開演＝坐下旁白那一句（909c729a6 在門口先演開場、帶路以後才坐下）；沒有那一句（對照組）＝見面第一句
                         if self.first_sample is None: self.first_sample = smp
                         t_ = NZ(s['text'])   # 對話框是打字效果：讀到的可能只有前半句
