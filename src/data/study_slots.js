@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_study_slots.py（docs/story_planning/AA_722_study_unlock_slots.json@bbeb58f34）。不要手改，改企劃 AA_722（台詞）或匯入工具的 CFG（時間、錢、怎麼演）再重新匯入。
+/* 自動產生：tools/story/import_study_slots.py（docs/story_planning/AA_722_study_unlock_slots.json@897ddd17e）。不要手改，改企劃 AA_722（台詞）或匯入工具的 CFG（時間、錢、怎麼演）再重新匯入。
    一起念書第 6 次解鎖的「她那一格」：src/studyslot3d.js 讀 */
 'use strict';
 const STUDY_SLOTS={
- "src": "docs/story_planning/AA_722_study_unlock_slots.json@bbeb58f34",
+ "src": "docs/story_planning/AA_722_study_unlock_slots.json@897ddd17e",
  "slots": [
   {
    "id": "an_shop1",
@@ -24,6 +24,12 @@ const STUDY_SLOTS={
    ],
    "set": "AN_SHOP1_DONE",
    "rot": [],
+   "partnerBlock": {
+    "say": [
+     "你有女朋友。……第一家，我就不約你了。",
+     "我昨天自己去了。點了今天的定食。原來只要這樣說就好。"
+    ]
+   },
    "mode": "zone",
    "zone": "wz_teishoku",
    "name": "小路（她手帳上的第一家）",
@@ -199,6 +205,7 @@ const STUDY_SLOTS={
      "「你先吃。看完再吃。……不對，你先看。」"
     ]
    ],
+   "partnerBlock": {},
    "mode": "out",
    "name": "公館滷味",
    "verb": "讀完去公館吃滷味",

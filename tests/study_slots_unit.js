@@ -58,5 +58,16 @@ const played=L=>L.every(t=>H.said.some(s=>s.t===txt(t)));
     check('6. 課輔班到 2026-12-17；第三組要 PS_HIDDEN_TIRED',a&&!b&&k1==='r0'&&k2==='r2',J({a,b,k1,k2})); }
   { const G=fresh('2025-10-15',10,'campus'), sl=S('kx_mzu_lib'); G.flags[sl.flag]=G.day; const W=STUDYSLOT.when(G,sl);
     check('7. 木柵：週末 13:00、演完回家／宿舍',W.length>0&&W.every(q=>[0,6].includes(CALENDAR.dateOf(q.day).wd%7)&&q.h===13)&&!!(sl.end&&sl.end.home),J({W:W.map(q=>[CALENDAR.dateOf(q.day).wd%7,q.h]),end:sl.end})); }
+  /* 8 你和別人交往、她知道（AA_722 897ddd17e）：小路、滷味不出現；其他四格照常；以安解鎖以後第一次見面說那兩句、記 AN_SHOP1_DONE＝alone、只說一次；第 7 拍的條件成立 */
+  { const G=fresh('2025-10-15',10,'wenzhou'); for(const k of Object.keys(WHO)) G.flags[S(k).flag]=G.day; G.flags.dating_kexin=true; const RR=ROM.relRec(G); for(const id of Object.values(WHO)) (RR[id]||(RR[id]={})).kexin=1;
+    const vis=Object.keys(WHO).filter(k=>P(k).show(G,WHO[k]));
+    check('8. 交往中、她知道：小路、滷味不出現，其他四格照常',!vis.includes('an_shop1')&&!vis.includes('zq_luwei')&&['zr_morning_movie','yt_after_close','ps_tutor'].every(k=>vis.includes(k)),J(vis));
+    H.FRIEND('heroine_01'); H.said=[]; const said=await STUDYSLOT.blockSay(GM,{name:'以安',charId:'heroine_01'},'heroine_01'); const L=S('an_shop1').partnerBlock.say;
+    const again=await STUDYSLOT.blockSay(GM,{name:'以安',charId:'heroine_01'},'heroine_01');
+    check('8. 以安：見面時說那兩句（照 AA_722）、記 AN_SHOP1_DONE＝alone、只說一次',said&&!again&&L.every(t=>H.said.some(x=>x.t===t))&&G.flags.AN_SHOP1_DONE==='alone',J({said,again,f:G.flags.AN_SHOP1_DONE,h:H.said.map(x=>x.t)}));
+    check('8. 第 7 拍等的條件（flag:AN_SHOP1_DONE）成立',typeof ARCS!=='undefined'&&ARCS.cond?!!ARCS.cond(G,'heroine_01','flag:AN_SHOP1_DONE'):!!G.flags.AN_SHOP1_DONE);
+    check('8. 掛在約好的見面開場（INV.meetOpen）和當面說話前（STORY.PRE_TALK）',!!INV.meetOpen._slot&&STORY.PRE_TALK.includes(STUDYSLOT.blockSay));
+    const G2=fresh('2025-10-15',10,'wenzhou'); G2.flags[S('an_shop1').flag]=G2.day; H.said=[]; const s2=await STUDYSLOT.blockSay(GM,{name:'以安',charId:'heroine_01'},'heroine_01');
+    check('8. 沒有在和別人交往：不說、不記',!s2&&G2.flags.AN_SHOP1_DONE==null); }
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });

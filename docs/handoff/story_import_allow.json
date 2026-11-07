@@ -4874,9 +4874,9 @@
   },
   {
    "path": "docs/story_planning/AA_722_study_unlock_slots.json",
-   "sha": "bbeb58f34",
+   "sha": "897ddd17e",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 09:41「念書第 6 次的她那一格」；09:50 bbeb58f34 語彤那一場改成她下班、店還開著）",
+   "approvedBy": "AA-B D109（11-07 09:41「念書第 6 次的她那一格」；09:50 bbeb58f34 語彤那一場改成她下班、店還開著；10:04 897ddd17e 小路、滷味照 partnerBlock 擋＋以安的 fallback）",
    "task": "INVITE-PLACES-1107",
    "kind": "json",
    "note": "六格（以安小路一次性、芷若週六早場、語彤一盞下班後、子晴公館滷味、沛珊課輔班、可昕木柵圖書館）× acc／first／rot；tools/story/import_study_slots.py → src/data/study_slots.js"

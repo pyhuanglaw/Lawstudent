@@ -7,6 +7,7 @@
      錢：小路 200（LAWWW 定）；南洋的票照 INV.buyTicket（150 元）。
    - 沒有場景的（mode:'out'：公館滷味、課輔班、木柵大學圖書館）：約好以後排進行程（OUT.plan，和 AA_716 故事線的約一樣），時間到了「出發」→ 2D 背景演那一場
      → 演完到 end（ARCINV.placeAfter：公館商圈、溫州街；木柵＝回家／宿舍）。滷味第一次她請、之後 120。
+   - 你和別人交往、她知道（AA_722 897ddd17e）：小路、滷味不出現；以安解鎖以後第一次見面說兩句、記 AN_SHOP1_DONE＝'alone'（S.blockSay：INV.meetOpen 之後、STORY.PRE_TALK）。
    存檔：G.flags.STUDYSLOT＝{<id>:{n:演過幾次, last:上一次的 rot 組, day}}；舊存檔沒有＝一次都沒演過。
    測試：node tests/study_slots_unit.js */
 'use strict';
@@ -51,9 +52,14 @@ const STUDYSLOT=(function(){
   S.toOut=function(G,iv,sl){ if(typeof OUT==='undefined'||!OUT.plan) return false; const pk=S.pick(G,sl);
     const ok=OUT.plan(G,{id:'slot_'+sl.id+'_'+iv.day+'_'+Math.round(iv.h*60),ev:S.evId(sl,pk.k),day:iv.day,h:iv.h,late:0.5,place:sl.name,title:sl.label,travel:sl.travel,travelH:sl.travelH||0.25,slot:sl.id,who:sl.who});
     if(ok){ const L=G.invites||[], j=L.indexOf(iv); if(j>=0) L.splice(j,1); iv.state='out'; } return ok; };
+  /* 你和別人交往、她知道（AA_722 897ddd17e；10-14 的規則，INV.partnerBlock 當吃飯算）：小路、滷味那一格不出現。
+     以安的小路有 say：擋著的時候，解鎖以後第一次見面（約好的見面、當面說話）她說那兩句，記 AN_SHOP1_DONE＝'alone'——她故事線第 7 拍照常能演 */
+  S.blocked=(G,sl)=>!!sl.partnerBlock&&typeof INV!=='undefined'&&!!INV.partnerBlock&&!!INV.partnerBlock(G,sl.who,{kind:'meal',id:S.pid(sl)});
+  S.blockDue=function(G,id){ const f=(G&&G.flags)||{}; return D().find(sl=>sl.who===id&&sl.partnerBlock&&sl.partnerBlock.say&&f[sl.flag]!=null&&!(sl.set&&f[sl.set]!=null)&&S.n(G,sl)===0&&!S.pending(G,sl)&&S.blocked(G,sl))||null; };
+  S.blockSay=async function(GM,who,id){ const G=GM&&GM.G, sl=G?S.blockDue(G,id):null; if(!sl) return false; for(const t of sl.partnerBlock.say){ const it=line(sl,t); await GM.say(it.speaker?who:null,it.text); } const f=F(G); if(sl.set&&f[sl.set]==null) f[sl.set]='alone'; return true; };
   S.placeOf=function(sl){ const P={id:S.pid(sl),zone:sl.mode==='zone'?sl.zone:null,name:sl.name,verb:sl.verb,kind:sl.kind||'reason',minStage:'FRIEND',stay:sl.stay,memory:sl.memory,
       sitAct:sl.sitAct||'sit',cats:sl.cats.slice(),days:sl.days.slice(),hours:sl.hours.slice(),times:sl.times.slice(),slot:sl.id,
-      show:(G,id)=>id!=null&&id===sl.who&&S.open(G,sl)&&!S.pending(G,sl),
+      show:(G,id)=>id!=null&&id===sl.who&&S.open(G,sl)&&!S.pending(G,sl)&&!S.blocked(G,sl),
       avail:(G,day)=>S.open(G,sl,day),
       when:(G)=>S.when(G,sl)};
     if(sl.seatPose) P.seatPose=sl.seatPose;
@@ -65,6 +71,8 @@ const STUDYSLOT=(function(){
         const p=PP[sl.who]||(PP[sl.who]={}); (p.acc||(p.acc={}))[S.pid(sl)]=sl.acc.slice(); } }
     if(typeof STORY_EVENTS!=='undefined') for(const sl of D()){ if(sl.mode!=='out') continue; const L=[['first',sl.first]].concat(sl.rot.map((r,i)=>['r'+i,r]));
       for(const [k,lines] of L){ const ev=S.event(sl,k,lines); if(!STORY_EVENTS.some(x=>x&&x.id===ev.id)) STORY_EVENTS.push(ev); } }
+    if(typeof INV!=='undefined'&&INV.meetOpen&&!INV.meetOpen._slot){ const M0=INV.meetOpen; const M1=async function(GM,iv,who,o){ const r=await M0.apply(this,arguments); try{ await S.blockSay(GM,who,iv&&iv.who); }catch(e){ console.warn('STUDYSLOT.blockSay',e); } return r; }; M1._slot=true; INV.meetOpen=M1; }   /* 約好的見面：開場以後 */
+    if(typeof STORY!=='undefined'&&Array.isArray(STORY.PRE_TALK)&&!STORY.PRE_TALK.includes(S.blockSay)) STORY.PRE_TALK.push(S.blockSay);   /* 當面說話（偶遇）：說話以前 */
     if(typeof INV!=='undefined'&&INV.accept&&!INV.accept._slot){ const A0=INV.accept; const A1=function(G,id,pid,day,h,o){ const iv=A0.apply(this,arguments); const sl=S.byPlace(pid); if(iv&&sl&&sl.mode==='out') S.toOut(G,iv,sl); return iv; }; A1._slot=true; INV.accept=A1; } };
   S.install();
   S.hh=hh;

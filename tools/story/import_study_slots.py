@@ -73,6 +73,9 @@ def build(src):
         if e['repeat'] and not rot:
             raise SystemExit(f'{w}：可以一直約（repeat）就要有 rot（第二次以後輪流）')
         e['rot'] = [lines(r, f'{w}.rot[{i}]') for i, r in enumerate(rot)]
+        pb = s.get('partnerBlock')
+        if pb:   # 897ddd17e：吃飯類（小路、滷味）照 10-14 的規則擋（你和別人交往、她知道＝這一格不出現）；有 say＝擋著時解鎖後第一次見面她說、記 set（alone）
+            e['partnerBlock'] = {'say': lines(pb['say'], w + '.partnerBlock.say')} if pb.get('say') else {}
         e.update(CFG[sid])
         for k, c in (e.get('rotIf') or {}).items():
             if not (0 <= int(k) < len(e['rot'])):
