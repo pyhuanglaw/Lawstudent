@@ -6,7 +6,23 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-07 16:0x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-07 17:3x UTC，帳號 B LAWWW2-B）
+
+分支 `claude/funny-albattani-iawshm`；開發分支 `claude/modest-rubin-2lyp7g`（`03e92c411`）。瀏覽器都沒跑（D131，交 CC）。工作樹 `$S/devnow`＝開發 03e92c411＋gg_new_1107.patch＋新 assets；`$S/devclean`＝開發原樣。
+
+| 項目 | 狀態 | 位置 |
+|---|---|---|
+| 公館三間光照＋窗景（洋洋、轉角唱片、便利商店）＋轉角唱片 BB-B 16:04 P2／P3 | **已交 LAWWW-B**（17:3x）；218 支相關 Node 測試過；CC 拍、BB 判 | `a6509d2a0`，`wip/gg_new_lm_1107/`（README、gg_new_1107.patch） |
+| 霖澤 5F 研究室窗外夜景太亮（BB-B 16:04 P2） | **已交**（近景夜景 ×0.4），等 LAWWW-B 接、CC 重拍 | `fd06def16`，`wip/lz5f_night_view_1107/` |
+| CAM-LIBHALL-DOOR-1107、CAM-GONGGUAN-GATE-1107（LAWWW-B 16:13，P3） | **開始查** | — |
+
+**工具的改動**（我的檔）：
+- `bake_room.py`：`--keep-instances` 時共用網格不烘。
+- 新 `glb_fix_instnames.py`、`glb_add_viewcard.py`、`gg_shop_views.sh`＋`gg_scene/*.json`。
+
+**之後（lm_audit_1107 第一級剩下的）**：燒臘、頁間、SUNNY SIDE、阿德、驛站、小路、林家、日常失速、木曜日。這幾間的 VIEW 卡要處理 `--emit`／`--dayemit`。
+
+## 🔨 （舊）現在在做（11-07 16:0x UTC，帳號 B LAWWW2-B）
 
 分支 `claude/funny-albattani-iawshm`；開發分支 `claude/modest-rubin-2lyp7g`（`03e92c411`＝e66781d1f＋交接；洋洋、轉角唱片已經進得去、霖澤 5F 光照已整合）。瀏覽器都沒跑（D131，交 CC）。
 工作樹 `$S/devnow`＝開發 `03e92c411`＋`src/zones3d.js` GG_VIEW 兩筆（洋洋、轉角唱片）＋測試 `gg_views_1107_unit.js`、`gg_new_lm_unit.js`（還沒存成 patch）。
