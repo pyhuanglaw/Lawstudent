@@ -24,6 +24,8 @@ LIVE_V91021_deploy | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | game | tests/dep
 LIVE_V91021_p0 | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | game | tests/p0_movement.py | index.html | 40 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html
 LIVE_V91021_title | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | probe | docs/story_planning/test_tools/cc/cc_live_title_probe.py | index.html | 40 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;WANT_VER=v9.10.21;CC_HEADLESS=0
 XSNE_park | abf4dbbd5abc4e842b5d92d481cfa9a39084166c | probe | docs/story_planning/test_tools/cc/cc_xsne_shots_probe.py | index.html | 40 | PARTS=campus;RERUN=park;CC_HEADLESS=0
+#   ④⑤（BB-B 03:50，LAWWW2-B 345574e2d）MOKU_WINVIEW、DAKOU_FLICKER：先跑改之前的對照（abf4dbbd5）；改好的要等 LAWWW 把 patch 套進開發線給 SHA，再排 _fix
+WV1107_before | abf4dbbd5abc4e842b5d92d481cfa9a39084166c | probe | docs/story_planning/test_tools/cc/cc_winview_1107_probe.py | index.html | 30 | EXPECT=before;CC_HEADLESS=0
 XSNE_shots | abf4dbbd5abc4e842b5d92d481cfa9a39084166c | probe | docs/story_planning/test_tools/cc/cc_xsne_shots_probe.py | index.html | 40 | CC_HEADLESS=0
 DBK_passerby | abf4dbbd5abc4e842b5d92d481cfa9a39084166c | probe | docs/story_planning/test_tools/cc/cc_v21x_shops_probe.py | index.html | 40 | CC_HEADLESS=0;PARTS=seats;ONLY=daybreak
 AA0F_p0 | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
