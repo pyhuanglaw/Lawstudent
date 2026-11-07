@@ -9,7 +9,7 @@
     fps 平均、最低（每一幀的間隔）、draw calls、triangles（E.renderer.info.render）。
   也看：門口「進去日常失速」的互動點還在、走到門口按得到；正面那張畫面截圖給 BB 看貼圖、招牌字、穿模。
   【前置／捷徑】讀檔到溫州街指定位置（條件事件關閉）；截圖停主迴圈、藏 HUD 和玩家。Windows＋GPU／SwiftShader ≠ iPhone（fps 只有電腦的數字有意義）。
-用法：LW_TESTS=<wt>/tests [TAG=new|old] python3 cc_offbeat_front_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests [TAG=new|old] [WARM=10] python3 cc_offbeat_front_probe.py <url> <out>"""
 import os, sys, json, asyncio, math
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests'))
@@ -24,6 +24,7 @@ J = D.J
 R = L.Run('offbeat_front', OUT); D.setup(R, OUT)
 DAY = '2025-10-18'   # 星期六
 TAG = os.environ.get('TAG') or 'run'
+WARM = float(os.environ.get('WARM') or 0)   # 量 fps 之前先跑幾秒不記
 DOOR = r"""(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.exit&&i.exit.to==='wz_offbeat'); const ex=(GAME.E.interactables||[]).filter(i=>i.exit&&!i.hidden).map(i=>({to:i.exit.to,label:i.label,x:+(+i.x).toFixed(2),z:+(+i.z).toFixed(2)}));
   return {door:it?{x:+(+it.x).toFixed(2),z:+(+it.z).toFixed(2),label:it.label,hidden:!!it.hidden}:null, exits:ex}; })()"""
 # 以店門為中心找鏡頭：r 半徑、方向限制（north＝z 比店門小）、站得住（玩家那一層）、眼睛到店門中間沒有東西擋
@@ -95,8 +96,10 @@ async def main():
             R.setup('%s 讀檔溫州街 (%s, %s) 14:00，面向日常失速' % (tag, x, z))
             await D.load_zone(pg, cdp, 'wenzhou', DAY, 14.0, x=x, z=z, yaw=yaw, wait=8000)
             await pg.wait_for_timeout(2000)
+            if WARM > 0:   # 暖身（BB-B 06:43）：同一個位置先跑 WARM 秒不記（貼圖上傳、著色器編譯、陰影圖第一次算），再量
+                await pg.evaluate(FPS, int(WARM * 1000))
             f = await pg.evaluate(FPS, 10000); c = await pg.evaluate(CAMINFO)
-            R.note('%s 10 秒：%s；鏡頭 %s' % (tag, J(f), J(c)))
+            R.note('%s 10 秒（暖身 %s 秒以後）：%s；鏡頭 %s' % (tag, WARM, J(f), J(c)))
             out['perf'].append({'where': nm, 'pos': [x, z], 'cam': c, **f})
         with open(os.path.join(OUT, 'offbeat_shots.json'), 'w', encoding='utf-8') as fo:
             json.dump(out, fo, ensure_ascii=False, indent=1)
