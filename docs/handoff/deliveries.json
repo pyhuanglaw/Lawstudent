@@ -17500,6 +17500,32 @@
    "task": "WINVIEW-AUDIT-1105",
    "integration": "已整合待測試",
    "note": "LAWWW-B 03:5x 套 patch 接進 claude/modest-rubin-2lyp7g；兩包一起套"
+  },
+  {
+   "id": "DL-LAWWW2-7e8e59883",
+   "date": "2026-11-07T04:01Z",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "7e8e59883",
+   "msg": "ACTIONED",
+   "what": "健身中心的門（gym_b1.glb 門框、招牌、門扇、貼條、地墊＋光照重烘）",
+   "task": "GYM-FIT-1107",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 04:0x checkout 四個資產＋套 gym_fit_door_1107.patch"
+  },
+  {
+   "id": "DL-AA-c47f8ab4d",
+   "date": "2026-11-07T04:05Z",
+   "from": "AA",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c47f8ab4d",
+   "msg": "ACTIONED",
+   "what": "AA_707 一起念書第 1～6 次＋輪換（七位；c47f8ab4d 修以安第 1 場、語彤第 5 場 alt.opts）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "integration": "已整合待測試",
+   "note": "49d01b2b2、05d8a816e 被這一版取代；白名單 c47f8ab4d"
   }
  ],
  "ignored": [

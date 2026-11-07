@@ -4693,12 +4693,18 @@
   },
   {
    "path": "docs/story_planning/AA_707_study_scenes.json",
-   "sha": "05d8a816e",
+   "sha": "c47f8ab4d",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 03:58「AA_707 七位全部完成」，line_lint 0 條）",
+   "approvedBy": "AA-B D109（11-07 04:05「A 改好」：以安第 1 場不重複翻手機、語彤第 5 場 alt.opts）",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
-   "note": "七位一起念書第 1～6 次＋輪換 6 則；tools/story/import_study_scenes.py → src/data/study_scenes.js（第一批 49d01b2b2 被這一版取代）"
+   "note": "七位一起念書第 1～6 次＋輪換 6 則；tools/story/import_study_scenes.py → src/data/study_scenes.js（第一批 49d01b2b2 被這一版取代）",
+   "history": [
+    {
+     "sha": "05d8a816e",
+     "approvedBy": "（11-07 04:05 以前的版本；c47f8ab4d 取代：以安第 1 場旁白、語彤第 5 場 alt 改成完整 opts）"
+    }
+   ]
   }
  ]
 }

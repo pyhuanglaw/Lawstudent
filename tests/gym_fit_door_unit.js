@@ -1,0 +1,57 @@
+// 健身中心的玻璃門看得出是門（GYM-FIT-1107：使用者 11-07 試玩「健身房都是玻璃門 門不夠明顯」；LAWWW2-B）——不需要瀏覽器，讀 gym_b1.glb。
+// 原本：走廊南邊整排落地玻璃，門只是少一片玻璃（門框和旁邊的玻璃框一樣細），從走廊看不出哪裡是門；門口還有一條 8 cm 的下框橫過去。
+// 這一版（tools/blender/env_second/gym_b1.py）：粗的深色門框＋門楣、走廊那一面的自動門機箱貼「健身中心」招牌（會亮、朝走廊、字不左右相反）、
+//   兩片拉開停在門兩邊的玻璃門扇、整排玻璃的防撞貼條、門口走廊那一側的地墊；導航不變（門口照舊開著）。
+//   ① 招牌：在門的正上方、朝走廊（−z）、會發光、字不是左右相反（人往 +z 看，+x 在左手邊：u＝0 在 x 大的那一邊）
+//   ② 防撞貼條：在玻璃牆那一組（WALL_fitN_，跟牆一起淡出），門的兩邊都有
+//   ③ 地墊：在門口、走廊那一側（z < 3）、貼地（高 ≤ 2 cm）
+//   ④ 門口真的是開的：從走廊往健身中心打水平射線（x 3.4／4.1／4.8 × 高 0.3／1.0／1.8 m），什麼都沒打到（沒有看不見的玻璃、下框）
+//   ⑤ 對照：旁邊的固定玻璃（x 1.0、−2.0）同樣的射線會打到玻璃
+//   ⑥ 版面沒動：器材 22、入口道具 8（gym_b1.json）
+// 修改前（開發分支 77195b12a 的 gym_b1.glb）：① ② ③ FAIL（④ ⑤ ⑥ 是不退步的檢查，原本就 PASS：原本的下框只有 8 cm 高）。用法：node tests/gym_fit_door_unit.js
+const fs=require('fs'), path=require('path');
+const ROOT=path.resolve(__dirname,'..');
+let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+const buf=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/gym_b1.glb'));
+const jl=buf.readUInt32LE(12), J=JSON.parse(buf.slice(20,20+jl).toString('utf8')), bin0=20+jl+8;
+const nodes=J.nodes||[], mats=J.materials||[];
+const FX0=3.2, FX1=5.0, ZF=3.0;
+const acc=(ai)=>{ const a=J.accessors[ai], v=J.bufferViews[a.bufferView], k={SCALAR:1,VEC2:2,VEC3:3,VEC4:4}[a.type], off=bin0+(v.byteOffset||0)+(a.byteOffset||0), out=[];
+  const sz={5126:4,5125:4,5123:2,5121:1}[a.componentType], st=v.byteStride||k*sz, rd={5126:o=>buf.readFloatLE(o),5125:o=>buf.readUInt32LE(o),5123:o=>buf.readUInt16LE(o),5121:o=>buf.readUInt8(o)}[a.componentType];
+  for(let i=0;i<a.count;i++){ const r=[]; for(let j=0;j<k;j++) r.push(rd(off+i*st+j*sz)); out.push(k===1?r[0]:r); } return out; };
+// 節點的世界矩陣（TRS／matrix，沿父節點往上乘）
+const mul=(A,B)=>{ const C=new Array(16).fill(0); for(let r=0;r<4;r++) for(let c=0;c<4;c++) for(let k=0;k<4;k++) C[c*4+r]+=A[k*4+r]*B[c*4+k]; return C; };
+const local=n=>{ if(n.matrix) return n.matrix.slice(); const t=n.translation||[0,0,0], q=n.rotation||[0,0,0,1], s=n.scale||[1,1,1], [x,y,z,w]=q;
+  return [(1-2*(y*y+z*z))*s[0],(2*(x*y+z*w))*s[0],(2*(x*z-y*w))*s[0],0,(2*(x*y-z*w))*s[1],(1-2*(x*x+z*z))*s[1],(2*(y*z+x*w))*s[1],0,(2*(x*z+y*w))*s[2],(2*(y*z-x*w))*s[2],(1-2*(x*x+y*y))*s[2],0,t[0],t[1],t[2],1]; };
+const parent={}; nodes.forEach((n,i)=>(n.children||[]).forEach(c=>parent[c]=i));
+const world=i=>{ let M=local(nodes[i]); for(let p=parent[i];p!=null;p=parent[p]) M=mul(local(nodes[p]),M); return M; };
+const xf=(M,v)=>[M[0]*v[0]+M[4]*v[1]+M[8]*v[2]+M[12],M[1]*v[0]+M[5]*v[1]+M[9]*v[2]+M[13],M[2]*v[0]+M[6]*v[1]+M[10]*v[2]+M[14]];
+const meshes=[]; nodes.forEach((n,i)=>{ if(n.mesh==null||(n.extensions&&n.extensions.EXT_mesh_gpu_instancing)) return; const M=world(i);
+  for(const pr of J.meshes[n.mesh].primitives){ const P=acc(pr.attributes.POSITION).map(v=>xf(M,v)), I=pr.indices!=null?acc(pr.indices):P.map((_,k)=>k);
+    meshes.push({name:n.name||'', mat:mats[pr.material]||{}, P, I, T:pr.attributes.TEXCOORD_0!=null?acc(pr.attributes.TEXCOORD_0):null}); } });
+const bb=m=>{ const lo=[1e9,1e9,1e9], hi=[-1e9,-1e9,-1e9]; for(const p of m.P) for(let k=0;k<3;k++){ lo[k]=Math.min(lo[k],p[k]); hi[k]=Math.max(hi[k],p[k]); } return {lo,hi}; };
+{ const s=meshes.find(m=>/fit_door_sign/.test(m.name)||/fit_sign/.test(m.mat.name||''));
+  let ok=false, info='沒有招牌'; if(s){ const b=bb(s), cx=(b.lo[0]+b.hi[0])/2, emis=!!(s.mat.emissiveFactor&&s.mat.emissiveFactor.some(v=>v>0))||!!s.mat.emissiveTexture;
+    const a=s.P[s.I[0]], c=s.P[s.I[1]], d=s.P[s.I[2]], u=[c[0]-a[0],c[1]-a[1],c[2]-a[2]], v=[d[0]-a[0],d[1]-a[1],d[2]-a[2]], nz=u[0]*v[1]-u[1]*v[0];
+    const k0=s.T.findIndex(t=>Math.abs(t[0])<1e-4), notMirror=k0>=0&&s.P[k0][0]>cx;
+    ok=cx>FX0&&cx<FX1&&b.lo[1]>2.1&&b.hi[2]<ZF&&nz<0&&emis&&notMirror;
+    info=`中心 x ${cx.toFixed(2)}、y ${b.lo[1].toFixed(2)}～${b.hi[1].toFixed(2)}、z ${b.hi[2].toFixed(3)}、朝 ${nz<0?'−z（走廊）':'+z'}、發光 ${emis}、字 ${notMirror?'正':'左右相反'}`; }
+  check('① 門的正上方有「健身中心」招牌：朝走廊、會發光、字不是左右相反', ok, info); }
+{ const f=meshes.filter(m=>/frost/.test(m.mat.name||'')), inWall=f.some(m=>/^WALL_fitN_/.test(m.name));
+  const xs=[]; for(const m of f) for(const p of m.P) if(Math.abs(p[2]-ZF)<0.05) xs.push(p[0]);
+  check('② 防撞貼條在玻璃牆那一組（WALL_fitN_）、門的兩邊都有', inWall&&xs.some(x=>x<FX0-0.5)&&xs.some(x=>x>FX1+0.5), f.map(m=>m.name).join('、')||'沒有'); }
+{ const m=meshes.find(q=>/door_mat/.test(q.mat.name||'')); let ok=false, info='沒有地墊'; if(m){ const b=bb(m); ok=b.lo[0]<=FX0+0.01&&b.hi[0]>=FX1-0.01&&b.hi[2]<ZF&&b.hi[1]<=0.02&&b.lo[1]>=-0.01; info=`x ${b.lo[0].toFixed(2)}～${b.hi[0].toFixed(2)}、z ${b.lo[2].toFixed(2)}～${b.hi[2].toFixed(2)}、高 ${b.hi[1].toFixed(3)}`; }
+  check('③ 門口走廊那一側有地墊（貼地、蓋住整個門寬）', ok, info); }
+// 射線（Möller–Trumbore）：從走廊 z 2.0 往健身中心 z 4.0
+const hit=(o,dz)=>{ const out=[]; const D=[0,0,dz]; for(const m of meshes){ for(let t=0;t<m.I.length;t+=3){ const a=m.P[m.I[t]], b=m.P[m.I[t+1]], c=m.P[m.I[t+2]];
+      const e1=[b[0]-a[0],b[1]-a[1],b[2]-a[2]], e2=[c[0]-a[0],c[1]-a[1],c[2]-a[2]], p=[D[1]*e2[2]-D[2]*e2[1],D[2]*e2[0]-D[0]*e2[2],D[0]*e2[1]-D[1]*e2[0]], det=e1[0]*p[0]+e1[1]*p[1]+e1[2]*p[2];
+      if(Math.abs(det)<1e-12) continue; const inv=1/det, s=[o[0]-a[0],o[1]-a[1],o[2]-a[2]], u=(s[0]*p[0]+s[1]*p[1]+s[2]*p[2])*inv; if(u<0||u>1) continue;
+      const q=[s[1]*e1[2]-s[2]*e1[1],s[2]*e1[0]-s[0]*e1[2],s[0]*e1[1]-s[1]*e1[0]], v=(D[0]*q[0]+D[1]*q[1]+D[2]*q[2])*inv; if(v<0||u+v>1) continue;
+      const tt=(e2[0]*q[0]+e2[1]*q[1]+e2[2]*q[2])*inv; if(tt>0&&tt<1){ out.push(m.name+'('+(m.mat.name||'')+')'); break; } } } return out; };
+{ const bad=[]; for(const x of [3.4,4.1,4.8]) for(const y of [0.3,1.0,1.8]){ const h=hit([x,y,2.0],2.0); if(h.length) bad.push(`(${x},${y})→${h.join('、')}`); }
+  check('④ 門口是開的：9 條水平射線從走廊到健身中心都沒打到東西', !bad.length, bad.slice(0,4).join('；')); }
+{ const ok=[[1.0,1.0],[-2.0,1.8]].every(([x,y])=>hit([x,y,2.0],2.0).some(n=>/glass|frost/.test(n)));
+  check('⑤ 對照：旁邊的固定玻璃，同樣的射線打得到玻璃', ok); }
+{ const info=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/gym_b1.json'),'utf8'));
+  check('⑥ 器材、入口道具照舊（22／8 件，版面 v5）', info.equipment===22&&info.entryProps===8&&info.layout===5, info.equipment+'／'+info.entryProps+'，v'+info.layout); }
+console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

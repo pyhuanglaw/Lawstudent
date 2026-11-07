@@ -1,8 +1,8 @@
-// 一起念書第 N 次（STUDY-DATE-PROGRESS-1107，USER_WANTS X263；台詞 AA_707 05d8a816e；規則 AA_706 第 1 節）——不需要瀏覽器（D131）。
+// 一起念書第 N 次（STUDY-DATE-PROGRESS-1107，USER_WANTS X263；台詞 AA_707 c47f8ab4d；規則 AA_706 第 1 節）——不需要瀏覽器（D131）。
 // 使用者 11-07：「總部的每次念書都講一樣的話吧……就算一起念書五次還是覺得很不熟啊 我希望每一次念書或者一起活動都要有不同 進展的感覺 會觸發劇情 然後看第幾次可以告白?」
 // 使用者 11-07 03:4x（對 AA-B，UA-AA-1107-04）：「第6次算一次約會」。
 // 檢查：
-//   0. src/data/study_scenes.js 和 AA_707@05d8a816e 一致（tools/story/import_study_scenes.py --check）；七位都有第 1～6 場
+//   0. src/data/study_scenes.js 和 AA_707@c47f8ab4d 一致（tools/story/import_study_scenes.py --check）；七位都有第 1～6 場
 //   1. 第 1～6 場依序演、一天只算一次（同一天第二次＝一般句、不算）
 //   2. 階段不夠（第 3 場要 ≥3）：演一般句、次數照算、下一場不跳過；階段到了接著演第 3 場
 //   3. 選項：照選的加減好感、播她的回話
@@ -27,7 +27,7 @@ const next=G=>{ G.day+=1; };
 (async()=>{
   /* ---- 0 匯入一致 ---- */
   { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_study_scenes.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
-    check('0. src/data/study_scenes.js 和 AA_707@05d8a816e 一致（import_study_scenes.py --check）',ok1&&ok2&&ok,out.trim().slice(0,200));
+    check('0. src/data/study_scenes.js 和 AA_707@c47f8ab4d 一致（import_study_scenes.py --check）',ok1&&ok2&&ok,out.trim().slice(0,200));
     const ids=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'];
     check('0. 七位都有第 1～6 場＋輪換 6 則',ids.every(id=>SC[id]&&[1,2,3,4,5,6].every(k=>T(id,k)&&T(id,k).seat.length&&T(id,k).mid.length)&&SC[id].rot.length===6),JSON.stringify(Object.keys(SC))); }
   if(!ok2){ H.done(); return; }
