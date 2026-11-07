@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "FITMORPH_41bf",
+  "sha": "41bfc5cbe635a410046dba106e14575e9474f4ee",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_fitmorph_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T14:30:38",
+  "end": "2026-11-07T14:35:52",
+  "seconds": 314,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "16",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 20,
+    "mem": 50,
+    "used_gb": 15.9,
+    "chrome_testing": 10
+  }
+}

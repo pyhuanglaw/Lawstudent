@@ -622,3 +622,20 @@
 [14:30:41] [res] cpu=0% mem=38% (11.9/31.4 GB) chrome_testing=0  START FITMORPH_41bf
 [14:30:41] [res] cpu=0% mem=38% (11.9/31.4 GB) chrome_testing=0  START GYM3F_HOOP_41bf
 [14:33:03] [res] cpu=1% mem=44% (14.0/31.4 GB) chrome_testing=5  END GYM3F_HOOP_41bf
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       fa49e0395..bc7f43754  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:33:10] ==== END   GYM3F_HOOP_41bf  exit=0  145s   ====
+[14:33:16] memory 43% before starting SPORTSWEAR_0f4b (1 running)
+[14:33:16] blender item MD_tx_v3 waits until the 2 running item(s) finish; other items go first
+[14:33:16] blender item MD_dabu_v1 waits until the 2 running item(s) finish; other items go first
+[14:33:16] blender item MD_haopai_v1 waits until the 2 running item(s) finish; other items go first
+[14:33:16] blender item MD_xinsheng_v1 waits until the 2 running item(s) finish; other items go first
+[14:33:16] blender item MD_xinsheng_v2 waits until the 2 running item(s) finish; other items go first
+[14:33:16] blender item MD_tx_v2 waits until the 2 running item(s) finish; other items go first
+[14:33:16] blender item MD_tx_v2b waits until the 2 running item(s) finish; other items go first
+[14:33:16] ==== START SPORTSWEAR_0f4b  (probe @ 0f4b0394a0fdbae5c48a5107a960bb9a5e05569b) ====
+[14:33:19] [res] cpu=0% mem=43% (13.7/31.4 GB) chrome_testing=5  START SPORTSWEAR_0f4b
+[14:33:19] worktree add 0f4b0394a0fdbae5c48a5107a960bb9a5e05569b: invalid reference - fetching main and the commit itself
+[14:35:38] 正在跑：FITMORPH_41bf（已跑 4 分／上限 40 分）、SPORTSWEAR_0f4b（已跑 2 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:35:52] [res] cpu=2% mem=45% (14.1/31.4 GB) chrome_testing=5  END FITMORPH_41bf

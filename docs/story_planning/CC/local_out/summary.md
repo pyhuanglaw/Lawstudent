@@ -1654,3 +1654,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 160.8s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 160.9s] BROWSER DISCONNECTED
 - 2026-11-07T14:33:03  GYM3F_HOOP_41bf  sha=41bfc5cbe635a410046dba106e14575e9474f4ee  exit=0  145s      [  88.2s] [截圖] hoop_ceremony_stands：鏡頭 {"eye": [24, 6, -6.43], "look": [0, 3.05, -14.43], "lens": 28, "vfov": 39.76}、亮度 [73.3, 60.7] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 88.7s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 88.7s] BROWSER DISCONNECTED
+- 2026-11-07T14:35:52  FITMORPH_41bf  sha=41bfc5cbe635a410046dba106e14575e9474f4ee  exit=0  314s    PASS [fit 90] 坐下那一組拍到了 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 279.9s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 279.9s] BROWSER DISCONNECTED
