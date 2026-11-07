@@ -142,7 +142,9 @@ async def load_zone(pg, cdp, zone, day_key, h=14.0, x=None, z=None, yaw=None, lv
     d = await pg.evaluate("(k=>{ if(typeof STORY!=='undefined'&&STORY.dayOfKey) return STORY.dayOfKey(k); for(let d=0;d<4000;d++){ try{ if(CALENDAR.dateOf(d).key===k) return d; }catch(e){} } return null; })('%s')" % day_key)   # 舊一點的分支沒有 STORY.dayOfKey（PC 11-05 DORM_WALL_after 4eada314b）
     st0 = {'zone': zone, 'hour': h, 'day': d, 'weather': 'clear'}
     if x is not None: st0['pos'] = {'x': x, 'z': z, 'yaw': yaw if yaw is not None else 0.0, 'lv': lv}
-    await L.load_state(pg, st0, quiet_events=True, quiet_phone=True)
+    try: await L.load_state(pg, st0, quiet_events=True, quiet_phone=True)
+    except TypeError:   # CC-B 11-07：舊版本（例 9ef8a17cf）的 playlib.load_state 沒有 quiet_phone 參數（LZLM 兩版都例外）；quiet_events=True 本來就會關手機自己打開
+        await L.load_state(pg, st0, quiet_events=True)
     await pg.wait_for_timeout(wait); await L.close_panels(pg, cdp)
     return await st(pg)
 
