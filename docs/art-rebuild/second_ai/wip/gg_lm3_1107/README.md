@@ -61,7 +61,10 @@ AA 的店裡，燈位是 `GLOW_<種類>_<編號>` 空節點（extras 有 `glow` 
 ![光照貼圖（六間，白天｜晚上）](lm_maps.jpg)
 
 ## 測試（Node，D131）
-（跑完補）
+- `gg_new_lm_unit.js`（加六間：SUNNY SIDE、小路、木曜日、一盞、日常失速、阿德；一盞的牆是 back／engawa／left／right，阿德的牆含 `_inst` 節點）：開發原樣 **FAILED 6**（這六間沒有 `extras.lightmap`）→ 加這批 **ALL PASS**。
+- 和這六間、店內光照、`attachRoomGLB` 有關的 **77 支全部過**（開發 `4172db1e0`＋這批六間的 GLB／webp＋測試 patch 的工作樹；清單：提到這六間或它們的區域、用 `attachRoomGLB`／`roomLightmap`／`extras.lightmap`／`lightMap` 的測試）。
+- 遊戲程式沒改，所以沒有 patch；只有測試 patch。
+- 瀏覽器沒跑（D131，交 CC）。
 
 ## 還沒驗
 1. **遊戲內**（CC 拍、BB 判）：六間白天、晚上，從店門往裡看、往窗外看。
