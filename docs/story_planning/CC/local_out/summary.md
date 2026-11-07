@@ -1606,3 +1606,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 125.2s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 125.3s] BROWSER DISCONNECTED
 - 2026-11-07T13:11:14  POOL_TALK_fix  sha=b550eb6c18076bef376794a8971bc405ba8b1185  exit=0  199s      [ 141.0s] [截圖] pool_desk：鏡頭 {"eye": [18, 1.7, -3.5], "look": [21, 1, 0], "lens": 22, "vfov": 49.43}、亮度 [113, 73.2] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 141.5s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 141.5s] BROWSER DISCONNECTED
+- 2026-11-07T13:11:57  POOL_TALK_before  sha=3b170607e  exit=0  182s      [ 141.2s] [截圖] pool_desk：鏡頭 {"eye": [18, 1.7, -3.5], "look": [21, 1, 0], "lens": 22, "vfov": 49.43}、亮度 [113, 73.2] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 141.7s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 141.7s] BROWSER DISCONNECTED
