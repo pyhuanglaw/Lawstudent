@@ -170,7 +170,7 @@ const ARC_INV={
    "travelH": 0.08333333333333333,
    "bg": [
     "新體育館 B1・健身中心",
-    null
+    "gym_b1_fitness"
    ],
    "bgAt": []
   },

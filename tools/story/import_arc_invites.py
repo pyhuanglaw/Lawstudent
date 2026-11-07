@@ -18,7 +18,7 @@ CFG = {
     'heroine_03:7': {'offer': {'dd': 2, 'h': 21}, 'day': 'sat', 'hours': 4, 'travelH': 55 / 60,
                      'bg': ['淡水', 'd13_base_sunset'], 'bgAt': []},
     'heroine_04:3': {'offer': {'dd': 1, 'h': 20}, 'day': 'nextwed', 'hours': 1.5, 'travelH': 5 / 60,
-                     'bg': ['新體育館 B1・健身中心', None], 'bgAt': []},
+                     'bg': ['新體育館 B1・健身中心', 'gym_b1_fitness'], 'bgAt': []},   # LAWWW2-B AA716-GYM-BG（1c5696b4b）
     'heroine_05:3': {'offer': {'dd': 0, 'h': 21.5}, 'day': 'same', 'hours': 1, 'travelH': 0.1,
                      'bg': ['總圖門口', 'library_gate_night'], 'bgAt': [['椰影大道', '首都帝大・椰影大道', 'ntu_avenue'], ['映月湖', '映月湖', 'zuiyue_night']]},
     'heroine_05:7': {'offer': {'dd': 2, 'h': 21}, 'day': 'fri', 'hours': 1.5, 'travelH': 10 / 60,

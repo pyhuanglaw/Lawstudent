@@ -26,6 +26,8 @@ const goOut=async(G,key,picks)=>{ const q=OUT.get(G,'arcinv_'+key.replace(':','_
   { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_arc_invites.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
     check('0. src/data/arc_invites.js 和 AA_716@026a2dd34 一致（import_arc_invites.py --check）',ok1&&ok2&&ok,out.trim().slice(0,200));
     check('0. 7 個約都有 outing 事件',ok2&&ARC_INV.list.length===7&&ARC_INV.list.every(e=>STORY_EVENTS.some(x=>x.id===ARCINV.evId(e.key)&&x.trigger==='outing')),J(ok1&&ARC_INV.list.map(e=>e.key))); }
+  { const ids=[]; for(const e of ARC_INV.list){ if(e.bg[1]) ids.push(e.bg[1]); for(const x of e.bgAt) if(x[2]) ids.push(x[2]); } const miss=ids.filter(id=>!(OUT.BG[id]&&OUT.BG[id].image&&fs.existsSync(path.join(H.ROOT,OUT.BG[id].image))));
+    check('0. 每一場的背景（含中途換的）都在 OUT.BG、圖檔存在；子晴健身房＝gym_b1_fitness（LAWWW2 AA716-GYM-BG）',!miss.length&&ARC_INV.list.find(e=>e.key==='heroine_04:3').bg[1]==='gym_b1_fitness',J(miss)); }
   if(!ok2){ H.done(); return; }
   const YT='heroine_03', KYT='heroine_03:7', EY=ARCINV.get(KYT);
   /* 1 */
