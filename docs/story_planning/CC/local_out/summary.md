@@ -1682,3 +1682,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 241.0s] BROWSER DISCONNECTED | [gpu_wrap 289.3s] page close url=http://127.0.0.1:8801/index.html?perf | [gpu_wrap 289.3s] BROWSER DISCONNECTED | [gpu_wrap 351.9s] page close url=http://127.0.0.1:8801/index.html?perf | [gpu_wrap 351.9s] BROWSER DISCONNECTED
 - 2026-11-07T15:45:37  HAIR_FIX  sha=62d7f3b5412fc940da37c20669b6ec201aa754df  exit=1  351s    FAIL [campus@11] 探針沒有例外  ValueError('Circular reference detected') / PASS 沒有 JS 例外  [] / FAILED 1: [campus@11] 探針沒有例外
       err.log (last 5): [gpu_wrap 300.7s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 300.7s] BROWSER DISCONNECTED
+- 2026-11-07T15:59:21  HAIR_FIX_v2  sha=62d7f3b5412fc940da37c20669b6ec201aa754df  exit=0  177s      [campus] 總覽 hair_overview_campus11_n0.6_tex.png（6 人 × 5 張） / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 144.7s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 144.7s] BROWSER DISCONNECTED

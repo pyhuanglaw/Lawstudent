@@ -1,0 +1,47 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_hair_fix_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\HAIR_FIX_v2\out
+CC 頭髮對照 player,heroine_01,heroine_02,heroine_03,heroine_04,heroine_05；campus@11；做法 n0.6,n0.6+tex；SHA=62d7f3b5412fc940da37c20669b6ec201aa754df；Playwright，不是手機實機
+PASS 遊戲載入  19.5 秒
+== campus（11:00）
+  [前置／捷徑] 讀檔：校園椰林大道 (-60.0, 0.0)、2025-09-23（二）11:00、晴、條件事件關閉
+PASS [campus] 進到區域  campus
+  [campus] 場景 mesh 1200；人物站在 (-60.00, 0.00)
+  [campus] player（祐廷）：{"id": "player", "driver": "vrm", "model": "char.yuting", "made": false, "head": [-59.999, 1.51, 0.027], "pos": [-60, 0]}
+PASS [campus] player 是 VRM（driver vrm）  {"id": "player", "driver": "vrm", "model": "char.yuting", "made": false, "head": [-59.999, 1.51, 0.027], "pos": [-60, 0]}
+  [campus] player 做法 n0.6：{"fix": "n0.6", "k": 0.6, "tex": false, "meshes": 1, "verts": 7725, "texs": 0, "skip": [], "center": [-0.0, 1.667, -0.005]}
+PASS [campus] player 做法 n0.6 有改到  {"fix": "n0.6", "k": 0.6, "tex": false, "meshes": 1, "verts": 7725, "texs": 0, "skip": [], "center": [-0.0, 1.667, -0.005]}
+  [campus] player 做法 n0.6+tex：{"fix": "n0.6+tex", "k": 0.6, "tex": true, "meshes": 1, "verts": 7725, "texs": 1, "skip": [], "center": [-0.0, 1.667, -0.005]}
+PASS [campus] player 做法 n0.6+tex 有改到  {"fix": "n0.6+tex", "k": 0.6, "tex": true, "meshes": 1, "verts": 7725, "texs": 1, "skip": [], "center": [-0.0, 1.667, -0.005]}
+  [campus] heroine_01（沈以安）：{"id": "heroine_01", "driver": "vrm", "model": "char.heroine_01", "made": true, "head": [-59.999, 1.409, 0.014], "pos": [-60, 0]}
+PASS [campus] heroine_01 是 VRM（driver vrm）  {"id": "heroine_01", "driver": "vrm", "model": "char.heroine_01", "made": true, "head": [-59.999, 1.409, 0.014], "pos": [-60, 0]}
+  [campus] heroine_01 做法 n0.6：{"fix": "n0.6", "k": 0.6, "tex": false, "meshes": 2, "verts": 8553, "texs": 0, "skip": [], "center": [0.001, 1.536, 0.003]}
+PASS [campus] heroine_01 做法 n0.6 有改到  {"fix": "n0.6", "k": 0.6, "tex": false, "meshes": 2, "verts": 8553, "texs": 0, "skip": [], "center": [0.001, 1.536, 0.003]}
+  [campus] heroine_01 做法 n0.6+tex：{"fix": "n0.6+tex", "k": 0.6, "tex": true, "meshes": 2, "verts": 8553, "texs": 2, "skip": [], "center": [0.001, 1.536, 0.003]}
+PASS [campus] heroine_01 做法 n0.6+tex 有改到  {"fix": "n0.6+tex", "k": 0.6, "tex": true, "meshes": 2, "verts": 8553, "texs": 2, "skip": [], "center": [0.001, 1.536, 0.003]}
+  [campus] heroine_02（林芷若）：{"id": "heroine_02", "driver": "vrm", "model": "char.heroine_02", "made": false, "head": [-60.002, 1.389, 0.015], "pos": [-60, 0]}
+PASS [campus] heroine_02 是 VRM（driver vrm）  {"id": "heroine_02", "driver": "vrm", "model": "char.heroine_02", "made": false, "head": [-60.002, 1.389, 0.015], "pos": [-60, 0]}
+  [campus] heroine_02 做法 n0.6：{"fix": "n0.6", "k": 0.6, "tex": false, "meshes": 1, "verts": 9600, "texs": 0, "skip": [], "center": [-0.0, 1.606, 0.008]}
+PASS [campus] heroine_02 做法 n0.6 有改到  {"fix": "n0.6", "k": 0.6, "tex": false, "meshes": 1, "verts": 9600, "texs": 0, "skip": [], "center": [-0.0, 1.606, 0.008]}
+  [campus] heroine_02 做法 n0.6+tex：{"fix": "n0.6+tex", "k": 0.6, "tex": true, "meshes": 1, "verts": 9600, "texs": 1, "skip": [], "center": [-0.0, 1.606, 0.008]}
+PASS [campus] heroine_02 做法 n0.6+tex 有改到  {"fix": "n0.6+tex", "k": 0.6, "tex": true, "meshes": 1, "verts": 9600, "texs": 1, "skip": [], "center": [-0.0, 1.606, 0.008]}
+  [campus] heroine_03（陳語彤）：{"id": "heroine_03", "driver": "vrm", "model": "char.heroine_03", "made": true, "head": [-59.999, 1.348, 0.012], "pos": [-60, 0]}
+PASS [campus] heroine_03 是 VRM（driver vrm）  {"id": "heroine_03", "driver": "vrm", "model": "char.heroine_03", "made": true, "head": [-59.999, 1.348, 0.012], "pos": [-60, 0]}
+  [campus] heroine_03 做法 n0.6：{"fix": "n0.6", "k": 0.6, "tex": false, "meshes": 2, "verts": 17161, "texs": 0, "skip": [], "center": [0.002, 1.501, -0.011]}
+PASS [campus] heroine_03 做法 n0.6 有改到  {"fix": "n0.6", "k": 0.6, "tex": false, "meshes": 2, "verts": 17161, "texs": 0, "skip": [], "center": [0.002, 1.501, -0.011]}
+  [campus] heroine_03 做法 n0.6+tex：{"fix": "n0.6+tex", "k": 0.6, "tex": true, "meshes": 2, "verts": 17161, "texs": 2, "skip": [], "center": [0.002, 1.501, -0.011]}
+PASS [campus] heroine_03 做法 n0.6+tex 有改到  {"fix": "n0.6+tex", "k": 0.6, "tex": true, "meshes": 2, "verts": 17161, "texs": 2, "skip": [], "center": [0.002, 1.501, -0.011]}
+  [campus] heroine_04（高子晴）：{"id": "heroine_04", "driver": "vrm", "model": "char.heroine_04", "made": true, "head": [-59.999, 1.442, 0.014], "pos": [-60, 0]}
+PASS [campus] heroine_04 是 VRM（driver vrm）  {"id": "heroine_04", "driver": "vrm", "model": "char.heroine_04", "made": true, "head": [-59.999, 1.442, 0.014], "pos": [-60, 0]}
+  [campus] heroine_04 做法 n0.6：{"fix": "n0.6", "k": 0.6, "tex": false, "meshes": 3, "verts": 9239, "texs": 0, "skip": [], "center": [0.005, 1.592, -0.028]}
+PASS [campus] heroine_04 做法 n0.6 有改到  {"fix": "n0.6", "k": 0.6, "tex": false, "meshes": 3, "verts": 9239, "texs": 0, "skip": [], "center": [0.005, 1.592, -0.028]}
+  [campus] heroine_04 做法 n0.6+tex：{"fix": "n0.6+tex", "k": 0.6, "tex": true, "meshes": 3, "verts": 9239, "texs": 3, "skip": [], "center": [0.005, 1.592, -0.028]}
+PASS [campus] heroine_04 做法 n0.6+tex 有改到  {"fix": "n0.6+tex", "k": 0.6, "tex": true, "meshes": 3, "verts": 9239, "texs": 3, "skip": [], "center": [0.005, 1.592, -0.028]}
+  [campus] heroine_05（溫書瑀）：{"id": "heroine_05", "driver": "vrm", "model": "char.heroine_05", "made": true, "head": [-59.998, 1.461, 0.014], "pos": [-60, 0]}
+PASS [campus] heroine_05 是 VRM（driver vrm）  {"id": "heroine_05", "driver": "vrm", "model": "char.heroine_05", "made": true, "head": [-59.998, 1.461, 0.014], "pos": [-60, 0]}
+  [campus] heroine_05 做法 n0.6：{"fix": "n0.6", "k": 0.6, "tex": false, "meshes": 2, "verts": 12468, "texs": 0, "skip": [], "center": [0.003, 1.53, 0.001]}
+PASS [campus] heroine_05 做法 n0.6 有改到  {"fix": "n0.6", "k": 0.6, "tex": false, "meshes": 2, "verts": 12468, "texs": 0, "skip": [], "center": [0.003, 1.53, 0.001]}
+  [campus] heroine_05 做法 n0.6+tex：{"fix": "n0.6+tex", "k": 0.6, "tex": true, "meshes": 2, "verts": 12468, "texs": 2, "skip": [], "center": [0.003, 1.53, 0.001]}
+PASS [campus] heroine_05 做法 n0.6+tex 有改到  {"fix": "n0.6+tex", "k": 0.6, "tex": true, "meshes": 2, "verts": 12468, "texs": 2, "skip": [], "center": [0.003, 1.53, 0.001]}
+  [campus] 總覽 hair_overview_campus11_n0.6.png（6 人 × 5 張）
+  [campus] 總覽 hair_overview_campus11_n0.6_tex.png（6 人 × 5 張）
+PASS 沒有 JS 例外  []
+ALL PASS
