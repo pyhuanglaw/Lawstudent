@@ -1688,3 +1688,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 174.9s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 174.9s] BROWSER DISCONNECTED
 - 2026-11-07T16:14:32  FA05_NIGHT  sha=fa05ed8c5c5c5b3d298a09b3b1d0925696f8ee23  exit=0  266s      [ 192.1s] [截圖] gymdome_plaza_day：鏡頭 {"eye": [-101.4, 1.7, -134.2], "look": [-75, 6, -133.4], "lens": 24, "vfov": 45.75}、亮度 [94.5, 45.6] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 192.6s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 192.6s] BROWSER DISCONNECTED
+- 2026-11-07T16:27:39  GYMBG_7921  sha=79214e4e10275fb47c0d95ec667cab2964b77b5c  exit=0  146s      [  95.7s] [landscape] 這一場沒有選項（或沒等到） / PASS [landscape] 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 48.9s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 48.9s] BROWSER DISCONNECTED | [gpu_wrap 96.2s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 96.2s] BROWSER DISCONNECTED

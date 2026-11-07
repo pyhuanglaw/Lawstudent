@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GYMBG_7921",
+  "sha": "79214e4e10275fb47c0d95ec667cab2964b77b5c",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gymbg_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T16:25:13",
+  "end": "2026-11-07T16:27:39",
+  "seconds": 146,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "28",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 9,
+    "mem": 45,
+    "used_gb": 14.4,
+    "chrome_testing": 5
+  }
+}

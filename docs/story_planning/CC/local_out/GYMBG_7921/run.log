@@ -1,0 +1,35 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gymbg_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GYMBG_7921\out
+CC GYMBG（陪子晴去健身房的對話畫面）：SHA=79214e4e10275fb47c0d95ec667cab2964b77b5c（worktree 實際 ?）；Playwright ≠ iPhone
+== portrait
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [portrait] 遊戲載入
+  [前置／捷徑] [portrait] 讀檔校園 2025-10-15 19:00；【捷徑】直接 EVENTS.run(ev_arcinv_heroine_04_3)（不走手機約、行程、出發）
+PASS [portrait] 這一版有 ev_arcinv_heroine_04_3（ARCINV.install）
+PASS [黑畫面] gymbg_portrait_narr 不是黑畫面（平均亮度 83.4、變化 37.1）  [83.4, 37.1]
+PASS [黑畫面] gymbg_portrait_dlg 不是黑畫面（平均亮度 96.7、變化 56.2）  [96.7, 56.2]
+  [  48.4s] [portrait] 截圖時的畫面：{"narr": {"dlg": [14, 750, 376, 830], "choices": null, "text": "（B1 的", "bg": "url(\"http://127.0.0.1:8800/assets/bg/gym_b1_fitness.webp\")", "bgRect": [0, 0, 390, 844], "ports": [], "who": "", "adv": true, "vw": 390, "vh": 844, "lum": [83.4, 37.1]}, "dlg": {"dlg": [14, 726, 376, 830], "choices": null, "text": "我來了。……你不要走。", "bg": "url(\"http://127.0.0.1:8800/assets/bg/gym_b1_fitness.webp\")", "bgRect": [0, 0, 390, 844], "ports": [{"id": "advR", "src": "7.0.0.1:8800/assets/portraits/heroine_04/campus/neutral.webp", "r": [0, 48, 390, 734], "op": 1}], "who": "高子晴", "adv": true, "vw": 390, "vh": 844, "lum": [96.7, 56.2]}}
+PASS [portrait] narr：背景是 gym_b1_fitness  "url(\"http://127.0.0.1:8800/assets/bg/gym_b1_fitness.webp\")"
+PASS [portrait] narr：不是黑畫面  [83.4, 37.1]
+PASS [portrait] dlg：背景是 gym_b1_fitness  "url(\"http://127.0.0.1:8800/assets/bg/gym_b1_fitness.webp\")"
+PASS [portrait] dlg：不是黑畫面  [96.7, 56.2]
+PASS [portrait] dlg：立繪 advR 的臉（上面 30%）沒有被對話框／選項蓋住（重疊 0 px²）  {"face": [0, 48, 390, 253], "dlg": [14, 726, 376, 830], "choices": null}
+PASS [portrait] 她說話、立繪出來的那一張拍到了  ["narr", "dlg"]
+  [  48.4s] [portrait] 這一場沒有選項（或沒等到）
+PASS [portrait] 沒有 JS 例外  []
+== landscape
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [landscape] 遊戲載入
+  [前置／捷徑] [landscape] 讀檔校園 2025-10-15 19:00；【捷徑】直接 EVENTS.run(ev_arcinv_heroine_04_3)（不走手機約、行程、出發）
+PASS [landscape] 這一版有 ev_arcinv_heroine_04_3（ARCINV.install）
+PASS [黑畫面] gymbg_landscape_narr 不是黑畫面（平均亮度 75.4、變化 39.7）  [75.4, 39.7]
+PASS [黑畫面] gymbg_landscape_dlg 不是黑畫面（平均亮度 78.2、變化 49）  [78.2, 49]
+  [  95.7s] [landscape] 截圖時的畫面：{"narr": {"dlg": [42, 296, 802, 376], "choices": null, "text": "（B1 的門", "bg": "url(\"http://127.0.0.1:8800/assets/bg/gym_b1_fitness.webp\")", "bgRect": [0, 0, 844, 390], "ports": [], "who": "", "adv": true, "vw": 844, "vh": 390, "lum": [75.4, 39.7]}, "dlg": {"dlg": [42, 272, 802, 376], "choices": null, "text": "我來了。……你不要走。", "bg": "url(\"http://127.0.0.1:8800/assets/bg/gym_b1_fitness.webp\")", "bgRect": [0, 0, 844, 390], "ports": [{"id": "advR", "src": "7.0.0.1:8800/assets/portraits/heroine_04/campus/neutral.webp", "r": [498, 6, 802, 513], "op": 1}], "who": "高子晴", "adv": true, "vw": 844, "vh": 390, "lum": [78.2, 49]}}
+PASS [landscape] narr：背景是 gym_b1_fitness  "url(\"http://127.0.0.1:8800/assets/bg/gym_b1_fitness.webp\")"
+PASS [landscape] narr：不是黑畫面  [75.4, 39.7]
+PASS [landscape] dlg：背景是 gym_b1_fitness  "url(\"http://127.0.0.1:8800/assets/bg/gym_b1_fitness.webp\")"
+PASS [landscape] dlg：不是黑畫面  [78.2, 49]
+PASS [landscape] dlg：立繪 advR 的臉（上面 30%）沒有被對話框／選項蓋住（重疊 0 px²）  {"face": [498, 6, 802, 158], "dlg": [42, 272, 802, 376], "choices": null}
+PASS [landscape] 她說話、立繪出來的那一張拍到了  ["narr", "dlg"]
+  [  95.7s] [landscape] 這一場沒有選項（或沒等到）
+PASS [landscape] 沒有 JS 例外  []
+ALL PASS
