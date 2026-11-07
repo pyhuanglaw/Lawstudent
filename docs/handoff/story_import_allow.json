@@ -4871,6 +4871,15 @@
    "task": "INVITE-PLACES-1107",
    "kind": "json",
    "note": "118 巷七家店 × 七位 acc／firstAt；可昕不去好家自助餐（no）；tools/story/import_place_acc.py → src/data/invite_place_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_722_study_unlock_slots.json",
+   "sha": "9bb7e3cc9",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 09:41「念書第 6 次的她那一格」）",
+   "task": "INVITE-PLACES-1107",
+   "kind": "json",
+   "note": "六格（以安小路一次性、芷若週六早場、語彤一盞下班後、子晴公館滷味、沛珊課輔班、可昕木柵圖書館）× acc／first／rot；tools/story/import_study_slots.py → src/data/study_slots.js"
   }
  ]
 }

@@ -409,7 +409,7 @@ const HEROINE_ARCS={
        "ansId": "PL_BRAVE"
       }
      ],
-     "after": "flag:AN_STUDY_SHOP",
+     "after": "flag:AN_SHOP1_DONE",
      "cite": {
       "PL_SISTER": [
        "你去台南找你姊姊了嗎？……你不用回答。我只是記得。"

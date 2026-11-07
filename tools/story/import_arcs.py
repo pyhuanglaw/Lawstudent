@@ -22,7 +22,7 @@ DKEY = re.compile(r'^[A-Za-z][A-Za-z0-9_]*$')
 STANCE = re.compile(r'^(push:[A-Za-z0-9_]+|support|space|tease)$')
 OPEN = re.compile(r'^(beat:\d+|place:[a-z0-9_]+|flag:[A-Z0-9_]+)$')
 COND = {
-    '以安手帳「想去的店」第一家那一場演過（AN_STUDY_SHOP，或 AA_587 第一家）': 'flag:AN_STUDY_SHOP',
+    '以安手帳「想去的店」第一家那一場演過（AN_STUDY_SHOP，或 AA_587 第一家）': 'flag:AN_SHOP1_DONE',   # AA_722（AA-B 11-07 09:41）：第一家那一場＝念書第 6 次解鎖的那一格（小路）演完記 AN_SHOP1_DONE，第 7 拍照這個
     '找公園的貓演過（AA_624；旗標照 LAWWW）': 'ytCats',
     "媽媽發現她打工（AA_624 事件 10'，大一下第 9 週）": 'ytMomKnows',
 }

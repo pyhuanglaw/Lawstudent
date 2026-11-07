@@ -93,9 +93,9 @@ const INV=(function(){
   S.placeWhy=function(G,id,P){ const W=D().why||{}; if(P&&P.noWho&&P.noWho[id]) return P.noWho[id];   /* 她不會去這家（AA_721：可昕平日在木柵，好家自助餐只開平日）：灰掉，說明是她那句 */ if(S.partnerBlock(G,id,P)) return (P.kind==='meal'?W.partnerMeal:(P.kind==='walk'?W.partnerWalk:(P.id==='teahouse'?W.partnerTea:null)))||W.partner||'';   /* AA 2026-10-14：照吃飯／散步分開說、告訴玩家可以怎麼約 */
     if(!placeOk(id,P,G)) return (P.kind==='meal'?W.meal:(P.kind==='walk'?W.walk:(P.kind==='sport'?(P.minStage==='FRIEND'?W.run:W.sport):W.stranger)))||'還不太熟';
     if(S.ticketShort(G,P)) return '錢不夠買電影票（'+NYS.PRICE+' 元）';   /* 看電影照自己去一樣買自己的票（INVITE-PLACES-1107，LAWWW-B 定）：錢不夠＝那一格灰掉 */ return ''; };
-  /* 電影票（南洋戲院；NYS＝src/nanyang_sys3d.js，票價照 AA_615 150 元）：今天已經買過就不再買 */
-  S.ticketShort=(G,P)=>!!P&&P.id==='xs_nanyang'&&typeof NYS!=='undefined'&&!!G&&!NYS.hasTicket(G)&&(G.money|0)<NYS.PRICE;
-  S.buyTicket=function(GM,G,P){ if(!P||P.id!=='xs_nanyang'||typeof NYS==='undefined'||!G||NYS.hasTicket(G)||(G.money|0)<NYS.PRICE) return 0; if(GM&&GM.money) GM.money(-NYS.PRICE,'電影票'); else G.money=(G.money|0)-NYS.PRICE; G.flags=G.flags||{}; G.flags.NY_TICKET=G.day|0; return NYS.PRICE; };
+  /* 電影票（南洋戲院；NYS＝src/nanyang_sys3d.js，票價照 AA_615 150 元）：今天已經買過就不再買；在南洋的約都算（一般的南洋、芷若的週六早場 slot_zr_morning_movie）*/
+  S.ticketShort=(G,P)=>!!P&&P.zone==='xs_nanyang'&&typeof NYS!=='undefined'&&!!G&&!NYS.hasTicket(G)&&(G.money|0)<NYS.PRICE;
+  S.buyTicket=function(GM,G,P){ if(!P||P.zone!=='xs_nanyang'||typeof NYS==='undefined'||!G||NYS.hasTicket(G)||(G.money|0)<NYS.PRICE) return 0; if(GM&&GM.money) GM.money(-NYS.PRICE,'電影票'); else G.money=(G.money|0)-NYS.PRICE; G.flags=G.flags||{}; G.flags.NY_TICKET=G.day|0; return NYS.PRICE; };
   /* 某一天某個時間，這個人照作息在做什麼（STORY.schedEnt，不含邀約本身）*/
   const entAt=(G,id,day,h)=>{ if(typeof STORY==='undefined'||!STORY.schedEnt) return null; const c=CHARACTERS[id]; if(!c) return null; return STORY.schedEnt(c,{day,hour:h,weekday:wdOf(G,day),flags:G.flags||{},noInvite:true}); };
   const busyAt=(G,id,day,h,stay)=>{ for(const t of [h,h+stay/2,h+stay-0.02]){ const e=entAt(G,id,day,t); if(e&&D().busyActs.includes(e.act)) return e; } return null; };
