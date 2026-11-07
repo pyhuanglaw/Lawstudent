@@ -4712,13 +4712,17 @@
   },
   {
    "path": "docs/story_planning/AA_710_gifts.json",
-   "sha": "4be26c44d",
+   "sha": "74aa33345",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 04:14：以安早餐那句「（她咬了一口，才說：）」，遊戲還沒有早餐店）",
+   "approvedBy": "AA-B D109（11-07 05:39「AA_710 第二版，請重匯」）",
    "task": "GIFT-FLIRT-1107",
    "kind": "json",
-   "note": "七位送飲料、早餐：yes（need 1／4）、no（一天第二次）、fav（芷若、子晴、學姊、可昕，AA_410）；tools/story/import_gifts.py → src/data/gift_lines.js",
+   "note": "第二版（BB_304 第 7 節）：七位送飲料、早餐：yes（need 1／4、dating 交往中；pool 兩三組輪流）、no（一天第二次，輪流）、fav（七位都有，AA_410）、opinion（她有意見的那一樣）、ctx（again／exam／night／winterCold／summerHot）；tools/story/import_gifts.py → src/data/gift_lines.js",
    "history": [
+    {
+     "sha": "4be26c44d",
+     "approvedBy": "AA-B D109（11-07 04:14：以安早餐那句「（她咬了一口，才說：）」，遊戲還沒有早餐店）；74aa33345 取代（第二版）"
+    },
     {
      "sha": "e2e92dcf4",
      "approvedBy": "（11-07 04:14 以前的版本；4be26c44d 取代：以安熟了收早餐那句不寫蛋餅）"
