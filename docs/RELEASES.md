@@ -57,7 +57,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.22（2026-11-07 UTC；發布樹 `5c855a881`＝候選 `126bdf93e`＋版本字樣；合併 main、Pages 部署見下面「發布」）
+## v9.10.22（2026-11-07 13:1x UTC 合併 `74cb8314d`，PR [pyhuanglaw/Lawstudent#30](https://github.com/pyhuanglaw/Lawstudent/pull/30)；發布樹 `5c855a881`＝候選 `126bdf93e`＋版本字樣；GitHub Pages run 42376299962 success，deploy 13:20:16 UTC）
 
 使用者 11-07 10:4x 選擇題「等 BB 測完再發布（推薦）」（X264、RELEASE-V91022-1107）。內容：使用者 11-07 試玩回報（X262、X263）以後的修正與新內容。
 
@@ -92,7 +92,9 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - LAWWW 發布前：題目漏收 0（399 題）；check_orphans 90（舊的）；check_lines（模糊比對，不擋）；zone_assets 最新；deploy_check（發布樹，乾淨 worktree）：見「發布」。
 
 ### 發布
-- （合併 main、Pages 部署後補）
+- BB-B 13:10 UTC「GO 確定」→ 發布樹 `5c855a881`（mk_release_tree.sh）→ 乾淨 worktree deploy_check ALL PASS（3262 個網址、各區域進得去、沒有 JS 例外、版本字樣 v9.10.22）→ PR #30 合併 main `74cb8314d` → Pages run 42376299962（build、deploy success，deploy 13:20:16 UTC；部署的 head_sha＝74cb8314d，那個 commit 的 index.html 標題「版本 v9.10.22（2026-11-07）」）。
+- 沙盒連不到 github.io：線上 deploy_check 請 CC（使用者電腦或 GitHub 機器）跑，結果補在這裡。
+- 開發分支不用換回：發布樹的遊戲檔案就是開發分支的（126bdf93e 以後只有文件、wip_backup）；發布以後才推的 7 個 commit（wip_backup/postrel_v91022_1107.bundle）接著推。
 
 ## v9.10.21（2026-11-05 23:28 UTC 合併 `92c3daad8`，PR [pyhuanglaw/Lawstudent#29](https://github.com/pyhuanglaw/Lawstudent/pull/29)；發布樹 `317479933`；GitHub Pages run 42129622113（第 1 次 deploy 在 syncing_files 卡 10 分鐘逾時被取消、線上照舊 v9.10.20；重跑失敗的 job，第 2 次 23:42:12 UTC success）；遊戲檔案＝發布樹 `aa0f3bcd3`（候選 `83d09d13b`＋afar／頁間／青木窗景 6 張重拍＋NOODLE-AP-1105 麵店自動走路修正＋版本字樣）；BB-C 判條件已過（使用者 23:2x 轉述，BB 交班中沒有寫 GO 紀錄），LAWWW-C 依使用者「BB說可以go 照條件可以發布」發布）
 

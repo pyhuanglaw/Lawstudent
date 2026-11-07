@@ -3410,11 +3410,11 @@
    "at": "2026-11-07T10:4x",
    "quote": "（選擇題「要不要發布到線上讓你玩？」）等 BB 測完再發布（推薦）",
    "kind": "選擇題答案",
-   "status": "進行中",
+   "status": "在遊戲裡",
    "wants": "X264",
    "task": "RELEASE-V91022-1107",
    "src": "使用者對 LAWWW-B，2026-11-07 10:4x UTC（先問「現在可以玩到哪些新東西？」；AskUserQuestion：等 BB 測完再發布（推薦）／現在就準備發布／先不要發布）",
-   "checked": "線上照舊 v9.10.21（92c3daad8）；11-07 試玩以後的修改都在 claude/modest-rubin-2lyp7g；BB、CC 測完今天最後一批＋發布前清單全過才合併 main"
+   "checked": "線上照舊 v9.10.21（92c3daad8）；11-07 試玩以後的修改都在 claude/modest-rubin-2lyp7g；BB、CC 測完今天最後一批＋發布前清單全過才合併 main；11-07 13:20 UTC v9.10.22 已部署（main 74cb8314d、PR #30、Pages run 42376299962）"
   }
  ]
 }

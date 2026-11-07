@@ -49136,7 +49136,7 @@
    "id": "RELEASE-V91022-1107",
    "title": "發布 v9.10.22（11-07 試玩修正：行動次數、更多約會地點含 118 巷、一起念書第 N 次與第 6 次解鎖、七位故事線＋下次帶你去、選項改變故事、訊息回覆、送東西、店員、健身、新生南路夜景與遠景、頭髮、進區域載入；線上照舊 v9.10.21 92c3daad8）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "META",
@@ -49148,8 +49148,9 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【11-07 11:4x LAWWW-B】BB-B 11:45 GO（條件：經濟系 9/1→10/17 實玩 flow_v0_to1017_reply 通過，CC 電腦 12:20 前）；126bdf93e 上以安第 2 次見面、AA_722 小路／partnerBlock／滷味、南洋、v0_start、8/28→8/29、法律系第一二天主線都 PASS。 ｜ 【11-07 10:4x LAWWW-B】使用者選擇題「等 BB 測完再發布（推薦）」（UA-LAWWW-1107-04、X264）。要過的：BB／CC 今天最後一批瀏覽器（118 巷 pt1107i、票錢、AA_722 六格＋partnerBlock、約念書不開演 DBG、手機表頭 P3、燈暗、頭髮 (b) D100a、PERF_COLD near、XSSHOP_dabu、PERF_WZ_DC）＋GHA 全綠＋docs/TESTING.md 第五節發布前清單（含 gen_zone_assets --check）＋BB GO → 發布樹 → PR 合併 main → Pages → CC 線上 deploy_check。沒過的先修或先拿掉。",
-   "note": "候選：開發分支 8fdb294aa 起（GHA 跑中）"
+   "next": "【11-07 13:2x LAWWW-B】已發布：BB GO 確定 13:10 → 發布樹 5c855a881 → deploy_check（發布樹）ALL PASS → PR #30 合併 main 74cb8314d → Pages run 42376299962 success 13:20:16 UTC（head_sha 74cb8314d）。等 CC 線上 deploy_check。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11:45 GO（條件：經濟系 9/1→10/17 實玩 flow_v0_to1017_reply 通過，CC 電腦 12:20 前）；126bdf93e 上以安第 2 次見面、AA_722 小路／partnerBlock／滷味、南洋、v0_start、8/28→8/29、法律系第一二天主線都 PASS。 ｜ 【11-07 10:4x LAWWW-B】使用者選擇題「等 BB 測完再發布（推薦）」（UA-LAWWW-1107-04、X264）。要過的：BB／CC 今天最後一批瀏覽器（118 巷 pt1107i、票錢、AA_722 六格＋partnerBlock、約念書不開演 DBG、手機表頭 P3、燈暗、頭髮 (b) D100a、PERF_COLD near、XSSHOP_dabu、PERF_WZ_DC）＋GHA 全綠＋docs/TESTING.md 第五節發布前清單（含 gen_zone_assets --check）＋BB GO → 發布樹 → PR 合併 main → Pages → CC 線上 deploy_check。沒過的先修或先拿掉。",
+   "note": "候選：開發分支 8fdb294aa 起（GHA 跑中）",
+   "sha": "74cb8314d"
   },
   {
    "id": "UX-QUICKGO-BEFORE-OPEN-1107",
