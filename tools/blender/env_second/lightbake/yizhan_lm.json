@@ -1,0 +1,44 @@
+{
+ "device": "CPU",
+ "blender": "5.2.2 LTS",
+ "bake_seconds": 601.3,
+ "scale": 2.0,
+ "intensity": 6.283185307179586,
+ "res": 1024,
+ "samples": 512,
+ "emit": {},
+ "dayemit": {},
+ "sun": [
+  180.0,
+  35.0,
+  0.0
+ ],
+ "sky": 1.0,
+ "nightsky": 0.03,
+ "shell": "S",
+ "daylights": 0.8,
+ "knee": null,
+ "dayscale": null,
+ "lights": "",
+ "points": "-3.950,0.810,4.100,24,1.000,0.824,0.588,0.05;-0.650,0.250,-4.300,24,1.000,0.824,0.588,0.05;3.600,0.250,-4.400,24,1.000,0.824,0.588,0.05;-2.300,2.040,1.700,36,1.000,0.824,0.588,0.05;-0.900,2.040,1.700,36,1.000,0.824,0.588,0.05;1.400,2.040,1.700,36,1.000,0.824,0.588,0.05",
+ "dayfill": null,
+ "wb": {
+  "day": null,
+  "night": null
+ },
+ "objects": [
+  "WALL_back_yzn_post",
+  "WALL_back_yzn_wall",
+  "WALL_engawa_yzn_post",
+  "WALL_engawa_yzn_wall",
+  "WALL_left_yzn_post",
+  "WALL_left_yzn_wall",
+  "WALL_right_yzn_post",
+  "WALL_right_yzn_wall",
+  "yzn_ceiling",
+  "yzn_floor",
+  "yzn_tatami"
+ ],
+ "src": "assets/models/env/second_ai/aa_support/yizhan.glb",
+ "src_sha256": "a4d1bc30917e7463a6bc1b33ed6731be4e3eb67ad3210927c83a0a890f86a529"
+}
