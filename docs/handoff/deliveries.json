@@ -17853,7 +17853,7 @@
    "msg": "新生南路四張夜景重拍",
    "what": "assets/models/env/views/xs_{dakou,dakou_2f,dabu,haopai}_night.webp",
    "task": "XS-NIGHT-1107",
-   "integration": "已整合待測試",
+   "integration": "已驗收",
    "note": "bcf4ad72a；BB 判、CC 晚上",
    "ack": "ACK"
   },
