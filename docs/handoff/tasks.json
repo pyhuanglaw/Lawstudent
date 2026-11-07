@@ -42991,11 +42991,12 @@
    "id": "AA611-SIS-ALISON-SISTERS-1103",
    "title": "學姊和 Alison 是姊妹（AA_609 第 8 節＋AA_611）：全遊戲 17 項改字（礁溪、Alison 第 3 週作息、family_context、阿公奶奶家搬家、學姊 2027-03 租屋、畢業日、KNOWS_SIS_ALISON 才有的句子）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
-   "next": "【11-07 18:2x LAWWW-B】17 項全部做完，推了 3cd6f2797（6c777abf3、0a26b8bd7、b56bdde29）：#1 礁溪兩處改字、AA_609 8-1 Alison「我姊二月要考研究所…」（記 HEARD_YU_SISTER）、#2 學校那句 KNOWS 版、#8 whois「學姊的妹妹。」、#11 學姊「阿公奶奶要搬到小一點的房子…」、初三那則、#12、#13 奶奶、#14（知道的玩家那頓改 19:00、Café Alison 那句）、#15（2029）、#16 Alison「她昨天也傳給我了。」「……她想家的時候，才會煮麵。」（AA 91df9a906 改句）；tests/aa611_sisters_unit.js。BB 測。 ｜ 【11-07 17:3x LAWWW-B 稽核（唯讀子代理，對照企劃線原稿與 src）】17 項做了約 8 項（d9ac7ee6b／b828d938f 等）。還沒：#1 兩處改字（「考上法研所了」「他是我們班的啊！」）、#2 encounters.js:160 沒有 KNOWS_SIS_ALISON 版、#8 whois「學姊的妹妹。」、#11 events.js:366「家裡要搬家」、sis_b10_3d.js:87、#12 sis_b15_events.js:89「遠一點的地方」、#13 postgrad_lines.js:44、#14～16 姊妹才有的句子。子代理接。 ｜ 照 AA 稿實作",
-   "sha": "6c777abf3"
+   "next": "【11-07 18:3x LAWWW-B】BB-B 結案（瀏覽器抽查＋Node）＝已驗收。 ｜ 【11-07 18:2x LAWWW-B】17 項全部做完，推了 3cd6f2797（6c777abf3、0a26b8bd7、b56bdde29）：#1 礁溪兩處改字、AA_609 8-1 Alison「我姊二月要考研究所…」（記 HEARD_YU_SISTER）、#2 學校那句 KNOWS 版、#8 whois「學姊的妹妹。」、#11 學姊「阿公奶奶要搬到小一點的房子…」、初三那則、#12、#13 奶奶、#14（知道的玩家那頓改 19:00、Café Alison 那句）、#15（2029）、#16 Alison「她昨天也傳給我了。」「……她想家的時候，才會煮麵。」（AA 91df9a906 改句）；tests/aa611_sisters_unit.js。BB 測。 ｜ 【11-07 17:3x LAWWW-B 稽核（唯讀子代理，對照企劃線原稿與 src）】17 項做了約 8 項（d9ac7ee6b／b828d938f 等）。還沒：#1 兩處改字（「考上法研所了」「他是我們班的啊！」）、#2 encounters.js:160 沒有 KNOWS_SIS_ALISON 版、#8 whois「學姊的妹妹。」、#11 events.js:366「家裡要搬家」、sis_b10_3d.js:87、#12 sis_b15_events.js:89「遠一點的地方」、#13 postgrad_lines.js:44、#14～16 姊妹才有的句子。子代理接。 ｜ 照 AA 稿實作",
+   "sha": "6c777abf3",
+   "evidence": "2026-11-07 BB-B（3cd6f2797，BB_255 b9420da71）：瀏覽器抽查 Alison 資料頁（手機→朋友→Alison 資料，直向）有 KNOWS_SIS_ALISON 時多「· 學姊的妹妹。」、沒有不出、排版正常、JS 0；其他 16 項 Node（tests/aa611_sisters_unit.js 33 項；修改前 15 FAIL）；全部 1,122 支單元測試 0 失敗（子代理）"
   },
   {
    "first": {
@@ -45416,7 +45417,7 @@
    },
    "source": "AA-C 11-04 16:05（企劃線 090981ebe、outbox 472671fcb；D109；X200 同時交往／交換路線）",
    "authorized": "D109",
-   "next": "【11-07 18:2x LAWWW-B】§2、§3、§5 推了 3cd6f2797（9c94f0b01，src/aa667_3d.js，tests/aa667_vacgap2_unit.js 73 項）；AA-B §7（1905ae629）七點答覆（子晴住家裡版、沛珊「你回家了嗎？」、語彤去過她家的小場、「七號才下來」＋8/8 在臺北、同一晚兩場規則改）子代理做中。 ｜ 【11-07 17:3x LAWWW-B 稽核（唯讀子代理，對照企劃線原稿與 src）】還沒開始（只有 §4 起飛時間在 aa660_3d.js:64）：§2、§3 全部、§5 H6（termend「你時差調好了沒」）、H7（ytjob3d homePhone 宜蘭／淡水的 presence）、沛珊 fest_events.js:174。D99 第二項（寒暑假）：先做，子代理接。 ｜ 【LAWWW-C 11-04 16:0x】排在 AA660-VAC-GAP-1104（子代理做中）合併以後；條件、時間、旗標照 AA_667 第 2、3、5 節；AA_660 G1-1 更正（09:30 起飛、「那六點要出門」）已轉給 AA660 子代理",
+   "next": "【11-07 18:3x LAWWW-B】BB-B：第 2 批（3cd6f2797）Node 結案；§7 七點答覆子代理做中，好了再派。 ｜ 【11-07 18:2x LAWWW-B】§2、§3、§5 推了 3cd6f2797（9c94f0b01，src/aa667_3d.js，tests/aa667_vacgap2_unit.js 73 項）；AA-B §7（1905ae629）七點答覆（子晴住家裡版、沛珊「你回家了嗎？」、語彤去過她家的小場、「七號才下來」＋8/8 在臺北、同一晚兩場規則改）子代理做中。 ｜ 【11-07 17:3x LAWWW-B 稽核（唯讀子代理，對照企劃線原稿與 src）】還沒開始（只有 §4 起飛時間在 aa660_3d.js:64）：§2、§3 全部、§5 H6（termend「你時差調好了沒」）、H7（ytjob3d homePhone 宜蘭／淡水的 presence）、沛珊 fest_events.js:174。D99 第二項（寒暑假）：先做，子代理接。 ｜ 【LAWWW-C 11-04 16:0x】排在 AA660-VAC-GAP-1104（子代理做中）合併以後；條件、時間、旗標照 AA_667 第 2、3、5 節；AA_660 G1-1 更正（09:30 起飛、「那六點要出門」）已轉給 AA660 子代理",
    "sha": "9c94f0b01"
   },
   {

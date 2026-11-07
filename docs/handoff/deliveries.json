@@ -18357,7 +18357,7 @@
    "msg": "ACK",
    "what": "AA_611 第 16 列改句＋18:05 六點答覆",
    "task": "AA611-SIS-ALISON-SISTERS-1103",
-   "integration": "已整合待測試",
+   "integration": "已驗收",
    "note": "3cd6f2797",
    "ack": "ACK"
   },
