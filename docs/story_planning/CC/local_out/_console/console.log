@@ -585,3 +585,19 @@
 [11:57:39] skip V18_LIBTOUR (already done on ffeec06e0)
 [11:57:42] [res] cpu=5% mem=40% (12.6/31.4 GB) chrome_testing=0  START WV1107_before
 [11:59:25] [res] cpu=4% mem=39% (12.3/31.4 GB) chrome_testing=0  END WV1107_before
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e0d7ccf92..a501328b8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:59:32] ==== END   WV1107_before  exit=0  106s   ====
+[11:59:38] memory 39% before starting WV1107_fix (0 running)
+[11:59:38] blender item MD_tx_v3 waits until the 1 running item(s) finish; other items go first
+[11:59:38] blender item MD_dabu_v1 waits until the 1 running item(s) finish; other items go first
+[11:59:38] blender item MD_haopai_v1 waits until the 1 running item(s) finish; other items go first
+[11:59:38] blender item MD_xinsheng_v1 waits until the 1 running item(s) finish; other items go first
+[11:59:38] blender item MD_xinsheng_v2 waits until the 1 running item(s) finish; other items go first
+[11:59:38] blender item MD_tx_v2 waits until the 1 running item(s) finish; other items go first
+[11:59:38] blender item MD_tx_v2b waits until the 1 running item(s) finish; other items go first
+[11:59:38] ==== START WV1107_fix  (probe @ 70cd58a2de2eca7e110e7b3292b0f47f614cf863) ====
+[11:59:41] [res] cpu=0% mem=39% (12.5/31.4 GB) chrome_testing=0  START WV1107_fix
+[11:59:41] worktree add 70cd58a2de2eca7e110e7b3292b0f47f614cf863: invalid reference - fetching main and the commit itself
+[12:01:59] [res] cpu=5% mem=40% (12.7/31.4 GB) chrome_testing=0  END WV1107_fix

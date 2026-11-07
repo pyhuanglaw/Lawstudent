@@ -1,0 +1,44 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_winview_1107_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WV1107_fix\out
+CC WINVIEW_1107（木曜日窗景、大口窗外閃）：SHA=70cd58a2de2eca7e110e7b3292b0f47f614cf863（worktree 實際 ?）；PARTS=['moku', 'flicker']；EXPECT=fixed；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+PASS [moku] 這一版有 wz_mokuyobi（Z3.ZONES）
+== moku
+  [前置／捷徑] [moku day] 讀檔木曜日 2025-10-18 14.00（店裡出生點）
+PASS [moku day] 讀到木曜日  {"zone": "wz_mokuyobi", "x": -3.75, "z": 5.4, "y": 1.2, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  33.6s] [moku day] 窗景卡：[{"name": "WALL_front_VIEW_mks_street_view", "vis": true, "c": [-3.75, 1.4, 9.4], "size": [4.4, 4, 0], "lv": null, "url": null}, {"name": "WALL_front_VIEW_mok_window_view", "vis": true, "c": [0.5, 5.45, 9.5], "size": [14, 6.5, 0], "lv": null, "url": "assets/models/env/second_ai/aa_support/mokuyobi_view_day.webp"}]
+PASS [moku day] 找得到看得見的窗景卡（mok_window_view）  [{"name": "WALL_front_VIEW_mks_street_view", "vis": true, "c": [-3.75, 1.4, 9.4], "size": [4.4, 4, 0], "lv": null, "url": null}, {"name": "WALL_front_VIEW_mok_window_view", "vis": true, "c": [0.5, 5.45, 9.5], "size": [14, 6.5, 0], "lv": null, "url": "assets/models/env/second_ai/aa_support/mokuyobi_view_day.webp"}]
+  [  33.6s] [moku day] 用的貼圖：assets/models/env/second_ai/aa_support/mokuyobi_view_day.webp（改好的應該是 mokuyobi_view_day.webp）
+PASS [黑畫面] moku_winview_day_0 不是黑畫面（平均亮度 69.7、變化 31.4）  [69.7, 31.4]
+  [  35.8s] [截圖] moku_winview_day_0：鏡頭 {"eye": [0.5, 5.15, 5.5], "look": [0.5, 5.45, 9.5], "lens": 22, "vfov": 49.43}、亮度 [69.7, 31.4]
+PASS [黑畫面] moku_winview_day_1 不是黑畫面（平均亮度 81、變化 48.5）  [81, 48.5]
+  [  37.8s] [截圖] moku_winview_day_1：鏡頭 {"eye": [0.5, 5.15, 3], "look": [0.5, 5.45, 9.5], "lens": 22, "vfov": 49.43}、亮度 [81, 48.5]
+PASS [moku day] 窗景卡換成溫州街照片（mokuyobi_view_day）  assets/models/env/second_ai/aa_support/mokuyobi_view_day.webp
+  [前置／捷徑] [moku night] 讀檔木曜日 2025-10-18 21.00（店裡出生點）
+PASS [moku night] 讀到木曜日  {"zone": "wz_mokuyobi", "x": -3.75, "z": 5.4, "y": 1.2, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.06}
+  [  47.8s] [moku night] 窗景卡：[{"name": "WALL_front_VIEW_mks_street_view", "vis": true, "c": [-3.75, 1.4, 9.4], "size": [4.4, 4, 0], "lv": null, "url": null}, {"name": "WALL_front_VIEW_mok_window_view", "vis": true, "c": [0.5, 5.45, 9.5], "size": [14, 6.5, 0], "lv": null, "url": "assets/models/env/second_ai/aa_support/mokuyobi_view_night.webp"}]
+PASS [moku night] 找得到看得見的窗景卡（mok_window_view）  [{"name": "WALL_front_VIEW_mks_street_view", "vis": true, "c": [-3.75, 1.4, 9.4], "size": [4.4, 4, 0], "lv": null, "url": null}, {"name": "WALL_front_VIEW_mok_window_view", "vis": true, "c": [0.5, 5.45, 9.5], "size": [14, 6.5, 0], "lv": null, "url": "assets/models/env/second_ai/aa_support/mokuyobi_view_night.webp"}]
+  [  47.8s] [moku night] 用的貼圖：assets/models/env/second_ai/aa_support/mokuyobi_view_night.webp（改好的應該是 mokuyobi_view_night.webp）
+PASS [黑畫面] moku_winview_night_0 不是黑畫面（平均亮度 42.9、變化 45.8）  [42.9, 45.8]
+  [  49.7s] [截圖] moku_winview_night_0：鏡頭 {"eye": [0.5, 5.15, 5.5], "look": [0.5, 5.45, 9.5], "lens": 22, "vfov": 49.43}、亮度 [42.9, 45.8]
+PASS [黑畫面] moku_winview_night_1 不是黑畫面（平均亮度 50.7、變化 43.7）  [50.7, 43.7]
+  [  51.7s] [截圖] moku_winview_night_1：鏡頭 {"eye": [0.5, 5.15, 3], "look": [0.5, 5.45, 9.5], "lens": 22, "vfov": 49.43}、亮度 [50.7, 43.7]
+PASS [moku night] 窗景卡換成溫州街照片（mokuyobi_view_night）  assets/models/env/second_ai/aa_support/mokuyobi_view_night.webp
+PASS [flicker] 這一版有 xs_dakou（Z3.ZONES）
+== flicker
+  [前置／捷徑] [flicker 21:00 一樓] 讀檔大口漢堡 2025-10-18 21:00（店裡出生點）
+PASS [flicker 21:00 一樓] 讀到大口  {"zone": "xs_dakou", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.06}
+  [  69.7s] [flicker 21:00 一樓] 夜景卡（玩家第 0 層）：[{"name": "NIGHT_FRONT", "vis": false, "c": [0, 2.75, 16], "size": [40, 12.5, 0], "lv": 0, "url": null}, {"name": "NIGHT_WEST", "vis": true, "c": [-14, 2.75, 0], "size": [0, 12.5, 44], "lv": 0, "url": null}, {"name": "NIGHT_FRONT", "vis": false, "c": [0, 3.9, 16], "size": [40, 14.6, 0], "lv": 1, "url": null}, {"name": "NIGHT_WEST", "vis": false, "c": [-14, 3.9, 0], "size": [0, 14.6, 44], "lv": 1, "url": null}]
+  [  69.7s] [flicker 21:00 一樓] 看得到、疊在同一個平面的夜景卡：[]
+PASS [flicker 21:00 一樓] 看得到的夜景卡沒有兩張疊在同一個平面  []
+  [  76.5s] [flicker 21:00 一樓] NIGHT_WEST 連拍 10 張（鏡頭每張橫移 1 cm、隔 0.3 秒）張與張的差（畫面中間，0～255）：最大 0.81、平均 0.81、像素差 >40 的比例最大 0.0000；dakou_flicker_lv0_night_west_00～09.png
+  [前置／捷徑] [flicker 21:00 二樓] 讀檔大口漢堡 2025-10-18 21:00（二樓站得住、離店中間最近的一點）
+PASS [flicker 21:00 二樓] 讀到大口  {"zone": "xs_dakou", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.06}
+PASS [flicker 21:00 二樓] 二樓有站得住的地方  {"x": 0, "z": 1.5, "d": 0.5}
+PASS [flicker 21:00 二樓] 人在二樓（lv 1）  {"zone": "xs_dakou", "x": 0, "z": 1.5, "y": 3.6, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "聽一句", "stand": true, "fb": 0, "hour": 21.06}
+  [  97.3s] [flicker 21:00 二樓] 夜景卡（玩家第 1 層）：[{"name": "NIGHT_FRONT", "vis": false, "c": [0, 2.75, 16], "size": [40, 12.5, 0], "lv": 0, "url": null}, {"name": "NIGHT_WEST", "vis": false, "c": [-14, 2.75, 0], "size": [0, 12.5, 44], "lv": 0, "url": null}, {"name": "NIGHT_FRONT", "vis": false, "c": [0, 3.9, 16], "size": [40, 14.6, 0], "lv": 1, "url": null}, {"name": "NIGHT_WEST", "vis": true, "c": [-14, 3.9, 0], "size": [0, 14.6, 44], "lv": 1, "url": null}]
+  [  97.3s] [flicker 21:00 二樓] 看得到、疊在同一個平面的夜景卡：[]
+PASS [flicker 21:00 二樓] 看得到的夜景卡沒有兩張疊在同一個平面  []
+  [ 104.2s] [flicker 21:00 二樓] NIGHT_WEST 連拍 10 張（鏡頭每張橫移 1 cm、隔 0.3 秒）張與張的差（畫面中間，0～255）：最大 1.10、平均 1.08、像素差 >40 的比例最大 0.0003；dakou_flicker_lv1_night_west_00～09.png
+PASS 沒有 JS 例外  []
+ALL PASS
