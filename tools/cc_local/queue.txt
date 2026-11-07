@@ -15,6 +15,15 @@
 # ===== P0 WINVIEW_rel（BB-C 09:34）：v9.10.21 發布樹 bcb386604＝83d09d13b＋6 張窗景圖；排 V21R 剩下的前面；三樣跑完推截圖給 BB 看 =====
 # ===== P0（BB-C 10:48，v9.10.21 發布樹 aa0f3bcd3）：GO 之前要的；CC-C 16:1x 接班補排（交班時沒排）=====
 # ===== 下一版（BB-C 11-05 10:48，開發線 abf4dbbd5；9c5e6bbbc 已包含在裡面）：CC-C 11-06 07:2x 排 =====
+# ===== ★ CC-B 11-07 03:4x（BB-B 03:34／03:38）：照這個順序最先跑 =====
+#   ① DBK_seat2：Daybreak 窗邊 #2 (-2.15, 3.45) 坐不下單獨重跑＋診斷（SEQ=1 照 DBK_passerby 先坐 #1 再坐 #2；四個時間）
+#   ② LIVE_V91021：v9.10.21 上線 main 92c3daad8（PR #29），線上網址 deploy_check、p0、標題版本截圖（RELEASE-V91021-1105；雲端連不到 github.io）
+#   ③ XSNE_park：停車場重拍（改成自動找沒擋的角度，日夜各一張；PARTS=campus 只拍校園那幾張）
+DBK_seat2 | abf4dbbd5abc4e842b5d92d481cfa9a39084166c | probe | docs/story_planning/test_tools/cc/cc_dbk_seat2_probe.py | index.html | 40 | SEQ=1;HOURS_ADD=0,0.5,1,2;CC_HEADLESS=0
+LIVE_V91021_deploy | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.21（2026-11-05）
+LIVE_V91021_p0 | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | game | tests/p0_movement.py | index.html | 40 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html
+LIVE_V91021_title | 92c3daad8adf1bb5f707b0b411640c7b13ff7052 | probe | docs/story_planning/test_tools/cc/cc_live_title_probe.py | index.html | 40 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;WANT_VER=v9.10.21;CC_HEADLESS=0
+XSNE_park | abf4dbbd5abc4e842b5d92d481cfa9a39084166c | probe | docs/story_planning/test_tools/cc/cc_xsne_shots_probe.py | index.html | 40 | PARTS=campus;RERUN=park;CC_HEADLESS=0
 XSNE_shots | abf4dbbd5abc4e842b5d92d481cfa9a39084166c | probe | docs/story_planning/test_tools/cc/cc_xsne_shots_probe.py | index.html | 40 | CC_HEADLESS=0
 DBK_passerby | abf4dbbd5abc4e842b5d92d481cfa9a39084166c | probe | docs/story_planning/test_tools/cc/cc_v21x_shops_probe.py | index.html | 40 | CC_HEADLESS=0;PARTS=seats;ONLY=daybreak
 AA0F_p0 | aa0f3bcd30eea217ec732963851ea5f3b35e8d97 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
