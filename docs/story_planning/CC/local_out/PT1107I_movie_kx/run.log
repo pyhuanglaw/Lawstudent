@@ -1,0 +1,13 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\pt1107i_invplaces_probe.py http://127.0.0.1:8800/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\PT1107I_movie_kx\out
+PASS 遊戲載入
+  [前置／捷徑] 讀使用者存檔 day46；【捷徑】day -14 早上 10 點、清邀約；【捷徑】kexin 關係到朋友；【捷徑】去過 118 巷六家（不含韓食小廚）＋南洋；錢 1000
+PASS 這一版有 118 巷的約會地點
+   看電影選單 {"top": ["念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館", "吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、小路、大口漢堡、滇香小館、巷口家常菜、蛋包飯研究所、六張犁麵舖、Pasta 118", "喝咖啡、喝茶…2:30 AM、一盞、慢讀咖啡、木曜日、日常失速、afar café", "看電影、逛書店…南洋戲院、頁間書屋、山嵐書店", "散步…溫州街、映月湖、一一八茶飲", "運動…新體育館羽球場、椰影大道、游泳池", "出去玩…選地點、日期、時間", "算了"], "list": ["去南洋戲院看電影", "去頁間書屋逛逛", "去山嵐書店逛逛", "返回"]}
+PASS 看電影選單有南洋、可以選  {"t": "去南洋戲院看電影", "dim": false}
+  [前置／捷徑] [南洋]【捷徑】時間撥到約好的 14.00 前 10 分鐘
+  [  88.1s] 到達「走到她旁邊」附近（1.37 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，25 秒
+   南洋 said ["約好 今天 14:00，南洋戲院。", "末班車還有。好險。"] 邀約 [{"place": "xs_nanyang", "day": 32, "h": 14, "state": "done"}]
+FAIL 南洋：見面演了、有「燈暗下來，電影開始了。」  {"said": ["約好 今天 14:00，南洋戲院。", "末班車還有。好險。"], "ivs": [{"place": "xs_nanyang", "day": 32, "h": 14, "state": "done"}]}
+PASS 南洋：那一場扣了 150（電影票）、記 NY_TICKET＝今天  {"money": 850, "log": [{"v": -150, "why": "電影票", "day": 32, "h": 14.18}], "tk": 32, "day": 32}
+PASS 沒有 JS 例外  []
+FAILED: 南洋：見面演了、有「燈暗下來，電影開始了。」

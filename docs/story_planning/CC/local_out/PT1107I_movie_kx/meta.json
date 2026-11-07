@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "PT1107I_movie_kx",
+  "sha": "126bdf93e82886673518705566dbe83b582c32c1",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/pt1107i_invplaces_probe.py",
+  "env": "MODE=movie;WHO=kexin;DAYSHIFT=-14;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T18:57:18",
+  "end": "2026-11-07T18:59:36",
+  "seconds": 139,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "33",
+  "url": "http://127.0.0.1:8800/index.html?turbo",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 26,
+    "mem": 45,
+    "used_gb": 14.4,
+    "chrome_testing": 5
+  }
+}
