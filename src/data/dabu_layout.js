@@ -78,10 +78,10 @@ const DABU_LAYOUT = {
     {x: -2.45, z: -0.7, kind: 'try_on', label: '試穿', note: '坐上長凳 A（seats[0]，面向鞋牆）；店員蹲在 clerkKneel 按鞋頭（AA_620 第 2 節）',
      clerkKneel: {x: -2.55, z: -0.4, yaw: Math.PI / 2}},
     {x: -2.75, z: -0.2, kind: 'look_basketball', label: '看看（籃球鞋）', note: '籃球鞋那兩格的正前方（阿哲的「這雙我高中穿過」）'},
-    {x: -2.75, z: -3.4, kind: 'look', label: '看看'},
+    {x: -2.85, z: -2.95, kind: 'look', label: '看看'},   /* 11-07 從 (−2.75, −3.4) 往北挪（BB-B XSSHOP_dabu_cam：鏡子前面站得住的只有 z −3.45～−3.4 一條，這一點把照鏡子整條搶走） */
     {x: 2.75, z: -1.45, kind: 'look', label: '看看'},
     {x: 0.85, z: -3.88, kind: 'cashier', label: '買東西', note: '收銀台客人那一側；店員在 staff.counter'},
-    {x: -2.5, z: -3.55, kind: 'mirror', label: '照鏡子', note: '可有可無'}
+    {x: -2.6, z: -3.6, kind: 'mirror', label: '照鏡子', note: '可有可無；11-07 從 (−2.5, −3.55) 挪來（BB-B／CC-B XSSHOP_dabu_cam：原本只有 1 格按得到，旁邊是「坐下試穿」和「看看」）——離長凳 B 的座位 0.93 m；站得住又會顯示照鏡子的有 10 格（鏡子前 z −3.45～−3.4）'}
   ],
   floorSit: [],
   staff: {

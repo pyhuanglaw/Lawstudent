@@ -58,7 +58,7 @@
 | | 開發原樣 `e70d19503` | 加 patch |
 |---|---|---|
 | 新 `zone_prefetch_unit` | **FAILED 5**（①、②～⑧、⑨a、⑨b、⑩） | **ALL PASS** |
-| 會讀 `assets3d.js`／`game3d.js`／`index.html` 的 `*_unit.js` | — | 見下面「其他測試」 |
+| 會讀 `assets3d.js`／`game3d.js`／`index.html` 的 459 支 `*_unit.js` | — | 458 過；`gym_equip_use_1107_unit` FAIL 1：開發原樣也是 |
 
 `zone_prefetch_unit`：
 1. `zone_assets.js` 是最新的（83 個區域）；
@@ -74,6 +74,8 @@
    - 正在下載、還有模型在載時不排；載完（成功或失敗）才排。
 9. `game3d.js` 的兩處呼叫；
 10. `index.html` 的載入順序。
+
+另外 `loadgen_locks_unit` 第一次跑 FAIL 1：它掃原始碼找「模組層的鎖」，把 `A.loadingNow` 裡一個叫 `busy` 的區域變數當成鎖。改成計數 `n`，名字不像鎖，邏輯一樣；ALL PASS。
 
 ## 瀏覽器要 CC 量的
 

@@ -11,7 +11,7 @@ index 519889501..561358c83 100644
  <script src="src/data/invites.js?v=9.10.19"></script>
  <script src="src/data/invite_replies.js?v=9.10.19"></script>
 diff --git a/src/assets3d.js b/src/assets3d.js
-index c759ee45c..8ab749e29 100644
+index c759ee45c..bf0a4a629 100644
 --- a/src/assets3d.js
 +++ b/src/assets3d.js
 @@ -322,6 +322,30 @@ const ASSETS = (function(){
@@ -37,7 +37,7 @@ index c759ee45c..8ab749e29 100644
 +  A.prefetch=function(keys){ if(!A.prefetchOK()) return 0; let n=0; for(const k of keys||[]) if(pfWant(k)){ A._pf.q.push(k); n++; } pfPump(); return n; };
 +  A.prefetchStop=function(){ A._pf.q.length=0; };   /* 換區域時：排隊的不下載了（正在下載的那一個照常下載完，說不定就是要進去的那一區的） */
 +  const pfSettled={};   /* 有沒有正式模型還在載（loadOne 的 status 還沒有結果）：有的話先不下載，不和這一區還沒載完的人物、模型搶頻寬 */
-+  A.loadingNow=function(){ let busy=false; for(const k in A.status){ if(A.cache[k]||pfSettled[k]) continue; if(pfSettled[k]===undefined){ pfSettled[k]=false; Promise.resolve(A.status[k]).then(()=>{ pfSettled[k]=true; },()=>{ pfSettled[k]=true; }); } busy=true; } return busy; };
++  A.loadingNow=function(){ let n=0; for(const k in A.status){ if(A.cache[k]||pfSettled[k]) continue; if(pfSettled[k]===undefined){ pfSettled[k]=false; Promise.resolve(A.status[k]).then(()=>{ pfSettled[k]=true; },()=>{ pfSettled[k]=true; }); } n++; } return n>0; };
 +  /* 玩家附近（PREFETCH_NEAR_M 以內）最近的出口，那一區的模型還沒載過、沒下載過就排進去。E＝引擎（interactables、player）；zoneId＝現在的區域 */
 +  A.prefetchNear=function(E,zoneId){ if(typeof ZONE_ASSETS==='undefined'||!E||!E.player||!E.player.obj||A._pf.cur||A._pf.q.length||A.loadingNow()) return null; const p=E.player.obj.position; let best=null, bd=A.PREFETCH_NEAR_M;
 +    for(const it of E.interactables||[]){ const to=it&&it.exit&&typeof it.exit.to==='string'?it.exit.to:null; if(!to||to===zoneId||!ZONE_ASSETS[to]) continue; const d=Math.hypot(it.x-p.x,it.z-p.z); if(d<bd&&A.prefetchWanted(ZONE_ASSETS[to])){ bd=d; best=to; } }
