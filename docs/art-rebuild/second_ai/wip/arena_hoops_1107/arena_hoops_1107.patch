@@ -1,0 +1,97 @@
+diff --git a/src/crowd3d.js b/src/crowd3d.js
+index 3befdc728..7a953531c 100644
+--- a/src/crowd3d.js
++++ b/src/crowd3d.js
+@@ -228,7 +228,7 @@ const CROWD=(function(){
+         return out; },G=>peSlots(G,true));
+     /* ---- 3F 主球場 ---- */
+     const HOOP=A.court&&A.court.hoops?A.court.hoops[0]:[0,-14.43];
+-    S.ARENA_HOOPS=!!S.ARENA_HOOPS;   /* 籃架接上（LAWWW2 ART-ARENA-HOOPS-1105）改 true：打球的人回到籃框半場跑 */
++    S.ARENA_HOOPS=S.ARENA_HOOPS!==false;   /* 11-07 LAWWW2-B ART-ARENA-HOOPS-1105 籃架接上（gym_arena.glb 的 SET_HOOPS）：預設 true；設 false 回到場邊等 */    /* 籃架接上（LAWWW2 ART-ARENA-HOOPS-1105）改 true：打球的人回到籃框半場跑 */
+     const arena=mkSpot('arena','gym_arena',[0,-10],DA,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n,this.ix), out=[], np=Math.max(2,n-2);
+         /* ARENA-NOHOOP-1105（使用者 11-05 07:1x「主球場一群人跑來跑去 連籃框都沒有 還有人穿裙子打籃球??」）：gym_arena.glb 還沒有籃架（LAWWW2：ART-ARENA-HOOPS-1105）、
+            路人也還沒有運動服——籃架接上以前（S.ARENA_HOOPS false），打球的人不上場跑：站在東側場邊等（面向球場），而且只用男生底模（奇數 spec：長裙那四套不上場，同 BUG-GYM-SKIRT-1103）*/
+diff --git a/src/gym3d.js b/src/gym3d.js
+index 54567125b..d1e402bdb 100644
+--- a/src/gym3d.js
++++ b/src/gym3d.js
+@@ -249,7 +249,7 @@ const GY3=(function(){
+     z.lookN={};
+     z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_arena']){ ASSETS.loadOne('bldg.gym_arena').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
+       const sets=['SET_STAGE','SET_CEREMONY','SET_LECTURE','SET_CONCERT'].map(n=>root.getObjectByName(n)).filter(Boolean); for(const o of sets) o.visible=!!z.ceremonyOn&&(o.name==='SET_STAGE'||o.name==='SET_CEREMONY');   /* 典禮那天打開舞台＋典禮（SET-CEREMONY-1023）*/   /* 布置平常藏著（劇情要用時打開：導航加椅子區的阻擋，見 gym_layout.js arena.sets）*/
+-      Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_arena_glows'); for(const o of sets) setGlowBatch(E,z,o,o.name+'_glows'); const G0=typeof GAME!=='undefined'?GAME.G:null; if(G0) z.applyTime(G0.hour,G0.weather); }).catch(e=>console.warn('3F 主球場正式模型載入失敗，用程序化備用模型',e)); }
++      Z3.attachRoomGLB(z,g0,fb,root); { const hp=root.getObjectByName('SET_HOOPS'); if(hp) hp.visible=!z.ceremonyOn; }   /* 籃架（ART-ARENA-HOOPS-1105，LAWWW2-B 11-07：屋頂吊下來、放下來的樣子，平常一直在）：典禮那天北端有舞台，籃架在舞台前緣上方——收起來 */ glowBatch(E,z,g0,root,'gym_arena_glows'); for(const o of sets) setGlowBatch(E,z,o,o.name+'_glows'); const G0=typeof GAME!=='undefined'?GAME.G:null; if(G0) z.applyTime(G0.hour,G0.weather); }).catch(e=>console.warn('3F 主球場正式模型載入失敗，用程序化備用模型',e)); }
+     return z; } };
+   return {b1Plates,gym,gym_b1,gym_arena,ceremonyDay,ceremonyNav,arenaGeo,arenaLook,ARENA_LOOK,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday};
+ })();
+diff --git a/tests/arena_hoops_unit.js b/tests/arena_hoops_unit.js
+new file mode 100644
+index 000000000..dae099ad8
+--- /dev/null
++++ b/tests/arena_hoops_unit.js
+@@ -0,0 +1,52 @@
++// 3F 主球場的籃架（ART-ARENA-HOOPS-1105，LAWWW2-B 2026-11-07；使用者 11-05 07:1x「主球場一群人跑來跑去 連籃框都沒有 還有人穿裙子打籃球??」）——不需要瀏覽器，讀 gym_arena.glb。
++// 以前的籃架「收在上面」：籃板吊在 17.6～18.65 m（大螢幕上方）、沒有籃框——從場上看就是沒有籃框。改成屋頂吊下來、放下來的樣子：
++//   1. gym_arena.glb 有 SET_HOOPS 群組（不和別的材質合併：遊戲可以整組開關）；
++//   2. 兩個籃框（gym_layout.js arena.court.hoops）：圈的上緣 3.05 m、圈的中心對準 hoops 的座標（±2 cm）、內徑約 45 cm；
++//   3. 籃板 1.80×1.05 m、下緣 2.90 m、板面離籃框中心 37.5 cm（往端線那一側）；板面上有白線；
++//   4. 籃網掛在圈下面（最低不低於 2.55 m）；吊桿一路到屋頂（20.5 m 以上）；
++//   5. 地上沒有東西（籃架最低的地方 2.55 m 以上：導航不用改）；
++//   6. 舊的「收在上面」的籃板拿掉了（17.5～18.7 m、板子的位置沒有玻璃）；
++//   7. 遊戲端：典禮那天（舞台在北端）收起 SET_HOOPS；打球的路人回到籃框半場（CROWD.ARENA_HOOPS 預設 true）。
++// 修改前（開發分支 c244ce20e）：1～6 FAIL（沒有 SET_HOOPS；17.6 m 的籃板還在）、7 FAIL。用法：node tests/arena_hoops_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const L=require(path.join(ROOT,'src/data/gym_layout.js')), A=L.arena, HOOPS=A.court.hoops;
++const buf=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/gym_arena.glb'));
++const jl=buf.readUInt32LE(12), J=JSON.parse(buf.slice(20,20+jl).toString('utf8')), bin0=20+jl+8;
++const nodes=J.nodes||[], mats=J.materials||[];
++// 節點的世界矩陣（translation／rotation／scale；沒有 matrix）
++const par={}; nodes.forEach((n,i)=>(n.children||[]).forEach(c=>par[c]=i));
++const qrot=(q,v)=>{ const [x,y,z,w]=q, ix=w*v[0]+y*v[2]-z*v[1], iy=w*v[1]+z*v[0]-x*v[2], iz=w*v[2]+x*v[1]-y*v[0], iw=-x*v[0]-y*v[1]-z*v[2];
++  return [ix*w+iw*-x+iy*-z-iz*-y, iy*w+iw*-y+iz*-x-ix*-z, iz*w+iw*-z+ix*-y-iy*-x]; };
++const toWorld=(ni,p)=>{ let v=p.slice(); for(let i=ni;i!=null;i=par[i]){ const n=nodes[i]; if(n.matrix) throw new Error('matrix node'); const s=n.scale||[1,1,1]; v=[v[0]*s[0],v[1]*s[1],v[2]*s[2]]; if(n.rotation) v=qrot(n.rotation,v); const t=n.translation||[0,0,0]; v=[v[0]+t[0],v[1]+t[1],v[2]+t[2]]; } return v; };
++const acc=ai=>{ const a=J.accessors[ai], v=J.bufferViews[a.bufferView], off=bin0+(v.byteOffset||0)+(a.byteOffset||0), st=v.byteStride||12, out=[]; for(let i=0;i<a.count;i++) out.push([buf.readFloatLE(off+i*st),buf.readFloatLE(off+i*st+4),buf.readFloatLE(off+i*st+8)]); return out; };
++const vertsOf=re=>{ const out=[]; nodes.forEach((n,i)=>{ if(n.mesh==null||!re.test(n.name||'')) return; for(const p of J.meshes[n.mesh].primitives) for(const q of acc(p.attributes.POSITION)) out.push(toWorld(i,q)); }); return out; };
++const near=(V,hx,hz,r)=>V.filter(p=>Math.abs(p[0]-hx)<r&&Math.abs(p[2]-hz)<r);
++const mm=(V,k)=>V.length?[Math.min(...V.map(p=>p[k])),Math.max(...V.map(p=>p[k]))]:[NaN,NaN];
++// 1. 群組
++const hg=nodes.findIndex(n=>n.name==='SET_HOOPS'), kids=hg>=0?(nodes[hg].children||[]).map(c=>nodes[c].name):[];
++check('1. gym_arena.glb 有 SET_HOOPS 群組（籃板、籃框、籃網、白線、護墊、吊架）', hg>=0&&['glass','rim','net','line','pad','mast'].every(k=>kids.some(n=>new RegExp('^SET_HOOPS_'+k).test(n))), kids.join('、'));
++const RIM=vertsOf(/^SET_HOOPS_rim/), GLS=vertsOf(/^SET_HOOPS_glass/), NET=vertsOf(/^SET_HOOPS_net/), LN=vertsOf(/^SET_HOOPS_line/), ALL=vertsOf(/^SET_HOOPS_/);
++for(const [hx,hz] of HOOPS){ const s=hz<0?1:-1, tag='（'+hx+', '+hz+'）';
++  // 2. 籃框：圈（板面上的固定板、頸部不算：離圈中心 0.2 m 以上、0.26 m 以內）
++  const ring=RIM.filter(p=>{ const d=Math.hypot(p[0]-hx,p[2]-hz); return d>0.2&&d<0.26; }), y=mm(ring,1);
++  const cx=ring.reduce((a,p)=>a+p[0],0)/(ring.length||1), cz=ring.reduce((a,p)=>a+p[2],0)/(ring.length||1), rIn=Math.min(...ring.map(p=>Math.hypot(p[0]-hx,p[2]-hz)));
++  check('2. 籃框'+tag+'：圈的上緣 3.05 m、中心對準、內徑約 45 cm', ring.length>40&&Math.abs(y[1]-3.05)<0.006&&y[0]>3.02&&Math.hypot(cx-hx,cz-hz)<0.02&&Math.abs(rIn*2-0.45)<0.02, '上緣 '+y[1].toFixed(3)+'、下緣 '+y[0].toFixed(3)+'、中心偏 '+Math.hypot(cx-hx,cz-hz).toFixed(3)+'、內徑 '+(rIn*2).toFixed(3));
++  // 3. 籃板
++  const g=near(GLS,hx,hz,1.2), gx=mm(g,0), gy=mm(g,1), gz=mm(g,2), face=s>0?gz[1]:gz[0];
++  check('3. 籃板'+tag+'：1.80×1.05 m、下緣 2.90 m、板面離籃框中心 37.5 cm（端線那一側）', Math.abs(gx[1]-gx[0]-1.8)<0.01&&Math.abs(gy[0]-2.90)<0.005&&Math.abs(gy[1]-3.95)<0.005&&Math.abs((hz-face)*s-0.375)<0.01,
++    '寬 '+(gx[1]-gx[0]).toFixed(3)+'、'+gy[0].toFixed(3)+'～'+gy[1].toFixed(3)+'、板面 '+face.toFixed(3));
++  const l=near(LN,hx,hz,1.2); check('3. 籃板'+tag+'：白線（外框、籃框上面的小方框）在板面前面', l.length>=32&&l.every(p=>(p[2]-face)*s>0.0005&&(p[2]-face)*s<0.01), l.length+' 個頂點');
++  // 4. 籃網、吊桿
++  const n=near(NET,hx,hz,0.4), ny=mm(n,1); check('4. 籃網'+tag+'：掛在圈下面（最低 2.55 m 以上）', n.length>0&&ny[0]>=2.55&&ny[1]<=3.05, ny.map(v=>v.toFixed(2)).join('～'));
++  const m=vertsOf(/^SET_HOOPS_mast/).filter(p=>Math.abs(p[0]-hx)<0.6&&Math.abs(p[2]-(hz-s*1.475))<0.1); check('4. 吊桿'+tag+'：從籃板後面一路到屋頂（20.5 m 以上）', m.length>0&&mm(m,1)[1]>20.5&&mm(m,1)[0]<3.1, mm(m,1).map(v=>v.toFixed(2)).join('～'));
++  // 6. 舊的籃板
++  const old=vertsOf(/glass/).filter(p=>p[1]>17.5&&p[1]<18.7&&Math.abs(p[0]-hx)<1&&Math.abs(p[2]-(hz-s*0.375))<0.1);
++  check('6. 舊的「收在上面」的籃板'+tag+'拿掉了（17.5～18.7 m 沒有玻璃）', old.length===0, old.length+' 個頂點'); }
++check('5. 地上沒有東西：籃架最低 2.55 m 以上（導航不用改）', ALL.length>0&&mm(ALL,1)[0]>=2.55, ALL.length?mm(ALL,1)[0].toFixed(3)+' m':'沒有 SET_HOOPS');
++// 7. 遊戲端
++const g3=fs.readFileSync(path.join(ROOT,'src/gym3d.js'),'utf8'), cr=fs.readFileSync(path.join(ROOT,'src/crowd3d.js'),'utf8');
++check('7. gym3d.js：典禮那天收起 SET_HOOPS（其他日子打開）', /getObjectByName\('SET_HOOPS'\)[^;]*;\s*if\(hp\)\s*hp\.visible=!z\.ceremonyOn/.test(g3));
++check('7. crowd3d.js：籃架接上，CROWD.ARENA_HOOPS 預設 true（打球的人回到籃框半場）', /S\.ARENA_HOOPS=S\.ARENA_HOOPS!==false/.test(cr));
++console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/gym_crowd_unit.js b/tests/gym_crowd_unit.js
+index 96c6fb07b..c392965c5 100644
+--- a/tests/gym_crowd_unit.js
++++ b/tests/gym_crowd_unit.js
+@@ -53,7 +53,7 @@ const MONPE=(()=>{ for(let d=1;d<120;d++){ const q=CALENDAR.dateOf(d), t=CALENDA
+   check('1. B1 健身中心的人都在器材上（照位置放、不走動，小動作不動他們）：12 秒後位置、姿勢不變',fit.length>=1&&fit.every((n,k)=>n.fixedPos&&!n.fid&&n.obj.position.distanceTo(p0[k])<1e-6&&(n.pose==='run'||/^gym_/.test(n.pose))),fit.map(n=>n.crowdRole+':'+n.pose).join(' '));
+   Math.random=R0; }
+ { const {z}=enter('gym_arena',mkG(SAT,15)); const bb=role('basketball'), rest=role('rest');
+-  check('1. 3F 主球場（週六 15:00）：籃架還沒接上（CROWD.ARENA_HOOPS false，ARENA-NOHOOP-1105）＝打球的人站在東側場邊等、不上場跑；場邊有人休息',CROWD.ARENA_HOOPS===false&&bb.length>=3&&rest.length>=1&&bb.every(n=>!n.waypoints&&n.beh!=='route'&&n.obj.position.x>8),'打球 '+bb.length+'、休息 '+rest.length); }
++  check('1. 3F 主球場（週六 15:00）：籃架接上了（CROWD.ARENA_HOOPS true，ART-ARENA-HOOPS-1105；以前 ARENA-NOHOOP-1105 站場邊等）＝打球的人在北邊籃框那個半場跑（跑一段停一下、面向籃框）、只用褲裝底模；場邊有人休息',CROWD.ARENA_HOOPS===true&&bb.length>=2&&rest.length>=1&&bb.every(n=>n.beh==='route'&&n.run&&n.pauseAt&&n.faceYaw!=null&&n.waypoints.every(q=>q[1]<-2&&Math.abs(q[0])<7.5)),'打球 '+bb.length+'、休息 '+rest.length); }
+ // ---------- 2. 站得住、走得到、坐得下；同一時段同一批人 ----------
+ const audit=(zid,G)=>{ const {z}=enter(zid,G); const bad=[]; for(const n of ppl()){ const P=n.obj.position;
+     if(n.seat){ if(!CROWD.seatSide(E,n.seat)) bad.push(n.crowdRole+' 坐的位子旁邊站不起來'); continue; }
