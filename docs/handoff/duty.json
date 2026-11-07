@@ -1057,6 +1057,17 @@
    "reviewedThrough": "81f740cb7",
    "at": "2026-11-04T12:2xZ",
    "note": "LAWWW-B 11-04 12:2x 查核：交班（0500bcca）以後 8 個都是帳號 A 的 AA、BB 自己 09:04～09:05 的交班紀錄與合併（AA、BB 共用企劃線），比帳號 B 12:1x 接班早；AA-B 12:11 快轉合併進 cool-heisenberg。不是兩個帳號同時寫"
+  },
+  {
+   "kind": "post-handoff-writes",
+   "role": "BB",
+   "from": "C",
+   "to": "B",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "resolved": true,
+   "reviewedThrough": "f1d31b2f0",
+   "at": "2026-11-07T03:4xZ",
+   "note": "LAWWW-B 11-07 03:4x 查核：交班 commit 7a675d98c 以後 3 個（d4e797c6d、56f47b4be、f1d31b2f0）都是 BB-C 11-05 16:11～16:15 自己的重新接班與再交班紀錄，比帳號 B 11-07 03:3x 接班早；已快轉進 BB-B 的 elegant-brown。不是兩個帳號同時寫"
   }
  ],
  "seq": 93,
