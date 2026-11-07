@@ -183,10 +183,10 @@ FPS_WZ_ORDER  | <同一個 SHA>       | probe | tools/cc_local/fps_zones.py     
 - NPC 只佔 1 ms 左右。
 - **要回到 60 fps，要省的是畫面的 draw call（CPU 那一邊）和陰影那一輪**。
 
-溫州街模型的 draw call 都是我的檔：
-- 主巷 112；
-- 機車 76（每台 70 個 primitive）；
-- 公園 29、道具 24。
+溫州街模型的 draw call 都是我的檔。上面「雲端能確定的」那張表是 11-05 在雲端數的：
+- 主巷 112、公園 29、道具 24；
+- 機車那一列 76 可能是舊的：機車 v2 早就每 20 m 合成一個網格（`attachWzScooters` 的 `scMerge`，外加遠距離版本），一段只有 1 個 draw call。
+- 所以不憑這張表開工。第二支探針加了**分項**：PC 上照模型分組、各畫一次，記 draw call、三角形（含陰影那一輪），數字回來再決定省哪一組。
 
 校園：
 - base 24.5 fps，CPU 30 ms，458 個 draw call；
@@ -201,6 +201,8 @@ FPS_WZ_ORDER  | <同一個 SHA>       | probe | tools/cc_local/fps_zones.py     
   - 還在＝是 GPU 第一次畫。
 - **prewarm**：pre，再加上黑畫面裡把整個場景不剔除地畫一次到小畫布、讀一個像素。
   - 淡入後再變少＝「第一次畫」的成本可以搬進黑畫面（之後修法的候選）。
+
+**另外**：base 那一次量完以後做分項——場景照模型分組（大的群組往下拆一層），每一組單獨畫一次，記 draw call、三角形（含陰影那一輪）。用 Node 的假場景驗過：數字對、跑完每個物件的 visible 都還原。
 
 **記錄**：
 - Chrome 的 **Long Animation Frames**（LoAF）：每一個長格裡跑了哪幾段 JS（呼叫方式、函式名、`檔案:行`、毫秒）。
@@ -231,8 +233,7 @@ PERF_COLD | <開發分支最新 SHA> | probe | docs/story_planning/test_tools/cc
 | 長格裡沒有 JS（pre 也還在），prewarm 就沒有 | 黑畫面裡整個場景畫一次（`Z3.prewarm` 最後加這一步） | 我（`zones3d.js`）＋ LAWWW 接 |
 | 都還在 | 看 LoAF 列出來的函式再說 | — |
 
-**穩定以後的 30 fps**（和第一次進無關，可以先做）：
-- 溫州街機車 76 個 draw call：每台 70 個 primitive，照材質合併；
+**穩定以後的 30 fps**（和第一次進無關）：等第二支探針的分項，挑 draw call 最多的那幾組。候選：
 - 主巷 112：材質合併成貼圖集；
 - 不需要投影子的小東西不投影（陰影那一輪約 70 個）。
 
@@ -242,5 +243,5 @@ PERF_COLD | <開發分支最新 SHA> | probe | docs/story_planning/test_tools/cc
 
 - 第二支探針的 PC 數字（等 CC-B 排）。
 - 修：等數字決定第一次進的那一項。
-- 穩定以後的 draw call：機車合併先做（我的檔、不用等數字）。
+- 穩定以後的 draw call：等分項（機車那一列可能是舊數字，先不動）。
 - 驗收：BB 用同一支 F1／F2 重量。
