@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_linze_lm_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LZLM_after\out
+CC LZ-UPPER-LM（after）：SHA=5a2ab6c75566cb3aaa0e78c4caafdd460da7145e（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+FAIL [linze_3f day elev_south] 探針沒有例外  TypeError("load_state() got an unexpected keyword argument 'quiet_phone'")
+FAIL [linze_3f day disc_north] 探針沒有例外  TypeError("load_state() got an unexpected keyword argument 'quiet_phone'")
+FAIL [linze_3f night elev_south] 探針沒有例外  TypeError("load_state() got an unexpected keyword argument 'quiet_phone'")
+FAIL [linze_3f night disc_north] 探針沒有例外  TypeError("load_state() got an unexpected keyword argument 'quiet_phone'")
+FAIL [linze_4f day elev_south] 探針沒有例外  TypeError("load_state() got an unexpected keyword argument 'quiet_phone'")
+FAIL [linze_4f day disc_north] 探針沒有例外  TypeError("load_state() got an unexpected keyword argument 'quiet_phone'")
+FAIL [linze_4f night elev_south] 探針沒有例外  TypeError("load_state() got an unexpected keyword argument 'quiet_phone'")
+FAIL [linze_4f night disc_north] 探針沒有例外  TypeError("load_state() got an unexpected keyword argument 'quiet_phone'")
+PASS 沒有 JS 例外  []
+FAILED 8: [linze_3f day elev_south] 探針沒有例外；[linze_3f day disc_north] 探針沒有例外；[linze_3f night elev_south] 探針沒有例外；[linze_3f night disc_north] 探針沒有例外；[linze_4f day elev_south] 探針沒有例外；[linze_4f day disc_north] 探針沒有例外；[linze_4f night elev_south] 探針沒有例外；[linze_4f night disc_north] 探針沒有例外
