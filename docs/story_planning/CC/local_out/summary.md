@@ -1544,3 +1544,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 311.6s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 311.7s] BROWSER DISCONNECTED
 - 2026-11-06T07:37:10  V21R_soc_heroine_02_go  sha=83d09d13b0686e51e344b4b771ebb9124d8806a4  exit=1  2267s       用了 37.3 分鐘 / ==== 總結：1 人，FAIL 1 人：[["heroine_02", ["date 當面約（第 2 次）：旁邊有互動鍵"]]] / FAILED 1
       err.log (last 5): [gpu_wrap 2237.6s] page close url=http://127.0.0.1:8805/index.html | [gpu_wrap 2237.6s] BROWSER DISCONNECTED
+- 2026-11-07T11:44:49  LIVE_V91021_p0  sha=92c3daad8adf1bb5f707b0b411640c7b13ff7052  exit=1  78s    [gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_LIVE_V91021_p0\tests\p0_movement.py https://pyhuanglaw.github.io/Lawstudent/index.html /   [前置／捷徑] 讀檔前關掉「要回覆的訊息自動打開手機」（D103；這支只測移動）
+      err.log (last 5):     at eval (eval at evaluate (:370:30), <anonymous>:1:736) |     at eval (eval at evaluate (:370:30), <anonymous>:1:752) |     at eval (<anonymous>) |     at UtilityScript.evaluate (<anonymous>:370:30) |     at UtilityScript.<anonymous> (<anonymous>:1:44)

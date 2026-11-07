@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "LIVE_V91021_p0",
+  "sha": "92c3daad8adf1bb5f707b0b411640c7b13ff7052",
+  "kind": "game",
+  "script": "tests/p0_movement.py",
+  "env": "XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html",
+  "machine": "MSI",
+  "start": "2026-11-07T11:43:31",
+  "end": "2026-11-07T11:44:49",
+  "seconds": 78,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 26,
+    "mem": 49,
+    "used_gb": 15.3,
+    "chrome_testing": 8
+  }
+}

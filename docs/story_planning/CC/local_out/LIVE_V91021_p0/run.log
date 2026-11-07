@@ -1,0 +1,2 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_LIVE_V91021_p0\tests\p0_movement.py https://pyhuanglaw.github.io/Lawstudent/index.html
+  [前置／捷徑] 讀檔前關掉「要回覆的訊息自動打開手機」（D103；這支只測移動）
