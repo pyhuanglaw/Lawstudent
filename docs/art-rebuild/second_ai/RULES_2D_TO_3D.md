@@ -157,6 +157,11 @@
 | 可點的地面（點地移動） | 有高度的地方（斜地板、看台、樓梯、平台）一定要註冊 `zone.walkMeshes`，不然 `E.screenToFloor` 退回 y 0、落點偏好幾公尺。測試照 `E.screenToFloor` 的算法打射線，落點差 ≤ 0.5 m | `src/nanyang3d.js`（三片）、`src/gym3d.js` 的 `arenaWalk`；`tests/nanyang_tap_unit.js`、`tests/gym_arena_tap_unit.js` | LAWWW2-C，11-05（新） |
 | 小孤島總掃 | 所有室內區域每 0.1 m 一點、從出生點連通；連不到的分群、附 gap（≤ 0.45 m＝跑步一步跳得進去） | `tools/dev_scratch/indoor_islands.js`；每間店的測試也各有一項（`dakou_unit` ⑩、`xsshop_unit` ⑤、`xsports_unit` ⑦） | LAWWW2-C，11-05（新） |
 | 踏面對 GLB | 讀 GLB 的頂點，樓梯每一階最高的點＝導航算的 k×rise（差 ≤ 0.02 m）；踏面頂點在樓梯兩邊，取範圍要包含兩邊 | `tests/dakou_unit.js` ③、`tests/xsports_unit.js` ③ | LAWWW2-C，11-05（新） |
+| VRM 加一套衣服（換裝） | 用身體皮膚的網格照骨頭和高度切出來、往外推、Taubin 平滑；權重照原本皮膚頂點；貼圖畫在皮膚的 UV 上；再跑 fit 形狀。遊戲端藏、顯示子網格切換 | `tools/gym_wear.py`；`C.setGymWear`（`src/character3d.js`） | LAWWW2-B，11-07（新） |
+| 改 VRoid 皮膚貼圖 | 皮膚貼圖上畫好的內衣、襪子換成皮膚色（同一欄往下找皮膚色接上去，往皮膚裡多走 6 px、交界往外擴 4 px） | `tools/gym_wear.py` 的 `skin_fix` | LAWWW2-B，11-07（新） |
+| 測試讀貼圖顏色 | Node 裡解 PNG（`zlib.inflateSync`＋每列反濾波），看頂點的 UV 對到什麼顏色 | `tests/gym_wear_unit.js` ⑦ | LAWWW2-B，11-07（新） |
+| 街上看不到的面不放 | 從街上走得到的 135 個鏡頭位置射線；看不到的面烘焙時留著擋光，匯出前刪 | `tools/blender/env_second/offbeat_storefront.py`（`--no-cull` 關掉） | LAWWW2-B，11-07（新） |
+| 窗景夜景照得到對街 | 燈頭點光源、月光、光圈半徑倍率 | `wz_window_view.py` 的 `--pool-point`、`--moon`、`--pool-r` | LAWWW2-B，11-07（新） |
 | 單張圖轉 3D 的 AI（開源） | 小物件可以，店面、建築不行（會糊、背面靠猜、走不進去）。TripoSR 只用在玩家走不到 3 m 內、Poly Haven 和 plants.py 做不出來的有機小雜物（D138）；TRELLIS.2 線上版：使用者 11-05 03:5x 同意挑他的參考圖上傳試跑；11-05 實測：去背成功，產生 3D 被 Hugging Face 免費 GPU 額度擋；**使用者 06:4x 取消：「這不用做 我電腦也跑不了」——不要再試**，見 `research/TRELLIS2_TRY_1105.md` | `research/OPEN_SRC_2D3D_1104.md` | 研究，11-04 |
 
 ## 3. 踩過的坑（每一條都真的發生過）
@@ -184,6 +189,16 @@
     - 一行指令裡有 `cd` 的，一律寫 `cd X || exit 1`。`cd` 失敗時，後面的 `git checkout .` 會在別的工作樹跑。
     - 不要用 `git stash -- 路徑`：它會把整個暫存區一起收走，所有工作樹共用同一個 stash。
     - 磁碟滿了先刪 scratchpad 裡舊的 worktree（`git worktree remove`）。
+17. **人物預覽沒貼真的皮膚貼圖，看不到貼圖上畫的東西**（祐廷運動服第一版，11-07）：
+    - VRoid 的皮膚貼圖本來就畫了灰色背心、深色內褲、深色襪子，平常被衣服蓋住；
+    - 我的預覽皮膚是單一顏色，換上短袖短褲以後露出來的灰色、深色襪子都沒看到，是 LAWWW-B 在遊戲內看到才發現；
+    - **人物預覽一律用遊戲裡真的貼圖**（皮膚、衣服、頭髮），露出新的皮膚就先查皮膚貼圖那一塊畫了什麼；
+    - 再加一項 Node 測試讀貼圖顏色（第 2 節），不靠眼睛。
+18. **衣服和身體重疊的那一段，兩邊推出的距離要分清楚裡外**（同一件）：短褲腰頭推 1.1 cm、上衣最少只推 0.77 cm，平滑又把髖骨往內拉，短褲就從上衣穿出兩個小黑點。外面那件在重疊段至少多推 1 cm，用測試比離軸距離。
+19. **合併網格以後頂點色不見**（日常失速店內第一版，11-07）：材質的顏色節點沒寫層名＝讀「預設那一層」；合併時第一個物件沒有顏色層，合出來就沒有預設層，椅子、盆栽烘成灰色。合併後指定作用中、要畫的那一層，材質也寫上層名。
+20. **自發光的東西也會進陰影那一輪**：遊戲只認得 `NOSHADOW_` 開頭的節點不投影（`wzCastsShadow`）。店內 2.2 萬三角形在陰影那一輪又畫一次，店前多 4.4 萬。不需要影子的就用這個前綴。
+21. **窗景夜景只有往下照的路燈，直立的牆、樹冠一片黑**（新生南路四張，11-07）：拉曝光、加月光都不夠（月光太強像黃昏）；燈頭加點光源才照得到。
+22. **bpy 腳本要在 scratchpad 跑**：在 repo 根目錄跑，glTF 匯入會壞（`_RestrictContext`）。
 
 ## 4. 交接
 
