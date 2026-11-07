@@ -25,7 +25,7 @@ SAMPLER = """(w=>{ window.__ivdbg=[]; clearInterval(window.__ivT); window.__ivT=
   const n=(E.npcs||[]).find(q=>q.id===w||q.charId===w); const L=iv.lead||null; const her=L&&L.her&&INV.seatObj?INV.seatObj(E,L.her):null; const pp=E.player.obj.position;
   window.__ivdbg.push({h:+G.hour.toFixed(2), st:iv.state, ph:L&&L.ph, her:her?{x:+her.x.toFixed(2),z:+her.z.toFixed(2),lv:her.lv|0}:(L&&L.her!=null?String(L.her):null),
     nSeat:n&&n.seat?{x:+n.seat.x.toFixed(2),z:+n.seat.z.toFixed(2)}:null, nPos:n?{x:+n.obj.position.x.toFixed(2),z:+n.obj.position.z.toFixed(2),lv:n.lv|0}:null, ivLead:n?n._ivLead:null, beh:n&&n.beh, frozen:n&&!!n.frozen,
-    p:{x:+pp.x.toFixed(2),z:+pp.z.toFixed(2),lv:E.player.lv|0}, pSeat:!!E.player.seat, busy:!!E.player.busy, free:INV.sceneFree?INV.sceneFree(GAME):null, zone:G.zone, ivZone:iv.zone});
+    p:{x:+pp.x.toFixed(2),z:+pp.z.toFixed(2),lv:E.player.lv|0}, pSeat:!!E.player.seat, busy:!!E.player.busy, phone:!document.getElementById('phone').classList.contains('hide'), paused:!!E.paused, dActive:!!(GAME.D&&GAME.D.active), depth:GAME.sceneDepth?GAME.sceneDepth():null, evRun:(typeof EVENTS!=='undefined')?!!EVENTS.running:null, free:INV.sceneFree?INV.sceneFree(GAME):null, zone:G.zone, ivZone:iv.zone});
   if(window.__ivdbg.length>400) window.__ivdbg.splice(3,1); }catch(e){ window.__ivdbg.push({err:String(e)}); } },2000); })(%s)"""
 
 

@@ -103,8 +103,15 @@ async def meet_once(pg, cdp, run, cat, word, tag):
         run.check('[%s] 收起手機（時間才會走）' % tag, await close_phone(pg, cdp))
 
     said, picked = [], []
+    reopen = 0
     for _ in range(900):
         q = await L.state(pg)
+        if not q['dlg'] and not q['choices'] and await pg.evaluate("!document.getElementById('phone').classList.contains('hide')"):
+            reopen += 1; said.append('【手機自己打開了（第 %d 次），照玩家會做的收起來】' % reopen)
+            print('   [%s] 手機自己打開了（第 %d 次）：收起來' % (tag, reopen), flush=True)
+            await close_phone(pg, cdp)
+            if reopen > 5: break
+            continue
         if q['dtext'] and (not said or said[-1] != q['dtext']): said.append(q['dtext'])
         st = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).find(x=>String(x.id)===String(id)); return v?{st:v.state, ph:v.lead&&v.lead.ph}:null; })(%s)" % json.dumps(v['id']))
         if st and st['st'] in ('done', 'met', 'over') and not q['dlg'] and not q['busy'] and not q['choices']: break
