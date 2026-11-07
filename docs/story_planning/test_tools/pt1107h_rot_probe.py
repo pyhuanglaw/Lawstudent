@@ -20,6 +20,13 @@ ROUNDS = int(os.environ.get('ROUNDS', '3'))
 FINAL = os.environ.get('FINAL', '1') == '1'
 SHIFT = int(os.environ.get('DAYSHIFT', '-14'))
 ANS = [x for x in os.environ.get('ANS', '').split(',') if x]
+DBG = os.environ.get('DBG', '0') == '1'
+SAMPLER = """(w=>{ window.__ivdbg=[]; clearInterval(window.__ivT); window.__ivT=setInterval(()=>{ try{ const G=GAME.G, E=GAME.E; const iv=(G.invites||[]).filter(v=>v.who===w&&v.day===G.day).slice(-1)[0]; if(!iv) return;
+  const n=(E.npcs||[]).find(q=>q.id===w||q.charId===w); const L=iv.lead||null; const her=L&&L.her&&INV.seatObj?INV.seatObj(E,L.her):null; const pp=E.player.obj.position;
+  window.__ivdbg.push({h:+G.hour.toFixed(2), st:iv.state, ph:L&&L.ph, her:her?{x:+her.x.toFixed(2),z:+her.z.toFixed(2),lv:her.lv|0}:(L&&L.her!=null?String(L.her):null),
+    nSeat:n&&n.seat?{x:+n.seat.x.toFixed(2),z:+n.seat.z.toFixed(2)}:null, nPos:n?{x:+n.obj.position.x.toFixed(2),z:+n.obj.position.z.toFixed(2),lv:n.lv|0}:null, ivLead:n?n._ivLead:null, beh:n&&n.beh, frozen:n&&!!n.frozen,
+    p:{x:+pp.x.toFixed(2),z:+pp.z.toFixed(2),lv:E.player.lv|0}, pSeat:!!E.player.seat, busy:!!E.player.busy, free:INV.sceneFree?INV.sceneFree(GAME):null, zone:G.zone, ivZone:iv.zone});
+  if(window.__ivdbg.length>400) window.__ivdbg.splice(3,1); }catch(e){ window.__ivdbg.push({err:String(e)}); } },2000); })(%s)"""
 
 
 def core(t):
@@ -73,7 +80,12 @@ async def main():
             pr = await predict(pg)
             print('   [%s] 預測' % tag, json.dumps(pr, ensure_ascii=False)[:900], flush=True)
             await pg.evaluate("(()=>{ if(typeof ADV!=='undefined'&&Array.isArray(ADV.history)) ADV.history.length=0; })()")
+            if DBG:   # 見面卡住時看帶路的狀態（BUG 候選：她被帶路但沒坐在 L.her、走到旁邊也不開演）
+                await pg.evaluate(SAMPLER % json.dumps(WHO))
             said, picked = await pe.meet_once(pg, cdp, run, '念書', '總圖', tag)
+            if DBG:
+                dbg = await pg.evaluate("(()=>{ clearInterval(window.__ivT); return (window.__ivdbg||[]); })()")
+                print('   [%s] DBG 帶路取樣 %d 筆（前 3、後 8）' % (tag, len(dbg)), json.dumps(dbg[:3] + dbg[-8:], ensure_ascii=False)[:3000], flush=True)
             hist = await pg.evaluate("(typeof ADV!=='undefined'&&Array.isArray(ADV.history))?ADV.history.map(x=>(x.name||'')+'｜'+x.text):[]")
             allt = (said or []) + hist
             r2 = await pg.evaluate("(w=>{ const r=ARCS.rec(GAME.G,w); return {rot:(r.rot||[]).slice(), rotSrc:r.rotSrc||null, k:r.k, last:r.last}; })(%s)" % json.dumps(WHO))
