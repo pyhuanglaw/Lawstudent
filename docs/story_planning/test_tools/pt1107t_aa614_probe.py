@@ -157,10 +157,16 @@ async def main():
             Lx = None
             for who, key, when_key, hour, want_line, label in ((PS, '2025-11-04', '明天 19:00', 15.0, 'ps', '沛珊（週三 19:00）'), (MX, '2025-11-04', '今天 19:00', 15.0, 'mx', '明軒（週二 19:00）')):
                 s, d = await P.base(pg, base, key, hour, 'campus')
+                s['invites'] = [v for v in s.get('invites', []) if v.get('who') != who]
+                if who == MX:
+                    s.setdefault('contacts', {})[MX] = s.get('contacts', {}).get(MX) or {'day': d['d'] - 10}
                 await P.load(pg, cdp, s); await P.init(pg)
+                if who == MX:
+                    await pg.evaluate("(id=>{ const r=SOCIAL.rel(id); if(r){ r.fam=Math.max(r.fam||0,60); r.trust=Math.max(r.trust||0,40); r.comf=Math.max(r.comf||0,40); } })(%s)" % json.dumps(MX))
+                    run.setup('【捷徑】明軒：存檔裡還沒有他的聯絡方式（ACQUAINTANCE）→ 補 contacts＋關係撥到 FRIEND 左右')
                 inv = await pg.evaluate("AA614.L.inv")
                 run.setup('[前置] day46 存檔改到 %s %.0f:00 校園' % (key, hour))
-                lv, after = await invite(pg, cdp, who, '吃飯', '林家乾麵', when_key)
+                lv, after = await invite(pg, cdp, who, '吃飯', '大口漢堡', when_key)
                 print('[INV %s]' % who, J(lv, 1500), J(after, 1500))
                 if after is None:
                     run.check('%s：朋友頁有「約」' % label, False, J(lv)); continue
@@ -211,16 +217,8 @@ async def main():
             run.setup('[前置] day46 存檔 2025-11-01（六）18:30 南洋戲院大廳；NY_ALISON 拿掉＝還沒在櫃檯碰過')
             u0 = await page_lines(); print('[PAGE0]', J(u0))
             run.check('還沒在櫃檯碰到：Alison 資料頁沒有「打工：南洋戲院……」', not any('打工' in x for x in u0), J(u0))
-            it = None
-            for lab in ('大廳爆米花', '爆米花', '櫃檯'):
-                it = await L.find_it(pg, lab)
-                if it: break
-            print('[COUNTER]', J(it))
-            if it:
-                await L.go_to(pg, cdp, run, it['x'], it['z'], 0.6, it['label'], max_s=300)
-                await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
-                said, o = await lines_until_idle(pg, cdp, 60, picks=('好', '謝'))
-                print('[MEET]', J(said), J(o))
+            r = await P.talk_to(pg, cdp, run, YU, 'alison_counter', picks=('好', '謝'))
+            print('[MEET]', J(r, 1500))
             ny = await pg.evaluate("GAME.G.flags.NY_ALISON")
             u1 = await page_lines(); print('[PAGE1]', J(u1), J(ny))
             await run.shot(pg, 'alison_page_after')
