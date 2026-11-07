@@ -65,7 +65,7 @@
    "account": "B",
    "session": "session_01J1g2TPcPzWrihXSY2WvseV",
    "branch": "claude/elegant-brown-fcos7n",
-   "sha": "501a1c41",
+   "sha": "4869baa5",
    "since": "2026-11-07T03:32Z",
    "state": "on",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
@@ -74,14 +74,14 @@
    "handoffSnapshot": "docs/handoff/snapshots/2026-11-05T1050Z_C_BB.json"
   },
   "CC": {
-   "account": "C",
-   "session": "session_01S1Gk9V6WCgJmkoo3wxHxhv",
+   "account": "B",
+   "session": "session_01WXeLH8aaCTWiEivqGFc9na",
    "branch": "claude/cc-testing",
-   "sha": "41f99365",
-   "since": "2026-11-04T12:41Z",
-   "state": "handed-off",
+   "sha": "2f4b5548",
+   "since": "2026-11-07T03:26Z",
+   "state": "on",
    "progressFile": "docs/story_planning/CC/CC_00_交接紀錄.md（claude/cc-testing）",
-   "sinceSha": "4aa1dbb4",
+   "sinceSha": "21430727",
    "handedOffAt": "2026-11-05T11:1xZ",
    "handoffSnapshot": null,
    "note": "CC-C 11:1x 只在 CC_00 寫了交班紀錄（41f993657），沒跑 duty handoff、沒存快照；LAWWW-C 11:4x 照交班紀錄手動標 handed-off（異常，HV-20 第①點：下一任 CC 交班一定要跑 duty handoff）"
@@ -683,6 +683,20 @@
     }
    },
    "until": "2026-11-07T03:33Z"
+  },
+  {
+   "account": "C",
+   "role": "CC",
+   "roles": {
+    "CC": {
+     "session": "session_01S1Gk9V6WCgJmkoo3wxHxhv",
+     "branch": "claude/cc-testing",
+     "sha": "41f99365",
+     "state": "handed-off",
+     "handedOffAt": "2026-11-05T11:1xZ"
+    }
+   },
+   "until": "2026-11-07T03:38Z"
   }
  ],
  "anomalies": [
@@ -1045,7 +1059,7 @@
    "note": "LAWWW-B 11-04 12:2x 查核：交班（0500bcca）以後 8 個都是帳號 A 的 AA、BB 自己 09:04～09:05 的交班紀錄與合併（AA、BB 共用企劃線），比帳號 B 12:1x 接班早；AA-B 12:11 快轉合併進 cool-heisenberg。不是兩個帳號同時寫"
   }
  ],
- "seq": 92,
+ "seq": 93,
  "chain": [
   {
    "seq": 1,
@@ -1689,6 +1703,13 @@
    "at": "2026-11-07T03:33Z",
    "account": "B",
    "role": "LAWWW2,AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 93,
+   "at": "2026-11-07T03:38Z",
+   "account": "B",
+   "role": "BB,CC",
    "event": "sync"
   }
  ],
