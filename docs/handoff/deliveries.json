@@ -18329,7 +18329,7 @@
    "msg": "ACK",
    "what": "總圖大廳一進門鏡頭（CAMCOL_facade）",
    "task": "CAM-LIBHALL-DOOR-1107",
-   "integration": "已整合待測試",
+   "integration": "已驗收",
    "note": "cc696b2d6",
    "ack": "ACK"
   },
@@ -18343,7 +18343,7 @@
    "msg": "ACK",
    "what": "公館商圈落點面向店",
    "task": "CAM-GONGGUAN-GATE-1107",
-   "integration": "已整合待測試",
+   "integration": "已驗收",
    "note": "cc696b2d6",
    "ack": "ACK"
   },
