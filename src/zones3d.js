@@ -1014,8 +1014,9 @@ const Z3 = (function(){
     const seats=ggGLB?[{x:15.6,z:19.8,yaw:0,label:'坐在騎樓的板凳',kind:'stool'}]:[];
     for(const s of seats) E.interactables.push({x:s.x,z:s.z,radius:1.4,label:s.label,seat:s});
     /* 預設落點（沒給落點就用這個；手機「地點」的「公館商圈」同一點，src/data/places.js）：面向南邊的店（yaw 0），鏡頭在背後、校門那一側。
-       原本 yaw π（面向校門）：鏡頭在羅斯福路那一側看著校門，店在鏡頭後面——要去店裡只能往鏡頭走，鏡頭不會轉（CAM-GONGGUAN-GATE-1107，CC 試玩 8/30 07:51，LAWWW2-B）*/
-    const zone={group:g,nav,spawn:{x:0,z:-30,yaw:0},lamps,buildings,seats,applyTimeOutdoor:zoneTime,onLamps(on){}};
+       原本 yaw π（面向校門）：鏡頭在羅斯福路那一側看著校門，店在鏡頭後面——要去店裡只能往鏡頭走，鏡頭不會轉（CAM-GONGGUAN-GATE-1107，CC 試玩 8/30 07:51，LAWWW2-B）。
+       位置和「走出校門」同一點 (−2.5, −29)：原本 (0, −30) 鏡頭和人中間是校門正前方那一台機車 (0, −32)（BB-B 11-07 18:40 P3，直向擋住腿）*/
+    const zone={group:g,nav,spawn:{x:-2.5,z:-29,yaw:0},lamps,buildings,seats,applyTimeOutdoor:zoneTime,onLamps(on){}};
     // 店面街的 Blender 正式模型（第二個 AI）：載入後藏起套件外觀（和溫州街同一套接法；招牌、直立招牌合成一張 atlas，晚上照 TK.setNight 發光）；失敗或 ?nobldg 時維持套件
     gateGLB(E,g,gate,0,-46,0,zone);   /* 校門（ART-EXT-GATE）：和校園同一個模型 */
     if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); attachWenzhouModel(E,g,r,'ggShop','gongguan_shops_glb'); propBlocks(nav,GG_PROP_BLOCKS); propReStand(E,nav); ggShopLit(r,zone); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));

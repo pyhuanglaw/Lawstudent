@@ -113,8 +113,9 @@ const PLACES={
     /* BUG-YIZHAN-1107（使用者 11-07 試玩「一盞不見了？」）：一盞（wz_teahouse）進得去，但手機「地點」、大地圖、導航都沒列；落點 null＝區域出生點（從冠木門進來站的地方）。營業週三～週日 12–20 */
     return [['campus','首都帝大校園（法律系館A前）',{x:34,z:-98,yaw:0}],['campus','椰影大道・晨思鐘',{x:-38,z:6,yaw:0}],['campus','校門口',{x:-112,z:0,yaw:-Math.PI/2}],['campus','共同教學館',{x:2,z:21.4,yaw:0}],['campus','普通教學館',{x:-38,z:-47.4,yaw:0}],['campus','博思教學館',{x:-38,z:-71.4,yaw:0}],['campus','大一女舍（門口）',{x:-93,z:56,yaw:0}],GY&&['gym','新體育館（大廳）',GY],
       L1&&['linze','法律系館A（大廳）',L1],['classroom','法律系館A 201 教室',null],['wancai','法律系館B（大廳）',{x:0,z:5,yaw:Math.PI}],LL&&['lawlib','法律學院圖書館',LL],LB&&['library_hall','總圖書館（大廳）',LB],SC&&['soclib','社科院圖書館',SC],
-      /* 公館商圈：面向南邊的店（yaw 0；鏡頭在背後、校門那一側）。原本 yaw π 面向校門，店在鏡頭後面，要去店裡只能往鏡頭走（CAM-GONGGUAN-GATE-1107，LAWWW2-B）*/
-      ['gongguan','公館商圈',{x:0,z:-30,yaw:0}],['gongguan','捷運公館站',{x:-35.6,z:13.2,yaw:0}],['noodle','公館燒臘',{x:0,z:3.4,yaw:Math.PI}],['cvs','日和便利店',IN('cvs')||{x:0,z:3.4,yaw:Math.PI}],['bookstore','頁間書屋',IN('bookstore')||{x:0,z:4,yaw:Math.PI}],AK&&['aoki','青木茶室',AK],AF&&['afar','afar café',AF],DB&&['daybreak','Daybreak',DB],YY&&['yangyang','洋洋鹹酥雞',YY],CR&&['corner_records','轉角唱片',CR],
+      /* 公館商圈：面向南邊的店（yaw 0；鏡頭在背後、校門那一側）。原本 yaw π 面向校門，店在鏡頭後面，要去店裡只能往鏡頭走（CAM-GONGGUAN-GATE-1107，LAWWW2-B）。
+         位置和「走出校門」同一點 (−2.5, −29)（BB-B 11-07 18:40 P3：原本 (0, −30) 鏡頭和人中間是校門正前方那一台機車 (0, −32)，直向畫面擋住腿）*/
+      ['gongguan','公館商圈',{x:-2.5,z:-29,yaw:0}],['gongguan','捷運公館站',{x:-35.6,z:13.2,yaw:0}],['noodle','公館燒臘',{x:0,z:3.4,yaw:Math.PI}],['cvs','日和便利店',IN('cvs')||{x:0,z:3.4,yaw:Math.PI}],['bookstore','頁間書屋',IN('bookstore')||{x:0,z:4,yaw:Math.PI}],AK&&['aoki','青木茶室',AK],AF&&['afar','afar café',AF],DB&&['daybreak','Daybreak',DB],YY&&['yangyang','洋洋鹹酥雞',YY],CR&&['corner_records','轉角唱片',CR],
       ['wenzhou','溫州街',{x:20,z:0,yaw:-Math.PI/2}],['lane118','118 巷',{x:0,z:47.6,yaw:Math.PI}],['cafe','2:30 AM',{x:0,z:5,yaw:Math.PI}],['wz_mokuyobi','木曜日',{x:-3.75,z:5.4,yaw:Math.PI,lv:0}],['wz_offbeat','日常失速',{x:-3.9,z:3.0,yaw:Math.PI}],['wz_teahouse','一盞',null]].concat(XS,[['dorm','宿舍',{x:0,z:2.5,yaw:Math.PI}]]).filter(Boolean); },
   /* 一個區域在哪一棟、哪一條街（PHONE-UNIFY-1030）：樓上樓層、房間、店面對到它的那一棟／那條街（霖澤館 3F→linze、總圖 B1→library_hall、118 巷的店→lane118、溫州街的店→wenzhou、新生南路的店（xs_）→xinsheng、宿舍 205→dorm_hall）；
      其他照原樣。用在：手機「朋友」直接過去的開放時間（那一棟關門＝進不去）、休學退宿以後不回台大、路程的時間（classes3d.js travelMinutes 沒有那一區的位置時照那一棟算）*/

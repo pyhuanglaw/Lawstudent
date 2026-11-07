@@ -9,8 +9,10 @@
 //   ① 「公館商圈」落點：推搖桿往前（畫面的前方）的方向，和落點到最近的店門的方向差 45° 以內——修改前差 180° 左右
 //   ② 公館區域的預設落點和「公館商圈」同一點、同一個方向
 //   ③ 落點的跟隨鏡頭沒有被擋（退滿 4.8 m），在人背後（校門那一側），不在校門的門房、門柱裡
-//   ④ 從落點推搖桿往前一直走到騎樓（z 15），每 0.5 m 都站得住（不會一推就撞到東西）
+//   ④ 從落點推搖桿往前走 25 m（過斑馬線到對面人行道），每 0.5 m 都站得住（不會一推就撞到東西；對面人行道上的機車、路燈不算）
 //   ⑤ 公館其他落點（捷運公館站）不變
+//   ⑥ （BB-B 11-07 18:40 P3）落點的鏡頭到人之間，地上沒有擋住的格子（機車、車架、樹）——原本 (0, −30) 中間是校門正前方那一台機車 (0, −32)，直向畫面擋住腿；
+//      落點和「走出校門」同一點 (−2.5, −29) yaw 0
 // 用法：node tests/gg_gate_cam_1107_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -42,7 +44,11 @@ const nearest=doors.map(d=>({d, r:Math.hypot(d.x-sp.x,d.z-sp.z)})).sort((a,b)=>a
   const gateZ=-46, behindGateSide=out.z<sp.z;   /* 校門在 z −46：鏡頭在人和校門之間 */
   check('③ 落點的跟隨鏡頭退滿 4.8 m（沒被擋）、在人背後的校門那一側、離門房還有距離', r.dist>=4.79&&!r.inner&&behindGateSide&&out.z>gateZ+2.5,
     `鏡頭 (${out.toArray().map(v=>v.toFixed(2)).join(', ')})、退 ${r.dist.toFixed(2)} m`); }
-{ let ok=true, bad=null, n=0; for(let s=0.5; ; s+=0.5){ const x=sp.x+fwd.x*s, zz=sp.z+fwd.z*s; if(zz>=15||zz<=-60||n>200) break; n++; if(!E.canStand(x,zz,0.32,0)){ ok=false; bad=[x.toFixed(1),zz.toFixed(1)]; break; } }
-  check('④ 從落點推搖桿往前一直走到騎樓（z 15），每 0.5 m 都站得住', ok&&n>20, ok?`${n} 步`:`(${bad}) 站不住`); }
+{ let ok=true, bad=null, n=0; for(let s=0.5; s<=25; s+=0.5){ const x=sp.x+fwd.x*s, zz=sp.z+fwd.z*s; n++; if(!E.canStand(x,zz,0.32,0)){ ok=false; bad=[x.toFixed(1),zz.toFixed(1)]; break; } }
+  check('④ 從落點推搖桿往前走 25 m（過斑馬線），每 0.5 m 都站得住', ok&&n>=50, ok?`${n} 步`:`(${bad}) 站不住`); }
+{ const camXZ={x:sp.x+Math.sin(camYaw)*4.8*Math.cos(0.38), z:sp.z+Math.cos(camYaw)*4.8*Math.cos(0.38)}, bad=[];
+  for(let k=1;k<20;k++){ const t=k/20, x=sp.x+(camXZ.x-sp.x)*t, zz=sp.z+(camXZ.z-sp.z)*t; if(!E.canStand(x,zz,0.05,0)) bad.push(x.toFixed(2)+','+zz.toFixed(2)); }
+  check('⑥ 落點的鏡頭到人之間，地上沒有擋住的格子（機車、車架、樹）', !bad.length, bad.length?'擋住：'+bad.slice(0,4).join(' '):`鏡頭 (${camXZ.x.toFixed(2)}, ${camXZ.z.toFixed(2)}) → 人 (${sp.x}, ${sp.z})`);
+  check('⑥ 落點和「走出校門」同一點 (−2.5, −29) yaw 0', sp.x===-2.5&&sp.z===-29&&(sp.yaw||0)===0, JSON.stringify(sp)); }
 check('⑤ 「捷運公館站」落點不變（(−35.6, 13.2) yaw 0）', !!MRT&&MRT[2].x===-35.6&&MRT[2].z===13.2&&MRT[2].yaw===0, MRT?JSON.stringify(MRT[2]):'—');
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
