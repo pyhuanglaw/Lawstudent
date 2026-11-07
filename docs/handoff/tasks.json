@@ -49130,6 +49130,25 @@
    },
    "sha": "fa79dd7bc",
    "next": "【11-07 09:1x LAWWW-B】LAWWW2 b501e871e 接進 fa79dd7bc；BB 功能 PASS、兩點 P3 交 LAWWW2；CC 遊戲內白天晚上。"
+  },
+  {
+   "id": "RELEASE-V91022-1107",
+   "title": "發布 v9.10.22（11-07 試玩修正：行動次數、更多約會地點含 118 巷、一起念書第 N 次與第 6 次解鎖、七位故事線＋下次帶你去、選項改變故事、訊息回覆、送東西、店員、健身、新生南路夜景與遠景、頭髮、進區域載入；線上照舊 v9.10.21 92c3daad8）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "next": "【11-07 10:4x LAWWW-B】使用者選擇題「等 BB 測完再發布（推薦）」（UA-LAWWW-1107-04、X264）。要過的：BB／CC 今天最後一批瀏覽器（118 巷 pt1107i、票錢、AA_722 六格＋partnerBlock、約念書不開演 DBG、手機表頭 P3、燈暗、頭髮 (b) D100a、PERF_COLD near、XSSHOP_dabu、PERF_WZ_DC）＋GHA 全綠＋docs/TESTING.md 第五節發布前清單（含 gen_zone_assets --check）＋BB GO → 發布樹 → PR 合併 main → Pages → CC 線上 deploy_check。沒過的先修或先拿掉。",
+   "note": "候選：開發分支 8fdb294aa 起（GHA 跑中）"
   }
  ]
 }

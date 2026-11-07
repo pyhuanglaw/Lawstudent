@@ -3404,6 +3404,17 @@
    "task": "ACTION-BUDGET-1107",
    "src": "使用者對 LAWWW-B，2026-11-07 05:2x UTC（AskUserQuestion；選項：跳出選單問我（建議）／直接跳到隔天早上／不跳）",
    "checked": "classes3d.js S.eveSleep：晚上用完、今天後面沒有約好的見面／出遊／課＝直接回去睡（ONETAP 回去睡覺）；後面還有約＝不跳"
+  },
+  {
+   "id": "UA-LAWWW-1107-04",
+   "at": "2026-11-07T10:4x",
+   "quote": "（選擇題「要不要發布到線上讓你玩？」）等 BB 測完再發布（推薦）",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X264",
+   "task": "RELEASE-V91022-1107",
+   "src": "使用者對 LAWWW-B，2026-11-07 10:4x UTC（先問「現在可以玩到哪些新東西？」；AskUserQuestion：等 BB 測完再發布（推薦）／現在就準備發布／先不要發布）",
+   "checked": "線上照舊 v9.10.21（92c3daad8）；11-07 試玩以後的修改都在 claude/modest-rubin-2lyp7g；BB、CC 測完今天最後一批＋發布前清單全過才合併 main"
   }
  ]
 }
