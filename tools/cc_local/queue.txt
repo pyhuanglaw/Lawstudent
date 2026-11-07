@@ -145,6 +145,9 @@ PERF_COLD_RT | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_pla
 # LAWWW2-B 10:53 LZ-UPPER-LM：霖澤 3F／4F 光照烘焙，前＝5a2ab6c75 的上一個 commit、後＝5a2ab6c75（玩家跟隨鏡頭：出電梯往南、討論區往北；11:00、20:00）
 LZLM_before | 9ef8a17cf55c429321c09c0e9b58ed6911e06ecc | probe | docs/story_planning/test_tools/cc/cc_linze_lm_probe.py | index.html | 20 | TAG=before;CC_HEADLESS=0
 LZLM_after | 5a2ab6c75566cb3aaa0e78c4caafdd460da7145e | probe | docs/story_planning/test_tools/cc/cc_linze_lm_probe.py | index.html | 20 | TAG=after;CC_HEADLESS=0
+# CC-B 11:1x：LZLM 第一輪兩版都例外（舊版 playlib.load_state 沒有 quiet_phone；cc_d141_lib 已相容）→ 重跑放在常備前面
+LZLM_before_r2 | 9ef8a17cf55c429321c09c0e9b58ed6911e06ecc | probe | docs/story_planning/test_tools/cc/cc_linze_lm_probe.py | index.html | 20 | TAG=before;RERUN=r2;CC_HEADLESS=0
+LZLM_after_r2 | 5a2ab6c75566cb3aaa0e78c4caafdd460da7145e | probe | docs/story_planning/test_tools/cc/cc_linze_lm_probe.py | index.html | 20 | TAG=after;RERUN=r2;CC_HEADLESS=0
 # CC-B 11:1x 常備（:11 檢查 PC 閒著、佇列全跑完）：v9.10.22 候選 126bdf93e 發布前回歸組＋經濟系序章真實流程（v0，D99 第一優先；最慢的在前、SOLO 最後）
 R126_v0_to1017 | 126bdf93e82886673518705566dbe83b582c32c1 | game | tests/flow_v0_to1017.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
 R126_v0_start | 126bdf93e82886673518705566dbe83b582c32c1 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
@@ -156,7 +159,7 @@ R126_reach | 126bdf93e82886673518705566dbe83b582c32c1 | game | tests/reachabilit
 R126_p0 | 126bdf93e82886673518705566dbe83b582c32c1 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
 R126_zone | 126bdf93e82886673518705566dbe83b582c32c1 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
 R126_mini | 126bdf93e82886673518705566dbe83b582c32c1 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
-R126_movreg | 126bdf93e82886673518705566dbe83b582c32c1 | game | tests/movement_regression.py | index.html | 60 | XARGS={url};CC_HEADLESS=0
+R126_movreg | 126bdf93e82886673518705566dbe83b582c32c1 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
 R126_touch | 126bdf93e82886673518705566dbe83b582c32c1 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
 # CC-B 10:3x 常備（使用者「沒有東西可以跑」→ D121 常備：LAWWW 最新 head 8fdb294aa 回歸組＋真實流程；最慢的在前）
 R8FDB_main12 | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
