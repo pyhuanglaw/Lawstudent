@@ -1116,6 +1116,7 @@
 | PLAYTEST-1107-GYM【使用者】 | 「健身器材我還是不能用 應該要讓騎腳踏車變快 肌肉線條更明顯」 | **已交** `AA_713` 七種器材×四階＋升階旁白（60f8f6b6a）；等 LAWWW-B 接器材互動（89da798d1 照 BB_124 7-3 拿掉窗戶、喝水） |
 | PLAYTEST-1107-CHOICE【使用者】（UA-AA-1107-07～-14） | 「我想要的是我的選項會改變故事」「影響能不能交往的選項 應該要有 小心選擇的提示」「也不能我建議他做什麼他就都聽我的啊」；選擇題四題：子晴可改結果、告白第一次失敗還是朋友可再告白、結局分版本、沛珊沒交往＝群組不知道兩年後才出來（2028 年底） | **已交**：`AA_718` 分岔表（答案在第 4 節）、`AA_719` 規則（lean×style×stance×信任、before、key_true）、`AA_723` 告白再試＋沛珊沉默期；LAWWW-B decide3d.js 已做、BB-B 測過以安 AN-1。**AA 下一步：`AA_720` 決定拍打開的事件全文＋結局分版本** |
 | PLAYTEST-1107-PLACES2 | 118 巷七家、念書第 6 次解鎖的她那一格 | **已交** `AA_721`（b782e2c08）、`AA_722`（9bb7e3cc9＋語彤 a 版 bbeb58f34＋partnerBlock 897ddd17e），LAWWW-B 已接 |
+| NOTE-YEJIAN-LM-1107 | LAWWW-B 11-07 19:06 知會：LAWWW2-B 在 aa_support/yejian.glb（頁間書屋 v3b）上烘了光照（第二套 UV、extras.lightmap、yej_oak→yej_oak_rt；原檔 sha256 在 tools/blender/env_second/lightbake/yejian_lm.json） | **以後 AA 重新匯出 yejian.glb，要請 LAWWW2 再烘一次**（不用現在做） |
 | PLAYTEST-1107-MET-YT【使用者】 | 「陳語彤還沒認識但總圖事件先觸發了」 | 原因：存檔是舊版開始的（第 6 天舊 `ev_noodle_yutong` 麵店認識、第 9 天 SHARED_MEAL）。**使用者 11-07 選「舊存檔照留」**（UA-AA-1107-05）；交 LAWWW-B 把總圖等事件的條件改看 STORY.knows／YT_MET_JOB |
 | PLAYTEST-1107-DEV | 行動次數（約見面要算、用完跳下一階段）、一盞不見、體育課地點、餐廳沒放、健身器材、店員（南洋、大口）、進度條、健身房門、窗景閃、山嵐手上沒書、游泳池人物、電影 CG | 交 LAWWW-B（LAWWW2、BB 由它派）；有要 AA 寫字的回來找 AA |
 
