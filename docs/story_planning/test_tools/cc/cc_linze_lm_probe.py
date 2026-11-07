@@ -19,6 +19,7 @@ TAG = os.environ.get('TAG') or 'x'
 R = L.Run('linze_lm_' + TAG, OUT); D.setup(R, OUT)
 DAY = os.environ.get('DAY') or '2025-10-15'
 TIMES = [('day', 11.0), ('night', 20.0)]
+if os.environ.get('HOURS'): TIMES = [('day', float(os.environ['HOURS'].split(',')[0])), ('night', float(os.environ['HOURS'].split(',')[1]))]   # BB-B 15:51：白天 10:00
 VIEWS = [('elev_south', 4.6, -4.9, 0.0), ('disc_north', -2.0, 3.6, math.pi)]
 if os.environ.get('VIEWS'):   # CC-B 11-07 15:3x（LAWWW2-B 15:25 L5FLM）：VIEWS＝「名字:x:z:yaw+…」，ZONES＝「linze_5f,…」，SIS＝「日期,時,視角名」：讀檔後叫 LZUP.labLights('sis')（前置捷徑）再拍
     VIEWS = [(a_, float(b_), float(c_), float(d_)) for a_, b_, c_, d_ in (v.split(':') for v in os.environ['VIEWS'].split('+'))]
