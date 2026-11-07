@@ -54,6 +54,8 @@ SKIRT_SIT_old | 718b59ec7a1eb39f63336f23500b77217cae69b0 | probe | docs/story_pl
 #   BB-B 05:53（UA-LAWWW-1107-03 晚上用完回去睡；c82a39be1）：BB 的 pt1107b_probe（複製成 cc_pt1107b_probe.py，存檔 fixtures/user_saves_1107/day46）；不加 ?turbo（真實流程）
 EVSLEEP_c82 | c82a39be1a59e1e679a640175e5ab7897a103b6b | probe | docs/story_planning/test_tools/cc/cc_pt1107b_probe.py | index.html | 40 | DAYSHIFT=-14;SLOT=ev;CC_HEADLESS=0
 EVSLEEP_LATER_c82 | c82a39be1a59e1e679a640175e5ab7897a103b6b | probe | docs/story_planning/test_tools/cc/cc_pt1107b_probe.py | index.html | 40 | DAYSHIFT=-14;SLOT=ev;LATER=1;CC_HEADLESS=0
+#   BB-B 06:07 GYMUSE_3880：B1 健身中心器材一台一台用（388087110；有視窗）
+GYMUSE_3880 | 38808711072fa54b74ff60892417beefaebae813 | probe | docs/story_planning/test_tools/cc/cc_gymuse_probe.py | index.html | 40 | CC_HEADLESS=0
 #   BB-B 05:35：afar 約會 ②窗邊長桌多試幾次——換約的人（時段、她挑的位子跟著變），ID 不同不會輪流重跑
 GG2_afar_date_01 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_01;RERUN=w01;CC_HEADLESS=0
 GG2_afar_date_03 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_03;RERUN=w03;CC_HEADLESS=0
