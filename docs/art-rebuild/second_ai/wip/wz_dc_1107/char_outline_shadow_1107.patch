@@ -1,0 +1,93 @@
+diff --git a/src/character3d.js b/src/character3d.js
+index 8bc4fa361..2a488a451 100644
+--- a/src/character3d.js
++++ b/src/character3d.js
+@@ -99,6 +99,14 @@ const CHAR = (function(){
+   function collectRim(model){ model.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.isMToonMaterial||C.rimMats.has(mt)) continue; if(/FACE|EYE|Face|Eye|MOUTH|BROW|Outline/.test(mt.name||'')) continue; const rw=/HAIR/i.test(mt.name||'')?1:(/Tops/.test(mt.name||'')?0.45:0); if(!rw) continue;   /* 頭髮全強度、上衣一半；褲子、鞋子、皮膚不加（深色褲子加了會變成偏棕的塑膠光澤）*/ /* 原始值：路人換色時 clone 會連 userData 一起複製，所以黃昏時才 clone 的材質也拿得到「改之前」的值 */ if(!mt.userData.rim0){ const c=mt.parametricRimColorFactor; mt.userData.rim0={c:{r:c.r,g:c.g,b:c.b},p:mt.parametricRimFresnelPowerFactor,l:mt.parametricRimLiftFactor,w:rw}; } C.rimMats.add(mt); } }); }
+   /* 臉上的小零件（眼白、虹膜、高光、睫毛、眼線、眉毛、嘴）：包在頭裡，影子被頭和頭髮蓋住；不投影＝每個 VRM 人物陰影那一輪少 8 次 draw call（2026-10-16 溫州街效能）*/
+   const FACE_PART=/(FaceMouth|FaceBrow|FaceEyelash|FaceEyeline|EyeIris|EyeHighlight|EyeWhite|EyeExtra)/;
++  /* 描邊不進影子那一輪（PERF-WZ-DC-1107，LAWWW2-B；LAWWW-B 11-07 09:04 同意）：three-vrm 的 MToon 描邊是同一個網格的第二個材質（同一份幾何、名字 "...(Outline)"），
++     影子那一輪 three.js 每個 group 用深度材質各畫一次——描邊那一份和本體的深度完全一樣（深度材質不會把描邊往外推），畫出來的影子一模一樣、白畫一次。
++     主角、女主角這種會投影的人物每人 5 個（臉、身體、上衣、褲子、鞋；路人本來就不投影）。建 VRM 時記下描邊材質；engine3d.js 的 shadowLevels 在畫影子之前暫時藏起來、畫完還原。
++     測試：node tests/char_outline_shadow_unit.js */
++  C.OUTLINE_MATS=new Set();
++  const isOutline=mt=>!!mt&&(mt.isOutline===true||/\(Outline\)$/.test(mt.name||''));
++  C.shadowPassBegin=function(){ const hid=[]; for(const m of C.OUTLINE_MATS){ if(m.visible){ m.visible=false; hid.push(m); } } return hid; };
++  C.shadowPassEnd=function(hid){ if(hid) for(const m of hid) m.visible=true; };
+   /* 遠距離版本（PERF-CROWD-LOD-1021，LAWWW2）：無名路人離鏡頭 18 m 外（室外；原本 30 m，PERF-PATROL-ECON-1025 改）換成 tools/lod/npc_lod.py 做的低面數網格
+      （2 個網格、約 6,400 三角形；原本 13～14 個網格＋描邊、約 3 萬）。綁在這個人自己的骨頭上（照骨頭名字；反向綁定矩陣用他自己 skeleton 的），
+      動作、位置、朝向完全跟著原本的模型走；18 m 內完全是原本的模型。遠近由 engine3d.js 的 NPC 迴圈決定（C.setFar）；網址加 ?nofar 整個關掉（比較用）。
+@@ -141,7 +149,7 @@ const CHAR = (function(){
+   C.sitButtOf=function(spec){ const m=spec&&typeof ASSETS!=='undefined'&&ASSETS.manifest&&ASSETS.manifest[spec.model], H=(spec&&spec.height)||(m&&m.height)||1.7; return m&&sitFit(m.url)?C.SIT_TOP-C.SIT_PRESS:0.47*H/1.75; };   /* 坐下以後大腿底部離座位地面多高（鞦韆這種知道座面的位子：抬高＝座面－這個）；表裡沒有的照舊（原本的鞦韆算法）*/
+   const sitDrop=u=>u.sitDrop!=null?u.sitDrop:0.47*(u.k||1);
+   C.sitDrop=h=>sitDrop((h&&h.userData)||{});   /* 測試用 */
+-  function buildVRM(spec){ const key=spec.model; const m=ASSETS.manifest[key]; const e=ASSETS.acquireVRM(key); if(!e) throw new Error('no free VRM instance'); const vrm=e.vrm; const model=vrm.scene; const hide=m.hide||[]; const realShadow=!m.ambient; model.traverse(o=>{ if(o.isMesh||o.isSkinnedMesh){ o.castShadow=realShadow&&!FACE_PART.test((o.material&&o.material.name)||''); o.receiveShadow=false; o.frustumCulled=false; if(hide.some(h=>o.name===h||o.name.startsWith(h))) o.visible=false; } }); /* 衣服材質整體壓暗一點：MToon 的卡通明暗讓受光面拿到整個太陽亮度（不乘入射角），中午的淺色衣服（米白、淺灰）會曝成全白、看不出顏色。只動 _CLOTH 材質（皮膚、臉、頭髮、眼睛不動）；材質在 pool 裡共用，用 userData 記號避免重複壓暗 */ model.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.name||mt.userData.clothK||!/_CLOTH/.test(mt.name)) continue; mt.userData.clothK=C.CLOTH_K; if(mt.color) mt.color.multiplyScalar(C.CLOTH_K); if(mt.shadeColorFactor) mt.shadeColorFactor.multiplyScalar(C.CLOTH_K); } });
++  function buildVRM(spec){ const key=spec.model; const m=ASSETS.manifest[key]; const e=ASSETS.acquireVRM(key); if(!e) throw new Error('no free VRM instance'); const vrm=e.vrm; const model=vrm.scene; const hide=m.hide||[]; const realShadow=!m.ambient; model.traverse(o=>{ if(o.isMesh||o.isSkinnedMesh){ o.castShadow=realShadow&&!FACE_PART.test((o.material&&o.material.name)||''); if(o.castShadow&&Array.isArray(o.material)) for(const mt of o.material) if(isOutline(mt)) C.OUTLINE_MATS.add(mt); o.receiveShadow=false; o.frustumCulled=false; if(hide.some(h=>o.name===h||o.name.startsWith(h))) o.visible=false; } }); /* 衣服材質整體壓暗一點：MToon 的卡通明暗讓受光面拿到整個太陽亮度（不乘入射角），中午的淺色衣服（米白、淺灰）會曝成全白、看不出顏色。只動 _CLOTH 材質（皮膚、臉、頭髮、眼睛不動）；材質在 pool 裡共用，用 userData 記號避免重複壓暗 */ model.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.name||mt.userData.clothK||!/_CLOTH/.test(mt.name)) continue; mt.userData.clothK=C.CLOTH_K; if(mt.color) mt.color.multiplyScalar(C.CLOTH_K); if(mt.shadeColorFactor) mt.shadeColorFactor.multiplyScalar(C.CLOTH_K); } });
+     applyLook(model);
+     const v0=!!(vrm.meta&&vrm.meta.metaVersion==='0'); const sx=v0?-1:1;
+     // 外層 wrap：縮放與坐下時的高度都改 wrap，VRM 本身的 180° 修正（VRM 0.x）保持不動
+diff --git a/src/engine3d.js b/src/engine3d.js
+index a04347029..aacae9691 100644
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -484,7 +484,8 @@ const E3 = (function(){
+      一般畫面不變；之後才載入的模型也一樣（不用一個一個改 castShadow）。「玩家這一層」用導航的層（player.lv），不用 displayLv：
+      階梯教室後排的座位離地板超過 0.5 m，displayLv 會當成在樓梯上、算成二樓（博雅一樓的階梯教室）。測試：node tests/shadow_levels_unit.js */
+   function shadowLevels(SM){ const smr=SM.render; SM.render=function(){ const z=E.zone, LG=z&&z.levelGroups, hid=[], P=E.player; if(LG&&LG.length>1){ const dl=P&&P.lv!=null?(P.lv|0):(z.displayLv|0); for(let k=dl+1;k<LG.length;k++){ const g=LG[k]&&LG[k].group; if(g&&g.visible){ g.visible=false; hid.push(g); } } }
+-      try{ return smr.apply(SM,arguments); } finally{ for(const g of hid) g.visible=true; } }; }
++      const ol=(typeof CHAR!=='undefined'&&CHAR.shadowPassBegin)?CHAR.shadowPassBegin():null;   /* 人物的描邊不進影子那一輪（和本體同一份深度，白畫；PERF-WZ-DC-1107）*/
++      try{ return smr.apply(SM,arguments); } finally{ for(const g of hid) g.visible=true; if(ol) CHAR.shadowPassEnd(ol); } }; }
+   E.cinematic=function(pos,look,via){ if(E.cam.mode!=='cinematic'||!E.cam.look){ /* 從目前的視線方向開始平滑轉過去（舊版注視點從世界原點出發，第一次運鏡會甩頭） */ const fwd=new THREE.Vector3(); camera.getWorldDirection(fwd); E.cam.look=camera.position.clone().addScaledVector(fwd,Math.max(1,camera.position.distanceTo(look))); } E.cam.mode='cinematic'; E.cam.cine={pos:pos.clone(),look:look.clone(),via:via?via.clone():null,back:via?via.clone():null}; };
+   /* 劇情鏡頭結束回到跟隨鏡頭（2026-10-18 使用者：「轉換視角太快了，在宿舍認識阿勳的時候轉回來玩的視角也很暈，隔天起來也是」）：
+      原本看的點瞬間跳回玩家、位置 0.3 秒內拉回背後（還會繞半圈）。改成：跟隨鏡頭的方向接在劇情鏡頭現在的方位（不繞），1.1 秒內慢慢拉回距離、看的點慢慢移過去 */
+diff --git a/tests/char_outline_shadow_unit.js b/tests/char_outline_shadow_unit.js
+new file mode 100644
+index 000000000..9ed7291d0
+--- /dev/null
++++ b/tests/char_outline_shadow_unit.js
+@@ -0,0 +1,32 @@
++// 人物的描邊不進影子那一輪（PERF-WZ-DC-1107，LAWWW2-B 11-07；LAWWW-B 09:04 同意）——不需要瀏覽器。用法：node tests/char_outline_shadow_unit.js
++//   three-vrm 的 MToon 描邊是同一個網格的第二個材質（名字 "...(Outline)"、同一份幾何）；影子那一輪 three.js 每個 group 用深度材質各畫一次，
++//   描邊那一份的深度和本體完全一樣——每個會投影的人物白畫 5 次（臉、身體、上衣、褲子、鞋）。PERF_COLD（CC-B b987cb1cf）溫州街穩定以後 373 calls，人物幾組加起來約 113。
++//   ① 建 VRM 時記下描邊材質：會投影的人物——以安 5 個、祐廷 8 個（多的是平常藏著的運動服 GYM_*）；路人（ambient，本來就不投影）0 個
++//   ② 影子那一輪（CHAR.shadowPassBegin 期間）要畫的 group：祐廷、以安 16 → 11；畫出來的影子不變（拿掉的都是和本體同一份幾何的描邊）
++//   ③ 畫完（shadowPassEnd）描邊材質全部還原，一般畫面的 group 數不變（描邊照樣畫）
++//   ④ engine3d.js 的 shadowLevels 在畫影子前後呼叫 shadowPassBegin／shadowPassEnd
++// 修改前（開發 c8b09bcf0）：① ② ④ FAIL
++const fs=require('fs'), path=require('path');
++const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const vis=o=>{ for(let p=o;p;p=p.parent) if(p.visible===false) return false; return true; };
++const groupsOf=(h,shadowOnly)=>{ let n=0; h.traverse(o=>{ if(!(o.isMesh||o.isSkinnedMesh)||!vis(o)) return; if(shadowOnly&&!o.castShadow) return; const mats=Array.isArray(o.material)?o.material:[o.material];
++  const gs=Array.isArray(o.material)&&o.geometry.groups.length?o.geometry.groups:[{materialIndex:0}]; for(const g of gs){ const m=mats[g.materialIndex]; if(m&&m.visible!==false) n++; } }); return n; };
++const outlineSameGeo=h=>{ let ok=true; h.traverse(o=>{ if(!Array.isArray(o.material)) return; const gs=o.geometry.groups; for(let i=0;i<gs.length;i++){ const m=o.material[gs[i].materialIndex]; if(m&&/\(Outline\)$/.test(m.name||'')){ const j=gs.findIndex((g,k)=>k!==i&&g.start===gs[i].start&&g.count===gs[i].count); if(j<0) ok=false; } } }); return ok; };
++(async()=>{
++  const res={};
++  for(const key of ['char.yuting','char.heroine_01','char.npc_f1']){
++    preload([key]); await ASSETS.loadOne(key); const before=CHAR.OUTLINE_MATS?CHAR.OUTLINE_MATS.size:0;
++    const h=CHAR.build({id:'t_'+key,model:key,height:1.7}); await new Promise(r=>setTimeout(r,200)); h.updateMatrixWorld(true);
++    const added=CHAR.OUTLINE_MATS?CHAR.OUTLINE_MATS.size-before:0;
++    const main0=groupsOf(h,false), sh0=groupsOf(h,true);
++    const hid=CHAR.shadowPassBegin?CHAR.shadowPassBegin():null; const sh1=groupsOf(h,true); if(CHAR.shadowPassEnd) CHAR.shadowPassEnd(hid);
++    const main1=groupsOf(h,false); res[key]={added,main0,main1,sh0,sh1,same:outlineSameGeo(h)}; }
++  const Y=res['char.yuting'], H1=res['char.heroine_01'], N=res['char.npc_f1'];
++  check('① 會投影的人物記下描邊材質（以安 5；祐廷 8＝另外 3 個是平常藏著的運動服，換上時一樣跳過），路人 0 個',Y.added>=5&&H1.added===5&&N.added===0,JSON.stringify({祐廷:Y.added,以安:H1.added,路人:N.added}));
++  check('② 影子那一輪：祐廷、以安 16 → 11（拿掉的描邊和本體同一份幾何）',Y.sh0===16&&Y.sh1===11&&H1.sh0===16&&H1.sh1===11&&Y.same&&H1.same&&N.sh0===0&&N.sh1===0,JSON.stringify({祐廷:[Y.sh0,Y.sh1],以安:[H1.sh0,H1.sh1],路人:[N.sh0,N.sh1],同一份幾何:[Y.same,H1.same]}));
++  check('③ 畫完還原：一般畫面的 group 數不變（描邊照樣畫）',Y.main0===Y.main1&&H1.main0===H1.main1&&N.main0===N.main1,JSON.stringify({祐廷:[Y.main0,Y.main1],以安:[H1.main0,H1.main1],路人:[N.main0,N.main1]}));
++  const eng=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8'); const i=eng.indexOf('function shadowLevels(SM)'), body=i>=0?eng.slice(i,eng.indexOf('E.cinematic=',i)):'';
++  check('④ engine3d.js shadowLevels 畫影子前後呼叫 CHAR.shadowPassBegin／shadowPassEnd',/CHAR\.shadowPassBegin\(\)/.test(body)&&/CHAR\.shadowPassEnd\(/.test(body)&&body.indexOf('shadowPassBegin')<body.indexOf('smr.apply'));
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });
+diff --git a/tests/shadow_levels_unit.js b/tests/shadow_levels_unit.js
+index e9cc662d9..2305fd216 100644
+--- a/tests/shadow_levels_unit.js
++++ b/tests/shadow_levels_unit.js
+@@ -12,7 +12,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
+ const ROOT=path.resolve(__dirname,'..');
+ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+ const src=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8');
+-const m=src.match(/function shadowLevels\(SM\)\{[\s\S]*?finally\{ for\(const g of hid\) g\.visible=true; \} \}; \}/);
++const m=src.match(/function shadowLevels\(SM\)\{[\s\S]*?finally\{ for\(const g of hid\) g\.visible=true;[^}]*\} \}; \}/);   // finally 裡可以再還原別的（PERF-WZ-DC-1107：人物描邊）
+ check('1. engine3d.js 有 shadowLevels，E.init 包住 renderer.shadowMap', !!m&&/renderer\.shadowMap\.type=THREE\.PCFShadowMap; shadowLevels\(renderer\.shadowMap\);/.test(src));
+ if(m){
+   const ctx={E:{zone:null}}; vm.createContext(ctx); vm.runInContext(m[0]+'\nthis.shadowLevels=shadowLevels;',ctx);

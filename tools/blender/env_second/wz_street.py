@@ -1246,6 +1246,12 @@ if not os.environ.get('WZ_NOMERGE'):   # 除錯：WZ_NOMERGE=1 不合併，疊�
         if SET != 'wenzhou' or len(ob.data.materials) != 1 or not ob.data.materials[0] or ob.data.materials[0].name != 'wz_in_shop': return ''
         m = re.match(r'sk_in_([A-Z]\d+i?)', ob.name)   # 店內的頂點色網格叫 sk_in_<棟號>：一間店一個網格（包圍球小，背後的店整間裁掉；分東西兩段的話包圍球太大、跨到鏡頭前面，裁不掉）
         return ('wz_in_' + m.group(1)) if m else ''
+    if SET == 'wenzhou' and not os.environ.get('WZ_NOPACK'):   # 除錯：WZ_NOPACK=1 不打包（和改之前一樣）。PERF-WZ-DC-1107（LAWWW2-B 11-07；LAWWW-B 09:04「主模型 −13」）：只差粗糙度、金屬度的頂點色材質合成一個（lib2.vc_pack：粗糙度、金屬度放在一張
+        # 小貼圖，每個面讀它原本那一格，畫面不變）。投影的（wz_vc_*）和不投影的（cafe_vc_wz_*：遊戲 WZ_NO_SHADOW）分開打包，影子照舊；
+        # instancing 原型（窗、冷氣、鐵窗…遊戲裡本來就不投影）全部用不投影那一個。四段 wzx 每段霧面＋金屬＋亮面合成一個網格
+        L.vc_pack(root, {'wz_vc_matte': 'wz_vc_pack', 'wz_vc_metal': 'wz_vc_pack', 'cafe_vc_wz_matte': 'cafe_vc_wz_pack', 'cafe_vc_wz_gloss': 'cafe_vc_wz_pack',
+                         'cafe_vc_wz_metal': 'cafe_vc_wz_pack'}, 'cafe_vc_wz_pack', os.path.join(HERE, 'textures', 'gen', 'wz_vc_pack_rm.png'))
+        WZ_XSEG_MATS.add('cafe_vc_wz_pack')
     L.merge_by_material(root, keep=_keep,
                         key=lambda ob: 'NOSHADOW' if ob.name.startswith('NOSHADOW_') else _seg(ob))   # 公館七樓以上：合併後名字是 NOSHADOW_<材質>
     if SET == 'wenzhou': _xseg_split(root)   # LANEEAST-TRIS2-1104：整條街一個網格的四種材質照面的 x 切四段
