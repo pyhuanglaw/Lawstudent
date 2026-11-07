@@ -108,13 +108,15 @@ aa_sunnyside|aa_komichi|aa_mokuyobi|aa_yizhan|aa_offbeat)
   #     燈泡、紙燈罩、玻璃、窗景卡烘的時候藏起來（光源在裡面會被擋住；窗景卡會擋天光），照樣輸出。
   # 外殼：窗在哪一面就開哪一面（S＝+z 店面；E＝+x）。
   case $SHOP in
-    aa_sunnyside) GLB=aa_support/sunnyside.glb; P=sns; OPEN=S,E ;;   # SUNNY SIDE（wz_brunch）6.4 × 10 × 3.2：店面＋右牆整面落地窗
-    aa_komichi)   GLB=aa_support/komichi.glb;   P=kmc; OPEN=S ;;     # 小路（wz_teishoku）8 × 8 × 2.9：木頭天花板、老牆
-    aa_mokuyobi)  GLB=aa_support/mokuyobi.glb;  P=mok; OPEN=S ;;     # 木曜日（wz_mokuyobi）9 × 14 × 3.0
-    aa_yizhan)    GLB=aa_support/yizhan.glb;    P=yzn; OPEN=S ;;     # 一盞（wz_teahouse）8.4 × 10 × 2.6＋緣側：格子玻璃拉門朝 +z
-    aa_offbeat)   GLB=aa_support/daily_offbeat.glb; P=dof; OPEN=S,E ;;   # 日常失速（wz_offbeat）11 × 10 × 3.4：店面＋右牆窗
+    aa_sunnyside) GLB=aa_support/sunnyside.glb; P=sns; OPEN=S,E; GSD=2.4 ;;   # SUNNY SIDE（wz_brunch）6.4 × 10 × 3.2：店面＋右牆整面落地窗
+    aa_komichi)   GLB=aa_support/komichi.glb;   P=kmc; OPEN=S; GSD=4.5 ;;     # 小路（wz_teishoku）8 × 8 × 2.9：木頭天花板、老牆
+    aa_mokuyobi)  GLB=aa_support/mokuyobi.glb;  P=mok; OPEN=S; GSD=2.6 ;;     # 木曜日（wz_mokuyobi）9 × 14 × 3.0
+    aa_yizhan)    GLB=aa_support/yizhan.glb;    P=yzn; OPEN=S; GSD=6 ;;     # 一盞（wz_teahouse）8.4 × 10 × 2.6＋緣側：格子玻璃拉門朝 +z（燈只有紙燈 3、行燈 3）
+    aa_offbeat)   GLB=aa_support/daily_offbeat.glb; P=dof; OPEN=S,E; GSD=1.5 ;;   # 日常失速（wz_offbeat）11 × 10 × 3.4：店面＋右牆窗
   esac
-  PTS=$(python3 $LB/glow_points.py assets/models/env/second_ai/$GLB --scale "${GS:-1.0}")
+  # 瓦數倍數 GSD（GLOW 的預設瓦數 × 倍數）：試烘第二輪（光源已放到燈罩口下）晚上的光照貼圖平均（WebP）小路 0.13、SUNNY SIDE 0.21、木曜日 0.20、一盞 0.09、日常失速 0.27，
+  #   目標咖啡店、西式 0.32、日式 0.25（洋洋 0.38、轉角 0.32、頁間 0.29）；WebP 值大約是線性的 0.49 次方 → 倍數＝(目標／試烘)^2.04。GS＝環境變數蓋過。
+  PTS=$(python3 $LB/glow_points.py assets/models/env/second_ai/$GLB --scale "${GS:-$GSD}")
   LIGHTS=""
   HIDE='glass|VIEW|bulb|washi|_pend$'
   NOLM="^(?!(${P}_(floor|ceiling|tatami)|WALL_[a-z]+_${P}_(wall|wood|post))\$)"
@@ -122,11 +124,11 @@ aa_sunnyside|aa_komichi|aa_mokuyobi|aa_yizhan|aa_offbeat)
   ;;
 bb_ade)
   # 阿德影印（BB 製作，bb_support/ade.glb；溫州街 wz_print）：4.3 × 9.1 m、天花板 3.0 m；店面（+z）整面玻璃。
-  # 燈：天花板 10 片平板燈（GLOW_panel_1～10，x ±1.0、z 3.3～−3.7、y 2.9；extras 冷白 240,246,255），每片一個 0.4 × 1.2 m 朝下的面光源，18 W。
+  # 燈：天花板 10 片平板燈（GLOW_panel_1～10，x ±1.0、z 3.3～−3.7、y 2.9；extras 冷白 240,246,255），每片一個 0.4 × 1.2 m 朝下的面光源，14 W。
   # 烘：地板、天花板、四面牆（WALL_*_wall_wall、WALL_front_front_wall）。
   # 不烘：櫃台、影印機、紙、商品、頂點色、金屬、植物、招牌、發光、玻璃；GPU instancing 的椅子、桌子、平板燈（--keep-instances，烘完照原檔補回節點名字、extras）。
   GLB=bb_support/ade.glb
-  PW=${PW:-18}
+  PW=${PW:-14}   # 試烘 18 W：白天／晚上 0.56／0.55、過曝 1%（便利商店 0.57／0.51）→ 14 W
   LIGHTS=$(python3 $LB/glow_points.py assets/models/env/second_ai/$GLB --only '^GLOW_panel' --drop 0.03 | tr ';' '\n' | \
     awk -F, -v w="$PW" '{printf "%s%.3f,%.3f,%.3f,%.3f,%.3f,1,1,%s,0.4,1.2,%s,%s,%s", (NR>1?";":""), $1, $1, $3, $3, $2, w, $5, $6, $7}')
   HIDE='glass'
