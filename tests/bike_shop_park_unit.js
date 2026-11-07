@@ -181,9 +181,9 @@ async function walkInOut(outer,inner,doorLabel){ const door=E.zone.def.id===oute
     check('13 調座墊那一幕顯示、演完又藏',seen===true&&rb.visible===false,J({seen,after:rb.visible}));
     loadZone('gongguan'); }
   // ---- 12 index.html、LOADLOCKS ----
-  { const ih=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), sc=[...ih.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]);
-    check('12 index.html：bikeshop3d.js 緊接在 bike3d.js 後面（zones3d.js 之後、GAME.boot() 前面很遠）',sc.indexOf('src/bikeshop3d.js')===sc.indexOf('src/bike3d.js')+1&&sc.indexOf('src/zones3d.js')<sc.indexOf('src/bikeshop3d.js')&&/bikeshop3d\.js\?v=9\.10\.19/.test(ih));
-    check('12 index.html：bike_layout.js 在 zones3d.js 前面（daily_offbeat_layout.js 後面）、?v=9.10.19',sc.indexOf('src/data/bike_layout.js')===sc.indexOf('src/data/daily_offbeat_layout.js')+1&&sc.indexOf('src/data/bike_layout.js')<sc.indexOf('src/zones3d.js')&&/bike_layout\.js\?v=9\.10\.19/.test(ih));
+  { const ih=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), sc=[...ih.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]), V=((ih.match(/版本 v([0-9.]+)（/)||[])[1]||'?').replace(/\./g,'\\.');   /* ?v= 和標題的版號一樣（不寫死 9.10.19：發布樹會改成新版號，v9.10.22 發布後 GHA 抓到）*/
+    check('12 index.html：bikeshop3d.js 緊接在 bike3d.js 後面（zones3d.js 之後、GAME.boot() 前面很遠）',sc.indexOf('src/bikeshop3d.js')===sc.indexOf('src/bike3d.js')+1&&sc.indexOf('src/zones3d.js')<sc.indexOf('src/bikeshop3d.js')&&new RegExp('bikeshop3d\\.js\\?v='+V+'\"').test(ih));
+    check('12 index.html：bike_layout.js 在 zones3d.js 前面（daily_offbeat_layout.js 後面）、?v＝標題的版號',sc.indexOf('src/data/bike_layout.js')===sc.indexOf('src/data/daily_offbeat_layout.js')+1&&sc.indexOf('src/data/bike_layout.js')<sc.indexOf('src/zones3d.js')&&new RegExp('bike_layout\\.js\\?v='+V+'\"').test(ih));
     check('12 店裡的 busy 鎖登記 LOADLOCKS（讀檔放開）',typeof LOADLOCKS['bikeshop3d:busy']==='function'); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

@@ -122,7 +122,8 @@ const T=()=>said.map(s=>s.t);
     const g={day:1}; OFFB.rec(g); const g2={day:1,offbeat:[1]}; OFFB.rec(g2); const g4={day:1,offbeat:{n:'x',enc:3,gos:'y'}}; OFFB.rec(g4);
     check('11. 沒有、壞掉的欄位重設',g.offbeat.n===0&&!Array.isArray(g2.offbeat)&&g2.offbeat.n===0&&g4.offbeat.n===0&&typeof g4.offbeat.enc==='object'&&typeof g4.offbeat.gos==='object'); }
   { const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), i=html.indexOf('src/offbeat_sys3d.js'), b=html.indexOf('src/bbpack3d.js'), g=html.indexOf('GAME.boot()'), m=html.indexOf('src/mokuyobi_sys3d.js'), bg=html.indexOf('src/bgnight3d.js');
-    check('12. index.html 載入 offbeat_sys3d.js（木曜日之後、bbpack 之前；?v=9.10.19）',i>m&&i<b&&i<g&&i>bg&&/src\/offbeat_sys3d\.js\?v=9\.10\.19/.test(html)); }
+    const V=((html.match(/版本 v([0-9.]+)（/)||[])[1]||'?').replace(/\./g,'\\.');   /* ?v= 和標題的版號一樣（不寫死 9.10.19：發布樹會改成新版號）*/
+    check('12. index.html 載入 offbeat_sys3d.js（木曜日之後、bbpack 之前；?v＝標題的版號）',i>m&&i<b&&i<g&&i>bg&&new RegExp('src/offbeat_sys3d\\.js\\?v='+V+'\"').test(html)); }
   // ===== 13～22. AA_648（企劃線 1ebf7a590）=====
   let s648=''; try{ s648=cp.execSync('git -c core.quotepath=off show 1ebf7a590:"docs/story_planning/AA_648_日常失速補台詞_回LAWWW.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   const in648=t=>s648.includes(String(t).replace(/^「|」$/g,''));
