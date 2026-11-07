@@ -1,0 +1,40 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_xs_farview_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\XS_FARVIEW_c8b0\out
+CC XS_FARVIEW（新生南路兩頭的遠景）：SHA=c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+== day
+  [前置／捷徑] [day] 讀檔 xinsheng 2025-10-18 14.00（條件事件關閉）
+PASS [day] 進得了 xinsheng  {"zone": "xinsheng", "x": 14.3, "z": 10, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  47.6s] [day] 區域狀態：{"zone": "xinsheng", "noSkylineCity": true, "skylineVis": true, "farNode": "xinsheng_far_glb", "assetStatus": "TypeError: A.status is not a function", "meshes": 223, "L": {"gate": {"x": 18.4, "z": 10, "spawn": {"x": 14.3, "z": 10, "yaw": -1.5708}}, "walkE": {"x0": 7.5, "x1": 18, "note": "校園那一側的人行道（紅磚，照參考圖；椰子、樟樹在 x 11）"}, "walkW": {"x0": -13, "x1": -7.5, "note": "店面那一側的人行道"}}}
+PASS [day] 接上遠景以後 zone.noSkylineCity（不畫城市剪影圓筒）  {"zone": "xinsheng", "noSkylineCity": true, "skylineVis": true, "farNode": "xinsheng_far_glb", "assetStatus": "TypeError: A.status is not a function", "meshes": 223, "L": {"gate": {"x": 18.4, "z": 10, "spawn": {"x": 14.3, "z": 10, "yaw": -1.5708}}, "walkE": {"x0": 7.5, "x1": 18, "note": "校園那一側的人行道（紅磚，照參考圖；椰子、樟樹在 x 11）"}, "walkW": {"x0": -13, "x1": -7.5, "note": "店面那一側的人行道"}}}
+PASS [黑畫面] farview_gate_north_day 不是黑畫面（平均亮度 110.4、變化 47.8）  [110.4, 47.8]
+  [  66.3s] [截圖] farview_gate_north_day：鏡頭 {"eye": [10.3, 1.7, 10], "look": [8.3, 4, -110], "lens": 24, "vfov": 45.75}、亮度 [110.4, 47.8]
+  [  66.3s] [day] gate_north：玩家站 (10.3, 10.0) 跟隨鏡頭 fps／draw call：{"frames": 180, "fpsAvg": 60, "fpsMin": 59.5, "msWorst": 16.8, "calls": 223, "tris": 312034}
+PASS [黑畫面] farview_gate_south_day 不是黑畫面（平均亮度 99、變化 51.5）  [99, 51.5]
+  [  84.6s] [截圖] farview_gate_south_day：鏡頭 {"eye": [10.3, 1.7, 10], "look": [8.3, 4, 130], "lens": 24, "vfov": 45.75}、亮度 [99, 51.5]
+  [  84.6s] [day] gate_south：玩家站 (10.3, 10.0) 跟隨鏡頭 fps／draw call：{"frames": 181, "fpsAvg": 60, "fpsMin": 59.5, "msWorst": 16.8, "calls": 185, "tris": 311240}
+PASS [黑畫面] farview_east_walk_west_day 不是黑畫面（平均亮度 105.2、變化 50.7）  [105.2, 50.7]
+  [ 102.7s] [截圖] farview_east_walk_west_day：鏡頭 {"eye": [12, 1.7, -10], "look": [-45, 16, -40], "lens": 24, "vfov": 45.75}、亮度 [105.2, 50.7]
+  [ 102.7s] [day] east_walk_west：玩家站 (12.0, -10.0) 跟隨鏡頭 fps／draw call：{"frames": 180, "fpsAvg": 60, "fpsMin": 59.5, "msWorst": 16.8, "calls": 187, "tris": 307918}
+PASS [黑畫面] farview_campus_side_east_day 不是黑畫面（平均亮度 128、變化 51.5）  [128, 51.5]
+  [ 120.7s] [截圖] farview_campus_side_east_day：鏡頭 {"eye": [-10, 1.7, 0], "look": [80, 12, -20], "lens": 24, "vfov": 45.75}、亮度 [128, 51.5]
+  [ 120.7s] [day] campus_side_east：玩家站 (-10.0, 0.0) 跟隨鏡頭 fps／draw call：{"frames": 180, "fpsAvg": 60, "fpsMin": 59.5, "msWorst": 16.8, "calls": 217, "tris": 302956}
+== night
+  [前置／捷徑] [night] 讀檔 xinsheng 2025-10-18 21.00（條件事件關閉）
+PASS [night] 進得了 xinsheng  {"zone": "xinsheng", "x": 14.3, "z": 10, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.07}
+  [ 136.2s] [night] 區域狀態：{"zone": "xinsheng", "noSkylineCity": true, "skylineVis": true, "farNode": "xinsheng_far_glb", "assetStatus": "TypeError: A.status is not a function", "meshes": 223, "L": {"gate": {"x": 18.4, "z": 10, "spawn": {"x": 14.3, "z": 10, "yaw": -1.5708}}, "walkE": {"x0": 7.5, "x1": 18, "note": "校園那一側的人行道（紅磚，照參考圖；椰子、樟樹在 x 11）"}, "walkW": {"x0": -13, "x1": -7.5, "note": "店面那一側的人行道"}}}
+PASS [night] 接上遠景以後 zone.noSkylineCity（不畫城市剪影圓筒）  {"zone": "xinsheng", "noSkylineCity": true, "skylineVis": true, "farNode": "xinsheng_far_glb", "assetStatus": "TypeError: A.status is not a function", "meshes": 223, "L": {"gate": {"x": 18.4, "z": 10, "spawn": {"x": 14.3, "z": 10, "yaw": -1.5708}}, "walkE": {"x0": 7.5, "x1": 18, "note": "校園那一側的人行道（紅磚，照參考圖；椰子、樟樹在 x 11）"}, "walkW": {"x0": -13, "x1": -7.5, "note": "店面那一側的人行道"}}}
+PASS [黑畫面] farview_gate_north_night 不是黑畫面（平均亮度 47.3、變化 26.7）  [47.3, 26.7]
+  [ 154.1s] [截圖] farview_gate_north_night：鏡頭 {"eye": [10.3, 1.7, 10], "look": [8.3, 4, -110], "lens": 24, "vfov": 45.75}、亮度 [47.3, 26.7]
+  [ 154.1s] [night] gate_north：玩家站 (10.3, 10.0) 跟隨鏡頭 fps／draw call：{"frames": 180, "fpsAvg": 60, "fpsMin": 59.5, "msWorst": 16.8, "calls": 179, "tris": 216712}
+PASS [黑畫面] farview_gate_south_night 不是黑畫面（平均亮度 49.9、變化 29.9）  [49.9, 29.9]
+  [ 172.1s] [截圖] farview_gate_south_night：鏡頭 {"eye": [10.3, 1.7, 10], "look": [8.3, 4, 130], "lens": 24, "vfov": 45.75}、亮度 [49.9, 29.9]
+  [ 172.1s] [night] gate_south：玩家站 (10.3, 10.0) 跟隨鏡頭 fps／draw call：{"frames": 180, "fpsAvg": 60, "fpsMin": 59.5, "msWorst": 16.8, "calls": 144, "tris": 214958}
+PASS [黑畫面] farview_east_walk_west_night 不是黑畫面（平均亮度 49.8、變化 35.8）  [49.8, 35.8]
+  [ 190.2s] [截圖] farview_east_walk_west_night：鏡頭 {"eye": [12, 1.7, -10], "look": [-45, 16, -40], "lens": 24, "vfov": 45.75}、亮度 [49.8, 35.8]
+  [ 190.2s] [night] east_walk_west：玩家站 (12.0, -10.0) 跟隨鏡頭 fps／draw call：{"frames": 178, "fpsAvg": 59.3, "fpsMin": 30, "msWorst": 33.3, "calls": 146, "tris": 213766}
+PASS [黑畫面] farview_campus_side_east_night 不是黑畫面（平均亮度 45、變化 35.4）  [45, 35.4]
+  [ 208.2s] [截圖] farview_campus_side_east_night：鏡頭 {"eye": [-10, 1.7, 0], "look": [80, 12, -20], "lens": 24, "vfov": 45.75}、亮度 [45, 35.4]
+  [ 208.2s] [night] campus_side_east：玩家站 (-10.0, 0.0) 跟隨鏡頭 fps／draw call：{"frames": 180, "fpsAvg": 60, "fpsMin": 59.5, "msWorst": 16.8, "calls": 176, "tris": 216658}
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -288,3 +288,13 @@
 [17:46:13] ==== START R7921_mini  (game @ 79214e4e10275fb47c0d95ec667cab2964b77b5c) ====
 [17:46:16] [res] cpu=1% mem=46% (14.6/31.4 GB) chrome_testing=10  START R7921_mini
 [17:47:38] [res] cpu=7% mem=45% (14.4/31.4 GB) chrome_testing=10  END R7921_mini
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       469da96e4..997389e48  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:47:44] ==== END   R7921_mini  exit=0  86s   ====
+[17:47:47] memory 46% before starting XS_FARVIEW_c8b0 (2 running)
+[17:47:47] ==== START XS_FARVIEW_c8b0  (probe @ c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb) ====
+[17:47:50] [res] cpu=4% mem=46% (14.6/31.4 GB) chrome_testing=10  START XS_FARVIEW_c8b0
+[17:47:50] worktree add c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb: invalid reference - fetching main and the commit itself
+[17:48:26] 正在跑：SOC_peishan_date_r4（已跑 21 分／上限 45 分）、SOC_xinci_date_r4（已跑 19 分／上限 45 分）、XS_FARVIEW_c8b0（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:52:22] [res] cpu=5% mem=45% (14.9/31.4 GB) chrome_testing=10  END XS_FARVIEW_c8b0

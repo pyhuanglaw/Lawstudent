@@ -1,0 +1,238 @@
+{
+ "day": [
+  {
+   "view": "gate_north",
+   "stand": [
+    10.3,
+    10
+   ],
+   "cam": {
+    "eye": [
+     10.3,
+     1.7,
+     10
+    ],
+    "look": [
+     8.3,
+     4,
+     -110
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "perf": {
+    "frames": 180,
+    "fpsAvg": 60,
+    "fpsMin": 59.5,
+    "msWorst": 16.8,
+    "calls": 223,
+    "tris": 312034
+   }
+  },
+  {
+   "view": "gate_south",
+   "stand": [
+    10.3,
+    10
+   ],
+   "cam": {
+    "eye": [
+     10.3,
+     1.7,
+     10
+    ],
+    "look": [
+     8.3,
+     4,
+     130
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "perf": {
+    "frames": 181,
+    "fpsAvg": 60,
+    "fpsMin": 59.5,
+    "msWorst": 16.8,
+    "calls": 185,
+    "tris": 311240
+   }
+  },
+  {
+   "view": "east_walk_west",
+   "stand": [
+    12.0,
+    -10.0
+   ],
+   "cam": {
+    "eye": [
+     12,
+     1.7,
+     -10
+    ],
+    "look": [
+     -45,
+     16,
+     -40
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "perf": {
+    "frames": 180,
+    "fpsAvg": 60,
+    "fpsMin": 59.5,
+    "msWorst": 16.8,
+    "calls": 187,
+    "tris": 307918
+   }
+  },
+  {
+   "view": "campus_side_east",
+   "stand": [
+    -10.0,
+    0.0
+   ],
+   "cam": {
+    "eye": [
+     -10,
+     1.7,
+     0
+    ],
+    "look": [
+     80,
+     12,
+     -20
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "perf": {
+    "frames": 180,
+    "fpsAvg": 60,
+    "fpsMin": 59.5,
+    "msWorst": 16.8,
+    "calls": 217,
+    "tris": 302956
+   }
+  }
+ ],
+ "night": [
+  {
+   "view": "gate_north",
+   "stand": [
+    10.3,
+    10
+   ],
+   "cam": {
+    "eye": [
+     10.3,
+     1.7,
+     10
+    ],
+    "look": [
+     8.3,
+     4,
+     -110
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "perf": {
+    "frames": 180,
+    "fpsAvg": 60,
+    "fpsMin": 59.5,
+    "msWorst": 16.8,
+    "calls": 179,
+    "tris": 216712
+   }
+  },
+  {
+   "view": "gate_south",
+   "stand": [
+    10.3,
+    10
+   ],
+   "cam": {
+    "eye": [
+     10.3,
+     1.7,
+     10
+    ],
+    "look": [
+     8.3,
+     4,
+     130
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "perf": {
+    "frames": 180,
+    "fpsAvg": 60,
+    "fpsMin": 59.5,
+    "msWorst": 16.8,
+    "calls": 144,
+    "tris": 214958
+   }
+  },
+  {
+   "view": "east_walk_west",
+   "stand": [
+    12.0,
+    -10.0
+   ],
+   "cam": {
+    "eye": [
+     12,
+     1.7,
+     -10
+    ],
+    "look": [
+     -45,
+     16,
+     -40
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "perf": {
+    "frames": 178,
+    "fpsAvg": 59.3,
+    "fpsMin": 30,
+    "msWorst": 33.3,
+    "calls": 146,
+    "tris": 213766
+   }
+  },
+  {
+   "view": "campus_side_east",
+   "stand": [
+    -10.0,
+    0.0
+   ],
+   "cam": {
+    "eye": [
+     -10,
+     1.7,
+     0
+    ],
+    "look": [
+     80,
+     12,
+     -20
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "perf": {
+    "frames": 180,
+    "fpsAvg": 60,
+    "fpsMin": 59.5,
+    "msWorst": 16.8,
+    "calls": 176,
+    "tris": 216658
+   }
+  }
+ ]
+}

@@ -1736,3 +1736,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 174.8s] page close url=http://127.0.0.1:8801/index.html?turbo?turbo | [gpu_wrap 174.9s] BROWSER DISCONNECTED
 - 2026-11-07T17:47:38  R7921_mini  sha=79214e4e10275fb47c0d95ec667cab2964b77b5c  exit=0  86s    PASS 玩家箭頭朝地圖上方（往前走時）  arrow=7.958078640513122e-13 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 49.6s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 49.6s] BROWSER DISCONNECTED
+- 2026-11-07T17:52:22  XS_FARVIEW_c8b0  sha=c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb  exit=0  275s      [ 208.2s] [night] campus_side_east：玩家站 (-10.0, 0.0) 跟隨鏡頭 fps／draw call：{"frames": 180, "fpsAvg": 60, "fpsMin": 59.5, "msWorst": 16.8, "calls": 176, "tris": 216658} / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 208.7s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 208.7s] BROWSER DISCONNECTED
