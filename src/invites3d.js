@@ -173,6 +173,7 @@ const INV=(function(){
     /* AA_627 P-27～P-29（AA_624：語彤的班＝週六、日 13～17 在一盞茶屋，作息 zone wz_teahouse）：兩個條件名是 invite_replies.js 的 key（AA_415 產生），不改名，意思改成「那天她在茶屋有班」*/
     '週二週四、續約以前':(G,id,c)=>teaOn(G,id,c.day),
     '麵店的班':(G,id,c)=>teaOn(G,id,c.day),
+    '週二週四、續約以前（＝茶屋的班）':(G,id,c)=>teaOn(G,id,c.day), '麵店的班（＝茶屋的班）':(G,id,c)=>teaOn(G,id,c.day),   /* AA_415 c71772fbc（11-07）條件欄加了註記「（＝茶屋的班）」：同一個條件 */
     '週六上午':(G,id,c)=>c.wd===6&&c.h<12,
     '昨天才約過':(G,id)=>(G.invites||[]).some(iv=>iv.who===id&&iv.day===G.day-1&&['done','accepted','going','missed'].includes(iv.state)),
     '早上':(G,id,c)=>c.h<12,

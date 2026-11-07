@@ -48826,9 +48826,9 @@
    "title": "語彤的邀約回覆不對：總圖約念書回「好我先把菜洗完」、富二代設定卻說咖啡廳很貴——整批照現行設定改",
    "area": "PLAYTEST",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【11-07 03:4x LAWWW-B】AA 改稿（D109）；LAWWW 重跑 build_replies",
+   "next": "【11-07 04:0x LAWWW-B】AA-B c71772fbc（AA_415 語彤 5 句）匯入：story_import_allow AA_415→c71772fbc、build_replies 重跑（WHEN 表 yt14 新句）、invites.js:103 婉拒句「……咖啡廳我坐不住。」（why restless）、REPLY_COND 加「（＝茶屋的班）」兩個別名；測試 aa415、invite_people、v1_inv_wording(2) 跟著改。待 BB 瀏覽器看：總圖約語彤念書、約 Café｜【11-07 03:4x LAWWW-B】AA 改稿（D109）；LAWWW 重跑 build_replies",
    "first": {
     "term": "Y1S1",
     "week": 6,

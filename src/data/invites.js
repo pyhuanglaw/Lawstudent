@@ -100,7 +100,7 @@ const INVITE_DATA={
       rule:(G,c,I)=>{ const r=c.r;
         if(r.res==='resched'&&r.why==='busy'&&r.act==='help') return c.pid==='noodle'?{res:'here',lines:['「我就在店裡。你來。」'],alt:null}:{res:'decline',why:'shop',lines:['「麵店。」','「你來店裡就好。」'],alt:null};
         if(r.res!=='accept') return null;
-        if(c.pid==='cafe'&&c.band==='A') return {res:'decline',why:'pricey',lines:['「……那裡很貴。」','「總圖可以。」']};
+        if(c.pid==='cafe'&&c.band==='A') return {res:'decline',why:'restless',lines:['「……咖啡廳我坐不住。」','「總圖可以。」']};   /* AA_415 c71772fbc（11-07）：語彤家裡不缺錢，原句「那裡很貴」改掉 */
         if(c.pid==='wenzhou'&&c.first){ if(c.wd===6) return {lines:['「週六。我本來就在。」']}; return {res:'resched',why:'sat',lines:['「週六。我本來就在。」'],alt:I.nextSat(G,'heroine_03',c.P,c.day,15)}; }
         return null; } },
     zhe:{ walk:{any:[['「這家以前是賣雞排的。」'],['「那家的老闆會記得你點什麼，只要你去三次。」'],['「你知道公館哪家滷味十點後半價嗎？……我知道三家。」']]}, acc:{noodle:['「好啊！那家的叉燒飯我可以吃兩盤。」']} },   /* AA_194 第 4 節（和阿凱「好 我餓了」撞）*/   /* 阿哲（2-3；BB_121 2-3：揪人的那句等群體邀約）*/
