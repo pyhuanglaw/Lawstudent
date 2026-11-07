@@ -78,7 +78,7 @@ const AA667=(function(){
       park:[N('（她把筆電轉過來給你。畫面上是一個還沒有名字的關卡。）'),Q('五個月做的。你玩。我不講話。'),N('（你卡在第三關。她一直看著畫面，最後還是伸手過來按了一個鍵。）'),Q('……那邊要先跳。我等一下改提示。')],
       night:[N('（她點了兩碗，把一碗推到你前面。）'),Q('日本的東西你吃了五個月。今天吃這個。')],
       /* 7-1 住家裡的那一版（企劃線 1905ae629）：訊息、地點字幕、換的那一句、沒下去的兩則；其他照上面 */
-      home:{dm:['你在家嗎','我在你家附近那間便利商店','五分鐘'],scene:'家附近的便利商店門口',swap:['剛從系館出來。順路。','坐捷運過來的。……不是順路。'],miss:['袋子寄在便利商店櫃台了 你明天去拿','洋芋片']}},
+      home:{dm:['你在家嗎','我在你家附近那間便利商店','五分鐘'],scene:'家附近的便利商店門口',swap:['剛從系館出來。順路。','坐捷運過來的。……不是順路。'],open:[N('（她站在宿舍門口，手上拎著一個便利商店的袋子。）'),N('（她站在便利商店門口，手上拎著一個袋子。）')],miss:['袋子寄在便利商店櫃台了 你明天去拿','洋芋片']}},
     /* 2-2 語彤（日本）*/
     jyt:{bye:[N('（吃完飯，秀琴姨從廚房拿了一張紙出來，上面寫了滿滿的字。）'),X('滷肉的做法。肉那邊買得到，醬油你帶一瓶去。'),X('不要放太多糖。'),
         N('（語彤送你下樓。在樓梯轉角，她突然停下來。）'),Y('……欸，你護照放哪裡？')],
@@ -102,7 +102,7 @@ const AA667=(function(){
     /* 2-4 沛珊（日本）*/
     jps:{call:[P('你回宿舍了嗎？行李收好了沒？')],swapHome:['你回宿舍了嗎？','你回家了嗎？'],   /* 7-2：住家裡換這一段 */opts1:[{t:'「還差一點。」',say:[P('那你收。我在電話這邊陪你。')]},{t:'「收好了。」',say:[P('好快。……那你陪我講一下話。')]}],
       mid:[P('你有帶厚外套嗎？我查了，三月底那邊晚上只有幾度。')],
-      opts2:[{t:'「妳最近還好嗎？」',say:[P('還好啦。課輔班的小朋友很可愛。'),N('（停了一下）'),P('……你明天十點的飛機對不對。')]},{t:'「帶了。」',say:[P('真的？你不要騙我。')]}],
+      opts2:[{t:'「妳最近還好嗎？」',say:[P('還好啦。課輔班的小朋友很可愛。'),N('（停了一下）'),{shift:['JP','ps'],line:P('……你明天十點的飛機對不對。')}]},{t:'「帶了。」',say:[P('真的？你不要騙我。')]}],
       end:P('十點我應該還在睡。……我定鬧鐘。'),
       dep:['我起來了！','一路平安。到了跟我說～'],
       back:['回來了嗎？','我這禮拜每天四點半起來開店。現在好想睡，可是想先問你。'],backGo:'回來了。',backRep:['好。那我去睡了。','……我家的蛋餅，你還沒吃過。']},
@@ -116,7 +116,7 @@ const AA667=(function(){
       miss:'好喔。明天再打。'},
     /* 3-1 以安（美國）*/
     uan:{dm:'八點半，視訊。',
-      v1:[N('（視訊接通。她坐在宿舍的書桌前，後面的月曆上，八月五號用紅筆圈起來。）'),A('明天幾點的飛機？')],
+      v1:[N('（視訊接通。她坐在宿舍的書桌前，後面的月曆上，八月五號用紅筆圈起來。）'),{shift:['US','an'],line:A('明天幾點的飛機？')}],   /* 7-5（0ba033578）：往前移了就換「後天」「大後天」 */
       opts:[{t:'「九點半。」',say:[A('我那時候在上最後一堂研討課。十一點十分下課。')]},{t:'「早上。」',say:[A('幾點？'),N('（你說九點半。）'),A('我那時候在上課。十一點十分下課。')]}],
       v2:[A('我五號回去。你二號走。'),N('（她拿筆在月曆上的圈旁邊點了一下，沒有寫字。）'),A('我原本排好了，回去隔天就去找你。'),A('……那就十二月。')],
       fly:['下課了。你應該在天上。','落地傳一則就好。'],land:'落地了嗎。',xmasPre:['睡醒了嗎。'],
@@ -147,7 +147,7 @@ const AA667=(function(){
       dep:['📷（鐵板上一個煎好的蛋餅。）','這是你的。我吃掉了。一路平安～'],xmasPre:['你回來了！！','時差會很累，先睡。']} };
 
   /* ---------------- 日子 ---------------- */
-  S.K={jpYtFrom:'2028-03-18',jpYtTo:'2028-03-24',jpDep:'2028-03-25',jpRet:'2028-08-05',jpYtBack:'2028-08-07',sisFly:'2028-08-02',usDep:'2028-08-02',usYtDown:'2028-08-07',usRet:'2028-12-23'};
+  S.K={jpYtFrom:'2028-03-18',jpYtTo:'2028-03-23',jpDep:'2028-03-25',jpRet:'2028-08-05',jpYtBack:'2028-08-07',sisFly:'2028-08-02',usDep:'2028-08-02',usYtDown:'2028-08-07',usRet:'2028-12-23'};
   const D=k=>DK(S.K[k]);
   const JPR=G=>law(G)&&R(G)==='JP', USR=G=>law(G)&&R(G)==='US';
   /* 「住宿舍」（2-1 子晴的條件）：沒退宿、沒住家裡 */
@@ -173,7 +173,11 @@ const AA667=(function(){
   S.slot=(G,r,k)=>{ const v=S.slots(G,r)[k]; return v!=null?v:null; };
   /* 往前剛好一天（7-5「只在被移到前一天的那一場換」）*/
   S.moved1=(G,r,k)=>{ const s=(S.SLOTS[r]||[]).find(x=>x.k===k), d0=s?DK(s.d):null, d=S.slot(G,r,k); return d0!=null&&d!=null&&d===d0-1; };
-  const later=(t,sw,on)=>on?String(t).split(sw[0]).join(sw[1]):t;   /* 「明天」→「後天」那一段（字照 7-5）*/
+  S.movedN=(G,r,k)=>{ const s=(S.SLOTS[r]||[]).find(x=>x.k===k), d0=s?DK(s.d):null, d=S.slot(G,r,k); return d0!=null&&d!=null&&d<d0?d0-d:0; };   /* 往前移了幾天 */
+  S.dayWord=n=>n>=2?'大後天':'後天';   /* 講出發「明天」的句子：往前一天＝後天、兩天以上＝大後天（AA-B 11-07 18:47，企劃線 0ba033578 7-5）*/
+  const later=(t,sw,n)=>{ n=n===true?1:(+n||0); return n>0?String(t).split(sw[0]).join(sw[0].split('明天').join(S.dayWord(n))):t; };
+  /* 一句講出發「明天」的台詞：照那一場往前移幾天換字（劇情裡用 when 分三版）*/
+  const shiftLine=(r,k,sp,t)=>({when:G=>S.movedN(G,r,k)>=2,then:[[sp,String(t).split('明天').join('大後天')]],else:[{when:G=>S.movedN(G,r,k)===1,then:[[sp,String(t).split('明天').join('後天')]],else:[[sp,t]]}]});   /* 「明天」→「後天」那一段（字照 7-5）*/
   S.pin=(G,r,k,d)=>{ const F=G.flags, P=F.AA667_SLOT&&typeof F.AA667_SLOT==='object'?F.AA667_SLOT:(F.AA667_SLOT={}); if(typeof P[r+'_'+k]!=='number') P[r+'_'+k]=d; };
 
   /* ---------------- 出遊、視訊、電話 ---------------- */
@@ -268,7 +272,7 @@ const AA667=(function(){
       if(ret!=null&&due(G,{day:ret,h:17+10/60})&&!sent(G,'aa667_us_yt_back')) P.at(G,ret,17+10/60,X.back.map(t=>dm(YT,t)),'aa667_us_yt_back'); }
     /* 3-4 芷若 */
     if(dating(G,ZR)){ const X=L.uzr;
-      { const d=S.slot(G,'US','zr'), tag='aa667_us_zr_dm', Q=S.OUTS.uzr; if(d!=null&&before&&due(G,{day:d,h:20.5})&&now<T(d,Q.h+Q.late)&&!sent(G,tag)){ S.pin(G,'US','zr',d); const mv=S.moved1(G,'US','zr'); P.at(G,d,20.5,X.dm.map(t=>dm(ZR,later(t,X.later,mv))),tag); }   /* 7-5：往前一天＝「你後天就走了吧」（芷若被綁住、照理不會往前；舊存檔定在前一天的照換）*/
+      { const d=S.slot(G,'US','zr'), tag='aa667_us_zr_dm', Q=S.OUTS.uzr; if(d!=null&&before&&due(G,{day:d,h:20.5})&&now<T(d,Q.h+Q.late)&&!sent(G,tag)){ S.pin(G,'US','zr',d); const mv=S.movedN(G,'US','zr'); P.at(G,d,20.5,X.dm.map(t=>dm(ZR,later(t,X.later,mv))),tag); }   /* 7-5：往前一天＝「你後天就走了吧」（芷若被綁住、照理不會往前；舊存檔定在前一天的照換）*/
         if(d!=null&&sent(G,tag)&&!out&&!outGet(G,Q.id)&&now<T(d,Q.h+Q.late)) planAt(G,'uzr',d);
         const q=outGet(G,Q.id), gone=!q||q.state==='missed'||(q.state==='planned'&&now>T(q.day,q.h)+(q.late!=null?q.late:0.75)); if(d!=null&&sent(G,tag)&&F.ZR_US_BYE==null&&gone&&now>=T(d,22+7/60)&&G.day<=d+1&&!sent(G,'aa667_us_zr_miss')) P.at(G,d,22+7/60,[dm(ZR,X.miss)],'aa667_us_zr_miss'); }   /* 沒去（不扣關係）*/
       if(arr&&dep!=null){ const w=S.air(G,dep,22+7/60); if(due(G,w)&&!sent(G,'aa667_us_zr_fly')) P.at(G,w.day,w.h,X.fly.map(t=>dm(ZR,t)),'aa667_us_zr_fly'); }
@@ -294,6 +298,7 @@ const AA667=(function(){
       if(it.when){ const w=it.when, c1=cond?(G=>cond(G)&&w(G)):w, c2=cond?(G=>cond(G)&&!w(G)):(G=>!w(G)); out.push(...comp(it.then||[],c1)); if(it.else) out.push(...comp(it.else,c2)); continue; }
       if(it.choice){ const id='aa667c'+(++LB), end=id+'_e'; out.push(wrap({choice:it.choice.map((o,k)=>Object.assign({text:o.t,goto:id+'_'+k},o.set?{set:o.set}:{},o.if?{if:{custom:o.if}}:{}))}),{goto:end});
         it.choice.forEach((o,k)=>{ out.push({label:id+'_'+k}); out.push(...comp(o.say||[],null)); out.push({goto:end}); }); out.push({label:end}); continue; }
+      if(it.shift&&it.line){ out.push(...comp([shiftLine(it.shift[0],it.shift[1],it.line[0],it.line[1])],cond)); continue; }   /* 講出發「明天」的句子（7-5）*/
       if(it.set){ out.push(wrap({set:it.set})); continue; }
       if(it.call){ out.push(wrap({call:it.call})); continue; } }
     return out; };
@@ -302,12 +307,12 @@ const AA667=(function(){
   const mark=k=>G=>{ if(G.flags[k]==null) G.flags[k]=G.day; };
   const L=S.L;
   /* 7-1 住家裡那一場：照 2-1，「剛從系館出來。順路。」換成 home.swap[1] */
-  const zqHomeS1=()=>L.jzq.s1.map(([w,t])=>w===ZQ&&t===L.jzq.home.swap[0]?[ZQ,L.jzq.home.swap[1]]:[w,t]);
+  const zqHomeS1=()=>L.jzq.s1.map(([w,t])=>w===ZQ&&t===L.jzq.home.swap[0]?[ZQ,L.jzq.home.swap[1]]:(w==null&&t===L.jzq.home.open[0][1]?[null,L.jzq.home.open[1][1]]:[w,t]));   /* 7-1：開頭旁白也換（AA-B 11-07 18:47，企劃線 0ba033578）*/
   const zqBody=s1=>[...s1,{choice:L.jzq.opts},...L.jzq.s2,{when:G=>S.q6(G),then:[L.jzq.q6],else:[L.jzq.noQ6]},L.jzq.end];
   /* 7-2 沛珊 3/24：住家裡「你回宿舍了嗎？」→「你回家了嗎？」*/
   const psHomeCall=()=>L.jps.call.map(([w,t])=>[w,String(t).split(L.jps.swapHome[0]).join(L.jps.swapHome[1])]);
   /* 7-5 沛珊 8/1：往前一天的那一場「你明天幾點出門？」→「你後天幾點出門？」（兩個地方都換）*/
-  const psAsk=()=>({when:G=>S.moved1(G,'US','ps'),then:[[PS,later(L.ups.ask[1],L.ups.later,true)]],else:[L.ups.ask]});
+  const psAsk=()=>shiftLine('US','ps',PS,L.ups.ask[1]);
   /* 2-2 從「秀琴姨從廚房拿了一張紙出來」到最後（7-3 那一小場；第一次去她家那一版走 S.ytHomeTail）*/
   const ytBye=()=>[...L.jyt.bye,{choice:L.jyt.opts.map(o=>o.pass?Object.assign({},o,{say:o.say.concat([{call:G=>{ G.flags.AA667_YT_PASS=G.day; }}])}):o)},...L.jyt.bye2];
   S.EVENTS=[
