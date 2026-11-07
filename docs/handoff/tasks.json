@@ -49414,6 +49414,34 @@
    "sha": "b97fcf59e"
   },
   {
+   "id": "BUG-JP-HOME-BACK-WAKE-1107",
+   "title": "日本路線住家裡（2/20～3/25、8/5～搬進 409）：出遊演完字幕說「回到首都帝大。」；3/23 在家選睡覺直接睡到隔天，22:30 子晴的「你在家嗎」（回覆只開到 23:00）整場收不到",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "sha": "7e7cbab9f",
+   "first": {
+    "term": "Y3S2",
+    "week": null,
+    "earliest": "日本路線 2/20 退宿以後住家裡",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 19:5x LAWWW-B】7e7cbab9f：OUT.backText 加 JP.homeOn＝「回到家。」；home3d.js HOME.WAKE（睡著也被手機叫醒）＋aa667 S.zqWakeAt（3/23 22:30）。Node pg_return_text 第 3 節、aa667_zq_wake_unit（修改前都 FAIL）。BB 測：日本路線住家裡出遊演完的字幕；3/23 21:30 在家選睡覺 → 22:30 醒、三則、回「下去。」→ 便利商店那一場。BB-B 說要真的 2028 存檔可以跟 LAWWW 要。",
+   "xai": {
+    "spec": "BB-B 11-07 19:42（BB_255 d3b4d6286）：outings3d.js:135 backText 沒算日本路線；在家睡覺收不到 22:30 三則",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "BB 瀏覽器：字幕「回到家。」；3/23 在家睡覺 22:30 醒、三則進來",
+    "receiver": "BB（測）",
+    "ack": "ACK",
+    "owner": "LAWWW"
+   },
+   "evidence": ""
+  },
+  {
    "id": "CAM-LIBHALL-DOOR-1107",
    "title": "總圖大廳一進門鏡頭卡在玻璃門框後",
    "owner": "LAWWW2",
