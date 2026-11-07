@@ -43149,6 +43149,34 @@
    "sha": "87aef2873"
   },
   {
+   "id": "BUG-NY-HALL-SEAT-KIND-1107",
+   "title": "南洋 1 廳有今天的票、坐下看電影也不演（沒燈暗、時間沒過去、沒旁白）：互動點那一份座位沒有 kind cinema",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "sha": "09f1e6106",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "南洋戲院買票、進 1 廳坐下",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 22:2x LAWWW-B】09f1e6106：nanyang3d.js 互動點那一份 seat 帶 kind:'cinema'；tests/nanyang_unit.js ⑤（修改前 FAIL）。BB 重跑 pt1107t watch。",
+   "xai": {
+    "spec": "BB-B 11-07 22:18（瀏覽器 ad4dd40d9）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "有票坐下＝燈暗、時間過去、三句旁白一句、記 NY_WATCHED",
+    "receiver": "BB（測）",
+    "ack": "ACK",
+    "owner": "LAWWW"
+   },
+   "evidence": ""
+  },
+  {
    "first": {
     "term": "Y1S1",
     "week": null,
