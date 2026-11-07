@@ -134,11 +134,13 @@ async def main():
                 R.note('%s 存檔裡認不認識柏翰（STORY.knows）：%s' % (tag, kb))
                 await pg.evaluate('window.__says=[]'); await jump(pg, cdp, tag, '2025-08-31', 13 + 55 / 60, 'dorm_hall')
                 wf0 = await pg.evaluate("GAME.walkFallbacks||0")
+                kb2 = await pg.evaluate("(id=>STORY.knows(id,GAME.G))", BH)
+                R.note('%s 跳到 8/31 13:55 以後 STORY.knows(柏翰)＝%s；AA613.ceremonyWalk 在不在：%s' % (tag, kb2, await pg.evaluate("typeof AA613!=='undefined'&&typeof AA613.ceremonyWalk")))
                 t0 = time.time()
                 while time.time() - t0 < 120 and not await pg.evaluate("!!(GAME.G.flags||{}).CEREMONY_Y1"): await pg.wait_for_timeout(1000)
                 sc = await scene(pg, cdp, tag, max_s=240, idle_end=15)
                 await R.shot(pg, 'ceremony_after')
-                says = await pg.evaluate("(window.__says||[]).filter(x=>x[2]>=13.9)")
+                says = await pg.evaluate("(window.__says||[])")
                 R.note('%s GAME.say 記到的（14:00 以後）：%s' % (tag, J(says[:12])))
                 if says: sc['lines'] = [[w, t] for w, t, _ in says]
                 first = sc['lines'][0] if sc['lines'] else None
@@ -182,9 +184,13 @@ async def main():
                     it = await pg.evaluate("(()=>{ const i=GAME.E.interactables.filter(i=>!i.hidden&&/系學會/.test(i.label||'')&&!/練球/.test(i.label||'')).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2)})); return i; })()")   # 攤位＝「法律系系學會（系籃）」（不是「系籃練球」那個點）
                     R.note('%s 系籃攤位的互動點：%s' % (tag, J(it)))
                     if R.check('%s 找得到系籃攤位' % tag, bool(it), ''):
-                        await L.go_to(pg, cdp, R, it[0]['x'], it[0]['z'] + 0.6, 0.3, tag + ' 走到攤位前', max_s=150); await pg.wait_for_timeout(900)
-                        lab = await pg.evaluate("(()=>{ const e=document.getElementById('interact'); return e&&!e.classList.contains('hide')?e.innerText.trim():null; })()")
+                        lab = None
+                        for dx, dz in ((0, 0.6), (0, 1.0), (0.4, 0.8), (-0.4, 0.8), (0, 0.3)):   # 攤位挨在一起：按鈕要是「法律系系學會（系籃）」才點（上一次點到隔壁「服務隊」）
+                            await L.go_to(pg, cdp, R, it[0]['x'] + dx, it[0]['z'] + dz, 0.2, tag + ' 走到攤位前 (%+.1f,%+.1f)' % (dx, dz), max_s=120); await pg.wait_for_timeout(900)
+                            lab = await pg.evaluate("(()=>{ const e=document.getElementById('interact'); return e&&!e.classList.contains('hide')?e.innerText.trim():null; })()")
+                            if lab and '系學會' in lab: break
                         R.note('%s 互動按鈕：%s' % (tag, lab))
+                        if not R.check('%s 互動按鈕是系籃攤位（系學會）' % tag, bool(lab and '系學會' in lab), str(lab)): raise RuntimeError('booth label')
                         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1000)
                         sc = await scene(pg, cdp, tag, prefs=['先看看', '不用', '再說'])
                         await R.shot(pg, 'booth_basketball')
