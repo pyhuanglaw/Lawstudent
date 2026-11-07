@@ -82,7 +82,7 @@ for o in LEAF:   # 葉子也切（窗邊的吊盆有一點伸出玻璃）
     for co, no in CUT: bmesh.ops.bisect_plane(b2, geom=b2.verts[:] + b2.edges[:] + b2.faces[:], plane_co=co, plane_no=[-v for v in no], clear_outer=True, clear_inner=False)
     b2.to_mesh(o.data); b2.free(); o.data.update()
 bpy.ops.object.select_all(action='DESELECT'); J.select_set(True); bpy.context.view_layer.objects.active = J
-OCC = None
+OCC = None; CULL_STATS = None
 if CULL:
     # 街上看得到哪些面（#167 第二版）：從巷子對面（正面）、北側橫巷的鏡頭位置（人眼到第三人稱鏡頭的高度）往每個面的中心和三個角附近射線，
     #   第一個打到的就是這個面＝看得到。0.04 m² 以上的大面（地板、牆、天花板、桌面）一律留。看不到的面（椅子底、桌子底、櫃台後面、背對街的那一面）
@@ -106,6 +106,7 @@ if CULL:
             if ok: break
         keep.append(ok)
     nh = keep.count(False); print('cull: visible', len(keep) - nh, 'hidden', nh, 'viewpoints', len(VPS), flush=True)
+    CULL_STATS = {'visible': len(keep) - nh, 'hidden': nh, 'viewpoints': len(VPS)}
     bmv.free()
     if nh:
         bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='DESELECT'); bpy.ops.object.mode_set(mode='OBJECT')
@@ -140,6 +141,14 @@ srgb = np.where(rgb <= 0.0031308, rgb * 12.92, 1.055 * np.power(rgb, 1 / 2.4) - 
 img = bpy.data.images.new('offbeat_storefront_bake', RES, RES, alpha=False); img.colorspace_settings.name = 'sRGB'
 out = np.ones((RES * RES, 4), dtype=np.float32); out[:, :3] = srgb; img.pixels[:] = out.ravel()
 print('tone: median lum %.4f  exposure %.2f  white %.1f' % (float(np.median(lum[m])), E, WHITE), flush=True)
+# 顏色檢查（#167）：烘好的圖裡珊瑚色（AA 的椅子、陶土盆栽）、綠色（植物、吧檯）佔用到的面積多少——寫進 extras，tests/offbeat_storefront_unit.js 讀（第一版的 bug：椅子烘成灰色，珊瑚色只有 2.3%、綠色 0.1%）
+_mx = srgb.max(1); _mn = srgb.min(1); _d = np.maximum(_mx - _mn, 1e-6); _sat = np.where(_mx > 1e-6, (_mx - _mn) / np.maximum(_mx, 1e-6), 0)
+_r, _g, _b = srgb[:, 0], srgb[:, 1], srgb[:, 2]
+_h = np.where(_mx == _r, ((_g - _b) / _d) % 6, np.where(_mx == _g, (_b - _r) / _d + 2, (_r - _g) / _d + 4)) * 60
+_used = m
+_coral = _used & (_sat > 0.45) & (_mx > 0.3) & ((_h < 25) | (_h > 345)); _green = _used & (_sat > 0.3) & (_mx > 0.15) & (_h > 75) & (_h < 165)
+COLOR = dict(used=round(float(_used.mean()), 4), coral=round(float(_coral.sum() / max(1, _used.sum())), 4), green=round(float(_green.sum() / max(1, _used.sum())), 4))
+print('color', COLOR, flush=True)
 
 # 換成一個自發光材質（底色黑、自發光＝烘好的圖），只留烘焙的 UV
 mt = bpy.data.materials.new('offbeat_storefront'); mt.use_nodes = True; nt = mt.node_tree; bs = nt.nodes['Principled BSDF']
@@ -158,7 +167,7 @@ if RATIO < 1.0:
     d2 = J.modifiers.new('dc', 'DECIMATE'); d2.ratio = RATIO; d2.use_collapse_triangulate = True; d2.delimit = {'UV'}
     bpy.ops.object.modifier_apply(modifier='dc')
 print('faces', f0, '->', len(J.data.polygons), flush=True)
-J['storefront'] = {'src': 'aa_support/daily_offbeat.glb', 'coords': 'interior', 'drop': list(DROP)}
+J['storefront'] = {'src': 'aa_support/daily_offbeat.glb', 'coords': 'interior', 'drop': list(DROP), 'version': 2, 'warm': WARM, 'cull': CULL_STATS, 'color': COLOR}
 for o in LEAF: o.name = 'NOSHADOW_offbeat_storefront_leaf'
 # 葉子（第二版）：和烘好的店內一樣「店裡開著燈」——自發光＝葉子貼圖 × LEAF_GLOW，底色壓暗（不吃街上的光；第一版照即時光，在大樓裡面偏黑）
 LEAF_GLOW = float(opt('--leaf-glow', '0.75'))
