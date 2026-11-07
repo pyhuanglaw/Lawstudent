@@ -296,7 +296,7 @@ const GY3=(function(){
     z.lookN={};
     z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_arena']){ ASSETS.loadOne('bldg.gym_arena').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
       const sets=['SET_STAGE','SET_CEREMONY','SET_LECTURE','SET_CONCERT'].map(n=>root.getObjectByName(n)).filter(Boolean); for(const o of sets) o.visible=!!z.ceremonyOn&&(o.name==='SET_STAGE'||o.name==='SET_CEREMONY');   /* 典禮那天打開舞台＋典禮（SET-CEREMONY-1023）*/   /* 布置平常藏著（劇情要用時打開：導航加椅子區的阻擋，見 gym_layout.js arena.sets）*/
-      Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_arena_glows'); for(const o of sets) setGlowBatch(E,z,o,o.name+'_glows'); const G0=typeof GAME!=='undefined'?GAME.G:null; if(G0) z.applyTime(G0.hour,G0.weather); }).catch(e=>console.warn('3F 主球場正式模型載入失敗，用程序化備用模型',e)); }
+      Z3.attachRoomGLB(z,g0,fb,root); { const hp=root.getObjectByName('SET_HOOPS'); if(hp) hp.visible=!z.ceremonyOn; }   /* 籃架（ART-ARENA-HOOPS-1105，LAWWW2-B 11-07：屋頂吊下來、放下來的樣子，平常一直在）：典禮那天北端有舞台，籃架在舞台前緣上方——收起來 */ glowBatch(E,z,g0,root,'gym_arena_glows'); for(const o of sets) setGlowBatch(E,z,o,o.name+'_glows'); const G0=typeof GAME!=='undefined'?GAME.G:null; if(G0) z.applyTime(G0.hour,G0.weather); }).catch(e=>console.warn('3F 主球場正式模型載入失敗，用程序化備用模型',e)); }
     return z; } };
   return {b1Plates,gym,gym_b1,gym_arena,ceremonyDay,ceremonyNav,arenaGeo,arenaLook,ARENA_LOOK,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday,fitOpen,fitPay,fitDone,useEquip,eqLine,eqFree,eqOn,EQ_LABEL,stageIx,using:()=>eqUse};
 })();

@@ -229,7 +229,7 @@ const CROWD=(function(){
         return out; },G=>peSlots(G,true));
     /* ---- 3F 主球場 ---- */
     const HOOP=A.court&&A.court.hoops?A.court.hoops[0]:[0,-14.43];
-    S.ARENA_HOOPS=!!S.ARENA_HOOPS;   /* 籃架接上（LAWWW2 ART-ARENA-HOOPS-1105）改 true：打球的人回到籃框半場跑 */
+    S.ARENA_HOOPS=S.ARENA_HOOPS!==false;   /* 11-07 LAWWW2-B ART-ARENA-HOOPS-1105 籃架接上（gym_arena.glb 的 SET_HOOPS）：預設 true；設 false 回到場邊等 */    /* 籃架接上（LAWWW2 ART-ARENA-HOOPS-1105）改 true：打球的人回到籃框半場跑 */
     const arena=mkSpot('arena','gym_arena',[0,-10],DA,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n,this.ix), out=[], np=Math.max(2,n-2);
         /* ARENA-NOHOOP-1105（使用者 11-05 07:1x「主球場一群人跑來跑去 連籃框都沒有 還有人穿裙子打籃球??」）：gym_arena.glb 還沒有籃架（LAWWW2：ART-ARENA-HOOPS-1105）、
            路人也還沒有運動服——籃架接上以前（S.ARENA_HOOPS false），打球的人不上場跑：站在東側場邊等（面向球場），而且只用男生底模（奇數 spec：長裙那四套不上場，同 BUG-GYM-SKIRT-1103）*/

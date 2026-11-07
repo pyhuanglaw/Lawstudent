@@ -58,8 +58,11 @@ const FIT=(function(){
   const PB={Spine1:[-0.035,0,0],Spine2:[-0.02,0,0],Neck:[0.03,0,0],LeftShoulder:[0,0.06,0],RightShoulder:[0,-0.06,0]};
   const scaleP=k=>{ const o={}; for(const n in PB) o[n]=PB[n].map(v=>+(v*k).toFixed(4)); return o; };
   S.POSTURE=[null,scaleP(1),scaleP(1.8),scaleP(2.8)];   /* 經常鍛鍊：肩膀往後約 4 cm、頭往後約 4 cm（瀏覽器量的，test_shots/fit_posture_1027）*/
+  /* 體態第二階段（GYM-FIT-1107，LAWWW2-B 11-07；使用者 11-07「肌肉線條更明顯」）：身體形狀——玩家 VRM 的 morph「fit」（上臂、肩、胸、大腿、小腿撐開，見 character3d.js），
+     四階 0／0.4／0.7／1（經常鍛鍊：上臂、肩最多撐開約 2.7 cm）。只有祐廷；換存檔、讀檔跟著（sync 每 0.5 秒）*/
+  S.BODY=[0,0.4,0.7,1];
   S.sync=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E) return false; const i=S.stageIx(rec(G).fit|0); E.fitWalk=S.WALK[i]; E.fitBike=S.BIKE[i];
-    const P=E.player, u=P&&P.obj&&P.obj.userData; if(u) u.posture=S.POSTURE[i]; return false; };
+    const P=E.player, u=P&&P.obj&&P.obj.userData; if(u){ u.posture=S.POSTURE[i]; u.fitBody=S.BODY[i]; } return false; };
   /* 升階以後第一次見到阿哲 */
   S.preTalk=async function(GM,who,id){ const G=GM.G, r=rec(G), i=S.stageIx(r.fit|0); if(i<1) return;
     if(id==='zhe'){ if((r.zheSeen|0)>=i) return; r.zheSeen=i; await GM.say(who,S.LINES.zhe); return; }
