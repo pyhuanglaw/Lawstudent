@@ -27,7 +27,7 @@ FADE = r"""(()=>{ const E=GAME.E, z=E.zone; if(!z) return null; const op=m=>m.tr
   for(const w of walls){ let f=false; w.traverse(o=>{ if(o.isMesh) for(const m of [].concat(o.material)) if(m&&(op(m)||m.visible===false||!o.visible)) f=true; }); if(f){ fadedW.push(w); out.faded.push(w.name||w.uuid.slice(0,6)); } }
   if(!fadedW.length) return out; const fb=fadedW.map(w=>new THREE.Box3().setFromObject(w).expandByScalar(1.2));
   z.group.traverse(o=>{ if(!o.isMesh||!o.visible) return; if(fadedW.some(w=>{ let p=o; while(p){ if(p===w) return true; p=p.parent; } return false; })) return; box.setFromObject(o); if(box.isEmpty()) return; const sz=box.getSize(new THREE.Vector3()); if(sz.x>6||sz.z>6) return;
-    if(!fb.some(b=>b.containsBox(box))) return; if([].concat(o.material).some(m=>m&&op(m))) return; let p=o, nm=[]; while(p&&p!==z.group&&nm.length<3){ if(p.name) nm.push(p.name); p=p.parent; } out.solidNearFaded.push((nm.join('<')||o.type)+' @'+box.getCenter(new THREE.Vector3()).toArray().map(v=>v.toFixed(1)).join(',')); });
+    if(!fb.some(b=>b.containsBox(box))) return; if([].concat(o.material).some(m=>m&&op(m))) return; { let r=o; while(r&&r.parent!==z.group&&r.parent) r=r.parent; if(!/^WALL_/.test((r&&r.name)||'')&&!/^WALL_/.test(o.name||'')) return; }   /* 只算牆上的東西（WALL_ 開頭；BB-B 18:14：範圍改窄，高腳椅、門板不算）*/ let p=o, nm=[]; while(p&&p!==z.group&&nm.length<3){ if(p.name) nm.push(p.name); p=p.parent; } out.solidNearFaded.push((nm.join('<')||o.type)+' @'+box.getCenter(new THREE.Vector3()).toArray().map(v=>v.toFixed(1)).join(',')); });
   out.solidNearFaded=out.solidNearFaded.slice(0,25); return out; })()"""
 OCCL = r"""(()=>{ const E=GAME.E, z=E.zone, cam=E.camera; cam.updateMatrixWorld(); const fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse)); const box=new THREE.Box3(), out=[];
   z.group.traverse(o=>{ if(!o.isMesh) return; let vis=true, p=o; while(p){ if(!p.visible){ vis=false; break; } p=p.parent; } if(!vis) return; let q=o, nm=[]; while(q&&q!==z.group&&nm.length<4){ if(q.name) nm.push(q.name); q=q.parent; } const s=nm.join('<');
@@ -104,6 +104,54 @@ async def dakou2f(pg, cdp, rec):
     R.check('%s 有 CEIL_LIGHTS 這個節點' % tag, bool(r['follow']['ceil']['ceil']), J(r['follow']['ceil']))
 
 
+async def retake(pg, cdp, rec):
+    """BB-B 18:14 補拍三張"""
+    r = rec.setdefault('retake', {})
+    # 1 轉角高腳椅：坐下等 3 秒、跟隨鏡頭拉近（1.5 m 內）
+    tag = '[補拍 轉角高腳椅]'
+    if os.environ.get('RETAKE_ONLY') != 'cvs' and await enter(pg, cdp, 'corner_records', 14.0, tag):
+        it = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(i=>i.seat&&!i.hidden&&Math.abs(i.seat.x-2.95)<0.1&&Math.abs(i.seat.z-3.2)<0.1); if(!i) return null; const ap=GAME.seatApproach?GAME.seatApproach(i):[i.x,i.z]; return {label:i.label, ap:[ap[0],ap[1]], seat:{x:i.seat.x,z:i.seat.z,y:i.seat.y==null?null:i.seat.y,lift:i.seat.lift==null?null:i.seat.lift}}; })()")
+        R.note('%s 高腳椅：%s' % (tag, J(it)))
+        if it:
+            await L.advance_dialogs(pg, cdp, R, lambda s_: not s_['dlg'] and not s_['choices'], max_steps=20)   # 先把進門句點掉（不然點地面、點按鈕都被對話吃掉）
+            await L.go_to(pg, cdp, R, it['ap'][0] - 0.8, it['ap'][1], 0.3, tag + ' 走到高腳椅附近', max_s=120)
+            await L.tap_ground(pg, cdp, it['seat']['x'], it['seat']['z'])   # 照玩家點椅子本身（tapRedirect 走到 seatApproach、這一張的「坐下」優先；同 cc_d141_lib.sit_all）
+            await D.settle(pg); lab = await pg.evaluate("(()=>{ const e=document.getElementById('interact'); return e&&!e.classList.contains('hide')?e.innerText.trim():null; })()")
+            R.note('%s 點椅子以後互動按鈕：%s' % (tag, lab))
+            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+            for _ in range(10):
+                st_ = await L.state(pg)
+                if st_['choices']:
+                    bs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.innerText.trim())")
+                    k = next((i for i, t in enumerate(bs) if '坐' in t), 0)
+                    c = await pg.evaluate("(i=>{ const b=document.querySelectorAll('#choices button')[i]; b.scrollIntoView({block:'center'}); const q=b.getBoundingClientRect(); return [q.left+q.width/2,q.top+q.height/2]; })(%d)" % k)
+                    await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1200); continue
+                if st_['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(800); continue
+                break
+            if not await pg.evaluate("!!GAME.E.player.seat"):
+                R.note('%s 第一次沒坐上去，再點一次互動按鈕' % tag); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+                await L.advance_dialogs(pg, cdp, R, lambda s_: not s_['dlg'] and not s_['choices'], max_steps=10)
+            await pg.wait_for_timeout(3000)
+            info = await pg.evaluate("(()=>{ const P=GAME.E.player, u=P.obj.userData||{}, an=u.anim||{}; let hip=null; try{ const h=u.vrm.humanoid.getRawBoneNode('hips').getWorldPosition(new THREE.Vector3()); hip=+h.y.toFixed(3); }catch(e){} return {seat:P.seat?{x:P.seat.x,z:P.seat.z,y:P.seat.y==null?null:P.seat.y,lift:P.seat.lift==null?null:P.seat.lift}:null, y:+P.obj.position.y.toFixed(3), x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), pose:P.pose||null, idlePose:P.idlePose||null, hipY:hip, cur:an.cur||null}; })()")
+            R.note('%s 坐下 3 秒後：%s' % (tag, J(info)))
+            R.check('%s 坐著（P.seat 有、pose 含 sit）' % tag, bool(info['seat']) and 'sit' in str(info['pose'] or '') + str(info['idlePose'] or ''), J(info))
+            m = await follow(pg, 'rt_corner_stool_close', 0, 0, -math.pi * 0.75, pitch=0.28, dist=1.5, move=False)
+            m2 = await follow(pg, 'rt_corner_stool_side', 0, 0, -math.pi * 0.5, pitch=0.22, dist=1.5, move=False)
+            r['stool'] = {'info': info, 'lum': [m, m2]}
+    if os.environ.get('RETAKE_ONLY') == 'stool': return
+    # 2 洋洋 17:00
+    tag = '[補拍 洋洋 1700]'
+    if os.environ.get('RETAKE_ONLY') != 'cvs' and await enter(pg, cdp, 'yangyang', 17.0, tag):
+        r['yy1700_lm'] = await pg.evaluate(LMINFO); R.note('%s 光照貼圖／窗景卡：%s' % (tag, J(r['yy1700_lm'])))
+        await D.user_shot(pg, cdp, 'rt_yy_1700_door_out', {'eye': [0.6, 1.6, -1.2], 'look': [1.6, 1.3, 6.5], 'lens': 20})
+        await D.user_shot(pg, cdp, 'rt_yy_1700_top', {'eye': [0.3, 7.5, 2.2], 'look': [0.0, 0.0, -0.6], 'lens': 16})
+    # 3 便利商店往外看
+    for tn, h in (('1400', 14.0), ('2100', 21.0)):
+        tag = '[補拍 便利商店往外 %s]' % tn
+        if await enter(pg, cdp, 'cvs', h, tag):
+            await D.user_shot(pg, cdp, 'rt_cvs_%s_out' % tn, {'eye': [0.4, 1.6, 4.2], 'look': [-3.2, 1.3, 5.6], 'lens': 20})
+
+
 async def main():
     real = os.popen('git -C "%s" rev-parse --short HEAD 2>/dev/null' % os.path.join(os.environ.get('LW_TESTS') or '.', '..')).read().strip()
     print('CC 公館三間＋轉角 P2／P3＋大口二樓（%s）：SHA=%s（worktree 實際 %s）；Playwright ≠ iPhone' % (PARTS, os.environ.get('SHA', '?'), real or '?'), flush=True)
@@ -115,7 +163,7 @@ async def main():
         if R.check('遊戲載入', ok, ''):
             await pg.evaluate("localStorage.clear()")
             for part in PARTS:
-                try: await {'yangyang': yangyang, 'corner': corner, 'cvs': cvs, 'dakou2f': dakou2f}[part](pg, cdp, rec)
+                try: await {'yangyang': yangyang, 'corner': corner, 'cvs': cvs, 'dakou2f': dakou2f, 'retake': retake}[part](pg, cdp, rec)
                 except Exception as ex: R.check('[%s] 探針沒有例外' % part, False, repr(ex)[:300])
             R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()

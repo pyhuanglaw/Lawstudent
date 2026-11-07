@@ -77,15 +77,41 @@ async def main():
                 exp_bye = (sc.get('day') or {}).get('bye') if day_ and (sc.get('day') or {}).get('bye') else sc.get('bye')
                 exp_seat = (sc.get('day') or {}).get('seat') if day_ and (sc.get('day') or {}).get('seat') else sc.get('seat')
                 night_bye = sc.get('bye'); night_seat = sc.get('seat')
-                R.setup('%s 【前置／捷徑】讀檔進 %s %s %.2f（開始前 12 分鐘；條件事件關閉）' % (tag, place, DAY, h - 0.2))
-                s = await D.load_zone(pg, cdp, place, DAY, h - 0.2, wait=6000)
+                chain = os.environ.get('CHAIN') == '1' and bool(rec['cases'])
+                if chain:   # BB-B 18:29：同一份存檔連著約第二場（不重新讀檔）
+                    R.setup('%s 【捷徑】同一份存檔接著：時間撥到 %.2f、GAME.enter(%s)（不讀檔）' % (tag, h - 0.2, place))
+                    await pg.evaluate("(a=>{ GAME.G.hour=a.h; return GAME.enter(a.z); })", {'h': h - 0.2, 'z': place})
+                    await D.wait_zone(pg, cdp, place, max_s=40); await pg.wait_for_timeout(4000); await L.close_panels(pg, cdp)
+                    s = await D.st(pg)
+                else:
+                    R.setup('%s 【前置／捷徑】讀檔進 %s %s %.2f（開始前 12 分鐘；條件事件關閉）' % (tag, place, DAY, h - 0.2))
+                    s = await D.load_zone(pg, cdp, place, DAY, h - 0.2, wait=6000)
+                if abs((await pg.evaluate("GAME.G.hour")) - (h - 0.2)) > 0.1:   # 頁間書屋讀檔後時鐘跳到 18:00（14:00 的約馬上算錯過）：撥回來
+                    R.setup('%s 【捷徑】讀檔後時鐘是 %.2f，撥回 %.2f' % (tag, await pg.evaluate("GAME.G.hour"), h - 0.2)); await pg.evaluate("(h=>{ GAME.G.hour=h; })", h - 0.2)
+                flags0 = await pg.evaluate("JSON.parse(JSON.stringify(GAME.G.flags||{}))")
+                beats0 = (flags0.get('BEATS') or {}).get('kexin')
+                R.note('%s 開始前 G.flags.BEATS.kexin＝%s（day %s）' % (tag, J(beats0), await pg.evaluate("GAME.G.day")))
                 if not R.check('%s 進得了 %s' % (tag, place), s['zone'] == place, J(s)): continue
                 R.setup('%s 【捷徑】G.flags.ACTN.%s.kexin＝下一場第 %d 場（n=%d）' % (tag, kind, k, k - 1))
+                need = int(sc.get('need') or 1)
+                if need > 1:
+                    R.setup('%s 【捷徑】第 %d 場要第 %d 階：SOCIAL.rel(kexin) fam/trust/comf 撥到 ≥ 那一階（DATE.stageNum）' % (tag, k, need))
+                    await pg.evaluate("(n=>{ const r=SOCIAL.rel('kexin'); const T={2:[20,0,0],3:[40,25,0],4:[60,45,40]}[Math.min(4,n)]||[0,0,0]; r.fam=Math.max(+r.fam||0,T[0]); r.trust=Math.max(+r.trust||0,T[1]); r.comf=Math.max(+r.comf||0,T[2]); return DATE.stageNum('kexin'); })", need)
+                    R.note('%s 階段：DATE.stageNum(kexin)＝%s' % (tag, await pg.evaluate("DATE.stageNum('kexin')")))
                 iv = await pg.evaluate("(a=>{ const G=GAME.G, F=G.flags||(G.flags={}); const A=F.ACTN||(F.ACTN={}); (A[a.kind]||(A[a.kind]={})).kexin={n:a.k-1,k:a.k,last:null,rot:-1};"
                                        " const iv=INV.accept(G,'kexin',a.place,G.day,a.h); return iv&&iv.id?iv.id:((G.invites||[]).slice(-1)[0]||{}).id; })", {'kind': kind, 'k': k, 'place': place, 'h': h})
                 R.setup('%s 【前置】INV.accept(G,\'kexin\',\'%s\',今天,%.2f)（手機約好那一步的函式）→ id %s' % (tag, place, h, iv))
                 lines = await run_scene(pg, cdp, tag, iv)
                 kx = [t for w, t in lines if '可昕' in (w or '')]
+                beats1 = await pg.evaluate("((GAME.G.flags||{}).BEATS||{}).kexin||null")
+                beat_line = '你昨天十一點以後就沒回我。' in kx
+                R.note('%s 結束後 G.flags.BEATS.kexin＝%s；這一場有沒有演「你昨天十一點以後就沒回我。」：%s' % (tag, J(beats1), beat_line))
+                if os.environ.get('CHAIN') == '1' and rec['cases']:
+                    prev = rec['cases'][-1]
+                    R.check('%s 同一份存檔第二場：第 1 拍不再演（「你昨天十一點以後就沒回我。」不出現）' % tag, not beat_line, J({'beats_before': beats0, 'beats_after': beats1}))
+                    if beat_line:
+                        diff = {k: [prev.get('flags0', {}).get(k), flags0.get(k)] for k in set(list(prev.get('flags0', {}).keys()) + list(flags0.keys())) if prev.get('flags0', {}).get(k) != flags0.get(k)}
+                        R.note('%s 第一場開始 → 第二場開始 flags 差異：%s' % (tag, J(diff)))
                 R.note('%s 全部對話 %d 句：%s' % (tag, len(lines), J(lines)))
                 ivs = await pg.evaluate(IV, iv)
                 await R.shot(pg, 'kx_' + nm)
@@ -96,7 +122,7 @@ async def main():
                 else:
                     R.check('%s 散場那幾句＝%s（%s）' % (tag, '白天 day.bye' if day_ else 'bye', J(exp_bye)), all(x in kx for x in exp_bye), J(kx))
                     if day_ and exp_bye != night_bye: R.check('%s 白天不說晚上那幾句（%s）' % (tag, J(night_bye)), not any(x in kx for x in night_bye if x not in exp_bye), J(kx))
-                rec['cases'].append({'name': nm, 'place': place, 'h': h, 'k': k, 'lines': lines, 'iv': ivs, 'expBye': exp_bye, 'expSeat': exp_seat})
+                rec['cases'].append({'name': nm, 'place': place, 'h': h, 'k': k, 'lines': lines, 'iv': ivs, 'expBye': exp_bye, 'expSeat': exp_seat, 'flags0': flags0, 'beats0': beats0, 'beats1': beats1, 'beatLine': beat_line})
             except Exception as ex: R.check('%s 探針沒有例外' % tag, False, repr(ex)[:300])
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
