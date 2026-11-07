@@ -1,0 +1,24 @@
+{
+  "rerun": "r2",
+  "id": "LZLM_after_r2",
+  "sha": "5a2ab6c75566cb3aaa0e78c4caafdd460da7145e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_linze_lm_probe.py",
+  "env": "TAG=after;RERUN=r2;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T19:13:23",
+  "end": "2026-11-07T19:15:28",
+  "seconds": 125,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "35",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 29,
+    "mem": 50,
+    "used_gb": 16.1,
+    "chrome_testing": 9
+  }
+}
