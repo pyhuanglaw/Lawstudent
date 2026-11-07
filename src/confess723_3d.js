@@ -28,7 +28,9 @@ const CF723=(function(){
       if(cands.length) sum+=cands[0].s|0; }
     return sum; };
   /* 第一次告白：'yes'／'fail' */
-  S.first=function(G,id){ const h=S.heart(G,id); if(h>=1) return 'yes'; if(h<=-1) return 'fail'; const hi=typeof DECIDE!=='undefined'&&DECIDE.trustHi?DECIDE.trustHi(G,id):true; return hi?'yes':'fail'; };
+  /* played：她 heart 表裡的決定拍有沒有至少一個演到（有紀錄、不是 late）——一個都沒有＝照原本答應（AA_723 rule 第 3 點，f68c998cc：失敗要跟玩家做過的選擇有關，不因為還沒演到就失敗）*/
+  S.played=function(G,id){ const H=((D()&&D().heart)||{})[id]||{}, R=(G.flags&&G.flags.DECIDE&&G.flags.DECIDE[id])||{}; for(const did in H){ const K=keyOf(did); if(!K) continue; const r=R[K.key]; if(r!=null&&!(typeof r==='object'&&r.late)) return true; } return false; };
+  S.first=function(G,id){ if(!S.played(G,id)) return 'yes'; const h=S.heart(G,id); if(h>=1) return 'yes'; if(h<=-1) return 'fail'; const hi=typeof DECIDE!=='undefined'&&DECIDE.trustHi?DECIDE.trustHi(G,id):true; return hi?'yes':'fail'; };
   S.retryOk=function(G,id){ const c=S.get(G,id); return !!c&&!c.done&&(G.day-(c.day|0))>=14&&(datesOf(G,id)-(c.cnt|0))>=2; };
   /* 期末回家路上（termend3d.js _walkHome）玩家告白：null＝照原本；'yes'＝第一次成功；'fail'＝演了 fail；'pending'＝失敗過、條件還沒到（演了「還沒」）；'second'＝演了 second（接著照原本答應）*/
   S.termDecide=async function(GM,who,run){ const G=GM.G; if(!S.has(who)) return null; const c=S.get(G,who);

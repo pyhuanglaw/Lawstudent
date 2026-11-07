@@ -26,8 +26,10 @@ const rec=(G,who,key,o)=>{ const D=G.flags.DECIDE||(G.flags.DECIDE={}); (D[who]|
   { const G=H.fresh('2026-03-01',10,'campus'); const tr=DECIDE.trustHi;
     rec(G,'heroine_04','summer',{v:'game',stance:'space',rule:2}); const a=CF723.first(G,'heroine_04');
     G.flags.DECIDE.heroine_04.summer={v:'intern',stance:'tease',rule:4}; const b=CF723.first(G,'heroine_04');
-    delete G.flags.DECIDE.heroine_04.summer; DECIDE.trustHi=()=>true; const c=CF723.first(G,'heroine_04'); DECIDE.trustHi=()=>false; const d=CF723.first(G,'heroine_04'); DECIDE.trustHi=tr;
-    check('2. 第一次：heart 1＝yes、-1＝fail、0＋信任高＝yes、0＋信任低＝fail',J([a,b,c,d])===J(['yes','fail','yes','fail']),J([a,b,c,d])); }
+    G.flags.DECIDE.heroine_04.summer={v:'game',stance:'tease',rule:3,hi:false}; DECIDE.trustHi=()=>true; const c=CF723.first(G,'heroine_04'); DECIDE.trustHi=()=>false; const d=CF723.first(G,'heroine_04');
+    delete G.flags.DECIDE.heroine_04.summer; const e=CF723.first(G,'heroine_04'); G.flags.DECIDE.heroine_04.summer={v:'intern',stance:'tease',rule:4,late:true}; const f=CF723.first(G,'heroine_04'); DECIDE.trustHi=tr;
+    check('2. 第一次：heart 1＝yes、-1＝fail、有演到但 0＋信任高＝yes、有演到但 0＋信任低＝fail',J([a,b,c,d])===J(['yes','fail','yes','fail']),J([a,b,c,d]));
+    check('2. 她的決定一個都還沒演到（沒有紀錄、只有 late）＝照原本答應，信任低也一樣（AA_723 rule 第 3 點 f68c998cc）',e==='yes'&&f==='yes',J([e,f])); }
   const said=[], run=async(GM,who,arr)=>{ for(const t of arr) said.push(t); };
   { const G=H.fresh('2026-06-20',21,'campus'); H.CLOSE('heroine_04'); const rel0=J(SOCIAL.rel('heroine_04'));
     rec(G,'heroine_04','summer',{v:'intern',stance:'tease',rule:4}); said.length=0; const r=await CF723.termDecide(GM,'heroine_04',run); const cf=CF723.get(G,'heroine_04');
