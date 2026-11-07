@@ -129,7 +129,7 @@ async def main():
         # ---- D 內用 ----
         if (await pg.evaluate(STATE))['seat']: await pg.evaluate("GAME.standUp&&GAME.standUp(GAME.E.player)"); await pg.wait_for_timeout(600)
         st0 = await pg.evaluate(STATE); n0 = await pg.evaluate(LOGN)
-        ok, lab, it = await use(pg, cdp, run, {'gg2': 'yangyang', 'kind': 'order'}, '點炸物')
+        ok, lab, it = await use(pg, cdp, run, {'gg2': 'yangyang', 'kind': 'order'}, '點炸物', near=0.25)
         seen_seat = False
         ch, end = await run_flow(pg, cdp, ['內用', '本店推薦', '鹹酥雞', '炸物', '雞排', '夾好了', '都要', '大辣'], max_s=240, label='D')
         st1 = await pg.evaluate(STATE); sD = await said(pg, n0)
@@ -160,7 +160,7 @@ async def main():
         run.check('A 同一天第二次進去：不再說進門的句子', await pg.evaluate("GAME.G.zone") == 'yangyang' and not any(t in door for t in sA2), J(sA2))
         # ---- E 外帶飲料 ----
         st0 = await pg.evaluate(STATE); n0 = await pg.evaluate(LOGN)
-        ok, lab, it = await use(pg, cdp, run, {'gg2': 'yangyang', 'kind': 'order'}, '點炸物（外帶）')
+        ok, lab, it = await use(pg, cdp, run, {'gg2': 'yangyang', 'kind': 'order'}, '點炸物（外帶）', near=0.25)
         ch, end = await run_flow(pg, cdp, ['外帶', '冷飲櫃', '紅茶', '夾好了'], max_s=180, label='E')
         st1 = await pg.evaluate(STATE); sE = await said(pg, n0)
         say('   E', J({'end': end, 'said': sE, 'st0': st0, 'st1': st1}, 900))
@@ -168,7 +168,7 @@ async def main():
         # ---- F 錢不夠 ----
         await pg.evaluate("GAME.G.money=100"); run.setup('【捷徑】F：錢設成 100')
         n0 = await pg.evaluate(LOGN)
-        ok, lab, it = await use(pg, cdp, run, {'gg2': 'yangyang', 'kind': 'order'}, '點炸物（錢不夠）')
+        ok, lab, it = await use(pg, cdp, run, {'gg2': 'yangyang', 'kind': 'order'}, '點炸物（錢不夠）', near=0.25)
         ch, end = await run_flow(pg, cdp, ['外帶', '本店推薦', '鹹酥雞', '炸物', '雞排'], max_s=180, label='F')
         F = {'end': end, 'ch': ch}
         if end[0] == 'noeffect':   # 雞排灰掉、點了沒反應：照實記，改選「返回」→ 夾好了

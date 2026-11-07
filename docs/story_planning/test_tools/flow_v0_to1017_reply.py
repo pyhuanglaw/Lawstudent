@@ -25,6 +25,7 @@ PREFER = ['直接去上課', '直接去考場', '出發', '先不要', '先睡�
 END_JS = "(()=>{ const G=GAME.G, d=STORY.dayOfKey('2024-10-17'); return G.day>d||(G.day===d&&G.hour>=22.6); })()"
 SEG_FROM, SEG_TO, SEG_SAVE = os.environ.get('SEG_FROM'), os.environ.get('SEG_TO'), os.environ.get('SEG_SAVE')
 WAIT_IDLE_DAYS = set(x for x in os.environ.get('WAIT_IDLE_DAYS', '').split(',') if x); wait_idle = {}
+NOREPLY_DAYS = set(x for x in os.environ.get('NOREPLY_DAYS', '').split(',') if x)
 if SEG_TO and SEG_TO >= '2024-10-17': SEG_TO = None   # 最後一段照原本的終點
 
 # 下一步要去哪裡：寢室 ← 宿舍門廳 ← 校園 ← 其他區域
@@ -136,6 +137,8 @@ async def main():
                     await P.phone_tab(pg, cdp, 'msg')
                     ths = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-th]')].filter(e=>{ const t=(e.innerText||'').trim(); return t.includes('待回覆')||/\\n\\d+$/.test(t); }).map(e=>e.dataset.th)")
                 did = False
+                if last_key in NOREPLY_DAYS:   # NOREPLY_DAYS（BB-B 11-07，AA_727「沒回她」那條路）：那幾天可昕的訊息不回，看完就收起來
+                    ths = [x for x in ths if x != 'p:kexin']
                 for th in ths[:3]:
                     t = await P.phone_thread(pg, cdp, th, open_folds=False)
                     ok = [a for a in t['asks'] if not a['dis']]
@@ -233,6 +236,9 @@ async def main():
             k = next((i for i, t in enumerate(said) if '走，去公館' in t), None)
             print('   [E05]', json.dumps(said[k:k+8] if k is not None else [], ensure_ascii=False), flush=True)
             print('   [E05Z]', json.dumps(await pg.evaluate("window.__e05z||[]"), ensure_ascii=False), flush=True)
+            km = await pg.evaluate("(GAME.G.msgs||[]).filter(m=>m.th==='p:kexin').map(m=>({d:CALENDAR.dateOf(m.day).key,h:+(+m.h||0).toFixed(2),from:m.from,t:String(m.text||'').slice(0,40)})).filter(m=>m.d>='2024-09-19'&&m.d<='2024-09-27')")
+            print('   [KXMSG]', json.dumps(km, ensure_ascii=False), flush=True)
+            print('   [FLAGS]', json.dumps(await pg.evaluate("(()=>{ const F=GAME.G.flags||{}; return {E05_OPEN:F.E05_OPEN||null, e05:!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_y0_e05)}; })()"), ensure_ascii=False), flush=True)
         run.check('沒有用到卡住保險', st['fb'] == 0, str(st['fb']))
         run.check('黑幕沒有擋住對話', fade_block == 0, str(fade_block))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))
