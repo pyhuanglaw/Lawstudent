@@ -162,7 +162,7 @@ async def main():
     if NPCROM is not None: r['npcRom'] = int(NPCROM)
     rel[WHO] = r; soc['rel'] = rel; s['social'] = soc
     async with async_playwright() as p:
-        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        b, ctx, pg, cdp, errs = await L.launch(p, landscape=os.environ.get('PORTRAIT') != '1')   # PORTRAIT=1：390×844 直向
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
         run.setup('讀使用者存檔 day46；【捷徑】day %+d、清掉原本的邀約、清掉 DECIDE／DECIDE_SAY；【捷徑】%s 的故事線從第 %d 拍開始%s' % (SHIFT, WHO, K, ('；【捷徑】關係改 trust=%s npcRom=%s' % (TRUST, NPCROM)) if (TRUST or NPCROM) else ''))
