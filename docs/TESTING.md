@@ -135,6 +135,8 @@
 
 對**乾淨 checkout**（`git worktree add --detach <dir> HEAD`，只含 git 追蹤的檔案＝GitHub Pages 實際內容）開 server 後：
 
+> **預先下載的清單（PERF-COLD-1107 (B)，LAWWW-B 11-07）**：發布前跑 `node tools/gen_zone_assets.js --check`；過期（換過區域的 GLB）就重跑 `node tools/gen_zone_assets.js` 再 commit。平常 `tests/zone_prefetch_unit.js` 只印 WARN、不擋。
+
 > 跑 Node 測試以前先 `git fetch origin claude/cool-heisenberg-o8kuqx`（值班 AA 的企劃分支，帳號換了照 `duty.json` 的 AA 分支）：`aa416_fest`、`aa440_vacfill`、`aa414_hol`、`date_wish`、`aa442_jpprep` 等會 `git show <企劃線 sha>` 讀原稿，沒 fetch 會 FAIL（不是遊戲問題；BB-B 2026-10-24 RELEASE-9109-TEST 記的）。
 
 1. `tests/deploy_check.py`（資源 404、11 區域、正式 VRM、版本字樣；**?v= 全部要和標題字樣是同一個版號**——2026-11-03 起，v9.10.19 PR #25 標題改了、309 處 ?v= 還是舊版號沒被抓到；BB／CC 驗過：main e1603907e PASS、039a9227a 只有這項 FAIL）

@@ -322,6 +322,30 @@ const ASSETS = (function(){
     const ok=await Promise.race([all.then(()=>true),new Promise(r=>{ to=setTimeout(()=>r(false),Math.max(0,cap|0)); })]); clearTimeout(to);
     await new Promise(r=>setTimeout(r,0));   /* 載好以後區域的 .then（接上正式模型、藏起備用方塊）先跑完 */
     out.waited=Date.now()-t0; out.timedOut=!ok; return out; };
+  /* PERF-COLD-1107 (B)（LAWWW2-B 2026-11-07；LAWWW-B 08:41／09:04 排在 (A) 之後）：走到出口附近，先把出口那一區的正式模型「只下載、不解析」放進瀏覽器的快取。
+     (A) 讓第一次進一個區域時黑畫面等模型載好再淡入（PC 冷快取：溫州街黑 18 s、總圖大廳 12 s）；這裡讓下載那一段在玩家走過去的路上就先做完。
+     只下載：不解析、不上傳 GPU、不留在記憶體（邊讀邊丟），走路中不會卡；真的進去時 loadOne 的 fetch 直接讀快取（同一個網址正在下載時，瀏覽器會等它下載完再讀快取）。
+     每一區要哪些模型：src/data/zone_assets.js（tools/gen_zone_assets.js 產生）。一次只下載一個；換區域時清掉排隊的（正在下載的那一個讓它下載完）；
+     省流量模式、2G／3G 不做；這次開遊戲最多 PREFETCH_MAX_BYTES。測試：node tests/zone_prefetch_unit.js */
+  A.PREFETCH_NEAR_M=30; A.PREFETCH_MAX_BYTES=150e6; A.prefetched={}; A.prefetchBytes=0; A._pf={q:[],cur:null};
+  A.prefetchOK=function(){ if(typeof fetch!=='function') return false; try{ const c=typeof navigator!=='undefined'&&navigator.connection; if(c&&(c.saveData||/(^|-)(2g|3g)$/.test(c.effectiveType||''))) return false; }catch(e){} return true; };
+  const pfWant=k=>!!A.manifest[k]&&!A.cache[k]&&!A.status[k]&&A.prefetched[k]===undefined&&A._pf.cur!==k&&!A._pf.q.includes(k);
+  A.prefetchWanted=function(keys){ return (keys||[]).some(pfWant); };
+  function pfPump(){ if(A._pf.cur) return; while(A._pf.q.length){ const k=A._pf.q.shift(); if(!pfWant(k)) continue; if(A.prefetchBytes>=A.PREFETCH_MAX_BYTES){ A._pf.q.length=0; return; }
+      const m=A.manifest[k]; A._pf.cur=k; let n=0;
+      Promise.resolve().then(()=>fetch(m.url,{priority:'low'})).then(r=>{ if(!r.ok) throw new Error('http '+r.status); if(!r.body||!r.body.getReader) return r.arrayBuffer().then(b=>b.byteLength);
+          const rd=r.body.getReader(); const pump=()=>rd.read().then(({done,value})=>{ if(done) return n; n+=value.length; return pump(); }); return pump(); })   /* 邊讀邊丟：不把整個檔留在記憶體 */
+        .then(len=>{ A.prefetched[k]=len; A.prefetchBytes+=len; },()=>{ A.prefetched[k]=-1; })   /* 失敗（離線、artifact 單檔版沒有這個檔）就算了，不重試；真的進去時 loadOne 照原本的流程 */
+        .then(()=>{ if(A._pf.cur===k) A._pf.cur=null; pfPump(); });
+      return; } }
+  A.prefetch=function(keys){ if(!A.prefetchOK()) return 0; let n=0; for(const k of keys||[]) if(pfWant(k)){ A._pf.q.push(k); n++; } pfPump(); return n; };
+  A.prefetchStop=function(){ A._pf.q.length=0; };   /* 換區域時：排隊的不下載了（正在下載的那一個照常下載完，說不定就是要進去的那一區的） */
+  const pfSettled={};   /* 有沒有正式模型還在載（loadOne 的 status 還沒有結果）：有的話先不下載，不和這一區還沒載完的人物、模型搶頻寬 */
+  A.loadingNow=function(){ let n=0; for(const k in A.status){ if(A.cache[k]||pfSettled[k]) continue; if(pfSettled[k]===undefined){ pfSettled[k]=false; Promise.resolve(A.status[k]).then(()=>{ pfSettled[k]=true; },()=>{ pfSettled[k]=true; }); } n++; } return n>0; };
+  /* 玩家附近（PREFETCH_NEAR_M 以內）最近的出口，那一區的模型還沒載過、沒下載過就排進去。E＝引擎（interactables、player）；zoneId＝現在的區域 */
+  A.prefetchNear=function(E,zoneId){ if(typeof ZONE_ASSETS==='undefined'||!E||!E.player||!E.player.obj||A._pf.cur||A._pf.q.length||A.loadingNow()) return null; const p=E.player.obj.position; let best=null, bd=A.PREFETCH_NEAR_M;
+    for(const it of E.interactables||[]){ const to=it&&it.exit&&typeof it.exit.to==='string'?it.exit.to:null; if(!to||to===zoneId||!ZONE_ASSETS[to]) continue; const d=Math.hypot(it.x-p.x,it.z-p.z); if(d<bd&&A.prefetchWanted(ZONE_ASSETS[to])){ bd=d; best=to; } }
+    if(best) A.prefetch(ZONE_ASSETS[best]); return best; };
   A.loadOne=function(key){ const m=A.manifest[key]; if(!m) return Promise.reject(new Error('unknown asset '+key)); if(A._req) A._req.add(key); if(A.cache[key]) return Promise.resolve(A.cache[key]); if(A.status[key]) return A.status[key];
     const b64ToBuf=(data)=>{ const bin=atob(data); const buf=new ArrayBuffer(bin.length); const u8=new Uint8Array(buf); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); return buf; };
     A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ A.capTextures(gltf.scene); if(m.type==='character'||m.type==='clips'||m.type==='building'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; }   /* building：建築正式模型（遊戲座標、不縮放）*/ else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
