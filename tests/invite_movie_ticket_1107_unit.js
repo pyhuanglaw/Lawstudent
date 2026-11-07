@@ -25,5 +25,11 @@ const fresh=(h,zone)=>{ const G=H.fresh('2025-10-18',h,zone); G.invites=[]; G.st
     const iv=INV.accept(G,id,'wz_teishoku',G.day,12,{by:'player'}); const n={id,charId:id,obj:{position:{x:1,y:0,z:0},rotation:{y:0}},beh:'idle',pose:'idle',lv:0}; GM.npc[id]=n; E.npcs.push(n);
     await INV.meet(GM,iv,n,{});
     check('3. 吃飯不扣電影票',G.money===500&&G.flags.NY_TICKET==null,J({m:G.money,t:G.flags.NY_TICKET})); }
+  /* 4 燈暗那一句（AA-B 10:02 經 BB，CINEMA-CG-1107）：一般約南洋＝坐下的開場以後、中途那件事和散場句以前；吃飯不說 */
+  { const G=fresh(13.8,'xs_nanyang'), id='heroine_03'; H.FRIEND(id); G.money=500; const iv=INV.accept(G,id,'xs_nanyang',G.day,14,{by:'player'}); const n={id,charId:id,obj:{position:{x:1,y:0,z:0},rotation:{y:0}},beh:'idle',pose:'idle',lv:0}; GM.npc[id]=n; E.npcs.push(n);
+    H.said=[]; await INV.meet(GM,iv,n,{}); const T=H.said.map(s=>s.t), dim=T.indexOf('（燈暗下來，電影開始了。）'), END=(INVITE_DATA.seatOpen.movieEnd||[]).flat().map(t=>String(t).replace(/^「|」$/g,'')), e=T.findIndex((t,i)=>i>dim&&END.some(x=>t.indexOf(x)>=0||x.indexOf(t)>=0));
+    check('4. 看電影：坐下以後說「（燈暗下來，電影開始了。）」，在散場句前面、不是第一句',dim>0&&e>dim,J({dim,e,T}));
+    const G2=fresh(11.9,'wz_teishoku'); H.FRIEND('heroine_01'); G2.visited.wz_teishoku=1; const iv2=INV.accept(G2,'heroine_01','wz_teishoku',G2.day,12,{by:'player'}); const n2={id:'heroine_01',charId:'heroine_01',obj:{position:{x:1,y:0,z:0},rotation:{y:0}},beh:'idle',pose:'idle',lv:0}; GM.npc.heroine_01=n2; E.npcs.push(n2);
+    H.said=[]; await INV.meet(GM,iv2,n2,{}); check('4. 吃飯不說燈暗',!H.said.some(s=>s.t==='（燈暗下來，電影開始了。）')); }
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });

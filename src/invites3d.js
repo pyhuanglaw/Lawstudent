@@ -373,6 +373,7 @@ const INV=(function(){
       else { if(lines&&lines.length){ for(const t of lines) await GM.say(who,t); } else if(P.scene) await P.scene(GM,iv,who); /* 地點自己的見面（茶席：AA_167，src/wzlines3d.js）*/ else if(ml){ if(LQ) LQ.chk(ml); await GM.say(/^「/.test(ml)?who:null,ml); } else await GM.say(null,'你和'+nm+P.verb.replace(/^去/,'在')+'。');
         { const FA=FAof(); if(FA) await S.playLines(GM,who,FA,undefined,LQ); } }   /* 第一次和她（他）去那個地方：在那裡多說的（BB_158 的 first：點完餐、脫鞋、老闆娘說的三分四十秒）*/
       { const DQ=typeof DECIDE!=='undefined'&&DECIDE.due?DECIDE.due(G,iv.who):null; if(DQ) await DECIDE.playDue(GM,who,iv.who,DQ); }   /* 她幾天後才跟你說的決定（AA_719 delay，「我想了想，還是……」）：見面坐下以後先說 */
+      if(!SN&&!LB&&((D().seatOpen||{}).byPlace||{})[P.id]==='movie') await GM.say(null,S.MOVIE_DIM);   /* 看電影：坐下的開場句以後燈暗、電影開始，再接中途那件事、散場句（AA-B 10:02 經 BB，CINEMA-CG-1107）；電影畫面 movie_01～10 等使用者給圖再接在這一句後面 */
       const SNo=SN&&!LB&&!(lines&&lines.length)&&!P.scene&&!P.ownMeal;
       if(LB) await S.libStay(GM,iv,who,P,SN,ARC,RT); else if(SNo){ await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(ARC) await ARCS.run(GM,who,iv.who,ARC); else if(RT) await ARCS.rotRun(GM,who,iv.who,RT); else { await STUDYN.mid(GM,who,iv.who,SN); if(SN.rot!=null&&typeof ARCS!=='undefined'&&ARCS.rotDone) ARCS.rotDone(G,iv.who,null); } await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(G.stats) G.stats.study=(G.stats.study|0)+Math.max(1,Math.round(P.stay)); if(typeof STORY!=='undefined'&&STORY.onStudy){ try{ STORY.onStudy(GM,P.stay); }catch(e){ console.warn('STORY.onStudy',e); } } }   /* 其他地方一起念書：時間一半、中途那件事、另一半；讀書照算（和總圖一樣）*/
       else if(!P.ownMeal&&(ARC||AX||RT)){ await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(ARC) await ARCS.run(GM,who,iv.who,ARC); else if(RT) await ARCS.rotRun(GM,who,iv.who,RT); else { await STUDYN.mid(GM,who,iv.who,AX); if(AX.rot!=null&&typeof ARCS!=='undefined'&&ARCS.rotDone) ARCS.rotDone(G,iv.who,null); } await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); }   /* 吃飯、咖啡、電影、書店：時間一半 → 故事線那一拍 → 另一半 */
@@ -675,6 +676,7 @@ const INV=(function(){
   /* 開場句要對得上坐的位子（DATE-SEAT-AFAR-1105：坐在中間的四人桌，學姊說「……這個燈好可愛。」——燈在窗邊長桌）：那一則寫了 onlyAt（invites.js：Object.assign([台詞],{onlyAt:{table:6}})）＝只在你坐的位子符合時抽（onlyAt.table＝桌號，一個或幾個）；
      其他的照舊每次隨機一則。都不符合就不說 */
   S.seatAtOk=function(at,seat){ if(!at) return true; if(!seat) return false; if(at.table!=null&&!(seat.table!=null&&[].concat(at.table).some(t=>String(t)===String(seat.table)))) return false; return true; };
+  S.MOVIE_DIM='（燈暗下來，電影開始了。）';   /* AA-B 11-07 10:02（BB_132 第 116 組）*/
   S.seatOpenLines=async function(GM,iv,who,P){ const SO=D().seatOpen; if(!SO||!P||P.scene||P.ownMeal) return false; const k=(SO.byPlace||{})[P.id]; const ps=GM&&GM.E&&GM.E.player&&GM.E.player.seat;
     const L=k&&Array.isArray(SO[k])&&pick(SO[k].filter(e=>S.seatAtOk(e&&Object.prototype.hasOwnProperty.call(e,'onlyAt')?e.onlyAt:null,ps))); if(!L) return false; await S.playLines(GM,who,L); return true; };
   /* 見面演完：她解凍、起身，回到自己的作息（CC 11-04 讀程式抓到：S.meet 演完她一直 frozen）。作息本來就在這裡坐著的（她本來在這裡讀書、吃飯）照舊坐著 */
