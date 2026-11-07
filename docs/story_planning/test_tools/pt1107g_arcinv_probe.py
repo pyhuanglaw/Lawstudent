@@ -49,17 +49,25 @@ async def main():
         run.check('① 第 %d 拍演了（k %d→%s）、ARC_INVITE 記這一拍' % (K, K, (a1['beats'] or {}).get('k')), (a1['beats'] or {}).get('k') == K + 1 and bool(a1['inv']) and str(K) in json.dumps(a1['inv']), json.dumps({'a': a1, 'said': (said or [])[-10:]}, ensure_ascii=False))
         print('   演完', json.dumps(a1, ensure_ascii=False)[:400], flush=True)
         # ② 等她傳訊息
-        rec = a1['rec'] or {}
-        off = (rec.get('sc') or {}).get('offer') or {}
-        if off:
+        # ARCINV 的紀錄是下一次 tick 才建（st wait→offer＝排進 PHONE 佇列，還沒送）；等紀錄有 sc.offer 再撥時間
+        a2 = a1
+        for _ in range(30):
+            a2 = await arc_state(pg)
+            if ((a2['rec'] or {}).get('sc') or {}).get('offer'): break
+            await pg.wait_for_timeout(1000)
+        off = ((a2['rec'] or {}).get('sc') or {}).get('offer') or {}
+        run.check('② 演完排了她傳訊息的時間（ARCINV st %s、offer %s）' % ((a2['rec'] or {}).get('st'), off), bool(off), json.dumps(a2, ensure_ascii=False)[:500])
+        if off and (a2['day'] * 24 + a2['hour']) < off['d'] * 24 + off['h'] - 0.08:
             run.setup('【捷徑】時間撥到她傳訊息的前 5 分鐘（第 %s 天 %.2f）' % (off.get('d'), off.get('h', 0) - 0.08))
             await pg.evaluate("((d,h)=>{ GAME.G.day=d; GAME.G.hour=h; })(%d,%f)" % (off['d'], off['h'] - 0.08))
-        for _ in range(60):
-            a2 = await arc_state(pg)
-            if (a2['rec'] or {}).get('st') == 'offer': break
+        MSGJS = "(w=>(GAME.G.msgs||[]).filter(m=>m.from===w||(m.th===('p:'+w))).slice(-6).map(m=>({t:m.text,ask:!!m.ask,id:m.ask&&m.ask.id,day:m.day,h:m.h})))(%s)" % json.dumps(WHO)
+        msgs = []
+        for _ in range(90):
+            msgs = await pg.evaluate(MSGJS)
+            if any(m.get('id') == 'arcinv:' + KEY for m in msgs): break
             await pg.wait_for_timeout(1000)
-        msgs = await pg.evaluate("(w=>(GAME.G.msgs||[]).filter(m=>m.from===w||(m.th===('p:'+w))).slice(-6).map(m=>({t:m.text,ask:!!m.ask,day:m.day,h:m.h})))(%s)" % json.dumps(WHO))
-        run.check('② 她傳訊息了（ARCINV st offer、最後一則有回覆）', (a2['rec'] or {}).get('st') == 'offer' and any(m['ask'] for m in msgs) and any(e['msgs'][0][:6] in (m['t'] or '') for m in msgs), json.dumps({'rec': a2['rec'], 'msgs': msgs}, ensure_ascii=False)[:700])
+        a2 = await arc_state(pg)
+        run.check('② 她傳訊息了（ARCINV st offer、最後一則有回覆 arcinv:%s）' % KEY, (a2['rec'] or {}).get('st') == 'offer' and any(m.get('id') == 'arcinv:' + KEY for m in msgs) and any(e['msgs'][0][:6] in (m['t'] or '') for m in msgs), json.dumps({'rec': a2['rec'], 'msgs': msgs}, ensure_ascii=False)[:700])
         # ③ 手機回覆
         await pe.phone(pg, cdp, 'msg')
         ok_th = await pe.tap_sel(pg, cdp, '#phoneBody [data-th="p:%s"]' % WHO); await pg.wait_for_timeout(1200)
@@ -77,6 +85,8 @@ async def main():
             run.check('⑤ 沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False)); await b.close(); return run.finish()
         # ④ 出發、演那一場
         o = (a3['outs'] or [{}])[0]
+        if 'day' not in o:
+            run.check('⑤ 沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False)); await b.close(); return run.finish()
         run.setup('【捷徑】時間撥到出發前（第 %s 天 %.2f）' % (o.get('day'), o.get('h', 0) - 0.2))
         await pg.evaluate("((d,h)=>{ GAME.G.day=d; GAME.G.hour=h; })(%d,%f)" % (o['day'], o['h'] - 0.2))
         said4, went = [], False
