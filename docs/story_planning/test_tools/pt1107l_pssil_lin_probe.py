@@ -70,6 +70,7 @@ async def one(pg, cdp, run, tag, comp):
     s0 = state()
     await L.load_state(pg, s0, quiet_phone=True); await pg.wait_for_timeout(3000); await pe.settle(pg, cdp, [], 30)
     run.setup('讀使用者存檔 day46；【捷徑】撥到 18:00、清邀約' + ('；【捷徑】flags.companion＝%s（有人跟著）' % comp if comp else ''))
+    await pg.evaluate("(()=>{ window.__lines=[]; const el=document.getElementById('dlgText'); if(!el) return; if(window.__lobs) window.__lobs.disconnect(); let last=''; const grab=()=>{ const t=(el.textContent||'').trim(); if(t&&t!==last&&!(last&&t.startsWith(last)&&false)){ last=t; window.__lines.push(t); } }; window.__lobs=new MutationObserver(()=>{ clearTimeout(window.__lto); window.__lto=setTimeout(grab,350); }); window.__lobs.observe(el,{childList:true,subtree:true,characterData:true}); })()")
     r = await pg.evaluate(PLAN % json.dumps(comp))
     run.setup('【捷徑】OUT.plan 排一筆今天 18:15 的重聚、直接 OUT.go：' + json.dumps(r, ensure_ascii=False))
     run.check(tag + ' 排得進去、開始演', r['ok'] and r['q'], json.dumps(r, ensure_ascii=False))
@@ -120,6 +121,8 @@ async def main():
         ok = await play_to_end(pg, cdp, log)
         await pg.wait_for_timeout(2500)
         end = await pg.evaluate(INFO)
+        linesA = await pg.evaluate("window.__lines||[]")
+        print('[LINES-A]', json.dumps(linesA, ensure_ascii=False)[:4000])
         print('[END-A]', json.dumps(end, ensure_ascii=False))
         print('[LOG-A]', json.dumps(log, ensure_ascii=False)[:3000])
         await run.shot(pg, 'A_end')
@@ -135,7 +138,15 @@ async def main():
         ok2 = await play_to_end(pg, cdp, log2)
         end2 = await pg.evaluate(INFO)
         run.check('⑤ 照樣演完、記 PS_REUNION', ok2 and end2['done'] == 'true' and end2['reunion'] is not None, json.dumps({'done': end2['done'], 'err': end2['err'], 're': end2['reunion']}))
-        run.check('⑤ 兩次台詞一樣多（3D／2D 同一份稿）', abs(len(log) - len(log2)) <= 2, '%d vs %d' % (len(log), len(log2)))
+        lines2 = await pg.evaluate("window.__lines||[]")
+        print('[LINES-B]', json.dumps(lines2, ensure_ascii=False)[:4000])
+        def uniq(xs):
+            out = []
+            for x in xs:
+                if not out or out[-1] != x: out.append(x)
+            return out
+        la, lb = uniq(linesA), uniq(lines2)
+        run.check('⑤ 3D 和 2D 演的句子一樣（同一份稿；%d／%d 句）' % (len(la), len(lb)), la == lb and len(la) >= 5, json.dumps({'onlyA': [x for x in la if x not in lb][:5], 'onlyB': [x for x in lb if x not in la][:5]}, ensure_ascii=False))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))
         await b.close()
     return run.finish()
