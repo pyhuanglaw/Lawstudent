@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "SKIRT_SIT_cam",
+  "sha": "fa79dd7bc32e1e177a8187a070b8c7baf6ef2924",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_skirt_sit_probe.py",
+  "env": "TAG=new;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T17:20:24",
+  "end": "2026-11-07T17:25:07",
+  "seconds": 283,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "30",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 87,
+    "mem": 55,
+    "used_gb": 17.5,
+    "chrome_testing": 14
+  }
+}
