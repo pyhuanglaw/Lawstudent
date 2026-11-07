@@ -4,7 +4,7 @@
 - 來源一定要在 docs/handoff/story_import_allow.json（路徑＋commit＋approved），不在名單就拒絕（D94 第 5 點）。
 - text 是遊戲裡那一則訊息的原句：一定要在 src/ 裡找得到（逐字），找不到就停下來（遊戲靠這一句對到訊息）。
 用法：python3 tools/story/import_msg_replies.py [--ref <commit>] [--check]"""
-import json, os, subprocess, sys
+import json, os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import import_guard as IG
 
@@ -12,6 +12,9 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 PATH = 'docs/story_planning/AA_709_msg_replies.json'
 OUT = 'src/data/msg_replies.js'
 REL = ('fam', 'trust', 'comf', 'npcRom', 'rom')
+TELL = ('econ', 'retake', 'dad', 'mom', 'sister', 'bday')
+# new（AA 新寫、遊戲裡還沒有的訊息）的條件 → src/msgreply3d.js S.COND
+NEWCOND = {'YT_MET_JOB': 'flag:YT_MET_JOB', '學姊階段 ≥2': 'stage:2', '學姊階段 ≥3': 'stage:3'}
 
 
 def git(*a):
@@ -40,20 +43,38 @@ def build(src, sha):
         for i, e in enumerate(v):
             w = f'{hid}[{i}]'
             t = e.get('text')
-            if not t or not in_src(t):
-                raise SystemExit(f'{w}.text「{t}」：src/ 裡找不到這一則訊息（要逐字）')
+            new = bool(e.get('new'))
+            if not t or (not new and not in_src(t)):
+                raise SystemExit(f'{w}.text「{t}」：src/ 裡找不到這一則訊息（要逐字；AA 新寫的要標 new）')
             opts = []
             for j, o in enumerate(e.get('opts') or []):
                 if not o.get('t'):
                     raise SystemExit(f'{w}.opts[{j}]：沒有 t')
                 say = [IG.read_fix(x) for x in (o.get('say') or [])]
-                opts.append({'t': IG.read_fix(o['t']), 'rel': rel(o.get('rel'), f'{w}.opts[{j}]'), 'say': say})
+                q = {'t': IG.read_fix(o['t']), 'rel': rel(o.get('rel'), f'{w}.opts[{j}]'), 'say': say}
+                if o.get('tell'):
+                    if o['tell'] not in TELL:
+                        raise SystemExit(f'{w}.opts[{j}].tell「{o["tell"]}」：只能是 {TELL}')
+                    q['tell'] = o['tell']
+                opts.append(q)
             if not 2 <= len(opts) <= 4:
                 raise SystemExit(f'{w}：選項要 2～4 個（{len(opts)}）')
             sk = e.get('skip') or {}
             if sk.get('say') or sk.get('rel'):
                 raise SystemExit(f'{w}.skip：沒回的結果還沒做（AA 說分享生活的不扣分）；有內容的話先改 src/msgreply3d.js')
-            L.append({'text': t, 'opts': opts})
+            E = {'text': t, 'opts': opts}
+            if e.get('set'):
+                E['set'] = e['set']
+            if new:
+                th = [IG.read_fix(x) for x in (e.get('thread') or [])]
+                m = re.fullmatch(r'(Y\d+S[12])W(\d+) (\d{1,2}):(\d{2})', e.get('at') or '')
+                if not m:
+                    raise SystemExit(f'{w}.at「{e.get("at")}」：要寫 Y1S2W6 22:00')
+                c = e.get('cond') or ''
+                if c and c not in NEWCOND:
+                    raise SystemExit(f'{w}.cond「{c}」：NEWCOND 沒有對到遊戲的條件')
+                E['new'] = {'thread': th, 'term': m.group(1), 'week': int(m.group(2)), 'h': int(m.group(3)) + int(m.group(4)) / 60, 'cond': NEWCOND.get(c)}
+            L.append(E)
         people[hid] = L
     return {'src': f'{PATH}@{sha}', 'people': people}
 

@@ -13,8 +13,21 @@ const MSGR=(function(){
   S.OPEN_H=36;   /* 一天半內可以回 */
   S.find=(id,text)=>{ const L=D()[id]; if(!L||typeof text!=='string') return null; const i=L.findIndex(e=>e.text===text); return i<0?null:{i,e:L[i]}; };
   S.attach=function(G,m){ if(!m||m.ask||!m.from||m.from==='player') return false; const id=m.from; if(m.th&&m.th!=='p:'+id) return false; const f=S.find(id,m.text); if(!f) return false;
-    m.ask={id:'r709:'+id+':'+f.i+':'+m.day,until:m.day*24+m.h+S.OPEN_H,opts:f.e.opts.map(o=>({t:o.t,say:(o.say||[]).map(t=>({from:id,text:t})),rel:o.rel,relWho:id}))}; return true; };
-  S.onAnswer=function(G,m,o){ if(!o||!o.rel||!o.relWho||typeof SOCIAL==='undefined'||!SOCIAL.adjust) return; SOCIAL.adjust(o.relWho,o.rel); };
+    m.ask={id:'r709:'+id+':'+f.i+':'+m.day,until:m.day*24+m.h+S.OPEN_H,opts:f.e.opts.map(o=>Object.assign({t:o.t,say:(o.say||[]).map(t=>({from:id,text:t})),rel:o.rel,relWho:id},o.tell?{tell:o.tell}:{}))};
+    if(f.e.set&&G&&G.flags&&G.flags[f.e.set]==null) G.flags[f.e.set]=G.day;   /* 收到這一串就記（AA_709：以安 AN_MSG_MOM_OK、AN_MSG_JAPAN；AA_712 以安第 4 拍的 alt 看這個）*/
+    return true; };
+  S.onAnswer=function(G,m,o){ if(!o||!o.relWho) return; if(o.rel&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(o.relWho,o.rel);
+    if(o.tell&&G&&G.flags){ const T=G.flags.YT_TOLD||(G.flags.YT_TOLD={}), t=T[o.tell]||(T[o.tell]={}); if(t[o.relWho]==null) t[o.relWho]=G.day; } };   /* 選項講了祐廷自己的事（tell）：和故事線同一份 YT_TOLD（src/arcs3d.js）*/
+  /* AA 新寫的五串（AA_709 new；遊戲裡原本沒有）：那一學期第幾週的週三、幾點傳；條件（cond）照稿；要有她的聯絡方式；tag 只送一次（PHONE.at 照時間送，睡過去照原本的時間補）*/
+  S.COND={flag:(G,id,v)=>!!(G.flags&&G.flags[v]!=null&&G.flags[v]!==false), stage:(G,id,v)=>(typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(id):1)>=(+v)};
+  S.condOk=(G,id,c)=>{ if(!c) return true; const i=c.indexOf(':'), f=S.COND[c.slice(0,i)]; return f?f(G,id,c.slice(i+1)):false; };
+  S.newDay=function(n){ if(typeof CALENDAR==='undefined'||!Array.isArray(CALENDAR.TERMS)||typeof STORY==='undefined'||!STORY.dayOfKey) return null; const T=CALENDAR.TERMS.find(t=>t.id===n.term); if(!T) return null; const d0=STORY.dayOfKey(T.start); return d0==null?null:d0+(n.week-1)*7+2; };
+  S.tick=function(GM){ const G=GM&&GM.G; if(!G||typeof PHONE==='undefined'||!PHONE.at) return false;
+    for(const [id,L] of Object.entries(D())) L.forEach((e,i)=>{ if(!e.new) return; const tag='r709new:'+id+':'+i; if(PHONE.sent(G,tag)) return; const d=S.newDay(e.new); if(d==null||G.day<d-1||G.day>d) return;
+      if(typeof INV!=='undefined'&&INV.hasContact&&!INV.hasContact(G,id)) return; if(!S.condOk(G,id,e.new.cond)) return;
+      PHONE.at(G,d,e.new.h,e.new.thread.concat([e.text]).map(t=>({th:'p:'+id,from:id,text:t})),tag); });
+    return false; };
+  if(typeof STORY!=='undefined'&&Array.isArray(STORY.TICKS)&&!STORY.TICKS.includes(S.tick)) STORY.TICKS.push(S.tick);
   if(typeof PHONE!=='undefined'){ if(Array.isArray(PHONE.ON_MK)) PHONE.ON_MK.push(S.attach); if(Array.isArray(PHONE.ON_ANSWER)) PHONE.ON_ANSWER.push(S.onAnswer); }
   return S;
 })();

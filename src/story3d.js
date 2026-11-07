@@ -2477,7 +2477,7 @@ const STORY = (function(){
       if(last&&took&&!PHONE.sent(G,'p4e')&&G.day>=p4d&&G.day<=p4d+2){
         const att=(CLS.rec(G).attend||{}).econ_principles_2||0, items=[{th:'sys',text:'經濟學原理（下）的成績公布了。'}], N=t=>({th:'sys',who:null,text:t}), drawer=N('你把成績單收進抽屜。');
         if(att>=6) items.push(N('一年前沒拿到的，這次拿到了。'));
-        else { silentContact('classmate_xinci'); const X=t=>({th:'p:classmate_xinci',from:'classmate_xinci',text:t}); items.push(X('過了吧？……我的筆記功不可沒。'),{th:'p:classmate_xinci',from:'player',who:null,text:'請妳吃飯。'},X('兩次。'),N('一年前沒拿到的，這次靠一本借來的筆記拿到了。')); }
+        else { silentContact('classmate_xinci'); const X=t=>({th:'p:classmate_xinci',from:'classmate_xinci',text:t}); items.push(X('過了吧？……我的筆記功不可沒。'),N('一年前沒拿到的，這次靠一本借來的筆記拿到了。')); }   /* 芯慈那一句改成可以回（AA_709 第三批：三個選項，第一個就是原本的「過了。請妳吃飯。」→「兩次。」；src/msgreply3d.js 掛上去）*/
         if(F.dating_kexin){ const mode=F.KX_GRADES_Y1S2||'together'; Object.assign(items[items.length-1],{ask:{until:(p4d+2)*24+24,opts:[
             {t:'傳給可昕',post:'（傳給可昕）',set:{KX_P4E:'sent'},say:[{th:'p:kexin',from:'player',who:null,text:'📷（經濟學原理（下）的成績）'},K('（貼圖：長頸鹿）'),K(mode==='best_one'?'這科就是你最滿意的那一科吧。':'這一科可以先說。其他的，等全部出來再一起開。')]},
             {t:'不傳',post:'（不傳）',set:{KX_P4E:'kept'},say:[drawer]}]}}); }

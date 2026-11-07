@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_arcs.py（docs/story_planning/AA_712_heroine_arcs.json@7a24f8ce1）。不要手改，改企劃 AA_712 再重新匯入。
+/* 自動產生：tools/story/import_arcs.py（docs/story_planning/AA_712_heroine_arcs.json@026a2dd34）。不要手改，改企劃 AA_712 再重新匯入。
    女主角自己的故事線（8 拍；規則 BB_305；播放 src/arcs3d.js）*/
 'use strict';
 const HEROINE_ARCS={
- "src": "docs/story_planning/AA_712_heroine_arcs.json@7a24f8ce1",
+ "src": "docs/story_planning/AA_712_heroine_arcs.json@026a2dd34",
  "people": {
   "heroine_01": {
    "theme": "她什麼都照規則、照計畫，卻不知道自己喜歡什麼；從「一個人不敢進那間店」開始，慢慢學會為自己選。",
@@ -1924,7 +1924,7 @@ const HEROINE_ARCS={
      "need": 2,
      "lines": [
       "我已經三個月沒有放假了。",
-      "我妹 每天都跟我奶奶說，姊姊又沒回來吃飯。"
+      "我妹每天都跟我奶奶說，姊姊又沒回來吃飯。"
      ],
      "ask": [
       "你放假的時候都做什麼？"
@@ -1982,7 +1982,7 @@ const HEROINE_ARCS={
      "n": 4,
      "need": 3,
      "lines": [
-      "我妹 昨天跟我吵架。她說我都不回家吃飯。",
+      "我妹昨天跟我吵架。她說我都不回家吃飯。",
       "她說得對。我很不爽，因為她說得對。",
       "我這個姊姊當得很爛。"
      ],
@@ -2204,7 +2204,7 @@ const HEROINE_ARCS={
      "n": 8,
      "need": 4,
      "lines": [
-      "我妹 問我，為什麼最近常常有時間吃晚餐。",
+      "我妹問我，為什麼最近常常有時間吃晚餐。",
       "我說因為讀書會進度很好。",
       "其實是因為有人會等我吃晚餐。我沒有跟她說是誰。"
      ],
