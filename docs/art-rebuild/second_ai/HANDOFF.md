@@ -6,16 +6,16 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-07 06:2x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-07 06:4x UTC，帳號 B LAWWW2-B）
 
-分支 `claude/funny-albattani-iawshm` @ `1d022e8d1`。瀏覽器都沒跑（D131，交 CC）。
+分支 `claude/funny-albattani-iawshm` @ `e9b8fe9ba`。瀏覽器都沒跑（D131，交 CC）。
 
 **整合進度**：LAWWW-B 已把裙子兩批、Café 橘色斜面、籃架、體態、器材都接進開發。
 
 - 最新是 `923c0f521`，含 `41bfc5cbe`、`c82a39be1`、`a64deefda`；
 - **之後的 patch 對 `923c0f521` 做**：`gym3d.js`、`fit3d.js` 被器材那一包改過。
 
-**11-07 交了九包：**
+**11-07 交了十包：**
 
 | 項目 | 內容 | 位置 | 狀態 |
 |---|---|---|---|
@@ -27,23 +27,20 @@
 | GYM-FIT ① 器材資料 | `b1.fitness.equip`，22 件 | `wip/gym_fit_equip_1107/` | 子代理那一包一起合了 |
 | GYM-FIT ② 體態 fit 形狀 | 四階 0／0.4／0.7／1 | `wip/fit_body_1107/` | 已整合 `41bfc5cbe`；等 LAWWW 驗（D100a） |
 | P3 Café 橘色斜面 | 天空半球裁切 | `c792202bb` | 已整合 `c82a39be1`；BB-B 自己補拍 |
-| **GYM-FIT ③ 短袖運動服** | 祐廷 VRM 加 GYM_TOP、GYM_SHORTS（吃 fit）；`C.setGymWear`；B1、體育課自動換 | `wip/gym_wear_1107/`（`1d022e8d1`；patch 對 `923c0f521`） | **DELIVERED，等 ACK**；gym_wear_unit 從 FAIL 9 → ALL PASS |
+| GYM-FIT ③ 短袖運動服 | 祐廷 VRM 加 GYM_TOP、GYM_SHORTS（吃 fit）；`C.setGymWear`；B1、體育課自動換 | `wip/gym_wear_1107/`（`1d022e8d1`） | 已整合 `c1fe4f3f0`（INTEGRATED）；D100a 等 CC 截圖 |
+| **#167 日常失速店內第二版** | 修第一版烘焙的頂點色 bug（椅子、盆栽、植物顏色回來）、燈色往白光拉、葉子自己亮；NOSHADOW_ 不投影、街上看不到的面拿掉（21,808→18,771） | `wip/offbeat_storefront_v2_1107/`（`e9b8fe9ba`；patch 對 `0f4b0394a`） | **DELIVERED，等 ACK**；offbeat_storefront_unit FAIL 5 → ALL PASS；BB-B 看圖、CC 量 fps |
 
-**運動服要 LAWWW-B 決定的：**
-
-- 換穿範圍：現在整個 B1 都換，游泳週也穿這套；
-- 顏色；
-- `?blchar` 的 `bl_yuting` 沒有運動服。
+**運動服**：LAWWW-B 說顏色、換穿範圍照我定的；`?blchar` 的 `bl_yuting` 沒有運動服。
 
 **下一步：**
 
-1. #167 日常失速店內加顏色點（植物、靠墊、杯子），查店前 fps 8.6／+4.4 萬三角形。
+1. 等 BB-B 看日常失速第二版（燈色要不要再調：`--warm`）、CC 量店前 fps。
 2. 舊佇列：PERF-WZ-DAY、HAIR-NOODLE、TODO_SHORTCUTS（停車場灰牆、大口夜景）。
 3. 使用者 03:2x 的四個存檔（UA-LAWWW2-1107-01）：還沒回要看哪裡。
 
 **暫存區**（不進 repo，掉了可以照 README 重做）：
 
-- `$S/gymwear`：運動服的預覽腳本；
+- `$S/gymwear`：運動服的預覽腳本；`$S/offb2`：日常失速第二版的對照圖腳本（shots.sh）、第一版備份；
 - `$S/gwwt`、`$S/gwbase`：測試用 worktree。
 
 ## ✅ 值班登記（2026-11-07 03:4x UTC；帳號 B LAWWW2-B；使用者：「現在接班 我也會跟其他AI講」）
