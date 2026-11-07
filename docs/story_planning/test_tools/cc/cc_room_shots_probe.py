@@ -1,5 +1,5 @@
 """CC-B（帳號 B）11-07：通用的房間截圖（WANCAI-SEM-LM，LAWWW2-B 11:57：萬才研討室 A／B 光照；同一支在「改前」「改後」各跑一次，TAG 分）。
-SHOTS 環境變數：分號分隔，每一筆「區域|日期|時|名字」，例：wancai_sema|2025-10-15|11|A_day;wancai_semb|2028-10-26|10|B_interview
+SHOTS 環境變數：分號分隔，每一筆「區域|日期|時|名字[|yaw|yaw_ceil]」，例：wancai_sema|2025-10-15|11|A_day;wancai_semb|2028-10-26|10|B_interview
 每一筆：【前置／捷徑】讀檔進那個區域（條件事件關閉）→ 等正式模型、光照貼圖接好 → user_shot（新 CAM）從進門那一點（layout spawn，往房間裡退 0.2 m、高 1.6 m）
   往房間的另一面（窗）看，鏡頭 20 mm；印這一間的光照貼圖接在幾個材質上、用的是哪一張（看推甄那天有沒有換成 interview 那一套）。好不好看＝LAWWW2／BB 看圖。
 用法：LW_TESTS=<wt>/tests TAG=before|after SHOTS=... python3 cc_room_shots_probe.py <url> <out>"""
@@ -34,7 +34,8 @@ async def main():
         await pg.goto(URL); ok = await L.wait_loaded(pg)
         if R.check('遊戲載入', ok, ''):
             await pg.evaluate("localStorage.clear()")
-            for zone, day, h, nm in SHOTS:
+            for row in SHOTS:
+                zone, day, h, nm = row[:4]; view = row[4] if len(row) > 4 else ''   # 第 5 欄（選填）：yaw＝照 layout spawn 的朝向往裡面看；yaw_ceil＝同一點往上看天花板（LAWWW2-B 14:48 LAST2LM：205 的窗在 −z、臥室 C 的窗在東）
                 tag = '[%s %s]' % (TAG, nm)
                 try:
                     R.setup('%s 讀檔 %s %s %s（條件事件關閉）' % (tag, zone, day, h))
@@ -44,6 +45,11 @@ async def main():
                     g = await pg.evaluate(GEO, zone)
                     L_ = g.get('layout') or {}; sp = L_.get('spawn') or {'x': s['x'], 'z': s['z']}; bd = L_.get('bounds') or {'z0': sp['z'] - 2, 'z1': sp['z'] + 4}
                     eye = [sp['x'] * 0.85, 1.6, max(bd['z0'] + 0.35, sp['z'] - 0.2)]; look = [0.0, 1.1, bd['z1']]
+                    if view.startswith('yaw') and sp.get('yaw') is not None:
+                        import math as _m
+                        fx, fz = _m.sin(sp['yaw']), _m.cos(sp['yaw'])
+                        eye = [sp['x'] - fx * 0.2, 1.6, sp['z'] - fz * 0.2]
+                        look = [sp['x'] + fx * 4, 1.1, sp['z'] + fz * 4] if view == 'yaw' else [sp['x'] + fx * 1.2, 3.6, sp['z'] + fz * 1.2]
                     cam = await D.user_shot(pg, cdp, 'room_%s_%s' % (TAG, nm), {'eye': eye, 'look': look, 'lens': 20})
                     R.note('%s 光照貼圖：材質 %d 個、接了 lightMap %d 個，貼圖 %s' % (tag, g['mats'], g['withLightMap'], J(g['maps'])))
                     rec['shots'].append({'name': nm, 'zone': zone, 'day': day, 'h': h, 'cam': cam, 'lm': g})
