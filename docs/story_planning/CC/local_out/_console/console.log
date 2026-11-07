@@ -65,3 +65,13 @@
 [14:48:21] ==== START SHOPWIN_v1_warm  (probe @ 718b59ec7a1eb39f63336f23500b77217cae69b0) ====
 [14:48:24] [res] cpu=8% mem=37% (11.6/31.4 GB) chrome_testing=0  START SHOPWIN_v1_warm
 [14:52:50] [res] cpu=1% mem=37% (11.8/31.4 GB) chrome_testing=0  END SHOPWIN_v1_warm
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       bd1aea258..c027ed353  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:52:56] ==== END   SHOPWIN_v1_warm  exit=0  269s   ====
+[14:53:03] memory 38% before starting SHOPWIN_v2_8f41 (0 running)
+[14:53:03] ==== START SHOPWIN_v2_8f41  (probe @ 8f4185616eade6d29c776fb34515bad3457df84d) ====
+[14:53:06] [res] cpu=0% mem=38% (12.0/31.4 GB) chrome_testing=0  START SHOPWIN_v2_8f41
+[14:53:06] worktree add 8f4185616eade6d29c776fb34515bad3457df84d: invalid reference - fetching main and the commit itself
+[14:53:21] 正在跑：SHOPWIN_v2_8f41（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:57:49] [res] cpu=2% mem=37% (11.9/31.4 GB) chrome_testing=0  END SHOPWIN_v2_8f41
