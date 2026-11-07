@@ -63,7 +63,10 @@
 - `tests/arena_hoops_unit.js`：開發原樣（舊 GLB、沒有 patch）**FAIL 16** → 新 GLB＋patch **ALL PASS**。
 - 體育館相關 9 支都 ALL PASS：gym_arena、gym_arena_lm、gym_arena_tap、singleside_gym、gymcer、gym_ceremony、gym_crowd（改過）、gym、gym_pose。
   - 其中 gym_arena_lm 第 ⑦ 項，第一次 FAIL：那一項檢查「載入以後 500 字以內有 attachRoomGLB」，我的程式插在它前面，把它擠出去了。改成插在 attachRoomGLB 後面以後過了。
-- 全部 Node：跑完補在下面。
+- 全部 Node（裙子、籃架、器材三包一起套在開發 c244ce20e 上，1,076 支）：**1,068 PASS／8 FAIL**。8 支在開發原樣也 FAIL：
+  - aa535b_lawlib_lake、gg_shops2_1104、invite_menu：開發 718b59ec7 新增「Daybreak 念書」，測試沒跟著改；
+  - flirt、gift、msg_reply、study_scenes：scratch worktree 裡沒有故事分支的 commit；
+  - ladder_headroom：爬梯子的平滑度，舊的。
 
 ## 還沒做、還沒驗
 

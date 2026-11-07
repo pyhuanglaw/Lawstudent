@@ -36,6 +36,10 @@
 
 - 開發原樣：第 1 項 FAIL（沒有 equip）。
 - 加 patch：**ALL PASS**。
+- 全部 Node（裙子、籃架、器材三包一起套在開發 c244ce20e 上，1,076 支）：**1,068 PASS／8 FAIL**。8 支在開發原樣也 FAIL：
+  - aa535b_lawlib_lake、gg_shops2_1104、invite_menu：開發 718b59ec7 新增「Daybreak 念書」，測試沒跟著改；
+  - flirt、gift、msg_reply、study_scenes：scratch worktree 裡沒有故事分支的 commit；
+  - ladder_headroom：爬梯子的平滑度，舊的。
 
 ## 二、肌肉線條評估
 
