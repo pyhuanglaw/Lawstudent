@@ -175,3 +175,11 @@
 [12:54:27] ==== START LIVE_V91021_deploy  (game @ 92c3daad8adf1bb5f707b0b411640c7b13ff7052) ====
 [12:54:30] [res] cpu=5% mem=56% (18.3/31.4 GB) chrome_testing=10  START LIVE_V91021_deploy
 [12:55:32] [res] cpu=29% mem=60% (18.6/31.4 GB) chrome_testing=9  END GG2_afar_date
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0d010063a..823df9758  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:55:37] ==== END   GG2_afar_date  exit=1  185s   ====
+[12:55:40] memory 61% before starting LIVE_V91021_p0 (2 running)
+[12:55:40] ==== START LIVE_V91021_p0  (game @ 92c3daad8adf1bb5f707b0b411640c7b13ff7052) ====
+[12:55:43] [res] cpu=7% mem=61% (19.2/31.4 GB) chrome_testing=9  START LIVE_V91021_p0
+[12:57:03] [res] cpu=3% mem=59% (18.8/31.4 GB) chrome_testing=9  END CLOSE_EXC
