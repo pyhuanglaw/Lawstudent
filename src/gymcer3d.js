@@ -27,6 +27,7 @@ const GYMCER=(function(){
     try{ if(G.hour<14){ G.hour=14; if(E) E.hour=14; } await GM.fade(true); await GM.titleCard('8 月 31 日（日）','14:00 · 綜合體育館',2200);
       z=await S.enterSeat(GM,'open'); if(z) S.placeFriends(GM,z);
       if(typeof ADV!=='undefined') ADV.begin({background:z?'blur':'dark'}); await GM.fade(false);
+      if(typeof AA613!=='undefined'&&AA613.ceremonyWalk) await AA613.ceremonyWalk(GM);   /* AA_613 第 1 節「（你和柏翰一起走過去。）」：3D 這條路也要（BUG-AA613-CER-WALK-1107，BB-B 23:52；2D 的原路在 story3d.js S.ceremonyY1）*/
       await GM.say(null,'四千多個新生，每個人都穿著同一件新生上衣。');
       await GM.say(null,'法律學院的位置在場地中間。椅背上貼著系名。旁邊的人在對手冊上的流程，前面的人在傳訊息問晚上要不要一起吃飯。');   /* AA_437 第 1 節：3D 版換掉「法律系的位置在二樓看台的右邊。」（2D 版照舊）*/
       await GM.say(null,'校長致詞講到一半，手機震了一下。你被加進一個群組。'); if(STORY.lawClassJoinY1) STORY.lawClassJoinY1(G);
