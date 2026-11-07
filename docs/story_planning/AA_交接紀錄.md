@@ -1,3 +1,12 @@
+值班登記：帳號 B｜AA-B｜session_016ACZaD4oB9tX94WqQR4dkS｜分支 claude/cool-heisenberg-o8kuqx｜接班基準 708d5f5b9（快轉合併 AA-C 的 `claude/magical-albattani-bk7b4n`）｜2026-11-07 03:2x UTC
+上一班：帳號 C｜AA-C｜session_019evvieJUJD23EGf4nyLPgo｜正常交班（2026-11-05 10:4x UTC，快照 `2026-11-05T1051Z`）
+接班核對（RULE_SOURCE `origin/claude/adoring-meitner-mqzst8`，`duty find`：值班沒有人、上一任 C、HV-20、seq 89）：
+- 使用者 11-07 對 AA-B：「現在接班 我也會跟其他AI講」。
+- `duty verify`：異常 3 項。AA 那一項是「帳號 B 的 cool-heisenberg 在交班記錄 699789b7 以後多 1 個 commit」＝我 11-04 自己的交班 commit 69a24fa5d（duty handoff 先寫、後 commit），AA-C 已經從它快轉，不是雙寫；BB 那項是 BB 的。
+- `asks --role AA`：OK（162 筆）。`roles --role AA`：OK。
+- 「醒來要問的」三題：使用者 11-05 03:4x 都答了，不用再問。語彤共創 11-11 再問（DIALOGUE-DEPTH-1031）。
+- **使用者 11-07 03:2x 實玩回報＋四個存檔**（UA-AA-1107-01、-02；存檔在 `docs/story_planning/user_saves/2026-11-07/`）：AA 的部分登記在「全部待辦」最上面 PLAYTEST-1107；開發的部分交 LAWWW-B。
+
 值班登記：帳號 C｜AA-C｜session_019evvieJUJD23EGf4nyLPgo｜分支 claude/magical-albattani-bk7b4n｜接班基準 69a24fa5d（快轉合併 AA-B 的 `claude/cool-heisenberg-o8kuqx`，含帳號 A 的 story-planning 81f740cb7）｜2026-11-04 UTC
 上一班：帳號 B｜AA-B｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 69a24fa5d｜正常交班（2026-11-04 12:20 UTC，快照 `2026-11-04T1220Z_B_AA.json`）
 
@@ -1093,6 +1102,18 @@
 - **順序**：先做已批准的歷史遺留，再照玩家遊玩順序補缺漏。用既有任務、交接、版本紀錄，不新增重複的總表。
 
 ## AA-C 全部待辦（分批；2026-10-17 10:4x UTC；使用者經 LAWWW-C：「先自己審每一批要做什麼、排出順序，手上沒事就先做下一批」）
+
+### AA-B 2026-11-07 新增（使用者實玩回報，UA-AA-1107-01；PLAYTEST-1107【表外】已請 LAWWW-B 開）
+
+| ID | 內容 | 做到哪、下一步 |
+|---|---|---|
+| PLAYTEST-1107-YT【使用者】 | 「在總圖約陳語彤念書 居然顯示 好我先把菜洗完 而且他富二代 還說咖啡廳很貴?」 | 語彤換背景（AA_624）以後邀約回覆還留舊設定。下一步：在開發分支查語彤全部邀約回覆（invite_replies、invites3d、date_lines），整批換成新背景＋照地點說話 |
+| PLAYTEST-1107-STUDY【使用者】 | 「約念書都沒對話 讀完沒有 讀中間也沒有」 | AA_649 的 32 句已在開發分支；查使用者那條路（總圖約語彤）為什麼沒播，缺字 AA 補、沒接交 LAWWW |
+| PLAYTEST-1107-MSGREPLY【使用者】 | 女主角傳來的訊息給回覆選項、照選項加減好感；芯慈「睡了嗎」不能回 | AA 寫回覆選項與她的回應；系統交 LAWWW |
+| PLAYTEST-1107-FLIRT【使用者】 | 「也沒有撩妹對話可以選 也沒辦法送早餐飲料?」「買飲料 早餐 給別人」 | AA 寫選項與反應台詞；送東西系統交 LAWWW |
+| PLAYTEST-1107-INVITE【使用者】 | 店面都可以約（看書、吃飯、聊天）、南洋戲院看電影、Daybreak、社科院圖書館念書、運動健身 | 地點與系統交 LAWWW；AA 寫各地點的邀約回覆與現場台詞 |
+| PLAYTEST-1107-MET-YT【使用者】 | 「陳語彤還沒認識但總圖事件先觸發了」 | 存檔第 38 天起 `met_heroine_03`＝true；交 LAWWW／BB 查是哪個事件設的；AA 看那個事件在新背景下還對不對 |
+| PLAYTEST-1107-DEV | 行動次數（約見面要算、用完跳下一階段）、一盞不見、體育課地點、餐廳沒放、健身器材、店員（南洋、大口）、進度條、健身房門、窗景閃、山嵐手上沒書、游泳池人物、電影 CG | 交 LAWWW-B（LAWWW2、BB 由它派）；有要 AA 寫字的回來找 AA |
 
 ### AA-C 2026-11-05 09:1x 新增（**使用者 11-05 09:1x：「留給下一批的可能會等下個帳號 交接紀錄要寫好」**——下一個帳號的 AA 從這一節開始接）
 
