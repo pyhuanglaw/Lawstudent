@@ -4690,6 +4690,15 @@
    "task": "SHOP-NAMED-NPC-1105",
    "kind": "text",
    "note": "只用第 4 節「遇到她、送爆米花」：第一次（櫃檯）旁白兩句、Alison 四句、兩個選項的回話、拿到爆米花的旁白；之後再遇到三句隨機；KNOWS_SIS_ALISON 那一句。照抄進 src/data/shop_npc.js（SHOP_NPC.alison）；和朋友一起來、人物頁打工那一行、看電影時多一句還沒做。tests/shop_npc_unit.js 用 git show ebea3a2b0 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_707_study_scenes.json",
+   "sha": "05d8a816e",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 03:58「AA_707 七位全部完成」，line_lint 0 條）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "七位一起念書第 1～6 次＋輪換 6 則；tools/story/import_study_scenes.py → src/data/study_scenes.js（第一批 49d01b2b2 被這一版取代）"
   }
  ]
 }
