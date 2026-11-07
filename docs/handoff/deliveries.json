@@ -17786,6 +17786,32 @@
    "task": "GYM-FIT-1107",
    "integration": "未整合",
    "note": "LAWWW-B 06:1x 登記"
+  },
+  {
+   "id": "DLV-1107-AA717",
+   "date": "2026-11-07",
+   "from": "AA",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "578ba675e",
+   "msg": "AA_717 輪換句跟著日期和故事走＋七位的生活自己往前",
+   "what": "docs/story_planning/AA_717_rot_life.json",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "integration": "已整合待測試（dbf648fa8）",
+   "note": "ACK；tests/arc_rot_unit.js"
+  },
+  {
+   "id": "DLV-1107-LAWWW2-GYMWEAR",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "1d022e8d1",
+   "msg": "GYM-FIT-1107 ③ 短袖運動服",
+   "what": "assets/models/char/vroid_yuting.vrm、tools/gym_wear.py、gym_wear_1107.patch",
+   "task": "GYM-FIT-1107",
+   "integration": "已整合待測試（c1fe4f3f0）",
+   "note": "READY_FOR_ART_REVIEW；D100a 等 CC 遊戲內截圖"
   }
  ],
  "ignored": [
