@@ -1,0 +1,382 @@
+{
+ "player": [
+  {
+   "zone": "xs_dakou",
+   "t": "night",
+   "stand": [
+    0,
+    6.8
+   ],
+   "lum": [
+    80.1,
+    35
+   ],
+   "card": {
+    "name": "VIEWPANE_xs_dakou",
+    "c": [
+     0,
+     1.6,
+     8.3
+    ],
+    "size": [
+     12.4,
+     5.84,
+     0
+    ]
+   },
+   "cardInfo": {
+    "type": "ShaderMaterial",
+    "uniforms": {
+     "map": {
+      "src": "//127.0.0.1:8802/assets/models/env/views/xs_dakou_night.webp",
+      "w": 1024,
+      "h": 512
+     },
+     "map2": null,
+     "nmap": null,
+     "depth": 36,
+     "photo": 1,
+     "sxy": [
+      1,
+      1
+     ],
+     "near": 0,
+     "xf": 0
+    },
+    "plane": [
+     12.4,
+     5.84
+    ],
+    "worldPos": [
+     0,
+     1.6,
+     8.3
+    ],
+    "mat": "",
+    "map": null,
+    "uv": [
+     0,
+     1,
+     0,
+     1
+    ],
+    "verts": 4
+   }
+  },
+  {
+   "zone": "xs_dabu",
+   "t": "night",
+   "stand": [
+    -0.1,
+    4.73
+   ],
+   "lum": [
+    86.4,
+    26.2
+   ],
+   "card": {
+    "name": "VIEWPANE_xs_dabu",
+    "c": [
+     -0.1,
+     1.6,
+     6.23
+    ],
+    "size": [
+     8,
+     3.2,
+     0
+    ]
+   },
+   "cardInfo": {
+    "type": "ShaderMaterial",
+    "uniforms": {
+     "map": {
+      "src": "://127.0.0.1:8802/assets/models/env/views/xs_dabu_night.webp",
+      "w": 1024,
+      "h": 512
+     },
+     "map2": null,
+     "nmap": null,
+     "depth": 36,
+     "photo": 1,
+     "sxy": [
+      1,
+      1
+     ],
+     "near": 0,
+     "xf": 0
+    },
+    "plane": [
+     8,
+     3.2
+    ],
+    "worldPos": [
+     -0.1,
+     1.6,
+     6.23
+    ],
+    "mat": "",
+    "map": null,
+    "uv": [
+     0,
+     1,
+     0,
+     1
+    ],
+    "verts": 4
+   }
+  },
+  {
+   "zone": "xs_haopai",
+   "t": "night",
+   "stand": [
+    0,
+    5.73
+   ],
+   "lum": [
+    75.8,
+    38.3
+   ],
+   "card": {
+    "name": "VIEWPANE_xs_haopai",
+    "c": [
+     0,
+     1.6,
+     7.23
+    ],
+    "size": [
+     4.8,
+     3.2,
+     0
+    ]
+   },
+   "cardInfo": {
+    "type": "ShaderMaterial",
+    "uniforms": {
+     "map": {
+      "src": "/127.0.0.1:8802/assets/models/env/views/xs_haopai_night.webp",
+      "w": 1024,
+      "h": 512
+     },
+     "map2": null,
+     "nmap": null,
+     "depth": 36,
+     "photo": 1,
+     "sxy": [
+      1,
+      1
+     ],
+     "near": 0,
+     "xf": 0
+    },
+    "plane": [
+     4.8,
+     3.2
+    ],
+    "worldPos": [
+     0,
+     1.6,
+     7.23
+    ],
+    "mat": "",
+    "map": null,
+    "uv": [
+     0,
+     1,
+     0,
+     1
+    ],
+    "verts": 4
+   }
+  },
+  {
+   "zone": "xs_dakou",
+   "t": "day",
+   "stand": [
+    0,
+    6.8
+   ],
+   "lum": [
+    135.4,
+    51.8
+   ],
+   "card": {
+    "name": "VIEWPANE_xs_dakou",
+    "c": [
+     0,
+     1.6,
+     8.3
+    ],
+    "size": [
+     12.4,
+     5.84,
+     0
+    ]
+   },
+   "cardInfo": {
+    "type": "ShaderMaterial",
+    "uniforms": {
+     "map": {
+      "src": "p://127.0.0.1:8802/assets/models/env/views/xs_dakou_day.webp",
+      "w": 1024,
+      "h": 512
+     },
+     "map2": null,
+     "nmap": null,
+     "depth": 36,
+     "photo": 1,
+     "sxy": [
+      1,
+      1
+     ],
+     "near": 0,
+     "xf": 0
+    },
+    "plane": [
+     12.4,
+     5.84
+    ],
+    "worldPos": [
+     0,
+     1.6,
+     8.3
+    ],
+    "mat": "",
+    "map": null,
+    "uv": [
+     0,
+     1,
+     0,
+     1
+    ],
+    "verts": 4
+   }
+  },
+  {
+   "zone": "xs_dabu",
+   "t": "day",
+   "stand": [
+    -0.1,
+    4.73
+   ],
+   "lum": [
+    125.9,
+    38.5
+   ],
+   "card": {
+    "name": "VIEWPANE_xs_dabu",
+    "c": [
+     -0.1,
+     1.6,
+     6.23
+    ],
+    "size": [
+     8,
+     3.2,
+     0
+    ]
+   },
+   "cardInfo": {
+    "type": "ShaderMaterial",
+    "uniforms": {
+     "map": {
+      "src": "tp://127.0.0.1:8802/assets/models/env/views/xs_dabu_day.webp",
+      "w": 1024,
+      "h": 512
+     },
+     "map2": null,
+     "nmap": null,
+     "depth": 36,
+     "photo": 1,
+     "sxy": [
+      1,
+      1
+     ],
+     "near": 0,
+     "xf": 0
+    },
+    "plane": [
+     8,
+     3.2
+    ],
+    "worldPos": [
+     -0.1,
+     1.6,
+     6.23
+    ],
+    "mat": "",
+    "map": null,
+    "uv": [
+     0,
+     1,
+     0,
+     1
+    ],
+    "verts": 4
+   }
+  },
+  {
+   "zone": "xs_haopai",
+   "t": "day",
+   "stand": [
+    0,
+    5.73
+   ],
+   "lum": [
+    126.7,
+    42.5
+   ],
+   "card": {
+    "name": "VIEWPANE_xs_haopai",
+    "c": [
+     0,
+     1.6,
+     7.23
+    ],
+    "size": [
+     4.8,
+     3.2,
+     0
+    ]
+   },
+   "cardInfo": {
+    "type": "ShaderMaterial",
+    "uniforms": {
+     "map": {
+      "src": "://127.0.0.1:8802/assets/models/env/views/xs_haopai_day.webp",
+      "w": 1024,
+      "h": 512
+     },
+     "map2": null,
+     "nmap": null,
+     "depth": 36,
+     "photo": 1,
+     "sxy": [
+      1,
+      1
+     ],
+     "near": 0,
+     "xf": 0
+    },
+    "plane": [
+     4.8,
+     3.2
+    ],
+    "worldPos": [
+     0,
+     1.6,
+     7.23
+    ],
+    "mat": "",
+    "map": null,
+    "uv": [
+     0,
+     1,
+     0,
+     1
+    ],
+    "verts": 4
+   }
+  }
+ ]
+}

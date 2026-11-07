@@ -1,0 +1,36 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_fa05_night_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\XS_NIGHT_player\out
+CC FA05_NIGHT（新生南路四家店窗外夜景、體育館圓頂）：SHA=79214e4e10275fb47c0d95ec667cab2964b77b5c（worktree 實際 ?）；PARTS=['player']；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+== night xs_dakou player
+PASS [night xs_dakou player] 找得到一樓的窗景卡  {"wins": [{"name": "VIEWPANE_xs_dakou", "c": [0, 1.6, 8.3], "size": [12.4, 5.84, 0]}, {"name": "VIEWPANE_xs_dakou_2f", "c": [0, 5.2, 8.4], "size": [12.4, 3.4, 0]}], "spawn": [0, 6.4], "n": 2}
+  [前置／捷徑] [night xs_dakou player] 讀檔站在窗前 (0.00, 6.80) 面向窗景卡（跟隨鏡頭照遊戲自己的）
+PASS [黑畫面] xsplayer_xs_dakou_night 不是黑畫面（平均亮度 80.1、變化 35）  [80.1, 35]
+  [  58.6s] [night xs_dakou player] 跟隨鏡頭截圖亮度 [80.1, 35]；窗景卡 VIEWPANE_xs_dakou 的 UV／貼圖：{"type": "ShaderMaterial", "uniforms": {"map": {"src": "//127.0.0.1:8802/assets/models/env/views/xs_dakou_night.webp", "w": 1024, "h": 512}, "map2": null, "nmap": null, "depth": 36, "photo": 1, "sxy": [1, 1], "near": 0, "xf": 0}, "plane": [12.4, 5.84], "worldPos": [0, 1.6, 8.3], "mat": "", "map": null, "uv": [0, 1, 0, 1], "verts": 4}
+== night xs_dabu player
+PASS [night xs_dabu player] 找得到一樓的窗景卡  {"wins": [{"name": "VIEWPANE_xs_dabu", "c": [-0.1, 1.6, 6.23], "size": [8, 3.2, 0]}], "spawn": [2.5, 4.4], "n": 1}
+  [前置／捷徑] [night xs_dabu player] 讀檔站在窗前 (-0.10, 4.73) 面向窗景卡（跟隨鏡頭照遊戲自己的）
+PASS [黑畫面] xsplayer_xs_dabu_night 不是黑畫面（平均亮度 86.4、變化 26.2）  [86.4, 26.2]
+  [  87.4s] [night xs_dabu player] 跟隨鏡頭截圖亮度 [86.4, 26.2]；窗景卡 VIEWPANE_xs_dabu 的 UV／貼圖：{"type": "ShaderMaterial", "uniforms": {"map": {"src": "://127.0.0.1:8802/assets/models/env/views/xs_dabu_night.webp", "w": 1024, "h": 512}, "map2": null, "nmap": null, "depth": 36, "photo": 1, "sxy": [1, 1], "near": 0, "xf": 0}, "plane": [8, 3.2], "worldPos": [-0.1, 1.6, 6.23], "mat": "", "map": null, "uv": [0, 1, 0, 1], "verts": 4}
+== night xs_haopai player
+PASS [night xs_haopai player] 找得到一樓的窗景卡  {"wins": [{"name": "VIEWPANE_xs_haopai", "c": [0, 1.6, 7.23], "size": [4.8, 3.2, 0]}], "spawn": [0, 5.4], "n": 1}
+  [前置／捷徑] [night xs_haopai player] 讀檔站在窗前 (0.00, 5.73) 面向窗景卡（跟隨鏡頭照遊戲自己的）
+PASS [黑畫面] xsplayer_xs_haopai_night 不是黑畫面（平均亮度 75.8、變化 38.3）  [75.8, 38.3]
+  [ 112.3s] [night xs_haopai player] 跟隨鏡頭截圖亮度 [75.8, 38.3]；窗景卡 VIEWPANE_xs_haopai 的 UV／貼圖：{"type": "ShaderMaterial", "uniforms": {"map": {"src": "/127.0.0.1:8802/assets/models/env/views/xs_haopai_night.webp", "w": 1024, "h": 512}, "map2": null, "nmap": null, "depth": 36, "photo": 1, "sxy": [1, 1], "near": 0, "xf": 0}, "plane": [4.8, 3.2], "worldPos": [0, 1.6, 7.23], "mat": "", "map": null, "uv": [0, 1, 0, 1], "verts": 4}
+== day xs_dakou player
+PASS [day xs_dakou player] 找得到一樓的窗景卡  {"wins": [{"name": "VIEWPANE_xs_dakou", "c": [0, 1.6, 8.3], "size": [12.4, 5.84, 0]}, {"name": "VIEWPANE_xs_dakou_2f", "c": [0, 5.2, 8.4], "size": [12.4, 3.4, 0]}], "spawn": [0, 6.4], "n": 2}
+  [前置／捷徑] [day xs_dakou player] 讀檔站在窗前 (0.00, 6.80) 面向窗景卡（跟隨鏡頭照遊戲自己的）
+PASS [黑畫面] xsplayer_xs_dakou_day 不是黑畫面（平均亮度 135.4、變化 51.8）  [135.4, 51.8]
+  [ 132.0s] [day xs_dakou player] 跟隨鏡頭截圖亮度 [135.4, 51.8]；窗景卡 VIEWPANE_xs_dakou 的 UV／貼圖：{"type": "ShaderMaterial", "uniforms": {"map": {"src": "p://127.0.0.1:8802/assets/models/env/views/xs_dakou_day.webp", "w": 1024, "h": 512}, "map2": null, "nmap": null, "depth": 36, "photo": 1, "sxy": [1, 1], "near": 0, "xf": 0}, "plane": [12.4, 5.84], "worldPos": [0, 1.6, 8.3], "mat": "", "map": null, "uv": [0, 1, 0, 1], "verts": 4}
+== day xs_dabu player
+PASS [day xs_dabu player] 找得到一樓的窗景卡  {"wins": [{"name": "VIEWPANE_xs_dabu", "c": [-0.1, 1.6, 6.23], "size": [8, 3.2, 0]}], "spawn": [2.5, 4.4], "n": 1}
+  [前置／捷徑] [day xs_dabu player] 讀檔站在窗前 (-0.10, 4.73) 面向窗景卡（跟隨鏡頭照遊戲自己的）
+PASS [黑畫面] xsplayer_xs_dabu_day 不是黑畫面（平均亮度 125.9、變化 38.5）  [125.9, 38.5]
+  [ 151.9s] [day xs_dabu player] 跟隨鏡頭截圖亮度 [125.9, 38.5]；窗景卡 VIEWPANE_xs_dabu 的 UV／貼圖：{"type": "ShaderMaterial", "uniforms": {"map": {"src": "tp://127.0.0.1:8802/assets/models/env/views/xs_dabu_day.webp", "w": 1024, "h": 512}, "map2": null, "nmap": null, "depth": 36, "photo": 1, "sxy": [1, 1], "near": 0, "xf": 0}, "plane": [8, 3.2], "worldPos": [-0.1, 1.6, 6.23], "mat": "", "map": null, "uv": [0, 1, 0, 1], "verts": 4}
+== day xs_haopai player
+PASS [day xs_haopai player] 找得到一樓的窗景卡  {"wins": [{"name": "VIEWPANE_xs_haopai", "c": [0, 1.6, 7.23], "size": [4.8, 3.2, 0]}], "spawn": [0, 5.4], "n": 1}
+  [前置／捷徑] [day xs_haopai player] 讀檔站在窗前 (0.00, 5.73) 面向窗景卡（跟隨鏡頭照遊戲自己的）
+PASS [黑畫面] xsplayer_xs_haopai_day 不是黑畫面（平均亮度 126.7、變化 42.5）  [126.7, 42.5]
+  [ 171.1s] [day xs_haopai player] 跟隨鏡頭截圖亮度 [126.7, 42.5]；窗景卡 VIEWPANE_xs_haopai 的 UV／貼圖：{"type": "ShaderMaterial", "uniforms": {"map": {"src": "://127.0.0.1:8802/assets/models/env/views/xs_haopai_day.webp", "w": 1024, "h": 512}, "map2": null, "nmap": null, "depth": 36, "photo": 1, "sxy": [1, 1], "near": 0, "xf": 0}, "plane": [4.8, 3.2], "worldPos": [0, 1.6, 7.23], "mat": "", "map": null, "uv": [0, 1, 0, 1], "verts": 4}
+PASS 沒有 JS 例外  []
+ALL PASS
