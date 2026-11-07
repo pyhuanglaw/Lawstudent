@@ -120,6 +120,9 @@ V21X_teishoku_front | c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb | probe | docs/st
 # BB-B 09:47 PERF-WZ-DC-1107 d）1＋2：前 285c05052、後 8530a4b26；主畫面／影子 draw call 分開、同角度截圖、fps 參考
 PERF_WZ_DC_before | 285c0505234c451ce6e4c31b4fc9004fd4a904c1 | probe | docs/story_planning/test_tools/cc/cc_wz_dc_probe.py | index.html | 20 | TAG=before;CC_HEADLESS=0
 PERF_WZ_DC_after | 8530a4b2623634e3a189abf0c286dc8c86dd00a0 | probe | docs/story_planning/test_tools/cc/cc_wz_dc_probe.py | index.html | 20 | TAG=after;CC_HEADLESS=0
+# BB-B 10:18（LAWWW-B 877fb250e）：大步照鏡子 (−2.6,−3.6)、看看 (−2.85,−2.95) 挪過；PERF-COLD (B) 出口 30 m 內先下載（排在 PERF_WZ_DC 之後）
+XSSHOP_dabu_877 | 877fb250e0689af989ffaed03afec8e08cb78087 | probe | docs/story_planning/test_tools/cc/cc_xs_shop_probe.py | index.html | 60 | CC_HEADLESS=0;SHOP=dabu;RERUN=877
+PERF_COLD_877 | 877fb250e0689af989ffaed03afec8e08cb78087 | probe | docs/story_planning/test_tools/cc/perf_cold_probe.py | index.html | 50 | ZONES=wenzhou,library_hall;VARIANTS=base,near;NET=4g;COLD=12;CC_HEADLESS=0
 SOC_peishan_date_r4 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | CASES=classmate_peishan;STEPS=date,phone;RERUN=r4;CC_HEADLESS=0
 SOC_xinci_date_r4 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | CASES=classmate_xinci;STEPS=date,phone;RERUN=r4;CC_HEADLESS=0
 R7921_p0 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
