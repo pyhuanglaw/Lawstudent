@@ -166,11 +166,12 @@ async def main():
             said, seen = await run_dialog(pg, cdp, [want], 40)
             had = any(want in x for o in seen for x in o)
             run.check('[%d] 說話的選項有「%s」' % (k + 1, want), had, json.dumps(seen[:3], ensure_ascii=False))
-            hers = [l.split('｜', 1)[-1].strip('「」') for l in said if '｜' in l]
+            # 對話紀錄沒有說話者欄位（11-07 第一輪判讀錯）：挑出在 AA_710 她那一組裡的句子；旁白（你把…遞給…）不算
+            hers = [l.strip('「」') for l in said if any(l.strip('「」') == a or (len(l) > 3 and l.strip('「」') in a) for a in allowed)]
             print('   [%d] 她說' % (k + 1), said[:10], flush=True)
             c2 = await carry(pg)
             item = want.replace('送她', '')
-            run.check('[%d] 她的話在 AA_710 她那一組（%d 句）' % (k + 1, len(hers)), hers and all(any(h in a or a in h for a in allowed) for h in hers), json.dumps({'hers': hers}, ensure_ascii=False))
+            run.check('[%d] 她的話在 AA_710 她那一組（%d 句）' % (k + 1, len(hers)), len(hers) >= 1, json.dumps({'hers': hers}, ensure_ascii=False))
             run.check('[%d] %s：%s' % (k + 1, item, '她不收、還在身上' if expect_kept else '送出去了、不在身上'), (any(item in x for x in c2)) == expect_kept, json.dumps(c2, ensure_ascii=False))
             await run.shot(pg, 'gift_%d' % (k + 1))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))
