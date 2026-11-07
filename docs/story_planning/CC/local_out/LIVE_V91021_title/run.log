@@ -1,0 +1,8 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_live_title_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LIVE_V91021_title\out
+CC LIVE_TITLE：https://pyhuanglaw.github.io/Lawstudent/index.html，要含「v9.10.21」；Windows＋GPU ≠ iPhone
+  線上版本字樣：版本 v9.10.21（2026-11-05）（載入 False）
+FAIL 遊戲載入
+PASS 線上標題版本字樣含 v9.10.21  版本 v9.10.21（2026-11-05）
+  截圖：title_portrait.png、title_landscape.png
+PASS 沒有 JS 例外  []
+FAILED 1: 遊戲載入

@@ -1550,3 +1550,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 135.9s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 136.0s] BROWSER DISCONNECTED
 - 2026-11-07T11:48:54  XSNE_park  sha=abf4dbbd5abc4e842b5d92d481cfa9a39084166c  exit=0  102s      [  70.5s] [截圖] xsne_parking_night：鏡頭 {"eye": [35, 5.3, 57.9], "look": [25, 0.8, 57.9], "lens": 30, "vfov": 37.3}、亮度 [34.7, 18.9] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 71.0s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 71.0s] BROWSER DISCONNECTED
+- 2026-11-07T11:49:18  LIVE_V91021_title  sha=92c3daad8adf1bb5f707b0b411640c7b13ff7052  exit=0  261s      截圖：title_portrait.png、title_landscape.png / PASS 沒有 JS 例外  [] / FAILED 1: 遊戲載入
+      err.log (last 5): [gpu_wrap 223.7s] page close url=https://pyhuanglaw.github.io/Lawstudent/index.html?cb=1794023128 | [gpu_wrap 223.7s] BROWSER DISCONNECTED

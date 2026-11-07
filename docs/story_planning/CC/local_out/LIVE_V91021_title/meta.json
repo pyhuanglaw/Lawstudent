@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "LIVE_V91021_title",
+  "sha": "92c3daad8adf1bb5f707b0b411640c7b13ff7052",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_live_title_probe.py",
+  "env": "LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;WANT_VER=v9.10.21;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T11:44:57",
+  "end": "2026-11-07T11:49:18",
+  "seconds": 261,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 22,
+    "mem": 56,
+    "used_gb": 17.7,
+    "chrome_testing": 13
+  }
+}
