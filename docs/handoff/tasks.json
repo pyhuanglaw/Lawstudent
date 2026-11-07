@@ -49149,6 +49149,50 @@
    },
    "next": "【11-07 10:4x LAWWW-B】使用者選擇題「等 BB 測完再發布（推薦）」（UA-LAWWW-1107-04、X264）。要過的：BB／CC 今天最後一批瀏覽器（118 巷 pt1107i、票錢、AA_722 六格＋partnerBlock、約念書不開演 DBG、手機表頭 P3、燈暗、頭髮 (b) D100a、PERF_COLD near、XSSHOP_dabu、PERF_WZ_DC）＋GHA 全綠＋docs/TESTING.md 第五節發布前清單（含 gen_zone_assets --check）＋BB GO → 發布樹 → PR 合併 main → Pages → CC 線上 deploy_check。沒過的先修或先拿掉。",
    "note": "候選：開發分支 8fdb294aa 起（GHA 跑中）"
+  },
+  {
+   "id": "UX-QUICKGO-BEFORE-OPEN-1107",
+   "title": "手機「今天約好的」在店開門以前就給「前往」：按了只出「還沒開」、要等開門再按一次（BB-B 11-07 AA_722 小路 18:00）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "約好店家開門那一刻的見面",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 10:5x LAWWW-B 定】BB 提二選一，選 2：前往按鈕旁邊寫「18:00 開門」，開門那一刻才亮（不加「先走到門口等」的移動）。v9.10.22 不放（不擋、不是 D141 五件），發布後做。"
+  },
+  {
+   "id": "AA723-CONFESS-PS-1107",
+   "title": "AA_723（fca9bcb69）：告白看她的 heart（AA_719 key 加總）＋失敗後的接法（fail／normal／ready／second，再約 2 次＋14 天、第二次一定成功）；沛珊沒交往的線（2026-12-18 起群組不說話、私訊不回、reply1、2028-12-26 重聚林家乾麵 PS_REUNION）＋要關掉／改條件的事件清單 peishan.remove",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "第一次告白；沛珊 2026-12-18 休學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 10:5x LAWWW-B】使用者 11-07 10:4x 回 AA 四題（AA_718 第 4 節 f3eec1eec）；AA-B 10:51 交 AA_723 fca9bcb69。v9.10.22 發布後接：先加白名單＋匯入工具，再改 confess（DATE.confessDecide → heart）與沛珊時間表、照 peishan.remove 逐項關掉或改條件；交往中全部照舊。結局分版本等 AA_720。",
+   "xai": {
+    "spec": "AA_723 fca9bcb69（企劃線 claude/cool-heisenberg-o8kuqx）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "BB 瀏覽器：告白失敗→還是朋友→再約 2 次＋14 天→她說 ready→第二次成功；沛珊沒交往：群組不說話、私訊不回、2027-03-15 那一則、2028-12-26 重聚",
+    "receiver": "LAWWW（實作）、BB（測）",
+    "ack": "ACK",
+    "owner": "LAWWW"
+   }
   }
  ]
 }
