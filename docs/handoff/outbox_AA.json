@@ -5957,6 +5957,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "進門、點餐（調味兩題）、等、吃完、五個看、坐下、打烊、約去（七位，開放約 19～23）、開場句"
+  },
+  {
+   "task": "CORNER-IN-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_725_轉角唱片店內台詞.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B 照抄進轉角唱片室內",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "進門、七座翻唱片、試聽（六類）、買唱片（一張 150／250）、看音響、坐下、打烊、約去（七位，fun 類 13～20）、開場句"
   }
  ],
  "items": [
