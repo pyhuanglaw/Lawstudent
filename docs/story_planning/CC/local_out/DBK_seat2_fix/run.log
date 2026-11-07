@@ -1,0 +1,71 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_dbk_seat2_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\DBK_seat2_fix\out
+CC DBK_SEAT2（Daybreak 窗邊 #2 (-2.15, 3.45) 單獨重跑＋診斷）：SHA=b550eb6c18076bef376794a8971bc405ba8b1185（worktree 實際 ?）；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [  23.2s] Daybreak 2025-10-18 開店後還有 2 小時的時間 h0=8；這次試 h0＋[0.0, 0.5, 1.0, 2.0]
+== [#2 8.00]
+  [前置／捷徑] [#2 8.00] 讀檔 Daybreak 店裡出生點 2025-10-18 8.00（條件事件關閉）
+PASS [#2 8.00] 讀到店裡  {"zone": "daybreak", "x": 2.165, "z": 2, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 8.01}
+  [  38.6s] [#2 8.00] 座位 1 張：[{"label": "坐窗邊", "x": -3.05, "z": 3.45, "lv": 0, "sx": -3.05, "sz": 3.45, "sy": null, "slv": 0, "row": null, "ap": [-3.05, 2.9], "lift": 0}]
+  [  44.6s] 到達「[#2 8.00] #1（-3.05, 3.45）（走到椅子附近）」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，6 秒
+PASS [#2 8.00] #1（-3.05, 3.45） 點椅子（螢幕 [353, 297]）走過去停在 (-2.928, 2.709)（seatApproach [-3.05, 2.9]）：最近的「坐下」是這一張  {"at": [-2.928, 2.709], "nearest": {"label": "坐窗邊", "seat": [-3.05, 3.45], "exit": null}}
+PASS [#2 8.00] #1（-3.05, 3.45） 走到旁邊，互動按鈕是「坐窗邊」  {"x": -2.928, "z": 2.709, "lv": 0, "interact": "坐窗邊", "stand": true}
+  [  46.5s] 【診斷 按下前】nearest={"label": "坐窗邊", "x": -3.05, "z": 3.45, "r": 0.9, "lv": 0, "seat": [-3.05, 3.45], "npc": null, "hidden": false, "onInteract": false}；toast={"text": "手機｜可昕：下禮拜五是我們的週年。", "shown": false}；player={"x": -2.928, "z": 2.709, "lv": 0, "seat": null, "pose": "idle"}
+  [  46.5s] 【診斷 按下前】座位占用：[{"label": "坐窗邊", "seat": [-2.15, 3.45], "hidden": false, "who": []}, {"label": "坐窗邊", "seat": [-1.5, 3.45], "hidden": false, "who": ["?"]}, {"label": "坐窗邊", "seat": [-0.6, 3.45], "hidden": false, "who": ["?"]}]
+  [  47.2s] 【診斷 按下後 0.5 秒】player={"x": -3.05, "z": 3.45, "lv": 0, "seat": [-3.05, 3.45], "pose": "sit"}；toast={"text": "手機｜可昕：下禮拜五是我們的週年。", "shown": false}；dlg="（窗▼ 點一下繼續"；nearest={"label": "坐窗邊", "x": -3.05, "z": 3.45, "r": 0.9, "lv": 0, "seat": [-3.05, 3.45], "npc": null, "hidden": false, "onInteract": false}
+PASS [#2 8.00] #1（-3.05, 3.45） 坐下了（player.seat）  {"x": -3.05, "z": 3.45, "y": 0, "lv": 0, "sx": -3.05, "sz": 3.45, "sy": null}
+PASS [#2 8.00] #1（-3.05, 3.45） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -3.05, "z": 3.45, "y": 0, "lv": 0, "sx": -3.05, "sz": 3.45, "sy": null}
+PASS [黑畫面] dbk2_32_seat_1 不是黑畫面（平均亮度 128.3、變化 62）  [128.3, 62]
+  [  51.4s] [#2 8.00] #1（-3.05, 3.45） 起身點了：["起身"]
+PASS [#2 8.00] #1（-3.05, 3.45） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 7.05, "x": 3.772, "z": 0.907, "lv": 0, "stand": true, "fb": 0}
+  [  53.4s] [#2 8.00] 這一輪坐了：[[1, "ok", -3.05, 3.45]]（SEQ=True）
+  [  53.4s] [#2 8.00] 結果 null
+  [  57.5s] 到達「[#2 8.00]（回到 #2 旁邊看預約）」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [#2 8.00] 有客人正走向 #2（["?"]）：#2 不出「坐窗邊」（最近的是 {"label": "聽一句", "seat": null}）  {"reserved": ["?"], "sat": [], "nearest": {"label": "聽一句", "seat": null}}
+== [#2 8.50]
+  [前置／捷徑] [#2 8.50] 讀檔 Daybreak 店裡出生點 2025-10-18 8.50（條件事件關閉）
+PASS [#2 8.50] 讀到店裡  {"zone": "daybreak", "x": 2.165, "z": 2, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 8.51}
+  [  67.6s] [#2 8.50] 座位 1 張：[{"label": "坐窗邊", "x": -3.05, "z": 3.45, "lv": 0, "sx": -3.05, "sz": 3.45, "sy": null, "slv": 0, "row": null, "ap": [-3.05, 2.9], "lift": 0}]
+  [  67.6s] [#2 8.50] #1（-3.05, 3.45） 有人坐：遊戲不給坐，跳過（不算 FAIL）
+  [  67.6s] [#2 8.50] 這一輪坐了：[[1, "occupied", -3.05, 3.45]]（SEQ=True）
+  [  67.6s] [#2 8.50] 結果 null
+  [  73.0s] 到達「[#2 8.50]（回到 #2 旁邊看預約）」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，5 秒
+  [  73.0s] [#2 8.50] #2 已經有客人坐著（["?"]）：遊戲不給坐，跳過
+== [#2 9.00]
+  [前置／捷徑] [#2 9.00] 讀檔 Daybreak 店裡出生點 2025-10-18 9.00（條件事件關閉）
+PASS [#2 9.00] 讀到店裡  {"zone": "daybreak", "x": 2.165, "z": 2, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 9.01}
+  [  81.3s] [#2 9.00] 座位 1 張：[{"label": "坐窗邊", "x": -3.05, "z": 3.45, "lv": 0, "sx": -3.05, "sz": 3.45, "sy": null, "slv": 0, "row": null, "ap": [-3.05, 2.9], "lift": 0}]
+  [  81.3s] [#2 9.00] #1（-3.05, 3.45） 有人坐：遊戲不給坐，跳過（不算 FAIL）
+  [  81.3s] [#2 9.00] 這一輪坐了：[[1, "occupied", -3.05, 3.45]]（SEQ=True）
+  [  81.3s] [#2 9.00] 結果 null
+  [  86.0s] 到達「[#2 9.00]（回到 #2 旁邊看預約）」附近（0.19 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，5 秒
+  [  86.0s] [#2 9.00] #2 已經有客人坐著（["?"]）：遊戲不給坐，跳過
+== [#2 10.00]
+  [前置／捷徑] [#2 10.00] 讀檔 Daybreak 店裡出生點 2025-10-18 10.00（條件事件關閉）
+PASS [#2 10.00] 讀到店裡  {"zone": "daybreak", "x": 2.165, "z": 2, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.01}
+  [  94.5s] [#2 10.00] 座位 1 張：[{"label": "坐窗邊", "x": -3.05, "z": 3.45, "lv": 0, "sx": -3.05, "sz": 3.45, "sy": null, "slv": 0, "row": null, "ap": [-3.05, 2.9], "lift": 0}]
+  [ 100.2s] 到達「[#2 10.00] #1（-3.05, 3.45）（走到椅子附近）」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，6 秒
+PASS [#2 10.00] #1（-3.05, 3.45） 點椅子（螢幕 [353, 296]）走過去停在 (-2.91, 2.699)（seatApproach [-3.05, 2.9]）：最近的「坐下」是這一張  {"at": [-2.91, 2.699], "nearest": {"label": "坐窗邊", "seat": [-3.05, 3.45], "exit": null}}
+PASS [#2 10.00] #1（-3.05, 3.45） 走到旁邊，互動按鈕是「坐窗邊」  {"x": -2.91, "z": 2.699, "lv": 0, "interact": "坐窗邊", "stand": true}
+  [ 102.5s] 【診斷 按下前】nearest={"label": "坐窗邊", "x": -3.05, "z": 3.45, "r": 0.9, "lv": 0, "seat": [-3.05, 3.45], "npc": null, "hidden": false, "onInteract": false}；toast={"text": "手機｜可昕：下禮拜五是我們的週年。", "shown": false}；player={"x": -2.91, "z": 2.699, "lv": 0, "seat": null, "pose": "idle"}
+  [ 102.5s] 【診斷 按下前】座位占用：[{"label": "坐窗邊", "seat": [-2.15, 3.45], "hidden": false, "who": []}, {"label": "坐下", "seat": [1.9, 1.55], "hidden": false, "who": ["?"]}, {"label": "坐下", "seat": [1.9, 0.45], "hidden": false, "who": ["?"]}, {"label": "坐下", "seat": [-0.8, 1.45], "hidden": false, "who": ["?"]}, {"label": "坐下", "seat": [-0.8, 0.35], "hidden": false, "who": ["?"]}, {"label": "坐長桌", "seat": [-4.2, 1.5], "hidden": false, "who": ["?"]}, {"label": "坐卡座", "seat": [2.05, -3.5], "hidden": false, "who": ["?"]}, {"label": "坐下", "seat": [2.05, -2.5], "hidden": false, "who": ["?"]}]
+  [ 103.3s] 【診斷 按下後 0.5 秒】player={"x": -3.05, "z": 3.45, "lv": 0, "seat": [-3.05, 3.45], "pose": "sit"}；toast={"text": "手機｜可昕：下禮拜五是我們的週年。", "shown": false}；dlg="▼ 點一下繼續"；nearest={"label": "坐窗邊", "x": -3.05, "z": 3.45, "r": 0.9, "lv": 0, "seat": [-3.05, 3.45], "npc": null, "hidden": false, "onInteract": false}
+PASS [#2 10.00] #1（-3.05, 3.45） 坐下了（player.seat）  {"x": -3.05, "z": 3.45, "y": 0, "lv": 0, "sx": -3.05, "sz": 3.45, "sy": null}
+PASS [#2 10.00] #1（-3.05, 3.45） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -3.05, "z": 3.45, "y": 0, "lv": 0, "sx": -3.05, "sz": 3.45, "sy": null}
+PASS [黑畫面] dbk2_40_seat_1 不是黑畫面（平均亮度 128.5、變化 60.7）  [128.5, 60.7]
+  [ 108.0s] [#2 10.00] #1（-3.05, 3.45） 起身點了：["起身"]
+PASS [#2 10.00] #1（-3.05, 3.45） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 7.07, "x": 3.772, "z": 0.837, "lv": 0, "stand": true, "fb": 0}
+  [ 110.1s] [#2 10.00] 這一輪坐了：[[1, "ok", -3.05, 3.45]]（SEQ=True）
+  [ 110.1s] [#2 10.00] 結果 null
+  [ 114.5s] 到達「[#2 10.00]（回到 #2 旁邊看預約）」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [#2 10.00] #2 沒人預約：最近的「坐窗邊」就是 #2  {"reserved": [], "sat": [], "nearest": {"label": "坐窗邊", "seat": [-2.15, 3.45]}}
+  [ 123.0s] 【診斷 按下前】nearest={"label": "坐窗邊", "x": -2.15, "z": 3.45, "r": 0.9, "lv": 0, "seat": [-2.15, 3.45], "npc": null, "hidden": false, "onInteract": false}；toast={"text": "手機｜可昕：下禮拜五是我們的週年。", "shown": false}；player={"x": -1.966, "z": 2.806, "lv": 0, "seat": null, "pose": "idle"}
+  [ 123.0s] 【診斷 按下前】座位占用：[{"label": "坐窗邊", "seat": [-2.15, 3.45], "hidden": false, "who": []}, {"label": "坐下", "seat": [1.9, 1.55], "hidden": false, "who": ["?"]}, {"label": "坐下", "seat": [1.9, 0.45], "hidden": false, "who": ["?"]}, {"label": "坐下", "seat": [-1.4, 1.45], "hidden": false, "who": ["?"]}, {"label": "坐下", "seat": [-0.8, 1.45], "hidden": false, "who": ["?"]}, {"label": "坐下", "seat": [-1.4, 0.35], "hidden": false, "who": ["?"]}, {"label": "坐下", "seat": [-0.8, 0.35], "hidden": false, "who": ["?"]}, {"label": "坐長桌", "seat": [-4.2, 1.5], "hidden": false, "who": ["?"]}]
+  [ 123.8s] 【診斷 按下後 0.5 秒】player={"x": -2.15, "z": 3.45, "lv": 0, "seat": [-2.15, 3.45], "pose": "sit"}；toast={"text": "手機｜可昕：下禮拜五是我們的週年。", "shown": false}；dlg="（窗▼ 點一下繼續"；nearest={"label": "坐窗邊", "x": -2.15, "z": 3.45, "r": 0.9, "lv": 0, "seat": [-2.15, 3.45], "npc": null, "hidden": false, "onInteract": false}
+PASS [#2 10.00] #2 沒人預約：按了坐下（player.seat）
+PASS [黑畫面] dbk2_fixed_40 不是黑畫面（平均亮度 125.7、變化 60.8）  [125.7, 60.8]
+  [ 124.8s] 各時間結果：[[8.0, "reserved"], [8.5, "occupied"], [9.0, "occupied"], [10.0, "ok"]]（occupied＝有 NPC 坐、遊戲不給坐，跳過）
+PASS 按「坐」以後沒有跳「有人坐了。」（預約中的位子不出按鈕）  []
+PASS 窗邊 #2 至少有一個時間點真的試著坐（不是每次都有人坐）  [[8.0, "reserved"], [8.5, "occupied"], [9.0, "occupied"], [10.0, "ok"]]
+PASS 沒有 JS 例外  []
+ALL PASS

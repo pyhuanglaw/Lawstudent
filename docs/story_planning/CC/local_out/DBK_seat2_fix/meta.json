@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "DBK_seat2_fix",
+  "sha": "b550eb6c18076bef376794a8971bc405ba8b1185",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_dbk_seat2_probe.py",
+  "env": "EXPECT=fixed;SEQ=1;HOURS_ADD=0,0.5,1,2;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T13:07:51",
+  "end": "2026-11-07T13:10:32",
+  "seconds": 160,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 19,
+    "mem": 59,
+    "used_gb": 18.5,
+    "chrome_testing": 13
+  }
+}
