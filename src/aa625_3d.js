@@ -53,7 +53,7 @@ const AA625=(function(){
   /* ---------- 台詞（AA_625 0787572c6，一字照稿；tests/aa625_yt_study_unit.js 逐句對稿）---------- */
   const L=S.L={
     first:['……嗯。你刑總讀到哪了？','我這學期也有修你們的刑總。我想申請雙主修。','禮拜三下午我沒課。木曜日？'],   /* 3248430b3：民總 → 刑總（遊戲的民總在大一上，大一下是刑總）*/
-    firstOpts:['好。','這週不行。'], firstNo:'嗯。下次。',
+    firstOpts:['好。','這週不行。'], firstNo:'嗯。下次。', firstBusy:['那天你有約了？','……嗯。下次。'],   /* firstBusy：回「好。」可是那個時間已經答應別人（AA-B 11-07 23:28，BUG-YTS-FIRST-CLASH-1107；稿外，AA 直接給）*/
     firstExtra:'我只是週末打工。平常其實很閒。',
     next:['債總第三章。我看不懂。……你看得懂嗎。','兩點半還有位子。你要來嗎。','明天考刑總。今天晚上大口漢堡，我會待到很晚。','這週我不用排班那麼多。……要不要一起念。'],
     during:[ [[YT,'這一條為什麼這樣寫？……立法理由在哪裡查？'],[null,'（你翻給她看。她讀完，又回去把條文念了一次。）']],
@@ -129,8 +129,8 @@ const AA625=(function(){
     /* 撞到的只算已經答應的（accepted／going／changed）、校外約會、考試；別人約你、你還沒回的（offered）不擋（BUG-YTS-FIRST-CLASH-1107，BB-B 11-07 23:25：
        同一晚 21:30 以安約 3/11 15:30 總圖、21:40 語彤約 14:00 木曜日，回「好。」被那則還沒回的擋掉，語彤停在「好。」、系統串多一句「那個時間你已經約了別人。」）*/
     const P=place('mokuyobi'), Gx=Object.assign({},G,{invites:(G.invites||[]).filter(iv=>iv&&iv.state!=='offered')});
-    if(INV.mineAt&&P&&INV.mineAt(Gx,d,S.FIRST_H,P.stay)){ R.first='busy'; if(INV.msg) INV.msg(G,null,'那個時間你已經約了別人。');   /* 系統字照 INV.answer；真的撞到＝當成這次不行（不扣分），她回「嗯。下次。」，之後照一般的約 */
-      if(typeof PHONE!=='undefined'&&PHONE.post) PHONE.post(G,ytItem(L.firstNo)); return; }
+    if(INV.mineAt&&P&&INV.mineAt(Gx,d,S.FIRST_H,P.stay)){ R.first='busy'; if(INV.msg) INV.msg(G,null,'那個時間你已經約了別人。');   /* 系統字照 INV.answer；真的撞到＝當成這次不行（不扣分），她回 AA-B 給的兩句（firstBusy），之後照一般的約 */
+      if(typeof PHONE!=='undefined'&&PHONE.post) for(const t of L.firstBusy) PHONE.post(G,ytItem(t)); return; }
     R.first='yes'; const iv=INV.accept(G,YT,'mokuyobi',d,S.FIRST_H,{by:'npc'}); if(iv){ iv.cat='study'; iv.yts={k:'first',first:true}; } };
   /* 第一次那一則過了期限還沒回：當成這次不行（不扣分）*/
   S.firstExpire=function(G){ const R=S.rec(G); if(R.first==='sent'&&R.fday!=null&&NOW(G)>T(R.fday,S.FIRST_UNTIL)){ const m=typeof PHONE!=='undefined'&&PHONE.byAsk?PHONE.byAsk(G,S.FIRST_TAG):null; if(!m||m.ans==null) R.first='late'; } };
