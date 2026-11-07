@@ -254,7 +254,7 @@ if not NIGHT:
 wd = bpy.data.worlds.new('W'); sc.world = wd; wd.use_nodes = True; bg = wd.node_tree.nodes['Background']
 if NIGHT:
     bg.inputs['Color'].default_value = (0.006, 0.009, 0.022, 1); bg.inputs['Strength'].default_value = 1.0
-    sd = bpy.data.lights.new('moon', 'SUN'); sd.energy = 0.04; sd.color = (0.55, 0.65, 1.0); sd.angle = math.radians(1.0)
+    sd = bpy.data.lights.new('moon', 'SUN'); sd.energy = float(opt('--moon', '0.04')); sd.color = (0.55, 0.65, 1.0); sd.angle = math.radians(1.0)   # --moon：月光／城市的天光照在地面、牆上（天空顏色不變）；新生南路大馬路 0.3（XS-NIGHT-1107：BB-B「大口窗景晚上只看得到天空」）
 else:
     bg.inputs['Color'].default_value = (0.42, 0.58, 0.85, 1); bg.inputs['Strength'].default_value = 1.1
     sd = bpy.data.lights.new('sun', 'SUN'); sd.energy = 3.2; sd.color = (1.0, 0.96, 0.9); sd.angle = math.radians(1.5)
@@ -280,8 +280,11 @@ if NIGHT and opt('--pools') and os.path.exists(opt('--pools')):
     import json as _jp
     for q in _jp.load(open(opt('--pools'))):
         ld = bpy.data.lights.new('pool', 'SPOT'); ld.color = hexcol(0xffd696); ld.energy = float(opt('--pool-w', '220')); ld.shadow_soft_size = 0.12
-        ld.spot_size = min(math.radians(160), 2 * math.atan(q['r'] / q['h']) * 1.1); ld.spot_blend = 0.45
+        ld.spot_size = min(math.radians(160), 2 * math.atan(q['r'] * float(opt('--pool-r', '1')) / q['h']) * 1.1); ld.spot_blend = 0.45   # --pool-r：光圈半徑的倍率（大馬路的路燈照得比較開）
         lo = bpy.data.objects.new('pool', ld); sc.collection.objects.link(lo); lo.location = g2b((q['x'], q['h'] - 0.15, q['z'])); lo.rotation_euler = (0, 0, 0); npool += 1   # 聚光燈照 −Z＝往下
+        if float(opt('--pool-point', '0')) > 0:   # --pool-point W：燈頭再加一顆往四周的點光源（往下的聚光圈照不到直立的圍牆、樹冠；大馬路 XS-NIGHT-1107）
+            lp = bpy.data.lights.new('poolpt', 'POINT'); lp.color = hexcol(0xffd696); lp.energy = float(opt('--pool-point')); lp.shadow_soft_size = 0.2
+            po = bpy.data.objects.new('poolpt', lp); sc.collection.objects.link(po); po.location = g2b((q['x'], q['h'] - 0.3, q['z']))
     print('pools', npool, flush=True)
 
 # 鏡頭：窗那一片的中心、朝外，水平 90°（2:1 → 垂直 53.13°）
