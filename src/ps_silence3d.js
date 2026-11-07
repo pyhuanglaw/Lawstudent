@@ -9,7 +9,10 @@
      3/15 那一次沒成立＝2027-04-20 起傳的那一則（數起來到 2 則的第一則）30 分鐘以後回。最後一則三個選項（rel 照稿），回了以後 end 兩句（第二句是旁白：灰字）。
    - 重聚：2028-12-26 21:00 公法讀書會群組（public_law；祐廷不在群組＝沒有這幾則、也不排）——Alison 問、阿哲（認識）、她、Alison、以安（認識、在臺灣）；
      排 12/29 18:30 林家乾麵（OUT），那一場照稿（沉默期一則私訊都沒傳＝從「（散場的時候」到最後那 3 行換 last2）。演完、沒去、過了時間都記 PS_REUNION＝12/29（PS_RECONNECT 一起記：資料頁、畢業那天的卡片讀它）。
-     2D、深色底＋地點字幕：林家乾麵的 3D（wz_lin）只有四張小方桌（一桌三個位子、兩欄中間是走道），坐不下稿上「林家乾麵的長桌」五個人，這一版不換到 3D 演。
+     70b0b51a9（AA 定：兩張小方桌併在一起）起在 3D 的林家乾麵（區域 wz_lin）演：OUT.STAGE（同 src/b1story3d.js、closed2_3d.js）——演之前換到 wz_lin、畫面用模糊的 3D，
+     她坐最裡面那一桌（後排兩張桌子＝S.linSpots：她坐 z 最小的那一張椅子，你坐她對面，Alison 坐她旁邊的紅凳；阿哲、以安（照群組那一條：認識、在臺灣）坐隔壁那一桌），
+     那幾個位子先跟路人預約（CROWD.shopSeatTake），演完照 OUT 回到出發的地方。換不進去（沒有 wz_lin、在家出發、騎車、有人跟著、進區域失敗）＝照原本 2D 深色底＋地點字幕。
+     plan.place 寫「溫州街（林家乾麵，wz_lin）」：括號裡的區域 id 不給玩家看（S.placeOf）。
    - 不在公法讀書會群組（reunion.noGroup，d8570a14b）：沒有群組訊息、沒有聚餐；2028-12-30 21:00 她私訊你（三則，最後一則三個選項；第二個選項沉默期一則私訊都沒傳＝換 optAlt），
      那一刻記 PS_REUNION＝12/30、PS_RECONNECT（沒有她的聯絡方式＝不傳，照樣記）。沉默期到那一刻為止（STORY.psSilent）。
    - 柏翰（posts.bohan，f5cb310d6）：2027-06-18（大二下期末考完的週五）21:00 他私訊你兩則，一次（認識他和沛珊；沒有他的聯絡方式＝有點熟以上才傳、順便加聯絡方式）。
@@ -65,8 +68,56 @@ const PSSIL=(function(){
     if(now(G)<T(d,21)||G.day>d+2||!silent(G)||!knows(BH,G)||!knows(PS,G)) return false;   /* 睡過、出遊回來（兩天內）照 21:00 補；再晚就不傳 */
     if(!hasContact(G,BH)){ if(!stageAt(BH,'FAMILIAR')||typeof INV==='undefined'||!INV.addContact) return false; INV.addContact(G,BH); }   /* 他傳訊息給你＝有你的聯絡方式（同 r2y3a3d.js 的 silentContact）*/
     return PHONE.at(G,d,21,B.lines.map(t=>({th:'p:'+BH,from:BH,text:t})),'pssil_bohan'); };
+  /* plan.place：「溫州街（林家乾麵，wz_lin）」＝顯示「溫州街（林家乾麵）」、區域 wz_lin；只寫區域 id 也可以（顯示照 PLACES／店名）*/
+  S.placeOf=function(place){ const t=String(place||''), m=/[，,]\s*([a-z][a-z0-9_]*)\s*）\s*$/.exec(t);
+    if(m) return {label:t.replace(/[，,]\s*[a-z][a-z0-9_]*\s*(?=）\s*$)/,''),zone:m[1]};
+    if(/^[a-z][a-z0-9_]*$/.test(t)){ const nm=(typeof PLACES!=='undefined'&&PLACES.names&&PLACES.names[t])||(typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT[t.replace(/^wz_/,'')]&&WZ_SHOPS_LAYOUT[t.replace(/^wz_/,'')].name)||t; return {label:nm,zone:t}; }
+    return {label:t,zone:null}; };
   S.planOut=function(G){ const P=A().reunion.plan, d=dk(P.day); if(d==null||typeof OUT==='undefined'||!OUT.plan) return false;
-    return OUT.plan(G,{id:OID,ev:EV,day:d,h:P.h,late:0.5,place:P.place,title:P.title,travel:P.travel,travelH:1/6}); };   /* 騎車約 10 分鐘 */
+    return OUT.plan(G,{id:OID,ev:EV,day:d,h:P.h,late:0.5,place:S.placeOf(P.place).label,title:P.title,travel:P.travel,travelH:1/6}); };   /* 騎車約 10 分鐘 */
+  /* ---------- 在 3D 的林家乾麵演（OUT.STAGE）---------- */
+  /* 位子（照 wz_lin 的配置 WZ_SHOPS_LAYOUT.lin，不寫死座標）：她＝最裡面（z 最小）那一張可以坐的椅子；那一桌＋離它最近的另一桌＝併在一起的兩張；
+     你＝她那一桌離她最遠的那一張（對面）；Alison＝她那一桌剩下的那一張；阿哲、以安＝另一桌（先坐玩家坐得了的椅子，再紅凳）；位子不夠的站在另一桌靠走道那一邊（stand）*/
+  S.linSpots=function(L,ids){ L=L||(typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT.lin); if(!L||!Array.isArray(L.seats)||!Array.isArray(L.tables)||L.tables.length<2) return null;
+    const seat=q=>({x:q.x,z:q.z,yaw:q.yaw||0,lv:0,table:q.table}), of=n=>L.seats.filter(q=>q.table===n), d2=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z);
+    const her=L.seats.filter(q=>!q.npcOnly&&!q.stool).sort((a,b)=>a.z-b.z||a.x-b.x)[0]; if(!her) return null;
+    const T1=L.tables.find(t=>t.n===her.table), T2=L.tables.filter(t=>t!==T1).sort((a,b)=>d2(a,T1)-d2(b,T1))[0]; if(!T1||!T2) return null;
+    const mine=of(T1.n).filter(q=>q!==her&&!q.npcOnly).sort((a,b)=>d2(b,her)-d2(a,her)), me=mine[0], yu=of(T1.n).find(q=>q!==her&&q!==me);
+    const other=of(T2.n).sort((a,b)=>(a.npcOnly?1:0)-(b.npcOnly?1:0)||(a.stool?1:0)-(b.stool?1:0)||d2(a,T1)-d2(b,T1));
+    if(!me||!yu) return null; const out={tables:[T1.n,T2.n],me:seat(me),cast:[{id:PS,seat:seat(her)},{id:'yu',seat:seat(yu)}],spare:other.map(seat)};
+    const sx=T2.x+(T1.x>T2.x?0.55:-0.55);   /* 站的位置：另一桌靠她那一桌（走道）的那一邊 */
+    out.stand={x:+sx.toFixed(2),z:T2.z,yaw:Math.atan2(T1.x-sx,T1.z-T2.z)};
+    (ids||['zhe','heroine_01']).forEach((id,i)=>{ const q=out.spare[i]; out.cast.push(q?{id,seat:q}:{id,stand:out.stand}); });
+    return out; };
+  S.castIds=G=>['zhe','heroine_01'].filter(id=>knows(id,G)&&inTW(id,G));   /* 群組那一條：阿哲、以安認識、在臺灣才在 */
+  S.staged=null;
+  S.canStage=function(GM,zone){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!E.player||!GM.enter||!GM.sitAt||!GM.spawnCharacter||typeof Z3==='undefined'||!Z3.ZONES||!Z3.ZONES[zone]) return false;
+    if(G.zone!==zone&&!Z3.ZONES[G.zone]) return false; if(typeof OUT!=='undefined'&&OUT.fromHome) return false; if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) return false;
+    if(E.player.riding||(G.flags&&G.flags.companion)) return false; return true; };
+  const ENTER_O={noFade:true,deferStory:true,noAutosave:true};
+  const CRW=()=>typeof CROWD!=='undefined'&&CROWD.shopSeatTake?CROWD:null;
+  S.outStage=async function(GM,q,ev){ if(!ev||ev.id!==EV||!A()) return null; const zone=S.placeOf(A().reunion.plan.place).zone; if(!zone||!S.canStage(GM,zone)) return null;
+    const G=GM.G, P=GM.E.player, p=P.obj.position, prev={zone:G.zone,x:p.x,z:p.z,yaw:P.obj.rotation.y,lv:P.lv|0}, same=G.zone===zone;
+    const L=(typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT[zone.replace(/^wz_/,'')])||null, sp=S.linSpots(L,S.castIds(G)); if(!sp||!L.spawn) return null;
+    const C=CRW(), seats=sp.cast.filter(c=>c.seat).map(c=>c.seat).concat([sp.me]), until=(+G.hour||0)+3;
+    if(C){ for(const st of seats) C.shopSeatTake(zone,st,{G,instant:true,until,whoId:'pssil'}); if(C.shopStandTake&&sp.cast.some(c=>c.stand)) C.shopStandTake(zone,[sp.stand.x,sp.stand.z],{G,until,whoId:'pssil'}); }   /* 路人不坐、不站這幾個位子 */
+    const free=()=>{ if(!C) return; for(const st of seats) if(C.shopSeatFree) C.shopSeatFree(zone,st); };
+    const spawned=[];
+    try{ if(P.seat&&GM.standUp) GM.standUp(P);
+      if(!same) await GM.enter(zone,{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw||0,lv:0},ENTER_O);
+      if(G.zone!==zone) throw new Error('沒有進到 '+zone);
+      for(const c of sp.cast){ if(GM.npc&&GM.npc[c.id]&&GM.removeNPC) GM.removeNPC(c.id);
+        const n=c.seat?GM.spawnCharacter(c.id,c.seat.x,c.seat.z,{seat:c.seat,pose:'sit'}):GM.spawnCharacter(c.id,c.stand.x,c.stand.z,{yaw:c.stand.yaw,pose:'idle'});
+        if(n){ n.frozen=true; n.pssil=true; spawned.push(c.id); if(!c.seat) n.pose=n.idlePose='idle'; } }
+      GM.sitAt(P,sp.me); }
+    catch(e){ console.warn('PSSIL.stage',e); free(); try{ if(P.seat&&GM.standUp) GM.standUp(P); if(!same&&G.zone!==prev.zone&&GM.enter) await GM.enter(prev.zone,{x:prev.x,z:prev.z,yaw:prev.yaw,lv:prev.lv},ENTER_O); }catch(e2){ console.warn('PSSIL.stage back',e2); } S.staged=null; return null; }   /* 換不進去＝照原本 2D（OUT：沒有 stage＝事件的 background）*/
+    S.staged={zone,spots:sp,spawned};
+    let done=false;
+    return {restore:async()=>{ if(done) return; done=true; S.staged=null; free(); if(P.seat&&GM.standUp) GM.standUp(P);
+      if(same){ for(const id of spawned) if(GM.npc&&GM.npc[id]&&GM.npc[id].pssil&&GM.removeNPC) GM.removeNPC(id); return; }   /* 本來就在店裡：大家散了 */
+      await GM.enter(prev.zone,{x:prev.x,z:prev.z,yaw:prev.yaw,lv:prev.lv},ENTER_O); }}; };   /* 演完：回到出發的地方（OUT 接著把時間往後、出回程的字幕）*/
+  if(typeof OUT!=='undefined'){ if(Array.isArray(OUT.STAGE)&&!OUT.STAGE.includes(S.outStage)) OUT.STAGE.push(S.outStage);
+    if(OUT.bg&&!OUT._pssilBg){ const b0=OUT.bg; OUT.bg=function(id){ if(id==='pssil_lin') return S.staged?'blur':'dark'; return b0.apply(this,arguments); }; OUT._pssilBg=true; } }   /* 第一句的場景：在 3D 裡演＝模糊的 3D，沒換過去＝深色底 */
   S.tick=function(G){ if(!G||!G.flags||!A()) return false; let did=false;
     if(newLine(G)&&typeof OUT!=='undefined'&&OUT.get){ const q=OUT.get(G,'y3_ps_back_call'); if(q&&q.state==='planned'){ q.state='cancelled'; did=true; } }   /* 舊存檔：照原本的流程已經排了 8/7 那通電話（沒交往的線沒有這一通）*/
     if(!pre(G)) return did; const R=S.rec(G), P=A();
@@ -87,12 +138,14 @@ const PSSIL=(function(){
   /* 那一場（2D；OUT.go 演）：（…）是旁白、其他是她；沉默期一則私訊都沒傳＝從「（散場的時候」那一句起換成 last2 */
   S.event=function(){ const P=A().reunion, line=t=>/^（/.test(t)?{speaker:null,text:t}:{speaker:PS,text:t}, C=f=>({custom:f});
     const sent=G=>S.silenceCount(G)>0, cut=P.scene.findIndex(t=>/^（散場的時候/.test(t)), k=cut>=0?cut:Math.max(0,P.scene.length-2);
-    const dlg=[{scene:P.plan.place}];
+    const dlg=[{scene:S.placeOf(P.plan.place).label,bg:'pssil_lin'}];
     P.scene.forEach((t,i)=>{ const it=line(t); if(i>=k) it.if=C(sent); dlg.push(it); });
     for(const t of P.last2){ const it=line(t); it.if=C(G=>!sent(G)); dlg.push(it); }
     dlg.push({call:async(G)=>{ S.reunite(G); }});
-    return {id:EV,title:P.plan.title,participants:[PS],location:'any',trigger:'outing',once:true,background:'dark',hours:1.5,dialogue:dlg,
-      outingMissed:G=>{ S.reunite(G); }}; };
+    const ev={id:EV,title:P.plan.title,participants:[PS],location:'any',trigger:'outing',once:true,hours:1.5,dialogue:dlg,
+      outingMissed:G=>{ S.reunite(G); }};
+    Object.defineProperty(ev,'background',{enumerable:true,get:()=>S.staged?'blur':'dark'});   /* 在 3D 的林家乾麵演（OUT.STAGE）＝模糊的 3D；沒換過去＝深色底（EVENTS.run 開頭照這個）*/
+    return ev; };
   S.install=function(){ if(!A()) return;
     if(typeof STORY_EVENTS!=='undefined'&&!STORY_EVENTS.some(x=>x&&x.id===EV)) STORY_EVENTS.push(S.event());
     if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)&&!STORY.PHONE_RULES.includes(S.tick)) STORY.PHONE_RULES.push(S.tick);

@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_aa723.py（docs/story_planning/AA_723_confess_retry_ps_silence.json@f68c998cc）。不要手改，改企劃 AA_723 再重新匯入。
+/* 自動產生：tools/story/import_aa723.py（docs/story_planning/AA_723_confess_retry_ps_silence.json@70b0b51a9）。不要手改，改企劃 AA_723 再重新匯入。
    告白第一次失敗以後的接法（confess）、沛珊沒交往的線（peishan）：src/confess723_3d.js、src/ps_silence3d.js 讀 */
 'use strict';
 const AA723={
- "src": "docs/story_planning/AA_723_confess_retry_ps_silence.json@f68c998cc",
+ "src": "docs/story_planning/AA_723_confess_retry_ps_silence.json@70b0b51a9",
  "confess": {
   "heart": {
    "heroine_01": {
@@ -290,12 +290,12 @@ const AA723={
    "plan": {
     "day": "2028-12-29",
     "h": 18.5,
-    "place": "溫州街（林家乾麵）",
+    "place": "溫州街（林家乾麵，wz_lin）",
     "title": "大家和沛珊吃飯",
     "travel": "騎車約 10 分鐘"
    },
    "scene": [
-    "（林家乾麵的長桌。她坐在最裡面，比以前瘦一點，頭髮剪短了。）",
+    "（林家乾麵的兩張小方桌併在一起。她坐在最裡面，比以前瘦一點，頭髮剪短了。）",
     "大家好久不見……",
     "（Alison 一坐下就抱住她，抱了很久。）",
     "（吃到一半，有人問她這兩年在做什麼。她把筷子放下來。）",

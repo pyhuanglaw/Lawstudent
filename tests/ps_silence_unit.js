@@ -12,6 +12,8 @@
 //     ps_class（termend3d.js）、psCampAuto（r3_3d.js）都要 PS_REUNION；交往中、舊存檔照舊
 //   7 動態（AA_723 posts.rule，f5cb310d6）：沒交往的線 2026-12-18～2028-12-28 她的動態一則都不發（ps1d～ps3g）、沉默期回她以前的動態她不回；12/29 以後照原本、不補貼；交往中、舊存檔照原本
 //   8 柏翰（posts.bohan）：h506～h509（她的動態那幾句）沒交往的線不說；換成 2027-06-18 21:00 他私訊你兩則（一次；認識他和沛珊）
+//   9 重聚在 3D 的林家乾麵（70b0b51a9；OUT.STAGE）：換到 wz_lin、模糊的 3D、她坐最裡面、你對面、Alison 旁邊、阿哲／以安另一桌（照群組那一條）、位子先跟路人預約；
+//     演完回到出發的地方；換不進去（沒有 wz_lin、進區域失敗、從家裡出發）＝照原本 2D 深色底；位子在遊戲真正的 wz_lin 走得到（tests/ps_reunion_lin_unit.js）
 // 修改前（開發分支 156774a92＋匯入 8918daa98）：沒有 src/ps_silence3d.js、STORY.psSilent——FAIL。用法：node tests/ps_silence_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -116,7 +118,7 @@ await sec(5,async()=>{ const RU=P_().reunion, d29=D(RU.plan.day);
   const grp=(G.msgs||[]).filter(m=>m.th==='g:public_law'&&m.tag==='pssil_reunion_grp').map(m=>[m.from,m.text]);
   check('5. 12/26 21:00 公法讀書會群組：Alison、阿哲、她、Alison、以安（照稿）',J(grp)===J(RU.group),J(grp));
   const o=OUT.get(G,'pssil_reunion');
-  check('5. 排進行程：12/29 18:30 溫州街（林家乾麵）「大家和沛珊吃飯」騎車約 10 分鐘',!!o&&o.day===d29&&o.h===18.5&&o.place===RU.plan.place&&o.title===RU.plan.title&&o.travel===RU.plan.travel&&o.ev==='ev_pssil_reunion',J(o));
+  check('5. 排進行程：12/29 18:30 溫州街（林家乾麵）「大家和沛珊吃飯」騎車約 10 分鐘（plan.place 的「，wz_lin」不給玩家看）',!!o&&o.day===d29&&o.h===18.5&&o.place==='溫州街（林家乾麵）'&&RU.plan.place.indexOf('wz_lin')>0&&o.title===RU.plan.title&&o.travel===RU.plan.travel&&o.ev==='ev_pssil_reunion',J(o));
   setT(G,'2028-12-29',18.2); H.said=[]; await OUT.go(GM,o); const got=H.said.map(s=>s.t);
   check('5. 那一場照稿（十句；她的句子是她說、括號是旁白）',J(got)===J(RU.scene)&&H.said.filter(s=>s.who).every(s=>!/^（/.test(s.t)),J(H.said));
   check('5. 演完：PS_REUNION＝12/29、PS_RECONNECT；之後照一般的朋友（不是沉默期、psReconnected）',G.flags.PS_REUNION===d29&&G.flags.PS_RECONNECT===true&&!STORY.psPre(G)&&!STORY.psSilent(G)&&R2Y4B.psReconnected(G)&&MSG.open(G,PS).mode!=='silent',J({f:G.flags.PS_REUNION,r:G.flags.PS_RECONNECT}));
@@ -197,6 +199,34 @@ await sec(8,async()=>{ const BL=(P_().posts||{bohan:{lines:[]}}).bohan.lines, BH
   const talk=(fl,o)=>{ const G=fresh('2027-09-06',12,fl); if(o&&o.date) dateKeep(G); H.FRIEND(BH); const e=HEARD.talkDue(G,BH,GM); return e&&e.id; };
   const t1=talk(), t2=talk({PS_BACK_READ:D('2027-08-07')}), t3=talk({},{date:true});
   check('8. heard3d：沒交往的線柏翰不說「沛珊去台南了。我在動態看到的。」（h506）；舊存檔、交往中照原本說',t1!=='h506_bh_ps'&&t2==='h506_bh_ps'&&t3==='h506_bh_ps'&&J(HEARD.PS_POST_TALK)===J(['h506_bh_ps','h507_bh_ps','h508_bh_ps','h509_bh_ps']),J([t1,t2,t3]));
+});
+/* ---------------- 9 在 3D 的林家乾麵演 ---------------- */
+await sec(9,async()=>{ const RU=P_().reunion, CUT=RU.scene.findIndex(t=>/^（散場的時候/.test(t)), NOMSG=RU.scene.slice(0,CUT).concat(RU.last2);   /* 這一節的存檔沉默期沒傳過私訊＝最後換 last2 */
+  L3('src/data/wz_shops_layout.js'); L3('src/data/lin_layout.js'); if(typeof LIN_LAYOUT!=='undefined'&&typeof WZ_SHOPS_LAYOUT!=='undefined') WZ_SHOPS_LAYOUT.lin=LIN_LAYOUT;
+  const LL=typeof WZ_SHOPS_LAYOUT!=='undefined'?WZ_SHOPS_LAYOUT.lin:null;
+  /* 假的 3D：區域在不在（Z3.ZONES）、生人、坐下、預約位子；GM.enter 照 pg_harness（記 H.entered、換 G.zone）*/
+  const sp=[], sits=[], takes=[], frees=[]; let failEnter=false;
+  const enter0=GM.enter; GM.enter=async(z,at,o)=>{ if(failEnter&&z==='wz_lin') throw new Error('模型載不到（測試）'); H.entered.push(z); H.G.zone=z; if(at){ GM.E.player.obj.position.x=at.x; GM.E.player.obj.position.z=at.z; } };
+  GM.spawnCharacter=(id,x,z,o)=>{ const n={id,charId:id,obj:{position:{x,y:0,z},rotation:{y:0}},seat:o&&o.seat||null,pose:o&&o.pose}; GM.npc[id]=n; sp.push({id,x,z,seat:!!(o&&o.seat)}); return n; };
+  GM.removeNPC=id=>{ delete GM.npc[id]; }; GM.sitAt=(P,st)=>{ P.seat=st; sits.push(st); }; GM.standUp=P=>{ P.seat=null; };
+  global.CROWD={shopSeatTake:(z,st,o)=>{ takes.push([z,st.x,st.z,o&&o.instant]); return true; },shopSeatFree:(z,st)=>{ frees.push([z,st.x,st.z]); return true; },shopStandTake:()=>true};
+  const Z0=global.Z3; global.Z3={ZONES:{wz_lin:{},dorm:{},campus:{}}};
+  const go=async(fl,o)=>{ o=o||{}; const G=fresh('2028-12-20',12,fl,o); G.zone='dorm'; GM.E.player.obj.position.x=3; GM.E.player.obj.position.z=-2; GM.E.player.seat=null; run(G,'2028-12-26',20.5,21.25); G.zone='dorm'; GM.E.player.obj.position.x=3; GM.E.player.obj.position.z=-2;
+    const q=OUT.get(G,'pssil_reunion'); sp.length=0; sits.length=0; takes.length=0; frees.length=0; setT(G,'2028-12-29',18.2); H.said=[]; H.entered=[]; H.bgs=[]; GM.npc={}; await OUT.go(GM,q,o.fromHome?{fromHome:true}:undefined); return G; };
+  try{
+    const G=await go(); const ps=sp.find(x=>x.id===PS), me=sits[0], inner=LL&&Math.min(...LL.seats.filter(q=>!q.npcOnly&&!q.stool).map(q=>q.z));
+    check('9. 換到 wz_lin 演、演完回到出發的地方（宿舍）；畫面是模糊的 3D（第一句的場景也是）',J(H.entered)===J(['wz_lin','dorm'])&&G.zone==='dorm'&&H.bgs.length>0&&H.bgs.every(b=>b==='blur')&&GM.E.player.obj.position.x===3&&GM.E.player.obj.position.z===-2,J({entered:H.entered,bgs:H.bgs}));
+    check('9. 她坐最裡面（z '+inner+'）、你坐她對面、Alison 坐她那一桌；阿哲、以安（認識、在臺灣）坐另一桌——五個人都坐著',!!ps&&ps.seat&&ps.z===inner&&!!me&&Math.abs(me.x-ps.x)<0.01&&me.z>ps.z&&J(sp.map(x=>x.id).sort())===J([PS,'heroine_01','yu','zhe'].sort())&&sp.every(x=>x.seat),J({sp,me}));
+    check('9. 那五個位子先跟路人預約（instant）、演完取消',takes.length===5&&takes.every(t=>t[0]==='wz_lin'&&t[3]===true)&&frees.length===5,J({takes,frees}));
+    check('9. 那一場照稿（3D 也一樣；沒傳過私訊＝最後換 last2）；演完記 PS_REUNION',J(H.said.map(x=>x.t))===J(NOMSG)&&G.flags.PS_REUNION===D(RU.plan.day),J({said:H.said.map(x=>x.t),r:G.flags.PS_REUNION}));
+    const G2=await go({},{an:false}); check('9. 不認識以安：她不在（四個人）',J(sp.map(x=>x.id).sort())===J([PS,'yu','zhe'].sort()),J(sp.map(x=>x.id)));
+    global.Z3={ZONES:{dorm:{}}}; const G3=await go(); check('9. 沒有 wz_lin（區域不存在）：照原本 2D 深色底、不換區域、照樣演完',!H.entered.includes('wz_lin')&&H.bgs.includes('dark')&&!H.bgs.includes('blur')&&G3.flags.PS_REUNION===D(RU.plan.day)&&J(H.said.map(x=>x.t))===J(NOMSG),J({e:H.entered,bgs:H.bgs}));
+    global.Z3={ZONES:{wz_lin:{},dorm:{},campus:{}}}; failEnter=true; const G4=await go(); failEnter=false;
+    check('9. 進 wz_lin 失敗（模型載不到）：照原本 2D 深色底、還在出發的地方、位子取消、照樣演完',G4.zone==='dorm'&&H.bgs.includes('dark')&&!H.bgs.includes('blur')&&frees.length===takes.length&&takes.length>0&&!sp.length&&J(H.said.map(x=>x.t))===J(NOMSG),J({z:G4.zone,bgs:H.bgs,takes:takes.length,frees:frees.length}));
+  }
+  finally{ GM.enter=enter0; delete GM.spawnCharacter; delete GM.removeNPC; delete GM.sitAt; delete GM.standUp; delete global.CROWD; global.Z3=Z0; }
+  let nav='', ok=false; try{ nav=cp.execFileSync('node',[path.join(H.ROOT,'tests/ps_reunion_lin_unit.js')],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/ALL PASS\s*$/.test(nav); }catch(e){ nav=String(e.stdout||e.message); }
+  check('9. 那幾個位子在遊戲真正的 wz_lin 走得到、站的點站得住（tests/ps_reunion_lin_unit.js）',ok,nav.trim().split('\n').filter(l=>/^FAIL/.test(l)).join(' ／ ').slice(0,300));
 });
 H.done();
 })();
