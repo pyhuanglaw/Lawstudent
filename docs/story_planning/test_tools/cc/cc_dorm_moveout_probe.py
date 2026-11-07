@@ -96,8 +96,19 @@ async def open_places(pg, cdp):
     if s['dlg'] or s['choices']:
         info('讀檔後有對話／選項，先照玩家點掉：' + J({k: s[k] for k in ('dtext', 'choices')}))
         await L.advance_dialogs(pg, cdp, type('R', (), {'note': staticmethod(info)})(), lambda q: not q['dlg'] and not q['choices'] and not q['busy'], max_steps=40)
-    ok1 = await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1500)
+    # CC-B 11-07（BB-B 03:36 ③）：PC V21R econ_old（標題「讀取」的舊存檔）手機沒打開、地點分頁沒有——看是不是讀檔後手機已經自己打開（待回覆訊息，STORY.phoneAuto），再按一次 #btnPhone 反而把它關了；
+    # 每一步記下手機開關、徽章、遮罩，按完沒開就照玩家再按一次
+    PH = "(()=>{ const p=document.getElementById('phone'), b=document.getElementById('phoneBadge'), top=document.elementFromPoint(innerWidth-30,30); return {open:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())||(!!p&&!p.classList.contains('hide')), badge:b?(b.textContent||'').trim():null, btn:!!document.getElementById('btnPhone')&&getComputedStyle(document.getElementById('btnPhone')).visibility!=='hidden', top:top?(top.id||top.className||top.tagName):null, tab:(document.querySelector('#phoneTabs button.on,#phoneTabs button.active')||{}).dataset?.ptab||null}; })()"
+    p0 = await pg.evaluate(PH); info('打開手機前：%s' % J(p0))
+    ok1 = True
+    if not p0['open']:
+        ok1 = await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1500)
+    p1 = await pg.evaluate(PH); info('按 #btnPhone 以後（按了＝%s）：%s' % (not p0['open'], J(p1)))
+    if not p1['open']:
+        await close_panels(pg, cdp); ok1 = await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1500)
+        p1 = await pg.evaluate(PH); info('沒打開，收掉面板再按一次：%s' % J(p1))
     ok2 = await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(1500)
+    p2 = await pg.evaluate(PH); info('按「地點」分頁以後：%s' % J(p2))
     return ok1 and ok2
 
 

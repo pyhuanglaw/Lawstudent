@@ -981,11 +981,24 @@ class Person:
                 await self.date_go('%s 分支%d-%d「%s」' % (tag, mi, oi, t[:8]), trip, forced=fz, record=False, go_snap=go)
         return m
 
+    async def date_blocked(self, tag):
+        """CC-B 11-07（BB-B 03:36 ④）：約之前先問遊戲 DATE.canAsk（當面＝face、手機）——V21R 沛珊、芯慈「約成一趟」FAIL 沒印為什麼。
+        芯慈：XCROM.ON 關著（D116，芯慈的線先關）＝DATE.HEROINES 沒有她＝不能約是預期，記 SKIP。其他不給約的原因照實印、照舊 FAIL（BB 判）。"""
+        q = await self.pg.evaluate("((id)=>{ const G=GAME.G; const r=o=>{ try{ return DATE.canAsk(G,id,o); }catch(e){ return {ok:null,why:String(e)}; } };"
+                                   " return {face:r({face:true}), phone:r(null), inHero:DATE.HEROINES.includes(id), xcrom:typeof XCROM!=='undefined'?!!XCROM.ON:null, stage:DATE.stageNum(id), key:CALENDAR.dateOf(G.day).key,"
+                                   " partner:(typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].partner)||null}; })", self.pid)
+        self.R.note('%s 約之前 DATE.canAsk：%s' % (tag, J(q)))
+        if self.pid == 'classmate_xinci' and q['xcrom'] is False and not q['inHero']:
+            self.R.skip(tag, '芯慈的戀愛線關著（XCROM.ON false，D116）＝不能約是預期')
+            return True
+        return False
+
     async def step_date(self):
         R, pg = self.R, self.pg
         if not self.info['date']: return R.skip('date', '不是可攻略的人（DATE.HEROINES 沒有他）')
         setup = {'met': True, 'rel': REL['POSSIBLE_ROMANTIC_INTEREST'], 'relUp': 4, 'ladEnd': True, 'contact': True}
         sl, w = await self.go_any(setup, '前置：第 5 階（POSSIBLE_ROMANTIC_INTEREST）、有聯絡方式', 'date')
+        if w and await self.date_blocked('date 當面約'): return
         plan = Plan([{'when': '^就這樣$', 'pick': r'^約.去'}, {'when': '^出去玩', 'pick': '^出去玩'}, {'when': '^就這樣約$', 'pick': '^就這樣約$'}])
         if w:
             n0 = len(await pg.evaluate(TRIPS_JS, self.pid))
@@ -1064,7 +1077,7 @@ class Person:
                 R.info('phone 傳訊息：沒有「傳訊息」按鈕', (await pg.evaluate("((document.querySelector('[data-msgnote]')||{}).innerText||'')")))
             await L.tap(pg, self.cdp, '#btnPhoneClose'); await pg.wait_for_timeout(800); await L.close_panels(pg, self.cdp)
             await self.check_free('phone 傳訊息之後', fb0, err0)
-        if self.info['date']:
+        if self.info['date'] and not await self.date_blocked('phone 約出去玩'):
             await self.phone_flow('phone 約出去玩', dict(setup, rel=REL['POSSIBLE_ROMANTIC_INTEREST']), plan_date=True, go=False)
 
     async def step_shop(self):
