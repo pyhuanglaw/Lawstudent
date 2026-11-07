@@ -49449,6 +49449,34 @@
     "receiver": "BB",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "CORNER-IN-1107",
+   "title": "轉角唱片（公館 G12）進得去：CC v1c 模型（cc-testing 4fc38d513）MODEL_READY → 區域（12:00～21:00）→ AA 台詞（含試聽）→ BB 判、LAWWW2 烘光照",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次走到公館 G12",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 11-07 14:56 盤點：CC 11-04 交了 v1c、11-04 換班後沒人接；使用者 11-07「還有哪些店面還沒做好的還沒有放進遊戲的」；D141；USER_WANTS X209",
+   "waitUser": false,
+   "pausedReason": "誰決定：LAWWW-B（11-07 14:5x）。為什麼：模型還沒驗 MODEL_READY、店內台詞還沒寫。負責人：LAWWW2（MODEL_READY）、AA（台詞）、LAWWW（區域）。恢復條件：LAWWW2 交 MODEL_READY 報告＋AA 交台詞 SHA。下次檢查日：2026-11-08。",
+   "next": "【11-07 14:5x LAWWW-B】LAWWW2-B 5F 烘完驗 MODEL_READY（含 G12 外觀疊圖、LICENSES）；AA-B 寫店內台詞（含試聽、要不要買）；兩樣到了 LAWWW 接區域（layout exit、enterAt 補）。",
+   "xai": {
+    "spec": "CC_47（cc-testing）、AA_650 §4",
+    "branch": "claude/cc-testing 4fc38d513",
+    "acceptance": "G12 進得去、試聽、看店裡、打烊；Node＋BB 瀏覽器",
+    "receiver": "BB",
+    "ack": "SENT"
+   }
   }
  ]
 }
