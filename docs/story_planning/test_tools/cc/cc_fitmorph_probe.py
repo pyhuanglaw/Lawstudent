@@ -45,9 +45,12 @@ async def cams(pg, x, z, yaw, y0=0.0):
 
 
 async def two(pg, cdp, name, x, z, yaw, keep_paused=False):
+    """CC-B 11-07（LAWWW-B 07:06）：user_shot 拍完會放開主迴圈，走路時第二張人已經走出鏡頭——每一張都先停住、用人當下的位置算鏡頭"""
     out = {}
-    y0 = await pg.evaluate("GAME.E.player.obj.position.y")
-    for k, c in (await cams(pg, x, z, yaw, y0)).items():
+    for k in ('front', 'side'):
+        await pg.evaluate("(()=>{ GAME.E.paused=true; })()")
+        q = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [o.x,o.y,o.z]; })()")
+        c = (await cams(pg, q[0], q[2], yaw, q[1]))[k]
         off = c.pop('off')
         out[k] = await D.user_shot(pg, cdp, '%s_%s' % (name, k), c, hide_player=False); out[k]['turned'] = off
         if off is None: R.note('[%s_%s] 繞一圈都有東西擋，照原本的角度拍' % (name, k))

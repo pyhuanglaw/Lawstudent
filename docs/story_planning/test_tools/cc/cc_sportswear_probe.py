@@ -34,7 +34,13 @@ def cams(x, z, yaw):
 
 
 async def two(pg, cdp, name, w):
-    return {k: await D.user_shot(pg, cdp, '%s_%s' % (name, k), c, hide_player=False) for k, c in cams(w['x'], w['z'], w['yaw']).items()}
+    """每一張都先停住、用人當下的位置算鏡頭（LAWWW-B 07:06：跑步的側面人跑出鏡頭）"""
+    out = {}
+    for k in ('front', 'side'):
+        await pg.evaluate("(()=>{ GAME.E.paused=true; })()")
+        q = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [o.x,o.z]; })()")
+        out[k] = await D.user_shot(pg, cdp, '%s_%s' % (name, k), cams(q[0], q[1], w['yaw'])[k], hide_player=False)
+    return out
 
 
 async def main():
@@ -55,13 +61,19 @@ async def main():
         w = await pg.evaluate(WEAR); rec['b1_stand'] = w
         R.check('[①] B1：穿運動服（gymWear、GYM_TOP、GYM_SHORTS 看得到）、後背包拿下', w['gymWear'] and w['top'] and w['shorts'] and w['backpack'] in (False, None), J(w))
         await two(pg, cdp, 'sw_b1_stand', w)
-        task = asyncio.create_task(L.go_to(pg, cdp, R, cx - 12.0, cz, 0.5, '[①] 走廊往西跑 12 m', max_s=40)); wr = None
-        for _ in range(30):
-            await pg.wait_for_timeout(200); wr = await pg.evaluate(WEAR)
-            if wr['pose'] in ('run', 'walk') and abs(wr['x'] - cx) > 1.0: break
-        await pg.evaluate("(()=>{ GAME.E.paused=true; })()"); await two(pg, cdp, 'sw_b1_run', wr); await pg.evaluate("(()=>{ GAME.E.paused=false; })()")
-        try: await task
-        except Exception: pass
+        wr = None
+        for tx in (cx - 10.0, cx + 4.0, cx - 6.0):   # 走廊上找走得到的點（雲端 11-07：往西 12 m 那一次人沒動）；動了 1 m、姿勢 walk／run 就拍
+            task = asyncio.create_task(L.go_to(pg, cdp, R, tx, cz, 0.5, '[①] 走廊跑到 x %.1f' % tx, max_s=30))
+            for _ in range(30):
+                await pg.wait_for_timeout(200); wr = await pg.evaluate(WEAR)
+                if wr['pose'] in ('run', 'walk') and abs(wr['x'] - cx) > 1.0: break
+            moving = wr['pose'] in ('run', 'walk')
+            if moving: await two(pg, cdp, 'sw_b1_run', wr)
+            await pg.evaluate("(()=>{ GAME.E.paused=false; })()")
+            try: await task
+            except Exception: pass
+            if moving: break
+        R.check('[①] 跑步那一刻拍到了（姿勢 walk／run）', bool(wr) and wr['pose'] in ('run', 'walk'), J(wr))
         R.note('[①] 跑的那一刻 %s' % J(wr))
         # ② 腳踏車機
         F = await pg.evaluate("(()=>{ const F=GYM_LAYOUT.b1.fitness; return {x0:F.x0,x1:F.x1,z0:F.z0,z1:F.z1}; })()")
