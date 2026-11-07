@@ -149,6 +149,12 @@ LZLM_after | 5a2ab6c75566cb3aaa0e78c4caafdd460da7145e | probe | docs/story_plann
 PAGES_GZIP | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/cc_pages_gzip_probe.py | index.html | 10 | CC_HEADLESS=0
 # LAWWW2-B 11:15 PERF_COLD_PERSIST：磁碟快取（persistent context）＋進區域前 only-if-cached 檢查——分辨 13.6 MB wenzhou_street.glb 沒進快取是不是測試瀏覽器記憶體快取的上限
 PERF_COLD_PERSIST | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/perf_cold_probe.py | index.html | 50 | ZONES=wenzhou;VARIANTS=base,near;NET=4g;PERSIST=1;COLD=12;CC_HEADLESS=0
+# LAWWW2-B 11:24 PERF_COLD_RT_SLIM：溫州街主模型量化 13.6→10.3 MB（a898ff47e；改前＝它的上一個 commit）——同一組冷進場量測（4G，PERSIST 0／1）、wz_street_integration、改前改後同角度日夜截圖（法線 8 位元：圓柱、曲面打光）
+PERF_COLD_SLIM | a898ff47e29c7edd9392c77aaaab7e17ba346380 | probe | docs/story_planning/test_tools/cc/perf_cold_probe.py | index.html | 50 | ZONES=wenzhou;VARIANTS=base,near;NET=4g;COLD=12;CC_HEADLESS=0
+PERF_COLD_SLIM_P | a898ff47e29c7edd9392c77aaaab7e17ba346380 | probe | docs/story_planning/test_tools/cc/perf_cold_probe.py | index.html | 50 | ZONES=wenzhou;VARIANTS=base,near;NET=4g;PERSIST=1;COLD=12;CC_HEADLESS=0
+WZ_INTEG_SLIM | a898ff47e29c7edd9392c77aaaab7e17ba346380 | game | tests/wz_street_integration.py | index.html | 30 | XARGS={url};CC_HEADLESS=0
+WZ_SLIM_before | ed3bd52014ed2aa55db13cb7e94ed8a6a82d936a | probe | docs/story_planning/test_tools/cc/cc_wz_dc_probe.py | index.html | 20 | TAG=slim_before;CC_HEADLESS=0
+WZ_SLIM_after | a898ff47e29c7edd9392c77aaaab7e17ba346380 | probe | docs/story_planning/test_tools/cc/cc_wz_dc_probe.py | index.html | 20 | TAG=slim_after;CC_HEADLESS=0
 # CC-B 11:1x：LZLM 第一輪兩版都例外（舊版 playlib.load_state 沒有 quiet_phone；cc_d141_lib 已相容）→ 重跑放在常備前面
 LZLM_before_r2 | 9ef8a17cf55c429321c09c0e9b58ed6911e06ecc | probe | docs/story_planning/test_tools/cc/cc_linze_lm_probe.py | index.html | 20 | TAG=before;RERUN=r2;CC_HEADLESS=0
 LZLM_after_r2 | 5a2ab6c75566cb3aaa0e78c4caafdd460da7145e | probe | docs/story_planning/test_tools/cc/cc_linze_lm_probe.py | index.html | 20 | TAG=after;RERUN=r2;CC_HEADLESS=0
