@@ -6,39 +6,45 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-07 05:5x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-07 06:2x UTC，帳號 B LAWWW2-B）
 
-分支 `claude/funny-albattani-iawshm` @ `655729e66`。patch 都對開發 `c244ce20e`，git apply --check 過。瀏覽器都沒跑（D131，交 CC）。
+分支 `claude/funny-albattani-iawshm` @ `1d022e8d1`。瀏覽器都沒跑（D131，交 CC）。
 
-**11-07 交了七包：**
+**整合進度**：LAWWW-B 已把裙子兩批、Café 橘色斜面、籃架、體態、器材都接進開發。
 
-| 項目 | 內容 | 位置 | 測試 |
+- 最新是 `923c0f521`，含 `41bfc5cbe`、`c82a39be1`、`a64deefda`；
+- **之後的 patch 對 `923c0f521` 做**：`gym3d.js`、`fit3d.js` 被器材那一包改過。
+
+**11-07 交了九包：**
+
+| 項目 | 內容 | 位置 | 狀態 |
 |---|---|---|---|
-| WINDOW-FLICKER-1107 | — | `345574e2d` | 已整合 |
-| 木曜日窗景 | — | `345574e2d` | 已整合 |
+| WINDOW-FLICKER-1107＋木曜日窗景 | — | `345574e2d` | 已整合 |
 | GYM-FIT 健身房玻璃門 | — | `7e8e59883` | 已整合 |
-| SKIRT-BENCH-CLIP-1105 第一批：8 個路人 | 坐下時才打開的裙子形狀 `skirt_sit`；路人遠距離版本也有 | `wip/skirt_sit_1107/`（`768da51ab`） | 長椅椅面裡 251～282 → 0；開發原樣 FAIL 32 → ALL PASS |
-| SKIRT 第二批：有名字的角色 | 沛珊、芯慈、予樂、秀琴兩套；遊戲端用第一批的 patch | `33bc9fe48`；測試 patch `skirt_named_1107.patch` | 248～645 → 0 |
-| ART-ARENA-HOOPS-1105：3F 籃架 | 從「收在 17.6 m、沒籃框」改成放下來的吊掛式（籃框 3.05 m），整組 SET_HOOPS；典禮那天收起；ARENA_HOOPS 預設 true | `wip/arena_hoops_1107/`（`101ab2728`、`e92e8c517`） | arena_hoops：FAIL 16 → ALL PASS |
-| GYM-FIT-1107 ① 器材資料 | gym_layout.js 的 b1.fitness.equip（22 件：use、stand） | `wip/gym_fit_equip_1107/`（`4f05d68d0`） | gym_fit_equip：ALL PASS |
-| GYM-FIT-1107 ② 體態第二階段 | 祐廷 VRM 的 morph `fit`（上臂、肩、胸、大腿、小腿撐開，衣服、外套跟著撐），四階 0／0.4／0.7／1 | `wip/fit_body_1107/`（`655729e66`） | fit_body：FAIL 6 → ALL PASS |
+| SKIRT 第一批：8 個路人 | 坐下時才打開的裙子形狀 `skirt_sit` | `wip/skirt_sit_1107/`（`768da51ab`） | 已整合；BB-B 意見「通過」 |
+| SKIRT 第二批：有名字的角色 | 沛珊、芯慈、予樂、秀琴 | `33bc9fe48` | 已整合 `a64deefda` |
+| ART-ARENA-HOOPS-1105：3F 籃架 | 放下來的吊掛式籃架，整組 SET_HOOPS | `wip/arena_hoops_1107/` | 已整合 `41bfc5cbe` |
+| GYM-FIT ① 器材資料 | `b1.fitness.equip`，22 件 | `wip/gym_fit_equip_1107/` | 子代理那一包一起合了 |
+| GYM-FIT ② 體態 fit 形狀 | 四階 0／0.4／0.7／1 | `wip/fit_body_1107/` | 已整合 `41bfc5cbe`；等 LAWWW 驗（D100a） |
+| P3 Café 橘色斜面 | 天空半球裁切 | `c792202bb` | 已整合 `c82a39be1`；BB-B 自己補拍 |
+| **GYM-FIT ③ 短袖運動服** | 祐廷 VRM 加 GYM_TOP、GYM_SHORTS（吃 fit）；`C.setGymWear`；B1、體育課自動換 | `wip/gym_wear_1107/`（`1d022e8d1`；patch 對 `923c0f521`） | **DELIVERED，等 ACK**；gym_wear_unit 從 FAIL 9 → ALL PASS |
 
-**全部 Node**（skirt、hoops、equip 三包一起）：1,068 PASS／8 FAIL。8 支開發原樣也 FAIL：
+**運動服要 LAWWW-B 決定的：**
 
-- Daybreak 加了、測試沒改：3 支；
-- worktree 缺故事分支的 commit：4 支；
-- ladder_headroom：1 支。
-
-**ACK 狀態：**
-
-- LAWWW-B：裙子第一批已 ACK（GHA 跑完接）；其他幾包都 DELIVERED，等 ACK。
-- BB-B：裙子 Blender 圖給了「通過」的意見（ART_APPROVED 照 D100a 由 LAWWW 標）；日常失速立體店面判「換新版」。
+- 換穿範圍：現在整個 B1 都換，游泳週也穿這套；
+- 顏色；
+- `?blchar` 的 `bl_yuting` 沒有運動服。
 
 **下一步：**
 
-1. BB-B 的 P3：兩點半 Café 左邊的橘色斜面。截圖在 elegant-brown `18d820c63` 的 pt1107/gift718_0{1,2}；疑似 X132 窗外街景在牆淡出以後露出來。
-2. 日常失速店內加顏色點（植物、靠墊、杯子），查店前 fps 8.6／+4.4 萬三角形。
-3. 舊佇列：PERF-WZ-DAY、HAIR-NOODLE，以及 TODO_SHORTCUTS 裡的停車場灰牆、大口夜景。
+1. #167 日常失速店內加顏色點（植物、靠墊、杯子），查店前 fps 8.6／+4.4 萬三角形。
+2. 舊佇列：PERF-WZ-DAY、HAIR-NOODLE、TODO_SHORTCUTS（停車場灰牆、大口夜景）。
+3. 使用者 03:2x 的四個存檔（UA-LAWWW2-1107-01）：還沒回要看哪裡。
+
+**暫存區**（不進 repo，掉了可以照 README 重做）：
+
+- `$S/gymwear`：運動服的預覽腳本；
+- `$S/gwwt`、`$S/gwbase`：測試用 worktree。
 
 ## ✅ 值班登記（2026-11-07 03:4x UTC；帳號 B LAWWW2-B；使用者：「現在接班 我也會跟其他AI講」）
 - 值班登記：帳號 B｜LAWWW2-B｜session_01GV1WG3UeT2DhuDpxeWJsvD｜分支 `claude/funny-albattani-iawshm`（11-02 清理時刪過，這次從接班基準重新推）｜接班基準 `629e042e2`（快轉上一任 `claude/focused-cray-c9uwvw`）。
