@@ -150,7 +150,11 @@ const FEED=(function(){
   S.txt=(x,v)=>x&&typeof x==='object'?(x[v||'no']!=null?x[v||'no']:x.no):x;   /* 兩個版本的照片／回覆／私訊問的那一句（可昕第 6 則）*/
   S.line=(G,l)=>l&&typeof l==='object'&&l.if?((S.COND[l.if]&&S.COND[l.if](G))?l.yes:l.no):l;
   /* ---------- 動態：這一則出不出（空字串＝出）---------- */
+  /* AA_723（企劃線 d8570a14b peishan.posts.rule；AA723-CONFESS-PS-1107）：沛珊沒交往的線（STORY.psNewLine）2026-12-18～2028-12-28 她的動態一則都不發（AA_506～509 §6-3 的 ps1d～ps3g）、
+     她先傳的動態私訊也不傳；記成 x:psSilent＝過了就過了，2028-12-29 重聚以後從當時那一則開始照原本的（不補貼）。沉默期回她以前的動態（留言、私訊）她不回（STORY.psSilent）。交往中照原本 */
+  S.psOff=(G,day)=>{ if(typeof STORY==='undefined'||!STORY.psNewLine||!STORY.dayOfKey||!STORY.PS_SIL||!STORY.psNewLine(G)) return false; const a=STORY.dayOfKey(STORY.PS_SIL[0]), b=STORY.dayOfKey(STORY.PS_SIL[1]); return a!=null&&b!=null&&day>=a&&day<b; };
   S.blocked=function(G,p,w){ if(!hasContact(G,p.who)) return 'contact'; if(p.who==='kexin'&&S.kxCool(G)) return 'cool';
+    if(p.who==='classmate_peishan'&&S.psOff(G,w.day)) return 'psSilent';
     if(!S.stageOk(G,p.who,p.st)&&!(p.stIf&&S.WENT[p.stIf]&&S.WENT[p.stIf](G))) return 'stage';   /* stIf：那個 WENT 成立就不看階段（語彤 8/22「陪她去的玩家也看得到」）*/
     if(p.if&&!(S.COND[p.if]&&S.COND[p.if](G))) return 'if';
     const R=S.rec(G), t=abs(w.day,w.h), hero=S.isHeroine(p.who), C=hero?S.CAP.heroine:S.CAP.other;
@@ -256,7 +260,7 @@ const FEED=(function(){
         if(o.post!==undefined) x.post=o.post; if(o.video) x.video=o.video; if(o.hold) x.hold=o.hold; if(o.out) x.out=o.out; return x; });
       const ask={id:'aa503_'+q.id,opts}; if(A.until){ const u=S.whenLoc(G,A.until,term); if(u) ask.until=abs(u.day,u.h); } items[items.length-1].ask=ask; }
     return items; };
-  S.sendDm=function(G,q,w,term){ const R=S.rec(G); if(w.day<R.start){ R.dm[q.id]='old'; return false; } const why=S.dmBlocked(G,q); if(why){ R.dm[q.id]='x:'+why; return false; }
+  S.sendDm=function(G,q,w,term){ const R=S.rec(G); if(w.day<R.start){ R.dm[q.id]='old'; return false; } const why=q.who==='classmate_peishan'&&S.psOff(G,w.day)?'psSilent':S.dmBlocked(G,q);   /* AA_723：沉默期她不先傳 */ if(why){ R.dm[q.id]='x:'+why; return false; }
     if(typeof PHONE==='undefined') return false; PHONE.at(G,w.day,w.h,S.dmItems(G,q,term),'aa503_'+q.id); R.dm[q.id]='sent'; return true; };
   /* ---------- 每次手機規則（STORY.PHONE_RULES）：時間到了的動態、私訊 ---------- */
   S.tick=function(G){ if(!G||!G.flags||typeof CALENDAR==='undefined'||(G.stage||'law')!=='law') return 0; const R=S.rec(G), now=nowOf(G), due=[];
@@ -307,7 +311,8 @@ const FEED=(function(){
     if(!S.live(G,it)) return null; if(kind==='cm'&&!p.cm) return null; if(kind==='dm'&&!S.dmOk(G,p)) return null;   /* 畫面上看得到的才能回（出遊途中貼的照 S.live 多留）*/
     it.r=kind; const out=[];
     if(kind!=='heart'&&typeof PHONE!=='undefined'){ const L=kind==='cm'?p.cm:p.dm, th='p:'+p.who; const m=PHONE.post(G,{th,from:'player',who:null,text:S.txt(L[0],it.v)}); m.fd=id; m.fk=kind; out.push(m);
-      for(const r of L.slice(1)){ const tx=S.txt(r,it.v); if(tx) out.push(PHONE.post(G,{th,from:p.who,text:tx})); }
+      const quiet=p.who==='classmate_peishan'&&typeof STORY!=='undefined'&&!!STORY.psSilent&&STORY.psSilent(G);   /* AA_723：沉默期回她以前的動態＝她不回 */
+      if(!quiet) for(const r of L.slice(1)){ const tx=S.txt(r,it.v); if(tx) out.push(PHONE.post(G,{th,from:p.who,text:tx})); }
       if(PHONE.markSeen) PHONE.markSeen(G,th); }   /* 她的回覆動態頁上就看得到：不再算未讀 */
     S.fam(G,p.who); return {item:it,out}; };
   /* ---------- 私訊的回覆：可昕的視訊、隔天中午才回 ---------- */

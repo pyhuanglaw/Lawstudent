@@ -114,7 +114,9 @@ await sec('1',async()=>{ if(!HAS()){ check('1. HEARD',false,'沒有 HEARD'); ret
   check('1. 接在 STORY.PRE_TALK（talkCharacter 閒聊前面）',STORY.PRE_TALK.length>0);
   const D=d=>CALENDAR.dateOf(d).key;
   const win=e=>({a:HEARD.when(e.from),b:e.until?HEARD.when(e.until):null});
-  const setup=(e,d,h)=>{ fresh(d,h==null?12:h,e.cond==='xcMade'?{XC5_RECONCILE:true}:{}); meet(e.who); if(e.about) meet(e.about); if(e.after) HEARD.rec(H.G).said[e.after]=d-1;
+  /* AA_723（企劃線 d8570a14b posts，AA723-CONFESS-PS-1107）：沛珊沒交往的新線沉默期（2026-12-18～2028-12-28）一則動態都不發、柏翰說她動態的 h506～h509 不說（tests/ps_silence_unit.js 第 7、8 節）；這裡測原本的流程＝舊存檔已經照原本流程聯絡上（PS_BACK_READ）*/
+  const PSL=e=>typeof HEARD!=='undefined'&&Array.isArray(HEARD.PS_POST_TALK)&&HEARD.PS_POST_TALK.includes(e.id)?{PS_BACK_READ:STORY.dayOfKey('2027-08-07')}:{};
+  const setup=(e,d,h)=>{ fresh(d,h==null?12:h,Object.assign(e.cond==='xcMade'?{XC5_RECONCILE:true}:{},PSL(e))); meet(e.who); if(e.about) meet(e.about); if(e.after) HEARD.rec(H.G).said[e.after]=d-1;
     for(const o of HL().talk) if(o.who===e.who&&o.id!==e.id&&o.id!==e.after&&HL().talk.indexOf(o)<HL().talk.indexOf(e)) HEARD.rec(H.G).said[o.id]=d-1; };   /* 同一個人排在前面的句子先當說過（柏翰大三上兩句同時在的那幾天，一天只說一句）*/   /* cond：psBohan（沒和沛珊交往）、bhAfterSplit（群組沒說分手）新局本來就成立 */
   const bad=[];
   for(const e of HL().talk){ const w=win(e); if(!w.a){ bad.push(e.id+' from'); continue; }
@@ -233,12 +235,15 @@ await sec('5',async()=>{ if(!HAS()){ check('5. 第三輪',false,'沒有 HEARD');
   fresh(W14,12,{}); meet('classmate_xinci','heroine_01'); const c2=HEARD.talkDue(H.G,'classmate_xinci');
   check('5. AA_507 1-4：芯慈「以安說三月走以前……她現在叫錯的只剩一個。」——第 13 週還沒看到慈 5＝先不說、演過（XC5_RECONCILE）＝說；第 14 週起不看有沒有演過',!c0&&id(c1)==='h507_xc_an'&&id(c2)==='h507_xc_an',J([id(c0),id(c1),id(c2)]));
   /* 柏翰：9/4 20:00 那則動態以後；大三上兩句一天一句 */
-  const D94=DK('2027-09-04'); fresh(D94,19.5,{}); meet('classmate_bohan','classmate_peishan'); const p0=HEARD.talkDue(H.G,'classmate_bohan'); at(D94,20.1); const p1=HEARD.talkDue(H.G,'classmate_bohan');
+  /* AA_723（企劃線 d8570a14b posts，AA723-CONFESS-PS-1107）：沛珊沒交往的新線沉默期（2026-12-18～2028-12-28）一則動態都不發、柏翰說她動態的 h506～h509 不說（tests/ps_silence_unit.js 第 7、8 節）；這裡測原本的流程＝舊存檔已經照原本流程聯絡上（PS_BACK_READ）*/
+  { const D94=DK('2027-09-04'); fresh(D94,20.1,{}); meet('classmate_bohan','classmate_peishan'); const n=HEARD.talkDue(H.G,'classmate_bohan');
+    check('5. AA_723 沒交往的新線：9/4 20:00 以後柏翰不說「沛珊去台南了。我在動態看到的。」',!n||n.id!=='h506_bh_ps',J(id(n))); }
+  const D94=DK('2027-09-04'); fresh(D94,19.5,{PS_BACK_READ:STORY.dayOfKey('2027-08-07')}); meet('classmate_bohan','classmate_peishan'); const p0=HEARD.talkDue(H.G,'classmate_bohan'); at(D94,20.1); const p1=HEARD.talkDue(H.G,'classmate_bohan');
   check('5. AA_506 6-4：柏翰「沛珊去台南了。我在動態看到的。……我按了愛心。」9/4 20:00（她那則動態）以後才說',!p0&&id(p1)==='h506_bh_ps',J([id(p0),id(p1)]));
-  const D1128=TDt('Y3S1',12,7); fresh(D1128,20,{}); meet('classmate_bohan','classmate_peishan','heroine_03'); H.said=[]; await HEARD.preTalk(GM,who('柏翰'),'classmate_bohan'); await HEARD.preTalk(GM,who('柏翰'),'classmate_bohan'); const s1=said();
+  const D1128=TDt('Y3S1',12,7); fresh(D1128,20,{PS_BACK_READ:STORY.dayOfKey('2027-08-07')}); meet('classmate_bohan','classmate_peishan','heroine_03'); H.said=[]; await HEARD.preTalk(GM,who('柏翰'),'classmate_bohan'); await HEARD.preTalk(GM,who('柏翰'),'classmate_bohan'); const s1=said();
   at(D1128+1,12); H.said=[]; await HEARD.preTalk(GM,who('柏翰'),'classmate_bohan'); const s2=said();
   check('5. AA_507：柏翰說語彤的租約（11/25 起）、說沛珊寫黑板（第 12 週週日 19:30 起）兩句都在的那天：一天一句，隔天說另一句',J(s1)===J(['秀琴姨的新租約，是語彤一條一條念給她聽的。念到一半，秀琴姨說，妳念的比房東清楚。'])&&J(s2)===J(['沛珊在寫黑板。她的字變大了。……我在動態看到的。']),J({s1,s2}));
-  fresh(D1128,20,{}); meet('classmate_bohan','classmate_peishan'); const p2=HEARD.talkDue(H.G,'classmate_bohan');
+  fresh(D1128,20,{PS_BACK_READ:STORY.dayOfKey('2027-08-07')}); meet('classmate_bohan','classmate_peishan'); const p2=HEARD.talkDue(H.G,'classmate_bohan');
   check('5. 不認識語彤：柏翰直接說沛珊那一句（about 要 FIRST_MET）',id(p2)==='h507_bh_ps',J(id(p2)));
   /* 陳助教、筱涵、芷若 */
   fresh(TDt('Y3S1',4,4),8,{}); meet('npc_ta_chen','heroine_05'); const t0=HEARD.talkDue(H.G,'npc_ta_chen'); at(TDt('Y3S1',4,4),8.2); const t1=HEARD.talkDue(H.G,'npc_ta_chen');

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """AA_723：告白第一次失敗、再約幾次還能告白（使用者 Q2）＋沛珊沒交往的線（使用者 Q4）——AA723-CONFESS-PS-1107。
 企劃 AA_723（docs/story_planning/AA_723_confess_retry_ps_silence.json，企劃線）→ src/data/aa723.js（AA723）：
-  confess.heart（她 AA_719 key 決定的分數）、confess.lines（fail／normal／ready／second）；peishan.reply1、peishan.reunion。
-規則文字（confess.rule、peishan.timeline、peishan.remove、keep）是給實作看的，不進遊戲。白名單照 import_guard；讀稿照 read_fix。
+  confess.heart（她 AA_719 key 決定的分數）、confess.lines（fail／normal／ready／second）；peishan.reply1、peishan.reunion（含 noGroup 的 msgs、opts、optAlt）、peishan.posts.bohan.lines。
+規則文字（confess.rule、peishan.timeline、peishan.remove、keep、posts.rule、noGroup.rule／note）是給實作看的，不進遊戲。白名單照 import_guard；讀稿照 read_fix。
 用法：python3 tools/story/import_aa723.py [--ref <commit>] [--check]"""
 import json, os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -65,7 +65,23 @@ def build(src):
     plan = u.get('plan') or {}
     reunion = {'group': group, 'plan': plan, 'scene': lines(u.get('scene'), 'peishan.reunion.scene'),
                'last2': lines((u.get('sceneAlt') or {}).get('last2'), 'peishan.reunion.sceneAlt.last2')}
-    return {'confess': {'heart': heart, 'lines': L}, 'peishan': {'reply1': reply1, 'reunion': reunion}}
+    ng = u.get('noGroup')   # f5cb310d6／d8570a14b（AA-B 11-07）：不在 public_law 群組＝2028-12-30 21:00 她私訊你；optAlt＝沉默期一則私訊都沒傳時換掉第 replaces 個選項
+    if ng:
+        opt = lambda o, w: {'t': IG.read_fix(o['t']), 'rel': o.get('rel') or {}, 'say': lines(o.get('say'), w + '.say')}
+        reunion['noGroup'] = {'msgs': lines(ng.get('msgs'), 'peishan.reunion.noGroup.msgs'),
+                              'opts': [opt(o, f'peishan.reunion.noGroup.opts[{i}]') for i, o in enumerate(ng.get('opts') or [])]}
+        if len(reunion['noGroup']['opts']) < 2:
+            raise SystemExit('peishan.reunion.noGroup.opts：不完整')
+        a = ng.get('optAlt')
+        if a:
+            if not isinstance(a.get('replaces'), int) or not 0 <= a['replaces'] < len(reunion['noGroup']['opts']):
+                raise SystemExit('peishan.reunion.noGroup.optAlt.replaces：要是 opts 的第幾個（從 0 算）')
+            reunion['noGroup']['optAlt'] = dict(opt(a, 'peishan.reunion.noGroup.optAlt'), replaces=a['replaces'])
+    out = {'reply1': reply1, 'reunion': reunion}
+    bh = ((p.get('posts') or {}).get('bohan') or {}).get('lines')   # f5cb310d6：柏翰聊她貼文的那幾句（h506～h509）沒交往的線換成這一句（2027-06）
+    if bh is not None:
+        out['posts'] = {'bohan': {'lines': lines(bh, 'peishan.posts.bohan.lines')}}
+    return {'confess': {'heart': heart, 'lines': L}, 'peishan': out}
 
 
 def main():

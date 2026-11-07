@@ -130,7 +130,7 @@ const MSG=(function(){
     /* 子晴：原本要演過 Q6（ev_ziqing_secret_game）才開——2026-10-30 使用者「很多女生腳色都不能在訊息頁面傳訊息!!!!!!講很多次了 請統一」：七位女生見過、有聯絡方式就開（PHONE-UNIFY-1030）。
        Q6 以前不出講到她的遊戲的句子（S.zqSpoil：還不知道她在做遊戲）*/
     if(id==='heroine_05'){ const chat=stageNum(id)>=3&&!S.takenFor(G,id)&&!Object.keys(G.flags||{}).some(k=>k.indexOf('dating_')===0&&k!=='dating_heroine_05'&&G.flags[k]); return {ok:true,mode:chat||G.flags.dating_heroine_05?null:'business'}; }   /* AA_485 第 4 節：不用等第 2 階，加了好友就是事務版（直屬學姊，事務上的訊息本來就該回）；閒聊照舊（第 3 階、雙方單身）*/
-    if(id==='classmate_peishan'&&(inDates(G,'2026-12-18','2027-08-06')||(typeof STORY!=='undefined'&&!!STORY.psSilent&&STORY.psSilent(G)))) return typeof STORY!=='undefined'&&STORY.psKeep&&STORY.psKeep(G)?{ok:true,mode:'keep'}:{ok:true,mode:'silent'};   /* AA_723：沒交往的線一直到 2028-12-29 18:30 重聚都只顯示已送達（她只回一次，src/ps_silence3d.js）*/   /* 交往中的例外（AA_276 第 4、6-1 節）：她 23:00 以後回，句子在 hometown_lines.js；AA_374 第 17 項：從 12/18 00:00 起算（12/17 當天她 21:30、22:00 還在發，照常回）*/
+    if(id==='classmate_peishan'&&(inDates(G,'2026-12-18','2027-08-06')||(typeof STORY!=='undefined'&&!!STORY.psSilent&&STORY.psSilent(G)))) return typeof STORY!=='undefined'&&STORY.psKeep&&STORY.psKeep(G)?{ok:true,mode:'keep'}:{ok:true,mode:'silent'};   /* AA_723：沒交往的線一直到 2028-12-29 18:30 重聚（不在公法讀書會群組＝12/30 21:00 她私訊你）都只顯示已送達（她只回一次，src/ps_silence3d.js；STORY.psSilent）*/   /* 交往中的例外（AA_276 第 4、6-1 節）：她 23:00 以後回，句子在 hometown_lines.js；AA_374 第 17 項：從 12/18 00:00 起算（12/17 當天她 21:30、22:00 還在發，照常回）*/
     return {ok:true}; };
   S.sentToday=(G,id)=>S.rec(G).sent[id]===G.day;
   S.canSend=(G,id)=>{ const o=S.open(G,id); return o.ok&&!S.sentToday(G,id); };

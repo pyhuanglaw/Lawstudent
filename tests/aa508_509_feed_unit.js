@@ -207,14 +207,16 @@ const runAll=(from,to,flags,setup)=>{ fresh(from,0,flags); for(const id of SEVEN
   let worst=0, wid=''; for(const i of L){ if(!FEED.isHeroine(i.who)) continue; const n=L.filter(j=>j.who===i.who&&T(j.day,j.h)<=T(i.day,i.h)&&T(i.day,i.h)-T(j.day,j.h)<7*24).length; if(n>worst){ worst=n; wid=i.id; } }
   return {log,L,maxDay:Math.max(0,...Object.values(byDay)),worst,wid}; };
 await sec('2',async()=>{ if(!HAS2()){ check('2. 走一遍',false,'沒有資料'); return; }
-  let r=runAll(DK('2028-02-17'),DK('2028-09-03'));
+  /* AA_723（企劃線 d8570a14b posts，AA723-CONFESS-PS-1107）：沛珊沒交往的新線沉默期（2026-12-18～2028-12-28）一則動態都不發、柏翰說她動態的 h506～h509 不說（tests/ps_silence_unit.js 第 7、8 節）；這裡測原本的流程＝舊存檔已經照原本流程聯絡上（PS_BACK_READ）*/
+  const PSL={PS_BACK_READ:STORY.dayOfKey('2027-08-07')};
+  let r=runAll(DK('2028-02-17'),DK('2028-09-03'),PSL);
   let miss=SET.Y3S2.posts.map(p=>p.id).filter(id=>!r.log.has(id));
   check('2. 大三下＋暑假走一遍（七位都很熟、沒有交往、臺灣路線）：41 則都出',!miss.length,J({miss,done:miss.map(id=>R().done[id])}));
   check('2. 大三下＋暑假：一天不超過四則（最多 '+r.maxDay+'）、每位連續七天不超過兩則（最多 '+r.worst+'）',r.maxDay<=4&&r.worst<=2,r.wid);
   const pm=r.L.filter(i=>i.who==='classmate_peishan').map(i=>{ const x=CALENDAR.dateOf(i.day); return x.y+'-'+x.m; });
   check('2. AA_508 6-3：沛珊大三下五則，一個月一則（3、4、5、6、8 月）',J(pm)===J(['2028-3','2028-4','2028-5','2028-6','2028-8'])&&FEED_Y3S2.capMonth&&FEED_Y3S2.capMonth.classmate_peishan===1,J(pm));
   check('2. 臺灣路線、沒有陪語彤去、沒回過 zq_name：以安第 4、7 則、語彤第 7 則、子晴第 3 則都是一般那一版',['an4f','an7f','yt7f','zq3f'].every(id=>r.log.get(id)&&r.log.get(id).v==='no'),J(['an4f','an7f','yt7f','zq3f'].map(id=>r.log.get(id)&&r.log.get(id).v)));
-  r=runAll(DK('2028-09-04'),DK('2029-02-18'));
+  r=runAll(DK('2028-09-04'),DK('2029-02-18'),PSL);
   miss=SET.Y4S1.posts.map(p=>p.id).filter(id=>!r.log.has(id));
   check('2. 大四上＋寒假走一遍：33 則都出',!miss.length,J({miss,done:miss.map(id=>R().done[id])}));
   check('2. 大四上＋寒假：一天不超過四則（最多 '+r.maxDay+'）、每位連續七天不超過兩則（最多 '+r.worst+'）',r.maxDay<=4&&r.worst<=2,r.wid);
@@ -223,7 +225,7 @@ await sec('2',async()=>{ if(!HAS2()){ check('2. 走一遍',false,'沒有資料')
   /* 一個月最多一則：同一個月多一則就不出（x:month）；拿掉 capMonth 就會出 */
   const fake={id:'t_ps_sep',who:'classmate_peishan',t:'2028-09-27 20:00',st:'認識',pic:'測試',say:'測試',cm:null,dm:['a','b']};
   const tryFake=(cap)=>{ FEED_Y4S1.posts.push(fake); const c0=FEED_Y4S1.capMonth; if(!cap) delete FEED_Y4S1.capMonth;
-    try{ fresh(DK('2028-09-20'),12); who('classmate_peishan','CLOSE'); walk(DK('2028-09-28'),12,{step:0.5}); return {ps1g:R().done.ps1g,fake:R().done.t_ps_sep}; }
+    try{ fresh(DK('2028-09-20'),12,PSL); who('classmate_peishan','CLOSE'); walk(DK('2028-09-28'),12,{step:0.5}); return {ps1g:R().done.ps1g,fake:R().done.t_ps_sep}; }
     finally{ FEED_Y4S1.posts.pop(); FEED_Y4S1.capMonth=c0; } };
   const a=tryFake(true), b=tryFake(false);
   check('2. 沛珊同一個月第二則（測試用 9/27）：9/24 那則先出、9/27 那則不出（x:month）；拿掉 capMonth 就出',a.ps1g==='p'&&a.fake==='x:month'&&b.fake==='p',J({a,b}));
@@ -392,7 +394,8 @@ await sec('6',async()=>{ if(typeof HEARD==='undefined'){ check('6. HEARD',false,
   /* 閒聊前一句：from 那天有、前一天沒有、until 那天有、隔天沒有 */
   const meet=(...ids)=>{ for(const id of ids) H.rel(id,45,30,10); };
   const T4=HL.talk.filter(e=>/^AA_50[89]/.test(e.src||'')||e.id==='h509_ta_sis'), bad=[];   /* h509_ta_sis：AA_509 5-4 那一格，字照 AA_523 6-3（src 'AA_523 6-3'）*/
-  const setupT=(e,d,h)=>{ fresh(d,h==null?12:h,{}); meet(e.who); if(e.about) meet(e.about); for(const o of HL.talk) if(o.who===e.who&&o.id!==e.id&&HL.talk.indexOf(o)<HL.talk.indexOf(e)) HEARD.rec(H.G).said[o.id]=d-1; };
+  /* AA_723（企劃線 d8570a14b posts，AA723-CONFESS-PS-1107）：沛珊沒交往的新線沉默期（2026-12-18～2028-12-28）一則動態都不發、柏翰說她動態的 h506～h509 不說（tests/ps_silence_unit.js 第 7、8 節）；這裡測原本的流程＝舊存檔已經照原本流程聯絡上（PS_BACK_READ）*/
+  const setupT=(e,d,h)=>{ fresh(d,h==null?12:h,Array.isArray(HEARD.PS_POST_TALK)&&HEARD.PS_POST_TALK.includes(e.id)?{PS_BACK_READ:STORY.dayOfKey('2027-08-07')}:{}); meet(e.who); if(e.about) meet(e.about); for(const o of HL.talk) if(o.who===e.who&&o.id!==e.id&&HL.talk.indexOf(o)<HL.talk.indexOf(e)) HEARD.rec(H.G).said[o.id]=d-1; };
   for(const e of T4){ const a=HEARD.when(e.from), b=e.until?HEARD.when(e.until):null; if(!a){ bad.push(e.id+' from'); continue; }
     setupT(e,a.day,a.h!=null?a.h+0.01:12); const i1=HEARD.talkDue(H.G,e.who); setupT(e,a.day-1,23.9); const i0=HEARD.talkDue(H.G,e.who);
     let ok=!!i1&&i1.id===e.id&&(!i0||i0.id!==e.id); if(b){ setupT(e,b.day,12); const l=HEARD.talkDue(H.G,e.who); setupT(e,b.day+1,12); const n=HEARD.talkDue(H.G,e.who); ok=ok&&!!l&&l.id===e.id&&(!n||n.id!==e.id); }

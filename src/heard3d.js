@@ -83,15 +83,19 @@ const HEARD=(function(){
     if(who&&typeof HCIRCLE!=='undefined'&&HCIRCLE&&typeof HCIRCLE.rowsIn==='function'){ try{ for(const r of HCIRCLE.rowsIn(G,G.zone)){ const ids=[r.who].concat(r.with||[]); if(ids.includes(about)&&ids.includes(who)) return true; } }catch(e){ console.warn('HEARD.herNear',e); } }
     return false; };
   /* ---------- talk：閒聊前面先說一句 ---------- */
+  /* AA_723（企劃線 d8570a14b peishan.posts.bohan.rule；AA723-CONFESS-PS-1107）：沛珊沒交往的線（STORY.psNewLine）她沒有發動態——柏翰說她動態的那四句（AA_506～509 6-4）關掉，
+     換成 2027-06 他私訊你的那一句（src/ps_silence3d.js）。交往中、舊存檔照原本 */
+  S.PS_POST_TALK=['h506_bh_ps','h507_bh_ps','h508_bh_ps','h509_bh_ps'];
+  const psOff=(G,e)=>e.about==='classmate_peishan'&&S.PS_POST_TALK.includes(e.id)&&typeof STORY!=='undefined'&&!!STORY.psNewLine&&STORY.psNewLine(G);
   S.talkDue=function(G,id,GM){ if(!law(G)) return null; const R=S.rec(G); if(R.day[id]===G.day) return null;
-    for(const e of L.talk||[]){ if(e.who!==id||R.said[e.id]!=null) continue; if(e.after&&R.said[e.after]==null) continue; if(e.about&&!knows(e.about)) continue;
+    for(const e of L.talk||[]){ if(e.who!==id||R.said[e.id]!=null) continue; if(e.after&&R.said[e.after]==null) continue; if(e.about&&(!knows(e.about)||psOff(G,e))) continue;
       if(!S.inWin(G,e)||!condOk(G,e.cond)) continue; if(e.notZone&&G.zone===e.notZone) continue;   /* notZone：不在那一區說（AA_527 2-1 陳助教那幾句：他自己的時段，不在公館）*/
       if(e.about&&S.herNear(G,e.about,id,GM)) continue; return e; }
     return null; };
   S.preTalk=async function(GM,who,id){ const G=GM&&GM.G; if(!G) return false; S.bind(GM); const e=S.talkDue(G,id,GM); if(!e) return false; const R=S.rec(G); R.said[e.id]=G.day; R.day[id]=G.day; await GM.say(who,e.t); return true; };
   /* ---------- kai203：203 房間裡的阿凱 ---------- */
   S.kaiDue=function(G){ if(!law(G)||G.zone!=='dorm'||typeof DORM203==='undefined'||!DORM203.era||!DORM203.era(G)) return null; const R=S.rec(G), F=G.flags;
-    for(const e of L.kai203||[]){ if(R.said[e.id]!=null) continue; if(e.flag&&Object.keys(e.flag).some(k=>F[k]!==e.flag[k])) continue; if(e.about&&!knows(e.about)) continue;
+    for(const e of L.kai203||[]){ if(R.said[e.id]!=null) continue; if(e.flag&&Object.keys(e.flag).some(k=>F[k]!==e.flag[k])) continue; if(e.about&&(!knows(e.about)||psOff(G,e))) continue;
       if(!S.inWin(G,e)||!condOk(G,e.cond)) continue; if(e.about&&S.herNear(G,e.about,'kai')) continue; return e; }
     return null; };
   S.kai203=async function(GM,n){ const G=GM&&GM.G; if(!G) return false; S.bind(GM); const D=typeof DORM203!=='undefined'&&DORM203.rec?DORM203.rec(G,true):null; if(!D||D.tday.kai===G.day) return false;
@@ -122,7 +126,7 @@ const HEARD=(function(){
   S.nearDoors=function(key,p,r){ const D=S[key]; if(!D||!p) return false; for(const x of D.x) if(Math.hypot(p.x-x,p.z-D.z)<=r) return true; return false; };
   const seenOf=(G,e)=>{ const v=G.flags&&G.flags[e.flag]; return v&&typeof v==='object'?v:{}; };
   S.passDue=function(G,p){ if(!law(G)) return null; const h=+G.hour||0;
-    for(const e of L.pass||[]){ if(G.zone!==e.zone||(e.about&&!knows(e.about))) continue; const R=seenOf(G,e);
+    for(const e of L.pass||[]){ if(G.zone!==e.zone||(e.about&&(!knows(e.about)||psOff(G,e)))) continue; const R=seenOf(G,e);
       for(let i=0;i<e.terms.length;i++){ const term=e.terms[i], w=S.when(term+':'+e.at); if(!w||w.day!==G.day||h<e.from||h>=e.until||R[term]!=null) continue;
         if(!S.nearDoors(e.near,p,e.r)) continue;
         const n=e.terms.slice(0,i).filter(t=>R[t]!=null).length; return {e,term,t:e.t[Math.min(n,e.t.length-1)]}; } }   /* 第幾次看到用第幾句：前面的學期沒看到的，用第一句 */

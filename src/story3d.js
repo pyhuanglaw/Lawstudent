@@ -4813,13 +4813,15 @@ const STORY = (function(){
   /* AA_723 沛珊沒交往的線（企劃線 fca9bcb69 peishan；AA723-CONFESS-PS-1107）：2026-12-18 她回台中以後一直不回，到 2028-12-29 18:30 林家乾麵重聚（src/ps_silence3d.js）。
      psNewLine＝這一條線：法律系、沒和她交往、不是舊存檔已經照原本的流程聯絡上（PS_KEPT 消失期整段交往中、PS_RECONNECT、8/7 那通電話或第一次回覆的 PS_BACK_*）；
      psPre＝重聚以前（2026-12-18 起、還沒有 PS_REUNION）：y2b3d.js 1B-11、二手書店、台南、11/08 試教、ps_class、multirel 的重新開始都不播；
-     psSilent＝沉默期（psPre，而且還沒到 12/29 18:30）：presence 聯絡不到（characters.js）、私訊只顯示已送達（msg3d.js）。不呼叫 presence（presence 會叫這裡）*/
-  S.PS_SIL=['2026-12-18','2028-12-29',18.5];
+     psSilent＝沉默期（psPre，而且還沒到 12/29 18:30；不在公法讀書會群組的＝還沒到 12/30 21:00 她私訊你，AA_723 reunion.noGroup）：presence 聯絡不到（characters.js）、私訊只顯示已送達（msg3d.js）、
+     她的動態不發（feed3d.js）。不呼叫 presence（presence 會叫這裡）、不呼叫 PHONE（群組直接看 G.phone.groups，presence 常拿 G 的副本來問）*/
+  S.PS_SIL=['2026-12-18','2028-12-29',18.5,'2028-12-30',21];
+  S.psInGroup=G=>!!(G&&G.phone&&G.phone.groups&&G.phone.groups.public_law);
   S.psDating=G=>{ const F=(G&&G.flags)||{}, R=F.romance&&F.romance.classmate_peishan; return F.dating_classmate_peishan===true||!!(R&&R.status==='dating'); };
   S.psOldLine=G=>{ const F=(G&&G.flags)||{}; return F.PS_REUNION==null&&(!!F.PS_KEPT||!!F.PS_RECONNECT||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number'); };
   S.psNewLine=G=>!!G&&(G.stage||'law')==='law'&&!S.psDating(G)&&!S.psOldLine(G);
   S.psPre=G=>{ if(!S.psNewLine(G)||G.flags&&G.flags.PS_REUNION!=null) return false; const d=S.dayOfKey(S.PS_SIL[0]); return d!=null&&G.day>=d; };
-  S.psSilent=G=>{ if(!S.psPre(G)) return false; const e=S.dayOfKey(S.PS_SIL[1]); return e==null||G.day*24+(+G.hour||0)<e*24+S.PS_SIL[2]; };
+  S.psSilent=G=>{ if(!S.psPre(G)) return false; const g=S.psInGroup(G), e=S.dayOfKey(S.PS_SIL[g?1:3]); return e==null||G.day*24+(+G.hour||0)<e*24+S.PS_SIL[g?2:4]; };
   /* 每晚 23:00 以後她傳一則（AA_276 第 4 節，輪流）；放榜回來那段的替換句（放榜那天的事件做好時用：F.PS_KEPT＝整段都聯絡著）*/
   /* AA_460 第 2 節（企劃線 b9362f474，AA-B 2026-10-25）：原本六句照順序輪，2026-12-18～2027-08-06 大約 230 晚、每句將近四十次。改成每晚照日子挑（承諾不變：每晚 23:00 以後一則）：
        ① 那天有日子的句子（PS_KEEP_ROWS 第三格）→ ② 週六：那個月還沒用過的下一句（照表的順序；用完了＝③）→ ③ 其他晚上：短句四句輪（不跟前一晚同一句）→ ④ 每個月第一個週日：「有想到你」那句（一個月一次）。

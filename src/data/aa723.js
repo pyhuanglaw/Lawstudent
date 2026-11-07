@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_aa723.py（docs/story_planning/AA_723_confess_retry_ps_silence.json@21e9f6c50）。不要手改，改企劃 AA_723 再重新匯入。
+/* 自動產生：tools/story/import_aa723.py（docs/story_planning/AA_723_confess_retry_ps_silence.json@f68c998cc）。不要手改，改企劃 AA_723 再重新匯入。
    告白第一次失敗以後的接法（confess）、沛珊沒交往的線（peishan）：src/confess723_3d.js、src/ps_silence3d.js 讀 */
 'use strict';
 const AA723={
- "src": "docs/story_planning/AA_723_confess_retry_ps_silence.json@21e9f6c50",
+ "src": "docs/story_planning/AA_723_confess_retry_ps_silence.json@f68c998cc",
  "confess": {
   "heart": {
    "heroine_01": {
@@ -309,7 +309,65 @@ const AA723={
    "last2": [
     "（散場的時候，她跟每個人揮手，也跟你揮了一下。）",
     "我們之後再約喔～"
-   ]
+   ],
+   "noGroup": {
+    "msgs": [
+     "……好久不見。",
+     "我回臺北幾天。昨天跟以安她們吃了飯。",
+     "你最近好嗎？"
+    ],
+    "opts": [
+     {
+      "t": "沛珊！妳還好嗎？",
+      "rel": {
+       "comf": 2
+      },
+      "say": [
+       "我很好。",
+       "我在台南念教育系。……想當國小老師。"
+      ]
+     },
+     {
+      "t": "我一直有傳訊息給妳。",
+      "rel": {
+       "trust": 2
+      },
+      "say": [
+       "我知道。我都有看。",
+       "……對不起。謝謝你。"
+      ]
+     },
+     {
+      "t": "好久不見。",
+      "rel": {
+       "fam": 1
+      },
+      "say": [
+       "嗯，好久不見。",
+       "下次回臺北，再約大家吃飯。"
+      ]
+     }
+    ],
+    "optAlt": {
+     "t": "妳去哪裡了？",
+     "rel": {
+      "fam": 1
+     },
+     "say": [
+      "台南。念教育系。",
+      "……說來話長，下次見面講。"
+     ],
+     "replaces": 1
+    }
+   }
+  },
+  "posts": {
+   "bohan": {
+    "lines": [
+     "沛珊……你有她的消息嗎？",
+     "我傳的，她也沒回。"
+    ]
+   }
   }
  }
 };

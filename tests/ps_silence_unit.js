@@ -1,4 +1,4 @@
-// 沛珊沒交往的線（AA_723 peishan，企劃線 fca9bcb69；AA723-CONFESS-PS-1107）——不需要瀏覽器（D131）。src/ps_silence3d.js＋story3d.js STORY.psNewLine／psPre／psSilent
+// 沛珊沒交往的線（AA_723 peishan，企劃線 fca9bcb69 → d8570a14b；AA723-CONFESS-PS-1107）——不需要瀏覽器（D131）。src/ps_silence3d.js＋story3d.js STORY.psNewLine／psPre／psSilent
 //   0 index.html：data/aa723.js、ps_silence3d.js 接在 arcinv3d.js 後面（?v= 和旁邊一樣）；import_aa723.py --check
 //   1 沉默期 2026-12-18～2028-12-29 18:30（沒交往）：聯絡不到、手機人物頁「很久沒有消息」、約她＝「沛珊沒有回覆。」、私訊只顯示已送達、她不回；
 //     交往中照舊（消失期 keep、8/6 以後台中）；舊存檔已經照原本的流程聯絡上（PS_BACK_READ）照舊；重聚以後照一般的朋友
@@ -6,10 +6,12 @@
 //   3 reply1：3/15 沒傳（或只傳了那一則）＝4/20 起傳的那一則 30 分鐘以後；4/20 以前不回；之後不再回
 //   4 2027-08-06～09-04：沒交往的線沒有 8/7 那通電話、那兩則、第一次回覆「好久不見」、跳過時間不停；12/18～重聚之間她不主動傳（出國時的訊息、10/15 二手書店）
 //   5 重聚：12/26 21:00 公法讀書會群組（認識的人才說話；最後是她、Alison 接）、排 12/29 18:30 林家乾麵、那一場照稿（一則都沒傳＝最後換 last2）、
-//     演完／沒去／不在群組都記 PS_REUNION、PS_RECONNECT；交往中沒有
+//     演完／沒去都記 PS_REUNION、PS_RECONNECT；交往中沒有
+//     不在群組（d8570a14b reunion.noGroup）：沉默期到 12/30 21:00，那時她私訊你三則（第二個選項沒傳過私訊＝optAlt），那一刻記 PS_REUNION＝12/30、PS_RECONNECT
 //   6 remove：台南、美術館（hometown3d.js）、11/08 試教（r2y4a3d.js）、psReconnected／psOpenOk（r2y4b3d.js、v6b_3d.js）、psEDue（multirel3d.js）、
 //     ps_class（termend3d.js）、psCampAuto（r3_3d.js）都要 PS_REUNION；交往中、舊存檔照舊
-// （沒做、交 AA：她的動態 AA_506～509 6-3〔feed_y2s2～y4s1 的 ps1d、ps1e～ps4e、ps1f～ps5f、ps1g～ps3g，動態的私訊她會回〕、柏翰說起她的動態 h506～h509 和 AA_723「不出現在任何地方」「沒有人知道」衝突）
+//   7 動態（AA_723 posts.rule，f5cb310d6）：沒交往的線 2026-12-18～2028-12-28 她的動態一則都不發（ps1d～ps3g）、沉默期回她以前的動態她不回；12/29 以後照原本、不補貼；交往中、舊存檔照原本
+//   8 柏翰（posts.bohan）：h506～h509（她的動態那幾句）沒交往的線不說；換成 2027-06-18 21:00 他私訊你兩則（一次；認識他和沛珊）
 // 修改前（開發分支 156774a92＋匯入 8918daa98）：沒有 src/ps_silence3d.js、STORY.psSilent——FAIL。用法：node tests/ps_silence_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -18,7 +20,8 @@ const L3=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; l
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
 let okLoad=true;
 for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/aa723.js','src/ps_silence3d.js','src/data/y2b_events.js','src/y2b3d.js','src/data/hometown_lines.js','src/hometown3d.js',
-  'src/data/r2y4a_events.js','src/r2y4a3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js','src/v6b_3d.js','src/data/multirel_lines.js','src/multirel3d.js','src/data/r3_events.js','src/r3_3d.js']){
+  'src/data/r2y4a_events.js','src/r2y4a3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js','src/v6b_3d.js','src/data/multirel_lines.js','src/multirel3d.js','src/data/r3_events.js','src/r3_3d.js',
+  'src/data/feed_y2s1.js','src/data/feed_y2s2.js','src/data/feed_y3s1.js','src/data/feed_y3s2.js','src/data/feed_y4s1.js','src/data/feed_y4s2.js','src/feed3d.js','src/data/heard_lines.js','src/heard3d.js']){
   try{ if(!L3(f)){ okLoad=false; console.log('（沒有 '+f+'）'); } }catch(e){ okLoad=false; console.log('載入 '+f+' 失敗：'+String(e&&e.message||e).slice(0,200)); } }
 GM.toast=()=>{}; GM.caption=()=>{}; GM.openPhone=()=>{};
 const PS='classmate_peishan', TH='p:'+PS, D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h;
@@ -122,9 +125,20 @@ await sec(5,async()=>{ const RU=P_().reunion, d29=D(RU.plan.day);
   check('5. 沉默期一則私訊都沒傳：最後換 last2（「（散場的時候，她跟每個人揮手…）」「我們之後再約喔～」），不說原本的最後兩句',J(got2)===J(RU.scene.slice(0,cut).concat(RU.last2))&&!got2.includes(RU.scene[RU.scene.length-1]),J(got2.slice(-4)));
   const G3=fresh('2028-12-20',12,{},{an:false}); run(G3,'2028-12-26',20.5,21.25); const g3=(G3.msgs||[]).filter(m=>m.th==='g:public_law'&&m.tag==='pssil_reunion_grp').map(m=>m.from);
   check('5. 不認識以安：群組裡沒有她那一句；她的那句以後 Alison 接',J(g3)===J(['yu','zhe',PS,'yu']),J(g3));
-  const G4=fresh('2028-12-20',12,{},{group:false}); run(G4,'2028-12-26',20.5,21.25);
-  const noG=!(G4.msgs||[]).some(m=>m.tag==='pssil_reunion_grp')&&!OUT.get(G4,'pssil_reunion'); run(G4,'2028-12-29',18,19.5);
-  check('5. 不在公法讀書會群組：沒有那幾則、不排；12/29 18:30 以後照樣記 PS_REUNION',noG&&G4.flags.PS_REUNION===d29,J(G4.flags.PS_REUNION));
+  { const NG=P_().reunion.noGroup||{msgs:[],opts:[]}, d30=D('2028-12-30');
+    const G4=fresh('2027-01-10',15,{},{group:false}); send(G4,'2027-01-10',15); run(G4,'2028-12-26',20.5,21.25);
+    const noG=!(G4.msgs||[]).some(m=>m.tag==='pssil_reunion_grp')&&!OUT.get(G4,'pssil_reunion'); run(G4,'2028-12-29',18,23.5);
+    const mid=G4.flags.PS_REUNION==null&&STORY.psSilent(G4)&&MSG.open(G4,PS).mode==='silent'&&STORY.presence(PS,G4).kind==='unreachable';
+    run(G4,'2028-12-30',20.5,20.9); const b4=herTx(G4).filter(t=>NG.msgs.includes(t)).length; run(G4,'2028-12-30',21,21.25); const m4=PHONE.byAsk(G4,'pssil:nogroup');
+    check('5. 不在公法讀書會群組：沒有群組那幾則、不排聚餐；12/29 晚上還在沉默期（私訊只顯示已送達、聯絡不到）',noG&&mid,J({f:G4.flags.PS_REUNION,o:MSG.open(G4,PS)}));
+    check('5. 不在群組：12/30 21:00 她私訊三則（照稿）、最後一則三個選項（傳過私訊＝第二個是「我一直有傳訊息給妳。」）；那一刻記 PS_REUNION＝12/30、PS_RECONNECT',b4===0&&J(herTx(G4).slice(-3))===J(NG.msgs)&&!!m4&&J(m4.ask.opts.map(o=>o.t))===J(NG.opts.map(o=>o.t))&&m4.day===d30&&m4.h===21&&G4.flags.PS_REUNION===d30&&G4.flags.PS_RECONNECT===true&&!STORY.psSilent(G4)&&MSG.open(G4,PS).mode!=='silent',J({b4,t:herTx(G4).slice(-3),o:m4&&m4.ask.opts.map(o=>o.t),f:G4.flags.PS_REUNION}));
+    const t0=SOCIAL.rel(PS).trust; PHONE.answer(G4,'pssil:nogroup',1);
+    check('5. 不在群組：回「我一直有傳訊息給妳。」＝信任 +2、她回那兩句',SOCIAL.rel(PS).trust-t0===2&&J(herTx(G4).slice(-2))===J(NG.opts[1].say),J(herTx(G4).slice(-3)));
+    const G8=fresh('2028-12-20',12,{},{group:false}); run(G8,'2028-12-30',20.5,21.25); const m8=PHONE.byAsk(G8,'pssil:nogroup'); const A8=NG.optAlt||{};
+    const f0=SOCIAL.rel(PS).fam; PHONE.answer(G8,'pssil:nogroup',1);
+    check('5. 不在群組、沉默期一則私訊都沒傳：第二個選項換 optAlt「妳去哪裡了？」→「台南。念教育系。」「……說來話長，下次見面講。」（熟悉 +1）',!!m8&&J(m8.ask.opts.map(o=>o.t))===J([NG.opts[0].t,A8.t,NG.opts[2].t])&&A8.replaces===1&&SOCIAL.rel(PS).fam-f0===1&&J(herTx(G8).slice(-2))===J(A8.say),J({o:m8&&m8.ask.opts.map(o=>o.t),t:herTx(G8).slice(-2),f:[f0,SOCIAL.rel(PS).fam]}));
+    const G9=fresh('2028-12-20',12,{},{group:false}); delete G9.contacts[PS]; run(G9,'2028-12-30',20.5,21.25);
+    check('5. 不在群組、沒有她的聯絡方式：不傳私訊，21:00 照樣記 PS_REUNION＝12/30',!PHONE.sent(G9,'pssil_nogroup')&&G9.flags.PS_REUNION===d30,J(G9.flags.PS_REUNION)); }
   const G5=fresh('2028-12-20',12); run(G5,'2028-12-26',20.5,21.25); const o5=OUT.get(G5,'pssil_reunion'); setT(G5,'2028-12-29',19.6); OUT.expire(G5).forEach(x=>OUT.onMissed(GM,x));
   check('5. 沒去（過了時間）：記 PS_REUNION、之後照一般的朋友',o5&&o5.state==='missed'&&G5.flags.PS_REUNION===d29&&!STORY.psPre(G5),J(o5));
   const G6=freshD('2028-12-20',12); run(G6,'2028-12-26',20.5,21.25);
@@ -155,6 +169,34 @@ await sec(6,async()=>{
     check('6. r3_3d psCampAuto（2029 營隊那幾天自動回）：重聚以後算重新聯絡上；沒重聚不算',R3.psCampAuto(G)&&!R3.psCampAuto(G2)); }
   { const G=fresh('2028-12-29',20,{PS_REUNION:D('2028-12-29')}); STORY.phoneRules(GM); const t=CHARACTERS[PS].tagByPY;
     check('6. 重聚以後資料頁「教育系」（tagByPY ifFlag PS_RECONNECT 由 r2y4b3d 照 PS_REUNION 補記）',G.flags.PS_RECONNECT===true&&J(t[4].ifFlag).includes('PS_RECONNECT'),J(G.flags.PS_RECONNECT)); }
+});
+/* ---------------- 7 動態 ---------------- */
+await sec(7,async()=>{ const a=D('2026-12-18'), b=D('2028-12-29');
+  const PL=[]; for(const st of FEED.SETS()) if(st) for(const p of st.posts||[]) if(p.who===PS) PL.push({p,term:st.term});
+  const at=(fl,setup)=>{ const G=fresh('2026-12-20',12,fl); if(setup) setup(G); return PL.map(({p,term})=>{ const w=FEED.when(G,p.t,term); return w?{id:p.id,day:w.day,why:FEED.blocked(G,p,w)}:null; }).filter(Boolean); };
+  const n=at(), o=at({PS_BACK_READ:D('2027-08-07')}), d=at({},dateKeep);
+  const inW=x=>x.day>=a&&x.day<b, nIn=n.filter(inW), nAfter=n.filter(x=>x.day>=b);
+  check('7. 沒交往：2026-12-18～2028-12-28 她的動態全部不發（ps1d～ps3g，'+nIn.length+' 則）；12/29 以後的照原本（不是 psSilent）',J(nIn.map(x=>x.id))===J(['ps1d','ps1e','ps2e','ps3e','ps4e','ps1f','ps2f','ps3f','ps4f','ps5f','ps1g','ps2g','ps3g'])&&nIn.every(x=>x.why==='psSilent')&&nIn.some(x=>x.id==='ps1d')&&nIn.some(x=>x.id==='ps3g')&&nAfter.every(x=>x.why!=='psSilent'),J({in:nIn.map(x=>x.id+':'+x.why),after:nAfter.map(x=>x.id+':'+x.why)}));
+  check('7. 舊存檔（PS_BACK_READ）、交往中：照原本（沒有 psSilent）',o.every(x=>x.why!=='psSilent')&&d.every(x=>x.why!=='psSilent'),J({o:o.filter(x=>x.why==='psSilent').map(x=>x.id),d:d.filter(x=>x.why==='psSilent').map(x=>x.id)}));
+  { const G=fresh('2028-12-27',12,{PS_REUNION:D('2028-12-29')}); setT(G,'2029-01-20',12); FEED.tick(G); const R=FEED.rec(G); const back=R.items.filter(i=>i.who===PS&&i.day<b);
+    check('7. 重聚以後不補貼：12/29 以前的那幾則沒有出現在動態裡',!back.length,J(back)); }
+  { const p=FEED.post('ps1d'), G=fresh('2026-12-19',12); const R=FEED.rec(G); R.items.push({id:'ps1d',who:PS,day:D('2026-12-17'),h:20}); const r=FEED.respond(G,'ps1d','dm');
+    const G2=freshD('2026-12-19',12); const R2=FEED.rec(G2); R2.items.push({id:'ps1d',who:PS,day:D('2026-12-17'),h:20}); const r2=FEED.respond(G2,'ps1d','dm');
+    check('7. 沉默期回她的動態（私訊）：只有你那一句、她不回；交往中照原本她會回',!!r&&r.out.length===1&&r.out[0].from==='player'&&!!r2&&r2.out.length===p.dm.length,J({r:r&&r.out.map(m=>m.text),r2:r2&&r2.out.map(m=>m.text)})); }
+});
+/* ---------------- 8 柏翰 ---------------- */
+await sec(8,async()=>{ const BL=(P_().posts||{bohan:{lines:[]}}).bohan.lines, BH='classmate_bohan';
+  const mk=(fl,o)=>{ o=o||{}; const G=fresh('2027-06-17',12,fl); if(o.date) dateKeep(G); if(o.lv!=='none'){ H.FRIEND(BH); if(o.contact!==false) INV.addContact(G,BH); } else { SOCIAL.remember(BH,'FIRST_MET',''); SOCIAL.rel(BH).fam=10; } return G; };
+  const bh=G=>(G.msgs||[]).filter(m=>m.th==='p:'+BH&&m.from===BH).map(m=>m.text);
+  const G=mk(); run(G,'2027-06-17',20,23.5); const b0=bh(G).length; run(G,'2027-06-18',20,21.25); const got=bh(G).slice(); run(G,'2027-06-19',20,22); run(G,'2027-06-25',20,22);
+  check('8. 沒交往：2027-06-18 21:00 柏翰私訊兩則「沛珊……你有她的消息嗎？」「我傳的，她也沒回。」（前一天沒有、之後不再傳）',b0===0&&J(got)===J(BL)&&J(bh(G))===J(BL)&&BL.length===2,J({b0,got,all:bh(G)}));
+  const G2=mk({},{date:true}); run(G2,'2027-06-18',20,21.25); const G3=mk({PS_KEPT:true}); run(G3,'2027-06-18',20,21.25);
+  check('8. 交往中、舊存檔（PS_KEPT）：沒有這兩則',!bh(G2).length&&!bh(G3).length,J([bh(G2),bh(G3)]));
+  const G4=mk({},{contact:false}); run(G4,'2027-06-18',20,21.25); const G5=mk({},{lv:'none'}); run(G5,'2027-06-18',20,21.25);
+  check('8. 沒有他的聯絡方式：朋友（有點熟以上）照傳、順便有了聯絡方式；只打過招呼＝不傳',J(bh(G4))===J(BL)&&INV.hasContact(G4,BH)&&!bh(G5).length,J([bh(G4),bh(G5)]));
+  const talk=(fl,o)=>{ const G=fresh('2027-09-06',12,fl); if(o&&o.date) dateKeep(G); H.FRIEND(BH); const e=HEARD.talkDue(G,BH,GM); return e&&e.id; };
+  const t1=talk(), t2=talk({PS_BACK_READ:D('2027-08-07')}), t3=talk({},{date:true});
+  check('8. heard3d：沒交往的線柏翰不說「沛珊去台南了。我在動態看到的。」（h506）；舊存檔、交往中照原本說',t1!=='h506_bh_ps'&&t2==='h506_bh_ps'&&t3==='h506_bh_ps'&&J(HEARD.PS_POST_TALK)===J(['h506_bh_ps','h507_bh_ps','h508_bh_ps','h509_bh_ps']),J([t1,t2,t3]));
 });
 H.done();
 })();
