@@ -49385,7 +49385,7 @@
    "id": "CAM-LIBHALL-DOOR-1107",
    "title": "總圖大廳一進門鏡頭卡在玻璃門框後",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -49397,7 +49397,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "next": "【11-07 18:0x LAWWW-B】LAWWW2-B 38596122 推了 cc696b2d6：camCols 加看不見的 CAMCOL_facade，一進門鏡頭在玻璃內側；tests/libhall_door_cam_1107_unit.js。CC 拍（從校園進總圖大廳第一個畫面、門廳回頭看門口）、BB 判。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
    "xai": {
     "spec": "BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版",
     "branch": "claude/funny-albattani-iawshm",
@@ -49405,13 +49405,14 @@
     "receiver": "LAWWW（整合）、BB（測）",
     "ack": "SENT",
     "owner": "LAWWW2"
-   }
+   },
+   "sha": "cc696b2d6"
   },
   {
    "id": "CAM-GONGGUAN-GATE-1107",
    "title": "公館校門口往後走鏡頭不轉",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -49423,7 +49424,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "next": "【11-07 18:0x LAWWW-B】LAWWW2-B 1c90c4cf1 推了 cc696b2d6：公館商圈落點 yaw π→0（面向南邊的店）；tests/gg_gate_cam_1107_unit.js；「往鏡頭走鏡頭繞到背後」不加（使用者 10-18 轉視角太快會暈）。CC 拍（手機地點→公館商圈第一個畫面）、BB 判。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
    "xai": {
     "spec": "BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版",
     "branch": "claude/funny-albattani-iawshm",
@@ -49431,7 +49432,8 @@
     "receiver": "LAWWW（整合）、BB（測）",
     "ack": "SENT",
     "owner": "LAWWW2"
-   }
+   },
+   "sha": "cc696b2d6"
   },
   {
    "id": "YANGYANG-IN-1107",

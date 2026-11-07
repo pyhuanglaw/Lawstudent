@@ -18318,6 +18318,34 @@
    "integration": "已整合待測試",
    "note": "4fcd3c45b",
    "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-L2-CAM-LIB",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "38596122",
+   "msg": "ACK",
+   "what": "總圖大廳一進門鏡頭（CAMCOL_facade）",
+   "task": "CAM-LIBHALL-DOOR-1107",
+   "integration": "已整合待測試",
+   "note": "cc696b2d6",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-L2-CAM-GG",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "1c90c4cf1",
+   "msg": "ACK",
+   "what": "公館商圈落點面向店",
+   "task": "CAM-GONGGUAN-GATE-1107",
+   "integration": "已整合待測試",
+   "note": "cc696b2d6",
+   "ack": "ACK"
   }
  ],
  "ignored": [
