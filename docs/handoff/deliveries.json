@@ -17682,6 +17682,45 @@
    "task": "STUDY-DATE-PROGRESS-1107",
    "integration": "已整合待測試",
    "note": "src/arcs3d.js 照第 1～4、7 節做；第 5、6 節（輪換、life）等 AA 的資料"
+  },
+  {
+   "id": "DL-AA-696254f1c",
+   "date": "2026-11-07T05:48Z",
+   "from": "AA",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "696254f1c",
+   "msg": "ACTIONED",
+   "what": "AA_714 新約會地點答應句＋第一次去",
+   "task": "INVITE-PLACES-1107",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 06:0x 匯入"
+  },
+  {
+   "id": "DL-AA-60f8f6b6a",
+   "date": "2026-11-07T05:48Z",
+   "from": "AA",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "60f8f6b6a",
+   "msg": "ACK",
+   "what": "AA_713 健身器材 × 體能四階＋升階",
+   "task": "GYM-FIT-1107",
+   "integration": "未整合",
+   "note": "轉給 GYM-FIT 子代理接（GYM_EQUIP_LINES）"
+  },
+  {
+   "id": "DL-LAWWW2-c792202bb",
+   "date": "2026-11-07T05:47Z",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "c792202bb",
+   "msg": "ACTIONED",
+   "what": "兩點半 Café 左邊橘色斜面（窗外天空半球、門口光圈加裁切平面）",
+   "task": "GIFT-FLIRT-1107",
+   "integration": "已整合待測試",
+   "note": "BB-B 送飲料測試看到的 P3；zones3d.js 兩行＋cafe_street_live_unit 第 5 節"
   }
  ],
  "ignored": [

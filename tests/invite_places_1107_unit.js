@@ -5,9 +5,9 @@
 // 修改前 1～5 FAIL。用法：node tests/invite_places_1107_unit.js
 const H=require('./pg_harness.js');
 const {check,GM,E}=H; const J=JSON.stringify;
-const fs=require('fs'), path=require('path'), vm=require('vm');
+const fs=require('fs'), path=require('path'), vm=require('vm'), cp=require('child_process');
 const loadG=(f,names)=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let s=fs.readFileSync(p,'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); return true; };
-loadG('src/data/study_scenes.js',['STUDY_SCENES']); loadG('src/studyn3d.js',['STUDYN']);
+loadG('src/data/study_scenes.js',['STUDY_SCENES']); loadG('src/studyn3d.js',['STUDYN']); const okL=loadG('src/data/invite_place_lines.js',['INVITE_PLACE_LINES']);   /* AA_714（答應句、第一次去）*/
 const P=id=>INV.place(id);
 const fresh=(key,h,zone)=>{ const G=H.fresh(key,h,zone); G.invites=[]; G.stats=G.stats||{}; G.visited={}; E.zone={seats:[],spawn:{x:0,z:0,yaw:0},roomAt:()=>null}; E.npcs=[]; E.player.seat=null; E.player.busy=false; INV._now=()=>Date.now()+1e9; return G; };
 (async()=>{
@@ -30,5 +30,12 @@ const fresh=(key,h,zone)=>{ const G=H.fresh(key,h,zone); G.invites=[]; G.stats=G
     const iv=INV.accept(G,id,'xs_nanyang',G.day,14,{by:'player'}); const n={id,charId:id,obj:{position:{x:1,y:0,z:0},rotation:{y:0}},beh:'idle',pose:'idle',lv:0}; GM.npc[id]=n; E.npcs.push(n);
     await INV.meet(GM,iv,n,{}); const ME=INVITE_DATA.seatOpen.movieEnd;
     check('5. 看電影：散場那一句（AA_649 movieEnd）、時間過 2 小時、記憶 MOVIE_TOGETHER',ME.some(L=>L.every(t=>H.said.some(s=>s.t===t)))&&G.hour>=16-1e-6&&iv.state==='done',J({said:H.said.map(s=>s.t),h:G.hour})); }
+  /* 6 AA_714 答應句、第一次去的那一句 */
+  { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_place_acc.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
+    check('6. src/data/invite_place_lines.js 和 AA_714@696254f1c 一致（import_place_acc.py --check）、七個地點 × 七位',okL&&ok&&Object.keys(INVITE_PLACE_LINES.places).length===7,out.trim().slice(0,160));
+    const G=fresh('2025-10-15',10,'campus'), id='heroine_01'; H.FRIEND(id); const L=INVITE_PLACE_LINES.places.soclib[id];
+    const r=INV.personal(G,id,P('soclib'),G.day+1,14,{res:'accept'});
+    check('6. 以安答應社科圖：照 AA_714 的答應句',r&&J(r.lines)===J(L.acc),J(r&&r.lines));
+    const iv=INV.accept(G,id,'soclib',G.day+1,14,{by:'player'}); check('6. 第一次和她一起去社科圖：firstAt 照 AA_714',J(INV.firstAt(G,iv))===J(L.firstAt),J(INV.firstAt(G,iv))); }
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });

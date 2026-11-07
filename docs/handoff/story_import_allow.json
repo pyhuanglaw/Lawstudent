@@ -4751,6 +4751,15 @@
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
    "note": "七位各 8 拍（BB_305 欄位）；tools/story/import_arcs.py → src/data/heroine_arcs.js；src/arcs3d.js 播放"
+  },
+  {
+   "path": "docs/story_planning/AA_714_invite_places_acc.json",
+   "sha": "696254f1c",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 05:48 交付 AA_714）",
+   "task": "INVITE-PLACES-1107",
+   "kind": "json",
+   "note": "七個新地點 × 七位：acc（答應句）＋firstAt（第一次一起去）；tools/story/import_place_acc.py → src/data/invite_place_lines.js"
   }
  ]
 }
