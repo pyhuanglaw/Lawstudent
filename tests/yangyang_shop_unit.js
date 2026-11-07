@@ -70,7 +70,7 @@ if(door){
   if(tp){ const w=walk([door.x,15],tp); check('2 從羅斯福路人行道 (−10.6, 15) 走到店門口',w.ok,J(w).slice(0,200)); }
   const near=gIts.filter(q=>q!==door&&!q.hidden&&Math.hypot(q.x-door.x,q.z-door.z)<2.6).map(q=>q.label);
   check('2 門口附近（2.6 m）沒有別的按鈕疊著（騎樓那一側的「點炸物（騎樓）」這一版不接）',!near.length,J(near)); }
-{ const nm=gIts.filter(q=>!q.hidden&&Math.hypot(q.x-53.97,q.z-21)<1.2).map(q=>q.label); check('2 轉角唱片（G12，這次不做）門口照舊站得住、沒有按鈕',gNav.clear(53.97,20.6,0.3)&&gNav.clear(53.97,21.0,0.3)&&!nm.length,J(nm)); }
+/* 轉角唱片（G12）11-07 起也進得去（CORNER-IN-1107）：tests/corner_shop_unit.js */
 // ---- 1、3、4、5 室內 ----
 let R=null; if(!L||!Z3.ZONES.yangyang) check('1 區域 yangyang 存在（配置 yangyang_layout.js 有載入）',false);
 else { try{ R=loadZone('yangyang'); }catch(e){ check('1 區域建得起來',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } }
@@ -114,7 +114,7 @@ if(R){ const z=R.z, its=R.its;
 { const Q=PLACES.quickList(), q=Q.find(p=>p[0]==='yangyang');
   check('6 快速前往：洋洋鹹酥雞的落點＝進門站的地方',!!q&&!!IN&&q[1]==='洋洋鹹酥雞'&&J(q[2])===J({x:IN.x,z:IN.z,yaw:IN.yaw}),J(q));
   check('6 地點名：yangyang＝洋洋鹹酥雞',PLACES.names.yangyang==='洋洋鹹酥雞');
-  check('6 大地圖、引路、路程、城鎮判定：yangyang 都算公館',/\['daybreak','Daybreak'\],\['yangyang','洋洋鹹酥雞'\]/.test(rd('src/placemap3d.js'))&&/yangyang:'gongguan'/.test(rd('src/placemap3d.js'))&&/'noodle','yangyang','bookstore'/.test(rd('src/guide3d.js'))&&/yangyang:\['gongguan'\]/.test(rd('src/guide3d.js'))&&/yangyang:'gongguan'/.test(rd('src/classes3d.js'))&&/'afar','daybreak','yangyang'\]\.includes\(z\)/.test(rd('src/zrzq3d.js')));
+  check('6 大地圖、引路、路程、城鎮判定：yangyang 都算公館',/\['daybreak','Daybreak'\],\['yangyang','洋洋鹹酥雞'\]/.test(rd('src/placemap3d.js'))&&/yangyang:'gongguan'/.test(rd('src/placemap3d.js'))&&/'noodle','yangyang'[,\]]/.test(rd('src/guide3d.js'))&&/yangyang:\['gongguan'\]/.test(rd('src/guide3d.js'))&&/yangyang:'gongguan'/.test(rd('src/classes3d.js'))&&/'afar','daybreak','yangyang'[,\]]/.test(rd('src/zrzq3d.js')));
   check('6 story3d.js：老闆、第二個店員照 Z3.SHOP_IN、打烊沒有人',/zoneId==='yangyang'&&ck\('yangyang'\)&&\(typeof PLACES==='undefined'\|\|!PLACES\.isOpen\|\|PLACES\.isOpen\('yangyang',G\.hour,G\.day\)\)/.test(rd('src/story3d.js'))&&/clerk\(c2\.x,c2\.z,c2\.yaw,58\)/.test(rd('src/story3d.js')));
   const h=rd('index.html'), sc=[...h.matchAll(/<script src="([^"?]+)(\?v=[^"]*)?"/g)].map(m=>[m[1],m[2]]), ix=f=>sc.findIndex(s=>s[0]===f), v=f=>(sc.find(s=>s[0]===f)||[])[1];
   check('6 index.html：yangyang_layout.js 在 zones3d.js、crowd3d.js、gg2shops3d.js、places.js 用到以前載入（和旁邊一樣 ?v=）',ix(LAY)>0&&ix(LAY)<ix('src/zones3d.js')&&ix(LAY)<ix('src/crowd3d.js')&&ix(LAY)<ix('src/gg2shops3d.js')&&v(LAY)===v('src/data/daybreak_layout.js'),J([ix(LAY),ix('src/zones3d.js'),v(LAY)]));

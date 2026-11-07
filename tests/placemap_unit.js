@@ -10,7 +10,7 @@ const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global;
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const load=f=>{ const p=path.join(ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; };
-for(const f of ['src/data/linze_layout.js','src/data/library_layout.js','src/data/lawlib_layout.js','src/data/soclib_layout.js','src/data/gym_layout.js','src/data/aoki_layout.js','src/data/afar_layout.js','src/data/daybreak_layout.js','src/data/yangyang_layout.js','src/data/xinsheng_layout.js','src/data/places.js']) load(f);   /* xinsheng_layout：新生南路與那一排的店（XS-PHONEMAP-1105）*/   /* gym_layout：快速前往的新體育館（和宿舍同一顆圖釘）；aoki_layout：公館的青木茶室（GG-SHOPS-REDO-1104）*/
+for(const f of ['src/data/linze_layout.js','src/data/library_layout.js','src/data/lawlib_layout.js','src/data/soclib_layout.js','src/data/gym_layout.js','src/data/aoki_layout.js','src/data/afar_layout.js','src/data/daybreak_layout.js','src/data/yangyang_layout.js','src/data/corner_layout.js','src/data/xinsheng_layout.js','src/data/places.js']) load(f);   /* xinsheng_layout：新生南路與那一排的店（XS-PHONEMAP-1105）*/   /* gym_layout：快速前往的新體育館（和宿舍同一顆圖釘）；aoki_layout：公館的青木茶室（GG-SHOPS-REDO-1104）*/
 const ok=load('src/placemap3d.js');
 const Q=PLACES.quickList(), J=JSON.stringify;
 check('0. 載入 src/placemap3d.js；快速前往清單有建築的入口（霖澤館、總圖、法圖、社科圖）、新生南路和那一排七間店（XS-PHONEMAP-1105）',ok&&['linze','library_hall','lawlib','soclib','xinsheng','xs_shanlan','xs_nanyang','xs_dakou','xs_tongxian','xs_dabu','xs_haopai','xs_xsports'].every(z=>Q.some(p=>p[0]===z)),J(Q.map(p=>p[0])));

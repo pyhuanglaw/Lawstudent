@@ -13,6 +13,7 @@ const ZONE_ASSETS={
   "cafe":["bldg.cafe230_interior"],
   "campus":["bldg.linze_exterior","bldg.wancai_exterior","bldg.campus_gongtong","bldg.campus_gongguan_bd","bldg.campus_freshman","bldg.campus_putong","bldg.us_cars","bldg.campus_male1","bldg.campus_socsci","bldg.campus_blackforest","bldg.campus_boya","bldg.campus_admin","bldg.campus_lake","bldg.campus_lib_lawn","bldg.campus_library","bldg.campus_arts","bldg.campus_gymext","bldg.campus_hist","bldg.skybridge","bldg.campus_gate","bldg.campus_moon","bldg.campus_pavilion","bldg.campus_bell","bldg.bball_court"],
   "classroom":["bldg.classroom_201"],
+  "corner_records":["bldg.corner_interior"],
   "cvs":["bldg.cvs_interior_v2"],
   "daybreak":["bldg.daybreak_interior"],
   "dorm":["bldg.dorm_room4"],

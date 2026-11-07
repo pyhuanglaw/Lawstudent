@@ -1,7 +1,7 @@
 /* 打烊：所有有營業時間、走得進去的店，到打烊時間人還在店裡＝店員（只有老闆在顧的店＝老闆）一句「我們今天要打烊了。」、走出店門站到門口外面，不另外出旁白
    （AA_700，企劃線 4f60052c8；使用者 11-05 06:4x：「打烊時間到了就直接安排一個店員說我們今天要打烊了然後玩家就出店面」；取代 AA_695 第 4 節、AA_699 第 1 節和各家原本的打烊旁白；CLOSE-UNIFY-1105）。
    - 這裡管的店（S.ZONES）：新生南路（山嵐、南洋兩廳、大步、好拍）、新生運動廣場、2:30 AM、溫州街五間（SUNNY SIDE、阿德影印、一盞、林家乾麵、小路）、慢輪單車、118 巷九間（l118_<id>）、竹葉亞洲超市（美國）。
-   - 自己有打烊系統的店照舊走自己的（afar、Daybreak、洋洋鹹酥雞＝gg2shops3d.js（洋洋是老闆說）；青木＝ggshops_sys3d.js；日常失速＝offbeat_sys3d.js；木曜日＝mokuyobi_sys3d.js；同弦＝guitar3d.js），
+   - 自己有打烊系統的店照舊走自己的（afar、Daybreak、洋洋鹹酥雞、轉角唱片＝gg2shops3d.js（洋洋是老闆說）；青木＝ggshops_sys3d.js；日常失速＝offbeat_sys3d.js；木曜日＝mokuyobi_sys3d.js；同弦＝guitar3d.js），
      那一句一律叫這裡的 S.say／S.gen（S.PLACE_OF：這裡只記「這一趟進來的時候店開著」）。
    - 24 小時的店（日和便利店 cvs、大口漢堡 xs_dakou）不在表上：沒有這一句。總圖、法圖、社科圖不是店，照舊（story3d.js 的館員那一句）。
    - 什麼時候說那一句（S.gen）：那天最後一段營業結束（中午休息、下午再開的不算：不到 6 小時又開＝只請你出去、寫開放時間），而且
@@ -49,8 +49,8 @@ const XSCLOSE=(function(){
     l118_dian:l118('dian',S.BOSSLADY), l118_self:l118('self',S.CLERK), l118_tea:l118('tea',S.CLERK), l118_home:l118('home',S.BOSSLADY), l118_cafe2:l118('cafe2',S.CLERK),
     l118_pasta:l118('pasta',S.BOSS), l118_korea:l118('korea',S.BOSS), l118_omu:l118('omu',S.CLERK), l118_noodle2:l118('noodle2',S.BOSS) };
   /* 自己有打烊系統的店（這裡只記「進來的時候開著」，給 S.gen 用）；說話的人在各自的檔案（S.WHO 只是對照，測試用）*/
-  S.PLACE_OF={afar:'afar',daybreak:'daybreak',aoki:'aoki',wz_offbeat:'wz_offbeat',wz_mokuyobi:'wz_mokuyobi',xs_tongxian:'xs_tongxian',yangyang:'yangyang'};
-  S.WHO={afar:S.CLERK,daybreak:S.CLERK,aoki:S.CLERK,wz_offbeat:S.CLERK,wz_mokuyobi:S.BOSS,xs_tongxian:S.BOSS,yangyang:S.BOSS};   /* 洋洋鹹酥雞（YANGYANG-IN-1107）：老闆在顧，說這裡的那一句（AA_724 第 7 節 bf5c3e6c6＝AA_700；gg2shops3d.js 叫 S.say）*/
+  S.PLACE_OF={afar:'afar',daybreak:'daybreak',aoki:'aoki',wz_offbeat:'wz_offbeat',wz_mokuyobi:'wz_mokuyobi',xs_tongxian:'xs_tongxian',yangyang:'yangyang',corner_records:'corner_records'};
+  S.WHO={afar:S.CLERK,daybreak:S.CLERK,aoki:S.CLERK,wz_offbeat:S.CLERK,wz_mokuyobi:S.BOSS,xs_tongxian:S.BOSS,yangyang:S.BOSS,corner_records:S.CLERK};   /* 轉角唱片（CORNER-IN-1107）：店員；正在試聽（場景忙）＝聽完才說（AA_725 第 7 節＝AA_700）*/   /* 洋洋鹹酥雞（YANGYANG-IN-1107）：老闆在顧，說這裡的那一句（AA_724 第 7 節 bf5c3e6c6＝AA_700；gg2shops3d.js 叫 S.say）*/
   S.lineOf=z=>S.ZONES[z]||S.PLACE_OF[z]?S.LINE:null;
   S.whoOf=z=>S.ZONES[z]?S.ZONES[z].who:(S.WHO[z]||null);
   const sceneFree=GM=>{ if(typeof INV!=='undefined'&&INV.sceneFree) return INV.sceneFree(GM); const E=GM&&GM.E, D=GM&&GM.D; return !(E&&E.player&&E.player.busy)&&!(D&&(D.active||(D.busyDepth|0)>0)); };

@@ -388,6 +388,9 @@ const CROWD=(function(){
     for(const [zk,kind,L] of [['afar','cafe',typeof AFAR_LAYOUT!=='undefined'?AFAR_LAYOUT:null],['daybreak','brunch',typeof DAYBREAK_LAYOUT!=='undefined'?DAYBREAK_LAYOUT:null]]){ if(L) add(zk,kind,[L.exit.at.x,+(L.d/2-2).toFixed(2)],S.pairUnits(seatsOf(L.seats))); }
     /* 洋洋鹹酥雞（YANGYANG-IN-1107）：配置的座位（四人桌 4、兩人桌 3；四人桌四南側那兩張玩家坐不到、路人照坐）；營業時間照 places.js（17:00～01:00：跨午夜那一段 shopWindows 只排到 24:00）*/
     { const YY=typeof YANGYANG_LAYOUT!=='undefined'&&YANGYANG_LAYOUT.shop?YANGYANG_LAYOUT.shop:null; if(YY) add('yangyang','meal',[YY.exit.at.x,+(YY.d/2-1.4).toFixed(2)],S.pairUnits(seatsOf(YY.seats)).map(u=>Object.assign(u,{sk:'snack'}))); }
+    /* 轉角唱片（CORNER-IN-1107）：站在唱片箱、唱片牆前面翻（shop：站著看的人；避開翻唱片、試聽的按鈕）；休息區兩張沙發坐著（bookseat 的時段）。試聽的高腳椅留給玩家（試聽、約來的兩個人）*/
+    { const CRL=typeof CORNER_LAYOUT!=='undefined'&&CORNER_LAYOUT.corner?CORNER_LAYOUT.corner:null;
+      if(CRL) add('corner_records','shop',[CRL.front.door.x,+(CRL.d/2-1.5).toFixed(2)],standUnits([[-0.3,3.0,P/2],[-0.35,0.3,-P/2],[-0.3,-1.45,-P/2],[-3.0,-0.6,-P/2],[2.9,-1.3,P/2]]).concat(S.pairUnits(seatsOf(CRL.seats.filter(q=>q.kind==='armchair'))).map(u=>Object.assign(u,{sk:'bookseat'}))),{noKeep:true}); }
     if(AK) add('aoki','tea',[AK.spawn.x,AK.spawn.z],S.pairUnits(seatsOf(AK.seats.map(q=>q.seatH>0.6?Object.assign({},q,{lift:+(q.seatH-((typeof CHAR!=='undefined'&&CHAR.SIT_TOP)||0.45)).toFixed(2)}):q))));   /* 吧台高腳椅（seatH 0.72）＝bar */
     /* 溫州街：半熟、一盞、林家乾麵、巷子裡定食（配置檔的座位；打工的、阿芃的位子不算）、阿德影印（櫃台前、文具架前、自助影印旁邊站著）*/
     if(WZ){ for(const [k,kind] of [['brunch','brunch'],['teahouse','tea'],['lin','meal'],['teishoku','meal']]){ const L=WZ[k]; if(!L||!L.spawn) continue;
