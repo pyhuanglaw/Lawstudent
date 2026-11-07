@@ -5774,6 +5774,22 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "AA_709 第三批：大一寒假、暑假她們主動傳、還不能回的 9 串（語彤跨年、以安回台中／回臺北四串、芯慈兩串、可昕初一早上）；line_lint 0 條"
+  },
+  {
+   "task": "PLAYTEST-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_716_arc_invites.json",
+    "docs/story_planning/AA_712_heroine_arcs.json"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B：AA_712 只改三處「我妹 」多一個空白（學姊第 3、4、7 拍附近），重匯或直接改 heroine_arcs.js；AA_716 照 offer→plan→scene 接（建議 OUT.plan）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_712 的 7 個 invite 變成真的約會：她傳訊息約、三個回覆（排這次／下次／不排）、那天演的、記的旗標；語彤 D13、沛珊 D25 建議照校外約會算；line_lint 0 條"
   }
  ],
  "items": [
