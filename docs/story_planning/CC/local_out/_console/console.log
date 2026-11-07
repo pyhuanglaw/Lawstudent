@@ -280,3 +280,11 @@
 [17:42:37] [res] cpu=2% mem=46% (14.7/31.4 GB) chrome_testing=10  START R7921_zone
 [17:43:26] 正在跑：SOC_peishan_date_r4（已跑 16 分／上限 45 分）、SOC_xinci_date_r4（已跑 14 分／上限 45 分）、R7921_zone（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:46:05] [res] cpu=2% mem=46% (14.5/31.4 GB) chrome_testing=10  END R7921_zone
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9087836e0..469da96e4  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:46:10] ==== END   R7921_zone  exit=0  211s   ====
+[17:46:13] memory 46% before starting R7921_mini (2 running)
+[17:46:13] ==== START R7921_mini  (game @ 79214e4e10275fb47c0d95ec667cab2964b77b5c) ====
+[17:46:16] [res] cpu=1% mem=46% (14.6/31.4 GB) chrome_testing=10  START R7921_mini
+[17:47:38] [res] cpu=7% mem=45% (14.4/31.4 GB) chrome_testing=10  END R7921_mini
