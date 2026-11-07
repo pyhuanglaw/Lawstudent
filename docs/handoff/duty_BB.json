@@ -1,11 +1,10 @@
 {
  "role": "BB",
- "account": "C",
- "session": "session_01QYQ1cdaSaRWCGfWi9kZFRU",
- "branch": "claude/wonderful-mayer-7fm9g6",
- "state": "handed-off",
- "handedOffAt": "2026-11-05T16:14Z",
- "sha": "56f47b4b",
- "snapshot": "docs/handoff/snapshots/2026-11-05T1614Z_C_BB.json",
- "note": "duty handoff 工具拒絕（RULE_SOURCE 的 duty.json 還沒 sync 16:11 的重新登記，仍是 10:50 handed-off），照工具格式手寫"
+ "account": "B",
+ "session": "session_01J1g2TPcPzWrihXSY2WvseV",
+ "branch": "claude/elegant-brown-fcos7n",
+ "since": "2026-11-07T03:32Z",
+ "state": "on",
+ "sinceSha": "f1d31b2f",
+ "userOk": false
 }
