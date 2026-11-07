@@ -321,3 +321,16 @@
        a1d4e5c8d..1cf3c0932  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [17:57:29] ==== END   SOC_xinci_date_r4  exit=0  1720s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1cf3c0932..546098d5f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:57:35] ==== END   PERF_WZ_DC_before  exit=0  144s   ====
+[17:57:38] memory 42% before starting PERF_WZ_DC_after (2 running)
+[17:57:38] ==== START PERF_WZ_DC_after  (probe @ 8530a4b2623634e3a189abf0c286dc8c86dd00a0) ====
+[17:57:41] [res] cpu=6% mem=42% (13.2/31.4 GB) chrome_testing=5  START PERF_WZ_DC_after
+[17:57:41] memory 42% before starting HAIR_a_c8b0 (2 running)
+[17:57:41] ==== START HAIR_a_c8b0  (probe @ c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb) ====
+[17:57:41] worktree add 8530a4b2623634e3a189abf0c286dc8c86dd00a0: invalid reference - fetching main and the commit itself
+[17:57:44] [res] cpu=4% mem=42% (13.3/31.4 GB) chrome_testing=5  START HAIR_a_c8b0
+[17:58:26] 正在跑：SOC_peishan_date_r4（已跑 31 分／上限 45 分）、PERF_WZ_DC_after（已跑 0 分／上限 20 分）、HAIR_a_c8b0（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:59:53] [res] cpu=2% mem=46% (14.6/31.4 GB) chrome_testing=8  END SOC_peishan_date_r4
