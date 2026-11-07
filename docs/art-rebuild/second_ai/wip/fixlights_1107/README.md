@@ -69,7 +69,7 @@ CC 的 program 清單（雲端 8fdb294aa）找到兩個原因：
 | | 開發原樣 | 加 patch |
 |---|---|---|
 | 新 `tests/fixlights_unit.js` | **FAIL 1**（沒有 `E.fixLights`） | **ALL PASS** |
-| 會讀 `engine3d.js` 的 240 支 `*_unit.js` | — | RESULT_ENGINE |
+| 會讀 `engine3d.js` 的 240 支 `*_unit.js` | — | 239 支過。`shop_crowd_new`、`shop_diners` 印的是「全部通過」，加不加 patch 都過。`wancai_sem_lm_unit` FAILED 3：工作樹的研討室模型還是開發原樣，換上 eb36f6844 的檔就過，和這一包無關 |
 
 `fixlights_unit` 檢查：
 1. 網址沒加參數時什麼都不做；
