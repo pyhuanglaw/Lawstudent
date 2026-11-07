@@ -5488,6 +5488,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "七位女主角一起念書第 1～6 次進展骨架（UA-AA-1107-03）"
+  },
+  {
+   "task": "PLAYTEST-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_707_study_scenes.json"
+   ],
+   "state": "WIP",
+   "remaining": "第一批只有 heroine_01 以安、heroine_02 芷若、heroine_03 語彤；第二批子晴、學姊、沛珊、可昕",
+   "next": "LAWWW-B 可以先寫匯入工具、用第一批測格式",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "line_lint 0 條（點頭 1 句）"
   }
  ],
  "items": [
