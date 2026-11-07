@@ -47,7 +47,14 @@ async def main():
                 if await pg.evaluate("!!(GAME.G.home&&GAME.G.home.at)"): break
                 await pg.wait_for_timeout(500)
             await L.close_panels(pg, cdp); await pg.wait_for_timeout(2500)
-            st = await P.ts(pg)
+            st = await P.ts(pg); said_home = []
+            for _ in range(30):   # 回家的旁白（「（家。21:31。）」）先點掉，選單才出來
+                st = await P.ts(pg)
+                if st['ch']: break
+                if st['dlg']:
+                    said_home.append(st['txt']); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(800); continue
+                await pg.wait_for_timeout(800)
+            print('[HOME SAY]', J(said_home))
             run.check('手機「回家」→ 在家、出現家裡的選單', bool(ok) and bool(st['ch']), J(st))
             print('[HOME MENU]', J(st['ch']))
             await pg.evaluate(CAP); n0 = await P.say_hook(pg)
@@ -72,7 +79,7 @@ async def main():
         th = await P.phone_thread(pg, cdp, 'p:' + ZQ)
         txt = th.get('text') if th else ''
         print('[THREAD]', J(th))
-        run.check('① 子晴三則「你在家嗎」「我在你家附近那間便利商店」「五分鐘」、回覆鍵「下去。」', bool(th) and all(m in (txt or '') for m in DM) and any('下去' in a for a in (th.get('asks') or [])), J(th))
+        run.check('① 子晴三則「你在家嗎」「我在你家附近那間便利商店」「五分鐘」、回覆鍵「下去。」', bool(th) and all(m in (txt or '') for m in DM) and any('下去' in (a.get('t') if isinstance(a, dict) else a) for a in (th.get('asks') or [])), J(th))
         r = await P.phone_answer(pg, cdp, 'p:' + ZQ, '下去')
         run.check('回覆「下去。」', r is not None, J(r))
         await L.close_panels(pg, cdp)
