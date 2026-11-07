@@ -6,7 +6,33 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-07 07:4x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-07 09:5x UTC，帳號 B LAWWW2-B）
+
+分支 `claude/funny-albattani-iawshm` @ `07deb7085`（下面的最新一包）。開發分支是 `claude/modest-rubin-2lyp7g`（`79214e4e1`）。瀏覽器都沒跑（D131，交 CC）。
+
+**LAWWW-B 08:41 排的順序**：頭髮 (a) → PERF (A) → XS-FARVIEW（這三個都交了）→ (B) 預先載入／d) 溫州街主模型 draw call／頭髮 (b) 重畫貼圖。
+
+**11-07 下午交的：**
+
+| 項目 | 內容 | 位置 | 狀態 |
+|---|---|---|---|
+| XS-NIGHT 第 2 版 | 四張夜景重拍 | `882c0d096` | 已整合 `795eae822`；BB-B Blender 過 |
+| XS-GYM-DOME-NIGHT | 圓頂晚上像燈籠 | `72099725f` | 已整合 `f92955fd1` |
+| AA716-GYM-BG | B1 健身房 2D 背景 | `1c5696b4b` | 已接（本機 `48297c612`） |
+| XS-NORTH-ROAD-1107 | 校園北牆外新生南路往北那一段 | `wip/xs_north_road_1107/`（`b501e871e`） | 已接（本機） |
+| 一樓窗景「只有天空」FAIL | **CC 截圖工具的問題**（暫停後沒重算 fadeWalls），遊戲沒壞；CC-B 改 CAM `0674d5a0a` 重拍中 | `wip/xs_night_1107/`（`6b92262a6`） | 等 CC 重拍、BB 判 |
+| HAIR-NOODLE (a) | 法線 0.6 烘進祐廷＋五位女主角的預設 VRM；語彤頭髮 ×1.04；子晴背後黑塊＝吉他袋 | `wip/hair_noodle_1107/`（`5ca9da146`） | 等 CC 重拍、LAWWW-B 標（D100a） |
+| PERF-COLD (A) | 淡入前也等 NPC 的 VRM、動作檔（reqTake 移到 populate 之後）；上限第一次 12 s、再來 6 s | `wip/perf_wz_day_1103/perf_cold_wait_1107.patch`（`c0792610e`） | 等 LAWWW-B 接、CC 重量 |
+| XS-FARVIEW-1105 | 新生南路兩頭的街廓（`xinsheng_far.glb`）、不畫城市剪影 | `wip/xs_farview_1107/`（`567b76230`、`07deb7085`） | READY_FOR_ART_REVIEW；等 LAWWW-B 接、CC 拍 |
+
+**下一步**：d) 溫州街 `wenzhou_street_glb` 117 calls → 減（我的 GLB）；然後 (B) 預先載入（改 LAWWW 的檔，patch）；頭髮 (b)。
+
+**暫存區**（不進 repo）：
+- `$S/far`：遠景的預覽（`after/`）、回歸建置；
+- `$S/hair/bake`：烘好的 VRM；`$S/hair/cmp6`：逐點比；
+- `$S/fa05`：Node 重現窗景卡的腳本（已複製進 repo）。
+
+## 🔨 （舊）現在在做（11-07 07:4x UTC，帳號 B LAWWW2-B）
 
 分支 `claude/funny-albattani-iawshm` @ `b9c61acc7`。瀏覽器都沒跑（D131，交 CC）。
 
