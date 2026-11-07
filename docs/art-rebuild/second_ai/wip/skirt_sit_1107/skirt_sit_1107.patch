@@ -1,0 +1,69 @@
+diff --git a/src/character3d.js b/src/character3d.js
+index 5d00e0f95..f6b35b69c 100644
+--- a/src/character3d.js
++++ b/src/character3d.js
+@@ -170,6 +170,9 @@ const CHAR = (function(){
+       if(drv.length) root.userData.drive=drv; }
+     const sbm=vrm.springBoneManager; if(sbm){ try{ sbm.reset(); sbm.joints.forEach(j=>{ j.center=root; }); root.updateMatrixWorld(true); sbm.setInitState(); }catch(err){ console.warn('spring bone center',err); } }
+     root.userData.farLOD=attachFar(key,model);   /* 無名路人的遠距離版本（有的話；預設藏著）*/
++    /* 坐下用的裙子形狀（SKIRT-BENCH-CLIP-1105，LAWWW2-B 11-07）：裙子網格的 morph target「skirt_sit」（tools/anim/skirt_sit_morph.js 照遊戲的坐姿算：跟大腿、膝蓋以下垂下、攤在椅面上），
++       靜態坐姿時開、其他時候關（下面 animate）；遠距離版本（npc_far）同一份位移，GLTFLoader 沒有把名字放在幾何上：只有一個 morph 的就是它 */
++    { const sm=[]; model.traverse(o=>{ const ma=o.isMesh&&o.geometry&&o.geometry.morphAttributes&&o.geometry.morphAttributes.position; if(!ma||!ma.length) return; const d=o.morphTargetDictionary, i=d&&d.skirt_sit!=null?d.skirt_sit:(o.name==='npc_far'&&ma.length===1?0:-1); if(i>=0&&o.morphTargetInfluences) sm.push([o,i]); }); if(sm.length){ root.userData.sitMorph=sm; root.userData.sitMorphW=0; } }
+     return root; }
+   C.MODEL_PROPS={'char.xiuqin':[{name:'glasses',glb:'prop.glasses_xiuqin'}],'char.xiuqin_apron':[{name:'glasses',glb:'prop.glasses_xiuqin'}],   /* 秀琴姨（LAWWW2 d2a809aa4）：圍裙在 VRM 裡（xiuqin_apron 那一支），兩支都戴老花眼鏡 */'char.classmate_bohan':[{name:'glasses',glb:'prop.glasses_bohan'},'backpack'],'char.classmate_peishan':[{name:'glasses',glb:'prop.glasses_peishan'}],'char.prof_wei':[{name:'glasses',glb:'prop.glasses_wei'}],'char.econ_weilun':['backpack',{name:'helmet',hang:'side'}],'char.econ_jiahao':['foodmap'],'char.econ_pinyu':['thermos'],'char.yu':['bag_yu'],   /* 許柏翰（?blchar）：方框眼鏡＋後背包（LAWWW2 VISUAL_REVIEW 32.4 的設定）*/
+     'char.yuting':['backpack'],'char.heroine_01':['tote'],'char.heroine_02':['glasses','earrings','apron'],'char.heroine_03':[{name:'backpack',drop:-0.07,flat:[0.04,0.008],strap:[[0.075,0.05,0.086],[0.092,0.096,0.05],[0.1,0.117,0.0],[0.103,0.097,-0.03],[0.106,0.072,-0.062],[0.11,0.04,-0.086],[0.118,0.0,-0.112],[0.13,-0.045,-0.1],[0.145,-0.085,-0.055],[0.142,-0.115,0.0],[0.13,-0.2,0.06],[0.12,-0.27,0.09]]}],'char.heroine_04':[{name:'guitar',x:0.0,z:0.235,tilt:-0.05,flat:[0.042,0.008],straps:[[0.07,0.06,0.15],[0.1,0.128,0.075],[0.105,0.146,0.03],[0.105,0.136,0.0],[0.105,0.126,-0.03],[0.105,0.094,-0.062],[0.107,0.06,-0.088],[0.108,0.02,-0.12],[0.112,-0.04,-0.132],[0.13,-0.09,-0.127],[0.155,-0.13,-0.085],[0.172,-0.17,-0.02],[0.162,-0.25,0.07],[0.12,-0.33,0.15]]},'laptop_lap'],'char.heroine_05':['folder','hairtie']};
+@@ -1297,6 +1300,7 @@ const CHAR = (function(){
+     { const stat=!!a.static, stp=(v,on,T)=>stat?0:Math.max(0,Math.min(1,(v||0)+(on?1:-1)*(dt>0?dt/T:0))); u.climbW=stp(u.climbW,u.climbOn,C.CLIMB.blend); u.kneelW=stp(u.kneelW,pose==='kneel',C.KNEEL.blend); if(!(u.climbW>0)){ u.ladLast=null; u.ladSt=null; }   /* 爬完、權重歸零：梯子的狀態清掉（u.ladLast＝站回梯子前 u.ladder 拿掉以後，權重還沒歸零那幾格照梯子的路線慢慢放開）*/
+       if(u.kneelSnap){ u.kneelSnap=false; if(pose==='kneel'&&!stat) u.kneelW=1; }   /* 黑幕裡直接跪好（story3d.js 從床上起來：躺 → 跪）*/
+       if(u.fitOff&&stat) u.fitOff=false; }
++    if(u.sitMorph){ const w=a.static&&a.staticKind==='sit'&&!u.sitFloor?1:0; if(u.sitMorphW!==w){ u.sitMorphW=w; for(const [o,i] of u.sitMorph) o.morphTargetInfluences[i]=w; } }   /* 裙子坐下的形狀（見建立 VRM 的地方；跪坐 sitFloor、健身器材、騎車、躺著不用）*/
+     const sm=x=>x*x*(3-2*x), kw=sm(u.kneelW||0), fit=!a.static&&u.headMax!=null&&(C.HEADROOM.poses[pose]||u.climbW>0||u.kneelW>0);
+     updateVRM(vrm,dt,()=>{ if(u.fitOff){ u.fitOff=false; u.model.position.y=(u.model.userData.baseY||0)-(u.ikDrop||0); u.model.position.z=0; u.model.position.x=0; }   /* 上一格蹲低、跪的位移先放回去（不累加）*/
+       footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u);
+diff --git a/tests/skirt_sit_morph_unit.js b/tests/skirt_sit_morph_unit.js
+new file mode 100644
+index 000000000..5a0060098
+--- /dev/null
++++ b/tests/skirt_sit_morph_unit.js
+@@ -0,0 +1,41 @@
++// 坐長椅的路人裙子不穿進椅面（SKIRT-BENCH-CLIP-1105，LAWWW2-B 2026-11-07；使用者 11-05「路人裙子卡進椅子（體育館一樓長椅截圖）」）
++// Node（不用瀏覽器）：載入遊戲的 three.js／three-vrm／CHAR，用真的 VRM 檔（走 ASSETS 的載入：removeUnnecessaryVertices、遠距離版本 attachFar），
++// 每個穿裙子的路人：照遊戲坐下（pose sit 40 格＋坐姿循環片段），量裙子在體育館一樓長椅範圍（人物座標 |x|≤0.30、z −0.31～+0.19）裡低於椅面 0.47 m 的頂點；
++// 遠距離版本（npc_far，室內 7 m 外）也量；站著、站起來走路、跪坐（sitFloor）時 morph 關著（權重沒改：關著＝和原本的 VRM 完全一樣）。
++// 改前（開發分支原本的 VRM、沒有 character3d.js 的 skirt_sit）：每個人椅面裡 251～282 個頂點、最深 30～56 cm → FAIL。
++// 用法：node tests/skirt_sit_morph_unit.js
++const path=require('path'), fs=require('fs');
++const ROOT=path.resolve(__dirname,'..');
++const {preload}=require(path.join(ROOT,'tools/dev_scratch/spring_sim/harness.js'));
++const KEYS=['char.npc_nf9','char.npc_nf10','char.npc_nf12','char.npc_nf14','char.npc_nf16','char.npc_nf17','char.npc_nf19','char.npc_nf20'];
++const BENCH={top:0.47,z0:-0.31,z1:0.19,x:0.30};
++let fails=0; const ok=(c,msg)=>{ console.log((c?'PASS ':'FAIL ')+msg); if(!c) fails++; };
++function inSeat(h,o){ const V=new THREE.Vector3(), used=new Set(o.geometry.index?o.geometry.index.array:[...Array(o.geometry.attributes.position.count).keys()]); let n=0, d=0;
++  for(const i of used){ o.getVertexPosition(i,V); o.localToWorld(V); h.worldToLocal(V); if(Math.abs(V.x)>BENCH.x||V.z<BENCH.z0||V.z>BENCH.z1||V.y>=BENCH.top-0.003) continue; n++; d=Math.max(d,BENCH.top-V.y); } return {n,d:+d.toFixed(3)}; }
++(async()=>{
++  window.ASSET_DATA=window.ASSET_DATA||{};
++  for(const k of KEYS){ const lu=ASSETS.lodUrl&&ASSETS.lodUrl(k); if(lu&&fs.existsSync(path.join(ROOT,lu))) window.ASSET_DATA[lu]=fs.readFileSync(path.join(ROOT,lu)).toString('base64'); }   /* 遠距離版本（attachFar）*/
++  await preload(KEYS);
++  { const k='char.ual_sit_clips', u=ASSETS.manifest[k]&&ASSETS.manifest[k].url; if(u&&fs.existsSync(path.join(ROOT,u))){ window.ASSET_DATA[u]=fs.readFileSync(path.join(ROOT,u)).toString('base64'); await ASSETS.loadOne(k).catch(()=>null); } }
++  const scene=new THREE.Scene();
++  for(const key of KEYS){ let sd=11; CHAR.ambRand=()=>{ sd=(sd*16807)%2147483647; return sd/2147483647; }; if(CHAR._ambReset) CHAR._ambReset();
++    const m=ASSETS.manifest[key], h=CHAR.build({model:key,height:m.height}); scene.add(h); const u=h.userData; let near=null, far=null;
++    h.traverse(x=>{ if(!x.isSkinnedMesh) return; if(x.name==='npc_far'){ if(x.geometry.attributes.color) far=x; }   /* 遠距離版本的身體＋衣服（頂點色；另一個是頭髮）*/ else if(/Bottom/.test((Array.isArray(x.material)?x.material[0]:x.material).name)) near=x; });
++    ok(!!near,key+' 有裙子網格');
++    if(!near){ scene.remove(h); continue; }
++    ok(!!(u.sitMorph&&u.sitMorph.some(([o])=>o===near)),key+' 裙子網格有 skirt_sit（u.sitMorph '+(u.sitMorph?u.sitMorph.length:0)+' 個）');
++    for(let i=0;i<4;i++) CHAR.animate(h,1/30,{pose:'idle',speed:0}); scene.updateMatrixWorld(true);
++    ok((u.sitMorph||[]).every(([o,i])=>o.morphTargetInfluences[i]===0),key+' 站著：morph 關著');
++    for(let i=0;i<40;i++) CHAR.animate(h,1/30,{pose:'sit',speed:0}); scene.updateMatrixWorld(true);
++    const s=inSeat(h,near); ok(s.n===0,key+' 坐著：裙子在長椅椅面裡的頂點 '+s.n+' 個（最深 '+s.d+' m；要 0）');
++    if(far){ const f=inSeat(h,far); ok(f.n===0,key+' 遠距離版本坐著：椅面裡 '+f.n+' 個（最深 '+f.d+' m；要 0）'); }
++    else ok(false,key+' 沒有遠距離版本（lod）');
++    ok((u.sitMorph||[]).length>0&&(u.sitMorph||[]).every(([o,i])=>o.morphTargetInfluences[i]===1),key+' 坐著：morph 打開（近的、遠的 '+(u.sitMorph||[]).length+' 個網格）');
++    // 站起來走路：morph 關掉（＝和原本的 VRM 完全一樣：權重沒改）
++    for(let i=0;i<6;i++) CHAR.animate(h,1/30,{pose:'walk',speed:1.3}); scene.updateMatrixWorld(true);
++    ok((u.sitMorph||[]).every(([o,i])=>o.morphTargetInfluences[i]===0),key+' 站起來走路：morph 關掉');
++    // 跪坐（sitFloor）不用這個形狀
++    u.sitFloor=true; CHAR.animate(h,1/30,{pose:'sit',speed:0}); ok((u.sitMorph||[]).every(([o,i])=>o.morphTargetInfluences[i]===0),key+' 跪坐（sitFloor）不開'); u.sitFloor=false;
++    scene.remove(h); if(CHAR.release) CHAR.release(h); }
++  console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
++})().catch(e=>{ console.error(e); process.exit(2); });

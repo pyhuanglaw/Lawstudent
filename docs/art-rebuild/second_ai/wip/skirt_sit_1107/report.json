@@ -1,0 +1,224 @@
+{
+ "params": {
+  "ys": 0.478,
+  "ze": 0.26,
+  "xb": 0.4,
+  "kf": 0.25,
+  "kb": 1,
+  "droop": 1.5,
+  "rth": 0.075,
+  "lo0": 0.06,
+  "lo1": -0.1,
+  "hip0": 0.04,
+  "hip1": -0.1
+ },
+ "bench": {
+  "top": 0.47,
+  "bot": 0.42,
+  "z0": -0.31,
+  "z1": 0.19,
+  "x": 0.3
+ },
+ "models": {
+  "char.npc_nf9": {
+   "file": "bl_npc_nf9.vrm",
+   "height": 1.61,
+   "hipY": 0.904,
+   "kneeY": 0.552,
+   "moved": 686,
+   "maxDelta": 0.53,
+   "vrmMoved": 686,
+   "missing": 0,
+   "before": {
+    "inSeat": 251,
+    "below": 220,
+    "maxDepth": 0.53
+   },
+   "after": {
+    "inSeat": 0,
+    "below": 0,
+    "maxDepth": 0
+   },
+   "lod": {
+    "file": "lod/bl_npc_nf9.lod.glb",
+    "skirtVerts": 148,
+    "moved": 96
+   }
+  },
+  "char.npc_nf10": {
+   "file": "bl_npc_nf10.vrm",
+   "height": 1.65,
+   "hipY": 0.97,
+   "kneeY": 0.585,
+   "moved": 833,
+   "maxDelta": 0.572,
+   "vrmMoved": 833,
+   "missing": 0,
+   "before": {
+    "inSeat": 270,
+    "below": 244,
+    "maxDepth": 0.551
+   },
+   "after": {
+    "inSeat": 0,
+    "below": 0,
+    "maxDepth": 0
+   },
+   "lod": {
+    "file": "lod/bl_npc_nf10.lod.glb",
+    "skirtVerts": 151,
+    "moved": 101
+   }
+  },
+  "char.npc_nf12": {
+   "file": "bl_npc_nf12.vrm",
+   "height": 1.63,
+   "hipY": 0.904,
+   "kneeY": 0.552,
+   "moved": 686,
+   "maxDelta": 0.527,
+   "vrmMoved": 686,
+   "missing": 0,
+   "before": {
+    "inSeat": 259,
+    "below": 220,
+    "maxDepth": 0.422
+   },
+   "after": {
+    "inSeat": 0,
+    "below": 0,
+    "maxDepth": 0
+   },
+   "lod": {
+    "file": "lod/bl_npc_nf12.lod.glb",
+    "skirtVerts": 148,
+    "moved": 98
+   }
+  },
+  "char.npc_nf14": {
+   "file": "bl_npc_nf14.vrm",
+   "height": 1.62,
+   "hipY": 0.904,
+   "kneeY": 0.552,
+   "moved": 784,
+   "maxDelta": 0.536,
+   "vrmMoved": 784,
+   "missing": 0,
+   "before": {
+    "inSeat": 272,
+    "below": 239,
+    "maxDepth": 0.533
+   },
+   "after": {
+    "inSeat": 0,
+    "below": 0,
+    "maxDepth": 0
+   },
+   "lod": {
+    "file": "lod/bl_npc_nf14.lod.glb",
+    "skirtVerts": 208,
+    "moved": 156
+   }
+  },
+  "char.npc_nf16": {
+   "file": "bl_npc_nf16.vrm",
+   "height": 1.63,
+   "hipY": 0.97,
+   "kneeY": 0.585,
+   "moved": 833,
+   "maxDelta": 0.551,
+   "vrmMoved": 833,
+   "missing": 0,
+   "before": {
+    "inSeat": 282,
+    "below": 247,
+    "maxDepth": 0.432
+   },
+   "after": {
+    "inSeat": 0,
+    "below": 0,
+    "maxDepth": 0
+   },
+   "lod": {
+    "file": "lod/bl_npc_nf16.lod.glb",
+    "skirtVerts": 168,
+    "moved": 116
+   }
+  },
+  "char.npc_nf17": {
+   "file": "bl_npc_nf17.vrm",
+   "height": 1.64,
+   "hipY": 0.904,
+   "kneeY": 0.552,
+   "moved": 784,
+   "maxDelta": 0.527,
+   "vrmMoved": 784,
+   "missing": 0,
+   "before": {
+    "inSeat": 280,
+    "below": 237,
+    "maxDepth": 0.423
+   },
+   "after": {
+    "inSeat": 0,
+    "below": 0,
+    "maxDepth": 0
+   },
+   "lod": {
+    "file": "lod/bl_npc_nf17.lod.glb",
+    "skirtVerts": 131,
+    "moved": 86
+   }
+  },
+  "char.npc_nf19": {
+   "file": "bl_npc_nf19.vrm",
+   "height": 1.67,
+   "hipY": 0.97,
+   "kneeY": 0.585,
+   "moved": 833,
+   "maxDelta": 0.577,
+   "vrmMoved": 833,
+   "missing": 0,
+   "before": {
+    "inSeat": 268,
+    "below": 244,
+    "maxDepth": 0.556
+   },
+   "after": {
+    "inSeat": 0,
+    "below": 0,
+    "maxDepth": 0
+   },
+   "lod": {
+    "file": "lod/bl_npc_nf19.lod.glb",
+    "skirtVerts": 215,
+    "moved": 167
+   }
+  },
+  "char.npc_nf20": {
+   "file": "bl_npc_nf20.vrm",
+   "height": 1.6,
+   "hipY": 0.904,
+   "kneeY": 0.552,
+   "moved": 784,
+   "maxDelta": 0.511,
+   "vrmMoved": 784,
+   "missing": 0,
+   "before": {
+    "inSeat": 277,
+    "below": 230,
+    "maxDepth": 0.303
+   },
+   "after": {
+    "inSeat": 0,
+    "below": 0,
+    "maxDepth": 0
+   },
+   "lod": {
+    "file": "lod/bl_npc_nf20.lod.glb",
+    "skirtVerts": 134,
+    "moved": 85
+   }
+  }
+ }
+}
