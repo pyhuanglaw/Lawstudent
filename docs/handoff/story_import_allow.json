@@ -4843,6 +4843,15 @@
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
    "note": "7 個 invite（offer、plan、scene、by、set、noPlan）；tools/story/import_arc_invites.py → src/data/arc_invites.js"
+  },
+  {
+   "path": "docs/story_planning/AA_719_decide_rules.json",
+   "sha": "3788d00c1",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:40「分岔稿第一份：規則表」）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "14 個決定拍（七位各 2）：style、lean、default、opts stance、rules（stance×trust×opt→result、rel、delay、say）、keyNote；tools/story/import_decide_rules.py → src/data/decide_rules.js"
   }
  ]
 }

@@ -31,6 +31,36 @@ const DECIDE=(function(){
     for(const x of o.opens||[]){ const [k,a]=String(x).split(':'); if(k==='place'){ const U=f.STUDY_UNLOCK||(f.STUDY_UNLOCK={}); if(U[a]==null) U[a]=G.day; } else if(k==='flag'){ if(f[a]==null) f[a]=G.day; } else if(k==='beat'&&typeof ARCS!=='undefined'){ const r=ARCS.rec(G,id); r.missed=(r.missed||[]).filter(n=>n!==+a); } }
     for(const x of o.closes||[]){ const [k,a]=String(x).split(':'); if(k==='beat'&&typeof ARCS!=='undefined'){ const r=ARCS.rec(G,id); if(!r.missed.includes(+a)) r.missed.push(+a); } else if(k==='flag'){ if(f['CLOSED_'+a]==null) f['CLOSED_'+a]=G.day; } else if(k==='place'){ const C=f.PLACE_CLOSED||(f.PLACE_CLOSED={}); if(C[a]==null) C[a]=G.day; } }
     return v; };
+  /* ===== AA_719 的決定拍（src/data/decide_rules.js）：她最後怎麼決定＝她本來的傾向 × 個性 × 你怎麼說（stance）× 信任 =====
+     規則由上往下第一條符合（stance、trust hi／lo／any、有 opt 要是那個選項、有 if 要成立）；都不符合＝default。
+     trust hi＝她對祐廷的 trust ≥ S.TRUST_HI 而且階段 ≥ 朋友（DATE.stageNum ≥ 3）。
+     delay＞0＝那天以後下次見面先說 say（「我想了想，還是……」）；三天內沒見面＝她傳訊息（只傳對話、不傳旁白）；delay 0 有 say＝那一拍演完馬上說。
+     before：那一拍要在那一天以前演到才算（語彤 YT-1：大一下第 9 週媽媽發現以前），過了＝default。
+     存檔：DECIDE[人][key]＝{v,day,stance,rule}；G.flags.DECIDE_SAY＝[{who,key,due,say,played}] */
+  S.TRUST_HI=30;
+  const TB=()=>(typeof DECIDE_RULES!=='undefined'&&DECIDE_RULES.keys)||[];
+  S.beatRule=(who,n)=>TB().find(e=>e.who===who&&e.beat===n)||null;
+  S.byKey=(who,key)=>TB().find(e=>e.who===who&&e.key===key)||null;
+  for(const e of TB()){ const d=S.DEFAULT[e.who]||(S.DEFAULT[e.who]={}); if(d[e.key]==null) d[e.key]=e.default; }
+  S.trustHi=function(G,who){ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return false; const t=+SOCIAL.rel(who).trust||0; const st=typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(who):0; return t>=S.TRUST_HI&&st>=3; };
+  const condOk=(G,c)=>!c||(typeof ARCS!=='undefined'&&ARCS.cond?ARCS.cond(G,c):S.cond(G,c));
+  S.pickRule=function(G,e,k){ const so=e.opts.find(o=>o.i===k), stance=so&&so.stance, hi=S.trustHi(G,e.who);
+    for(let j=0;j<e.rules.length;j++){ const r=e.rules[j]; if(r.stance!==stance) continue; if(r.trust==='hi'&&!hi) continue; if(r.trust==='lo'&&hi) continue; if(r.opt!=null&&r.opt!==k) continue; if(!condOk(G,r.if)) continue; return {r,j,stance}; }
+    return {r:null,j:-1,stance}; };
+  S.decideBeat=function(G,e,k){ if(!G||!e||S.has(G,e.who,e.key)) return null;
+    if(e.before&&typeof ARCS!=='undefined'&&ARCS.dayOf){ const d=ARCS.dayOf(e.before); if(d!=null&&G.day>=d){ S.set(G,e.who,e.key,e.default,{late:true}); return {v:e.default}; } }
+    const {r,j,stance}=S.pickRule(G,e,k); const v=r?r.result:e.default; S.set(G,e.who,e.key,v,{stance,rule:j});
+    if(r&&r.rel&&Object.keys(r.rel).length&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ const d=Object.assign({},r.rel); if(typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum(e.who)<3) delete d.npcRom; SOCIAL.adjust(e.who,d); }
+    if(r&&r.say&&r.say.length){ const L=S.says(G); L.push({who:e.who,key:e.key,due:G.day+(r.delay|0),say:r.say.slice(),played:false}); }
+    return {v,rule:j}; };
+  S.says=G=>{ const f=F(G); if(!Array.isArray(f.DECIDE_SAY)) f.DECIDE_SAY=[]; return f.DECIDE_SAY; };
+  S.due=(G,who)=>G&&G.flags&&Array.isArray(G.flags.DECIDE_SAY)?G.flags.DECIDE_SAY.find(x=>x.who===who&&!x.played&&x.due<=G.day)||null:null;
+  S.playDue=async function(GM,whoObj,id,x){ if(!x) return false; x.played=GM.G.day; for(const t of x.say){ if(/^（/.test(t)) await GM.say(null,t); else await GM.say(whoObj,t); } return true; };
+  /* 她三天內沒見到你：傳訊息（PHONE；只傳她說的話）*/
+  S.tick=function(G){ if(!G||!G.flags||!Array.isArray(G.flags.DECIDE_SAY)||typeof PHONE==='undefined'||!PHONE.at) return false; let did=false;
+    for(const x of G.flags.DECIDE_SAY){ if(x.played||G.day<x.due+3) continue; const L=x.say.filter(t=>!/^（/.test(t)); x.played=G.day; x.byMsg=true; if(L.length){ PHONE.at(G,G.day,G.hour,L.map(t=>({th:'p:'+x.who,from:x.who,text:t})),'decide_say_'+x.who+'_'+x.key); did=true; } }
+    return did; };
+  if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)&&!STORY.PHONE_RULES.includes(S.tick)) STORY.PHONE_RULES.push(S.tick);
   /* 選單：有 key 的那一組＝上方一行字＋選完確認（「再想想」回到同一組）*/
   S.careful=opts=>Array.isArray(opts)&&opts.some(o=>o&&o.key);
   S.choose=async function(GM,opts,o){ o=o||{}; const view=opts.map(q=>Object.assign({},q,{t:o.text?o.text(q.t):q.t}));

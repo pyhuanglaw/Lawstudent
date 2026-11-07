@@ -47,6 +47,7 @@ const ARCS=(function(){
       return S.resolve(G,id,b); }
     return null; };
   S.resolve=function(G,id,b){ const o=Object.assign({},b); delete o.alt; if(b.alt&&S.cond(G,b.alt.cond)){ if(b.alt.lines) o.lines=b.alt.lines; if(b.alt.ask) o.ask=b.alt.ask; }
+    { const DR=typeof DECIDE!=='undefined'&&DECIDE.beatRule?DECIDE.beatRule(id,b.n):null; if(DR){ o.opts=b.opts.map((q,i)=>{ const so=DR.opts.find(x=>x.i===i); return Object.assign({},q,{stance:so?so.stance:q.stance,decideBeat:DR.key},DR.keyTrue?{key:true}:null); }); if(DR.keyNote) o.keyNote=DR.keyNote; b={...b,opts:o.opts}; } }   /* 決定拍（AA_719）：選項帶 stance、關鍵的那一組小心選擇 */
     o.opts=b.opts.map(q=>{ if(q.tell&&q.toldAlt&&S.told(G,q.tell,id)){ const A=typeof q.toldAlt==='string'?{t:q.toldAlt}:q.toldAlt; return Object.assign({},q,A,{told:true}); } return q; });
     return o; };
   S.text=(G,t)=>String(t).replace(/\{name\}/g,(G&&G.name)||'祐廷');
@@ -63,6 +64,7 @@ const ARCS=(function(){
     if(b.set&&f[b.set]==null) f[b.set]=G.day;
     if(b.invite){ const I=f.ARC_INVITE||(f.ARC_INVITE={}), m=I[id]||(I[id]={}); if(m[b.n]==null) m[b.n]=G.day; }
     if(typeof DECIDE!=='undefined'&&(o.decide||o.opens||o.closes)) DECIDE.apply(G,id,o);   /* 她的決定、打開／錯過（BB_305 第 10 節）*/
+    if(o.decideBeat&&typeof DECIDE!=='undefined'&&DECIDE.byKey) DECIDE.decideBeat(G,DECIDE.byKey(id,o.decideBeat),k);   /* 決定拍：她最後怎麼決定照 AA_719 的規則（不是照你選的）*/
     return r; };
   /* ===== 故事線那一拍不演的時候：輪換句跟著日期和故事走＋她的生活自己往前（AA_717，src/data/arc_rot.js；BB_305 第 5、6 節）=====
      挑法：條件具體的優先——when（期末週、颱風當天或隔天、過年前兩週、開學第一週、某月）＞beat／if／life（故事線走到哪、你選過什麼、她的生活到哪）＞沒條件；
@@ -105,6 +107,6 @@ const ARCS=(function(){
   S.rotDone=function(G,id,x){ const r=S.rec(G,id); if(x&&x.np){ if(typeof ARCINV!=='undefined'&&ARCINV.npDone) ARCINV.npDone(G,x.np); r.rotSrc='arc'; return r; } if(x&&x.rot!=null){ const u=(Array.isArray(r.rot)?r.rot:[]).filter(i=>i!==x.rot); u.push(x.rot); r.rot=u.slice(-3); r.rotSrc='arc'; } else r.rotSrc='act'; return r; };
   S.rotRun=async function(GM,who,id,x){ await play(GM,who,x.lines); S.rotDone(GM.G,id,x); };
   /* 一起的活動演這一拍（INV.meet 呼叫）：演完才記；中途出錯照丟，沒記＝下次重演 */
-  S.run=async function(GM,who,id,b){ const k=await S.play(GM,who,id,b); S.done(GM.G,id,b,k); return k; };
+  S.run=async function(GM,who,id,b){ const k=await S.play(GM,who,id,b); S.done(GM.G,id,b,k); if(typeof DECIDE!=='undefined'&&DECIDE.due){ const x=DECIDE.due(GM.G,id); if(x) await DECIDE.playDue(GM,who,id,x); } return k; };   /* 決定拍 delay 0 有 say：演完馬上說 */
   return S;
 })();
