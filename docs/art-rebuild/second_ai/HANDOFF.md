@@ -6,7 +6,22 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-07 13:4x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-07 16:0x UTC，帳號 B LAWWW2-B）
+
+分支 `claude/funny-albattani-iawshm`；開發分支 `claude/modest-rubin-2lyp7g`（`03e92c411`＝e66781d1f＋交接；洋洋、轉角唱片已經進得去、霖澤 5F 光照已整合）。瀏覽器都沒跑（D131，交 CC）。
+工作樹 `$S/devnow`＝開發 `03e92c411`＋`src/zones3d.js` GG_VIEW 兩筆（洋洋、轉角唱片）＋測試 `gg_views_1107_unit.js`、`gg_new_lm_unit.js`（還沒存成 patch）。
+
+**LAWWW-B 15:35 的順序**：洋洋 → 轉角唱片 → 便利商店插隊烘；兩間的 GLB 都沒有窗景卡，照 afar 補一張。CC 拍、BB 判。三間做完一起交。
+
+| 項目 | 內容 | 位置 | 狀態 |
+|---|---|---|---|
+| 便利商店光照 | BB 原檔 `bb_support/cvs_interior.glb`（sha256 cb5efc95…）；LED 29 條 14 W；白天 0.53／晚上 0.47（店面玻璃那一圈白天 4% 過曝） | `bake_gg_new.sh cvs`；`cdfd9f116` | **烘好、已 push**，等另外兩間一起交 |
+| 洋洋窗景卡 | `glb_add_viewcard.py`（照 afar：玻璃外 2.5 m、16 × 6.5 m、WALL_front_VIEW_yy_window_view）；照片 `gg_shop_views.sh yangyang`（公館 x −9.4；機車、樹、路燈照遊戲位置 `gg_scene/*.json`） | `4d3bea071`（工具） | **照片 128 取樣在拍**；試拍 24 取樣看過：騎樓柱、菜單看板、機車、羅斯福路、校門、椰林 |
+| 洋洋光照 | 日光燈 6 支 30 W、吊燈 4 盞 20 W、壁燈 5 盞 10 W；烘完加窗景卡 | `bake_gg_new.sh yangyang` | 等照片拍完再烘 |
+| 轉角唱片 | 投射燈 18 盞（12 W、40° 朝下）、吊燈 3 盞；`--keep-instances`（instancing 照舊、名字和淡出方向要用 corner_glb_unit 再驗）；照片公館 x 55.6 | `bake_gg_new.sh corner`、`gg_shop_views.sh corner` | 腳本寫好，排在洋洋後面 |
+| zones3d.js patch | GG_VIEW 加 yangyang、corner_records 兩筆（不用改別的：兩間本來就走 ggAAattach） | `$S/devnow` | 開發原樣 `gg_views_1107_unit` FAILED 6 |
+
+## 🔨 （舊）現在在做（11-07 13:4x UTC，帳號 B LAWWW2-B）
 
 分支 `claude/funny-albattani-iawshm`；開發分支 `claude/modest-rubin-2lyp7g`（`e9d8c668f`）。瀏覽器都沒跑（D131，交 CC）。
 
