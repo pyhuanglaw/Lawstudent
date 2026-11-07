@@ -76,10 +76,14 @@ async def cafe_date(pg, cdp, tag):
 
 async def load_menu(pg, cdp, slot):
     """照玩家：☰ → 存檔頁 → 欄位 N「讀取」（有確認就按讀取／確定）；回傳有沒有點到"""
-    if await pg.evaluate("document.getElementById('menu').classList.contains('hide')"):
-        await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(1200)
-    await L.tap(pg, cdp, '#menu .tabs button[data-tab="save"]'); await pg.wait_for_timeout(1200)
-    c = await pg.evaluate("""(n=>{ const it=[...document.querySelectorAll('#saveSlots .item')].find(x=>new RegExp('欄位 '+n).test(x.innerText)); if(!it) return null; const b=[...it.querySelectorAll('button')].find(x=>x.textContent==='讀取'); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })""", slot)
+    c = None
+    for _try in range(8):   # BB-B 19:49：偶發找不到「讀取」——選單沒開成、存檔頁還沒畫好：每次重開選單、點存檔頁、等欄位出來（最多 8 秒）
+        if await pg.evaluate("document.getElementById('menu').classList.contains('hide')"):
+            await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(900)
+        await L.tap(pg, cdp, '#menu .tabs button[data-tab="save"]'); await pg.wait_for_timeout(700)
+        c = await pg.evaluate("""(n=>{ const it=[...document.querySelectorAll('#saveSlots .item')].find(x=>new RegExp('欄位 '+n).test(x.innerText)); if(!it) return null; const b=[...it.querySelectorAll('button')].find(x=>x.textContent==='讀取'); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })""", slot)
+        if c: break
+        R.note('[load_menu] 第 %d 次沒找到欄位 %d 的「讀取」：menu hide=%s，存檔頁欄位 %s' % (_try + 1, slot, await pg.evaluate("document.getElementById('menu').classList.contains('hide')"), await pg.evaluate("[...document.querySelectorAll('#saveSlots .item b')].map(x=>x.innerText)")))
     if not c: return False
     await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(800)
     for _ in range(5):
@@ -145,24 +149,12 @@ async def main():
                     await L.load_state(pg, book_st, quiet_events=True, quiet_phone=True)
                 else:
                     R.note('%s 照玩家：☰ → 存檔頁 → 欄位 1「讀取」' % tag)
-                    if await pg.evaluate("document.getElementById('menu').classList.contains('hide')"):
-                        await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(1200)
-                    await L.tap(pg, cdp, '#menu .tabs button[data-tab="save"]'); await pg.wait_for_timeout(1200)
-                    c = await pg.evaluate("""(()=>{ const it=[...document.querySelectorAll('#saveSlots .item')].find(x=>/欄位 1/.test(x.innerText)); if(!it) return null; const b=[...it.querySelectorAll('button')].find(x=>x.textContent==='讀取'); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()""")
-                    if not R.check('%s 欄位 1 有「讀取」' % tag, bool(c), ''): continue
-                    await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(800)
-                    for _ in range(5):   # 確認讀取（有的話）
-                        st = await L.state(pg)
-                        if st['choices']:
-                            k = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')]; const i=bs.findIndex(b=>/讀取|確定|是/.test(b.innerText)); return i<0?0:i; })()")
-                            cc = await pg.evaluate("(i=>{ const b=document.querySelectorAll('#choices button')[i]; const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%d)" % k)
-                            await L.touch_tap(cdp, cc[0], cc[1]); await pg.wait_for_timeout(800)
-                        else: break
+                    R.check('%s 欄位 1 有「讀取」（選單開得起來）' % tag, await load_menu(pg, cdp, 1), '')
+                at_load = await pg.evaluate(BUSY)
+                await pg.wait_for_timeout(1500)
                 toast_txt = await pg.evaluate("(()=>{ const e=document.getElementById('toast'); return e?e.innerText.trim():''; })()")
                 toast_vis = await pg.evaluate("(()=>{ const e=document.getElementById('toast'); if(!e) return false; const cs=getComputedStyle(e); return !e.classList.contains('hide')&&cs.display!=='none'&&cs.visibility!=='hidden'&&+cs.opacity>0.05; })()")
-                R.note('%s 讀檔後 toast 看得到：%s' % (tag, toast_vis))
-                R.note('%s 讀檔後 toast：%s' % (tag, J(toast_txt)))
-                at_load = await pg.evaluate(BUSY)
+                R.note('%s 讀檔後 toast：%s（看得到：%s）' % (tag, J(toast_txt), toast_vis))
                 inv_post = await pg.evaluate("(()=>(GAME.G.invites||[]).map(q=>[q.id,q.who,q.place,q.day,q.h,q.state]))()")
                 R.note('%s 讀檔後：G.invites %s' % (tag, J(inv_post)))
                 seq = []; prev = await pg.evaluate(SNAP); jump = None
