@@ -18203,8 +18203,8 @@
    "msg": "ACK",
    "what": "AA_724 洋洋鹹酥雞店內台詞",
    "task": "YANGYANG-IN-1107",
-   "integration": "未整合",
-   "note": "子代理接",
+   "integration": "已整合待測試",
+   "note": "e66781d1f",
    "ack": "ACK"
   },
   {
@@ -18259,8 +18259,8 @@
    "msg": "ACK",
    "what": "轉角唱片 MODEL_READY（corner.glb 重新匯出、corner_interior.py 改、corner_glb_unit patch、LICENSES）",
    "task": "CORNER-IN-1107",
-   "integration": "未整合",
-   "note": "洋洋以後接",
+   "integration": "已整合待測試",
+   "note": "e66781d1f",
    "ack": "ACK"
   },
   {
@@ -18273,8 +18273,8 @@
    "msg": "ACK",
    "what": "AA_725 轉角唱片店內台詞",
    "task": "CORNER-IN-1107",
-   "integration": "未整合",
-   "note": "",
+   "integration": "已整合待測試",
+   "note": "e66781d1f",
    "ack": "ACK"
   },
   {
@@ -18289,6 +18289,20 @@
    "task": "BUG-Y0-DAYSKIP-CARD-1107",
    "integration": "已整合待測試",
    "note": "3b942474b",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-L2-LM-5F",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "b034cd978",
+   "msg": "ACK",
+   "what": "霖澤 5F 光照（白天、晚上、研究室關燈）＋linze_upper3d.js apply5",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "e66781d1f",
    "ack": "ACK"
   }
  ],
