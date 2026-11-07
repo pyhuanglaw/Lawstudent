@@ -753,6 +753,7 @@ const CLS=(function(){
      不是使用者給的（AA 2026-10-14 17:4x；匯入時也不帶進來），大四是 AI 出題、使用者授權 */
   S.curExam=null;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['classes3d:curExam']=()=>{ S.curExam=null; };   /* 讀檔時清掉（考到一半讀檔：測試掛勾不留上一場）*/
+  S.peWear=null; (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['classes3d:peWear']=()=>{ S.peWear=null; };   /* 讀檔時清掉（體育課換運動服，GYM-FIT-1107 ③）：上到一半讀檔，舊流程走不到 attend 的 finally；下一次 FIT.gymWearSync 照區域換回 */
   S.runExam=async function(GM,it){ const G=GM.G, R=S.rec(G), c=it.c, kind=it.exam, termId=it.term; const nm=it.examName||(kind==='mid'?'期中練習':'期末考');   /* it.examName：大四下補考（faildelay3d.js 的 FD.MK_LINES.examName）*/
     const r=S.drawExam(G,c.id,termId,kind);
     if(!r.ok){ console.error('EXAM_BANK_INSUFFICIENT',c.id,r.n); R.exam=R.exam||{}; R.exam[r.key]={status:'insufficient',n:r.n};

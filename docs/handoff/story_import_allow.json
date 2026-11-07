@@ -4830,6 +4830,15 @@
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
    "note": "七位輪換句 15～19 則（when／beat／if／life／lifeMax／from／until／alt）＋life 7～12 階；tools/story/import_arc_rot.py → src/data/arc_rot.js"
+  },
+  {
+   "path": "docs/story_planning/AA_716_arc_invites.json",
+   "sha": "026a2dd34",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:00「AA_716 故事線的下次帶你去變成真的約會」）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "7 個 invite（offer、plan、scene、by、set、noPlan）；tools/story/import_arc_invites.py → src/data/arc_invites.js"
   }
  ]
 }

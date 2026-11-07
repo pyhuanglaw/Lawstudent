@@ -90,15 +90,17 @@ const ARCS=(function(){
     return x.when?2:(x.beat!=null||x.if||x.life!=null||x.lifeMax!=null?1:0); };
   /* 這一次的中途說哪一則：{rot:編號, tier, lines}；null＝沒有（沒有稿；或沒條件那一層輪到活動自己的輪換句，ctx.alt）*/
   S.rotPick=function(G,id,ctx){ ctx=ctx||{}; const L=R().rot[id]; if(!L||!L.length||!G) return null; const r=S.rec(G,id), used=Array.isArray(r.rot)?r.rot:[];
-    const C=L.map((x,i)=>({x,i,t:S.rotTier(G,id,x)})).filter(c=>c.t>=0); if(!C.length) return null;
-    const top=Math.max(...C.map(c=>c.t));
+    const C=L.map((x,i)=>({x,i,t:S.rotTier(G,id,x)})).filter(c=>c.t>=0);
+    const top=C.length?Math.max(...C.map(c=>c.t)):-1;
+    if(top<2&&typeof ARCINV!=='undefined'&&ARCINV.np){ const np=ARCINV.np(G,id); if(np) return {np:np.key,tier:1,lines:np.lines}; }   /* 故事線約她、沒排成（AA_716 noPlan）：說一次；when 那幾句還是優先 */
+    if(!C.length) return null;
     const out=c=>({rot:c.i,tier:c.t,lines:c.x.alt&&S.ifOk(G,id,c.x.alt.if)?c.x.alt.lines:c.x.lines});
     for(let t=top;t>=0;t--){ const fresh=C.filter(c=>c.t===t&&!used.includes(c.i)); if(!fresh.length) continue;
       if(t===0&&ctx.alt&&r.rotSrc==='arc') return null;   /* 沒條件那一層：上次用了這一份，這次輪活動自己的 */
       return out(fresh[0]); }
     if(ctx.alt&&r.rotSrc==='arc') return null;   /* 能說的都在最近 3 次裡：活動自己有輪換句就先輪那邊 */
     return out(C.slice().sort((a,b)=>used.indexOf(a.i)-used.indexOf(b.i))[0]); };   /* 都用過：最久以前用過的 */
-  S.rotDone=function(G,id,x){ const r=S.rec(G,id); if(x&&x.rot!=null){ const u=(Array.isArray(r.rot)?r.rot:[]).filter(i=>i!==x.rot); u.push(x.rot); r.rot=u.slice(-3); r.rotSrc='arc'; } else r.rotSrc='act'; return r; };
+  S.rotDone=function(G,id,x){ const r=S.rec(G,id); if(x&&x.np){ if(typeof ARCINV!=='undefined'&&ARCINV.npDone) ARCINV.npDone(G,x.np); r.rotSrc='arc'; return r; } if(x&&x.rot!=null){ const u=(Array.isArray(r.rot)?r.rot:[]).filter(i=>i!==x.rot); u.push(x.rot); r.rot=u.slice(-3); r.rotSrc='arc'; } else r.rotSrc='act'; return r; };
   S.rotRun=async function(GM,who,id,x){ await play(GM,who,x.lines); S.rotDone(GM.G,id,x); };
   /* 一起的活動演這一拍（INV.meet 呼叫）：演完才記；中途出錯照丟，沒記＝下次重演 */
   S.run=async function(GM,who,id,b){ const k=await S.play(GM,who,id,b); S.done(GM.G,id,b,k); return k; };
