@@ -12,7 +12,7 @@
 
 **腳本** `tools/blender/env_second/lightbake/bake_wancai_sem.sh`：
 - 直接烘 assets 裡現在的 GLB，不重新產生。
-- 每次烘焙 512 取樣，CPU 約 RESULT_MIN 分鐘；B 要烘兩次。
+- 每次烘焙 512 取樣，CPU 約 18 分鐘（同時在做別的事，單獨跑會快一些）；B 要烘兩次，三次共約 55 分鐘。
 
 **燈**：
 - 用新的 `tube_lights.py`，從 GLB 的燈管網格讀出每一盞燈；每盞放一個 30 W 面光源，在燈管下緣。
@@ -57,11 +57,40 @@ B 平常是兩個初談隔間（`SET_CONSULT`：屏風、小桌）；2028-10-26 
 
 ## 檔案
 
-RESULT_FILES
+| 檔案 | 大小 |
+|---|---|
+| `wancai_sema.glb` | 1.62 MB（原本 1.55） |
+| `wancai_semb.glb` | 1.36 MB（原本 1.29） |
+| 光照貼圖 6 張（WebP 1024×1024）：A 白天／晚上；B 平常白天／晚上；B 面試白天／晚上 | 每張 52～62 KB |
+
+![光照貼圖：上排 A 白天、A 晚上、B 平常白天；下排 B 平常晚上、B 面試白天、B 面試晚上](lm_maps.jpg)
+
+- B 的兩張看得出差別：平常那張，地上是兩個隔間的桌椅、屏風的影子；面試那張是中間一張長桌、考生椅的影子。
+
+平均亮度：
+
+| | 白天 | 晚上 |
+|---|---|---|
+| A | 0.38 | 0.26 |
+| B 平常 | 0.34 | 0.23 |
+| B 面試 | 0.40 | 0.26 |
+
+- 面試那天比平常亮一點，多半是因為屏風收掉、窗邊的光照得進來（推測，沒有逐項拆開驗）。
+- `lm_sets.py`：兩次烘的 23 個網格第二套 UV 完全一樣，面試那一張寫進 `extras.lightmap.sets.interview`。
 
 ## 測試（Node，開發 `126bdf93e`）
 
-RESULT_TESTS
+| | 開發原樣 | 換新的 GLB＋貼圖，不加 `rooms_glb3d.js` | 換新的＋patch |
+|---|---|---|---|
+| 新 `tests/wancai_sem_lm_unit.js`（`wancai_sem_lm_1107.patch`） | **FAILED 3**（沒有光照貼圖） | **FAILED 1**（面試那天還是平常那一張） | **ALL PASS** |
+| 會讀研討室、`rooms_glb3d.js` 的其他測試，加上光照相關的 room_rtnight、lm_instancing、singleside_interiors | — | — | 22 支全過 |
+
+新測試檢查五件事：
+- ① 兩個 GLB 都有 extras.lightmap，B 另有 sets.interview；
+- ② 地板、天花板、牆、腰牆、收邊條有第二套 UV；燈管、小東西、金屬、書、玻璃、B 的兩套家具沒有；
+- ③ 沒有材質同時給有、沒有第二套 UV 的網格；
+- ④ 淡出的牆、SET_ 節點都在；
+- ⑤ 遊戲裡平常的日子用平常那一張、2028-10-26 用面試那一張；換回平常的日子會換回來；快取的 GLB 沒被改；A 照原本那一張。
 
 ## 還沒驗
 
