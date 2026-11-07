@@ -122,18 +122,22 @@ async def main():
         if not R.check('遊戲載入', ok, ''): await b.close(); return
         await pg.evaluate("localStorage.clear()")
         AL = await pg.evaluate("AA613.L")
+        await pg.evaluate("(()=>{ if(GAME._ccSayWrap) return; const f=GAME.say; window.__says=[]; GAME.say=function(who,text,opts){ try{ window.__says.push([who?(typeof who==='string'?who:(who.name||'')):'', String(text), +(+GAME.G.hour).toFixed(3)]); }catch(e){} return f.apply(this,arguments); }; GAME._ccSayWrap=true; })()")   # 只記不改：每一句 GAME.say（典禮 ADV 的字不在 #dlgText，對話框抓不到的也記得到）
         try:
             if 'ceremony' in STEPS:
                 tag = '[⑨典禮]'
                 await load_save(pg, SAVE18, tag)
                 kb = await pg.evaluate("(id=>STORY.knows(id,GAME.G))", BH)
                 R.note('%s 存檔裡認不認識柏翰（STORY.knows）：%s' % (tag, kb))
-                await jump(pg, cdp, tag, '2025-08-31', 13 + 55 / 60, 'dorm_hall')
+                await pg.evaluate('window.__says=[]'); await jump(pg, cdp, tag, '2025-08-31', 13 + 55 / 60, 'dorm_hall')
                 wf0 = await pg.evaluate("GAME.walkFallbacks||0")
                 t0 = time.time()
                 while time.time() - t0 < 120 and not await pg.evaluate("!!(GAME.G.flags||{}).CEREMONY_Y1"): await pg.wait_for_timeout(1000)
-                sc = await scene(pg, cdp, tag, max_s=180, idle_end=5)
+                sc = await scene(pg, cdp, tag, max_s=240, idle_end=15)
                 await R.shot(pg, 'ceremony_after')
+                says = await pg.evaluate("(window.__says||[]).filter(x=>x[2]>=13.9)")
+                R.note('%s GAME.say 記到的（14:00 以後）：%s' % (tag, J(says[:12])))
+                if says: sc['lines'] = [[w, t] for w, t, _ in says]
                 first = sc['lines'][0] if sc['lines'] else None
                 if kb: R.check('%s 認識柏翰：典禮第一句旁白＝「%s」' % (tag, AL['ceremony']), bool(first) and first[1] == AL['ceremony'] and not first[0], J(sc['lines'][:3]))
                 else: R.check('%s 不認識柏翰：沒有「%s」' % (tag, AL['ceremony']), not has(sc['lines'], AL['ceremony']), J(sc['lines'][:3]))
