@@ -67,7 +67,23 @@ async def main():
             th = await P.phone_thread(pg, cdp, 'p:' + YT); asks = [a['t'] for a in th.get('asks', [])]
             print('[YT]', J(th.get('text', '')[-500:]), J(asks))
             run.check('① 3/10 21:40 語彤三則＋「好。」／「這週不行。」', th['ok'] and all(t in th.get('text', '') for t in Lx['first']) and '好。' in asks and '這週不行。' in asks, J([th.get('text', '')[-400:], asks]))
-            await P.phone_answer(pg, cdp, 'p:' + YT, '好。'); await L.close_panels(pg, cdp); await pg.wait_for_timeout(3000)
+            # 21:30 以安（HASK）約 3/11 15:30 總圖、還沒回：照舊會讓「好。」排不進去（BUG-YTS-FIRST-CLASH-1107）。CLASH=keep＝留著重現；預設＝玩家先回以安「不了」
+            off = await pg.evaluate("(()=>(GAME.G.invites||[]).filter(v=>v.state==='offered').map(v=>({id:v.id,who:v.who,day:v.day,h:v.h,place:v.place})))()")
+            print('[OFFERED]', J(off))
+            if os.environ.get('CLASH') != 'keep':
+                for v in off:
+                    await P.phone_thread(pg, cdp, 'p:' + v['who'], open_folds=False)
+                    btn = await pg.evaluate("(id=>[...document.querySelectorAll('#phoneBody [data-ans]')].filter(b=>b.dataset.ans.startsWith(id+'|')).map(b=>[b.dataset.ans,b.textContent.trim()]))(%s)" % json.dumps(v['id']))
+                    pick = next((x for x in btn if x[0].endswith('|no')), None) or next((x for x in btn if '不' in x[1]), None)
+                    print('[DECLINE]', J([v, btn, pick]))
+                    if pick:
+                        await L.tap(pg, cdp, '#phoneBody [data-ans="%s"]' % pick[0]); await pg.wait_for_timeout(1500)
+                    st = await pg.evaluate("(id=>{ const v=INV.byId(GAME.G,id); return v?v.state:null; })(%s)" % json.dumps(v['id']))
+                    run.check('玩家先回 %s 的邀約（%s，%s）→ 不是 offered 了' % (v['who'], pick and pick[1], v['place']), bool(pick) and st != 'offered', J([pick, st]))
+            ra = await P.phone_answer(pg, cdp, 'p:' + YT, '好。'); await L.close_panels(pg, cdp); await pg.wait_for_timeout(3000)
+            dg = await pg.evaluate("""(()=>{ const G=GAME.G, R=G.flags.YTSTUDY||{}, m=PHONE.byAsk?PHONE.byAsk(G,AA625.FIRST_TAG):null; const P=INV.place?INV.place('mokuyobi'):null;
+              return {R, ans:m?m.ans:'nomsg', day:G.day, mine:(INV.mineAt&&P&&R.fday!=null)?!!INV.mineAt(G,R.fday,14,P.stay):null, free:(INV.freeAt&&P&&R.fday!=null)?INV.freeAt(G,'heroine_03',P,R.fday,14):null, place:!!P}; })()""")
+            print('[ANS]', J((ra or '')[-200:]), J(dg, 1500))
             ivs = await pg.evaluate("(id=>(GAME.G.invites||[]).filter(v=>v.who===id).map(v=>({day:v.day,h:v.h,state:v.state,place:v.place,cat:v.cat,yts:v.yts})))(%s)" % json.dumps(YT))
             print('[IVS]', J(ivs))
             run.check('回「好。」＝約好 3/11（三）14:00 木曜日（一起念書）', any(v['day'] == d['d'] + 1 and abs(v['h'] - 14) < 0.05 and v['state'] == 'accepted' for v in ivs), J(ivs))
