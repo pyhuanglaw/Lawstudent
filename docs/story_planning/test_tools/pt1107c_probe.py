@@ -152,6 +152,15 @@ async def main():
         for k, (want, expect_kept) in enumerate((('送她' + BUY[0], False), ('送她' + BUY[1], True))):
             n = await pg.evaluate("(w=>{ const n=GAME.E.npcs.find(q=>q.id===w||q.charId===w); return n?{x:n.obj.position.x,z:n.obj.position.z,lv:n.lv|0}:null; })(%s)" % json.dumps(WHO))
             ok, st = await walk_use(pg, cdp, run, n['x'], n['z'], n['lv'], lab, 1.4)
+            if not ok:
+                # 旁邊的家具（沙發、座位）比她近：繞到她的另一側再試（玩家也會這樣走），8 個方向、離她 0.9 m
+                import math
+                for a in range(8):
+                    ang = a * math.pi / 4
+                    tx, tz = n['x'] + 0.9 * math.cos(ang), n['z'] + 0.9 * math.sin(ang)
+                    ok, st = await walk_use(pg, cdp, run, tx, tz, n['lv'], lab, 0.35)
+                    print('   繞到 %d 號方向 (%.2f, %.2f)：%s' % (a, tx, tz, st.get('interact')), flush=True)
+                    if ok: break
             run.check('[%d] 走到她旁邊、互動鍵「%s…」' % (k + 1, lab), ok, json.dumps({kk: st[kk] for kk in ('x', 'z', 'interact')}, ensure_ascii=False))
             if not ok: break
             said, seen = await run_dialog(pg, cdp, [want], 40)
