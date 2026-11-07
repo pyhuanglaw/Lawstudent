@@ -48952,7 +48952,7 @@
    "id": "BUG-INV-CONFLICT-SKIP-REPLY-1107",
    "title": "約的時間撞到已經約好的事 →「你那個時間已經約了別人。改成 今天 13:30？」→ 按「好」就直接約好，對方沒有回覆，連照設計要婉拒的也約成了（BB-B 11-07 GAME_BUG 候選，語彤 FAMILIAR 約 2:30 AM 念書）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "BB-B 11-07 03:5x（elegant-brown 723a35397 BB_255 最後一節）",
    "first": {
@@ -48965,7 +48965,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 03:5x LAWWW-B】查 invites3d.js 改時間那一支：改好時間以後要重新走一次對方的回覆判斷（REPLY_COND／decline），不能直接當成答應",
+   "next": "【11-07 05:2x LAWWW-B】修好：撞到自己的約、系統提的新時間（why mine）選了以後重新問她（decide＋personal），她的回答照播；婉拒的不再約成；她自己提的新時間照舊直接約好；最多再問三次。tests/inv_conflict_reply_1107_unit.js（語彤 2:30 AM 念書照設計婉拒、以安總圖答應那句照播）。 ｜ 【11-07 03:5x LAWWW-B】查 invites3d.js 改時間那一支：改好時間以後要重新走一次對方的回覆判斷（REPLY_COND／decline），不能直接當成答應",
    "sha": null
   }
  ]

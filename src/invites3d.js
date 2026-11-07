@@ -791,8 +791,15 @@ const INV=(function(){
     if(r.lines) await S.playLines(GM,who,r.lines,r); else await GM.say(null,S.reply(G,id,P.id,r));
     if(r.study&&typeof SISG!=='undefined'&&SISG.studyOffer) return SISG.studyOffer(GM,W,who,n);   /* 學姊第 14 週～筆試婉拒以後「那一起念書。」（AA_535 1-3）*/
     if(r.res==='here') return null;   /* 她已經在那裡：玩家直接去（以安的總圖、芷若上班時的 Café、學姊平日的總圖、語彤週二週四的麵店）*/
-    if(r.res==='resched'&&r.alt){ const Q=S.place(r.alt.place||P.id); const kk=await GM.choose([{t:'好，就 '+when(G,r.alt.day,r.alt.h)+(Q.id!==P.id?'（'+Q.name+'）':'')},{t:'下次再說'}]);
-      if(kk===0){ const iv=S.accept(G,id,Q.id,r.alt.day,r.alt.h,{by:'player',cat:Q.id===P.id?pickCat:null}); await GM.say(null,'約好 '+when(G,r.alt.day,r.alt.h)+'，'+Q.name+'。'); S.teMark(GM,iv,id,Q,r.alt); return iv; } }
+    /* 改時間（BUG-INV-CONFLICT-SKIP-REPLY-1107，BB-B 11-07：撞到你自己已經約好的事 →「你那個時間已經約了別人。改成 ○○？」→ 按「好」就直接約好，她沒有回、連照設計要婉拒的也約成了）：
+       why 'mine' 的新時間是系統提的、不是她答應的——換成新的時間再問她一次（decide＋personal，和第一次一樣），她的回答照播；她提的新時間（busy、booked、closed…）照舊直接約好。最多再問三次 */
+    let R=r;
+    for(let tries=0;tries<3&&R&&R.res==='resched'&&R.alt;tries++){ const Q=S.place(R.alt.place||P.id), A=R.alt; const kk=await GM.choose([{t:'好，就 '+when(G,A.day,A.h)+(Q.id!==P.id?'（'+Q.name+'）':'')},{t:'下次再說'}]); if(kk!==0) return null;
+      const cat=Q.id===P.id?pickCat:null;
+      if(R.why==='mine'){ const R2=S.personal(G,id,Q,A.day,A.h,Object.assign(S.decide(G,id,Q.id,A.day,A.h),n?{face:true}:{}));
+        if(R2.res!=='accept'){ if(R2.lines) await S.playLines(GM,who,R2.lines,R2); else await GM.say(null,S.reply(G,id,Q.id,R2)); R=R2; continue; }
+        const iv=S.accept(G,id,Q.id,A.day,A.h,{by:'player',cat}); if(R2.lines) await S.playLines(GM,who,R2.lines,R2); else await GM.say(null,S.reply(G,id,Q.id,R2)); await GM.say(null,'約好 '+when(G,A.day,A.h)+'，'+Q.name+'。'); S.teMark(GM,iv,id,Q,A); return iv; }
+      const iv=S.accept(G,id,Q.id,A.day,A.h,{by:'player',cat}); await GM.say(null,'約好 '+when(G,A.day,A.h)+'，'+Q.name+'。'); S.teMark(GM,iv,id,Q,A); return iv; }
     return null; };
   return S;
 })();
