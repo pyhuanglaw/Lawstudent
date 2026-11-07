@@ -1,0 +1,89 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index a6623981b..e4606b1de 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -275,6 +275,7 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
+ | 招牌設計稿 `tools/blender/env_second/textures/signs_src/gg_ririteishoku_h_fit.webp`、`gg_ririteishoku_v_fit.webp`（公館 G11「日日定食」的橫招牌、直立招牌） | 公館招牌設計稿那一批（ART-GG-SIGNS：使用者生成、BB-B 通過；`_fit`＝BB-B 補好比例的版本，橫 6.50×0.64 m、直 0.74×2.60 m；LAWWW2-C `abd8fc0b` 加進來）。不是另外畫的 | 使用者自有素材；店名虛構（D77） | `gongguan_shops.glb` 的招牌貼圖集 `textures/gen/gg_signs_atlas.jpg` |
+ | 林家乾麵、巷子裡定食的窗景 `assets/models/env/views/wz_lin_day.webp`、`wz_lin_night.webp`、`wz_teishoku_day.webp`、`wz_teishoku_night.webp`（景深 `tools/shots/shop_views_depth.json`） | `tools/shots/shop_views.py`：在遊戲裡的溫州街拍的畫面（Playwright 截圖，從店門口往外拍，白天／晚上各一張；LAWWW2 2026-10-22 佇列 j23） | 本作：遊戲自己的畫面，不是照片、不是外部素材 | 兩家店店面窗戶外的景（`room()` 的窗景） |
+ | 溫州街小路、日常失速窗景照片 `assets/models/env/second_ai/aa_support/komichi_view_{day,night}.webp`、`offbeat_view_front_{day,night}.webp` | 本作 Blender 渲染（`tools/blender/env_second/wz_window_view.py`：溫州街正式模型 wenzhou_street／wz_props／wz_jphouse／wz_park＋機車 39 台；LAWWW2-C 11-05 WINVIEW-AUDIT-1105） | 本作 | 兩間店窗外的街景（白天、晚上） |
++| 木曜日窗景照片 `assets/models/env/second_ai/aa_support/mokuyobi_view_{day,night}.webp` | 本作 Blender 渲染（`tools/blender/env_second/wz_window_view.py`：溫州街正式模型 wenzhou_street／wz_props／wz_jphouse／wz_park＋機車；LAWWW2-B 11-07 WINVIEW-AUDIT 木曜日） | 本作 | 木曜日二樓臨街窗往南看的溫州街（白天 14:00、晚上） |
+ | 溫州街飲料店、冰菓室的菜單（`textures/gen/shop_menu_tea.png`、`shop_menu_ice.png`；2026-10-22 起巷口茶飲用 `shop_menu_tea_wz.png`（AA_364 第 2 節的品項），冰菓室照 AA_364 改、冬天鐵捲門紙條「五月見」） | 本作 `tools/blender/env_second/shopkit_tex.py` 產生；字型文泉驛正黑（GPL＋字型例外，只拿來把字畫進圖片）；店名、價錢虛構（D77） | 本作 | B5 騎樓兩間店的店內菜單 |
+ | 203 開學那晚的小物件 `assets/models/env/second_ai/aa_support/v0_dorm_props.glb`（紙箱三種狀態、阿勳的書桌、保齡球袋、經濟學課本） | 本作 Blender 腳本 `tools/blender/env_second/aa_support/v0_dorm_props.py`（AA-B 製作、LAWWW2-B 驗收）；貼圖集在腳本裡程式畫（字型文泉驛正黑，沒有附字型檔） | 本作 | 203（LAWWW-B 擺；還沒接） |
+ | 黃金葛 `assets/models/env/second_ai/prop_pothos.glb`（盆、托盤＋四種大小 POTHOS_S1～S4；ART-04） | 本作 Blender 腳本 `tools/blender/env_second/prop_pothos.py`（LAWWW2-B 原作、LAWWW2-C 2026-10-17 改放四人房，639f0188）；葉子貼圖程式畫的（`tools/blender/env_second/textures/gen/pothos_leaf.png`） | 本作 |
+diff --git a/src/mokuyobi3d.js b/src/mokuyobi3d.js
+index a7da1aaf1..aacdd3530 100644
+--- a/src/mokuyobi3d.js
++++ b/src/mokuyobi3d.js
+@@ -78,7 +78,7 @@ const MOK3=(function(){
+     // 正式模型：店內（AA）放在二樓那一組、樓梯（LAWWW2）放在一樓那一組
+     let stairWalls=[]; const reWalls=()=>{ for(const w of stairWalls) if(z.walls.indexOf(w)<0) z.walls.push(w); };
+     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_mokuyobi_interior']) ASSETS.loadOne('bldg.wz_mokuyobi_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return;
+-      root.updateMatrixWorld(true); Z3.attachRoomGLB(z,g1,fb1,c.scene.clone(true)); reWalls(); }).catch(e=>console.warn('木曜日室內正式模型載入失敗，用備用模型',e));
++      root.updateMatrixWorld(true); const r1=c.scene.clone(true); Z3.attachRoomGLB(z,g1,fb1,r1); if(Z3.wzViewSwap) Z3.wzViewSwap(z,r1,'mokuyobi'); reWalls(); })   /* 窗外換成溫州街街景照片（WINVIEW-AUDIT 木曜日，LAWWW2-B 11-07；Z3.WZ_VIEW.mokuyobi）*/.catch(e=>console.warn('木曜日室內正式模型載入失敗，用備用模型',e));
+     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_mokuyobi_stair']) ASSETS.loadOne('bldg.wz_mokuyobi_stair').then(c=>{ if(!c||!c.scene||E.zone!==z) return;
+       const r=c.scene.clone(true); r.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(/VIEW/.test(o.name)) viewMat=o.material; } }); g0.add(r); root.updateMatrixWorld(true);
+       stairWalls=prepWalls(r); if(viewMat&&stairWalls.length){ const v=stairWalls.find(o=>/VIEW/.test(o.name)); if(v) viewMat=v.material; } fb0.visible=false; reWalls(); if(z.applyTime&&typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12); }).catch(e=>console.warn('木曜日樓梯正式模型載入失敗，用備用模型',e));
+diff --git a/src/zones3d.js b/src/zones3d.js
+index ab0530152..6698d7427 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -2514,6 +2514,7 @@ const Z3 = (function(){
+      照公館 GG_VIEW 的做法，在 Blender 用溫州街正式模型、站在店裡往外拍白天／晚上兩張（tools/blender/env_second/wz_window_view.py）。mesh＝窗景卡網格名字（正規式）；
+      換照片的那一塊卡複製一份材質（日常失速前窗、右窗共用 dof_window_view：只換前窗，右窗照舊）。晚上不調暗；照片載入失敗就換回模型原本那張、照舊調暗（wzAAattach 那一段）*/
+   const WZ_VIEW={teishoku:[{mesh:'VIEW',day:'assets/models/env/second_ai/aa_support/komichi_view_day.webp',night:'assets/models/env/second_ai/aa_support/komichi_view_night.webp'}],
++    mokuyobi:[{mesh:'mok_window_view',day:'assets/models/env/second_ai/aa_support/mokuyobi_view_day.webp',night:'assets/models/env/second_ai/aa_support/mokuyobi_view_night.webp'}],   /* 木曜日（溫州街 B4 二樓）臨街窗往南看：原本是手繪的樹（mok_view），換成溫州街正式模型拍的街景（WINVIEW-AUDIT，LAWWW2-B 11-07；mokuyobi3d.js 載入室內模型後呼叫 Z3.wzViewSwap）*/
+     offbeat:[{mesh:'WALL_front_VIEW',day:'assets/models/env/second_ai/aa_support/offbeat_view_front_day.webp',night:'assets/models/env/second_ai/aa_support/offbeat_view_front_night.webp'}]};   /* 日常失速右窗（朝北）：遊戲裡那一頭是地圖外、什麼都沒有，拍出來是一片空地，先留模型原本那張樹 */
+   function wzViewSwap(z,root,key){ const wv=WZ_VIEW[key]||[], L=[];
+     for(const e of wv){ const tD=wzNightViewTex(e.day), tN=wzNightViewTex(e.night); if(!tD||!tN) continue; tD.userData.url=e.day; tN.userData.url=e.night; const re=new RegExp(e.mesh); let mc=null;
+@@ -2748,5 +2749,5 @@ const Z3 = (function(){
+         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
+       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
+     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
+-  return {ggViewPanes,shopViewPane,ggShopLit,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
++  return {wzViewSwap,ggViewPanes,shopViewPane,ggShopLit,BIKE_RACKS,XSG,ZONES,SHOP_IN,attachWenzhouModel,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+ })();
+diff --git a/tests/mok_view_1107_unit.js b/tests/mok_view_1107_unit.js
+new file mode 100644
+index 000000000..0e471e1f3
+--- /dev/null
++++ b/tests/mok_view_1107_unit.js
+@@ -0,0 +1,39 @@
++// 木曜日（wz_mokuyobi，溫州街 B4 二樓）臨街窗往外看換成溫州街的街景（WINVIEW-AUDIT 木曜日，LAWWW2-B 11-07；使用者 11-05 07:4x「應該很多店面看出去的街景都不對吧」）——不需要瀏覽器（D131）。
++// 原本窗景卡（WALL_front_VIEW_mok_window_view）是一張手繪的樹（mok_view），白天晚上同一張、晚上也亮著。
++// 在 Node 載入遊戲的 three.js、zones3d.js、mokuyobi3d.js 和正式模型 mokuyobi.glb，建出真正的區域：
++//   ① 照片都在（白天、晚上），長寬比＝窗景卡（14 × 6.5）
++//   ② 白天（14:00）：窗景卡換成白天那一張、不調暗
++//   ③ 晚上（21:00）：換成晚上那一張、不調暗；回到白天換回來
++//   ④ 不再是手繪的樹（mok_view）
++//   ⑤ 樓梯 GLB 門外那一張街景卡（mks_street_view，一樓鐵門外）不動
++// 修改前（開發分支 77195b12a）：① ② ③ ④ FAIL。用法：node tests/mok_view_1107_unit.js
++const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
++const fs=require('fs'), path=require('path'), vm=require('vm');
++const run=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
++global.innerWidth=844; global.innerHeight=390; global.location={search:''}; global.addEventListener=()=>{}; process.on('unhandledRejection',()=>{});
++const w0=console.warn; console.warn=(...a)=>{ const t=String(a[0]); if(/LOD|Missing|載入失敗/.test(t)) return; w0(...a); };
++for(const f of ['src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/calendar.js','src/data/places.js','src/zones3d.js','src/data/mokuyobi_layout.js','src/mokuyobi3d.js']) if(fs.existsSync(path.join(ROOT,f))) run(f);
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const sleep=ms=>new Promise(r=>setTimeout(r,ms)), MAN=ASSETS.manifest, A='assets/models/env/second_ai/aa_support/', IMG='mokuyobi_view', AR=14/6.5;
++const webpSize=f=>{ const b=fs.readFileSync(f); const t=b.toString('ascii',12,16); if(t==='VP8X') return [1+b.readUIntLE(24,3),1+b.readUIntLE(27,3)]; if(t==='VP8 ') return [b.readUInt16LE(26)&0x3fff,b.readUInt16LE(28)&0x3fff]; if(t==='VP8L'){ const v=b.readUInt32LE(21); return [(v&0x3fff)+1,((v>>14)&0x3fff)+1]; } return null; };
++(async()=>{
++  { const sz=['day','night'].map(t=>{ const f=path.join(ROOT,A+IMG+'_'+t+'.webp'); return fs.existsSync(f)?webpSize(f):null; });
++    check('① '+IMG+'：白天、晚上兩張都在、長寬比≈'+AR.toFixed(2)+'（窗景卡 14 × 6.5）', sz.every(q=>q&&Math.abs(q[0]/q[1]-AR)<0.03), JSON.stringify(sz)); }
++  window.ASSET_DATA=window.ASSET_DATA||{}; for(const k of ['bldg.wz_mokuyobi_interior','bldg.wz_mokuyobi_stair']){ const m=MAN[k]; if(m&&fs.existsSync(path.join(ROOT,m.url))) window.ASSET_DATA[m.url]=fs.readFileSync(path.join(ROOT,m.url)).toString('base64'); }
++  const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++  const src=m=>(m&&m.map&&m.map.userData&&m.map.userData.url)||'';
++  global.GAME={G:{zone:'wz_mokuyobi',day:30,hour:14,flags:{},money:5000,weather:'clear',visited:{}}};
++  E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES.wz_mokuyobi.build(E); E.zone=z; E.scene.add(z.group);
++  let ok=false; for(let i=0;i<150&&!ok;i++){ await sleep(100); z.group.traverse(o=>{ if(o.isMesh&&/mok_window_view/.test(o.name)) ok=true; }); } await sleep(300);
++  let m=null, st=null; z.group.traverse(o=>{ if(!o.isMesh) return; if(!m&&/mok_window_view/.test(o.name)) m=[].concat(o.material)[0]; if(!st&&/mks_street_view/.test(o.name)) st=[].concat(o.material)[0]; });
++  if(!m||!z.applyTime){ check('窗景卡接上了（正式模型 mokuyobi.glb 載入）', false, m?'沒有 applyTime':'沒有 mok_window_view'); }
++  else {
++    z.applyTime(14,'clear'); const d=src(m);
++    check('② 白天：換成白天那一張、不調暗', d.endsWith(IMG+'_day.webp')&&m.color.r===1, (d||'（模型原本的圖）')+' color '+m.color.r);
++    z.applyTime(21,'clear'); const n=src(m);
++    check('③ 晚上：換成晚上那一張、不調暗', n.endsWith(IMG+'_night.webp')&&m.color.r===1, (n||'（模型原本的圖）')+' color '+m.color.r);
++    z.applyTime(14,'clear'); check('③ 回到白天換回來', src(m).endsWith(IMG+'_day.webp'), src(m)||'（模型原本的圖）');
++    check('④ 不再是手繪的樹（mok_view）', !!src(m)&&!/mok_view/.test(src(m)), src(m)||((m.map&&m.map.name)||'模型的圖')); }
++  check('⑤ 一樓鐵門外的街景卡（樓梯 GLB 的 mks_street_view）不動', !st||(st!==m&&!/mokuyobi_view/.test(src(st))), st?((st.map&&st.map.name)||'模型的圖'):'樓梯模型沒載到（只檢查窗景卡）');
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();

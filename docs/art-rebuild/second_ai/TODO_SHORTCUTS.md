@@ -9,6 +9,25 @@
   - 「瀏覽器沒跑（D131）」那一類都排 CC 的 PC 佇列，不在雲端做。
 - 新交一包，就把它的「先將就」加到這裡（最上面）。
 
+### 木曜日窗外換成溫州街街景（WINVIEW-AUDIT 木曜日，LAWWW2-B 2026-11-07）
+
+- 來源：[wip/winview_moku_1107/README.md](wip/winview_moku_1107/README.md)
+- 狀態：**待做**
+
+1. **參考圖窗外有樹**，遊戲的溫州街木曜日門前沒有：建議門前真的種兩棵行道樹再重拍（要 LAWWW、BB 同意，動導航）。
+2. 窗景是平面照片（和其他店一樣）。
+3. 機車位置用 11-04 讀的，機車搬了要重拍。
+4. 瀏覽器沒跑（D131）。
+
+### 大口漢堡晚上窗外閃（WINDOW-FLICKER-1107，LAWWW2-B 2026-11-07）＋BB-B 11-07 對 XS-NORTH-EXT／XS-WINCARD 的意見
+
+- 來源：[wip/window_flicker_1107/README.md](wip/window_flicker_1107/README.md)；BB-B 11-07 03:4x 訊息（判定在企劃線 BB_255 最後一節，elegant-brown 4869baa57）
+- 狀態：**待做**
+
+1. 一樓玻璃伸到 4.52 m、和二樓玻璃在 3.68～4.52 疊在同一個平面（BB〔帳號 A〕的模型）。
+2. **BB-B：大口窗景晚上只看得到天空，看不到街**（P3，不擋）。
+3. **BB-B：望月台停車場那個鏡頭貼著一面沒貼圖的灰牆**（P3，不擋；BB 請 CC 換角度重拍）。
+
 ### 望月台、體育館正式外觀（照官網照片）＋新生南路圍牆後面＋三間店的窗外（XS-NORTH-EXT-1105＋XS-WINCARD-1105，LAWWW2-C 2026-11-05）
 
 - 來源：[wip/xs_wincard_1105/README.md](wip/xs_wincard_1105/README.md)（交件 c6837632e）

@@ -807,12 +807,12 @@
    "at": "2026-11-07T03:2x",
    "quote": "（沒有文字，傳了四個存檔：fatiao3d_save_day38.json、day42.json、day46.json、day46_1.json）",
    "kind": "原話",
-   "status": "等使用者",
+   "status": "已完成",
    "replaces": "",
-   "note": "day38 宿舍房間 07:34；day42 新生南路南洋 xs_nanyang 22:21 (3,−2.4)；day46 宿舍房間 07:33；day46_1 溫州街木曜日二樓 wz_mokuyobi lv1 18:10 (−0.35,5.4)。LAWWW2-B 03:2x 已問要看哪裡；檔案放在工作階段暫存區（不進 repo）。",
+   "note": "day38 宿舍房間 07:34；day42 新生南路南洋 xs_nanyang 22:21 (3,−2.4)；day46 宿舍房間 07:33；day46_1 溫州街木曜日二樓 wz_mokuyobi lv1 18:10 (−0.35,5.4)。LAWWW2-B 03:2x 已問要看哪裡；檔案放在工作階段暫存區（不進 repo）。｜03:5x LAWWW-B 說明：是使用者 11-07 試玩 v9.10.21 的回報用（AA-B 放企劃線 docs/story_planning/user_saves/2026-11-07/，原話 UA-LAWWW-1107-01）。給 LAWWW2 的兩項：WINDOW-FLICKER-1107（已修，window_flicker_1107）、GYM-FIT-1107 美術（健身房玻璃門）。",
    "notify": "",
-   "wants": "使用者說明要用這四個存檔看什麼",
-   "task": ""
+   "wants": "",
+   "task": "WINDOW-FLICKER-1107、GYM-FIT-1107"
   }
  ]
 }

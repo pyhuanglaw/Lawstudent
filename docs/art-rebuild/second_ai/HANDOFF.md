@@ -6,6 +6,13 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
+## 🔨 現在在做（11-07 04:0x UTC，帳號 B LAWWW2-B）
+- 交了兩包（都在 `claude/funny-albattani-iawshm`，patch 對開發 `77195b12a`；瀏覽器沒跑，D131）：
+  - **WINDOW-FLICKER-1107**（使用者 11-07 試玩「大口……外面窗景一直閃」）：一樓、二樓兩顆模型各一張夜景卡在同一個平面 → z-fighting。改成只顯示玩家那一層的。`wip/window_flicker_1107/`；Node：v9.10.21 FAIL 5、開發原樣 FAIL 5、patch ALL PASS。
+  - **WINVIEW-AUDIT 木曜日**：窗外手繪樹 → 溫州街正式模型白天、晚上。`wip/winview_moku_1107/`；Node：開發原樣 FAIL 5、patch＋照片 ALL PASS。
+- 下一步：GYM-FIT-1107 美術（健身房玻璃門看不出是門），再來 LAWWW2-C 交班 C 節的佇列。
+- 使用者的四個存檔＝11-07 試玩回報（企劃線 `docs/story_planning/user_saves/2026-11-07/`）。
+
 ## ✅ 值班登記（2026-11-07 03:4x UTC；帳號 B LAWWW2-B；使用者：「現在接班 我也會跟其他AI講」）
 - 值班登記：帳號 B｜LAWWW2-B｜session_01GV1WG3UeT2DhuDpxeWJsvD｜分支 `claude/funny-albattani-iawshm`（11-02 清理時刪過，這次從接班基準重新推）｜接班基準 `629e042e2`（快轉上一任 `claude/focused-cray-c9uwvw`）。
 - 上一班：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜11-05 10:50 正常交班（成果最後 `b5ffabc34`，交班紀錄 `629e042e2`）。
