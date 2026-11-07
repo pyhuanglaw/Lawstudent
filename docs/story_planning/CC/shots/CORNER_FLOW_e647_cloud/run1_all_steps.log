@@ -1,0 +1,158 @@
+CC 轉角唱片功能流程：SHA=?（worktree 實際 e647887c72）；STEPS=['enter', 'browse', 'listen', 'buy', 'misc', 'close']；Playwright 手機模擬 ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+PASS 拿得到 AA_725 的稿（S.L.corner_records）
+  [前置／捷徑] [①] 【前置／捷徑】讀檔進公館 G12 轉角唱片門外 2025-10-18 12.50（條件事件關閉；錢 600）
+PASS [①第一次] 找得到「轉角唱片的店門」  [["捷運公館站入口", null, null], ["進入公館燒臘", null, null], ["進入青木茶室", null, null], ["外帶", null, null], ["進入頁間書屋", null, null], ["進入便利商店", null, null], ["進入 洋洋鹹酥雞", null, null], ["進入 afar café", null, null], ["進入 轉角唱片", null, null], ["進入 Daybreak", null, null], ["進入慢輪單車", null, null], ["往溫州街", null, null], ["回到校園", null, null], ["回到校園", null, null], ["坐在騎樓的板凳", null, null]]
+  [  73.5s] 到達「[①第一次] 走到「進入 轉角唱片」(53.97,21.00)」附近（0.24 m）：點地面 3 次、轉鏡頭 1 次、搖桿 0 次，46 秒
+PASS [①第一次] 互動按鈕是「進入 轉角唱片」  進入 轉角唱片
+  [  85.4s] [①第一次] 進店後 5.6 秒：{"door": true, "dlg": true}
+  [  95.4s] [①第一次] 進門 對話 1 句：[["", "（木門推開，店裡在放一張很舊的爵士。唱針沙沙的聲音比音樂還清楚。）"]]；選項 [] → 點 []
+PASS [①] 進得了 corner_records  {"zone": "corner_records", "h": 12.588, "day": 32, "money": 600, "records": 0, "seat": null, "x": 1.63, "z": 4.25, "crl": null, "door": {"corner_records": 32}}
+PASS [①] 第一次進門說一句進門句（door 三句之一，一字照抄）  [["", "（木門推開，店裡在放一張很舊的爵士。唱針沙沙的聲音比音樂還清楚。）"]]
+PASS [①出去] 找得到「出口」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 249.0s] 走不到「[①出去] 走到「離開轉角唱片」(1.63,5.35)」：最後位置 (1.63,4.93)，目標 (1.63,5.35)；點地面 9 次、轉鏡頭 0 次、搖桿 34 次
+  [ 249.0s]   這段時間：畫面 567 格／152 秒、遊戲時間 12.59→12.96、paused=False、開著的面板 []
+PASS [①出去] 互動按鈕是「離開轉角唱片」  離開轉角唱片
+  [ 256.6s] [①出去] 對話 0 句：[]；選項 [] → 點 []
+PASS [①同一天第二次] 找得到「轉角唱片的店門」  [["捷運公館站入口", null, null], ["進入公館燒臘", null, null], ["進入青木茶室", null, null], ["外帶", null, null], ["進入頁間書屋", null, null], ["進入便利商店", null, null], ["進入 洋洋鹹酥雞", null, null], ["進入 afar café", null, null], ["進入 轉角唱片", null, null], ["進入 Daybreak", null, null], ["進入慢輪單車", null, null], ["往溫州街", null, null], ["回到校園", null, null], ["回到校園", null, null], ["坐在騎樓的板凳", null, null], ["騎腳踏車", null, null]]
+  [ 297.5s] 到達「[①同一天第二次] 走到「進入 轉角唱片」(53.97,21.00)」附近（0.12 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，41 秒
+PASS [①同一天第二次] 互動按鈕是「進入 轉角唱片」  進入 轉角唱片
+  [ 303.3s] [①同一天第二次] 進店後 0.0 秒：{"door": true, "dlg": false}
+  [ 307.3s] [①同一天第二次] 進門 對話 0 句：[]；選項 [] → 點 []
+PASS [①] 同一天再進去不說進門句  []
+PASS [②indie] 找得到「翻唱片：indie」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 312.3s] 到達「[②indie] 走到「翻唱片（搖滾／Indie）」(1.85,3.08)」附近（0.11 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [②indie] 互動按鈕是「翻唱片（搖滾／Indie）」  翻唱片（搖滾／Indie）
+  [ 324.4s] [②indie] 對話 1 句：[["", "（你一張一張往後翻。有一張封面是一根夕陽下的電線桿，背面"]]；選項 [["拿去試聽\n免費、15 分鐘", "買這張\n150 元", "放回去"]] → 點 ["放回去"]
+FAIL [②indie] 句子在 browse.indie（一字照抄）  [["", "（你一張一張往後翻。有一張封面是一根夕陽下的電線桿，背面"]]
+PASS [②indie] 選項是「拿去試聽／買這張／放回去」  [["拿去試聽\n免費、15 分鐘", "買這張\n150 元", "放回去"]]
+PASS [②folk] 找得到「翻唱片：folk」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 332.5s] 到達「[②folk] 走到「翻唱片（民謠／Folk）」(1.85,1.27)」附近（0.11 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+PASS [②folk] 互動按鈕是「翻唱片（民謠／Folk）」  翻唱片（民謠／Folk）
+  [ 347.1s] [②folk] 對話 1 句：[["", "（封面大多是山、海、一把木吉他。有一張的歌詞本夾在外面，字是手寫的。）"]]；選項 [["拿去試聽\n免費、15 分鐘", "買這張\n150 元", "放回去"]] → 點 ["放回去"]
+PASS [②folk] 句子在 browse.folk（一字照抄）  [["", "（封面大多是山、海、一把木吉他。有一張的歌詞本夾在外面，字是手寫的。）"]]
+PASS [②folk] 選項是「拿去試聽／買這張／放回去」  [["拿去試聽\n免費、15 分鐘", "買這張\n150 元", "放回去"]]
+PASS [②electronic] 找得到「翻唱片：electronic」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 354.0s] 到達「[②electronic] 走到「翻唱片（電子／Electronic）」(1.85,-0.53)」附近（0.11 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+PASS [②electronic] 互動按鈕是「翻唱片（電子／Electronic）」  翻唱片（電子／Electronic）
+  [ 366.2s] [②electronic] 對話 1 句：[["", "（這一箱的封面都很亮，螢光粉、螢光藍。翻久了眼睛有點花。）"]]；選項 [["拿去試聽\n免費、15 分鐘", "買這張\n150 元", "放回去"]] → 點 ["放回去"]
+PASS [②electronic] 句子在 browse.electronic（一字照抄）  [["", "（這一箱的封面都很亮，螢光粉、螢光藍。翻久了眼睛有點花。）"]]
+PASS [②electronic] 選項是「拿去試聽／買這張／放回去」  [["拿去試聽\n免費、15 分鐘", "買這張\n150 元", "放回去"]]
+PASS [②jazz] 找得到「翻唱片：jazz」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 405.5s] 到達「[②jazz] 走到「翻唱片（爵士／Jazz）」(-2.35,2.05)」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，39 秒
+PASS [②jazz] 互動按鈕是「翻唱片（爵士／Jazz）」  翻唱片（爵士／Jazz）
+  [ 418.1s] [②jazz] 對話 1 句：[["", "（封套都有點舊，邊角磨白了。最前面那張的價錢貼紙寫著 300。）"]]；選項 [["拿去試聽\n免費、15 分鐘", "買這張\n250 元", "放回去"]] → 點 ["放回去"]
+PASS [②jazz] 句子在 browse.jazz（一字照抄）  [["", "（封套都有點舊，邊角磨白了。最前面那張的價錢貼紙寫著 300。）"]]
+PASS [②jazz] 選項是「拿去試聽／買這張／放回去」  [["拿去試聽\n免費、15 分鐘", "買這張\n250 元", "放回去"]]
+PASS [②citypop] 找得到「翻唱片：citypop」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 422.3s] 到達「[②citypop] 走到「翻唱片（城市流行／City Pop）」(-2.35,0.30)」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [②citypop] 互動按鈕是「翻唱片（城市流行／City Pop）」  翻唱片（城市流行／City Pop）
+  [ 433.4s] [②citypop] 對話 1 句：[["", "（夜景、海邊公路、一台敞篷車。這"]]；選項 [["拿去試聽\n免費、15 分鐘", "買這張\n150 元", "放回去"]] → 點 ["放回去"]
+FAIL [②citypop] 句子在 browse.citypop（一字照抄）  [["", "（夜景、海邊公路、一台敞篷車。這"]]
+PASS [②citypop] 選項是「拿去試聽／買這張／放回去」  [["拿去試聽\n免費、15 分鐘", "買這張\n150 元", "放回去"]]
+PASS [②ost] 找得到「翻唱片：ost」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 442.4s] 到達「[②ost] 走到「翻唱片（原聲帶／OST）」(-2.35,-1.45)」附近（0.20 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+PASS [②ost] 互動按鈕是「翻唱片（原聲帶／OST）」  翻唱片（原聲帶／OST）
+  [ 455.4s] [②ost] 對話 1 句：[["", "（有一張是你沒看過的電影的原聲帶，背面印著一行字："]]；選項 [["拿去試聽\n免費、15 分鐘", "買這張\n250 元", "放回去"]] → 點 ["放回去"]
+FAIL [②ost] 句子在 browse.ost（一字照抄）  [["", "（有一張是你沒看過的電影的原聲帶，背面印著一行字："]]
+PASS [②ost] 選項是「拿去試聽／買這張／放回去」  [["拿去試聽\n免費、15 分鐘", "買這張\n250 元", "放回去"]]
+PASS [②wall] 找得到「翻唱片：wall」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 460.6s] 到達「[②wall] 走到「看唱片牆」(-3.00,-3.00)」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [②wall] 互動按鈕是「看唱片牆」  看唱片牆
+  [ 474.4s] [②wall] 對話 1 句：[["", "（店員在梯子上整理最上面那一層，看到你，說：「要拿哪一張"]]；選項 [["拿去試聽\n免費、15 分鐘", "買這張\n150 元", "放回去"]] → 點 ["放回去"]
+FAIL [②wall] 句子在 browse.wall（一字照抄）  [["", "（店員在梯子上整理最上面那一層，看到你，說：「要拿哪一張"]]
+PASS [②wall] 選項是「拿去試聽／買這張／放回去」  [["拿去試聽\n免費、15 分鐘", "買這張\n150 元", "放回去"]]
+PASS [③第1次 indie] 找得到「翻唱片：indie」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 511.2s] 到達「[③第1次 indie] 走到「翻唱片（搖滾／Indie）」(1.85,3.08)」附近（0.11 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，35 秒
+PASS [③第1次 indie] 互動按鈕是「翻唱片（搖滾／Indie）」  翻唱片（搖滾／Indie）
+  [ 533.5s] [③第1次 indie] 對話 4 句：[["", "（箱子前面貼著手寫紙卡：「公館聲響祭 出演樂團 → 這一格」。）"], ["", "（你坐上高腳椅，戴上耳機。店員幫你把唱片放上去，輕輕放下唱針。）"], ["", "（吉他一進來就很大聲。鼓手好像在生氣。聽到第二首，你開始跟著點頭。）"], ["", "（你把耳機掛回架上。外面的聲音一下子回來了。）"]]；選項 [["拿去試聽\n免費、15 分鐘", "買這張\n150 元", "放回去"]] → 點 ["拿去試聽\n免費、15 分鐘"]
+PASS [③第1次 indie] 站著按「拿去試聽」＝坐上高腳椅（試聽中 player.seat）、開始句＝listen.start  {"seats": [{"x": 2.95, "z": 3.2}, {"x": 2.95, "z": 3.2}], "lines": [["", "（箱子前面貼著手寫紙卡：「公館聲響祭 出演樂團 → 這一格」。）"], ["", "（你坐上高腳椅，戴上耳機。店員幫你把唱片放上去，輕輕放下唱針。）"], ["", "（吉他一進來就很大聲。鼓手好像在生氣。聽到第二首，你開始跟著點頭。）"], ["", "（你把耳機掛回架上。外面的聲音一下子回來了。）"]]}
+PASS [③第1次 indie] 那一類那一句（listen.g.indie）、結束句  [["", "（箱子前面貼著手寫紙卡：「公館聲響祭 出演樂團 → 這一格」。）"], ["", "（你坐上高腳椅，戴上耳機。店員幫你把唱片放上去，輕輕放下唱針。）"], ["", "（吉他一進來就很大聲。鼓手好像在生氣。聽到第二首，你開始跟著點頭。）"], ["", "（你把耳機掛回架上。外面的聲音一下子回來了。）"]]
+PASS [③第1次 indie] 時間 +15 分鐘（實際 20 分；含翻唱片、走路）  [13.272, 13.608]
+PASS [③第1次 indie] 聽完站起來  {"zone": "corner_records", "h": 13.608, "day": 32, "money": 600, "records": 0, "seat": null, "x": 2.2, "z": 3.2, "crl": {"d": 32, "n": 1}, "door": {"corner_records": 32}}
+  [ 533.5s] [③第1次 indie] CR_LISTEN＝{"d": 32, "n": 1}
+PASS [③第2次 folk] 找得到「翻唱片：folk」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 547.2s] 到達「[③第2次 folk] 走到「翻唱片（民謠／Folk）」(1.85,1.27)」附近（0.11 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，13 秒
+PASS [③第2次 folk] 互動按鈕是「翻唱片（民謠／Folk）」  翻唱片（民謠／Folk）
+  [ 569.6s] [③第2次 folk] 對話 4 句：[["", "（封面大多是山、海、一把木吉他。有一張的歌詞本夾在外面，字是手寫的。）"], ["", "（你又戴上耳機。店員看了你一眼，笑了一下，沒說話。）"], ["", "（只有一把吉他和一個人的聲音。唱的是一條你沒去過的河。）"], ["", "（你把耳機掛回架上。外面的聲音一下子回來了。）"]]；選項 [["拿去試聽\n免費、15 分鐘", "買這張\n150 元", "放回去"]] → 點 ["拿去試聽\n免費、15 分鐘"]
+PASS [③第2次 folk] 同一天第二次＝listen.again  [["", "（封面大多是山、海、一把木吉他。有一張的歌詞本夾在外面，字是手寫的。）"], ["", "（你又戴上耳機。店員看了你一眼，笑了一下，沒說話。）"], ["", "（只有一把吉他和一個人的聲音。唱的是一條你沒去過的河。）"], ["", "（你把耳機掛回架上。外面的聲音一下子回來了。）"]]
+PASS [③第2次 folk] 那一類那一句（listen.g.folk）、結束句  [["", "（封面大多是山、海、一把木吉他。有一張的歌詞本夾在外面，字是手寫的。）"], ["", "（你又戴上耳機。店員看了你一眼，笑了一下，沒說話。）"], ["", "（只有一把吉他和一個人的聲音。唱的是一條你沒去過的河。）"], ["", "（你把耳機掛回架上。外面的聲音一下子回來了。）"]]
+PASS [③第2次 folk] 時間 +15 分鐘（實際 19 分；含翻唱片、走路）  [13.61, 13.919]
+PASS [③第2次 folk] 聽完站起來  {"zone": "corner_records", "h": 13.919, "day": 32, "money": 600, "records": 0, "seat": null, "x": 2.2, "z": 1.85, "crl": {"d": 32, "n": 2}, "door": {"corner_records": 32}}
+  [ 569.7s] [③第2次 folk] CR_LISTEN＝{"d": 32, "n": 2}
+PASS [④買 jazz] 找得到「翻唱片：jazz」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 616.7s] 到達「[④買 jazz] 走到「翻唱片（爵士／Jazz）」(-2.35,2.05)」附近（0.09 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，47 秒
+PASS [④買 jazz] 互動按鈕是「翻唱片（爵士／Jazz）」  翻唱片（爵士／Jazz）
+  [ 635.5s] [④買 jazz] 對話 3 句：[["", "（你翻到一張封面是雨夜的街，名字看不懂，可是你多看了一眼。）"], ["店員", "這張兩百五。"], ["", "（店員把唱片裝進一個牛皮紙袋，袋子上蓋了一個「轉角」的章。）"]]；選項 [["拿去試聽\n免費、15 分鐘", "買這張\n250 元", "放回去"]] → 點 ["買這張\n250 元"]
+PASS [④買 jazz] 店員：「這張兩百五。」  [["", "（你翻到一張封面是雨夜的街，名字看不懂，可是你多看了一眼。）"], ["店員", "這張兩百五。"], ["", "（店員把唱片裝進一個牛皮紙袋，袋子上蓋了一個「轉角」的章。）"]]
+PASS [④買 jazz] 扣 250 元（600 → 350）、G.records 多一筆（0 → 1）
+PASS [④買 jazz] 買完一句（bought 之一）  [["", "（你翻到一張封面是雨夜的街，名字看不懂，可是你多看了一眼。）"], ["店員", "這張兩百五。"], ["", "（店員把唱片裝進一個牛皮紙袋，袋子上蓋了一個「轉角」的章。）"]]
+PASS [④買 indie] 找得到「翻唱片：indie」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 683.2s] 到達「[④買 indie] 走到「翻唱片（搖滾／Indie）」(1.85,3.08)」附近（0.11 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，48 秒
+PASS [④買 indie] 互動按鈕是「翻唱片（搖滾／Indie）」  翻唱片（搖滾／Indie）
+  [ 697.7s] [④買 indie] 對話 3 句：[["", "（你一張一張往後翻。有一張封面是一根夕陽下的電線桿，背面只寫了樂團名字。）"], ["店員", "這張嗎？……一百五。"], ["店員", "這張的 B 面比較好聽。"]]；選項 [["拿去試聽\n免費、15 分鐘", "買這張\n150 元", "放回去"]] → 點 ["買這張\n150 元"]
+PASS [④買 indie] 店員：「這張嗎？……一百五。」  [["", "（你一張一張往後翻。有一張封面是一根夕陽下的電線桿，背面只寫了樂團名字。）"], ["店員", "這張嗎？……一百五。"], ["店員", "這張的 B 面比較好聽。"]]
+PASS [④買 indie] 扣 150 元（350 → 200）、G.records 多一筆（1 → 2）
+PASS [④買 indie] 買完一句（bought 之一）  [["", "（你一張一張往後翻。有一張封面是一根夕陽下的電線桿，背面只寫了樂團名字。）"], ["店員", "這張嗎？……一百五。"], ["店員", "這張的 B 面比較好聽。"]]
+  [前置／捷徑] [④錢不夠] 【捷徑】錢設 100 元
+PASS [④錢不夠] 找得到「翻唱片：folk」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 702.4s] 到達「[④錢不夠] 走到「翻唱片（民謠／Folk）」(1.85,1.27)」附近（0.11 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [④錢不夠] 互動按鈕是「翻唱片（民謠／Folk）」  翻唱片（民謠／Folk）
+  [ 719.2s] [④錢不夠] 對話 3 句：[["", "（封面大多是山、海、一把木吉他。有一張的歌詞本夾在外面，字是手寫的。）"], ["店員", "這張嗎？……一百五。"], ["店員", "……下次再來帶走也可以，我先幫你放櫃台後面。"]]；選項 [["拿去試聽\n免費、15 分鐘", "買這張\n150 元", "放回去"]] → 點 ["買這張\n150 元"]
+PASS [④錢不夠] 店員 ask150＋short、不扣錢、不記唱片  {"lines": [["", "（封面大多是山、海、一把木吉他。有一張的歌詞本夾在外面，字是手寫的。）"], ["店員", "這張嗎？……一百五。"], ["店員", "……下次再來帶走也可以，我先幫你放櫃台後面。"]], "money": [100, 100], "rec": [2, 2]}
+PASS [⑤櫃台] 找得到「櫃台」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 751.3s] 到達「[⑤櫃台] 走到「問店員／結帳」(-0.40,-2.90)」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，31 秒
+PASS [⑤櫃台] 互動按鈕是「問店員／結帳」  問店員／結帳
+  [ 764.0s] [⑤櫃台] 對話 1 句：[["店員", "找什麼類型？……沒有要找也可以，慢慢看。"]]；選項 [["搖滾／Indie\n150 元", "民謠／Folk\n150 元", "電子／Electronic\n150 元", "爵士／Jazz\n250 元", "城市流行／City Pop\n150 元", "原聲帶／OST\n250 元", "先不用"]] → 點 ["先不用"]
+PASS [⑤櫃台] 那一天第一次：asking 那一句、選單最後是「先不用」  {"lines": [["店員", "找什麼類型？……沒有要找也可以，慢慢看。"]], "choices": [["搖滾／Indie\n150 元", "民謠／Folk\n150 元", "電子／Electronic\n150 元", "爵士／Jazz\n250 元", "城市流行／City Pop\n150 元", "原聲帶／OST\n250 元", "先不用"]], "picked": ["先不用"]}
+PASS [⑤看音響] 找得到「看音響」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 778.4s] 到達「[⑤看音響] 走到「看音響」(2.75,-2.30)」附近（0.07 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+PASS [⑤看音響] 互動按鈕是「看音響」  看音響
+  [ 787.4s] [⑤看音響] 對話 1 句：[["", "（有一台擴大機的燈是橘色的，亮著，可是沒有接任何東西。）"]]；選項 [] → 點 []
+PASS [⑤看音響] look.corner_view 之一  [["", "（有一台擴大機的燈是橘色的，亮著，可是沒有接任何東西。）"]]
+PASS [⑤坐高腳椅] 找得到「高腳椅」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 862.2s] 到達「[⑤坐高腳椅] 走到「坐下」(2.95,3.20)」附近（0.26 m）：點地面 13 次、轉鏡頭 1 次、搖桿 1 次，75 秒
+PASS [⑤坐高腳椅] 互動按鈕是「坐下」  坐下
+  [ 876.3s] [⑤坐高腳椅] 對話 1 句：[["", "（高腳椅有一點高，你踩著橫桿坐上去。試聽桌上的檯燈剛好照到耳機。）"]]；選項 [["坐一下，看看四周\n時間 +20 分鐘", "起身"]] → 點 ["坐一下，看看四周\n時間 +20 分鐘"]
+PASS [⑤坐高腳椅] seat.stool 那一句  [["", "（高腳椅有一點高，你踩著橫桿坐上去。試聽桌上的檯燈剛好照到耳機。）"]]
+PASS [⑤坐沙發] 找得到「沙發」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [ 916.7s] 到達「[⑤坐沙發] 走到「坐一下」(-2.90,3.05)」附近（0.22 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，39 秒
+PASS [⑤坐沙發] 互動按鈕是「坐一下」  坐一下
+  [ 929.9s] [⑤坐沙發] 對話 1 句：[["", "（深綠的沙發陷下去一點。旁邊的小几上，玻璃瓶插著一枝黃色的小花。）"]]；選項 [["坐一下，看看四周\n時間 +20 分鐘", "起身"]] → 點 ["坐一下，看看四周\n時間 +20 分鐘"]
+PASS [⑤坐沙發] seat.sofa 那一句  [["", "（深綠的沙發陷下去一點。旁邊的小几上，玻璃瓶插著一枝黃色的小花。）"]]
+  [前置／捷徑] [⑥20:58 在店裡] 【捷徑】時間撥到 20:58（GAME.G.hour）
+  [ 932.7s] [⑥20:58 在店裡] 對話 0 句：[]；選項 [] → 點 []
+  [ 934.4s] [⑥20:58 在店裡] 對話 0 句：[]；選項 [] → 點 []
+  [ 936.0s] [⑥20:58 在店裡] 對話 0 句：[]；選項 [] → 點 []
+  [ 937.6s] [⑥20:58 在店裡] 對話 0 句：[]；選項 [] → 點 []
+  [ 939.2s] [⑥20:58 在店裡] 對話 0 句：[]；選項 [] → 點 []
+  [ 940.8s] [⑥20:58 在店裡] 對話 0 句：[]；選項 [] → 點 []
+  [ 942.5s] [⑥20:58 在店裡] 對話 0 句：[]；選項 [] → 點 []
+  [ 944.1s] [⑥20:58 在店裡] 對話 0 句：[]；選項 [] → 點 []
+  [ 945.7s] [⑥20:58 在店裡] 對話 0 句：[]；選項 [] → 點 []
+  [ 947.4s] [⑥20:58 在店裡] 對話 0 句：[]；選項 [] → 點 []
+  [ 955.0s] [⑥20:58 在店裡] 對話 1 句：[["店員", "我們今天要打烊了。"]]；選項 [] → 點 []
+PASS [⑥20:58 在店裡] 21:00 店員「我們今天要打烊了。」  [["店員", "我們今天要打烊了。"]]
+PASS [⑥20:58 在店裡] 人到公館  {"zone": "gongguan", "h": 21.015, "day": 32, "money": 600, "records": 2, "seat": null, "x": 53.97, "z": 18, "crl": {"d": 32, "n": 2}, "door": {"corner_records": 32}}
+  [前置／捷徑] [⑥20:50 開始試聽] 【前置／捷徑】讀檔進公館 G12 轉角唱片門外 2025-10-18 20.00（條件事件關閉；錢 600）
+PASS [⑥20:50 開始試聽] 找得到「轉角唱片的店門」  [["捷運公館站入口", null, null], ["進入公館燒臘", null, null], ["進入青木茶室", null, null], ["外帶", null, null], ["進入頁間書屋", null, null], ["進入便利商店", null, null], ["進入 洋洋鹹酥雞", null, null], ["進入 afar café", null, null], ["進入 轉角唱片", null, null], ["進入 Daybreak", null, null], ["慢輪單車", null, null], ["往溫州街", null, null], ["回到校園", null, null], ["回到校園", null, null], ["坐在騎樓的板凳", null, null]]
+  [1009.6s] 到達「[⑥20:50 開始試聽] 走到「進入 轉角唱片」(53.97,21.00)」附近（0.18 m）：點地面 3 次、轉鏡頭 1 次、搖桿 0 次，41 秒
+PASS [⑥20:50 開始試聽] 互動按鈕是「進入 轉角唱片」  進入 轉角唱片
+  [1017.1s] [⑥20:50 開始試聽] 進店後 3.9 秒：{"door": true, "dlg": true}
+  [1026.0s] [⑥20:50 開始試聽] 進門 對話 1 句：[["", "（櫃台後面的店員抬頭點了一下，又低頭寫價錢貼紙。）"]]；選項 [] → 點 []
+PASS [⑥20:50 開始試聽] 找得到「翻唱片：jazz」  [["坐下", null, null], ["坐下", null, null], ["坐一下", null, null], ["坐一下", null, null], ["離開轉角唱片", null, null], ["問店員／結帳", "corner_shop", null], ["翻唱片（搖滾／Indie）", "corner_browse", "indie"], ["翻唱片（民謠／Folk）", "corner_browse", "folk"], ["翻唱片（電子／Electronic）", "corner_browse", "electronic"], ["翻唱片（爵士／Jazz）", "corner_browse", "jazz"], ["翻唱片（城市流行／City Pop）", "corner_browse", "citypop"], ["翻唱片（原聲帶／OST）", "corner_browse", "ost"], ["看唱片牆", "corner_browse", "wall"], ["試聽", "corner_listen", null], ["看音響", "corner_view", null]]
+  [1058.3s] 到達「[⑥20:50 開始試聽] 走到「翻唱片（爵士／Jazz）」(-2.35,2.05)」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，32 秒
+PASS [⑥20:50 開始試聽] 互動按鈕是「翻唱片（爵士／Jazz）」  翻唱片（爵士／Jazz）
+  [前置／捷徑] [⑥20:50 開始試聽] 【捷徑】翻開唱片那一刻把時間撥到 20:50（聽 15 分鐘會過 21:00）
+  [1084.3s] [⑥20:50 開始試聽] 對話 4 句：[["", "（封套都有點舊，邊角磨白了。最前面那張的價錢"], ["", "（你坐上高腳椅，戴上耳機。店員幫你把唱片放上去，輕輕放下唱針。）"], ["", "（薩克斯風吹得很慢，像有人在很晚的時候自言自語。）"], ["", "（你把耳機掛回架上。外面的聲音一下子回來了。）"]]；選項 [["拿去試聽\n免費、15 分鐘", "買這張\n250 元", "放回去"]] → 點 ["拿去試聽\n免費、15 分鐘"]
+  [1092.7s] [⑥20:50 開始試聽] 對話 1 句：[["店員", "我們今天要打烊了。"]]；選項 [] → 點 []
+PASS [⑥20:50 開始試聽] 等聽完（結束句）才說打烊那一句  [["", "（封套都有點舊，邊角磨白了。最前面那張的價錢"], ["", "（你坐上高腳椅，戴上耳機。店員幫你把唱片放上去，輕輕放下唱針。）"], ["", "（薩克斯風吹得很慢，像有人在很晚的時候自言自語。）"], ["", "（你把耳機掛回架上。外面的聲音一下子回來了。）"], ["店員", "我們今天要打烊了。"]]
+  [前置／捷徑] [⑥21:30 按門] 【前置／捷徑】讀檔進公館 G12 轉角唱片門外 2025-10-18 21.50（條件事件關閉；錢 600）
+PASS [⑥21:30 按門] 找得到「轉角唱片的店門」  [["捷運公館站入口", null, null], ["進入公館燒臘", null, null], ["進入青木茶室", null, null], ["外帶", null, null], ["進入頁間書屋", null, null], ["進入便利商店", null, null], ["進入 洋洋鹹酥雞", null, null], ["進入 afar café", null, null], ["進入 轉角唱片", null, null], ["進入 Daybreak", null, null], ["慢輪單車", null, null], ["往溫州街", null, null], ["回到校園", null, null], ["回到校園", null, null], ["坐在騎樓的板凳", null, null]]
+  [1142.4s] 到達「[⑥21:30 按門] 走到「進入 轉角唱片」(53.97,21.00)」附近（0.18 m）：點地面 3 次、轉鏡頭 1 次、搖桿 0 次，40 秒
+PASS [⑥21:30 按門] 互動按鈕是「進入 轉角唱片」  進入 轉角唱片
+  [1153.1s] [⑥21:30 按門] 對話 1 句：[["", "（轉角唱片的木門關上了。門上的牌子寫著「每天 12"]]；選項 [] → 點 []
+FAIL [⑥21:30 按門] sign 那一句、進不去  {"lines": [["", "（轉角唱片的木門關上了。門上的牌子寫著「每天 12"]], "zone": "gongguan"}
+PASS ⑧ 沒有 JS 例外  []
+FAILED 5: [②indie] 句子在 browse.indie（一字照抄）；[②citypop] 句子在 browse.citypop（一字照抄）；[②ost] 句子在 browse.ost（一字照抄）；[②wall] 句子在 browse.wall（一字照抄）；[⑥21:30 按門] sign 那一句、進不去
