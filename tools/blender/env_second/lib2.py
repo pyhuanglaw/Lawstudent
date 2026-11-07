@@ -807,6 +807,55 @@ def vc_consolidate(root, groups):
     st['materials'] = sorted(st['materials']); print(json.dumps({'vc_consolidate': st}, ensure_ascii=False)); return st
 
 
+def vc_pack(root, packs, inst_pack, img_path, cell=16):
+    """只差粗糙度、金屬度的頂點色材質合成一個（PERF-WZ-DC-1107，LAWWW2-B 2026-11-07）：粗糙度、金屬度改從一張小貼圖讀
+    （glTF metallicRoughnessTexture：G＝粗糙度、B＝金屬度；一格 cell×cell 像素、取樣 Closest），每個面的 UV 全部放在它原本材質那一格的正中央。
+    一個三角形三個頂點 UV 相同 → 整個三角形讀同一個值（沒有漸層、不會讀到隔壁格），顏色照舊是頂點色：畫面和原本一樣，只是同一個網格裡
+    霧面、亮面、金屬的零件不用再分開畫（一個材質一次 draw call）。匯出是 WebP 82：實測一格的值差 ≤ 1/255。
+    packs：{原頂點色材質名: 打包材質名}，不是 instancing 的網格用（打包材質名照遊戲的規則分投影／不投影：cafe_vc_ 開頭的不投影）。
+    inst_pack：instancing 原型（共用網格）的頂點色材質一律換成這一個（遊戲的 InstancedMesh 本來就不投影）。
+    要在 merge_by_material 之前呼叫；回傳打包材質。"""
+    srcs = {m.name: m for m in bpy.data.materials if m.name in packs}
+    def rm(m): b = m.node_tree.nodes['Principled BSDF']; return (round(b.inputs['Roughness'].default_value, 4), round(b.inputs['Metallic'].default_value, 4))
+    vals = sorted({rm(m) for m in srcs.values()}); W = cell * len(vals)
+    img = bpy.data.images.new(os.path.basename(img_path).rsplit('.', 1)[0], W, cell, alpha=False); img.colorspace_settings.name = 'Non-Color'
+    px = []
+    for _y in range(cell):
+        for x in range(W): r, mt = vals[x // cell]; px += [0.0, r, mt, 1.0]
+    img.pixels[:] = px; os.makedirs(os.path.dirname(img_path), exist_ok=True); img.filepath_raw = img_path; img.file_format = 'PNG'; img.save()
+    out = {}
+    for pn in sorted(set(packs.values()) | {inst_pack}):
+        m = vc_material(pn, rough=1.0); nt = m.node_tree; b = nt.nodes['Principled BSDF']; b.inputs['Metallic'].default_value = 1.0
+        tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = img; tx.interpolation = 'Closest'; sp = nt.nodes.new('ShaderNodeSeparateColor')
+        nt.links.new(tx.outputs['Color'], sp.inputs['Color']); nt.links.new(sp.outputs['Green'], b.inputs['Roughness']); nt.links.new(sp.outputs['Blue'], b.inputs['Metallic'])
+        out[pn] = m
+    uv_of = {n: ((vals.index(rm(m)) + 0.5) / len(vals), 0.5) for n, m in srcs.items()}
+    st = {'texels': vals, 'meshes': 0, 'faces': 0, 'slots_removed': 0}
+    for me in {ob.data for ob in [root] + list(root.children_recursive) if ob.type == 'MESH'}:
+        idx = [i for i, m in enumerate(me.materials) if m and m.name in srcs]
+        if not idx: continue
+        tgt = {i: out[inst_pack if me.users > 1 else packs[me.materials[i].name]] for i in idx}; uv = {i: uv_of[me.materials[i].name] for i in idx}
+        if not me.uv_layers: me.uv_layers.new(name='UVMap')
+        first = {}
+        for i in sorted(idx):
+            first.setdefault(tgt[i].name, i); me.materials[i] = tgt[i]
+        for p in me.polygons:
+            i = p.material_index
+            if i not in uv: continue
+            for lay in me.uv_layers:
+                for li in p.loop_indices: lay.data[li].uv = uv[i]
+            p.material_index = first[tgt[i].name]; st['faces'] += 1
+        used = {p.material_index for p in me.polygons}
+        for i in reversed(range(len(me.materials))):   # 同一個打包材質的欄位只留第一個（由後往前拿掉；Blender 會把後面的面的索引往前移）
+            if i not in used and i in idx: me.materials.pop(index=i); st['slots_removed'] += 1
+        if all(m and m.name in out for m in me.materials):   # 只剩打包材質的網格：UV 只留一層、統一叫 UVMap。不然之後 merge_by_material 把 UV 層名字不同的網格合在一起時，
+            # 有的面在另一層是 (0,0)，匯出用到那一層就讀到第一格（第一次試：8,570 個霧面三角形變亮面）
+            while len(me.uv_layers) > 1: me.uv_layers.remove(me.uv_layers[-1])
+            me.uv_layers[0].name = 'UVMap'; me.uv_layers.active_index = 0; me.uv_layers[0].active_render = True
+        st['meshes'] += 1
+    print(json.dumps({'vc_pack': st}, ensure_ascii=False)); return out
+
+
 class CMesh(Mesh):
     """每個零件一個顏色的網格（頂點色 Col；hex 是 sRGB，存成線性）"""
     def __init__(self, name, mat):
