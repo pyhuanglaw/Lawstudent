@@ -1630,3 +1630,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 353.6s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 353.6s] BROWSER DISCONNECTED
 - 2026-11-07T13:44:55  CLOSE_EXC_r2  sha=8618f9d80aa0c94f9b10844f5bee7a69e22c1a93  exit=0  561s    PASS [打工那天 一盞 2025-10-15 收店 20.00] 打工那天收店：不說「我們今天要打烊了。」（XSCLOSE.staffToday）  {"lines": [], "now": {"zone": "wenzhou", "hour": 20.01, "stand": true}} / PASS 沒有 JS 例外  [] / FAILED 1: [林家乾麵 2025-10-15 收店 14.00] 老闆「我們今天要打烊了。」（AA_700）、走出店門到 wenzhou、站得住、推得動
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 488.6s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 488.6s] BROWSER DISCONNECTED
+- 2026-11-07T13:47:03  SKIRT_SIT_new  sha=8618f9d80aa0c94f9b10844f5bee7a69e22c1a93  exit=0  270s    PASS 這一版有路人模型帶 skirt_sit（userData.sitMorph） / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 233.3s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 233.4s] BROWSER DISCONNECTED

@@ -1,0 +1,62 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_skirt_sit_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SKIRT_SIT_new\out
+CC SKIRT_SIT（new）：SHA=8618f9d80aa0c94f9b10844f5bee7a69e22c1a93（worktree 實際 ?）；PLACES=['gym', 'classroom', 'cafe']；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [gym 2025-10-15 12.20] 讀檔 gym 2025-10-15 12.20（出生點）
+  [  50.9s] [gym 2025-10-15 12.20] 有 skirt_sit 的路人 0 位、坐著 0 位：[]
+  [前置／捷徑] [gym 2025-10-15 15.20] 讀檔 gym 2025-10-15 15.20（出生點）
+  [  66.7s] [gym 2025-10-15 15.20] 有 skirt_sit 的路人 0 位、坐著 0 位：[]
+  [前置／捷徑] [gym 2025-10-15 17.50] 讀檔 gym 2025-10-15 17.50（出生點）
+  [  81.8s] [gym 2025-10-15 17.50] 有 skirt_sit 的路人 0 位、坐著 0 位：[]
+  [前置／捷徑] [gym 2025-10-15 10.20] 讀檔 gym 2025-10-15 10.20（出生點）
+  [  96.6s] [gym 2025-10-15 10.20] 有 skirt_sit 的路人 0 位、坐著 0 位：[]
+  [前置／捷徑] [gym 2025-10-15 19.00] 讀檔 gym 2025-10-15 19.00（出生點）
+  [ 111.6s] [gym 2025-10-15 19.00] 有 skirt_sit 的路人 2 位、坐著 0 位：[["gym_court|g3|1", "char.npc_nf9", null, false, true, 0, [0, 0, 0]], ["gym_court|g3|5", "char.npc_nf9", null, false, true, 0, [0, 0, 0]]]
+  [前置／捷徑] [gym 2025-10-15 08.50] 讀檔 gym 2025-10-15 08.50（出生點）
+  [ 126.3s] [gym 2025-10-15 08.50] 有 skirt_sit 的路人 2 位、坐著 2 位：[["gym_lobby|g0|3", "char.npc_nf9", [-5.4, 15.34, 3.14], false, true, 1, [1, 1, 1]], ["#4", "char.npc_nf10", [19.14, -9.4, -1.57], false, true, 1, [1, 1, 1]]]
+PASS [gym] 有 skirt_sit 的路人：坐著＝1、沒坐著／跪坐＝0（全部時段，共看了 4 人次）  []
+PASS [黑畫面] skirt_new_gym_1_near 不是黑畫面（平均亮度 121.7、變化 61.7）  [121.7, 61.7]
+  [ 131.0s] [截圖] skirt_new_gym_1_near：鏡頭 {"eye": [-5.397133224750324, 1.2, 13.540002282890429], "look": [-5.4, 0.75, 15.34], "lens": 35, "vfov": 32.27}、亮度 [121.7, 61.7]
+  [ 131.0s] [gym new #1 near] gym_lobby|g0|3 坐 [-5.4, 15.34, 3.14]；skirt_sit [{"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "Clothes_NF9_1", "v": 1, "vis": true}]
+PASS [黑畫面] skirt_new_gym_1_far 不是黑畫面（平均亮度 124.2、變化 36.4）  [124.2, 36.4]
+  [ 136.1s] [截圖] skirt_new_gym_1_far：鏡頭 {"eye": [-5.386462450209862, 1.6, 6.8400107803159145], "look": [-5.4, 0.75, 15.34], "lens": 50, "vfov": 22.9}、亮度 [124.2, 36.4]
+  [ 136.1s] [gym new #1 far] gym_lobby|g0|3 坐 [-5.4, 15.34, 3.14]；skirt_sit [{"mesh": "npc_far", "v": 1, "vis": true}, {"mesh": "npc_far", "v": 1, "vis": true}, {"mesh": "Clothes_NF9_1", "v": 1, "vis": false}]
+PASS [黑畫面] skirt_new_gym_2_near 不是黑畫面（平均亮度 50.8、變化 34.9）  [50.8, 34.9]
+  [ 140.5s] [截圖] skirt_new_gym_2_near：鏡頭 {"eye": [17.340000570722697, 1.2, -9.39856661192068], "look": [19.14, 0.75, -9.4], "lens": 35, "vfov": 32.27}、亮度 [50.8, 34.9]
+  [ 140.5s] [gym new #2 near] #4 坐 [19.14, -9.4, -1.57]；skirt_sit [{"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "Clothes_NF10_1", "v": 1, "vis": true}]
+PASS [黑畫面] skirt_new_gym_2_far 不是黑畫面（平均亮度 72.6、變化 41.9）  [72.6, 41.9]
+  [ 145.0s] [截圖] skirt_new_gym_2_far：鏡頭 {"eye": [10.640002695079406, 1.6, -9.393231222958768], "look": [19.14, 0.75, -9.4], "lens": 50, "vfov": 22.9}、亮度 [72.6, 41.9]
+  [ 145.0s] [gym new #2 far] #4 坐 [19.14, -9.4, -1.57]；skirt_sit [{"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "Clothes_NF10_1", "v": 1, "vis": false}]
+  [前置／捷徑] [classroom 2025-10-15 10.20] 讀檔 classroom 2025-10-15 10.20（出生點）
+  [ 170.3s] [classroom 2025-10-15 10.20] 有 skirt_sit 的路人 5 位、坐著 5 位：[["#2", "char.npc_nf9", [-5.25, -3.8, 3.14], false, true, 1, [1, 1, 1]], ["#4", "char.npc_nf10", [2.25, -3.8, 3.14], false, true, 1, [1, 1, 1]], ["#11", "char.npc_nf9", [-0.75, 2.5, 3.14], false, true, 1, [1, 1, 1]], ["#13", "char.npc_nf10", [-5.25, 4.6, 3.14], false, true, 1, [1, 1, 1]], ["pool_1", "char.npc_nf17", [-5.25, 6.7, 3.14], false, false, 1, [1, 1, 1]]]
+PASS [classroom] 有 skirt_sit 的路人：坐著＝1、沒坐著／跪坐＝0（全部時段，共看了 5 人次）  []
+PASS [黑畫面] skirt_new_classroom_1_near 不是黑畫面（平均亮度 46.2、變化 37.3）  [46.2, 37.3]
+  [ 175.9s] [截圖] skirt_new_classroom_1_near：鏡頭 {"eye": [-5.247133224750324, 1.5, -5.599997717109571], "look": [-5.25, 1.05, -3.8], "lens": 35, "vfov": 32.27}、亮度 [46.2, 37.3]
+  [ 175.9s] [classroom new #1 near] #2 坐 [-5.25, -3.8, 3.14]；skirt_sit [{"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "Clothes_NF9_1", "v": 1, "vis": true}]
+PASS [黑畫面] skirt_new_classroom_1_far 不是黑畫面（平均亮度 37.9、變化 0.8）  [37.9, 0.8]
+  [ 180.9s] [截圖] skirt_new_classroom_1_far：鏡頭 {"eye": [-5.236462450209862, 1.9000000000000001, -12.299989219684086], "look": [-5.25, 1.05, -3.8], "lens": 50, "vfov": 22.9}、亮度 [37.9, 0.8]
+  [ 181.0s] [classroom new #1 far] #2 坐 [-5.25, -3.8, 3.14]；skirt_sit [{"mesh": "npc_far", "v": 1, "vis": true}, {"mesh": "npc_far", "v": 1, "vis": true}, {"mesh": "Clothes_NF9_1", "v": 1, "vis": false}]
+PASS [黑畫面] skirt_new_classroom_2_near 不是黑畫面（平均亮度 37.1、變化 18.8）  [37.1, 18.8]
+  [ 186.1s] [截圖] skirt_new_classroom_2_near：鏡頭 {"eye": [2.2528667752496765, 1.5, -5.599997717109571], "look": [2.25, 1.05, -3.8], "lens": 35, "vfov": 32.27}、亮度 [37.1, 18.8]
+  [ 186.3s] [classroom new #2 near] #4 坐 [2.25, -3.8, 3.14]；skirt_sit [{"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "Clothes_NF10_1", "v": 1, "vis": true}]
+PASS [黑畫面] skirt_new_classroom_2_far 不是黑畫面（平均亮度 38.2、變化 0.8）  [38.2, 0.8]
+  [ 191.3s] [截圖] skirt_new_classroom_2_far：鏡頭 {"eye": [2.263537549790138, 1.9000000000000001, -12.299989219684086], "look": [2.25, 1.05, -3.8], "lens": 50, "vfov": 22.9}、亮度 [38.2, 0.8]
+  [ 191.5s] [classroom new #2 far] #4 坐 [2.25, -3.8, 3.14]；skirt_sit [{"mesh": "npc_far", "v": 1, "vis": true}, {"mesh": "npc_far", "v": 1, "vis": true}, {"mesh": "Clothes_NF10_1", "v": 1, "vis": false}]
+  [前置／捷徑] [cafe 2025-10-15 15.00] 讀檔 cafe 2025-10-15 15.00（出生點）
+  [ 210.3s] [cafe 2025-10-15 15.00] 有 skirt_sit 的路人 2 位、坐著 2 位：[["#0", "char.npc_nf10", [-4, 1.7, 0], false, true, 1, [1, 1, 1]], ["pool_5", "char.npc_nf9", [-5.95, 3.95, 1.57], false, false, 1, [1, 1, 1]]]
+PASS [cafe] 有 skirt_sit 的路人：坐著＝1、沒坐著／跪坐＝0（全部時段，共看了 2 人次）  []
+PASS [黑畫面] skirt_new_cafe_1_near 不是黑畫面（平均亮度 74.4、變化 48.5）  [74.4, 48.5]
+  [ 218.7s] [截圖] skirt_new_cafe_1_near：鏡頭 {"eye": [-4, 1.2, 3.5], "look": [-4, 0.75, 1.7], "lens": 35, "vfov": 32.27}、亮度 [74.4, 48.5]
+  [ 218.7s] [cafe new #1 near] #0 坐 [-4, 1.7, 0]；skirt_sit [{"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "Clothes_NF10_1", "v": 1, "vis": true}]
+PASS [黑畫面] skirt_new_cafe_1_far 不是黑畫面（平均亮度 71.9、變化 47.2）  [71.9, 47.2]
+  [ 223.5s] [截圖] skirt_new_cafe_1_far：鏡頭 {"eye": [-4, 1.6, 10.2], "look": [-4, 0.75, 1.7], "lens": 50, "vfov": 22.9}、亮度 [71.9, 47.2]
+  [ 223.5s] [cafe new #1 far] #0 坐 [-4, 1.7, 0]；skirt_sit [{"mesh": "npc_far", "v": 1, "vis": true}, {"mesh": "npc_far", "v": 1, "vis": true}, {"mesh": "Clothes_NF10_1", "v": 1, "vis": false}]
+PASS [黑畫面] skirt_new_cafe_2_near 不是黑畫面（平均亮度 74.2、變化 46.9）  [74.2, 46.9]
+  [ 228.0s] [截圖] skirt_new_cafe_2_near：鏡頭 {"eye": [-4.150000570722698, 1.2, 3.95143338807932], "look": [-5.95, 0.75, 3.95], "lens": 35, "vfov": 32.27}、亮度 [74.2, 46.9]
+  [ 228.1s] [cafe new #2 near] pool_5 坐 [-5.95, 3.95, 1.57]；skirt_sit [{"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "Clothes_NF9_1", "v": 1, "vis": true}]
+PASS [黑畫面] skirt_new_cafe_2_far 不是黑畫面（平均亮度 98.8、變化 56.8）  [98.8, 56.8]
+  [ 232.8s] [截圖] skirt_new_cafe_2_far：鏡頭 {"eye": [2.549997304920594, 1.6, 3.956768777041233], "look": [-5.95, 0.75, 3.95], "lens": 50, "vfov": 22.9}、亮度 [98.8, 56.8]
+  [ 232.8s] [cafe new #2 far] pool_5 坐 [-5.95, 3.95, 1.57]；skirt_sit [{"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "npc_far", "v": 1, "vis": false}, {"mesh": "Clothes_NF9_1", "v": 1, "vis": false}]
+PASS 這一版有路人模型帶 skirt_sit（userData.sitMorph）
+PASS 沒有 JS 例外  []
+ALL PASS

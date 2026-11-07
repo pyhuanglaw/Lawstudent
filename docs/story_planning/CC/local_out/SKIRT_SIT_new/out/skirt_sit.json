@@ -1,0 +1,519 @@
+{
+ "tag": "new",
+ "sha": "8618f9d80aa0c94f9b10844f5bee7a69e22c1a93",
+ "places": {
+  "gym": {
+   "bad": [],
+   "hour": 8.5,
+   "day": "2025-10-15",
+   "shots": [
+    {
+     "name": "skirt_new_gym_1_near.png",
+     "npc": "gym_lobby|g0|3",
+     "model": "char.npc_nf9",
+     "seat": [
+      -5.4,
+      15.34,
+      3.14
+     ],
+     "cam": {
+      "eye": [
+       -5.397133224750324,
+       1.2,
+       13.540002282890429
+      ],
+      "look": [
+       -5.4,
+       0.75,
+       15.34
+      ],
+      "lens": 35,
+      "vfov": 32.27
+     },
+     "morph": [
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "Clothes_NF9_1",
+       "v": 1,
+       "vis": true
+      }
+     ]
+    },
+    {
+     "name": "skirt_new_gym_1_far.png",
+     "npc": "gym_lobby|g0|3",
+     "model": "char.npc_nf9",
+     "seat": [
+      -5.4,
+      15.34,
+      3.14
+     ],
+     "cam": {
+      "eye": [
+       -5.386462450209862,
+       1.6,
+       6.8400107803159145
+      ],
+      "look": [
+       -5.4,
+       0.75,
+       15.34
+      ],
+      "lens": 50,
+      "vfov": 22.9
+     },
+     "morph": [
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": true
+      },
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": true
+      },
+      {
+       "mesh": "Clothes_NF9_1",
+       "v": 1,
+       "vis": false
+      }
+     ]
+    },
+    {
+     "name": "skirt_new_gym_2_near.png",
+     "npc": "#4",
+     "model": "char.npc_nf10",
+     "seat": [
+      19.14,
+      -9.4,
+      -1.57
+     ],
+     "cam": {
+      "eye": [
+       17.340000570722697,
+       1.2,
+       -9.39856661192068
+      ],
+      "look": [
+       19.14,
+       0.75,
+       -9.4
+      ],
+      "lens": 35,
+      "vfov": 32.27
+     },
+     "morph": [
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "Clothes_NF10_1",
+       "v": 1,
+       "vis": true
+      }
+     ]
+    },
+    {
+     "name": "skirt_new_gym_2_far.png",
+     "npc": "#4",
+     "model": "char.npc_nf10",
+     "seat": [
+      19.14,
+      -9.4,
+      -1.57
+     ],
+     "cam": {
+      "eye": [
+       10.640002695079406,
+       1.6,
+       -9.393231222958768
+      ],
+      "look": [
+       19.14,
+       0.75,
+       -9.4
+      ],
+      "lens": 50,
+      "vfov": 22.9
+     },
+     "morph": [
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "Clothes_NF10_1",
+       "v": 1,
+       "vis": false
+      }
+     ]
+    }
+   ]
+  },
+  "classroom": {
+   "bad": [],
+   "hour": 10.2,
+   "day": "2025-10-15",
+   "shots": [
+    {
+     "name": "skirt_new_classroom_1_near.png",
+     "npc": "#2",
+     "model": "char.npc_nf9",
+     "seat": [
+      -5.25,
+      -3.8,
+      3.14
+     ],
+     "cam": {
+      "eye": [
+       -5.247133224750324,
+       1.5,
+       -5.599997717109571
+      ],
+      "look": [
+       -5.25,
+       1.05,
+       -3.8
+      ],
+      "lens": 35,
+      "vfov": 32.27
+     },
+     "morph": [
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "Clothes_NF9_1",
+       "v": 1,
+       "vis": true
+      }
+     ]
+    },
+    {
+     "name": "skirt_new_classroom_1_far.png",
+     "npc": "#2",
+     "model": "char.npc_nf9",
+     "seat": [
+      -5.25,
+      -3.8,
+      3.14
+     ],
+     "cam": {
+      "eye": [
+       -5.236462450209862,
+       1.9000000000000001,
+       -12.299989219684086
+      ],
+      "look": [
+       -5.25,
+       1.05,
+       -3.8
+      ],
+      "lens": 50,
+      "vfov": 22.9
+     },
+     "morph": [
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": true
+      },
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": true
+      },
+      {
+       "mesh": "Clothes_NF9_1",
+       "v": 1,
+       "vis": false
+      }
+     ]
+    },
+    {
+     "name": "skirt_new_classroom_2_near.png",
+     "npc": "#4",
+     "model": "char.npc_nf10",
+     "seat": [
+      2.25,
+      -3.8,
+      3.14
+     ],
+     "cam": {
+      "eye": [
+       2.2528667752496765,
+       1.5,
+       -5.599997717109571
+      ],
+      "look": [
+       2.25,
+       1.05,
+       -3.8
+      ],
+      "lens": 35,
+      "vfov": 32.27
+     },
+     "morph": [
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "Clothes_NF10_1",
+       "v": 1,
+       "vis": true
+      }
+     ]
+    },
+    {
+     "name": "skirt_new_classroom_2_far.png",
+     "npc": "#4",
+     "model": "char.npc_nf10",
+     "seat": [
+      2.25,
+      -3.8,
+      3.14
+     ],
+     "cam": {
+      "eye": [
+       2.263537549790138,
+       1.9000000000000001,
+       -12.299989219684086
+      ],
+      "look": [
+       2.25,
+       1.05,
+       -3.8
+      ],
+      "lens": 50,
+      "vfov": 22.9
+     },
+     "morph": [
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": true
+      },
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": true
+      },
+      {
+       "mesh": "Clothes_NF10_1",
+       "v": 1,
+       "vis": false
+      }
+     ]
+    }
+   ]
+  },
+  "cafe": {
+   "bad": [],
+   "hour": 15.0,
+   "day": "2025-10-15",
+   "shots": [
+    {
+     "name": "skirt_new_cafe_1_near.png",
+     "npc": "#0",
+     "model": "char.npc_nf10",
+     "seat": [
+      -4,
+      1.7,
+      0
+     ],
+     "cam": {
+      "eye": [
+       -4,
+       1.2,
+       3.5
+      ],
+      "look": [
+       -4,
+       0.75,
+       1.7
+      ],
+      "lens": 35,
+      "vfov": 32.27
+     },
+     "morph": [
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "Clothes_NF10_1",
+       "v": 1,
+       "vis": true
+      }
+     ]
+    },
+    {
+     "name": "skirt_new_cafe_1_far.png",
+     "npc": "#0",
+     "model": "char.npc_nf10",
+     "seat": [
+      -4,
+      1.7,
+      0
+     ],
+     "cam": {
+      "eye": [
+       -4,
+       1.6,
+       10.2
+      ],
+      "look": [
+       -4,
+       0.75,
+       1.7
+      ],
+      "lens": 50,
+      "vfov": 22.9
+     },
+     "morph": [
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": true
+      },
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": true
+      },
+      {
+       "mesh": "Clothes_NF10_1",
+       "v": 1,
+       "vis": false
+      }
+     ]
+    },
+    {
+     "name": "skirt_new_cafe_2_near.png",
+     "npc": "pool_5",
+     "model": "char.npc_nf9",
+     "seat": [
+      -5.95,
+      3.95,
+      1.57
+     ],
+     "cam": {
+      "eye": [
+       -4.150000570722698,
+       1.2,
+       3.95143338807932
+      ],
+      "look": [
+       -5.95,
+       0.75,
+       3.95
+      ],
+      "lens": 35,
+      "vfov": 32.27
+     },
+     "morph": [
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "Clothes_NF9_1",
+       "v": 1,
+       "vis": true
+      }
+     ]
+    },
+    {
+     "name": "skirt_new_cafe_2_far.png",
+     "npc": "pool_5",
+     "model": "char.npc_nf9",
+     "seat": [
+      -5.95,
+      3.95,
+      1.57
+     ],
+     "cam": {
+      "eye": [
+       2.549997304920594,
+       1.6,
+       3.956768777041233
+      ],
+      "look": [
+       -5.95,
+       0.75,
+       3.95
+      ],
+      "lens": 50,
+      "vfov": 22.9
+     },
+     "morph": [
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "npc_far",
+       "v": 1,
+       "vis": false
+      },
+      {
+       "mesh": "Clothes_NF9_1",
+       "v": 1,
+       "vis": false
+      }
+     ]
+    }
+   ]
+  }
+ }
+}
