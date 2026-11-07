@@ -743,3 +743,11 @@
 [18:49:14] [res] cpu=14% mem=51% (16.3/31.4 GB) chrome_testing=9  START R8FDB_movreg
 [18:49:32] 正在跑：PT1107I_meet_kx（已跑 2 分／上限 40 分）、PT1107G_h05_k3（已跑 1 分／上限 40 分）、R8FDB_movreg（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [18:49:48] [res] cpu=82% mem=51% (16.0/31.4 GB) chrome_testing=9  END PT1107I_meet_kx
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       eb4e7d4cd..65949a64e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:49:53] ==== END   PT1107I_meet_kx  exit=1  138s   ====
+[18:50:01] memory 50% before starting PERF_COLD_RT (2 running)
+[18:50:01] ==== START PERF_COLD_RT  (probe @ 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a) ====
+[18:50:04] [res] cpu=23% mem=51% (16.0/31.4 GB) chrome_testing=9  START PERF_COLD_RT
+[18:51:51] [res] cpu=14% mem=51% (16.3/31.4 GB) chrome_testing=9  END PT1107G_h05_k3
