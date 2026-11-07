@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "WV1107_before",
+  "sha": "abf4dbbd5abc4e842b5d92d481cfa9a39084166c",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_winview_1107_probe.py",
+  "env": "EXPECT=before;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T11:57:39",
+  "end": "2026-11-07T11:59:25",
+  "seconds": 106,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "6",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 45,
+    "mem": 46,
+    "used_gb": 14.4,
+    "chrome_testing": 4
+  }
+}

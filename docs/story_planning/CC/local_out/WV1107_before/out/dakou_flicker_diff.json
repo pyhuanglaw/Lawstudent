@@ -1,0 +1,128 @@
+{
+ "cards": [
+  {
+   "name": "NIGHT_FRONT",
+   "vis": false,
+   "c": [
+    0,
+    2.75,
+    16
+   ],
+   "size": [
+    40,
+    12.5,
+    0
+   ],
+   "lv": null,
+   "url": null
+  },
+  {
+   "name": "NIGHT_WEST",
+   "vis": true,
+   "c": [
+    -14,
+    2.75,
+    0
+   ],
+   "size": [
+    0,
+    12.5,
+    44
+   ],
+   "lv": null,
+   "url": null
+  },
+  {
+   "name": "NIGHT_FRONT",
+   "vis": false,
+   "c": [
+    0,
+    3.9,
+    16
+   ],
+   "size": [
+    40,
+    14.6,
+    0
+   ],
+   "lv": null,
+   "url": null
+  },
+  {
+   "name": "NIGHT_WEST",
+   "vis": true,
+   "c": [
+    -14,
+    3.9,
+    0
+   ],
+   "size": [
+    0,
+    14.6,
+    44
+   ],
+   "lv": null,
+   "url": null
+  }
+ ],
+ "coplanar": [
+  [
+   "NIGHT_WEST",
+   "NIGHT_WEST",
+   [
+    12.4,
+    44.0
+   ]
+  ]
+ ],
+ "diffs": [
+  {
+   "mean": 0.55,
+   "bigFrac": 0,
+   "n": 46080
+  },
+  {
+   "mean": 0.55,
+   "bigFrac": 0,
+   "n": 46080
+  },
+  {
+   "mean": 0.55,
+   "bigFrac": 0,
+   "n": 46080
+  },
+  {
+   "mean": 0.56,
+   "bigFrac": 0,
+   "n": 46080
+  },
+  {
+   "mean": 0.56,
+   "bigFrac": 0,
+   "n": 46080
+  },
+  {
+   "mean": 0.56,
+   "bigFrac": 0,
+   "n": 46080
+  },
+  {
+   "mean": 0.57,
+   "bigFrac": 0,
+   "n": 46080
+  },
+  {
+   "mean": 0.57,
+   "bigFrac": 0,
+   "n": 46080
+  },
+  {
+   "mean": 0.58,
+   "bigFrac": 0,
+   "n": 46080
+  }
+ ],
+ "max": 0.58,
+ "avg": 0.5611111111111111,
+ "expect": "before"
+}
