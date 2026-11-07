@@ -1,0 +1,43 @@
+{
+ "device": "CPU",
+ "blender": "5.2.2 LTS",
+ "bake_seconds": 959.6,
+ "scale": 2.0,
+ "intensity": 6.283185307179586,
+ "res": 1024,
+ "samples": 512,
+ "emit": {},
+ "dayemit": {},
+ "sun": [
+  180.0,
+  35.0,
+  0.0
+ ],
+ "sky": 1.2,
+ "nightsky": 0.03,
+ "shell": "E",
+ "daylights": 0.5,
+ "knee": null,
+ "dayscale": null,
+ "lights": "-0.01,0.01,-0.01,0.01,2.52,1,1,22,0.36,0.36,1.0,0.86,0.68",
+ "points": "-0.25,0.9,-1.5,3,1.0,0.86,0.68,0.06;1.52,1.08,-0.44,3,1.0,0.86,0.68,0.04",
+ "dayfill": null,
+ "wb": {
+  "day": null,
+  "night": null
+ },
+ "objects": [
+  "us_bed_c_ceiling",
+  "us_bed_c_fabricparts",
+  "us_bed_c_floorm",
+  "us_bed_c_woodparts",
+  "WALL_E_trim",
+  "WALL_E_wall",
+  "WALL_N_trim",
+  "WALL_N_wall",
+  "WALL_S_trim",
+  "WALL_S_wall",
+  "WALL_W_trim",
+  "WALL_W_wall"
+ ]
+}
