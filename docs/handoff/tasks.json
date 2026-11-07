@@ -49362,7 +49362,7 @@
    "id": "KX-MOVIE-BYE-1107",
    "title": "可昕看電影第 1 場的散場句「末班車還有。好險。」下午 14:00 那一場也會說（activity_scenes.js people.kexin.scenes.1.bye）",
    "owner": "AA",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -49374,7 +49374,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 18:4x LAWWW-B】BB-B：電影第 1 場白天／晚上、第 3 場、咖啡第 3 場 PASS；同一份存檔連看兩場第 1 拍只演一次 PASS；書店第 3 場查中——讀檔進頁間書屋時鐘跳 18:00，疑似在書店打工、進店自動開班（jobs3d.js:411），等 CC 確認（約了人去自己打工的店會先上班、約錯過）。 ｜ 【11-07 18:2x LAWWW-B】BB-B 電影第 1 場 14:00 白天兩句、19:30「末班車還有。好險。」PASS；第 3 場（第 4 階）重跑中。 ｜ 【11-07 16:3x LAWWW-B】AA-B e0e92919e 加 day（電影第 1、3 場 bye、咖啡第 3 場 seat、書店第 3 場 bye：18:00 以前開始換句）→ LAWWW 接（import_activity_scenes 收 day、STUDYN.resolve）；tests/kx_movie_day_unit.js。BB 測。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "next": "【11-07 18:4x LAWWW-B】四場都 PASS＝已驗收。另：直接讀檔進頁間書屋時鐘 13:48→18:00 一次，CC 診斷中（是遊戲問題再開新任務）。 ｜ 【11-07 18:4x LAWWW-B】BB-B：電影第 1 場白天／晚上、第 3 場、咖啡第 3 場 PASS；同一份存檔連看兩場第 1 拍只演一次 PASS；書店第 3 場查中——讀檔進頁間書屋時鐘跳 18:00，疑似在書店打工、進店自動開班（jobs3d.js:411），等 CC 確認（約了人去自己打工的店會先上班、約錯過）。 ｜ 【11-07 18:2x LAWWW-B】BB-B 電影第 1 場 14:00 白天兩句、19:30「末班車還有。好險。」PASS；第 3 場（第 4 階）重跑中。 ｜ 【11-07 16:3x LAWWW-B】AA-B e0e92919e 加 day（電影第 1、3 場 bye、咖啡第 3 場 seat、書店第 3 場 bye：18:00 以前開始換句）→ LAWWW 接（import_activity_scenes 收 day、STUDYN.resolve）；tests/kx_movie_day_unit.js。BB 測。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
    "xai": {
     "spec": "BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版",
     "branch": "claude/cool-heisenberg-o8kuqx",
@@ -49382,7 +49382,8 @@
     "receiver": "LAWWW（整合）、BB（測）",
     "ack": "SENT",
     "owner": "AA"
-   }
+   },
+   "evidence": "2026-11-07 BB-B／CC-B 瀏覽器（雲端 Playwright＋SwiftShader，不是 iPhone），e647887c7：電影第 1 場 14:00 白天兩句、19:30「末班車還有。好險。」、電影第 3 場、咖啡第 3 場、書店第 3 場（公館 13:48 走進頁間書屋「時間還早。我們再看一本。」）都 PASS；同一份存檔連看兩場故事線第 1 拍只演一次；Node kx_movie_day_unit（修改前 FAIL）"
   },
   {
    "id": "CAM-LIBHALL-DOOR-1107",
