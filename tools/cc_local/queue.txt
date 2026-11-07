@@ -103,7 +103,6 @@ XS_NORTH_ROAD_r2 | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story
 GYM_DOME_r4 | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_fa05_night_probe.py | index.html | 30 | PARTS=dome;DOME_FAR=1;CC_HEADLESS=0
 XS_NIGHT_r2 | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_fa05_night_probe.py | index.html | 30 | PARTS=shops,player;CC_HEADLESS=0
 WV1107_cam | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_winview_1107_probe.py | index.html | 30 | EXPECT=fixed;CC_HEADLESS=0
-SHOPWIN_cam | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_offbeat_front_probe.py | index.html | 30 | TAG=cam;WARM=10;SOLO=1;CC_HEADLESS=0
 XSNE_shots_cam | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_xsne_shots_probe.py | index.html | 40 | CC_HEADLESS=0
 XSSHOP_dabu_cam | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_xs_shop_probe.py | index.html | 60 | CC_HEADLESS=0;SHOP=dabu;RERUN=cam
 XSSHOP_haopai_cam | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_xs_shop_probe.py | index.html | 60 | CC_HEADLESS=0;SHOP=haopai;RERUN=cam
@@ -122,8 +121,14 @@ R7921_p0 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | game | tests/p0_movement.p
 R7921_reach | 79214e4e10275fb47c0d95ec667cab2964b77b5c | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
 R7921_zone | 79214e4e10275fb47c0d95ec667cab2964b77b5c | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
 R7921_mini | 79214e4e10275fb47c0d95ec667cab2964b77b5c | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
-R7921_touch | 79214e4e10275fb47c0d95ec667cab2964b77b5c | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
 # BB-B 07:16 PERF_COLD（LAWWW2-B 的探針，低優先、排最後）：第一次進溫州街／總圖大廳那一頓是載路人模型還是 GPU 第一次畫；結果交 LAWWW2-B（D108）
+# BB-B 09:05（LAWWW-B c8b09bcf0）：順序 XS_FARVIEW → HAIR_a → PERF_COLD（「高」那組重拍在這三項前面）
+XS_FARVIEW_c8b0 | c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb | probe | docs/story_planning/test_tools/cc/cc_xs_farview_probe.py | index.html | 30 | CC_HEADLESS=0
+HAIR_a_c8b0 | c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb | probe | docs/story_planning/test_tools/cc/cc_hair_fix_probe.py | index.html | 40 | HAIRFIX=0;HAIR_JPG=1;RERUN=a;CC_HEADLESS=0
+# CC-B 09:1x：SOLO 的兩項移到這裡（SOLO 要等其他都跑完，排在前面會擋住後面不是 SOLO 的項目；SOC_peishan_date_r5 跑很久時整條卡住）
+SHOPWIN_cam | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_offbeat_front_probe.py | index.html | 30 | TAG=cam;WARM=10;SOLO=1;CC_HEADLESS=0
+R7921_touch | 79214e4e10275fb47c0d95ec667cab2964b77b5c | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
+PERF_COLD_c8b0 | c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb | probe | docs/story_planning/test_tools/cc/perf_cold_probe.py | index.html | 40 | ZONES=wenzhou,library_hall;VARIANTS=base;COLD=12;CC_HEADLESS=0
 PERF_COLD | b987cb1cf7fff1bc587dd77eb22b0c6a4e8a2dac | probe | docs/story_planning/test_tools/cc/perf_cold_probe.py | index.html | 40 | ZONES=wenzhou,library_hall;VARIANTS=base,pre,prewarm;COLD=12;CC_HEADLESS=0
 POOL_TALK_fix | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | EXPECT=fixed;CC_HEADLESS=0
 POOL_TALK_before | 3b170607e | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | CC_HEADLESS=0
