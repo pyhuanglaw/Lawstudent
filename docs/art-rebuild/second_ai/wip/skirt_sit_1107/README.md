@@ -78,7 +78,11 @@ Blender Workbench，遊戲坐姿匯出的 OBJ＋長椅的尺寸。顏色是固�
   - 開發分支原樣（舊 VRM）：**FAIL 32**。8 個人「沒有 skirt_sit」「椅面裡 251～282 個」「遠距離版本 22～58 個」「坐著沒有打開」各 1 項。
   - 新 VRM＋patch：**ALL PASS**。
   - 這支測試量的是：椅面裡的頂點（近的、遠的）、坐著打開、站著關、站起來走路關、跪坐不開。
-- 全部 Node 單元測試：見下面「全部 Node」（跑完補上）。
+- 全部 Node 單元測試（1,067 支，含這一支；新 VRM＋patch，開發 148999dd2）：**1,059 PASS／8 FAIL**。
+  - 這 8 支在開發分支原樣（舊 VRM、沒有 patch）也一樣 FAIL，不是這一包造成的：
+    - aa311_l118、aa655_wz_rename、inv_sit_together、invites、sis_no_three：故事的時間和字串；
+    - gift、study_scenes：scratch worktree 裡沒有故事分支的 commit；
+    - ladder_headroom：爬梯子的平滑度。
 
 ## 還沒做、還沒驗
 
