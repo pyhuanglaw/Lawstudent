@@ -37,5 +37,12 @@ const fresh=(key,h,zone)=>{ const G=H.fresh(key,h,zone); G.invites=[]; G.stats=G
     const r=INV.personal(G,id,P('soclib'),G.day+1,14,{res:'accept'});
     check('6. 以安答應社科圖：照 AA_714 的答應句',r&&J(r.lines)===J(L.acc),J(r&&r.lines));
     const iv=INV.accept(G,id,'soclib',G.day+1,14,{by:'player'}); check('6. 第一次和她一起去社科圖：firstAt 照 AA_714',J(INV.firstAt(G,iv))===J(L.firstAt),J(INV.firstAt(G,iv))); }
+  /* 7 BUG-INV-FUN-AWAY-1107：約的那一天她不在臺北，婉拒的那一句照那一天（不是今天） */
+  { const G=fresh('2025-10-15',10,'campus'), id='heroine_01'; H.FRIEND(id); const tom=G.day+1; const pr0=STORY.presence, re0=STORY.reachable, pe0=STORY.present;
+    STORY.presence=function(i,o){ return (i===id&&o&&o.day===tom)?{here:false,away:'回台中',kind:'trip',back:tom+1,home:'台中'}:pr0.apply(STORY,arguments); };
+    STORY.reachable=function(i,o){ return (i===id&&o&&o.day===tom)?false:(re0?re0.apply(STORY,arguments):true); }; STORY.present=function(i,o){ return (i===id&&o&&o.day===tom)?false:pe0.apply(STORY,arguments); };
+    try{ const r=INV.decide(G,id,'xs_nanyang',tom,14); const t=INV.reply(G,id,'xs_nanyang',r);
+      check('7. 明天她回台中：婉拒照那一天寫「沈以安回台中，不在臺北。」（不是「這學期不在學校」）',r.res==='decline'&&r.why==='away'&&r.day===tom&&t==='沈以安回台中，不在臺北。',J({r,t})); }
+    finally { STORY.presence=pr0; STORY.reachable=re0; STORY.present=pe0; } }
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });

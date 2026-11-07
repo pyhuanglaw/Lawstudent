@@ -48609,9 +48609,9 @@
    "title": "行動次數：約好的見面也要扣行動次數（不然幾乎無限）；行動次數用完直接跳到下一個時段（原話「約好見面也要算行動次數 不然幾乎無限」「可行動次數沒了要直接跳下一個階段」）",
    "area": "PLAYTEST",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "進行中",
    "priority": "P1",
-   "next": "【11-07 05:4x LAWWW-B】BB-B 更正：「下午用完沒跳」是測試情境選錯（使用者存檔在期中考週，下午自習上限 2，見面用掉一格還剩一格＝照設計不跳；TEST_BUG）；BB 用 DAYSHIFT=7 在 8618f9d80 補驗。 ｜ 【11-07 05:2x LAWWW-B】使用者選擇題「直接跳到隔天早上」（UA-LAWWW-1107-03）：classes3d.js queueJump 也排晚上；afterSlot 晚上＝S.eveSleep：今天後面沒有約好的見面、出遊、還沒上的課＝直接回去睡（ONETAP.sleepPlan／goSleep），後面還有約＝不跳；tests/action_budget_1107_unit.js 6。 ｜ 【11-07 04:4x LAWWW-B】BB-B PARTIAL（BB_255）：時段有填，但演完沒跳——INV.meet 直接呼叫 CLS.afterSlot，那一刻玩家還在 busy，afterSlot 把跳轉丟了。a162d00ad 改成只排（CLS.queueJump），空下來以後 story3d.js tick 讀 CLS._jump 再跳；tests/action_budget_1107_unit.js 2 改成驗這個。BB 會用 12:10 那一場再驗灰掉。 ｜ 【11-07 04:1x LAWWW-B】a641c0459：約好的見面演完把那段時間的時段填滿（INV.spendSlot → CLS.slotFillSpan，約好的照樣能去；期末飯、事件見面也算），上午、下午用完跳下一個時段；約時間時今天排滿的時段灰掉、選了說原因；說明字改「約好的見面也算一件」。tests/action_budget_1107_unit.js。晚上用完要不要直接跳到隔天：問使用者（選擇題）。等 GHA 全套、BB 瀏覽器。 ｜ 【11-07 03:4x LAWWW-B 查核】一天三時段各 1 次（SLOT_BASE classes3d.js:1266，考試週多 1 次只能自習）；slotUse 扣 1（自習、健身、自由出行）、slotFill／slotFillSpan 填滿（上課、活動、打工、出遊、校外約會）；**約好的見面完全不算**（classes3d.js:1263、1291 說明文字也這樣寫；INV.meet invites3d.js:336-363、meetEv 318-327、期末飯 338、outings goto 141 都沒扣）；次數用完只灰掉選項，queueJump（1283）只在自習健身後、只管上午下午。改法：S.meet 記 h0、演完 slotUse(slotPlan(...,'meet').uses)＋queueJump；meetEv、期末飯照做；timeOptions／pickDay 今天已滿的時段灰掉；outings goto 補 fill；slotUse／slotFill 結尾自動 queueJump，queueJump／jumpTarget 加晚上（跳到就寢或回宿舍提示），下課選單還在時 afterSlot 延後｜【11-07 03:4x LAWWW-B】查 CLS 時段／行動次數（DEC-SLOTS-1018 slotFillSpan）怎麼算約會，改成約好的出遊、約念書都佔一個行動；用完自動推進到下一個時段（不要卡著）",
+   "next": "【11-07 06:0x LAWWW-B】BB-B 05:5x：非考試週（10/18）重跑還是沒跳（15:30 念書演完 slots.pm＝1、17.44→17.48）；Node（tests/action_budget_1107_unit.js）afterSlot 會跳——等 BB 印 CLS._jump、player.busy／seat、canSkip、periodAt。 ｜ 【11-07 05:4x LAWWW-B】BB-B 更正：「下午用完沒跳」是測試情境選錯（使用者存檔在期中考週，下午自習上限 2，見面用掉一格還剩一格＝照設計不跳；TEST_BUG）；BB 用 DAYSHIFT=7 在 8618f9d80 補驗。 ｜ 【11-07 05:2x LAWWW-B】使用者選擇題「直接跳到隔天早上」（UA-LAWWW-1107-03）：classes3d.js queueJump 也排晚上；afterSlot 晚上＝S.eveSleep：今天後面沒有約好的見面、出遊、還沒上的課＝直接回去睡（ONETAP.sleepPlan／goSleep），後面還有約＝不跳；tests/action_budget_1107_unit.js 6。 ｜ 【11-07 04:4x LAWWW-B】BB-B PARTIAL（BB_255）：時段有填，但演完沒跳——INV.meet 直接呼叫 CLS.afterSlot，那一刻玩家還在 busy，afterSlot 把跳轉丟了。a162d00ad 改成只排（CLS.queueJump），空下來以後 story3d.js tick 讀 CLS._jump 再跳；tests/action_budget_1107_unit.js 2 改成驗這個。BB 會用 12:10 那一場再驗灰掉。 ｜ 【11-07 04:1x LAWWW-B】a641c0459：約好的見面演完把那段時間的時段填滿（INV.spendSlot → CLS.slotFillSpan，約好的照樣能去；期末飯、事件見面也算），上午、下午用完跳下一個時段；約時間時今天排滿的時段灰掉、選了說原因；說明字改「約好的見面也算一件」。tests/action_budget_1107_unit.js。晚上用完要不要直接跳到隔天：問使用者（選擇題）。等 GHA 全套、BB 瀏覽器。 ｜ 【11-07 03:4x LAWWW-B 查核】一天三時段各 1 次（SLOT_BASE classes3d.js:1266，考試週多 1 次只能自習）；slotUse 扣 1（自習、健身、自由出行）、slotFill／slotFillSpan 填滿（上課、活動、打工、出遊、校外約會）；**約好的見面完全不算**（classes3d.js:1263、1291 說明文字也這樣寫；INV.meet invites3d.js:336-363、meetEv 318-327、期末飯 338、outings goto 141 都沒扣）；次數用完只灰掉選項，queueJump（1283）只在自習健身後、只管上午下午。改法：S.meet 記 h0、演完 slotUse(slotPlan(...,'meet').uses)＋queueJump；meetEv、期末飯照做；timeOptions／pickDay 今天已滿的時段灰掉；outings goto 補 fill；slotUse／slotFill 結尾自動 queueJump，queueJump／jumpTarget 加晚上（跳到就寢或回宿舍提示），下課選單還在時 afterSlot 延後｜【11-07 03:4x LAWWW-B】查 CLS 時段／行動次數（DEC-SLOTS-1018 slotFillSpan）怎麼算約會，改成約好的出遊、約念書都佔一個行動；用完自動推進到下一個時段（不要卡著）",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -48986,6 +48986,26 @@
     "confirmed": true
    },
    "next": "【11-07 05:4x LAWWW-B】查 INV.pairSeats：同一張桌子（table）已經有客人坐的不挑",
+   "sha": null
+  },
+  {
+   "id": "BUG-INV-FUN-AWAY-1107",
+   "title": "約以安看電影（明天 14:00）：她明天回台中、婉拒是對的，可是婉拒那一句用今天的 presence，寫成「沈以安這學期不在學校。」；前面還多一句「還沒熟到可以兩個人出去。」（DATE.canAsk 的字）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "BB-B 11-07 05:2x／05:5x（BB_255）",
+   "first": {
+    "term": "Y1S1",
+    "week": 7,
+    "earliest": "手機約人",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 06:0x LAWWW-B】(a) 修好：S.decide 的 away 帶 day，S.reply 照那一天的 STORY.presence（「沈以安回台中，不在臺北。」）；tests/invite_places_1107_unit.js 7。(b)「還沒熟到可以兩個人出去」Node 照 BB 的點法（看電影、逛書店…→去南洋戲院看電影→明天 14:00）重現不出來，只在「出去玩…」那一類的灰字出現——請 BB 在瀏覽器印出是哪一個呼叫說的（GM.say 的 stack）。",
    "sha": null
   }
  ]

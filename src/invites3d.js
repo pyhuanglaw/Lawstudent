@@ -114,7 +114,7 @@ const INV=(function(){
   S.NEVER_AT={heroine_03:['noodle']};
   S.neverAt=(id,P)=>!!P&&!!S.NEVER_AT[id]&&S.NEVER_AT[id].includes(P.id||P);
   S.decide=function(G,id,pid,day,h){ S.rec(G); let P=S.place(pid); if(!P) return {res:'decline',why:'place'}; if(S.neverAt(id,P)) return {res:'decline',why:'place'};
-    if(typeof STORY!=='undefined'&&STORY.present&&!(STORY.reachable?STORY.reachable(id,{day}):STORY.present(id,{day}))) return {res:'decline',why:'away'};   /* 在臺北、不在台大（BB_163）不擋：照她的作息和個人規則 */
+    if(typeof STORY!=='undefined'&&STORY.present&&!(STORY.reachable?STORY.reachable(id,{day}):STORY.present(id,{day}))) return {res:'decline',why:'away',day};   /* 在臺北、不在台大（BB_163）不擋：照她的作息和個人規則 */
     if(typeof MREL!=='undefined'&&MREL.zzRefusing&&MREL.zzRefusing(G,id)&&(D().mrelL2||{})[id]) return {res:'decline',why:'mrel'};   /* 子晴、芷若一起分手以後拒絕 L2（AA_227 6-6；台詞在 S.personal）*/
     if(S.partnerBlock(G,id,P)) return {res:'decline',why:'partner'};
     if(P.show&&!P.show(G,id)) return {res:'decline',why:'place'};   /* 還沒開放的地點（茶席：WZ-T3 以後）*/
@@ -266,7 +266,7 @@ const INV=(function(){
     if(r.why==='closed') return (S.offWhy(G,P,r.day!=null?r.day:G.day)||P.name+'那個時間沒開')+'。'+(alt?nm+'問 '+alt+' 可不可以。':'');   /* 公休日寫「慢讀咖啡週二休。」（AA_535 4-1）*/
     if(r.why==='busy') return nm+'那時候'+(ACTN[r.act]||'有事')+'。'+(alt?'問你 '+alt+' 可不可以。':'');
     if(r.why==='rel'||r.why==='partner') return S.placeWhy(G,id,P)||(nm+'客氣地說下次吧。');
-    if(r.why==='away'){ const pr=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(id,G):{}; return pr.kind==='unreachable'?nm+'沒有回覆。':pr.kind==='home'?nm+(pr.keep?'在'+pr.home+'老家念書':'寒暑假回'+pr.home+'了')+'，不在臺北。':pr.kind==='trip'?nm+pr.away+'，不在臺北。':pr.kind==='city'&&pr.city&&!pr.lost?nm+'在'+pr.city+'，不在臺北。':nm+'這學期不在學校。'; }   /* city：沛珊大三起在台南（AA_282 第 1 節：她不來臺北）；還沒重新聯絡上的不寫在哪 */   /* AA_276：回老家的期間約不到臺北的地點 */   /* 沛珊消失期：聯絡不到（BB_205 第 3 節）*/
+    if(r.why==='away'){ const pr=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(id,r.day!=null?{day:r.day}:G):{};   /* BUG-INV-FUN-AWAY-1107（BB-B）：照約的那一天在哪（原本用今天，明天回台中寫成「這學期不在學校」）*/ return pr.kind==='unreachable'?nm+'沒有回覆。':pr.kind==='home'?nm+(pr.keep?'在'+pr.home+'老家念書':'寒暑假回'+pr.home+'了')+'，不在臺北。':pr.kind==='trip'?nm+pr.away+'，不在臺北。':pr.kind==='city'&&pr.city&&!pr.lost?nm+'在'+pr.city+'，不在臺北。':nm+'這學期不在學校。'; }   /* city：沛珊大三起在台南（AA_282 第 1 節：她不來臺北）；還沒重新聯絡上的不寫在哪 */   /* AA_276：回老家的期間約不到臺北的地點 */   /* 沛珊消失期：聯絡不到（BB_205 第 3 節）*/
     return nm+'說改天。'; };
   /* 約好 */
   S.accept=function(G,id,pid,day,h,o){ o=o||{}; S.rec(G); const P=S.place(pid); G.invSeq=(G.invSeq|0)+1;
