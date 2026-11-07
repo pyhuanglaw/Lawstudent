@@ -186,6 +186,9 @@ async def main():
             if last_key in WAIT_IDLE_DAYS and s['hour'] < 21:
                 w0 = wait_idle.setdefault((last_key, int(s['hour'])), time.time())
                 if time.time() - w0 < 90:
+                    if int(time.time() - w0) % 10 == 0:   # 等的時候每 10 秒記一次：快轉為什麼沒跳（free 的條件、下一步）
+                        dg = await pg.evaluate("(()=>{ const G=GAME.G,E=GAME.E,P=E.player,nx=ECONFF.next&&ECONFF.next(G); return {h:+G.hour.toFixed(2), on:!!ECONFF.on(G), busy:!!ECONFF.busy, next:nx?(nx.n+' '+nx.key+' '+nx.h):null, paused:!!E.paused, pbusy:!!P.busy, seat:!!P.seat, D:!!(GAME.D&&GAME.D.active), titleIdle:!!GAME.titleIdle, walking:!!(ECONFF.walking&&ECONFF.walking(E,P)), ev:!!(typeof EVENTS!=='undefined'&&EVENTS.running), phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen()), frame:E.frame|0, zone:G.zone}; })()")
+                        print('   [WAIT]', last_key, json.dumps(dg, ensure_ascii=False), flush=True)
                     await pg.wait_for_timeout(1000); continue
             # 空下來：白天跳過時間，晚上回去睡
             if s['hour'] < 21 and skip_fail_day != (last_key, int(s['hour'])):
