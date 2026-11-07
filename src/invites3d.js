@@ -627,6 +627,9 @@ const INV=(function(){
       const her=L.her&&S.seatObj(E,L.her), sat=!!(her&&n.seat&&Math.abs(n.seat.x-her.x)<0.05&&Math.abs(n.seat.z-her.z)<0.05);
       if(n._ivLead!==iv.id&&!sat&&L.ph!=='full'){ S.leadWalk(GM,iv,n); continue; }   /* 讀檔回來（她跟在你旁邊生出來）：接著帶路 */
       const pp=E.player.obj.position, plv=E.player.lv|0;
+      if(L.ph==='wait'&&!sat&&n._ivLead===iv.id){ const o=n.obj.position, nearHer=plv===(n.lv|0)&&Math.hypot(pp.x-o.x,pp.z-o.z)<2.0, nearSeat=!!her&&plv===(her.lv|0)&&Math.hypot(pp.x-her.x,pp.z-her.z)<2.0;   /* 她在等你、可是不在那個位子上（被作息拉起來、座位差一點；BB-B 11-07 AA_717 探針、第 538 天）：原本兩邊都不動、兩小時後作罷 */
+        if(nearHer||nearSeat){ S.leadGo(GM,iv,n,'scene'); return true; }   /* 你走到她本人或那個位子旁邊＝照樣開演（leadScene 讓她坐回去）*/
+        if(!n.path&&(L.rw|0)<2){ L.rw=(L.rw|0)+1; S.leadWalk(GM,iv,n); continue; } }   /* 你離得遠、她沒在走：走回那個位子（最多兩次，不會一直來回）*/
       if(L.ph==='wait'&&sat){ const PS=E.player.seat; if((plv===(her.lv|0)&&Math.hypot(pp.x-her.x,pp.z-her.z)<2.0)||(PS&&(PS.lv|0)===(her.lv|0)&&Math.hypot(PS.x-her.x,PS.z-her.z)<2.3)){ S.leadGo(GM,iv,n,'scene'); return true; } }   /* 走到她旁邊、或坐到她旁邊＝開演 */
       if(L.ph==='full'){ const o=n.obj.position; if(plv===(n.lv|0)&&Math.hypot(pp.x-o.x,pp.z-o.z)<4){ S.leadGo(GM,iv,n,'full'); return true; } } }
     return false; };

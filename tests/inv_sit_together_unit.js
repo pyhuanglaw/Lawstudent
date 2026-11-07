@@ -155,5 +155,15 @@ const dEnt=s=>Math.hypot(s.x-SPAWN.x,s.z-SPAWN.z);
     check('12. 帶路途中走出那一區＝作罷：除了訊息，畫面有提示（toast）、手機有紅點（phoneBadge）',iv.state==='cancelled'&&toasts.slice(t0).some(t=>/後來作罷了/.test(t))&&badge>=1,JSON.stringify({st:iv.state,t:toasts.slice(t0),badge})); holdWalk=false; held=[]; }
   { const src=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'); const m=src.match(/S\.phoneAuto=function[\s\S]*?GM\.openPhone\('msg'\)/);
     check('12. STORY.phoneAuto 打開手機前問 INV.phoneBack（帶路中、一起走過去、剛演完 30 秒內不自己打開）',!!m&&/INV\.phoneBack\(G\)/.test(m[0])); }
+  /* ---- 13 BB-B 11-07（AA_717 探針第 2 次見面、第 538 天）：她坐著等你（ph wait、_ivLead 還是這一筆），可是不在那個位子上（被拉起來、座位差一點）——
+         原本：不會再帶路（_ivLead 是這一筆）、也不開演（要坐在那個位子），兩小時後作罷。改：你離得遠＝她走回那個位子；你走到她本人旁邊＝照樣開演（leadScene 讓她坐回去）---- */
+  { const G=setup('2025-09-12',15,'campus',hallSeats(),SPAWN); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','library',G.day,15,{now:true,by:'player'}); const n=npc('heroine_05',SPAWN.x+1,SPAWN.z);
+    G.zone='library_hall'; await INV.arrive(GM,'library_hall'); await W(5);
+    const L=iv.lead, her=L&&INV.seatObj(E,L.her);
+    GM.standUp(n); n.beh='idle'; n.path=null; const w0=walks.length; G.hour=15.2; INV.tick(GM); await W(5);
+    const back=walks.slice(w0).some(w=>w.who==='heroine_05'&&!!her&&Math.hypot(w.x-her.x,w.z-her.z)<1);
+    check('13. 她不在那個位子上、你離得遠：她走回那個位子坐下（不會兩邊都不動）',!!L&&back&&L.ph==='wait'&&n.seat===her&&iv.state==='accepted',JSON.stringify({back,ph:L&&L.ph,seat:n.seat,st:iv.state}));
+    GM.standUp(n); n.path=null; const said0=H.said.length; place(E.player,n.obj.position.x+0.4,n.obj.position.z+0.6,1); G.hour=15.3; INV.tick(GM); await W(20);
+    check('13. 她不在那個位子上、你走到她本人旁邊：照樣開演（她坐回那個位子、演完 done）',iv.state==='done'&&lines().slice(said0).includes(LS.seated),JSON.stringify({st:iv.state,said:lines().slice(said0,said0+3)})); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
