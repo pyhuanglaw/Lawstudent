@@ -12,9 +12,9 @@ sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.dirname(__file__))
 import playlib as L
 
 URL, SAVE, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
-WHO = os.environ.get('WHO', 'heroine_02')
+WHO = os.environ.get('WHO', '')   # 沒指定＝挑存檔裡關係到 FRIEND 以上的第一位（南洋 minStage FRIEND）
 NEW = {'soclib': '社科院圖書館', 'daybreak': 'Daybreak', 'wz_lin': '林家乾麵', 'wz_teishoku': '小路', 'xs_dakou': '大口漢堡', 'xs_nanyang': '南洋戲院', 'bookstore': '頁間書屋', 'xs_shanlan': '山嵐書店'}
-WANT = {'念書': ['社科院圖書館', 'Daybreak', '大口漢堡'], '吃飯': ['林家乾麵', '小路', '大口漢堡'], '看電影': ['南洋戲院', '頁間書屋', '山嵐書店']}
+WANT = {'念書': ['社科院圖書館', '大口漢堡'], '吃飯': ['林家乾麵', '小路', '大口漢堡'], '看電影': ['南洋戲院', '頁間書屋', '山嵐書店']}   # e63df85c9：Daybreak 照舊只在吃飯（AA_652；和可昕交往、她知道＝不列，照設計）
 ZONE = "(GAME.E.zone&&GAME.E.zone.def&&GAME.E.zone.def.id)"
 
 
@@ -92,6 +92,10 @@ async def main():
         sA['visited'] = vis; sA.update({'zone': 'campus', 'hour': 10.0, 'pos': None})
         run.setup('【前置】使用者存檔 %s，10:00 校園；visited 拿掉 %s＝還沒去過' % (os.path.basename(SAVE), '、'.join(NEW)))
         await L.load_state(pg, sA, quiet_events=True, quiet_phone=True); await pg.wait_for_timeout(3500); await run_dialog(pg, cdp, [], 20)
+        global WHO
+        allst = await pg.evaluate("(()=>{ const ids=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin']; return ids.map(w=>[w,INV.stageOf?INV.stageOf(GAME.G,w):null]); })()")
+        print('   各人關係', allst, flush=True)
+        if not WHO: WHO = next((w for w, g in allst if g and g not in ('STRANGER', 'ACQUAINTANCE', 'FAMILIAR')), 'heroine_02')
         st = await pg.evaluate("(w=>({stage:INV.stageOf?INV.stageOf(GAME.G,w):null, name:(CHARACTERS[w]||{}).name}))(%s)" % json.dumps(WHO))
         print('   關係', st, flush=True)
         ok = await open_invite(pg, cdp)
@@ -116,6 +120,9 @@ async def main():
             got = ' '.join(outB.get(k) or [])
             miss = [n for n in names if n not in got]
             run.check('[B] 「%s」那一類有 %s' % (cat, '、'.join(names)), k is not None and not miss, json.dumps({'cat': k, 'list': outB.get(k), 'miss': miss}, ensure_ascii=False))
+        dbk = [c for c, v in outB.items() if any('Daybreak' in x for x in v)]
+        print('   [B] Daybreak 在：', dbk, '（e63df85c9 起只在吃飯；和可昕交往而且她知道＝不列）', flush=True)
+        run.check('[B] Daybreak 不在念書那一類（e63df85c9）', not any('念書' in c for c in dbk), json.dumps(dbk, ensure_ascii=False))
         await run_dialog(pg, cdp, ['算了', '不約'], 10)
         # C：約看電影
         await open_invite(pg, cdp)
