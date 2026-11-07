@@ -6,7 +6,24 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-07 11:0x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-07 12:3x UTC，帳號 B LAWWW2-B）
+
+分支 `claude/funny-albattani-iawshm`；開發分支 `claude/modest-rubin-2lyp7g`（`126bdf93e`）。瀏覽器都沒跑（D131，交 CC）。工作樹 `$S/gwbase`＝開發 126bdf93e＋下面三包 patch（rooms_glb3d、engine3d、測試）。
+
+| 項目 | 內容 | 位置 | 狀態 |
+|---|---|---|---|
+| 萬才研討室 A／B 光照 | A 一張；B 平常／2028-10-26 面試兩張（lm_sets.py 比對 UV）；rooms_glb3d.js pickLM | `eb36f6844`、`856dd6f86`（`wip/wancai_sem_lm_1107/`） | 已交 LAWWW-B；CC 拍（WANCAI-SEM-LM） |
+| PERF-COLD-RT ① 溫州街縮檔 | 13.6→10.3 MB（法線 8 位元、頂點色 0～255）；**線上本來就 gzip（3.72 MB），只少 0.34 MB**；LAWWW-B 收了（記憶體），v9.10.22 後推 | `a898ff47e`（`wip/perf_cold_rt_1107/`） | LAWWW-B 本機 `9bcdfc8f1`；② Meshopt 不做 |
+| PERF-WZ-SHADERS 模型端 | 頂點色 VEC4→VEC3、店面底色接自發光貼圖、價目牌／黑板單面（兩條街）；約 −4 program | `3179b12b5`（`wip/perf_wz_shaders_1107/`） | 已交；CC 量 programs、PERSIST、截圖 |
+| FIXLIGHTS／PINPROG 實驗 | `?fixlights=3`（點光源湊到 3 盞）、`?pinprog=1`（換區域前留住 program）；engine3d.js | `43df0d07e`（`wip/fixlights_1107/`） | **240 支 engine3d 測試跑中**；跑完交 LAWWW-B，請 CC 量 |
+
+**重要發現**：
+- 換區域重編 shader 有兩個原因：點光源數不同（MToon、陰影全重編）；disposeGroup 把 program 刪掉，回到同一區又重編（第二次進溫州街還是 +53）。
+- 83 個區域的點光源：0～3 盞 46 個、4～13 盞 37 個。戶外只有溫州街有 3 盞，晚上才亮。拿掉要美術決定，只列成選項。
+
+**下一批 INTERIOR-AAA**：`bake_rooms_ab3.sh` 已寫好（共同 3F、霖澤辦公室、博雅 203、洗衣間、視聽室；燈用 tube_lights.py）。等測試跑完再烘，以免搶 CPU。
+
+## 🔨 （舊）現在在做（11-07 11:0x UTC，帳號 B LAWWW2-B）
 
 分支 `claude/funny-albattani-iawshm`；開發分支 `claude/modest-rubin-2lyp7g`（`126bdf93e`）。瀏覽器都沒跑（D131，交 CC）。
 
