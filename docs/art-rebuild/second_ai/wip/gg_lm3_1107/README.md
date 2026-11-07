@@ -10,7 +10,7 @@
 | SUNNY SIDE | `assets/models/env/second_ai/aa_support/sunnyside.glb` | **AA**（v1e，企劃線 86688bd91；開發 dc21c5949 取進） | `d94d70d09acb49586625f750bbcc6b925b1d8c64efeb77d7e082822a3c47e8a4` | 2,295,120 → 2,408,496 B |
 | 小路 | `assets/models/env/second_ai/aa_support/komichi.glb` | **AA**（v4，同上） | `0bf1488b17908710308a3ea1406167490f1a68849bfcf652beaeb5e788733716` | 2,441,056 → 2,511,888 B |
 | 木曜日 | `assets/models/env/second_ai/aa_support/mokuyobi.glb` | **AA**（子代理，`tools/blender/env_second/aa_support/mokuyobi_interior.py`；開發 aa8cb5beb 取進） | `24f7d6406f2a496cd2956f8ec8997e1259ef9f11d58db907f1537bbe6434fe72` | 3,835,064 → 4,008,412 B |
-| 一盞 | `assets/models/env/second_ai/aa_support/yizhan.glb` | **AA**（v1e，同 SUNNY SIDE） | （烘焙中） | 1,095,532 → ？ |
+| 一盞 | `assets/models/env/second_ai/aa_support/yizhan.glb` | **AA**（v1e，同 SUNNY SIDE） | `a4d1bc30917e7463a6bc1b33ed6731be4e3eb67ad3210927c83a0a890f86a529` | 1,095,532 → 1,134,060 B |
 | 日常失速 | `assets/models/env/second_ai/aa_support/daily_offbeat.glb` | **AA**（開發 42467c2dc 取進） | （排隊） | 3,187,260 → ？ |
 | 阿德影印 | `assets/models/env/second_ai/bb_support/ade.glb` | **CC**（v1c `5977272dc`；開發 cfd402363 取進） | `e4d554c959a0ef123f51f00d194e05a6e6120d5ac765f9cd2a9d6304f2945be6` | 1,704,624 → ？ |
 
@@ -37,9 +37,11 @@ AA 的店裡，燈位是 `GLOW_<種類>_<編號>` 空節點（extras 有 `glow` 
 | SUNNY SIDE | 6.7 × 10.3 × 3.2 m | 南、東 | 14 盞（9.6～21.6 W） | ×2.4 | `sns_walnut`（牆上木作烘、家具 `sns_walnut_rt`） |
 | 小路 | 8.3 × 8.3 × 2.9 m | 南 | 19 盞（2.7～40.5 W；紙燈罩得很密，倍數最大） | ×4.5 | `kmc_walnut` → `kmc_walnut_rt` |
 | 木曜日 | 9.3 × 14.3 × 3.0 m | 南 | 26 盞（1.6～23.4 W） | ×2.6 | 沒有 |
-| 一盞 | 8.7 × 11.3 × 2.6 m | 南 | （烘焙中） | ×6 | `yzn_post` → `yzn_post_rt` |
+| 一盞 | 8.7 × 11.3 × 2.6 m | 南（緣側） | 6 盞（24～36 W；只有 6 個燈位，倍數最大） | ×6 | `yzn_post` → `yzn_post_rt` |
 | 日常失速 | | 南、東 | | ×1.5 | |
 | 阿德影印 | | 南 | 天花板平板燈 → 0.4 × 1.2 m 面光源，14 W | | |
+
+一盞晚上比日式店的目標（0.25）暗一點（燈位只有 6 個）；遊戲裡看起來怎樣還沒拍。BB 判太暗的話，倍數 ×1.3 重烘（約 20 分鐘）就到 0.25。
 
 倍數是先用 128 取樣試烘、量亮度，再照「目標／量到」^2.04 算的（編碼後亮度 ≈ 線性^0.49）。目標：晚上咖啡店、西式店 0.32 左右，日式店 0.25 左右。
 
@@ -49,7 +51,7 @@ AA 的店裡，燈位是 `GLOW_<種類>_<編號>` 空節點（extras 有 `glow` 
 | SUNNY SIDE | 0.39 | 0.31 | 0.1% |
 | 小路 | 0.28 | 0.26 | 0% |
 | 木曜日 | 0.30 | 0.30 | 0% |
-| 一盞 | | | |
+| 一盞 | 0.31 | 0.22 | 0.1% |
 | 日常失速 | | | |
 | 阿德影印 | | | |
 | （參考）燒臘／書屋 | 0.44／0.36 | 0.46／0.29 | |
