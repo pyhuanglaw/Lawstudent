@@ -134,6 +134,10 @@ R7921_mini | 79214e4e10275fb47c0d95ec667cab2964b77b5c | game | tests/minimap_dir
 XS_FARVIEW_c8b0 | c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb | probe | docs/story_planning/test_tools/cc/cc_xs_farview_probe.py | index.html | 30 | CC_HEADLESS=0
 HAIR_a_c8b0 | c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb | probe | docs/story_planning/test_tools/cc/cc_hair_fix_probe.py | index.html | 40 | HAIRFIX=0;HAIR_JPG=1;RERUN=a;CC_HEADLESS=0
 HAIR_b_8fdb | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/cc_hair_fix_probe.py | index.html | 40 | HAIRFIX=0;HAIR_JPG=1;RERUN=b;CC_HEADLESS=0
+# BB-B 10:43／10:45（v9.10.22 發布前，使用者選「等 BB 測完再發布」）：BB 的三支雲端探針改在 PC 跑、最前面（8fdb294aa，?turbo，存檔 day46）
+PT1107I_menu_kx | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/pt1107i_invplaces_probe.py | index.html?turbo | 30 | MODE=menu;WHO=kexin;KX=0;CC_HEADLESS=0
+PT1107I_meet_kx | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/pt1107i_invplaces_probe.py | index.html?turbo | 40 | MODE=meet;WHO=kexin;DAYSHIFT=-14;CC_HEADLESS=0
+PT1107G_h05_k3 | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/pt1107g_arcinv_probe.py | index.html?turbo | 40 | WHO=heroine_05;K=3;PICK=0;CC_HEADLESS=0
 # CC-B 10:3x 常備（使用者「沒有東西可以跑」→ D121 常備：LAWWW 最新 head 8fdb294aa 回歸組＋真實流程；最慢的在前）
 R8FDB_main12 | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R8FDB_classreal | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
