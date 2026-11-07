@@ -24,6 +24,7 @@ OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_v0_to1017'
 PREFER = ['直接去上課', '直接去考場', '出發', '先不要', '先睡。明天再拆。', '睡到明天早上', '睡覺']   # 「照樣跳過會錯過：…」→「先不要」（不翹課）
 END_JS = "(()=>{ const G=GAME.G, d=STORY.dayOfKey('2024-10-17'); return G.day>d||(G.day===d&&G.hour>=22.6); })()"
 SEG_FROM, SEG_TO, SEG_SAVE = os.environ.get('SEG_FROM'), os.environ.get('SEG_TO'), os.environ.get('SEG_SAVE')
+WAIT_IDLE_DAYS = set(x for x in os.environ.get('WAIT_IDLE_DAYS', '').split(',') if x); wait_idle = {}
 if SEG_TO and SEG_TO >= '2024-10-17': SEG_TO = None   # 最後一段照原本的終點
 
 # 下一步要去哪裡：寢室 ← 宿舍門廳 ← 校園 ← 其他區域
@@ -181,6 +182,11 @@ async def main():
                 await pg.wait_for_timeout(800); continue
             free_since = None
             if day_check: await sc.check(pg, '%s 空下來 %s' % (day_check, s['zone'])); day_check = None
+            # WAIT_IDLE_DAYS（BB-B 11-07，BUG-Y0-DAYSKIP-CARD-1107 ③）：那幾天空下來什麼都不按，等經濟系快轉自己跳（真人站著不動＝這樣）；最多等 90 秒
+            if last_key in WAIT_IDLE_DAYS and s['hour'] < 21:
+                w0 = wait_idle.setdefault((last_key, int(s['hour'])), time.time())
+                if time.time() - w0 < 90:
+                    await pg.wait_for_timeout(1000); continue
             # 空下來：白天跳過時間，晚上回去睡
             if s['hour'] < 21 and skip_fail_day != (last_key, int(s['hour'])):
                 lab = await skip_time(pg, cdp)
