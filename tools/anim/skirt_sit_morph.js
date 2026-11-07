@@ -97,7 +97,7 @@ function exportOBJ(h,file){ const V=new THREE.Vector3(); let obj='mtllib '+path.
   for(const key of KEYS){ let sd=7; CHAR.ambRand=()=>{ sd=(sd*16807)%2147483647; return sd/2147483647; }; if(CHAR._ambReset) CHAR._ambReset();
     const m=ASSETS.manifest[key], file=path.basename(m.url), h=CHAR.build({model:key,height:m.height}); scene.add(h);
     for(let i=0;i<4;i++) CHAR.animate(h,1/30,{pose:'idle',speed:0}); for(let i=0;i<40;i++) CHAR.animate(h,1/30,{pose:'sit',speed:0}); scene.updateMatrixWorld(true);
-    let o=null; h.traverse(x=>{ if(x.isSkinnedMesh&&x.name!=='npc_far'&&/Bottom/.test((Array.isArray(x.material)?x.material[0]:x.material).name)) o=x; });
+    let o=null; h.traverse(x=>{ if(x.isSkinnedMesh&&x.name!=='npc_far'&&/Bottom|Skirt/.test((Array.isArray(x.material)?x.material[0]:x.material).name)) o=x; });
     if(!o){ console.log(key,'沒有 Bottom 網格，跳過'); scene.remove(h); continue; }
     const had=o.morphTargetDictionary&&o.morphTargetDictionary[NAME]!=null; if(had) o.morphTargetInfluences[o.morphTargetDictionary[NAME]]=0;   // 已經有的話：從原本的形狀重算（坐姿的 patch 會把它打開）
     if(OBJ) exportOBJ(h,path.join(OUT,'obj',key.replace(/^char\./,'')+'_before.obj'));
@@ -108,9 +108,9 @@ function exportOBJ(h,file){ const V=new THREE.Vector3(); let obj='mtllib '+path.
     const after=benchStats(h,o,null); if(OBJ) exportOBJ(h,path.join(OUT,'obj',key.replace(/^char\./,'')+'_after.obj'));
     G.morphAttributes.position=keep.pos||[]; G.morphTargetsRelative=keep.rel; o.morphTargetDictionary=dict; o.morphTargetInfluences=inf;
     // VRM：Bottom 的 mesh 加 morph target
-    const src=readGLB(path.join(ROOTDIR,m.url)), J=src.J, ref={BIN:src.BIN}; const mi=J.meshes.findIndex(me=>me.primitives.some(p=>p.material!=null&&/Bottom/.test(J.materials[p.material].name||'')));
-    let miss=0; const vrmMoved=addTarget(J,ref,mi,(p,pos)=>{ if(!(p.material!=null&&/Bottom/.test(J.materials[p.material].name||''))&&!J.meshes[mi].primitives.some(q=>q!==p&&q.attributes.POSITION===p.attributes.POSITION)) return null;
-      const used=new Set(idxRead(J,ref.BIN,J.meshes[mi].primitives.find(q=>q.attributes.POSITION===p.attributes.POSITION&&/Bottom/.test(J.materials[q.material].name||'')).indices)); const d=new Float32Array(pos.length);
+    const src=readGLB(path.join(ROOTDIR,m.url)), J=src.J, ref={BIN:src.BIN}; const mi=J.meshes.findIndex(me=>me.primitives.some(p=>p.material!=null&&/Bottom|Skirt/.test(J.materials[p.material].name||'')));
+    let miss=0; const vrmMoved=addTarget(J,ref,mi,(p,pos)=>{ if(!(p.material!=null&&/Bottom|Skirt/.test(J.materials[p.material].name||''))&&!J.meshes[mi].primitives.some(q=>q!==p&&q.attributes.POSITION===p.attributes.POSITION)) return null;
+      const used=new Set(idxRead(J,ref.BIN,J.meshes[mi].primitives.find(q=>q.attributes.POSITION===p.attributes.POSITION&&/Bottom|Skirt/.test(J.materials[q.material].name||'')).indices)); const d=new Float32Array(pos.length);
       for(const i of used){ const r=byPos.get(key3(pos[i*3],pos[i*3+1],pos[i*3+2])); if(!r){ miss++; continue; } d[i*3]=r[0]; d[i*3+1]=r[1]; d[i*3+2]=r[2]; } return d; });
     writeGLB(path.join(OUT,file),J,ref.BIN);
     // 遠距離版本

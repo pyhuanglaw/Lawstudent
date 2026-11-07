@@ -1,0 +1,129 @@
+{
+ "params": {
+  "ys": 0.478,
+  "ze": 0.26,
+  "xb": 0.4,
+  "kf": 0.25,
+  "kb": 1,
+  "droop": 1.5,
+  "rth": 0.075,
+  "lo0": 0.06,
+  "lo1": -0.1,
+  "hip0": 0.04,
+  "hip1": -0.1
+ },
+ "bench": {
+  "top": 0.47,
+  "bot": 0.42,
+  "z0": -0.31,
+  "z1": 0.19,
+  "x": 0.3
+ },
+ "models": {
+  "char.classmate_peishan": {
+   "file": "bl_classmate_peishan.vrm",
+   "height": 1.63,
+   "hipY": 0.904,
+   "kneeY": 0.552,
+   "moved": 784,
+   "maxDelta": 0.488,
+   "vrmMoved": 784,
+   "missing": 0,
+   "before": {
+    "inSeat": 248,
+    "below": 217,
+    "maxDepth": 0.441
+   },
+   "after": {
+    "inSeat": 0,
+    "below": 0,
+    "maxDepth": 0
+   },
+   "lod": null
+  },
+  "char.classmate_xinci": {
+   "file": "bl_classmate_xinci.vrm",
+   "height": 1.6,
+   "hipY": 0.904,
+   "kneeY": 0.552,
+   "moved": 784,
+   "maxDelta": 0.512,
+   "vrmMoved": 784,
+   "missing": 0,
+   "before": {
+    "inSeat": 277,
+    "below": 230,
+    "maxDepth": 0.304
+   },
+   "after": {
+    "inSeat": 0,
+    "below": 0,
+    "maxDepth": 0
+   },
+   "lod": null
+  },
+  "char.yu": {
+   "file": "bl_yu.vrm",
+   "height": 1.63,
+   "hipY": 0.87,
+   "kneeY": 0.518,
+   "moved": 1746,
+   "maxDelta": 0.52,
+   "vrmMoved": 1746,
+   "missing": 0,
+   "before": {
+    "inSeat": 645,
+    "below": 516,
+    "maxDepth": 0.303
+   },
+   "after": {
+    "inSeat": 0,
+    "below": 0,
+    "maxDepth": 0
+   },
+   "lod": null
+  },
+  "char.xiuqin": {
+   "file": "bl_xiuqin.vrm",
+   "height": 1.58,
+   "hipY": 0.904,
+   "kneeY": 0.552,
+   "moved": 784,
+   "maxDelta": 0.525,
+   "vrmMoved": 784,
+   "missing": 0,
+   "before": {
+    "inSeat": 276,
+    "below": 243,
+    "maxDepth": 0.523
+   },
+   "after": {
+    "inSeat": 0,
+    "below": 0,
+    "maxDepth": 0
+   },
+   "lod": null
+  },
+  "char.xiuqin_apron": {
+   "file": "bl_xiuqin_apron.vrm",
+   "height": 1.58,
+   "hipY": 0.904,
+   "kneeY": 0.552,
+   "moved": 784,
+   "maxDelta": 0.525,
+   "vrmMoved": 784,
+   "missing": 0,
+   "before": {
+    "inSeat": 276,
+    "below": 243,
+    "maxDepth": 0.523
+   },
+   "after": {
+    "inSeat": 0,
+    "below": 0,
+    "maxDepth": 0
+   },
+   "lod": null
+  }
+ }
+}
