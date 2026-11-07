@@ -162,6 +162,28 @@ async def meet(pg, cdp, run):
         await run.shot(pg, 'meet_nanyang_after')
 
 
+async def movie(pg, cdp, run):
+    """MODE=movie：只測看電影（當天約、當天看）：燈暗那一句、扣 150、NY_TICKET"""
+    s = base_state(WHO); s['hour'] = 11.0
+    await load(pg, cdp, s)
+    r = await open_cat(pg, cdp, WHO, '看電影')
+    lst = (r or {}).get('list') or []
+    print('   看電影選單', json.dumps({'top': [x['t'] for x in ((r or {}).get('top') or [])], 'list': [x['t'] for x in lst]}, ensure_ascii=False)[:800], flush=True)
+    n = find(lst, '南洋')
+    run.check('看電影選單有南洋、可以選', bool(n) and not n['dim'], json.dumps(n, ensure_ascii=False))
+    await back_out(pg, cdp)
+    if not n or n['dim']: return
+    await pg.evaluate("(()=>{ window.__money=[]; if(GAME.money&&!GAME.__mW){ const f=GAME.money; GAME.money=function(v,why){ try{ window.__money.push({v,why,day:GAME.G.day,h:+GAME.G.hour.toFixed(2)}); }catch(e){} return f.apply(this,arguments); }; GAME.__mW=1; } })()")
+    said2, _ = await pe.meet_once(pg, cdp, run, '看電影', '南洋', '南洋')
+    ivs = await pg.evaluate("(w=>(GAME.G.invites||[]).filter(v=>v.who===w).slice(-3).map(v=>({place:v.place,day:v.day,h:v.h,state:v.state})))(%s)" % json.dumps(WHO))
+    print('   南洋 said', json.dumps((said2 or [])[-14:], ensure_ascii=False)[:1500], '邀約', json.dumps(ivs, ensure_ascii=False), flush=True)
+    run.check('南洋：見面演了、有「燈暗下來，電影開始了。」', said2 is not None and any('燈暗下來' in x for x in (said2 or [])), json.dumps({'said': (said2 or [])[-10:], 'ivs': ivs}, ensure_ascii=False))
+    mv = await pg.evaluate("({money:GAME.G.money, log:window.__money||[], tk:(GAME.G.flags||{}).NY_TICKET, day:GAME.G.day})")
+    tick = [x for x in mv['log'] if x.get('why') == '電影票']
+    run.check('南洋：那一場扣了 150（電影票）、記 NY_TICKET＝今天', len(tick) == 1 and tick[0]['v'] == -150 and mv['tk'] == mv['day'], json.dumps(mv, ensure_ascii=False))
+    await run.shot(pg, 'movie_after')
+
+
 async def main():
     run = L.Run('pt1107i_' + MODE, OUT)
     async with async_playwright() as p:
@@ -173,6 +195,7 @@ async def main():
         run.check('這一版有 118 巷的約會地點', has)
         if has:
             if MODE == 'menu': await menu(pg, cdp, run)
+            elif MODE == 'movie': await movie(pg, cdp, run)
             else: await meet(pg, cdp, run)
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))
         await b.close()
