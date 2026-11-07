@@ -3,14 +3,14 @@
  "sha": "6da721819b8d351fe12e0b848ca7e06f52553819",
  "kind": "probe",
  "script": "docs/story_planning/test_tools/cc/cc_tpose_probe.py",
- "env": "",
- "line_hash": "3c8797140405",
+ "env": "SAMPLE=1",
+ "line_hash": "b3de4a330890",
  "cmd": "/opt/hostedtoolcache/Python/3.12.16/x64/bin/python3 /home/runner/work/Lawstudent/Lawstudent/cc/docs/story_planning/test_tools/cc/cc_tpose_probe.py http://127.0.0.1:8800/index.html /home/runner/work/Lawstudent/Lawstudent/out/WZ_TPOSE_6da_gha/out",
  "exit": 0,
  "timeout": false,
- "seconds": 119,
- "result": "FAILED 1: 每一個時間點整區都沒有 T 字候選（沒在播動作或上臂接近水平）",
+ "seconds": 41,
+ "result": "ALL PASS",
  "where": "GitHub Actions（ubuntu、SwiftShader、無 GPU）",
- "run": "https://github.com/pyhuanglaw/Lawstudent/actions/runs/42377675553",
- "finished": "2026-11-07 13:39:35Z"
+ "run": "https://github.com/pyhuanglaw/Lawstudent/actions/runs/42377932552",
+ "finished": "2026-11-07 13:42:18Z"
 }
