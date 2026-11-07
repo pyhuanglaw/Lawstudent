@@ -10,7 +10,7 @@
 #   - 晚上：只有店裡的燈。
 #   - 頂點色的小東西、貨架上的商品、金屬件、玻璃、發光的東西照舊即時光（--nolm），照樣擋光：地上的接觸陰影照樣烘進去。
 set -e
-SHOP=${1:?cvs|yangyang|corner|shaola|yejian}
+SHOP=${1:?cvs|yangyang|corner|shaola|yejian|aa_sunnyside|aa_komichi|aa_mokuyobi|aa_yizhan|aa_offbeat|bb_ade}
 SAMPLES=${2:-512}
 OUT=${OUTDIR:-}
 LB=tools/blender/env_second/lightbake
@@ -100,7 +100,40 @@ yejian)
   NOLM='^yej_wood$|books|pothos|print|_vc$|vcg|vcm|bulb|glass|VIEW'
   EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --points "$PTS")
   ;;
-*) echo "不認得的店 $SHOP（cvs、yangyang、corner、shaola、yejian）"; exit 1;;
+aa_sunnyside|aa_komichi|aa_mokuyobi|aa_yizhan|aa_offbeat)
+  # 溫州街 AA 做的五間（光照第一級第三批）：命名都一樣——<字首>_floor／_ceiling（一盞多 _tatami）、WALL_<面>_<字首>_wall／_wood／_post、
+  #   燈是 GLOW_<種類>_<編號> 空節點（extras：glow 顏色、size、day、night）、窗景卡 WALL_<面>_VIEW_<字首>_window_view。
+  # 烘：地板（含榻榻米）、天花板、牆面、牆上的木作和柱子（島少）。其他全部照舊即時光（家具、小東西、書、植物、印刷品、燈、玻璃、窗景卡）。
+  # 燈：glow_points.py 把 GLOW_* 換成點光源（吊燈 9 W、壁燈 5 W、投射燈 6 W、檯燈 4 W、落地燈 6 W、紙燈 6 W、行燈 4 W、蠟燭 0.6 W、吧台燈條 3 W、軌道燈 6 W；顏色照 extras.glow），
+  #     燈泡、紙燈罩、玻璃、窗景卡烘的時候藏起來（光源在裡面會被擋住；窗景卡會擋天光），照樣輸出。
+  # 外殼：窗在哪一面就開哪一面（S＝+z 店面；E＝+x）。
+  case $SHOP in
+    aa_sunnyside) GLB=aa_support/sunnyside.glb; P=sns; OPEN=S,E ;;   # SUNNY SIDE（wz_brunch）6.4 × 10 × 3.2：店面＋右牆整面落地窗
+    aa_komichi)   GLB=aa_support/komichi.glb;   P=kmc; OPEN=S ;;     # 小路（wz_teishoku）8 × 8 × 2.9：木頭天花板、老牆
+    aa_mokuyobi)  GLB=aa_support/mokuyobi.glb;  P=mok; OPEN=S ;;     # 木曜日（wz_mokuyobi）9 × 14 × 3.0
+    aa_yizhan)    GLB=aa_support/yizhan.glb;    P=yzn; OPEN=S ;;     # 一盞（wz_teahouse）8.4 × 10 × 2.6＋緣側：格子玻璃拉門朝 +z
+    aa_offbeat)   GLB=aa_support/daily_offbeat.glb; P=dof; OPEN=S,E ;;   # 日常失速（wz_offbeat）11 × 10 × 3.4：店面＋右牆窗
+  esac
+  PTS=$(python3 $LB/glow_points.py assets/models/env/second_ai/$GLB --scale "${GS:-1.0}")
+  LIGHTS=""
+  HIDE='glass|VIEW|bulb|washi|_pend$'
+  NOLM="^(?!(${P}_(floor|ceiling|tatami)|WALL_[a-z]+_${P}_(wall|wood|post))\$)"
+  EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell "$OPEN" --points "$PTS")
+  ;;
+bb_ade)
+  # 阿德影印（BB 製作，bb_support/ade.glb；溫州街 wz_print）：4.3 × 9.1 m、天花板 3.0 m；店面（+z）整面玻璃。
+  # 燈：天花板 10 片平板燈（GLOW_panel_1～10，x ±1.0、z 3.3～−3.7、y 2.9；extras 冷白 240,246,255），每片一個 0.4 × 1.2 m 朝下的面光源，18 W。
+  # 烘：地板、天花板、四面牆（WALL_*_wall_wall、WALL_front_front_wall）。
+  # 不烘：櫃台、影印機、紙、商品、頂點色、金屬、植物、招牌、發光、玻璃；GPU instancing 的椅子、桌子、平板燈（--keep-instances，烘完照原檔補回節點名字、extras）。
+  GLB=bb_support/ade.glb
+  PW=${PW:-18}
+  LIGHTS=$(python3 $LB/glow_points.py assets/models/env/second_ai/$GLB --only '^GLOW_panel' --drop 0.03 | tr ';' '\n' | \
+    awk -F, -v w="$PW" '{printf "%s%.3f,%.3f,%.3f,%.3f,%.3f,1,1,%s,0.4,1.2,%s,%s,%s", (NR>1?";":""), $1, $1, $3, $3, $2, w, $5, $6, $7}')
+  HIDE='glass'
+  NOLM="^(?!(ad_floor_floor|ad_ceiling_ceil|WALL_[a-z]+_wall_wall|WALL_front_front_wall)\$)"
+  EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --keep-instances)
+  ;;
+*) echo "不認得的店 $SHOP（cvs、yangyang、corner、shaola、yejian、aa_sunnyside、aa_komichi、aa_mokuyobi、aa_yizhan、aa_offbeat、bb_ade）"; exit 1;;
 esac
 SRC=assets/models/env/second_ai/$GLB
 NAME=$(basename "$GLB" .glb)
@@ -111,7 +144,7 @@ cp "$SRC" "$TMP/$NAME.glb"
   --lm "$TMP/$NAME" --url "$(dirname "$SRC")/${NAME}_lm" --res 1024 --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
   --lights "$LIGHTS" --smooth 2 "${EXTRA[@]}"
 python3 $LB/to_webp.py "$TMP/$NAME" "$DST/${NAME}_lm" 90
-if [ "$SHOP" = corner ]; then   # instancing 節點的名字、extras（WALL_／CEIL_、dir、at）照原檔補回去：Blender 重新匯出會叫「corner_interior.N」
+if [ "$SHOP" = corner ] || [ "$SHOP" = bb_ade ]; then   # instancing 節點的名字、extras（WALL_／CEIL_、dir、at）照原檔補回去：Blender 重新匯出會叫「<檔名>.N」
   python3 $LB/glb_fix_instnames.py "$TMP/$NAME.glb" "$DST/$NAME.glb"
 fi
 if [ ${#CARD[@]} -gt 0 ]; then   # 窗外的景（烘完才加：不擋天光、沒有第二套 UV）
