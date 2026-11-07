@@ -1,5 +1,5 @@
 {
- "at": "2026-11-07T18:26Z",
+ "at": "2026-11-07T23:25Z",
  "main": "74cb8314d",
  "ruleSource": "claude/modest-rubin-2lyp7g",
  "counts": {
@@ -23,52 +23,52 @@
   {
    "ref": "origin/claude/cc-testing",
    "branch": "claude/cc-testing",
-   "sha": "d5c0f15a5a30d4102b2f23bf9475171bd23498bc",
-   "date": "2026-11-07T18:23:00+00:00",
+   "sha": "a883edc45d9f6669f1cbeba6fab005e8f1ab5a26",
+   "date": "2026-11-07T22:42:53+00:00",
    "who": "CC-B",
    "kind": "保留｜崗位在用",
    "why": "duty.json：CC-B",
-   "ahead": 6519
+   "ahead": 6539
   },
   {
    "ref": "origin/claude/cool-heisenberg-o8kuqx",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "1905ae62972025272f7ae93e8f5b1d49312dbbb1",
-   "date": "2026-11-07T18:18:22+00:00",
+   "sha": "3248430b3dcc89d9ecb256117958d67e9d3b3068",
+   "date": "2026-11-07T22:56:27+00:00",
    "who": "AA-B",
    "kind": "保留｜崗位在用",
    "why": "duty.json：AA-B",
-   "ahead": 7095
+   "ahead": 7103
   },
   {
    "ref": "origin/claude/elegant-brown-fcos7n",
    "branch": "claude/elegant-brown-fcos7n",
-   "sha": "0c8bc32fd3362c3792b520d423390fc82ac04b64",
-   "date": "2026-11-07T18:14:22+00:00",
+   "sha": "c7ecbfe18e846d3f5e8d3073409c9dfcadfb6931",
+   "date": "2026-11-07T22:59:38+00:00",
    "who": "BB-B",
    "kind": "保留｜崗位在用",
    "why": "duty.json：BB-B",
-   "ahead": 7195
+   "ahead": 7231
   },
   {
    "ref": "origin/claude/funny-albattani-iawshm",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "303f3806c1bb72cc7a5df7cac84be3dc10dd51e4",
-   "date": "2026-11-07T18:20:14+00:00",
+   "sha": "b83690734d82bc44da19d30e1fe5894a83488cf4",
+   "date": "2026-11-07T22:54:26+00:00",
    "who": "LAWWW2-B",
    "kind": "保留｜崗位在用",
    "why": "duty.json：LAWWW2-B",
-   "ahead": 2063
+   "ahead": 2092
   },
   {
    "ref": "origin/claude/modest-rubin-2lyp7g",
    "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "ee0672cf5dff2df07195ebe4f4a0dc82762ca283",
-   "date": "2026-11-07T18:23:08+00:00",
+   "sha": "e6f28cbab33733429b6e80c72b8b781f54d3fa79",
+   "date": "2026-11-07T23:16:41+00:00",
    "who": "LAWWW-B、RULE_SOURCE",
    "kind": "保留｜崗位在用",
    "why": "duty.json：LAWWW-B、RULE_SOURCE",
-   "ahead": 82
+   "ahead": 129
   },
   {
    "ref": "origin/claude/adoring-meitner-mqzst8",

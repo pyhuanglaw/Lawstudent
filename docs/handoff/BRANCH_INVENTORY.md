@@ -20,16 +20,16 @@
 <!-- BRANCH-AUDIT:BEGIN（tools/handoff/branch_audit.py --write 產生，不要手改）-->
 ## 定期唯讀稽核（最新一次；BRANCH-AUDIT-1028）
 
-**稽核時間**：2026-11-07T18:26Z（`tools/handoff/branch_audit.py`，只讀）；main＝`74cb8314d`；共 22 條遠端分支：保留｜主線 1、保留｜崗位在用 5、保留｜WIP 沒整合完 4、保留｜main 沒有的內容 7、清理候選 5
+**稽核時間**：2026-11-07T23:25Z（`tools/handoff/branch_audit.py`，只讀）；main＝`74cb8314d`；共 22 條遠端分支：保留｜主線 1、保留｜崗位在用 5、保留｜WIP 沒整合完 4、保留｜main 沒有的內容 7、清理候選 5
 
 | 分類 | 分支 | 最後 commit | 誰的（duty.json） | main 沒有的 commit | 判斷 |
 |---|---|---|---|---|---|
 | 保留｜主線 | `main` | `74cb8314d`（2026-11-07） | — | 0 | GitHub Pages 正式版 |
-| 保留｜崗位在用 | `claude/cc-testing` | `d5c0f15a5`（2026-11-07） | CC-B | 6519 | duty.json：CC-B |
-| 保留｜崗位在用 | `claude/cool-heisenberg-o8kuqx` | `1905ae629`（2026-11-07） | AA-B | 7095 | duty.json：AA-B |
-| 保留｜崗位在用 | `claude/elegant-brown-fcos7n` | `0c8bc32fd`（2026-11-07） | BB-B | 7195 | duty.json：BB-B |
-| 保留｜崗位在用 | `claude/funny-albattani-iawshm` | `303f3806c`（2026-11-07） | LAWWW2-B | 2063 | duty.json：LAWWW2-B |
-| 保留｜崗位在用 | `claude/modest-rubin-2lyp7g` | `ee0672cf5`（2026-11-07） | LAWWW-B、RULE_SOURCE | 82 | duty.json：LAWWW-B、RULE_SOURCE |
+| 保留｜崗位在用 | `claude/cc-testing` | `a883edc45`（2026-11-07） | CC-B | 6539 | duty.json：CC-B |
+| 保留｜崗位在用 | `claude/cool-heisenberg-o8kuqx` | `3248430b3`（2026-11-07） | AA-B | 7103 | duty.json：AA-B |
+| 保留｜崗位在用 | `claude/elegant-brown-fcos7n` | `c7ecbfe18`（2026-11-07） | BB-B | 7231 | duty.json：BB-B |
+| 保留｜崗位在用 | `claude/funny-albattani-iawshm` | `b83690734`（2026-11-07） | LAWWW2-B | 2092 | duty.json：LAWWW2-B |
+| 保留｜崗位在用 | `claude/modest-rubin-2lyp7g` | `e6f28cbab`（2026-11-07） | LAWWW-B、RULE_SOURCE | 129 | duty.json：LAWWW-B、RULE_SOURCE |
 | 保留｜WIP 沒整合完 | `claude/adoring-meitner-mqzst8` | `77195b12a`（2026-11-05） | LAWWW-C（交班過） | 0 | wip.json：WIP-DORM-ROOM4-0829、WIP-AB65-3-Y1S2-L、WIP-V0-REWRITE-L、WIP-LAWWW-RC4-1021 |
 | 保留｜WIP 沒整合完 | `claude/focused-cray-c9uwvw` | `629e042e2`（2026-11-05） | LAWWW2-C（交班過） | 1960 | wip.json：WIP-L2-YUTING-FACE、WIP-L2-SHOP-BG、WIP-L2-DATE-CUTOUTS、WIP-L2-SOP、WIP-L2-PS-SKIRT-LEG、WIP-L2-SOC-COURT-1021 |
 | 保留｜WIP 沒整合完 | `claude/magical-albattani-bk7b4n` | `708d5f5b9`（2026-11-05） | AA-C（交班過） | 7023 | wip.json：WIP-AA-211、WIP-AA-194-L12、WIP-AA-199-VAC、WIP-AA-210-NYE、WIP-AA-212-AB655、WIP-AA-208-ROOM4、WIP-AA-103-SP、WIP-AA-213-US |
