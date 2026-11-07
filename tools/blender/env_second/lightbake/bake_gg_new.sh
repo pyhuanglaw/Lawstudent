@@ -47,18 +47,19 @@ yangyang)
   ;;
 corner)
   # 轉角唱片 v1c（CC 製作、LAWWW2-B 改原型分組 38f4021e1；bb_support/corner.glb；公館 G12）：8 × 11.5 m、天花板 3.3 m；店面（+z）左邊櫥窗、右邊木門。營業 12–21 點。
-  # 燈（照配置 corner_layout.js 的 lights，和 GLB 的 GLOW_* 同一個位置）：天花板兩條軌道上 18 盞投射燈（y 3.0），每盞一個 12 W、40° 的小面光源朝下
-  #     （遊戲的投射燈打向牆上的唱片，這裡簡化成往下：地上、唱片箱一圈一圈亮，和 2:30 AM 的軌道燈同一個做法）；3 盞白色圓罩吊燈（燈罩口）每盞 25 W；暖色 3000K。
-  # 烘：地板、天花板（cr_concrete）、四面牆（WALL_*_wall_wall、前牆 WALL_front_front_wall）、木作（cr_wood、WALL_*_cr_wood：唱片櫃、唱片箱、層架）。
+  # 燈（照配置 corner_layout.js 的 lights，和 GLB 的 GLOW_* 同一個位置）：天花板兩條軌道上 18 盞投射燈（y 3.0），每盞一個 16 W、70° 的小面光源朝下
+  #     （遊戲的投射燈打向牆上的唱片，這裡簡化成往下、光束放寬：地上、唱片箱亮一圈，不會一條一條過曝）；3 盞白色圓罩吊燈（燈罩口）每盞 40 W；暖色 3000K。
+  # 烘：地板、天花板（cr_concrete，含外露的樑）、四面牆（WALL_*_wall_wall、前牆 WALL_front_front_wall）。
+  #   木作（cr_wood、WALL_*_cr_wood：唱片櫃、唱片箱、層架）不烘：幾百個小島，試烘（48 取樣）時把一張 1024 貼圖切碎，地板、牆分到的解析度太低；木作照舊即時光。
   # 不烘：唱片和商品（*_goods）、頂點色的小東西和音響（*_vc）、金屬、葉子和海報（*_alpha）、發光、招牌、玻璃；GPU instancing 的東西（--keep-instances：照舊是 instancing、名字和淡出方向不變）。
   # 窗外的景：CC 的模型沒有。烘完以後加一張（照 afar：牆外 2.5 m、16 × 6.5 m；照片 gg_shop_views.sh corner）。
   GLB=bb_support/corner.glb
-  SPW=${SPW:-12}; PW=${PW:-25}; WC=1.0,0.82,0.62
+  SPW=${SPW:-16}; SPR=${SPR:-70}; PW=${PW:-40}; WC=1.0,0.82,0.62   # 試烘：12／25 W、40° 白天 0.19（太暗）；24／40 W、40° 0.32 但軌道底下的地板兩條過曝（6%）→ 光束放寬 70°、20 W：0.34、過曝 3～5%（軌道底下兩條）→ 16 W
   LIGHTS=""
-  for x in -1.85 1.75; do for z in 4.5 3.4 2.3 1.2 0.1 -1.0 -2.1 -3.2 -4.3; do LIGHTS="$LIGHTS${LIGHTS:+;}$x,$x,$z,$z,2.95,1,1,$SPW,0.08,0.08,$WC,40"; done; done
+  for x in -1.85 1.75; do for z in 4.5 3.4 2.3 1.2 0.1 -1.0 -2.1 -3.2 -4.3; do LIGHTS="$LIGHTS${LIGHTS:+;}$x,$x,$z,$z,2.95,1,1,$SPW,0.08,0.08,$WC,$SPR"; done; done
   PTS="-0.45,2.2,-1.75,$PW,$WC,0.08;1.0,2.25,-2.9,$PW,$WC,0.08;-0.9,2.15,-4.1,$PW,$WC,0.08"
   HIDE='glass'
-  NOLM='goods|_vc$|_vc_inst$|cr_vc|vcm|metal|alpha|emit|sign|glass|_inst$'
+  NOLM='goods|_vc$|_vc_inst$|cr_vc|vcm|metal|alpha|emit|sign|glass|_inst$|wood'
   EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --points "$PTS" --keep-instances)
   CARD=(--name WALL_front_VIEW_cr_window_view --mat cr_window_view --img assets/models/env/second_ai/bb_support/corner_view_day.webp --x0 -8 --x1 8 --y0 -1 --y1 5.5 --z 8.25)
   ;;
