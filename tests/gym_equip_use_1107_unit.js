@@ -87,6 +87,9 @@ const gymR=G=>G.daily.gym;
 { const e=byId('rower_1'), G=mkG(WED,9); enterB1(G,e.stand); const got=[];
   for(let k=0;k<4;k++){ G.hour=9; G.day+=1; if(CALENDAR.dateOf(G.day).wd>=6) G.hour=10; const gm=await press(G,e.id); got.push(gm.L.at.length?gm.L.at[0].t:null); }
   const L=AAL('rower','普通'); check('4. 划船機「普通」：三句照順序輪流、第四次回到第一句',J(got)===J([L[0],L[1],L[2],L[0]]),J(got));
+  { const bad=[]; for(const k of KINDS.filter(k=>k!=='mat')) for(const [st,f] of [['普通',0],['經常鍛鍊',80]]){ const e=EQ.find(q=>q.kind===k), G1=mkG(WED,10,{gym:{card:1,pass:'2025-10',fit:f}}); enterB1(G1,e.stand); const seen=[];
+      for(let j=0;j<3;j++){ G1.day=dayOf(WED)+j; G1.hour=10; const gm=await press(G1,e.id); seen.push(gm.L.at.length?gm.L.at[0].t:null); } if(J(seen)!==J(AAL(k,st))) bad.push(k+'/'+st+' '+J(seen)); }
+    check('4. 七種器材（跑步機、腳踏車機、划船機、啞鈴、深蹲架、史密斯機、臥推椅）「普通」「經常鍛鍊」各練三次：AA_713 那一種那一階的三句照順序',!bad.length,bad.join('；')); }
   const r=gymR(G); r.fit=50; G.day+=1; G.hour=10; if(CALENDAR.dateOf(G.day).wd>=6) G.day+=2; const gm=await press(G,e.id);
   check('4. 體能 50 以上：換「結實」那三句的第一句',gm.L.at.length&&gm.L.at[0].t===AAL('rower','結實')[0],gm.L.at.length&&gm.L.at[0].t);
   const G3=mkG(WED,10); const b=byId('bench_1'); enterB1(G3,b.stand); const day0=G3.day; for(let k=0;k<4;k++){ G3.day=day0+k; G3.hour=10; await press(G3,b.id); }
