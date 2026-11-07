@@ -42991,10 +42991,11 @@
    "id": "AA611-SIS-ALISON-SISTERS-1103",
    "title": "學姊和 Alison 是姊妹（AA_609 第 8 節＋AA_611）：全遊戲 17 項改字（礁溪、Alison 第 3 週作息、family_context、阿公奶奶家搬家、學姊 2027-03 租屋、畢業日、KNOWS_SIS_ALISON 才有的句子）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
-   "next": "【11-07 17:3x LAWWW-B 稽核（唯讀子代理，對照企劃線原稿與 src）】17 項做了約 8 項（d9ac7ee6b／b828d938f 等）。還沒：#1 兩處改字（「考上法研所了」「他是我們班的啊！」）、#2 encounters.js:160 沒有 KNOWS_SIS_ALISON 版、#8 whois「學姊的妹妹。」、#11 events.js:366「家裡要搬家」、sis_b10_3d.js:87、#12 sis_b15_events.js:89「遠一點的地方」、#13 postgrad_lines.js:44、#14～16 姊妹才有的句子。子代理接。 ｜ 照 AA 稿實作"
+   "next": "【11-07 18:2x LAWWW-B】17 項全部做完，推了 3cd6f2797（6c777abf3、0a26b8bd7、b56bdde29）：#1 礁溪兩處改字、AA_609 8-1 Alison「我姊二月要考研究所…」（記 HEARD_YU_SISTER）、#2 學校那句 KNOWS 版、#8 whois「學姊的妹妹。」、#11 學姊「阿公奶奶要搬到小一點的房子…」、初三那則、#12、#13 奶奶、#14（知道的玩家那頓改 19:00、Café Alison 那句）、#15（2029）、#16 Alison「她昨天也傳給我了。」「……她想家的時候，才會煮麵。」（AA 91df9a906 改句）；tests/aa611_sisters_unit.js。BB 測。 ｜ 【11-07 17:3x LAWWW-B 稽核（唯讀子代理，對照企劃線原稿與 src）】17 項做了約 8 項（d9ac7ee6b／b828d938f 等）。還沒：#1 兩處改字（「考上法研所了」「他是我們班的啊！」）、#2 encounters.js:160 沒有 KNOWS_SIS_ALISON 版、#8 whois「學姊的妹妹。」、#11 events.js:366「家裡要搬家」、sis_b10_3d.js:87、#12 sis_b15_events.js:89「遠一點的地方」、#13 postgrad_lines.js:44、#14～16 姊妹才有的句子。子代理接。 ｜ 照 AA 稿實作",
+   "sha": "6c777abf3"
   },
   {
    "first": {
@@ -45401,7 +45402,7 @@
    "title": "AA_667 交換路線第二批：同時交往、沒有一起出國的另一位，在祐廷出發前／出發當天／回國當天的版本（日本：子晴、語彤、芷若、沛珊、學姊、可昕 8/5；美國：以安、子晴、語彤、芷若、沛珊）＋改現有三處（H6 termend_lines 子晴 Y4S1 期末飯美國路線版、H7 ytjob3d HOME_INV 語彤宜蘭田野期間不約、fest_events 沛珊聖誕拿掉「……不用勉強。」）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y3S2",
@@ -45415,7 +45416,8 @@
    },
    "source": "AA-C 11-04 16:05（企劃線 090981ebe、outbox 472671fcb；D109；X200 同時交往／交換路線）",
    "authorized": "D109",
-   "next": "【11-07 17:3x LAWWW-B 稽核（唯讀子代理，對照企劃線原稿與 src）】還沒開始（只有 §4 起飛時間在 aa660_3d.js:64）：§2、§3 全部、§5 H6（termend「你時差調好了沒」）、H7（ytjob3d homePhone 宜蘭／淡水的 presence）、沛珊 fest_events.js:174。D99 第二項（寒暑假）：先做，子代理接。 ｜ 【LAWWW-C 11-04 16:0x】排在 AA660-VAC-GAP-1104（子代理做中）合併以後；條件、時間、旗標照 AA_667 第 2、3、5 節；AA_660 G1-1 更正（09:30 起飛、「那六點要出門」）已轉給 AA660 子代理"
+   "next": "【11-07 18:2x LAWWW-B】§2、§3、§5 推了 3cd6f2797（9c94f0b01，src/aa667_3d.js，tests/aa667_vacgap2_unit.js 73 項）；AA-B §7（1905ae629）七點答覆（子晴住家裡版、沛珊「你回家了嗎？」、語彤去過她家的小場、「七號才下來」＋8/8 在臺北、同一晚兩場規則改）子代理做中。 ｜ 【11-07 17:3x LAWWW-B 稽核（唯讀子代理，對照企劃線原稿與 src）】還沒開始（只有 §4 起飛時間在 aa660_3d.js:64）：§2、§3 全部、§5 H6（termend「你時差調好了沒」）、H7（ytjob3d homePhone 宜蘭／淡水的 presence）、沛珊 fest_events.js:174。D99 第二項（寒暑假）：先做，子代理接。 ｜ 【LAWWW-C 11-04 16:0x】排在 AA660-VAC-GAP-1104（子代理做中）合併以後；條件、時間、旗標照 AA_667 第 2、3、5 節；AA_660 G1-1 更正（09:30 起飛、「那六點要出門」）已轉給 AA660 子代理",
+   "sha": "9c94f0b01"
   },
   {
    "id": "NTU-REF-AUDIT-1104",
@@ -49179,7 +49181,7 @@
    "id": "AA723-CONFESS-PS-1107",
    "title": "AA_723（fca9bcb69）：告白看她的 heart（AA_719 key 加總）＋失敗後的接法（fail／normal／ready／second，再約 2 次＋14 天、第二次一定成功）；沛珊沒交往的線（2026-12-18 起群組不說話、私訊不回、reply1、2028-12-26 重聚林家乾麵 PS_REUNION）＋要關掉／改條件的事件清單 peishan.remove",
    "owner": "LAWWW",
-   "status": "已驗收",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -49191,7 +49193,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 18:0x LAWWW-B】BB-B 瀏覽器都驗完＝已驗收。剩 AA 內容：第二次答應沿用原本那一場，以安最後一句「只是想說等你先講。」和被拒絕過接不上（BB 已交 AA-B，AA 定改不改）；結局分版本等 AA_720。 ｜ 【11-07 16:0x LAWWW-B】BB-B：沛珊 12/29 林家乾麵重聚 3D＝PASS（瀏覽器，捷徑標示；BB_255 99a4876f2）：換 wz_lin、blur；沛珊桌 4 最裡面、你對面、Alison 紅凳、阿哲／以安桌 3；第一句四人都在畫面；演完回原地、PS_REUNION；有人跟著＝深色底照演；台詞 9 句對 AA_723。 ｜ 【11-07 14:5x LAWWW-B】BB-B：告白 Node PASS、沛珊第一部分 Node PASS；瀏覽器等第二、三部分（7b02ee2f0）一起走（第一次告白失敗→再約→ready；12/29 林家乾麵）。 ｜ 【11-07 14:5x LAWWW-B】沛珊第二、三部分推了 7b02ee2f0（3b2cf9053：f68c998cc 沉默期動態 13 則全關、動態私訊不回、柏翰 h506～h509 關、2027-06-18 21:00 柏翰私訊兩句、不在群組 12/30 21:00 她私訊三則＋optAlt、PS_REUNION 記 12/30；28c3d3c7c：70b0b51a9 12/29 重聚在 3D wz_lin 演（OUT.STAGE，沛珊最裡面、Alison 同桌、阿哲／以安隔壁桌，進不去退回 2D 暗底）；tests/ps_silence_unit.js、ps_reunion_lin_unit.js；相關 261 支全過）。BB 測；瀏覽器沒看過鏡頭和五個人坐的樣子。結局分版本等 AA_720。 ｜ 【11-07 14:3x LAWWW-B】推了 3957b071e：告白 heart＋fail／normal／ready／second／pending（AA_723 fca9bcb69＋21e9f6c50；14:26 改：她的決定一個都沒演到＝照原本答應，f68c998cc）＋沛珊沒交往的線第一批（沉默期 2026-12-18～2028-12-29 18:30、私訊只已送達、reply1、12/26 群組、12/29 林家乾麵重聚、remove 清單；tests/ps_silence_unit.js、confess723_unit.js）。第二批（AA 14:15 f5cb310d6／d8570a14b：沉默期動態全關、柏翰改一句、不在群組 12/30 私訊、林家乾麵 wz_lin）子代理做中。 ｜ 【11-07 10:5x LAWWW-B】使用者 11-07 10:4x 回 AA 四題（AA_718 第 4 節 f3eec1eec）；AA-B 10:51 交 AA_723 fca9bcb69。v9.10.22 發布後接：先加白名單＋匯入工具，再改 confess（DATE.confessDecide → heart）與沛珊時間表、照 peishan.remove 逐項關掉或改條件；交往中全部照舊。結局分版本等 AA_720。",
+   "next": "【11-07 18:2x LAWWW-B】改回已整合待測試：secondYes（6f69b94b2）是新的、還沒測；原本的告白重試、沛珊重聚 BB 已驗（evidence 照留）。 ｜ 【11-07 18:2x LAWWW-B】AA-B eca6139aa secondYes：第二次告白接原本答應那一場的換句（以安、語彤、子晴換，其他 keep）推了 3cd6f2797（6f69b94b2，CF723.swapYes；tests/confess723_secondyes_unit.js）。BB 測。 ｜ 【11-07 18:0x LAWWW-B】BB-B 瀏覽器都驗完＝已驗收。剩 AA 內容：第二次答應沿用原本那一場，以安最後一句「只是想說等你先講。」和被拒絕過接不上（BB 已交 AA-B，AA 定改不改）；結局分版本等 AA_720。 ｜ 【11-07 16:0x LAWWW-B】BB-B：沛珊 12/29 林家乾麵重聚 3D＝PASS（瀏覽器，捷徑標示；BB_255 99a4876f2）：換 wz_lin、blur；沛珊桌 4 最裡面、你對面、Alison 紅凳、阿哲／以安桌 3；第一句四人都在畫面；演完回原地、PS_REUNION；有人跟著＝深色底照演；台詞 9 句對 AA_723。 ｜ 【11-07 14:5x LAWWW-B】BB-B：告白 Node PASS、沛珊第一部分 Node PASS；瀏覽器等第二、三部分（7b02ee2f0）一起走（第一次告白失敗→再約→ready；12/29 林家乾麵）。 ｜ 【11-07 14:5x LAWWW-B】沛珊第二、三部分推了 7b02ee2f0（3b2cf9053：f68c998cc 沉默期動態 13 則全關、動態私訊不回、柏翰 h506～h509 關、2027-06-18 21:00 柏翰私訊兩句、不在群組 12/30 21:00 她私訊三則＋optAlt、PS_REUNION 記 12/30；28c3d3c7c：70b0b51a9 12/29 重聚在 3D wz_lin 演（OUT.STAGE，沛珊最裡面、Alison 同桌、阿哲／以安隔壁桌，進不去退回 2D 暗底）；tests/ps_silence_unit.js、ps_reunion_lin_unit.js；相關 261 支全過）。BB 測；瀏覽器沒看過鏡頭和五個人坐的樣子。結局分版本等 AA_720。 ｜ 【11-07 14:3x LAWWW-B】推了 3957b071e：告白 heart＋fail／normal／ready／second／pending（AA_723 fca9bcb69＋21e9f6c50；14:26 改：她的決定一個都沒演到＝照原本答應，f68c998cc）＋沛珊沒交往的線第一批（沉默期 2026-12-18～2028-12-29 18:30、私訊只已送達、reply1、12/26 群組、12/29 林家乾麵重聚、remove 清單；tests/ps_silence_unit.js、confess723_unit.js）。第二批（AA 14:15 f5cb310d6／d8570a14b：沉默期動態全關、柏翰改一句、不在群組 12/30 私訊、林家乾麵 wz_lin）子代理做中。 ｜ 【11-07 10:5x LAWWW-B】使用者 11-07 10:4x 回 AA 四題（AA_718 第 4 節 f3eec1eec）；AA-B 10:51 交 AA_723 fca9bcb69。v9.10.22 發布後接：先加白名單＋匯入工具，再改 confess（DATE.confessDecide → heart）與沛珊時間表、照 peishan.remove 逐項關掉或改條件；交往中全部照舊。結局分版本等 AA_720。",
    "xai": {
     "spec": "AA_723 fca9bcb69（企劃線 claude/cool-heisenberg-o8kuqx）",
     "branch": "claude/modest-rubin-2lyp7g",
