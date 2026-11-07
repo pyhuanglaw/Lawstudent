@@ -4,7 +4,7 @@
   ② 回「下去。」→ 出發 → 地點字幕「家附近的便利商店門口」、2D 深色；開頭旁白「（她站在便利商店門口，手上拎著一個袋子。）」；
      「坐捷運過來的。……不是順路。」，沒有「剛從系館出來。順路。」；記 ZQ_JP_BYE
 [前置／捷徑] 讀使用者存檔 day46（大一的進度）改到 2028-03-23 21:00 公館；【捷徑】旗標 EXCHANGE_ROUTE＝JP、EXCH_RULE、dating_heroine_01／04、X1_JP＝2/20；
-條件事件關（只看這一場）。回家用手機「地點」最上面的「回家」（真的介面），回覆用手機訊息的回覆鍵，出發和對話選項照玩家點。
+條件事件關（只看這一場）。MODE=out：人留在公館；MODE=home：手機「地點」最上面的「回家」（真的介面）、在家選「睡覺」，回覆用手機訊息的回覆鍵，出發和對話選項照玩家點。
 用法：LW_TESTS=<測試樹>/tests python3 pt1107r_zq_home_bye_probe.py URL 存檔資料夾 輸出資料夾"""
 import asyncio, json, os, sys, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.dirname(__file__))
@@ -16,6 +16,7 @@ from playwright.async_api import async_playwright
 URL, SAVES, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
 J = lambda x, n=900: json.dumps(x, ensure_ascii=False)[:n]
 ZQ = 'heroine_04'
+MODE = os.environ.get('MODE', 'out')   # out＝人留在公館走真實流程；home＝回家、在家選「睡覺」看會不會停在 22:30
 DM = ['你在家嗎', '我在你家附近那間便利商店', '五分鐘']
 OPEN = '（她站在便利商店門口，手上拎著一個袋子。）'
 SWAP = ('坐捷運過來的。……不是順路。', '剛從系館出來。順路。')
@@ -38,17 +39,35 @@ async def main():
         run.setup('[前置] day46 存檔改到 %s 21:00 公館；【捷徑】%s；條件事件關' % (d['key'], J(fl)))
         mo = await pg.evaluate("typeof JP!=='undefined'&&JP.movedOut?!!JP.movedOut(GAME.G):null")
         run.check('[前置] 日本路線 2/20 退宿＝住家裡（JP.movedOut）', mo is True, J(mo))
-        # 回家（手機「地點」最上面）
-        await P.phone_tab(pg, cdp, 'places')
-        ok = await L.tap(pg, cdp, '#phoneBody [data-gohome]')
-        for _ in range(60):
-            if await pg.evaluate("!!(GAME.G.home&&GAME.G.home.at)"): break
-            await pg.wait_for_timeout(500)
-        await L.close_panels(pg, cdp)
-        at = await pg.evaluate("({at:!!(GAME.G.home&&GAME.G.home.at),h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone})")
-        run.check('手機「回家」→ 在家', bool(ok) and at['at'], J(at))
+        if MODE == 'home':
+            # 回家（手機「地點」最上面）→ 家裡的選單只有「看手機／存檔／睡覺」（日本路線住家裡，晚上沒有能讓時間往前的選項）→ 選「睡覺」，看會不會停在 22:30 的訊息
+            await P.phone_tab(pg, cdp, 'places')
+            ok = await L.tap(pg, cdp, '#phoneBody [data-gohome]')
+            for _ in range(60):
+                if await pg.evaluate("!!(GAME.G.home&&GAME.G.home.at)"): break
+                await pg.wait_for_timeout(500)
+            await L.close_panels(pg, cdp); await pg.wait_for_timeout(2500)
+            st = await P.ts(pg)
+            run.check('手機「回家」→ 在家、出現家裡的選單', bool(ok) and bool(st['ch']), J(st))
+            print('[HOME MENU]', J(st['ch']))
+            await pg.evaluate(CAP); n0 = await P.say_hook(pg)
+            k = next((i for i, c in enumerate(st['ch']) if c['t'].startswith('睡覺')), None)
+            if k is not None: await P.tap_choice(pg, cdp, k)
+            tl = []
+            for _ in range(60):
+                c = await P.clock(pg); s1 = await P.ts(pg); tl.append([c['key'], c['h'], bool(s1['ch']), s1['txt'][:30]])
+                if c['key'] != '2028-03-23' and s1['ch']: break
+                await pg.wait_for_timeout(2000)
+            th = await P.phone_thread(pg, cdp, 'p:' + ZQ)
+            print('[SLEEP TL]', J(tl, 2500)); print('[THREAD]', J(th))
+            await run.shot(pg, 'zq_home_sleep_after')
+            run.note('在家選「睡覺」：時鐘 %s；子晴那串：%s' % (J(tl[-3:]), J(th, 500)))
+            run.check('（觀察）在家睡覺：22:30 子晴三則有沒有收到、回覆鍵還能不能按', True, J({'tl': tl[-3:], 'thread': th}))
+            run.check('沒有 JS 例外', not errs, J(errs[:5]))
+            await b.close(); return run.finish()
         await pg.evaluate(CAP); n0 = await P.say_hook(pg)
-        # ① 22:27 還沒有、22:30 三則
+        run.setup('人留在公館（不回家）：子晴的三則照日期時間來、和人在哪裡無關（aa667_3d.js:210）')
+        # ① 22:30 三則
         await P.wait_hour(pg, cdp, 22.6, max_s=900)
         th = await P.phone_thread(pg, cdp, 'p:' + ZQ)
         txt = th.get('text') if th else ''
