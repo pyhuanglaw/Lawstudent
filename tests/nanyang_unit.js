@@ -58,6 +58,7 @@ check('⑤ 1 廳：進來的位置站得住、在「回大廳」的範圍外面'
 { const seats=E.interactables.filter(q=>q.seat&&q.cinema), bad=[];
   for(const q of seats){ const a=q.seat.ap; if(!stand(a[0],a[1])||!walk(HIN,a).ok) bad.push('第 '+q.row+' 排'); }
   check(`⑤ 1 廳：門口走得到 ${seats.length} 排靠走道那一張「坐下看電影」的走近點（右邊走道）`,seats.length===9&&!bad.length,bad.join('、'));
+  check('⑤ 1 廳：「坐下看電影」那一筆的 seat 本身就是 kind cinema（坐下以後 P.seat 是這一份，AA614.onSeat 看 kind；BUG-NY-HALL-SEAT-KIND-1107，修改前 FAIL）',seats.length===9&&seats.every(q=>q.seat.kind==='cinema'&&q.seat.row!=null)&&(z.seats||[]).filter(st=>st.kind==='cinema').length===9,JSON.stringify(seats.map(q=>q.seat.kind)));
   // ⑥ 斜地板
   const badH=[]; for(const zz of [7.0,4.3,2.0,0.0,-2.0,-3.54,-5.0,-6.0]){ const h=z.nav.heightAt(3.4,zz), want=HL.floorY(zz); if(Math.abs(h-want)>0.01) badH.push(zz+'：'+h.toFixed(2)+'／'+want.toFixed(2)); }
   check('⑥ 1 廳的導航高度照 floorY（門口 0、斜面、第一排前面 −0.96）',!badH.length,badH.join('｜'));

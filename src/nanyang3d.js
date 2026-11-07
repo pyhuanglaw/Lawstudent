@@ -77,8 +77,8 @@ const NY3=(function(){
     const house=lampsOf(z,[[-4.6,2.9,0.0,2.2,1.2,10],[4.6,2.9,0.0,2.2,1.2,10],[0,3.2,5.6,1.8,1.0,9]]), screen=lampsOf(z,[[0,1.6,-6.2,0.9,0.6,10]]);
     z.house=house; z.screenLight=screen;
     // 座位：每一排靠右走道那一張（座面約 0.45＝SIT_TOP，不抬高），y＝那一排的地板高度；走近點在右邊走道上
-    z.seats=[]; for(const s of L.seats){ const seat={x:s.x,z:s.z,y:s.y,yaw:s.yaw,lv:0,ap:[s.approach.x,s.approach.z]};
-      z.seats.push(Object.assign({kind:'cinema',row:s.row},seat)); E.interactables.push({x:s.approach.x-0.35,z:s.z,radius:0.75,lv:0,label:s.label||'坐下看電影',seat,cinema:true,row:s.row}); }
+    z.seats=[]; for(const s of L.seats){ const seat={kind:'cinema',row:s.row,x:s.x,z:s.z,y:s.y,yaw:s.yaw,lv:0,ap:[s.approach.x,s.approach.z]};   /* kind 也要在互動點那一份（坐下以後 P.seat 是這一份；AA614.onSeat 看 kind，BUG-NY-HALL-SEAT-KIND-1107）*/
+      z.seats.push(Object.assign({},seat)); E.interactables.push({x:s.approach.x-0.35,z:s.z,radius:0.75,lv:0,label:s.label||'坐下看電影',seat,cinema:true,row:s.row}); }
     // 出口：往大廳的門
     const back=L.interact.find(q=>q.kind==='lobby'), lb=LAY().lobby, hd=lb.interact.find(q=>q.kind==='hall');
     E.interactables.push({x:back.x,z:back.z,radius:0.8,lv:0,label:back.label||'回大廳',exit:{to:ZL,spawn:Object.assign({},lb.hallOut||{x:hd.x,z:hd.z+1.3,yaw:0})}});
