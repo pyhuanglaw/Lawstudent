@@ -47196,7 +47196,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "BB 排線上檢查（LIVE：deploy_check、p0 對 https://pyhuanglaw.github.io/Lawstudent/），通過改已驗收",
+   "next": "【11-07 03:4x LAWWW-B】BB-B 補判：AA0F p0／touch／reach 照條件 PASS、GO 有效（BB_255 5b4c0ced4）；LIVE 檢查待 BB 排｜BB 排線上檢查（LIVE：deploy_check、p0 對 https://pyhuanglaw.github.io/Lawstudent/），通過改已驗收",
    "source": "UA-LAWWW-1105-16",
    "authorized": "使用者原話（轉述）",
    "sha": "92c3daad8",
@@ -48925,6 +48925,27 @@
     "receiver": "LAWWW2",
     "ack": "未派"
    }
+  },
+  {
+   "id": "BUG-DAYBREAK-SEAT2-1107",
+   "title": "Daybreak 窗邊 #2（-2.15, 3.45）坐不下：互動鍵是「坐窗邊」，按下去 player.seat 還是 null（BB-B 11-07 判 GAME_BUG 候選，開發線 abf4dbbd5；#1、#5～#7、#9 坐得下）",
+   "area": "PLAYTEST",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "【11-07 03:4x LAWWW-B】查占用判斷或座位物件對錯（和 TAP-SEAT-NPC-1105 不同原因）；CC 補印資料（BB_255 elegant-brown 5b4c0ced4）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "Daybreak（新生南路）坐窗邊",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 11-07 03:34（BB_255）",
+   "authorized": "BB 判定候選（D100）"
   }
  ]
 }
