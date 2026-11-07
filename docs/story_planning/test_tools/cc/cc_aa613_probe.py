@@ -127,9 +127,12 @@ async def main():
         AL = await pg.evaluate("AA613.L")
         await pg.evaluate("(()=>{ if(GAME._ccSayWrap) return; const f=GAME.say; window.__says=[]; GAME.say=function(who,text,opts){ try{ window.__says.push([who?(typeof who==='string'?who:(who.name||'')):'', String(text), +(+GAME.G.hour).toFixed(3)]); }catch(e){} return f.apply(this,arguments); }; GAME._ccSayWrap=true; })()")   # 只記不改：每一句 GAME.say（典禮 ADV 的字不在 #dlgText，對話框抓不到的也記得到）
         try:
-            if 'ceremony' in STEPS:
-                tag = '[⑨典禮]'
+            for cmode in [m for m in ('ceremony', 'ceremony_nobh') if m in STEPS]:
+                tag = '[⑨典禮%s]' % ('' if cmode == 'ceremony' else ' 不認識柏翰')
                 await load_save(pg, SAVE18, tag)
+                if cmode == 'ceremony_nobh':
+                    R.setup('%s 【捷徑】拿掉柏翰的 FIRST_MET（不認識柏翰的版本）' % tag)
+                    await pg.evaluate("(id=>{ const m=GAME.G.social&&GAME.G.social.mem&&GAME.G.social.mem[id]; if(Array.isArray(m)) GAME.G.social.mem[id]=m.filter(x=>(x.tag||x[0]||x)!=='FIRST_MET'); })", BH)
                 kb = await pg.evaluate("(id=>STORY.knows(id,GAME.G))", BH)
                 R.note('%s 存檔裡認不認識柏翰（STORY.knows）：%s' % (tag, kb))
                 await pg.evaluate('window.__says=[]'); await jump(pg, cdp, tag, '2025-08-31', 13 + 55 / 60, 'dorm_hall')
@@ -144,10 +147,14 @@ async def main():
                 R.note('%s GAME.say 記到的（14:00 以後）：%s' % (tag, J(says[:12])))
                 if says: sc['lines'] = [[w, t] for w, t, _ in says]
                 first = sc['lines'][0] if sc['lines'] else None
-                if kb: R.check('%s 認識柏翰：典禮第一句旁白＝「%s」' % (tag, AL['ceremony']), bool(first) and first[1] == AL['ceremony'] and not first[0], J(sc['lines'][:3]))
+                kb = await pg.evaluate("(id=>STORY.knows(id,GAME.G))", BH)
+                n_cw = sum(1 for _, x in sc['lines'] if x == AL['ceremony'])
+                i_cw = next((i for i, (_, x) in enumerate(sc['lines']) if x == AL['ceremony']), None); i_4k = next((i for i, (_, x) in enumerate(sc['lines']) if x.startswith('四千多個新生')), None)
+                R.note('%s 典禮時 STORY.knows(柏翰)＝%s；「%s」出現 %d 次、在第 %s 句；「四千多個新生」在第 %s 句' % (tag, kb, AL['ceremony'], n_cw, i_cw, i_4k))
+                if kb: R.check('%s 認識柏翰：「%s」只一次、在「四千多個新生……」以前（第一句、旁白）' % (tag, AL['ceremony']), n_cw == 1 and i_cw == 0 and i_4k is not None and not sc['lines'][0][0], J(sc['lines'][:3]))
                 else: R.check('%s 不認識柏翰：沒有「%s」' % (tag, AL['ceremony']), not has(sc['lines'], AL['ceremony']), J(sc['lines'][:3]))
                 R.check('%s 典禮演了（CEREMONY_Y1）' % tag, await pg.evaluate("!!(GAME.G.flags||{}).CEREMONY_Y1"), '')
-                rec['ceremony'] = {'knowsBohan': kb, 'scene': sc, 'walkFallbacks': (await pg.evaluate("GAME.walkFallbacks||0")) - wf0}
+                rec[cmode] = {'knowsBohan': kb, 'scene': sc, 'walkFallbacks': (await pg.evaluate("GAME.walkFallbacks||0")) - wf0}
             if 'choir' in STEPS or 'booth' in STEPS:
                 tag = '[④合唱團]'
                 await load_save(pg, SAVE15, tag)
