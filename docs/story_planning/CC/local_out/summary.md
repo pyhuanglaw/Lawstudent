@@ -1608,3 +1608,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 141.5s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 141.5s] BROWSER DISCONNECTED
 - 2026-11-07T13:11:57  POOL_TALK_before  sha=3b170607e  exit=0  182s      [ 141.2s] [截圖] pool_desk：鏡頭 {"eye": [18, 1.7, -3.5], "look": [21, 1, 0], "lens": 22, "vfov": 49.43}、亮度 [113, 73.2] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 141.7s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 141.7s] BROWSER DISCONNECTED
+- 2026-11-07T13:14:04  LIVE_V91021_deploy  sha=92c3daad8adf1bb5f707b0b411640c7b13ff7052  exit=0  203s    PASS 沒有 JS 例外  [] / console error（只列出，不算失敗）：無 / ALL PASS
+      err.log (last 5): [gpu_wrap 167.5s] page close url=https://pyhuanglaw.github.io/Lawstudent/index.html?turbo | [gpu_wrap 167.5s] BROWSER DISCONNECTED
