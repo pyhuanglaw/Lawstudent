@@ -1,0 +1,25 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gymfit_1107_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GYMFIT_cam\out
+CC GYMFIT_1107（體育館 B1 健身中心的門）：SHA=fa79dd7bc32e1e177a8187a070b8c7baf6ef2924（worktree 實際 ?）；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+PASS 這一版有 gym_b1（Z3.ZONES）
+PASS GYM_LAYOUT.b1.fitness.door 讀得到  {"x0": 3.2, "x1": 5, "z": 3, "cor": {"x0": -24, "x1": 12, "z0": -0.2, "z1": 3, "note": "走廊（3.2 m 寬）：南邊是健身中心的玻璃牆、北邊是游泳池的牆＋門；東端 x 12 是閘門（三道）"}, "fit": {"x0": -24, "x1": 10, "z0": 3, "z1": 14}}
+  [  28.3s] 健身中心門 x 3.2～5、z 3；走廊 z -0.2～3（中線 1.40）
+  [前置／捷徑] [day] 讀檔 B1 走廊 (10.1, 1.40) 2025-10-18 14.00（條件事件關閉）
+PASS [day] 讀到 gym_b1、站得住  {"zone": "gym_b1", "x": 10.1, "z": 1.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.05}
+PASS [黑畫面] gymfit_corridor_day 不是黑畫面（平均亮度 100.7、變化 34.9）  [100.7, 34.9]
+  [  50.4s] [截圖] gymfit_corridor_day：鏡頭 {"eye": [11.6, 1.6, 0.3], "look": [4.1, 1.3, 3], "lens": 22, "vfov": 49.43}、亮度 [100.7, 34.9]
+PASS [黑畫面] gymfit_front_day 不是黑畫面（平均亮度 86.2、變化 48.8）  [86.2, 48.8]
+  [  52.4s] [截圖] gymfit_front_day：鏡頭 {"eye": [4.1, 1.6, 0.2], "look": [4.1, 1.5, 5], "lens": 22, "vfov": 49.43}、亮度 [86.2, 48.8]
+  [  62.9s] 到達「[day] 從走廊走進健身中心（門內 2 m）」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [day] 走進健身中心：人在門內（z > 3.5）、站得住、沒有被放到目的地  {"x": 4.157, "z": 4.763, "stand": true, "fb": 0, "go_to": true}
+PASS [黑畫面] gymfit_inside_back_day 不是黑畫面（平均亮度 87.6、變化 41.6）  [87.6, 41.6]
+  [  65.1s] [截圖] gymfit_inside_back_day：鏡頭 {"eye": [4.1, 1.6, 8], "look": [4.1, 1.4, 2.5], "lens": 22, "vfov": 49.43}、亮度 [87.6, 41.6]
+  [前置／捷徑] [night] 讀檔 B1 走廊 (10.1, 1.40) 2025-10-18 20.00（條件事件關閉）
+PASS [night] 讀到 gym_b1、站得住  {"zone": "gym_b1", "x": 10.1, "z": 1.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.06}
+PASS [黑畫面] gymfit_corridor_night 不是黑畫面（平均亮度 101.7、變化 47）  [101.7, 47]
+  [  78.0s] [截圖] gymfit_corridor_night：鏡頭 {"eye": [11.6, 1.6, 0.3], "look": [4.1, 1.3, 3], "lens": 22, "vfov": 49.43}、亮度 [101.7, 47]
+PASS [黑畫面] gymfit_front_night 不是黑畫面（平均亮度 74、變化 43.9）  [74, 43.9]
+  [  80.1s] [截圖] gymfit_front_night：鏡頭 {"eye": [4.1, 1.6, 0.2], "look": [4.1, 1.5, 5], "lens": 22, "vfov": 49.43}、亮度 [74, 43.9]
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -1712,3 +1712,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 224.8s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 224.8s] BROWSER DISCONNECTED
 - 2026-11-07T17:16:59  XSSHOP_haopai_cam  sha=fa79dd7bc32e1e177a8187a070b8c7baf6ef2924  exit=0  359s    PASS [黑畫面] buy_short_haopai 不是黑畫面（平均亮度 122.1、變化 61.8）  [122.1, 61.8] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 300.3s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 300.3s] BROWSER DISCONNECTED
+- 2026-11-07T17:19:09  GYMFIT_cam  sha=fa79dd7bc32e1e177a8187a070b8c7baf6ef2924  exit=0  116s      [  80.1s] [截圖] gymfit_front_night：鏡頭 {"eye": [4.1, 1.6, 0.2], "look": [4.1, 1.5, 5], "lens": 22, "vfov": 49.43}、亮度 [74, 43.9] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 80.6s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 80.6s] BROWSER DISCONNECTED
