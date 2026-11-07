@@ -448,7 +448,7 @@ const TERMEND=(function(){
       if(!cf&&h.decideYes&&typeof DATE!=='undefined'&&DATE.confessDecide&&DATE.confessDecide(G,who)!=='yes'){ await run(GM,who,D&&D.notYet||[]); if(D&&D.notYetFlag) G.flags[D.notYetFlag]={day:G.day,term}; Rt.think[who]=term; R.result='notYet'; return 'notYet'; } }   /* 玩家先說：她的戀愛到 YES_LINE（75）才答應，沒到＝「我還沒想好……」（AA_537 第 4 節 notYet），下學期她用第二次的邀約再約 */
     if(k<3){ if(!start()) return 'blocked'; const yes=again&&h.yes2?h.yes2:(h.yes||(D&&D.yes?(typeof D.yes==='function'?D.yes(G,null,k):D.yes):[]));   /* 第二次玩家先說：她上次已經先說過，換 yes2（AA_254 第 0 節第 7 點）*/
       if(!again&&h.yesCg) await run(GM,who,[{cg:resolve(h.yesCg,G)}]);   /* 自己先說的玩家也有那張 CG，放在她答應的那一句（AA-C 16:5x）；第二次不放 */
-      await knownLine(); await run(GM,who,yes); (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='yes'; return 'yes'; }
+      await knownLine(); await run(GM,who,typeof CF723!=='undefined'&&CF723.swapYes?CF723.swapYes(G,who,yes):yes);   /* 第二次告白：AA_723 secondYes 換句（CF723.swapYes）*/ (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='yes'; return 'yes'; }
     { const sl=again?h.she2:h.she; if(!sl){ R.result='silent'; return 'silent'; } }   /* 她不先說（學姊，AA_591 第 11 節第 13 點）：祐廷沒開口＝這一次什麼都沒發生，等下一次 */
     await run(GM,who,again?h.she2:h.she);
     if(!again&&h.sheMem&&typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!(SOCIAL.has&&SOCIAL.has(who,h.sheMem))) SOCIAL.remember(who,h.sheMem,'');   /* 她先說的那一場給你看過那一頁（以安：AN_SHOP_PAGE，AA_587 第 13 節）*/

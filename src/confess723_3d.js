@@ -14,6 +14,16 @@ const CF723=(function(){
   const F=G=>G.flags||(G.flags={});
   S.has=id=>!!(D()&&D().lines&&D().lines[id]);
   S.lines=(id,k)=>((D()&&D().lines[id])||{})[k]||[];
+  /* 第二次告白（失敗過、走 second）接原本答應那一場：照 AA_723 secondYes（eca6139aa）換掉接不上的那幾句（例：以安「只是想說等你先講。」）；keep／沒有＝照原本。
+     replace 是原本答應那幾句裡連續的一段（比字：拿掉「」、空白），換成 with（空的＝拿掉）；新句照被換掉那一句的說話的人、表情，（開頭的旁白＝沒有說話的人 */
+  S.swapYes=function(G,id,lines){ const c=S.get(G,id); if(!Array.isArray(lines)||!c||!c.second||c.done!==G.day) return lines; const sy=S.lines(id,'secondYes'); if(!sy||sy.keep||!Array.isArray(sy.replace)||!sy.replace.length) return lines;
+    const tx=x=>String(typeof x==='string'?x:(x&&x.text)||'').replace(/[「」\s]/g,''), want=sy.replace.map(tx), n=want.length;
+    const idx=[]; let from=0; for(const w of want){ let k=-1; for(let q=from;q<lines.length;q++) if(tx(lines[q])===w){ k=q; break; } if(k<0) return lines; idx.push(k); from=k+1; }   /* replace 照順序找（中間可以隔旁白：語彤「……你先說了。」（旁白）「我本來也想講…」）*/
+    const mk=(tpl,t)=>{ if(typeof tpl==='string') return t; const o=Object.assign({},tpl,{text:t}); if(/^（/.test(t)){ o.who='narr'; o.speaker=null; delete o.expression; } else if(o.who==='narr') delete o.who; return o; }, W=sy.with||[];   /* confess_lines.js 的旁白寫 {who:'narr'} */
+    const out=lines.slice(); if(idx[n-1]-idx[0]===n-1){ out.splice(idx[0],n,...W.map(t=>mk(lines[idx[0]],t))); return out; }   /* 連在一起：整段換 */
+    if(W.length===n){ idx.forEach((k,q)=>{ out[k]=mk(lines[k],W[q]); }); return out; }   /* 不連在一起、句數一樣：一句換一句（中間的旁白照原本）*/
+    for(let q=n-1;q>=1;q--) out.splice(idx[q],1); out.splice(idx[0],1,...W.map(t=>mk(lines[idx[0]],t))); return out;   /* 不連在一起、句數不同：新句放在第一句的位置，其他拿掉 */
+  };
   S.rec=G=>{ const f=F(G); if(!f.CONF_FAIL||typeof f.CONF_FAIL!=='object') f.CONF_FAIL={}; return f.CONF_FAIL; };
   S.get=(G,id)=>{ const c=G&&G.flags&&G.flags.CONF_FAIL; return c&&c[id]||null; };
   const keyOf=did=>((typeof DECIDE_RULES!=='undefined'&&DECIDE_RULES.keys)||[]).find(k=>k.id===did)||null;
@@ -35,7 +45,7 @@ const CF723=(function(){
   /* 期末回家路上（termend3d.js _walkHome）玩家告白：null＝照原本；'yes'＝第一次成功；'fail'＝演了 fail；'pending'＝失敗過、條件還沒到（演了「還沒」）；'second'＝演了 second（接著照原本答應）*/
   S.termDecide=async function(GM,who,run){ const G=GM.G; if(!S.has(who)) return null; const c=S.get(G,who);
     if(c&&!c.done){ if(!(c.ready||S.retryOk(G,who))){ await run(GM,who,S.lines(who,'pending')); return 'pending'; }   /* 失敗以後、還沒約滿 2 次或沒過 14 天就又告白（期末回家路上）：pending（AA-B 11-07 13:42 21e9f6c50；不算數、不重新起算、不答應；不用 notYet——那是告白條件還沒到的那句）*/
-      await run(GM,who,S.lines(who,'second')); c.done=G.day; return 'second'; }
+      await run(GM,who,S.lines(who,'second')); c.done=G.day; c.second=1; return 'second'; }
     if(c&&c.done) return null;
     if(S.first(G,who)==='yes') return 'yes';
     await run(GM,who,S.lines(who,'fail')); S.fail(G,who); return 'fail'; };

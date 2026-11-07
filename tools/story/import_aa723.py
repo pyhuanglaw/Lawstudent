@@ -47,6 +47,15 @@ def build(src):
         if not e:
             raise SystemExit(f'confess.lines.{who}：沒有')
         L[who] = {k: lines(e.get(k), f'confess.lines.{who}.{k}') for k in KINDS}
+        sy = e.get('secondYes')   # eca6139aa（AA-B 11-07 18:0x）：第二次告白（失敗過、走 second）接原本答應那一場時換掉的句子；keep＝照原本
+        if sy:
+            if sy.get('keep'):
+                L[who]['secondYes'] = {'keep': True}
+            else:
+                rep = sy.get('replace') or []
+                if not rep or not all(isinstance(t, str) and t.strip() for t in rep):
+                    raise SystemExit(f'confess.lines.{who}.secondYes.replace：要是非空字串的陣列')
+                L[who]['secondYes'] = {'replace': [IG.read_fix(t) for t in rep], 'with': [IG.read_fix(t) for t in (sy.get('with') or [])]}
         if e.get('pending'):   # 21e9f6c50（AA-B 11-07 13:42）：失敗以後、條件還沒到就又告白（期末回家路上）＝pending，不算數、不重新起算、不答應
             L[who]['pending'] = lines(e['pending'], f'confess.lines.{who}.pending')
     p = src.get('peishan') or {}

@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_aa723.py（docs/story_planning/AA_723_confess_retry_ps_silence.json@70b0b51a9）。不要手改，改企劃 AA_723 再重新匯入。
+/* 自動產生：tools/story/import_aa723.py（docs/story_planning/AA_723_confess_retry_ps_silence.json@eca6139aa）。不要手改，改企劃 AA_723 再重新匯入。
    告白第一次失敗以後的接法（confess）、沛珊沒交往的線（peishan）：src/confess723_3d.js、src/ps_silence3d.js 讀 */
 'use strict';
 const AA723={
- "src": "docs/story_planning/AA_723_confess_retry_ps_silence.json@70b0b51a9",
+ "src": "docs/story_planning/AA_723_confess_retry_ps_silence.json@eca6139aa",
  "confess": {
   "heart": {
    "heroine_01": {
@@ -80,6 +80,15 @@ const AA723={
      "這次我想清楚了。",
      "你可以再說一次嗎？"
     ],
+    "secondYes": {
+     "replace": [
+      "……我上個月就在想這件事了。",
+      "只是想說等你先講。"
+     ],
+     "with": [
+      "上次你講完，我把手帳那一頁看了好幾次。"
+     ]
+    },
     "pending": [
      "……你上次說的，我還在想。",
      "想好了，我會先跟你說。"
@@ -103,6 +112,9 @@ const AA723={
      "我那天沒有回答。",
      "今天我想回答。"
     ],
+    "secondYes": {
+     "keep": true
+    },
     "pending": [
      "我還沒想好那句話要怎麼翻。",
      "……再等我一下。"
@@ -126,6 +138,16 @@ const AA723={
      "你上次說的，我記得每一個字。",
      "……你再說一次。"
     ],
+    "secondYes": {
+     "replace": [
+      "……你先說了。",
+      "我本來也想講，可是一直不知道什麼時候講。"
+     ],
+     "with": [
+      "……你又說了一次。",
+      "上次我不敢。這次，我想回答你。"
+     ]
+    },
     "pending": [
      "（她搖了搖頭，很輕。）",
      "……還沒。你等我。"
@@ -148,6 +170,12 @@ const AA723={
      "上次我跑掉了。",
      "這次我不跑。"
     ],
+    "secondYes": {
+     "replace": [
+      "我剛剛在想要不要跑。……這裡跑不掉。"
+     ],
+     "with": []
+    },
     "pending": [
      "欸，你又來。",
      "我還在想啦。想好了我會講。"
@@ -169,6 +197,9 @@ const AA723={
     "second": [
      "這次，我想好好回答你。"
     ],
+    "secondYes": {
+     "keep": true
+    },
     "pending": [
      "……再給我一點時間，好嗎。"
     ]
@@ -190,6 +221,9 @@ const AA723={
      "我上次好丟臉喔。",
      "……這次你說，我會好好聽。"
     ],
+    "secondYes": {
+     "keep": true
+    },
     "pending": [
      "那個、我還沒想好啦～",
      "想好了我一定第一個跟你說！"
@@ -212,6 +246,9 @@ const AA723={
      "上次是我沒準備好。",
      "現在好了。你說。"
     ],
+    "secondYes": {
+     "keep": true
+    },
     "pending": [
      "還沒。",
      "我想好了會講。你不要一直問。"

@@ -4883,9 +4883,9 @@
   },
   {
    "path": "docs/story_planning/AA_723_confess_retry_ps_silence.json",
-   "sha": "70b0b51a9",
+   "sha": "eca6139aa",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 10:51「AA_723 使用者 Q2、Q4 的稿」；使用者 10:4x 回 AA 四題；13:42 21e9f6c50 加 pending；f5cb310d6 沉默期動態全關、柏翰一句、不在群組的 12/30 私訊；d8570a14b noGroup.optAlt；f68c998cc confess 規則文字（不進遊戲）；70b0b51a9 重聚改在 wz_lin 演：兩張小方桌併在一起）",
+   "approvedBy": "AA-B D109（11-07 10:51「AA_723 使用者 Q2、Q4 的稿」；使用者 10:4x 回 AA 四題；13:42 21e9f6c50 加 pending；f5cb310d6 沉默期動態全關、柏翰一句、不在群組的 12/30 私訊；d8570a14b noGroup.optAlt；f68c998cc confess 規則文字（不進遊戲）；70b0b51a9 重聚改在 wz_lin 演：兩張小方桌併在一起）；18:0x eca6139aa 加 confess.lines[人].secondYes（第二次告白接原本答應那一場的換句）",
    "task": "AA723-CONFESS-PS-1107",
    "kind": "json",
    "note": "告白 heart＋fail／normal／ready／second（七位）；沛珊沒交往的線 reply1、reunion（noGroup）、posts.bohan；tools/story/import_aa723.py → src/data/aa723.js"
