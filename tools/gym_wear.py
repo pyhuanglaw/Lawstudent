@@ -26,7 +26,8 @@ TOP, SHORTS = 'GYM_TOP', 'GYM_SHORTS'
 MAT_TOP, MAT_SHORTS = 'G00_Tops_GymTee_CLOTH', 'G00_Bottoms_GymShorts_CLOTH'
 T_SLEEVE = 0.42          # 袖口：上臂從肩關節往手肘的 42%
 HEM_UP = 0.07            # 上衣下襬：大腿根（UpperLeg 關節）往上 7 cm
-WAIST_UP = 0.09          # 短褲腰頭：骨盆關節往上 9 cm
+HEM_OVER = 0.07          # 下襬往上這一段蓋在短褲腰頭外面（腰頭在骨盆上 WAIST_UP）
+WAIST_UP = 0.06          # 短褲腰頭：骨盆關節往上 6 cm（第一版 9 cm：和上衣下襬重疊 6.4 cm，髖骨那兩點短褲穿出上衣——LAWWW-B 11-07 CC 截圖「衣襬前面兩個小黑點」）
 T_SHORT = 0.58           # 褲管：大腿從髖關節往膝蓋的 58%
 COLLAR_R, COLLAR_FRONT = 0.062, 0.018
 NECK_BACK_DROP = 0.022  # 後領口最低在脖子關節下面多少   # 圓領：離脖子軸的水平距離（脖子約 4.3 cm）；前面再放寬多少（往胸口低）
@@ -134,7 +135,7 @@ def build_piece(v, P, N, UV, Jn, Wt, T, names, kind):
             attr[np.where(m)[0], 1] = pn[:, 0] * sgn; attr[np.where(m)[0], 2] = pn[:, 2]
         m = np.isin(dom, ['J_Bip_C_Hips', 'J_Bip_C_Spine'])
         ok = m & (P[:, 1] <= wy); sel |= ok
-        cut[m, 1] = np.minimum(P[m, 1], wy); off[m] = 0.011; sm[m] = 0.8
+        cut[m, 1] = np.minimum(P[m, 1], wy); off[m] = 0.007; sm[m] = 0.8   # 腰頭在上衣下面：推少一點（第一版 1.1 cm，和上衣一樣）
         attr[m, 0] = np.clip(1 - (wy - P[m, 1]) / 0.035, 0, 1)
         attr[m, 1] = -1
     # 三角形：有一個點在範圍裡就留
@@ -166,7 +167,10 @@ def build_piece(v, P, N, UV, Jn, Wt, T, names, kind):
         d = np.stack([np.sin(ang), np.zeros_like(ang), np.cos(ang)], 1)
         X[g] += d[g] * (tgt[g] - r[g])[:, None]
     # 不能比皮膚低：沿皮膚法向至少推出原本的七成（短褲八成五）
-    dd = np.sum((X - Pu) * Dn, 1); lo = (0.7 if kind == 'top' else 0.85) * ou; X += Dn * np.maximum(0, lo - dd)[:, None]   # 短褲：坐下時大腿後面、臀部的皺摺壓得比較緊，多留一點
+    dd = np.sum((X - Pu) * Dn, 1); lo = (0.7 if kind == 'top' else 0.85) * ou   # 短褲：坐下時大腿後面、臀部的皺摺壓得比較緊，多留一點
+    if kind == 'top':   # 下襬蓋在短褲腰頭外面的那一段（下襬往上 HEM_OVER）：至少推出 2.0 cm——平滑會把髖骨的凸起往內拉，第一版短褲在這裡穿出來（兩個小黑點）
+        hyy = J('L_UpperLeg')[1] + HEM_UP; lo = np.where((Pu[:, 1] < hyy + HEM_OVER) & (sm[used] > 0.9), np.maximum(lo, 0.020), lo)
+    X += Dn * np.maximum(0, lo - dd)[:, None]
     if kind == 'top':
         # 領口那一圈貼到平順的曲線：邊上的點（只屬於一個三角形的邊）照角度擬合高度、半徑（到 2 次的圓周函數），切口不再鋸齒；旁邊兩圈的點再平滑
         neck = J('C_Neck'); nw = wid.max() + 1
@@ -193,6 +197,59 @@ def build_piece(v, P, N, UV, Jn, Wt, T, names, kind):
             X = Xw[wid]
     Nn = vnormals(X, Tn, wid)
     return X, Nn, UV[used], Jo, Wo, Tn, attr[used], int(sel.sum())
+
+
+SOCK_TOP = 0.135         # 白色短襪上緣（鞋口約 0.105 m）
+SOCK = '#eeede8'
+
+
+def skin_fix(v, P, UV, T, names, Jn, Wt):
+    """皮膚貼圖（VRoid 原本畫了貼身內衣：胸口、上背、肩膀的灰色背心，腰部的深色內褲，腳和小腿下段的深色襪子；平常被毛衣、長褲蓋住）。
+    運動服露出來的地方（LAWWW-B 11-07 CC 截圖：「領口裡面露一塊灰色」「深咖啡色長襪」）：
+      - 灰色背心 → 皮膚色（同一欄往下找第一個皮膚顏色接上去，接上原本畫的胸口明暗）；
+      - 小腿的深色襪子 → 鞋口往上到 SOCK_TOP 是白色短襪（上緣一圈羅紋），再上去是皮膚色（同一欄往上接）。
+    這些地方平常都被衣服蓋住：原本的外觀不變（坐下時長褲下面露出來的是白襪，和白球鞋一樣）。內褲照舊（短褲蓋住）。"""
+    p = skin_prim(v); mi = p['material']; ti = v.j['materials'][mi]['pbrMetallicRoughness']['baseColorTexture']['index']; ii = v.image_of_tex(ti)
+    img = v.get_image(ii); A = np.asarray(img).astype(np.float64) / 255; H, W = A.shape[:2]
+    dom = np.array([names[Jn[i, np.argmax(Wt[i])]] for i in range(len(P))])
+    leg = np.isin(dom, ['J_Bip_L_UpperLeg', 'J_Bip_R_UpperLeg', 'J_Bip_L_LowerLeg', 'J_Bip_R_LowerLeg', 'J_Bip_L_Foot', 'J_Bip_R_Foot', 'J_Bip_L_ToeBase', 'J_Bip_R_ToeBase']).astype(float)
+    att = np.stack([P[:, 1], leg, np.ones(len(P))], 1)
+    AA, M = JE.raster(UV[T], att[T], (W, H))
+    yh, isleg = AA[..., 0], AA[..., 1] > 0.5
+    rgb = A[..., :3]; mx, mn = rgb.max(2), rgb.min(2)
+    skinlike = M & (rgb[..., 0] > rgb[..., 2] + 0.15) & (mx > 0.7)   # 皮膚：紅比藍多 0.15 以上（交界的混色只有 0.09，不算）
+    DEEP = 6   # 取色往皮膚裡面再走 6 px（避開交界的混色）
+    gray = M & ~isleg & (mx - mn < 0.11) & (mx > 0.45) & (mx < 0.92)   # 灰色背心 (192,184,173)、(165,158,149)：色差 ≤ 0.08；皮膚 ≥ 0.18
+    dark = M & isleg & (mx < 0.4) & (yh > 0.05) & (yh < 0.6)
+    def grow(m, n=4):   # 往外擴 n px（襪子上緣的過渡帶 3～4 px）（交界的混色：既不是灰也不是皮膚，不擴會留一條線）
+        g = m.copy()
+        for _ in range(n):
+            h = g.copy(); h[1:] |= g[:-1]; h[:-1] |= g[1:]; h[:, 1:] |= g[:, :-1]; h[:, :-1] |= g[:, 1:]; g = h
+        return g
+    gray = gray | (grow(gray) & M & ~isleg & ~skinlike & (mx > 0.4))
+    dark = dark | (grow(dark) & M & isleg & ~skinlike & (yh > 0.05) & (yh < 0.6))
+    out = rgb.copy(); n_gray = int(gray.sum()); n_dark = int(dark.sum())
+    for x in range(W):
+        col = gray[:, x]
+        if col.any():   # 灰色：往下（v 變大）找第一個皮膚色
+            rows = np.where(col)[0]; ok = np.where(skinlike[:, x])[0]
+            for r in rows:
+                below = ok[ok > r]; above = ok[ok < r]
+                src = below[min(DEEP, len(below) - 1)] if len(below) else (above[max(-DEEP - 1, -len(above))] if len(above) else None)
+                if src is not None: out[r, x] = rgb[src, x]
+        col = dark[:, x]
+        if col.any():
+            rows = np.where(col)[0]; ok = np.where(skinlike[:, x])[0]
+            for r in rows:
+                if yh[r, x] < SOCK_TOP:
+                    rib = 0.92 + 0.08 * (0.5 + 0.5 * np.cos(x * 0.9)) if yh[r, x] > SOCK_TOP - 0.012 else 1.0
+                    out[r, x] = hexrgb(SOCK) * rib; continue
+                if not len(ok): continue
+                k = int(np.argmin(np.abs(ok - r))); step = 1 if ok[k] > r else -1   # 皮膚：同一欄最近的皮膚色，再往皮膚裡面走 DEEP px
+                k = min(max(k + step * DEEP, 0), len(ok) - 1); out[r, x] = rgb[ok[k], x]
+    A2 = A.copy(); A2[..., :3] = out
+    v.set_image(ii, Image.fromarray((np.clip(A2, 0, 1) * 255).astype(np.uint8), 'RGBA'), 'PNG')
+    return dict(gray_px=n_gray, sock_px=n_dark)
 
 
 def paint(UVt, At, kind, size=1024):
@@ -249,7 +306,7 @@ def build(v, tex_dir=None):
     if Wt.max() > 1.5: Wt /= 255.0
     N /= np.maximum(1e-8, np.linalg.norm(N, axis=1, keepdims=True))
     bni, bnode = v.mesh_node('Body'); names = [j['nodes'][k]['name'] for k in j['skins'][bnode['skin']]['joints']]
-    out = {}
+    out = {'skin_fix': skin_fix(v, P, UV, T, names, Jn, Wt)}
     for kind, name, mat, src in (('top', TOP, MAT_TOP, 'Tops'), ('shorts', SHORTS, MAT_SHORTS, 'Bottoms')):
         pc = build_piece(v, P, N, UV, Jn, Wt, T, names, kind)
         Pn, Nu, UVu, Jo, Wo, Tn, attr, nsel = pc
