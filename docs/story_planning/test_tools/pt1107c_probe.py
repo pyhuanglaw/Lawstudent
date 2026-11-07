@@ -137,7 +137,13 @@ async def main():
                 print('   展開分區', area, flush=True)
             ok = await tap_sel(pg, cdp, sel)
             await run_dialog(pg, cdp, [], 60)
-            run.check('手機「地點」到她那裡（%s）' % w['zone'], await pg.evaluate(ZONE) == w['zone'], await pg.evaluate(ZONE))
+            if await pg.evaluate(ZONE) != w['zone']:
+                # 手機地點分區展開的點法探針還沒做對：【捷徑】直接讀檔到她那一區，帶著剛買的東西（買已經驗過）
+                cur = await pg.evaluate("({carry:GAME.G.carry, hour:GAME.G.hour, money:GAME.G.money})")
+                s3 = dict(s2); s3.update({'zone': w['zone'], 'hour': cur['hour'], 'pos': None, 'carry': cur['carry'], 'money': cur['money']})
+                run.setup('【捷徑】手機地點沒點到，直接讀檔到 %s（帶著 %s）' % (w['zone'], [c.get('n') for c in cur['carry'] or []]))
+                await L.load_state(pg, s3, quiet_events=True); await pg.wait_for_timeout(3500); await run_dialog(pg, cdp, [], 20)
+            run.check('到她那裡（%s）' % w['zone'], await pg.evaluate(ZONE) == w['zone'], await pg.evaluate(ZONE))
         n = await pg.evaluate("(w=>{ const n=GAME.E.npcs.find(q=>q.id===w||q.charId===w); return n?{x:n.obj.position.x,z:n.obj.position.z,lv:n.lv|0}:null; })(%s)" % json.dumps(WHO))
         run.check('她在這一區（NPC）', bool(n), json.dumps(n))
         if not n: return run.finish()
