@@ -26,7 +26,8 @@ core = lambda t: (t or '').replace('（小聲）', '').strip('（）「」 ')[:9
 
 def base_state(who, flag):
     s = json.load(open(os.path.join(SAVES, 'fatiao3d_save_day46.json'), encoding='utf-8'))
-    s = dict(s); s['day'] = s['day'] + SHIFT; s['hour'] = 15.0; s['invites'] = []; s['money'] = 1000
+    s = dict(s); s['day'] = s['day'] + SHIFT; s['weekday'] = ((s.get('weekday') or 0) + SHIFT) % 7;   # 撥日子也要撥 G.weekday（invites3d wdOf 從它算；不撥＝週一被當成週六，BB-B 10:0x 自己的 TEST_BUG）
+    s['hour'] = 15.0; s['invites'] = []; s['money'] = 1000
     f = dict(s.get('flags') or {}); f.pop('STUDYSLOT', None); f.pop('AN_SHOP1_DONE', None)
     if NODATE:   # 【捷徑】沒有交往對象（使用者存檔在和可昕交往、以安知道＝吃飯類被 partnerBlock 擋，照設計）
         for k in [k for k in f if k.startswith('dating_')]: f[k] = False

@@ -29,7 +29,8 @@ VISIT = ['l118_dian', 'l118_home', 'l118_omu', 'l118_noodle2', 'l118_self', 'l11
 
 def base_state(who):
     s = json.load(open(os.path.join(SAVES, 'fatiao3d_save_day46.json'), encoding='utf-8'))
-    s = dict(s); s['day'] = s['day'] + SHIFT; s['hour'] = 10.0; s['invites'] = []; s['money'] = 1000
+    s = dict(s); s['day'] = s['day'] + SHIFT; s['weekday'] = ((s.get('weekday') or 0) + SHIFT) % 7;   # 撥日子也要撥 G.weekday（invites3d wdOf 從它算；不撥＝週一被當成週六，BB-B 10:0x 自己的 TEST_BUG）
+    s['hour'] = 10.0; s['invites'] = []; s['money'] = 1000
     v = dict(s.get('visited') or {})
     for z in VISIT: v[z] = v.get(z) or 1
     v.pop('l118_korea', None); s['visited'] = v
