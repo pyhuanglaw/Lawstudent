@@ -133,6 +133,7 @@ R7921_mini | 79214e4e10275fb47c0d95ec667cab2964b77b5c | game | tests/minimap_dir
 # BB-B 09:05（LAWWW-B c8b09bcf0）：順序 XS_FARVIEW → HAIR_a → PERF_COLD（「高」那組重拍在這三項前面）
 XS_FARVIEW_c8b0 | c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb | probe | docs/story_planning/test_tools/cc/cc_xs_farview_probe.py | index.html | 30 | CC_HEADLESS=0
 HAIR_a_c8b0 | c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb | probe | docs/story_planning/test_tools/cc/cc_hair_fix_probe.py | index.html | 40 | HAIRFIX=0;HAIR_JPG=1;RERUN=a;CC_HEADLESS=0
+HAIR_b_8fdb | 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a | probe | docs/story_planning/test_tools/cc/cc_hair_fix_probe.py | index.html | 40 | HAIRFIX=0;HAIR_JPG=1;RERUN=b;CC_HEADLESS=0
 # CC-B 09:1x：SOLO 的兩項移到這裡（SOLO 要等其他都跑完，排在前面會擋住後面不是 SOLO 的項目；SOC_peishan_date_r5 跑很久時整條卡住）
 SHOPWIN_cam | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_offbeat_front_probe.py | index.html | 30 | TAG=cam;WARM=10;SOLO=1;CC_HEADLESS=0
 R7921_touch | 79214e4e10275fb47c0d95ec667cab2964b77b5c | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
