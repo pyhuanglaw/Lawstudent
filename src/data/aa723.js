@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_aa723.py（docs/story_planning/AA_723_confess_retry_ps_silence.json@fca9bcb69）。不要手改，改企劃 AA_723 再重新匯入。
+/* 自動產生：tools/story/import_aa723.py（docs/story_planning/AA_723_confess_retry_ps_silence.json@21e9f6c50）。不要手改，改企劃 AA_723 再重新匯入。
    告白第一次失敗以後的接法（confess）、沛珊沒交往的線（peishan）：src/confess723_3d.js、src/ps_silence3d.js 讀 */
 'use strict';
 const AA723={
- "src": "docs/story_planning/AA_723_confess_retry_ps_silence.json@fca9bcb69",
+ "src": "docs/story_planning/AA_723_confess_retry_ps_silence.json@21e9f6c50",
  "confess": {
   "heart": {
    "heroine_01": {
@@ -79,6 +79,10 @@ const AA723={
     "second": [
      "這次我想清楚了。",
      "你可以再說一次嗎？"
+    ],
+    "pending": [
+     "……你上次說的，我還在想。",
+     "想好了，我會先跟你說。"
     ]
    },
    "heroine_02": {
@@ -98,6 +102,10 @@ const AA723={
     "second": [
      "我那天沒有回答。",
      "今天我想回答。"
+    ],
+    "pending": [
+     "我還沒想好那句話要怎麼翻。",
+     "……再等我一下。"
     ]
    },
    "heroine_03": {
@@ -117,6 +125,10 @@ const AA723={
     "second": [
      "你上次說的，我記得每一個字。",
      "……你再說一次。"
+    ],
+    "pending": [
+     "（她搖了搖頭，很輕。）",
+     "……還沒。你等我。"
     ]
    },
    "heroine_04": {
@@ -135,6 +147,10 @@ const AA723={
     "second": [
      "上次我跑掉了。",
      "這次我不跑。"
+    ],
+    "pending": [
+     "欸，你又來。",
+     "我還在想啦。想好了我會講。"
     ]
    },
    "heroine_05": {
@@ -152,6 +168,9 @@ const AA723={
     ],
     "second": [
      "這次，我想好好回答你。"
+    ],
+    "pending": [
+     "……再給我一點時間，好嗎。"
     ]
    },
    "classmate_peishan": {
@@ -170,6 +189,10 @@ const AA723={
     "second": [
      "我上次好丟臉喔。",
      "……這次你說，我會好好聽。"
+    ],
+    "pending": [
+     "那個、我還沒想好啦～",
+     "想好了我一定第一個跟你說！"
     ]
    },
    "kexin": {
@@ -188,6 +211,10 @@ const AA723={
     "second": [
      "上次是我沒準備好。",
      "現在好了。你說。"
+    ],
+    "pending": [
+     "還沒。",
+     "我想好了會講。你不要一直問。"
     ]
    }
   }

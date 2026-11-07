@@ -47,6 +47,8 @@ def build(src):
         if not e:
             raise SystemExit(f'confess.lines.{who}：沒有')
         L[who] = {k: lines(e.get(k), f'confess.lines.{who}.{k}') for k in KINDS}
+        if e.get('pending'):   # 21e9f6c50（AA-B 11-07 13:42）：失敗以後、條件還沒到就又告白（期末回家路上）＝pending，不算數、不重新起算、不答應
+            L[who]['pending'] = lines(e['pending'], f'confess.lines.{who}.pending')
     p = src.get('peishan') or {}
     r = p.get('reply1') or {}
     reply1 = {'thread': lines(r.get('thread'), 'peishan.reply1.thread'), 'text': IG.read_fix(r.get('text') or ''),

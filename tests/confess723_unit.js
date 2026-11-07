@@ -50,6 +50,6 @@ const rec=(G,who,key,o)=>{ const D=G.flags.DECIDE||(G.flags.DECIDE={}); (D[who]|
     GM.choose=ch0; DATE.confess=C0; }
   { const G=H.fresh('2026-06-20',21,'campus'); CF723.rec(G).kexin={day:G.day-30,cnt:0,ready:G.day-3}; said.length=0; const r=await CF723.termDecide(GM,'kexin',run);
     const G2=H.fresh('2026-06-20',21,'campus'); CF723.rec(G2).kexin={day:G2.day-3,cnt:0}; said.length=0; const r2=await CF723.termDecide(GM,'kexin',run);
-    check('6. 期末回家路上：說過 ready＝second（接著照原本答應）；剛失敗、條件沒到＝pending（她說原本的「還沒」，不會直接答應）',r==='second'&&r2==='pending'&&said.length>0,J([r,r2,said])); }
+    check('6. 期末回家路上：說過 ready＝second（接著照原本答應）；剛失敗、條件沒到＝pending（她說 AA_723 的 pending，不會直接答應）',r==='second'&&r2==='pending'&&J(said)===J(L.kexin.pending),J([r,r2,said])); }
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });

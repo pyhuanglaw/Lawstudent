@@ -32,7 +32,7 @@ const CF723=(function(){
   S.retryOk=function(G,id){ const c=S.get(G,id); return !!c&&!c.done&&(G.day-(c.day|0))>=14&&(datesOf(G,id)-(c.cnt|0))>=2; };
   /* 期末回家路上（termend3d.js _walkHome）玩家告白：null＝照原本；'yes'＝第一次成功；'fail'＝演了 fail；'pending'＝失敗過、條件還沒到（演了「還沒」）；'second'＝演了 second（接著照原本答應）*/
   S.termDecide=async function(GM,who,run){ const G=GM.G; if(!S.has(who)) return null; const c=S.get(G,who);
-    if(c&&!c.done){ if(!(c.ready||S.retryOk(G,who))){ const CD=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[who]:null, nyl=CD&&Array.isArray(CD.notYet)&&CD.notYet.length?CD.notYet:S.lines(who,'normal'); await run(GM,who,nyl); return 'pending'; }   /* 失敗以後、還沒約滿 2 次或沒過 14 天就又告白（期末回家路上）：AA_723 沒寫——暫時說她原本的「還沒」（沒有就 normal），不算數、不重新起算；問 AA（11-07）*/
+    if(c&&!c.done){ if(!(c.ready||S.retryOk(G,who))){ await run(GM,who,S.lines(who,'pending')); return 'pending'; }   /* 失敗以後、還沒約滿 2 次或沒過 14 天就又告白（期末回家路上）：pending（AA-B 11-07 13:42 21e9f6c50；不算數、不重新起算、不答應；不用 notYet——那是告白條件還沒到的那句）*/
       await run(GM,who,S.lines(who,'second')); c.done=G.day; return 'second'; }
     if(c&&c.done) return null;
     if(S.first(G,who)==='yes') return 'yes';

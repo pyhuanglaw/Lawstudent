@@ -4883,9 +4883,9 @@
   },
   {
    "path": "docs/story_planning/AA_723_confess_retry_ps_silence.json",
-   "sha": "fca9bcb69",
+   "sha": "21e9f6c50",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 10:51「AA_723 使用者 Q2、Q4 的稿」；使用者 10:4x 回 AA 四題）",
+   "approvedBy": "AA-B D109（11-07 10:51「AA_723 使用者 Q2、Q4 的稿」；使用者 10:4x 回 AA 四題；13:42 21e9f6c50 加 pending）",
    "task": "AA723-CONFESS-PS-1107",
    "kind": "json",
    "note": "告白 heart＋fail／normal／ready／second（七位）；沛珊沒交往的線 reply1、reunion；tools/story/import_aa723.py → src/data/aa723.js"
