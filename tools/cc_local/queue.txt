@@ -81,6 +81,8 @@ GG2_afar_date_04_32e1 | 32e10b130ddc01f9f41007c01e032d44a35d11af | probe | docs/
 #   BB-B 06:47：afar 同桌的「?」是誰——探針加印 othersInfo（id、crowdKey、模型、座位、位置）、開演那一刻從上往下拍；開場句接受 AA_708 第 N 場；帶路取樣逐筆印
 GG2_afar_date_01_32e1_r2 | 32e10b130ddc01f9f41007c01e032d44a35d11af | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_01;RERUN=y01;CC_HEADLESS=0
 GG2_afar_date_03_32e1_r2 | 32e10b130ddc01f9f41007c01e032d44a35d11af | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_03;RERUN=y03;CC_HEADLESS=0
+# LAWWW2-B 07:36 HAIR_FIX（HAIR-NOODLE-1104，使用者 11-04「頭髮太像泡麵」，P1）：六人 × 四種做法 × 5 張，結果給 LAWWW2-B＋LAWWW-B（D100a）
+HAIR_FIX | 62d7f3b5412fc940da37c20669b6ec201aa754df | probe | docs/story_planning/test_tools/cc/cc_hair_fix_probe.py | index.html | 40 | CC_HEADLESS=0
 # BB-B 07:16 PERF_COLD（LAWWW2-B 的探針，低優先、排最後）：第一次進溫州街／總圖大廳那一頓是載路人模型還是 GPU 第一次畫；結果交 LAWWW2-B（D108）
 PERF_COLD | b987cb1cf7fff1bc587dd77eb22b0c6a4e8a2dac | probe | docs/story_planning/test_tools/cc/perf_cold_probe.py | index.html | 40 | ZONES=wenzhou,library_hall;VARIANTS=base,pre,prewarm;COLD=12;CC_HEADLESS=0
 POOL_TALK_fix | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | EXPECT=fixed;CC_HEADLESS=0
