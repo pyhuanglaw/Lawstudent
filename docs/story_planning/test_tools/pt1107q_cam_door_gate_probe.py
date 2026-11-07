@@ -56,7 +56,10 @@ async def one(p, run, base, landscape):
     run.setup('【捷徑】%s A 鏡頭轉 180°（E.cam.yaw +π）＝回頭往門口看' % tag)
     # ── B 公館商圈
     await P.phone_tab(pg, cdp, 'places')
-    ok = await L.tap(pg, cdp, '#phoneBody [data-place="gongguan|公館商圈"]')
+    sel = '#phoneBody [data-place="gongguan|公館商圈"]'
+    if not await pg.evaluate("(s=>!!document.querySelector(s))(%s)" % json.dumps(sel)):   # 地點分地區（QUICK-TRAVEL-AREAS-1105）：先點「公館」那一區展開
+        await L.tap(pg, cdp, '#phoneBody [data-parea="gongguan"]'); await pg.wait_for_timeout(800)
+    ok = await L.tap(pg, cdp, sel)
     run.check('%s B 手機「地點」有「公館商圈」的「前往」' % tag, bool(ok))
     c3 = await zone_settle(pg, 'gongguan')
     await L.close_panels(pg, cdp)
