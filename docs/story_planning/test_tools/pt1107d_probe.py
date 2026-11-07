@@ -125,6 +125,8 @@ async def main():
         run.check('[B] Daybreak 不在念書那一類（e63df85c9）', not any('念書' in c for c in dbk), json.dumps(dbk, ensure_ascii=False))
         await run_dialog(pg, cdp, ['算了', '不約'], 10)
         # C：約看電影
+        await pg.evaluate("""(()=>{ window.__trace=[]; const wrap=(obj,name)=>{ if(!obj||typeof obj[name]!=='function'||obj[name].__wrapped) return; const o=obj[name]; obj[name]=function(){ const t=[...arguments].map(x=>typeof x==='string'?x:'').join('|'); if(t.includes('還沒熟到')||t.includes('不在學校')||t.includes('不在臺北')) window.__trace.push({fn:name, text:t, stack:(new Error().stack||'').split('\\n').slice(1,9).join(' <- ')}); return o.apply(this,arguments); }; obj[name].__wrapped=true; };
+          for(const n of ['say','toast','msg','note','narrate']) wrap(GAME,n); if(typeof GM!=='undefined') for(const n of ['say','toast']) wrap(GM,n); })()""")
         await open_invite(pg, cdp)
         c1 = await choose(pg, cdp, '看電影')
         c2 = await choose(pg, cdp, '南洋戲院') if c1 else None
@@ -139,6 +141,8 @@ async def main():
         msgs = await pg.evaluate("(m0=>(GAME.G.msgs||[]).slice(m0).map(m=>[m.from||m.who||'',m.text||'']))(%d)" % m0)
         iv = await pg.evaluate("(w=>(GAME.G.invites||[]).filter(i=>i.who===w&&i.place==='xs_nanyang'&&i.state!=='done').map(i=>({day:i.day,h:i.h,state:i.state,place:i.place})))(%s)" % json.dumps(WHO))
         print('   [C] 選了', pick, '她說', said, '訊息', msgs, '邀約', iv, flush=True)
+        tr = await pg.evaluate("window.__trace||[]")
+        print('   [C] 誰說的（console.trace）', json.dumps(tr, ensure_ascii=False)[:3000], flush=True)
         run.check('[C] 約好了（G.invites 有南洋那一筆）', bool(iv), json.dumps({'said': said, 'msgs': msgs, 'seen': seen}, ensure_ascii=False))
         await run.shot(pg, 'C_accept')
         if not iv: return run.finish()
