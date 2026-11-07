@@ -5623,6 +5623,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "第二批大一下 13 串（芷若、以安×4、芯慈×2、語彤×3、沛珊、子晴）；交往中才有的加 cond；line_lint 0 條"
+  },
+  {
+   "task": "PLAYTEST-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_712_heroine_arcs.json"
+   ],
+   "state": "WIP",
+   "remaining": "只寫了以安、芷若；語彤、子晴、學姊、沛珊、可昕接著寫；之後改 AA_707／708 去心事、去重複",
+   "next": "BB-B 寫條件規格；LAWWW-B 等全部寫完再接",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "故事線 8 拍格式（says／ask.q／opts{t,rel,mem,reply}／later）；line_lint 0 條"
   }
  ],
  "items": [
