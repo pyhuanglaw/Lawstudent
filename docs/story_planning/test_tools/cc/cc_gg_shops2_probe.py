@@ -527,6 +527,16 @@ def date_cls(SM):
             else: R.check('%s：見面有對話（道別）' % k, False, '沒有取到對話中的位置')
             T = [x['t'] for x in g['say']]
             R.check('%s：坐下以後的開場句（AA_652 seatOpen 兩句之一，逐字）' % k, any(NZ(o) in [NZ(t) for t in T] for o in A['open']), J(T[:12]))
+            if k == 'afar':   # CC-B 11-07（BB-B 04:59）：afar 約會座位——①空桌（不和客人同桌）②窗邊長桌（table 6）坐得下 ③開場句照座位（seatOpen.afar 第一句 onlyAt table 6）
+                R.check('afar：①她挑的是空桌（同一桌、1.2 m 內沒有其他客人坐著）', not ss.get('others'), J({'ptable': ss.get('ptable'), 'ntable': ss.get('ntable'), 'others': ss.get('others')}))
+                lamp = NZ('（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）')
+                said_lamp = any(lamp in NZ(t) for t in T)
+                if ss.get('ptable') == 6:
+                    R.check('afar：②窗邊長桌（table 6）坐得下，兩個人都坐著', bool(ss.get('pseat') and ss.get('nseat')), J(ss))
+                    R.info('afar：③窗邊長桌：開場句可以是檯燈那句或杯墊那句（這次＝%s）' % ('檯燈' if said_lamp else '杯墊'))
+                else:
+                    R.info('afar：②這一趟坐的是 table %s（不是窗邊長桌 6）——窗邊長桌那一點這次沒碰到' % ss.get('ptable'))
+                    R.check('afar：③不是窗邊長桌（table %s）不說檯燈那一句（seatOpen.afar onlyAt table 6）' % ss.get('ptable'), not said_lamp, J(T[:8]))
             for x in g['say'][:40]: print('    %s｜%s' % (x.get('n') or '（旁白）', x.get('t')), flush=True)
     return GG2Date
 
