@@ -4315,13 +4315,17 @@
   },
   {
    "path": "docs/story_planning/AA_625_語彤新版事件台詞.md",
-   "sha": "65a1b2fe9",
+   "sha": "0787572c6",
    "status": "approved",
    "approvedBy": "AA 2026-11-03 定稿（D109；第三版 d72ae942d＋f6ef9278b 一起念書）",
    "task": "YT-REWRITE-1103",
    "kind": "text",
-   "note": "語彤四年的事件台詞（AA_624 結構）；手抄進 src（tests/aa625_yt_unit.js 逐句對這份）；65a1b2fe9：AA_657 補二「三號桌」→「常來的阿伯」逐句定稿（AA 2026-11-04 07:11，D109）",
+   "note": "語彤四年的事件台詞（AA_624 結構）；手抄進 src（tests/aa625_yt_unit.js 逐句對這份）；65a1b2fe9：AA_657 補二「三號桌」→「常來的阿伯」逐句定稿（AA 2026-11-04 07:11，D109）；0787572c6（AA_674 第十批：第 17 節「FB」改「社群」）：AA624-YT-BACKGROUND-1103 接「語彤約一起念書」「15 一盞茶屋十週年」兩段（src/aa625_3d.js；tests/aa625_yt_study_unit.js 逐句對這一版）",
    "history": [
+    {
+     "sha": "65a1b2fe9",
+     "note": "0787572c6 之前的版本（和 0787572c6 只差第 17 節「FB 貼文」→「社群貼文」一處）"
+    },
     {
      "sha": "9ba14498e",
      "note": "65a1b2fe9 之前的版本"
@@ -4934,6 +4938,15 @@
    "task": "AA614-CLASSMATE-JOBS-1103",
    "kind": "text",
    "note": "同學也在打工（第 1 節作息：src/data/characters.js 阿凱週六程式教室、沛珊週三課輔班、Alison 南洋戲院，作息那一筆的 job；第 2 節邀約撞到上班五人的句子與改約時間；第 3 節群組、私訊五則（第 3 列「好。」＝當天 19:30 南洋戲院出遊）；第 4 節路上遇到沛珊、阿凱；第 5 節阿凱、沛珊閒聊各一句）。照抄進 src/aa614_3d.js（AA614.L）；ev_peishan_tutoring 搬到週三 20:45～21:15、兩句照 AA-B 11-07 改（src/data/events.js）。人物頁「打工：……」稿上沒有字＝沒做（問 AA）。tests/aa614_jobs_unit.js 用 git show a0b8a3e40 逐句對照；73ee9256d（AA-B 11-07 21:56「接線時補的」）：國小生／五年級的、E7 改週四、階梯招呼搬週三 20:50～21:10、P2-L3「每個禮拜三。」、Alison 週六那句、whois 打工兩行；32a5f7e12（AA-B 11-07 22:00 說法統一：助教、教國小的小朋友；ev_peishan_tutoring 那句與記憶 note 改「助教」）"
+  },
+  {
+   "path": "docs/story_planning/AA_11_事件書_陳語彤.md",
+   "sha": "0787572c6",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "AA624-YT-BACKGROUND-1103",
+   "kind": "text",
+   "note": "只用事件 15「一盞茶屋十週年」誰會來、兩個版本的句子（和別人交往中「兩把。你們自己分。」；和語彤交往中「（散場下雨。語彤拿出兩把傘。）」＋兩句）：AA_625 第 15 節「同班圈誰會來照 AA_11 事件 15 的規則」。照抄進 src/aa625_3d.js（AA625.L11）；tests/aa625_yt_study_unit.js 逐句對這一版（最後改這份的是 56cf47f22，內容和 0787572c6 一樣）"
   }
  ]
 }
