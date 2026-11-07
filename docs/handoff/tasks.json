@@ -49330,7 +49330,7 @@
    "id": "Y0-E05-BIKE-LOCATION-1107",
    "title": "修腳踏車 ev_y0_e05 寫 location:'any'＋background:'blur'，底圖變成玩家當時所在的宿舍：AA 定地點、LAWWW 接 location（要 2D 底圖 BB 要）",
    "owner": "AA",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -49342,7 +49342,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 17:1x LAWWW-B】AA_727 第二版（85ce68113）五點推了 7d5472cec（子代理 7348ab186）：①self 也發 D2（她那則訊息到當天 23:00）、E06 不發 ②19:00 後多一則「制服我洗好了。下次上課拿給你。」，之後下一堂一起的經濟系課下課（真的上課）或快轉跨過那堂課以後的第一張日期卡下面加兩句 ③洗手上的油照舊 ④之後 P2 選公館（E05 演過或 self）兩句、時間 +1.5 小時 ⑤回了 30 分鐘沒到＝「你不用來了。」「我牽去車行了。……」記 self；e05_putong_unit 64 項（修改前 FAILED 13）；全部 1,121 支單元測試結束碼 0（子代理）。BB 測。 ｜ 【11-07 16:5x LAWWW-B】推了 e647887c7（子代理 38f3d2da2／46d41ae45）：E05 在 putong 一樓門口演、freeze（3D 不模糊）；9/20 17:00 可昕兩則＋兩個回覆→ 10／20 分鐘後 putong 見面才演（快轉停在訊息、回了跳到見面）；19:00 沒回＝「沒事了。路過的人幫我裝好了。」、E05_OPEN=self、E06／D2 不發、kx1 照開；9/20「洗手上的油」那張卡只在 E05 那天演過才出；tests/e05_putong_unit.js（修改前 FAILED 33）；全部 1,120 支單元測試過（子代理）。AA 定 self 路線五處（D2、制服、P2 空分支…）；BB 測。 ｜ 【11-07 16:3x LAWWW-B】AA-B AA_727（2e81aac12）：E05 在普通教學館前（putong）演、不 blur；9/20 17:00 改成可昕傳兩則＋兩個回覆→ 10／20 分鐘後 putong 見面才演；沒回＝19:00「沒事了…」E05 不演（E05_OPEN 怎麼記 LAWWW 看）。子代理做中（e05-putong-1107）。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "next": "【11-07 17:5x LAWWW-B】BB-B 瀏覽器三條 PASS、17:20 P3 FIXED。 ｜ 【11-07 17:1x LAWWW-B】AA_727 第二版（85ce68113）五點推了 7d5472cec（子代理 7348ab186）：①self 也發 D2（她那則訊息到當天 23:00）、E06 不發 ②19:00 後多一則「制服我洗好了。下次上課拿給你。」，之後下一堂一起的經濟系課下課（真的上課）或快轉跨過那堂課以後的第一張日期卡下面加兩句 ③洗手上的油照舊 ④之後 P2 選公館（E05 演過或 self）兩句、時間 +1.5 小時 ⑤回了 30 分鐘沒到＝「你不用來了。」「我牽去車行了。……」記 self；e05_putong_unit 64 項（修改前 FAILED 13）；全部 1,121 支單元測試結束碼 0（子代理）。BB 測。 ｜ 【11-07 16:5x LAWWW-B】推了 e647887c7（子代理 38f3d2da2／46d41ae45）：E05 在 putong 一樓門口演、freeze（3D 不模糊）；9/20 17:00 可昕兩則＋兩個回覆→ 10／20 分鐘後 putong 見面才演（快轉停在訊息、回了跳到見面）；19:00 沒回＝「沒事了。路過的人幫我裝好了。」、E05_OPEN=self、E06／D2 不發、kx1 照開；9/20「洗手上的油」那張卡只在 E05 那天演過才出；tests/e05_putong_unit.js（修改前 FAILED 33）；全部 1,120 支單元測試過（子代理）。AA 定 self 路線五處（D2、制服、P2 空分支…）；BB 測。 ｜ 【11-07 16:3x LAWWW-B】AA-B AA_727（2e81aac12）：E05 在普通教學館前（putong）演、不 blur；9/20 17:00 改成可昕傳兩則＋兩個回覆→ 10／20 分鐘後 putong 見面才演；沒回＝19:00「沒事了…」E05 不演（E05_OPEN 怎麼記 LAWWW 看）。子代理做中（e05-putong-1107）。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
    "xai": {
     "spec": "BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版",
     "branch": "claude/cool-heisenberg-o8kuqx",
@@ -49351,7 +49351,8 @@
     "ack": "SENT",
     "owner": "AA"
    },
-   "sha": "7d5472cec"
+   "sha": "7d5472cec",
+   "evidence": "2026-11-07 BB-B 瀏覽器（雲端 Playwright＋SwiftShader，不是 iPhone），174b45e26（BB_255 e689f5f05 之後）：①回了按「等到晚上」停在見面、字卡、E05 在 putong freeze、23:00 洗手那句、E05_OPEN=fix ②不回到 9/26：19:00、19:01 兩則、E05 不演、self、E06 不發、9/20 23:00 卡不出、9/24 22:00 卡下面還制服兩句 ③回了站著等 PASS；三趟卡住保險 0、黑幕 0、JS 例外 0；P2 公館兩句、回了 30 分鐘沒到照 Node e05_putong_unit（64 項）、e05_skipstop_unit"
   },
   {
    "id": "KX-MOVIE-BYE-1107",
@@ -49448,7 +49449,7 @@
     "confirmed": true
    },
    "source": "使用者 11-07「還有哪些店面還沒做好的還沒有放進遊戲的」（LAWWW2-B 盤點）；D141 還沒進遊戲的店優先；USER_WANTS X209",
-   "next": "【11-07 17:4x LAWWW-B】LAWWW2-B a6509d2a0（洋洋、轉角唱片、便利商店光照＋兩間窗景卡＋轉角天花板 CEIL_／淡出點）推了 4fcd3c45b；303 支相關測試全過。BB 判（含大口二樓 CEIL_LIGHTS 吃到 ceilHide）、CC 拍。動了 BB 的 cvs_interior.glb、yangyang_interior.glb，CC（帳號 A）的 corner.glb／corner_interior.py——重新匯出要請 LAWWW2 再烘。 ｜ 【11-07 17:0x LAWWW-B】④看廚房＝TEST_BUG 結案（BB-B 重拍兩次都停在 (0.2,−0.5)、按鈕「看廚房」）。 ｜ 【11-07 16:5x LAWWW-B】BB-B 洋洋功能 PASS（瀏覽器 f186ad035，BB_255 669e8b46a）；P3 ①自動帶位說坐下句 ②錢不夠不灰掉 ③跨午夜不再說進門句 修了（e647887c7 那一批的 ec0b2903f）；④看廚房 BB 撤回原本的量法，重拍再看。 ｜ 【11-07 15:3x LAWWW-B】推了 e66781d1f（0c1d9bc32、0acc58497、867450311 打烊照 AA_700）：G05 進得去、內用／外帶、兩層菜單、調味兩題、看五處、坐下、打烊、約去 19:00～22:00 開始（可昕 ≤21:00）；tests/yangyang_shop_unit.js（修改前 FAILED 14）；全部 1,116 支單元測試 0 失敗（子代理）。BB 測三件（20 個座位、兩張只給 NPC、台詞照稿）；LAWWW2 烘光照。 ｜ 【11-07 14:3x LAWWW-B】子代理照 afar／Daybreak（gg2shops3d.js、ggRoom）做，回來審、合、推；之後 LAWWW2 烘光照、CC 拍、BB 驗。",
+   "next": "【11-07 17:5x LAWWW-B】BB-B pt1107n（174b45e26）22 項 ALL PASS：P3 ①自動帶位說坐下句 ②錢不夠那句＋拿掉一樣照常結帳 ③00:58→01:00 只有打烊一句＝FIXED。 ｜ 【11-07 17:4x LAWWW-B】LAWWW2-B a6509d2a0（洋洋、轉角唱片、便利商店光照＋兩間窗景卡＋轉角天花板 CEIL_／淡出點）推了 4fcd3c45b；303 支相關測試全過。BB 判（含大口二樓 CEIL_LIGHTS 吃到 ceilHide）、CC 拍。動了 BB 的 cvs_interior.glb、yangyang_interior.glb，CC（帳號 A）的 corner.glb／corner_interior.py——重新匯出要請 LAWWW2 再烘。 ｜ 【11-07 17:0x LAWWW-B】④看廚房＝TEST_BUG 結案（BB-B 重拍兩次都停在 (0.2,−0.5)、按鈕「看廚房」）。 ｜ 【11-07 16:5x LAWWW-B】BB-B 洋洋功能 PASS（瀏覽器 f186ad035，BB_255 669e8b46a）；P3 ①自動帶位說坐下句 ②錢不夠不灰掉 ③跨午夜不再說進門句 修了（e647887c7 那一批的 ec0b2903f）；④看廚房 BB 撤回原本的量法，重拍再看。 ｜ 【11-07 15:3x LAWWW-B】推了 e66781d1f（0c1d9bc32、0acc58497、867450311 打烊照 AA_700）：G05 進得去、內用／外帶、兩層菜單、調味兩題、看五處、坐下、打烊、約去 19:00～22:00 開始（可昕 ≤21:00）；tests/yangyang_shop_unit.js（修改前 FAILED 14）；全部 1,116 支單元測試 0 失敗（子代理）。BB 測三件（20 個座位、兩張只給 NPC、台詞照稿）；LAWWW2 烘光照。 ｜ 【11-07 14:3x LAWWW-B】子代理照 afar／Daybreak（gg2shops3d.js、ggRoom）做，回來審、合、推；之後 LAWWW2 烘光照、CC 拍、BB 驗。",
    "xai": {
     "spec": "AA_724（企劃線 4bab808dd）、AA_650 §4、yangyang_layout.js v3（企劃線）、LAWWW2 README yangyang_review_1107",
     "branch": "claude/modest-rubin-2lyp7g",
