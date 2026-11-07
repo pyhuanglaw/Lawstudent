@@ -174,6 +174,33 @@ async def run_zq(pg, cdp, run):
     await run.shot(pg, 'zq_luwei_after2')
 
 
+async def run_an_alone(pg, cdp, run):
+    """使用者存檔原樣：和可昕交往、以安知道（AA_722 897ddd17e partnerBlock，LAWWW-B b0c8fbf26）"""
+    s1 = base_state('heroine_01', 'AN_STUDY_SHOP'); await load(pg, cdp, s1)
+    run.setup('【前置／捷徑】設 AN_STUDY_SHOP；交往狀態照使用者存檔（和可昕交往、以安知道）')
+    pe.WHO = 'heroine_01'
+    kn = await pg.evaluate("(()=>({knows:(typeof ROM!=='undefined'&&ROM.knows)?ROM.knows(GAME.G,'heroine_01'):null, dk:(GAME.G.flags||{}).dating_kexin}))()")
+    print('   交往狀態', json.dumps(kn, ensure_ascii=False), flush=True)
+    seen = []
+    for cat in ('吃飯', '念書', '喝咖啡'):
+        lst = await cat_list(pg, cdp, 'heroine_01', cat)
+        seen += [x['t'] for x in (lst or [])]
+        await back_out(pg, cdp)
+    run.check('① 交往中、她知道：選單裡沒有「小路（她手帳上的第一家）」', not any('手帳' in t for t in seen), json.dumps(seen, ensure_ascii=False)[:600])
+    await pg.evaluate("(()=>{ if(typeof ADV!=='undefined'&&Array.isArray(ADV.history)) ADV.history.length=0; })()")
+    said, _ = await pe.meet_once(pg, cdp, run, '念書', '總圖', '念書')
+    hist = await pg.evaluate("(typeof ADV!=='undefined'&&Array.isArray(ADV.history))?ADV.history.map(x=>(x.name||'')+'｜'+x.text):[]")
+    allt = (said or []) + hist
+    want = ['你有女朋友。……第一家，我就不約你了。', '我昨天自己去了。點了今天的定食。原來只要這樣說就好。']
+    miss = [w for w in want if not any(core(w) in x for x in allt)]
+    f = await pg.evaluate("((GAME.G.flags||{}).AN_SHOP1_DONE)")
+    run.check('② 解鎖後第一次見面她說那兩句', said is not None and not miss, json.dumps({'miss': miss, 'hist': hist[-14:]}, ensure_ascii=False))
+    run.check('② 記 AN_SHOP1_DONE＝alone（%s）' % f, f == 'alone', json.dumps(f))
+    st = await pg.evaluate("(()=>{ const r=ARCS.rec(GAME.G,'heroine_01'); return {k:r.k}; })()")
+    print('   以安故事線', json.dumps(st), flush=True)
+    await run.shot(pg, 'an_alone_after')
+
+
 async def main():
     run = L.Run('pt1107j_' + SLOT, OUT)
     async with async_playwright() as p:
@@ -181,11 +208,12 @@ async def main():
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
         run.setup('讀使用者存檔 day46；【捷徑】day %+d 下午 3 點、清邀約、錢 1000、關係到朋友%s' % (SHIFT, '；【捷徑】沒有交往對象（存檔原本和可昕交往）' if NODATE else ''))
-        has = await pg.evaluate("typeof STUDYSLOT!=='undefined'&&!!STUDYSLOT.get(%s)" % json.dumps(SLOT))
+        has = await pg.evaluate("typeof STUDYSLOT!=='undefined'&&!!STUDYSLOT.get(%s)" % json.dumps('an_shop1' if SLOT == 'an_alone' else SLOT))
         run.check('這一版有 STUDYSLOT %s' % SLOT, has)
         if has:
             if SLOT == 'an_shop1': await run_an(pg, cdp, run)
             elif SLOT == 'zq_luwei': await run_zq(pg, cdp, run)
+            elif SLOT == 'an_alone': await run_an_alone(pg, cdp, run)
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))
         await b.close()
     return run.finish()

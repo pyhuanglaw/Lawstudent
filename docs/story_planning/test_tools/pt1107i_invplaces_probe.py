@@ -124,10 +124,15 @@ async def meet(pg, cdp, run):
     lines = await pg.evaluate("(w=>{ const P=(INVITE_PLACE_LINES.places||{}); return {dian:(P.l118_dian||{})[w]||null}; })(%s)" % json.dumps(WHO))
     await pg.evaluate("(()=>{ window.__sat=[]; clearInterval(window.__satT); window.__satT=setInterval(()=>{ try{ const p=GAME.E.player; if(p&&p.seat) window.__sat.push({z:GAME.G.zone,h:+GAME.G.hour.toFixed(2)}); }catch(e){} },500); })()")
     m0 = await pg.evaluate("GAME.G.money")
+    n0 = await pg.evaluate("(GAME.G.msgs||[]).length")
+    pv = await pg.evaluate("(w=>{ try{ const P=INV.place('l118_dian'); const r=INV.personal(GAME.G,w,P,GAME.G.day,12,{res:'accept'}); return {lines:r&&r.lines, res:r&&r.res}; }catch(e){ return {err:String(e)}; } })(%s)" % json.dumps(WHO))
+    print('   滇香 INV.personal（照遊戲自己的挑法，接受時會說什麼）', json.dumps(pv, ensure_ascii=False), flush=True)
     said, picked = await pe.meet_once(pg, cdp, run, '吃飯', '滇香', '滇香')
+    newm = await pg.evaluate("(n=>(GAME.G.msgs||[]).slice(n).map(m=>(m.from||'')+'｜'+m.text))(%d)" % n0)
+    print('   約滇香以後新的訊息', json.dumps(newm, ensure_ascii=False)[:800], flush=True)
     hist = await pg.evaluate("(typeof ADV!=='undefined'&&Array.isArray(ADV.history))?ADV.history.map(x=>(x.name||'')+'｜'+x.text):[]")
     msgs = await pg.evaluate("(w=>(GAME.G.msgs||[]).filter(m=>m.from===w).slice(-4).map(m=>m.text))(%s)" % json.dumps(WHO))
-    allt = (said or []) + hist + msgs
+    allt = (said or []) + hist + msgs + newm
     core = lambda t: t.strip('（）「」 ')[:9]
     d = lines.get('dian') or {}
     run.check('滇香：見面演完', said is not None, json.dumps((said or [])[-8:], ensure_ascii=False))
@@ -142,11 +147,14 @@ async def meet(pg, cdp, run):
     print('   記憶', mem, flush=True)
     await run.shot(pg, 'meet_dian_after')
     if MOVIE:
-        run.setup('【捷徑】隔天（週二）早上 10 點、錢 1000、清掉 NY_TICKET')
+        run.setup('【捷徑】隔天早上 10 點、錢 1000、清掉 NY_TICKET')
         await pg.evaluate("(()=>{ GAME.G.day+=1; GAME.G.hour=10; GAME.G.money=1000; if(GAME.G.flags) delete GAME.G.flags.NY_TICKET; })()")
         await pg.wait_for_timeout(1500); await pe.settle(pg, cdp, [], 30)
         await pg.evaluate("(()=>{ window.__money=[]; if(GAME.money&&!GAME.__mW){ const f=GAME.money; GAME.money=function(v,why){ try{ window.__money.push({v,why,day:GAME.G.day,h:+GAME.G.hour.toFixed(2)}); }catch(e){} return f.apply(this,arguments); }; GAME.__mW=1; } })()")
         said2, _ = await pe.meet_once(pg, cdp, run, '看電影', '南洋', '南洋')
+        ivs = await pg.evaluate("(w=>(GAME.G.invites||[]).filter(v=>v.who===w).slice(-3).map(v=>({place:v.place,day:v.day,h:v.h,state:v.state})))(%s)" % json.dumps(WHO))
+        print('   南洋 said', json.dumps((said2 or [])[-14:], ensure_ascii=False)[:1500], '邀約', json.dumps(ivs, ensure_ascii=False), flush=True)
+        run.check('南洋：見面演了（燈暗下來那一句：%s）' % ('有' if any('燈暗下來' in x for x in (said2 or [])) else '沒有'), said2 is not None and any('燈暗下來' in x for x in (said2 or [])), json.dumps({'said': (said2 or [])[-10:], 'ivs': ivs}, ensure_ascii=False))
         mv = await pg.evaluate("({money:GAME.G.money, log:window.__money||[], tk:(GAME.G.flags||{}).NY_TICKET, day:GAME.G.day})")
         tick = [x for x in mv['log'] if x.get('why') == '電影票']
         run.check('南洋：那一場扣了 150（電影票）、記 NY_TICKET＝今天', said2 is not None and len(tick) == 1 and tick[0]['v'] == -150 and mv['tk'] == mv['day'], json.dumps(mv, ensure_ascii=False))
