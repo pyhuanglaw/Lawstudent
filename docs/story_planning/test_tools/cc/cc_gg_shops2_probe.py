@@ -532,7 +532,8 @@ def date_cls(SM):
                 R.check('%s：坐下以後有開場（seatOpen 或 AA_708 第 N 場／AA_712 故事線那一拍；坐下以後有她的台詞）' % k, any(x.get('n') for x in g['say'][:12]), J(T[:12]))
             R.note('%s：X207 帶路取樣（進這一區以後、玩家還沒坐下；每一筆＝她離玩家 m、她坐著沒）：%s' % (k, J([[x['smp'].get('nD'), x['smp'].get('nseat'), x['smp'].get('p')] for x in g['samples'] if x['zone'] == S['zone']][:8])))
             if k == 'afar':   # CC-B 11-07（BB-B 04:59）：afar 約會座位——①空桌（不和客人同桌）②窗邊長桌（table 6）坐得下 ③開場句照座位（seatOpen.afar 第一句 onlyAt table 6）
-                R.check('afar：①她挑的是空桌（同一桌、1.2 m 內沒有其他客人坐著）', not ss.get('others'), J({'ptable': ss.get('ptable'), 'ntable': ss.get('ntable'), 'others': ss.get('others')}))
+                same = [o for o in (ss.get('othersInfo') or []) if o.get('seat') and ss.get('ptable') is not None and o['seat'][2] == ss.get('ptable')]   # BB-B 08:27：只看同一張桌子（卡座小圓桌本來就挨著，隔壁桌 1.1 m 不算）
+                R.check('afar：①她挑的是空桌（同一張桌子 table %s 沒有其他客人坐著）' % ss.get('ptable'), not same, J({'ptable': ss.get('ptable'), 'same': same, 'near': ss.get('othersInfo')}))
                 lamp = NZ('（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）')
                 said_lamp = any(lamp in NZ(t) for t in T)
                 if ss.get('ptable') == 6:
