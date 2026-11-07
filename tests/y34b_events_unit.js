@@ -28,6 +28,7 @@ const S=Y34B, D=k=>STORY.dayOfKey(k);
 const CAT='📷（投影幕上一隻在找插座的貓）', NINE='📷（投影幕上，一個小孩坐在玄關，腿上放著兩支搖桿。標題：《九點以後》）';   /* 阿凱 5/20 16:30 的照片：AA_363 R1 起＝NINE（舊存檔 ZQ_Q12 cat＝CAT）*/
 const ROW=['所以我坐第一排','她叫我不要坐第一排'];   /* AA_513 1-3（2026-10-28，a2e4bf196）：照片後面阿凱再兩則（AA_508 4-4 改私訊；逐字對稿、到場的不加在 tests/aa513_unit.js）*/
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
+const J=JSON.stringify;
 const fresh=(key,h,zone,flags,route)=>{ const G=H.fresh(key,h,zone,Object.assign({EXCHANGE_ROUTE:route||'TW',EXCH_RULE:1},flags||{})); G.acts={att:{}}; G.outings=[]; H.at(key,h); G.zone=zone||'dorm'; GM.npc={}; E.player.obj.position.x=0; E.player.obj.position.z=0; return G; };
 const at=(key,h)=>{ H.at(key,h); };
 const phone=()=>{ S.phone(H.G); PHONE.tick(H.G); };
@@ -300,12 +301,19 @@ const date=id=>H.date(id);
   { fresh('2028-12-12',19,'noodle'); H.FAMILIAR('heroine_03'); const a=S.a23TueDue(H.G); GM.npc.heroine_03={obj:{position:{x:0,y:0,z:0},rotation:{y:0}}}; const b=S.a23TueDue(H.G);
     check('1B-20 12/12「語彤的班」她在店裡約你那一段拿掉（AA_675 2-5：她不在燒臘店工作）——她在店裡也不演、ev_yt_23rd_notice 退場', !a&&!b&&!!STORY_EVENTS.find(e=>e.id==='ev_yt_23rd_notice').retired); GM.npc={}; }
   fresh('2028-12-14',18.9,'noodle',{rain_umbrella:'none'}); H.FRIEND('heroine_03'); H.FAMILIAR('yu'); H.FAMILIAR('heroine_05'); SOCIAL.remember('heroine_03','SHARED_MEAL','她端來的乾麵');
-  check('1B-20 12/14 18:45～ 在麵店＝演', S.a23Due(H.G)); H.said=[]; H.cgs=[]; await S.a23Run(GM);
+  check('1B-20 12/14 18:45～ 在麵店＝演', S.a23Due(H.G)); H.said=[]; H.cgs=[]; const ytFam0=SOCIAL.rel('heroine_03').fam; await S.a23Run(GM);
+  { const A=ev('ev_noodle_23rd'), noYt=l=>l.speaker!=='heroine_03'&&!/語彤/.test(String(l.text||''))&&!/語彤/.test(String(l.speaker||''));
+    check('1B-20 語彤整場沒有'+'（AA-B 11-07 回 LAWWW-B：A23 剩下五處，語彤整場沒有）'+'：participants 沒有她、台詞沒有她說的、旁白不提她、演的時候沒有她的句子、她的熟悉度不變（原本 +2）', J(A.participants)===J([])&&A.dialogue.every(noYt)&&!H.said.some(x=>/語彤/.test(String(x.who||''))||/語彤/.test(String(x.t||'')))&&SOCIAL.rel('heroine_03').fam===ytFam0, J({p:A.participants,bad:A.dialogue.filter(l=>!noYt(l)),fam:[ytFam0,SOCIAL.rel('heroine_03').fam]}));
+    check('1B-20 學姊的照片：「（Alison 把手機給大家看。）」（原本語彤）→ 學姊的照片、「週年快樂。」', idx('（Alison 把手機給大家看。）')>=0&&idx('（照片：她在美國煮的一碗麵）')===idx('（Alison 把手機給大家看。）')+1&&!has('（語彤把手機給大家看。）'));
+    check('1B-20 和語彤是朋友、和她吃過麵也一樣：阿哲「……我真的記錯了喔。」照說（原本她端最後一碗給你時不說；那一碗已經拿掉）', has('……我真的記錯了喔。')); }
   /* AA_661 第 63 列（AA 定：公館燒臘二十三週年是阿鳳和熟客的場）：燒臘店的字照 AA_612（A-450～A-458）、語彤端碗和語彤的媽媽那幾句拿掉、可昕「你說了三年的叉燒」 */
   /* AA_625「接線時補的」第 3 點（企劃線 3248430b3，AA-B 11-07）：CG-8（cg_anniversary_23＝一盞茶屋十週年）、散場騎樓語彤的傘那幾句、ANNIVERSARY_23 拿掉（她不在燒臘店；兩天後是十週年，src/aa625_3d.js）；強制下雨、其他人照舊 */
   check('Y1 Alison「這兩個位子」、阿哲「想吃飯就來」、阿姨「明年也是。」、語彤不端最後一碗（AA_661 第 63 列）、強制下雨；沒有 CG-8、語彤的傘、ANNIVERSARY_23（AA_625 接線補第 3 點）', has('（坐下）第四年了。這兩個位子，本來就是我們的。')&&has('……以後也一樣。想吃飯就來，遇到就一起坐。')&&has('（舉起湯勺）明年也是。')&&!has('（把最後一碗放在你面前）乾麵，加滷蛋。')&&!H.said.some(x=>/把最後一碗放在/.test(x.t||''))&&has('我記得。我記得每個人第一次點什麼。')&&!H.cgs.includes('cg_anniversary_23')&&!has('這次我帶了兩把傘。')&&!has('這次換我送你。')&&!has('（她把傘撐開，往兩人中間一放。）')&&has('週年快樂。')&&H.G.weather==='rain'&&H.G.flags.ANNIV23==='there'&&!SOCIAL.has('heroine_03','ANNIVERSARY_23'));
   { fresh('2028-12-14',18.9,'noodle'); H.FRIEND('heroine_03'); date('heroine_03'); await S.a23Run(GM);
-    check('Y3 和語彤交往中：語彤的媽媽那一句、最後一碗都拿掉（AA_661 第 63 列）；交往版的傘（「這把是我們的。」）也拿掉（AA_625 接線補第 3 點）', !has('……他也很少講話。你們兩個怎麼聊天的？')&&!has('（撐開另一把）這把是我們的。')&&!has('（把一把交給阿哲）這把給你們。')&&!has('招牌乾麵。你第一次來一定是點這個，大家都是。')&&!has('這次我帶了兩把傘。')); }
+    check('Y3 和語彤交往中：語彤的媽媽那一句、最後一碗都拿掉（AA_661 第 63 列）；交往版的傘（「這把是我們的。」）也拿掉（AA_625 接線補第 3 點）', !has('……他也很少講話。你們兩個怎麼聊天的？')&&!has('（撐開另一把）這把是我們的。')&&!has('（把一把交給阿哲）這把給你們。')&&!has('招牌乾麵。你第一次來一定是點這個，大家都是。')&&!has('這次我帶了兩把傘。'));
+    check('Y3 和語彤交往中：阿哲「……我真的記錯了喔。」照說（AA-B 11-07 回 LAWWW-B：A23 剩下五處，語彤整場沒有）', has('……我真的記錯了喔。')&&!H.said.some(x=>/語彤/.test(String(x.who||'')))); }
+  { fresh('2028-12-14',18.9,'noodle'); H.FAMILIAR('heroine_05'); await S.a23Run(GM);
+    check('1B-20 認識學姊、不認識 Alison：沒有「（Alison 把手機給大家看。）」（Alison 那幾句都要認識她），學姊的照片照舊（前面沒有誰拿手機的那一句——列給 AA）', !has('（Alison 把手機給大家看。）')&&has('（照片：她在美國煮的一碗麵）')&&!has('（坐下）第四年了。這兩個位子，本來就是我們的。')); }
   { fresh('2028-12-14',18.9,'noodle',{rain_umbrella:'share'}); H.FRIEND('heroine_03'); date('kexin'); await S.a23Run(GM);
     check('1B-20 和別人交往中：語彤的傘那幾句都拿掉（AA_625 接線補第 3 點，「兩把。你們自己分。」也沒有）；不熟的最後一碗不給你', !has('兩把。你們自己分。')&&!has('這次換我送你。')&&!has('（把最後一碗放在你面前）乾麵，加滷蛋。'));
     const a=idx('你點的是油雞腿飯，你記錯了。'), b=idx('（把最後一碗放在阿哲面前）餛飩湯。'), c=idx('……我真的記錯了喔。'), e=idx('我記得。我記得每個人第一次點什麼。');
@@ -320,11 +328,16 @@ const date=id=>H.date(id);
   { const zc=ev('ev_noodle_zr_postcard'); fresh('2028-12-16',15,'noodle'); H.FAMILIAR('heroine_02'); const a=EVENTS.check(zc); at('2028-12-17',15); H.G.zone='noodle'; const b=EVENTS.check(zc); H.G.zone='cafe'; const c=EVENTS.check(zc); H.G.zone='noodle';
     await run('ev_noodle_zr_postcard'); const said=has('（燒臘店的牆上多了一張明信片，英國的郵戳。背面寫著：「燒臘店生日快樂。」）'), d=EVENTS.check(zc); fresh('2028-12-20',15,'noodle'); const e=EVENTS.check(zc);
     check('AA_337 第 3 節 芷若的明信片：12/17 以後、和她 FAMILIAR 以上第一次進麵店＝牆上的旁白（只一次；不熟的沒有）', !a&&b&&!c&&said&&!d&&!e&&zc.trigger==='auto'); }
-  { fresh('2028-12-14',18,'dorm'); H.FAMILIAR('heroine_03'); check('1B-20 睡著也會在 19:30 醒來', S.wakeAt(H.G)===19.5);
+  { fresh('2028-12-14',18,'dorm'); H.FAMILIAR('heroine_03'); H.FAMILIAR('zhe'); check('1B-20 睡著也會在 19:30 醒來', S.wakeAt(H.G)===19.5);
     at('2028-12-14',19.5); H.G.zone='campus'; check('1B-20 19:30 還沒到＝電話帶到場', S.a23CallDue(H.G)); H.said=[]; H.entered=[]; await S.a23Bring(GM);
-    check('1B-20 電話「你在哪？大家都到了。」（語彤 FAMILIAR 以上＝語彤打）→ 到長桌 → 演', H.said.some(s=>s.t==='你在哪？大家都到了。'&&/語彤|陳語彤/.test(s.who||''))&&H.entered.includes('noodle')&&H.G.flags.ANNIV23==='there'); }
+    check('1B-20 電話「你在哪？大家都到了。」一律阿哲打（和語彤 FAMILIAR 以上也一樣；AA-B 11-07 回 LAWWW-B：A23 剩下五處，語彤整場沒有）→ 到長桌 → 演', H.said.some(s=>s.t==='你在哪？大家都到了。'&&/阿哲/.test(s.who||''))&&!H.said.some(s=>/語彤/.test(s.who||''))&&H.entered.includes('noodle')&&H.G.flags.ANNIV23==='there'); }
+  { fresh('2028-12-14',18,'dorm'); H.FAMILIAR('heroine_03'); const w=S.wakeAt(H.G); at('2028-12-14',19.5); H.G.zone='campus'; const c=S.a23CallDue(H.G); H.said=[]; const r=await S.a23Bring(GM);
+    check('1B-20 不認識阿哲：沒有人打電話（不叫醒、不帶到場；和語彤熟也一樣）', w!==19.5&&!c&&r===false&&!H.said.length&&H.G.flags.ANNIV23==null, J({w,c,r})); }
   { fresh('2028-12-14',6,'us_apartment',{US_DEPARTED:true,US_ARRIVED:true},'US'); H.FAMILIAR('heroine_03'); date('kexin'); PHONE.join(H.G,'noodle_team','麵店團'); at('2028-12-14',6.5); H.G.zone='us_apartment'; phone();
-    check('Y2 美國路線：當地 06:30 群組滿座的照片、「美國那兩個 阿姨說照片也算」（AA_524 Y7 改原句）；可昕「23 號回來，第一碗我請。」', th('g:noodle_team').includes('（一張滿座的照片）')&&th('g:noodle_team').includes('美國那兩個 阿姨說照片也算')&&th('p:kexin').includes('23 號回來，第一碗我請。')&&H.G.flags.ANNIV23==='remote');
+    check('Y2 美國路線、不認識 Alison：群組沒有滿座的照片（原本語彤傳；和語彤熟也一樣）、也沒有阿哲接的那一句；可昕照舊', !th('g:noodle_team').includes('（一張滿座的照片）')&&!th('g:noodle_team').includes('美國那兩個 阿姨說照片也算')&&th('p:kexin').includes('23 號回來，第一碗我請。')&&H.G.flags.ANNIV23==='remote'); }
+  { fresh('2028-12-14',6,'us_apartment',{US_DEPARTED:true,US_ARRIVED:true},'US'); H.FAMILIAR('yu'); date('kexin'); PHONE.join(H.G,'noodle_team','麵店團'); at('2028-12-14',6.5); H.G.zone='us_apartment'; phone();
+    const ph=(H.G.msgs||[]).find(m=>m.th==='g:noodle_team'&&m.text==='（一張滿座的照片）');
+    check('Y2 美國路線：當地 06:30 群組滿座的照片（Alison 傳；AA-B 11-07 回 LAWWW-B：A23 剩下五處，語彤整場沒有）、「美國那兩個 阿姨說照片也算」（AA_524 Y7 改原句）；可昕「23 號回來，第一碗我請。」', !!ph&&ph.from==='yu'&&th('g:noodle_team').includes('美國那兩個 阿姨說照片也算')&&th('p:kexin').includes('23 號回來，第一碗我請。')&&H.G.flags.ANNIV23==='remote'&&!SOCIAL.has('heroine_03','ANNIVERSARY_23'));
     at('2028-12-24',19); H.G.zone='noodle'; check('1B-20 回來以後第一次去麵店：阿姨', S.a23AuntDue(H.G)); await run('ev_noodle_23rd_missed'); check('1B-20 「你錯過了，明年再來。」', has('你錯過了，明年再來。')&&!S.a23AuntDue(H.G)); }
   /* ===== 1B-21 ===== */
   fresh('2028-10-18',20,'dorm',{Y4_PATH:'bar'}); date('kexin'); at('2028-10-18',21); phone(); const m23=(H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y4_kx23');
