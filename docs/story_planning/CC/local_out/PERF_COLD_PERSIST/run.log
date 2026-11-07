@@ -1,0 +1,124 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\perf_cold_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\PERF_COLD_PERSIST\out
+wenzhou       base     黑畫面 15726.3 ms（預熱 0.2）｜淡入後 133 格 avg 9.8 fps 1%low 0.17 最慢 5783 ms、>100 ms 6 格、>500 ms 3 格｜進區域以後才載 9 個
+    進區域以後才載：bldg.wz_cat、bldg.wenzhou_street、bldg.wz_scooter、bldg.wz_park、bldg.wz_props、bldg.wz_jphouse、bldg.cafe_exterior、char.npc_nf5、char.npc_nm5
+      載好 bldg.wz_scooter（building）9894.9 ms，進區域後 10950 ms
+      載好 bldg.wz_cat（building）10848.9 ms，進區域後 11720 ms
+      載好 bldg.wz_jphouse（building）11009.5 ms，進區域後 12065 ms
+      載好 bldg.cafe_exterior（building）11080.4 ms，進區域後 12137 ms
+      載好 bldg.wz_props（building）13186.1 ms，進區域後 14242 ms
+      載好 char.npc_nm5（vrm）13924.9 ms，進區域後 15004 ms
+      載好 char.npc_nf5（vrm）13952.7 ms，進區域後 15031 ms
+      載好 bldg.wz_park（building）14031.6 ms，進區域後 15087 ms
+      載好 bldg.wenzhou_street（building）19457.4 ms，進區域後 20465 ms
+      檔案 wz_cat.glb：開始 870、下載完 2871 ms（進區域後）、傳輸 970676 bytes
+      檔案 wz_jphouse.glb：開始 1055、下載完 2919 ms（進區域後）、傳輸 668876 bytes
+      檔案 wz_props.glb：開始 1055、下載完 3528 ms（進區域後）、傳輸 898600 bytes
+      檔案 bl_npc_nf5.lod.glb：開始 1077、下載完 3654 ms（進區域後）、傳輸 270404 bytes
+      檔案 bl_npc_nm5.lod.glb：開始 1079、下載完 4420 ms（進區域後）、傳輸 276236 bytes
+      檔案 scooter.glb：開始 1054、下載完 4497 ms（進區域後）、傳輸 1305024 bytes
+      檔案 cafe_exterior.glb：開始 1056、下載完 6481 ms（進區域後）、傳輸 1606876 bytes
+      檔案 bl_npc_nm5.vrm：開始 1079、下載完 12014 ms（進區域後）、傳輸 2384612 bytes
+      檔案 bl_npc_nf5.vrm：開始 1078、下載完 12361 ms（進區域後）、傳輸 2651424 bytes
+      檔案 wz_park.glb：開始 1055、下載完 13837 ms（進區域後）、傳輸 4349700 bytes
+      檔案 wenzhou_street.glb：開始 1007、下載完 19043 ms（進區域後）、傳輸 13619276 bytes
+      檔案 lin_interior.glb：開始 26178、下載完 27198 ms（進區域後）、傳輸 2061656 bytes
+      parseVRM 進區域後 12093 ms：同步 2.3 ms、2384312 bytes
+      parseVRM 進區域後 14289 ms：同步 2.2 ms、2651124 bytes
+      parseVRM 做完 進區域後 15001 ms：共 2908 ms
+      parseVRM 做完 進區域後 15028 ms：共 739 ms
+    慢格：淡入後 10416 ms，5783.1 ms（update 7.2、render 22.1、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 5767.2 ms、不是 JS 15.9 ms
+         5663.9 ms  FrameRequestCallback frame @ src/game3d.js:582
+           90.1 ms  Promise.resolve (匿名) @ lib/three.bundle.js:50550
+           30.5 ms  FrameRequestCallback frame @ src/game3d.js:582
+        事件：loaded 106 bldg.wenzhou_street building
+    慢格：淡入後 1632 ms，1650 ms（update 5.6、render 277.9、換模型 1 次 86.6 ms、新 shader 1）；這段時間 JS 1629.1 ms、不是 JS 20.9 ms
+         1638.1 ms  FrameRequestCallback frame @ src/game3d.js:582
+        事件：warmup 18
+    慢格：淡入後 4132 ms，1533.3 ms（update 10、render 19.9、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 1514.9 ms、不是 JS 18.4 ms
+         1521.8 ms  FrameRequestCallback frame @ src/game3d.js:582
+    慢格：淡入後 2016 ms，383.3 ms（update 12.3、render 21.2、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 366.2 ms、不是 JS 17.1 ms
+         1638.1 ms  FrameRequestCallback frame @ src/game3d.js:582
+          371.1 ms  FrameRequestCallback frame @ src/game3d.js:582
+    慢格：淡入後 4332 ms，200 ms（update 8.1、render 20.9、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 192.9 ms、不是 JS 7.1 ms
+         1521.8 ms  FrameRequestCallback frame @ src/game3d.js:582
+          168.2 ms  ReadableStreamDefaultReader.read.then (匿名) @ src/assets3d.js:284
+           30.3 ms  FrameRequestCallback frame @ src/game3d.js:582
+    慢格：淡入後 2132 ms，116.7 ms（update 7.9、render 21.9、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 13.9 ms、不是 JS 102.8 ms
+          371.1 ms  FrameRequestCallback frame @ src/game3d.js:582
+    淡入後 JS 加總前幾名：
+         9509.4 ms  FrameRequestCallback frame @ src/game3d.js:582
+          168.2 ms  ReadableStreamDefaultReader.read.then (匿名) @ src/assets3d.js:284
+           90.1 ms  Promise.resolve (匿名) @ lib/three.bundle.js:50550
+    穩定以後的分項（整個場景 345 draw call／532098 三角形，含陰影那一輪；每一組單獨畫）：
+         106 calls    254501 tris    98 個網格  wenzhou_street_glb < Group
+          38 calls     80465 tris    22 個網格  human
+          36 calls     65875 tris    29 個網格  wz_park_glb < Group
+          29 calls     33871 tris    31 個網格  Group
+          24 calls     28390 tris    17 個網格  wz_jphouse_glb < Group
+          23 calls     30251 tris    31 個網格  Group
+          23 calls     69695 tris    16 個網格  human
+          20 calls     26227 tris    15 個網格  wz_props_glb < Group
+          16 calls     21727 tris    84 個網格  Group < Group
+          14 calls     36961 tris     5 個網格  street_trees_field < Group
+           8 calls     19067 tris     3 個網格  skyline
+           8 calls     18695 tris     3 個網格  Group < Group
+           8 calls     24858 tris    16 個網格  human
+           8 calls     25189 tris    16 個網格  human
+           8 calls     24884 tris    16 個網格  human
+           8 calls     24930 tris    16 個網格  human
+           8 calls     24858 tris    16 個網格  human
+           7 calls     21675 tris     1 個網格  Mesh < Group
+           7 calls     24979 tris     1 個網格  Mesh < Group
+           7 calls     21879 tris     1 個網格  Mesh < Group
+           7 calls     18803 tris     1 個網格  Mesh < Group
+           6 calls     19643 tris     1 個網格  Mesh
+           6 calls     18685 tris     1 個網格  Group < Group
+           6 calls     18685 tris     1 個網格  Group < Group
+           6 calls     18685 tris     1 個網格  Group < Group
+    PERFPANEL：wenzhou：黑畫面 15.7 秒（建區域 1.6、預熱 13.2）；淡入後 10 秒最長一格 5.78 秒、卡 6 次；shader 黑畫面 +54、淡入後 +28｜prewarm None｜warmup {'zone': 'wenzhou', 'objects': 66, 'programs': 4, 'textures': 0, 'mpix': 0, 'depth': False, 'depthPrograms': 0, 'ticks': 17, 'parallel': True, 'done': False, 'ms': 0, 'settled': 108}｜平行編譯 True｜ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)
+wenzhou       near     黑畫面 23194.9 ms（預熱 0.3）｜淡入後 337 格 avg 27.3 fps 1%low 1.54 最慢 1467 ms、>100 ms 3 格、>500 ms 1 格｜進區域以後才載 9 個
+    先下載（只下載、不解析）：7 個、23.4 MB、13245 ms（省流量判斷 True）｜限速 4g
+    進區域以後才載：bldg.wz_cat、bldg.wenzhou_street、bldg.wz_scooter、bldg.wz_park、bldg.wz_props、bldg.wz_jphouse、bldg.cafe_exterior、char.npc_nf5、char.npc_nm5
+      載好 bldg.wz_scooter（building）9941.3 ms，進區域後 11004 ms
+      載好 bldg.wz_jphouse（building）11122.3 ms，進區域後 12187 ms
+      載好 bldg.wz_cat（building）11349.1 ms，進區域後 12219 ms
+      載好 bldg.cafe_exterior（building）11171.2 ms，進區域後 12236 ms
+      載好 bldg.wz_park（building）13523.1 ms，進區域後 14586 ms
+      載好 bldg.wz_props（building）13564.6 ms，進區域後 14628 ms
+      載好 char.npc_nf5（vrm）14695.5 ms，進區域後 15786 ms
+      載好 char.npc_nm5（vrm）14712.7 ms，進區域後 15804 ms
+      載好 bldg.wenzhou_street（building）14915 ms，進區域後 15924 ms
+      檔案 wz_jphouse.glb：開始 1064、下載完 1078 ms（進區域後）、傳輸 0 bytes（快取）
+      檔案 wz_props.glb：開始 1063、下載完 1080 ms（進區域後）、傳輸 0 bytes（快取）
+      檔案 scooter.glb：開始 1062、下載完 1082 ms（進區域後）、傳輸 0 bytes（快取）
+      檔案 cafe_exterior.glb：開始 1064、下載完 1086 ms（進區域後）、傳輸 0 bytes（快取）
+      檔案 bl_npc_nf5.lod.glb：開始 1089、下載完 1639 ms（進區域後）、傳輸 270404 bytes
+      檔案 bl_npc_nm5.lod.glb：開始 1091、下載完 1702 ms（進區域後）、傳輸 276236 bytes
+      檔案 wz_park.glb：開始 1063、下載完 11408 ms（進區域後）、傳輸 0 bytes（快取）
+      檔案 wenzhou_street.glb：開始 1009、下載完 11718 ms（進區域後）、傳輸 300 bytes
+      檔案 bl_npc_nm5.vrm：開始 1091、下載完 11812 ms（進區域後）、傳輸 2384612 bytes
+      檔案 bl_npc_nf5.vrm：開始 1090、下載完 11933 ms（進區域後）、傳輸 2651424 bytes
+      檔案 lin_interior.glb：開始 23563、下載完 24577 ms（進區域後）、傳輸 2061656 bytes
+      檔案 gongguan_shops.glb：開始 25928、下載完 30517 ms（進區域後）、傳輸 9889732 bytes
+      檔案 gongguan_far.glb：開始 30573、下載完 31408 ms（進區域後）、傳輸 1666056 bytes
+      檔案 gongguan_mrt_exit.glb：開始 31419、下載完 31642 ms（進區域後）、傳輸 350348 bytes
+      parseVRM 進區域後 11989 ms：同步 1.6 ms、2651124 bytes
+      parseVRM 進區域後 12030 ms：同步 2.1 ms、2384312 bytes
+      parseVRM 做完 進區域後 15783 ms：共 3794 ms
+      parseVRM 做完 進區域後 15802 ms：共 3771.8 ms
+    慢格：淡入後 2680 ms，1466.6 ms（update 8.5、render 20.8、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 1454.1 ms、不是 JS 12.5 ms
+         1462.7 ms  FrameRequestCallback frame @ src/game3d.js:582
+    慢格：淡入後 363 ms，366.7 ms（update 12.9、render 21.9、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 363.0 ms、不是 JS 3.7 ms
+         1645.3 ms  FrameRequestCallback frame @ src/game3d.js:582
+          366.1 ms  FrameRequestCallback frame @ src/game3d.js:582
+        事件：warmup 3
+    慢格：淡入後 480 ms，116.7 ms（update 9.6、render 21.7、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 5.3 ms、不是 JS 111.4 ms
+          366.1 ms  FrameRequestCallback frame @ src/game3d.js:582
+    慢格：淡入後 8413 ms，100 ms（update 10.8、render 21.3、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 94.4 ms、不是 JS 5.6 ms
+          108.5 ms  FrameRequestCallback frame @ src/game3d.js:582
+    淡入後 JS 加總前幾名：
+         2383.1 ms  FrameRequestCallback frame @ src/game3d.js:582
+           67.7 ms  TimerHandler:setTimeout step @ src/zones3d.js:2760
+           45.2 ms  ReadableStreamDefaultReader.read.then (匿名) @ src/assets3d.js:337
+    PERFPANEL：wenzhou：黑畫面 23.2 秒（建區域 1.2、預熱 14.4）；淡入後 10 秒最長一格 1.47 秒、卡 3 次；shader 黑畫面 +82、淡入後 +14｜prewarm None｜warmup {'zone': 'wenzhou', 'objects': 417, 'programs': 15, 'textures': 0, 'mpix': 0, 'depth': False, 'depthPrograms': 0, 'ticks': 36, 'parallel': True, 'done': False, 'ms': 0, 'settled': 131}｜平行編譯 True｜ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)
+ALL PASS（2 次）

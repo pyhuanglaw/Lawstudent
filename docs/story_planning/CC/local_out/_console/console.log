@@ -147,3 +147,12 @@
 [19:15:36] ==== START R126_v0_home  (game @ 126bdf93e82886673518705566dbe83b582c32c1) ====
 [19:15:39] [res] cpu=6% mem=50% (15.7/31.4 GB) chrome_testing=9  START R126_v0_home
 [19:17:38] [res] cpu=26% mem=48% (15.1/31.4 GB) chrome_testing=10  END R126_v0_start
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       559401c35..515fad1ba  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:17:42] ==== END   R126_v0_start  exit=0  164s   ====
+[19:17:49] memory 48% before starting PERF_COLD_PERSIST (2 running)
+[19:17:49] ==== START PERF_COLD_PERSIST  (probe @ 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a) ====
+[19:17:52] [res] cpu=7% mem=49% (15.4/31.4 GB) chrome_testing=10  START PERF_COLD_PERSIST
+[19:18:23] 正在跑：R126_v0_to1017（已跑 4 分／上限 90 分）、R126_v0_home（已跑 2 分／上限 60 分）、PERF_COLD_PERSIST（已跑 0 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:20:32] [res] cpu=3% mem=50% (15.7/31.4 GB) chrome_testing=10  END PERF_COLD_PERSIST
