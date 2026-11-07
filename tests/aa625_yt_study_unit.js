@@ -6,7 +6,8 @@
 //   3 之後的約：兩週一次、考試前兩週和考試週每週一次、平日下午或晚上、地點（木曜日／2:30 AM／大口漢堡）、四則輪流、刑總那一則只在隔天考刑總
 //     拒絕、改天不扣分、改天不打開自己選時間、下一次照樣約；寒暑假、週末、國外不約
 //   4 一般的約念書（別人、木曜日）：原本第 N 場被跳過、讀書不算——現在照演、照算（invites3d.js SCN）；別人的見面不演語彤的句子
-//   5 十週年：12/16（六）19:00 一盞茶屋（出遊，12/11 起排）；四句、散場下雨三個版本、記憶、天氣；美國路線＝照片；沒去＝missed
+//   5 十週年：12/16（六）19:00 一盞茶屋（出遊，12/11 起排）；四句、來的朋友（最多三句）、散場下雨三個版本（一般的要看過事件 1 的雨天）、記憶、天氣；
+//     和可昕交往、她沒見過大家＝散場後的照片；美國路線＝照片＋「這杯是你的。」；沒去＝missed（企劃線 3248430b3 AA_625「接線時補的」）
 // 修改前（開發分支 87aef2873）：模組不存在——FAIL。用法：node tests/aa625_yt_study_unit.js（先 git fetch origin claude/cool-heisenberg-o8kuqx）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -15,8 +16,8 @@ const loadErr=[];
 const loadG=f=>{ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/^const ([A-Z_][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); };
 for(const f of ['src/data/study_scenes.js','src/studyn3d.js','src/mokuyobi_sys3d.js','src/aa625_3d.js']){ if(!fs.existsSync(path.join(H.ROOT,f))){ loadErr.push(f+'：沒有這個檔'); continue; } try{ loadG(f); }catch(e){ loadErr.push(f+'：'+String(e&&e.message||e).slice(0,160)); } }
 const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
-const SHA='0787572c6', DOC625='docs/story_planning/AA_625_語彤新版事件台詞.md', DOC11='docs/story_planning/AA_11_事件書_陳語彤.md';
-const doc=git(SHA,DOC625), doc11=git(SHA,DOC11);
+const SHA='3248430b3', SHA11='0787572c6', DOC625='docs/story_planning/AA_625_語彤新版事件台詞.md', DOC11='docs/story_planning/AA_11_事件書_陳語彤.md';   /* AA_625：3248430b3（AA-B 11-07「接線時補的」）；AA_11 那一版以後沒改 */
+const doc=git(SHA,DOC625), doc11=git(SHA11,DOC11);
 const A=()=>typeof AA625!=='undefined'&&AA625&&AA625.L?AA625:null;
 const YT='heroine_03', ZHE='zhe';
 const D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h, wd=d=>CALENDAR.dateOf(d).wd%7, key=d=>CALENDAR.dateOf(d).key, TD=(t,w,w7)=>STORY.termDayIn(t,w,w7);
@@ -31,7 +32,7 @@ const npcOf=id=>{ const n={id,charId:id,obj:{position:{x:1,y:0,z:0},rotation:{y:
 const said=()=>H.said.map(s=>s.t);
 (async()=>{
   /* ================= 0 ================= */
-  check('0. AA_625、AA_11（0787572c6）讀得到',doc.length>5000&&doc.includes('## 語彤約一起念書')&&doc.includes('## 15 一盞茶屋十週年')&&doc11.includes('### 事件 15　一盞茶屋十週年'),doc?'':'git fetch origin claude/cool-heisenberg-o8kuqx');
+  check('0. AA_625（3248430b3）、AA_11（0787572c6；事件 15 那一節到 3248430b3 都沒改）讀得到',doc.length>5000&&doc.includes('## 語彤約一起念書')&&doc.includes('## 15 一盞茶屋十週年')&&doc.includes('## 接線時補的（2026-11-07 AA-B')&&doc11.includes('### 事件 15　一盞茶屋十週年')&&(x=>{ const c=t=>t.slice(t.indexOf('### 事件 15　一盞茶屋十週年'),t.indexOf('### 事件 15b')); return !!x&&c(x)===c(doc11); })(git(SHA,DOC11)),doc?'':'git fetch origin claude/cool-heisenberg-o8kuqx');
   check('0. 模組載得到（AA625、STUDYN、MOKS）',!loadErr.length&&!!A()&&typeof STUDYN!=='undefined'&&typeof MOKS!=='undefined',J(loadErr));
   if(!A()){ H.done(); return; }
   const S=A(), L=S.L, L11=S.L11;
@@ -39,9 +40,9 @@ const said=()=>H.said.map(s=>s.t);
     check('0. index.html：aa625_3d.js（?v=9.10.22）緊接在 aa614_3d.js 後面，在 invites3d、studyn3d、phone3d、outings3d、story3d、heroine_asks3d 之後',ia>0&&html.includes('<script src="src/aa625_3d.js?v=9.10.22"></script>')&&sc[ia-1]==='src/aa614_3d.js'&&['src/invites3d.js','src/studyn3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/heroine_asks3d.js','src/ytjob3d.js','src/classes3d.js'].every(f=>sc.indexOf(f)>=0&&sc.indexOf(f)<ia),J(sc.slice(ia-2,ia+2))); }
   { let W=null; try{ W=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')); }catch(e){}
     const e=W&&W.files&&W.files.filter(x=>x.path===DOC625), e11=W&&W.files&&W.files.filter(x=>x.path===DOC11);
-    check('0. 劇情匯入白名單：AA_625 只有一列、0787572c6、approved、AA（D109）、note 寫 AA624-YT-BACKGROUND-1103；舊的 65a1b2fe9 在 history',!!e&&e.length===1&&e[0].sha===SHA&&e[0].status==='approved'&&/AA/.test(e[0].approvedBy)&&/D109/.test(e[0].approvedBy)&&e[0].kind==='text'&&e[0].note.includes('AA624-YT-BACKGROUND-1103')&&(e[0].history||[]).some(h=>h.sha==='65a1b2fe9'),J(e));
-    check('0. 劇情匯入白名單：AA_11 一列（0787572c6、approved、AA（D109）、AA624-YT-BACKGROUND-1103）',!!e11&&e11.length===1&&e11[0].sha===SHA&&e11[0].status==='approved'&&e11[0].approvedBy==='AA（D109）'&&e11[0].task==='AA624-YT-BACKGROUND-1103'&&e11[0].kind==='text',J(e11));
-    check('0. 0787572c6 和 AA_625 的上一版 65a1b2fe9 在這兩段一樣（第 17 節 FB→社群 以外）',(()=>{ const o=git('65a1b2fe9',DOC625), cut=s=>s.slice(s.indexOf('## 語彤約一起念書'),s.indexOf('## 茶屋平常的班'))+s.slice(s.indexOf('## 15 一盞茶屋十週年'),s.indexOf('## 15b')); return !!o&&cut(o)===cut(doc); })()); }
+    check('0. 劇情匯入白名單：AA_625 只有一列、3248430b3、approved、AA（D109）、note 寫 AA624-YT-BACKGROUND-1103；舊的 0787572c6、65a1b2fe9 在 history',!!e&&e.length===1&&e[0].sha===SHA&&(e[0].history||[]).some(h=>h.sha==='0787572c6')&&e[0].status==='approved'&&/AA/.test(e[0].approvedBy)&&/D109/.test(e[0].approvedBy)&&e[0].kind==='text'&&e[0].note.includes('AA624-YT-BACKGROUND-1103')&&(e[0].history||[]).some(h=>h.sha==='65a1b2fe9'),J(e));
+    check('0. 劇情匯入白名單：AA_11 一列（0787572c6、approved、AA（D109）、AA624-YT-BACKGROUND-1103）',!!e11&&e11.length===1&&e11[0].sha===SHA11&&e11[0].status==='approved'&&e11[0].approvedBy==='AA（D109）'&&e11[0].task==='AA624-YT-BACKGROUND-1103'&&e11[0].kind==='text',J(e11));
+    check('0. 3248430b3 和上一版 0787572c6：只有第一則的民總 → 刑總、最後加「接線時補的」一節',(()=>{ const o=git('0787572c6',DOC625); if(!o) return false; const a=o.split('\n'), b=doc.split('\n'); const gone=a.filter(x=>!b.includes(x)); return gone.length===2&&gone.every(x=>/民總/.test(x))&&doc.startsWith(o.slice(0,o.indexOf('語彤：「……嗯。你民總'))); })()); }
   /* 每一句都在稿裡 */
   { const nm={[YT]:'語彤','蘇姨':'蘇姨'};
     const yt=t=>doc.includes('語彤：「'+t+'」'), nar=t=>/^（.*）$/.test(t)&&doc.includes(t);
@@ -52,9 +53,14 @@ const said=()=>H.said.map(s=>s.t);
     check('0. 念的時候四則：照稿（她一句＋旁白、旁白、她一句、旁白），說的人照稿',dl.length===4&&flat.every(t=>doc.includes('  - '+t+'\n'))&&dl.every(g=>g.every(([w,t])=>(w===YT&&!/^（/.test(t))||(w===null&&/^（.*）$/.test(t)))),J(flat.filter(t=>!doc.includes(t))));
     const tl=L.tea10.map(([w,t])=>w==null?t:(nm[w]||w)+'：'+t.replace('{name}','祐廷'));
     check('0. 十週年四句＋開頭旁白：照稿、順序照稿（「還有你（祐廷）」的祐廷＝{name}）',tl.every(t=>doc.includes(t+'\n'))&&tl.every((t,i)=>i===0||doc.indexOf(t)>doc.indexOf(tl[i-1]))&&L.tea10[4][1].includes('（{name}）'),J(tl.filter(t=>!doc.includes(t))));
-    check('0. 雨天的回聲「這次我有帶兩把。」照稿',doc.includes('語彤遞給你一把傘：「'+L.rain+'」'));
+    check('0. 雨天的回聲「這次我有帶兩把。」照稿；沒看過事件 1 的雨天＝「下雨了。……我多帶了一把。」（接線時補的第 2 點）',doc.includes('語彤遞給你一把傘：「'+L.rain+'」')&&doc.includes('「這次我有帶兩把。」**要先看過事件 1 的雨天**（SHARED_UMBRELLA）；沒看過的換：語彤「'+L.rainNo+'」'));
+    { const NM={zhe:'阿哲',yu:'Alison',heroine_01:'以安',classmate_peishan:'沛珊（重聚以後才算）'}, row=([id,ls])=>'     - '+NM[id]+'：'+ls.map(([w,t])=>w===null?t:'「'+t+'」').join('')+'\n';
+      check('0. 來的朋友各一句：阿哲、Alison、以安、沛珊照稿（說的人、旁白的位置、順序照稿）',L.friends.length===4&&L.friends.every(r=>doc.includes(row(r)))&&L.friends.every((r,i)=>i===0||doc.indexOf(row(r))>doc.indexOf(row(L.friends[i-1])))&&L.friends.every(([id,ls])=>ls.every(([w])=>w===id||w===null)),J(L.friends.filter(r=>!doc.includes(row(r))).map(row)));
+      check('0. 和可昕交往、她沒見過大家：祐廷的照片、可昕三句照稿',doc.includes('祐廷（自動）傳一張照片「'+L.kxPhoto+'」，可昕回：'+L.kxReply.map(t=>'「'+t+'」').join('')+'\n'));
+      check('0. 美國路線的照片、「這杯是你的。」照稿',doc.includes('「'+L.usPhoto+'」，語彤：「'+L.usLine+'」'));
+      check('0. 第一則：民總 → 刑總（3248430b3）',L.first[0]==='……嗯。你刑總讀到哪了？'&&L.first[1]==='我這學期也有修你們的刑總。我想申請雙主修。'&&!doc.includes('語彤：「'+L.first[0].replace('刑總','民總')+'」')); }
     check('0. AA_11 事件 15：和別人交往中「兩把。你們自己分。」、交往版旁白＋兩句照稿',doc11.includes('：「'+L11.other+'」')&&doc11.includes('  > '+L11.rainOpen+'\n')&&L11.dt.every(t=>doc11.includes('  > 語彤：'+t+'\n')));
-    check('0. 模組裡語彤說的、旁白、蘇姨說的都在這兩份稿裡（沒有自己寫的句子）',(()=>{ const all=[...L.first,...L.firstOpts,L.firstNo,L.firstExtra,...L.next,...dl.flat().map(x=>x[1]),...L.tea10.map(x=>x[1].replace('{name}','祐廷')),L.rain,L11.other,L11.rainOpen,...L11.dt]; return all.every(t=>doc.includes(t)||doc11.includes(t)); })()); }
+    check('0. 模組裡語彤說的、旁白、蘇姨說的都在這兩份稿裡（沒有自己寫的句子）',(()=>{ const all=[...L.first,...L.firstOpts,L.firstNo,L.firstExtra,...L.next,...dl.flat().map(x=>x[1]),...L.tea10.map(x=>x[1].replace('{name}','祐廷')),L.rain,L.rainNo,L11.other,L11.rainOpen,...L11.dt,...L.friends.map(r=>r[1].map(x=>x[1])).flat(),L.kxPhoto,...L.kxReply,L.usPhoto,L.usLine]; return all.every(t=>doc.includes(t)||doc11.includes(t)); })()); }
 
   const w3=TD('Y1S2',3,3), tue3=w3-1, mon3=w3-2;
   /* ================= 1 第一次 ================= */
@@ -150,19 +156,37 @@ const said=()=>H.said.map(s=>s.t);
     at(d10,19.9); const ms=OUT.expire(H.G); for(const x of ms) OUT.onMissed(GM,x); check('5. 沒去（過了 19:45）＝missed、不記記憶',H.G.flags.YT_TEA10==='missed'&&!SOCIAL.has(YT,'ANNIVERSARY_23')); }
   { fresh(d10-5,12,'dorm',{YT_MET_JOB:false}); runAt(d10-5,12); runAt(d10,12); check('5. 沒在茶屋認識她：沒有這一場',!OUT.get(H.G,S.TEA10_ID)); }
   const runEv=async(fl,setup)=>{ fresh(d10,19,'dorm',fl); H.G.weather='clear'; if(setup) setup(); H.said=[]; await EVENTS.run(ev); return H.lines().map(t=>t.replace(/^陳語彤：/,'語彤：')); };   /* 說的人：語彤（顯示的名字照關係，全名或短名）*/
-  { const got=await runEv(); const nm={'蘇姨':'蘇姨'};
-    const want=[L.tea10[0][1],'蘇姨：'+L.tea10[1][1],'蘇姨：'+L.tea10[2][1],'語彤：'+L.tea10[3][1],'蘇姨：'+L.tea10[4][1].replace('{name}','祐廷'),L11.rainOpen,'語彤：'+L.rain];
-    check('5. 一般：四句照稿 → 散場下雨 → 「這次我有帶兩把。」',J(got)===J(want),J(got));
+  const base=[L.tea10[0][1],'蘇姨：'+L.tea10[1][1],'蘇姨：'+L.tea10[2][1],'語彤：'+L.tea10[3][1],'蘇姨：'+L.tea10[4][1].replace('{name}','祐廷'),L11.rainOpen];
+  { const got=await runEv(); check('5. 一般、沒看過事件 1 的雨天：四句照稿 → 散場下雨 →「下雨了。……我多帶了一把。」（沒有朋友那幾句：都不到朋友）',J(got)===J(base.concat(['語彤：'+L.rainNo])),J(got)); }
+  { const got=await runEv({},()=>{ SOCIAL.remember(YT,'SHARED_UMBRELLA',''); });
+    check('5. 一般、看過事件 1 的雨天（SHARED_UMBRELLA）：→「這次我有帶兩把。」',J(got)===J(base.concat(['語彤：'+L.rain])),J(got));
     check('5. 散場那一刻下雨、記 ANNIVERSARY_23（在場）、YT_TEA10 there',H.G.weather==='rain'&&SOCIAL.has(YT,'ANNIVERSARY_23')&&H.G.flags.YT_TEA10==='there'); }
   { const got=await runEv({},()=>{ H.G.name='宥辰'; }); check('5. 「還有你（{name}）」照玩家的名字',got.includes('蘇姨：還有你（宥辰）。第一天把杯子洗破兩個。'),J(got)); }
   { const got=await runEv({dating_heroine_01:true}); check('5. 和別人交往中：「兩把。你們自己分。」，沒有「這次我有帶兩把。」',got.includes('語彤：'+L11.other)&&!got.includes('語彤：'+L.rain)&&got.includes(L11.rainOpen),J(got.slice(-3))); }
   { const got=await runEv({dating_heroine_03:true},()=>{ H.FRIEND(ZHE); }); check('5. 和她交往中：AA_11 交往版（給阿哲那一把、這把是我們的），沒有另外兩句',J(got.slice(-3))===J([L11.rainOpen,'語彤：'+L11.dt[0],'語彤：'+L11.dt[1]]),J(got.slice(-3))); }
   { const got=await runEv({dating_heroine_03:true,dating_heroine_01:true},()=>{ H.FRIEND(ZHE); }); check('5. 同時和她、別人交往：照和她交往的版本',got.includes('語彤：'+L11.dt[1])&&!got.includes('語彤：'+L11.other),J(got.slice(-3))); }
+  /* 來的朋友各一句（接線時補的第 4 點）*/
+  const fl=id=>L.friends.find(r=>r[0]===id)[1], nmOf=w=>w===null?'':(w===YT?'語彤':SOCIAL.displayName(w))+'：', flat=id=>fl(id).map(([w,t])=>nmOf(w)+t);
+  { const got=await runEv({},()=>{ for(const id of [ZHE,'yu','heroine_01','classmate_peishan']) H.FRIEND(id); H.G.flags.PS_RECONNECT=true; }), i0=got.indexOf('蘇姨：'+L.tea10[4][1].replace('{name}','祐廷'));
+    check('5. 四個人都是朋友：照順序最多三句（阿哲、Alison、以安），在蘇姨那四句之後、散場以前',J(got.slice(i0+1,i0+1+flat(ZHE).length+flat('yu').length+flat('heroine_01').length))===J(flat(ZHE).concat(flat('yu'),flat('heroine_01')))&&got[i0+1+5]===L11.rainOpen&&!got.some(t=>t.includes(fl('classmate_peishan')[0][1])),J(got.slice(i0))); }
+  { const got=await runEv({PS_RECONNECT:true},()=>{ H.FRIEND('classmate_peishan'); H.FAMILIAR(ZHE); });
+    check('5. 只有沛珊是朋友、已經重聚（舊線 PS_RECONNECT）：只有沛珊那一句；阿哲只是有點熟＝不來',got.includes(flat('classmate_peishan')[0])&&!got.some(t=>t.includes(fl(ZHE)[0][1])),J(got.slice(5))); }
+  { const got=await runEv({},()=>{ H.FRIEND('classmate_peishan'); });
+    check('5. 沛珊沒交往的新線（2028-12-29 才重聚）：十週年不來',!got.some(t=>t.includes(fl('classmate_peishan')[0][1]))&&!!STORY.psPre(H.G),J(got.slice(5))); }
+  { const got=await runEv({},()=>{ H.FRIEND('heroine_01'); });
+    check('5. 只有以安：先叫出她的立繪（沒有字）→ 旁白 → 「……週年快樂。」',J(got.slice(5,7))===J(flat('heroine_01')),J(got.slice(5))); }
+  /* 和可昕交往、她沒見過大家：散場後的照片 */
+  { const kx=()=>(H.G.msgs||[]).filter(m=>m.th==='p:kexin'&&m.tag==='yt_tea10_kx');
+    await runEv({dating_kexin:true}); runAt(d10,20.9); const a=kx().length; runAt(d10,21.05); const M=kx();
+    check('5. 和可昕交往、她沒見過大家：21:00 祐廷自動傳照片（他傳的）、可昕回三句',a===0&&J(M.map(m=>m.text))===J([L.kxPhoto].concat(L.kxReply))&&M[0].from==='player'&&M.slice(1).every(m=>m.from==='kexin'),J(M.map(m=>[m.from,m.text])));
+    await runEv({dating_kexin:true,KX_MET_NOODLE_TEAM:true}); runAt(d10,21.5); check('5. 對照：可昕見過大家＝她在場、不傳照片',!kx().length);
+    await runEv({}); runAt(d10,21.5); check('5. 對照：沒和可昕交往＝不傳',!kx().length);
+    fresh(d10,21.5,'dorm',{dating_kexin:true}); H.G.flags.YT_TEA10='missed'; runAt(d10,21.5); check('5. 對照：沒去十週年＝不傳',!kx().length); }
   { fresh(d10,19); H.G.weather='typhoon'; H.said=[]; await EVENTS.run(ev); check('5. 颱風天不改天氣',H.G.weather==='typhoon'); }
   { /* 美國路線：遠端版 */
     fresh(d10-5,12,'dorm',{EXCHANGE_ROUTE:'US',EXCH_RULE:1}); INV.addContact(H.G,YT); runAt(d10-5,12); check('5. 美國路線：不排出遊',!OUT.get(H.G,S.TEA10_ID)&&STORY.abroad(Object.assign({},H.G,{day:d10})));
     const lh=19.5+STORY.tzOffset(H.G,d10); runAt(d10,lh-0.2); check('5. 美國路線：臺灣 19:30 以前還沒有',!byTag('yt_tea10_photo').length&&H.G.flags.YT_TEA10==null);
     runAt(d10,lh+0.1); const M=byTag('yt_tea10_photo');
-    check('5. 美國路線：臺灣 19:30（當地 '+lh+'）語彤私訊一張照片、記 ANNIVERSARY_23「聽說」、YT_TEA10 remote',M.length===1&&M[0].text===S.PHOTO&&M[0].th==='p:'+YT&&M[0].from===YT&&SOCIAL.memories(YT).some(m=>m.tag==='ANNIVERSARY_23'&&m.note==='聽說')&&H.G.flags.YT_TEA10==='remote',J(M)); }
+    check('5. 美國路線：臺灣 19:30（當地 '+lh+'）語彤私訊照片＋「這杯是你的。」、記 ANNIVERSARY_23「聽說」、YT_TEA10 remote',J(M.map(m=>m.text))===J([L.usPhoto,L.usLine])&&M.every(m=>m.th==='p:'+YT&&m.from===YT)&&SOCIAL.memories(YT).some(m=>m.tag==='ANNIVERSARY_23'&&m.note==='聽說')&&H.G.flags.YT_TEA10==='remote',J(M)); }
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });

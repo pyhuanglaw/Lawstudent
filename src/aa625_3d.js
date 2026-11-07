@@ -21,13 +21,15 @@
      - 日子：2028-12-16（六）19:00（AA_625 只寫「十二月的週六」；12/4～12/13 的私訊、118 巷閒聊還在說要不要辦、12/21（四）事件 16 是「十週年之後的週四」＝只有 12/16 合；交 AA 確認）。
      - 已經認識她（YT_MET_JOB：在茶屋上過班）、法律系、不在國外：12/11 起排進行程（OUT 出遊「一盞茶屋十週年」，19:00，晚 45 分鐘內可以出發；不去了＝YT_TEA10 'missed'，不扣分）。
        背景 wenzhou_teahouse（一盞茶屋的 2D 圖，白天的）；CG：稿上「CG 改成茶屋」——CG_REGISTRY 的 cg_anniversary_23（標題「十週年」）現在的圖還是麵店，茶屋的圖還沒有＝不出 CG（列給 BB 跟使用者要）。
-     - 台詞照 AA_625 第 15 節四句；「還有你（祐廷）」的（祐廷）寫成 {name}（玩家的名字）。
+     - 台詞照 AA_625 第 15 節四句；「還有你（祐廷）」的（祐廷）寫成 {name}（玩家的名字）。接著來的朋友各一句（接線時補的第 4 點，3248430b3）：
+       阿哲、Alison、以安、沛珊照這個順序，有來才說、最多三句。有來＝AA_11 事件 15「依玩家四年和他們的關係」：認識、朋友以上、那天在臺北；沛珊另外要重聚以後（沒交往的新線 2028-12-29 才重聚＝不會來）。
        散場下雨（AA_11 事件 15「天氣強制下雨」：散場那一刻把天氣改成雨，颱風照舊）：旁白「（散場下雨。語彤拿出兩把傘。）」（AA_11 交往版的那一句，三版共用）＋
-       一般＝「這次我有帶兩把。」（AA_625）；和別人交往中＝「兩把。你們自己分。」（AA_11，AA_625 那一句不出）；和她交往中＝AA_11 交往版兩句（給阿哲那一把：認識阿哲才說）。
+       一般＝「這次我有帶兩把。」（AA_625；要看過事件 1 的雨天 SHARED_UMBRELLA，沒看過＝「下雨了。……我多帶了一把。」）；和別人交往中＝「兩把。你們自己分。」（AA_11，AA_625 那一句不出）；和她交往中＝AA_11 交往版兩句（給阿哲那一把：認識阿哲才說）。
      - 同班圈誰會來（AA_11 事件 15：阿哲、Alison、以安、柏翰、明軒依關係；學姊、芷若不在；交往中的可昕見過大家才在）：稿上沒有他們的台詞，這一場不另外演；
-       可昕沒見過大家＝「祐廷事後傳照片」（BB_107 第 13 節）沒有台詞，沒做（列給 AA）。
+       和可昕交往、她沒見過大家（KX_MET_NOODLE_TEAM，和燒臘二十三週年同一個判斷）＝散場後（21:00）祐廷自動傳一張照片、可昕回三句（接線時補的第 4 點）。
      - 記憶 ANNIVERSARY_23（AA_11：id 照舊；面板名稱「一盞茶屋十週年那晚在場」，AA_627 A-377）；YT_TEA10 'there'。
-     - 美國路線（12/16 人在國外）＝遠端版：臺灣 19:30（手機照當地時間）語彤私訊一張照片（「（照片）」：手機上表示一張照片的系統字；茶屋的圖來了再掛 cg），ANNIVERSARY_23 記「聽說」，YT_TEA10 'remote'。
+     - 美國路線（12/16 人在國外）＝遠端版：臺灣 19:30（手機照當地時間）語彤私訊照片＋「這杯是你的。」（接線時補的第 4 點；茶屋的 CG 來了再掛 cg），ANNIVERSARY_23 記「聽說」，YT_TEA10 'remote'。
+     - 燒臘二十三週年（y34b3d.js A23）的 CG-8、語彤的傘、ANNIVERSARY_23 拿掉（接線時補的第 3 點）：ANNIVERSARY_23 只有這一場記。
    測試：node tests/aa625_yt_study_unit.js */
 'use strict';
 const AA625=(function(){
@@ -50,7 +52,7 @@ const AA625=(function(){
 
   /* ---------- 台詞（AA_625 0787572c6，一字照稿；tests/aa625_yt_study_unit.js 逐句對稿）---------- */
   const L=S.L={
-    first:['……嗯。你民總讀到哪了？','我這學期也有修你們的民總。我想申請雙主修。','禮拜三下午我沒課。木曜日？'],
+    first:['……嗯。你刑總讀到哪了？','我這學期也有修你們的刑總。我想申請雙主修。','禮拜三下午我沒課。木曜日？'],   /* 3248430b3：民總 → 刑總（遊戲的民總在大一上，大一下是刑總）*/
     firstOpts:['好。','這週不行。'], firstNo:'嗯。下次。',
     firstExtra:'我只是週末打工。平常其實很閒。',
     next:['債總第三章。我看不懂。……你看得懂嗎。','兩點半還有位子。你要來嗎。','明天考刑總。今天晚上大口漢堡，我會待到很晚。','這週我不用排班那麼多。……要不要一起念。'],
@@ -59,7 +61,12 @@ const AA625=(function(){
       [[YT,'你講的比課本清楚。……不要得意。']],
       [[null,'（她的筆記一半是法條，一半是茶屋客人說過的話。她說那是另一本的。）']] ],
     tea10:[[null,'（蘇姨包場。茶屋擠滿了人：熟客、以前的員工，還有語彤找來的朋友。）'],['蘇姨','十年。我以為開不到三年。'],['蘇姨','語彤從高三暑假就在這裡了。第一天把一整壺茶倒在自己身上。'],[YT,'……蘇姨。'],['蘇姨','還有你（{name}）。第一天把杯子洗破兩個。']],
-    rain:'這次我有帶兩把。'
+    rain:'這次我有帶兩把。', rainNo:'下雨了。……我多帶了一把。',   /* 「這次我有帶兩把。」要看過事件 1 的雨天（SHARED_UMBRELLA）；沒看過＝rainNo（接線時補的第 2 點）*/
+    /* 接線時補的第 4 點：來的朋友各一句（有來才說，最多三句；照這個順序）、和可昕交往而她沒見過大家＝散場後的照片、美國路線的照片 */
+    friends:[ ['zhe',[['zhe','十年欸。……我第一次來是被語彤拉來的。']]], ['yu',[['yu','蘇姨！我也要拍！'],[null,'（她拿手機擠到最前面。）']]],
+      ['heroine_01',[[null,'（她把一個小紙袋放在櫃台上，是給蘇姨的茶點。）'],['heroine_01','……週年快樂。']]], ['classmate_peishan',[['classmate_peishan','好想在台南也找到一間這樣的店～']]] ],
+    kxPhoto:'📷（茶屋裡擠滿了人，蘇姨站在中間舉著茶杯）', kxReply:['好多人。','……中間那個就是蘇姨？','下次帶我去。'],
+    usPhoto:'📷（茶屋裡擠滿了人。蘇姨站在中間舉著茶杯。最旁邊的位子空著，桌上放了一杯茶。）', usLine:'這杯是你的。'
   };
   /* AA_11 事件 15（0787572c6；AA_625 第 15 節「同班圈誰會來照 AA_11 事件 15 的規則」）的兩個版本，一字照稿 */
   const L11=S.L11={ rainOpen:'（散場下雨。語彤拿出兩把傘。）', other:'兩把。你們自己分。', dt:['（把一把交給阿哲）這把給你們。','（撐開另一把）這把是我們的。'] };
@@ -173,23 +180,40 @@ const AA625=(function(){
   S.tea10Day=()=>DK(S.TEA10_DAY);
   const tzH=(G,d,h)=>h+(typeof STORY!=='undefined'&&STORY.tzOffset?STORY.tzOffset(G,d):0);   /* 臺灣時間 → 手機的當地時間 */
   S.awayOn=(G,d)=>typeof STORY!=='undefined'&&!!STORY.abroad&&!!STORY.abroad(Object.assign({},G,{day:d}));
-  S.PHOTO='（照片）';
-  S.tea10Phone=function(G){ const F=F_(G), d=S.tea10Day(); if(d==null||!law(G)||!met(G)||F.YT_TEA10!=null) return;
+  /* 和可昕交往、她沒見過大家：可昕不在場；散場後祐廷自動傳照片（KX_MET_NOODLE_TEAM＝見過麵店團那群人，AA_11 的 KX_MET_GANG）*/
+  S.kxAway=G=>dating(G,'kexin')&&!(G.flags&&G.flags.KX_MET_NOODLE_TEAM);
+  S.KX_H=21;
+  S.kxPhone=function(G,d){ if(G.flags.YT_TEA10!=='there'||!S.kxAway(G)||NOW(G)<T(d,S.KX_H)||G.day>d+1||typeof PHONE==='undefined') return;
+    PHONE.at(G,d,S.KX_H,[{th:'p:kexin',from:'player',who:null,text:L.kxPhoto}].concat(L.kxReply.map(t=>({th:'p:kexin',from:'kexin',text:t}))),'yt_tea10_kx'); };
+  S.tea10Phone=function(G){ const F=F_(G), d=S.tea10Day(); if(d==null||!law(G)||!met(G)) return; S.kxPhone(G,d); if(F.YT_TEA10!=null) return;
     if(S.awayOn(G,d)){ const h=tzH(G,d,19.5); if(NOW(G)<T(d,h)) return; F.YT_TEA10='remote'; remember(YT,'ANNIVERSARY_23','聽說');   /* 遠端版：臺灣 19:30 */
       const ok=typeof INV==='undefined'||!INV.hasContact||INV.hasContact(G,YT)||S.datingYT(G);
-      if(ok&&typeof PHONE!=='undefined'){ const it=ytItem(S.PHOTO); if(S.TEA10_CG&&typeof CG_REGISTRY!=='undefined'&&CG_REGISTRY[S.TEA10_CG]) it.cg=S.TEA10_CG; PHONE.at(G,d,h,[it],'yt_tea10_photo'); }
+      if(ok&&typeof PHONE!=='undefined'){ const it=ytItem(L.usPhoto); if(S.TEA10_CG&&typeof CG_REGISTRY!=='undefined'&&CG_REGISTRY[S.TEA10_CG]) it.cg=S.TEA10_CG; PHONE.at(G,d,h,[it,ytItem(L.usLine)],'yt_tea10_photo'); }
       return; }
     if(G.day<d-5||NOW(G)>=T(d,S.TEA10_H+0.75)||typeof OUT==='undefined'||OUT.get(G,S.TEA10_ID)) return;
     OUT.plan(G,{id:S.TEA10_ID,ev:S.TEA10_EVID,day:d,h:S.TEA10_H,late:0.75,place:'一盞茶屋',title:'一盞茶屋十週年',travel:'走過去約 15 分鐘',travelH:0.25}); };
   S.rainNow=function(GM){ const G=GM&&GM.G; if(!G||G.weather==='typhoon') return; G.weather='rain'; if(GM.E&&GM.E.setWeather) GM.E.setWeather('rain'); };
   const C=f=>({custom:f});
+  S.umb=()=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(YT,'SHARED_UMBRELLA');   /* 看過事件 1 的雨天（events.js ev_rain_library_door）*/
+  /* 來的朋友（AA_11 事件 15「同班圈依玩家四年和他們的關係」）：認識、朋友以上、那天在臺北；沛珊＝重聚以後（STORY.psPre：沒交往的新線重聚以前）、聯絡得到（presence 不是 lost／unreachable），她從台南上來 */
+  const STG=()=>(typeof SOCIAL!=='undefined'&&SOCIAL.STAGES)||[];
+  S.friendOk=function(G,id){ if(!knows(id,G)||typeof SOCIAL==='undefined'||!SOCIAL.stage) return false; const L0=STG(); if(L0.indexOf(SOCIAL.stage(id))<L0.indexOf('FRIEND')) return false;
+    const pr=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(id,G):{here:true};
+    if(id==='classmate_peishan'){ if(typeof STORY!=='undefined'&&STORY.psPre&&STORY.psPre(G)) return false; return !!pr&&!pr.lost&&pr.kind!=='unreachable'; }
+    return !!pr&&(pr.here||pr.kind==='taipei'); };
+  S.friendsIn=G=>L.friends.filter(([id])=>S.friendOk(G,id)).slice(0,3).map(([id])=>id);   /* 有來才說，最多三句 */
+  S.friendLines=()=>{ const out=[]; for(const [id,lines] of L.friends){ const on=C(G=>S.friendsIn(G).includes(id)); let first=true;
+      for(const [w,t] of lines){ if(first&&w===null) out.push({if:on,speaker:id,expression:'neutral'});   /* 以安那一則旁白在前：先把她的立繪叫出來（沒有字）*/ out.push({if:on,speaker:w,text:t}); first=false; } }
+    return out; };
   S.TEA10_EV={ id:S.TEA10_EVID, title:'一盞茶屋十週年', participants:[YT], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     prereq:{custom:G=>G.flags.YT_TEA10==null},
     dialogue:[ {scene:'一盞茶屋',bg:'wenzhou_teahouse'} ]
       .concat(L.tea10.map(([w,t])=>({speaker:w,text:t})))
+      .concat(S.friendLines())
       .concat([ {call:async(G,GM)=>S.rainNow(GM)},
         {speaker:null,text:L11.rainOpen},
-        {if:C(G=>!S.datingYT(G)&&!S.datingOther(G)),speaker:YT,text:L.rain},
+        {if:C(G=>!S.datingYT(G)&&!S.datingOther(G)&&S.umb()),speaker:YT,text:L.rain},
+        {if:C(G=>!S.datingYT(G)&&!S.datingOther(G)&&!S.umb()),speaker:YT,text:L.rainNo},
         {if:C(G=>!S.datingYT(G)&&S.datingOther(G)),speaker:YT,text:L11.other},
         {if:C(G=>S.datingYT(G)&&knows(ZHE,G)),speaker:YT,text:L11.dt[0]},
         {if:C(G=>S.datingYT(G)),speaker:YT,text:L11.dt[1]},

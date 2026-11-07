@@ -4315,13 +4315,17 @@
   },
   {
    "path": "docs/story_planning/AA_625_語彤新版事件台詞.md",
-   "sha": "0787572c6",
+   "sha": "3248430b3",
    "status": "approved",
    "approvedBy": "AA 2026-11-03 定稿（D109；第三版 d72ae942d＋f6ef9278b 一起念書）",
    "task": "YT-REWRITE-1103",
    "kind": "text",
-   "note": "語彤四年的事件台詞（AA_624 結構）；手抄進 src（tests/aa625_yt_unit.js 逐句對這份）；65a1b2fe9：AA_657 補二「三號桌」→「常來的阿伯」逐句定稿（AA 2026-11-04 07:11，D109）；0787572c6（AA_674 第十批：第 17 節「FB」改「社群」）：AA624-YT-BACKGROUND-1103 接「語彤約一起念書」「15 一盞茶屋十週年」兩段（src/aa625_3d.js；tests/aa625_yt_study_unit.js 逐句對這一版）",
+   "note": "語彤四年的事件台詞（AA_624 結構）；手抄進 src（tests/aa625_yt_unit.js 逐句對這份）；65a1b2fe9：AA_657 補二「三號桌」→「常來的阿伯」逐句定稿（AA 2026-11-04 07:11，D109）；0787572c6（AA_674 第十批：第 17 節「FB」改「社群」）：AA624-YT-BACKGROUND-1103 接「語彤約一起念書」「15 一盞茶屋十週年」兩段（src/aa625_3d.js；tests/aa625_yt_study_unit.js 逐句對這一版）；3248430b3（AA-B 2026-11-07 回 LAWWW-B，D109）：「接線時補的」八點——十週年邀約兩句（src/aa555_3d.js y4s1_yt_23）、「這次我有帶兩把。」要看過事件 1、燒臘二十三週年拿掉語彤的傘和 CG-8（y34b3d.js）、可昕的照片、來的朋友各一句、美國路線的照片、第一則民總改刑總（src/aa625_3d.js；tests/aa625_yt_study_unit.js、aa555_walk_unit.js 逐句對這一版）",
    "history": [
+    {
+     "sha": "0787572c6",
+     "note": "3248430b3 之前的版本（3248430b3：第一則民總→刑總、最後加「接線時補的（2026-11-07 AA-B）」一節）"
+    },
     {
      "sha": "65a1b2fe9",
      "note": "0787572c6 之前的版本（和 0787572c6 只差第 17 節「FB 貼文」→「社群貼文」一處）"

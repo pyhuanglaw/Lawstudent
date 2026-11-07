@@ -173,6 +173,10 @@ for(const r of P118){ const mods=MP.filter(m=>m.term===r.term&&m.who===r.who); l
   fix(p=>p.term==='Y3S1'&&p.who==='zhe'&&/隊長/.test(p.cond),['明天練球','不來的要買飲料','來的也要買','我是隊長']);
   fix(p=>p.who==='classmate_xinci'&&p.b.some(t=>/影印機我已經會修了/.test(t)),['實習第一週。名牌上我的名字打錯一個字。……我還沒去改。']);
   fix(p=>p.who==='classmate_bohan'&&p.b[0]==='期中前二十一天。',Array.from({length:21},(_,k)=>SP[21-k]||('期末前'+CN(21-k)+'天。'))); }
+/* AA_625「接線時補的」第 1 點（企劃線 3248430b3，AA-B 11-07；AA555／AA627 的稿沒改，照 AA_625 這一節）：語彤大四上那則的「12/14 週四晚上，你有空嗎。」（12/14 是燒臘二十三週年）→ 兩句（十週年 2028-12-16（六））*/
+{ const d625=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show 3248430b3:"docs/story_planning/AA_625_語彤新版事件台詞.md"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
+  const m=/`aa555_3d\.js:104` 那則改成兩句：語彤「([^」]+)」「([^」]+)」/.exec(d625), OLD='12/14 週四晚上，你有空嗎。', p=PEXP.find(q=>q.who==='heroine_03'&&q.b.includes(OLD));
+  if(m&&p) p.b.splice(p.b.indexOf(OLD),1,m[1],m[2]); else PUN.push('AA625-1107'); }
 check('0. 手機小事：AA_118 八學期（刪掉的語彤法服那則不算）＋ZHE_PHOTOS；AA_555 第 2 節每一列都對到原句',P118.length===96&&MP.length===21&&MP.every(m=>PEXP.some(p=>p.mod&&p.term===m.term&&p.who===m.who)),J({n:P118.length,mp:MP.length,沒對到:MP.filter(m=>!PEXP.some(p=>p.mod&&p.term===m.term&&p.who===m.who)).map(m=>m.term+m.who+m.orig)}));
 const A5=(typeof AA555!=='undefined')?AA555:null;
 const termOfAt=d=>{ const t=CALENDAR.termOf(d); if(t) return t.id; const m=CALENDAR.dateOf(d).m; for(let k=1;k<200;k++){ const x=CALENDAR.termOf(m<=2?d+k:d-k); if(x) return x.id; } return null; };   /* 寒假（1～2 月）算下一學期、暑假算上一學期（稿把「寒假回新竹」放大一下、「暑期實習之後」放大三下）*/
