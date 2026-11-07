@@ -5759,6 +5759,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "七位 × 健身中心、游泳池：答應、第一次、一起的時候三組、結束；共用旁白給其他人；line_lint 0 條"
+  },
+  {
+   "task": "PLAYTEST-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_709_msg_replies.json"
+   ],
+   "state": "已交付",
+   "remaining": "大二以後的寒暑假、學期中（照 D81 往後掃）",
+   "next": "LAWWW-B 接 batch:3 的 9 串（每串有 src＝原訊息位置）；芯慈「過了吧」那串把寫死的「請妳吃飯。」換成三個選項",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_709 第三批：大一寒假、暑假她們主動傳、還不能回的 9 串（語彤跨年、以安回台中／回臺北四串、芯慈兩串、可昕初一早上）；line_lint 0 條"
   }
  ],
  "items": [
