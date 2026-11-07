@@ -1,0 +1,249 @@
+{
+ "pid": "classmate_xinci",
+ "tag": "date 當面約",
+ "rec0": {
+  "day": 0,
+  "hour": 12.1137,
+  "t": 12.1137,
+  "money": 30000,
+  "rel": {
+   "fam": 52,
+   "trust": 35,
+   "comf": 29,
+   "aff": 0,
+   "rom": 35,
+   "npcRom": 35
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "library",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 0,
+  "hour": 15.266,
+  "t": 15.266,
+  "money": 29690,
+  "rel": {
+   "fam": 54,
+   "trust": 37,
+   "comf": 36,
+   "aff": 0,
+   "rom": 39,
+   "npcRom": 41
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "library"
+ },
+ "hours": 3.1523000000000003,
+ "say": [
+  {
+   "n": "",
+   "c": null,
+   "t": "（華山1914文創園區。）",
+   "h": 13.417,
+   "d": 0,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（看一個展，聊一件作品。）",
+   "h": 13.417,
+   "d": 0,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（挑手作的小東西。）",
+   "h": 13.917,
+   "d": 0,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（坐著，看別人放風箏。）",
+   "h": 14.25,
+   "d": 0,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "芯慈",
+   "c": "classmate_xinci",
+   "t": "今天差不多了。我明天第一節有課。",
+   "h": 14.583,
+   "d": 0,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（拍照。）",
+   "h": 14.583,
+   "d": 0,
+   "z": "library",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）",
+   "h": 14.833,
+   "d": 0,
+   "z": "library",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "",
+   "text": "（華山1914文創園區。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（看一個展，聊一件作品。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（挑手作的小東西。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（坐著，看別人放風箏。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "芯慈",
+   "text": "今天差不多了。我明天第一節有課。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（拍照。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（今天去了華山1914文創園區：老倉庫裡的",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": null
+}

@@ -1740,3 +1740,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 208.7s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 208.7s] BROWSER DISCONNECTED
 - 2026-11-07T17:54:47  V21X_teishoku_front  sha=c8b09bcf0d8a3a3a74e8b01ca87b141d87ddf2bb  exit=0  131s      [  94.2s] [night] 玩家視角那一格：窗景卡顯示狀態 {"views": [{"n": "WALL_front_VIEW_kmc_window_view", "self": true, "eff": true}], "cam": [-2, 3.13, -1.16]} / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 94.7s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 94.7s] BROWSER DISCONNECTED
+- 2026-11-07T17:57:20  SOC_xinci_date_r4  sha=79214e4e10275fb47c0d95ec667cab2964b77b5c  exit=0  1720s       用了 28.0 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
+      err.log (last 5): [gpu_wrap 1683.7s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 1683.7s] BROWSER DISCONNECTED

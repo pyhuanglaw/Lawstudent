@@ -307,3 +307,12 @@
 [17:52:39] [res] cpu=5% mem=46% (14.5/31.4 GB) chrome_testing=10  START V21X_teishoku_front
 [17:53:26] 正在跑：SOC_peishan_date_r4（已跑 26 分／上限 45 分）、SOC_xinci_date_r4（已跑 24 分／上限 45 分）、V21X_teishoku_front（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:54:47] [res] cpu=0% mem=47% (14.8/31.4 GB) chrome_testing=10  END V21X_teishoku_front
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       94aecda36..a1d4e5c8d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:54:52] ==== END   V21X_teishoku_front  exit=0  131s   ====
+[17:54:59] memory 45% before starting PERF_WZ_DC_before (2 running)
+[17:54:59] ==== START PERF_WZ_DC_before  (probe @ 285c0505234c451ce6e4c31b4fc9004fd4a904c1) ====
+[17:55:02] [res] cpu=4% mem=46% (14.4/31.4 GB) chrome_testing=10  START PERF_WZ_DC_before
+[17:55:02] worktree add 285c0505234c451ce6e4c31b4fc9004fd4a904c1: invalid reference - fetching main and the commit itself
+[17:57:19] [res] cpu=9% mem=41% (12.9/31.4 GB) chrome_testing=5  END SOC_xinci_date_r4
