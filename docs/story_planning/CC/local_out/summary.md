@@ -1558,3 +1558,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 76.9s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 76.9s] BROWSER DISCONNECTED
 - 2026-11-07T12:01:59  WV1107_fix  sha=70cd58a2de2eca7e110e7b3292b0f47f614cf863  exit=0  141s      [ 104.2s] [flicker 21:00 二樓] NIGHT_WEST 連拍 10 張（鏡頭每張橫移 1 cm、隔 0.3 秒）張與張的差（畫面中間，0～255）：最大 1.10、平均 1.08、像素差 >40 的比例最大 0.0003；dakou_flicker_lv1_night_west_00～09.png / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 104.7s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 104.7s] BROWSER DISCONNECTED
+- 2026-11-07T12:20:18  GYMFIT_1107  sha=9cff7a00bce4a412ca08841c73123c899a4b916e  exit=0  143s      [  75.8s] [截圖] gymfit_front_night：鏡頭 {"eye": [4.1, 1.6, 0.2], "look": [4.1, 1.5, 5], "lens": 22, "vfov": 49.43}、亮度 [78.1, 47.9] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 76.3s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 76.3s] BROWSER DISCONNECTED
