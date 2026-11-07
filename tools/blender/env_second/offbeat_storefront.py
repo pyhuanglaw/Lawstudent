@@ -18,6 +18,8 @@ SRC = opt('--src', os.path.join(ROOT, 'assets/models/env/second_ai/aa_support/da
 OUT = os.path.join(ROOT, opt('--out', 'assets/models/env/second_ai/offbeat_storefront.glb'))
 SAMPLES, RES, RATIO = int(opt('--samples', '96')), int(opt('--res', '2048')), float(opt('--ratio', '0.5'))
 LAMP_W = float(opt('--lamp-w', '90')); SKY = float(opt('--sky', '1.0'))   # 第一次 28／0.25：烘出來中位數只有 36／255（店裡偏暗）
+WARM = float(opt('--warm', '0.45'))   # 第二版（#167，BB-B 11-07「店內整片偏黃綠」）：燈色只留 AA 原本暖色的這個比例（GLOW 是 2700K 左右的琥珀光：奶油牆變黃、橄欖磁磚變黃綠），其餘往白光拉；1＝第一版
+CULL = '--no-cull' not in A   # 第二版：街上看不到的面不放進模型（只在烘焙時留著擋光）
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 sc = bpy.context.scene
@@ -41,7 +43,8 @@ def rgba(s):
         return tuple((c / 255.0) ** 2.2 for c in v)
     except Exception: return (1.0, 0.8, 0.6)
 for (p, col, sz) in glows:
-    ld = bpy.data.lights.new('L', 'POINT'); ld.color = rgba(col) if col else (1.0, 0.8, 0.6); ld.energy = LAMP_W * (0.6 + sz); ld.shadow_soft_size = 0.12
+    c0 = rgba(col) if col else (1.0, 0.8, 0.6); c0 = tuple(WARM * c + (1 - WARM) * 1.0 for c in c0)
+    ld = bpy.data.lights.new('L', 'POINT'); ld.color = c0; ld.energy = LAMP_W * (0.6 + sz); ld.shadow_soft_size = 0.12
     lo = bpy.data.objects.new('L', ld); lo.location = p + Vector((0, 0, -0.08)); sc.collection.objects.link(lo)
 print('lights', len(glows), flush=True)
 wd = bpy.data.worlds.new('W'); sc.world = wd; wd.use_nodes = True; bg = wd.node_tree.nodes['Background']; bg.inputs['Color'].default_value = (0.75, 0.82, 0.95, 1); bg.inputs['Strength'].default_value = SKY
@@ -52,8 +55,17 @@ for o in meshes: o.select_set(True)
 bpy.context.view_layer.objects.active = meshes[0]
 bpy.ops.object.make_single_user(object=True, obdata=True)
 bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
-bpy.ops.object.join(); J = bpy.context.view_layer.objects.active; J.name = 'offbeat_storefront'
+bpy.ops.object.join(); J = bpy.context.view_layer.objects.active; J.name = 'NOSHADOW_offbeat_storefront'   # NOSHADOW_：遊戲的 wzCastsShadow 不投影（第一版陰影那一輪多畫一次 2.2 萬三角形：BB-B 量到店前 +4.4 萬）
 me = J.data
+# 頂點色（第一版的 bug，#167）：AA 的 dof_vc／dof_vc_gloss／dof_vc_metal 的顏色節點沒寫層名（＝讀預設那一層）；合併時第一個物件（燈泡）沒有顏色層，
+#   合出來的網格沒有預設層，椅子（珊瑚色）、盆栽（陶土色）、吊燈全部讀不到顏色，烘成灰色——BB-B「整片偏黃綠、單調」的主因。這裡指定 Color 層、材質也寫上層名
+if 'Color' in me.color_attributes:
+    me.color_attributes.active_color = me.color_attributes['Color']
+    me.color_attributes.render_color_index = list(me.color_attributes).index(me.color_attributes['Color'])
+for m in me.materials:
+    if m and m.use_nodes:
+        for n in m.node_tree.nodes:
+            if n.type == 'VERTEX_COLOR': n.layer_name = 'Color'
 # 切掉伸出大樓的部分（第一次試拍：室內的左牆外面那一層比大樓側面多 0.2 m，從巷子斜看是一條淺綠色的直條）：
 #   正面玻璃在外觀本地 z −0.3＝室內 z 4.7；北面玻璃在本地 x 5.2；大樓南側面在 x −5.5。Blender：x＝x、y＝−z
 CUT = [((0, -4.72, 0), (0, 1, 0)), ((5.22, 0, 0), (-1, 0, 0)), ((-5.5, 0, 0), (1, 0, 0))]   # (平面上一點, 留下來那一邊的法線)
@@ -70,6 +82,37 @@ for o in LEAF:   # 葉子也切（窗邊的吊盆有一點伸出玻璃）
     for co, no in CUT: bmesh.ops.bisect_plane(b2, geom=b2.verts[:] + b2.edges[:] + b2.faces[:], plane_co=co, plane_no=[-v for v in no], clear_outer=True, clear_inner=False)
     b2.to_mesh(o.data); b2.free(); o.data.update()
 bpy.ops.object.select_all(action='DESELECT'); J.select_set(True); bpy.context.view_layer.objects.active = J
+OCC = None
+if CULL:
+    # 街上看得到哪些面（#167 第二版）：從巷子對面（正面）、北側橫巷的鏡頭位置（人眼到第三人稱鏡頭的高度）往每個面的中心和三個角附近射線，
+    #   第一個打到的就是這個面＝看得到。0.04 m² 以上的大面（地板、牆、天花板、桌面）一律留。看不到的面（椅子底、桌子底、櫃台後面、背對街的那一面）
+    #   分到 OCCLUDER：烘焙時還在（擋光、反光照舊），匯出前刪掉。玻璃外的窗框、騎樓柱不算遮擋（保守：多留一點）
+    import random
+    from mathutils.bvhtree import BVHTree
+    bmv = bmesh.new(); bmv.from_mesh(me); bmv.faces.ensure_lookup_table(); bvh = BVHTree.FromBMesh(bmv)
+    VPS = [Vector((x, y, z)) for x in range(-7, 10, 2) for y in (-6.0, -9.0, -12.0) for z in (1.2, 2.2, 3.4)]          # 正面：巷子對面（Blender y＜−4.72）
+    VPS += [Vector((x, y, z)) for x in (6.5, 9.0, 11.5) for y in range(-5, 6, 2) for z in (1.2, 2.2, 3.4)]             # 北面：橫巷（x＞5.22）
+    rnd = random.Random(7); keep = []
+    for f in bmv.faces:
+        if f.calc_area() > 0.04: keep.append(True); continue
+        c = f.calc_center_median(); pts = [c] + [v.co * 0.7 + c * 0.3 for v in f.verts[:3]]
+        order = VPS[:]; rnd.shuffle(order); ok = False
+        for V in order:
+            for T in pts:
+                d = T - V; L = d.length
+                if L < 1e-6: continue
+                loc, nrm, idx, dist = bvh.ray_cast(V, d / L, L + 1e-3)
+                if loc is None or idx == f.index or dist >= L - 2e-3: ok = True; break
+            if ok: break
+        keep.append(ok)
+    nh = keep.count(False); print('cull: visible', len(keep) - nh, 'hidden', nh, 'viewpoints', len(VPS), flush=True)
+    bmv.free()
+    if nh:
+        bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='DESELECT'); bpy.ops.object.mode_set(mode='OBJECT')
+        for p_, k_ in zip(me.polygons, keep): p_.select = not k_
+        bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.separate(type='SELECTED'); bpy.ops.object.mode_set(mode='OBJECT')
+        OCC = [o for o in bpy.context.selected_objects if o is not J][0]; OCC.name = 'OCCLUDER'
+        bpy.ops.object.select_all(action='DESELECT'); J.select_set(True); bpy.context.view_layer.objects.active = J; me = J.data
 bk = me.uv_layers.new(name='bake'); me.uv_layers.active = bk
 bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='SELECT')
 bpy.ops.uv.smart_project(angle_limit=math.radians(66), island_margin=0.002, area_weight=0.0)
@@ -116,7 +159,19 @@ if RATIO < 1.0:
     bpy.ops.object.modifier_apply(modifier='dc')
 print('faces', f0, '->', len(J.data.polygons), flush=True)
 J['storefront'] = {'src': 'aa_support/daily_offbeat.glb', 'coords': 'interior', 'drop': list(DROP)}
-for o in LEAF: o.name = 'offbeat_storefront_leaf'
+for o in LEAF: o.name = 'NOSHADOW_offbeat_storefront_leaf'
+# 葉子（第二版）：和烘好的店內一樣「店裡開著燈」——自發光＝葉子貼圖 × LEAF_GLOW，底色壓暗（不吃街上的光；第一版照即時光，在大樓裡面偏黑）
+LEAF_GLOW = float(opt('--leaf-glow', '0.75'))
+for m in {s_.material for o in LEAF for s_ in o.material_slots if s_.material}:
+    if not m.use_nodes: continue
+    nt_ = m.node_tree; bs_ = next((n for n in nt_.nodes if n.type == 'BSDF_PRINCIPLED'), None); tx_ = next((n for n in nt_.nodes if n.type == 'TEX_IMAGE'), None)
+    if not bs_ or not tx_: continue
+    nt_.links.new(tx_.outputs['Color'], bs_.inputs['Emission Color']); bs_.inputs['Emission Strength'].default_value = LEAF_GLOW
+    if not bs_.inputs['Base Color'].is_linked: bs_.inputs['Base Color'].default_value = (0.08, 0.08, 0.08, 1)
+    else:
+        mx = nt_.nodes.new('ShaderNodeMix'); mx.data_type = 'RGBA'; mx.blend_type = 'MULTIPLY'; mx.inputs['Factor'].default_value = 1.0
+        mx.inputs[7].default_value = (0.15, 0.15, 0.15, 1); nt_.links.new(tx_.outputs['Color'], mx.inputs[6]); nt_.links.new(mx.outputs[2], bs_.inputs['Base Color'])
+if OCC is not None: bpy.data.objects.remove(OCC, do_unlink=True)
 for o in list(bpy.data.objects):
     if o.type != 'MESH': bpy.data.objects.remove(o, do_unlink=True)
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
