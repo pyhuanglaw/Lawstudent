@@ -1,7 +1,7 @@
-// 女主角主動傳來的訊息可以用選項回（MSG-REPLY-1107，USER_WANTS X262；台詞 AA_709 b6019bbd1）——不需要瀏覽器（D131）。
+// 女主角主動傳來的訊息可以用選項回（MSG-REPLY-1107，USER_WANTS X262；台詞 AA_709 c8cceccf9）——不需要瀏覽器（D131）。
 // 使用者 11-07 試玩：「至少他們傳給我 可以給我選項回覆 依照選項增加或降低好感」「芯慈 我又不能回 他問我 我睡了嗎」
 // 檢查：
-//   0. src/data/msg_replies.js 和 AA_709@b6019bbd1 一致（import_msg_replies.py --check）
+//   0. src/data/msg_replies.js 和 AA_709@c8cceccf9 一致（import_msg_replies.py --check）
 //   1. 芯慈「你睡了嗎」那一串：最後一則「當我沒說」送出時掛上三個選項；回了＝祐廷那一句、她接著回、好感照稿；回過就不能再回
 //   2. 一樣的字、別人傳的（或群組）不掛；本來就有選項的訊息不動；別的訊息不掛
 //   3. 一天半以後選項收起來（沒回不扣分）
@@ -13,7 +13,7 @@ const loadG=(f,names)=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) retu
 const ok1=loadG('src/data/msg_replies.js',['MSG_REPLIES']), ok2=loadG('src/msgreply3d.js',['MSGR']);
 const J=JSON.stringify;
 { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_msg_replies.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
-  check('0. src/data/msg_replies.js 和 AA_709@b6019bbd1 一致（import_msg_replies.py --check）',ok1&&ok2&&ok,out.trim().slice(0,200)); }
+  check('0. src/data/msg_replies.js 和 AA_709@c8cceccf9 一致（import_msg_replies.py --check）',ok1&&ok2&&ok,out.trim().slice(0,200)); }
 if(ok2){
   const G=H.fresh('2025-10-20',23.5,'dorm'); const id='classmate_xinci', E=MSG_REPLIES.people[id][0];
   for(const t of ['你睡了嗎','沒睡也不用回','我在追的那部劇，這集太扯了']) PHONE.post(G,{th:'p:'+id,from:id,text:t});

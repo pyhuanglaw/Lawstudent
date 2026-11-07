@@ -4735,9 +4735,9 @@
   },
   {
    "path": "docs/story_planning/AA_709_msg_replies.json",
-   "sha": "b6019bbd1",
+   "sha": "c8cceccf9",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 05:34 AA_709 改版、06:00 第三批）",
+   "approvedBy": "AA-B D109（11-07 06:08「AA_709 第四批」）",
    "task": "MSG-REPLY-1107",
    "kind": "json",
    "note": "女主角主動傳的「分享生活」私訊，最後一則掛三個回覆選項（rel、她的回話）；tools/story/import_msg_replies.py → src/data/msg_replies.js",
@@ -4745,6 +4745,10 @@
     {
      "sha": "bc0e755be",
      "approvedBy": "（11-07 05:3x 以前；b6019bbd1 取代：新寫五串、拿掉秀琴姨試菜回覆、以安除夕選項、set、第三批寒暑假 9 串＋芯慈過了吧三個選項）"
+    },
+    {
+     "sha": "b6019bbd1",
+     "approvedBy": "（11-07 06:0x 以前；c8cceccf9 加第四批：大二上＋跨年 20 串）"
     }
    ]
   },
