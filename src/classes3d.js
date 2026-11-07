@@ -1285,8 +1285,9 @@ const CLS=(function(){
   S.slotUse=(G,uses)=>{ if(!S.slotsOn(G)||!uses) return; const R=S.slotRec(G); for(const p of uses) R.used[p]=(R.used[p]||0)+1; };
   /* 時段次數用完就到下一個時段（使用者 2026-10-16：「下午還剩 0 次，就應該跳晚上」）：讀書、運動這類主要活動做完，那個時段（上午、下午）的次數用完 → 跳到下一個時段開始（12:00、18:00）。
      今天在那之前還有沒上的課：只跳到上課前 10 分鐘；約好的時間、特殊課堂、自動劇情、閉館照 skipStops 停。晚上用完：2026-11-07 起直接回去睡（S.eveSleep，使用者選擇題）。走路、移動（freetrip）不觸發。 */
-  S._jump=null;
-  S.queueJump=G=>{ if(!S.slotsOn(G)) return; const p=S.periodAt(hr(G)); if((p==='am'||p==='pm'||p==='ev')&&S.slotLeft(G,p,'study')<=0) S._jump={day:G.day,p}; };   /* ev：使用者 11-07 選「直接跳到隔天早上」（ACTION-BUDGET-1107）*/
+  S._jump=null; const jumpG=new WeakMap();   /* 排跳轉的是哪一局（BUG-LOAD-INVITE-LEAK-1107，CC-B 11-07 19:1x：咖啡廳約會演完排了「下午用完、跳到 18:00」，馬上讀 13:48 的檔，新的一局 2.5～4.5 秒後跳到 18:00）*/
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['classes3d:jump']=()=>{ S._jump=null; };   /* 讀檔、開新遊戲：上一局排的跳轉不帶過去 */
+  S.queueJump=G=>{ if(!S.slotsOn(G)) return; const p=S.periodAt(hr(G)); if((p==='am'||p==='pm'||p==='ev')&&S.slotLeft(G,p,'study')<=0) { S._jump={day:G.day,p}; jumpG.set(S._jump,G); } };   /* ev：使用者 11-07 選「直接跳到隔天早上」（ACTION-BUDGET-1107）*/
   S.jumpTarget=function(G,p){ const h0=hr(G), B=p==='am'?12:18; let t=B; for(const it of S.dayItems(G)){ if(S.status(G,it)==='done'||S.storyClass(G,it)) continue; if(it.t0>h0+1/6&&it.t0-1/6<t) t=it.t0-1/6; } return t; };
   /* 晚上用完（ACTION-BUDGET-1107；使用者 11-07 選擇題「直接跳到隔天早上」）：今天後面沒有約好的見面、出遊、還沒上的課＝直接回去睡（ONETAP 的「回去睡覺」：宿舍、家、日本、美國照住的地方），
      後面還有約＝不跳（約好的照樣能去，去完再看）；回不去（ONETAP.sleepPlan 不行：劇情中、回不了家…）＝不跳 */
@@ -1295,7 +1296,7 @@ const CLS=(function(){
     if(typeof DATE!=='undefined'&&DATE.tripAt&&DATE.tripAt(G,G.day,h0+0.1,3)) return true; return false; };
   S.eveSleep=async function(GM){ const G=GM.G; if(S.laterToday(G)||typeof ONETAP==='undefined'||!ONETAP.sleepPlan||!ONETAP.goSleep) return false; const pl=ONETAP.sleepPlan(GM); if(!pl||!pl.ok) return false;
     if(GM.toast) GM.toast('晚上的時間用完了，回去睡覺。',3000); await ONETAP.goSleep(GM,pl); return true; };
-  S.afterSlot=async function(GM){ const G=GM.G, J=S._jump; if(!J||!G||J.day!==G.day){ S._jump=null; return false; } const p=S.periodAt(hr(G)); if(p!==J.p){ S._jump=null; return false; } if(S.canSkip(GM)) return false;   /* 現在不能跳（對話中、busy）＝留著，等空下來再跳（ACTION-BUDGET-1107：BB-B 非考試週約好的見面演完沒跳）*/ S._jump=null;
+  S.afterSlot=async function(GM){ const G=GM.G, J=S._jump, JG=J?jumpG.get(J):null; if(!J||!G||J.day!==G.day||(JG&&JG!==G)){ S._jump=null; return false; }   /* JG：別的一局排的（讀檔前的舊流程）＝丟掉 */ const p=S.periodAt(hr(G)); if(p!==J.p){ S._jump=null; return false; } if(S.canSkip(GM)) return false;   /* 現在不能跳（對話中、busy）＝留著，等空下來再跳（ACTION-BUDGET-1107：BB-B 非考試週約好的見面演完沒跳）*/ S._jump=null;
     if(p==='ev') return S.eveSleep(GM);
     const t=S.jumpTarget(G,p); if(t<=hr(G)+0.05) return false; return S.skipTo(GM,t,{why:S.SLOT_NAME[p]+'的時間用完了'}); };
   S.slotFill=(G,p)=>{ if(!S.slotsOn(G)) return; const R=S.slotRec(G); R.used[p]=Math.max(R.used[p]||0,S.slotCap(G,p,'job')); };

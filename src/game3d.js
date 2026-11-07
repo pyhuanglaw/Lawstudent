@@ -25,6 +25,9 @@ const GAME = (function(){
   function toastPump(){ clearTimeout(tNext); tNext=null; if(!TQ.length) return; const w=tMin-Date.now(); if(tCur&&w>0){ tNext=setTimeout(toastPump,w); return; } const [t,ms]=TQ.shift(); toastShow(t,ms); }
   function toast(t,ms){ if(t===tCur){ toastShow(t,ms); return; } if(TQ.some(x=>x[0]===t)) return; if(tCur&&Date.now()<tMin){ TQ.push([t,ms]); if(TQ.length>3) TQ.shift(); toastPump(); return; } toastShow(t,ms); }
   toast.queue=()=>TQ.map(x=>x[0]);   /* 測試用 */
+  /* 讀檔、開新遊戲：上一局排著、還在畫面上的提示收掉（BUG-LOAD-INVITE-LEAK-1107：讀完 13:48 的檔，畫面還是上一局的「提醒：14:00 和杜可昕約在……」）*/
+  function toastClear(){ TQ.length=0; clearTimeout(tNext); tNext=null; clearTimeout(tHide); tHide=null; tCur=''; tMin=0; const el=$('toast'); if(el){ el.classList.add('hide'); el.style.opacity=0; el.textContent=''; } }
+  GM.toastClear=toastClear;
   GM.toast=toast; Object.defineProperty(GM,'S',{get:()=>S});   // 導航（guide3d.js）讀設定
   function setGoal(t,dest){ G.goal=t; G.goalDest=(dest!==undefined)?dest:(typeof GUIDE!=='undefined'?GUIDE.infer(t):null); $('goal').textContent='目標：'+t; }   /* 目的地（2026-10-11，src/guide3d.js）：沒給就從文字推算；null＝自由行動，不指路 */
   GM.setGoal=setGoal;
@@ -446,7 +449,7 @@ const GAME = (function(){
      tests/loadgen_locks_unit.js 掃 src/，finally 才放開、沒登記的會 FAIL。
      這裡另外放開：劇情走路（walks）、EVENTS.run 的 running／_playerSeated／_preMet、ADV（開著＝EVENTS.tick 不跑、2D 蓋在畫面上；ADV.end 只收畫面，沒有接續的回呼）、黑邊、日期卡（titleCard 的 sleep 不醒＝一直亮著）、關係提示（sceneBegin 開的 SOCIAL.feelOn）。
      只有 applySave 叫（換 G 之前；busyDepth、busyWho 在換 G 那一行歸零）：沒有讀檔＝什麼都不變 */
-  function loadRelease(){ for(const f of Object.values(globalThis.LOADLOCKS||{})){ try{ f(); }catch(e){ console.warn('LOADLOCKS',e); } } GM.onBlack=null;   /* 「下一次黑幕時做」的接口（宿舍睡覺 DORM-SLEEP-1030）：舊流程的不帶進新的一局 */
+  function loadRelease(){ for(const f of Object.values(globalThis.LOADLOCKS||{})){ try{ f(); }catch(e){ console.warn('LOADLOCKS',e); } } GM.onBlack=null; if(GM.toastClear) GM.toastClear();   /* 「下一次黑幕時做」的接口（宿舍睡覺 DORM-SLEEP-1030）：舊流程的不帶進新的一局 */
     walks.clear(); if(typeof EVENTS!=='undefined'){ EVENTS.running=null; EVENTS._playerSeated=false; EVENTS._preMet=null; }
     if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); letterbox(false); { const tc=$('title3'); if(tc) tc.style.opacity=0; }
     if(typeof SOCIAL!=='undefined'){ SOCIAL.feelOn=false; SOCIAL.feel={}; SOCIAL.feelStage={}; SOCIAL.capNotes=[]; } }

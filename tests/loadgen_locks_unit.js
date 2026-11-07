@@ -268,7 +268,7 @@ await sec(5,async()=>{
   check('5. 登記的放開全部跑一次：沒有一個丟例外（模組沒載到的不算，見下面）',L.length>=50&&!bad.length,'登記 '+L.length+' 個（有登記的檔 '+regFiles+' 個）；例外：'+J(bad)+'；沒載到：'+J(Object.keys(loadErr)));
   /* 看得到的鎖：先佔住，loadRelease（或直接跑登記）以後要放開 */
   const X=(n)=>{ try{ return vm.runInThisContext('typeof '+n+'!=="undefined"?'+n+':null'); }catch(e){ return null; } };
-  const T=[['BADCLIP','busy',true],['ECONFF','busy',true],['PG','busy',true],['JOBS','running',true],['EXCH','_busy',true],['VAC','away',true],['OUT','fromHome',true],['STORY','_jumping',true],['STORY','_llOut',true],['STORY','_slOut',true],['CLOSED2','staged',{room:'x',id:'y'}],['CLOSED2','_iv',true],['CLOSED2','_ex',true]];
+  const T=[['BADCLIP','busy',true],['ECONFF','busy',true],['PG','busy',true],['JOBS','running',true],['EXCH','_busy',true],['VAC','away',true],['OUT','fromHome',true],['STORY','_jumping',true],['STORY','_llOut',true],['STORY','_slOut',true],['CLOSED2','staged',{room:'x',id:'y'}],['CLOSED2','_iv',true],['CLOSED2','_ex',true],['CLS','_jump',{day:1,p:'pm'}]];   /* CLS._jump：BUG-LOAD-INVITE-LEAK-1107 */
   const got={}; for(const [m,k,v] of T){ const o=X(m); if(o) o[k]=v; }
   if(X('VAC')&&X('VAC')._fly) X('VAC')._fly.add('q1');
   const wz=X('WZCAT'); if(wz&&wz.hold) wz.hold('lie');
