@@ -4,6 +4,7 @@
   - 法線 NORMAL：32 位元浮點 → 8 位元（normalized BYTE，每個頂點 4 bytes；KHR_mesh_quantization，three.js 的 GLTFLoader 本來就支援）
   - 頂點色 COLOR_0（浮點）→ 0～255（normalized UNSIGNED_BYTE，每個頂點 4 bytes；glTF 本來就允許）
   - 不受光的材質（KHR_materials_unlit）的法線直接拿掉（MeshBasicMaterial 不用）——用 --keep-unlit-normals 保留
+  - 少編幾個 shader（PERF-WZ-SHADERS，同一天）：alpha 全是 1 的 VEC4 頂點色改 VEC3；只有自發光貼圖、底色是黑的材質，底色貼圖接同一張；--single 指定的材質改單面
 位置 POSITION、UV、索引都不動（位置量化要改節點的變換，招牌、門牌是照幾何大小畫字的）。
 遊戲會自己改幾何的板面整個不碰（--exclude，預設 PLATE_FACE_／SIGN_FACE_／VSIGN_FACE_／INTERIOR_FACE_：zones3d.js 的 wzSplitQuadU、wzAtlasFaces
   把它們切塊、合成 atlas 網格，合併時每一塊的格式要一樣）。共用同一個 accessor 的、有一個不能轉，那一個就不轉。
@@ -46,7 +47,7 @@ def srgb(x):
 EXCLUDE = r'^(PLATE_FACE_|V?SIGN_FACE_|INTERIOR_FACE_)'
 
 
-def slim(pin, pout, exclude=EXCLUDE, keep_unlit=False, max_srgb=1.5):
+def slim(pin, pout, exclude=EXCLUDE, keep_unlit=False, max_srgb=1.5, single=()):
     """pin → pout（可以是同一個檔：整個讀進來才寫）；回傳統計"""
     excl = re.compile(exclude); max_srgb = max_srgb / 255.0
     j, binc = read(pin); before = len(open(pin, 'rb').read())
@@ -66,10 +67,16 @@ def slim(pin, pout, exclude=EXCLUDE, keep_unlit=False, max_srgb=1.5):
         if 'inverseBindMatrices' in sk: use.setdefault(sk['inverseBindMatrices'], []).append(('SKIN', False, False))
     for an in j.get('animations', []):
         for s in an['samplers']: use.setdefault(s['input'], []).append(('ANIM', False, False)); use.setdefault(s['output'], []).append(('ANIM', False, False))
-    conv = {}; drop = set(); stat = {'normal_i8': 0, 'normal_drop': 0, 'color_u8': 0, 'color_u16': 0, 'skip_shared': 0}
+    conv = {}; drop = set(); stat = {'normal_i8': 0, 'normal_drop': 0, 'color_u8': 0, 'color_u16': 0, 'skip_shared': 0, 'color_a1': 0, 'emi_as_map': 0, 'single': 0}
     for ai, us in use.items():
-        sems = {u[0] for u in us}; a = j['accessors'][ai]
-        if a['componentType'] != 5126 or len(sems) != 1 or not all(u[1] for u in us):
+        sems = {u[0] for u in us}; a = j['accessors'][ai]; ok = len(sems) == 1 and all(u[1] for u in us)
+        if ok and sems == {'COLOR_0'} and a['type'] == 'VEC4' and a['componentType'] != 5126:   # 已經是整數的 VEC4 頂點色：alpha 全是 1 就改 VEC3（見下面）
+            v = acc_arr(j, binc, ai)
+            if len(v) and v[:, 3].min() >= 0.999:
+                dt = CT[a['componentType']]; out = np.zeros((len(v), 4), dt); out[:, :3] = np.round(v[:, :3] * np.iinfo(dt).max).astype(dt)
+                conv[ai] = (out.tobytes(), a['componentType'], 'VEC3', 4 * np.dtype(dt).itemsize); stat['color_a1'] += 1
+            continue
+        if a['componentType'] != 5126 or not ok:
             if a['componentType'] == 5126 and sems & {'NORMAL', 'COLOR_0'}: stat['skip_shared'] += 1
             continue
         sem = sems.pop()
@@ -78,14 +85,24 @@ def slim(pin, pout, exclude=EXCLUDE, keep_unlit=False, max_srgb=1.5):
             v = acc_arr(j, binc, ai); q = np.clip(np.round(v * 127.0), -127, 127).astype(np.int8)
             out = np.zeros((len(q), 4), np.int8); out[:, :3] = q; conv[ai] = (out.tobytes(), 5120, 'VEC3', 4); stat['normal_i8'] += 1
         elif sem == 'COLOR_0':
-            v = acc_arr(j, binc, ai); n = v.shape[1]; q8 = np.clip(np.round(v * 255.0), 0, 255)
+            v = acc_arr(j, binc, ai); typ = a['type']
+            if typ == 'VEC4' and len(v) and v[:, 3].min() >= 0.999: v = v[:, :3]; typ = 'VEC3'; stat['color_a1'] += 1   # PERF-WZ-SHADERS：alpha 全是 1 的 VEC4 → VEC3（three.js 的 vertexAlphas 是另一個 shader 版本）
+            n = v.shape[1]; q8 = np.clip(np.round(v * 255.0), 0, 255)
             err = np.abs(srgb(q8 / 255.0) - srgb(v)).max() if len(v) else 0
             if err <= max_srgb:
                 out = np.zeros((len(v), 4), np.uint8); out[:, :n] = q8.astype(np.uint8)
-                conv[ai] = (out.tobytes(), 5121, a['type'], 4); stat['color_u8'] += 1
+                conv[ai] = (out.tobytes(), 5121, typ, 4); stat['color_u8'] += 1
             else:
                 q16 = np.clip(np.round(v * 65535.0), 0, 65535).astype(np.uint16); out = np.zeros((len(v), 4), np.uint16); out[:, :n] = q16
-                conv[ai] = (out.tobytes(), 5123, a['type'], 8); stat['color_u16'] += 1
+                conv[ai] = (out.tobytes(), 5123, typ, 8); stat['color_u16'] += 1
+    # PERF-WZ-SHADERS（LAWWW2-B 11-07）：只有自發光貼圖、底色是黑的材質（offbeat_storefront）：底色貼圖接同一張。底色乘 0 還是 0，畫面一樣；
+    #   和「底色貼圖＋自發光貼圖」的招牌（wz_signs_lit、cafe_sign_face…）變成同一個 shader，少編一次
+    for m in j.get('materials', []):
+        pb = m.get('pbrMetallicRoughness') or {}
+        if 'emissiveTexture' in m and 'baseColorTexture' not in pb and all(abs(c) < 1e-6 for c in pb.get('baseColorFactor', [1, 1, 1, 1])[:3]):
+            m.setdefault('pbrMetallicRoughness', pb)['baseColorTexture'] = json.loads(json.dumps(m['emissiveTexture'])); stat['emi_as_map'] += 1
+    for m in j.get('materials', []):   # 指定改單面的材質（--single；溫州街：wz_in_price_u，wz_street.py 的單面清單也有）
+        if m.get('name') in single and m.get('doubleSided'): m['doubleSided'] = False; stat['single'] += 1
     # 拿掉的法線：從 primitive 刪掉
     for m in j['meshes']:
         for pr in m['primitives']:
@@ -131,4 +148,4 @@ def slim(pin, pout, exclude=EXCLUDE, keep_unlit=False, max_srgb=1.5):
 
 
 if __name__ == '__main__':
-    print(json.dumps(slim(sys.argv[1], sys.argv[2], arg('--exclude', EXCLUDE), '--keep-unlit-normals' in sys.argv, float(arg('--max-srgb', '1.5'))), ensure_ascii=False))
+    print(json.dumps(slim(sys.argv[1], sys.argv[2], arg('--exclude', EXCLUDE), '--keep-unlit-normals' in sys.argv, float(arg('--max-srgb', '1.5')), tuple(x for x in (arg('--single', '') or '').split(',') if x)), ensure_ascii=False))
