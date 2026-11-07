@@ -55,11 +55,11 @@ async def scene(pg, cdp, tag, prefs=(), max_s=120, idle_end=3.0):
             await L.touch_tap(cdp, c[0], c[1]); out['picked'].append(bs[k]); await pg.wait_for_timeout(900); continue
         if s['dlg']:
             quiet = None
-            for _ in range(40):
-                if await pg.evaluate("(()=>{ const n=document.getElementById('dlgNext'); return !n||n.style.visibility!=='hidden'; })()"): break
+            for _ in range(40):   # 打完字（GAME.D.typing）
+                if not await pg.evaluate("!!(GAME.D&&GAME.D.typing)"): break
                 await pg.wait_for_timeout(250)
-            who = await pg.evaluate("(()=>{ const e=document.getElementById('dlgName'); return e?e.innerText.trim():''; })()")
-            t = await pg.evaluate("(()=>{ const e=document.getElementById('dlgText'); return e?e.innerText.trim():''; })()")
+            dd = await pg.evaluate("(()=>{ const D=GAME.D; const w=D.who; return {t:D.full||'', who:w?(typeof w==='string'?w:(w.name||'')):''}; })()")   # ADV（典禮）時字不在 #dlgText：直接讀 GAME.D
+            who, t = dd['who'], dd['t']
             if t and (not out['lines'] or out['lines'][-1] != [who, t]): out['lines'].append([who, t])
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
         if quiet is None: quiet = time.time()
@@ -84,6 +84,31 @@ async def talk_to(pg, cdp, tag, cid):
     if not lab: return None
     await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1000)
     return lab
+
+
+async def wait_msg(pg, tag, max_s=300):
+    t0 = time.time()
+    while time.time() - t0 < max_s:
+        m = await pg.evaluate("(t=>(GAME.G.msgs||[]).filter(m=>m.tag===t).map(m=>[m.th,m.from,m.name||null,m.text]))", tag)
+        if m: return m
+        await pg.wait_for_timeout(1500)
+    return []
+
+
+async def answer(pg, tag_, ask_id, k, label):
+    R.setup('%s 【捷徑】手機回覆 PHONE.answer(G,%s,%d)（點「%s」那個選項的同一個函式）' % (tag_, ask_id, k, label))
+    return await pg.evaluate("(a=>{ try{ return PHONE.answer(GAME.G,a.id,a.k); }catch(e){ return 'ERR '+e; } })", {'id': ask_id, 'k': k})
+
+
+async def use_it(pg, cdp, tag, pred_js, desc):
+    """找第一個符合 pred_js（i=>…）的互動點，走過去、按鈕對了就點；回傳那個互動點"""
+    it = await pg.evaluate("(()=>{ const f=%s; const i=GAME.E.interactables.find(i=>!i.hidden&&f(i)); return i?{label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),lv:i.lv||0}:null; })()" % pred_js)
+    if not R.check('%s 找得到「%s」' % (tag, desc), bool(it), J(await pg.evaluate("GAME.E.interactables.filter(i=>!i.hidden).map(i=>i.label).slice(0,40)"))): return None
+    await L.go_to(pg, cdp, R, it['x'], it['z'], 0.35, '%s 走到「%s」' % (tag, it['label']), max_s=150, lv=it['lv']); await pg.wait_for_timeout(900)
+    lab = await pg.evaluate("(()=>{ const e=document.getElementById('interact'); return e&&!e.classList.contains('hide')?e.innerText.trim():null; })()")
+    R.note('%s 互動按鈕：%s（要的是「%s」）' % (tag, lab, it['label']))
+    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1000)
+    return it
 
 
 async def main():
@@ -122,7 +147,7 @@ async def main():
                 R.note('%s 認識：%s；社博那天 AA613.fairDay＝%s；在第七小隊群組：%s' % (tag, J(kn), J(fd), await pg.evaluate("PHONE.inGroup(GAME.G,'camp_squad_y1')")))
                 await jump(pg, cdp, tag, '2025-09-05', 20 + 55 / 60, 'dorm')
                 t0 = time.time()
-                while time.time() - t0 < 180 and not await pg.evaluate("PHONE.sent(GAME.G,'aa613_squad')"): await pg.wait_for_timeout(1500)
+                while time.time() - t0 < 240 and not await pg.evaluate("(GAME.G.msgs||[]).some(m=>m.tag==='aa613_squad')"): await pg.wait_for_timeout(1500)   # PHONE.sent 排進佇列就算：等真的送到 G.msgs
                 sq = await pg.evaluate("(()=>(GAME.G.msgs||[]).filter(m=>m.tag==='aa613_squad'||m.tag==='aa613_zhe_fair').map(m=>[m.tag,m.th,m.from,m.text,m.h!=null?m.h:m.at]))()")
                 R.note('%s 9/5 21:00 前後的手機：%s' % (tag, J(sq)))
                 R.check('%s 9/5 21:10 第七小隊群組：芯慈、沛珊各一則（逐字）' % tag, any(x[3] == AL['squad'][0][1] for x in sq) and any(x[3] == AL['squad'][1][1] for x in sq), J(sq))
@@ -159,6 +184,83 @@ async def main():
                         said = [x for w, x in sc['lines'] if '學長' in (w or '')]
                         R.check('%s 學長的話＝BOOTHS basketball.say 全部（含 AA_613 2-2 多的兩句），一字照抄' % tag, bool(bs) and all(x in said for x in bs['say']), J({'expected': bs and bs['say'], 'said': said}))
                         rec['booth'] = {'data': bs, 'scene': sc}
+            if any(x in STEPS for x in ('lib_ontime', 'lib_late')):
+                for mode in [m for m in ('lib_ontime', 'lib_late') if m in STEPS]:
+                    tag = '[⑥法圖 %s]' % ('準時' if mode == 'lib_ontime' else '晚到')
+                    await load_save(pg, SAVE15, tag)
+                    days = await pg.evaluate("AA613.lecDays()"); d = days[0] if days else None
+                    R.note('%s 講座日子 AA613.lecDays＝%s；認識芯慈 %s' % (tag, J(days), await pg.evaluate("(id=>STORY.knows(id,GAME.G))", XC)))
+                    await jump(pg, cdp, tag, '2025-09-23', 20 + 55 / 60, 'dorm')
+                    tg = 'aa613_xc_lib_%s' % d
+                    m = await wait_msg(pg, tg)
+                    R.check('%s 9/23 21:00 芯慈私訊兩則（逐字）' % tag, [x[3] for x in m] == AL['xcLib']['dm'], J(m))
+                    await L.close_panels(pg, cdp)
+                    res = await answer(pg, tag, tg, 0, AL['xcLib']['opts'][0])
+                    fl = await pg.evaluate("(GAME.G.flags||{}).AA613_XC_LIB")
+                    R.check('%s 回「好。」＝AA613_XC_LIB＝講座那天' % tag, fl == d, J([res, fl, d]))
+                    wf0 = await pg.evaluate("GAME.walkFallbacks||0")
+                    if mode == 'lib_ontime':
+                        await jump(pg, cdp, tag, '2025-09-24', 15 + 18 / 60, 'wancai')
+                        xp = await pg.evaluate("(id=>{ const n=GAME.npc&&GAME.npc[id]; return n&&n.obj?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]:null; })", XC)
+                        R.note('%s 15:18 萬才館大廳：芯慈在 %s（AA613.SPOT.door (-6.2,5.6)）' % (tag, J(xp)))
+                        await L.go_to(pg, cdp, R, -6.2 + 1.2, 5.6, 0.5, tag + ' 走到法圖門口', max_s=150)
+                        sc = await scene(pg, cdp, tag + ' 法圖門口', max_s=60, idle_end=4)
+                        await R.shot(pg, 'lib_door')
+                        R.check('%s 法圖門口芯慈「%s」' % (tag, AL['xcLib']['here']), has(sc['lines'], AL['xcLib']['here']), J(sc['lines']))
+                        await pg.evaluate("GAME.G.hour=Math.max(GAME.G.hour,15+27/60)")
+                        R.setup('%s 【前置】時間撥到 15:27，GAME.enter(lawlib)（法圖門）' % tag)
+                        await pg.evaluate("GAME.enter('lawlib')"); await D.wait_zone(pg, cdp, 'lawlib', max_s=40); await pg.wait_for_timeout(3000)
+                    else:
+                        await jump(pg, cdp, tag, '2025-09-24', 15 + 35 / 60, 'lawlib')
+                    it = await use_it(pg, cdp, tag, "i=>/講座|法律資料|聽/.test(i.label||'')||(i.act&&/lawlib_intro/.test(String(i.act.id||i.act)))", '聽講座')
+                    sc = await scene(pg, cdp, tag + ' 講座', prefs=['聽', '參加', '坐', '法律資料'], max_s=240, idle_end=4)
+                    pos = await pg.evaluate("(id=>{ const P=GAME.E.player, n=GAME.npc&&GAME.npc[id]; const f=o=>o?[+o.x.toFixed(2),+o.z.toFixed(2)]:null; return {player:f(P.obj.position), playerSeat:P.seat?f(P.seat):null, xc:n&&n.obj?f(n.obj.position):null, xcSeat:n&&n.seat?f(n.seat):null, xcPose:n?n.pose:null, zone:GAME.G.zone}; })", XC)
+                    await R.shot(pg, 'lib_lecture_' + mode)
+                    R.note('%s 講座時位置：%s' % (tag, J(pos)))
+                    late = '（她看到你，指了指旁邊的空位。）'
+                    if mode == 'lib_late': R.check('%s 晚到：旁白「%s」一次' % (tag, late), sum(1 for _, x in sc['lines'] if x == late) == 1, J(sc['lines']))
+                    else: R.check('%s 準時：沒有晚到那一句' % tag, not has(sc['lines'], late), J(sc['lines']))
+                    ok_beside = bool(pos['playerSeat'] and pos['xcSeat'] and math.hypot(pos['playerSeat'][0] - pos['xcSeat'][0], pos['playerSeat'][1] - pos['xcSeat'][1]) < 1.6)
+                    R.check('%s 聽講座時芯慈坐在你旁邊（兩個座位 < 1.6 m）' % tag, ok_beside, J(pos))
+                    rec[mode] = {'days': days, 'dm': m, 'scene': sc, 'pos': pos, 'walkFallbacks': (await pg.evaluate("GAME.walkFallbacks||0")) - wf0}
+            if 'guitar' in STEPS:
+                tag = '[⑦吉他社群組]'
+                await load_save(pg, SAVE15, tag)
+                await jump(pg, cdp, tag, '2025-09-06', 11.0, 'campus', {'x': -84.4, 'z': 0.5, 'yaw': math.pi})
+                it = await use_it(pg, cdp, tag, "i=>/吉他/.test(i.label||'')", '吉他社攤位')
+                sc0 = await scene(pg, cdp, tag + ' 攤位', prefs=['填', '加入', '寫', '好'])
+                joined = await pg.evaluate("!!(GAME.G.flags||{}).CLUB_club_guitar")
+                R.check('%s 在社博吉他社攤位填了表（CLUB_club_guitar）' % tag, joined, J(sc0['picked']))
+                fs = await pg.evaluate("(()=>{ const d=AA613.firstSession(GAME.G,'club_guitar'); return [d, CALENDAR.dateOf(d)&&CALENDAR.dateOf(d).key]; })()")
+                R.note('%s 吉他社第一次社課：%s' % (tag, J(fs)))
+                prev = await pg.evaluate("(d=>CALENDAR.dateOf(d-1).key)", fs[0])
+                await jump(pg, cdp, tag, prev, 20 + 55 / 60, 'dorm')
+                m = await wait_msg(pg, 'aa613_grp_club_guitar')
+                R.check('%s 第一次社課前一天 21:00 群組 g:guitar、學長「%s」' % (tag, AL['clubGrp']['club_guitar']), bool(m) and m[0][0] == 'g:guitar' and m[0][3] == AL['clubGrp']['club_guitar'], J(m))
+                await L.close_panels(pg, cdp)
+                rec['guitar'] = {'first': fs, 'msg': m, 'booth': sc0}
+            if 'ball' in STEPS:
+                tag = '[⑧系籃第一次練球]'
+                await load_save(pg, SAVE15, tag)
+                fs = await pg.evaluate("(()=>{ const d=AA613.firstSession(GAME.G,'dept_basketball'); return [d, CALENDAR.dateOf(d)&&CALENDAR.dateOf(d).key]; })()")
+                R.note('%s 第一次練球：%s；填過系籃 %s' % (tag, J(fs), await pg.evaluate("!!(GAME.G.flags||{}).CLUB_dept_basketball")))
+                prev = await pg.evaluate("(d=>CALENDAR.dateOf(d-1).key)", fs[0])
+                await jump(pg, cdp, tag, prev, 20 + 55 / 60, 'dorm')
+                m = await wait_msg(pg, 'aa613_ball_zhe')
+                R.check('%s 前一天 21:00 阿哲私訊兩則（逐字）' % tag, [x[3] for x in m] == AL['ball']['dm'], J(m))
+                await L.close_panels(pg, cdp)
+                res = await answer(pg, tag, 'aa613_ball_zhe', 0, AL['ball']['opts'][0])
+                R.check('%s 回「好，我去看看。」＝AA613_BALL_GO' % tag, await pg.evaluate("(GAME.G.flags||{}).AA613_BALL_GO") == fs[0], J(res))
+                await jump(pg, cdp, tag, fs[1], 17 + 25 / 60, 'campus', {'x': 3.3, 'z': -108.0, 'yaw': math.pi})
+                zp = await pg.evaluate("(id=>{ const n=GAME.npc&&GAME.npc[id]; return n&&n.obj?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2),GAME.G.zone]:null; })", ZHE)
+                R.note('%s 17:25 阿哲在 %s' % (tag, J(zp)))
+                it = await use_it(pg, cdp, tag, "i=>/練球|系籃/.test(i.label||'')", '系籃練球')
+                sc = await scene(pg, cdp, tag, prefs=['練球', '參加', '去', '好'], max_s=240, idle_end=4)
+                await R.shot(pg, 'ball_first')
+                ds = await pg.evaluate("CLUB_FAIR.DOOR_SAY_BY.dept_basketball")
+                R.check('%s 學長兩句（DOOR_SAY_BY，逐字）' % tag, all(has(sc['lines'], t, w) for w, t in ds), J({'expected': ds, 'got': sc['lines']}))
+                R.check('%s 選了「好，我去看看。」、阿哲在場：阿哲「%s」' % (tag, AL['told']), has(sc['lines'], AL['told']), J({'zhe': zp, 'lines': sc['lines']}))
+                rec['ball'] = {'first': fs, 'dm': m, 'zhe': zp, 'scene': sc}
         except Exception as ex: R.check('探針沒有例外', False, repr(ex)[:400])
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         rec['walkFallbacksTotal'] = await pg.evaluate("GAME.walkFallbacks||0")
