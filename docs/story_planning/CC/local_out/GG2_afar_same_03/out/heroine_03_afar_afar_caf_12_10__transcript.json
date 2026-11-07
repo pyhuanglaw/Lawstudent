@@ -1,0 +1,322 @@
+{
+ "pid": "heroine_03",
+ "tag": "afar 約會（去 afar café 坐坐 今天 12:10）",
+ "rec0": {
+  "day": 21,
+  "hour": 11.7267,
+  "t": 515.7267,
+  "money": 30000,
+  "rel": {
+   "fam": 10,
+   "trust": 5,
+   "comf": 5,
+   "aff": 0,
+   "rom": 0,
+   "npcRom": 0
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "gongguan",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 21,
+  "hour": 13.1846,
+  "t": 517.1846,
+  "money": 30000,
+  "rel": {
+   "fam": 13,
+   "trust": 8,
+   "comf": 8,
+   "aff": 0,
+   "rom": 0,
+   "npcRom": 0
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "CAFE_AFTERNOON"
+  ],
+  "zone": "afar"
+ },
+ "hours": 1.457899999999995,
+ "say": [
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "我不太喝咖啡。我點茶。",
+   "h": 12.005,
+   "d": 21,
+   "z": "afar",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她看著窗外一個在等公車的人。）",
+   "h": 12.505,
+   "d": 21,
+   "z": "afar",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "那個人等的不是公車。他已經讓兩台過去了。",
+   "h": 12.505,
+   "d": 21,
+   "z": "afar",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "我從小就這樣看人。在學校我不太說話，就一直看。",
+   "h": 12.505,
+   "d": 21,
+   "z": "afar",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "你呢？你是看人的，還是被看的？",
+   "h": 12.505,
+   "d": 21,
+   "z": "afar",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "那一定很累。",
+   "h": 12.505,
+   "d": 21,
+   "z": "afar",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "被看的人，會比較會看別人。你應該也很會看。",
+   "h": 12.505,
+   "d": 21,
+   "z": "afar",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "這裡的茶泡太久了。可是位子很舒服。",
+   "h": 13.005,
+   "d": 21,
+   "z": "afar",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "陳語彤",
+   "text": "我不太喝咖啡。我點茶。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她看著",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "那個人等的不是公車。他已經讓兩台過去了。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "我從小就這樣看人。在學校我不太說話，就一直",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "你呢？你是看人的，還是被看的？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "那一定很累。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "被看的人，會比較會看別人。你應該也很會看。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "這裡的茶",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "這裡的茶泡太久了。可是位子很舒服。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "afar",
+  "lv": 0,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 1.05,
+  "sameGroup": true,
+  "doorD": 9.19,
+  "spawnD": 8.2,
+  "npc": true,
+  "nD": 1.05,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": -4.65,
+  "nz": -3.4,
+  "p": [
+   -3.6,
+   -3.4
+  ],
+  "ptable": 5,
+  "ntable": 5,
+  "others": [
+   "?"
+  ],
+  "othersInfo": [
+   {
+    "id": null,
+    "charId": null,
+    "crowdKey": "shop_afar_13|v0@11.03|1",
+    "crowdRole": "diner",
+    "model": "char.npc_nf9",
+    "isExtra": true,
+    "beh": "idle",
+    "pose": "sit",
+    "seat": [
+     -3.6,
+     -2.3,
+     4
+    ],
+    "pos": [
+     -3.6,
+     -2.3
+    ],
+    "sameAsHer": false
+   }
+  ]
+ }
+}

@@ -1724,3 +1724,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 243.7s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 243.7s] BROWSER DISCONNECTED
 - 2026-11-07T17:26:15  V21X_win_cam  sha=fa79dd7bc32e1e177a8187a070b8c7baf6ef2924  exit=0  594s    PASS [windows wz_offbeat night] 出店 按下去到了 wenzhou（站得住、沒有被放到目的地）  {"zone": "wenzhou", "x": -34.8, "z": -9.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.23} / PASS 沒有 JS 例外  [] / FAILED 2: [windows wz_teishoku day] 店裡有窗景卡（名字有 VIEW）；[windows wz_teishoku night] 店裡有窗景卡（名字有 VIEW）
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 540.7s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 540.8s] BROWSER DISCONNECTED
+- 2026-11-07T17:28:31  GG2_afar_same_03  sha=79214e4e10275fb47c0d95ec667cab2964b77b5c  exit=0  204s        陳語彤｜這裡的茶泡太久了。可是位子很舒服。 / == afar_date 結果：PASS / ALL PASS
+      err.log (last 5): [gpu_wrap 164.0s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 164.0s] BROWSER DISCONNECTED
