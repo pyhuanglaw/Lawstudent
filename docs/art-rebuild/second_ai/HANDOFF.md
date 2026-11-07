@@ -6,6 +6,26 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
+## ✅ 值班登記（2026-11-07 03:4x UTC；帳號 B LAWWW2-B；使用者：「現在接班 我也會跟其他AI講」）
+- 值班登記：帳號 B｜LAWWW2-B｜session_01GV1WG3UeT2DhuDpxeWJsvD｜分支 `claude/funny-albattani-iawshm`（11-02 清理時刪過，這次從接班基準重新推）｜接班基準 `629e042e2`（快轉上一任 `claude/focused-cray-c9uwvw`）。
+- 上一班：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜11-05 10:50 正常交班（成果最後 `b5ffabc34`，交班紀錄 `629e042e2`）。
+- 帳號 B 11-04 12:1x～12:2x 那一班，我沒有登記、沒有寫入（使用者說開錯帳號、交班）。
+- `docs/handoff/duty_LAWWW2.json` 改成 B、state on（`duty register --ref origin/claude/adoring-meitner-mqzst8`），等值班 LAWWW `duty sync`。RULE_SOURCE `claude/adoring-meitner-mqzst8`（seq 89，現在沒有人值班 LAWWW）。
+- 規則讀到 HV-29（D139～D141）：
+  - D139：電腦不能用時，瀏覽器測試丟 GitHub。
+  - D140：`RULES_2D_TO_3D.md`，接班已讀。
+  - D141：一個場景最多 3 版就進遊戲；三版以內的店我自己決定要不要再改。
+  - D136：校園建築可以像、不能照抄。
+  - D138：同角度疊圖、TripoSR。
+- `check_handoff.py check` OK（十二項）、`duty verify` OK、`roles` 有讀。
+- 使用者 03:2x 傳了四個存檔、沒有說明（UA-LAWWW2-1107-01）：
+  - 已問要看哪裡，還沒回。
+  - 檔案在工作階段暫存區，不進 repo。
+- 下一步照上一班 C 節：
+  1. 確認 XS-NORTH-EXT＋XS-WINCARD 上線與 BB／CC 回饋；
+  2. 木曜日的窗外（WINVIEW-AUDIT 最後一項）；
+  3. SHOP-WINDOW-2D 日常失速試做 → SKIRT-BENCH-CLIP → ARENA-HOOPS。
+
 ## 🔁 交班（2026-11-05 10:50 UTC；帳號 C LAWWW2-C；使用者：「現在交班」）
 
 - 分支 `claude/focused-cray-c9uwvw`。成果最後一個 commit `b5ffabc34`（LAWWW-C ACK 登記），交班紀錄在它後面；**SHA 以 `git ls-remote` 為準**。主 worktree 乾淨。
