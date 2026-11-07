@@ -49194,6 +49194,24 @@
     "ack": "ACK",
     "owner": "LAWWW"
    }
+  },
+  {
+   "id": "INV-CLOSEDDAY-DIM-1107",
+   "title": "邀約選時間的「今天、明天」照公休日、營業時段灰掉（BB-B 11-07 GAME_BUG P3：118 巷公休日沒灰，選了她才說公休）",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "約 118 巷的店",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 11:0x LAWWW-B】修好（暫存 worktree 73f489a06；patch 備份 wip_backup/invite_closedday_dim_1107.patch）：timeOptions 的 times 那一支照 S.slotOpen 灰掉、hint offWhy；tests/invite_l118_1107_unit.js；邀約 402 支 ALL PASS。BB-B 10:58：v9.10.22 不放（P3、會走到晨跑／慢讀／南洋等固定時段，要多驗一輪），v9.10.22 發布以後 cherry-pick；BB 測 118 巷公休灰掉＋晨跑 06:30、慢讀週末 10:00、南洋早場 09:50 不誤灰。"
   }
  ]
 }

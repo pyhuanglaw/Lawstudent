@@ -1,0 +1,55 @@
+From 73f489a065139b8b146c44a79fe0b4ca1fa1f411 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sat, 7 Nov 2026 10:58:37 +0000
+Subject: [PATCH] =?UTF-8?q?=E9=81=B8=E6=99=82=E9=96=93=E7=9A=84=E3=80=8C?=
+ =?UTF-8?q?=E4=BB=8A=E5=A4=A9=E3=80=81=E6=98=8E=E5=A4=A9=E3=80=8D=E4=B9=9F?=
+ =?UTF-8?q?=E7=85=A7=E5=85=AC=E4=BC=91=E6=97=A5=E3=80=81=E7=87=9F=E6=A5=AD?=
+ =?UTF-8?q?=E6=99=82=E6=AE=B5=E7=81=B0=E6=8E=89=EF=BC=88BB-B=2011-07=20GAM?=
+ =?UTF-8?q?E=5FBUG=EF=BC=9A118=20=E5=B7=B7=E5=85=AC=E4=BC=91=E6=97=A5?=
+ =?UTF-8?q?=E6=B2=92=E7=81=B0=EF=BC=89?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+有固定時段的地點（P.times：118 巷各店、晨跑……）的 timeOptions 只做 slotDim，沒看 slotOpen：巷口家常菜週一今天的時段都能選、
+選了她才說公休。改：照 S.slotOpen 灰掉、hint 寫 offWhy（「巷口家常菜週一休」），沒有公休說明就寫「○○那個時間沒開」——和「其他日子…」（pickDay）一樣。
+- tests/invite_l118_1107_unit.js（修改前 FAIL）；讀邀約的 402 支 ALL PASS
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01DvRVNNnivf7da7qqWuGmw6
+---
+ src/invites3d.js               | 3 ++-
+ tests/invite_l118_1107_unit.js | 3 +++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/invites3d.js b/src/invites3d.js
+index 34b9a4d81..50f46f833 100644
+--- a/src/invites3d.js
++++ b/src/invites3d.js
+@@ -722,7 +722,8 @@ const INV=(function(){
+   S.timeOptions=function(G,together,P){ const out=[]; const h=G.hour%24;
+     if(P&&P.when) return (P.when(G,together)||[]).map(q=>Object.assign({t:q.now?'現在一起過去':when(G,q.day,q.h)},q));   /* 只有某些日子的地點（溫州街的茶席：每月第三個週日下午，src/wzlines3d.js）：日子、時間由那個地點給 */
+     if(P&&(P.times||P.timesBy)){ const hr=P.hours||[0,24]; if(together&&h>=hr[0]-1e-6&&h+P.stay<=hr[1]+1e-6) out.push({t:'現在一起過去',now:true,day:G.day,h});   /* 只有固定時間的地點（晨跑 06:30～07:30，AA_126 6-6）：今天還沒過的、明天的那幾個時間 */
+-      for(const t of S.timesOf(G,P,G.day)) if(t>h+0.4) out.push({t:'今天 '+hh(t),day:G.day,h:t}); for(const t of S.timesOf(G,P,G.day+1)) out.push({t:'明天 '+hh(t),day:G.day+1,h:t}); return S.slotDim(G,out); }
++      for(const t of S.timesOf(G,P,G.day)) if(t>h+0.4) out.push({t:'今天 '+hh(t),day:G.day,h:t}); for(const t of S.timesOf(G,P,G.day+1)) out.push({t:'明天 '+hh(t),day:G.day+1,h:t});
++      return S.slotDim(G,out).map(q=>q.dim||S.slotOpen(G,P,q.day,q.h)?q:Object.assign(q,{dim:true,hint:S.offWhy(G,P,q.day)||P.name+'那個時間沒開'})); }   /* 那一天公休、那個時段沒開（118 巷各店週幾休、午晚兩段）：灰掉、寫原因——和「其他日子…」（S.pickDay）一樣（BB-B 11-07 CC PC：巷口家常菜週一今天的時段都能選、選了她才說公休）*/
+     if(together&&h<21.5) out.push({t:'現在一起過去',now:true,day:G.day,h});
+     for(const t of D().times) if(t>h+0.4) out.push({t:'今天 '+hh(t),day:G.day,h:t}); for(const t of [12+10/60,19]) out.push({t:'明天 '+hh(t),day:G.day+1,h:t}); return S.slotDim(G,out); };
+   /* 今天已經排滿的時段（ACTION-BUDGET-1107）：選項灰掉、寫「這個下午已經排滿了」；明天以後照常 */
+diff --git a/tests/invite_l118_1107_unit.js b/tests/invite_l118_1107_unit.js
+index a4411f765..0059d1d19 100644
+--- a/tests/invite_l118_1107_unit.js
++++ b/tests/invite_l118_1107_unit.js
+@@ -22,6 +22,9 @@ const dayOfWd=(G,wd)=>{ for(let d=G.day;d<G.day+7;d++) if(CALENDAR.dateOf(d).wd%
+     check('2. 滇香（週日休）：週三 12:00、18:00 可以，15:00 不行（午休），週日不行',o('l118_dian',wed,12)&&o('l118_dian',wed,18)&&!o('l118_dian',wed,15)&&!o('l118_dian',sun,12),J([o('l118_dian',wed,12),o('l118_dian',wed,18),o('l118_dian',wed,15),o('l118_dian',sun,12)]));
+     check('2. 巷口家常菜、蛋包飯研究所週一休；好家自助餐週末休',!o('l118_home',mon,12)&&!o('l118_omu',mon,12)&&o('l118_home',wed,12)&&!o('l118_self',dayOfWd(G,6),12)&&o('l118_self',wed,12));
+     check('2. 公休日的說明：「巷口家常菜週一休」',INV.offWhy(G,P('l118_home'),mon)==='巷口家常菜週一休',INV.offWhy(G,P('l118_home'),mon)); }
++  { const G=fresh('2025-10-20',9,'lane118'), mon=G.day;   /* 2025-10-20 週一（G.weekday 跟著日期，不要直接改 G.day）*/   /* 選時間的選單（今天、明天）：公休日灰掉、寫原因（BB-B 11-07：原本只有「其他日子…」會灰）*/
++    const T=INV.timeOptions(G,false,P('l118_home')), today=T.filter(q=>q.day===mon), tmr=T.filter(q=>q.day===mon+1);
++    check('2. 選時間：週一（巷口家常菜公休）今天的時段都灰掉、寫「巷口家常菜週一休」；明天（週二）照常可以選',today.length>0&&today.every(q=>q.dim&&q.hint==='巷口家常菜週一休')&&tmr.length>0&&tmr.every(q=>!q.dim),J(T.map(q=>[q.t,!!q.dim,q.hint||'']))); }
+   { const G=fresh('2025-10-15',10,'lane118'); const L=INVITE_PLACE_LINES.places;
+     for(const [id,k] of [['heroine_01','l118_omu'],['heroine_03','l118_dian'],['heroine_05','l118_tea']]){ H.FRIEND(id); const d=dayOfWd(G,3); const r=INV.personal(G,id,P(k),d,k==='l118_tea'?14:12,{res:'accept'});
+       check('3. '+id+' 答應 '+k+'：照 AA_721 的答應句',r&&J(r.lines)===J(L[k][id].acc),J(r&&r.lines));
+-- 
+2.43.0
+
