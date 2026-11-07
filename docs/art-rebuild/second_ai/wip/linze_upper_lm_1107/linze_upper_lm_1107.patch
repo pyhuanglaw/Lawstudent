@@ -1,0 +1,31 @@
+diff --git a/tests/linze_upper_lm_unit.js b/tests/linze_upper_lm_unit.js
+new file mode 100644
+index 000000000..9816322e7
+--- /dev/null
++++ b/tests/linze_upper_lm_unit.js
+@@ -0,0 +1,25 @@
++// 霖澤館 3F、4F 室內的光照貼圖（INTERIOR-AAA-REVIEW-1028，LAWWW2-B 2026-11-07；tools/blender/env_second/lightbake/bake_linze_upper.sh）——不需要瀏覽器。
++// linze_upper3d.js 用 attachRoomGLB 接 linze_3f／linze_4f.glb，看到場景的 extras.lightmap 就接光照貼圖（和 Café、溫州街三家一樣，不用改程式）。這支檢查：
++//   ①兩層的 extras.lightmap 白天、晚上兩張都在
++//   ②地板、天花板、牆、花崗石腰牆、長桌長椅有第二套 UV（TEXCOORD_1）：沒有的話這些面吃不到光照貼圖
++//   ③日光燈管、冰箱燈、頂點色的小東西（販賣機、微波爐、飲水機…）、金屬件、印刷品、牆上的木條、玻璃不烘：沒有第二套 UV，照舊即時光
++//   ④淡出用的牆 WALL_<N|E|S|W>_* 節點名字照舊（遊戲照名字淡出）
++//   ⑤linze_upper3d.js 照舊用 attachRoomGLB 接正式模型
++// 修改前 FAIL（沒有 extras.lightmap）。用法：node tests/linze_upper_lm_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++for(const F of ['3f','4f']){
++  const sid='linze_'+F, REL=`assets/models/env/second_ai/${sid}.glb`, b=fs.readFileSync(path.join(ROOT,REL)), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8'));
++  const sc=j.scenes[j.scene||0], lm=sc.extras&&sc.extras.lightmap, files=lm?['day','night'].map(t=>lm[t]):[];
++  check(`① ${F.toUpperCase()}：extras.lightmap 的白天、晚上兩張都在`,!!lm&&files.length===2&&files.every(f=>f&&fs.existsSync(path.join(ROOT,f))),JSON.stringify(lm||null).slice(0,160));
++  const uv1=nm=>{ const nd=j.nodes.find(x=>x.name===nm); if(!nd||nd.mesh==null) return null; return j.meshes[nd.mesh].primitives.every(p=>p.attributes.TEXCOORD_1!=null); };
++  const bake=[`${sid}_floorm`,`${sid}_ceiling`,`${sid}_woodparts`,'WALL_N_wall','WALL_S_wall','WALL_E_wall','WALL_W_wall','WALL_N_wain','WALL_S_wain'].map(x=>[x,uv1(x)]);
++  check(`② ${F.toUpperCase()}：地板、天花板、牆、腰牆、長桌長椅有第二套 UV`,bake.every(([,v])=>v===true),JSON.stringify(bake));
++  const live=[`${sid}_tubes`,`${sid}_props`,`${sid}_metal`,`${sid}_prints`,'WALL_E_slat','WALL_W_slat','WALL_S_glass'].map(x=>[x,uv1(x)]);
++  check(`③ ${F.toUpperCase()}：燈管、小東西、金屬件、印刷品、木條、玻璃沒有第二套 UV（照舊即時光）`,live.every(([,v])=>v===false),JSON.stringify(live));
++  const walls=j.nodes.filter(x=>/^WALL_[NESW]_/.test(x.name||'')).map(x=>x.name);
++  check(`④ ${F.toUpperCase()}：淡出的牆節點 WALL_N／E／S／W 都在`,['N','E','S','W'].every(s=>walls.some(w=>w.startsWith('WALL_'+s+'_'))),walls.length+' 個'); }
++{ const src=fs.readFileSync(path.join(ROOT,'src/linze_upper3d.js'),'utf8');
++  check('⑤ linze_upper3d.js：正式模型照舊用 attachRoomGLB 接（看到 extras.lightmap 就接光照貼圖）',/attachRoomGLB\(/.test(src)); }
++console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
