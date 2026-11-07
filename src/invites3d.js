@@ -722,7 +722,8 @@ const INV=(function(){
   S.timeOptions=function(G,together,P){ const out=[]; const h=G.hour%24;
     if(P&&P.when) return (P.when(G,together)||[]).map(q=>Object.assign({t:q.now?'現在一起過去':when(G,q.day,q.h)},q));   /* 只有某些日子的地點（溫州街的茶席：每月第三個週日下午，src/wzlines3d.js）：日子、時間由那個地點給 */
     if(P&&(P.times||P.timesBy)){ const hr=P.hours||[0,24]; if(together&&h>=hr[0]-1e-6&&h+P.stay<=hr[1]+1e-6) out.push({t:'現在一起過去',now:true,day:G.day,h});   /* 只有固定時間的地點（晨跑 06:30～07:30，AA_126 6-6）：今天還沒過的、明天的那幾個時間 */
-      for(const t of S.timesOf(G,P,G.day)) if(t>h+0.4) out.push({t:'今天 '+hh(t),day:G.day,h:t}); for(const t of S.timesOf(G,P,G.day+1)) out.push({t:'明天 '+hh(t),day:G.day+1,h:t}); return S.slotDim(G,out); }
+      for(const t of S.timesOf(G,P,G.day)) if(t>h+0.4) out.push({t:'今天 '+hh(t),day:G.day,h:t}); for(const t of S.timesOf(G,P,G.day+1)) out.push({t:'明天 '+hh(t),day:G.day+1,h:t});
+      return S.slotDim(G,out).map(q=>q.dim||S.slotOpen(G,P,q.day,q.h)?q:Object.assign(q,{dim:true,hint:S.offWhy(G,P,q.day)||P.name+'那個時間沒開'})); }   /* 那一天公休、那個時段沒開（118 巷各店週幾休、午晚兩段）：灰掉、寫原因——和「其他日子…」（S.pickDay）一樣（BB-B 11-07 CC PC：巷口家常菜週一今天的時段都能選、選了她才說公休）*/
     if(together&&h<21.5) out.push({t:'現在一起過去',now:true,day:G.day,h});
     for(const t of D().times) if(t>h+0.4) out.push({t:'今天 '+hh(t),day:G.day,h:t}); for(const t of [12+10/60,19]) out.push({t:'明天 '+hh(t),day:G.day+1,h:t}); return S.slotDim(G,out); };
   /* 今天已經排滿的時段（ACTION-BUDGET-1107）：選項灰掉、寫「這個下午已經排滿了」；明天以後照常 */
