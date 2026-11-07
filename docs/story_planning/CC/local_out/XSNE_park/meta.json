@@ -1,0 +1,24 @@
+{
+  "rerun": "park",
+  "id": "XSNE_park",
+  "sha": "abf4dbbd5abc4e842b5d92d481cfa9a39084166c",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_xsne_shots_probe.py",
+  "env": "PARTS=campus;RERUN=park;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T11:47:11",
+  "end": "2026-11-07T11:48:54",
+  "seconds": 102,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 27,
+    "mem": 56,
+    "used_gb": 17.7,
+    "chrome_testing": 12
+  }
+}
