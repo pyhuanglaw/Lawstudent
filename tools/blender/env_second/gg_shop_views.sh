@@ -58,8 +58,8 @@ for k in ('day', 'night'):
     if not os.path.exists(p): continue
     im = Image.open(p).convert('RGB'); a = np.asarray(im).copy(); H = a.shape[0]; rb = int((5.5 - yb) / 6.5 * H) + 1
     while rb > H // 2 and (np.median(a[rb - 1]) < 25 or a[rb - 1, :, 2].mean() > a[rb - 1, :, 0].mean() + 20): rb -= 1   # 剪開的地方有一條黑邊（騎樓地板的切口）、下面是天空色：往上找到真的地面
-    base = a[max(0, rb - 6):rb].astype(float).mean(0); k = np.ones(81) / 81; pad = np.pad(base, ((40, 40), (0, 0)), mode='edge')
-    base = np.stack([np.convolve(pad[:, c], k, mode='valid') for c in range(3)], 1)   # 地面的顏色左右模糊（不把看板、柱子的腳拉成直條）
+    base = a[max(0, rb - 6):rb].astype(float).mean(0); kern = np.ones(81) / 81; pad = np.pad(base, ((40, 40), (0, 0)), mode='edge')
+    base = np.stack([np.convolve(pad[:, c], kern, mode='valid') for c in range(3)], 1)   # 地面的顏色左右模糊（不把看板、柱子的腳拉成直條）
     for r in range(rb, H): a[r] = base.astype(np.uint8)
     im = Image.fromarray(a); print('補地面：第', rb, '列以下（y', round(yb, 3), '）')
     im.save(os.path.join(dst, name + '_' + k + '_eye.jpg'), quality=88) if os.environ.get('OUTDIR') else None   # 試拍：另存一張人眼方向的（沒鏡像）
