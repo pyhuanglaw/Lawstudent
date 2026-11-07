@@ -53,7 +53,7 @@ const DECIDE=(function(){
     return {r:null,j:-1,stance}; };
   S.decideBeat=function(G,e,k){ if(!G||!e||S.has(G,e.who,e.key)) return null;
     if(e.before&&typeof ARCS!=='undefined'&&ARCS.dayOf){ const d=ARCS.dayOf(e.before), date=/^\d{4}-/.test(e.before); if(d!=null&&(date?G.day>d:G.day>=d)){ S.set(G,e.who,e.key,e.default,{late:true}); return {v:e.default}; } }   /* before：日期＝過了那天才演到、學期週＝那一週開始以後＝default（AA_719；台詞照演，只是不記決定、不開事件）*/
-    const {r,j,stance}=S.pickRule(G,e,k); const v=r?r.result:e.default; S.set(G,e.who,e.key,v,{stance,rule:j});
+    const {r,j,stance}=S.pickRule(G,e,k); const v=r?r.result:e.default; S.set(G,e.who,e.key,v,{stance,rule:j,hi:S.trustHi(G,e.who)});   /* hi：那時的信任高低（AA_723 heart 的「+hi／+lo」看這個；舊紀錄沒有＝看那一條規則的 trust）*/
     if(r&&r.rel&&Object.keys(r.rel).length&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ const d=Object.assign({},r.rel); if(typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum(e.who)<3) delete d.npcRom; SOCIAL.adjust(e.who,d); }
     if(r&&r.say&&r.say.length){ let due=G.day+(r.delay|0); if(e.revealAt&&r.delay>0&&typeof ARCS!=='undefined'&&ARCS.dayOf){ const rd=ARCS.dayOf(e.revealAt.day); if(rd!=null) due=Math.max(G.day,rd); }   /* revealAt：結果要等到那天才說（AN-1 說明會的前一週；取代 delay）*/
       const L=S.says(G); L.push({who:e.who,key:e.key,due,say:r.say.slice(),played:false}); }
