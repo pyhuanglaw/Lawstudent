@@ -604,3 +604,14 @@ INVITE_DATA.seatOpen.aoki=[['（店員把茶壺放下，她先幫你倒了第一
    /* Daybreak（「daybreak 不能約?」）：本來就在吃飯那一類（AA_652），不加念書；約不到是因為和可昕交往、她知道＝「兩個人單獨去吃飯不太好」（invites3d.js partnerBlock） */
   const B=INVITE_DATA.seatOpen.byPlace; B.xs_nanyang='movie'; B.bookstore='bookstore'; B.xs_shanlan='bookstore'; B.wz_lin='meal'; B.wz_teishoku='meal'; B.xs_dakou='meal';
 })();
+/* ---------- 約她去健身房、游泳池（GYM-FIT-1107；使用者 11-07「不能約運動健身嗎」；台詞 AA_715＝src/data/sport_invite_lines.js）----------
+   新體育館 B1（gym_b1）。健身中心＝有點熟以上（和羽球一樣）、自己去辦過會員證才列（G.daily.gym.card，BB_124 7-4）；游泳池＝朋友以上（和晨跑一樣）、自己去過 B1 才列。
+   開放時間照 BB_151（平日 8～22、週末 9 起；閉館前 30 分鐘清場；週日只到 18，這裡週末一律算到 17:30）；每月第四個星期一休館（avail）。
+   一起的時候照羽球那一套（sport：答應句 A／R、第一次、一起的時候輪流、結束）；一起練完體能照自己去健身的規則加（invites3d.js S.sportAfter）。學姊 2026-06-15 以前約游泳池＝婉拒（beforeLearn，AA_504）*/
+(function(){ const card=G=>!!(G&&G.daily&&G.daily.gym&&G.daily.gym.card), b1=G=>!!(G&&G.visited&&G.visited.gym_b1);
+  const notFourthMon=(G,day)=>{ if(typeof CALENDAR==='undefined') return true; const d=CALENDAR.dateOf(day); return !(d.wd===1&&d.d>=22&&d.d<=28); };
+  const P=[
+    {id:'gym_fitness',zone:'gym_b1',name:'健身中心',verb:'去健身中心一起練',kind:'sport',minStage:'FAMILIAR',stay:1,memory:'SPORT_GYM',sitAct:'wait',sport:true,hoursBy:{wk:[8,21.5],we:[9,17.5]},avail:notFourthMon,show:G=>card(G)},
+    {id:'gym_pool',zone:'gym_b1',name:'游泳池',verb:'去新體育館游泳',kind:'sport',minStage:'FRIEND',stay:1,memory:'SPORT_POOL',sitAct:'wait',sport:true,hoursBy:{wk:[8,21.5],we:[9,17.5]},avail:notFourthMon,show:G=>b1(G)}];
+  for(const q of P) if(!INVITE_DATA.places.some(x=>x.id===q.id)) INVITE_DATA.places.push(q);
+})();

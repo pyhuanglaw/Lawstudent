@@ -17768,10 +17768,10 @@
    "account": "B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "2205d6058",
-   "msg": "ACK",
+   "msg": "ACTIONED",
    "what": "AA_715 運動健身邀約（gym_fitness、gym_pool；acc、firstAt、sport）",
    "task": "GYM-FIT-1107",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "LAWWW-B 06:1x 登記"
   },
   {

@@ -4808,6 +4808,15 @@
      "approvedBy": "（11-07 05:48；89da798d1 取代：健身中心在 B1，拿掉一句窗戶、兩句喝水）"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_715_sport_gym_pool_invites.json",
+   "sha": "2205d6058",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 05:51「AA_715 運動健身」）",
+   "task": "GYM-FIT-1107",
+   "kind": "json",
+   "note": "gym_fitness、gym_pool × 七位（acc、firstAt、sport during／end、學姊 beforeLearn）＋shared.sport；tools/story/import_sport_invites.py → src/data/sport_invite_lines.js"
   }
  ]
 }

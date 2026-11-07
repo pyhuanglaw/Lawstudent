@@ -221,6 +221,7 @@ const INV=(function(){
     if(!rid){ const hit=S.replyRow(id,lines); rid=hit?hit.id:'~'+String(typeof lines[0]==='string'?lines[0]:(lines[0].me||'')).slice(0,24); }
     m.n=(m.n|0)+1; m.h.unshift(rid); m.h.length=Math.min(m.h.length,2); m.u[rid]=m.n; if(!Array.isArray(m.t)) m.t=[]; m.t.unshift(JSON.stringify(lines)); m.t.length=Math.min(m.t.length,2); };   /* m.t：最近兩次說的台詞（避重複看字，不只看列 id：好幾列都是「好。」，BB 09:09）*/
   S.personal=function(G,id,P,day,h,r){ const p=(D().people||{})[id]; if(!p||!P||!r) return r;
+    { const bl=p.beforeLearn&&p.beforeLearn[P.id]; if(bl&&r.res!=='decline'&&typeof STORY!=='undefined'&&STORY.dayOfKey){ const u=STORY.dayOfKey(bl.until); if(u!=null&&day<u) return Object.assign({},r,{res:'decline',why:'learn',lines:bl.decline.slice(),alt:null}); } }   /* 還沒學會（學姊 2026-06-15 才學游泳，AA_504／AA_715）：約游泳池＝婉拒 */
     if(r.why==='mrel'){ const M=(D().mrelL2||{})[id]; if(M&&M.length){ const F=G.flags||(G.flags={}), N=F.MREL_L2_N||(F.MREL_L2_N={}), k=N[id]|0; N[id]=k+1; return Object.assign({},r,{lines:M[k%M.length].slice()}); } return r; }   /* 不說理由、兩句輪流（AA_227 6-6）*/
     const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(day):null, F=G.flags||{};
     const c={pid:P.id,P,day,h,wd:wdOf(G,day),band:bandOf(id),year:t?(+String(t.id).charAt(1)||1):1,term:t,
@@ -304,8 +305,10 @@ const INV=(function(){
     if(S.SPORT_BONUS.includes(id)&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ const k='sportRom_'+id; if(DY[k]!==G.day){ DY[k]=G.day; SOCIAL.adjust(id,{comf:3,npcRom:3}); } }
     if(P.id==='gym_badminton'){ const r=DY.gym=DY.gym||{}; if(!Array.isArray(r.seen)) r.seen=[]; const wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd:((G.weekday|0)||7), wk=G.day-(wd-1);
       if(r.wk!==wk){ r.wk=wk; r.wkN=0; r.seen=[]; } if((r.wkN|0)<2){ r.wkN=(r.wkN|0)+1; r.fit=Math.min(100,(r.fit|0)+1); } r.fitDay=G.day; r.sportDay=G.day; }   /* 和 gym3d.js 的打羽球同一套 */
-    else if(P.id==='run_avenue'){ const r=DY.gym=DY.gym||{}; r.sportDay=G.day; } };
-  if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL){ SOCIAL.MEMORY_LABEL.SPORT_BADMINTON=SOCIAL.MEMORY_LABEL.SPORT_BADMINTON||'一起打羽球'; SOCIAL.MEMORY_LABEL.SPORT_RUN=SOCIAL.MEMORY_LABEL.SPORT_RUN||'一起晨跑'; SOCIAL.MEMORY_LABEL.SLOWREAD_TOGETHER=SOCIAL.MEMORY_LABEL.SLOWREAD_TOGETHER||'一起在慢讀咖啡念書'; }   /* 慢讀（AA_535 4-1）*/   /* 人物頁的記憶名稱 */
+    else if(P.id==='run_avenue'){ const r=DY.gym=DY.gym||{}; r.sportDay=G.day; }
+    else if(P.id==='gym_fitness'||P.id==='gym_pool'){ const r=DY.gym=DY.gym||{}; const wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd:((G.weekday|0)||7), wk=G.day-(wd-1); if(r.fitWk!==wk){ r.fitWk=wk; r.fitN=0; }
+      if((r.fitN|0)<3){ r.fitN=(r.fitN|0)+1; if(typeof FIT!=='undefined'&&FIT.add) FIT.add(G,2); else r.fit=Math.min(100,(r.fit|0)+2); } r.fitDay=G.day; r.sportDay=G.day; } };   /* 一起練（AA_715）：和自己去健身同一套（+2、每週最多 3 次、升階提示 FIT.upCheck）*/
+  if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL){ SOCIAL.MEMORY_LABEL.SPORT_BADMINTON=SOCIAL.MEMORY_LABEL.SPORT_BADMINTON||'一起打羽球'; SOCIAL.MEMORY_LABEL.SPORT_RUN=SOCIAL.MEMORY_LABEL.SPORT_RUN||'一起晨跑'; SOCIAL.MEMORY_LABEL.SPORT_GYM=SOCIAL.MEMORY_LABEL.SPORT_GYM||'一起去健身中心'; SOCIAL.MEMORY_LABEL.SPORT_POOL=SOCIAL.MEMORY_LABEL.SPORT_POOL||'一起去游泳'; SOCIAL.MEMORY_LABEL.SLOWREAD_TOGETHER=SOCIAL.MEMORY_LABEL.SLOWREAD_TOGETHER||'一起在慢讀咖啡念書'; }   /* 慢讀（AA_535 4-1）*/   /* 人物頁的記憶名稱 */
   /* 羽球小短片（BADMINTON-CLIP-1027，使用者 X106「跟陳羽彤打羽球也只是對話帶過? 不能做個小短片?」；演出 AA_485 第 2 節；src/badminton_clip3d.js）：
      和這個人第一次一起打（之前沒有一筆 done 的羽球邀約）＝完整版三個鏡頭，之後只演鏡頭 2；可以跳過。最後一個鏡頭那一句（BADCLIP.LINES：以安、語彤、學姊、沛珊）只在完整版演完、沒跳過時說。
      人在新體育館（G.zone==='gym'）才演；短片要看到 3D，演的時候先收 ADV、演完照原本的樣子開回來。*/
