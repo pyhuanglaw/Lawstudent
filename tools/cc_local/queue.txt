@@ -51,6 +51,10 @@ SOC_xinci_date_r3 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/stor
 #   BB-B 05:22 SKIRT_SIT_8618：穿裙子的路人坐下開 skirt_sit（8618f9d80＝LAWWW2-B 768da51ab）vs 改之前 718b59ec7——體育館大廳、201 教室、兩點半；近 1.8 m／遠 8.5 m（室內 7 m 外換遠距離模型）
 SKIRT_SIT_new | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_skirt_sit_probe.py | index.html | 40 | TAG=new;CC_HEADLESS=0
 SKIRT_SIT_old | 718b59ec7a1eb39f63336f23500b77217cae69b0 | probe | docs/story_planning/test_tools/cc/cc_skirt_sit_probe.py | index.html | 40 | TAG=old;CC_HEADLESS=0
+#   BB-B 05:35：afar 約會 ②窗邊長桌多試幾次——換約的人（時段、她挑的位子跟著變），ID 不同不會輪流重跑
+GG2_afar_date_01 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_01;RERUN=w01;CC_HEADLESS=0
+GG2_afar_date_03 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_03;RERUN=w03;CC_HEADLESS=0
+GG2_afar_date_04 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_04;RERUN=w04;CC_HEADLESS=0
 POOL_TALK_fix | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | EXPECT=fixed;CC_HEADLESS=0
 POOL_TALK_before | 3b170607e | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | CC_HEADLESS=0
 # ===== ★ CC-B 11-07 03:4x（BB-B 03:34／03:38）：照這個順序最先跑 =====
