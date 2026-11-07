@@ -24,6 +24,7 @@ R = L.Run('kx_bye', OUT); D.setup(R, OUT)
 DAY = os.environ.get('DAY') or '2025-10-18'
 CASES = [x.split(',') for x in re.split(r'[;+]', os.environ.get('CASES') or 'xs_nanyang,14,1,movie1_day+xs_nanyang,19.5,1,movie1_night+xs_nanyang,14,3,movie3_day+cafe,14,3,cafe3_day+bookstore,14,3,book3_day') if x.strip()]
 KIND = {'xs_nanyang': 'movie', 'cafe': 'cafe', 'bookstore': 'bookstore'}
+JOBZONE = {'bookstore': 'books'}   # 舊路書房的打工＝頁間書屋這一區（jobs3d.js ZONE_KEY）
 
 IV = r"""(id=>{ const iv=(GAME.G.invites||[]).find(q=>q.id===id); return iv?{state:iv.state, opened:!!iv.opened, h:iv.h}:null; })"""
 
@@ -83,11 +84,31 @@ async def main():
                     await pg.evaluate("(a=>{ GAME.G.hour=a.h; return GAME.enter(a.z); })", {'h': h - 0.2, 'z': place})
                     await D.wait_zone(pg, cdp, place, max_s=40); await pg.wait_for_timeout(4000); await L.close_panels(pg, cdp)
                     s = await D.st(pg)
+                elif place in JOBZONE:   # BB-B 18:35：自己打工的店、上班時間走進去會自動開班（jobs3d.js:411），時鐘跳到下班——先在公館讀檔、看有沒有那份工，有就拿掉（不要把時鐘撥回來）
+                    jk = JOBZONE[place]
+                    R.setup('%s 【前置／捷徑】讀檔進公館 %s %.2f（條件事件關閉；先不進店）' % (tag, DAY, h - 0.2))
+                    await D.load_zone(pg, cdp, 'gongguan', DAY, h - 0.2, wait=5000)
+                    jb = await pg.evaluate("(k=>({job:JOBS.job(GAME.G,k), shiftNow:JOBS.shiftNow(GAME.G,k), hrs:JOBS.hrs(k,GAME.G.day), hour:GAME.G.hour}))", jk)
+                    R.note('%s 進店前：JOBS.job(G,%s)＝%s；shiftNow＝%s；hrs＝%s；時鐘 %.2f' % (tag, jk, J(jb['job']), jb['shiftNow'], J(jb['hrs']), jb['hour']))
+                    if jb['job']:
+                        R.setup('%s 【捷徑】存檔有 %s 的班：拿掉（delete G.jobs.%s）——這一項測的是約會，不是打工' % (tag, jk, jk))
+                        await pg.evaluate("(k=>{ delete JOBS.rec(GAME.G)[k]; })", jk)
+                    lines0 = []
+                    await pg.evaluate("(z=>GAME.enter(z))", place); await D.wait_zone(pg, cdp, place, max_s=40)
+                    t1 = time.time()
+                    while time.time() - t1 < 12:
+                        st0 = await L.state(pg)
+                        if st0['dlg']:
+                            t_ = await pg.evaluate("(()=>{ const e=document.getElementById('dlgText'); return e?e.innerText.trim():''; })()"); lines0.append(t_); await L.tap(pg, cdp, '#dlg')
+                        await pg.wait_for_timeout(700)
+                    toast = await pg.evaluate("(()=>{ const e=document.getElementById('toast'); return e?e.innerText.trim():''; })()")
+                    hr = await pg.evaluate("GAME.G.hour")
+                    R.note('%s 進店後 12 秒：時鐘 %.2f；對話 %s；toast %s' % (tag, hr, J(lines0), J(toast)))
+                    R.check('%s 進店時鐘沒有跳（%.2f → %.2f）' % (tag, jb['hour'], hr), abs(hr - jb['hour']) < 0.3, J({'job': jb['job'], 'lines': lines0}))
+                    s = await D.st(pg)
                 else:
                     R.setup('%s 【前置／捷徑】讀檔進 %s %s %.2f（開始前 12 分鐘；條件事件關閉）' % (tag, place, DAY, h - 0.2))
                     s = await D.load_zone(pg, cdp, place, DAY, h - 0.2, wait=6000)
-                if abs((await pg.evaluate("GAME.G.hour")) - (h - 0.2)) > 0.1:   # 頁間書屋讀檔後時鐘跳到 18:00（14:00 的約馬上算錯過）：撥回來
-                    R.setup('%s 【捷徑】讀檔後時鐘是 %.2f，撥回 %.2f' % (tag, await pg.evaluate("GAME.G.hour"), h - 0.2)); await pg.evaluate("(h=>{ GAME.G.hour=h; })", h - 0.2)
                 flags0 = await pg.evaluate("JSON.parse(JSON.stringify(GAME.G.flags||{}))")
                 beats0 = (flags0.get('BEATS') or {}).get('kexin')
                 R.note('%s 開始前 G.flags.BEATS.kexin＝%s（day %s）' % (tag, J(beats0), await pg.evaluate("GAME.G.day")))
