@@ -104,6 +104,7 @@ await asec('⑤',async()=>{ loadZone('xs_nanyang'); const G=newG(DAY_TUE,22.35,'
   check('⑤ 買了以後：大廳的「買票」藏起來',it.hidden===true);
   loadZone('xinsheng'); const s=lv0()[0]; check('⑤ 買了以後：新生南路售票口的「買票」也藏起來',!!s&&s.hidden===true);
   G.day=DAY_TUE+1; check('⑤ 隔天：又看得到（今天沒有票）',s.hidden===false&&!NYS.hasTicket(G));
+  { let ok=true; try{ s.hidden=true; }catch(e){ ok=false; } const h1=s.hidden; s.hidden=false; check('⑤ 別的程式設 hidden＝true：不丟例外、照樣藏；設回 false 又看得到',ok&&h1===true&&s.hidden===false); }
   check('⑦ 買票沒有出任何台詞（GM.say 沒被叫到）',H.said.length===0,J(H.said)); });
 await asec('⑥',async()=>{ loadZone('xs_nanyang');
   { const G=newG(DAY_TUE,22.35,'xs_nanyang',500), GM=mkGM(G), it=lv0()[0]; H.opts=[]; H.toasts=[]; H.picks=[1]; const g0=J(G); await press(GM,it);

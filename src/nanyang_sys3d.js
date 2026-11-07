@@ -37,7 +37,8 @@ const NYS=(function(){
   /* ---------- 買票 ---------- */
   S.hasTicket=G=>!!G&&!!G.flags&&G.flags.NY_TICKET===(G.day|0);
   const curG=()=>typeof GAME!=='undefined'&&GAME&&GAME.G?GAME.G:null;
-  const hideIfBought=it=>{ Object.defineProperty(it,'hidden',{configurable:true,enumerable:true,get(){ const G=curG(); return !!G&&S.hasTicket(G); }}); return it; };
+  /* hidden：今天買過票＝藏起來；別的程式另外設 hidden（it.hidden=true）照樣藏（setter 記下來，不會因為沒有 setter 丟例外）*/
+  const hideIfBought=it=>{ let own=false; Object.defineProperty(it,'hidden',{configurable:true,enumerable:true,get(){ const G=curG(); return own||(!!G&&S.hasTicket(G)); },set(v){ own=!!v; }}); return it; };
   /* 大廳：櫃檯前（配置 popcorn 那一點＝客人站的地方，面向店員）*/
   S.lobbyButton=function(E){ const L=LAY(); if(!E||!Array.isArray(E.interactables)||!L) return null; if(E.interactables.some(q=>q&&q.nyTicket)) return null;
     const p=(L.lobby.interact||[]).find(q=>q.kind==='popcorn'); if(!p) return null;
