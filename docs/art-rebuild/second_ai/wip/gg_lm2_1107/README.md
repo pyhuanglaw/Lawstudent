@@ -43,7 +43,7 @@
 ## 測試（Node，D131）
 - `gg_new_lm_unit.js`：開發原樣 **FAILED 2**（這兩間沒有 `extras.lightmap`）→ 加這批 **ALL PASS**。
 - `shaola_wire_unit.js`（改大小）ALL PASS。
-- 和這兩間、店內光照、`attachRoomGLB` 有關的 46 支：見交件訊息（在開發 951543b9c＋這批＋CAM-GONGGUAN-GATE patch 的工作樹上跑）。
+- 和這兩間、店內光照、`attachRoomGLB` 有關的 **46 支全部過**（在開發 951543b9c＋這批＋CAM-GONGGUAN-GATE patch 的工作樹上跑；清單：提到 shaola／yejian、建 noodle／bookstore 區域、用 attachRoomGLB／roomLightmap 的測試）。
 
 ## 還沒驗
 1. **遊戲內**（CC 拍、BB 判）：兩間白天、晚上，從店門往裡、往窗外看；燒臘的走道、燒臘櫃前面；書屋的書牆、窗邊吧台、沙發角。
