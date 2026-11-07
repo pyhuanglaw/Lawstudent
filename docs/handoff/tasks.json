@@ -39734,7 +39734,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "【11-07 11:4x LAWWW-B】BB-B：自己讀書沒進「☰ → 法律」學習紀錄（D118）——下一版。 ｜ B0 計畫完成（docs/handoff/D118_PLAN.md）；照 B1→B9 實作，B1 先做"
+   "next": "【11-07 16:0x LAWWW-B】CC 試玩第 7 件（BB_255）：法律頁多「自己讀的筆記」（G.notes 的 law_*、不是觀念卡），有筆記不寫「還沒上過課」——43f878419；tests/legal_selfstudy_unit.js。BB 測。 ｜ 【11-07 11:4x LAWWW-B】BB-B：自己讀書沒進「☰ → 法律」學習紀錄（D118）——下一版。 ｜ B0 計畫完成（docs/handoff/D118_PLAN.md）；照 B1→B9 實作，B1 先做"
   },
   {
    "id": "STUDY-EXAM-STORY-1102",
@@ -49236,7 +49236,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 15:1x LAWWW-B】推了：ba11c0043（不在走路中跳：ECONFF.walking；同一天跳 ≥2 小時也出日期卡）＋3b942474b（AA_726 8255634fb：9/14～9/15、9/17～9/19 兩句、9/20 18:30→23:00 同一天那句、E05 之後三句）；tests/econ_jump_walk_unit.js、aa726_cards_unit.js。BB 測。跳日以後的落點（9/12 21:00 人在博思裡、10/12 Café）還沒處理。 ｜ 【11-07 14:5x LAWWW-B】BB-B 觀察：跳到 9/12 21:00 人在博思教學館裡（同 10/12 Café「跳日以後的落點」）——一起看。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "next": "【11-07 16:0x LAWWW-B】BB-B 15:51：走路中不跳 FIXED（pt1107m，對照組抓得到）、同一天日期卡 FIXED、AA_726 兩句＋E05 三句 PASS；9/20 晚上那句放寬成「同一天跳過 23:00、兩小時以上」（43f878419），BB 重跑 18:30 起、20:00 起兩條。 ｜ 【11-07 15:1x LAWWW-B】推了：ba11c0043（不在走路中跳：ECONFF.walking；同一天跳 ≥2 小時也出日期卡）＋3b942474b（AA_726 8255634fb：9/14～9/15、9/17～9/19 兩句、9/20 18:30→23:00 同一天那句、E05 之後三句）；tests/econ_jump_walk_unit.js、aa726_cards_unit.js。BB 測。跳日以後的落點（9/12 21:00 人在博思裡、10/12 Café）還沒處理。 ｜ 【11-07 14:5x LAWWW-B】BB-B 觀察：跳到 9/12 21:00 人在博思教學館裡（同 10/12 Café「跳日以後的落點」）——一起看。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
    "sha": "3b942474b"
   },
   {
@@ -49301,7 +49301,7 @@
    "id": "Y0-920-GONGGUAN-GAP-1107",
    "title": "9/20 可昕說「走，去公館」，下一格就在宿舍，中間缺一句",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -49313,7 +49313,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "next": "【11-07 16:0x LAWWW-B】AA_726 e05_after 三句接在 E05「走，去公館。」之後（3b942474b）；BB-B 15:51 PASS（瀏覽器）。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
    "xai": {
     "spec": "BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版",
     "branch": "claude/cool-heisenberg-o8kuqx",
@@ -49321,7 +49321,8 @@
     "receiver": "LAWWW（整合）、BB（測）",
     "ack": "SENT",
     "owner": "AA"
-   }
+   },
+   "sha": "3b942474b"
   },
   {
    "id": "Y0-E05-BIKE-LOCATION-1107",
@@ -49472,7 +49473,7 @@
    },
    "source": "LAWWW2-B 11-07 14:56 盤點：CC 11-04 交了 v1c、11-04 換班後沒人接；使用者 11-07「還有哪些店面還沒做好的還沒有放進遊戲的」；D141；USER_WANTS X209",
    "waitUser": false,
-   "next": "【11-07 15:3x LAWWW-B】推了 e66781d1f（b213a4698 收模型與配置、972eebc2f 接區域）：G12 進得去、翻七類唱片（試聽／買這張／放回去）、試聽 15 分鐘、買唱片 150／250（G.records）、櫃台、看音響、坐高腳椅／沙發、打烊照 AA_700、約去 13:00～19:00 開始（走進去過一次以後才出現在約的選單）；tests/corner_shop_unit.js（修改前 FAILED 16）、corner_glb_unit.js。BB 測、CC 拍（門兩側、晚上的光、天花板管線、手機效能）、LAWWW2 烘光照；AA 看 UI 字（「坐下」「先不用」、價錢提示）和可昕要不要只排週末。 ｜ 【11-07 15:0x LAWWW-B】兩樣都到了：LAWWW2-B MODEL_READY 38f4021e1（corner.glb 重新匯出：靠牆 instance 照放的牆分組跟著淡出，三角形 55,004、11 材質不變；動了 CC（帳號 A）的 corner_interior.py——CC 以後重新匯出要用這一版；patch wip/corner_review_1107/corner_in_1107.patch＝tests/corner_glb_unit.js＋LICENSES 一行；配置 corner_layout.js 從 cc-testing 4fc38d513 拿、exit／enterAt 補）；AA-B 台詞 AA_725（08248d66a：試聽、買唱片 150／250 記 G.records、約去 13:00～20:00）。洋洋接好以後同一個做法接。 ｜ 【11-07 14:5x LAWWW-B】LAWWW2-B 5F 烘完驗 MODEL_READY（含 G12 外觀疊圖、LICENSES）；AA-B 寫店內台詞（含試聽、要不要買）；兩樣到了 LAWWW 接區域（layout exit、enterAt 補）。",
+   "next": "【11-07 16:0x LAWWW-B】AA-B 15:36：可昕只排週末（平日的時間、日子不列）→ 084f7c3e6（whoDays，tests/corner_kexin_weekend_unit.js）；UI 字（坐下、先不用、價錢提示）AA 同意。 ｜ 【11-07 15:3x LAWWW-B】推了 e66781d1f（b213a4698 收模型與配置、972eebc2f 接區域）：G12 進得去、翻七類唱片（試聽／買這張／放回去）、試聽 15 分鐘、買唱片 150／250（G.records）、櫃台、看音響、坐高腳椅／沙發、打烊照 AA_700、約去 13:00～19:00 開始（走進去過一次以後才出現在約的選單）；tests/corner_shop_unit.js（修改前 FAILED 16）、corner_glb_unit.js。BB 測、CC 拍（門兩側、晚上的光、天花板管線、手機效能）、LAWWW2 烘光照；AA 看 UI 字（「坐下」「先不用」、價錢提示）和可昕要不要只排週末。 ｜ 【11-07 15:0x LAWWW-B】兩樣都到了：LAWWW2-B MODEL_READY 38f4021e1（corner.glb 重新匯出：靠牆 instance 照放的牆分組跟著淡出，三角形 55,004、11 材質不變；動了 CC（帳號 A）的 corner_interior.py——CC 以後重新匯出要用這一版；patch wip/corner_review_1107/corner_in_1107.patch＝tests/corner_glb_unit.js＋LICENSES 一行；配置 corner_layout.js 從 cc-testing 4fc38d513 拿、exit／enterAt 補）；AA-B 台詞 AA_725（08248d66a：試聽、買唱片 150／250 記 G.records、約去 13:00～20:00）。洋洋接好以後同一個做法接。 ｜ 【11-07 14:5x LAWWW-B】LAWWW2-B 5F 烘完驗 MODEL_READY（含 G12 外觀疊圖、LICENSES）；AA-B 寫店內台詞（含試聽、要不要買）；兩樣到了 LAWWW 接區域（layout exit、enterAt 補）。",
    "xai": {
     "spec": "CC_47（cc-testing）、AA_650 §4",
     "branch": "claude/cc-testing 4fc38d513",
