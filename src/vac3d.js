@@ -340,6 +340,7 @@ const VAC=(function(){
       if(tr.missWeek&&P.miss){ const d=sd+(tr.missWeek-1)*7+2; if(d<ed) put(id,at(d).d,at(d).h+0.5,P.miss,T0+id+'_miss',{id:T0+id+'_miss',until:T(d+2,24),opts:M.missRep.map(t=>({t,say:[]}))}); } }
     const fam=id=>atLeast(id,'FAMILIAR');
     for(const id in M.friend){ if(F['dating_'+id]||!fam(id)||mates.has(id)) continue; if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,id)) continue;   /* AA_600 S7：祐廷出國時，前任的以安、學姊不傳 */ if(M.gf[id]&&off(M.gf[id].off,sd)) continue;
+      if(id==='classmate_peishan'&&typeof STORY!=='undefined'&&STORY.psPre&&STORY.psPre(Object.assign({},G,{day:sd}))) continue;   /* AA_723：沛珊沒交往的線 2028-12-29 重聚以前不主動傳（gf.off 只到 2027-08-06）*/
       M.friend[id].forEach((f,j)=>{ if(f.only&&f.only!==A.id) return; const d=f.day==='mid'?mid:(f.day==='mid1'?mid+1:(f.day==='mid-1'?mid-1:(f.day==='end'?ed-1:sd+f.day))); const h=f.h==='dep'?depH:f.h; let fd=f.nextDay?d+1:d;
         const shutD=x=>typeof NOODLE_CLOSED!=='undefined'&&!!NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G,x);
         /* AA_686 第 3d 項（企劃線 1df3c189e，AA-C 定 D109）：寫了 wd 的（語彤「茶屋今天的長桌」：只在週六、日傳）——那天不是 wd、也不是店休（店休照樣換 shut 那張）＝改在這一趟離那天最近的 wd 那一天

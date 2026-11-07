@@ -48,8 +48,10 @@ GM.money=function(n){ G.money+=n; };
   check('1. 手機「約」：不能約、「沛珊沒有回覆。」',!INV.canInvite(G,PS)&&/沒有回覆/.test(INV.whyNot(G,PS)),INV.whyNot(G,PS));
   setup(Y2S2SUN,9,{dating_classmate_peishan:true}); at(Y2S2SUN,14.5); e=ent(PS);
   check('3. 交往中也一樣：週日下午不在小公園',!e);
-  setup(D('2027-08-07'),9); at(D('2027-08-07'),10); check('3. 8/7 放榜以後：暑假還在台中老家（AA_276 第 1 節，使用者 23:4x：寒暑假沛珊回台中）',STORY.presence(PS,G).kind==='home');
-  setup(D('2027-09-08'),9); at(D('2027-09-08'),10); check('3. 開學以後（9/8）：在台南（AA_282 第 1 節，kind city；不是「在臺北、不在台大」）',STORY.presence(PS,G).kind==='city'&&STORY.presence(PS,G).city==='台南');
+  /* AA_723（AA723-CONFESS-PS-1107）：沒交往的新線到 2028-12-29 重聚以前都聯絡不到；台中老家、台南改用舊存檔（8/7 那通接過，PS_BACK_READ）測 */
+  setup(D('2027-08-07'),9); at(D('2027-08-07'),10); check('3. AA_723 沒交往的線：8/7、9/8 還在沉默期（聯絡不到）',STORY.presence(PS,G).kind==='unreachable'&&STORY.presence(PS,Object.assign({},G,{day:D('2027-09-08')})).kind==='unreachable');
+  setup(D('2027-08-07'),9,{PS_BACK_READ:D('2027-08-07')}); at(D('2027-08-07'),10); check('3. 舊存檔 8/7 放榜以後：暑假還在台中老家（AA_276 第 1 節，使用者 23:4x：寒暑假沛珊回台中）',STORY.presence(PS,G).kind==='home');
+  setup(D('2027-09-08'),9,{PS_BACK_READ:D('2027-08-07')}); at(D('2027-09-08'),10); check('3. 舊存檔開學以後（9/8）：在台南（AA_282 第 1 節，kind city；不是「在臺北、不在台大」）',STORY.presence(PS,G).kind==='city'&&STORY.presence(PS,G).city==='台南');
   // 4. 大三：沒有溫州街課輔班、書店的作息；約臺北的地點一律「在台南，不在臺北」（AA_282 第 1、6 節：她不來臺北）
   const K={PS_BACK_FIRST:D('2027-08-12')};   /* 放榜後重新聯絡上（AA_282 第 2 節） */
   setup(Y3TUE,9,K); at(Y3TUE,17); e=ent(PS); const r4=ask(PS,'wenzhou',Y3TUE,17), r4b=ask(PS,'library',Y3TUE,14), r4c=ask(PS,'cafe',Y3TUE,17), r4d=ask(PS,'cafe',Y3TUE,13);

@@ -368,7 +368,7 @@ const TERMEND=(function(){
   S.hookFor=function(G,term,who){ const Lx=L(); if(!Lx||!Lx.HOOK||!Lx.HOOK_NO) return null; const H=(Lx.HOOK[term]||{})[who]; if(!H) return null; try{ if(H.if&&!H.if(G)) return null; }catch(e){ return null; }
     const a=H.act||{};
     if(a.c14&&!(Lx.C14&&Lx.C14.msg&&S.c14Day(term)!=null)) return null;
-    if(a.c15){ const c=Lx.C15[a.c15], d=c&&Dk(c.day); if(!c||!c.msg||d==null||d<=G.day) return null; }
+    if(a.c15){ const c=Lx.C15[a.c15], d=c&&Dk(c.day); if(!c||!c.msg||d==null||d<=G.day||S.psPreC15(G,c,d)) return null; }
     if(a.vac){ if(typeof VAC==='undefined') return null; const [id,yk]=a.vac.split('@'), I=VAC.inst(id,yk); if(!I||VAC.enrolled(G,id,yk)||G.day>=I.from) return null; }
     if(a.flag&&G.flags&&G.flags[a.flag]!=null) return null;
     return H; };
@@ -389,7 +389,9 @@ const TERMEND=(function(){
   S.c14Plan=function(G,term){ const Lx=L(), C=Lx.C14, d=S.c14Day(term); if(!C||d==null||typeof OUT==='undefined') return false;
     if(typeof PHONE!=='undefined'&&C.msg) PHONE.at(G,G.day+1,21,[].concat(C.msg).map(t=>({th:'p:classmate_xinci',from:'classmate_xinci',text:t.replace('{日期}',md(d))})),'c14_msg_'+term);
     OUT.plan(G,{id:'c14_'+term,ev:'ev_te_day',day:d,h:10,late:0.25,place:C.place,title:'事務所參觀',travel:'捷運約 20 分鐘',travelH:1/3,ted:{day:'c14',term}}); return true; };
-  S.c15Plan=function(G,id){ const Lx=L(), C=Lx.C15[id], d=C&&Dk(C.day); if(!C||d==null||typeof OUT==='undefined') return false;
+  /* AA_723（AA723-CONFESS-PS-1107）：沛珊 ps_class（2028-01-12 台中的國小）——交往中照舊；沒交往的線那天還在沉默期（2028-12-29 重聚以前，STORY.psPre）＝不播 */
+  S.psPreC15=(G,C,d)=>!!C&&C.who==='classmate_peishan'&&typeof STORY!=='undefined'&&!!STORY.psPre&&STORY.psPre(Object.assign({},G,{day:d}));
+  S.c15Plan=function(G,id){ const Lx=L(), C=Lx.C15[id], d=C&&Dk(C.day); if(!C||d==null||typeof OUT==='undefined'||S.psPreC15(G,C,d)) return false;
     if(typeof PHONE!=='undefined'&&C.msg) PHONE.at(G,G.day+1,21,[].concat(C.msg).map(t=>({th:'p:'+C.who,from:C.who,text:t.replace('{日期}',md(d))})),'c15_msg_'+id);
     OUT.plan(G,{id:'c15_'+id,ev:'ev_te_day',day:d,h:C.h,late:0.25,place:C.place,title:C.title||C.place,travel:C.travel||'約 20 分鐘',travelH:C.travelH||1/3,ted:{day:'c15',id}}); return true; };   /* title／travel：外縣市的那幾場（沛珊台中的國小，AA_276 第 3 節第 4 點）*/
   const scene=async(GM,bg,arr,opts)=>{ const G=GM.G; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(bg):'dark'});

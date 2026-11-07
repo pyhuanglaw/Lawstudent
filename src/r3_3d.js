@@ -180,7 +180,7 @@ const R3=(function(){
     if(t>=T(d22+2,22.5)&&!PHONE.sent(G,'r3_ps_camp2')){ PHONE.at(G,d22+2,22.5,[P('有一個小孩在名牌上寫「法官」。'),P('我問他那是你的名字嗎。他說不是，是我以後的名字。')],'r3_ps_camp2'); F.PS_CAMP_2029_MSG=true; }
     if(t>=T(d22+5,20)&&!PHONE.sent(G,'r3_ps_camp3')) PHONE.at(G,d22+5,20,[P('下山了。'),P('小孩寫了信給國中畢業的自己。我收走了，說那一年再寄。')],'r3_ps_camp3'); };
   /* 沒交往、放榜後重新聯絡上的（PS_BACK_FIRST）：7/23～7/27 20:00 傳訊息給她＝自動回（包住 MSG.send）*/
-  S.psCampAuto=G=>{ if(!G||!G.flags||!law(G)||!G.flags.PS_BACK_FIRST||dating(G,'classmate_peishan')) return false; const a=D('2029-07-23'), b=D('2029-07-27'); return a!=null&&now(G)>=T(a,0)&&now(G)<T(b,20); };
+  S.psCampAuto=G=>{ if(!G||!G.flags||!law(G)||!(G.flags.PS_BACK_FIRST||G.flags.PS_REUNION!=null)||dating(G,'classmate_peishan')) return false;   /* AA_723：沒交往的線重聚（PS_REUNION）以後也算重新聯絡上 */ const a=D('2029-07-23'), b=D('2029-07-27'); return a!=null&&now(G)>=T(a,0)&&now(G)<T(b,20); };
   S.psCampSend=function(G,id,topic,sub){ if(typeof MSG==='undefined'||!MSG.canSend(G,id)||!MSG.topics(G,id).some(q=>q.k===topic)) return null;
     const text=MSG.playerText(G,id,topic,sub), th='p:'+id; PHONE.post(G,{th,from:'player',who:null,text}); MSG.rec(G).sent[id]=G.day;
     const at={day:G.day,h:G.hour+0.01}; PHONE.at(G,at.day,at.h,[{th,from:id,text:'在山上帶營隊，訊號很差。下山再回你。'}],null); return {ok:true,text,at,auto:true}; };

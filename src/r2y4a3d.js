@@ -226,7 +226,7 @@ const R2Y4A=(function(){
     /* ---- AA_258 第 4 節（AA-B 11-01 確認沒被取代）：美國路線祐廷不在場，11/08 沛珊（第一次試教）、11/10 子晴（新關卡）改成她傳的訊息；臺灣時間 23:10、23:40（他那邊是早上）。
        不告白。給誰照 BB_119 3-1／3-3 的「給誰」簡化：沒和祐廷交往、不是前任、朋友以上、有聯絡方式；沛珊另外要重新聯絡上（AA-B：psReconnected）。她自己有沒有對象，遊戲沒有紀錄，不看 ---- */
     if(us){ const P1=(id,t)=>({th:'p:'+id,from:id,text:t}), ok=id=>!dating(G,id)&&!exOf(G,id)&&knows(id,G)&&stageAt(id,'FRIEND')&&(typeof INV==='undefined'||!INV.hasContact||INV.hasContact(G,id));
-      const psRe=!!F.PS_RECONNECT||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number';
+      const psRe=(!!F.PS_RECONNECT||F.PS_REUNION!=null||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number')&&!(typeof STORY!=='undefined'&&STORY.psPre&&STORY.psPre(G));   /* AA_723：沒交往的線看 PS_REUNION（2028-12-29 重聚；11/08 還沒重聚＝不傳）；PS_BACK_* 是舊存檔照原本流程聯絡上的 */
       { const d=D('2028-11-08'), PS='classmate_peishan'; if(d!=null&&G.day>=d&&G.day<=d+3&&pastTW(G,d,23+10/60)&&ok(PS)&&psRe&&!PHONE.sent(G,'y4_us_ps_lesson')){ const L=[P1(PS,'今天第一次試教。'),P1(PS,'📷（教室的黑板，右下角一個畫歪的笑臉）'),P1(PS,'有一個小朋友舉了六次手。……這次我有看到他。')];
           L[2].ask={id:'y4_us_ps_lesson_ask',opts:[{t:'恭喜！',say:[P1(PS,'謝謝。……你那邊是早上吧。你先去上課。')]},{t:'他問了什麼？',say:[P1(PS,'他問太陽會不會用完。我說會，可是要很久很久。他說：那就好。')]}]}; atTW(G,d,23+10/60,L,'y4_us_ps_lesson'); } }
       { const d=D('2028-11-10'), ZQ='heroine_04'; if(d!=null&&G.day>=d&&G.day<=d+3&&pastTW(G,d,23+40/60)&&ok(ZQ)&&!PHONE.sent(G,'y4_us_zq_level')){ const L=['新關卡做好了','📷（一隻像素的貓，站在一個發亮的存檔點旁邊）','你不在 沒人玩第三遍','回來再玩'].map(t=>P1(ZQ,t));

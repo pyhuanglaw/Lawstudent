@@ -238,13 +238,17 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   check('B6. 寄到 Café 的常客版（和可昕交往）：背面沒有那一行；9/28 不問', said.length>0&&!has(BACK)&&(at('2027-09-28',22),!Y2B.bdayDue(G)), JSON.stringify(said.map(s=>s.t)));
 
   // ---------- 1B-11 沛珊 ----------
-  /* AA_296 2-3-1 ④（企劃線 3f406dbc）：8/7 21:00 改成她打來；那兩則私訊是沒接的替代版（逐字對稿在 tests/aa296_phone_live_unit.js）*/
-  fresh('2027-08-07',21.2,'dorm'); R('classmate_peishan','FRI'); ct('classmate_peishan'); PHONE.postAt(G,{th:'p:classmate_peishan',from:'player',text:'生日快樂'},D('2027-03-15'),20); rules();
+  /* AA_296 2-3-1 ④（企劃線 3f406dbc）：8/7 21:00 改成她打來；那兩則私訊是沒接的替代版（逐字對稿在 tests/aa296_phone_live_unit.js）
+     AA_723（AA723-CONFESS-PS-1107）：沒交往的新線（STORY.psNewLine）8/7 沒有這一通、沒有「好久不見」、10/15 二手書店不傳（到 2028-12-29 重聚以前不回，tests/ps_silence_unit.js）；
+     R1～R3 原本的流程改用舊存檔（PS_KEPT：消失期交往過、後來分開）測 */
+  fresh('2027-08-07',21.2,'dorm'); R('classmate_peishan','FRI'); ct('classmate_peishan'); PHONE.postAt(G,{th:'p:classmate_peishan',from:'player',text:'生日快樂'},D('2027-03-15'),20); rules(); G.hour=21.6; rules();
+  check('R0. AA_723 沒交往的線：消失期傳過訊息，8/7 沒有電話、沒有那兩則、PS_BACK_READ 不記；10/15 沒有二手書店', !OUT.get(G,'y3_ps_back_call')&&!txt('p:classmate_peishan').some(t=>t.startsWith('classmate_peishan:'))&&G.flags.PS_BACK_READ==null&&(at('2027-10-15',21.1),rules(),!txt('p:classmate_peishan').some(t=>/二手書店打工了/.test(t))), JSON.stringify(txt('p:classmate_peishan')));
+  fresh('2027-08-07',21.2,'dorm',{PS_KEPT:true}); R('classmate_peishan','FRI'); ct('classmate_peishan'); PHONE.postAt(G,{th:'p:classmate_peishan',from:'player',text:'生日快樂'},D('2027-03-15'),20); rules();
   { const q=OUT.get(G,'y3_ps_back_call'), due=OUT.due(G); said=[]; opts=[]; picks=[0]; if(q&&due) await OUT.go(GM,q);
     check('R1. 消失期傳過訊息：8/7 21:00 她打來（AA_296 ④）「……喂。」…「對不起。」、選「妳還好嗎？」＝「我現在很好。真的。」；不傳私訊；PS_BACK_READ 照樣記那一天', !!due&&due.id==='y3_ps_back_call'&&has('……喂。')&&has('對不起。')&&has('我現在很好。真的。')&&!txt('p:classmate_peishan').some(t=>t.startsWith('classmate_peishan:'))&&G.flags.PS_BACK_READ===D('2027-08-07'), JSON.stringify(said.map(s=>s.t))); }
-  fresh('2027-08-07',21.2,'dorm'); R('classmate_peishan','FRI'); ct('classmate_peishan'); PHONE.postAt(G,{th:'p:classmate_peishan',from:'player',text:'生日快樂'},D('2027-03-15'),20); rules(); G.hour=21.6; rules();
+  fresh('2027-08-07',21.2,'dorm',{PS_KEPT:true}); R('classmate_peishan','FRI'); ct('classmate_peishan'); PHONE.postAt(G,{th:'p:classmate_peishan',from:'player',text:'生日快樂'},D('2027-03-15'),20); rules(); G.hour=21.6; rules();
   check('R1. 消失期傳過訊息、那一通沒接（過了 30 分鐘）：8/7 21:00「……這半年我都沒看手機。對不起。」「我現在很好。」', mine('p:classmate_peishan','classmate_peishan:……這半年我都沒看手機。對不起。').slice(0,2).join('|')==='classmate_peishan:……這半年我都沒看手機。對不起。|classmate_peishan:我現在很好。'&&G.flags.PS_BACK_READ===D('2027-08-07'));
-  fresh('2027-08-07',21.2,'dorm'); R('classmate_peishan','FRI'); ct('classmate_peishan'); rules(); check('R1. 沒傳過：8/7 沒有那則', !txt('p:classmate_peishan').includes('classmate_peishan:……這半年我都沒看手機。對不起。')&&G.flags.PS_BACK_READ===false);
+  fresh('2027-08-07',21.2,'dorm',{PS_KEPT:true}); R('classmate_peishan','FRI'); ct('classmate_peishan'); rules(); check('R1. 沒傳過：8/7 沒有那則', !txt('p:classmate_peishan').includes('classmate_peishan:……這半年我都沒看手機。對不起。')&&G.flags.PS_BACK_READ===false);
   at('2027-08-20',20); const tp=MSG.topics(G,'classmate_peishan'); const r=tp.length?MSG.send(G,'classmate_peishan',tp[0].k):null; PHONE.tick(G); at('2027-08-21',12); PHONE.tick(G);
   check('R2. 放榜以後第一次傳訊息（8/20，她回台南以前；AA_349 K1）：「好久不見。……我現在在台中，開學以後在台南。」「你要來的話，跟我說。」', !!r&&r.ok&&txt('p:classmate_peishan').includes('classmate_peishan:好久不見。……我現在在台中，開學以後在台南。')&&!txt('p:classmate_peishan').includes('classmate_peishan:好久不見。……我現在在台南。')&&txt('p:classmate_peishan').includes('classmate_peishan:你要來的話，跟我說。')&&G.flags.PS_BACK_FIRST===D('2027-08-20'), JSON.stringify(txt('p:classmate_peishan')));
   // AA_349 K9：大三上第 6 週 10/15（五）21:00「我在學校附近的二手書店打工了。週末都在。」「……你不用特地來，我只是說一聲。」（已經重新聯絡上的玩家）

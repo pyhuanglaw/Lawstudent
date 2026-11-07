@@ -437,7 +437,8 @@ const MREL=(function(){
     if(G.day<st.endedDay+90||(typeof ROM!=='undefined'&&ROM.partners(G).length)) return false;
     if(typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum(PS)<5) return false;
     const a=DK('2026-12-17'), b=DK('2027-08-06'); if(a!=null&&b!=null&&G.day>=a&&G.day<b) return false; if(pres(G,PS).lost) return false;
-    if(a!=null&&st.endedDay<a&&!evDone(G,'ev_peishan_back_call')&&!(G.flags&&(G.flags.PS_BACK_FIRST||G.flags.PS_BACK_READ||G.flags.PS_RECONNECT))) return false;
+    if(typeof STORY!=='undefined'&&STORY.psPre&&STORY.psPre(G)) return false;   /* AA_723：沒交往的線 2028-12-29 重聚（PS_REUNION）以前不回來 */
+    if(a!=null&&st.endedDay<a&&!evDone(G,'ev_peishan_back_call')&&!(G.flags&&(G.flags.PS_BACK_FIRST||G.flags.PS_BACK_READ||G.flags.PS_RECONNECT||G.flags.PS_REUNION!=null))) return false;
     const tid=typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):null; return st.eTerm!==tid; };
   S.psE=async function(GM){ const G=GM.G, st=S.st(G,PS), c=S.ctx(G,PS,null); st.eTerm=typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):null;
     await S.run(GM,PS,L().PS_E,c); const s=c.sets||{};

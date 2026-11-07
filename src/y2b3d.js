@@ -25,6 +25,9 @@ const Y2B=(function(){
   const who=id=>({name:typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id,charId:id});
   const M=(id,text,o)=>Object.assign({th:'p:'+id,from:id,text},o||{});
   const K=t=>M('kexin',t), Y=t=>M('heroine_03',t), Z=t=>M('heroine_04',t), R=t=>M('heroine_02',t), P=t=>M('classmate_peishan',t);
+  /* AA_723（AA723-CONFESS-PS-1107）：沛珊沒交往的線（story3d.js STORY.psNewLine／psPre）。舊存檔已經照原本的流程聯絡上的（PS_BACK_*、PS_KEPT…）照舊 */
+  S.psNew=G=>typeof STORY!=='undefined'&&!!STORY.psNewLine&&STORY.psNewLine(G);
+  S.psPre=G=>typeof STORY!=='undefined'&&!!STORY.psPre&&STORY.psPre(G);
 
   /* ===================== 手機（STORY.PHONE_RULES：每 0.5 秒）===================== */
   S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; const F=G.flags;
@@ -83,11 +86,11 @@ const Y2B=(function(){
           if(typeof OUT!=='undefined') OUT.plan(G,{id:'y3_zq_q10',day:d9,h:19.5,late:0.5,early:0.25,place:'2:30 AM',title:'2:30 AM 19:30',travel:'走過去 約 10 分鐘',travelH:1/6,goto:{zone:'cafe',x:0,z:5,yaw:Math.PI}}); }
         if(past(G,'2027-11-09',20)&&!done(G,'ev_ziqing_capstone')&&!F.ZQ_Q10&&stageAt('heroine_04','FRIEND')){ F.ZQ_Q10='self'; F.ZQ_MUSIC_CREDIT=true; if(contact(G,'heroine_04')) PHONE.at(G,d9,21,[Z('我自己選了。……其實本來就差不多決定了。')],'y3_zq_q10_self'); } } }
     /* ---- 1B-11 沛珊：消失期傳過訊息的（沒交往）＝2027-08-07 21:00 她打來（AA_296 2-3-1 ④，企劃線 3f406dbc；原本是回兩則私訊）；沒接＝原本那兩則（S.psBackPhone）---- */
-    { const d=D('2027-08-07'); if(d!=null&&G.day>=d&&G.day<=d+60&&now(G)>=T(d,S.PS_CALL.h-S.PS_CALL.lead)&&F.PS_BACK_READ==null&&!dating(G,'classmate_peishan')){
+    { const d=D('2027-08-07'); if(d!=null&&G.day>=d&&G.day<=d+60&&now(G)>=T(d,S.PS_CALL.h-S.PS_CALL.lead)&&F.PS_BACK_READ==null&&!dating(G,'classmate_peishan')&&!S.psNew(G)){   /* AA_723：沒交往的線（STORY.psNewLine）不播 8/7 那通電話、那兩則（src/ps_silence3d.js 照 AA_723 的沉默期、重聚）*/
         const a=D('2026-12-18'), b=D('2027-08-06'); const sentAbs=(G.msgs||[]).some(m=>m.th==='p:classmate_peishan'&&m.from==='player'&&m.day>=a&&m.day<=b);
         if(sentAbs) S.psBackPhone(G,d); else if(past(G,'2027-08-07',21)) F.PS_BACK_READ=false; } }   /* false＝看過了、她沒有要回的（不再每次掃訊息）*/
     /* ---- 沛珊大三上第 6 週的私訊（AA_349 K9、AA_312 第 1 點；BB_98 第 12 點的時間 10/15（五）21:00）：已經重新聯絡上的玩家（交往中也算；presence 不是 lost）；第二句留 ---- */
-    { const d=D('2027-10-15'), id='classmate_peishan'; if(d!=null&&G.day>=d&&G.day<=d+2&&past(G,'2027-10-15',21)&&!PHONE.sent(G,'ps_y3_bookstore')&&contact(G,id)&&typeof STORY!=='undefined'&&STORY.presence&&!STORY.presence(id,G).lost)
+    { const d=D('2027-10-15'), id='classmate_peishan'; if(d!=null&&G.day>=d&&G.day<=d+2&&past(G,'2027-10-15',21)&&!PHONE.sent(G,'ps_y3_bookstore')&&contact(G,id)&&typeof STORY!=='undefined'&&STORY.presence&&!STORY.presence(id,G).lost&&!S.psPre(G))   /* AA_723：沒交往的線重聚以前不播 */
         PHONE.at(G,d,21,[P('我在學校附近的二手書店打工了。週末都在。'),P('……你不用特地來，我只是說一聲。')],'ps_y3_bookstore'); }
     if(typeof HV!=='undefined'&&HV.museumPhone) HV.museumPhone(G);   /* 沛珊大三起：她主動約「台南・美術館」（AA_349 K3，hometown3d.js）*/
   };
@@ -98,18 +101,18 @@ const Y2B=(function(){
      沒接（睡著、在忙、在出遊或劇情中，過了 30 分鐘）＝原本那兩則私訊。接了、沒接都記 PS_BACK_READ＝那一天（放榜以後重新聯絡上：r2y4b3d.js psReconnected 讀）*/
   S.PS_CALL={id:'y3_ps_back_call',ev:'ev_peishan_back_call',h:21,late:0.5,lead:2};
   /* 跳過時間停在她打來的時間（AA 10-22 08:41；睡覺照舊算沒接）：條件同上面 1B-11 那一段（消失期傳過訊息、沒交往、還沒回）*/
-  if(typeof CLS!=='undefined'&&CLS.STOP_FNS) CLS.STOP_FNS.push(G=>{ const F=G.flags||{}, d=D('2027-08-07'); if(d==null||G.day!==d||F.PS_BACK_READ!=null||dating(G,'classmate_peishan')) return []; const a=D('2026-12-18'), b=D('2027-08-06'); if(!(G.msgs||[]).some(m=>m.th==='p:classmate_peishan'&&m.from==='player'&&m.day>=a&&m.day<=b)) return []; const q=typeof OUT!=='undefined'?OUT.get(G,S.PS_CALL.id):null; if(q&&q.state!=='planned') return []; return [{h:S.PS_CALL.h,why:'手機響了'}]; });
+  if(typeof CLS!=='undefined'&&CLS.STOP_FNS) CLS.STOP_FNS.push(G=>{ const F=G.flags||{}, d=D('2027-08-07'); if(d==null||G.day!==d||F.PS_BACK_READ!=null||dating(G,'classmate_peishan')||S.psNew(G)) return []; const a=D('2026-12-18'), b=D('2027-08-06'); if(!(G.msgs||[]).some(m=>m.th==='p:classmate_peishan'&&m.from==='player'&&m.day>=a&&m.day<=b)) return []; const q=typeof OUT!=='undefined'?OUT.get(G,S.PS_CALL.id):null; if(q&&q.state!=='planned') return []; return [{h:S.PS_CALL.h,why:'手機響了'}]; });
   S.psBackPhone=function(G,d){ const C=S.PS_CALL, O=typeof OUT!=='undefined'?OUT:null, t=T(d,C.h), q=O?O.get(G,C.id):null;
     if(!q){ if(O&&G.day===d&&now(G)>=t-C.lead&&now(G)<t+C.late) O.plan(G,{id:C.id,ev:C.ev,day:d,h:C.h,late:C.late,must:true,place:'電話',title:'沛珊打電話來',verb:'接起來',call:true,travel:'',travelH:0,back:'電話掛了。',silent:true});
       else if(now(G)>=t+C.late) S.psBackMissed(G); return; }   /* 那一段沒跑到規則（讀檔、整段在別的劇情裡）＝照原本那兩則 */
     if(q.state==='missed'||(q.state==='planned'&&now(G)>t+C.late)){ q.state='missed'; S.psBackMissed(G); } };   /* 人在家的時候 OUT.tick 不跑：過了時間這裡自己記沒接 */
-  S.psBackMissed=function(G){ const F=G.flags, d=D('2027-08-07'); if(!F||F.PS_BACK_READ!=null||d==null||typeof PHONE==='undefined') return; PHONE.at(G,d,21,[P('……這半年我都沒看手機。對不起。'),P('我現在很好。')],'ps_back_read'); F.PS_BACK_READ=d; };
+  S.psBackMissed=function(G){ const F=G.flags, d=D('2027-08-07'); if(!F||F.PS_BACK_READ!=null||d==null||typeof PHONE==='undefined'||S.psNew(G)) return; PHONE.at(G,d,21,[P('……這半年我都沒看手機。對不起。'),P('我現在很好。')],'ps_back_read'); F.PS_BACK_READ=d; };
   S.psBackAnswered=function(G){ const F=G.flags, d=D('2027-08-07'); if(F&&F.PS_BACK_READ==null&&d!=null) F.PS_BACK_READ=d; };
   /* ===================== 1B-11 沛珊：放榜以後，玩家第一次傳訊息給她（沒交往）＝「好久不見。……我現在在台南。」「你要來的話，跟我說。」（包住 MSG.send）=====================
      AA_349 K1：分開寫——她在台中＝「好久不見。……我現在在台中，開學以後在台南。」；在台南＝原文。兩種都接「你要來的話，跟我說。」（看她回的那一天）
      AA_350 P1（2026-10-21）：不只 8/7～9/3——之後的寒暑假（她在台中）第一次回也是台中那一句；學期中照原文。在哪照 STORY.presence（手機「現在大概在」、去找她同一套：city／home 是台中）*/
   S.psTaichung=(G,day)=>{ if(typeof STORY==='undefined'||!STORY.presence) return false; const p=STORY.presence('classmate_peishan',Object.assign({},G,{day}))||{}; return (p.city||p.home)==='台中'; };
-  S.psFirstDue=G=>!!G&&!!G.flags&&law(G)&&!G.flags.PS_BACK_FIRST&&D('2027-08-07')!=null&&G.day>=D('2027-08-07')&&!dating(G,'classmate_peishan');
+  S.psFirstDue=G=>!!G&&!!G.flags&&law(G)&&!G.flags.PS_BACK_FIRST&&D('2027-08-07')!=null&&G.day>=D('2027-08-07')&&!dating(G,'classmate_peishan')&&!S.psNew(G);   /* AA_723：沒交往的線沒有這一則（重聚以後照一般的朋友）*/
   S.psFirst=function(G,id,topic,sub){ if(typeof MSG==='undefined'||typeof PHONE==='undefined') return null; if(!MSG.canSend(G,id)||!MSG.topics(G,id).some(q=>q.k===topic)) return null;
     const text=MSG.playerText(G,id,topic,sub), th='p:'+id; PHONE.post(G,{th,from:'player',who:null,text}); const Rc=MSG.rec(G); Rc.sent[id]=G.day;
     const at=MSG.replyAt?MSG.replyAt(G,id):{day:G.day,h:G.hour%24+0.25}, tc=S.psTaichung(G,at.day);

@@ -153,7 +153,7 @@ const R2Y4B=(function(){
   S.springCar=async function(GM){ GM.G.flags.Y4_SPRING_CAR=true; return true; };   /* AA_599 補（BB 11-03、AA 定字）：「（你回家把車開出來。）」刪掉，只記旗標（開車從宿舍出發，不寫取車）*/   /* 4/2 晚上 */
 
   /* ===================== 2-Y4-36 沛珊 P6 公開課（4/12 21:00 私訊、4/14 14:00 台南）===================== */
-  S.psReconnected=G=>{ const F=G.flags||{}; return !!F.PS_RECONNECT||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number'; };   /* 放榜以後重新聯絡上（AA_282 第 2 節；玩家先傳過訊息）*/
+  S.psReconnected=G=>{ const F=G.flags||{}; return (!!F.PS_RECONNECT||F.PS_REUNION!=null||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number')&&!(typeof STORY!=='undefined'&&STORY.psPre&&STORY.psPre(G)); };   /* 放榜以後重新聯絡上（AA_282 第 2 節；玩家先傳過訊息）。AA_723：沒交往的線＝2028-12-29 重聚以後（PS_REUNION）；PS_BACK_* 只有舊存檔照原本的流程聯絡上的才有 */
   S.psOpenOk=G=>dating(G,'classmate_peishan')||(!isEx(G,'classmate_peishan')&&S.psReconnected(G)&&met(G,'classmate_peishan','FAMILIAR'));
   const psOpenPhone=G=>{ const d12=DK('2029-04-12'), d14=DK('2029-04-14'), F=G.flags; if(d12==null||G.day<d12||G.day>d14+1) return; const Pp=t=>P_('classmate_peishan',t);
     if(G.day<=d14&&at(G,'2029-04-12',21)&&(G.day<d14||hh(G)<12)&&S.psOpenOk(G)){
@@ -736,7 +736,7 @@ const R2Y4B=(function(){
 
   /* ===================== 手機（STORY.PHONE_RULES，每 0.5 秒）===================== */
   S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; const F=G.flags;
-    if(!F.PS_RECONNECT&&(F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number')) F.PS_RECONNECT=true;   /* 放榜以後重新聯絡上：AA_319 1A-13 ⑦（6/2 學生的卡片照片）讀這個 */
+    if(!F.PS_RECONNECT&&(F.PS_REUNION!=null||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number')) F.PS_RECONNECT=true;   /* 放榜以後重新聯絡上：AA_319 1A-13 ⑦（6/2 學生的卡片照片）讀這個 */
     const y=d=>DK(d); const n=G.day; if(n<y('2028-08-01')) return;
     try{ usCanyonPhone(G); saWeekly(G); sisCanyonRules(G); }catch(e){ console.warn('R2Y4B 2028',e); }
     if(n<y('2029-02-20')) return;
