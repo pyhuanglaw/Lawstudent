@@ -1790,3 +1790,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 18.3s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 18.3s] BROWSER DISCONNECTED
 - 2026-11-07T18:59:36  PT1107I_movie_kx  sha=126bdf93e82886673518705566dbe83b582c32c1  exit=1  139s    PASS 南洋：那一場扣了 150（電影票）、記 NY_TICKET＝今天  {"money": 850, "log": [{"v": -150, "why": "電影票", "day": 32, "h": 14.18}], "tk": 32, "day": 32} / PASS 沒有 JS 例外  [] / FAILED: 南洋：見面演了、有「燈暗下來，電影開始了。」
       err.log (last 5): [gpu_wrap 90.0s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 90.1s] BROWSER DISCONNECTED
+- 2026-11-07T19:02:44  R8FDB_touch  sha=8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a  exit=0  180s    PASS 讀檔後可以走  3.93 / PASS 沒有 JS 例外 / ALL PASS
+      err.log (last 5): [gpu_wrap 146.1s] page close url=http://127.0.0.1:8800/index.html?turbo&turbo | [gpu_wrap 146.1s] BROWSER DISCONNECTED
