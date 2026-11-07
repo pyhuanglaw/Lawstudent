@@ -18052,6 +18052,48 @@
    "integration": "已整合待測試",
    "note": "8530a4b26（GHA 42361208528 全綠）；CC 在 PC 量 calls 前後對照",
    "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-L2-PFB",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "7eff8f7a4",
+   "msg": "ACK",
+   "what": "PERF-COLD-1107 (B) 走到出口附近先下載那一區的模型＋大步照鏡子按得到",
+   "task": "PERF-COLD-1107",
+   "integration": "已整合待測試",
+   "note": "5b956198d＋877fb250e（看看旁白座標跟著挪）；zone_prefetch ① 過期改 WARN、發布前重跑；CC perf_cold_probe near 4g",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-L2-HAIRB",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "692873e87",
+   "msg": "ACK",
+   "what": "HAIR-NOODLE-1104 (b) 頭髮貼圖去細線（五個 VRM）",
+   "task": "HAIR-NOODLE-1104",
+   "integration": "已整合待測試",
+   "note": "8fdb294aa；LAWWW-B 比對只差頭髮貼圖；D100a 等 CC 重拍",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-AA722B",
+   "date": "2026-11-07",
+   "from": "AA",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "897ddd17e",
+   "msg": "ACK",
+   "what": "AA_722 partnerBlock：小路、滷味照擋＋以安 fallback",
+   "task": "INVITE-PLACES-1107",
+   "integration": "已整合待測試",
+   "note": "b0c8fbf26；BB 測交往中＋以安知道",
+   "ack": "ACK"
   }
  ],
  "ignored": [
