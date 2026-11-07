@@ -231,6 +231,10 @@ HAIR_FIX | <開發分支最新 SHA> | probe | docs/story_planning/test_tools/cc/
 
 ![頭髮貼圖改前、改後（每兩格一組：學姊、以安、祐廷、語彤、子晴、學姊後髮片）](hair_b_textures.jpg)
 
+![以安：上排原本、下排去細線（正面、45°、側面、背面；Blender 預覽）。瀏海是 HAIR_02，沒動](hair_b_h01_sheet.jpg)
+
+![祐廷：上排原本、下排去細線（Blender 預覽）](hair_b_yuting_sheet.jpg)
+
 **還沒驗**：
 - 遊戲內畫面（CC）：同 HAIR_FIX 那一組鏡頭、HAIRFIX=0，祐廷用 JPG。
 - 彈簧骨擺動時。
