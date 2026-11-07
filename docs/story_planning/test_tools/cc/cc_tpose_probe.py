@@ -17,6 +17,7 @@ J = D.J
 R = L.Run('tpose', OUT); D.setup(R, OUT)
 ZONE = os.environ.get('ZONE') or 'wenzhou'; DAY = os.environ.get('DAY') or '2025-10-18'; H = float(os.environ.get('HOUR') or 11)
 TARGET = [float(x) for x in (os.environ.get('TARGET') or '-8,2.2,4.6').split(',')]
+SAMPLE = os.environ.get('SAMPLE') == '1'   # BB-B 13:36：讀檔後 0～5 秒每 0.5 秒取樣（玩家站在 A1 門口、遊戲本身的跟隨鏡頭，不搬鏡頭）
 TIMES = [int(x) for x in (os.environ.get('AT') or '0,5,20,60').split(',')]
 
 CLEAR = r"""((o)=>{ const z=GAME.E.zone; const meshes=[]; z.group.traverse(q=>{ if(q.isMesh&&q.visible&&!/VIEW|sky/i.test(q.name||'')) meshes.push(q); }); const rc=new THREE.Raycaster();
@@ -38,6 +39,30 @@ NPCS = r"""((onlyVis)=>{ const E=GAME.E, cam=E.camera; const fr=new THREE.Frustu
   return out; })"""
 
 
+async def sample(pg, t0, rec):
+    shots = {0.0, 0.5, 1.0, 2.0}; out = []; k = 0
+    while True:
+        tt = k * 0.5
+        if tt > 5.0: break
+        w = tt - (time.time() - t0)
+        if w > 0: await pg.wait_for_timeout(int(w * 1000))
+        el = round(time.time() - t0, 2)
+        allv = await pg.evaluate(NPCS, False)
+        if tt in shots: await pg.screenshot(path=os.path.join(OUT, 'sample_%04.1fs.png' % tt))
+        rows = [{'url': n['url'], 'pos': n['pos'], 'dist': n['dist'], 'inView': n['inView'], 'isFar': n['isFar'], 'arm': n['arm'], 'clip': [p_['clip'] for p_ in n['playing']], 'pose': n['pose']} for n in allv]
+        near_far = [r for r in rows if r['isFar'] and r['dist'] < 8]
+        tp = [r for r in rows if not r['isFar'] and r['arm'] and r['arm'][0] is not None and r['arm'][0] > -35 and r['arm'][1] > -35]
+        R.note('[取樣 %.1fs（實際 %.2fs）] 8 m 內還是遠距離版本 %d 個 %s；近的（isFar=false）上臂接近水平 %d 個 %s' % (tt, el, len(near_far), J([(r['url'], r['dist'], r['inView']) for r in near_far]), len(tp), J([(r['url'], r['dist'], r['arm'], r['clip']) for r in tp])))
+        out.append({'t': tt, 'elapsed': el, 'rows': rows, 'nearFar': len(near_far), 'tpose': len(tp)})
+        k += 1
+    rec['sample'] = out
+    lastNF = max([x['t'] for x in out if x['nearFar']] or [None], key=lambda v: -1 if v is None else v)
+    lastTP = max([x['t'] for x in out if x['tpose']] or [None], key=lambda v: -1 if v is None else v)
+    R.note('結論：8 m 內用遠距離版本最後一次出現在 %s 秒；近的路人 T 字最後一次出現在 %s 秒（取樣間隔 0.5 秒；遊戲時間跟著實際時間跑）' % (lastNF, lastTP))
+    R.check('讀檔 1 秒以後 8 m 內沒有遠距離版本的路人', lastNF is None or lastNF < 1.0, str(lastNF))
+    R.check('讀檔 1 秒以後沒有 T 字的近路人', lastTP is None or lastTP < 1.0, str(lastTP))
+
+
 async def main():
     real = os.popen('git -C "%s" rev-parse --short HEAD 2>/dev/null' % os.path.join(os.environ.get('LW_TESTS') or '.', '..')).read().strip()
     print('CC WZ_TPOSE（溫州街 T 字路人）：SHA=%s（worktree 實際 %s）；Playwright ≠ iPhone' % (os.environ.get('SHA', '?'), real or '?'), flush=True)
@@ -49,9 +74,14 @@ async def main():
         if R.check('遊戲載入', ok, ''):
             await pg.evaluate("localStorage.clear()")
             R.setup('讀檔 %s %s %.2f（條件事件關閉）' % (ZONE, DAY, H))
-            s = await D.load_zone(pg, cdp, ZONE, DAY, H, wait=1500)
+            if SAMPLE:
+                s = await D.load_zone(pg, cdp, ZONE, DAY, H, x=TARGET[0] + 1.5, z=TARGET[2] - 2.5, yaw=math.pi / 2, wait=0)
+            else:
+                s = await D.load_zone(pg, cdp, ZONE, DAY, H, wait=1500)
             t0 = time.time()
-            if R.check('進得了 %s' % ZONE, s['zone'] == ZONE, J(s)):
+            if SAMPLE and s['zone'] == ZONE:
+                await sample(pg, t0, rec)
+            if R.check('進得了 %s' % ZONE, s['zone'] == ZONE, J(s)) and not SAMPLE:
                 pk = None
                 for d_ in (7.0, 5.0, 9.0):
                     pk = await pg.evaluate(CLEAR, {'c': [TARGET[0], TARGET[2]], 'a0': 0.0, 'd': d_, 'h': 1.7})

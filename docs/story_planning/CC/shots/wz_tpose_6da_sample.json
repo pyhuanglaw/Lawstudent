@@ -1,0 +1,2410 @@
+{
+ "sha": "6da721819b",
+ "shots": [],
+ "sample": [
+  {
+   "t": 0.0,
+   "elapsed": 0.0,
+   "rows": [
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      18.99,
+      -2.38
+     ],
+     "dist": 30.9,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -69,
+      -77
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm2.vrm",
+     "pos": [
+      -3.77,
+      1.39
+     ],
+     "dist": 7.9,
+     "inView": true,
+     "isFar": false,
+     "arm": [
+      -67,
+      -73
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      6.32,
+      15.66
+     ],
+     "dist": 22.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -68,
+      -75
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm3.vrm",
+     "pos": [
+      -12.04,
+      -12.79
+     ],
+     "dist": 14.9,
+     "inView": false,
+     "isFar": false,
+     "arm": [
+      -71,
+      -78
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      21.3,
+      -1.71
+     ],
+     "dist": 33.1,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -71,
+      -78
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 30.6,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -73,
+      -74
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 49,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -72,
+      -73
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf5.vrm",
+     "pos": [
+      15.27,
+      23.42
+     ],
+     "dist": 34.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 50.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -72,
+      -71
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      18.42,
+      21.36
+     ],
+     "dist": 35.7,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -71,
+      -78
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm5.vrm",
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 47.2,
+     "inView": true,
+     "isFar": false,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    }
+   ],
+   "nearFar": 0,
+   "tpose": 0
+  },
+  {
+   "t": 0.5,
+   "elapsed": 8.29,
+   "rows": [
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      18.58,
+      -2.39
+     ],
+     "dist": 30.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -60,
+      -56
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm2.vrm",
+     "pos": [
+      -3.32,
+      1.41
+     ],
+     "dist": 8.3,
+     "inView": true,
+     "isFar": false,
+     "arm": [
+      -71,
+      -64
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      6.31,
+      15.21
+     ],
+     "dist": 22.2,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -69,
+      -63
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm3.vrm",
+     "pos": [
+      -12.03,
+      -12.39
+     ],
+     "dist": 14.5,
+     "inView": false,
+     "isFar": false,
+     "arm": [
+      -62,
+      -55
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      21.75,
+      -1.71
+     ],
+     "dist": 33.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -63,
+      -56
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 30.6,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -71,
+      -74
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 49,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -72
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf5.vrm",
+     "pos": [
+      15.27,
+      23.42
+     ],
+     "dist": 34.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 50.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -70
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      18.38,
+      21.8
+     ],
+     "dist": 35.9,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -62,
+      -56
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm5.vrm",
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 47.2,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    }
+   ],
+   "nearFar": 0,
+   "tpose": 0
+  },
+  {
+   "t": 1.0,
+   "elapsed": 13.06,
+   "rows": [
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      18.16,
+      -2.39
+     ],
+     "dist": 30.1,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -73,
+      -74
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm2.vrm",
+     "pos": [
+      -2.86,
+      1.43
+     ],
+     "dist": 8.7,
+     "inView": true,
+     "isFar": false,
+     "arm": [
+      -57,
+      -70
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      6.29,
+      14.76
+     ],
+     "dist": 21.9,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -57,
+      -71
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm3.vrm",
+     "pos": [
+      -12.02,
+      -12
+     ],
+     "dist": 14.1,
+     "inView": false,
+     "isFar": false,
+     "arm": [
+      -68,
+      -76
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      22.2,
+      -1.7
+     ],
+     "dist": 34,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -64,
+      -75
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 30.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -71,
+      -74
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 49,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -69,
+      -72
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf5.vrm",
+     "pos": [
+      15.27,
+      23.42
+     ],
+     "dist": 34.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 50.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -69,
+      -70
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      18.34,
+      22.24
+     ],
+     "dist": 36.1,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -66,
+      -76
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm5.vrm",
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 47.2,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    }
+   ],
+   "nearFar": 0,
+   "tpose": 0
+  },
+  {
+   "t": 1.5,
+   "elapsed": 16.35,
+   "rows": [
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      17.75,
+      -2.4
+     ],
+     "dist": 29.7,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -58,
+      -70
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm2.vrm",
+     "pos": [
+      -2.4,
+      1.45
+     ],
+     "dist": 9.2,
+     "inView": true,
+     "isFar": false,
+     "arm": [
+      -69,
+      -75
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      6.28,
+      14.32
+     ],
+     "dist": 21.6,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -71,
+      -78
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm3.vrm",
+     "pos": [
+      -12,
+      -11.6
+     ],
+     "dist": 13.7,
+     "inView": false,
+     "isFar": false,
+     "arm": [
+      -61,
+      -72
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      22.65,
+      -1.7
+     ],
+     "dist": 34.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -78
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 30.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -71,
+      -73
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 49,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -69,
+      -72
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf5.vrm",
+     "pos": [
+      15.27,
+      23.42
+     ],
+     "dist": 34.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 50.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -70
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      18.3,
+      22.68
+     ],
+     "dist": 36.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -67,
+      -76
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm5.vrm",
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 47.2,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    }
+   ],
+   "nearFar": 0,
+   "tpose": 0
+  },
+  {
+   "t": 2.0,
+   "elapsed": 16.36,
+   "rows": [
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      17.75,
+      -2.4
+     ],
+     "dist": 29.7,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -58,
+      -70
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm2.vrm",
+     "pos": [
+      -2.4,
+      1.45
+     ],
+     "dist": 9.2,
+     "inView": true,
+     "isFar": false,
+     "arm": [
+      -69,
+      -75
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      6.28,
+      14.32
+     ],
+     "dist": 21.6,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -71,
+      -78
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm3.vrm",
+     "pos": [
+      -12,
+      -11.6
+     ],
+     "dist": 13.7,
+     "inView": false,
+     "isFar": false,
+     "arm": [
+      -61,
+      -72
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      22.65,
+      -1.7
+     ],
+     "dist": 34.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -78
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 30.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -71,
+      -73
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 49,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -69,
+      -72
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf5.vrm",
+     "pos": [
+      15.27,
+      23.42
+     ],
+     "dist": 34.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 50.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -70
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      18.3,
+      22.68
+     ],
+     "dist": 36.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -67,
+      -76
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm5.vrm",
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 47.2,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    }
+   ],
+   "nearFar": 0,
+   "tpose": 0
+  },
+  {
+   "t": 2.5,
+   "elapsed": 19.71,
+   "rows": [
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      17.34,
+      -2.4
+     ],
+     "dist": 29.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -66,
+      -70
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm2.vrm",
+     "pos": [
+      -1.95,
+      1.47
+     ],
+     "dist": 9.6,
+     "inView": true,
+     "isFar": false,
+     "arm": [
+      -69,
+      -62
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      6.26,
+      13.87
+     ],
+     "dist": 21.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -66,
+      -59
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm3.vrm",
+     "pos": [
+      -11.99,
+      -11.2
+     ],
+     "dist": 13.3,
+     "inView": false,
+     "isFar": false,
+     "arm": [
+      -63,
+      -66
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      23.11,
+      -1.69
+     ],
+     "dist": 34.9,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -61,
+      -56
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 30.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -78,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -73
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 49,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -68,
+      -71
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf5.vrm",
+     "pos": [
+      15.27,
+      23.42
+     ],
+     "dist": 34.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 50.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -71
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      18.17,
+      23.05
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -72
+     ],
+     "clip": [
+      "idle",
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm5.vrm",
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 47.2,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    }
+   ],
+   "nearFar": 0,
+   "tpose": 0
+  },
+  {
+   "t": 3.0,
+   "elapsed": 19.72,
+   "rows": [
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      17.34,
+      -2.4
+     ],
+     "dist": 29.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -66,
+      -70
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm2.vrm",
+     "pos": [
+      -1.95,
+      1.47
+     ],
+     "dist": 9.6,
+     "inView": true,
+     "isFar": false,
+     "arm": [
+      -69,
+      -62
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      6.26,
+      13.87
+     ],
+     "dist": 21.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -66,
+      -59
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm3.vrm",
+     "pos": [
+      -11.99,
+      -11.2
+     ],
+     "dist": 13.3,
+     "inView": false,
+     "isFar": false,
+     "arm": [
+      -63,
+      -66
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      23.11,
+      -1.69
+     ],
+     "dist": 34.9,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -61,
+      -56
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 30.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -78,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -73
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 49,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -68,
+      -71
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf5.vrm",
+     "pos": [
+      15.27,
+      23.42
+     ],
+     "dist": 34.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 50.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -71
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      18.17,
+      23.05
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -72
+     ],
+     "clip": [
+      "idle",
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm5.vrm",
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 47.2,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    }
+   ],
+   "nearFar": 0,
+   "tpose": 0
+  },
+  {
+   "t": 3.5,
+   "elapsed": 19.73,
+   "rows": [
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      17.34,
+      -2.4
+     ],
+     "dist": 29.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -66,
+      -70
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm2.vrm",
+     "pos": [
+      -1.95,
+      1.47
+     ],
+     "dist": 9.6,
+     "inView": true,
+     "isFar": false,
+     "arm": [
+      -69,
+      -62
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      6.26,
+      13.87
+     ],
+     "dist": 21.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -66,
+      -59
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm3.vrm",
+     "pos": [
+      -11.99,
+      -11.2
+     ],
+     "dist": 13.3,
+     "inView": false,
+     "isFar": false,
+     "arm": [
+      -63,
+      -66
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      23.11,
+      -1.69
+     ],
+     "dist": 34.9,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -61,
+      -56
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 30.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -78,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -73
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 49,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -68,
+      -71
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf5.vrm",
+     "pos": [
+      15.27,
+      23.42
+     ],
+     "dist": 34.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 50.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -71
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      18.17,
+      23.05
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -72
+     ],
+     "clip": [
+      "idle",
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm5.vrm",
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 47.2,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    }
+   ],
+   "nearFar": 0,
+   "tpose": 0
+  },
+  {
+   "t": 4.0,
+   "elapsed": 19.73,
+   "rows": [
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      17.34,
+      -2.4
+     ],
+     "dist": 29.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -66,
+      -70
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm2.vrm",
+     "pos": [
+      -1.95,
+      1.47
+     ],
+     "dist": 9.6,
+     "inView": true,
+     "isFar": false,
+     "arm": [
+      -69,
+      -62
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      6.26,
+      13.87
+     ],
+     "dist": 21.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -66,
+      -59
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm3.vrm",
+     "pos": [
+      -11.99,
+      -11.2
+     ],
+     "dist": 13.3,
+     "inView": false,
+     "isFar": false,
+     "arm": [
+      -63,
+      -66
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      23.11,
+      -1.69
+     ],
+     "dist": 34.9,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -61,
+      -56
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 30.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -78,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -73
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 49,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -68,
+      -71
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf5.vrm",
+     "pos": [
+      15.27,
+      23.42
+     ],
+     "dist": 34.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 50.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -71
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      18.17,
+      23.05
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -72
+     ],
+     "clip": [
+      "idle",
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm5.vrm",
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 47.2,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    }
+   ],
+   "nearFar": 0,
+   "tpose": 0
+  },
+  {
+   "t": 4.5,
+   "elapsed": 19.74,
+   "rows": [
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      17.34,
+      -2.4
+     ],
+     "dist": 29.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -66,
+      -70
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm2.vrm",
+     "pos": [
+      -1.95,
+      1.47
+     ],
+     "dist": 9.6,
+     "inView": true,
+     "isFar": false,
+     "arm": [
+      -69,
+      -62
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      6.26,
+      13.87
+     ],
+     "dist": 21.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -66,
+      -59
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm3.vrm",
+     "pos": [
+      -11.99,
+      -11.2
+     ],
+     "dist": 13.3,
+     "inView": false,
+     "isFar": false,
+     "arm": [
+      -63,
+      -66
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      23.11,
+      -1.69
+     ],
+     "dist": 34.9,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -61,
+      -56
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 30.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -78,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -73
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 49,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -68,
+      -71
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf5.vrm",
+     "pos": [
+      15.27,
+      23.42
+     ],
+     "dist": 34.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 50.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -71
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      18.17,
+      23.05
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -72
+     ],
+     "clip": [
+      "idle",
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm5.vrm",
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 47.2,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    }
+   ],
+   "nearFar": 0,
+   "tpose": 0
+  },
+  {
+   "t": 5.0,
+   "elapsed": 19.74,
+   "rows": [
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      17.34,
+      -2.4
+     ],
+     "dist": 29.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -66,
+      -70
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm2.vrm",
+     "pos": [
+      -1.95,
+      1.47
+     ],
+     "dist": 9.6,
+     "inView": true,
+     "isFar": false,
+     "arm": [
+      -69,
+      -62
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      6.26,
+      13.87
+     ],
+     "dist": 21.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -66,
+      -59
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm3.vrm",
+     "pos": [
+      -11.99,
+      -11.2
+     ],
+     "dist": 13.3,
+     "inView": false,
+     "isFar": false,
+     "arm": [
+      -63,
+      -66
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      23.11,
+      -1.69
+     ],
+     "dist": 34.9,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -61,
+      -56
+     ],
+     "clip": [
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 30.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -78,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -73
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf4.vrm",
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 49,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -68,
+      -71
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf5.vrm",
+     "pos": [
+      15.27,
+      23.42
+     ],
+     "dist": 34.3,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    },
+    {
+     "url": "bl_npc_nf2.vrm",
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 50.5,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -71
+     ],
+     "clip": [],
+     "pose": "sit"
+    },
+    {
+     "url": "bl_npc_nf3.vrm",
+     "pos": [
+      18.17,
+      23.05
+     ],
+     "dist": 36.4,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -70,
+      -72
+     ],
+     "clip": [
+      "idle",
+      "walk"
+     ],
+     "pose": "walk"
+    },
+    {
+     "url": "bl_npc_nm5.vrm",
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 47.2,
+     "inView": true,
+     "isFar": true,
+     "arm": [
+      -79,
+      -81
+     ],
+     "clip": [
+      "idle"
+     ],
+     "pose": "idle"
+    }
+   ],
+   "nearFar": 0,
+   "tpose": 0
+  }
+ ]
+}
