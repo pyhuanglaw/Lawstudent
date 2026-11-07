@@ -98,6 +98,8 @@ SOC_peishan_date_r5 | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/st
 # BB-B 08:33 XS_NORTH_ROAD（LAWWW2-B XS-NORTH-ROAD-1107）：側門、體育館門口人眼往北、北牆外抬高 9 m；14:00、21:00
 XS_NORTH_ROAD | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_xs_north_road_probe.py | index.html | 20 | CC_HEADLESS=0
 # CC-B 08:4x：CAM 改了（fadeWalls／updateLevelVis，LAWWW2-B 6b92262a6）→ 窗景、店內那一組用新 CAM 重拍對照（BB-B 08:37 ③）；XS_NIGHT_r2 取代 XS_NIGHT_player
+# CC-B 08:5x：GYM_DOME_r3（PC）天空全黑＝CAM 暫停後天空球沒跟著鏡頭搬（鏡頭在 60 m 外、在天空球外面）；CAM 已補 E.sky／E.skyline 跟著鏡頭
+GYM_DOME_r4 | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_fa05_night_probe.py | index.html | 30 | PARTS=dome;DOME_FAR=1;CC_HEADLESS=0
 XS_NIGHT_r2 | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_fa05_night_probe.py | index.html | 30 | PARTS=shops,player;CC_HEADLESS=0
 WV1107_cam | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_winview_1107_probe.py | index.html | 30 | EXPECT=fixed;CC_HEADLESS=0
 SHOPWIN_cam | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_offbeat_front_probe.py | index.html | 30 | TAG=cam;WARM=10;SOLO=1;CC_HEADLESS=0
