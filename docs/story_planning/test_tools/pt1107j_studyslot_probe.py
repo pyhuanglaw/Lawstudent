@@ -20,6 +20,7 @@ from playwright.async_api import async_playwright
 URL, SAVES, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
 SLOT = os.environ.get('SLOT', 'an_shop1')
 SHIFT = int(os.environ.get('DAYSHIFT', '-12'))
+NODATE = os.environ.get('NODATE', '1') == '1'
 core = lambda t: (t or '').replace('（小聲）', '').strip('（）「」 ')[:9]
 
 
@@ -27,6 +28,11 @@ def base_state(who, flag):
     s = json.load(open(os.path.join(SAVES, 'fatiao3d_save_day46.json'), encoding='utf-8'))
     s = dict(s); s['day'] = s['day'] + SHIFT; s['hour'] = 15.0; s['invites'] = []; s['money'] = 1000
     f = dict(s.get('flags') or {}); f.pop('STUDYSLOT', None); f.pop('AN_SHOP1_DONE', None)
+    if NODATE:   # 【捷徑】沒有交往對象（使用者存檔在和可昕交往、以安知道＝吃飯類被 partnerBlock 擋，照設計）
+        for k in [k for k in f if k.startswith('dating_')]: f[k] = False
+        rm = dict(f.get('romance') or {})
+        for k, v in list(rm.items()): rm[k] = dict(v or {}, status='none', knows=[])
+        f['romance'] = rm
     if flag: f[flag] = s['day'] - 1
     s['flags'] = f
     soc = dict(s.get('social') or {}); rel = dict(soc.get('rel') or {}); r = dict(rel.get(who) or {})
@@ -173,7 +179,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
-        run.setup('讀使用者存檔 day46；【捷徑】day %+d 下午 3 點、清邀約、錢 1000、關係到朋友' % SHIFT)
+        run.setup('讀使用者存檔 day46；【捷徑】day %+d 下午 3 點、清邀約、錢 1000、關係到朋友%s' % (SHIFT, '；【捷徑】沒有交往對象（存檔原本和可昕交往）' if NODATE else ''))
         has = await pg.evaluate("typeof STUDYSLOT!=='undefined'&&!!STUDYSLOT.get(%s)" % json.dumps(SLOT))
         run.check('這一版有 STUDYSLOT %s' % SLOT, has)
         if has:
