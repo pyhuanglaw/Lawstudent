@@ -54,3 +54,30 @@
   - 北牆外的路口往北看；
   - 白天、晚上（路燈）。
 - 往北那一段兩側的房子是 `TK.bgCity` 的遠景方塊，和對面那兩排一樣。近看會是方塊，但北牆外走不到，最近也在 25 m 以外。
+
+## 第 2 版（BB-B 11-07 08:52：功能 PASS，兩點 P3）
+
+BB-B 看 CC 新 CAM 的截圖（elegant-brown `test_shots/fa05_night/pc_r2_night_dome_road.jpg` 最下面一列），提了兩點。
+
+**1. 分隔島上看不到行道樹 → 是截圖工具的問題，樹在**
+- Node 建校園：9 棵樹的記號都在（x −56，z −178～−258，y 0.2＝分隔島頂），TreeField 收得到。
+- 原因：TreeField 每一格照鏡頭重排樹（近的模型、遠的卡片、畫面外的不畫）。這一步在 `E.update` 的 extras 裡做。CC 的 `CAM` 先 `E.paused=true`，`E.update` 不跑，樹停在暫停前跟隨鏡頭看到的那一批。
+- 窗景卡也是同一種情況（`wip/xs_night_1107/README.md`）。
+- **CAM 要再補一行**：`for(const x of (E.extras||[])) if(x.update) x.update(0);`，放在 fadeWalls 那一行旁邊。
+
+**2. 晚上路燈下沒有光圈 → 補上**（`xs_north_road_v2_1107.patch`，對開發 `c8b09bcf0`，`git apply --check` OK）：
+- `src/zones3d.js`：
+  - 每一盞燈頭底下一圈地面光暈。燈臂朝馬路，圓心在路燈往馬路 0.75 m。
+  - 和校園其他路燈同一個材質、半徑 4.2 m。
+  - 十圈合成一個網格 `xs_north_branch_pools`，只多一次 draw call。
+  - 放進 `E.lampGlows`，天黑才顯示。
+  - 深度偏移同舟山路的光圈，不會被路面、人行道蓋掉。
+- `tests/xs_north_road_unit.js` 加 ⑤：
+  - 10 圈，圓心在燈頭底下；
+  - 在 lampGlows 裡；
+  - 白天藏、`E.setLamps(true)` 才亮。
+- 結果：開發 `c8b09bcf0` ⑤ FAIL → 加 patch ALL PASS；會建校園的 25 支 Node 全過。
+
+**沒做**：
+- 燈頭的光暈（Sprite）：一盞一個 draw call，遠景不加。
+- 北牆外那一排、新生南路西側那一排遠景路燈：BB 這次沒提，照舊沒有光圈。

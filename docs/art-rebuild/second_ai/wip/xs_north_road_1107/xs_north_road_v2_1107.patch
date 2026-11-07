@@ -1,0 +1,38 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 78309fa8d..a10f398d1 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -580,6 +580,9 @@ const Z3 = (function(){
+         T(29,-128,6.4*1.5); T(44,-127.5,6.4*1.4);
+         for(let z=-178;z>=-258;z-=10){ const t=TK.tree(6.4*(1.25+H(z,41)*0.25)); t.position.set(XSG.xh,0.2,z+(H(z,42)-0.5)*1.5); t.rotation.y=H(z,43)*6.28; trees.add(t); }   // XS-NORTH-ROAD-1107：新生南路往北那一段，分隔島上一排行道樹
+         for(let z=-176;z>=-256;z-=20) for(const sd of [-1,1]){ const a=W3.lampPost(); a.position.set(XSG.xh+sd*8.6,0,z); a.rotation.y=sd<0?Math.PI/2:-Math.PI/2; props.add(a); }   // 兩側路燈（燈臂朝馬路）
++        { const pm=new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd08a,transparent:true,opacity:0.34,depthWrite:false,blending:THREE.AdditiveBlending,polygonOffset:true,polygonOffsetFactor:-8,polygonOffsetUnits:-16}), pg=new THREE.Group();
++          for(let z=-176;z>=-256;z-=20) for(const sd of [-1,1]){ const c=new THREE.Mesh(new THREE.CircleGeometry(4.2,16),pm); c.rotation.x=-Math.PI/2; c.position.set(XSG.xh+sd*7.85,0.03,z); pg.add(c); }
++          const pool=W3.mergeGroup(pg); pool.name='xs_north_branch_pools'; pool.traverse(m=>{ if(m.isMesh){ m.castShadow=false; m.receiveShadow=false; } }); pool.visible=false; far.add(pool); E.lampGlows.push(pool); }   /* XS-NORTH-ROAD-1107 第 2 版（BB-B 11-07 08:52：晚上路燈下沒有光圈）：每一盞燈頭底下（燈臂朝馬路 0.75 m）一圈地面光暈，和校園其他路燈同一個材質、半徑；十圈合成一個網格（一次 draw call），跟著 E.lampGlows 天黑才顯示；深度偏移同舟山路的光圈（不被路面、人行道蓋掉）*/
+         for(let z=-98;z>=-136;z-=9.5) for(let x=-116;x<=2;x+=12){ const tx=x+H(x,z)*5, tz=z+H(z,x)*3; if(tx>-64&&tz>-127) continue; if(xsIn(tx,tz,2.2)) continue; T(tx,tz); }   /* XS-GATE-NORTH-1105：側門、望月台、停車場、體育館、步道上不種 */   // 西北角走不到的樹林（方案 A：湖和博雅那一塊打開，樹只留在西邊和圍牆外）
+         for(const x of [130,142,155]) for(let z=-46;z<=46;z+=9) T(x+H(x,z)*3,z+H(z,x)*3);   // 總圖後面的樹帶
+         for(let x=-124;x<=200;x+=13) T(x+H(x,9)*2,99);   // 南側道路旁
+diff --git a/tests/xs_north_road_unit.js b/tests/xs_north_road_unit.js
+index bd8716287..b9712f764 100644
+--- a/tests/xs_north_road_unit.js
++++ b/tests/xs_north_road_unit.js
+@@ -4,7 +4,8 @@
+    ② 兩側（x XSG.xh ± 19、z −216～−256）打得到房子（≥ 12 m 高的佔八成以上）：路不是直直通到空地
+    ③ 路面：x XSG.xh、z −200 往下打，打到的是 xs_north_branch_road（不是城市底色的柏油）；有分隔島、車道線、兩側人行道
+    ④ 路口北邊那一條斑馬線 16 m 寬（和車道一樣）
+-   修改前（開發 fa05ed8c5）：① ② ③ ④ FAIL。用法：node tests/xs_north_road_unit.js */
++   ⑤ 第 2 版（BB-B 11-07 08:52）：晚上每一盞路燈下有地面光圈（十圈一個網格 xs_north_branch_pools，在 E.lampGlows 裡、白天藏著、E.setLamps(true) 才顯示；圓心在燈頭底下）
++   修改前（開發 fa05ed8c5）：① ② ③ ④ FAIL；⑤ 在開發 c8b09bcf0 FAIL。用法：node tests/xs_north_road_unit.js */
+ const fs=require('fs'), vm=require('vm'), path=require('path');
+ const ROOT=path.resolve(__dirname,'..');
+ global.window=global; global.self=global;
+@@ -32,5 +33,9 @@ const L=XINSHENG_LAYOUT, E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
+   check('③ 往北那一段有路面（不是城市底色）、分隔島、車道線、兩側人行道',!!road&&!!h0&&h0.object===road&&!!med&&!!lines&&walks===2,'打到 '+(h0?(h0.object.name||'(沒有名字)')+' y '+h0.point.y.toFixed(3):'沒有')+'｜分隔島 '+!!med+' 車道線 '+!!lines+' 人行道 '+walks);
+   const zb=far&&far.getObjectByName('zebra_xs_branch'); let zw=0; if(zb){ const b=new THREE.Box3().setFromObject(zb); zw=b.max.x-b.min.x; }
+   check('④ 路口北邊的斑馬線 16 m 寬',Math.abs(zw-16)<0.6,'寬 '+zw.toFixed(1)+' m');
++  { const pool=far&&far.getObjectByName('xs_north_branch_pools'); let cen=[]; if(pool){ pool.updateMatrixWorld(true); pool.traverse(o=>{ if(!o.isMesh) return; const pos=o.geometry.attributes.position, v=new THREE.Vector3(); const pts=[]; for(let i=0;i<pos.count;i++){ v.fromBufferAttribute(pos,i).applyMatrix4(o.matrixWorld); pts.push([v.x,v.z]); }
++      for(let z=-176;z>=-256;z-=20) for(const sd of [-1,1]){ const cx=X+sd*7.85; if(pts.some(([px,pz])=>Math.abs(px-cx)<0.3&&Math.abs(pz-z)<0.3)) cen.push([sd,z]); } }); }
++    const inG=!!pool&&E.lampGlows.includes(pool), day=!!pool&&pool.visible===false; E.setLamps(true); const night=!!pool&&pool.visible===true; E.setLamps(false);
++    check('⑤ 晚上每一盞路燈下有地面光圈（10 圈、天黑才亮）',!!pool&&cen.length===10&&inG&&day&&night,'光圈 '+cen.length+'／10、在 lampGlows '+inG+'、白天藏 '+day+'、天黑亮 '+night); }
+   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
+ })();
