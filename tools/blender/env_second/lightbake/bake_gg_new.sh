@@ -73,6 +73,9 @@ cp "$SRC" "$TMP/$NAME.glb"
   --lm "$TMP/$NAME" --url "$(dirname "$SRC")/${NAME}_lm" --res 1024 --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
   --lights "$LIGHTS" --smooth 2 "${EXTRA[@]}"
 python3 $LB/to_webp.py "$TMP/$NAME" "$DST/${NAME}_lm" 90
+if [ "$SHOP" = corner ]; then   # instancing 節點的名字、extras（WALL_／CEIL_、dir、at）照原檔補回去：Blender 重新匯出會叫「corner_interior.N」
+  python3 $LB/glb_fix_instnames.py "$TMP/$NAME.glb" "$DST/$NAME.glb"
+fi
 if [ ${#CARD[@]} -gt 0 ]; then   # 窗外的景（烘完才加：不擋天光、沒有第二套 UV）
   python3 $LB/glb_add_viewcard.py "$DST/$NAME.glb" "$DST/$NAME.glb" "${CARD[@]}"
 fi
