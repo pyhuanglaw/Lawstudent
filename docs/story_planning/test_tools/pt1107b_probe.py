@@ -74,8 +74,10 @@ async def main():
         await tap_sel(pg, cdp, '#phoneBody [data-inv="%s"]' % WHO); await pg.wait_for_timeout(1500)
         await choose(pg, cdp, '念書'); await choose(pg, cdp, '總圖')
         o = await opts(pg); print('   時間', o, flush=True)
-        pm = next((x for x in o if x['t'].startswith('今天') and not x['dim'] and any(h in x['t'] for h in ('13:', '14:', '15:', '16:'))), None)
-        run.check('約時間：今天下午有能選的時間', bool(pm), json.dumps(o, ensure_ascii=False))
+        EV = os.environ.get('SLOT', '') == 'ev'   # SLOT=ev：約晚上（05df3a848：晚上那一格用完、後面沒有約＝回去睡到隔天早上；UA-LAWWW-1107-03）
+        HRS = ('19:', '20:') if EV else ('13:', '14:', '15:', '16:')
+        pm = next((x for x in o if x['t'].startswith('今天') and not x['dim'] and any(h in x['t'] for h in HRS)), None)
+        run.check('約時間：今天%s有能選的時間' % ('晚上' if EV else '下午'), bool(pm), json.dumps(o, ensure_ascii=False))
         if not pm: return run.finish()
         await choose(pg, cdp, pm['t'], True)
         log = []; await settle(pg, cdp, log, 30)
@@ -84,6 +86,11 @@ async def main():
         run.check('約好了：今天下午、總圖，算「一起念書」（INV.isStudy；總圖只能念書，不記 cat）', bool(iv) and any(isst), json.dumps({'iv': iv, 'isStudy': isst, 'log': log[-4:]}, ensure_ascii=False))
         if not iv: return run.finish()
         v = iv[-1]
+        day0 = await pg.evaluate("GAME.G.day")
+        LATER = os.environ.get('LATER', '') == '1'   # LATER=1：同一晚 21:00 後面還有一個約＝不睡
+        if EV and LATER:
+            r2 = await pg.evaluate("(()=>{ const G=GAME.G; for(const pid of ['cafe','library','brunch']){ try{ const iv=INV.accept(G,'heroine_01',pid,G.day,21,{by:'player'}); if(iv) return {pid,h:iv.h,id:iv.id}; }catch(e){} } return null; })()")
+            run.setup('【捷徑】同一晚 21:00 再加一個約（INV.accept 以安 %s）＝後面還有約' % json.dumps(r2, ensure_ascii=False))
         # ②【捷徑】撥時間到約好的前 10 分鐘
         run.setup('【捷徑】GAME.G.hour 撥到約好的 %.2f 前 10 分鐘（不測走路、不測跳過時間）' % v['h'])
         await pg.evaluate("(h=>{ GAME.G.hour=h; })(%f)" % (v['h'] - 0.17))
@@ -133,8 +140,18 @@ async def main():
         exam = await pg.evaluate("!!(CLS.examWeek&&CLS.examWeek(GAME.G))")
         stn = await pg.evaluate("(w=>{ const r=((GAME.G.flags||{}).STUDYN||{})[w]; return r?{n:r.n,k:r.k,last:r.last}:null; })(%s)" % json.dumps(WHO))
         run.check('③ STUDYN 記到第 1 場演過（n=1、下一場 k=2）', bool(stn) and stn.get('n') == 1 and stn.get('k') == 2, json.dumps(stn))
-        if exam:
-            run.check('④ 考試週：下午多一格只能自習，見面演完不跳（照設計）', info['h'] < 17.8 or True, json.dumps({'exam': exam, **info}, ensure_ascii=False))
+        if EV:
+            slept = await pg.evaluate("({day:GAME.G.day, hour:+GAME.G.hour.toFixed(2), zone:(GAME.E.zone&&GAME.E.zone.def&&GAME.E.zone.def.id)||GAME.G.zone})")
+            toast = [t for t in said if '晚上的時間用完了' in t]
+            print('   晚上演完以後', slept, toast, flush=True)
+            if exam:
+                run.check('④ 考試週：晚上多一格只能自習，見面演完不睡（照設計）', True, json.dumps({'exam': exam, **slept}, ensure_ascii=False))
+            elif LATER:
+                run.check('④ 同一晚 21:00 後面還有約：不睡（還是今天、還在晚上）', slept['day'] == day0 and slept['hour'] >= 18, json.dumps({'slept': slept, 'iv': v}, ensure_ascii=False))
+            else:
+                run.check('④ 晚上那一格用完、後面沒有約：回去睡到隔天早上（day+1、早上、宿舍或家）', slept['day'] == day0 + 1 and slept['hour'] < 12 and slept['zone'] in ('dorm', 'dorm_hall', 'home', 'home_room'), json.dumps({'slept': slept, 'said': said[-6:]}, ensure_ascii=False))
+        elif exam:
+            run.check('④ 考試週：下午多一格只能自習，見面演完不跳（照設計）', True, json.dumps({'exam': exam, **info}, ensure_ascii=False))
         else:
             run.check('④ 時間跳到 18:00 或下一堂課前 10 分鐘（≥ 17.8）', info['h'] >= 17.8, json.dumps({'exam': exam, **info}, ensure_ascii=False))
         await settle(pg, cdp, [], 20)
