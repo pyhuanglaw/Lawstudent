@@ -48,19 +48,27 @@ async def main():
                 await pg.wait_for_timeout(500)
             await L.close_panels(pg, cdp); await pg.wait_for_timeout(2500)
             st = await P.ts(pg); said_home = []
-            for _ in range(30):   # 回家的旁白先點掉，選單才出來
+            trace = []
+            for _ in range(110):   # 回家的旁白先點掉，選單才出來（最多約 90 秒）
                 st = await P.ts(pg)
+                trace.append([st['h'], st['zone'], st['dlg'], st['busy'], st['depth'], st['phone'], st['txt'][:16], len(st['ch'])])
                 if st['ch']: break
                 if st['dlg']:
-                    said_home.append(st['txt']); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(800); continue
+                    if st['txt'] and (not said_home or said_home[-1] != st['txt']): said_home.append(st['txt'])
+                    await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(800); continue
+                if st['phone']: await L.close_panels(pg, cdp)
                 await pg.wait_for_timeout(800)
+            print('[HOME TRACE]', J(trace[-12:], 2500))
+            await run.shot(pg, 'zq_home_menu')
             menu = [c['t'] for c in st['ch']]
             print('[HOME SAY]', J(said_home)); print('[HOME MENU]', J(menu))
             run.check('手機「回家」→ 在家選單有「睡覺」（沒有補演大二拆箱）', bool(ok) and any(t.startswith('睡覺') for t in menu) and not any('床桌' in t for t in said_home), J([said_home, menu]))
             run.check('在家選單有「在家休息一下」（21:30 可以休息到 22:30）', any('休息' in t for t in menu), J(menu))
             await pg.evaluate(CAP); n0 = await P.say_hook(pg)
             k = next((i for i, c in enumerate(st['ch']) if c['t'].startswith('睡覺')), None)
-            await P.tap_choice(pg, cdp, k if k is not None else 0)
+            if k is None:
+                run.check('沒有 JS 例外', not errs, J(errs[:5])); await b.close(); return run.finish()
+            await P.tap_choice(pg, cdp, k)
             tl = []; woke = None
             for _ in range(120):
                 c = await P.clock(pg); s1 = await P.ts(pg); tl.append([c['key'], c['h'], s1['phone'], s1['txt'][:20], [x['t'][:8] for x in s1['ch']][:4]])
