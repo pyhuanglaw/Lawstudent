@@ -27,8 +27,21 @@
   它們都在 x 3.54～3.71、高 0.6／1.08／1.53／1.97 m 的層板上。
 - CC_47「還沒驗的事」第一條就是這個（「含 WALL_right_*_inst 的音響、唱盤跟著右牆淡出」），但匯出的 GLB 沒有做到。
 - 其他已經進遊戲的公館店（afar、Daybreak、慢輪）的 instancing 節點也都不在牆底下；它們的牆上沒有架子放 instancing 的東西，所以沒問題。
+- **不只右牆鐵架**（讀了 `corner_interior.py`）：
+  - 原型 `Proto('speaker'／'amp'／'receiver'／'deck'／'turntable')` 都沒有 `side`，放在哪面牆的家具上都一樣；
+  - 那些家具本身是 `Part(..., side=...)`，會淡出。
+  - 所以下面這些也會浮：
+    - 左牆音響櫃（`audio_cab`，side left）上的唱盤、喇叭各 1；
+    - 後牆展示龕（`niche`）裡的唱盤 1；
+    - 右牆試聽吧台（`listen_desk`，side right）上的喇叭 1。
+  - 匯出的 `fix_instanced_names` 只在網格名字是 `WALL_<面>_` 開頭時補 `extras.dir`，原型不是，所以都沒補到。
 - **改法**（二選一）：
-  - (a) `corner_interior.py` 把右牆層板上的那幾組 instancing 分成另一組，掛在一個 `WALL_right_gear` 空節點底下（`extras.dir [-1,0,0]`；attachRoomGLB 的 wallDirOf 會沿用上層節點）。
+  - (a) `corner_interior.py` 照放的地方分原型：
+    - 擴大機、收音機、卡座只在右牆鐵架上，直接設 `side='right'`；
+    - 喇叭分右（鐵架 11＋吧台 1）、左（音響櫃 1）；
+    - 唱盤分右（鐵架 3）、左（音響櫃 1）、後（展示龕 1）。
+    - 這樣網格名字是 `WALL_<面>_…`，`fix_instanced_names` 會補 `extras.dir`，就跟著那面牆淡出。
+    - primitive 約 +12（多出來的左、後兩組唱盤、左邊喇叭）。
   - (b) GLB 後處理：把 x > 3.3 的 instance 從原本的 instancing 節點拆出來，搬到新節點 `WALL_right_gear` 底下。不用重跑 Blender，但以後 CC 重新匯出又會回來。
   - 我建議 (a)。CC（帳號 A）不在班的話，我可以照 (a) 改腳本重新匯出，由 LAWWW-B 決定。
 
