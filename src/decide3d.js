@@ -33,16 +33,20 @@ const DECIDE=(function(){
     return v; };
   /* ===== AA_719 的決定拍（src/data/decide_rules.js）：她最後怎麼決定＝她本來的傾向 × 個性 × 你怎麼說（stance）× 信任 =====
      規則由上往下第一條符合（stance、trust hi／lo／any、有 opt 要是那個選項、有 if 要成立）；都不符合＝default。
-     trust hi＝她對祐廷的 trust ≥ S.TRUST_HI 而且階段 ≥ 朋友（DATE.stageNum ≥ 3）。
+     trust hi＝她對祐廷的 trust ≥ 那一階的門檻（S.TRUST_HI：朋友 40、好朋友以上 60；朋友以前一律低）。
      delay＞0＝那天以後下次見面先說 say（「我想了想，還是……」）；三天內沒見面＝她傳訊息（只傳對話、不傳旁白）；delay 0 有 say＝那一拍演完馬上說。
      before：那一拍要在那一天以前演到才算（語彤 YT-1：大一下第 9 週媽媽發現以前），過了＝default。
      存檔：DECIDE[人][key]＝{v,day,stance,rule}；G.flags.DECIDE_SAY＝[{who,key,due,say,played}] */
-  S.TRUST_HI=30;
+  /* 信任夠不夠（AA_719「數值 LAWWW 調」）：看她現在在哪一階——階段本身已經要求 trust（朋友 25、好朋友 45），門檻要比那一階的底線高，
+     不然大部分決定拍（need 4）幾乎都是「信任高」、你推什麼她都照做（BB-B 06:50 讀程式算出來；使用者 06:4x「也不能我建議他做什麼他就都聽我的啊」）。
+     朋友（第 3 階）：trust ≥ 40；好朋友以上（第 4 階起）：trust ≥ 60；朋友以前＝一律低 */
+  S.TRUST_HI={3:40,4:60};
   const TB=()=>(typeof DECIDE_RULES!=='undefined'&&DECIDE_RULES.keys)||[];
   S.beatRule=(who,n)=>TB().find(e=>e.who===who&&e.beat===n)||null;
   S.byKey=(who,key)=>TB().find(e=>e.who===who&&e.key===key)||null;
   for(const e of TB()){ const d=S.DEFAULT[e.who]||(S.DEFAULT[e.who]={}); if(d[e.key]==null) d[e.key]=e.default; }
-  S.trustHi=function(G,who){ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return false; const t=+SOCIAL.rel(who).trust||0; const st=typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(who):0; return t>=S.TRUST_HI&&st>=3; };
+  S.trustNeed=st=>st>=4?S.TRUST_HI[4]:(st>=3?S.TRUST_HI[3]:Infinity);
+  S.trustHi=function(G,who){ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return false; const t=+SOCIAL.rel(who).trust||0; const st=typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(who):0; return t>=S.trustNeed(st); };
   const condOk=(G,c)=>!c||(typeof ARCS!=='undefined'&&ARCS.cond?ARCS.cond(G,c):S.cond(G,c));
   S.pickRule=function(G,e,k){ const so=e.opts.find(o=>o.i===k), stance=so&&so.stance, hi=S.trustHi(G,e.who);
     for(let j=0;j<e.rules.length;j++){ const r=e.rules[j]; if(r.stance!==stance) continue; if(r.trust==='hi'&&!hi) continue; if(r.trust==='lo'&&hi) continue; if(r.opt!=null&&r.opt!==k) continue; if(!condOk(G,r.if)) continue; return {r,j,stance}; }

@@ -63,5 +63,9 @@ const PLAIN={n:2,need:1,lines:['今天好熱。'],ask:['你喜歡夏天嗎？'],
       check('7. push:game＋信任低：還是 game，但兩天後「我自己決定的。」「不是因為你說。」',DECIDE.get(G,ZQ,'summer')==='game'&&x&&x.say[0]==='我自己決定的。'&&x.due===G.day+2,J(x)); }
     { const YT='heroine_03', E2=DECIDE.byKey(YT,'mom'), B4=HEROINE_ARCS.people[YT].beats[E2.beat-1]; const G=fresh(); G.day=ARCS.dayOf('Y1S2W9')+1; H.picks=[0,0]; await ARCS.run(GM,{name:'陳語彤',charId:YT},YT,ARCS.resolve(G,YT,B4));
       check('7. 語彤 YT-1：過了大一下第 9 週才演到那一拍＝found（媽媽自己發現），不照規則',DECIDE.get(G,YT,'mom')==='found'&&G.flags.DECIDE[YT].mom.late===true,J(G.flags.DECIDE)); } }
+  /* 8 信任門檻（BB-B 06:50：need 4 的拍原本幾乎都是 hi）*/
+  { const G=fresh(); const R=SOCIAL.rel(ZQ); const DS=DATE.stageNum; const at=(st,t)=>{ DATE.stageNum=()=>st; R.trust=t; return DECIDE.trustHi(G,ZQ); };
+    const r=[at(4,45),at(4,59),at(4,60),at(3,39),at(3,40),at(2,90)]; DATE.stageNum=DS;
+    check('8. 信任門檻照階段：好朋友 trust 45／59＝低、60＝高；朋友 39＝低、40＝高；朋友以前＝低（need 4 的拍兩邊都碰得到）',J(r)===J([false,false,true,false,true,false]),J(r)); }
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });
