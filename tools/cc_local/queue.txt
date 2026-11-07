@@ -60,6 +60,10 @@ GYMUSE_3880 | 38808711072fa54b74ff60892417beefaebae813 | probe | docs/story_plan
 GG2_afar_date_01 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_01;RERUN=w01;CC_HEADLESS=0
 GG2_afar_date_03 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_03;RERUN=w03;CC_HEADLESS=0
 GG2_afar_date_04 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_04;RERUN=w04;CC_HEADLESS=0
+#   BB-B 06:13：BUG-AFAR-DATE-OCCUPIED-1107 修了（2f61efe46 在 32e10b130）——三位各補一支 _32e1
+GG2_afar_date_01_32e1 | 32e10b130ddc01f9f41007c01e032d44a35d11af | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_01;RERUN=x01;CC_HEADLESS=0
+GG2_afar_date_03_32e1 | 32e10b130ddc01f9f41007c01e032d44a35d11af | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_03;RERUN=x03;CC_HEADLESS=0
+GG2_afar_date_04_32e1 | 32e10b130ddc01f9f41007c01e032d44a35d11af | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_04;RERUN=x04;CC_HEADLESS=0
 POOL_TALK_fix | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | EXPECT=fixed;CC_HEADLESS=0
 POOL_TALK_before | 3b170607e | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | CC_HEADLESS=0
 # ===== ★ CC-B 11-07 03:4x（BB-B 03:34／03:38）：照這個順序最先跑 =====
