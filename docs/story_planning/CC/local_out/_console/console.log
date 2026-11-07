@@ -642,3 +642,12 @@
 [13:35:37] [res] cpu=31% mem=54% (16.8/31.4 GB) chrome_testing=4  START CLOSE_EXC_r2
 [13:35:38] worktree add 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93: invalid reference - fetching main and the commit itself
 [13:36:46] [res] cpu=45% mem=51% (16.0/31.4 GB) chrome_testing=8  END LIVE_V91021_deploy
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       335f8c7eb..ae6227df7  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:36:51] ==== END   LIVE_V91021_deploy  exit=0  261s   ====
+[13:36:58] memory 54% before starting SOC_xinci_date_r3 (2 running)
+[13:36:58] ==== START SOC_xinci_date_r3  (probe @ 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93) ====
+[13:37:02] [res] cpu=57% mem=54% (17.2/31.4 GB) chrome_testing=8  START SOC_xinci_date_r3
+[13:38:40] 正在跑：CLOSE_EXC_r2（已跑 3 分／上限 90 分）、SOC_peishan_date_r3（已跑 3 分／上限 45 分）、SOC_xinci_date_r3（已跑 1 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:42:24] [res] cpu=12% mem=54% (17.0/31.4 GB) chrome_testing=10  END SOC_peishan_date_r3
