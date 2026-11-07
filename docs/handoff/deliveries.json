@@ -18010,6 +18010,48 @@
    "integration": "已驗收",
    "note": "79214e4e1；BB AN-1 全部 PASS",
    "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-AA721",
+   "date": "2026-11-07",
+   "from": "AA",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "b782e2c08",
+   "msg": "ACK",
+   "what": "AA_721 118 巷七家店 × 七位答應句、第一次那一句、可昕不去好家",
+   "task": "INVITE-PLACES-1107",
+   "integration": "已整合待測試",
+   "note": "55d611b22；BB pt1107i 排測",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-AA722",
+   "date": "2026-11-07",
+   "from": "AA",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "bbeb58f34",
+   "msg": "ACK",
+   "what": "AA_722 念書第 6 次解鎖的她那一格（六格；9bb7e3cc9 → bbeb58f34 語彤那一場改成她下班、店還開著）",
+   "task": "INVITE-PLACES-1107",
+   "integration": "已整合待測試",
+   "note": "19a06b1be、3b8ebd13e；BB 排測",
+   "ack": "ACK"
+  },
+  {
+   "id": "DLV-1107-L2-WZDC",
+   "date": "2026-11-07",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "a535443e2",
+   "msg": "ACK",
+   "what": "PERF-WZ-DC-1107 d）1＋2：人物描邊不進影子那一輪、溫州街頂點色材質打包",
+   "task": "PERF-WZ-DC-1107",
+   "integration": "已整合待測試",
+   "note": "8530a4b26（GHA 42361208528 全綠）；CC 在 PC 量 calls 前後對照",
+   "ack": "ACK"
   }
  ],
  "ignored": [
