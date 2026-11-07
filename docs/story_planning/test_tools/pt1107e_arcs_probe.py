@@ -23,6 +23,17 @@ async def phone(pg, cdp, tab):
     return await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")
 
 
+async def close_phone(pg, cdp):
+    """收起手機（手機開著 E.paused＝時間不走）：按手機裡的「收起來」；找不到才按 #btnPhone"""
+    for _ in range(3):
+        if await pg.evaluate("document.getElementById('phone').classList.contains('hide')"): return True
+        c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#phone button')].find(x=>x.textContent.trim()==='收起來'); if(!b) return null; const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
+        if c: await L.touch_tap(cdp, c[0], c[1])
+        else: await L.tap(pg, cdp, '#btnPhone')
+        await pg.wait_for_timeout(700)
+    return await pg.evaluate("document.getElementById('phone').classList.contains('hide')")
+
+
 async def tap_sel(pg, cdp, sel):
     ok = await pg.evaluate("(s=>{ const e=document.querySelector(s); if(!e) return false; e.scrollIntoView({block:'center'}); return true; })(%s)" % json.dumps(sel))
     if not ok: return False
@@ -89,7 +100,7 @@ async def meet_once(pg, cdp, run, cat, word, tag):
         if not here:
             run.check('[%s] 手機「今天」有「現在過去」' % tag, False); return None, None
         run.setup('[%s] 人已經在約好的地方（【捷徑】隔天沒有回宿舍睡），手機不給「前往」＝照設計，直接走去找她' % tag)
-        if await pg.evaluate("!document.getElementById('phone').classList.contains('hide')"): await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(800)
+        run.check('[%s] 收起手機（時間才會走）' % tag, await close_phone(pg, cdp))
 
     said, picked = [], []
     for _ in range(900):
