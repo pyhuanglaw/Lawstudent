@@ -136,7 +136,7 @@ const ECONFF=(()=>{
     return t; };
   S.cardLine1=function(G,d0,d1,h0,h1){ const r=S.rec(G);
     if(d1>d0) for(const [k,t] of S.PIN){ if(DK(k)===d1&&!r.lines.includes(t)){ r.lines.push(t); return t; } }
-    if(d1===d0&&h0!=null&&h1!=null){ for(const [a,,t,hh] of S.CARDS){ if(!hh||DK(a)!==d0||!t||r.lines.includes(t)) continue; if(h0<=hh.fromH+0.01&&h1>=hh.toH-0.01){ r.lines.push(t); return t; } } return null; }   /* 同一天往後跳的那幾句（第四格 {fromH,toH}＝那天幾點到幾點，跳的範圍蓋住它才出；AA_726 ④ 9/20 18:30→23:00，BUG-Y0-DAYSKIP-CARD-1107）*/
+    if(d1===d0&&h0!=null&&h1!=null){ for(const [a,,t,hh] of S.CARDS){ if(!hh||DK(a)!==d0||!t||r.lines.includes(t)) continue; if(h0<hh.toH-0.01&&h1>=hh.toH-0.01&&h1-h0>=2-0.01){ r.lines.push(t); return t; } } return null; }   /* 同一天往後跳的那幾句（第四格 {fromH,toH}；AA_726 ④ 9/20 晚上→23:00，BUG-Y0-DAYSKIP-CARD-1107）：那天跳到 toH（跨過它）、而且跳了兩小時以上（和出日期卡同一個門檻，不會算掉卻沒出）就出——BB-B 11-07 15:51：原本要從 fromH（18:30）起跳，演完 E05 走一下或按「等到晚上」就永遠看不到 */
     if(d1-d0<2) return null; const k0=d0+1, k1=d1-1;
     const out=[]; for(const [a,b,t0,hh] of S.CARDS){ if(hh) continue; const t=typeof t0==='function'?t0(G):t0; if(!t||r.lines.includes(t)) continue; const da=DK(a), db=DK(b); if(da!=null&&db!=null&&da<=k1&&db>=k0){ r.lines.push(t); out.push(t); if(out.length>=2) break; } }
     return out.length?out.join('<br>'):null; };   /* 一跳跨過兩段（BB n36 三輪都是 4/24 直接跳 6/8：AA_529 6-5 拆的兩張只出第一張）＝一張卡兩行，照日子順序；最多兩行 */   /* 第三格可以是函式（G）→ 句子或 null＝這一跳不出（AA_348：7/15～7/23 看 E35_PLAN）*/

@@ -1,6 +1,6 @@
 // AA_726（企劃線 8255634fb）經濟系序章跳日子的日期卡句子＋E05 之後的三句（BUG-Y0-DAYSKIP-CARD-1107；BB_255 CC 試玩第 1、3 件）——不需要瀏覽器（D131）。
 // 檢查：1 9/13 → 9/16（跳過 9/14～9/15 週末）＝新句「保齡球那晚以後的週末…」；2 9/16 → 9/20＝「下課以後，常常是同一群人…」（範圍改成 9/17～9/19，不會被前一跳用掉）
-//       3 9/20 同一天 18:30 → 23:00＝「晚上，你在宿舍洗手上的油…」；只跳到 19:00＝不出；4 跨日（9/19 → 9/22）不出那句同一天的
+//       3 9/20 同一天跳到 23:00、兩小時以上（18:30 或 20:00 起）＝「晚上，你在宿舍洗手上的油…」；只跳到 19:00、22:00 → 23:00＝不出；4 跨日（9/19 → 9/22）不出那句同一天的
 //       5 ev_y0_e05 最後一句「走，去公館。我請你喝飲料。」之後接 AA_726 e05_after 三句。修改前 1、3、5 FAIL。用法：node tests/aa726_cards_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'); const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.document={getElementById:()=>null,addEventListener(){}}; global.location={search:''};
@@ -16,8 +16,9 @@ const G=mkG('2024-09-13');
 const a=ECONFF.cardLine(G,dayOf('2024-09-13'),dayOf('2024-09-16')), b=ECONFF.cardLine(G,dayOf('2024-09-16'),dayOf('2024-09-20'));
 check('1. 9/13 → 9/16（9/14～9/15 週末）：「保齡球那晚以後的週末…」',a===W,a);
 check('2. 9/16 → 9/20（9/17～9/19）：「下課以後，常常是同一群人…」（不會被前一跳用掉）',b===C,b);
-const d=dayOf('2024-09-20'); const c0=ECONFF.cardLine(G,d,d,18.5,19), c1=ECONFF.cardLine(G,d,d,18.5,23), c2=ECONFF.cardLine(G,d,d,18.5,23);
-check('3. 9/20 同一天 18:30 → 23:00：「晚上，你在宿舍洗手上的油…」；只到 19:00 不出；出過不再出',c0===null&&c1===N&&c2===null,JSON.stringify([c0,c1,c2]));
+const d=dayOf('2024-09-20'); const c0=ECONFF.cardLine(G,d,d,18.5,19), cs=ECONFF.cardLine(G,d,d,22,23), c1=ECONFF.cardLine(G,d,d,18.5,23), c2=ECONFF.cardLine(G,d,d,18.5,23);
+check('3. 9/20 同一天 18:30 → 23:00：「晚上，你在宿舍洗手上的油…」；只到 19:00、22:00 → 23:00（不到兩小時）不出；出過不再出',c0===null&&cs===null&&c1===N&&c2===null,JSON.stringify([c0,cs,c1,c2]));
+{ const G3=mkG('2024-09-20'); const c3=ECONFF.cardLine(G3,d,d,20,23); check('3b. 演完 E05 按「等到晚上」（20:00）以後 20:00 → 23:00：也出（BB-B 11-07 15:51 放寬）',c3===N,c3); }
 const G2=mkG('2024-09-19'); const x=ECONFF.cardLine(G2,dayOf('2024-09-19'),dayOf('2024-09-22'));
 check('4. 跨日 9/19 → 9/22：不出 9/20 同一天那句',x!==N&&!(x||'').includes(N),x);
 global.STORY_EVENTS=[]; const s=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); const i=s.indexOf("id:'ev_y0_e05'"), j=s.indexOf('after:',i); const seg=i>0&&j>i?s.slice(i,j):'';
