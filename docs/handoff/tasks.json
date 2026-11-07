@@ -49224,7 +49224,7 @@
    "id": "BUG-Y0-DAYSKIP-CARD-1107",
    "title": "經濟系序章跳日子沒有過場字卡、而且跳在玩家走路中（字卡文字 AA、跳的時機 LAWWW）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -49236,7 +49236,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 14:5x LAWWW-B】BB-B 觀察：跳到 9/12 21:00 人在博思教學館裡（同 10/12 Café「跳日以後的落點」）——一起看。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。"
+   "next": "【11-07 15:1x LAWWW-B】推了：ba11c0043（不在走路中跳：ECONFF.walking；同一天跳 ≥2 小時也出日期卡）＋3b942474b（AA_726 8255634fb：9/14～9/15、9/17～9/19 兩句、9/20 18:30→23:00 同一天那句、E05 之後三句）；tests/econ_jump_walk_unit.js、aa726_cards_unit.js。BB 測。跳日以後的落點（9/12 21:00 人在博思裡、10/12 Café）還沒處理。 ｜ 【11-07 14:5x LAWWW-B】BB-B 觀察：跳到 9/12 21:00 人在博思教學館裡（同 10/12 Café「跳日以後的落點」）——一起看。 ｜ 【11-07 11:4x LAWWW-B】BB-B 11-07 11:45 RELEASE-V91022-1107 GO 回報（BB_255 最後兩節 elegant-brown fbbd7da93）；不擋 v9.10.22、下一版。",
+   "sha": "3b942474b"
   },
   {
    "id": "BUG-Y0-GOAL-AFTER-SKIP-1107",

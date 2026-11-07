@@ -18287,8 +18287,8 @@
    "msg": "ACK",
    "what": "AA_726 經濟系序章跳日子字卡＋E05 之後三句",
    "task": "BUG-Y0-DAYSKIP-CARD-1107",
-   "integration": "已實作待整合",
-   "note": "87b1fd5fd（本機，GHA 綠了推）",
+   "integration": "已整合待測試",
+   "note": "3b942474b",
    "ack": "ACK"
   }
  ],
