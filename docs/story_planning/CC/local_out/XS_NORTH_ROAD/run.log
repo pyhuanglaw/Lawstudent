@@ -1,0 +1,39 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_xs_north_road_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\XS_NORTH_ROAD\out
+CC XS_NORTH_ROAD（新生南路往北那一段）：SHA=fa79dd7bc32e1e177a8187a070b8c7baf6ef2924（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+== day
+  [前置／捷徑] [day] 讀檔校園 2025-10-18 14.00（條件事件關閉）；鏡頭 user_shot 指定位置
+  [  45.4s] [day] 場景資料：{"xsg": {"x": -101.4, "xh": -56, "gz": null, "gym": [-90, -140.4, -60, -126.4]}, "names": {"zebra_xs_north": 2, "zebra_xs_branch": 1, "xs_north_branch_road": 1, "xs_north_branch_walk": 2, "xs_north_branch_median": 1, "xs_north_branch_lines": 1}, "intrude": [], "nIntrude": 0, "glows": 0, "glowsOn": 0, "lampGlowsAll": 115, "windowsLit": false}
+PASS [day] 校園有 Z3.XSG（xh＝新生南路往北那一段的中線）  {"x": -101.4, "xh": -56, "gz": null, "gym": [-90, -140.4, -60, -126.4]}
+PASS [day] 場景裡有 xs_north_branch_road  {"zebra_xs_north": 2, "zebra_xs_branch": 1, "xs_north_branch_road": 1, "xs_north_branch_walk": 2, "xs_north_branch_median": 1, "xs_north_branch_lines": 1}
+PASS [day] 場景裡有 xs_north_branch_walk  {"zebra_xs_north": 2, "zebra_xs_branch": 1, "xs_north_branch_road": 1, "xs_north_branch_walk": 2, "xs_north_branch_median": 1, "xs_north_branch_lines": 1}
+PASS [day] 場景裡有 xs_north_branch_median  {"zebra_xs_north": 2, "zebra_xs_branch": 1, "xs_north_branch_road": 1, "xs_north_branch_walk": 2, "xs_north_branch_median": 1, "xs_north_branch_lines": 1}
+PASS [day] 場景裡有 xs_north_branch_lines  {"zebra_xs_north": 2, "zebra_xs_branch": 1, "xs_north_branch_road": 1, "xs_north_branch_walk": 2, "xs_north_branch_median": 1, "xs_north_branch_lines": 1}
+PASS [day] 場景裡有 zebra_xs_branch  {"zebra_xs_north": 2, "zebra_xs_branch": 1, "xs_north_branch_road": 1, "xs_north_branch_walk": 2, "xs_north_branch_median": 1, "xs_north_branch_lines": 1}
+PASS [day] 往北那一段 16 m 車道（xh±7.8）裡沒有高於 1.2 m 的單獨量體（房子沒伸到路上）  []
+PASS [黑畫面] xsnorth_gate_day 不是黑畫面（平均亮度 139.1、變化 49.4）  [139.1, 49.4]
+  [  47.4s] [截圖] xsnorth_gate_day：鏡頭 {"eye": [-101.4, 1.7, -142], "look": [-56, 2, -230], "lens": 30, "vfov": 37.3}、亮度 [139.1, 49.4]
+PASS [黑畫面] xsnorth_gym_day 不是黑畫面（平均亮度 131.7、變化 48.4）  [131.7, 48.4]
+  [  49.3s] [截圖] xsnorth_gym_day：鏡頭 {"eye": [-75, 1.7, -141.9], "look": [-56, 2, -230], "lens": 30, "vfov": 37.3}、亮度 [131.7, 48.4]
+PASS [黑畫面] xsnorth_high_day 不是黑畫面（平均亮度 124.6、變化 58）  [124.6, 58]
+  [  51.5s] [截圖] xsnorth_high_day：鏡頭 {"eye": [-56, 9, -150], "look": [-56, 0, -225], "lens": 26, "vfov": 42.55}、亮度 [124.6, 58]
+== night
+  [前置／捷徑] [night] 讀檔校園 2025-10-18 21.00（條件事件關閉）；鏡頭 user_shot 指定位置
+  [  65.4s] [night] 場景資料：{"xsg": {"x": -101.4, "xh": -56, "gz": null, "gym": [-90, -140.4, -60, -126.4]}, "names": {"zebra_xs_north": 2, "zebra_xs_branch": 1, "xs_north_branch_road": 1, "xs_north_branch_walk": 2, "xs_north_branch_median": 1, "xs_north_branch_lines": 1}, "intrude": [], "nIntrude": 0, "glows": 0, "glowsOn": 0, "lampGlowsAll": 115, "windowsLit": false}
+PASS [night] 校園有 Z3.XSG（xh＝新生南路往北那一段的中線）  {"x": -101.4, "xh": -56, "gz": null, "gym": [-90, -140.4, -60, -126.4]}
+PASS [night] 場景裡有 xs_north_branch_road  {"zebra_xs_north": 2, "zebra_xs_branch": 1, "xs_north_branch_road": 1, "xs_north_branch_walk": 2, "xs_north_branch_median": 1, "xs_north_branch_lines": 1}
+PASS [night] 場景裡有 xs_north_branch_walk  {"zebra_xs_north": 2, "zebra_xs_branch": 1, "xs_north_branch_road": 1, "xs_north_branch_walk": 2, "xs_north_branch_median": 1, "xs_north_branch_lines": 1}
+PASS [night] 場景裡有 xs_north_branch_median  {"zebra_xs_north": 2, "zebra_xs_branch": 1, "xs_north_branch_road": 1, "xs_north_branch_walk": 2, "xs_north_branch_median": 1, "xs_north_branch_lines": 1}
+PASS [night] 場景裡有 xs_north_branch_lines  {"zebra_xs_north": 2, "zebra_xs_branch": 1, "xs_north_branch_road": 1, "xs_north_branch_walk": 2, "xs_north_branch_median": 1, "xs_north_branch_lines": 1}
+PASS [night] 場景裡有 zebra_xs_branch  {"zebra_xs_north": 2, "zebra_xs_branch": 1, "xs_north_branch_road": 1, "xs_north_branch_walk": 2, "xs_north_branch_median": 1, "xs_north_branch_lines": 1}
+PASS [night] 往北那一段 16 m 車道（xh±7.8）裡沒有高於 1.2 m 的單獨量體（房子沒伸到路上）  []
+  [  65.4s] [night] 那一段的路燈光暈（E.lampGlows 在 xh±12、z −170～−262）：{"glows": 0, "on": 0, "all": 115}——遠景的路燈（props 合併，北牆那一排、新生南路西側那一排也一樣）本來就沒有 lampGlows，晚上亮不亮看圖
+PASS [黑畫面] xsnorth_gate_night 不是黑畫面（平均亮度 23.7、變化 50.3）  [23.7, 50.3]
+  [  67.2s] [截圖] xsnorth_gate_night：鏡頭 {"eye": [-101.4, 1.7, -142], "look": [-56, 2, -230], "lens": 30, "vfov": 37.3}、亮度 [23.7, 50.3]
+PASS [黑畫面] xsnorth_gym_night 不是黑畫面（平均亮度 21、變化 46.2）  [21, 46.2]
+  [  69.2s] [截圖] xsnorth_gym_night：鏡頭 {"eye": [-75, 1.7, -141.9], "look": [-56, 2, -230], "lens": 30, "vfov": 37.3}、亮度 [21, 46.2]
+PASS [黑畫面] xsnorth_high_night 不是黑畫面（平均亮度 25.9、變化 49.2）  [25.9, 49.2]
+  [  71.0s] [截圖] xsnorth_high_night：鏡頭 {"eye": [-56, 9, -150], "look": [-56, 0, -225], "lens": 26, "vfov": 42.55}、亮度 [25.9, 49.2]
+PASS 沒有 JS 例外  []
+ALL PASS
