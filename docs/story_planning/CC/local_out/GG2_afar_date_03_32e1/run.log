@@ -1,0 +1,103 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_shops2_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG2_afar_date_03_32e1\out
+CASES=["afar_date"]
+== afar_date：約會（cc_social_smoke_probe.py 的 Person）
+PASS [heroine_03] 遊戲載入
+== 人物 heroine_03 陳語彤 開始（層 D、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 8, "Y2S2": 8, "Y3S1": 8, "Y3S2": 8, "Y4S1": 8, "Y4S2": 9, "Y1S1": 8}、店內偶遇 []、自由出行 ["D12", "D13", "D14", "D18"]）
+-- [heroine_03] gg2
+  [前置／捷徑] [heroine_03] 讀檔：afar：平日 09:00 在公館（今天還有時段可以約）（gongguan 21 9.00）
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_03] 前置：認識（ACQUAINTANCE）、有聯絡方式：{"stage": "ACQUAINTANCE", "name": "陳語彤", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [heroine_03] 讀回存檔（套用關係以後重讀）
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_03] afar：認識（ACQUAINTANCE）就約得到（INV.placeWhy 空）
+PASS [heroine_03] afar 約之前：15 秒內回到可以自由移動
+PASS [heroine_03] afar 約之前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_03] afar 約之前：搖桿推得動（≥0.3 m）  3.18 m
+PASS [heroine_03] afar 約之前：點地走得動（≥0.3 m）  點 [-20, 17.68]，走了 0.96 m
+PASS [heroine_03] afar 約之前：遊戲時間有在走  9.0936→9.1138
+PASS [heroine_03] afar 約之前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] afar 約之前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] afar 約之前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [heroine_03] afar：手機約得到的時段（預測她的回答）：[["今天 12:10", "accept", 12.166666666666666], ["今天 15:30", "accept", 15.5], ["今天 17:30", "accept", 17.5], ["今天 19:00", "accept", 19], ["今天 21:00", "resched", 21], ["明天 12:10", "accept", 12.166666666666666], ["明天 19:00", "accept", 19]]
+PASS [heroine_03] afar：手機有 heroine_03 會答應的時段  [{"pid": "afar", "zone": "afar", "name": "afar café", "verb": "去 afar café 坐坐", "cat": "喝咖啡、喝茶", "study": true, "t": "今天 12:10", "day": 21, "h": 12.166666666666666, "res": "accept", "why": null}, {"pid": "afar", "zone": "afar", "name": "afar café", "verb": "去 afar café 坐坐", "cat": "喝咖啡、喝茶", "study": true, "t": "今天 15:30", "day": 21, "h": 15.5, "res": "accept", "why": null}, {"pid": "afar", "zone": "afar", "name": "afar café", "verb": "去 afar café 坐坐", "cat": "喝咖啡、喝茶", "study": true, "t": "今天 17:30", "day": 21, "h": 17.5, "res": "accept", "why": null}, {"pid": "afar", "zone": "afar", "name": "afar café", "verb": "去 afar café 坐坐", "cat": "喝咖啡、喝茶", "study": true, "t": "今天 19:00", "day": 21, "h": 19, "res": "accept", "why": null}, {"pid": "afar", "zone": "afar", "name": "afar café", "verb": "去 afar café 坐坐", "cat": "喝咖啡、喝茶", "study": true, "t": "今天 21:00", "day": 21, "h": 21, "res": "resched", "why": "closed"}, {"pid": "afar", "zone": "afar", "name": "afar café", "verb": "去 afar café 坐坐", "cat": "喝咖啡、喝茶", "study": true, "t": "明天 12:10", "day": 22, "h": 12.166666666666666, "res": "accept", "why": null}, {"pid": "afar", "zone": "afar", "name": "afar café", "verb": "去 afar café 坐坐", "cat": "喝咖啡、喝茶", "study": true, "t": "明天 19:00", "day": 22, "h": 19, "res": "accept", "why": null}]
+  [前置／捷徑] [heroine_03] 讀回存檔（afar 約會（去 afar café 坐坐 今天 12:10）：約之前）
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約：手機朋友頁他那一行有「訊息」  ‹ 訊息
+陳語彤
+☆
+傳訊息
+約
+還沒有訊息。按上面的「傳訊息」傳第一則。
+  [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約 選單 ["念書…", "吃飯…（灰）", "喝咖啡、喝茶…", "去頁間書屋逛逛", "散步…（灰）", "運動…（灰）", "出去玩…（灰）", "算了"] → 選「喝咖啡、喝茶…」
+  [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約 選單 ["去 2:30 AM 坐坐", "去一盞喝茶（灰）", "去慢讀咖啡念書", "去 afar café 坐坐", "返回"] → 選「去 afar café 坐坐」
+  [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約 選單 ["今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「今天 12:10」
+INFO [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約：手機自己打開（遊戲暫停），按「收起來」  
+  [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約（去 afar café 坐坐 今天 12:10，預期 accept）台詞：["陳語彤（手機）｜「好。我想吃他們的布丁。」", "｜約好 今天 12:10，afar café"]
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約：手機約一路點得完
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：15 秒內回到可以自由移動
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：沒有新的 JS 例外
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：搖桿推得動（≥0.3 m）  3.12 m
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：點地走得動（≥0.3 m）  點 [-17.5, 20.64]，走了 0.96 m
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：遊戲時間有在走  9.2122→9.2323
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約 回覆之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 約：約成（afar 21 12.17）
+  [前置／捷徑] [heroine_03] 讀回存檔（afar 約會（去 afar café 坐坐 今天 12:10）：離約好的時間還有 2.5 小時，存檔的時間改到 21 11.72（手機的跳過時間只到固定時刻））
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 選單 ["直接過去：和陳語彤約在afar café（12:10）", "自己走過去"] → 選「直接過去：和陳語彤約在afar café（12:10）」
+  [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 選單 ["被看的。重考那年，親戚每一個都在看我考得怎樣。", "看人的。念經濟系那一個多月，我常坐在系館樓下，看大家在忙什麼。", "我在看妳。"] → 選「被看的。重考那年，親戚每一個都在看我考得怎樣。」
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：出發、到場、見面那一場一路點得完
+  [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：沒有看到 AA_649 的坐下旁白，開演位置用見面第一句那一刻
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4], "ptable": 5, "ntable": 5, "others": ["?"]}
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：約會中時間有往前走  遊戲時間 1.46 小時（21 11.72 → 21 13.19）
+INFO [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：錢 30000 → 30000（+0）  
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：關係或記憶有變化  {"rel": {"fam": 3, "trust": 3, "comf": 3}, "mem": "1→2 ['FIRST_MET', 'CAFE_AFTERNOON']"}
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：對話沒有空白的句子  []
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：說話的人名字不是 id  []
+  [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：對話紀錄 8 句 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG2_afar_date_03_32e1\out\heroine_03_afar_afar_caf_12_10__transcript.json
+    陳語彤｜我不太喝咖啡。我點茶。
+    （旁白）｜（她看著窗外一個在等公車的人。）
+    陳語彤｜那個人等的不是公車。他已經讓兩台過去了。
+    陳語彤｜我從小就這樣看人。在學校我不太說話，就一直看。
+    陳語彤｜你呢？你是看人的，還是被看的？
+    陳語彤｜那一定很累。
+    陳語彤｜被看的人，會比較會看別人。你應該也很會看。
+    陳語彤｜這裡的茶泡太久了。可是位子很舒服。
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：喝咖啡／吃飯的約會：開演時兩個人都坐著（不查離門口距離，那條只給約念書）  {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4], "ptable": 5, "ntable": 5, "others": ["?"]}
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 結束：15 秒內回到可以自由移動
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 結束：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 結束：沒有新的 JS 例外
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 結束：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 結束：搖桿推得動（≥0.3 m）  0.68 m
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 結束：點地走得動（≥0.3 m）  點 [-0.85, -3.28]，走了 0.37 m
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 結束：遊戲時間有在走  13.2056→13.2258
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 結束：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 結束：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10） 結束：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：人在約定的地點（G.zone＝afar）  afar
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：那一筆約記成 done  [{"id": "iv1", "state": "done", "place": "afar", "zone": "afar", "day": 21, "h": 12.167}]
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：結束後玩家起身了  {"seat": false}
+PASS [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：她回到自己的行程（150 秒內離開，不黏在原地）  {"where": null, "npc": {"zone": "afar", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 7.5, "spawnD": 6.28, "npc": true, "nD": 3.8, "nbeh": "leave", "nleaving": true, "nx": 0.19, "nz": 0.38, "p": [-0.83, -3.28], "ptable": null, "ntable": null, "others": []}}
+  [heroine_03] afar 約會（去 afar café 坐坐 今天 12:10）：見面那一場的選單 2 個，換選項重跑 0 次
+PASS [heroine_03] afar：答應的一句（AA_652：「好。我想吃他們的布丁。」；手機對話＋訊息＋見面）  {"phone": ["陳語彤（手機）｜「好。我想吃他們的布丁。」", "｜約好 今天 12:10，afar café"], "msgs": ["約好了：今天 12:10，afar café（陳語彤）。", "和陳語彤在afar café。"]}
+  [heroine_03] afar：開演那一刻 {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4], "ptable": 5, "ntable": 5, "others": ["?"]}
+PASS [heroine_03] afar：X207 坐下才開演、兩個人同一桌（玩家坐、她坐、≤ 2.3 m 或同一張桌子）  {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4], "ptable": 5, "ntable": 5, "others": ["?"]}
+FAIL [heroine_03] afar：X207 帶路時她離玩家 ≤ 3 m  取樣 6 次，最遠 8.20 m
+PASS [heroine_03] afar：X207 道別那一刻她在旁邊（≤ 4 m）  {"zone": "afar", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": true, "doorD": 9.19, "spawnD": 8.2, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -4.65, "nz": -3.4, "p": [-3.6, -3.4], "ptable": 5, "ntable": 5, "others": ["?"]}
+FAIL [heroine_03] afar：坐下以後的開場句（AA_652 seatOpen 兩句之一，逐字）  ["我不太喝咖啡。我點茶。", "（她看著窗外一個在等公車的人。）", "那個人等的不是公車。他已經讓兩台過去了。", "我從小就這樣看人。在學校我不太說話，就一直看。", "你呢？你是看人的，還是被看的？", "那一定很累。", "被看的人，會比較會看別人。你應該也很會看。", "這裡的茶泡太久了。可是位子很舒服。"]
+FAIL [heroine_03] afar：①她挑的是空桌（同一桌、1.2 m 內沒有其他客人坐著）  {"ptable": 5, "ntable": 5, "others": ["?"]}
+INFO [heroine_03] afar：②這一趟坐的是 table 5（不是窗邊長桌 6）——窗邊長桌那一點這次沒碰到  
+PASS [heroine_03] afar：③不是窗邊長桌（table 5）不說檯燈那一句（seatOpen.afar onlyAt table 6）  ["我不太喝咖啡。我點茶。", "（她看著窗外一個在等公車的人。）", "那個人等的不是公車。他已經讓兩台過去了。", "我從小就這樣看人。在學校我不太說話，就一直看。", "你呢？你是看人的，還是被看的？", "那一定很累。", "被看的人，會比較會看別人。你應該也很會看。", "這裡的茶泡太久了。可是位子很舒服。"]
+    陳語彤｜我不太喝咖啡。我點茶。
+    （旁白）｜（她看著窗外一個在等公車的人。）
+    陳語彤｜那個人等的不是公車。他已經讓兩台過去了。
+    陳語彤｜我從小就這樣看人。在學校我不太說話，就一直看。
+    陳語彤｜你呢？你是看人的，還是被看的？
+    陳語彤｜那一定很累。
+    陳語彤｜被看的人，會比較會看別人。你應該也很會看。
+    陳語彤｜這裡的茶泡太久了。可是位子很舒服。
+== afar_date 結果：FAIL 3：afar：X207 帶路時她離玩家 ≤ 3 m；afar：坐下以後的開場句（AA_652 seatOpen 兩句之一，逐字）；afar：①她挑的是空桌（同一桌、1.2 m 內沒有其他客人坐著）
+FAILED 3: [date afar] afar：X207 帶路時她離玩家 ≤ 3 m；[date afar] afar：坐下以後的開場句（AA_652 seatOpen 兩句之一，逐字）；[date afar] afar：①她挑的是空桌（同一桌、1.2 m 內沒有其他客人坐著）
