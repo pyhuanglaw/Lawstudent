@@ -5518,6 +5518,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "七位齊（heroine_01～05、classmate_peishan、kexin）：第 1～6 次＋rot 六則；學姊有 alt（上法研所以後）、語彤第 5 次 alt（媽媽發現以後）；line_lint 0 條"
+  },
+  {
+   "task": "PLAYTEST-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_708_activity_scenes.json"
+   ],
+   "state": "WIP",
+   "remaining": "第一批只有 eat（一起吃飯）七位第 1～4 次＋rot 四則；cafe、電影、書店接著寫",
+   "next": "LAWWW-B 看 _meta.notes 的次數規則（每種活動各自計數）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "line_lint 0 條；喜歡吃的照 AA_410；芷若家裡照 voice_canon（台中影印店、媽媽十點的電話）"
   }
  ],
  "items": [
