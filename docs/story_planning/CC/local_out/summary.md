@@ -1774,3 +1774,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 187.6s] page close url=http://127.0.0.1:8800/index.html?turbo?turbo | [gpu_wrap 187.6s] BROWSER DISCONNECTED
 - 2026-11-07T18:48:13  PT1107I_menu_kx  sha=8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a  exit=1  127s    PASS ④ 錢 100、今天已經買過票：南洋戲院 可以選  {"t": "去南洋戲院看電影", "dim": false} / PASS 沒有 JS 例外  [] / FAILED: ② 週一巷口家常菜：今天的時間都灰掉、小字「巷口家常菜週一休」
       err.log (last 5): [gpu_wrap 90.7s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 90.7s] BROWSER DISCONNECTED
+- 2026-11-07T18:49:04  R8FDB_reach  sha=8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a  exit=0  693s    統計：29 個區域、1231 個互動點、15 個劇情走路目的地、85 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 605.4s] page close url=http://127.0.0.1:8802/index.html?turbo?turbo | [gpu_wrap 605.4s] BROWSER DISCONNECTED
