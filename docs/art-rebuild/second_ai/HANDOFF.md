@@ -6,7 +6,26 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-07 10:2x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-07 11:0x UTC，帳號 B LAWWW2-B）
+
+分支 `claude/funny-albattani-iawshm`；開發分支 `claude/modest-rubin-2lyp7g`（`126bdf93e`）。瀏覽器都沒跑（D131，交 CC）。
+
+**LAWWW-B 10:14**：回去推 INTERIOR-AAA #113；CC 量出 PERF_COLD_RT（溫州街主模型下載／解析）和預期差很多的話，那一項優先。
+
+| 項目 | 內容 | 位置 | 狀態 |
+|---|---|---|---|
+| 頭髮 (b) | 五個 VRM 頭髮貼圖去細線 | `692873e87` | **ART_APPROVED**（LAWWW-B 10:48，D100a），放進 v9.10.22 |
+| 洋洋 v1c | 鹹酥雞店模型 | `9ef8a17cf`（`wip/yangyang_review_1107/`） | ART_APPROVED（AA_650 授權我驗）；已通知 LAWWW-B 可以接 |
+| 霖澤 3F／4F 光照 | 15 盞嵌燈＋南窗；不用改程式 | `5a2ab6c75`（`wip/linze_upper_lm_1107/`） | READY_FOR_ART_REVIEW；已交 LAWWW-B；CC 拍遊戲內（LZ-UPPER-LM） |
+| 萬才研討室 A／B 光照 | A 一張；B 平常（初談隔間）、面試（2028-10-26）各一張，`rooms_glb3d.js` 照當天布置換（patch）；`bake_room.py` 的 --hide 物件也複製 _rt 材質 | `wip/wancai_sem_lm_1107/`（WIP `16c0b71b1`） | **烘焙中**（`bake_wancai_sem.sh`）；測試 `wancai_sem_lm_unit` 開發原樣 FAIL 3 |
+
+**新工具**：`tools/blender/env_second/lightbake/tube_lights.py`（從 GLB 的燈管網格讀出每盞燈 → `--lights` 字串）、`lm_sets.py`（同一間不同布置的第二張光照貼圖）。
+
+**還沒烘光照的房間**（rooms_glb3d 那一批，燈位用 tube_lights.py 讀過）：共同 3F（6 盞）、霖澤辦公室（4）、博雅 203（6，不含檯燈）、洗衣間（2）、視聽室（6，沒有窗）、宿舍 205（7，和 203 同型）、霖澤 5F（研究室的燈要能單獨開關，另外處理）。
+
+**等別人**：CC-B 的 PERF_COLD_RT（溫州街，8fdb294aa，排在 BB 發布前三支後面）、LZ-UPPER-LM 拍攝；使用者：轉角唱片誰做、哪幾家只有外觀的店要做成進得去。
+
+## 🔨 （舊）現在在做（11-07 10:2x UTC，帳號 B LAWWW2-B）
 
 分支 `claude/funny-albattani-iawshm` @ `692873e87`。開發分支 `claude/modest-rubin-2lyp7g`（`e70d19503`）。瀏覽器都沒跑（D131，交 CC）。
 
