@@ -74,7 +74,8 @@ async def main():
                 for v in off:
                     await P.phone_thread(pg, cdp, 'p:' + v['who'], open_folds=False)
                     btn = await pg.evaluate("(id=>[...document.querySelectorAll('#phoneBody [data-ans]')].filter(b=>b.dataset.ans.startsWith(id+'|')).map(b=>[b.dataset.ans,b.textContent.trim()]))(%s)" % json.dumps(v['id']))
-                    pick = next((x for x in btn if x[0].endswith('|no')), None) or next((x for x in btn if '不' in x[1]), None)
+                    if os.environ.get('CLASH') == 'accept': pick = next((x for x in btn if x[0].endswith('|yes')), None)   # 真的撞到：先答應以安 15:30（1b54728e6：first＝busy、她回「嗯。下次。」）
+                    else: pick = next((x for x in btn if x[0].endswith('|no')), None) or next((x for x in btn if '不' in x[1]), None)
                     print('[DECLINE]', J([v, btn, pick]))
                     if pick:
                         await L.tap(pg, cdp, '#phoneBody [data-ans="%s"]' % pick[0]); await pg.wait_for_timeout(1500)
@@ -86,6 +87,12 @@ async def main():
             print('[ANS]', J((ra or '')[-200:]), J(dg, 1500))
             ivs = await pg.evaluate("(id=>(GAME.G.invites||[]).filter(v=>v.who===id).map(v=>({day:v.day,h:v.h,state:v.state,place:v.place,cat:v.cat,yts:v.yts})))(%s)" % json.dumps(YT))
             print('[IVS]', J(ivs))
+            if os.environ.get('CLASH') == 'accept':
+                th2 = await P.phone_thread(pg, cdp, 'p:' + YT); sysm = await pg.evaluate("(GAME.G.msgs||[]).filter(m=>!m.who&&!m.th).slice(-3).map(m=>m.text)")
+                tail = th2.get('text', '')[-200:]
+                print('[BUSY]', J([dg, tail, sysm]))
+                run.check('真的撞到（已答應以安 15:30）：first＝busy、語彤串「嗯。下次。」、系統字「那個時間你已經約了別人。」、沒排約', dg['R'].get('first') == 'busy' and '嗯。下次。' in tail and any('那個時間你已經約了別人' in t for t in sysm) and not any(v['day'] == d['d'] + 1 and abs(v['h'] - 14) < 0.05 for v in ivs), J([dg['R'], tail, sysm, ivs]))
+                run.check('沒有 JS 例外', not errs, J(errs[:5])); await b.close(); return run.finish()
             run.check('回「好。」＝約好 3/11（三）14:00 木曜日（一起念書）', any(v['day'] == d['d'] + 1 and abs(v['h'] - 14) < 0.05 and v['state'] == 'accepted' for v in ivs), J(ivs))
             st0 = await pg.evaluate("(GAME.G.stats&&GAME.G.stats.study)||0")
             await P.jump(pg, cdp, run, '2026-03-11', 13.8, zone='wz_mokuyobi', pos=None, note='木曜日門口（約好的地方）'); await P.init(pg)
