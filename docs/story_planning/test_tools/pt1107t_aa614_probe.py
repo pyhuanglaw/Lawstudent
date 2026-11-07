@@ -63,6 +63,16 @@ async def interact(pg, cdp, run, label, near=0.6):
     return it
 
 
+async def person_lines(pg, cdp, pid):
+    await P.phone_tab(pg, cdp, 'friends')
+    if not await pg.evaluate("(id=>!!document.querySelector('#phoneBody [data-person=\"'+id+'\"]'))(%s)" % json.dumps(pid)):
+        await L.close_panels(pg, cdp); return None
+    await L.tap(pg, cdp, '#phoneBody [data-person="%s"]' % pid); await pg.wait_for_timeout(900)
+    ui = await pg.evaluate("(()=>{ const w=document.querySelector('#phoneBody .whois'); return w?w.innerText.split('\\n').map(s=>s.trim()).filter(Boolean):[]; })()")
+    await pg.evaluate("(()=>{ const b=document.querySelector('#phoneBody [data-personback]'); if(b) b.click(); })()"); await L.close_panels(pg, cdp)
+    return ui
+
+
 async def invite(pg, cdp, who, cat, place, when):
     """手機 → 朋友 →「約」→ 類別 → 地點 → 時間；回傳 (各層選項, 之後說的話與選項)"""
     if await pg.evaluate("document.getElementById('phone').classList.contains('hide')"):
@@ -171,12 +181,16 @@ async def main():
             await P.load(pg, cdp, s, quiet=False); await P.init(pg)
             run.setup('[前置] day46 存檔改到 2025-11-05（三）18:12 溫州街（條件事件開著）')
             Lx = await pg.evaluate("({a:AA614.L.psDoor, b:AA614.L.psDoorAgain})")
+            pj0 = await person_lines(pg, cdp, PS); print('[PSPAGE0]', J(pj0))
+            run.check('沛珊資料頁：還沒在門口遇到、沒聽過閒聊那句＝沒有「打工：……課輔班」', pj0 is not None and not any('打工' in x for x in pj0), J(pj0))
             n0 = await P.say_hook(pg)
             await P.wait_play(pg, cdp, 18.6, max_s=600, run=run, tag='door1')
             s1 = await P.said(pg, n0)
             f1 = await pg.evaluate("({d:GAME.G.flags.AA614_PSDOOR, n:GAME.G.flags.AA614_PSDOOR_N, day:GAME.G.day})")
             print('[DOOR1]', J(s1), J(f1))
             run.check('沛珊 週三 18:20 課輔班門口第一次：「%s」' % Lx['a'], any(Lx['a'] in t for _, t in s1) and f1['n'] == 1, J([s1, f1]))
+            pj1 = await person_lines(pg, cdp, PS); print('[PSPAGE1]', J(pj1))
+            run.check('門口遇到以後：沛珊資料頁有「打工：溫州街的國小課輔班（助教）」', pj1 is not None and any('打工：溫州街的國小課輔班（助教）' in x for x in pj1), J(pj1))
             await P.jump(pg, cdp, run, '2025-11-12', 18.2, quiet=False); await P.init(pg)
             n1 = await P.say_hook(pg)
             await P.wait_play(pg, cdp, 18.6, max_s=600, run=run, tag='door2')
