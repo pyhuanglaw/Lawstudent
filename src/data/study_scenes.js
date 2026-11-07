@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_study_scenes.py（docs/story_planning/AA_707_study_scenes.json@6a0018b90）。不要手改，改企劃 AA_707 再重新匯入。
+/* 自動產生：tools/story/import_study_scenes.py（docs/story_planning/AA_707_study_scenes.json@2840eeb1d）。不要手改，改企劃 AA_707 再重新匯入。
    一起念書第 1～6 次＋輪換（STUDY-DATE-PROGRESS-1107；規則 AA_706 第 1 節；播放 src/studyn3d.js）*/
 'use strict';
 const STUDY_SCENES={
- "src": "docs/story_planning/AA_707_study_scenes.json@6a0018b90",
+ "src": "docs/story_planning/AA_707_study_scenes.json@2840eeb1d",
  "people": {
   "heroine_01": {
    "scenes": {
@@ -471,7 +471,7 @@ const STUDY_SCENES={
     "1": {
      "need": 1,
      "seat": [
-      "我讀社會學。你讀什麼？",
+      "你先讀。我把這一章看完就好。",
       "（她把一本很舊的筆記本和一本新的課本並排放好。）"
      ],
      "mid": [

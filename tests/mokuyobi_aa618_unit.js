@@ -92,12 +92,12 @@ const T=()=>said.map(s=>s.t);
     GM.enterN++; picks=[0]; await STORY.onSeat(GM,seat);
     GM.enterN++; said=[]; opts=[]; picks=['好。']; seatMenuCalls=[]; const k1=await MOKS.door(GM);
     check('6. 坐過三次：一個人進門「（小聲）老位子？」→「好。」＝走過去坐那個位子',k1==='old'&&said[0].who==='老闆'&&said[0].t===MOKS.L.old&&J(opts[0])===J(['「好。」','「今天坐別的。」'])&&seatMenuCalls.length===1&&seatMenuCalls[0].seat===seat,J([k1,said,opts]));
-    GM.enterN++; said=[]; picks=['今天坐別的。']; const k2=await MOKS.door(GM); check('6.「今天坐別的。」→ 老闆「（小聲）都可以。」',k2==='other'&&said[1].t==='「（小聲）都可以。」',J(said)); }
+    GM.enterN++; said=[]; picks=['今天坐別的。']; const k2=await MOKS.door(GM); check('6.「今天坐別的。」→ 老闆「（小聲）都可以。」',k2==='other'&&said[1].t==='（小聲）都可以。',J(said)); }
   // ===== 7. 讀書 =====
   { fresh(wed,17); delete G.mokuyobi; const got=[]; for(let i=0;i<5;i++){ STORY.onStudy(GM,1); got.push(STORY.studyNarr(GM)); }
     check('7. 讀完的旁白四句輪流（第五次回到第一句）',J(got)===J(MOKS.L.narr.concat([MOKS.L.narr[0]])),J(got));
     G.hour=22; STORY.onStudy(GM,1.5); const w=STORY.studyNarr(GM);
-    check('7. 20:30～22:00 讀書（21:40 還在讀）：老闆放溫水＋「十點打烊。……慢慢收。」',J(w)===J(['（老闆放了一杯溫水在你桌上。）',['老闆','「（小聲）十點打烊。……慢慢收。」']]),J(w));
+    check('7. 20:30～22:00 讀書（21:40 還在讀）：老闆放溫水＋「十點打烊。……慢慢收。」',J(w)===J(['（老闆放了一杯溫水在你桌上。）',['老闆','（小聲）十點打烊。……慢慢收。']]),J(w));
     G.day=wed+1; G.hour=22; STORY.onStudy(GM,1.5); const w2=STORY.studyNarr(GM); check('7. 同一學期第二次：不再放（一學期一次）',typeof w2==='string'&&MOKS.L.narr.includes(w2),J(w2));
     G.day=TD('Y1S2',3,3); G.hour=21.6; STORY.onStudy(GM,1); const w3=STORY.studyNarr(GM); check('7. 讀到 21:36 結束（沒到 21:40）：沒有溫水',typeof w3==='string',J(w3));
     G.hour=21.9; STORY.onStudy(GM,1); const w4=STORY.studyNarr(GM); check('7. 下一學期：又有一次',Array.isArray(w4),J(w4));
@@ -198,7 +198,7 @@ const T=()=>said.map(s=>s.t);
     const a=at(ex,15), b=at(ex3,16.5), c=at(ex4,15), d=at(wk5,15), e=at(ex,17.5);
     check('20. 芯慈：考試週週一、週三 14:00～17:00 在木曜日（週四、17:00 以後、平常週不在）',!!a&&a.zone==='wz_mokuyobi'&&!!b&&b.zone==='wz_mokuyobi'&&!(c&&c.mokuyobi)&&!(d&&d.mokuyobi)&&!(e&&e.mokuyobi),J([a,b,c,d,e].map(x=>x&&x.zone)));
     said=[]; await MOKS.greet(GM,{name:'芯慈'},'classmate_xinci'); const g=T(); said=[]; await MOKS.greet(GM,{name:'芯慈'},'classmate_xinci');
-    check('20. 看到芯慈的一句「（小聲）這裡的燈剛好，看書不累。」（一天一次）',J(g)===J(['「（小聲）這裡的燈剛好，看書不累。」'])&&!said.length,J(g));
+    check('20. 看到芯慈的一句「（小聲）這裡的燈剛好，看書不累。」（一天一次）',J(g)===J(['（小聲）這裡的燈剛好，看書不累。'])&&!said.length,J(g));
     const mx=STORY.schedEnt(CHARACTERS.classmate_mingxuan,Object.assign({},G,{day:TD('Y1S1',8,2),hour:16,weekday:2,flags:G.flags})); check('20. 明軒只排週四（週二不在木曜日）',!(mx&&mx.mokuyobi)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

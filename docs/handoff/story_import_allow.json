@@ -4701,13 +4701,17 @@
   },
   {
    "path": "docs/story_planning/AA_707_study_scenes.json",
-   "sha": "6a0018b90",
+   "sha": "2840eeb1d",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 05:25／05:28「AA_707 改版，請重匯」：心事搬到 AA_712 故事線；旗標、unlock、need、第 6 場算約會不動）",
+   "approvedBy": "AA-B D109（11-07 05:25／05:28「AA_707 改版，請重匯」：心事搬到 AA_712 故事線；旗標、unlock、need、第 6 場算約會不動）；2840eeb1d（AA-B 11-07 23:38：語彤第 1 場開頭「你先讀。我把這一章看完就好。」）",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
    "note": "七位一起念書第 1～6 次＋輪換 6 則；tools/story/import_study_scenes.py → src/data/study_scenes.js（第一批 49d01b2b2 被這一版取代）",
    "history": [
+    {
+     "sha": "6a0018b90",
+     "note": "被 2840eeb1d 取代"
+    },
     {
      "sha": "05d8a816e",
      "approvedBy": "（11-07 04:05 以前的版本；c47f8ab4d 取代：以安第 1 場旁白、語彤第 5 場 alt 改成完整 opts）"
