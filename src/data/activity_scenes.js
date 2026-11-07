@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_activity_scenes.py（docs/story_planning/AA_708_activity_scenes.json@8af1417f2）。不要手改，改企劃 AA_708 再重新匯入。
+/* 自動產生：tools/story/import_activity_scenes.py（docs/story_planning/AA_708_activity_scenes.json@e0e92919e）。不要手改，改企劃 AA_708 再重新匯入。
    一起活動第 1～N 次（吃飯、咖啡、電影、書店；播放 src/studyn3d.js STUDYN.act）*/
 'use strict';
 const ACTIVITY_SCENES={
- "src": "docs/story_planning/AA_708_activity_scenes.json@8af1417f2",
+ "src": "docs/story_planning/AA_708_activity_scenes.json@e0e92919e",
  "kinds": {
   "eat": {
    "people": {
@@ -1626,7 +1626,12 @@ const ACTIVITY_SCENES={
        "bye": [
         "店關了沒關係。人還在就好。"
        ],
-       "set": "KX_CAFE_OLDSHOP"
+       "set": "KX_CAFE_OLDSHOP",
+       "day": {
+        "seat": [
+         "我今天不趕車。"
+        ]
+       }
       },
       "4": {
        "need": 4,
@@ -2114,7 +2119,13 @@ const ACTIVITY_SCENES={
        ],
        "bye": [
         "末班車還有。好險。"
-       ]
+       ],
+       "day": {
+        "bye": [
+         "出來天還這麼亮。",
+         "我搭下一班就好，不用趕。"
+        ]
+       }
       },
       "2": {
        "need": 3,
@@ -2139,7 +2150,13 @@ const ACTIVITY_SCENES={
        ],
        "bye": [
         "末班車過了。我叫車回去。……你不用送，可是你可以陪我等車。"
-       ]
+       ],
+       "day": {
+        "bye": [
+         "出來天還亮著。",
+         "……我還不想回木柵。"
+        ]
+       }
       }
      },
      "rot": [
@@ -2642,7 +2659,12 @@ const ACTIVITY_SCENES={
        ],
        "bye": [
         "末班車還早。我們再看一本。"
-       ]
+       ],
+       "day": {
+        "bye": [
+         "時間還早。我們再看一本。"
+        ]
+       }
       }
      },
      "rot": [

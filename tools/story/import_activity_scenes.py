@@ -46,6 +46,11 @@ def person(hid, v, kind):
             e['opts'] = ST.opts(c.get('opts') or [], w + '.choice')
         if s.get('set'):
             e['set'] = s['set']
+        if s.get('day'):   # e0e92919e（KX-MOVIE-BYE-1107）：那一場 18:00 以前開始＝這幾格換句（可昕講末班車的那幾句只在晚上）
+            D = {x: ST.lines(s['day'][x], f'{w}.day.{x}') for x in LISTS if x in s['day']}
+            if not D:
+                raise SystemExit(f'{w}.day：至少要有一格（{"、".join(LISTS)}）')
+            e['day'] = D
         if s.get('alt'):
             a = s['alt']
             if a.get('if') not in ALT_COND:

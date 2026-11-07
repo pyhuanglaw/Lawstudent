@@ -4791,9 +4791,9 @@
   },
   {
    "path": "docs/story_planning/AA_708_activity_scenes.json",
-   "sha": "8af1417f2",
+   "sha": "e0e92919e",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 05:30「AA_708 改好了，可以接（取消不整合）」：只留活動的樣子、心事在 AA_712）",
+   "approvedBy": "AA-B D109（11-07 05:30「AA_708 改好了，可以接（取消不整合）」：只留活動的樣子、心事在 AA_712）；11-07 16:15 e0e92919e 加 day（可昕講末班車的四句，18:00 以前開始換句，KX-MOVIE-BYE-1107）",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
    "note": "吃飯、咖啡各 4 場、電影、書店各 3 場＋輪換；tools/story/import_activity_scenes.py → src/data/activity_scenes.js"
