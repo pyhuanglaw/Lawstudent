@@ -17485,8 +17485,8 @@
    "msg": "ACTIONED",
    "what": "大口 1F／2F 夜景卡同平面 z-fighting：晚上只顯示玩家那一層（dakou_nightcard_1107.patch）",
    "task": "WINDOW-FLICKER-1107",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 03:5x 套 patch 接進 claude/modest-rubin-2lyp7g；兩包一起套"
+   "integration": "已驗收",
+   "note": "LAWWW-B 03:5x 套 patch 接進 claude/modest-rubin-2lyp7g；兩包一起套；LAWWW-B 11-07 06:3x：BB-B 驗收（BB_255）"
   },
   {
    "id": "DL-LAWWW2-345574e2d-WINVIEW",
@@ -17602,8 +17602,8 @@
    "msg": "ACK",
    "what": "日常失速立體店面試做（wenzhou_street.glb 換成空心一樓＋烘好燈的店內；三角形 +22,602、+1.74 MB）",
    "task": "SHOP-WINDOW-2D-1105",
-   "integration": "未整合",
-   "note": "使用者 11-05「不比現在的櫥窗漂亮就照舊」：要 BB 判、CC 同角度截圖＋主巷效能"
+   "integration": "已驗收",
+   "note": "使用者 11-05「不比現在的櫥窗漂亮就照舊」：要 BB 判、CC 同角度截圖＋主巷效能；LAWWW-B 11-07 06:3x：BB-B 驗收（BB_255）"
   },
   {
    "id": "DL-LAWWW2-768da51ab",

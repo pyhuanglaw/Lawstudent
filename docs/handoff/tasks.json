@@ -47382,7 +47382,8 @@
     "acceptance": "從街上看進去有深度",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "evidence": "BB-B 判換新版（企劃線 BB_255；CC 電腦 Windows＋GPU 同角度白天晚上並排 test_shots/shopwin1107/，LAWWW2 90a10d010）；店前最低 fps 8.6；真機沒看"
   },
   {
    "id": "INV-STUDY-CAFES-1105",
@@ -48799,7 +48800,8 @@
     "confirmed": true
    },
    "source": "使用者 11-07 03:2x 試玩（對 LAWWW-B、AA-B；UA-LAWWW-1107-01／02、UA-AA-1107-01；存檔 docs/story_planning/user_saves/2026-11-07/）",
-   "authorized": "使用者直接要求"
+   "authorized": "使用者直接要求",
+   "evidence": "BB-B PASS（企劃線 elegant-brown 04cf8bc09 BB_255；Playwright、使用者存檔 day38【捷徑】到 15:30 體育課，手機「今天」去上課 dorm→gym）；tests/pe_in_gym_unit.js；真機沒看"
   },
   {
    "id": "BUG-YIZHAN-1107",
@@ -48820,7 +48822,8 @@
     "confirmed": true
    },
    "source": "使用者 11-07 03:2x 試玩（對 LAWWW-B、AA-B；UA-LAWWW-1107-01／02、UA-AA-1107-01；存檔 docs/story_planning/user_saves/2026-11-07/）",
-   "authorized": "使用者直接要求"
+   "authorized": "使用者直接要求",
+   "evidence": "BB-B PASS（04cf8bc09 BB_255；使用者存檔 day46_1 週六 18:10，手機「地點」有一盞、前往 wz_teahouse、大地圖有）；tests/yizhan_place_unit.js；真機沒看"
   },
   {
    "id": "YT-INVITE-LINES-1107",
@@ -48848,7 +48851,8 @@
     "acceptance": "語彤所有邀約回覆照現行人物設定、對得上邀約的地點與活動",
     "receiver": "AA",
     "ack": "ACK"
-   }
+   },
+   "evidence": "BB-B PASS（elegant-brown 723a35397 BB_255；使用者 day46 存檔觸控從手機約，新句出現、舊句沒出現）；真機沒看"
   },
   {
    "id": "BUG-YT-MET-1107",
@@ -48925,7 +48929,8 @@
     "acceptance": "窗景不閃（z-fighting 或兩層窗卡）",
     "receiver": "LAWWW2",
     "ack": "ACTIONED"
-   }
+   },
+   "evidence": "BB-B 照 D141 PASS（26d1babdc BB_255；CC 電腦連拍改前改後）；只確認原因拿掉，真機沒看"
   },
   {
    "id": "BUG-DAYBREAK-SEAT2-1107",
@@ -48966,7 +48971,8 @@
     "confirmed": true
    },
    "next": "【11-07 05:4x LAWWW-B】BB-B FIXED（29be32fa4）：照原重現步驟，改時間以後她回「……咖啡廳我坐不住。」「總圖可以。」，沒有約成。 ｜ 【11-07 05:2x LAWWW-B】修好：撞到自己的約、系統提的新時間（why mine）選了以後重新問她（decide＋personal），她的回答照播；婉拒的不再約成；她自己提的新時間照舊直接約好；最多再問三次。tests/inv_conflict_reply_1107_unit.js（語彤 2:30 AM 念書照設計婉拒、以安總圖答應那句照播）。 ｜ 【11-07 03:5x LAWWW-B】查 invites3d.js 改時間那一支：改好時間以後要重新走一次對方的回覆判斷（REPLY_COND／decline），不能直接當成答應",
-   "sha": null
+   "sha": null,
+   "evidence": "BB-B FIXED（29be32fa4 BB_255；照原重現步驟改時間以後她重新回覆、沒有約成）；tests/inv_conflict_reply_1107_unit.js；真機沒看"
   },
   {
    "id": "BUG-AFAR-DATE-OCCUPIED-1107",
