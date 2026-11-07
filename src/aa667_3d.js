@@ -203,6 +203,10 @@ const AA667=(function(){
   S.phone=function(G){ const P=P_(); if(!P||!law(G)) return; const F=G.flags||(G.flags={});
     if(JPR(G)) S.phoneJP(G,P,F); if(USR(G)) S.phoneUS(G,P,F); };
 
+  /* 3/23 22:30 子晴的「你在家嗎」（2-1／7-1）：回覆只開到 23:00——在家先睡了＝22:30 被手機叫醒（HOME.WAKE；BB-B 11-07 19:4x：住家裡最常見的是人在家，選睡覺會直接睡到隔天、整場收不到）。條件照下面 S.phoneJP 那一條 */
+  S.zqWakeAt=function(G){ if(!JPR(G)||!dating(G,ZQ)) return null; const F=G.flags||{}, dep=D('jpDep'); if(F.JP_DEPARTED!=null||dep==null||G.day>dep) return null;
+    const d=S.slot(G,'JP','zq'); if(d==null||G.day!==d||sent(G,'aa667_jp_zq_bye_dm')) return null; return G.hour<22.5?22.5:null; };
+  if(typeof HOME!=='undefined'&&Array.isArray(HOME.WAKE)) HOME.WAKE.push(G=>S.zqWakeAt(G));
   S.phoneJP=function(G,P,F){ const L=S.L, now=NOW(G), dep=D('jpDep'), out=F.JP_DEPARTED!=null, r=D('jpRet'), ret=typeof F.JP_RETURNED==='number'&&!F.JP_RETURN_LATE&&r!=null&&F.JP_RETURNED>=r&&F.JP_RETURNED<=r+1?F.JP_RETURNED:null;
     const before=!out&&dep!=null&&G.day<=dep;
     /* 2-1 子晴：出發前（住宿舍＝男一舍門口；住家裡＝7-1 家附近的便利商店門口）*/

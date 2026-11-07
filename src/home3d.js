@@ -74,9 +74,11 @@ const HOME=(function(){
     if(firstWeekend(G)){ const s=S.pick(G,'sisDinner'); if(s) await GM.say(SIS,s.t); }
     GM.advance(1); };
   /* 在家睡覺：隔天早上在家醒來（08:30）；早上一句 */
+  S.WAKE=[];   /* 睡著也會被手機叫醒：fn(G)→今天的小時數（大於現在才算）｜null；最早的那一個（和 STORY.coreCallAt 一起比）*/
   S.sleep=async function(GM,wakeH){ const G=GM.G, E=GM.E; if(typeof ECONFF!=='undefined'&&ECONFF.sleepJump&&await ECONFF.sleepJump(GM)) return;   /* 經濟系事件接事件：在家睡覺也＝到下一個事件 */
     if(typeof PG!=='undefined'&&PG.sleepJump&&await PG.sleepJump(GM)) return;   /* 畢業後篇（src/postgrad3d.js）：在家睡覺也＝到下一件事 */
-    { const cw=typeof STORY!=='undefined'&&STORY.coreCallAt?STORY.coreCallAt(G):null; if(cw!=null&&cw>G.hour){ await GM.fade(true); GM.advance(cw-G.hour); await GM.fade(false); if(GM.toast) GM.toast('手機響了。',2400); return; } }   /* 經濟系的固定核心（例：E35 21:30 的電話）：睡著也會被叫醒，下一輪選單接著演 */
+    { let cw=typeof STORY!=='undefined'&&STORY.coreCallAt?STORY.coreCallAt(G):null; for(const f of S.WAKE){ try{ const h=f(G); if(h!=null&&h>G.hour&&(cw==null||cw<=G.hour||h<cw)) cw=h; }catch(e){ console.warn('HOME.WAKE',e); } }   /* HOME.WAKE：今晚手機會來、要回的訊息（例：AA_667 7-1 子晴 3/23 22:30，回覆只開到 23:00）＝睡著也被叫醒（BB-B 11-07 19:4x）*/
+      if(cw!=null&&cw>G.hour){ await GM.fade(true); GM.advance(cw-G.hour); await GM.fade(false); if(GM.toast) GM.toast('手機響了。',2400); return; } }   /* 經濟系的固定核心（例：E35 21:30 的電話）：睡著也會被叫醒，下一輪選單接著演 */
     await GM.fade(true); if(G.hour>=25) (G.daily||(G.daily={})).lateNight=G.day+1;   /* 01:00 以後才睡（明軒那句，AA-B 10-16）*/ G.day++; G.weekday=(G.weekday+1)%7; G.energy=100; G.hour=wakeH!=null?wakeH:8.5;   /* wakeH：隔天有學校的固定行程時提早醒（DL-05，AA_160 1-6）*/ if(E) E.hour=G.hour; G.flags.companion=null;
     if(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(G.day)) G.weather='rain'; else G.weather=Math.random()<0.7?'clear':'cloudy'; if(E&&E.setWeather) E.setWeather(G.weather);
     if(GM.updateHUD) GM.updateHUD(); if(GM.titleCard) await GM.titleCard(typeof STORY!=='undefined'&&STORY.dayTitle?STORY.dayTitle(G):'第 '+G.day+' 天',['週日','週一','週二','週三','週四','週五','週六'][G.weekday]+' '+hm(G.hour)+'・家',2200); await GM.fade(false);

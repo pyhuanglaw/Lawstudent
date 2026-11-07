@@ -132,7 +132,7 @@ const OUT=(function(){
     await S.go(GM,q); return 'go'; };
   /* 出發：轉場 → 抵達（不早於約好的時間）→ 演事件（深色底開始，避免看到原本的 3D 畫面）→ 時間往後 → 回到原本的地方 */
   /* 演完的地點字幕（出遊沒寫 back 的）：畢業以後退宿了（MOVED_OUT）＝回到家／公館的套房，不是「回到台大。」（BUG-PG-RETURN-TEXT-1021：6/9 典禮、K26、麵店、畢業以後的固定格）*/
-  S.backText=G=>{ if(typeof HOME!=='undefined'&&HOME.movedOut&&HOME.movedOut(G)) return HOME.suite&&HOME.suite(G)?'回到公館的套房。':'回到家。'; return '回到首都帝大。'; };
+  S.backText=G=>{ if(typeof HOME!=='undefined'&&HOME.movedOut&&HOME.movedOut(G)) return HOME.suite&&HOME.suite(G)?'回到公館的套房。':'回到家。'; if(typeof JP!=='undefined'&&JP.homeOn&&JP.homeOn(G)) return '回到家。'; return '回到首都帝大。'; };   /* 日本路線住家裡（2/20 退宿～3/25 出發、8/5 回來～搬進 409，JP.homeOn）也是回到家（BB-B 11-07 19:4x：3/23 子晴在家附近的便利商店，演完說「回到首都帝大。」）*/
   S.homeSaid=null;   /* AA_529 6-1：這一趟演完、階梯前面已經說了「（晚上，回到家。）」的出遊 id */
   S.go=async function(GM,q,o){ const G=GM.G, ev=evOf(q.ev), tr=S.trip(G,q,o&&o.fromHome); S.homeSaid=null;   /* o.fromHome：從家裡的選單出發（選單先把「在家」關掉了）*/
     if(q.camp&&typeof STORY!=='undefined'&&STORY.campY1){ q.state='done'; await STORY.campY1(GM,{next:false});   /* 法律系迎新宿營（經濟系路線，AA_205 2-3）：三天全部在 S.campY1 演，演完回到 8/24 下午的家 */
