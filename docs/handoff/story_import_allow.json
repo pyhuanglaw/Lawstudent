@@ -4862,6 +4862,15 @@
      "approvedBy": "AA-B D109（11-07 07:10「AA_719 兩個小改」）（11-07 08:1x 以前；13acd106d AN-1 rule 0 第一句改傳單）"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_721_l118_invite_acc.json",
+   "sha": "b782e2c08",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 09:27「INVITE-PLACES 第二批」）",
+   "task": "INVITE-PLACES-1107",
+   "kind": "json",
+   "note": "118 巷七家店 × 七位 acc／firstAt；可昕不去好家自助餐（no）；tools/story/import_place_acc.py → src/data/invite_place_lines.js"
   }
  ]
 }

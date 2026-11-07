@@ -32,7 +32,7 @@ const fresh=(key,h,zone)=>{ const G=H.fresh(key,h,zone); G.invites=[]; G.stats=G
     check('5. 看電影：散場那一句（AA_649 movieEnd）、時間過 2 小時、記憶 MOVIE_TOGETHER',ME.some(L=>L.every(t=>H.said.some(s=>s.t===t)))&&G.hour>=16-1e-6&&iv.state==='done',J({said:H.said.map(s=>s.t),h:G.hour})); }
   /* 6 AA_714 答應句、第一次去的那一句 */
   { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_place_acc.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
-    check('6. src/data/invite_place_lines.js 和 AA_714@696254f1c 一致（import_place_acc.py --check）、七個地點 × 七位',okL&&ok&&Object.keys(INVITE_PLACE_LINES.places).length===7,out.trim().slice(0,160));
+    check('6. src/data/invite_place_lines.js 和 AA_714@696254f1c、AA_721（118 巷第二批）一致（import_place_acc.py --check）、7＋7 個地點 × 七位',okL&&ok&&Object.keys(INVITE_PLACE_LINES.places).length===14,out.trim().slice(0,160));
     const G=fresh('2025-10-15',10,'campus'), id='heroine_01'; H.FRIEND(id); const L=INVITE_PLACE_LINES.places.soclib[id];
     const r=INV.personal(G,id,P('soclib'),G.day+1,14,{res:'accept'});
     check('6. 以安答應社科圖：照 AA_714 的答應句',r&&J(r.lines)===J(L.acc),J(r&&r.lines));

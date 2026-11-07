@@ -615,3 +615,16 @@ INVITE_DATA.seatOpen.aoki=[['（店員把茶壺放下，她先幫你倒了第一
     {id:'gym_pool',zone:'gym_b1',name:'游泳池',verb:'去新體育館游泳',kind:'sport',minStage:'FRIEND',stay:1,memory:'SPORT_POOL',sitAct:'wait',sport:true,hoursBy:{wk:[8,21.5],we:[9,17.5]},avail:notFourthMon,show:G=>b1(G)}];
   for(const q of P) if(!INVITE_DATA.places.some(x=>x.id===q.id)) INVITE_DATA.places.push(q);
 })();
+
+/* ===== INVITE-PLACES-1107 第二批：118 巷的店也能約（使用者 11-07「約會、約念書、約吃飯…」；AA_721 b782e2c08 答應句、第一次一起去那一句，src/data/invite_place_lines.js）=====
+   店 id＝區域 id。營業時間照 lane118_shops.js（AA_280）：一天兩段（午、晚）都能約、公休日灰掉（windows、off）；都要自己走進去過一次才列（G.visited）。
+   一一八茶飲放「散步」（AA_721：買了邊走邊喝）。她不會去的（可昕平日在木柵、好家自助餐只開平日）＝那一格灰掉、說明是她那句（noWho，匯入時併進來）。*/
+(function(){ const V=z=>G=>!!G&&!!G.visited&&!!G.visited[z];
+  /* 營業時間照 LANE118_SHOPS（src/data/lane118_shops.js，index.html 在 invites.js 前面載入）*/
+  const hrs=k=>{ const s=typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)&&LANE118_SHOPS.shops.find(x=>x.id===k); return (s&&s.hours)||{open:[[11,14],[17,20]],closed:[]}; };
+  const H=(o,k)=>{ const h=hrs(k), c=h.closed||[]; return Object.assign(o,{windows:h.open.map(w=>w.slice()),off:c.slice(),days:[0,1,2,3,4,5,6].filter(d=>!c.includes(d))}); };
+  const M=(k,name,verb)=>H({id:'l118_'+k,zone:'l118_'+k,name,verb,kind:'meal',minStage:'FAMILIAR',stay:0.75,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],times:[12,12.5,18,18.5],show:V('l118_'+k)},k);
+  const P=[M('dian','滇香小館','去滇香小館吃飯'),M('home','巷口家常菜','去巷口家常菜吃飯'),M('omu','蛋包飯研究所','去蛋包飯研究所吃飯'),M('noodle2','六張犁麵舖','去六張犁麵舖吃麵'),M('korea','韓食小廚','去韓食小廚吃飯'),M('self','好家自助餐','去好家自助餐吃飯'),
+    H({id:'l118_tea',zone:'l118_tea',name:'一一八茶飲',verb:'去一一八茶飲買飲料、走一走',kind:'walk',minStage:'FRIEND',stay:0.5,memory:'WALKED_TOGETHER',sitAct:'wait',cats:['walk'],times:[14,16,19.5],show:V('l118_tea')},'tea')];
+  for(const q of P) if(!INVITE_DATA.places.some(x=>x.id===q.id)) INVITE_DATA.places.push(q);
+  const B=INVITE_DATA.seatOpen&&INVITE_DATA.seatOpen.byPlace; if(B) for(const k of ['dian','home','omu','noodle2','korea','self']) if(!B['l118_'+k]) B['l118_'+k]='meal'; })();

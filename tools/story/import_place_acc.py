@@ -11,6 +11,9 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 PATH = 'docs/story_planning/AA_714_invite_places_acc.json'
 OUT = 'src/data/invite_place_lines.js'
 PLACES = ('soclib', 'wz_lin', 'wz_teishoku', 'xs_dakou', 'xs_nanyang', 'bookstore', 'xs_shanlan')
+# 第二批：118 巷的店（AA_721；店 id＝區域 id，src/data/invites.js 最後那一段）
+PATH2 = 'docs/story_planning/AA_721_l118_invite_acc.json'
+PLACES2 = ('l118_dian', 'l118_home', 'l118_omu', 'l118_noodle2', 'l118_korea', 'l118_self', 'l118_tea')
 
 
 def git(*a):
@@ -23,13 +26,13 @@ def lines(v, w):
     return [IG.read_fix(t) for t in v]
 
 
-def build(src, sha):
-    out = {}
+def build(src, sha, places=PLACES, out=None):
+    out = {} if out is None else out
     for pid, v in src.items():
         if pid.startswith('_'):
             continue
-        if pid not in PLACES:
-            raise SystemExit(f'{pid}：不是 INVITE-PLACES-1107 的地點（{PLACES}）')
+        if pid not in places:
+            raise SystemExit(f'{pid}：不是 INVITE-PLACES-1107 的地點（{places}）')
         out[pid] = {}
         for hid, e in v.items():
             w = f'{pid}.{hid}'
@@ -38,8 +41,12 @@ def build(src, sha):
                 q['acc'] = lines(e['acc'], w + '.acc')
             if e.get('firstAt'):
                 q['firstAt'] = lines(e['firstAt'], w + '.firstAt')
+            if e.get('no'):
+                if not isinstance(e['no'], str):
+                    raise SystemExit(f'{w}.no：要是一句話')
+                q['no'] = IG.read_fix(e['no'])   # 她不會去（AA_721：可昕平日在木柵，好家自助餐只開平日）：那一格照出、灰掉，說明＝她那句
             out[pid][hid] = q
-    return {'src': f'{PATH}@{sha}', 'places': out}
+    return out
 
 
 def main():
@@ -52,13 +59,24 @@ def main():
     ok, why = IG.allowed(PATH, sha, allow)
     if not ok:
         raise SystemExit(why)
-    data = build(json.loads(git('show', f'{sha}:{PATH}')), sha)
-    js = ('/* 自動產生：tools/story/import_place_acc.py（' + data['src'] + '）。不要手改，改企劃 AA_714 再重新匯入。\n'
+    places = build(json.loads(git('show', f'{sha}:{PATH}')), sha)
+    h2 = [e for e in allow.get('files', []) if e.get('path') == PATH2 and e.get('status') == 'approved']
+    if not h2:
+        raise SystemExit(f'{PATH2}：不在匯入白名單')
+    sha2 = h2[-1]['sha']
+    ok2, why2 = IG.allowed(PATH2, sha2, allow)
+    if not ok2:
+        raise SystemExit(why2)
+    build(json.loads(git('show', f'{sha2}:{PATH2}')), sha2, PLACES2, places)
+    data = {'src': f'{PATH}@{sha}', 'src2': f'{PATH2}@{sha2}', 'places': places}
+    why = why + '；' + why2
+    js = ('/* 自動產生：tools/story/import_place_acc.py（' + data['src'] + '、' + data['src2'] + '）。不要手改，改企劃 AA_714／AA_721 再重新匯入。\n'
           '   新約會地點的答應句、第一次一起去的那一句（INVITE-PLACES-1107）：載入時併進 INVITE_DATA.people（要在 src/data/invites.js 後面載入）*/\n'
           "'use strict';\nconst INVITE_PLACE_LINES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n'
           "(function(){ if(typeof INVITE_DATA==='undefined') return; const P=INVITE_DATA.people||(INVITE_DATA.people={});\n"
           "  for(const pid in INVITE_PLACE_LINES.places) for(const id in INVITE_PLACE_LINES.places[pid]){ const e=INVITE_PLACE_LINES.places[pid][id], p=P[id]||(P[id]={});\n"
-          "    if(e.acc&&!(p.acc&&p.acc[pid])) (p.acc||(p.acc={}))[pid]=e.acc.slice(); if(e.firstAt&&!(p.firstAt&&p.firstAt[pid])) (p.firstAt||(p.firstAt={}))[pid]=e.firstAt.slice(); } })();\n")
+          "    if(e.acc&&!(p.acc&&p.acc[pid])) (p.acc||(p.acc={}))[pid]=e.acc.slice(); if(e.firstAt&&!(p.firstAt&&p.firstAt[pid])) (p.firstAt||(p.firstAt={}))[pid]=e.firstAt.slice();\n"
+          "    if(e.no){ const PL=(INVITE_DATA.places||[]).find(q=>q.id===pid); if(PL) (PL.noWho||(PL.noWho={}))[id]=e.no; } } })();\n")
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
         cur = open(p, encoding='utf-8').read() if os.path.exists(p) else ''
