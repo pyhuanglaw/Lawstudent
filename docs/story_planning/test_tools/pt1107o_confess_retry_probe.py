@@ -117,6 +117,12 @@ async def main():
         run.check('C 下一次約會結尾：不再說 ready、直接問', not any(t in ready for t in sC2) and bool(sC2) and sC2[0].startswith('［選項］（告訴她）'), J(sC2[:3]))
         run.check('C 告訴她：她說 second（%d 句、照順序）' % len(sec), k2 is not None and sC2[k2:k2 + len(sec)] == sec, J(sC2[:10]))
         run.check('C 第二次一定答應：交往中（dating_%s）、CONF_FAIL.done' % WHO, st2['dating'] and bool(st2['cf'] and st2['cf'].get('done')), J(st2))
+        # AA-B eca6139aa：第二次告白接原本答應那一場時換句（AA723.confess.lines[人].secondYes）；以安「只是想說等你先講。」不應該出現
+        sy = Lx.get('secondYes')
+        if sy is not None:
+            run.check('C 第二次答應換句（secondYes）：以安沒有「只是想說等你先講。」、有 secondYes 的句子', '只是想說等你先講。' not in sC2 and all(any(t in x for x in sC2) for t in (sy if isinstance(sy, list) else [])), J([sy, sC2[-6:]]))
+        else:
+            run.note('C：這一版的 AA723.confess.lines.%s 還沒有 secondYes（LAWWW-B 還沒接 AA-B eca6139aa）' % WHO)
         await run.shot(pg, 'C2_after')
         run.check('沒有 JS 例外', not errs, J(errs[:5]))
         await b.close()
