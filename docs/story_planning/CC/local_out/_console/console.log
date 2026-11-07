@@ -173,3 +173,12 @@
 [19:21:41] [res] cpu=35% mem=51% (15.9/31.4 GB) chrome_testing=10  START R126_v0_tolaw
 [19:23:23] 正在跑：R126_v0_to1017（已跑 9 分／上限 90 分）、R126_v0_home（已跑 7 分／上限 60 分）、R126_v0_tolaw（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:24:32] [res] cpu=16% mem=51% (16.1/31.4 GB) chrome_testing=10  END R126_v0_tolaw
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2b41dac06..16ccab40c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:24:37] ==== END   R126_v0_tolaw  exit=1  175s   ====
+[19:24:40] memory 50% before starting R126_main12 (2 running)
+[19:24:40] ==== START R126_main12  (game @ 126bdf93e82886673518705566dbe83b582c32c1) ====
+[19:24:43] [res] cpu=14% mem=51% (16.0/31.4 GB) chrome_testing=10  START R126_main12
+[19:28:23] 正在跑：R126_v0_to1017（已跑 14 分／上限 90 分）、R126_v0_home（已跑 12 分／上限 60 分）、R126_main12（已跑 3 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:30:18] [res] cpu=11% mem=49% (15.4/31.4 GB) chrome_testing=10  END R126_main12
