@@ -43335,6 +43335,34 @@
    "sha": "469bb53ac"
   },
   {
+   "id": "BUG-YTS-FIRST-CLASH-1107",
+   "title": "語彤第一次約念書回「好。」被同一晚還沒回的以安邀約（offered）擋掉：不排木曜日、語彤停在「好。」、系統串多「那個時間你已經約了別人。」",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "sha": "1b54728e6",
+   "first": {
+    "term": "Y1S2",
+    "week": 3,
+    "earliest": "大一下第 3 週週二晚上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 23:3x LAWWW-B】1b54728e6：撞到只算已答應／校外約會／考試，offered 不擋；真的撞到＝first busy、系統字＋她回「嗯。下次。」。全遊戲共用的 INV clash 規則沒改（別的邀約照舊）。Node aa625_yt_study 加兩項（修改前 FAIL）。BB 重測。",
+   "xai": {
+    "spec": "BB-B 11-07 23:25（瀏覽器 7ef927dd7）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "BB 同一份 day46 存檔重跑：21:30 以安約、21:40 語彤約，回「好。」＝排 3/11 14:00 木曜日",
+    "receiver": "BB（測）",
+    "ack": "ACK",
+    "owner": "LAWWW"
+   },
+   "evidence": ""
+  },
+  {
    "first": {
     "term": "Y1S1",
     "week": 1,
