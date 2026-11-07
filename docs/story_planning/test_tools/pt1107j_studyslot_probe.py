@@ -39,6 +39,9 @@ def base_state(who, flag):
     soc = dict(s.get('social') or {}); rel = dict(soc.get('rel') or {}); r = dict(rel.get(who) or {})
     r['fam'] = max(r.get('fam', 0), 50); r['trust'] = max(r.get('trust', 0), 35); r['comf'] = max(r.get('comf', 0), 30)
     rel[who] = r; soc['rel'] = rel; s['social'] = soc
+    cs = dict(s.get('contacts') or {})
+    if who not in cs:   # 【捷徑】使用者存檔還沒認識子晴（沒有 met、不在聯絡人）：手機約不到她
+        cs[who] = 2; s['contacts'] = cs; f = dict(s['flags']); f['met_' + who] = True; s['flags'] = f
     return s
 
 
@@ -50,7 +53,8 @@ async def back_out(pg, cdp):
     for _ in range(8):
         o = await pe.opts(pg)
         if not o: break
-        b = next((x['t'] for x in o if x['t'] in ('返回', '算了', '不約了', '換一天') or x['t'].startswith('返回')), None) or o[-1]['t']
+        b = next((x['t'] for x in o if x['t'] in ('返回', '算了', '不約了', '換一天', '取消', '先不要') or x['t'].startswith('返回')), None)
+        if not b: break   # 找不到「返回」就不亂按（以前退回最後一個選項，會不小心約成：BB-B 10:5x 自己的 TEST_BUG）
         await pe.choose(pg, cdp, b, True)
     await pe.close_phone(pg, cdp); await pe.settle(pg, cdp, [], 10)
 
