@@ -1776,3 +1776,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 90.7s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 90.7s] BROWSER DISCONNECTED
 - 2026-11-07T18:49:04  R8FDB_reach  sha=8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a  exit=0  693s    統計：29 個區域、1231 個互動點、15 個劇情走路目的地、85 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 605.4s] page close url=http://127.0.0.1:8802/index.html?turbo?turbo | [gpu_wrap 605.4s] BROWSER DISCONNECTED
+- 2026-11-07T18:49:48  PT1107I_meet_kx  sha=8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a  exit=1  138s    FAIL 南洋：那一場扣了 150（電影票）、記 NY_TICKET＝今天  {"money": 1000, "log": [], "tk": null, "day": 33} / PASS 沒有 JS 例外  [] / FAILED: 滇香：答應句「「滇香？你們學校附近的店，我都還沒吃完。好。」」, 南洋：見面演了（燈暗下來那一句：沒有）, 南洋：那一場扣了 150（電影票）、記 NY_TICKET＝今天
+      err.log (last 5): [gpu_wrap 95.6s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 95.6s] BROWSER DISCONNECTED

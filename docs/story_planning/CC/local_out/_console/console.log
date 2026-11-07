@@ -734,3 +734,12 @@
 [18:48:22] ==== START PT1107G_h05_k3  (probe @ 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a) ====
 [18:48:25] [res] cpu=12% mem=59% (18.6/31.4 GB) chrome_testing=8  START PT1107G_h05_k3
 [18:49:04] [res] cpu=4% mem=49% (15.5/31.4 GB) chrome_testing=9  END R8FDB_reach
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e0823670a..eb4e7d4cd  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:49:08] ==== END   R8FDB_reach  exit=0  693s   ====
+[18:49:11] memory 52% before starting R8FDB_movreg (2 running)
+[18:49:11] ==== START R8FDB_movreg  (game @ 8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a) ====
+[18:49:14] [res] cpu=14% mem=51% (16.3/31.4 GB) chrome_testing=9  START R8FDB_movreg
+[18:49:32] 正在跑：PT1107I_meet_kx（已跑 2 分／上限 40 分）、PT1107G_h05_k3（已跑 1 分／上限 40 分）、R8FDB_movreg（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:49:48] [res] cpu=82% mem=51% (16.0/31.4 GB) chrome_testing=9  END PT1107I_meet_kx

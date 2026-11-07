@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\pt1107i_invplaces_probe.py http://127.0.0.1:8800/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\PT1107I_meet_kx\out
+PASS 遊戲載入
+  [前置／捷徑] 讀使用者存檔 day46；【捷徑】day -14 早上 10 點、清邀約；【捷徑】kexin 關係到朋友；【捷徑】去過 118 巷六家（不含韓食小廚）＋南洋；錢 1000
+PASS 這一版有 118 巷的約會地點
+   滇香 INV.personal（照遊戲自己的挑法，接受時會說什麼） {"lines": ["「滇香？你們學校附近的店，我都還沒吃完。好。」"], "res": "accept"}
+  [前置／捷徑] [滇香]【捷徑】時間撥到約好的 12.00 前 10 分鐘
+  [  84.6s] 到達「走到她旁邊」附近（1.70 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，24 秒
+   約滇香以後新的訊息 []
+PASS 滇香：見面演完  ["約好 今天 12:00，滇香小館。", "我要趕車了。今天謝謝你。"]
+FAIL 滇香：答應句「「滇香？你們學校附近的店，我都還沒吃完。好。」」  {"said": ["約好 今天 12:00，滇香小館。", "我要趕車了。今天謝謝你。"], "msgs": ["……好。我也一直想去。", "好。那天我什麼都不排。", "好。那天我什麼都不排。", "不好。"]}
+PASS 滇香：第一次一起去那一句（2 句）  {"miss": [], "hist": ["杜可昕｜你們學校附近的東西好貴。", "｜（她看了一下菜單，點了最便宜的那一個，又改成第二便宜的。）", "｜（她吃了一口椒麻雞。）", "杜可昕｜「……木柵沒有這個。」", "杜可昕｜你昨天十一點以後就沒回我。", "杜可昕｜我不是要你一直回。我是要你說一聲你要睡了。", "杜可昕｜……很難嗎？", "杜可昕｜你昨天在幹嘛？", "杜可昕｜你媽又在對帳？", "杜可昕｜好，這次算了。下次先跟我說一聲。", "｜（她說算了，可是飲料喝得很用力。）", "杜可昕｜我要趕車了。今天謝謝你。"]}
+PASS 滇香：吃飯那一場坐下了（l118_dian 裡 E.player.seat）  [{"z": "l118_dian", "h": 12.1}, {"z": "l118_dian", "h": 12.1}, {"z": "l118_dian", "h": 12.1}, {"z": "l118_dian", "h": 12.1}, {"z": "l118_dian", "h": 12.1}]
+   記憶 [{"tag":"FIRST_MET","day":4,"note":"lawlib"},{"tag":"OUR_SHOP_FIRST","day":4,"note":"政大山下的小吃街"},{"tag":"KX_EARRING_STORY","day":22,"note":"K-L2"},{"tag":"KX_NO_PLAN","day":33,"note":""},{"tag":"SHARED_MEAL","day":32,"note":"滇香小館"}]
+  [前置／捷徑] 【捷徑】隔天早上 10 點、錢 1000、清掉 NY_TICKET
+   南洋 said [] 邀約 [{"place": "l118_dian", "day": 32, "h": 12, "state": "done"}]
+FAIL 南洋：見面演了（燈暗下來那一句：沒有）  {"said": [], "ivs": [{"place": "l118_dian", "day": 32, "h": 12, "state": "done"}]}
+FAIL 南洋：那一場扣了 150（電影票）、記 NY_TICKET＝今天  {"money": 1000, "log": [], "tk": null, "day": 33}
+PASS 沒有 JS 例外  []
+FAILED: 滇香：答應句「「滇香？你們學校附近的店，我都還沒吃完。好。」」, 南洋：見面演了（燈暗下來那一句：沒有）, 南洋：那一場扣了 150（電影票）、記 NY_TICKET＝今天
