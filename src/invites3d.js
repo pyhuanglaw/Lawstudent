@@ -101,7 +101,7 @@ const INV=(function(){
   /* 這個時間可不可以（不看關係）：開著、沒和別人約、作息沒事、不是半夜 */
   const hoursOf=(G,P,day)=>{ if(P.hoursFrom&&typeof PLACES!=='undefined'&&PLACES.windowsOf){ const ws=PLACES.windowsOf(P.hoursFrom,day); if(ws!==undefined) return ws&&ws[0]?ws[0]:[99,0]; }   /* hoursFrom：照 places.js 那一區的開放時間（法圖：學期中平日 08:10～21:45、週末 09:10～17:00，寒暑假另外；AA_535b 2-1）*/
     return P.hoursBy?([0,6].includes(wdOf(G,day))?P.hoursBy.we:P.hoursBy.wk):P.hours; };   /* hoursBy：平日、週末不同（羽球平日 12:00～21:00、週末 9:00～17:00，AA_126 6-6）*/
-  const winOk=(G,P,day,h)=>{ const hr=hoursOf(G,P,day); return (!P.days||P.days.includes(wdOf(G,day)))&&(!P.avail||P.avail(G,day))&&(!hr||(h>=hr[0]-1e-6&&h+P.stay<=hr[1]+1e-6)); };   /* 只有某些星期、某段時間能約的地點（DL-12：半熟週末早上、一盞週三到週日下午）*/
+  const winOk=(G,P,day,h)=>{ if(P.hoursFrom&&typeof PLACES!=='undefined'&&PLACES.windowsOf){ const ws=PLACES.windowsOf(P.hoursFrom,day); if(ws!==undefined&&ws&&ws.length>1) return (!P.days||P.days.includes(wdOf(G,day)))&&(!P.avail||P.avail(G,day))&&ws.some(w=>h>=w[0]-1e-6&&h+P.stay<=w[1]+1e-6); }   /* 一天兩段（林家乾麵 11–14、17–21；INVITE-PLACES-1107）：哪一段都可以 */ const hr=hoursOf(G,P,day); return (!P.days||P.days.includes(wdOf(G,day)))&&(!P.avail||P.avail(G,day))&&(!hr||(h>=hr[0]-1e-6&&h+P.stay<=hr[1]+1e-6)); };   /* 只有某些星期、某段時間能約的地點（DL-12：半熟週末早上、一盞週三到週日下午）*/
   const myExam=(G,day,h,stay)=>typeof CLS!=='undefined'&&CLS.examAt?CLS.examAt(G,day,h,h+stay):null;   /* 祐廷自己的考試（D14-T3：邀約避開）*/
   const tripAt=(G,day,h,stay)=>typeof DATE!=='undefined'&&DATE.tripAt?DATE.tripAt(G,day,h,stay):null;   /* 已經約好的校外約會那段時間（BUG-DATE-OVERLAP-1021；兩天一夜佔兩天）：和「你那個時間已經約了別人」一樣處理 */
   const free=(G,id,P,day,h)=>h>=(P.hours&&P.hours[0]<8?P.hours[0]:8)&&h+P.stay<=23.5&&isOpen(P.zone,h,day)&&winOk(G,P,day,h)&&!clash(G,id,day,h,P.stay)&&!clash(G,null,day,h,P.stay)&&!tripAt(G,day,h,P.stay)&&!busyAt(G,id,day,h,P.stay)&&!myExam(G,day,h,P.stay);
@@ -363,6 +363,7 @@ const INV=(function(){
       if(typeof SOCIAL!=='undefined'){ if(SOCIAL.remember) SOCIAL.remember(iv.who,P.memory,P.name); if(SOCIAL.activity){ SOCIAL.activity(iv.who,P.sport?'sport':({cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk',brunch:'meal',teahouse:'cafe',slowread:'library'}[P.id]||(P.kind==='meal'?'meal':'cafe'))); if(iv.by==='npc') SOCIAL.activity(iv.who,'acceptInvite'); } else if(SOCIAL.adjust) SOCIAL.adjust(iv.who,{fam:2}); }
       if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum(iv.who)>=3&&iv.who!=='kexin'){ const DY=G.daily||(G.daily={}), k='romAlone_'+iv.who; if(DY[k]!==G.day){ DY[k]=G.day; SOCIAL.adjust(iv.who,{npcRom:1,rom:1}); } }   /* 校園單獨約出來（AA_128 1-1）：她的戀愛 +1、祐廷的戀愛 +1，同一個人一天一次；AA_243 第 1 節（BB_199 P0-1 方案 A）：從朋友（第 3 階）開始，不是第 5 階 */   /* AA_124 1-2：照地點（Café、總圖、吃飯、溫州街）；對方約的又赴約，信任 +1 */
       if(sp) S.sportAfter(G,iv.who,P);   /* 子晴、可昕：自在 +3、她的戀愛 +3（AA_126 6-3）；羽球＝打羽球的體能 */
+      { const SO2=D().seatOpen, mk=SO2&&(SO2.byPlace||{})[P.id]; if(mk==='movie'&&Array.isArray(SO2.movieEnd)&&SO2.movieEnd.length) await S.playLines(GM,who,pick(SO2.movieEnd)); }   /* 看電影：散場那一句（AA_649 第 4 節 movieEnd；INVITE-PLACES-1107）*/
       if(typeof WISH!=='undefined'&&WISH.meetMention) await WISH.meetMention(GM,iv,who);   /* 心願：聊天提到（DATE-C4、C5；src/wish3d.js）——見面那一段演完、道別以前，條件到了說一次 */
       { const AM=(D().people[iv.who]||{}).afterMeet; const L=typeof AM==='function'?AM(G,iv,P.id):null; if(L&&L.length) for(const t of L) await GM.say(/^「/.test(t)?who:null,t); }   /* 見面之後那個人的一句（沛珊 P4b 的便條）*/
       if(LB) await S.libEnd(GM,iv,n,who,lib1,SN);
@@ -708,7 +709,7 @@ const INV=(function(){
      第一層照分類，一層最多約 8 列；一類只有一個＝直接列那一項（不多一層）；一類一個都沒有＝不列；整類都約不了＝灰掉、小字寫第一個原因（選了說原因、再選一次）。
      分類名稱照 AA_535 第 2 節（INVITE-OPTS-1030，AA-B 定稿）：念書／吃飯／喝咖啡、喝茶／散步／運動／出去玩（校外，不寫「約會」）／這個時候才有（節日、茶席、去她的城市、視訊這類有時間的）。
      地點的分類：P.cats（可以放兩類：慢讀咖啡＝念書＋喝咖啡、喝茶；一盞的茶席＝喝咖啡、喝茶＋這個時候才有），沒有就照 zone（總圖＝念書）、kind（meal 吃飯、walk 散步、sport 運動、其他＝喝咖啡、喝茶）。系統字，不是台詞 */
-  S.CATS=[{id:'study',t:'念書'},{id:'meal',t:'吃飯'},{id:'sit',t:'喝咖啡、喝茶'},{id:'walk',t:'散步'},{id:'sport',t:'運動'}];
+  S.CATS=[{id:'study',t:'念書'},{id:'meal',t:'吃飯'},{id:'sit',t:'喝咖啡、喝茶'},{id:'fun',t:'看電影、逛書店'},{id:'walk',t:'散步'},{id:'sport',t:'運動'}];   /* fun：南洋戲院、頁間、山嵐（INVITE-PLACES-1107）*/
   S.CAT_OF={teahouse_ceremony:['sit','when']};
   S.catsOf=P=>{ const L=P.cats||S.CAT_OF[P.id]||[P.cat||(/^library/.test(String(P.zone||''))?'study':({meal:'meal',walk:'walk',sport:'sport'}[P.kind]||'sit'))]; const ok=L.filter(c=>c==='when'||S.CATS.some(x=>x.id===c)); return ok.length?ok:['sit']; };
   S.catOf=P=>S.catsOf(P)[0];

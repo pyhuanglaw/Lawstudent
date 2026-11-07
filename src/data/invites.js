@@ -586,3 +586,21 @@ INVITE_DATA.seatOpen={
   byPlace:{cafe:'coffee',brunch:'coffee',noodle:'meal',afar:'afar',daybreak:'daybreak'}   /* 兩點半、半熟＝咖啡（AA_649 寫「咖啡（兩點半、半熟這種）」）；公館燒臘＝吃飯 */
 };
 INVITE_DATA.seatOpen.aoki=[['（店員把茶壺放下，她先幫你倒了第一杯。）','「……你先喝。」']]; INVITE_DATA.seatOpen.byPlace.aoki='aoki';   /* 青木茶室（AA_653 第 3 節：和她坐下以後的開場句）*/
+/* ---------- 更多可以約的地方（INVITE-PLACES-1107；使用者 11-07 試玩：「daybreak 不能約?」「社科院圖書館也可以唸書吧」「吃飯餐廳也新增很多了沒有每個放進來」「有的店面都可以約吧 看書或吃飯或聊天 南洋戲院可以約看電影」）----------
+   系統的資料（地點、時間、哪一類）；答應的那一句、見面的台詞還沒有稿＝照一般的（「○○答應了。」、見面旁白；一起念書的第 N 場照 AA_707）。等 AA 補 acc／firstAt（登記在 INVITE-PLACES-1107）。
+   - 都要自己走去過一次才列（show：G.visited，和木曜日、日常失速一樣）；開放時間照 places.js 那一區（hoursFrom）。
+   - 「看電影、逛書店」是新的一類（invites3d.js S.CATS fun）：兩個人坐下的開場句照 AA_649 第 4 節 seatOpen.movie／bookstore；電影散場照 seatOpen.movieEnd。
+   - 運動健身（健身房、游泳池）還沒開：等健身器材能用（GYM-FIT-1107）、AA 寫運動的台詞。118 巷的店另外排（巷子裡的店是同一區）。*/
+(function(){ const V=z=>G=>!!G&&!!G.visited&&!!G.visited[z];
+  const P=[
+    {id:'soclib',zone:'soclib',name:'社科院圖書館',verb:'去社科圖一起念書',kind:'reason',minStage:'ACQUAINTANCE',stay:1.5,memory:'SOCLIB_TOGETHER',sitAct:'read',seatPose:'read',cats:['study'],hoursFrom:'soclib',show:V('soclib')},
+    {id:'wz_lin',zone:'wz_lin',name:'林家乾麵',verb:'去林家乾麵吃飯',kind:'meal',minStage:'FAMILIAR',stay:0.75,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],hoursFrom:'wz_lin',show:V('wz_lin')},
+    {id:'wz_teishoku',zone:'wz_teishoku',name:'小路',verb:'去小路吃晚餐',kind:'meal',minStage:'FAMILIAR',stay:1,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],hoursFrom:'wz_teishoku',times:[18,19,20],show:V('wz_teishoku')},
+    {id:'xs_dakou',zone:'xs_dakou',name:'大口漢堡',verb:'去大口漢堡吃東西',verbStudy:'去大口漢堡念書',kind:'meal',minStage:'FAMILIAR',stay:1,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal','study'],hours:[8,23.5],show:V('xs_dakou')},   /* AA_621：考試那兩週大家在這裡念書 */
+    {id:'xs_nanyang',zone:'xs_nanyang',name:'南洋戲院',verb:'去南洋戲院看電影',kind:'reason',minStage:'FRIEND',stay:2,memory:'MOVIE_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['fun'],hoursFrom:'xs_nanyang',times:[9.83,14,19.5],show:V('xs_nanyang')},   /* 早場 09:50（AA_707 芷若第 6 場「週六，早上九點五十」）*/
+    {id:'bookstore',zone:'bookstore',name:'頁間書屋',verb:'去頁間書屋逛逛',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'BOOKSTORE_TOGETHER',sitAct:'read',seatPose:'read',cats:['fun'],hours:[10,22],show:V('bookstore')},
+    {id:'xs_shanlan',zone:'xs_shanlan',name:'山嵐書店',verb:'去山嵐書店逛逛',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'BOOKSTORE_TOGETHER',sitAct:'read',seatPose:'read',cats:['fun'],hoursFrom:'xs_shanlan',show:V('xs_shanlan')}];
+  for(const q of P) if(!INVITE_DATA.places.some(x=>x.id===q.id)) INVITE_DATA.places.push(q);
+  const db=INVITE_DATA.places.find(x=>x.id==='daybreak'); if(db){ db.cats=['meal','study']; db.verbStudy='去 Daybreak 念書'; }   /* 「daybreak 不能約?」：吃飯那一類本來就有，念書那一類也列 */
+  const B=INVITE_DATA.seatOpen.byPlace; B.xs_nanyang='movie'; B.bookstore='bookstore'; B.xs_shanlan='bookstore'; B.wz_lin='meal'; B.wz_teishoku='meal'; B.xs_dakou='meal';
+})();
