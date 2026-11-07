@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GYM_DOME_r3",
+  "sha": "fa79dd7bc32e1e177a8187a070b8c7baf6ef2924",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_fa05_night_probe.py",
+  "env": "PARTS=dome;DOME_FAR=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T16:38:26",
+  "end": "2026-11-07T16:40:22",
+  "seconds": 116,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "30",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 22,
+    "mem": 54,
+    "used_gb": 16.7,
+    "chrome_testing": 12
+  }
+}
