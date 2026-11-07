@@ -47418,7 +47418,7 @@
    "title": "坐著的路人裙子穿進長椅（體育館一樓）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47430,15 +47430,15 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2 查坐姿時裙子的處理（裙擺骨頭或坐下時換短版／收窄），體育館一樓長椅那位先修，修好截圖",
+   "next": "【11-07 05:2x LAWWW-B】LAWWW2-B 768da51ab（資產 123a5c464）：8 個穿裙子的路人 VRM（＋lod）加坐下才打開的 morph「skirt_sit」，src/character3d.js 靜態坐姿開；tests/skirt_sit_morph_unit.js ALL PASS。等 CC：體育館一樓長椅、教室、Café 坐著的穿裙子路人近／7 m 外截圖。有名字的四位（沛珊、芯慈、予樂、秀琴）LAWWW 同意照做（D100a），LAWWW2 排在籃架、器材資料後面。 ｜ LAWWW2 查坐姿時裙子的處理（裙擺骨頭或坐下時換短版／收窄），體育館一樓長椅那位先修，修好截圖",
    "source": "UA-LAWWW-1105-23",
    "authorized": "使用者原話",
    "xai": {
     "spec": "使用者 11-05 07:0x（UA-LAWWW-1105-23、X239）",
-    "branch": "claude/focused-cray-c9uwvw",
+    "branch": "claude/funny-albattani-iawshm",
     "acceptance": "坐在長椅上的路人裙子不穿進椅面",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
    "src": "使用者 11-05 07:0x（UA-LAWWW-1105-23、X239）"
   },
@@ -48689,7 +48689,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "【11-07 05:1x LAWWW-B】第一批（src/data/invites.js 最後、invites3d.js S.CATS fun）：社科圖念書、Daybreak 念書（原本只有吃飯）、林家乾麵（中午、晚上兩段都能約；winOk 照兩段）、小路晚上、大口漢堡吃飯／念書、南洋戲院看電影（早場 09:50、14:00、19:30，散場 AA_649 movieEnd）、頁間書屋、山嵐書店逛逛（新的一類「看電影、逛書店」）；都要自己去過才列；tests/invite_places_1107_unit.js。還沒：118 巷各店、健身房／游泳池運動（等 GYM-FIT 器材、AA 運動台詞）、AA_707 unlock 的特別地點（一盞下班後、滷味、課輔班、木柵圖書館、以安的店）、各地點答應那一句（AA 補 acc）、看電影要不要扣票錢。 ｜ 【11-07 03:4x LAWWW-B 查核】INV 可約：2:30 AM、總圖、法圖、慢讀、afar、青木（先去過）、木曜日（先去過）念書；公館燒臘、SUNNY、Daybreak（只在吃飯類、有點熟、09／10／11:30／13）、日常失速、Pasta118（交往中）吃飯；一盞坐坐；溫州街、映月湖散步；羽球、晨跑運動。不能約：118 巷滇香、好家自助餐、巷口家常菜、韓食小廚、蛋包飯研究所、六張犁麵舖、一一八茶飲、林家乾麵、小路、大口漢堡（吃飯）；社科院圖書館 1F／2F、library_b1、linze_3f／4f、大口 2F、頁間書屋、Daybreak（念書）；頁間、山嵐（看書聊天）；南洋戲院（沒有電影類，invites.js:573，seatOpen.movie／movieEnd／bookstore 開場句已寫沒接）；健身房、游泳池、主球場、新生運動廣場（運動）。Daybreak 約不到的原因：兩人單獨類型＋可昕交往被知道就擋（invites3d.js:87-93）、14:00 後只能約明天。法圖被歸成咖啡、映月湖沒歸散步（invites3d.js:352）加的數值不對｜【11-07 03:4x LAWWW-B】列出遊戲裡所有能進的店面／讀書地點 × 邀約清單（invites3d、date、study）對照表，缺的補進去；電影院要有看電影的流程",
+   "next": "【11-07 05:2x LAWWW-B】GHA 718b59ec7：aa535b、gg_shops2_1104、invite_menu 三支 FAIL＝我把 Daybreak 加進「念書」。改回：Daybreak 照 AA_652 只在吃飯；使用者「daybreak 不能約?」的原因是和可昕交往、她知道＝「兩個人單獨去吃飯不太好」（partnerBlock，照設計）。大口漢堡留在念書（AA_621 考試那兩週大家在這裡念書）。 ｜ 【11-07 05:1x LAWWW-B】第一批（src/data/invites.js 最後、invites3d.js S.CATS fun）：社科圖念書、Daybreak 念書（原本只有吃飯）、林家乾麵（中午、晚上兩段都能約；winOk 照兩段）、小路晚上、大口漢堡吃飯／念書、南洋戲院看電影（早場 09:50、14:00、19:30，散場 AA_649 movieEnd）、頁間書屋、山嵐書店逛逛（新的一類「看電影、逛書店」）；都要自己去過才列；tests/invite_places_1107_unit.js。還沒：118 巷各店、健身房／游泳池運動（等 GYM-FIT 器材、AA 運動台詞）、AA_707 unlock 的特別地點（一盞下班後、滷味、課輔班、木柵圖書館、以安的店）、各地點答應那一句（AA 補 acc）、看電影要不要扣票錢。 ｜ 【11-07 03:4x LAWWW-B 查核】INV 可約：2:30 AM、總圖、法圖、慢讀、afar、青木（先去過）、木曜日（先去過）念書；公館燒臘、SUNNY、Daybreak（只在吃飯類、有點熟、09／10／11:30／13）、日常失速、Pasta118（交往中）吃飯；一盞坐坐；溫州街、映月湖散步；羽球、晨跑運動。不能約：118 巷滇香、好家自助餐、巷口家常菜、韓食小廚、蛋包飯研究所、六張犁麵舖、一一八茶飲、林家乾麵、小路、大口漢堡（吃飯）；社科院圖書館 1F／2F、library_b1、linze_3f／4f、大口 2F、頁間書屋、Daybreak（念書）；頁間、山嵐（看書聊天）；南洋戲院（沒有電影類，invites.js:573，seatOpen.movie／movieEnd／bookstore 開場句已寫沒接）；健身房、游泳池、主球場、新生運動廣場（運動）。Daybreak 約不到的原因：兩人單獨類型＋可昕交往被知道就擋（invites3d.js:87-93）、14:00 後只能約明天。法圖被歸成咖啡、映月湖沒歸散步（invites3d.js:352）加的數值不對｜【11-07 03:4x LAWWW-B】列出遊戲裡所有能進的店面／讀書地點 × 邀約清單（invites3d、date、study）對照表，缺的補進去；電影院要有看電影的流程",
    "first": {
     "term": "Y1S1",
     "week": 6,

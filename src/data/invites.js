@@ -601,6 +601,6 @@ INVITE_DATA.seatOpen.aoki=[['（店員把茶壺放下，她先幫你倒了第一
     {id:'bookstore',zone:'bookstore',name:'頁間書屋',verb:'去頁間書屋逛逛',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'BOOKSTORE_TOGETHER',sitAct:'read',seatPose:'read',cats:['fun'],hours:[10,22],show:V('bookstore')},
     {id:'xs_shanlan',zone:'xs_shanlan',name:'山嵐書店',verb:'去山嵐書店逛逛',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'BOOKSTORE_TOGETHER',sitAct:'read',seatPose:'read',cats:['fun'],hoursFrom:'xs_shanlan',show:V('xs_shanlan')}];
   for(const q of P) if(!INVITE_DATA.places.some(x=>x.id===q.id)) INVITE_DATA.places.push(q);
-  const db=INVITE_DATA.places.find(x=>x.id==='daybreak'); if(db){ db.cats=['meal','study']; db.verbStudy='去 Daybreak 念書'; }   /* 「daybreak 不能約?」：吃飯那一類本來就有，念書那一類也列 */
+   /* Daybreak（「daybreak 不能約?」）：本來就在吃飯那一類（AA_652），不加念書；約不到是因為和可昕交往、她知道＝「兩個人單獨去吃飯不太好」（invites3d.js partnerBlock） */
   const B=INVITE_DATA.seatOpen.byPlace; B.xs_nanyang='movie'; B.bookstore='bookstore'; B.xs_shanlan='bookstore'; B.wz_lin='meal'; B.wz_teishoku='meal'; B.xs_dakou='meal';
 })();
