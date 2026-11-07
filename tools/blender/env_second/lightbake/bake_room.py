@@ -72,7 +72,9 @@ realize()
 # ---- 2. 烘焙的物件：網格、不是玻璃（HIDE）、有面 ----
 def mats(o): return [s.material.name for s in o.material_slots if s.material]
 def hidden(o): return bool(HIDE and (HIDE.search(o.name) or any(HIDE.search(m) for m in mats(o))))
-objs = [o for o in bpy.data.objects if o.type == 'MESH' and len(o.data.polygons) and not hidden(o) and not (NOLM and NOLM.search(o.name))]
+objs = [o for o in bpy.data.objects if o.type == 'MESH' and len(o.data.polygons) and not hidden(o) and not (NOLM and NOLM.search(o.name))
+        and not (KEEP_INST and o.data.users > 1)]   # --keep-instances：好幾個物件共用的網格（GPU instancing）不烘——每個實例的光不一樣，同一份 UV 給不了；
+#   而且 Blender 匯入時第二個以後的實例叫「網格名.001」，--nolm 的 …_vc$、…_inst$ 認不到，烘進去以後共用網格的全部多了第二套 UV（LAWWW2-B 11-07 轉角唱片試烘）
 for o in bpy.data.objects:
     if o.type == 'MESH' and hidden(o): o.hide_render = True   # 玻璃：烘焙時當作不存在（窗外的光直接進來）
 print('bake objects', len(objs), flush=True)
