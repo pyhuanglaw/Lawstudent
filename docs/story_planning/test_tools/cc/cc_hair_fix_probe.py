@@ -153,7 +153,11 @@ async def shoot_env(pg, cdp, envh):
                 await pg.evaluate(AIM + '(%s,%s,%s)' % (J([round(v, 3) for v in e]), J(l), 'false' if who == 'player' else 'true'))
                 await pg.wait_for_timeout(400)
                 fn = os.path.join(OUT, 'hair_%s_%s_%s_%s.png' % (who, an, light, fix.replace('+', '_')))   # 角色 id＋角度＋光（LAWWW2-C）＋做法（LAWWW2-B）
-                png = await pg.screenshot(path=fn); imgs.append(base64.b64encode(png).decode())
+                if os.environ.get('HAIR_JPG') == '1':   # CC-B 11-07（LAWWW2-B 08:07：單張 PNG 太大、超過 25 MB 推不上去）：單張存 JPG（品質 88），總覽照舊 PNG
+                    png = await pg.screenshot(); imgs.append(base64.b64encode(png).decode())
+                    await pg.screenshot(path=fn[:-4] + '.jpg', type='jpeg', quality=88)
+                else:
+                    png = await pg.screenshot(path=fn); imgs.append(base64.b64encode(png).decode())
             rows.setdefault(fix, []).append([LABEL.get(who, who), imgs])
         await pg.evaluate(APPLY_JS + '(%s)' % J([who, '0']))   # 還原（下一個人可能共用同一份幾何）
         await pg.evaluate(UNPLACE_JS + '(%s)' % J([who, pl.get('made', False)]))
