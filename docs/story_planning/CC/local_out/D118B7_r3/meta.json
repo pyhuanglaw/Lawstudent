@@ -1,0 +1,24 @@
+{
+  "rerun": "r3",
+  "id": "D118B7_r3",
+  "sha": "9cff7a00bce4a412ca08841c73123c899a4b916e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_d118b7_play.py",
+  "env": "RERUN=r3;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T12:33:30",
+  "end": "2026-11-07T12:42:45",
+  "seconds": 556,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 10,
+    "mem": 49,
+    "used_gb": 15.4,
+    "chrome_testing": 5
+  }
+}

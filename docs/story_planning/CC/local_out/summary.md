@@ -1576,3 +1576,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 496.1s] page close url=http://127.0.0.1:8801/index.html?turbo?turbo | [gpu_wrap 496.1s] BROWSER DISCONNECTED
 - 2026-11-07T12:33:20  R9CF_touch  sha=9cff7a00bce4a412ca08841c73123c899a4b916e  exit=0  189s    PASS 讀檔後可以走  2.48 / PASS 沒有 JS 例外 / ALL PASS
       err.log (last 5): [gpu_wrap 154.9s] page close url=http://127.0.0.1:8800/index.html?turbo&turbo | [gpu_wrap 154.9s] BROWSER DISCONNECTED
+- 2026-11-07T12:42:45  D118B7_r3  sha=9cff7a00bce4a412ca08841c73123c899a4b916e  exit=0  556s    PASS [9/7] 結果和答對題數一致：顯示的是 lawyer 那一句（13 題）  ["已經凌晨了。", "（家。04:00。）", "洗衣籃在後陽台。不要整袋帶回來給我洗。……放著吧。", "七夕。……你不來，我就自己看港口。", "律師一試：通過。司法官一試：未通過。"] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 521.2s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 521.2s] BROWSER DISCONNECTED
