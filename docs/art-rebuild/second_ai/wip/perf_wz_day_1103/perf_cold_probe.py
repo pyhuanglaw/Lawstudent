@@ -2,7 +2,7 @@
 """LAWWW2-B（PERF-WZ-DAY-1103 第二支探針，2026-11-07）：第一次進區域、淡入以後那一格 4.6 秒是誰——給 cc-local 的 PC 跑（D131）。
 用法：python perf_cold_probe.py <遊戲網址 index.html> <輸出資料夾>
   （runner 的 probe：args <URL> <out>\\out；LW_TESTS 自動設成遊戲那一棵的 tests/。網址會自己加 ?perf）
-環境變數：ZONES=wenzhou,library_hall  VARIANTS=base,pre,prewarm  COLD=12（淡入以後量幾秒）  LAND=1
+環境變數：ZONES=wenzhou,library_hall  VARIANTS=base,pre,prewarm（另有 near）  COLD=12（淡入以後量幾秒）  LAND=1  NET=（空白＝不限速；4g／wifi＝遊戲載好以後用 CDP 限速）
 
 第一支（perf_split_probe.py，PC 11-05 PERF_WZ_SPLIT）量到的：
   溫州街第一次進（A_cold）淡入後第 2 格 4,600 ms：E.update 6 ms、E.render 84 ms、換模型 1 次（upgN 1）、傳了 23 張貼圖，其餘 4,509 ms 不在遊戲每一格的程式裡（gap）。
@@ -17,6 +17,9 @@
   prewarm：pre＋黑畫面裡（Z3.prewarm 做完以後）把整個場景不剔除地畫一次到 256×128 的小畫布、讀一個像素（等 GPU 做完）。
        淡入以後的格子再少＝「第一次畫」的成本可以搬進黑畫面（這是之後可以做的修法，量的是值不值得）。
   三種都是在探針裡包 ASSETS、Z3 的函式做的，遊戲程式不用改。
+  near（PERF-COLD-1107 (B)，11-07 加）：模擬「玩家先在出口旁邊站了一下」——進區域以前用遊戲的 ASSETS.prefetch(ZONE_ASSETS[區域]) 只下載、不解析，
+       等下載完再進同一區。和 base 比黑畫面：差的就是下載那一段。要遊戲已經整合 (B)（沒有 ASSETS.prefetch 會記錯誤）。
+       本機伺服器下載很快，看不出差別：配 NET=4g（20 Mbit/s、40 ms）才像手機在 GitHub Pages 上。建議：VARIANTS=base,near NET=4g。
 每一格記：間隔、E.update／E.render／STORY.tick／GAME.upgradeModels 的時間、換模型、新 shader、貼圖、幾何、draw call；
 另外記：Chrome 的 Long Animation Frames（LoAF，Chrome 123 以上）——每一個很長的格子裡跑了哪幾段 JS（呼叫方式、函式名、檔案:行、毫秒）；
   ASSETS.loadOne（開始載、載好）、ASSETS.parseVRM（同步那一段、全部做完）、CHAR.upgrade、Z3.prewarm／warmup 的時間點。
@@ -37,6 +40,9 @@ from playwright.async_api import async_playwright
 ZONES = [z for z in os.environ.get('ZONES', 'wenzhou,library_hall').split(',') if z]
 VARIANTS = [v for v in os.environ.get('VARIANTS', 'base,pre,prewarm').split(',') if v]
 COLD = float(os.environ.get('COLD', '12')); LAND = os.environ.get('LAND', '1') != '0'
+NET = os.environ.get('NET', '').strip().lower()
+NETS = {'4g': {'offline': False, 'latency': 40, 'downloadThroughput': int(20e6 / 8), 'uploadThroughput': int(5e6 / 8)},
+        'wifi': {'offline': False, 'latency': 10, 'downloadThroughput': int(60e6 / 8), 'uploadThroughput': int(20e6 / 8)}}
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
 COLS = ['dt', 'upd', 'rnd', 'story', 'upg', 'upgN', 'prog', 'tex', 'geo', 'calls', 'tris', 't']
 
@@ -99,6 +105,9 @@ BREAKDOWN_JS = r"""()=>{ const E=GAME.E, R=E.renderer, sc=E.scene, ar=R.info.aut
   finally{ for(const [o,v] of keep) o.visible=v; R.info.autoReset=ar; R.shadowMap.needsUpdate=true; }
   out.parts.sort((a,b)=>b[1]-a[1]); out.parts=out.parts.slice(0,40); return out; }"""
 
+NEAR_JS = r"""async zone=>{ const A=ASSETS, t=performance.now(); if(!A.prefetch||typeof ZONE_ASSETS==='undefined') return {err:'沒有 ASSETS.prefetch／ZONE_ASSETS（(B) 還沒整合）'};
+  const keys=ZONE_ASSETS[zone]||[], n=A.prefetch(keys); for(let i=0;i<1800&&(A._pf.cur||A._pf.q.length);i++) await new Promise(r=>setTimeout(r,100));
+  return {keys, queued:n, ok:A.prefetchOK(), ms:Math.round(performance.now()-t), bytes:keys.map(k=>A.prefetched[k])}; }"""
 PRELOAD_JS = r"""async keys=>{ const t=performance.now(), out={ok:[],fail:[]};
   await Promise.all(keys.map(k=>ASSETS.manifest[k]?ASSETS.loadOne(k).then(()=>out.ok.push(k),e=>out.fail.push(k+': '+((e&&e.message)||e))):Promise.resolve(out.fail.push(k+': 不在 manifest'))));
   out.ms=Math.round(performance.now()-t); return out; }"""
@@ -181,6 +190,11 @@ async def one_run(p, url, zone, variant, preload_keys):
         if not await L.wait_loaded(pg):
             run['err'] = '遊戲載入逾時'; return run
         run['hooks'] = json.loads(await pg.evaluate(HOOK_JS))
+        if NET in NETS:   # 遊戲載好以後才限速（標題畫面的載入照原本的速度）
+            await cdp.send('Network.enable'); await cdp.send('Network.emulateNetworkConditions', NETS[NET]); run['net'] = NET
+        if variant == 'near':
+            run['near'] = await pg.evaluate(NEAR_JS, zone)
+            if run['near'].get('err'): run['err'] = run['near']['err']; return run
         if variant in ('pre', 'prewarm') and preload_keys:
             run['preload'] = await pg.evaluate(PRELOAD_JS, preload_keys); await pg.wait_for_timeout(1500)
         if variant == 'prewarm':
@@ -218,6 +232,7 @@ def text(run):
         z, v, r['black_ms'], r['prewarm_ms'], r['n_after_fade'], r['avg_fps'], r['low1_fps'], r['worst_ms'], r['over100'], r['over500'], len(r['late_assets']),
         '｜黑畫面多畫一次 %s' % (r['warmrender'],) if r['warmrender'] else '')]
     if run.get('preload'): t.append('    先載好：%d 個、%s ms，失敗 %s' % (len(run['preload']['ok']), run['preload']['ms'], run['preload']['fail'][:5]))
+    if run.get('near'): nr = run['near']; t.append('    先下載（只下載、不解析）：%d 個、%.1f MB、%s ms（省流量判斷 %s）%s' % (len(nr['keys']), sum(b for b in nr['bytes'] if b and b > 0) / 1e6, nr['ms'], nr['ok'], '｜限速 ' + run['net'] if run.get('net') else ''))
     if r['late_assets']: t.append('    進區域以後才載：' + '、'.join(r['late_assets'][:20]))
     for x in r['loaded'][:12]: t.append('      載好 %s（%s）%s ms，進區域後 %s ms' % tuple(x))
     for x in r['parseVRM'][:8]: t.append('      parseVRM 進區域後 %s ms：同步 %s ms、%s bytes' % tuple(x))
