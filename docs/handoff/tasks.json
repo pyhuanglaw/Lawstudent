@@ -49442,6 +49442,34 @@
    "evidence": "2026-11-07 BB-B 瀏覽器（雲端 Playwright＋SwiftShader，不是 iPhone），11b34b436（修在 7e7cbab9f）：在家選單選「睡覺」21:31 → 22:30 停、手機自動打開、子晴三則都在、「下去。」能按；便利商店那一場演完回到家裡畫面，沒有「回到首都帝大。」；人在公館演完字幕「回到家。」（BB_255 7dbeea080）；Node pg_return_text 第 3 節、aa667_zq_wake_unit（修改前都 FAIL）ALL PASS。觀察（不擋）：醒來手機開在訊息列表，不是直接子晴那串"
   },
   {
+   "id": "BUG-CHAR-LAZY-FAIL-1107",
+   "title": "開機就有一筆 CHAR.failures「char.npc_nm17: not loaded」（標題畫面背景 pool_14 用到 lazy 路人底模、還沒下載先記失敗，之後換上了也不清；deploy_check 要它是空的）",
+   "owner": "LAWWW",
+   "status": "已驗收",
+   "priority": "P3",
+   "sha": "7c199966a",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "開機（標題畫面）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-07 20:1x LAWWW-B】7c199966a：character3d.js buildOne 遇到 manifest lazy 還沒下載的 VRM 不記 CHAR.failures；BB-B FIXED＝已驗收。",
+   "xai": {
+    "spec": "BB-B 11-07 20:05（LAWWW2-B 查的）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "開機後 CHAR.failures 是空的",
+    "receiver": "BB（測）",
+    "ack": "ACTIONED",
+    "owner": "LAWWW"
+   },
+   "evidence": "2026-11-07 BB-B 瀏覽器（雲端 Playwright＋SwiftShader，不是 iPhone），7c199966a：開機 15 秒後 CHAR.failures＝[]、讀存檔進公館燒臘 15 秒後也是 []、JS 例外 0（BB_255 20:1x）；Node anon_pool_unit 第 2 段（修改前 FAIL）ALL PASS"
+  },
+  {
    "id": "CAM-LIBHALL-DOOR-1107",
    "title": "總圖大廳一進門鏡頭卡在玻璃門框後",
    "owner": "LAWWW2",
