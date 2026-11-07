@@ -21,12 +21,19 @@ URL, OUT = sys.argv[1], sys.argv[2]
 J = D.J
 R = L.Run('xsne_shots', OUT); D.setup(R, OUT)
 DAY = '2025-10-18'
+PARTS = [x for x in (os.environ.get('PARTS') or '').split(',') if x]   # 空＝全部；CC-B 11-07 停車場重拍用 PARTS=campus（xinsheng／campus／shops）
 GEO = r"""(()=>{ const X=Z3.XSG||null, SG=(typeof XINSHENG_LAYOUT!=='undefined')?XINSHENG_LAYOUT.sideGate:null, E=GAME.E;
   const ex=E.interactables.filter(i=>i.exit&&!i.hidden).map(i=>({label:i.label,to:i.exit.to,x:+i.x.toFixed(2),z:+i.z.toFixed(2)}));
   const park=E.interactables.filter(i=>!i.hidden&&/開車|停車|車/.test(i.label||'')).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2)}));
   return {xsg:X?{x:X.x,gz:X.gz,moon:X.moon||null,gym:X.gym||null,a:X.a||null,b:X.b||null}:null, sg:SG, ex, park, zone:GAME.G.zone}; })()"""
 WINS = r"""(()=>{ const z=GAME.E.zone, out=[]; const W=z&&(z.wins||[]); for(const w of W){ const o=w.mesh||w.obj||w; if(!o||!o.isObject3D) continue; o.updateWorldMatrix(true,false); const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new THREE.Vector3()), s=b.getSize(new THREE.Vector3());
   out.push({name:o.name||'', c:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], size:[+s.x.toFixed(2),+s.y.toFixed(2),+s.z.toFixed(2)]}); } const sp=z.spawn||{x:0,z:0}; return {wins:out, spawn:[sp.x,sp.z], n:W.length}; })()"""
+PICK_VIEW = r"""((q)=>{ const E=GAME.E, g=E.zone&&E.zone.group; if(!g) return null; const T=new THREE.Vector3(q.t[0],q.t[1],q.t[2]); const meshes=[]; g.traverse(o=>{ if(o.isMesh&&o.visible!==false) meshes.push(o); });
+  const rc=new THREE.Raycaster(); let best=null;
+  for(const r of q.radii) for(const h of q.heights) for(let a=0;a<360;a+=22.5){ const e=new THREE.Vector3(T.x+r*Math.sin(a*Math.PI/180), T.y+h, T.z+r*Math.cos(a*Math.PI/180)); const d=T.clone().sub(e), L=d.length(); rc.set(e,d.normalize()); rc.far=L;
+    const hit=rc.intersectObjects(meshes,false).find(x=>x.distance>0.05&&x.distance<L-0.6); const clear=hit?hit.distance/L:1; const sc=clear*10-Math.abs(r-q.radii[0])*0.05;
+    if(!best||sc>best.sc) best={eye:[+e.x.toFixed(2),+e.y.toFixed(2),+e.z.toFixed(2)], a, r, h, clear:+clear.toFixed(2), hit:hit?(hit.object.name||'(無名)'):null, sc}; }
+  return best; })"""   # CC-B 11-07（BB-B 03:34）：停車場那張貼著牆拍＝一片灰牆；改成在停車場四周找一個看得到它、中間沒有東西擋的角度
 mid = lambda r: [(r[0] + r[2]) / 2, (r[1] + r[3]) / 2]
 
 
@@ -52,7 +59,12 @@ async def campus(pg, cdp, tn, h):
     else: R.note('[%s 校園] 找不到體育館的門（出口 to=gym）：%s' % (tn, J(g['ex'])))
     await shoot(pg, cdp, 'xsne_northwall_out_%s' % tn, [gx - 8.0, 2.2, -150.0], [gx, 1.5, -138.0])   # 北牆外路口往側門看
     pk = g['park'][0] if g['park'] else None
-    if pk: await shoot(pg, cdp, 'xsne_parking_%s' % tn, [pk['x'] + 4.0, 2.5, pk['z'] + 4.0], [pk['x'], 0.8, pk['z']])
+    if pk:
+        v = await pg.evaluate(PICK_VIEW, {'t': [pk['x'], 0.8, pk['z']], 'radii': [10.0, 14.0, 7.0], 'heights': [4.5, 6.5, 3.0]})
+        R.note('[%s 校園] 停車場鏡頭：離「%s」(%s, %s) 找沒有東西擋的角度 %s' % (tn, pk['label'], pk['x'], pk['z'], J(v)))
+        eye = v['eye'] if v else [pk['x'] + 10.0, 5.0, pk['z'] + 10.0]
+        R.check('[%s 校園] 停車場鏡頭看得到停車場（鏡頭到停車場中間沒有東西擋，clear ≥ 0.9）' % tn, bool(v) and v['clear'] >= 0.9, J(v))
+        await shoot(pg, cdp, 'xsne_parking_%s' % tn, eye, [pk['x'], 0.8, pk['z']], lens=30)
     else: await shoot(pg, cdp, 'xsne_parking_%s' % tn, [m[0] + 6.0, 4.0, m[1] + 8.0], [m[0], 0.5, m[1]]); R.note('[%s 校園] 沒有「開車／停車」互動點：停車場那張改拍望月台旁邊' % tn)
 
 
@@ -90,9 +102,11 @@ async def main():
         await pg.evaluate("localStorage.clear()")
         for tn, h in (('day', 14.0), ('night', 20.5)):
             for nm, fn in (('xinsheng', xinsheng), ('campus', campus)):
+                if PARTS and nm not in PARTS: continue
                 try: await fn(pg, cdp, tn, h)
                 except Exception as ex: R.check('[%s %s] 探針沒有例外' % (tn, nm), False, repr(ex)[:300])
             for z in ('xs_dakou', 'xs_dabu', 'xs_haopai'):
+                if PARTS and 'shops' not in PARTS: continue
                 try: await shop_windows(pg, cdp, tn, h, z)
                 except Exception as ex: R.check('[%s %s] 探針沒有例外' % (tn, z), False, repr(ex)[:300])
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
