@@ -6,7 +6,10 @@
 //     3-3 語彤（7/22 茶屋、8/7 當地 08:00、12/23 17:10）　3-4 芷若（8/1 捷運出口、沒去 22:07、12/23 兩則）　3-5 沛珊（8/1 電話兩條路都到蛋餅、8/2 06:10、12/23 兩則）
 //   第 5 節：同一晚兩場（提早一天）、H6 子晴期末飯、H7 語彤不在臺北不約、沛珊聖誕句尾；臺灣路線、沒交往、一起出國的那一位都不出現；舊存檔過了日期不補。
 // 修改前（開發分支 7718c6f4b 的程式＋這支測試）：FAILED 10（模組、白名單、index.html、台詞表、掛勾、H6、H7、沛珊那句；模組沒載入＝第 2、3 節的功能檢查跳過）；修改前後都 PASS 的 3 項：讀稿、H6 句子在稿裡、「不出現」。修改後 ALL PASS（73 項）。
-// 「住宿舍」那一條（2-1 子晴 3/23）：遊戲裡日本路線 2/20 就退宿，只能把 JP.movedOut 換掉來測（測試裡 dormOn／dormOff）。
+// 第 7 節（企劃線 1905ae629，AA-B 11-07「接線時補的」）：7-1 子晴 3/23 住家裡的版本、7-2 沛珊「你回家了嗎？」、7-3 語彤已經去過她家的那一小場、7-4「七號才下來」＋8/7 那串最後一句＋8/8 在臺北、
+//   7-5 同一晚兩場（被綁住的不動、其他往前一天、「明天」→「後天」）。d17abb340 的程式＋這支測試：FAILED 20（白名單、台詞表「八號」、7-1 三項、7-2、7-3 四項、7-4 三項、7-5 七項）；
+//   改完 ALL PASS（94 項）。新加的項目裡兩邊都 PASS 的是守著不能變的：住宿舍照原本（7-1、7-2）、沒有 8/7 那串的 8/8 照樣在淡水、8/8 不重複約、7-3 週末／臺灣路線／沒去過不傳。
+// 「住宿舍」那一條（2-1 子晴 3/23）：遊戲裡日本路線 2/20 就退宿，只能把 JP.movedOut 換掉來測（測試裡 dormOn／dormOff）；住家裡＝7-1 那一版（照遊戲真的狀態）。
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -20,7 +23,7 @@ const FILES=['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/
 for(const f of FILES){ if(!fs.existsSync(path.join(H.ROOT,f))){ loadErr.push(f+'：沒有這個檔'); continue; } try{ loadG(f); }catch(e){ loadErr.push(f+'：'+String(e&&e.message||e).slice(0,160)); } }
 const A=()=>typeof AA667!=='undefined'&&AA667&&AA667.L?AA667:null;
 const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
-const SHA='090981ebe', A667='docs/story_planning/AA_667_交換路線_同時交往的另一位_出發前回國當天.md';
+const SHA='1905ae629', A667='docs/story_planning/AA_667_交換路線_同時交往的另一位_出發前回國當天.md';
 const doc=git(SHA,A667);
 const D=H.D, T=(d,h)=>d*24+h, wd=d=>CALENDAR.dateOf(d).wd%7;
 const at=(k,h)=>{ const d=typeof k==='number'?k:D(k); H.G.day=d; H.G.hour=h; H.G.weekday=wd(d); E.hour=h; };
@@ -41,24 +44,25 @@ const play=async(id,picks)=>{ const q=OUT.get(H.G,id); H.said=[]; H.opts=[]; H.p
 const bgHas=k=>H.bgs.some(b=>k==='dark'?b==='dark':!!(b&&OUT.BG[k]&&b.image===OUT.BG[k].image));
 (async()=>{
   /* ================= 0 ================= */
-  check('0. AA_667（企劃線 090981ebe）讀得到；第 2、3、5 節都在',doc.length>5000&&doc.includes('## 2. 日本路線')&&doc.includes('## 3. 美國路線')&&doc.includes('## 5. 給 LAWWW（接線）'),doc?'':'git fetch origin claude/cool-heisenberg-o8kuqx');
+  check('0. AA_667（企劃線 1905ae629）讀得到；第 2、3、5、7 節都在',doc.length>5000&&doc.includes('## 2. 日本路線')&&doc.includes('## 3. 美國路線')&&doc.includes('## 5. 給 LAWWW（接線）')&&doc.includes('## 7. 接線時補的')&&['### 7-1','### 7-2','### 7-3','### 7-4','### 7-5'].every(h=>doc.includes(h)),doc?'':'git fetch origin claude/cool-heisenberg-o8kuqx');
   check('0. 模組都載得到（src/aa667_3d.js：AA667）',!loadErr.length&&!!A()&&typeof A().phone==='function'&&Array.isArray(A().EVENTS),J(loadErr));
   const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), sc=[...html.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]), ia=sc.indexOf('src/aa667_3d.js');
   check('0. index.html：aa667_3d.js 在 aa660_3d、fest3d、ytjob3d、cracktalk3d、heroine_asks3d、jp3d、exchange3d、termend3d 之後，data/bbpack_events.js 前面',
     ia>0&&['src/aa660_3d.js','src/fest3d.js','src/ytjob3d.js','src/cracktalk3d.js','src/heroine_asks3d.js','src/jp3d.js','src/exchange3d.js','src/termend3d.js','src/outings3d.js','src/story3d.js'].every(f=>sc.indexOf(f)>=0&&sc.indexOf(f)<ia)&&ia<sc.indexOf('src/data/bbpack_events.js'),J(ia));
   { let W=null; try{ W=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')); }catch(e){}
     const e=W&&W.files&&W.files.find(x=>x.path===A667);
-    check('0. 劇情匯入白名單：AA_667＝090981ebe、approved、approvedBy「AA-C（D109 定稿）」、任務 AA667-VAC-GAP2-1104',!!e&&e.sha===SHA&&e.status==='approved'&&e.approvedBy==='AA-C（D109 定稿）'&&e.task==='AA667-VAC-GAP2-1104',J(e&&{sha:e.sha,st:e.status})); }
+    check('0. 劇情匯入白名單：AA_667＝1905ae629（第 7 節）、approved、approvedBy「AA-C（D109 定稿）」、任務 AA667-VAC-GAP2-1104',!!e&&e.sha===SHA&&e.status==='approved'&&e.approvedBy==='AA-C（D109 定稿）'&&e.task==='AA667-VAC-GAP2-1104',J(e&&{sha:e.sha,st:e.status})); }
   /* 每一句都在稿裡：走一遍 AA667.L（[說的人, 句子]＝那個人說的、null＝旁白；字串＝那一段的人說的；{t}＝選項）*/
   { const SEC={jzq:ZQ,jyt:YT,jzr:ZR,jps:PS,jsis:SIS,jkx:KX,uan:AN,uzq:ZQ,uyt:YT,uzr:ZR,ups:PS}, all=[], bad=[];
-    const okLine=(w,t)=>w?(doc.includes(NM[w]+'：'+t)||doc.includes(NM[w]+'：「'+t+'」')||doc.includes('」「'+t+'」')||doc.includes('）「'+t+'」')||doc.includes('私訊「'+t+'」')||doc.includes('她傳「'+t+'」')):doc.includes(t);
+    const okLine=(w,t)=>w?(doc.includes(NM[w]+'：'+t)||doc.includes(NM[w]+'：「'+t+'」')||doc.includes('」「'+t+'」')||doc.includes('）「'+t+'」')||doc.includes('私訊「'+t+'」')||doc.includes('她傳「'+t+'」')
+      ||doc.includes('→「'+t+'」')||/\d:\d\d「$/.test(doc.split('「'+t+'」')[0].slice(-6)+'「')):doc.includes(t);   /* 第 7 節：換字寫成「舊」→「新」、時間直接接「」（7-1 23:30「袋子寄在便利商店櫃台了 你明天去拿」）*/
     const OPTK=new Set(['go','backGo','backOpts','opts']);   /* 手機上玩家的回法（字串）*/
     const walk=(x,sp,key)=>{ if(x==null) return; if(typeof x==='string'){ if(key==='scene') return; if(OPTK.has(key)){ all.push([null,x]); if(!doc.includes('「'+x+'」')) bad.push('回法 '+x); return; } if(key==='sum') sp=null; all.push([sp,x]); if(!okLine(sp,x)) bad.push((sp?NM[sp]+'：':'')+x); return; }
       if(Array.isArray(x)){ if(x.length===2&&(x[0]===null||(typeof x[0]==='string'&&NM[x[0]]))&&typeof x[1]==='string'){ all.push(x); if(!okLine(x[0],x[1])) bad.push((x[0]?NM[x[0]]+'：':'')+x[1]); return; } for(const y of x) walk(y,sp,key); return; }
       if(typeof x==='object'){ for(const k in x){ if(k==='t'){ const t=x.t; all.push([null,t]); if(!(doc.includes(t)||doc.includes('「'+t+'」'))) bad.push('選項 '+t); continue; } if(k==='me'){ all.push(['player',x.me]); if(!okLine('player',x.me)) bad.push('你（自動）：'+x.me); continue; } walk(x[k],sp,k); } } };
     const L=A()?A().L:{}; for(const k in L) walk(L[k],SEC[k],k);
     const opts=['下去。','好。','明天要睡。','回來了。','明天不行。'].filter(t=>!doc.includes('「'+t+'」'));
-    check('0. 每一句都在 AA_667 第 2、3 節裡（一字不差；說的人也對，'+all.length+' 句）',!!A()&&!bad.length&&all.length>=170&&!opts.length,J(bad.concat(opts)));
+    check('0. 每一句都在 AA_667 第 2、3、7 節裡（一字不差；說的人也對，'+all.length+' 句）',!!A()&&!bad.length&&all.length>=170&&!opts.length,J(bad.concat(opts)));
     check('0. 捷運出口的地點字幕是「家附近的捷運站出口」（稿：地點 LAWWW 照家的設定填；家的設定沒有站名）、男一舍門口照稿',!!A()&&A().L.uzr.scene==='家附近的捷運站出口'&&A().L.jzq.scene==='男一舍門口'&&doc.includes('地點 LAWWW 照家的設定填')); }
   check('0. 接線的掛勾都在：FEST.ASK_PRE、FEST.HEAD、HASK.SEND_BLOCK、CRACKTALK.ZQ2_SKIP（各有 AA667 的一個）；ytjob3d.js 第一次去她家叫 AA667.ytHomeHead／ytHomeTail',
     typeof FEST!=='undefined'&&Array.isArray(FEST.ASK_PRE)&&FEST.ASK_PRE.length>=1&&Array.isArray(FEST.HEAD)&&FEST.HEAD.length>=1&&typeof HASK!=='undefined'&&Array.isArray(HASK.SEND_BLOCK)&&HASK.SEND_BLOCK.length>=1
@@ -87,9 +91,28 @@ const bgHas=k=>H.bgs.some(b=>k==='dark'?b==='dark':!!(b&&OUT.BG[k]&&b.image===OU
     check('2-1 沒回：23:30「袋子掛在你們宿舍的信箱上」「洋芋片」（23:27 還沒有）；下去過的不傳',bag1===0&&bag0===0&&J(tx(B))===J(X.miss)&&!H.G.flags.ZQ_JP_BYE,J(tx(B)));
     s0(); runAt('2028-03-23',22.5); PHONE.answer(H.G,'aa667_jp_zq_bye_dm',0); runAt('2028-03-23',22.6); const qq=OUT.get(H.G,'aa667_jp_zq_bye'); if(qq) qq.state='missed'; runAt('2028-03-23',23.5); const B2=byTag('aa667_jp_zq_bag');
     check('2-1 回了沒下去（出發選單選了「不去了」）：一樣 23:30 那兩則',J(tx(B2))===J(X.miss),J(tx(B2)));
-    dormOff(); fresh('2028-03-23',21,'home',Object.assign({},JP0,dt(AN,ZQ),{X1_JP:D('2028-02-20')})); runAt('2028-03-23',22.6); const home=byTag('aa667_jp_zq_bye_dm').length;
+    dormOff();
+    /* 7-1 住家裡（遊戲裡日本路線 2/20 退宿，JP.movedOut 照真的）：「你在家嗎」三則 → 家附近的便利商店門口那一版 */
+    { const HX=X.home, h0=()=>fresh('2028-03-23',21,'home',Object.assign({},JP0,dt(AN,ZQ),{X1_JP:D('2028-02-20')}));
+      h0(); const mo=JP.movedOut(H.G), sd=A().dorm(H.G); runAt('2028-03-23',22.45); const n1=byTag('aa667_jp_zq_bye_dm').length; runAt('2028-03-23',22.5); const HM=byTag('aa667_jp_zq_bye_dm');
+      check('7-1 日本路線、和子晴交往中、住家裡（2/20 退宿）：3/23 22:30「你在家嗎」「我在你家附近那間便利商店」「五分鐘」（回法「下去。」）；22:27 還沒有',
+        mo===true&&sd===false&&n1===0&&J(tx(HM))===J(['你在家嗎','我在你家附近那間便利商店','五分鐘'])&&J((HX||{}).dm)===J(tx(HM))&&HM.every(m=>m.from===ZQ)&&!!HM[2].ask&&J(HM[2].ask.opts.map(o=>o.t))===J(['下去。']),J({mo,sd,t:tx(HM)}));
+      PHONE.answer(H.G,'aa667_jp_zq_bye_dm',0); runAt('2028-03-23',22.55); const qh=OUT.get(H.G,'aa667_jp_zq_bye'), evh=STORY_EVENTS.find(e=>e.id==='ev_aa667_jp_zq_bye_home');
+      const sh=await play('aa667_jp_zq_bye',[1]);
+      const wantH=LN(X.s1.map(([w,t])=>t==='剛從系館出來。順路。'?[w,'坐捷運過來的。……不是順路。']:[w,t])).concat([SL(ZQ,'嗯。')],LN(X.s2),[SL(ZQ,X.q6[1]),SL(ZQ,X.end[1])]);
+      check('7-1 回「下去。」：出遊排同一個 id（ev_aa667_jp_zq_bye_home，地點「家附近的便利商店門口」，2D 深色）→ 照 2-1、「剛從系館出來。順路。」換成「坐捷運過來的。……不是順路。」；記 ZQ_JP_BYE',
+        !!qh&&qh.ev==='ev_aa667_jp_zq_bye_home'&&qh.place==='家附近的便利商店門口'&&qh.day===D('2028-03-23')&&!!evh&&evh.dialogue[0].scene==='家附近的便利商店門口'&&evh.dialogue[0].bg==='dark'&&doc.includes('地點字幕「家附近的便利商店門口」')
+        &&!!sh&&J(sh)===J(wantH)&&!sh.includes(SL(ZQ,'剛從系館出來。順路。'))&&bgHas('dark')&&H.G.flags.ZQ_JP_BYE===D('2028-03-23'),J(sh));
+      runAt('2028-03-23',23.6); const hb0=byTag('aa667_jp_zq_bag').length;
+      h0(); runAt('2028-03-23',22.5); runAt('2028-03-23',23.45); const hb1=byTag('aa667_jp_zq_bag').length; runAt('2028-03-23',23.5); const HB=byTag('aa667_jp_zq_bag');
+      h0(); runAt('2028-03-23',22.5); PHONE.answer(H.G,'aa667_jp_zq_bye_dm',0); runAt('2028-03-23',22.6); { const q=OUT.get(H.G,'aa667_jp_zq_bye'); if(q) q.state='missed'; } runAt('2028-03-23',23.5); const HB2=byTag('aa667_jp_zq_bag');
+      check('7-1 住家裡沒回、或回了沒下去：23:30「袋子寄在便利商店櫃台了 你明天去拿」「洋芋片」（下去過的不傳；23:27 還沒有）',
+        hb0===0&&hb1===0&&J(tx(HB))===J(['袋子寄在便利商店櫃台了 你明天去拿','洋芋片'])&&J(tx(HB2))===J(tx(HB))&&!H.G.flags.ZQ_JP_BYE,J({hb:tx(HB),hb2:tx(HB2)}));
+      /* 住宿舍的照原本（上面 dormOn 那幾項）；同一個存檔只會有一場 */
+      dormOn(); fresh('2028-03-23',21,'dorm',Object.assign({},JP0,dt(AN,ZQ))); runAt('2028-03-23',22.5); PHONE.answer(H.G,'aa667_jp_zq_bye_dm',0); runAt('2028-03-23',22.55); const qd=OUT.get(H.G,'aa667_jp_zq_bye'); dormOff();
+      check('7-1 住宿舍的照 2-1 原本（男一舍門口、「你在宿舍嗎」）',!!qd&&qd.ev==='ev_aa667_jp_zq_bye'&&qd.place==='男一舍門口',J(qd&&[qd.ev,qd.place])); }
     const nope=[]; for(const fl of [Object.assign({},TW0,dt(ZQ)),Object.assign({},US0,dt(SIS,ZQ)),Object.assign({},JP0,dt(AN))]){ fresh('2028-03-23',21,'dorm',fl); runAt('2028-03-23',22.6); if(byTag('aa667_jp_zq_bye_dm').length) nope.push(J(fl)); }
-    check('2-1 住家裡（日本路線 2/20 退宿，JP.movedOut）不演；臺灣路線、美國路線、沒和子晴交往都沒有',home===0&&!nope.length,J({home,nope}));
+    check('2-1 臺灣路線、美國路線、沒和子晴交往都沒有',!nope.length,J({nope}));
     /* 3/25 臺灣 22:40＝當地 23:40 */
     fresh('2028-03-25',20,'jp_hub',JPA(dt(AN,ZQ))); runAt('2028-03-25',23.6); const d0=byTag('aa667_jp_zq_dep').length; runAt('2028-03-25',23+40/60); const DP=byTag('aa667_jp_zq_dep');
     check('2-1 3/25 出發當天：臺灣 22:40（日本 23:40）「到了沒」「宿舍床旁邊有沒有插座」',STORY.tzOffset(H.G,D('2028-03-25'))===1&&d0===0&&J(tx(DP))===J(X.dep)&&DP.every(m=>Math.abs(m.h-(23+40/60))<0.05),J(DP.map(m=>[m.text,m.h])));
@@ -145,7 +168,39 @@ const bgHas=k=>H.bgs.some(b=>k==='dark'?b==='dark':!!(b&&OUT.BG[k]&&b.image===OU
     check('2-2 還沒去過她家：8/8 是第一次去她家（ev_yt_home_first），秀琴姨打完招呼以後加那一問，只有「都吃便利商店。」→「難怪瘦了。」；不接日本出發前那一段',
       !!k2.q&&k2.q.ev==='ev_yt_home_first'&&!!sf&&ig>0&&sf[ig+1]===SL('秀琴姨','在那邊有自己煮嗎？')&&sf[ig+2]===SL('秀琴姨','難怪瘦了。')&&J(H.opts[0]||[])===J(['「都吃便利商店。」'])&&!sf.some(t=>/滷肉的做法/.test(t))&&sf.includes('（晚餐。秀琴姨煮了三菜一湯，收完碗就走了。）'),J(sf&&sf.slice(ig-1,ig+4)));
     fresh('2028-08-06',20,'home',JPB(dt(AN,YT))); runAt('2028-08-06',20.5); const e6=byTag('aa667_jp_yt_back').length;
-    check('2-2 8/5、8/6 她收不到訊號，不發（8/7 才發）',e6===0); }
+    check('2-2 8/5、8/6 她收不到訊號，不發（8/7 才發）',e6===0);
+    /* ---- 7-4：8/7 那串最後一句、8/8 她在臺北 ---- */
+    const k3=bk({YT_HOME_SEEN:true}), last=k3.M[k3.M.length-1];
+    check('7-4 8/7 那串最後加「我明天在臺北。後天回淡水。」（第四則，「好。」接在這一則）',k3.M.length===4&&!!last&&last.text==='我明天在臺北。後天回淡水。'&&last.from===YT&&!!last.ask&&J(last.ask.opts.map(o=>o.t))===J(['好。'])&&doc.includes('語彤：我明天在臺北。後天回淡水。'),J(tx(k3.M)));
+    const pr=(k,h)=>{ at(k,h); return STORY.presence(YT,H.G); };
+    const p8=pr('2028-08-08',12), p9=pr('2028-08-09',12);
+    check('7-4 傳了 8/7 那串：8/8（二）她在臺北（here、沒有 town）；8/9（三）照 AA_675 回淡水',p8.here===true&&!p8.town&&p9.here===false&&p9.town==='淡水',J({p8,p9}));
+    const pw=(fl)=>{ fresh('2028-08-08',12,'home',fl); return STORY.presence(YT,H.G); };
+    const q1=pw(Object.assign({},TW0,dt(YT))), q2=pw(JPB(dt(AN))), q3=pw(JPB(dt(AN,YT)));
+    check('7-4 沒有那一串（臺灣路線、日本路線沒和語彤交往、日本路線還沒到 8/7 20:00 的）：8/8 照 AA_675 在淡水',[q1,q2,q3].every(q=>q.here===false&&q.town==='淡水'),J([q1,q2,q3]));
+    { const k4=bk({}); at('2028-08-08',17); YTJOB.homePhone(H.G); PHONE.tick(H.G); const dup=(H.G.msgs||[]).filter(m=>m.from===YT&&m.text===YTJOB.HOME_INV[0]).length;
+      check('7-4 8/8 她在臺北，ytjob3d.js 第一次去她家那則（17:00「……今天秀琴姨煮很多。」）不另外傳（8/7 那串已經約了）',!!k4.q&&dup===0&&!(H.G.msgs||[]).some(m=>m.tag==='yt_home_'+D('2028-08-08')),J({dup})); }
+    /* ---- 7-3：已經去過她家的人，3/18～3/24 那一週 ---- */
+    const seen=(k,fl,route)=>{ fresh(k,16.5,'home',Object.assign({},route||JP0,{X1_JP:D('2028-02-20'),YT_HOME_SEEN:true},dt(AN,YT),fl||{})); noRent(); runAt(k,16.9); const n=byTag('aa667_jp_yt_inv_'+D(k)).length; runAt(k,17); return {n,M:byTag('aa667_jp_yt_inv_'+D(k))}; };
+    const v1=seen('2028-03-22'); const m1=v1.M[0];
+    check('7-3 去過她家、日本路線出發前那一週（3/22 三）：平日 17:00 照傳「……今天秀琴姨煮很多。你要不要來吃。」（回法「好。」「今天不行。」；16:54 還沒有）',
+      v1.n===0&&v1.M.length===1&&m1.text===YTJOB.HOME_INV[0]&&m1.from===YT&&!!m1.ask&&J(m1.ask.opts.map(o=>o.t))===J(['好。','今天不行。']),J(tx(v1.M)));
+    PHONE.answer(H.G,'aa667_jp_yt_inv_'+D('2028-03-22'),0); runAt('2028-03-22',17.2); const qs=OUT.get(H.G,'aa667_jp_yt_bye'), evs=STORY_EVENTS.find(e=>e.id==='ev_aa667_jp_yt_bye');
+    at('2028-03-22',18.4); const ss=await play('aa667_jp_yt_bye',[0]);
+    const SEEN=['（秀琴姨今天煮了一整桌，比平常多兩道。）',SL(YT,'她說你要出國，要吃飽。')], wantS=SEEN.concat(LN(X.bye),[SL(YT,'拿出來。放外套內袋。')],LN(X.bye2));   /* 7-3 的兩句（照稿；舊的台詞表沒有）*/
+    check('7-3「好。」＝當天 18:30 去她家（新生南路・她家，2D 深色）：「（秀琴姨今天煮了一整桌，比平常多兩道。）」「她說你要出國，要吃飽。」→ 接 2-2 從「秀琴姨從廚房拿了一張紙出來」到最後；記 YT_JP_BYE',
+      !!qs&&qs.day===D('2028-03-22')&&qs.h===18.5&&qs.ev==='ev_aa667_jp_yt_bye'&&!!evs&&evs.dialogue[0].scene==='新生南路・她家'&&!!ss&&J(ss)===J(wantS)&&J(LN(X.seen||[]))===J(SEEN)
+      &&!ss.includes('（新生南路、學校對面的大樓。電梯到七樓。）')&&H.G.flags.YT_JP_BYE===D('2028-03-22'),J(ss));
+    runAt('2028-03-23',17); const again=byTag('aa667_jp_yt_inv_'+D('2028-03-23')).length;
+    check('7-3 演過了（YT_JP_BYE）：那一週後面的平日不再傳',again===0);
+    seen('2028-03-21'); PHONE.answer(H.G,'aa667_jp_yt_inv_'+D('2028-03-21'),0); runAt('2028-03-21',17.2); at('2028-03-21',18.4); const sp=await play('aa667_jp_yt_bye',[1]); runAt('2028-03-21',21.9); const pp0=byTag('aa667_jp_yt_pass').length; runAt('2028-03-21',22); const PP=byTag('aa667_jp_yt_pass');
+    check('7-3「……還沒找到。」：「今天回去就找。找到跟我說。」；當晚 22:00 你（自動）「找到了。」、語彤「嗯。」',!!sp&&sp.includes(SL(YT,'今天回去就找。找到跟我說。'))&&H.G.flags.AA667_YT_PASS===D('2028-03-21')&&pp0===0&&J(tx(PP))===J([X.pass.me,X.pass.her]),J(tx(PP)));
+    seen('2028-03-20'); PHONE.answer(H.G,'aa667_jp_yt_inv_'+D('2028-03-20'),1); runAt('2028-03-20',18.6); const no0=OUT.get(H.G,'aa667_jp_yt_bye'); runAt('2028-03-21',16.9); runAt('2028-03-21',17); const nx=byTag('aa667_jp_yt_inv_'+D('2028-03-21'));
+    check('7-3「今天不行。」：那天不排；下一個平日 17:00 再問一次',!no0&&nx.length===1&&nx[0].text===YTJOB.HOME_INV[0],J(tx(nx)));
+    const wk=seen('2028-03-18').M.length, af=seen('2028-03-17').M.length, tw=seen('2028-03-22',{},TW0).M.length;
+    const nv=(()=>{ fresh('2028-03-22',16.5,'home',Object.assign({},JP0,{X1_JP:D('2028-02-20')},dt(AN,YT))); noRent(); runAt('2028-03-22',17); return byTag('aa667_jp_yt_inv_'+D('2028-03-22')).length; })();
+    check('7-3 週末（3/18 六）、那一週以前（3/17）、臺灣路線、還沒去過她家（照第一次去她家那一版，ytjob3d.js）：都沒有這則',wk===0&&af===0&&tw===0&&nv===0,J({wk,af,tw,nv}));
+  }
 
   /* ================= 2-3 芷若（日本）================= */
   if(L){ const X=L.jzr;
@@ -165,8 +220,12 @@ const bgHas=k=>H.bgs.some(b=>k==='dark'?b==='dark':!!(b&&OUT.BG[k]&&b.image===OU
   if(L){ const X=L.jps;
     fresh('2028-03-24',20,'home',Object.assign({},JP0,{X1_JP:D('2028-02-20')},dt(AN,PS))); runAt('2028-03-24',20.5); const q0=OUT.get(H.G,'aa667_jp_ps_call'); runAt('2028-03-24',21); const q=OUT.get(H.G,'aa667_jp_ps_call');
     at('2028-03-24',22.9); const s=await play('aa667_jp_ps_call',[0,0]);
-    check('2-4 3/24（五）23:00 她打來（電話）：「你回宿舍了嗎？……」→「還差一點。」→ 厚外套 →「妳最近還好嗎？」→（停了一下）→「十點我應該還在睡。……我定鬧鐘。」；記 PS_JP_BYE',
-      !q0&&!!q&&q.day===D('2028-03-24')&&q.h===23&&q.call&&q.place==='電話'&&!!s&&J(s)===J(LN(X.call).concat([SL(PS,'那你收。我在電話這邊陪你。')],LN(X.mid),LN(X.opts2[0].say),[SL(PS,X.end[1])]))&&H.G.flags.PS_JP_BYE===D('2028-03-24'),J(s));
+    const callHome=[SL(PS,'你回家了嗎？行李收好了沒？')];
+    check('2-4 3/24（五）23:00 她打來（電話）：住家裡（7-2）「你回家了嗎？行李收好了沒？」→「還差一點。」→ 厚外套 →「妳最近還好嗎？」→（停了一下）→「十點我應該還在睡。……我定鬧鐘。」；記 PS_JP_BYE',
+      !q0&&!!q&&q.day===D('2028-03-24')&&q.h===23&&q.call&&q.place==='電話'&&!!s&&J(s)===J(callHome.concat([SL(PS,'那你收。我在電話這邊陪你。')],LN(X.mid),LN(X.opts2[0].say),[SL(PS,X.end[1])]))&&H.G.flags.PS_JP_BYE===D('2028-03-24')
+      &&!s.includes(SL(PS,'你回宿舍了嗎？行李收好了沒？'))&&doc.includes('住家裡：「你回宿舍了嗎？」→「你回家了嗎？」'),J(s));
+    { const mo0=JP.movedOut; JP.movedOut=()=>false; let sd=null; try{ fresh('2028-03-24',20,'dorm',Object.assign({},JP0,dt(AN,PS))); runAt('2028-03-24',21); at('2028-03-24',22.9); sd=await play('aa667_jp_ps_call',[1,1]); } finally{ JP.movedOut=mo0; }
+      check('7-2 住宿舍的照原本「你回宿舍了嗎？行李收好了沒？」（「收好了。」→「好快。……」）',!!sd&&sd[0]===SL(PS,'你回宿舍了嗎？行李收好了沒？')&&sd[1]===SL(PS,'好快。……那你陪我講一下話。'),J(sd&&sd.slice(0,2))); }
     fresh('2028-03-25',8,'home',Object.assign({},JP0,{X1_JP:D('2028-02-20')},dt(AN,PS),{PS_JP_BYE:D('2028-03-24')})); runAt('2028-03-25',9.8); const d0=byTag('aa667_jp_ps_dep').length; runAt('2028-03-25',9+50/60); const DP=byTag('aa667_jp_ps_dep');
     fresh('2028-03-25',8,'home',Object.assign({},JP0,{X1_JP:D('2028-02-20')},dt(AN,PS))); runAt('2028-03-25',10); const no=byTag('aa667_jp_ps_dep').length;
     check('2-4 3/25 09:50（出發前、臺灣時間）「我起來了！」「一路平安。到了跟我說～」；沒有 PS_JP_BYE（沒接那通）不發',d0===0&&J(tx(DP))===J(X.dep)&&no===0,J(tx(DP)));
@@ -228,6 +287,7 @@ const bgHas=k=>H.bgs.some(b=>k==='dark'?b==='dark':!!(b&&OUT.BG[k]&&b.image===OU
     at('2028-07-22',16.7); const s=await play('aa667_us_yt_tea',[0]);
     check('3-3 7/21（五）21:00「明天我五點下班。」「你來店裡。」→ 7/22 17:00 一盞茶屋前院（選「那我二號出發那天……」）；記 YT_US_BYE',
       J(tx(M))===J(X.dm)&&!!q&&q.day===D('2028-07-22')&&q.h===17&&!!s&&J(s)===J(LN(X.s1).concat(LN(X.opts[0].say),LN(X.s2)))&&H.G.flags.YT_US_BYE===D('2028-07-22')&&bgHas('wenzhou_teahouse'),J(s));
+    check('7-4 茶屋那一場：「那邊在山裡，收不到訊號。七號才下來。」（和 8/7 下山對齊；不再是「八號」）',!!s&&s.includes(SL(YT,'那邊在山裡，收不到訊號。七號才下來。'))&&!s.some(t=>/八號才下來/.test(t))&&doc.includes('「八號才下來」改成「七號才下來」'),J(s&&s.slice(4,6)));
     fresh('2028-08-07',7,'us_apartment',USA(dt(SIS,YT))); runAt('2028-08-07',7.9); const n0=byTag('aa667_us_yt_down').length; runAt('2028-08-07',8); const DN=byTag('aa667_us_yt_down');
     check('3-3 8/7 臺灣 20:00（美國早上 8 點）五則（三張照片、「下山了。」「你那邊是早上吧。有吃早餐嗎。」）',n0===0&&J(tx(DN))===J(X.down),J(tx(DN)));
     fresh('2028-12-23',16,'dorm',USB(dt(SIS,YT))); runAt('2028-12-23',17.1); const b0=byTag('aa667_us_yt_back').length; runAt('2028-12-23',17+10/60); const BK=byTag('aa667_us_yt_back');
@@ -259,10 +319,28 @@ const bgHas=k=>H.bgs.some(b=>k==='dark'?b==='dark':!!(b&&OUT.BG[k]&&b.image===OU
 
   /* ================= 第 5 節：同一晚兩場撞在一起 ================= */
   if(L){ fresh('2028-07-20',10,'home',Object.assign({},US0,dt(SIS,AN,ZR,PS)));
-    const sl=k=>A().slot(H.G,'US',k), keyOf=d=>d==null?null:CALENDAR.dateOf(d).key;
-    check('5. 同時和學姊、以安、芷若、沛珊交往（美國）：以安 8/1 20:30 照演、芷若提早一天（7/31）、沛珊再提早（7/30；7/31 有了）',keyOf(sl('an'))==='2028-08-01'&&keyOf(sl('zr'))==='2028-07-31'&&keyOf(sl('ps'))==='2028-07-30',J(['an','zr','ps'].map(k=>keyOf(sl(k)))));
-    runAt('2028-07-31',20.5); const ZM=byTag('aa667_us_zr_dm'); runAt('2028-07-31',20.6); const qz=OUT.get(H.G,'aa667_us_zr_mrt');
-    check('5. 提早的那一場連前面那則訊息一起提早、同一個時間（芷若 7/31 20:30 → 21:30）；傳出去就定下那一天',ZM.length===2&&ZM.every(m=>m.day===D('2028-07-31')&&Math.abs(m.h-20.5)<0.05)&&!!qz&&qz.day===D('2028-07-31')&&qz.h===21.5&&H.G.flags.AA667_SLOT&&H.G.flags.AA667_SLOT.US_zr===D('2028-07-31'),J(ZM.map(m=>[m.day,m.h])));
+    const sl=k=>A().slot(H.G,'US',k), keyOf=d=>d==null?null:CALENDAR.dateOf(d).key, SL5=()=>H.G.flags.AA667_SLOT||{};
+    check('7-5 同時和學姊、以安、芷若、沛珊交往（美國）：芷若 8/1 照原本（時間被綁住：8/1 才回臺北）、沛珊往前一天（7/31）、以安再往前（7/30；稿「沛珊、學姊、以安照順序往前」）',
+      keyOf(sl('zr'))==='2028-08-01'&&keyOf(sl('ps'))==='2028-07-31'&&keyOf(sl('an'))==='2028-07-30'&&doc.includes('芷若 8/1 照原本；沛珊、學姊、以安照順序往前'),J(['an','zr','ps'].map(k=>keyOf(sl(k)))));
+    runAt('2028-07-30',19.9); runAt('2028-07-30',20); const AM=byTag('aa667_us_an_dm'); runAt('2028-07-30',20.1); const qa=OUT.get(H.G,'aa667_us_an_video');
+    check('7-5 往前的那一場連前面那則訊息一起往前、同一個時間（以安 7/30 20:00「八點半，視訊。」→ 20:30 視訊）；傳出去就定下那一天',
+      AM.length===1&&AM[0].day===D('2028-07-30')&&Math.abs(AM[0].h-20)<0.05&&!!qa&&qa.day===D('2028-07-30')&&qa.h===20.5&&SL5().US_an===D('2028-07-30'),J({am:AM.map(m=>[m.day,m.h]),qa:qa&&[qa.day,qa.h]}));
+    runAt('2028-07-31',21); const qp=OUT.get(H.G,'aa667_us_ps_call'); at('2028-07-31',22.9); const sp=await play('aa667_us_ps_call',[1,0]);
+    const LATER=SL(PS,'你後天幾點出門？');
+    check('7-5 往前一天的沛珊那一通（7/31 23:00）：「你明天幾點出門？」→「你後天幾點出門？」（「妳最近好嗎？」之後那一次也換）；記 PS_US_BYE',
+      !!qp&&qp.day===D('2028-07-31')&&qp.h===23&&!!sp&&J(sp)===J([LATER].concat(LN(L.ups.how.say),[LATER],LN(L.ups.six.say)))&&!sp.includes(SL(PS,'你明天幾點出門？'))&&H.G.flags.PS_US_BYE===D('2028-07-31')&&doc.includes('「你明天幾點出門？」→「你後天幾點出門？」'),J(sp));
+    runAt('2028-08-01',20.4); runAt('2028-08-01',20.5); const ZM=byTag('aa667_us_zr_dm');
+    check('7-5 被綁住的芷若照原本：8/1 20:30「我剛回臺北。」「你明天就走了吧。捷運出口，十分鐘就好。」',J(tx(ZM))===J(L.uzr.dm)&&ZM.every(m=>m.day===D('2028-08-01'))&&SL5().US_zr===D('2028-08-01'),J(ZM.map(m=>[m.text,m.day])));
+    const cfg=ids=>{ fresh('2028-07-20',10,'home',Object.assign({},US0,dt(...ids))); return ['yt','zq','an','zr','ps'].map(k=>k+':'+keyOf(sl(k))).filter(x=>!/null/.test(x)); };
+    const c1=cfg([SIS,AN,PS]), c2=cfg([SIS,AN,ZR]), c3=cfg([SIS,ZQ,AN,ZR,PS]), c4=cfg([SIS,ZR]);
+    const has=(c,k,v)=>c.includes(k+':'+v);
+    check('7-5 其他組合：沒有被綁住的（以安＋沛珊）＝時間早的以安照演、沛珊 7/31；以安＋芷若＝芷若 8/1、以安 7/31；加上子晴（7/30 有了）＝以安再往前到 7/29；只有芷若＝照原本',
+      has(c1,'an','2028-08-01')&&has(c1,'ps','2028-07-31')&&has(c2,'zr','2028-08-01')&&has(c2,'an','2028-07-31')&&has(c3,'zq','2028-07-30')&&has(c3,'zr','2028-08-01')&&has(c3,'ps','2028-07-31')&&has(c3,'an','2028-07-29')&&has(c4,'zr','2028-08-01'),J({c1,c2,c3,c4}));
+    { fresh('2028-07-20',10,'home',Object.assign({},US0,dt(SIS,AN,PS))); runAt('2028-07-31',21); at('2028-07-31',22.9); const s2=await play('aa667_us_ps_call',[0]); const s3=await (async()=>{ fresh('2028-07-20',10,'home',Object.assign({},US0,dt(SIS,AN,PS))); H.G.flags.AA667_SLOT={US_ps:D('2028-07-30')}; runAt('2028-07-30',21); at('2028-07-30',22.9); return play('aa667_us_ps_call',[0]); })();
+      check('7-5 沛珊只往前一天才換字（以安＋沛珊：7/31「你後天幾點出門？」）；往前兩天的（舊存檔定在 7/30）照原本「你明天幾點出門？」（稿：只在被移到前一天的那一場換）',
+        !!s2&&s2[0]===LATER&&!!s3&&s3[0]===SL(PS,'你明天幾點出門？'),J({s2:s2&&s2[0],s3:s3&&s3[0]})); }
+    { fresh('2028-07-20',10,'home',Object.assign({},US0,dt(SIS,ZR))); H.G.flags.AA667_SLOT={US_zr:D('2028-07-31')}; runAt('2028-07-31',20.5); const ZO=byTag('aa667_us_zr_dm');
+      check('7-5 舊存檔（d17abb340 的規則把芷若定在 7/31）：照定下的那一天，往前一天＝「你後天就走了吧。捷運出口，十分鐘就好。」',J(tx(ZO))===J(['我剛回臺北。','你後天就走了吧。捷運出口，十分鐘就好。'])&&ZO.every(m=>m.day===D('2028-07-31'))&&doc.includes('「你明天就走了吧」→「你後天就走了吧」'),J(tx(ZO))); }
     fresh('2028-07-20',10,'home',Object.assign({},US0,dt(SIS,ZR)));
     check('5. 只有兩位（學姊＋芷若）：照原本的日子',keyOf(A().slot(H.G,'US','zr'))==='2028-08-01');
     fresh('2028-03-20',10,'dorm',Object.assign({},JP0,dt(AN,ZR,ZQ,PS)));

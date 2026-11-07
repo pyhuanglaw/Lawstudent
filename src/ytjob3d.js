@@ -115,6 +115,7 @@ const YTJOB=(function(){
     const R=romR(G,YT), since=R&&typeof R.sinceDay==='number'?R.sinceDay:null, wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd%7:0, h=((+G.hour||0)%24+24)%24;
     if(since!=null&&G.day<=since) return; if(wd<1||wd>5||h<17||h>=18.5) return;   /* 交往以後的平日傍晚（開始那一天不算）*/
     { const p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(YT,G):null; if(p&&p.here===false) return; }   /* AA_667 H7：她不在臺北（宜蘭田野收不到訊號、寒暑假平日回淡水）不約你去她家吃飯 */
+    if(typeof AA667!=='undefined'&&AA667.ytHomeSkip&&AA667.ytHomeSkip(G)) return;   /* AA_667 7-4：日本路線 8/8（她在臺北的例外）＝8/7 那串已經約了這一天，這則不另外傳 */
     const tag='yt_home_'+G.day; if(PHONE.sent(G,tag)||OUT.get(G,'yt_home_first')) return; if(F.YT_HOME_ASK===G.day) return; F.YT_HOME_ASK=G.day;
     PHONE.at(G,G.day,17,[{th:'p:'+YT,from:YT,text:S.HOME_INV[0],ask:{id:tag,until:G.day*24+18.5,opts:[{t:'好。',set:{YT_HOME_GO:G.day}},{t:'今天不行。'}]}}],tag); };
   S.homePlan=function(G){ const F=G.flags; if(!F||F.YT_HOME_SEEN||F.YT_HOME_GO!==G.day||typeof OUT==='undefined'||OUT.get(G,'yt_home_first')) return;
