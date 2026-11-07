@@ -655,3 +655,16 @@
 [13:12:06] skip D_RUN_movreg (already done on ffeec06e0)
 [13:12:06] skip V18_LIBTOUR (already done on ffeec06e0)
 [13:14:04] [res] cpu=5% mem=48% (15.2/31.4 GB) chrome_testing=5  END LIVE_V91021_deploy
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ebd81b73d..6cd446604  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:14:08] ==== END   LIVE_V91021_deploy  exit=0  203s   ====
+[13:14:11] blender item MD_tx_v3 waits until the 1 running item(s) finish; other items go first
+[13:14:11] blender item MD_dabu_v1 waits until the 1 running item(s) finish; other items go first
+[13:14:11] blender item MD_haopai_v1 waits until the 1 running item(s) finish; other items go first
+[13:14:11] blender item MD_xinsheng_v1 waits until the 1 running item(s) finish; other items go first
+[13:14:11] blender item MD_xinsheng_v2 waits until the 1 running item(s) finish; other items go first
+[13:14:11] blender item MD_tx_v2 waits until the 1 running item(s) finish; other items go first
+[13:14:11] blender item MD_tx_v2b waits until the 1 running item(s) finish; other items go first
+[13:14:11] 正在跑：LIVE_V91021_p0（已跑 2 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:14:27] [res] cpu=4% mem=41% (12.9/31.4 GB) chrome_testing=0  END LIVE_V91021_p0
