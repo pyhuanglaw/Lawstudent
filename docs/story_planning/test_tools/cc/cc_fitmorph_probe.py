@@ -16,23 +16,41 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 J = D.J
 R = L.Run('fitmorph', OUT); D.setup(R, OUT)
-DAY, H, ZONE = '2025-10-18', 14.0, 'classroom'
+DAY, H = '2025-10-18', 14.0
+ZONE = os.environ.get('ZONE') or 'classroom'   # FITMORPH_r2（BB-B 06:53）：ZONE=gym（1F 大廳，空曠、有長椅）
 LEVELS = [x for x in [(0, 0.0), (30, 0.4), (60, 0.7), (90, 1.0)] if not os.environ.get('FITS') or str(x[0]) in os.environ.get('FITS').split(',')]   # FITS=0,90 只跑那幾階（雲端試跑）
 SETFIT = r"""((f)=>{ const G=GAME.G; G.daily=G.daily||{}; const r=G.daily.gym=G.daily.gym||{}; r.fit=f; if(typeof FIT!=='undefined'&&FIT.sync) FIT.sync(GAME); return true; })"""
 MW = r"""(()=>{ let w=null, n=0; GAME.E.player.obj.traverse(o=>{ const u=o.userData||{}; if(u.fitMorph){ n=u.fitMorph.length; w=u.fitMorphW; } }); const P=GAME.E.player, o=P.obj.position; return {w, meshes:n, x:+o.x.toFixed(2), z:+o.z.toFixed(2), yaw:+P.obj.rotation.y.toFixed(3), pose:P.pose||null, seat:!!P.seat}; })()"""
 
 
-def cams(x, z, yaw, y0=0.0):
-    fx, fz = math.sin(yaw), math.cos(yaw); rx, rz = math.cos(yaw), -math.sin(yaw)
-    look = [x, y0 + 1.0, z]
-    return {'front': {'eye': [x + fx * 2.6, y0 + 1.3, z + fz * 2.6], 'look': look, 'lens': 35},
-            'side': {'eye': [x + rx * 2.6, y0 + 1.3, z + rz * 2.6], 'look': look, 'lens': 35}}
+CLEAR = r"""((q)=>{ const E=GAME.E, g=E.zone&&E.zone.group; const meshes=[]; g.traverse(o=>{ if(o.isMesh&&o.visible!==false) meshes.push(o); }); const P=E.player.obj; const skip=new Set(); P.traverse(o=>skip.add(o));
+  const T=new THREE.Vector3(q.t[0],q.t[1],q.t[2]), e=new THREE.Vector3(q.e[0],q.e[1],q.e[2]), d=T.clone().sub(e), L=d.length(); const rc=new THREE.Raycaster(e,d.normalize(),0.05,L-0.4);
+  const h=rc.intersectObjects(meshes,false).find(x=>!skip.has(x.object)); return h?+(h.distance/L).toFixed(2):1; })"""
+DIST = float(os.environ.get('CAMDIST') or 2.6)   # FITMORPH_r2：4.2（看得到全身）
+
+
+async def cams(pg, x, z, yaw, y0=0.0):
+    """正面、側面；鏡頭到人中間有東西擋（牆、柱子）就繞著人轉 ±30°…180° 找沒擋的（FITMORPH r1：24 張都在牆裡）"""
+    out = {}
+    for nm, base in (('front', 0.0), ('side', math.pi / 2)):
+        pick = None
+        for off in (0, 30, -30, 60, -60, 90, -90, 120, -120, 150, -150, 180):
+            a_ = yaw + base + math.radians(off)
+            eye = [x + math.sin(a_) * DIST, y0 + 1.15, z + math.cos(a_) * DIST]
+            cl = await pg.evaluate(CLEAR, {'e': eye, 't': [x, y0 + 1.0, z]})
+            if cl >= 0.98: pick = (eye, off); break
+        if not pick: pick = ([x + math.sin(yaw + base) * DIST, y0 + 1.15, z + math.cos(yaw + base) * DIST], None)
+        out[nm] = {'eye': pick[0], 'look': [x, y0 + 0.9, z], 'lens': 30 if DIST > 3 else 35, 'off': pick[1]}
+    return out
 
 
 async def two(pg, cdp, name, x, z, yaw, keep_paused=False):
     out = {}
-    for k, c in cams(x, z, yaw).items():
-        out[k] = await D.user_shot(pg, cdp, '%s_%s' % (name, k), c, hide_player=False)
+    y0 = await pg.evaluate("GAME.E.player.obj.position.y")
+    for k, c in (await cams(pg, x, z, yaw, y0)).items():
+        off = c.pop('off')
+        out[k] = await D.user_shot(pg, cdp, '%s_%s' % (name, k), c, hide_player=False); out[k]['turned'] = off
+        if off is None: R.note('[%s_%s] 繞一圈都有東西擋，照原本的角度拍' % (name, k))
     return out
 
 
