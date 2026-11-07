@@ -71,7 +71,7 @@ global.STORY={inTerms:(GG,rr)=>rr.from==='Y1S1',presence:()=>({here:true}),prese
 check('8. 祐廷單身、學姊沒有伴侶（使用者 2026-10-17 P0：學姊一開始就沒有男朋友，AA_218 第 16 節、BB_122 ★ 節）：學姊吃飯不會出現「兩個人單獨去吃飯不太好」',I.placeWhy(G,'heroine_05',P('noodle'))!==W.partnerMeal,I.placeWhy(G,'heroine_05',P('noodle')));
 check('8. 沛珊（大一下才有伴侶）：大一上照常（吃飯只看熟不熟）',I.partnerBlock(G,'classmate_peishan',P('noodle'))===false);
 delete global.STORY;
-check('8. 選地點時寫原因、選了約不到的地方先說原因再選一次（invites3d.js flow；INVITE-MENU-1030 分層以後寫在每一項的 hint、灰掉）',/const w=S\.placeWhy\(G,id,Q\); return \{t:(cat==='study'&&Q\.verbStudy\?Q\.verbStudy:)?Q\.verb,short:Q\.name,hint:w,dim:!!w,P:Q\}/.test(fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8')));
+check('8. 選地點時寫原因、選了約不到的地方先說原因再選一次（invites3d.js flow；INVITE-MENU-1030 分層以後寫在每一項的 hint、灰掉）',/const w=S\.placeWhy\(G,id,Q\); return \{t:(cat==='study'&&Q\.verbStudy\?Q\.verbStudy:)?Q\.verb,short:Q\.name,hint:w,dim:!!w,P:Q(,cat)?\}/.test(fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8')));
 // 9. 畫面
 const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
 check('9. 手機朋友頁：有原因就寫原因、不出「約」按鈕',/const why=typeof INV!=='undefined'&&INV\.whyNot\?INV\.whyNot\(G,id\):''/.test(g3)&&/const canInv=typeof INV!=='undefined'&&!why&&/.test(g3)&&/canInv\?'<button class="btn pri" data-inv="'\+esc\(id\)\+'">約<\/button>':\(why\?/.test(g3));

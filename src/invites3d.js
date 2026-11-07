@@ -271,7 +271,7 @@ const INV=(function(){
   /* 約好 */
   S.accept=function(G,id,pid,day,h,o){ o=o||{}; S.rec(G); const P=S.place(pid); G.invSeq=(G.invSeq|0)+1;
     const iv={id:'iv'+G.invSeq,who:id,place:pid,zone:P.zone,day,h:+h.toFixed(3),state:o.now?'going':'accepted',accepted:true,by:o.by||'player',now:!!o.now,label:'和'+nameOf(id)+'約在'+(typeof PLACES!=='undefined'&&PLACES.at?PLACES.at(P.name):P.name)};
-    if(o.cat) iv.cat=o.cat;   /* 'study'＝在「念書」那一類選的（2:30 AM、木曜日這些也能坐坐的地方）*/
+    if(o.cat==='study'&&S.catsOf(P).length>1) iv.cat='study';   /* 在「念書」那一類選的（2:30 AM、木曜日這些也能坐坐的地方）；只能念書的地方、其他類不記（存檔欄位不多）*/
     G.invites.push(iv); if(G.invites.length>60){ const keep=G.invites.filter(q=>live(q)); const old=G.invites.filter(q=>!live(q)).slice(-30); G.invites=old.concat(keep); }
     S.msg(G,id,o.now?'和'+nameOf(id)+'一起'+P.verb+'。':'約好了：'+when(G,day,h)+'，'+P.name+'（'+nameOf(id)+'）。',iv); return iv; };
   S.byId=(G,ivId)=>(G.invites||[]).find(q=>q.id===ivId)||null;
