@@ -224,6 +224,44 @@ async def main():
             u1 = await page_lines(); print('[PAGE1]', J(u1), J(ny))
             await run.shot(pg, 'alison_page_after')
             run.check('週六晚上在櫃檯碰到 Alison 以後：資料頁多「打工：南洋戲院（週五、週六晚上）」', bool(ny) and any('打工：南洋戲院（週五、週六晚上）' in x for x in u1), J([ny, u1]))
+        elif MODE == 'movie':
+            BH, KAI = 'classmate_bohan', 'kai'
+            s, d = await P.base(pg, base, '2025-11-01', 11.8, 'dorm')
+            s.setdefault('flags', {}).pop('AA614_MOVIE', None)
+            s['outings'] = [o for o in (s.get('outings') or []) if o.get('id') != 'aa614_movie']
+            await P.load(pg, cdp, s); await P.init(pg)
+            run.setup('[前置] day46 存檔 2025-11-01（六，大一上第 9 週）11:48 宿舍房間')
+            Lm = await pg.evaluate("({g3:AA614.L.g3, three:AA614.L.three, movie:AA614.L.g3movie})")
+            pre = await pg.evaluate("({grp:PHONE.inGroup(GAME.G,'r203'), bh:STORY.knows('classmate_bohan',GAME.G), kai:STORY.knows('kai',GAME.G), sent:PHONE.sent(GAME.G,'aa614_r3')})")
+            run.check('[前置] 在宿舍 203 群組、認識柏翰和阿凱、這則還沒傳過', pre['grp'] and pre['bh'] and pre['kai'] and not pre['sent'], J(pre))
+            await P.wait_hour(pg, cdp, 12.1, max_s=600)
+            th = await P.phone_thread(pg, cdp, 'g:r203'); asks = [a['t'] for a in th.get('asks', [])]
+            print('[R203]', J(th.get('text', '')[-500:]), J(asks))
+            run.check('第 9 週週六 12:00 宿舍 203 群組三則（柏翰／阿凱／柏翰）＋「好。」／「我不去了。」', th['ok'] and all(t in th.get('text', '') for _, t in Lm['g3']) and '好。' in asks and '我不去了。' in asks, J([th.get('text', '')[-400:], asks]))
+            await P.phone_answer(pg, cdp, 'g:r203', '好。'); await L.close_panels(pg, cdp)
+            mv = await pg.evaluate("GAME.G.flags.AA614_MOVIE")
+            run.check('回「好。」＝AA614_MOVIE＝今天、排好 19:30 南洋戲院', mv == d['d'] and await pg.evaluate("!!OUT.get(GAME.G,'aa614_movie')"), J(mv))
+            await P.jump(pg, cdp, run, '2025-11-01', 19.1, zone='campus', pos={'x': 20, 'z': 50}, note='校園宿舍前（等 19:30 出發提醒）'); await P.init(pg)
+            here0 = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return {zone:GAME.G.zone, x:+o.x.toFixed(1), z:+o.z.toFixed(1)}; })()")
+            n0 = await P.say_hook(pg)
+            got = None; t_lines = []
+            for _ in range(240):
+                q = await P.ts(pg)
+                if q['ch']:
+                    o = [x['t'] for x in q['ch']]; t_lines.append(o)
+                    pick = next((x for x in o if '看電影' in x or x.startswith('出發') or '南洋' in x), None)
+                    if pick is None: pick = o[0]
+                    await P.tap_choice(pg, cdp, [x['t'] for x in q['ch']].index(pick)); await pg.wait_for_timeout(1200); got = got or pick; continue
+                if q['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
+                if got and not q['busy'] and q['h'] > 20: break
+                await pg.wait_for_timeout(1000)
+            lines = [t for _, t in await P.said(pg, n0)]
+            here1 = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return {zone:GAME.G.zone, x:+o.x.toFixed(1), z:+o.z.toFixed(1), h:+GAME.G.hour.toFixed(2)}; })()")
+            yu = await pg.evaluate("AA614.yuHere(GAME.G)")
+            await run.shot(pg, 'movie_after')
+            print('[OPTS]', J(t_lines, 800)); print('[LINES]', J(lines, 1500)); print('[HERE]', J(here0), J(here1), 'yuHere', yu)
+            run.check('19:30 出發提醒 → 南洋戲院那一場：Alison 在班（%s）＝「%s」＋旁白「%s」' % (yu, Lm['three'], Lm['movie'][:12]), bool(got) and (not yu or any(Lm['three'] in x for x in lines)) and any(Lm['movie'] in x for x in lines), J([got, lines]))
+            run.check('演完回到原本的地方（%s）' % J(here0), here1['zone'] == here0['zone'] and abs(here1['x'] - here0['x']) < 3 and abs(here1['z'] - here0['z']) < 3, J([here0, here1]))
         run.check('沒有 JS 例外', not errs, J(errs[:5]))
         await b.close()
     return run.finish()
