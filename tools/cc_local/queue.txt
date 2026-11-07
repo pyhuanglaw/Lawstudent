@@ -66,6 +66,9 @@ SHOPWIN_v1_warm | 718b59ec7a1eb39f63336f23500b77217cae69b0 | probe | docs/story_
 FITMORPH_r2 | 41bfc5cbe635a410046dba106e14575e9474f4ee | probe | docs/story_planning/test_tools/cc/cc_fitmorph_probe.py | index.html | 40 | ZONE=gym;CAMDIST=4.2;FITS=0,60,90;RERUN=r2;CC_HEADLESS=0
 FITMORPH_r3_b987 | b987cb1cf7fff1bc587dd77eb22b0c6a4e8a2dac | probe | docs/story_planning/test_tools/cc/cc_fitmorph_probe.py | index.html | 40 | ZONE=gym;CAMDIST=4.2;FITS=0,60,90;RERUN=r3;CC_HEADLESS=0
 SPORTSWEAR_b987 | b987cb1cf7fff1bc587dd77eb22b0c6a4e8a2dac | probe | docs/story_planning/test_tools/cc/cc_sportswear_probe.py | index.html | 40 | RERUN=b987;CC_HEADLESS=0
+#   LAWWW-B 07:18：換裝延遲修了（GM.enter 淡入前 gymWearSync，bcf4ad72a 含運動服第二版）——換區域到換好應該 0 秒
+FITMORPH_r4_bcf4 | bcf4ad72a2b96c0d7fbfa97002c00a674a212fd9 | probe | docs/story_planning/test_tools/cc/cc_fitmorph_probe.py | index.html | 40 | ZONE=gym;CAMDIST=4.2;FITS=0,60,90;RERUN=r4;CC_HEADLESS=0
+SPORTSWEAR_bcf4 | bcf4ad72a2b96c0d7fbfa97002c00a674a212fd9 | probe | docs/story_planning/test_tools/cc/cc_sportswear_probe.py | index.html | 40 | RERUN=bcf4;CC_HEADLESS=0
 GYMUSE_3880_r2 | 38808711072fa54b74ff60892417beefaebae813 | probe | docs/story_planning/test_tools/cc/cc_gymuse_probe.py | index.html | 40 | RERUN=r2;CC_HEADLESS=0
 #   BB-B 05:35：afar 約會 ②窗邊長桌多試幾次——換約的人（時段、她挑的位子跟著變），ID 不同不會輪流重跑
 GG2_afar_date_01 | 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_01;RERUN=w01;CC_HEADLESS=0
@@ -78,6 +81,8 @@ GG2_afar_date_04_32e1 | 32e10b130ddc01f9f41007c01e032d44a35d11af | probe | docs/
 #   BB-B 06:47：afar 同桌的「?」是誰——探針加印 othersInfo（id、crowdKey、模型、座位、位置）、開演那一刻從上往下拍；開場句接受 AA_708 第 N 場；帶路取樣逐筆印
 GG2_afar_date_01_32e1_r2 | 32e10b130ddc01f9f41007c01e032d44a35d11af | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_01;RERUN=y01;CC_HEADLESS=0
 GG2_afar_date_03_32e1_r2 | 32e10b130ddc01f9f41007c01e032d44a35d11af | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_03;RERUN=y03;CC_HEADLESS=0
+# BB-B 07:16 PERF_COLD（LAWWW2-B 的探針，低優先、排最後）：第一次進溫州街／總圖大廳那一頓是載路人模型還是 GPU 第一次畫；結果交 LAWWW2-B（D108）
+PERF_COLD | b987cb1cf7fff1bc587dd77eb22b0c6a4e8a2dac | probe | docs/story_planning/test_tools/cc/perf_cold_probe.py | index.html | 40 | ZONES=wenzhou,library_hall;VARIANTS=base,pre,prewarm;COLD=12;CC_HEADLESS=0
 POOL_TALK_fix | b550eb6c18076bef376794a8971bc405ba8b1185 | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | EXPECT=fixed;CC_HEADLESS=0
 POOL_TALK_before | 3b170607e | probe | docs/story_planning/test_tools/cc/cc_pool_talk_probe.py | index.html | 30 | CC_HEADLESS=0
 # ===== ★ CC-B 11-07 03:4x（BB-B 03:34／03:38）：照這個順序最先跑 =====
