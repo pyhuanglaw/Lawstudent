@@ -36,6 +36,9 @@ GUITAR_r3 | 9cff7a00bce4a412ca08841c73123c899a4b916e | probe | docs/story_planni
 MOVEOUT_r2 | 9cff7a00bce4a412ca08841c73123c899a4b916e | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 30 | CASES=econ_old;RERUN=r2;CC_HEADLESS=0
 SOC_peishan_date | 9cff7a00bce4a412ca08841c73123c899a4b916e | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | CASES=classmate_peishan;STEPS=date,phone;RERUN=r2;CC_HEADLESS=0
 SOC_xinci_date | 9cff7a00bce4a412ca08841c73123c899a4b916e | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | CASES=classmate_xinci;STEPS=date,phone;RERUN=r2;CC_HEADLESS=0
+#   CC_00 待做：打烊例外（滇香、家常菜＝老闆娘；打工那天不說；118 巷照 XSCLOSE 自己的營業時間列店）、afar 約會（現成的 afar_date；規格等 BB-B 確認再補）
+CLOSE_EXC | 9cff7a00bce4a412ca08841c73123c899a4b916e | probe | docs/story_planning/test_tools/cc/cc_close_all_probe.py | index.html | 90 | STAFF=1;RERUN=exc;CC_HEADLESS=0
+GG2_afar_date | 9cff7a00bce4a412ca08841c73123c899a4b916e | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;RERUN=b1107;CC_HEADLESS=0
 # ===== ★ CC-B 11-07 03:4x（BB-B 03:34／03:38）：照這個順序最先跑 =====
 #   ① DBK_seat2：Daybreak 窗邊 #2 (-2.15, 3.45) 坐不下單獨重跑＋診斷（SEQ=1 照 DBK_passerby 先坐 #1 再坐 #2；四個時間）
 #   ② LIVE_V91021：v9.10.21 上線 main 92c3daad8（PR #29），線上網址 deploy_check、p0、標題版本截圖（RELEASE-V91021-1105；雲端連不到 github.io）
