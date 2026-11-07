@@ -2,7 +2,38 @@
 
 **派工**：LAWWW-B 10:14「CC 量出 PERF-WZ-DC／PERF-COLD 的數字，如果和你預期的差很多，那一項優先」。
 
-**狀態**：第一階段已做，遊戲端不用改程式。第二階段（Meshopt）等 LAWWW-B 決定。
+**狀態**：第一階段已做，遊戲端不用改程式。第二階段（Meshopt）不做。
+
+## ⚠ 11:40 更正：線上本來就有 gzip（CC-B PAGES_GZIP）
+
+**線上的實際傳輸**：GitHub Pages 會 gzip `.glb`（`Content-Encoding: gzip`，`max-age=600`）。v9.10.21 的 `wenzhou_street.glb` 實際傳 **3.72 MB**，不壓縮是 12.0 MB。
+
+**第一階段在線上的好處很小**，我原本說的「少下載很多」是錯的：
+
+| | 檔案 | gzip 以後 |
+|---|---|---|
+| 現在開發分支的檔 | 13.62 MB | 4.62 MB |
+| 第一階段 | 10.28 MB | 4.28 MB |
+
+- 下載只少 0.34 MB，約 7%。
+- 剩下的好處是記憶體：ArrayBuffer 少 3.3 MB；GPU 頂點資料裡，法線 3.2 → 1.1 MB。
+- 要不要收由 LAWWW-B 決定。
+
+**第二階段 Meshopt**：照 LAWWW-B 11:20 的條件，有 gzip 就不做。gzip 以後只會再少 0.46 MB。
+
+**CC 的本機伺服器沒有 gzip**，所以 PERF_COLD 量到的下載時間比線上悲觀。
+
+**磁碟快取那一輪（PERF_COLD_PERSIST，CC-B 11:40）**：near 進區域前快取檢查回 200。(B) 預先下載有用：
+
+| | 黑畫面 | 黑畫面裡編譯的 shader | 淡入後 avg fps | 最慢一格 |
+|---|---|---|---|---|
+| base | 15.7 s | 54 | 9.8 | 5783 ms |
+| near | 23.2 s | 82 | 27.3 | 1467 ms |
+
+- near 的黑畫面變長，是 (A) 照設計把卡頓藏進黑畫面：模型從快取讀、淡入前就到齊，多出來的 28 個 shader 在黑畫面裡先編好。
+- base 是淡入以後才編，就是那 5.8 s 的卡頓。
+- CC 的電腦是 d3d11，編 shader 特別慢。**黑畫面真正的大頭是 shader 編譯，不是下載**。
+- 下一步建議盤點溫州街的 shader program 數量（`E.renderer.info.programs`），從模型端合併只差一點的材質。等 LAWWW-B 決定。
 
 ## CC-B 量到的（PERF_COLD_RT，PC，4G 20 Mbps）
 
