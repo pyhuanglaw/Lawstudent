@@ -424,6 +424,7 @@ const INV=(function(){
   let goBusy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['invites3d:goBusy']=()=>{ goBusy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.goTarget=function(G,iv){ const P=S.place(iv.place)||{}, QL=typeof PLACES!=='undefined'&&PLACES.quickList?PLACES.quickList():[], Q=QL.find(p=>p&&p[0]===P.zone&&P.meetAt&&P.name&&String(p[1]).includes(P.name))||QL.find(p=>p&&p[0]===P.zone); return {zone:P.zone,name:P.name||'',spawn:Q&&Q[2]?Q[2]:null}; };   /* 晨跑：落在「椰林大道・傅鐘」（不是校園的第一個落點霖澤館前）*/
+  S.hereNote=function(G,iv){ if(!iv||iv.state!=='accepted'||iv.day!==G.day) return null; const h=G.hour%24, P=S.place(iv.place)||{}; if(!P.zone||G.zone!==P.zone||h>=iv.h+S.WAIT_H) return null; return '你已經在這裡了。收起手機，等她就好。'; };   /* 手機「今天約好的」：人已經在約好的地方（看手機時間不走）*/
   S.canGo=function(G,iv){ if(!iv||iv.state!=='accepted'||iv.day!==G.day) return false; const h=G.hour%24, P=S.place(iv.place)||{}; return !!P.zone&&G.zone!==P.zone&&h<iv.h+S.WAIT_H; };
   S.goDue=function(G){ if(!G||!Array.isArray(G.invites)) return null; const h=G.hour%24; return G.invites.find(iv=>S.canGo(G,iv)&&!iv.goAsked&&h>=iv.h-0.5&&h<iv.h+0.25)||null; };
   S.goNow=async function(GM,iv){ const G=GM.G, t=S.goTarget(G,iv); if(!S.canGo(G,iv)||!GM.quickGo) return false; await GM.quickGo([t.zone,t.name,t.spawn],{force:true}); return G.zone===t.zone; };
