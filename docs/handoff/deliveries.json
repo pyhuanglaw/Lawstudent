@@ -17965,8 +17965,8 @@
    "msg": "ACK",
    "what": "頭髮法線 0.6（六人 VRM）",
    "task": "HAIR-NOODLE-1104",
-   "integration": "已整合待測試",
-   "note": "1e1345518；D100a 等 CC 重拍",
+   "integration": "已驗收",
+   "note": "1e1345518；D100a 等 CC 重拍；D100a ART_APPROVED 11-07 10:5x（CC 530a7a431）",
    "ack": "ACK"
   },
   {
@@ -18077,8 +18077,8 @@
    "msg": "ACK",
    "what": "HAIR-NOODLE-1104 (b) 頭髮貼圖去細線（五個 VRM）",
    "task": "HAIR-NOODLE-1104",
-   "integration": "已整合待測試",
-   "note": "8fdb294aa；LAWWW-B 比對只差頭髮貼圖；D100a 等 CC 重拍",
+   "integration": "已驗收",
+   "note": "8fdb294aa；LAWWW-B 比對只差頭髮貼圖；D100a 等 CC 重拍；D100a ART_APPROVED 11-07 10:5x（CC 530a7a431）",
    "ack": "ACK"
   },
   {

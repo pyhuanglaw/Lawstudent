@@ -45166,7 +45166,8 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "sha": "1e1345518"
+   "sha": "1e1345518",
+   "evidence": "D100a 角色美術 ART_APPROVED（LAWWW-B 11-07 10:5x）：CC PC HAIR_a_c8b0／HAIR_b_8fdb 同鏡頭 ALL PASS，並排 claude/cc-testing 530a7a431 docs/story_planning/CC/shots/hair_ab_<人>.jpg、原圖 claude/cc-local local_out/HAIR_{a_c8b0,b_8fdb}；遊戲 8fdb294aa（(a) 1e1345518）"
   },
   {
    "id": "CANON-PURGE-1104",
