@@ -668,3 +668,12 @@
 [13:14:11] blender item MD_tx_v2b waits until the 1 running item(s) finish; other items go first
 [13:14:11] 正在跑：LIVE_V91021_p0（已跑 2 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [13:14:27] [res] cpu=4% mem=41% (12.9/31.4 GB) chrome_testing=0  END LIVE_V91021_p0
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       6cd446604..fd8020140  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:14:32] ==== END   LIVE_V91021_p0  exit=0  185s   ====
+[13:14:37] memory 41% before starting SHOPWIN_718b_new (0 running)
+[13:14:37] ==== START SHOPWIN_718b_new  (probe @ 718b59ec7a1eb39f63336f23500b77217cae69b0) ====
+[13:14:40] [res] cpu=3% mem=41% (13.0/31.4 GB) chrome_testing=0  START SHOPWIN_718b_new
+[13:14:40] worktree add 718b59ec7a1eb39f63336f23500b77217cae69b0: invalid reference - fetching main and the commit itself
+[13:19:07] [res] cpu=2% mem=41% (13.0/31.4 GB) chrome_testing=0  END SHOPWIN_718b_new
