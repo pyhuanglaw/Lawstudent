@@ -95,6 +95,8 @@ XS_NIGHT_player | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_
 # CC-B 08:4x：圓頂改用射線找沒被擋的角度（雲端 60 m、高 8 m 看得到整個圓頂）；BB-B 08:33 改 fa79dd7bc；LAWWW-B 08:34 r5 多印 INV.canInvite／privOk／companyOf／PRIVTALK.crowd／G.flags.PRIVTALK
 GYM_DOME_r3 | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_fa05_night_probe.py | index.html | 30 | PARTS=dome;DOME_FAR=1;CC_HEADLESS=0
 SOC_peishan_date_r5 | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | CASES=classmate_peishan;STEPS=date;RERUN=r5;CC_HEADLESS=0
+# BB-B 08:33 XS_NORTH_ROAD（LAWWW2-B XS-NORTH-ROAD-1107）：側門、體育館門口人眼往北、北牆外抬高 9 m；14:00、21:00
+XS_NORTH_ROAD | fa79dd7bc32e1e177a8187a070b8c7baf6ef2924 | probe | docs/story_planning/test_tools/cc/cc_xs_north_road_probe.py | index.html | 20 | CC_HEADLESS=0
 GG2_afar_same_01 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_01;RERUN=s01;CC_HEADLESS=0
 GG2_afar_same_03 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_03;RERUN=s03;CC_HEADLESS=0
 GG2_afar_same_04 | 79214e4e10275fb47c0d95ec667cab2964b77b5c | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;GG2_DATE_PID_AFAR=heroine_04;RERUN=s04;CC_HEADLESS=0
