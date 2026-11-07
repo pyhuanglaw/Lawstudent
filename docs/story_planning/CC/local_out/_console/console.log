@@ -691,3 +691,17 @@
 [13:48:22] memory 43% before starting GG2_afar_date_04 (2 running)
 [13:48:22] ==== START GG2_afar_date_04  (probe @ 8618f9d80aa0c94f9b10844f5bee7a69e22c1a93) ====
 [13:48:22] [res] cpu=7% mem=43% (13.4/31.4 GB) chrome_testing=4  END GG2_afar_date_01
+[13:48:25] [res] cpu=8% mem=43% (13.6/31.4 GB) chrome_testing=4  START GG2_afar_date_04
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c32b92df6..28c438d33  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:48:27] ==== END   GG2_afar_date_01  exit=1  196s   ====
+[13:48:40] 正在跑：GG2_afar_date_03（已跑 1 分／上限 45 分）、GG2_afar_date_04（已跑 0 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:48:53] blender item MD_tx_v3 waits until the 2 running item(s) finish; other items go first
+[13:48:53] blender item MD_dabu_v1 waits until the 2 running item(s) finish; other items go first
+[13:48:53] blender item MD_haopai_v1 waits until the 2 running item(s) finish; other items go first
+[13:48:53] blender item MD_xinsheng_v1 waits until the 2 running item(s) finish; other items go first
+[13:48:53] blender item MD_xinsheng_v2 waits until the 2 running item(s) finish; other items go first
+[13:48:53] blender item MD_tx_v2 waits until the 2 running item(s) finish; other items go first
+[13:48:53] blender item MD_tx_v2b waits until the 2 running item(s) finish; other items go first
+[13:50:20] [res] cpu=1% mem=43% (13.8/31.4 GB) chrome_testing=5  END GG2_afar_date_03
