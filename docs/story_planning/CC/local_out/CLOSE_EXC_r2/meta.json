@@ -1,0 +1,24 @@
+{
+  "rerun": "r2",
+  "id": "CLOSE_EXC_r2",
+  "sha": "8618f9d80aa0c94f9b10844f5bee7a69e22c1a93",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_close_all_probe.py",
+  "env": "STAFF=1;RERUN=r2;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T13:35:34",
+  "end": "2026-11-07T13:44:55",
+  "seconds": 561,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "11",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 65,
+    "mem": 65,
+    "used_gb": 20.4,
+    "chrome_testing": 15
+  }
+}
