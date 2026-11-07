@@ -46,3 +46,11 @@
 [11:43:34] [res] cpu=0% mem=42% (13.2/31.4 GB) chrome_testing=0  START DBK_seat2
 [11:43:34] [res] cpu=0% mem=42% (13.2/31.4 GB) chrome_testing=0  START LIVE_V91021_deploy
 [11:44:49] [res] cpu=18% mem=48% (14.9/31.4 GB) chrome_testing=8  END LIVE_V91021_p0
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4113ebed3..ac6c96642  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:44:54] ==== END   LIVE_V91021_p0  exit=1  78s   ====
+[11:44:57] memory 50% before starting LIVE_V91021_title (2 running)
+[11:44:57] ==== START LIVE_V91021_title  (probe @ 92c3daad8adf1bb5f707b0b411640c7b13ff7052) ====
+[11:45:00] [res] cpu=1% mem=50% (15.8/31.4 GB) chrome_testing=8  START LIVE_V91021_title
+[11:47:03] [res] cpu=8% mem=48% (15.2/31.4 GB) chrome_testing=8  END DBK_seat2
