@@ -16,6 +16,7 @@
 // 修改前：2、3、5、6、7、8、9（解凍、出錯收乾淨、手機）、10、11（小聲重複）FAIL。用法：node tests/inv_sit_together_unit.js
 const H=require('./pg_harness.js');
 const {check,GM,E}=H;
+CLS.afterSlot=async()=>false;   /* 這支測約念書本身的時間（stay 1.5 小時…）；見面用完時段跳到下一個時段（ACTION-BUDGET-1107）另外在 tests/action_budget_1107_unit.js 測 */
 const fs=require('fs'), path=require('path'), vm=require('vm');
 vm.runInThisContext(fs.readFileSync(path.join(H.ROOT,'src/libquiet3d.js'),'utf8').replace(/^const LIBQ\s*=/m,'globalThis.LIBQ='),{filename:'src/libquiet3d.js'});
 vm.runInThisContext(fs.readFileSync(path.join(H.ROOT,'src/data/library_layout.js'),'utf8').replace(/^const (LIBRARY_\w+)\s*=/mg,'globalThis.$1='),{filename:'src/data/library_layout.js'});

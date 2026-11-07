@@ -22,7 +22,9 @@ CLS.canSkip=()=>false;   /* 測試沒有場景：當成可以跳（afterSlot 在
     const iv=INV.accept(G,id,'cafe',G.day,14,{by:'player'}); const n=npc(id); skips.length=0;
     await INV.meet(GM,iv,n,{}); await W(5);
     check('1. 下午 14:00 約好的見面演完：下午那一格填滿',used0===0&&(CLS.slotRec(G).used.pm|0)>=CLS.slotCap(G,'pm'),JSON.stringify(CLS.slotRec(G)));
-    check('2. 演完那一刻不跳（玩家還在 busy；BB-B 11-07 PARTIAL 的原因）、跳轉排著（CLS._jump 下午）',skips.length===0&&CLS._jump&&CLS._jump.p==='pm'&&CLS._jump.day===G.day,JSON.stringify({skips,j:CLS._jump}));
+    check('2. 演完、場景結束：馬上跳到下一個時段（不忙的時候；INV.slotJump）',skips.length===1&&/下午的時間用完了/.test(skips[0].why||''),JSON.stringify({skips,j:CLS._jump}));
+    { const G9=fresh('2025-10-15',14,'cafe'); H.FRIEND(id); const iv9=INV.accept(G9,id,'cafe',G9.day,14,{by:'player'}); const n9=npc(id); skips.length=0; const cs=CLS.canSkip; CLS.canSkip=()=>'現在不能跳';
+      await INV.meet(GM,iv9,n9,{}); CLS.canSkip=cs; check('2. 演完那一刻還在 busy（外面還有一層場景）：跳轉留著（CLS._jump 下午），不丟掉',skips.length===0&&CLS._jump&&CLS._jump.p==='pm'&&CLS._jump.day===G9.day,JSON.stringify({skips,j:CLS._jump})); skips.length=0; }
     const src3=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');
     check('2. 空下來以後 story3d.js 的 tick 讀 CLS._jump 跳（不忙、沒有對話、沒有 ADV）',/CLS\._jump&&!S\._jumping&&!\(GM\.E\.player&&GM\.E\.player\.busy\)&&!\(GM\.D&&GM\.D\.active\)/.test(src3));
     await CLS.afterSlot(GM); check('2. 跳：到下一個時段（「下午的時間用完了」）',skips.length===1&&/下午的時間用完了/.test(skips[0].why||'')&&skips[0].t<=18&&skips[0].t>14,JSON.stringify(skips)); }
@@ -42,8 +44,8 @@ CLS.canSkip=()=>false;   /* 測試沒有場景：當成可以跳（afterSlot 在
   /* 6 晚上用完：直接回去睡（使用者 11-07 選擇題「直接跳到隔天早上」）*/
   { const slept=[]; global.ONETAP={sleepPlan:()=>({ok:true,k:'sleep'}),goSleep:async(GM2,p)=>{ slept.push(p); }};
     const G=fresh('2025-10-15',19,'cafe'), id='heroine_02'; H.FRIEND(id); const iv=INV.accept(G,id,'cafe',G.day,19,{by:'player'}); const n=npc(id); skips.length=0;
-    await INV.meet(GM,iv,n,{}); check('6. 晚上 19:00 的見面演完：晚上那一格填滿、排了跳轉（ev）',(CLS.slotRec(G).used.ev|0)>=1&&CLS._jump&&CLS._jump.p==='ev',JSON.stringify({R:CLS.slotRec(G),j:CLS._jump}));
-    await CLS.afterSlot(GM); check('6. 空下來：直接回去睡（ONETAP.goSleep），不是跳時間',slept.length===1&&skips.length===0,JSON.stringify({slept,skips}));
+    await INV.meet(GM,iv,n,{}); check('6. 晚上 19:00 的見面演完：晚上那一格填滿',(CLS.slotRec(G).used.ev|0)>=1,JSON.stringify({R:CLS.slotRec(G),j:CLS._jump}));
+    check('6. 演完：直接回去睡（ONETAP.goSleep），不是跳時間',slept.length===1&&skips.length===0,JSON.stringify({slept,skips}));
     const G2=fresh('2025-10-15',19,'cafe'); H.FRIEND(id); H.FRIEND('heroine_01'); const iv2=INV.accept(G2,id,'cafe',G2.day,19,{by:'player'}); INV.accept(G2,'heroine_01','library',G2.day,21,{by:'player'}); slept.length=0;
     await INV.meet(GM,iv2,npc(id),{}); await CLS.afterSlot(GM);
     check('6. 後面還有約（21:00 以安）：不睡',slept.length===0,JSON.stringify(slept));

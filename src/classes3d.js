@@ -1293,7 +1293,7 @@ const CLS=(function(){
     if(typeof DATE!=='undefined'&&DATE.tripAt&&DATE.tripAt(G,G.day,h0+0.1,3)) return true; return false; };
   S.eveSleep=async function(GM){ const G=GM.G; if(S.laterToday(G)||typeof ONETAP==='undefined'||!ONETAP.sleepPlan||!ONETAP.goSleep) return false; const pl=ONETAP.sleepPlan(GM); if(!pl||!pl.ok) return false;
     if(GM.toast) GM.toast('晚上的時間用完了，回去睡覺。',3000); await ONETAP.goSleep(GM,pl); return true; };
-  S.afterSlot=async function(GM){ const G=GM.G, J=S._jump; S._jump=null; if(!J||!G||J.day!==G.day) return false; const p=S.periodAt(hr(G)); if(p!==J.p||S.canSkip(GM)) return false;
+  S.afterSlot=async function(GM){ const G=GM.G, J=S._jump; if(!J||!G||J.day!==G.day){ S._jump=null; return false; } const p=S.periodAt(hr(G)); if(p!==J.p){ S._jump=null; return false; } if(S.canSkip(GM)) return false;   /* 現在不能跳（對話中、busy）＝留著，等空下來再跳（ACTION-BUDGET-1107：BB-B 非考試週約好的見面演完沒跳）*/ S._jump=null;
     if(p==='ev') return S.eveSleep(GM);
     const t=S.jumpTarget(G,p); if(t<=hr(G)+0.05) return false; return S.skipTo(GM,t,{why:S.SLOT_NAME[p]+'的時間用完了'}); };
   S.slotFill=(G,p)=>{ if(!S.slotsOn(G)) return; const R=S.slotRec(G); R.used[p]=Math.max(R.used[p]||0,S.slotCap(G,p,'job')); };
