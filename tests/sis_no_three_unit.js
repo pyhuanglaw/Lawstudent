@@ -21,6 +21,7 @@ const files=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).m
 const found=new Map(); for(const f of files){ for(const s of lits(fs.readFileSync(path.join(ROOT,f),'utf8'))) if(RE.test(s)){ const k=s.trim(); if(!found.has(k)) found.set(k,f); } }
 /* ---- 看過、可以留的 ---- */
 const OK={
+  '（她低頭看著桌面。好像有一件事，要看你怎麼回答才決定說不說。）':'以安 AN-1 的小心選擇那一行（AA_719 keyNote）：「一件事」不是學姊在數件數',
   '回來第一件事要做什麼？':'祐廷回以安的選項（AA_709 第三批「回臺北了。台中好熱。」）：「第一件事」不是學姊在數件數',
   '他們吵架了。可是吵的是同一件事。':'語彤（AA_708 一起喝咖啡）：「同一件事」不是學姊在數件數',
   '她自己決定的第一件事':'AA_712 以安第 8 拍的 topic（題目標籤、不播出）：不是學姊在數件數',
