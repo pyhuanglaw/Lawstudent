@@ -322,8 +322,23 @@ def b1_mirror():
     Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).save(os.path.join(GEN, 'b1_mirror.jpg'), quality=90)
 
 
+def b1_fit_door():
+    """健身中心玻璃門上方的門楣招牌（1024×256，貼在 2.0×0.5 m）：和服務台同一套（深藍底白字、底下黃線）；左邊一個門的圖示。
+    GYM-FIT-1107（使用者 11-07 試玩：「健身房都是玻璃門 門不夠明顯」，LAWWW2-B）。不寫館名（D77）"""
+    W, H = 1024, 256; im = Image.new('RGB', (W, H), (26, 44, 74)); d = ImageDraw.Draw(im)
+    d.rectangle([0, H - 14, W, H], fill=(232, 176, 60))
+    # 門的圖示：兩片門扇往兩邊拉開的箭頭（自動門）
+    cx, cy = 118, 116; d.rectangle([cx - 74, cy - 78, cx - 8, cy + 78], outline=(255, 255, 255), width=8); d.rectangle([cx + 8, cy - 78, cx + 74, cy + 78], outline=(255, 255, 255), width=8)
+    for sgn in (-1, 1):
+        x0 = cx + sgn * 20; x1 = cx + sgn * 62; d.line([(x0, cy), (x1, cy)], fill=(232, 176, 60), width=10)
+        d.polygon([(x1 + sgn * 14, cy), (x1 - sgn * 4, cy - 16), (x1 - sgn * 4, cy + 16)], fill=(232, 176, 60))
+    d.text((236, 22), '健身中心', font=f(132), fill=(255, 255, 255))
+    d.text((240, 176), 'FITNESS CENTER　入口', font=f(44), fill=(220, 230, 244))
+    im.save(os.path.join(GEN, 'b1_fit_door.png'))
+
+
 def b1_all():
-    b1_rubber(); b1_turf(); b1_wall_free(); b1_rules(); b1_tv(); b1_timer(); b1_ceiling(); b1_mirror()
+    b1_rubber(); b1_turf(); b1_wall_free(); b1_rules(); b1_tv(); b1_timer(); b1_ceiling(); b1_mirror(); b1_fit_door()
 
 
 def pool_floor():

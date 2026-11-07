@@ -60,6 +60,9 @@ M = {
     'tv': img_mat(P + 'tv', 'b1_tv.png', rough=0.2, emit=0.55), 'timer': img_mat(P + 'timer', 'b1_timer.png', rough=0.3, emit=1.0),
     'ceil_tile': img_mat(P + 'ceiling_tile', 'b1_ceiling.jpg', rough=0.9), 'mirror_img': img_mat(P + 'mirror_panel', 'b1_mirror.jpg', rough=0.06),
     'accent_y': L.flat(P + 'accent_yellow', '#e8b03c', rough=0.5),
+    # GYM-FIT-1107（使用者 11-07 試玩：「健身房都是玻璃門 門不夠明顯」，LAWWW2-B）：門口的防撞貼條、地墊、門楣招牌
+    'frost': L.flat(P + 'frost', '#e4eaee', rough=0.55), 'door_mat': L.flat(P + 'door_mat', '#383b3f', rough=0.95),
+    'fit_sign': img_mat(P + 'fit_sign', 'b1_fit_door.png', rough=0.4, emit=0.6),
 }
 M['ceil_tile'].use_backface_culling = True   # 天花板單面、法線朝下（同 ceil：跟隨鏡頭在天花板上面時看得穿）
 
@@ -178,9 +181,32 @@ zf = FI['z0']; fx0, fx1 = FI['door']['x0'], FI['door']['x1']
 for (a, b) in ((FI['x0'], fx0), (fx1, FI['x1'])):
     wm('fitN', 'glass').box(a, b, 0.0, 2.6, zf - 0.03, zf + 0.03)
     n = max(1, round((b - a) / 1.8))
-    for j in range(n + 1): x = a + j * (b - a) / n; wm('fitN', 'steel_dk').box(x - 0.035, x + 0.035, 0.0, 2.6, zf - 0.05, zf + 0.05)
+    for j in range(n + 1):
+        x = a + j * (b - a) / n
+        if min(abs(x - fx0), abs(x - fx1)) < 1e-6: continue          # 門邊那一根換成下面的門框（GYM-FIT-1107）
+        wm('fitN', 'steel_dk').box(x - 0.035, x + 0.035, 0.0, 2.6, zf - 0.05, zf + 0.05)
+    wm('fitN', 'frost').box(a + 0.04, b - 0.04, 1.0, 1.1, zf - 0.034, zf + 0.034)   # 防撞貼條（霧面橫條，包住玻璃兩面）：看得出是玻璃
+    wm('fitN', 'steel_dk').box(a, b, 0.0, 0.08, zf - 0.05, zf + 0.05)            # 下框：門口那一段拿掉（原本一條 8 cm 的門檻橫過門口）
 wm('fitN', 'steel_dk').box(FI['x0'], FI['x1'], 2.6, 2.68, zf - 0.05, zf + 0.05); wm('fitN', 'plaster').box(FI['x0'], FI['x1'], 2.68, H, zf - 0.08, zf + 0.08)
-wm('fitN', 'steel_dk').box(FI['x0'], FI['x1'], 0.0, 0.08, zf - 0.05, zf + 0.05)
+# ---- 健身中心的門（GYM-FIT-1107，LAWWW2-B 2026-11-07；使用者試玩：「健身房都是玻璃門 門不夠明顯」）----
+# 原本門只是玻璃牆少一片（門框和旁邊的玻璃框一樣細），從走廊看不出哪裡是門。照常見的自動門做：
+#   粗的深色門框＋門楣（門的淨高 2.15 m）；走廊那一面的自動門機箱（上面貼「健身中心」招牌）；兩片拉開、停在門兩邊的玻璃門扇（不鏽鋼框、防撞貼條）；
+#   門口走廊那一側一塊深色地墊。導航不變（門口照舊開著：fx0～fx1）；門框只往門口裡吃 1 cm。
+for xa, xb in ((fx0 - 0.10, fx0 + 0.01), (fx1 - 0.01, fx1 + 0.10)):
+    wm('fitN', 'steel_dk').box(xa, xb, 0.0, 2.6, zf - 0.08, zf + 0.08)                   # 門框（比玻璃框粗、深）
+wm('fitN', 'steel_dk').box(fx0 + 0.01, fx1 - 0.01, 2.15, 2.6, zf - 0.08, zf + 0.08)      # 門楣
+LW = (fx1 - fx0) / 2 - 0.1                                                                # 門扇寬（兩片拉開，各停在門的一邊）
+for xa in (fx0 - 0.10 - LW, fx1 + 0.10):
+    xb = xa + LW
+    wm('fitN', 'glass').box(xa + 0.04, xb - 0.04, 0.12, 2.08, zf - 0.125, zf - 0.115)
+    for (ya, yb) in ((0.02, 0.12), (2.08, 2.13)): wm('fitN', 'steel').box(xa, xb, ya, yb, zf - 0.13, zf - 0.11)      # 上下橫框
+    for (u, v) in ((xa, xa + 0.04), (xb - 0.04, xb)): wm('fitN', 'steel').box(u, v, 0.02, 2.13, zf - 0.13, zf - 0.11)   # 直框
+    wm('fitN', 'frost').box(xa + 0.04, xb - 0.04, 1.0, 1.1, zf - 0.128, zf - 0.112)      # 門扇的防撞貼條
+HX0, HX1 = fx0 - 0.10 - LW - 0.05, fx1 + 0.10 + LW + 0.05
+wm('fitN', 'steel_dk').box(HX0, HX1, 2.14, 2.62, zf - 0.20, zf - 0.09)                   # 自動門機箱（走廊那一面）
+img_quad('fit_door_sign', M['fit_sign'], [((fx0 + fx1) / 2 + 0.8, 2.18, zf - 0.205), ((fx0 + fx1) / 2 - 0.8, 2.18, zf - 0.205),
+                                          ((fx0 + fx1) / 2 - 0.8, 2.58, zf - 0.205), ((fx0 + fx1) / 2 + 0.8, 2.58, zf - 0.205)], wall='fitN')   # 朝走廊（−z）：人往 +z 看，+x 在左手邊
+acc('door_mat').box(fx0 - 0.05, fx1 + 0.05, 0.0, 0.012, zf - 1.15, zf - 0.21)           # 地墊（走廊那一側）
 wm('fitE', 'plaster').box(FI['x1'], FI['x1'] + 0.15, 0.0, H, zf + 0.08, Z1)   # 從北牆（fitN）後面開始：原本兩道牆重疊，牆角的面疊在一起
 wm('fitN', 'plaster').box(FI['x1'], CO['x1'], 0.0, H, zf - 0.08, zf + 0.08)
 # 鏡牆（南牆、整面）：鏡面＋上下框

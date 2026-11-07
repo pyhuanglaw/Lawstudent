@@ -89,7 +89,7 @@ b1)
   #   地板、池底、池邊、牆、天花板、鏡子、木頭、花崗石照樣烘（器材的影子會烘進地板）。
   NAME=gym_b1; SCRIPT=tools/blender/env_second/gym_b1.py
   HIDE='glass|b1_light|b1_water'
-  NOLM='gymb1_|gymb2_|GYM2?_|_steel|_rope|_tv|_timer|_hours|_notice|_rules|desk_sign|_flag|_white|_pl_|PLATE_FACE'
+  NOLM='gymb1_|gymb2_|GYM2?_|_steel|_rope|_tv|_timer|_hours|_notice|_rules|desk_sign|_flag|_white|_pl_|PLATE_FACE|_frost|_door_mat|_fit_sign'   # GYM-FIT-1107：門口的貼條、地墊、招牌照即時光
   COOL=${HBCOL:-0.97,0.98,1.0}; NEU=${FITCOL:-1.0,0.97,0.92}; WARM=${DLCOL:-1.0,0.9,0.76}
   LIGHTS=""
   for zz in -21 -15 -9 -3.5; do for x in -18.4 -12.4 -6.4 -0.4 5.6 11.6 17.6 23.6; do
