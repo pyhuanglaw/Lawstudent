@@ -112,6 +112,8 @@ async def meet_once(pg, cdp, run, tag, beat_opts, rec):
         here = await pg.evaluate("(p=>{ const P=INV.place(p)||{}; return GAME.G.zone===P.zone; })(%s)" % json.dumps(v['place']))
         if not here: run.check('[%s] 手機「今天」有「現在過去」' % tag, False); return None
         run.setup('[%s] 人已經在約好的地方，手機不給「前往」＝照設計，直接走去找她' % tag)
+        body = await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")
+        run.check('[%s] 手機那一列說「你已經在這裡了。收起手機，等她就好。」（2af585673）' % tag, '你已經在這裡了' in body, body[:160])
         run.check('[%s] 收起手機（時間才會走）' % tag, await close_phone(pg, cdp))
     said = []; asked = 0
     for _ in range(900):
@@ -208,9 +210,12 @@ async def main():
                 await pg.evaluate("(d=>{ GAME.G.day=d; GAME.G.hour=9; })(%d)" % x['due']); await pg.wait_for_timeout(1500); await settle(pg, cdp, [], 30)
                 said2 = await meet_once(pg, cdp, run, '第%d天' % x['due'], None, None)
                 d2 = await dec(pg); x2 = next((q for q in d2['says'] if q['key'] == KEY), {})
-                first = say[0]; head = first[:10]
-                hit = [i for i, t in enumerate(said2 or []) if head in t]
-                run.check('④ 那天見面，她先說「%s」（say 第一句有出現）' % first[:24], bool(hit), json.dumps((said2 or [])[:20], ensure_ascii=False))
+                first = say[0]; head = first.strip('（）')[:10]
+                hist = await pg.evaluate("(typeof ADV!=='undefined'&&Array.isArray(ADV.history))?ADV.history.map(x=>(x.name||'')+'｜'+x.text):[]")
+                hit = [i for i, t in enumerate((said2 or []) + hist) if head in t]
+                run.check('④ 那天見面，她先說「%s」（say 第一句在畫面或 ADV 紀錄裡）' % first[:24], bool(hit), json.dumps({'said': (said2 or [])[:12], 'hist': hist[-14:]}, ensure_ascii=False))
+                okAll = all(any(t.strip('（）')[:8] in h for h in ((said2 or []) + hist)) for t in say)
+                run.check('④ say 四句都演了（畫面或 ADV 紀錄）', okAll, json.dumps(say, ensure_ascii=False))
                 run.check('④ 說完記 played', bool(x2.get('played')), json.dumps(x2, ensure_ascii=False))
             elif x and FOLLOW == 'msg':
                 run.setup('【捷徑】day 撥到 due＋3（%d，三天沒見）09:00' % (x['due'] + 3))
