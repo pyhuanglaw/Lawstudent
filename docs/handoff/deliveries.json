@@ -17576,8 +17576,8 @@
    "msg": "ACK",
    "what": "AA_708 一起吃飯、喝咖啡、看電影、書店（七位第 1～N 次＋輪換）",
    "task": "STUDY-DATE-PROGRESS-1107",
-   "integration": "未整合",
-   "note": "LAWWW-B 04:4x 登記"
+   "integration": "不整合",
+   "note": "AA-B 11-07 05:10：先不要接（會改）——照 BB_304（f48ce96b9）改成每位女主角一條故事線 AA_712，活動第 1～N 次只留活動的樣子；等 AA 交改版"
   },
   {
    "id": "DL-AA-4be26c44d",
