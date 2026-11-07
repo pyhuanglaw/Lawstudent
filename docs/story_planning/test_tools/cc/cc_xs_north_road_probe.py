@@ -50,7 +50,7 @@ async def one(pg, cdp, tn, h, rec):
     gymx = (gym[0] + gym[2]) / 2 if gym else gx; gymz = (gym[1] if gym else -140.0) - 1.5
     views = [('gate', [gx, 1.7, gz + 1.0], [xh, 2.0, -230.0], 30),
              ('gym', [gymx, 1.7, gymz], [xh, 2.0, -230.0], 30),
-             ('high', [xh, 9.0, -150.0], [xh, 0.0, -225.0], 26)   # 北牆外、路口南邊抬高 9 m（雲端第一版放在牆內 z −131，被校園的樹擋住）]
+             ('high', [xh, 9.0, -150.0], [xh, 0.0, -225.0], 26)]   # high：北牆外、路口南邊抬高 9 m（雲端第一版放在牆內 z −131，被校園的樹擋住）]
     for nm, eye, look, lens in views:
         cam = await D.user_shot(pg, cdp, 'xsnorth_%s_%s' % (nm, tn), {'eye': eye, 'look': look, 'lens': lens})
         rec.setdefault('shots', []).append({'name': 'xsnorth_%s_%s' % (nm, tn), 'cam': cam})
