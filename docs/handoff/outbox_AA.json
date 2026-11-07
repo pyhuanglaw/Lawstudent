@@ -5578,6 +5578,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "芯慈「睡了嗎」＋六位女主角大一上分享生活的訊息 9 串，每串三個選項；line_lint 0 條"
+  },
+  {
+   "task": "PLAYTEST-1107",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_708_activity_scenes.json"
+   ],
+   "state": "WIP",
+   "remaining": "電影（南洋戲院）、書店（頁間、山嵐）還沒寫",
+   "next": "LAWWW-B 可以先接 eat＋cafe",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "加 cafe：七位第 1～4 次＋rot；芷若第 2 場 alt（不在 2:30 AM）、學姊第 1 場 alt（上法研所以後）；line_lint 0 條"
   }
  ],
  "items": [
