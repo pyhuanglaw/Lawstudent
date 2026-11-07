@@ -105,7 +105,10 @@ def content_in_main(root, ref):
     left = git(root, 'log', '--cherry-pick', '--right-only', '--no-merges', '--format=%h', f'{MAIN}...{ref}').split()
     if not left:
         return True, ahead, f'main 沒有的 {ahead} 個 commit 都是合併 commit 或內容（patch-id）main 都有'
-    base = git(root, 'merge-base', MAIN, ref).strip()
+    mb = subprocess.run(['git', '-C', root, 'merge-base', MAIN, ref], capture_output=True, text=True)
+    if mb.returncode != 0:   # 孤兒分支（和 main 沒有共同歷史：claude/gha-results、cc-local 這種結果分支）：不算併入、不當清理候選
+        return False, ahead, f'和 main 沒有共同歷史（孤兒分支，例如測試結果分支）；{ahead} 個 commit main 都沒有'
+    base = mb.stdout.strip()
     changed = [p for p in git(root, 'diff', '--name-only', '--no-renames', base, ref).splitlines() if p]
     diff = [p for p in changed if blob(root, ref, p) != blob(root, MAIN, p)]
     if changed and not diff:
