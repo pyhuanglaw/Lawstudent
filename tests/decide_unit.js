@@ -48,7 +48,7 @@ const PLAIN={n:2,need:1,lines:['今天好熱。'],ask:['你喜歡夏天嗎？'],
     check('6. 有表（contrary）：你 push:intern，她決定 game（不是照你選的）',DECIDE.get(G,ZQ,'summer')==='game',J(G.flags.DECIDE)); delete DECIDE.RULES[ZQ]; }
   /* 7 AA_719 */
   { const cp=require('child_process'); let out='', okI=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_decide_rules.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); okI=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
-    check('7. src/data/decide_rules.js 和 AA_719@851167f68 一致；14 個決定拍、七位各 2、預設值登記好',okR&&okI&&DECIDE_RULES.keys.length===14&&DECIDE.get(H.fresh('2026-04-13',15,'cafe'),'heroine_04','summer')==='game',out.trim().slice(0,160));
+    check('7. src/data/decide_rules.js 和 AA_719@13acd106d 一致；14 個決定拍、七位各 2、預設值登記好',okR&&okI&&DECIDE_RULES.keys.length===14&&DECIDE.get(H.fresh('2026-04-13',15,'cafe'),'heroine_04','summer')==='game',out.trim().slice(0,160));
     const E1=DECIDE.byKey(ZQ,'summer'), B8=HEROINE_ARCS.people[ZQ].beats[E1.beat-1], it=i=>E1.opts.findIndex(o=>o.i===i);
     const run=async(stance,trust)=>{ const G=fresh(); const R=SOCIAL.rel(ZQ); R.trust=trust; R.fam=50; const DS=DATE.stageNum; DATE.stageNum=()=>3; const k=E1.opts.find(o=>o.stance===stance).i; H.picks=[k,0]; H.said=[]; const b=ARCS.resolve(G,ZQ,B8); await ARCS.run(GM,who,ZQ,b); DATE.stageNum=DS; return {G,b}; };
     { const {G,b}=await run('tease',5); const x=DECIDE.due(G,ZQ); 

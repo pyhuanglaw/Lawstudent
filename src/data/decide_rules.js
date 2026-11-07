@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_decide_rules.py（docs/story_planning/AA_719_decide_rules.json@851167f68）。不要手改，改企劃 AA_719 再重新匯入。
+/* 自動產生：tools/story/import_decide_rules.py（docs/story_planning/AA_719_decide_rules.json@13acd106d）。不要手改，改企劃 AA_719 再重新匯入。
    決定拍的規則：她有自己的想法（播放 src/decide3d.js）*/
 'use strict';
 const DECIDE_RULES={
- "src": "docs/story_planning/AA_719_decide_rules.json@851167f68",
+ "src": "docs/story_planning/AA_719_decide_rules.json@13acd106d",
  "keys": [
   {
    "id": "AN-1",
@@ -38,7 +38,7 @@ const DECIDE_RULES={
      },
      "delay": 3,
      "say": [
-      "（隔了幾天，她在總圖門口等你。）",
+      "（她把一張交換說明會的傳單推到你面前。）",
       "我要申請日本交換。……我還沒跟 Alison 說。",
       "三月十八號有說明會。你要不要坐我旁邊？",
       "不是要你去日本。我只是想有人坐旁邊。"

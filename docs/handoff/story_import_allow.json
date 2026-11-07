@@ -4846,9 +4846,9 @@
   },
   {
    "path": "docs/story_planning/AA_719_decide_rules.json",
-   "sha": "851167f68",
+   "sha": "13acd106d",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 07:10「AA_719 兩個小改」）",
+   "approvedBy": "AA-B D109（11-07 08:10 經 BB-B 轉「AN-1 rule 0 say 第一句」）",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
    "note": "14 個決定拍（七位各 2）：style、lean、default、opts stance、rules（stance×trust×opt→result、rel、delay、say）、keyNote；tools/story/import_decide_rules.py → src/data/decide_rules.js",
@@ -4856,6 +4856,10 @@
     {
      "sha": "3788d00c1",
      "approvedBy": "AA-B D109（11-07 06:40「分岔稿第一份：規則表」）（11-07 07:1x 以前；851167f68 加 before／revealAt、trust 門檻寫 60）"
+    },
+    {
+     "sha": "851167f68",
+     "approvedBy": "AA-B D109（11-07 07:10「AA_719 兩個小改」）（11-07 08:1x 以前；13acd106d AN-1 rule 0 第一句改傳單）"
     }
    ]
   }
