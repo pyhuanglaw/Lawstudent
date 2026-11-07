@@ -80,20 +80,10 @@ async def part_moku(pg, cdp):
             R.check('%s 窗景卡換成溫州街照片（mokuyobi_view_%s）' % (tag, tn), bool(card['url']) and ('mokuyobi_view_' + tn) in card['url'], card['url'])
 
 
-async def part_flicker(pg, cdp):
-    tag = '[flicker 21:00]'
-    R.setup('%s 讀檔大口漢堡 %s 21:00（店裡出生點，一樓）' % (tag, DAY))
-    s = await D.load_zone(pg, cdp, 'xs_dakou', DAY, 21.0, wait=8000)
-    if not R.check('%s 讀到大口' % tag, s['zone'] == 'xs_dakou', J(s)): return
-    await clear_ui(pg, cdp); await pg.wait_for_timeout(1500)
-    cards = await pg.evaluate(CARDS, 'NIGHT_')
-    R.note('%s 夜景卡（玩家第 %s 層）：%s' % (tag, s['lv'], J(cards)))
-    pairs = coplanar(cards)
-    R.note('%s 看得到、疊在同一個平面的夜景卡：%s' % (tag, J(pairs)))
-    if EXPECT == 'fixed': R.check('%s 看得到的夜景卡沒有兩張疊在同一個平面' % tag, not pairs, J(pairs))
-    card = next((c for c in cards if 'WEST' in c['name'] and c['vis']), None) or next((c for c in cards if c['vis']), None)
-    if not card: R.note('%s 沒有看得到的夜景卡（不拍連拍）' % tag); return
-    sp = await pg.evaluate("(()=>{ const z=GAME.E.zone, s=z.spawn||{x:0,z:0}; return [s.x,s.z]; })()")
+STAND2 = r"""((lv)=>{ const E=GAME.E; let best=null; for(let x=-6;x<=6;x+=0.5) for(let z=-6;z<=8;z+=0.5){ if(!E.canStand(x,z,0.3,lv)) continue; const d=Math.hypot(x,z-2); if(!best||d<best.d) best={x,z,d}; } return best; })"""
+
+
+async def burst(pg, cdp, tag, card, sp, name):
     eye0 = inward_eye(card, sp, 4.0, card['c'][1]); thin = 'x' if card['size'][0] < card['size'][2] else 'z'
     await pg.set_viewport_size({'width': 1280, 'height': 720}); await pg.wait_for_timeout(800)
     await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()"); await pg.evaluate(D.HUD + '(false)')
@@ -102,15 +92,44 @@ async def part_flicker(pg, cdp):
         eye = list(eye0); eye[2 if thin == 'x' else 0] += 0.01 * i   # 沿著卡橫移 1 cm
         look = list(card['c']); look[2 if thin == 'x' else 0] += 0.01 * i
         await pg.evaluate(D.CAM, {'eye': eye, 'look': look, 'lens': 24}); await pg.evaluate("GAME.E.render()")
-        b = await pg.screenshot(path=os.path.join(OUT, 'dakou_flicker_%02d.png' % i)); shots.append(base64.b64encode(b).decode())
+        b = await pg.screenshot(path=os.path.join(OUT, '%s_%02d.png' % (name, i))); shots.append(base64.b64encode(b).decode())
         await pg.wait_for_timeout(300)
     await pg.evaluate(D.UNCAM); await pg.evaluate(D.HUD + '(true)'); await pg.evaluate("(()=>{ GAME.E.player.obj.visible=true; })()")
-    box = [0.3, 0.25, 0.7, 0.75]   # 畫面中間（鏡頭對著卡的中心、離 4 m，卡蓋滿這一塊）
+    box = [0.3, 0.25, 0.7, 0.75]   # 畫面中間（鏡頭對著卡的中心、離 4 m）
     ds = [await pg.evaluate(DIFF, {'a': shots[i], 'b': shots[i + 1], 'box': box}) for i in range(9)]
     mx = max(d['mean'] for d in ds); avg = sum(d['mean'] for d in ds) / len(ds)
-    R.note('%s 連拍 10 張（鏡頭每張橫移 1 cm、隔 0.3 秒）張與張的差（畫面中間，0～255）：%s；最大 %.2f、平均 %.2f；dakou_flicker_00～09.png' % (tag, J(ds), mx, avg))
+    R.note('%s %s 連拍 10 張（鏡頭每張橫移 1 cm、隔 0.3 秒）張與張的差（畫面中間，0～255）：最大 %.2f、平均 %.2f、像素差 >40 的比例最大 %.4f；%s_00～09.png' % (tag, card['name'], mx, avg, max(d['bigFrac'] for d in ds), name))
+    return {'card': card['name'], 'c': card['c'], 'diffs': ds, 'max': mx, 'avg': avg}
+
+
+async def part_flicker(pg, cdp):
+    out = []
+    for lv in (0, 1):
+        tag = '[flicker 21:00 %s]' % ('一樓' if lv == 0 else '二樓')
+        R.setup('%s 讀檔大口漢堡 %s 21:00（%s）' % (tag, DAY, '店裡出生點' if lv == 0 else '二樓站得住、離店中間最近的一點'))
+        s = await D.load_zone(pg, cdp, 'xs_dakou', DAY, 21.0, wait=8000)
+        if not R.check('%s 讀到大口' % tag, s['zone'] == 'xs_dakou', J(s)): return
+        if lv == 1:
+            p2 = await pg.evaluate(STAND2, 1)
+            if not R.check('%s 二樓有站得住的地方' % tag, bool(p2), J(p2)): continue
+            s = await D.load_zone(pg, cdp, 'xs_dakou', DAY, 21.0, x=p2['x'], z=p2['z'], lv=1, wait=8000)
+            if not R.check('%s 人在二樓（lv 1）' % tag, s['lv'] == 1, J(s)): continue
+        await clear_ui(pg, cdp); await pg.wait_for_timeout(1500)
+        cards = await pg.evaluate(CARDS, 'NIGHT_')
+        R.note('%s 夜景卡（玩家第 %s 層）：%s' % (tag, s['lv'], J(cards)))
+        pairs = coplanar(cards)
+        R.note('%s 看得到、疊在同一個平面的夜景卡：%s' % (tag, J(pairs)))
+        if EXPECT == 'fixed': R.check('%s 看得到的夜景卡沒有兩張疊在同一個平面' % tag, not pairs, J(pairs))
+        vis = [c for c in cards if c['vis']]
+        if not vis: R.note('%s 沒有看得到的夜景卡（正面是視差窗景的話正常），不拍連拍' % tag); continue
+        sp = [s['x'], s['z']]
+        seen = set()
+        for c in vis:
+            if c['name'] in seen: continue
+            seen.add(c['name'])
+            out.append(dict(await burst(pg, cdp, tag, c, sp, 'dakou_flicker_lv%d_%s' % (lv, c['name'].lower())), lv=lv, coplanar=pairs))
     with open(os.path.join(OUT, 'dakou_flicker_diff.json'), 'w', encoding='utf-8') as f:
-        json.dump({'cards': cards, 'coplanar': pairs, 'diffs': ds, 'max': mx, 'avg': avg, 'expect': EXPECT}, f, ensure_ascii=False, indent=1)
+        json.dump({'expect': EXPECT, 'bursts': out}, f, ensure_ascii=False, indent=1)
 
 
 async def main():
