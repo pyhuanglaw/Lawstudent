@@ -90,8 +90,8 @@ async def main():
             await pg.evaluate("localStorage.removeItem('fatiao3d_slot_1')")   # 讀完就清掉：段尾存檔要寫新的一份（2026-10-17：欄位 1 還留著上一段的存檔，段尾沒存成也照樣拿舊檔交給下一段）
         else:
             await L.tap(pg, cdp, '#btnNew')
-        if os.environ.get('HUDLOG'):   # BB-B 11-07：BUG-Y0-DAYSKIP-CARD-1107 驗收——記下每一張日期卡（字、下面那一句、當時的日期時間）和所有台詞
-            await pg.evaluate("(()=>{ window.__cards=[]; window.__said=[]; const hook=()=>{ if(!window.GAME||GAME.__bbHook) return !!(window.GAME&&GAME.__bbHook); const tc=GAME.titleCard; if(tc){ GAME.titleCard=function(t,s,ms){ try{ window.__cards.push({t:String(t||''),s:String(s||''),key:CALENDAR.dateOf(GAME.G.day).key,h:+GAME.G.hour.toFixed(2)}); }catch(e){} return tc.apply(this,arguments); }; } const sy=GAME.say; if(sy){ GAME.say=function(w,t){ try{ window.__said.push(String(t||'')); }catch(e){} return sy.apply(this,arguments); }; } GAME.__bbHook=1; return true; }; if(!hook()) { const iv=setInterval(()=>{ if(hook()) clearInterval(iv); },200); } })()")
+        if os.environ.get('HUDLOG'):   # BB-B 11-07：BUG-Y0-DAYSKIP-CARD-1107 驗收（GAME 是 const、不在 window 上：用 typeof 判斷）——記下每一張日期卡（字、下面那一句、當時的日期時間）和所有台詞
+            await pg.evaluate("(()=>{ window.__cards=[]; window.__said=[]; const hook=()=>{ if(typeof GAME==='undefined'||GAME.__bbHook) return typeof GAME!=='undefined'&&!!GAME.__bbHook; const tc=GAME.titleCard; if(tc){ GAME.titleCard=function(t,s,ms){ try{ window.__cards.push({t:String(t||''),s:String(s||''),key:CALENDAR.dateOf(GAME.G.day).key,h:+GAME.G.hour.toFixed(2)}); }catch(e){} return tc.apply(this,arguments); }; } const sy=GAME.say; if(sy){ GAME.say=function(w,t){ try{ window.__said.push(String(t||'')); }catch(e){} return sy.apply(this,arguments); }; } GAME.__bbHook=1; return true; }; if(!hook()) { const iv=setInterval(()=>{ if(hook()) clearInterval(iv); },200); } })()")
         seg_saved = False; first_key = None; seg_try = 0
         days, last_key, stuck_t, last_sig, fade_block, recover = [], None, time.time(), None, 0, 0
         fade_run = 0
