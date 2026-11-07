@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "R8FDB_movreg",
+  "sha": "8fdb294aaa5fce9c0a8e0ac1c66582fc340a6f0a",
+  "kind": "game",
+  "script": "tests/movement_regression.py",
+  "env": "XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-07T18:49:11",
+  "end": "2026-11-07T18:55:05",
+  "seconds": 353,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "33",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 79,
+    "mem": 58,
+    "used_gb": 18.2,
+    "chrome_testing": 14
+  }
+}
