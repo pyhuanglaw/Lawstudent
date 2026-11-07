@@ -4907,6 +4907,15 @@
    "task": "CORNER-IN-1107",
    "kind": "text",
    "note": "轉角唱片店內台詞：進門（一天一次）、翻唱片（七箱，拿去試聽／買這張／放回去）、試聽（開始：高腳椅／站著／同一天第二次，聽的時候六種，結束）、買一張（一百五、兩百五、買完兩句、錢不夠、第一次在櫃台問）、看音響、高腳椅／沙發的坐下句、21:00 打烊（bf5c3e6c6：照 AA_700 店員「我們今天要打烊了。」一句、不加旁白）、木門、颱風假、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；corner_shop_unit 逐字對照）"
+  },
+  {
+   "path": "docs/story_planning/AA_667_交換路線_同時交往的另一位_出發前回國當天.md",
+   "sha": "090981ebe",
+   "status": "approved",
+   "approvedBy": "AA-C（D109 定稿）",
+   "task": "AA667-VAC-GAP2-1104",
+   "kind": "text",
+   "note": "日本／美國路線第二批：同時交往、沒有一起出國的另一位，祐廷出發前、出發當天、回國當天（第 2 節日本：子晴、語彤、芷若、沛珊、學姊、可昕 8/5；第 3 節美國：以安、子晴、語彤、芷若、沛珊；第 5 節接線、同一晚兩場提早一天）。照抄進 src/aa667_3d.js（S.L）；第 5 節三處：src/data/termend_lines.js（H6 子晴 Y4S1 期末飯美國路線版）、src/ytjob3d.js（H7 S.homePhone 看語彤的 presence；2-2 第一次去她家那一頓的兩個 call）、src/data/fest_events.js（沛珊聖誕台南拿掉「……不用勉強。」）；第 4 節 AA_660 G1-1 已經在 src/aa660_3d.js。tests/aa667_vacgap2_unit.js 逐字對照"
   }
  ]
 }

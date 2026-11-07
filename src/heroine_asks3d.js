@@ -123,10 +123,13 @@ const HASK=(function(){
     return (kind==='half'||kind==='evening')&&LOCAL.includes(L.area)&&!L.needsCar&&(L.transport||[]).some(t=>t.mode!=='car'); };
   const wishLocs=()=>{ const out=new Set(); if(typeof DATE!=='undefined'&&DATE.HEROINES&&DATE.wishOf) for(const h of DATE.HEROINES){ if(DATE.WISH_X&&DATE.WISH_X[h]) continue; const w=DATE.wishOf(h); if(w) out.add(w); } return out; };   /* DATE.WISH_X（芯慈 D04）不算：她的心願是「午夜場」這一件事，不是整個西門町——芷若、子晴週六晚上約你去西門看電影（heroine_asks.js D04）照舊（AA-B 16:31，AA_537b 8-1：AA_494 0-1 對芯慈的 D04 不適用）*/   /* 心願地點（誰的都一樣）永遠不主動約（AA_494 0-1）*/
   /* 今天（day0）可以傳的那幾則 */
+  /* 送出的那一天別的事件包說不傳（SEND_BLOCK.push(fn)，fn(G,id,day0)→true＝這一天不傳她的；例：AA_667 2-1 日本路線 8/5 回來那天子晴的一般邀約延到 8/6 以後，src/aa667_3d.js）*/
+  S.SEND_BLOCK=[];
+  S.sendBlocked=(G,id,day0)=>S.SEND_BLOCK.some(f=>{ try{ return !!f(G,id,day0); }catch(e){ console.warn('HASK.SEND_BLOCK',e); return false; } });
   S.candidates=function(G,day0,redo){ const out=[], R=S.rec(G), W=wishLocs(), now=abs(G.day,G.hour%24);   /* redo＝{id,k}：改天的那一次不看「多久約一次」*/
     if(typeof TERMEND!=='undefined'&&TERMEND.window&&TERMEND.window(Object.assign({},G,{day:day0}))) return out;   /* 心意邀約的窗口裡：傳的那一天也不傳（約的那一天在 S.block 擋）*/
     if(S.cny(day0)) return out;   /* AA_532 第 1 節：除夕前一天～初三，送出的那一天也不落在這幾天 */
-    for(const id of ((typeof DATE!=='undefined'&&DATE.HEROINES)||[])){ const p=P(id); if(!p) continue; if(typeof STORY!=='undefined'&&STORY.knows&&!STORY.knows(id,G)) continue;   /* 還沒認識不約你（BUG-YT-MET-1107：語彤還沒在一盞認識就傳「明天下午我在總圖寫報告…」；STORY.knows 語彤看 YT_MET_JOB；使用者 11-07 選「舊存檔照留」＝舊存檔照舊算認識）*/ const dat=dating(G,id), sn=S.stage(G,id), s=R.st[id]||{};
+    for(const id of ((typeof DATE!=='undefined'&&DATE.HEROINES)||[])){ const p=P(id); if(!p) continue; if(typeof STORY!=='undefined'&&STORY.knows&&!STORY.knows(id,G)) continue; if(S.sendBlocked(G,id,day0)) continue;   /* 還沒認識不約你（BUG-YT-MET-1107：語彤還沒在一盞認識就傳「明天下午我在總圖寫報告…」；STORY.knows 語彤看 YT_MET_JOB；使用者 11-07 選「舊存檔照留」＝舊存檔照舊算認識）*/ const dat=dating(G,id), sn=S.stage(G,id), s=R.st[id]||{};
       if(!dat&&sn<3) continue;
       if(redo&&redo.id!==id) continue; const rd=k=>!!redo&&redo.k===k;
       if(day0-S.lastMet(G,id)<(dat?3:5)) continue;

@@ -177,7 +177,7 @@ const FEST=(function(){
     const dt=dating(G,c.id), video=c.mode==='video', L=c.lines||(video?(cell.vid&&cell.vid.lines):S.cellLines(cell,S.ver(G,c.id,c.k))); if(!L) return false;   /* c.lines：換掉開頭那幾句（AA_204 1-4 群戲以後那一段，S.grpAfter）*/
     R.done[key]=video?'video':'meet';   /* 先記：演到一半出錯也不會每次重來 */
     const head=c.scene!==undefined?[c.bg!==undefined?{scene:c.scene,bg:c.bg}:{scene:c.scene}]:[];
-    await runLines(head.concat(L),c.id);
+    await runLines(head.concat(S.headOf(G,c),L),c.id);
     if(c.no&&((G.flags||{})[c.no.flag]===c.no.is)){ R.done[key]='declined'; return 'declined'; }   /* AA_204 1-4 語彤「今天不行。」：這一場結束——不給節日好感、不記節日記憶、不送禮（不扣分）；done 記著，不再重排 */
     S.reward(G,c.id,c.k,c.y,video?'video':(dt?'dt':'s6'));
     if((c.k==='bday'||c.k==='xmas')&&!video) await S.gift(GM,c.id,c.k,c.y);
@@ -259,6 +259,10 @@ const FEST=(function(){
 
   /* ---------------- 1-4 ②她約（只有交往中、不是生日）---------------- */
   S.HER_K=['vday','white','qixi','xmas'];
+  /* 別的事件包加的（AA_667 第 3 節，src/aa667_3d.js）：ASK_PRE＝fn(G,f)→她約的訊息前面多的幾句（字串）；HEAD＝fn(G,c)→那一場開頭（地點字幕後面）多的幾行（EVENTS 的行）。沒有＝照舊 */
+  S.ASK_PRE=[]; S.HEAD=[];
+  S.askPre=function(G,f){ let out=[]; for(const fn of S.ASK_PRE){ try{ const r=fn(G,f); if(Array.isArray(r)) out=out.concat(r); }catch(e){ console.warn('FEST.ASK_PRE',e); } } return out; };
+  S.headOf=function(G,c){ let out=[]; for(const fn of S.HEAD){ try{ const r=fn(G,c); if(Array.isArray(r)) out=out.concat(r); }catch(e){ console.warn('FEST.HEAD',e); } } return out; };
   S.herLines=function(id,k,home,city){ const A=(X.PEOPLE[id]||{}).ask||{}, hb=home&&A.homeBy?A.homeBy[k]:null, HB=Array.isArray(hb)?hb:(hb&&hb[city]); if(Array.isArray(HB)) return HB.slice();   /* AA_457 第 3 節：沛珊回家的時候照節日、照城市換（homeBy[節日][城市]；d809cdd21：情人節、七夕台中，三月十四、聖誕台南）；沒寫的照原本 */
     if(A.by&&Array.isArray(A.by[k])&&!(home&&A.homeLines)) return A.by[k].slice();   /* AA_445 1-2：芷若、語彤、子晴、學姊、可昕照節日換整組（by.vday／white／qixi／bday／xmas）；以安 AA_460 4-2 起也有（沒有生日那一列；沛珊在臺北那張當作沒有：AA_460 第 9 節）*/
     const L=(home&&A.homeLines)||A.lines||[]; return L.map((t,i)=>i===0&&k!=='vday'?String(t).replace('情人節',S.name(k)):t); };   /* 沒有 by 的：第一句照節日換（沛珊在臺北、以安的生日）*/
@@ -270,7 +274,7 @@ const FEST=(function(){
           const home=!!W&&W.mode==='home'&&!!A.homeLines&&!!S.cellLines(S.cell(id,k),'dt'), here=!!W&&W.mode==='taipei'&&!W.fixed;
           const busy=S.bookedWith(G,id,d)||(G.invites||[]).some(iv=>iv.who===id&&iv.day===d&&liveIv(iv));   /* 玩家已經約她了 */
           const win=home?[0,24]:[A.h-0.25,A.h+2], ok=(home||here)&&!busy&&contact(G,id,a)&&S.slotOk(G,d,home?'day':(S.slotOf(A.h)||'eve'),id,win).ok;
-          if(ok){ const M=S.herLines(id,k,home,W&&W.city).map(dm(id)); M[M.length-1].ask={id:tag,until:T(d,A.h),opts:[{t:'好。',set:{[fk]:home?'home':'yes'}},{t:'那天不行。',set:{[fk]:'no'},say:(A.no||[]).map(t=>({from:id,text:t}))}]};
+          if(ok){ const M=S.askPre(G,f).concat(S.herLines(id,k,home,W&&W.city)).map(dm(id)); M[M.length-1].ask={id:tag,until:T(d,A.h),opts:[{t:'好。',set:{[fk]:home?'home':'yes'}},{t:'那天不行。',set:{[fk]:'no'},say:(A.no||[]).map(t=>({from:id,text:t}))}]};
             PHONE.at(G,a,21,M,tag); } }
         if((F[fk]==='yes'||F[fk]==='home')&&now(G)<T(d,A.h+0.25)&&!(typeof OUT!=='undefined'&&OUT.get(G,outId(f)))){ const c=S.cell(id,k)||{}, W=S.where(G,id,k,y,d)||{};
           if(F[fk]==='home') S.planDrive(G,f,{city:W.city||((X.PEOPLE[id].home||{}).city)});

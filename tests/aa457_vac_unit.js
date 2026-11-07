@@ -35,6 +35,7 @@ const X1=monTab(FIX507_UK.reduce((x,[a,b])=>x.split(a).join(b),part('### 1-1','#
 const N=o=>Object.values(o).reduce((a,L)=>a+L.length,0);
 const YA=[], YB=[]; let Y5=''; for(const r of rows(part('## 2.','## 3.'))){ if(/^[1-4]$/.test(r[0])){ YA[+r[0]-1]=orig(r[1]); YB[+r[0]-1]=orig(r[2]); } if(/^5/.test(r[0])) Y5=r[1]+'|'+r[2]; }
 const FK={情人節:'vday',三月十四:'white',七夕:'qixi',她的生日:'bday',聖誕:'xmas'}, X3={}; for(const r of rows(part('## 3.','## 3-1.'))) if(FK[r[0]]) X3[FK[r[0]]]=r[1];   /* 第 3 節的表（3-1 節的表多一欄「她在哪」，另外讀）*/
+const X3_DOC=Object.assign({},X3); if(X3.xmas) X3.xmas=X3.xmas.replace('你要下來嗎？……不用勉強。','你要下來嗎？');   /* AA_667 第 3 節 3-5（企劃線 090981ebe，AA-C 11-04）：聖誕那句拿掉「……不用勉強。」（所有路線；tests/aa667_vacgap2_unit.js）——稿上原本的字留在 X3_DOC */
 const inDoc=t=>doc.indexOf(t)>=0;
 const OLD3='明天你要下來嗎？……不用勉強。';
 const TC3={vday:'明天情人節。……你要下來台中嗎？不用勉強。',qixi:'明天七夕。台中的夜市很熱鬧，你要下來嗎？……不用勉強。'};   /* 3-1 節①：情人節、七夕她在台中老家；三月十四、聖誕在台南照第 3 節；「做十六歲」、生日那句拿掉 */
@@ -46,7 +47,7 @@ const ORIG10=()=>((MSG_POOL.people[ZR]||{}).replies||[]).filter(e=>e.variant==='
 /* ---- 0 ---- */
 await sec(0,()=>{
   check('0. 讀得到稿、檔都載得到（MSG、CRACKTALK、FEST）',!!doc&&!loadErr.length&&typeof MSG!=='undefined'&&typeof CRACKTALK!=='undefined'&&typeof FEST!=='undefined',J(loadErr));
-  check('0. 稿裡四張表都讀得到（1-1 六個月 12 句、1-2 十二個月 30 句、第 2 節四組＋「5 以後：從 2 再輪」、第 3 節五個節日）',Object.keys(X1).length===6&&N(X1)===12&&Object.keys(X2).length===12&&N(X2)===30&&YA.length===4&&YB.length===4&&YA[0]==='今天茶屋到五點。'&&YB[0]==='明天回淡水。我媽叫我回去吃飯。'&&/從 2 再輪.*從 2 再輪/.test(Y5)&&Object.keys(X3).length===5&&doc.indexOf(OLD3)>=0,
+  check('0. 稿裡四張表都讀得到（1-1 六個月 12 句、1-2 十二個月 30 句、第 2 節四組＋「5 以後：從 2 再輪」、第 3 節五個節日）',Object.keys(X1).length===6&&N(X1)===12&&Object.keys(X2).length===12&&N(X2)===30&&YA.length===4&&YB.length===4&&YA[0]==='今天茶屋到五點。'&&YB[0]==='明天回淡水。我媽叫我回去吃飯。'&&/從 2 再輪.*從 2 再輪/.test(Y5)&&Object.keys(X3).length===5&&doc.indexOf(OLD3)>=0&&doc.indexOf(X3_DOC.xmas)>=0&&X3_DOC.xmas!==X3.xmas,
     J({X1:N(X1),X2:N(X2),YA,YB,Y5,X3}));
   const U=MSG.UK_WEEK||{}, eq=(a,b)=>J(Object.keys(a||{}).sort())===J(Object.keys(b).sort())&&Object.keys(b).every(m=>J((a||{})[m])===J(b[m]));
   check('0. MSG.UK_WEEK 照稿：第一次在英國 = 1-1 的表、第二次 = 1-2 的表（照月份、照表的順序，一字不差；「／」＝照片和那一句分兩則）',eq(U[1],X1)&&eq(U[2],X2),J(U));

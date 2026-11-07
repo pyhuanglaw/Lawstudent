@@ -356,6 +356,9 @@ const CRACKTALK=(function(){
 
   /* ---------- 1-6 子晴（2028-07-10 曼谷回來起在工作室上班；AA_508 0-2 第 4 點，原本 2028-06-01）---------- */
   S.zqWork=(G,d)=>{ const a=D('2028-07-10'); if(a==null||(d==null?G.day:d)<a) return false; const p=pres(ZQ,d==null?G:Object.assign({},G,{day:d})); return p.kind==='taipei'||!!p.here; };
+  /* ② 那一天不傳（ZQ2_SKIP.push(fn)，fn(G,臺灣的那一天)→true）：AA_667 3-2 美國路線 8/2 出發那天她傳的是「你現在在哪」那三則（src/aa667_3d.js）*/
+  S.ZQ2_SKIP=[];
+  S.zq2Skip=(G,d)=>S.ZQ2_SKIP.some(f=>{ try{ return !!f(G,d); }catch(e){ console.warn('CRACKTALK.ZQ2_SKIP',e); return false; } });
   S.zq=function(G){ const R=sub(S.src(G),'zq'), d=G.day, h=hh(G);
     /* ① 大四上第 8～12 週，約好的平日晚上（約人系統 INV 的約、校外約會 DATE 的預約）：那天 17:30「又要加班 對不起」、行程取消；同一個自然月第三次多一則、+1（避不掉）*/
     if(dating(G,ZQ)&&S.zqWork(G)){ const C=[];
@@ -369,7 +372,7 @@ const CRACKTALK=(function(){
     /* AA_531 3-2：祐廷人在美國＝照她那邊（臺灣）的時間（每個月第一個週三 23:30＝美東中午前後）、第二個選項換國外版「我這邊中午。開視訊陪妳？」（數值照原本的第二個選項）；
        人在日本不傳（「要我過去陪妳加班嗎？」過不去、「我這邊中午」對不上；稿只寫美國）*/
     const zab=abroad(G), zus=zab&&typeof STORY.routeAbroadRoute==='function'&&STORY.routeAbroadRoute(G)==='US', ztn=twNow(G), zd=zab?Math.floor(ztn/24+1e-9):d, zh=zab?ztn-zd*24:h;
-    if(dating(G,ZQ)&&(!zab||zus)&&S.zqWork(G,zd)&&wdOf(zd)===3&&CALENDAR.dateOf(zd).d<=7&&zh>=23.5){ const S1=sub(R,'sent2'), m=monthOf(zd); if(!S1[m]){ const M2=X2.zq2.msgs, k=Object.keys(S1).length, vi=Array.isArray(M2[0])?k%M2.length:0, mg=Array.isArray(M2[0])?M2[vi]:M2, O0=(X2.zq2.optsBy&&X2.zq2.optsBy[vi])||X2.zq2.opts, O=zus&&X2.zq2.abroadOpt?[O0[0],X2.zq2.abroadOpt]:O0, c=zab?toGame(G,zd,23.5):{day:d,h:23.5}; S1[m]=c.day; S.sendAsk(G,ZQ,c.day,c.h,mg,'ct_zq2_'+m,opt3(ZQ,O),T(c.day,c.h)+24); } }   /* 她回的照那一組換（AA_464 第 3 節；會不會加裂縫照 opts）*/   /* 開頭兩則照第幾個月輪流（AA_456 1-6）：已經收過幾個月（sent2 的筆數，舊存檔照算）→ 第 k%4 組；tag 照舊 ct_zq2_<年-月> */
+    if(dating(G,ZQ)&&(!zab||zus)&&S.zqWork(G,zd)&&!S.zq2Skip(G,zd)&&wdOf(zd)===3&&CALENDAR.dateOf(zd).d<=7&&zh>=23.5){ const S1=sub(R,'sent2'), m=monthOf(zd); if(!S1[m]){ const M2=X2.zq2.msgs, k=Object.keys(S1).length, vi=Array.isArray(M2[0])?k%M2.length:0, mg=Array.isArray(M2[0])?M2[vi]:M2, O0=(X2.zq2.optsBy&&X2.zq2.optsBy[vi])||X2.zq2.opts, O=zus&&X2.zq2.abroadOpt?[O0[0],X2.zq2.abroadOpt]:O0, c=zab?toGame(G,zd,23.5):{day:d,h:23.5}; S1[m]=c.day; S.sendAsk(G,ZQ,c.day,c.h,mg,'ct_zq2_'+m,opt3(ZQ,O),T(c.day,c.h)+24); } }   /* 她回的照那一組換（AA_464 第 3 節；會不會加裂縫照 opts）*/   /* 開頭兩則照第幾個月輪流（AA_456 1-6）：已經收過幾個月（sent2 的筆數，舊存檔照算）→ 第 k%4 組；tag 照舊 ct_zq2_<年-月> */
     for(const m of Object.keys(R.sent2||{})){ const P=sub(R,'done2'); if(P[m]) continue; const a=ansOf('ct_zq2_'+m); if(a==null) continue; P[m]=true; if(X2.zq2.opts[a]&&X2.zq2.opts[a][2]) S.add(G,ZQ); } };
   /* ③ 等她下班：手機私訊選「我去妳公司樓下等妳」（MSG 的話題；她上班以後、交往中、平日 19:00～21:30）→ 2D 短場景、1 小時；30 天內第三次＝+1 */
   S.zq3On=G=>law(G)&&dating(G,ZQ)&&S.zqWork(G)&&!abroad(G)&&wdOf(G.day)>=1&&wdOf(G.day)<=5&&hh(G)>=19&&hh(G)<21.5;
