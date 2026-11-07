@@ -40,7 +40,7 @@ const B=(id,n)=>HEROINE_ARCS.people[id].beats[n-1];
   /* 4 講自己的事、toldAlt */
   { const G=fresh('2025-10-15',14,'cafe'); stageOf[AN]=1; H.said=[]; const a=ARCS.pick(G,AN,{kind:'cafe'}); const k=a.opts.findIndex(o=>o.tell); H.picks=[k];
     const r0=Object.assign({},SOCIAL.rel(AN)); await ARCS.run(GM,who,AN,a); const o=a.opts[k], r1=SOCIAL.rel(AN);
-    check('4. 選了講自己的事（'+o.tell+'）：記 YT_TOLD、記答案 mem、她的回話照播、好感照稿',ARCS.told(G,o.tell,AN)&&ARCS.rec(G,AN).ans[o.mem]&&(!o.reply.length||said().includes(o.reply[0]))&&Object.keys(o.rel).filter(x=>x!=='npcRom').every(x=>((r1[x]||0)-(r0[x]||0))===o.rel[x]),J({told:G.flags.YT_TOLD,ans:ARCS.rec(G,AN).ans,said:said()}));
+    check('4. 選了講自己的事（'+o.tell+'）：記 YT_TOLD、記答案 mem、她的回話照播、好感照稿',ARCS.told(G,o.tell,AN)&&ARCS.rec(G,AN).ans[o.ansId]&&(!o.reply.length||said().includes(o.reply[0]))&&Object.keys(o.rel).filter(x=>x!=='npcRom').every(x=>((r1[x]||0)-(r0[x]||0))===o.rel[x]),J({told:G.flags.YT_TOLD,ans:ARCS.rec(G,AN).ans,said:said()}));
     check('4. 她的話依序：lines → ask → 回話',said().indexOf(a.lines[0])<said().indexOf(a.ask[0])&&(!o.reply.length||said().indexOf(a.ask[0])<said().indexOf(o.reply[0])),J(said()));
     /* toldAlt：找一個有 toldAlt 的選項，那件事先講過 */
     let hit=null; for(const [id,v] of Object.entries(HEROINE_ARCS.people)) for(const b of v.beats) for(const q of b.opts) if(q.toldAlt&&!hit) hit={id,b,q};

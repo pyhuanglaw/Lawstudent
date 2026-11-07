@@ -4821,6 +4821,15 @@
    "task": "GYM-FIT-1107",
    "kind": "json",
    "note": "gym_fitness、gym_pool × 七位（acc、firstAt、sport during／end、學姊 beforeLearn）＋shared.sport；tools/story/import_sport_invites.py → src/data/sport_invite_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_717_rot_life.json",
+   "sha": "578ba675e",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:11「交付 BB_305 第 5、6 節」）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "七位輪換句 15～19 則（when／beat／if／life／lifeMax／from／until／alt）＋life 7～12 階；tools/story/import_arc_rot.py → src/data/arc_rot.js"
   }
  ]
 }

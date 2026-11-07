@@ -30,7 +30,7 @@ const HEROINE_ARCS={
         "半夜……一個人？",
         "（她想了一下，好像在想那是什麼樣子。）"
        ],
-       "mem": "PL_RETAKE_NIGHT",
+       "ansId": "PL_RETAKE_NIGHT",
        "tell": "retake"
       },
       {
@@ -41,7 +41,7 @@ const HEROINE_ARCS={
        "reply": [
         "那我們很像。……這樣好像不太好。"
        ],
-       "mem": "PL_RULE"
+       "ansId": "PL_RULE"
       },
       {
        "t": "現在。我本來應該在讀書。",
@@ -53,7 +53,7 @@ const HEROINE_ARCS={
         "……那你現在回去讀。",
         "（她說完，沒有讓你走。）"
        ],
-       "mem": "PL_NOW"
+       "ansId": "PL_NOW"
       }
      ],
      "cite": {
@@ -87,7 +87,7 @@ const HEROINE_ARCS={
        "reply": [
         "一個人吃遍……哪一間最好吃？我要寫下來。"
        ],
-       "mem": "PL_ECON_SOLO",
+       "ansId": "PL_ECON_SOLO",
        "tell": "econ"
       },
       {
@@ -98,7 +98,7 @@ const HEROINE_ARCS={
        "reply": [
         "那我們兩個都進不去了。"
        ],
-       "mem": "PL_NEED_REASON"
+       "ansId": "PL_NEED_REASON"
       },
       {
        "t": "想去就是理由。",
@@ -110,7 +110,7 @@ const HEROINE_ARCS={
         "想去就是理由。",
         "（她把這幾個字唸了一遍，好像要記住。）"
        ],
-       "mem": "PL_WANT"
+       "ansId": "PL_WANT"
       }
      ],
      "cite": {
@@ -144,7 +144,7 @@ const HEROINE_ARCS={
         "照計畫排……我現在就是這樣。",
         "你有興趣的，是哪一門？"
        ],
-       "mem": "PL_ECON_PICK",
+       "ansId": "PL_ECON_PICK",
        "tell": "retake"
       },
       {
@@ -157,7 +157,7 @@ const HEROINE_ARCS={
         "你也不知道？",
         "（她把選課單上的一格擦掉，寫了一個問號。）"
        ],
-       "mem": "PL_UNSURE"
+       "ansId": "PL_UNSURE"
       },
       {
        "t": "看妳選什麼。",
@@ -169,7 +169,7 @@ const HEROINE_ARCS={
         "那你會選到很無聊的課。",
         "而且是報告很多的那種。"
        ],
-       "mem": "PL_FOLLOW"
+       "ansId": "PL_FOLLOW"
       }
      ],
      "cite": {
@@ -200,7 +200,7 @@ const HEROINE_ARCS={
        "reply": [
         "那跟我媽現在一樣了。"
        ],
-       "mem": "PL_MOM_EAT",
+       "ansId": "PL_MOM_EAT",
        "tell": "mom"
       },
       {
@@ -212,7 +212,7 @@ const HEROINE_ARCS={
         "記帳……那你小時候是不是也要記零用錢？",
         "……我也是。"
        ],
-       "mem": "PL_MOM_BOOK",
+       "ansId": "PL_MOM_BOOK",
        "tell": "mom"
       },
       {
@@ -225,7 +225,7 @@ const HEROINE_ARCS={
         "你放假要回去。",
         "這句是我自己想說的。"
        ],
-       "mem": "PL_MOM_ALONE",
+       "ansId": "PL_MOM_ALONE",
        "tell": "dad"
       }
      ],
@@ -269,7 +269,7 @@ const HEROINE_ARCS={
         "你也躲過？",
         "那我們躲的原因一樣。"
        ],
-       "mem": "PL_RETAKE_HIDE",
+       "ansId": "PL_RETAKE_HIDE",
        "tell": "retake"
       },
       {
@@ -282,7 +282,7 @@ const HEROINE_ARCS={
         "喜歡。",
         "我從來沒有想過，我是喜歡。"
        ],
-       "mem": "PL_LIKE"
+       "ansId": "PL_LIKE"
       },
       {
        "t": "我週末也在讀。所以我不會說。",
@@ -294,7 +294,7 @@ const HEROINE_ARCS={
         "那我們兩個都說謊。",
         "……好。這樣比較公平。"
        ],
-       "mem": "PL_SECRET"
+       "ansId": "PL_SECRET"
       }
      ],
      "cite": {
@@ -325,7 +325,7 @@ const HEROINE_ARCS={
         "那你現在覺得呢？",
         "（你說現在比較不怕了。她低頭看著桌面，很久沒有說話。）"
        ],
-       "mem": "PL_SWITCH_FEAR",
+       "ansId": "PL_SWITCH_FEAR",
        "tell": "econ"
       },
       {
@@ -336,7 +336,7 @@ const HEROINE_ARCS={
        "reply": [
         "想很久。嗯，我也是那種人。"
        ],
-       "mem": "PL_SWITCH_SURE",
+       "ansId": "PL_SWITCH_SURE",
        "tell": "econ"
       },
       {
@@ -350,7 +350,7 @@ const HEROINE_ARCS={
         "（她安靜了很久。）",
         "不想待的地方……我好像沒有想過，我有沒有那種地方。"
        ],
-       "mem": "PL_SWITCH_STAY",
+       "ansId": "PL_SWITCH_STAY",
        "tell": "econ"
       }
      ],
@@ -384,7 +384,7 @@ const HEROINE_ARCS={
         "（你說怕看到她很忙。以安想了一下。）",
         "那你就在門口等她，像你等我一樣。"
        ],
-       "mem": "PL_SISTER",
+       "ansId": "PL_SISTER",
        "tell": "sister"
       },
       {
@@ -396,7 +396,7 @@ const HEROINE_ARCS={
         "（她很認真地拿手機查了一下。）",
         "他們有新手教學。週三晚上。你沒有理由了。"
        ],
-       "mem": "PL_GYM"
+       "ansId": "PL_GYM"
       },
       {
        "t": "沒有。我膽子很大。",
@@ -406,7 +406,7 @@ const HEROINE_ARCS={
        "reply": [
         "騙人。你剛剛停了兩秒才回答。"
        ],
-       "mem": "PL_BRAVE"
+       "ansId": "PL_BRAVE"
       }
      ],
      "after": "flag:AN_STUDY_SHOP",
@@ -442,7 +442,7 @@ const HEROINE_ARCS={
         "你這句沒有根據。",
         "……可是我想相信。"
        ],
-       "mem": "PL_TRUST_HER"
+       "ansId": "PL_TRUST_HER"
       },
       {
        "t": "選錯也可以再改。我就改過一次。",
@@ -454,7 +454,7 @@ const HEROINE_ARCS={
         "你說得很輕鬆。",
         "可是你真的改過。所以你說的，我信。"
        ],
-       "mem": "PL_CAN_CHANGE",
+       "ansId": "PL_CAN_CHANGE",
        "tell": "econ"
       },
       {
@@ -468,7 +468,7 @@ const HEROINE_ARCS={
         "好。",
         "你說的喔。"
        ],
-       "mem": "PL_THINK_TOGETHER"
+       "ansId": "PL_THINK_TOGETHER"
       }
      ],
      "from": "Y3S1W1",
@@ -505,7 +505,7 @@ const HEROINE_ARCS={
         "那句話後來怎麼說的？",
         "（你說就直接說了。她在筆記本角落寫了「直接」兩個字。）"
        ],
-       "mem": "PL_TELL_MOM",
+       "ansId": "PL_TELL_MOM",
        "tell": "retake"
       },
       {
@@ -516,7 +516,7 @@ const HEROINE_ARCS={
        "reply": [
         "真好。那你下次幫我翻一句。"
        ],
-       "mem": "PL_CLEAR"
+       "ansId": "PL_CLEAR"
       },
       {
        "t": "有。可是說出來會很丟臉。",
@@ -527,7 +527,7 @@ const HEROINE_ARCS={
        "reply": [
         "那你下次丟臉的時候，跟我說。我想聽。"
        ],
-       "mem": "PL_SHY"
+       "ansId": "PL_SHY"
       }
      ],
      "cite": {
@@ -559,7 +559,7 @@ const HEROINE_ARCS={
         "你姊姊是編輯？",
         "……她一定也會看那三秒。我想認識她。"
        ],
-       "mem": "PL_SIS_EDITOR",
+       "ansId": "PL_SIS_EDITOR",
        "tell": "sister"
       },
       {
@@ -571,7 +571,7 @@ const HEROINE_ARCS={
         "表情。",
         "導演常常給一個人三秒鐘，什麼都不說。……我最近一直在看那三秒。"
        ],
-       "mem": "PL_FACE"
+       "ansId": "PL_FACE"
       },
       {
        "t": "妳畫的那些，可以給我看嗎？",
@@ -583,7 +583,7 @@ const HEROINE_ARCS={
         "（她猶豫了很久，把筆記本翻到最後一頁，推過來一半。）",
         "不要笑。鏡頭的線畫歪了。"
        ],
-       "mem": "PL_SEE_SKETCH"
+       "ansId": "PL_SEE_SKETCH"
       }
      ],
      "cite": {
@@ -619,7 +619,7 @@ const HEROINE_ARCS={
         "還是很安靜？",
         "（你沒有馬上回答。她就沒有再問。）"
        ],
-       "mem": "PL_DAD_SH",
+       "ansId": "PL_DAD_SH",
        "tell": "dad"
       },
       {
@@ -631,7 +631,7 @@ const HEROINE_ARCS={
         "報稅季。那她五月一定很累。",
         "你五月要記得打給她。"
        ],
-       "mem": "PL_MOM_TAX",
+       "ansId": "PL_MOM_TAX",
        "tell": "mom"
       },
       {
@@ -642,7 +642,7 @@ const HEROINE_ARCS={
        "reply": [
         "那你今天晚上問問看。十點以後，媽媽都比較願意講。"
        ],
-       "mem": "PL_DONT_ASK"
+       "ansId": "PL_DONT_ASK"
       }
      ],
      "cite": {
@@ -677,7 +677,7 @@ const HEROINE_ARCS={
         "你那時候怎麼撐過去的？",
         "（你說每天就讀，不去想別人。她小聲重複了一次「不去想別人」。）"
        ],
-       "mem": "PL_RETAKE_CRAZY",
+       "ansId": "PL_RETAKE_CRAZY",
        "tell": "retake"
       },
       {
@@ -689,7 +689,7 @@ const HEROINE_ARCS={
         "想清楚以後呢？",
         "……我也想清楚了。只是還沒說出來。"
        ],
-       "mem": "PL_THINK"
+       "ansId": "PL_THINK"
       },
       {
        "t": "妳想念電影？",
@@ -701,7 +701,7 @@ const HEROINE_ARCS={
         "（她愣了一下，然後很小聲地說：）",
         "被你猜到了。"
        ],
-       "mem": "PL_ASK_FILM"
+       "ansId": "PL_ASK_FILM"
       }
      ],
      "cite": {
@@ -734,7 +734,7 @@ const HEROINE_ARCS={
         "（你說寫了「不要怕重考」。她看著你，很久才說：）",
         "那封信有寄到。"
        ],
-       "mem": "PL_LETTER_SELF",
+       "ansId": "PL_LETTER_SELF",
        "tell": "retake"
       },
       {
@@ -745,7 +745,7 @@ const HEROINE_ARCS={
        "reply": [
         "嗯。可是寫的人看得到。"
        ],
-       "mem": "PL_NO_LETTER"
+       "ansId": "PL_NO_LETTER"
       },
       {
        "t": "妳還好嗎？",
@@ -757,7 +757,7 @@ const HEROINE_ARCS={
         "還好。",
         "只是今天，想跟一個人說。"
        ],
-       "mem": "PL_ASK_OK"
+       "ansId": "PL_ASK_OK"
       }
      ],
      "cite": {
@@ -787,7 +787,7 @@ const HEROINE_ARCS={
        "reply": [
         "實話。我最怕的就是實話。"
        ],
-       "mem": "PL_TELL_TRUTH"
+       "ansId": "PL_TELL_TRUTH"
       },
       {
        "t": "可以申請獎學金。我陪妳查。",
@@ -800,7 +800,7 @@ const HEROINE_ARCS={
         "你要陪我查？那很多英文喔。",
         "……好。那就一起查。"
        ],
-       "mem": "PL_SCHOLAR"
+       "ansId": "PL_SCHOLAR"
       },
       {
        "t": "我家也是我媽一個人撐。我懂那種不敢開口。",
@@ -813,7 +813,7 @@ const HEROINE_ARCS={
         "（她看著你。）",
         "那我們都要學開口。你先。"
        ],
-       "mem": "PL_SAME_MOM",
+       "ansId": "PL_SAME_MOM",
        "tell": "mom"
       }
      ],
@@ -848,7 +848,7 @@ const HEROINE_ARCS={
        "reply": [
         "這個好。他們會知道我很慢，可是很認真。"
        ],
-       "mem": "PL_POEM"
+       "ansId": "PL_POEM"
       },
       {
        "t": "寫妳家的影印店。",
@@ -860,7 +860,7 @@ const HEROINE_ARCS={
         "影印店……一張紙，印很多份。",
         "我想做的就是這個。把一個東西，給很多人看。"
        ],
-       "mem": "PL_SHOP"
+       "ansId": "PL_SHOP"
       },
       {
        "t": "寫妳為什麼想做電影。像我跟我媽說要重考那樣，直接說。",
@@ -872,7 +872,7 @@ const HEROINE_ARCS={
         "直接說……好。",
         "第一句就寫「我想做電影」。"
        ],
-       "mem": "PL_DIRECT",
+       "ansId": "PL_DIRECT",
        "tell": "retake"
       }
      ],
@@ -905,7 +905,7 @@ const HEROINE_ARCS={
         "英國很遠喔。",
         "（她說很遠，可是笑了。）"
        ],
-       "mem": "PL_VISIT"
+       "ansId": "PL_VISIT"
       },
       {
        "t": "我每天十點半打給妳。",
@@ -917,7 +917,7 @@ const HEROINE_ARCS={
         "十點半……英國那時候是下午。",
         "好。下午也可以。"
        ],
-       "mem": "PL_CALL"
+       "ansId": "PL_CALL"
       },
       {
        "t": "我姊在台南，一年見兩次。可是每次見面都像沒分開過。",
@@ -930,7 +930,7 @@ const HEROINE_ARCS={
         "一年兩次……",
         "那如果我去了，我們也可以這樣嗎？"
        ],
-       "mem": "PL_SIS_FAR",
+       "ansId": "PL_SIS_FAR",
        "tell": "sister"
       }
      ],
@@ -971,7 +971,7 @@ const HEROINE_ARCS={
         "那一定很累。",
         "被看的人，會比較會看別人。你應該也很會看。"
        ],
-       "mem": "YT_PL_WATCHED",
+       "ansId": "YT_PL_WATCHED",
        "tell": "retake"
       },
       {
@@ -984,7 +984,7 @@ const HEROINE_ARCS={
         "（你說看到大家都很確定自己要什麼。她想了一下。）",
         "我也看到一樣的。所以我來念社會。"
        ],
-       "mem": "YT_PL_ECON_WATCH",
+       "ansId": "YT_PL_ECON_WATCH",
        "tell": "econ"
       },
       {
@@ -996,7 +996,7 @@ const HEROINE_ARCS={
        "reply": [
         "……你這樣說，我會不知道眼睛要放哪裡。"
        ],
-       "mem": "YT_PL_WATCH_HER"
+       "ansId": "YT_PL_WATCH_HER"
       }
      ],
      "cite": {
@@ -1028,7 +1028,7 @@ const HEROINE_ARCS={
         "從小就想……",
         "我很少遇到從小就知道自己要什麼的人。我有點想知道那是什麼感覺。"
        ],
-       "mem": "YT_PL_ALWAYS_LAW",
+       "ansId": "YT_PL_ALWAYS_LAW",
        "tell": "retake"
       },
       {
@@ -1040,7 +1040,7 @@ const HEROINE_ARCS={
        "reply": [
         "想懂人……那你來對地方了。法律系每天都在處理人的事。"
        ],
-       "mem": "YT_PL_PEOPLE"
+       "ansId": "YT_PL_PEOPLE"
       },
       {
        "t": "我還在找。",
@@ -1050,7 +1050,7 @@ const HEROINE_ARCS={
        "reply": [
         "嗯。我也還在找。"
        ],
-       "mem": "YT_PL_SEARCH"
+       "ansId": "YT_PL_SEARCH"
       }
      ]
     },
@@ -1077,7 +1077,7 @@ const HEROINE_ARCS={
         "一整天……你那時候一定很孤單。",
         "（她說完，把茶杯往你那邊推了一點。）"
        ],
-       "mem": "YT_PL_SCHEDULE",
+       "ansId": "YT_PL_SCHEDULE",
        "tell": "retake"
       },
       {
@@ -1088,7 +1088,7 @@ const HEROINE_ARCS={
        "reply": [
         "心算。那以後跟我去買東西，你算錢。"
        ],
-       "mem": "YT_PL_MATH",
+       "ansId": "YT_PL_MATH",
        "tell": "mom"
       },
       {
@@ -1102,7 +1102,7 @@ const HEROINE_ARCS={
         "（她沒有再問。過了一會兒，她說：）",
         "我也是自己學的。在學校的操場，晚上沒有人的時候。"
        ],
-       "mem": "YT_PL_BIKE",
+       "ansId": "YT_PL_BIKE",
        "tell": "dad"
       }
      ]
@@ -1130,7 +1130,7 @@ const HEROINE_ARCS={
         "你說逃……可是你是往前跑的。",
         "我也想往前跑。不是往外跑。"
        ],
-       "mem": "YT_PL_ESCAPE",
+       "ansId": "YT_PL_ESCAPE",
        "tell": "econ"
       },
       {
@@ -1143,7 +1143,7 @@ const HEROINE_ARCS={
         "找跟逃，看起來很像。",
         "……你看成找，我就比較敢繼續。"
        ],
-       "mem": "YT_PL_FIND"
+       "ansId": "YT_PL_FIND"
       },
       {
        "t": "妳有想過跟妳媽說嗎？",
@@ -1154,7 +1154,7 @@ const HEROINE_ARCS={
         "想過。每天。",
         "可是我說了，她就會來茶屋把我帶回去。"
        ],
-       "mem": "YT_PL_TELL"
+       "ansId": "YT_PL_TELL"
       }
      ],
      "after": "ytCats",
@@ -1187,7 +1187,7 @@ const HEROINE_ARCS={
         "那我們一個學前面，一個學後面。",
         "合起來好像比較完整。"
        ],
-       "mem": "YT_PL_LAWHALF"
+       "ansId": "YT_PL_LAWHALF"
       },
       {
        "t": "我姊是編輯，她說法律書是最難編的。一個字都不能錯。",
@@ -1198,7 +1198,7 @@ const HEROINE_ARCS={
         "一個字都不能錯……那很像在泡茶。",
         "我想試試看讀一本。"
        ],
-       "mem": "YT_PL_SIS_BOOK",
+       "ansId": "YT_PL_SIS_BOOK",
        "tell": "sister"
       },
       {
@@ -1211,7 +1211,7 @@ const HEROINE_ARCS={
         "可以嗎？",
         "我坐最後一排。你不要回頭看我。"
        ],
-       "mem": "YT_PL_AUDIT"
+       "ansId": "YT_PL_AUDIT"
       }
      ],
      "set": "YT_LAW_AUDIT_IDEA"
@@ -1239,7 +1239,7 @@ const HEROINE_ARCS={
         "想清楚就好……",
         "我媽不會說這句。可是我想讓她說。"
        ],
-       "mem": "YT_PL_MOM_OK",
+       "ansId": "YT_PL_MOM_OK",
        "tell": "retake"
       },
       {
@@ -1251,7 +1251,7 @@ const HEROINE_ARCS={
         "你很會替她想。",
         "……我好像都沒有替我媽想過。我只想自己。"
        ],
-       "mem": "YT_PL_MOM_ALONE",
+       "ansId": "YT_PL_MOM_ALONE",
        "tell": "dad"
       },
       {
@@ -1264,7 +1264,7 @@ const HEROINE_ARCS={
         "勇敢……我那時候手在抖。",
         "可是你說勇敢，那就算勇敢。"
        ],
-       "mem": "YT_PL_BRAVE"
+       "ansId": "YT_PL_BRAVE"
       }
      ],
      "after": "ytMomKnows"
@@ -1292,7 +1292,7 @@ const HEROINE_ARCS={
         "櫃台後面……那你也看了很多人。",
         "（她說完，很輕地碰了一下你的手。）"
        ],
-       "mem": "YT_PL_COUNTER",
+       "ansId": "YT_PL_COUNTER",
        "tell": "dad",
        "toldAlt": {
         "t": "五金行的櫃台後面，等我爸收店。"
@@ -1308,7 +1308,7 @@ const HEROINE_ARCS={
         "等自己下課。",
         "這句很好。我想寫下來。"
        ],
-       "mem": "YT_PL_WAIT_SELF",
+       "ansId": "YT_PL_WAIT_SELF",
        "tell": "retake"
       },
       {
@@ -1319,7 +1319,7 @@ const HEROINE_ARCS={
        "reply": [
         "那這次換我等你。週末，淡水捷運站。"
        ],
-       "mem": "YT_PL_NO_WAIT"
+       "ansId": "YT_PL_NO_WAIT"
       }
      ],
      "invite": "淡水（她帶你去看診所那扇窗；週末，淡水捷運站會合）"
@@ -1348,7 +1348,7 @@ const HEROINE_ARCS={
         "（她深呼吸了一下。）",
         "好。那我也要怕著怕著，把它做完。"
        ],
-       "mem": "YT_PL_RETAKE_CHOICE",
+       "ansId": "YT_PL_RETAKE_CHOICE",
        "tell": "mom"
       },
       {
@@ -1360,7 +1360,7 @@ const HEROINE_ARCS={
         "不知道對不對，可是不後悔……",
         "我想要這個。"
        ],
-       "mem": "YT_PL_NO_REGRET",
+       "ansId": "YT_PL_NO_REGRET",
        "tell": "econ"
       },
       {
@@ -1373,7 +1373,7 @@ const HEROINE_ARCS={
         "……你這句很犯規。",
         "（她低頭，耳朵紅了。）"
        ],
-       "mem": "YT_PL_WITH_YOU"
+       "ansId": "YT_PL_WITH_YOU"
       }
      ],
      "from": "Y1S2W1"
@@ -1405,7 +1405,7 @@ const HEROINE_ARCS={
         "陪別人上課……那個人一定很重要。",
         "好，那我少翹一堂。只有一堂。"
        ],
-       "mem": "ZQ_PL_ECON_FAIL",
+       "ansId": "ZQ_PL_ECON_FAIL",
        "tell": "econ"
       },
       {
@@ -1417,7 +1417,7 @@ const HEROINE_ARCS={
         "捨不得浪費……",
         "你這樣說，我有點想去上下一堂了。有點。"
        ],
-       "mem": "ZQ_PL_NOSKIP",
+       "ansId": "ZQ_PL_NOSKIP",
        "tell": "retake"
       },
       {
@@ -1428,7 +1428,7 @@ const HEROINE_ARCS={
        "reply": [
         "這才是正確的翹課方式。"
        ],
-       "mem": "ZQ_PL_SLEEP"
+       "ansId": "ZQ_PL_SLEEP"
       }
      ]
     },
@@ -1455,7 +1455,7 @@ const HEROINE_ARCS={
         "紙箱城堡……",
         "這個可以放進遊戲。貓最喜歡紙箱。"
        ],
-       "mem": "ZQ_PL_BOXES",
+       "ansId": "ZQ_PL_BOXES",
        "tell": "dad"
       },
       {
@@ -1468,7 +1468,7 @@ const HEROINE_ARCS={
         "你有姊姊？她玩什麼？",
         "……那個我也玩過。你姊姊品味很好。"
        ],
-       "mem": "ZQ_PL_SIS_GAME",
+       "ansId": "ZQ_PL_SIS_GAME",
        "tell": "sister"
       },
       {
@@ -1479,7 +1479,7 @@ const HEROINE_ARCS={
        "reply": [
         "那你會是我最好的測試員。不會玩的人，才找得到最多 bug。"
        ],
-       "mem": "ZQ_PL_NOGAME"
+       "ansId": "ZQ_PL_NOGAME"
       }
      ],
      "cite": {
@@ -1511,7 +1511,7 @@ const HEROINE_ARCS={
         "每天？",
         "好，那你陪我。你有經驗。"
        ],
-       "mem": "ZQ_PL_RUN",
+       "ansId": "ZQ_PL_RUN",
        "tell": "retake"
       },
       {
@@ -1522,7 +1522,7 @@ const HEROINE_ARCS={
        "reply": [
         "那我們兩個一起去。一起痛比較不丟臉。"
        ],
-       "mem": "ZQ_PL_SIT"
+       "ansId": "ZQ_PL_SIT"
       },
       {
        "t": "我陪妳去。",
@@ -1534,7 +1534,7 @@ const HEROINE_ARCS={
         "你說的。",
         "下禮拜。你不要放我鴿子。"
        ],
-       "mem": "ZQ_PL_GYM_YES"
+       "ansId": "ZQ_PL_GYM_YES"
       }
      ],
      "set": "ZQ_GYM_IDEA",
@@ -1562,7 +1562,7 @@ const HEROINE_ARCS={
         "一樣的問題……",
         "我爸也是。我覺得他們是同一個人。"
        ],
-       "mem": "ZQ_PL_DAD_SAME",
+       "ansId": "ZQ_PL_DAD_SAME",
        "tell": "dad"
       },
       {
@@ -1575,7 +1575,7 @@ const HEROINE_ARCS={
         "你媽好酷。",
         "……我也想被這樣說。不是被安排。"
        ],
-       "mem": "ZQ_PL_DAD_SURE",
+       "ansId": "ZQ_PL_DAD_SURE",
        "tell": "mom"
       },
       {
@@ -1588,7 +1588,7 @@ const HEROINE_ARCS={
         "（她笑到停不下來。）",
         "老闆是我。……好，我就這樣說。"
        ],
-       "mem": "ZQ_PL_CAT_CO"
+       "ansId": "ZQ_PL_CAT_CO"
       }
      ],
      "quietOk": false,
@@ -1617,7 +1617,7 @@ const HEROINE_ARCS={
         "收進箱子裡……那你隔天為什麼拿出來？",
         "（你說因為箱子太小，放不下那些書。她笑了，這次笑得出來。）"
        ],
-       "mem": "ZQ_PL_BOX",
+       "ansId": "ZQ_PL_BOX",
        "tell": "retake"
       },
       {
@@ -1629,7 +1629,7 @@ const HEROINE_ARCS={
         "說出口……",
         "那我先跟你說：我不放棄。我只是放慢一點。"
        ],
-       "mem": "ZQ_PL_QUIT_OK",
+       "ansId": "ZQ_PL_QUIT_OK",
        "tell": "econ"
       },
       {
@@ -1642,7 +1642,7 @@ const HEROINE_ARCS={
         "你一個人不算。",
         "……好啦，算。"
        ],
-       "mem": "ZQ_PL_I_PLAY"
+       "ansId": "ZQ_PL_I_PLAY"
       }
      ],
      "quietOk": false
@@ -1670,7 +1670,7 @@ const HEROINE_ARCS={
         "看店……那你也沒有週日。",
         "那以後的週日，我們打球。"
        ],
-       "mem": "ZQ_PL_SUNDAY_SHOP",
+       "ansId": "ZQ_PL_SUNDAY_SHOP",
        "tell": "dad",
        "toldAlt": {
         "t": "在我家那間五金行幫忙看店。"
@@ -1685,7 +1685,7 @@ const HEROINE_ARCS={
         "（她笑出來。）",
         "你姊姊一定很疼你，才讓你睡。"
        ],
-       "mem": "ZQ_PL_SIS_BOOK",
+       "ansId": "ZQ_PL_SIS_BOOK",
        "tell": "sister"
       },
       {
@@ -1696,7 +1696,7 @@ const HEROINE_ARCS={
        "reply": [
         "多會？下次比一場。"
        ],
-       "mem": "ZQ_PL_GAMER"
+       "ansId": "ZQ_PL_GAMER"
       }
      ]
     },
@@ -1723,7 +1723,7 @@ const HEROINE_ARCS={
         "……好。我幫你做一間。",
         "鐵門要拉起來的那種。"
        ],
-       "mem": "ZQ_PL_SHOP_OPEN",
+       "ansId": "ZQ_PL_SHOP_OPEN",
        "tell": "dad",
        "toldAlt": {
         "t": "去我家那間五金行。我想看看它還開著的樣子。"
@@ -1738,7 +1738,7 @@ const HEROINE_ARCS={
         "台南太遠了，地圖會很大。",
         "……我會做。慢慢做。"
        ],
-       "mem": "ZQ_PL_TAINAN",
+       "ansId": "ZQ_PL_TAINAN",
        "tell": "sister"
       },
       {
@@ -1751,7 +1751,7 @@ const HEROINE_ARCS={
         "那牠就不是一個人走了。",
         "（她把筆電闔上，好像怕被你看到她在笑。）"
        ],
-       "mem": "ZQ_PL_WITH_CAT"
+       "ansId": "ZQ_PL_WITH_CAT"
       }
      ]
     },
@@ -1778,7 +1778,7 @@ const HEROINE_ARCS={
         "你這個比較有說服力。",
         "好。做完第一關，我會跟你說。"
        ],
-       "mem": "ZQ_PL_CAN",
+       "ansId": "ZQ_PL_CAN",
        "tell": "retake"
       },
       {
@@ -1791,7 +1791,7 @@ const HEROINE_ARCS={
         "想清楚就好……",
         "我想清楚了。"
        ],
-       "mem": "ZQ_PL_MOM_SAY",
+       "ansId": "ZQ_PL_MOM_SAY",
        "tell": "mom"
       },
       {
@@ -1804,7 +1804,7 @@ const HEROINE_ARCS={
         "……酷？",
         "你不要這樣說。我會真的覺得做不到也沒關係。"
        ],
-       "mem": "ZQ_PL_COOL"
+       "ansId": "ZQ_PL_COOL"
       }
      ],
      "from": "Y1S2W8"
@@ -1837,7 +1837,7 @@ const HEROINE_ARCS={
         "最後一排靠窗……",
         "那種位子坐久了，會有感情。我懂。"
        ],
-       "mem": "SIS_PL_SEAT",
+       "ansId": "SIS_PL_SEAT",
        "tell": "retake"
       },
       {
@@ -1850,7 +1850,7 @@ const HEROINE_ARCS={
         "那你慢慢找。",
         "……旁邊這個，可以先借你。"
        ],
-       "mem": "SIS_PL_NOSEAT",
+       "ansId": "SIS_PL_NOSEAT",
        "tell": "econ"
       },
       {
@@ -1863,7 +1863,7 @@ const HEROINE_ARCS={
         "學弟，你很敢講。",
         "（她低頭寫題目，嘴角翹起來。）"
        ],
-       "mem": "SIS_PL_NEXT"
+       "ansId": "SIS_PL_NEXT"
       }
      ],
      "where": "study"
@@ -1891,7 +1891,7 @@ const HEROINE_ARCS={
         "（她笑出來，趕快摀住嘴。）",
         "你可以跟她說，比記帳還多。"
        ],
-       "mem": "SIS_PL_MOM_NUM",
+       "ansId": "SIS_PL_MOM_NUM",
        "tell": "mom"
       },
       {
@@ -1903,7 +1903,7 @@ const HEROINE_ARCS={
         "是真的嗎？",
         "大部分不是。可是你姊姊很可愛。"
        ],
-       "mem": "SIS_PL_SIS_DRAMA",
+       "ansId": "SIS_PL_SIS_DRAMA",
        "tell": "sister"
       },
       {
@@ -1914,7 +1914,7 @@ const HEROINE_ARCS={
        "reply": [
         "有沒有吃飯，是最重要的問題。我奶奶也只問這個。"
        ],
-       "mem": "SIS_PL_DAD_EAT",
+       "ansId": "SIS_PL_DAD_EAT",
        "tell": "dad"
       }
      ]
@@ -1941,7 +1941,7 @@ const HEROINE_ARCS={
         "你很乖。",
         "我週末也應該回家。我奶奶說，我只有吃飯的時候才出現。"
        ],
-       "mem": "SIS_PL_HOME",
+       "ansId": "SIS_PL_HOME",
        "tell": "mom"
       },
       {
@@ -1953,7 +1953,7 @@ const HEROINE_ARCS={
         "一樣。",
         "不知道要做什麼的時候，我就寫考古題。……好像不太健康。"
        ],
-       "mem": "SIS_PL_NOBREAK",
+       "ansId": "SIS_PL_NOBREAK",
        "tell": "retake"
       },
       {
@@ -1966,7 +1966,7 @@ const HEROINE_ARCS={
         "我讀到閉館。",
         "……閉館以後呢？閉館以後可以。"
        ],
-       "mem": "SIS_PL_BIKE"
+       "ansId": "SIS_PL_BIKE"
       }
      ],
      "invite": "閉館以後騎腳踏車（學姊：「閉館以後可以。」）",
@@ -2002,7 +2002,7 @@ const HEROINE_ARCS={
         "（你說箱子裡只有一張紙條，寫著「吃飯」。學姊安靜了一下。）",
         "……我妹也會這樣。"
        ],
-       "mem": "SIS_PL_SISFIGHT",
+       "ansId": "SIS_PL_SISFIGHT",
        "tell": "sister"
       },
       {
@@ -2014,7 +2014,7 @@ const HEROINE_ARCS={
         "很安靜……",
         "我家也會很安靜，如果我妹不吵的話。……我今天回家吃飯。"
        ],
-       "mem": "SIS_PL_QUIET",
+       "ansId": "SIS_PL_QUIET",
        "tell": "sister"
       },
       {
@@ -2027,7 +2027,7 @@ const HEROINE_ARCS={
         "你在幫我找藉口。",
         "……我收下了。"
        ],
-       "mem": "SIS_PL_NOTBAD"
+       "ansId": "SIS_PL_NOTBAD"
       }
      ],
      "alt": {
@@ -2062,7 +2062,7 @@ const HEROINE_ARCS={
         "你家的店……",
         "那你懂我說的。我們都看過店收起來的樣子。"
        ],
-       "mem": "SIS_PL_SHOP",
+       "ansId": "SIS_PL_SHOP",
        "tell": "dad"
       },
       {
@@ -2075,7 +2075,7 @@ const HEROINE_ARCS={
         "每天都在想……",
         "那你想到了，要跟我說。我也還在想。"
        ],
-       "mem": "SIS_PL_HELP",
+       "ansId": "SIS_PL_HELP",
        "tell": "retake"
       },
       {
@@ -2086,7 +2086,7 @@ const HEROINE_ARCS={
        "reply": [
         "那你從今天開始。從那間雜貨店開始也可以。"
        ],
-       "mem": "SIS_PL_NOTYET"
+       "ansId": "SIS_PL_NOTYET"
       }
      ]
     },
@@ -2114,7 +2114,7 @@ const HEROINE_ARCS={
         "（你說有。她從考古題上撕下錯的那一頁，摺成一小塊。）",
         "……好像有。"
        ],
-       "mem": "SIS_PL_TEAR",
+       "ansId": "SIS_PL_TEAR",
        "tell": "retake"
       },
       {
@@ -2127,7 +2127,7 @@ const HEROINE_ARCS={
         "記帳的客人……",
         "你媽講的一定很無聊。我現在好想聽。"
        ],
-       "mem": "SIS_PL_MOM_CALL",
+       "ansId": "SIS_PL_MOM_CALL",
        "tell": "mom"
       },
       {
@@ -2140,7 +2140,7 @@ const HEROINE_ARCS={
         "去冰。",
         "……謝謝你，{name}。"
        ],
-       "mem": "SIS_PL_TEA"
+       "ansId": "SIS_PL_TEA"
       }
      ],
      "until": "2026-03-22",
@@ -2170,7 +2170,7 @@ const HEROINE_ARCS={
         "河堤……",
         "下次我帶棉花糖，你帶腳踏車。"
        ],
-       "mem": "SIS_PL_RIVER",
+       "ansId": "SIS_PL_RIVER",
        "tell": "retake"
       },
       {
@@ -2182,7 +2182,7 @@ const HEROINE_ARCS={
         "你媽煮什麼？",
         "……聽起來很好吃。"
        ],
-       "mem": "SIS_PL_MOM_FOOD",
+       "ansId": "SIS_PL_MOM_FOOD",
        "tell": "mom"
       },
       {
@@ -2195,7 +2195,7 @@ const HEROINE_ARCS={
         "第二支？你會吃不完。",
         "……好。你吃不完，我幫你。"
        ],
-       "mem": "SIS_PL_CANDY"
+       "ansId": "SIS_PL_CANDY"
       }
      ],
      "invite": "河堤或夜市（學姊帶棉花糖）"
@@ -2223,7 +2223,7 @@ const HEROINE_ARCS={
         "她會猜到的。她很煩。",
         "……我不介意她猜到。"
        ],
-       "mem": "SIS_PL_GUESS"
+       "ansId": "SIS_PL_GUESS"
       },
       {
        "t": "我姊以前也這樣問我。我都說是阿哲。",
@@ -2236,7 +2236,7 @@ const HEROINE_ARCS={
         "（她笑出來，笑到要用手撐著桌子。）",
         "好，那我就說是阿哲。"
        ],
-       "mem": "SIS_PL_ZHE",
+       "ansId": "SIS_PL_ZHE",
        "tell": "sister"
       },
       {
@@ -2249,7 +2249,7 @@ const HEROINE_ARCS={
         "你很會。",
         "好。等我想說的時候。"
        ],
-       "mem": "SIS_PL_WAIT"
+       "ansId": "SIS_PL_WAIT"
       }
      ],
      "quietOk": false,
@@ -2290,7 +2290,7 @@ const HEROINE_ARCS={
         "店收的時候，你一定很捨不得吧。",
         "（她說完，馬上笑著說：）不好意思，我問太多了～"
        ],
-       "mem": "PS_PL_SCREWS",
+       "ansId": "PS_PL_SCREWS",
        "tell": "dad"
       },
       {
@@ -2302,7 +2302,7 @@ const HEROINE_ARCS={
         "按計算機～那你算數一定很快。",
         "我們家都用心算。我爸說，找錢慢，客人就跑了。"
        ],
-       "mem": "PS_PL_CALC",
+       "ansId": "PS_PL_CALC",
        "tell": "mom"
       },
       {
@@ -2314,7 +2314,7 @@ const HEROINE_ARCS={
         "那你一定很幸福。",
         "……我也很幸福啦。只是比較早起。"
        ],
-       "mem": "PS_PL_EAT"
+       "ansId": "PS_PL_EAT"
       }
      ]
     },
@@ -2340,7 +2340,7 @@ const HEROINE_ARCS={
         "想辦法改……",
         "你很勇敢耶。我大概只會遵守，然後偷偷不開心。"
        ],
-       "mem": "PS_PL_RULE"
+       "ansId": "PS_PL_RULE"
       },
       {
        "t": "我也不知道。休學那段時間我想過一樣的問題，到現在還不知道。",
@@ -2352,7 +2352,7 @@ const HEROINE_ARCS={
         "你也不知道？太好了～",
         "不是只有我不知道。"
        ],
-       "mem": "PS_PL_DUNNO",
+       "ansId": "PS_PL_DUNNO",
        "tell": "econ"
       },
       {
@@ -2364,7 +2364,7 @@ const HEROINE_ARCS={
         "喔～這個答案好像法律系。",
         "……我是不是不太像法律系的。"
        ],
-       "mem": "PS_PL_WHO"
+       "ansId": "PS_PL_WHO"
       }
      ]
     },
@@ -2391,7 +2391,7 @@ const HEROINE_ARCS={
         "排好……排好以後，就睡得著嗎？",
         "（你說有時候。她小聲說：「我也想試試看。」）"
        ],
-       "mem": "PS_PL_PLAN",
+       "ansId": "PS_PL_PLAN",
        "tell": "retake"
       },
       {
@@ -2404,7 +2404,7 @@ const HEROINE_ARCS={
         "（她停了一下。）",
         "……沒事。我是想說，台南的東西很好吃。"
        ],
-       "mem": "PS_PL_TAINAN",
+       "ansId": "PS_PL_TAINAN",
        "tell": "sister"
       },
       {
@@ -2417,7 +2417,7 @@ const HEROINE_ARCS={
         "……可以嗎？我傳的時候都很晚喔。",
         "好～那我不吵你，只傳一句。"
        ],
-       "mem": "PS_PL_TEXT"
+       "ansId": "PS_PL_TEXT"
       }
      ]
     },
@@ -2444,7 +2444,7 @@ const HEROINE_ARCS={
         "那張收據，你還留著？",
         "（你說留著。她把那張公車票夾回書裡，夾得很小心。）"
        ],
-       "mem": "PS_PL_RECEIPT",
+       "ansId": "PS_PL_RECEIPT",
        "tell": "dad",
        "toldAlt": {
         "t": "五金行最後一天的收據。我爸後來給了我。"
@@ -2460,7 +2460,7 @@ const HEROINE_ARCS={
         "准考證～那就是你的公車票。",
         "去一個很重要的地方的那張。"
        ],
-       "mem": "PS_PL_TICKET",
+       "ansId": "PS_PL_TICKET",
        "tell": "retake"
       },
       {
@@ -2471,7 +2471,7 @@ const HEROINE_ARCS={
        "reply": [
         "那你以後要丟的時候，先給我看一下～我幫你決定。"
        ],
-       "mem": "PS_PL_THROW"
+       "ansId": "PS_PL_THROW"
       }
      ]
     },
@@ -2499,7 +2499,7 @@ const HEROINE_ARCS={
         "……你為什麼突然說這個？",
         "（她看了你很久。這次她沒有揮手。）"
        ],
-       "mem": "PS_PL_SWITCH",
+       "ansId": "PS_PL_SWITCH",
        "tell": "econ"
       },
       {
@@ -2513,7 +2513,7 @@ const HEROINE_ARCS={
         "有那麼明顯嗎～",
         "……被你看到了。"
        ],
-       "mem": "PS_PL_HAPPY"
+       "ansId": "PS_PL_HAPPY"
       },
       {
        "t": "當律師吧。妳也是吧？",
@@ -2524,7 +2524,7 @@ const HEROINE_ARCS={
         "嗯……大家都這樣說。",
         "對啊，當律師。"
        ],
-       "mem": "PS_PL_LAWYER"
+       "ansId": "PS_PL_LAWYER"
       }
      ],
      "cite": {
@@ -2557,7 +2557,7 @@ const HEROINE_ARCS={
         "（她的眼睛亮了一下，又很快低下去。）",
         "……台南很好啊。你應該去。"
        ],
-       "mem": "PS_PL_GO_TAINAN",
+       "ansId": "PS_PL_GO_TAINAN",
        "tell": "sister"
       },
       {
@@ -2569,7 +2569,7 @@ const HEROINE_ARCS={
         "上海～好遠。",
         "你爸爸一定很想讓你看看。"
        ],
-       "mem": "PS_PL_SHANGHAI",
+       "ansId": "PS_PL_SHANGHAI",
        "tell": "dad"
       },
       {
@@ -2582,7 +2582,7 @@ const HEROINE_ARCS={
         "……真的嗎？",
         "好啊！！那我要開始存錢了～"
        ],
-       "mem": "PS_PL_STATION"
+       "ansId": "PS_PL_STATION"
       }
      ],
      "invite": "海邊的小車站（動畫裡的地方；寒暑假一日遊）"
@@ -2610,7 +2610,7 @@ const HEROINE_ARCS={
         "……還好啦。",
         "（她換了一個話題，講課輔班的事。可是她的筆沒有再轉了。）"
        ],
-       "mem": "PS_PL_ASK_HER"
+       "ansId": "PS_PL_ASK_HER"
       },
       {
        "t": "重考那年，我也常說沒事。其實都有事。",
@@ -2623,7 +2623,7 @@ const HEROINE_ARCS={
         "（她安靜了很久。）",
         "那……如果我有事，我會跟你說。可能。"
        ],
-       "mem": "PS_PL_SAME",
+       "ansId": "PS_PL_SAME",
        "tell": "retake"
       },
       {
@@ -2635,7 +2635,7 @@ const HEROINE_ARCS={
         "你媽媽說得對～",
         "我今天回去吃很飽，然後早點睡。"
        ],
-       "mem": "PS_PL_SLEEP",
+       "ansId": "PS_PL_SLEEP",
        "tell": "mom"
       }
      ],
@@ -2664,7 +2664,7 @@ const HEROINE_ARCS={
         "……不可惜。",
         "（她把這幾個字小聲講了一遍，好像要收起來。）"
        ],
-       "mem": "PS_PL_NOTSAD",
+       "ansId": "PS_PL_NOTSAD",
        "tell": "econ"
       },
       {
@@ -2677,7 +2677,7 @@ const HEROINE_ARCS={
         "你這樣說，我會哭。",
         "……我不哭。我們去吃東西。"
        ],
-       "mem": "PS_PL_HAPPY_FIRST"
+       "ansId": "PS_PL_HAPPY_FIRST"
       },
       {
        "t": "妳是說真的嗎？",
@@ -2688,7 +2688,7 @@ const HEROINE_ARCS={
         "（她笑著揮手。）沒有啦，我亂想的～",
         "……亂想的。"
        ],
-       "mem": "PS_PL_REALLY"
+       "ansId": "PS_PL_REALLY"
       }
      ],
      "from": "Y1S2W1",
@@ -2723,7 +2723,7 @@ const HEROINE_ARCS={
         "好，這次算了。下次先跟我說一聲。",
         "（她說算了，可是飲料喝得很用力。）"
        ],
-       "mem": "KX_PL_TAX",
+       "ansId": "KX_PL_TAX",
        "tell": "mom"
       },
       {
@@ -2735,7 +2735,7 @@ const HEROINE_ARCS={
         "睡著了。",
         "……好。我也常睡著。可是我會先說晚安。"
        ],
-       "mem": "KX_PL_SLEPT"
+       "ansId": "KX_PL_SLEPT"
       },
       {
        "t": "我在讀書，手機收起來了。",
@@ -2746,7 +2746,7 @@ const HEROINE_ARCS={
         "收起來以前也可以先講一句。",
         "算了，你讀書很好。我還在生氣，等一下就好。"
        ],
-       "mem": "KX_PL_STUDY"
+       "ansId": "KX_PL_STUDY"
       }
      ],
      "quietOk": false
@@ -2773,7 +2773,7 @@ const HEROINE_ARCS={
         "你姊房間的衣櫃裡，還有她留下來的外套。",
         "我住你家的時候看到的。你姊品味很好，你沒有。"
        ],
-       "mem": "KX_PL_SIS_CLOTHES",
+       "ansId": "KX_PL_SIS_CLOTHES",
        "tell": "sister"
       },
       {
@@ -2786,7 +2786,7 @@ const HEROINE_ARCS={
         "那件灰色的？我記得。",
         "（她皺了一下眉頭。）那件真的很醜。"
        ],
-       "mem": "KX_PL_UNIFORM",
+       "ansId": "KX_PL_UNIFORM",
        "tell": "retake"
       },
       {
@@ -2799,7 +2799,7 @@ const HEROINE_ARCS={
         "我知道。",
         "……可是你這樣說，我今天心情比較好。"
        ],
-       "mem": "KX_PL_PRETTY"
+       "ansId": "KX_PL_PRETTY"
       }
      ]
     },
@@ -2826,7 +2826,7 @@ const HEROINE_ARCS={
         "那時候是你寫錯。",
         "……我會是好律師。你說的。"
        ],
-       "mem": "KX_PL_TEACHER",
+       "ansId": "KX_PL_TEACHER",
        "tell": "retake"
       },
       {
@@ -2839,7 +2839,7 @@ const HEROINE_ARCS={
         "跟你吵架的時候，我會手下留情。",
         "一點點。"
        ],
-       "mem": "KX_PL_GO_EASY"
+       "ansId": "KX_PL_GO_EASY"
       },
       {
        "t": "妳為什麼一定要當律師？",
@@ -2850,7 +2850,7 @@ const HEROINE_ARCS={
         "因為律師可以選要幫誰。",
         "司法官不行。我想自己選。"
        ],
-       "mem": "KX_PL_WHY"
+       "ansId": "KX_PL_WHY"
       }
      ]
     },
@@ -2877,7 +2877,7 @@ const HEROINE_ARCS={
         "那時候我們變得很快。",
         "好，那就繼續變，不要變遠就好。"
        ],
-       "mem": "KX_PL_CHANGE",
+       "ansId": "KX_PL_CHANGE",
        "tell": "econ"
       },
       {
@@ -2890,7 +2890,7 @@ const HEROINE_ARCS={
         "你回答得太快了。",
         "……可是我想聽的就是這個。"
        ],
-       "mem": "KX_PL_NO"
+       "ansId": "KX_PL_NO"
       },
       {
        "t": "我週末去木柵找妳。每週。",
@@ -2902,7 +2902,7 @@ const HEROINE_ARCS={
         "每週？你不要說了做不到。",
         "……好。說到就要做到。"
        ],
-       "mem": "KX_PL_WEEKLY"
+       "ansId": "KX_PL_WEEKLY"
       }
      ],
      "invite": "木柵（週末去找她）"
@@ -2932,7 +2932,7 @@ const HEROINE_ARCS={
         "（她轉過去看窗外，很久才轉回來。）",
         "那一年不浪費。好。"
        ],
-       "mem": "KX_PL_MOM_ASKS",
+       "ansId": "KX_PL_MOM_ASKS",
        "tell": "mom"
       },
       {
@@ -2945,7 +2945,7 @@ const HEROINE_ARCS={
         "你講得好像很簡單。",
         "……可是你說得對。我討厭你說得對。"
        ],
-       "mem": "KX_PL_HERE",
+       "ansId": "KX_PL_HERE",
        "tell": "retake"
       },
       {
@@ -2957,7 +2957,7 @@ const HEROINE_ARCS={
         "我在講的是心情。",
         "……好啦，臉也不老。"
        ],
-       "mem": "KX_PL_NOTOLD"
+       "ansId": "KX_PL_NOTOLD"
       }
      ]
     },
@@ -2983,7 +2983,7 @@ const HEROINE_ARCS={
         "你姊還在幫你買？",
         "好，這次換我幫你挑一件。你姊會感謝我。"
        ],
-       "mem": "KX_PL_SIS_GIFT",
+       "ansId": "KX_PL_SIS_GIFT",
        "tell": "sister"
       },
       {
@@ -2996,7 +2996,7 @@ const HEROINE_ARCS={
         "那件藍色的？",
         "那件不錯。是你媽挑的吧。"
        ],
-       "mem": "KX_PL_BLUE",
+       "ansId": "KX_PL_BLUE",
        "tell": "mom"
       },
       {
@@ -3008,7 +3008,7 @@ const HEROINE_ARCS={
         "我就知道。",
         "這週末，你也要買一件。"
        ],
-       "mem": "KX_PL_FORGOT"
+       "ansId": "KX_PL_FORGOT"
       }
      ],
      "from": "Y2S1W1",
@@ -3038,7 +3038,7 @@ const HEROINE_ARCS={
         "（她看著你，表情慢慢鬆下來。）",
         "我現在就是這樣。"
        ],
-       "mem": "KX_PL_EVERYDAY",
+       "ansId": "KX_PL_EVERYDAY",
        "tell": "retake"
       },
       {
@@ -3051,7 +3051,7 @@ const HEROINE_ARCS={
         "（過了很久，她把頭靠在你肩膀上。）",
         "……五分鐘就好。"
        ],
-       "mem": "KX_PL_SILENT"
+       "ansId": "KX_PL_SILENT"
       },
       {
        "t": "我媽說，被拒絕的那天要吃好吃的。",
@@ -3062,7 +3062,7 @@ const HEROINE_ARCS={
         "你媽說的？",
         "……好。那你請。"
        ],
-       "mem": "KX_PL_EAT",
+       "ansId": "KX_PL_EAT",
        "tell": "mom"
       }
      ],
@@ -3092,7 +3092,7 @@ const HEROINE_ARCS={
         "去年你每天都是滿的，我記得。",
         "今年空出來的，不准給別人。"
        ],
-       "mem": "KX_PL_EMPTY",
+       "ansId": "KX_PL_EMPTY",
        "tell": "retake"
       },
       {
@@ -3105,7 +3105,7 @@ const HEROINE_ARCS={
         "你要換？",
         "……好。我就知道你會換。"
        ],
-       "mem": "KX_PL_SWAP"
+       "ansId": "KX_PL_SWAP"
       },
       {
        "t": "排錯也沒關係，我會出現。",
@@ -3117,7 +3117,7 @@ const HEROINE_ARCS={
         "你出現就好。",
         "不要遲到。"
        ],
-       "mem": "KX_PL_SHOWUP"
+       "ansId": "KX_PL_SHOWUP"
       }
      ]
     }

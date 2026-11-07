@@ -87,7 +87,7 @@ def build(src, sha):
                     raise SystemExit(f'{wo}：沒有 t')
                 q = {'t': IG.read_fix(o['t']), 'rel': rel(o.get('rel'), wo), 'reply': lines(o.get('reply'), wo + '.reply', need=False)}
                 if o.get('mem'):
-                    q['mem'] = o['mem']
+                    q['ansId'] = o['mem']   # 存在 BEATS[id].ans（不是人物面板的記憶，不叫 mem）
                 if o.get('tell'):
                     if o['tell'] not in TELL:
                         raise SystemExit(f'{wo}.tell「{o["tell"]}」：只能是 {TELL}')
