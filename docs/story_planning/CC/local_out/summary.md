@@ -1718,3 +1718,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 520.3s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 520.3s] BROWSER DISCONNECTED
 - 2026-11-07T17:21:26  GYM3F_HOOP_cam  sha=fa79dd7bc32e1e177a8187a070b8c7baf6ef2924  exit=0  128s      [  91.7s] [截圖] hoop_ceremony_stands：鏡頭 {"eye": [24, 6, -6.43], "look": [0, 3.05, -14.43], "lens": 28, "vfov": 39.76}、亮度 [73.3, 60.7] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 92.1s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 92.1s] BROWSER DISCONNECTED
+- 2026-11-07T17:24:54  GG2_afar_same_01  sha=79214e4e10275fb47c0d95ec667cab2964b77b5c  exit=0  198s        沈以安｜這裡的位子很好寫字。下次我還要來。 / == afar_date 結果：PASS / ALL PASS
+      err.log (last 5): [gpu_wrap 162.7s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 162.7s] BROWSER DISCONNECTED
