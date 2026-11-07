@@ -165,6 +165,11 @@ async def main():
             R.check('[7/10] 耗 6 小時（%.2f → %.2f）' % (rv['h0'], rv['h1']), abs(rv['h1'] - rv['h0'] - 6) < 0.05, J([rv['h0'], rv['h1']]))
             missed = {c['name']: c['missed'] for c in st['info']['courses']}
             bad = []
+            full = []
+            for t in rv['firsts']:   # CC-B 11-07（BB-B 03:36 ①）：打字動畫還沒跑完就抓到半句（PC V21R「…（之前答錯」）→ 用 SAYHOOK 記下的整句補回來
+                f = max([l for l in (rv['lines'] or []) if l.startswith(t)] or [t], key=len); full.append(f)
+                if f != t: R.note('[7/10] 半句補整句：%s → %s' % (J(t[-20:]), J(f[-20:])))
+            rv['firsts'] = full
             for t in rv['firsts']:
                 nm = t[1:t.index('　')] if '　' in t else t
                 if missed.get(nm, 0) > 0 and '（之前答錯過）' not in t: bad.append(t[:60])
@@ -215,6 +220,15 @@ async def main():
             await pg.evaluate("(async()=>{ await GAME.applySave(window.__ccSnap); })()"); await pg.wait_for_timeout(5000); await pg.evaluate(SAYHOOK)
             u, ok = await drive_until(pg, cdp, '[8/4]', lambda u: (u['text'] or '').startswith('交卷'), max_s=900, exam=exam)
         R.check('[8/4] 一試作答到交卷', ok, J(u))
+        # CC-B 11-07（BB-B 03:36 ①）：PC V21R 在「交卷。」那一刻就讀分數（BAR_SCORE 還是 null、觀念卡還沒回寫）；9/7 BAR_STAGE＝lawyer 表示後來有寫——等對話演完、busy=false 再讀
+        t_w = time.time()
+        while time.time() - t_w < 90:
+            u = await pg.evaluate(UI)
+            if not u['busy'] and not u['dlg'] and not u['opts']: break
+            if u['dlg']: await L.tap(pg, cdp, '#dlg')
+            elif u['opts']: await pick(pg, cdp, PREF)
+            await pg.wait_for_timeout(600)
+        R.note('[8/4] 交卷以後對話演完（%.0f 秒）：%s' % (time.time() - t_w, J(u)))
         rm = await pg.evaluate("(()=>(GAME.G.msgs||[]).filter(m=>/^bar_remind_/.test(m.tag||'')).map(m=>({tag:m.tag,text:m.text,key:CALENDAR.dateOf(m.day).key,h:m.h})))()")
         R.note('[7/10 → 8/4] 跳過的時間：%s；【國考】提醒：%s' % (J([v for v in VISITS if v.startswith('2029-07-2') or v.startswith('2029-07-3') or v.startswith('2029-08')][:40]), J(rm)))
         wk = [m for m in rm if m['tag'] == 'bar_remind_week_2029']

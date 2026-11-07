@@ -28,6 +28,9 @@ R9CF_zone | 9cff7a00bce4a412ca08841c73123c899a4b916e | game | tests/zone_transit
 R9CF_mini | 9cff7a00bce4a412ca08841c73123c899a4b916e | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
 R9CF_class | 9cff7a00bce4a412ca08841c73123c899a4b916e | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
 R9CF_touch | 9cff7a00bce4a412ca08841c73123c899a4b916e | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
+#   BB-B 03:36（83d FAIL 初判）要改探針重跑的：①D118B7（交卷後等對話演完才讀分數；7/10 半句用整句補）⑤SITHEIGHT 只跑木曜日（V21R 時記憶體爆掉）——改在開發線最新 9cff7a00b
+D118B7_r3 | 9cff7a00bce4a412ca08841c73123c899a4b916e | probe | docs/story_planning/test_tools/cc/cc_d118b7_play.py | index.html | 70 | RERUN=r3;CC_HEADLESS=0
+SITHEIGHT_moku | 9cff7a00bce4a412ca08841c73123c899a4b916e | probe | docs/story_planning/test_tools/cc/cc_sitheight_probe.py | index.html | 40 | MODE=cafe;CAFES=mokuyobi;SOLO=1;CC_HEADLESS=0
 # ===== ★ CC-B 11-07 03:4x（BB-B 03:34／03:38）：照這個順序最先跑 =====
 #   ① DBK_seat2：Daybreak 窗邊 #2 (-2.15, 3.45) 坐不下單獨重跑＋診斷（SEQ=1 照 DBK_passerby 先坐 #1 再坐 #2；四個時間）
 #   ② LIVE_V91021：v9.10.21 上線 main 92c3daad8（PR #29），線上網址 deploy_check、p0、標題版本截圖（RELEASE-V91021-1105；雲端連不到 github.io）
