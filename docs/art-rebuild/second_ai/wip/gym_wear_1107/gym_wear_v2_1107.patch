@@ -1,0 +1,48 @@
+diff --git a/tests/gym_wear_unit.js b/tests/gym_wear_unit.js
+index ec96fffd4..7db62caf0 100644
+--- a/tests/gym_wear_unit.js
++++ b/tests/gym_wear_unit.js
+@@ -1,7 +1,7 @@
+ // 祐廷的健身短袖運動服（GYM-FIT-1107 ③，LAWWW2-B 2026-11-07；LAWWW-B 05:46 定案，人物外觀 D128）——不需要瀏覽器。
+ // 使用者 11-07「肌肉線條更明顯」：平常的長袖毛衣只看得到輪廓；B1 健身中心、體育課換短袖運動服，露出手臂、小腿，體態 fit 形狀看得到。
+ // 模型：vroid_yuting.vrm 的 GYM_TOP、GYM_SHORTS（tools/gym_wear.py，從身體皮膚切出來、往外推、平滑；同一副骨架；一樣有 fit morph）。
+-// 檢查：① VRM 有兩塊運動服、和身體同一副骨架、有 fit、材質是 _CLOTH；manifest 先藏
++// 檢查（第二版 11-07：CC 遊戲內截圖的領口灰色、衣襬黑點、深色襪子加 ⑥⑦）：① VRM 有兩塊運動服、和身體同一副骨架、有 fit、材質是 _CLOTH；manifest 先藏
+ //       ② CHAR.setGymWear：穿上＝運動服顯示、毛衣褲子藏、系外套藏（就算 u.jacket）、後背包拿下；脫下＝照原樣；穿著時 setJacket(true) 外套也不出來；CHAR.upgrade 帶過去
+ //       ③ fit 形狀：運動服跟著身體一起撐（u.fitBody＝1 時 morph 開）
+ //       ④ 不穿模：站、跑、坐 × 體態普通、經常鍛鍊——上臂、軀幹、大腿的皮膚跑到運動服外面的頂點 ≤ 1%（和同一根骨頭、同一段、同一個角度的衣服比離軸距離）
+@@ -66,6 +66,34 @@ const glb=f=>{ const b=fs.readFileSync(path.join(ROOT,f)), jl=b.readUInt32LE(12)
+       out[k]=[n,tot]; } return out; };
+   if(can){ for(const pose of ['idle','run','sit']) for(const lv of [0,1]){ const r=poke(pose,lv), bad=Object.keys(r).filter(k=>r[k][1]<10||r[k][0]>Math.max(1,0.01*r[k][1]));
+     check('④ 不穿模：'+pose+'、體態 '+lv+'（皮膚跑到運動服外面 ≤ 1%）',!bad.length,Object.keys(r).map(k=>k+' '+r[k][0]+'／'+r[k][1]).join('，')); } }
++  // ⑥ 短褲在上衣裡面：下襬和腰頭重疊那一段，短褲（骨盆、腰的頂點）離脊椎軸不能比同一段、同一個角度的上衣遠（第一版髖骨那兩點穿出來：CC 截圖「衣襬前面兩個小黑點」）
++  if(can){ const shOut=(pose,lv)=>{ u.fitBody=lv; u.anim.t=0; step(pose==='sit'?40:(pose==='run'?17:12),{pose,speed:pose==='run'?4.5:0});
++      const a=bw('hips'), b=bw('neck'), d=b.clone().sub(a), L=d.length(); d.normalize(); const e1=new THREE.Vector3().crossVectors(d,new THREE.Vector3(1,0,0)).normalize(), e2=new THREE.Vector3().crossVectors(d,e1);
++      const cell=p=>{ const r=p.clone().sub(a), t=r.dot(d)/L; const rr=r.clone().sub(d.clone().multiplyScalar(r.dot(d))); return {k:Math.floor(t*40)+'|'+Math.floor((Math.atan2(rr.dot(e2),rr.dot(e1))+Math.PI)/(Math.PI/12)), r:rr.length()}; };
++      const used=o=>new Set(o.geometry.index?o.geometry.index.array:[]), BN=/^J_Bip_C_(Hips|Spine)$/, bins={};
++      for(const i of used(tee)){ if(!BN.test(domBone(tee,i)||'')) continue; tee.getVertexPosition(i,V); tee.localToWorld(V); const c=cell(V); bins[c.k]=Math.max(bins[c.k]||0,c.r); }
++      let n=0,tot=0; for(const i of used(sh)){ if(!BN.test(domBone(sh,i)||'')) continue; sh.getVertexPosition(i,V); sh.localToWorld(V); const c=cell(V); if(bins[c.k]==null) continue; tot++; if(c.r>bins[c.k]+0.001) n++; } return [n,tot]; };
++    for(const pose of ['idle','run','sit']) for(const lv of [0,1]){ const [n,tot]=shOut(pose,lv); check('⑥ 短褲在上衣裡面（下襬重疊那一段）：'+pose+'、體態 '+lv,tot>=10&&n<=Math.max(1,0.01*tot),'跑到上衣外面 '+n+'／'+tot); } }
++  // ⑦ 皮膚貼圖：VRoid 原本畫的灰色背心、深色襪子，運動服露出來的地方要是皮膚色（CC 截圖「領口裡面露一塊灰色」「深咖啡色長襪」）；腳踝（鞋口以上 3 cm）白襪
++  { const zlib=require('zlib'), b=fs.readFileSync(path.join(ROOT,'assets/models/char/vroid_yuting.vrm')), jl=b.readUInt32LE(12), bin=b.slice(20+jl+8);
++    const skinMat=J.materials.findIndex(m=>/Body_00_SKIN/.test(m.name)), ti=J.materials[skinMat].pbrMetallicRoughness.baseColorTexture.index, im=J.images[J.textures[ti].source], bv=J.bufferViews[im.bufferView];
++    const png=bin.slice(bv.byteOffset||0,(bv.byteOffset||0)+bv.byteLength);
++    const decode=buf=>{ let o=8, W=0,H=0,ct=0,idat=[]; while(o<buf.length){ const len=buf.readUInt32BE(o), type=buf.toString('ascii',o+4,o+8), d=buf.slice(o+8,o+8+len); if(type==='IHDR'){ W=d.readUInt32BE(0); H=d.readUInt32BE(4); ct=d[9]; } else if(type==='IDAT') idat.push(d); o+=12+len; }
++      const ch=ct===6?4:3, raw=zlib.inflateSync(Buffer.concat(idat)), px=Buffer.alloc(W*H*ch), st=W*ch; let p=0;
++      for(let y=0;y<H;y++){ const f=raw[p++]; for(let x=0;x<st;x++){ const a=x>=ch?px[y*st+x-ch]:0, up=y?px[(y-1)*st+x]:0, c=(x>=ch&&y)?px[(y-1)*st+x-ch]:0; let v=raw[p++];
++        if(f===1) v+=a; else if(f===2) v+=up; else if(f===3) v+=(a+up)>>1; else if(f===4){ const q=a+up-c, pa=Math.abs(q-a), pb=Math.abs(q-up), pc=Math.abs(q-c); v+=(pa<=pb&&pa<=pc)?a:(pb<=pc?up:c); } px[y*st+x]=v&255; } } return {W,H,ch,px}; };
++    let T=null; try{ T=/png/.test(im.mimeType||'png')?decode(png):null; }catch(e){ T=null; }
++    if(!T) check('⑦ （前提）讀得到皮膚貼圖（PNG）',false,im.mimeType);
++    else { const prim=J.meshes[body.mesh].primitives.find(p=>p.material===skinMat), acc=i=>{ const a=J.accessors[i], v=J.bufferViews[a.bufferView], n={SCALAR:1,VEC2:2,VEC3:3,VEC4:4}[a.type]; return new Float32Array(bin.buffer.slice(bin.byteOffset+(v.byteOffset||0)+(a.byteOffset||0),bin.byteOffset+(v.byteOffset||0)+(a.byteOffset||0)+a.count*n*4)); };
++      const P=acc(prim.attributes.POSITION), UV=acc(prim.attributes.TEXCOORD_0), I=(()=>{ const a=J.accessors[prim.indices], v=J.bufferViews[a.bufferView], C=a.componentType===5125?Uint32Array:Uint16Array; return new C(bin.buffer.slice(bin.byteOffset+(v.byteOffset||0)+(a.byteOffset||0),bin.byteOffset+(v.byteOffset||0)+(a.byteOffset||0)+a.count*C.BYTES_PER_ELEMENT)); })();
++      const usedV=new Set(I), col=i=>{ const x=Math.min(T.W-1,Math.floor(UV[i*2]*T.W)), y=Math.min(T.H-1,Math.floor(UV[i*2+1]*T.H)), o=(y*T.W+x)*T.ch; return [T.px[o]/255,T.px[o+1]/255,T.px[o+2]/255]; };
++      let gray=0,nt=0,dark=0,nl=0,white=0,na=0;
++      for(const i of usedV){ const y=P[i*3+1], c=col(i), mx=Math.max(...c), mn=Math.min(...c), ax=Math.abs(P[i*3]);
++        if(y>1.25&&y<1.47&&ax<0.2){ nt++; if(mx-mn<0.11&&mx>0.45&&mx<0.85) gray++; }   // 胸口、上背、肩膀（灰色背心那一帶）
++        if(y>0.14&&y<0.55&&ax>0.04){ nl++; if(mx<0.4) dark++; }   // 小腿：短褲下面到鞋口上面
++        if(y>0.108&&y<0.125&&ax>0.04){ na++; if(mn>0.8) white++; } }   // 腳踝：白襪
++      check('⑦ 皮膚貼圖：胸口、肩膀沒有灰色背心',nt>50&&gray===0,'灰色 '+gray+'／'+nt+' 個頂點');
++      check('⑦ 皮膚貼圖：小腿沒有深色襪子、腳踝是白襪',nl>30&&dark===0&&na>5&&white>=0.6*na,'深色 '+dark+'／'+nl+'、白襪 '+white+'／'+na); } }
+   // ⑤ 什麼時候穿
+   const has=typeof FIT.gymWearOn==='function';
+   check('⑤ 有 FIT.gymWearOn、FIT.gymWearSync',has&&typeof FIT.gymWearSync==='function');

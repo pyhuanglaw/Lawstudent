@@ -1,0 +1,41 @@
+/* 體育館的白色薄膜圓頂晚上像一座燈籠（XS-GYM-DOME-NIGHT-1107，LAWWW2-B 2026-11-07；XS-NORTH-EXT-1105 先將就的第 3 點：照片「像一座燈籠」）
+   campus_gymext.glb（tools/blender/env_second/campus_xsnorth.py --set gym）的圓頂改用材質 ck_glass_lit（zones3d.js 的 WZ_NIGHT 已經有：[0xffd49a, 晚上 1.0, 白天 0]）＋漸層自發光貼圖。
+   ① 校園接上正式模型以後：圓頂的網格是 ck_glass_lit、有自發光貼圖、發光顏色 0xffd49a、登記了夜間亮度（晚上 1、白天 0）
+   ② TK.setNight(1) 圓頂亮、setNight(0) 不亮；圓頂不投影子（WZ_NO_SHADOW）
+   ③ 其他白色零件（桁架、直條 ck_gym_white）沒有跟著亮
+   修改前（圓頂和桁架共用 ck_gym_white）：① FAIL。用法：node tests/gym_dome_night_unit.js */
+const fs=require('fs'), vm=require('vm'), path=require('path');
+const ROOT=path.resolve(__dirname,'..');
+global.window=global; global.self=global;
+const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
+global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
+global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
+process.on('unhandledRejection',()=>{});   // 校園的正式模型在 node 裡載不到（fetch 相對網址），不影響導航
+const T=fs.readFileSync(path.join(ROOT,'tests/nav_buildings_unit.js'),'utf8');
+const files=eval(T.match(/const files=(\[[^\]]+\])/)[1]);
+for(const f of ['src/townkit3d.js','src/campuskit3d.js','src/data/xinsheng_layout.js','src/xinsheng3d.js']) if(!files.includes(f)) files.push(f);
+for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
+const warn=console.warn; console.warn=()=>{};
+let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
+const L=XINSHENG_LAYOUT, E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[];
+process.on('unhandledRejection',()=>{});
+window.ASSET_DATA=window.ASSET_DATA||{}; for(const k of ['bldg.campus_moon','bldg.campus_gymext']) if(ASSETS.manifest[k]){ const u=ASSETS.manifest[k].url; if(fs.existsSync(path.join(ROOT,u))) window.ASSET_DATA[u]=fs.readFileSync(path.join(ROOT,u)).toString('base64'); }
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const meshVis=o=>{ let v=0,h=0; o.traverse(m=>{ if(m.isMesh) (m.visible?v++:h++); }); return [v,h]; };
+(async()=>{
+  E.interactables=[]; E.colliders=[]; const cz=Z3.ZONES.campus.build(E); E.zone=cz; E.scene.add(cz.group); await sleep(6000); cz.group.updateMatrixWorld(true);
+  const glb=cz.group.getObjectByName('campus_gymext_glb'); const dome=[], white=[];
+  if(glb) glb.traverse(m=>{ if(!m.isMesh||!m.material) return; const n=m.material.name||''; if(n==='ck_glass_lit') dome.push(m); if(n==='ck_gym_white') white.push(m); });
+  const d=dome[0], mt=d&&d.material;
+  // 自發光貼圖：node 裡 GLTFLoader 載不到圖片（blob 網址），直接讀 GLB 的 JSON——ck_glass_lit 有 emissiveTexture、用它的網格有 UV
+  const gb=fs.readFileSync(path.join(ROOT,ASSETS.manifest['bldg.campus_gymext'].url)); const gj=JSON.parse(gb.slice(20,20+gb.readUInt32LE(12)).toString());
+  const gmi=gj.materials.findIndex(m=>m.name==='ck_glass_lit'); const gtex=gmi>=0&&!!gj.materials[gmi].emissiveTexture;
+  const guv=gmi>=0&&gj.meshes.some(m=>m.primitives.some(p=>p.material===gmi&&p.attributes.TEXCOORD_0!==undefined));
+  check('① 圓頂是 ck_glass_lit、GLB 裡有自發光貼圖和 UV、暖色、登記了夜間亮度（晚上 1、白天 0）',!!glb&&!!d&&gtex&&guv&&mt.emissive&&mt.emissive.getHex()===0xffd49a&&mt.userData.nightI===1&&(mt.userData.dayI||0)===0,
+    glb?(d?'GLB emissiveTexture '+gtex+' UV '+guv+'｜emissive '+(mt.emissive&&mt.emissive.getHex().toString(16))+'｜night '+mt.userData.nightI+' day '+mt.userData.dayI+'｜三角形 '+((d.geometry.index?d.geometry.index.count:d.geometry.attributes.position.count)/3):'沒有 ck_glass_lit（圓頂和桁架共用 ck_gym_white）'):'沒有模型');
+  if(d){ TK.setNight(1); const on=mt.emissiveIntensity; TK.setNight(0); const off=mt.emissiveIntensity;
+    check('② 晚上亮、白天不亮；圓頂不投影子',on>=0.99&&off<=0.01&&d.castShadow===false,'晚上 '+on.toFixed(2)+'｜白天 '+off.toFixed(2)+'｜castShadow '+d.castShadow); }
+  else check('② 晚上亮、白天不亮；圓頂不投影子',false,'沒有圓頂');
+  check('③ 其他白色零件（桁架、直條）沒有跟著亮',white.length>0&&white.every(m=>m.material.userData.nightI===undefined),'ck_gym_white '+white.length+' 個網格');
+  console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
+})();

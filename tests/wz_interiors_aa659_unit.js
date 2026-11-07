@@ -133,7 +133,10 @@ for(const [k,X] of Object.entries(SH)){ const R=loadZone(X.zone), z=R.z, its=R.i
       check('A6 SUNNY SIDE：窗景卡（sns_window_view 兩塊）21:00 換夜版圖 sunnyside_views_night.webp、不調暗；12:00 換回白天的圖',z.aaNightView===2&&/sunnyside_views_night\.webp$/.test(nightUrl||'')&&fs.existsSync(path.join(ROOT,nightUrl))&&n.every(v=>v[0]&&v[1]===1)&&d.every(v=>v[0]&&v[1]===1),J({nv:z.aaNightView,nightUrl,n,d}));
       NIGHT.userData.failed=true; z.applyTime(21,'clear'); const f=views.map(o=>[o.material.map===day0[0],r2(o.material.color.r)]); NIGHT.userData.failed=false; z.applyTime(12,'clear');
       check('A6 SUNNY SIDE：夜版圖載入失敗時照舊調暗白天的圖（21:00 0.18）',f.every(v=>v[0]&&v[1]===0.18),J(f)); }
-    else if(views.length){ z.applyTime(21,'clear'); const n=views.map(o=>r2(o.material.color.r)); z.applyTime(12,'clear'); const d=views.map(o=>r2(o.material.color.r)); check('A6 '+L.name+'：窗景卡晚上調暗（21:00 0.18、12:00 1）',n.every(v=>v===0.18)&&d.every(v=>v===1),J({n,d})); }
+    else if(views.length){ z.applyTime(21,'clear'); const n=views.map(o=>r2(o.material.color.r)); z.applyTime(12,'clear'); const d=views.map(o=>r2(o.material.color.r));
+      /* 2026-11-05 改期望（WINVIEW-AUDIT-1105，LAWWW2 f73c27f5e、LAWWW 合併 f023f1881）：小路的窗景卡換成實際街景照片（WZ_VIEW，wvOwn）＝晚上換夜版圖、不調暗（tests/wz_views_1105_unit.js ③ 查）；還沒換照片的卡照舊晚上調暗 0.18 */
+      const own=views.map(o=>!!(o.material.userData&&o.material.userData.wvOwn));
+      check('A6 '+L.name+'：窗景卡晚上調暗（21:00 0.18、12:00 1）；換成街景照片的卡（wvOwn）晚上不調暗',n.every((v,i)=>v===(own[i]?1:0.18))&&d.every(v=>v===1),J({n,d,own})); }
     const st=[]; z.group.traverse(o=>{ if(o.isMesh&&o.material&&o.material.userData.seeThrough) st.push(o.material.name); });
     const want={brunch:['sns_bulb'],teishoku:[],teahouse:['wzs_washi','wzs_pendant']}[k];
     check('A6 '+L.name+'：網點透空的材質 '+J(want)+'（AA 新模型的前綴 sns／kmc／yzn 照去掉前綴比；SUNNY SIDE 的吊燈罩沒有自己的材質，等 LAWWW2）',J(st.sort())===J(want.slice().sort()),J(st)); }

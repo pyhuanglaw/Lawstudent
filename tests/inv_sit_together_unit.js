@@ -16,6 +16,7 @@
 // 修改前：2、3、5、6、7、8、9（解凍、出錯收乾淨、手機）、10、11（小聲重複）FAIL。用法：node tests/inv_sit_together_unit.js
 const H=require('./pg_harness.js');
 const {check,GM,E}=H;
+CLS.afterSlot=async()=>false;   /* 這支測約念書本身的時間（stay 1.5 小時…）；見面用完時段跳到下一個時段（ACTION-BUDGET-1107）另外在 tests/action_budget_1107_unit.js 測 */
 const fs=require('fs'), path=require('path'), vm=require('vm');
 vm.runInThisContext(fs.readFileSync(path.join(H.ROOT,'src/libquiet3d.js'),'utf8').replace(/^const LIBQ\s*=/m,'globalThis.LIBQ='),{filename:'src/libquiet3d.js'});
 vm.runInThisContext(fs.readFileSync(path.join(H.ROOT,'src/data/library_layout.js'),'utf8').replace(/^const (LIBRARY_\w+)\s*=/mg,'globalThis.$1='),{filename:'src/data/library_layout.js'});
@@ -154,5 +155,20 @@ const dEnt=s=>Math.hypot(s.x-SPAWN.x,s.z-SPAWN.z);
     check('12. 帶路途中走出那一區＝作罷：除了訊息，畫面有提示（toast）、手機有紅點（phoneBadge）',iv.state==='cancelled'&&toasts.slice(t0).some(t=>/後來作罷了/.test(t))&&badge>=1,JSON.stringify({st:iv.state,t:toasts.slice(t0),badge})); holdWalk=false; held=[]; }
   { const src=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'); const m=src.match(/S\.phoneAuto=function[\s\S]*?GM\.openPhone\('msg'\)/);
     check('12. STORY.phoneAuto 打開手機前問 INV.phoneBack（帶路中、一起走過去、剛演完 30 秒內不自己打開）',!!m&&/INV\.phoneBack\(G\)/.test(m[0])); }
+  /* ---- 13 BB-B 11-07（AA_717 探針第 2 次見面、第 538 天）：她坐著等你（ph wait、_ivLead 還是這一筆），可是不在那個位子上（被拉起來、座位差一點）——
+         原本：不會再帶路（_ivLead 是這一筆）、也不開演（要坐在那個位子），兩小時後作罷。改：你離得遠＝她走回那個位子；你走到她本人旁邊＝照樣開演（leadScene 讓她坐回去）---- */
+  { const G=setup('2025-09-12',15,'campus',hallSeats(),SPAWN); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','library',G.day,15,{now:true,by:'player'}); const n=npc('heroine_05',SPAWN.x+1,SPAWN.z);
+    G.zone='library_hall'; await INV.arrive(GM,'library_hall'); await W(5);
+    const L=iv.lead, her=L&&INV.seatObj(E,L.her);
+    GM.standUp(n); n.beh='idle'; n.path=null; const w0=walks.length; G.hour=15.2; INV.tick(GM); await W(5);
+    const back=walks.slice(w0).some(w=>w.who==='heroine_05'&&!!her&&Math.hypot(w.x-her.x,w.z-her.z)<1);
+    check('13. 她不在那個位子上、你離得遠：她走回那個位子坐下（不會兩邊都不動）',!!L&&back&&L.ph==='wait'&&n.seat===her&&iv.state==='accepted',JSON.stringify({back,ph:L&&L.ph,seat:n.seat,st:iv.state}));
+    GM.standUp(n); n.path=null; const said0=H.said.length; place(E.player,n.obj.position.x+0.4,n.obj.position.z+0.6,1); G.hour=15.3; INV.tick(GM); await W(20);
+    check('13. 她不在那個位子上、你走到她本人旁邊：照樣開演（她坐回那個位子、演完 done）',iv.state==='done'&&lines().slice(said0).includes(LS.seated),JSON.stringify({st:iv.state,said:lines().slice(said0,said0+3)})); }
+  /* ---- 14 BB-B 11-07 10:42（AA_717 探針第 2 次見面）：約完收起手機、走去找她，手機又自己打開＝暫停、時間停住、那一場不開始——約好的時間前 30 分鐘到開始後 1 小時手機不自己打開 ---- */
+  { const G=setup('2025-09-13',11,'campus',[{x:0,z:0,yaw:0,lv:0}],{x:0,z:4,lv:0}); H.FRIEND('heroine_01'); const iv=INV.accept(G,'heroine_01','library',G.day,12,{by:'player'}); INV._now=()=>Date.now()+5e9;   /* 離上一項的見面很久了（不是「剛演完 30 秒內」）*/
+    const at=h=>{ G.hour=h; return INV.phoneBack(G); }; const r=[at(11.4),at(11.6),at(12.01),at(12.9),at(13.1)];
+    check('14. 約好 12:00：11:24 可以自己打開；11:36～12:54 不自己打開；13:06 以後可以',JSON.stringify(r)===JSON.stringify([true,false,false,false,true]),JSON.stringify(r));
+    iv.state='cancelled'; check('14. 約取消了：照常可以打開',at(12.01)===true); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

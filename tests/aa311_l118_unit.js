@@ -19,6 +19,7 @@
 // 修改前（開發分支 d5ce20a40）：L118 沒有 STAFF、REG、H2～H9——第 0～6、8、9 節丟例外中斷、第 7 節 4 項 FAIL，FAILED 13。用法：node tests/aa311_l118_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
+if(typeof CLS!=='undefined'&&CLS) CLS.afterSlot=async()=>false;   /* 這支測見面本身走了多少時間（40 分鐘）；見面用完時段跳到下一個時段（ACTION-BUDGET-1107）另外在 tests/action_budget_1107_unit.js 測 */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
 const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(EAT|EAT_LINES|WZS|L118|LANE118_SHOPS|LANE118_LAYOUT|PARK|WZ_PARK_LAYOUT|SIDEQ|MSG|MSG_POOL|MSG2_POOL|FAV|FOOD_FAV_LINES|INVITE_REPLIES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };

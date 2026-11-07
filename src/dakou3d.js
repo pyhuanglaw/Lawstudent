@@ -80,7 +80,12 @@ const DK3=(function(){
     lamp(g0,-1.2,3.1,-2.0,3.2,2.2,10); lamp(g0,1.0,3.1,4.6,2.8,1.9,9); lamp(g1,-1.0,6.9,-2.8,3.4,2.2,10); lamp(g1,0.6,6.9,4.0,3.0,2.0,10);
     const onL=z.onLamps; z.onLamps=function(on){ if(onL) onL.call(this,on); z._lampsOn=!!on; for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
     // 窗外的夜景卡（BB 的 NIGHT_FRONT／NIGHT_WEST）：晚上才顯示
-    const nightCards=[]; let lastNight=null; const setNight=n=>{ if(n===lastNight) return; lastNight=n; for(const o of nightCards) o.visible=n; };
+    /* WINDOW-FLICKER-1107（使用者 11-07 試玩：「外面窗景一直閃」；LAWWW2-B）：一樓、二樓兩顆 GLB 各有一張 NIGHT_FRONT（z 16）、NIGHT_WEST（x −14），兩張在同一個平面、範圍重疊，
+       晚上同時顯示就 z-fighting（鏡頭一動就在兩張圖之間跳）。改成只顯示玩家那一層的那一張（dkLv：一樓 0、二樓 1；沒有標的照舊）；換層時在 z.update 切。測試：node tests/dakou_nightcard_unit.js */
+    const nightCards=[]; let lastNight=null, cardLv=-1; const pLv=()=>Math.max(0,Math.min(1,(E.player&&E.player.lv)|0));
+    const showCards=()=>{ cardLv=pLv(); for(const o of nightCards) o.visible=!!lastNight&&(o.userData.dkLv==null||o.userData.dkLv===cardLv); };
+    const setNight=n=>{ if(n===lastNight) return; lastNight=n; showCards(); };
+    const upd=z.update; z.update=function(dt,E2){ if(upd) upd.call(this,dt,E2); if(lastNight&&nightCards.length&&pLv()!==cardLv) showCards(); };
     const at=z.applyTime; z.applyTime=function(h,w){ if(at) at.call(this,h,w); const hh=((h%24)+24)%24; setNight(hh<5.6||hh>=18.6); };
     // 座位：一樓 17、二樓 62（二樓全部可以讀書）
     const lift=()=>+(STOOL_TOP-((typeof CHAR!=='undefined'&&CHAR.SIT_TOP)||0.45)).toFixed(3);
@@ -93,8 +98,15 @@ const DK3=(function(){
     // 正式模型：兩顆 GLB 先放進同一個 root 給 attachRoomGLB（牆的淡出清單只能建一次），二樓那一顆再搬到二樓那一組（保留世界座標）
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xs_dakou_1f']) Promise.all([ASSETS.loadOne('bldg.xs_dakou_1f'),ASSETS.loadOne('bldg.xs_dakou_2f').catch(()=>null)]).then(([c1,c2])=>{ if(!c1||!c1.scene||E.zone!==z) return;
       const both=new THREE.Group(); both.name='xs_dakou_glb'; const s1=c1.scene.clone(true); both.add(s1); const s2=c2&&c2.scene?c2.scene.clone(true):null; if(s2) both.add(s2);
-      for(const s of [s1,s2]) if(s) s.traverse(o=>{ if(/^NIGHT_/.test(o.name||'')) nightCards.push(o); if(o.name==='WALL_BANDS') o.name='DK_BANDS'; });   /* WALL_BANDS（一樓東西兩面牆的深藍護牆＋橘線，0～1.08 m）：一個網格跨兩面牆、沒有 dir——不放進淡出清單（矮，不擋人）*/
+      for(const [s,lv] of [[s1,0],[s2,1]]) if(s) s.traverse(o=>{ if(/^NIGHT_/.test(o.name||'')){ o.userData.dkLv=lv; nightCards.push(o); } if(o.name==='WALL_BANDS') o.name='DK_BANDS'; });   /* WALL_BANDS（一樓東西兩面牆的深藍護牆＋橘線，0～1.08 m）：一個網格跨兩面牆、沒有 dir——不放進淡出清單（矮，不擋人）*/
       Z3.attachRoomGLB(z,g0,fb0,both); if(s2){ g1.attach(s2); fb1.visible=false; }
+      /* XS-WINCARD-1105（LAWWW2-C 11-05）：玻璃外面接視差窗景（照片 assets/models/env/views/xs_dakou*_{day,night}.webp：Blender 用新生南路的正式模型、圍牆後面的望月台與體育館，從窗中間往外拍）。
+         一樓正面、二樓正面（對面是校園）；二樓那一片放在二樓那一組（剖面視角時跟著藏）。二樓的照片把 4.6 m 以內剪掉（新生南路的外觀二樓蓋在騎樓上面、往外 3 m）。
+         西側不放：店的南牆外 0.6 m 就是隔壁那一棟（xinsheng_layout：大口 z 33.4～47.4、隔壁 48～68），拍不到街景；西側照舊用 BB 的夜景卡 NIGHT_WEST。
+         正面有了視差窗以後 BB 的 NIGHT_FRONT 不再顯示（白天、晚上都是同一套照片）*/
+      if(Z3.shopViewPane){ const P=[[g0,{kind:'xs_dakou',x:0,y:1.6,z:8.3,w:12.4,h:5.84,ry:Math.PI,depth:36}],[g1,{kind:'xs_dakou_2f',x:0,y:5.2,z:8.4,w:12.4,h:3.4,ry:Math.PI,depth:36}]];
+        let n=0; for(const [gr,o] of P) if(Z3.shopViewPane(z,gr,o)) n++;
+        if(n){ for(const o of nightCards) if(/^NIGHT_FRONT/.test(o.name||'')) o.visible=false; for(let i=nightCards.length-1;i>=0;i--) if(/^NIGHT_FRONT/.test(nightCards[i].name||'')) nightCards.splice(i,1); } }
       lastNight=null; if(z.applyTime&&typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); else setNight(false); }).catch(e=>console.warn('大口漢堡正式模型載入失敗，用備用模型',e));
     return z; } };
 

@@ -26,6 +26,16 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
+### 帳號 C → 下一個帳號｜LAWWW-C（`session_01Me1thu8Zn934H58kWKNfuF`）｜2026-11-05 23:4x UTC 第二次交班（使用者 23:2x「現在接班……BB說可以go 照條件可以發布」、23:4x「現在交班」）
+
+**下一班第一件事：v9.10.21 已發布，線上檢查還沒做**——BB 排 LIVE（deploy_check、p0 對 https://pyhuanglaw.github.io/Lawstudent/，雲端沙盒連不到 github.io）；通過把 RELEASE-V91021-1105 改已驗收。
+- **A｜成果**：v9.10.21 發布：main `92c3daad8`（PR #29，23:28 UTC 合併），發布樹 `317479933`（遊戲檔案＝`aa0f3bcd3`）；Pages run 42129622113 第 1 次 deploy 在 syncing_files 逾時、重跑第 2 次 23:42:12 UTC success。開發分支換回開發的遊戲檔案（`65e2befc2`，src／tests／assets／index.html 和 f86f9db0d 相同）。RELEASES.md 已寫。
+- **GO 怎麼來的**：BB-C 16:11 定的條件＝PC 跑 aa0f3bcd3 的 AA0F_p0／touch／reach；三支結果（cc-local）p0 ALL PASS、touch 只錯程序化路人、reach 只錯麵店半徑誤報；BB-C 交班中沒寫 GO，使用者 23:2x 轉述 BB 判過；LAWWW-C 自己讀 run.log 核對。**下一班 BB 補一筆 GO 紀錄（BB_255）**。
+- **B｜未完成**：上面 11:4x 那一段的 B 照舊（DRIVE-PICKUP 待 BB 實走＋AA 確認介面字、PORTRAIT 沛珊／芯慈暫停、NOODLE-AP-RADIUS、GYM-MOVE／XS-NORTH-EXT 待 CC 拍、SHORTCUTS-TODO、SAVE-LZ 第二步、BRANCH-AUDIT-ORPHAN-1105）；新增：RELEASE-V91021-1105 LIVE；BUG-02／TEST-05 已請使用者用 iPhone 看線上版。
+- **C｜正在做**：沒有。
+- **E｜各職位**：BB-C 16:11 重新登記、16:1x 交班（duty_BB.json 手寫 handed-off，duty.json 沒 sync 那次重新登記——下一班 LAWWW duty sync 收）；CC-C 停了錯排的社交重跑，PC 佇列照跑；AA、LAWWW2 沒回來。
+- **F｜測試**：見 RELEASES.md v9.10.21；iPhone、LIVE 沒驗。
+
 ### 帳號 C → 下一個帳號｜LAWWW-C（`session_01Me1thu8Zn934H58kWKNfuF`）｜2026-11-05 11:4x UTC 交班（使用者 10:4x「我請其他人交班了 你等他們交班完 你還沒交班」、10:5x「可以半小時內做完的你就先做」；HANDOFF-C-1105）
 
 **下一班第一件事：v9.10.21 還沒發布——看 `docs/handoff/release_v91021/README.md`（發布樹 `aa0f3bcd3` 已推；BB 還沒 GO，差 PC p0、燒臘店吃飯截圖＋walkFallbacks、touch 重跑；BB 判 GO 以後照 README 步驟發布）。**

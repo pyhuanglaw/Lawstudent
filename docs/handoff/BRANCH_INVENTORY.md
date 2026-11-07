@@ -20,25 +20,28 @@
 <!-- BRANCH-AUDIT:BEGIN（tools/handoff/branch_audit.py --write 產生，不要手改）-->
 ## 定期唯讀稽核（最新一次；BRANCH-AUDIT-1028）
 
-**稽核時間**：2026-11-04T12:53Z（`tools/handoff/branch_audit.py`，只讀）；main＝`b0c3032af`；共 19 條遠端分支：保留｜主線 1、保留｜崗位在用 4、保留｜main 沒有的內容 10、清理候選 4
+**稽核時間**：2026-11-07T06:42Z（`tools/handoff/branch_audit.py`，只讀）；main＝`92c3daad8`；共 22 條遠端分支：保留｜主線 1、保留｜崗位在用 5、保留｜WIP 沒整合完 4、保留｜main 沒有的內容 7、清理候選 5
 
 | 分類 | 分支 | 最後 commit | 誰的（duty.json） | main 沒有的 commit | 判斷 |
 |---|---|---|---|---|---|
-| 保留｜主線 | `main` | `b0c3032af`（2026-11-04） | — | 0 | GitHub Pages 正式版 |
-| 保留｜崗位在用 | `claude/adoring-meitner-mqzst8` | `ebd44c2e3`（2026-11-04） | LAWWW-C、RULE_SOURCE | 170 | duty.json：LAWWW-C、RULE_SOURCE |
-| 保留｜崗位在用 | `claude/focused-cray-c9uwvw` | `2a47d1dae`（2026-11-04） | LAWWW2-C | 1799 | duty.json：LAWWW2-C |
-| 保留｜崗位在用 | `claude/magical-albattani-bk7b4n` | `a2d296d7c`（2026-11-04） | AA-C | 6840 | duty.json：AA-C |
-| 保留｜崗位在用 | `claude/wonderful-mayer-7fm9g6` | `f85214b6c`（2026-11-04） | BB-C | 6836 | duty.json：BB-C |
-| 保留｜main 沒有的內容 | `claude/cc-local` | `f66233be4`（2026-11-04） | — | 7006 | main 沒有的 commit 6312 個（內容比對）；分出去以後改的檔案有 10882 個和 main 不一樣 |
-| 保留｜main 沒有的內容 | `claude/cc-testing` | `4aa1dbb44`（2026-11-04） | CC-A（交班過） | 6160 | main 沒有的 commit 5706 個（內容比對）；分出去以後改的檔案有 3597 個和 main 不一樣 |
-| 保留｜main 沒有的內容 | `claude/confident-ritchie-8rwh7t` | `28f5f5287`（2026-11-04） | LAWWW-A（交班過） | 160 | main 沒有的 commit 145 個（內容比對）；分出去以後改的檔案有 476 個和 main 不一樣 |
-| 保留｜main 沒有的內容 | `claude/cool-heisenberg-o8kuqx` | `69a24fa5d`（2026-11-04） | AA-B（交班過） | 6835 | main 沒有的 commit 6079 個（內容比對）；分出去以後改的檔案有 4921 個和 main 不一樣；整條分支已經在 claude/magical-albattani-bk7b4n、claude/wonderful-mayer-7fm9g6 裡（還沒發布到 main） |
-| 保留｜main 沒有的內容 | `claude/gha-node-sweep` | `73879d7bb`（2026-11-04） | — | 35 | main 沒有的 commit 35 個（內容比對）；分出去以後改的檔案有 2 個和 main 不一樣 |
+| 保留｜主線 | `main` | `92c3daad8`（2026-11-06） | — | 0 | GitHub Pages 正式版 |
+| 保留｜崗位在用 | `claude/cc-testing` | `73490a578`（2026-11-07） | CC-B | 6439 | duty.json：CC-B |
+| 保留｜崗位在用 | `claude/cool-heisenberg-o8kuqx` | `29008e4e5`（2026-11-07） | AA-B | 7069 | duty.json：AA-B |
+| 保留｜崗位在用 | `claude/elegant-brown-fcos7n` | `729ca4a76`（2026-11-07） | BB-B | 7089 | duty.json：BB-B |
+| 保留｜崗位在用 | `claude/funny-albattani-iawshm` | `9a97f22fb`（2026-11-07） | LAWWW2-B | 1983 | duty.json：LAWWW2-B |
+| 保留｜崗位在用 | `claude/modest-rubin-2lyp7g` | `6797276c5`（2026-11-07） | LAWWW-B、RULE_SOURCE | 64 | duty.json：LAWWW-B、RULE_SOURCE |
+| 保留｜WIP 沒整合完 | `claude/adoring-meitner-mqzst8` | `77195b12a`（2026-11-05） | LAWWW-C（交班過） | 4 | wip.json：WIP-DORM-ROOM4-0829、WIP-AB65-3-Y1S2-L、WIP-V0-REWRITE-L、WIP-LAWWW-RC4-1021 |
+| 保留｜WIP 沒整合完 | `claude/focused-cray-c9uwvw` | `629e042e2`（2026-11-05） | LAWWW2-C（交班過） | 1960 | wip.json：WIP-L2-YUTING-FACE、WIP-L2-SHOP-BG、WIP-L2-DATE-CUTOUTS、WIP-L2-SOP、WIP-L2-PS-SKIRT-LEG、WIP-L2-SOC-COURT-1021 |
+| 保留｜WIP 沒整合完 | `claude/magical-albattani-bk7b4n` | `708d5f5b9`（2026-11-05） | AA-C（交班過） | 7023 | wip.json：WIP-AA-211、WIP-AA-194-L12、WIP-AA-199-VAC、WIP-AA-210-NYE、WIP-AA-212-AB655、WIP-AA-208-ROOM4、WIP-AA-103-SP、WIP-AA-213-US |
+| 保留｜WIP 沒整合完 | `claude/wonderful-mayer-7fm9g6` | `f1d31b2f0`（2026-11-05） | BB-C（交班過） | 7054 | wip.json：WIP-BB-181、WIP-BB-LADDER-Y2Y4、WIP-BB-HOLIDAY-SYS、WIP-BB-START-WEEK、WIP-BB-SIS-BF、WIP-BB-POSTCARDS、WIP-BB-S3 |
+| 保留｜main 沒有的內容 | `claude/cc-local` | `9e341fc31`（2026-11-07） | — | 7718 | main 沒有的 commit 6923 個（內容比對）；分出去以後改的檔案有 13334 個和 main 不一樣 |
+| 保留｜main 沒有的內容 | `claude/gha-node-sweep` | `94422180e`（2026-11-04） | — | 37 | main 沒有的 commit 37 個（內容比對）；分出去以後改的檔案有 2 個和 main 不一樣 |
 | 保留｜main 沒有的內容 | `claude/gha-node-trial` | `2fb7ee03e`（2026-11-03） | — | 1 | main 沒有的 commit 1 個（內容比對）；分出去以後改的檔案有 1 個和 main 不一樣 |
-| 保留｜main 沒有的內容 | `claude/modest-rubin-2lyp7g` | `b61337187`（2026-11-04） | LAWWW-B（交班過） | 166 | main 沒有的 commit 151 個（內容比對）；分出去以後改的檔案有 477 個和 main 不一樣；整條分支已經在 claude/adoring-meitner-mqzst8 裡（還沒發布到 main） |
-| 保留｜main 沒有的內容 | `claude/second-ai-env-art` | `5f85444cd`（2026-11-04） | LAWWW2-A（交班過） | 1797 | main 沒有的 commit 1791 個（內容比對）；分出去以後改的檔案有 3384 個和 main 不一樣；整條分支已經在 claude/focused-cray-c9uwvw 裡（還沒發布到 main） |
+| 保留｜main 沒有的內容 | `claude/gha-results` | `0aafe04ea`（2026-11-05） | — | 1 | 和 main 沒有共同歷史（孤兒分支，例如測試結果分支）；1 個 commit main 都沒有 |
+| 保留｜main 沒有的內容 | `claude/second-ai-env-art` | `5f85444cd`（2026-11-04） | LAWWW2-A（交班過） | 1797 | main 沒有的 commit 1791 個（內容比對）；分出去以後改的檔案有 3390 個和 main 不一樣；整條分支已經在 claude/funny-albattani-iawshm 裡（還沒發布到 main） |
 | 保留｜main 沒有的內容 | `claude/second-ai-env-art-wip-trees` | `22ff594d7`（2026-10-14） | — | 7 | main 沒有的 commit 5 個（內容比對）；分出去以後改的檔案有 16 個和 main 不一樣 |
-| 保留｜main 沒有的內容 | `claude/story-planning` | `81f740cb7`（2026-11-04） | AA-A（交班過）、BB-A（交班過） | 6833 | main 沒有的 commit 6077 個（內容比對）；分出去以後改的檔案有 4920 個和 main 不一樣；整條分支已經在 claude/magical-albattani-bk7b4n、claude/wonderful-mayer-7fm9g6 裡（還沒發布到 main） |
+| 保留｜main 沒有的內容 | `claude/story-planning` | `81f740cb7`（2026-11-04） | AA-A（交班過）、BB-A（交班過） | 6833 | main 沒有的 commit 6077 個（內容比對）；分出去以後改的檔案有 3794 個和 main 不一樣；整條分支已經在 claude/cool-heisenberg-o8kuqx、claude/elegant-brown-fcos7n 裡（還沒發布到 main） |
+| 清理候選 | `claude/confident-ritchie-8rwh7t` | `28f5f5287`（2026-11-04） | LAWWW-A（交班過） | 1 | main 沒有的 1 個 commit 都是合併 commit 或內容（patch-id）main 都有。還原：`git push origin 28f5f5287c3c:refs/heads/claude/confident-ritchie-8rwh7t` |
 | 清理候選 | `wip/onetap-fav-1103` | `d9f2fc083`（2026-11-03） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin d9f2fc0831cf:refs/heads/wip/onetap-fav-1103` |
 | 清理候選 | `wip/shop-diners-1103` | `8cf2acf3c`（2026-11-03） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin 8cf2acf3c7c2:refs/heads/wip/shop-diners-1103` |
 | 清理候選 | `worktree-agent-a029e90a684b6474b` | `f74ecf26d`（2026-11-03） | — | 0 | 整條分支是 main 的祖先。還原：`git push origin f74ecf26df44:refs/heads/worktree-agent-a029e90a684b6474b` |

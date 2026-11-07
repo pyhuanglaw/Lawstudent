@@ -100,7 +100,7 @@ const INVITE_DATA={
       rule:(G,c,I)=>{ const r=c.r;
         if(r.res==='resched'&&r.why==='busy'&&r.act==='help') return c.pid==='noodle'?{res:'here',lines:['「我就在店裡。你來。」'],alt:null}:{res:'decline',why:'shop',lines:['「麵店。」','「你來店裡就好。」'],alt:null};
         if(r.res!=='accept') return null;
-        if(c.pid==='cafe'&&c.band==='A') return {res:'decline',why:'pricey',lines:['「……那裡很貴。」','「總圖可以。」']};
+        if(c.pid==='cafe'&&c.band==='A') return {res:'decline',why:'restless',lines:['「……咖啡廳我坐不住。」','「總圖可以。」']};   /* AA_415 c71772fbc（11-07）：語彤家裡不缺錢，原句「那裡很貴」改掉 */
         if(c.pid==='wenzhou'&&c.first){ if(c.wd===6) return {lines:['「週六。我本來就在。」']}; return {res:'resched',why:'sat',lines:['「週六。我本來就在。」'],alt:I.nextSat(G,'heroine_03',c.P,c.day,15)}; }
         return null; } },
     zhe:{ walk:{any:[['「這家以前是賣雞排的。」'],['「那家的老闆會記得你點什麼，只要你去三次。」'],['「你知道公館哪家滷味十點後半價嗎？……我知道三家。」']]}, acc:{noodle:['「好啊！那家的叉燒飯我可以吃兩盤。」']} },   /* AA_194 第 4 節（和阿凱「好 我餓了」撞）*/   /* 阿哲（2-3；BB_121 2-3：揪人的那句等群體邀約）*/
@@ -586,3 +586,45 @@ INVITE_DATA.seatOpen={
   byPlace:{cafe:'coffee',brunch:'coffee',noodle:'meal',afar:'afar',daybreak:'daybreak'}   /* 兩點半、半熟＝咖啡（AA_649 寫「咖啡（兩點半、半熟這種）」）；公館燒臘＝吃飯 */
 };
 INVITE_DATA.seatOpen.aoki=[['（店員把茶壺放下，她先幫你倒了第一杯。）','「……你先喝。」']]; INVITE_DATA.seatOpen.byPlace.aoki='aoki';   /* 青木茶室（AA_653 第 3 節：和她坐下以後的開場句）*/
+/* ---------- 更多可以約的地方（INVITE-PLACES-1107；使用者 11-07 試玩：「daybreak 不能約?」「社科院圖書館也可以唸書吧」「吃飯餐廳也新增很多了沒有每個放進來」「有的店面都可以約吧 看書或吃飯或聊天 南洋戲院可以約看電影」）----------
+   系統的資料（地點、時間、哪一類）；答應的那一句、見面的台詞還沒有稿＝照一般的（「○○答應了。」、見面旁白；一起念書的第 N 場照 AA_707）。等 AA 補 acc／firstAt（登記在 INVITE-PLACES-1107）。
+   - 都要自己走去過一次才列（show：G.visited，和木曜日、日常失速一樣）；開放時間照 places.js 那一區（hoursFrom）。
+   - 「看電影、逛書店」是新的一類（invites3d.js S.CATS fun）：兩個人坐下的開場句照 AA_649 第 4 節 seatOpen.movie／bookstore；電影散場照 seatOpen.movieEnd。
+   - 運動健身（健身房、游泳池）還沒開：等健身器材能用（GYM-FIT-1107）、AA 寫運動的台詞。118 巷的店另外排（巷子裡的店是同一區）。*/
+(function(){ const V=z=>G=>!!G&&!!G.visited&&!!G.visited[z];
+  const P=[
+    {id:'soclib',zone:'soclib',name:'社科院圖書館',verb:'去社科圖一起念書',kind:'reason',minStage:'ACQUAINTANCE',stay:1.5,memory:'SOCLIB_TOGETHER',sitAct:'read',seatPose:'read',cats:['study'],hoursFrom:'soclib',show:V('soclib')},
+    {id:'wz_lin',zone:'wz_lin',name:'林家乾麵',verb:'去林家乾麵吃飯',kind:'meal',minStage:'FAMILIAR',stay:0.75,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],hoursFrom:'wz_lin',show:V('wz_lin')},
+    {id:'wz_teishoku',zone:'wz_teishoku',name:'小路',verb:'去小路吃晚餐',kind:'meal',minStage:'FAMILIAR',stay:1,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],hoursFrom:'wz_teishoku',times:[18,19,20],show:V('wz_teishoku')},
+    {id:'xs_dakou',zone:'xs_dakou',name:'大口漢堡',verb:'去大口漢堡吃東西',kind:'meal',minStage:'FAMILIAR',stay:1,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],hours:[8,23.5],show:V('xs_dakou')},   /* 只在吃飯（BB-B 11-07：放在念書那一類卻被「兩個人單獨去吃飯不太好」擋，選念書說吃飯）*/
+    {id:'xs_nanyang',zone:'xs_nanyang',name:'南洋戲院',verb:'去南洋戲院看電影',kind:'reason',minStage:'FRIEND',stay:2,memory:'MOVIE_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['fun'],hoursFrom:'xs_nanyang',times:[9.83,14,19.5],show:V('xs_nanyang')},   /* 早場 09:50（AA_707 芷若第 6 場「週六，早上九點五十」）*/
+    {id:'bookstore',zone:'bookstore',name:'頁間書屋',verb:'去頁間書屋逛逛',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'BOOKSTORE_TOGETHER',sitAct:'read',seatPose:'read',cats:['fun'],hours:[10,22],show:V('bookstore')},
+    {id:'xs_shanlan',zone:'xs_shanlan',name:'山嵐書店',verb:'去山嵐書店逛逛',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'BOOKSTORE_TOGETHER',sitAct:'read',seatPose:'read',cats:['fun'],hoursFrom:'xs_shanlan',show:V('xs_shanlan')}];
+  for(const q of P) if(!INVITE_DATA.places.some(x=>x.id===q.id)) INVITE_DATA.places.push(q);
+   /* Daybreak（「daybreak 不能約?」）：本來就在吃飯那一類（AA_652），不加念書；約不到是因為和可昕交往、她知道＝「兩個人單獨去吃飯不太好」（invites3d.js partnerBlock） */
+  const B=INVITE_DATA.seatOpen.byPlace; B.xs_nanyang='movie'; B.bookstore='bookstore'; B.xs_shanlan='bookstore'; B.wz_lin='meal'; B.wz_teishoku='meal'; B.xs_dakou='meal';
+})();
+/* ---------- 約她去健身房、游泳池（GYM-FIT-1107；使用者 11-07「不能約運動健身嗎」；台詞 AA_715＝src/data/sport_invite_lines.js）----------
+   新體育館 B1（gym_b1）。健身中心＝有點熟以上（和羽球一樣）、自己去辦過會員證才列（G.daily.gym.card，BB_124 7-4）；游泳池＝朋友以上（和晨跑一樣）、自己去過 B1 才列。
+   開放時間照 BB_151（平日 8～22、週末 9 起；閉館前 30 分鐘清場；週日只到 18，這裡週末一律算到 17:30）；每月第四個星期一休館（avail）。
+   一起的時候照羽球那一套（sport：答應句 A／R、第一次、一起的時候輪流、結束）；一起練完體能照自己去健身的規則加（invites3d.js S.sportAfter）。學姊 2026-06-15 以前約游泳池＝婉拒（beforeLearn，AA_504）*/
+(function(){ const card=G=>!!(G&&G.daily&&G.daily.gym&&G.daily.gym.card), b1=G=>!!(G&&G.visited&&G.visited.gym_b1);
+  const notFourthMon=(G,day)=>{ if(typeof CALENDAR==='undefined') return true; const d=CALENDAR.dateOf(day); return !(d.wd===1&&d.d>=22&&d.d<=28); };
+  const P=[
+    {id:'gym_fitness',zone:'gym_b1',name:'健身中心',verb:'去健身中心一起練',kind:'sport',minStage:'FAMILIAR',stay:1,memory:'SPORT_GYM',sitAct:'wait',sport:true,hoursBy:{wk:[8,21.5],we:[9,17.5]},avail:notFourthMon,show:G=>card(G)},
+    {id:'gym_pool',zone:'gym_b1',name:'游泳池',verb:'去新體育館游泳',kind:'sport',minStage:'FRIEND',stay:1,memory:'SPORT_POOL',sitAct:'wait',sport:true,hoursBy:{wk:[8,21.5],we:[9,17.5]},avail:notFourthMon,show:G=>b1(G)}];
+  for(const q of P) if(!INVITE_DATA.places.some(x=>x.id===q.id)) INVITE_DATA.places.push(q);
+})();
+
+/* ===== INVITE-PLACES-1107 第二批：118 巷的店也能約（使用者 11-07「約會、約念書、約吃飯…」；AA_721 b782e2c08 答應句、第一次一起去那一句，src/data/invite_place_lines.js）=====
+   店 id＝區域 id。營業時間照 lane118_shops.js（AA_280）：一天兩段（午、晚）都能約、公休日灰掉（windows、off）；都要自己走進去過一次才列（G.visited）。
+   一一八茶飲放「散步」（AA_721：買了邊走邊喝）。她不會去的（可昕平日在木柵、好家自助餐只開平日）＝那一格灰掉、說明是她那句（noWho，匯入時併進來）。*/
+(function(){ const V=z=>G=>!!G&&!!G.visited&&!!G.visited[z];
+  /* 營業時間照 LANE118_SHOPS（src/data/lane118_shops.js，index.html 在 invites.js 前面載入）*/
+  const hrs=k=>{ const s=typeof LANE118_SHOPS!=='undefined'&&Array.isArray(LANE118_SHOPS.shops)&&LANE118_SHOPS.shops.find(x=>x.id===k); return (s&&s.hours)||{open:[[11,14],[17,20]],closed:[]}; };
+  const H=(o,k)=>{ const h=hrs(k), c=h.closed||[]; return Object.assign(o,{windows:h.open.map(w=>w.slice()),off:c.slice(),days:[0,1,2,3,4,5,6].filter(d=>!c.includes(d))}); };
+  const M=(k,name,verb)=>H({id:'l118_'+k,zone:'l118_'+k,name,verb,kind:'meal',minStage:'FAMILIAR',stay:0.75,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],times:[12,12.5,18,18.5],show:V('l118_'+k)},k);
+  const P=[M('dian','滇香小館','去滇香小館吃飯'),M('home','巷口家常菜','去巷口家常菜吃飯'),M('omu','蛋包飯研究所','去蛋包飯研究所吃飯'),M('noodle2','六張犁麵舖','去六張犁麵舖吃麵'),M('korea','韓食小廚','去韓食小廚吃飯'),M('self','好家自助餐','去好家自助餐吃飯'),
+    H({id:'l118_tea',zone:'l118_tea',name:'一一八茶飲',verb:'去一一八茶飲買飲料、走一走',kind:'walk',minStage:'FRIEND',stay:0.5,memory:'WALKED_TOGETHER',sitAct:'wait',cats:['walk'],times:[14,16,19.5],show:V('l118_tea')},'tea')];
+  for(const q of P) if(!INVITE_DATA.places.some(x=>x.id===q.id)) INVITE_DATA.places.push(q);
+  const B=INVITE_DATA.seatOpen&&INVITE_DATA.seatOpen.byPlace; if(B) for(const k of ['dian','home','omu','noodle2','korea','self']) if(!B['l118_'+k]) B['l118_'+k]='meal'; })();

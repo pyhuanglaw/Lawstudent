@@ -88,6 +88,13 @@ const crowdAt=h=>{ const def=CROWD.SHOP_ZONES.afar, pl=CROWD.shopPlan(def,{day:S
     E.player.seat=seatAt(-0.9,3.1);
     check('7 CROWD.playerTable：玩家坐窗邊長桌 → 旁邊 0.8 m 不來、2.4 m 照來',typeof f==='function'&&f(E,seatAt(-0.1,3.1))&&!f(E,seatAt(1.4,3.1)));
     E.player.seat=null; check('7 玩家沒坐著：都照來',typeof f==='function'&&!f(E,seatAt(3.15,0.65))); }
+  /* 7b BUG-AFAR-DATE-OCCUPIED-1107（BB-B 11-07）：約會她先坐好、你還沒坐下的那一段，新來的客人也不坐她那一桌（她坐的位子、帶路選好的兩個位子）*/
+  { setup(H0,[]); const f=CROWD.playerTable; E.player.seat=null; const G0g=global.GAME; global.GAME={G:H.G};
+    const her={id:'heroine_05',_ivLead:'iv9',seat:seatAt(2.05,1.15),obj:{position:{x:2.05,y:0,z:1.15}}}; E.npcs.push(her);
+    const a=f(E,seatAt(3.15,0.65)), b=f(E,seatAt(1.45,1.15)); E.npcs.splice(E.npcs.indexOf(her),1);
+    H.G.invites=[{id:'iv9',who:'heroine_05',state:'accepted',day:H.G.day,lead:{ph:'go',her:seatAt(2.05,1.15),me:seatAt(2.05,0.65)}}]; const c=f(E,seatAt(3.15,0.65));
+    H.G.invites=[]; const d=f(E,seatAt(3.15,0.65)); global.GAME=G0g;
+    check('7b 約會她先坐好（_ivLead）：同桌 (3.15, 0.65) 不來、隔壁桌照來；帶路選好的位子（iv.lead）也算；沒有約會＝照來',a&&!b&&c&&!d,J({a,b,c,d})); }
 
   /* 8 資料 */
   { const A=INVITE_DATA.seatOpen.afar||[];

@@ -2546,9 +2546,9 @@
   },
   {
    "path": "docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md",
-   "sha": "166dc131a",
+   "sha": "c71772fbc",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：第 1 節以安的表；e1e361335：AA_579 學姊改稿第一批（AA 2026-11-02 09:37 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 5 節學姊的表（22 句）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS）：第 1 節以安新增三句答應（新1～新3）；166dc131a：AA 2026-11-02 10:18 回 AA_579 第 7 節第 2 點——學姊 sis4（第 2 階約麵店）「好啊。這次你選地方。」→「好啊。」（AA_415:246；地點已經選好的邀約不問地方）",
+   "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：第 1 節以安的表；e1e361335：AA_579 學姊改稿第一批（AA 2026-11-02 09:37 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 5 節學姊的表（22 句）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS）：第 1 節以安新增三句答應（新1～新3）；166dc131a：AA 2026-11-02 10:18 回 AA_579 第 7 節第 2 點——學姊 sis4（第 2 階約麵店）「好啊。這次你選地方。」→「好啊。」（AA_415:246；地點已經選好的邀約不問地方）；c71772fbc：AA-B 11-07 03:30 語彤 5 句照新背景改（使用者實玩 PLAYTEST-1107，D109）",
    "task": "D14-T9",
    "kind": "text",
    "note": "tools/invite/build_replies.py → src/data/invite_replies.js（INVITE_REPLIES）；選句 src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）",
@@ -2568,6 +2568,10 @@
     {
      "sha": "759e5c000",
      "approvedBy": "AA_580 以安改稿第二批（新1～新3）"
+    },
+    {
+     "sha": "166dc131a",
+     "approvedBy": "（11-07 前的版本；c71772fbc 取代：語彤 5 句）"
     }
    ]
   },
@@ -4602,10 +4606,10 @@
    "path": "docs/story_planning/AA_621_大口漢堡_24小時速食.md",
    "sha": "52e3d83a8",
    "status": "approved",
-   "approvedBy": "AA-C D109（AA_621 52e3d83a8：店名改大口漢堡那一版；AA_697 指過來）",
+   "approvedBy": "AA-C D109（AA_621 52e3d83a8：店名改大口漢堡那一版；AA_697 指過來）；第 2 節阿哲、芯慈：AA-C D109（AA_705 補 4f71f7719「也做，照 AA_621 原稿」）；第 3 節宵夜訊息：AA-C D109（AA_705 補 2c62cdf1e）",
    "task": "XS-SHOPS-REST-1105",
    "kind": "text",
-   "note": "大口漢堡（xs_dakou）：第 1 節菜單八樣（價錢、早餐 05:00～10:30 豬肉滿福堡）、第 2 節讀書的旁白四句輪流＋第一次進去兩句＋天亮一句、第 3 節一個人深夜去一句。照抄進 src/dakou_sys3d.js（DKS.L）；第 2 節同學（柏翰、阿哲、芯慈）的作息與台詞、第 3 節阿哲宵夜私訊還沒做。tests/dakou_act_unit.js 用 git show 52e3d83a8 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+   "note": "大口漢堡（xs_dakou）：第 1 節菜單八樣（價錢、早餐 05:00～10:30 豬肉滿福堡）、第 2 節讀書的旁白四句輪流＋第一次進去兩句＋天亮一句、第 3 節一個人深夜去一句。照抄進 src/dakou_sys3d.js（DKS.L）；第 2 節同學：柏翰（考試那兩週 02:30～05:00、那一句）照 AA_705 第二批接進 src/data/shop_npc.js（xs_dakou_bh_exam，SHOP_NPC.src.AA_621）；阿哲（大一上期末考週 00:00～02:00）、芯慈（考試那兩週的週日 22:00～01:00）的作息與那一句也接進 shop_npc.js（xs_dakou_zhe_exam、xs_dakou_xc_exam，AA_705 補 4f71f7719）；第 3 節阿哲「宵夜？大口漢堡」私訊：AA_705 補 2c62cdf1e（10:06 第 2 點）定了時間與句子（每學期一次第 11 週週五 22:30、「好。」→ 23:00 大口漢堡一樓出遊、「今天不了。」→「OK 下次」；和 AA_614 第 3 節第 1 列分開、不輪流〔那一列照舊是 AA614-CLASSMATE-JOBS-1103〕）→ 已接進 src/zhedakou3d.js（字在 SHOP_NPC.zheDakou，照 AA_705 2c62cdf1e 那一節抄）。tests/dakou_act_unit.js 用 git show 52e3d83a8 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
   },
   {
    "path": "docs/story_planning/AA_698_大步球鞋好拍運動互動點的字.md",
@@ -4645,12 +4649,12 @@
   },
   {
    "path": "docs/story_planning/AA_705_新店面裡遇得到的人_第一批作息.md",
-   "sha": "4e6755340",
+   "sha": "2c62cdf1e",
    "status": "approved",
-   "approvedBy": "AA-C D109（AA_705 補一節 4e6755340，11-05 08:19：青木學姊改單數週週日 16:30～18:00；其他照 f8bd25439）",
+   "approvedBy": "AA-C D109（AA_705 補 2c62cdf1e，11-05 10:0x 回 LAWWW-C 10:06：柏翰好拍週四 17:15 也永遠撞總圖（學期中週一二四五 15:20～21:00 在總圖）→ 改週六 14:00～14:30（大一下起、句子照舊）；阿哲「宵夜？大口漢堡」（AA_621 第 3 節）每學期一次第 11 週週五 22:30、選項與見面句，和 AA_614 第 3 節第 1 列分開、不輪流、明軒那兩句不要；其他照 15eb48dfa）",
    "task": "SHOP-NAMED-NPC-1105",
    "kind": "text",
-   "note": "新店面裡遇得到有名字的人（大一上第一批）：新生南路、公館、溫州街 14 列的星期、時段、位置、act、聽一句（照抄進 src/data/shop_npc.js 的 SHOP_NPC.rows；系統 src/shopnpc3d.js）；芷若那一列照稿「給 LAWWW」的規則改週日下午；tests/shop_npc_unit.js 用 git show ebea3a2b0 逐句對照。LAWWW-C 子代理 2026-11-05 代登",
+   "note": "新店面裡遇得到有名字的人：第一批（大一上）新生南路、公館、溫州街 14 列的星期、時段、位置、act、聽一句＋第二批（大一下～大四下、可昕頁間書屋）照抄進 src/data/shop_npc.js 的 SHOP_NPC.rows（系統 src/shopnpc3d.js）；芷若那一列照稿「給 LAWWW」的規則改週日下午；第三批三列（xs_dabu_kai、xs_haopai_bh、xs_xsports_yu）；tests/shop_npc_unit.js 用 git show 44af68368（第一、二批）、2c62cdf1e（第三批＋09:21、09:25、10:06 三節補）逐句對照；可昕交往中那一句＝SHOP_NPC.rows bookstore_kx.hearDating。LAWWW-C 子代理 2026-11-05 代登；10:06 第 2 點阿哲「宵夜？大口漢堡」照抄進 SHOP_NPC.zheDakou（系統 src/zhedakou3d.js，tests/zhe_dakou_msg_unit.js 用 git show 2c62cdf1e 逐句對照）",
    "history": [
     {
      "sha": "ebea3a2b0",
@@ -4659,6 +4663,22 @@
     {
      "sha": "f8bd25439",
      "approvedBy": "AA-C D109（AA_705 補一節 f8bd25439，11-05 08:17：山嵐以安改週六 19:30～20:30、青木學姊改單數週週日 15:00～16:30、日常失速芷若週日 14:00～16:00、散步不算撞；AA_615 遞一小杯補旁白）"
+    },
+    {
+     "sha": "4e6755340",
+     "approvedBy": "AA-C D109（AA_705 補一節 4e6755340，11-05 08:19：青木學姊改單數週週日 16:30～18:00；其他照 f8bd25439）"
+    },
+    {
+     "sha": "44af68368",
+     "approvedBy": "AA-C D109（AA_705 第二批 44af68368，11-05 09:0x：第一批延到大一下～大四下、聽一句只在大一上、學姊大二起判決評釋那一句、子晴同弦只有大一上、柏翰考試週照 AA_621、可昕頁間書屋雙數週週六；第一批照 4e6755340）"
+    },
+    {
+     "sha": "a0f562527",
+     "approvedBy": "AA-C D109（AA_705 第三批 dd765aec6＋a0f562527，11-05 09:2x：使用者「不要新的人物」「原本的人物就好」→ 只補 AA_620 3-4 三列（阿凱大步週六 18:40～19:20、柏翰好拍大一下起週二 20:00～20:30、Alison 運動廣場大二起週日 13:00～14:00）；「不用每天都遇到人，但要遇得到」→ 照現在密度、不再加；第一、二批照 44af68368）"
+    },
+    {
+     "sha": "15eb48dfa",
+     "approvedBy": "AA-C D109（AA_705 補 4f71f7719＋15eb48dfa，11-05 09:2x 回 LAWWW-C：可昕交往中也會在頁間遇到（只有那一天有約才不出）＋交往版一句；學姊大二起旁白、「第 2 週起」只大一上、柏翰考試週照 LAWWW-C；AA_621 阿哲、芯慈考試週和宵夜訊息「也做」；第三批兩列永遠撞→阿凱大步改週日 16:30～17:15、柏翰好拍改週四 17:15～17:45；第一～三批其他照 a0f562527）"
     }
    ]
   },
@@ -4670,6 +4690,196 @@
    "task": "SHOP-NAMED-NPC-1105",
    "kind": "text",
    "note": "只用第 4 節「遇到她、送爆米花」：第一次（櫃檯）旁白兩句、Alison 四句、兩個選項的回話、拿到爆米花的旁白；之後再遇到三句隨機；KNOWS_SIS_ALISON 那一句。照抄進 src/data/shop_npc.js（SHOP_NPC.alison）；和朋友一起來、人物頁打工那一行、看電影時多一句還沒做。tests/shop_npc_unit.js 用 git show ebea3a2b0 逐句對照。LAWWW-C 子代理 2026-11-05 代登"
+  },
+  {
+   "path": "docs/story_planning/AA_707_study_scenes.json",
+   "sha": "6a0018b90",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 05:25／05:28「AA_707 改版，請重匯」：心事搬到 AA_712 故事線；旗標、unlock、need、第 6 場算約會不動）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "七位一起念書第 1～6 次＋輪換 6 則；tools/story/import_study_scenes.py → src/data/study_scenes.js（第一批 49d01b2b2 被這一版取代）",
+   "history": [
+    {
+     "sha": "05d8a816e",
+     "approvedBy": "（11-07 04:05 以前的版本；c47f8ab4d 取代：以安第 1 場旁白、語彤第 5 場 alt 改成完整 opts）"
+    },
+    {
+     "sha": "c47f8ab4d",
+     "approvedBy": "（11-07 05:2x 以前的版本；6a0018b90 取代：心事搬進 AA_712，只留一起念書的樣子）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_710_gifts.json",
+   "sha": "be775af69",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:02「AA_710 改了你說的六句」）",
+   "task": "GIFT-FLIRT-1107",
+   "kind": "json",
+   "note": "第二版（BB_304 第 7 節）：七位送飲料、早餐：yes（need 1／4、dating 交往中；pool 兩三組輪流）、no（一天第二次，輪流）、fav（七位都有，AA_410）、opinion（她有意見的那一樣）、ctx（again／exam／night／winterCold／summerHot）；tools/story/import_gifts.py → src/data/gift_lines.js",
+   "history": [
+    {
+     "sha": "4be26c44d",
+     "approvedBy": "AA-B D109（11-07 04:14：以安早餐那句「（她咬了一口，才說：）」，遊戲還沒有早餐店）；74aa33345 取代（第二版）"
+    },
+    {
+     "sha": "e2e92dcf4",
+     "approvedBy": "（11-07 04:14 以前的版本；4be26c44d 取代：以安熟了收早餐那句不寫蛋餅）"
+    },
+    {
+     "sha": "74aa33345",
+     "approvedBy": "（11-07 06:00 以前；be775af69 取代：改六句（以安晚上、芷若 no／opinion、語彤交往中、子晴 no、可昕有糖））"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_709_msg_replies.json",
+   "sha": "1e9257401",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:18「AA_709 第五批」、06:26「第六批」）",
+   "task": "MSG-REPLY-1107",
+   "kind": "json",
+   "note": "女主角主動傳的「分享生活」私訊，最後一則掛三個回覆選項（rel、她的回話）；tools/story/import_msg_replies.py → src/data/msg_replies.js",
+   "history": [
+    {
+     "sha": "bc0e755be",
+     "approvedBy": "（11-07 05:3x 以前；b6019bbd1 取代：新寫五串、拿掉秀琴姨試菜回覆、以安除夕選項、set、第三批寒暑假 9 串＋芯慈過了吧三個選項）"
+    },
+    {
+     "sha": "b6019bbd1",
+     "approvedBy": "（11-07 06:0x 以前；c8cceccf9 加第四批：大二上＋跨年 20 串）"
+    },
+    {
+     "sha": "c8cceccf9",
+     "approvedBy": "（11-07 06:3x 以前；1e9257401 加第五批 7a01b883e 大二寒假＋大二下 15 串、第六批大二暑假＋大三上 24 串）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_711_flirt.json",
+   "sha": "09e3a8d03",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 04:10「AA_709、AA_711 都推了」）",
+   "task": "GIFT-FLIRT-1107",
+   "kind": "json",
+   "note": "七位各 5 則（need 3～5、ok／early）；tools/story/import_flirt.py → src/data/flirt_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_712_heroine_arcs.json",
+   "sha": "026a2dd34",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:00「AA_712 修三處我妹多一個空白」）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "七位各 8 拍（BB_305 欄位）；tools/story/import_arcs.py → src/data/heroine_arcs.js；src/arcs3d.js 播放",
+   "history": [
+    {
+     "sha": "7a24f8ce1",
+     "approvedBy": "（11-07 06:00 以前；026a2dd34 取代：學姊那幾拍「我妹 」多一個空白）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_714_invite_places_acc.json",
+   "sha": "696254f1c",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 05:48 交付 AA_714）",
+   "task": "INVITE-PLACES-1107",
+   "kind": "json",
+   "note": "七個新地點 × 七位：acc（答應句）＋firstAt（第一次一起去）；tools/story/import_place_acc.py → src/data/invite_place_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_708_activity_scenes.json",
+   "sha": "8af1417f2",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 05:30「AA_708 改好了，可以接（取消不整合）」：只留活動的樣子、心事在 AA_712）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "吃飯、咖啡各 4 場、電影、書店各 3 場＋輪換；tools/story/import_activity_scenes.py → src/data/activity_scenes.js"
+  },
+  {
+   "path": "docs/story_planning/AA_713_gym_equip.json",
+   "sha": "a6cb4f488",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:12「AA_713 加了 mat」）",
+   "task": "GYM-FIT-1107",
+   "kind": "json",
+   "note": "健身房七種器材（treadmill、bike、rower、dumbbell↔db_rack、squat↔squat_rack、smith、bench；墊子沒有稿）四階各三句＋levelUp（升階以後第一次練完一句）；tools/story/import_gym_equip.py → src/data/gym_equip_lines.js（GYM_EQUIP_LINES），播放 src/gym3d.js（器材）、src/fit3d.js（升階）。LAWWW-B 子代理 2026-11-07 代登",
+   "history": [
+    {
+     "sha": "60f8f6b6a",
+     "approvedBy": "（11-07 05:48；89da798d1 取代：健身中心在 B1，拿掉一句窗戶、兩句喝水）"
+    },
+    {
+     "sha": "89da798d1",
+     "approvedBy": "（11-07 05:51；a6cb4f488 取代：加 mat 伸展墊四階）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_715_sport_gym_pool_invites.json",
+   "sha": "2205d6058",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 05:51「AA_715 運動健身」）",
+   "task": "GYM-FIT-1107",
+   "kind": "json",
+   "note": "gym_fitness、gym_pool × 七位（acc、firstAt、sport during／end、學姊 beforeLearn）＋shared.sport；tools/story/import_sport_invites.py → src/data/sport_invite_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_717_rot_life.json",
+   "sha": "578ba675e",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:11「交付 BB_305 第 5、6 節」）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "七位輪換句 15～19 則（when／beat／if／life／lifeMax／from／until／alt）＋life 7～12 階；tools/story/import_arc_rot.py → src/data/arc_rot.js"
+  },
+  {
+   "path": "docs/story_planning/AA_716_arc_invites.json",
+   "sha": "026a2dd34",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 06:00「AA_716 故事線的下次帶你去變成真的約會」）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "7 個 invite（offer、plan、scene、by、set、noPlan）；tools/story/import_arc_invites.py → src/data/arc_invites.js"
+  },
+  {
+   "path": "docs/story_planning/AA_719_decide_rules.json",
+   "sha": "13acd106d",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 08:10 經 BB-B 轉「AN-1 rule 0 say 第一句」）",
+   "task": "STUDY-DATE-PROGRESS-1107",
+   "kind": "json",
+   "note": "14 個決定拍（七位各 2）：style、lean、default、opts stance、rules（stance×trust×opt→result、rel、delay、say）、keyNote；tools/story/import_decide_rules.py → src/data/decide_rules.js",
+   "history": [
+    {
+     "sha": "3788d00c1",
+     "approvedBy": "AA-B D109（11-07 06:40「分岔稿第一份：規則表」）（11-07 07:1x 以前；851167f68 加 before／revealAt、trust 門檻寫 60）"
+    },
+    {
+     "sha": "851167f68",
+     "approvedBy": "AA-B D109（11-07 07:10「AA_719 兩個小改」）（11-07 08:1x 以前；13acd106d AN-1 rule 0 第一句改傳單）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_721_l118_invite_acc.json",
+   "sha": "b782e2c08",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 09:27「INVITE-PLACES 第二批」）",
+   "task": "INVITE-PLACES-1107",
+   "kind": "json",
+   "note": "118 巷七家店 × 七位 acc／firstAt；可昕不去好家自助餐（no）；tools/story/import_place_acc.py → src/data/invite_place_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_722_study_unlock_slots.json",
+   "sha": "897ddd17e",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 09:41「念書第 6 次的她那一格」；09:50 bbeb58f34 語彤那一場改成她下班、店還開著；10:04 897ddd17e 小路、滷味照 partnerBlock 擋＋以安的 fallback）",
+   "task": "INVITE-PLACES-1107",
+   "kind": "json",
+   "note": "六格（以安小路一次性、芷若週六早場、語彤一盞下班後、子晴公館滷味、沛珊課輔班、可昕木柵圖書館）× acc／first／rot；tools/story/import_study_slots.py → src/data/study_slots.js"
   }
  ]
 }

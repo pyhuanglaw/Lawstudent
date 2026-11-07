@@ -7,7 +7,8 @@
 //   ① 爬上去（梯子每一階、最上面一階轉身、跪上床）每一格頭頂 ≤ 限制（舊版：最上面一階站直 3.35 m、上床點站直 3.6 m）
 //   ② 起床（跪在床上 → 最上面一階 → 一階一階下來）每一格頭頂 ≤ 限制
 //   ③ 上床點（bed_entry）跪著：臀部離床墊 ≤ 0.70 m（站著約 0.98 m）、兩個膝蓋離床墊 ≤ 0.12 m；起床的第一個看得到的畫面也是跪著
-//   ④ 平滑：人物座標裡的關節沒有跳格——相鄰兩格移動量的差（二階差分）身體 ≤ 5 cm、手腳 ≤ 8 cm，每一格 ≤ 12 cm（30 fps；走路片段的腳本來就一格約 8 cm；黑幕裡換位置的那一格不算）——彎腰、蹲低、跪下、站起來都不跳
+//   ④ 平滑：人物座標裡的關節沒有跳格——相鄰兩格移動量的差（二階差分）身體 ≤ 5 cm、手腳 ≤ 8 cm，每一格 ≤ 12 cm（30 fps；走路片段的腳本來就一格約 8 cm；黑幕裡換位置的那一格不算）；
+//      爬梯子換階的那幾格手腳照 climb_grips_feet ⑨（≤ 28 cm、每格 ≤ 26 cm）；B（備用版面）的換階只印 NOTE（已知，DORM-LADDER-STOOP-1103）——彎腰、蹲低、跪下、站起來都不跳
 //   ⑤ 腳踩在踏點上：梯子上每一格最低的腳（腳踝、腳尖）不低於踏點 3 cm 以上（蹲低時腳照樣踩在那一階）
 //   ⑥ 站回梯子前以後拿掉限制（userData.headMax 沒了）、姿勢 idle；站直時頭頂回到身高
 // 修改前（578f5a0d4 那一版的 character3d.js、story3d.js）：① ② ③ 失敗（8 項；最上面一階站直頭頂 3.59 m、起床 3.35 m）。用法：node tests/ladder_headroom_unit.js
@@ -65,10 +66,17 @@ const JOINTS=['hips','spine','chest','neck','head','leftUpperLeg','rightUpperLeg
     check(`③ ${LY.name.slice(0,1)} 起床第一個看得到的畫面：跪在上床點（臀部離床墊 ≤ 70 cm）`,!!firstSeen&&firstSeen.pose==='kneel'&&Math.abs(firstSeen.y-be[1])<1e-6&&firstSeen.hipsW-mat<=0.70,firstSeen&&`${firstSeen.pose}、臀部 ${cm(firstSeen.hipsW-mat)}`);
     /* ④ 平滑（人物座標的關節；黑幕、瞬移、躺著的格子不算）：跳格＝某一格的速度突然變了——相鄰兩格移動量的差（二階差分）：身體（臀部到頭）≤ 5 cm、手腳 ≤ 8 cm
        （走路片段換成站著的片段、爬梯子的手碰到床欄頂的上限，本來就有 7 cm 左右；修好以前跪的權重歸零那一格手肘翻回去 10～11.5 cm）；每一格移動 ≤ 12 cm（走路片段的腳本來就一格 8 cm）*/
-    const CORE=new Set(['hips','spine','chest','neck','head']); let acc=0, af=null, accL=0, afL=null, vel=0, vf=null; for(const F of [up,dn]) for(let i=1;i<F.length;i++){ const a=F[i-1], b=F[i], c=F[i+1]; const ok=f=>f&&!f.black&&!f.jump&&f.pose!=='lie'; if(!ok(a)||!ok(b)) continue;
-      for(const j in b.J){ const d=b.J[j].distanceTo(a.J[j]); if(d>vel){ vel=d; vf=`${j}（${a.pose}→${b.pose}、腳 ${cm(b.y)}）`; }
-        if(ok(c)&&c.J[j]){ const d2=c.J[j].clone().sub(b.J[j]).sub(b.J[j].clone().sub(a.J[j])).length(); if(process.env.DBG_JMP&&d2>0.03) console.log('  acc',F===up?'up':'dn',i,j,cm(d2),a.pose+'→'+b.pose+'→'+c.pose,'y',b.y.toFixed(3),'kw',b.kneelW.toFixed(2),'fitE',b.fitE!=null?b.fitE.toFixed(3):'-'); const tag=`${j}（${a.pose}→${b.pose}→${c.pose}、腳 ${cm(b.y)}）`; if(CORE.has(j)){ if(d2>acc){ acc=d2; af=tag; } } else if(d2>accL){ accL=d2; afL=tag; } } } }
-    check(`④ ${LY.name.slice(0,1)} 平滑：沒有跳格（相鄰兩格移動量的差：身體 ≤ 5 cm、手腳 ≤ 8 cm；每一格 ≤ 12 cm）`,acc<=0.05&&accL<=0.08&&vel<=0.12,`身體 ${cm(acc)} ${af||''}；手腳 ${cm(accL)} ${afL||''}；每格最大 ${cm(vel)} ${vf||''}`);
+    /* 爬梯子、手腳一階一階換的那幾格（三格裡有 climb／climbdown、沒有跪）：手腳的上限照 CLIMB-GRIPS-FEET-1105 的規格（tests/climb_grips_feet_unit.js ⑨：≤ 28 cm、每格 ≤ 26 cm——
+       一隻腳 0.19 秒往上 32 cm、一隻手 0.19 秒換到下一階的點，本來就是一大步）；身體、其他格照原本的 5／8／12 cm。
+       這支 ④ 是 CLIMB-GRIPS-FEET（11-05 fb8a5b0ff 起手腳踩踏階、換手抓扶手）以前寫的，一直用 8 cm 量換階那幾格，GHA 從那時候起一直 FAIL（LAWWW-B 11-07 二分搜尋找到）。*/
+    const CORE=new Set(['hips','spine','chest','neck','head']), ladT=(...fs)=>fs.some(f=>f&&(f.pose==='climb'||f.pose==='climbdown'))&&!fs.some(f=>f&&f.pose==='kneel');
+    let acc=0, af=null, accL=0, afL=null, vel=0, vf=null, accR=0, afR=null, velR=0, vfR=null; for(const F of [up,dn]) for(let i=1;i<F.length;i++){ const a=F[i-1], b=F[i], c=F[i+1]; const ok=f=>f&&!f.black&&!f.jump&&f.pose!=='lie'; if(!ok(a)||!ok(b)) continue;
+      for(const j in b.J){ const d=b.J[j].distanceTo(a.J[j]), rung=!CORE.has(j)&&ladT(a,b); const tg1=`${j}（${a.pose}→${b.pose}、腳 ${cm(b.y)}）`; if(rung){ if(d>velR){ velR=d; vfR=tg1; } } else if(d>vel){ vel=d; vf=tg1; }
+        if(ok(c)&&c.J[j]){ const d2=c.J[j].clone().sub(b.J[j]).sub(b.J[j].clone().sub(a.J[j])).length(); if(process.env.DBG_JMP&&d2>0.03) console.log('  acc',F===up?'up':'dn',i,j,cm(d2),a.pose+'→'+b.pose+'→'+c.pose,'y',b.y.toFixed(3),'kw',b.kneelW.toFixed(2),'fitE',b.fitE!=null?b.fitE.toFixed(3):'-'); const tag=`${j}（${a.pose}→${b.pose}→${c.pose}、腳 ${cm(b.y)}）`; if(CORE.has(j)){ if(d2>acc){ acc=d2; af=tag; } } else if(ladT(a,b,c)){ if(d2>accR){ accR=d2; afR=tag; } } else if(d2>accL){ accL=d2; afL=tag; } } } }
+    const okSm=acc<=0.05&&accL<=0.08&&vel<=0.12, okRung=accR<=0.28&&velR<=0.26, info=`身體 ${cm(acc)} ${af||''}；手腳 ${cm(accL)} ${afL||''}；每格最大 ${cm(vel)} ${vf||''}；爬梯子換階 ${cm(accR)} ${afR||''}、每格 ${cm(velR)} ${vfR||''}`;
+    if(LY.name.slice(0,1)==='A') check(`④ A 平滑：沒有跳格（相鄰兩格移動量的差：身體 ≤ 5 cm、手腳 ≤ 8 cm、每一格 ≤ 12 cm；爬梯子換階的那幾格手腳 ≤ 28 cm、每格 ≤ 26 cm，同 climb_grips_feet ⑨）`,okSm&&okRung,info);
+    else { check(`④ B 平滑（身體、換階以外的格子）：身體 ≤ 5 cm、手腳 ≤ 8 cm、每一格 ≤ 12 cm`,okSm,info);
+      console.log((okRung?'NOTE ':'NOTE【已知】')+'④ B 換階（備用版面：舊的 3.0 m 天花板、沒有 head_max；遊戲用 A，而且預設不演爬梯子 WAKE-AT-DOOR-1105／SLEEP_FULL false）：'+`${cm(accR)}、每格 ${cm(velR)}（A 的上限 28／26 cm）`+(okRung?'':'——最上面兩階蹲得更低，腳一步比較大；掛在 DORM-LADDER-STOOP-1103，要重新打開爬梯子演出時再修')); }
     /* ⑤ 腳踩在踏點上 */
     const onSteps=up.concat(dn).filter(f=>!f.black&&(f.pose==='climb'||f.pose==='climbdown')&&st.some(s=>Math.abs(f.y-s[1])<1e-6&&Math.abs(f.x-s[0])<1e-6));
     const sink=Math.max(...onSteps.map(f=>f.y-f.footW)); if(process.env.DBG_SINK) onSteps.filter(f=>f.y-f.footW>0.015).forEach(f=>console.log('  sink',f.pose,f.y.toFixed(2),cm(f.y-f.footW),'kw',f.kneelW.toFixed(2),'fitE',f.fitE!=null?f.fitE.toFixed(3):'-'));

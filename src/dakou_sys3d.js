@@ -6,7 +6,8 @@
      自助點餐＝（螢幕上的漢堡…）→ 同一份菜單 → 點了：（機器吐出一張號碼單。）
      菜單（AA_621 第 1 節）：七樣固定價錢；05:00～10:30 多一項豬肉滿福堡 59。錢不夠＝選項變暗、按了「錢不夠」（和其他店一樣，不扣錢）；「不用了」＝什麼都不點（其他店的選單一樣有）。
      點了＝扣錢、時間 +9 分鐘（照兩點半 Café 的櫃台、afar）、吃過的登記到 src/eat3d.js（EAT.ordered，店名「新生南路・大口漢堡」）——AA_697「點了東西沒按『取餐』也照樣算吃到」：點的那一刻就算。
-     取餐＝這一趟有點、還沒取：（櫃檯叫了你的號碼…）（取了就清掉）；沒點：（取餐區的螢幕上…）。回收餐盤＝那一句旁白。店員不另外說話（配置的 clerk 不放按鈕）。
+     取餐＝這一趟有點、還沒取：（櫃檯叫了你的號碼…）（取了就清掉）；沒點：（取餐區的螢幕上…）。回收餐盤＝那一句旁白。店員不另外說話（配置的 clerk 不放按鈕）；
+     人站在配置的 clerk（櫃檯後面、面向客人；S.populate，營業時間內，SHOP-STAFF-1107）。
    - 二樓：插座、看書架＝那一句旁白（不加任何數值）。坐下讀書＝區域原本的 62 個座位（label「坐下讀書」、it.study：照兩點半的 studySession，D118 不另外加分）；
      配置 interact 的 study（長桌中間）就是這些座位，不另外放按鈕。AA_621 第 2 節：
      ① 讀完的旁白四句輪流（G.flags.DAKOU_NARR；game3d.js studySession 讀完問 STORY.studyNarr）；
@@ -68,6 +69,15 @@ const DKS=(function(){
   S.buttons=function(E){ if(!E||!Array.isArray(E.interactables)||typeof DK3==='undefined'||!DK3.INTERACT) return 0; let n=0;
     for(const q of DK3.INTERACT()){ if(!S.KINDS[q.kind]) continue; E.interactables.push({x:q.x,z:q.z,lv:q.lv|0,radius:0.9,label:q.label,dakou:q.kind}); n++; }   /* study＝原本的座位（不另外放）*/
     return n; };
+  /* ---------- 櫃檯後面的店員（SHOP-STAFF-1107：使用者 11-07 試玩「大口漢堡可以點餐但櫃檯沒店員」）----------
+     原因：配置 floor1.interact 有 clerk（櫃檯後面、面向客人），DK3.INTERACT 照設計把它濾掉（店員不放按鈕），但沒有任何地方照那一點生出人——點餐時「店員」說話、櫃檯後面卻沒有人。
+     照同弦、木曜日的老闆（guitar3d.js、mokuyobi_sys3d.js 的 S.populate）：換到這一區（STORY.populate）時、營業時間內（isOpen；現在 24 小時）站在配置的 clerk；路人底模、不說話、不放按鈕（話照舊是點餐那幾句）。*/
+  S.CLERK_SPEC=95;   /* STORY.extraSpec：奇數＝男；91～94 是木曜日、日常失速、同弦、南洋戲院 */
+  S.clerkAt=function(){ const L=typeof DAKOU_LAYOUT!=='undefined'?DAKOU_LAYOUT.shop:null, c=L&&L.floor1&&(L.floor1.interact||[]).find(q=>q.kind==='clerk'); return c?{x:c.x,z:c.z,yaw:c.yaw||0}:null; };
+  S.populate=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!E.addNPC||G.zone!==ZONE||typeof CHAR==='undefined'||!CHAR.build||!isOpen(G)) return null; if((E.npcs||[]).some(n=>n&&n.dakouClerk)) return null;
+    const at=S.clerkAt(); if(!at) return null; const sp=Object.assign({},typeof STORY!=='undefined'&&STORY.extraSpec?STORY.extraSpec(S.CLERK_SPEC):{}); sp.bag=null;   /* 站櫃檯不背包 */
+    const o=CHAR.build(sp); if(!o) return null; o.position.set(at.x,0,at.z); o.rotation.y=at.yaw;
+    return E.addNPC({obj:o,lv:0,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,clerk:true,dakouClerk:true}); };
   /* ---------- 讀書（AA_621 第 2 節）---------- */
   let lastStudy=null;
   S.markStudy=function(GM,hrs){ const G=GM&&GM.G; if(!G) return; lastStudy={zone:G.zone,day:G.day,to:+G.hour||0,from:(+G.hour||0)-(+hrs||1)}; };
@@ -98,6 +108,7 @@ const DKS=(function(){
   if(typeof STORY!=='undefined'){
     if(Array.isArray(STORY.TICKS)&&!STORY.TICKS.includes(S.tick)) STORY.TICKS.push(S.tick);
     if(!STORY._dks){ STORY._dks=true;
+      if(STORY.populate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(zoneId===ZONE) S.populate(GM); }catch(e){ console.warn('DKS.populate',e); } return r; }; }   /* 櫃檯後面的店員（SHOP-STAFF-1107）*/
       const ost=STORY.onStudy; STORY.onStudy=function(GM,hrs){ if(ost){ try{ ost.apply(this,arguments); }catch(e){ console.warn('STORY.onStudy',e); } } S.markStudy(GM,hrs); };
       const n0=STORY.studyNarr; STORY.studyNarr=GM=>S.narr(GM)||(typeof n0==='function'?n0(GM):null);
       if(STORY.interact){ const oi=STORY.interact; STORY.interact=async function(it,GM){ const G=GM&&GM.G;

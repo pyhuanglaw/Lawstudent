@@ -40,7 +40,8 @@ sec('0. 台詞對稿',()=>{ const L=[]; const add=(x,w)=>{ if(x==null||x==='') r
   add(FEED_Y1S1.video.start,'video'); add(FEED_Y1S1.video.end,'video');
   /* YT-REWRITE-1103：語彤的句子照 AA_630 第 3 節（F 列）換了；短句（tests/alison.js 的語料不收）直接對 AA_630 表上的「改成」那一格 */
   const A630=(()=>{ try{ return (cp.__worldEf||cp.execFileSync).call(cp,'git',['-C',H.ROOT,'show','bb4401fd3:docs/story_planning/AA_630_語彤台詞改寫.md'],{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } })();
-  const bad=L.filter(([w,t])=>!doc.includes(t)&&!(A630&&A630.includes(' | '+t+' | ')));
+  const D116={'老師說我們那一段寫得很清楚。消失的那一段。':'AA-B 11-07 04:10 訊息：原句「寫得最好」違反 D116（不跟別人比），改「寫得很清楚」；AA 會在 AA_503 稿補更正'};   /* AA 直接給的更正（不在 d13ab3ab7 稿裡）*/
+  const bad=L.filter(([w,t])=>!doc.includes(t)&&!(A630&&A630.includes(' | '+t+' | '))&&!D116[t]);
   check('0. 每一句都在 AA_503 稿裡（'+SHA+'，一字不差；'+L.length+' 句）',doc.length>1000&&L.length>=250&&!bad.length,doc?J(bad.slice(0,8)):'git fetch origin claude/magical-albattani-bk7b4n');
   check('0. 動態 43 則（以安 8、芷若 6、語彤 6、子晴 7、學姊 2、可昕 8、沛珊 6）、私訊 10 則（2026-11-04：學姊 sis2「空的保溫瓶」拿掉，D127④、AA_661 第 48 列 ebdd2fb59）',FEED_Y1S1.posts.length===43&&!FEED_Y1S1.posts.some(p=>p.id==='sis2')&&FEED_Y1S1.dms.length===10,J([FEED_Y1S1.posts.length,FEED_Y1S1.dms.length]));
   /* AA 更正：74916d73b 芷若的拉花比賽、語彤的訪問作業；62849944b 可昕第 5 則的予樂生日——都不放進遊戲 */
@@ -173,7 +174,7 @@ sec('6',()=>{ const TUE=TD(11,2), WED=TUE+1, THU=TUE+2;
   const q=OUT.get(H.G,'aa503_kx_video'), ev=STORY_EVENTS.find(e=>e.id==='ev_kexin_video_report'), said=ev?ev.dialogue.filter(d=>d.text).map(d=>d.text):[];
   check('6. 「我陪妳熬夜。」→ 她回一句、KX_RPT stay；當晚 00:00 排視訊（接起來）；事件只有開頭「你念你的」、結尾「好了。睡覺。」、兩個小時',J(L.map(x=>x.text))===J(['我陪妳熬夜。','你在首都帝大陪我熬夜？……好啊。視訊開著，你不要講話。'])&&H.G.flags.KX_RPT==='stay'&&!!q&&q.day===WED&&q.h===0&&q.ev==='ev_kexin_video_report'&&q.verb==='接起來'&&!!ev&&ev.trigger==='outing'&&ev.hours===2&&J(said)===J(['你念你的','好了。睡覺。'])&&ev.dialogue[0].bg==='video',J({q,said}));
   walk(THU,17.9); const a=th('kexin').some(x=>x.tag==='aa503_kx_rpt2'); walk(THU,18.1);
-  check('6. 週四 18:00「報告交了。」「老師說我們那一段寫得最好。消失的那一段。」',!a&&J(th('kexin').filter(x=>x.tag==='aa503_kx_rpt2').map(x=>x.text))===J(['報告交了。','老師說我們那一段寫得最好。消失的那一段。']));
+  check('6. 週四 18:00「報告交了。」「老師說我們那一段寫得很清楚。消失的那一段。」（D116 不跟別人比：AA-B 11-07 04:10 把「寫得最好」改成「寫得很清楚」）',!a&&J(th('kexin').filter(x=>x.tag==='aa503_kx_rpt2').map(x=>x.text))===J(['報告交了。','老師說我們那一段寫得很清楚。消失的那一段。']));
   ({m,L}=go(1)); walk(THU,18.1);
   check('6. 「他人呢？」→ 兩句（KX_RPT who）、不排視訊；週四那一則也有',J(L.map(x=>x.text))===J(['他人呢？','邵鈞說他去宜蘭。宜蘭耶。','我明天要在群組裡講清楚。講清楚，不罵他。'])&&H.G.flags.KX_RPT==='who'&&!OUT.get(H.G,'aa503_kx_video')&&th('kexin').some(x=>x.tag==='aa503_kx_rpt2'));
   ({m,L}=go(2));

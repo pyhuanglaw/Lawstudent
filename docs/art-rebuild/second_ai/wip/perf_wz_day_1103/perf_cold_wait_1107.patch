@@ -1,0 +1,107 @@
+diff --git a/src/assets3d.js b/src/assets3d.js
+index 5495e33c5..c759ee45c 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -314,7 +314,10 @@ const ASSETS = (function(){
+   /* PERF-ZONE-POPIN-1103（使用者 11-03：「進入新場景的時候 都會先出現畫質很爛的版本 卡一下才出現完整的……溫州街地圖還沒讀取完畢……也會看到腳踏車自己在動」）：
+      換區域時記下區域建立當下要的正式模型（A.reqStart／A.reqTake），淡入以前等它們載好（A.waitLoaded，最多 cap 毫秒）；原本第一次去的地方先淡入、看到方塊備用模型，GLB 載好才換 */
+   A._req=null; A.reqStart=function(){ A._req=new Set(); }; A.reqTake=function(){ const r=A._req?Array.from(A._req):[]; A._req=null; return r; };
+-  A.waitLoaded=async function(keys,cap){ const pend=(keys||[]).filter(k=>!A.cache[k]&&A.status[k]&&(A.manifest[k]||{}).type==='building'); const out={pending:pend.length,waited:0,timedOut:false}; if(!pend.length) return out;
++  /* PERF-COLD-1107（LAWWW2-B；LAWWW-B 11-07 08:41 選 (A)）：NPC 的 VRM、動作檔（clips）也等。原本只等 building——PC 冷快取量（CC-B PERF_COLD b987cb1cf）：
++     溫州街淡入以後才 parseVRM（兩次共 3.7 s）、主模型第 18.5 s 才到、接上那一格 5.1 s；總圖大廳淡入後還有 12 個在載（3.1 fps）。先載好再淡入：溫州街 8.8→27.5 fps、總圖大廳 3.1→19.2 fps，黑畫面多 2～4 s */
++  A.WAIT_TYPES={building:1,vrm:1,clips:1};
++  A.waitLoaded=async function(keys,cap){ const pend=(keys||[]).filter(k=>!A.cache[k]&&A.status[k]&&A.WAIT_TYPES[(A.manifest[k]||{}).type]); const out={pending:pend.length,waited:0,timedOut:false}; if(!pend.length) return out;
+     const t0=Date.now(); let to=null; const all=Promise.all(pend.map(k=>Promise.resolve(A.status[k]).catch(()=>null)));
+     const ok=await Promise.race([all.then(()=>true),new Promise(r=>{ to=setTimeout(()=>r(false),Math.max(0,cap|0)); })]); clearTimeout(to);
+     await new Promise(r=>setTimeout(r,0));   /* 載好以後區域的 .then（接上正式模型、藏起備用方塊）先跑完 */
+diff --git a/src/game3d.js b/src/game3d.js
+index 41c03f89e..357dcb85f 100644
+--- a/src/game3d.js
++++ b/src/game3d.js
+@@ -231,7 +231,9 @@ const GAME = (function(){
+   // ---------- 區域進入 ----------
+   let entering=false;
+   GM.ZONE_LOAD_WAIT_MS=6000;   /* PERF-ZONE-POPIN-1103：換區域淡入前最多等正式模型多久（毫秒）*/
+-  async function enter(zoneId,spawn,opts){ opts=opts||{}; if(entering) return; entering=true; GM.enterN=(GM.enterN|0)+1; if(typeof PERFPANEL!=='undefined') PERFPANEL.mark('start',zoneId);   /* ?perf 量測小面板（src/perfpanel3d.js）*/   /* 第幾次換區域：home3d.js backdrop 用來分「剛出家門、3D 還是舊的」和「真的到了新的 3D 地點」*/ let z; try{ if(GM.liveMark) GM.liveMark(true); if(!opts.noFade) await fade(true); GM.npc={}; GM.extras=[]; if(W3.releaseViews) W3.releaseViews();   /* 窗景照片只留新區域要用的（v9.5 審查：16 張 1024×512 一直留著，iPhone 長時間玩可能被系統關掉分頁）*/ if(typeof BIKE!=='undefined'&&G) BIKE.beforeEnter(GM,zoneId,opts);   /* 腳踏車：要去的地方騎得到就一起過去，不行就停下（src/bike3d.js）*/ if(typeof ASSETS!=='undefined'&&ASSETS.reqStart) ASSETS.reqStart(); z=E.loadZone(Z3.ZONES[zoneId],spawn); GM._zoneReq=typeof ASSETS!=='undefined'&&ASSETS.reqTake?ASSETS.reqTake():[];   /* 建區域丟例外時 ASSETS._req 留著也沒關係：下一次換區域 reqStart 重來 */ G.zone=zoneId; G.visited[zoneId]=true; if(!opts.fromLoad){ habit('place:'+zoneId+':'+habitSlot(G.hour)); const comp=G.flags&&G.flags.companion; if(comp) habit('place:'+zoneId+':with:'+(CID[comp]||comp)); }   /* 習慣記憶（AA_110 5-4）*/ if(typeof EVENTS!=='undefined'&&EVENTS.zoneChanged) EVENTS.zoneChanged(zoneId);   /* 短篇事件「同一棟一次進入最多一個」的計數歸零（events3d.js 的 tier）*/ E.player.path=null; E.player.pose='idle'; E.player.frozen=false; E.player.seat=null; E.player.idlePose='idle'; if(STORY.populate) STORY.populate(zoneId,GM); if(typeof BIKE!=='undefined'&&G) BIKE.afterEnter(GM,zoneId); buildMinimap(); if(typeof GUIDE!=='undefined') GUIDE.zoneChanged(); if(opts.onLoaded) opts.onLoaded(z); updateHUD(); A3.setScene(zoneId,G.hour,G.weather); E.update(0.016); GM.dedupAnon(true); if(typeof PERFPANEL!=='undefined') PERFPANEL.mark('loaded'); if(!opts.noFade&&typeof ASSETS!=='undefined'&&ASSETS.waitLoaded){ GM.lastZoneWait=await ASSETS.waitLoaded(GM._zoneReq,GM.ZONE_LOAD_WAIT_MS); E.update(0.016); }   /* PERF-ZONE-POPIN-1103：畫面還黑著，等這一區的正式模型載好（最多 ZONE_LOAD_WAIT_MS）才淡入，不先露出方塊備用模型 */ if(!opts.noFade&&Z3.prewarm) await Z3.prewarm(E,{cap:2000}); if(typeof PERFPANEL!=='undefined') PERFPANEL.mark('warmed');   if(typeof FIT!=='undefined'&&FIT.gymWearSync){ try{ FIT.gymWearSync(GM); }catch(e){ console.warn('FIT.gymWearSync',e); } }   /* 健身運動服：畫面還黑著就換好（CC-B 11-07：原本等 FIT tick，進 B1 前 4 秒還是毛衣、回 1F 前 2 秒還是運動服）*/   /* 畫面還是黑的：先接上已載過的正式模型、編 shader、傳貼圖，淡入才不會停住（PERF-ZONE-ENTER-1018，zones3d.js）*/ E.render(); if(!opts.noFade){ await fade(false); } if(typeof PERFPANEL!=='undefined') PERFPANEL.mark('shown'); if(Z3.warmup) Z3.warmup(E);   /* 淡入以後在背景把還沒編的 shader 編好（X79，zones3d.js）*/ } finally { entering=false; /* 區域建立失敗時錯誤照樣丟出去，但不能讓 entering 永遠是 true（之後就再也換不了區域）*/ } if(STORY.onEnter&&!opts.deferStory) STORY.onEnter(zoneId,GM,opts); if(!opts.noAutosave) autosave(); return z; }   /* deferStory／noAutosave：搭電梯換區域（總圖），走出車廂之後才觸發劇情、存檔 */
++  GM.ZONE_LOAD_WAIT_FIRST_MS=12000;   /* PERF-COLD-1107（LAWWW-B 11-07 選 (A)）：這次開遊戲第一次進這一區（快取是冷的）最多等 12 s，之後照舊 6 s */
++  GM.zoneWaitCap=function(zoneId){ const s=GM._seenZones||(GM._seenZones=new Set()); const first=!s.has(zoneId); s.add(zoneId); return first?GM.ZONE_LOAD_WAIT_FIRST_MS:GM.ZONE_LOAD_WAIT_MS; };   /* 用這次開遊戲有沒有來過（不是存檔的 G.visited：重開遊戲快取又是冷的）*/
++  async function enter(zoneId,spawn,opts){ opts=opts||{}; if(entering) return; entering=true; GM.enterN=(GM.enterN|0)+1; if(typeof PERFPANEL!=='undefined') PERFPANEL.mark('start',zoneId);   /* ?perf 量測小面板（src/perfpanel3d.js）*/   /* 第幾次換區域：home3d.js backdrop 用來分「剛出家門、3D 還是舊的」和「真的到了新的 3D 地點」*/ let z; try{ if(GM.liveMark) GM.liveMark(true); if(!opts.noFade) await fade(true); GM.npc={}; GM.extras=[]; if(W3.releaseViews) W3.releaseViews();   /* 窗景照片只留新區域要用的（v9.5 審查：16 張 1024×512 一直留著，iPhone 長時間玩可能被系統關掉分頁）*/ if(typeof BIKE!=='undefined'&&G) BIKE.beforeEnter(GM,zoneId,opts);   /* 腳踏車：要去的地方騎得到就一起過去，不行就停下（src/bike3d.js）*/ if(typeof ASSETS!=='undefined'&&ASSETS.reqStart) ASSETS.reqStart(); z=E.loadZone(Z3.ZONES[zoneId],spawn); /* PERF-COLD-1107：reqTake 移到淡入前（下面 waitLoaded 那裡）——STORY.populate 放進來的 NPC 的 VRM、動作檔也記進要等的清單 */ G.zone=zoneId; G.visited[zoneId]=true; if(!opts.fromLoad){ habit('place:'+zoneId+':'+habitSlot(G.hour)); const comp=G.flags&&G.flags.companion; if(comp) habit('place:'+zoneId+':with:'+(CID[comp]||comp)); }   /* 習慣記憶（AA_110 5-4）*/ if(typeof EVENTS!=='undefined'&&EVENTS.zoneChanged) EVENTS.zoneChanged(zoneId);   /* 短篇事件「同一棟一次進入最多一個」的計數歸零（events3d.js 的 tier）*/ E.player.path=null; E.player.pose='idle'; E.player.frozen=false; E.player.seat=null; E.player.idlePose='idle'; if(STORY.populate) STORY.populate(zoneId,GM); if(typeof BIKE!=='undefined'&&G) BIKE.afterEnter(GM,zoneId); buildMinimap(); if(typeof GUIDE!=='undefined') GUIDE.zoneChanged(); if(opts.onLoaded) opts.onLoaded(z); updateHUD(); A3.setScene(zoneId,G.hour,G.weather); E.update(0.016); GM.dedupAnon(true); if(typeof PERFPANEL!=='undefined') PERFPANEL.mark('loaded'); GM._zoneReq=typeof ASSETS!=='undefined'&&ASSETS.reqTake?ASSETS.reqTake():[];   /* 建區域丟例外時 ASSETS._req 留著也沒關係：下一次換區域 reqStart 重來 */ if(!opts.noFade&&typeof ASSETS!=='undefined'&&ASSETS.waitLoaded){ GM.lastZoneWait=await ASSETS.waitLoaded(GM._zoneReq,GM.zoneWaitCap(zoneId)); E.update(0.016); }   /* PERF-ZONE-POPIN-1103：畫面還黑著，等這一區的正式模型載好（最多 ZONE_LOAD_WAIT_MS）才淡入，不先露出方塊備用模型 */ if(!opts.noFade&&Z3.prewarm) await Z3.prewarm(E,{cap:2000}); if(typeof PERFPANEL!=='undefined') PERFPANEL.mark('warmed');   if(typeof FIT!=='undefined'&&FIT.gymWearSync){ try{ FIT.gymWearSync(GM); }catch(e){ console.warn('FIT.gymWearSync',e); } }   /* 健身運動服：畫面還黑著就換好（CC-B 11-07：原本等 FIT tick，進 B1 前 4 秒還是毛衣、回 1F 前 2 秒還是運動服）*/   /* 畫面還是黑的：先接上已載過的正式模型、編 shader、傳貼圖，淡入才不會停住（PERF-ZONE-ENTER-1018，zones3d.js）*/ E.render(); if(!opts.noFade){ await fade(false); } if(typeof PERFPANEL!=='undefined') PERFPANEL.mark('shown'); if(Z3.warmup) Z3.warmup(E);   /* 淡入以後在背景把還沒編的 shader 編好（X79，zones3d.js）*/ } finally { entering=false; /* 區域建立失敗時錯誤照樣丟出去，但不能讓 entering 永遠是 true（之後就再也換不了區域）*/ } if(STORY.onEnter&&!opts.deferStory) STORY.onEnter(zoneId,GM,opts); if(!opts.noAutosave) autosave(); return z; }   /* deferStory／noAutosave：搭電梯換區域（總圖），走出車廂之後才觸發劇情、存檔 */
+   GM.isEntering=()=>entering;
+   GM.enter=enter;
+   // ---------- 小地圖 ----------
+diff --git a/tests/zone_popin_wait_unit.js b/tests/zone_popin_wait_unit.js
+index 1ba23d344..aacb89705 100644
+--- a/tests/zone_popin_wait_unit.js
++++ b/tests/zone_popin_wait_unit.js
+@@ -1,7 +1,8 @@
+ // PERF-ZONE-POPIN-1103（使用者 11-03：「進入新場景的時候 都會先出現畫質很爛的版本 卡一下才出現完整的 例如剛進去教室可能只有方塊 之後才會看出是椅子
+ //   溫州街地圖還沒讀取完畢 只是從咖啡廳出來 也會看到腳踏車自己在動」）——不需要瀏覽器。用法：node tests/zone_popin_wait_unit.js
+ //   ① 換區域時記下區域建立當下要的正式模型（ASSETS.reqStart／reqTake：loadOne 記 key）
+-//   ② ASSETS.waitLoaded：等那幾個還在載的 building 載好才回來（載好以後區域的 .then 先跑完）；超過 cap 就不等了（timedOut）；角色（vrm）、已經載好的不等
++//   ② ASSETS.waitLoaded：等那幾個還在載的 building 載好才回來（載好以後區域的 .then 先跑完）；超過 cap 就不等了（timedOut）；已經載好的不等
++//      （PERF-COLD-1107，LAWWW-B 11-07 選 (A)：角色 VRM 也要等——原本這一項寫「角色（vrm）不等」，行為照決定改了，測試跟著改；詳見 tests/zone_wait_npc_unit.js）
+ //   ③ game3d.js 的 GAME.enter：建區域前 reqStart、建完 reqTake；淡入（fade(false)）以前先 waitLoaded（不然第一次去的地方先看到方塊，GLB 到了才換）
+ // 修改前：ASSETS 沒有 reqStart／waitLoaded、enter 不等＝FAIL
+ const fs=require('fs'), vm=require('vm'), path=require('path');
+@@ -19,17 +20,17 @@ const A=ASSETS, later=(ms,v)=>new Promise(r=>setTimeout(()=>r(v),ms));
+   A.manifest['bldg.t_slow']={url:'x',type:'building'}; A.manifest['bldg.t_fast']={url:'x',type:'building'}; A.manifest['char.t_vrm']={url:'x',type:'vrm'}; A.manifest['bldg.t_hang']={url:'x',type:'building'};
+   let attached=false;
+   A.status['bldg.t_slow']=later(300,{scene:1}).then(v=>{ A.cache['bldg.t_slow']=v; return v; }); A.status['bldg.t_fast']=later(10,{scene:2}).then(v=>{ A.cache['bldg.t_fast']=v; return v; });
+-  A.status['char.t_vrm']=new Promise(()=>{}); A.status['bldg.t_hang']=new Promise(()=>{});
++  A.status['char.t_vrm']=later(200,{vrm:1}).then(v=>{ A.cache['char.t_vrm']=v; return v; }); A.status['bldg.t_hang']=new Promise(()=>{});
+   A.reqStart(); A.loadOne('bldg.t_slow').then(()=>{ attached=true; }); A.loadOne('bldg.t_fast'); A.loadOne('char.t_vrm'); const keys=A.reqTake();
+   check('① 區域建立當下要的模型都記下來了',['bldg.t_slow','bldg.t_fast','char.t_vrm'].every(k=>keys.includes(k))&&A._req===null,JSON.stringify(keys));
+   const t0=Date.now(); const r=await A.waitLoaded(keys,5000);
+-  check('② 等到正式模型載好（約 0.3 秒），而且接上模型的 .then 已經跑完；角色 VRM 不等',!r.timedOut&&Date.now()-t0>=250&&Date.now()-t0<3000&&attached,JSON.stringify(r)+' attached='+attached);
++  check('② 等到正式模型載好（約 0.3 秒），而且接上模型的 .then 已經跑完（角色 VRM 0.2 秒也一起等到）',!r.timedOut&&Date.now()-t0>=250&&Date.now()-t0<3000&&attached,JSON.stringify(r)+' attached='+attached);
+   const r2=await A.waitLoaded(['bldg.t_hang'],200);
+   check('② 載不好（網路卡住）：等到 cap 就不等了',r2.timedOut===true&&r2.waited>=180&&r2.waited<1500,JSON.stringify(r2));
+   const r3=await A.waitLoaded(['bldg.t_slow','bldg.t_fast'],5000);
+   check('② 已經載好的不等',r3.pending===0,JSON.stringify(r3));
+   const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); const i=g.indexOf('async function enter(zoneId,spawn,opts)'), body=g.slice(i,g.indexOf('return z; }',i));
+   const iS=body.indexOf('ASSETS.reqStart()'), iL=body.indexOf('E.loadZone('), iT=body.indexOf('ASSETS.reqTake()'), iW=body.indexOf('ASSETS.waitLoaded('), iF=body.indexOf('await fade(false)');
+-  check('③ GAME.enter：建區域前 reqStart、建完 reqTake、淡入以前 waitLoaded',iS>=0&&iS<iL&&iL<iT&&iW>iT&&iW<iF,JSON.stringify({iS,iL,iT,iW,iF}));
++  check('③ GAME.enter：建區域前 reqStart、建完以後 reqTake、淡入以前 waitLoaded',iS>=0&&iS<iL&&iL<iT&&iW>iT&&iW<iF,JSON.stringify({iS,iL,iT,iW,iF}));
+   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+ })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });
+diff --git a/tests/zone_wait_npc_unit.js b/tests/zone_wait_npc_unit.js
+new file mode 100644
+index 000000000..e1097889a
+--- /dev/null
++++ b/tests/zone_wait_npc_unit.js
+@@ -0,0 +1,35 @@
++// PERF-COLD-1107（LAWWW2-B 11-07；LAWWW-B 08:41 選 (A)）：換區域淡入以前，NPC 的 VRM、動作檔也要等載好——不需要瀏覽器。用法：node tests/zone_wait_npc_unit.js
++//   PC 冷快取量（CC-B PERF_COLD b987cb1cf）：原本只等 building、最多 6 s——溫州街淡入以後才 parseVRM（兩次共 3.7 s）、主模型第 18.5 s 才到、接上那一格 5.1 s（avg 8.8 fps）；
++//   總圖大廳淡入後還有 12 個在載（3.1 fps）。先載好再淡入：溫州街 27.5 fps、總圖大廳 19.2 fps，黑畫面多 2～4 s。
++//   ① ASSETS.waitLoaded 也等 vrm、clips（還在載的才等；別的類型照舊不等）
++//   ② GAME.enter：STORY.populate（放 NPC、載他們的 VRM）在 reqTake 之前——NPC 的 VRM 才會進要等的清單；reqTake 在 waitLoaded 之前
++//   ③ 等待上限：這次開遊戲第一次進這一區 12 s，再來 6 s（GM.zoneWaitCap；不用存檔的 G.visited）
++// 修改前（開發分支 79214e4e1）：① ② ③ FAIL
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++global.document={ createElementNS:()=>({getContext:()=>null,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>null,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
++for(const f of ['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js']){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const A=ASSETS, later=(ms,v)=>new Promise(r=>setTimeout(()=>r(v),ms));
++(async()=>{
++  // ①
++  A.manifest['char.w_npc']={url:'x',type:'vrm'}; A.manifest['char.w_clips']={url:'x',type:'clips'}; A.manifest['bldg.w_room']={url:'x',type:'building'}; A.manifest['misc.w_other']={url:'x',type:'character'};
++  A.status['char.w_npc']=later(300,{vrm:1}).then(v=>{ A.cache['char.w_npc']=v; return v; });
++  A.status['char.w_clips']=later(250,{clips:1}).then(v=>{ A.cache['char.w_clips']=v; return v; });
++  A.status['bldg.w_room']=later(50,{scene:1}).then(v=>{ A.cache['bldg.w_room']=v; return v; });
++  A.status['misc.w_other']=new Promise(()=>{});
++  const t0=Date.now(); const r=await A.waitLoaded(['char.w_npc','char.w_clips','bldg.w_room','misc.w_other'],3000); const dt=Date.now()-t0;
++  check('① waitLoaded 也等 NPC 的 VRM（0.3 s）、動作檔（0.25 s）；不在名單的類型照舊不等', r.pending===3&&!r.timedOut&&dt>=280&&dt<2000&&!!A.cache['char.w_npc']&&!!A.cache['char.w_clips'], JSON.stringify(r)+' '+dt+' ms');
++  // ②
++  const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); const i=g.indexOf('async function enter(zoneId,spawn,opts)'), body=g.slice(i,g.indexOf('return z; }',i));
++  const iP=body.indexOf('STORY.populate('), iT=body.indexOf('ASSETS.reqTake()'), iW=body.indexOf('ASSETS.waitLoaded(');
++  check('② GAME.enter：STORY.populate（NPC 的 VRM）在 reqTake 之前，reqTake 在 waitLoaded 之前', iP>=0&&iP<iT&&iT<iW, JSON.stringify({iP,iT,iW}));
++  // ③
++  const m=/GM\.zoneWaitCap=function\(zoneId\)\{[^\n]*?\};/.exec(g), mc=/GM\.ZONE_LOAD_WAIT_FIRST_MS=(\d+)/.exec(g), md=/GM\.ZONE_LOAD_WAIT_MS=(\d+)/.exec(g);
++  let caps=null; if(m&&mc&&md){ const GM={ZONE_LOAD_WAIT_FIRST_MS:+mc[1],ZONE_LOAD_WAIT_MS:+md[1]}; new Function('GM',m[0])(GM); caps=[GM.zoneWaitCap('wenzhou'),GM.zoneWaitCap('wenzhou'),GM.zoneWaitCap('library_hall'),GM.zoneWaitCap('wenzhou')]; }
++  check('③ 等待上限：這次第一次進這一區 12 s、再來 6 s；換一區又是第一次', !!caps&&caps.join()==='12000,6000,12000,6000'&&body.includes('GM.zoneWaitCap(zoneId)'), JSON.stringify(caps));
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

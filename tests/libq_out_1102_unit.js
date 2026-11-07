@@ -103,7 +103,7 @@ await sec('2',async()=>{
   check('2. scope.end 以後配對（讀書區又會加）',balanced());
   /* 真的走一次：和沛珊第一次約法圖（INV.meet）*/
   const PS='classmate_peishan';
-  H.fresh('2026-10-07',15,'lawlib'); H.FRIEND(PS); at('lawlib',1,0,0); LIBQ.reset();
+  H.fresh('2026-10-07',15,'lawlib'); H.FRIEND(PS); at('lawlib',1,0,0); LIBQ.reset(); if(typeof STUDYN!=='undefined') STUDYN.of(H.G,PS).last=H.G.day;   /* 這一段測一般句（AA_651、1-D10）：今天的「一起念書第 N 場」當成已經演過（第 N 場另外測：tests/study_scenes_unit.js）*/ 
   const iv=INV.accept(H.G,PS,'lawlib',H.G.day,15); const n=npc(PS);
   H.said=[]; let err=null; try{ await INV.meet(GM,iv,n); }catch(e){ err=String(e&&e.stack||e).split('\n').slice(0,2).join(' / '); }
   const S=H.said, k=S.findIndex(s=>s.t==='（走出法圖）「館員人好好。我以為法圖的人都很兇。」');
@@ -119,7 +119,7 @@ await sec('2',async()=>{
 
 await sec('3',async()=>{
   const AN='heroine_01', ML='她讀到一半，把你的螢光筆拿去用，用完放回你的筆袋。';   /* AA_651 第 3 節（d07e6d124）：Q16 那句「閉館音樂響了……」改成館內這句，S.OUT_LINES 拿掉 */
-  H.fresh('2025-10-07',15,'library_hall'); H.FRIEND(AN); at('library_hall',1,0,0); LIBQ.reset();
+  H.fresh('2025-10-07',15,'library_hall'); H.FRIEND(AN); at('library_hall',1,0,0); LIBQ.reset(); if(typeof STUDYN!=='undefined') STUDYN.of(H.G,AN).last=H.G.day;   /* 這一段測一般句（AA_651、1-D10）：今天的「一起念書第 N 場」當成已經演過（第 N 場另外測：tests/study_scenes_unit.js）*/ 
   check('3. 前置：以安朋友以上，約總圖的見面旁白是 AA_651 那句（館內）',SOCIAL.meetLine(AN,'library')===ML,J(SOCIAL.meetLine(AN,'library')));
   const iv=INV.accept(H.G,AN,'library',H.G.day,15), n=npc(AN);
   H.said=[]; let err=null; try{ await INV.meet(GM,iv,n); }catch(e){ err=String(e&&e.stack||e).split('\n').slice(0,2).join(' / '); }

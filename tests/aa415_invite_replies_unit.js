@@ -46,12 +46,12 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   check('0. INV.replyPick、INV.replyMark、INV.REPLY_ON、INV.REPLY_COND',typeof INV.replyPick==='function'&&typeof INV.replyMark==='function'&&!!INV.REPLY_ON&&!!INV.REPLY_COND);
   check('0. 節日、外出、開車先關（AA_415 第 8 節：D38 節日系統、外出的邀約接上才用）',INV.REPLY_ON['節日']===false&&INV.REPLY_ON['外出']===false&&INV.REPLY_ON['開車']===false);
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC);
-  check('0. 白名單：AA_415@166dc131a approved、AA-B 2026-10-23 20:2x 定稿（D109）（＋AA_576 以安、AA_579 學姊改稿第一批、AA_580 以安第二批、AA 10:18 sis4；舊版本在 history）、D14-T9、text',A.length===1&&A[0].sha==='166dc131a'&&['b10d0567f','e1e361335','759e5c000'].every(s=>(A[0].history||[]).some(h=>h.sha===s))&&/AA_579/.test(A[0].approvedBy)&&/AA_580/.test(A[0].approvedBy)&&A[0].status==='approved'&&A[0].approvedBy.startsWith('AA-B 2026-10-23 20:2x 定稿（D109）')&&/AA_576/.test(A[0].approvedBy)&&A[0].task==='D14-T9'&&A[0].kind==='text',J(A));
-  check('0. 產生器 tools/invite/build_replies.py；資料檔寫著來源 commit',fs.existsSync(path.join(H.ROOT,'tools/invite/build_replies.py'))&&INVITE_REPLIES.sha==='166dc131a'&&INVITE_REPLIES.src===SPEC); });
+  check('0. 白名單：AA_415@c71772fbc（11-07 語彤 5 句；舊版本 166dc131a 在 history） approved、AA-B 2026-10-23 20:2x 定稿（D109）（＋AA_576 以安、AA_579 學姊改稿第一批、AA_580 以安第二批、AA 10:18 sis4；舊版本在 history）、D14-T9、text',A.length===1&&A[0].sha==='c71772fbc'&&['b10d0567f','e1e361335','759e5c000','166dc131a'].every(s=>(A[0].history||[]).some(h=>h.sha===s))&&/AA_579/.test(A[0].approvedBy)&&/AA_580/.test(A[0].approvedBy)&&A[0].status==='approved'&&A[0].approvedBy.startsWith('AA-B 2026-10-23 20:2x 定稿（D109）')&&/AA_576/.test(A[0].approvedBy)&&A[0].task==='D14-T9'&&A[0].kind==='text',J(A));
+  check('0. 產生器 tools/invite/build_replies.py；資料檔寫著來源 commit',fs.existsSync(path.join(H.ROOT,'tools/invite/build_replies.py'))&&INVITE_REPLIES.sha==='c71772fbc'&&INVITE_REPLIES.src===SPEC); });
 if(!ok){ H.done(); return; }
 
-await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show 166dc131a:"'+SPEC+'"',{encoding:'utf8'}); }catch(e){ md=''; }
-  check('1. 讀得到企劃線 166dc131a 的 AA_415',md.length>1000);
+await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show c71772fbc:"'+SPEC+'"',{encoding:'utf8'}); }catch(e){ md=''; }
+  check('1. 讀得到企劃線 c71772fbc 的 AA_415',md.length>1000);
   const cnt={}; let who=null;
   for(const ln of md.split('\n')){ const m=/^## \d+\. .*（(\w+)[，）]/.exec(ln); if(m){ who=m[1]; continue; } if(/^## /.test(ln)){ who=null; continue; }
     if(who&&ln.startsWith('|')&&!/^\|\s*階段\s*\|/.test(ln)&&!/^\|[-\s|:]+\|$/.test(ln)) cnt[who]=(cnt[who]||0)+1; }

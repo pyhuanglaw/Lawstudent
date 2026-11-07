@@ -143,8 +143,8 @@ const FEST=(function(){
   const hmText=m=>{ const h=Math.floor(m/60), r=m%60; return (h?h+' 小時':'')+(h&&r?' ':'')+(r?r+' 分鐘':''); };
   /* 出發地（DATE-C7、AA_128 4-1、11-1）：寒暑假住家裡（車就在家裡）＝不加回家取車、還車的 30 分（DATE.fromHomeOn）；學期中從宿舍出發照舊去回各多 30 分 */
   S.drive=function(loc,city,G,day){ const tr=typeof DATE!=='undefined'&&DATE.travel?DATE.travel(loc,'car'):null; const min=tr&&tr.mode==='car'?tr.minutes:(loc==='D15'?40:150), fare=tr&&tr.mode==='car'?tr.fare:(loc==='D15'?150:900);
-    const home=!!G&&day!=null&&typeof DATE!=='undefined'&&!!DATE.fromHomeOn&&DATE.fromHomeOn(G,day), pick=0;   /* AA_599 更正：開車從宿舍直接出發（原本 home?0:0.5）*/
-    return {travelH:min/60+pick,travel:'開車到'+city+'約 '+hmText(min),fare,backH:min/60+pick,home}; };
+    const home=!!G&&day!=null&&typeof DATE!=='undefined'&&!!DATE.fromHomeOn&&DATE.fromHomeOn(G,day), pick=home?0:((typeof DATE!=='undefined'&&DATE.CAR_PICK_H)||0);   /* DRIVE-PICKUP-1105（AA_704 第 2 節）：從宿舍出發＝先走到望月台停車場取車（約 5 分鐘）；從家出發（寒暑假）車在家裡，不加；AA_599 更正：不再回家取車 */
+    return {travelH:min/60+pick,travel:pick?(DATE.CAR_PICK_TEXT||'')+hmText(min):'開車到'+city+'約 '+hmText(min),fare,backH:min/60+pick,home}; };
 
   /* ---------------- 出遊（OUT）---------------- */
   const outId=(f,mode)=>'fest_'+f.id+'_'+f.k+'_'+f.y+(mode?'_'+mode:'');
@@ -158,7 +158,7 @@ const FEST=(function(){
   S.planDrive=function(G,f,o){ const c=S.cell(f.id,f.k)||{}, P=X.PEOPLE[f.id]||{}, city=o.city, loc=o.loc||X.CITY[city], dr=S.drive(loc,city,G,f.d), day=!o.eve;
     const bg=o.bg||((P.fixedBg||{})[f.k]||{})[city]||(c.tripBg)||((P.homeBy||{})[city])||(P.home&&P.home.city===city?P.home.bg:null)||'dark';
     const h=o.h!=null?o.h:(c.tripH!=null?c.tripH:(day?12:19)), stay=day?(h>=18?2:3):2;
-    const q={id:outId(f),day:f.d,h,late:0.5,place:city,title:S.name(f.k)+(day?'（開車去'+city+'找'+nm(f.id)+'）':'（開車上'+city+'）'),travel:dr.travel,travelH:dr.travelH,back:day?'回到臺北。':undefined,
+    const q={id:outId(f),day:f.d,h,late:0.5,place:city,car:true,title:S.name(f.k)+(day?'（開車去'+city+'找'+nm(f.id)+'）':'（開車上'+city+'）'),travel:dr.travel,travelH:dr.travelH,back:day?'回到臺北。':undefined,
       fest:{id:f.id,k:f.k,y:f.y,mode:'meet',scene:city,bg,after:stay+dr.backH,fare:dr.fare,day,slot:day?'day':'eve'}};
     if(plan(G,q)){ S.book(G,{d:f.d,who:f.id,k:f.k,y:f.y,slot:day?'day':'eve',mode:'meet',ref:q.id}); return q; } return null; };
   /* 視訊、電話（不算外出、不扣錢）：her＝她打來 */

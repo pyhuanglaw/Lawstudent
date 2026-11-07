@@ -14,8 +14,8 @@ const GYM_LAYOUT = {
   partition: {z: 11.0, openings: [[-12, -8], [-2, 2], [8, 12]], note: '大廳和球場之間的牆：三個 4 m 的開口（中間那個有閘門）'},
   front: {door: {x: 0, w: 4.0, note: '玻璃自動門'}, glass: [[-18, -2], [2, 18]]},
   spawn: {x: 0, z: 17.6, yaw: Math.PI},
-  exit: {at: {x: 0, z: 18.4}, label: '離開體育館', to: 'campus', spawn: {x: 74, z: 58.0, yaw: Math.PI}, note: '校園的體育館門口（classes3d 的 gym，x 74、z 59.4）；朝向照門口實際的方向調'},
-  enterAt: {x: 74, z: 59.4, label: '進體育館', note: '取代 classes3d 的「體育館：體育課在這裡上。」（門口上課改成進來上）'},
+  exit: {at: {x: 0, z: 18.4}, label: '離開體育館', to: 'campus', spawn: {x: -75, z: -123.4, yaw: 0}, note: '校園的體育館門口（classes3d 的 gym，x −75、z −125）；XS-GATE-NORTH-1105（使用者 11-05「體育館…遊戲中就改到新月台法學院中間」）搬到北牆邊、門朝南，出來面向南（舊的在 (74, 59.4)）'},
+  enterAt: {x: -75, z: -125.0, label: '進體育館', note: '取代 classes3d 的「體育館：體育課在這裡上。」（門口上課改成進來上）'},
   courts: {
     badminton: [[-8.6, -11.2], [0.0, -11.2], [8.6, -11.2], [-8.6, 3.2], [0.0, 3.2], [8.6, 3.2]],
     badmintonNote: '羽球場 6 面（13.4×6.1 m，長邊沿 z，網在中心的 z）；網柱在 x＝中心 ±3.1',
@@ -139,7 +139,38 @@ const GYM_LAYOUT = {
     corridor: {x0: -24, x1: 12, z0: -0.2, z1: 3.0, note: '走廊（3.2 m 寬）：南邊是健身中心的玻璃牆、北邊是游泳池的牆＋門；東端 x 12 是閘門（三道）'},
     gates: {x: 12.0, z0: -0.2, z1: 3.0, lanes: 3, note: '閘門：用 1F 大廳的閘門樣式，三道各 0.9 m'},
     desk: {x: 21.0, z: 0.95, w: 2.4, d: 0.75, staff: {x: 21.0, z: 0.2}, node: 'GYM2_COUNTER', note: '服務櫃台＝BB-B 的 GYM2_COUNTER（GYM-P2，2.4×0.75 m，v5 擺進 gym_b1.glb）；客人站在 z 1.9 那一側、櫃台人員在 z 0.2'},
-    fitness: {x0: -24, x1: 10, z0: 3.0, z1: 14, mirror: {z: 13.9, x0: -23, x1: 9}, door: {x0: 3.2, x1: 5.0, z: 3.0}, note: '健身中心 34×12 m：南牆整面鏡子；東半部有氧區、西半部自由重量區；地板黑色橡膠'},
+    fitness: {x0: -24, x1: 10, z0: 3.0, z1: 14, mirror: {z: 13.9, x0: -23, x1: 9}, door: {x0: 3.2, x1: 5.0, z: 3.0}, note: '健身中心 34×12 m：南牆整面鏡子；東半部有氧區、西半部自由重量區；地板黑色橡膠',
+      /* 器材一件一件（GYM-FIT-1107，LAWWW2-B 2026-11-07；LAWWW-B c244ce20e 派工：玩家一台一台用）：和下面 equipment 同一批（node、at、ry 一樣；i＝在那一種裡的第幾台），22 件。
+         use＝用的時候人在哪裡（x, z, 跑步機皮帶上 y 0.18；yaw 0＝面向 +z 鏡牆；pose＝character3d.js 的動作，alt＝體能低的時候可以換的動作），和 crowd3d.js 路人現在的用法一樣（tests/gym_fit_equip_unit.js 對過）：
+           坐著的（飛輪、划船機、訓練椅）人物原點＝器材原點；跑步機站在皮帶上（器材原點往後 0.2）；深蹲架、史密斯機在器材前面 1.15 m（面向鏡子；史密斯機的槓是固定的模型，不站進去）；
+           啞鈴架前面 0.95 m 兩個位子；墊子靠 −z 那一端坐、腿往 +z 伸。
+         stand＝走過去站的地方（引擎的導航站得下 0.32 m、從 B1 出生點走得到、面向器材）：跑步機、飛輪從後面；划船機從座椅旁邊；訓練椅從左手邊（兩張椅子中間）；墊子從 −z 那一端；
+           站著用的（深蹲、史密斯、啞鈴）就是 use 的位置。area：cardio 有氧、weights 自由重量、stretch 拉筋；train：練到哪裡（給旁白 AA_713 用）。
+         路人正在用的那一台：crowd3d.js 的 fit 清單擺的位置＝這裡某一筆 use（位置、姿勢一樣），玩家用之前可以照位置判斷有沒有人 */
+      equip: [
+      {id: 'treadmill_1', kind: 'treadmill', label: '跑步機 1', node: 'GYM_TREADMILL', i: 0, at: [-0.5, 12.4], ry: 0, area: 'cardio', train: ['心肺', '腿'], use: [{x: -0.5, z: 12.2, y: 0.18, yaw: 0, pose: 'run', alt: 'walk'}], stand: {x: -0.5, z: 10.95, yaw: 0}},
+      {id: 'treadmill_2', kind: 'treadmill', label: '跑步機 2', node: 'GYM_TREADMILL', i: 1, at: [1.2, 12.4], ry: 0, area: 'cardio', train: ['心肺', '腿'], use: [{x: 1.2, z: 12.2, y: 0.18, yaw: 0, pose: 'run', alt: 'walk'}], stand: {x: 1.2, z: 10.95, yaw: 0}},
+      {id: 'treadmill_3', kind: 'treadmill', label: '跑步機 3', node: 'GYM_TREADMILL', i: 2, at: [2.9, 12.4], ry: 0, area: 'cardio', train: ['心肺', '腿'], use: [{x: 2.9, z: 12.2, y: 0.18, yaw: 0, pose: 'run', alt: 'walk'}], stand: {x: 2.9, z: 10.95, yaw: 0}},
+      {id: 'treadmill_4', kind: 'treadmill', label: '跑步機 4', node: 'GYM_TREADMILL', i: 3, at: [4.6, 12.4], ry: 0, area: 'cardio', train: ['心肺', '腿'], use: [{x: 4.6, z: 12.2, y: 0.18, yaw: 0, pose: 'run', alt: 'walk'}], stand: {x: 4.6, z: 10.95, yaw: 0}},
+      {id: 'treadmill_5', kind: 'treadmill', label: '跑步機 5', node: 'GYM_TREADMILL', i: 4, at: [6.3, 12.4], ry: 0, area: 'cardio', train: ['心肺', '腿'], use: [{x: 6.3, z: 12.2, y: 0.18, yaw: 0, pose: 'run', alt: 'walk'}], stand: {x: 6.3, z: 10.95, yaw: 0}},
+      {id: 'bike_1', kind: 'bike', label: '飛輪 1', node: 'GYM_BIKE', i: 0, at: [-0.5, 9.4], ry: 0, area: 'cardio', train: ['心肺', '腿'], use: [{x: -0.5, z: 9.4, yaw: 0, pose: 'gym_bike'}], stand: {x: -0.5, z: 8.15, yaw: 0}},
+      {id: 'bike_2', kind: 'bike', label: '飛輪 2', node: 'GYM_BIKE', i: 1, at: [1.0, 9.4], ry: 0, area: 'cardio', train: ['心肺', '腿'], use: [{x: 1.0, z: 9.4, yaw: 0, pose: 'gym_bike'}], stand: {x: 1.0, z: 8.15, yaw: 0}},
+      {id: 'bike_3', kind: 'bike', label: '飛輪 3', node: 'GYM_BIKE', i: 2, at: [2.5, 9.4], ry: 0, area: 'cardio', train: ['心肺', '腿'], use: [{x: 2.5, z: 9.4, yaw: 0, pose: 'gym_bike'}], stand: {x: 2.5, z: 8.15, yaw: 0}},
+      {id: 'bike_4', kind: 'bike', label: '飛輪 4', node: 'GYM_BIKE', i: 3, at: [4.0, 9.4], ry: 0, area: 'cardio', train: ['心肺', '腿'], use: [{x: 4.0, z: 9.4, yaw: 0, pose: 'gym_bike'}], stand: {x: 4.0, z: 8.15, yaw: 0}},
+      {id: 'rower_1', kind: 'rower', label: '划船機 1', node: 'GYM_ROWER', i: 0, at: [7.4, 8.5], ry: Math.PI / 2, area: 'cardio', train: ['心肺', '背', '腿'], use: [{x: 7.4, z: 8.5, yaw: Math.PI / 2, pose: 'gym_row'}], stand: {x: 7.3, z: 7.85, yaw: 0}},
+      {id: 'rower_2', kind: 'rower', label: '划船機 2', node: 'GYM_ROWER', i: 1, at: [7.4, 9.9], ry: Math.PI / 2, area: 'cardio', train: ['心肺', '背', '腿'], use: [{x: 7.4, z: 9.9, yaw: Math.PI / 2, pose: 'gym_row'}], stand: {x: 7.3, z: 10.55, yaw: Math.PI}},
+      {id: 'squat_rack_1', kind: 'squat_rack', label: '深蹲架 1', node: 'GYM_SQUAT_RACK', i: 0, at: [-21.5, 11.4], ry: 0, area: 'weights', train: ['腿', '臀'], use: [{x: -21.5, z: 12.55, yaw: 0, pose: 'gym_squat'}], stand: {x: -21.5, z: 12.55, yaw: 0}},
+      {id: 'squat_rack_2', kind: 'squat_rack', label: '深蹲架 2', node: 'GYM_SQUAT_RACK', i: 1, at: [-18.4, 11.4], ry: 0, area: 'weights', train: ['腿', '臀'], use: [{x: -18.4, z: 12.55, yaw: 0, pose: 'gym_squat'}], stand: {x: -18.4, z: 12.55, yaw: 0}},
+      {id: 'smith_1', kind: 'smith', label: '史密斯機 1', node: 'GYM_SMITH', i: 0, at: [-15.0, 11.4], ry: 0, area: 'weights', train: ['腿', '臀'], use: [{x: -15.0, z: 12.55, yaw: 0, pose: 'gym_squat'}], stand: {x: -15.0, z: 12.55, yaw: 0}, note: '模型的槓是固定的（1.25 m 掛著）：和深蹲架一樣站在機器前面 1.15 m（面向鏡子）做，不站進機器裡；要站在槓下面得先做會動的槓'},
+      {id: 'db_rack_1', kind: 'db_rack', label: '啞鈴架 1', node: 'GYM_DB_RACK', i: 0, at: [-9.0, 13.3], ry: Math.PI, area: 'weights', train: ['手臂'], use: [{x: -9.55, z: 12.35, yaw: 0, pose: 'gym_curl'}, {x: -8.45, z: 12.35, yaw: 0, pose: 'gym_curl'}], stand: {x: -9.0, z: 12.35, yaw: 0}, note: '一個架子兩個位子（use 兩筆）'},
+      {id: 'bench_1', kind: 'bench', label: '訓練椅 1', node: 'GYM_BENCH', i: 0, at: [-10.6, 10.0], ry: 0, area: 'weights', train: ['肩', '手臂'], use: [{x: -10.6, z: 10.0, yaw: 0, pose: 'gym_press'}], stand: {x: -11.35, z: 10.3, yaw: Math.PI / 2}},
+      {id: 'bench_2', kind: 'bench', label: '訓練椅 2', node: 'GYM_BENCH', i: 1, at: [-8.6, 10.0], ry: 0, area: 'weights', train: ['肩', '手臂'], use: [{x: -8.6, z: 10.0, yaw: 0, pose: 'gym_press'}], stand: {x: -9.35, z: 10.3, yaw: Math.PI / 2}},
+      {id: 'bench_3', kind: 'bench', label: '訓練椅 3', node: 'GYM_BENCH', i: 2, at: [-6.6, 10.0], ry: 0, area: 'weights', train: ['肩', '手臂'], use: [{x: -6.6, z: 10.0, yaw: 0, pose: 'gym_press'}], stand: {x: -7.35, z: 10.3, yaw: Math.PI / 2}},
+      {id: 'mat_1', kind: 'mat', label: '墊子 1', node: 'GYM_MAT', i: 0, at: [-21.0, 5.0], ry: 0, area: 'stretch', train: ['拉筋', '核心'], use: [{x: -21.0, z: 4.45, yaw: 0, pose: 'gym_stretch'}], stand: {x: -21.0, z: 3.95, yaw: 0}},
+      {id: 'mat_2', kind: 'mat', label: '墊子 2', node: 'GYM_MAT', i: 1, at: [-19.6, 5.0], ry: 0, area: 'stretch', train: ['拉筋', '核心'], use: [{x: -19.6, z: 4.45, yaw: 0, pose: 'gym_stretch'}], stand: {x: -19.6, z: 3.95, yaw: 0}},
+      {id: 'mat_3', kind: 'mat', label: '墊子 3', node: 'GYM_MAT', i: 2, at: [-18.2, 5.0], ry: 0, area: 'stretch', train: ['拉筋', '核心'], use: [{x: -18.2, z: 4.45, yaw: 0, pose: 'gym_stretch'}], stand: {x: -18.2, z: 3.95, yaw: 0}},
+      {id: 'mat_4', kind: 'mat', label: '墊子 4', node: 'GYM_MAT', i: 3, at: [-16.8, 5.0], ry: 0, area: 'stretch', train: ['拉筋', '核心'], use: [{x: -16.8, z: 4.45, yaw: 0, pose: 'gym_stretch'}], stand: {x: -16.8, z: 3.95, yaw: 0}}
+      ]},
     pool: {x0: -24, x1: 24, z0: -24, z1: -0.2, h: 7.0, basin: {x0: -12.5, x1: 12.5, z0: -21.0, z1: -3.5, depth: 1.4, lanes: 7}, door: {x0: -5.0, x1: -3.2, z: -0.2},
       note: '游泳池 25 m（沿 x）× 17.5 m（7 水道，每道 2.5 m）；池邊 3.3～11.5 m；池子不能走（導航擋住整個池子），池邊可以走'},
     closedDoors: [
