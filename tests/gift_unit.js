@@ -1,7 +1,7 @@
-// 送早餐、飲料（GIFT-FLIRT-1107，USER_WANTS X262；台詞 AA_710 e2e92dcf4）——不需要瀏覽器（D131）。
+// 送早餐、飲料（GIFT-FLIRT-1107，USER_WANTS X262；台詞 AA_710 4be26c44d）——不需要瀏覽器（D131）。
 // 使用者 11-07 試玩：「買飲料 早餐 給別人」「也沒辦法送早餐飲料?」
 // 檢查：
-//   0. src/data/gift_lines.js 和 AA_710@e2e92dcf4 一致（tools/story/import_gifts.py --check）；七位都有飲料、早餐
+//   0. src/data/gift_lines.js 和 AA_710@4be26c44d 一致（tools/story/import_gifts.py --check）；七位都有飲料、早餐
 //   1. 便利商店、2:30 AM 的點餐選單多「買一份帶走送人…」；買了扣錢、帶在身上；有的品項再選一次（熱可可加濃縮 +20 元）；最多 3 樣；隔天就沒了
 //   2. 當面說話多「送她○○」（STORY.TALK_OPTS）；送了東西就不在身上；她的反應照階段（need 1／4）、好感照稿；朋友以下她的戀愛不加
 //   3. 同一種一天第二次：她不收（no）、東西留著
@@ -19,7 +19,7 @@ let money=0; GM.money=d=>{ H.G.money+=d; money+=d; };
 const toasts=[]; GM.toast=t=>toasts.push(t);
 (async()=>{
   { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_gifts.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
-    check('0. src/data/gift_lines.js 和 AA_710@e2e92dcf4 一致（import_gifts.py --check）',ok1&&ok2&&ok,out.trim().slice(0,200));
+    check('0. src/data/gift_lines.js 和 AA_710@4be26c44d 一致（import_gifts.py --check）',ok1&&ok2&&ok,out.trim().slice(0,200));
     const P=ok1?GIFT_LINES.people:{}; const ids=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'];
     check('0. 七位都有飲料、早餐（yes 從 need 1 開始、no 有句子）',ids.every(id=>P[id]&&['drink','breakfast'].every(c=>P[id][c]&&P[id][c].yes[0].need===1&&P[id][c].no.length)),JSON.stringify(Object.keys(P))); }
   if(!ok2){ H.done(); return; }

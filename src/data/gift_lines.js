@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@e2e92dcf4）。不要手改，改企劃 AA_710 再重新匯入。
+/* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@4be26c44d）。不要手改，改企劃 AA_710 再重新匯入。
    送早餐、飲料（GIFT-FLIRT-1107；播放 src/gift3d.js）*/
 'use strict';
 const GIFT_LINES={
- "src": "docs/story_planning/AA_710_gifts.json@e2e92dcf4",
+ "src": "docs/story_planning/AA_710_gifts.json@4be26c44d",
  "items": [
   "豆漿",
   "米漿",
@@ -66,7 +66,7 @@ const GIFT_LINES={
       "need": 4,
       "lines": [
        "我今天真的沒吃。",
-       "（她咬了一口蛋餅，才說：）",
+       "（她咬了一口，才說：）",
        "謝謝。下次換我帶。"
       ],
       "rel": {

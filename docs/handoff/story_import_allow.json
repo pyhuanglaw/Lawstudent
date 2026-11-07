@@ -4708,12 +4708,27 @@
   },
   {
    "path": "docs/story_planning/AA_710_gifts.json",
-   "sha": "e2e92dcf4",
+   "sha": "4be26c44d",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 04:07「AA_710 送早餐飲料」）",
+   "approvedBy": "AA-B D109（11-07 04:14：以安早餐那句「（她咬了一口，才說：）」，遊戲還沒有早餐店）",
    "task": "GIFT-FLIRT-1107",
    "kind": "json",
-   "note": "七位送飲料、早餐：yes（need 1／4）、no（一天第二次）、fav（芷若、子晴、學姊、可昕，AA_410）；tools/story/import_gifts.py → src/data/gift_lines.js"
+   "note": "七位送飲料、早餐：yes（need 1／4）、no（一天第二次）、fav（芷若、子晴、學姊、可昕，AA_410）；tools/story/import_gifts.py → src/data/gift_lines.js",
+   "history": [
+    {
+     "sha": "e2e92dcf4",
+     "approvedBy": "（11-07 04:14 以前的版本；4be26c44d 取代：以安熟了收早餐那句不寫蛋餅）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_709_msg_replies.json",
+   "sha": "bc0e755be",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-07 04:10 第一批大一上 10 串、04:22 第二批大一下 13 串）",
+   "task": "MSG-REPLY-1107",
+   "kind": "json",
+   "note": "女主角主動傳的「分享生活」私訊，最後一則掛三個回覆選項（rel、她的回話）；tools/story/import_msg_replies.py → src/data/msg_replies.js"
   }
  ]
 }

@@ -126,7 +126,7 @@ const HASK=(function(){
   S.candidates=function(G,day0,redo){ const out=[], R=S.rec(G), W=wishLocs(), now=abs(G.day,G.hour%24);   /* redo＝{id,k}：改天的那一次不看「多久約一次」*/
     if(typeof TERMEND!=='undefined'&&TERMEND.window&&TERMEND.window(Object.assign({},G,{day:day0}))) return out;   /* 心意邀約的窗口裡：傳的那一天也不傳（約的那一天在 S.block 擋）*/
     if(S.cny(day0)) return out;   /* AA_532 第 1 節：除夕前一天～初三，送出的那一天也不落在這幾天 */
-    for(const id of ((typeof DATE!=='undefined'&&DATE.HEROINES)||[])){ const p=P(id); if(!p) continue; const dat=dating(G,id), sn=S.stage(G,id), s=R.st[id]||{};
+    for(const id of ((typeof DATE!=='undefined'&&DATE.HEROINES)||[])){ const p=P(id); if(!p) continue; if(typeof STORY!=='undefined'&&STORY.knows&&!STORY.knows(id,G)) continue;   /* 還沒認識不約你（BUG-YT-MET-1107：語彤還沒在一盞認識就傳「明天下午我在總圖寫報告…」；STORY.knows 語彤看 YT_MET_JOB；使用者 11-07 選「舊存檔照留」＝舊存檔照舊算認識）*/ const dat=dating(G,id), sn=S.stage(G,id), s=R.st[id]||{};
       if(!dat&&sn<3) continue;
       if(redo&&redo.id!==id) continue; const rd=k=>!!redo&&redo.k===k;
       if(day0-S.lastMet(G,id)<(dat?3:5)) continue;
