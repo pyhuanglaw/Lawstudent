@@ -1,0 +1,168 @@
+{
+ "vroid_yuting": {
+  "other_views_changed": 0,
+  "json_same_except_extras": true,
+  "imgs": [
+   {
+    "image": 20,
+    "xgrad_before": 0.51,
+    "xgrad_after": 0.1,
+    "row_mean_maxdiff": 0.54,
+    "alpha_same": true,
+    "mean_before": [
+     43.7,
+     35.5,
+     32.4
+    ],
+    "mean_after": [
+     43.7,
+     35.5,
+     32.4
+    ]
+   }
+  ]
+ },
+ "vroid_heroine_01": {
+  "other_views_changed": 0,
+  "json_same_except_extras": true,
+  "imgs": [
+   {
+    "image": 19,
+    "xgrad_before": 0.75,
+    "xgrad_after": 0.17,
+    "row_mean_maxdiff": 0.61,
+    "alpha_same": true,
+    "mean_before": [
+     56.8,
+     37.6,
+     26.8
+    ],
+    "mean_after": [
+     56.8,
+     37.6,
+     26.9
+    ]
+   }
+  ]
+ },
+ "vroid_heroine_03": {
+  "other_views_changed": 0,
+  "json_same_except_extras": true,
+  "imgs": [
+   {
+    "image": 22,
+    "xgrad_before": 2.12,
+    "xgrad_after": 0.7,
+    "row_mean_maxdiff": 19.0,
+    "alpha_same": true,
+    "mean_before": [
+     41.0,
+     37.2,
+     35.3
+    ],
+    "mean_after": [
+     40.7,
+     36.9,
+     35.1
+    ]
+   },
+   {
+    "image": 25,
+    "xgrad_before": 0.49,
+    "xgrad_after": 0.07,
+    "row_mean_maxdiff": 0.57,
+    "alpha_same": true,
+    "mean_before": [
+     39.7,
+     36.3,
+     34.0
+    ],
+    "mean_after": [
+     39.7,
+     36.3,
+     34.0
+    ]
+   }
+  ]
+ },
+ "vroid_heroine_04": {
+  "other_views_changed": 0,
+  "json_same_except_extras": true,
+  "imgs": [
+   {
+    "image": 19,
+    "xgrad_before": 2.03,
+    "xgrad_after": 0.83,
+    "row_mean_maxdiff": 17.09,
+    "alpha_same": true,
+    "mean_before": [
+     65.0,
+     46.6,
+     35.9
+    ],
+    "mean_after": [
+     64.9,
+     46.5,
+     35.8
+    ]
+   },
+   {
+    "image": 22,
+    "xgrad_before": 0.06,
+    "xgrad_after": 0.05,
+    "row_mean_maxdiff": 0.61,
+    "alpha_same": true,
+    "mean_before": [
+     66.4,
+     48.7,
+     38.1
+    ],
+    "mean_after": [
+     66.4,
+     48.7,
+     38.0
+    ]
+   }
+  ]
+ },
+ "vroid_heroine_05": {
+  "other_views_changed": 0,
+  "json_same_except_extras": true,
+  "imgs": [
+   {
+    "image": 22,
+    "xgrad_before": 3.51,
+    "xgrad_after": 1.21,
+    "row_mean_maxdiff": 20.73,
+    "alpha_same": true,
+    "mean_before": [
+     84.2,
+     63.0,
+     50.5
+    ],
+    "mean_after": [
+     83.7,
+     62.6,
+     50.1
+    ]
+   },
+   {
+    "image": 25,
+    "xgrad_before": 0.82,
+    "xgrad_after": 0.12,
+    "row_mean_maxdiff": 0.73,
+    "alpha_same": true,
+    "mean_before": [
+     76.1,
+     57.7,
+     46.9
+    ],
+    "mean_after": [
+     76.2,
+     57.6,
+     46.8
+    ]
+   }
+  ]
+ }
+}
