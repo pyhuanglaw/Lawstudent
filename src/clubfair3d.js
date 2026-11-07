@@ -6,6 +6,7 @@
    - 顧攤的人（路人模型）站在帳篷後面；人流比平常多（走路的新生、停在攤位前的人）。
    - 路過時顧攤的人喊的話（畫面上方小字，不停下來）；舞台 10:30～15:30，走到前面每種表演一次旁白（G.flags.FAIR_STAGE）。
    - 錯過社博（3-4）：第一次去吉他、辯論、登山、系籃的社課，旁白多一句「（你在門口填了表。）」（包住 CLS.attendActivity；記 CLUB_<id> 照現在由那裡記）。
+     系籃（AA_613 2-4）：換成學長兩句（club_fair.js DOOR_SAY_BY），之後 S.DOOR_AFTER（阿哲「我就說吧。」，src/aa613_3d.js）。
      法服：萬才館一樓公告欄最後一句改（story3d.js 的 notice:'lawclub'）。
    - 提示（3-5，只給社博在 9/6 週六的局）：9/1 08:00 手機行事曆、9/1～9/5 傅鐘旁的公告欄、9/4 21:00 系學會群組、9/5 21:00 家族群組 Kevin、9/6 起床提示框（包住 CLS.morning）。
    載入順序：classes3d.js、semff3d.js 之後（包住 CLS.attendActivity、CLS.morning）。測試：node tests/clubfair_1027_unit.js */
@@ -88,7 +89,8 @@ const CLUBFAIR=(function(){
     if(F.FAM_GROUP_SENT&&PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'fair_y1_kevin')&&G.day<=d6-1) PHONE.at(G,d6-1,21,[{th:'g:family_law',from:'kevin',name:'Kevin',text:X.HINTS.kevin}],'fair_y1_kevin'); };   /* 9/5（五）21:00，加入家族群組的局 */
   /* 起床（CLS.morning 之後）：社博那天「今天椰林大道有社團博覽會（10:00～16:00）。」*/
   S.wake=function(GM){ const G=GM&&GM.G; if(!G||!S.today(G)||hr(G)>=S.expo().t1) return false; const F=flags(G); if(F.FAIR_WAKE===G.day) return false; F.FAIR_WAKE=G.day; if(GM.toast) GM.toast(D().HINTS.wake,4800); return true; };
-  /* 錯過社博：第一次去社課（吉他、辯論、登山、系籃）旁白多一句 */
+  /* 錯過社博：第一次去社課（吉他、辯論、登山、系籃）旁白多一句（系籃＝學長兩句，AA_613 2-4）；DOOR_AFTER：之後接著演的 async fn(GM,a)（src/aa613_3d.js）*/
+  S.DOOR_AFTER=[];
   S.doorLine=function(G,a){ const A=S.expo(); return !!(a&&a.kind==='club'&&A&&(A.clubs||[]).includes(a.id)&&law(G)&&!flags(G)['CLUB_'+a.id]&&typeof ACTIVITIES!=='undefined'&&!ACTIVITIES.attended(G,a.id,G.day)); };
   /* ---------- 掛勾 ---------- */
   if(typeof STORY!=='undefined'){
@@ -96,7 +98,9 @@ const CLUBFAIR=(function(){
     if(Array.isArray(STORY.TICKS)) STORY.TICKS.push(GM=>{ try{ return S.tick(GM); }catch(e){ console.warn('CLUBFAIR.tick',e); return false; } });
     if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G)); }
   if(typeof CLS!=='undefined'){
-    if(CLS.attendActivity&&!CLS.attendActivity._fair){ const a0=CLS.attendActivity; CLS.attendActivity=Object.assign(async function(GM,a,o){ try{ if(GM&&GM.G&&S.doorLine(GM.G,a)){ flags(GM.G).CLUB_DOOR=true; GM.sceneBegin(); try{ await GM.say(null,(D().DOOR_LINE_BY||{})[a.id]||D().DOOR_LINE); } finally { GM.sceneEnd(); } }   /* CLUB_DOOR：大二社博的開場句（AA_491 B）*/ }catch(e){ console.warn('CLUBFAIR.door',e); } return a0.apply(this,arguments); },a0,{_fair:true}); }
+    if(CLS.attendActivity&&!CLS.attendActivity._fair){ const a0=CLS.attendActivity; CLS.attendActivity=Object.assign(async function(GM,a,o){ try{ if(GM&&GM.G&&S.doorLine(GM.G,a)){ flags(GM.G).CLUB_DOOR=true; GM.sceneBegin(); try{ const ds=(D().DOOR_SAY_BY||{})[a.id];
+          if(ds) for(const [w,t] of ds) await GM.say(w?{name:w}:null,t); else await GM.say(null,(D().DOOR_LINE_BY||{})[a.id]||D().DOOR_LINE);   /* DOOR_SAY_BY：系籃＝學長兩句（AA_613 2-4）*/
+          for(const f of S.DOOR_AFTER){ try{ await f(GM,a); }catch(e){ console.warn('CLUBFAIR.DOOR_AFTER',e); } } } finally { GM.sceneEnd(); } }   /* DOOR_AFTER：接著演的（AA_613 2-4 阿哲「我就說吧。」，src/aa613_3d.js）*/   /* CLUB_DOOR：大二社博的開場句（AA_491 B）*/ }catch(e){ console.warn('CLUBFAIR.door',e); } return a0.apply(this,arguments); },a0,{_fair:true}); }
     if(CLS.morning&&!CLS.morning._fair){ const m0=CLS.morning; CLS.morning=Object.assign(async function(GM){ const r=await m0.apply(this,arguments); try{ S.wake(GM); }catch(e){ console.warn('CLUBFAIR.wake',e); } return r; },m0,{_fair:true}); } }
   return S;
 })();

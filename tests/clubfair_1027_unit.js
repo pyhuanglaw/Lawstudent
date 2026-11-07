@@ -33,8 +33,8 @@ if(!ok||typeof CLUBFAIR==='undefined'){ H.done(); return; }
 { const B=CLUB_FAIR.BOOTHS, by=id=>B.find(b=>b.id===id);
   check('0. 十五攤：能加入的五攤（法服、吉他、辯論、登山、系籃）＋看看的十攤',B.length===15&&B.filter(b=>b.club).map(b=>b.sign).join('、')==='法律服務社、吉他社、辯論社、登山社、法律系系學會（系籃）'&&B.filter(b=>!b.club).map(b=>b.sign).join('、')==='熱舞社、合唱團、攝影社、桌遊社、羽球社、服務隊、嘉義校友會、咖啡研究社、電影研究社、魔術社',B.map(b=>b.sign).join('、'));
   const SAY={guitar:['會不會彈都沒關係，我們從 C 和弦教起。','社課週一、週三晚上，B館。第五週開始。'],debate:['題目我們出，立場用抽的。抽到哪邊就幫哪邊講。','社課週二晚上，博思。第五週開始。'],
-    hiking:['第一次出隊走郊山，鞋子好走就好。','行前會週四晚上，普通教室。第五週開始。'],basketball:['法律系的？系籃缺人。會不會打不重要，有來比較重要。','練球在映月湖旁邊的球場。']};
-  check('0. 能加入的四攤：顧攤的人兩句逐字',Object.keys(SAY).every(k=>J(by(k).say)===J(SAY[k])));
+    hiking:['第一次出隊走郊山，鞋子好走就好。','行前會週四晚上，普通教室。第五週開始。'],basketball:['法律系的？系籃缺人。會不會打不重要，有來比較重要。','練球在映月湖旁邊的球場。','系籃是系學會的，法律系大一到大四都可以，不用甄試。名字寫這裡就好。','第五週開始，每週五。練球前一天群組會講。']};   /* 系籃後兩句：AA_613 2-2（企劃線 52e3d83a8；tests/aa613_opening_acts_unit.js 對稿）*/
+  check('0. 能加入的四攤：顧攤的人兩句逐字（系籃四句，AA_613 2-2）',Object.keys(SAY).every(k=>J(by(k).say)===J(SAY[k])));
   check('0. 法服演過以後：學長「隔週週六九點，B館一樓。第一次站旁邊聽就好。」',J(by('lawclub').after)===J(['隔週週六九點，B館一樓。第一次站旁邊聽就好。'])&&by('lawclub').event==='ev_sis_club_expo');
   const LOOK={dance:['十一點半我們上台，大道中間那個舞台。'],choir:['不用唱，哼一句就好。','（你哼了一句。她說：「音很準。」）'],photo:['我們每個月辦一次外拍。手機也可以，不一定要相機。'],boardgame:['規則五分鐘就會。來，坐。','（你玩了一輪，輸了。）'],
     badminton:['社課在新體育館。拍子我們可以借。'],service:['寒暑假出隊，國內國外都有。說明會之後會貼公告。'],alumni:['你哪裡人？……臺北？那你不是我們的。','（他還是塞了一張傳單給你。）'],coffee:['今天手沖免費試喝，一人一杯。','（很苦。旁邊的學長說，苦就對了。）'],
@@ -123,7 +123,8 @@ if(!ok||typeof CLUBFAIR==='undefined'){ H.done(); return; }
   await CLS.attendActivity(GM,g,{door:true}); check('9. 旁白多一句「（你在門口填了表。）」（第一句）、記 CLUB_club_guitar',H.said[0]&&H.said[0].t==='（你在門口填了表。）'&&G.flags.CLUB_club_guitar===true,J(H.said.slice(0,2)));
   check('9. 加入過的：不說',!CLUBFAIR.doorLine(G,g));
   check('9. 在社課門口填表＝記 CLUB_DOOR（大二社博的開場句用；AA_491 B）',G.flags.CLUB_DOOR===true&&!G.flags.FAIR_JOIN);
-  const bk=ACTIVITIES.list.find(a=>a.id==='dept_basketball'); check('9. 系籃練球在室外球場：旁白是「（你在場邊填了表。）」（AA_491 C）',!!bk&&(CLUB_FAIR.DOOR_LINE_BY||{}).dept_basketball==='（你在場邊填了表。）'&&/\(D\(\)\.DOOR_LINE_BY\|\|\{\}\)\[a\.id\]\|\|D\(\)\.DOOR_LINE/.test(fs.readFileSync(path.join(H.ROOT,'src/clubfair3d.js'),'utf8')));
+  const bk=ACTIVITIES.list.find(a=>a.id==='dept_basketball'); check('9. 系籃練球在室外球場：AA_613 2-4 起「（你在場邊填了表。）」（AA_491 C）換成學長兩句（DOOR_SAY_BY）；其他社團照舊 DOOR_LINE_BY／DOOR_LINE',!!bk&&!(CLUB_FAIR.DOOR_LINE_BY||{}).dept_basketball&&JSON.stringify((CLUB_FAIR.DOOR_SAY_BY||{}).dept_basketball)===JSON.stringify([['學長','新來的？大一？'],['學長','名字寫這裡。之後每週五，有空就來。']])&&/\(D\(\)\.DOOR_LINE_BY\|\|\{\}\)\[a\.id\]\|\|D\(\)\.DOOR_LINE/.test(fs.readFileSync(path.join(H.ROOT,'src/clubfair3d.js'),'utf8')));
+  { H.said=[]; const G9=at('2025-10-03',17.6,{},'campus'); await CLS.attendActivity(GM,bk); check('9. 錯過社博、第一次去系籃練球：學長兩句（AA_613 2-4）、記 CLUB_dept_basketball',H.said.length>=2&&H.said[0].who==='學長'&&H.said[0].t==='新來的？大一？'&&H.said[1].t==='名字寫這裡。之後每週五，有空就來。'&&G9.flags.CLUB_dept_basketball===true,JSON.stringify(H.said.slice(0,3))); }
   { const ev=fs.readFileSync(path.join(H.ROOT,'src/data/events.js'),'utf8'); check('9. 大二社博開場：在社課門口填表、沒在社博填表的玩家換「去年，你是在社課的門口填的表。」（AA_491 B）',/unless:\{custom:G=>!!G\.flags\.CLUB_DOOR&&!G\.flags\.FAIR_JOIN\},speaker:null,text:'去年，你站在這一排攤位前面填表。'\}/.test(ev)&&/if:\{custom:G=>!!G\.flags\.CLUB_DOOR&&!G\.flags\.FAIR_JOIN\},speaker:null,text:'去年，你是在社課的門口填的表。'\}/.test(ev)); }
   const pl=ACTIVITIES.list.find(a=>a.id==='public_law_group'); check('9. 公法讀書會（不是社博的社團）：不說',!CLUBFAIR.doorLine(G,pl));
   const s3=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'); check('9. 萬才館公告欄（notice lawclub）最後一句：「報名請到社團博覽會的攤位，或週六上午到萬才館一樓找值班的學長姊。」',s3.includes('新社員先跟著旁聽、做紀錄。報名請到社團博覽會的攤位，或週六上午到法律系館B一樓找值班的學長姊。\'')); }

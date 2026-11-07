@@ -1546,6 +1546,7 @@ const STORY = (function(){
     try{ if(G.hour<14){ G.hour=14; if(E) E.hour=14; } await GM.titleCard('8 月 31 日（日）','14:00 · 綜合體育館',2200);
       const B=typeof OUT!=='undefined'&&OUT.BG?OUT.BG:{}, bg=(B.ntu_gym_ceremony&&B.ntu_gym_ceremony.image)?B.ntu_gym_ceremony:B.ntu_avenue;
       if(typeof ADV!=='undefined') ADV.begin({background:bg&&bg.image?{image:bg.image}:'blur'});
+      if(typeof AA613!=='undefined'&&AA613.ceremonyWalk) await AA613.ceremonyWalk(GM);   /* AA_613 第 1 節：開學典禮是自動流程＝去的路上那一句旁白「（你和柏翰一起走過去。）」（認識柏翰才有；src/aa613_3d.js）*/
       await GM.say(null,'四千多個新生，每個人都穿著同一件新生上衣。');
       await GM.say(null,'法律系的位置在二樓看台的右邊。旁邊的人在對手冊上的流程，前面的人在傳訊息問晚上要不要一起吃飯。');
       await GM.say(null,'校長致詞講到一半，手機震了一下。你被加進一個群組。'); S.lawClassJoinY1(G);
