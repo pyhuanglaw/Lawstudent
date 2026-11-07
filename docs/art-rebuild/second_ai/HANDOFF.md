@@ -6,16 +6,16 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-07 07:1x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-07 07:4x UTC，帳號 B LAWWW2-B）
 
-分支 `claude/funny-albattani-iawshm` @ `5442841464`。瀏覽器都沒跑（D131，交 CC）。
+分支 `claude/funny-albattani-iawshm` @ `b9c61acc7`。瀏覽器都沒跑（D131，交 CC）。
 
 **整合進度**：LAWWW-B 已把裙子兩批、Café 橘色斜面、籃架、體態、器材都接進開發。
 
 - 最新是 `923c0f521`，含 `41bfc5cbe`、`c82a39be1`、`a64deefda`；
 - **之後的 patch 對 `923c0f521` 做**：`gym3d.js`、`fit3d.js` 被器材那一包改過。
 
-**11-07 交了十二包：**
+**11-07 交了十二包＋兩個探針：**
 
 | 項目 | 內容 | 位置 | 狀態 |
 |---|---|---|---|
@@ -29,21 +29,25 @@
 | P3 Café 橘色斜面 | 天空半球裁切 | `c792202bb` | 已整合 `c82a39be1`；BB-B 自己補拍 |
 | GYM-FIT ③ 短袖運動服 | 祐廷 VRM 加 GYM_TOP、GYM_SHORTS（吃 fit）；`C.setGymWear`；B1、體育課自動換 | `wip/gym_wear_1107/`（`1d022e8d1`） | 已整合 `c1fe4f3f0`（INTEGRATED）；D100a 等 CC 截圖 |
 | **#167 日常失速店內第二版** | 修第一版烘焙的頂點色 bug（椅子、盆栽、植物顏色回來）、燈色往白光拉、葉子自己亮；NOSHADOW_ 不投影、街上看不到的面拿掉（21,808→18,771） | `wip/offbeat_storefront_v2_1107/`（`e9b8fe9ba`；patch 對 `0f4b0394a`） | 已整合 `737db65d5`；BB-B 顏色、燈色 OK，CC-B 量店前 fps |
-| **GYM-FIT ③ 運動服第二版** | LAWWW-B 遊戲內看到領口灰色、衣襬兩個小黑點、深色長襪：皮膚貼圖畫的內衣、襪子改掉；短褲不再穿出上衣 | `wip/gym_wear_1107/`（`cc1371cc7`；測試 patch 對 `86f0c924f`） | LAWWW-B 已接（本機 `bb12994e2`，GHA 跑完推）；gym_wear_unit FAIL 6 → ALL PASS；CC 用 SPORTSWEAR 鏡頭重拍，過了 LAWWW-B 標 ART_APPROVED |
-| **XS-NIGHT-1107 新生南路四張夜景** | BB-B P3「大口窗景晚上只看得到天空」：燈頭點光源、月光 0.2、曝光 0 重拍；只換四張 webp | `wip/xs_night_1107/`（`5442841464`） | **DELIVERED，等 ACK**；相關 19 支 18 支 ALL PASS（invite_places 開發原樣也 FAIL）；CC 晚上進店看 |
+| **GYM-FIT ③ 運動服第二版** | LAWWW-B 遊戲內看到領口灰色、衣襬兩個小黑點、深色長襪：皮膚貼圖畫的內衣、襪子改掉；短褲不再穿出上衣 | `wip/gym_wear_1107/`（`cc1371cc7`；測試 patch 對 `86f0c924f`） | **ART_APPROVED**（LAWWW-B 07:20，D100a；體態四階也是） |
+| **XS-NIGHT-1107 新生南路四張夜景** | BB-B P3「大口窗景晚上只看得到天空」：燈頭點光源、月光 0.2、曝光 0 重拍；只換四張 webp | `wip/xs_night_1107/`（`5442841464`） | 第 1 版已整合 `bcf4ad72a`；**BB-B 07:05 要第 2 版**（近處路面太亮）：近的路燈只照燈下一圈、店的發光 1.1，正在拍 |
+| **PERF-WZ-DAY-1103 第二步** | 讀 PC 11-05 數字：白天 1% low 7 fps＝第一次進區域的成本；第二支探針 `perf_cold_probe.py`（LoAF、先載好／黑畫面多畫一格兩種對照、穩定以後的分項） | `wip/perf_wz_day_1103/`（`8802cce88`、`bc7e0ff5e`） | CC-B 已排 PERF_COLD（`b987cb1cf`）；數字回來寫 patch 給 LAWWW-B |
+| **HAIR-NOODLE-1104** | 使用者「頭髮太像泡麵」：CC-C 的探針一直沒排；延伸成 `cc_hair_fix_probe.py`（原樣／法線 0.6／貼圖柔化／兩個一起）；`tools/hair_normals.py` 之後烘進 VRM | `wip/hair_noodle_1107/`（`b9c61acc7`） | 已請 CC-B 排 HAIR_FIX；LAWWW-B 判哪一組（D100a） |
 
 **運動服**：LAWWW-B 說顏色、換穿範圍照我定的；`?blchar` 的 `bl_yuting` 沒有運動服。
 
 **下一步：**
 
-1. 等 CC：運動服第二版重拍、日常失速店前 fps、新生南路夜景（晚上從店裡看）。
-2. 舊佇列：PERF-WZ-DAY、HAIR-NOODLE、TODO_SHORTCUTS（停車場灰牆是 BB 請 CC 換角度）。
+1. 夜景第 2 版拍完 → 交 LAWWW-B（換四張）、BB-B 判。
+2. 等 CC-B：PERF_COLD → 寫 patch；HAIR_FIX → LAWWW-B 選組 → `tools/hair_normals.py` 烘進 VRM（或重畫頭髮貼圖）。
+3. 等 CC：日常失速店前 fps、新生南路夜景（晚上從店裡看）。
+4. 舊佇列：TODO_SHORTCUTS（停車場灰牆是 BB 請 CC 換角度）、#146（明軒、小語 3D 等）。
    - `RULES_2D_TO_3D.md` 11-07 補了五列方法、坑 17～22（LAWWW-B 請我把「人物預覽要用真的皮膚貼圖」寫進規則，D140）。
 3. 使用者 03:2x 的四個存檔（UA-LAWWW2-1107-01）：還沒回要看哪裡。
 
 **暫存區**（不進 repo，掉了可以照 README 重做）：
 
-- `$S/gymwear`：運動服的預覽腳本；`$S/offb2`：日常失速第二版的對照圖腳本（shots.sh）、第一版備份；`$S/dk2`：夜景的舊版、渲染原圖；
+- `$S/gymwear`：運動服的預覽腳本；`$S/offb2`：日常失速第二版的對照圖腳本（shots.sh）、第一版備份；`$S/dk2`、`$S/dk3`：夜景的舊版、渲染原圖、試燈；`$S/hair`：頭髮的 Blender 預覽（preview.py）、JS 和 Python 逐點比（cmp_js_py.js）；
 - `$S/gwwt`、`$S/gwbase`：測試用 worktree。
 
 ## ✅ 值班登記（2026-11-07 03:4x UTC；帳號 B LAWWW2-B；使用者：「現在接班 我也會跟其他AI講」）

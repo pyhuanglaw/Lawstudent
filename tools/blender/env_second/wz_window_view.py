@@ -278,11 +278,13 @@ else:
 npool = 0
 if NIGHT and opt('--pools') and os.path.exists(opt('--pools')):
     import json as _jp
+    near_d = float(opt('--pool-near', '0'))   # --pool-near 公尺：離鏡頭這麼近的路燈照舊只照燈下一圈（220 W、半徑 ×1、不加點光源）——XS-NIGHT-1107 第 2 版（BB-B：店門口那一大片地面亮成白天的沙色，晚上的地面要暗、只在燈下一圈亮）
     for q in _jp.load(open(opt('--pools'))):
-        ld = bpy.data.lights.new('pool', 'SPOT'); ld.color = hexcol(0xffd696); ld.energy = float(opt('--pool-w', '220')); ld.shadow_soft_size = 0.12
-        ld.spot_size = min(math.radians(160), 2 * math.atan(q['r'] * float(opt('--pool-r', '1')) / q['h']) * 1.1); ld.spot_blend = 0.45   # --pool-r：光圈半徑的倍率（大馬路的路燈照得比較開）
+        near = near_d > 0 and math.hypot(q['x'] - EYE[0], q['z'] - EYE[2]) < near_d
+        ld = bpy.data.lights.new('pool', 'SPOT'); ld.color = hexcol(0xffd696); ld.energy = 220.0 if near else float(opt('--pool-w', '220')); ld.shadow_soft_size = 0.12
+        ld.spot_size = min(math.radians(160), 2 * math.atan(q['r'] * (1.0 if near else float(opt('--pool-r', '1'))) / q['h']) * 1.1); ld.spot_blend = 0.45   # --pool-r：光圈半徑的倍率（大馬路的路燈照得比較開）
         lo = bpy.data.objects.new('pool', ld); sc.collection.objects.link(lo); lo.location = g2b((q['x'], q['h'] - 0.15, q['z'])); lo.rotation_euler = (0, 0, 0); npool += 1   # 聚光燈照 −Z＝往下
-        if float(opt('--pool-point', '0')) > 0:   # --pool-point W：燈頭再加一顆往四周的點光源（往下的聚光圈照不到直立的圍牆、樹冠；大馬路 XS-NIGHT-1107）
+        if float(opt('--pool-point', '0')) > 0 and not near:   # --pool-point W：燈頭再加一顆往四周的點光源（往下的聚光圈照不到直立的圍牆、樹冠；大馬路 XS-NIGHT-1107）
             lp = bpy.data.lights.new('poolpt', 'POINT'); lp.color = hexcol(0xffd696); lp.energy = float(opt('--pool-point')); lp.shadow_soft_size = 0.2
             po = bpy.data.objects.new('poolpt', lp); sc.collection.objects.link(po); po.location = g2b((q['x'], q['h'] - 0.3, q['z']))
     print('pools', npool, flush=True)
