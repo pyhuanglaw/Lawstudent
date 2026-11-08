@@ -56,7 +56,9 @@ const AA720P=(function(){
   const WHOS={yu:'yu',zhe:'zhe'};
   S.spk=function(G,sp,her){ if(sp==null) return null; const id=WHOS[sp]||(typeof CHARACTERS!=='undefined'&&CHARACTERS[sp]?sp:null); return id?{name:nameOf(id),charId:id}:{name:sp}; };
   S.herObj=id=>({name:nameOf(id),charId:id});
-  S.play=async function(GM,her,L){ const G=GM.G; for(const t of L||[]){ if(Array.isArray(t)){ const s=text(G,t[1]); await GM.say(S.spk(G,t[0],her),s); continue; } const s=text(G,t); if(/^（/.test(s)) await GM.say(null,s); else await GM.say(S.herObj(her),s); } };
+  /* 整句是一對（…）才是旁白（同 POOL.narrWhole）：學姊考前一晚「（小聲）明天要是又寫錯上個月就會的題目……」是她說的，原本「（ 開頭＝旁白」沒有名字（BB-B 11-08 12:39 同一類）；（小聲）開頭 LIBQ.needsPrefix 不會再加一次 */
+  S.narrWhole=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='（') d++; else if(ch==='）'){ d--; if(d===0) return i===t.length-1; } } return false; };
+  S.play=async function(GM,her,L){ const G=GM.G; for(const t of L||[]){ if(Array.isArray(t)){ const s=text(G,t[1]); await GM.say(S.spk(G,t[0],her),s); continue; } const s=text(G,t); if(S.narrWhole(s)) await GM.say(null,s); else await GM.say(S.herObj(her),s); } };
   S.rel=function(her,rel){ if(!rel||!Object.keys(rel).length||typeof SOCIAL==='undefined'||!SOCIAL.adjust) return; const d=Object.assign({},rel); if(stage(her)<3) delete d.npcRom; SOCIAL.adjust(her,d); };   /* 她的戀愛只在朋友以上才算（和 ARCS 的選項一樣）*/
   S.setF=(G,set,seen)=>{ if(!set) return; for(const k in set){ F(G)[k]=set[k]; if(seen) seen.add(k); } };
   S.mem=(her,mem)=>{ if(!mem||typeof SOCIAL==='undefined'||!SOCIAL.remember) return; for(const k in mem) if(!(SOCIAL.has&&SOCIAL.has(her,k))) SOCIAL.remember(her,k,mem[k]); };

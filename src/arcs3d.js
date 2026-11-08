@@ -51,7 +51,9 @@ const ARCS=(function(){
     o.opts=b.opts.map(q=>{ if(q.tell&&q.toldAlt&&S.told(G,q.tell,id)){ const A=typeof q.toldAlt==='string'?{t:q.toldAlt}:q.toldAlt; return Object.assign({},q,A,{told:true}); } return q; });
     return o; };
   S.text=(G,t)=>String(t).replace(/\{name\}/g,(G&&G.name)||'祐廷');
-  const play=async(GM,who,lines)=>{ for(const t of lines||[]){ const s=S.text(GM.G,t); if(/^（/.test(s)) await GM.say(null,s); else await GM.say(who,s); } };
+  /* 整句是一對（…）才是旁白（同 pool3d.js POOL.narrWhole、invites3d.js S.narrLine）；「（她說完，馬上笑著說：）不好意思，我問太多了～」是她說的（動作＋說的話），原本「（ 開頭＝旁白」會變成沒有名字（BB-B 11-08 12:39，f01f54039 起；heroine_arcs 五句）*/
+  S.narrWhole=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='（') d++; else if(ch==='）'){ d--; if(d===0) return i===t.length-1; } } return false; };
+  const play=async(GM,who,lines)=>{ for(const t of lines||[]){ const s=S.text(GM.G,t); if(S.narrWhole(s)) await GM.say(null,s); else await GM.say(who,s); } };
   /* 演一拍：回傳選了哪一個 */
   S.play=async function(GM,who,id,b){ const G=GM.G; await play(GM,who,b.lines); await play(GM,who,b.ask);
     const k=!GM.choose?0:(typeof DECIDE!=='undefined'?await DECIDE.choose(GM,b.opts,{text:t=>S.text(G,t),note:b.keyNote,ask:b.ask&&b.ask.length?S.text(G,b.ask[b.ask.length-1]):null}):await GM.choose(b.opts.map(o=>({t:S.text(G,o.t)})))); const o=b.opts[k]||b.opts[0];   /* key:true 的那一組：上方一行字＋選完確認（BB_305 10-5）*/
