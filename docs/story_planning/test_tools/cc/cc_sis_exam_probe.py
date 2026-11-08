@@ -179,9 +179,17 @@ async def run_mode(pg, cdp, mode, rec):
         ld = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).filter(q=>q.who===id).slice(-1)[0]; return v&&v.lead?JSON.parse(JSON.stringify({ph:v.lead.ph, me:v.lead.me, her:v.lead.her, state:v.state})):null; })", SIS)
         if not ld or not ld.get('me'): break
         me = ld['me']; R.note('%s 她帶路（第 %d 次）：%s' % (tag, k + 1, J(ld)))
-        await L.go_to(pg, cdp, R, me['x'], me['z'], 0.5, '%s 跟她走到二樓座位' % tag, max_s=240, lv=me.get('lv', 0))
-        await pg.wait_for_timeout(1500)
-        lab = await pg.evaluate("(()=>{ const e=document.getElementById('interact'); return e&&!e.classList.contains('hide')?e.innerText.trim():null; })()")
+        await L.go_to(pg, cdp, R, me['x'], me['z'], 2.0, '%s 跟她上二樓、走到座位附近' % tag, max_s=240, lv=me.get('lv', 0))
+        for _ in range(4):   # 照玩家點那張椅子（tapRedirect 走到 seatApproach、坐下優先＝TAP-SEAT-REACH-1105）
+            tp = await L.tap_ground(pg, cdp, me['x'], me['z'], lv=me.get('lv', 0))
+            if tp: break
+            await L.turn_camera_to(pg, cdp, me['x'], me['z']); await pg.wait_for_timeout(400)
+        for _ in range(20):
+            await pg.wait_for_timeout(700)
+            if await pg.evaluate("!!GAME.E.player.seat"): break
+        lab = None if await pg.evaluate("!!GAME.E.player.seat") else await pg.evaluate("(()=>{ const e=document.getElementById('interact'); return e&&!e.classList.contains('hide')?e.innerText.trim():null; })()")
+        if await pg.evaluate("!!GAME.E.player.seat"):
+            await R.shot(pg, 'sit_%d' % (k + 1)); m['sat'] = await pg.evaluate("(()=>{ const P=GAME.E.player; return {lv:P.lv|0, x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), seat:P.seat?[P.seat.x,P.seat.z]:null}; })()"); R.note('%s 點椅子以後坐下了：%s' % (tag, J(m['sat'])))
         R.note('%s 座位旁的互動：%s' % (tag, lab))
         if lab and '坐' in lab:
             await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500); await R.shot(pg, 'sit_%d' % (k + 1))
