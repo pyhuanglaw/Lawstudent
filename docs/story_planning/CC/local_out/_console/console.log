@@ -902,3 +902,12 @@
 [13:49:12] ==== START CC_mini_noguide_8b6c  (probe @ 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5) ====
 [13:49:14] [res] cpu=27% mem=44% (13.7/31.4 GB) chrome_testing=9  START CC_mini_noguide_8b6c
 [13:50:39] [res] cpu=16% mem=46% (14.6/31.4 GB) chrome_testing=9  END CC_mini_noguide_8b6c
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5d1a8c132..cf6c23146  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:50:45] ==== END   CC_mini_noguide_8b6c  exit=0  87s   ====
+[13:50:51] memory 45% before starting R_mini_fixed_e9adf6ac (2 running)
+[13:50:51] ==== START R_mini_fixed_e9adf6ac  (game @ e9adf6ac579cb5c4e978e67f433d2d41f31d2c97) ====
+[13:50:54] [res] cpu=8% mem=45% (14.4/31.4 GB) chrome_testing=10  START R_mini_fixed_e9adf6ac
+[13:50:55] worktree add e9adf6ac579cb5c4e978e67f433d2d41f31d2c97: invalid reference - fetching main and the commit itself
+[13:51:44] [res] cpu=68% mem=43% (13.4/31.4 GB) chrome_testing=9  END CC_v0_start_9e0f_3
