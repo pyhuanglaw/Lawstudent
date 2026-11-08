@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_linze_lm_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LZLM6_after\out
+CC LZ-UPPER-LM（after）：SHA=6da721819b8d351fe12e0b848ca7e06f52553819（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+PASS [linze_3f day elev_south] 進得了 linze_3f  {"zone": "linze_3f", "x": 4.6, "z": -4.9, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.05}
+PASS [黑畫面] lzlm_after_linze_3f_day_elev_south 不是黑畫面（平均亮度 175.9、變化 44.1）  [175.9, 44.1]
+  [  55.8s] [linze_3f day elev_south] 站 (4.60, -4.90)，lightMap：{"meshes": 94, "withLightMap": 16, "maps": ["odels/env/second_ai/linze_3f_lm_day.webp"]}；亮度 [175.9, 44.1]
+PASS [linze_3f day disc_north] 進得了 linze_3f  {"zone": "linze_3f", "x": -2, "z": 3.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.06}
+PASS [黑畫面] lzlm_after_linze_3f_day_disc_north 不是黑畫面（平均亮度 180.4、變化 53.6）  [180.4, 53.6]
+  [  72.3s] [linze_3f day disc_north] 站 (-2.00, 3.60)，lightMap：{"meshes": 94, "withLightMap": 16, "maps": ["odels/env/second_ai/linze_3f_lm_day.webp"]}；亮度 [180.4, 53.6]
+PASS [linze_3f night elev_south] 進得了 linze_3f  {"zone": "linze_3f", "x": 4.6, "z": -4.9, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.06}
+PASS [黑畫面] lzlm_after_linze_3f_night_elev_south 不是黑畫面（平均亮度 164.7、變化 46.8）  [164.7, 46.8]
+  [  86.4s] [linze_3f night elev_south] 站 (4.60, -4.90)，lightMap：{"meshes": 94, "withLightMap": 16, "maps": ["odels/env/second_ai/linze_3f_lm_day.webp"]}；亮度 [164.7, 46.8]
+PASS [linze_3f night disc_north] 進得了 linze_3f  {"zone": "linze_3f", "x": -2, "z": 3.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.06}
+PASS [黑畫面] lzlm_after_linze_3f_night_disc_north 不是黑畫面（平均亮度 168.8、變化 52.4）  [168.8, 52.4]
+  [ 100.6s] [linze_3f night disc_north] 站 (-2.00, 3.60)，lightMap：{"meshes": 94, "withLightMap": 16, "maps": ["odels/env/second_ai/linze_3f_lm_day.webp"]}；亮度 [168.8, 52.4]
+PASS [linze_4f day elev_south] 進得了 linze_4f  {"zone": "linze_4f", "x": 4.6, "z": -4.9, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.07}
+PASS [黑畫面] lzlm_after_linze_4f_day_elev_south 不是黑畫面（平均亮度 175.7、變化 44）  [175.7, 44]
+  [ 120.3s] [linze_4f day elev_south] 站 (4.60, -4.90)，lightMap：{"meshes": 92, "withLightMap": 16, "maps": ["odels/env/second_ai/linze_4f_lm_day.webp"]}；亮度 [175.7, 44]
+PASS [linze_4f day disc_north] 進得了 linze_4f  {"zone": "linze_4f", "x": -2, "z": 3.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐長椅", "stand": true, "fb": 0, "hour": 11.06}
+PASS [黑畫面] lzlm_after_linze_4f_day_disc_north 不是黑畫面（平均亮度 183.1、變化 54.8）  [183.1, 54.8]
+  [ 136.7s] [linze_4f day disc_north] 站 (-2.00, 3.60)，lightMap：{"meshes": 92, "withLightMap": 16, "maps": ["odels/env/second_ai/linze_4f_lm_day.webp"]}；亮度 [183.1, 54.8]
+PASS [linze_4f night elev_south] 進得了 linze_4f  {"zone": "linze_4f", "x": 4.6, "z": -4.9, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.06}
+PASS [黑畫面] lzlm_after_linze_4f_night_elev_south 不是黑畫面（平均亮度 164.7、變化 46.3）  [164.7, 46.3]
+  [ 151.6s] [linze_4f night elev_south] 站 (4.60, -4.90)，lightMap：{"meshes": 92, "withLightMap": 16, "maps": ["odels/env/second_ai/linze_4f_lm_day.webp"]}；亮度 [164.7, 46.3]
+PASS [linze_4f night disc_north] 進得了 linze_4f  {"zone": "linze_4f", "x": -2, "z": 3.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐長椅", "stand": true, "fb": 0, "hour": 20.06}
+PASS [黑畫面] lzlm_after_linze_4f_night_disc_north 不是黑畫面（平均亮度 171.9、變化 51.4）  [171.9, 51.4]
+  [ 166.2s] [linze_4f night disc_north] 站 (-2.00, 3.60)，lightMap：{"meshes": 92, "withLightMap": 16, "maps": ["odels/env/second_ai/linze_4f_lm_day.webp"]}；亮度 [171.9, 51.4]
+PASS 沒有 JS 例外  []
+ALL PASS

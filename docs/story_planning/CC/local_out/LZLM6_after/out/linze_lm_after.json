@@ -1,0 +1,152 @@
+{
+ "tag": "after",
+ "sha": "",
+ "linze_3f": {
+  "day": {
+   "elev_south": {
+    "pos": [
+     4.6,
+     -4.9
+    ],
+    "lm": {
+     "meshes": 94,
+     "withLightMap": 16,
+     "maps": [
+      "odels/env/second_ai/linze_3f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     175.9,
+     44.1
+    ]
+   },
+   "disc_north": {
+    "pos": [
+     -2,
+     3.6
+    ],
+    "lm": {
+     "meshes": 94,
+     "withLightMap": 16,
+     "maps": [
+      "odels/env/second_ai/linze_3f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     180.4,
+     53.6
+    ]
+   }
+  },
+  "night": {
+   "elev_south": {
+    "pos": [
+     4.6,
+     -4.9
+    ],
+    "lm": {
+     "meshes": 94,
+     "withLightMap": 16,
+     "maps": [
+      "odels/env/second_ai/linze_3f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     164.7,
+     46.8
+    ]
+   },
+   "disc_north": {
+    "pos": [
+     -2,
+     3.6
+    ],
+    "lm": {
+     "meshes": 94,
+     "withLightMap": 16,
+     "maps": [
+      "odels/env/second_ai/linze_3f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     168.8,
+     52.4
+    ]
+   }
+  }
+ },
+ "linze_4f": {
+  "day": {
+   "elev_south": {
+    "pos": [
+     4.6,
+     -4.9
+    ],
+    "lm": {
+     "meshes": 92,
+     "withLightMap": 16,
+     "maps": [
+      "odels/env/second_ai/linze_4f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     175.7,
+     44
+    ]
+   },
+   "disc_north": {
+    "pos": [
+     -2,
+     3.6
+    ],
+    "lm": {
+     "meshes": 92,
+     "withLightMap": 16,
+     "maps": [
+      "odels/env/second_ai/linze_4f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     183.1,
+     54.8
+    ]
+   }
+  },
+  "night": {
+   "elev_south": {
+    "pos": [
+     4.6,
+     -4.9
+    ],
+    "lm": {
+     "meshes": 92,
+     "withLightMap": 16,
+     "maps": [
+      "odels/env/second_ai/linze_4f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     164.7,
+     46.3
+    ]
+   },
+   "disc_north": {
+    "pos": [
+     -2,
+     3.6
+    ],
+    "lm": {
+     "meshes": 92,
+     "withLightMap": 16,
+     "maps": [
+      "odels/env/second_ai/linze_4f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     171.9,
+     51.4
+    ]
+   }
+  }
+ }
+}
