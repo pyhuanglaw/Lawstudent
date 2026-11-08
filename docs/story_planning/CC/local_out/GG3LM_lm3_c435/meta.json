@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GG3LM_lm3_c435",
+  "sha": "c435933a6ba353506c573940104577d24d18564f",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_scene5_probe.py",
+  "env": "TAG=after_gpu;PART=gym_b1,us_apartment,us_shared;SLOTS=1400:14,2100:21;EXTRA2=gym_b1@pool_wall_corr@-10,1.6,2.6@-10,1.4,-0.2@18/gym_b1@pool_wall_pool@-10,1.6,-2.5@-10,1.4,-0.2@18/gym_b1@fit_wall_corr@-10,1.6,0.3@-10,1.4,3@18/gym_b1@fit_wall_fit@-10,1.6,6@-10,1.4,3@18/us_apartment@bed_wall_living@-1,1.5,-1@1.4,1.3,-1@18/us_apartment@bed_wall_bed@4,1.5,-1@1.4,1.3,-1@18/us_shared@bed_wall_living@-1,1.5,-1@1.4,1.3,-1@18;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T14:27:17",
+  "end": "2026-11-08T14:31:41",
+  "seconds": 264,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 96,
+    "mem": 54,
+    "used_gb": 17.0,
+    "chrome_testing": 14
+  }
+}

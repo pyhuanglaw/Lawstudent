@@ -1,0 +1,103 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_scene5_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3LM_lm3_c435\out
+CC 燒臘、頁間書屋光照（after_gpu）：SHA=c435933a6ba353506c573940104577d24d18564f（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [after_gpu gym_b1 1400] 讀檔 gym_b1 2025-10-18 14.0（條件事件關閉）
+PASS [after_gpu gym_b1 1400] 進得了 gym_b1  {"zone": "gym_b1", "x": 18, "z": 7, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  49.1s] [after_gpu gym_b1 1400] 材質／光照貼圖：{"meshes": 186, "mats": 186, "withLightMap": 32, "maps": ["gym_b1_lm_day.webp"], "uv1Meshes": 32, "whiteNoTexMats": 29, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+  [  49.2s] [after_gpu gym_b1 1400] 自動機位：{"spawn": [18, 7], "y0": 0, "fy": 0, "up": false, "yaw": 3.14, "center": [0, -5], "size": [48.5, 8.4, 38], "clerk": null, "seat": [-21, -1.1], "seatLv": [null, 0, null], "views": {"door": {"eye": [18, 1.6, 7.3], "look": [18, 1, 1], "lens": 18}, "top": {"eye": [0, 13.4, -4.2], "look": [0, 0, -5.3], "lens": 16}, "seat": {"eye": [-13.25, 1.4, -2.06], "look": [-21, 0.6, -1.1], "lens": 22}, "out": {"eye": [18, 1.55, 4.5], "look": [18, 1.4, 13], "lens": 20}}}
+PASS [黑畫面] s5_after_gpu_gym_b1_1400_door 不是黑畫面（平均亮度 97.8、變化 34.4）  [97.8, 34.4]
+  [  51.5s] [截圖] s5_after_gpu_gym_b1_1400_door：鏡頭 {"eye": [18, 1.6, 7.3], "look": [18, 1, 1], "lens": 18, "vfov": 58.72}、亮度 [97.8, 34.4]
+PASS [黑畫面] s5_after_gpu_gym_b1_1400_top 不是黑畫面（平均亮度 170.3、變化 46.1）  [170.3, 46.1]
+  [  53.8s] [截圖] s5_after_gpu_gym_b1_1400_top：鏡頭 {"eye": [0, 13.4, -4.2], "look": [0, 0, -5.3], "lens": 16, "vfov": 64.65}、亮度 [170.3, 46.1]
+PASS [黑畫面] s5_after_gpu_gym_b1_1400_seat 不是黑畫面（平均亮度 132.4、變化 62.2）  [132.4, 62.2]
+  [  56.0s] [截圖] s5_after_gpu_gym_b1_1400_seat：鏡頭 {"eye": [-13.25, 1.4, -2.06], "look": [-21, 0.6, -1.1], "lens": 22, "vfov": 49.43}、亮度 [132.4, 62.2]
+PASS [黑畫面] s5_after_gpu_gym_b1_1400_out 不是黑畫面（平均亮度 83.6、變化 31.5）  [83.6, 31.5]
+  [  58.0s] [截圖] s5_after_gpu_gym_b1_1400_out：鏡頭 {"eye": [18, 1.55, 4.5], "look": [18, 1.4, 13], "lens": 20, "vfov": 53.7}、亮度 [83.6, 31.5]
+PASS [黑畫面] s5_after_gpu_gym_b1_1400_pool_wall_corr 不是黑畫面（平均亮度 121、變化 33）  [121, 33]
+  [  60.3s] [截圖] s5_after_gpu_gym_b1_1400_pool_wall_corr：鏡頭 {"eye": [-10, 1.6, 2.6], "look": [-10, 1.4, -0.2], "lens": 18, "vfov": 58.72}、亮度 [121, 33]
+PASS [黑畫面] s5_after_gpu_gym_b1_1400_pool_wall_pool 不是黑畫面（平均亮度 80、變化 46）  [80, 46]
+  [  62.4s] [截圖] s5_after_gpu_gym_b1_1400_pool_wall_pool：鏡頭 {"eye": [-10, 1.6, -2.5], "look": [-10, 1.4, -0.2], "lens": 18, "vfov": 58.72}、亮度 [80, 46]
+PASS [黑畫面] s5_after_gpu_gym_b1_1400_fit_wall_corr 不是黑畫面（平均亮度 57.8、變化 45.7）  [57.8, 45.7]
+  [  64.6s] [截圖] s5_after_gpu_gym_b1_1400_fit_wall_corr：鏡頭 {"eye": [-10, 1.6, 0.3], "look": [-10, 1.4, 3], "lens": 18, "vfov": 58.72}、亮度 [57.8, 45.7]
+PASS [黑畫面] s5_after_gpu_gym_b1_1400_fit_wall_fit 不是黑畫面（平均亮度 96.7、變化 46.4）  [96.7, 46.4]
+  [  66.8s] [截圖] s5_after_gpu_gym_b1_1400_fit_wall_fit：鏡頭 {"eye": [-10, 1.6, 6], "look": [-10, 1.4, 3], "lens": 18, "vfov": 58.72}、亮度 [96.7, 46.4]
+  [前置／捷徑] [after_gpu gym_b1 2100] 讀檔 gym_b1 2025-10-18 21.0（條件事件關閉）
+PASS [after_gpu gym_b1 2100] 進得了 gym_b1  {"zone": "gym_b1", "x": 18, "z": 7, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.07}
+  [  81.5s] [after_gpu gym_b1 2100] 材質／光照貼圖：{"meshes": 186, "mats": 186, "withLightMap": 32, "maps": ["gym_b1_lm_day.webp"], "uv1Meshes": 32, "whiteNoTexMats": 29, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_after_gpu_gym_b1_2100_door 不是黑畫面（平均亮度 96.1、變化 33）  [96.1, 33]
+  [  83.8s] [截圖] s5_after_gpu_gym_b1_2100_door：鏡頭 {"eye": [18, 1.6, 7.3], "look": [18, 1, 1], "lens": 18, "vfov": 58.72}、亮度 [96.1, 33]
+PASS [黑畫面] s5_after_gpu_gym_b1_2100_top 不是黑畫面（平均亮度 155.3、變化 43.4）  [155.3, 43.4]
+  [  86.2s] [截圖] s5_after_gpu_gym_b1_2100_top：鏡頭 {"eye": [0, 13.4, -4.2], "look": [0, 0, -5.3], "lens": 16, "vfov": 64.65}、亮度 [155.3, 43.4]
+PASS [黑畫面] s5_after_gpu_gym_b1_2100_seat 不是黑畫面（平均亮度 125.2、變化 61.2）  [125.2, 61.2]
+  [  88.4s] [截圖] s5_after_gpu_gym_b1_2100_seat：鏡頭 {"eye": [-13.25, 1.4, -2.06], "look": [-21, 0.6, -1.1], "lens": 22, "vfov": 49.43}、亮度 [125.2, 61.2]
+PASS [黑畫面] s5_after_gpu_gym_b1_2100_out 不是黑畫面（平均亮度 71.6、變化 30.9）  [71.6, 30.9]
+  [  90.5s] [截圖] s5_after_gpu_gym_b1_2100_out：鏡頭 {"eye": [18, 1.55, 4.5], "look": [18, 1.4, 13], "lens": 20, "vfov": 53.7}、亮度 [71.6, 30.9]
+PASS [黑畫面] s5_after_gpu_gym_b1_2100_pool_wall_corr 不是黑畫面（平均亮度 123.2、變化 33.5）  [123.2, 33.5]
+  [  92.7s] [截圖] s5_after_gpu_gym_b1_2100_pool_wall_corr：鏡頭 {"eye": [-10, 1.6, 2.6], "look": [-10, 1.4, -0.2], "lens": 18, "vfov": 58.72}、亮度 [123.2, 33.5]
+PASS [黑畫面] s5_after_gpu_gym_b1_2100_pool_wall_pool 不是黑畫面（平均亮度 74、變化 42.9）  [74, 42.9]
+  [  94.9s] [截圖] s5_after_gpu_gym_b1_2100_pool_wall_pool：鏡頭 {"eye": [-10, 1.6, -2.5], "look": [-10, 1.4, -0.2], "lens": 18, "vfov": 58.72}、亮度 [74, 42.9]
+PASS [黑畫面] s5_after_gpu_gym_b1_2100_fit_wall_corr 不是黑畫面（平均亮度 53.5、變化 43.8）  [53.5, 43.8]
+  [  97.2s] [截圖] s5_after_gpu_gym_b1_2100_fit_wall_corr：鏡頭 {"eye": [-10, 1.6, 0.3], "look": [-10, 1.4, 3], "lens": 18, "vfov": 58.72}、亮度 [53.5, 43.8]
+PASS [黑畫面] s5_after_gpu_gym_b1_2100_fit_wall_fit 不是黑畫面（平均亮度 99.4、變化 48.3）  [99.4, 48.3]
+  [  99.3s] [截圖] s5_after_gpu_gym_b1_2100_fit_wall_fit：鏡頭 {"eye": [-10, 1.6, 6], "look": [-10, 1.4, 3], "lens": 18, "vfov": 58.72}、亮度 [99.4, 48.3]
+  [前置／捷徑] [after_gpu us_apartment 1400] 讀檔 us_apartment 2025-10-18 14.0（條件事件關閉）
+PASS [after_gpu us_apartment 1400] 進得了 us_apartment  {"zone": "us_apartment", "x": 0.4, "z": 4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [ 126.6s] [after_gpu us_apartment 1400] 材質／光照貼圖：{"meshes": 218, "mats": 218, "withLightMap": 67, "maps": ["us_apartment_lm_day.webp"], "uv1Meshes": 67, "whiteNoTexMats": 1, "views": [{"n": "usa_view_off", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}], "charFailures": [], "assetFailed": null, "glb": true}
+  [ 126.6s] [after_gpu us_apartment 1400] 自動機位：{"spawn": [0.4, 4], "y0": 0, "fy": 0, "up": false, "yaw": -1.57, "center": [1, -0.0], "size": [54, 7.5, 56], "clerk": null, "seat": [-3.6, 0.4], "seatLv": [0, 0, null], "views": {"door": {"eye": [0.7, 1.6, 4], "look": [-5.6, 1, 4], "lens": 18}, "top": {"eye": [1, 12.5, 0.8], "look": [1, 0, -0.3], "lens": 16}, "seat": {"eye": [-1.59, 1.4, 0.66], "look": [-3.6, 0.6, 0.4], "lens": 22}, "out": {"eye": [-2.1, 1.55, 4], "look": [6.4, 1.4, 4], "lens": 20}}}
+PASS [黑畫面] s5_after_gpu_us_apartment_1400_door 不是黑畫面（平均亮度 131.6、變化 51.9）  [131.6, 51.9]
+  [ 128.8s] [截圖] s5_after_gpu_us_apartment_1400_door：鏡頭 {"eye": [0.7, 1.6, 4], "look": [-5.6, 1, 4], "lens": 18, "vfov": 58.72}、亮度 [131.6, 51.9]
+PASS [黑畫面] s5_after_gpu_us_apartment_1400_top 不是黑畫面（平均亮度 109.3、變化 43.8）  [109.3, 43.8]
+  [ 130.8s] [截圖] s5_after_gpu_us_apartment_1400_top：鏡頭 {"eye": [1, 12.5, 0.8], "look": [1, 0, -0.3], "lens": 16, "vfov": 64.65}、亮度 [109.3, 43.8]
+PASS [黑畫面] s5_after_gpu_us_apartment_1400_seat 不是黑畫面（平均亮度 86.8、變化 58.4）  [86.8, 58.4]
+  [ 133.1s] [截圖] s5_after_gpu_us_apartment_1400_seat：鏡頭 {"eye": [-1.59, 1.4, 0.66], "look": [-3.6, 0.6, 0.4], "lens": 22, "vfov": 49.43}、亮度 [86.8, 58.4]
+PASS [黑畫面] s5_after_gpu_us_apartment_1400_out 不是黑畫面（平均亮度 137.3、變化 46.7）  [137.3, 46.7]
+  [ 135.2s] [截圖] s5_after_gpu_us_apartment_1400_out：鏡頭 {"eye": [-2.1, 1.55, 4], "look": [6.4, 1.4, 4], "lens": 20, "vfov": 53.7}、亮度 [137.3, 46.7]
+PASS [黑畫面] s5_after_gpu_us_apartment_1400_bed_wall_living 不是黑畫面（平均亮度 133.5、變化 56.7）  [133.5, 56.7]
+  [ 137.5s] [截圖] s5_after_gpu_us_apartment_1400_bed_wall_living：鏡頭 {"eye": [-1, 1.5, -1], "look": [1.4, 1.3, -1], "lens": 18, "vfov": 58.72}、亮度 [133.5, 56.7]
+PASS [黑畫面] s5_after_gpu_us_apartment_1400_bed_wall_bed 不是黑畫面（平均亮度 127.4、變化 55.1）  [127.4, 55.1]
+  [ 139.8s] [截圖] s5_after_gpu_us_apartment_1400_bed_wall_bed：鏡頭 {"eye": [4, 1.5, -1], "look": [1.4, 1.3, -1], "lens": 18, "vfov": 58.72}、亮度 [127.4, 55.1]
+  [前置／捷徑] [after_gpu us_apartment 2100] 讀檔 us_apartment 2025-10-18 21.0（條件事件關閉）
+PASS [after_gpu us_apartment 2100] 進得了 us_apartment  {"zone": "us_apartment", "x": 0.4, "z": 4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.07}
+  [ 154.2s] [after_gpu us_apartment 2100] 材質／光照貼圖：{"meshes": 218, "mats": 218, "withLightMap": 67, "maps": ["us_apartment_lm_day.webp"], "uv1Meshes": 67, "whiteNoTexMats": 1, "views": [{"n": "usa_view_off", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_after_gpu_us_apartment_2100_door 不是黑畫面（平均亮度 86.6、變化 62.1）  [86.6, 62.1]
+  [ 156.3s] [截圖] s5_after_gpu_us_apartment_2100_door：鏡頭 {"eye": [0.7, 1.6, 4], "look": [-5.6, 1, 4], "lens": 18, "vfov": 58.72}、亮度 [86.6, 62.1]
+PASS [黑畫面] s5_after_gpu_us_apartment_2100_top 不是黑畫面（平均亮度 63.3、變化 52.6）  [63.3, 52.6]
+  [ 158.2s] [截圖] s5_after_gpu_us_apartment_2100_top：鏡頭 {"eye": [1, 12.5, 0.8], "look": [1, 0, -0.3], "lens": 16, "vfov": 64.65}、亮度 [63.3, 52.6]
+PASS [黑畫面] s5_after_gpu_us_apartment_2100_seat 不是黑畫面（平均亮度 99.8、變化 65.6）  [99.8, 65.6]
+  [ 160.6s] [截圖] s5_after_gpu_us_apartment_2100_seat：鏡頭 {"eye": [-1.59, 1.4, 0.66], "look": [-3.6, 0.6, 0.4], "lens": 22, "vfov": 49.43}、亮度 [99.8, 65.6]
+PASS [黑畫面] s5_after_gpu_us_apartment_2100_out 不是黑畫面（平均亮度 88.4、變化 67.8）  [88.4, 67.8]
+  [ 162.6s] [截圖] s5_after_gpu_us_apartment_2100_out：鏡頭 {"eye": [-2.1, 1.55, 4], "look": [6.4, 1.4, 4], "lens": 20, "vfov": 53.7}、亮度 [88.4, 67.8]
+PASS [黑畫面] s5_after_gpu_us_apartment_2100_bed_wall_living 不是黑畫面（平均亮度 143.9、變化 57.1）  [143.9, 57.1]
+  [ 164.9s] [截圖] s5_after_gpu_us_apartment_2100_bed_wall_living：鏡頭 {"eye": [-1, 1.5, -1], "look": [1.4, 1.3, -1], "lens": 18, "vfov": 58.72}、亮度 [143.9, 57.1]
+PASS [黑畫面] s5_after_gpu_us_apartment_2100_bed_wall_bed 不是黑畫面（平均亮度 140.8、變化 53.3）  [140.8, 53.3]
+  [ 167.1s] [截圖] s5_after_gpu_us_apartment_2100_bed_wall_bed：鏡頭 {"eye": [4, 1.5, -1], "look": [1.4, 1.3, -1], "lens": 18, "vfov": 58.72}、亮度 [140.8, 53.3]
+  [前置／捷徑] [after_gpu us_shared 1400] 讀檔 us_shared 2025-10-18 14.0（條件事件關閉）
+PASS [after_gpu us_shared 1400] 進得了 us_shared  {"zone": "us_shared", "x": 0.4, "z": 4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [ 192.3s] [after_gpu us_shared 1400] 材質／光照貼圖：{"meshes": 260, "mats": 260, "withLightMap": 87, "maps": ["us_shared_lm_day.webp"], "uv1Meshes": 87, "whiteNoTexMats": 0, "views": [{"n": "usa_view_off", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}], "charFailures": [], "assetFailed": null, "glb": true}
+  [ 192.3s] [after_gpu us_shared 1400] 自動機位：{"spawn": [0.4, 4], "y0": 0, "fy": 0, "up": false, "yaw": -1.57, "center": [1, -0.0], "size": [54, 7.5, 56], "clerk": null, "seat": [-3.6, 0.4], "seatLv": [0, 0, null], "views": {"door": {"eye": [0.7, 1.6, 4], "look": [-5.6, 1, 4], "lens": 18}, "top": {"eye": [1, 12.5, 0.8], "look": [1, 0, -0.3], "lens": 16}, "seat": {"eye": [-1.59, 1.4, 0.66], "look": [-3.6, 0.6, 0.4], "lens": 22}, "out": {"eye": [-2.1, 1.55, 4], "look": [6.4, 1.4, 4], "lens": 20}}}
+PASS [黑畫面] s5_after_gpu_us_shared_1400_door 不是黑畫面（平均亮度 131.6、變化 51.9）  [131.6, 51.9]
+  [ 194.4s] [截圖] s5_after_gpu_us_shared_1400_door：鏡頭 {"eye": [0.7, 1.6, 4], "look": [-5.6, 1, 4], "lens": 18, "vfov": 58.72}、亮度 [131.6, 51.9]
+PASS [黑畫面] s5_after_gpu_us_shared_1400_top 不是黑畫面（平均亮度 106.2、變化 44.4）  [106.2, 44.4]
+  [ 196.3s] [截圖] s5_after_gpu_us_shared_1400_top：鏡頭 {"eye": [1, 12.5, 0.8], "look": [1, 0, -0.3], "lens": 16, "vfov": 64.65}、亮度 [106.2, 44.4]
+PASS [黑畫面] s5_after_gpu_us_shared_1400_seat 不是黑畫面（平均亮度 87.7、變化 59.4）  [87.7, 59.4]
+  [ 198.6s] [截圖] s5_after_gpu_us_shared_1400_seat：鏡頭 {"eye": [-1.59, 1.4, 0.66], "look": [-3.6, 0.6, 0.4], "lens": 22, "vfov": 49.43}、亮度 [87.7, 59.4]
+PASS [黑畫面] s5_after_gpu_us_shared_1400_out 不是黑畫面（平均亮度 136.7、變化 47.1）  [136.7, 47.1]
+  [ 200.7s] [截圖] s5_after_gpu_us_shared_1400_out：鏡頭 {"eye": [-2.1, 1.55, 4], "look": [6.4, 1.4, 4], "lens": 20, "vfov": 53.7}、亮度 [136.7, 47.1]
+PASS [黑畫面] s5_after_gpu_us_shared_1400_bed_wall_living 不是黑畫面（平均亮度 151.1、變化 64.1）  [151.1, 64.1]
+  [ 202.8s] [截圖] s5_after_gpu_us_shared_1400_bed_wall_living：鏡頭 {"eye": [-1, 1.5, -1], "look": [1.4, 1.3, -1], "lens": 18, "vfov": 58.72}、亮度 [151.1, 64.1]
+  [前置／捷徑] [after_gpu us_shared 2100] 讀檔 us_shared 2025-10-18 21.0（條件事件關閉）
+PASS [after_gpu us_shared 2100] 進得了 us_shared  {"zone": "us_shared", "x": 0.4, "z": 4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.07}
+  [ 217.2s] [after_gpu us_shared 2100] 材質／光照貼圖：{"meshes": 260, "mats": 260, "withLightMap": 87, "maps": ["us_shared_lm_day.webp"], "uv1Meshes": 87, "whiteNoTexMats": 0, "views": [{"n": "usa_view_off", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}, {"n": "usa_view_on", "vis": true}], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_after_gpu_us_shared_2100_door 不是黑畫面（平均亮度 86.9、變化 62）  [86.9, 62]
+  [ 219.1s] [截圖] s5_after_gpu_us_shared_2100_door：鏡頭 {"eye": [0.7, 1.6, 4], "look": [-5.6, 1, 4], "lens": 18, "vfov": 58.72}、亮度 [86.9, 62]
+PASS [黑畫面] s5_after_gpu_us_shared_2100_top 不是黑畫面（平均亮度 54.3、變化 44.7）  [54.3, 44.7]
+  [ 221.0s] [截圖] s5_after_gpu_us_shared_2100_top：鏡頭 {"eye": [1, 12.5, 0.8], "look": [1, 0, -0.3], "lens": 16, "vfov": 64.65}、亮度 [54.3, 44.7]
+PASS [黑畫面] s5_after_gpu_us_shared_2100_seat 不是黑畫面（平均亮度 97.7、變化 65.6）  [97.7, 65.6]
+  [ 223.3s] [截圖] s5_after_gpu_us_shared_2100_seat：鏡頭 {"eye": [-1.59, 1.4, 0.66], "look": [-3.6, 0.6, 0.4], "lens": 22, "vfov": 49.43}、亮度 [97.7, 65.6]
+PASS [黑畫面] s5_after_gpu_us_shared_2100_out 不是黑畫面（平均亮度 86、變化 67.5）  [86, 67.5]
+  [ 225.3s] [截圖] s5_after_gpu_us_shared_2100_out：鏡頭 {"eye": [-2.1, 1.55, 4], "look": [6.4, 1.4, 4], "lens": 20, "vfov": 53.7}、亮度 [86, 67.5]
+PASS [黑畫面] s5_after_gpu_us_shared_2100_bed_wall_living 不是黑畫面（平均亮度 136.6、變化 54.4）  [136.6, 54.4]
+  [ 227.5s] [截圖] s5_after_gpu_us_shared_2100_bed_wall_living：鏡頭 {"eye": [-1, 1.5, -1], "look": [1.4, 1.3, -1], "lens": 18, "vfov": 58.72}、亮度 [136.6, 54.4]
+PASS 沒有 JS 例外  []
+ALL PASS
