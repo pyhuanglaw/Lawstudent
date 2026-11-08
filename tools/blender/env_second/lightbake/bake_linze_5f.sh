@@ -2,7 +2,7 @@
 # 霖澤館 5F（linze_upper.py 的 linze_5f：北邊走廊、教授研究室的門、會議室 P3、西南角學姊的研究室 LAB、南牆一排窗）：光照烘焙（白天／晚上／全關）→ WebP
 # （INTERIOR-AAA-REVIEW-1028 P1，LAWWW2-B 11-07；接在 3F、4F 後面，做法同 bake_linze_upper.sh）。repo 根目錄跑：
 #   bash tools/blender/env_second/lightbake/bake_linze_5f.sh [取樣數，預設 512]
-# 直接烘現在 assets 裡的 GLB（不重新產生）。遊戲：linze_upper3d.js 用 Z3.attachRoomGLB，GLB 有 extras.lightmap 就接；有 dark 那一張就接 roomDarkMap（z.lightsOff(k)）。
+# 烘原檔（git blob，下面的 ORIG；不重新產生）。遊戲：linze_upper3d.js 用 Z3.attachRoomGLB，GLB 有 extras.lightmap 就接；有 dark 那一張就接 roomDarkMap（z.lightsOff(k)）。
 # 燈：tube_lights.py 從 GLB 讀：走廊、會議室、教授研究室的嵌燈 linze_5f_tubes 15 盞＋學姊研究室的 LAB_tubes 3 盞（x −5.7、z 1.6／3.7／5.6），每盞一個 30 W 面光源，在燈管下緣。
 #   學姊桌上的檯燈（LAB_SIS_LAMP）不烘、不當光源：遊戲裡那裡有一盞即時的暖色點光（linze_upper3d.js 的 light5.sl：全開 0.6、只開檯燈 2.6）。
 # 第三張「全關」（--dark）：研究室的燈有三種狀態（LZUP.labLights：'all' 全開／'sis' 只開學姊的檯燈／'off' 全關；劇情用）。
@@ -18,7 +18,9 @@ R=linze_5f
 TMP=$(mktemp -d)
 OUT=${OUTDIR:-assets/models/env/second_ai}   # 試烘可以改輸出位置（--url 照舊是遊戲的路徑）
 LB=tools/blender/env_second/lightbake
-cp assets/models/env/second_ai/$R.glb "$TMP/$R.glb"
+# 輸入：烘焙前的原檔（git blob；11-08 LAWWW2-B——assets 裡的已經烘過，拿來再烘第二套 UV 會疊兩次）。IN＝別的檔可以蓋過
+ORIG=${ORIG:-7785fbf0dc21c95da9a76a92f449eed370e56d60}   # c38b07e2d 的 linze_5f.glb（10-23 研究室八張桌子那一版）
+if [ -n "${IN:-}" ]; then cp "$IN" "$TMP/$R.glb"; else git cat-file -p "$ORIG" > "$TMP/$R.glb"; fi
 LIGHTS=$(python3 $LB/tube_lights.py "$TMP/$R.glb" --mesh '(linze_5f_tubes|LAB_tubes)$' --w "${LW:-30}")
 NOLM='tubes|fridgelight|GLOW|metal|props|steel|print|glass|slat|screens|^LAB_|EXAM_SIGN'
 /opt/blenv/bin/python $LB/bake_room.py -- --in "$TMP/$R.glb" --out "$OUT/$R.glb" \
