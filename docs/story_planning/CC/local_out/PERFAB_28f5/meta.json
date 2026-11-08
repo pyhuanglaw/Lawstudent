@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "PERFAB_28f5",
+  "sha": "28f5f5287c3c752ae62454d8f3e31e1ac4f254df",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_perf_ab_probe.py",
+  "env": "PTS=xs_shanlan:1f,xs_shanlan:2f,xs_dakou:1f,xs_dakou:2f,xs_haopai:1f,xs_tongxian:1f",
+  "machine": "MSI",
+  "start": "2026-11-09T02:51:10",
+  "end": "2026-11-09T02:52:08",
+  "seconds": 58,
+  "exit": 0,
+  "error": null,
+  "runner": "ca6fd18292",
+  "rf_round": "54",
+  "url": "http://127.0.0.1:8800/index.html?perf",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 39,
+    "mem": 57,
+    "used_gb": 18.1,
+    "chrome_testing": 13
+  },
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
