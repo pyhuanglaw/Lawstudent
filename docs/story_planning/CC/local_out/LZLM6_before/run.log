@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_linze_lm_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LZLM6_before\out
+CC LZ-UPPER-LM（before）：SHA=126bdf93e82886673518705566dbe83b582c32c1（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+PASS [linze_3f day elev_south] 進得了 linze_3f  {"zone": "linze_3f", "x": 4.6, "z": -4.9, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.05}
+PASS [黑畫面] lzlm_before_linze_3f_day_elev_south 不是黑畫面（平均亮度 160、變化 37.9）  [160, 37.9]
+  [  57.9s] [linze_3f day elev_south] 站 (4.60, -4.90)，lightMap：{"meshes": 94, "withLightMap": 0, "maps": []}；亮度 [160, 37.9]
+PASS [linze_3f day disc_north] 進得了 linze_3f  {"zone": "linze_3f", "x": -2, "z": 3.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.06}
+PASS [黑畫面] lzlm_before_linze_3f_day_disc_north 不是黑畫面（平均亮度 161.4、變化 45.9）  [161.4, 45.9]
+  [  72.8s] [linze_3f day disc_north] 站 (-2.00, 3.60)，lightMap：{"meshes": 94, "withLightMap": 0, "maps": []}；亮度 [161.4, 45.9]
+PASS [linze_3f night elev_south] 進得了 linze_3f  {"zone": "linze_3f", "x": 4.6, "z": -4.9, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.06}
+PASS [黑畫面] lzlm_before_linze_3f_night_elev_south 不是黑畫面（平均亮度 144.3、變化 39.1）  [144.3, 39.1]
+  [  86.8s] [linze_3f night elev_south] 站 (4.60, -4.90)，lightMap：{"meshes": 94, "withLightMap": 0, "maps": []}；亮度 [144.3, 39.1]
+PASS [linze_3f night disc_north] 進得了 linze_3f  {"zone": "linze_3f", "x": -2, "z": 3.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.06}
+PASS [黑畫面] lzlm_before_linze_3f_night_disc_north 不是黑畫面（平均亮度 153、變化 45.8）  [153, 45.8]
+  [ 100.7s] [linze_3f night disc_north] 站 (-2.00, 3.60)，lightMap：{"meshes": 94, "withLightMap": 0, "maps": []}；亮度 [153, 45.8]
+PASS [linze_4f day elev_south] 進得了 linze_4f  {"zone": "linze_4f", "x": 4.6, "z": -4.9, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.07}
+PASS [黑畫面] lzlm_before_linze_4f_day_elev_south 不是黑畫面（平均亮度 159.7、變化 37.8）  [159.7, 37.8]
+  [ 119.6s] [linze_4f day elev_south] 站 (4.60, -4.90)，lightMap：{"meshes": 92, "withLightMap": 0, "maps": []}；亮度 [159.7, 37.8]
+PASS [linze_4f day disc_north] 進得了 linze_4f  {"zone": "linze_4f", "x": -2, "z": 3.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐長椅", "stand": true, "fb": 0, "hour": 11.06}
+PASS [黑畫面] lzlm_before_linze_4f_day_disc_north 不是黑畫面（平均亮度 163.2、變化 45.9）  [163.2, 45.9]
+  [ 134.0s] [linze_4f day disc_north] 站 (-2.00, 3.60)，lightMap：{"meshes": 92, "withLightMap": 0, "maps": []}；亮度 [163.2, 45.9]
+PASS [linze_4f night elev_south] 進得了 linze_4f  {"zone": "linze_4f", "x": 4.6, "z": -4.9, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.06}
+PASS [黑畫面] lzlm_before_linze_4f_night_elev_south 不是黑畫面（平均亮度 144.5、變化 38.7）  [144.5, 38.7]
+  [ 148.9s] [linze_4f night elev_south] 站 (4.60, -4.90)，lightMap：{"meshes": 92, "withLightMap": 0, "maps": []}；亮度 [144.5, 38.7]
+PASS [linze_4f night disc_north] 進得了 linze_4f  {"zone": "linze_4f", "x": -2, "z": 3.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐長椅", "stand": true, "fb": 0, "hour": 20.07}
+PASS [黑畫面] lzlm_before_linze_4f_night_disc_north 不是黑畫面（平均亮度 155.1、變化 44.5）  [155.1, 44.5]
+  [ 163.8s] [linze_4f night disc_north] 站 (-2.00, 3.60)，lightMap：{"meshes": 92, "withLightMap": 0, "maps": []}；亮度 [155.1, 44.5]
+PASS 沒有 JS 例外  []
+ALL PASS

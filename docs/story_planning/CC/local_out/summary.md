@@ -1817,3 +1817,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 128.0s] page close url=http://127.0.0.1:50814/index.html | [gpu_wrap 128.0s] BROWSER DISCONNECTED
 - 2026-11-08T09:10:52  WSEM6_before  sha=126bdf93e82886673518705566dbe83b582c32c1  exit=0  198s      [ 104.9s] [before B_interview] 光照貼圖：材質 80 個、接了 lightMap 0 個，貼圖 [] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 105.5s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 105.5s] BROWSER DISCONNECTED
+- 2026-11-08T09:11:07  LZLM6_before  sha=126bdf93e82886673518705566dbe83b582c32c1  exit=0  204s      [ 163.8s] [linze_4f night disc_north] 站 (-2.00, 3.60)，lightMap：{"meshes": 92, "withLightMap": 0, "maps": []}；亮度 [155.1, 44.5] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 164.5s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 164.5s] BROWSER DISCONNECTED

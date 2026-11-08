@@ -1,0 +1,136 @@
+{
+ "tag": "before",
+ "sha": "",
+ "linze_3f": {
+  "day": {
+   "elev_south": {
+    "pos": [
+     4.6,
+     -4.9
+    ],
+    "lm": {
+     "meshes": 94,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     160,
+     37.9
+    ]
+   },
+   "disc_north": {
+    "pos": [
+     -2,
+     3.6
+    ],
+    "lm": {
+     "meshes": 94,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     161.4,
+     45.9
+    ]
+   }
+  },
+  "night": {
+   "elev_south": {
+    "pos": [
+     4.6,
+     -4.9
+    ],
+    "lm": {
+     "meshes": 94,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     144.3,
+     39.1
+    ]
+   },
+   "disc_north": {
+    "pos": [
+     -2,
+     3.6
+    ],
+    "lm": {
+     "meshes": 94,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     153,
+     45.8
+    ]
+   }
+  }
+ },
+ "linze_4f": {
+  "day": {
+   "elev_south": {
+    "pos": [
+     4.6,
+     -4.9
+    ],
+    "lm": {
+     "meshes": 92,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     159.7,
+     37.8
+    ]
+   },
+   "disc_north": {
+    "pos": [
+     -2,
+     3.6
+    ],
+    "lm": {
+     "meshes": 92,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     163.2,
+     45.9
+    ]
+   }
+  },
+  "night": {
+   "elev_south": {
+    "pos": [
+     4.6,
+     -4.9
+    ],
+    "lm": {
+     "meshes": 92,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     144.5,
+     38.7
+    ]
+   },
+   "disc_north": {
+    "pos": [
+     -2,
+     3.6
+    ],
+    "lm": {
+     "meshes": 92,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     155.1,
+     44.5
+    ]
+   }
+  }
+ }
+}
