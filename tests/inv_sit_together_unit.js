@@ -140,7 +140,7 @@ const dEnt=s=>Math.hypot(s.x-SPAWN.x,s.z-SPAWN.z);
     let doc=null; try{ doc=require('child_process').execFileSync('git',['show','37daf8027:docs/story_planning/AA_649_約念書走到桌子坐下＋約會到座位的開場句.md'],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ doc=null; }
     if(doc){ const miss=all.filter(t=>!doc.includes(t)); check('11. 每一句都逐字出現在 AA_649（37daf8027）',!miss.length,JSON.stringify(miss));
       const want=['以安','芷若','語彤','子晴','學姊','沛珊','可昕'].length; check('11. 第 3 節七個人都有（坐下、道別）',Object.keys(LS.first).length===want&&Object.values(LS.first).every(f=>doc.includes('| '+f.sit+' | '+f.bye+' |')||(doc.includes(f.sit)&&doc.includes(f.bye))));
-      check('11. AA_649 第 2 節的一般句都在（坐下兩句、道別兩句）',['「（小聲）我讀到六點。你呢？」','「（小聲）手機先收起來。」','「今天讀得比我想的多。……下次再約。」','「好累。……可是很好。」'].every(t=>LS.sit.concat(LS.bye).includes(t))); }
+      check('11. AA_649 第 2 節的一般句都在（坐下兩句、道別兩句）',['（小聲）我讀到六點。你呢？','（小聲）手機先收起來。','「今天讀得比我想的多。……下次再約。」','「好累。……可是很好。」'].every(t=>LS.sit.concat(LS.bye).includes(t))); }
     else console.log('SKIP 11. 這個 checkout 沒有企劃線 37daf8027（git fetch origin claude/story-planning 以後再跑）');
     check('11. 稿上寫在引號裡的（小聲）不再加一次；沒寫的照舊加；整句旁白不加',LIBQ.needsPrefix('「（小聲）二樓靠窗那排比較安靜。」')===false&&LIBQ.quiet('「好。」')==='（小聲）「好。」'&&LIBQ.needsPrefix(LS.seated)===false); }
   /* ---- 12 CC 11-04 讀 909c729a6 的疑點 1～3 ---- */
