@@ -962,3 +962,12 @@
 [00:18:50] [res] cpu=3% mem=38% (12.0/31.4 GB) chrome_testing=0  START Rc753c_touch
 [00:19:47] 正在跑：Rc753c_touch（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [00:21:59] [res] cpu=8% mem=36% (11.5/31.4 GB) chrome_testing=0  END Rc753c_touch
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ed30550cb..e3982718d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:22:03] ==== END   Rc753c_touch  exit=1  191s   ====
+[00:22:06] memory 37% before starting Rc753c_movreg (0 running)
+[00:22:06] ==== START Rc753c_movreg  (game @ c753295dabdf8a0b0b2ec9767a7c5429237b7134) ====
+[00:22:09] [res] cpu=7% mem=38% (11.9/31.4 GB) chrome_testing=0  START Rc753c_movreg
+[00:24:47] 正在跑：Rc753c_movreg（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:28:19] [res] cpu=11% mem=37% (11.9/31.4 GB) chrome_testing=0  END Rc753c_movreg
