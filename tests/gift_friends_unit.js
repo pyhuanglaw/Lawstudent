@@ -8,6 +8,7 @@
 //   4. 同一天第二次送同一種：no（AA_728 no）、好感不變、東西留著
 //   5. 「你把○○遞給阿哲。」；（動作）講的話拆成旁白＋他說的
 //   6. 芯慈（可以攻略）交往中也照朋友版；七位女主角照 AA_710（GIFT_LINES.people 先挑）
+//   0b. 只給可攻略的對象（使用者 11-08 15:2x；GIFT-ROMANCE-ONLY-1108）：預設 GIFT.FRIEND_OK 只有芯慈；阿哲、阿凱、Alison、柏翰、明軒沒有選項、give 不收；1～6 把六位打開來驗朋友版本身
 // 用法：node tests/gift_friends_unit.js
 const H=require('./pg_harness.js');
 const {check,GM}=H;
@@ -50,6 +51,19 @@ const PRE="import sys,json,subprocess;sys.path.insert(0,'tools/story');import im
   const split=ls=>[].concat(...ls.map(t=>{ const s=GIFT.text(H.G,t), m=/^(（[^）]*）)(.+)$/.exec(s); return m?[m[1],m[2]]:[s]; }));
   const give=async(G,id,n)=>{ const c=mk(G,n); H.said=[]; const r=await GIFT.give(GM,who(id),id,c); const s=H.said.map(x=>x.t); return {r,s:r==='no'?s:s.slice(1),first:s[0],raw:H.said.slice(),c}; };
   const idx=(gs,s)=>gs.findIndex(g=>same(split(g.lines),s));
+  /* 0b 只給可攻略的對象（使用者 11-08 15:2x「送飲料只需要給可攻略的對象」「飲料改完再發布」；X266、GIFT-ROMANCE-ONLY-1108）：
+     預設只有芯慈（可以攻略）照朋友版還收得到；阿哲、阿凱、Alison、柏翰、明軒當面說話不會出現「送他／她○○」、GIFT.give 不收（東西還在身上）；七位女主角照舊 */
+  { const OK0=Object.assign({},GIFT.FRIEND_OK||{}); const NO=['zhe','kai','yu','classmate_bohan','classmate_mingxuan'];
+    check('0b. 預設可以送的朋友只有芯慈（GIFT.FRIEND_OK）',same(Object.keys(OK0).filter(k=>OK0[k]).sort(),['classmate_xinci']),J(OK0));
+    const bad=[]; for(const id of NO){ const G=fresh(); mk(G,'青茶'); G.carry.push({n:'飯糰',cat:'breakfast',day:G.day,shop:'便利商店'});
+      const viaStory=STORY.TALK_OPTS.some(f=>{ try{ return (f(G,id,GM)||[]).length>0; }catch(e){ return false; } });
+      if(GIFT.talkOpts(G,id).length||viaStory) bad.push(id+' 有選項');
+      H.said=[]; const c=G.carry[0]; const r=await GIFT.give(GM,who(id),id,c); if(r!==null||H.said.length||!G.carry.includes(c)) bad.push(id+' give='+r); }
+    check('0b. 阿哲、阿凱、Alison、柏翰、明軒：當面說話沒有「送○○」、GIFT.give 不收（不說話、東西留著）',!bad.length,J(bad));
+    { const G=fresh(); mk(G,'青茶'); check('0b. 芯慈照舊有「送她青茶」',same(GIFT.talkOpts(G,'classmate_xinci').map(x=>x.t),['送她青茶'])); }
+    { const G=fresh(); mk(G,'青茶'); const hs=Object.keys(GIFT_LINES.people||{}); check('0b. 七位女主角照舊有「送她○○」（AA_710）',hs.length===7&&hs.every(id=>GIFT.talkOpts(G,id).length>0),J(hs.filter(id=>!GIFT.talkOpts(G,id).length))); }
+    /* 下面 1～6 驗朋友版本身（芯慈在用；以後要再打開某一位也是這一套）：六位都打開來測，測完換回預設 */
+    GIFT.FRIEND_OK=Object.fromEntries(IDS.map(id=>[id,true])); }
   /* 1 選項 */
   { const bad=[];
     for(const id of IDS){ const G=fresh(); const O0=GIFT.talkOpts(G,id); mk(G,'青茶'); G.carry.push({n:'飯糰',cat:'breakfast',day:G.day,shop:'便利商店'});

@@ -77,7 +77,12 @@ const GIFT=(function(){
     if(k==='night') return cat==='breakfast'&&(+G.hour||0)>=17;
     const m=month(G), t=S.TEMP[c.n]; if(k==='winterCold') return (m===12||m<=2)&&m>0&&t==='cold'; if(k==='summerHot') return m>=6&&m<=8&&t==='hot'; return false; };
   /* 朋友（AA_728）：{kind:'no'|'yes', lines, rel（今天還沒算過才有）, k, i, cat, friend:true} */
-  const pickFriend=function(G,id,c){ const T=LFP()[id]; if(!T) return null; const R=F(G), cat=S.CAT[c.n]||c.cat, sec=T[cat]?cat:'drink', key=id+'|'+cat, x={n:c.n,cnt:R.n[id]|0,h:+G.hour||0};
+  /* 送東西只給可攻略的對象（使用者 11-08 15:2x「送飲料只需要給可攻略的對象」「飲料改完再發布」；X266、GIFT-ROMANCE-ONLY-1108）：
+     七位女主角（AA_710，GIFT_LINES.people）照舊；朋友六位（AA_728）只留可以攻略的——芯慈（AA_728「芯慈可以攻略也照朋友版」）；阿哲、阿凱、Alison、柏翰、明軒不會出現「送他／她○○」。
+     稿和匯入照舊（gift_lines.js 的 friends 還在，只是不送）；要再打開某一位，加進這裡就好 */
+  S.FRIEND_OK={classmate_xinci:true};
+  const friendOK=id=>!!(S.FRIEND_OK&&S.FRIEND_OK[id]);
+  const pickFriend=function(G,id,c){ const T=friendOK(id)?LFP()[id]:null; if(!T) return null; const R=F(G), cat=S.CAT[c.n]||c.cat, sec=T[cat]?cat:'drink', key=id+'|'+cat, x={n:c.n,cnt:R.n[id]|0,h:+G.hour||0};
     if(!T[sec]) return null;
     if(R.day[key]===G.day){ const r=rot(R,id+'|no',T.no,x)||{k:id+'|no',i:0,g:T.no[0]}; return {kind:'no',lines:r.g.lines,k:r.k,i:r.i,cat,friend:true}; }   /* 一天第二次同一種：不收，東西留著 */
     const r=rot(R,id+'|'+sec+'|yes',T[sec].pool,x)||{k:id+'|'+sec+'|yes',i:0,g:T[sec].pool[0]};   /* 沒有早餐那一格的照飲料那一格（AA_728 notes），輪流也照那一格 */
@@ -102,7 +107,7 @@ const GIFT=(function(){
     if(P.fav){ R.fav[id]=G.day; if(typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!(SOCIAL.has&&SOCIAL.has(id,'REMEMBERED_HER'))) SOCIAL.remember(id,'REMEMBERED_HER',c.n); }
     return P.kind; };
   /* 當面說話的選項（STORY.TALK_OPTS）：帶著的每一樣一個「送她○○」／「送他○○」*/
-  S.talkOpts=function(G,id){ if(!G) return []; const T=L()[id], TF=LFP()[id]; if(!T&&!TF) return []; const p=S.pron(id);
+  S.talkOpts=function(G,id){ if(!G) return []; const T=L()[id], TF=friendOK(id)?LFP()[id]:null; if(!T&&!TF) return []; const p=S.pron(id);
     return S.carry(G).filter(c=>T?!!T[S.kind(id,c)]:!!TF.drink).map(c=>({t:'送'+p+c.n,run:async(GM,who)=>{ await S.give(GM,who,id,c); }})); };
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.TALK_OPTS)) STORY.TALK_OPTS.push((G,id)=>S.talkOpts(G,id));
   return S;

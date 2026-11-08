@@ -3432,7 +3432,7 @@
    "at": "2026-11-08T15:2x",
    "quote": "送飲料只需要給可攻略的對象",
    "kind": "原話",
-   "status": "還沒做",
+   "status": "進行中",
    "wants": "X266",
    "task": "GIFT-ROMANCE-ONLY-1108",
    "src": "使用者對 LAWWW-B，2026-11-08 15:2x UTC（AskUserQuestion「要我合併 main、發布 v9.10.23 嗎？」）",
@@ -3459,6 +3459,17 @@
    "task": "RELEASE-V91023-1108",
    "src": "使用者對 LAWWW-B，2026-11-08 15:2x UTC（AskUserQuestion「要我合併 main、發布 v9.10.23 嗎？」）",
    "checked": "發布樹 52a7e5337（候選 9eef2b95b）BB-B GO；PR 合併 main、Pages 部署"
+  },
+  {
+   "id": "UA-LAWWW-1108-04",
+   "at": "2026-11-08T15:3x",
+   "quote": "飲料改完再發布",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X266",
+   "task": "GIFT-ROMANCE-ONLY-1108",
+   "src": "使用者對 LAWWW-B，2026-11-08 15:3x UTC（v9.10.23 剛合併 main、Pages 部署中）",
+   "checked": "15:31 取消 Pages 部署（run 42495110198 build／deploy 都 cancelled，線上照舊 v9.10.22）；gift3d.js 改成朋友只剩芯慈（S.FRIEND_OK）；改完 BB-B 測、再發布"
   }
  ]
 }
