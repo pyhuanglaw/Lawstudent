@@ -1,0 +1,11 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_scene5_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3B1_4614\out
+CC 燒臘、頁間書屋光照（after_gpu）：SHA=4614f4fc023bbb442cd000e2efd9904c2c35a5ce（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [after_gpu library_b1 1400] 讀檔 library_b1 2025-10-18 14.0（條件事件關閉）
+FAIL [after_gpu library_b1 1400] 探針沒有例外  Error('Page.evaluate: Error: 未知的地點：library_b1\n    at Object.applySave (http://127.0.0.1:8800/src/game3d.js?v=9.7-1:269:69)\n    at eval (eval at evaluate (:370:30), <anonymous>:1:279)\n    at eval (eval at evaluate (:370:30), <anonymous>:1:295)\n    at eval (<anonymous>)\n    at UtilityScript.evalu
+  [前置／捷徑] [after_gpu library_b1 2000] 讀檔 library_b1 2025-10-18 20.0（條件事件關閉）
+FAIL [after_gpu library_b1 2000] 探針沒有例外  Error('Page.evaluate: Error: 未知的地點：library_b1\n    at Object.applySave (http://127.0.0.1:8800/src/game3d.js?v=9.7-1:269:69)\n    at eval (eval at evaluate (:370:30), <anonymous>:1:279)\n    at eval (eval at evaluate (:370:30), <anonymous>:1:295)\n    at eval (<anonymous>)\n    at UtilityScript.evalu
+PASS 沒有 JS 例外  []
+FAILED 2: [after_gpu library_b1 1400] 探針沒有例外；[after_gpu library_b1 2000] 探針沒有例外
