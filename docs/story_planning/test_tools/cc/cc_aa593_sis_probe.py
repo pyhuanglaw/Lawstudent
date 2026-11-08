@@ -59,12 +59,13 @@ async def sis_rel(pg, tag, dating=False):
     return await pg.evaluate("(dt=>{ const id='heroine_05'; SOCIAL.remember(id,'FIRST_MET',''); Object.assign(SOCIAL.rel(id),{fam:65,trust:50,comf:45,npcRom:dt?60:10,rom:dt?40:0}); const F=GAME.G.flags; F.met_sis=true; if(!GAME.G.contacts) GAME.G.contacts={}; if(typeof INV!=='undefined'&&INV.addContact) INV.addContact(GAME.G,id); if(dt){ try{ ROM.start(GAME.G,id); }catch(e){ F['dating_'+id]=true; } } return {stage:DATE.stageNum(id), dating:!!F['dating_'+id]}; })", dating)
 
 
-async def stand_until(pg, cdp, day, h, max_s=900, skip=True):
+async def stand_until(pg, cdp, day, h, max_s=900, skip=True, stop_on_choice=False):
     t0 = time.time()
     while time.time() - t0 < max_s:
         c = await pg.evaluate("({d:GAME.G.day, h:+GAME.G.hour})")
         if c['d'] > day or (c['d'] == day and c['h'] >= h): return True
         s = await L.state(pg)
+        if s['choices'] and stop_on_choice: return True   # 選單跳出來（例：出發選單）交給呼叫的人選
         if s['choices']: await L.tap(pg, cdp, '#choices button'); await pg.wait_for_timeout(700); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
         await L.close_panels(pg, cdp); await pg.wait_for_timeout(1500)
@@ -171,7 +172,7 @@ async def m_flake(pg, cdp, tag, rec):
     R.setup('%s 【前置】時間撥到出發前（%s %.2f 以前 0.3 小時）' % (tag, q.get('day'), q.get('h') or 0))
     await pg.evaluate("(q=>{ const G=GAME.G; const dd=q.day; G.weekday=(G.weekday+(dd-G.day)+7*10)%7; G.day=dd; G.hour=Math.max(8,(q.h||14)-(q.travelH||1)-0.3); })", q)
     await pg.evaluate("window.__says=[]")
-    await stand_until(pg, cdp, q['day'], (q.get('h') or 14) - (q.get('travelH') or 0) - 0.02, max_s=900)   # CC-B 09:4x：等到出發時間（run47 flake：drive 20 秒沒事就結束，出發選單還沒跳）
+    await stand_until(pg, cdp, q['day'], (q.get('h') or 14) - (q.get('travelH') or 0) - 0.02, max_s=900, stop_on_choice=True)   # CC-B 09:4x：等到出發時間（run47 flake：drive 20 秒沒事就結束，出發選單還沒跳）
     c2 = await drive(pg, cdp, ['今天不去了', '算了，今天不去了'], max_s=400, idle_end=40)
     says = await pg.evaluate("window.__says||[]")
     R.note('%s 出發選單：%s；說的話 %s' % (tag, J(c2), J(says[-6:])))
