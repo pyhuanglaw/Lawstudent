@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "TOUCH_87f1_1",
+  "sha": "87f1b01cf9078727e3dbc15dc6e3e453d108149d",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_touch_wrap.py",
+  "env": "SOLO=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-09T01:18:29",
+  "end": "2026-11-09T01:21:41",
+  "seconds": 193,
+  "exit": 0,
+  "error": null,
+  "runner": "ca6fd18292",
+  "rf_round": "49",
+  "url": "http://127.0.0.1:8800/index.html?turbo",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 42,
+    "mem": 46,
+    "used_gb": 14.3,
+    "chrome_testing": 5
+  },
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
