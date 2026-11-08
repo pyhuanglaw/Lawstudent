@@ -1576,4 +1576,6 @@ R565c_movreg_r2 | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/moveme
 R565c_movreg_r3 | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
 R565c_movreg_r4 | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
 # CC-B 11-08 11:2x：BB-B A6 斜推沿牆重現（遊戲時間 2.0 秒；沿牆 ÷ 空地），排在 movreg 三次後面
-A6_565c | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | probe | docs/story_planning/test_tools/cc/cc_a6_probe.py | index.html | 30 | SOLO=1;RUNS=2;CC_HEADLESS=0
+# [CC-B 11:3x BB-B 拿掉：LAWWW-B 03c71f300 已改 A6] A6_565c | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | probe | docs/story_planning/test_tools/cc/cc_a6_probe.py | index.html | 30 | SOLO=1;RUNS=2;CC_HEADLESS=0
+# CC-B 11-08 11:3x：BB-B movreg A6 改好（03c71f300，照 canStand 往空間大的那側推）跑整支
+R03c7_movreg | 03c71f300bcafc99f9e70b18b7f77d5f0885ec91 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
