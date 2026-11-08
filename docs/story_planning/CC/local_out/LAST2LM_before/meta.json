@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "LAST2LM_before",
+  "sha": "e9d8c668fd832f13beeb79903f3270aa1b914089",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_room_shots_probe.py",
+  "env": "TAG=before;SHOTS=dorm_205,2025-10-15,21.5,r205_window,yaw+dorm_205,2025-10-15,21.5,r205_ceiling,yaw_ceil+us_bed_c,2028-03-11,15,bedc_15,yaw+us_bed_c,2028-03-11,20,bedc_20,yaw;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T09:32:09",
+  "end": "2026-11-08T09:34:26",
+  "seconds": 137,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 29,
+    "mem": 52,
+    "used_gb": 16.3,
+    "chrome_testing": 12
+  }
+}

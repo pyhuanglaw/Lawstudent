@@ -1,0 +1,26 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_room_shots_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LAST2LM_before\out
+CC 房間截圖（before）：SHA=e9d8c668fd832f13beeb79903f3270aa1b914089（worktree 實際 ?）；4 張；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [before r205_window] 讀檔 dorm_205 2025-10-15 21.5（條件事件關閉）
+PASS [before r205_window] 進得了 dorm_205  {"zone": "dorm_205", "x": 0, "z": 2.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.56}
+PASS [黑畫面] room_before_r205_window 不是黑畫面（平均亮度 209.3、變化 48.4）  [209.3, 48.4]
+  [  50.9s] [截圖] room_before_r205_window：鏡頭 {"eye": [1.4692820413287174e-06, 1.6, 2.599999999994603], "look": [-2.938564082657435e-05, 1.1, -1.5999999998920607], "lens": 20, "vfov": 53.7}、亮度 [209.3, 48.4]
+  [  50.9s] [before r205_window] 光照貼圖：材質 104 個、接了 lightMap 0 個，貼圖 []
+  [前置／捷徑] [before r205_ceiling] 讀檔 dorm_205 2025-10-15 21.5（條件事件關閉）
+PASS [before r205_ceiling] 進得了 dorm_205  {"zone": "dorm_205", "x": 0, "z": 2.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.57}
+PASS [黑畫面] room_before_r205_ceiling 不是黑畫面（平均亮度 239、變化 13.8）  [239, 13.8]
+  [  67.1s] [截圖] room_before_r205_ceiling：鏡頭 {"eye": [1.4692820413287174e-06, 1.6, 2.599999999994603], "look": [-8.815692247972305e-06, 3.6, 1.2000000000323818], "lens": 20, "vfov": 53.7}、亮度 [239, 13.8]
+  [  67.1s] [before r205_ceiling] 光照貼圖：材質 104 個、接了 lightMap 0 個，貼圖 []
+  [前置／捷徑] [before bedc_15] 讀檔 us_bed_c 2028-03-11 15（條件事件關閉）
+PASS [before bedc_15] 進得了 us_bed_c  {"zone": "us_bed_c", "x": -0.4, "z": 0.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 15.07}
+PASS [黑畫面] room_before_bedc_15 不是黑畫面（平均亮度 191.2、變化 60.9）  [191.2, 60.9]
+  [  84.6s] [截圖] room_before_bedc_15：鏡頭 {"eye": [-0.5999999999986507, 1.6, 0.8000007346410207], "look": [3.599999999973015, 1.1, 0.7999853071795867], "lens": 20, "vfov": 53.7}、亮度 [191.2, 60.9]
+  [  84.6s] [before bedc_15] 光照貼圖：材質 43 個、接了 lightMap 0 個，貼圖 []
+  [前置／捷徑] [before bedc_20] 讀檔 us_bed_c 2028-03-11 20（條件事件關閉）
+PASS [before bedc_20] 進得了 us_bed_c  {"zone": "us_bed_c", "x": -0.4, "z": 0.8, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.07}
+PASS [黑畫面] room_before_bedc_20 不是黑畫面（平均亮度 192.3、變化 71.3）  [192.3, 71.3]
+  [ 100.5s] [截圖] room_before_bedc_20：鏡頭 {"eye": [-0.5999999999986507, 1.6, 0.8000007346410207], "look": [3.599999999973015, 1.1, 0.7999853071795867], "lens": 20, "vfov": 53.7}、亮度 [192.3, 71.3]
+  [ 100.5s] [before bedc_20] 光照貼圖：材質 43 個、接了 lightMap 0 個，貼圖 []
+PASS 沒有 JS 例外  []
+ALL PASS
