@@ -18484,7 +18484,7 @@
    "what": "光照第二級：總圖 B1、研究小間、5F 書庫＋公館 afar、青木、Daybreak、慢輪單車",
    "task": "INTERIOR-AAA-REVIEW-1028",
    "integration": "已整合待測試",
-   "note": "0f6a8586e（wip/lib_lm2_1107；B1 是使用者 ART_APPROVED 4.1 版，光照變了請 BB 再看；B1 晚上中庭天空發光要看）",
+   "note": "0f6a8586e（wip/lib_lm2_1107；B1 是使用者 ART_APPROVED 4.1 版，光照變了請 BB 再看；B1 晚上中庭天空發光要看）；bba757532：B1、研究小間退回原檔（LAWWW2-B 02:04 工具隔間牆 bug，重烘後補交），書庫＋公館四間照接",
    "ack": "ACK"
   }
  ],
