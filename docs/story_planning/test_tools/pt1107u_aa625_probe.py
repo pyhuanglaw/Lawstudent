@@ -133,6 +133,18 @@ async def main():
             actn0 = await pg.evaluate("JSON.stringify(((GAME.G.flags.STUDYN||{})[\"heroine_01\"])||null)")
             await P.jump(pg, cdp, run, '2025-11-03', 17.3, zone=PZONE, pos=None, note=PLACE + '門口'); await P.init(pg)
             n0 = await P.say_hook(pg)
+            if PLACE == '總圖':   # 約念書她帶路（INV-SIT-TOGETHER-1104）：她先走去坐，玩家要走到她坐的位子旁邊才開演（S.leadTick）
+                seat = None
+                for _ in range(240):
+                    q = await P.ts(pg)
+                    if q['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
+                    seat = await pg.evaluate("(()=>{ const n=GAME.npc&&GAME.npc['heroine_01']; const s=n&&n.seat; const iv=(GAME.G.invites||[]).find(v=>v.who==='heroine_01'&&v.state==='accepted'); return s?{x:+s.x.toFixed(2),z:+s.z.toFixed(2),lv:s.lv|0,lead:!!(iv&&iv.lead)}:null; })()")
+                    if seat: break
+                    await pg.wait_for_timeout(1000)
+                print('[SEAT]', J(seat))
+                run.check('總圖：她帶路、坐下（有座位）', bool(seat), J(seat))
+                if seat:
+                    await L.go_to(pg, cdp, run, seat['x'], seat['z'] + 0.9, 1.4, '以安坐的位子旁邊', max_s=600, lv=seat['lv'], stop=lambda st: bool(st.get('dlg') or st.get('choices')))
             seen = await play_until(pg, cdp, 19.0, max_s=700, prefer=('一起', '坐', '念', '讀'))
             lines = await P.said(pg, n0)
             st1 = await pg.evaluate("(GAME.G.stats&&GAME.G.stats.study)||0")
