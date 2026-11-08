@@ -2172,3 +2172,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 590.2s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 590.2s] BROWSER DISCONNECTED
 - 2026-11-08T20:31:56  GG3DK2F_102a  sha=102a03cb9b6d6c2e2f3705876cfe119030228325  exit=0  179s      [ 143.9s] [截圖] s5_before_gpu_xs_dakou_2000_corner_2f_b：鏡頭 {"eye": [-2.65, 5, -5.45], "look": [-2.65, 3.65, -7.8999999999999995], "lens": 20, "vfov": 53.7}、亮度 [82.3, 38] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 144.4s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 144.4s] BROWSER DISCONNECTED
+- 2026-11-08T20:32:48  GG3DK2F_9556  sha=95566d0b5cd1783c74fa1e5f68107bb1890daf5f  exit=0  182s      [ 145.4s] [截圖] s5_after_gpu_xs_dakou_2000_corner_2f_b：鏡頭 {"eye": [-2.65, 5, -5.45], "look": [-2.65, 3.65, -7.8999999999999995], "lens": 20, "vfov": 53.7}、亮度 [86.8, 44.9] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 145.9s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 145.9s] BROWSER DISCONNECTED
