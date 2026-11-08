@@ -1,0 +1,891 @@
+[
+ {
+  "zone": "xs_shanlan",
+  "floor": "1f",
+  "info": {
+   "zone": "xs_shanlan",
+   "lv": 0,
+   "pos": [
+    0.8,
+    7.5
+   ],
+   "yaw": 6.28,
+   "hour": 14.08,
+   "weather": "sunny",
+   "q": "medium",
+   "dpr": 1,
+   "pr": 1,
+   "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "out": {
+   "zone": "xs_shanlan",
+   "calls": 96,
+   "programs": 77,
+   "rows": [
+    {
+     "cond": "base",
+     "n": "",
+     "fps": 39.7,
+     "worst": 192,
+     "renderMs": 9.3,
+     "pathMs": 0.16,
+     "paths": 2,
+     "npc": 9
+    },
+    {
+     "cond": "noGlow",
+     "n": 2,
+     "fps": 42.7,
+     "worst": 76,
+     "renderMs": 8.1,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 8
+    },
+    {
+     "cond": "noBlend",
+     "n": 52,
+     "fps": 50.9,
+     "worst": 122,
+     "renderMs": 6.8,
+     "pathMs": 0.12,
+     "paths": 3,
+     "npc": 8
+    },
+    {
+     "cond": "noPoint",
+     "n": 5,
+     "fps": 57.4,
+     "worst": 93,
+     "renderMs": 7,
+     "pathMs": 0.05,
+     "paths": 1,
+     "npc": 8
+    },
+    {
+     "cond": "noL2",
+     "n": 1,
+     "fps": 51.3,
+     "worst": 95,
+     "renderMs": 8.2,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 8
+    },
+    {
+     "cond": "noShadow",
+     "n": 1,
+     "fps": 48.9,
+     "worst": 163,
+     "renderMs": 8.9,
+     "pathMs": 0.14,
+     "paths": 1,
+     "npc": 7
+    },
+    {
+     "cond": "noNPC",
+     "n": 6,
+     "fps": 57.9,
+     "worst": 132,
+     "renderMs": 8.3,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 2
+    },
+    {
+     "cond": "halfRes",
+     "n": 1,
+     "fps": 55.3,
+     "worst": 86,
+     "renderMs": 7.8,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 6
+    },
+    {
+     "cond": "base（再量一次）",
+     "n": "",
+     "fps": 56.6,
+     "worst": 128,
+     "renderMs": 7.5,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 6
+    }
+   ],
+   "hitches": [
+    {
+     "at_s": 1.1,
+     "ms": 102,
+     "renderMs": 7,
+     "pathMs": 0,
+     "paths": 0,
+     "dProg": 0,
+     "dTex": 0,
+     "dGeo": 0,
+     "npc": 7,
+     "dNpc": 0
+    },
+    {
+     "at_s": 2,
+     "ms": 115,
+     "renderMs": 7,
+     "pathMs": 0,
+     "paths": 0,
+     "dProg": 0,
+     "dTex": 0,
+     "dGeo": 0,
+     "npc": 7,
+     "dNpc": 0
+    },
+    {
+     "at_s": 5.4,
+     "ms": 119,
+     "renderMs": 9,
+     "pathMs": 0,
+     "paths": 0,
+     "dProg": 0,
+     "dTex": 0,
+     "dGeo": 0,
+     "npc": 7,
+     "dNpc": 0
+    },
+    {
+     "at_s": 7,
+     "ms": 101,
+     "renderMs": 9,
+     "pathMs": 0,
+     "paths": 0,
+     "dProg": 0,
+     "dTex": 0,
+     "dGeo": 0,
+     "npc": 7,
+     "dNpc": 0
+    },
+    {
+     "at_s": 9.4,
+     "ms": 118,
+     "renderMs": 56,
+     "pathMs": 0,
+     "paths": 0,
+     "dProg": 0,
+     "dTex": 12,
+     "dGeo": 0,
+     "npc": 8,
+     "dNpc": 1
+    },
+    {
+     "at_s": 10.2,
+     "ms": 110,
+     "renderMs": 7,
+     "pathMs": 0,
+     "paths": 0,
+     "dProg": 0,
+     "dTex": 0,
+     "dGeo": 0,
+     "npc": 8,
+     "dNpc": 0
+    },
+    {
+     "at_s": 10.6,
+     "ms": 105,
+     "renderMs": 9,
+     "pathMs": 0,
+     "paths": 0,
+     "dProg": 0,
+     "dTex": 0,
+     "dGeo": 0,
+     "npc": 8,
+     "dNpc": 0
+    },
+    {
+     "at_s": 15.3,
+     "ms": 109,
+     "renderMs": 7,
+     "pathMs": 0,
+     "paths": 0,
+     "dProg": 0,
+     "dTex": 0,
+     "dGeo": 0,
+     "npc": 8,
+     "dNpc": 0
+    }
+   ]
+  }
+ },
+ {
+  "zone": "xs_shanlan",
+  "floor": "2f",
+  "info": {
+   "zone": "xs_shanlan",
+   "lv": 1,
+   "pos": [
+    -1.05,
+    8.15
+   ],
+   "yaw": 3.14,
+   "hour": 14.1,
+   "weather": "sunny",
+   "q": "medium",
+   "dpr": 1,
+   "pr": 1,
+   "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "out": {
+   "zone": "xs_shanlan",
+   "calls": 148,
+   "programs": 92,
+   "rows": [
+    {
+     "cond": "base",
+     "n": "",
+     "fps": 33.2,
+     "worst": 213,
+     "renderMs": 12.6,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 9
+    },
+    {
+     "cond": "noGlow",
+     "n": 2,
+     "fps": 37.2,
+     "worst": 49,
+     "renderMs": 11.7,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 8
+    },
+    {
+     "cond": "noBlend",
+     "n": 52,
+     "fps": 44,
+     "worst": 151,
+     "renderMs": 9.6,
+     "pathMs": 0.06,
+     "paths": 1,
+     "npc": 8
+    },
+    {
+     "cond": "noPoint",
+     "n": 5,
+     "fps": 53.6,
+     "worst": 60,
+     "renderMs": 7.7,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 8
+    },
+    {
+     "cond": "noL2",
+     "n": 1,
+     "fps": 48.7,
+     "worst": 73,
+     "renderMs": 8.2,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 8
+    },
+    {
+     "cond": "noShadow",
+     "n": 1,
+     "fps": 45.2,
+     "worst": 240,
+     "renderMs": 8.5,
+     "pathMs": 0.08,
+     "paths": 1,
+     "npc": 8
+    },
+    {
+     "cond": "noNPC",
+     "n": 8,
+     "fps": 57.8,
+     "worst": 90,
+     "renderMs": 7.1,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 0
+    },
+    {
+     "cond": "halfRes",
+     "n": 1,
+     "fps": 36.2,
+     "worst": 148,
+     "renderMs": 10.7,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 8
+    },
+    {
+     "cond": "base（再量一次）",
+     "n": "",
+     "fps": 38,
+     "worst": 97,
+     "renderMs": 10.3,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 9
+    }
+   ],
+   "hitches": [
+    {
+     "at_s": 4.5,
+     "ms": 124,
+     "renderMs": 56,
+     "pathMs": 0,
+     "paths": 0,
+     "dProg": 0,
+     "dTex": 12,
+     "dGeo": 0,
+     "npc": 9,
+     "dNpc": 1
+    }
+   ]
+  }
+ },
+ {
+  "zone": "xs_dakou",
+  "floor": "1f",
+  "info": {
+   "zone": "xs_dakou",
+   "lv": 0,
+   "pos": [
+    0,
+    6.4
+   ],
+   "yaw": 6.28,
+   "hour": 14.1,
+   "weather": "sunny",
+   "q": "medium",
+   "dpr": 1,
+   "pr": 1,
+   "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "out": {
+   "zone": "xs_dakou",
+   "calls": 121,
+   "programs": 103,
+   "rows": [
+    {
+     "cond": "base",
+     "n": "",
+     "fps": 57,
+     "worst": 113,
+     "renderMs": 9.5,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 9
+    },
+    {
+     "cond": "noGlow",
+     "n": 0,
+     "fps": 57.5,
+     "worst": 111,
+     "renderMs": 9,
+     "pathMs": 0.11,
+     "paths": 1,
+     "npc": 10
+    },
+    {
+     "cond": "noBlend",
+     "n": 35,
+     "fps": 56.7,
+     "worst": 105,
+     "renderMs": 8.3,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 9
+    },
+    {
+     "cond": "noPoint",
+     "n": 5,
+     "fps": 54.5,
+     "worst": 148,
+     "renderMs": 9.6,
+     "pathMs": 0.11,
+     "paths": 1,
+     "npc": 11
+    },
+    {
+     "cond": "noL2",
+     "n": 1,
+     "fps": 54.9,
+     "worst": 100,
+     "renderMs": 8.9,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 11
+    },
+    {
+     "cond": "noShadow",
+     "n": 1,
+     "fps": 58.4,
+     "worst": 105,
+     "renderMs": 7.5,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 11
+    },
+    {
+     "cond": "noNPC",
+     "n": 11,
+     "fps": 57,
+     "worst": 110,
+     "renderMs": 8.1,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 0
+    },
+    {
+     "cond": "halfRes",
+     "n": 1,
+     "fps": 57.2,
+     "worst": 66,
+     "renderMs": 8.4,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 11
+    },
+    {
+     "cond": "base（再量一次）",
+     "n": "",
+     "fps": 55.9,
+     "worst": 120,
+     "renderMs": 8.4,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 11
+    }
+   ],
+   "hitches": [
+    {
+     "at_s": 1,
+     "ms": 102,
+     "renderMs": 10,
+     "pathMs": 0,
+     "paths": 0,
+     "dProg": 0,
+     "dTex": 0,
+     "dGeo": 0,
+     "npc": 11,
+     "dNpc": 0
+    },
+    {
+     "at_s": 4.5,
+     "ms": 123,
+     "renderMs": 9,
+     "pathMs": 0,
+     "paths": 0,
+     "dProg": 0,
+     "dTex": 0,
+     "dGeo": 0,
+     "npc": 11,
+     "dNpc": 0
+    },
+    {
+     "at_s": 11.7,
+     "ms": 120,
+     "renderMs": 11,
+     "pathMs": 0,
+     "paths": 0,
+     "dProg": 0,
+     "dTex": 0,
+     "dGeo": 0,
+     "npc": 11,
+     "dNpc": 0
+    },
+    {
+     "at_s": 13.4,
+     "ms": 116,
+     "renderMs": 8,
+     "pathMs": 0,
+     "paths": 0,
+     "dProg": 0,
+     "dTex": 0,
+     "dGeo": 0,
+     "npc": 11,
+     "dNpc": 0
+    },
+    {
+     "at_s": 18.7,
+     "ms": 101,
+     "renderMs": 9,
+     "pathMs": 0,
+     "paths": 0,
+     "dProg": 0,
+     "dTex": 0,
+     "dGeo": 0,
+     "npc": 11,
+     "dNpc": 0
+    }
+   ]
+  }
+ },
+ {
+  "zone": "xs_dakou",
+  "floor": "2f",
+  "info": {
+   "zone": "xs_dakou",
+   "lv": 1,
+   "pos": [
+    -2.65,
+    -5.45
+   ],
+   "yaw": 3.14,
+   "hour": 14.1,
+   "weather": "sunny",
+   "q": "medium",
+   "dpr": 1,
+   "pr": 1,
+   "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "out": {
+   "zone": "xs_dakou",
+   "calls": 190,
+   "programs": 103,
+   "rows": [
+    {
+     "cond": "base",
+     "n": "",
+     "fps": 45.1,
+     "worst": 105,
+     "renderMs": 12.7,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 9
+    },
+    {
+     "cond": "noGlow",
+     "n": 0,
+     "fps": 41,
+     "worst": 121,
+     "renderMs": 14.1,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 10
+    },
+    {
+     "cond": "noBlend",
+     "n": 51,
+     "fps": 44.1,
+     "worst": 52,
+     "renderMs": 12.8,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 9
+    },
+    {
+     "cond": "noPoint",
+     "n": 5,
+     "fps": 40.1,
+     "worst": 114,
+     "renderMs": 14.6,
+     "pathMs": 0.09,
+     "paths": 1,
+     "npc": 11
+    },
+    {
+     "cond": "noL2",
+     "n": 1,
+     "fps": 37,
+     "worst": 65,
+     "renderMs": 14.8,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 11
+    },
+    {
+     "cond": "noShadow",
+     "n": 1,
+     "fps": 40.9,
+     "worst": 55,
+     "renderMs": 13,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 11
+    },
+    {
+     "cond": "noNPC",
+     "n": 11,
+     "fps": 57.2,
+     "worst": 106,
+     "renderMs": 8.2,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 0
+    },
+    {
+     "cond": "halfRes",
+     "n": 1,
+     "fps": 35.8,
+     "worst": 62,
+     "renderMs": 15.7,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 11
+    },
+    {
+     "cond": "base（再量一次）",
+     "n": "",
+     "fps": 36.7,
+     "worst": 56,
+     "renderMs": 15.2,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 11
+    }
+   ],
+   "hitches": []
+  },
+  "l1hide": {
+   "L1_groups": 1,
+   "base10": {
+    "fps": 32.8,
+    "worst": 62
+   },
+   "noL1_10": {
+    "fps": 37.4,
+    "worst": 75
+   },
+   "base10_after": {
+    "fps": 38.3,
+    "worst": 60
+   },
+   "calls_now": 211
+  }
+ },
+ {
+  "zone": "xs_haopai",
+  "floor": "1f",
+  "info": {
+   "zone": "xs_haopai",
+   "lv": 0,
+   "pos": [
+    0,
+    5.4
+   ],
+   "yaw": 6.28,
+   "hour": 14.09,
+   "weather": "sunny",
+   "q": "medium",
+   "dpr": 1,
+   "pr": 1,
+   "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "out": {
+   "zone": "xs_haopai",
+   "calls": 134,
+   "programs": 151,
+   "rows": [
+    {
+     "cond": "base",
+     "n": "",
+     "fps": 57.8,
+     "worst": 95,
+     "renderMs": 6.2,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 1
+    },
+    {
+     "cond": "noGlow",
+     "n": 1,
+     "fps": 57.8,
+     "worst": 87,
+     "renderMs": 6.2,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 1
+    },
+    {
+     "cond": "noBlend",
+     "n": 94,
+     "fps": 57.8,
+     "worst": 89,
+     "renderMs": 5.2,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 0
+    },
+    {
+     "cond": "noPoint",
+     "n": 3,
+     "fps": 59.1,
+     "worst": 76,
+     "renderMs": 5.4,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 0
+    },
+    {
+     "cond": "noL2",
+     "n": 0,
+     "fps": 57.9,
+     "worst": 89,
+     "renderMs": 6.6,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 1
+    },
+    {
+     "cond": "noShadow",
+     "n": 1,
+     "fps": 59.1,
+     "worst": 80,
+     "renderMs": 5.1,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 1
+    },
+    {
+     "cond": "noNPC",
+     "n": 1,
+     "fps": 58,
+     "worst": 88,
+     "renderMs": 6.2,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 0
+    },
+    {
+     "cond": "halfRes",
+     "n": 1,
+     "fps": 60.1,
+     "worst": 34,
+     "renderMs": 6.5,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 1
+    },
+    {
+     "cond": "base（再量一次）",
+     "n": "",
+     "fps": 58.1,
+     "worst": 88,
+     "renderMs": 5.6,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 0
+    }
+   ],
+   "hitches": []
+  }
+ },
+ {
+  "zone": "xs_tongxian",
+  "floor": "1f",
+  "info": {
+   "zone": "xs_tongxian",
+   "lv": 0,
+   "pos": [
+    0.25,
+    4.62
+   ],
+   "yaw": 5.69,
+   "hour": 14.1,
+   "weather": "sunny",
+   "q": "medium",
+   "dpr": 1,
+   "pr": 1,
+   "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "out": {
+   "zone": "xs_tongxian",
+   "calls": 101,
+   "programs": 160,
+   "rows": [
+    {
+     "cond": "base",
+     "n": "",
+     "fps": 57.6,
+     "worst": 91,
+     "renderMs": 6.1,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 1
+    },
+    {
+     "cond": "noGlow",
+     "n": 1,
+     "fps": 57.8,
+     "worst": 86,
+     "renderMs": 5.3,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 1
+    },
+    {
+     "cond": "noBlend",
+     "n": 52,
+     "fps": 57.7,
+     "worst": 86,
+     "renderMs": 5.1,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 1
+    },
+    {
+     "cond": "noPoint",
+     "n": 5,
+     "fps": 59.3,
+     "worst": 54,
+     "renderMs": 5.4,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 1
+    },
+    {
+     "cond": "noL2",
+     "n": 0,
+     "fps": 57.8,
+     "worst": 94,
+     "renderMs": 5.5,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 1
+    },
+    {
+     "cond": "noShadow",
+     "n": 1,
+     "fps": 58.2,
+     "worst": 137,
+     "renderMs": 5.4,
+     "pathMs": 0,
+     "paths": 1,
+     "npc": 2
+    },
+    {
+     "cond": "noNPC",
+     "n": 2,
+     "fps": 58.5,
+     "worst": 86,
+     "renderMs": 6.6,
+     "pathMs": 0,
+     "paths": 1,
+     "npc": 1
+    },
+    {
+     "cond": "halfRes",
+     "n": 1,
+     "fps": 60,
+     "worst": 29,
+     "renderMs": 6.5,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 2
+    },
+    {
+     "cond": "base（再量一次）",
+     "n": "",
+     "fps": 57.8,
+     "worst": 85,
+     "renderMs": 6.4,
+     "pathMs": 0,
+     "paths": 0,
+     "npc": 2
+    }
+   ],
+   "hitches": []
+  }
+ }
+]
