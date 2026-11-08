@@ -1464,6 +1464,11 @@ R8B6_mini | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/minimap_dire
 R8B6_movreg | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
 R8B6_touch | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
 
+#   BB-B 05:30 BUG-Y0-E01-UNDER-CARD-1108 驗收（LAWWW-B 5292ead4d，head 9e0ffabce）：E01 第一句那一刻 #fade、#title3、zone、手機；三次
+CC_E01CARD_9e0f | 9e0ffabce61c839fb8c720c16229400b36305a22 | probe | docs/story_planning/test_tools/cc/cc_e01_card_probe.py | index.html | 60 | RUNS=3;CC_HEADLESS=0
+CC_v0_start_9e0f_1 | 9e0ffabce61c839fb8c720c16229400b36305a22 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+CC_v0_start_9e0f_2 | 9e0ffabce61c839fb8c720c16229400b36305a22 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+CC_v0_start_9e0f_3 | 9e0ffabce61c839fb8c720c16229400b36305a22 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 #   BB-B 05:26（11-08）經濟系兩支 flow 的 CC 版（探針修好：v0_to1017 走到床邊手機開著先關、v0_tolaw 拿掉在家選單、從讀檔開始收台詞），最新 head e86f402e3
 CC_v0_to1017_e86f | e86f402e3daf9515216b5bb5b032e1844dba8f94 | probe | docs/story_planning/test_tools/cc/cc_flow_v0_to1017.py | index.html | 90 | CC_HEADLESS=0
 CC_v0_tolaw_e86f | e86f402e3daf9515216b5bb5b032e1844dba8f94 | probe | docs/story_planning/test_tools/cc/cc_flow_v0_tolaw.py | index.html | 60 | CC_HEADLESS=0
