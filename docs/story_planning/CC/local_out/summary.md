@@ -2166,3 +2166,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 129.3s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 129.3s] BROWSER DISCONNECTED
 - 2026-11-08T20:28:44  R7f84_v0_tolaw  sha=7f8441f7eb4243535672ac5e8645c0ce1a104b46  exit=0  110s    PASS 黑幕沒有擋住對話（8/29 搬宿舍那兩句可以點） / PASS 全程沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 74.6s] page close url=http://127.0.0.1:8802/index.html?turbo | [gpu_wrap 74.7s] BROWSER DISCONNECTED
+- 2026-11-08T20:29:30  GG3XS9_102a  sha=102a03cb9b6d6c2e2f3705876cfe119030228325  exit=0  619s      [ 574.6s] [截圖] s5_before_gpu_xs_nanyang_2000_corner_b：鏡頭 {"eye": [0, 0.6, -1.11], "look": [4.4, 0.05, 6.87], "lens": 20, "vfov": 53.7}、亮度 [51.1, 26.7] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 575.1s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 575.1s] BROWSER DISCONNECTED
