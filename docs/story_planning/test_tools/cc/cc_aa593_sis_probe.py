@@ -130,6 +130,9 @@ async def m_hask(pg, cdp, tag, rec, dating):
     sent = await pg.evaluate("(()=>JSON.parse(JSON.stringify((HASK.rec(GAME.G).sent||[]).filter(x=>x.id==='heroine_05'))))()")
     R.note('%s 12:06 以後 HASK 排的：%s' % (tag, J(sent)))
     lineOf = await pg.evaluate("(()=>(HASK.rec(GAME.G).sent||[]).filter(x=>x.id==='heroine_05').map(x=>HASK.lineOf(x)))()")
+    if want in lineOf:   # CC-B 09:4x：HASK 排在隔天晚上送（run47 hlib：send 393 天 22:30，探針站著等不到）→ 送出時間撥到現在
+        R.setup('%s 【捷徑】HASK 已排這一句、送出時間在之後：send 改成現在，讓 HASK.phone 照常送' % tag)
+        await pg.evaluate("(w=>{ const G=GAME.G; for(const x of (HASK.rec(G).sent||[])) if(x.id==='heroine_05'&&x.state==='planned'&&HASK.lineOf(x)===w) x.send={day:G.day,h:+(G.hour%24+0.05).toFixed(2)}; })", want)
     if want not in lineOf:
         R.setup('%s 【捷徑】HASK 沒排到這一句：塞一筆（%s）、送出時間＝現在，讓 HASK.phone 照常送' % (tag, 'teahouse dat' if dating else 'library pre alt 0'))
         await pg.evaluate("""(dt=>{ const G=GAME.G, R=HASK.rec(G); R.seq=(R.seq|0)+1; const wd=G.weekday; let day=G.day+1; if(dt){ day=G.day+((6-wd+7)%7||7); }
@@ -168,7 +171,8 @@ async def m_flake(pg, cdp, tag, rec):
     R.setup('%s 【前置】時間撥到出發前（%s %.2f 以前 0.3 小時）' % (tag, q.get('day'), q.get('h') or 0))
     await pg.evaluate("(q=>{ const G=GAME.G; const dd=q.day; G.weekday=(G.weekday+(dd-G.day)+7*10)%7; G.day=dd; G.hour=Math.max(8,(q.h||14)-(q.travelH||1)-0.3); })", q)
     await pg.evaluate("window.__says=[]")
-    c2 = await drive(pg, cdp, ['今天不去了', '算了，今天不去了'], max_s=400, idle_end=20)
+    await stand_until(pg, cdp, q['day'], (q.get('h') or 14) - (q.get('travelH') or 0) - 0.02, max_s=900)   # CC-B 09:4x：等到出發時間（run47 flake：drive 20 秒沒事就結束，出發選單還沒跳）
+    c2 = await drive(pg, cdp, ['今天不去了', '算了，今天不去了'], max_s=400, idle_end=40)
     says = await pg.evaluate("window.__says||[]")
     R.note('%s 出發選單：%s；說的話 %s' % (tag, J(c2), J(says[-6:])))
     tx = [x['t'] for x in says]
@@ -197,7 +201,7 @@ async def m_jx(pg, cdp, tag, rec, dating):
 async def m_jp(pg, cdp, tag, rec):
     d = await load46(pg, cdp, tag, '2028-06-26', 19 + 50 / 60, 'dorm', {'EXCHANGE_ROUTE': 'JP', 'met_sis': True})
     st = await sis_rel(pg, tag); R.note('%s 學姊：%s；SISJP.ok %s' % (tag, J(st), await pg.evaluate("(()=>{ try{ return SISJP.ok(GAME.G); }catch(e){ return String(e); } })()")))
-    await stand_until(pg, cdp, d, 20.5, max_s=900)
+    await stand_until(pg, cdp, d, 21.6, max_s=1200)   # CC-B 09:5x：臺灣 20:00＝人在日本的遊戲時鐘 21:00（SISJP twH，+1）；run47 等到 20:30 太早
     th = await pg.evaluate(THREAD, 'p:' + SIS); t = [x for x in th if x['d'] == '2028-06-26']
     ui = await open_thread(pg, cdp, 'p:' + SIS, 'jp_thread')
     exp = await pg.evaluate("(()=>{ try{ const L=(typeof MSG_REPLIES!=='undefined'?MSG_REPLIES:null); const s=JSON.stringify(L||{}); const i=s.indexOf('七月排滿了。八月二號出發。'); return s.slice(Math.max(0,i-200),i+900); }catch(e){ return String(e); } })()")
@@ -229,7 +233,8 @@ async def m_pg2030(pg, cdp, tag, rec):
     st2 = base_pg(dict(dk, **{s['d']: s['day']}), s['d'], max(8, s['h'] - 1))
     await L.load_state(pg, st2); await pg.wait_for_timeout(4000); await pg.evaluate(HOOK); await sis_rel(pg, tag, True)
     await pg.evaluate("window.__says=[]")
-    c = await drive(pg, cdp, ['出發', '接起來', '好'], max_s=900, idle_end=60)
+    await stand_until(pg, cdp, s['day'], s['h'] - 0.6, max_s=900)   # CC-B 09:5x：站到那一格前 36 分（run47 pg2030：drive 60 秒沒事就結束，時間還沒到）
+    c = await drive(pg, cdp, ['出發', '接起來', '好'], max_s=900, idle_end=120)
     says = await pg.evaluate("window.__says||[]"); tx = [x['t'] for x in says]
     R.note('%s 選項 %s；說的話 %s' % (tag, J(c), J([[x['who'], x['t']] for x in says])))
     R.check('%s 「元旦放假，我睡到九點。醒來的時候，還以為遲到了。」' % tag, '元旦放假，我睡到九點。醒來的時候，還以為遲到了。' in tx, J(tx[-5:]))
