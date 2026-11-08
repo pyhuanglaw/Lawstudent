@@ -6005,6 +6005,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "lint 645 句 0 hit；日期星期都核過"
+  },
+  {
+   "task": "PLAYTEST-1107-CHOICE（AA_720 第二批：結局分版本）",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_720_decide_opened_scenes.json"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B：postgrad3d.js S.epiLine 每位女主角原本那幾句後面，照 endings[人].friend／partner 的 order 取第一個符合的加一句；partner＋CONF_FAIL 再加 confFail；BB-B 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "使用者 Q3「要分版本」；lint 692 句 0 hit"
   }
  ],
  "items": [

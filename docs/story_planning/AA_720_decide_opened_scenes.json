@@ -11,7 +11,7 @@
    "say 裡的 [說話的人, 字] 也照上面讀。rel 是那個選項另外加的（決定拍本身的 rel 在 AA_719）。",
    "日期都核對過星期；地點用現有 zone（library_b1、library、dorm_hall、noodle）或 plan 的 place 文字（沒有 3D 的用 background 暗底）。"
   ],
-  "scope": "只寫 opens 打開的；closes 關掉的、after 換句的照 AA_719；結局分版本（使用者 Q3）在 AA_720 第二批（endings），這份不含。",
+  "scope": "只寫 opens 打開的；closes 關掉的、after 換句的照 AA_719；結局分版本（使用者 Q3）＝endings（2026-11-08 第二批）。",
   "fixes": [
    "AA_719 SIS-1 補 before 2026-01-31（考前一晚是 2/1；這一次的 AA_719 commit 已改）。",
    "AA_717 子晴 life 第 3 階 state 改「第一關的畫面出來了」（每一版都改；這一次的 AA_717 commit 已改）。",
@@ -2628,5 +2628,200 @@
    ]
   },
   "note": "每週那一格的邀約照一般約會流程；ask 那天祐廷已經約了她別的時間就不傳。"
+ },
+ "endings": {
+  "_rule": [
+   "使用者 11-07 Q3「要分版本」：尾聲（2034-06-03，週六；postgrad3d.js S.epiLine）每位女主角照她的 DECIDE 多一句，接在她原本那幾句後面（原本的句子不改、不刪）。",
+   "每個人最多一句：照 order 由上往下，取第一個符合的；都不符合（沒演到、預設值、舊存檔）＝照原本，不加。",
+   "friend＝她不是伴侶的那幾種（以安 friend、芷若 main／fy、語彤 1～4、子晴 nine／cat／apart／line、學姊 road／roadA／peer、沛珊 base／card／kept／mirror）；partner＝S.dating 那一版（以安 partner、芷若 me、語彤 5、子晴 me、學姊 lover／dayOff、沛珊 lover、可昕 arrive）。",
+   "confFail：交往中、而且 CONF_FAIL[她] 有值（第一次告白失敗過，AA_723），partner 那一句之後再加這一句（使用者 Q2）。",
+   "說話的人都是她自己（芷若 partner 的 me 是 [說話的人, 字]，加的那句寫成 ['heroine_02', 字]）。"
+  ],
+  "heroine_01": {
+   "friend": [
+    {
+     "if": "dec:heroine_01.grad=together",
+     "line": "商法那張紙條，我還夾在手帳裡。皺到看不出字了。"
+    },
+    {
+     "if": "dec:heroine_01.grad=alone",
+     "line": "研究所選組那時候，我是自己一個人選的。選完就傳給你了。……你回了一個「好」。"
+    },
+    {
+     "if": "dec:heroine_01.jp_tell=first",
+     "line": "交換說明會那天，你從第三頁開始睡。……我到現在還記得是第三頁。"
+    }
+   ],
+   "partner": [
+    {
+     "if": "dec:heroine_01.grad=together",
+     "line": "事務所下個月要我決定要不要轉組。……今天晚上你陪我想。一件一件想。"
+    },
+    {
+     "if": "dec:heroine_01.grad=alone",
+     "line": "轉組的事我決定好了。今天晚上跟你說。……這次我先說，你不要搶。"
+    }
+   ],
+   "confFail": "你第一次說的時候，我說我還不知道。……那時候是真的不知道。後來想清楚了。"
+  },
+  "heroine_02": {
+   "friend": [
+    {
+     "if": "dec:heroine_02.distance=visit",
+     "line": "那年我從英國回來，有人在機場等。……我那時候就想，以後要回臺北放電影。"
+    },
+    {
+     "if": "dec:heroine_02.distance=call",
+     "line": "我現在還是每天十點半會看一次手機。英國那時候的習慣，改不掉。"
+    },
+    {
+     "if": "dec:heroine_02.distance=letters",
+     "line": "我寄到店裡的那幾封信，你還留著嗎？……我想拍進下一部片。"
+    },
+    {
+     "if": "dec:heroine_02.fund=tell 或 both",
+     "line": "我媽上個月來看片，坐倒數第三排。……她說椅子太硬，看完又買了一張下個月的票。"
+    }
+   ],
+   "partner": [
+    {
+     "if": "dec:heroine_02.distance=visit",
+     "line": "下個月倫敦有影展。……你要不要一起去？你說過要存錢來看我，現在總該存夠了。"
+    },
+    {
+     "if": "dec:heroine_02.distance=call",
+     "line": "十點半了。……你還是會看時間。"
+    },
+    {
+     "if": "dec:heroine_02.distance=letters",
+     "line": "我寫給你的那幾封信，你放在書桌第二個抽屜。我知道。"
+    }
+   ],
+   "confFail": "你第一次跟我說的那天，我回店裡，連拿錯三個杯子。"
+  },
+  "heroine_03": {
+   "friend": [
+    {
+     "if": "dec:heroine_03.mom=tell",
+     "line": "我媽上個月又來茶屋。她坐窗邊，喝了兩杯。第二杯她說，剛好。"
+    }
+   ],
+   "partner": [
+    {
+     "if": "dec:heroine_03.dm=with",
+     "line": "律師放榜那天，我又想坐在總圖門口看。……你說太冷了，結果還是陪我坐了。"
+    },
+    {
+     "if": "dec:heroine_03.mom=tell",
+     "line": "我媽上個月又來茶屋。她坐窗邊，喝了兩杯。第二杯她說，剛好。"
+    }
+   ],
+   "confFail": "你第一次說的時候，我說要再想想。……後來你又約了我兩次，我就想好了。"
+  },
+  "heroine_04": {
+   "friend": [
+    {
+     "if": "dec:heroine_04.level=shop",
+     "line": "我做的第一個遊戲，第二關那間五金行，有玩家寫信說他家以前也開過一間。"
+    },
+    {
+     "if": "dec:heroine_04.level=tainan",
+     "line": "我做的第一個遊戲，第二關那條台南的巷子，有玩家說他走過。……我到現在還沒去過。"
+    },
+    {
+     "if": "dec:heroine_04.summer=intern",
+     "line": "我現在聽到嗶一聲，還是會以為要打卡。那個暑假真的很可怕。"
+    }
+   ],
+   "partner": [
+    {
+     "if": "dec:heroine_04.summer=intern",
+     "line": "欸，我差一點就去當工程師了。……那年暑假，好險有辭掉。"
+    },
+    {
+     "if": "dec:heroine_04.level=shop",
+     "line": "第二關那間五金行，我上禮拜又改了一次招牌。……你下次看一下，是你家的字。"
+    },
+    {
+     "if": "dec:heroine_04.level=tainan",
+     "line": "第二關那條巷子，你說你姊住那附近。……下次我們去台南，我要去對照一下我畫錯了沒。"
+    }
+   ],
+   "confFail": "你第一次講的時候，我說要想一下。……我真的想了。想很久那種。"
+  },
+  "heroine_05": {
+   "friend": [
+    {
+     "if": "dec:heroine_05.exam=stay",
+     "line": "考研究所前一晚，你坐到閉館。……我後來每次口試前，都會想到那排靠窗的位子。"
+    },
+    {
+     "if": "dec:heroine_05.tell_sis=zhe",
+     "line": "阿哲到現在還在跟別人說，那一年他被冤枉了。"
+    }
+   ],
+   "partner": [
+    {
+     "if": "dec:heroine_05.tell_sis=wait",
+     "line": "奶奶上禮拜又問你什麼時候去。她說滷肉要燉兩天，要早點講。"
+    },
+    {
+     "if": "dec:heroine_05.tell_sis=guess",
+     "line": "Alison 上禮拜又問我，那時候為什麼不先跟她說。我說，她猜得比我說得快。"
+    },
+    {
+     "if": "dec:heroine_05.tell_sis=zhe",
+     "line": "阿哲到現在還在跟別人說，那一年他被冤枉了。……我到現在還沒跟他道歉。"
+    },
+    {
+     "if": "dec:heroine_05.exam=stay",
+     "line": "考研究所前一晚，你坐到閉館。……我那時候就知道了。只是不想在考試前知道。"
+    }
+   ],
+   "confFail": "你第一次說的時候，我說還沒辦法回答。……後來想好了，等你再說一次，等得很不耐煩。",
+   "note": "guess 版的 Alison 那句要有 KNOWS_SIS_ALISON（沒有就跳過、往下找下一個）。"
+  },
+  "classmate_peishan": {
+   "friend": [
+    {
+     "if": "PS_REUNION 有值，而且祐廷在沉默期傳過私訊（AA_723）",
+     "line": "那兩年你傳的訊息，我都有看。……我現在回訊息都回很快喔～"
+    }
+   ],
+   "partner": [
+    {
+     "if": "dec:classmate_peishan.tell=before",
+     "line": "那天晚上在課輔班門口，你說每天都會傳訊息。……你真的每天都傳了。"
+    }
+   ],
+   "confFail": "你第一次說的時候，我說腦袋好亂。……亂了好一陣子，後來就不亂了。"
+  },
+  "kexin": {
+   "friend": [],
+   "partner": [
+    {
+     "if": "dec:kexin.slot=sat",
+     "line": "今天週六。下午我照樣空著。……排了好幾年，你一次都沒遲到。"
+    },
+    {
+     "if": "dec:kexin.slot=wed",
+     "line": "今天不是週三。……我還是空下來了。"
+    },
+    {
+     "if": "dec:kexin.slot=show 而且 KX_WAITED＝late",
+     "line": "今天你準時。……我記得那次，我在公館等了一個多小時。"
+    },
+    {
+     "if": "dec:kexin.after_fail=rehearse",
+     "line": "我現在面試實習生，問的都是你那時候問我的題目。他們都說我很兇。"
+    },
+    {
+     "if": "dec:kexin.after_fail=eat",
+     "line": "被拒絕的那天要吃好吃的。……我現在也跟實習生這樣說。"
+    }
+   ],
+   "confFail": "那次你說要重新開始，我說還沒準備好。……那時候是真的還沒。",
+   "note": "她只在交往中才在那一桌（S.epiPresent），所以只有 partner。confFail 是分開以後重新告白的那一次（AA_723 kexin.fail）。"
+  }
  }
 }
