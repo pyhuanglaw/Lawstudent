@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "R126_touch",
+  "sha": "126bdf93e82886673518705566dbe83b582c32c1",
+  "kind": "game",
+  "script": "tests/touch_flow_wenzhou.py",
+  "env": "SOLO=1;XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T11:36:54",
+  "end": "2026-11-08T11:39:51",
+  "seconds": 177,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html?turbo",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 13,
+    "mem": 44,
+    "used_gb": 13.9,
+    "chrome_testing": 5
+  }
+}
