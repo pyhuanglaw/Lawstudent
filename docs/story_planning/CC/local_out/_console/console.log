@@ -847,3 +847,12 @@
 [14:24:33] ==== START R0ced_classreal  (game @ 0cedcbb716bbbe120007ef7c92abcbf494436b31) ====
 [14:24:36] [res] cpu=68% mem=48% (15.1/31.4 GB) chrome_testing=9  START R0ced_classreal
 [14:27:04] [res] cpu=68% mem=45% (14.4/31.4 GB) chrome_testing=10  END R0ced_classreal
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c5ced53fd..c0e63c0d2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:27:10] ==== END   R0ced_classreal  exit=0  151s   ====
+[14:27:17] memory 46% before starting GG3LM_lm3_c435 (2 running)
+[14:27:17] ==== START GG3LM_lm3_c435  (probe @ c435933a6ba353506c573940104577d24d18564f) ====
+[14:27:20] [res] cpu=63% mem=47% (14.7/31.4 GB) chrome_testing=10  START GG3LM_lm3_c435
+[14:27:28] 正在跑：R0ced_v0_home（已跑 5 分／上限 60 分）、R0ced_main12（已跑 3 分／上限 60 分）、GG3LM_lm3_c435（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:29:34] [res] cpu=73% mem=46% (14.6/31.4 GB) chrome_testing=9  END R0ced_main12
