@@ -44,7 +44,7 @@ async def push_game(rig, dx, dy, gsec):
 
 async def one(p, k, rec):
     tag = '[第 %d 次]' % k
-    b, ctx, pg, cdp, errs = await L.launch(p, landscape=False)   # movreg 是直向 390×844
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)   # 橫向：playlib 的直向會出「請轉橫向」蓋住搖桿（movreg 自己的 context 不會）；搖桿照鏡頭方向，量的東西一樣
     try:
         await pg.goto(URL)
         if not await L.wait_loaded(pg): check('%s 遊戲載入' % tag, False); return
