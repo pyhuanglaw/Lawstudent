@@ -995,3 +995,12 @@
 [02:29:54] 正在跑：R9526f_v0_to1017（已跑 2 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
 [02:34:54] 正在跑：R9526f_v0_to1017（已跑 7 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
 [02:36:48] [res] cpu=3% mem=38% (12.1/31.4 GB) chrome_testing=0  END R9526f_v0_to1017
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       72c685b9d..ba3e1c4aa  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[02:36:55] ==== END   R9526f_v0_to1017  exit=0  566s   ====
+[02:37:01] memory 37% before starting R9526f_movreg (0 running)
+[02:37:01] ==== START R9526f_movreg  (game @ 9526bf100b2be394f2618be8100d5f0e25540ea9) ====
+[02:37:04] [res] cpu=19% mem=37% (11.7/31.4 GB) chrome_testing=0  START R9526f_movreg
+[02:39:54] 正在跑：R9526f_movreg（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[02:43:13] [res] cpu=4% mem=38% (12.0/31.4 GB) chrome_testing=0  END R9526f_movreg
