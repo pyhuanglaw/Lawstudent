@@ -1697,6 +1697,8 @@ R0046e_zone | 00465f891245c7d870007f1987722d656ed6aa10 | game | tests/zone_trans
 R0046e_main12 | 00465f891245c7d870007f1987722d656ed6aa10 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R0046e_v0_tolaw | 00465f891245c7d870007f1987722d656ed6aa10 | game | tests/flow_v0_tolaw.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R0046e_touch | 00465f891245c7d870007f1987722d656ed6aa10 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
+# CC-B 11-09 02:2x（台灣）：BB-B PERF-1108 光照重烘以後 GPU 基準（9526bf100＝線上 v9.10.23 的遊戲檔）：?perf、每區 20 秒、14:00；排在常備前面
+PERF1108_9526 | 9526bf100b2be394f2618be8100d5f0e25540ea9 | probe | tools/cc_local/fps_zones.py | index.html?perf | 60 | ZONES=xs_dabu,xs_haopai,xs_tongxian,xs_xsports,xs_shanlan,xs_dakou,xs_nanyang_hall,xs_nanyang,library_b1,wz_teahouse,wz_mokuyobi,wz_print,campus,gongguan;SLOTS=h1400;SECS=20;WARM=6;SOLO=1;CC_HEADLESS=0
 # CC-B 11-09 02:1x（台灣）：佇列空了：開發分支最新 9526bf100 常備（另外已跟 BB-B 要工作，D121）
 R9526f_classreal | 9526bf100b2be394f2618be8100d5f0e25540ea9 | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
 R9526f_mini | 9526bf100b2be394f2618be8100d5f0e25540ea9 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
