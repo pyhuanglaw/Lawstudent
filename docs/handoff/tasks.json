@@ -49825,6 +49825,33 @@
      }
     ]
    }
+  },
+  {
+   "id": "AA712-CITE-LATER-1108",
+   "title": "AA_712 cite_later 沒接：heroine_arcs.js 的 cite（27 句回頭提玩家答案的句子）沒有程式讀，永遠不會出現",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "故事線拍答了以後 5 天，一起做事的輪換句",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 03:0x LAWWW-B】AA-B 03:00 定：放進 ARCS.rotPick——ans[mem] 有值、答的那天以後至少 5 天，下一次一起做事要出輪換句時 cite 優先（一次活動最多一句）；一句只用一次（BEATS[id].citeUsed[mem]），同一 mem 兩句先第一句；closes／late 沒演＝沒 ans＝不出；舊存檔照新規則；訊息、偶遇先不用。和 AA720 補那批同一個子代理做（同一段 rotPick）。BB 測「答了→五天後一起念書→她提起」。",
+   "xai": {
+    "spec": "AA-B 11-08 03:00",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "BB：答了→五天後一起念書→她提起",
+    "receiver": "BB（測）",
+    "ack": "ACK",
+    "owner": "LAWWW"
+   },
+   "evidence": ""
   }
  ]
 }
