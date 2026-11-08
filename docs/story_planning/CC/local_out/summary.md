@@ -1884,3 +1884,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 473.3s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 473.3s] BROWSER DISCONNECTED
 - 2026-11-08T10:15:30  GG3LM_wz6b_moku  sha=e2762e9d91df1cf8405301e54fd4bf286a5f626e  exit=0  129s      [  94.6s] [截圖] s5_after_gpu_wz_mokuyobi_2100_out：鏡頭 {"eye": [0.5, 4.75, -2.15], "look": [0.5, 4.6, 11.16], "lens": 20, "vfov": 53.7}、亮度 [88, 37.4] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 95.2s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 95.2s] BROWSER DISCONNECTED
+- 2026-11-08T10:16:37  GG3LM_shaola_yejian_9c01  sha=9c012062864b34de673cbb534559324fbce26c85  exit=0  196s      [ 138.5s] [截圖] s5_after_gpu_yejian_2100_clerk：鏡頭 {"eye": [-1, 1.6, 0.5], "look": [-3.5, 1.2, -3], "lens": 20, "vfov": 53.7}、亮度 [83, 31.7] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 139.0s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 139.0s] BROWSER DISCONNECTED

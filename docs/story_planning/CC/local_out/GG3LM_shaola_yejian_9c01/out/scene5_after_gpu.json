@@ -1,0 +1,380 @@
+{
+ "tag": "after_gpu",
+ "sha": "",
+ "shaola": {
+  "1400": {
+   "info": {
+    "meshes": 42,
+    "mats": 42,
+    "withLightMap": 6,
+    "maps": [
+     "shaola_interior_lm_day.webp"
+    ],
+    "uv1Meshes": 6,
+    "whiteNoTexMats": 13,
+    "views": [
+     {
+      "n": "VIEWPANE_noodle",
+      "vis": false
+     }
+    ],
+    "charFailures": [
+     "char.npc_nm17: not loaded"
+    ],
+    "assetFailed": null,
+    "glb": true
+   },
+   "door": {
+    "eye": [
+     0,
+     1.6,
+     6
+    ],
+    "look": [
+     0,
+     1,
+     -5
+    ],
+    "lens": 18,
+    "vfov": 58.72
+   },
+   "top": {
+    "eye": [
+     0,
+     8.5,
+     1
+    ],
+    "look": [
+     0,
+     0,
+     -0.5
+    ],
+    "lens": 16,
+    "vfov": 64.65
+   },
+   "seat": {
+    "eye": [
+     -0.6,
+     1.4,
+     3.6
+    ],
+    "look": [
+     -2.1,
+     0.6,
+     1.6
+    ],
+    "lens": 22,
+    "vfov": 49.43
+   },
+   "out": {
+    "eye": [
+     0.4,
+     1.5,
+     1.2
+    ],
+    "look": [
+     0,
+     1.4,
+     8
+    ],
+    "lens": 20,
+    "vfov": 53.7
+   },
+   "clerk": {
+    "eye": [
+     0,
+     1.6,
+     0.4
+    ],
+    "look": [
+     2.4,
+     1.2,
+     0.6
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   }
+  },
+  "2100": {
+   "info": {
+    "meshes": 42,
+    "mats": 42,
+    "withLightMap": 6,
+    "maps": [
+     "shaola_interior_lm_day.webp"
+    ],
+    "uv1Meshes": 6,
+    "whiteNoTexMats": 13,
+    "views": [
+     {
+      "n": "VIEWPANE_noodle",
+      "vis": false
+     }
+    ],
+    "charFailures": [
+     "char.npc_nm17: not loaded"
+    ],
+    "assetFailed": null,
+    "glb": true
+   },
+   "door": {
+    "eye": [
+     0,
+     1.6,
+     6
+    ],
+    "look": [
+     0,
+     1,
+     -5
+    ],
+    "lens": 18,
+    "vfov": 58.72
+   },
+   "top": {
+    "eye": [
+     0,
+     8.5,
+     1
+    ],
+    "look": [
+     0,
+     0,
+     -0.5
+    ],
+    "lens": 16,
+    "vfov": 64.65
+   },
+   "seat": {
+    "eye": [
+     -0.6,
+     1.4,
+     3.6
+    ],
+    "look": [
+     -2.1,
+     0.6,
+     1.6
+    ],
+    "lens": 22,
+    "vfov": 49.43
+   },
+   "out": {
+    "eye": [
+     0.4,
+     1.5,
+     1.2
+    ],
+    "look": [
+     0,
+     1.4,
+     8
+    ],
+    "lens": 20,
+    "vfov": 53.7
+   },
+   "clerk": {
+    "eye": [
+     0,
+     1.6,
+     0.4
+    ],
+    "look": [
+     2.4,
+     1.2,
+     0.6
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   }
+  }
+ },
+ "yejian": {
+  "1400": {
+   "info": {
+    "meshes": 37,
+    "mats": 37,
+    "withLightMap": 9,
+    "maps": [
+     "yejian_lm_day.webp"
+    ],
+    "uv1Meshes": 9,
+    "whiteNoTexMats": 4,
+    "views": [
+     {
+      "n": "WALL_front_VIEW_yej_window_view",
+      "vis": true
+     }
+    ],
+    "charFailures": [
+     "char.npc_nm17: not loaded"
+    ],
+    "assetFailed": null,
+    "glb": true
+   },
+   "door": {
+    "eye": [
+     -4.6,
+     1.6,
+     4.4
+    ],
+    "look": [
+     2,
+     1,
+     -4
+    ],
+    "lens": 18,
+    "vfov": 58.72
+   },
+   "top": {
+    "eye": [
+     0,
+     9,
+     1
+    ],
+    "look": [
+     0,
+     0,
+     -0.5
+    ],
+    "lens": 16,
+    "vfov": 64.65
+   },
+   "seat": {
+    "eye": [
+     0.2,
+     1.5,
+     1.8
+    ],
+    "look": [
+     0.2,
+     0.8,
+     4.05
+    ],
+    "lens": 22,
+    "vfov": 49.43
+   },
+   "out": {
+    "eye": [
+     0.5,
+     1.6,
+     2.2
+    ],
+    "look": [
+     1,
+     1.4,
+     8
+    ],
+    "lens": 20,
+    "vfov": 53.7
+   },
+   "clerk": {
+    "eye": [
+     -1,
+     1.6,
+     0.5
+    ],
+    "look": [
+     -3.5,
+     1.2,
+     -3
+    ],
+    "lens": 20,
+    "vfov": 53.7
+   }
+  },
+  "2100": {
+   "info": {
+    "meshes": 37,
+    "mats": 37,
+    "withLightMap": 9,
+    "maps": [
+     "yejian_lm_day.webp"
+    ],
+    "uv1Meshes": 9,
+    "whiteNoTexMats": 4,
+    "views": [
+     {
+      "n": "WALL_front_VIEW_yej_window_view",
+      "vis": true
+     }
+    ],
+    "charFailures": [
+     "char.npc_nm17: not loaded"
+    ],
+    "assetFailed": null,
+    "glb": true
+   },
+   "door": {
+    "eye": [
+     -4.6,
+     1.6,
+     4.4
+    ],
+    "look": [
+     2,
+     1,
+     -4
+    ],
+    "lens": 18,
+    "vfov": 58.72
+   },
+   "top": {
+    "eye": [
+     0,
+     9,
+     1
+    ],
+    "look": [
+     0,
+     0,
+     -0.5
+    ],
+    "lens": 16,
+    "vfov": 64.65
+   },
+   "seat": {
+    "eye": [
+     0.2,
+     1.5,
+     1.8
+    ],
+    "look": [
+     0.2,
+     0.8,
+     4.05
+    ],
+    "lens": 22,
+    "vfov": 49.43
+   },
+   "out": {
+    "eye": [
+     0.5,
+     1.6,
+     2.2
+    ],
+    "look": [
+     1,
+     1.4,
+     8
+    ],
+    "lens": 20,
+    "vfov": 53.7
+   },
+   "clerk": {
+    "eye": [
+     -1,
+     1.6,
+     0.5
+    ],
+    "look": [
+     -3.5,
+     1.2,
+     -3
+    ],
+    "lens": 20,
+    "vfov": 53.7
+   }
+  }
+ }
+}

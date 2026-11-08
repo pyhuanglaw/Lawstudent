@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GG3LM_shaola_yejian_9c01",
+  "sha": "9c012062864b34de673cbb534559324fbce26c85",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_scene5_probe.py",
+  "env": "TAG=after_gpu;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T10:13:21",
+  "end": "2026-11-08T10:16:36",
+  "seconds": 196,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 19,
+    "mem": 51,
+    "used_gb": 16.3,
+    "chrome_testing": 12
+  }
+}

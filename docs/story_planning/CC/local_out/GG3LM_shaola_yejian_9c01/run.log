@@ -1,0 +1,58 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_scene5_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3LM_shaola_yejian_9c01\out
+CC 燒臘、頁間書屋光照（after_gpu）：SHA=9c012062864b34de673cbb534559324fbce26c85（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [after_gpu shaola 1400] 讀檔 noodle 2025-10-18 14.0（條件事件關閉）
+PASS [after_gpu shaola 1400] 進得了 noodle  {"zone": "noodle", "x": 0, "z": 4.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  50.0s] [after_gpu shaola 1400] 材質／光照貼圖：{"meshes": 42, "mats": 42, "withLightMap": 6, "maps": ["shaola_interior_lm_day.webp"], "uv1Meshes": 6, "whiteNoTexMats": 13, "views": [{"n": "VIEWPANE_noodle", "vis": false}], "charFailures": ["char.npc_nm17: not loaded"], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_after_gpu_shaola_1400_door 不是黑畫面（平均亮度 123.1、變化 57）  [123.1, 57]
+  [  52.6s] [截圖] s5_after_gpu_shaola_1400_door：鏡頭 {"eye": [0, 1.6, 6], "look": [0, 1, -5], "lens": 18, "vfov": 58.72}、亮度 [123.1, 57]
+PASS [黑畫面] s5_after_gpu_shaola_1400_top 不是黑畫面（平均亮度 177.8、變化 41.8）  [177.8, 41.8]
+  [  54.5s] [截圖] s5_after_gpu_shaola_1400_top：鏡頭 {"eye": [0, 8.5, 1], "look": [0, 0, -0.5], "lens": 16, "vfov": 64.65}、亮度 [177.8, 41.8]
+PASS [黑畫面] s5_after_gpu_shaola_1400_seat 不是黑畫面（平均亮度 145.3、變化 52.4）  [145.3, 52.4]
+  [  56.7s] [截圖] s5_after_gpu_shaola_1400_seat：鏡頭 {"eye": [-0.6, 1.4, 3.6], "look": [-2.1, 0.6, 1.6], "lens": 22, "vfov": 49.43}、亮度 [145.3, 52.4]
+PASS [黑畫面] s5_after_gpu_shaola_1400_out 不是黑畫面（平均亮度 119.1、變化 54.2）  [119.1, 54.2]
+  [  58.8s] [截圖] s5_after_gpu_shaola_1400_out：鏡頭 {"eye": [0.4, 1.5, 1.2], "look": [0, 1.4, 8], "lens": 20, "vfov": 53.7}、亮度 [119.1, 54.2]
+PASS [黑畫面] s5_after_gpu_shaola_1400_clerk 不是黑畫面（平均亮度 124、變化 43.2）  [124, 43.2]
+  [  60.9s] [截圖] s5_after_gpu_shaola_1400_clerk：鏡頭 {"eye": [0, 1.6, 0.4], "look": [2.4, 1.2, 0.6], "lens": 24, "vfov": 45.75}、亮度 [124, 43.2]
+  [前置／捷徑] [after_gpu shaola 2100] 讀檔 noodle 2025-10-18 21.0（條件事件關閉）
+PASS [after_gpu shaola 2100] 進得了 noodle  {"zone": "noodle", "x": 0, "z": 4.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.07}
+  [  75.2s] [after_gpu shaola 2100] 材質／光照貼圖：{"meshes": 42, "mats": 42, "withLightMap": 6, "maps": ["shaola_interior_lm_day.webp"], "uv1Meshes": 6, "whiteNoTexMats": 13, "views": [{"n": "VIEWPANE_noodle", "vis": false}], "charFailures": ["char.npc_nm17: not loaded"], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_after_gpu_shaola_2100_door 不是黑畫面（平均亮度 114.1、變化 62.5）  [114.1, 62.5]
+  [  77.4s] [截圖] s5_after_gpu_shaola_2100_door：鏡頭 {"eye": [0, 1.6, 6], "look": [0, 1, -5], "lens": 18, "vfov": 58.72}、亮度 [114.1, 62.5]
+PASS [黑畫面] s5_after_gpu_shaola_2100_top 不是黑畫面（平均亮度 76.6、變化 75.8）  [76.6, 75.8]
+  [  79.4s] [截圖] s5_after_gpu_shaola_2100_top：鏡頭 {"eye": [0, 8.5, 1], "look": [0, 0, -0.5], "lens": 16, "vfov": 64.65}、亮度 [76.6, 75.8]
+PASS [黑畫面] s5_after_gpu_shaola_2100_seat 不是黑畫面（平均亮度 143.4、變化 58）  [143.4, 58]
+  [  81.6s] [截圖] s5_after_gpu_shaola_2100_seat：鏡頭 {"eye": [-0.6, 1.4, 3.6], "look": [-2.1, 0.6, 1.6], "lens": 22, "vfov": 49.43}、亮度 [143.4, 58]
+PASS [黑畫面] s5_after_gpu_shaola_2100_out 不是黑畫面（平均亮度 86、變化 49.1）  [86, 49.1]
+  [  83.7s] [截圖] s5_after_gpu_shaola_2100_out：鏡頭 {"eye": [0.4, 1.5, 1.2], "look": [0, 1.4, 8], "lens": 20, "vfov": 53.7}、亮度 [86, 49.1]
+PASS [黑畫面] s5_after_gpu_shaola_2100_clerk 不是黑畫面（平均亮度 110.3、變化 42.3）  [110.3, 42.3]
+  [  85.8s] [截圖] s5_after_gpu_shaola_2100_clerk：鏡頭 {"eye": [0, 1.6, 0.4], "look": [2.4, 1.2, 0.6], "lens": 24, "vfov": 45.75}、亮度 [110.3, 42.3]
+  [前置／捷徑] [after_gpu yejian 1400] 讀檔 bookstore 2025-10-18 14.0（條件事件關閉）
+PASS [after_gpu yejian 1400] 進得了 bookstore  {"zone": "bookstore", "x": -4.6, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "應徵：週末缺人。會搬書、不怕灰塵。", "stand": true, "fb": 0, "hour": 14.07}
+  [ 102.7s] [after_gpu yejian 1400] 材質／光照貼圖：{"meshes": 37, "mats": 37, "withLightMap": 9, "maps": ["yejian_lm_day.webp"], "uv1Meshes": 9, "whiteNoTexMats": 4, "views": [{"n": "WALL_front_VIEW_yej_window_view", "vis": true}], "charFailures": ["char.npc_nm17: not loaded"], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_after_gpu_yejian_1400_door 不是黑畫面（平均亮度 101.7、變化 38.7）  [101.7, 38.7]
+  [ 105.4s] [截圖] s5_after_gpu_yejian_1400_door：鏡頭 {"eye": [-4.6, 1.6, 4.4], "look": [2, 1, -4], "lens": 18, "vfov": 58.72}、亮度 [101.7, 38.7]
+PASS [黑畫面] s5_after_gpu_yejian_1400_top 不是黑畫面（平均亮度 118.7、變化 37.9）  [118.7, 37.9]
+  [ 107.8s] [截圖] s5_after_gpu_yejian_1400_top：鏡頭 {"eye": [0, 9, 1], "look": [0, 0, -0.5], "lens": 16, "vfov": 64.65}、亮度 [118.7, 37.9]
+PASS [黑畫面] s5_after_gpu_yejian_1400_seat 不是黑畫面（平均亮度 118.4、變化 50.6）  [118.4, 50.6]
+  [ 109.9s] [截圖] s5_after_gpu_yejian_1400_seat：鏡頭 {"eye": [0.2, 1.5, 1.8], "look": [0.2, 0.8, 4.05], "lens": 22, "vfov": 49.43}、亮度 [118.4, 50.6]
+PASS [黑畫面] s5_after_gpu_yejian_1400_out 不是黑畫面（平均亮度 126.3、變化 49.2）  [126.3, 49.2]
+  [ 111.9s] [截圖] s5_after_gpu_yejian_1400_out：鏡頭 {"eye": [0.5, 1.6, 2.2], "look": [1, 1.4, 8], "lens": 20, "vfov": 53.7}、亮度 [126.3, 49.2]
+PASS [黑畫面] s5_after_gpu_yejian_1400_clerk 不是黑畫面（平均亮度 98.6、變化 37.7）  [98.6, 37.7]
+  [ 114.1s] [截圖] s5_after_gpu_yejian_1400_clerk：鏡頭 {"eye": [-1, 1.6, 0.5], "look": [-3.5, 1.2, -3], "lens": 20, "vfov": 53.7}、亮度 [98.6, 37.7]
+  [前置／捷徑] [after_gpu yejian 2100] 讀檔 bookstore 2025-10-18 21.0（條件事件關閉）
+PASS [after_gpu yejian 2100] 進得了 bookstore  {"zone": "bookstore", "x": -4.6, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "應徵：週末缺人。會搬書、不怕灰塵。", "stand": true, "fb": 0, "hour": 21.07}
+  [ 127.8s] [after_gpu yejian 2100] 材質／光照貼圖：{"meshes": 37, "mats": 37, "withLightMap": 9, "maps": ["yejian_lm_day.webp"], "uv1Meshes": 9, "whiteNoTexMats": 4, "views": [{"n": "WALL_front_VIEW_yej_window_view", "vis": true}], "charFailures": ["char.npc_nm17: not loaded"], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_after_gpu_yejian_2100_door 不是黑畫面（平均亮度 83、變化 34.8）  [83, 34.8]
+  [ 130.0s] [截圖] s5_after_gpu_yejian_2100_door：鏡頭 {"eye": [-4.6, 1.6, 4.4], "look": [2, 1, -4], "lens": 18, "vfov": 58.72}、亮度 [83, 34.8]
+PASS [黑畫面] s5_after_gpu_yejian_2100_top 不是黑畫面（平均亮度 89.3、變化 30.8）  [89.3, 30.8]
+  [ 132.3s] [截圖] s5_after_gpu_yejian_2100_top：鏡頭 {"eye": [0, 9, 1], "look": [0, 0, -0.5], "lens": 16, "vfov": 64.65}、亮度 [89.3, 30.8]
+PASS [黑畫面] s5_after_gpu_yejian_2100_seat 不是黑畫面（平均亮度 79.4、變化 41.1）  [79.4, 41.1]
+  [ 134.3s] [截圖] s5_after_gpu_yejian_2100_seat：鏡頭 {"eye": [0.2, 1.5, 1.8], "look": [0.2, 0.8, 4.05], "lens": 22, "vfov": 49.43}、亮度 [79.4, 41.1]
+PASS [黑畫面] s5_after_gpu_yejian_2100_out 不是黑畫面（平均亮度 70.3、變化 41）  [70.3, 41]
+  [ 136.4s] [截圖] s5_after_gpu_yejian_2100_out：鏡頭 {"eye": [0.5, 1.6, 2.2], "look": [1, 1.4, 8], "lens": 20, "vfov": 53.7}、亮度 [70.3, 41]
+PASS [黑畫面] s5_after_gpu_yejian_2100_clerk 不是黑畫面（平均亮度 83、變化 31.7）  [83, 31.7]
+  [ 138.5s] [截圖] s5_after_gpu_yejian_2100_clerk：鏡頭 {"eye": [-1, 1.6, 0.5], "look": [-3.5, 1.2, -3], "lens": 20, "vfov": 53.7}、亮度 [83, 31.7]
+PASS 沒有 JS 例外  []
+ALL PASS
