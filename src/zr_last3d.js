@@ -29,6 +29,7 @@ const ZRLAST=(function(){
   const dating=G=>{ const F=(G&&G.flags)||{}, R=romR(G); return F['dating_'+ZR]===true||!!(R&&R.status==='dating'); };
   S.DAYS={ask:'2028-08-24',until:'2028-08-25',day:'2028-08-26',fly:'2028-09-01',back:'2029-09-01'};
   S.ASK='zr_last_ask'; S.OUT_ID='zr_last_screening'; S.H=19.5; S.LATE=0.25;   /* 19:30 開演；19:45 以後不能出發＝沒到 */
+  S.NOREPLY_LINE='看完了。一個人。';   /* AA-B 11-08 09:39（企劃線 AA_交接紀錄 bafaa4386）：芷若沒回的玩家，週六 21:30 */
   S.TAGS={no:'zr_last_noreply',late:'zr_last_late',after:'zr_last_after',night:'zr_last_night',fly:'zr_last_fly',fang:'zr_f3_fang'};
   /* 祐廷單身（第 1 節第 5 點，第 10 節 A2）：沒有交往中的人；剛分開的要收拾過（ROM.canStart 的那一條，不另外建她的戀愛紀錄）*/
   const single=G=>{ if(typeof ROM==='undefined') return true; if(ROM.partners&&ROM.partners(G).length) return false; return G.flags.CLEANUP_DONE!==false||!!(ROM.cleanupLate&&ROM.cleanupLate(G)); };
@@ -57,7 +58,8 @@ const ZRLAST=(function(){
       PHONE.at(G,d24,21,M,S.ASK); }
     if(!sent(G,S.ASK)) return;
     /* 沒回＝「不行」那一句（18:00 傳）*/
-    if(F.ZR_LAST==null&&F.ZR_LAST_GO!==true&&t>T(d25,18)){ F.ZR_LAST='no'; PHONE.at(G,d25,18,[dm(L.no)],S.TAGS.no); }
+    if(F.ZR_LAST==null&&F.ZR_LAST_GO!==true&&t>T(d25,18)){ F.ZR_LAST='no'; F.ZR_LAST_NOREPLY=true; }   /* 沒回（UX-WEEKEND-ASK-EXPIRE-1108，AA-B 11-08 09:39）：期限那時不出字；婉拒版「好。……那我一個人看完它。」只給真的回「不行」的 */
+    if(F.ZR_LAST_NOREPLY===true&&!sent(G,S.TAGS.no)) PHONE.at(G,d26,21.5,[dm(S.NOREPLY_LINE)],S.TAGS.no);   /* 那個週六 21:30（戲演完）傳一則（新字；舊存檔 18:00 已經傳過婉拒版的＝同一個 tag，不再傳）*/
     /* 第 3 節：回了「好。」＝排出遊（8/26 19:30）*/
     if(F.ZR_LAST_GO===true&&F.ZR_LAST==null&&typeof OUT!=='undefined'){ const q=OUT.get(G,S.OUT_ID);
       if(!q&&t<T(d26,S.H+S.LATE)) OUT.plan(G,{id:S.OUT_ID,ev:'ev_zhiruo_last_screening',day:d26,h:S.H,late:S.LATE,place:'公館二輪戲院',title:'和芷若：公館二輪戲院',travel:'走過去約 15 分鐘',travelH:0.25,alarm:true});

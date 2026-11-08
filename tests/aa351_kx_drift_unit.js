@@ -6,7 +6,7 @@
 //   4  D1b：14 天內同一位單獨出去兩次（先說了也算）＝下一次見面（K5）開頭她問；「妳想太多了。」+1；一學期一次；曖昧中（第 5 階）不演
 //   5  D2：之後兩天短回覆（嗯、在忙、嗯）；第三天 21:00 問；「好。」＝週六 18:30 政大山下；第二個選項 +1；隔天 21:00 沒回＝+1、沒有那個週六；寒假中到 2＝開學才問、開學後第一個週六
 //   6  D3：大二上到 4 不演、大二下才演；平日 22:00 視訊；沒見過邵鈞換句；第二個選項 +1；予樂 23:00（有她的聯絡方式才有）
-//   7  D4：到 6＝當天 21:00 她約週五；不行→「那週六。」→不行→「好。」等 D5；三個選項（歸零修補／不歸零修補／等 D5）；沒到＝「好。」等 D5（+0）
+//   7  D4：到 6＝當天 21:00 她約週五；不行→「那週六。」→不行→「好。」等 D5；三個選項（歸零修補／不歸零修補／等 D5）；沒到＝「好。」等 D5（+0）；「那週六。」也沒回＝不出字、等 D5（AA-B 11-08 09:39）
 //   8  修補期 35 天：成功＝KX_REPAIRED、下一次 K5 見面「這個月你都有先講。」一次；修補成功以後又到 6＝直接 D5；不歸零、結束還在 6 以上＝D5
 //   9  D5 只在學期末：期末考最後一天 21:00 她傳、隔天 19:00 政大宿舍樓下；記 ROM.end drift、KX_ENDED、KX_ENDED_ON；她排好的出遊取消；到家手機自動打開；沒到＝21:00 電話；也沒接＝隔天 12:00 文字版
 //   10 分開以後：canStart false（ROM.start 也不行）、學期末沒有她（心意、期末約會）、K5 不再排、尾聲不用前任版（一般分手照舊）
@@ -168,6 +168,9 @@ await sec(7,async()=>{ const mk=()=>{ const G=fresh('2026-10-26',10); K.rule(G);
   check('7. 「那天不行。」＝「那週六。」（「好。」／「那天不行。」）；再不行＝她「好。」，直接等 D5（沒有 D4 的見面）',!!a2&&a2.text==='那週六。'&&eq(a2.ask.opts.map(o=>o.t),['好。','那天不行。'])&&eq(tail,['好。'])&&R(G).r4Pick==='decline'&&!!R(G).r5&&R(G).r5.st==='pending'&&!OUT.get(G,'kx_drift_r4'),JSON.stringify({tail,p:R(G).r4Pick,r5:R(G).r5}));
   G=mk(); PHONE.answer(G,'kx_drift_r4_ask',1); tick(G); PHONE.answer(G,'kx_drift_r4_ask2',0); tick(G); let q=OUT.get(G,'kx_drift_r4');
   check('7. 「那週六。」→「好。」：那個週六 19:00 木柵大學山下',!!q&&wdOf(q.day)===6&&q.h===19&&q.day===D('2026-10-31'),JSON.stringify(q&&{d:key(q.day),h:q.h}));
+  /* UX-WEEKEND-ASK-EXPIRE-1108（AA-B 11-08 09:39）：兩次都沒回＝「那週六。」照樣傳；第二次也沒回＝不出字（不傳「好。」），一樣直接等 D5 */
+  G=mk(); setT(G,D('2026-10-30'),18.5); tick(G); const b2=askOf(G,'kx_drift_r4_ask2'); const nb=msgs(G).length; setT(G,D('2026-10-31'),18.5); tick(G); const tail2=msgs(G).slice(nb).map(m=>m.text);
+  check('7. 兩次都沒回：週五 18:00 過了照樣「那週六。」；週六 18:00 過了不出字（沒有「好。」）、直接等 D5、沒有見面',!!b2&&b2.text==='那週六。'&&tail2.length===0&&R(G).r4Pick==='decline'&&!!R(G).r5&&R(G).r5.st==='pending'&&!OUT.get(G,'kx_drift_r4'),JSON.stringify({b2:!!b2,tail2,p:R(G).r4Pick}));
   G=mk(); PHONE.answer(G,'kx_drift_r4_ask',0); tick(G); q=OUT.get(G,'kx_drift_r4');
   check('7. 「好。」：那個週五 19:00 木柵大學・山下的小吃街',!!q&&q.day===D('2026-10-30')&&q.h===19&&q.place==='木柵大學・山下的小吃街',JSON.stringify(q&&{d:key(q.day),h:q.h}));
   let L=await go(G,q,['我會改']);

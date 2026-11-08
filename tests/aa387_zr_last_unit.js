@@ -2,7 +2,7 @@
 // 台詞一字照稿（D100、D109）。src/data/zr_last_events.js、src/zr_last3d.js（ZRLAST）；F3：src/zrzq3d.js（S.heartOk、S.ytHeart、S.f3Sync）、src/data/r2y3b_events.js（ev_zhiruo_f3_cafe）。
 //   0 讀稿（每一句台詞、選項、手機、房間物件都在稿裡）、index.html 接線、人物頁記憶名稱
 //   1 第 1 節條件：一般（臺灣路線）、日本路線＝有邀約；美國路線、ZR_CUP 有值、和子晴交往中（ZZ_DATING）、ZR_FY、心意條件沒到（戀愛 <30／約會 <4 次／沒去心願地點）、和祐廷交往中、演過＝沒有
-//   2 第 2 節：8/24（四）21:00 兩則、回覆兩個（到 8/25 18:00）；「好。」→她回、排 8/26 19:30 出遊；「那天不行。」→她回、ZR_LAST no；沒回＝18:00「不行」那一句、ZR_LAST no
+//   2 第 2 節：8/24（四）21:00 兩則、回覆兩個（到 8/25 18:00）；「好。」→她回、排 8/26 19:30 出遊；「那天不行。」→她回、ZR_LAST no；沒回＝期限那時不出字、ZR_LAST no、週六 21:30「看完了。一個人。」（AA-B 11-08 09:39）
 //   3 第 3、4 節：出遊（公館二輪戲院、底圖 gongguan_cinema、走過去 15 分鐘、2.5 小時；在家照家裡出發）、逐句、背面兩行說話人空白、ASKED_HER_DRINK 兩種旁白；
 //     「我等妳回來。」＝ROM 交往（8/26）、「我先收著。」＝學期末心意邀約的「讓我想想」（think）；ZR_LAST、記憶 ZR_LAST_SCREENING；關係數值不變；英國那一年照現有的「交往中」
 //   5 第 5 節：23:00 兩版；交往的 9/1（五）21:00（先收著、交往後分開的沒有）
@@ -112,8 +112,10 @@ const roomList=()=>STORY.roomItemList(H.G).filter(r=>r&&r[0]===ROOM[0]);
       check('2. 「好。」→ 她回「嗯。……不要遲到。片頭很短。」；ZR_LAST_GO；排 8/26（六）19:30 公館二輪戲院（走過去約 15 分鐘、late 0.25、跳過時間停在出發前）',has(YES)&&H.G.flags.ZR_LAST_GO===true&&H.G.flags.ZR_LAST==null&&!!q&&q.day===D('2028-08-26')&&q.h===19.5&&q.late===0.25&&q.place==='公館二輪戲院'&&q.travel==='走過去約 15 分鐘'&&q.travelH===0.25&&q.alarm===true&&q.ev==='ev_zhiruo_last_screening',J({t:herT(),q})); }
     { invite(); PHONE.answer(H.G,'zr_last_ask',1); rules(); at('2028-08-26',19.3); rules();
       check('2. 「那天不行。」→ 她回「好。……那我一個人看完它。」；ZR_LAST no；沒有出遊',has(NO)&&H.G.flags.ZR_LAST==='no'&&!q0(),J(herT())); }
-    { invite(); at('2028-08-25',17.9); rules(); const b=H.G.flags.ZR_LAST, nb=has(NO); at('2028-08-25',18.1); rules(); const m=her().find(x=>x.text===NO), a=asked();
-      check('2. 沒回：8/25 18:00 以前沒事；過了 18:00＝她傳「好。……那我一個人看完它。」（18:00）、ZR_LAST no、不能再回',b==null&&!nb&&!!m&&m.day===D('2028-08-25')&&m.h>=18&&m.h<18.25&&H.G.flags.ZR_LAST==='no'&&!PHONE.askOpen(H.G,a)&&!q0(),J({b,nb,m})); }
+    { invite(); at('2028-08-25',17.9); rules(); const b=H.G.flags.ZR_LAST, nb=has(NO); at('2028-08-25',18.1); rules(); const a=asked(), n18=her().length;
+      at('2028-08-26',21.4); rules(); const n214=her().length; at('2028-08-26',21.6); rules(); const m=her().find(x=>x.text==='看完了。一個人。');
+      /* UX-WEEKEND-ASK-EXPIRE-1108（AA-B 11-08 09:39）：沒回＝期限那時不出字（婉拒版只給真的回「不行」的），那個週六 21:30（戲演完）「看完了。一個人。」 */
+      check('2. 沒回：8/25 18:00 以前沒事；過了 18:00＝不出字、ZR_LAST no、不能再回；8/26（六）21:30 她傳「看完了。一個人。」（沒有婉拒版那一句）',b==null&&!nb&&H.G.flags.ZR_LAST==='no'&&!PHONE.askOpen(H.G,a)&&!q0()&&n214===n18&&!!m&&m.day===D('2028-08-26')&&m.h>=21.5&&m.h<21.75&&!has(NO),J({b,nb,n18,n214,m})); }
   });
 
   /* ======================= 3、4 戲院、票根 ======================= */

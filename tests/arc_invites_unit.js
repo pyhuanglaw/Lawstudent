@@ -49,6 +49,15 @@ const goOut=async(G,key,picks)=>{ const q=OUT.get(G,'arcinv_'+key.replace(':','_
   /* 3 */
   { const G=fresh('2026-04-13',15,'cafe'); const bd=G.day; beat(G,YT,7,bd); at(G,bd+2,21.1); const r=ARCINV.rec(G)[KYT]; const U=r.until; at(G,Math.floor(U/24)+1,U%24); 
     check('3. 一直沒回：過了期限她回「沒關係。窗戶不會跑掉。」、不排、回不了',r.st==='skip'&&(PHONE.rec(G),G.msgs||[]).some(x=>x.text===EY.skip[0])&&!OUT.get(G,'arcinv_heroine_03_7')&&!PHONE.askOpen(G,msgOf(G,KYT)),J({st:r.st,U})); }
+  /* 3b 過去式的 skip（UX-WEEKEND-ASK-EXPIRE-1108，AA-B 11-08 09:39）：沛珊 6、可昕 4、可昕 6 沒回＝那個約好的日子（sc.this）的那個時間才傳，文字不動；以前不在手機裡 */
+  { const D_=ARCINV.data?ARCINV.data():null; const E_=k=>(typeof ARC_INVITES!=='undefined'?(ARC_INVITES.list||ARC_INVITES):[]).find?((ARC_INVITES.list||ARC_INVITES).find(e=>e.key===k)):null;
+    const bad=[];
+    for(const [who,n,k,h] of [['classmate_peishan',6,'classmate_peishan:6',7.5],['kexin',4,'kexin:4',18],['kexin',6,'kexin:6',17.5]]){
+      const G=fresh('2026-04-13',15,'cafe'); const bd=G.day; beat(G,who,n,bd); at(G,bd+2,21.1); const r=ARCINV.rec(G)[k]; if(!r||r.st!=='offer'){ bad.push(k+' 沒有邀約 '+J(r&&r.st)); continue; }
+      const U=r.until, th=r.sc.this, e=ARCINV.get(k), first=e.skip[0]; at(G,Math.floor(U/24),U%24+0.1); const has=()=>(G.msgs||[]).some(x=>x.text===first);
+      const before=has(); if(th.d*24+h>U+0.2){ at(G,th.d,h-0.2); } const before2=has(); at(G,th.d,h+0.1); const after=has(); const m=(G.msgs||[]).find(x=>x.text===first);
+      if(!(r.st==='skip'&&!before&&!before2&&after&&m&&m.day===th.d&&m.h>=h-1e-6&&m.h<h+0.25)) bad.push(k+' '+J({st:r.st,before,before2,after,m:m&&[m.day,m.h],th:[th.d,h],U})); }
+    check('3b. 沛珊 6（07:30）、可昕 4（18:00）、可昕 6（17:30）：沒回的那一句在約好的那一天那個時間才傳（之前不在手機裡），文字不動',!bad.length,bad.join('；')); }
   /* 4 沛珊 */
   { const PS='classmate_peishan', K='classmate_peishan:6', EP=ARCINV.get(K); const G=fresh('2026-05-20',15,'cafe'); const bd=G.day; beat(G,PS,6,bd);
     ARCINV.tick(G); const r=ARCINV.rec(G)[K]; const B=ARCINV.breakStart(bd);
