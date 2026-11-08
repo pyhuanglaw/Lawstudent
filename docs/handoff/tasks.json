@@ -49968,7 +49968,7 @@
    "id": "UX-WEEKEND-ASK-EXPIRE-1108",
    "title": "「這週末」類邀約（例：可昕 kx_tour_ask「週末來木柵大學？我當導遊。」）沒有回覆期限，週末過了還一直待回覆、讀檔或醒來手機自動打開",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "進行中",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -49980,18 +49980,16 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 09:2x LAWWW-B】誰決定：LAWWW-B（問 AA-B）。為什麼：週末邀約過期與否、沒回要不要記 KX_TOUR_NO（ask2 的前提）是劇情決定。負責人：AA（定）、LAWWW（做）。恢復條件：AA-B 回覆。下次檢查：2026-11-09。CC-B movreg 時看到（tests/movement_regression.py 已改成讀檔關 phoneAuto，aa363f62a）。",
-   "pausedReason": "等 AA-B 決定週末邀約要不要收、沒回算不算 NO",
-   "resumeWhen": "AA-B 回覆",
+   "next": "【11-08 09:5x LAWWW-B】AA-B 09:19：要收、沒回算 NO、其他週末邀約一起掃。kx_tour_ask／ask2 做好（見 evidence；過期超過一週才發現不問第二次）；掃了約 45 則（Explore 子代理），列五則「沒回」讀起來怪的給 AA-B（芷若最後一場、kxdrift r4「好。」、arc_invites 沛珊 6／可昕 4／可昕 6 的過期句早於週六），另三則沒有期限照設計（kx_quiz_ask、kx_k6、kx_our_day）建議不加；等 AA-B 回。 ｜ 【11-08 09:2x LAWWW-B】誰決定：LAWWW-B（問 AA-B）。為什麼：週末邀約過期與否、沒回要不要記 KX_TOUR_NO（ask2 的前提）是劇情決定。負責人：AA（定）、LAWWW（做）。恢復條件：AA-B 回覆。下次檢查：2026-11-09。CC-B movreg 時看到（tests/movement_regression.py 已改成讀檔關 phoneAuto，aa363f62a）。",
    "xai": {
     "spec": "CC-B 11-08 09:18",
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "週末過了的邀約不再自動打開手機；ask2 照 AA 定的條件",
     "receiver": "BB（測）",
-    "ack": "SENT",
+    "ack": "ACK",
     "owner": "LAWWW"
    },
-   "evidence": ""
+   "evidence": "c1f89f8e0"
   }
  ]
 }
