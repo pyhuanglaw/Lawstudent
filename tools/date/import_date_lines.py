@@ -513,8 +513,8 @@ with open(dst, 'w', encoding='utf8') as fo:
             elif isinstance(x, list): [walk694(v) for v in x]
             elif isinstance(x, dict): [walk694(v) for k, v in x.items() if k != 'source']
         walk694(o694); have = set(allS)
-        # 源稿後來整句刪掉的列（不是漏換）：舊句、新句都不在才跳過
-        GONE694 = {'9': 'AA_593 第 65 列：BB_128 3-6 學姊取消「好。……那天我先不排別的。」刪掉（企劃線 9aa8ec40c，AA-B 11-08 05:53）'}
+        # 源稿後來改寫的列（不是漏換）：AA_694 的舊句、新句都不在，而且改寫後的句子在，才算過
+        GONE694 = {'9': ('好。那天我先不排別的。', 'AA_593 第 65 列：BB_128 3-6 學姊取消那句「這一格我空著」改成「那天我先不排別的」，照 AA_694 拿掉「……」；企劃線 9aa8ec40c，AA-B 11-08 06:11')}
         T694 = [[c.strip() for c in ln.strip().strip('|').split('|')] for ln in section(md694, '## 3. ').split('\n') if re.match(r'^\|\s*\d+\s*\|', ln)]
         if len(T694) != 252:
             sys.exit(f'AA_694@{S694} 第 3 節應該是 252 列，讀到 {len(T694)} 列')
@@ -522,8 +522,8 @@ with open(dst, 'w', encoding='utf8') as fo:
             if E694.strip(r[1]) != r[2]:
                 sys.exit(f'AA_694 第 3 節第 {r[0]} 列：規則算出來是「{E694.strip(r[1])}」，表上是「{r[2]}」')
             if r[2] not in have:
-                if r[0] in GONE694 and r[1] not in have and E694.strip(r[1]) not in have:
-                    print(f'AA_694 第 3 節第 {r[0]} 列：「{r[2]}」稿上整句刪了（{GONE694[r[0]]}），跳過'); continue
+                if r[0] in GONE694 and r[1] not in have and E694.strip(r[1]) not in have and GONE694[r[0]][0] in have:
+                    print(f'AA_694 第 3 節第 {r[0]} 列：「{r[2]}」後來改寫成「{GONE694[r[0]][0]}」（{GONE694[r[0]][1]}）'); continue
                 sys.exit(f'AA_694 第 3 節第 {r[0]} 列：「{r[2]}」不在 date_lines.js 裡')
         c694 = E694.counts(allS)
         if any(c694.values()):
