@@ -21,6 +21,7 @@ LB=tools/blender/env_second/lightbake
 TMP=$(mktemp -d)
 A=assets/models/env/second_ai
 SKYTINT=${SKYTINT-1.32,1.0,0.72}
+POSTDAY=()
 INST=0
 LIGHTS=""; PTS=""
 SKYD=${SKY:-1.0}; DAYLD=${DAYL:-0.8}   # bake_room.py 的參數只認第一個：各店要改的在 case 裡改這兩個變數，不要再寫進 EXTRA
@@ -83,6 +84,9 @@ shanlan)
   HIDE='glass|bulb'
   NOLM="^(?!(shl_floor|shl_ceiling1|L2_shl_floor2|L2_shl_ceiling2|shl_wall|WALL_[a-z]+_shl_wall|WALL_[a-z]+_shl_wood)\$)"
   EXTRA=(--shell S)
+  # 烘完：左前那根柱子（shl_wall 裡，x −1.5、z 5）朝街那一面白天乘 0.537（線性）（11-08 BB-B XS9 PC GPU：整面亮黃，接受是天光、P3 壓到 0.6 左右，和旁邊柱子接近）：
+  #   1F 平均 0.82 → 0.62；整面同一個倍數，保留由下往上的明暗；晚上那張不動。lm_scale_faces.py 只改光照貼圖，不動 GLB
+  POSTDAY=(--node '^shl_wall$' --box -2.2,-0.8,0,8.4,4,6.5 --normal z+ --factor 0.537)
   ;;
 dakou_1f|dakou_2f)
   # 大口漢堡（BB 製作，bb_support/dakou_1f.glb、dakou_2f.glb；新生南路轉角、24 小時）：12 × 16 m、兩層各 3.6 m；+z（新生南路）和 −x（路口）兩面玻璃。
@@ -155,6 +159,7 @@ KEEP=(); [ $INST = 1 ] && KEEP=(--keep-instances)
   --lm "$TMP/$NAME" --url "$(dirname "$SRC")/${NAME}_lm" --res 1024 --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
   --lights "$LIGHTS" ${PTS:+--points "$PTS"} --smooth 2 --sun 180,35,0 --sky "$SKYD" --daylights "$DAYLD" "${KEEP[@]}" ${SKYTINT:+--skytint "$SKYTINT"} "${EXTRA[@]}"
 python3 $LB/to_webp.py "$TMP/$NAME" "$DST/${NAME}_lm" 90
+if [ ${#POSTDAY[@]} -gt 0 ]; then python3 $LB/lm_scale_faces.py "$DST/$NAME.glb" "$DST/${NAME}_lm_day.webp" "${POSTDAY[@]}"; fi   # 白天那張某幾面另外調（各店 case 裡設 POSTDAY）
 if [ $INST = 1 ]; then python3 $LB/glb_fix_instnames.py "$TMP/$NAME.glb" "$DST/$NAME.glb" --match; fi   # instancing 節點的名字、extras 照原檔補回去（--match：比對位置，名字整個照原檔；大口二樓、大步的鞋子不是「網格名＋_inst」）
 if [ -n "${DARKOFF:-}" ]; then   # 熄燈那一張時一起調暗自發光的材質（遊戲 roomDarkMap 的 spec.darkOff，預設 tube|lamp_bulb）：寫進 extras.lightmap.darkOff
   python3 -I - "$DST/$NAME.glb" "$DARKOFF" <<'EOF'
