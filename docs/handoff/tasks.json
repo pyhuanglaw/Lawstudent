@@ -49886,7 +49886,7 @@
    "id": "BUG-Y0-E01-UNDER-CARD-1108",
    "title": "經濟系新局 9/1 第一晚在日期卡黑幕底下就開演：E01 前兩句在字卡底下過去、第三句對話框疊在黑幕上點不到（每個新玩家第一分鐘）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -49898,7 +49898,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 05:3x LAWWW-B】5292ead4d：newGameEcon 字卡到 enter('dorm') 設 y0Gate（try/finally、LOADLOCKS 放開），S.y0Tick 看到先不跑，進房間以後由 newGameEcon 開 E01；v0_e01_unit 第 0 項（舊程式 FAIL）；96 支 ALL PASS；交 BB-B（CC 跑 v0_start＋v0_to1017 第一段三次，E01 第一句時 #fade 沒有 on、字卡收起來）。BB-B 另問（P3）：讀 8/28 22:00 在家不出選單直接睡到 8/29，是不是設計——還沒查清楚。",
+   "next": "【11-08 06:2x LAWWW-B】BB-B 06:14 FIXED（PC RX 6600M 跑 9e0ffabce：CC_E01CARD 三次第一句時 #fade 沒有 on、字卡收起來、在 dorm、手機沒開、第一句只一次；flow_v0_start 三次 ALL PASS）。P3 那一題（8/28 22:00 在家不出選單直接睡）還沒查。 ｜ 【11-08 05:3x LAWWW-B】5292ead4d：newGameEcon 字卡到 enter('dorm') 設 y0Gate（try/finally、LOADLOCKS 放開），S.y0Tick 看到先不跑，進房間以後由 newGameEcon 開 E01；v0_e01_unit 第 0 項（舊程式 FAIL）；96 支 ALL PASS；交 BB-B（CC 跑 v0_start＋v0_to1017 第一段三次，E01 第一句時 #fade 沒有 on、字卡收起來）。BB-B 另問（P3）：讀 8/28 22:00 在家不出選單直接睡到 8/29，是不是設計——還沒查清楚。",
    "xai": {
     "spec": "BB-B 11-08 05:26（PC 常備回歸 R8B6_v0_to1017，8b6cbc908，out/03_fade_block_1.png）",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -49925,7 +49925,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 05:5x LAWWW-B】BB-B 05:44（PC R8B6_mini 截圖比對）：改法二選一——出入口方塊畫在路線上面，或箭頭停在離目標 4 px。D99 後面；測試 tests/minimap_direction.py 已改成關指路再量（06e4ffb1c）。",
+   "next": "【11-08 06:2x LAWWW-B】minimap_direction.py（關指路版）PC ALL PASS，測試那部分結案；箭頭蓋住門口照舊 P3。 ｜ 【11-08 05:5x LAWWW-B】BB-B 05:44（PC R8B6_mini 截圖比對）：改法二選一——出入口方塊畫在路線上面，或箭頭停在離目標 4 px。D99 後面；測試 tests/minimap_direction.py 已改成關指路再量（06e4ffb1c）。",
    "xai": {
     "spec": "BB-B 11-08 05:44",
     "branch": "claude/modest-rubin-2lyp7g",
