@@ -269,7 +269,7 @@ async def main():
                     R.note('%s 講座中全部取樣（%d 筆）：%s' % (tag, len(samples), J(samples)))
                     same = [abs(x['ps'][0] - x['xs'][0]) < 0.05 for x in both]
                     R.note('%s 同一邊（座位 x 相同）逐筆：%s' % (tag, ''.join('1' if v else '0' for v in same)))
-                    inroom = [x for x in samples if x.get('cam') and -7.1 <= x['pp'][0] <= -3.7]   # 玩家在討論室 A 裡的每一筆（含坐下、起身那一刻）
+                    inroom = [x for x in samples if x.get('cam') and -7.1 <= x['pp'][0] <= -3.7 and x['pp'][1] <= -5.0]   # 門在 z −5.0：門外走廊不算   # 玩家在討論室 A 裡的每一筆（含坐下、起身那一刻）
                     bad = [x for x in inroom if not (-7.1 <= x['cam'][0] <= -3.7)]
                     R.note('%s 鏡頭 x 逐筆：%s' % (tag, J([[x['h'], x['cam'][0], 's' if x['ps'] else '-'] for x in inroom])))
                     R.check('%s 鏡頭在討論室 A 裡（玩家在房裡的每一筆，鏡頭 x 在 −7.1～−3.7；BUG-CAM-LAWLIB-DISCA-1108）' % tag, bool(inroom) and not bad, J(bad[:4]))
