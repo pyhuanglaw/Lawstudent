@@ -1647,3 +1647,9 @@ R13ffb_mini | 13ff2304529d0f7180c44266825f9d28718479ce | game | tests/minimap_di
 R13ffb_v0_to1017 | 13ff2304529d0f7180c44266825f9d28718479ce | game | tests/flow_v0_to1017.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
 R13ffb_v0_tolaw | 13ff2304529d0f7180c44266825f9d28718479ce | game | tests/flow_v0_tolaw.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R13ffb_touch | 13ff2304529d0f7180c44266825f9d28718479ce | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
+# CC-B 11-08 14:4x：保持五項以上：v9.10.23 候選 9eef2b95b 補經濟系其他兩條、走路兩項再跑一次
+R9eef_v0_start | 9eef2b95bc023e3201d0575935913319243a3670 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R9eef_v0_to1017 | 9eef2b95bc023e3201d0575935913319243a3670 | game | tests/flow_v0_to1017.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
+R9eef_v0_home | 9eef2b95bc023e3201d0575935913319243a3670 | game | tests/flow_v0_home.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R9eef_p0_r2 | 9eef2b95bc023e3201d0575935913319243a3670 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+R9eef_movreg_r2 | 9eef2b95bc023e3201d0575935913319243a3670 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
