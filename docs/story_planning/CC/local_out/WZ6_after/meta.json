@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "WZ6_after",
+  "sha": "6da721819b8d351fe12e0b848ca7e06f52553819",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_wz_dc_probe.py",
+  "env": "TAG=wz6_after;TIMES=day:11,night:20;TARGETS=A1:-8:2.2:4.6+B7:44:2.2:-4.6;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T09:29:38",
+  "end": "2026-11-08T09:31:59",
+  "seconds": 140,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 55,
+    "mem": 51,
+    "used_gb": 16.7,
+    "chrome_testing": 8
+  }
+}
