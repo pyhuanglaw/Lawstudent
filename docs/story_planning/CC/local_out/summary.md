@@ -1860,3 +1860,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 133.2s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 133.2s] BROWSER DISCONNECTED
 - 2026-11-08T09:39:34  L5FLM_after  sha=e9d8c668fd832f13beeb79903f3270aa1b914089  exit=0  218s      [ 134.5s] [linze_5f sis lab_in] 站 (-5.80, 1.20)，lightMap：{"meshes": 131, "withLightMap": 29, "maps": ["odels/env/second_ai/linze_5f_lm_day.webp"]}；亮度 [20.7, 29.1] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 177.5s] page close url=http://127.0.0.1:61449/index.html | [gpu_wrap 177.5s] BROWSER DISCONNECTED
+- 2026-11-08T09:41:09  LZ5F_e66_gpu  sha=e66781d1f7850a3c3bbb848715404474992cfc1f  exit=0  170s      [ 134.3s] [linze_5f sis lab_in] 站 (-5.80, 1.20)，lightMap：{"meshes": 131, "withLightMap": 29, "maps": ["odels/env/second_ai/linze_5f_lm_day.webp"]}；亮度 [20.7, 29.1] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 134.8s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 134.8s] BROWSER DISCONNECTED
