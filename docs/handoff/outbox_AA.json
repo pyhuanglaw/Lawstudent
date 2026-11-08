@@ -6109,6 +6109,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "AA_593 第 37～44、決4（113）、65、66、82～98 列＋第 10 節；第 95 列 D12 已是奶奶版（AA_609）不動；D33 學姊同型一句一起改"
+  },
+  {
+   "task": "GIFT-FLIRT-1107（送給朋友＋接線四點）",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_728_gifts_friends.json"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B：朋友六位（阿哲、阿凱、Alison、柏翰、明軒、芯慈）可以送飲料／早餐；AA_710 itemOnly 五組照 _meta.itemOnly；早餐店不加（便利商店、2:30 AM 的就是早餐）；約健身／游泳照 AA_715",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "使用者 11-07「買飲料 早餐 給別人」"
   }
  ],
  "items": [
