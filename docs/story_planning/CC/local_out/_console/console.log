@@ -600,3 +600,13 @@
 [09:35:56] ==== START L5FLM_after  (probe @ e9d8c668fd832f13beeb79903f3270aa1b914089) ====
 [09:35:59] [res] cpu=10% mem=45% (14.2/31.4 GB) chrome_testing=8  START L5FLM_after
 [09:37:26] [res] cpu=8% mem=45% (14.1/31.4 GB) chrome_testing=8  END LAST2LM_after
+[09:37:31] 正在跑：LAST2LM_after（已跑 3 分／上限 20 分）、L5FLM_before（已跑 2 分／上限 20 分）、L5FLM_after（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2ee6ddef1..4ee1c2f72  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:37:32] ==== END   LAST2LM_after  exit=0  187s   ====
+[09:37:35] memory 44% before starting SC3_e66_gpu (2 running)
+[09:37:35] ==== START SC3_e66_gpu  (probe @ e66781d1f7850a3c3bbb848715404474992cfc1f) ====
+[09:37:38] [res] cpu=10% mem=39% (13.9/31.4 GB) chrome_testing=4  START SC3_e66_gpu
+[09:37:42] worktree add e66781d1f7850a3c3bbb848715404474992cfc1f: invalid reference - fetching main and the commit itself
+[09:37:45] [res] cpu=0% mem=39% (12.3/31.4 GB) chrome_testing=4  END L5FLM_before

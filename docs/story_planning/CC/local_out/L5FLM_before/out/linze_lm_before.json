@@ -1,0 +1,117 @@
+{
+ "tag": "before",
+ "sha": "",
+ "linze_5f": {
+  "day": {
+   "lab_door": {
+    "pos": [
+     -4.2,
+     -0.6
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     162.9,
+     41.9
+    ]
+   },
+   "lab_in": {
+    "pos": [
+     -5.8,
+     1.2
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     155.7,
+     49.1
+    ]
+   },
+   "corridor": {
+    "pos": [
+     6,
+     -5.5
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     149.7,
+     47.4
+    ]
+   }
+  },
+  "night": {
+   "lab_door": {
+    "pos": [
+     -4.2,
+     -0.6
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     144.8,
+     46.9
+    ]
+   },
+   "lab_in": {
+    "pos": [
+     -5.8,
+     1.2
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     141,
+     51.1
+    ]
+   },
+   "corridor": {
+    "pos": [
+     6,
+     -5.5
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     104.1,
+     53.2
+    ]
+   }
+  },
+  "sis": {
+   "lab_in": {
+    "pos": [
+     -5.8,
+     1.2
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 0,
+     "maps": []
+    },
+    "lum": [
+     49.2,
+     40
+    ]
+   }
+  }
+ }
+}

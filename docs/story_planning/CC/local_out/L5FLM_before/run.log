@@ -1,0 +1,28 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_linze_lm_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L5FLM_before\out
+CC LZ-UPPER-LM（before）：SHA=e9d8c668fd832f13beeb79903f3270aa1b914089（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+PASS [linze_5f day lab_door] 進得了 linze_5f  {"zone": "linze_5f", "x": -4.2, "z": -0.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.05}
+PASS [黑畫面] lzlm_before_linze_5f_day_lab_door 不是黑畫面（平均亮度 162.9、變化 41.9）  [162.9, 41.9]
+  [  50.9s] [linze_5f day lab_door] 站 (-4.20, -0.60)，lightMap：{"meshes": 131, "withLightMap": 0, "maps": []}；亮度 [162.9, 41.9]
+PASS [linze_5f day lab_in] 進得了 linze_5f  {"zone": "linze_5f", "x": -5.8, "z": 1.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.06}
+PASS [黑畫面] lzlm_before_linze_5f_day_lab_in 不是黑畫面（平均亮度 155.7、變化 49.1）  [155.7, 49.1]
+  [  64.3s] [linze_5f day lab_in] 站 (-5.80, 1.20)，lightMap：{"meshes": 131, "withLightMap": 0, "maps": []}；亮度 [155.7, 49.1]
+PASS [linze_5f day corridor] 進得了 linze_5f  {"zone": "linze_5f", "x": 6, "z": -5.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.06}
+PASS [黑畫面] lzlm_before_linze_5f_day_corridor 不是黑畫面（平均亮度 149.7、變化 47.4）  [149.7, 47.4]
+  [  79.0s] [linze_5f day corridor] 站 (6.00, -5.50)，lightMap：{"meshes": 131, "withLightMap": 0, "maps": []}；亮度 [149.7, 47.4]
+PASS [linze_5f night lab_door] 進得了 linze_5f  {"zone": "linze_5f", "x": -4.2, "z": -0.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.06}
+PASS [黑畫面] lzlm_before_linze_5f_night_lab_door 不是黑畫面（平均亮度 144.8、變化 46.9）  [144.8, 46.9]
+  [  92.5s] [linze_5f night lab_door] 站 (-4.20, -0.60)，lightMap：{"meshes": 131, "withLightMap": 0, "maps": []}；亮度 [144.8, 46.9]
+PASS [linze_5f night lab_in] 進得了 linze_5f  {"zone": "linze_5f", "x": -5.8, "z": 1.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.06}
+PASS [黑畫面] lzlm_before_linze_5f_night_lab_in 不是黑畫面（平均亮度 141、變化 51.1）  [141, 51.1]
+  [ 105.8s] [linze_5f night lab_in] 站 (-5.80, 1.20)，lightMap：{"meshes": 131, "withLightMap": 0, "maps": []}；亮度 [141, 51.1]
+PASS [linze_5f night corridor] 進得了 linze_5f  {"zone": "linze_5f", "x": 6, "z": -5.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.06}
+PASS [黑畫面] lzlm_before_linze_5f_night_corridor 不是黑畫面（平均亮度 104.1、變化 53.2）  [104.1, 53.2]
+  [ 119.3s] [linze_5f night corridor] 站 (6.00, -5.50)，lightMap：{"meshes": 131, "withLightMap": 0, "maps": []}；亮度 [104.1, 53.2]
+  [前置／捷徑] [linze_5f sis lab_in] 【前置／捷徑】LZUP.labLights('sis')（第三年聖誕夜 ev_sis_xmas_y3：研究室只開學姊的檯燈），讀檔 2027-12-24 21.0
+PASS [linze_5f sis lab_in] 進得了 linze_5f  {"zone": "linze_5f", "x": -5.8, "z": 1.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.06}
+PASS [黑畫面] lzlm_before_linze_5f_sis_lab_in 不是黑畫面（平均亮度 49.2、變化 40）  [49.2, 40]
+  [ 132.7s] [linze_5f sis lab_in] 站 (-5.80, 1.20)，lightMap：{"meshes": 131, "withLightMap": 0, "maps": []}；亮度 [49.2, 40]
+PASS 沒有 JS 例外  []
+ALL PASS
