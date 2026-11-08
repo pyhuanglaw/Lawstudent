@@ -13,7 +13,7 @@
 | **BB-B 00:04 溫州街六間光照判定（WZ6_LM_cloud；cc-testing 9c115cd9d9）**：功能 PASS；畫面三點 | ③ 晚上 lightMap 欄位是 *_lm_day＝**刻意**（晚上那張在 shader 的 lmNight，lmMixAt 混合）；② 日常失速窗景洗白＝**不是烘焙**（窗景卡、玻璃材質原檔＝烘好的；截圖窗區平均差 3.4／255；「霧面」是窗景照片裡對面的素面水泥牆）；① **一盞店門口木地板灰藍＝光照貼圖**（白天店門口藍／紅 1.34～1.39，其他四間 1.09～1.20：緣側整片開口、沒有太陽、只吃藍天光）→ bake_room.py 加 `--skytint`（只乘白天天光，燈不動；沒給＝原樣），一盞試烘中，之後 512 重烘交 LAWWW-B、請 CC 重拍 14:00 door／clerk。已回 BB-B 兩則（DELIVERED） | bake_room.py（未 commit，等試烘）；bake_gg_new.sh 的修改備好在 `$S/bake_gg_new.next.sh`（一盞用原檔 blob 33ba0087＋SKYTINT；已烘過的檔當輸入會擋下來）——**公館四間跑完才換上** |
 | 光照第二級②：研究小間 | **512 正式版 push** `be46b8878`：0.35／0.30、library_lm2_unit 研究小間全過 | — |
 | 光照第二級②：5F 書庫 | **512 正式版 push** `60c63348f`：0.41／0.37、library_lm2_unit 三間 ALL PASS（工作樹 eacc5837d） | — |
-| 光照第二級③：公館四間 | **512 烘焙中**（背景排程 bb82800lc：afar → 青木 → Daybreak → 單車）；**從這一批起套白天天光色調 1.32,1.0,0.72**（bake_gg_new.sh `1aa6be18a`） | bake_gg_new.sh |
+| 光照第二級③：公館四間 | **afar 正式版 push** `56d91b587`（0.35／0.31、套天光色調）；背景排程 bb82800lc 跑到 30 分鐘上限被停在青木（青木的檔沒被動到）→ **重開 b4i1o1efa（上限 2 小時）：青木 → Daybreak → 單車** | bake_gg_new.sh |
 | 一盞重烘（WZ6_LM_cloud 第 1 點） | **已交 LAWWW-B（f164950dd，P1 等 ACK；BB-B 已給 SHA）**：店門口藍／紅 1.39→1.10、緣側 1.34→1.12、白天 0.31→0.305、晚上那張逐位元組沒變；gg_new_lm_unit ALL PASS、相關 66 支 64 過（2 支劇情開發原樣也 FAIL）；等 CC 重拍 14:00 door／clerk | `wip/wz6_yizhan_tint_1108/` |
 | **BUG-CAM-LAWLIB-DISCA-1108**（BB-B 00:43 P2，D108） | **已交 LAWWW-B（7cae81e72，P1 等 ACK）**：法圖沒有 camCols → 坐討論室 A 鏡頭退到討論室 B；加北側房間隔間牆／前牆碰撞板；lawlib_cam_disc_unit 開發原樣 FAILED 3→ALL PASS、相關 145 支 144 過；等 CC 重跑 cc_aa613_probe MODE=lib | `wip/cam_lawlib_disc_1108/` |
 | BB-B 00:13 | 第 2 點收回、窗景照片不排；一盞照修法；溫州街其他四間＋阿德套色調＝不擋、低優先（任務 #196） | — |
