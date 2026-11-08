@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GG3US_489f",
+  "sha": "489ff376246bcd2a9aeaaaa4f497587c0b43d044",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_room_shots_probe.py",
+  "env": "TAG=after_gpu;SHOTS=us_apartment,2025-10-18,14,apt_door_follow,follow,-1.0:2.6:3.1416:0+us_apartment,2025-10-18,14,apt_kitchen_follow,follow,-3.4:2.0:3.1416:0+us_shared,2025-10-18,14,shared_door_follow,follow,-1.0:2.6:3.1416:0+us_shared,2025-10-18,14,shared_kitchen_follow,follow,-3.4:2.0:3.1416:0;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T16:19:49",
+  "end": "2026-11-08T16:22:33",
+  "seconds": 163,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "13",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 18,
+    "mem": 53,
+    "used_gb": 16.8,
+    "chrome_testing": 13
+  }
+}
