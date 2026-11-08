@@ -113,7 +113,14 @@ async def wait_until(pg, cdp, day, h, max_s=1500):
         s = await L.state(pg)
         if s['choices']: await L.tap(pg, cdp, '#choices button'); await pg.wait_for_timeout(600); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
-        await L.close_panels(pg, cdp); await pg.wait_for_timeout(2000)
+        await L.close_panels(pg, cdp)
+        if c['d'] == day and c['h'] < h - 0.4 or c['d'] < day:   # 照玩家用手機「今天」的「跳過時間」（站著等在 SwiftShader 上一小時遊戲時間要好幾分鐘）
+            await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+            await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)
+            sk = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#phoneBody [data-skip]')]; if(!bs.length) return null; const e=bs[bs.length-1]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,24)]; })()")
+            if sk: await L.touch_tap(cdp, sk[0], sk[1]); R.note('   跳過時間：%s（%s %.2f）' % (sk[2], c['d'], c['h'])); await pg.wait_for_timeout(2500); continue
+            await L.tap(pg, cdp, '#btnPhoneClose')
+        await pg.wait_for_timeout(2000)
     return False
 
 
