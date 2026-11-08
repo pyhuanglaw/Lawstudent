@@ -4747,13 +4747,17 @@
   },
   {
    "path": "docs/story_planning/AA_709_msg_replies.json",
-   "sha": "1e9257401",
+   "sha": "5c8664179",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 06:18「AA_709 第五批」、06:26「第六批」）",
+   "approvedBy": "AA-B D109（11-07 06:18「AA_709 第五批」、06:26「第六批」）；5c8664179（AA-B 11-08 01:50「AA_709 第七批」：大三寒假＋大三下臺灣路線 16 則）",
    "task": "MSG-REPLY-1107",
    "kind": "json",
    "note": "女主角主動傳的「分享生活」私訊，最後一則掛三個回覆選項（rel、她的回話）；tools/story/import_msg_replies.py → src/data/msg_replies.js",
    "history": [
+    {
+     "sha": "1e9257401",
+     "note": "被 5c8664179 取代"
+    },
     {
      "sha": "bc0e755be",
      "approvedBy": "（11-07 05:3x 以前；b6019bbd1 取代：新寫五串、拿掉秀琴姨試菜回覆、以安除夕選項、set、第三批寒暑假 9 串＋芯慈過了吧三個選項）"

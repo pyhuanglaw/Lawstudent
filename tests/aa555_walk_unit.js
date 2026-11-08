@@ -215,6 +215,8 @@ sec('5',()=>{ if(!A5){ check('5. 沒有 aa555_3d.js',false); return; }
   check('5. 語彤「（照片：麵店門口的雨）今天沒人。」只在下雨天',!r1&&r2,J([r1,r2]));
   const o1=ok('y3s2_an_onigiri','2028-04-10',()=>{ G.flags.EXCHANGE_ROUTE='JP'; }), o2=ok('y3s2_an_onigiri','2028-04-10',()=>{ G.flags.EXCHANGE_ROUTE='TW'; }), o3=ok('y3s2_an_onigiri','2028-04-10',()=>{ G.flags.EXCHANGE_ROUTE='US'; });
   check('5. 以安飯糰：台灣、美國路線的祐廷收到；日本路線不另傳',!o1&&o2&&o3,J([o1,o2,o3]));
+  { const set=()=>{ G.flags.EXCHANGE_ROUTE='TW'; }, e1=ok('y3s2_an_onigiri','2028-03-17',set), e2=ok('y3s2_an_group','2028-03-18',set), l1=ok('y3s2_an_onigiri','2028-03-28',set), l2=ok('y3s2_an_group','2028-03-28',set);
+    check('5. 以安飯糰、Alison 代主持：3/25 她出國以前（3/17、3/18）不傳，大三下第 6 週（3/27 那週）起才傳（AA-B 11-08 01:50）',!e1&&!e2&&l1&&l2,J([e1,e2,l1,l2])); }
   const c1=ok('y1s1_an_row','2025-10-08'), c2=ok('y1s1_an_row','2025-10-09');   /* 民總週四：週三晚上傳 */
   check('5. 以安「明天民總，第二排。」：隔天有民總（週三晚上）才傳',c1&&!c2,J([c1,c2])); });
 
