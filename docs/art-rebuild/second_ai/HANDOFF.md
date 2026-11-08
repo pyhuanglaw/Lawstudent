@@ -6,7 +6,7 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-08 00:4x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-08 01:0x UTC，帳號 B LAWWW2-B）
 
 | 項目 | 狀態 | 位置 |
 |---|---|---|
@@ -15,6 +15,7 @@
 | 光照第二級②：5F 書庫 | **512 正式版 push** `60c63348f`：0.41／0.37、library_lm2_unit 三間 ALL PASS（工作樹 eacc5837d） | — |
 | 光照第二級③：公館四間 | **512 烘焙中**（背景排程 bb82800lc：afar → 青木 → Daybreak → 單車）；**從這一批起套白天天光色調 1.32,1.0,0.72**（bake_gg_new.sh `1aa6be18a`） | bake_gg_new.sh |
 | 一盞重烘（WZ6_LM_cloud 第 1 點） | **已交 LAWWW-B（f164950dd，P1 等 ACK；BB-B 已給 SHA）**：店門口藍／紅 1.39→1.10、緣側 1.34→1.12、白天 0.31→0.305、晚上那張逐位元組沒變；gg_new_lm_unit ALL PASS、相關 66 支 64 過（2 支劇情開發原樣也 FAIL）；等 CC 重拍 14:00 door／clerk | `wip/wz6_yizhan_tint_1108/` |
+| **BUG-CAM-LAWLIB-DISCA-1108**（BB-B 00:43 P2，D108） | **已交 LAWWW-B（7cae81e72，P1 等 ACK）**：法圖沒有 camCols → 坐討論室 A 鏡頭退到討論室 B；加北側房間隔間牆／前牆碰撞板；lawlib_cam_disc_unit 開發原樣 FAILED 3→ALL PASS、相關 145 支 144 過；等 CC 重跑 cc_aa613_probe MODE=lib | `wip/cam_lawlib_disc_1108/` |
 | BB-B 00:13 | 第 2 點收回、窗景照片不排；一盞照修法；溫州街其他四間＋阿德套色調＝不擋、低優先（任務 #196） | — |
 
 ## 🔨 （舊）現在在做（11-07 20:5x UTC，帳號 B LAWWW2-B）
