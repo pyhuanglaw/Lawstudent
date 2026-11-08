@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GG3LM_wz6b_tp",
+  "sha": "e2762e9d91df1cf8405301e54fd4bf286a5f626e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_scene5_probe.py",
+  "env": "TAG=after_gpu;PART=wz_teishoku,wz_print;SLOTS=1930:19.5,2100:21;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T10:01:40",
+  "end": "2026-11-08T10:04:32",
+  "seconds": 172,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 17,
+    "mem": 46,
+    "used_gb": 14.6,
+    "chrome_testing": 8
+  }
+}
