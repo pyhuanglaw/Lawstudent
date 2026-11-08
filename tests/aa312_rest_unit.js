@@ -55,12 +55,12 @@ await sec(4,()=>{
 await sec(5,()=>{
   const ask=(key,h,pid,wk)=>{ H.fresh(key,h,'campus'); H.FRIEND('heroine_05'); const G=H.G; const P=INV.place(pid); return INV.personal(G,'heroine_05',P,G.day,h,{res:'accept'}); };
   const wp=key=>{ H.fresh(key,10,'campus'); H.G.flags.walkChatN={}; const e=INV.walkPick(H.G,'heroine_05','library'); return e&&e.lines; };
-  check('5. 學姊一起走去總圖：大三起「萬才館的電梯還是很慢。」「我現在比較常去法圖。總圖的位子，給你們搶。」',J(wp('2027-10-13'))===J(['「B館的電梯還是很慢。」','「我現在比較常去法圖。總圖的位子，給你們搶。」']),J(wp('2027-10-13')));
-  check('5. 大二以前照原本三句（第 2 句照 AA_584 第 79 列）',J(wp('2026-10-14'))===J(['「B館的電梯很慢，走樓梯比較快。」','「總圖三樓靠窗的位子，九點以前去才有。」','「……我大一的時候，這些都沒人告訴我。」']),J(wp('2026-10-14')));
+  check('5. 學姊一起走去總圖：大三起「萬才館的電梯還是很慢。」「我現在比較常去法圖。總圖的位子，給你們搶。」',J(wp('2027-10-13'))===J(['B館的電梯還是很慢。','我現在比較常去法圖。總圖的位子，給你們搶。']),J(wp('2027-10-13')));
+  check('5. 大二以前照原本三句（第 2 句照 AA_584 第 79 列）',J(wp('2026-10-14'))===J(['B館的電梯很慢，走樓梯比較快。','總圖三樓靠窗的位子，九點以前去才有。','……我大一的時候，這些都沒人告訴我。']),J(wp('2026-10-14')));
   const r3=ask('2027-10-13',10,'library'), r1=ask('2026-10-14',10,'library');
-  check('5. 大三起平日約總圖：resched「我在法圖。五點以後過去找你。」，改到 17:00 以後；大二以前照舊「好啊，我在總圖三樓。到了跟我說。」（here，AA_579 第 15 列）',r3.res==='resched'&&J(r3.lines)===J(['「我在法圖。五點以後過去找你。」'])&&!!r3.alt&&r3.alt.h>=17&&r1.res==='here'&&J(r1.lines)===J(['「好啊，我在總圖三樓。到了跟我說。」']),J([r3,r1]));
+  check('5. 大三起平日約總圖：resched「我在法圖。五點以後過去找你。」，改到 17:00 以後；大二以前照舊「好啊，我在總圖三樓。到了跟我說。」（here，AA_579 第 15 列）',r3.res==='resched'&&J(r3.lines)===J(['我在法圖。五點以後過去找你。'])&&!!r3.alt&&r3.alt.h>=17&&r1.res==='here'&&J(r1.lines)===J(['好啊，我在總圖三樓。到了跟我說。']),J([r3,r1]));
   const s=ask('2026-10-14',10,'wenzhou');
-  check('5. 筆試以後平日白天約溫州街散步：照 AA_415 sis29（現有 rule）「五點以後。……散步，我試試看。」——BB_172 S18「五點以後可以嗎？」被較新的 AA_415 取代，不換',s.res==='resched'&&J(s.lines)===J(['「五點以後。……散步，我試試看。」']),J(s)); });
+  check('5. 筆試以後平日白天約溫州街散步：照 AA_415 sis29（現有 rule）「五點以後。……散步，我試試看。」——BB_172 S18「五點以後可以嗎？」被較新的 AA_415 取代，不換',s.res==='resched'&&J(s.lines)===J(['五點以後。……散步，我試試看。']),J(s)); });
 
 await sec(6,()=>{
   for(const [k,pid] of [['2027-03-13','brunch'],['2027-03-10','teahouse'],['2027-05-15','library']]){ H.fresh(k,9,'campus'); H.FRIEND('classmate_peishan'); const G=H.G, P=INV.place(pid), r=INV.personal(G,'classmate_peishan',P,G.day+1,14,INV.decide(G,'classmate_peishan',pid,G.day+1,14));
@@ -77,8 +77,8 @@ await sec(7,()=>{
   H.fresh('2028-03-15',9,'campus',{ZQ_ZR_ENDED_DAY:STORY.dayOfKey('2028-03-10')}); H.FRIEND('heroine_02'); const G2=H.G;   /* 芷若在臺北的學期（大三上她在英國） */
   const go2=(id,pid)=>{ const P=INV.place(pid); return INV.personal(G2,id,P,G2.day+1,15.5,INV.decide(G2,id,pid,G2.day+1,15.5)); };
   const z=go2('heroine_02','library'), z2=go2('heroine_02','cafe');
-  check('7. 子晴、芷若一起分手以後（還不能重新開始）：子晴 L2 婉拒「這禮拜不行。」「……下次吧。」輪流、不說理由',MREL.zzRefusing(G,'heroine_04')&&a.res==='decline'&&a.why==='mrel'&&J(a.lines)===J(['「這禮拜不行。」'])&&J(b.lines)===J(['「……下次吧。」'])&&J(c.lines)===J(['「這禮拜不行。」']),J([a,b,c]));
-  check('7. 芷若 L2 婉拒「我這週班排滿了。」「……不了，謝謝。」輪流',z.why==='mrel'&&J(z.lines)===J(['「我這週班排滿了。」'])&&J(z2.lines)===J(['「……不了，謝謝。」']),J([z,z2]));
+  check('7. 子晴、芷若一起分手以後（還不能重新開始）：子晴 L2 婉拒「這禮拜不行。」「……下次吧。」輪流、不說理由',MREL.zzRefusing(G,'heroine_04')&&a.res==='decline'&&a.why==='mrel'&&J(a.lines)===J(['這禮拜不行。'])&&J(b.lines)===J(['……下次吧。'])&&J(c.lines)===J(['這禮拜不行。']),J([a,b,c]));
+  check('7. 芷若 L2 婉拒「我這週班排滿了。」「……不了，謝謝。」輪流',z.why==='mrel'&&J(z.lines)===J(['我這週班排滿了。'])&&J(z2.lines)===J(['……不了，謝謝。']),J([z,z2]));
   const y=go2('heroine_01','cafe'); check('7. 別人不受影響',y.why!=='mrel',J(y));
   H.fresh('2027-11-10',9,'campus'); H.FRIEND('heroine_04'); const n=INV.decide(H.G,'heroine_04','cafe',H.G.day+1,15.5); check('7. 沒有一起分手＝照一般',n.why!=='mrel',J(n)); });
 
@@ -90,7 +90,7 @@ await sec(8,()=>{
   H.fresh(keyOf(tue),21.1,'dorm'); H.FRIEND('heroine_01'); check('8. 沒去過讀書會＝不約',!INV.anAsk(H.G));
   H.fresh(keyOf(tue),21.1,'dorm'); H.FAMILIAR('heroine_01'); H.G.acts={att:{['public_law_group@'+(tue-5)]:{end:'full'}}}; check('8. 第 3 階以前不約',!INV.anAsk(H.G));
   /* AA_227 3-1 讀書會後吃飯的回覆（AA_434 第 3 節：讀書會 21:30 才結束，不寫鐘點）*/
-  const thu=tue+2, W='「好。可是吃完我就回去。報告還沒寫完。」', rep=(d,h,pid)=>{ H.fresh(keyOf(d),h,'campus'); H.FRIEND('heroine_01'); return INV.personal(H.G,'heroine_01',INV.place(pid||'noodle'),d,h,{res:'accept'}); };
+  const thu=tue+2, W='好。可是吃完我就回去。報告還沒寫完。', rep=(d,h,pid)=>{ H.fresh(keyOf(d),h,'campus'); H.FRIEND('heroine_01'); return INV.personal(H.G,'heroine_01',INV.place(pid||'noodle'),d,h,{res:'accept'}); };
   const r1=rep(thu,21.6), r2=rep(thu,19), r3=rep(STORY.termDay('Y1S2',8,4),21.6), r4=rep(thu,21.6,'cafe');
   check('8. 週四讀書會散了（21:36）約以安去阿鳳：「好。可是吃完我就回去。報告還沒寫完。」（AA_434 第 3 節，沒有「九點」）',r1.res==='accept'&&JSON.stringify(r1.lines)===JSON.stringify([W]),JSON.stringify(r1));
   check('8. 讀書會以前（19:00）、沒有讀書會的週四（大一下第 8 週）、約 Café（不是吃飯）都不是這一句',![r2,r3,r4].some(r=>JSON.stringify(r.lines||[])===JSON.stringify([W]))&&!RD('src/data/invites.js').includes('我九點要回去寫報告'),JSON.stringify([r2.lines,r3.lines,r4.lines])); });

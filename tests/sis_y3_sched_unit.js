@@ -33,7 +33,7 @@ await sec(2,()=>{
 
 await sec(3,()=>{
   H.fresh('2027-10-13',10,'campus'); H.FRIEND(SIS); const r=INV.personal(H.G,SIS,INV.place('library'),H.G.day,10,{res:'accept'});
-  check('3. 大三起約總圖：「我在法圖。五點以後過去找你。」（AA_259 (b) 第 3 點）',r.res==='resched'&&J(r.lines)===J(['「我在法圖。五點以後過去找你。」']),J(r));
+  check('3. 大三起約總圖：「我在法圖。五點以後過去找你。」（AA_259 (b) 第 3 點）',r.res==='resched'&&J(r.lines)===J(['我在法圖。五點以後過去找你。']),J(r));
   const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (LAB5)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
   if(typeof LAB5==='undefined') load('src/lab5f3d.js');
   const lab=(k,h)=>{ H.fresh(k,h,'campus'); return LAB5.labNow(H.G); };

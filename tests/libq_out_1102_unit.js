@@ -99,7 +99,7 @@ await sec('2',async()=>{
   /* INV.playLines＋scope：之前加、走出去那句起不加、結束配對 */
   const LQ=LIBQ.scope(); H.said=[]; const who={name:'沛珊',charId:'classmate_peishan'};
   try{ await INV.playLines(GM,who,['「前面。」','（走出法圖）「後面。」','「再後面。」'],undefined,LQ); await GM.say(who,'「道別。」'); } finally { LQ.end(); }
-  check('2. INV.playLines 帶 scope：走出去以前的加（小聲）、那句是她說的、之後到道別都不加',J(H.said)===J([{who:'沛珊',t:PRE+'「前面。」'},{who:'沛珊',t:'（走出法圖）「後面。」'},{who:'沛珊',t:'「再後面。」'},{who:'沛珊',t:'「道別。」'}]),J(H.said));
+  check('2. INV.playLines 帶 scope：走出去以前的加（小聲）（外面的「」拿掉再加，AA-B 11-08 00:21）、那句是她說的、之後到道別都不加',J(H.said)===J([{who:'沛珊',t:PRE+'前面。'},{who:'沛珊',t:'（走出法圖）「後面。」'},{who:'沛珊',t:'「再後面。」'},{who:'沛珊',t:'「道別。」'}]),J(H.said));
   check('2. scope.end 以後配對（讀書區又會加）',balanced());
   /* 真的走一次：和沛珊第一次約法圖（INV.meet）*/
   const PS='classmate_peishan';

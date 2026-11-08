@@ -66,12 +66,13 @@ for(const line of DOC.split('\n')){ const m=/^\|\s*(\d+)\s*\|\s*ladder\.js:3 (\S
   const R=[];
   for(const line of DOC.split('\n')){ const m=/^\|\s*(\d+)\s*\|\s*(\S*(?:invites\.js|sis_grad3d\.js)\S*)[^|]*\|[^|]*\|([^|]*)\|([^|]*)\|/.exec(line); if(m) R.push({n:+m[1],f:/sis_grad/.test(m[2])?sg:inv,old:m[3].trim(),nw:m[4].trim()}); }
   check('4. 稿上邀約、STUDY_YES 的列＝第 79～88 列',J(R.map(r=>r.n))===J([79,80,81,82,83,84,85,86,87,88]));
-  const q=(r,s)=>r.n===88?"'「"+s+"」'":"'"+s+"'";
+  const uq=s=>/^「[^「」]*」$/.test(s)?s.slice(1,-1):s;   /* invites.js 有名字的台詞不加外面的「」（AA-B 2026-11-08 00:21）：稿上的「…」對 invites.js 拿掉再比 */
+  const q=(r,s)=>r.n===88?"'「"+s+"」'":"'"+(r.f===inv?uq(s):s)+"'";
   const bad=R.filter(r=>!r.f.includes(q(r,r.nw))||r.f.includes(q(r,r.old))||!DOC.includes(r.nw));
   check('4. 第 79～88 列：新句在 src（invites.js、sis_grad3d.js）、舊句不在、新句一字不差在稿裡',bad.length===0,J(bad.map(r=>r.n)));
   const L=INVITE_DATA.lawlibLines[ID], K=INVITE_DATA.lakeLines[ID];
-  check('4. 法圖：first「好。我在三樓。」（第 82 列，使用者）、acc.A、here、walk；映月湖 acc「好啊。」、firstAt 第 1 則',J(L.first)===J(['「好。我在三樓。」'])&&J(L.acc.A)===J(['「好。我平常的位子旁邊有空位。」'])&&J(L.here)===J(['「好啊，我在法圖三樓。到了跟我說。」'])
-    &&J(L.walk)===J(['「法圖的樓梯很陡。我大一常常爬到一半就喘。」'])&&J(K.acc)===J(['「好啊。」'])&&K.firstAt[0]==='（她站在湖邊，手上什麼都沒拿。）',J({L,K}));
+  check('4. 法圖：first「好。我在三樓。」（第 82 列，使用者）、acc.A、here、walk；映月湖 acc「好啊。」、firstAt 第 1 則',J(L.first)===J(['好。我在三樓。'])&&J(L.acc.A)===J(['好。我平常的位子旁邊有空位。'])&&J(L.here)===J(['好啊，我在法圖三樓。到了跟我說。'])
+    &&J(L.walk)===J(['法圖的樓梯很陡。我大一常常爬到一半就喘。'])&&J(K.acc)===J(['好啊。'])&&K.firstAt[0]==='（她站在湖邊，手上什麼都沒拿。）',J({L,K}));
   check('4. STUDY_YES＝「好。我帶刑訴。」（第 88 列）',/S\.STUDY_YES='「好。我帶刑訴。」';/.test(sg)); }
 
 // ===== 5 記憶名稱、修正本私訊 =====

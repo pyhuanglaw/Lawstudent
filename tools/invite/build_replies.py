@@ -198,6 +198,26 @@ def sections(md):
 DATA = invite_data()
 
 
+def unq(t):
+    """外面整句一對「」拿掉（「A」「B」這種好幾段的不動）：src/data/invites.js 有名字的台詞不加「」（AA-B 2026-11-08 00:21），稿上照舊有"""
+    if not isinstance(t, str) or len(t) < 2 or t[0] != '「' or t[-1] != '」':
+        return t
+    d = 0
+    for i, c in enumerate(t):
+        if c == '「':
+            d += 1
+        elif c == '」':
+            d -= 1
+            if d == 0 and i != len(t) - 1:
+                return t
+    return t[1:-1] if d == 0 else t
+
+
+def same(a, b):
+    """兩組台詞一樣（不看外面的「」）"""
+    return isinstance(a, list) and isinstance(b, list) and [unq(x) for x in a] == [unq(x) for x in b]
+
+
 def find_existing(who, pid_tags, lines, via, raw):
     """「現有」的列對到 INVITE_DATA：回傳 (ex, band)；對不上就停止"""
     p = DATA.get(who) or {}
@@ -211,14 +231,14 @@ def find_existing(who, pid_tags, lines, via, raw):
             if q and q.replace('"', '\\"') not in src and q not in src:
                 die(f'{who}：現有（{via}）的「{q}」在 INVITE_DATA 找不到')
         return via, None
-    if pid and (p.get('first') or {}).get(pid) == flat:
+    if pid and same((p.get('first') or {}).get(pid), flat):
         return 'first', None
     acc = (p.get('acc') or {}).get(pid)
-    if isinstance(acc, list) and acc == flat:
+    if isinstance(acc, list) and same(acc, flat):
         return 'acc', None
     if isinstance(acc, dict):
         for b in ('A', 'R'):
-            if acc.get(b) == flat:
+            if same(acc.get(b), flat):
                 return 'acc', b
     die(f'{who}：現有的 {flat} 在 INVITE_DATA.people.{who} 的 acc／first（{pid}）找不到')
 

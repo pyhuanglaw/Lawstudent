@@ -67,7 +67,7 @@ await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show c7177
     ['kexin','「那天你敢排別的試試看。……好。」'],['kexin','「好。予樂說我不應該答應。我答應了。」']];
   const miss=SPOT.filter(([id,s])=>!has(id,s)); check('1. 抽查 14 句（七位各兩句）一字不差',!miss.length,J(miss));
   const exBad=[]; for(const id of IDS) for(const r of ROWS(id)){ if(r.ex!=='acc'&&r.ex!=='first') continue; const p=INVITE_DATA.people[id]||{}, pid=r.tags.find(t=>INV.place(t));
-    const v=r.ex==='first'?(p.first||{})[pid]:(p.acc||{})[pid], want=Array.isArray(v)?v:(v&&v[r.band]); if(J(want)!==J(r.lines)) exBad.push(r.id); }
+    const v=r.ex==='first'?(p.first||{})[pid]:(p.acc||{})[pid], want=Array.isArray(v)?v:(v&&v[r.band]); if(!Array.isArray(want)||INV.lineKey(want)!==INV.lineKey(r.lines)) exBad.push(r.id); }   /* 不看外面的「」：invites.js 有名字的台詞不加「」（AA-B 2026-11-08 00:21），表上照 AA_415 還有 */
   check('1. 「現有」的答應句（acc、first）和 INVITE_DATA.people 一樣',!exBad.length,exBad.join('、'));
   const all=id=>ROWS(id).map(r=>r.say).join('');
   check('1. 學姊：沒有件數、編號、「重點是」',!/重點是|三件事|一件事：|三選一|第[一二三]件/.test(all('heroine_05')));
@@ -93,7 +93,7 @@ await sec(2,()=>{ const COMBO=[['cafe',15.5],['library',15.5],['noodle',15.5],['
 
 await sec(3,()=>{ for(const [id,after,key] of [['heroine_04','「好。今天我要看那隻橘貓還在不在。」','2026-03-14'],['classmate_peishan','「好啊！今天我少問一點問題。」','2026-03-11']]){   /* 沛珊 3/14 週末回台中 */
     fresh(key,id,3); const r1=ask(id,'wenzhou',15.5);
-    check('3. '+NM[id]+' 第 3 階第一次約溫州街：照現有的 first（第一次優先）',r1.res==='accept'&&J(r1.lines)===J(INVITE_DATA.people[id].first.wenzhou),txt(r1.lines));
+    check('3. '+NM[id]+' 第 3 階第一次約溫州街：照現有的 first（第一次優先）',r1.res==='accept'&&INV.lineKey(r1.lines)===INV.lineKey(INVITE_DATA.people[id].first.wenzhou),txt(r1.lines));   /* 表上的那一列（還有「」）＝invites.js 的 first（不加「」）：不看外面的「」 */
     doneIv(id,'wenzhou'); const r2=ask(id,'wenzhou',15.5);
     check('3. '+NM[id]+' 去過以後第二次：換一句、不是第一次的那句',r2.res==='accept'&&txt(r2.lines)!==txt(r1.lines)&&txt(r2.lines)===after,txt(r2.lines)); }
   fresh('2026-03-11','heroine_02',2); const seen=[]; for(let i=0;i<6;i++) seen.push(txt(ask('heroine_02','cafe',15.5).lines));
@@ -101,7 +101,7 @@ await sec(3,()=>{ for(const [id,after,key] of [['heroine_04','「好。今天我
   doneIv('heroine_02','cafe'); const seen2=[]; for(let i=0;i<3;i++) seen2.push(txt(ask('heroine_02','cafe',15.5).lines));
   check('3. 去過以後三次裡有「你上次那杯」',seen2.includes('「好。你上次那杯，今天換一杯試試？」'),J(seen2));
   fresh('2026-03-14','heroine_05',3); const b1=ask('heroine_05','brunch',10);
-  check('3. 學姊第 3 階第一次約半熟：不說「這次我點鬆餅」（表上要「來過」；原本的 acc 也不繞回來）',b1.res==='accept'&&txt(b1.lines)!=='「好。……這次我點鬆餅。」',b1.res+' '+txt(b1.lines));
+  check('3. 學姊第 3 階第一次約半熟：不說「這次我點鬆餅」（表上要「來過」；原本的 acc 也不繞回來）',b1.res==='accept'&&!/^「?好。……這次我點鬆餅。」?$/.test(txt(b1.lines)),   /* invites.js 的 acc 已經不加外面的「」（AA-B 2026-11-08 00:21）：有沒有「」都不能說 */b1.res+' '+txt(b1.lines));
   doneIv('heroine_05','brunch'); const b2=ask('heroine_05','brunch',10);
   check('3. 去過半熟以後：「好。……這次我點鬆餅。」',txt(b2.lines)==='「好。……這次我點鬆餅。」',txt(b2.lines)); });
 
@@ -145,24 +145,24 @@ await sec(6,()=>{ fresh('2026-03-10','classmate_peishan',3); const out=[];
 
 await sec(7,()=>{ fresh('2026-03-10','heroine_03',3); const y1=ask('heroine_03','noodle',19), y2=ask('heroine_03','cafe',19), y3=ask('heroine_03','noodle',19);
   /* AA_610／AA_624（使用者 11-03）：語彤不在燒臘店顧店（作息拿掉）＝「麵店的班」那幾句（約麵店「我就在店裡」、約別的「麵店。」）不再出現，週二晚上照一般的回覆 */
-  check('7. 語彤週二晚上：不在燒臘店顧店＝沒有「我就在店裡。你來。」「麵店。」「你來店裡就好。」（照一般的回覆）',y1.res!=='here'&&!/我就在店裡/.test(txt(y1.lines))&&!/我就在店裡/.test(txt(y3.lines))&&!/「麵店。」/.test(txt(y2.lines)),[y1.res,txt(y1.lines),y2.res,txt(y2.lines)].join(' '));
+  check('7. 語彤週二晚上：不在燒臘店顧店＝沒有「我就在店裡。你來。」「麵店。」「你來店裡就好。」（照一般的回覆）',y1.res!=='here'&&!/我就在店裡/.test(txt(y1.lines))&&!/我就在店裡/.test(txt(y3.lines))&&!(y2.lines||[]).some(x=>typeof x==='string'&&/^「?麵店。」?$/.test(x)),   /* 「麵店。」那一句（invites.js 有名字的台詞不加「」，AA-B 2026-11-08 00:21：有沒有「」都算）*/[y1.res,txt(y1.lines),y2.res,txt(y2.lines)].join(' '));
   fresh('2026-01-14','heroine_05',3); const s1=ask('heroine_05','wenzhou',15.5,null,{res:'accept'});
-  check('7. 學姊筆試（2026-02-02）以前約散步：「散步的話，等我考完。」「週三晚上我在法圖。……」',s1.res==='decline'&&txt(s1.lines)==='「散步的話，等我考完。」「週三晚上我在法圖。要讀書的話，可以一起。」',txt(s1.lines));
+  check('7. 學姊筆試（2026-02-02）以前約散步：「散步的話，等我考完。」「週三晚上我在法圖。……」',s1.res==='decline'&&txt(s1.lines)==='散步的話，等我考完。週三晚上我在法圖。要讀書的話，可以一起。',txt(s1.lines));
   fresh('2028-10-11','heroine_04',3); const q1=ask('heroine_04','library',15.5,null,{res:'accept'});
-  check('7. 子晴大四約總圖：「我畢業了啦。總圖要辦校友證，我還沒辦。……兩點半？」',q1.res==='decline'&&txt(q1.lines)==='「我畢業了啦。總圖要辦校友證，我還沒辦。……兩點半？」',q1.res+' '+txt(q1.lines));
+  check('7. 子晴大四約總圖：「我畢業了啦。總圖要辦校友證，我還沒辦。……兩點半？」',q1.res==='decline'&&txt(q1.lines)==='我畢業了啦。總圖要辦校友證，我還沒辦。……兩點半？',q1.res+' '+txt(q1.lines));
   fresh('2027-03-10','classmate_peishan',3); const p1=ask('classmate_peishan','brunch',10);   /* AA_255 (b-1) 第 20 條：消失期約她一律沒有回覆、不顯示她的句子（原本「我在念書。……考完再去。你先幫我記住菜單。」）*/
   check('7. 沛珊大二下（消失期）約半熟：沒有她的句子，系統「沒有回覆。」（AA_255 (b-1) 第 20 條）',p1.res==='decline'&&p1.why==='away'&&!p1.lines&&/沒有回覆。$/.test(INV.reply(H.G,'classmate_peishan','brunch',p1)),JSON.stringify(p1));
   fresh('2025-10-14','heroine_01',3); const a1=ask('heroine_01','wenzhou',15.5,null,{res:'accept'});
-  check('7. 以安大一約散步：rule 的「好。」「……今天不行，明天。」（改天；祐廷那句刪，AA_576 第 11、12 列）',a1.res==='resched'&&txt(a1.lines)==='「好。」「……今天不行，明天。」',a1.res+' '+txt(a1.lines));
+  check('7. 以安大一約散步：rule 的「好。」「……今天不行，明天。」（改天；祐廷那句刪，AA_576 第 11、12 列）',a1.res==='resched'&&txt(a1.lines)==='好。……今天不行，明天。',a1.res+' '+txt(a1.lines));
   fresh('2026-03-10','heroine_01',3); const h1=ask('heroine_01','library',9), h2=ask('heroine_01','library',9);
-  check('7. 以安早上在總圖（作息）：here「我本來就在總圖。二樓靠窗。」（照舊，兩次一樣）',h1.res==='here'&&txt(h1.lines)==='「我本來就在總圖。二樓靠窗。」'&&txt(h2.lines)===txt(h1.lines),h1.res+' '+txt(h1.lines));
+  check('7. 以安早上在總圖（作息）：here「我本來就在總圖。二樓靠窗。」（照舊，兩次一樣）',h1.res==='here'&&txt(h1.lines)==='我本來就在總圖。二樓靠窗。'&&txt(h2.lines)===txt(h1.lines),h1.res+' '+txt(h1.lines));
   fresh('2026-03-10','heroine_02',3); const c1=ask('heroine_02','cafe',19);
-  check('7. 芷若週二晚上上班：here「我會在 Café 啊，你直接過來，我幫你做一杯。」（BB_172 Z16；AA_415 沒有這一格）',c1.res==='here'&&txt(c1.lines)==='「我會在 Café 啊，你直接過來，我幫你做一杯。」',c1.res+' '+txt(c1.lines));
+  check('7. 芷若週二晚上上班：here「我會在 Café 啊，你直接過來，我幫你做一杯。」（BB_172 Z16；AA_415 沒有這一格）',c1.res==='here'&&txt(c1.lines)==='我會在 Café 啊，你直接過來，我幫你做一杯。',c1.res+' '+txt(c1.lines));
   fresh('2026-03-10','zhe',3); const z1=ask('zhe','noodle',12+10/60), z2=ask('zhe','noodle',17.5);
-  check('7. 阿哲（沒有 AA_415 的表）：照舊同一句「好啊！那家的叉燒飯我可以吃兩盤。」（AA_194 第 4 節）、不記 G.invReply',txt(z1.lines)==='「好啊！那家的叉燒飯我可以吃兩盤。」'&&txt(z2.lines)==='「好啊！那家的叉燒飯我可以吃兩盤。」'&&!(H.G.invReply&&H.G.invReply.zhe),txt(z1.lines)+' '+txt(z2.lines));
+  check('7. 阿哲（沒有 AA_415 的表）：照舊同一句「好啊！那家的叉燒飯我可以吃兩盤。」（AA_194 第 4 節）、不記 G.invReply',txt(z1.lines)==='好啊！那家的叉燒飯我可以吃兩盤。'&&txt(z2.lines)==='好啊！那家的叉燒飯我可以吃兩盤。'&&!(H.G.invReply&&H.G.invReply.zhe),txt(z1.lines)+' '+txt(z2.lines));
   const keep=globalThis.INVITE_REPLIES; globalThis.INVITE_REPLIES=undefined;
   try{ fresh('2026-03-11','heroine_01',2); const o1=ask('heroine_01','cafe',15.5), o2=ask('heroine_01','cafe',17.5);
-    check('7. 沒有資料檔：照原本 INVITE_DATA（以安有點熟約 Café 兩次都是「好啊。我本來就想去。」，AA_576 第 5 列）',txt(o1.lines)==='「好啊。我本來就想去。」'&&txt(o2.lines)==='「好啊。我本來就想去。」'); }
+    check('7. 沒有資料檔：照原本 INVITE_DATA（以安有點熟約 Café 兩次都是「好啊。我本來就想去。」，AA_576 第 5 列）',txt(o1.lines)==='好啊。我本來就想去。'&&txt(o2.lines)==='好啊。我本來就想去。'); }
   finally { globalThis.INVITE_REPLIES=keep; } });
 
 await sec(8,()=>{ fresh('2026-03-11','heroine_01',2); delete H.G.invReply; const r1=ask('heroine_01','cafe',15.5);
@@ -213,10 +213,10 @@ await sec(11,()=>{ fresh('2027-12-23','heroine_03','d'); const y1=ask('heroine_0
   check('11. 學姊口試（5/29）前一週改天：「這週不行。下禮拜好不好？」（AA_579 第 34 列），改到下週一以後',txt(s1.lines)==='「這週不行。下禮拜好不好？」'&&!!s1.alt&&s1.alt.day>=D('2029-05-28')&&CALENDAR.dateOf(s1.alt.day).wd===1,txt(s1.lines)+' '+J(s1.alt));
   fresh('2025-09-23','heroine_01',3); const p1=ask('heroine_01','noodle',12+10/60,null,{res:'resched',why:'booked',alt:{day:H.G.day,h:17.5}});
   fresh('2025-11-25','heroine_01',3); const p2=ask('heroine_01','noodle',12+10/60,null,{res:'resched',why:'booked',alt:{day:H.G.day,h:17.5}});
-  check('11. 以安改天（現有 plan）：大一上第 10 週以前「一起寫憲法作業」、以後「讀書會的事」',txt(p1.lines)==='「我跟 Alison 約了一起寫憲法作業。{明天？}」'&&txt(p2.lines)==='「我跟 Alison 約了讀書會的事。{明天？}」',txt(p1.lines)+' / '+txt(p2.lines));
+  check('11. 以安改天（現有 plan）：大一上第 10 週以前「一起寫憲法作業」、以後「讀書會的事」',txt(p1.lines)==='我跟 Alison 約了一起寫憲法作業。{明天？}'&&txt(p2.lines)==='我跟 Alison 約了讀書會的事。{明天？}',txt(p1.lines)+' / '+txt(p2.lines));
   fresh('2026-03-11','heroine_02',3); const w1=ask('heroine_02','library',15.5,null,{res:'resched',why:'busy',act:'barista',alt:{day:H.G.day+1,h:15.5}});
   const w2=ask('heroine_02','library',15.5,null,{res:'resched',why:'busy',act:'class',alt:{day:H.G.day+1,h:15.5}});
-  check('11. 芷若改天：在 Café 上班＝「我在上班。十點下班，總圖也十點關。……」；在上課（不是上班）＝不說「我在上班」（旁白）',txt(w1.lines)==='「我在上班。十點下班，總圖也十點關。……你自己加油。」'&&!w2.lines,txt(w1.lines)+' / '+txt(w2.lines)); });
+  check('11. 芷若改天：在 Café 上班＝「我在上班。十點下班，總圖也十點關。……」；在上課（不是上班）＝不說「我在上班」（旁白）',txt(w1.lines)==='我在上班。十點下班，總圖也十點關。……你自己加油。'&&!w2.lines,txt(w1.lines)+' / '+txt(w2.lines)); });
 
 await sec(12,async()=>{ fresh('2026-03-11','heroine_01',2); H.G.hour=9; H.said=[]; H.picks=['去 2:30 AM 坐坐','今天 15:30'];
   await INV.flow(GM,'heroine_01',null,false); const a=H.said.map(s=>s.t);

@@ -232,7 +232,7 @@ const run=async()=>{
       let sh=null; for(let dd=d+1;dd<d+8&&!sh;dd++) for(const h of [19,20,21]){ const e=STORY.schedEnt(zr,{day:dd,hour:h+0.2,weekday:wd(dd),flags:G.flags,noInvite:true}); if(e&&e.act==='barista'){ sh={day:dd,h}; break; } }
       if(!sh) check('9 找得到芷若有班的晚上（一週內）',false);
       else { const r=INV.decide(G,'heroine_02','yangyang',sh.day,sh.h); check(`9 芷若有班（第 ${sh.day-d} 天 ${sh.h}:00 在 2:30 AM 上班）：約洋洋＝改天（busy、barista）`,r.res==='resched'&&r.why==='busy'&&r.act==='barista',J(r)); }
-      const ACC={heroine_01:'「……宵夜？好。我只吃一點。」',heroine_02:'「好。我下班剛好餓。」',heroine_03:'「鹹酥雞？……好。我沒有在店裡吃過。」',heroine_04:'「好！！我要雞皮。很多雞皮。」',heroine_05:'「好。讀完書，剛好。」',classmate_peishan:'「好啊！我要九層塔加很多！」',kexin:'「好。十點以前，我還要回木柵。」'};
+      const ACC={heroine_01:'……宵夜？好。我只吃一點。',heroine_02:'好。我下班剛好餓。',heroine_03:'鹹酥雞？……好。我沒有在店裡吃過。',heroine_04:'好！！我要雞皮。很多雞皮。',heroine_05:'好。讀完書，剛好。',classmate_peishan:'好啊！我要九層塔加很多！',kexin:'好。十點以前，我還要回木柵。'};
       const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,P,d+1,20,{res:'accept'}); return !(o&&J(o.lines)===J([ACC[id]])); });
       check('9 約去洋洋答應：七位各自那一句（AA_724 第 8 節）',!bad.length,J(bad.map(id=>[id,(INV.personal(G,id,P,d+1,20,{res:'accept'})||{}).lines])));
       const o=INV.personal(G,'zhe',P,d+1,20,{res:'accept'}); check('9 沒列的人（阿哲）＝一般那句「好啊。宵夜？我可以。」',o&&J(o.lines)===J(['「好啊。宵夜？我可以。」']),J(o&&o.lines));
@@ -243,7 +243,7 @@ const run=async()=>{
       const SO=INVITE_DATA.seatOpen; check('9 坐下以後的開場句：洋洋自己的兩則（byPlace）、第一則只在四人桌',SO.byPlace.yangyang==='yangyang'&&SO.yangyang.length===2&&J(SO.yangyang[0].onlyAt)===J({table:[1,2,3,4]})&&J(P.prefTable)===J([1,2,3,4]));
       { fresh('2025-10-15',20,'yangyang'); const R0=Math.random, PS0=E.player.seat; Math.random=()=>0; E.player.seat={x:0.92,z:2.3,yaw:0,table:1}; await INV.seatOpenLines(GM,{who:'heroine_04'},{name:'高子晴'},P);
         const a=pairs(); H.said=[]; E.player.seat={x:3.5,z:-1.15,yaw:0,table:6}; await INV.seatOpenLines(GM,{who:'heroine_04'},{name:'高子晴'},P); const b=pairs(); Math.random=R0; E.player.seat=PS0;
-        check('9 兩個人坐在四人桌（table 1）：紙袋那一則（旁白＋她一句）；兩人桌（table 6）：不抽四人桌那一則',J(a)===J([[null,'（你們在四人桌坐下。她把紙袋撕開攤平，當成盤子。）'],['高子晴','「這樣比較好拿。」']])&&J(b)===J([[null,'（她先夾了一塊，吹了很久才放進嘴裡。）'],['高子晴','「……好燙。可是好好吃。」']]),J([a,b])); } } }
+        check('9 兩個人坐在四人桌（table 1）：紙袋那一則（旁白＋她一句）；兩人桌（table 6）：不抽四人桌那一則',J(a)===J([[null,'（你們在四人桌坐下。她把紙袋撕開攤平，當成盤子。）'],['高子晴','這樣比較好拿。']])&&J(b)===J([[null,'（她先夾了一塊，吹了很久才放進嘴裡。）'],['高子晴','……好燙。可是好好吃。']]),J([a,b])); } } }
   // ---- 10 逐字對照 AA_724、價錢對照 AA_650 ----
   { const doc=gitShow(['bf5c3e6c6','origin/claude/cool-heisenberg-o8kuqx'],AA724);
     if(!doc) console.log('SKIP 10 讀不到 AA_724（企劃線 bf5c3e6c6）');

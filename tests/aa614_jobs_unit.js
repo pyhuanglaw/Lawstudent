@@ -91,7 +91,7 @@ const evText=id=>{ const e=evOf(id); return e?e.dialogue.filter(l=>typeof l.text
     r=go(MX,TD('Y1S1',6,4),'wenzhou',21); check('2. 明軒週四 21:00（21:30 以前）一樣',r.res==='resched'&&tx(r)===J([L.inv.mx])&&r.alt.h===21.5,J(r));
     r=go(MX,TD('Y1S1',6,1),'wenzhou',19.5); check('2. 對照：明軒週一 19:30 照舊答應（不是這一句）',r.res==='accept'&&tx(r)!==J([L.inv.mx]),J(r));
     r=go(MX,TD('Y1S1',6,2),'wenzhou',21.5); check('2. 對照：明軒週二 21:30 照舊答應',r.res==='accept',J(r));
-    r=go(MX,TD('Y1S1',6,2),'cafe',19.5); check('2. 對照：Café 照 BB_172 M10「那時候我在家教 九點以後可以」（手機版）',tx(r)===J(['「那時候我在家教 九點以後可以」']),J(r));
+    r=go(MX,TD('Y1S1',6,2),'cafe',19.5); check('2. 對照：Café 照 BB_172 M10「那時候我在家教 九點以後可以」（手機版）',tx(r)===J(['那時候我在家教 九點以後可以']),J(r));
     /* 沛珊 */
     r=go(PS,TD('Y1S1',6,3),'wenzhou',18.5);
     check('2. 沛珊週三 18:30：「禮拜三我在課輔班，九點才下課。……禮拜四好不好？」→ 隔天同一個時間',r.res==='resched'&&tx(r)===J([L.inv.ps])&&r.alt&&r.alt.day===H.G.day+1&&r.alt.h===18.5&&wd(r.alt.day)===4,J(r));

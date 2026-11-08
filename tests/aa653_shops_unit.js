@@ -144,11 +144,11 @@ const byName=n=>opts=>opts.findIndex(o=>o.t.startsWith(n+'　'));
     reset(); G.zone='bookstore'; await STORY.onSeat(GM,{x:-2.6,z:-2.7}); check('8 別的店坐下不說',!log.length);
     const P=INVITE_DATA.places.find(p=>p.id==='aoki');
     check('8 約會地點 aoki：區域 aoki、11～21、可以讀書（cats study）、兩個人坐下、去過才列',!!P&&P.zone==='aoki'&&J(P.hours)===J([11,21])&&P.cats.includes('study')&&P.seatPose==='sit'&&P.show({visited:{}})===false&&P.show({visited:{aoki:true}})===true,J(P));
-    const ACC={heroine_01:'「好。可以讀書嗎？……可以就好。」',heroine_02:'「好。我想喝東方美人。」',heroine_03:'「青木？好。……我想看看別人家的茶怎麼泡。」',heroine_04:'「茶室？好啊，我沒去過。」',heroine_05:'「好。那裡的白茶不錯。」',classmate_peishan:'「好！他們的桂花糕很好吃。」',kexin:'「好啊。等我到台北。」'};
+    const ACC={heroine_01:'好。可以讀書嗎？……可以就好。',heroine_02:'好。我想喝東方美人。',heroine_03:'青木？好。……我想看看別人家的茶怎麼泡。',heroine_04:'茶室？好啊，我沒去過。',heroine_05:'好。那裡的白茶不錯。',classmate_peishan:'好！他們的桂花糕很好吃。',kexin:'好啊。等我到台北。'};
     check('8 答應的一句七人（以安、芷若、語彤、子晴、學姊、沛珊、可昕）',Object.keys(ACC).every(id=>J(INVITE_DATA.people[id].acc.aoki)===J([ACC[id]])),J(Object.keys(ACC).map(id=>(INVITE_DATA.people[id].acc||{}).aoki)));
     accOut=null; const o1=INV.personal(G,'zhe',P,G.day,15); accOut={res:'accept',lines:['「x」']}; const o2=INV.personal(G,'heroine_01',P,G.day,15); accOut={res:'busy',lines:[]}; const o3=INV.personal(G,'zhe',P,G.day,15); accOut=null;
-    check('8 沒列的人答應＝一般那句「好。那裡很安靜。」；有自己句子的不換；不答應不換',J(o1.lines)===J(['「好。那裡很安靜。」'])&&J(o2.lines)===J(['「x」'])&&!o3.lines.length,J([o1,o2,o3]));
-    check('8 坐下以後的開場句（seatOpen.aoki、byPlace）',J(INVITE_DATA.seatOpen.aoki)===J([['（店員把茶壺放下，她先幫你倒了第一杯。）','「……你先喝。」']])&&INVITE_DATA.seatOpen.byPlace.aoki==='aoki');
+    check('8 沒列的人答應＝一般那句「好。那裡很安靜。」；有自己句子的不換；不答應不換',J(o1.lines)===J(['好。那裡很安靜。'])&&J(o2.lines)===J(['「x」'])&&!o3.lines.length,J([o1,o2,o3]));
+    check('8 坐下以後的開場句（seatOpen.aoki、byPlace）',J(INVITE_DATA.seatOpen.aoki)===J([['（店員把茶壺放下，她先幫你倒了第一杯。）','……你先喝。']])&&INVITE_DATA.seatOpen.byPlace.aoki==='aoki');
     check('8 一盞照舊不能讀書（seatMenu 的 teahouse）',/if\(it\.shop==='teahouse'\) opts\.push\(\{t:'讀書',teaNo:true\}\)/.test(rd('src/game3d.js'))); }
   // 9 逐字對照
   { let D=null; try{ const f=cp.execSync("git ls-tree -r -z --name-only origin/claude/story-planning docs/story_planning/",{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:64<<20}).split('\0').find(x=>/AA_653/.test(x)); if(f) D=cp.execFileSync('git',['show','origin/claude/story-planning:'+f],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}

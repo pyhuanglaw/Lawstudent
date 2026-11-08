@@ -79,7 +79,9 @@ const LIBQ=(function(){
     return true; };
   /* 一句台詞要不要加「（小聲）」：只有動作（整句在（）裡）、已經是小聲／氣音／口型／噓的不加 */
   const SOFT=/小聲|氣音|口型|噓|壓低聲音|悄悄/;
-  S.needsPrefix=function(text){ const t=String(text==null?'':text).trim(); if(!t) return false;
+  /* 外面整句一對「」（「A」「B」這種好幾段的不算）：拿掉再看（AA-B 2026-11-08 00:21：有名字的台詞不加「」；「好。」→（小聲）好。，不是（小聲）「好。」）*/
+  S.unq=t=>{ if(typeof t!=='string'||t.length<2||t[0]!=='「'||t[t.length-1]!=='」') return t; let d=0; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='「') d++; else if(ch==='」'){ d--; if(d===0&&i!==t.length-1) return t; } } return d===0?t.slice(1,-1):t; };
+  S.needsPrefix=function(text){ const t=S.unq(String(text==null?'':text).trim()).trim(); if(!t) return false;
     if(t.startsWith(S.PREFIX)) return false;
     if(t.startsWith(OUT_HEAD)) return false;   /* 「（走出法圖）「……」」：走出去以後才說的（1-D10）*/
     if(t.startsWith('「'+S.PREFIX)) return false;   /* 稿上把（小聲）寫在引號裡的：「（小聲）二樓靠窗那排比較安靜。」（AA_649，invites.js 的 libStudy）——不再加一次 */
@@ -90,10 +92,10 @@ const LIBQ=(function(){
     return true; };
   const isPhone=who=>{ const nm=who&&typeof who==='object'?who.name:who; return typeof nm==='string'&&nm.indexOf('（手機）')>=0; };
   /* 加上去（AA 2026-11-02 20:54 第 4 點）：開頭已經有動作括號的合成一個——「（抬頭）喔，hi。」→「（抬頭，小聲）喔，hi。」；好幾個括號的合進第一個；沒有括號的才在最前面加「（小聲）」*/
-  S.quiet=function(text){ if(!S.needsPrefix(text)) return text; const s=String(text), k0=s.length-s.trimStart().length, t=s.slice(k0);
-    if(!t.startsWith('（')) return S.PREFIX+s;
+  S.quiet=function(text){ if(!S.needsPrefix(text)) return text; const s=String(text), k0=s.length-s.trimStart().length, t0=s.slice(k0), u=S.unq(t0.trimEnd()), uq=u!==t0.trimEnd(), t=uq?u:t0, body=uq?s.slice(0,k0)+u:s;   /* 「好。」→（小聲）好。（外面的「」拿掉再加；AA-B 11-08 00:21）*/
+    if(!t.startsWith('（')) return S.PREFIX+body;
     let depth=0, k=-1; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='（') depth++; else if(ch==='）'){ depth--; if(depth===0){ k=i; break; } } }
-    if(k<0) return S.PREFIX+s;
+    if(k<0) return S.PREFIX+body;
     let inner=t.slice(1,k), tail='';
     if(/[。]$/.test(inner)){ tail=inner.slice(-1); inner=inner.slice(0,-1); }   /* 「（抬頭。）」→「（抬頭，小聲。）」*/
     return s.slice(0,k0)+'（'+inner+'，小聲'+tail+'）'+t.slice(k+1); };

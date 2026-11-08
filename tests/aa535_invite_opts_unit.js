@@ -141,7 +141,7 @@ const band=id=>['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel(id))?'R':'A
     check('7. 不在那幾個學期的不排（以安大一上照 H3、大四；語彤大一下；芯慈大三）',no.every(x=>x[1]!=='l118_cafe2'),J(no));
     check('7. 學姊不排',!(CHARACTERS.heroine_05.daily_schedule||[]).some(e=>e&&e.zone==='l118_cafe2'));
     const s=TD('Y1S2',5,6); fresh(s-2,10); know('heroine_01',S4); const hr=INV.personal(G,'heroine_01',P,s,14,INV.decide(G,'heroine_01','slowread',s,14));
-    check('7. 以安常客時段（週六 14:00）約慢讀＝她本來就在（here）：「我已經在慢讀了。窗邊。」',hr.res==='here'&&J(hr.lines)===J(['「我已經在慢讀了。窗邊。」']),J([hr.res,hr.lines]));
+    check('7. 以安常客時段（週六 14:00）約慢讀＝她本來就在（here）：「我已經在慢讀了。窗邊。」',hr.res==='here'&&J(hr.lines)===J(['我已經在慢讀了。窗邊。']),J([hr.res,hr.lines]));
     fresh(s,15); G.zone='l118_cafe2'; know('heroine_01',S4); said=[]; const w={name:'沈以安'};
     const g1=await SLOWREAD.greet(GM,w,'heroine_01'), g2=await SLOWREAD.greet(GM,w,'heroine_01'); const L=T();
     G.day=TD('Y2S1',6,6); G.weekday=6;   /* 大二上第 6 週週六（第 5 週週六是 10/10 國定假日）*/ said=[]; const g3=await SLOWREAD.greet(GM,w,'heroine_01');

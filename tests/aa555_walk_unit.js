@@ -63,7 +63,8 @@ for(const ln of A580.split('\n')){ const c=ln.split('|').map(x=>x.trim()); if(c.
 if(!A580) UNMATCHED.push('AA_580 讀不到（git fetch 企劃線 759e5c000）');
 /* AA_592 以安改稿①b 第 52 列（企劃線 4162d22e1；AA_589 第 9 節第 8 點：媽媽那一句統一）：w118_an_10 的 AA_580 改成→AA_592 改成（逐列核對在 tests/aa592_an_1b_unit.js）*/
 for(const r of require('./an_rev_doc.js').ROWS.filter(r=>/AA_592_/.test(r.doc)&&/^invites\.js/.test(r.where))){ const x=(EXP.heroine_01||[]).find(e=>e.text===r.old); if(x) x.text=r.nw; else UNMATCHED.push('AA592 '+r.n); }
-const splitVar=t=>{ const m=/^有 `([A-Z_]+)`：(「[^」]*」)／沒有：(「[^」]*」)$/.exec(t); return m?[m[2],m[3]]:[t]; };   /* Alison 大四上總圖：有 YU_ALONE／沒有 兩個版本 */
+const uq=t=>/^「[^「」]*」$/.test(t)?t.slice(1,-1):t;   /* invites.js 一起走路的句子不加外面的「」（AA-B 2026-11-08 00:21）：稿上的「…」拿掉再比；「…」「…」好幾段的照留 */
+const splitVar=t=>{ const m=/^有 `([A-Z_]+)`：(「[^」]*」)／沒有：(「[^」]*」)$/.exec(t); return (m?[m[2],m[3]]:[t]).map(uq); };   /* Alison 大四上總圖：有 YU_ALONE／沒有 兩個版本 */
 check('0. 稿讀得到（AA_118、AA_555、AA_185 @56c11668d）；模組都載得到',A118.length>10000&&A555.length>4000&&!!AN185&&!loadErr.length,loadErr.join('　')||'git fetch 企劃線（56c11668d）');
 check('0. 同行聊天：AA_118 六人各 24 句、AA_555 的改稿每一列都對到原句（芯慈 1-4 整張 24 列）',Object.keys(W118).length===6&&Object.values(W118).every(L=>L.length===24)&&!UNMATCHED.length&&EXP.classmate_xinci&&EXP.classmate_xinci.length===24,J({n:Object.fromEntries(Object.entries(W118).map(([k,v])=>[k,v.length])),UNMATCHED}));
 const WALK=(typeof INVITE_DATA!=='undefined'&&INVITE_DATA.walk118)||null;
@@ -130,10 +131,10 @@ sec('3',()=>{ if(!WALK){ check('3. 沒有 walk118',false); return; }
   check('3. 阿哲（大一上第 5 週、去麵店）：AA_118 的句子和 AA_70 原有的一起輪；AA_118 每句只說一次、條件成立的都說到了；AA_70 的照舊重複',new Set(a118).size===a118.length&&J([...new Set(a118)].sort())===J(avail.sort())&&a70.length>=3&&new Set(a70).size<a70.length,J({a118,avail,a70:a70.slice(0,4)}));
   check('3. 說過的記在 G.flags.walkSaid（鍵＝one、值＝那一天）',avail.length>0&&Object.keys(G.flags.walkSaid||{}).length===avail.length&&Object.values(G.flags.walkSaid).every(v=>v===G.day),J(G.flags.walkSaid));
   const G2=H.fresh('2025-10-01',21,'campus',{}); const Lc=[]; for(let i=0;i<30;i++){ const p=INV.walkPick(G2,'zhe','cafe'); if(!p) break; Lc.push(p.lines.join('')); p.next(); }
-  check('3. 目的地：「法律系館A → 麵店」那句只在去麵店的路上，去 Café 不說',L.includes('「哥，第一排的人都在幹嘛？我坐後面只看得到他們的後腦勺在點頭。」')&&!Lc.includes('「哥，第一排的人都在幹嘛？我坐後面只看得到他們的後腦勺在點頭。」'),J(Lc.slice(0,5)));
+  check('3. 目的地：「法律系館A → 麵店」那句只在去麵店的路上，去 Café 不說',L.includes('哥，第一排的人都在幹嘛？我坐後面只看得到他們的後腦勺在點頭。')&&!Lc.includes('哥，第一排的人都在幹嘛？我坐後面只看得到他們的後腦勺在點頭。'),J(Lc.slice(0,5)));
   const G3=H.fresh('2025-10-01',9,'campus',{}); SOCIAL.remember('yu','BREAKFAST_YU',''); let y=null; for(let i=0;i<20&&!y;i++){ const p=INV.walkPick(G3,'yu','library'); if(!p) break; if(p.lines.some(t=>/晨思鐘到底/.test(t))) y=p.lines; p.next(); }
   const G4=H.fresh('2025-10-01',9,'campus',{}); let y2=null; for(let i=0;i<20&&!y2;i++){ const p=INV.walkPick(G4,'yu','library'); if(!p) break; if(p.lines.some(t=>/晨思鐘到底/.test(t))) y2=p.lines; p.next(); }
-  check('3. Alison 大一早上：有 BREAKFAST_YU 先說「欸，今天也經過！」（AA_118 稿上那一句）；沒有就只說主句；兩個版本算同一句',J(y)===J(['「欸，今天也經過！」','「晨思鐘到底幾點會敲？……不要查，我想先聽你猜。」'])&&J(y2)===J(['「晨思鐘到底幾點會敲？……不要查，我想先聽你猜。」'])&&A118.includes('「欸，今天也經過！」'),J([y,y2]));
+  check('3. Alison 大一早上：有 BREAKFAST_YU 先說「欸，今天也經過！」（AA_118 稿上那一句）；沒有就只說主句；兩個版本算同一句',J(y)===J(['欸，今天也經過！','晨思鐘到底幾點會敲？……不要查，我想先聽你猜。'])&&J(y2)===J(['晨思鐘到底幾點會敲？……不要查，我想先聽你猜。'])&&A118.includes('欸，今天也經過！'),J([y,y2]));
   const G5=H.fresh('2025-10-01',21,'campus',{}); delete G5.flags.walkSaid; const ok5=!!INV.walkPick(G5,'classmate_bohan','library');
   const G6=H.fresh('2024-10-08',21,'campus',{}); G6.stage='econ'; const L6=[]; for(let i=0;i<10;i++){ const p=INV.walkPick(G6,'zhe','noodle'); if(!p) break; L6.push(p.lines.join('')); p.next(); }
   check('3. 舊存檔（沒有 walkSaid）照常；經濟系那一年（學年 0）沒有 AA_118 的句子；柏翰原本沒有 walk，現在有',ok5&&!L6.some(t=>WALK.zhe.some(e=>e.l.join('')===t)),J(L6)); });
