@@ -50079,7 +50079,7 @@
    "id": "RELEASE-V91023-1108",
    "title": "發布 v9.10.23（11-08 的修改：拿掉「」一到八批、決定拍 19 場、送東西、光照等）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50091,7 +50091,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 16:3x LAWWW-B】已部署：PR #32 合併 main 3a34dbaa5（遊戲檔案＝飲料版 b103b3089）；Pages run 42500010426 build／deploy success，deploy 16:30:19 UTC。等 BB-B 線上 deploy_check。 ｜ 【11-08 15:5x LAWWW-B】使用者「中間不用發布別的版本」（UA-LAWWW-1108-05）：下一次發布就是飲料改好的 v9.10.23，中間不發別的。 ｜ 【11-08 15:4x LAWWW-B】PR #31 合併 main 68206e0fd（15:3x）；使用者隨即「飲料改完再發布」→ 15:31 取消 Pages run 42495110198（build、deploy 都 cancelled，沒有部署，線上照舊 v9.10.22）。飲料改完（GIFT-ROMANCE-ONLY-1108）、BB-B 測過，再做發布樹合併、部署（版本字樣照 v9.10.23：那一版沒上線）。 ｜ 【11-08 15:2x LAWWW-B】使用者選擇題「可以發佈」（UA-LAWWW-1108-03）。發布樹 52a7e5337＝候選 9eef2b95b＋版本字樣；BB-B GO（PC 發布前清單 11／11、雲端 deploy_check v9.10.23 ALL PASS）；GHA 9eef2b95b success、本機全套 1156 支沒有 FAIL。下一步：PR 合併 main、Pages 部署、BB-B 線上 deploy_check。"
+   "next": "【11-08 16:4x LAWWW-B】BB-B 線上驗收 PASS。另：PC touch_flow_wenzhou c753295da FAIL 1（手機自動打開、收起來以後搖桿沒走到；9eef2b95b PASS），BB-B 查中，真的不動才轉 LAWWW（P2）。 ｜ 【11-08 16:3x LAWWW-B】已部署：PR #32 合併 main 3a34dbaa5（遊戲檔案＝飲料版 b103b3089）；Pages run 42500010426 build／deploy success，deploy 16:30:19 UTC。等 BB-B 線上 deploy_check。 ｜ 【11-08 15:5x LAWWW-B】使用者「中間不用發布別的版本」（UA-LAWWW-1108-05）：下一次發布就是飲料改好的 v9.10.23，中間不發別的。 ｜ 【11-08 15:4x LAWWW-B】PR #31 合併 main 68206e0fd（15:3x）；使用者隨即「飲料改完再發布」→ 15:31 取消 Pages run 42495110198（build、deploy 都 cancelled，沒有部署，線上照舊 v9.10.22）。飲料改完（GIFT-ROMANCE-ONLY-1108）、BB-B 測過，再做發布樹合併、部署（版本字樣照 v9.10.23：那一版沒上線）。 ｜ 【11-08 15:2x LAWWW-B】使用者選擇題「可以發佈」（UA-LAWWW-1108-03）。發布樹 52a7e5337＝候選 9eef2b95b＋版本字樣；BB-B GO（PC 發布前清單 11／11、雲端 deploy_check v9.10.23 ALL PASS）；GHA 9eef2b95b success、本機全套 1156 支沒有 FAIL。下一步：PR 合併 main、Pages 部署、BB-B 線上 deploy_check。",
+   "evidence": "BB-B 16:47 線上驗收 PASS（BB_255 deb9d8011；CC-B LIVE_V91023：線上 deploy_check、p0 ALL PASS、?v= 只有 9.10.23）；main 3a34dbaa5、Pages run 42500010426"
   },
   {
    "id": "GIFT-ROMANCE-ONLY-1108",
