@@ -5,7 +5,7 @@
   ③ 其他有名字的句子外面都沒有「」；④ 沒有 JS 例外。
 看「畫面上實際顯示的字」（對話框 #dlg 的名字和字，DLG_WATCH），不是只看程式傳進去的字串。
 [前置／捷徑] 讀使用者存檔 day46，【捷徑】DAYSHIFT 天（預設 -12＝2025-10-20 週一）早上 10 點、清邀約、沛珊關係到朋友（fam 50／trust 35／comf 30）、
-  拿掉「一起去過法圖」的記憶（LAWLIB_TOGETHER）讓這一次算第一次。之後全部觸控：手機「朋友」→ 沛珊「約」→ 念書 → 法律學院圖書館 → 今天的時間 →
+  拿掉「一起去過法圖」的記憶（LAWLIB_TOGETHER）讓這一次算第一次。之後全部觸控：手機「朋友」→ 沛珊「約」→ 念書 →「去法圖一起念書」→ 今天的時間 →
   【捷徑】時間撥到約好的前 10 分鐘 → 手機「今天」按「現在過去」→ 跟她走、照實點。
 不是 iPhone：Playwright 手機橫向模擬（SwiftShader）。
 用法：LW_TESTS=<測試樹>/tests python3 pt1108l_quote6_probe.py URL 存檔資料夾 輸出資料夾"""
@@ -43,12 +43,12 @@ async def main():
         await L.load_state(pg, s, quiet_phone=True); await pg.wait_for_timeout(3000); await pe.settle(pg, cdp, [], 40)
         mem = await pg.evaluate("(w=>{ try{ const had=SOCIAL.has(w,'LAWLIB_TOGETHER'); if(had&&SOCIAL.forget) SOCIAL.forget(w,'LAWLIB_TOGETHER'); return {had, now:SOCIAL.has(w,'LAWLIB_TOGETHER')}; }catch(e){ return {err:String(e)}; } })(%s)" % json.dumps(WHO))
         run.setup('[前置] day46 %+d 天 10:00、清邀約、沛珊朋友關係；LAWLIB_TOGETHER %s' % (SHIFT, J(mem)))
-        fa = await pg.evaluate("(()=>{ const P=(INVITE_PLACE_LINES.places||{}).lawlib||{}; const x=P.classmate_peishan||{}; return x.firstAt||null; })()")
+        fa = await pg.evaluate("(()=>{ const x=((INVITE_DATA.lawlibLines||{}).classmate_peishan)||{}; return x.firstAt||null; })()")
         run.note('資料裡的 firstAt：%s' % J(fa))
         nl = await pg.evaluate("(a=>a.map(t=>[t, (typeof INV!=='undefined'&&INV._S&&INV._S.narrLine)?INV._S.narrLine(t):null]))(%s)" % J(fa or []))
         run.note('narrLine（拿得到才有）：%s' % J(nl))
         await pg.evaluate(Q.DLG_WATCH); await pg.evaluate("window.__DW.length=0")
-        said, picked = await pe.meet_once(pg, cdp, run, '念書', '法律學院圖書館', 'lawlib')
+        said, picked = await pe.meet_once(pg, cdp, run, '念書', '去法圖', 'lawlib')   # 地點選項寫的是 verb「去法圖一起念書」
         lines = Q.full_lines(await pg.evaluate("window.__DW.slice()"))
         hist = await pg.evaluate("(typeof ADV!=='undefined'&&Array.isArray(ADV.history))?ADV.history.slice(-40).map(x=>[x.name||'',x.text]):[]")
         run.note('畫面上的句子（名字｜字）：%s' % J([[x['n'], x['t']] for x in lines], 3000))
