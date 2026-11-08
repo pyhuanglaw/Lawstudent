@@ -1,0 +1,146 @@
+{
+ "tag": "after_gpu",
+ "sha": "",
+ "linze_5f": {
+  "day": {
+   "lab_in": {
+    "pos": [
+     -5.8,
+     1.2
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     158.6,
+     58.8
+    ]
+   },
+   "lab_door": {
+    "pos": [
+     -4.2,
+     -0.6
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     182.6,
+     51.2
+    ]
+   },
+   "meeting": {
+    "pos": [
+     7,
+     -5.5
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     183,
+     43.6
+    ]
+   },
+   "corridor": {
+    "pos": [
+     6,
+     -5.5
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     160.2,
+     56.5
+    ]
+   }
+  },
+  "night": {
+   "lab_in": {
+    "pos": [
+     -5.8,
+     1.2
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     147,
+     59.9
+    ]
+   },
+   "lab_door": {
+    "pos": [
+     -4.2,
+     -0.6
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     173,
+     54.5
+    ]
+   },
+   "meeting": {
+    "pos": [
+     7,
+     -5.5
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     117,
+     85.1
+    ]
+   },
+   "corridor": {
+    "pos": [
+     6,
+     -5.5
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     125.4,
+     74.2
+    ]
+   }
+  }
+ }
+}
