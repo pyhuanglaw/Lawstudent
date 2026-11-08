@@ -77,11 +77,28 @@ _T0 = _t.time()
 def _diag(msg):
     sys.stderr.write('[gpu_wrap %.1fs] %s\n' % (_t.time() - _T0, msg)); sys.stderr.flush()
 
+_RENDERER_SEEN = set()
+RENDERER_JS = "(()=>{ try{ const c=document.createElement('canvas'); const gl=c.getContext('webgl2')||c.getContext('webgl'); if(!gl) return 'no webgl'; const e=gl.getExtension('WEBGL_debug_renderer_info'); return e?gl.getParameter(e.UNMASKED_RENDERER_WEBGL)+' | '+gl.getParameter(e.UNMASKED_VENDOR_WEBGL):gl.getParameter(gl.RENDERER); }catch(x){ return 'err '+x; } })()"
+
+def _renderer(pg):
+    import asyncio
+    async def go():
+        try:
+            r = await pg.evaluate(RENDERER_JS)
+            if r not in _RENDERER_SEEN:
+                _RENDERER_SEEN.add(r)
+                sys.stdout.write('[gpu_wrap] WEBGL_RENDERER: %s\n' % r); sys.stdout.flush(); _diag('WEBGL_RENDERER: %s' % r)
+        except Exception as e:
+            _diag('renderer check failed %r' % e)
+    try: asyncio.get_event_loop().create_task(go())
+    except Exception as e: _diag('renderer task failed %r' % e)
+
 def _watch_page(pg):
     try:
         pg.on('crash', lambda *_: _diag('PAGE CRASH (renderer died) url=%s' % pg.url))
         pg.on('close', lambda *_: _diag('page close url=%s' % pg.url))
         pg.on('pageerror', lambda e: _diag('pageerror %s' % str(e)[:200]))
+        pg.on('load', lambda *_: _renderer(pg))   # BB-B 11-08 12:34：每一輪印 WebGL renderer（AMD＝GPU；SwiftShader＝這一輪不能判美術）
     except Exception as e:
         _diag('watch failed %r' % e)
 
