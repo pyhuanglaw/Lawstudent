@@ -106,9 +106,9 @@ async def main():
             lines = await dlg_run(pg, cdp, run, 'decline')
             print('[DECLINE]', J(lines, 1500))
             await run.shot(pg, 'decline_after')
-            want = await pg.evaluate("[SISG.DECLINE[0],SISG.DECLINE_OFF[0],SISG.STUDY_YES]")
+            pool = await pg.evaluate("[SISG.DECLINE,SISG.DECLINE_OFF,[SISG.STUDY_YES]]")   # declineLine／offLine 照存檔裡的計數輪流（SISG_DECL、SISG_DECL2），三組各對一句就好
             got, bad = named_ok(lines, lambda n: n == nm or (nm and nm in n))
-            run.check('學姊婉拒三句（DECLINE、考前、答應一起念）：名字欄是學姊、外面沒有「」', len(got) >= 3 and not bad and all(any(w == x['t'] or w in x['t'] for x in got) for w in want), J([got, bad, want]))
+            run.check('學姊婉拒三句（DECLINE 輪到的那句、考前、答應一起念）：名字欄是學姊、外面沒有「」', len(got) >= 3 and not bad and all(any(x['t'] in grp for x in got) for grp in pool), J([got, bad]))
         if 'card' in modes:
             def tw(s):
                 F = s['flags']; F['dating_kexin'] = False
