@@ -1942,3 +1942,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 299.8s] page close url=http://127.0.0.1:51236/index.html?fixlights=3 | [gpu_wrap 299.8s] BROWSER DISCONNECTED
 - 2026-11-08T12:21:27  GG3LM_perfday_A_e276  sha=e2762e9d91df1cf8405301e54fd4bf286a5f626e  exit=0  119s    OK   wz_teahouse   h1930 avg 57.94 fps  1%low 13.33 fps  worst 83.4 ms  n=869  zone=wz_teahouse h=19.54 w=sunny q=medium draw=109  / JS 例外 0 個 / ALL PASS（量測完成 2 格）
       err.log (last 5): [gpu_wrap 83.5s] page close url=http://127.0.0.1:8800/index.html?nightshadow=full | [gpu_wrap 83.6s] BROWSER DISCONNECTED
+- 2026-11-08T12:24:39  GG3LM_perfday_A_mob_e276  sha=e2762e9d91df1cf8405301e54fd4bf286a5f626e  exit=0  185s    OK   wz_teahouse   h1930 avg 17.93 fps  1%low 5.22 fps  worst 200.1 ms  n=271  zone=wz_teahouse h=19.54 w=sunny q=medium draw=109  / JS 例外 0 個 / ALL PASS（量測完成 2 格）
+      err.log (last 5): [gpu_wrap 149.4s] page close url=http://127.0.0.1:8800/index.html?nightshadow=full | [gpu_wrap 149.4s] BROWSER DISCONNECTED
