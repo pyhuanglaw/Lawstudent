@@ -1,0 +1,33 @@
+CC PERF_WZ_DC（wz6_oldcam）：SHA=?（worktree 實際 6da721819b）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+== day
+  [前置／捷徑] [wz6_oldcam day] 讀檔 wenzhou 2025-10-18 11.00 晴（條件事件關閉）
+PASS [wz6_oldcam day] 進得了 wenzhou  {"zone": "wenzhou", "x": 44, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.01}
+  [  54.3s] [wz6_oldcam day] 出生點跟隨鏡頭 fps（參考）：{"frames": 3, "fpsAvg": 1, "fpsMin": 0.8, "msWorst": 1183.3, "calls": 350, "tris": 576428}
+PASS [黑畫面] wzdc_wz6_oldcam_spawn_day 不是黑畫面（平均亮度 118.8、變化 57.8）  [118.8, 57.8]
+  [  59.9s] [wz6_oldcam day] spawn：draw call（主畫面／影子／合計）{"total": {"calls": 311, "tris": 511512}, "shadow": {"calls": 46, "tris": 51077, "passes": 1}, "main": {"calls": 265, "tris": 460435}, "npcVis": 8, "outlineMats": 8, "outlineInVisibleChars": 40, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [49.07, 2.78, -1], "look": [44, 1.2, -1], "lens": 24, "vfov": 45.75}；亮度 [118.8, 57.8]
+PASS [黑畫面] wzdc_wz6_oldcam_lane_day 不是黑畫面（平均亮度 91.6、變化 53.7）  [91.6, 53.7]
+  [  67.1s] [wz6_oldcam day] lane：draw call（主畫面／影子／合計）{"total": {"calls": 205, "tris": 277531}, "shadow": {"calls": 46, "tris": 49845, "passes": 1}, "main": {"calls": 159, "tris": 227686}, "npcVis": 0, "outlineMats": 8, "outlineInVisibleChars": 0, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [38, 2.2, -1], "look": [74, 1.5, -1], "lens": 24, "vfov": 45.75}；亮度 [91.6, 53.7]
+PASS [黑畫面] wzdc_wz6_oldcam_t_A1_day 不是黑畫面（平均亮度 103.6、變化 51.5）  [103.6, 51.5]
+  [  73.3s] [wz6_oldcam day] t_A1：draw call（主畫面／影子／合計）{"total": {"calls": 191, "tris": 307676}, "shadow": {"calls": 46, "tris": 50101, "passes": 1}, "main": {"calls": 145, "tris": 257575}, "npcVis": 2, "outlineMats": 8, "outlineInVisibleChars": 10, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [-1.53, 1.7, 1.94], "look": [-8, 2.2, 4.6], "lens": 24, "vfov": 45.75}；亮度 [103.6, 51.5]
+PASS [黑畫面] wzdc_wz6_oldcam_t_B7_day 不是黑畫面（平均亮度 84.9、變化 52.9）  [84.9, 52.9]
+  [  83.2s] [wz6_oldcam day] t_B7：draw call（主畫面／影子／合計）{"total": {"calls": 298, "tris": 469324}, "shadow": {"calls": 40, "tris": 45809, "passes": 1}, "main": {"calls": 258, "tris": 423515}, "npcVis": 4, "outlineMats": 8, "outlineInVisibleChars": 20, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [51, 1.7, -4.6], "look": [44, 2.2, -4.6], "lens": 24, "vfov": 45.75}；亮度 [84.9, 52.9]
+  [  83.2s] [wz6_oldcam day] 路人分布：{"npcs": 12, "best": {"n": 3, "c": [18.22, 21.96]}}
+  [  83.2s] [wz6_oldcam day] crowd：這個時段 12 m 內最多只有 3 人（不到 5 人，沒另外拍）；spawn 那個鏡頭入鏡 8 人——人物多的鏡頭就看 spawn
+== night
+  [前置／捷徑] [wz6_oldcam night] 讀檔 wenzhou 2025-10-18 20.00 晴（條件事件關閉）
+PASS [wz6_oldcam night] 進得了 wenzhou  {"zone": "wenzhou", "x": 44, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20}
+  [ 116.9s] [wz6_oldcam night] 出生點跟隨鏡頭 fps（參考）：{"frames": 3, "fpsAvg": 0.9, "fpsMin": 0.6, "msWorst": 1816.7, "calls": 371, "tris": 598514}
+PASS [黑畫面] wzdc_wz6_oldcam_spawn_night 不是黑畫面（平均亮度 84.0、變化 44.4）  [84.0, 44.4]
+  [ 124.6s] [wz6_oldcam night] spawn：draw call（主畫面／影子／合計）{"total": {"calls": 338, "tris": 536732}, "shadow": {"calls": 61, "tris": 52968, "passes": 1}, "main": {"calls": 277, "tris": 483764}, "npcVis": 6, "outlineMats": 8, "outlineInVisibleChars": 30, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [49.07, 2.78, -1], "look": [44, 1.2, -1], "lens": 24, "vfov": 45.75}；亮度 [84.0, 44.4]
+PASS [黑畫面] wzdc_wz6_oldcam_lane_night 不是黑畫面（平均亮度 90.0、變化 50.4）  [90.0, 50.4]
+  [ 131.4s] [wz6_oldcam night] lane：draw call（主畫面／影子／合計）{"total": {"calls": 258, "tris": 331440}, "shadow": {"calls": 61, "tris": 52968, "passes": 1}, "main": {"calls": 197, "tris": 278472}, "npcVis": 1, "outlineMats": 8, "outlineInVisibleChars": 5, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [38, 2.2, -1], "look": [74, 1.5, -1], "lens": 24, "vfov": 45.75}；亮度 [90.0, 50.4]
+PASS [黑畫面] wzdc_wz6_oldcam_t_A1_night 不是黑畫面（平均亮度 66.9、變化 48.6）  [66.9, 48.6]
+  [ 138.4s] [wz6_oldcam night] t_A1：draw call（主畫面／影子／合計）{"total": {"calls": 205, "tris": 305779}, "shadow": {"calls": 61, "tris": 53224, "passes": 1}, "main": {"calls": 144, "tris": 252555}, "npcVis": 1, "outlineMats": 8, "outlineInVisibleChars": 5, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [-1.53, 1.7, 1.94], "look": [-8, 2.2, 4.6], "lens": 24, "vfov": 45.75}；亮度 [66.9, 48.6]
+PASS [黑畫面] wzdc_wz6_oldcam_t_B7_night 不是黑畫面（平均亮度 62.2、變化 32.1）  [62.2, 32.1]
+  [ 150.0s] [wz6_oldcam night] t_B7：draw call（主畫面／影子／合計）{"total": {"calls": 352, "tris": 572183}, "shadow": {"calls": 55, "tris": 48932, "passes": 1}, "main": {"calls": 297, "tris": 523251}, "npcVis": 6, "outlineMats": 8, "outlineInVisibleChars": 30, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [51, 1.7, -4.6], "look": [44, 2.2, -4.6], "lens": 24, "vfov": 45.75}；亮度 [62.2, 32.1]
+  [ 150.0s] [wz6_oldcam night] 路人分布：{"npcs": 10, "best": {"n": 4, "c": [14.43, -1.17]}}
+  [ 150.0s] [wz6_oldcam night] crowd：這個時段 12 m 內最多只有 4 人（不到 5 人，沒另外拍）；spawn 那個鏡頭入鏡 6 人——人物多的鏡頭就看 spawn
+PASS 沒有 JS 例外  []
+ALL PASS

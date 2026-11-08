@@ -22,7 +22,9 @@ J = D.J
 TAG = os.environ.get('TAG') or 'x'
 R = L.Run('wz_dc_' + TAG, OUT); D.setup(R, OUT)
 DAY = os.environ.get('DAY') or '2025-10-18'
-TIMES = [('day', 14.0), ('night', 21.0)]
+TIMES = [(t.split(':')[0], float(t.split(':')[1])) for t in (os.environ.get('TIMES') or 'day:14,night:21').split(',')]   # LAWWW2-B 13:25 WZ6：day:11,night:20
+ZONE = os.environ.get('ZONE') or 'wenzhou'
+TARGETS = [t.split(':') for t in (os.environ.get('TARGETS') or '').split('+') if t]   # 名字:x:y:z（例 A1:-12:2.5:-4）——找一個沒被擋的角度、7 m 外、高 1.7 m 拍那一點
 
 FPS = r"""(async (ms)=>{ const E=GAME.E; const t=[]; let last=performance.now(); const t0=last; await new Promise(res=>{ const f=now=>{ t.push(now-last); last=now; if(now-t0<ms) requestAnimationFrame(f); else res(); }; requestAnimationFrame(f); });
   t.shift(); const avg=t.reduce((a,b)=>a+b,0)/Math.max(t.length,1), worst=Math.max(...t); const ri=E.renderer&&E.renderer.info&&E.renderer.info.render;
@@ -61,14 +63,24 @@ async def view(pg, cdp, tag, nm, tn, eye, look, rec):
 async def one(pg, cdp, tn, h, rec):
     tag = '[%s %s]' % (TAG, tn)
     R.setup('%s 讀檔 wenzhou %s %.2f 晴（條件事件關閉）' % (tag, DAY, h))
-    s = await D.load_zone(pg, cdp, 'wenzhou', DAY, h, wait=9000)
-    if not R.check('%s 進得了 wenzhou' % tag, s['zone'] == 'wenzhou', J(s)): return
+    s = await D.load_zone(pg, cdp, ZONE, DAY, h, wait=9000)
+    if not R.check('%s 進得了 %s' % (tag, ZONE), s['zone'] == ZONE, J(s)): return
     await pg.wait_for_timeout(5000)
     f = await pg.evaluate(FPS, 3000); R.note('%s 出生點跟隨鏡頭 fps（參考）：%s' % (tag, J(f))); rec.setdefault(tn, {})['fps'] = f
     c = await pg.evaluate("(()=>{ const c=GAME.E.camera.position, p=GAME.E.player.obj.position; return {c:[c.x,c.y,c.z], p:[p.x,p.y,p.z]}; })()")
     sx, sz = c['p'][0], c['p'][2]
     await view(pg, cdp, tag, 'spawn', tn, [round(c['c'][0], 2), round(c['c'][1], 2), round(c['c'][2], 2)], [sx, 1.2, sz], rec)
     await view(pg, cdp, tag, 'lane', tn, [sx - 6.0, 2.2, sz], [sx + 30.0, 1.5, sz], rec)
+    for t in TARGETS:
+        nm_, tx, ty, tz = t[0], float(t[1]), float(t[2]), float(t[3])
+        pk = None
+        for d_ in (7.0, 5.0, 9.0):
+            pk = await pg.evaluate(CLEAR, {'c': [tx, tz], 'a0': 0.0, 'd': d_, 'h': 1.7})
+            if pk: break
+        if pk:
+            pk['look'] = [tx, ty, tz]
+            await view(pg, cdp, tag, 't_' + nm_, tn, pk['eye'], pk['look'], rec)
+        else: R.note('%s %s：16 個角度都被擋（沒拍）' % (tag, nm_))
     cl = await pg.evaluate(CLUSTER); R.note('%s 路人分布：%s' % (tag, J(cl)))
     if cl.get('best') and cl['best']['n'] >= 5:
         cc = cl['best']['c']; a0 = math.atan2(sz - cc[1], sx - cc[0])

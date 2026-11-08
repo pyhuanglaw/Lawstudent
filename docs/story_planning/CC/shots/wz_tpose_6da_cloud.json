@@ -1,0 +1,1213 @@
+{
+ "sha": "6da721819b",
+ "shots": [
+  {
+   "at": 0,
+   "cam": {
+    "eye": [
+     -6.5,
+     1.7,
+     2.0999999999999996
+    ],
+    "look": [
+     22,
+     1.6,
+     0.5999999999999996
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "visible": [
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      -5.6,
+      1.89
+     ],
+     "dist": 0.9,
+     "inView": true,
+     "beh": "route",
+     "pose": "walk",
+     "speed": 1.5355425823479891,
+     "driver": "vrm",
+     "key": "char.npc_nm2",
+     "url": "bl_npc_nm2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": "walk",
+     "arm": [
+      -76,
+      -67
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "walk",
+       "w": 1,
+       "run": true,
+       "t": 0
+      }
+     ]
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      5.56,
+      4.22
+     ],
+     "dist": 12.2,
+     "inView": true,
+     "beh": "route",
+     "pose": "walk",
+     "speed": 1.474752788618207,
+     "driver": "vrm",
+     "key": "char.npc_nf3",
+     "url": "bl_npc_nf3.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": "walk",
+     "arm": [
+      -76,
+      -66
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "walk",
+       "w": 1,
+       "run": true,
+       "t": 0.96
+      }
+     ]
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 25.9,
+     "inView": true,
+     "beh": "idle",
+     "pose": "idle",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf2",
+     "url": "bl_npc_nf2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": "idle",
+     "arm": [
+      -79,
+      -81
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "idle",
+       "w": 1,
+       "run": true,
+       "t": 0.93
+      }
+     ]
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 44.5,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf4",
+     "url": "bl_npc_nf4.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -74,
+      -74
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 46,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf2",
+     "url": "bl_npc_nf2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -74,
+      -74
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 42.2,
+     "inView": true,
+     "beh": "idle",
+     "pose": "idle",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nm5",
+     "url": "bl_npc_nm5.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": false,
+     "cur": "idle",
+     "arm": [
+      -79,
+      -81
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "idle",
+       "w": 1,
+       "run": true,
+       "t": 0.32
+      }
+     ]
+    }
+   ],
+   "noAction": [
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      -12.02,
+      -12.09
+     ],
+     "dist": 15.2,
+     "inView": false,
+     "beh": "route",
+     "pose": "walk",
+     "speed": 1.5731933983974158,
+     "driver": "vrm",
+     "key": "char.npc_nm3",
+     "url": "bl_npc_nm3.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": "idle",
+     "arm": [
+      -3,
+      -3
+     ],
+     "tpose": true,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "idle",
+       "w": 1,
+       "run": true,
+       "t": 0
+      }
+     ]
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 32.2,
+     "inView": false,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf4",
+     "url": "bl_npc_nf4.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -72,
+      -69
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 44.5,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf4",
+     "url": "bl_npc_nf4.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -74,
+      -74
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 46,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf2",
+     "url": "bl_npc_nf2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -74,
+      -74
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    }
+   ],
+   "nAll": 12
+  },
+  {
+   "at": 5,
+   "cam": {
+    "eye": [
+     -6.5,
+     1.7,
+     2.0999999999999996
+    ],
+    "look": [
+     22,
+     1.6,
+     0.5999999999999996
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "visible": [
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      -5.78,
+      1.89
+     ],
+     "dist": 0.7,
+     "inView": true,
+     "beh": "route",
+     "pose": "walk",
+     "speed": 1.5355425823479891,
+     "driver": "vrm",
+     "key": "char.npc_nm2",
+     "url": "bl_npc_nm2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": false,
+     "cur": "walk",
+     "arm": [
+      -65,
+      -76
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "walk",
+       "w": 1,
+       "run": true,
+       "t": 0.14
+      }
+     ]
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      5.57,
+      4.39
+     ],
+     "dist": 12.3,
+     "inView": true,
+     "beh": "route",
+     "pose": "walk",
+     "speed": 1.474752788618207,
+     "driver": "vrm",
+     "key": "char.npc_nf3",
+     "url": "bl_npc_nf3.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": false,
+     "cur": "walk",
+     "arm": [
+      -68,
+      -76
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "walk",
+       "w": 1,
+       "run": true,
+       "t": 0.12
+      }
+     ]
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 25.9,
+     "inView": true,
+     "beh": "idle",
+     "pose": "idle",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf2",
+     "url": "bl_npc_nf2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": "idle",
+     "arm": [
+      -79,
+      -81
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "idle",
+       "w": 1,
+       "run": true,
+       "t": 1.07
+      }
+     ]
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 44.5,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf4",
+     "url": "bl_npc_nf4.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -74,
+      -74
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 46,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf2",
+     "url": "bl_npc_nf2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -74,
+      -74
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 42.2,
+     "inView": true,
+     "beh": "idle",
+     "pose": "idle",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nm5",
+     "url": "bl_npc_nm5.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": "idle",
+     "arm": [
+      -79,
+      -81
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "idle",
+       "w": 1,
+       "run": true,
+       "t": 0.33
+      }
+     ]
+    }
+   ],
+   "noAction": [
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 32.2,
+     "inView": false,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf4",
+     "url": "bl_npc_nf4.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -72,
+      -69
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 44.5,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf4",
+     "url": "bl_npc_nf4.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -74,
+      -74
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 46,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf2",
+     "url": "bl_npc_nf2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -74,
+      -74
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    }
+   ],
+   "nAll": 12
+  },
+  {
+   "at": 20,
+   "cam": {
+    "eye": [
+     -6.5,
+     1.7,
+     2.0999999999999996
+    ],
+    "look": [
+     22,
+     1.6,
+     0.5999999999999996
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "visible": [
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      -6.19,
+      1.91
+     ],
+     "dist": 0.4,
+     "inView": true,
+     "beh": "route",
+     "pose": "walk",
+     "speed": 1.5355425823479891,
+     "driver": "vrm",
+     "key": "char.npc_nm2",
+     "url": "bl_npc_nm2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": false,
+     "cur": "walk",
+     "arm": [
+      -65,
+      -75
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "walk",
+       "w": 1,
+       "run": true,
+       "t": 0.43
+      }
+     ]
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      5.59,
+      4.78
+     ],
+     "dist": 12.4,
+     "inView": true,
+     "beh": "route",
+     "pose": "walk",
+     "speed": 1.474752788618207,
+     "driver": "vrm",
+     "key": "char.npc_nf3",
+     "url": "bl_npc_nf3.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": false,
+     "cur": "walk",
+     "arm": [
+      -61,
+      -72
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "walk",
+       "w": 1,
+       "run": true,
+       "t": 0.39
+      }
+     ]
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 25.9,
+     "inView": true,
+     "beh": "idle",
+     "pose": "idle",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf2",
+     "url": "bl_npc_nf2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": "idle",
+     "arm": [
+      -79,
+      -81
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "idle",
+       "w": 1,
+       "run": true,
+       "t": 1.33
+      }
+     ]
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 44.5,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf4",
+     "url": "bl_npc_nf4.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -75,
+      -74
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 46,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf2",
+     "url": "bl_npc_nf2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -76,
+      -73
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 42.2,
+     "inView": true,
+     "beh": "idle",
+     "pose": "idle",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nm5",
+     "url": "bl_npc_nm5.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": "idle",
+     "arm": [
+      -79,
+      -81
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "idle",
+       "w": 1,
+       "run": true,
+       "t": 0.68
+      }
+     ]
+    }
+   ],
+   "noAction": [
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 32.2,
+     "inView": false,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf4",
+     "url": "bl_npc_nf4.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -72,
+      -69
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 44.5,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf4",
+     "url": "bl_npc_nf4.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -75,
+      -74
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 46,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf2",
+     "url": "bl_npc_nf2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -76,
+      -73
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    }
+   ],
+   "nAll": 12
+  },
+  {
+   "at": 60,
+   "cam": {
+    "eye": [
+     -6.5,
+     1.7,
+     2.0999999999999996
+    ],
+    "look": [
+     22,
+     1.6,
+     0.5999999999999996
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "visible": [
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      5.86,
+      8.86
+     ],
+     "dist": 14.1,
+     "inView": true,
+     "beh": "route",
+     "pose": "walk",
+     "speed": 1.474752788618207,
+     "driver": "vrm",
+     "key": "char.npc_nf3",
+     "url": "bl_npc_nf3.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": "walk",
+     "arm": [
+      -62,
+      -56
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "walk",
+       "w": 1,
+       "run": true,
+       "t": 0.81
+      }
+     ]
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      16.8,
+      -9.2
+     ],
+     "dist": 25.9,
+     "inView": true,
+     "beh": "idle",
+     "pose": "idle",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf2",
+     "url": "bl_npc_nf2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": "idle",
+     "arm": [
+      -78,
+      -81
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "idle",
+       "w": 1,
+       "run": true,
+       "t": 1.87
+      }
+     ]
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 44.5,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf4",
+     "url": "bl_npc_nf4.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -76,
+      -74
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 46,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf2",
+     "url": "bl_npc_nf2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -76,
+      -72
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      34.9,
+      -6.15
+     ],
+     "dist": 42.2,
+     "inView": true,
+     "beh": "idle",
+     "pose": "idle",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nm5",
+     "url": "bl_npc_nm5.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": false,
+     "cur": "idle",
+     "arm": [
+      -79,
+      -81
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": [
+      {
+       "clip": "idle",
+       "w": 1,
+       "run": true,
+       "t": 0.97
+      }
+     ]
+    }
+   ],
+   "noAction": [
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      19.26,
+      21.4
+     ],
+     "dist": 32.2,
+     "inView": false,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf4",
+     "url": "bl_npc_nf4.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -72,
+      -69
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      31.7,
+      25
+     ],
+     "dist": 44.5,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf4",
+     "url": "bl_npc_nf4.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -76,
+      -74
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    },
+    {
+     "id": null,
+     "charId": null,
+     "pos": [
+      33.5,
+      24.8
+     ],
+     "dist": 46,
+     "inView": true,
+     "beh": "idle",
+     "pose": "sit",
+     "speed": 0,
+     "driver": "vrm",
+     "key": "char.npc_nf2",
+     "url": "bl_npc_nf2.vrm",
+     "placeholder": false,
+     "failed": false,
+     "isFar": true,
+     "cur": null,
+     "arm": [
+      -76,
+      -72
+     ],
+     "tpose": false,
+     "hasMixer": true,
+     "nActions": 5,
+     "playing": []
+    }
+   ],
+   "nAll": 12
+  }
+ ]
+}

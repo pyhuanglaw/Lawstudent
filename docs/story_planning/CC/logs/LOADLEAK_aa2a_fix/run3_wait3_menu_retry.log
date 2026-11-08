@@ -1,0 +1,56 @@
+CC 讀檔時鐘跳（書店 18:00）重現：SHA=?（worktree 實際 aa2a719bff）；VARIANTS=[['wait3', 'menu'], ['wait3', 'menu']]
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [wait3／menu] 遊戲載入
+  [前置／捷徑] [wait3／menu] 【前置】書店 13:48 的存檔寫進 fatiao3d_slot_1（GAME.snapshot）
+  [前置／捷徑] [wait3／menu] 【前置／捷徑】讀檔進 2:30 AM 2025-10-18 13:48；可昕 fam/trust ≥ 第 3 階；ACTN cafe 第 3 場；INV.accept 14:00
+  [ 119.7s] [wait3／menu] 咖啡第 3 場：11 句、約的狀態 done、時鐘 14.83
+PASS [wait3／menu] 咖啡第 3 場演完（done）  done
+  [ 122.7s] [wait3／menu] 讀檔前：G.invites [["iv1", "kexin", "cafe", 32, 14, "done"]]；GAME.defaults().invites null（兩次 defaults 同一個陣列：True）
+  [ 122.7s] [wait3／menu] 讀檔前一刻：時鐘 14.84、zone cafe；在跑的東西 {"econff": false, "eventsRunning": null, "dlg": false, "dlgText": "店關了沒關係。人還在就好。", "gameD": {"active": false, "busyDepth": 0, "stale": false}, "scene": null, "invRunning": {"running": null, "busy": null}, "dateRunning": {"running": null, "busy": null}, "choices": 0}
+  [ 122.7s] [wait3／menu] 照玩家：☰ → 存檔頁 → 欄位 1「讀取」
+PASS [wait3／menu] 欄位 1 有「讀取」（選單開得起來）
+  [ 131.8s] [wait3／menu] 讀檔後 toast："已讀取"（看得到：True）
+  [ 131.8s] [wait3／menu] 讀檔後：G.invites []
+  [ 152.2s] [wait3／menu] 讀檔後 20 秒（每 0.5 秒 [秒, zone, hour, day]）：[[0.0, "bookstore", 13.81, 32, 0], [0.5, "bookstore", 13.811, 32, 0], [1.0, "bookstore", 13.811, 32, 0], [1.5, "bookstore", 13.811, 32, 0], [2.0, "bookstore", 13.813, 32, 0], [2.5, "bookstore", 13.813, 32, 0], [3.0, "bookstore", 13.815, 32, 0], [3.5, "bookstore", 13.816, 32, 0], [4.0, "bookstore", 13.817, 32, 0], [4.5, "bookstore", 13.819, 32, 0], [5.0, "bookstore", 13.819, 32, 0], [5.5, "bookstore", 13.821, 32, 0], [6.0, "bookstore", 13.821, 32, 0], [6.5, "bookstore", 13.823, 32, 0], [7.0, "bookstore", 13.824, 32, 0], [7.5, "bookstore", 13.825, 32, 0], [8.0, "bookstore", 13.826, 32, 0], [8.5, "bookstore", 13.827, 32, 0], [9.0, "bookstore", 13.829, 32, 0], [9.5, "bookstore", 13.829, 32, 0], [10.0, "bookstore", 13.831, 32, 0], [10.5, "bookstore", 13.831, 32, 0], [11.0, "bookstore", 13.831, 32, 0], [11.5, "bookstore", 13.832, 32, 0], [12.0, "bookstore", 13.834, 32, 0], [12.5, "bookstore", 13.834, 32, 0], [13.0, "bookstore", 13.836, 32, 0], [13.5, "bookstore", 13.837, 32, 0], [14.0, "bookstore", 13.838, 32, 0], [14.5, "bookstore", 13.84, 32, 0], [15.0, "bookstore", 13.841, 32, 0], [15.5, "bookstore", 13.842, 32, 0], [16.0, "bookstore", 13.844, 32, 0], [16.5, "bookstore", 13.845, 32, 0], [17.0, "bookstore", 13.846, 32, 0], [17.5, "bookstore", 13.848, 32, 0], [18.0, "bookstore", 13.848, 32, 0], [18.5, "bookstore", 13.85, 32, 0], [19.0, "bookstore", 13.851, 32, 0], [19.5, "bookstore", 13.853, 32, 0]]
+  [ 152.2s] [wait3／menu] 讀檔那一刻在跑的東西：{"econff": false, "eventsRunning": null, "dlg": false, "dlgText": "店關了沒關係。人還在就好。", "gameD": {"active": false, "busyDepth": 0, "stale": false}, "scene": null, "invRunning": {"running": null, "busy": null}, "dateRunning": {"running": null, "busy": null}, "choices": 0}
+PASS [wait3／menu] 讀檔後進了書店、時鐘在 13:48 附近（第一格 [0.0, "bookstore", 13.81, 32, 0]）  [[0.0, "bookstore", 13.81, 32, 0], [0.5, "bookstore", 13.811, 32, 0], [1.0, "bookstore", 13.811, 32, 0], [1.5, "bookstore", 13.811, 32, 0]]
+PASS [wait3／menu] 讀檔後 20 秒內時鐘沒有跳  null
+PASS [wait3／menu] 讀檔後 #toast 不是上一局的約會提醒（空的，或不含「提醒：14:00」）  "已讀取"
+PASS [wait3／menu] 讀檔後畫面上沒有顯示「提醒：14:00…」toast  [true, "已讀取"]
+PASS [wait3／menu] 讀檔後 20 秒 D.busyDepth 一直是 0  []
+  [ 159.6s] 到達「[wait3／menu] 書店裡走走 (-2.0,2.0)」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [ 177.3s] 到達「[wait3／menu] 書店裡走走 (2.0,-2.0)」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，18 秒
+  [ 193.4s] 到達「[wait3／menu] 書店裡走走 (-3.5,-2.5)」附近（0.17 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，16 秒
+  [ 217.1s] 走不到「[wait3／menu] 書店裡走走 (0.0,3.0)」：最後位置 (-3.47,-1.68)，目標 (0.0,3.0)；點地面 1 次、轉鏡頭 1 次、搖桿 0 次
+  [ 217.1s]   這段時間：畫面 73 格／24 秒、遊戲時間 13.95→14.00、paused=False、開著的面板 []
+  [ 217.1s] [wait3／menu] 走 1 分鐘（[秒, zone, hour, 對話, 選項, busyDepth]）：[[7.4, "bookstore", 13.868, false, 0, 0], [25.1, "bookstore", 13.91, false, 0, 0], [41.3, "bookstore", 13.952, false, 0, 0], [65.0, "bookstore", 13.999, false, 0, 0]]
+PASS [wait3／menu] 走 1 分鐘：時鐘照常（沒有一次跳 >0.3 小時）、還在書店、沒有冒出對話或劇情  [[7.4, "bookstore", 13.868, false, 0, 0], [25.1, "bookstore", 13.91, false, 0, 0], [41.3, "bookstore", 13.952, false, 0, 0], [65.0, "bookstore", 13.999, false, 0, 0]]
+PASS [wait3／menu] 沒有 JS 例外  []
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS [wait3／menu] 遊戲載入
+  [前置／捷徑] [wait3／menu] 【前置】書店 13:48 的存檔寫進 fatiao3d_slot_1（GAME.snapshot）
+  [前置／捷徑] [wait3／menu] 【前置／捷徑】讀檔進 2:30 AM 2025-10-18 13:48；可昕 fam/trust ≥ 第 3 階；ACTN cafe 第 3 場；INV.accept 14:00
+  [ 337.8s] [wait3／menu] 咖啡第 3 場：11 句、約的狀態 done、時鐘 14.83
+PASS [wait3／menu] 咖啡第 3 場演完（done）  done
+  [ 340.9s] [wait3／menu] 讀檔前：G.invites [["iv1", "kexin", "cafe", 32, 14, "done"]]；GAME.defaults().invites null（兩次 defaults 同一個陣列：True）
+  [ 340.9s] [wait3／menu] 讀檔前一刻：時鐘 14.83、zone cafe；在跑的東西 {"econff": false, "eventsRunning": null, "dlg": false, "dlgText": "店關了沒關係。人還在就好。", "gameD": {"active": false, "busyDepth": 0, "stale": false}, "scene": null, "invRunning": {"running": null, "busy": null}, "dateRunning": {"running": null, "busy": null}, "choices": 0}
+  [ 340.9s] [wait3／menu] 照玩家：☰ → 存檔頁 → 欄位 1「讀取」
+PASS [wait3／menu] 欄位 1 有「讀取」（選單開得起來）
+  [ 350.7s] [wait3／menu] 讀檔後 toast："已讀取"（看得到：True）
+  [ 350.7s] [wait3／menu] 讀檔後：G.invites []
+  [ 371.2s] [wait3／menu] 讀檔後 20 秒（每 0.5 秒 [秒, zone, hour, day]）：[[0.0, "bookstore", 13.811, 32, 0], [0.5, "bookstore", 13.811, 32, 0], [1.0, "bookstore", 13.811, 32, 0], [1.5, "bookstore", 13.812, 32, 0], [2.0, "bookstore", 13.812, 32, 0], [2.5, "bookstore", 13.814, 32, 0], [3.0, "bookstore", 13.815, 32, 0], [3.5, "bookstore", 13.816, 32, 0], [4.0, "bookstore", 13.817, 32, 0], [4.5, "bookstore", 13.818, 32, 0], [5.0, "bookstore", 13.82, 32, 0], [5.5, "bookstore", 13.821, 32, 0], [6.0, "bookstore", 13.822, 32, 0], [6.5, "bookstore", 13.824, 32, 0], [7.0, "bookstore", 13.825, 32, 0], [7.5, "bookstore", 13.826, 32, 0], [8.0, "bookstore", 13.827, 32, 0], [8.5, "bookstore", 13.828, 32, 0], [9.0, "bookstore", 13.83, 32, 0], [9.5, "bookstore", 13.831, 32, 0], [10.0, "bookstore", 13.832, 32, 0], [10.5, "bookstore", 13.834, 32, 0], [11.0, "bookstore", 13.835, 32, 0], [11.5, "bookstore", 13.836, 32, 0], [12.0, "bookstore", 13.837, 32, 0], [12.5, "bookstore", 13.838, 32, 0], [13.0, "bookstore", 13.84, 32, 0], [13.5, "bookstore", 13.84, 32, 0], [14.0, "bookstore", 13.842, 32, 0], [14.5, "bookstore", 13.843, 32, 0], [15.0, "bookstore", 13.844, 32, 0], [15.5, "bookstore", 13.845, 32, 0], [16.0, "bookstore", 13.846, 32, 0], [16.5, "bookstore", 13.848, 32, 0], [17.0, "bookstore", 13.849, 32, 0], [17.5, "bookstore", 13.85, 32, 0], [18.0, "bookstore", 13.852, 32, 0], [18.5, "bookstore", 13.852, 32, 0], [19.0, "bookstore", 13.854, 32, 0], [19.5, "bookstore", 13.855, 32, 0]]
+  [ 371.2s] [wait3／menu] 讀檔那一刻在跑的東西：{"econff": false, "eventsRunning": null, "dlg": false, "dlgText": "店關了沒關係。人還在就好。", "gameD": {"active": false, "busyDepth": 0, "stale": false}, "scene": null, "invRunning": {"running": null, "busy": null}, "dateRunning": {"running": null, "busy": null}, "choices": 0}
+PASS [wait3／menu] 讀檔後進了書店、時鐘在 13:48 附近（第一格 [0.0, "bookstore", 13.811, 32, 0]）  [[0.0, "bookstore", 13.811, 32, 0], [0.5, "bookstore", 13.811, 32, 0], [1.0, "bookstore", 13.811, 32, 0], [1.5, "bookstore", 13.812, 32, 0]]
+PASS [wait3／menu] 讀檔後 20 秒內時鐘沒有跳  null
+PASS [wait3／menu] 讀檔後 #toast 不是上一局的約會提醒（空的，或不含「提醒：14:00」）  "已讀取"
+PASS [wait3／menu] 讀檔後畫面上沒有顯示「提醒：14:00…」toast  [true, "已讀取"]
+PASS [wait3／menu] 讀檔後 20 秒 D.busyDepth 一直是 0  []
+  [ 378.6s] 到達「[wait3／menu] 書店裡走走 (-2.0,2.0)」附近（0.09 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [ 397.0s] 到達「[wait3／menu] 書店裡走走 (2.0,-2.0)」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，18 秒
+  [ 413.5s] 到達「[wait3／menu] 書店裡走走 (-3.5,-2.5)」附近（0.13 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，16 秒
+  [ 436.4s] 走不到「[wait3／menu] 書店裡走走 (0.0,3.0)」：最後位置 (-3.42,-1.5)，目標 (0.0,3.0)；點地面 1 次、轉鏡頭 1 次、搖桿 0 次
+  [ 436.4s]   這段時間：畫面 70 格／23 秒、遊戲時間 13.95→13.99、paused=False、開著的面板 []
+  [ 436.4s] [wait3／menu] 走 1 分鐘（[秒, zone, hour, 對話, 選項, busyDepth]）：[[7.4, "bookstore", 13.87, false, 0, 0], [25.8, "bookstore", 13.91, false, 0, 0], [42.3, "bookstore", 13.949, false, 0, 0], [65.2, "bookstore", 13.994, false, 0, 0]]
+PASS [wait3／menu] 走 1 分鐘：時鐘照常（沒有一次跳 >0.3 小時）、還在書店、沒有冒出對話或劇情  [[7.4, "bookstore", 13.87, false, 0, 0], [25.8, "bookstore", 13.91, false, 0, 0], [42.3, "bookstore", 13.949, false, 0, 0], [65.2, "bookstore", 13.994, false, 0, 0]]
+PASS [wait3／menu] 沒有 JS 例外  []
+ALL PASS

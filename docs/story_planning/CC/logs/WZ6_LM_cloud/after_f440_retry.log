@@ -1,0 +1,76 @@
+CC 燒臘、頁間書屋光照（after）：SHA=?（worktree 實際 f4404d1c21）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [after wz_teahouse 1400] 讀檔 wz_teahouse 2025-10-18 14.0（條件事件關閉）
+PASS [after wz_teahouse 1400] 進得了 wz_teahouse  {"zone": "wz_teahouse", "x": -3, "z": 9, "y": -0.42, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開一盞", "stand": true, "fb": 0, "hour": 14.02}
+  [  35.6s] [after wz_teahouse 1400] 材質／光照貼圖：{"meshes": 85, "mats": 85, "withLightMap": 11, "maps": ["yizhan_lm_day.webp"], "uv1Meshes": 11, "whiteNoTexMats": 5, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+  [  35.6s] [after wz_teahouse 1400] 自動機位：{"spawn": [-3, 9], "yaw": 3.14, "center": [0, 6.75], "size": [32, 13.2, 27.5], "clerk": [2.95, 1.3], "seat": [-2.5, 0.95], "views": {"door": {"eye": [-3, 1.6, 9.3], "look": [-3, 1, 3], "lens": 18}, "top": {"eye": [0, 18.2, 7.55], "look": [0, 0, 6.45], "lens": 16}, "seat": {"eye": [-1.23, 1.4, 3.38], "look": [-2.5, 0.6, 0.95], "lens": 22}, "clerk": {"eye": [1.9, 1.6, 3.23], "look": [2.95, 1.2, 1.3], "lens": 24}, "out": {"eye": [-3, 1.55, 6.5], "look": [-3, 1.4, 15], "lens": 20}}}
+PASS [黑畫面] s5_after_wz_teahouse_1400_door 不是黑畫面（平均亮度 59.4、變化 49.4）  [59.4, 49.4]
+  [  40.3s] [截圖] s5_after_wz_teahouse_1400_door：鏡頭 {"eye": [-3, 1.6, 9.3], "look": [-3, 1, 3], "lens": 18, "vfov": 58.72}、亮度 [59.4, 49.4]
+PASS [黑畫面] s5_after_wz_teahouse_1400_top 不是黑畫面（平均亮度 117.4、變化 61.3）  [117.4, 61.3]
+  [  45.3s] [截圖] s5_after_wz_teahouse_1400_top：鏡頭 {"eye": [0, 18.2, 7.55], "look": [0, 0, 6.45], "lens": 16, "vfov": 64.65}、亮度 [117.4, 61.3]
+PASS [黑畫面] s5_after_wz_teahouse_1400_seat 不是黑畫面（平均亮度 108.6、變化 51.1）  [108.6, 51.1]
+  [  49.5s] [截圖] s5_after_wz_teahouse_1400_seat：鏡頭 {"eye": [-1.23, 1.4, 3.38], "look": [-2.5, 0.6, 0.95], "lens": 22, "vfov": 49.43}、亮度 [108.6, 51.1]
+PASS [黑畫面] s5_after_wz_teahouse_1400_clerk 不是黑畫面（平均亮度 80.1、變化 46.5）  [80.1, 46.5]
+  [  55.2s] [截圖] s5_after_wz_teahouse_1400_clerk：鏡頭 {"eye": [1.9, 1.6, 3.23], "look": [2.95, 1.2, 1.3], "lens": 24, "vfov": 45.75}、亮度 [80.1, 46.5]
+PASS [黑畫面] s5_after_wz_teahouse_1400_out 不是黑畫面（平均亮度 65.3、變化 40.8）  [65.3, 40.8]
+  [  59.2s] [截圖] s5_after_wz_teahouse_1400_out：鏡頭 {"eye": [-3, 1.55, 6.5], "look": [-3, 1.4, 15], "lens": 20, "vfov": 53.7}、亮度 [65.3, 40.8]
+  [前置／捷徑] [after wz_teahouse 2100] 讀檔 wz_teahouse 2025-10-18 21.0（條件事件關閉）
+PASS [after wz_teahouse 2100] 進得了 wz_teahouse  {"zone": "wz_teahouse", "x": -3, "z": 9, "y": -0.42, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開一盞", "stand": true, "fb": 0, "hour": 21.01}
+  [  76.8s] [after wz_teahouse 2100] 材質／光照貼圖：{"meshes": 505, "mats": 505, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 176, "views": [], "charFailures": [], "assetFailed": null, "glb": null}
+PASS [黑畫面] s5_after_wz_teahouse_2100_door 不是黑畫面（平均亮度 60.6、變化 29.8）  [60.6, 29.8]
+  [  87.6s] [截圖] s5_after_wz_teahouse_2100_door：鏡頭 {"eye": [-3, 1.6, 9.3], "look": [-3, 1, 3], "lens": 18, "vfov": 58.72}、亮度 [60.6, 29.8]
+PASS [黑畫面] s5_after_wz_teahouse_2100_top 不是黑畫面（平均亮度 60.7、變化 0.4）  [60.7, 0.4]
+  [  92.2s] [截圖] s5_after_wz_teahouse_2100_top：鏡頭 {"eye": [0, 18.2, 7.55], "look": [0, 0, 6.45], "lens": 16, "vfov": 64.65}、亮度 [60.7, 0.4]
+PASS [黑畫面] s5_after_wz_teahouse_2100_seat 不是黑畫面（平均亮度 54.2、變化 23.5）  [54.2, 23.5]
+  [  97.0s] [截圖] s5_after_wz_teahouse_2100_seat：鏡頭 {"eye": [-1.23, 1.4, 3.38], "look": [-2.5, 0.6, 0.95], "lens": 22, "vfov": 49.43}、亮度 [54.2, 23.5]
+PASS [黑畫面] s5_after_wz_teahouse_2100_clerk 不是黑畫面（平均亮度 53.2、變化 23.6）  [53.2, 23.6]
+  [ 100.9s] [截圖] s5_after_wz_teahouse_2100_clerk：鏡頭 {"eye": [1.9, 1.6, 3.23], "look": [2.95, 1.2, 1.3], "lens": 24, "vfov": 45.75}、亮度 [53.2, 23.6]
+PASS [黑畫面] s5_after_wz_teahouse_2100_out 不是黑畫面（平均亮度 69.0、變化 21.5）  [69.0, 21.5]
+  [ 104.5s] [截圖] s5_after_wz_teahouse_2100_out：鏡頭 {"eye": [-3, 1.55, 6.5], "look": [-3, 1.4, 15], "lens": 20, "vfov": 53.7}、亮度 [69.0, 21.5]
+  [前置／捷徑] [after wz_brunch 1400] 讀檔 wz_brunch 2025-10-18 14.0（條件事件關閉）
+PASS [after wz_brunch 1400] 進得了 wz_brunch  {"zone": "wz_brunch", "x": 0.4, "z": 4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開 SUNNY SIDE", "stand": true, "fb": 0, "hour": 14.01}
+  [ 120.2s] [after wz_brunch 1400] 材質／光照貼圖：{"meshes": 47, "mats": 47, "withLightMap": 10, "maps": ["sunnyside_lm_day.webp"], "uv1Meshes": 10, "whiteNoTexMats": 8, "views": [{"n": "WALL_front_VIEW_sns_window_view", "vis": false}, {"n": "WALL_right_VIEW_sns_window_view", "vis": true}], "charFailures": [], "assetFailed": null, "glb": true}
+  [ 120.2s] [after wz_brunch 1400] 自動機位：{"spawn": [0.4, 4], "yaw": 3.14, "center": [1.16, 0.68], "size": [9.07, 5.5, 11.64], "clerk": [2.6, -2.05], "seat": [-2.75, -0.85], "views": {"door": {"eye": [0.4, 1.6, 4.3], "look": [0.4, 1, -2], "lens": 18}, "top": {"eye": [1.16, 10.5, 1.48], "look": [1.16, 0, 0.38], "lens": 16}, "seat": {"eye": [-0.98, 1.4, 0.09], "look": [-2.75, 0.6, -0.85], "lens": 22}, "clerk": {"eye": [1.58, 1.6, -0.1], "look": [2.6, 1.2, -2.05], "lens": 24}, "out": {"eye": [0.4, 1.55, 1.5], "look": [0.4, 1.4, 10], "lens": 20}}}
+PASS [黑畫面] s5_after_wz_brunch_1400_door 不是黑畫面（平均亮度 121.8、變化 62.1）  [121.8, 62.1]
+  [ 123.8s] [截圖] s5_after_wz_brunch_1400_door：鏡頭 {"eye": [0.4, 1.6, 4.3], "look": [0.4, 1, -2], "lens": 18, "vfov": 58.72}、亮度 [121.8, 62.1]
+PASS [黑畫面] s5_after_wz_brunch_1400_top 不是黑畫面（平均亮度 156.3、變化 58.5）  [156.3, 58.5]
+  [ 126.3s] [截圖] s5_after_wz_brunch_1400_top：鏡頭 {"eye": [1.16, 10.5, 1.48], "look": [1.16, 0, 0.38], "lens": 16, "vfov": 64.65}、亮度 [156.3, 58.5]
+PASS [黑畫面] s5_after_wz_brunch_1400_seat 不是黑畫面（平均亮度 132.3、變化 63.8）  [132.3, 63.8]
+  [ 129.5s] [截圖] s5_after_wz_brunch_1400_seat：鏡頭 {"eye": [-0.98, 1.4, 0.09], "look": [-2.75, 0.6, -0.85], "lens": 22, "vfov": 49.43}、亮度 [132.3, 63.8]
+PASS [黑畫面] s5_after_wz_brunch_1400_clerk 不是黑畫面（平均亮度 125.4、變化 69.1）  [125.4, 69.1]
+  [ 132.2s] [截圖] s5_after_wz_brunch_1400_clerk：鏡頭 {"eye": [1.58, 1.6, -0.1], "look": [2.6, 1.2, -2.05], "lens": 24, "vfov": 45.75}、亮度 [125.4, 69.1]
+PASS [黑畫面] s5_after_wz_brunch_1400_out 不是黑畫面（平均亮度 106.6、變化 59.8）  [106.6, 59.8]
+  [ 134.6s] [截圖] s5_after_wz_brunch_1400_out：鏡頭 {"eye": [0.4, 1.55, 1.5], "look": [0.4, 1.4, 10], "lens": 20, "vfov": 53.7}、亮度 [106.6, 59.8]
+  [前置／捷徑] [after wz_brunch 2100] 讀檔 wz_brunch 2025-10-18 21.0（條件事件關閉）
+  [ 147.4s] [after wz_brunch 2100] 第一次讀檔停在 wenzhou（互動「進去 SUNNY SIDE」），再讀一次
+FAIL [after wz_brunch 2100] 進得了 wz_brunch  {"zone": "wenzhou", "x": 42, "z": -4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進去 SUNNY SIDE", "stand": true, "fb": 0, "hour": 21.01}
+  [前置／捷徑] [after wz_teishoku 1400] 讀檔 wz_teishoku 2025-10-18 14.0（條件事件關閉）
+PASS [after wz_teishoku 1400] 進得了 wz_teishoku  {"zone": "wz_teishoku", "x": -2, "z": 3.05, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開小路", "stand": true, "fb": 0, "hour": 14.01}
+  [ 193.6s] [after wz_teishoku 1400] 材質／光照貼圖：{"meshes": 704, "mats": 704, "withLightMap": 0, "maps": [], "uv1Meshes": 1, "whiteNoTexMats": 220, "views": [], "charFailures": [], "assetFailed": null, "glb": null}
+  [ 198.2s] [after wz_teishoku 1400] 自動機位：{"spawn": [-4.8, -4.1], "yaw": 0, "center": [9.1, 1.75], "size": [118.6, 30.06, 95.5], "clerk": [16.8, -9.2], "seat": [26, 19.9], "views": {"door": {"eye": [-4.8, 1.6, -4.4], "look": [-4.8, 1, 1.9], "lens": 18}, "top": {"eye": [9.1, 35.06, 2.55], "look": [9.1, 0, 1.45], "lens": 16}, "seat": {"eye": [20.48, 1.4, 13.95], "look": [26, 0.6, 19.9], "lens": 22}, "clerk": {"eye": [15.53, 1.6, -7.4], "look": [16.8, 1.2, -9.2], "lens": 24}, "out": {"eye": [-4.8, 1.55, -1.6], "look": [-4.8, 1.4, -10.1], "lens": 20}}}
+PASS [黑畫面] s5_after_wz_teishoku_1400_door 不是黑畫面（平均亮度 79.5、變化 35.2）  [79.5, 35.2]
+  [ 206.0s] [截圖] s5_after_wz_teishoku_1400_door：鏡頭 {"eye": [-4.8, 1.6, -4.4], "look": [-4.8, 1, 1.9], "lens": 18, "vfov": 58.72}、亮度 [79.5, 35.2]
+PASS [黑畫面] s5_after_wz_teishoku_1400_top 不是黑畫面（平均亮度 120.7、變化 39.5）  [120.7, 39.5]
+  [ 212.8s] [截圖] s5_after_wz_teishoku_1400_top：鏡頭 {"eye": [9.1, 35.06, 2.55], "look": [9.1, 0, 1.45], "lens": 16, "vfov": 64.65}、亮度 [120.7, 39.5]
+PASS [黑畫面] s5_after_wz_teishoku_1400_seat 不是黑畫面（平均亮度 102.7、變化 38.9）  [102.7, 38.9]
+  [ 218.9s] [截圖] s5_after_wz_teishoku_1400_seat：鏡頭 {"eye": [20.48, 1.4, 13.95], "look": [26, 0.6, 19.9], "lens": 22, "vfov": 49.43}、亮度 [102.7, 38.9]
+PASS [黑畫面] s5_after_wz_teishoku_1400_clerk 不是黑畫面（平均亮度 73.8、變化 27.2）  [73.8, 27.2]
+  [ 222.9s] [截圖] s5_after_wz_teishoku_1400_clerk：鏡頭 {"eye": [15.53, 1.6, -7.4], "look": [16.8, 1.2, -9.2], "lens": 24, "vfov": 45.75}、亮度 [73.8, 27.2]
+PASS [黑畫面] s5_after_wz_teishoku_1400_out 不是黑畫面（平均亮度 64.4、變化 38.3）  [64.4, 38.3]
+  [ 226.4s] [截圖] s5_after_wz_teishoku_1400_out：鏡頭 {"eye": [-4.8, 1.55, -1.6], "look": [-4.8, 1.4, -10.1], "lens": 20, "vfov": 53.7}、亮度 [64.4, 38.3]
+  [前置／捷徑] [after wz_teishoku 2100] 讀檔 wz_teishoku 2025-10-18 21.0（條件事件關閉）
+PASS [after wz_teishoku 2100] 進得了 wz_teishoku  {"zone": "wz_teishoku", "x": -2, "z": 3.05, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開小路", "stand": true, "fb": 0, "hour": 21.01}
+  [ 241.9s] [after wz_teishoku 2100] 材質／光照貼圖：{"meshes": 39, "mats": 39, "withLightMap": 10, "maps": ["komichi_lm_day.webp"], "uv1Meshes": 10, "whiteNoTexMats": 5, "views": [{"n": "WALL_front_VIEW_kmc_window_view", "vis": false}], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_after_wz_teishoku_2100_door 不是黑畫面（平均亮度 23.4、變化 23.5）  [23.4, 23.5]
+  [ 245.0s] [截圖] s5_after_wz_teishoku_2100_door：鏡頭 {"eye": [-4.8, 1.6, -4.4], "look": [-4.8, 1, 1.9], "lens": 18, "vfov": 58.72}、亮度 [23.4, 23.5]
+PASS [黑畫面] s5_after_wz_teishoku_2100_top 不是黑畫面（平均亮度 12.5、變化 9.5）  [12.5, 9.5]
+  [ 247.1s] [截圖] s5_after_wz_teishoku_2100_top：鏡頭 {"eye": [9.1, 35.06, 2.55], "look": [9.1, 0, 1.45], "lens": 16, "vfov": 64.65}、亮度 [12.5, 9.5]
+PASS [黑畫面] s5_after_wz_teishoku_2100_seat 不是黑畫面（平均亮度 10.0、變化 2.3）  [10.0, 2.3]
+  [ 248.7s] [截圖] s5_after_wz_teishoku_2100_seat：鏡頭 {"eye": [20.48, 1.4, 13.95], "look": [26, 0.6, 19.9], "lens": 22, "vfov": 49.43}、亮度 [10.0, 2.3]
+PASS [黑畫面] s5_after_wz_teishoku_2100_clerk 不是黑畫面（平均亮度 10.3、變化 2.0）  [10.3, 2.0]
+  [ 250.6s] [截圖] s5_after_wz_teishoku_2100_clerk：鏡頭 {"eye": [15.53, 1.6, -7.4], "look": [16.8, 1.2, -9.2], "lens": 24, "vfov": 45.75}、亮度 [10.3, 2.0]
+PASS [黑畫面] s5_after_wz_teishoku_2100_out 不是黑畫面（平均亮度 27.9、變化 31.2）  [27.9, 31.2]
+  [ 253.9s] [截圖] s5_after_wz_teishoku_2100_out：鏡頭 {"eye": [-4.8, 1.55, -1.6], "look": [-4.8, 1.4, -10.1], "lens": 20, "vfov": 53.7}、亮度 [27.9, 31.2]
+PASS 沒有 JS 例外  []
+FAILED 1: [after wz_brunch 2100] 進得了 wz_brunch

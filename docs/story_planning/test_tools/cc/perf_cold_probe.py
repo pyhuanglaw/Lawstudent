@@ -222,6 +222,13 @@ async def one_run(p, url, zone, variant, preload_keys):
             run['preload'] = await pg.evaluate(PRELOAD_JS, preload_keys); await pg.wait_for_timeout(1500)
         if variant == 'prewarm':
             await pg.evaluate(WARM_RENDER_JS)
+        for fz in [x for x in os.environ.get('FROM', '').split(',') if x]:   # CC-B 11-07（LAWWW2-B 12:09 FIXLIGHTS）：先依序進 FROM 的區域（逗號分隔，例 gongguan；pinprog＝wenzhou,gongguan 再量第二次進溫州街），每一區站 FROM_WAIT 秒，再量進目標區域
+            await L.load_state(pg, {'zone': fz, 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': None, 'flags': FLAGS}, quiet_events=True, quiet_phone=True)
+            for _ in range(240):
+                if await pg.evaluate("z=>{ const E=GAME.E, id=E.zone&&E.zone.def&&E.zone.def.id; return id===z&&(!window.__PC||true); }", fz): break
+                await pg.wait_for_timeout(250)
+            await pg.wait_for_timeout(int(float(os.environ.get('FROM_WAIT', '8')) * 1000)); run.setdefault('from', []).append(fz)
+        if os.environ.get('FROM'): run['programsBefore'] = await pg.evaluate("GAME.E.renderer.info.programs.length")
         await pg.evaluate("window.__PC.start()")
         run['t_enter'] = await pg.evaluate("performance.now()")
         await L.load_state(pg, {'zone': zone, 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': None, 'flags': FLAGS}, quiet_events=True, quiet_phone=True)
@@ -235,6 +242,8 @@ async def one_run(p, url, zone, variant, preload_keys):
         run['loaf'] = await pg.evaluate("window.__PC.loaf")
         run['longtask'] = await pg.evaluate("window.__PC.lt")
         run['info'] = await pg.evaluate(INFO_JS)
+        try: run['programsAfter'] = await pg.evaluate("GAME.E.renderer.info.programs.length")
+        except Exception: pass
         run['res_t'] = await pg.evaluate(RES_JS)
         if variant == 'base':
             try: run['breakdown'] = await pg.evaluate(BREAKDOWN_JS)

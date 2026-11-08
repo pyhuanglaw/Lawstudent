@@ -1,0 +1,384 @@
+CC SHOP_CROWD（新店的客人）：SHA=?（worktree 實際 6da721819b）；Windows＋GPU／SwiftShader ≠ iPhone
+  [前置／捷徑] CC_SEED=20261105：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+PASS 這一版有 wz_offbeat
+== wz_offbeat early
+  [前置／捷徑] [wz_offbeat 白天] 讀檔店裡（出生點）2025-10-18 14.00
+PASS [wz_offbeat 白天] 讀到店裡  {"zone": "wz_offbeat", "x": -3.9, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [  29.4s] [wz_offbeat 白天] 14.01 店裡的人 7（客人 7）：[{"id": null, "name": "", "x": -2.8, "z": -2.6, "y": 0.27, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -2.8, "z": -2.6, "y": null, "lift": 0.27}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -5.1, "z": -1.3, "y": 0, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -5.1, "z": -1.3, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -3.8, "z": -1.3, "y": 0, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -3.8, "z": -1.3, "y": null, "lift": 0}, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": 0.1, "z": 4.2, "y": 0, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": 0.1, "z": 4.2, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 4.55, "z": 0.45, "y": 0, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": false, "seat": {"x": 4.55, "z": 0.45, "y": null, "lift": 0}, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": 4.55, "z": 1.55, "y": 0, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": false, "seat": {"x": 4.55, "z": 1.55, "y": null, "lift": 0}, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": -3, "z": -3.95, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}]
+PASS [wz_offbeat 白天] 有客人  7
+PASS [wz_offbeat 白天] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+PASS [wz_offbeat 白天] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  []
+PASS [wz_offbeat 白天] ③ 從店門走得到每一張空座位（26 張）的走近點和店門（E.simWalk）  []
+  [前置／捷徑] [wz_offbeat 白天] ④ 【捷徑】站到客人坐的 3 張的走近點（placeAt）看按鈕
+PASS [wz_offbeat 白天] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_wz_offbeat_early 不是黑畫面（平均亮度 126.0、變化 63.6）  [126.0, 63.6]
+  [  37.5s] [截圖] crowd_wz_offbeat_early：鏡頭 {"eye": [-3.9, 5.5, 4], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [126.0, 63.6]
+  [前置／捷徑] [wz_offbeat 白天] ④ 讀檔回 14.00，照玩家點 2 張空椅子坐下、起身（走過去的時候客人沒有搶先坐上去）
+  [  46.5s] [wz_offbeat 白天] 點椅子 座位 2 張：[{"label": "坐下", "x": -0.9, "z": -0.57, "lv": 0, "sx": -0.9, "sz": -0.57, "sy": null, "slv": 0, "row": null, "ap": [-1.45, -0.57], "lift": 0}, {"label": "坐下", "x": -0.1, "z": -0.57, "lv": 0, "sx": -0.1, "sz": -0.57, "sy": null, "slv": 0, "row": null, "ap": [-0.1, -1.17], "lift": 0}]
+  [  86.0s] 到達「[wz_offbeat 白天] 點椅子 #1（-0.9, -0.57）（走到椅子附近）」附近（0.14 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，39 秒
+PASS [wz_offbeat 白天] 點椅子 #1（-0.9, -0.57） 點椅子（螢幕 [730, 511]）走過去停在 (-1.57, -0.494)（seatApproach [-1.45, -0.57]）：最近的「坐下」是這一張  {"at": [-1.57, -0.494], "nearest": {"label": "坐下", "seat": [-0.9, -0.57], "exit": null}}
+PASS [wz_offbeat 白天] 點椅子 #1（-0.9, -0.57） 走到旁邊，互動按鈕是「坐下」  {"x": -1.57, "z": -0.494, "lv": 0, "interact": "坐下", "stand": true}
+PASS [wz_offbeat 白天] 點椅子 #1（-0.9, -0.57） 坐下了（player.seat）  {"x": -0.9, "z": -0.57, "y": 0, "lv": 0, "sx": -0.9, "sz": -0.57, "sy": null}
+PASS [wz_offbeat 白天] 點椅子 #1（-0.9, -0.57） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -0.9, "z": -0.57, "y": 0, "lv": 0, "sx": -0.9, "sz": -0.57, "sy": null}
+PASS [黑畫面] crowd_sit_wz_offbeat_seat_1 不是黑畫面（平均亮度 102.9、變化 73.4）  [102.9, 73.4]
+  [ 111.1s] [wz_offbeat 白天] 點椅子 #1（-0.9, -0.57） 起身點了：["不用了", "起身"]
+PASS [wz_offbeat 白天] 點椅子 #1（-0.9, -0.57） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 3.1, "x": -1.65, "z": 2.53, "lv": 0, "stand": true, "fb": 0}
+  [ 136.3s] 到達「[wz_offbeat 白天] 點椅子 #2（-0.1, -0.57）（走到椅子附近）」附近（0.10 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，20 秒
+PASS [wz_offbeat 白天] 點椅子 #2（-0.1, -0.57） 點椅子（螢幕 [660, 574]）走過去停在 (-0.204, -1.14)（seatApproach [-0.1, -1.17]）：最近的「坐下」是這一張  {"at": [-0.204, -1.14], "nearest": {"label": "坐下", "seat": [-0.1, -0.57], "exit": null}}
+PASS [wz_offbeat 白天] 點椅子 #2（-0.1, -0.57） 走到旁邊，互動按鈕是「坐下」  {"x": -0.204, "z": -1.14, "lv": 0, "interact": "坐下", "stand": true}
+PASS [wz_offbeat 白天] 點椅子 #2（-0.1, -0.57） 坐下了（player.seat）  {"x": -0.1, "z": -0.57, "y": 0, "lv": 0, "sx": -0.1, "sz": -0.57, "sy": null}
+PASS [wz_offbeat 白天] 點椅子 #2（-0.1, -0.57） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -0.1, "z": -0.57, "y": 0, "lv": 0, "sx": -0.1, "sz": -0.57, "sy": null}
+PASS [黑畫面] crowd_sit_wz_offbeat_seat_2 不是黑畫面（平均亮度 107.7、變化 76.4）  [107.7, 76.4]
+  [ 151.3s] [wz_offbeat 白天] 點椅子 #2（-0.1, -0.57） 起身點了：["起身"]
+PASS [wz_offbeat 白天] 點椅子 #2（-0.1, -0.57） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 0.62, "x": -0.408, "z": -0.782, "lv": 0, "stand": true, "fb": 0}
+  [ 156.5s] [wz_offbeat 白天] 點椅子 2 張：[[1, "ok", -0.9, -0.57], [2, "ok", -0.1, -0.57]]
+== wz_offbeat late
+  [前置／捷徑] [wz_offbeat 晚上] 讀檔店裡（出生點）2025-10-18 22.50
+PASS [wz_offbeat 晚上] 讀到店裡  {"zone": "wz_offbeat", "x": -3.9, "z": 3, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 22.5}
+  [ 184.2s] [wz_offbeat 晚上] 22.50 店裡的人 11（客人 11）：[{"id": null, "name": "", "x": -4.6, "z": -2.6, "y": 0.27, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -4.6, "z": -2.6, "y": null, "lift": 0.27}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -3.7, "z": -2.6, "y": 0.27, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -3.7, "z": -2.6, "y": null, "lift": 0.27}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -2.8, "z": -2.6, "y": 0.27, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -2.8, "z": -2.6, "y": null, "lift": 0.27}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -1.9, "z": -2.6, "y": 0.27, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -1.9, "z": -2.6, "y": null, "lift": 0.27}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -5.1, "z": 0.1, "y": 0, "lv": 0, "floor": 0, "pose": "read", "beh": "idle", "vis": true, "seat": {"x": -5.1, "z": 0.1, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -3.8, "z": 0.1, "y": 0, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -3.8, "z": 0.1, "y": null, "lift": 0}, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": 4.55, "z": -3.45, "y": 0, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": 4.55, "z": -3.45, "y": null, "lift": 0}, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": 4.55, "z": -2.35, "y": 0, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": 4.55, "z": -2.35, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 4.45, "z": 3.1, "y": 0, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": false, "seat": {"x": 4.45, "z": 3.1, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 4.45, "z": 4.2, "y": 0, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": false, "seat": {"x": 4.45, "z": 4.2, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -3, "z": -3.95, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}]
+PASS [wz_offbeat 晚上] 有客人  11
+PASS [wz_offbeat 晚上] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+PASS [wz_offbeat 晚上] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  []
+PASS [wz_offbeat 晚上] ③ 從店門走得到每一張空座位（22 張）的走近點和店門（E.simWalk）  []
+  [前置／捷徑] [wz_offbeat 晚上] ④ 【捷徑】站到客人坐的 3 張的走近點（placeAt）看按鈕
+PASS [wz_offbeat 晚上] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_wz_offbeat_late 不是黑畫面（平均亮度 93.5、變化 49.3）  [93.5, 49.3]
+  [ 193.6s] [截圖] crowd_wz_offbeat_late：鏡頭 {"eye": [-3.9, 5.5, 4], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [93.5, 49.3]
+PASS 這一版有 wz_mokuyobi
+== wz_mokuyobi early
+  [前置／捷徑] [wz_mokuyobi 白天] 讀檔店裡（出生點）2025-10-18 14.00
+PASS [wz_mokuyobi 白天] 讀到店裡  {"zone": "wz_mokuyobi", "x": -3.75, "z": 5.4, "y": 1.2, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [ 207.3s] [wz_mokuyobi 白天] 14.01 店裡的人 11（客人 11）：[{"id": null, "name": "", "x": -1.45, "z": 6.15, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -1.45, "z": 6.15, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 1.85, "z": 6.15, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": false, "seat": {"x": 1.85, "z": 6.15, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 2.95, "z": 6.15, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": false, "seat": {"x": 2.95, "z": 6.15, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -3, "z": 0.05, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "read", "beh": "idle", "vis": true, "seat": {"x": -3, "z": 0.05, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -3, "z": -2.15, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -3, "z": -2.15, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 3.6, "z": 1.65, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "read", "beh": "idle", "vis": true, "seat": {"x": 3.6, "z": 1.65, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 2.6, "z": -4.62, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": 2.6, "z": -4.62, "y": null, "lift": 0}, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": -2.45, "z": -4.92, "y": 3.43, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -2.45, "z": -4.92, "y": null, "lift": 0.23}, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": -0.45, "z": 3.9, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -0.45, "z": 3.9, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -0.45, "z": 5, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -0.45, "z": 5, "y": null, "lift": 0}, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": -2.95, "z": -6.2, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}]
+PASS [wz_mokuyobi 白天] 有客人  11
+PASS [wz_mokuyobi 白天] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+PASS [wz_mokuyobi 白天] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  []
+PASS [wz_mokuyobi 白天] ③ 從店門走得到每一張空座位（14 張）的走近點和店門（E.simWalk）  []
+  [前置／捷徑] [wz_mokuyobi 白天] ④ 【捷徑】站到客人坐的 3 張的走近點（placeAt）看按鈕
+PASS [wz_mokuyobi 白天] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_wz_mokuyobi_early 不是黑畫面（平均亮度 101.3、變化 59.5）  [101.3, 59.5]
+  [ 213.6s] [截圖] crowd_wz_mokuyobi_early：鏡頭 {"eye": [-3.75, 5.5, 6.4], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [101.3, 59.5]
+  [前置／捷徑] [wz_mokuyobi 白天] ④ 讀檔回 14.00，照玩家點 2 張空椅子坐下、起身（走過去的時候客人沒有搶先坐上去）
+  [ 225.2s] [wz_mokuyobi 白天] 點椅子 座位 2 張：[{"label": "坐窗邊", "x": -0.35, "z": 6.15, "lv": 1, "sx": -0.35, "sz": 6.15, "sy": null, "slv": 1, "row": null, "ap": [-0.35, 5.6], "lift": 0}, {"label": "坐下", "x": -3, "z": 1.15, "lv": 1, "sx": -3, "sz": 1.15, "sy": null, "slv": 1, "row": null, "ap": [-2.45, 1.15], "lift": 0}]
+  [ 383.7s] 到達「[wz_mokuyobi 白天] 點椅子 #1（-0.35, 6.15 二樓）（走到椅子附近）」附近（0.16 m）：點地面 3 次、轉鏡頭 1 次、搖桿 1 次，158 秒
+PASS [wz_mokuyobi 白天] 點椅子 #1（-0.35, 6.15 二樓） 點椅子（螢幕 [698, 487]）走過去停在 (-0.461, 5.486)（seatApproach [-0.35, 5.6]）：最近的「坐下」是這一張  {"at": [-0.461, 5.486], "nearest": {"label": "坐窗邊", "seat": [-0.35, 6.15], "exit": null}}
+PASS [wz_mokuyobi 白天] 點椅子 #1（-0.35, 6.15 二樓） 走到旁邊，互動按鈕是「坐窗邊」  {"x": -0.461, "z": 5.486, "lv": 1, "interact": "坐窗邊", "stand": true}
+PASS [wz_mokuyobi 白天] 點椅子 #1（-0.35, 6.15 二樓） 坐下了（player.seat）  {"x": -0.35, "z": 6.15, "y": 3.2, "lv": 1, "sx": -0.35, "sz": 6.15, "sy": null}
+PASS [wz_mokuyobi 白天] 點椅子 #1（-0.35, 6.15 二樓） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 3.200＝座位那一層＋lift 3.200（±0.06）  {"x": -0.35, "z": 6.15, "y": 3.2, "lv": 1, "sx": -0.35, "sz": 6.15, "sy": null}
+PASS [黑畫面] crowd_sit_wz_mokuyobi_seat_1 不是黑畫面（平均亮度 102.0、變化 57.8）  [102.0, 57.8]
+  [ 416.6s] [wz_mokuyobi 白天] 點椅子 #1（-0.35, 6.15 二樓） 起身點了：["什麼都不點", "起身"]
+PASS [wz_mokuyobi 白天] 點椅子 #1（-0.35, 6.15 二樓） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 1.86, "x": -1.73, "z": 4.153, "lv": 1, "stand": true, "fb": 0}
+  [ 445.7s] 到達「[wz_mokuyobi 白天] 點椅子 #2（-3, 1.15 二樓）（走到椅子附近）」附近（1.17 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，22 秒
+PASS [wz_mokuyobi 白天] 點椅子 #2（-3, 1.15 二樓） 點椅子（螢幕 [640, 417]）走過去停在 (-2.412, 1.239)（seatApproach [-2.45, 1.15]）：最近的「坐下」是這一張  {"at": [-2.412, 1.239], "nearest": {"label": "坐下", "seat": [-3, 1.15], "exit": null}}
+PASS [wz_mokuyobi 白天] 點椅子 #2（-3, 1.15 二樓） 走到旁邊，互動按鈕是「坐下」  {"x": -2.412, "z": 1.239, "lv": 1, "interact": "坐下", "stand": true}
+PASS [wz_mokuyobi 白天] 點椅子 #2（-3, 1.15 二樓） 坐下了（player.seat）  {"x": -3, "z": 1.15, "y": 3.2, "lv": 1, "sx": -3, "sz": 1.15, "sy": null}
+PASS [wz_mokuyobi 白天] 點椅子 #2（-3, 1.15 二樓） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 3.200＝座位那一層＋lift 3.200（±0.06）  {"x": -3, "z": 1.15, "y": 3.2, "lv": 1, "sx": -3, "sz": 1.15, "sy": null}
+PASS [黑畫面] crowd_sit_wz_mokuyobi_seat_2 不是黑畫面（平均亮度 102.4、變化 56.0）  [102.4, 56.0]
+  [ 516.3s] [wz_mokuyobi 白天] 點椅子 #2（-3, 1.15 二樓） 起身點了：["起身"]
+PASS [wz_mokuyobi 白天] 點椅子 #2（-3, 1.15 二樓） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 2.48, "x": -0.557, "z": 2.962, "lv": 1, "stand": true, "fb": 0}
+  [ 521.8s] [wz_mokuyobi 白天] 點椅子 2 張：[[1, "ok", -0.35, 6.15], [2, "ok", -3, 1.15]]
+== wz_mokuyobi late
+  [前置／捷徑] [wz_mokuyobi 晚上] 讀檔店裡（出生點）2025-10-18 21.00
+PASS [wz_mokuyobi 晚上] 讀到店裡  {"zone": "wz_mokuyobi", "x": -3.75, "z": 5.4, "y": 1.2, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.01}
+  [ 531.8s] [wz_mokuyobi 晚上] 21.01 店裡的人 9（客人 9）：[{"id": null, "name": "", "x": -0.05, "z": 2.6, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -0.05, "z": 2.6, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 1.05, "z": 2.6, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": 1.05, "z": 2.6, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 3.6, "z": 1.65, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": 3.6, "z": 1.65, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 2.6, "z": -4.62, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "read", "beh": "idle", "vis": true, "seat": {"x": 2.6, "z": -4.62, "y": null, "lift": 0}, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": -2.45, "z": -4.92, "y": 3.43, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -2.45, "z": -4.92, "y": null, "lift": 0.23}, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": -1.75, "z": -4.92, "y": 3.43, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -1.75, "z": -4.92, "y": null, "lift": 0.23}, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": 2.3, "z": 3.65, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": 2.3, "z": 3.65, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 2.3, "z": 4.75, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "sit", "beh": "idle", "vis": false, "seat": {"x": 2.3, "z": 4.75, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -2.95, "z": -6.2, "y": 3.2, "lv": 1, "floor": 3.2, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}]
+PASS [wz_mokuyobi 晚上] 有客人  9
+PASS [wz_mokuyobi 晚上] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+PASS [wz_mokuyobi 晚上] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  []
+PASS [wz_mokuyobi 晚上] ③ 從店門走得到每一張空座位（16 張）的走近點和店門（E.simWalk）  []
+  [前置／捷徑] [wz_mokuyobi 晚上] ④ 【捷徑】站到客人坐的 3 張的走近點（placeAt）看按鈕
+PASS [wz_mokuyobi 晚上] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_wz_mokuyobi_late 不是黑畫面（平均亮度 84.3、變化 46.2）  [84.3, 46.2]
+  [ 539.0s] [截圖] crowd_wz_mokuyobi_late：鏡頭 {"eye": [-3.75, 5.5, 6.4], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [84.3, 46.2]
+PASS 這一版有 xs_tongxian
+== xs_tongxian early
+  [前置／捷徑] [xs_tongxian 白天] 讀檔店裡（出生點）2025-10-18 13.00
+PASS [xs_tongxian 白天] 讀到店裡  {"zone": "xs_tongxian", "x": 0.25, "z": 4.62, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 13}
+  [ 549.3s] [xs_tongxian 白天] 13.00 店裡的人 3（客人 3）：[{"id": null, "name": "", "x": 2.3, "z": -1.7, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": -2.45, "z": -0.05, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": 1.75, "z": 1, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}]
+PASS [xs_tongxian 白天] 有客人  3
+PASS [xs_tongxian 白天] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+PASS [xs_tongxian 白天] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  []
+PASS [xs_tongxian 白天] ③ 從店門走得到每一張空座位（3 張）的走近點和店門（E.simWalk）  []
+PASS [xs_tongxian 白天] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_xs_tongxian_early 不是黑畫面（平均亮度 168.3、變化 42.7）  [168.3, 42.7]
+  [ 554.0s] [截圖] crowd_xs_tongxian_early：鏡頭 {"eye": [0.25, 5.5, 5.62], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [168.3, 42.7]
+  [前置／捷徑] [xs_tongxian 白天] ④ 讀檔回 13.00，照玩家點 2 張空椅子坐下、起身（走過去的時候客人沒有搶先坐上去）
+  [ 562.5s] [xs_tongxian 白天] 點椅子 座位 2 張：[{"label": "試彈", "x": -2.2, "z": -4.05, "lv": 0, "sx": -2.2, "sz": -4.05, "sy": null, "slv": 0, "row": null, "ap": [-2.04, -3.52], "lift": 0.13}, {"label": "試彈", "x": -1.1, "z": -3.85, "lv": 0, "sx": -1.1, "sz": -3.85, "sy": null, "slv": 0, "row": null, "ap": [-1.26, -3.32], "lift": 0.13}]
+  [ 605.5s] 到達「[xs_tongxian 白天] 點椅子 #1（-2.2, -4.05）（走到椅子附近）」附近（0.16 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，43 秒
+PASS [xs_tongxian 白天] 點椅子 #1（-2.2, -4.05） 點椅子（螢幕 [565, 489]）走過去停在 (-2.148, -3.884)（seatApproach [-2.04, -3.52]）：最近的「坐下」是這一張  {"at": [-2.148, -3.884], "nearest": {"label": "試彈", "seat": [-2.2, -4.05], "exit": null}}
+PASS [xs_tongxian 白天] 點椅子 #1（-2.2, -4.05） 走到旁邊，互動按鈕是「試彈」  {"x": -2.148, "z": -3.884, "lv": 0, "interact": "試彈", "stand": true}
+PASS [xs_tongxian 白天] 點椅子 #1（-2.2, -4.05） 坐下了（player.seat）  {"x": -2.2, "z": -4.05, "y": 0.13, "lv": 0, "sx": -2.2, "sz": -4.05, "sy": null}
+PASS [xs_tongxian 白天] 點椅子 #1（-2.2, -4.05） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.130＝座位那一層＋lift 0.130（±0.06）  {"x": -2.2, "z": -4.05, "y": 0.13, "lv": 0, "sx": -2.2, "sz": -4.05, "sy": null}
+PASS [黑畫面] crowd_sit_xs_tongxian_seat_1 不是黑畫面（平均亮度 154.2、變化 62.8）  [154.2, 62.8]
+  [ 621.7s] [xs_tongxian 白天] 點椅子 #1（-2.2, -4.05） 起身點了：["起身"]
+PASS [xs_tongxian 白天] 點椅子 #1（-2.2, -4.05） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 3.1, "x": -2.324, "z": -0.246, "lv": 0, "stand": true, "fb": 0}
+  [ 639.1s] 到達「[xs_tongxian 白天] 點椅子 #2（-1.1, -3.85）（走到椅子附近）」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，13 秒
+PASS [xs_tongxian 白天] 點椅子 #2（-1.1, -3.85） 點椅子（螢幕 [616, 467]）走過去停在 (-1.159, -3.683)（seatApproach [-1.26, -3.32]）：最近的「坐下」是這一張  {"at": [-1.159, -3.683], "nearest": {"label": "試彈", "seat": [-1.1, -3.85], "exit": null}}
+PASS [xs_tongxian 白天] 點椅子 #2（-1.1, -3.85） 走到旁邊，互動按鈕是「試彈」  {"x": -1.159, "z": -3.683, "lv": 0, "interact": "試彈", "stand": true}
+PASS [xs_tongxian 白天] 點椅子 #2（-1.1, -3.85） 坐下了（player.seat）  {"x": -1.1, "z": -3.85, "y": 0.13, "lv": 0, "sx": -1.1, "sz": -3.85, "sy": null}
+PASS [xs_tongxian 白天] 點椅子 #2（-1.1, -3.85） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.130＝座位那一層＋lift 0.130（±0.06）  {"x": -1.1, "z": -3.85, "y": 0.13, "lv": 0, "sx": -1.1, "sz": -3.85, "sy": null}
+PASS [黑畫面] crowd_sit_xs_tongxian_seat_2 不是黑畫面（平均亮度 145.6、變化 61.9）  [145.6, 61.9]
+  [ 655.9s] [xs_tongxian 白天] 點椅子 #2（-1.1, -3.85） 起身點了：["起身"]
+PASS [xs_tongxian 白天] 點椅子 #2（-1.1, -3.85） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 3.25, "x": -2.359, "z": -0.046, "lv": 0, "stand": true, "fb": 0}
+  [ 660.5s] [xs_tongxian 白天] 點椅子 2 張：[[1, "ok", -2.2, -4.05], [2, "ok", -1.1, -3.85]]
+== xs_tongxian late
+  [前置／捷徑] [xs_tongxian 晚上] 讀檔店裡（出生點）2025-10-18 20.50
+PASS [xs_tongxian 晚上] 讀到店裡  {"zone": "xs_tongxian", "x": 0.25, "z": 4.62, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.51}
+  [ 670.7s] [xs_tongxian 晚上] 20.51 店裡的人 1（客人 1）：[{"id": null, "name": "", "x": 1.75, "z": 1, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}]
+PASS [xs_tongxian 晚上] 有客人  1
+PASS [xs_tongxian 晚上] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+PASS [xs_tongxian 晚上] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  []
+PASS [xs_tongxian 晚上] ③ 從店門走得到每一張空座位（3 張）的走近點和店門（E.simWalk）  []
+PASS [xs_tongxian 晚上] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_xs_tongxian_late 不是黑畫面（平均亮度 116.2、變化 62.5）  [116.2, 62.5]
+  [ 674.6s] [截圖] crowd_xs_tongxian_late：鏡頭 {"eye": [0.25, 5.5, 5.62], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [116.2, 62.5]
+PASS 這一版有 xs_nanyang
+== xs_nanyang early
+  [前置／捷徑] [xs_nanyang 白天] 讀檔店裡（出生點）2025-10-18 10.50
+PASS [xs_nanyang 白天] 讀到店裡  {"zone": "xs_nanyang", "x": 0, "z": 5.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.51}
+  [ 683.4s] [xs_nanyang 白天] 10.51 店裡的人 1（客人 1）：[{"id": null, "name": "", "x": -4.1, "z": -3.7, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": false, "staff": false, "named": false}]
+PASS [xs_nanyang 白天] 有客人  1
+PASS [xs_nanyang 白天] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+FAIL [xs_nanyang 白天] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  [[null, -4.1, -3.7, 0, 0, 0, "idle"]]
+PASS [xs_nanyang 白天] ③ 從店門走得到每一張空座位（4 張）的走近點和店門（E.simWalk）  []
+PASS [xs_nanyang 白天] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_xs_nanyang_early 不是黑畫面（平均亮度 69.2、變化 36.0）  [69.2, 36.0]
+  [ 687.6s] [截圖] crowd_xs_nanyang_early：鏡頭 {"eye": [0, 5.5, 6.2], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [69.2, 36.0]
+  [前置／捷徑] [xs_nanyang 白天] ④ 讀檔回 10.50，照玩家點 2 張空椅子坐下、起身（走過去的時候客人沒有搶先坐上去）
+  [ 695.4s] [xs_nanyang 白天] 點椅子 座位 2 張：[{"label": "坐下等開演", "x": 3.75, "z": -4.8, "lv": 0, "sx": 3.75, "sz": -4.8, "sy": null, "slv": 0, "row": null, "ap": [2.95, -4.8], "lift": 0}, {"label": "坐下等開演", "x": 3.75, "z": -3.8, "lv": 0, "sx": 3.75, "sz": -3.8, "sy": null, "slv": 0, "row": null, "ap": [2.95, -3.8], "lift": 0}]
+  [ 731.4s] 到達「[xs_nanyang 白天] 點椅子 #1（3.75, -4.8）（走到椅子附近）」附近（0.36 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，36 秒
+PASS [xs_nanyang 白天] 點椅子 #1（3.75, -4.8） 點椅子（螢幕 [756, 487]）走過去停在 (2.912, -4.686)（seatApproach [2.95, -4.8]）：最近的「坐下」是這一張  {"at": [2.912, -4.686], "nearest": {"label": "坐下等開演", "seat": [3.75, -4.8], "exit": null}}
+PASS [xs_nanyang 白天] 點椅子 #1（3.75, -4.8） 走到旁邊，互動按鈕是「坐下等開演」  {"x": 2.912, "z": -4.686, "lv": 0, "interact": "坐下等開演", "stand": true}
+PASS [xs_nanyang 白天] 點椅子 #1（3.75, -4.8） 坐下了（player.seat）  {"x": 3.75, "z": -4.8, "y": 0, "lv": 0, "sx": 3.75, "sz": -4.8, "sy": null}
+PASS [xs_nanyang 白天] 點椅子 #1（3.75, -4.8） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": 3.75, "z": -4.8, "y": 0, "lv": 0, "sx": 3.75, "sz": -4.8, "sy": null}
+PASS [黑畫面] crowd_sit_xs_nanyang_seat_1 不是黑畫面（平均亮度 67.4、變化 48.1）  [67.4, 48.1]
+  [ 745.4s] [xs_nanyang 白天] 點椅子 #1（3.75, -4.8） 起身點了：["起身"]
+PASS [xs_nanyang 白天] 點椅子 #1（3.75, -4.8） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 3.72, "x": 3, "z": -1.08, "lv": 0, "stand": true, "fb": 0}
+  [ 760.1s] 到達「[xs_nanyang 白天] 點椅子 #2（3.75, -3.8）（走到椅子附近）」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，10 秒
+PASS [xs_nanyang 白天] 點椅子 #2（3.75, -3.8） 點椅子（螢幕 [744, 500]）走過去停在 (2.949, -3.599)（seatApproach [2.95, -3.8]）：最近的「坐下」是這一張  {"at": [2.949, -3.599], "nearest": {"label": "坐下等開演", "seat": [3.75, -3.8], "exit": null}}
+PASS [xs_nanyang 白天] 點椅子 #2（3.75, -3.8） 走到旁邊，互動按鈕是「坐下等開演」  {"x": 2.949, "z": -3.599, "lv": 0, "interact": "坐下等開演", "stand": true}
+PASS [xs_nanyang 白天] 點椅子 #2（3.75, -3.8） 坐下了（player.seat）  {"x": 3.75, "z": -3.8, "y": 0, "lv": 0, "sx": 3.75, "sz": -3.8, "sy": null}
+PASS [xs_nanyang 白天] 點椅子 #2（3.75, -3.8） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": 3.75, "z": -3.8, "y": 0, "lv": 0, "sx": 3.75, "sz": -3.8, "sy": null}
+PASS [黑畫面] crowd_sit_xs_nanyang_seat_2 不是黑畫面（平均亮度 63.4、變化 40.3）  [63.4, 40.3]
+  [ 773.0s] [xs_nanyang 白天] 點椅子 #2（3.75, -3.8） 起身點了：["起身"]
+PASS [xs_nanyang 白天] 點椅子 #2（3.75, -3.8） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 3.1, "x": 3, "z": -0.7, "lv": 0, "stand": true, "fb": 0}
+  [ 777.3s] [xs_nanyang 白天] 點椅子 2 張：[[1, "ok", 3.75, -4.8], [2, "ok", 3.75, -3.8]]
+== xs_nanyang late
+  [前置／捷徑] [xs_nanyang 晚上] 讀檔店裡（出生點）2025-10-18 22.50
+PASS [xs_nanyang 晚上] 讀到店裡  {"zone": "xs_nanyang", "x": 0, "z": 5.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 22.51}
+  [ 790.0s] [xs_nanyang 晚上] 22.51 店裡的人 2（客人 2）：[{"id": "yu", "name": "Alison", "x": -4.1, "z": -2.8, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": false, "staff": false, "named": true}, {"id": null, "name": "", "x": -4.1, "z": -3.7, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": false, "staff": false, "named": false}]
+PASS [xs_nanyang 晚上] 有客人  2
+PASS [xs_nanyang 晚上] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+FAIL [xs_nanyang 晚上] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  [["Alison", -4.1, -2.8, 0, 0, 0, "idle"], [null, -4.1, -3.7, 0, 0, 0, "idle"]]
+PASS [xs_nanyang 晚上] ③ 從店門走得到每一張空座位（4 張）的走近點和店門（E.simWalk）  []
+PASS [xs_nanyang 晚上] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_xs_nanyang_late 不是黑畫面（平均亮度 53.4、變化 27.9）  [53.4, 27.9]
+  [ 794.5s] [截圖] crowd_xs_nanyang_late：鏡頭 {"eye": [0, 5.5, 6.2], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [53.4, 27.9]
+PASS 這一版有 xs_shanlan
+== xs_shanlan early
+  [前置／捷徑] [xs_shanlan 白天] 讀檔店裡（出生點）2025-10-18 12.00
+PASS [xs_shanlan 白天] 讀到店裡  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 12.01}
+  [ 804.9s] [xs_shanlan 白天] 12.01 店裡的人 6（客人 6）：[{"id": null, "name": "", "x": 1.3, "z": 8.7, "y": 4.2, "lv": 1, "floor": 4.2, "pose": "sit", "beh": "idle", "vis": false, "seat": {"x": 1.3, "z": 8.7, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 2.9, "z": 8.7, "y": 4.2, "lv": 1, "floor": 4.2, "pose": "sit", "beh": "idle", "vis": false, "seat": {"x": 2.9, "z": 8.7, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 6.1, "z": 8.7, "y": 4.2, "lv": 1, "floor": 4.2, "pose": "read", "beh": "idle", "vis": false, "seat": {"x": 6.1, "z": 8.7, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 0.6, "z": 4.75, "y": 4.2, "lv": 1, "floor": 4.2, "pose": "read", "beh": "idle", "vis": false, "seat": {"x": 0.6, "z": 4.75, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 4, "z": 4.75, "y": 4.2, "lv": 1, "floor": 4.2, "pose": "read", "beh": "idle", "vis": false, "seat": {"x": 4, "z": 4.75, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -3.5, "z": -4.6, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}]
+PASS [xs_shanlan 白天] 有客人  6
+PASS [xs_shanlan 白天] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+PASS [xs_shanlan 白天] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  []
+PASS [xs_shanlan 白天] ③ 從店門走得到每一張空座位（11 張）的走近點和店門（E.simWalk）  []
+  [前置／捷徑] [xs_shanlan 白天] ④ 【捷徑】站到客人坐的 3 張的走近點（placeAt）看按鈕
+PASS [xs_shanlan 白天] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_xs_shanlan_early 不是黑畫面（平均亮度 128.8、變化 32.1）  [128.8, 32.1]
+  [ 816.1s] [截圖] crowd_xs_shanlan_early：鏡頭 {"eye": [0.8, 5.5, 8.5], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [128.8, 32.1]
+  [前置／捷徑] [xs_shanlan 白天] ④ 讀檔回 12.00，照玩家點 2 張空椅子坐下、起身（走過去的時候客人沒有搶先坐上去）
+  [ 826.1s] [xs_shanlan 白天] 點椅子 座位 2 張：[{"label": "坐靠窗長椅", "x": -4.4, "z": 8.7, "lv": 0, "sx": -4.4, "sz": 8.7, "sy": null, "slv": 0, "row": null, "ap": [-4.4, 7.9], "lift": 0}, {"label": "坐靠窗長椅", "x": -3.3, "z": 8.7, "lv": 0, "sx": -3.3, "sz": 8.7, "sy": null, "slv": 0, "row": null, "ap": [-3.3, 7.9], "lift": 0}]
+  [ 854.0s] 到達「[xs_shanlan 白天] 點椅子 #1（-4.4, 8.7）（走到椅子附近）」附近（0.92 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，28 秒
+PASS [xs_shanlan 白天] 點椅子 #1（-4.4, 8.7） 點椅子（螢幕 [496, 600]）走過去停在 (-3.657, 7.843)（seatApproach [-4.4, 7.9]）：最近的「坐下」是這一張  {"at": [-3.657, 7.843], "nearest": {"label": "坐靠窗長椅", "seat": [-4.4, 8.7], "exit": null}}
+PASS [xs_shanlan 白天] 點椅子 #1（-4.4, 8.7） 走到旁邊，互動按鈕是「坐靠窗長椅」  {"x": -3.657, "z": 7.843, "lv": 0, "interact": "坐靠窗長椅", "stand": true}
+PASS [xs_shanlan 白天] 點椅子 #1（-4.4, 8.7） 坐下了（player.seat）  {"x": -4.4, "z": 8.7, "y": 0, "lv": 0, "sx": -4.4, "sz": 8.7, "sy": null}
+PASS [xs_shanlan 白天] 點椅子 #1（-4.4, 8.7） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -4.4, "z": 8.7, "y": 0, "lv": 0, "sx": -4.4, "sz": 8.7, "sy": null}
+PASS [黑畫面] crowd_sit_xs_shanlan_seat_1 不是黑畫面（平均亮度 131.1、變化 56.9）  [131.1, 56.9]
+  [ 870.4s] [xs_shanlan 白天] 點椅子 #1（-4.4, 8.7） 起身點了：["起身"]
+PASS [xs_shanlan 白天] 點椅子 #1（-4.4, 8.7） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 0.62, "x": -4.982, "z": 8.163, "lv": 0, "stand": true, "fb": 0}
+  [ 885.9s] 到達「[xs_shanlan 白天] 點椅子 #2（-3.3, 8.7）（走到椅子附近）」附近（0.08 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，10 秒
+PASS [xs_shanlan 白天] 點椅子 #2（-3.3, 8.7） 點椅子（螢幕 [654, 589]）走過去停在 (-3.381, 7.92)（seatApproach [-3.3, 7.9]）：最近的「坐下」是這一張  {"at": [-3.381, 7.92], "nearest": {"label": "坐靠窗長椅", "seat": [-3.3, 8.7], "exit": null}}
+PASS [xs_shanlan 白天] 點椅子 #2（-3.3, 8.7） 走到旁邊，互動按鈕是「坐靠窗長椅」  {"x": -3.381, "z": 7.92, "lv": 0, "interact": "坐靠窗長椅", "stand": true}
+PASS [xs_shanlan 白天] 點椅子 #2（-3.3, 8.7） 坐下了（player.seat）  {"x": -3.3, "z": 8.7, "y": 0, "lv": 0, "sx": -3.3, "sz": 8.7, "sy": null}
+PASS [xs_shanlan 白天] 點椅子 #2（-3.3, 8.7） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -3.3, "z": 8.7, "y": 0, "lv": 0, "sx": -3.3, "sz": 8.7, "sy": null}
+PASS [黑畫面] crowd_sit_xs_shanlan_seat_2 不是黑畫面（平均亮度 122.5、變化 54.3）  [122.5, 54.3]
+  [ 903.6s] [xs_shanlan 白天] 點椅子 #2（-3.3, 8.7） 起身點了：["起身"]
+PASS [xs_shanlan 白天] 點椅子 #2（-3.3, 8.7） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 0.62, "x": -3.882, "z": 8.163, "lv": 0, "stand": true, "fb": 0}
+  [ 909.0s] [xs_shanlan 白天] 點椅子 2 張：[[1, "ok", -4.4, 8.7], [2, "ok", -3.3, 8.7]]
+== xs_shanlan late
+  [前置／捷徑] [xs_shanlan 晚上] 讀檔店裡（出生點）2025-10-18 22.00
+PASS [xs_shanlan 晚上] 讀到店裡  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 22.01}
+  [ 921.5s] [xs_shanlan 晚上] 22.01 店裡的人 4（客人 4）：[{"id": null, "name": "", "x": -3.3, "z": 8.7, "y": 0, "lv": 0, "floor": 0, "pose": "read", "beh": "idle", "vis": true, "seat": {"x": -3.3, "z": 8.7, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 1.3, "z": 8.7, "y": 4.2, "lv": 1, "floor": 4.2, "pose": "read", "beh": "idle", "vis": false, "seat": {"x": 1.3, "z": 8.7, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 4.5, "z": 8.7, "y": 4.2, "lv": 1, "floor": 4.2, "pose": "read", "beh": "idle", "vis": false, "seat": {"x": 4.5, "z": 8.7, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -0.8, "z": -6, "y": 4.2, "lv": 1, "floor": 4.2, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}]
+PASS [xs_shanlan 晚上] 有客人  4
+PASS [xs_shanlan 晚上] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+PASS [xs_shanlan 晚上] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  []
+PASS [xs_shanlan 晚上] ③ 從店門走得到每一張空座位（13 張）的走近點和店門（E.simWalk）  []
+  [前置／捷徑] [xs_shanlan 晚上] ④ 【捷徑】站到客人坐的 3 張的走近點（placeAt）看按鈕
+PASS [xs_shanlan 晚上] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_xs_shanlan_late 不是黑畫面（平均亮度 83.9、變化 17.6）  [83.9, 17.6]
+  [ 931.9s] [截圖] crowd_xs_shanlan_late：鏡頭 {"eye": [0.8, 5.5, 8.5], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [83.9, 17.6]
+PASS 這一版有 xs_dakou
+== xs_dakou early
+  [前置／捷徑] [xs_dakou 白天] 讀檔店裡（出生點）2025-10-18 8.00
+PASS [xs_dakou 白天] 讀到店裡  {"zone": "xs_dakou", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 8.01}
+  [ 946.6s] [xs_dakou 白天] 8.01 店裡的人 8（客人 8）：[{"id": null, "name": "", "x": -3.3, "z": -1.15, "y": 0, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -3.3, "z": -1.15, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -2, "z": -1.75, "y": 3.6, "lv": 1, "floor": 3.6, "pose": "read", "beh": "idle", "vis": true, "seat": {"x": -2, "z": -1.75, "y": 3.6, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 0, "z": -1.75, "y": 3.6, "lv": 1, "floor": 3.6, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": 0, "z": -1.75, "y": 3.6, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 0, "z": -0.25, "y": 3.6, "lv": 1, "floor": 3.6, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": 0, "z": -0.25, "y": 3.6, "lift": 0}, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": 3, "z": 2, "y": 3.6, "lv": 1, "floor": 3.6, "pose": "read", "beh": "idle", "vis": true, "seat": {"x": 3, "z": 2, "y": 3.6, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -5.1, "z": 1.25, "y": 3.6, "lv": 1, "floor": 3.6, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -5.1, "z": 1.25, "y": 3.6, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -5.1, "z": 2.35, "y": 3.6, "lv": 1, "floor": 3.6, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -5.1, "z": 2.35, "y": 3.6, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -1.5, "z": -4.9, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": false, "staff": false, "named": false}]
+PASS [xs_dakou 白天] 有客人  8
+PASS [xs_dakou 白天] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+FAIL [xs_dakou 白天] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  [[null, -1.5, -4.9, 0, 0, 0, "idle"]]
+PASS [xs_dakou 白天] ③ 從店門走得到每一張空座位（72 張）的走近點和店門（E.simWalk）  []
+  [前置／捷徑] [xs_dakou 白天] ④ 【捷徑】站到客人坐的 3 張的走近點（placeAt）看按鈕
+PASS [xs_dakou 白天] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_xs_dakou_early 不是黑畫面（平均亮度 132.0、變化 42.3）  [132.0, 42.3]
+  [ 959.1s] [截圖] crowd_xs_dakou_early：鏡頭 {"eye": [0, 5.5, 7.4], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [132.0, 42.3]
+  [前置／捷徑] [xs_dakou 白天] ④ 讀檔回 8.00，照玩家點 2 張空椅子坐下、起身（走過去的時候客人沒有搶先坐上去）
+  [ 972.8s] [xs_dakou 白天] 點椅子 座位 2 張：[{"label": "坐下", "x": -5.2, "z": -2, "lv": 0, "sx": -5.2, "sz": -2, "sy": null, "slv": 0, "row": null, "ap": [-4.6, -2], "lift": 0.325}, {"label": "坐下", "x": -5.2, "z": -0.8, "lv": 0, "sx": -5.2, "sz": -0.8, "sy": null, "slv": 0, "row": null, "ap": [-5.2, -0.25], "lift": 0.325}]
+  [1020.4s] 到達「[xs_dakou 白天] 點椅子 #1（-5.2, -2）（走到椅子附近）」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，48 秒
+PASS [xs_dakou 白天] 點椅子 #1（-5.2, -2） 點椅子（螢幕 [557, 495]）走過去停在 (-4.536, -1.795)（seatApproach [-4.6, -2]）：最近的「坐下」是這一張  {"at": [-4.536, -1.795], "nearest": {"label": "坐下", "seat": [-5.2, -2], "exit": null}}
+PASS [xs_dakou 白天] 點椅子 #1（-5.2, -2） 走到旁邊，互動按鈕是「坐下」  {"x": -4.536, "z": -1.795, "lv": 0, "interact": "坐下", "stand": true}
+PASS [xs_dakou 白天] 點椅子 #1（-5.2, -2） 坐下了（player.seat）  {"x": -5.2, "z": -2, "y": 0.325, "lv": 0, "sx": -5.2, "sz": -2, "sy": null}
+PASS [xs_dakou 白天] 點椅子 #1（-5.2, -2） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.325＝座位那一層＋lift 0.325（±0.06）  {"x": -5.2, "z": -2, "y": 0.325, "lv": 0, "sx": -5.2, "sz": -2, "sy": null}
+PASS [黑畫面] crowd_sit_xs_dakou_seat_1 不是黑畫面（平均亮度 132.8、變化 69.6）  [132.8, 69.6]
+  [1034.5s] [xs_dakou 白天] 點椅子 #1（-5.2, -2） 起身點了：["起身"]
+PASS [xs_dakou 白天] 點椅子 #1（-5.2, -2） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 1.87, "x": -5.02, "z": -0.89, "lv": 0, "stand": true, "fb": 0}
+  [1039.2s] 到達「[xs_dakou 白天] 點椅子 #2（-5.2, -0.8）（走到椅子附近）」附近（0.66 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS [xs_dakou 白天] 點椅子 #2（-5.2, -0.8） 點椅子（螢幕 [616, 523]）走過去停在 (-4.844, -0.852)（seatApproach [-5.2, -0.25]）：最近的「坐下」是這一張  {"at": [-4.844, -0.852], "nearest": {"label": "坐下", "seat": [-5.2, -0.8], "exit": null}}
+PASS [xs_dakou 白天] 點椅子 #2（-5.2, -0.8） 走到旁邊，互動按鈕是「坐下」  {"x": -4.844, "z": -0.852, "lv": 0, "interact": "坐下", "stand": true}
+PASS [xs_dakou 白天] 點椅子 #2（-5.2, -0.8） 坐下了（player.seat）  {"x": -5.2, "z": -0.8, "y": 0.325, "lv": 0, "sx": -5.2, "sz": -0.8, "sy": null}
+PASS [xs_dakou 白天] 點椅子 #2（-5.2, -0.8） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.325＝座位那一層＋lift 0.325（±0.06）  {"x": -5.2, "z": -0.8, "y": 0.325, "lv": 0, "sx": -5.2, "sz": -0.8, "sy": null}
+PASS [黑畫面] crowd_sit_xs_dakou_seat_2 不是黑畫面（平均亮度 135.5、變化 68.5）  [135.5, 68.5]
+  [1055.3s] [xs_dakou 白天] 點椅子 #2（-5.2, -0.8） 起身點了：["起身"]
+PASS [xs_dakou 白天] 點椅子 #2（-5.2, -0.8） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 3.1, "x": -4.45, "z": 2.3, "lv": 0, "stand": true, "fb": 0}
+  [1060.6s] [xs_dakou 白天] 點椅子 2 張：[[1, "ok", -5.2, -2], [2, "ok", -5.2, -0.8]]
+== xs_dakou late
+  [前置／捷徑] [xs_dakou 晚上] 讀檔店裡（出生點）2025-10-18 22.50
+PASS [xs_dakou 晚上] 讀到店裡  {"zone": "xs_dakou", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 22.51}
+  [1074.4s] [xs_dakou 晚上] 22.51 店裡的人 9（客人 9）：[{"id": null, "name": "", "x": -2, "z": 1.85, "y": 3.6, "lv": 1, "floor": 3.6, "pose": "read", "beh": "idle", "vis": true, "seat": {"x": -2, "z": 1.85, "y": 3.6, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 2.4, "z": 2, "y": 3.6, "lv": 1, "floor": 3.6, "pose": "read", "beh": "idle", "vis": true, "seat": {"x": 2.4, "z": 2, "y": 3.6, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 3, "z": 2, "y": 3.6, "lv": 1, "floor": 3.6, "pose": "read", "beh": "idle", "vis": true, "seat": {"x": 3, "z": 2, "y": 3.6, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -5.1, "z": -3.55, "y": 3.6, "lv": 1, "floor": 3.6, "pose": "read", "beh": "idle", "vis": true, "seat": {"x": -5.1, "z": -3.55, "y": 3.6, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -5.1, "z": 1.25, "y": 3.6, "lv": 1, "floor": 3.6, "pose": "read", "beh": "idle", "vis": true, "seat": {"x": -5.1, "z": 1.25, "y": 3.6, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -0.15, "z": 7.1, "y": 3.6, "lv": 1, "floor": 3.6, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -0.15, "z": 7.1, "y": 3.6, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": 5.05, "z": -6.9, "y": 3.93, "lv": 1, "floor": 3.6, "pose": "read", "beh": "idle", "vis": true, "seat": {"x": 5.05, "z": -6.9, "y": 3.6, "lift": 0.325}, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": 2, "z": -7.05, "y": 3.93, "lv": 1, "floor": 3.6, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": 2, "z": -7.05, "y": 3.6, "lift": 0.325}, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": -1.5, "z": -4.9, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": false, "staff": false, "named": false}]
+PASS [xs_dakou 晚上] 有客人  9
+PASS [xs_dakou 晚上] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+FAIL [xs_dakou 晚上] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  [[null, -1.5, -4.9, 0, 0, 0, "idle"]]
+PASS [xs_dakou 晚上] ③ 從店門走得到每一張空座位（71 張）的走近點和店門（E.simWalk）  []
+  [前置／捷徑] [xs_dakou 晚上] ④ 【捷徑】站到客人坐的 3 張的走近點（placeAt）看按鈕
+PASS [xs_dakou 晚上] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_xs_dakou_late 不是黑畫面（平均亮度 95.4、變化 34.4）  [95.4, 34.4]
+  [1085.5s] [截圖] crowd_xs_dakou_late：鏡頭 {"eye": [0, 5.5, 7.4], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [95.4, 34.4]
+PASS 這一版有 xs_dabu
+== xs_dabu early
+  [前置／捷徑] [xs_dabu 白天] 讀檔店裡（出生點）2025-10-18 12.00
+PASS [xs_dabu 白天] 讀到店裡  {"zone": "xs_dabu", "x": 2.5, "z": 4.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 12.01}
+  [1096.1s] [xs_dabu 白天] 12.01 店裡的人 1（客人 1）：[{"id": null, "name": "", "x": -2.6, "z": 2.3, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}]
+PASS [xs_dabu 白天] 有客人  1
+PASS [xs_dabu 白天] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+PASS [xs_dabu 白天] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  []
+PASS [xs_dabu 白天] ③ 從店門走得到每一張空座位（4 張）的走近點和店門（E.simWalk）  []
+PASS [xs_dabu 白天] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_xs_dabu_early 不是黑畫面（平均亮度 155.1、變化 39.0）  [155.1, 39.0]
+  [1100.7s] [截圖] crowd_xs_dabu_early：鏡頭 {"eye": [2.5, 5.5, 5.4], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [155.1, 39.0]
+  [前置／捷徑] [xs_dabu 白天] ④ 讀檔回 12.00，照玩家點 2 張空椅子坐下、起身（走過去的時候客人沒有搶先坐上去）
+  [1108.7s] [xs_dabu 白天] 點椅子 座位 2 張：[{"label": "坐下試穿", "x": -1.85, "z": -0.7, "lv": 0, "sx": -1.85, "sz": -0.7, "sy": null, "slv": 0, "row": null, "ap": [-1.25, -0.7], "lift": 0}, {"label": "坐下試穿", "x": -1.85, "z": -1.3, "lv": 0, "sx": -1.85, "sz": -1.3, "sy": null, "slv": 0, "row": null, "ap": [-1.25, -1.3], "lift": 0}]
+  [1130.1s] 到達「[xs_dabu 白天] 點椅子 #1（-1.85, -0.7）（走到椅子附近）」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，21 秒
+PASS [xs_dabu 白天] 點椅子 #1（-1.85, -0.7） 點椅子（螢幕 [545, 503]）走過去停在 (-1.125, -0.53)（seatApproach [-1.25, -0.7]）：最近的「坐下」是這一張  {"at": [-1.125, -0.53], "nearest": {"label": "坐下試穿", "seat": [-1.85, -0.7], "exit": null}}
+PASS [xs_dabu 白天] 點椅子 #1（-1.85, -0.7） 走到旁邊，互動按鈕是「坐下試穿」  {"x": -1.125, "z": -0.53, "lv": 0, "interact": "坐下試穿", "stand": true}
+PASS [xs_dabu 白天] 點椅子 #1（-1.85, -0.7） 坐下了（player.seat）  {"x": -1.85, "z": -0.7, "y": 0, "lv": 0, "sx": -1.85, "sz": -0.7, "sy": null}
+PASS [xs_dabu 白天] 點椅子 #1（-1.85, -0.7） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -1.85, "z": -0.7, "y": 0, "lv": 0, "sx": -1.85, "sz": -0.7, "sy": null}
+PASS [黑畫面] crowd_sit_xs_dabu_seat_1 不是黑畫面（平均亮度 136.0、變化 50.1）  [136.0, 50.1]
+  [1147.6s] [xs_dabu 白天] 點椅子 #1（-1.85, -0.7） 起身點了：["起身"]
+PASS [xs_dabu 白天] 點椅子 #1（-1.85, -0.7） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 3.72, "x": -1.85, "z": 3.77, "lv": 0, "stand": true, "fb": 0}
+  [1170.4s] 到達「[xs_dabu 白天] 點椅子 #2（-1.85, -1.3）（走到椅子附近）」附近（0.12 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，18 秒
+PASS [xs_dabu 白天] 點椅子 #2（-1.85, -1.3） 點椅子（螢幕 [551, 527]）走過去停在 (-1.208, -1.411)（seatApproach [-1.25, -1.3]）：最近的「坐下」是這一張  {"at": [-1.208, -1.411], "nearest": {"label": "坐下試穿", "seat": [-1.85, -1.3], "exit": null}}
+PASS [xs_dabu 白天] 點椅子 #2（-1.85, -1.3） 走到旁邊，互動按鈕是「坐下試穿」  {"x": -1.208, "z": -1.411, "lv": 0, "interact": "坐下試穿", "stand": true}
+PASS [xs_dabu 白天] 點椅子 #2（-1.85, -1.3） 坐下了（player.seat）  {"x": -1.85, "z": -1.3, "y": 0, "lv": 0, "sx": -1.85, "sz": -1.3, "sy": null}
+PASS [xs_dabu 白天] 點椅子 #2（-1.85, -1.3） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -1.85, "z": -1.3, "y": 0, "lv": 0, "sx": -1.85, "sz": -1.3, "sy": null}
+PASS [黑畫面] crowd_sit_xs_dabu_seat_2 不是黑畫面（平均亮度 134.2、變化 50.8）  [134.2, 50.8]
+  [1186.6s] [xs_dabu 白天] 點椅子 #2（-1.85, -1.3） 起身點了：["起身"]
+PASS [xs_dabu 白天] 點椅子 #2（-1.85, -1.3） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 3.72, "x": -2.6, "z": 2.42, "lv": 0, "stand": true, "fb": 0}
+  [1191.4s] [xs_dabu 白天] 點椅子 2 張：[[1, "ok", -1.85, -0.7], [2, "ok", -1.85, -1.3]]
+== xs_dabu late
+  [前置／捷徑] [xs_dabu 晚上] 讀檔店裡（出生點）2025-10-18 21.00
+PASS [xs_dabu 晚上] 讀到店裡  {"zone": "xs_dabu", "x": 2.5, "z": 4.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.01}
+  [1200.9s] [xs_dabu 晚上] 21.01 店裡的人 2（客人 2）：[{"id": null, "name": "", "x": -1.85, "z": -2.45, "y": 0, "lv": 0, "floor": 0, "pose": "sit", "beh": "idle", "vis": true, "seat": {"x": -1.85, "z": -2.45, "y": null, "lift": 0}, "target": null, "stand": false, "staff": false, "named": false}, {"id": null, "name": "", "x": -2.6, "z": 2.3, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}]
+PASS [xs_dabu 晚上] 有客人  2
+PASS [xs_dabu 晚上] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+PASS [xs_dabu 晚上] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  []
+PASS [xs_dabu 晚上] ③ 從店門走得到每一張空座位（3 張）的走近點和店門（E.simWalk）  []
+  [前置／捷徑] [xs_dabu 晚上] ④ 【捷徑】站到客人坐的 1 張的走近點（placeAt）看按鈕
+PASS [xs_dabu 晚上] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_xs_dabu_late 不是黑畫面（平均亮度 93.6、變化 53.1）  [93.6, 53.1]
+  [1205.9s] [截圖] crowd_xs_dabu_late：鏡頭 {"eye": [2.5, 5.5, 5.4], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [93.6, 53.1]
+PASS 這一版有 xs_haopai
+== xs_haopai early
+  [前置／捷徑] [xs_haopai 白天] 讀檔店裡（出生點）2025-10-18 13.00
+PASS [xs_haopai 白天] 讀到店裡  {"zone": "xs_haopai", "x": 0, "z": 5.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 13.01}
+  [1215.6s] [xs_haopai 白天] 13.01 店裡的人 0（客人 0）：[]
+FAIL [xs_haopai 白天] 有客人  0
+PASS [xs_haopai 白天] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+PASS [xs_haopai 白天] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  []
+PASS [xs_haopai 白天] ③ 從店門走得到每一張空座位（2 張）的走近點和店門（E.simWalk）  []
+PASS [xs_haopai 白天] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_xs_haopai_early 不是黑畫面（平均亮度 177.0、變化 44.8）  [177.0, 44.8]
+  [1219.0s] [截圖] crowd_xs_haopai_early：鏡頭 {"eye": [0, 5.5, 6.4], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [177.0, 44.8]
+  [前置／捷徑] [xs_haopai 白天] ④ 讀檔回 13.00，照玩家點 2 張空椅子坐下、起身（走過去的時候客人沒有搶先坐上去）
+  [1226.7s] [xs_haopai 白天] 點椅子 座位 2 張：[{"label": "坐著等穿線", "x": -0.26, "z": 2.3, "lv": 0, "sx": -0.26, "sz": 2.3, "sy": null, "slv": 0, "row": null, "ap": [0.34, 2.3], "lift": 0.25}, {"label": "坐一下", "x": 0.7, "z": 0.05, "lv": 0, "sx": 0.7, "sz": 0.05, "sy": null, "slv": 0, "row": null, "ap": [0.7, 0.6], "lift": 0}]
+  [1237.8s] 到達「[xs_haopai 白天] 點椅子 #1（-0.26, 2.3）（走到椅子附近）」附近（0.12 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS [xs_haopai 白天] 點椅子 #1（-0.26, 2.3） 點椅子（螢幕 [562, 506]）走過去停在 (0.333, 2.419)（seatApproach [0.34, 2.3]）：最近的「坐下」是這一張  {"at": [0.333, 2.419], "nearest": {"label": "坐著等穿線", "seat": [-0.26, 2.3], "exit": null}}
+PASS [xs_haopai 白天] 點椅子 #1（-0.26, 2.3） 走到旁邊，互動按鈕是「坐著等穿線」  {"x": 0.333, "z": 2.419, "lv": 0, "interact": "坐著等穿線", "stand": true}
+PASS [xs_haopai 白天] 點椅子 #1（-0.26, 2.3） 坐下了（player.seat）  {"x": -0.26, "z": 2.3, "y": 0.25, "lv": 0, "sx": -0.26, "sz": 2.3, "sy": null}
+PASS [xs_haopai 白天] 點椅子 #1（-0.26, 2.3） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.250＝座位那一層＋lift 0.250（±0.06）  {"x": -0.26, "z": 2.3, "y": 0.25, "lv": 0, "sx": -0.26, "sz": 2.3, "sy": null}
+PASS [黑畫面] crowd_sit_xs_haopai_seat_1 不是黑畫面（平均亮度 127.1、變化 64.3）  [127.1, 64.3]
+  [1251.9s] [xs_haopai 白天] 點椅子 #1（-0.26, 2.3） 起身點了：["起身"]
+PASS [xs_haopai 白天] 點椅子 #1（-0.26, 2.3） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 3.1, "x": -0.26, "z": 6.15, "lv": 0, "stand": true, "fb": 0}
+  [1282.1s] 到達「[xs_haopai 白天] 點椅子 #2（0.7, 0.05）（走到椅子附近）」附近（0.07 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，26 秒
+PASS [xs_haopai 白天] 點椅子 #2（0.7, 0.05） 點椅子（螢幕 [634, 470]）走過去停在 (0.83, 0.65)（seatApproach [0.7, 0.6]）：最近的「坐下」是這一張  {"at": [0.83, 0.65], "nearest": {"label": "坐一下", "seat": [0.7, 0.05], "exit": null}}
+PASS [xs_haopai 白天] 點椅子 #2（0.7, 0.05） 走到旁邊，互動按鈕是「坐一下」  {"x": 0.83, "z": 0.65, "lv": 0, "interact": "坐一下", "stand": true}
+PASS [xs_haopai 白天] 點椅子 #2（0.7, 0.05） 坐下了（player.seat）  {"x": 0.7, "z": 0.05, "y": 0, "lv": 0, "sx": 0.7, "sz": 0.05, "sy": null}
+PASS [xs_haopai 白天] 點椅子 #2（0.7, 0.05） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": 0.7, "z": 0.05, "y": 0, "lv": 0, "sx": 0.7, "sz": 0.05, "sy": null}
+PASS [黑畫面] crowd_sit_xs_haopai_seat_2 不是黑畫面（平均亮度 147.8、變化 62.4）  [147.8, 62.4]
+  [1301.4s] [xs_haopai 白天] 點椅子 #2（0.7, 0.05） 起身點了：["起身"]
+PASS [xs_haopai 白天] 點椅子 #2（0.7, 0.05） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 2.51, "x": 0.34, "z": 3.28, "lv": 0, "stand": true, "fb": 0}
+  [1306.7s] [xs_haopai 白天] 點椅子 2 張：[[1, "ok", -0.26, 2.3], [2, "ok", 0.7, 0.05]]
+== xs_haopai late
+  [前置／捷徑] [xs_haopai 晚上] 讀檔店裡（出生點）2025-10-18 20.00
+PASS [xs_haopai 晚上] 讀到店裡  {"zone": "xs_haopai", "x": 0, "z": 5.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.01}
+  [1316.3s] [xs_haopai 晚上] 20.01 店裡的人 0（客人 0）：[]
+FAIL [xs_haopai 晚上] 有客人  0
+PASS [xs_haopai 晚上] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+PASS [xs_haopai 晚上] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  []
+PASS [xs_haopai 晚上] ③ 從店門走得到每一張空座位（2 張）的走近點和店門（E.simWalk）  []
+PASS [xs_haopai 晚上] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_xs_haopai_late 不是黑畫面（平均亮度 97.9、變化 73.1）  [97.9, 73.1]
+  [1319.6s] [截圖] crowd_xs_haopai_late：鏡頭 {"eye": [0, 5.5, 6.4], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [97.9, 73.1]
+PASS 這一版有 xs_xsports
+== xs_xsports early
+  [前置／捷徑] [xs_xsports 白天] 讀檔店裡（出生點）2025-10-18 12.00
+PASS [xs_xsports 白天] 讀到店裡  {"zone": "xs_xsports", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 12.01}
+  [1329.1s] [xs_xsports 白天] 12.01 店裡的人 2（客人 2）：[{"id": null, "name": "", "x": 1.75, "z": 2.6, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}, {"id": null, "name": "", "x": -2.6, "z": -2.9, "y": 3.75, "lv": 1, "floor": 3.75, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}]
+PASS [xs_xsports 白天] 有客人  2
+PASS [xs_xsports 白天] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+PASS [xs_xsports 白天] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  []
+PASS [xs_xsports 白天] ③ 從店門走得到每一張空座位（1 張）的走近點和店門（E.simWalk）  []
+PASS [xs_xsports 白天] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_xs_xsports_early 不是黑畫面（平均亮度 142.7、變化 55.2）  [142.7, 55.2]
+  [1334.0s] [截圖] crowd_xs_xsports_early：鏡頭 {"eye": [0, 5.5, 7.4], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [142.7, 55.2]
+  [前置／捷徑] [xs_xsports 白天] ④ 讀檔回 12.00，照玩家點 2 張空椅子坐下、起身（走過去的時候客人沒有搶先坐上去）
+  [1342.1s] [xs_xsports 白天] 點椅子 座位 1 張：[{"label": "坐下試穿", "x": -5.6, "z": 3.5, "lv": 0, "sx": -5.6, "sz": 3.5, "sy": null, "slv": 0, "row": null, "ap": [-4.8, 3.5], "lift": 0}]
+  [1384.8s] 到達「[xs_xsports 白天] 點椅子 #1（-5.6, 3.5）（走到椅子附近）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，43 秒
+PASS [xs_xsports 白天] 點椅子 #1（-5.6, 3.5） 點椅子（螢幕 [525, 525]）走過去停在 (-4.723, 3.283)（seatApproach [-4.8, 3.5]）：最近的「坐下」是這一張  {"at": [-4.723, 3.283], "nearest": {"label": "坐下試穿", "seat": [-5.6, 3.5], "exit": null}}
+PASS [xs_xsports 白天] 點椅子 #1（-5.6, 3.5） 走到旁邊，互動按鈕是「坐下試穿」  {"x": -4.723, "z": 3.283, "lv": 0, "interact": "坐下試穿", "stand": true}
+PASS [xs_xsports 白天] 點椅子 #1（-5.6, 3.5） 坐下了（player.seat）  {"x": -5.6, "z": 3.5, "y": 0, "lv": 0, "sx": -5.6, "sz": 3.5, "sy": null}
+PASS [xs_xsports 白天] 點椅子 #1（-5.6, 3.5） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -5.6, "z": 3.5, "y": 0, "lv": 0, "sx": -5.6, "sz": 3.5, "sy": null}
+PASS [黑畫面] crowd_sit_xs_xsports_seat_1 不是黑畫面（平均亮度 109.4、變化 54.4）  [109.4, 54.4]
+  [1400.3s] [xs_xsports 白天] 點椅子 #1（-5.6, 3.5） 起身點了：["起身"]
+PASS [xs_xsports 白天] 點椅子 #1（-5.6, 3.5） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 3.1, "x": -4.85, "z": 6.6, "lv": 0, "stand": true, "fb": 0}
+  [1404.4s] [xs_xsports 白天] 點椅子 2 張：[[1, "ok", -5.6, 3.5]]
+== xs_xsports late
+  [前置／捷徑] [xs_xsports 晚上] 讀檔店裡（出生點）2025-10-18 21.00
+PASS [xs_xsports 晚上] 讀到店裡  {"zone": "xs_xsports", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.01}
+  [1413.8s] [xs_xsports 晚上] 21.01 店裡的人 1（客人 1）：[{"id": null, "name": "", "x": 1.75, "z": 2.6, "y": 0, "lv": 0, "floor": 0, "pose": "idle", "beh": "idle", "vis": true, "seat": null, "target": null, "stand": true, "staff": false, "named": false}]
+PASS [xs_xsports 晚上] 有客人  1
+PASS [xs_xsports 晚上] ① 坐著的人都在座位上（0.15 m、高度 ±0.15）  []
+PASS [xs_xsports 晚上] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）  []
+PASS [xs_xsports 晚上] ③ 從店門走得到每一張空座位（1 張）的走近點和店門（E.simWalk）  []
+PASS [xs_xsports 晚上] ④ 客人坐的位子，玩家那一張不給坐（按鈕藏起來）  []
+PASS [黑畫面] crowd_xs_xsports_late 不是黑畫面（平均亮度 99.4、變化 51.9）  [99.4, 51.9]
+  [1419.6s] [截圖] crowd_xs_xsports_late：鏡頭 {"eye": [0, 5.5, 7.4], "look": [0, 0.8, 0], "lens": 18, "vfov": 58.72}、亮度 [99.4, 51.9]
+PASS 沒有 JS 例外  []
+FAILED 6: [xs_nanyang 白天] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）；[xs_nanyang 晚上] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）；[xs_dakou 白天] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）；[xs_dakou 晚上] ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）；[xs_haopai 白天] 有客人；[xs_haopai 晚上] 有客人

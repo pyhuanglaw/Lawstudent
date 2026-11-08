@@ -19,7 +19,13 @@ TAG = os.environ.get('TAG') or 'x'
 R = L.Run('linze_lm_' + TAG, OUT); D.setup(R, OUT)
 DAY = os.environ.get('DAY') or '2025-10-15'
 TIMES = [('day', 11.0), ('night', 20.0)]
+if os.environ.get('HOURS'): TIMES = [('day', float(os.environ['HOURS'].split(',')[0])), ('night', float(os.environ['HOURS'].split(',')[1]))]   # BB-B 15:51：白天 10:00
+if os.environ.get('NIGHT_ONLY'): TIMES = [t_ for t_ in TIMES if t_[0] == 'night']   # BB-B 16:14：只重拍晚上＋聖誕夜
 VIEWS = [('elev_south', 4.6, -4.9, 0.0), ('disc_north', -2.0, 3.6, math.pi)]
+if os.environ.get('VIEWS'):   # CC-B 11-07 15:3x（LAWWW2-B 15:25 L5FLM）：VIEWS＝「名字:x:z:yaw+…」，ZONES＝「linze_5f,…」，SIS＝「日期,時,視角名」：讀檔後叫 LZUP.labLights('sis')（前置捷徑）再拍
+    VIEWS = [(a_, float(b_), float(c_), float(d_)) for a_, b_, c_, d_ in (v.split(':') for v in os.environ['VIEWS'].split('+'))]
+ZONES = [z_ for z_ in (os.environ.get('ZONES') or 'linze_3f,linze_4f').split(',') if z_]
+SIS = (os.environ.get('SIS') or '').split(',') if os.environ.get('SIS') else None
 LM = r"""(()=>{ const z=GAME.E.zone; let n=0, lm=0, names=new Set(); if(z&&z.group) z.group.traverse(o=>{ if(!o.isMesh) return; n++; for(const m of [].concat(o.material)) if(m&&m.lightMap){ lm++; names.add(((m.lightMap.image&&(m.lightMap.image.currentSrc||m.lightMap.image.src))||m.lightMap.name||'').slice(-40)); } }); return {meshes:n, withLightMap:lm, maps:[...names].slice(0,6)}; })()"""
 
 
@@ -33,13 +39,15 @@ async def main():
         await pg.goto(URL); ok = await L.wait_loaded(pg)
         if R.check('遊戲載入', ok, ''):
             await pg.evaluate("localStorage.clear()")
-            for zone in ('linze_3f', 'linze_4f'):
-                for tn, h in TIMES:
-                    for nm, x, z, yaw in VIEWS:
+            for zone in ZONES:
+                for tn, h in TIMES + ([('sis', float(SIS[1]))] if SIS else []):
+                    for nm, x, z, yaw in (VIEWS if tn != 'sis' else [v for v in VIEWS if v[0] == SIS[2]]):
                         tag = '[%s %s %s]' % (zone, tn, nm)
                         try:
                             ok_st = None
-                            s = await D.load_zone(pg, cdp, zone, DAY, h, x=x, z=z, yaw=yaw, wait=8000)
+                            await pg.evaluate("(m=>{ try{ if(typeof LZUP!=='undefined'&&LZUP.labLights) LZUP.labLights(m); }catch(e){} })", 'sis' if tn == 'sis' else 'all')
+                            if tn == 'sis': R.setup('%s 【前置／捷徑】LZUP.labLights(\'sis\')（第三年聖誕夜 ev_sis_xmas_y3：研究室只開學姊的檯燈），讀檔 %s %.1f' % (tag, SIS[0], h))
+                            s = await D.load_zone(pg, cdp, zone, SIS[0] if tn == 'sis' else DAY, h, x=x, z=z, yaw=yaw, wait=8000)
                             if not R.check('%s 進得了 %s' % (tag, zone), s['zone'] == zone, J(s)): continue
                             await pg.wait_for_timeout(2500)
                             lm = await pg.evaluate(LM)

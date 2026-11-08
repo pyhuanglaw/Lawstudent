@@ -1,0 +1,33 @@
+CC 三處場景（['yangyang']）：SHA=?（worktree 實際 e66781d1f7）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [yangyang 1900] 讀檔 yangyang 2025-10-18 19.0（條件事件關閉）
+PASS [yangyang 1900] 進得了 yangyang  {"zone": "yangyang", "x": 1.2, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下吃", "stand": true, "fb": 0, "hour": 19.01}
+PASS [黑畫面] yy_1900_door 不是黑畫面（平均亮度 108.8、變化 51.2）  [108.8, 51.2]
+  [  38.2s] [截圖] yy_1900_door：鏡頭 {"eye": [1.2, 1.6, 4.9], "look": [0, 1, -4], "lens": 18, "vfov": 58.72}、亮度 [108.8, 51.2]
+PASS [黑畫面] yy_1900_counter 不是黑畫面（平均亮度 69.8、變化 42.6）  [69.8, 42.6]
+  [  43.7s] [截圖] yy_1900_counter：鏡頭 {"eye": [0.8, 1.6, 1.6], "look": [-2.3, 1.2, 4.8], "lens": 20, "vfov": 53.7}、亮度 [69.8, 42.6]
+PASS [黑畫面] yy_1900_top 不是黑畫面（平均亮度 94.9、變化 37.9）  [94.9, 37.9]
+  [  47.9s] [截圖] yy_1900_top：鏡頭 {"eye": [0.3, 7.5, 2.2], "look": [0, 0, -0.6], "lens": 16, "vfov": 64.65}、亮度 [94.9, 37.9]
+PASS [黑畫面] yy_1900_t4south 不是黑畫面（平均亮度 71.1、變化 37.0）  [71.1, 37.0]
+  [  53.1s] [截圖] yy_1900_t4south：鏡頭 {"eye": [-0.5, 1.5, -4.9], "look": [-2.9, 0.45, -3.7], "lens": 22, "vfov": 49.43}、亮度 [71.1, 37.0]
+PASS [黑畫面] yy_1900_window 不是黑畫面（平均亮度 76.6、變化 39.8）  [76.6, 39.8]
+  [  56.6s] [截圖] yy_1900_window：鏡頭 {"eye": [0.9, 1.5, 2.4], "look": [2.7, 1.4, 5.5], "lens": 20, "vfov": 53.7}、亮度 [76.6, 39.8]
+  [  56.6s] [yangyang 1900] 店裡 7 人（坐著 5、店員 2）：[{"id": null, "x": -2.3, "z": 4.5, "pose": "idle", "clerk": true, "seat": null, "stand": false}, {"id": null, "x": -1.45, "z": 2.8, "pose": "idle", "clerk": true, "seat": null, "stand": false}, {"id": null, "x": 1.48, "z": 0, "pose": "sit", "clerk": false, "seat": {"x": 1.48, "z": 0, "d": 0}, "stand": null}, {"id": null, "x": 1.48, "z": 1.2, "pose": "sit", "clerk": false, "seat": {"x": 1.48, "z": 1.2, "d": 0}, "stand": null}, {"id": null, "x": -3.18, "z": -3.7, "pose": "sit", "clerk": false, "seat": {"x": -3.18, "z": -3.7, "d": 0}, "stand": null}, {"id": null, "x": -2.62, "z": -3.7, "pose": "sit", "clerk": false, "seat": {"x": -2.62, "z": -3.7, "d": 0}, "stand": null}, {"id": null, "x": 3.5, "z": -1.15, "pose": "sit", "clerk": false, "seat": {"x": 3.5, "z": -1.15, "d": 0}, "stand": null}]
+PASS [yangyang 1900] 客人坐在座位上（0.15 m）、站著的站得住（店員不算）  []
+  [前置／捷徑] [yangyang 2330] 讀檔 yangyang 2025-10-18 23.5（條件事件關閉）
+PASS [yangyang 2330] 進得了 yangyang  {"zone": "yangyang", "x": 1.2, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下吃", "stand": true, "fb": 0, "hour": 23.51}
+PASS [黑畫面] yy_2330_door 不是黑畫面（平均亮度 112.7、變化 47.7）  [112.7, 47.7]
+  [  76.4s] [截圖] yy_2330_door：鏡頭 {"eye": [1.2, 1.6, 4.9], "look": [0, 1, -4], "lens": 18, "vfov": 58.72}、亮度 [112.7, 47.7]
+PASS [黑畫面] yy_2330_counter 不是黑畫面（平均亮度 86.7、變化 45.2）  [86.7, 45.2]
+  [  79.8s] [截圖] yy_2330_counter：鏡頭 {"eye": [0.8, 1.6, 1.6], "look": [-2.3, 1.2, 4.8], "lens": 20, "vfov": 53.7}、亮度 [86.7, 45.2]
+PASS [黑畫面] yy_2330_top 不是黑畫面（平均亮度 96.2、變化 39.4）  [96.2, 39.4]
+  [  84.4s] [截圖] yy_2330_top：鏡頭 {"eye": [0.3, 7.5, 2.2], "look": [0, 0, -0.6], "lens": 16, "vfov": 64.65}、亮度 [96.2, 39.4]
+PASS [黑畫面] yy_2330_t4south 不是黑畫面（平均亮度 72.2、變化 35.6）  [72.2, 35.6]
+  [  87.9s] [截圖] yy_2330_t4south：鏡頭 {"eye": [-0.5, 1.5, -4.9], "look": [-2.9, 0.45, -3.7], "lens": 22, "vfov": 49.43}、亮度 [72.2, 35.6]
+PASS [黑畫面] yy_2330_window 不是黑畫面（平均亮度 69.7、變化 46.5）  [69.7, 46.5]
+  [  90.5s] [截圖] yy_2330_window：鏡頭 {"eye": [0.9, 1.5, 2.4], "look": [2.7, 1.4, 5.5], "lens": 20, "vfov": 53.7}、亮度 [69.7, 46.5]
+  [  90.5s] [yangyang 2330] 店裡 11 人（坐著 9、店員 2）：[{"id": null, "x": -2.3, "z": 4.5, "pose": "idle", "clerk": true, "seat": null, "stand": false}, {"id": null, "x": -1.45, "z": 2.8, "pose": "idle", "clerk": true, "seat": null, "stand": false}, {"id": null, "x": 0.92, "z": 2.3, "pose": "sit", "clerk": false, "seat": {"x": 0.92, "z": 2.3, "d": 0}, "stand": null}, {"id": null, "x": 0.92, "z": 0, "pose": "sit", "clerk": false, "seat": {"x": 0.92, "z": 0, "d": 0}, "stand": null}, {"id": null, "x": 0.92, "z": 1.2, "pose": "sit", "clerk": false, "seat": {"x": 0.92, "z": 1.2, "d": 0}, "stand": null}, {"id": null, "x": 1.48, "z": 0, "pose": "read", "clerk": false, "seat": {"x": 1.48, "z": 0, "d": 0}, "stand": null}, {"id": null, "x": 0.82, "z": -2.3, "pose": "read", "clerk": false, "seat": {"x": 0.82, "z": -2.3, "d": 0}, "stand": null}, {"id": null, "x": 0.82, "z": -1.1, "pose": "sit", "clerk": false, "seat": {"x": 0.82, "z": -1.1, "d": 0}, "stand": null}, {"id": null, "x": -2.62, "z": -3.7, "pose": "sit", "clerk": false, "seat": {"x": -2.62, "z": -3.7, "d": 0}, "stand": null}, {"id": null, "x": 3.5, "z": -2.95, "pose": "sit", "clerk": false, "seat": {"x": 3.5, "z": -2.95, "d": 0}, "stand": null}, {"id": null, "x": 3.5, "z": -1.85, "pose": "sit", "clerk": false, "seat": {"x": 3.5, "z": -1.85, "d": 0}, "stand": null}]
+PASS [yangyang 2330] 客人坐在座位上（0.15 m）、站著的站得住（店員不算）  []
+PASS 沒有 JS 例外  []
+ALL PASS

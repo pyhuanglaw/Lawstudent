@@ -29,7 +29,7 @@ CROWD = r"""(()=>{ const E=GAME.E, P=E.player, out=[]; const lvY=lv=>{ const z=E
   for(const n of (E.npcs||[])){ if(!n||!n.obj||n.hidden) continue; const p=n.obj.position, lv=n.lv|0;
     out.push({id:n.charId||n.id||null, name:n.name||'', x:+p.x.toFixed(2), z:+p.z.toFixed(2), y:+p.y.toFixed(2), lv, floor:+lvY(lv).toFixed(2), pose:n.pose||null, beh:n.beh||null, vis:n.obj.visible!==false,
       seat:n.seat?{x:+n.seat.x.toFixed(2), z:+n.seat.z.toFixed(2), y:n.seat.y==null?null:+(+n.seat.y).toFixed(2), lift:n.seat.lift||0}:null, target:n.seatTarget?[+n.seatTarget.x.toFixed(2),+n.seatTarget.z.toFixed(2)]:null,
-      stand:E.canStand?!!E.canStand(p.x,p.z,0.2,lv):null, staff:!!n.staff, named:!!(n.charId&&typeof CHARACTERS!=='undefined'&&CHARACTERS[n.charId])}); }
+      stand:E.canStand?!!E.canStand(p.x,p.z,0.2,lv):null, staff:!!(n.staff||n.clerk), named:!!(n.charId&&typeof CHARACTERS!=='undefined'&&CHARACTERS[n.charId])}); }
   const seats=E.interactables.filter(i=>i.seat).map(i=>({x:+i.seat.x.toFixed(2), z:+i.seat.z.toFixed(2), lv:i.seat.lv|0, hidden:!!i.hidden, ap:GAME.seatApproach?GAME.seatApproach(i.seat):null, label:i.label}));
   const ex=E.interactables.find(i=>i.exit&&!i.hidden); return {npcs:out, seats, exit:ex?{x:ex.x,z:ex.z,r:ex.radius||1,lv:ex.lv|0,label:ex.label}:null, player:[+P.obj.position.x.toFixed(2),+P.obj.position.z.toFixed(2)], hour:+GAME.G.hour.toFixed(2)}; })()"""
 REACH = r"""((q)=>{ const E=GAME.E, P=E.player.obj.position, lv0=E.player.lv|0; const out=[]; for(const t of q.targets){ let ok=null; try{ const r=E.simWalk(P.x,P.z,t[0],t[1],{lv0,lv1:t[2]|0,dt:1/15}); ok=!!(r&&r.ok); }catch(e){ ok='ERR '+e; } out.push([t[0],t[1],t[2]|0,ok]); } return out; })"""
@@ -60,6 +60,7 @@ async def check_shop(pg, cdp, zone, mode):
             d = math.hypot(n['x'] - n['seat']['x'], n['z'] - n['seat']['z'])
             if d > 0.15 or abs(n['y'] - fy) > 0.15: bad_sit.append([n['name'] or n['id'], n['x'], n['z'], n['y'], n['seat'], round(d, 2), fy])
         else:
+            if n.get('staff'): continue   # CC-B 11-07 14:2x：櫃檯後面的店員（clerk：南洋 S.ALT、大口 dakouClerk，SHOP-STAFF-1107）本來就站在櫃檯的阻擋格裡，不算客人（BB-B 14:10 SHOP_CROWD c／d＝TEST_BUG）
             if n['stand'] is False or abs(n['y'] - n['floor']) > 0.15: bad_stand.append([n['name'] or n['id'], n['x'], n['z'], n['y'], n['lv'], n['floor'], n['pose']])
     R.check('%s ① 坐著的人都在座位上（0.15 m、高度 ±0.15）' % tag, not bad_sit, J(bad_sit))
     R.check('%s ② 站著／走路的人站得住、在地板上（不在牆裡、桌上）' % tag, not bad_stand, J(bad_stand))
