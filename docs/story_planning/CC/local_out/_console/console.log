@@ -925,3 +925,12 @@
 [15:02:28] 正在跑：R0ced_v0_home（已跑 40 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:07:28] 正在跑：R0ced_v0_home（已跑 45 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:11:05] [res] cpu=31% mem=34% (10.9/31.4 GB) chrome_testing=0  END R0ced_v0_home
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       189e9e721..5e99f155e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:11:10] ==== END   R0ced_v0_home  exit=0  2925s   ====
+[15:11:13] memory 35% before starting R0ced_movreg (0 running)
+[15:11:13] ==== START R0ced_movreg  (game @ 0cedcbb716bbbe120007ef7c92abcbf494436b31) ====
+[15:11:16] [res] cpu=36% mem=35% (11.1/31.4 GB) chrome_testing=0  START R0ced_movreg
+[15:12:28] 正在跑：R0ced_movreg（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:17:05] [res] cpu=88% mem=34% (10.7/31.4 GB) chrome_testing=0  END R0ced_movreg
