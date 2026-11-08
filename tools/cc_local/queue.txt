@@ -205,6 +205,9 @@ GG3LM_wz6_fps2_mob_e276 | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | too
 #   CC-B 02:4x：fps2 的 ZSLOTS 被佇列的 ; 切斷，只有 teahouse 照時段量；木曜日、日常失速 14:00 用 / 分隔重排
 GG3LM_wz6_fps2b_e276 | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | tools/cc_local/fps_zones.py | index.html | 30 | ZONES=wz_mokuyobi,wz_offbeat;ZSLOTS=wz_mokuyobi:h1400/wz_offbeat:h1400;SECS=15;SOLO=1;CC_HEADLESS=0
 GG3LM_wz6_fps2b_mob_e276 | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | tools/cc_local/fps_zones.py | index.html | 30 | CPU_THROTTLE=4;ZONES=wz_mokuyobi,wz_offbeat;ZSLOTS=wz_mokuyobi:h1400/wz_offbeat:h1400;SECS=15;SOLO=1;CC_HEADLESS=0
+#   BB-B 03:43：fps2c＝先量拍桌 21:00 當暖機，再量木曜日 14:00 兩次（看 fps2b 木曜日手機 1.7 是不是第一格暖機）
+GG3LM_wz6_fps2c_e276 | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | tools/cc_local/fps_zones.py | index.html | 30 | ZONES=wz_print,wz_mokuyobi;ZSLOTS=wz_print:h2100/wz_mokuyobi:h1400+h1400;SECS=15;SOLO=1;CC_HEADLESS=0
+GG3LM_wz6_fps2c_mob_e276 | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | tools/cc_local/fps_zones.py | index.html | 30 | CPU_THROTTLE=4;ZONES=wz_print,wz_mokuyobi;ZSLOTS=wz_print:h2100/wz_mokuyobi:h1400+h1400;SECS=15;SOLO=1;CC_HEADLESS=0
 #   BB-B 01:45（11-08）溫州街六間光照 GPU：e2762e9d9（含 4d949ba39＋一盞重烘 dd32c1094），14:00、19:30、21:00（2025-10-18 週六＝一盞營業日）；ART_APPROVED 卡在這裡＝排最前面
 GG3LM_wz6_e276 | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | docs/story_planning/test_tools/cc/cc_scene5_probe.py | index.html | 40 | TAG=after_gpu;PART=wz_brunch,wz_teishoku,wz_mokuyobi,wz_teahouse,wz_offbeat,wz_print;SLOTS=1400:14,1930:19.5,2100:21;CC_HEADLESS=0
 GG3LM_wz6_fps_e276 | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | tools/cc_local/fps_zones.py | index.html | 30 | ZONES=wz_brunch,wz_teishoku,wz_mokuyobi,wz_teahouse,wz_offbeat,wz_print;SLOTS=day,night;SECS=15;SOLO=1;CC_HEADLESS=0
