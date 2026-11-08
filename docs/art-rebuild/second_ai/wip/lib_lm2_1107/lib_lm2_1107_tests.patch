@@ -1,3 +1,28 @@
+diff --git a/tests/gg_new_lm_unit.js b/tests/gg_new_lm_unit.js
+index 696485f0d..f5a71c3ea 100644
+--- a/tests/gg_new_lm_unit.js
++++ b/tests/gg_new_lm_unit.js
+@@ -1,6 +1,7 @@
+ // AA／BB／CC 新做的店內（aa_support／bb_support）光照烘焙（INTERIOR-AAA lm_audit_1107 第一級；LAWWW2-B 2026-11-07；tools/blender/env_second/lightbake/bake_gg_new.sh）——不需要瀏覽器。
+ //   日和便利店（BB，bb_support/cvs_interior.glb）、洋洋鹹酥雞（BB，bb_support/yangyang_interior.glb）、轉角唱片（CC，bb_support/corner.glb）——LAWWW-B 15:35 插隊
+ //   第二批（11-07 18:xx）：公館燒臘（BB，bb_support/shaola_interior.glb，noodle 區域）、頁間書屋（AA，aa_support/yejian.glb，bookstore 區域）
++//   第二級（11-07 21:xx）：公館 afar、青木、Daybreak（AA，aa_support/），慢輪單車（CC，bb_support/bike.glb：GPU instancing，烘完補回節點名字；吊燈燈罩烘的時候藏起來）
+ //   第三批（11-07 19:xx）：溫州街——SUNNY SIDE、小路、木曜日、一盞、日常失速（AA，aa_support/），阿德影印（CC，bb_support/ade.glb：GPU instancing，烘完補回節點名字）
+ //   遊戲走 Z3.attachRoomGLB（zones3d.js 的 ggRoom／wzShop），GLB 有 extras.lightmap 就接，不用改程式。
+ //   1. 每間的 GLB 有 extras.lightmap，白天、晚上的貼圖檔都在
+@@ -33,6 +34,12 @@ Object.assign(SHOPS,{
+   'aa_support/mokuyobi':AA3('mok',['back','front','left','right'],['front']),
+   'aa_support/yizhan':AA3('yzn',['back','engawa','left','right'],[]),
+   'aa_support/daily_offbeat':AA3('dof',['back','front','left','right'],['front','right']),
++  'aa_support/afar':AA3('afr',['back','front','left','right'],['front']),
++  'aa_support/aoki':AA3('aok',['back','front','left','right'],['front']),
++  'aa_support/daybreak':AA3('dbk',['back','front','left','right'],['front']),
++  'bb_support/bike':{ bake:/^(bk_floor_floor|bk_concrete|bk_partition_wall|WALL_[a-z]+_wall_wall|WALL_front_front_wall)$/, live:/(GLOW|glass|_goods|_vc|_vcm|_alpha|_emit|_sign|_inst$|_wood)/,
++    walls:['WALL_back_wall_wall','WALL_front_front_wall','WALL_left_wall_wall','WALL_right_wall_wall','WALL_back_pegboard_goods','WALL_left_wallbike1_vc_inst','bk_pendant_0_emit_inst','WALL_right_tire_a_0_vc_inst'],
++    extras:{'WALL_back_wall_wall':{dir:[0,0,1]},'WALL_right_wall_wall':{dir:[-1,0,0]},'WALL_front_bk_glass':{dir:[0,0,-1]}} },
+   'bb_support/ade':{ bake:/^(ad_floor_floor|ad_ceiling_ceil|WALL_[a-z]+_wall_wall|WALL_front_front_wall)$/, live:/(GLOW|glass|_goods|_vc|_vcm|_alpha|_emit|_sign|_inst$)/,
+     walls:['WALL_back_wall_wall','WALL_front_front_wall','WALL_left_wall_wall','WALL_right_wall_wall','WALL_back_back_wallshelf_vcm','ad_ceilfx_panel_0_emit_inst','ad_chair_0_vc_inst','ad_table_0_wood_inst'],
+     extras:{'WALL_back_wall_wall':{dir:[0,0,1]},'WALL_right_wall_wall':{dir:[-1,0,0]}} },
 diff --git a/tests/library_lm2_unit.js b/tests/library_lm2_unit.js
 new file mode 100644
 index 000000000..beda5175f
