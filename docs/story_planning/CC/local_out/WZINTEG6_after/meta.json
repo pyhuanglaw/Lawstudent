@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "WZINTEG6_after",
+  "sha": "6da721819b8d351fe12e0b848ca7e06f52553819",
+  "kind": "game",
+  "script": "tests/wz_street_integration.py",
+  "env": "XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T10:34:09",
+  "end": "2026-11-08T10:36:22",
+  "seconds": 133,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 11,
+    "mem": 52,
+    "used_gb": 16.3,
+    "chrome_testing": 12
+  }
+}

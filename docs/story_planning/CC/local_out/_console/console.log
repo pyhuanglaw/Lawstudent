@@ -811,3 +811,13 @@
 [10:35:25] ==== START R126_v0_home  (game @ 126bdf93e82886673518705566dbe83b582c32c1) ====
 [10:35:28] [res] cpu=6% mem=46% (14.7/31.4 GB) chrome_testing=8  START R126_v0_home
 [10:36:04] [res] cpu=1% mem=43% (13.5/31.4 GB) chrome_testing=8  END WZINTEG6_before
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       cc5075d87..8025f630f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:36:09] ==== END   WZINTEG6_before  exit=1  156s   ====
+[10:36:12] skip R126_v0_tolaw (already done on 126bdf93e82886673518705566dbe83b582c32c1)
+[10:36:12] skip R126_main12 (already done on 126bdf93e82886673518705566dbe83b582c32c1)
+[10:36:12] memory 44% before starting R126_classreal (2 running)
+[10:36:12] ==== START R126_classreal  (game @ 126bdf93e82886673518705566dbe83b582c32c1) ====
+[10:36:15] [res] cpu=3% mem=39% (13.8/31.4 GB) chrome_testing=4  START R126_classreal
+[10:36:22] [res] cpu=9% mem=42% (13.0/31.4 GB) chrome_testing=4  END WZINTEG6_after
