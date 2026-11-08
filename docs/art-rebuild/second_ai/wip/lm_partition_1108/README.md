@@ -13,7 +13,7 @@
 
 ## 分批（LAWWW-B 02:08：先 B1、研究小間，再 5F、體育館 B1、美國兩間）
 
-### 第一批：總圖 B1、研究小間（`<本 commit>`）
+### 第一批：總圖 B1、研究小間（`14ef1ff10`）
 | 間 | 檔案 | 誰做的 | 原檔 sha256（腳本寫死的 blob） | 新檔 sha256 | 大小 |
 |---|---|---|---|---|---|
 | 總圖 B1 | `assets/models/env/second_ai/library_b1.glb`＋`_lm_day.webp`／`_lm_night.webp`＋`tools/blender/env_second/lightbake/library_b1_lm.json` | **LAWWW2**（4.1 版，**使用者 ART_APPROVED**；模型沒動） | `3a616dbc…` | `ef26c13f…` | 2,966,728 → 2,962,200 B |
