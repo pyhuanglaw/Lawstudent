@@ -1880,3 +1880,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 89.3s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 89.4s] BROWSER DISCONNECTED
 - 2026-11-08T10:04:32  GG3LM_wz6b_tp  sha=e2762e9d91df1cf8405301e54fd4bf286a5f626e  exit=0  172s      [ 138.4s] [截圖] s5_after_gpu_wz_print_2100_out：鏡頭 {"eye": [0, 1.55, 1.15], "look": [-0.0, 1.4, 9.65], "lens": 20, "vfov": 53.7}、亮度 [127.3, 63.6] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 138.9s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 138.9s] BROWSER DISCONNECTED
+- 2026-11-08T10:13:09  GG3LM_wz6_fps_mob_e276  sha=e2762e9d91df1cf8405301e54fd4bf286a5f626e  exit=1  506s    OK   wz_print      night avg 21.98 fps  1%low 6.92 fps  worst 166.7 ms  n=330  zone=wz_print h=21.04 w=sunny q=medium draw=67  / JS 例外 0 個 / FAILED: 6 格量不到：wenzhou/night, wenzhou/day, wenzhou/day, wenzhou/day, wenzhou/night, wenzhou/day
+      err.log (last 5): [gpu_wrap 473.3s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 473.3s] BROWSER DISCONNECTED
