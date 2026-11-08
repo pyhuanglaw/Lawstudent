@@ -982,3 +982,16 @@
 [21:51:57] ==== END   R13ffb_v0_start  exit=0  164s   ====
 [21:52:05] solo item R13ffb_movreg waits: no new items start until the 2 running item(s) finish
 [21:54:24] [res] cpu=2% mem=49% (15.5/31.4 GB) chrome_testing=4  END R13ffb_main12
+[21:54:30] 正在跑：R13ffb_reach（已跑 9 分／上限 30 分）、R13ffb_main12（已跑 5 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       147600aa6..5819f7d07  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:54:31] ==== END   R13ffb_main12  exit=0  346s   ====
+[21:54:38] memory 49% before starting R9eef_deploy (1 running)
+[21:54:38] memory 49% before starting R9eef_reach (2 running)
+[21:54:38] ==== START R9eef_deploy  (game @ 9eef2b95bc023e3201d0575935913319243a3670) ====
+[21:54:38] ==== START R9eef_reach  (game @ 9eef2b95bc023e3201d0575935913319243a3670) ====
+[21:54:41] [res] cpu=2% mem=49% (15.5/31.4 GB) chrome_testing=4  START R9eef_reach
+[21:54:41] [res] cpu=4% mem=49% (15.5/31.4 GB) chrome_testing=4  START R9eef_deploy
+[21:54:41] worktree add 9eef2b95bc023e3201d0575935913319243a3670: invalid reference - fetching main and the commit itself
+[21:55:47] [res] cpu=3% mem=49% (15.2/31.4 GB) chrome_testing=8  END R13ffb_reach
