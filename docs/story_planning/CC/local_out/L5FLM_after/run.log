@@ -1,0 +1,36 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_overlay_run.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L5FLM_after\out
+[overlay] 受測版本 e9d8c668f ＋ b034cd978 的 ['assets/models/env/second_ai/linze_5f.glb', 'assets/models/env/second_ai/linze_5f_lm_day.webp', 'assets/models/env/second_ai/linze_5f_lm_night.webp', 'assets/models/env/second_ai/linze_5f_lm_dark.webp']；暫存工作樹 C:\Users\USER\AppData\Local\Temp\cc_overlay_3i4db60g\wt
+[overlay] 本機沒有 b034cd978e1ec5d407e7f8e52ffa5332bfcd0116，git fetch origin b034cd978e1ec5d407e7f8e52ffa5332bfcd0116
+[overlay] 換檔 assets/models/env/second_ai/linze_5f.glb：7785fbf0d → b48be8830（3071388 bytes）
+[overlay] 換檔 assets/models/env/second_ai/linze_5f_lm_day.webp：fatal: pa → 42f649111（83850 bytes）
+[overlay] 換檔 assets/models/env/second_ai/linze_5f_lm_night.webp：fatal: pa → b5298f66e（78574 bytes）
+[overlay] 換檔 assets/models/env/second_ai/linze_5f_lm_dark.webp：fatal: pa → eab6edf06（15982 bytes）
+[overlay] 套 patch docs/art-rebuild/second_ai/wip/linze_5f_lm_1107/linze_5f_lm_1107.patch：OK 
+[overlay] 跑 cc_linze_lm_probe.py http://127.0.0.1:61449/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L5FLM_after\out
+CC LZ-UPPER-LM（after）：SHA=e9d8c668fd832f13beeb79903f3270aa1b914089+b034cd978（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+PASS [linze_5f day lab_door] 進得了 linze_5f  {"zone": "linze_5f", "x": -4.2, "z": -0.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.06}
+PASS [黑畫面] lzlm_after_linze_5f_day_lab_door 不是黑畫面（平均亮度 182.1、變化 51.5）  [182.1, 51.5]
+  [  51.9s] [linze_5f day lab_door] 站 (-4.20, -0.60)，lightMap：{"meshes": 131, "withLightMap": 29, "maps": ["odels/env/second_ai/linze_5f_lm_day.webp"]}；亮度 [182.1, 51.5]
+PASS [linze_5f day lab_in] 進得了 linze_5f  {"zone": "linze_5f", "x": -5.8, "z": 1.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.06}
+PASS [黑畫面] lzlm_after_linze_5f_day_lab_in 不是黑畫面（平均亮度 171.8、變化 62.9）  [171.8, 62.9]
+  [  65.5s] [linze_5f day lab_in] 站 (-5.80, 1.20)，lightMap：{"meshes": 131, "withLightMap": 29, "maps": ["odels/env/second_ai/linze_5f_lm_day.webp"]}；亮度 [171.8, 62.9]
+PASS [linze_5f day corridor] 進得了 linze_5f  {"zone": "linze_5f", "x": 6, "z": -5.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.06}
+PASS [黑畫面] lzlm_after_linze_5f_day_corridor 不是黑畫面（平均亮度 165.4、變化 52.8）  [165.4, 52.8]
+  [  80.3s] [linze_5f day corridor] 站 (6.00, -5.50)，lightMap：{"meshes": 131, "withLightMap": 29, "maps": ["odels/env/second_ai/linze_5f_lm_day.webp"]}；亮度 [165.4, 52.8]
+PASS [linze_5f night lab_door] 進得了 linze_5f  {"zone": "linze_5f", "x": -4.2, "z": -0.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.06}
+PASS [黑畫面] lzlm_after_linze_5f_night_lab_door 不是黑畫面（平均亮度 173.5、變化 54.1）  [173.5, 54.1]
+  [  93.9s] [linze_5f night lab_door] 站 (-4.20, -0.60)，lightMap：{"meshes": 131, "withLightMap": 29, "maps": ["odels/env/second_ai/linze_5f_lm_day.webp"]}；亮度 [173.5, 54.1]
+PASS [linze_5f night lab_in] 進得了 linze_5f  {"zone": "linze_5f", "x": -5.8, "z": 1.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.06}
+PASS [黑畫面] lzlm_after_linze_5f_night_lab_in 不是黑畫面（平均亮度 160.4、變化 65.1）  [160.4, 65.1]
+  [ 107.5s] [linze_5f night lab_in] 站 (-5.80, 1.20)，lightMap：{"meshes": 131, "withLightMap": 29, "maps": ["odels/env/second_ai/linze_5f_lm_day.webp"]}；亮度 [160.4, 65.1]
+PASS [linze_5f night corridor] 進得了 linze_5f  {"zone": "linze_5f", "x": 6, "z": -5.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.06}
+PASS [黑畫面] lzlm_after_linze_5f_night_corridor 不是黑畫面（平均亮度 127.2、變化 71.7）  [127.2, 71.7]
+  [ 121.0s] [linze_5f night corridor] 站 (6.00, -5.50)，lightMap：{"meshes": 131, "withLightMap": 29, "maps": ["odels/env/second_ai/linze_5f_lm_day.webp"]}；亮度 [127.2, 71.7]
+  [前置／捷徑] [linze_5f sis lab_in] 【前置／捷徑】LZUP.labLights('sis')（第三年聖誕夜 ev_sis_xmas_y3：研究室只開學姊的檯燈），讀檔 2027-12-24 21.0
+PASS [linze_5f sis lab_in] 進得了 linze_5f  {"zone": "linze_5f", "x": -5.8, "z": 1.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.06}
+PASS [黑畫面] lzlm_after_linze_5f_sis_lab_in 不是黑畫面（平均亮度 20.7、變化 29.1）  [20.7, 29.1]
+  [ 134.5s] [linze_5f sis lab_in] 站 (-5.80, 1.20)，lightMap：{"meshes": 131, "withLightMap": 29, "maps": ["odels/env/second_ai/linze_5f_lm_day.webp"]}；亮度 [20.7, 29.1]
+PASS 沒有 JS 例外  []
+ALL PASS

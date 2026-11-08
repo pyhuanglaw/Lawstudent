@@ -1,0 +1,131 @@
+{
+ "tag": "after",
+ "sha": "",
+ "linze_5f": {
+  "day": {
+   "lab_door": {
+    "pos": [
+     -4.2,
+     -0.6
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     182.1,
+     51.5
+    ]
+   },
+   "lab_in": {
+    "pos": [
+     -5.8,
+     1.2
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     171.8,
+     62.9
+    ]
+   },
+   "corridor": {
+    "pos": [
+     6,
+     -5.5
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     165.4,
+     52.8
+    ]
+   }
+  },
+  "night": {
+   "lab_door": {
+    "pos": [
+     -4.2,
+     -0.6
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     173.5,
+     54.1
+    ]
+   },
+   "lab_in": {
+    "pos": [
+     -5.8,
+     1.2
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     160.4,
+     65.1
+    ]
+   },
+   "corridor": {
+    "pos": [
+     6,
+     -5.5
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     127.2,
+     71.7
+    ]
+   }
+  },
+  "sis": {
+   "lab_in": {
+    "pos": [
+     -5.8,
+     1.2
+    ],
+    "lm": {
+     "meshes": 131,
+     "withLightMap": 29,
+     "maps": [
+      "odels/env/second_ai/linze_5f_lm_day.webp"
+     ]
+    },
+    "lum": [
+     20.7,
+     29.1
+    ]
+   }
+  }
+ }
+}
