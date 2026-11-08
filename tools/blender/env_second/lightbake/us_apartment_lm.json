@@ -1,4 +1,7 @@
 {
+ "device": "CPU",
+ "blender": "5.2.2 LTS",
+ "bake_seconds": 274.1,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -34,6 +37,7 @@
   ],
   "night": null
  },
+ "skytint": null,
  "objects": [
   "breezeway_wall_w",
   "door213",

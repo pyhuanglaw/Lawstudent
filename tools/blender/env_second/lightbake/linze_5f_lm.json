@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1758.8,
+ "bake_seconds": 1733.4,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -26,6 +26,7 @@
   "day": null,
   "night": null
  },
+ "skytint": null,
  "objects": [
   "linze_5f_ceiling",
   "linze_5f_floorm",
