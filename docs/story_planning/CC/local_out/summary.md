@@ -1950,3 +1950,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 195.7s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 195.7s] BROWSER DISCONNECTED
 - 2026-11-08T12:50:36  R8B6_v0_start  sha=8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5  exit=0  210s    PASS 畫面上沒有看得到的備用人物  [] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 127.9s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 128.0s] BROWSER DISCONNECTED
+- 2026-11-08T12:53:45  R8B6_v0_tolaw  sha=8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5  exit=1  181s    PASS 黑幕沒有擋住對話（8/29 搬宿舍那兩句可以點） / PASS 全程沒有 JS 例外  [] / FAILED: 在家的選單出來了（有「睡覺」）, 8/29 早上換階段：3b② 前兩句（「暑假剩下的日子，過得很快。」）、搬宿舍「你去年也搬過一次宿舍，這次只有一個行李箱。」
+      err.log (last 5): [gpu_wrap 145.3s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 145.3s] BROWSER DISCONNECTED
