@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "P6_cold_wz_after",
+  "sha": "6da721819b8d351fe12e0b848ca7e06f52553819",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/perf_cold_probe.py",
+  "env": "ZONES=wenzhou;FROM=gongguan;VARIANTS=base,near;NET=4g;PERSIST=1;COLD=12;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T09:14:28",
+  "end": "2026-11-08T09:18:31",
+  "seconds": 243,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 83,
+    "mem": 61,
+    "used_gb": 19.3,
+    "chrome_testing": 12
+  }
+}
