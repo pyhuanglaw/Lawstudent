@@ -63,6 +63,11 @@ async def main():
         named = [x for x in lines if x['n']]
         bad = [x for x in named if x['t'].startswith('「') and x['t'].endswith('」')]
         run.check('③ 有名字的句子外面都沒有「」（%d 句）' % len(named), named and not bad, J({'bad': bad}))
+        arc = [x for x in lines if '馬上笑著說' in x['t'] or '不好意思，我問太多了' in x['t']]
+        if arc:
+            run.check('⑤ 故事線「（她說完，馬上笑著說：）不好意思，我問太多了～」名字框＝沛珊（BUG-ARCS-NARR-NAME-1108）', all('沛珊' in x['n'] for x in arc) and all('「' not in x['t'] for x in arc), J(arc))
+        else:
+            run.note('⑤ 這一輪沒演到「早餐店的女兒」那一句（選項或拍數不同），故事線那一項沒看')
         await run.shot(pg, 'lawlib_after')
         run.check('④ 沒有 JS 例外', not errs, J(errs[:5]))
         await b.close()
