@@ -1,4 +1,7 @@
 {
+ "device": "CPU",
+ "blender": "5.2.2 LTS",
+ "bake_seconds": 323.3,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -34,6 +37,7 @@
   ],
   "night": null
  },
+ "skytint": null,
  "objects": [
   "breezeway_wall_w",
   "chore_chart",
@@ -59,12 +63,8 @@
   "US_BAR.001",
   "US_BATHMAT.001",
   "US_CEILINGFAN.001",
-  "US_CEILINGLIGHT.001",
-  "US_CEILINGLIGHT.002",
   "US_COFFEE.001",
   "US_COUNTER.001",
-  "US_DESK.001",
-  "US_DESK.002",
   "US_DISHWASHER.001",
   "US_ENDTABLE.001",
   "US_FRIDGE.001",
