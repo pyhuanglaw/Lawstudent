@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "CC_v0_to1017_e86f",
+  "sha": "e86f402e3daf9515216b5bb5b032e1844dba8f94",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_flow_v0_to1017.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T13:51:53",
+  "end": "2026-11-08T14:01:16",
+  "seconds": 562,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "6",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 19,
+    "mem": 47,
+    "used_gb": 14.9,
+    "chrome_testing": 10
+  }
+}
