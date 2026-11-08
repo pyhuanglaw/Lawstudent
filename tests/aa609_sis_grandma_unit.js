@@ -111,7 +111,7 @@ await sec(5,async()=>{
 /* ---------- 6 其他 ---------- */
 await sec(6,async()=>{
   const pg=J(PG_DATES);
-  check('6. pg_dates：「元旦回家，我媽問研究單位在做什麼。……她說：『所以是公務員？』」照媽媽',pg.includes('元旦回家，我媽問研究單位在做什麼。我講了二十分鐘。她說：『所以是公務員？』')&&!pg.includes('元旦回家，我爸問研究單位'));
+  check('6. pg_dates 2030-01：AA_593 決4（企劃線 9aa8ec40c）換成不提家人的「元旦放假，我睡到九點。醒來的時候，還以為遲到了。」（原本「我媽問研究單位…所以是公務員？」；她爸爸國小時過世）',pg.includes('元旦放假，我睡到九點。醒來的時候，還以為遲到了。')&&!pg.includes('元旦回家，我爸問研究單位')&&!pg.includes('所以是公務員'));
   const enc=(ENCOUNTERS.list||ENCOUNTERS.encounters||[]); const ej=J(ENCOUNTERS);
   check('6. 礁溪偶遇 why「她和家人坐在泡腳池邊：媽媽、阿公、奶奶，還有一個背對你的女生。」、記憶「在礁溪遇到學姊一家」（AA_609 第 8 節；AA_675 2-4 接進遊戲，原本 AA_661 第 32 列、AA_611 #3；AA_684 第 8 項：名稱中性，「Alison 是她妹妹」另外一條 KNOWS_SIS_ALISON）',ej.includes('"她和家人坐在泡腳池邊：媽媽、阿公、奶奶，還有一個背對你的女生。"')&&ENCOUNTERS.labels.ENC_D24_SIS==='在礁溪遇到學姊一家'&&ENCOUNTERS.labels.KNOWS_SIS_ALISON==='Alison 是她妹妹'&&LABEL('ENC_D24_SIS')!=='在礁溪遇到學姊和她媽媽',J([ENCOUNTERS.labels.ENC_D24_SIS,LABEL('ENC_D24_SIS'),ENCOUNTERS.labels.KNOWS_SIS_ALISON]));
   check('6. 礁溪重訪（enc_walk）「泡腳池。上次學姊一家坐在這裡。」（AA_661 第 32 列、AA_611 #3）',J(ENC_WALK).includes('"泡腳池。上次學姊一家坐在這裡。"')&&!J(ENC_WALK).includes('"泡腳池。上次學姊和她媽媽坐在這裡。"'));

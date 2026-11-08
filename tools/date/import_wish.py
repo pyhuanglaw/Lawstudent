@@ -137,6 +137,22 @@ if A592:
     FIX592.add(NEW53)
     SRC525 += f'＋{os.path.basename(P592)[:6]}@{S592}（以安 D07 法庭 1 句）'
 
+# ---- 1d2. AA_593（學姊改稿①b，白名單 AA593-SIS-1B-1102；使用者 11-02 第 10 節確認）第 82 列：學姊 herInvite.decline 換成「好。……那下次。」——
+#      源稿 wish_bb.json@9aa8ec40c 已經改好；BB_128 原稿沒有這一句：第 2 步逐句對稿時，那一句改對 AA_593 第 82 列的「改成」欄 ----
+A593 = G.approved_files(ALLOW, SP + 'AA_593_')
+FIX593 = set()
+if A593:
+    P593, S593 = next(iter(A593.items()))
+    ok, why = G.allowed(P593, S593, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md593 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S593}:{P593}'], text=True))
+    OLD82, NEW82 = '好。那我先把那一格擦掉。……下次再寫回來。', '好。……那下次。'
+    if f'| {OLD82} | {NEW82} |' not in md593:
+        sys.exit(f'AA_593@{S593} 裡找不到第 82 列（學姊 herInvite.decline）')
+    FIX593.add(NEW82)
+    SRC525 += f'＋{os.path.basename(P593)[:6]}@{S593}（學姊 decline 1 句）'
+
 # ---- 1e. AA_594（以安改稿④b，白名單 AA594-AN-4B-1102；第 9、10 節「本批全部可以交 LAWWW 整合」）第 2-13 節：心願「規則之外的人」（以安 D07）的 16 列＋記憶名稱（第 368 列）。
 #      源稿 wish_aa.json 沒改（企劃線），照表疊：位置欄寫 date_wish.js 的數字列，在以安那一場裡把整句相同的換掉（台詞、旁白、記憶名稱；旁白的括號照原樣）；
 #      備註寫「兩處都換」的要剛好 2 處，其他剛好 1 處（第 40 列「原句出現 2 次，只換這一處」的另一處不在這一場）；改成＝原句的列（BB_240 補回）跳過 ----
@@ -212,6 +228,7 @@ for k, e in EV.items():
         t = norm(t0)
         parts = [p for p in re.split(r'[（）「」]', t) if p] if who in ('narr', 'opt') else [t]
         if t0 in FIX592: continue   # AA_592 第 53 列換上去的句子（上面 1d 已對過 AA_592 的表）
+        if t0 in FIX593 and k == 'heroine_05': continue   # AA_593 第 82 列（上面 1d2 已對過 AA_593 的表）
         if all(found(MDN[e['src']], p) for p in parts): continue
         (extra if path.startswith(free) and free else miss).append(f'{path}：{t0}')
 

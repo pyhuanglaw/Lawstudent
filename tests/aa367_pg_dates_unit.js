@@ -30,9 +30,9 @@ const caps=[]; GM.caption=(a,b)=>{ caps.push(b); };
 let paid=[]; GM.money=(n,why)=>{ paid.push([n,why]); };
 const D=k=>PG.DK(k), T=(d,h)=>d*24+h, lab=(d,h)=>PG.dateLabel(d,h);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,2).join(' / ')); } };
-const SRC='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md', SHA='8dce2f94c';   /* AA_688 第 2 節：語彤第 3 節整段換，白名單改成 8dce2f94c（原本 1ebcf530）*/   /* AA_472 第 6 節：沛珊 2030-06 前面加「說好的，運河一圈。」，白名單改成 1ebcf530（原本 e6d4a198）*/   /* AA_382 第 3 節：AA 改了十句（哪一個週六都說得通），白名單改成 e6d4a198 */
+const SRC='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md', SHA='9aa8ec40c';   /* AA_593 學姊①b（企劃線 9aa8ec40c，AA-B 11-08 05:53；使用者 11-02 第 10 節）：學姊 2029-09 整列刪掉（講上司那句）＝101 句，第 37、39～44 列改字、決4 2030-01 換句；白名單改成 9aa8ec40c（原本 8dce2f94c）*/   /* AA_688 第 2 節：語彤第 3 節整段換，白名單改成 8dce2f94c（原本 1ebcf530）*/   /* AA_472 第 6 節：沛珊 2030-06 前面加「說好的，運河一圈。」，白名單改成 1ebcf530（原本 e6d4a198）*/   /* AA_382 第 3 節：AA 改了十句（哪一個週六都說得通），白名單改成 e6d4a198 */
 const SIX=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan'];
-check('0. 載入 pg_dates.js、pgdates3d.js；102 個事件（每一格一個）、PG.stops／PG.RULES 有掛',ok0&&STORY_EVENTS.filter(e=>/^ev_pg_date_/.test(e.id)).length===102&&PG.stops.includes(PGDATE.stopFn)&&Array.isArray(PG.RULES)&&PG.RULES.includes(PGDATE.rulesFn));
+check('0. 載入 pg_dates.js、pgdates3d.js；101 個事件（每一格一個；AA_593 學姊 2029-09 刪掉）、PG.stops／PG.RULES 有掛',ok0&&STORY_EVENTS.filter(e=>/^ev_pg_date_/.test(e.id)).length===101&&PG.stops.includes(PGDATE.stopFn)&&Array.isArray(PG.RULES)&&PG.RULES.includes(PGDATE.rulesFn));
 /* ---------- 稿（從 git 讀；測試自己的讀法）---------- */
 let doc=''; try{ doc=cp.execFileSync('git',['-C',process.env.PG_DOC_REPO||H.ROOT,'show',SHA+':'+SRC],{encoding:'utf8'}); }catch(e){ doc=''; }
 const DOC={}, SECT={}; { let who=null; for(const l of doc.split('\n')){ const m=l.match(/^## (\d)\. .*（(\w+)）\s*$/); if(m){ who='123456'.includes(m[1])?m[2]:null; if(who) SECT[who]=[]; continue; } if(l.startsWith('## ')){ who=null; continue; }
@@ -57,13 +57,13 @@ const untilOut=async(G,n)=>{ for(let i=0;i<(n||30)&&!OUT.due(G);i++){ const s=PG
 (async()=>{
   await sec('1',async()=>{
     check('1. 讀得到企劃線 '+SHA+' 的 AA_367',doc.length>1000&&doc.includes('## 0. 共通規格'));
-    check('1. 稿：六位的月份表一共 102 句',SIX.every(id=>DOC[id])&&SIX.reduce((n,id)=>n+DOC[id].length,0)===102,SIX.map(id=>(DOC[id]||[]).length).join(','));
+    check('1. 稿：六位的月份表一共 101 句（AA_593：學姊 2029-09 不排）',SIX.every(id=>DOC[id])&&SIX.reduce((n,id)=>n+DOC[id].length,0)===101&&!DOC.heroine_05.some(c=>(c.ym||c[0])==='2029-09'),SIX.map(id=>(DOC[id]||[]).length).join(','));
     { const d=(PG_DATES.six.heroine_05||[]).find(x=>x.ym==='2029-06');
       check('1. AA_523 6-5（0d7b5388b）：學姊 2029-06 那一格照第 6 節 6-5 換成「'+R65.line+'」；稿上舊的那一句（「論文送進圖書館了。……」）不在資料裡',R65.ok&&R65.line==='修正本改完了。這禮拜印，下禮拜交。'&&!!d&&d.line===R65.line&&d.line!==R65.old,JSON.stringify(R65)); }
     const bad=[]; for(const id of SIX) for(const r of (DOC[id]||[])){ const d=(PG_DATES.six[id]||[]).find(x=>x.ym===r.ym); if(!d||d.line!==r.line) bad.push(id+' '+r.ym+' 資料');
       const ev=STORY_EVENTS.find(e=>e.id==='ev_pg_date_'+id+'_'+r.ym), ln=ev&&ev.dialogue.find(l=>l.speaker===id); if(!ln||ln.text!==r.line) bad.push(id+' '+r.ym+' 事件'); }
     for(const id of SIX) if((PG_DATES.six[id]||[]).length!==(DOC[id]||[]).length) bad.push(id+' 數量');
-    check('1. 逐字對稿：102 句（資料、事件裡她說的那一句）一字不差；資料沒有多出稿上沒有的月份',!bad.length,bad.slice(0,8).join('、')+(bad.length>8?'…（'+bad.length+'）':''));
+    check('1. 逐字對稿：101 句（資料、事件裡她說的那一句）一字不差；資料沒有多出稿上沒有的月份',!bad.length,bad.slice(0,8).join('、')+(bad.length>8?'…（'+bad.length+'）':''));
     const mode=(id,ym)=>{ const m=PGDATE.sixMode(id,ym)||{}; return (PGDATE.MODE[m.m]||{}).kind+':'+m.m; }, bad2=[];
     for(const r of DOC.heroine_01) if((r.note==='視訊')!==(mode('heroine_01',r.ym)==='video:ny')) bad2.push('以安 '+r.ym);
     for(const r of DOC.heroine_02) if((r.note==='打烊後'?'meet:cafe':(r.note==='電影'?'meet:movie':'?'))!==mode('heroine_02',r.ym)) bad2.push('芷若 '+r.ym);
@@ -110,8 +110,8 @@ const untilOut=async(G,n)=>{ for(let i=0;i<(n||30)&&!OUT.due(G);i++){ const s=PG
         a.length>0&&!a.some(m=>m<'2029-09')&&a.includes('2029-12')&&!b.includes('2029-12')&&!b.some(m=>m<'2029-09')&&!c.includes('2030-07')&&!c.includes('2030-12')&&c.includes('2029-12')&&d.includes('2030-07')&&d.includes('2030-12')&&d.includes('2029-06')&&e.includes('2029-06')&&e.length===18,JSON.stringify({a,b,c,d,e})); }
     { const sis=flags=>months(fresh('2029-06-03',10,flags,'heroine_05'),'heroine_05');
       const none=sis({}), reg=sis({BAR_REG:true}), fail=sis({BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:9}), pass=sis({BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:14}), d30=sis({EXCHANGE_ROUTE:'US',BAR_REG_2030:true});
-      check('4. 學姊：沒報國考＝19 個月都排；2029 年報了國考＝沒有 2029-08；沒考上要重考＝也沒有 2029-09、2030-08、2030-12；上榜＝沒有 2029-08、2029-12；2030 年才考（交換延畢）＝沒有 2030-08、12（還有大五上）',
-        none.length===19&&!reg.includes('2029-08')&&reg.length===18&&!fail.includes('2029-09')&&!fail.includes('2030-08')&&!fail.includes('2030-12')&&fail.includes('2029-12')&&!pass.includes('2029-12')&&!pass.includes('2029-08')&&pass.includes('2029-09')&&!d30.includes('2030-08')&&!d30.includes('2030-12')&&d30.includes('2029-08'),JSON.stringify({reg,fail,pass,d30})); }
+      check('4. 學姊：沒報國考＝18 個月都排（AA_593：2029-09 表上刪了＝不排）；2029 年報了國考＝沒有 2029-08；沒考上要重考＝也沒有 2030-08、2030-12；上榜＝沒有 2029-08、2029-12；2030 年才考（交換延畢）＝沒有 2030-08、12（還有大五上）',
+        none.length===18&&!none.includes('2029-09')&&!reg.includes('2029-08')&&reg.length===17&&!fail.includes('2029-09')&&!fail.includes('2030-08')&&!fail.includes('2030-12')&&fail.includes('2029-12')&&!pass.includes('2029-12')&&!pass.includes('2029-08')&&!pass.includes('2029-09')&&pass.includes('2029-10')&&!d30.includes('2030-08')&&!d30.includes('2030-12')&&d30.includes('2029-08'),JSON.stringify({reg,fail,pass,d30})); }
     { const P=plan(fresh('2029-06-03',10,{EXCHANGE_ROUTE:'JP'},SIX)); const bad=SIX.filter(id=>Object.keys(P[id]||{}).includes('2029-12'));
       const Z=months(fresh('2029-06-03',10,{EXCHANGE_ROUTE:'JP'},'heroine_04'),'heroine_04'), Zu=months(fresh('2029-06-03',10,{EXCHANGE_ROUTE:'US'},'heroine_04'),'heroine_04');
       check('4. 交換延畢（日本、美國路線）：大五上 2029-09～2030-01 照排，只有 2029-12 不排（12/21 延畢的期末約會；AA_367 第 10 節 A4，e6d4a198——原本「大五上都不排」作廢）；子晴 19-1＝18 個月',

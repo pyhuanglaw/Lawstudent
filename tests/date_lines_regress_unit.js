@@ -12,7 +12,7 @@ const ROOT=path.resolve(__dirname,'..');
 const t=fs.readFileSync(path.join(ROOT,'src/data/date_lines.js'),'utf8').split('\n')[2], DL=JSON.parse(t.slice(t.indexOf('=')+1,t.lastIndexOf(';')));
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info?'　'+info:'')); if(!ok) fails++; };
 const all=id=>JSON.stringify(DL.lines[id]||{}), J=JSON.stringify;
-check('0. 白名單版本：BB_128＠ab9d70fe0（10-27 AA_475 第 1、3 節；之前 a1bc53f4c 10-24 AA_447 芷若「是A，不是B」；之前 a5b936a69 AA_439 禁用句；之前 efe575813 AA_436 學姊數東西四句；之前 1ced2f8b3 AA_432 可昕出發句、e78814663 AA_426 第 6 節重訪句、967b4273a、ffd7eef8 AA_398 學姊不數件數、3229ad05）、AA_127＠482c7f6e9（10-27 AA_475 第 1 節；之前 967b4273a AA_426；之前 345234b3 AA_389 第 7 點；不是 741e94f1／5e910dd2）',/BB_128[^＋]*@ab9d70fe0/.test(DL.source)&&/AA_127[^＋]*@482c7f6e9/.test(DL.source),DL.source.slice(0,160));
+check('0. 白名單版本：BB_128＠9aa8ec40c（11-08 AA_593 學姊①b 3-6；之前 ab9d70fe0 10-27 AA_475 第 1、3 節；之前 a1bc53f4c 10-24 AA_447 芷若「是A，不是B」；之前 a5b936a69 AA_439 禁用句；之前 efe575813 AA_436 學姊數東西四句；之前 1ced2f8b3 AA_432 可昕出發句、e78814663 AA_426 第 6 節重訪句、967b4273a、ffd7eef8 AA_398 學姊不數件數、3229ad05）、AA_127＠482c7f6e9（10-27 AA_475 第 1 節；之前 967b4273a AA_426；之前 345234b3 AA_389 第 7 點；不是 741e94f1／5e910dd2）',/BB_128[^＋]*@(ab9d70fe0|9aa8ec40c)/.test(DL.source)&&/AA_127[^＋]*@482c7f6e9/.test(DL.source),DL.source.slice(0,160));
 check('1. 可昕的預約句子沒有「假設」（AA_295，使用者 10-18 選擇題）',!/假設/.test(all('kexin')),all('kexin').slice(0,300));
 const zq=all('heroine_04'), sis=all('heroine_05');
 check('2. 子晴沒有「欸不是」「這不是問句」「存檔」；學姊沒有「重點是」「三件事」「學弟，」（AA_313 6-1）',!/欸不是|這不是問句|存檔/.test(zq)&&!/重點是|三件事|學弟，/.test(sis),J({zq:zq.slice(0,200),sis:sis.slice(0,200)}));
@@ -27,7 +27,7 @@ const L=DL.lines, want=[
   [L.kexin.flaked,[['第二次了。','……第三次我就不問了。']]],[L.kexin.depart,['我到了。你在哪？','你不會遲到吧。……不會。','火車票我買了。你那張也買了。']],[L.kexin.cancel,['好。下次。','好。我去找予樂吃宵夜。']],[L.kexin.enough,['好，我沒電了。手機。……我也是。','回去吧。明天還要早起。']],
   [L.heroine_01.accept,['好。我記到行事曆了。','可以。那天我沒有排別的。']],[L.heroine_01.acceptDating,['好。那天我空下來。']],[L.heroine_03.flaked,[['……嗯。','我那天有跟蘇姨請假。']]],
   [L.heroine_04.cancel,['臨時取消？……好啦，下次你請。','好。我自己去打。']],[L.heroine_04.flaked,['第二次了。我記下來了。']],[L.heroine_04.depart,['我已經到了。你在哪。','我出門了。下午兩點出門，算早。','今天我有睡飽。這很重要。']],[L.heroine_04.enough,['好，我電量剩一格。回家。','腳好痠。我沒有在撒嬌。']],[L.heroine_04.leaveEarly,['才剛到？……好。下次補。']],
-  [L.heroine_05.flaked,[['第二次了。','那一格我劃掉了。']]],[L.heroine_05.depart,['我到了。不用跑，慢慢來。','我出門了。','車停哪裡？我在路口。']],[L.heroine_05.enough,['……今天差不多了，我們走吧。','明天八點有課。我不是想走。']],
+  [L.heroine_05.flaked,[['第二次了。','我不喜歡這樣。']]]   /* AA_593 第 66 列、使用者 11-02 第 10 節第 8 題：放鴿子第二句「我不喜歡這樣。」（企劃線 9aa8ec40c）*/,[L.heroine_05.depart,['我到了。不用跑，慢慢來。','我出門了。','車停哪裡？我在路口。']],[L.heroine_05.enough,['……今天差不多了，我們走吧。','明天八點有課。我不是想走。']],
   [L.classmate_peishan.accept,['好。謝謝你約我。','好，那天我空下來。']]];
 const bad=want.filter(([a,b])=>J(a)!==J(require('./ellipsis694.js').deep(b)));   /* AA_694（DATE-ELLIPSIS-1105）：救回的句子照同一條規則拿掉句首、。！？後、）後的「……」再比 */
 check('3. 救回的句子逐句在（16 處：可昕 4、以安 2、語彤 1、子晴 5、學姊 3、沛珊 1）',!bad.length,J(bad.map(([a,b])=>({have:a,want:b}))).slice(0,600));
