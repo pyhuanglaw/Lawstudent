@@ -51,8 +51,12 @@ async def main():
                         eye = [sp['x'] - fx * 0.2, 1.6, sp['z'] - fz * 0.2]
                         look = [sp['x'] + fx * 4, 1.1, sp['z'] + fz * 4] if view == 'yaw' else [sp['x'] + fx * 1.2, 3.6, sp['z'] + fz * 1.2]
                     if view == 'follow':   # BB-B 05:08：照玩家站在門口、用遊戲自己的跟隨鏡頭（不用 CAM）；記南牆淡出、洞洞板／耳機有沒有一起藏
+                        if len(row) > 5 and row[5]:   # CC-B 11-08（BB-B 07:44 美國公寓補拍）：第 6 欄「x:z:玩家yaw:鏡頭yaw」＝【前置／捷徑】把玩家放到那一點、鏡頭轉到那一側
+                            px, pz, pyaw, cyaw = [float(v) for v in row[5].split(':')]
+                            R.setup('%s 【前置／捷徑】玩家放到 (%.2f, %.2f) yaw %.2f，跟隨鏡頭 yaw %.2f' % (tag, px, pz, pyaw, cyaw))
+                            await pg.evaluate("(a=>{ const E=GAME.E, o=E.player.obj; o.position.x=a[0]; o.position.z=a[1]; o.rotation.y=a[2]; if(E.cam) E.cam.yaw=a[3]; })", [px, pz, pyaw, cyaw])
                         await pg.wait_for_timeout(2500)
-                        vis = await pg.evaluate(r"""(()=>{ const E=GAME.E, z=E.zone, out=[]; z.group.traverse(o=>{ if(o.isMesh&&/peg|board|hook|head|phone|洞|耳/i.test(o.name||'')){ let v=o.visible, p=o.parent; while(p){ if(!p.visible){ v=false; break; } p=p.parent; } out.push([o.name, v]); } }); const W=(z.walls||[]).map(w=>[w.name||'', w.visible, w.material&&w.material.opacity!=null?+w.material.opacity.toFixed(2):null]); const c=E.camera.position; return {cam:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], player:[+E.player.obj.position.x.toFixed(2),+E.player.obj.position.z.toFixed(2)], walls:W, peg:out.slice(0,30)}; })()""")
+                        vis = await pg.evaluate(r"""(()=>{ const E=GAME.E, z=E.zone, out=[]; z.group.traverse(o=>{ if(o.isMesh&&/peg|board|hook|head|phone|door|洞|耳|門/i.test(o.name||'')){ let v=o.visible, p=o.parent; while(p){ if(!p.visible){ v=false; break; } p=p.parent; } out.push([o.name, v]); } }); const W=(z.walls||[]).map(w=>[w.name||'', w.visible, w.material&&w.material.opacity!=null?+w.material.opacity.toFixed(2):null]); const c=E.camera.position; return {cam:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], player:[+E.player.obj.position.x.toFixed(2),+E.player.obj.position.z.toFixed(2)], walls:W, peg:out.slice(0,30)}; })()""")
                         R.note('%s 跟隨鏡頭：%s' % (tag, J(vis)))
                         await pg.evaluate(D.HUD + '(false)'); await R.shot(pg, 'room_%s_%s' % (TAG, nm)); await pg.evaluate(D.HUD + '(true)')
                         cam = {'follow': vis}
