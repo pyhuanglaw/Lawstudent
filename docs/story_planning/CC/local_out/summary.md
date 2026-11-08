@@ -1823,3 +1823,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 166.8s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 166.8s] BROWSER DISCONNECTED
 - 2026-11-08T09:13:45  WSEM6_after  sha=6da721819b8d351fe12e0b848ca7e06f52553819  exit=0  145s      [ 105.0s] [after B_interview] 光照貼圖：材質 80 個、接了 lightMap 23 個，貼圖 ["wancai_semb_iv_lm_day.webp"] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 105.6s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 105.6s] BROWSER DISCONNECTED
+- 2026-11-08T09:13:59  P6_programs_before  sha=126bdf93e82886673518705566dbe83b582c32c1  exit=0  152s      [  88.5s] [night] programs 共 120 個、材質（網格×材質）1061 筆；PERFPANEL：["wenzhou：黑畫面 5.3 秒（建區域 1.2、預熱 3.6）；淡入後 10 秒最長一格 0.18 秒、卡 3 次；shader 黑畫面 +53、淡入後 +4", "wenzhou：黑畫面 26.5 秒（建區域 2.2、預熱 17.7）；淡入後 10 秒最長一格 1.93 秒、卡 4 次；shader 黑畫面 +81、淡入後 +14"] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 89.0s] page close url=http://127.0.0.1:8801/index.html?perf | [gpu_wrap 89.0s] BROWSER DISCONNECTED
