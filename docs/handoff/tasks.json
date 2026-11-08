@@ -49726,6 +49726,33 @@
     "owner": "LAWWW"
    },
    "evidence": ""
+  },
+  {
+   "id": "AA720-DECIDE-OPENED-1108",
+   "title": "AA_720 第一批：決定拍 opens 的 19 場全文（invite 訊息＋選項、plan、scene、選完、missed；兩場是現有事件加段：以安送機、芷若送機）＋芷若信、芷若電話、子晴實習、沛珊放榜、可昕 quiet／eat／slot；語彤 tell 版取代 AA_624 事件 10'＋4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "決定拍之後（大一下起）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 01:4x LAWWW-B】AA-B 01:39 交件（企劃線 963afea74，docs/story_planning/AA_720_decide_opened_scenes.json，lint 645 句 0 hit）；同 commit 的 AA_717／AA_719 已重匯（另一筆）。結局分版本（Q3）是第二批。",
+   "xai": {
+    "spec": "AA-B 11-08 01:39（企劃線 963afea74）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "BB 瀏覽器：決定拍選了以後對應的場會開、邀約／plan／scene／missed 照稿",
+    "receiver": "BB（測）",
+    "ack": "ACK",
+    "owner": "LAWWW"
+   },
+   "evidence": ""
   }
  ]
 }
