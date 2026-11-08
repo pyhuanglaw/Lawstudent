@@ -94,6 +94,9 @@ dakou_1f|dakou_2f)
   PTS=$(python3 $LB/tube_lights.py "${IN:-$A/$GLB}" --mesh 'dk_warm$' --w 1 --shrink 0.0 | tr ';' '\n' | \
     awk -F, -v w="${WW:-6}" '{x=($1+$2)/2; z=($3+$4)/2; printf "%s%.3f,%.3f,%.3f,%s,1.0,0.80,0.58,0.05", (NR>1?";":""), x, $5-0.08, z, w}')
   HIDE='glass|NIGHT_|dk_warm$'
+  # 11-08：一樓燈板的材質自發光強度 26（二樓同名材質 2.4），烘焙時 60 片燈板本身就是很強的光源，比面光源亮十倍——第一次烘一樓白天／晚上 0.55／0.46、地板一成多燒白，
+  #   調 PW 也幾乎沒差。一樓烘焙時把燈板藏起來（照樣原樣匯出，遊戲裡照舊發光），光全部交給面光源。不用 --emit：bake_room.py 匯出前會把 --emit 的材質強度設成 1.0。
+  if [ $SHOP = dakou_1f ]; then HIDE="$HIDE|dk_lightpanel\$"; fi
   NOLM="^(?!(FLOOR|CEILING|WALL_[a-z]+_(plaster|base|solid))\$)"
   EXTRA=(--shell S,W)
   ;;
