@@ -18610,6 +18610,19 @@
    "task": "INTERIOR-AAA-REVIEW-1028",
    "integration": "已整合",
    "note": "git apply --check 過（基準 4429bc93d）；只改烘白天、晚上兩行（bake→cbake），沒設環境變數＝直接呼叫 bake。LAWWW-B 在這台雲端跑回歸：內容檢查全 PASS（沒設變數 GLB／兩張 PNG 逐位元組一樣、紀錄只差 bake_seconds、STOP_AFTER=day cache 只有白天、續烘＝一次跑完逐位元組一樣、參數改過不用舊 cache）；結束碼三項 FAIL＝這台機器 Blender 烘完結束時 segfault（rc 139，開發原本的 bake_room.py 一樣，輸出都寫完了），LAWWW2 那台 rc 0／3。工具，不影響遊戲。"
+  },
+  {
+   "id": "DLV-1108-L2-XS9FIX",
+   "date": "2026-11-08",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "1032e6097",
+   "msg": "ACK",
+   "what": "新生南路 XS9：好拍重烘（HIDE 加 alpha，右牆洞洞板烘焙時藏起來）、山嵐左前柱子朝街那面白天 ×0.537；三張光照貼圖＋bake_xs.sh、haopai_lm.json、lm_scale_faces.py、tests/xs9_haopai_shanlan_check.py",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "sha256 開發原檔 0004e70c／8023e321／bb364cf1、新檔 a80833e6／9f737ebe／0400dce6 和 README 一致；haopai.glb 不變（8088e492）；bake_xs.sh 只多 POSTDAY 和好拍 HIDE；新測試開發原樣 FAILED 2（LAWWW2 量）→ ALL PASS；提到好拍／山嵐的 node 測試全 PASS。"
   }
  ],
  "ignored": [
