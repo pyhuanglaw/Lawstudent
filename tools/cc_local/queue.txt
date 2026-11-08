@@ -1720,7 +1720,7 @@ R8172_mini | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/minimap_dir
 R8172_main12 | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R8172_classreal | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
 R8172_movreg | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
-PERFAB_8172s | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_perf_ab_probe.py | index.html?perf | 30 | SOLO=1;PTS=xs_shanlan:1f,xs_shanlan:2f,xs_dakou:1f,xs_dakou:2f,xs_haopai:1f,xs_tongxian:1f
+PERFAB_8172s | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_perf_ab_probe.py | index.html?perf | 30 | SOLO=1;JSF=perf_ab_probe_lawww2_b9d3f33af.js;PTS=xs_shanlan:1f,xs_shanlan:2f,xs_dakou:1f,xs_dakou:2f,xs_haopai:1f,xs_tongxian:1f
 R8172_movreg2 | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
 R8172_touch | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
 R8172_v0_start | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
