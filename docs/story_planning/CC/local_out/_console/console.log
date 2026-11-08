@@ -1024,3 +1024,14 @@
        74346e929..70737f655  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [02:46:48] ==== END   R28f5_zone  exit=0  197s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       70737f655..809b19438  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[02:46:53] ==== END   R28f5_p0  exit=0  202s   ====
+[02:47:00] memory 44% before starting R28f5_mini (2 running)
+[02:47:00] ==== START R28f5_mini  (game @ 28f5f5287c3c752ae62454d8f3e31e1ac4f254df) ====
+[02:47:03] [res] cpu=18% mem=45% (14.1/31.4 GB) chrome_testing=4  START R28f5_mini
+[02:47:03] memory 45% before starting R28f5_main12 (2 running)
+[02:47:03] ==== START R28f5_main12  (game @ 28f5f5287c3c752ae62454d8f3e31e1ac4f254df) ====
+[02:47:06] [res] cpu=8% mem=47% (14.3/31.4 GB) chrome_testing=4  START R28f5_main12
+[02:48:23] [res] cpu=47% mem=53% (16.7/31.4 GB) chrome_testing=8  END R28f5_mini
