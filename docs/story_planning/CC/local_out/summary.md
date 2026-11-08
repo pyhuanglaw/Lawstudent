@@ -2038,3 +2038,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 153.3s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 153.3s] BROWSER DISCONNECTED
 - 2026-11-08T15:51:06  GG3LM_5F_8b6c  sha=8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5  exit=0  258s      [ 152.8s] [linze_5f night corridor] 站 (6.00, -5.50)，lightMap：{"meshes": 131, "withLightMap": 29, "maps": ["odels/env/second_ai/linze_5f_lm_day.webp"]}；亮度 [125.5, 74.2] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 153.3s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 153.3s] BROWSER DISCONNECTED
+- 2026-11-08T15:53:10  Re080_mini  sha=e0803ca0dfa57bbc8dabb689b54545905a5f85b7  exit=0  93s    PASS 玩家箭頭朝地圖上方（往前走時）  arrow=5.684341886080802e-14 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 51.6s] page close url=http://127.0.0.1:8802/index.html?turbo | [gpu_wrap 51.6s] BROWSER DISCONNECTED
