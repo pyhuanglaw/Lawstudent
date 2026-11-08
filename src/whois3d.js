@@ -57,6 +57,8 @@ const WHOIS=(()=>{
   R.yu=[
     {c:1,id:'name',if:f('met_yu'),t:'Alison。法律系，跟你同班，坐你前面右邊。'},
     {c:1,id:'home',if:ev('ev_yu_breakfast'),t:'從板橋通勤。'},
+    {c:1,id:'sis',if:f('KNOWS_SIS_ALISON'),t:'學姊的妹妹。'},   /* AA_611 第 1 節第 8 列（企劃線 3f85566f4）：礁溪那天知道了（KNOWS_SIS_ALISON）才多這一行 */
+    {c:1,id:'job',if:G=>{ const N=F(G).NY_ALISON; return !!(N&&typeof N==='object'&&N.first!=null); },t:'打工：南洋戲院（週五、週六晚上）'},   /* AA_615 第 4 節（企劃線 ba26f7f7d；AA615-ALISON-CINEMA-1103）：第一次在櫃檯遇到以後（src/shopnpc3d.js 記 G.flags.NY_ALISON.first）*/
     {c:3,id:'bkf1',if:ev('ev_yu_breakfast'),t:'大一上，在晨思鐘旁邊一起吃過早餐。'},
     {c:3,id:'zh',keep:true,if:G=>F(G).YU_ZHE_TOLD==='here',t:'大二上學期末，她和阿哲在一起了。是她在燒臘店親口跟你說的。'},
     {c:3,id:'zc',keep:true,if:G=>F(G).YU_ZHE_TOLD==='call',t:'大二上學期末，她和阿哲在一起了。她打電話跟你說的。'},
@@ -83,7 +85,7 @@ const WHOIS=(()=>{
     {c:3,id:'score',if:f('BOHAN_SCORE'),t:'大一上期中週的案例作業，他問過你第三題怎麼寫。'},   /* AA_546 1-6（D116）*/
     {c:3,id:'ps',keep:true,if:psBh,t:'大一下，他和沛珊在一起了。'},
     {c:3,id:'split',keep:true,if:f('PEISHAN_BOHAN_SPLIT'),t:'大一下他和沛珊在一起過，大二上分開了。',rep:['ps']},
-    {c:3,id:'club',if:G=>y(G,2)&&heard(G,BH,'「法服的值班表，我排到十二月了。」'),t:'大二當法服社長。'},
+    {c:3,id:'club',if:G=>y(G,2)&&heard(G,BH,'法服的值班表，我排到十二月了。'),t:'大二當法服社長。'},
     {c:3,id:'grp',if:f('BOHAN_GROUP'),t:'大二上，他找你進他的考古題小組。'},
     {c:3,id:'honest',if:G=>mem(G,BH,'BOHAN_HONEST'),t:'大三上，他在四樓樓梯間跟你說了，為什麼每天要念六小時。'},
     {c:3,id:'dinner',if:G=>F(G).BH_DINNER==='went',t:'推甄上了以後，他請你吃了一頓。'} ];
@@ -105,6 +107,7 @@ const WHOIS=(()=>{
 
   /* ---------------- 沛珊（AA 11-03：只有「怎麼認識」一行）---------------- */
   R[PS]=[
+    {c:1,id:'job',if:G=>typeof AA614!=='undefined'&&AA614.knowsJob&&AA614.knowsJob(G,PS),t:'打工：溫州街的國小課輔班（助教）'},   /* AA_614 接線時補的（73ee9256d）：聽過她閒聊那句或在課輔班門口遇到以後 */
     {c:2,id:'camp',if:G=>camp(G,PS),t:'宿營第二天晚上才到，坐你旁邊。'} ];
 
   /* ---------------- 1-5 江明軒 ---------------- */
@@ -139,6 +142,7 @@ const WHOIS=(()=>{
   /* ---------------- 1-7 阿凱 ---------------- */
   R.kai=[
     {c:1,id:'name',t:'阿凱。資工系。'},
+    {c:1,id:'job',if:G=>typeof AA614!=='undefined'&&AA614.knowsJob&&AA614.knowsJob(G,'kai'),t:'打工：新生南路的兒童程式教室（助教）'},   /* AA_614 接線時補的（企劃線 73ee9256d，AA-B 11-07 21:56）：聽過他閒聊那句（打工）或在程式教室門口遇到以後 */
     {c:1,id:'full',if:ev('ev_ziqing_q12'),t:'全名王凱翔，子晴發表會的製作名單上有他。'},
     {c:1,id:'home',if:G=>{ const T=G.termend&&G.termend.Y2S2; return !!(T&&T.done&&T.done.who==='kai'); },t:'宜蘭人。'},   /* 大二下期末飯（termend_lines.js POOL.Y2S2.kai「八月想回宜蘭」）*/
     {c:2,id:'room',if:G=>typeof STORY==='undefined'||!STORY.kaiRoommate||STORY.kaiRoommate(G),t:'大一的室友，搬宿舍那天認識的。'},

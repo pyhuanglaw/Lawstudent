@@ -95,9 +95,9 @@ const span=(t0,t1,st)=>{ st=st||0.05; for(let t=t0;t<=t1+1e-9;t+=st){ const d=Ma
   });
   await sec('14-4',async()=>{
     freshD(d2,17,'dorm',{SIS_W1:true,SIS_STUDY:true}); FRI5(); span(Tm(d2,17.4),Tm(d2,17.6)); const m=her();
-    check('14-4. 2/2 17:30「考完了」：沒有那一晚（SIS_PREEXAM_NIGHT）、一起念過書（SIS_STUDY）也收到', m.length===2&&m[0].text==='考完了'&&m[1].text==='我想吃一碗很燙的東西，然後睡十二個小時', JSON.stringify(m.map(x=>x.text)));
+    check('14-4. 2/2 17:30「考完了。」：沒有那一晚（SIS_PREEXAM_NIGHT）、一起念過書（SIS_STUDY）也收到（AA_593 第 11、12 列補句號）', m.length===2&&m[0].text==='考完了。'&&m[1].text==='我想吃一碗很燙的東西，然後睡十二個小時。', JSON.stringify(m.map(x=>x.text)));
     freshD(d3,20,'dorm',{SIS_STUDY:true}); FRI5(); span(Tm(d3,20.9),Tm(d3,21.1)); const m3=(H.G.msgs||[]).filter(x=>x.tag==='sisg_planner_ask');
-    check('14-4. 2/3 21:00 買計畫本的邀約：只有 SIS_STUDY 也收到', m3.length===2&&m3[0].text==='我想去買一本新的計畫本'&&m3[1].text==='你要一起來嗎？不來也沒關係', JSON.stringify(m3.map(x=>x.text)));
+    check('14-4. 2/3 21:00 買計畫本的邀約：只有 SIS_STUDY 也收到（AA_593 第 14、15 列補句號）', m3.length===2&&m3[0].text==='我想去買一本新的計畫本。'&&m3[1].text==='你要一起來嗎？不來也沒關係。', JSON.stringify(m3.map(x=>x.text)));
     freshD(d2,17,'dorm',{SIS_W1:true}); FRI5(); span(Tm(d2,17.4),Tm(d3,21.2),0.1);
     check('14-4. 沒一起念過書、也沒有那一晚：2/2、2/3 都沒有她的私訊（照舊）', !her().length, JSON.stringify(her().map(x=>x.text)));
     freshD(d21,10,'dorm',{SIS_STUDY:true}); FRI5(); const st=SISG.stops(H.G,Tm(d21,10))||[]; freshD(d3,19,'dorm',{SIS_STUDY:true}); const w2=STORY.lawWakeAt(H.G);

@@ -28,9 +28,11 @@ const STUDYN=(function(){
   };
   const stage=id=>typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(id):1;
   const flagOn=(G,f)=>!f||!!(G.flags&&G.flags[f]!=null&&G.flags[f]!==false);
-  S.resolve=function(G,sc,o){ const A=sc.alt, on=!!(A&&S.ALT[A.cond]&&S.ALT[A.cond](G)); const out=Object.assign({},sc,o); delete out.alt;
+  S.resolve=function(G,sc,o){ const A=sc.alt, on=!!(A&&S.ALT[A.cond]&&S.ALT[A.cond](G)); const out=Object.assign({},sc,o); delete out.alt; delete out.day;
     if(on) for(const k of ['seat','mid','pack','bye','opts']) if(A[k]) out[k]=A[k];
+    if(sc.day&&S.dayTime(G)) for(const k of ['seat','mid','pack','bye']) if(sc.day[k]) out[k]=sc.day[k];   /* day：那一場 18:00 以前開始＝這幾格換句（AA_708 e0e92919e，KX-MOVIE-BYE-1107：可昕講末班車的那幾句只在晚上）*/
     return out; };
+  S.dayTime=G=>!!G&&(((+G.hour||0)%24)+24)%24<18;   /* 一起坐下的那一刻（resolve 在開場時叫）＝那一場開始的時間 */
   S.text=(G,t)=>String(t).replace(/\{name\}/g,(G&&G.name)||'祐廷');
   /* 播一段：（…）＝旁白；其他＝她說 */
   S.play=async function(GM,who,lines){ for(const t of lines||[]){ const s=S.text(GM.G,t); if(/^（/.test(s)) await GM.say(null,s); else await GM.say(who,s); } };

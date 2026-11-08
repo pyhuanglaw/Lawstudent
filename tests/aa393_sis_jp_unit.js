@@ -32,6 +32,7 @@ try{ doc+='\n'+cp.execSync('git show a4f530c11:"docs/story_planning/AA_490_回LA
 try{ doc+='\n'+cp.execSync('git show 31a4c4002:"docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 try{ doc+='\n'+cp.execSync('git show c9f6dd6cb:"docs/story_planning/AA_539_學姊重讀_AA470之後_空白與重複.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_539 1-5（SIS-LEAD-1021，2026-10-30）再換 5/29 的第二句「讀書會還在。Kevin 說要讀到考前一個月。」*/
 try{ doc+='\n'+cp.execSync('git show 691a26400:"docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_509 0-2 第 1 點：道別「我四月中寫到第三章」、j2「第三章被教授退回來一半」*/   /* AA_508 0-2 第 3 點：4/17 改第三章第一頁、7/10 改第三章寫到一半 */
+try{ doc+='\n'+cp.execSync('git show ce8e3db3c:"docs/story_planning/AA_593_學姊改稿_1b_手機與其他系統.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_593 第 11 節第 3 點（AA-B 11-08 06:26）：第 28 列照換「七月排滿了。八月二號出發。」*/
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_qixi3d.js 後面',ok1&&ok2&&!!X()&&/sis_qixi3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_jp_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_jp3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISJP_EVENTS)+J(SISJP_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISJP_LINES).flat().flatMap(x=>typeof x==='string'?[x]:(x&&x.L)||[]));

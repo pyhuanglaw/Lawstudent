@@ -68,8 +68,8 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
   // 約她（BB 測試）：6/4 起「我在 Café，今天是客人。你要來嗎？」
   { fresh('2027-06-07',13,'dorm'); R('heroine_02','FAM'); const P=INV.place('cafe'); const r1=INV.personal(G,'heroine_02',P,D('2027-06-07'),15,{res:'accept'});
     const r2=INV.personal(G,'heroine_02',P,D('2027-05-31'),12,{res:'accept'});
-    check('1. 6/7 15:00 約她去 Café：「我在 Café，今天是客人。你要來嗎？」（BB 測試）',!!r1&&r1.res==='here'&&J(r1.lines)===J(['「我在 Café，今天是客人。你要來嗎？」']),J(r1));
-    check('1. 對照：5/31（一）12:00 她在班＝「我會在 Café 啊，你直接過來，我幫你做一杯。」（BB_172 Z16）',!!r2&&r2.res==='here'&&J(r2.lines)===J(['「我會在 Café 啊，你直接過來，我幫你做一杯。」']),J(r2)); }
+    check('1. 6/7 15:00 約她去 Café：「我在 Café，今天是客人。你要來嗎？」（BB 測試）',!!r1&&r1.res==='here'&&J(r1.lines)===J(['我在 Café，今天是客人。你要來嗎？']),J(r1));
+    check('1. 對照：5/31（一）12:00 她在班＝「我會在 Café 啊，你直接過來，我幫你做一杯。」（BB_172 Z16）',!!r2&&r2.res==='here'&&J(r2.lines)===J(['我會在 Café 啊，你直接過來，我幫你做一杯。']),J(r2)); }
   // 招呼：大二下 6/4 起只用不上班的版本
   { fresh('2027-06-07',15,'cafe',{CAFE_VISITS:5}); R('heroine_02','FAM'); const BAD=['（她把杯子推過來）你的。我看到你在門口就做了。','（她在吧檯後面點了一下頭，手沒停）','（她在吧檯後面抬頭）……嗨。','要打烊了。……你可以坐到我擦完這張桌子。','期末了。我還有一份報告沒寫，店裡也要盤點。'];
     const got=[]; for(let i=0;i<6;i++){ G.social.greetUsed={}; const t=STORY.ladGreet(G,'heroine_02'); got.push(t); G.day++; G.weekday=wdOf(G.day); if(G.weekday===6||G.weekday===0){ G.day+=G.weekday===6?2:1; G.weekday=wdOf(G.day); } }
@@ -204,7 +204,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('19. 語彤雙主修的法律課：大二下週一上午債各在霖澤館 201',!!a&&a.zone==='classroom'&&a.act==='class',J(a&&[a.zone,a.act]));
     check('19. 對照：大二上週一上午照舊在總圖',!!b&&b.zone==='library',J(b&&b.zone)); }
   // ===== 第 20 項 =====
-  { const L=SMALLTALK.prof_xu||[], e=L.find(x=>typeof x==='object'&&x.t==='「行政法大二再說。先把民總讀好。」');
+  { const L=SMALLTALK.prof_xu||[], e=L.find(x=>typeof x==='object'&&x.t==='行政法大二再說。先把民總讀好。');
     check('20. 許教授「行政法大二再說。先把民總讀好。」只在大一',!!e&&J(e.term)===J(['Y1S1','Y1S2']),J(e)); }
   // ===== 第 21 項：語彤事件 11 補演和期末飯互斥 =====
   { fresh('2027-06-16',12,'dorm'); const b0=Y2R2.yt11bDay?Y2R2.yt11bDay(G):null;

@@ -721,7 +721,7 @@ const DATE=(function(){
     /* AA_474 第 4 節 3b：要開始交往的那一刻她知道祐廷正在和別人交往＝先演她那一節的知情對話（MREL.knowGate；學姊重新開始的告白，AA_386 4-2）：接受＝交往（OPEN_OK）；不交往＝走 L.notYet（她的「還沒」）。
        S.willing 她知道的時候看她的知情條件（AA_483 第 1 節第 7 點：TERMEND.KNOWS_OK 過了才出告白的選項）*/
     if(res==='yes'&&typeof MREL!=='undefined'&&MREL.knowsOther&&MREL.knowsOther(G,id)){ const r=await MREL.knowGate(GM,id,{said:true,at:'confess'}); if(r==='yes') return 'yes'; }
-    else if(res==='yes'&&typeof ROM!=='undefined'&&ROM.start&&ROM.start(G,id)){ await run(CV(D.yes,G,t,k)); (G.flags.confessed||(G.flags.confessed={}))[id]=G.day; return 'yes'; }
+    else if(res==='yes'&&typeof ROM!=='undefined'&&ROM.start&&ROM.start(G,id)){ { const Y=CV(D.yes,G,t,k); await run(typeof CF723!=='undefined'&&CF723.swapYes?CF723.swapYes(G,id,Y):Y); }   /* 第二次告白：AA_723 secondYes 換句 */ (G.flags.confessed||(G.flags.confessed={}))[id]=G.day; return 'yes'; }
     L.notYet={day:G.day,count:L.count|0};
     if(res==='preexam'||res==='prerank'){ await run(CV(D[res],G,t,k)); const fl=D[res+'Flag']; if(fl) G.flags[fl]=G.day; return res; }   /* 學姊：筆試前／放榜前婉拒，不鎖線 */
     if(res==='unwilling'){ await run(CV(D.unwilling,G,t,k)); return 'unwilling'; }

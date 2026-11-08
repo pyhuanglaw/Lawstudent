@@ -25,10 +25,16 @@ def L(v, w):
     return [IG.read_fix(t) for t in v]
 
 
+def N(v, w):
+    """她（他）在對話框有名字說的（people 的 acc、firstAt、sport、beforeLearn.decline：src/invites3d.js 的 S.playLines，（…）開頭的是旁白）：
+    拿掉外面那一對「」（AA-B 2026-11-08 00:21／01:09，TEXT-QUOTE-UNIFY-1108；IG.unq，旁白、「A」「B」好幾段的不動）。shared（兩個人一起的旁白）照 L"""
+    return [IG.unq(t) for t in L(v, w)]
+
+
 def sport(v, w):
     d = v.get('during') or []
-    during = [L(x, f'{w}.during[{i}]') for i, x in enumerate(d)] if d and isinstance(d[0], list) else ([L(d, w + '.during')] if d else [])
-    return {'during': during, 'end': L(v.get('end'), w + '.end') if v.get('end') else []}
+    during = [N(x, f'{w}.during[{i}]') for i, x in enumerate(d)] if d and isinstance(d[0], list) else ([N(d, w + '.during')] if d else [])
+    return {'during': during, 'end': N(v.get('end'), w + '.end') if v.get('end') else []}
 
 
 def build(src, sha):
@@ -44,13 +50,13 @@ def build(src, sha):
             for pid, v in (p.get(k) or {}).items():
                 if pid not in PLACES:
                     raise SystemExit(f'{hid}.{k}.{pid}：不是 {PLACES}')
-                q.setdefault(k, {})[pid] = {b: L(x, f'{hid}.{k}.{pid}.{b}') for b, x in v.items()} if isinstance(v, dict) else L(v, f'{hid}.{k}.{pid}')
+                q.setdefault(k, {})[pid] = {b: N(x, f'{hid}.{k}.{pid}.{b}') for b, x in v.items()} if isinstance(v, dict) else N(v, f'{hid}.{k}.{pid}')
         for pid, v in (p.get('sport') or {}).items():
             q.setdefault('sport', {})[pid] = sport(v, f'{hid}.sport.{pid}')
         for pid, v in (p.get('beforeLearn') or {}).items():
             if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', v.get('until') or ''):
                 raise SystemExit(f'{hid}.beforeLearn.{pid}.until：要 YYYY-MM-DD')
-            q.setdefault('beforeLearn', {})[pid] = {'until': v['until'], 'decline': L(v.get('decline'), f'{hid}.beforeLearn.{pid}.decline')}
+            q.setdefault('beforeLearn', {})[pid] = {'until': v['until'], 'decline': N(v.get('decline'), f'{hid}.beforeLearn.{pid}.decline')}
         people[hid] = q
     return {'src': f'{PATH}@{sha}', 'shared': shared, 'people': people}
 
@@ -67,7 +73,8 @@ def main():
         raise SystemExit(why)
     data = build(json.loads(git('show', f'{sha}:{PATH}')), sha)
     js = ('/* 自動產生：tools/story/import_sport_invites.py（' + data['src'] + '）。不要手改，改企劃 AA_715 再重新匯入。\n'
-          '   約她去健身房、游泳池的台詞（GYM-FIT-1107）：載入時併進 INVITE_DATA（要在 src/data/invites.js 後面載入）*/\n'
+          '   約她去健身房、游泳池的台詞（GYM-FIT-1107）：載入時併進 INVITE_DATA（要在 src/data/invites.js 後面載入）。\n'
+          '   people 裡有名字說的台詞外面不加「」（AA-B 2026-11-08，稿上有；（…）是旁白）；shared 是兩個人一起的旁白*/\n'
           "'use strict';\nconst SPORT_INVITE_LINES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n'
           "(function(){ if(typeof INVITE_DATA==='undefined') return; const D=INVITE_DATA, P=D.people||(D.people={}), SP=D.sport||(D.sport={});\n"
           "  for(const pid in SPORT_INVITE_LINES.shared) if(!SP[pid]) SP[pid]=SPORT_INVITE_LINES.shared[pid];\n"

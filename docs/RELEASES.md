@@ -57,7 +57,24 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.22（2026-11-07 UTC；發布樹 `5c855a881`＝候選 `126bdf93e`＋版本字樣；合併 main、Pages 部署見下面「發布」）
+## v9.10.23（2026-11-08，發布中；發布樹 `52a7e5337`＝候選 `9eef2b95b`＋版本字樣）
+
+使用者 11-08 13:4x 問 LAWWW2-B「你今天做的事情可以發布一個版本嗎」，15:2x 回 LAWWW-B 選擇題「可以發佈」（X267、RELEASE-V91023-1108）。同時說「送飲料只需要給可攻略的對象」——這一版照測過的發布，下一版改（X266、GIFT-ROMANCE-ONLY-1108）。
+
+**玩得到的（比 v9.10.22 多 122 筆遊戲 commit）**：
+- 全遊戲有名字的人說話外面不再包「」（TEXT-QUOTE-UNIFY-1108 一到八批：邀約、日常、事件、教授課堂、法律出題表；答錯句尾補「。」）；教授出題不再用同學那組台詞、鄭教授課堂開場拆三段（BUG-LEGAL-PROF-TONE-1108）。
+- 「（動作）說的話」顯示是誰在說（女主角故事線、學姊考前一晚，BUG-ARCS-NARR-NAME-1108）。
+- 送飲料、早餐給朋友六位（AA_728；下一版改成只給可攻略的對象）。
+- 週末邀約沒回會自己過期收起來（UX-WEEKEND-ASK-EXPIRE-1108、UX-FEED-ASK-EXPIRE）。
+- AA_720 決定拍打開的 19 場（以安交換說明會／研究所分組／送機、芷若打電話給媽媽／獎學金兩場／機場接送、語彤告訴媽媽／放榜、子晴騎樓咖啡店、學姊考前一晚／Alison 猜到／阿哲被問／奶奶家、沛珊課輔班門口／臺北車站送行、可昕模擬面試／等了）、尾聲分版本；AA_709 第七～十一批手機訊息（大三寒假到畢業以後一年）。
+- 光照：新生南路九間、總圖 B1（討論室、影印中心、會議廳）、溫州街、公館、霖澤 5F、體育館 B1、美國公寓、合租戶；隔間牆淡出以後不露出烘焙陰影。
+- 小地圖：出入口方塊畫在指路的上面；經濟系 9/1 第一晚不在日期卡底下開演。
+
+**測試**：BB-B GO——PC（AMD RX 6600M）發布前清單 11／11（deploy、reach、classreal、mini、zone、touch、p0、save_compat_v7、main12、v0_tolaw、movreg 43/43）；雲端 deploy_check（預期 v9.10.23）ALL PASS（3282 網址、394 個 ?v=9.10.23、沒有 JS 例外）；GHA node-unit-auto 9eef2b95b success；本機全套 1156 支沒有 FAIL。**沒測**：iPhone 實機。
+
+**已知不擋**：總圖 B1 會議廳是關著的房間（P3）；雲端 movreg A 段不穩（PC 為準）。
+
+## v9.10.22（2026-11-07 13:1x UTC 合併 `74cb8314d`，PR [pyhuanglaw/Lawstudent#30](https://github.com/pyhuanglaw/Lawstudent/pull/30)；發布樹 `5c855a881`＝候選 `126bdf93e`＋版本字樣；GitHub Pages run 42376299962 success，deploy 13:20:16 UTC）
 
 使用者 11-07 10:4x 選擇題「等 BB 測完再發布（推薦）」（X264、RELEASE-V91022-1107）。內容：使用者 11-07 試玩回報（X262、X263）以後的修正與新內容。
 
@@ -92,7 +109,9 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - LAWWW 發布前：題目漏收 0（399 題）；check_orphans 90（舊的）；check_lines（模糊比對，不擋）；zone_assets 最新；deploy_check（發布樹，乾淨 worktree）：見「發布」。
 
 ### 發布
-- （合併 main、Pages 部署後補）
+- BB-B 13:10 UTC「GO 確定」→ 發布樹 `5c855a881`（mk_release_tree.sh）→ 乾淨 worktree deploy_check ALL PASS（3262 個網址、各區域進得去、沒有 JS 例外、版本字樣 v9.10.22）→ PR #30 合併 main `74cb8314d` → Pages run 42376299962（build、deploy success，deploy 13:20:16 UTC；部署的 head_sha＝74cb8314d，那個 commit 的 index.html 標題「版本 v9.10.22（2026-11-07）」）。
+- **線上驗證**（CC-B，GitHub Actions ubuntu、SwiftShader、無 GPU，run 42376677300；結果 claude/gha-results gha_out/LIVE_V91022_*）：deploy_check ALL PASS（線上版本字樣 v9.10.22（2026-11-07）、383 個 script 帶 ?v=、3240 個資源都載得到、沒有 JS 例外）；p0_movement ALL PASS。**BB-B 判定 PASS**（13:34 UTC：deploy_check 38 項、p0_movement 27 項 316 秒結束碼 0；讀原始 run.log，claude/gha-results 8b539437a）。模擬，不是 iPhone 實機；效能、顏色沒量（GitHub 機器沒有顯示卡）。
+- 開發分支不用換回：發布樹的遊戲檔案就是開發分支的（126bdf93e 以後只有文件、wip_backup）；發布以後才推的 7 個 commit（wip_backup/postrel_v91022_1107.bundle）接著推。
 
 ## v9.10.21（2026-11-05 23:28 UTC 合併 `92c3daad8`，PR [pyhuanglaw/Lawstudent#29](https://github.com/pyhuanglaw/Lawstudent/pull/29)；發布樹 `317479933`；GitHub Pages run 42129622113（第 1 次 deploy 在 syncing_files 卡 10 分鐘逾時被取消、線上照舊 v9.10.20；重跑失敗的 job，第 2 次 23:42:12 UTC success）；遊戲檔案＝發布樹 `aa0f3bcd3`（候選 `83d09d13b`＋afar／頁間／青木窗景 6 張重拍＋NOODLE-AP-1105 麵店自動走路修正＋版本字樣）；BB-C 判條件已過（使用者 23:2x 轉述，BB 交班中沒有寫 GO 紀錄），LAWWW-C 依使用者「BB說可以go 照條件可以發布」發布）
 

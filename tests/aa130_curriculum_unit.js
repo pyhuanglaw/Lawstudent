@@ -85,8 +85,8 @@ function mkGM(G,picks){ const log=[]; let k=0;
     const hol=(()=>{ for(let d=dayOf('2025-09-29');d<dayOf('2026-01-20');d++){ if(CALENDAR.holiday(d)&&CALENDAR.dateOf(d).wd===5) return d; } return null; })();
     check('9. 國定假日的週五不在',hol==null||!spawned(hol,14).length,String(hol)); }
   { const src=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8');
-    check('9. 陳教授的閒聊換成「國際法的新聞，每天都有。只是大部分人不知道那是國際法。」（AA_522 第 4 節；原本「有興趣可以來研究室聊。」）；舊的 seminar 那句沒有了',src.includes("prof_chen:['「國際法的新聞，每天都有。只是大部分人不知道那是國際法。」']")&&!src.includes('有興趣可以來研究室聊')&&!src.includes('國際法的 seminar 隨時歡迎旁聽'));
-    check('9. 黃教授那句沒有課程條件（不再要修過法律與社會）',src.includes("prof_huang:['「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」']")&&!/law_society/.test(src)); }
+    check('9. 陳教授的閒聊換成「國際法的新聞，每天都有。只是大部分人不知道那是國際法。」（AA_522 第 4 節；原本「有興趣可以來研究室聊。」）；舊的 seminar 那句沒有了',src.includes("prof_chen:['國際法的新聞，每天都有。只是大部分人不知道那是國際法。']")&&!src.includes('有興趣可以來研究室聊')&&!src.includes('國際法的 seminar 隨時歡迎旁聽'));
+    check('9. 黃教授那句沒有課程條件（不再要修過法律與社會）',src.includes("prof_huang:['最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。']")&&!/law_society/.test(src)); }
   { const m=CHARACTERS.classmate_mingxuan, p=CHARACTERS.classmate_peishan;
     check('人物資料：明軒 favorite_subjects 英美法、沛珊 憲法（BB 定，AA_130 第 2 節第 15 列）',JSON.stringify(m.favorite_subjects)==='["英美法"]'&&JSON.stringify(p.favorite_subjects)==='["憲法"]'); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

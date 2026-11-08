@@ -121,17 +121,21 @@ await sec('0',async()=>{
     ix('src/econfr3d.js')>=0&&ix('src/data/econfr_soclib.js')===ix('src/econfr3d.js')+1&&ix('src/econsl3d.js')===ix('src/data/econfr_soclib.js')+1&&ix('src/econsl3d.js')>ix('src/story3d.js')&&ix('src/econsl3d.js')>ix('src/data/characters.js')&&ix('src/econsl3d.js')>ix('src/soclib3d.js')&&html.indexOf('src/econsl3d.js')<html.indexOf('GAME.boot()'),
     J([ix('src/econfr3d.js'),ix('src/data/econfr_soclib.js'),ix('src/econsl3d.js')]));
   const L=LX()||{people:{}};
-  for(const id of IDS){ const P=L.people[id]||{talk:[],greet:[]}, g=(P.talk||[]).map(e=>({when:e.when,t:e.t}));
-    check('0. 稿 → 遊戲 '+id+'：表上每一句、when、順序一字不差',J(g)===J(DOCTALK[id]),J({doc:DOCTALK[id].filter(x=>!g.some(y=>y.t===x.t&&y.when===x.when)).map(x=>x.when+' '+x.t),game:g.filter(x=>!DOCTALK[id].some(y=>y.t===x.t&&y.when===x.when)).map(x=>x.when+' '+x.t)}));
-    check('0. 稿 → 遊戲 '+id+'：打招呼輪流（本人那幾句，照順序）',J(P.greet||[])===J(DOCGREET[id]),J({doc:DOCGREET[id],game:P.greet})); }
+  /* TEXT-QUOTE-UNIFY-1108 第五批（AA-B 2026-11-08 11:05）：有名字說的（自我介紹、閒聊、本人說的招呼；econsl3d.js GM.say(who,…)）遊戲裡不加外面的「」，稿上有——
+     稿那一邊拿掉外面整句的一對（uq；「A」「B」好幾段的不動）再比；遊戲 → 稿：有名字說的要加回那一對在稿上找得到，旁白照字找 */
+  const wq=t=>{ if(typeof t!=='string'||t.length<2||t[0]!=='「'||t[t.length-1]!=='」') return false; let d=0; for(let i=0;i<t.length;i++){ const c=t[i]; if(c==='「') d++; else if(c==='」'){ d--; if(d===0&&i!==t.length-1) return false; } } return d===0; };
+  const uq=t=>wq(t)?t.slice(1,-1):t;
+  for(const id of IDS){ const P=L.people[id]||{talk:[],greet:[]}, g=(P.talk||[]).map(e=>({when:e.when,t:e.t})), dt=DOCTALK[id].map(x=>({when:x.when,t:uq(x.t)}));
+    check('0. 稿 → 遊戲 '+id+'：表上每一句、when、順序一字不差（稿上的「」拿掉外面那一對；遊戲裡沒有外面的「」）',J(g)===J(dt)&&DOCTALK[id].every(x=>wq(x.t))&&g.every(x=>!wq(x.t)),J({doc:dt.filter(x=>!g.some(y=>y.t===x.t&&y.when===x.when)).map(x=>x.when+' '+x.t),game:g.filter(x=>!dt.some(y=>y.t===x.t&&y.when===x.when)).map(x=>x.when+' '+x.t)}));
+    check('0. 稿 → 遊戲 '+id+'：打招呼輪流（本人那幾句，照順序；本人說的拿掉外面的「」、旁白照字）',J(P.greet||[])===J(DOCGREET[id].map(uq))&&(P.greet||[]).every(t=>!wq(t)),J({doc:DOCGREET[id],game:P.greet})); }
   check('0. 稿 → 遊戲：旁白、館員那一句（三種人都有的打招呼）',L.narr===NARR&&L.greetAll===GALL,J([L.narr,L.greetAll]));
-  check('0. 自我介紹：品妤、阿勳照稿第 0 節；唐睿、韋綸＝events.js 現有那一句（S.tangIntro／S.wlIntro 那一行）',
-    (L.people.econ_pinyu||{}).intro===INTRO0.econ_pinyu&&(L.people.econ_zhengxun||{}).intro===INTRO0.econ_zhengxun&&
+  check('0. 自我介紹：品妤、阿勳照稿第 0 節（稿上的「」拿掉外面那一對）；唐睿、韋綸＝events.js 現有那一句（S.tangIntro／S.wlIntro 那一行）；四句都沒有外面的「」',
+    wq(INTRO0.econ_pinyu)&&wq(INTRO0.econ_zhengxun)&&(L.people.econ_pinyu||{}).intro===uq(INTRO0.econ_pinyu)&&(L.people.econ_zhengxun||{}).intro===uq(INTRO0.econ_zhengxun)&&IDS.every(id=>!wq((L.people[id]||{}).intro))&&
     ['econ_tangrui','econ_weilun'].every(id=>{ const t=unq((L.people[id]||{}).intro), sp=id==='econ_tangrui'?'唐睿':'韋綸', fn=id==='econ_tangrui'?'tangIntro':'wlIntro';
       return !!t&&STORY_EVENTS.some(e=>(e.dialogue||[]).some(l=>l&&l.speaker===sp&&l.text===t&&l.if&&typeof l.if.custom==='function'&&String(l.if.custom).includes(fn))); }),
     J(IDS.map(i=>(L.people[i]||{}).intro)));
-  /* 遊戲 → 稿：每一句都在稿上（引號裡的字） */
-  const all=[]; for(const id of IDS){ const P=L.people[id]||{}; for(const e of P.talk||[]) all.push(e.t); for(const t of P.greet||[]) all.push(t); } all.push(L.narr,L.greetAll,(L.people.econ_pinyu||{}).intro,(L.people.econ_zhengxun||{}).intro);
+  /* 遊戲 → 稿：每一句都在稿上（有名字說的＝加回外面那一對「」在稿上；旁白照字） */
+  const all=[]; for(const id of IDS){ const P=L.people[id]||{}; for(const e of P.talk||[]) all.push('「'+e.t+'」'); for(const t of P.greet||[]) all.push(/^（/.test(t)?t:'「'+t+'」'); } all.push(L.narr,L.greetAll,'「'+(L.people.econ_pinyu||{}).intro+'」','「'+(L.people.econ_zhengxun||{}).intro+'」');
   const miss=all.filter(t=>!t||!DOC.includes(t));
   check('0. 遊戲 → 稿：ECONFR_SOCLIB 的每一句都在稿上（'+all.length+' 句）',!!L.narr&&!miss.length,J(miss));
   /* 作息表 */

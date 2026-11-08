@@ -4,7 +4,7 @@
 //      不在研究室＝21:00 私訊同兩句；兩種都排 3/17 18:30 的出遊（must）
 //   2  3/17 ev_sis_y4_father「她奶奶的晚餐」（第 2 節＋協調者 11-03 的修正：開頭三句「你就是{name}？來，多吃一點。」「奶奶，他自己會夾。」「好、好。」）：
 //      不 retired、沒有 outingMissed、沒有她爸爸的四句追問；MET_SIS_FATHER＋記憶「三月在公館和她奶奶吃過的那一頓」；出發選單只有「出發」；AA_591 版標成 missed 的舊存檔改回 planned
-//   3  祐廷畢業典禮（第 7 節）：交往中＋MET_SIS_FATHER＝她奶奶「{name}，畢業快樂。」＋兩個選項；THERMOS.father 拿掉；沒交往、沒見過的不演
+//   3  祐廷畢業典禮（第 7 節）：交往中＋MET_SIS_FATHER＝她奶奶「{name}，畢業快樂。」＋兩個選項；THERMOS.father 拿掉；沒交往、沒見過的不演（第二個選項的回答照 AA_611 第 13 列換了）
 //   4  美國 208 剪報 ev_us208_clipping（第 4 節）：七場回到七場、她奶奶寄的、他→她、記憶名稱
 //   5  出來走一圈（第 5 節）：剪報那一段恢復成「我奶奶寄了一份剪報給我。……」
 //   6  其他（第 6 節）：pg_dates 照媽媽、礁溪偶遇／重訪／記憶「媽媽、奶奶」、她的畢業典禮「來，拍一張。」給學姊的奶奶、「九月開學？」照媽媽
@@ -80,7 +80,7 @@ await sec(3,async()=>{
   check('3. THERMOS.father（「我奶奶叫我跟你說：恭喜。」）拿掉；fatherGrad 在',W.father===undefined&&!!W.fatherGrad);
   for(const k of [0,1]){ const G=setup('2029-06-02',12,'campus','CLOSE',{MET_SIS_FATHER:true,SIS_FATHER_ASKED:'face'}); H.date(ID); G.name='祐廷'; H.said=[]; H.opts=[]; H.picks=[k];
     await PG.thermos(GM); const L=said();
-    const want=['（典禮結束，學姊身邊站著她奶奶。）','祐廷，畢業快樂。','（她拍了拍你的手臂。）',k?'書瑀說你今天畢業，我就跟來了。':'好、好。有空再來吃飯。'];
+    const want=['（典禮結束，學姊身邊站著她奶奶。）','祐廷，畢業快樂。','（她拍了拍你的手臂。）',k?'今天我孫女也畢業，我就來了。':'好、好。有空再來吃飯。'];   /* AA_611 第 13 列（企劃線 3f85566f4）：「書瑀說你今天畢業，我就跟來了。」改成不點名的這一句（KNOWS_SIS_ALISON 那一版在 tests/aa611_sisters_unit.js）*/
     check('3. 交往中、見過奶奶：保溫瓶前先演她奶奶（選 '+k+'）；說話人「書瑀奶奶」',J(L.slice(0,4))===J(want)&&J(H.opts[0])===J(['「謝謝奶奶。」','「奶奶怎麼也來了？」'])&&who('祐廷，畢業快樂。')==='書瑀奶奶'&&L.includes('恭喜畢業。')&&L.indexOf('恭喜畢業。')>3,J(L));
     check('3. 沒有「爸」、沒有「上次的飯沒吃到」「上次對不起」、沒有轉交的「恭喜。」',!L.some(t=>DAD.test(t)||/上次的飯沒吃到|上次對不起|叫我跟你說：恭喜/.test(t))&&!H.opts.flat().some(o=>/上次對不起|伯父/.test(o))&&H.G.flags.SIS_THERMOS===true,J(L)); }
   for(const [fl,dt,why] of [[{MET_SIS_FATHER:true},false,'見過、沒交往'],[{SIS_FATHER_ASKED:'msg'},true,'交往中、沒見過'],[{MET_SIS_FATHER:'grad'},true,'舊版在典禮見過（grad）']]){
@@ -111,7 +111,7 @@ await sec(5,async()=>{
 /* ---------- 6 其他 ---------- */
 await sec(6,async()=>{
   const pg=J(PG_DATES);
-  check('6. pg_dates：「元旦回家，我媽問研究單位在做什麼。……她說：『所以是公務員？』」照媽媽',pg.includes('元旦回家，我媽問研究單位在做什麼。我講了二十分鐘。她說：『所以是公務員？』')&&!pg.includes('元旦回家，我爸問研究單位'));
+  check('6. pg_dates 2030-01：AA_593 決4（企劃線 9aa8ec40c）換成不提家人的「元旦放假，我睡到九點。醒來的時候，還以為遲到了。」（原本「我媽問研究單位…所以是公務員？」；她爸爸國小時過世）',pg.includes('元旦放假，我睡到九點。醒來的時候，還以為遲到了。')&&!pg.includes('元旦回家，我爸問研究單位')&&!pg.includes('所以是公務員'));
   const enc=(ENCOUNTERS.list||ENCOUNTERS.encounters||[]); const ej=J(ENCOUNTERS);
   check('6. 礁溪偶遇 why「她和家人坐在泡腳池邊：媽媽、阿公、奶奶，還有一個背對你的女生。」、記憶「在礁溪遇到學姊一家」（AA_609 第 8 節；AA_675 2-4 接進遊戲，原本 AA_661 第 32 列、AA_611 #3；AA_684 第 8 項：名稱中性，「Alison 是她妹妹」另外一條 KNOWS_SIS_ALISON）',ej.includes('"她和家人坐在泡腳池邊：媽媽、阿公、奶奶，還有一個背對你的女生。"')&&ENCOUNTERS.labels.ENC_D24_SIS==='在礁溪遇到學姊一家'&&ENCOUNTERS.labels.KNOWS_SIS_ALISON==='Alison 是她妹妹'&&LABEL('ENC_D24_SIS')!=='在礁溪遇到學姊和她媽媽',J([ENCOUNTERS.labels.ENC_D24_SIS,LABEL('ENC_D24_SIS'),ENCOUNTERS.labels.KNOWS_SIS_ALISON]));
   check('6. 礁溪重訪（enc_walk）「泡腳池。上次學姊一家坐在這裡。」（AA_661 第 32 列、AA_611 #3）',J(ENC_WALK).includes('"泡腳池。上次學姊一家坐在這裡。"')&&!J(ENC_WALK).includes('"泡腳池。上次學姊和她媽媽坐在這裡。"'));
@@ -122,7 +122,7 @@ await sec(6,async()=>{
 /* ---------- 7 第 9 節 ---------- */
 await sec(7,()=>{
   const l=REL_LINES.heroine_05&&REL_LINES.heroine_05.up&&REL_LINES.heroine_05.up.FAMILIAR&&REL_LINES.heroine_05.up.FAMILIAR.l;
-  check('7. 學姊升到有點熟的第一句「{name}。法圖四樓比較安靜，考前可以來這裡。」（原本「{name}，你最近很常來法圖。」）',J(l)===J(['「{name}。法圖四樓比較安靜，考前可以來這裡。」'])&&!J(REL_LINES).includes('你最近很常來法圖'),J(l));
+  check('7. 學姊升到有點熟的第一句「{name}。法圖四樓比較安靜，考前可以來這裡。」（原本「{name}，你最近很常來法圖。」）',J(l)===J(['{name}。法圖四樓比較安靜，考前可以來這裡。'])&&!J(REL_LINES).includes('你最近很常來法圖'),J(l));
 });
 
 /* ---------- 8 這幾場沒有「爸」 ---------- */
@@ -137,5 +137,5 @@ await sec(8,()=>{
 H.done();
 })();  { const enc=require('fs').readFileSync(require('path').join(__dirname,'..','src/data/encounters.js'),'utf8'), r3=require('fs').readFileSync(require('path').join(__dirname,'..','src/r3_3d.js'),'utf8'), ev=require('fs').readFileSync(require('path').join(__dirname,'..','src/data/r3_events.js'),'utf8');
     check('AA 10:05 ① 3/14 答應以後「好。我跟她說。」（當面、私訊都有）；18:45 晚到的私訊照留、改「我奶奶先點菜了」、只有「快到了。」',/SIS\('好。我跟她說。'\),SIS\('好。不用穿太正式。'\)/.test(ev)&&/text:'好。我跟她說。'\},\{from:SIS,text:'好。不用穿太正式。'\}/.test(r3)&&/我奶奶先點菜了。……你在路上嗎？/.test(r3)&&/opts:\[\{t:'快到了。',say:\[\{from:SIS,text:'好。'\}\]\}\]\}/.test(r3));
-    check('AA 10:05 ② 礁溪沒有爸爸（AA_675 2-4：整場照 AA_609 第 8 節換，「爸媽排好了」拿掉）：「學弟。……我們一家來泡腳。」「你怎麼在這裡？」「……我好像沒跟你講過。這是我妹。」',/'學弟。……我們一家來泡腳。'/.test(enc)&&/'你怎麼在這裡？'/.test(enc)&&/'……我好像沒跟你講過。這是我妹。'/.test(enc)&&!/溫爸爸|我爸問你|我爸媽在那邊|我陪爸媽|爸媽排好了/.test(enc.replace(/\/\*[\s\S]*?\*\//g,''))); }   /* 註解裡寫了換掉的是哪一句：比對時拿掉註解 */
+    check('AA 10:05 ② 礁溪沒有爸爸（AA_675 2-4：整場照 AA_609 第 8 節換，「爸媽排好了」拿掉；AA_593 第 11 節 ce8e3db3c：第一句「學弟。……我們一家來的。」＋媽媽點頭、不邀泡）：「學弟。……我們一家來的。」「你怎麼在這裡？」「……我好像沒跟你講過。這是我妹。」',/'學弟。……我們一家來的。'/.test(enc)&&/'（學姊的媽媽點了一下頭。）'/.test(enc)&&!/我們一家來泡腳|坐下來一起泡吧/.test(enc.replace(/\/\*[\s\S]*?\*\//g,''))&&/'你怎麼在這裡？'/.test(enc)&&/'……我好像沒跟你講過。這是我妹。'/.test(enc)&&!/溫爸爸|我爸問你|我爸媽在那邊|我陪爸媽|爸媽排好了/.test(enc.replace(/\/\*[\s\S]*?\*\//g,''))); }   /* 註解裡寫了換掉的是哪一句：比對時拿掉註解 */
 

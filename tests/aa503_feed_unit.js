@@ -269,4 +269,19 @@ sec('10',()=>{ fresh(TD(13,5),8); who('heroine_03','ACQ'); who('classmate_peisha
   HT(); walk(TD(15,4),22); FEED.respond(H.G,'an5','cm');   /* 以安沒有聯絡方式：沒有 an5 */
   check('10. 沒有她的聯絡方式：動態頁上沒有她',!HT().includes('民總。剩六張。')); });
 
+/* ---------- 11 動態類私訊的回覆鍵 7 天收起來（UX-FEED-ASK-EXPIRE-1108；BB-B 11-08 03:20、AA-B 03:21：沒寫期限的 7 天後收、過期＝跟沒回一樣、不出字；有寫 until 的照原本；其他私訊不受影響）---------- */
+sec('11',()=>{ const SAT=TD(10,6), t0=T(SAT,10+12/60);
+  fresh(TD(10,5),8); who('heroine_01','CLOSE'); walk(SAT,10.25); const m=dm('an_mom');
+  check('11. 前置：以安 an_mom 有回覆鍵、沒寫期限',!!m&&m.ask.until==null);
+  const open=h=>{ const d=Math.floor(h/24); at(d,h-d*24); return PHONE.askOpen(H.G,m); };
+  check('11. 第 6 天、7 天整還能回（askOpen）',open(t0+6*24)&&open(t0+7*24-0.01));
+  check('11. 過了 7 天：收起來（askOpen false、不在待回覆、按回覆沒反應）',!open(t0+7*24+0.5)&&!PHONE.pending(H.G).includes(m)&&PHONE.answer(H.G,m.ask.id,0)===null&&m.ans==null&&!H.G.flags.AN_LIST&&H.G.flags.AN_MOM_DM==null,J({ans:m.ans,f:H.G.flags.AN_MOM_DM}));
+  const th0=(PHONE.threads(H.G).find(t=>t.th==='p:heroine_01')||{pending:9});
+  check('11. 那一段對話不算待回覆、不出新的字',th0.pending===0&&th('heroine_01').slice(-1)[0].text==='七家。她說我一家都還沒去。',J(th0));
+  /* 有寫 until 的（可昕第 11 週報告）照原本，不另外收；其他私訊（不是 aa503_）不受影響 */
+  const fake=(id,until)=>{ const x={th:'p:heroine_02',from:'heroine_02',text:'測試',day:SAT,h:10,ask:{id,opts:[{t:'好'}]}}; if(until!=null) x.ask.until=until; H.G.msgs.push(x); return x; };
+  const a=fake('aa503_t_until',T(SAT+30,0)), b=fake('other_t',null), c=fake('aa503_t_none',null); at(SAT+10,12);
+  check('11. 有寫 until 的照 until（第 10 天還能回）；不是動態類的沒寫期限照舊開著；動態類沒寫期限的收起來',PHONE.askOpen(H.G,a)&&PHONE.askOpen(H.G,b)&&!PHONE.askOpen(H.G,c),J([PHONE.askOpen(H.G,a),PHONE.askOpen(H.G,b),PHONE.askOpen(H.G,c)]));
+  check('11. FEED.ASK_DAYS＝7、只包一次（PHONE._feedAskExp）',FEED.ASK_DAYS===7&&PHONE._feedAskExp===true); });
+
 H.done();

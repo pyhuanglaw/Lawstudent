@@ -41,7 +41,7 @@ const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
   const sup=ev('ev_midterm_supper_y1s2'); const nar=sup.dialogue.find(l=>l.text==='（你想起柏翰這幾週都比較晚回 203。）');
   check('2. 考完的晚餐有四人房旁白、條件 DORM_FOUR、在 ps 段開頭（柏翰幫沛珊切滷蛋那一段 AA_588 第 1 節搬回 4/15 傍晚麵店 ev_psbh_public_0415，第一句就是滷蛋；第一格是麵店背景 UX-PSBH-BG）',!!nar&&nar.if&&nar.if.flags[0]==='DORM_FOUR'&&sup.dialogue.indexOf(nar)===sup.dialogue.findIndex(l=>l.label==='ps')+1&&sup.dialogue.findIndex(l=>l.text==='柏翰幫沛珊把滷蛋切成兩半。')<0&&!!ev('ev_psbh_public_0415')&&ev('ev_psbh_public_0415').dialogue.find(l=>l.text).text==='柏翰幫沛珊把滷蛋切成兩半。');
   // SMALLTALK 方奕廷
-  const ft=SMALLTALK.npc_fangyt, fh=ft.find(e=>e&&e.t==='「芷若跟你講過我嗎？她高中就這樣，什麼都不講。」')||{}; check('3. 方奕廷「芷若跟你講過我嗎？」那一句的條件改成 ev_fangyt_hint（事件存在）',!!fh.if&&!!fh.if.events&&fh.if.events[0]==='ev_fangyt_hint'&&!!ev('ev_fangyt_hint')&&!JSON.stringify(ft).includes('ev_fangyt_z6'),JSON.stringify(fh.if));
+  const ft=SMALLTALK.npc_fangyt, fh=ft.find(e=>e&&e.t==='芷若跟你講過我嗎？她高中就這樣，什麼都不講。')||{}; check('3. 方奕廷「芷若跟你講過我嗎？」那一句的條件改成 ev_fangyt_hint（事件存在）',!!fh.if&&!!fh.if.events&&fh.if.events[0]==='ev_fangyt_hint'&&!!ev('ev_fangyt_hint')&&!JSON.stringify(ft).includes('ev_fangyt_z6'),JSON.stringify(fh.if));
   // 阿凱半夜：bug 只播一次
   const lk=ev('ev_dorm_late_kai'); fresh(termDay('Y1S2',5,2),23.5,'dorm',{introDone:true}); picks=['什麼 bug']; await EVENTS.run(lk);
   check('4. 第一次可以選「什麼 bug？」、聽到 undefined',opts[0].some(t=>t.includes('什麼 bug'))&&said.some(s=>/undefined/.test(s.t))&&G.flags.KAI_BUG_TOLD===true,JSON.stringify(opts[0]));

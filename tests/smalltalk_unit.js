@@ -38,7 +38,7 @@ const talk=id=>STORY.smallTalk(G,id), txt=L=>L.say||L.narr;
   MEM[id+':SHARED_SECRET']=1; G.day=W+5; const L3=talk(id); check('說過心事以後：第 3 句（只說一次）',L3.say===L9[2]&&L3.fresh,txt(L3));
   G.day=W+6; const L4=talk(id); G.day=W+7; const L5=talk(id); check('三句都說完：只點頭（第 5 週不是開學、期中、期末，沒有短招呼）',!L4.fresh&&!L5.fresh&&!L4.say&&!L5.say,txt(L4)+' / '+txt(L5));
   G.day=dayOf('2026-02-25'); const L=talk(id);
-  check('新的學期（大一下）不從頭重播三句：只點頭，或開學的短招呼',!L.fresh&&!L9.includes(L.say||'')&&(/^（.*）$/.test(L.narr||'')||['「開學了。」','「這學期修了什麼？」'].includes(L.say)),txt(L));
+  check('新的學期（大一下）不從頭重播三句：只點頭，或開學的短招呼',!L.fresh&&!L9.includes(L.say||'')&&(/^（.*）$/.test(L.narr||'')||['開學了。','這學期修了什麼？'].includes(L.say)),txt(L));
   const G2=[]; delete MEM[id+':SHARED_SECRET']; for(let d=0;d<21;d++){ G.day=dayOf('2026-02-23')+d; G2.push(talk(id)); }
   const says=G2.filter(q=>q.say).map(q=>q.say); check('開學三週每天找她：短招呼最多兩句、同一句只說一次，其他天只有旁白',says.length<=2&&new Set(says).size===says.length&&G2.filter(q=>q.narr).length>=19,says.join(' / ')); }
 // ---------- 高子晴 ----------
@@ -81,7 +81,7 @@ const talk=id=>STORY.smallTalk(G,id), txt=L=>L.say||L.narr;
   check('unless：條件成立時不說',!seen.includes('A')&&seen.includes('B'),seen.join(' / ')); }
 // ---------- 明軒「你看起來很累」：前一晚 01:00 以後才睡（AA-B 10-16，取代體力 ≤40；DL-02）----------
 { const mk=(day,late)=>({day,hour:10,zone:'campus',weekday:CALENDAR.dateOf(day).wd%7,energy:100,social:{rel:{},mem:{}},flags:{},daily:late?{lateNight:day}:{}});
-  const TIRED='「你看起來很累。睡飽比較重要。」'; const say=G2=>{ const keep=GG; GG=G2; try{ return txt(STORY.smallTalk(G2,'classmate_mingxuan')); } finally { GG=keep; } };   /* 替身 EVENTS.cond 讀 GG */
+  const TIRED='你看起來很累。睡飽比較重要。'; const say=G2=>{ const keep=GG; GG=G2; try{ return txt(STORY.smallTalk(G2,'classmate_mingxuan')); } finally { GG=keep; } };   /* 替身 EVENTS.cond 讀 GG */
   const a=mk(W,false); check('明軒：前一晚正常睡，不說「你看起來很累」',say(a)!==TIRED,say(mk(W,false)));
   const G3=mk(W,true); { const r=say(G3); check('明軒：前一晚 01:00 以後才睡，當天第一次見到他就說「你看起來很累」',r===TIRED,r); }
   G3.day=W+1; G3.weekday=CALENDAR.dateOf(W+1).wd%7; G3.daily.lateNight=W+1; { const r=say(G3); check('明軒：同一週第二次熬夜不再說',r!==TIRED,r); }

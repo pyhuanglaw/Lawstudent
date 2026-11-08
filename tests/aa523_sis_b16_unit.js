@@ -73,7 +73,7 @@ const part=(a,b,src)=>{ const S=src==null?DOC:src, i=S.indexOf(a); if(i<0) retur
 const S0=part('## 0. ','## 1. '), S1=part('## 1. A（交往中）','## 2. '), S2=part('## 2. B（朋友以上）','## 3. '), S3=part('## 3. 家族','## 4. '), S4=part('## 4. R','## 5. '), S5=part('## 5. 說了沒發生的','## 6. '), S6=part('## 6. 對不上的','## 7. '), S7=part('## 7. 新旗標','## 8. '), S9=part('## 9. 給 LAWWW、BB');
 const sub=(a,b,src)=>part('### '+a,b?'### '+b:null,src);
 const SPK=/^(學姊|Kevin|佳穎|學妹)：/;
-const A591=require('./aa591_doc.js'), A591x={'……剛好。':'剛好。'}, G591=s=>A591.MAP[s]||A591x[s]||s;   /* A591x：第 103 列（原句到處都有、不在 MAP；這份稿只有接機外套那一句）*/   /* AA_591（學姊改稿第四批，6b35748c7，使用者 11-02 確認）：稿上的句子照 AA_591 的表換成遊戲現在的字 */
+const A591=require('./aa591_doc.js'), A591x={'……剛好。':'剛好。'}, A593=require('./aa593_doc.js'), G591=s=>{ const a=A591.MAP[s]||A591x[s]||s; return A593.MAP[a]||a; };   /* AA_593（學姊改稿①b，企劃線 6cbb0b4ab）第 27、34、64 列：再照 AA_593 的表換 */   /* A591x：第 103 列（原句到處都有、不在 MAP；這份稿只有接機外套那一句）*/   /* AA_591（學姊改稿第四批，6b35748c7，使用者 11-02 確認）：稿上的句子照 AA_591 的表換成遊戲現在的字 */
 const qtext=s=>G591(/^（/.test(s)?s:s.replace(SPK,''));   /* 「> 學姊：…」→ 那一句；「> （…）」→ 旁白整句 */
 const quotesOf=t=>String(t).split('\n').map(l=>/^\s*>\s*(.+)$/.exec(l)).filter(Boolean).map(m=>qtext(m[1].trim()));
 const OPTRE=/^\s*- (「[^」]+」|（[^）]+）)→\s*(.*)$/;
@@ -130,7 +130,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   check('0. 稿寫在說明裡的句子（1-2 多的那個選項「Shu，謝謝。」）都在稿裡、也在遊戲裡',INLINE.every(t=>DOC.indexOf('「'+t+'」')>=0&&covered(GS,t)),J(INLINE));
   /* 遊戲 → 稿 */
   const A600=require('./aa600_doc.js');   /* AA_600 新寫的旁白（B6）在 AA_600 的稿裡 */
-  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t)&&!A591.has(t.replace(/^「|」$/g,''))&&!A600.has(t));
+  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t)&&!A591.has(t.replace(/^「|」$/g,''))&&!A593.has(t)&&!A600.has(t));
   check('0. 遊戲 → 稿：新檔的每一句、改字（'+new Set(G0).size+' 句）都在稿裡（一字不差）',G0.length>=200&&!notIn.length,J({n:G0.length,notIn}));
   /* 第 6 節換掉的舊句不在遊戲裡（註解除外）*/
   const OLD=[['src/data/sis_b13_events.js',"'學姊回來了！！'"],['src/data/sis_b13_events.js',"'禮拜四家聚 歡迎回來 118 巷那家'"],['src/data/sis_b12_events.js',"'「美國好玩嗎？」'"],['src/data/sis_b12_events.js',"'好玩。……照片你都看過了。'"],
@@ -187,7 +187,7 @@ await sec(1,async()=>{
     await desk('2029-04-04',1,[0]); const s44=said(); await desk('2029-04-11',4,[0]); const s411=said(); await desk('2029-04-18',4,[0]); const s418=said(); await desk('2029-04-11',4,[0],{SIS16_JOB_A:'desk'}); const sDone=said();
     check('1. 1-3 3/28 沒去：4/4、4/11 第一個有去的週三照演；4/18 不演（到 4/11）；演過的不再演（輪流旁白照舊）',s44.includes(JOB[0])&&s411.includes(JOB[0])&&!s418.includes(JOB[0])&&!sDone.includes(JOB[0])&&sDone.includes('（她把頭髮夾起來，又放下來。）'),J({s44,s418}));
     const d15=D('2029-04-15'); fresh(d15,20.8,'dating'); ph(); const n0=byTag('sisb16_job_dm').length; phAt(d15,21.3); const M=byTag('sisb16_job_dm');
-    check('1. 1-3 4/11 以前都沒演到：4/15（日）21:00 私訊兩則（照稿）、也記 SIS16_JOB_A',n0===0&&J(M.map(x=>x.text))===J(['研究單位那邊回信了。七月二號報到。','……本來想在研究室跟你說。'])&&Math.abs(M[0].h-21)<0.02&&H.G.flags.SIS16_JOB_A==='msg',J(M));
+    check('1. 1-3 4/11 以前都沒演到：4/15（日）21:00 私訊兩則（照稿；第一則照 AA_593 第 27 列「學校的研究中心回信了。七月二號報到，當助理。」）、也記 SIS16_JOB_A',n0===0&&J(M.map(x=>x.text))===J(['學校的研究中心回信了。七月二號報到，當助理。','……本來想在研究室跟你說。'])&&Math.abs(M[0].h-21)<0.02&&H.G.flags.SIS16_JOB_A==='msg',J(M));
     fresh(d15,21.1,'dating',{SIS16_JOB_A:'desk'}); ph(); const M2=byTag('sisb16_job_dm'); fresh(d15,21.1,'friend'); ph(); const M3=byTag('sisb16_job_dm');
     check('1. 1-3 書桌夜聽過的、沒交往的：4/15 沒有私訊',!M2.length&&!M3.length,J([M2,M3])); }
   /* 1-4 5/12 游泳、早餐店 */
@@ -364,7 +364,7 @@ await sec(5,async()=>{
     const d27=D('2029-04-27'), d28=d27+1; fresh(d27,20.8,'dating',{SIS_VDAY_MAKEUP:true}); ph(); const n0=byTag('r3_sis_dayoff').length; phAt(d27,21.1); ph(); const M=byTag('r3_sis_dayoff'), q=OUT.get(H.G,'r3_sis_dayoff');
     check('5. 3 有 SIS_VDAY_MAKEUP：4/27 21:00 那則換成三句（照稿）、不給選項；直接排 4/28 河堤 10:00（ev_sis_y4_dayoff_river）',n0===0&&J(M.map(m=>m.text))===J(['明天我不寫論文。','……二月說好要補的那一天。我寫好了。','河堤，十點。我騎很慢。'])&&!M.some(m=>m.ask)&&!!q&&q.day===d28&&q.h===10&&q.ev==='ev_sis_y4_dayoff_river',J({M,q}));
     phAt(d28,9.2); check('5. 3 沒有「沒回」那一段（16:00 河邊的照片）',!byTag('r3_sis_dayoff_none').length&&H.G.flags.SIS_DAY_OFF_PLAN==='river');
-    fresh(d27,21.1,'dating'); ph(); const M0=byTag('r3_sis_dayoff'); check('5. 3 沒有 SIS_VDAY_MAKEUP：照舊三選一',M0.length===2&&M0[1].text==='……你排。去哪裡都可以。'&&J(askOpts('r3_sis_dayoff')).indexOf('河堤')>=0,J(M0)); }
+    fresh(d27,21.1,'dating'); ph(); const M0=byTag('r3_sis_dayoff'); check('5. 3 沒有 SIS_VDAY_MAKEUP：照舊三選一（第二則照 AA_593 第 34 列「……去哪裡都可以。你想去哪？」）',M0.length===2&&M0[1].text==='……去哪裡都可以。你想去哪？'&&J(askOpts('r3_sis_dayoff')).indexOf('河堤')>=0,J(M0)); }
   /* 4 S7-L2 口試前一天 */
   { const s2=ladStep('Y4S2','S7-L2'); const Gx={flags:{}}; STORY.ladReply(s2,s2.choices[0],Gx,ID); const Gy={flags:{}}; STORY.ladReply(s2,s2.choices[1],Gy,ID); const Gz={flags:{}}; STORY.ladReply(s2,s2.choices[0],Gz,'heroine_01');
     check('5. 4 階梯 S7-L2 選「那現在還好嗎？」（她「現在還好。口試前大概不會好，到時候你再問。」）記 SIS7_ASK_LATER；別的選項、別人的不記',s2.choices[0].t==='「那現在還好嗎？」'&&s2.choices[0].reply==='現在還好。口試前大概不會好，到時候你再問。'&&Gx.flags.SIS7_ASK_LATER===true&&!Gy.flags.SIS7_ASK_LATER&&!Gz.flags.SIS7_ASK_LATER,J([Gx.flags,Gy.flags]));
@@ -391,7 +391,7 @@ await sec(6,async()=>{
   { const h=(HEARD_LINES.talk||[]).find(x=>x.id==='h509_ta_sis'); fresh('2029-01-12',12,'fam'); const w0=HEARD.inWin(H.G,h); at('2029-01-13',12); const w1=HEARD.inWin(H.G,h);
     check('6. 6-3 陳助教「書瑀回來休息了兩個禮拜，才來吃飯。她說美國的叉燒都太甜。」（AA_612 A 表換字）從 2029-01-13 起',!!h&&h.t==='書瑀回來休息了兩個禮拜，才來吃飯。她說美國的叉燒都太甜。'&&h.from==='2029-01-13'&&w0===false&&w1===true&&(ROW['6-3']||{toQ:[]}).toQ.includes(h.t),J({h,w0,w1})); }
   { const t4=TERMEND.heart(ID,'Y4S1'), t3=TERMEND.heart(ID,'Y3S2'), t2=TERMEND.heart(ID,'Y2S1');
-    check('6. 6-4 心意版期末飯 大四上「這學期的計畫本寫完了。……下學期那本，第一頁還是空的。」；其他學期照舊',t4.table==='這學期的計畫本寫完了。……下學期那本，第一頁還是空的。'&&t3.table==='這學期，還有一件事沒做完。'&&t2.table==='這學期，還有一件事沒做完。'&&t3.decline==='好。那出發前再約。',J([t4.table,t3.table])); }
+    check('6. 6-4 心意版期末飯 大四上「這學期過完了。……下學期的事，我還沒想。」（AA_593 第 64 列；原本「這學期的計畫本寫完了。……」）；其他學期照舊',t4.table==='這學期過完了。……下學期的事，我還沒想。'&&t3.table==='這學期，還有一件事沒做完。'&&t2.table==='這學期，還有一件事沒做完。'&&t3.decline==='好。那出發前再約。',J([t4.table,t3.table])); }
   { const c=(PG_DATES.six[ID]||[]).find(x=>x.ym==='2029-06'); check('6. 6-5 學姊 2029-06 那一格「修正本改完了。這禮拜印，下禮拜交。」（pg_dates.js 照 import_pg_dates.py 產生，來源寫 AA_523）',!!c&&c.line==='修正本改完了。這禮拜印，下禮拜交。'&&/AA_523/.test(J(PG_DATES.source)),J(c)); }
   { const e=ev('ev_sis_w1_late'), b6=ROW['6-6']||{toQ:[]}; const w1=async(key,k)=>{ fresh(key,19.5,'none',{},{zone:'cafe'}); const t=e.title; await runEv('ev_sis_w1_late',[k]); return {t,o:H.opts[0],s:said()}; };
     const y1=await w1('2026-07-15',0), y2=await w1('2026-10-14',0), y3=await w1('2027-10-13',0), y4=await w1('2029-03-07',0);

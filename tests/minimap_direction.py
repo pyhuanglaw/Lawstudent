@@ -37,6 +37,11 @@ async def main():
         await pg.wait_for_timeout(500)
         await pg.evaluate("(()=>{ if(GAME.phoneIsOpen&&GAME.phoneIsOpen()&&GAME.closePhone) GAME.closePhone(); })()")
         print('  [前置／捷徑] 手機自動打開的話先收起來')
+        # [前置] 關掉「指路」（BB-B 11-08 05:4x）：BUG-Y0-GOAL-AFTER-SKIP（fe120569e／d04bad69a）修好以後讀檔就有目標，guide3d 的橘色箭頭正好蓋在法律系館A門口的出入口方塊上，
+        # 這一支量的是出入口方塊的方向，不是指路。照玩家在設定裡關「指路」同一條路（#setGuide 勾掉＋change：game3d.js S.guide=false、saveSettings、GUIDE.zoneChanged）
+        await pg.evaluate("(()=>{ const c=document.getElementById('setGuide'); if(c&&c.checked){ c.checked=false; c.dispatchEvent(new Event('change')); } })()")
+        await pg.wait_for_timeout(300)
+        print('  [前置] 設定裡關掉「指路」（只量出入口方塊）')
 
         async def frames(n=4):
             # 小地圖每 2 個畫面才重畫一次；SwiftShader 每秒只有 1–4 格，用畫面數等，不用固定毫秒

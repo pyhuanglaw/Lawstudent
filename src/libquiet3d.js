@@ -15,7 +15,7 @@
    事件想整場不加：事件定義寫 loud:true（events3d.js 開演時 LIBQ.loudBegin()）；程式裡用 LIBQ.loud(async()=>{…})。
    事件演到一半搬到館外（AA 2026-11-02 20:54 第 3 點）：那一步寫 libOut:true（events3d.js runLines：從那一步到這段對話結束都不加，前面的照加）。
    不是事件的字串（invites.js 的 firstAt、rel_lines.js 的見面旁白 meetLine；AA 2026-11-02 22:30 定稿 1-D10、Q16）：沒辦法寫 libOut——
-     LIBQ.isOut(text)＝這一句就是走出館外：開頭「（走出」的（1-D10「（走出法圖）「館員人好好……」」），或 S.OUT_LINES 列的整句（Q16 以安約總圖的見面旁白「閉館音樂響了，她才抬頭問你晚餐吃什麼。」）；
+     LIBQ.isOut(text)＝這一句就是走出館外：開頭「（走出」的（1-D10「（走出法圖）館員人好好……」：第六批拿掉說的話那一對「」，開頭照舊是「（走出」，判斷不用改；她說的、不是旁白照 invites3d.js S.narrLine），或 S.OUT_LINES 列的整句（Q16 以安約總圖的見面旁白「閉館音樂響了，她才抬頭問你晚餐吃什麼。」）；
      開頭「（走出」的那一句本身不加前綴（needsPrefix）；invites3d.js 的 INV.meet 用 LIBQ.scope()：從那一句起到這次見面結束（含道別那句）都不加，結束一定配對 loudEnd。
    約好在讀書區見面（第 2 點）：免點頭（S.invited），對話照加。前綴的位置（第 4 點）：開頭有動作括號的合成「（抬頭，小聲）」（S.quiet）；玩家選項不加。
    存檔：G.libNod＝{day, ids:{角色 id:1}}（今天在讀書區見過的人；換一天就清空）。舊存檔沒有這個欄位＝今天誰都還沒見過（LIBQ.rec 補預設值，壞掉的也重設）。
@@ -79,9 +79,11 @@ const LIBQ=(function(){
     return true; };
   /* 一句台詞要不要加「（小聲）」：只有動作（整句在（）裡）、已經是小聲／氣音／口型／噓的不加 */
   const SOFT=/小聲|氣音|口型|噓|壓低聲音|悄悄/;
-  S.needsPrefix=function(text){ const t=String(text==null?'':text).trim(); if(!t) return false;
+  /* 外面整句一對「」（「A」「B」這種好幾段的不算）：拿掉再看（AA-B 2026-11-08 00:21：有名字的台詞不加「」；「好。」→（小聲）好。，不是（小聲）「好。」）*/
+  S.unq=t=>{ if(typeof t!=='string'||t.length<2||t[0]!=='「'||t[t.length-1]!=='」') return t; let d=0; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='「') d++; else if(ch==='」'){ d--; if(d===0&&i!==t.length-1) return t; } } return d===0?t.slice(1,-1):t; };
+  S.needsPrefix=function(text){ const t=S.unq(String(text==null?'':text).trim()).trim(); if(!t) return false;
     if(t.startsWith(S.PREFIX)) return false;
-    if(t.startsWith(OUT_HEAD)) return false;   /* 「（走出法圖）「……」」：走出去以後才說的（1-D10）*/
+    if(t.startsWith(OUT_HEAD)) return false;   /* 「（走出法圖）館員人好好。……」：走出去以後才說的（1-D10；說的話外面原本有「」，TEXT-QUOTE-UNIFY-1108 第六批拿掉，看的是開頭，照舊）*/
     if(t.startsWith('「'+S.PREFIX)) return false;   /* 稿上把（小聲）寫在引號裡的：「（小聲）二樓靠窗那排比較安靜。」（AA_649，invites.js 的 libStudy）——不再加一次 */
     let rest=t, lead='';
     while(rest.startsWith('（')){ let depth=0, k=-1; for(let i=0;i<rest.length;i++){ const ch=rest[i]; if(ch==='（') depth++; else if(ch==='）'){ depth--; if(depth===0){ k=i; break; } } } if(k<0) break; lead+=rest.slice(0,k+1); rest=rest.slice(k+1).trim(); }
@@ -90,10 +92,10 @@ const LIBQ=(function(){
     return true; };
   const isPhone=who=>{ const nm=who&&typeof who==='object'?who.name:who; return typeof nm==='string'&&nm.indexOf('（手機）')>=0; };
   /* 加上去（AA 2026-11-02 20:54 第 4 點）：開頭已經有動作括號的合成一個——「（抬頭）喔，hi。」→「（抬頭，小聲）喔，hi。」；好幾個括號的合進第一個；沒有括號的才在最前面加「（小聲）」*/
-  S.quiet=function(text){ if(!S.needsPrefix(text)) return text; const s=String(text), k0=s.length-s.trimStart().length, t=s.slice(k0);
-    if(!t.startsWith('（')) return S.PREFIX+s;
+  S.quiet=function(text){ if(!S.needsPrefix(text)) return text; const s=String(text), k0=s.length-s.trimStart().length, t0=s.slice(k0), u=S.unq(t0.trimEnd()), uq=u!==t0.trimEnd(), t=uq?u:t0, body=uq?s.slice(0,k0)+u:s;   /* 「好。」→（小聲）好。（外面的「」拿掉再加；AA-B 11-08 00:21）*/
+    if(!t.startsWith('（')) return S.PREFIX+body;
     let depth=0, k=-1; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='（') depth++; else if(ch==='）'){ depth--; if(depth===0){ k=i; break; } } }
-    if(k<0) return S.PREFIX+s;
+    if(k<0) return S.PREFIX+body;
     let inner=t.slice(1,k), tail='';
     if(/[。]$/.test(inner)){ tail=inner.slice(-1); inner=inner.slice(0,-1); }   /* 「（抬頭。）」→「（抬頭，小聲。）」*/
     return s.slice(0,k0)+'（'+inner+'，小聲'+tail+'）'+t.slice(k+1); };

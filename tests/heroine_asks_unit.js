@@ -23,8 +23,9 @@ check('0. 載得到；index.html：data/heroine_asks.js → heroine_asks3d.js（
 if(!ok){ H.done(); }
 let doc=''; try{ doc=cp.execSync('git show b3ecc563c:"docs/story_planning/AA_494_女主角主動約你_七位的門檻頻率地點時間台詞.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 { const [d]=require('./an_rev_doc.js').overlay(doc,/^heroine_asks\.js/); doc=d; }   /* 以安改稿④b（AA_594 第 15～18 列：她主動約你的溫州街兩句、回覆兩句）：讀稿時照改成欄換（逐列核對在 tests/aa594_an_4b_unit.js）*/
-{ const bad=[]; let n=0; for(const [id,p] of Object.entries(HASK_DATA.people)){ const L=[p.later,p.no,p.yes].concat(Object.values(p.yesBy||{})); for(const e of p.daily.concat(p.out)) for(const v of ['pre','dat']) if(e[v]) L.push(e[v].line); for(const t of L){ n++; if(!doc.includes(t)) bad.push(id+'：'+t); } }
-  check('0. 每一句都在 AA_494 稿裡（一字不差；'+n+' 句）',doc.length>1000&&!bad.length&&n>=100,doc?J(bad):'git fetch origin claude/magical-albattani-bk7b4n'); }
+{ const bad=[], A593=require('./aa593_doc.js'); let n=0;   /* 學姊：AA_593（學姊改稿①b，企劃線 6cbb0b4ab）第 50～63 列換過的句子在 AA_593 的表上 */
+  for(const [id,p] of Object.entries(HASK_DATA.people)){ const L=[p.later,p.no,p.yes].concat(Object.values(p.yesBy||{})); for(const e of p.daily.concat(p.out)) for(const v of ['pre','dat']) if(e[v]) L.push(e[v].line); for(const t of L){ n++; if(!doc.includes(t)&&!(id==='heroine_05'&&A593.has(t))) bad.push(id+'：'+t); } }
+  check('0. 每一句都在 AA_494 稿裡（一字不差；'+n+' 句；學姊 AA_593 換過的在 AA_593 的表上）',doc.length>1000&&!bad.length&&n>=100,doc?J(bad):'git fetch origin claude/magical-albattani-bk7b4n'); }
 { const W=DATE.HEROINES.filter(h=>!(DATE.WISH_X&&DATE.WISH_X[h])).map(h=>DATE.wishOf(h)).filter(Boolean), hit=[];   /* 2026-10-30 芯慈的 D04（DATE.WISH_X，XINCI-ROMANCE-1030）不算：她的心願是午夜場這件事，芷若、子晴的西門 D04 照舊（AA-B 16:31；heroine_asks3d.js wishLocs 同）*/ for(const [id,p] of Object.entries(HASK_DATA.people)) for(const e of p.out) if(W.includes(e.loc)) hit.push(id+' '+e.loc);
   check('0. 心願地點（七位的）不在任何一位的校外表裡',W.length>=5&&!hit.length,J({W,hit})); }
 

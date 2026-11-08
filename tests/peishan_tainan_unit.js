@@ -9,6 +9,7 @@
 //   7. AA_349（2026-10-21）：K1 第一次回覆分台中／台南；K3 北部全部擋、去台南／台中算正式約會、心願地點「台南・美術館」（聊天提到、她主動約、玩家主動約、那一天）；K4 寒假去台中、台南的期末飯、公開課、視訊都推進一層（同一天最多一層）；K5 交往中的視訊；K11 字
 //   8. AA_350（2026-10-21）：P1 放榜以後第一次傳訊息，寒暑假（她在台中）回台中那一句、學期中回台南那一句；P5 2030、2031 寒假 1/20～2/18、暑假 6/25～8/31 在台中（含頭尾）、其他日子在台南
 // 修改前：presence 是「在臺北、不在台大」（kind taipei）、臺北作息與偶遇都在、學期中沒有「我去台南找妳？」、期末飯在舊路書房旁邊的簡餐。AA_349 那一批修改前：第 7 節全部失敗（沒有台南的美術館、去台南不計次、沒有視訊）。
+// AA_723（AA723-CONFESS-PS-1107）：沒交往的線 2026-12-18～2028-12-29 重聚以前一直聯絡不到（「很久沒有消息」），8/7 那通電話、第一次回覆「好久不見」不播——第 1、3、4 節那幾項改成新的期待值，原本的流程改用舊存檔（PS_KEPT、PS_BACK_READ）測。
 // AA_350 那一批修改前（開發分支 5c471a79）：第 8 節 9 項 FAIL 7（寒暑假第一次回覆都是「我現在在台南。」、2030 寒暑假也在台南；學期中那兩項本來就對）。用法：node tests/peishan_tainan_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -51,7 +52,7 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
   // ===== 1. presence（AA_282 第 1 節）=====
   { const K={PS_BACK_FIRST:1};
     const a=P(D('2027-08-07')), b=P(D('2027-08-10'),K), c=P(D('2027-09-03'),K), d=P(D('2027-09-04'),K), e=P(termDay('Y3S1',5,3),K), f=P(termDay('Y4S2',5,3),K), g=P(D('2027-05-01'));
-    check('1. 8/7（還沒重新聯絡上）：不在、台中老家、手機「很久沒聯絡」', a.here===false&&a.kind==='home'&&a.home==='台中'&&a.away==='很久沒聯絡'&&a.lost===true, JSON.stringify(a));
+    check('1. 8/7（還沒重新聯絡上）：AA_723 沒交往的線還在沉默期（到 2028-12-29 重聚）＝聯絡不到、手機「很久沒有消息」、lost（原本是台中老家「很久沒聯絡」）', a.here===false&&a.kind==='unreachable'&&a.away==='很久沒有消息'&&a.lost===true, JSON.stringify(a));
     check('1. 2027-08-10（重新聯絡上）：台中老家「在台中」；9/3 還在台中', b.kind==='home'&&b.home==='台中'&&b.away==='在台中'&&!b.lost&&c.kind==='home'&&c.home==='台中', JSON.stringify([b,c]));
     check('1. 開學前 2 天（9/4）回台南：kind city、city 台南、「在台南」', d.here===false&&d.kind==='city'&&d.city==='台南'&&d.away==='在台南', JSON.stringify(d));
     check('1. 大三上、大四下的學期中：台南（不是 taipei、不在台大、約不到臺北）', e.here===false&&e.kind==='city'&&e.city==='台南'&&e.away==='在台南'&&f.kind==='city'&&f.city==='台南'
@@ -68,7 +69,7 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     fresh(termDay('Y3S1',5,2),17,'campus',K); R(ID,'FRI'); const w=STORY.whereIs(GM,ID);
     check('1. 手機「現在大概在」：大三週二 17:00「在台南」（不是溫州街）', !!w&&w.zone===null&&w.away==='在台南', JSON.stringify(w));
     fresh(termDay('Y3S1',5,2),17,'campus',{}); R(ID,'FRI'); const w2=STORY.whereIs(GM,ID);
-    check('1. 還沒重新聯絡上：「很久沒聯絡」', !!w2&&w2.away==='很久沒聯絡', JSON.stringify(w2)); }
+    check('1. 還沒重新聯絡上：AA_723 沉默期「很久沒有消息」（原本「很久沒聯絡」）', !!w2&&w2.away==='很久沒有消息', JSON.stringify(w2)); }
 
   // ===== 2. 大三起沒有臺北的作息、偶遇（AA_282 第 5 節第 1 點、AA_342 C2）=====
   { const S=CHARACTERS[ID].daily_schedule, Y34=['Y3S1','Y3S2','Y4S1','Y4S2'];
@@ -91,18 +92,24 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
   // ===== 3. 第 2 節的訊息 =====
   { const d7=D('2027-08-07');
     /* AA_296 2-3-1 ④（企劃線 3f406dbc）：8/07 21:00 改成她打來；那兩則私訊是沒接的替代版（逐字對稿在 tests/aa296_phone_live_unit.js）*/
-    fresh(d7,20,'dorm',{}); R(ID,'FRI'); C(ID); (G.msgs||(G.msgs=[])).push({th:TH_PS,from:'player',who:null,text:'妳還好嗎？',day:D('2027-03-01'),h:20});
+    /* AA_723（企劃線 fca9bcb69 peishan remove 第 1 點）：沒交往的線（STORY.psNewLine）沒有 8/7 那通電話、那兩則、第一次回覆「好久不見」——新的線在 tests/ps_silence_unit.js。
+       這裡改成舊存檔：消失期交往過、後來分開（PS_KEPT，STORY.psOldLine），原本的流程照舊 */
+    fresh(d7,20,'dorm',{}); R(ID,'FRI'); C(ID); (G.msgs||(G.msgs=[])).push({th:TH_PS,from:'player',who:null,text:'妳還好嗎？',day:D('2027-03-01'),h:20}); run(d7,20,21.75);
+    check('3. AA_723 沒交往的線：消失期傳過訊息，8/07 她不打來、沒有那兩則、還在沉默期', !OUT.get(G,'y3_ps_back_call')&&!txt(TH_PS).some(t=>t.startsWith(ID))&&G.flags.PS_BACK_READ==null&&STORY.presence(ID,G).kind==='unreachable', JSON.stringify(txt(TH_PS)));
+    fresh(d7,20,'dorm',{PS_KEPT:true}); R(ID,'FRI'); C(ID); (G.msgs||(G.msgs=[])).push({th:TH_PS,from:'player',who:null,text:'妳還好嗎？',day:D('2027-03-01'),h:20});
     run(d7,20,20.75); { const q=OUT.get(G,'y3_ps_back_call'); said=[]; picks=[0]; if(q&&OUT.due(G)) await OUT.go(GM,q); }
-    check('3. 消失期傳過訊息（沒交往）：8/07 21:00 她打來（「……喂。」…「我現在在台南。你要來的話，跟我說。」）、沒有私訊；之後不是「很久沒聯絡」', has('……喂。')&&has('我現在很好。真的。')&&!txt(TH_PS).some(t=>t.startsWith(ID))&&typeof G.flags.PS_BACK_READ==='number'&&STORY.presence(ID,G).away==='在台中', JSON.stringify([said.map(s=>s.t),txt(TH_PS)]));
-    fresh(d7,20,'dorm',{}); R(ID,'FRI'); C(ID); (G.msgs||(G.msgs=[])).push({th:TH_PS,from:'player',who:null,text:'妳還好嗎？',day:D('2027-03-01'),h:20});
+    check('3. 舊存檔（PS_KEPT）消失期傳過訊息：8/07 21:00 她打來（「……喂。」…「我現在在台南。你要來的話，跟我說。」）、沒有私訊；之後不是「很久沒聯絡」', has('……喂。')&&has('我現在很好。真的。')&&!txt(TH_PS).some(t=>t.startsWith(ID))&&typeof G.flags.PS_BACK_READ==='number'&&STORY.presence(ID,G).away==='在台中', JSON.stringify([said.map(s=>s.t),txt(TH_PS)]));
+    fresh(d7,20,'dorm',{PS_KEPT:true}); R(ID,'FRI'); C(ID); (G.msgs||(G.msgs=[])).push({th:TH_PS,from:'player',who:null,text:'妳還好嗎？',day:D('2027-03-01'),h:20});
     run(d7,20,21.75);
-    check('3. 消失期傳過訊息、那一通沒接：8/07 21:00「……這半年我都沒看手機。對不起。」「我現在很好。」（只有這兩則）；之後不是「很久沒聯絡」', JSON.stringify(txt(TH_PS).filter(t=>t.startsWith(ID)))===JSON.stringify([ID+':……這半年我都沒看手機。對不起。',ID+':我現在很好。'])&&typeof G.flags.PS_BACK_READ==='number'&&STORY.presence(ID,G).away==='在台中', JSON.stringify(txt(TH_PS)));
+    check('3. 舊存檔（PS_KEPT）消失期傳過訊息、那一通沒接：8/07 21:00「……這半年我都沒看手機。對不起。」「我現在很好。」（只有這兩則）；之後不是「很久沒聯絡」', JSON.stringify(txt(TH_PS).filter(t=>t.startsWith(ID)))===JSON.stringify([ID+':……這半年我都沒看手機。對不起。',ID+':我現在很好。'])&&typeof G.flags.PS_BACK_READ==='number'&&STORY.presence(ID,G).away==='在台中', JSON.stringify(txt(TH_PS)));
     fresh(d7,20,'dorm',{}); R(ID,'FRI'); C(ID); run(d7,20,21.5);
     check('3. 沒傳過：8/07 不回、她也不先傳（大二下那一則重考的問題放榜以後不傳）、還是「很久沒聯絡」、不能去找她', !txt(TH_PS).length&&STORY.presence(ID,G).lost===true&&HV.offer(G,ID)===null, JSON.stringify(txt(TH_PS)));
-    G.day=D('2027-08-12'); G.hour=20; const tp=MSG.topics(G,ID); const r=tp.length?MSG.send(G,ID,tp[0].k):null; run(G.day,20,22);
-    check('3. 之後第一次傳訊息（8/12，她回台南以前；AA_349 K1）：「好久不見。……我現在在台中，開學以後在台南。」「你要來的話，跟我說。」；重新聯絡上（PS_BACK_FIRST）', !!r&&r.ok&&JSON.stringify(txt(TH_PS).filter(t=>t.startsWith(ID)).slice(0,2))===JSON.stringify([ID+':好久不見。……我現在在台中，開學以後在台南。',ID+':你要來的話，跟我說。'])&&G.flags.PS_BACK_FIRST!=null&&!STORY.presence(ID,G).lost, JSON.stringify(txt(TH_PS)));
-    fresh(D('2027-09-10'),20,'dorm',{}); R(ID,'FRI'); C(ID); const tp2=MSG.topics(G,ID); const r2=tp2.length?MSG.send(G,ID,tp2[0].k):null; run(G.day,20,22);
-    check('3. K1 她回台南以後（9/4 起）才第一次傳：照原文「好久不見。……我現在在台南。」「你要來的話，跟我說。」', !!r2&&r2.ok&&JSON.stringify(txt(TH_PS).filter(t=>t.startsWith(ID)).slice(0,2))===JSON.stringify([ID+':好久不見。……我現在在台南。',ID+':你要來的話，跟我說。']), JSON.stringify(txt(TH_PS)));    fresh(d7,20,'dorm',{}); date(ID); C(ID); (G.msgs||(G.msgs=[])).push({th:TH_PS,from:'player',who:null,text:'晚安',day:D('2027-03-01'),h:23}); run(d7,20,21.5);
+    G.day=D('2027-08-12'); G.hour=20; { const tp=MSG.topics(G,ID); const r=tp.length?MSG.send(G,ID,tp[0].k):null; run(G.day,20,22);
+      check('3. AA_723 沒交往的線：8/12 傳＝只顯示已送達、沒有「好久不見」、不記 PS_BACK_FIRST', !!r&&r.ok&&r.silent&&!txt(TH_PS).some(t=>t.startsWith(ID))&&G.flags.PS_BACK_FIRST==null, JSON.stringify(txt(TH_PS))); }
+    fresh(D('2027-08-12'),20,'dorm',{PS_KEPT:true}); R(ID,'FRI'); C(ID); const tp=MSG.topics(G,ID); const r=tp.length?MSG.send(G,ID,tp[0].k):null; run(G.day,20,22);
+    check('3. 舊存檔（PS_KEPT）之後第一次傳訊息（8/12，她回台南以前；AA_349 K1）：「好久不見。……我現在在台中，開學以後在台南。」「你要來的話，跟我說。」；重新聯絡上（PS_BACK_FIRST）', !!r&&r.ok&&JSON.stringify(txt(TH_PS).filter(t=>t.startsWith(ID)).slice(0,2))===JSON.stringify([ID+':好久不見。……我現在在台中，開學以後在台南。',ID+':你要來的話，跟我說。'])&&G.flags.PS_BACK_FIRST!=null&&!STORY.presence(ID,G).lost, JSON.stringify(txt(TH_PS)));
+    fresh(D('2027-09-10'),20,'dorm',{PS_KEPT:true}); R(ID,'FRI'); C(ID); const tp2=MSG.topics(G,ID); const r2=tp2.length?MSG.send(G,ID,tp2[0].k):null; run(G.day,20,22);
+    check('3. 舊存檔（PS_KEPT）K1 她回台南以後（9/4 起）才第一次傳：照原文「好久不見。……我現在在台南。」「你要來的話，跟我說。」', !!r2&&r2.ok&&JSON.stringify(txt(TH_PS).filter(t=>t.startsWith(ID)).slice(0,2))===JSON.stringify([ID+':好久不見。……我現在在台南。',ID+':你要來的話，跟我說。']), JSON.stringify(txt(TH_PS)));    fresh(d7,20,'dorm',{}); date(ID); C(ID); (G.msgs||(G.msgs=[])).push({th:TH_PS,from:'player',who:null,text:'晚安',day:D('2027-03-01'),h:23}); run(d7,20,21.5);
     check('3. 交往中：8/07 不是那一則（照 PS_KEEP_BACK）', !txt(TH_PS).includes(ID+':我現在很好。')); }
 
   // ===== 4. 邀約（AA_282 第 3 節、第 5 節第 3 點）=====
@@ -117,7 +124,7 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     picks=[0]; said=[]; const day=await HV.ask(GM,ID); const q=OUT.rec(G).find(x=>x.hv&&x.hv.id===ID);
     check('4. 約好：出遊「去台南找郭沛珊」（ev_hv_ps_tn，回程一小時四十五分）', day===d+1&&!!q&&q.ev==='ev_hv_ps_tn'&&q.place==='台南'&&q.travelH===1.75&&q.hv.key===ID+'@台南'&&!!STORY_EVENTS.find(e=>e.id==='ev_hv_ps_tn'&&e.hours===1.75), JSON.stringify(q));
     fresh(d,12,'dorm',{}); R(ID,'FRI'); C(ID);
-    check('4. 還沒重新聯絡上：沒有「我去台南找妳？」、不能約、寫「很久沒聯絡」', HV.offer(G,ID)===null&&!INV.canInvite(G,ID)&&INV.whyNot(G,ID)==='很久沒聯絡', INV.whyNot(G,ID));
+    check('4. 還沒重新聯絡上（AA_723 沉默期）：沒有「我去台南找妳？」、不能約、寫「沛珊沒有回覆。」（原本「很久沒聯絡」）', HV.offer(G,ID)===null&&!INV.canInvite(G,ID)&&INV.whyNot(G,ID)==='沛珊沒有回覆。', INV.whyNot(G,ID));
     fresh(D('2028-01-10'),12,'dorm',{PS_BACK_FIRST:1}); R(ID,'FRI'); C(ID);
     check('4. 大三寒假：「我去台中找妳？」（台中那一組）', HV.key(G,ID)===ID&&!!HV.offer(G,ID)&&HOMETOWN_LINES[HV.key(G,ID)].ask==='我去台中找妳？');
     fresh(d,12,'dorm',{}); date(ID); C(ID); picks=['算了']; opts=[]; await INV.flow(GM,ID,null,false);
@@ -251,7 +258,8 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     fresh(D('2028-01-10'),21,'dorm',{PS_BACK_FIRST:1}); date(ID); C(ID); check('7. K5 寒暑假她在台中：清單沒有視訊（三句開頭都是台南的事，問 AA）', HV.videoOffer(G,ID)===null); }
 
   // ===== 8. AA_350（2026-10-21）P1：第一次回覆照她那時候在哪；P5：2030、2031 的寒暑假在台中 =====
-  { const first=key=>{ fresh(D(key),20,'dorm',{}); R(ID,'FRI'); C(ID); const tp=MSG.topics(G,ID); const r=tp.length?MSG.send(G,ID,tp[0].k):null; run(G.day,20,22); return {r,ps:txt(TH_PS).filter(t=>t.startsWith(ID+':')).slice(0,2)}; };
+  /* AA_723：沒交往的新線沒有「好久不見」那一則（重聚以後照一般的朋友，tests/ps_silence_unit.js）；第一次回覆照她在哪＝舊存檔（8/7 那通接過，PS_BACK_READ）照舊 */
+  { const first=key=>{ fresh(D(key),20,'dorm',{PS_BACK_READ:D('2027-08-07')}); R(ID,'FRI'); C(ID); const tp=MSG.topics(G,ID); const r=tp.length?MSG.send(G,ID,tp[0].k):null; run(G.day,20,22); return {r,ps:txt(TH_PS).filter(t=>t.startsWith(ID+':')).slice(0,2)}; };
     const TC=[ID+':好久不見。……我現在在台中，開學以後在台南。',ID+':你要來的話，跟我說。'], TN=[ID+':好久不見。……我現在在台南。',ID+':你要來的話，跟我說。'];
     const w=first('2028-01-10');
     check('8. P1 大三寒假（2028-01-10，她在台中）才第一次傳：回台中那一句「好久不見。……我現在在台中，開學以後在台南。」「你要來的話，跟我說。」', !!w.r&&w.r.ok&&JSON.stringify(w.ps)===JSON.stringify(TC), JSON.stringify(w.ps));

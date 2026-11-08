@@ -37,6 +37,8 @@ if(typeof XCROM!=='undefined') XCROM.OLD=true; else globalThis.XCROM={OLD:true};
 GM.toast=()=>{}; GM.caption=()=>{}; GM.studySession=async()=>{}; GM.spawnNPC=()=>null; GM.spawnCharacter=()=>null; GM.phoneBadge=()=>{}; GM.quickGo=async()=>{};
 if(typeof HOME!=='undefined') HOME.phoneRules=()=>{};   /* 家人群組的週訊息和這裡無關 */
 const S=()=>typeof SUP497!=='undefined'?SUP497:null, L=()=>typeof SUP497_LINES!=='undefined'?SUP497_LINES:null;
+/* 閒聊是有名字說的（GM.say(who,…)），SMALLTALK 不加外面的「」（TEXT-QUOTE-UNIFY-1108 第四批，AA-B 11-08 05:31）；sup497_lines.js 的 talk、emptySeat 是稿的紀錄（遊戲不讀），照稿有「」——和遊戲比的時候拿掉外面那一對 */
+const U=t=>typeof t==='string'?t.replace(/^「([^「」]*)」$/,'$1'):t, UT=L0=>(L0||[]).map(e=>Object.assign({},e,{t:U(e.t)}));
 const D=k=>STORY.dayOfKey(k), keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7, TD=(t,w,wd)=>STORY.termDay(t,w,wd);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const YC='classmate_youchen', XC='classmate_xinci', AN='heroine_01', YU='yu', MX='classmate_mingxuan', ZHE='zhe', SIS='heroine_05';
@@ -129,7 +131,8 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
     const tbl=(a,b)=>part(DOC,a,b).split('\n').filter(l=>/^\| (大|之後)/.test(l)).map(l=>l.split('|')[2].replace(/（\*\*[^）]*）/g,'')).join(' ');   /* 「（**取代**現在的「…」，接上…）」是說明，不是台詞 */
     const q=s=>[...s.matchAll(/「([^」]+)」/g)].map(m=>'「'+m[1]+'」');
     const SM=JSON.stringify(SMALLTALK)+JSON.stringify(L());
-    const st=[['1-10',tbl('### 1-10.','### 1-11.')],['2-9',tbl('### 2-9.','- 「以安不在')],['4-5',tbl('### 4-5.','### 4-6.')]].map(([n,s])=>[n,q(s).filter(t=>SM.indexOf(t)<0)]);
+    const SMT=new Set(); for(const id of Object.keys(SMALLTALK)) for(const e of SMALLTALK[id]) SMT.add(typeof e==='string'?e:e.t);   /* SMALLTALK 不加外面的「」（第四批）：稿上「…」拿掉外面那一對再找 */
+    const st=[['1-10',tbl('### 1-10.','### 1-11.')],['2-9',tbl('### 2-9.','- 「以安不在')],['4-5',tbl('### 4-5.','### 4-6.')]].map(([n,s])=>[n,q(s).filter(t=>SM.indexOf(t)<0&&!SMT.has(t.slice(1,-1)))]);
     check('0b. 閒聊三張表（1-10、2-9、4-5）的每一句都在 SMALLTALK',st.every(x=>!x[1].length),J(st));
     const c6=part(DOC,'### 3-6.','### 3-7.').split('\n').filter(l=>/^\| 「/.test(l)).map(l=>l.split('|')[2].trim().split('／'));
     check('0b. C6 的後果三列（一則一則分開）都在 sup497_lines.js',c6.length===3&&J(c6)===J([L().yu.c6.soft,L().yu.c6.rule,L().yu.c6.teacher]),J(c6));
@@ -287,7 +290,7 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
 
   await sec('1-10',async()=>{ const run=(term,w,h,mem)=>{ const out=[]; const d0=TD(term,w,2); fresh(d0,h||14,'gongguan'); fam(YC); if(mem) for(const m of mem) SOCIAL.remember(m,'FIRST_MET','');
       for(let i=0;i<10;i++){ at(d0+i,h||14); const r=STORY.smallTalk(H.G,YC); out.push(r.say||r.narr); } return out; };
-    const T=L().yc.talk;
+    const T=UT(L().yc.talk);
     let o=run('Y1S2',3); check('1-10. 大一下：「期末考前一週我會出現。學分要顧。」說一次（還有兩句原句）；說完＝「（他把一邊的耳機拿下來，算是打招呼。）」',o.filter(t=>t===T[2].t).length===1&&o.slice(-1)[0]===L().yc.after&&!o.some(t=>/聊兩句天氣/.test(t)),J(o));
     o=run('Y3S1',3,14,['pool_16']); check('1-10. 大三上認識詹立群：「立群背刑訴是用唱的。……」；沒認識：照 BB_113「刑訴的筆記有人用唱的背。……」',o.includes(T[5].t)&&!o.includes(T[6].t)&&(o=run('Y3S1',3),o.includes(T[6].t)&&!o.includes(T[5].t)));
     o=run('Y3S2',3); check('1-10. 大三下沒認識詹立群：沒有那一句',!o.includes(T[7].t));
@@ -438,14 +441,14 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
     run(1,{XC5_RECONCILE:true}); check('2-8. 「刑訴那本。」→「那本是我跟以安一起對過答案的。……好，給你。」；房間多「芯慈的刑訴筆記」',texts('p:'+XC).slice(-1)[0]===P.r[1]&&H.G.flags.XC_NOTE_PICK==='crimpro'&&STORY.roomItemList(H.G).some(x=>J(x)===J(P.room[1])));
     run(1); check('2-8. 「都不用，留著吧。」→「好。那我留著。」；房間沒有筆記',texts('p:'+XC).slice(-1)[0]===P.r[2]&&H.G.flags.XC_NOTE_PICK==='keep'&&!STORY.roomItemList(H.G).some(x=>/芯慈的/.test(x[0]))); });
 
-  await sec('2-9',async()=>{ const X=L().xc;
+  await sec('2-9',async()=>{ const X=Object.assign({},L().xc,{talk:UT(L().xc.talk),emptySeat:U(L().xc.emptySeat)});
     const run=(term,w,flags,n)=>{ const out=[]; const d0=TD(term,w,2); fresh(d0,14,'library',flags); fam(XC); for(let i=0;i<(n||14);i++){ at(d0+i,14); const r=STORY.smallTalk(H.G,XC); out.push(r.say||r.narr); } return out; };
     let o=run('Y2S2',3); check('2-9. 大二下：「永和到這裡要換一次車。……」一次；句子用完＝「（芯慈點了一下頭，筆沒有停。）」（不是「聊兩句天氣」）',o.filter(t=>t===X.talk[0].t).length===1&&o.slice(-1)[0]===X.after&&!o.some(t=>/天氣/.test(t||'')),J(o));
     o=run('Y3S1',3); check('2-9. 大三上：「這學期雙主修的課沒有撞堂。……」',o.filter(t=>t===X.talk[1].t).length===1);
     o=run('Y3S2',6); const o2=run('Y3S2',6,{XC5_RECONCILE:true});
     check('2-9. 大三下：「以安的手帳跟我用的是同一款。……」只有 XC5_RECONCILE',!o.includes(X.talk[2].t)&&o2.includes(X.talk[2].t));
     check('2-9. 大三下以安去日本以後：「以安不在，她的位子一直空著。我想把書放上去，又沒放。」（取代「以安不在，第一排的位子我坐了。」）',o.includes(X.emptySeat)&&!JSON.stringify(SMALLTALK[XC]).includes('第一排的位子我坐了'));
-    o=run('Y4S1',3); check('2-9. 大四上：「國考跟研究所，我兩個都報了。本來想先實習再說的。」（取代短的那一句）；追劇那一句拿掉',o.includes(X.talk[3].t)&&!SMALLTALK[XC].some(q=>q.t==='「國考跟研究所，我兩個都報了。」')&&!JSON.stringify(SMALLTALK[XC]).includes('我最近在追一部日劇'));
+    o=run('Y4S1',3); check('2-9. 大四上：「國考跟研究所，我兩個都報了。本來想先實習再說的。」（取代短的那一句）；追劇那一句拿掉',o.includes(X.talk[3].t)&&!SMALLTALK[XC].some(q=>q.t==='國考跟研究所，我兩個都報了。'||q.t==='「國考跟研究所，我兩個都報了。」')&&!JSON.stringify(SMALLTALK[XC]).includes('我最近在追一部日劇'));
     o=run('Y4S2',3,{XC5_RECONCILE:true}); check('2-9. 大四下有 XC5_RECONCILE：「最後一堂課，我坐第一排。以安坐我旁邊。」',o.includes(X.talk[4].t)&&!run('Y4S2',3).includes(X.talk[4].t)); });
 
   /* ===================== 3 Alison ===================== */
@@ -605,12 +608,12 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
     const reps=[]; for(let k=0;k<3;k++){ run(k); reps.push(texts('p:'+MX).slice(-1)[0]); } check('4-4. 「差多少？」→「不講 哈哈」／「加油。」→「嗯」／「要不要我幫你介紹家教？」→「不用 我自己來」',J(reps)===J(B.opts.map(o=>o[1])),J(reps));
     run(null,{fam:false}); check('4-4. 不到有點熟：不發',!byTag('mx_bank').length); });
 
-  await sec('4-5',async()=>{ const M=L().mx;
+  await sec('4-5',async()=>{ const M=Object.assign({},L().mx,{talk:UT(L().mx.talk)});
     const run=(term,w,o)=>{ o=o||{}; const out=[]; const d0=TD(term,w,2); fresh(d0,14,'campus'); fam(MX); for(let i=0;i<(o.n||12);i++){ at(d0+i,14); const r=STORY.smallTalk(H.G,MX); out.push(r.say||r.narr); } return out; };
     const res=[]; for(const T of M.talk){ if(T.m3) continue; const o=run(T.term,3); res.push([T.term,o.filter(t=>t===T.t).length===1,o.slice(-1)[0]===M.after]); }
     check('4-5. 每學期一句（大一下～大四下），每句一次；說完＝「（明軒比了一下手上的綠色螢光筆。）」',res.every(r=>r[1]&&r[2]),J(res));
     { const T=M.talk.find(q=>q.m3), a=run('Y3S2',3), b=run('Y3S2',12); check('4-5. 大三下「冠軍賽那天，……」在 M3（2028-04-29 冠軍賽）以後',!a.includes(T.t)&&b.includes(T.t)); }
-    { const a=run('Y1S1',8), b=run('Y2S1',3); check('4-5. 「阿哲說週五練球。」只限大一（原句）',a.filter(t=>t==='「阿哲說週五練球。」').length===1&&!b.includes('「阿哲說週五練球。」')); } });
+    { const a=run('Y1S1',8), b=run('Y2S1',3); check('4-5. 「阿哲說週五練球。」只限大一（原句）',a.filter(t=>t==='阿哲說週五練球。').length===1&&!b.includes('阿哲說週五練球。')); } });
 
   await sec('4-6',async()=>{ const fit=fs.readFileSync(path.join(H.ROOT,'src/fit3d.js'),'utf8'), rl=fs.readFileSync(path.join(H.ROOT,'src/data/rel_lines.js'),'utf8').replace(/\/\*[\s\S]*?\*\//g,'');   /* 註解拿掉（註解裡寫了拿掉的那一句）*/
     const mx=[...fit.matchAll(/\['classmate_mingxuan','([^']*)'\]/g)].map(m=>m[1]);

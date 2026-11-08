@@ -161,7 +161,7 @@ const R2Y4A=(function(){
         const dA=D('2028-10-16'); if(dA!=null&&S.us2GradeOn(G)&&past(G,dA,21)&&G.day<=dA+7&&!PHONE.sent(G,'us2_grade')) PHONE.at(G,dA,21,[P5('改過的報告拿了 A。教授說：『這次我讀到妳了。』')],'us2_grade'); } }   /* 「10 月中」＝10/16（一）21:00（AA_340 第 11 週；AA_345 F10、I8 定案：F10 寫的 18:00 作廢）*/
     /* ---- 芝加哥（11/3 21:00）---- */
     { const d3=D('2028-11-03'), d11=D('2028-11-11'); if(d3!=null&&G.day>=d3&&G.day<=d11+1){
-        if(past(G,d3,21)&&now(G)<T(d11,7)&&!PHONE.sent(G,'us_chi_ask')){ const dt=dating(G,S5), L=dt?[P5('下週末去芝加哥。巴士早上七點出發，帶厚外套。'),P5(F.MET_LONG||has('npc_long','MET_LONG')?'何俊朗也去。他說他知道哪一家的披薩最好吃。……到了再看。':'香港來的那個同學也去，我們一起認識他。')]:[XL(G,'下週末有人要去芝加哥嗎。巴士早上七點。')];   /* AA_450 1-6：「……我們去驗證。」是可昕的話（經濟系 10/11）→「……到了再看。」；1-8：挽回中的群組改何俊朗傳（沒見過他＝國際學生會）*/
+        if(past(G,d3,21)&&now(G)<T(d11,7)&&!PHONE.sent(G,'us_chi_ask')){ const dt=dating(G,S5), L=dt?[P5('下週末去芝加哥。巴士早上七點出發。那邊很冷。'),P5(F.MET_LONG||has('npc_long','MET_LONG')?'何俊朗也去。他說他知道哪一家的披薩最好吃。……到了再看。':'香港來的那個同學也去，我們一起認識他。')]:[XL(G,'下週末有人要去芝加哥嗎。巴士早上七點。')];   /* AA_450 1-6：「……我們去驗證。」是可昕的話（經濟系 10/11）→「……到了再看。」；1-8：挽回中的群組改何俊朗傳（沒見過他＝國際學生會）*/
           L[L.length-1].ask={id:'us_chi',until:T(d11,7),opts:[{t:'去。',set:{US_CHI:'go'}},{t:'這週不行。',set:{US_CHI:'no'}}]}; PHONE.at(G,d3,G.day===d3?Math.max(21,G.hour):21,L,'us_chi_ask'); F.US_CHI_DATING=dt; }
         const m=PHONE.byAsk(G,'us_chi');
         if(m&&m.ans!=null&&!F.US_CHI_DATING&&!F.US_CHI_REP){ F.US_CHI_REP=true; S.repairAdd(G,'chicago_reply'); }   /* 挽回中：群組裡芝加哥的邀約，祐廷有回（BB_204 第 4 節「每週」那一列；AA_450 1-8 起是何俊朗起頭，照舊算）*/
@@ -226,7 +226,7 @@ const R2Y4A=(function(){
     /* ---- AA_258 第 4 節（AA-B 11-01 確認沒被取代）：美國路線祐廷不在場，11/08 沛珊（第一次試教）、11/10 子晴（新關卡）改成她傳的訊息；臺灣時間 23:10、23:40（他那邊是早上）。
        不告白。給誰照 BB_119 3-1／3-3 的「給誰」簡化：沒和祐廷交往、不是前任、朋友以上、有聯絡方式；沛珊另外要重新聯絡上（AA-B：psReconnected）。她自己有沒有對象，遊戲沒有紀錄，不看 ---- */
     if(us){ const P1=(id,t)=>({th:'p:'+id,from:id,text:t}), ok=id=>!dating(G,id)&&!exOf(G,id)&&knows(id,G)&&stageAt(id,'FRIEND')&&(typeof INV==='undefined'||!INV.hasContact||INV.hasContact(G,id));
-      const psRe=!!F.PS_RECONNECT||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number';
+      const psRe=(!!F.PS_RECONNECT||F.PS_REUNION!=null||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number')&&!(typeof STORY!=='undefined'&&STORY.psPre&&STORY.psPre(G));   /* AA_723：沒交往的線看 PS_REUNION（2028-12-29 重聚；11/08 還沒重聚＝不傳）；PS_BACK_* 是舊存檔照原本流程聯絡上的 */
       { const d=D('2028-11-08'), PS='classmate_peishan'; if(d!=null&&G.day>=d&&G.day<=d+3&&pastTW(G,d,23+10/60)&&ok(PS)&&psRe&&!PHONE.sent(G,'y4_us_ps_lesson')){ const L=[P1(PS,'今天第一次試教。'),P1(PS,'📷（教室的黑板，右下角一個畫歪的笑臉）'),P1(PS,'有一個小朋友舉了六次手。……這次我有看到他。')];
           L[2].ask={id:'y4_us_ps_lesson_ask',opts:[{t:'恭喜！',say:[P1(PS,'謝謝。……你那邊是早上吧。你先去上課。')]},{t:'他問了什麼？',say:[P1(PS,'他問太陽會不會用完。我說會，可是要很久很久。他說：那就好。')]}]}; atTW(G,d,23+10/60,L,'y4_us_ps_lesson'); } }
       { const d=D('2028-11-10'), ZQ='heroine_04'; if(d!=null&&G.day>=d&&G.day<=d+3&&pastTW(G,d,23+40/60)&&ok(ZQ)&&!PHONE.sent(G,'y4_us_zq_level')){ const L=['新關卡做好了','📷（一隻像素的貓，站在一個發亮的存檔點旁邊）','你不在 沒人玩第三遍','回來再玩'].map(t=>P1(ZQ,t));
@@ -451,7 +451,7 @@ const R2Y4A=(function(){
     const card={name:'明信片'}, seen1=has('heroine_02','POSTCARDS')||has('heroine_02','POSTCARDS_GROUP')||!!(F.ZR_PC&&F.ZR_PC.read&&Object.keys(F.ZR_PC.read).length);   /* 大三收過第一輪（1B-10）*/
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'blur'});
       if(!R.first){ R.first=G.day; await GM.say(null,seen1?P.first.seen:P.first.none); }
-      for(const l of S.pc2Lines(G,c)){ if(l.n) await GM.say(null,l.n); else await GM.say(card,'「'+l.q+'」'); }
+      for(const l of S.pc2Lines(G,c)){ if(l.n) await GM.say(null,l.n); else await GM.say(card,l.q); }   /* 對話框寫「明信片」＝有名字，不在外面加「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）；回寄的選項字照舊有「」*/
       if(!R.read[c.key]){ R.read[c.key]=G.day; if(!F.ZR_POSTCARD2.includes(c.m)) F.ZR_POSTCARD2.push(c.m); }
       if(S.pc2CanReply(G,c)){ const O=S.pc2Opts(G,c); const k=await GM.choose(O.map(o=>({t:'「'+o.t+'」'})).concat([{t:'（先不回）'}]));
         if(k>=0&&k<O.length){ const o=O[k]; R.sent[c.key]=o.id; F.ZR_REPLY2.push(o.id); if(GM.toast) GM.toast('寄出了。',2200); } } }   /* 不寄不扣分 */

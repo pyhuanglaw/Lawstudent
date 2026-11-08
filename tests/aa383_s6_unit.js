@@ -9,7 +9,7 @@ const H=require('./pg_harness.js');
 const cp=require('child_process');
 const {check,GM,E}=H;
 const J=JSON.stringify, ID='heroine_05';
-const show=t=>t.replace(/^「([^「」]*)」$/,'$1');   /* 說話框裡顯示的字：整句外層「」拿掉（2026-11-01 SOCIAL.playSteps，BB-B n40）；第 0～2 項照查資料 */
+const show=t=>t.replace(/^「([^「」]*)」$/,'$1');   /* 說話框裡顯示的字：整句外層「」拿掉（2026-11-01 SOCIAL.playSteps，BB-B n40）。2026-11-08 AA-B：rel_lines.js 的資料也拿掉了——第 0 項照稿（有「」）、第 1～2 項資料＝稿拿掉「」（show）*/
 const NEW=['（她把手機收進包包。）','「今天什麼都沒帶。難得。」','「這一次我請你。」'], OLD=['（她把筆電闔上。）','「今天寫完了，難得。」','「你要吃什麼？我請你。」'];
 let doc=''; try{ doc=cp.execSync('git show 67b7b2ca:"docs/story_planning/AA_383_回BB_0400_五題_台詞與企劃對不上.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 const sec=(doc.split('## 6.')[1]||'').split('\n## ')[0];
@@ -17,9 +17,9 @@ check('0. 讀稿：兩個版本的三句都逐字在 AA_383 第 6 節',sec.lengt
 const setup=()=>{ const G=H.fresh('2026-03-10',15,'campus',{met_sis:true,SIS_W1:true}); H.FRIEND(ID); G.social.relUp={}; return G; };
 const up=ctx=>{ setup(); const U=SOCIAL.upLine(ID,ctx); return U?{stage:U.stage,l:U.l}:null; };
 const r1=['teahouse','brunch','noodle','wenzhou'].map(p=>up({place:p,outing:true}));
-check('1. 約在一盞、半熟、麵店、溫州街：升到朋友＝手機收進包包那一版',r1.every(u=>u&&u.stage==='FRIEND'&&J(u.l)===J(NEW)),J(r1));
+check('1. 約在一盞、半熟、麵店、溫州街：升到朋友＝手機收進包包那一版',r1.every(u=>u&&u.stage==='FRIEND'&&J(u.l)===J(NEW.map(show))),J(r1));
 const r2=[up({place:'cafe',outing:true}),up({place:'library',outing:true}),up()];
-check('2. 約在 Café、總圖，和直接找她說話（沒有見面地點）：照原本筆電那一版',r2.every(u=>u&&u.stage==='FRIEND'&&J(u.l)===J(OLD)),J(r2));
+check('2. 約在 Café、總圖，和直接找她說話（沒有見面地點）：照原本筆電那一版',r2.every(u=>u&&u.stage==='FRIEND'&&J(u.l)===J(OLD.map(show))),J(r2));
 (async()=>{
   const meetAt=async place=>{ const G=setup(); G.zone=INV.place(place).zone; const iv=INV.accept(G,ID,place,G.day,15,{by:'player'}); const n={id:ID,obj:{position:{x:0,z:0},rotation:{y:0}},beh:'idle',pose:'idle'}; GM.npc={}; GM.npc[ID]=n; E.npcs=[n];
     H.said=[]; H.picks=[0,0,0,0]; await INV.meet(GM,iv,n); return H.said.map(s=>s.t); };

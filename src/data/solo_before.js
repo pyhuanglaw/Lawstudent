@@ -1,7 +1,7 @@
 /* 「你來過一次」（AA_160 4-4、AA_271、BB_213）：tools/freetrip/import_solo_before.py 產生，不要手改。src/date3d.js 的 S.soloBefore 讀 */
 'use strict';
 const SOLO_BEFORE={
- "source": "白名單 solo_before_aa_v1.json@01e9d706c＋solo_before_bb_v1.json@ab65c4b22",
+ "source": "白名單 solo_before_aa_v1.json@01e9d706c＋solo_before_bb_v1.json@9aa8ec40c",
  "rules": {
   "if": "G.places.free[地點] ≥ 1（自由出行的次數；約會、心願不算）",
   "when": "約會抵達的台詞說完以後",
@@ -838,7 +838,7 @@ const SOLO_BEFORE={
     },
     {
      "who": "heroine_05",
-     "text": "重點是，今天我們兩個都不讀。"
+     "text": "今天我們兩個都不讀。"
     }
    ],
    "D12": [
@@ -848,7 +848,7 @@ const SOLO_BEFORE={
     },
     {
      "who": "heroine_05",
-     "text": "重點是，你沒有被人潮推著走。我小時候一直被推。"
+     "text": "你沒有被人潮推著走。我小時候一直被推。"
     }
    ],
    "D13": [
@@ -888,7 +888,7 @@ const SOLO_BEFORE={
     },
     {
      "who": "heroine_05",
-     "text": "……重點是，你有放自己一天假。很好。"
+     "text": "……你有放自己一天假。很好。"
     }
    ],
    "D24": [
@@ -898,7 +898,7 @@ const SOLO_BEFORE={
     },
     {
      "who": "heroine_05",
-     "text": "重點是，你知道累了要去哪裡。我現在才知道。"
+     "text": "你知道累了要去哪裡。我現在才知道。"
     }
    ],
    "D25": [
@@ -974,7 +974,7 @@ const SOLO_BEFORE={
    "D19": [
     {
      "who": "heroine_05",
-     "text": "你一個人來過金瓜石？重點是，你走完那段上坡了。"
+     "text": "你一個人來過金瓜石？那段上坡你走完了。"
     }
    ],
    "D21": [

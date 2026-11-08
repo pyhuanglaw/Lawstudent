@@ -31,7 +31,9 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
 const SRCS=ORDER.concat(['src/grades3d.js']).filter((f,i,a)=>a.indexOf(f)===i&&fs.existsSync(path.join(H.ROOT,f)));
 const strip=s=>s.replace(/\/\*[\s\S]*?\*\//g,'').replace(/(^|[^:'"\\])\/\/[^\n]*/g,'$1');
 const ALL=SRCS.map(f=>strip(fs.readFileSync(path.join(H.ROOT,f),'utf8'))).join('\n');
-const inGame=t=>ALL.includes("'"+t+"'")||ALL.includes('"'+t+'"');
+/* 閒聊（SMALLTALK，GM.say(who,…) 有名字說的）不加外面的「」（TEXT-QUOTE-UNIFY-1108 第四批，AA-B 11-08 05:31）：稿上「…」那一列，SMALLTALK 有拿掉外面那一對的那一句也算 */
+const SMT=new Set(); if(typeof SMALLTALK!=='undefined') for(const id of Object.keys(SMALLTALK)) for(const e of SMALLTALK[id]) SMT.add(typeof e==='string'?e:e&&e.t);
+const inGame=t=>ALL.includes("'"+t+"'")||ALL.includes('"'+t+'"')||(/^「[^「」]*」$/.test(t)&&SMT.has(t.slice(1,-1)));
 /* 表的列 */
 const ROWS=[]; for(const line of A590.DOC.split('\n')){ const m=line.match(/^\|\s*([0-9]+|保[0-9]+)\s*\|(.*)$/); if(!m) continue; const c=m[2].split('|').map(s=>s.trim()); if(c.length<4) continue; ROWS.push({n:m[1],where:c[0],who:c[1],old:c[2],nw:c[3],why:c[4]||''}); }
 const keyOf=d=>CALENDAR.dateOf(d).key, wk=(t,w,wd)=>STORY.termDay(t,w,wd);

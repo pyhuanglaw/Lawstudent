@@ -119,9 +119,9 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('5-3. 聖誕交換：「（阿哲先到。五分鐘後 Alison 也到了。）」；抽到阿哲的「你抽到阿哲的：一個保溫杯。Alison 送的那個，一模一樣。」',L.includes('（阿哲先到。五分鐘後 Alison 也到了。）')&&!L.includes('（阿哲和 Alison 一起來。）')&&L.includes('你抽到阿哲的：一個保溫杯。Alison 送的那個，一模一樣。'),J(L)); }
   // 升階的問句（5-1 第 11 點、5-3、5-4、5-6）
   { const pickUp=(id,lv,key)=>{ fresh(D(key),12,'campus'); const U=REL_LINES[id].up[lv]; const A=Array.isArray(U)?U:[U]; const u=A.find(x=>!x.if||x.if(G)); return u&&u.l; };
-    check('5-3. 阿哲升 FAMILIAR：大一上「民總的報告」、其他學期「欸，這學期的報告你分好組了沒？」',J(pickUp('zhe','FAMILIAR','2025-10-01'))===J(['「欸，民總的報告你分好組了沒？」'])&&J(pickUp('zhe','FAMILIAR','2026-10-01'))===J(['「欸，這學期的報告你分好組了沒？」']));
+    check('5-3. 阿哲升 FAMILIAR：大一上「民總的報告」、其他學期「欸，這學期的報告你分好組了沒？」',J(pickUp('zhe','FAMILIAR','2025-10-01'))===J(['欸，民總的報告你分好組了沒？'])&&J(pickUp('zhe','FAMILIAR','2026-10-01'))===J(['欸，這學期的報告你分好組了沒？']));
     const yc=REL_LINES.yu.up.CLOSE_FRIEND.ch, xc=REL_LINES.classmate_xinci.up.CLOSE_FRIEND.ch;
-    check('5-4、5-6. Alison、芯慈升 CLOSE 的問句接回答（「好啊。」／「那天不行。」）',J(yc)===J([{t:'好啊。',r:['「那我跟阿哲說多一個。」']},{t:'那天不行。',r:['「好啦，下次。」']}])&&J(xc)===J([{t:'好啊。',r:['「那週三下午，我先查好地方。」']},{t:'那天不行。',r:['「好。那我再問你。」']}]),J([yc,xc])); }
+    check('5-4、5-6. Alison、芯慈升 CLOSE 的問句接回答（「好啊。」／「那天不行。」）',J(yc)===J([{t:'好啊。',r:['那我跟阿哲說多一個。']},{t:'那天不行。',r:['好啦，下次。']}])&&J(xc)===J([{t:'好啊。',r:['那週三下午，我先查好地方。']},{t:'那天不行。',r:['好。那我再問你。']}]),J([yc,xc])); }
   check('5-3. 大二颱風夜（312）：開頭旁白「（柏翰在讀許教授的講義。阿哲已經在煮第二包了。）」',(ev('ev_y2_typhoon_kai').dialogue[0]||{}).text==='（柏翰在讀許教授的講義。阿哲已經在煮第二包了。）');
   // 主線 4 的週次（5-3、5-6）
   { const pk=(key,ids)=>{ fresh(D(key),21.5,'dorm',{}); for(const id of ids) R(id,'FAM'); return STORY.neededPick(G,D(key)).map(e=>e.id); };
@@ -138,7 +138,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     /* 2026-10-28 改：AA_497 3-8「三個社團」只留人物頁、第一次自我介紹、迎新旁白、語 1、聖誕禮物——大二上這一句換成「辯論社」（tests/aa497_supporting_unit.js 3-8）*/
     check('5-4. Alison 的閒聊：大二上「我這禮拜辯論社都要開會，快死了。」（AA_497 3-8）、大二下退了辯論社以後「我這禮拜兩個社團都要開會，快死了。」',y21.includes('我這禮拜辯論社都要開會，快死了。')&&!y21.includes('我這禮拜三個社團都要開會，快死了。')&&y22.includes('我這禮拜兩個社團都要開會，快死了。'),J([y21,y22]));
     const st=SMALLTALK.zhe.filter(e=>typeof e==='object'&&/系籃|隊長/.test(e.t));
-    check('5-3. SMALLTALK 阿哲：系籃那句大一、大二；大三起「這季我是隊長。週五你來記分。」',st.length===2&&J(st[0].term)===J(['Y1S1','Y1S2','Y2S1','Y2S2'])&&st[1].t==='「這季我是隊長。週五你來記分。」'&&J(st[1].term)===J(['Y3S1','Y3S2','Y4S1','Y4S2']),J(st)); }
+    check('5-3. SMALLTALK 阿哲：系籃那句大一、大二；大三起「這季我是隊長。週五你來記分。」',st.length===2&&J(st[0].term)===J(['Y1S1','Y1S2','Y2S1','Y2S2'])&&st[1].t==='這季我是隊長。週五你來記分。'&&J(st[1].term)===J(['Y3S1','Y3S2','Y4S1','Y4S2']),J(st)); }
   // 迎新（5-3、5-4）：說了「哥」記 ZHE_CALLS_GE；還不認識阿哲、Alison 的說話人
   { const W=ev('ev_welcome_y1s1'), go=async(k,known)=>{ fresh(D('2025-08-31'),9,'campus',{}); onlyKnow(known); said=[]; picks=[k,0]; try{ await EVENTS.run(W); } finally { knowReset(); } return lines(); };
     let L=await go(1,[]); const g1=!!G.flags.ZHE_CALLS_GE;

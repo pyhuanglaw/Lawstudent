@@ -152,7 +152,7 @@ const ALLOW = [
   ['src/story3d.js', '期中前，兩校互考。'],   /* 保18（可昕的期中）*/
   ['src/y2r2_3d.js', '第一次：期中前那個週五，晚上六點半，山下那一攤。不能來就視訊'],   /* 保20 */
   /* AA_581 改成以後，講的是別人的期中考（芯慈雙主修的經濟系課、可昕在政大）*/
-  ['src/data/invites.js', '「財管的期中考完，下午接債總。早上算利息，下午聽遲延利息。…'],   /* 第 38 列 */
+  ['src/data/invites.js', '財管的期中考完，下午接債總。早上算利息，下午聽遲延利息。……'],   /* 第 38 列（AA-B 2026-11-08 00:21：外面的「」拿掉）*/
   ['src/r3_3d.js', '民訴期中考完了。最後一題沒寫完。'],   /* 第 53 列 */
   ['src/data/events.js', '經濟的期中考，跟債總的小考同一週。兩科我都還沒念完……我可能要放棄一科。'],   /* AA_673 第 3 列（ev_xinci_double，AA 定稿 D109）：芯慈雙主修的經濟系課照樣有期中考，債總是小考 */
   /* 舊存檔備註的比對鍵（social3d.js NOTE_RENAMED_N9：存檔裡的舊字，畫面上顯示右邊的新字）*/
@@ -173,7 +173,7 @@ const ALLOW = [
   ['src/data/date_lines.js', '這條路我走過。期中考前一個人走的。'],
   ['src/data/dorm_layout.js', '102 寢室。門上貼著一張紙：「期中考週，請小聲，謝謝。」'],
   ['src/data/events.js', 'AA_376 #2（企劃線 69aa3b0c，AA 定）：v7 舊課堂，課表系統已'],
-  ['src/data/events.js', '「家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。」'],
+  ['src/data/events.js', '家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。'],
   ['src/data/events.js', '下下禮拜就期中考了。你經原讀到哪了？'],
   ['src/data/events.js', '今天？快期中考了耶。'],
   ['src/data/events.js', '大一期中考那週，你有沒有發現我不在圖書館？'],
@@ -206,7 +206,7 @@ const ALLOW = [
   ['src/data/needed_msgs.js', '期中考你在總圖哪一層？我想找一個不會遇到茶屋客人的地方。'],
   ['src/data/pool_story_b3.js', '好。那你要是期中前改變主意，B1 找我。'],
   ['src/data/postgrad_lines.js', '我在帶大學部刑訴的討論課。期中考完，我第一件事是問他們錯哪裡。'],
-  ['src/data/sup497_lines.js', '「家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。」'],
+  ['src/data/sup497_lines.js', '「家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。」'],   /* sup497_lines.js 是稿的紀錄（遊戲不讀），照稿有「」；events.js 的閒聊拿掉外面的「」（TEXT-QUOTE-UNIFY-1108 第四批）*/
   ['src/data/syllabus.js', '下下週：期中考'],
   ['src/data/syllabus.js', '下週、下下週：期中考'],   /* 經濟系那一年的會計學（acct_y0）；法律課三處看 (a) 第 63～65 列 */
   ['src/data/syllabus.js', '期中考：一份完整的財報。'],
@@ -229,7 +229,8 @@ const ALLOW = [
   ['src/story3d.js', '期中考週停社課，下下週見'],
   ['src/story3d.js', '民總期中考，我的答案被老師拿去當範例。匿名的，可是我認得自己的字。'],
   ['src/story3d.js', '玩了一整晚。明天去總圖念書吧。期中考快到了。'],
-  ['src/data/study_units.js', '在系上的群組裡造謠，說某位同學「期中考作弊被抓」：這是一件具體、可以查證的事'],   /* 觀念卡（AA 的誹謗例子，crim_spec_w6／const_1_w11）：法律舉例，不是遊戲的期中考 */
+  ['src/data/study_units.js', '在系上的群組裡造謠，說某位同學「期中考作弊被抓」：這是一件具體、可以查證的事'],
+  ['src/data/aa720.js', '書有念。期中考考完了。'],   /* AA_720 ev_yt_tell_mom live（AA-B 11-08 定稿，D109）：語彤（社會系一年級）對媽媽說她自己的期中考＝別人的期中（同上 r2y4b3d 那句）；已列給 AA 確認 */   /* 觀念卡（AA 的誹謗例子，crim_spec_w6／const_1_w11）：法律舉例，不是遊戲的期中考 */
 ];
 const okKey = new Set(ALLOW.map(([f, p]) => f + '\t' + p.slice(0, 30)));
 const bad = [];

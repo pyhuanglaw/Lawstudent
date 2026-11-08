@@ -15,7 +15,7 @@ const DOC=(()=>{ try{ return cp.execSync('git show '+SHA+':"'+SPEC+'"',{cwd:GITD
 const SRC={}; (function walk(d){ for(const f of fs.readdirSync(path.join(ROOT,d))){ const p=d+'/'+f; if(fs.statSync(path.join(ROOT,p)).isDirectory()) walk(p); else if(/\.js$/.test(f)&&!/chars3d/.test(f)) SRC[p]=R(p); } })('src');
 const stripC=s=>s.replace(/\/\*[\s\S]*?\*\//g,'').replace(/^\s*\/\/.*$/mg,'');
 const CODE={}; for(const p in SRC) CODE[p]=stripC(SRC[p]);
-const lit=t=>/^「.*」$/.test(t)?[t]:["'"+t+"'",'"'+t+'"'];   /* 字串常數的整格（invites.js 的同行聊天本身帶「」）*/
+const lit=t=>/^「.*」$/.test(t)?[t,"'"+t.slice(1,-1)+"'",'"'+t.slice(1,-1)+'"']:["'"+t+"'",'"'+t+'"'];   /* 字串常數的整格（稿上的同行聊天帶「」；invites.js 有名字的台詞不加外面的「」，AA-B 2026-11-08 00:21：兩種都算）*/
 const inLit=(code,t)=>lit(t).some(x=>code.includes(x));
 const litWhere=t=>Object.keys(CODE).filter(p=>inLit(CODE[p],t));
 const fileOf=where=>{ const m=where.match(/^`?([\w.]+\.js)/); if(!m) return null; return Object.keys(SRC).find(p=>p.endsWith('/'+m[1]))||null; };

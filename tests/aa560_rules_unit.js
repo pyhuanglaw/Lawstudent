@@ -40,7 +40,7 @@ check('0. 讀得到 AA_560 第 2-7 節（企劃線 '+SHA+'）、資料檔載得�
 
 /* C5 學姊 enc_walk（不數件數）*/
 { const L=(ENC_WALK.leave||[]).filter(e=>e.who==='heroine_05'&&e.spot==='D11'), e=L[0]||{};
-  check('C5. 學姊 D11 一起走一段的告別「我要回去了。計畫本上，今天那一格還沒劃掉。」；稿上「計畫本上，今天那一格還沒劃掉。」；src/ 沒有「計畫本上還有兩件事」；交往中那一句照舊',SEC.includes('→「計畫本上，今天那一格還沒劃掉。」')&&L.length===1&&e.friend==='我要回去了。計畫本上，今天那一格還沒劃掉。'&&e.dating==='支線只有一站。坐我旁邊。'&&e.batch===3&&!inSrc('計畫本上還有兩件事').length,J({e,old:inSrc('計畫本上還有兩件事')})); }
+  check('C5. 學姊 D11 一起走一段的告別：AA_560 的稿上「計畫本上，今天那一格還沒劃掉。」，遊戲再照 AA_593 第 79 列（企劃線 6cbb0b4ab，計畫本格子的梗拿掉）＝「我要回去了。今天的進度還沒做完。」；src/ 沒有「計畫本上還有兩件事」、也沒有「今天那一格還沒劃掉」；交往中那一句照舊',SEC.includes('→「計畫本上，今天那一格還沒劃掉。」')&&L.length===1&&e.friend==='我要回去了。今天的進度還沒做完。'&&!inSrc('今天那一格還沒劃掉').length&&e.dating==='支線只有一站。坐我旁邊。'&&e.batch===3&&!inSrc('計畫本上還有兩件事').length,J({e,old:inSrc('計畫本上還有兩件事')})); }
 
 /* C6 明軒 M4 阿哲（D116）*/
 { const ev=(R2Y4B_EVENTS||[]).find(e=>e.id==='ev_mingxuan_saved')||{dialogue:[]}, zl=ev.dialogue.filter(d=>d.speaker==='zhe');
@@ -48,7 +48,7 @@ check('0. 讀得到 AA_560 第 2-7 節（企劃線 '+SHA+'）、資料檔載得�
 
 /* C7 方奕廷 */
 { const s=SMALLTALK.npc_fangyt||[], e=s[0]||{};
-  check('C7. 方奕廷大一的閒聊「下週去溪頭。……第一次一個人上山，我帶了太多襪子。」；稿上「第一次一個人上山」；條件（once term、2026-09-01 以前）照舊、句數照舊；src/ 沒有「第一次上山」',SEC.includes('→「第一次一個人上山」')&&e.t==='「下週去溪頭。……第一次一個人上山，我帶了太多襪子。」'&&e.once==='term'&&typeof (e.if&&e.if.custom)==='function'&&s.length===4&&!inSrc('第一次上山').length,J({t:e.t,n:s.length,old:inSrc('第一次上山')})); }
+  check('C7. 方奕廷大一的閒聊「下週去溪頭。……第一次一個人上山，我帶了太多襪子。」；稿上「第一次一個人上山」；條件（once term、2026-09-01 以前）照舊、句數照舊；src/ 沒有「第一次上山」',SEC.includes('→「第一次一個人上山」')&&e.t==='下週去溪頭。……第一次一個人上山，我帶了太多襪子。'&&e.once==='term'&&typeof (e.if&&e.if.custom)==='function'&&s.length===4&&!inSrc('第一次上山').length,J({t:e.t,n:s.length,old:inSrc('第一次上山')})); }
 
 /* C8 Kevin（臺北人）*/
 { const a=(typeof SISB12_LINES!=='undefined'&&SISB12_LINES.hotAsk)||[];

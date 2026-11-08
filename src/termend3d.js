@@ -368,7 +368,7 @@ const TERMEND=(function(){
   S.hookFor=function(G,term,who){ const Lx=L(); if(!Lx||!Lx.HOOK||!Lx.HOOK_NO) return null; const H=(Lx.HOOK[term]||{})[who]; if(!H) return null; try{ if(H.if&&!H.if(G)) return null; }catch(e){ return null; }
     const a=H.act||{};
     if(a.c14&&!(Lx.C14&&Lx.C14.msg&&S.c14Day(term)!=null)) return null;
-    if(a.c15){ const c=Lx.C15[a.c15], d=c&&Dk(c.day); if(!c||!c.msg||d==null||d<=G.day) return null; }
+    if(a.c15){ const c=Lx.C15[a.c15], d=c&&Dk(c.day); if(!c||!c.msg||d==null||d<=G.day||S.psPreC15(G,c,d)) return null; }
     if(a.vac){ if(typeof VAC==='undefined') return null; const [id,yk]=a.vac.split('@'), I=VAC.inst(id,yk); if(!I||VAC.enrolled(G,id,yk)||G.day>=I.from) return null; }
     if(a.flag&&G.flags&&G.flags[a.flag]!=null) return null;
     return H; };
@@ -389,7 +389,9 @@ const TERMEND=(function(){
   S.c14Plan=function(G,term){ const Lx=L(), C=Lx.C14, d=S.c14Day(term); if(!C||d==null||typeof OUT==='undefined') return false;
     if(typeof PHONE!=='undefined'&&C.msg) PHONE.at(G,G.day+1,21,[].concat(C.msg).map(t=>({th:'p:classmate_xinci',from:'classmate_xinci',text:t.replace('{日期}',md(d))})),'c14_msg_'+term);
     OUT.plan(G,{id:'c14_'+term,ev:'ev_te_day',day:d,h:10,late:0.25,place:C.place,title:'事務所參觀',travel:'捷運約 20 分鐘',travelH:1/3,ted:{day:'c14',term}}); return true; };
-  S.c15Plan=function(G,id){ const Lx=L(), C=Lx.C15[id], d=C&&Dk(C.day); if(!C||d==null||typeof OUT==='undefined') return false;
+  /* AA_723（AA723-CONFESS-PS-1107）：沛珊 ps_class（2028-01-12 台中的國小）——交往中照舊；沒交往的線那天還在沉默期（2028-12-29 重聚以前，STORY.psPre）＝不播 */
+  S.psPreC15=(G,C,d)=>!!C&&C.who==='classmate_peishan'&&typeof STORY!=='undefined'&&!!STORY.psPre&&STORY.psPre(Object.assign({},G,{day:d}));
+  S.c15Plan=function(G,id){ const Lx=L(), C=Lx.C15[id], d=C&&Dk(C.day); if(!C||d==null||typeof OUT==='undefined'||S.psPreC15(G,C,d)) return false;
     if(typeof PHONE!=='undefined'&&C.msg) PHONE.at(G,G.day+1,21,[].concat(C.msg).map(t=>({th:'p:'+C.who,from:C.who,text:t.replace('{日期}',md(d))})),'c15_msg_'+id);
     OUT.plan(G,{id:'c15_'+id,ev:'ev_te_day',day:d,h:C.h,late:0.25,place:C.place,title:C.title||C.place,travel:C.travel||'約 20 分鐘',travelH:C.travelH||1/3,ted:{day:'c15',id}}); return true; };   /* title／travel：外縣市的那幾場（沛珊台中的國小，AA_276 第 3 節第 4 點）*/
   const scene=async(GM,bg,arr,opts)=>{ const G=GM.G; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(bg):'dark'});
@@ -404,7 +406,7 @@ const TERMEND=(function(){
   S.dayMissed=function(GM,q){ const G=GM.G, t=q&&q.ted, Lx=L(); if(!t||!Lx) return;
     if(t.day==='c14') G.flags.C14_MISSED=G.day;
     if(t.day==='c15'){ const C=Lx.C15[t.id]; if(C&&C.photo&&typeof PHONE!=='undefined') PHONE.at(G,q.day,21,C.photo.map(x=>({th:'p:'+C.who,from:C.who,text:x})),'c15_photo_'+t.id); } };
-  S.meetLine=async function(GM,who,id){ const G=GM.G, F=G.flags||{}, Lx=L(); if(id!=='classmate_xinci'||F.C14_MISSED==null||F.C14_MISS_SAID||!Lx||!Lx.C14) return false; F.C14_MISS_SAID=G.day; for(const t of Lx.C14.miss) await GM.say(who,'「'+t+'」'); return true; };
+  S.meetLine=async function(GM,who,id){ const G=GM.G, F=G.flags||{}, Lx=L(); if(id!=='classmate_xinci'||F.C14_MISSED==null||F.C14_MISS_SAID||!Lx||!Lx.C14) return false; F.C14_MISS_SAID=G.day; for(const t of Lx.C14.miss) await GM.say(who,t); return true; };   /* who＝芯慈的名字（story3d.js talkCharacter）：有名字說的不在外面加「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）*/
   /* ---- 可昕的學期末約會：開場、（大一下）BB_167 4-3 那段／（之後）飯桌兩句、收尾 ---- */
   S.kexinDinner=async function(GM,te){ const G=GM.G, Lx=L(), K=Lx.KX[te.term], PL=K&&Lx.KX_PLACE[K.place]; if(!K||!PL) return false;
     if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg(PL.bg):'dark',right:{charId:'kexin',expression:'smile'}});
@@ -441,11 +443,12 @@ const TERMEND=(function(){
     const me={name:G.name||'祐廷'}, others=()=>typeof XCROM!=='undefined'&&XCROM.othersNow?XCROM.othersNow(G,who):[];
     const afterAsk=async()=>{ if(typeof XCROM!=='undefined'&&XCROM.asked) XCROM.asked(G); if(others().length){ await run(GM,who,h.othersTail||[]); R.result='others'; return false; } await GM.say(me,h.noOther||'沒有。'); return true; };
     if(k<3&&h.askFirst){ await run(GM,who,[h.askFirst]); if(!await afterAsk()) return 'others'; }
-    if(k<3){
-      if(h.decideYes&&typeof DATE!=='undefined'&&DATE.confessDecide&&DATE.confessDecide(G,who)!=='yes'){ await run(GM,who,D&&D.notYet||[]); if(D&&D.notYetFlag) G.flags[D.notYetFlag]={day:G.day,term}; Rt.think[who]=term; R.result='notYet'; return 'notYet'; } }   /* 玩家先說：她的戀愛到 YES_LINE（75）才答應，沒到＝「我還沒想好……」（AA_537 第 4 節 notYet），下學期她用第二次的邀約再約 */
+    if(k<3){ const cf=typeof CF723!=='undefined'&&CF723.termDecide?await CF723.termDecide(GM,who,run):null;   /* AA_723（告白第一次失敗、再約幾次還能告白）：第一次看她的 heart＝yes／fail（演了 fail）；失敗過、她說過 ready 或條件到了＝second（演了 second，接著照原本答應）；null＝照原本 */
+      if(cf==='fail'||cf==='pending'){ R.result=cf==='fail'?'fail723':'pending723'; return R.result; }
+      if(!cf&&h.decideYes&&typeof DATE!=='undefined'&&DATE.confessDecide&&DATE.confessDecide(G,who)!=='yes'){ await run(GM,who,D&&D.notYet||[]); if(D&&D.notYetFlag) G.flags[D.notYetFlag]={day:G.day,term}; Rt.think[who]=term; R.result='notYet'; return 'notYet'; } }   /* 玩家先說：她的戀愛到 YES_LINE（75）才答應，沒到＝「我還沒想好……」（AA_537 第 4 節 notYet），下學期她用第二次的邀約再約 */
     if(k<3){ if(!start()) return 'blocked'; const yes=again&&h.yes2?h.yes2:(h.yes||(D&&D.yes?(typeof D.yes==='function'?D.yes(G,null,k):D.yes):[]));   /* 第二次玩家先說：她上次已經先說過，換 yes2（AA_254 第 0 節第 7 點）*/
       if(!again&&h.yesCg) await run(GM,who,[{cg:resolve(h.yesCg,G)}]);   /* 自己先說的玩家也有那張 CG，放在她答應的那一句（AA-C 16:5x）；第二次不放 */
-      await knownLine(); await run(GM,who,yes); (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='yes'; return 'yes'; }
+      await knownLine(); await run(GM,who,typeof CF723!=='undefined'&&CF723.swapYes?CF723.swapYes(G,who,yes):yes);   /* 第二次告白：AA_723 secondYes 換句（CF723.swapYes）*/ (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='yes'; return 'yes'; }
     { const sl=again?h.she2:h.she; if(!sl){ R.result='silent'; return 'silent'; } }   /* 她不先說（學姊，AA_591 第 11 節第 13 點）：祐廷沒開口＝這一次什麼都沒發生，等下一次 */
     await run(GM,who,again?h.she2:h.she);
     if(!again&&h.sheMem&&typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!(SOCIAL.has&&SOCIAL.has(who,h.sheMem))) SOCIAL.remember(who,h.sheMem,'');   /* 她先說的那一場給你看過那一頁（以安：AN_SHOP_PAGE，AA_587 第 13 節）*/

@@ -22,6 +22,9 @@ const dayOfWd=(G,wd)=>{ for(let d=G.day;d<G.day+7;d++) if(CALENDAR.dateOf(d).wd%
     check('2. 滇香（週日休）：週三 12:00、18:00 可以，15:00 不行（午休），週日不行',o('l118_dian',wed,12)&&o('l118_dian',wed,18)&&!o('l118_dian',wed,15)&&!o('l118_dian',sun,12),J([o('l118_dian',wed,12),o('l118_dian',wed,18),o('l118_dian',wed,15),o('l118_dian',sun,12)]));
     check('2. 巷口家常菜、蛋包飯研究所週一休；好家自助餐週末休',!o('l118_home',mon,12)&&!o('l118_omu',mon,12)&&o('l118_home',wed,12)&&!o('l118_self',dayOfWd(G,6),12)&&o('l118_self',wed,12));
     check('2. 公休日的說明：「巷口家常菜週一休」',INV.offWhy(G,P('l118_home'),mon)==='巷口家常菜週一休',INV.offWhy(G,P('l118_home'),mon)); }
+  { const G=fresh('2025-10-20',9,'lane118'), mon=G.day;   /* 2025-10-20 週一（G.weekday 跟著日期，不要直接改 G.day）*/   /* 選時間的選單（今天、明天）：公休日灰掉、寫原因（BB-B 11-07：原本只有「其他日子…」會灰）*/
+    const T=INV.timeOptions(G,false,P('l118_home')), today=T.filter(q=>q.day===mon), tmr=T.filter(q=>q.day===mon+1);
+    check('2. 選時間：週一（巷口家常菜公休）今天的時段都灰掉、寫「巷口家常菜週一休」；明天（週二）照常可以選',today.length>0&&today.every(q=>q.dim&&q.hint==='巷口家常菜週一休')&&tmr.length>0&&tmr.every(q=>!q.dim),J(T.map(q=>[q.t,!!q.dim,q.hint||'']))); }
   { const G=fresh('2025-10-15',10,'lane118'); const L=INVITE_PLACE_LINES.places;
     for(const [id,k] of [['heroine_01','l118_omu'],['heroine_03','l118_dian'],['heroine_05','l118_tea']]){ H.FRIEND(id); const d=dayOfWd(G,3); const r=INV.personal(G,id,P(k),d,k==='l118_tea'?14:12,{res:'accept'});
       check('3. '+id+' 答應 '+k+'：照 AA_721 的答應句',r&&J(r.lines)===J(L[k][id].acc),J(r&&r.lines));

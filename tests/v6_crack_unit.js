@@ -181,7 +181,7 @@ await sec('Z',async()=>{
   check('Z7. 「我好像撐不住遠距。」→「嗯。我也是。……我們好好說。」＋最後一句、生活差異',J(said())===J(ZR_BODY.concat(['嗯。我也是。……我們好好說。','回去以後，我還是在吧檯後面。你點什麼，我都記得。']))&&H.G.flags.ROMANCE_HISTORY.some(h=>h.id===ZR&&h.how==='apart_life'));
   /* 不回答：兩週後的信封 */
   p=zrG(); for(const a of p.att){ at(a.day,a.h+0.4); rules(); expire(); rules(); } const dr=pr(ZR).drift; at(dr.day,12); rules(); H.said=[]; await tick();
-  check('Z8. 四通都沒接＝不回答：兩週後的信封（旁白＋小卡「我們先當朋友。片單我還是會寄。」）、慢慢淡',J(H.lines())===J(['（英國寄來一個信封。裡面一張明信片、一張只寫給你的小卡。）','小卡：「我們先當朋友。片單我還是會寄。」'])&&H.G.flags.dating_heroine_02===false&&H.G.flags.EX_heroine_02_REASON==='drift',J(H.lines()));
+  check('Z8. 四通都沒接＝不回答：兩週後的信封（旁白＋小卡「我們先當朋友。片單我還是會寄。」）、慢慢淡',J(H.lines())===J(['（英國寄來一個信封。裡面一張明信片、一張只寫給你的小卡。）','小卡：我們先當朋友。片單我還是會寄。'])&&   /* 對話框寫「小卡」＝有名字，外面不加「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）*/H.G.flags.dating_heroine_02===false&&H.G.flags.EX_heroine_02_REASON==='drift',J(H.lines()));
   /* 明信片連兩張沒回 → 下一張多一句、+1（避不掉的）；讓它到 3 的是這一件＝不回答改成「我們再試一個月。」 */
   fresh('2028-11-17',13,'dorm'); date(ZR); ROM.get(H.G,ZR).sinceDay=D('2028-09-01'); H.FRIEND(ZR); H.CLOSE(ZR); crack(ZR,1); crack(ZR,1);
   const cards=R2Y4A.pc2Cards(H.G), c3=cards.find(c=>c.key==='2028-11-17');

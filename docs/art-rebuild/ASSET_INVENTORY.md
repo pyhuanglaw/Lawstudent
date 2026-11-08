@@ -98,3 +98,9 @@
 | 天空 shader（漸層、雲、星星）、日夜時段表 | ① | 保留 | 加合法 HDRI 做環境反射（PBR 材質需要），白天／黃昏／夜晚 |
 | 遠景剪影（山、台北市區、台北 101） | ② | 保留 | — |
 | 壓縮（glTF Transform、Meshopt、KTX2） | — | **尚未導入**（v9.4 第一批先用 WebP 貼圖、512 px） | 量測 GLB 大小與手機載入時間後導入 Meshopt（需要加 decoder），KTX2 需要 basis transcoder |
+
+## 七、店內光照烘焙的 ART_APPROVED 紀錄（D120：建築、場景由 BB 標；iPhone 實機都還沒驗）
+
+| 店 | GLB | 光照 | 狀態 | 證據 |
+|---|---|---|---|---|
+| 早午餐 SUNNY SIDE、定食（小路）、木曜日、一盞茶屋、拍桌（日常失速）、阿德影印（溫州街六間） | `aa_support/sunnyside.glb`、`komichi.glb`、`mokuyobi.glb`、`yizhan.glb`、`daily_offbeat.glb`、`bb_support/ade.glb` | LAWWW2-B 第三批 `4d949ba39`＋一盞白天天光重烘 `5a6f73313` | **ART_APPROVED**（BB-B 2026-11-08 02:47；iPhone 未驗） | PC（Windows＋RX 6600M，ANGLE D3D11）營業時間 2～3 個時段×5 機位，e2762e9d9；cc-local local_out/GG3LM_wz6_e276、GG3LM_wz6b_tea、GG3LM_wz6b_tp、GG3LM_wz6b_moku；桌機 47～60 fps、手機模擬（CPU ×4）6～22 fps |

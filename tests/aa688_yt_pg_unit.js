@@ -70,7 +70,8 @@ const Y1=sl(row(S3,'Y2030.yt1')[1]), Y2=sl(row(S3,'Y2030.yt2')[1]);
     check('1. AA_367@'+SHA367+' 第 3 節（源稿）十八句＝AA_688 第 2 節「改成」',S2.every(r=>DOC367[r[0]]===NEW2[r[0]]),J(S2.filter(r=>DOC367[r[0]]!==NEW2[r[0]]).map(r=>r[0])));
     const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')), e=(A.files||[]).filter(x=>x.path===P367);
     check('1. 白名單：AA_367 一筆、approved、sha '+SHA367+'（approvedBy、task CANON-PURGE-SRC-1104）；history 第一筆是原本的 '+OLD367+'；pg_dates.js 的 source 寫 @'+SHA367,
-      e.length===1&&e[0].status==='approved'&&e[0].sha===SHA367&&!!e[0].approvedBy&&e[0].task==='CANON-PURGE-SRC-1104'&&((e[0].history||[])[0]||{}).sha===OLD367&&(PG_DATES.source||{}).AA_367===P367+'@'+SHA367,J(e.map(x=>[x.sha,x.status,x.task,(x.history||[]).map(y=>y.sha)])));
+      /* 11-08 AA_593 學姊①b（企劃線 9aa8ec40c）以後白名單是 9aa8ec40c：AA_688 那一版（SHA367）留在 history；語彤那一節兩版一樣（上一項對的是 SHA367 的稿） */
+      e.length===1&&e[0].status==='approved'&&(e[0].sha===SHA367||(e[0].history||[]).some(y=>y.sha===SHA367))&&!!e[0].approvedBy&&e[0].task==='CANON-PURGE-SRC-1104'&&((e[0].history||[])[0]||{}).sha===OLD367&&(PG_DATES.source||{}).AA_367===P367+'@'+e[0].sha,J(e.map(x=>[x.sha,x.status,x.task,(x.history||[]).map(y=>y.sha)])));
     /* 照白名單重跑匯入工具（寫檔攔下來，不改 repo 裡的檔）＝現在的 pg_dates.js */
     const PY=["import builtins,io,os,sys","ROOT=sys.argv[1]; T=os.path.join(ROOT,'src','data','pg_dates.js'); R=builtins.open; V={}",
       "class W(io.StringIO):","  def __init__(s,p): io.StringIO.__init__(s); s.p=p","  def write(s,x): n=io.StringIO.write(s,x); V[s.p]=s.getvalue(); return n",
@@ -80,7 +81,7 @@ const Y1=sl(row(S3,'Y2030.yt1')[1]), Y2=sl(row(S3,'Y2030.yt2')[1]);
     const r=cp.spawnSync('python3',['-c',PY,H.ROOT],{encoding:'utf8',maxBuffer:64*1024*1024});
     check('1. 照白名單重跑 tools/story/import_pg_dates.py 的結果＝現在的 src/data/pg_dates.js（自動產生、沒有手改）',r.status===0&&r.stdout.trim()==='SAME',(r.stdout||'').trim()+(r.stderr||'').split('\n').slice(-3).join(' '));
     let B=null; try{ B=new Function(git(BASE,'src/data/pg_dates.js').replace(/^'use strict';/m,'')+';return PG_DATES;')(); }catch(e){ B=null; }
-    const others=['heroine_01','heroine_02','heroine_04','heroine_05','classmate_peishan'];
+    const others=['heroine_01','heroine_02','heroine_04','classmate_peishan'];   /* 學姊後來 AA_593①b（9aa8ec40c）改了，那一節在 aa367_pg_dates_unit 對稿 */
     check('1. 其他五位（AA_688 第 6 節：對過、沒有要改的）、可昕的格子和開發分支 '+BASE+' 一樣（pg_dates.js 只改了語彤）',!!B&&others.every(id=>J(PG_DATES.six[id])===J(B.six[id]))&&J(PG_DATES.kexin)===J(B.kexin),others.filter(id=>!B||J(PG_DATES.six[id])!==J(B.six[id])).join(',')); });
   /* ---------------- 2. 第 2 節：方式 ---------------- */
   await sec(2,async()=>{

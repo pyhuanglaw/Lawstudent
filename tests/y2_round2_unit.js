@@ -439,7 +439,7 @@ const K=t=>'kexin:'+t;
   fresh('2027-06-04',20,'dorm'); date('heroine_01'); PHONE.join(G,'public_law','公法讀書會'); run('2027-06-04',20.75,21.25); check('22. 交往中：私訊「卡片上的字，是那個學生自己寫的。」',txt('p:heroine_01').slice(-1)[0]==='heroine_01:卡片上的字，是那個學生自己寫的。');
 
   // 23. 共用檔
-  check('23. 子晴的閒聊「期末成發你要來。」大二下也有（Q9 做了）',SMALLTALK.heroine_04.some(x=>x&&x.t==='「期末成發你要來。」'&&x.term.includes('Y2S2')));
+  check('23. 子晴的閒聊「期末成發你要來。」大二下也有（Q9 做了）',SMALLTALK.heroine_04.some(x=>x&&x.t==='期末成發你要來。'&&x.term.includes('Y2S2')));
   check('23. 電話（q.call）在家也不用出門；一般的出遊從家裡照舊 30 分鐘',OUT.trip({},{call:true,travelH:0},true).travelH===0&&OUT.trip({},{travelH:0.25},true).travelH===0.5);
   { fresh('2027-01-20',12,'dorm',{KX_GRADES_Y2S2:'waited'}); date('kexin'); to('2027-06-27',9); said=[]; await Y2R2.afterOuting(GM,{id:'hv_kexin_x',hv:{id:'kexin'}},{participants:[]}); check('23. 成績出來以前不說宵夜那句',said.length===0);
     to('2027-07-20',10); await Y2R2.afterOuting(GM,{id:'hv_kexin_x',hv:{id:'kexin'}},{participants:[]}); check('23. 暑假去高雄找她（hometown3d 的 q.hv）也算下一次見面：「（這次是她請。）」',has('（這次是她請。）')&&G.flags.KX_BET_Y2S2_PAID===true); }

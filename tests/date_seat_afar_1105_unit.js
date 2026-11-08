@@ -21,7 +21,7 @@ ld('src/data/afar_layout.js'); ld('src/crowd3d.js');
 const J=JSON.stringify, L=AFAR_LAYOUT;
 const SV=JSON.parse(fs.readFileSync(path.join(__dirname,'fixtures/user_save_day36_afar_1105.json'),'utf8'));
 const IV=(SV.invites||[]).find(q=>q.id==='iv26');
-const LAMP=['（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）','「……這個燈好可愛。」'], COAST=['（她把兩杯咖啡的杯墊對齊，一杯推給你。）'];
+const LAMP=['（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）','……這個燈好可愛。'], COAST=['（她把兩杯咖啡的杯墊對齊，一杯推給你。）'];
 GM.sitAt=(ent,seat)=>{ ent.seat=seat; ent.pose='sit'; ent.idlePose='sit'; ent.frozen=true; if(ent.obj){ ent.obj.position.x=seat.x; ent.obj.position.z=seat.z; } };
 GM.standUp=ent=>{ ent.seat=null; ent.pose='idle'; ent.idlePose='idle'; ent.frozen=false; };
 /* 區域的座位照 zones3d.js ggRoom 建（{x,z,yaw,table,kind:'shop'}；label 在互動點上，不在座位上）*/

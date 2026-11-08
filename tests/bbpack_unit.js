@@ -91,7 +91,7 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
     const G=fresh('Y2S1',hit.w,1,13.0,{zone:'gongtong',flags:{JP_MET:true}}); const it=itOf('japanese_1',hit.w);
     check('1. G3 上課前（beforeClass）：提早到（13:00）才演，13:25 不演',EVENTS.check(ev('ev_jp_g3'),{chain:true})&&(()=>{ G.hour=13.42; const r=!EVENTS.check(ev('ev_jp_g3'),{chain:true}); G.hour=13.0; return r; })());
     H.said=[]; H.opts=[]; H.picks=['「辛苦了。」']; await CLS.beforeClassEvent(GM,it); let L=said();
-    check('1. G3 第 1 題お疲れさまです、猜對記 JP_DRAMA_1（BB_137 1-2）',L[0]==='欸，考你。昨天的日劇有一句——'&&L[1]==='「お疲れさまです。」'&&L.includes('對！日劇裡上班的人，一天說二十次。')&&G.flags.JP_DRAMA_1===true&&J(G.flags.JP_G3_USED)==='[1]',J(L));
+    check('1. G3 第 1 題お疲れさまです、猜對記 JP_DRAMA_1（BB_137 1-2）',L[0]==='欸，考你。昨天的日劇有一句——'&&L[1]==='お疲れさまです。'&&L.includes('對！日劇裡上班的人，一天說二十次。')&&G.flags.JP_DRAMA_1===true&&J(G.flags.JP_G3_USED)==='[1]',J(L));
     H.picks=['「現在幾點？」']; await EVENTS.run(ev('ev_jp_g3')); H.said=[]; H.picks=['「其實很在意。」']; await EVENTS.run(ev('ev_jp_g3')); L=said();
     check('1. G3 不重複：第 2 題猜錯不記、第 3 題兩個答案都算對',!G.flags.JP_DRAMA_2&&G.flags.JP_DRAMA_3===true&&L.includes('你很懂日劇！說這句的人，九成都很在意。'));
     G.flags.JP_G3_USED=[1,2,3,4,5]; check('1. G3 五題用完就沒有',!EVENTS.check(ev('ev_jp_g3'),{chain:true})); }
@@ -158,7 +158,7 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
       RL(['two'])==='以前這張桌子，經濟系那幾個也在。那一次是一換二。'&&RL(['one','one'])==='以前這張桌子，經濟系那幾個也在。一題民法換一題微積分。'&&RL(['two','two','one','snack'])==='以前這張桌子，經濟系那幾個也在。第一次一換二，第三次一換一，最後是宵夜本位。'&&RL([])===null,RL(['two','two','one','snack']));
     G.flags.STUDY_EXCHANGE_RATE=[{t:'Y2S1',r:'two'}]; const roll=X0.roll; X0.roll=()=>0; const okc=chk('ev_b10_table');
     const L=await run('ev_b10_table',['大一民總那一題']); X0.roll=roll;
-    check('2. B10 大四平日晚上博思自習區：阿哲開場、匯率那句、懷舊四句（AA_153 第 6 節）',okc&&L[0]==='坐。這桌是國考桌。Alison 說不能講話，所以我們用寫的。'&&L[1]==='以前這張桌子，經濟系那幾個也在。那一次是一換二。'&&L.includes('網拍標錯價那題，我現在會答了。')&&L.includes('說說看。')&&L.includes('（便利貼）「四年了。」')&&G.flags.B10_NOSTALGIA===true&&G.flags.B10_RATE_SAID===true,J(L));
+    check('2. B10 大四平日晚上博思自習區：阿哲開場、匯率那句、懷舊四句（AA_153 第 6 節）',okc&&L[0]==='坐。這桌是國考桌。Alison 說不能講話，所以我們用寫的。'&&L[1]==='以前這張桌子，經濟系那幾個也在。那一次是一換二。'&&L.includes('網拍標錯價那題，我現在會答了。')&&L.includes('說說看。')&&L.includes('（便利貼）四年了。')&&G.flags.B10_NOSTALGIA===true&&G.flags.B10_RATE_SAID===true,J(L));
     setDay(G.day+1,19.5); X0.roll=()=>0; H.said=[]; H.opts=[]; H.picks=['（坐下讀一點）']; await EVENTS.run(ev('ev_b10_table')); X0.roll=roll; const L2=said();
     check('2. B10 第二次：開場輪到 Alison、懷舊選項沒有了、匯率那句不再說',L2[0]==='（推一包餅乾過來，便利貼上寫「吃。不要出聲。」）'&&!H.opts[0].includes('「大一民總那一題……」')&&L2.includes('Alison 在便利貼上寫：「加油。不用回。」')&&!L2.some(t=>/經濟系那幾個/.test(t)),J(L2));
     setDay(TD('Y4S1',12,2),19.5); G.flags.B10_N=2; H.said=[]; await EVENTS.run(ev('ev_b10_table')); check('2. B10 推甄放榜（第 12 週）以後柏翰換那一句',said()[0]==='我上了。我來陪考。……順便讀我自己的。',J(said())); }

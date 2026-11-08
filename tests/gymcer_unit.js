@@ -37,6 +37,12 @@ await sec(1,async()=>{ cerDay='open'; const G=setup('2025-08-31',14,['classmate_
   check('1. 旁白三句（照原本的 2D 版；位置那一句換成 AA_437 第 1 節的 3D 版）',J(H.said.map(s=>s.t))===J(['四千多個新生，每個人都穿著同一件新生上衣。','法律學院的位置在場地中間。椅背上貼著系名。旁邊的人在對手冊上的流程，前面的人在傳訊息問晚上要不要一起吃飯。','校長致詞講到一半，手機震了一下。你被加進一個群組。']),J(H.lines()));
   check('1. 演完：CEREMONY_Y1、15:30、起身、沒有叫原本的 2D',G.flags.CEREMONY_Y1===true&&Math.abs(G.hour-15.5)<1e-6&&stood===1&&origCalls===0,J({h:G.hour,stood,origCalls}));
   check('1. 加進全班群組',typeof PHONE==='undefined'||!PHONE.inGroup||PHONE.inGroup(G,'law_class')); });
+await sec('1b',async()=>{ cerDay='open'; const had=typeof AA613!=='undefined'?AA613:undefined, walked=[];
+  globalThis.AA613={ceremonyWalk:async g=>{ walked.push(1); await g.say(null,'（你和柏翰一起走過去。）'); return true; }};   /* AA_613 第 1 節的那一句（模組自己的條件在 tests/aa613_opening_acts_unit.js 測）*/
+  try{ setup('2025-08-31',14,['classmate_xinci']); H.said=[]; await STORY.ceremonyY1(GM); }
+  finally{ if(had===undefined) delete globalThis.AA613; else globalThis.AA613=had; }
+  const T=H.said.map(s=>s.t);
+  check('1b. 3D 體育館這條路也叫 AA613.ceremonyWalk：「（你和柏翰一起走過去。）」在「四千多個新生…」前面（BUG-AA613-CER-WALK-1107，修改前 FAIL）',walked.length===1&&T[0]==='（你和柏翰一起走過去。）'&&T[1]==='四千多個新生，每個人都穿著同一件新生上衣。',J(T.slice(0,2))); });
 
 await sec(2,async()=>{ cerDay=null; setup('2025-08-31',14); origCalls=0; await STORY.ceremonyY1(GM);
   check('2. 那天沒有典禮布置（舊版、載入失敗）：照原本的 2D',origCalls===1&&!H.entered.includes('gym_arena'));

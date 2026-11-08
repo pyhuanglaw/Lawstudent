@@ -47,23 +47,33 @@ const DECIDE=(function(){
   for(const e of TB()){ const d=S.DEFAULT[e.who]||(S.DEFAULT[e.who]={}); if(d[e.key]==null) d[e.key]=e.default; }
   S.trustNeed=st=>st>=4?S.TRUST_HI[4]:(st>=3?S.TRUST_HI[3]:Infinity);
   S.trustHi=function(G,who){ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return false; const t=+SOCIAL.rel(who).trust||0; const st=typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(who):0; return t>=S.trustNeed(st); };
-  const condOk=(G,c)=>!c||(typeof ARCS!=='undefined'&&ARCS.cond?ARCS.cond(G,c):S.cond(G,c));
+  /* if：一個條件，或陣列（全部都要成立）；'dating'＝那一拍的她（e.who）現在和祐廷交往中（AA_719 PS-2 ruleIf，963afea74：使用者 11-07 Q4「可以 但前提是有交往」）*/
+  S.dating=(G,id)=>{ const f=(G&&G.flags)||{}, RM=f.romance||{}; return f['dating_'+id]===true||!!(RM[id]&&RM[id].status==='dating'); };
+  const condOk=(G,c,who)=>{ if(!c) return true; if(Array.isArray(c)) return c.every(x=>condOk(G,x,who)); if(c==='dating') return S.dating(G,who); return typeof ARCS!=='undefined'&&ARCS.cond?ARCS.cond(G,c):S.cond(G,c); };
+  S.condOk=condOk;
   S.pickRule=function(G,e,k){ const so=e.opts.find(o=>o.i===k), stance=so&&so.stance, hi=S.trustHi(G,e.who);
-    for(let j=0;j<e.rules.length;j++){ const r=e.rules[j]; if(r.stance!==stance) continue; if(r.trust==='hi'&&!hi) continue; if(r.trust==='lo'&&hi) continue; if(r.opt!=null&&r.opt!==k) continue; if(!condOk(G,r.if)) continue; return {r,j,stance}; }
+    for(let j=0;j<e.rules.length;j++){ const r=e.rules[j]; if(r.stance!==stance) continue; if(r.trust==='hi'&&!hi) continue; if(r.trust==='lo'&&hi) continue; if(r.opt!=null&&r.opt!==k) continue; if(!condOk(G,r.if,e.who)) continue; return {r,j,stance}; }
     return {r:null,j:-1,stance}; };
   S.decideBeat=function(G,e,k){ if(!G||!e||S.has(G,e.who,e.key)) return null;
     if(e.before&&typeof ARCS!=='undefined'&&ARCS.dayOf){ const d=ARCS.dayOf(e.before), date=/^\d{4}-/.test(e.before); if(d!=null&&(date?G.day>d:G.day>=d)){ S.set(G,e.who,e.key,e.default,{late:true}); return {v:e.default}; } }   /* before：日期＝過了那天才演到、學期週＝那一週開始以後＝default（AA_719；台詞照演，只是不記決定、不開事件）*/
-    const {r,j,stance}=S.pickRule(G,e,k); const v=r?r.result:e.default; S.set(G,e.who,e.key,v,{stance,rule:j});
+    const {r,j,stance}=S.pickRule(G,e,k); const v=r?r.result:e.default; S.set(G,e.who,e.key,v,{stance,rule:j,hi:S.trustHi(G,e.who)});   /* hi：那時的信任高低（AA_723 heart 的「+hi／+lo」看這個；舊紀錄沒有＝看那一條規則的 trust）*/
     if(r&&r.rel&&Object.keys(r.rel).length&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ const d=Object.assign({},r.rel); if(typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum(e.who)<3) delete d.npcRom; SOCIAL.adjust(e.who,d); }
     if(r&&r.say&&r.say.length){ let due=G.day+(r.delay|0); if(e.revealAt&&r.delay>0&&typeof ARCS!=='undefined'&&ARCS.dayOf){ const rd=ARCS.dayOf(e.revealAt.day); if(rd!=null) due=Math.max(G.day,rd); }   /* revealAt：結果要等到那天才說（AN-1 說明會的前一週；取代 delay）*/
       const L=S.says(G); L.push({who:e.who,key:e.key,due,say:r.say.slice(),played:false}); }
     return {v,rule:j}; };
   S.says=G=>{ const f=F(G); if(!Array.isArray(f.DECIDE_SAY)) f.DECIDE_SAY=[]; return f.DECIDE_SAY; };
   S.due=(G,who)=>G&&G.flags&&Array.isArray(G.flags.DECIDE_SAY)?G.flags.DECIDE_SAY.find(x=>x.who===who&&!x.played&&x.due<=G.day)||null:null;
-  S.playDue=async function(GM,whoObj,id,x){ if(!x) return false; x.played=GM.G.day; for(const t of x.say){ if(/^（/.test(t)) await GM.say(null,t); else await GM.say(whoObj,t); } return true; };
+  /* AFTER_SAY：她說完以後接著演的（AA_720：說明會、店後門、模擬面試的那三個選項接在 say 最後一句之後；fn(GM,whoObj,id,x)）；
+     MSG_ASK：三天沒見面、改傳訊息的那一則，最後一則掛上可以回的選項（fn(G,x) 回傳 PHONE 的 ask 或 null）*/
+  S.AFTER_SAY=[]; S.MSG_ASK=[];
+  S.playDue=async function(GM,whoObj,id,x){ if(!x) return false; x.played=GM.G.day; for(const t of x.say){ if(/^（/.test(t)) await GM.say(null,t); else await GM.say(whoObj,t); }
+    for(const f of S.AFTER_SAY){ try{ await f(GM,whoObj,id,x); }catch(e){ console.warn('DECIDE.AFTER_SAY',e); } } return true; };
   /* 她三天內沒見到你：傳訊息（PHONE；只傳她說的話）*/
+  S.SAY_STALE=10;   /* 決定拍那天＋10 天以後還沒送的＝過期、不補（舊存檔）*/
   S.tick=function(G){ if(!G||!G.flags||!Array.isArray(G.flags.DECIDE_SAY)||typeof PHONE==='undefined'||!PHONE.at) return false; let did=false;
-    for(const x of G.flags.DECIDE_SAY){ if(x.played||G.day<x.due+3) continue; const L=x.say.filter(t=>!/^（/.test(t)); x.played=G.day; x.byMsg=true; if(L.length){ PHONE.at(G,G.day,G.hour,L.map(t=>({th:'p:'+x.who,from:x.who,text:t})),'decide_say_'+x.who+'_'+x.key); did=true; } }
+    for(const x of G.flags.DECIDE_SAY){ if(x.played||G.day<x.due+3) continue;
+      if(G.day>x.due+S.SAY_STALE){ x.played=G.day; x.expired=true; continue; }   /* 舊存檔：DECIDE.tick 以前沒註冊（BUG-DECIDE-TICK-UNREG-1108），沒送的一直留著——拖過 due+10 的不補傳（幾個禮拜以後才收到「謝謝你的綠茶。」對不上），記成過期 */
+      const L=x.say.filter(t=>!/^（/.test(t)); x.played=G.day; x.byMsg=true; if(L.length){ const M=L.map(t=>({th:'p:'+x.who,from:x.who,text:t})); for(const f of S.MSG_ASK){ let a=null; try{ a=f(G,x); }catch(e){ console.warn('DECIDE.MSG_ASK',e); } if(a){ M[M.length-1].ask=a; break; } } PHONE.at(G,G.day,G.hour,M,'decide_say_'+x.who+'_'+x.key); did=true; } }
     return did; };
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)&&!STORY.PHONE_RULES.includes(S.tick)) STORY.PHONE_RULES.push(S.tick);
   /* 選單：有 key 的那一組＝上方一行字＋選完確認（「再想想」回到同一組）*/

@@ -37,7 +37,7 @@ const goOut=async(id,picks)=>{ const q=OUT.get(H.G,id); H.said=[]; H.opts=[]; H.
     check('0. 第 1 節第 2 項：6/3 的日期卡有日本路線（照舊）和美國路線（「'+us2[0]+'」）兩列',us2.length===1&&txt('2029-06-03').includes(us2[0])&&txt('2029-06-03').includes('（同屆的人都畢業了。你還差一門實習，九月再回學校。）'),J(txt('2029-06-03')));
     check('0. 第 1 節第 3 項：K26 交換延畢那一句換成「'+k26[0]+'」，舊的那一句不在了',k26.length===1&&src('src/r2y4b3d.js').includes("'"+k26[0]+"'")&&!src('src/r2y4b3d.js').includes('你還差一門實習。……那今天先慶祝我的。'));
     check('0. 第 1 節第 4～6 項：9/4、10/17、2/11 的日期卡照稿',r4.length===1&&r5.length===1&&r6.length===1&&txt('2029-09-04').includes(r4[0])&&txt('2029-10-17').includes(r5[0])&&txt('2030-02-11').includes(r6[0]),J([txt('2029-09-04'),txt('2029-10-17'),txt('2030-02-11')]));
-    const s4=sec(4).split('\n').filter(l=>!l.startsWith('## ')&&!/^- (接的是|這個月的固定格)/.test(l)).join('\n').replace(/（20\d\d-\d\d-\d\d[^）]*）/g,''), want=q(s4);   /* 116d5c72 在私訊那一行加了修改說明（裡面有「明天」）：不是台詞 */
+    const s4=sec(4).split('\n').filter(l=>!l.startsWith('## ')&&!/^- (接的是|這個月的固定格)/.test(l)).join('\n').replace(/（20\d\d-\d\d-\d\d[^）]*）/g,''), want=q(s4).map(t=>require('./aa593_doc.js').MAP[t]||t);   /* 116d5c72 在私訊那一行加了修改說明（裡面有「明天」）：不是台詞；AA_593 第 36 列（企劃線 6cbb0b4ab）改過的那一句照 AA_593 的表 */
     const t=x=>Array.isArray(x)?x[1]:x, got=[...Y.ask,...Y.opts,Y.no,'北海岸',...Y.open.map(t),...[].concat(...Y.choose.map(o=>[o.t,...o.say.map(t)])),...Y.close.map(t),Y.opts[1],...Y.alone,Y.opts[0],Y.late,Y.alone[1]];   /* 116d5c72：「回「明天不行。」」那一行、「回了「好。」，9:00 卻沒到」那一行 */
     check('0. 第 4 節：私訊兩則、兩個選項、「明天不行。」的回答、地點字幕、海邊的四句、兩個選項和各自的回答、最後一句、沒去的兩則、答應了沒到的那一則，照稿的順序一字不差',J(got)===J(want),J(got)+' ≠ '+J(want));
     const s5=q(row(sec(5),'`postgrad_lines.js` 尾聲 `mx.bar2030`')[4]);

@@ -7,6 +7,7 @@
 //      到期限還是沒回＝21:00 她打來（not_question 拿掉最後一句）；沒接＝原本那一則私訊；回了貼紙＝不回的那一通取消
 //   ③  可昕考上律師（交往中、沒報 2029 國考）：12/14 15:05 她打來（兩個選項、最後一句旁白、不排出遊）；過了 16:00 還沒演到＝原本兩則私訊；跳到下一件事停在 15:05；9/7 照用私訊
 //   ④  沛珊回來（消失期傳過訊息、沒交往）：2027-08-07 21:00 她打來（三個選項）；沒接＝原本兩則私訊；PS_BACK_READ 照舊記那一天（放榜後重新聯絡上）；沒傳過、交往中照舊
+//       AA_723（AA723-CONFESS-PS-1107）起：沒交往的新線沒有這一通（重聚在 2028-12-29，tests/ps_silence_unit.js）；原本的流程改用舊存檔（PS_KEPT：消失期交往過、後來分開）測
 //   ⑤  芷若答應奕廷的約，日本路線：22:07 的私訊不傳；8/5 回國以後第一次進 Café 當面說（過去式那兩句）；8/5 以前、9/1 以後沒有；臺灣路線照舊
 //   停點 跳過時間碰到這幾通電話停下來（AA 10-22 08:41；睡覺照舊算沒接）：CLS.skipStops 有「手機響了」——①當地 10:00、② 21:00、③ 15:05、④ 21:00；條件不成立的沒有
 // 修改前（開發分支 b947f4eb）：FAIL 見任務回報；ed0daea9 那兩句、停點（開發分支 0eb26ed0）FAIL。用法：node tests/aa296_phone_live_unit.js
@@ -186,10 +187,14 @@ const memNote=(id,tag)=>{ const L=(H.G.social&&H.G.social.mem&&H.G.social.mem[id
   /* ======================= ④ 沛珊回來：2027-08-07 21:00 她打來 ======================= */
   await sec('④',async()=>{
     const d=D('2027-08-07'), ID='classmate_peishan', TH='p:'+ID, C=Y2B.PS_CALL||{id:'y3_ps_back_call'};
-    const ps=(h,msg,flags)=>{ const G=fresh('2027-08-07',h,'dorm',flags); H.FRIEND(ID); ct(ID); if(msg!==false) PHONE.postAt(G,{th:TH,from:'player',text:'生日快樂'},D('2027-03-15'),20); return G; };
+    /* AA_723（企劃線 fca9bcb69 peishan remove 第 1 點；AA723-CONFESS-PS-1107）：沒交往的線（STORY.psNewLine）沒有這一通——到 2028-12-29 重聚以前一直不回（tests/ps_silence_unit.js）。
+       這一通照舊只剩舊存檔（STORY.psOldLine）：這裡用「消失期交往過、後來分開」（PS_KEPT）測原本的流程，逐字對稿照舊 */
+    const ps=(h,msg,flags)=>{ const G=fresh('2027-08-07',h,'dorm',Object.assign({PS_KEPT:true},flags||{})); H.FRIEND(ID); ct(ID); if(msg!==false) PHONE.postAt(G,{th:TH,from:'player',text:'生日快樂'},D('2027-03-15'),20); return G; };
+    { const G=fresh('2027-08-07',19.5,'dorm'); H.FRIEND(ID); ct(ID); PHONE.postAt(G,{th:TH,from:'player',text:'生日快樂'},D('2027-03-15'),20); rules(); at('2027-08-07',21.8); rules(); PHONE.tick(G);
+      check('④ AA_723 沒交往的線：消失期傳過訊息，8/7 也沒有這一通、沒有那兩則、PS_BACK_READ 不記',!OUT.get(G,C.id)&&!from(TH,ID).length&&G.flags.PS_BACK_READ==null,J(from(TH,ID))); }
     let G=ps(18.9); rules(); const no=!OUT.get(G,C.id);
     at('2027-08-07',19); rules(); const qc=OUT.get(G,C.id);
-    check('④ 消失期傳過訊息：8/7 19:00 以前還沒排；19:00 排 21:00「沛珊打電話來」（不跳「排進行程」、只有接起來）；還沒有私訊、PS_BACK_READ 還沒記',no&&!!qc&&qc.day===d&&qc.h===21&&qc.must===true&&qc.silent===true&&!from(TH,ID).length&&G.flags.PS_BACK_READ==null,J(qc));
+    check('④ 舊存檔（PS_KEPT）消失期傳過訊息：8/7 19:00 以前還沒排；19:00 排 21:00「沛珊打電話來」（不跳「排進行程」、只有接起來）；還沒有私訊、PS_BACK_READ 還沒記',no&&!!qc&&qc.day===d&&qc.h===21&&qc.must===true&&qc.silent===true&&!from(TH,ID).length&&G.flags.PS_BACK_READ==null,J(qc));
     for(const k of [0,1,2]){ G=ps(19.5); rules(); at('2027-08-07',20.8); const due=OUT.due(G); await goOut(C.id,[k]);
       check('④ 選「'+P4.opts[k]+'」：21:00 她打來，台詞照稿一字不差（字幕「電話」）',!!due&&due.id===C.id&&same(said(),want(P4,k))&&J(H.opts[0])===J(P4.opts)&&caps.includes('電話'),J({said:said(),opts:H.opts}));
       if(k===0){ rules(); check('④ 接了：PS_BACK_READ＝8/7（放榜以後重新聯絡上）、沒有那兩則私訊、她不再是「很久沒聯絡」',G.flags.PS_BACK_READ===d&&!from(TH,ID).length&&!(STORY.presence&&STORY.presence(ID,G).lost),J([G.flags.PS_BACK_READ,from(TH,ID)])); } }
@@ -236,9 +241,11 @@ const memNote=(id,tag)=>{ const L=(H.G.social&&H.G.social.mem&&H.G.social.mem[id
     const kx=fl=>{ const G=H.fresh('2029-12-14',10,'dorm',Object.assign({BAR_REG:false},fl||{})); G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; H.FRIEND('kexin'); return G; };
     G=kx(); H.date('kexin'); const c1=st(G); PG.rec(G).done.kx_bar_2029=1; const c2=st(G); G=kx(); const c3=st(G);
     check('停點 ③：可昕考上律師那天 10:00 跳過時間＝停在 15:05；演過了、沒有交往都不停',J(c1)===J([+(15+5/60).toFixed(3)])&&!c2.length&&!c3.length,J([c1,c2,c3]));
-    const ps=(msg,fl)=>{ const G=fresh('2027-08-07',12,'dorm',fl); H.FRIEND('classmate_peishan'); ct('classmate_peishan'); if(msg) PHONE.postAt(G,{th:'p:classmate_peishan',from:'player',text:'生日快樂'},D('2027-03-15'),20); return G; };
+    const ps=(msg,fl)=>{ const G=fresh('2027-08-07',12,'dorm',Object.assign({PS_KEPT:true},fl||{})); H.FRIEND('classmate_peishan');   /* AA_723：舊存檔（PS_KEPT）才有這一通 */ ct('classmate_peishan'); if(msg) PHONE.postAt(G,{th:'p:classmate_peishan',from:'player',text:'生日快樂'},D('2027-03-15'),20); return G; };
     G=ps(true); const e1=st(G); G=ps(false); const e2=st(G); G=ps(true,{dating_classmate_peishan:true}); const e3=st(G); G=ps(true,{PS_BACK_READ:D('2027-08-07')}); const e4=st(G);
-    check('停點 ④：沛珊回來那天（消失期傳過訊息）12:00 跳過時間＝停在 21:00；沒傳過、交往中、已經回過都不停',J(e1)===J([21])&&!e2.length&&!e3.length&&!e4.length,J([e1,e2,e3,e4]));
+    check('停點 ④：沛珊回來那天（舊存檔 PS_KEPT、消失期傳過訊息）12:00 跳過時間＝停在 21:00；沒傳過、交往中、已經回過都不停',J(e1)===J([21])&&!e2.length&&!e3.length&&!e4.length,J([e1,e2,e3,e4]));
+    { const G=fresh('2027-08-07',12,'dorm'); H.FRIEND('classmate_peishan'); ct('classmate_peishan'); PHONE.postAt(G,{th:'p:classmate_peishan',from:'player',text:'生日快樂'},D('2027-03-15'),20);
+      check('停點 ④：AA_723 沒交往的線不停（沒有這一通）',!st(G).length,J(st(G))); }
     G=ps(true); const w=STORY.tonightAlarm?STORY.tonightAlarm(G,12):null;
     check('停點：睡覺照舊不叫醒（今晚的鬧鐘不算這幾通，AA 08:41：睡著＝沒接、給私訊）',!w||!/沛珊|手機響了/.test(w.why||''),J(w));
   });

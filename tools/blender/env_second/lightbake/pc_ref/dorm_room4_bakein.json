@@ -1,0 +1,10 @@
+{
+ "objects": 129,
+ "unique_meshes": 129,
+ "tris": 19536,
+ "tris_drawn": 19536,
+ "materials": 43,
+ "out": "tools/blender/env_second/lightbake/pc_ref/dorm_room4_bakein.glb",
+ "bytes": 1283360,
+ "texres": 512
+}

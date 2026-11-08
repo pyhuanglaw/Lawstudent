@@ -139,7 +139,7 @@ await sec('1-2',async()=>{
   check('1-2. 期末飯（GF 子晴，看過 Q6）：「你測過的那一關，我改完了。」（拿掉「下學期再給你玩」）；後面的鉤子「要不要玩？」照舊接 zq_play',TERMEND_LINES.GF[ZQ].table(H.G)==='你測過的那一關，我改完了。'&&TERMEND_LINES.HOOK.Y1S2[ZQ].act.c15==='zq_play'&&TERMEND_LINES.HOOK.Y1S2[ZQ].say==='要不要玩？');
   const pick=G=>{ const v=REL_LINES[ZQ].up.FRIEND; for(const x of v) if(!x.if||x.if(G)) return x.l[0]; return null; };
   fresh('2026-05-01',15,{}); H.G.events.done.ev_ziqing_secret_game=true; const b=pick(H.G); at('2026-06-27',15); const a=pick(H.G); fresh('2026-05-01',15,{}); const n=pick(H.G);
-  check('1-2. 約她去 Café 的通用句：看過 Q6、2026-06-27 以前＝「第二關做好了。你先玩，我還沒給別人看。」；6/27 以後照舊「新版本做好了…」；沒看過 Q6 照舊',b==='「第二關做好了。你先玩，我還沒給別人看。」'&&a==='「新版本做好了。你先玩，我還沒給別人看。」'&&n==='（她把耳機的一邊遞給你）',J([b,a,n]));
+  check('1-2. 約她去 Café 的通用句：看過 Q6、2026-06-27 以前＝「第二關做好了。你先玩，我還沒給別人看。」；6/27 以後照舊「新版本做好了…」；沒看過 Q6 照舊',b==='第二關做好了。你先玩，我還沒給別人看。'&&a==='新版本做好了。你先玩，我還沒給別人看。'&&n==='（她把耳機的一邊遞給你）',J([b,a,n]));
 });
 await sec('1-3',()=>{ const st=lad('Y1S2',ZQ,'Q2-L5');
   check('1-3. 閒聊階梯 Q2-L5「我想聽妳彈。」→「……成發那天來。我只彈一次。」（tools/ladder/import_ladder.py 疊的，來源寫 AA_525）',!!st&&st.choices[0].t==='「我想聽妳彈。」'&&st.choices[0].reply==='……成發那天來。我只彈一次。'&&LADDER.source.includes('AA_525@'+SHA),st&&J(st.choices[0])); });

@@ -14,6 +14,23 @@ WHEN = re.compile(r'^(final|typhoon|cny2w|week1|month:(1[0-2]|[1-9]))$')
 IF = re.compile(r'^(dating|ans:[A-Z0-9_]+|flag:[A-Z0-9_]+)$')
 DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 RENAME = {'巷子裡定食': '小路', '半熟早午餐': 'SUNNY SIDE', '兩點半 Café': '2:30 AM', '巷口茶飲': '帝大紅茶'}   # src/data/places 的 S.RENAME_AA655
+# altIntern（ee689cfb8，子晴第 14、15 則）：稿的 if 用「 而且」接、「還沒有 X」＝不成立；dec: 照寫（DECIDE.cond），其他的字照這張表換成 ARCS.COND 的名字
+# ZQ_QUIT_INTERN＝她辭掉延長的實習了（src/aa720_3d.js 註冊 ARCS.COND.zqQuitIntern：演過騎樓那一場，或 10/17 20:00 那則「我辭掉實習了。」傳了——沒去的玩家她也辭了）
+ALT_DEC = re.compile(r'^dec:[a-z0-9_]+\.[a-z_]+=[a-z_]+$')
+ALT_NAMED = {'ZQ_QUIT_INTERN': 'zqQuitIntern'}
+
+
+def alt_if(s, w):
+    out = []
+    for p in s.split(' 而且'):
+        p = p.strip()
+        neg = p.startswith('還沒有 ')
+        t = p[len('還沒有 '):].strip() if neg else p
+        c = t if ALT_DEC.match(t) else ALT_NAMED.get(t)
+        if not c:
+            raise SystemExit(f'{w}.if「{s}」：「{t}」不認得（ALT_NAMED 先寫）')
+        out.append(('!' if neg else '') + c)
+    return out
 
 
 def git(*a):
@@ -59,6 +76,13 @@ def build(src, sha):
                 if not c:
                     raise SystemExit(f'{w}.alt.if：不認得')
                 e['alt'] = {'if': c, 'lines': L(a.get('lines'), w + '.alt.lines')}
+            if r.get('altIntern'):
+                a = r['altIntern']
+                a = a if isinstance(a, list) else [a]
+                e['altIntern'] = [{'if': alt_if(x.get('if', ''), f'{w}.altIntern[{j}]'), 'lines': L(x.get('lines'), f'{w}.altIntern[{j}].lines')} for j, x in enumerate(a)]
+            extra = set(r) - {'lines', 'when', 'if', 'beat', 'life', 'lifeMax', 'from', 'until', 'alt', 'altIntern', 'fix', 'src', 'note'}
+            if extra:
+                raise SystemExit(f'{w}：不認得的欄位 {sorted(extra)}（播放程式要先寫）')
             out.append(e)
         rot[hid] = out
     for hid, arr in (src.get('life') or {}).items():

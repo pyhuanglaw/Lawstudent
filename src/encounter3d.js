@@ -156,7 +156,9 @@ const ENC=(function(){
   S.schoolLine=function(G,id){ const SC=Object.assign({},sideSchool(),D().school||{}); const said=(G.daily&&G.daily.encSaid)||{};
     for(const tag in SC){ const q=SC[tag]; if(q.who!==id||!q.lines||said[tag]) continue; if(!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(id,tag))) continue; if(S.Q6_GATED[tag]&&!PT()) continue; if(q.place&&!q.place.includes(G.zone)) continue;
       const M=G.social&&G.social.mem&&G.social.mem[id]; const m=M&&M.find(x=>x.tag===tag); if(m&&m.day>=G.day) continue;   /* 遇到的那一天不說 */
-      const alt=q.linesIfNot; const L=alt&&!(SOCIAL.has(id,alt.memory))?alt.lines:q.lines; return {tag,lines:L}; }
+      const alt=q.linesIfNot, fl=q.linesIfFlag; let L=alt&&!(SOCIAL.has(id,alt.memory))?alt.lines:q.lines;
+      if(fl&&G.flags&&G.flags[fl.flag]) L=fl.lines;   /* AA_611 第 2 列：有那個旗標（礁溪 KNOWS_SIS_ALISON）＝換那一套 */
+      return {tag,lines:L}; }
     return null; };
   S.markSaid=(G,tag)=>{ const d=G.daily||(G.daily={}); (d.encSaid||(d.encSaid={}))[tag]=G.day; };
   S.schoolTalk=async function(GM,who,id){ const G=GM.G, q=S.schoolLine(G,id); if(!q) return false; for(const t of q.lines) await ESAY(GM,who,t); S.markSaid(G,q.tag);

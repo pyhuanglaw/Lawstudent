@@ -99,26 +99,26 @@ const byName=n=>opts=>opts.findIndex(o=>o.t.startsWith(n+'　'));
     await act('cvs',{ggs:'hotfood'},22.5); check('5 熱食櫃 22:30：晚上那一句、只剩茶葉蛋、肉包',log[0]&&log[0][1]===LK.cvs.hotfood.night&&J(choices[0].map(o=>o.t))===J(['茶葉蛋　13 元','肉包　25 元','不用了']),J(choices[0]&&choices[0].map(o=>o.t))); }
   // 6 買東西
   { G.money=5000; await act('cvs',{ggs:'hotfood'},15,[byName('烤地瓜')]);
-    check('6 熱食櫃買烤地瓜：扣 45 元、店員「要加熱嗎？……那幫你裝袋。」、EAT 記「公館的便利商店」',G.money===4955&&log[1]&&log[1][0]==='店員'&&log[1][1]==='「要加熱嗎？……那幫你裝袋。」'&&J(ate)===J([['公館的便利商店','烤地瓜']]),J([G.money,log,ate]));
+    check('6 熱食櫃買烤地瓜：扣 45 元、店員「要加熱嗎？……那幫你裝袋。」、EAT 記「公館的便利商店」',G.money===4955&&log[1]&&log[1][0]==='店員'&&log[1][1]==='要加熱嗎？……那幫你裝袋。'&&J(ate)===J([['公館的便利商店','烤地瓜']]),J([G.money,log,ate]));
     const prices=J(M['cvs.hotfood'].items)===J([['烤地瓜',45],['茶葉蛋',13],['肉包',25],['關東煮（三樣）',60]])&&J(M['cvs.coffee'].items)===J([['美式',45],['拿鐵',60],['冰美式',45]])&&J(M['bookstore.cafe_order'].items)===J([['美式',90],['拿鐵',110],['紅茶',80],['今日蛋糕',100]])
       &&J(M['aoki.order'].items.map(x=>x[1]))===J([220,260,240,200,120,80,80]);
     check('6 品項、價錢照稿（熱食櫃、日和咖啡、頁間咖啡吧、青木內用）',prices);
     G.money=10; await act('cvs',{ggs:'hotfood'},15,[byName('烤地瓜')]); check('6 便利店錢不夠：「錢不夠」、不扣錢、不登記',G.money===10&&toasts[0]==='錢不夠'&&!ate.length,J([G.money,toasts]));
     G.money=5000; await act('cvs',{ggs:'coffee'},15,[byName('拿鐵')]);
-    check('6 日和咖啡：拿鐵扣 60、店員「大杯還是中杯？」→ 咖啡機那一句（集點不做）',G.money===4940&&J(log)===J([['店員','「大杯還是中杯？」'],[null,'（咖啡機響了一陣，杯子上印著一片小小的葉子。）']]),J(log));
+    check('6 日和咖啡：拿鐵扣 60、店員「大杯還是中杯？」→ 咖啡機那一句（集點不做）',G.money===4940&&J(log)===J([['店員','大杯還是中杯？'],[null,'（咖啡機響了一陣，杯子上印著一片小小的葉子。）']]),J(log));
     G.money=5000; G.flags.YJ_CAFE_DAY=null; await act('bookstore',{ggs:'cafe_order'},15,[byName('紅茶')]);
     const l1=log.slice(); await act('bookstore',{ggs:'cafe_order'},16,[byName('今日蛋糕')]); const l2=log.slice();
-    check('6 頁間點咖啡：店員那句每天第一次點才說，點完磨豆機那一句；扣 80＋100',G.money===4820&&J(l1)===J([['店員','「書可以帶到位子上看喔。……沒買的看完放回去就好。」'],[null,'（咖啡吧的磨豆機響了一下。店員把杯子放在一個小木盤上。）']])&&J(l2)===J([[null,'（咖啡吧的磨豆機響了一下。店員把杯子放在一個小木盤上。）']]),J([G.money,l1,l2]));
+    check('6 頁間點咖啡：店員那句每天第一次點才說，點完磨豆機那一句；扣 80＋100',G.money===4820&&J(l1)===J([['店員','書可以帶到位子上看喔。……沒買的看完放回去就好。'],[null,'（咖啡吧的磨豆機響了一下。店員把杯子放在一個小木盤上。）']])&&J(l2)===J([[null,'（咖啡吧的磨豆機響了一下。店員把杯子放在一個小木盤上。）']]),J([G.money,l1,l2]));
     G.day+=1; await act('bookstore',{ggs:'cafe_order'},15,[byName('紅茶')]); check('6 頁間點咖啡：隔天第一次又說',log.length===2&&log[0][0]==='店員'); G.day-=1;
     G.money=5000; await act('aoki',{ggs:'order'},15,[byName('東方美人（一壺）')]);
-    check('6 青木內用：東方美人一壺扣 260、店員「第一泡我幫你泡……」、點完隨機一句（稿上兩句之一）',G.money===4740&&log[0]&&log[0][1]==='「第一泡我幫你泡，之後可以自己加熱水。」'&&M['aoki.order'].potAfter.includes(log[1]&&log[1][1])&&log.length===2,J(log));
+    check('6 青木內用：東方美人一壺扣 260、店員「第一泡我幫你泡……」、點完隨機一句（稿上兩句之一）',G.money===4740&&log[0]&&log[0][1]==='第一泡我幫你泡，之後可以自己加熱水。'&&M['aoki.order'].potAfter.includes(log[1]&&log[1][1])&&log.length===2,J(log));
     await act('aoki',{ggs:'order'},15,[byName('柚香綠茶（冷泡）')]); check('6 青木內用：冷泡扣 120、稿上沒有點完的句子＝只出提示',G.money===4620&&!log.length&&/柚香綠茶/.test(toasts[0]||''),J([log,toasts]));
-    G.money=100; await act('aoki',{ggs:'order'},15,[byName('桂花烏龍（一壺）')]); check('6 青木錢不夠：店員「冷泡的柚香綠茶比較便宜喔。」、不扣錢',G.money===100&&J(log)===J([['店員','「冷泡的柚香綠茶比較便宜喔。」']]),J(log));
+    G.money=100; await act('aoki',{ggs:'order'},15,[byName('桂花烏龍（一壺）')]); check('6 青木錢不夠：店員「冷泡的柚香綠茶比較便宜喔。」、不扣錢',G.money===100&&J(log)===J([['店員','冷泡的柚香綠茶比較便宜喔。']]),J(log));
     G.money=50; await act('aoki',{ggs:'order'},15,[byName('柚香綠茶（冷泡）')]); check('6 青木錢不夠買冷泡：「錢不夠」（不說叫你買冷泡那句）',G.money===50&&!log.length&&toasts[0]==='錢不夠');
     G.money=5000; }
   // 7 包裹、微波
-  { G.flags.CVS_PARCEL=null; await act('cvs',{ggs:'parcel'},15); check('7 包裹暫取沒有包裹：店員「……查不到耶。可能還沒到。」',J(log)===J([['店員','「……查不到耶。可能還沒到。」']]));
-    G.flags.CVS_PARCEL=1; await act('cvs',{ggs:'parcel'},15); check('7 包裹暫取有包裹（G.flags.CVS_PARCEL）：末三碼、搬出箱子；領完清掉',J(log)===J([['店員','「末三碼？」'],[null,'（你報了手機末三碼。店員從後面搬出一個箱子。）']])&&!G.flags.CVS_PARCEL);
+  { G.flags.CVS_PARCEL=null; await act('cvs',{ggs:'parcel'},15); check('7 包裹暫取沒有包裹：店員「……查不到耶。可能還沒到。」',J(log)===J([['店員','……查不到耶。可能還沒到。']]));
+    G.flags.CVS_PARCEL=1; await act('cvs',{ggs:'parcel'},15); check('7 包裹暫取有包裹（G.flags.CVS_PARCEL）：末三碼、搬出箱子；領完清掉',J(log)===J([['店員','末三碼？'],[null,'（你報了手機末三碼。店員從後面搬出一個箱子。）']])&&!G.flags.CVS_PARCEL);
     G.flags.CVS_HEAT=null; await act('cvs',{ggs:'microwave'},15); check('7 微波沒買要熱的：貼紙那一句',J(log)===J([[null,'（微波爐旁邊貼著「請勿加熱鋁箔包裝」。）']]));
     await EAT.ordered(GM,'公館的便利商店','微波義大利麵'); await act('cvs',{ggs:'microwave'},15); const a=log.slice(); await act('cvs',{ggs:'microwave'},15);
     check('7 結帳買了微波義大利麵（EAT.ordered）：微波一次「叮了一聲」，再按＝貼紙',J(a)===J([[null,'（微波爐轉了一分鐘，叮了一聲。）']])&&J(log)===J([[null,'（微波爐旁邊貼著「請勿加熱鋁箔包裝」。）']]),J(a));
@@ -144,11 +144,11 @@ const byName=n=>opts=>opts.findIndex(o=>o.t.startsWith(n+'　'));
     reset(); G.zone='bookstore'; await STORY.onSeat(GM,{x:-2.6,z:-2.7}); check('8 別的店坐下不說',!log.length);
     const P=INVITE_DATA.places.find(p=>p.id==='aoki');
     check('8 約會地點 aoki：區域 aoki、11～21、可以讀書（cats study）、兩個人坐下、去過才列',!!P&&P.zone==='aoki'&&J(P.hours)===J([11,21])&&P.cats.includes('study')&&P.seatPose==='sit'&&P.show({visited:{}})===false&&P.show({visited:{aoki:true}})===true,J(P));
-    const ACC={heroine_01:'「好。可以讀書嗎？……可以就好。」',heroine_02:'「好。我想喝東方美人。」',heroine_03:'「青木？好。……我想看看別人家的茶怎麼泡。」',heroine_04:'「茶室？好啊，我沒去過。」',heroine_05:'「好。那裡的白茶不錯。」',classmate_peishan:'「好！他們的桂花糕很好吃。」',kexin:'「好啊。等我到台北。」'};
+    const ACC={heroine_01:'好。可以讀書嗎？……可以就好。',heroine_02:'好。我想喝東方美人。',heroine_03:'青木？好。……我想看看別人家的茶怎麼泡。',heroine_04:'茶室？好啊，我沒去過。',heroine_05:'好。那裡的白茶不錯。',classmate_peishan:'好！他們的桂花糕很好吃。',kexin:'好啊。等我到台北。'};
     check('8 答應的一句七人（以安、芷若、語彤、子晴、學姊、沛珊、可昕）',Object.keys(ACC).every(id=>J(INVITE_DATA.people[id].acc.aoki)===J([ACC[id]])),J(Object.keys(ACC).map(id=>(INVITE_DATA.people[id].acc||{}).aoki)));
     accOut=null; const o1=INV.personal(G,'zhe',P,G.day,15); accOut={res:'accept',lines:['「x」']}; const o2=INV.personal(G,'heroine_01',P,G.day,15); accOut={res:'busy',lines:[]}; const o3=INV.personal(G,'zhe',P,G.day,15); accOut=null;
-    check('8 沒列的人答應＝一般那句「好。那裡很安靜。」；有自己句子的不換；不答應不換',J(o1.lines)===J(['「好。那裡很安靜。」'])&&J(o2.lines)===J(['「x」'])&&!o3.lines.length,J([o1,o2,o3]));
-    check('8 坐下以後的開場句（seatOpen.aoki、byPlace）',J(INVITE_DATA.seatOpen.aoki)===J([['（店員把茶壺放下，她先幫你倒了第一杯。）','「……你先喝。」']])&&INVITE_DATA.seatOpen.byPlace.aoki==='aoki');
+    check('8 沒列的人答應＝一般那句「好。那裡很安靜。」；有自己句子的不換；不答應不換',J(o1.lines)===J(['好。那裡很安靜。'])&&J(o2.lines)===J(['「x」'])&&!o3.lines.length,J([o1,o2,o3]));
+    check('8 坐下以後的開場句（seatOpen.aoki、byPlace）',J(INVITE_DATA.seatOpen.aoki)===J([['（店員把茶壺放下，她先幫你倒了第一杯。）','……你先喝。']])&&INVITE_DATA.seatOpen.byPlace.aoki==='aoki');
     check('8 一盞照舊不能讀書（seatMenu 的 teahouse）',/if\(it\.shop==='teahouse'\) opts\.push\(\{t:'讀書',teaNo:true\}\)/.test(rd('src/game3d.js'))); }
   // 9 逐字對照
   { let D=null; try{ const f=cp.execSync("git ls-tree -r -z --name-only origin/claude/story-planning docs/story_planning/",{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:64<<20}).split('\0').find(x=>/AA_653/.test(x)); if(f) D=cp.execFileSync('git',['show','origin/claude/story-planning:'+f],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}

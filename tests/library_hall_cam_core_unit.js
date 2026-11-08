@@ -35,8 +35,8 @@ E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; z
 if(LIBRARY_LAYOUT.version===2){ (async()=>{
   const L=LIBRARY_LAYOUT, BS=L.bookstair, Y1=L.floors[1].y, U=L.upper, NB=L.navBox, DIST=Z3.ZONES.library_hall.camDist||4.8, PITCH=0.38;
   const cols=(z.camCols||[])[0]||[], cols1=(z.camCols||[])[1]||[];
-  check('v2-1a. zone.camCols：第 0、1 層都有台階書牆下面的斜塊＋中庭六根柱子（7 個），看不見、不參加合併',
-    cols.length===7&&cols1.length===7&&cols.filter(m=>m.name==='CAMCOL_bookstair').length===1&&cols.filter(m=>m.name==='CAMCOL_column').length===6&&cols.every(m=>m.material.visible===false&&m.userData.noMerge),
+  check('v2-1a. zone.camCols：第 0、1 層都有台階書牆下面的斜塊＋中庭六根柱子＋正面玻璃帷幕（8 個；帷幕是 CAM-LIBHALL-DOOR-1107 加的），看不見、不參加合併',
+    cols.length===8&&cols1.length===8&&cols.filter(m=>m.name==='CAMCOL_bookstair').length===1&&cols.filter(m=>m.name==='CAMCOL_column').length===6&&cols.filter(m=>m.name==='CAMCOL_facade').length===1&&cols.every(m=>m.material.visible===false&&m.userData.noMerge),
     (z.camCols||[]).map(a=>a?a.map(m=>m.name).join('+'):'—').join(' / '));
   { const w=cols.find(m=>m.name==='CAMCOL_bookstair'), b=new THREE.Box3().setFromObject(w||new THREE.Object3D());
     check('v2-1b. 台階書牆的斜塊涵蓋整座台階（中間走的樓梯＋兩側坐的大階梯）：南端貼地、北端到二樓樓面下 5 cm',

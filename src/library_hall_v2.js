@@ -132,6 +132,10 @@ const LBV2=(function(){
     const wg=new THREE.BufferGeometry(); wg.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); wg.computeVertexNormals();
     const w=new THREE.Mesh(wg,inv); w.name='CAMCOL_bookstair'; w.userData.noMerge=true; w.userData.dyn=true; g.add(w); out.push(w);
     const U=L.upper; for(const [x,z] of [[-5.2,U.band.z1],[5.2,U.band.z1],[-5.2,L.gates.z],[5.2,L.gates.z],[-5.2,U.north.z1],[5.2,U.north.z1]]){ const c=new THREE.Mesh(new THREE.CylinderGeometry(0.34,0.34,L.roofY,16),inv); c.position.set(x,L.roofY/2,z); c.name='CAMCOL_column'; c.userData.noMerge=true; c.userData.dyn=true; g.add(c); out.push(c); }
+    /* 正面的玻璃帷幕（門廳 x ±5.2 的挑高玻璃、兩扇自動門；CAM-LIBHALL-DOOR-1107，LAWWW2-B 11-07；LAWWW-B 16:13「總圖大廳一進門鏡頭卡在玻璃門框後」）：
+       一進門（出生點 z 6.6、鏡頭在背後）鏡頭退到建築外面，隔著帷幕的直櫺、橫櫺、玻璃看人。帷幕和整棟的框、玻璃、五金合成同一個網格（L0_frame／L0_glass／L0_vcm），
+       不會跟著南牆淡出（兩側的實牆 WALL_S0E／S0W 會）。當隔間牆擋：鏡頭停在玻璃內側（拉近時抬高、autoSwing 照舊，和台階書牆、柱子一樣）；兩層都擋（二樓那一段也是帷幕）*/
+    { const V=L.vestibule, f=new THREE.Mesh(new THREE.BoxGeometry(V.x1-V.x0,L.roofY,0.12),inv); f.position.set((V.x0+V.x1)/2,L.roofY/2,L.bounds.z1-0.05); f.name='CAMCOL_facade'; f.userData.noMerge=true; f.userData.dyn=true; g.add(f); out.push(f); }
     out.thin=out.slice(); return out; }
 
   // ---- 區域 ----

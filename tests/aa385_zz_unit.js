@@ -60,7 +60,8 @@ const stepOf=(term,who,id)=>((LADDER.byTerm[term]||{})[who]||{steps:[]}).steps.f
   /* ===================== 0 讀稿、白名單 ===================== */
   await chk('0. 稿讀得到：AA_385@946b1b72（第 1～8 項＋第 9、10 節）、AA_232@088556ed（跟著改的版本）',()=>[!!A385&&/## 7\. 日本路線/.test(A385)&&/## 9\./.test(A385)&&/## 10\./.test(A385)&&!!A232&&A232.includes('……可是我九月要去英國了。'),'']);
   await chk('0. 新台詞每一句都在 AA_385 裡（4-4 那一句、選奕廷的旁白、自己告訴祐廷的兩組＋選項＋回答、4-6 宵夜那五句、日本路線那四句）',()=>{
-    if(!A385||!L) return [false,'讀不到稿']; const bad=[]; const say=(w,t)=>{ const lab=WHO[w.slice(0,2)]; const ok=lab?A385.includes(lab+'「'+t+'」'):(A385.includes('旁白「'+t+'」')||A385.includes('「'+t+'」')); if(!ok) bad.push(w+' '+t); };
+    if(!A385||!L) return [false,'讀不到稿']; const bad=[]; const say=(w,t)=>{ const lab=WHO[w.slice(0,2)], m=/^（[^（）]*）/.exec(t), alt=m&&m[0].length<t.length?[t,m[0]+'「'+t.slice(m[0].length)+'」']:[t];   /* 「（動作）說的話」：稿上是（動作）「說的話」（有名字說的拿掉裡面那一對「」，TEXT-QUOTE-UNIFY-1108 第六批）*/
+      const ok=alt.some(x=>lab?A385.includes(lab+'「'+x+'」'):(A385.includes('旁白「'+x+'」')||A385.includes('「'+x+'」'))); if(!ok) bad.push(w+' '+t); };
     if(!A385.includes('改：「'+L.SERIOUS.HELD[0][1]+'」')) bad.push('HELD[0]'); for(const [w,t] of L.SERIOUS.HELD.slice(1)) if(!A385.includes('「'+t+'」')) bad.push('HELD '+t);
     if(!A385.includes('「'+L.END.C_FY+'」')) bad.push('C_FY');
     for(const k of ['zr','zq']){ const T=L.TOLD&&L.TOLD[k]; if(!T){ bad.push('TOLD.'+k); continue; } for(const [w,t] of T.lines) say(w,t);
@@ -179,7 +180,7 @@ const stepOf=(term,who,id)=>((LADDER.byTerm[term]||{})[who]||{steps:[]}).steps.f
     fresh('2027-10-18',23,'gongguan'); both('FRI'); datingZZ({yt:'confirmed'}); const e1=STORY_EVENTS.find(x=>x.id==='ev_zz_uk_1');
     const a=EVENTS.check(e1)&&ZRZQ.ukOk(G,1); at('2027-10-18',21.5); const b=!ZRZQ.ukOk(G,1); at('2027-10-19',4.3); G.zone='dorm'; const c=!ZRZQ.ukOk(G,1); at('2027-10-18',23); G.zone='campus'; const d=!ZRZQ.ukOk(G,1);
     G.zone='gongguan'; said=[]; await EVENTS.run(e1);
-    return [a&&b&&c&&d&&seq(L.UK[0])&&has('（打字，念出來）「在吃宵夜。第二份。」')&&!has('想妳。'),J({a,b,c,d,t:txt()})]; });
+    return [a&&b&&c&&d&&seq(L.UK[0])&&has('（打字，念出來）在吃宵夜。第二份。')&&!has('想妳。'),J({a,b,c,d,t:txt()})]; });
 
   /* ===================== 6 互斥 ===================== */
   await chk('6. 她們交往中：祐廷約子晴吃飯（麵店、半熟）、散步（溫州街）、一盞都照常（不是「兩個人單獨去…不太好」）',()=>{

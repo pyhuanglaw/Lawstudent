@@ -20,6 +20,8 @@
 require('./alison.js');
 /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 2026-11-02 確認）：1-1 第 26 列「換你讀別的」拿掉；1-2 等放榜整場拿掉（retired，定義還在） */
 const A590=require('./aa590_doc.js'), FIX590={'嗯。……你期末考完了吧。換你讀別的。':'嗯。……你期末考完了吧？'};
+/* AA_611 第 1 節第 12 列（企劃線 3f85566f4，學姊和 Alison 是姊妹）：1-5「搬去哪？」的回答改成搬到學校附近（tests/aa611_sisters_unit.js 對 AA_611 的稿）*/
+const FIX611={'遠一點的地方。一個人住。':'學校附近。一個人住。……研究室比較近。'};
 /* AA_595 1-B36（AA 11-02 22:30 定稿，圖書館小聲講）：「幫我看一下東西。……我去裝熱水。」改便利貼、她回來以後走到樓梯間（tests/libq_out_lines.js）——
    稿 → 遊戲：換掉的原句認新句；逐句比對時把新加的那句拿掉、便利貼換回原句 */
 const LQO=require('./libq_out_lines.js'), LQ_BACK=Object.fromEntries(Object.entries(LQO.REPLACED).map(([a,b])=>[b,a]));
@@ -121,13 +123,13 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
     /src\/sis_b14_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b15_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b15_3d\.js\?v=[^"]+"><\/script>/.test(html)&&a('src/sis_b15_3d.js')<a('<script>GAME.boot();</script>'));
   const G0=mine().concat(changed()), GS=new Set(G0.concat(G0.map(unq)));
   /* 稿 → 遊戲 */
-  const lostQ=QUOTES.filter(t=>!GS.has(t)&&!FIX590[t]&&!(LQO.REPLACED[t]&&GS.has(LQO.REPLACED[t]))&&!(t==='學姊今天遲到十分鐘 我拍下來了'&&typeof SISB15_LINES!=='undefined'&&SISB15_LINES.late===t)), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))), lostR=INLR.filter(t=>!GS.has(t)&&!/^（/.test(t));
+  const lostQ=QUOTES.filter(t=>!GS.has(t)&&!FIX590[t]&&!(FIX611[t]&&GS.has(FIX611[t]))&&!(LQO.REPLACED[t]&&GS.has(LQO.REPLACED[t]))&&!(t==='學姊今天遲到十分鐘 我拍下來了'&&typeof SISB15_LINES!=='undefined'&&SISB15_LINES.late===t)), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))), lostR=INLR.filter(t=>!GS.has(t)&&!/^（/.test(t));
   check('0. 稿 → 遊戲：第 1～3 節每一句「>」（'+QUOTES.length+' 句）都在遊戲裡',QUOTES.length===98&&!lostQ.length,J({n:QUOTES.length,lostQ}));
   check('0. 稿 → 遊戲：每個選項（'+OPTS.length+' 個）、→ 同一行的回覆（'+INLR.length+' 句）都在遊戲裡',OPTS.length===35&&INLR.length===7&&!lostO.length&&!lostR.length,J({o:OPTS.length,r:INLR.length,lostO,lostR}));
   const INLINE=['今天的題目在白板上。','坐。今天這題比較長。','佳穎，你先講。……好，換人。','明天讀書會。','去。','禮拜六畢業典禮 A館門口拍照 家族都來','（傳一張照片給她）','坐。還有十分鐘。','你沒去過吧。','學姊的三本書（每一本都畫了線）'];   /* 稿寫在說明句裡的（「」括起來）*/
   check('0. 稿寫在說明裡的句子（白板三句、私訊、回「去。」、Kevin 6/1 那一則、照片的選項、A 多的兩句、房間物件）都在稿裡、也在遊戲裡',INLINE.every(t=>(DOC.indexOf('「'+t+'」')>=0||A591.has(t))&&GS.has(t)),J(INLINE.filter(t=>!((DOC.indexOf('「'+t+'」')>=0||A591.has(t))&&GS.has(t)))));   /* 「坐。今天這題比較長。」：AA_591 第 4 列 */
   /* 遊戲 → 稿（說明：①studyAsk 是 AA_470 12-4 Kevin 那一句（稿沒寫揪的字，子代理解讀），對 SISB12_LINES；②「旁白：」那一句遊戲只放括號裡的字；③11/12 那一次椰林大道＝兩段照稿接起來）*/
-  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0&&!LQO.added(t)&&!(A590.has(t)&&Object.values(FIX590).includes(t))&&!A591.has(t)&&!A591.has(unq(t)));   /* AA_590 改過的句子：在 AA_590 的表上 */
+  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0&&!LQO.added(t)&&!(A590.has(t)&&Object.values(FIX590).includes(t))&&!A591.has(t)&&!A591.has(unq(t))&&!Object.values(FIX611).includes(t));   /* AA_590 改過的句子：在 AA_590 的表上；AA_611 改的：在 AA_611 的表上 */
   const okExtra={'每週四晚上七點 法圖討論室 學姊帶':typeof SISB12_LINES!=='undefined'&&(SISB12_LINES.studyAsk||[]).some(x=>x[1]==='每週四晚上七點 法圖討論室 學姊帶'),
     '（你講了二十分鐘，她都在聽，沒有打斷。）':DOC.indexOf('（旁白：你講了二十分鐘，她都在聽，沒有打斷。）')>=0};
   const bad=notIn.filter(t=>!okExtra[t]);
@@ -157,7 +159,7 @@ await sec(1,async()=>{
     if(s.retired590){ const ran0=EVENTS.check(e); check('1. '+s.n+' AA_590 第 28、29 列（使用者 11-02）整場拿掉：retired，C（有點熟）那一天走近她也不演（定義留給舊存檔，下面照舊逐句檢查）',!!e.retired&&ran0===false&&!(await tickOnly(s.id,[0])),J(e&&e.retired)); }
     else { const ran=await tickOnly(s.id,[0]);
     check('1. '+s.n+' C（有點熟）那一天走近她：演；選項前的句子照稿（'+b.pre.length+' 句）、兩個選項照稿；記在 events.done（一次）',ran&&J(lqNorm(said()).slice(0,b.pre.length))===J(b.pre)&&J(H.opts[0])===J(b.opts.map(o=>o.o))&&evDone(s.id)&&!EVENTS.check(e),J({s:said(),o:H.opts,want:b})); }
-    for(let k=0;k<b.opts.length;k++){ fresh(s.day,s.h,'fam',{},{zone:s.zone}); await runEv(s.id,[k]); const w=b.opts[k].r.concat(b.post).map(t=>FIX590[t]||t);   /* AA_590 改過的句子換成新句 */
+    for(let k=0;k<b.opts.length;k++){ fresh(s.day,s.h,'fam',{},{zone:s.zone}); await runEv(s.id,[k]); const w=b.opts[k].r.concat(b.post).map(t=>FIX590[t]||FIX611[t]||t);   /* AA_590、AA_611 改過的句子換成新句 */
       check('1. '+s.n+' 選項 '+b.opts[k].o+' → '+w.join('／'),seq(w)&&w.every(has),J(said())); }
     const no=[]; for(const [nm,key,hh,kind,o] of [['D 沒見過',s.day,s.h,'none'],['前一天',D(s.day)-1,s.h,'fam'],['隔天',D(s.day)+1,s.h,'fam'],['時段以前',s.day,s.time[0]-0.1,'fam'],['時段以後',s.day,s.time[1],'fam'],['不在那一區',s.day,s.h,'fam',{zone:s.zone==='campus'?'dorm':'campus'}]]){
       fresh(key,hh,kind,{},Object.assign({zone:s.zone},o||{})); if(s.disc) inDiscA(); if(EVENTS.check(e)) no.push(nm); }

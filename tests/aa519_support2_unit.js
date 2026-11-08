@@ -228,13 +228,13 @@ await sec('2-1',async()=>{
     S21.includes('2025 碩二、2026 碩三、2027 碩四')&&S21.includes('2028-09 起法研所博士班')&&T[0]==null&&Y.every((y,i)=>T[i+1]==='法研所（刑事法組）・'+y)&&T[4]==='法研所博士班'&&J(SOCIAL.PG_TAG.npc_ta_chen)===J([['2029-09-01','法研所博士班']]),J({T,pg:SOCIAL.PG_TAG.npc_ta_chen}));
   const all=J(SMALLTALK)+J(POOL_STORY_B2)+J(LN().ta);
   check('2-1 他的論文卡在第五章：不再用「第三章」（閒聊、別人說起他：pool_story_b2「冠廷學長在寫論文的第五章。他說不要問第六章。」；第四章跟著換第六章＝子代理解讀）',
-    S21.includes('他的論文卡在**第五章**')&&!/冠廷學長在寫論文的第三章|論文寫到第三章/.test(all)&&J(POOL_STORY_B2).includes('「冠廷學長在寫論文的第五章。他說不要問第六章。」'),''); });
+    S21.includes('他的論文卡在**第五章**')&&!/冠廷學長在寫論文的第三章|論文寫到第三章/.test(all)&&J(POOL_STORY_B2).includes('冠廷學長在寫論文的第五章。他說不要問第六章。'),''); });
 await sec('2-2',async()=>{
   const T22=table(S22), Y={}; T22.forEach((r,i)=>{ Y[i+1]=qs(r[1]); }); const NOSIS=one(/換成「([^」]+)」/,part('- 「我口試那天',null,S22));
   check('2-2 對稿：四個學年各兩句＝ta.years；不認識學姊的那一句＝ta.noSis；取代 events.js 原本那兩句（SMALLTALK.npc_ta_chen 空了，原本「論文寫到第三章…」不在）',
     T22.length===4&&J(Y)===J(LN().ta.years)&&NOSIS===LN().ta.noSis&&J(SMALLTALK.npc_ta_chen)==='[]',J({Y,NOSIS}));
   fresh('2025-10-07',15,'campus'); H.FAMILIAR('npc_ta_chen'); const s=[]; for(let i=0;i<6;i++){ at(D('2025-10-07')+i,15); s.push(small('npc_ta_chen')); if(i===0) s.push(small('npc_ta_chen')); }
-  const Q=t=>'「'+t+'」', WX='（陳助教跟你打了個招呼，聊了兩句天氣。）', AG='（陳助教跟你打了個招呼，又忙自己的事。）', y1=LN().ta.years[1];
+  const Q=t=>t, WX='（陳助教跟你打了個招呼，聊了兩句天氣。）', AG='（陳助教跟你打了個招呼，又忙自己的事。）', y1=LN().ta.years[1];
   check('2-2 一年兩句照順序、一天一句（同一天第二次＝照舊「又忙自己的事」）；用完那一年＝和「聊了兩句天氣」交替（天氣、一句、天氣、另一句）',
     J(s)===J([Q(y1[0]),AG,Q(y1[1]),WX,Q(y1[0]),WX,Q(y1[1])]),J(s));
   const yr=[]; for(const [k,y] of [['2026-10-07',2],['2027-10-07',3]]){ fresh(k,15,'campus'); H.FAMILIAR('npc_ta_chen'); const a=small('npc_ta_chen'); at(D(k)+1,15); yr.push([y,a,small('npc_ta_chen')]); }
@@ -331,7 +331,8 @@ await sec('4-1',async()=>{
   check('4-1 對稿：四個學年各兩句＝hxh.years；「語彤最近很累」＝hxh.tired；PG_TAG 2029-09 起「臨床心理所」；取代 events.js 原本那一句（SMALLTALK.npc_huangxh 空了）',
     T41.length===4&&J(Y)===J(LN().hxh.years)&&TIRED===LN().hxh.tired&&J(SOCIAL.PG_TAG.npc_huangxh)===J([['2029-09-01',PGT]])&&J(SMALLTALK.npc_huangxh)==='[]',J({Y,TIRED,PGT}));
   const run=(k,n,yt)=>{ fresh(k,15,'campus'); H.FAMILIAR('npc_huangxh'); if(yt) H.FAMILIAR('heroine_03'); const s=[]; for(let i=0;i<n;i++){ at(D(k)+i,15); s.push(small('npc_huangxh')); } return s; };
-  const Q=t=>'「'+t+'」', WX='（黃筱涵跟你打了個招呼，聊了兩句天氣。）', Yy=LN().hxh.years;
+  /* SMALL_DAILY 的一句是 GM.say(who,…) 有名字說的：不加外面的「」（TEXT-QUOTE-UNIFY-1108 第四批，AA-B 11-08 05:31；原本 Q＝加「」）*/
+  const Q=t=>t, WX='（黃筱涵跟你打了個招呼，聊了兩句天氣。）', Yy=LN().hxh.years;
   const a=run('2025-10-07',4,true), b=run('2025-10-07',3,false), c=run('2027-10-07',3,true), d=run('2027-10-07',2,false), e=run('2028-10-07',2,true);
   check('4-1 大一（認識語彤）：兩句、再「語彤最近很累…」、再天氣；不認識語彤沒有那一句；大三（認識語彤）第二句「語彤最近比較好了。…」、不認識＝只有第一句再天氣；大四兩句（「很累」大三起不出）',
     J(a)===J([Q(Yy[1][0]),Q(Yy[1][1]),Q(LN().hxh.tired),WX])&&J(b)===J([Q(Yy[1][0]),Q(Yy[1][1]),WX])&&J(c)===J([Q(Yy[3][0]),Q(Yy[3][1]),WX])&&J(d)===J([Q(Yy[3][0]),WX])&&J(e)===J([Q(Yy[4][0]),Q(Yy[4][1])]),J({a,b,c,d,e})); });
@@ -367,17 +368,17 @@ await sec('5-1',async()=>{
   const atCs=[]; for(const [t,w,wd,h,z] of [['Y2S1',3,5,17.1,'campus'],['Y2S1',2,5,17.1,'campus'],['Y2S1',16,5,17.1,'campus'],['Y2S2',3,5,17.5,'campus'],['Y4S2',3,5,17.9,'campus'],['Y3S1',3,4,17.5,'campus'],['Y3S1',3,5,18,'campus'],['Y3S1',3,5,17.5,'cafe']]){
     fresh(TD(t,w,wd),h,z); atCs.push(X().kaiAtCs(H.G)); }
   check('5-1 資工系館前那一個小時：大二上第 3～15 週週五、大二下～大四週五 17:00～18:00 在校園＝是；第 2 週、第 16 週、週四、18:00、不在校園＝不是',J(atCs)===J([true,false,false,true,true,false,false,false]),J(atCs));
-  const R=LN().kai.rows, T=k=>'「'+R.find(r=>r.k===k).t+'」', s=[];
+  const R=LN().kai.rows, T=k=>R.find(r=>r.k===k).t, s=[];   /* SMALL_DAILY 的一句是 GM.say(who,…) 有名字說的：不加外面的「」（TEXT-QUOTE-UNIFY-1108 第四批，AA-B 11-08 05:31；原本 Q＝加「」）*/
   const one5=(t,w,fl,mem)=>{ fresh(TD(t,w,5),17.1,'campus',fl); H.FAMILIAR('kai'); if(mem) SOCIAL.remember('kai',mem,''); return small('kai'); };
   s.push(one5('Y2S1',5),one5('Y2S2',3,{},'KAI_BOT'),one5('Y2S2',3),one5('Y3S1',3),one5('Y3S2',3),one5('Y4S1',3),one5('Y4S2',3));
   check('5-1 照時期：大二上「新室友十點就睡…」、大二下有 KAI_BOT「我的作業會頂嘴了…」（沒有＝短句）、大三上、大三下、大四上 K5 以前「公司九點上班…」、大四下「名單第二行，是我…」',
-    J(s)===J([T('y2s1'),T('y2s2_bot'),'「吃了嗎。」',T('y3s1'),T('y3s2'),T('y4s1_pre'),T('y4s2')]),J(s));
+    J(s)===J([T('y2s1'),T('y2s2_bot'),'吃了嗎。',T('y3s1'),T('y3s2'),T('y4s1_pre'),T('y4s2')]),J(s));
   const k5=R.find(r=>r.k==='y4s1_k5').k5, v=[]; for(const f of ['write','bug','company','awake','none',null]){ fresh('2028-11-24',17.1,'campus',f?{KAI_K5:f}:{}); H.FAMILIAR('kai'); v.push(small('kai')); }
   fresh('2028-11-24',17.1,'campus',{KAI_K5:'bug'}); H.FAMILIAR('kai'); const w=[small('kai'),small('kai'),small('kai')];
   check('5-1 大四上 K5（2028-11-22）以後照 KAI_K5：write／bug／company／awake／none（沒回）五句；當天之後短句「吃了嗎。」「我在等 build。」輪流',
-    J(v)===J(['write','bug','company','awake','none','none'].map(k=>'「'+k5[k]+'」'))&&J(w)===J(['「'+k5.bug+'」','「吃了嗎。」','「我在等 build。」']),J({v,w}));
+    J(v)===J(['write','bug','company','awake','none','none'].map(k=>k5[k]))&&J(w)===J([k5.bug,'吃了嗎。','我在等 build。']),J({v,w}));
   fresh(TD('Y3S1',3,4),15,'campus'); H.FAMILIAR('kai'); const o=small('kai');
-  check('5-1 不在資工系館前那一個小時：照原本的閒聊（不是這張表）',!Object.values(LN().kai.rows).some(r=>r.t&&o==='「'+r.t+'」'),J(o)); });
+  check('5-1 不在資工系館前那一個小時：照原本的閒聊（不是這張表）',!Object.values(LN().kai.rows).some(r=>r.t&&(o===r.t||o==='「'+r.t+'」')),J(o)); });
 await sec('5-2',async()=>{
   const NEW=qs(part('大二下起換成這三句輪：','- 「新室友」那句',S52)), ROOM=one(/第二次起換「([^」]+)」/,S52);
   const L=(ev('ev_kai_sunday_supper')||{dialogue:[]}).dialogue.find(l=>l&&l.pick&&l.pick.flag==='KAI_SUP_LINE'), seq=(key,n,fl)=>{ fresh(key,23,'dorm',fl); const out=[]; for(let i=1;i<=n;i++){ H.G.flags.KAI_SUP_N=i; out.push(L.pick.from(H.G)[0]); } return out; };
@@ -411,7 +412,7 @@ await sec('6',async()=>{
   check('6 日本路線立衡版的腳踏車移到重逢（4/2）以後第一個週六（字不改）：第 6 節寫 4/7、第 9 節第 2 點更正 4/8（六）——jp_blank3d.js 那一格、立衡那則私訊的日子都是 2028-04-08',
     BK==='4/7'&&BK9==='4/8'&&ent==='2028-04-08'&&!!lh&&lh.ask==='2028-04-08'&&J(lh.msg)===J(['腳踏車要買嗎 我知道一間二手的']),J({BK,BK9,ent,lh}));
   const FY=qs(part('- **方奕廷**','- **予樂**',S6)).slice(1), S=[]; for(const k of ['2025-10-07','2026-10-07','2027-10-07','2028-10-07']){ fresh(k,15,'campus'); H.FAMILIAR('npc_fangyt'); S.push(small('npc_fangyt')); }
-  check('6 方奕廷：大一、大二、大三各一句（每學期一次；大一那句照 DIALOGUE-DEPTH-1031 AA_560 C7「第一次一個人上山」），大四以後不說（2028-07 起在嘉義）；舊的「森林系的野外實習，下週去溪頭。」不在',FY.length===3&&J(S.slice(0,3))===J(FY.map(t=>'「'+t.replace('第一次上山','第一次一個人上山')+'」'))&&!FY.includes(String(S[3]).replace(/^「|」$/g,''))&&!J(SMALLTALK.npc_fangyt).includes('森林系的野外實習'),J({FY,S}));
+  check('6 方奕廷：大一、大二、大三各一句（每學期一次；大一那句照 DIALOGUE-DEPTH-1031 AA_560 C7「第一次一個人上山」），大四以後不說（2028-07 起在嘉義）；舊的「森林系的野外實習，下週去溪頭。」不在',FY.length===3&&J(S.slice(0,3))===J(FY.map(t=>t.replace('第一次上山','第一次一個人上山')))&&!FY.includes(String(S[3]).replace(/^「|」$/g,''))&&!J(SMALLTALK.npc_fangyt).includes('森林系的野外實習'),J({FY,S}));
   const YL=one(/第二場改成：「([^」]+)」/,S6), L=evLines('ev_kexin_two_circles'), y=L.find(x=>x.t===YL);
   check('6 予樂：兩邊的朋友（第二場）三句改成「'+YL+'」（YL_IMPRESSION 三種都說這一句）；電影夜那一場（y2r2_3d.js）照舊',!!y&&y.who==='予樂'&&J(y.l.if)===J({flagIs:{YL_IMPRESSION:['funny','honest','polite']}})&&!L.some(x=>/這是很(好笑|老實|客氣)的司機。/.test(x.t))&&SRC('src/y2r2_3d.js').includes('這是很好笑的司機。'),J(y&&y.l)); });
 
@@ -430,7 +431,7 @@ await sec('7',async()=>{
     a23==='there'&&J(ay)===J(['阿姨：照片我挑了好久。……你在第幾排，自己找。'])&&o2.includes('「二十三週年那一張。」'),J({a23,ay,o2}));
   /* ③ 陳助教大三說「六月口試」，2028-06-20 收到「過了。」 */
   fresh('2027-10-07',15,'campus'); H.FAMILIAR('npc_ta_chen'); small('npc_ta_chen'); at(D('2027-10-08'),15); const t3=small('npc_ta_chen'); at('2028-06-20',20.9); ph(); at('2028-06-20',21.1); ph(); const m3=txt('p:npc_ta_chen');
-  check('7③ 陳助教大三說「六月口試。……」，2028-06-20 收到「過了。」',/^「六月口試。/.test(t3||'')&&m3[0]==='過了。',J({t3,m3}));
+  check('7③ 陳助教大三說「六月口試。……」，2028-06-20 收到「過了。」',/^六月口試。/.test(t3||'')&&m3[0]==='過了。',J({t3,m3}));
   /* ④ 芷若不在班時，Café 櫃台是男老闆 */
   fresh(TD('Y1S2',3,2),15,'cafe'); const zr=STORY.schedEnt(CHARACTERS.heroine_02,H.G), c4=populate('cafe'), s4=built.find(s=>s&&s.id==='clerk_cafe');
   check('7④ 芷若不在班（週二下午她在總圖）：Café 櫃台是男老闆',!(zr&&zr.zone==='cafe')&&!!c4&&!!s4&&s4.sex==='m'&&c4.name==='老闆',J({zr:zr&&zr.zone}));
@@ -440,7 +441,7 @@ await sec('7',async()=>{
   /* ⑥ 阿凱大四上 K5 選「先修 bug。」→ 之後在資工系館前聽到「修好那天晚上……」 */
   fresh('2028-11-22',23,'dorm'); H.FRIEND('kai'); INV.addContact(H.G,'kai'); at('2028-11-22',23.7); R3.kaiK5(H.G); PHONE.tick(H.G); const k=(PHONE.byAsk(H.G,'r3_kai_k5')||{ask:{opts:[]}}).ask.opts.findIndex(o=>o.t==='先修 bug。'); PHONE.answer(H.G,'r3_kai_k5',k);
   at('2028-11-24',17.1,'campus'); const s6=small('kai');
-  check('7⑥ 阿凱 K5（2028-11-22 23:40）選「先修 bug。」→ KAI_K5 bug；之後週五 17:00 資工系館前「你說先修 bug。……修好那天晚上，我睡了十個小時。」',k>=0&&H.G.flags.KAI_K5==='bug'&&s6==='「你說先修 bug。……修好那天晚上，我睡了十個小時。」',J({k,s6})); });
+  check('7⑥ 阿凱 K5（2028-11-22 23:40）選「先修 bug。」→ KAI_K5 bug；之後週五 17:00 資工系館前「你說先修 bug。……修好那天晚上，我睡了十個小時。」',k>=0&&H.G.flags.KAI_K5==='bug'&&s6==='你說先修 bug。……修好那天晚上，我睡了十個小時。',J({k,s6})); });
 
 /* ===================== 8 第 8 節（d75cd0228）===================== */
 await sec('8-1',async()=>{
@@ -637,7 +638,7 @@ await sec('9-4',async()=>{
 await sec('9',async()=>{
   fresh('2025-10-07',15,'campus',{},{raw:true}); H.FAMILIAR('npc_ta_chen'); (H.G.social.small||(H.G.social.small={})).npc_ta_chen={day:D('2025-10-06'),used:['「論文寫到第三章。……別問我第四章。」'],last:'「論文寫到第三章。……別問我第四章。」'};
   const s1=small('npc_ta_chen'), had=H.G.flags.AA519!=null;
-  check('9 舊存檔（沒有 AA519、閒聊紀錄是舊的兩句）：照新的句子從頭開始、不丟例外；AA519 紀錄用到才建',s1==='「'+LN().ta.years[1][0]+'」'&&had,J(s1));
+  check('9 舊存檔（沒有 AA519、閒聊紀錄是舊的兩句）：照新的句子從頭開始、不丟例外；AA519 紀錄用到才建',s1===LN().ta.years[1][0]&&had,J(s1));
   fresh(TD('Y2S1',3,2),18,'noodle',{AA519:true,ANNIVERSARY_23:true,JOB_NOODLE:true,JOB_NOODLE_SUMMER:true},{raw:true}); const s2=await aunt(); const R=H.G.flags.AA519;
   check('9 壞掉或舊的旗標（AA519 不是物件、舊的 ANNIVERSARY_23、JOB_NOODLE、JOB_NOODLE_SUMMER）：照常說話、紀錄修好',J(s2)===J(['阿姨：大二了。……大二也要吃飯。'])&&!!R&&typeof R==='object'&&!!R.talk,J(s2));
   /* 存讀檔：說過的、短句輪到哪裡都記在 G.flags.AA519 */
@@ -672,7 +673,7 @@ await sec('10',async()=>{
     '（二十分鐘後，阿凱全身濕，站在門口，手上這次是一袋滷味。）':'5-3 稿上「→」右邊那一句加原句的開頭「（二十分鐘後，」（第 5 段查）',
     '（二十分鐘後，阿凱站在門口，雨衣在滴水，手上兩杯熱豆漿。……泡麵，他說他不想再吃了。柏翰在靠窗那張桌子念書，看了一眼，戴上耳塞。）':'5-3 同上，加原句的後半（柏翰…）',
     '（打開筆電）你看，我的作業會頂嘴了。':'5-2 大二上照舊的那一句（AA_328）','新室友說我話很多。……真的很多嗎？':'5-2 大二上照舊三句之一',
-    '「芷若跟你講過我嗎？她高中就這樣，什麼都不講。」':'方奕廷同一行原本的第二句（照舊）','照片我貼起來了。你們自己找，找不到的下次帶一張來。':'最後一頓同一行原本的句子（只改選項的條件）',
+    '芷若跟你講過我嗎？她高中就這樣，什麼都不講。':'方奕廷同一行原本的第二句（照舊）','照片我貼起來了。你們自己找，找不到的下次帶一張來。':'最後一頓同一行原本的句子（只改選項的條件）',
     '暑假我在打工。八月想回宜蘭，待久一點。':'5-4「→」右邊那一句，前面「暑假我在打工。」照舊','還要做嗎？':'wz_jobs.js 同一行原本的欄位','有空回來看看':'同上（溫州街三家、書店的離職照舊）',
     '腳踏車要買嗎 我知道一間二手的':'第 6 節、第 9 節第 2 點只改日子，字不改',
     '（阿哲和柏翰也各分到一些。學弟說他不吃辣。）':'9-1「其他泡麵照同樣的意思改」：原本「各分到一包」，一袋滷味分不出包（子代理解讀）',
@@ -680,7 +681,7 @@ await sec('10',async()=>{
     '（他把吸管插進第一杯。）':'9-1 只有阿凱那一版：原本「（他拆了第一包。）」（子代理解讀）','「一人一杯。」':'9-1 同上：原本「一人一包。」','兩杯。颱風天。':'9-1 同上：原本「兩包。颱風天。」（兩杯都要）',
     '所以我帶豆漿過去':'9-1 大三 19:30 那則（src/r2y3a3d.js）：原本「所以我帶泡麵過去」（子代理解讀）',
     '（第一個週六。你走路繞了大學城一圈。腳踏車還沒買。）':'9-2 稿上「→」右邊那一句，加原句的開頭「（第一個週六。」（原句後半「，花了四十分鐘。」跟著拿掉）',
-    'src/multirel3d.js C.auntIn＝S.auntIn：AA_627 P-19、AA_630 Z-032（YT-REWRITE-1103）起整段搬到一盞茶屋：茶屋的店員就是蘇姨，語彤上班的時候一定在（有 HCIRCLE＝在；燒臘店的店休、阿姨出國跟她無關了）；「蘇姨呢？」「去批茶葉。」留著當備用；後面那三句（「蘇姨，我等一下自己收。」「好啦，你們年輕人。」（蘇姨先走了。））看 C.auntLate（蘇姨在、16:30 以後＝茶屋 17:00 打烊前）。原本（AA_519 第 8 節第 1 點，d75cd0228）：labelIn(G,"hc_ayi","noodle") 或 !HCIRCLE.auntAway(G)，店開著＝阿姨在':'9-4 privtalk3d.js 清單第 7 項的說明字（玩家看不到；稿「註解那一點 LAWWW 順手改」）','「冠廷學長在寫論文的第五章。他說不要問第六章。」':'2-1「論文卡在第五章」的推論（子代理解讀）','「我在幫老師整理判決。一份判決讀完，我多了三個問題。」':'pool_story_b2 同一行原本的第二句',
+    'src/multirel3d.js C.auntIn＝S.auntIn：AA_627 P-19、AA_630 Z-032（YT-REWRITE-1103）起整段搬到一盞茶屋：茶屋的店員就是蘇姨，語彤上班的時候一定在（有 HCIRCLE＝在；燒臘店的店休、阿姨出國跟她無關了）；「蘇姨呢？」「去批茶葉。」留著當備用；後面那三句（「蘇姨，我等一下自己收。」「好啦，你們年輕人。」（蘇姨先走了。））看 C.auntLate（蘇姨在、16:30 以後＝茶屋 17:00 打烊前）。原本（AA_519 第 8 節第 1 點，d75cd0228）：labelIn(G,"hc_ayi","noodle") 或 !HCIRCLE.auntAway(G)，店開著＝阿姨在':'9-4 privtalk3d.js 清單第 7 項的說明字（玩家看不到；稿「註解那一點 LAWWW 順手改」）','冠廷學長在寫論文的第五章。他說不要問第六章。':'2-1「論文卡在第五章」的推論（子代理解讀）','我在幫老師整理判決。一份判決讀完，我多了三個問題。':'pool_story_b2 同一行原本的第二句',
     '法研所（刑事法組）・碩二':'2-1 年級（稿：2025 碩二）','法研所（刑事法組）・碩三':'2-1（2026 碩三）','法研所（刑事法組）・碩四':'2-1（2027 碩四）','法研所（刑事法組）':'characters.js 同一行原本的欄位',
     '刑訴助教；講話慢、喜歡反問；準備寫論文寫到懷疑人生':'同上','博士班或律師':'同上',
     '小禾：學姊，三號桌說要「跟上次一樣」。／芷若：……上次是誰點的？／小禾：我。／芷若：那妳去。':'AA_508 2-1 的句子，說話人照 3-4 換小禾（tests/heroine_circle3d_unit.js 對稿）',

@@ -181,7 +181,10 @@ const POOL=(function(){
     qjqNo:G=>S.qState(G,'PQ_QJQ')==='declined' };
   S.WHEN=WHEN;
   S.nextLine=function(G,id){ const r=small(G,id), once=r.once||{}; for(const e of ((L[id]&&L[id].talk)||[])){ if(once[e.t]||(e.old&&once[e.old])) continue;   /* old：稿改過的原句（舊存檔說過舊的那一句＝照算說過，第二批以後）*/ const w=e.when==='secret'?has(id,'SHARED_SECRET'):(WHEN[e.when]?WHEN[e.when](G):false); if(w) return e; } return null; };
-  const sayAny=async(GM,who,t)=>{ if(/^（/.test(t)) await GM.say(null,t); else await GM.say(who,t,{expr:'smile'}); };
+  /* 之後的招呼（greet）：整句都在一對（）裡＝旁白，其他＝他說的（GM.say(who,…)）。TEXT-QUOTE-UNIFY-1108 第四批（AA-B 2026-11-08）說的話拿掉外面的「」以後，
+     「（他按掉手機的計時器）時間到。」（pool_story_b3.js 何宇軒）開頭是（、可是是他說的——原本看開頭的（ 會變成旁白，改成看整句是不是一對（）（原本（ 開頭的二十句都是整句旁白，結果一樣）*/
+  S.narrWhole=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='（') d++; else if(ch==='）'){ d--; if(d===0) return i===t.length-1; } } return false; };
+  const sayAny=async(GM,who,t)=>{ if(S.narrWhole(t)) await GM.say(null,t); else await GM.say(who,t,{expr:'smile'}); };
   S.smallTalk=async function(GM,who,id){ const G=GM.G, r=small(G,id), T=T_(G), tid0=T?T.id:'none', nm=typeof SOCIAL!=='undefined'?SOCIAL.displayName(id):id;
     const act=fresh=>{ if(typeof SOCIAL!=='undefined'&&SOCIAL.activity){ SOCIAL.activity(id,'chat'); if(fresh) SOCIAL.activity(id,'chatNew'); } };
     if(r.day===G.day){ const o=typeof STORY!=='undefined'&&STORY.greetB?STORY.greetB(G,id,r,nm,T,tid0):{narr:'（'+nm+'對你點點頭。）'}; if(o.say) await GM.say(who,o.say); else await GM.say(null,o.narr); act(false); return 'repeat'; }   /* 一天一句 */

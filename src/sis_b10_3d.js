@@ -84,7 +84,8 @@ const SISB10=(function(){
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!G.flags||!law(G)) return false; const id=S.exDue(GM); if(!id) return false; const ev=evOf(id); if(!ev) return false;
     G.flags.SIS_EX_SEEN=(G.flags.SIS_EX_SEEN|0)+1; G.flags.SIS_EX_LAST=G.day; return go(()=>EVENTS.run(ev)); };
   /* ---------------- 初一 09:00 她先私訊（AA_258 第 2 節；AA-B 11-01 確認沒被 AA_396 取代：AA_396 只有除夕）---------------- */
-  S.CNY1={2027:{d:'2027-02-06',ms:['新年快樂。……今年想第一個跟你說，所以先傳了。','新家的廚房還找不到碗放哪裡。我媽說初三以後再找。','初三有空的話，出來走走。'],opts:[['好。初三見。','好。不用排行程。'],['初三要陪家人。','好。那開學見。']]},
+  /* AA_611 第 1 節第 11 列（企劃線 3f85566f4）：2027 第二則＝阿公奶奶家搬家以後（原本「新家的廚房還找不到碗放哪裡。我媽說初三以後再找。」，媽媽那句改奶奶）*/
+  S.CNY1={2027:{d:'2027-02-06',ms:['新年快樂。……今年想第一個跟你說，所以先傳了。','新家的廚房比較小，奶奶說初三以後再整理。','初三有空的話，出來走走。'],opts:[['好。初三見。','好。不用排行程。'],['初三要陪家人。','好。那開學見。']]},
     2028:{d:'2028-01-26',ms:['新年快樂。','今年的計畫本，第一頁寫的是：等。','……你的也是嗎。'],opts:[['我也在等。','那我們一起等。'],['我的寫了妳。','……不要在初一講這種話。我媽在旁邊。']]},
     2029:{d:'2029-02-13',ms:['新年快樂。論文我今天放一天假。','今天只想吃東西。'],opts:[['吃什麼？','我媽煮的全部。'],['放假就好好放。','好。明天再寫。']]}};   /* 交往中才傳；初一（CALENDAR 的 LUNAR cny）09:00；晚兩天以內補 */
   S.cny1=function(G){ if(!S.dating(G)) return; for(const y in S.CNY1){ const c=S.CNY1[y], d=D(c.d), tag='sisb10_cny1_'+y; if(d==null||sent(G,tag)||G.day<d||G.day>d+2||(G.day===d&&hh(G)<9)) continue;

@@ -14,7 +14,7 @@ const live=(G,id)=>(G.invites||[]).filter(v=>v.who===id&&v.state==='accepted');
     let err=null; try{ await INV.flow(GM,'heroine_03',null,false); }catch(e){ err=String(e&&e.stack||e); }
     const T=H.said.map(s=>s.t);
     check('1. 撞到自己的約：先說「你那個時間已經約了別人。改成…？」',T.some(t=>/^你那個時間已經約了別人。改成/.test(t)),J(T));
-    check('1. 選了系統提的時間：重新問語彤，她照設計婉拒（「……咖啡廳我坐不住。」），沒有約成',!err&&T.includes('「……咖啡廳我坐不住。」')&&live(G,'heroine_03').length===0,err||J({T,iv:live(G,'heroine_03')})); }
+    check('1. 選了系統提的時間：重新問語彤，她照設計婉拒（「……咖啡廳我坐不住。」），沒有約成',!err&&T.includes('……咖啡廳我坐不住。')&&live(G,'heroine_03').length===0,err||J({T,iv:live(G,'heroine_03')})); }
   { const G=fresh('2025-10-15',10); H.FRIEND('heroine_01'); G.contacts.heroine_01=1; H.FRIEND('zhe'); G.contacts.zhe=1;
     INV.accept(G,'zhe','noodle',G.day,15.5,{by:'player'});
     H.said=[]; H.picks=['念書','總圖','今天 15:30','好，就'];
