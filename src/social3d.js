@@ -167,8 +167,13 @@ const SOCIAL = (function(){
   S.markUp=function(id,k){ const U=G.social.relUp||(G.social.relUp={}); if((U[id]|0)<k){ U[id]=k; (G.social.relUpDay||(G.social.relUpDay={}))[id]=G.day; } };   /* relUpDay：那天說的（方奕廷「我下週上山」之後的那一週要知道是哪一天）*/
   S.byeLine=function(id){ const d=RL()[id]; if(!d||!d.bye) return null; const s=S.friendLevel(id), B=d.bye;
     const v=pickV((s==='CLOSE_FRIEND'&&B.CLOSE_FRIEND)||((s==='CLOSE_FRIEND'||s==='FRIEND')&&B.FRIEND)||B.base); return v?(v.l||v):null; };
-  S.meetLine=function(id,pid){ const d=RL()[id], T=d&&d.meet&&d.meet[pid]; if(!T) return null; const s=S.friendLevel(id);
-    const v=pickV(T[(s==='FRIEND'||s==='CLOSE_FRIEND')?'R':(s==='FAMILIAR'?'F':'A')]); return v?(typeof v==='string'?v:(v.t||null)):null; };
+  /* 見面那一格：字串＝旁白；{t,say:true}＝那個人說的話（rel_lines.js 的 meet，AA-B 2026-11-08 有名字說的台詞不加「」以後這樣標）。
+     舊的寫法（字串開頭是「＝她說的，src/invites3d.js 原本用 /^「/ 判斷）照樣認得：說的人照舊，外面整句的「」拿掉再顯示 */
+  const unqM=t=>/^「[^「」]*」$/.test(t)?t.slice(1,-1):t;
+  S.meetText=function(v){ if(v==null) return null; if(typeof v==='string') return /^「/.test(v)?{t:unqM(v),say:true}:{t:v,say:false}; if(typeof v.t!=='string'||!v.t) return null; return 'say' in v?{t:v.t,say:!!v.say}:S.meetText(v.t); };   /* {if,t}（好幾個版本）沒寫 say＝照字串的認法 */
+  S.meetPick=function(id,pid){ const d=RL()[id], T=d&&d.meet&&d.meet[pid]; if(!T) return null; const s=S.friendLevel(id);
+    return S.meetText(pickV(T[(s==='FRIEND'||s==='CLOSE_FRIEND')?'R':(s==='FAMILIAR'?'F':'A')])); };   /* src/invites3d.js S.meet：say＝那個人說（對話框寫名字），不然是旁白 */
+  S.meetLine=function(id,pid){ const m=S.meetPick(id,pid); return m?m.t:null; };   /* 只要字（LIBQ、測試）*/
   /* 交往中的叫法（rel_lines 的 contact.DATING；AA_313 6-5 第 8 點：學姊交往以後聯絡人是「書瑀」，手機上她的訊息也照這個名字）*/
   /* 學姊：使用者 10-17 甲「交往那天起叫書瑀」，開始交往以後所有交往中的事件、選項、訊息都叫「書瑀」（AA_243 第 5 節第 6 題、AA_262 第 5 節第 3 件、AA_327）——
      CALLED_SHUYU 在開始交往那天記（romance3d.js ROM.start），這裡讀它：交往中而且記過＝「書瑀」。分手以後怎麼叫照 BB 定（還沒定：先照原本的名字）*/

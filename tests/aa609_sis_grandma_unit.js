@@ -122,7 +122,7 @@ await sec(6,async()=>{
 /* ---------- 7 第 9 節 ---------- */
 await sec(7,()=>{
   const l=REL_LINES.heroine_05&&REL_LINES.heroine_05.up&&REL_LINES.heroine_05.up.FAMILIAR&&REL_LINES.heroine_05.up.FAMILIAR.l;
-  check('7. 學姊升到有點熟的第一句「{name}。法圖四樓比較安靜，考前可以來這裡。」（原本「{name}，你最近很常來法圖。」）',J(l)===J(['「{name}。法圖四樓比較安靜，考前可以來這裡。」'])&&!J(REL_LINES).includes('你最近很常來法圖'),J(l));
+  check('7. 學姊升到有點熟的第一句「{name}。法圖四樓比較安靜，考前可以來這裡。」（原本「{name}，你最近很常來法圖。」）',J(l)===J(['{name}。法圖四樓比較安靜，考前可以來這裡。'])&&!J(REL_LINES).includes('你最近很常來法圖'),J(l));
 });
 
 /* ---------- 8 這幾場沒有「爸」 ---------- */

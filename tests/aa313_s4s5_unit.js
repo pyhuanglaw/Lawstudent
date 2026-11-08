@@ -119,9 +119,9 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('5-3. 聖誕交換：「（阿哲先到。五分鐘後 Alison 也到了。）」；抽到阿哲的「你抽到阿哲的：一個保溫杯。Alison 送的那個，一模一樣。」',L.includes('（阿哲先到。五分鐘後 Alison 也到了。）')&&!L.includes('（阿哲和 Alison 一起來。）')&&L.includes('你抽到阿哲的：一個保溫杯。Alison 送的那個，一模一樣。'),J(L)); }
   // 升階的問句（5-1 第 11 點、5-3、5-4、5-6）
   { const pickUp=(id,lv,key)=>{ fresh(D(key),12,'campus'); const U=REL_LINES[id].up[lv]; const A=Array.isArray(U)?U:[U]; const u=A.find(x=>!x.if||x.if(G)); return u&&u.l; };
-    check('5-3. 阿哲升 FAMILIAR：大一上「民總的報告」、其他學期「欸，這學期的報告你分好組了沒？」',J(pickUp('zhe','FAMILIAR','2025-10-01'))===J(['「欸，民總的報告你分好組了沒？」'])&&J(pickUp('zhe','FAMILIAR','2026-10-01'))===J(['「欸，這學期的報告你分好組了沒？」']));
+    check('5-3. 阿哲升 FAMILIAR：大一上「民總的報告」、其他學期「欸，這學期的報告你分好組了沒？」',J(pickUp('zhe','FAMILIAR','2025-10-01'))===J(['欸，民總的報告你分好組了沒？'])&&J(pickUp('zhe','FAMILIAR','2026-10-01'))===J(['欸，這學期的報告你分好組了沒？']));
     const yc=REL_LINES.yu.up.CLOSE_FRIEND.ch, xc=REL_LINES.classmate_xinci.up.CLOSE_FRIEND.ch;
-    check('5-4、5-6. Alison、芯慈升 CLOSE 的問句接回答（「好啊。」／「那天不行。」）',J(yc)===J([{t:'好啊。',r:['「那我跟阿哲說多一個。」']},{t:'那天不行。',r:['「好啦，下次。」']}])&&J(xc)===J([{t:'好啊。',r:['「那週三下午，我先查好地方。」']},{t:'那天不行。',r:['「好。那我再問你。」']}]),J([yc,xc])); }
+    check('5-4、5-6. Alison、芯慈升 CLOSE 的問句接回答（「好啊。」／「那天不行。」）',J(yc)===J([{t:'好啊。',r:['那我跟阿哲說多一個。']},{t:'那天不行。',r:['好啦，下次。']}])&&J(xc)===J([{t:'好啊。',r:['那週三下午，我先查好地方。']},{t:'那天不行。',r:['好。那我再問你。']}]),J([yc,xc])); }
   check('5-3. 大二颱風夜（312）：開頭旁白「（柏翰在讀許教授的講義。阿哲已經在煮第二包了。）」',(ev('ev_y2_typhoon_kai').dialogue[0]||{}).text==='（柏翰在讀許教授的講義。阿哲已經在煮第二包了。）');
   // 主線 4 的週次（5-3、5-6）
   { const pk=(key,ids)=>{ fresh(D(key),21.5,'dorm',{}); for(const id of ids) R(id,'FAM'); return STORY.neededPick(G,D(key)).map(e=>e.id); };

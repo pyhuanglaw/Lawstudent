@@ -80,8 +80,8 @@ const D2=STORY._day2||{};
     check('3. 舊存檔已經演了很多次（7 次）：不會再演、不會壞',!chk('ev_xinci_notes',w8,12,'library',7)&&!chk('ev_bohan_kaogu',w8,12,'library',12)&&!chk('ev_mingxuan_ball',m5,16,'campus',9));
     const once=['ev_xinci_notes','ev_bohan_kaogu','ev_mingxuan_ball'].every(id=>{ const e=ev(id); return e.once===true&&J(e.term)===J(['Y1S1']); });
     check('3. 三個事件都是 once、term Y1S1',once);
-    check('3／第 6 節第 2 題. 柏翰升到「有點熟」：「我現在每天記讀書時數。……昨天四小時二十分。」「我想調一下我的時間表。」（後半加回來；不再問「你一週大概念幾小時？」）',J(REL_LINES.classmate_bohan.up.FAMILIAR.l)===J(['「我現在每天記讀書時數。……昨天四小時二十分。」','「我想調一下我的時間表。」']),J(REL_LINES.classmate_bohan.up.FAMILIAR.l));
-    check('3. 芯慈升到「有點熟」那一句改成「我的筆記用了四種顏色。……你要的話，我可以借你。」（不再借他的筆記）',J(REL_LINES.classmate_xinci.up.FAMILIAR.l)===J(['「我的筆記用了四種顏色。……你要的話，我可以借你。」']),J(REL_LINES.classmate_xinci.up.FAMILIAR.l)); }
+    check('3／第 6 節第 2 題. 柏翰升到「有點熟」：「我現在每天記讀書時數。……昨天四小時二十分。」「我想調一下我的時間表。」（後半加回來；不再問「你一週大概念幾小時？」）',J(REL_LINES.classmate_bohan.up.FAMILIAR.l)===J(['我現在每天記讀書時數。……昨天四小時二十分。','我想調一下我的時間表。']),J(REL_LINES.classmate_bohan.up.FAMILIAR.l));
+    check('3. 芯慈升到「有點熟」那一句改成「我的筆記用了四種顏色。……你要的話，我可以借你。」（不再借他的筆記）',J(REL_LINES.classmate_xinci.up.FAMILIAR.l)===J(['我的筆記用了四種顏色。……你要的話，我可以借你。']),J(REL_LINES.classmate_xinci.up.FAMILIAR.l)); }
   // ===== 第 4、5 項：以安自我介紹以前 =====
   { const prof={id:'prof',name:'周教授',obj:{position:{x:0,y:0,z:-4}}}, zhe={id:'zhe',name:'阿哲',obj:{position:{x:1,y:0,z:0}}};
     if(typeof D2.classScene==='function'){

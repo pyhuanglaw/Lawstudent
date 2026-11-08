@@ -81,7 +81,7 @@ const J=x=>JSON.stringify(x);
     return [!a&&!b&&c&&d&&!e,[a,b,c,d,e].join(',')]; });
   await achk('1. 10/30：「（膠帶上多了一行麥克筆的大字：「法律系免簽」。）」阿凱「（沒有回頭）期中考完了。國界放寬。」，沒有選項',async()=>{ fresh(t30,19,'dorm',{KAI_TAPE:true}); G.events.done.ev_kai_tape=1; R('kai','FAM'); const T=await play('ev_kai_tape2'); return [J(T)===J(['（膠帶上多了一行麥克筆的大字：「法律系免簽」。）',NAME('kai')+'：（沒有回頭）期中考完了。國界放寬。'])&&opts.length===0,J(T)]; });
   chk('1. Y1-B KAI_TAPE 讀的那一句：和阿凱升到好朋友（大一）＝「（地上的紙膠帶不見了。）」「膠帶我撕掉了啦，反正你一直過來。」',()=>{ fresh(t30+20,20,'dorm'); R('kai','CLO'); const py=SOCIAL.playerYear; SOCIAL.playerYear=()=>1; let a,b; try{ a=SOCIAL.upLine('kai'); G.flags.KAI_TAPE=true; b=SOCIAL.upLine('kai'); } finally { SOCIAL.playerYear=py; }
-    return [a&&a.l[0]!=='（地上的紙膠帶不見了。）'&&b&&J(b.l)===J(['（地上的紙膠帶不見了。）','「膠帶我撕掉了啦，反正你一直過來。」']),J(b)]; });
+    return [a&&a.l[0]!=='（地上的紙膠帶不見了。）'&&b&&J(b.l)===J(['（地上的紙膠帶不見了。）','膠帶我撕掉了啦，反正你一直過來。']),J(b)]; });
   { fresh(t30+20,20,'dorm'); R('kai','CLO'); G.flags.KAI_TAPE=true; const py=SOCIAL.playerYear; SOCIAL.playerYear=()=>1; let before,after,err=null; try{ before=!!G.flags.KAI_TAPE_GONE; await SOCIAL.playUp(GM,null,'kai'); after=G.flags.KAI_TAPE_GONE===true; }catch(e){ err=e.message; } finally { SOCIAL.playerYear=py; }
     const zs=require('fs').readFileSync(require('path').join(__dirname,'..','src/zones3d.js'),'utf8');
     check('1. Y1-B 那一句演完記 KAI_TAPE_GONE（203 地上的 3D 膠帶跟著拿掉，LAWWW2 ART-Y1-BOX-1021）；沒演以前沒有；zones3d.js 的 y1State 讀它',!err&&!before&&after&&/tape:!!F\.KAI_TAPE&&mate&&!F\.KAI_TAPE_GONE/.test(zs),J({before,after,err})); }

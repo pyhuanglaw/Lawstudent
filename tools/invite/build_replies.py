@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """邀約回覆照階段變（D14-T9／USER_WANTS D37）：AA_415 七位女主角定稿的表格 → src/data/invite_replies.js（INVITE_REPLIES）。
-**只讀 docs/handoff/story_import_allow.json 列出、status approved 的那一版**（git show <sha>:<path>，不從分支最新讀）；句子一字不改。
+**只讀 docs/handoff/story_import_allow.json 列出、status approved 的那一版**（git show <sha>:<path>，不從分支最新讀）；句子一字不改（只有寫進遊戲檔的時候，有名字說的台詞拿掉外面那一對「」：AA-B 2026-11-08，最後的 strip_quotes）。
 
 表格（AA_415 第 1～7 節）每一列＝一筆：
   k      acc（答應：階段 1～6、交往中）／resched（改天）／decline（婉拒）
@@ -198,19 +198,7 @@ def sections(md):
 DATA = invite_data()
 
 
-def unq(t):
-    """外面整句一對「」拿掉（「A」「B」這種好幾段的不動）：src/data/invites.js 有名字的台詞不加「」（AA-B 2026-11-08 00:21），稿上照舊有"""
-    if not isinstance(t, str) or len(t) < 2 or t[0] != '「' or t[-1] != '」':
-        return t
-    d = 0
-    for i, c in enumerate(t):
-        if c == '「':
-            d += 1
-        elif c == '」':
-            d -= 1
-            if d == 0 and i != len(t) - 1:
-                return t
-    return t[1:-1] if d == 0 else t
+unq = GD.unq   # 外面整句一對「」拿掉（「A」「B」這種好幾段的不動）：有名字的台詞不加「」（AA-B 2026-11-08 00:21），稿上照舊有
 
 
 def same(a, b):
@@ -318,7 +306,7 @@ if WHEN or AT:
 js = ['/* 自動產生：python3 tools/invite/build_replies.py（不要手改；改 AA_415 或白名單以後重跑）。',
       f'   來源：{SPEC} @ {SHA}（docs/handoff/story_import_allow.json，D14-T9／USER_WANTS D37）。句子一字不改。',
       '   每一筆：id、n（表上第幾列）、k（acc 答應／resched 改天／decline 婉拒）、stage（表上寫的）、st（可以用的階段 [低,高]，7＝交往中）、tags、cond（條件，src/invites3d.js S.REPLY_COND）、',
-      '   lines（「…」她說、（…）旁白、{me}祐廷）、say（表上原文）、src（來源）、ex（現有：acc／first／here／plan／rule／partnerSay）、band（現有答應句的 A／R）、',
+      '   lines（她說的話、（…）旁白、{me}祐廷說的；有名字說的外面不加「」，AA-B 11-08）、say（表上原文，照舊有「」）、src（來源）、ex（現有：acc／first／here／plan／rule／partnerSay）、band（現有答應句的 A／R）、',
       '   when（句子說到的時間星期）、at（改天的時間）、sec（可昕 y0／law）、apart（可昕分開以後）、off（不出現的原因）。選句：src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）。*/',
       'const INVITE_REPLIES={' + f'"src":{json.dumps(SPEC, ensure_ascii=False)},"sha":"{SHA}","task":"D14-T9",' + '"people":{']
 ppl = list(rows_out)
@@ -337,3 +325,25 @@ import sys as _sys, os as _os
 _R0 = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))); _sys.path.insert(0, _os.path.join(_R0, 'tools', 'story'))
 import aa630 as _aa630, import_guard as _ig
 _aa630.patch_file(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/invite_replies.js', _R0)
+
+
+def strip_quotes(path):
+    """有名字說的台詞拿掉外面那一對「」（AA-B 2026-11-08 00:21／01:09，TEXT-QUOTE-UNIFY-1108）：lines 裡她說的（字串）、祐廷說的（{me}）；
+    旁白（（…）開頭、整句不是一對「」）、say（表上原文）、其他欄位照舊。放在最後（AA_630 換句以後）：WHEN／AT、「現有」的比對、AA_630 都照稿上有「」的原句做，結果跟以前一樣，
+    只差外面的「」（tests/invites_quote_unit.js 第 6 項逐列比 c79414b00 的舊檔）。src/invites3d.js 播的時候照 S.narrLine 分旁白（拿掉以後沒有一句變成（ 開頭）"""
+    p = os.path.join(ROOT, path)
+    out, n = [], 0
+    for ln in open(p, encoding='utf-8').read().split('\n'):
+        m = re.match(r'^  (\{.*\})(,?)$', ln)
+        if m:
+            r = json.loads(m.group(1))
+            new = [unq(x) if isinstance(x, str) else (dict(x, me=unq(x['me'])) if isinstance(x, dict) and isinstance(x.get('me'), str) else x) for x in r['lines']]
+            n += sum(1 for a, b in zip(r['lines'], new) if a != b)
+            r['lines'] = new
+            ln = '  ' + json.dumps(r, ensure_ascii=False, separators=(',', ':')) + m.group(2)
+        out.append(ln)
+    open(p, 'w', encoding='utf-8').write('\n'.join(out))
+    print(f'{path}：有名字說的 {n} 句拿掉外面的「」')
+
+
+strip_quotes(OUT)

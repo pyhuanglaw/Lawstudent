@@ -69,7 +69,7 @@ const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,
     check('1-1. 以安、語彤、可昕的 meet（cafe／library／noodle／wenzhou；A／F／R；「—」的格子不寫＝沒有）照階段',r.length===0,J(r));
     check('1-1. 散步只有朋友以上、語彤 Café 認識階段婉拒＝沒有那一格',!REL_LINES.heroine_01.meet.wenzhou.A&&!REL_LINES.heroine_01.meet.wenzhou.F&&!REL_LINES.heroine_03.meet.cafe.A&&!REL_LINES.kexin.meet.wenzhou.F);
     const b=[]; for(const [rel,lv] of [[{fam:5},'base'],[S4,'FAM'],[S6,'FRI']]){ Object.assign(SOCIAL.rel('kexin'),{fam:0,trust:0,comf:0,npcRom:0,rom:0},rel); b.push([SOCIAL.friendLevel('kexin'),J(SOCIAL.byeLine('kexin'))]); }
-    check('1-2. 可昕的 bye：base「我回木柵了。到了傳你。」、FRIEND「下次換你來。」、CLOSE_FRIEND 那一句；沒有 up',J(REL_LINES.kexin.bye)===J({base:['「我回木柵了。到了傳你。」'],FRIEND:['「下次換你來。」'],CLOSE_FRIEND:['「走了。……送到路口就好，不用送到捷運站。」']})&&!REL_LINES.kexin.up&&b.every(x=>x[1]&&x[1]!=='null'),J(b)); }
+    check('1-2. 可昕的 bye：base「我回木柵了。到了傳你。」、FRIEND「下次換你來。」、CLOSE_FRIEND 那一句；沒有 up',J(REL_LINES.kexin.bye)===J({base:['我回木柵了。到了傳你。'],FRIEND:['下次換你來。'],CLOSE_FRIEND:['走了。……送到路口就好，不用送到捷運站。']})&&!REL_LINES.kexin.up&&b.every(x=>x[1]&&x[1]!=='null'),J(b)); }
   { const sum=TD('Y1S2',4,6), win=D('2026-02-07'); fresh(sum,10); const t={day:sum};
     const dep=[0,1,2,3].map(()=>J(DATE.lineFor(G,'heroine_01','depart',t)));
     check('1-3. 以安 depart 三則輪流',J(dep)===J(DATE.EXTRA_LINES.heroine_01.depart.concat([DATE.EXTRA_LINES.heroine_01.depart[0]]).map(x=>J([x]))),J(dep));

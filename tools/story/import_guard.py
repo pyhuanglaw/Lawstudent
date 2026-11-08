@@ -164,6 +164,23 @@ def alison(s):
     return _re.sub('小語', rep, s)
 
 
+def unq(t):
+    """有名字說的台詞拿掉外面整句的一對「」（AA-B 2026-11-08 00:21／01:09，TEXT-QUOTE-UNIFY-1108）：對話框已經寫了是誰說的，不再加「」。
+    「A」「B」這種好幾段的、沒有整句包起來的、旁白（…）不動；稿上照舊有「」，匯入工具寫進遊戲檔的時候才拿掉（tools/invite/build_replies.py、
+    tools/story/import_place_acc.py、import_sport_invites.py；遊戲裡同一把尺：src/invites3d.js 的 S.unq）"""
+    if not isinstance(t, str) or len(t) < 2 or t[0] != '「' or t[-1] != '」':
+        return t
+    d = 0
+    for i, c in enumerate(t):
+        if c == '「':
+            d += 1
+        elif c == '」':
+            d -= 1
+            if d == 0 and i != len(t) - 1:
+                return t
+    return t[1:-1] if d == 0 else t
+
+
 if __name__ == '__main__':   # 測試讀稿用（tests/alison.js）：python3 tools/story/import_guard.py read_fix < 稿 > 換好的稿
     import sys as _sys
     if _sys.argv[1:] == ['read_fix']:

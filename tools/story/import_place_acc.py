@@ -21,9 +21,11 @@ def git(*a):
 
 
 def lines(v, w):
+    """答應句（acc）、第一次去的那一句（firstAt）：src/invites3d.js 的 S.playLines 在對話框寫她的名字說（（…）開頭的是旁白）——
+    有名字說的拿掉外面那一對「」（AA-B 2026-11-08 00:21／01:09，TEXT-QUOTE-UNIFY-1108；IG.unq，旁白、「A」「B」好幾段的不動），其他一字照稿"""
     if not isinstance(v, list) or not v or not all(isinstance(t, str) and t.strip() for t in v):
         raise SystemExit(f'{w}：要是非空字串的陣列')
-    return [IG.read_fix(t) for t in v]
+    return [IG.unq(IG.read_fix(t)) for t in v]
 
 
 def build(src, sha, places=PLACES, out=None):
@@ -44,7 +46,7 @@ def build(src, sha, places=PLACES, out=None):
             if e.get('no'):
                 if not isinstance(e['no'], str):
                     raise SystemExit(f'{w}.no：要是一句話')
-                q['no'] = IG.read_fix(e['no'])   # 她不會去（AA_721：可昕平日在木柵，好家自助餐只開平日）：那一格照出、灰掉，說明＝她那句
+                q['no'] = IG.read_fix(e['no'])   # 「」照留：沒有名字（選單灰掉的說明、GM.say(null,…)，src/invites3d.js S.placeWhy）。她不會去（AA_721：可昕平日在木柵，好家自助餐只開平日）：那一格照出、灰掉，說明＝她那句
             out[pid][hid] = q
     return out
 
@@ -71,7 +73,8 @@ def main():
     data = {'src': f'{PATH}@{sha}', 'src2': f'{PATH2}@{sha2}', 'places': places}
     why = why + '；' + why2
     js = ('/* 自動產生：tools/story/import_place_acc.py（' + data['src'] + '、' + data['src2'] + '）。不要手改，改企劃 AA_714／AA_721 再重新匯入。\n'
-          '   新約會地點的答應句、第一次一起去的那一句（INVITE-PLACES-1107）：載入時併進 INVITE_DATA.people（要在 src/data/invites.js 後面載入）*/\n'
+          '   新約會地點的答應句、第一次一起去的那一句（INVITE-PLACES-1107）：載入時併進 INVITE_DATA.people（要在 src/data/invites.js 後面載入）。\n'
+          '   acc、firstAt 有名字說的台詞外面不加「」（AA-B 2026-11-08，稿上有；（…）是旁白）；no（灰掉的說明，沒有名字）照稿*/\n'
           "'use strict';\nconst INVITE_PLACE_LINES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n'
           "(function(){ if(typeof INVITE_DATA==='undefined') return; const P=INVITE_DATA.people||(INVITE_DATA.people={});\n"
           "  for(const pid in INVITE_PLACE_LINES.places) for(const id in INVITE_PLACE_LINES.places[pid]){ const e=INVITE_PLACE_LINES.places[pid][id], p=P[id]||(P[id]={});\n"
