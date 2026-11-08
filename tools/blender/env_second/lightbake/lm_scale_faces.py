@@ -1,6 +1,8 @@
 """光照貼圖上「某個網格、某個範圍、某個朝向的面」那幾格乘一個倍數（11-08 LAWWW2-B；BB-B XS9 PC GPU：山嵐左前那根柱子朝街那一面白天整面亮黃）。不需要 Blender：
   python3 tools/blender/env_second/lightbake/lm_scale_faces.py <glb> <光照 webp> --node <網格名字正規式> --box x0,x1,y0,y1,z0,z1 --normal z+
-      (--factor F | --target T) [--out 輸出 webp，預設覆蓋] [--dry]
+      (--factor F | --target T) [--clip] [--out 輸出 webp，預設覆蓋] [--dry]
+  --clip：只改「世界座標落在 --box 裡」的格子（逐格用重心座標算位置）。一大片網格只有一部分要改時用（總圖 B1 的天花板整層是一塊 572 m² 的四邊形，
+          會議廳那一塊沒有自己的三角形；11-08 BB-B 會議廳天花板）。沒給就照三角形中心挑、整個三角形都改。
 為什麼：bake_room.py 的 --dayscale 是整個物件一起乘。山嵐的柱子和室內的牆合併在同一個網格（shl_wall），只想壓柱子朝街那一面。
 做法：
   1. 網格名字合 --node、三角形中心在 --box 裡（GLB／遊戲座標）、法線朝 --normal（和那個軸夾角 < 30°）的三角形＝要改的面。
@@ -36,10 +38,10 @@ def mat(nd):
     M[:3, :3] = R * np.array(s); M[:3, 3] = t; return M
 
 
-def raster(tris_uv, H, W):
-    """UV 三角形（像素座標）蓋到的格子（格子中心在三角形內）"""
+def raster(tris_uv, H, W, tris_w=None, box=None):
+    """UV 三角形（像素座標）蓋到的格子（格子中心在三角形內）；給了 tris_w、box：只留世界座標在 box 裡的格子"""
     m = np.zeros((H, W), bool)
-    for P in tris_uv:
+    for ti, P in enumerate(tris_uv):
         x0, y0 = np.floor(P.min(0)).astype(int); x1, y1 = np.ceil(P.max(0)).astype(int)
         x0, y0 = max(x0, 0), max(y0, 0); x1, y1 = min(x1, W), min(y1, H)
         if x1 <= x0 or y1 <= y0: continue
@@ -47,7 +49,11 @@ def raster(tris_uv, H, W):
         (ax, ay), (bx, by), (cx, cy) = P; d = (by - cy) * (ax - cx) + (cx - bx) * (ay - cy)
         if abs(d) < 1e-12: continue
         w0 = ((by - cy) * (X - cx) + (cx - bx) * (Y - cy)) / d; w1 = ((cy - ay) * (X - cx) + (ax - cx) * (Y - cy)) / d
-        m[y0:y1, x0:x1] |= (w0 >= -1e-4) & (w1 >= -1e-4) & (1 - w0 - w1 >= -1e-4)
+        ins = (w0 >= -1e-4) & (w1 >= -1e-4) & (1 - w0 - w1 >= -1e-4)
+        if tris_w is not None:
+            Q = w0[..., None] * tris_w[ti][0] + w1[..., None] * tris_w[ti][1] + (1 - w0 - w1)[..., None] * tris_w[ti][2]
+            ins &= (Q[..., 0] >= box[0]) & (Q[..., 0] <= box[1]) & (Q[..., 1] >= box[2]) & (Q[..., 1] <= box[3]) & (Q[..., 2] >= box[4]) & (Q[..., 2] <= box[5])
+        m[y0:y1, x0:x1] |= ins
     return m
 
 
@@ -67,7 +73,7 @@ def main():
         for c in nd.get('children', []): walk(c, M)
     for r in J['scenes'][J.get('scene', 0)]['nodes']: walk(r, np.eye(4))
     im = Image.open(webp).convert('RGB'); px = np.asarray(im, dtype=np.float64) / 255; H, W = px.shape[:2]
-    sel, allt = [], []; area = 0.0; names = set()
+    sel, selw, allt = [], [], []; area = 0.0; names = set(); clip = '--clip' in sys.argv
     for i, nd in enumerate(J['nodes']):
         if 'mesh' not in nd or i not in W_: continue
         for pr in J['meshes'][nd['mesh']]['primitives']:
@@ -77,10 +83,14 @@ def main():
             allt.extend(U[I])
             if not node.search(nd['name']): continue
             T = P[I]; c = T.mean(1); N = np.cross(T[:, 1] - T[:, 0], T[:, 2] - T[:, 0]); A = np.linalg.norm(N, axis=1) / 2; Nn = N / np.maximum(2 * A[:, None], 1e-12)
-            ok = (c[:, 0] >= box[0]) & (c[:, 0] <= box[1]) & (c[:, 1] >= box[2]) & (c[:, 1] <= box[3]) & (c[:, 2] >= box[4]) & (c[:, 2] <= box[5]) & (Nn[:, ax] * sg > 0.866)
-            if ok.any(): sel.extend(U[I][ok]); area += float(A[ok].sum()); names.add(nd['name'])
+            inb = (c[:, 0] >= box[0]) & (c[:, 0] <= box[1]) & (c[:, 1] >= box[2]) & (c[:, 1] <= box[3]) & (c[:, 2] >= box[4]) & (c[:, 2] <= box[5])
+            if clip:   # 外框和 box 有交集就算（中心可以在外面），之後逐格裁
+                lo, hi = T.min(1), T.max(1)
+                inb = (hi[:, 0] >= box[0]) & (lo[:, 0] <= box[1]) & (hi[:, 1] >= box[2]) & (lo[:, 1] <= box[3]) & (hi[:, 2] >= box[4]) & (lo[:, 2] <= box[5])
+            ok = inb & (Nn[:, ax] * sg > 0.866)
+            if ok.any(): sel.extend(U[I][ok]); selw.extend(T[ok]); area += float(A[ok].sum()); names.add(nd['name'])
     if not sel: print('沒有符合的面'); sys.exit(1)
-    core = raster(sel, H, W); used = raster(allt, H, W); m = core.copy()
+    core = raster(sel, H, W, selw if clip else None, box if clip else None); used = raster(allt, H, W); m = core.copy()
     for _ in range(4):   # 留邊：只長進沒有任何網格的空白格
         g = m.copy(); g[1:, :] |= m[:-1, :]; g[:-1, :] |= m[1:, :]; g[:, 1:] |= m[:, :-1]; g[:, :-1] |= m[:, 1:]
         m = m | (g & ~used)
