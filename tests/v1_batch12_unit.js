@@ -82,6 +82,10 @@ const KX={dating_kexin:true};
     keepOn(FRI3+3,8,'campus'); run(8,9); check('K1 期限：過了週日＝收起來（askOpen false、不在待回覆）、記 KX_TOUR_NO＝expired、她沒有多說話',!PHONE.askOpen(G,m)&&!PHONE.pending(G).includes(m)&&G.flags.KX_TOUR_NO==='expired'&&G.msgs.filter(x=>x.th==='p:kexin').length===kx0,JSON.stringify({f:G.flags.KX_TOUR_NO}));
     keepOn(FRI4,8,'campus'); run(8,20); const m2=ask('kx_tour_ask2');
     check('K1 期限：沒回的玩家下週五 19:30 照樣「這週末呢？導遊還在。」、期限是那個週日 24:00',!!m2&&m2.day===FRI4&&m2.text==='這週末呢？導遊還在。'&&m2.ask.until===(FRI4+3)*24,JSON.stringify(m2&&{d:m2.day,u:m2.ask.until})); }
+  /* 舊存檔（BB-B 11-08 09:53）：那一則沒有 until——讀進來以後補上，過了週日就收起來（askOpen false、不在待回覆），不會一直讓手機自己打開；記 NO／NO2 照新規則 */
+  { fresh(FRI3,8,'campus',KX); run(8,20); const m=ask('kx_tour_ask'); delete m.ask.until; const F0=G.flags, ms=G.msgs, ph=G.phone;
+    fresh(FRI4+10,10,'campus',F0); G.msgs=ms; G.phone=ph; const open0=PHONE.askOpen(G,m); run(10,10.2);
+    check('K1 舊存檔：沒有 until 的那一則讀進來補上（週日 24:00）、過期＝收起來、不在待回覆；過期超過一週＝NO、NO2 都 expired、沒有第二則',open0===true&&m.ask.until===(FRI3+3)*24&&!PHONE.askOpen(G,m)&&!PHONE.pending(G).includes(m)&&G.flags.KX_TOUR_NO==='expired'&&G.flags.KX_TOUR_NO2==='expired'&&!ask('kx_tour_ask2'),JSON.stringify({open0,u:m.ask.until,f:[G.flags.KX_TOUR_NO,G.flags.KX_TOUR_NO2]})); }
   /* ---------- K3、CG-14：中秋烤肉 ---------- */
   const BBQ=ev('ev_mid_autumn_bbq'), SATB=termDay(5,6);
   const bbq=async(flags,setup,pk)=>{ fresh(SATB,15,'campus',Object.assign({},KX,{ZHE_CALLS_GE:true},flags||{}));   /* 已經有「哥」：不問「你幾年次的」（那段另外測）*/ if(setup) setup(); cgs=[]; picks=pk||[]; await EVENTS.run(BBQ); return {L:lines(),cg:cgs.slice()}; };
