@@ -657,3 +657,14 @@
        16880ad7e..2cfc8b1cd  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [09:46:22] ==== END   CORNER_fps_mob_e66  exit=1  293s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2cfc8b1cd..dad75626d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:46:27] ==== END   GG3LM_fps_4fcd  exit=1  211s   ====
+[09:46:33] memory 39% before starting GG3LM_wz6_e276 (2 running)
+[09:46:33] ==== START GG3LM_wz6_e276  (probe @ e2762e9d91df1cf8405301e54fd4bf286a5f626e) ====
+[09:46:36] [res] cpu=5% mem=39% (12.3/31.4 GB) chrome_testing=4  START GG3LM_wz6_e276
+[09:46:36] solo item GG3LM_wz6_fps_e276 waits: no new items start until the 2 running item(s) finish
+[09:46:36] worktree add e2762e9d91df1cf8405301e54fd4bf286a5f626e: invalid reference - fetching main and the commit itself
+[09:47:31] 正在跑：GG3LM_fps_mob_4fcd（已跑 5 分／上限 20 分）、GG3LM_wz6_e276（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:47:52] [res] cpu=2% mem=39% (12.5/31.4 GB) chrome_testing=4  END GG3LM_fps_mob_4fcd

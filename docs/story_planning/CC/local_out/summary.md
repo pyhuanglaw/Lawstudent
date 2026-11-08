@@ -1870,3 +1870,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 250.4s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 250.5s] BROWSER DISCONNECTED
 - 2026-11-08T09:46:22  GG3LM_fps_4fcd  sha=4fcd3c45b1d70471f46a2f765cdcca43094facf2  exit=1  211s    OK   cvs           night avg 58.4 fps  1%low 14.98 fps  worst 283.4 ms  n=876  zone=cvs h=21.04 w=sunny q=medium draw=94  / JS 例外 0 個 / FAILED: 2 格量不到：gongguan/day, gongguan/day
       err.log (last 5): [gpu_wrap 172.7s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 172.7s] BROWSER DISCONNECTED
+- 2026-11-08T09:47:52  GG3LM_fps_mob_4fcd  sha=4fcd3c45b1d70471f46a2f765cdcca43094facf2  exit=1  353s    OK   cvs           night avg 9.3 fps  1%low 1.94 fps  worst 516.7 ms  n=140  zone=cvs h=21.04 w=sunny q=medium draw=94  / JS 例外 0 個 / FAILED: 1 格量不到：gongguan/day
+      err.log (last 5): [gpu_wrap 307.9s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 308.0s] BROWSER DISCONNECTED
