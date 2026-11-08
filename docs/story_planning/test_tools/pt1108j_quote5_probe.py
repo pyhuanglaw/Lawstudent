@@ -54,7 +54,7 @@ async def talk(pg, cdp, run, cid, tag):
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(800)
         await P.dialog(pg, cdp, run, picks=(), max_s=120, start_s=10, idle_s=4, tag=tag)
         first = Q.full_lines(await pg.evaluate("window.__DW.slice()"))
-        if first and all(not x['n'] and '抬頭看到你' in x['t'] for x in first):
+        if first and all(not x['n'] and x['t'].startswith('（') for x in first) and any('抬頭' in x['t'] or '點了一下頭' in x['t'] for x in first):   # LIBQ 第一次只點頭（打字可能還沒打完：只看開頭）
             # 讀書區今天第一次遇到＝只點頭（libquiet3d.js LIBQ.gate，AA_595 1-A1）：玩家再按一次才說話
             run.note('%s：第一次按＝讀書區點頭（%s），再按一次' % (tag, first[-1]['t']))
             for _ in range(6):
