@@ -56,6 +56,14 @@ async def test_A(rig):
     await rig.joy(0,60,900); e=await rig.pos(); check('A4 跑（推到底）位置改變', dist(d,e)>0.5, f'{e} pose={e["pose"]}')
     # 撞牆：往前牆持續推 3 秒（會撞到書架／牆）
     await rig.joy(0,-60,3200); f=await rig.pos(); check('A5 撞牆後仍在合法位置（standable，沒有陷進去）', f['stand'] and f['blocked'] is not None, f'{f}')
+    # A6 要貼著牆斜推：低幀率時跑步一幀 0.53 m，A5 會停在離牆 0.57 m（下一步會穿牆就整步不走），A6 量不到沿牆滑（BB-B 11-08 12:56 P3）。
+    # 量面前離牆多遠（照 E.canStand 沿面向 0.05 m 一步），超過 0.1 m 就半推（走路、一步比較小）往前補幾次，最多 6 次；A5 的判定不變
+    clr_js="(()=>{ const E=GAME.E, o=E.player.obj, ry=o.rotation.y, sx=Math.sin(ry), sz=Math.cos(ry); for(let d=0.05;d<=1.5;d+=0.05){ if(!E.canStand(o.position.x+sx*d,o.position.z+sz*d)) return +(d-0.05).toFixed(2); } return 1.5; })()"
+    clr=await rig.pg.evaluate(clr_js)
+    for _ in range(6):
+        if clr<0.1: break
+        await rig.joy(0,-20,400); clr=await rig.pg.evaluate(clr_js)
+    f=await rig.pos(); print(f'    A6 前離牆 {clr} m', f)
     # 斜推的方向：往這面牆上空間比較大的那一側（照 E.canStand 量 A5 停的那一點左右各還能站多遠，0.05 m 一步）。
     # 四人房以後（AA_208）前牆站得住的範圍約 x=-0.6～0.5（BB-B 11-08 量的；原本註解寫 -1.2～0.7）：A5 停的位置會隨幀率不同（低幀率時一步很大），
     # 停在 -0.29～-0.1 時舊規則（f.x<-0.3 才推右前）會推左前，只剩 0.22～0.28 m 可滑、不到門檻——不是黏牆（沿牆 4.4 m/s、空地 5.28 m/s）。
@@ -71,7 +79,12 @@ async def test_B(rig):
     await rig.load(state('dorm',{'x':0,'z':2.0,'yaw':3.1416}))
     print(await rig.use('坐在書桌前')); await rig.pg.wait_for_timeout(1500)
     await rig.drive(pick=0)   # 讀書
-    p=await rig.pos(); check('B1 起身後位置合法（standable）且無 seat/busy', p['stand'] and not p['busy'], f'{p}')
+    # 起身動畫要時間：低幀率（雲端 1～2 fps）時選完馬上看 busy 還是 true、差一幀（BB-B 11-08 12:56 P3）——最多等 3 秒 busy 變 false 再判，標準不變
+    p=await rig.pos()
+    for _ in range(6):
+        if not p['busy']: break
+        await rig.pg.wait_for_timeout(500); p=await rig.pos()
+    check('B1 起身後位置合法（standable）且無 seat/busy', p['stand'] and not p['busy'], f'{p}')
     a,b,d,dr=await rig.best(1600); check('B2 起身後能走（最佳方向位移 ≥ 1.2 m，宿舍空間有限）', d>=1.2, f'{a} → {b} via {dr}')
     await rig.pg.screenshot(path='screenshots/T_B_after_desk.png')
     await rig.load(state('library',{'x':0,'z':6.5,'yaw':3.1416}))
