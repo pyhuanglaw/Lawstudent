@@ -3,7 +3,7 @@
                 → 選「打給她。」→ 22:00 視訊（ev_zhiruo_bday_video）→ ZR_BDAY_CALL[2027]＝true
   MODE=other：選信、但那時和以安交往中 → 21:55～22:30 都沒有這一通（AA-B wiringAnswers3 2）
 [前置／捷徑] 讀使用者存檔 day46，同一份進度跳到 2027-09-28 21:40 校園；【前置】大二、大三搬宿舍拆箱演過；
-【捷徑】G.flags.DECIDE.heroine_02.distance＝{v:'letters'}（決定拍本身 AA_719 另外測過）；MODE=other 另加 dating_heroine_01。
+【捷徑】G.flags.DECIDE.heroine_02.distance＝{v:'letters'}（決定拍本身 AA_719 另外測過）；MODE=other 另加 dating_heroine_01（存檔本來也和可昕交往中）；MODE=letters 【捷徑】清掉 dating_kexin、romance.kexin＝none（day46 存檔本來和可昕交往中）。
 等時間用真的遊戲時間，選項照玩家點。
 用法：LW_TESTS=<測試樹>/tests MODE=letters|other python3 pt1108e_aa720_zrbday_probe.py URL 存檔資料夾 輸出資料夾"""
 import asyncio, json, os, sys
@@ -30,8 +30,12 @@ async def main():
         d0 = (await P.day_of(pg, '2027-09-28'))['d']
         fl = {'ROOM_Y2': d0 - 400, 'ROOM_Y3': d0 - 20, 'DECIDE': {'heroine_02': {'distance': {'v': 'letters', 'day': d0 - 200}}}}
         if MODE == 'other': fl['dating_heroine_01'] = True
+        else: fl['dating_kexin'] = False   # day46 存檔本來和可昕交往中（經濟系那一年起）：選信、沒有和別人交往的版本要先清掉
         s, d = await P.base(pg, save, '2027-09-28', 21.67, 'campus', flags=fl)
         s.setdefault('home', {})['at'] = False
+        if MODE == 'letters':
+            R = s['flags'].get('romance') or {}
+            if isinstance(R.get('kexin'), dict): R['kexin']['status'] = 'none'
         await P.load(pg, cdp, s, quiet=True); await P.init(pg)
         info = await pg.evaluate("({ver:Y2B.pcVer?Y2B.pcVer(GAME.G):null, card:Y2B.bdayCard?Y2B.bdayCard(GAME.G):null, letters:AA720P.zrLetters?AA720P.zrLetters(GAME.G):null})")
         run.setup('[前置] day46 存檔改到 %s 21:40 校園；%s；pcVer＝%s、bdayCard＝%s、zrLetters＝%s' % (d['key'], J(fl), info['ver'], info['card'], info['letters']))
