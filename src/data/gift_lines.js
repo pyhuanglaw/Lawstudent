@@ -1,4 +1,4 @@
-/* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@be775af69、docs/story_planning/AA_728_gifts_friends.json@955ea3a03）。不要手改，改企劃 AA_710／AA_728 再重新匯入。
+/* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@be775af69、docs/story_planning/AA_728_gifts_friends.json@6528d7681）。不要手改，改企劃 AA_710／AA_728 再重新匯入。
    送早餐、飲料（GIFT-FLIRT-1107；播放 src/gift3d.js）：people＝七位女主角（AA_710）、friends＝朋友六位（AA_728）*/
 'use strict';
 const GIFT_LINES={
@@ -270,9 +270,6 @@ const GIFT_LINES={
       }
      ]
     }
-   },
-   "sec": {
-    "豆漿": "drink"
    }
   },
   "heroine_02": {
@@ -1455,9 +1452,6 @@ const GIFT_LINES={
       }
      ]
     }
-   },
-   "sec": {
-    "米漿": "drink"
    }
   },
   "kexin": {
@@ -1691,7 +1685,7 @@ const GIFT_LINES={
   }
  },
  "friends": {
-  "src": "docs/story_planning/AA_728_gifts_friends.json@955ea3a03",
+  "src": "docs/story_planning/AA_728_gifts_friends.json@6528d7681",
   "rel": {
    "fam": 1,
    "comf": 1
@@ -1717,6 +1711,22 @@ const GIFT_LINES={
        "lines": [
         "（他舉起杯子跟你碰了一下。）乾。",
         "這是飲料不是酒。可是乾。"
+       ]
+      }
+     ]
+    },
+    "breakfast": {
+     "pool": [
+      {
+       "lines": [
+        "（他拆開包裝就咬了一大口。）",
+        "……哥，你怎麼知道我沒吃早餐。"
+       ]
+      },
+      {
+       "lines": [
+        "早餐耶。",
+        "（他吃到一半停下來。）你是不是有事要拜託我。……算了，先吃。"
        ]
       }
      ]
@@ -1801,6 +1811,22 @@ const GIFT_LINES={
       }
      ]
     },
+    "breakfast": {
+     "pool": [
+      {
+       "lines": [
+        "早餐！！",
+        "（她咬了一口，眼睛瞇起來。）我今天睡過頭，本來打算餓到中午的。"
+       ]
+      },
+      {
+       "lines": [
+        "謝謝～",
+        "下次早上我買給你，你要什麼口味？"
+       ]
+      }
+     ]
+    },
     "no": [
      {
       "lines": [
@@ -1833,6 +1859,22 @@ const GIFT_LINES={
       }
      ]
     },
+    "breakfast": {
+     "pool": [
+      {
+       "lines": [
+        "……早餐？",
+        "謝謝。（他把包裝摺得很整齊，才開始吃。）"
+       ]
+      },
+      {
+       "lines": [
+        "我早上都不吃的。",
+        "……今天吃。謝謝。"
+       ]
+      }
+     ]
+    },
     "no": [
      {
       "lines": [
@@ -1861,6 +1903,22 @@ const GIFT_LINES={
        "lines": [
         "（他喝了一口。）很好喝。",
         "我平常不買這個。捨不得。"
+       ]
+      }
+     ]
+    },
+    "breakfast": {
+     "pool": [
+      {
+       "lines": [
+        "給我的？",
+        "（他吃得很慢，好像要記住是什麼味道。）……謝謝。"
+       ]
+      },
+      {
+       "lines": [
+        "早餐。",
+        "我平常省下來的就是這一餐。……今天不用省了。"
        ]
       }
      ]

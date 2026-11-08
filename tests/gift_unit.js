@@ -1,4 +1,4 @@
-// 送早餐、飲料（GIFT-FLIRT-1107，USER_WANTS X262；台詞 AA_710 第二版 be775af69；只配某一樣的組、早餐、可昕微糖照 AA_728 955ea3a03 _meta）——不需要瀏覽器（D131）。
+// 送早餐、飲料（GIFT-FLIRT-1107，USER_WANTS X262；台詞 AA_710 第二版 be775af69；只配某一樣的組、早餐、可昕微糖照 AA_728 6528d7681 _meta）——不需要瀏覽器（D131）。
 // 使用者 11-07 試玩：「買飲料 早餐 給別人」「也沒辦法送早餐飲料?」；AA-B 05:39「AA_710 第二版，請重匯」。
 // 句子一律從 src/data/gift_lines.js 讀來比對（不寫死台詞）。檢查：
 //   0. gift_lines.js 和白名單上的 AA_710 一致（import_gifts.py --check）；七位都有飲料、早餐、fav；每格 pool、lines＝pool 第一組；品項都是遊戲買得到的
@@ -54,7 +54,7 @@ const same=(a,b)=>J(a)===J(b);
     check('0. 七位都有飲料、早餐：need 1、交往中那一格、pool（lines＝第一組）、no；fav／opinion 的品項都是遊戲買得到的',!bad.length,bad.join('；'));
     check('0. 七位都有最喜歡的（fav；以安豆漿、語彤紅茶拿鐵、沛珊米漿是第二版新的）',IDS.every(id=>LN[id].drink.fav)&&LN.heroine_01.drink.fav.n==='豆漿'&&LN.heroine_03.drink.fav.n==='紅茶拿鐵'&&LN.classmate_peishan.drink.fav.n==='米漿',J(IDS.map(id=>(LN[id].drink.fav||{}).n)));
     const py=(code)=>{ try{ cp.execFileSync('python3',['-c',code],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); return 'ran'; }catch(e){ return String(e.stderr||''); } };
-    const pre="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;d=json.loads(subprocess.check_output(['git','show','be775af69:'+M.PATH]).decode());I=M.game_items();m2=json.loads(subprocess.check_output(['git','show','955ea3a03:'+M.PATH2]).decode())['_meta'];";
+    const pre="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;d=json.loads(subprocess.check_output(['git','show','be775af69:'+M.PATH]).decode());I=M.game_items();m2=json.loads(subprocess.check_output(['git','show','6528d7681:'+M.PATH2]).decode())['_meta'];";
     const e1=py(pre+"d['heroine_01']['drink']['fav']['item']='珍珠奶茶';M.build(d,'x',I,m2)");
     const e2=py(pre+"d['heroine_01']['drink']['ctx']['night']=[['x']];M.build(d,'x',I,m2)");
     const e3=py(pre+"d['heroine_01']['drink']['yes'][0]['lines']=['x'];M.build(d,'x',I,m2)");
@@ -196,8 +196,8 @@ const same=(a,b)=>J(a)===J(b);
     check('10. 「（動作）講的話」拆成旁白＋她說的、字不改',!!m&&i>0&&H.said[i].who===null&&H.said[i+1].t===m[2]&&H.said[i+1].who==='林芷若'&&H.said[i].t+H.said[i+1].t===raw,J(H.said)); }
   /* 11 只配某一樣（AA_728 _meta.itemOnly，AA-B 11-08 08:24）*/
   const py2=(code)=>{ try{ cp.execFileSync('python3',['-c',code],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); return 'ran'; }catch(e){ return String(e.stderr||''); } };
-  const PRE="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;d=json.loads(subprocess.check_output(['git','show','be775af69:'+M.PATH]).decode());s2=json.loads(subprocess.check_output(['git','show','955ea3a03:'+M.PATH2]).decode());m2=s2['_meta'];I=M.game_items();";
-  const A728=JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show','955ea3a03:docs/story_planning/AA_728_gifts_friends.json'],{encoding:'utf8'}));
+  const PRE="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;d=json.loads(subprocess.check_output(['git','show','be775af69:'+M.PATH]).decode());s2=json.loads(subprocess.check_output(['git','show','6528d7681:'+M.PATH2]).decode());m2=s2['_meta'];I=M.game_items();";
+  const A728=JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show','6528d7681:docs/story_planning/AA_728_gifts_friends.json'],{encoding:'utf8'}));
   { const io=A728._meta.itemOnly, bad=[], has=(g,re)=>re.test(g.lines.join(''));
     const an_bf=E_('heroine_01','breakfast').yes.find(y=>y.dating).pool, yt_bf=E_('heroine_03','breakfast').yes.find(y=>!y.dating&&y.need===4).pool, zq_bf=E_('heroine_04','breakfast').yes.find(y=>y.dating).pool, zq_dr=E_('heroine_04','drink'), an_no=E_('heroine_01','drink').no;
     if(!(same(an_bf[0].only,['三明治'])&&has(an_bf[0],/三明治分成兩半/)&&!an_bf[1].only)) bad.push('以安早餐交往中 '+J(an_bf));
@@ -207,7 +207,7 @@ const same=(a,b)=>J(a)===J(b);
     const sl=an_no.find(g=>g.lines.includes('再喝我晚上會睡不著。你喝。'));
     if(!(sl&&same(sl.only,['美式咖啡','美式咖啡（冰的）','拿鐵'])&&sl.hour&&sl.hour[0]===21&&sl.hour[1]>=27&&an_no.filter(g=>g.only||g.hour).length===1)) bad.push('以安 no '+J(an_no));
     let n=0; for(const id of IDS) for(const c of ['drink','breakfast']) n+=onlyItems(id,c).size?[].concat(...E_(id,c).yes.map(y=>y.pool),E_(id,c).no,...(E_(id,c).opinion||[]).map(o=>o.pool),...Object.values(E_(id,c).ctx||{})).filter(g=>g.only).length:0;
-    check('11. AA_728 itemOnly 五筆（AA-B 955ea3a03）都對到：以安三明治、語彤飯糰、子晴飯糰、子晴冰美式（winterCold、again）、以安「再喝我晚上會睡不著」（咖啡、21 點以後）；加上子晴「冰你一下」只有這 7 組有 only',
+    check('11. AA_728 itemOnly 五筆（AA-B 6528d7681）都對到：以安三明治、語彤飯糰、子晴飯糰、子晴冰美式（winterCold、again）、以安「再喝我晚上會睡不著」（咖啡、21 點以後）；加上子晴「冰你一下」只有這 7 組有 only',
       io.list.length===5&&!bad.length&&n===7,bad.join('；')+' 有 only 的組 '+n); }
   { const seqNo=async(hour,items)=>{ const G=fresh('2025-09-16',hour); stageOf.heroine_01=2; const E=E_('heroine_01','drink'); await give(G,'heroine_01',items[0]); const out=[];
       for(let k=0;k<3;k++){ const h=await give(G,'heroine_01',items[(k+1)%items.length]); out.push(h.r==='no'?E.no.findIndex(p=>same(split(p.lines),h.s)):'x'); } return out.join(''); };
@@ -234,23 +234,23 @@ const same=(a,b)=>J(a)===J(b);
   { const o=E_('kexin','drink').opinion.find(x=>x.item==='青茶（有加糖）'); const G=fresh(); const a=await give(G,'kexin','青茶'); G.day+=2; const b=await give(G,'kexin','青茶（無糖）');
     const e1=py2(PRE+"m2['itemOnly']['kexinSugar']='可昕的青茶要有糖';M.build(d,'x',I,m2)");
     check('11. 可昕 kexinSugar：「青茶（有加糖）」＝青茶不是無糖的每一種（ns：遊戲的微糖）；微糖＝opinion、無糖＝fav；kexinSugar 那一句改了 → 匯入停下來',!!o&&same(o.ns,['青茶'])&&a.r==='opinion'&&b.r==='fav'&&/kexinSugar/.test(e1),J([o&&o.ns,a.r,b.r,e1.trim().split('\n').pop()])); }
-  /* 12 早餐＝豆漿、米漿、飯糰、三明治（AA_728 notes；不加早餐店）*/
+  /* 12 早餐＝飯糰、三明治；豆漿、米漿算飲料（AA_728 notes 6528d7681，AA-B 11-08 08:49 更正：照 AA_710 原本的分法；不加早餐店）*/
   { const m=/breakfast＝([^；。]+)/.exec(A728._meta.notes.join('\n')), want=m?m[1].split('、').sort():[];
     const bf=GIFT.ITEMS.filter(it=>it.cat==='breakfast').map(it=>it.n).sort();
-    check('12. 早餐（S.ITEMS cat breakfast）＝AA_728 notes「breakfast＝豆漿、米漿、飯糰、三明治」；其他都是飲料',same(bf,want)&&same(want,['三明治','米漿','豆漿','飯糰'].sort())&&['豆漿','米漿','飯糰','三明治'].every(n=>GIFT.CAT[n]==='breakfast')&&Object.keys(GIFT.CAT).filter(n=>GIFT.CAT[n]==='drink').length===ITEMN.length-4,J({bf,want}));
-    const e1=py2(PRE+"s2['_meta']['notes'][3]=s2['_meta']['notes'][3].replace('豆漿、米漿、','');M.build_friends(s2,'x',I)");
+    check('12. 早餐（S.ITEMS cat breakfast）＝AA_728 notes「breakfast＝飯糰、三明治」；豆漿、米漿和其他都是飲料',same(bf,want)&&same(want,['三明治','飯糰'].sort())&&['飯糰','三明治'].every(n=>GIFT.CAT[n]==='breakfast')&&['豆漿','米漿'].every(n=>GIFT.CAT[n]==='drink')&&Object.keys(GIFT.CAT).filter(n=>GIFT.CAT[n]==='drink').length===ITEMN.length-2,J({bf,want}));
+    const e1=py2(PRE+"k=[i for i,x in enumerate(s2['_meta']['notes']) if 'breakfast＝' in x][0];s2['_meta']['notes'][k]=s2['_meta']['notes'][k].replace('breakfast＝飯糰','breakfast＝豆漿、飯糰');M.build_friends(s2,'x',I)");
     const e2=py2(PRE+"M.build_friends(s2,'x',I)");
     check('12. 匯入工具：AA_728 的早餐那一句和遊戲的早餐對不上 → 停下來；原稿通過',/不一樣/.test(e1)&&e2==='ran',[e1,e2].map(s=>s.trim().split('\n').pop()).join(' | '));
-    const G=fresh(); stageOf.heroine_02=2; const a=await give(G,'heroine_02','豆漿'); const b=await give(G,'heroine_02','飯糰'); const c=await give(G,'heroine_02','無糖綠茶');
-    const y=E_('heroine_02','breakfast').yes.find(q=>!q.dating&&q.need===1);
-    check('12. 芷若：豆漿＝早餐（早餐那一格的話）；同一天再送飯糰＝no（早餐的 no）；再送綠茶（飲料）照收',a.r==='yes'&&y.pool.some(p=>same(split(p.lines),a.s))&&b.r==='no'&&E_('heroine_02','breakfast').no.some(p=>same(split(p.lines),b.s))&&c.r==='yes',J([a.r,a.s,b.r,b.s,c.r]));
-    const G2=fresh('2025-09-16',18); stageOf.heroine_02=2; const n=await give(G2,'heroine_02','米漿');
-    check('12. 芷若晚上收到米漿＝晚上送早餐（night）',n.r==='night'&&same(n.s,split(E_('heroine_02','breakfast').ctx.night[0].lines)),J([n.r,n.s]));
+    const G=fresh(); stageOf.heroine_02=2; const a=await give(G,'heroine_02','豆漿'); const b=await give(G,'heroine_02','無糖綠茶'); const c=await give(G,'heroine_02','飯糰');
+    const y=E_('heroine_02','drink').yes.find(q=>!q.dating&&q.need===1);
+    check('12. 芷若：豆漿＝飲料（飲料那一格的話）；同一天再送綠茶＝no（飲料的 no）；再送飯糰（早餐）照收',a.r==='yes'&&y.pool.some(p=>same(split(p.lines),a.s))&&b.r==='no'&&E_('heroine_02','drink').no.some(p=>same(split(p.lines),b.s))&&c.r==='yes',J([a.r,a.s,b.r,b.s,c.r]));
+    const G2=fresh('2025-09-16',18); stageOf.heroine_02=2; const n=await give(G2,'heroine_02','飯糰');
+    check('12. 芷若晚上收到飯糰＝晚上送早餐（night）',n.r==='night'&&same(n.s,split(E_('heroine_02','breakfast').ctx.night[0].lines)),J([n.r,n.s]));
     const G3=fresh(); stageOf.heroine_01=2; const f=await give(G3,'heroine_01','豆漿'); const g=await give(G3,'heroine_01','飯糰'); const h=await give(G3,'heroine_01','無糖綠茶');
-    check('12. 以安：豆漿 AA_710 寫在她的飲料（她最喜歡的）＝fav；同一天再送飯糰（早餐）照收、再送綠茶（飲料）＝no',same(LN.heroine_01.sec,{'豆漿':'drink'})&&f.r==='fav'&&g.r==='yes'&&h.r==='no'&&E_('heroine_01','drink').no.some(p=>same(split(p.lines),h.s)),J([f.r,g.r,h.r,h.s]));
+    check('12. 以安：豆漿（飲料，她最喜歡的）＝fav；同一天再送飯糰（早餐）照收、再送綠茶（飲料）＝no；沒有 sec',!LN.heroine_01.sec&&f.r==='fav'&&g.r==='yes'&&h.r==='no'&&E_('heroine_01','drink').no.some(p=>same(split(p.lines),h.s)),J([f.r,g.r,h.r,h.s]));
     const G4=fresh(); stageOf.classmate_peishan=2; const p1=await give(G4,'classmate_peishan','米漿'); G4.day+=1; const p2=await give(G4,'classmate_peishan','米漿');
-    check('12. 沛珊：米漿（寫在她的飲料）第一次＝fav、隔天再送＝again「你昨天也買這個！」',same(LN.classmate_peishan.sec,{'米漿':'drink'})&&p1.r==='fav'&&p2.r==='again'&&same(p2.s,split(E_('classmate_peishan','drink').ctx.again[0].lines)),J([p1.r,p2.r,p2.s]));
-    const G5=fresh(); mk(G5,'豆漿'); G5.carry.push({n:'米漿',cat:'breakfast',day:G5.day,shop:'便利商店'});
+    check('12. 沛珊：米漿（飲料）第一次＝fav、隔天再送＝again「你昨天也買這個！」',!LN.classmate_peishan.sec&&p1.r==='fav'&&p2.r==='again'&&same(p2.s,split(E_('classmate_peishan','drink').ctx.again[0].lines)),J([p1.r,p2.r,p2.s]));
+    const G5=fresh(); mk(G5,'豆漿'); G5.carry.push({n:'米漿',cat:'drink',day:G5.day,shop:'便利商店'});
     check('12. 當面說話：以安、芷若都有「送她豆漿」「送她米漿」',same(GIFT.talkOpts(G5,'heroine_01').map(x=>x.t),['送她豆漿','送她米漿'])&&same(GIFT.talkOpts(G5,'heroine_02').map(x=>x.t),['送她豆漿','送她米漿']),J(GIFT.talkOpts(G5,'heroine_01').map(x=>x.t))); }
   /* 13 順序與好感 */
   { const G=fresh('2025-12-15'); stageOf.heroine_01=2; const a=await give(G,'heroine_01','豆漿');

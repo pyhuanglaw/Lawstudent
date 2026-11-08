@@ -13,8 +13,8 @@ AA_710 第二版（74aa33345／be775af69，AA-B 05:39、06:02）的欄位：
 AA_728（955ea3a03，AA-B 11-08 08:24）：
 - _meta.itemOnly.list：AA_710 只配某一樣的那幾組（下面 ONLY_ITEM；where 是人寫的位置，對不到、那一組沒提到那一樣就停下來）→ 那幾組加 only（＋hour）。
 - _meta.itemOnly.kexinSugar：「青茶（有加糖）」＝青茶只要不是無糖都算 → 那一筆 opinion 加 ns（算數的品項，遊戲裡的微糖）。
-- _meta.notes「breakfast＝豆漿、米漿、飯糰、三明治」：和 S.ITEMS 的早餐對不上就停下來。豆漿、米漿在 S.ITEMS 是早餐（alt:'drink'）：
-  AA_710 寫在她飲料那一格的（以安最喜歡豆漿、沛珊最喜歡米漿）照稿留在飲料那一格，記在她的 sec（那一樣對她算飲料，gift3d.js 照這個挑格子）。
+- _meta.notes「breakfast＝飯糰、三明治」（6528d7681 起；豆漿、米漿算飲料，照 AA_710 原本的分法）：和 S.ITEMS 的早餐對不上就停下來。
+  sec：稿寫在另一種那一格的那一樣，記在她的 sec（對她算那一種）；現在沒有，留著。六位都要有 breakfast（notes 沒有「沒寫 breakfast 的人照 drink」）。
 - people：朋友六位（drink.yes／breakfast.yes 輪流、no 一天第二次送同一種）；rel 照 notes「yes 每次 fam+1、comf+1（一天最多算一次）」→ GIFT_LINES.friends。
 - 學姊送到第 3 次起「學弟」換成 {name}、子晴「冰你一下」不配熱的：AA_728 沒列，照舊在下面 BOUND（沒對到稿裡的句子就停下來）。
 用法：python3 tools/story/import_gifts.py [--ref <AA_710 commit>] [--ref2 <AA_728 commit>] [--check]"""
@@ -330,8 +330,9 @@ def build_friends(src, sha, items):
         raise SystemExit(f'{PATH2} _meta.notes：讀不到「rel：yes 每次 fam+1、comf+1（一天最多算一次）；no 不加不扣。朋友沒有 npcRom。」（稿改了要重看 build_friends）')
     R = {'fam': int(m.group(1)), 'comf': int(m.group(2))}
     m = re.search(r'breakfast＝([^；。]+)', notes)
-    if not m or '沒寫 breakfast 的人照 drink' not in notes:
-        raise SystemExit(f'{PATH2} _meta.notes：讀不到「breakfast＝…；沒寫 breakfast 的人照 drink」')
+    if not m:
+        raise SystemExit(f'{PATH2} _meta.notes：讀不到「breakfast＝…」')
+    FALLBACK = '沒寫 breakfast 的人照 drink' in notes   # 6528d7681 起六位都有 breakfast，這一句拿掉了：沒寫的就停下來
     bf = set(m.group(1).split('、'))
     game_bf = {it['base'] for it in items.values() if it['cat'] == 'breakfast'}
     if bf != game_bf:
@@ -358,6 +359,8 @@ def build_friends(src, sha, items):
             P[c] = {'pool': groups(v[c].get('yes'), f'{w}.{c}.yes')}
         if 'drink' not in P:
             raise SystemExit(f'{w}：沒有 drink')
+        if 'breakfast' not in P and not FALLBACK:
+            raise SystemExit(f'{w}：沒有 breakfast（notes 沒寫「沒寫 breakfast 的人照 drink」）')
         P['no'] = groups(v.get('no'), f'{w}.no')
         out[pid] = P
     return {'src': f'{PATH2}@{sha}', 'rel': R, 'people': out}

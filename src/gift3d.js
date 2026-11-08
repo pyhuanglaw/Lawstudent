@@ -3,8 +3,8 @@
    台詞：AA_710 第二版（七位女主角）、AA_728（朋友六位）——src/data/gift_lines.js，tools/story/import_gifts.py 產生。這裡只有程式和系統字（品項、價錢、「帶一份送人」）。
    - 買：便利商店、2:30 AM 的點餐選單多一項「買一份帶走送人…」→ 品項（有的再選一次：熱可可要不要加濃縮、美式冰的熱的、綠茶冰塊、青茶甜度）→ 扣錢、帶在身上。
      帶在身上的最多 3 樣；當天沒送出去，隔天就沒了（早餐、飲料放不到隔天；不提示）。
-     早餐＝豆漿、米漿、飯糰、三明治（AA_728 _meta.notes；AA-B 11-08 08:24「不加早餐店，便利商店、2:30 AM 的就是早餐」）。
-     豆漿、米漿 alt:'drink'：AA_710 把它寫在她飲料那一格的（以安最喜歡豆漿、沛珊最喜歡米漿），對她算飲料（GIFT_LINES.people[id].sec，匯入工具記的）。
+     早餐＝飯糰、三明治；豆漿、米漿算飲料（AA_728 _meta.notes 6528d7681，AA-B 11-08 08:49 更正：照 AA_710 原本的分法）。不加早餐店（AA-B 08:24）。
+     sec：稿寫在另一種那一格的那一樣，對她算那一種（匯入工具記的；豆漿、米漿改回飲料以後沒有了，留著給以後的稿）。
    - 送：當面說話（STORY.TALK_OPTS）多「送她○○」／「送他○○」（照 CHARACTERS 的 gender）；同一種（飲料／早餐）一天送一次，第二次不收（no，東西留著）。
      七位女主角（AA_710）的反應照 _meta.notes 的優先順序：
        ① fav：第一次送到她最喜歡的那一樣（AA_410）＝fav 那幾句、記 REMEMBERED_HER；之後再送對照下面。
@@ -30,7 +30,7 @@ const GIFT=(function(){
   /* 品項：名字、種類、價錢（便利商店；2:30 AM 另一個價錢）、冷熱（temp；沒寫＝不算冷也不算熱）、可以再選的（opt：[選項字, 加在名字後面的, 加價, 冷熱]）、
      alt（稿可以寫在另一種那一格）。tools/story/import_gifts.py 會讀這一段核對稿裡的品項名（改這裡要重新匯入）*/
   S.ITEMS=[
-    {n:'豆漿',cat:'breakfast',alt:'drink',p:25},{n:'米漿',cat:'breakfast',alt:'drink',p:25},{n:'飯糰',cat:'breakfast',p:35},{n:'三明治',cat:'breakfast',p:39},
+    {n:'豆漿',cat:'drink',p:25},{n:'米漿',cat:'drink',p:25},{n:'飯糰',cat:'breakfast',p:35},{n:'三明治',cat:'breakfast',p:39},
     {n:'無糖綠茶',cat:'drink',p:25,temp:'cold',opt:[['正常冰',''],['去冰','（去冰）']]},{n:'青茶',cat:'drink',p:25,temp:'cold',opt:[['微糖',''],['無糖','（無糖）']]},{n:'紅茶拿鐵',cat:'drink',p:45,temp:'cold'},
     {n:'美式咖啡',cat:'drink',p:45,cafe:100,temp:'hot',opt:[['熱的',''],['冰的','（冰的）',0,'cold']]},{n:'拿鐵',cat:'drink',p:55,cafe:120,temp:'hot'},{n:'熱可可',cat:'drink',p:50,cafe:110,temp:'hot',opt:[['就這樣',''],['加一份濃縮','（加一份濃縮）',20]]}];
   /* 完整品項名（名字＋再選一次加的字）→ 冷熱、種類 */
