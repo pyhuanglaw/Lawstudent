@@ -317,7 +317,10 @@ const AA720P=(function(){
     if(ARCS.play&&!ARCS.play.aa720){ const p0=ARCS.play; const p1=async function(GM,who,id,b){ if(!b||!b.quietMove) return p0.apply(this,arguments); const M=S.QM();
         for(const t of M.open) await GM.say(/^（/.test(t)?null:who,text(GM.G,t));   /* 還在安靜區：她放下筆、比樓梯間 */
         const b2=Object.assign({},b,{opts:b.opts.map(o=>Object.assign({},o,{reply:(o.reply||[]).concat(M.close)}))});   /* 結尾一句（推門回去）接在她回的那幾句後面 */
-        return typeof LIBQ!=='undefined'&&LIBQ.loud?LIBQ.loud(()=>p0.call(this,GM,who,id,b2)):p0.call(this,GM,who,id,b2); }; p1.aa720=true; ARCS.play=p1; }   /* 樓梯間不是安靜區：不加「（小聲）」*/
+        /* 樓梯間還沒有 2D 背景：open 以後到 close 換深色底（和其他沒有圖的場景一樣），回座位換回原本的（BB-B 11-08 04:13 SIS1 小事 1；提示詞 BB_132 第 118 組第 7 張）*/
+        const adv=typeof ADV!=='undefined'&&ADV.active&&ADV.setBg?ADV:null, prev=adv?adv.bgMode:null; if(adv) adv.setBg('dark');
+        try{ return typeof LIBQ!=='undefined'&&LIBQ.loud?await LIBQ.loud(()=>p0.call(this,GM,who,id,b2)):await p0.call(this,GM,who,id,b2); }
+        finally{ if(adv&&adv.active&&prev!=null) adv.setBg(prev); } }; p1.aa720=true; ARCS.play=p1; }   /* 樓梯間不是安靜區：不加「（小聲）」*/
     return true; };
   /* 學姊第 6 拍在總圖安靜區（AA_720 quietMove，SIS1-QUIET-LIB-1108；4f37a68bb）：第 14 週到筆試只約得到總圖、第 6 拍 quietOk:false 一直演不到（1/31 以後才演到＝late）。
      輪到這一拍、人在安靜區：她起身、兩個人走到樓梯間再演——open 兩句 → 第一句旁白換成樓梯間那一句 → 第 2 句起照 AA_712 原稿（ask、三個選項、reply 不改）→ close 一句 → 回到原本的座位（不換場景）。

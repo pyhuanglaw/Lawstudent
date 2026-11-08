@@ -300,6 +300,12 @@ const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys
       { const c0=LIBQ.whisper(GM,{name:'學姊',charId:SIS},'對不起，不是對你。'); check('9. （對照）同一個地方、不是樓梯間：她的一句會加（小聲）',/^（小聲）/.test(c0),c0); }
       check('9. 樓梯間那幾句不加（小聲）',!s.some(t=>/小聲/.test(t)&&!/^（小聲）/.test(M.open.join('')))&&s.includes('對不起，不是對你。'),J(s.filter(t=>/小聲/.test(t))));
       check('9. SIS-1 照記（不是 late）：support＋信任高＝stay',DECIDE.get(G,SIS,'exam')==='stay'&&!G.flags.DECIDE[SIS].exam.late,J(G.flags.DECIDE[SIS])); }
+    /* 樓梯間還沒有 2D 背景（BB-B 11-08 04:13 SIS1 小事 1）：open 兩句還在原本的底，樓梯間那一句到 close 是深色底，回座位換回原本的 */
+    { const A0={active:ADV.active,setBg:ADV.setBg,bgMode:ADV.bgMode}; const seq=[]; let cur='blur'; ADV.active=true; ADV.bgMode='blur'; ADV.setBg=function(m){ cur=m; this.bgMode=m; };
+      const sayB=GM.say; GM.say=async(who,t)=>{ seq.push([t,cur]); return sayB(who,t); };
+      try{ const {s}=await play('2026-01-27','library',true,[sup,0]); const bgOf=t=>(seq.find(x=>x[0]===t||x[0]==='（小聲）'+t)||[])[1];
+        check('9. 樓梯間那一段換深色底：open 兩句＝原本的底（blur）、「樓梯間的門一關上…」到 close＝dark、演完換回 blur',bgOf(M.open[0])==='blur'&&bgOf(M.open[1])==='blur'&&bgOf(M.replaceFirst.to)==='dark'&&M.close.every(t=>bgOf(t)==='dark')&&cur==='blur'&&ADV.bgMode==='blur',J({seq:seq.map(x=>[x[0].slice(0,10),x[1]]),cur})); }
+      finally{ GM.say=sayB; ADV.active=A0.active; ADV.setBg=A0.setBg; ADV.bgMode=A0.bgMode; } }
     { const {G,b,s}=await play('2026-01-31','l118_cafe2',false,[sup,0]); check('9. 週末慢讀（不是安靜區）：照原本第一句「（她把筆摔在桌上，筆滾到地上。）」、沒有 open／close',!!b&&!b.quietMove&&s[0]===B6.lines[0]&&!s.includes(M.close[0])&&DECIDE.get(G,SIS,'exam')==='stay',J(s.slice(0,2))); }
     { const {G,b}=await play('2026-02-05','library',true,[sup,0]); check('9. 1/31 以後才演到：照演，SIS-1 記 late（alone）',!!b&&DECIDE.get(G,SIS,'exam')==='alone'&&G.flags.DECIDE[SIS].exam.late===true,J(G.flags.DECIDE[SIS])); }
     { const G=fresh('2026-01-27',15,'library'); const r=ARCS.rec(G,SIS); r.k=8; r.last=null; const DS=DATE.stageNum; DATE.stageNum=()=>4; const b=ARCS.pick(G,SIS,{kind:'study',quiet:true}); DATE.stageNum=DS; check('9. 別的 quietOk:false 的拍（學姊第 8 拍）在安靜區照舊不演',b==null); }
