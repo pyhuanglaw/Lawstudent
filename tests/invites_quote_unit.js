@@ -5,8 +5,8 @@
 //   LIBQ.quiet：「好。」→（小聲）好。（不是（小聲）「好。」）
 // 檢查：
 //   1. invites.js 有名字的格子（下面 SPEAKER 的清單；函式裡的句子照原始碼找）沒有一句外面還有「」；原始碼全檔也沒有（invites.js 沒有「沒名字」又整句「」的格子）
-//   2. 沒名字的、旁白裡引用她的話的照留「」：旁白裡的「…」、好幾個人一來一往的「…」「…」、（走出法圖）「…」；選項字不動
-//   3. 演出來：INV.S.playLines 有名字的句子 who 不是 null（含（小聲）開頭、（走出法圖）「…」這兩種括號開頭的），整句旁白 who＝null；
+//   2. 沒名字的、旁白裡引用她的話的照留「」：旁白裡的「…」、好幾個人一來一往的「…」「…」；選項字不動（（走出法圖）「…」第六批拿掉裡面的「」＝（走出法圖）…，她說的）
+//   3. 演出來：INV.S.playLines 有名字的句子 who 不是 null（含（小聲）開頭、（走出法圖）…這兩種括號開頭的；第六批起 S.narrLine＝整句一對（）才是旁白），整句旁白 who＝null；
 //      有名字的格子裡（ 開頭的句子，不是（小聲）（走出）那兩種的，都要整句是動作（不然拿掉「」以後會被當成旁白）
 //   4. LIBQ.quiet('「好。」')==='（小聲）好。'；動作括號合成、已經小聲的不動
 //   5. 表上的句子對得到 invites.js 拿掉「」的句子，有沒有「」都一樣（INV.replyRow／S.lineKey；第二批 invite_replies.js 也拿掉了，舊存檔 m.t 記的還有「」）
@@ -71,7 +71,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
     has(P.heroine_04&&P.heroine_04.acc,'（她答應了，條件是「二樓靠窗，有插座的那一排」。）')&&has(P.classmate_peishan&&P.classmate_peishan.afterMeet,'（她遞過來一張便條：「今天念了 42 頁。你呢？」）')
     &&strings(LSd.mid).some(t=>/^（她把一張便利貼推過來：「這一題你會嗎？」/.test(t)));
   check('2. 好幾個人一來一往的「…」「…」照留（阿哲、柏翰一起走路的句子）',has(D.walk118,'「宵夜是讀書的一部分。這叫補充體力的權利。」「沒有這個權利。」「先有。」')&&has(D.walk118,'「考完了，我在總圖門口站了五分鐘，不知道要去哪。……你要去哪？」「燒臘店。」「……喔。好。那你去。」'));
-  check('2. 沛珊第一次去法圖：（走出法圖）「館員人好好……」照留（AA_595 1-D10）',has(D.lawlibLines,'（走出法圖）「館員人好好。我以為法圖的人都很兇。」'));
+  check('2. 沛珊第一次去法圖：（走出法圖）館員人好好……（AA_595 1-D10；她說的，第六批拿掉說的話那一對「」，TEXT-QUOTE-UNIFY-1108、tests/invites_quote_b6_unit.js）',has(D.lawlibLines,'（走出法圖）館員人好好。我以為法圖的人都很兇。')&&!has(D.lawlibLines,'（走出法圖）「館員人好好。我以為法圖的人都很兇。」'));
   const chT=[]; (function w(v){ if(Array.isArray(v)) v.forEach(w); else if(v&&typeof v==='object'){ if(Array.isArray(v.ch)) for(const c of v.ch) chT.push(c.t); for(const k of Object.keys(v)) if(k!=='ch') w(v[k]); } })(Object.values(P).map(p=>p.walk));
   check('2. 選項字不動（芷若猜電影、阿凱、子晴、沛珊的選項）',chT.length>=10&&chT.includes('愛情片。')&&chT.includes('（說換方向的事）')&&chT.includes('不一定是告，可以請警察來看'),JSON.stringify(chT)); }
 /* 3 */

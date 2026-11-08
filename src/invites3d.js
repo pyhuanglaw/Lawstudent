@@ -269,10 +269,12 @@ const INV=(function(){
   const subLine=(G,t,r)=>{ const a=r&&r.alt; return String(t).replace('{zh}',a?(a.day===G.day?'':(a.day===G.day+1?'明天':when(G,a.day,a.h).split(' ')[0]))+zhT(a.h):'').replace('{明天？}',a&&a.day===G.day+1?'明天？':''); };
   /* 播台詞：不是（ 開頭的＝她／他說（invites.js 的已經不加「」，AA-B 11-08 00:21；第二批 01:09：invite_replies.js、invite_place_lines.js、sport_invite_lines.js、rel_lines.js 也拿掉；別的檔還有「」的照樣是她說）、（…）＝旁白、{me}＝祐廷說；手機上約的時候，她／他的話寫「某某（手機）」。
      invites.js 拿掉「」以後沒有一句變成（ 開頭（除了下面兩種），所以 S.narrLine 不用改；tests/invites_quote_unit.js 會擋 */
-  /* 旁白＝（ 開頭；可是「（小聲）……」「（走出法圖）「……」」是她說的話（AA-B 11-08 00:05：「（小聲）」外面不再加「」，原本靠「」分辨）*/
-  S.narrLine=t=>/^（/.test(t)&&!/^（[^）]*小聲[^）]*）./.test(t)&&!/^（走出[^）]*）「/.test(t);
+  /* 旁白＝整句是一對（…）（同 pool3d.js S.narrWhole）；（ 開頭、）後面還有字的是她說的話：「（小聲）……」「（走出法圖）館員人好好。……」
+     （TEXT-QUOTE-UNIFY-1108 第六批，AA-B 11-08 11:50：「（走出法圖）」後面的說的話拿掉「」，原本看「（小聲）」「（走出…）「」這兩種開頭；
+     INVITE_DATA、INVITE_REPLIES 每一句、改時間的回覆、ACC0 的分法和原本一樣，只有這一句跟著改——tests/invites_quote_b6_unit.js）*/
+  S.narrLine=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='（') d++; else if(ch==='）'){ d--; if(d===0) return i===t.length-1; } } return false; };
   S.playLines=async function(GM,who,lines,r,lq){ const G=GM.G; for(const st of lines||[]){ if(st&&typeof st==='object'&&st.me){ await GM.say({name:G.name},subLine(G,st.me,r)); continue; }
-      const t=subLine(G,st,r); if(lq) lq.chk(t); if(S.narrLine(t)) await GM.say(null,t); else await GM.say(who,t); } };   /* lq：LIBQ.scope()（走出館外那一句起不加小聲）；「（走出法圖）「……」」是她說的話（AA_595 1-D10）*/
+      const t=subLine(G,st,r); if(lq) lq.chk(t); if(S.narrLine(t)) await GM.say(null,t); else await GM.say(who,t); } };   /* lq：LIBQ.scope()（走出館外那一句起不加小聲）；「（走出法圖）館員人好好。……」是她說的話（AA_595 1-D10）*/
   /* 結果的旁白（沒有個性資料的人：不編台詞）*/
   const ACTN={class:'在上課',barista:'在打工',help:'在幫忙',club:'在社團',ta:'在當助教'};
   S.reply=function(G,id,pid,r){ const nm=nameOf(id), P=S.place(pid)||{}; const per=(D().people[id]||{}).reply; if(per&&per[r.why||r.res]) return per[r.why||r.res];

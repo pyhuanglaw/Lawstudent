@@ -50,7 +50,7 @@ const LEGAL = (function(){
     const k=await GM.choose(options.map(o=>({t:o.t}))); const v=options[k].v; ADV.log(G.name,'▶ '+options[k].t);
     let result; if(v===null){ L.expose(q.id,ctx); result='unsure'; await say(fill(pick(byTable(table[3])),q),'neutral'); }
     else { const ok=(v===q.answer); L.mark(q.id,ok,ctx); result=ok?'ok':'bad'; await say(fill(pick(byTable(table[ok?1:2])),q),ok?'smile':'thinking'); }
-    if(spec.chorus&&EVENTS.npcOf(spec.chorus)){ const cn=SOCIAL.displayName(spec.chorus); const cw={name:cn,obj:EVENTS.npcOf(spec.chorus).obj,charId:spec.chorus}; ADV.speaker(spec.chorus,'neutral'); const t=result==='ok'?pick(['（小聲）「你剛剛怎麼知道的？」','（小聲）「……好喔。」']):pick(['（小聲）「我也選那個。」','（小聲）「這題我上週錯過。」']); if(!ADV.active) ADV.log(cn,t); await GM.say(cw,t); }
+    if(spec.chorus&&EVENTS.npcOf(spec.chorus)){ const cn=SOCIAL.displayName(spec.chorus); const cw={name:cn,obj:EVENTS.npcOf(spec.chorus).obj,charId:spec.chorus}; ADV.speaker(spec.chorus,'neutral'); const t=result==='ok'?pick(['（小聲）你剛剛怎麼知道的？','（小聲）……好喔。']):pick(['（小聲）我也選那個。','（小聲）這題我上週錯過。']); if(!ADV.active) ADV.log(cn,t); await GM.say(cw,t); }
     // 教授記錄
     if(ctx==='class'&&by&&by.startsWith('prof_')){ SOCIAL.profEvent(by,'part',1,null); if(result==='ok') SOCIAL.profEvent(by,'perf',3,'課堂答對：'+q.id); else if(result==='bad') SOCIAL.profEvent(by,'perf',-1,null); }
     if(!spec.quiet) GM.addNote('law_'+q.id,(q.section||'刑事訴訟法')+'：'+stmt(q).slice(0,18)+'…',(q.core?'核心：'+q.core:'答案：'+(q.type==='tf'?q.answer:q.answer+' '+q.options[q.answer]))+(result==='bad'?'（你答錯過，記得回頭看）':''));

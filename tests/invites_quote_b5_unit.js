@@ -15,7 +15,8 @@
 //   STORY.smallQuoteMigrate（game3d.js migrate）加：動作在前面的（S.smallActUnq）、ECON_SL（只換這個人 talk 表上的句子）。改時間的回覆、pool 的招呼不用句子當記號
 //   （invites3d.js 記 S.lineKey＝本來就拿掉外面的「」再比；pool 的 greet 記輪到第幾句 r.g），不用換
 // 檢查（BASE＝91320de2b，第五批以前的開發分支 head）：
-//   21. 分類：每一套有名字說的沒有「」包著說的話（三種寫法都沒有）、沒名字的照留；第四批那幾個檔沒有剩下這兩種寫法
+//   21. 分類：每一套有名字說的沒有「」包著說的話（三種寫法都沒有）、沒名字的照留；第四批那幾個檔沒有剩下這兩種寫法；
+//       別的地方剩下的（第六批做完以後）＝照留的 16 個（大一女舍門口沒名字、路人分科系拆開播、選項）
 //   22. 資料和 BASE 逐句比：改到的都是上面三種之一、改了幾句、其他欄位（when、條件、旁白、選項）一字不差
 //   23. 原始碼逐行比（第五批那一個 commit 本身：commit 以前比 BASE 和現在的檔）：資料檔字串以外一字不差、每個檔改幾行幾個字串；程式只改了這幾處；只動了這幾個 src 檔
 //   24. 演出來（另開 node，一次用 BASE 的檔、一次用現在的檔；index.html 全部載入）：學姊挽回中的短招呼、法學院圖書館的閒聊、法律系同學的閒聊與招呼、
@@ -197,9 +198,15 @@ const N=runProbe('new',J({mig:migIn}));
     'src/data/us_life_events.js','src/mokuyobi_sys3d.js','src/offbeat_sys3d.js','src/ggshops_sys3d.js','src/gg2shops3d.js','src/sup519_3d.js','src/data/aa519_lines.js'];
   const left=[]; for(const f of SYS) if(fs.existsSync(path.join(ROOT,f))) for(const t of lits(cur(f))) if(actQ(t)||sayQ(t)) left.push(f+'：'+t);
   check('21. 第四、五批那幾套的檔（pool、經濟系同學、aa614、學姊第十三批、美國生活、木曜日、日常失速、公館店員、SMALL_DAILY）沒有剩下（動作）「…」、「…」（動作）的字串',left.length===0,sample(left));
-  /* 別的地方還有的（不在這一批：選項、路人、手機、invites.js、課堂…）——列出來給 AA-B 看，不檢查 */
+  /* 別的地方還有的（不在這一批：選項、路人、手機、invites.js、課堂…）——第五批列給 AA-B 看；第六批（TEXT-QUOTE-UNIFY-1108 最後一批，tests/invites_quote_b6_unit.js）做完有名字的九句以後，
+     剩下的就是照留的這 16 個：大一女舍門口四句（沒名字：S.overhear＝GM.say(null,…)）、路人分科系五句（CROWD.deptSteps 拆開播，說的話本來就不帶「」）、選項七個（choice 的 text）*/
+  const KNOWN_LEFT=['crowd3d.js：（一個女生拖著兩個行李箱，在門口打電話）「媽，我到了。……沒有電梯啦，我爬上來的。五樓。」','crowd3d.js：（提著兩袋宵夜的人）「鹹酥雞到了，誰下來拿？」','crowd3d.js：（在門口講電話）「沒有啦，我只是想打給你。」','crowd3d.js：（抱著一疊書的人）「總圖還有位子嗎？……那我去社科圖。」',
+    'data/crowd_depts.js：（他邊走邊講電話）「板子放在你桌上了。……那顆電容是新的，這次不要再燒掉。」','data/crowd_depts.js：（他盯著手機）「又錯一筆測資。……到底是哪一筆。」','data/crowd_depts.js：（她講電話）「阿嬤那邊我禮拜四再去一次。她上次說要教我摺紙鶴。」','data/crowd_depts.js：（她在柱子上貼傳單：「徵求受試者，心理系實驗」。）「……膠帶又用完了。」','data/crowd_depts.js：（他對著一棵樹念台詞）「……你為什麼不早說？——不對，這一句要更小聲。」',
+    'data/events.js：「謝謝學姊。」（拿了書狀就走）','data/events.js：（替她答）「她想知道法律外面還有什麼。」','data/events.js：（繼續演品妤）「你想說什麼？」','data/r2y4a_events.js：（再問一次）「妳還好嗎？」','data/r2y4a_events.js：（指著法律系館B）「先記得這棟就好。」','data/r2y4a_events.js：（收下）「謝謝阿嬤。」','y2r2_3d.js：（裝不知道）「恭喜！」'];
   const others=[]; (function walk(d){ for(const f of fs.readdirSync(path.join(ROOT,d))){ const p=d+'/'+f; if(fs.statSync(path.join(ROOT,p)).isDirectory()) walk(p); else if(/\.js$/.test(f)&&!SYS.includes(p)) for(const t of lits(cur(p))) if(actQ(t)||sayQ(t)) others.push(p+'：'+t); } })('src');
-  console.log('（21. 不在這一批、還有（動作）「…」或「…」（動作）的字串 '+others.length+' 個：'+others.map(x=>x.replace(/^src\//,'')).join('／')+'）'); }
+  console.log('（21. 不在這一批、還有（動作）「…」或「…」（動作）的字串 '+others.length+' 個：'+others.map(x=>x.replace(/^src\//,'')).join('／')+'）');
+  const OL=others.map(x=>x.replace(/^src\//,'')).sort(), KL=KNOWN_LEFT.slice().sort();
+  check('21. 不在這一批、還有（動作）「…」或「…」（動作）的字串（第六批做完以後）＝照留的 '+KL.length+' 個（大一女舍門口沒名字 4、路人分科系拆開播 5、選項 7），一個不多一個不少',J(OL)===J(KL),sample(OL.filter(x=>!KL.includes(x)).concat(KL.filter(x=>!OL.includes(x)).map(x=>'少了 '+x)))); }
 
 /* ---------- 22. 資料和 BASE 逐句比 ---------- */
 { const chg=(a,b,want)=>{ const bad=[]; let n=0; if(!Array.isArray(a)||!Array.isArray(b)||a.length!==b.length) return {n:-1,bad:['句數不同']}; a.forEach((x,i)=>{ const k=kindOf(x,b[i]); if(k==='same') return; if(k===want) n++; else bad.push(x+' → '+b[i]); }); return {n,bad}; };
@@ -304,7 +311,9 @@ const cmp=(A,B,kinds)=>{ const bad=[], nw=[], hit=new Set(); let ch=0, named=0; 
 
 /* ---------- 26. 讀這些句子的程式沒動 ---------- */
 { const st=noComments(cur('src/story3d.js')), ec=noComments(cur('src/econsl3d.js'));
-  check('26. pool3d.js、invites3d.js 和 '+BASE+' 一字不差（之後的招呼 sayAny 看 S.narrWhole；改時間的回覆 S.playLines(GM,who,…)、S.narrLine）',cur('src/pool3d.js')===gitShow(BASE,'src/pool3d.js')&&cur('src/invites3d.js')===gitShow(BASE,'src/invites3d.js'));
+  const C5=findC5(), i5=C5?gitShow(C5,'src/invites3d.js'):cur('src/invites3d.js'), i5p=C5?gitShow(C5+'^','src/invites3d.js'):gitShow(BASE,'src/invites3d.js');   /* 第六批（TEXT-QUOTE-UNIFY-1108 最後一批）換了 S.narrLine：看第五批那一個 commit 本身 */
+  check('26. pool3d.js 和 '+BASE+' 一字不差（之後的招呼 sayAny 看 S.narrWhole）；invites3d.js 第五批沒動（'+(C5?C5.slice(0,9)+'^ → '+C5.slice(0,9):'commit 以前：'+BASE+' → 現在的檔')+' 一字不差、＝'+BASE+'；改時間的回覆 S.playLines(GM,who,…)、S.narrLine——第六批以後 S.narrLine 看整句一對（），tests/invites_quote_b6_unit.js）',
+    cur('src/pool3d.js')===gitShow(BASE,'src/pool3d.js')&&i5===i5p&&i5p===gitShow(BASE,'src/invites3d.js')&&/if\(S\.narrLine\(t\)\) await GM\.say\(null,t\); else await GM\.say\(who,t\);/.test(noComments(cur('src/invites3d.js'))));
   check('26. story3d.js：閒聊 GM.say(who,L.say)、旁白 GM.say(null,L.narr)；經濟系同學 ECONSL.talk 兩個掛勾照舊',/const L=S\.smallTalk\(G,id\); if\(L\.say\) await GM\.say\(who,L\.say,\{expr:'smile'\}\); else await GM\.say\(null,L\.narr\);/.test(st)&&(st.match(/ECONSL\.talk\(GM,who,id,n,(true|false)\)/g)||[]).length===2);
   check('26. econsl3d.js：閒聊 GM.say(who,e.t)、自我介紹 GM.say(who,P.intro)、旁白 GM.say(null,L.narr)、招呼 sayAny（開頭（＝旁白）照舊',/await GM\.say\(who,e\.t\);/.test(ec)&&/await GM\.say\(who,P\.intro\);/.test(ec)&&/await GM\.say\(null,L\.narr\);/.test(ec)&&/const sayAny=async\(GM,who,t\)=>\{ if\(\/\^（\/\.test\(t\)\) await GM\.say\(null,t\); else await GM\.say\(who,t\); \};/.test(ec));
   check('26. 經濟系同學本人說的招呼拿掉「」以後開頭不是（（econsl3d.js sayAny 照舊當本人說的）；整句旁白的開頭是（',ECON_IDS.every(id=>(EC.now.people[id].greet||[]).every(g=>isNarr(g)===/^（/.test(g)))); }

@@ -1,6 +1,6 @@
 // 圖書館小聲講：「走出館外」的旁白＋libOut（AA_595 1-B 表「建議改法」欄＋AA 2026-11-02 22:30 定稿；D127；任務 AA595-LIB-NOD-THERMOS-1102）——不需要瀏覽器。
 //   1  20 場事件（1-B1、B2、B4、B6、B7、B11、B13、B14、B22、B23、B29、B35、B36、B44、B45、B46、B47、B51、B52、B55）：走出去那句在；那句之前說話的照加（小聲），之後的不加；LIBQ 配對
-//   2  1-D10（invites.js 沛珊第一次去法圖的 firstAt 字串）：「（走出法圖）「館員人好好……」」是她說的、不加（小聲）；之後到道別都不加；字串版 LIBQ.isOut／scope、needsPrefix
+//   2  1-D10（invites.js 沛珊第一次去法圖的 firstAt 字串）：「（走出法圖）館員人好好……」（第六批拿掉說的話那一對「」）是她說的、不加（小聲）；之後到道別都不加；字串版 LIBQ.isOut／scope、needsPrefix
 //   3  Q16（rel_lines.js 以安約總圖朋友以上的見面旁白「閉館音樂響了……」）：之後的道別那句不加；有點熟（別句旁白）道別照加
 // 修改前（libq2 38d65bd27）：第 1～3 節 FAIL。用法：node tests/libq_out_1102_unit.js
 require('./alison.js');
@@ -106,8 +106,8 @@ await sec('2',async()=>{
   H.fresh('2026-10-07',15,'lawlib'); H.FRIEND(PS); at('lawlib',1,0,0); LIBQ.reset(); if(typeof STUDYN!=='undefined') STUDYN.of(H.G,PS).last=H.G.day;   /* 這一段測一般句（AA_651、1-D10）：今天的「一起念書第 N 場」當成已經演過（第 N 場另外測：tests/study_scenes_unit.js）*/ 
   const iv=INV.accept(H.G,PS,'lawlib',H.G.day,15); const n=npc(PS);
   H.said=[]; let err=null; try{ await INV.meet(GM,iv,n); }catch(e){ err=String(e&&e.stack||e).split('\n').slice(0,2).join(' / '); }
-  const S=H.said, k=S.findIndex(s=>s.t==='（走出法圖）「館員人好好。我以為法圖的人都很兇。」');
-  check('2. 1-D10：櫃台那句旁白照留，下一句「（走出法圖）「館員人好好。我以為法圖的人都很兇。」」是沛珊說的、不加（小聲）',!err&&k>0&&S[k-1].t==='（她在借書櫃台問了館員三個問題，館員都回答了。）'&&!S[k-1].who&&S[k].who===SOCIAL.displayName(PS),err||J(H.lines()));
+  const S=H.said, k=S.findIndex(s=>s.t==='（走出法圖）館員人好好。我以為法圖的人都很兇。');   /* 說的話外面的「」第六批拿掉（TEXT-QUOTE-UNIFY-1108，tests/invites_quote_b6_unit.js）*/
+  check('2. 1-D10：櫃台那句旁白照留，下一句「（走出法圖）館員人好好。我以為法圖的人都很兇。」是沛珊說的、不加（小聲）',!err&&k>0&&S[k-1].t==='（她在借書櫃台問了館員三個問題，館員都回答了。）'&&!S[k-1].who&&S[k].who===SOCIAL.displayName(PS),err||J(H.lines()));
   const after=spoken(S.slice(k+1)), by=SOCIAL.byeLine(PS);
   check('2. 1-D10：之後的道別那句也不加（小聲）',k>0&&after.length>0&&after.every(s=>!isQuiet(s.t))&&(!by||after.some(s=>[].concat(by).some(b=>String(b.t||b).replace(/^「|」$/g,'')&&s.t.includes(String(b.t||b).replace(/^「|」$/g,''))))),J(after)+' bye='+J(by));
   check('2. 1-D10：見面結束 LIBQ 配對',balanced());

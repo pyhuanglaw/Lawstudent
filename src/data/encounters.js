@@ -39,7 +39,7 @@ const ENCOUNTERS={
     {who:'classmate_peishan',spot:'D12',why:'她在一間舊書店門口翻繪本。',days:[6],from:15,to:18,terms:['Y1S1','Y1S2','Y2S1'],weeks:'even'/* AA_372 第 6 節第 8 題：大一上到大二上只排雙數週的週六（單數週她回台中；作息 characters.js 同）*/,stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D12_PS',away:'在迪化街找舊書',
       lines:{acq:['啊，嗨！……我在找一本舊的繪本。','找到了我就回去。你也逛逛。'],friend:['你來得正好。幫我看這兩本，哪一本小孩會喜歡？','……你選的那本字比較少。對，就是這本。'],dating:['……你怎麼知道我在這裡？','不知道也來了？那我們一起找。書單有七本。']},src:'BB_144 1、3-4'},
     {who:'heroine_03',spot:'D12',why:'她拿著相機，蹲在一間南北貨行的騎樓下。',days:[0],from:17.5,to:19,terms:null,weeks:'odd'/* AA_661 第 46 列（AA 定）：原本 15:00～18:00 撞茶屋的班，改下班以後 17:30～19:00（characters.js 作息同一筆）*/,stageMin:'ACQUAINTANCE',busy:{y12:'no',y3:'short'},join:'friend',memo:'ENC_D12_YT',away:'在大稻埕拍照',
-      lines:{acq:['……你？','我在拍老闆娘包貨的手，課堂作業。'],friend:['（她把鏡頭蓋遞給你）「拿一下。」','這條街好多店都是阿公阿嬤在顧。'],/* AA_209 附錄A §2 */dating:['……你跟來的？','沒有？那你運氣很好。我剛好拍完。']},
+      lines:{acq:['……你？','我在拍老闆娘包貨的手，課堂作業。'],friend:['（她把鏡頭蓋遞給你）拿一下。','這條街好多店都是阿公阿嬤在顧。'],/* AA_209 附錄A §2 */dating:['……你跟來的？','沒有？那你運氣很好。我剛好拍完。']},
       ex:{apart_life:['……嗨。'],apart_lifeNarr:'（她舉起相機，示意她在忙。）',apart_driftNarr:'（她看到你，把相機收起來，走進騎樓另一邊。）'},src:'AA_162 1、2-2、3'},
     // ---- D13 淡水金色水岸 ----
     {who:'kexin',spot:'D13',why:'她和予樂、邵鈞坐在河邊等夕陽。',days:[0],from:16.5,to:19,terms:null,stageMin:null,kexin:true,busy:'short',join:'dating',memo:'ENC_D13_KX',memoIf:'dating',

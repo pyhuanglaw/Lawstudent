@@ -69,10 +69,12 @@ const ZR='heroine_02', ZQ='heroine_04';
     for(const k of ['A','B','END','HELD','AGAIN','AGAIN_A']) add(L.SERIOUS[k],'4-4'); L.DAILY.forEach(d=>add(d,'4-5')); L.UK.forEach(d=>add(d,'4-6'));
     add(L.LEARN.hurt,'4-7'); add(L.LEARN.friend,'4-7'); add(L.F3_TOLD,'三');   /* 七-6 的訊息版 AA_385 第 7 項拿掉了；日本路線那一版（F3_TOLD_JP）、ZZ_TOLD_YT（TOLD）、C_FY 只在 AA_385，tests/aa385_zz_unit.js 對稿 */
     for(const k of ['B','C_UK','C']) out.push({w:'n',t:L.END[k],tag:'五'}); return out; };
+  /* 有名字說的「（動作）說的話」：稿上是（動作）「說的話」（遊戲拿掉裡面那一對「」，TEXT-QUOTE-UNIFY-1108 第六批：子晴「（打字，念出來）在吃宵夜。第二份。」）——對稿時加回去再找 */
+  const reQ=t=>{ const m=/^（[^（）]*）/.exec(t); return m&&m[0].length<t.length&&!/[「」]/.test(t.slice(m[0].length))?m[0]+'「'+t.slice(m[0].length)+'」':null; };
   await chk('1. 程式裡的每一句都在 AA_232 裡（人物：句子／「句子」／旁白原文；入場旁白、結局那一行、方奕廷三則、內心選項、4-7 第一句的改法也是）',()=>{
     if(!SPEC) return [false,'讀不到稿']; const bad=[];
     for(const x of flat()){ const k=x.w.slice(0,2), lab=WHO[k];
-      const ok=lab?(SPEC.includes(lab+'：'+x.t)||SPEC.includes('「'+x.t+'」')):SPEC.includes(x.t); if(!ok) bad.push(x.tag+' '+x.w+' '+x.t); }
+      const ok=lab?(SPEC.includes(lab+'：'+x.t)||SPEC.includes('「'+x.t+'」')||(!!reQ(x.t)&&SPEC.includes(lab+'：'+reQ(x.t)))):SPEC.includes(x.t); if(!ok) bad.push(x.tag+' '+x.w+' '+x.t); }
     const IN=L.IN; for(const g of ['home','next','serious']) for(const k in IN[g]) if(!SPEC.includes(IN[g][k])) bad.push('入場 '+g+'.'+k);
     if(!SPEC.includes(IN.mindPark)) bad.push('mindPark'); if(!SPEC.includes('「'+IN.mindPass+'」')) bad.push('mindPass');
     for(const k of ['B','C_UK','C']) if(!SPEC.includes(L.END[k])) bad.push('END.'+k);
@@ -99,7 +101,7 @@ const ZR='heroine_02', ZQ='heroine_04';
     const i76=lines.findIndex(s=>/^6\. ~~\*\*F3 婉拒那四句的國外訊息版/.test(s)), i76end=lines.findIndex((s,k)=>k>i76&&!/^\s*>\s/.test(s));   /* 七-6 訊息版：AA_385 第 7 項拿掉（「下面這四句不用」）*/
     const voided=new Set(pick(iUK,iUKend).concat(lines.slice(iVoid,i1).filter(s=>/^\s*>\s/.test(s)&&lines.indexOf(s)<lines.findIndex((q,k)=>k>iVoid&&/^- 他之後/.test(q))).map(s=>s.replace(/^\s*>\s*/,'').trim()),i76>0?pick(i76+1,i76end):[]));
     const all=pick(i3,i4).concat(pick(i0,i1),pick(i7,i8)).filter(s=>!ex.includes(s)&&!voided.has(s));
-    const mine=new Set(flat().map(x=>{ const lab=WHO[x.w.slice(0,2)]; return lab?lab+'：'+x.t:x.t; }));
+    const mine=new Set(flat().flatMap(x=>{ const lab=WHO[x.w.slice(0,2)]; return lab?[lab+'：'+x.t].concat(reQ(x.t)?[lab+'：'+reQ(x.t)]:[]):[x.t]; }));
     const miss=all.filter(s=>!mine.has(s));
     return [all.length>100&&!miss.length,'稿 '+all.length+' 句；沒接：'+miss.join('｜')]; });
 
