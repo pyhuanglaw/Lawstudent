@@ -67,7 +67,8 @@ async def main(url, od):
                 try:
                     await L.load_state(pg, {'zone': z, 'hour': h, 'day': 8, 'weekday': 6, 'weather': w, 'pos': None, 'flags': FLAGS}, quiet_events=True, quiet_phone=True)
                     await pg.evaluate("w=>{ try{ GAME.G.weather=w; GAME.E.setWeather&&GAME.E.setWeather(w); }catch(e){} }", w)
-                    await pg.wait_for_timeout(int(WARM * 1000))
+                    wdt = await pg.evaluate(FRAMES_JS, int(WARM * 1000))   # CC-B 11-09（BB-B）：進區域前 WARM 秒不算進平均／1% low，另記「進區域最慢一幀」
+                    rec['enter_worst_ms'] = round(max(wdt[1:] or [0]), 1); rec['enter_n'] = len(wdt)
                     if os.environ.get('INJECT') == 'noshadow' and z in os.environ.get('INJECT_AT', '').split(','):   # PERF-WZ-DAY-1108（LAWWW2-B）：關掉白天每格重畫太陽陰影；佇列 ENV 用 ; 分欄，JS 寫在這裡
                         rec['inject'] = await pg.evaluate("(()=>{ const E=GAME.E; E.nightShadow=()=>{}; if(typeof E3!=='undefined') E3.nightShadow=()=>{}; const r=E.renderer||(typeof E3!=='undefined'&&E3.renderer); if(r) r.shadowMap.autoUpdate=false; return {autoUpdate:r?r.shadowMap.autoUpdate:null, ns:String(E.nightShadow).slice(0,20)}; })()")
                         print('INJECT noshadow @ %s %s：%s' % (z, sid, rec['inject']), flush=True)
@@ -78,8 +79,8 @@ async def main(url, od):
                 except Exception as e:
                     rec['ok'] = False; rec['err'] = repr(e)[:300]
                 rows.append(rec)
-                print(('OK   ' if rec.get('ok') else 'FAIL ') + '%-13s %-5s avg %s fps  1%%low %s fps  worst %s ms  n=%s  zone=%s h=%s w=%s q=%s draw=%s %s' % (
-                    z, sid, rec.get('avg_fps'), rec.get('low1_fps'), rec.get('worst_ms'), rec.get('n'), rec.get('zone'), rec.get('hour'), rec.get('weather'), rec.get('q'), rec.get('draw'), rec.get('err', '')), flush=True)
+                print(('OK   ' if rec.get('ok') else 'FAIL ') + '%-13s %-5s avg %s fps  1%%low %s fps  worst %s ms  enter_worst %s ms  n=%s  zone=%s h=%s w=%s q=%s draw=%s %s' % (
+                    z, sid, rec.get('avg_fps'), rec.get('low1_fps'), rec.get('worst_ms'), rec.get('enter_worst_ms'), rec.get('n'), rec.get('zone'), rec.get('hour'), rec.get('weather'), rec.get('q'), rec.get('draw'), rec.get('err', '')), flush=True)
         errs_all = list(errs)
         await b.close()
     out = {'url': url, 'land': LAND, 'headless_env': os.environ.get('CC_HEADLESS'), 'secs': SECS, 'rows': rows, 'js_errors': errs_all[:20]}
