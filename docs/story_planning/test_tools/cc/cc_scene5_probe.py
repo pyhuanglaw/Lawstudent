@@ -34,7 +34,7 @@ AUTO = r"""(()=>{ const E=GAME.E, z=E.zone, P=E.player.obj.position, yaw=E.playe
   const onUp=i=>(i.seat.lv|0)>=1||(i.lv|0)>=1||(i.seat.y!=null&&Math.abs(+i.seat.y-fy)<0.8); const seat=E.interactables.find(i=>i.seat&&!i.hidden&&(!up||onUp(i)))||E.interactables.find(i=>i.seat&&!i.hidden); if(seat){ const sx=seat.seat.x, sz2=seat.seat.z; const sy=seat.seat.y!=null?+seat.seat.y:(up&&onUp(seat)?fy:y0); V.seat={eye:r2([sx+(c.x-sx)*0.35+0.4,sy+1.4,sz2+(c.z-sz2)*0.35+0.4]), look:r2([sx,sy+0.6,sz2]), lens:22}; }
   if(cl){ const q=cl.obj.position; const dx=c.x-q.x, dz=c.z-q.z, d=Math.hypot(dx,dz)||1; const qy=+q.y||0; V.clerk={eye:r2([q.x+dx/d*2.2,qy+1.6,q.z+dz/d*2.2]), look:r2([q.x,qy+1.2,q.z]), lens:24}; }
   V.out=up?{eye:r2([c.x,fy+1.55,c.z-sz.z*0.2]), look:r2([c.x,fy+1.4,c.z+sz.z*0.6]), lens:20}:{eye:r2([P.x+fx*2.5,y0+1.55,P.z+fz*2.5]), look:r2([P.x-fx*6,y0+1.4,P.z-fz*6]), lens:20};
-  return {spawn:r2([P.x,P.z]), y0:+y0.toFixed(2), fy:+fy.toFixed(2), up, yaw:+yaw.toFixed(2), center:r2([c.x,c.z]), size:r2([sz.x,sz.y,sz.z]), clerk:cl?r2([cl.obj.position.x,cl.obj.position.z]):null, seat:seat?r2([seat.seat.x,seat.seat.z]):null, seatLv:seat?[seat.seat.lv,seat.lv,seat.seat.y]:null, views:V}; })()"""
+  return {bmin:r2([box.min.x,box.min.y,box.min.z]), bmax:r2([box.max.x,box.max.y,box.max.z]), spawn:r2([P.x,P.z]), y0:+y0.toFixed(2), fy:+fy.toFixed(2), up, yaw:+yaw.toFixed(2), center:r2([c.x,c.z]), size:r2([sz.x,sz.y,sz.z]), clerk:cl?r2([cl.obj.position.x,cl.obj.position.z]):null, seat:seat?r2([seat.seat.x,seat.seat.z]):null, seatLv:seat?[seat.seat.lv,seat.lv,seat.seat.y]:null, views:V}; })()"""
 INFO = r"""(()=>{ const z=GAME.E.zone; let n=0, lm=0, uv1=0, white=0, meshes=0; const maps=new Set(), views=[];
   z.group.traverse(o=>{ if(/VIEW/i.test(o.name||'')) views.push({n:o.name, vis:o.visible}); if(!o.isMesh) return; meshes++; if(o.geometry&&o.geometry.attributes&&o.geometry.attributes.uv1) uv1++;
     for(const m of [].concat(o.material)){ if(!m) continue; n++; if(m.lightMap){ lm++; maps.add(((m.lightMap.image&&(m.lightMap.image.currentSrc||m.lightMap.image.src))||m.lightMap.name||'?').split('/').pop()); }
@@ -73,6 +73,13 @@ async def main():
                         if views is None:
                             av = await pg.evaluate(AUTO); R.note('%s 自動機位：%s' % (tag, J(av)))
                             views = [(k, v['eye'], v['look'], v['lens']) for k, v in av['views'].items()]
+                            if os.environ.get('CORNERS'):   # CC-B 11-08（BB-B 11:33 新生南路九間）：房間中間 0.6 m 高，往兩個對角的牆腳看
+                                c, mn, mx, fy_ = av['center'], av['bmin'], av['bmax'], av['fy']
+                                views += [('corner_a', [c[0], fy_ + 0.6, c[1]], [mn[0] + 0.3, fy_ + 0.05, mn[2] + 0.3], 20.0), ('corner_b', [c[0], fy_ + 0.6, c[1]], [mx[0] - 0.3, fy_ + 0.05, mx[2] - 0.3], 20.0)]
+                                for f2 in (os.environ.get('FLOOR2') or '').split(','):   # 「區域:二樓地板高」（大口 2F）
+                                    if f2.startswith(zone + ':'):
+                                        y2 = float(f2.split(':')[1])
+                                        views += [('room_2f', [c[0], y2 + 1.6, mx[2] - 0.6], [c[0], y2 + 1.0, mn[2] + 0.5], 18.0), ('corner_2f_a', [c[0], y2 + 0.6, c[1]], [mn[0] + 0.3, y2 + 0.05, mn[2] + 0.3], 20.0), ('corner_2f_b', [c[0], y2 + 0.6, c[1]], [mx[0] - 0.3, y2 + 0.05, mx[2] - 0.3], 20.0)]
                             r['auto'] = av
                         ex = [e.split('|') for e in (os.environ.get('EXTRA') or '').split(';') if e.count('|') == 4] + [e.split('@') for e in (os.environ.get('EXTRA2') or '').split('/') if e.count('@') == 4]   # EXTRA2＝PC 佇列用（ENV 已經用 ; 和 | 分欄）：項目之間 /、欄位之間 @   # EXTRA＝part|名字|ex,ey,ez|lx,ly,lz|lens;…（加拍的固定機位，例：總圖 B1 中庭往上看）
                         xv = [(e[1], [float(v) for v in e[2].split(',')], [float(v) for v in e[3].split(',')], float(e[4])) for e in ex if e[0] == part]
