@@ -1,0 +1,330 @@
+{
+ "tag": "before_gpu",
+ "sha": "",
+ "library_b1": {
+  "1400": {
+   "info": {
+    "meshes": 198,
+    "mats": 198,
+    "withLightMap": 44,
+    "maps": [
+     "library_b1_lm_day.webp"
+    ],
+    "uv1Meshes": 44,
+    "whiteNoTexMats": 23,
+    "views": [],
+    "charFailures": [],
+    "assetFailed": null,
+    "glb": true
+   },
+   "auto": {
+    "bmin": [
+     -28.4,
+     -0.03,
+     -14.64
+    ],
+    "bmax": [
+     22.02,
+     4.59,
+     13
+    ],
+    "spawn": [
+     -20.5,
+     -2.4
+    ],
+    "y0": 0,
+    "fy": 0,
+    "up": false,
+    "yaw": 1.57,
+    "center": [
+     -3.19,
+     -0.82
+    ],
+    "size": [
+     50.42,
+     4.62,
+     27.64
+    ],
+    "clerk": null,
+    "seat": [
+     -14.8,
+     -11.08
+    ],
+    "seatLv": [
+     0,
+     0,
+     null
+    ],
+    "views": {
+     "door": {
+      "eye": [
+       -20.8,
+       1.6,
+       -2.4
+      ],
+      "look": [
+       -14.5,
+       1,
+       -2.4
+      ],
+      "lens": 18
+     },
+     "top": {
+      "eye": [
+       -3.19,
+       9.62,
+       -0.02
+      ],
+      "look": [
+       -3.19,
+       0,
+       -1.12
+      ],
+      "lens": 16
+     },
+     "seat": {
+      "eye": [
+       -10.34,
+       1.4,
+       -7.09
+      ],
+      "look": [
+       -14.8,
+       0.6,
+       -11.08
+      ],
+      "lens": 22
+     },
+     "out": {
+      "eye": [
+       -18,
+       1.55,
+       -2.4
+      ],
+      "look": [
+       -26.5,
+       1.4,
+       -2.4
+      ],
+      "lens": 20
+     }
+    }
+   },
+   "s_corr": {
+    "eye": [
+     -18,
+     1.6,
+     6.1
+    ],
+    "look": [
+     10,
+     1.2,
+     6.1
+    ],
+    "lens": 20,
+    "vfov": 53.7
+   }
+  },
+  "2000": {
+   "info": {
+    "meshes": 212,
+    "mats": 212,
+    "withLightMap": 44,
+    "maps": [
+     "library_b1_lm_day.webp"
+    ],
+    "uv1Meshes": 44,
+    "whiteNoTexMats": 23,
+    "views": [],
+    "charFailures": [],
+    "assetFailed": null,
+    "glb": true
+   },
+   "s_corr": {
+    "eye": [
+     -18,
+     1.6,
+     6.1
+    ],
+    "look": [
+     10,
+     1.2,
+     6.1
+    ],
+    "lens": 20,
+    "vfov": 53.7
+   }
+  }
+ },
+ "library_hall": {
+  "1400": {
+   "info": {
+    "meshes": 533,
+    "mats": 533,
+    "withLightMap": 35,
+    "maps": [
+     "library_hall_v2_lm_day.webp"
+    ],
+    "uv1Meshes": 35,
+    "whiteNoTexMats": 13,
+    "views": [],
+    "charFailures": [],
+    "assetFailed": null,
+    "glb": true
+   },
+   "auto": {
+    "bmin": [
+     -12.35,
+     -9.6,
+     -23
+    ],
+    "bmax": [
+     12.35,
+     13.6,
+     10.2
+    ],
+    "spawn": [
+     0,
+     6.6
+    ],
+    "y0": 0,
+    "fy": 0,
+    "up": false,
+    "yaw": 3.14,
+    "center": [
+     0,
+     -6.4
+    ],
+    "size": [
+     24.7,
+     23.2,
+     33.2
+    ],
+    "clerk": [
+     3,
+     1.85
+    ],
+    "seat": [
+     -11,
+     -5.6
+    ],
+    "seatLv": [
+     0,
+     0,
+     null
+    ],
+    "views": {
+     "door": {
+      "eye": [
+       0,
+       1.6,
+       6.9
+      ],
+      "look": [
+       -0.0,
+       1,
+       0.6
+      ],
+      "lens": 18
+     },
+     "top": {
+      "eye": [
+       0,
+       28.2,
+       -5.6
+      ],
+      "look": [
+       0,
+       0,
+       -6.7
+      ],
+      "lens": 16
+     },
+     "seat": {
+      "eye": [
+       -6.75,
+       1.4,
+       -5.48
+      ],
+      "look": [
+       -11,
+       0.6,
+       -5.6
+      ],
+      "lens": 22
+     },
+     "clerk": {
+      "eye": [
+       2.25,
+       1.6,
+       -0.22
+      ],
+      "look": [
+       3,
+       1.2,
+       1.85
+      ],
+      "lens": 24
+     },
+     "out": {
+      "eye": [
+       -0.0,
+       1.55,
+       4.1
+      ],
+      "look": [
+       0,
+       1.4,
+       12.6
+      ],
+      "lens": 20
+     }
+    }
+   },
+   "b1door": {
+    "eye": [
+     -1,
+     1.6,
+     2.5
+    ],
+    "look": [
+     -5.05,
+     1.2,
+     6.2
+    ],
+    "lens": 20,
+    "vfov": 53.7
+   }
+  },
+  "2000": {
+   "info": {
+    "meshes": 531,
+    "mats": 531,
+    "withLightMap": 35,
+    "maps": [
+     "library_hall_v2_lm_day.webp"
+    ],
+    "uv1Meshes": 35,
+    "whiteNoTexMats": 13,
+    "views": [],
+    "charFailures": [],
+    "assetFailed": null,
+    "glb": true
+   },
+   "b1door": {
+    "eye": [
+     -1,
+     1.6,
+     2.5
+    ],
+    "look": [
+     -5.05,
+     1.2,
+     6.2
+    ],
+    "lens": 20,
+    "vfov": 53.7
+   }
+  }
+ }
+}

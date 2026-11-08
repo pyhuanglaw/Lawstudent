@@ -1,0 +1,29 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_scene5_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3B1x_9288\out
+CC 燒臘、頁間書屋光照（before_gpu）：SHA=9288a37aa945eb26b3dbd6d95cbba7c6d67be5ad（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [before_gpu library_b1 1400] 讀檔 library_b1 2025-10-18 14.0（條件事件關閉）
+PASS [before_gpu library_b1 1400] 進得了 library_b1  {"zone": "library_b1", "x": -20.5, "z": -2.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  59.5s] [before_gpu library_b1 1400] 材質／光照貼圖：{"meshes": 198, "mats": 198, "withLightMap": 44, "maps": ["library_b1_lm_day.webp"], "uv1Meshes": 44, "whiteNoTexMats": 23, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+  [  59.5s] [before_gpu library_b1 1400] 自動機位：{"bmin": [-28.4, -0.03, -14.64], "bmax": [22.02, 4.59, 13], "spawn": [-20.5, -2.4], "y0": 0, "fy": 0, "up": false, "yaw": 1.57, "center": [-3.19, -0.82], "size": [50.42, 4.62, 27.64], "clerk": null, "seat": [-14.8, -11.08], "seatLv": [0, 0, null], "views": {"door": {"eye": [-20.8, 1.6, -2.4], "look": [-14.5, 1, -2.4], "lens": 18}, "top": {"eye": [-3.19, 9.62, -0.02], "look": [-3.19, 0, -1.12], "lens": 16}, "seat": {"eye": [-10.34, 1.4, -7.09], "look": [-14.8, 0.6, -11.08], "lens": 22}, "out": {"eye": [-18, 1.55, -2.4], "look": [-26.5, 1.4, -2.4], "lens": 20}}}
+PASS [黑畫面] s5_before_gpu_library_b1_1400_s_corr 不是黑畫面（平均亮度 114.6、變化 31）  [114.6, 31]
+  [  61.8s] [截圖] s5_before_gpu_library_b1_1400_s_corr：鏡頭 {"eye": [-18, 1.6, 6.1], "look": [10, 1.2, 6.1], "lens": 20, "vfov": 53.7}、亮度 [114.6, 31]
+  [前置／捷徑] [before_gpu library_b1 2000] 讀檔 library_b1 2025-10-18 20.0（條件事件關閉）
+PASS [before_gpu library_b1 2000] 進得了 library_b1  {"zone": "library_b1", "x": -20.5, "z": -2.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.07}
+  [  77.6s] [before_gpu library_b1 2000] 材質／光照貼圖：{"meshes": 212, "mats": 212, "withLightMap": 44, "maps": ["library_b1_lm_day.webp"], "uv1Meshes": 44, "whiteNoTexMats": 23, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_before_gpu_library_b1_2000_s_corr 不是黑畫面（平均亮度 115.8、變化 32.1）  [115.8, 32.1]
+  [  79.8s] [截圖] s5_before_gpu_library_b1_2000_s_corr：鏡頭 {"eye": [-18, 1.6, 6.1], "look": [10, 1.2, 6.1], "lens": 20, "vfov": 53.7}、亮度 [115.8, 32.1]
+  [前置／捷徑] [before_gpu library_hall 1400] 讀檔 library_hall 2025-10-18 14.0（條件事件關閉）
+PASS [before_gpu library_hall 1400] 進得了 library_hall  {"zone": "library_hall", "x": 0, "z": 6.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [ 114.1s] [before_gpu library_hall 1400] 材質／光照貼圖：{"meshes": 533, "mats": 533, "withLightMap": 35, "maps": ["library_hall_v2_lm_day.webp"], "uv1Meshes": 35, "whiteNoTexMats": 13, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+  [ 114.1s] [before_gpu library_hall 1400] 自動機位：{"bmin": [-12.35, -9.6, -23], "bmax": [12.35, 13.6, 10.2], "spawn": [0, 6.6], "y0": 0, "fy": 0, "up": false, "yaw": 3.14, "center": [0, -6.4], "size": [24.7, 23.2, 33.2], "clerk": [3, 1.85], "seat": [-11, -5.6], "seatLv": [0, 0, null], "views": {"door": {"eye": [0, 1.6, 6.9], "look": [-0.0, 1, 0.6], "lens": 18}, "top": {"eye": [0, 28.2, -5.6], "look": [0, 0, -6.7], "lens": 16}, "seat": {"eye": [-6.75, 1.4, -5.48], "look": [-11, 0.6, -5.6], "lens": 22}, "clerk": {"eye": [2.25, 1.6, -0.22], "look": [3, 1.2, 1.85], "lens": 24}, "out": {"eye": [-0.0, 1.55, 4.1], "look": [0, 1.4, 12.6], "lens": 20}}}
+PASS [黑畫面] s5_before_gpu_library_hall_1400_b1door 不是黑畫面（平均亮度 126.6、變化 58.2）  [126.6, 58.2]
+  [ 116.4s] [截圖] s5_before_gpu_library_hall_1400_b1door：鏡頭 {"eye": [-1, 1.6, 2.5], "look": [-5.05, 1.2, 6.2], "lens": 20, "vfov": 53.7}、亮度 [126.6, 58.2]
+  [前置／捷徑] [before_gpu library_hall 2000] 讀檔 library_hall 2025-10-18 20.0（條件事件關閉）
+PASS [before_gpu library_hall 2000] 進得了 library_hall  {"zone": "library_hall", "x": 0, "z": 6.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.07}
+  [ 132.5s] [before_gpu library_hall 2000] 材質／光照貼圖：{"meshes": 531, "mats": 531, "withLightMap": 35, "maps": ["library_hall_v2_lm_day.webp"], "uv1Meshes": 35, "whiteNoTexMats": 13, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_before_gpu_library_hall_2000_b1door 不是黑畫面（平均亮度 86.6、變化 47）  [86.6, 47]
+  [ 134.7s] [截圖] s5_before_gpu_library_hall_2000_b1door：鏡頭 {"eye": [-1, 1.6, 2.5], "look": [-5.05, 1.2, 6.2], "lens": 20, "vfov": 53.7}、亮度 [86.6, 47]
+PASS 沒有 JS 例外  []
+ALL PASS
