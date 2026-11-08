@@ -1518,3 +1518,13 @@ Re080_v0_start | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | game | tests/flow_v0
 Re080_v0_to1017 | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | game | tests/flow_v0_to1017.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
 Re080_v0_tolaw | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | game | tests/flow_v0_tolaw.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 Re080_touch | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
+# CC-B 11-08 08:1x：慢輪晚上（489ff3762 bikeshop_night.webp）、美國兩間跟隨鏡頭 GPU 兩欄（左 7206a12de）；489ff3762（DECIDE.tick 註冊＋慢輪）回歸
+GG3BIKE_7206 | 7206a12dedfb04bda4bf9918afff73e45fb53adc | probe | docs/story_planning/test_tools/cc/cc_scene5_probe.py | index.html | 20 | TAG=before_gpu;PART=bikeshop;SLOTS=1930:19.5;CC_HEADLESS=0
+GG3BIKE_489f | 489ff376246bcd2a9aeaaaa4f497587c0b43d044 | probe | docs/story_planning/test_tools/cc/cc_scene5_probe.py | index.html | 20 | TAG=after_gpu;PART=bikeshop;SLOTS=1930:19.5;CC_HEADLESS=0
+GG3US_7206 | 7206a12dedfb04bda4bf9918afff73e45fb53adc | probe | docs/story_planning/test_tools/cc/cc_room_shots_probe.py | index.html | 20 | TAG=before_gpu;SHOTS=us_apartment,2025-10-18,14,apt_door_follow,follow,-1.0:2.6:3.1416:0+us_apartment,2025-10-18,14,apt_kitchen_follow,follow,-3.4:2.0:3.1416:0+us_shared,2025-10-18,14,shared_door_follow,follow,-1.0:2.6:3.1416:0+us_shared,2025-10-18,14,shared_kitchen_follow,follow,-3.4:2.0:3.1416:0;CC_HEADLESS=0
+GG3US_489f | 489ff376246bcd2a9aeaaaa4f497587c0b43d044 | probe | docs/story_planning/test_tools/cc/cc_room_shots_probe.py | index.html | 20 | TAG=after_gpu;SHOTS=us_apartment,2025-10-18,14,apt_door_follow,follow,-1.0:2.6:3.1416:0+us_apartment,2025-10-18,14,apt_kitchen_follow,follow,-3.4:2.0:3.1416:0+us_shared,2025-10-18,14,shared_door_follow,follow,-1.0:2.6:3.1416:0+us_shared,2025-10-18,14,shared_kitchen_follow,follow,-3.4:2.0:3.1416:0;CC_HEADLESS=0
+R489f_p0 | 489ff376246bcd2a9aeaaaa4f497587c0b43d044 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+R489f_reach | 489ff376246bcd2a9aeaaaa4f497587c0b43d044 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
+R489f_zone | 489ff376246bcd2a9aeaaaa4f497587c0b43d044 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
+R489f_main12 | 489ff376246bcd2a9aeaaaa4f497587c0b43d044 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R489f_v0_to1017 | 489ff376246bcd2a9aeaaaa4f497587c0b43d044 | game | tests/flow_v0_to1017.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
