@@ -1593,3 +1593,6 @@ GG3NYW_9556 | 95566d0b5cd1783c74fa1e5f68107bb1890daf5f | probe | docs/story_plan
 R7f84_mini | 7f8441f7eb4243535672ac5e8645c0ce1a104b46 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
 R7f84_v0_start | 7f8441f7eb4243535672ac5e8645c0ce1a104b46 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R7f84_v0_tolaw | 7f8441f7eb4243535672ac5e8645c0ce1a104b46 | game | tests/flow_v0_tolaw.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+# CC-B 11-08 12:3x：BB-B 12:26 大口 2F 牆腳機位改走道 1.4 m（GG3XS9 已經用舊機位開跑了）：大口單獨補 GPU 兩欄
+GG3DK2F_102a | 102a03cb9b6d6c2e2f3705876cfe119030228325 | probe | docs/story_planning/test_tools/cc/cc_scene5_probe.py | index.html | 40 | TAG=before_gpu;PART=xs_dakou;SLOTS=1400:14,2000:20;CORNERS=1;FLOOR2=xs_dakou:3.6;CC_HEADLESS=0
+GG3DK2F_9556 | 95566d0b5cd1783c74fa1e5f68107bb1890daf5f | probe | docs/story_planning/test_tools/cc/cc_scene5_probe.py | index.html | 40 | TAG=after_gpu;PART=xs_dakou;SLOTS=1400:14,2000:20;CORNERS=1;FLOOR2=xs_dakou:3.6;CC_HEADLESS=0
