@@ -6,7 +6,43 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-08 13:5x UTC，帳號 B LAWWW2-B；使用者 13:4x 問能不能發布 → 已轉 LAWWW-B，等他回覆使用者）
+## 🔁 交班（2026-11-08 20:5x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
+
+分支 `claude/funny-albattani-iawshm`，交班前最後一筆 `191df62aa`（已 push、遠端核對）；開發 `claude/modest-rubin-2lyp7g` 交班時 `552e09ec6`。
+沒有在跑的烘焙、測試；工作樹乾淨。沒有只在本機、沒推上去的成果（scratch 的 `wt_b1` 只是開發分支的乾淨工作樹，可以刪）。
+
+### A. 這一班完成、已整合（全部 BB-B ART_APPROVED，PC GPU）
+- 新生南路九間光照：好拍重烘（鏤空洞洞板 HIDE alpha，開發 `ca47949cf`）、山嵐柱子壓暗（`lm_scale_faces.py`）。
+- 總圖 B1 重烘（開發 `9f4973bfe`，討論室、影印中心、南走廊）。P3：會議廳是關著的房間，天花板暗，開放時再正式烘（`lm_scale_faces.py --clip` 可以只補那片）。
+- 烘焙工具（都已整合）：
+  - 隔間牆兩面都烘（`4429bc93d`）；
+  - `--emit` 設回原本強度（`9c94d128a`）；
+  - 續烘 BAKE_CACHE／BAKE_STOP_AFTER（`aa46cdb7f`）＋回歸接受結束碼 139（`9c4f74d84`）。
+- 使用者 13:4x 問能不能發布 → 已轉 LAWWW-B。候選 `9eef2b95b` 含這班全部成果；線上已是 v9.10.23。
+
+### B. 進行中（交給下一班）
+- **PERF1108 山嵐、大口效能（P3，不擋）**：結論已交 LAWWW-B（`191df62aa`，`wip/perf_xs_1108/README.md`）。
+  - 主因是 NPC：三個慢點拿掉 NPC 都回到 57～58。找路、一樓、填像素都排除。
+  - 改法屬人物系統（NPC 上限、坐著的替身、降頻更新），等 LAWWW-B 決定。要 patch 的話由 LAWWW2 寫。
+  - 待：CC-B 錄大口 1F 的 CPU 效能紀錄（100～120 ms 小卡頓，那一幀畫面只花 7～11 ms，沒有計數改變），看是哪個函式或 GC。
+  - 待：NPC 改完以後，重量山嵐關 PointLight 那一項。
+- 對照腳本 `perf_ab_probe.js`（第 2 版）、`path_bench.js` 都在那個資料夾，可以重用。
+
+### C. 沒做（P3／低優先，照舊）
+- Cycles 烘焙把 MASK 鏤空當實心（葉片卡影子是整片卡片形）：根本原因沒查到。這幾間 BB-B 已 ART_APPROVED。
+- 美國公寓浴室兩片門板拆節點；約 40 間外牆腳黑線可跑 lm_fill_covered（等決定）。
+- #196 溫州街四間＋阿德 --skytint 重烘；#201 PERF-WZ-DAY。
+
+### D. 教訓
+- **執行中的 .sh 不能原地改**（11-08 13:17 改 bake_xs.sh 時好拍正在烘，bash 讀錯位又重跑一次）。一律寫 .new 再 mv。
+- 雲端背景工作上限 2 小時：大房間 512 用續烘分兩段跑；跑的時候不要同時開別的重工作。
+
+### E. 下一班第一步
+1. fetch，讀 `docs/AI_SESSION_HANDOFF.md`、這份最上面、`docs/DUAL_AI_BOARD.md`、交接板。
+2. 問 LAWWW 的：PERF1108 NPC 改法要不要 LAWWW2 寫 patch；發布結果。
+3. 看 CC-B 有沒有交大口 1F 的 CPU 效能紀錄；有就分析。
+
+## 🔨 （舊）現在在做（11-08 13:5x UTC，帳號 B LAWWW2-B；使用者 13:4x 問能不能發布 → 已轉 LAWWW-B，等他回覆使用者）
 
 分支 `claude/funny-albattani-iawshm` 最新 `bc9b27053`；開發 `claude/modest-rubin-2lyp7g` 最新 `8554b8ea9`。瀏覽器都沒跑（D131）。測試工作樹 `$S/wt_b1`（開發最新，乾淨）。
 
