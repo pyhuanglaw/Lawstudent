@@ -1,0 +1,64 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_scene5_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3XS3a_102a\out
+CC 燒臘、頁間書屋光照（before_gpu）：SHA=102a03cb9b6d6c2e2f3705876cfe119030228325（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [before_gpu xs_tongxian 1400] 讀檔 xs_tongxian 2025-10-18 14.0（條件事件關閉）
+PASS [before_gpu xs_tongxian 1400] 進得了 xs_tongxian  {"zone": "xs_tongxian", "x": 0.25, "z": 4.62, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  52.5s] [before_gpu xs_tongxian 1400] 材質／光照貼圖：{"meshes": 96, "mats": 96, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 16, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+  [  52.5s] [before_gpu xs_tongxian 1400] 自動機位：{"bmin": [-3.8, -4.4, -6.8], "bmax": [3.32, 4.31, 5.26], "spawn": [0.25, 4.62], "y0": 0, "fy": 0, "up": false, "yaw": 2.55, "center": [-0.24, -0.77], "size": [7.12, 8.71, 12.06], "clerk": [1.75, 1], "seat": [-2.2, -4.05], "seatLv": [0, 0, null], "views": {"door": {"eye": [0.08, 1.6, 4.87], "look": [3.6, 1, -0.36], "lens": 18}, "top": {"eye": [-0.24, 13.71, 0.03], "look": [-0.24, 0, -1.07], "lens": 16}, "seat": {"eye": [-1.11, 1.4, -2.5], "look": [-2.2, 0.6, -4.05], "lens": 22}, "clerk": {"eye": [0.11, 1.6, -0.46], "look": [1.75, 1.2, 1], "lens": 24}, "out": {"eye": [1.64, 1.55, 2.54], "look": [-3.1, 1.4, 9.6], "lens": 20}}}
+PASS [黑畫面] s5_before_gpu_xs_tongxian_1400_door 不是黑畫面（平均亮度 158.2、變化 61.2）  [158.2, 61.2]
+  [  55.0s] [截圖] s5_before_gpu_xs_tongxian_1400_door：鏡頭 {"eye": [0.08, 1.6, 4.87], "look": [3.6, 1, -0.36], "lens": 18, "vfov": 58.72}、亮度 [158.2, 61.2]
+PASS [黑畫面] s5_before_gpu_xs_tongxian_1400_corner_a 不是黑畫面（平均亮度 154.7、變化 53.7）  [154.7, 53.7]
+  [  57.2s] [截圖] s5_before_gpu_xs_tongxian_1400_corner_a：鏡頭 {"eye": [-0.24, 0.6, -0.77], "look": [-3.5, 0.05, -6.5], "lens": 20, "vfov": 53.7}、亮度 [154.7, 53.7]
+PASS [黑畫面] s5_before_gpu_xs_tongxian_1400_corner_b 不是黑畫面（平均亮度 150.2、變化 58.7）  [150.2, 58.7]
+  [  59.4s] [截圖] s5_before_gpu_xs_tongxian_1400_corner_b：鏡頭 {"eye": [-0.24, 0.6, -0.77], "look": [3.02, 0.05, 4.96], "lens": 20, "vfov": 53.7}、亮度 [150.2, 58.7]
+  [前置／捷徑] [before_gpu xs_tongxian 2000] 讀檔 xs_tongxian 2025-10-18 20.0（條件事件關閉）
+PASS [before_gpu xs_tongxian 2000] 進得了 xs_tongxian  {"zone": "xs_tongxian", "x": 0.25, "z": 4.62, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.07}
+  [  74.7s] [before_gpu xs_tongxian 2000] 材質／光照貼圖：{"meshes": 96, "mats": 96, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 16, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_before_gpu_xs_tongxian_2000_door 不是黑畫面（平均亮度 140.4、變化 58.1）  [140.4, 58.1]
+  [  77.0s] [截圖] s5_before_gpu_xs_tongxian_2000_door：鏡頭 {"eye": [0.08, 1.6, 4.87], "look": [3.6, 1, -0.36], "lens": 18, "vfov": 58.72}、亮度 [140.4, 58.1]
+PASS [黑畫面] s5_before_gpu_xs_tongxian_2000_corner_a 不是黑畫面（平均亮度 136.3、變化 45.2）  [136.3, 45.2]
+  [  79.2s] [截圖] s5_before_gpu_xs_tongxian_2000_corner_a：鏡頭 {"eye": [-0.24, 0.6, -0.77], "look": [-3.5, 0.05, -6.5], "lens": 20, "vfov": 53.7}、亮度 [136.3, 45.2]
+PASS [黑畫面] s5_before_gpu_xs_tongxian_2000_corner_b 不是黑畫面（平均亮度 127.3、變化 50.8）  [127.3, 50.8]
+  [  81.6s] [截圖] s5_before_gpu_xs_tongxian_2000_corner_b：鏡頭 {"eye": [-0.24, 0.6, -0.77], "look": [3.02, 0.05, 4.96], "lens": 20, "vfov": 53.7}、亮度 [127.3, 50.8]
+  [前置／捷徑] [before_gpu xs_xsports 1400] 讀檔 xs_xsports 2025-10-18 14.0（條件事件關閉）
+PASS [before_gpu xs_xsports 1400] 進得了 xs_xsports  {"zone": "xs_xsports", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [ 105.1s] [before_gpu xs_xsports 1400] 材質／光照貼圖：{"meshes": 132, "mats": 132, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 63, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+  [ 105.2s] [before_gpu xs_xsports 1400] 自動機位：{"bmin": [-8.2, -0.1, -8.35], "bmax": [7.1, 8.83, 8.5], "spawn": [0, 6.4], "y0": 0, "fy": 0, "up": false, "yaw": 3.14, "center": [-0.55, 0.08], "size": [15.3, 8.93, 16.85], "clerk": null, "seat": [-5.6, 3.5], "seatLv": [0, 0, null], "views": {"door": {"eye": [-0.0, 1.6, 6.7], "look": [0, 1, 0.4], "lens": 18}, "top": {"eye": [-0.55, 13.93, 0.88], "look": [-0.55, 0, -0.22], "lens": 16}, "seat": {"eye": [-3.43, 1.4, 2.7], "look": [-5.6, 0.6, 3.5], "lens": 22}, "out": {"eye": [0, 1.55, 3.9], "look": [-0.0, 1.4, 12.4], "lens": 20}}}
+PASS [黑畫面] s5_before_gpu_xs_xsports_1400_door 不是黑畫面（平均亮度 112.5、變化 64.9）  [112.5, 64.9]
+  [ 107.4s] [截圖] s5_before_gpu_xs_xsports_1400_door：鏡頭 {"eye": [-0.0, 1.6, 6.7], "look": [0, 1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [112.5, 64.9]
+PASS [黑畫面] s5_before_gpu_xs_xsports_1400_corner_a 不是黑畫面（平均亮度 114.1、變化 60.9）  [114.1, 60.9]
+  [ 109.5s] [截圖] s5_before_gpu_xs_xsports_1400_corner_a：鏡頭 {"eye": [-0.55, 0.6, 0.08], "look": [-7.8999999999999995, 0.05, -8.049999999999999], "lens": 20, "vfov": 53.7}、亮度 [114.1, 60.9]
+PASS [黑畫面] s5_before_gpu_xs_xsports_1400_corner_b 不是黑畫面（平均亮度 125.2、變化 75.1）  [125.2, 75.1]
+  [ 111.4s] [截圖] s5_before_gpu_xs_xsports_1400_corner_b：鏡頭 {"eye": [-0.55, 0.6, 0.08], "look": [6.8, 0.05, 8.2], "lens": 20, "vfov": 53.7}、亮度 [125.2, 75.1]
+  [前置／捷徑] [before_gpu xs_xsports 2000] 讀檔 xs_xsports 2025-10-18 20.0（條件事件關閉）
+PASS [before_gpu xs_xsports 2000] 進得了 xs_xsports  {"zone": "xs_xsports", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.07}
+  [ 126.7s] [before_gpu xs_xsports 2000] 材質／光照貼圖：{"meshes": 132, "mats": 132, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 63, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_before_gpu_xs_xsports_2000_door 不是黑畫面（平均亮度 96.8、變化 57.2）  [96.8, 57.2]
+  [ 128.9s] [截圖] s5_before_gpu_xs_xsports_2000_door：鏡頭 {"eye": [-0.0, 1.6, 6.7], "look": [0, 1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [96.8, 57.2]
+PASS [黑畫面] s5_before_gpu_xs_xsports_2000_corner_a 不是黑畫面（平均亮度 89.6、變化 49.2）  [89.6, 49.2]
+  [ 131.0s] [截圖] s5_before_gpu_xs_xsports_2000_corner_a：鏡頭 {"eye": [-0.55, 0.6, 0.08], "look": [-7.8999999999999995, 0.05, -8.049999999999999], "lens": 20, "vfov": 53.7}、亮度 [89.6, 49.2]
+PASS [黑畫面] s5_before_gpu_xs_xsports_2000_corner_b 不是黑畫面（平均亮度 91.5、變化 61.5）  [91.5, 61.5]
+  [ 132.9s] [截圖] s5_before_gpu_xs_xsports_2000_corner_b：鏡頭 {"eye": [-0.55, 0.6, 0.08], "look": [6.8, 0.05, 8.2], "lens": 20, "vfov": 53.7}、亮度 [91.5, 61.5]
+  [前置／捷徑] [before_gpu xs_shanlan 1400] 讀檔 xs_shanlan 2025-10-18 14.0（條件事件關閉）
+PASS [before_gpu xs_shanlan 1400] 進得了 xs_shanlan  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [ 150.6s] [before_gpu xs_shanlan 1400] 材質／光照貼圖：{"meshes": 53, "mats": 53, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 7, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+  [ 150.6s] [before_gpu xs_shanlan 1400] 自動機位：{"bmin": [-7.14, -0.02, -9.14], "bmax": [7.14, 8.85, 9.27], "spawn": [0.8, 7.5], "y0": 0, "fy": 0, "up": false, "yaw": 3.14, "center": [0, 0.06], "size": [14.28, 8.87, 18.41], "clerk": null, "seat": [-4.4, 8.7], "seatLv": [0, 0, null], "views": {"door": {"eye": [0.8, 1.6, 7.8], "look": [0.8, 1, 1.5], "lens": 18}, "top": {"eye": [0, 13.87, 0.86], "look": [0, 0, -0.24], "lens": 16}, "seat": {"eye": [-2.46, 1.4, 6.08], "look": [-4.4, 0.6, 8.7], "lens": 22}, "out": {"eye": [0.8, 1.55, 5], "look": [0.8, 1.4, 13.5], "lens": 20}}}
+PASS [黑畫面] s5_before_gpu_xs_shanlan_1400_door 不是黑畫面（平均亮度 121.6、變化 56.3）  [121.6, 56.3]
+  [ 153.6s] [截圖] s5_before_gpu_xs_shanlan_1400_door：鏡頭 {"eye": [0.8, 1.6, 7.8], "look": [0.8, 1, 1.5], "lens": 18, "vfov": 58.72}、亮度 [121.6, 56.3]
+PASS [黑畫面] s5_before_gpu_xs_shanlan_1400_corner_a 不是黑畫面（平均亮度 107.8、變化 41.9）  [107.8, 41.9]
+  [ 155.8s] [截圖] s5_before_gpu_xs_shanlan_1400_corner_a：鏡頭 {"eye": [0, 0.6, 0.06], "look": [-6.84, 0.05, -8.84], "lens": 20, "vfov": 53.7}、亮度 [107.8, 41.9]
+PASS [黑畫面] s5_before_gpu_xs_shanlan_1400_corner_b 不是黑畫面（平均亮度 140.8、變化 40.5）  [140.8, 40.5]
+  [ 158.0s] [截圖] s5_before_gpu_xs_shanlan_1400_corner_b：鏡頭 {"eye": [0, 0.6, 0.06], "look": [6.84, 0.05, 8.969999999999999], "lens": 20, "vfov": 53.7}、亮度 [140.8, 40.5]
+  [前置／捷徑] [before_gpu xs_shanlan 2000] 讀檔 xs_shanlan 2025-10-18 20.0（條件事件關閉）
+PASS [before_gpu xs_shanlan 2000] 進得了 xs_shanlan  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.07}
+  [ 173.5s] [before_gpu xs_shanlan 2000] 材質／光照貼圖：{"meshes": 53, "mats": 53, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 7, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_before_gpu_xs_shanlan_2000_door 不是黑畫面（平均亮度 99、變化 53.3）  [99, 53.3]
+  [ 175.9s] [截圖] s5_before_gpu_xs_shanlan_2000_door：鏡頭 {"eye": [0.8, 1.6, 7.8], "look": [0.8, 1, 1.5], "lens": 18, "vfov": 58.72}、亮度 [99, 53.3]
+PASS [黑畫面] s5_before_gpu_xs_shanlan_2000_corner_a 不是黑畫面（平均亮度 91.2、變化 36.7）  [91.2, 36.7]
+  [ 178.1s] [截圖] s5_before_gpu_xs_shanlan_2000_corner_a：鏡頭 {"eye": [0, 0.6, 0.06], "look": [-6.84, 0.05, -8.84], "lens": 20, "vfov": 53.7}、亮度 [91.2, 36.7]
+PASS [黑畫面] s5_before_gpu_xs_shanlan_2000_corner_b 不是黑畫面（平均亮度 90.4、變化 42.7）  [90.4, 42.7]
+  [ 180.2s] [截圖] s5_before_gpu_xs_shanlan_2000_corner_b：鏡頭 {"eye": [0, 0.6, 0.06], "look": [6.84, 0.05, 8.969999999999999], "lens": 20, "vfov": 53.7}、亮度 [90.4, 42.7]
+PASS 沒有 JS 例外  []
+ALL PASS
