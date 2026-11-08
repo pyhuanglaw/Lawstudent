@@ -1,6 +1,6 @@
 # 總圖多媒體中心：南牆的洞洞板不再浮在半空（LAWWW2-B 2026-11-08；BB-B 01:46 PC GPU 第一批第 1 點；D108 場景）
 
-**狀態：WORK_IN_PROGRESS**。模型已改好、白模已匯出、測試已寫好；光照重烘排在隔間牆那一批（LM-PARTITION-1108）後面，烘好才交。
+**狀態：交件**（`<本 commit>`）。模型已改好，光照從新白模重烘（512），測試過。
 
 ## 現象
 - BB-B 01:46 的回報（AB3LM media 那張，烘前烘後一樣）：「鏡頭左邊那面牆上方直接看到天空，掛著牛頓擺的木板像浮在半空」。
@@ -29,17 +29,32 @@
 | `assets/models/env/second_ai/library_media.glb`、`library_media_lm_day.webp`／`_lm_night.webp`、`tools/blender/env_second/lightbake/library_media_lm.json` | **LAWWW2**（#82 第六間 `a8c448288`；光照 `f7f4b80e8`） |
 | `tools/blender/env_second/library_media.py` | **LAWWW2** |
 
-## 測試（Node，D131）
-- **新的 `library_media_peg_unit.js`**（這個資料夾；放到 `tests/`）：在 Node 建出遊戲真正的 library_media 區域、接上 GLB，照遊戲主迴圈做 `fadeWalls` → `hideFaded`。
+- `library_media.glb` sha256：開發的 `8a3fe4d4…` → `40abc920…`；大小 2,122,568 → 2,123,980 B。
+
+## 要接的檔（`<本 commit>`）
+- `assets/models/env/second_ai/library_media.glb`、`library_media_lm_day.webp`、`library_media_lm_night.webp`。
+- `assets/models/env/second_ai/library_media.json`：匯出紀錄，節點 21 → 23。
+- `tools/blender/env_second/lightbake/library_media_lm.json`。
+- 新測試：`tests/library_media_peg_unit.js`，在這個資料夾。
+- 腳本：`library_media.py`、`bake_rooms_ab3.sh` 已經在 `5bec6898f`。
+- `library_media.layout.json` 不變。
+
+## 光照
+- 用 `INDIR=<白模資料夾> bash tools/blender/env_second/lightbake/bake_rooms_ab3.sh 512 library_media` 烘，燈和參數和 `f7f4b80e8` 那一版一樣。
+- 白天／晚上 0.428／0.427，和那一版完全一樣。
+- 節點：只多 `WALL_S_pegprops`、`WALL_S_pegmetal`，其他名字、材質都一樣。新的兩個不烘（名字有 props／metal），照舊即時光。
+
+## 測試（Node，D131；工作樹＝開發最新 `838db8710`）
+- **`library_media_peg_unit.js`**：在 Node 建出遊戲真正的 library_media 區域、接上 GLB，照遊戲主迴圈做 `fadeWalls` → `hideFaded`。
   - ① GLB：洞洞板那一塊（x −0.45～2.25、y 1.2～2.0、z 3.38～3.5）的頂點只在 `WALL_S_*` 網格裡。
   - ② 鏡頭在南牆外 (1.0, 3.2, 7.2)：南牆整組藏起來，洞洞板那一塊沒有畫得出來的頂點。
   - ③ 鏡頭在房間裡（CC 那一張 (2.89, 1.6, 2.05) → (0, 1.1, 3.5)）：南牆、洞洞板都在。
 - 結果：
-  - 開發原樣（`df95b5042`）：**FAILED 2**。① ② 不過：`library_media_props` 1942 個頂點、`library_media_metal` 240 個在南牆淡出後照樣畫出來。
-  - 新白模：**ALL PASS**（`WALL_S_pegprops` 1824、`WALL_S_pegmetal` 240）。
-  - 重烘後的正式檔：烘好再跑。
+  - 開發最新的原檔：**FAILED 2**。① ② 不過，`library_media_props`、`library_media_metal` 在南牆淡出後照樣畫出來。
+  - 這一版：**ALL PASS**。
+- 提到 library_media、`rooms_ab3`、`aa399_closed2` 的 10 支全部過。
+- 不用改程式。
 
-## 還沒做
-- 光照重烘（512 取樣，約 25 分鐘），排在 LM-PARTITION-1108 六間後面。
-- 重烘後：亮度和 `f7f4b80e8` 那一版比、跑 `rooms_ab3_lm_unit.js`、`library_media_unit.js`、`aa399_closed2_unit.js` 和這一支。
-- 遊戲內（CC 補 `hideFaded` 後重拍 AB3LM media，BB-B 判）。
+## 還沒驗
+- 遊戲內：請 CC 在拍照工具 `fadeWalls` 後面補 `if(E.hideFaded) E.hideFaded();`，重拍 AB3LM media，BB-B 判。
+- 拍南牆外看進去那一張，洞洞板應該跟著牆一起不見。
