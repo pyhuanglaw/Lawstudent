@@ -49784,6 +49784,35 @@
    },
    "evidence": "",
    "sha": "43c4030cd"
+  },
+  {
+   "id": "BG-AA720-1108",
+   "title": "AA_720 六場背景圖（Café 後巷、臺北車站高鐵剪票口、公館騎樓咖啡店、總圖三樓閱覽區、板橋奶奶家、男宿交誼廳），現在深色底",
+   "owner": "BB",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "AA_720 那幾場",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "pausedReason": "使用者 11-07 說這幾天沒空給圖；BB 提示詞寫好在 BB_132 第 118 組（claude/elegant-brown-fcos7n 412815291），下次要純場景那一批時一起給",
+   "resumeWhen": "使用者給圖 → LAWWW 改 tools/story/import_aa720.py 的 BG 重匯",
+   "next": "【11-08 02:4x LAWWW-B】BB-B 02:43：六張提示詞先存著；圖來以前照深色底，不擋測試。",
+   "xai": {
+    "spec": "BB-B 11-08 02:43",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "六場有背景圖",
+    "receiver": "LAWWW（接圖）",
+    "ack": "ACK",
+    "owner": "BB"
+   },
+   "evidence": ""
   }
  ]
 }
