@@ -6482,7 +6482,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "e7fe1ae70",
    "receiver": "LAWWW",
-   "ack": "ACKNOWLEDGED",
+   "ack": "ACK",
    "task": "WINVIEW-AUDIT-1105",
    "files": [
     "docs/art-rebuild/second_ai/wip/winview_audit_1105/README.md"
@@ -6541,15 +6541,15 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "3819d4855",
    "receiver": "LAWWW",
-   "ack": "ACKNOWLEDGED",
+   "ack": "ACK",
    "task": "WINVIEW-AUDIT-1105 第三包",
    "files": [
     "docs/art-rebuild/second_ai/wip/winview_audit_1105/README_pane3.md",
     "docs/art-rebuild/second_ai/wip/winview_audit_1105/winview_pane3_1105.patch"
    ],
-   "state": "已整合（LAWWW 93d4d94df）",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "日和、燒臘、林家把房間的視差窗搬到正式模型玻璃外；shop_viewpanes_1105 FAILED 9→ALL PASS",
+   "note": "日和、燒臘、林家把房間的視差窗搬到正式模型玻璃外；shop_viewpanes_1105 FAILED 9→ALL PASS；LAWWW 93d4d94df",
    "next": "CC 拍"
   },
   {
@@ -6587,7 +6587,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "c6837632e",
    "receiver": "LAWWW",
-   "ack": "ACKNOWLEDGED",
+   "ack": "ACK",
    "task": "XS-NORTH-EXT-1105＋XS-WINCARD-1105",
    "files": [
     "docs/art-rebuild/second_ai/wip/xs_wincard_1105/README.md",
