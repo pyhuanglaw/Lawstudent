@@ -1982,3 +1982,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 126.9s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 126.9s] BROWSER DISCONNECTED
 - 2026-11-08T13:52:28  CC_E01CARD_9e0f  sha=9e0ffabce61c839fb8c720c16229400b36305a22  exit=0  422s    PASS [第 3 次] 字卡那段手機沒有自己跳出來  [] / PASS [第 3 次] 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 103.1s] BROWSER DISCONNECTED | [gpu_wrap 208.0s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 208.0s] BROWSER DISCONNECTED | [gpu_wrap 309.1s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 309.1s] BROWSER DISCONNECTED
+- 2026-11-08T13:52:41  R_mini_fixed_e9adf6ac  sha=e9adf6ac579cb5c4e978e67f433d2d41f31d2c97  exit=0  110s    PASS 玩家箭頭朝地圖上方（往前走時）  arrow=1.3073986337985843e-12 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 52.0s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 52.0s] BROWSER DISCONNECTED
