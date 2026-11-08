@@ -1567,3 +1567,5 @@ R565c_classreal | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/flow_c
 R565c_v0_start | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R565c_movreg | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
 R565c_touch | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
+# CC-B 11-08 10:4x：BB-B 要知道 PC touch 手機自己打開的是哪一則：包監看跑（CCW phone 那一行）
+R565c_touchwrap | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | probe | docs/story_planning/test_tools/cc/cc_touch_wrap.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
