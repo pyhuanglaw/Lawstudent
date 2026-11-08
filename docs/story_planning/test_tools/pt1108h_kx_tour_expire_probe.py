@@ -29,7 +29,7 @@ KX = """(()=>{ const G=GAME.G, F=G.flags||{}, R=PHONE.rec(G); const T=['kx_tour_
   const q=(R.q||[]).filter(x=>T.includes(x.tag)).map(x=>({tag:x.tag,day:x.day,h:x.h}));
   const ph=document.getElementById('phone'); const open=!!ph&&!ph.classList.contains('hide');
   const d=CALENDAR.dateOf(G.day);
-  return {day:G.day,h:+(+G.hour).toFixed(2),key:d.key,wd:d.wd,NO:F.KX_TOUR_NO||null,NO2:F.KX_TOUR_NO2||null,YES:F.KX_TOUR_YES||null,ms,q,
+  return {day:G.day,h:+(+G.hour).toFixed(2),key:d.key,wd:d.wd%7,NO:F.KX_TOUR_NO||null,NO2:F.KX_TOUR_NO2||null,YES:F.KX_TOUR_YES||null,ms,q,
     phone:open, phoneText:open?((document.getElementById('phoneBody')||{}).innerText||'').slice(0,160):'', pendKx:PHONE.pending(G).filter(m=>T.includes(m.tag)).length}; })()"""
 
 
@@ -45,7 +45,7 @@ async def kx(pg):
 
 
 async def day_info(pg, d):
-    return await pg.evaluate("d=>{ const x=CALENDAR.dateOf(d); return {d, key:x.key, wd:x.wd}; }", d)
+    return await pg.evaluate("d=>{ const x=CALENDAR.dateOf(d); return {d, key:x.key, wd:x.wd===7?0:x.wd}; }", d)   # CALENDAR 週日＝7，G.weekday 週日＝0（同 bbplay DAY_JS）
 
 
 async def jump_day(pg, run, d, hour, note):
