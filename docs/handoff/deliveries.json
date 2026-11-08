@@ -18469,7 +18469,7 @@
    "msg": "ACK",
    "what": "法圖討論室鏡頭碰撞（camCols）",
    "task": "BUG-CAM-LAWLIB-DISCA-1108",
-   "integration": "已整合待測試",
+   "integration": "已驗收",
    "note": "3584f3ac3（wip/cam_lawlib_disc_1108 patch）",
    "ack": "ACK"
   }

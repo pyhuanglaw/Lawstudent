@@ -43024,7 +43024,7 @@
    "id": "BUG-CAM-LAWLIB-DISCA-1108",
    "title": "法圖講座坐在討論室 A，鏡頭在東牆外 1.4 m（(−2.3, 3.21, −6.8)；討論室 A x −7.1～−3.7）：整場只看到米色牆",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -43036,7 +43036,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 01:0x LAWWW-B】LAWWW2-B 7cae81e72 接好 3584f3ac3（lawlib3d.js camCols；lawlib_cam_disc_unit 修改前 FAILED 3）；BB 排 CC cc_aa613_probe MODE=lib 重跑。 ｜ 【11-08 00:4x LAWWW-B】BB-B 00:43 開（CC eacc/02、05）；D108 場景鏡頭歸 LAWWW2，BB-B 同時給 LAWWW2-B。",
+   "next": "【11-08 01:2x LAWWW-B】BB-B FIXED＝已驗收。 ｜ 【11-08 01:0x LAWWW-B】LAWWW2-B 7cae81e72 接好 3584f3ac3（lawlib3d.js camCols；lawlib_cam_disc_unit 修改前 FAILED 3）；BB 排 CC cc_aa613_probe MODE=lib 重跑。 ｜ 【11-08 00:4x LAWWW-B】BB-B 00:43 開（CC eacc/02、05）；D108 場景鏡頭歸 LAWWW2，BB-B 同時給 LAWWW2-B。",
    "xai": {
     "spec": "BB-B 11-08 00:43（CC-B cc-testing f40ffa537a）",
     "branch": "claude/funny-albattani-iawshm",
@@ -43045,7 +43045,7 @@
     "ack": "ACTIONED",
     "owner": "LAWWW2"
    },
-   "evidence": "",
+   "evidence": "2026-11-08 BB-B／CC-B 瀏覽器（雲端 Playwright＋SwiftShader，不是 iPhone），bfb95c564（修在 3584f3ac3）：坐著聽講座每一筆鏡頭都在討論室 A 裡（準時 (−4.12,3.0,−4.74)、晚到 (−4.62,2.94,−4.77)），坐下、起身那一刻也在房裡；截圖看得到玩家、芯慈、白板、窗（cc-testing 1250a7415f CC/logs/AA613_cloud/bfb9/）；剛進門 1～2 筆在走廊＝跟隨鏡頭過門口的正常過渡；Node lawlib_cam_disc_unit（修改前 FAILED 3）",
    "sha": "3584f3ac3"
   },
   {
