@@ -109,6 +109,7 @@ const dEnt=s=>Math.hypot(s.x-SPAWN.x,s.z-SPAWN.z);
     check('6. 二樓都坐滿：她先走上二樓看（不在一樓找位子坐），還沒說滿了',iv.lead&&iv.lead.ph==='full'&&!n.seat&&(n.lv|0)===1&&!lines().includes(LS.full[0]),JSON.stringify({L:iv.lead,lv:n.lv}));
     place(E.player,n.obj.position.x+1,n.obj.position.z,1); const said0=H.said.length; INV.tick(GM); await W(10); const got=lines().slice(said0);
     check('6. 你走上二樓到她旁邊：「（二樓的長桌都坐滿了。）」「（小聲）去三樓好了。三樓沒有人講話。」（逐字）',JSON.stringify(got)===JSON.stringify(LS.full),JSON.stringify(got));
+    { const who=H.said.slice(said0).map(x=>x.who); check('6. 「（二樓的長桌都坐滿了。）」是旁白、「（小聲）去三樓好了。…」是她說的（「（小聲）」外面不再有「」以後照樣認得是台詞，AA-B 11-08 00:05）',who.length===2&&who[0]==null&&who[1]!=null,JSON.stringify(who)); }
     check('6. 接著一起走去三樓閱覽區（going、iv.zone library）、她跟著你',iv.state==='going'&&iv.zone==='library'&&n.beh==='follow'&&/三樓/.test(G.goal||''),JSON.stringify({st:iv.state,z:iv.zone,beh:n.beh}));
     G.zone='library'; E.zone={seats:readingSeats(),spawn:SPAWN3,roomAt:()=>null}; E.player.lv=0; place(E.player,SPAWN3.x,SPAWN3.z-0.4,0); n.lv=0; place(n,SPAWN3.x+0.8,SPAWN3.z,0);
     const s1=H.said.length; await INV.arrive(GM,'library'); await W(5); const L=iv.lead, her=L&&INV.seatObj(E,L.her), me=L&&INV.seatObj(E,L.me);

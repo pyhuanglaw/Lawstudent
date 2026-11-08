@@ -263,8 +263,10 @@ const INV=(function(){
   S.zhTime=zhT;
   const subLine=(G,t,r)=>{ const a=r&&r.alt; return String(t).replace('{zh}',a?(a.day===G.day?'':(a.day===G.day+1?'明天':when(G,a.day,a.h).split(' ')[0]))+zhT(a.h):'').replace('{明天？}',a&&a.day===G.day+1?'明天？':''); };
   /* 播台詞：「…」＝她／他說、（…）＝旁白、{me}＝祐廷說；手機上約的時候，她／他的話寫「某某（手機）」*/
+  /* 旁白＝（ 開頭；可是「（小聲）……」「（走出法圖）「……」」是她說的話（AA-B 11-08 00:05：「（小聲）」外面不再加「」，原本靠「」分辨）*/
+  S.narrLine=t=>/^（/.test(t)&&!/^（[^）]*小聲[^）]*）./.test(t)&&!/^（走出[^）]*）「/.test(t);
   S.playLines=async function(GM,who,lines,r,lq){ const G=GM.G; for(const st of lines||[]){ if(st&&typeof st==='object'&&st.me){ await GM.say({name:G.name},subLine(G,st.me,r)); continue; }
-      const t=subLine(G,st,r); if(lq) lq.chk(t); if(/^（/.test(t)&&!/^（走出[^）]*）「/.test(t)) await GM.say(null,t); else await GM.say(who,t); } };   /* lq：LIBQ.scope()（走出館外那一句起不加小聲）；「（走出法圖）「……」」是她說的話（AA_595 1-D10）*/
+      const t=subLine(G,st,r); if(lq) lq.chk(t); if(S.narrLine(t)) await GM.say(null,t); else await GM.say(who,t); } };   /* lq：LIBQ.scope()（走出館外那一句起不加小聲）；「（走出法圖）「……」」是她說的話（AA_595 1-D10）*/
   /* 結果的旁白（沒有個性資料的人：不編台詞）*/
   const ACTN={class:'在上課',barista:'在打工',help:'在幫忙',club:'在社團',ta:'在當助教'};
   S.reply=function(G,id,pid,r){ const nm=nameOf(id), P=S.place(pid)||{}; const per=(D().people[id]||{}).reply; if(per&&per[r.why||r.res]) return per[r.why||r.res];
@@ -545,7 +547,7 @@ const INV=(function(){
       const n=S.npcOf(GM,iv.who), P=GM.E&&GM.E.player&&GM.E.player.obj; if(!n||!n.obj||!P) continue;
       if(Math.hypot(n.obj.position.x-P.position.x,n.obj.position.z-P.position.z)>6) continue;
       iv.chat=true; const pk=S.walkPick(G,iv.who,iv.place); if(!pk) continue; pk.next(); if(pk.ask){ iv.ask=pk.ask; continue; } const nm=nameOf(iv.who);
-      pk.lines.forEach((t,k)=>{ const show=()=>GM.caption(/^（/.test(t)?'':nm,t,3400); if(k===0) show(); else S._later(show,k*3600); }); } };
+      pk.lines.forEach((t,k)=>{ const show=()=>GM.caption(S.narrLine(t)?'':nm,t,3400); if(k===0) show(); else S._later(show,k*3600); }); } };
   /* 走進一個區域：一起走過去的人到了目的地 → 見面 */
   S.arrive=async function(GM,zoneId){ const G=GM.G; for(const iv of (G.invites||[])){ if(iv.state==='going'&&iv.zone!==zoneId&&S.privateZone(zoneId)) S.dropGoing(GM,iv); }   /* 走回宿舍＝作罷（使用者 10-21 23:1x）*/
     const iv=(G.invites||[]).find(v=>v.state==='going'&&v.zone===zoneId); if(!iv) return false; if(arrivingIv.has(iv)) return true;
