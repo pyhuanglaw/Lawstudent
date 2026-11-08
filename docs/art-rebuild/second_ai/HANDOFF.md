@@ -8,7 +8,7 @@
 
 ## 🔨 現在在做（11-08 07:3x UTC，帳號 B LAWWW2-B）
 
-分支 `claude/funny-albattani-iawshm` 最新 `51aa51b20`（另有 `e2cf1f39c` 新生南路第二條鏈存檔）；開發分支 `claude/modest-rubin-2lyp7g` 最新 `d9646a770`。
+分支 `claude/funny-albattani-iawshm`（09:3x 最新 `5c7b93d1a`）；`b517adf62` 那一個 commit 也帶了 lm_fill_covered 拿掉 scipy（輸出逐位元組一樣），訊息沒寫到；早一點的 `51aa51b20`（另有 `e2cf1f39c` 新生南路第二條鏈存檔）；開發分支 `claude/modest-rubin-2lyp7g` 最新 `d9646a770`。
 工作樹只留 `$S/wt_dev2`（開發 `d9646a770`＋這一包的 16 個檔、兩支新測試）；舊的 `$S/wt_dev` 07:0x 刪了（裡面的測試都在 docs wip）。
 
 | 項目 | 狀態 | 位置 |
@@ -17,8 +17,8 @@
 | 隔間牆零件跟主牆一起淡出（0c49eb7a7） | **LAWWW-B 已整合 `7206a12de`**；BB-B 06:35 B1 studyA_back 雲端 PASS | `wip/partition_fade_1108/` |
 | BB-B 06:43 PC GPU 判 | **ART_APPROVED（光照）**：總圖 5F 書庫、公館四間、研究小間、體育館 B1、美國公寓、合租戶。B1、5F 等新 SHA | — |
 | 機車台數（BB-B 06:46） | **已回**：台數本來就不固定（停車格 15% 空、共用亂數），Node 實測 27～35；建議 CC 門檻 24～35、款 ≥7、色 ≥15；28 台算 PASS | — |
-| **新生南路 9 個模型 512**（任務 #200） | 第一條鏈 4 間 `bcd3c5d05`；第二條鏈好拍、同弦 `e2cf1f39c`；**新生運動 06:55 起烘、大步、山嵐排在後面**（`bc0wuztf7`）。全好、xs_lm_unit 跑過才一起交 | `wip/xs_lm_1108/` |
-| **總圖 B1 重烘**（BB-B 07:14 GPU 判定：影印中心、討論室那一帶比 4.1 版暗三成多、燈板旁天花板深灰、disc1／disc2 各一塊黑角；不標 ART_APPROVED） | **07:3x 起烘**（`bg9t4kmpv`，輸出 `$S/b1_v2`，設定 `c6fcd05ab`：南半邊 z>5 日光燈 ×2、往上補光 ×2.5，會議廳四顆 0.8 W；自習室 A 區不動）。烘好要：重跑 glb_partition_at（at）＋lm_fill_covered，量南半邊亮度、檢查工具，再交 | `bake_library_b1.sh` |
+| **新生南路 9 個模型 512**（任務 #200） | 8 間烘好、和開發原檔一致（`bcd3c5d05`／`e2cf1f39c`／`b1ef8b606`／`0d0b05d8f`）。**山嵐**：`51cbfaacd` 是拿我分支上較舊的 v5 烘的（開發 11-05 已換 AA-C v5.1 `4977d6c72`），`5c7b93d1a` 換回 v5.1 原檔、09:00 起重烘（`b5nr3yenf`）。工作樹 `$S/wt_xs`＝開發 `51d7f0ff6`＋xs_lm_1108.patch＋九間的檔：xs_lm_unit 開發原樣 FAILED 15 → ALL PASS。剩：山嵐 v5.1 換進去、39 支相關測試、README 再交 | `wip/xs_lm_1108/` |
+| **總圖 B1 重烘**（BB-B 07:14 GPU：影印中心、討論室那一帶比 4.1 版暗三成多、燈板旁天花板深灰；不標 ART_APPROVED） | 設定 `b517adf62`（討論室日光燈 ×3＋每間 4 顆 3 W 分散補光、南走廊／影印中心 ×2／×2.5、會議廳 4 顆 3 W）；試烘 64 取樣：討論室天花板／地板／牆 0.12／0.29／0.29 → 0.43／0.47／0.49。**512 正式第一次 07:36 起、和另外兩個烘焙搶 CPU，09:36 到背景 2 小時上限被停（白天那張烘完、晚上沒完）；09:37 重開（`bjsxihe90`，輸出 `$S/b1_v2`）**。烘好要：glb_partition_at（at）＋lm_fill_covered、量亮度、檢查工具，再交 | `bake_library_b1.sh` |
 | 慢輪晚上門外亮白長方形（BB-B 06:43 P3） | **已交 LAWWW-B（`5a9ae8d8e`）**：只換 bikeshop_night.webp（地面最下面 159→90） | `wip/bikeshop_night_1108/` |
 | 機車台數門檻（BB-B 07:13 WZINTEG PASS） | tests/wz_street_integration.py patch（24～35、款 ≥7、色 ≥15）`c6fcd05ab`，下次交件一起附 | `wip/scooter_count_1108/` |
 | P3（任務 #204） | 美國公寓浴室兩片門板拆節點；其他約 40 間外牆腳黑線可跑 lm_fill_covered（等決定） | — |
