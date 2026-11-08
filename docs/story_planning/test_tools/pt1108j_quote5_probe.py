@@ -34,9 +34,25 @@ async def load_at(pg, cdp, snap, hit, zone='soclib'):
 
 
 async def talk(pg, cdp, run, cid, tag):
+    """走到他旁邊；按之前確認互動鍵是「和○○說話」（坐著的人旁邊有空位，互動鍵可能被座位搶走：繞到別的方向再看），再按、點完對話"""
     await pg.evaluate("window.__DW.length=0")
     pr = await P.wait_present(pg, cid, 90)
-    r = await P.talk_to(pg, cdp, run, cid, tag)
+    want = (pr or {}).get('label') or ''
+    lab = lambda: pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
+    pos = await pg.evaluate("id=>{ const n=(GAME.E.npcs||[]).find(q=>(q.charId||q.id)===id); return n?{x:n.obj.position.x,z:n.obj.position.z,lv:n.lv|0}:null; }", cid)
+    ok = False
+    import math
+    for a in range(8):
+        tx, tz = pos['x'] + 0.85 * math.cos(a * math.pi / 4), pos['z'] + 0.85 * math.sin(a * math.pi / 4)
+        await L.go_to(pg, cdp, run, tx, tz, 0.3, '%s：%s 旁邊（方向 %d）' % (tag, cid, a), lv=pos['lv'])
+        for _ in range(6):
+            if (await lab()).startswith(want): ok = True; break
+            await pg.wait_for_timeout(500)
+        if ok: break
+    run.note('%s：按之前互動鍵「%s」（要的是「%s」）' % (tag, await lab(), want))
+    if ok:
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(800)
+        await P.dialog(pg, cdp, run, picks=(), max_s=120, start_s=10, idle_s=4, tag=tag)
     lines = Q.full_lines(await pg.evaluate("window.__DW.slice()"))
     await run.shot(pg, tag)
     run.note('%s：在場 %s；畫面 %s' % (tag, J(pr, 200), J(lines)))
