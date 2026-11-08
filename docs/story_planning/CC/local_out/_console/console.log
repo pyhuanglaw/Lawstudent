@@ -500,3 +500,12 @@
 [09:20:44] ==== START P6_fps_f3  (probe @ 6da721819b8d351fe12e0b848ca7e06f52553819) ====
 [09:20:47] [res] cpu=71% mem=51% (16.2/31.4 GB) chrome_testing=8  START P6_fps_f3
 [09:22:14] [res] cpu=15% mem=53% (16.8/31.4 GB) chrome_testing=8  END P6_fps_before
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       af66211eb..f89125cb1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:22:20] ==== END   P6_fps_before  exit=0  192s   ====
+[09:22:23] memory 52% before starting P6_fps_mob_after (2 running)
+[09:22:23] ==== START P6_fps_mob_after  (probe @ 6da721819b8d351fe12e0b848ca7e06f52553819) ====
+[09:22:26] [res] cpu=37% mem=52% (16.4/31.4 GB) chrome_testing=8  START P6_fps_mob_after
+[09:22:31] 正在跑：P6_fps_after（已跑 2 分／上限 30 分）、P6_fps_f3（已跑 1 分／上限 30 分）、P6_fps_mob_after（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:23:00] [res] cpu=44% mem=47% (14.9/31.4 GB) chrome_testing=8  END P6_fps_after
