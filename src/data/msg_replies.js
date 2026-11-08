@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_msg_replies.py（docs/story_planning/AA_709_msg_replies.json@359a545eb）。不要手改，改企劃 AA_709 再重新匯入。
+/* 自動產生：tools/story/import_msg_replies.py（docs/story_planning/AA_709_msg_replies.json@0a4e74f2b）。不要手改，改企劃 AA_709 再重新匯入。
    女主角主動傳來的訊息的回覆選項（MSG-REPLY-1107；播放 src/msgreply3d.js）*/
 'use strict';
 const MSG_REPLIES={
- "src": "docs/story_planning/AA_709_msg_replies.json@359a545eb",
+ "src": "docs/story_planning/AA_709_msg_replies.json@0a4e74f2b",
  "people": {
   "classmate_xinci": [
    {
@@ -5986,7 +5986,7 @@ const MSG_REPLIES={
       },
       "say": [
        "南瓜很可愛。",
-       "我不可愛。這是兩件事。"
+       "……不要拐彎說我。"
       ]
      }
     ]
