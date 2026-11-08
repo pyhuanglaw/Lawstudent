@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_msg_replies.py（docs/story_planning/AA_709_msg_replies.json@0a4e74f2b）。不要手改，改企劃 AA_709 再重新匯入。
+/* 自動產生：tools/story/import_msg_replies.py（docs/story_planning/AA_709_msg_replies.json@211b71958）。不要手改，改企劃 AA_709 再重新匯入。
    女主角主動傳來的訊息的回覆選項（MSG-REPLY-1107；播放 src/msgreply3d.js）*/
 'use strict';
 const MSG_REPLIES={
- "src": "docs/story_planning/AA_709_msg_replies.json@0a4e74f2b",
+ "src": "docs/story_planning/AA_709_msg_replies.json@211b71958",
  "people": {
   "classmate_xinci": [
    {
@@ -3218,6 +3218,41 @@ const MSG_REPLIES={
       "say": [
        "換你了",
        "……恭喜啦"
+      ]
+     }
+    ]
+   },
+   {
+    "text": "芷若回來了。她第一件事是問貓。……第二件事才問我。",
+    "opts": [
+     {
+      "t": "芷若一直很喜歡那隻貓。",
+      "rel": {
+       "comf": 1
+      },
+      "say": [
+       "牠也比較喜歡她",
+       "牠讓她抱 都不讓我抱"
+      ]
+     },
+     {
+      "t": "她問妳什麼？",
+      "rel": {
+       "trust": 1
+      },
+      "say": [
+       "問我工作還好嗎",
+       "我說還好 她看了我很久"
+      ]
+     },
+     {
+      "t": "幫我跟她說歡迎回來。",
+      "rel": {
+       "fam": 1
+      },
+      "say": [
+       "你自己跟她說",
+       "她九月一號回店裡上班"
       ]
      }
     ]
