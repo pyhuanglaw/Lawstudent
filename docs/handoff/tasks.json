@@ -50016,7 +50016,10 @@
     "ack": "ACTIONED",
     "owner": "LAWWW"
    },
-   "evidence": ""
+   "evidence": "",
+   "reason": "不是 bug：BB-B 11-08 11:37 重現，第二次說話有旁白（greetB 的 B_NOD），探針只數有名字的句子",
+   "replacedBy": "NONE",
+   "authorizedBy": "BB-B 11-08 11:37（測試總監判定不是 bug）"
   }
  ]
 }
