@@ -191,6 +191,9 @@ for o in objs:   # 自訂屬性 lm：這個物件的島整個縮放（之後一�
 # 現在這些面不參加排版（排版前取消選取），排完以後都放到同一個物件最大那一面的中心（取那一點的光；面積是 0，烘焙不會寫）。整個物件都看不到的照舊參加排版。
 def hidden_faces(o):
     d = o.get('dir'); dv = Vector((d[0], -d[2], d[1])) if d is not None and len(d) == 3 else None   # 遊戲座標 → Blender
+    # 隔間牆（自訂屬性 partition＝1）兩面都看得到（遊戲的 fadeWalls 也照兩邊判斷）：dir 只是淡出用的方向，背面不能當成看不到（11-08 LAWWW2-B，BB-B PC GPU：
+    #   霖澤 5F 研究室那面隔間牆整片借了走廊那一面中心的 0.745，整片泛白、沒有明暗；總圖 B1、研究小間、體育館 B1、美國兩間的隔間牆背面也一樣）
+    if o.get('partition'): dv = None
     h = o.get('lmhide'); hs_side = isinstance(h, str) and 'side' in h.split(',')   # 自訂屬性 lmhide：朝這個方向（遊戲座標）的面看不到（例：樓板上面被地板蓋住 [0,1,0]；霖澤館大廳 10-28）；
     hv = Vector((h[0], -h[2], h[1])) if h is not None and not isinstance(h, str) and len(h) == 3 else None   # 'side'＝所有側面（地板方塊的四邊：埋在牆裡或在玻璃外面，烘出來是天空的顏色）
     # 字串也可以寫好幾個方向，用逗號分開：side、up、down、N（遊戲 −z）、S、E、W（例：男一舍走廊的牆 'N,up'＝背面是沒做模型的寢室、牆頂在天花板上面；DORM-HALL-LM-1028）
