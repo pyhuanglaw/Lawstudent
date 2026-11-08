@@ -74,6 +74,7 @@ async def drive(pg, cdp, tag, prefs, max_s=300, idle_end=8, shots=0):
 
 
 TEA = ['謝謝你的綠茶。', '最後一晚，我想一個人。……考完請你吃飯。']
+QS = r"""(()=>{ const G=GAME.G, tag='decide_say_heroine_05_exam', P=PHONE.rec(G); return {q:P.q.filter(q=>q.tag===tag).map(q=>({day:q.day,h:q.h,n:(q.items||[]).length})), qAll:P.q.length, sent:PHONE.sent(G,tag), anyTag:(G.msgs||[]).filter(m=>m.tag===tag).length, paused:!!GAME.E.paused}; })()"""
 MSGS = "(id=>(GAME.G.msgs||[]).filter(m=>m.th==='p:'+id||m.from===id).map(m=>({text:m.text, day:m.day, h:m.h, tag:m.tag||null})))"
 
 
@@ -141,6 +142,8 @@ async def follow(pg, cdp, tag, rec):
         await wait_until(pg, cdp, await pg.evaluate("GAME.G.day"), 18.0)   # 17:30 以後才能直接睡
         if not await sleep_once(pg, cdp, tag + ' 第 %d 晚' % (n + 1)): break
     await wait_until(pg, cdp, x['due'] + 3, 12.0, max_s=900)
+    await L.close_panels(pg, cdp); await pg.wait_for_timeout(10000)   # 跳過時間以後讓遊戲自己跑一下（手機規則、PHONE.tick）再看
+    R.note('%s due+3 手機佇列／sent：%s' % (tag, J(await pg.evaluate(QS))))
     m2 = await pg.evaluate(MSGS, SIS); c2 = {t: sum(1 for m in m2 if m['text'] == t) for t in TEA}
     st = await pg.evaluate("(id=>JSON.parse(JSON.stringify((GAME.G.flags.DECIDE_SAY||[]).find(q=>q.who===id&&q.key==='exam')||null)))", SIS)
     R.note('%s %s %.2f（due+3 以後）：那兩句次數 %s；DECIDE_SAY %s；學姊那一串最後 4 則 %s' % (tag, await pg.evaluate("CALENDAR.dateOf(GAME.G.day).key"), await pg.evaluate("+GAME.G.hour"), J(c2), J(st), J(m2[-4:])))
@@ -166,6 +169,8 @@ async def expire(pg, cdp, tag, rec):
     R.setup('%s 【前置／捷徑】G.day 直接跳到 due+11（day %d）10:00，weekday 跟著加' % (tag, x['due'] + 11))
     await pg.evaluate("(d=>{ const G=GAME.G; G.weekday=((G.weekday+(d-G.day))%7+7)%7; G.day=d; G.hour=10; })", x['due'] + 11)
     await wait_until(pg, cdp, x['due'] + 11, 11.5, max_s=900)
+    await L.close_panels(pg, cdp); await pg.wait_for_timeout(10000)   # 跳過時間以後讓遊戲自己跑一下再看
+    R.note('%s 手機佇列／sent：%s' % (tag, J(await pg.evaluate(QS))))
     m = await pg.evaluate(MSGS, SIS); c = {t: sum(1 for q in m if q['text'] == t) for t in TEA}
     st = await pg.evaluate("(id=>JSON.parse(JSON.stringify((GAME.G.flags.DECIDE_SAY||[]).find(q=>q.who===id&&q.key==='exam')||null)))", SIS)
     R.note('%s %s %.2f：那兩句次數 %s；DECIDE_SAY %s' % (tag, await pg.evaluate("CALENDAR.dateOf(GAME.G.day).key"), await pg.evaluate("+GAME.G.hour"), J(c), J(st)))
