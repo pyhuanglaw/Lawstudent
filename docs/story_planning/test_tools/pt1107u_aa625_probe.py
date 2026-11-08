@@ -17,6 +17,10 @@ PLACE = os.environ.get('PLACE', '木曜日')   # MODE=moku 的地點：木曜日
 PZONE = {'木曜日': 'wz_mokuyobi', '總圖': 'library_hall'}.get(PLACE, 'wz_mokuyobi')
 J = lambda x, n=900: json.dumps(x, ensure_ascii=False)[:n]
 YT, AN = 'heroine_03', 'heroine_01'
+# 畫面上實際出現的對話框（名字＋整句）：LIBQ.whisper 在 GAME.say 裡面才加「（小聲）」，say_hook 記的是加之前的字
+SCREEN = """(()=>{ if(window.__SCR) return window.__SCR.length; const L=window.__SCR=[]; setInterval(()=>{ try{ const d=document.getElementById('dlg'); if(!d||d.classList.contains('hide')||getComputedStyle(d).display==='none') return;
+  const n=((document.getElementById('dlgName')||{}).textContent||'').trim(), t=((document.getElementById('dlgText')||{}).textContent||'').trim(); if(!t) return; const z=L[L.length-1];
+  if(z&&z.n===n&&z.t===t) return; if(z&&z.n===n&&t.startsWith(z.t)){ z.t=t; return; } L.push({n,t}); }catch(e){} },200); return 0; })()"""
 DECLINE = ('不去', '不了', '改天', '算了', '下次', '這週不行', '晚一點')
 
 
@@ -132,7 +136,7 @@ async def main():
             st0 = await pg.evaluate("(GAME.G.stats&&GAME.G.stats.study)||0")
             actn0 = await pg.evaluate("JSON.stringify(((GAME.G.flags.STUDYN||{})[\"heroine_01\"])||null)")
             await P.jump(pg, cdp, run, '2025-11-03', 17.3, zone=PZONE, pos=None, note=PLACE + '門口'); await P.init(pg)
-            n0 = await P.say_hook(pg)
+            n0 = await P.say_hook(pg); s0 = await pg.evaluate(SCREEN)
             if PLACE == '總圖':   # 約念書她帶路（INV-SIT-TOGETHER-1104）：她先走去坐，玩家要走到她坐的位子旁邊才開演（S.leadTick）
                 seat = None
                 for _ in range(240):
@@ -153,6 +157,10 @@ async def main():
             print('[OPTS]', J(seen, 800)); print('[LINES]', J(lines, 3000)); print('[STUDY]', st0, st1); print('[ACTN]', actn0, '→', actn1)
             run.check('木曜日念書約整段演完（有她的台詞、沒卡在對話）', len(lines) >= 3 and any(n for n, _ in lines), J(lines, 1200))
             run.check('讀書時數有加（%s → %s）' % (st0, st1), st1 > st0, J([st0, st1]))
+            scr = [(x['n'], x['t']) for x in (await pg.evaluate("window.__SCR||[]"))[s0:]]
+            print('[SCREEN]', J(scr, 3000))
+            hers = [(n, t) for n, t in scr if n and '以安' in n]
+            run.check('%s：畫面上她說的每一句都有「（…小聲…）」（LIBQ）、外面沒有「」' % PLACE, bool(hers) and all('小聲' in t for _, t in hers) and not any(t.startswith('「（小聲）') for _, t in scr), J([t for _, t in hers if '小聲' not in t] or hers[:3]))
             if PLACE == '總圖':
                 wl = [(n, t) for n, t in lines if t.startswith('（小聲）')]
                 nr = [(n, t) for n, t in lines if t.startswith('（') and not t.startswith('（小聲）')]
