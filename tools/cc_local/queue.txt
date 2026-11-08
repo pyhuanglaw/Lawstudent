@@ -1690,3 +1690,10 @@ Re830d_main12 | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/flow_mai
 Re830d_touch | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
 Re830d_mini | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
 Re830d_classreal | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
+# CC-B 11-09 01:4x（台灣）：佇列空了：開發分支最新 00465f891 常備
+R0046e_p0 | 00465f891245c7d870007f1987722d656ed6aa10 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+R0046e_reach | 00465f891245c7d870007f1987722d656ed6aa10 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
+R0046e_zone | 00465f891245c7d870007f1987722d656ed6aa10 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
+R0046e_main12 | 00465f891245c7d870007f1987722d656ed6aa10 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R0046e_v0_tolaw | 00465f891245c7d870007f1987722d656ed6aa10 | game | tests/flow_v0_tolaw.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R0046e_touch | 00465f891245c7d870007f1987722d656ed6aa10 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
