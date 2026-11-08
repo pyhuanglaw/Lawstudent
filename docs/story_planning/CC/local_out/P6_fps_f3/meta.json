@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "P6_fps_f3",
+  "sha": "6da721819b8d351fe12e0b848ca7e06f52553819",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_overlay_run.py",
+  "env": "RUN=../../../../tools/cc_local/fps_zones.py;OVERLAY_SHA=6da721819b8d351fe12e0b848ca7e06f52553819;URL_SUFFIX=?fixlights=3;ZONES=campus,wenzhou;SLOTS=day,night;SECS=15;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T09:20:44",
+  "end": "2026-11-08T09:24:29",
+  "seconds": 225,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 85,
+    "mem": 57,
+    "used_gb": 17.9,
+    "chrome_testing": 12
+  }
+}

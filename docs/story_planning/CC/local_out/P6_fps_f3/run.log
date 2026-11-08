@@ -1,0 +1,9 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_overlay_run.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\P6_fps_f3\out
+[overlay] 受測版本 6da721819 ＋ 6da721819 的 []；暫存工作樹 C:\Users\USER\AppData\Local\Temp\cc_overlay_u78k_eel\wt
+[overlay] 跑 ..\..\..\..\tools\cc_local\fps_zones.py http://127.0.0.1:51484/index.html?fixlights=3 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\P6_fps_f3\out
+OK   campus        day   avg 24.71 fps  1%low 5.62 fps  worst 300 ms  n=371  zone=campus h=11.01 w=sunny q=medium draw=451 
+OK   campus        night avg 37.76 fps  1%low 9.09 fps  worst 283.4 ms  n=567  zone=campus h=21.04 w=sunny q=medium draw=368 
+OK   wenzhou       day   avg 32.17 fps  1%low 15.98 fps  worst 100 ms  n=483  zone=wenzhou h=11.04 w=sunny q=medium draw=360 
+OK   wenzhou       night avg 28.04 fps  1%low 12.62 fps  worst 116.7 ms  n=421  zone=wenzhou h=21.04 w=sunny q=medium draw=325 
+JS 例外 0 個
+ALL PASS（量測完成 4 格）
