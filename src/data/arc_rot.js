@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_arc_rot.py（docs/story_planning/AA_717_rot_life.json@578ba675e）。不要手改，改企劃 AA_717 再重新匯入。
+/* 自動產生：tools/story/import_arc_rot.py（docs/story_planning/AA_717_rot_life.json@963afea74）。不要手改，改企劃 AA_717 再重新匯入。
    輪換句跟著日期和故事走、她的生活（BB_305 第 5、6 節；播放 src/arcs3d.js ARCS.rotPick）*/
 'use strict';
 const ARC_ROT={
- "src": "docs/story_planning/AA_717_rot_life.json@578ba675e",
+ "src": "docs/story_planning/AA_717_rot_life.json@963afea74",
  "rot": {
   "heroine_01": [
    {
@@ -1136,7 +1136,7 @@ const ARC_ROT={
    {
     "s": 3,
     "from": "2026-03-15",
-    "state": "貓的遊戲第一關做好"
+    "state": "第一關的畫面出來了（還不能玩；暑假才做完，AA_504 第 3 週那則）"
    },
    {
     "s": 4,

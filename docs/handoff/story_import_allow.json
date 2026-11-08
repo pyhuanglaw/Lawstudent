@@ -4840,12 +4840,18 @@
   },
   {
    "path": "docs/story_planning/AA_717_rot_life.json",
-   "sha": "578ba675e",
+   "sha": "963afea74",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 06:11「交付 BB_305 第 5、6 節」）",
+   "approvedBy": "AA-B D109（11-07 06:11「交付 BB_305 第 5、6 節」）；963afea74（AA-B 11-08 01:39 AA_720 第一批同 commit：子晴 life 第 3 階 state 改「第一關的畫面出來了」、芷若「2:30 AM 吧檯」）",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
-   "note": "七位輪換句 15～19 則（when／beat／if／life／lifeMax／from／until／alt）＋life 7～12 階；tools/story/import_arc_rot.py → src/data/arc_rot.js"
+   "note": "七位輪換句 15～19 則（when／beat／if／life／lifeMax／from／until／alt）＋life 7～12 階；tools/story/import_arc_rot.py → src/data/arc_rot.js",
+   "history": [
+    {
+     "sha": "578ba675e",
+     "note": "被 963afea74 取代"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_716_arc_invites.json",
@@ -4858,13 +4864,17 @@
   },
   {
    "path": "docs/story_planning/AA_719_decide_rules.json",
-   "sha": "13acd106d",
+   "sha": "963afea74",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 08:10 經 BB-B 轉「AN-1 rule 0 say 第一句」）",
+   "approvedBy": "AA-B D109（11-07 08:10 經 BB-B 轉「AN-1 rule 0 say 第一句」）；963afea74（AA-B 11-08 01:39：SIS-1 before 2026-01-31、沛珊 before 要交往中、子晴 intern 使用者 Q1 同意）",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
    "note": "14 個決定拍（七位各 2）：style、lean、default、opts stance、rules（stance×trust×opt→result、rel、delay、say）、keyNote；tools/story/import_decide_rules.py → src/data/decide_rules.js",
    "history": [
+    {
+     "sha": "13acd106d",
+     "note": "被 963afea74 取代"
+    },
     {
      "sha": "3788d00c1",
      "approvedBy": "AA-B D109（11-07 06:40「分岔稿第一份：規則表」）（11-07 07:1x 以前；851167f68 加 before／revealAt、trust 門檻寫 60）"

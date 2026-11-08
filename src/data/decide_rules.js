@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_decide_rules.py（docs/story_planning/AA_719_decide_rules.json@13acd106d）。不要手改，改企劃 AA_719 再重新匯入。
+/* 自動產生：tools/story/import_decide_rules.py（docs/story_planning/AA_719_decide_rules.json@963afea74）。不要手改，改企劃 AA_719 再重新匯入。
    決定拍的規則：她有自己的想法（播放 src/decide3d.js）*/
 'use strict';
 const DECIDE_RULES={
- "src": "docs/story_planning/AA_719_decide_rules.json@13acd106d",
+ "src": "docs/story_planning/AA_719_decide_rules.json@963afea74",
  "keys": [
   {
    "id": "AN-1",
@@ -617,7 +617,7 @@ const DECIDE_RULES={
    ],
    "values": {
     "game": "暑假在家做遊戲（原本），爸爸生氣那一場會出現",
-    "intern": "她動搖了，暑假去爸爸介紹的公司（要使用者同意，Q1）"
+    "intern": "她動搖了，暑假去爸爸介紹的公司（使用者 11-07 Q1 同意可以改結果）"
    },
    "opens": {
     "game": [
@@ -790,7 +790,8 @@ const DECIDE_RULES={
     ]
    },
    "closes": {},
-   "keyNote": "（她的聲音很小，像是怕你走掉。）"
+   "keyNote": "（她的聲音很小，像是怕你走掉。）",
+   "before": "2026-01-31"
   },
   {
    "id": "SIS-2",
@@ -993,7 +994,7 @@ const DECIDE_RULES={
    ],
    "values": {
     "before": "她走以前先跟你說，你可以去車站送她",
-    "after": "她安靜離開，你從群組知道（原本）"
+    "after": "沒交往：照 AA_723 B（群組不知道，兩年後才出來）；交往中的 after＝她安靜走、psKeep 照舊"
    },
    "opens": {
     "before": [
