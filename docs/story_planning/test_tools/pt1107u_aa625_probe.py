@@ -13,6 +13,8 @@ from playwright.async_api import async_playwright
 
 URL, SAVES, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
 MODE = os.environ.get('MODE', 'first')
+PLACE = os.environ.get('PLACE', '木曜日')   # MODE=moku 的地點：木曜日（預設）或 總圖（4a17516d6：「（小聲）…」拿掉「」以後還是她說的話）
+PZONE = {'木曜日': 'wz_mokuyobi', '總圖': 'library_hall'}.get(PLACE, 'wz_mokuyobi')
 J = lambda x, n=900: json.dumps(x, ensure_ascii=False)[:n]
 YT, AN = 'heroine_03', 'heroine_01'
 DECLINE = ('不去', '不了', '改天', '算了', '下次', '這週不行', '晚一點')
@@ -121,15 +123,15 @@ async def main():
             await pg.evaluate("(s=>{ const e=document.querySelector(s); if(e) e.scrollIntoView({block:'center'}); })(%s)" % json.dumps(sel))
             await L.tap(pg, cdp, sel)
             lv = {'cat': await wait_opts(pg)}; await choose(pg, cdp, '念書')
-            lv['place'] = await wait_opts(pg); await choose(pg, cdp, '木曜日')
+            lv['place'] = await wait_opts(pg); await choose(pg, cdp, PLACE)
             lv['time'] = await wait_opts(pg); lv['picked'] = await choose(pg, cdp, '今天 17:30')
             await play_until(pg, cdp, 0, max_s=40)
             ivs = await pg.evaluate("(id=>(GAME.G.invites||[]).filter(v=>v.who===id).map(v=>({day:v.day,h:v.h,state:v.state,place:v.place,cat:v.cat})))(%s)" % json.dumps(AN))
             print('[INV]', J(lv, 1200), J(ivs))
-            run.check('約以安「念書」→ 木曜日 → 今天 17:30＝約好', any(v['day'] == d['d'] and abs(v['h'] - 17.5) < 0.05 and v['state'] == 'accepted' for v in ivs), J([lv.get('picked'), ivs]))
+            run.check('約以安「念書」→ %s → 今天 17:30＝約好' % PLACE, any(v['day'] == d['d'] and abs(v['h'] - 17.5) < 0.05 and v['state'] == 'accepted' for v in ivs), J([lv.get('picked'), ivs]))
             st0 = await pg.evaluate("(GAME.G.stats&&GAME.G.stats.study)||0")
             actn0 = await pg.evaluate("JSON.stringify(((GAME.G.flags.STUDYN||{})[\"heroine_01\"])||null)")
-            await P.jump(pg, cdp, run, '2025-11-03', 17.3, zone='wz_mokuyobi', pos=None, note='木曜日門口'); await P.init(pg)
+            await P.jump(pg, cdp, run, '2025-11-03', 17.3, zone=PZONE, pos=None, note=PLACE + '門口'); await P.init(pg)
             n0 = await P.say_hook(pg)
             seen = await play_until(pg, cdp, 19.0, max_s=700, prefer=('一起', '坐', '念', '讀'))
             lines = await P.said(pg, n0)
@@ -139,6 +141,13 @@ async def main():
             print('[OPTS]', J(seen, 800)); print('[LINES]', J(lines, 3000)); print('[STUDY]', st0, st1); print('[ACTN]', actn0, '→', actn1)
             run.check('木曜日念書約整段演完（有她的台詞、沒卡在對話）', len(lines) >= 3 and any(n for n, _ in lines), J(lines, 1200))
             run.check('讀書時數有加（%s → %s）' % (st0, st1), st1 > st0, J([st0, st1]))
+            if PLACE == '總圖':
+                wl = [(n, t) for n, t in lines if t.startswith('（小聲）')]
+                nr = [(n, t) for n, t in lines if t.startswith('（') and not t.startswith('（小聲）')]
+                run.check('總圖：「（小聲）…」是她說的（有名字）、外面沒有「」', bool(wl) and all(n for n, _ in wl) and not any(t.startswith('「（小聲）') for _, t in lines), J(wl))
+                run.check('總圖：旁白「（…）」沒有名字', all(not n for n, _ in nr), J(nr))
+                pt = await pg.evaluate("(()=>{ const P=document.querySelector('#portrait, .portrait, #adv img'); return P?{src:(P.src||P.style.backgroundImage||'').slice(-60),vis:getComputedStyle(P).display!=='none'}:null; })()")
+                print('[PORT]', J(pt))
             run.check('一起念書第 N 場有記（G.flags.STUDYN 以安那一筆有變）', actn0 != actn1, J([actn0, actn1]))
         run.check('沒有 JS 例外', not errs, J(errs[:5]))
         await b.close()
