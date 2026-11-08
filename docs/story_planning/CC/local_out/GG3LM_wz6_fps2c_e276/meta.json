@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GG3LM_wz6_fps2c_e276",
+  "sha": "e2762e9d91df1cf8405301e54fd4bf286a5f626e",
+  "kind": "probe",
+  "script": "tools/cc_local/fps_zones.py",
+  "env": "ZONES=wz_print,wz_mokuyobi;ZSLOTS=wz_print:h2100/wz_mokuyobi:h1400+h1400;SECS=15;SOLO=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T11:44:57",
+  "end": "2026-11-08T11:47:12",
+  "seconds": 135,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 18,
+    "mem": 41,
+    "used_gb": 12.9,
+    "chrome_testing": 4
+  }
+}
