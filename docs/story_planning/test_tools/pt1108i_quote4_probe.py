@@ -41,7 +41,7 @@ async def goto_person(pg, cdp, run, cid, hours=None):
 
 async def goto_class_pool(pg, cdp, run, want=None):
     """pool 同學（poolClass）只在必修課的教室：找存檔那天以後第一堂在 classroom 的課，【捷徑】讀檔到上課前 6 分鐘的教室，回傳在場的 pool 同學"""
-    it = await pg.evaluate("(()=>{ const G=GAME.G; for(let d=G.day; d<G.day+21; d++){ const L=(typeof CLS!=='undefined'&&CLS.dayItems)?CLS.dayItems(G,d):[]; const x=L.find(q=>q&&q.zone==='classroom'&&q.t0!=null); if(x){ const c=CALENDAR.dateOf(d); return {d, wd:c.wd===7?0:c.wd, key:c.key, t0:x.t0, name:(x.c&&(x.c.name||x.c.id))||x.name||null}; } } return null; })()")
+    it = await pg.evaluate("(()=>{ const G=GAME.G; for(let d=G.day; d<G.day+21; d++){ const L=(typeof CLS!=='undefined'&&CLS.dayItems)?CLS.dayItems(G,d):[]; const x=L.find(q=>q&&q.room&&q.room.zone==='classroom'&&q.t0!=null); if(x){ const c=CALENDAR.dateOf(d); return {d, wd:c.wd===7?0:c.wd, key:c.key, t0:x.t0, name:(x.c&&(x.c.name||x.c.id))||x.name||null}; } } return null; })()")
     if not it: run.check('找得到存檔以後三週內在 classroom 的課', False); return None, []
     s = await pg.evaluate("()=>JSON.parse(JSON.stringify(GAME.snapshot()))")
     s.update(day=it['d'], weekday=it['wd'], hour=round(it['t0'] - 0.1, 2), zone='classroom', pos=None)
