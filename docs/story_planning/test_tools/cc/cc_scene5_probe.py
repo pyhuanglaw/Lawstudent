@@ -17,7 +17,7 @@ J = D.J
 TAG = os.environ.get('TAG') or 'x'
 PARTS = [p_ for p_ in (os.environ.get('PART') or 'shaola,yejian').split(',') if p_]   # 其他名字＝區域 id、自動機位
 R = L.Run('scene5_' + TAG, OUT); D.setup(R, OUT)
-DAY = '2025-10-18'
+DAY = os.environ.get('DAY') or '2025-10-18'
 VIEWS = {
     'shaola': ('noodle', [('door', [0.0, 1.6, 6.0], [0.0, 1.0, -5.0], 18), ('top', [0.0, 8.5, 1.0], [0.0, 0.0, -0.5], 16), ('seat', [-0.6, 1.4, 3.6], [-2.1, 0.6, 1.6], 22),
                           ('out', [0.4, 1.5, 1.2], [0.0, 1.4, 8.0], 20), ('clerk', [0.0, 1.6, 0.4], [2.4, 1.2, 0.6], 24)]),
@@ -55,7 +55,9 @@ async def main():
             for part in PARTS:
                 if part in VIEWS: zone, views = VIEWS[part]
                 else: zone, views = part, None   # BB-B 20:51：溫州街六間＝自動機位（照遊戲裡的出生點、店員、座位、區域範圍算）
-                for tn, h in [x for x in (('1400', 14.0), ('2100', 21.0)) if not os.environ.get('HOURS') or x[0] in os.environ['HOURS'].split(',')]:
+                SLOTS = (('1400', 14.0), ('2100', 21.0))
+                if os.environ.get('SLOTS'): SLOTS = tuple((a, float(b)) for a, b in (x.split(':') for x in os.environ['SLOTS'].split(',')))   # 例 SLOTS=1400:14,1750:17.8333,1930:19.5
+                for tn, h in [x for x in SLOTS if not os.environ.get('HOURS') or x[0] in os.environ['HOURS'].split(',')]:
                     tag = '[%s %s %s]' % (TAG, part, tn)
                     try:
                         R.setup('%s 讀檔 %s %s %.1f（條件事件關閉）' % (tag, zone, DAY, h))
