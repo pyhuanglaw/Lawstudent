@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "R126_classreal",
+  "sha": "126bdf93e82886673518705566dbe83b582c32c1",
+  "kind": "game",
+  "script": "tests/flow_class_real.py",
+  "env": "XARGS={url} {out};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T10:36:12",
+  "end": "2026-11-08T10:38:44",
+  "seconds": 152,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 37,
+    "mem": 53,
+    "used_gb": 16.7,
+    "chrome_testing": 14
+  }
+}
