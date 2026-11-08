@@ -54,7 +54,9 @@ async def drive(pg, cdp, tag, prefs, max_s=300, idle_end=8, shots=0):
                 if not await pg.evaluate("!!(GAME.D&&GAME.D.typing)"): break
                 await pg.wait_for_timeout(250)
             dd = await pg.evaluate("(()=>{ const D=GAME.D, w=D&&D.who; return {who:w?(typeof w==='string'?w:(w.name||'')):'', t:(D&&D.full)||''}; })()")
-            if dd['t'] and (not out['lines'] or out['lines'][-1] != [dd['who'], dd['t']]): out['lines'].append([dd['who'], dd['t']])
+            if dd['t'] and (not out['lines'] or out['lines'][-1] != [dd['who'], dd['t']]):
+                out['lines'].append([dd['who'], dd['t']])
+                if dd['t'].startswith('（樓梯間的門一關上'): await R.shot(pg, 'stairwell'); out.setdefault('stair_pos', await pg.evaluate("(()=>{ const P=GAME.E.player; return {zone:GAME.G.zone, lv:P.lv|0, x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), seat:P.seat?[P.seat.x,P.seat.z]:null}; })()"))
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
         if quiet is None: quiet = time.time()
         if time.time() - quiet > idle_end: break
@@ -84,8 +86,8 @@ async def sleep_once(pg, cdp, tag):
             if await L.tap(pg, cdp, '#goPop [data-gok="sleep"]'):
                 await pg.wait_for_timeout(1500)
                 if await pg.evaluate("(()=>{ const b=document.getElementById('goConfirm'); return !!b&&!b.classList.contains('hide'); })()"): await L.tap(pg, cdp, '#goCfYes')
-                for _ in range(90):
-                    if await pg.evaluate("(d=>GAME.G.day>d&&+GAME.G.hour<12)", d0): return True
+                for _ in range(240):
+                    if await pg.evaluate("(d=>GAME.G.day>d)", d0): return True
                     s = await L.state(pg)
                     if s['choices']: await L.tap(pg, cdp, '#choices button')
                     elif s['dlg']: await L.tap(pg, cdp, '#dlg')
@@ -114,13 +116,14 @@ async def follow(pg, cdp, tag, rec):
     if not x: return
     out = {}
     ok = await sleep_once(pg, cdp, tag + ' 第 1 晚')
-    ok = ok and await wait_until(pg, cdp, x['due'], 21.5)
+    ok = await wait_until(pg, cdp, x['due'], 21.5) and ok
     m1 = await pg.evaluate(MSGS, SIS); c1 = {t: sum(1 for m in m1 if m['text'] == t) for t in TEA}
     R.note('%s %s 21:30（due 那天）：睡到了＝%s；那兩句次數 %s；學姊那一串最後 4 則 %s' % (tag, await pg.evaluate("CALENDAR.dateOf(GAME.G.day).key"), ok, J(c1), J(m1[-4:])))
     out['due_2130'] = {'ok': ok, 'count': c1}
     n = 0
     while await pg.evaluate("GAME.G.day") < x['due'] + 3 and n < 5:
         n += 1
+        await wait_until(pg, cdp, await pg.evaluate("GAME.G.day"), 18.0)   # 17:30 以後才能直接睡
         if not await sleep_once(pg, cdp, tag + ' 第 %d 晚' % (n + 1)): break
     await wait_until(pg, cdp, x['due'] + 3, 12.0, max_s=900)
     m2 = await pg.evaluate(MSGS, SIS); c2 = {t: sum(1 for m in m2 if m['text'] == t) for t in TEA}
@@ -168,7 +171,7 @@ async def run_mode(pg, cdp, mode, rec):
     await pg.evaluate("(h=>{ GAME.G.hour=Math.max(GAME.G.hour,h-0.1); })", inv['h'])
     tgt = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).filter(q=>q.who===id&&q.state==='accepted').slice(-1)[0]; return INV.goTarget(GAME.G,v); })", SIS)
     R.setup('%s 【前置】時間撥到約的前 6 分鐘，照手機「直接過去」GM.quickGo(%s, force)' % (tag, J(tgt)))
-    await pg.evaluate("window.__says=[]")
+    await pg.evaluate("window.__says=[]"); wf0 = await pg.evaluate("GAME.walkFallbacks||0")
     await pg.evaluate("(t=>{ void GAME.quickGo([t.zone,t.name,t.spawn||null],{force:true}); })", tgt)
     await pg.wait_for_timeout(8000)
     m = await drive(pg, cdp, tag + ' 見面', ['綠茶'], max_s=420, idle_end=15, shots=3)
@@ -179,6 +182,25 @@ async def run_mode(pg, cdp, mode, rec):
     R.note('%s 見面全部的話：%s' % (tag, J([[x['k'], x['who'], x['t']] for x in says])))
     await R.shot(pg, 'sis_%s_end' % mode)
     txt = [x['t'] for x in says]
+    if os.environ.get('QM'):   # SIS1-QUIET-LIB-1108 修好以後（AA_720 quietMove）：總圖安靜區＝走到樓梯間演
+        QM = await pg.evaluate("(()=>{ try{ return AA720P.QM(); }catch(e){ return null; } })()")
+        R.note('%s quietMove 資料：%s；樓梯間那一刻 %s' % (tag, J(QM), J(m.get('stair_pos'))))
+        wf = (await pg.evaluate("GAME.walkFallbacks||0")) - wf0
+        endp = await pg.evaluate("(()=>{ const P=GAME.E.player; return {zone:GAME.G.zone, lv:P.lv|0, x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), seat:P.seat?[P.seat.x,P.seat.z]:null, busy:!!P.busy}; })()")
+        R.note('%s 演完：玩家 %s；walkFallbacks +%d' % (tag, J(endp), wf))
+        if QM and os.environ.get('QM') == 'stair':
+            seq = QM['open'] + [QM['replaceFirst']['to']] + QM['close']
+            idx = [txt.index(t) if t in txt else -1 for t in seq]
+            R.check('%s 樓梯間版：open 兩句 → 樓梯間那一句 → … → 結尾一句，照順序' % tag, all(i >= 0 for i in idx) and idx == sorted(idx), J(idx))
+            R.check('%s 原稿第一句（筆摔在桌上）沒有出現' % tag, QM['replaceFirst']['from'] not in txt, '')
+            a, z = (idx[2], idx[-1]) if all(i >= 0 for i in idx) else (0, -1)
+            stair = [x for x in says[a:z + 1] if x['k'] == 'say']
+            R.check('%s 樓梯間那幾句沒有（小聲）' % tag, bool(stair) and not any(x['t'].startswith('（小聲）') for x in stair), J([[x['who'], x['t']] for x in stair if x['t'].startswith('（小聲）')]))
+            pre = [x for x in says[:idx[0]] if x['k'] == 'say' and x['who']] if idx[0] > 0 else []
+            R.note('%s 樓梯間以前有名字的句子（看（小聲））：%s' % (tag, J([[x['who'], x['t']] for x in pre])))
+            R.check('%s walkFallbacks 0、沒有卡住（busy false）' % tag, wf == 0 and not endp['busy'], J(endp))
+        else:
+            R.check('%s 不走樓梯間（沒有 quietMove 的句子）' % tag, not QM or not any(t in txt for t in QM['open'] + [QM['replaceFirst']['to']] + QM['close']), '')
     R.check('%s 第 6 拍演了（「我今天寫錯一題我上個月就會的。我很不爽我自己。」）' % tag, '我今天寫錯一題我上個月就會的。我很不爽我自己。' in txt, J(txt[:8]))
     R.check('%s 選到綠茶（support）' % tag, any('綠茶' in p for p in m['picked']), J(m['picked']))
     ex = (s2['decide'] or {}).get('exam')
