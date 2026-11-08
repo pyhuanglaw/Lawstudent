@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "P6_cold_campus_f3",
+  "sha": "6da721819b8d351fe12e0b848ca7e06f52553819",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_overlay_run.py",
+  "env": "RUN=perf_cold_probe.py;OVERLAY_SHA=6da721819b8d351fe12e0b848ca7e06f52553819;URL_SUFFIX=?fixlights=3;ZONES=campus;VARIANTS=base;PERSIST=1;COLD=12;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T09:18:21",
+  "end": "2026-11-08T09:20:36",
+  "seconds": 135,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 71,
+    "mem": 58,
+    "used_gb": 18.4,
+    "chrome_testing": 8
+  }
+}
