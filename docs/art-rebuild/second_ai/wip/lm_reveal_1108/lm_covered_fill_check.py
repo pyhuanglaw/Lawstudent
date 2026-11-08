@@ -7,10 +7,9 @@
 import os, sys, glob
 import numpy as np
 from PIL import Image
-from scipy import ndimage
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 sys.path.insert(0, os.path.join(ROOT, 'tools/blender/env_second/lightbake'))
-from lm_fill_covered import covered   # noqa: E402
+from lm_fill_covered import covered, dilate   # noqa: E402（不用 scipy）
 A = os.path.join(ROOT, 'assets/models/env/second_ai/')
 fails = 0
 for r in ['library_b1', 'library_carrels', 'linze_5f', 'gym_b1', 'us_apartment', 'us_shared']:
@@ -22,7 +21,7 @@ for r in ['library_b1', 'library_carrels', 'linze_5f', 'gym_b1', 'us_apartment',
         L = np.asarray(Image.open(p).convert('L'), dtype=np.float32)
         a = b = 0.0
         for o in np.unique(objmap[cov]):
-            c = cov & (objmap == o); ring = ndimage.binary_dilation(c, iterations=3) & ~cov & (objmap == o)
+            c = cov & (objmap == o); ring = dilate(c, 3) & ~cov & (objmap == o)
             if not ring.any(): continue
             a += L[c].sum(); b += L[ring].mean() * c.sum()
         n = cov.sum(); ca, ra = a / max(n, 1), b / max(n, 1)

@@ -16,13 +16,20 @@
 import sys, os, json
 import numpy as np
 from PIL import Image
-from scipy import ndimage
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lm_fade_reveal_check import scene   # noqa: E402
 
 
 def opt(name, d):
     return type(d)(sys.argv[sys.argv.index(name) + 1]) if name in sys.argv else d
+
+
+def dilate(m, n):
+    """二值遮罩往外擴 n 格（十字形鄰格，和 scipy 的 binary_dilation 預設一樣；不用 scipy：CC、LAWWW 的環境不一定有）"""
+    m = m.copy()
+    for _ in range(n):
+        r = m.copy(); r[1:] |= m[:-1]; r[:-1] |= m[1:]; r[:, 1:] |= m[:, :-1]; r[:, :-1] |= m[:, 1:]; m = r
+    return m
 
 
 def hits(P, d, tris, eps=1e-9):
@@ -120,7 +127,7 @@ def main():
             sel = todo & (objmap == ri); src = owned & ~cov & (objmap == ri)
             for im, o0 in zip(outs, imgs): im[sel] = np.median(o0[src], axis=0) if src.any() else np.median(o0[owned & ~cov], axis=0)
     # 留邊：補過的格子附近 4 格內、不屬於任何網格的格子，從屬於網格的格子重新往外擴
-    near = ndimage.binary_dilation(cov, iterations=4) & ~owned
+    near = dilate(cov, 4) & ~owned
     have = owned.copy()
     for _ in range(4):
         acc = [np.zeros_like(im) for im in imgs]; cnt = np.zeros((H, W), np.float32)
