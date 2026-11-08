@@ -6,16 +6,17 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-08 03:5x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-08 05:1x UTC，帳號 B LAWWW2-B）
 
 分支 `claude/funny-albattani-iawshm` 最新 `c2e6f4633`；開發分支 `claude/modest-rubin-2lyp7g` 最新 `f7c6380d7`（LAWWW-B 02:08 `bba757532` 把總圖 B1、研究小間退回原檔，等重烘）。瀏覽器都沒跑（D131，交 CC）。
-工作樹只留 `$S/wt_dev`（開發 df95b5042＋光照第二級七間＋測試＋xs_lm_1108 的三個 src 檔）；`$S/devnow` 02:3x 刪了（磁碟剩 2 GB；文字改動先存 `$S/devnow_text_changes_1108.patch`），現在剩 4.5 GB。
+工作樹只留 `$S/wt_dev`（05:0x 照 LAWWW-B 建議重建在開發最新 `838db8710`＋xs_lm_1108.patch＋兩支新測試）；`$S/devnow` 02:3x 刪了（磁碟剩 2 GB；文字改動先存 `$S/devnow_text_changes_1108.patch`），現在剩 4.5 GB。
 
 | 項目 | 狀態 | 位置 |
 |---|---|---|
-| **LM-PARTITION-1108**（BB-B 01:46 L5FLM 白牆＝烘焙工具 bug：隔間牆背面被壓成一點） | 工具 `eb857ec65`。**第一批 B1、研究小間已交 LAWWW-B（`14ef1ff10`，03:5x，P1 等 ACK）**：背面「整片一個值」B1 54%→0%（不算關著的國際會議廳）、研究小間 25%→0%；18 支 Node 過；B1 是 ART_APPROVED 4.1 版、已請 BB-B 再看（DELIVERED）。**第二批跑中**（`$S/chain2_part.sh`，背景 bb2eacj8e，03:47 起）：5F 512 → 體育館 B1 256 → 美國公寓 256 → 合租戶 256 → partition 檢查 → 多媒體中心 512；改前數字已量（背面整片一個值 5F 98%、體育館 B1 75%、公寓 34%、合租戶 44%；舊檔 `$S/part_before2/`、`$S/part_old/`） | `wip/lm_partition_1108/`；`lm_partition_stats.py` |
-| **BB-B PC GPU 第 1 點：library_media 洞洞板浮空** | 原因兩個：①看到天空＝CC 拍照工具少 `hideFaded`（01:59 已告訴 BB-B）；②**洞洞板浮空＝模型**：洞洞板、耳機、掛勾在整間合併的 props／metal 裡，不跟南牆淡出。`library_media.py` 改成 `WALL_S_pegprops`／`WALL_S_pegmetal`（`5bec6898f`），白模 `$S/media_plain/`；新測試 `library_media_peg_unit.js` 開發原樣 FAILED 2 → 新白模 ALL PASS（`6db8a3bd0`）。**光照要重烘**：`INDIR=$S/media_plain bash bake_rooms_ab3.sh 512 library_media`（排在第二條鏈後面），烘好再交 | `wip/media_peg_1108/` |
-| **光照第二級最後一組：新生南路 8 區**（任務 #200） | `bake_xs.sh`＋`xs_lm_1108.patch`＋`xs_lm_unit.js`（`b1fc8fca8`、`279603b1c`）。冒煙測試（4 取樣，`$S/xs_try/`）9 個模型都烘得出來、`xs_lm_unit` ALL PASS（拿掉 patch FAILED 4）；`glb_fix_instnames.py --match`（大口二樓、大步的 instancing 名字照原檔）。燈照冒煙亮度調過；南洋兩間 16 取樣：1 廳 0.21、大廳晚上 0.28。**下一步：第二批烘完後 512 正式烘**（9 個，分兩條鏈，各 < 2 小時） | `wip/xs_lm_1108/` |
+| **LM-PARTITION-1108** | **兩批都整合了**：第一批 B1、研究小間 `14ef1ff10`→開發 `3fb01c8d6`；第二批 5F、體育館 B1、美國公寓、合租戶 `63b636735`→開發 `c435933a6`（132 支過）。背面「整片一個值」98→1%、75→1%、34→0%、44→22%（合租戶剩關著的房間）。等 CC 拍、BB-B 判 | `wip/lm_partition_1108/` |
+| BB-B PC GPU 第 1 點：library_media 洞洞板 | **已整合**（`ce18ef1f4`→開發 `23c5d852a`，74 支過）；等 CC 補 hideFaded 重拍 AB3LM media | `wip/media_peg_1108/` |
+| **光照第二級最後一組：新生南路 8 區**（任務 #200） | 腳本、patch、測試 `b1fc8fca8`／`279603b1c`；冒煙測試 ALL PASS。**512 正式烘焙 05:03 起分三條鏈**（`$S/chain3.sh`，紀錄 `$S/xs_final/`）：①大口 1F／2F、南洋大廳、南洋 1 廳 → ②好拍、同弦、新生運動 → ③大步、山嵐；每條 < 2 小時。烘完：亮度、`xs_lm_unit`（工作樹＝開發最新）、glbdiff、README（檔案清單＋sha256）→ 交 LAWWW-B | `wip/xs_lm_1108/` |
+| P3 PERF-WZ-DAY-1108 | CC-B 量過不是陰影；下一個懷疑白天 NPC 多；排在美術後面 | `wip/perf_wz_day_1108/` |
 | **BB-B 00:04 溫州街六間光照判定（WZ6_LM_cloud；cc-testing 9c115cd9d9）**：功能 PASS；畫面三點 | ③ 晚上 lightMap 欄位是 *_lm_day＝**刻意**（晚上那張在 shader 的 lmNight，lmMixAt 混合）；② 日常失速窗景洗白＝**不是烘焙**（窗景卡、玻璃材質原檔＝烘好的；截圖窗區平均差 3.4／255；「霧面」是窗景照片裡對面的素面水泥牆）；① **一盞店門口木地板灰藍＝光照貼圖**（白天店門口藍／紅 1.34～1.39，其他四間 1.09～1.20：緣側整片開口、沒有太陽、只吃藍天光）→ bake_room.py 加 `--skytint`（只乘白天天光，燈不動；沒給＝原樣），一盞試烘中，之後 512 重烘交 LAWWW-B、請 CC 重拍 14:00 door／clerk。已回 BB-B 兩則（DELIVERED） | bake_room.py（未 commit，等試烘）；bake_gg_new.sh 的修改備好在 `$S/bake_gg_new.next.sh`（一盞用原檔 blob 33ba0087＋SKYTINT；已烘過的檔當輸入會擋下來）——**公館四間跑完才換上** |
 | 光照第二級②：研究小間 | **512 正式版 push** `be46b8878`：0.35／0.30、library_lm2_unit 研究小間全過 | — |
 | 光照第二級②：5F 書庫 | **512 正式版 push** `60c63348f`：0.41／0.37、library_lm2_unit 三間 ALL PASS（工作樹 eacc5837d） | — |
