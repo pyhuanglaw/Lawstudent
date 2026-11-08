@@ -51,7 +51,7 @@ async def main():
         run.setup('【捷徑】手機小事輪替位置 dpLast＝前一則（%s），今天輪到 %s' % (r['dpLast'], c['dp']))
         await P.wait_hour(pg, cdp, c['wait'], max_s=900)
         hh = await pg.evaluate('+GAME.G.hour.toFixed(2)')
-        run.check('[前置] 遊戲時間等到 %.2f 以後（她傳訊息的時間之後）' % c['wait'], hh >= c['wait'] - 0.05, hh)
+        run.check('[前置] 遊戲時間等到 %.2f 以後（她傳訊息的時間之後）' % c['wait'], hh >= c['wait'] - 0.05, J(hh))
         th = await P.phone_thread(pg, cdp, 'p:' + c['who'])
         txt = th.get('text') or ''; asks = [a['t'] for a in th.get('asks', [])]
         print('[THREAD]', J(txt[-500:], 700)); print('[ASKS]', J(asks))
