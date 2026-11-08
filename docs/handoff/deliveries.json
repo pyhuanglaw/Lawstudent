@@ -18528,6 +18528,20 @@
    "integration": "已驗收",
    "note": "23c5d852a：README 列的檔＋腳本 5bec6898f＋tests/library_media_peg_unit.js（原檔 FAIL 2）；74 支 ALL PASS；交 BB-B 看（CC 拍照工具要做 hideFaded，01:59 LAWWW2 已告訴 BB-B）；BB-B 05:12 FIXED（雲端 SwiftShader：鏡頭在南牆外洞洞板一起藏、在房間裡照樣在牆上；ART_APPROVED 照舊 01:46 PC GPU）",
    "ack": "ACK"
+  },
+  {
+   "id": "DLV-1108-L2-PARTFADE",
+   "date": "2026-11-08",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "0c49eb7a7",
+   "msg": "ACK",
+   "what": "隔間牆零件跟主牆一起淡出（六間 glb extras at）",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "7206a12de：六個 glb（sha256 和 README 一致）＋glb_partition_at.py＋tests/partition_fade_group_unit.js（原檔 FAILED 6）；142 支 ALL PASS；交 BB-B 重拍 B1 入口",
+   "ack": "ACK"
   }
  ],
  "ignored": [
