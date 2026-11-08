@@ -18597,6 +18597,19 @@
    "task": "INTERIOR-AAA-REVIEW-1028",
    "integration": "已整合待測試",
    "note": "sha256 開發原檔 d6ac021b／5678dc11／218e552b、新檔 e2e8bf0b／5242af84／78e4182d 都和 README 一致；只拿 README 列的檔；regions_check 開發原樣 FAILED 9（LAWWW2 量）→ ALL PASS；不用改程式。"
+  },
+  {
+   "id": "DLV-1108-L2-BAKERESUME",
+   "date": "2026-11-08",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "c29fd2654",
+   "msg": "ACK",
+   "what": "bake_room.py 續烘 patch（BAKE_CACHE／BAKE_STOP_AFTER；大房間 512 取樣單次超過雲端兩小時上限）＋回歸 bake_room_resume_check.sh",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合",
+   "note": "git apply --check 過（基準 4429bc93d）；只改烘白天、晚上兩行（bake→cbake），沒設環境變數＝直接呼叫 bake。LAWWW-B 在這台雲端跑回歸：內容檢查全 PASS（沒設變數 GLB／兩張 PNG 逐位元組一樣、紀錄只差 bake_seconds、STOP_AFTER=day cache 只有白天、續烘＝一次跑完逐位元組一樣、參數改過不用舊 cache）；結束碼三項 FAIL＝這台機器 Blender 烘完結束時 segfault（rc 139，開發原本的 bake_room.py 一樣，輸出都寫完了），LAWWW2 那台 rc 0／3。工具，不影響遊戲。"
   }
  ],
  "ignored": [

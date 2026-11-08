@@ -506,8 +506,31 @@ def save(px, path):
 WB = {k: [float(t) for t in arg('--' + k + 'wb').split(',')] if arg('--' + k + 'wb') else None for k in ('day', 'night')}
 def wb(px, k): return px * np.array(WB[k], dtype=np.float32)[None, None, :] if WB[k] else px
 os.makedirs(os.path.dirname(os.path.abspath(LM)), exist_ok=True)
-day = bake('day', SKY, SUN[2], 1.0, DAYL); save(knee(dayscale(wb(day, 'day'))), LM + '_day.png')
-night = bake('night', NIGHTSKY, 0.0, 1.0); save(wb(night, 'night'), LM + '_night.png')
+# 續烘（11-08 LAWWW2-B，總圖 B1：512 取樣、1024 貼圖、350 盞面光源，一張要 65 分鐘，白天＋晚上超過雲端背景工作兩小時的上限，晚上那張烘到一半被停掉兩次）：
+#   環境變數 BAKE_CACHE＝資料夾：每烘完一張，原始值存成 <資料夾>/<day|night>.npy，旁邊 .sha＝這一次的「輸入檔＋參數（--lm、--out 除外）＋光照 UV」雜湊；
+#   下一次跑同一個指令，雜湊一樣就直接讀、不重烘（UV 排版不一樣、參數改過就照樣重烘）。BAKE_STOP_AFTER＝day：白天那張存好就結束（exit 3），下一次再跑晚上。
+#   沒設這兩個變數和原本完全一樣。
+CACHE = os.environ.get('BAKE_CACHE'); STOP_AFTER = os.environ.get('BAKE_STOP_AFTER'); UVSHA = None
+if CACHE:
+    import hashlib
+    os.makedirs(CACHE, exist_ok=True); _h = hashlib.sha256(open(IN, 'rb').read())
+    _h.update('\0'.join(v for i, v in enumerate(A) if not (i and A[i - 1] in ('--lm', '--out', '--in'))).encode())
+    for o in objs:
+        _uvd = o.data.uv_layers['LM'].data; _a = np.empty(len(_uvd) * 2, dtype=np.float32); _uvd.foreach_get('uv', _a)
+        _h.update(o.name.encode()); _h.update(_a.tobytes())
+    UVSHA = _h.hexdigest(); print('BAKE_CACHE', CACHE, 'sha', UVSHA[:12], flush=True)
+def cbake(tag, *a):
+    f = os.path.join(CACHE, tag + '.npy') if CACHE else None
+    if f and os.path.exists(f):
+        if open(f[:-4] + '.sha').read().strip() == UVSHA:
+            px = np.load(f); print(tag, 'from cache', f, 'lm mean', float(px.mean()), 'p99', float(np.percentile(px, 99)), flush=True); return px
+        print(tag, 'cache 不能用（雜湊不一樣）：重烘', flush=True)
+    px = bake(tag, *a)
+    if f: np.save(f, px); open(f[:-4] + '.sha', 'w').write(UVSHA); print(tag, 'cached', f, flush=True)
+    if STOP_AFTER == tag: print('BAKE_STOP_AFTER', tag, flush=True); sys.exit(3)
+    return px
+day = cbake('day', SKY, SUN[2], 1.0, DAYL); save(knee(dayscale(wb(day, 'day'))), LM + '_day.png')
+night = cbake('night', NIGHTSKY, 0.0, 1.0); save(wb(night, 'night'), LM + '_night.png')
 # 第三張「熄燈」（--dark；宿舍睡覺 DORM-SLEEP-VISUAL-1030，使用者 10-30「睡覺要真的有畫面」）：室內的燈（--lights、--points）全關、所有發光材質（燈管、燈條、螢幕）也關，
 # 只剩夜空（--darksky，預設 --nightsky 的 1.5 倍）＋窗外的路燈（--darkpoints x,y,z,W[,r,g,b];…，只在這一張）。遊戲：Z3.roomLightmap 的 z.lightsOff(0～1) 從晚上那張換到這張
 DARK = None
