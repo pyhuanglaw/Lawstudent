@@ -31,10 +31,10 @@ AUTO = r"""(()=>{ const E=GAME.E, z=E.zone, P=E.player.obj.position, yaw=E.playe
   const cl=(E.npcs||[]).find(n=>n&&(n.clerk||n.staff)&&n.obj); const fy=cl?+cl.obj.position.y:y0; const up=fy-y0>1;   /* 店在樓上（木曜日：出生點在樓梯口 y 1.2，店 y 3.2）：店內機位用店員那一層 */
   V.door=up?{eye:r2([c.x,fy+1.6,c.z+sz.z*0.35]), look:r2([c.x,fy+1.0,c.z-sz.z*0.4]), lens:18}:{eye:r2([P.x-fx*0.3,y0+1.6,P.z-fz*0.3]), look:r2([P.x+fx*6,y0+1.0,P.z+fz*6]), lens:18};
   V.top={eye:r2([c.x,Math.max(7,sz.y+5),c.z+0.8]), look:r2([c.x,0,c.z-0.3]), lens:16};
-  const seat=E.interactables.find(i=>i.seat&&!i.hidden&&(!up||Math.abs((+i.seat.y||0)-fy)<0.8))||E.interactables.find(i=>i.seat&&!i.hidden); if(seat){ const sx=seat.seat.x, sz2=seat.seat.z; const sy=seat.seat.y!=null?+seat.seat.y:y0; V.seat={eye:r2([sx+(c.x-sx)*0.35+0.4,sy+1.4,sz2+(c.z-sz2)*0.35+0.4]), look:r2([sx,sy+0.6,sz2]), lens:22}; }
+  const onUp=i=>(i.seat.lv|0)>=1||(i.lv|0)>=1||(i.seat.y!=null&&Math.abs(+i.seat.y-fy)<0.8); const seat=E.interactables.find(i=>i.seat&&!i.hidden&&(!up||onUp(i)))||E.interactables.find(i=>i.seat&&!i.hidden); if(seat){ const sx=seat.seat.x, sz2=seat.seat.z; const sy=seat.seat.y!=null?+seat.seat.y:(up&&onUp(seat)?fy:y0); V.seat={eye:r2([sx+(c.x-sx)*0.35+0.4,sy+1.4,sz2+(c.z-sz2)*0.35+0.4]), look:r2([sx,sy+0.6,sz2]), lens:22}; }
   if(cl){ const q=cl.obj.position; const dx=c.x-q.x, dz=c.z-q.z, d=Math.hypot(dx,dz)||1; const qy=+q.y||0; V.clerk={eye:r2([q.x+dx/d*2.2,qy+1.6,q.z+dz/d*2.2]), look:r2([q.x,qy+1.2,q.z]), lens:24}; }
   V.out=up?{eye:r2([c.x,fy+1.55,c.z-sz.z*0.2]), look:r2([c.x,fy+1.4,c.z+sz.z*0.6]), lens:20}:{eye:r2([P.x+fx*2.5,y0+1.55,P.z+fz*2.5]), look:r2([P.x-fx*6,y0+1.4,P.z-fz*6]), lens:20};
-  return {spawn:r2([P.x,P.z]), y0:+y0.toFixed(2), fy:+fy.toFixed(2), up, yaw:+yaw.toFixed(2), center:r2([c.x,c.z]), size:r2([sz.x,sz.y,sz.z]), clerk:cl?r2([cl.obj.position.x,cl.obj.position.z]):null, seat:seat?r2([seat.seat.x,seat.seat.z]):null, views:V}; })()"""
+  return {spawn:r2([P.x,P.z]), y0:+y0.toFixed(2), fy:+fy.toFixed(2), up, yaw:+yaw.toFixed(2), center:r2([c.x,c.z]), size:r2([sz.x,sz.y,sz.z]), clerk:cl?r2([cl.obj.position.x,cl.obj.position.z]):null, seat:seat?r2([seat.seat.x,seat.seat.z]):null, seatLv:seat?[seat.seat.lv,seat.lv,seat.seat.y]:null, views:V}; })()"""
 INFO = r"""(()=>{ const z=GAME.E.zone; let n=0, lm=0, uv1=0, white=0, meshes=0; const maps=new Set(), views=[];
   z.group.traverse(o=>{ if(/VIEW/i.test(o.name||'')) views.push({n:o.name, vis:o.visible}); if(!o.isMesh) return; meshes++; if(o.geometry&&o.geometry.attributes&&o.geometry.attributes.uv1) uv1++;
     for(const m of [].concat(o.material)){ if(!m) continue; n++; if(m.lightMap){ lm++; maps.add(((m.lightMap.image&&(m.lightMap.image.currentSrc||m.lightMap.image.src))||m.lightMap.name||'?').split('/').pop()); }
@@ -74,7 +74,9 @@ async def main():
                             av = await pg.evaluate(AUTO); R.note('%s 自動機位：%s' % (tag, J(av)))
                             views = [(k, v['eye'], v['look'], v['lens']) for k, v in av['views'].items()]
                             r['auto'] = av
-                        for nm, eye, look, lens in views:
+                        ex = [e.split('|') for e in (os.environ.get('EXTRA') or '').split(';') if e.count('|') == 4]   # EXTRA＝part|名字|ex,ey,ez|lx,ly,lz|lens;…（加拍的固定機位，例：總圖 B1 中庭往上看）
+                        xv = [(e[1], [float(v) for v in e[2].split(',')], [float(v) for v in e[3].split(',')], float(e[4])) for e in ex if e[0] == part]
+                        for nm, eye, look, lens in list(views) + xv:
                             r[nm] = await D.user_shot(pg, cdp, 's5_%s_%s_%s_%s' % (TAG, part, tn, nm), {'eye': eye, 'look': look, 'lens': lens})
                     except Exception as ex: R.check('%s 探針沒有例外' % tag, False, repr(ex)[:300])
             R.check('沒有 JS 例外', not errs, J(errs[:3]))
