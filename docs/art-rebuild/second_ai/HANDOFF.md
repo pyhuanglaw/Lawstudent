@@ -8,7 +8,7 @@
 
 ## 🔁 交班（2026-11-08 20:5x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
 
-分支 `claude/funny-albattani-iawshm`，交班前最後一筆 `191df62aa`（已 push、遠端核對）；開發 `claude/modest-rubin-2lyp7g` 交班時 `552e09ec6`。
+分支 `claude/funny-albattani-iawshm`，交班前最後一筆 `191df62aa`（已 push、遠端核對）；開發 `claude/modest-rubin-2lyp7g` 交班時 `de622db20`。
 沒有在跑的烘焙、測試；工作樹乾淨。沒有只在本機、沒推上去的成果（scratch 的 `wt_b1` 只是開發分支的乾淨工作樹，可以刪）。
 
 ### A. 這一班完成、已整合（全部 BB-B ART_APPROVED，PC GPU）
