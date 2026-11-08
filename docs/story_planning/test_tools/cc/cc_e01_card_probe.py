@@ -21,7 +21,7 @@ HOOK = r"""(()=>{ if(window.__ccE01) return; window.__ccE01=1; window.__said=[];
     return {fadeOn:!!(f&&f.classList.contains('on')), fadeOp:f?+getComputedStyle(f).opacity:null, fadePE:f?getComputedStyle(f).pointerEvents:null, t3:t?+getComputedStyle(t).opacity:null, t3txt:t?(t.innerText||'').trim().slice(0,30):null,
       gz:GAME.G?GAME.G.zone:null, ez:zid, phone:!!(ph&&!ph.classList.contains('hide')), h:GAME.G?+(+GAME.G.hour).toFixed(2):null, ms:Math.round(performance.now())}; };
   window.__ccSnap=snap;
-  const wrap=()=>{ if(typeof GAME==='undefined'||!GAME.say||GAME.say.__cc) return false; const o=GAME.say; const w=function(who,t){ try{ const e=Object.assign({who:who?(typeof who==='string'?who:(who.name||'')):'', t:String(t||'')},snap()), L=window.__said, p=L[L.length-1]; if(!(p&&p.t===e.t&&Math.abs(p.ms-e.ms)<5)) L.push(e); }catch(e){}   /* 遊戲之後又包了一層 GAME.say（例 LIBQ）時這裡會包兩層：同一句同一刻只記一次 */ return o.apply(this,arguments); }; w.__cc=1; GAME.say=w; return true; };
+  const wrap=()=>{ if(typeof GAME==='undefined'||!GAME.say||GAME.say.__cc) return false; const o=GAME.say; const w=function(who,t){ try{ const e=Object.assign({who:who?(typeof who==='string'?who:(who.name||'')):'', t:String(t||'')},snap()), L=window.__said, p=L[L.length-1]; if(!(p&&p.t===e.t&&Math.abs(p.ms-e.ms)<5)){ L.push(e); setTimeout(()=>{ try{ const f=document.getElementById('fade'); e.fadeOp500=f?+getComputedStyle(f).opacity:null; e.fadeOn500=!!(f&&f.classList.contains('on')); }catch(_){} },500); } }catch(e){}   /* BB-B 05:45：第一句後 500 ms 的 fade opacity（0＝淡出完成）*/   /* 遊戲之後又包了一層 GAME.say（例 LIBQ）時這裡會包兩層：同一句同一刻只記一次 */ return o.apply(this,arguments); }; w.__cc=1; GAME.say=w; return true; };
   const iv=setInterval(()=>{ wrap(); try{ const ph=document.getElementById('phone'); if(ph&&!ph.classList.contains('hide')&&typeof GAME!=='undefined'&&GAME.G&&GAME.G.flags&&!GAME.G.flags.E01_DONE&&!(window.__said||[]).some(x=>x.t.indexOf('開學前一天')===0)) window.__phoneSeen.push(snap()); }catch(e){} }, 50); })()"""
 
 
@@ -67,6 +67,7 @@ async def one(p, k, rec):
         R.note('%s 字卡那段手機自己跳出來：%d 次 %s；結束 %s；選項 %s' % (tag, len(ph), J(ph[:3]), J(st), J([x for x in log if x.startswith('▶')])))
         x = first[0] if first else {}
         R.check('%s 第一句出來時 #fade 沒有 on、字卡 opacity 0、在 dorm' % tag, bool(first) and not x['fadeOn'] and (x['t3'] in (0, None)) and x['gz'] == 'dorm', J(x))
+        R.check('%s 第一句後 500 ms #fade opacity 0（淡出完成）' % tag, bool(first) and first[0].get('fadeOp500') == 0, J({k: x.get(k) for k in ('fadeOp', 'fadeOp500', 'fadeOn500')}))
         R.check('%s 第一句只出現一次（沒有重演）' % tag, len(first) == 1, str(len(first)))
         R.check('%s fade_block＝0' % tag, fade_block == 0, str(fade_block))
         R.check('%s 睡到 9/2、阿勳那一句（E01_MORNING）' % tag, st['morning'] and st['key'] >= '2024-09-02', J(st))
