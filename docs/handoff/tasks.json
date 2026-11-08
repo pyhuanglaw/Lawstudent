@@ -50121,6 +50121,32 @@
    },
    "notWaitUser": "使用者已經說了要什麼（11-08 15:2x「送飲料只需要給可攻略的對象」）；等的是 AA-B 改 AA_728 的範圍、LAWWW 照做，不是等使用者",
    "evidence": "tests/gift_friends_unit.js 0b（舊程式 FAIL 3）；BB-B 16:26 GO（BB_255 bfa3f2852：瀏覽器 pt1108n、舊 gift3d.js 對照 FAIL）；33127181b；v9.10.23 main 3a34dbaa5"
+  },
+  {
+   "id": "UX-TITLE-LANDSCAPE-1108",
+   "title": "標題畫面在手機橫向最下面被裁（iPhone SE「讀取／匯入存檔」只露半截、14／14 Pro Max 版本字樣在畫面外）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "手機橫向開遊戲的標題畫面",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 18:3x LAWWW-B】BB-B 18:22（BB_255 8a33abb98）。index.html：@media (max-height:420px) 標題卡片收緊——h1 26px、副標題 6px、兩個「開始」一列、「繼續」「讀取」一列（各半寬）、聲明 11px、版本字樣固定右下角小字；高螢幕不變。交 BB-B：CC 用 iPhone SE／14／14 Pro Max 橫向重拍比對。下一版（D99 後面）。",
+   "xai": {
+    "spec": "BB-B 11-08 18:22",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "三種裝置橫向：三個按鈕＋虛構聲明不捲就看得到、版本字樣看得到；按鈕 44px 以上",
+    "receiver": "BB（測）",
+    "ack": "ACK",
+    "owner": "LAWWW"
+   }
   }
  ]
 }

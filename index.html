@@ -139,6 +139,18 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 #titleScreen h1{font-family:var(--serif);font-size:38px;letter-spacing:.2em;margin:0 0 4px;color:#f4efe6}
 #titleScreen .sub{font-size:13px;letter-spacing:.35em;color:var(--accent);margin-bottom:26px}
 #titleScreen .btn{width:min(320px,100%);margin:5px auto;display:block}
+/* 矮螢幕（手機橫向：iPhone SE 568×320、14 是 750×340）標題卡片收緊：兩個「開始」、「繼續」「讀取」各排成一列兩個，三個按鈕＋虛構聲明不捲就看得到；版本字樣改右下角小字（UX-TITLE-LANDSCAPE-1108，BB-B 11-08 18:22）*/
+@media (max-height:420px){
+#titleScreen .card{display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;column-gap:8px;padding:8px 12px}
+#titleScreen .card>*{flex:0 0 100%}
+#titleScreen h1{font-size:26px;letter-spacing:.15em;margin:0}
+#titleScreen .sub{font-size:11px;letter-spacing:.25em;margin-bottom:6px}
+#titleScreen .card>.row2{margin-bottom:4px!important}
+#titleScreen .card>.btn{flex:0 0 calc(50% - 8px);max-width:300px;width:auto;margin:3px 0;padding-top:6px;padding-bottom:6px}
+#titleScreen .card>.btn small{font-size:10px!important}
+#titleScreen .card>.muted{margin-top:6px!important;font-size:11px!important}
+#titleScreen #verLabel{position:fixed;right:10px;bottom:calc(4px + env(safe-area-inset-bottom));margin:0!important;flex:none}
+}
 #rotate{position:absolute;inset:0;background:rgba(10,12,16,.92);display:none;align-items:center;justify-content:center;text-align:center;padding:24px;font-size:15px;line-height:1.7}
 
 #loading{position:absolute;inset:0;background:#0d1016;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-size:14px;color:#e8e2d6}
