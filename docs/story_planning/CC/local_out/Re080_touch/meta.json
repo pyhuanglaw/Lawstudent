@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "Re080_touch",
+  "sha": "e0803ca0dfa57bbc8dabb689b54545905a5f85b7",
+  "kind": "game",
+  "script": "tests/touch_flow_wenzhou.py",
+  "env": "SOLO=1;XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T16:08:29",
+  "end": "2026-11-08T16:11:41",
+  "seconds": 192,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "12",
+  "url": "http://127.0.0.1:8800/index.html?turbo",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 10,
+    "mem": 43,
+    "used_gb": 13.8,
+    "chrome_testing": 5
+  }
+}

@@ -2054,3 +2054,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 74.6s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 74.6s] BROWSER DISCONNECTED
 - 2026-11-08T16:08:21  Re080_v0_to1017  sha=e0803ca0dfa57bbc8dabb689b54545905a5f85b7  exit=0  570s    PASS 黑幕沒有擋住對話  0 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 535.1s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 535.1s] BROWSER DISCONNECTED
+- 2026-11-08T16:11:41  Re080_touch  sha=e0803ca0dfa57bbc8dabb689b54545905a5f85b7  exit=0  192s    PASS 讀檔後可以走  9.61 / PASS 沒有 JS 例外 / ALL PASS
+      err.log (last 5): [gpu_wrap 157.3s] page close url=http://127.0.0.1:8800/index.html?turbo&turbo | [gpu_wrap 157.4s] BROWSER DISCONNECTED
