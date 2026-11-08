@@ -27,7 +27,7 @@ SLOT_IDS = [s for s in os.environ.get('SLOTS', 'day,night,rain').split(',') if s
 for _s in os.environ.get('SLOTS', '').split(','):   # CC-B 11-08：hHHMM＝那個時刻、晴（例 h1400、h1930），照營業時間量
     if len(_s) == 5 and _s[0] == 'h' and _s[1:].isdigit(): SLOTS[_s] = (int(_s[1:3]) + int(_s[3:]) / 60, 'sunny'); SLOT_IDS.append(_s)
 ZSLOTS = {}   # ZSLOTS＝zone:slot+slot;zone:slot…（每一區自己的時段；有寫的區只量這些）
-for _e in os.environ.get('ZSLOTS', '').split(';'):
+for _e in os.environ.get('ZSLOTS', '').replace('/', ';').split(';'):   # 佇列的 ENV 用 ; 分欄：區與區之間用 / 
     if ':' in _e:
         _z, _l = _e.split(':', 1); ZSLOTS[_z] = [x for x in _l.split('+') if x]
         for _s in ZSLOTS[_z]:
