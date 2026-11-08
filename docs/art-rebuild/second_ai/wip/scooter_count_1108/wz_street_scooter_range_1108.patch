@@ -1,0 +1,18 @@
+diff --git a/tests/wz_street_integration.py b/tests/wz_street_integration.py
+index 6e7a8c639..3f792fc08 100644
+--- a/tests/wz_street_integration.py
++++ b/tests/wz_street_integration.py
+@@ -124,9 +124,11 @@ async def check(pg, run, formal):
+             const paint=ims.filter(m=>m.material.name==='scooter_paint'); const c=new THREE.Color(), glbCols=new Set(); for(const m of paint) for(let i=0;i<m.count;i++){ m.getColorAt(i,c); glbCols.add(c.getHexString()); }
+             return Object.assign(r,{instanced:ims.length, paintInstances:paint.reduce((a,m)=>a+m.count,0), colors:[...glbCols].length, hasColor:paint.every(m=>!!m.instanceColor)}); })()""")
+         if sc.get('lods'):
+-            run.check('機車（v2 多車型）：套件機車整組藏起來、換成正式模型（台數相同、至少 6 款、至少 5 種車殼顏色、每段近／遠兩層）', sc['kitHidden'] is True and sc['kitScooters'] > 30 and sc['placed'] == sc['kitScooters'] and sc['kinds'] >= 6 and sc['colors'] >= 5 and sc['levelsOK'] is True, json.dumps(sc, ensure_ascii=False))
++            # 台數不固定（LAWWW2-B 11-08，BB-B WZINTEG）：溫州街每個停車格 15% 機率空著（zones3d.js scRow 的 TK.rnd()<0.15），TK.rnd 是全遊戲共用的一條亂數，
++            #   進溫州街之前建過什麼，抽到的就不一樣（讀檔進來 28 台、Node 直接建 32 台，停滿 35 台；款、色照每台的位置算，跟著變）→ 台數 24～35、款 ≥ 7、色 ≥ 15
++            run.check('機車（v2 多車型）：套件機車整組藏起來、換成正式模型（台數相同且 24～35、至少 7 款、至少 15 種車殼顏色、每段近／遠兩層）', sc['kitHidden'] is True and 24 <= sc['kitScooters'] <= 35 and sc['placed'] == sc['kitScooters'] and sc['kinds'] >= 7 and sc['colors'] >= 15 and sc['levelsOK'] is True, json.dumps(sc, ensure_ascii=False))
+         else:
+-            run.check('機車：套件機車整組藏起來、換成 InstancedMesh（台數相同、車殼有每台的顏色）', sc['kitHidden'] is True and sc['kitScooters'] > 30 and sc['paintInstances'] == sc['kitScooters'] and sc['hasColor'] and sc['colors'] >= 5, json.dumps(sc))
++            run.check('機車：套件機車整組藏起來、換成 InstancedMesh（台數相同、車殼有每台的顏色）', sc['kitHidden'] is True and 24 <= sc['kitScooters'] <= 35 and sc['paintInstances'] == sc['kitScooters'] and sc['hasColor'] and sc['colors'] >= 5, json.dumps(sc))
+         # 自我檢查：把一棟套件公寓的外觀打開，「套件外觀全部藏起來」的檢查必須看得出來
+         neg = await pg.evaluate("""(()=>{ const b=GAME.E.zone.group.children.find(o=>o.userData&&o.userData.wzApt==='B5'); const m=b.children.find(o=>o.isMesh); m.visible=true;
+             const n=b.children.filter(o=>(o.isMesh||o.isSprite)&&o.visible).length; m.visible=false; return n; })()""")

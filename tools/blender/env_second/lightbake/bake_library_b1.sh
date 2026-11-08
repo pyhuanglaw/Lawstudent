@@ -26,8 +26,25 @@ git cat-file -p 87f1da5e2805d0109c1d5bcaf7ffd37cf670f33b > "$PLAIN"
 HIDE='glass|frost'
 NOLM="^(?!(library_b1_floorm|library_b1_ceiling|library_b1_columns|library_b1_woodpanels|WALL_[A-Z0-9]+_(wall|wain|woodwain))\$)"
 COL=${LCOL:-0.95,0.98,1.0}
-LIGHTS=$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_tubes cells --w "${TUBEW:-4.7}" --y -0.03 --col "$COL")
-POINTS="$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_tubes up --w "${UPW:-3.8}" --y -0.9 --col "$COL");$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_warm points --w "${LAMPW:-3}" --y -0.03 --col 1.0,0.82,0.6)"
+# 11-08 BB-B B1 GPU 判定（CC/logs/B1_gpu_7206）：南半邊的影印中心、討論室那一帶比使用者驗收的 4.1 版（即時光＋天花板自發光）暗三成多
+#   （copy_door 166→115、disc1_wall 153→100、disc2_wall 157→97），燈板旁的天花板深灰。那一帶的日光燈本來就比自習室 A 區稀。
+#   → 南半邊（z > SOUTHZ，預設 5：南走廊、討論室、影印中心、南邊兩間小房間）日光燈 ×SOUTHT（預設 2.0）、燈下往上打天花板的點光源 ×SOUTHU（預設 2.5）。
+#   自習室 A 區（z < 4.7）、東北那一間不動（BB-B：自習室 A 區不要改回去）。
+# 會議廳（x −8～8、z −2.4～4.7，關著、沒有燈，從上面看像黑洞；BB-B LM2_cloud P3）：天花板下四顆 HALLW（預設 0.8 W）的點光源，地板是暗灰、不是黑。
+SOUTHZ=${SOUTHZ:-5}; SOUTHT=${SOUTHT:-2.0}; SOUTHU=${SOUTHU:-2.5}; HALLW=${HALLW:-0.8}
+zscale() { python3 -c 'import sys
+mode, zc, k = sys.argv[1], float(sys.argv[2]), float(sys.argv[3]); out = []
+for e in sys.stdin.read().strip().split(";"):
+    v = e.split(",")
+    if mode == "cells": z, wi = (float(v[2]) + float(v[3])) / 2, 7
+    else: z, wi = float(v[2]), 3
+    if z > zc: v[wi] = "%g" % (float(v[wi]) * k)
+    out.append(",".join(v))
+print(";".join(out))' "$@"; }
+LIGHTS=$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_tubes cells --w "${TUBEW:-4.7}" --y -0.03 --col "$COL" | zscale cells "$SOUTHZ" "$SOUTHT")
+UP=$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_tubes up --w "${UPW:-3.8}" --y -0.9 --col "$COL" | zscale points "$SOUTHZ" "$SOUTHU")
+HALL="-5,2.6,0,$HALLW,1.0,0.92,0.82;5,2.6,0,$HALLW,1.0,0.92,0.82;-5,2.6,3,$HALLW,1.0,0.92,0.82;5,2.6,3,$HALLW,1.0,0.92,0.82"
+POINTS="$UP;$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_warm points --w "${LAMPW:-3}" --y -0.03 --col 1.0,0.82,0.6);$HALL"
 echo "lights $(echo "$LIGHTS" | tr ';' '\n' | wc -l), points $(echo "$POINTS" | tr ';' '\n' | wc -l)"
 /opt/blenv/bin/python $LB/bake_room.py -- --in "$PLAIN" --out "$OUTDIR/library_b1.glb" \
   --lm "$TMP/b1" --url assets/models/env/second_ai/library_b1_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
