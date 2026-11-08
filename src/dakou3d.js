@@ -99,6 +99,7 @@ const DK3=(function(){
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xs_dakou_1f']) Promise.all([ASSETS.loadOne('bldg.xs_dakou_1f'),ASSETS.loadOne('bldg.xs_dakou_2f').catch(()=>null)]).then(([c1,c2])=>{ if(!c1||!c1.scene||E.zone!==z) return;
       const both=new THREE.Group(); both.name='xs_dakou_glb'; const s1=c1.scene.clone(true); both.add(s1); const s2=c2&&c2.scene?c2.scene.clone(true):null; if(s2) both.add(s2);
       for(const [s,lv] of [[s1,0],[s2,1]]) if(s) s.traverse(o=>{ if(/^NIGHT_/.test(o.name||'')){ o.userData.dkLv=lv; nightCards.push(o); } if(o.name==='WALL_BANDS') o.name='DK_BANDS'; });   /* WALL_BANDS（一樓東西兩面牆的深藍護牆＋橘線，0～1.08 m）：一個網格跨兩面牆、沒有 dir——不放進淡出清單（矮，不擋人）*/
+      { const lms=[[s1,s1.userData&&s1.userData.lightmap],[s2,s2&&s2.userData&&s2.userData.lightmap]].filter(p=>p[0]&&p[1]); if(lms.length) both.userData.lightmaps=lms; }   /* 兩層各自的光照貼圖（模型的 extras.lightmap；XS-LM-1108）：attachRoomGLB 分別接；都沒有就照舊（天花板補光）*/
       Z3.attachRoomGLB(z,g0,fb0,both); if(s2){ g1.attach(s2); fb1.visible=false; }
       /* XS-WINCARD-1105（LAWWW2-C 11-05）：玻璃外面接視差窗景（照片 assets/models/env/views/xs_dakou*_{day,night}.webp：Blender 用新生南路的正式模型、圍牆後面的望月台與體育館，從窗中間往外拍）。
          一樓正面、二樓正面（對面是校園）；二樓那一片放在二樓那一組（剖面視角時跟著藏）。二樓的照片把 4.6 m 以內剪掉（新生南路的外觀二樓蓋在騎樓上面、往外 3 m）。

@@ -1855,7 +1855,7 @@ const Z3 = (function(){
   /* 牆的淡出方向（往房間裡的法線）：網格自己的 extras.dir；沒有就用上層節點的（GLB-WALLDIR-1105，LAWWW2-C 11-05：BB 的 Blender 套件把 dir 寫在空節點 WALL_back／WALL_left…，
      底下真正的網格 WALL_back_print…沒有——原本一律當成 [0,0,1]，左、右、前牆在鏡頭從外面看的時候不淡出、擋住人：日和便利店 cvs_interior.glb、林家乾麵 lin_interior.glb。tests/wall_dir_inherit_unit.js）*/
   function wallDirOf(o,root){ const v=x=>x&&(x.isVector3?[x.x,x.y,x.z]:(Array.isArray(x)&&x.length===3?x:null)); let d=v(o.userData&&o.userData.dir); for(let p=o.parent;!d&&p;p=p.parent){ d=v(p.userData&&p.userData.dir); if(p===root) break; } return d||[0,0,1]; }
-  function attachRoomGLB(z,g0,fb,root){ const LMS=root.userData&&root.userData.lightmap; root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)&&!LMS) TK.bounce(o.material,0.5,0.5); } });   /* 有光照貼圖：天花板的亮已經烘焙進去，不另外加自發光 */   /* 天花板：和 room() 的天花板一樣帶自發光 */ g0.add(root); root.updateMatrixWorld(true); const nw=[];
+  function attachRoomGLB(z,g0,fb,root){ const LMS=root.userData&&root.userData.lightmap, LMA=root.userData&&Array.isArray(root.userData.lightmaps)&&root.userData.lightmaps.length?root.userData.lightmaps:null; root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)&&!LMS&&!LMA) TK.bounce(o.material,0.5,0.5); } });   /* 有光照貼圖：天花板的亮已經烘焙進去，不另外加自發光 */   /* 天花板：和 room() 的天花板一樣帶自發光 */ g0.add(root); root.updateMatrixWorld(true); const nw=[];
     root.traverse(o=>{ const m=/^TRACE_(SQ\d+)/.exec(o.name); if(m) traceVis(o,m[1]); });   /* 痕跡（見 traceVis）*/
     root.traverse(o=>{ if(o.name==='WZ_CATBOWL') condVis(o,catBowlOn); });   /* 一盞前院的貓碗（ART-WZ6，AA_420 第 9 節）：找到貓以後（WZ_CAT_FOUND）、收養以前（PARK.catGone）*/
     const glassy=[];   /* 本來就半透明的牆面材質（玻璃、紗窗）：不放進淡出清單（淡出邏輯每格會把不透明度設回 1，玻璃會變成不透明的灰板），改成窗的零件：固定透明、牆淡出時一起藏（和 Café 室內一樣）*/
@@ -1865,7 +1865,7 @@ const Z3 = (function(){
     /* 窗外的景（白天／夜景貼圖、隨時段變色，room() 的 applyTime 照舊換）：從備用模型的窗框組裡拿出來，放到正式模型的玻璃外面 0.3 m（放大一點：斜著看窗洞也看不到外面的空白）；牆淡出時一起藏（不然鏡頭在牆外時會擋住房間）*/
     const wp=[]; if(z.wins) for(const w of z.wins){ const part=w.parent; const ent=z.winParts&&z.winParts.find(p=>p.obj===part); const d=ent?ent.dir:new THREE.Vector3(1,0,0); w.position.addScaledVector(d,-0.42); w.scale.set(1.35,1.4,1); if(w.material.uniforms&&w.material.uniforms.sxy) w.material.uniforms.sxy.value.set(1.35,1.4); part.remove(w); g0.add(w); wp.push({obj:w,at:ent?ent.at:w.position.clone(),dir:d}); }
     for(const o of glassy) wp.push({obj:o,at:o.userData.center,dir:o.userData.dir,partition:!!o.userData.partition});
-    fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; if(LMS) roomLightmap(z,root,LMS); if(LMS&&LMS.dark) roomDarkMap(z,root,LMS); ceilHide(z,root); seatFold(z,root); }
+    fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; if(LMS) roomLightmap(z,root,LMS); if(LMS&&LMS.dark) roomDarkMap(z,root,LMS);   /* 好幾顆 GLB 放在同一個 Group 給這裡（大口一樓、二樓）：Group 本身沒有 extras.lightmap，各顆的放在 root.userData.lightmaps＝[[那一顆的 scene, 它的 extras.lightmap], …]，各自接（XS-LM-1108，LAWWW2-B）*/ if(LMA){ let n=0; for(const [r,s] of LMA){ if(!r||!s) continue; n+=roomLightmap(z,r,s); if(s.dark) roomDarkMap(z,r,s); } z.lightmapped=n; } ceilHide(z,root); seatFold(z,root); }
   /* 貼著天花板的東西（GLB 的 CEIL_* 網格、extras.ceilHide；CORNER-CEIL-1107，LAWWW2-B 11-07；BB-B 16:04 判轉角唱片：天花板切掉時，樑、吸頂冷氣、店名飾板從上面擋住畫面）：
      天花板是單面朝下，鏡頭高過天花板就看不到；樑、管線、軌道燈這些還在，從上面擋住房間——鏡頭高過天花板時一起藏起來（和美國公寓的屋頂、吊扇同一個做法，us3d.js）。
      天花板高度＝CEIL_ 網格最高的地方（不是 instancing 的）；沒有 CEIL_ 的模型不受影響 */

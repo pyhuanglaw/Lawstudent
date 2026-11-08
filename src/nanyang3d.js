@@ -85,7 +85,9 @@ const NY3=(function(){
     attachFormal(E,z,g0,fb,'bldg.xs_nanyang_hall',L.w,L.d,'南洋戲院 1 廳');
     hallZone=z; return z; } };
   /* 開演：場燈關掉（只剩銀幕、走道地燈、太平門）；演完再開。不在 1 廳就不動 */
-  function houseLights(on){ const z=hallZone; if(!z||typeof E3==='undefined'||E3.zone!==z) return false; for(const l of z.house) l.intensity=on?l.userData.on:0; for(const l of z.screenLight) l.intensity=on?l.userData.off:l.userData.on*1.4; return true; }
+  /* 正式模型有「開演」那一張光照貼圖（bake_xs.sh nanyang_hall 的 --dark：場燈關、只剩走道地燈、太平門、銀幕；XS-LM-1108）：z.lightsOff 先換貼圖、壁燈燈罩的自發光（nh_warm）調暗，
+     它也會把房間裡的燈調暗——場燈、銀幕那一盞照原本的規則在後面重設 */
+  function houseLights(on){ const z=hallZone; if(!z||typeof E3==='undefined'||E3.zone!==z) return false; if(typeof z.lightsOff==='function') z.lightsOff(on?0:1); for(const l of z.house) l.intensity=on?l.userData.on:0; for(const l of z.screenLight) l.intensity=on?l.userData.off:l.userData.on*1.4; return true; }
 
   if(typeof ASSETS!=='undefined'){
     ASSETS.manifest['bldg.xs_nanyang']={url:'assets/models/env/second_ai/bb_support/nanyang_lobby.glb',type:'building',lazy:true,source:'BB（tools/blender/env_second/bb_support/nanyang_interior.py v5b，照使用者的參考圖 nanyang_lobby.webp）',license:'本作'};
