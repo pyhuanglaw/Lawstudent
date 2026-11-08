@@ -116,7 +116,14 @@ async def test_E(rig):
                 await rig.pg.wait_for_timeout(500); z=await rig.pg.evaluate("GAME.G.zone")
             check(f'E {name}：interact 進入 {z}', z!=zone, z)
             await rig.drive(pick=0); await rig.pg.evaluate("GAME.doInteract()"); await rig.pg.wait_for_timeout(600); await rig.drive(pick=0)
-            ex=await rig.pg.evaluate("(async()=>{ const it=GAME.E.interactables.find(i=>i.exit); if(!it) return 'no exit'; const P=GAME.E.player; const nf=GAME.E.nav.nearestFree(it.x,it.z-0.6,6)||[it.x,it.z]; P.obj.position.set(nf[0],0,nf[1]); GAME.updateInteract(); await new Promise(r=>setTimeout(r,80)); GAME.updateInteract(); GAME.doInteract(); return 'exit '+it.label; })()"); print('   ',ex); await rig.pg.wait_for_timeout(2500); await rig.drive(pick=0)
+            # 走出來要從剛進去的那一區（BB-B 11-08 12:20 P3：PC 換區快，上面多按的 doInteract 已經走回校園，接著找到的 exit 是「走出校門」→ 站在公館，測到的是校門）：
+            # 還在 z 才找出口、優先找回到原本那一區的；已經回到 zone 就不再按
+            ex=await rig.pg.evaluate("(async([inz,orig])=>{ if(GAME.G.zone!==inz) return 'already left → '+GAME.G.zone; const L=GAME.E.interactables.filter(i=>i.exit); const it=L.find(i=>i.exit.to===orig)||L[0]; if(!it) return 'no exit'; const P=GAME.E.player; const nf=GAME.E.nav.nearestFree(it.x,it.z-0.6,6)||[it.x,it.z]; P.obj.position.set(nf[0],0,nf[1]); GAME.updateInteract(); await new Promise(r=>setTimeout(r,80)); GAME.updateInteract(); GAME.doInteract(); return 'exit '+it.label; })", [z, zone]); print('   ',ex); await rig.pg.wait_for_timeout(2500); await rig.drive(pick=0)
+            z2=await rig.pg.evaluate("GAME.G.zone")
+            for _ in range(27):
+                if z2==zone: break
+                await rig.pg.wait_for_timeout(500); z2=await rig.pg.evaluate("GAME.G.zone")
+            check(f'E {name}：走出來回到 {zone}', z2==zone, f'{ex} → {z2}')
         else:
             await rig.drive(pick=99)
         p=await rig.pos(); check(f'E {name}：interact 結束後未鎖定且 standable', (not p['busy']) and p['stand'], f'{p}')
