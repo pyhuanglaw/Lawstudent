@@ -11,6 +11,7 @@
 // 修改前（開發分支 d3adb529c）：模組不存在、沛珊作息還是週二四——FAIL。用法：node tests/aa614_jobs_unit.js（先 git fetch origin claude/cool-heisenberg-o8kuqx）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
+const VER=((fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8').match(/版本 v([0-9.]+)（/)||[])[1]||'?');   /* ?v= 和標題的版號一樣：不寫死 9.10.22（發布樹會換版號，同 bike_shop_park_unit.js）*/
 const {check,GM,E}=H, J=JSON.stringify;
 const loadErr=[];
 const loadG=f=>{ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/^const ([A-Z_][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); };
@@ -40,7 +41,7 @@ const evText=id=>{ const e=evOf(id); return e?e.dialogue.filter(l=>typeof l.text
   if(!A()){ H.done(); return; }
   const L=A().L;
   { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), sc=[...html.matchAll(/<script src="([^"?]+)\?v=([^"]+)"/g)].map(m=>m[1]), ia=sc.indexOf('src/aa614_3d.js');
-    check('0. index.html：aa614_3d.js（?v=9.10.22）緊接在 aa613_3d.js 後面，在 invites3d、phone3d、story3d、outings3d、jobs3d 之後',ia>0&&html.includes('<script src="src/aa614_3d.js?v=9.10.22"></script>')&&sc[ia-1]==='src/aa613_3d.js'&&['src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js','src/outings3d.js','src/jobs3d.js','src/whois3d.js'].every(f=>sc.indexOf(f)>=0&&sc.indexOf(f)<ia),J(ia)); }
+    check('0. index.html：aa614_3d.js（?v=和標題同一版）緊接在 aa613_3d.js 後面，在 invites3d、phone3d、story3d、outings3d、jobs3d 之後',ia>0&&html.includes('<script src="src/aa614_3d.js?v='+VER+'"></script>')&&sc[ia-1]==='src/aa613_3d.js'&&['src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js','src/outings3d.js','src/jobs3d.js','src/whois3d.js'].every(f=>sc.indexOf(f)>=0&&sc.indexOf(f)<ia),J(ia)); }
   { let W=null; try{ W=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')); }catch(e){}
     const e=W&&W.files&&W.files.find(x=>x.path===DOC614), e5=W&&W.files&&W.files.find(x=>x.path===DOC615);
     check('0. 劇情匯入白名單：AA_614＝32a5f7e12、approved、AA（D109）、AA614-CLASSMATE-JOBS-1103；AA_615 那一列記了 AA615-ALISON-CINEMA-1103',!!e&&e.sha===SHA614&&e.status==='approved'&&/^AA（D109）/.test(e.approvedBy)&&e.task==='AA614-CLASSMATE-JOBS-1103'&&e.kind==='text'&&!!e5&&e5.status==='approved'&&e5.note.includes('AA615-ALISON-CINEMA-1103'),J(e&&{sha:e.sha,st:e.status,by:e.approvedBy})); }

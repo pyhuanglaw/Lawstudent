@@ -22,6 +22,7 @@ require('./alison.js');
 const H=require('./pg_harness.js');
 const {check,GM,E}=H; const J=JSON.stringify;
 const fs=require('fs'), path=require('path'), vm=require('vm'), cp=require('child_process');
+const VER=((fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8').match(/版本 v([0-9.]+)（/)||[])[1]||'?');   /* ?v= 和標題的版號一樣：不寫死 9.10.22（發布樹會換版號，同 bike_shop_park_unit.js）*/
 const loadErr=[];
 const loadG=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.push(f+'：沒有'); return false; } try{ const s=fs.readFileSync(p,'utf8').replace(/^const ([A-Z_][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); return true; }catch(e){ loadErr.push(f+'：'+String(e&&e.message||e).slice(0,160)); return false; } };
 for(const f of ['src/data/heroine_arcs.js','src/data/arc_rot.js','src/data/decide_rules.js','src/decide3d.js','src/arcs3d.js','src/libquiet3d.js',
@@ -61,7 +62,7 @@ const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys
     const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===DOC);
     check('0. 匯入白名單：一筆、approved、sha '+SHA+'、task AA720-DECIDE-OPENED-1108、approvedBy 含「AA-B D109（11-08 01:39 AA_720 第一批）」、ee689cfb8、075eae472 和 3e6a7ff71、history 留 4f37a68bb、ee689cfb8、075eae472',allow.length===1&&allow[0].status==='approved'&&allow[0].sha===SHA&&allow[0].task==='AA720-DECIDE-OPENED-1108'&&allow[0].approvedBy.includes('AA-B D109（11-08 01:39 AA_720 第一批）')&&allow[0].approvedBy.includes('ee689cfb8（AA-B 11-08 02:4x wiringAnswers')&&allow[0].approvedBy.includes('075eae472（AA-B 11-08 03:2x an1_later＋wiringAnswers2')&&allow[0].approvedBy.includes('3e6a7ff71（AA-B 11-08 03:3x wiringAnswers3')&&allow[0].history.some(h=>h.sha==='075eae472')&&allow[0].history.some(h=>h.sha==='4f37a68bb')&&allow[0].history.some(h=>h.sha==='ee689cfb8'),J(allow));
     check('0. wiringAnswers／wiringAnswers2／wiringAnswers3 不在遊戲資料裡（要演的句子在 cfg：quotes、demo3）',!('wiringAnswers' in DT())&&!('wiringAnswers2' in DT())&&!('wiringAnswers3' in DT())&&AA720.cfg.quotes.zrBdayLetterNarr==='（台灣晚上十點，手機響了。）'&&AA720.cfg.quotes.zqDemoKeep==='資工系館的電腦教室。'&&!!AA720.cfg.demo3&&!!AA720.cfg.quotes.zrScholarCafe&&!!AA720.cfg.quotes.anLaterNoGroup);
-    const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), i1=html.indexOf('src/data/aa720.js?v=9.10.22'), i2=html.indexOf('src/aa720_3d.js?v=9.10.22');
+    const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), i1=html.indexOf('src/data/aa720.js?v='+VER), i2=html.indexOf('src/aa720_3d.js?v='+VER);
     const after=['src/y34b3d.js','src/zr_sendoff3d.js','src/ytjob3d.js','src/y2b3d.js','src/feed3d.js','src/sis_grad3d.js','src/postgrad3d.js','src/arcs3d.js','src/invites3d.js','src/zr_uk3d.js'].every(f=>{ const j=html.indexOf(f+'?'); return j>=0&&j<i2; });
     check('0. index.html：資料在 decide_rules.js 旁邊、播放在它要包的那幾支後面',i1>0&&i2>i1&&html.indexOf('src/data/decide_rules.js')<i1&&after);
     const ids=['ev_an_expo_together','ev_an_grad_think','ev_zr_call_mom','ev_zr_scholar_1','ev_zr_scholar_2','ev_zr_return_airport','ev_yt_result_together','ev_zq_quit_intern','ev_sis_last_night','ev_sis_alison_asks_zhe','ev_sis_grandma_dinner','ev_ps_before_leave','ev_ps_station_sendoff','ev_kx_mock_interview','ev_kx_waited'];
