@@ -17,7 +17,7 @@ URL, OUT = sys.argv[1], sys.argv[2]
 J = D.J
 TAG = os.environ.get('TAG') or 'x'
 R = L.Run('nanyang_watch_' + TAG, OUT); D.setup(R, OUT)
-LM = r"""(()=>{ const z=GAME.E.zone, s=new Set(); let n=0; if(z&&z.group) z.group.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(m&&m.lightMap){ n++; s.add(((m.lightMap.image&&(m.lightMap.image.currentSrc||m.lightMap.image.src))||m.lightMap.name||'?').split('/').pop()); } } }); return {n, maps:[...s].slice(0,8)}; })()"""
+LM = r"""(()=>{ const z=GAME.E.zone, s=new Set(); let n=0; if(z&&z.group) z.group.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(m&&m.lightMap){ n++; s.add(((m.lightMap.image&&(m.lightMap.image.currentSrc||m.lightMap.image.src))||m.lightMap.name||'?').split('/').pop()); } } }); return {n, maps:[...s].slice(0,8), K:z?(z.lightsOffK==null?null:+z.lightsOffK):null}; })()"""
 HOOK = r"""(()=>{ const z=GAME.E.zone; window.__lo=window.__lo||[]; if(!z) return 'no zone'; if(z.__ccLo) return 'already'; if(typeof z.lightsOff!=='function') return 'no lightsOff';
   const o=z.lightsOff; z.lightsOff=function(k){ window.__lo.push({k:+k, h:+(+GAME.G.hour).toFixed(3), ms:Math.round(performance.now())}); return o.apply(this,arguments); }; z.__ccLo=1; return 'hooked'; })()"""
 CAM = r"""(()=>{ const z=GAME.E.zone, box=new THREE.Box3(); z.group.traverse(o=>{ if(o.isMesh&&o.visible){ const b=new THREE.Box3().setFromObject(o); const s=b.getSize(new THREE.Vector3()); if(s.x<40&&s.z<40) box.union(b); } });
@@ -86,8 +86,8 @@ async def main():
                     lo = await pg.evaluate("window.__lo||[]")
                     R.note('lightsOff 呼叫：%s；看到的話 %s' % (J(lo), J(list(dict.fromkeys(says))[:8])))
                     R.check('開演時有叫 lightsOff(1)', any(q['k'] >= 0.99 for q in lo), J(lo))
-                    R.check('開演時光照貼圖換了', bool(lm1) and lm1['maps'] != lm0['maps'], J([lm0, lm1]))
-                    R.check('演完叫 lightsOff(0)、貼圖換回來', shot_end and bool(lm2) and lm2['maps'] == lm0['maps'], J([lm0, lm2]))
+                    R.check('開演時換成熄燈那一張（z.lightsOffK＝1；roomDarkMap 是 shader 混合 lmDark，不換 m.lightMap）', bool(lm1) and lm1.get('K') == 1, J([lm0, lm1]))
+                    R.check('演完叫 lightsOff(0)、換回來（z.lightsOffK＝0）', shot_end and bool(lm2) and lm2.get('K') == 0 and lm2['maps'] == lm0['maps'], J([lm0, lm2]))
                     rec.update({'cam': cam, 'lm0': lm0, 'lm1': lm1, 'lm2': lm2, 'lightsOff': lo})
             R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
