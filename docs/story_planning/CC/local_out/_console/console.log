@@ -811,3 +811,12 @@
 [13:02:35] [res] cpu=2% mem=46% (14.6/31.4 GB) chrome_testing=10  START R8B6_reach
 [13:07:06] 正在跑：R8B6_v0_to1017（已跑 19 分／上限 90 分）、R8B6_v0_home（已跑 19 分／上限 60 分）、R8B6_reach（已跑 4 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [13:08:47] [res] cpu=8% mem=51% (16.0/31.4 GB) chrome_testing=9  END R8B6_v0_to1017
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       76348a8a7..6a4134871  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:08:53] ==== END   R8B6_v0_to1017  exit=1  1301s   ====
+[13:08:56] memory 51% before starting R8B6_p0 (2 running)
+[13:08:56] ==== START R8B6_p0  (game @ 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5) ====
+[13:08:59] [res] cpu=22% mem=49% (16.1/31.4 GB) chrome_testing=9  START R8B6_p0
+[13:12:06] 正在跑：R8B6_v0_home（已跑 24 分／上限 60 分）、R8B6_reach（已跑 9 分／上限 30 分）、R8B6_p0（已跑 3 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:12:08] [res] cpu=26% mem=51% (16.1/31.4 GB) chrome_testing=9  END R8B6_p0
