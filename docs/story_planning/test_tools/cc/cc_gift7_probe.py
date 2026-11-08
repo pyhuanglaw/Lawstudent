@@ -46,7 +46,7 @@ async def main():
                 r0['skip'] = '買不到'; rec.append(r0); continue
             c0 = await C.carry(pg); r0['carry0'] = c0
             if True:   # 找他／她「不是走走、不是在打工」的時段（11-09 第二輪：芷若 13:00 在 2:30 AM 櫃台裡打工，走不到旁邊，30 分鐘逾時）
-                h = await pg.evaluate("(w=>{ const h0=GAME.G.hour; for(const h of HS){ GAME.G.hour=h; const r=STORY.whereIs(GAME,w); const a=String(r&&(r.act||r.label||r.doing)||''); if(r&&r.zone&&!r.away&&!/打工|上班|值班|班/.test(a)&&(AW||!/走走|walk|wander|stroll/i.test(a))){ GAME.G.hour=h0; return {h, r}; } } GAME.G.hour=h0; return null; })(%s)".replace('HS', J(HOURS)).replace('AW', 'true' if (ALLOW_WALK and who != 'zhe') else 'false') % J(who))
+                h = await pg.evaluate("(w=>{ const h0=GAME.G.hour; for(const h of HS){ GAME.G.hour=h; const r=STORY.whereIs(GAME,w); const a=String(r&&(r.act||r.label||r.doing)||''); if(r&&r.zone&&!r.away&&!/打工|上班|值班|班/.test(a)&&(AW||!/走走|walk|wander|stroll/i.test(a))){ GAME.G.hour=h0; return {h, r}; } } GAME.G.hour=h0; return null; })(%s)".replace('HS', J(HOURS)).replace('AW', 'true' if (ALLOW_WALK and (who != 'zhe' or os.environ.get('ZHE_WALK') == '1')) else 'false') % J(who))
                 run.note('%s 不是走走的時段：%s' % (tag, J(h)))
                 if not h: r0['skip'] = '今天找不到他坐著或站著的時段'; rec.append(r0); continue
                 await pg.evaluate("h=>{ GAME.G.hour=h; }", h['h'])
@@ -62,7 +62,19 @@ async def main():
                 run.note('%s 跳過：%s' % (tag, r0['skip'])); rec.append(r0); continue
             r0['at'] = await pg.evaluate("({zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(2), day:GAME.G.day})")
             prefs = N.NEUTRAL if who == 'zhe' else ['送她' + ITEM]
+            if '走走' in str((ab or {}).get('act', '')):   # BB-B 19:31：走走的人先等他／她停住（2 秒沒動）再靠近，最多等 90 秒
+                last = None; still = 0
+                for _ in range(90):
+                    q = await N.npc_of(pg, who)
+                    if q and last and abs(q['x'] - last['x']) + abs(q['z'] - last['z']) < 0.05: still += 1
+                    else: still = 0
+                    last = q
+                    if still >= 2: break
+                    await pg.wait_for_timeout(1000)
+                run.note('%s 走走：等他／她停住 still=%d 在 %s' % (tag, still, J(last)))
             t = await N.talk(pg, cdp, run, who, prefs, 'g_' + who)
+            if not t and os.environ.get('TRY2') == '1':   # 最多兩次
+                run.note('%s 第一次走不到，再試一次' % tag); t = await N.talk(pg, cdp, run, who, prefs, 'g2_' + who)
             if not t: r0['skip'] = '走不到旁邊'; rec.append(r0); continue
             menu, seen, said = t
             gifts = [o for grp in seen for o in grp if o.startswith('送他') or o.startswith('送她')]
