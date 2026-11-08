@@ -1,0 +1,29 @@
+[
+ {
+  "who": "heroine_01",
+  "name": "以安",
+  "carry0": [
+   "飯糰"
+  ],
+  "whereIs0": {
+   "zone": "library",
+   "room": null,
+   "act": "看書",
+   "until": "12:00"
+  },
+  "at": {
+   "zone": "library",
+   "h": 8.01,
+   "day": 38
+  },
+  "skip": "走不到旁邊"
+ },
+ {
+  "who": "heroine_02",
+  "name": "芷若",
+  "carry0": [
+   "飯糰"
+  ],
+  "skip": "今天找不到他坐著或站著的時段"
+ }
+]
