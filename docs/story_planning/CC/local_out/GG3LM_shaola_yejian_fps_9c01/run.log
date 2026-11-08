@@ -1,0 +1,7 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\fps_zones.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3LM_shaola_yejian_fps_9c01\out
+OK   noodle        day   avg 57.87 fps  1%low 13.71 fps  worst 83.4 ms  n=869  zone=noodle h=11.03 w=sunny q=medium draw=90 
+OK   noodle        night avg 58.27 fps  1%low 15.0 fps  worst 83.4 ms  n=874  zone=noodle h=21.04 w=sunny q=medium draw=78 
+OK   bookstore     day   avg 58.4 fps  1%low 15.0 fps  worst 66.7 ms  n=876  zone=bookstore h=11.04 w=sunny q=medium draw=58 
+OK   bookstore     night avg 58.6 fps  1%low 16.54 fps  worst 66.7 ms  n=879  zone=bookstore h=21.04 w=sunny q=medium draw=47 
+JS 例外 0 個
+ALL PASS（量測完成 4 格）
