@@ -17,15 +17,20 @@ import pt1108g_gift_friends_probe as G8
 import pt1108n_gift_romance_only_probe as N
 from playwright.async_api import async_playwright
 J = N.J
-NAMES = {'heroine_02': '芷若', 'heroine_03': '語彤', 'heroine_04': '子晴', 'heroine_05': '學姊', 'classmate_peishan': '沛珊', 'kexin': '可昕', 'zhe': '阿哲'}
+NAMES = {'heroine_01': '以安', 'heroine_02': '芷若', 'heroine_03': '語彤', 'heroine_04': '子晴', 'heroine_05': '學姊', 'classmate_peishan': '沛珊', 'kexin': '可昕', 'zhe': '阿哲'}
 WHO = [w for w in (os.environ.get('WHO') or 'heroine_02,heroine_03,heroine_04,heroine_05,classmate_peishan,kexin,zhe').split(',') if w]
-ITEM = '青茶'
+ITEM = os.environ.get('ITEM') or '青茶'   # GIFT-MORNING：ITEM=飯糰 EXTRA= BUYH=8.5 HOURS=8.5,9,9.5,10 NODRINK=1
+EXTRA = os.environ.get('EXTRA', '微糖') or None
+BUYH = float(os.environ.get('BUYH') or 13.0)
+HOURS = [float(x) for x in (os.environ.get('HOURS') or '13,13.5,14,14.5,15,15.5,16,16.5,17,17.5,18,18.5,19,19.5,20,12,11.5,11,10.5,10,9.5,9').split(',') if x]
+ALLOW_WALK = os.environ.get('ALLOW_WALK') == '1'   # 女主角（不是阿哲）可以在走走的時候送
+NODRINK = os.environ.get('NODRINK') == '1'         # 早餐：她的回話不能是飲料那幾句（不能有「喝」）
 
 async def main():
     run = L.Run('cc_gift7', OUT)
     SAVE = os.environ.get('SAVE', 'day46.json')
     s = json.load(open(os.path.join(SAVES, SAVE), encoding='utf-8'))
-    s2 = dict(s); s2.update({'zone': 'cvs', 'hour': 13.0, 'pos': None})
+    s2 = dict(s); s2.update({'zone': 'cvs', 'hour': BUYH, 'pos': None})
     s2['money'] = max(int(s2.get('money') or 0), 2000)
     rec = []
     async with async_playwright() as p:
@@ -37,11 +42,11 @@ async def main():
             run.setup('%s 【捷徑】存檔 %s 改成 13:00 日和便利店、錢 ≥2000、關條件事件' % (tag, SAVE))
             await L.load_state(pg, s2, quiet_events=True); await pg.wait_for_timeout(3500); await C.run_dialog(pg, cdp, [], 30)
             ct = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(q=>q.shop==='cvs'||q.counter==='cvs'); return i?{x:i.x,z:i.z,lv:i.lv|0,label:i.label}:null; })()")
-            if not ct or not await G8.buy(pg, cdp, run, ct, ITEM, '微糖'):
+            if not ct or not await G8.buy(pg, cdp, run, ct, ITEM, EXTRA):
                 r0['skip'] = '買不到'; rec.append(r0); continue
             c0 = await C.carry(pg); r0['carry0'] = c0
             if True:   # 找他／她「不是走走、不是在打工」的時段（11-09 第二輪：芷若 13:00 在 2:30 AM 櫃台裡打工，走不到旁邊，30 分鐘逾時）
-                h = await pg.evaluate("(w=>{ const h0=GAME.G.hour; for(const h of [13,13.5,14,14.5,15,15.5,16,16.5,17,17.5,18,18.5,19,19.5,20,12,11.5,11,10.5,10,9.5,9]){ GAME.G.hour=h; const r=STORY.whereIs(GAME,w); if(r&&r.zone&&!r.away&&!/走走|walk|wander|stroll|打工|上班|值班|班/i.test(String(r.act||r.label||r.doing||''))){ GAME.G.hour=h0; return {h, r}; } } GAME.G.hour=h0; return null; })(%s)" % J(who))
+                h = await pg.evaluate("(w=>{ const h0=GAME.G.hour; for(const h of HS){ GAME.G.hour=h; const r=STORY.whereIs(GAME,w); const a=String(r&&(r.act||r.label||r.doing)||''); if(r&&r.zone&&!r.away&&!/打工|上班|值班|班/.test(a)&&(AW||!/走走|walk|wander|stroll/i.test(a))){ GAME.G.hour=h0; return {h, r}; } } GAME.G.hour=h0; return null; })(%s)".replace('HS', J(HOURS)).replace('AW', 'true' if (ALLOW_WALK and who != 'zhe') else 'false') % J(who))
                 run.note('%s 不是走走的時段：%s' % (tag, J(h)))
                 if not h: r0['skip'] = '今天找不到他坐著或站著的時段'; rec.append(r0); continue
                 await pg.evaluate("h=>{ GAME.G.hour=h; }", h['h'])
@@ -61,7 +66,7 @@ async def main():
             if not t: r0['skip'] = '走不到旁邊'; rec.append(r0); continue
             menu, seen, said = t
             gifts = [o for grp in seen for o in grp if o.startswith('送他') or o.startswith('送她')]
-            c2 = await C.carry(pg); r0.update({'menu': menu, 'gifts': gifts, 'said': said[:8], 'carry2': c2})
+            c2 = await C.carry(pg); r0.update({'menu': menu, 'gifts': gifts, 'said': said[:24], 'carry2': c2})
             if who == 'zhe':
                 run.check('%s 當面說話選項沒有「送他／送她○○」' % tag, bool(menu) and not gifts, J({'menu': menu, 'gifts': gifts}))
                 run.check('%s 東西還在身上' % tag, sorted(c2) == sorted(c0), J({'before': c0, 'after': c2}))
@@ -69,6 +74,9 @@ async def main():
                 had = any(('送她' + ITEM) in o for o in menu)
                 run.check('%s 選項有「送她%s」' % (tag, ITEM), had, J(menu))
                 run.check('%s 選了以後收下、東西不在身上、她有回話' % tag, had and not any(x.startswith(ITEM) for x in c2) and len(said) >= 2, J({'carry': c2, 'said': said[:6]}))
+                if NODRINK:
+                    after = said[next((i for i, x in enumerate(said) if '遞給' in x or ITEM in x), 0):]
+                    run.check('%s 她的回話是早餐那幾句、不是飲料（沒有「喝」）' % tag, had and bool(after) and not any('喝' in x for x in after), J(after[:8]))
             rec.append(r0)
         run.check('沒有 JS 例外', not errs, J(errs[:5]))
         await b.close()
