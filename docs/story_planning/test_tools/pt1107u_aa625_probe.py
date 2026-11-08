@@ -3,6 +3,7 @@
               到木曜日見面坐下 → 她多一句「我只是週末打工。平常其實很閒。」；坐下讀書以後四句輪流的其中一句；讀書時數有加（G.stats.study）
   MODE=moku：一般的「念書」約（以安，木曜日）——修正後先演木曜日那一段、再演一起念書第 N 場、讀書照算：整段演完、沒卡、時數有加
 [前置／捷徑] 讀使用者存檔 day46（YT_MET_JOB＝在茶屋碰過語彤），同一份進度跳日期（大一上 → 大一下）記【前置】；回覆、約、坐下照玩家點。
+QUOTE=1（MODE=moku）：加查「」第二批（f0c911c92）——約她時她回的那一句、見面時有名字的句子，外面都沒有「」。
 用法：LW_TESTS=<測試樹>/tests MODE=first|moku python3 pt1107u_aa625_probe.py URL 存檔資料夾 輸出資料夾"""
 import asyncio, json, os, sys
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.dirname(__file__))
@@ -123,6 +124,7 @@ async def main():
             if await pg.evaluate("document.getElementById('phone').classList.contains('hide')"):
                 await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
             await L.tap(pg, cdp, '#phoneTabs button[data-ptab="friends"]'); await pg.wait_for_timeout(800)
+            n_inv = await P.say_hook(pg)
             sel = '#phoneBody [data-inv="%s"]' % AN
             await pg.evaluate("(s=>{ const e=document.querySelector(s); if(e) e.scrollIntoView({block:'center'}); })(%s)" % json.dumps(sel))
             await L.tap(pg, cdp, sel)
@@ -133,6 +135,13 @@ async def main():
             ivs = await pg.evaluate("(id=>(GAME.G.invites||[]).filter(v=>v.who===id).map(v=>({day:v.day,h:v.h,state:v.state,place:v.place,cat:v.cat})))(%s)" % json.dumps(AN))
             print('[INV]', J(lv, 1200), J(ivs))
             run.check('約以安「念書」→ %s → 今天 17:30＝約好' % PLACE, any(v['day'] == d['d'] and abs(v['h'] - 17.5) < 0.05 and v['state'] == 'accepted' for v in ivs), J([lv.get('picked'), ivs]))
+            if os.environ.get('QUOTE'):   # TEXT-QUOTE-UNIFY-1108 第二批（f0c911c92）：她答應的那一句（invite_replies.js）外面沒有「」
+                il = await P.said(pg, n_inv)
+                th = await P.phone_thread(pg, cdp, 'p:' + AN); tail = [x for x in (th.get('text') or '').split('\n') if x.strip()][-6:]
+                print('[INV LINES]', J(il, 800)); print('[INV THREAD]', J(tail))
+                hers_inv = [t for n, t in il if n] + [x for x in tail if not x[:1].isdigit() and not x.startswith('今天')]
+                run.check('QUOTE：約她時她回的那一句（對話框或手機）外面沒有「」', bool(hers_inv) and not any(t.startswith('「') for t in hers_inv), J(hers_inv))
+                await L.close_panels(pg, cdp)
             st0 = await pg.evaluate("(GAME.G.stats&&GAME.G.stats.study)||0")
             actn0 = await pg.evaluate("JSON.stringify(((GAME.G.flags.STUDYN||{})[\"heroine_01\"])||null)")
             await P.jump(pg, cdp, run, '2025-11-03', 17.3, zone=PZONE, pos=None, note=PLACE + '門口'); await P.init(pg)
@@ -160,6 +169,8 @@ async def main():
             scr = [(x['n'], x['t']) for x in (await pg.evaluate("window.__SCR||[]"))[s0:]]
             print('[SCREEN]', J(scr, 3000))
             hers = [(n, t) for n, t in scr if n and '以安' in n]
+            if os.environ.get('QUOTE'):
+                run.check('QUOTE：見面時畫面上有名字的每一句外面都沒有「」', bool([1 for n, _ in scr if n]) and not any(n and t.startswith('「') for n, t in scr), J([(n, t) for n, t in scr if n and t.startswith('「')] or scr[:4]))
             run.check('%s：畫面上她說的每一句都有「（…小聲…）」（LIBQ）、外面沒有「」' % PLACE, bool(hers) and all('小聲' in t for _, t in hers) and not any(t.startswith('「（小聲）') for _, t in scr), J([t for _, t in hers if '小聲' not in t] or hers[:3]))
             if PLACE == '總圖':
                 wl = [(n, t) for n, t in lines if t.startswith('（小聲）')]
