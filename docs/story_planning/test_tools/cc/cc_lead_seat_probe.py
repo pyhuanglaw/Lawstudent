@@ -70,7 +70,7 @@ async def run_mode(pg, cdp, mode, rec):
     R.setup('%s 【前置】照手機「直接過去」、到了再把時間撥到約的前 6 分鐘，GM.quickGo(%s, force)' % (tag, J(tgt)))
     wf0 = await pg.evaluate("GAME.walkFallbacks||0")
     await pg.evaluate("(t=>{ void GAME.quickGo([t.zone,t.name,t.spawn||null],{force:true}); })", tgt); await pg.wait_for_timeout(8000)
-    await pg.evaluate("(h=>{ GAME.G.hour=Math.min(GAME.G.hour,h-0.1); })", iv['h'])   # 【前置／捷徑】到了以後才把時間撥回約的前 6 分鐘（「直接過去」會加走路時間，run41 c 因此 missed）
+    await pg.evaluate("(h=>{ GAME.G.hour=h-0.1; })", iv['h'])   # 【前置／捷徑】到了以後把時間設成約的前 6 分鐘（11-08 09:5x：原本寫成 min，停在 13:1x 等不到她）（「直接過去」會加走路時間，run41 c 因此 missed）
     c1 = await drive(pg, cdp, [], max_s=180, idle_end=20)
     ld = None
     for _ in range(150):   # SwiftShader 慢：她到、說話、開始帶路可能要一兩分鐘
