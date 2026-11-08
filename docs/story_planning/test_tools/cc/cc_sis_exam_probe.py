@@ -147,7 +147,31 @@ async def follow(pg, cdp, tag, rec):
     await pg.evaluate("GAME.openPhone('msg')"); await pg.wait_for_timeout(1200); await R.shot(pg, 'sis_follow_phone')
     R.check('%s 三天沒見到你：手機學姊那一串收到那兩句、各只一次（照玩家睡覺、等時間）' % tag, all(c2[t] == 1 for t in TEA), J(c2))
     out['due3'] = {'count': c2, 'decide_say': st}
+    reg = await pg.evaluate("STORY.PHONE_RULES.includes(DECIDE.tick)")
+    R.check('%s 瀏覽器裡 STORY.PHONE_RULES.includes(DECIDE.tick)' % tag, reg is True, str(reg))
+    R.check('%s DECIDE_SAY played＝送出那一天（≥ due+3）、byMsg true' % tag, bool(st) and isinstance(st.get('played'), int) and st['played'] >= x['due'] + 3 and st.get('byMsg') is True, J(st))
+    d0 = await pg.evaluate("GAME.G.day")   # 再過一天：不重送（BB-B 07:42）
+    await wait_until(pg, cdp, d0, 18.0); await sleep_once(pg, cdp, tag + ' 再一晚'); await wait_until(pg, cdp, d0 + 1, 20.0, max_s=900)
+    m3 = await pg.evaluate(MSGS, SIS); c3 = {t: sum(1 for m in m3 if m['text'] == t) for t in TEA}
+    R.check('%s 再過一天（%s）不重送：那兩句仍各一次' % (tag, await pg.evaluate("CALENDAR.dateOf(GAME.G.day).key")), all(c3[t] == 1 for t in TEA), J(c3))
+    out['next'] = {'count': c3}
     rec['follow'] = out
+
+
+async def expire(pg, cdp, tag, rec):
+    """舊存檔過期（BB-B 07:42 1b）：A 演完、DECIDE_SAY 還沒送 →【捷徑】直接跳到 due+11，等遊戲裡手機規則自己跑（站著等 1 小時遊戲時間）"""
+    x = await pg.evaluate("(id=>JSON.parse(JSON.stringify((GAME.G.flags.DECIDE_SAY||[]).find(q=>q.who===id&&q.key==='exam')||null)))", SIS)
+    R.note('%s EXPIRE 開始：DECIDE_SAY %s' % (tag, J(x)))
+    if not R.check('%s 演完時 DECIDE_SAY 還沒送' % tag, bool(x) and not x.get('played'), J(x)): return
+    R.setup('%s 【前置／捷徑】G.day 直接跳到 due+11（day %d）10:00，weekday 跟著加' % (tag, x['due'] + 11))
+    await pg.evaluate("(d=>{ const G=GAME.G; G.weekday=((G.weekday+(d-G.day))%7+7)%7; G.day=d; G.hour=10; })", x['due'] + 11)
+    await wait_until(pg, cdp, x['due'] + 11, 11.5, max_s=900)
+    m = await pg.evaluate(MSGS, SIS); c = {t: sum(1 for q in m if q['text'] == t) for t in TEA}
+    st = await pg.evaluate("(id=>JSON.parse(JSON.stringify((GAME.G.flags.DECIDE_SAY||[]).find(q=>q.who===id&&q.key==='exam')||null)))", SIS)
+    R.note('%s %s %.2f：那兩句次數 %s；DECIDE_SAY %s' % (tag, await pg.evaluate("CALENDAR.dateOf(GAME.G.day).key"), await pg.evaluate("+GAME.G.hour"), J(c), J(st)))
+    R.check('%s 過期：那兩句都沒來' % tag, all(c[t] == 0 for t in TEA), J(c))
+    R.check('%s 過期：DECIDE_SAY expired true、played 有值' % tag, bool(st) and st.get('expired') is True and st.get('played') not in (None, False), J(st))
+    rec['expire'] = {'count': c, 'decide_say': st}
 
 
 async def run_mode(pg, cdp, mode, rec):
@@ -244,6 +268,7 @@ async def run_mode(pg, cdp, mode, rec):
         R.check('%s DECIDE.heroine_05.exam＝alone、不是 late、stance support' % tag, bool(ex) and ex.get('v') == 'alone' and not ex.get('late') and ex.get('stance') == 'support', J(ex))
         R.check('%s DECIDE_SAY 有「謝謝你的綠茶。」「最後一晚，我想一個人。……考完請你吃飯。」' % tag, any(x.get('say') == ['謝謝你的綠茶。', '最後一晚，我想一個人。……考完請你吃飯。'] for x in my), J(my))
         if my and os.environ.get('FOLLOW'): await follow(pg, cdp, tag, rec)
+        elif my and os.environ.get('EXPIRE'): await expire(pg, cdp, tag, rec)
         elif my:
             R.setup('%s 【捷徑】日子 +3（她三天沒見到你）→ DECIDE.tick（手機規則同一支）' % tag)
             ph = await pg.evaluate("(id=>{ const G=GAME.G, x=(G.flags.DECIDE_SAY||[]).find(q=>q.who===id&&q.key==='exam'); G.day=x.due+3; G.weekday=(G.weekday+3)%7; const r=DECIDE.tick(G); return {r, msgs:JSON.parse(JSON.stringify((G.msgs||[]).filter(m=>m.th==='p:'+id||m.who===id||m.from===id).slice(-4))), x:JSON.parse(JSON.stringify(x))}; })", SIS)
