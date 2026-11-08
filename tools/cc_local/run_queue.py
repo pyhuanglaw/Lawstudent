@@ -1408,6 +1408,13 @@ class Runner(object):
         except Exception:
             pass
         meta['res_peak'] = peak
+        try:   # BB-B 11-08 12:34：gpu_wrap 印的 WebGL renderer 寫進 meta.json（AMD＝GPU；SwiftShader＝不能判美術）
+            with open(os.path.join(od, 'run.log'), 'rb') as fr:
+                rr = sorted(set(l.split(b'WEBGL_RENDERER:', 1)[1].strip().decode('utf-8', 'replace') for l in fr if b'WEBGL_RENDERER:' in l))
+            if rr:
+                meta['webgl_renderer'] = rr if len(rr) > 1 else rr[0]
+        except Exception:
+            pass
         try:
             os.remove(running_f)
         except OSError:
