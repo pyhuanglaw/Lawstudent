@@ -1547,3 +1547,9 @@ Raa36_classreal | aa363f62a8363594199ba99ebefa3ce57512ee58 | game | tests/flow_c
 # [CC-B 09:3x 不用了] Rmain_movreg_hl | 74cb8314d578f63448802d95a38ba8fcbaa6bf03 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=1
 Rmain_reach | 74cb8314d578f63448802d95a38ba8fcbaa6bf03 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
 Rmain_zone | 74cb8314d578f63448802d95a38ba8fcbaa6bf03 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
+# CC-B 11-08 09:4x：aa363f62 回歸剩下的
+Raa36_mini | aa363f62a8363594199ba99ebefa3ce57512ee58 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+Raa36_v0_start | aa363f62a8363594199ba99ebefa3ce57512ee58 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+Raa36_v0_to1017 | aa363f62a8363594199ba99ebefa3ce57512ee58 | game | tests/flow_v0_to1017.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
+Raa36_v0_tolaw | aa363f62a8363594199ba99ebefa3ce57512ee58 | game | tests/flow_v0_tolaw.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+Raa36_touch | aa363f62a8363594199ba99ebefa3ce57512ee58 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
