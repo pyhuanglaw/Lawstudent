@@ -33,7 +33,7 @@ async def main():
         await P.load(pg, cdp, s, quiet=True); await P.init(pg)
         run.setup('[前置] day46 存檔讀到 classroom 09:57')
         await pg.evaluate(Q.DLG_WATCH); await pg.evaluate("window.__DW.length=0")
-        ok = await pg.evaluate("(()=>{ try{ const ev=(STORY_EVENTS||[]).find(e=>e.id==='ev_class_crimpro'); if(!ev) return 'no event'; void EVENTS.run('ev_class_crimpro'); return 'started'; }catch(e){ return 'err '+e; } })()")
+        ok = await pg.evaluate("(()=>{ try{ const ev=(STORY_EVENTS||[]).find(e=>e.id==='ev_class_crimpro'); if(!ev) return 'no event'; if(EVENTS.running) return 'busy '+EVENTS.running; void EVENTS.run(ev); return 'started';   /* EVENTS.run 要傳事件物件（不是 id）*/ }catch(e){ return 'err '+e; } })()")
         run.setup('【捷徑】EVENTS.run(ev_class_crimpro)（退役課堂，唯一 context:class 的出題）：%s' % ok)
         r = await P.dialog(pg, cdp, run, picks=(), max_s=240, start_s=12, idle_s=5, tag='class')
         lines = Q.full_lines(await pg.evaluate("window.__DW.slice()"))
