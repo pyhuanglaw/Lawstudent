@@ -84,7 +84,9 @@ async def main():
                         ex = [e.split('|') for e in (os.environ.get('EXTRA') or '').split(';') if e.count('|') == 4] + [e.split('@') for e in (os.environ.get('EXTRA2') or '').split('/') if e.count('@') == 4]   # EXTRA2＝PC 佇列用（ENV 已經用 ; 和 | 分欄）：項目之間 /、欄位之間 @   # EXTRA＝part|名字|ex,ey,ez|lx,ly,lz|lens;…（加拍的固定機位，例：總圖 B1 中庭往上看）
                         xv = [(e[1], [float(v) for v in e[2].split(',')], [float(v) for v in e[3].split(',')], float(e[4])) for e in ex if e[0] == part]
                         on2 = False
+                        VO = [v for v in (os.environ.get('VIEWS_ONLY') or '').split(',') if v]   # PC 一項結果截圖上限 25 MB：只拍這幾個機位（例 door,corner_a,corner_b）
                         for nm, eye, look, lens in list(views) + xv:
+                            if VO and nm not in VO: continue
                             if '_2f' in nm and not on2:   # 2F 的機位：玩家要站在 2F（lv1），遊戲才會顯示 2F（玩家在 1F 時樓上藏起來；11-08 第一輪拍到的是 1F 俯視）
                                 on2 = True
                                 p2 = await pg.evaluate("(()=>{ const q=GAME.E.interactables.find(i=>i.seat&&((i.seat.lv|0)>=1||(i.lv|0)>=1)); return q?{x:q.x,z:q.z}:null; })()")
