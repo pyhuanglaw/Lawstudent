@@ -21,7 +21,7 @@ J = D.J
 R = L.Run('sis_exam', OUT); D.setup(R, OUT)
 SAVE46 = os.environ['SAVE46']; SIS = 'heroine_05'
 MODES = [m for m in (os.environ.get('MODES') or 'A,B').split(',') if m]
-DATES = {'A': '2026-01-27', 'B': '2026-02-03'}
+DATES = {'A': os.environ.get('DATE_A') or '2026-01-27', 'B': '2026-02-03'}
 WRAP = """(()=>{ if(GAME._ccQW) return; window.__says=[]; const f=GAME.say, c=GAME.caption;
   GAME.say=function(who,text){ try{ window.__says.push({k:'say', who:who?(typeof who==='string'?who:(who.name||'')):'', t:String(text), h:+(+GAME.G.hour).toFixed(2), zone:GAME.G.zone}); }catch(e){} return f.apply(this,arguments); };
   if(c) GAME.caption=function(who,text){ try{ window.__says.push({k:'cap', who:who||'', t:String(text), h:+(+GAME.G.hour).toFixed(2), zone:GAME.G.zone}); }catch(e){} return c.apply(this,arguments); };
@@ -87,7 +87,7 @@ async def run_mode(pg, cdp, mode, rec):
     inv = None
     if R.check('%s 手機「朋友」有學姊的「約」' % tag, ok, ''):
         await L.tap(pg, cdp, '[data-inv="%s"]' % SIS); await pg.wait_for_timeout(1200)
-        a = await drive(pg, cdp, tag + ' 約', ['喝咖啡', '今天'], max_s=200, idle_end=6)
+        a = await drive(pg, cdp, tag + ' 約', (os.environ.get('PREFS') or '喝咖啡,今天').split(','), max_s=200, idle_end=6)
         inv = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).filter(q=>q.who===id&&q.day===GAME.G.day&&q.state==='accepted').slice(-1)[0]; return v?JSON.parse(JSON.stringify(v)):null; })", SIS)
         R.note('%s 約的結果：%s；說的話 %s' % (tag, J(inv), J(await pg.evaluate("window.__says||[]"))))
     if not inv:
@@ -105,6 +105,8 @@ async def run_mode(pg, cdp, mode, rec):
     m = await drive(pg, cdp, tag + ' 見面', ['綠茶'], max_s=420, idle_end=15, shots=3)
     says = await pg.evaluate("window.__says||[]")
     s2 = await pg.evaluate(STATE, SIS); R.note('%s 見面以後：%s' % (tag, J(s2)))
+    q = await pg.evaluate("(()=>{ const P=GAME.E.player; return {zone:GAME.G.zone, lv:P.lv|0, x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), quiet:typeof LIBQ!=='undefined'&&LIBQ.studyAt?!!LIBQ.studyAt(GAME.G.zone,P.lv|0,P.obj.position.x,P.obj.position.z):null}; })()")
+    R.note('%s 見面地點與 ctx.quiet（LIBQ.studyAt，見面結束時玩家的位置）：%s' % (tag, J(q)))
     R.note('%s 見面全部的話：%s' % (tag, J([[x['k'], x['who'], x['t']] for x in says])))
     await R.shot(pg, 'sis_%s_end' % mode)
     txt = [x['t'] for x in says]

@@ -26,14 +26,14 @@ VIEWS = {
 }
 AUTO = r"""(()=>{ const E=GAME.E, z=E.zone, P=E.player.obj.position, yaw=E.player.obj.rotation.y; const box=new THREE.Box3();
   z.group.traverse(o=>{ if(o.isMesh&&o.visible){ const b=new THREE.Box3().setFromObject(o); const s=b.getSize(new THREE.Vector3()); if(s.x<40&&s.z<40) box.union(b); } });
-  const c=box.getCenter(new THREE.Vector3()), sz=box.getSize(new THREE.Vector3()); const fx=Math.sin(yaw), fz=Math.cos(yaw);
+  const c=box.getCenter(new THREE.Vector3()), sz=box.getSize(new THREE.Vector3()); const fx=Math.sin(yaw), fz=Math.cos(yaw); const y0=+P.y||0;   /* 店在二樓（木曜日出生點 y 1.2）：機位高度都從玩家腳下算（BB-B 01:58）*/
   const V={}; const r2=v=>v.map(x=>+(+x).toFixed(2));
-  V.door={eye:r2([P.x-fx*0.3,1.6,P.z-fz*0.3]), look:r2([P.x+fx*6,1.0,P.z+fz*6]), lens:18};
+  V.door={eye:r2([P.x-fx*0.3,y0+1.6,P.z-fz*0.3]), look:r2([P.x+fx*6,y0+1.0,P.z+fz*6]), lens:18};
   V.top={eye:r2([c.x,Math.max(7,sz.y+5),c.z+0.8]), look:r2([c.x,0,c.z-0.3]), lens:16};
-  const seat=E.interactables.find(i=>i.seat&&!i.hidden); if(seat){ const sx=seat.seat.x, sz2=seat.seat.z; V.seat={eye:r2([sx+(c.x-sx)*0.35+0.4,1.4,sz2+(c.z-sz2)*0.35+0.4]), look:r2([sx,0.6,sz2]), lens:22}; }
-  const cl=(E.npcs||[]).find(n=>n&&(n.clerk||n.staff)&&n.obj); if(cl){ const q=cl.obj.position; const dx=c.x-q.x, dz=c.z-q.z, d=Math.hypot(dx,dz)||1; V.clerk={eye:r2([q.x+dx/d*2.2,1.6,q.z+dz/d*2.2]), look:r2([q.x,1.2,q.z]), lens:24}; }
-  V.out={eye:r2([P.x+fx*2.5,1.55,P.z+fz*2.5]), look:r2([P.x-fx*6,1.4,P.z-fz*6]), lens:20};
-  return {spawn:r2([P.x,P.z]), yaw:+yaw.toFixed(2), center:r2([c.x,c.z]), size:r2([sz.x,sz.y,sz.z]), clerk:cl?r2([cl.obj.position.x,cl.obj.position.z]):null, seat:seat?r2([seat.seat.x,seat.seat.z]):null, views:V}; })()"""
+  const seat=E.interactables.find(i=>i.seat&&!i.hidden); if(seat){ const sx=seat.seat.x, sz2=seat.seat.z; const sy=seat.seat.y!=null?+seat.seat.y:y0; V.seat={eye:r2([sx+(c.x-sx)*0.35+0.4,sy+1.4,sz2+(c.z-sz2)*0.35+0.4]), look:r2([sx,sy+0.6,sz2]), lens:22}; }
+  const cl=(E.npcs||[]).find(n=>n&&(n.clerk||n.staff)&&n.obj); if(cl){ const q=cl.obj.position; const dx=c.x-q.x, dz=c.z-q.z, d=Math.hypot(dx,dz)||1; const qy=+q.y||0; V.clerk={eye:r2([q.x+dx/d*2.2,qy+1.6,q.z+dz/d*2.2]), look:r2([q.x,qy+1.2,q.z]), lens:24}; }
+  V.out={eye:r2([P.x+fx*2.5,y0+1.55,P.z+fz*2.5]), look:r2([P.x-fx*6,y0+1.4,P.z-fz*6]), lens:20};
+  return {spawn:r2([P.x,P.z]), y0:+y0.toFixed(2), yaw:+yaw.toFixed(2), center:r2([c.x,c.z]), size:r2([sz.x,sz.y,sz.z]), clerk:cl?r2([cl.obj.position.x,cl.obj.position.z]):null, seat:seat?r2([seat.seat.x,seat.seat.z]):null, views:V}; })()"""
 INFO = r"""(()=>{ const z=GAME.E.zone; let n=0, lm=0, uv1=0, white=0, meshes=0; const maps=new Set(), views=[];
   z.group.traverse(o=>{ if(/VIEW/i.test(o.name||'')) views.push({n:o.name, vis:o.visible}); if(!o.isMesh) return; meshes++; if(o.geometry&&o.geometry.attributes&&o.geometry.attributes.uv1) uv1++;
     for(const m of [].concat(o.material)){ if(!m) continue; n++; if(m.lightMap){ lm++; maps.add(((m.lightMap.image&&(m.lightMap.image.currentSrc||m.lightMap.image.src))||m.lightMap.name||'?').split('/').pop()); }

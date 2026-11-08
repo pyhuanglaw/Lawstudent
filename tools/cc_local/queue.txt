@@ -195,6 +195,9 @@ L5FLM_after | e9d8c668fd832f13beeb79903f3270aa1b914089 | probe | docs/story_plan
 SC3_e66_gpu | e66781d1f7850a3c3bbb848715404474992cfc1f | probe | docs/story_planning/test_tools/cc/cc_scene3_probe.py | index.html | 40 | CC_HEADLESS=0
 LZ5F_e66_gpu | e66781d1f7850a3c3bbb848715404474992cfc1f | probe | docs/story_planning/test_tools/cc/cc_linze_lm_probe.py | index.html | 20 | TAG=e66;ZONES=linze_5f;HOURS=10,20;VIEWS=lab_door:-4.2:-0.6:0+lab_in:-5.6:1.6:0+corridor:6.0:-5.5:-1.5708;SIS=2027-12-24,21,lab_in;CC_HEADLESS=0
 CORNER_fps_e66 | e66781d1f7850a3c3bbb848715404474992cfc1f | probe | tools/cc_local/fps_zones.py | index.html | 20 | ZONES=corner_records,yangyang;SLOTS=day,night;SECS=15;CC_HEADLESS=0
+#   BB-B 01:58（11-08）溫州街補拍（上一批 30 張超過 25 MB 沒推上來；SLOTS 照營業時間：一盞 12–20、定食 18–02、影印）；e2762e9d9；判完就標六間 ART_APPROVED
+GG3LM_wz6b_tea | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | docs/story_planning/test_tools/cc/cc_scene5_probe.py | index.html | 30 | TAG=after_gpu;PART=wz_teahouse;SLOTS=1400:14,1930:19.5;CC_HEADLESS=0
+GG3LM_wz6b_tp | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | docs/story_planning/test_tools/cc/cc_scene5_probe.py | index.html | 30 | TAG=after_gpu;PART=wz_teishoku,wz_print;SLOTS=1930:19.5,2100:21;CC_HEADLESS=0
 #   BB-B 01:45（11-08）溫州街六間光照 GPU：e2762e9d9（含 4d949ba39＋一盞重烘 dd32c1094），14:00、19:30、21:00（2025-10-18 週六＝一盞營業日）；ART_APPROVED 卡在這裡＝排最前面
 GG3LM_wz6_e276 | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | docs/story_planning/test_tools/cc/cc_scene5_probe.py | index.html | 40 | TAG=after_gpu;PART=wz_brunch,wz_teishoku,wz_mokuyobi,wz_teahouse,wz_offbeat,wz_print;SLOTS=1400:14,1930:19.5,2100:21;CC_HEADLESS=0
 GG3LM_wz6_fps_e276 | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | tools/cc_local/fps_zones.py | index.html | 30 | ZONES=wz_brunch,wz_teishoku,wz_mokuyobi,wz_teahouse,wz_offbeat,wz_print;SLOTS=day,night;SECS=15;SOLO=1;CC_HEADLESS=0
