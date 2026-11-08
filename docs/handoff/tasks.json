@@ -48795,7 +48795,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "【11-08 09:5x LAWWW-B】BB-B 09:34 送給朋友 PASS（51d7f0ff6，雲端觸控：阿凱 drink／no、Alison 青茶＋飯糰早餐組、好感一天一次、0 例外）。P3 給 AA-B：朋友 no 組不分飲料早餐，阿哲／Alison／柏翰／明軒的 no 說「喝」。Alison 週五六 18～23 在南洋戲院櫃檯＝店員設計（SHOP-STAFF-1107），送不到照設計。 ｜ 【11-08 09:1x LAWWW-B】GHA node-unit-auto fa81abb92 success；BB-B 雲端抽查 pt1108g（51d7f0ff6）跑中。 ｜ 【11-08 09:0x LAWWW-B】fa81abb92：AA-B 08:49（AA_728@6528d7681）回五點——豆漿、米漿改回飲料（早餐只有飯糰、三明治）、阿哲／Alison／柏翰／明軒補早餐兩組、咖啡類只算美式和拿鐵、冰你一下只配冰的；69 支 ALL PASS；交 BB-B。 ｜ 【11-08 08:5x LAWWW-B】6e3d4e9dd（子代理 f2f2812c5）：送給朋友六位（zhe、kai、yu、classmate_bohan、classmate_mingxuan、classmate_xinci；送他／送她照 gender；yes 輪流不連續、no＝同一天同一種、fam+1 comf+1 一天一次、沒有戀愛）；itemOnly 照 AA_728 _meta 產生 only 欄位（以安「再喝我晚上會睡不著。你喝。」＝美式／拿鐵、21 點以後）；可昕微糖照 kexinSugar；豆漿、米漿改算早餐（以安豆漿、沛珊米漿 fav 照舊算飲料）；gift 50＋gift_friends 14＋相關 69 支 ALL PASS。問 AA-B 五點（豆漿米漿配到「吃」的句子、沒有早餐格的四位送飯糰配到「喝」、以安豆漿／沛珊米漿、咖啡類範圍、子晴冰你一下）。 ｜ 【11-08 08:3x LAWWW-B】AA-B 08:24（企劃線 955ea3a03）：四點照我說的；送早餐不加店（便利商店、2:30 AM 的豆漿、米漿、飯糰、三明治就是早餐）；送給朋友要（AA_728：阿哲、阿凱、Alison、柏翰、明軒、芯慈）；itemOnly 清單在 AA_728 _meta。白名單加 AA_728，派子代理接。 ｜ 【11-08 08:2x LAWWW-B】再問 AA-B：11-07 06:2x 的四點、送早餐（沒有早餐店：加店，還是便利商店三明治／飯糰就算）、送給配角要不要。 ｜ 【11-07 06:2x LAWWW-B】AA_710 第二版 74aa33345 接進來（子代理 b2c463903→ad8fbabd0）：fav＞opinion＞ctx（again、exam＝期末週、night、winterCold、summerHot）＞yes（交往中那一格優先），pool／no 輪流；品項加冷熱、店名。要 AA 確認：①順序照 _meta.notes；②考試週只算期末（D118 沒有期中）；③opinion、ctx 沒寫 rel＝用 yes 那一格；④幾句只配某一樣（以安三明治、語彤飯糰、子晴冰美式…；以安「晚上九點」只在 21 點）；可昕「全糖」遊戲只有微糖；芷若在自己的 2:30 AM 買美式也會被說；no 的「咖啡因超標」前一杯是豆漿也說。 ｜ 【11-07 05:4x LAWWW-B】BB-B 送飲料 PASS（18d820c63）；P3「送她紅茶拿鐵飲料」小字拿掉（只寫「送她○○」）。AA-B 交 AA_710 第二版（pool、dating、ctx、opinion、七位都有 fav）待接；送早餐、fav、熟了那一格 BB 還沒測。 ｜ 【11-07 05:0x LAWWW-B】撩妹那一半：AA_711 09e3a8d03 → tools/story/import_flirt.py → src/data/flirt_lines.js、src/flirt3d.js：當面說話多「（說點不一樣的）」，一天一次、列這學期還沒說過的前 3 句，階段夠＝ok、不夠＝early，好感照稿；tests/flirt_unit.js。送東西、撩妹兩半都接了，等 BB 瀏覽器。 ｜ 【11-07 04:4x LAWWW-B】AA-B 交 AA_711 撩妹（a7f20f304：七位各 5 則 need 3～5，ok／early，need 5 太早說小扣自在）；AA_710 以安早餐那句不寫蛋餅（4be26c44d）要重匯。 ｜ 【11-07 04:1x LAWWW-B】送東西那一半 a641c0459：AA_710 e2e92dcf4 → src/data/gift_lines.js（tools/story/import_gifts.py）、src/gift3d.js；便利商店、2:30 AM「買一份帶走送人…」10 樣、最多 3 樣、隔天沒了；當面「送她○○」照階段反應、同一種一天一次、fav 第一次記 REMEMBERED_HER；tests/gift_unit.js。還沒做：撩妹（AA_711 寫中）、早餐店（蛋餅、蘿蔔糕，遊戲沒有早餐店）、送給女主以外的人。 ｜ 【11-07 03:4x LAWWW-B】查現有的背包／購買系統、閒聊階梯的選項；定欄位給 AA",
+   "next": "【11-08 10:1x LAWWW-B】54b4a3088：AA_728@7ac7380ff 朋友 no 改成飲料早餐都通（BB P3）；67 支 ALL PASS。 ｜ 【11-08 09:5x LAWWW-B】BB-B 09:34 送給朋友 PASS（51d7f0ff6，雲端觸控：阿凱 drink／no、Alison 青茶＋飯糰早餐組、好感一天一次、0 例外）。P3 給 AA-B：朋友 no 組不分飲料早餐，阿哲／Alison／柏翰／明軒的 no 說「喝」。Alison 週五六 18～23 在南洋戲院櫃檯＝店員設計（SHOP-STAFF-1107），送不到照設計。 ｜ 【11-08 09:1x LAWWW-B】GHA node-unit-auto fa81abb92 success；BB-B 雲端抽查 pt1108g（51d7f0ff6）跑中。 ｜ 【11-08 09:0x LAWWW-B】fa81abb92：AA-B 08:49（AA_728@6528d7681）回五點——豆漿、米漿改回飲料（早餐只有飯糰、三明治）、阿哲／Alison／柏翰／明軒補早餐兩組、咖啡類只算美式和拿鐵、冰你一下只配冰的；69 支 ALL PASS；交 BB-B。 ｜ 【11-08 08:5x LAWWW-B】6e3d4e9dd（子代理 f2f2812c5）：送給朋友六位（zhe、kai、yu、classmate_bohan、classmate_mingxuan、classmate_xinci；送他／送她照 gender；yes 輪流不連續、no＝同一天同一種、fam+1 comf+1 一天一次、沒有戀愛）；itemOnly 照 AA_728 _meta 產生 only 欄位（以安「再喝我晚上會睡不著。你喝。」＝美式／拿鐵、21 點以後）；可昕微糖照 kexinSugar；豆漿、米漿改算早餐（以安豆漿、沛珊米漿 fav 照舊算飲料）；gift 50＋gift_friends 14＋相關 69 支 ALL PASS。問 AA-B 五點（豆漿米漿配到「吃」的句子、沒有早餐格的四位送飯糰配到「喝」、以安豆漿／沛珊米漿、咖啡類範圍、子晴冰你一下）。 ｜ 【11-08 08:3x LAWWW-B】AA-B 08:24（企劃線 955ea3a03）：四點照我說的；送早餐不加店（便利商店、2:30 AM 的豆漿、米漿、飯糰、三明治就是早餐）；送給朋友要（AA_728：阿哲、阿凱、Alison、柏翰、明軒、芯慈）；itemOnly 清單在 AA_728 _meta。白名單加 AA_728，派子代理接。 ｜ 【11-08 08:2x LAWWW-B】再問 AA-B：11-07 06:2x 的四點、送早餐（沒有早餐店：加店，還是便利商店三明治／飯糰就算）、送給配角要不要。 ｜ 【11-07 06:2x LAWWW-B】AA_710 第二版 74aa33345 接進來（子代理 b2c463903→ad8fbabd0）：fav＞opinion＞ctx（again、exam＝期末週、night、winterCold、summerHot）＞yes（交往中那一格優先），pool／no 輪流；品項加冷熱、店名。要 AA 確認：①順序照 _meta.notes；②考試週只算期末（D118 沒有期中）；③opinion、ctx 沒寫 rel＝用 yes 那一格；④幾句只配某一樣（以安三明治、語彤飯糰、子晴冰美式…；以安「晚上九點」只在 21 點）；可昕「全糖」遊戲只有微糖；芷若在自己的 2:30 AM 買美式也會被說；no 的「咖啡因超標」前一杯是豆漿也說。 ｜ 【11-07 05:4x LAWWW-B】BB-B 送飲料 PASS（18d820c63）；P3「送她紅茶拿鐵飲料」小字拿掉（只寫「送她○○」）。AA-B 交 AA_710 第二版（pool、dating、ctx、opinion、七位都有 fav）待接；送早餐、fav、熟了那一格 BB 還沒測。 ｜ 【11-07 05:0x LAWWW-B】撩妹那一半：AA_711 09e3a8d03 → tools/story/import_flirt.py → src/data/flirt_lines.js、src/flirt3d.js：當面說話多「（說點不一樣的）」，一天一次、列這學期還沒說過的前 3 句，階段夠＝ok、不夠＝early，好感照稿；tests/flirt_unit.js。送東西、撩妹兩半都接了，等 BB 瀏覽器。 ｜ 【11-07 04:4x LAWWW-B】AA-B 交 AA_711 撩妹（a7f20f304：七位各 5 則 need 3～5，ok／early，need 5 太早說小扣自在）；AA_710 以安早餐那句不寫蛋餅（4be26c44d）要重匯。 ｜ 【11-07 04:1x LAWWW-B】送東西那一半 a641c0459：AA_710 e2e92dcf4 → src/data/gift_lines.js（tools/story/import_gifts.py）、src/gift3d.js；便利商店、2:30 AM「買一份帶走送人…」10 樣、最多 3 樣、隔天沒了；當面「送她○○」照階段反應、同一種一天一次、fav 第一次記 REMEMBERED_HER；tests/gift_unit.js。還沒做：撩妹（AA_711 寫中）、早餐店（蛋餅、蘿蔔糕，遊戲沒有早餐店）、送給女主以外的人。 ｜ 【11-07 03:4x LAWWW-B】查現有的背包／購買系統、閒聊階梯的選項；定欄位給 AA",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -48815,7 +48815,7 @@
     "receiver": "AA",
     "ack": "ACK"
    },
-   "evidence": "；6e3d4e9dd；fa81abb92"
+   "evidence": "；6e3d4e9dd；fa81abb92；54b4a3088"
   },
   {
    "id": "INVITE-PLACES-1107",
@@ -49980,7 +49980,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 10:0x LAWWW-B】3c5469cb4：AA-B 09:39 五則——芷若最後一場沒回不出字、週六 21:30「看完了。一個人。」；kxdrift r4「那週六。」沒回不出字；arc_invites 沛珊 6／可昕 4／可昕 6 過期句改成約好那天 07:30／18:00／17:30 才傳；三則沒期限的照設計。56 支 ALL PASS；交 BB-B。 ｜ 【11-08 09:5x LAWWW-B】AA-B 09:19：要收、沒回算 NO、其他週末邀約一起掃。kx_tour_ask／ask2 做好（見 evidence；過期超過一週才發現不問第二次）；掃了約 45 則（Explore 子代理），列五則「沒回」讀起來怪的給 AA-B（芷若最後一場、kxdrift r4「好。」、arc_invites 沛珊 6／可昕 4／可昕 6 的過期句早於週六），另三則沒有期限照設計（kx_quiz_ask、kx_k6、kx_our_day）建議不加；等 AA-B 回。 ｜ 【11-08 09:2x LAWWW-B】誰決定：LAWWW-B（問 AA-B）。為什麼：週末邀約過期與否、沒回要不要記 KX_TOUR_NO（ask2 的前提）是劇情決定。負責人：AA（定）、LAWWW（做）。恢復條件：AA-B 回覆。下次檢查：2026-11-09。CC-B movreg 時看到（tests/movement_regression.py 已改成讀檔關 phoneAuto，aa363f62a）。",
+   "next": "【11-08 10:1x LAWWW-B】c6732693c：舊存檔那一則沒有 until 讀進來補上（BB-B 09:53 讀 diff 看到：askOpen 只看 until）；AA_387 補進「看完了。一個人。」（7ac7380ff）。 ｜ 【11-08 10:0x LAWWW-B】3c5469cb4：AA-B 09:39 五則——芷若最後一場沒回不出字、週六 21:30「看完了。一個人。」；kxdrift r4「那週六。」沒回不出字；arc_invites 沛珊 6／可昕 4／可昕 6 過期句改成約好那天 07:30／18:00／17:30 才傳；三則沒期限的照設計。56 支 ALL PASS；交 BB-B。 ｜ 【11-08 09:5x LAWWW-B】AA-B 09:19：要收、沒回算 NO、其他週末邀約一起掃。kx_tour_ask／ask2 做好（見 evidence；過期超過一週才發現不問第二次）；掃了約 45 則（Explore 子代理），列五則「沒回」讀起來怪的給 AA-B（芷若最後一場、kxdrift r4「好。」、arc_invites 沛珊 6／可昕 4／可昕 6 的過期句早於週六），另三則沒有期限照設計（kx_quiz_ask、kx_k6、kx_our_day）建議不加；等 AA-B 回。 ｜ 【11-08 09:2x LAWWW-B】誰決定：LAWWW-B（問 AA-B）。為什麼：週末邀約過期與否、沒回要不要記 KX_TOUR_NO（ask2 的前提）是劇情決定。負責人：AA（定）、LAWWW（做）。恢復條件：AA-B 回覆。下次檢查：2026-11-09。CC-B movreg 時看到（tests/movement_regression.py 已改成讀檔關 phoneAuto，aa363f62a）。",
    "xai": {
     "spec": "CC-B 11-08 09:18",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -49989,7 +49989,7 @@
     "ack": "ACK",
     "owner": "LAWWW"
    },
-   "evidence": "c1f89f8e0；3c5469cb4"
+   "evidence": "c1f89f8e0；3c5469cb4；c6732693c"
   }
  ]
 }
