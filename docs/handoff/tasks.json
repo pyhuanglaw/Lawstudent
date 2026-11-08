@@ -49745,7 +49745,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 02:4x LAWWW-B】AA-B 02:41（企劃線 ee689cfb8）：對字 642 句 0 缺；十二點 wiringAnswers——ps_result 不取代原本、只在 09:58 先傳兩則（三選項作廢）、交往＋信 12/25 視訊照舊（第四封信加一句）、Café 後巷／臺北車站背景 BB 要圖、其他照現在；沒做的三件給了字（AA_719 after、kx_waited_after 六句、zq_intern.demoJan9＋兩則動態說明）；AA_717 子晴 rot 第 13 則改字、14／15 加 altIntern（不用再關輪換）要重匯。派子代理接。 ｜ 【11-08 02:4x LAWWW-B】43c4030cd（子代理 0eca237f7，AA_720 4f37a68bb）：tools/story/import_aa720.py → src/data/aa720.js、src/aa720_3d.js（19 場、7 塊、尾聲 endings、quietMove）、decide3d.js 沛珊 ruleIf（before 要 future=seen＋交往中）。Node aa720_decide_opened 121 項＋相關 212 支 ALL PASS。沒做：AA_719 自己的 after／closes 句、可昕 waited 之後兩天一兩字回覆、子晴 1/9 demo 與兩則動態說明文字。12 個問題問 AA-B。BB 測。 ｜ 【11-08 01:4x LAWWW-B】派子代理接線（第一批 19 場＋七塊）；AA-B 01:42 第二批 endings（同檔 3e9cc0385：尾聲 S.epiLine 每位加一句 friend／partner、confFail、學姊 guess 要 KNOWS_SIS_ALISON）一起交給同一個子代理。 ｜ 【11-08 01:4x LAWWW-B】AA-B 01:39 交件（企劃線 963afea74，docs/story_planning/AA_720_decide_opened_scenes.json，lint 645 句 0 hit）；同 commit 的 AA_717／AA_719 已重匯（另一筆）。結局分版本（Q3）是第二批。",
+   "next": "【11-08 03:2x LAWWW-B】775f8a3d0（子代理 143efebf3）：AA_720 ee689cfb8 wiringAnswers 接了——ps_result 09:58 兩則＋原本 10:00／10:02／12:00 照演；交往＋信第四封（12/10）加視訊那句、12/25 視訊照舊（Y2B.xmasVideo 共用）；AA_719 after 四處（以安說明會「…第三頁的時候睡著了。」版、送機沒去「我上飛機了。」、芷若 5/11「獎學金拿到一半。」、子晴 test build 一句）；可昕 waited（late／沒去）之後兩天回覆六句輪流；子晴 1/9 demo 實習版＋兩則動態說明；AA_717 改匯 033b5150a（子晴 rot 13～15、芷若第 5 階）、altIntern。Node aa720 165 項、相關 214 支 ALL PASS。8 個問題問 AA。 ｜ 【11-08 02:4x LAWWW-B】AA-B 02:41（企劃線 ee689cfb8）：對字 642 句 0 缺；十二點 wiringAnswers——ps_result 不取代原本、只在 09:58 先傳兩則（三選項作廢）、交往＋信 12/25 視訊照舊（第四封信加一句）、Café 後巷／臺北車站背景 BB 要圖、其他照現在；沒做的三件給了字（AA_719 after、kx_waited_after 六句、zq_intern.demoJan9＋兩則動態說明）；AA_717 子晴 rot 第 13 則改字、14／15 加 altIntern（不用再關輪換）要重匯。派子代理接。 ｜ 【11-08 02:4x LAWWW-B】43c4030cd（子代理 0eca237f7，AA_720 4f37a68bb）：tools/story/import_aa720.py → src/data/aa720.js、src/aa720_3d.js（19 場、7 塊、尾聲 endings、quietMove）、decide3d.js 沛珊 ruleIf（before 要 future=seen＋交往中）。Node aa720_decide_opened 121 項＋相關 212 支 ALL PASS。沒做：AA_719 自己的 after／closes 句、可昕 waited 之後兩天一兩字回覆、子晴 1/9 demo 與兩則動態說明文字。12 個問題問 AA-B。BB 測。 ｜ 【11-08 01:4x LAWWW-B】派子代理接線（第一批 19 場＋七塊）；AA-B 01:42 第二批 endings（同檔 3e9cc0385：尾聲 S.epiLine 每位加一句 friend／partner、confFail、學姊 guess 要 KNOWS_SIS_ALISON）一起交給同一個子代理。 ｜ 【11-08 01:4x LAWWW-B】AA-B 01:39 交件（企劃線 963afea74，docs/story_planning/AA_720_decide_opened_scenes.json，lint 645 句 0 hit）；同 commit 的 AA_717／AA_719 已重匯（另一筆）。結局分版本（Q3）是第二批。",
    "xai": {
     "spec": "AA-B 11-08 01:39（企劃線 963afea74）",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -49755,7 +49755,7 @@
     "owner": "LAWWW"
    },
    "evidence": "",
-   "sha": "43c4030cd"
+   "sha": "775f8a3d0"
   },
   {
    "id": "SIS1-QUIET-LIB-1108",
@@ -49830,7 +49830,7 @@
    "id": "AA712-CITE-LATER-1108",
    "title": "AA_712 cite_later 沒接：heroine_arcs.js 的 cite（27 句回頭提玩家答案的句子）沒有程式讀，永遠不會出現",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -49842,7 +49842,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 03:0x LAWWW-B】AA-B 03:00 定：放進 ARCS.rotPick——ans[mem] 有值、答的那天以後至少 5 天，下一次一起做事要出輪換句時 cite 優先（一次活動最多一句）；一句只用一次（BEATS[id].citeUsed[mem]），同一 mem 兩句先第一句；closes／late 沒演＝沒 ans＝不出；舊存檔照新規則；訊息、偶遇先不用。和 AA720 補那批同一個子代理做（同一段 rotPick）。BB 測「答了→五天後一起念書→她提起」。",
+   "next": "【11-08 03:2x LAWWW-B】775f8a3d0：ARCS.citePick——ans 有值、答了 5 天以上，下一次輪換句優先出 cite（一次一句、在 noPlan 之後、when 之前）；citeUsed 記次數，兩句的下次出第二句；沒 ans 不出；舊存檔 ans 沒有日期當作夠久。tests/arc_cite_unit 16 項 ALL PASS。BB 測「答了→五天後一起念書→她提起」。 ｜ 【11-08 03:0x LAWWW-B】AA-B 03:00 定：放進 ARCS.rotPick——ans[mem] 有值、答的那天以後至少 5 天，下一次一起做事要出輪換句時 cite 優先（一次活動最多一句）；一句只用一次（BEATS[id].citeUsed[mem]），同一 mem 兩句先第一句；closes／late 沒演＝沒 ans＝不出；舊存檔照新規則；訊息、偶遇先不用。和 AA720 補那批同一個子代理做（同一段 rotPick）。BB 測「答了→五天後一起念書→她提起」。",
    "xai": {
     "spec": "AA-B 11-08 03:00",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -49851,7 +49851,8 @@
     "ack": "ACK",
     "owner": "LAWWW"
    },
-   "evidence": ""
+   "evidence": "",
+   "sha": "775f8a3d0"
   }
  ]
 }
