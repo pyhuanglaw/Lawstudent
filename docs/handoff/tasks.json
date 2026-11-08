@@ -49907,6 +49907,33 @@
     "owner": "LAWWW"
    },
    "evidence": "5292ead4d；tests/v0_e01_unit.js 第 0 項"
+  },
+  {
+   "id": "UX-MINIMAP-GUIDE-DOOR-1108",
+   "title": "小地圖：指路的橘色箭頭蓋住目標門口的出入口方塊（#7fc4c9），玩家看不到那裡是門",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "開著指路走到有出入口的建築",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 05:5x LAWWW-B】BB-B 05:44（PC R8B6_mini 截圖比對）：改法二選一——出入口方塊畫在路線上面，或箭頭停在離目標 4 px。D99 後面；測試 tests/minimap_direction.py 已改成關指路再量（06e4ffb1c）。",
+   "xai": {
+    "spec": "BB-B 11-08 05:44",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "開著指路時，目標門口的出入口方塊照樣看得到",
+    "receiver": "BB（測）",
+    "ack": "ACK",
+    "owner": "LAWWW"
+   },
+   "evidence": ""
   }
  ]
 }
