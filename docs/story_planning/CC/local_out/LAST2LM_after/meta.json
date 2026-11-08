@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "LAST2LM_after",
+  "sha": "e9d8c668fd832f13beeb79903f3270aa1b914089",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_overlay_run.py",
+  "env": "RUN=cc_room_shots_probe.py;OVERLAY_SHA=90db8d49e0d3d4e6439363a7a2b34cc8ca611bea;OVERLAY_FILES=assets/models/env/second_ai/dorm_205.glb,assets/models/env/second_ai/dorm_205.layout.json,assets/models/env/second_ai/us_bed_c.glb,assets/models/env/second_ai/dorm_205_lm_day.webp,assets/models/env/second_ai/dorm_205_lm_night.webp,assets/models/env/second_ai/us_bed_c_lm_day.webp,assets/models/env/second_ai/us_bed_c_lm_night.webp;OVERLAY_PATCH=docs/art-rebuild/second_ai/wip/rooms_last2_lm_1107/rooms_last2_lm_1107.patch;TAG=after;SHOTS=dorm_205,2025-10-15,21.5,r205_window,yaw+dorm_205,2025-10-15,21.5,r205_ceiling,yaw_ceil+us_bed_c,2028-03-11,15,bedc_15,yaw+us_bed_c,2028-03-11,20,bedc_20,yaw;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T09:34:19",
+  "end": "2026-11-08T09:37:26",
+  "seconds": 187,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 26,
+    "mem": 51,
+    "used_gb": 16.0,
+    "chrome_testing": 12
+  }
+}
