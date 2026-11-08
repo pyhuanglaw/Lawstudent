@@ -1,0 +1,76 @@
+campus        base     黑畫面 12173.5 ms（預熱 0.3）｜淡入後 245 格 avg 20.4 fps 1%low 0.85 最慢 1950 ms、>100 ms 7 格、>500 ms 1 格｜進區域以後才載 7 個
+    進區域以後才載：char.npc_nf5、char.npc_nm5、char.ual_sit_clips、prop.book_open、char.npc_nm17、char.ual_sit_tasks、prop.hand_props
+      載好 char.ual_sit_clips（clips）7006 ms，進區域後 11046 ms
+      載好 prop.book_open（building）7381.1 ms，進區域後 11425 ms
+      載好 char.npc_nf5（vrm）8771.3 ms，進區域後 11460 ms
+      載好 char.npc_nm5（vrm）8790.5 ms，進區域後 11480 ms
+      載好 char.npc_nm17（vrm）6657.5 ms，進區域後 11553 ms
+      載好 char.ual_sit_tasks（clips）346.7 ms，進區域後 17110 ms
+      載好 prop.hand_props（building）579.5 ms，進區域後 17343 ms
+      檔案 bl_npc_nm5.lod.glb：開始 2689、下載完 2715 ms（進區域後）、傳輸 276236 bytes
+      檔案 book_open.glb：開始 4043、下載完 4061 ms（進區域後）、傳輸 39028 bytes
+      檔案 ual_sit_clips.glb：開始 4039、下載完 4068 ms（進區域後）、傳輸 315384 bytes
+      檔案 bl_npc_nm17.lod.glb：開始 4895、下載完 4904 ms（進區域後）、傳輸 300 bytes
+      檔案 bl_npc_nf5.vrm：開始 2688、下載完 11011 ms（進區域後）、傳輸 2651424 bytes
+      檔案 bl_npc_nm5.vrm：開始 2689、下載完 11021 ms（進區域後）、傳輸 2384612 bytes
+      檔案 bl_npc_nm17.vrm：開始 4895、下載完 11054 ms（進區域後）、傳輸 300 bytes
+      檔案 linze_interior.glb：開始 12206、下載完 12419 ms（進區域後）、傳輸 2405860 bytes
+      檔案 lane118_street.glb：開始 15145、下載完 15613 ms（進區域後）、傳輸 5622776 bytes
+      檔案 lane118_ground.glb：開始 15626、下載完 15682 ms（進區域後）、傳輸 2446420 bytes
+      檔案 lane118_props.glb：開始 15716、下載完 15744 ms（進區域後）、傳輸 1401252 bytes
+      檔案 scooter.glb：開始 15791、下載完 15831 ms（進區域後）、傳輸 1305024 bytes
+      檔案 hand_props.glb：開始 16763、下載完 16783 ms（進區域後）、傳輸 84488 bytes
+      檔案 ual_sit_tasks.glb：開始 16762、下載完 16818 ms（進區域後）、傳輸 1256180 bytes
+      parseVRM 進區域後 11116 ms：同步 2.2 ms、2651124 bytes
+      parseVRM 進區域後 11153 ms：同步 2.4 ms、2384312 bytes
+      parseVRM 進區域後 11187 ms：同步 1.7 ms、2381592 bytes
+      parseVRM 做完 進區域後 11457 ms：共 341.7 ms
+      parseVRM 做完 進區域後 11478 ms：共 324.6 ms
+      parseVRM 做完 進區域後 11551 ms：共 363.2 ms
+    慢格：淡入後 2970 ms，1950 ms（update 3.3、render 338.6、換模型 1 次 56.1 ms、新 shader 1）；這段時間 JS 1942.4 ms、不是 JS 7.6 ms
+         1943.9 ms  FrameRequestCallback frame @ src/game3d.js:582
+    慢格：淡入後 3370 ms，399.9 ms（update 5.3、render 42.2、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 397.9 ms、不是 JS 2.0 ms
+         1943.9 ms  FrameRequestCallback frame @ src/game3d.js:582
+          398.6 ms  FrameRequestCallback frame @ src/game3d.js:582
+    慢格：淡入後 4820 ms，316.7 ms（update 3.4、render 28.1、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 310.1 ms、不是 JS 6.6 ms
+          320.9 ms  FrameRequestCallback frame @ src/game3d.js:582
+        事件：load 86 char.ual_sit_tasks clips；load 87 prop.hand_props building
+    慢格：淡入後 7120 ms，316.7 ms（update 5.6、render 30.8、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 303.5 ms、不是 JS 13.2 ms
+          306.9 ms  FrameRequestCallback frame @ src/game3d.js:582
+    慢格：淡入後 237 ms，183.3 ms（update 3.5、render 28.8、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 163.9 ms、不是 JS 19.4 ms
+          168.4 ms  FrameRequestCallback frame @ src/game3d.js:582
+    慢格：淡入後 3487 ms，116.7 ms（update 3.8、render 26.9、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 13.7 ms、不是 JS 103.0 ms
+          398.6 ms  FrameRequestCallback frame @ src/game3d.js:582
+           11.5 ms  Promise.resolve (匿名) @ src/assets3d.js:337
+    淡入後 JS 加總前幾名：
+         3948.9 ms  FrameRequestCallback frame @ src/game3d.js:582
+           67.8 ms  ReadableStreamDefaultReader.read.then (匿名) @ src/assets3d.js:284
+           27.1 ms  TimerHandler:setTimeout step @ src/zones3d.js:2760
+           11.5 ms  Promise.resolve (匿名) @ src/assets3d.js:337
+    穩定以後的分項（整個場景 439 draw call／709320 三角形，含陰影那一輪；每一組單獨畫）：
+          63 calls     84996 tris    48 個網格  Group < Group
+          33 calls     61782 tris    22 個網格  human
+          33 calls     75684 tris    26 個網格  human
+          21 calls     42454 tris    51 個網格  campusBackdrop < Group
+          20 calls     19364 tris    15 個網格  campus_socsci_glb < Group
+          17 calls     91314 tris     9 個網格  street_trees_field < Group
+          13 calls     13964 tris    11 個網格  parked_bikes < Group
+          13 calls      9081 tris    13 個網格  campus_library_glb < Group
+          11 calls     29996 tris    43 個網格  Group < Group
+          11 calls     13531 tris    11 個網格  campus_admin_glb < Group
+          11 calls      8854 tris    11 個網格  campus_arts_glb < Group
+          10 calls     13535 tris    10 個網格  campus_lib_lawn_glb < Group
+          10 calls      6078 tris    12 個網格  campus_blackforest_glb < Group
+          10 calls      1566 tris     9 個網格  campus_bell_glb < Group
+           8 calls      7554 tris    12 個網格  parked_bikes < Group
+           8 calls     28627 tris     8 個網格  campus_gongtong_glb < Group
+           8 calls     12856 tris     8 個網格  campus_male1_glb < Group
+           7 calls     11434 tris    11 個網格  parked_bikes < Group
+           7 calls      4938 tris     7 個網格  bike_ride < Group
+           7 calls     15990 tris     7 個網格  campus_freshman_glb < Group
+           6 calls     10232 tris     6 個網格  Group < Group
+           4 calls        38 tris     4 個網格  Group < Group
+           4 calls      5762 tris     4 個網格  Group < Group
+           4 calls      6898 tris     4 個網格  Group < Group
+           3 calls       384 tris     3 個網格  skyline
+    PERFPANEL：campus：黑畫面 12.1 秒（建區域 5.3、預熱 6.3）；淡入後 10 秒最長一格 1.95 秒、卡 7 次；shader 黑畫面 +44、淡入後 +13｜prewarm None｜warmup {'zone': 'campus', 'objects': 399, 'programs': 18, 'textures': 0, 'mpix': 0, 'depth': False, 'depthPrograms': 0, 'ticks': 31, 'parallel': True, 'done': False, 'ms': 0, 'settled': 86}｜平行編譯 True｜ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)
