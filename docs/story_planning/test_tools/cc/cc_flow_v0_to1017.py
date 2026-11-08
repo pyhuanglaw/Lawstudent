@@ -69,6 +69,17 @@ async def quick_go(pg, cdp, key):
     return None
 
 
+
+async def close_or_answer(pg, cdp, run):
+    """CC-B 11-08（BB-B 05:27）：手機開著且有 ask.must（PHONE.mustOpen）＝打開那一串、點第一個回覆鍵（像玩家）；其他＝close_panels"""
+    mo = await pg.evaluate("(()=>{ try{ const G=GAME.G; if(!PHONE.mustOpen||!PHONE.mustOpen(G)) return null; const m=PHONE.pending(G).find(q=>q.ask&&q.ask.must); const th=PHONE.th(m); GAME.openPhone('msg',th); return th; }catch(e){ return null; } })()")
+    if mo:
+        await pg.wait_for_timeout(1200)
+        c = await pg.evaluate("(()=>{ const b=document.querySelector('#phoneBody [data-ask]'); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,b.textContent.trim()]; })()")
+        if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500); print('   手機有一定要回的（%s）：回「%s」' % (mo, c[2]), flush=True)
+        return ['must:' + mo]
+    return await L.close_panels(pg, cdp)
+
 async def main():
     run = L.Run('flow_v0_to1017', OUT); sc = SC.Checker(run, OUT); day_check = None; was_dlg = False; last_opts = None
     async with async_playwright() as p:
@@ -127,9 +138,9 @@ async def main():
                 run.note('超過 4 分鐘沒有進展：' + json.dumps(s, ensure_ascii=False)); await run.shot(pg, 'stuck_%d' % recover)
                 recover += 1
                 if recover > 3: break
-                shut = await L.close_panels(pg, cdp); run.note('  關掉的面板：' + json.dumps(shut)); stuck_t = time.time(); continue
+                shut = await close_or_answer(pg, cdp, run); run.note('  關掉的面板：' + json.dumps(shut)); stuck_t = time.time(); continue
             if s['choices'] and s.get('paused'):
-                shut = await L.close_panels(pg, cdp)
+                shut = await close_or_answer(pg, cdp, run)
                 if shut: print('   關掉蓋住選項的面板', shut, flush=True); continue
             if s['choices']:
                 free_since = None
@@ -170,7 +181,7 @@ async def main():
                                stop=lambda st: st['dlg'] or st['choices'] > 0)
             s = await L.state(pg)
             if s.get('paused') or await pg.evaluate("!document.getElementById('phone').classList.contains('hide')"):   # CC-B 11-08（BB-B 05:26）：走到床邊時手機自動打開（待回覆）＝遊戲暫停、「睡覺」不出來：先關掉再點床
-                shut = await L.close_panels(pg, cdp); print('   走到床邊時手機開著（遊戲暫停），先關掉', shut, flush=True); await pg.wait_for_timeout(1200); s = await L.state(pg)
+                shut = await close_or_answer(pg, cdp, run); print('   走到床邊時手機開著（遊戲暫停），先關掉', shut, flush=True); await pg.wait_for_timeout(1200); s = await L.state(pg)
             if ok and not s['dlg'] and not s['choices'] and s['interact']:
                 await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
         await run.shot(pg, 'end')
