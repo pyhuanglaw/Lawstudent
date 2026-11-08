@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "CORNER_fps_mob_e66",
+  "sha": "e66781d1f7850a3c3bbb848715404474992cfc1f",
+  "kind": "probe",
+  "script": "tools/cc_local/fps_zones.py",
+  "env": "CPU_THROTTLE=4;ZONES=corner_records,yangyang;SLOTS=day,night;SECS=15;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T09:41:23",
+  "end": "2026-11-08T09:46:16",
+  "seconds": 293,
+  "exit": 1,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 20,
+    "mem": 51,
+    "used_gb": 16.1,
+    "chrome_testing": 12
+  }
+}
