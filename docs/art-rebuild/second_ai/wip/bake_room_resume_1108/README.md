@@ -35,3 +35,15 @@ BAKE_CACHE=<資料夾> bash tools/blender/env_second/lightbake/bake_library_b1.s
 - 結果（開發 `9f4973bfe` 工作樹）：
   - 套 patch：**ALL PASS**（4 分鐘）。
   - 對照組（兩邊都用原本的）：第 1 項過，2～4 **FAILED 4**。
+
+## 補：結束碼 139（11-08 13:2x，LAWWW-B 回報）
+- LAWWW-B 那台雲端，Blender（bpy 模組）烘完結束時會 segfault（139），開發原本的 bake_room.py 也一樣，輸出都寫完了。
+- 原本的回歸有三項看結束碼 0／3，在那台會 FAIL。
+- 改成：
+  - 正常跑：0 或 139，而且三個輸出＋烘焙紀錄都要在；
+  - BAKE_STOP_AFTER：3 或 139，而且沒有匯出、cache 裡只有白天。
+- 其他項照舊，看逐位元組一樣、cache 訊息。
+- 交件：`bake_room_resume_check_rc139.patch`（對開發 `tools/blender/env_second/lightbake/bake_room_resume_check.sh`，`8554b8ea9` apply --check 過）。我這台跑還是 ALL PASS（結束碼 0／3）。
+- 實際烘焙時如果遇到 139：看 cache 資料夾裡有沒有 day.npy（第一段）、輸出資料夾裡有沒有 GLB 和兩張圖（第二段），不要只看結束碼。
+  - `bake_library_b1.sh` 有 `set -e`：139 會讓外層腳本停在 bake_room 那一行，to_webp 不會跑。
+  - 那台要先手動補 to_webp 那幾步，或在 .sh 裡把 bake_room 那行的 139 當成功。這部分沒改，交給你決定。
