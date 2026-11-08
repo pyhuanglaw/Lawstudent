@@ -159,6 +159,9 @@ async def follow(pg, cdp, tag, rec):
         if not await sleep_once(pg, cdp, tag + ' 第 %d 晚' % (n + 1)): break
     await wait_until(pg, cdp, x['due'] + 3, 12.0, max_s=900)
     await L.close_panels(pg, cdp); await pg.wait_for_timeout(10000)   # 跳過時間以後讓遊戲自己跑一下（手機規則、PHONE.tick）再看
+    for _ in range(45):   # 訊息要等早上那段結束、第一個一般 tick 才送（LAWWW-B 09:14 照設計）：等到那兩句出現，最多 90 秒
+        if await pg.evaluate("(()=>(GAME.G.msgs||[]).some(m=>m.tag==='decide_say_heroine_05_exam'))()"): break
+        await pg.wait_for_timeout(2000)
     R.note('%s due+3 手機佇列／sent：%s' % (tag, J(await pg.evaluate(QS))))
     R.note('%s due+3 當下 DECIDE 監看紀錄：%s' % (tag, J(await pg.evaluate("window.__decLog||[]"))))
     m2 = await pg.evaluate(MSGS, SIS); c2 = {t: sum(1 for m in m2 if m['text'] == t) for t in TEA}
@@ -190,6 +193,9 @@ async def expire(pg, cdp, tag, rec):
     await wait_until(pg, cdp, x['due'] + 11, 11.5, max_s=900)
     await L.close_panels(pg, cdp); await pg.wait_for_timeout(10000)   # 跳過時間以後讓遊戲自己跑一下再看
     R.note('%s 手機佇列／sent：%s' % (tag, J(await pg.evaluate(QS))))
+    for _ in range(45):   # 手機規則有節流（CC-B 09:2x：12 秒可能 0 次）：等到 played 有值，最多 90 秒
+        if await pg.evaluate("(id=>{ const x=(GAME.G.flags.DECIDE_SAY||[]).find(q=>q.who===id&&q.key==='exam'); return !!(x&&x.played); })", SIS): break
+        await pg.wait_for_timeout(2000)
     R.note('%s DECIDE 監看紀錄：%s' % (tag, J(await pg.evaluate("window.__decLog||[]"))))
     m = await pg.evaluate(MSGS, SIS); c = {t: sum(1 for q in m if q['text'] == t) for t in TEA}
     st = await pg.evaluate("(id=>JSON.parse(JSON.stringify((GAME.G.flags.DECIDE_SAY||[]).find(q=>q.who===id&&q.key==='exam')||null)))", SIS)
