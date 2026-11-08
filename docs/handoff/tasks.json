@@ -49914,7 +49914,7 @@
    "id": "UX-MINIMAP-GUIDE-DOOR-1108",
    "title": "小地圖：指路的橘色箭頭蓋住目標門口的出入口方塊（#7fc4c9），玩家看不到那裡是門",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -49926,7 +49926,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 06:2x LAWWW-B】minimap_direction.py（關指路版）PC ALL PASS，測試那部分結案；箭頭蓋住門口照舊 P3。 ｜ 【11-08 05:5x LAWWW-B】BB-B 05:44（PC R8B6_mini 截圖比對）：改法二選一——出入口方塊畫在路線上面，或箭頭停在離目標 4 px。D99 後面；測試 tests/minimap_direction.py 已改成關指路再量（06e4ffb1c）。",
+   "next": "【11-08 12:4x LAWWW-B】改法一（BB-B 05:44）：drawMinimap 先畫指路的路線和目的地，出入口方塊、自己的腳踏車畫在上面（src/game3d.js 一行，順序對調）；tests/minimap_guide_door_unit.js（舊順序 2 FAIL、新的 ALL PASS）。交 BB-B：開著指路走到有門的建築，目標門口的方塊看得到。 ｜ 【11-08 06:2x LAWWW-B】minimap_direction.py（關指路版）PC ALL PASS，測試那部分結案；箭頭蓋住門口照舊 P3。 ｜ 【11-08 05:5x LAWWW-B】BB-B 05:44（PC R8B6_mini 截圖比對）：改法二選一——出入口方塊畫在路線上面，或箭頭停在離目標 4 px。D99 後面；測試 tests/minimap_direction.py 已改成關指路再量（06e4ffb1c）。",
    "xai": {
     "spec": "BB-B 11-08 05:44",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -49935,7 +49935,7 @@
     "ack": "ACK",
     "owner": "LAWWW"
    },
-   "evidence": ""
+   "evidence": "tests/minimap_guide_door_unit.js"
   },
   {
    "id": "BUG-DECIDE-TICK-UNREG-1108",
