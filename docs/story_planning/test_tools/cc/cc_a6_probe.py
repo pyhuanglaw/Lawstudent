@@ -33,13 +33,32 @@ async def push_game(rig, dx, dy, gsec):
     g0, f0 = await pg.evaluate(GT); t0 = time.time()
     jx, jy = await pg.evaluate("(()=>{ const r=document.getElementById('joy').getBoundingClientRect(); return [r.left+r.width/2, r.top+r.height/2]; })()")
     await cdp.send('Input.dispatchTouchEvent', {'type': 'touchStart', 'touchPoints': [{'x': jx, 'y': jy}]})
+    smp = []
     while True:
         await cdp.send('Input.dispatchTouchEvent', {'type': 'touchMove', 'touchPoints': [{'x': jx + dx, 'y': jy + dy}]}); await pg.wait_for_timeout(60)
-        g, f = await pg.evaluate("[window.__gt, window.__gf]")
+        g, f, px, pz = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [window.__gt, window.__gf, o.x, o.z]; })()")
+        smp.append((round(g - g0, 3), round(px, 3), round(pz, 3)))
         if g - g0 >= gsec or time.time() - t0 > 120: break
     await cdp.send('Input.dispatchTouchEvent', {'type': 'touchEnd', 'touchPoints': []}); await pg.wait_for_timeout(150)
     g, f = await pg.evaluate("[window.__gt, window.__gf]")
-    return {'game_s': round(g - g0, 3), 'frames': f - f0, 'real_s': round(time.time() - t0, 2), 'fps': round((f - f0) / max(0.01, time.time() - t0), 1)}
+    return {'game_s': round(g - g0, 3), 'frames': f - f0, 'real_s': round(time.time() - t0, 2), 'fps': round((f - f0) / max(0.01, time.time() - t0), 1), 'smp': smp}
+
+
+def speed_along(smp, zwall):
+    """貼著牆（z 離牆 0.15 m 內）、x 還在動的那一段：沿牆速度 m/s（遊戲時間）"""
+    at = [q for q in smp if abs(q[2] - zwall) < 0.15]
+    mov = [at[0]] if at else []
+    for a, b in zip(at, at[1:]):
+        if abs(b[1] - a[1]) > 0.005: mov.append(b)
+        elif len(mov) > 1: break
+    if len(mov) < 2 or mov[-1][0] - mov[0][0] < 0.05: return None, mov
+    return abs(mov[-1][1] - mov[0][1]) / (mov[-1][0] - mov[0][0]), mov
+
+
+def speed_free(smp):
+    if len(smp) < 3: return None
+    a, b = smp[1], smp[-1]   # 第一個樣本可能還在起步
+    return math.hypot(b[1] - a[1], b[2] - a[2]) / max(1e-3, b[0] - a[0])
 
 
 async def one(p, k, rec):
@@ -54,13 +73,17 @@ async def one(p, k, rec):
         await pg.evaluate(GT)
         print('  [前置] %s 照 movreg A1～A5 走到前牆' % tag, flush=True)
         await rig.forward(2600); await rig.joy(-60, 0, 700); await rig.joy(0, 40, 900); await rig.joy(0, 60, 900); await rig.joy(0, -60, 3200)
-        f = await rig.pos(); sx = 45 if f['x'] < -0.3 else -45
+        f = await rig.pos()
+        if f['z'] > -2.6:   # 橫向的 A5 不一定停在牆上：再正推到牆（遊戲時間最多 3 秒）
+            await push_game(rig, 0, -60, 3.0); f = await rig.pos()
+        sx = 45 if f['x'] < -0.3 else -45
         cam = await pg.evaluate("({camYaw:+GAME.E.cam.yaw.toFixed(3), fps:null})")
         print('  %s A5 停在 %s；鏡頭 %s；推的方向 %s' % (tag, J(f), J(cam), '右前' if sx > 0 else '左前'), flush=True)
         await pg.screenshot(path=os.path.join(OUT, 'a6_%d_a_before.png' % k))
         m = await push_game(rig, sx, -45, 2.0); g = await rig.pos()
         await pg.screenshot(path=os.path.join(OUT, 'a6_%d_a_after.png' % k))
         along, perp = abs(g['x'] - f['x']), abs(g['z'] - f['z'])
+        va, mov = speed_along(m['smp'], f['z'])
         print('  %s (a) 斜推沿牆 2.0 秒遊戲時間：%s → %s；沿牆 %.2f m、垂直 %.2f m；%s' % (tag, J(f), J(g), along, perp, J(m)), flush=True)
         # 原本 A6：真實 1500 ms（對照；從 (a) 結束的位置往回推一次再照原法推）
         await rig.joy(-sx, 45, 900); f2 = await rig.pos(); m0 = await pg.evaluate(GT)
@@ -74,14 +97,14 @@ async def one(p, k, rec):
         o = await rig.pos(); await pg.screenshot(path=os.path.join(OUT, 'a6_%d_b_before.png' % k))
         mb = await push_game(rig, sx, -45, 2.0); o2 = await rig.pos()
         await pg.screenshot(path=os.path.join(OUT, 'a6_%d_b_after.png' % k))
-        free = math.hypot(o2['x'] - o['x'], o2['z'] - o['z'])
+        free = math.hypot(o2['x'] - o['x'], o2['z'] - o['z']); vf = speed_free(mb['smp'])
         print('  %s (b) 空地同一個搖桿 2.0 秒遊戲時間：%s → %s；走了 %.2f m；%s' % (tag, J(o), J(o2), free, J(mb)), flush=True)
-        ratio = along / free if free > 0.05 else None
-        print('  %s 沿牆 ÷ 空地 ＝ %s（預期約 0.7；≥0.5＝滑得正常）' % (tag, 'n/a' if ratio is None else '%.2f' % ratio), flush=True)
+        ratio = va / vf if (va and vf) else None
+        print('  %s 貼牆滑動那一段 %s；沿牆速度 %s m/s、空地速度 %s m/s；沿牆 ÷ 空地 ＝ %s（預期約 0.7；≥0.5＝滑得正常）' % (tag, J(mov), va and round(va, 2), vf and round(vf, 2), 'n/a' if ratio is None else '%.2f' % ratio), flush=True)
         check('%s (a)(b) 都推滿 2.0 秒遊戲時間' % tag, m['game_s'] >= 1.95 and mb['game_s'] >= 1.95, J([m, mb]))
-        check('%s 沿牆 ÷ 空地 ≥ 0.5' % tag, ratio is not None and ratio >= 0.5, '%s（沿牆 %.2f／空地 %.2f）' % (ratio, along, free))
+        check('%s 沿牆速度 ÷ 空地速度 ≥ 0.5' % tag, ratio is not None and ratio >= 0.5, '%s（沿牆 %s m/s／空地 %s m/s）' % (ratio, va, vf))
         check('%s 沒有 JS 例外' % tag, not errs, J(errs[:3]))
-        rec.append({'k': k, 'a5': f, 'dir': sx, 'a': {'from': f, 'to': g, 'along': along, 'perp': perp, **m}, 'orig': {'from': f2, 'to': g2, 'dx': abs(g2['x'] - f2['x']), 'game_s': m1[0] - m0[0], 'frames': m1[1] - m0[1]}, 'b': {'from': o, 'to': o2, 'dist': free, **mb}, 'ratio': ratio})
+        rec.append({'k': k, 'a5': f, 'dir': sx, 'a': {'from': f, 'to': g, 'along': along, 'perp': perp, 'v_along': va, **m}, 'orig': {'from': f2, 'to': g2, 'dx': abs(g2['x'] - f2['x']), 'game_s': m1[0] - m0[0], 'frames': m1[1] - m0[1]}, 'b': {'from': o, 'to': o2, 'dist': free, 'v_free': vf, **mb}, 'ratio': ratio})
     except Exception as ex: check('%s 探針沒有例外' % tag, False, repr(ex)[:300])
     finally: await b.close()
 
