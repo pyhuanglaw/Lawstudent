@@ -6080,6 +6080,35 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "vsweep ROUTE=TW 2028-07～2029-06 4c94585ca"
+  },
+  {
+   "task": "AA593-SIS-1B-1102（產生檔源稿）",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md",
+    "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
+    "docs/story_planning/date_system/wish/wish_bb.json",
+    "docs/story_planning/date_system/wish/common_bb.json",
+    "docs/story_planning/free_trip/solo_before_bb_v1.json",
+    "docs/story_planning/date_system/lines/D01.json",
+    "D02",
+    "D03",
+    "D04",
+    "D11",
+    "D13",
+    "D18",
+    "D20",
+    "D24",
+    "D33"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B 換白名單 sha、重匯 pg_dates／date_wish／solo_before／date_lines；D*.json 直接改（AA_694 以後 .py 已過時，不要從 .py 重建）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_593 第 37～44、決4（113）、65、66、82～98 列＋第 10 節；第 95 列 D12 已是奶奶版（AA_609）不動；D33 學姊同型一句一起改"
   }
  ],
  "items": [
