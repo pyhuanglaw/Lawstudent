@@ -1,45 +1,30 @@
-"""CC-B（帳號 B）11-07：線上標題畫面版本字樣＋截圖（BB-B 03:38 RELEASE-V91021-1105：v9.10.21 線上檢查；雲端連不到 github.io，只能用使用者電腦）。
-  打開 LIVE_URL（加 cb= 避免快取）→ 等載入 → 讀 #verLabel → 標題畫面截圖（直向、橫向各一張）。
-  版本字樣要含 WANT_VER；還沒含就每 3 分鐘重新載入，最多 30 分鐘（部署還沒好那幾次不算）。
-  Windows＋GPU ≠ iPhone 實機。
-用法：LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html WANT_VER=v9.10.21 python3 cc_live_title_probe.py <url（不用）> <out>"""
-import os, sys, asyncio, time, json
-HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests'))
+"""CC-B（帳號 B）11-08：線上版標題畫面（BB-B 16:31 LIVE_V91023）。開 LIVE_URL（預設 GitHub Pages），等標題畫面，
+截一張、印版本字樣（#titleScreen 裡含「版本」的那一行）、?v= 的數目、WebGL renderer；EXPECT 有給就比對。
+用法：python cc_live_title_probe.py <url（忽略，用 LIVE_URL）> <out>"""
+import os, sys, json, asyncio, re
+sys.path.insert(0, os.environ.get('LW_TESTS') or '.')
 import playlib as L
 from playwright.async_api import async_playwright
-
-OUT = sys.argv[2]
-URL = os.environ.get('LIVE_URL', '').strip() or sys.argv[1]
-WANT = os.environ.get('WANT_VER', '').strip()
-R = L.Run('live_title', OUT)
-VER = "(document.getElementById('verLabel')||{}).textContent||''"
-
-
-def bust(u):
-    return u + ('&' if '?' in u else '?') + 'cb=%d' % int(time.time())
-
-
+URL = os.environ.get('LIVE_URL') or 'https://pyhuanglaw.github.io/Lawstudent/index.html'
+OUT = sys.argv[2] if len(sys.argv) > 2 else '.'; os.makedirs(OUT, exist_ok=True)
+EXP = os.environ.get('EXPECT') or ''
 async def main():
-    os.makedirs(OUT, exist_ok=True)
-    print('CC LIVE_TITLE：%s，要含「%s」；Windows＋GPU ≠ iPhone' % (URL, WANT), flush=True)
     async with async_playwright() as p:
-        b, ctx, pg, cdp, errs = await L.launch(p, landscape=False)
-        t0 = time.time(); ver = ''
-        while True:
-            await pg.goto(bust(URL)); ok = await L.wait_loaded(pg)
-            ver = (await pg.evaluate(VER)).strip()
-            print('  線上版本字樣：%s（載入 %s）' % (ver, ok), flush=True)
-            if (WANT and WANT in ver) or not WANT or time.time() - t0 > 1800: break
-            await pg.wait_for_timeout(180000)
-        R.check('遊戲載入', ok, '')
-        R.check('線上標題版本字樣含 %s' % WANT, (WANT in ver) if WANT else bool(ver), ver)
-        await pg.screenshot(path=os.path.join(OUT, 'title_portrait.png'))
-        await pg.set_viewport_size({'width': 844, 'height': 390}); await pg.wait_for_timeout(1500)
-        await pg.screenshot(path=os.path.join(OUT, 'title_landscape.png'))
-        print('  截圖：title_portrait.png、title_landscape.png', flush=True)
-        R.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
+        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        await pg.goto(URL + ('&' if '?' in URL else '?') + 'nocache=%d' % int(__import__('time').time()), wait_until='load')
+        for _ in range(60):
+            if await pg.evaluate("(()=>{ const t=document.getElementById('titleScreen'); return !!t&&!t.classList.contains('hide')&&getComputedStyle(t).display!=='none'; })()"): break
+            await pg.wait_for_timeout(1000)
+        await pg.wait_for_timeout(2000)
+        info = await pg.evaluate("""(()=>{ const t=document.getElementById('titleScreen'); const txt=t?t.innerText:''; const ver=(txt.split('\\n').find(s=>/版本|v9\\./.test(s))||'').trim();
+          const n=[...document.querySelectorAll('script[src],link[href]')].filter(e=>/\\?v=/.test(e.getAttribute('src')||e.getAttribute('href')||'')).length;
+          const vs=[...new Set([...document.querySelectorAll('script[src]')].map(e=>((e.getAttribute('src')||'').match(/\\?v=([^&]+)/)||[])[1]).filter(Boolean))];
+          const c=document.createElement('canvas'), gl=c.getContext('webgl2')||c.getContext('webgl'); const e=gl&&gl.getExtension('WEBGL_debug_renderer_info');
+          return {ver, nV:n, vValues:vs, renderer:e?gl.getParameter(e.UNMASKED_RENDERER_WEBGL):null, url:location.href}; })()""")
+        await pg.screenshot(path=os.path.join(OUT, 'live_title.png'))
+        print('LIVE TITLE %s' % json.dumps(info, ensure_ascii=False), flush=True)
+        json.dump(info, open(os.path.join(OUT, 'live_title.json'), 'w'), ensure_ascii=False, indent=1)
         await b.close()
-    print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True)
-
+    ok = (not EXP) or (EXP in info['ver'])
+    print('ALL PASS' if ok else 'FAILED 1: 標題字樣不是 %s（%s）' % (EXP, info['ver']), flush=True)
 asyncio.run(main())

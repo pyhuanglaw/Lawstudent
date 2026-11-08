@@ -1662,6 +1662,10 @@ R3312_reach | 33127181bfb381dd28475c14cd85d7ebcad356b9 | game | tests/reachabili
 R3312_zone | 33127181bfb381dd28475c14cd85d7ebcad356b9 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
 # [CC-B 15:4x BB-B 改跑 33127181b] R52a7_main12 | 52a7e53379ccd1fa8398266b760ebedccaa83fbb | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R3312_main12 | 33127181bfb381dd28475c14cd85d7ebcad356b9 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+# CC-B 11-09 00:3x（台灣）：BB-B P1 LIVE_V91023（main 3a34dbaa5，Pages 16:30:19 UTC）：線上網址跑 deploy_check、p0、標題畫面截圖；排最前面
+LIVE_V91023_deploy | 3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.23;CC_HEADLESS=0
+LIVE_V91023_p0 | 3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2 | game | tests/p0_movement.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
+LIVE_V91023_title | 3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2 | probe | docs/story_planning/test_tools/cc/cc_live_title_probe.py | index.html | 10 | EXPECT=v9.10.23;CC_HEADLESS=0
 # CC-B 11-09 00:1x（台灣）：PC 佇列空了：開發分支最新 c753295da 常備
 Rc753c_classreal | c753295dabdf8a0b0b2ec9767a7c5429237b7134 | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
 Rc753c_mini | c753295dabdf8a0b0b2ec9767a7c5429237b7134 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
