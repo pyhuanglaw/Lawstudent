@@ -61,7 +61,7 @@ async def main():
             run.check('3/14（大三下第 4 週）以安的飯糰、Alison 代主持都沒有來（她 3/25 才出國）', not got['oni'] and not got['grp'] and '一整排飯糰' not in txt, J(got))
         else:
             run.check('%s 收到「%s」' % (d['key'], '」「'.join(c['msgs'])), th['ok'] and all(m in txt for m in c['msgs']), J(txt[-300:]))
-            run.check('最後一則掛三個回覆鍵（AA_709）：%s' % '／'.join(c['opts']), asks == c['opts'], J(asks))
+            run.check('最後一則掛三個回覆鍵（AA_709）：%s（同一個對話裡更早的訊息如果還有沒回的鍵，排在前面）' % '／'.join(c['opts']), asks[-3:] == c['opts'], J(asks))
             rel0 = await pg.evaluate("id=>Object.assign({},SOCIAL.rel(id))", c['who'])
             o0 = await pg.evaluate("([id,t])=>{ const L=(MSG_REPLIES.people||{})[id]||[]; const e=L.find(x=>x.text===t); return e?e.opts[0]:null; }", [c['who'], c['msgs'][-1]])
             r2 = await P.phone_answer(pg, cdp, 'p:' + c['who'], c['opts'][0])
@@ -74,7 +74,7 @@ async def main():
             say = (o0 or {}).get('say') or []
             run.check('點「%s」：祐廷那一句貼上去、她接著回（%s）' % (c['opts'][0], '」「'.join(say)), r2 is not None and c['opts'][0] in t2 and say and all(x in t2 for x in say), J(t2[-300:]))
             rd = {k: rel1.get(k, 0) - rel0.get(k, 0) for k in (o0 or {}).get('rel', {})}
-            run.check('好感照選項加（%s）' % J((o0 or {}).get('rel')), o0 and all(rd[k] == v for k, v in o0['rel'].items()), J(rd))
+            run.check('好感照選項加（%s；到 100 封頂）' % J((o0 or {}).get('rel')), o0 and all(rd[k] == min(100, rel0.get(k, 0) + v) - rel0.get(k, 0) for k, v in o0['rel'].items()), J([rd, {k: rel0.get(k, 0) for k in o0['rel']}]))
             run.check('回過以後回覆鍵收起來', not any(a in c['opts'] for a in asks2), J(asks2))
         await L.close_panels(pg, cdp)
         run.check('沒有 JS 例外', not errs, J(errs[:5]))

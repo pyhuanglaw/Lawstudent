@@ -3,7 +3,7 @@
              → YT_PARENTS_KNOW＝told；同一天 21:30 手機三則（「我媽剛剛打來。」…「……她沒有說不准。」）
   MODE=phone：同一個決定，那天一直在宿舍 → 15:00～16:00 沒有那一段；4/25 21:30 三則照樣來；4/26 21:00 四則（「我跟我媽說了。」…）最後一則有三個回覆鍵、點了她接著回
   MODE=nodec：沒有決定（DECIDE 空）→ 4/25 14:52 進一盞一樣，15:00 以後不演這一段（舊存檔、沒演到決定拍＝照原本）
-[前置／捷徑] 讀使用者存檔 day46（已經在一盞認識語彤 YT_MET_JOB）；【捷徑】G.flags.DECIDE.heroine_03.mom＝{v:'tell'}（決定拍本身 AA_719 另外測過）；
+[前置／捷徑] 讀使用者存檔 day46（已經在一盞認識語彤 YT_MET_JOB；玩家在一盞打工，好幾個月沒排班，進店老闆先問「還要做嗎？」→ 選「（繼續做）」）；【捷徑】G.flags.DECIDE.heroine_03.mom＝{v:'tell'}（決定拍本身 AA_719 另外測過）；
 【前置】同一份進度跳到那一天。進店用真的互動鍵，對話選項照玩家點，回覆用手機回覆鍵。
 用法：LW_TESTS=<測試樹>/tests MODE=live|phone|nodec python3 pt1108b_aa720_yt_probe.py URL 存檔資料夾 輸出資料夾"""
 import asyncio, json, os, sys
@@ -46,8 +46,10 @@ async def main():
                 if await pg.evaluate("GAME.G.zone==='wz_teahouse'"): break
                 await pg.wait_for_timeout(500)
             run.check('點「進去一盞」進到一盞茶屋（wz_teahouse）', await pg.evaluate("GAME.G.zone==='wz_teahouse'"), J(await pg.evaluate(ST)))
-            pick = (E['opts'][0]['t'],) if MODE == 'live' else ()
-            dl = await P.dialog(pg, cdp, run, picks=pick, max_s=420, start_s=120, idle_s=8, tag='yt_live')
+            # day46 存檔的玩家在一盞打工、好幾個月沒排班：一進店老闆先問「還要做嗎？」（jobs3d.js ask3）——選「（繼續做）」，等到 15:00 以後
+            await P.wait_play(pg, cdp, 15.05, max_s=480, picks=('（繼續做）',), run=run, tag='進店到 15:00')
+            pick = (E['opts'][0]['t'], '（繼續做）') if MODE == 'live' else ('（繼續做）',)
+            dl = await P.dialog(pg, cdp, run, picks=pick, max_s=480, start_s=150, idle_s=10, tag='yt_live')
             await run.shot(pg, 'after')
             lines = [t for _, t in (dl or {}).get('lines', [])] + [t for _, t in await P.said(pg, n0)]
             st = await pg.evaluate(ST); print('[LINES]', J(lines, 3000)); print('[ST]', J(st))
