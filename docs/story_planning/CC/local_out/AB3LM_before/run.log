@@ -1,0 +1,51 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_room_shots_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\AB3LM_before\out
+CC 房間截圖（before）：SHA=e9d8c668fd832f13beeb79903f3270aa1b914089（worktree 實際 ?）；9 張；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [before g3f_day] 讀檔 gongtong_3f 2025-10-15 11（條件事件關閉）
+PASS [before g3f_day] 進得了 gongtong_3f  {"zone": "gongtong_3f", "x": 4.6, "z": -3.15, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.06}
+PASS [黑畫面] room_before_g3f_day 不是黑畫面（平均亮度 165.9、變化 60.7）  [165.9, 60.7]
+  [  49.9s] [截圖] room_before_g3f_day：鏡頭 {"eye": [3.9099999999999997, 1.6, -3.35], "look": [0, 1.1, 4.5], "lens": 20, "vfov": 53.7}、亮度 [165.9, 60.7]
+  [  49.9s] [before g3f_day] 光照貼圖：材質 97 個、接了 lightMap 0 個，貼圖 []
+  [前置／捷徑] [before g3f_night] 讀檔 gongtong_3f 2025-10-15 20（條件事件關閉）
+PASS [before g3f_night] 進得了 gongtong_3f  {"zone": "gongtong_3f", "x": 4.6, "z": -3.15, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.07}
+PASS [黑畫面] room_before_g3f_night 不是黑畫面（平均亮度 154.7、變化 70.1）  [154.7, 70.1]
+  [  65.7s] [截圖] room_before_g3f_night：鏡頭 {"eye": [3.9099999999999997, 1.6, -3.35], "look": [0, 1.1, 4.5], "lens": 20, "vfov": 53.7}、亮度 [154.7, 70.1]
+  [  65.7s] [before g3f_night] 光照貼圖：材質 97 個、接了 lightMap 0 個，貼圖 []
+  [前置／捷徑] [before office_day] 讀檔 linze_office 2025-10-15 11（條件事件關閉）
+PASS [before office_day] 進得了 linze_office  {"zone": "linze_office", "x": 2.8, "z": -1.65, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "表格架", "stand": true, "fb": 0, "hour": 11.07}
+PASS [黑畫面] room_before_office_day 不是黑畫面（平均亮度 149.5、變化 63.8）  [149.5, 63.8]
+  [  85.9s] [截圖] room_before_office_day：鏡頭 {"eye": [2.38, 1.6, -1.8499999999999999], "look": [0, 1.1, 3], "lens": 20, "vfov": 53.7}、亮度 [149.5, 63.8]
+  [  85.9s] [before office_day] 光照貼圖：材質 76 個、接了 lightMap 0 個，貼圖 []
+  [前置／捷徑] [before office_night] 讀檔 linze_office 2025-10-15 20（條件事件關閉）
+PASS [before office_night] 進得了 linze_office  {"zone": "linze_office", "x": 2.8, "z": -1.65, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "表格架", "stand": true, "fb": 0, "hour": 20.07}
+PASS [黑畫面] room_before_office_night 不是黑畫面（平均亮度 149.3、變化 72.8）  [149.3, 72.8]
+  [ 102.1s] [截圖] room_before_office_night：鏡頭 {"eye": [2.38, 1.6, -1.8499999999999999], "look": [0, 1.1, 3], "lens": 20, "vfov": 53.7}、亮度 [149.3, 72.8]
+  [ 102.1s] [before office_night] 光照貼圖：材質 76 個、接了 lightMap 0 個，貼圖 []
+  [前置／捷徑] [before b203_day] 讀檔 boya_203 2025-10-15 11（條件事件關閉）
+PASS [before b203_day] 進得了 boya_203  {"zone": "boya_203", "x": -0.15, "z": -1.95, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下（看演出）", "stand": true, "fb": 0, "hour": 11.07}
+PASS [黑畫面] room_before_b203_day 不是黑畫面（平均亮度 145.8、變化 65.4）  [145.8, 65.4]
+  [ 121.0s] [截圖] room_before_b203_day：鏡頭 {"eye": [-0.1275, 1.6, -2.15], "look": [0, 1.1, 3.2], "lens": 20, "vfov": 53.7}、亮度 [145.8, 65.4]
+  [ 121.0s] [before b203_day] 光照貼圖：材質 69 個、接了 lightMap 0 個，貼圖 []
+  [前置／捷徑] [before b203_night] 讀檔 boya_203 2025-10-15 20（條件事件關閉）
+PASS [before b203_night] 進得了 boya_203  {"zone": "boya_203", "x": -0.15, "z": -1.95, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下（看演出）", "stand": true, "fb": 0, "hour": 20.07}
+PASS [黑畫面] room_before_b203_night 不是黑畫面（平均亮度 147.6、變化 69.1）  [147.6, 69.1]
+  [ 136.7s] [截圖] room_before_b203_night：鏡頭 {"eye": [-0.1275, 1.6, -2.15], "look": [0, 1.1, 3.2], "lens": 20, "vfov": 53.7}、亮度 [147.6, 69.1]
+  [ 136.7s] [before b203_night] 光照貼圖：材質 69 個、接了 lightMap 0 個，貼圖 []
+  [前置／捷徑] [before laundry_day] 讀檔 dorm_laundry 2025-10-15 11（條件事件關閉）
+PASS [before laundry_day] 進得了 dorm_laundry  {"zone": "dorm_laundry", "x": 0, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.07}
+PASS [黑畫面] room_before_laundry_day 不是黑畫面（平均亮度 204.7、變化 45.1）  [204.7, 45.1]
+  [ 155.6s] [截圖] room_before_laundry_day：鏡頭 {"eye": [0, 1.6, -1.2], "look": [0, 1.1, 2.2], "lens": 20, "vfov": 53.7}、亮度 [204.7, 45.1]
+  [ 155.6s] [before laundry_day] 光照貼圖：材質 46 個、接了 lightMap 0 個，貼圖 []
+  [前置／捷徑] [before laundry_night] 讀檔 dorm_laundry 2025-10-15 20（條件事件關閉）
+PASS [before laundry_night] 進得了 dorm_laundry  {"zone": "dorm_laundry", "x": 0, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.07}
+PASS [黑畫面] room_before_laundry_night 不是黑畫面（平均亮度 213.1、變化 48.5）  [213.1, 48.5]
+  [ 171.3s] [截圖] room_before_laundry_night：鏡頭 {"eye": [0, 1.6, -1.2], "look": [0, 1.1, 2.2], "lens": 20, "vfov": 53.7}、亮度 [213.1, 48.5]
+  [ 171.3s] [before laundry_night] 光照貼圖：材質 46 個、接了 lightMap 0 個，貼圖 []
+  [前置／捷徑] [before media] 讀檔 library_media 2025-10-15 11（條件事件關閉）
+PASS [before media] 進得了 library_media  {"zone": "library_media", "x": 3.4, "z": 2.25, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.07}
+PASS [黑畫面] room_before_media 不是黑畫面（平均亮度 164.8、變化 47.4）  [164.8, 47.4]
+  [ 189.8s] [截圖] room_before_media：鏡頭 {"eye": [2.8899999999999997, 1.6, 2.05], "look": [0, 1.1, 3.5], "lens": 20, "vfov": 53.7}、亮度 [164.8, 47.4]
+  [ 189.8s] [before media] 光照貼圖：材質 40 個、接了 lightMap 0 個，貼圖 []
+PASS 沒有 JS 例外  []
+ALL PASS

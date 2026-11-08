@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "AB3LM_before",
+  "sha": "e9d8c668fd832f13beeb79903f3270aa1b914089",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_room_shots_probe.py",
+  "env": "TAG=before;SHOTS=gongtong_3f,2025-10-15,11,g3f_day+gongtong_3f,2025-10-15,20,g3f_night+linze_office,2025-10-15,11,office_day+linze_office,2025-10-15,20,office_night+boya_203,2025-10-15,11,b203_day+boya_203,2025-10-15,20,b203_night+dorm_laundry,2025-10-15,11,laundry_day+dorm_laundry,2025-10-15,20,laundry_night+library_media,2025-10-15,11,media;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T09:30:14",
+  "end": "2026-11-08T09:34:09",
+  "seconds": 235,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 40,
+    "mem": 51,
+    "used_gb": 16.4,
+    "chrome_testing": 12
+  }
+}
