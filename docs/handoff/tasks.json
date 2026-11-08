@@ -50079,7 +50079,7 @@
    "id": "RELEASE-V91023-1108",
    "title": "發布 v9.10.23（11-08 的修改：拿掉「」一到八批、決定拍 19 場、送東西、光照等）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50091,13 +50091,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 15:5x LAWWW-B】使用者「中間不用發布別的版本」（UA-LAWWW-1108-05）：下一次發布就是飲料改好的 v9.10.23，中間不發別的。 ｜ 【11-08 15:4x LAWWW-B】PR #31 合併 main 68206e0fd（15:3x）；使用者隨即「飲料改完再發布」→ 15:31 取消 Pages run 42495110198（build、deploy 都 cancelled，沒有部署，線上照舊 v9.10.22）。飲料改完（GIFT-ROMANCE-ONLY-1108）、BB-B 測過，再做發布樹合併、部署（版本字樣照 v9.10.23：那一版沒上線）。 ｜ 【11-08 15:2x LAWWW-B】使用者選擇題「可以發佈」（UA-LAWWW-1108-03）。發布樹 52a7e5337＝候選 9eef2b95b＋版本字樣；BB-B GO（PC 發布前清單 11／11、雲端 deploy_check v9.10.23 ALL PASS）；GHA 9eef2b95b success、本機全套 1156 支沒有 FAIL。下一步：PR 合併 main、Pages 部署、BB-B 線上 deploy_check。"
+   "next": "【11-08 16:3x LAWWW-B】已部署：PR #32 合併 main 3a34dbaa5（遊戲檔案＝飲料版 b103b3089）；Pages run 42500010426 build／deploy success，deploy 16:30:19 UTC。等 BB-B 線上 deploy_check。 ｜ 【11-08 15:5x LAWWW-B】使用者「中間不用發布別的版本」（UA-LAWWW-1108-05）：下一次發布就是飲料改好的 v9.10.23，中間不發別的。 ｜ 【11-08 15:4x LAWWW-B】PR #31 合併 main 68206e0fd（15:3x）；使用者隨即「飲料改完再發布」→ 15:31 取消 Pages run 42495110198（build、deploy 都 cancelled，沒有部署，線上照舊 v9.10.22）。飲料改完（GIFT-ROMANCE-ONLY-1108）、BB-B 測過，再做發布樹合併、部署（版本字樣照 v9.10.23：那一版沒上線）。 ｜ 【11-08 15:2x LAWWW-B】使用者選擇題「可以發佈」（UA-LAWWW-1108-03）。發布樹 52a7e5337＝候選 9eef2b95b＋版本字樣；BB-B GO（PC 發布前清單 11／11、雲端 deploy_check v9.10.23 ALL PASS）；GHA 9eef2b95b success、本機全套 1156 支沒有 FAIL。下一步：PR 合併 main、Pages 部署、BB-B 線上 deploy_check。"
   },
   {
    "id": "GIFT-ROMANCE-ONLY-1108",
    "title": "送飲料、早餐只給可攻略的對象（朋友六位拿掉）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -50109,7 +50109,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 15:4x LAWWW-B】AA-B 15:33「芯慈留」：她可以攻略（XCROM.ON），條件寫成 XCROM.ON 才能送（線關著＝跟朋友一樣不能送）；五位拿掉；AA_728 稿五位標 unused（AA 下一個 commit，匯入工具之後跳過 unused——不擋發布）。gift3d.js S.FRIEND_OK 芯慈＝函式（XCROM.ON）；tests/gift_friends_unit.js 0b 加 XCROM.ON false 不能送。交 BB-B。 ｜ 【11-08 15:4x LAWWW-B】使用者 15:3x「飲料改完再發布」。gift3d.js：S.FRIEND_OK＝{classmate_xinci}（AA_728「芯慈可以攻略也照朋友版」）——阿哲、阿凱、Alison、柏翰、明軒沒有「送○○」、give 不收；七位女主角照舊；稿和匯入不動。tests/gift_friends_unit.js 0b（舊程式 2 FAIL）。問 AA-B 芯慈留不留。 ｜ 【11-08 15:2x LAWWW-B】使用者「送飲料只需要給可攻略的對象」（UA-LAWWW-1108-01、X266）。v9.10.23 照測過的發布；下一版：問 AA-B 改 AA_728 的範圍（朋友那六位的台詞怎麼處理），LAWWW 改 gift3d／import_gifts 的名單，BB 測。",
+   "next": "【11-08 16:3x LAWWW-B】BB-B 16:26 GO（瀏覽器：阿凱、Alison 沒有「送」、東西還在；以安、芯慈有；芯慈 XCROM.ON false 沒有；舊 gift3d.js 對照 FAIL）；v9.10.23 已部署（3a34dbaa5）。AA_728 稿五位標 unused、匯入工具跳過 unused：AA-B 推了以後再接（不影響遊戲：程式已經不送）。 ｜ 【11-08 15:4x LAWWW-B】AA-B 15:33「芯慈留」：她可以攻略（XCROM.ON），條件寫成 XCROM.ON 才能送（線關著＝跟朋友一樣不能送）；五位拿掉；AA_728 稿五位標 unused（AA 下一個 commit，匯入工具之後跳過 unused——不擋發布）。gift3d.js S.FRIEND_OK 芯慈＝函式（XCROM.ON）；tests/gift_friends_unit.js 0b 加 XCROM.ON false 不能送。交 BB-B。 ｜ 【11-08 15:4x LAWWW-B】使用者 15:3x「飲料改完再發布」。gift3d.js：S.FRIEND_OK＝{classmate_xinci}（AA_728「芯慈可以攻略也照朋友版」）——阿哲、阿凱、Alison、柏翰、明軒沒有「送○○」、give 不收；七位女主角照舊；稿和匯入不動。tests/gift_friends_unit.js 0b（舊程式 2 FAIL）。問 AA-B 芯慈留不留。 ｜ 【11-08 15:2x LAWWW-B】使用者「送飲料只需要給可攻略的對象」（UA-LAWWW-1108-01、X266）。v9.10.23 照測過的發布；下一版：問 AA-B 改 AA_728 的範圍（朋友那六位的台詞怎麼處理），LAWWW 改 gift3d／import_gifts 的名單，BB 測。",
    "xai": {
     "spec": "使用者 11-08 15:2x",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50118,7 +50118,8 @@
     "ack": "ACK",
     "owner": "LAWWW"
    },
-   "notWaitUser": "使用者已經說了要什麼（11-08 15:2x「送飲料只需要給可攻略的對象」）；等的是 AA-B 改 AA_728 的範圍、LAWWW 照做，不是等使用者"
+   "notWaitUser": "使用者已經說了要什麼（11-08 15:2x「送飲料只需要給可攻略的對象」）；等的是 AA-B 改 AA_728 的範圍、LAWWW 照做，不是等使用者",
+   "evidence": "tests/gift_friends_unit.js 0b（舊程式 FAIL 3）；BB-B 16:26 GO（BB_255 bfa3f2852：瀏覽器 pt1108n、舊 gift3d.js 對照 FAIL）；33127181b；v9.10.23 main 3a34dbaa5"
   }
  ]
 }
