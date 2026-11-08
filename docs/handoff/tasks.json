@@ -49708,7 +49708,7 @@
    "id": "TEXT-QUOTE-UNIFY-1108",
    "title": "對話框裡有名字說話的台詞統一不加「」（其他檔：invite_replies.js 490、invite_place_lines.js 130、sport_invite_lines.js 57、rel_lines.js 160、termend_lines.js 56、sis_grad3d.js 18、lane118.js 10、各店 ACC0、程式自己加「」的四處）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -49729,7 +49729,7 @@
     "ack": "ACK",
     "owner": "LAWWW"
    },
-   "evidence": "bfb95c564、e3c2df301（第一批）；f0c911c92（第二批）；0e08b4d4a（第三批）；976e1dffa（第四批）；41da7c186（第五批）"
+   "evidence": "BB-B 13:41 一到八批全部 PASS（BB_255；第八批測 13ff23045）；v9.10.23 main 3a34dbaa5 ｜ bfb95c564、e3c2df301（第一批）；f0c911c92（第二批）；0e08b4d4a（第三批）；976e1dffa（第四批）；41da7c186（第五批）"
   },
   {
    "id": "AA720-DECIDE-OPENED-1108",
@@ -50052,7 +50052,7 @@
    "id": "BUG-LEGAL-PROF-TONE-1108",
    "title": "教授出題用到同學那一組台詞（林教授在研究室說「我剛剛跟柏翰吵這個」）；鄭教授課堂開場「「我先畫張圖。」黑板上…」名字句夾旁白",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -50064,7 +50064,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 14:0x LAWWW-B】AA-B 13:38：(3) by＝教授（prof_…）不用 MATE_*，改用 CLASS_INTRO／OK／BAD／UNSURE（研究室、下課後、小考也一樣；字不改），MATE_* 只給同學，讀書會照舊 STUDY_*；學習紀錄 ctx、教授紀錄（只課堂）照原本；(1) 鄭教授 STYLE 教授在場拆三段（字不改）：「我先畫張圖。」→ 旁白「（黑板上多了一塊地、一棟房子。）」→「今天講{t}。」，不在場照舊；只認那一句的寫法（syllabus 引用開頭的不拆）；(2) 陳教授沒開課照舊。tests/legal_prof_tone_unit.js（舊程式 4 FAIL）；b7／b8 的演出來比對「現在」那一邊釘在第八批 commit 的 legal3d／classes3d（只驗「」那一部分）。全套跑中。",
+   "next": "【11-08 20:5x LAWWW-B】已在 v9.10.23（9eef2b95b；GHA success、BB-B 發布前清單 GO）；專門的瀏覽器抽查（林教授研究室出題沒有柏翰那幾句、鄭教授在場三段）還沒排——下一班交 BB。 ｜ 【11-08 14:0x LAWWW-B】AA-B 13:38：(3) by＝教授（prof_…）不用 MATE_*，改用 CLASS_INTRO／OK／BAD／UNSURE（研究室、下課後、小考也一樣；字不改），MATE_* 只給同學，讀書會照舊 STUDY_*；學習紀錄 ctx、教授紀錄（只課堂）照原本；(1) 鄭教授 STYLE 教授在場拆三段（字不改）：「我先畫張圖。」→ 旁白「（黑板上多了一塊地、一棟房子。）」→「今天講{t}。」，不在場照舊；只認那一句的寫法（syllabus 引用開頭的不拆）；(2) 陳教授沒開課照舊。tests/legal_prof_tone_unit.js（舊程式 4 FAIL）；b7／b8 的演出來比對「現在」那一邊釘在第八批 commit 的 legal3d／classes3d（只驗「」那一部分）。全套跑中。",
    "xai": {
     "spec": "AA-B 11-08 13:38",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50173,6 +50173,24 @@
     "ack": "ACK",
     "owner": "LAWWW"
    }
+  },
+  {
+   "id": "HANDOFF-B-1108",
+   "title": "帳號 B 交班（使用者 11-08 20:4x「現在交班 等其他AI做好你才交班」）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "換班",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 20:4x LAWWW-B】通知 LAWWW2-B、AA-B、BB-B、CC-B 交班；等四個 duty handoff 完，LAWWW-B 最後做 check → incr（advance）→ roles → duty sync → snapshot → duty handoff → 停用喚醒。"
   }
  ]
 }

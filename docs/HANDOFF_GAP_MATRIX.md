@@ -26,6 +26,26 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
+### 帳號 B → 下一個帳號｜LAWWW-B（`session_01DvRVNNnivf7da7qqWuGmw6`）｜2026-11-08 20:5x UTC 交班（使用者 20:4x「現在交班 等其他AI做好你才交班」；HANDOFF-B-1108）
+
+**下一班第一件事：線上是 v9.10.23（main `3a34dbaa5`，16:30 UTC 部署，BB-B 線上驗收 PASS）；開發分支 `claude/modest-rubin-2lyp7g` 比 main 多的遊戲檔案只有 UX-TITLE-LANDSCAPE-1108（index.html 矮螢幕標題，等 CC 三種裝置橫向重拍）。先看 BB、CC 交接檔有沒有那批重拍結果。**
+- **A｜本班成果（11-08）**：
+  - **v9.10.23 發布**：使用者 15:2x「可以發佈」→ PR #31 合併 `68206e0fd` → 使用者「飲料改完再發布」「中間不用發布別的版本」→ 15:31 取消 Pages 部署（沒上線）→ 飲料改好 → PR #32 合併 main `3a34dbaa5`、Pages run 42500010426 16:30:19 UTC success；BB-B 線上驗收 PASS（CC-B LIVE_V91023：deploy_check、p0）。RELEASES.md v9.10.23。
+  - 拿掉「」一到八批（TEXT-QUOTE-UNIFY-1108，已驗收）；教授出題不用同學台詞、鄭教授開場拆三段（BUG-LEGAL-PROF-TONE-1108）；故事線「（動作）說的話」掛名字（BUG-ARCS-NARR-NAME-1108，已驗收）；送東西只給可攻略的對象（GIFT-ROMANCE-ONLY-1108，已驗收：七位女主角＋芯慈 XCROM.ON）；小地圖門口方塊（UX-MINIMAP-GUIDE-DOOR-1108，已驗收）；週末邀約過期與舊存檔補 until（UX-WEEKEND-ASK-EXPIRE-1108）。
+  - 美術接回（LAWWW2-B）：總圖 B1 光照重烘（4614f4fc0→9f4973bfe，BB ART_APPROVED）、新生南路好拍重烘＋山嵐柱子（1032e6097→ca47949cf）、bake_room.py 續烘＋回歸（aa46cdb7f、9c4f74d84）。
+  - 測試修正：movreg（E 等 15 秒、走出來回 campus、A6 貼牆、B1 等起身；PC 42/42 為準）、touch_flow_wenzhou 推搖桿時手機打開（87f1b01cf，PC 3 次 PASS）、四支測試 ?v= 不寫死版號（b103b3089）、b7／b8 演出來比對釘在第八批 commit。
+- **B｜全部未完成**（`queue --owner LAWWW`；本班新增或還開著的）：
+  - UX-TITLE-LANDSCAPE-1108（已整合待測試，817293734）：等 CC-B 用 iPhone SE／14／14 Pro Max 橫向重拍、BB-B 判；下一版。
+  - BUG-LEGAL-PROF-TONE-1108（已整合待測試）：在 v9.10.23 裡；專門瀏覽器抽查還沒排（林教授研究室出題沒有「跟柏翰吵」、鄭教授在場三段）。
+  - PERF-XS-NPC-1108（待開工，P3）：山嵐、大口慢是店裡 NPC；LAWWW 決定先做坐著、畫面外的 NPC 動畫與彈簧骨降頻，再看 seated_figures_lod；不做人數上限。LAWWW2-B 191df62aa README；CPU 紀錄等 CC-B。
+  - GIFT-ROMANCE-ONLY-1108 後續：AA_728 稿五位標 unused（AA-B 說下一個 commit）；匯入工具 import_gifts.py 讀 people 跳過 unused 還沒改（不影響遊戲：程式已經不送）。
+  - 新生南路九間 P3：南洋開演後柱子、天花板偏亮（BB 九間一起判）；總圖 B1 會議廳關著的房間（P3）；討論室天花板是自習室 A 的 75%（要再亮 LAWWW2 只加點光源再烘）。
+  - 其餘照總表（v0～v5、D99 三個優先項目）。
+- **C｜正在做**：沒有。子代理都合併、worktree 已清（批次 6、7、8）；沒有只在本機的東西。
+- **D｜規則**：本班沒有新的 D／HV。使用者決定：X266（送飲料只給可攻略的對象）、X267（發布 v9.10.23；中間不發別的版本，UA-LAWWW-1108-05 是這一次的）。
+- **E｜各職位**：（交班時補）
+- **F｜測試**：v9.10.23：PC 發布前清單 11／11（9eef2b95b）、飲料版 BB GO、GHA b103b3089 success、線上 deploy_check／p0 PASS；**沒測 iPhone 實機**。開發 head 的 GHA：817293734 success。雲端 movreg A 段不穩（PC 為準）。
+
 ### 帳號 C → 下一個帳號｜LAWWW-C（`session_01Me1thu8Zn934H58kWKNfuF`）｜2026-11-05 23:4x UTC 第二次交班（使用者 23:2x「現在接班……BB說可以go 照條件可以發布」、23:4x「現在交班」）
 
 **下一班第一件事：v9.10.21 已發布，線上檢查還沒做**——BB 排 LIVE（deploy_check、p0 對 https://pyhuanglaw.github.io/Lawstudent/，雲端沙盒連不到 github.io）；通過把 RELEASE-V91021-1105 改已驗收。
