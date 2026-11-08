@@ -25,6 +25,10 @@ const ROOT=path.resolve(__dirname,'..'), BASE='0e2690b0b', TITLE='有名字說�
 const CHANGED=['src/data/events.js','src/y2r2_3d.js','src/friends2_3d.js','src/data/bbpack_events.js','src/legal3d.js'];
 const gitShow=(r,f)=>cp.execFileSync('git',['-C',ROOT,'show',r+':'+f],{encoding:'utf8',maxBuffer:1<<28});
 const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
+/* 演出來的「現在」那一邊：legal3d.js、classes3d.js 讀第八批那一個 commit 的版本（用標題找）——之後 BUG-LEGAL-PROF-TONE-1108（AA-B 11-08 13:38：教授出題不用 MATE_*、鄭教授開場拆三段）
+   故意改了說的話，不只是「」；這一批只驗「」那一部分，後來那一改由 tests/legal_prof_tone_unit.js 驗（找不到 commit＝照舊讀現在的檔） */
+const PIN_TITLE='有名字說的台詞拿掉外面的「」第八批', PIN_FILES=['src/legal3d.js','src/classes3d.js'];
+const pinC8=(()=>{ try{ const L=cp.execFileSync('git',['-C',ROOT,'log','--format=%H %s','-F','--grep='+PIN_TITLE],{encoding:'utf8',maxBuffer:1<<26}).split('\n'); const x=L.find(l=>l.slice(41).startsWith(PIN_TITLE)); return x?x.slice(0,40):null; }catch(e){ return null; } })();
 /* 同前幾批的尺 */
 const wrapped=t=>{ if(typeof t!=='string'||t.length<2||t[0]!=='「'||t[t.length-1]!=='」') return false; let d=0; for(let i=0;i<t.length;i++){ const c=t[i]; if(c==='「') d++; else if(c==='」'){ d--; if(d===0&&i!==t.length-1) return false; } } return d===0; };
 const unq=t=>wrapped(t)?t.slice(1,-1):t;
@@ -72,6 +76,8 @@ if(process.env.QUOTE_B7_PROBE) (async()=>{
   const mode=process.env.QUOTE_B7_PROBE;
   if(mode==='old'){ const OLD={}; for(const f of CHANGED) OLD[path.join(ROOT,f)]=gitShow(BASE,f); const real=fs.readFileSync;
     fs.readFileSync=function(p){ if(typeof p==='string'){ const k=path.resolve(p); if(OLD[k]!=null) return OLD[k]; } return real.apply(fs,arguments); }; }
+  if(mode==='new'&&pinC8){ const PN={}; for(const f of PIN_FILES) PN[path.join(ROOT,f)]=gitShow(pinC8,f); const real=fs.readFileSync;
+    fs.readFileSync=function(p){ if(typeof p==='string'){ const k=path.resolve(p); if(PN[k]!=null) return PN[k]; } return real.apply(fs,arguments); }; }
   const out={errs:[]};
   console.warn=()=>{}; console.log=()=>{};
   let SEED=1; const seed=v=>{ SEED=(v>>>0)||1; }; Math.random=()=>{ SEED=(Math.imul(SEED,1664525)+1013904223)>>>0; return SEED/4294967296; };

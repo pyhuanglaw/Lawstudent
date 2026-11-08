@@ -50047,6 +50047,33 @@
     "owner": "LAWWW"
    },
    "evidence": "tests/arcs_narr_whole_unit.js"
+  },
+  {
+   "id": "BUG-LEGAL-PROF-TONE-1108",
+   "title": "教授出題用到同學那一組台詞（林教授在研究室說「我剛剛跟柏翰吵這個」）；鄭教授課堂開場「「我先畫張圖。」黑板上…」名字句夾旁白",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "林教授下課後、研究室出題；鄭教授的課沒有 syllabus 的那一週",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 14:0x LAWWW-B】AA-B 13:38：(3) by＝教授（prof_…）不用 MATE_*，改用 CLASS_INTRO／OK／BAD／UNSURE（研究室、下課後、小考也一樣；字不改），MATE_* 只給同學，讀書會照舊 STUDY_*；學習紀錄 ctx、教授紀錄（只課堂）照原本；(1) 鄭教授 STYLE 教授在場拆三段（字不改）：「我先畫張圖。」→ 旁白「（黑板上多了一塊地、一棟房子。）」→「今天講{t}。」，不在場照舊；只認那一句的寫法（syllabus 引用開頭的不拆）；(2) 陳教授沒開課照舊。tests/legal_prof_tone_unit.js（舊程式 4 FAIL）；b7／b8 的演出來比對「現在」那一邊釘在第八批 commit 的 legal3d／classes3d（只驗「」那一部分）。全套跑中。",
+   "xai": {
+    "spec": "AA-B 11-08 13:38",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "林教授出題沒有 MATE_* 的句子；鄭教授在場三段、不在場一字不差",
+    "receiver": "BB（測）",
+    "ack": "ACK",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/legal_prof_tone_unit.js"
   }
  ]
 }

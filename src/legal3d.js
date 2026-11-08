@@ -42,10 +42,13 @@ const LEGAL = (function(){
   // 主要 API：在 ADV／對話中問一題。spec: {context, by(charId), qid|pick:{section,type,prefer}, chorus(charId 旁邊插話), quiet}
   L.ask=async function(spec,ev){ const ctx=spec.context||'classmate'; const by=spec.by; const q=spec.qid?L.byId(spec.qid):L.pick(Object.assign({n:1},spec.pick||{})); if(!q){ return null; } const byName=SOCIAL.displayName(by); const npc=EVENTS.npcOf(by); const who={name:byName,obj:npc&&npc.obj,charId:by,pose:npc&&npc.pose};
     const say=(t,expr)=>{ ADV.speaker(by,expr||'neutral'); if(!ADV.active) ADV.log(byName,t); return GM.say(who,t,{keepPose:!!(npc&&npc.seat)}); };   /* ADV 開著時 GM.say 自己會記 */
-    const table={class:[CLASS_INTRO,CLASS_OK,CLASS_BAD,CLASS_UNSURE],classmate:[null,MATE_OK,MATE_BAD,MATE_UNSURE],study:[null,STUDY_OK,STUDY_BAD,STUDY_UNSURE],quiz:[null,STUDY_OK,STUDY_BAD,STUDY_UNSURE]}[ctx]||[null,MATE_OK,MATE_BAD,MATE_UNSURE];
+    /* 出題的是教授（prof_…）：不用同學那一組 MATE_*（「我剛剛跟柏翰吵這個」會變成林教授在說），改用教授那一組 CLASS_*（研究室、下課後一樣；AA-B 11-08 13:38）。
+       只換說的話（tone）；學習紀錄（L.expose／L.mark 的 ctx）、教授紀錄（只有 ctx==='class' 才記）照原本的 ctx */
+    const tone=(typeof by==='string'&&by.startsWith('prof_')&&ctx!=='study')?'class':ctx;   /* 小考（quiz）原本問的時候也是 MATE_ASK／MATE_MC：一起換 */
+    const table={class:[CLASS_INTRO,CLASS_OK,CLASS_BAD,CLASS_UNSURE],classmate:[null,MATE_OK,MATE_BAD,MATE_UNSURE],study:[null,STUDY_OK,STUDY_BAD,STUDY_UNSURE],quiz:[null,STUDY_OK,STUDY_BAD,STUDY_UNSURE]}[tone]||[null,MATE_OK,MATE_BAD,MATE_UNSURE];
     const byTable=(T)=>Array.isArray(T)?T:(T[by]||T.default);
-    if(ctx==='class'){ await say(pick(byTable(CLASS_INTRO)),'serious'); if(q.type==='tf') await say(stmt(q)+'——這句話對不對？'+G.name+'，你說。','serious'); else { await say(q.q,'serious'); await say(opts4(q).map(o=>o.k+'、'+o.t).join('；')+'。'+G.name+'，你選哪個？','neutral'); } }   /* 出題的人（有名字）說的題目、選項：程式不在外面另外包「」（TEXT-QUOTE-UNIFY-1108 第七批，AA-B 11-08 12:29）；q.q 一字不動，裡面原本有的「」照留 */
-    else if(ctx==='study'){ await say(fill(pick(STUDY_ASK),q),'serious'); if(q.type==='mc') await say(opts4(q).map(o=>o.k+'、'+o.t).join('；'),'neutral'); }
+    if(tone==='class'){ await say(pick(byTable(CLASS_INTRO)),'serious'); if(q.type==='tf') await say(stmt(q)+'——這句話對不對？'+G.name+'，你說。','serious'); else { await say(q.q,'serious'); await say(opts4(q).map(o=>o.k+'、'+o.t).join('；')+'。'+G.name+'，你選哪個？','neutral'); } }   /* 出題的人（有名字）說的題目、選項：程式不在外面另外包「」（TEXT-QUOTE-UNIFY-1108 第七批，AA-B 11-08 12:29）；q.q 一字不動，裡面原本有的「」照留 */
+    else if(tone==='study'){ await say(fill(pick(STUDY_ASK),q),'serious'); if(q.type==='mc') await say(opts4(q).map(o=>o.k+'、'+o.t).join('；'),'neutral'); }
     else { if(q.type==='tf') await say(fill(pick(MATE_ASK),q),'thinking'); else { await say(fill(pick(MATE_MC),q),'thinking'); await say(opts4(q).map(o=>o.k+'、'+o.t).join('；'),'neutral'); } }
     let options; if(q.type==='tf'){ options=[{t:'「對。」',v:'對'},{t:'「不對。」',v:'錯'},{t:'「……我不確定。」',v:null}]; if(Math.random()<0.5) [options[0],options[1]]=[options[1],options[0]]; } else { options=opts4(q).map(o=>({t:'「'+o.k+'，'+o.t+'。」',v:o.k})); options.push({t:'「……不確定。」',v:null}); }
     const k=await GM.choose(options.map(o=>({t:o.t}))); const v=options[k].v; ADV.log(G.name,'▶ '+options[k].t);
