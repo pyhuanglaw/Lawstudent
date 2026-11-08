@@ -1,0 +1,75 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_scene3_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SC3_e66_gpu\out
+CC 三處場景（['corner', 'yangyang']）：SHA=e66781d1f7850a3c3bbb848715404474992cfc1f（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [corner noon] 讀檔 corner_records 2025-10-18 12.0（條件事件關閉）
+PASS [corner noon] 進得了 corner_records  {"zone": "corner_records", "x": 1.63, "z": 4.25, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 12.01}
+PASS [黑畫面] corner_noon_ref 不是黑畫面（平均亮度 83.7、變化 59.5）  [83.7, 59.5]
+  [  48.5s] [截圖] corner_noon_ref：鏡頭 {"eye": [0.5, 1.72, 5.4], "look": [0.3, 0.5, -0.6], "lens": 16, "vfov": 64.65}、亮度 [83.7, 59.5]
+PASS [黑畫面] corner_noon_door 不是黑畫面（平均亮度 118.3、變化 68.1）  [118.3, 68.1]
+  [  51.0s] [截圖] corner_noon_door：鏡頭 {"eye": [-0.6, 1.6, 0.8], "look": [1.63, 1.3, 5.75], "lens": 18, "vfov": 58.72}、亮度 [118.3, 68.1]
+PASS [黑畫面] corner_noon_top 不是黑畫面（平均亮度 111.9、變化 65.7）  [111.9, 65.7]
+PASS [黑畫面] corner_fade_S 不是黑畫面（平均亮度 111.8、變化 65.7）  [111.8, 65.7]
+  [  58.9s] [corner noon] fade_S（鏡頭在玩家的 S 側）：淡出中的牆 ["WALL_right_amp_0_goods_inst", "WALL_right_amp_0_vc_inst", "WALL_right_amp_0_vcm_inst", "WALL_right_deck_0_goods_inst", "WALL_right_deck_0_vc_inst", "WALL_right_deck_0_vcm_inst", "WALL_right_receiver_0_goods_inst", "WALL_right_receiver_0_vc_inst", "WALL_right_receiver_0_vcm_inst", "WALL_right_speaker_0_goods_inst", "WALL_right_speaker_0_vc_inst", "WALL_right_turntable_0_goods_inst", "WALL_right_turntable_0_vc_inst", "WALL_right_turntable_0_wood_inst"]；那面牆 1.2 m 內沒有一起淡出的網格 2 個：["WALL_right_pothos_rack_alpha<corner_interior<Scene @3.5,1.7,-0.9", "WALL_right_turntable_0_vcm_inst<corner_interior<Scene @3.6,1.9,-2.4"]
+PASS [黑畫面] corner_fade_W 不是黑畫面（平均亮度 124.4、變化 64.2）  [124.4, 64.2]
+  [  62.7s] [corner noon] fade_W（鏡頭在玩家的 W 側）：淡出中的牆 []；那面牆 1.2 m 內沒有一起淡出的網格 0 個：[]
+PASS [黑畫面] corner_fade_N 不是黑畫面（平均亮度 106.1、變化 59.3）  [106.1, 59.3]
+  [  66.7s] [corner noon] fade_N（鏡頭在玩家的 N 側）：淡出中的牆 []；那面牆 1.2 m 內沒有一起淡出的網格 0 個：[]
+PASS [黑畫面] corner_fade_E 不是黑畫面（平均亮度 116.4、變化 61.4）  [116.4, 61.4]
+  [  70.6s] [corner noon] fade_E（鏡頭在玩家的 E 側）：淡出中的牆 ["WALL_right_amp_0_goods_inst", "WALL_right_amp_0_vc_inst", "WALL_right_amp_0_vcm_inst", "WALL_right_deck_0_goods_inst", "WALL_right_deck_0_vc_inst", "WALL_right_deck_0_vcm_inst", "WALL_right_receiver_0_goods_inst", "WALL_right_receiver_0_vc_inst", "WALL_right_receiver_0_vcm_inst", "WALL_right_speaker_0_goods_inst", "WALL_right_speaker_0_vc_inst", "WALL_right_turntable_0_goods_inst", "WALL_right_turntable_0_vc_inst", "WALL_right_turntable_0_vcm_inst", "WALL_right_turntable_0_wood_inst"]；那面牆 1.2 m 內沒有一起淡出的網格 1 個：["WALL_right_pothos_rack_alpha<corner_interior<Scene @3.5,1.7,-0.9"]
+  [  70.6s] [corner noon] 座位 2 張：[{"label": "坐下", "x": 2.95, "z": 3.2, "lv": 0, "sx": 2.95, "sz": 3.2, "sy": null, "slv": 0, "row": null, "ap": [2.35, 3.2], "lift": 0.27}, {"label": "坐一下", "x": -2.9, "z": 3.05, "lv": 0, "sx": -2.9, "sz": 3.05, "sy": null, "slv": 0, "row": null, "ap": [-2.5, 2.68], "lift": 0}]
+  [  75.7s] 到達「[corner noon] #1（2.95, 3.2）（走到椅子附近）」附近（0.86 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [corner noon] #1（2.95, 3.2） 點椅子（螢幕 [719, 553]）走過去停在 (2.194, 3.365)（seatApproach [2.35, 3.2]）：最近的「坐下」是這一張  {"at": [2.194, 3.365], "nearest": {"label": "坐下", "seat": [2.95, 3.2], "exit": null}}
+PASS [corner noon] #1（2.95, 3.2） 走到旁邊，互動按鈕是「坐下」  {"x": 2.194, "z": 3.365, "lv": 0, "interact": "坐下", "stand": true}
+PASS [corner noon] #1（2.95, 3.2） 坐下了（player.seat）  {"x": 2.95, "z": 3.2, "y": 0.27, "lv": 0, "sx": 2.95, "sz": 3.2, "sy": null}
+PASS [corner noon] #1（2.95, 3.2） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.270＝座位那一層＋lift 0.270（±0.06）  {"x": 2.95, "z": 3.2, "y": 0.27, "lv": 0, "sx": 2.95, "sz": 3.2, "sy": null}
+PASS [黑畫面] corner_sit_seat_1 不是黑畫面（平均亮度 140.6、變化 61.6）  [140.6, 61.6]
+  [  82.6s] [corner noon] #1（2.95, 3.2） 起身點了：["起身"]
+PASS [corner noon] #1（2.95, 3.2） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 0.67, "x": 2.856, "z": 3.297, "lv": 0, "stand": true, "fb": 0}
+  [  95.5s] 到達「[corner noon] #2（-2.9, 3.05）（走到椅子附近）」附近（0.22 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS [corner noon] #2（-2.9, 3.05） 點椅子（螢幕 [571, 359]）走過去停在 (-2.768, 2.854)（seatApproach [-2.5, 2.68]）：最近的「坐下」是這一張  {"at": [-2.768, 2.854], "nearest": {"label": "坐一下", "seat": [-2.9, 3.05], "exit": null}}
+PASS [corner noon] #2（-2.9, 3.05） 走到旁邊，互動按鈕是「坐一下」  {"x": -2.768, "z": 2.854, "lv": 0, "interact": "坐一下", "stand": true}
+PASS [corner noon] #2（-2.9, 3.05） 坐下了（player.seat）  {"x": -2.9, "z": 3.05, "y": 0, "lv": 0, "sx": -2.9, "sz": 3.05, "sy": null}
+PASS [corner noon] #2（-2.9, 3.05） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -2.9, "z": 3.05, "y": 0, "lv": 0, "sx": -2.9, "sz": 3.05, "sy": null}
+PASS [黑畫面] corner_sit_seat_2 不是黑畫面（平均亮度 97.8、變化 62）  [97.8, 62]
+  [ 102.2s] [corner noon] #2（-2.9, 3.05） 起身點了：["起身"]
+PASS [corner noon] #2（-2.9, 3.05） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 2.28, "x": -0.146, "z": 3.132, "lv": 0, "stand": true, "fb": 0}
+  [ 104.1s] [corner noon] 拍完：{"ref": {"eye": [0.5, 1.72, 5.4], "look": [0.3, 0.5, -0.6], "lens": 16, "vfov": 64.65}, "door": {"eye": [-0.6, 1.6, 0.8], "look": [1.63, 1.3, 5.75], "lens": 18, "vfov": 58.72}, "top": [111.9, 65.7], "fade_S": "…", "fade_W": "…", "fade_N": "…", "fade_E": "…"}
+  [前置／捷徑] [corner night] 讀檔 corner_records 2025-10-18 20.5（條件事件關閉）
+PASS [corner night] 進得了 corner_records  {"zone": "corner_records", "x": 1.63, "z": 4.25, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.51}
+PASS [黑畫面] corner_night_ref 不是黑畫面（平均亮度 70.1、變化 50.1）  [70.1, 50.1]
+  [ 120.4s] [截圖] corner_night_ref：鏡頭 {"eye": [0.5, 1.72, 5.4], "look": [0.3, 0.5, -0.6], "lens": 16, "vfov": 64.65}、亮度 [70.1, 50.1]
+PASS [黑畫面] corner_night_door 不是黑畫面（平均亮度 45.9、變化 37.2）  [45.9, 37.2]
+  [ 122.4s] [截圖] corner_night_door：鏡頭 {"eye": [-0.6, 1.6, 0.8], "look": [1.63, 1.3, 5.75], "lens": 18, "vfov": 58.72}、亮度 [45.9, 37.2]
+PASS [黑畫面] corner_night_top 不是黑畫面（平均亮度 86.9、變化 48.4）  [86.9, 48.4]
+  [ 126.5s] [corner night] 拍完：{"ref": {"eye": [0.5, 1.72, 5.4], "look": [0.3, 0.5, -0.6], "lens": 16, "vfov": 64.65}, "door": {"eye": [-0.6, 1.6, 0.8], "look": [1.63, 1.3, 5.75], "lens": 18, "vfov": 58.72}, "top": [86.9, 48.4]}
+  [前置／捷徑] [yangyang 1900] 讀檔 yangyang 2025-10-18 19.0（條件事件關閉）
+PASS [yangyang 1900] 進得了 yangyang  {"zone": "yangyang", "x": 1.2, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 19.01}
+PASS [黑畫面] yy_1900_door 不是黑畫面（平均亮度 108.1、變化 51.4）  [108.1, 51.4]
+  [ 146.1s] [截圖] yy_1900_door：鏡頭 {"eye": [1.2, 1.6, 4.9], "look": [0, 1, -4], "lens": 18, "vfov": 58.72}、亮度 [108.1, 51.4]
+PASS [黑畫面] yy_1900_counter 不是黑畫面（平均亮度 69.8、變化 42.4）  [69.8, 42.4]
+  [ 148.0s] [截圖] yy_1900_counter：鏡頭 {"eye": [0.8, 1.6, 1.6], "look": [-2.3, 1.2, 4.8], "lens": 20, "vfov": 53.7}、亮度 [69.8, 42.4]
+PASS [黑畫面] yy_1900_top 不是黑畫面（平均亮度 95、變化 38）  [95, 38]
+  [ 150.3s] [截圖] yy_1900_top：鏡頭 {"eye": [0.3, 7.5, 2.2], "look": [0, 0, -0.6], "lens": 16, "vfov": 64.65}、亮度 [95, 38]
+PASS [黑畫面] yy_1900_t4south 不是黑畫面（平均亮度 72.8、變化 36.9）  [72.8, 36.9]
+  [ 152.3s] [截圖] yy_1900_t4south：鏡頭 {"eye": [-0.5, 1.5, -4.9], "look": [-2.9, 0.45, -3.7], "lens": 22, "vfov": 49.43}、亮度 [72.8, 36.9]
+PASS [黑畫面] yy_1900_window 不是黑畫面（平均亮度 76.5、變化 39.9）  [76.5, 39.9]
+  [ 154.1s] [截圖] yy_1900_window：鏡頭 {"eye": [0.9, 1.5, 2.4], "look": [2.7, 1.4, 5.5], "lens": 20, "vfov": 53.7}、亮度 [76.5, 39.9]
+  [ 154.1s] [yangyang 1900] 店裡 7 人（坐著 5、店員 2）：[{"id": null, "x": -2.3, "z": 4.5, "pose": "idle", "clerk": true, "seat": null, "stand": false}, {"id": null, "x": -1.45, "z": 2.8, "pose": "idle", "clerk": true, "seat": null, "stand": false}, {"id": null, "x": 1.48, "z": 0, "pose": "sit", "clerk": false, "seat": {"x": 1.48, "z": 0, "d": 0}, "stand": null}, {"id": null, "x": 1.48, "z": 1.2, "pose": "sit", "clerk": false, "seat": {"x": 1.48, "z": 1.2, "d": 0}, "stand": null}, {"id": null, "x": -3.18, "z": -3.7, "pose": "sit", "clerk": false, "seat": {"x": -3.18, "z": -3.7, "d": 0}, "stand": null}, {"id": null, "x": -2.62, "z": -3.7, "pose": "sit", "clerk": false, "seat": {"x": -2.62, "z": -3.7, "d": 0}, "stand": null}, {"id": null, "x": 3.5, "z": -1.15, "pose": "sit", "clerk": false, "seat": {"x": 3.5, "z": -1.15, "d": 0}, "stand": null}]
+PASS [yangyang 1900] 客人坐在座位上（0.15 m）、站著的站得住（店員不算）  []
+  [前置／捷徑] [yangyang 2330] 讀檔 yangyang 2025-10-18 23.5（條件事件關閉）
+PASS [yangyang 2330] 進得了 yangyang  {"zone": "yangyang", "x": 1.2, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 23.51}
+PASS [黑畫面] yy_2330_door 不是黑畫面（平均亮度 108、變化 52）  [108, 52]
+  [ 172.4s] [截圖] yy_2330_door：鏡頭 {"eye": [1.2, 1.6, 4.9], "look": [0, 1, -4], "lens": 18, "vfov": 58.72}、亮度 [108, 52]
+PASS [黑畫面] yy_2330_counter 不是黑畫面（平均亮度 63.8、變化 48.1）  [63.8, 48.1]
+  [ 174.4s] [截圖] yy_2330_counter：鏡頭 {"eye": [0.8, 1.6, 1.6], "look": [-2.3, 1.2, 4.8], "lens": 20, "vfov": 53.7}、亮度 [63.8, 48.1]
+PASS [黑畫面] yy_2330_top 不是黑畫面（平均亮度 91.9、變化 42.9）  [91.9, 42.9]
+  [ 176.9s] [截圖] yy_2330_top：鏡頭 {"eye": [0.3, 7.5, 2.2], "look": [0, 0, -0.6], "lens": 16, "vfov": 64.65}、亮度 [91.9, 42.9]
+PASS [黑畫面] yy_2330_t4south 不是黑畫面（平均亮度 72.5、變化 36.7）  [72.5, 36.7]
+  [ 179.0s] [截圖] yy_2330_t4south：鏡頭 {"eye": [-0.5, 1.5, -4.9], "look": [-2.9, 0.45, -3.7], "lens": 22, "vfov": 49.43}、亮度 [72.5, 36.7]
+PASS [黑畫面] yy_2330_window 不是黑畫面（平均亮度 69.9、變化 47）  [69.9, 47]
+  [ 180.8s] [截圖] yy_2330_window：鏡頭 {"eye": [0.9, 1.5, 2.4], "look": [2.7, 1.4, 5.5], "lens": 20, "vfov": 53.7}、亮度 [69.9, 47]
+  [ 180.8s] [yangyang 2330] 店裡 11 人（坐著 9、店員 2）：[{"id": null, "x": -2.3, "z": 4.5, "pose": "idle", "clerk": true, "seat": null, "stand": false}, {"id": null, "x": -1.45, "z": 2.8, "pose": "idle", "clerk": true, "seat": null, "stand": false}, {"id": null, "x": 0.92, "z": 2.3, "pose": "sit", "clerk": false, "seat": {"x": 0.92, "z": 2.3, "d": 0}, "stand": null}, {"id": null, "x": 0.92, "z": 0, "pose": "sit", "clerk": false, "seat": {"x": 0.92, "z": 0, "d": 0}, "stand": null}, {"id": null, "x": 0.92, "z": 1.2, "pose": "sit", "clerk": false, "seat": {"x": 0.92, "z": 1.2, "d": 0}, "stand": null}, {"id": null, "x": 1.48, "z": 0, "pose": "read", "clerk": false, "seat": {"x": 1.48, "z": 0, "d": 0}, "stand": null}, {"id": null, "x": 0.82, "z": -2.3, "pose": "read", "clerk": false, "seat": {"x": 0.82, "z": -2.3, "d": 0}, "stand": null}, {"id": null, "x": 0.82, "z": -1.1, "pose": "sit", "clerk": false, "seat": {"x": 0.82, "z": -1.1, "d": 0}, "stand": null}, {"id": null, "x": -2.62, "z": -3.7, "pose": "sit", "clerk": false, "seat": {"x": -2.62, "z": -3.7, "d": 0}, "stand": null}, {"id": null, "x": 3.5, "z": -2.95, "pose": "sit", "clerk": false, "seat": {"x": 3.5, "z": -2.95, "d": 0}, "stand": null}, {"id": null, "x": 3.5, "z": -1.85, "pose": "sit", "clerk": false, "seat": {"x": 3.5, "z": -1.85, "d": 0}, "stand": null}]
+PASS [yangyang 2330] 客人坐在座位上（0.15 m）、站著的站得住（店員不算）  []
+PASS 沒有 JS 例外  []
+ALL PASS
