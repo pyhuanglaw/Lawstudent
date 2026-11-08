@@ -53,6 +53,24 @@ async def drive(pg, cdp, prefs, max_s=200, idle_end=6):
     return out
 
 
+
+async def wait_at_spot(pg, cdp, tag, h, max_s=1500):
+    t0 = time.time()
+    while time.time() - t0 < max_s:
+        c = await pg.evaluate("({h:+GAME.G.hour, lead:(()=>{ const v=(GAME.G.invites||[]).filter(q=>q.state==='accepted').slice(-1)[0]; return v&&v.lead?v.lead.ph:null; })()})")
+        if c['h'] >= h or c['lead']: R.note('%s 在約好的地點等到 %.2f（帶路 %s）' % (tag, c['h'], c['lead'])); return True
+        s = await L.state(pg)
+        if s['choices'] or s['dlg']: return True   # 她來了、開始說話：交給後面處理
+        await L.close_panels(pg, cdp)
+        if c['h'] < h - 0.4:   # 手機「今天」的「跳過時間」：選最早的那一個（遇到約好的時間會停）
+            await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+            await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=today]'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)
+            sk = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#phoneBody [data-skip]')]; if(!bs.length) return null; const e=bs[0]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim(),+e.dataset.skip]; })()")
+            if sk and sk[3] <= h + 0.05: await L.touch_tap(cdp, sk[0], sk[1]); R.note('%s   跳過時間：%s（%.2f）' % (tag, sk[2], c['h'])); await pg.wait_for_timeout(3000); continue
+            await L.tap(pg, cdp, '#btnPhoneClose')
+        await pg.wait_for_timeout(2000)
+    R.note('%s 等到逾時（%.2f）' % (tag, await pg.evaluate("+GAME.G.hour"))); return False
+
 async def run_mode(pg, cdp, mode, rec):
     tag = '[%s]' % mode
     sv = json.load(open(SAVE46, encoding='utf-8')); sv['hour'] = 13.0; sv['zone'] = 'dorm'; sv['pos'] = None; sv.setdefault('home', {})['at'] = False
@@ -67,10 +85,10 @@ async def run_mode(pg, cdp, mode, rec):
     if not R.check('%s 約成總圖' % tag, bool(iv and iv['state'] == 'accepted' and iv['place'] == 'library'), J(iv)): return
     await pg.evaluate("GAME.closePhone&&GAME.closePhone()")
     tgt = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).filter(q=>q.who===id&&q.state==='accepted').slice(-1)[0]; return INV.goTarget(GAME.G,v); })", WHO)
-    R.setup('%s 【前置】照手機「直接過去」、到了再把時間撥到約的前 6 分鐘，GM.quickGo(%s, force)' % (tag, J(tgt)))
+    R.setup('%s 【前置】照手機「直接過去」、到了在約好的地點等（跳過時間＋站著），GM.quickGo(%s, force)' % (tag, J(tgt)))
     wf0 = await pg.evaluate("GAME.walkFallbacks||0")
     await pg.evaluate("(t=>{ void GAME.quickGo([t.zone,t.name,t.spawn||null],{force:true}); })", tgt); await pg.wait_for_timeout(8000)
-    await pg.evaluate("(h=>{ GAME.G.hour=h-0.1; })", iv['h'])   # 【前置／捷徑】到了以後把時間設成約的前 6 分鐘（11-08 09:5x：原本寫成 min，停在 13:1x 等不到她）（「直接過去」會加走路時間，run41 c 因此 missed）
+    await wait_at_spot(pg, cdp, tag, iv['h'] - 0.1)   # BB-B 09:36：照真實玩家——到了先在約好的地點等（手機「跳過時間」會停在約好的時間前；剩下的站著等），不撥時鐘
     c1 = await drive(pg, cdp, [], max_s=180, idle_end=20)
     ld = None
     for _ in range(150):   # SwiftShader 慢：她到、說話、開始帶路可能要一兩分鐘
