@@ -1,25 +1,284 @@
-[20:13:37] Windows console: QuickEdit already off (mode 0x1b7); keep awake while running: on
-[20:13:37] run_forever round: 31   runner sha256: 5ba0949b5e
-[20:13:37] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[20:13:37]          playwright 1.64.1 OK
-[20:13:37] git    : git version 2.56.0.windows.4
-[20:13:37] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[20:13:37] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[20:13:37] repo   : C:\Users\USER\Documents\Lawstudent
-[20:13:37] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[20:13:37] parallel: 2  (blender items run alone)
-[20:13:37] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[20:13:37] git fetch
+[20:18:49] Windows console: QuickEdit already off (mode 0x1b7); keep awake while running: on
+[20:18:49] run_forever round: 32   runner sha256: 5ba0949b5e
+[20:18:49] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[20:18:49]          playwright 1.64.1 OK
+[20:18:49] git    : git version 2.56.0.windows.4
+[20:18:49] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[20:18:49] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[20:18:49] repo   : C:\Users\USER\Documents\Lawstudent
+[20:18:49] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[20:18:49] parallel: 2  (blender items run alone)
+[20:18:49] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[20:18:50] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/confident-ritchie-8rwh7t -> FETCH_HEAD
+       f595ad9af..d252b3a62  claude/cc-testing -> origin/claude/cc-testing
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
     Already on 'claude/cc-local'
     Your branch is up to date with 'origin/claude/cc-local'.
     Already up to date.
-    Already up to date.
-[20:13:42] dev head = 28f5f5287   lawww2 head = 5f85444cd
-[20:13:44] config.txt: PARALLEL 2 -> 3
-[20:13:44] config.txt: HEADLESS 0 -> 1（每一項都不開視窗）
-[20:13:44] memory used: 34%  (new items wait while >= 85%)
+    Merge made by the 'ort' strategy.
+     docs/story_planning/CC/logs/A6_03c7/a6left.py      |  19 ++
+     .../CC/logs/A6_03c7/movreg_cloud.txt               |  57 +++++
+     docs/story_planning/CC/logs/NYWATCH_9556/log.txt   |  38 +++
+     .../CC/logs/NYWATCH_9556/ny_before.png             | Bin 0 -> 396966 bytes
+     .../story_planning/CC/logs/NYWATCH_9556/ny_end.png | Bin 0 -> 395114 bytes
+     .../CC/logs/NYWATCH_9556/ny_start.png              | Bin 0 -> 319117 bytes
+     .../CC/logs/XS9_102a_9556/L102a_log.txt            | 277 +++++++++++++++++++++
+     .../CC/logs/XS9_102a_9556/R9556_log.txt            | 277 +++++++++++++++++++++
+     .../pairs/s5_xs_dabu_1400_corner_a.jpg             | Bin 0 -> 151598 bytes
+     .../pairs/s5_xs_dabu_1400_corner_b.jpg             | Bin 0 -> 141926 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dabu_1400_door.jpg   | Bin 0 -> 156640 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dabu_1400_out.jpg    | Bin 0 -> 155403 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dabu_1400_seat.jpg   | Bin 0 -> 137963 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dabu_1400_top.jpg    | Bin 0 -> 114532 bytes
+     .../pairs/s5_xs_dabu_2000_corner_a.jpg             | Bin 0 -> 147471 bytes
+     .../pairs/s5_xs_dabu_2000_corner_b.jpg             | Bin 0 -> 124523 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dabu_2000_door.jpg   | Bin 0 -> 151186 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dabu_2000_out.jpg    | Bin 0 -> 131503 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dabu_2000_seat.jpg   | Bin 0 -> 124609 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dabu_2000_top.jpg    | Bin 0 -> 107813 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dakou_1400_clerk.jpg | Bin 0 -> 81621 bytes
+     .../pairs/s5_xs_dakou_1400_corner_2f_a.jpg         | Bin 0 -> 105918 bytes
+     .../pairs/s5_xs_dakou_1400_corner_2f_b.jpg         | Bin 0 -> 104662 bytes
+     .../pairs/s5_xs_dakou_1400_corner_a.jpg            | Bin 0 -> 115216 bytes
+     .../pairs/s5_xs_dakou_1400_corner_b.jpg            | Bin 0 -> 117575 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dakou_1400_door.jpg  | Bin 0 -> 125661 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dakou_1400_out.jpg   | Bin 0 -> 132973 bytes
+     .../pairs/s5_xs_dakou_1400_room_2f.jpg             | Bin 0 -> 111925 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dakou_1400_seat.jpg  | Bin 0 -> 86339 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dakou_1400_top.jpg   | Bin 0 -> 111093 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dakou_2000_clerk.jpg | Bin 0 -> 79792 bytes
+     .../pairs/s5_xs_dakou_2000_corner_2f_a.jpg         | Bin 0 -> 112185 bytes
+     .../pairs/s5_xs_dakou_2000_corner_2f_b.jpg         | Bin 0 -> 86055 bytes
+     .../pairs/s5_xs_dakou_2000_corner_a.jpg            | Bin 0 -> 111753 bytes
+     .../pairs/s5_xs_dakou_2000_corner_b.jpg            | Bin 0 -> 103941 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dakou_2000_door.jpg  | Bin 0 -> 120983 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dakou_2000_out.jpg   | Bin 0 -> 101839 bytes
+     .../pairs/s5_xs_dakou_2000_room_2f.jpg             | Bin 0 -> 107273 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dakou_2000_seat.jpg  | Bin 0 -> 81651 bytes
+     .../XS9_102a_9556/pairs/s5_xs_dakou_2000_top.jpg   | Bin 0 -> 113064 bytes
+     .../pairs/s5_xs_haopai_1400_corner_a.jpg           | Bin 0 -> 147384 bytes
+     .../pairs/s5_xs_haopai_1400_corner_b.jpg           | Bin 0 -> 134464 bytes
+     .../XS9_102a_9556/pairs/s5_xs_haopai_1400_door.jpg | Bin 0 -> 198104 bytes
+     .../XS9_102a_9556/pairs/s5_xs_haopai_1400_out.jpg  | Bin 0 -> 167868 bytes
+     .../XS9_102a_9556/pairs/s5_xs_haopai_1400_seat.jpg | Bin 0 -> 105914 bytes
+     .../XS9_102a_9556/pairs/s5_xs_haopai_1400_top.jpg  | Bin 0 -> 85448 bytes
+     .../pairs/s5_xs_haopai_2000_corner_a.jpg           | Bin 0 -> 140497 bytes
+     .../pairs/s5_xs_haopai_2000_corner_b.jpg           | Bin 0 -> 126545 bytes
+     .../XS9_102a_9556/pairs/s5_xs_haopai_2000_door.jpg | Bin 0 -> 187309 bytes
+     .../XS9_102a_9556/pairs/s5_xs_haopai_2000_out.jpg  | Bin 0 -> 142985 bytes
+     .../XS9_102a_9556/pairs/s5_xs_haopai_2000_seat.jpg | Bin 0 -> 99890 bytes
+     .../XS9_102a_9556/pairs/s5_xs_haopai_2000_top.jpg  | Bin 0 -> 82996 bytes
+     .../pairs/s5_xs_nanyang_1400_clerk.jpg             | Bin 0 -> 133566 bytes
+     .../pairs/s5_xs_nanyang_1400_corner_a.jpg          | Bin 0 -> 90388 bytes
+     .../pairs/s5_xs_nanyang_1400_corner_b.jpg          | Bin 0 -> 70589 bytes
+     .../pairs/s5_xs_nanyang_1400_door.jpg              | Bin 0 -> 115048 bytes
+     .../XS9_102a_9556/pairs/s5_xs_nanyang_1400_out.jpg | Bin 0 -> 65619 bytes
+     .../pairs/s5_xs_nanyang_1400_seat.jpg              | Bin 0 -> 101588 bytes
+     .../XS9_102a_9556/pairs/s5_xs_nanyang_1400_top.jpg | Bin 0 -> 93434 bytes
+     .../pairs/s5_xs_nanyang_2000_clerk.jpg             | Bin 0 -> 133850 bytes
+     .../pairs/s5_xs_nanyang_2000_corner_a.jpg          | Bin 0 -> 89250 bytes
+     .../pairs/s5_xs_nanyang_2000_corner_b.jpg          | Bin 0 -> 64402 bytes
+     .../pairs/s5_xs_nanyang_2000_door.jpg              | Bin 0 -> 112788 bytes
+     .../XS9_102a_9556/pairs/s5_xs_nanyang_2000_out.jpg | Bin 0 -> 58999 bytes
+     .../pairs/s5_xs_nanyang_2000_seat.jpg              | Bin 0 -> 86875 bytes
+     .../XS9_102a_9556/pairs/s5_xs_nanyang_2000_top.jpg | Bin 0 -> 88033 bytes
+     .../pairs/s5_xs_nanyang_hall_1400_corner_a.jpg     | Bin 0 -> 78538 bytes
+     .../pairs/s5_xs_nanyang_hall_1400_corner_b.jpg     | Bin 0 -> 76474 bytes
+     .../pairs/s5_xs_nanyang_hall_1400_door.jpg         | Bin 0 -> 119463 bytes
+     .../pairs/s5_xs_nanyang_hall_1400_out.jpg          | Bin 0 -> 86049 bytes
+     .../pairs/s5_xs_nanyang_hall_1400_seat.jpg         | Bin 0 -> 104088 bytes
+     .../pairs/s5_xs_nanyang_hall_1400_top.jpg          | Bin 0 -> 125620 bytes
+     .../pairs/s5_xs_nanyang_hall_2000_corner_a.jpg     | Bin 0 -> 73463 bytes
+     .../pairs/s5_xs_nanyang_hall_2000_corner_b.jpg     | Bin 0 -> 70851 bytes
+     .../pairs/s5_xs_nanyang_hall_2000_door.jpg         | Bin 0 -> 110756 bytes
+     .../pairs/s5_xs_nanyang_hall_2000_out.jpg          | Bin 0 -> 73785 bytes
+     .../pairs/s5_xs_nanyang_hall_2000_seat.jpg         | Bin 0 -> 87619 bytes
+     .../pairs/s5_xs_nanyang_hall_2000_top.jpg          | Bin 0 -> 110946 bytes
+     .../pairs/s5_xs_shanlan_1400_corner_a.jpg          | Bin 0 -> 164276 bytes
+     .../pairs/s5_xs_shanlan_1400_corner_b.jpg          | Bin 0 -> 128582 bytes
+     .../pairs/s5_xs_shanlan_1400_door.jpg              | Bin 0 -> 168438 bytes
+     .../XS9_102a_9556/pairs/s5_xs_shanlan_1400_out.jpg | Bin 0 -> 108437 bytes
+     .../pairs/s5_xs_shanlan_1400_seat.jpg              | Bin 0 -> 100008 bytes
+     .../XS9_102a_9556/pairs/s5_xs_shanlan_1400_top.jpg | Bin 0 -> 152599 bytes
+     .../pairs/s5_xs_shanlan_2000_corner_a.jpg          | Bin 0 -> 150939 bytes
+     .../pairs/s5_xs_shanlan_2000_corner_b.jpg          | Bin 0 -> 106334 bytes
+     .../pairs/s5_xs_shanlan_2000_door.jpg              | Bin 0 -> 154977 bytes
+     .../XS9_102a_9556/pairs/s5_xs_shanlan_2000_out.jpg | Bin 0 -> 73799 bytes
+     .../pairs/s5_xs_shanlan_2000_seat.jpg              | Bin 0 -> 79877 bytes
+     .../XS9_102a_9556/pairs/s5_xs_shanlan_2000_top.jpg | Bin 0 -> 125948 bytes
+     .../pairs/s5_xs_tongxian_1400_clerk.jpg            | Bin 0 -> 173656 bytes
+     .../pairs/s5_xs_tongxian_1400_corner_a.jpg         | Bin 0 -> 156728 bytes
+     .../pairs/s5_xs_tongxian_1400_corner_b.jpg         | Bin 0 -> 185844 bytes
+     .../pairs/s5_xs_tongxian_1400_door.jpg             | Bin 0 -> 148943 bytes
+     .../pairs/s5_xs_tongxian_1400_out.jpg              | Bin 0 -> 107003 bytes
+     .../pairs/s5_xs_tongxian_1400_seat.jpg             | Bin 0 -> 141349 bytes
+     .../pairs/s5_xs_tongxian_1400_top.jpg              | Bin 0 -> 77497 bytes
+     .../pairs/s5_xs_tongxian_2000_clerk.jpg            | Bin 0 -> 162729 bytes
+     .../pairs/s5_xs_tongxian_2000_corner_a.jpg         | Bin 0 -> 156486 bytes
+     .../pairs/s5_xs_tongxian_2000_corner_b.jpg         | Bin 0 -> 175734 bytes
+     .../pairs/s5_xs_tongxian_2000_door.jpg             | Bin 0 -> 143928 bytes
+     .../pairs/s5_xs_tongxian_2000_out.jpg              | Bin 0 -> 100385 bytes
+     .../pairs/s5_xs_tongxian_2000_seat.jpg             | Bin 0 -> 133587 bytes
+     .../pairs/s5_xs_tongxian_2000_top.jpg              | Bin 0 -> 76748 bytes
+     .../pairs/s5_xs_xsports_1400_corner_a.jpg          | Bin 0 -> 143946 bytes
+     .../pairs/s5_xs_xsports_1400_corner_b.jpg          | Bin 0 -> 94744 bytes
+     .../pairs/s5_xs_xsports_1400_door.jpg              | Bin 0 -> 191603 bytes
+     .../XS9_102a_9556/pairs/s5_xs_xsports_1400_out.jpg | Bin 0 -> 89183 bytes
+     .../pairs/s5_xs_xsports_1400_seat.jpg              | Bin 0 -> 122319 bytes
+     .../XS9_102a_9556/pairs/s5_xs_xsports_1400_top.jpg | Bin 0 -> 129272 bytes
+     .../pairs/s5_xs_xsports_2000_corner_a.jpg          | Bin 0 -> 133398 bytes
+     .../pairs/s5_xs_xsports_2000_corner_b.jpg          | Bin 0 -> 88939 bytes
+     .../pairs/s5_xs_xsports_2000_door.jpg              | Bin 0 -> 178086 bytes
+     .../XS9_102a_9556/pairs/s5_xs_xsports_2000_out.jpg | Bin 0 -> 78171 bytes
+     .../pairs/s5_xs_xsports_2000_seat.jpg              | Bin 0 -> 103667 bytes
+     .../XS9_102a_9556/pairs/s5_xs_xsports_2000_top.jpg | Bin 0 -> 116714 bytes
+     .../CC/logs/XS9_102a_9556/sheets/dabu.jpg          | Bin 0 -> 428577 bytes
+     .../CC/logs/XS9_102a_9556/sheets/dakou.jpg         | Bin 0 -> 361969 bytes
+     .../CC/logs/XS9_102a_9556/sheets/dakou_2f.jpg      | Bin 0 -> 333520 bytes
+     .../CC/logs/XS9_102a_9556/sheets/haopai.jpg        | Bin 0 -> 469537 bytes
+     .../CC/logs/XS9_102a_9556/sheets/nanyang.jpg       | Bin 0 -> 285361 bytes
+     .../CC/logs/XS9_102a_9556/sheets/nanyang_hall.jpg  | Bin 0 -> 277126 bytes
+     .../CC/logs/XS9_102a_9556/sheets/shanlan.jpg       | Bin 0 -> 431603 bytes
+     .../CC/logs/XS9_102a_9556/sheets/tongxian.jpg      | Bin 0 -> 466321 bytes
+     .../CC/logs/XS9_102a_9556/sheets/xsports.jpg       | Bin 0 -> 423632 bytes
+     .../test_tools/cc/cc_nanyang_watch_probe.py        |   6 +-
+     .../test_tools/cc/cc_scene5_probe.py               |   8 +
+     tools/cc_local/queue.txt                           |   8 +
+     128 files changed, 687 insertions(+), 3 deletions(-)
+     create mode 100644 docs/story_planning/CC/logs/A6_03c7/a6left.py
+     create mode 100644 docs/story_planning/CC/logs/A6_03c7/movreg_cloud.txt
+     create mode 100644 docs/story_planning/CC/logs/NYWATCH_9556/log.txt
+     create mode 100644 docs/story_planning/CC/logs/NYWATCH_9556/ny_before.png
+     create mode 100644 docs/story_planning/CC/logs/NYWATCH_9556/ny_end.png
+     create mode 100644 docs/story_planning/CC/logs/NYWATCH_9556/ny_start.png
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/L102a_log.txt
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/R9556_log.txt
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dabu_1400_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dabu_1400_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dabu_1400_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dabu_1400_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dabu_1400_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dabu_1400_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dabu_2000_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dabu_2000_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dabu_2000_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dabu_2000_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dabu_2000_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dabu_2000_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_1400_clerk.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_1400_corner_2f_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_1400_corner_2f_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_1400_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_1400_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_1400_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_1400_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_1400_room_2f.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_1400_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_1400_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_2000_clerk.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_2000_corner_2f_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_2000_corner_2f_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_2000_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_2000_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_2000_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_2000_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_2000_room_2f.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_2000_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_dakou_2000_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_haopai_1400_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_haopai_1400_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_haopai_1400_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_haopai_1400_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_haopai_1400_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_haopai_1400_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_haopai_2000_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_haopai_2000_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_haopai_2000_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_haopai_2000_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_haopai_2000_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_haopai_2000_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_1400_clerk.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_1400_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_1400_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_1400_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_1400_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_1400_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_1400_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_2000_clerk.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_2000_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_2000_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_2000_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_2000_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_2000_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_2000_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_hall_1400_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_hall_1400_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_hall_1400_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_hall_1400_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_hall_1400_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_hall_1400_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_hall_2000_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_hall_2000_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_hall_2000_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_hall_2000_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_hall_2000_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_nanyang_hall_2000_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_shanlan_1400_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_shanlan_1400_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_shanlan_1400_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_shanlan_1400_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_shanlan_1400_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_shanlan_1400_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_shanlan_2000_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_shanlan_2000_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_shanlan_2000_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_shanlan_2000_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_shanlan_2000_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_shanlan_2000_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_tongxian_1400_clerk.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_tongxian_1400_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_tongxian_1400_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_tongxian_1400_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_tongxian_1400_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_tongxian_1400_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_tongxian_1400_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_tongxian_2000_clerk.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_tongxian_2000_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_tongxian_2000_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_tongxian_2000_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_tongxian_2000_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_tongxian_2000_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_tongxian_2000_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_xsports_1400_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_xsports_1400_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_xsports_1400_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_xsports_1400_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_xsports_1400_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_xsports_1400_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_xsports_2000_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_xsports_2000_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_xsports_2000_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_xsports_2000_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_xsports_2000_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/pairs/s5_xs_xsports_2000_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/sheets/dabu.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/sheets/dakou.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/sheets/dakou_2f.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/sheets/haopai.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/sheets/nanyang.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/sheets/nanyang_hall.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/sheets/shanlan.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/sheets/tongxian.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_102a_9556/sheets/xsports.jpg
+[20:19:01] dev head = 28f5f5287   lawww2 head = 5f85444cd
+[20:19:01] startup: 5 local result commit(s) not on origin yet - merge origin and push now
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7e528db99..f408f9784  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:19:07] config.txt: PARALLEL 2 -> 3
+[20:19:07] config.txt: HEADLESS 0 -> 1（每一項都不開視窗）
+[20:19:07] memory used: 33%  (new items wait while >= 85%)
