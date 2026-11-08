@@ -6,7 +6,21 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-08 11:5x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-08 13:3x UTC，帳號 B LAWWW2-B）
+
+分支 `claude/funny-albattani-iawshm` 最新 `bc9b27053`；開發 `claude/modest-rubin-2lyp7g` 最新 `8554b8ea9`。瀏覽器都沒跑（D131）。測試工作樹 `$S/wt_b1`（開發最新，乾淨）。
+
+| 項目 | 狀態 | 位置 |
+|---|---|---|
+| 隔間牆兩面都烘 patch | **已整合**（開發 `4429bc93d`） | `wip/bake_room_partition_1108/` |
+| **總圖 B1 重烘**（#218） | **已整合**（`4614f4fc0`→開發 `9f4973bfe`）；BB-B 雲端兩欄結構 PASS（討論室往上看 176、影印中心 142），討論室天花板**不用再補**；ART_APPROVED 等 PC GPU＋會議廳門口、南走廊 | `wip/library_b1_lm_1108/` |
+| bake_room 續烘（BAKE_CACHE／BAKE_STOP_AFTER） | **已整合**（`c29fd2654`→開發 `aa46cdb7f`）；LAWWW-B 那台 Blender 結束時 segfault 139 → 回歸改成接受 139 但輸出／cache 要對（`bc9b27053`，patch 已交、P3） | `wip/bake_room_resume_1108/` |
+| **新生南路 XS9**（BB-B） | 8 間 **ART_APPROVED**（大口 1F／2F、大步、同弦、新生運動、南洋大廳、1 廳、山嵐）。**好拍**重烘（HIDE 加 alpha：鏤空洞洞板 Cycles 當實心）＋**山嵐柱子**朝街那一面壓暗（新工具 lm_scale_faces.py）**已交 LAWWW-B（`1032e6097`）**，等整合、CC 拍、BB-B 判 | `wip/xs9_fix_1108/` |
+| 教訓（11-08 13:17） | **執行中的 .sh 不能原地改**：我覆寫 bake_xs.sh 時好拍正在烘，bash 讀錯位又重跑了一次 bake_room（PID 停掉、手動補 glb_fix_instnames 和烘焙紀錄，輸出核對過）。一律寫 .new 再 mv | — |
+| P3 待查 | Cycles 烘焙把 MASK 鏤空當實心（葉片卡：大步 39.5 m²、山嵐 22、同弦 1.2；新生運動 L0_xs_alpha 27.6）：卡片形影子；BB-B 已 ART_APPROVED，不擋 | — |
+| P3 | 美國公寓浴室兩片門板拆節點；約 40 間外牆腳黑線可跑 lm_fill_covered（等決定）；#196、#201 | — |
+
+## 🔨 （舊）現在在做（11-08 11:5x UTC，帳號 B LAWWW2-B）
 
 分支 `claude/funny-albattani-iawshm` 最新 `f67eb9963`；開發分支 `claude/modest-rubin-2lyp7g` 最新 `54d2f43d3`（LAWWW-B 已整合 --emit 修正 `9c94d128a`）。瀏覽器都沒跑（D131）。
 
