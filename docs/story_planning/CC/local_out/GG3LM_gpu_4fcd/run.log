@@ -1,0 +1,78 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_scene4_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3LM_gpu_4fcd\out
+CC 公館三間＋轉角 P2／P3＋大口二樓（['yangyang', 'corner', 'cvs', 'dakou2f']）：SHA=4fcd3c45b1d70471f46a2f765cdcca43094facf2（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [洋洋 1400] 讀檔 yangyang 2025-10-18 14.0（條件事件關閉）
+FAIL [洋洋 1400] 進得了 yangyang  {"zone": "gongguan", "x": -10.6, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.02}
+  [前置／捷徑] [洋洋 2100] 讀檔 yangyang 2025-10-18 21.0（條件事件關閉）
+PASS [洋洋 2100] 進得了 yangyang  {"zone": "yangyang", "x": 1.2, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.01}
+  [  65.3s] [洋洋 2100] 光照貼圖／窗景卡：{"mats": 42, "withLightMap": 10, "maps": ["yangyang_interior_lm_day.webp"], "views": [{"n": "WALL_front_VIEW_yy_window_view", "vis": true}]}
+PASS [黑畫面] yy4_2100_door_out 不是黑畫面（平均亮度 106.8、變化 54.4）  [106.8, 54.4]
+  [  68.2s] [截圖] yy4_2100_door_out：鏡頭 {"eye": [0.6, 1.6, -1.2], "look": [1.6, 1.3, 6.5], "lens": 20, "vfov": 53.7}、亮度 [106.8, 54.4]
+PASS [黑畫面] yy4_2100_top 不是黑畫面（平均亮度 107.9、變化 58.6）  [107.9, 58.6]
+  [  70.6s] [截圖] yy4_2100_top：鏡頭 {"eye": [0.3, 7.5, 2.2], "look": [0, 0, -0.6], "lens": 16, "vfov": 64.65}、亮度 [107.9, 58.6]
+  [前置／捷徑] [轉角 1400] 讀檔 corner_records 2025-10-18 14.0（條件事件關閉）
+PASS [轉角 1400] 進得了 corner_records  {"zone": "corner_records", "x": 1.63, "z": 4.25, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [  88.4s] [轉角 1400] 光照貼圖／窗景卡：{"mats": 82, "withLightMap": 7, "maps": ["corner_lm_day.webp"], "views": [{"n": "WALL_front_VIEW_cr_window_view", "vis": true}]}
+PASS [黑畫面] cr4_1400_ref 不是黑畫面（平均亮度 75.7、變化 56.2）  [75.7, 56.2]
+  [  90.7s] [截圖] cr4_1400_ref：鏡頭 {"eye": [0.5, 1.72, 5.4], "look": [0.3, 0.5, -0.6], "lens": 16, "vfov": 64.65}、亮度 [75.7, 56.2]
+PASS [黑畫面] cr4_1400_door_out 不是黑畫面（平均亮度 76.1、變化 47.9）  [76.1, 47.9]
+  [  92.9s] [截圖] cr4_1400_door_out：鏡頭 {"eye": [0.3, 1.6, 0.6], "look": [0.8, 1.4, 7], "lens": 18, "vfov": 58.72}、亮度 [76.1, 47.9]
+PASS [黑畫面] cr4_fade_S 不是黑畫面（平均亮度 63.6、變化 59.1）  [63.6, 59.1]
+  [  96.8s] [轉角 1400] fade_S（鏡頭在玩家的 S 側）：淡出中的牆 []；那面牆 1.2 m 內沒跟著淡出 0 個 []；畫面裡還看得到的樑／冷氣／管線／招牌類網格 3 個 ["CEIL_beams_ceil<corner_interior<Scene @0.2,3.1,-0.5", "WALL_left_TOP_logo_sign<corner_interior<Scene @-3.9,2.8,2.3", "WALL_left_TOP_logo_vc<corner_interior<Scene @-3.9,2.8,2.3"]
+PASS [黑畫面] cr4_fade_W 不是黑畫面（平均亮度 86.6、變化 56.8）  [86.6, 56.8]
+  [ 100.8s] [轉角 1400] fade_W（鏡頭在玩家的 W 側）：淡出中的牆 ["WALL_left_cr_alpha", "WALL_left_cr_goods", "WALL_left_cr_vc", "WALL_left_cr_vc_metal", "WALL_left_cr_wood", "WALL_left_TOP_logo_sign", "WALL_left_TOP_logo_vc", "WALL_left_wall_wall"]；那面牆 1.2 m 內沒跟著淡出 0 個 []；畫面裡還看得到的樑／冷氣／管線／招牌類網格 2 個 ["CEIL_beams_ceil<corner_interior<Scene @0.2,3.1,-0.5", "WALL_right_rightwall_deco_sign<corner_interior<Scene @3.8,2.2,5.2"]
+PASS [黑畫面] cr4_fade_N 不是黑畫面（平均亮度 86.3、變化 54.6）  [86.3, 54.6]
+  [ 104.8s] [轉角 1400] fade_N（鏡頭在玩家的 N 側）：淡出中的牆 []；那面牆 1.2 m 內沒跟著淡出 0 個 []；畫面裡還看得到的樑／冷氣／管線／招牌類網格 4 個 ["CEIL_beams_ceil<corner_interior<Scene @0.2,3.1,-0.5", "WALL_left_TOP_logo_sign<corner_interior<Scene @-3.9,2.8,2.3", "WALL_left_TOP_logo_vc<corner_interior<Scene @-3.9,2.8,2.3", "WALL_right_rightwall_deco_sign<corner_interior<Scene @3.8,2.2,5.2"]
+PASS [黑畫面] cr4_fade_E 不是黑畫面（平均亮度 82.6、變化 58.2）  [82.6, 58.2]
+  [ 108.8s] [轉角 1400] fade_E（鏡頭在玩家的 E 側）：淡出中的牆 ["WALL_right_amp_0_goods_inst", "WALL_right_amp_0_vc_inst", "WALL_right_amp_0_vcm_inst", "WALL_right_cr_goods", "WALL_right_cr_vc", "WALL_right_cr_vc_metal", "WALL_right_cr_wood", "WALL_right_deck_0_goods_inst", "WALL_right_deck_0_vc_inst", "WALL_right_deck_0_vcm_inst", "WALL_right_listen_desk_emit", "WALL_right_pothos_rack_alpha", "WALL_right_receiver_0_goods_inst", "WALL_right_receiver_0_vc_inst", "WALL_right_receiver_0_vcm_inst", "WALL_right_rightwall_deco_sign", "WALL_right_speaker_0_goods_inst", "WALL_right_speaker_0_vc_inst", "WALL_right_turntable_0_goods_inst", "WALL_right_turntable_0_vc_inst", "WALL_right_turntable_0_vcm_inst", "WALL_right_turntable_0_wood_inst", "WALL_right_wall_wall"]；那面牆 1.2 m 內沒跟著淡出 3 個 ["WALL_back_niche_emit<corner_interior<Scene @2.5,1.1,-5.6", "WALL_front_door_leaf_goods<corner_interior<Scene @2.4,1.4,4.9", "WALL_front_door_leaf_vcm<corner_interior<Scene @2.4,1.0,4.2"]；畫面裡還看得到的樑／冷氣／管線／招牌類網格 3 個 ["CEIL_beams_ceil<corner_interior<Scene @0.2,3.1,-0.5", "WALL_left_TOP_logo_sign<corner_interior<Scene @-3.9,2.8,2.3", "WALL_left_TOP_logo_vc<corner_interior<Scene @-3.9,2.8,2.3"]
+FAIL [轉角 1400] 鏡頭在東側（E）：右牆 1.2 m 內沒有沒跟著淡出的（黃金葛架一起淡出）  {"fade": {"faded": ["WALL_right_amp_0_goods_inst", "WALL_right_amp_0_vc_inst", "WALL_right_amp_0_vcm_inst", "WALL_right_cr_goods", "WALL_right_cr_vc", "WALL_right_cr_vc_metal", "WALL_right_cr_wood", "WALL_right_deck_0_goods_inst", "WALL_right_deck_0_vc_inst", "WALL_right_deck_0_vcm_inst", "WALL_right_listen_desk_emit", "WALL_right_pothos_rack_alpha", "WALL_right_receiver_0_goods_inst", "WALL_right_receiver_0_vc_inst", "WALL_right_receiver_0_vcm_inst", "WALL_right_rightwall_deco_sign", "WALL_right_speaker_0_goods_inst", "WALL_right_speaker_0_vc_inst", "WALL_right_turntable_0_goods_inst", "WALL_right_turntable_0_vc_inst", "WALL_right_turntable_0_vcm_inst", "WALL_right_turntable_0_wood_inst", "WALL_right_wall_wall"], "solidNearFaded": ["WALL_back_niche_emit<corner_interior<Scene @2.5,1.1,-5.6", "WALL_front_door_leaf_goods<corner_interior<Scene @2.4,1.4,4.9", "WALL_front_door_leaf_vcm<corner_interior<Scene @2.4,1.0,4.2"]}, "occl": ["CEIL_beams_ceil<corner_interior<Scene @0.2,3.1,-0.5", "WALL_left_TOP_logo_sign<corner_interior<Scene @-3.9,2.8,2.3", "WALL_left_TOP_logo_vc<corner_interior<Scene @-3.9,2.8,2.3"]}
+  [ 108.8s] [轉角 1400] 座位 2 張：[{"label": "坐下", "x": 2.95, "z": 3.2, "lv": 0, "sx": 2.95, "sz": 3.2, "sy": null, "slv": 0, "row": null, "ap": [2.35, 3.2], "lift": 0.27}, {"label": "坐一下", "x": -2.9, "z": 3.05, "lv": 0, "sx": -2.9, "sz": 3.05, "sy": null, "slv": 0, "row": null, "ap": [-2.5, 2.68], "lift": 0}]
+  [ 117.7s] 到達「[轉角 1400] #1（2.95, 3.2）（走到椅子附近）」附近（0.88 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+PASS [轉角 1400] #1（2.95, 3.2） 點椅子（螢幕 [759, 676]）走過去停在 (2.198, 3.36)（seatApproach [2.35, 3.2]）：最近的「坐下」是這一張  {"at": [2.198, 3.36], "nearest": {"label": "坐下", "seat": [2.95, 3.2], "exit": null}}
+PASS [轉角 1400] #1（2.95, 3.2） 走到旁邊，互動按鈕是「坐下」  {"x": 2.198, "z": 3.36, "lv": 0, "interact": "坐下", "stand": true}
+PASS [轉角 1400] #1（2.95, 3.2） 坐下了（player.seat）  {"x": 2.95, "z": 3.2, "y": 0.27, "lv": 0, "sx": 2.95, "sz": 3.2, "sy": null}
+PASS [轉角 1400] #1（2.95, 3.2） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.270＝座位那一層＋lift 0.270（±0.06）  {"x": 2.95, "z": 3.2, "y": 0.27, "lv": 0, "sx": 2.95, "sz": 3.2, "sy": null}
+PASS [黑畫面] cr4_sit_seat_1 不是黑畫面（平均亮度 96.5、變化 63.8）  [96.5, 63.8]
+  [ 124.8s] [轉角 1400] #1（2.95, 3.2） 起身點了：["起身"]
+PASS [轉角 1400] #1（2.95, 3.2） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 0.67, "x": 2.855, "z": 3.298, "lv": 0, "stand": true, "fb": 0}
+  [ 135.4s] 到達「[轉角 1400] #2（-2.9, 3.05）（走到椅子附近）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+PASS [轉角 1400] #2（-2.9, 3.05） 點椅子（螢幕 [562, 488]）走過去停在 (-2.764, 2.851)（seatApproach [-2.5, 2.68]）：最近的「坐下」是這一張  {"at": [-2.764, 2.851], "nearest": {"label": "坐一下", "seat": [-2.9, 3.05], "exit": null}}
+PASS [轉角 1400] #2（-2.9, 3.05） 走到旁邊，互動按鈕是「坐一下」  {"x": -2.764, "z": 2.851, "lv": 0, "interact": "坐一下", "stand": true}
+PASS [轉角 1400] #2（-2.9, 3.05） 坐下了（player.seat）  {"x": -2.9, "z": 3.05, "y": 0, "lv": 0, "sx": -2.9, "sz": 3.05, "sy": null}
+PASS [轉角 1400] #2（-2.9, 3.05） 坐下的位置離座位 0.000 m（≤0.15）、人的高度 0.000＝座位那一層＋lift 0.000（±0.06）  {"x": -2.9, "z": 3.05, "y": 0, "lv": 0, "sx": -2.9, "sz": 3.05, "sy": null}
+PASS [黑畫面] cr4_sit_seat_2 不是黑畫面（平均亮度 68.2、變化 45）  [68.2, 45]
+  [ 142.2s] [轉角 1400] #2（-2.9, 3.05） 起身點了：["起身"]
+PASS [轉角 1400] #2（-2.9, 3.05） 起身：不是坐著、站得住、推得動 ≥0.3 m、沒有被放到目的地  {"moved": 2.28, "x": -0.146, "z": 3.133, "lv": 0, "stand": true, "fb": 0}
+  [前置／捷徑] [轉角 2030] 讀檔 corner_records 2025-10-18 20.5（條件事件關閉）
+PASS [轉角 2030] 進得了 corner_records  {"zone": "corner_records", "x": 1.63, "z": 4.25, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.51}
+  [ 157.7s] [轉角 2030] 光照貼圖／窗景卡：{"mats": 82, "withLightMap": 7, "maps": ["corner_lm_day.webp"], "views": [{"n": "WALL_front_VIEW_cr_window_view", "vis": true}]}
+PASS [黑畫面] cr4_2030_ref 不是黑畫面（平均亮度 69.6、變化 55.1）  [69.6, 55.1]
+  [ 160.0s] [截圖] cr4_2030_ref：鏡頭 {"eye": [0.5, 1.72, 5.4], "look": [0.3, 0.5, -0.6], "lens": 16, "vfov": 64.65}、亮度 [69.6, 55.1]
+PASS [黑畫面] cr4_2030_door_out 不是黑畫面（平均亮度 53.4、變化 36.3）  [53.4, 36.3]
+  [ 162.2s] [截圖] cr4_2030_door_out：鏡頭 {"eye": [0.3, 1.6, 0.6], "look": [0.8, 1.4, 7], "lens": 18, "vfov": 58.72}、亮度 [53.4, 36.3]
+  [前置／捷徑] [便利商店 1400] 讀檔 cvs 2025-10-18 14.0（條件事件關閉）
+PASS [便利商店 1400] 進得了 cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [ 177.8s] [便利商店 1400] 光照貼圖／窗景卡：{"mats": 34, "withLightMap": 7, "maps": ["cvs_interior_lm_day.webp"], "views": [{"n": "VIEWPANE_cvs", "vis": false}]}
+PASS [黑畫面] cvs4_1400_door_in 不是黑畫面（平均亮度 173.6、變化 58.2）  [173.6, 58.2]
+  [ 180.3s] [截圖] cvs4_1400_door_in：鏡頭 {"eye": [0.4, 1.6, 4.7], "look": [0, 1, -4], "lens": 18, "vfov": 58.72}、亮度 [173.6, 58.2]
+PASS [黑畫面] cvs4_1400_counter 不是黑畫面（平均亮度 155.9、變化 63.9）  [155.9, 63.9]
+  [ 182.3s] [截圖] cvs4_1400_counter：鏡頭 {"eye": [-0.6, 1.6, 2.8], "look": [2.3, 1, 0.75], "lens": 22, "vfov": 49.43}、亮度 [155.9, 63.9]
+  [前置／捷徑] [便利商店 2100] 讀檔 cvs 2025-10-18 21.0（條件事件關閉）
+PASS [便利商店 2100] 進得了 cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.06}
+  [ 195.1s] [便利商店 2100] 光照貼圖／窗景卡：{"mats": 34, "withLightMap": 7, "maps": ["cvs_interior_lm_day.webp"], "views": [{"n": "VIEWPANE_cvs", "vis": false}]}
+PASS [黑畫面] cvs4_2100_door_in 不是黑畫面（平均亮度 171.9、變化 62.6）  [171.9, 62.6]
+  [ 197.3s] [截圖] cvs4_2100_door_in：鏡頭 {"eye": [0.4, 1.6, 4.7], "look": [0, 1, -4], "lens": 18, "vfov": 58.72}、亮度 [171.9, 62.6]
+PASS [黑畫面] cvs4_2100_counter 不是黑畫面（平均亮度 154.7、變化 64.5）  [154.7, 64.5]
+  [ 199.2s] [截圖] cvs4_2100_counter：鏡頭 {"eye": [-0.6, 1.6, 2.8], "look": [2.3, 1, 0.75], "lens": 22, "vfov": 49.43}、亮度 [154.7, 64.5]
+  [前置／捷徑] [大口二樓 1400] 讀檔 xs_dakou 2025-10-18 14.0（條件事件關閉）
+PASS [大口二樓 1400] 進得了 xs_dakou  {"zone": "xs_dakou", "x": 5.25, "z": -2.3, "y": 3.6, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+PASS [黑畫面] dk4_2f_follow 不是黑畫面（平均亮度 127.4、變化 68.7）  [127.4, 68.7]
+  [ 226.3s] [大口二樓 1400] follow：鏡頭高 6.81、pitch 0.38、dist 4.199999999999999；CEIL_LIGHTS [{"n": "CEIL_LIGHTS", "self": true, "eff": true}]；畫面亮度 [127.4, 68.7]
+PASS [黑畫面] dk4_2f_high 不是黑畫面（平均亮度 163.3、變化 41.9）  [163.3, 41.9]
+  [ 230.0s] [大口二樓 1400] high：鏡頭高 9.35、pitch 1.35、dist 4.200000834204586；CEIL_LIGHTS [{"n": "CEIL_LIGHTS", "self": false, "eff": false}]；畫面亮度 [163.3, 41.9]
+PASS [黑畫面] dk4_2f_back 不是黑畫面（平均亮度 130.9、變化 68.2）  [130.9, 68.2]
+  [ 233.8s] [大口二樓 1400] back：鏡頭高 7.08、pitch 0.45、dist 4.2000000230298475；CEIL_LIGHTS [{"n": "CEIL_LIGHTS", "self": true, "eff": true}]；畫面亮度 [130.9, 68.2]
+PASS [大口二樓 1400] 有 CEIL_LIGHTS 這個節點  {"camY": 6.81, "pitch": 0.38, "dist": 4.199999999999999, "ceil": [{"n": "CEIL_LIGHTS", "self": true, "eff": true}]}
+PASS 沒有 JS 例外  []
+FAILED 2: [洋洋 1400] 進得了 yangyang；[轉角 1400] 鏡頭在東側（E）：右牆 1.2 m 內沒有沒跟著淡出的（黃金葛架一起淡出）
