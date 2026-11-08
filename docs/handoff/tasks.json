@@ -48766,7 +48766,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "【11-07 06:1x LAWWW-B】AA_709 b6019bbd1（改版＋第三批寒暑假 9 串）重匯：AA 新寫的五串（new）照那一學期那一週的週三、稿上的時間排進手機（PHONE.at，tag 一次；要她的聯絡方式；語彤要 YT_MET_JOB、學姊要階段 ≥2／≥3）；回覆講了自己的事（tell）記 YT_TOLD（和故事線同一份）；收到那一串記 set（以安 AN_MSG_MOM_OK、AN_MSG_JAPAN）；芯慈「過了吧？」不再寫死祐廷回「請妳吃飯。」，改成三個選項。tests/msg_reply_unit.js 4～6。 ｜ 【11-07 05:4x LAWWW-B】AA-B AA_709 改版待重匯：新寫五串（new:true，要排進手機）、拿掉語彤秀琴姨試菜的回覆、以安除夕選項換、以安兩串 set AN_MSG_MOM_OK／AN_MSG_JAPAN。 ｜ 【11-07 04:5x LAWWW-B】AA_709 bc0e755be → tools/story/import_msg_replies.py → src/data/msg_replies.js（7 人 21 串，text 逐字在 src 找得到才匯）；src/msgreply3d.js：訊息送出那一刻（PHONE.ON_MK）掛三個選項、回了照 rel 加減好感（PHONE.ON_ANSWER）、一天半後收起來、沒回不扣分；舊存檔已收到的不補。tests/msg_reply_unit.js。 ｜ 【11-07 04:4x LAWWW-B】AA-B 交 AA_709（a7f20f304 大一上 10 串、bc0e755be 大一下 13 串；text＝那一串最後一則逐字、三個選項、沒回不扣分、交往中那幾串有 cond）。LAWWW 做：匯入、PHONE.ask 加 rel、照 text 對到訊息掛選項。 ｜ 【11-07 03:4x LAWWW-B】LAWWW 先定欄位（訊息 id → options[{t, rel 變化, 回覆後她的下一句}]）給 AA；先做可攻略的六位＋芯慈的 dp 私訊",
+   "next": "【11-08 03:2x LAWWW-B】AA_709 第七～十一批匯了（df95b5042、e9c7059fc、fa3982bcd、7db0871e0、98a5e91c0；0a4e74f2b 學姊南瓜改句）。BB-B 03:20：靜態全查到 7db0871e0 共 173 串、訊息原文 0 缺；瀏覽器抽查芯慈 5/23、以安 4/4 飯糰（三個鍵、她接著回、好感、回過就收）PASS；以安飯糰／Alison 代主持不提早 PASS。 ｜ 【11-07 06:1x LAWWW-B】AA_709 b6019bbd1（改版＋第三批寒暑假 9 串）重匯：AA 新寫的五串（new）照那一學期那一週的週三、稿上的時間排進手機（PHONE.at，tag 一次；要她的聯絡方式；語彤要 YT_MET_JOB、學姊要階段 ≥2／≥3）；回覆講了自己的事（tell）記 YT_TOLD（和故事線同一份）；收到那一串記 set（以安 AN_MSG_MOM_OK、AN_MSG_JAPAN）；芯慈「過了吧？」不再寫死祐廷回「請妳吃飯。」，改成三個選項。tests/msg_reply_unit.js 4～6。 ｜ 【11-07 05:4x LAWWW-B】AA-B AA_709 改版待重匯：新寫五串（new:true，要排進手機）、拿掉語彤秀琴姨試菜的回覆、以安除夕選項換、以安兩串 set AN_MSG_MOM_OK／AN_MSG_JAPAN。 ｜ 【11-07 04:5x LAWWW-B】AA_709 bc0e755be → tools/story/import_msg_replies.py → src/data/msg_replies.js（7 人 21 串，text 逐字在 src 找得到才匯）；src/msgreply3d.js：訊息送出那一刻（PHONE.ON_MK）掛三個選項、回了照 rel 加減好感（PHONE.ON_ANSWER）、一天半後收起來、沒回不扣分；舊存檔已收到的不補。tests/msg_reply_unit.js。 ｜ 【11-07 04:4x LAWWW-B】AA-B 交 AA_709（a7f20f304 大一上 10 串、bc0e755be 大一下 13 串；text＝那一串最後一則逐字、三個選項、沒回不扣分、交往中那幾串有 cond）。LAWWW 做：匯入、PHONE.ask 加 rel、照 text 對到訊息掛選項。 ｜ 【11-07 03:4x LAWWW-B】LAWWW 先定欄位（訊息 id → options[{t, rel 變化, 回覆後她的下一句}]）給 AA；先做可攻略的六位＋芯慈的 dp 私訊",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -49853,6 +49853,33 @@
    },
    "evidence": "",
    "sha": "775f8a3d0"
+  },
+  {
+   "id": "UX-FEED-ASK-EXPIRE-1108",
+   "title": "動態類訊息（feed）的回覆鍵沒有期限：例以安 2025-11-08「我媽昨天看到我寫的『想去的店』」的三個鍵到 2028 還開著，新訊息來時一串看到六個鍵",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "很久沒回她的動態訊息",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 03:2x LAWWW-B】BB-B 03:20 觀察（不擋）：feed_y1s1.js 等動態類的 ask 沒有 until。提議：沒寫 until 的動態類 ask 預設 7 天後收起來（不扣分）；問 AA-B 有沒有不該過期的。",
+   "xai": {
+    "spec": "BB-B 11-08 03:20",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "沒寫 until 的動態類 ask 7 天後收起來；同一串不會留舊的鍵",
+    "receiver": "BB（測）",
+    "ack": "ACK",
+    "owner": "LAWWW"
+   },
+   "evidence": ""
   }
  ]
 }
