@@ -18514,6 +18514,20 @@
    "integration": "已整合待測試",
    "note": "c435933a6：README 列的 17 個檔（原檔、新檔 sha256 都對）；132 支 ALL PASS；交 BB-B 看 5F 研究室左牆、體育館 B1 健身房／泳池隔間牆、美國兩間臥室牆。之後多媒體中心洞洞板、新生南路 9 個模型 512 正式烘焙",
    "ack": "ACK"
+  },
+  {
+   "id": "DLV-1108-L2-MEDIAPEG",
+   "date": "2026-11-08",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "ce18ef1f4",
+   "msg": "ACK",
+   "what": "總圖多媒體中心洞洞板搬進南牆那一組（南牆淡出時不再浮在半空）＋重烘",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "23c5d852a：README 列的檔＋腳本 5bec6898f＋tests/library_media_peg_unit.js（原檔 FAIL 2）；74 支 ALL PASS；交 BB-B 看（CC 拍照工具要做 hideFaded，01:59 LAWWW2 已告訴 BB-B）",
+   "ack": "ACK"
   }
  ],
  "ignored": [
