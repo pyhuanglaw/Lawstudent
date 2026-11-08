@@ -1555,3 +1555,5 @@ Raa36_v0_tolaw | aa363f62a8363594199ba99ebefa3ce57512ee58 | game | tests/flow_v0
 Raa36_touch | aa363f62a8363594199ba99ebefa3ce57512ee58 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
 # CC-B 11-08 09:5x：BB-B movreg 再跑一次（看同一項會不會兩次都錯）
 Raa36_movreg_r2 | aa363f62a8363594199ba99ebefa3ce57512ee58 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
+# CC-B 11-08 10:1x：touch 第二次（第一次：手機自己打開擋了第一次搖桿、一個路人還是 proc）
+Raa36_touch_r2 | aa363f62a8363594199ba99ebefa3ce57512ee58 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
