@@ -143,7 +143,7 @@ async def main():
                     q = await P.ts(pg)
                     if q['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
                     seat = await pg.evaluate("(()=>{ const n=GAME.npc&&GAME.npc['heroine_01']; const s=n&&n.seat; const iv=(GAME.G.invites||[]).find(v=>v.who==='heroine_01'&&v.state==='accepted'); return s?{x:+s.x.toFixed(2),z:+s.z.toFixed(2),lv:s.lv|0,lead:!!(iv&&iv.lead)}:null; })()")
-                    if seat: break
+                    if seat and seat['lead']: break   # 要等她帶路（iv.lead）以後坐下的位子；之前那一刻她可能還坐在別的地方
                     await pg.wait_for_timeout(1000)
                 print('[SEAT]', J(seat))
                 run.check('總圖：她帶路、坐下（有座位）', bool(seat), J(seat))
