@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GG3LM_B1_7206",
+  "sha": "7206a12dedfb04bda4bf9918afff73e45fb53adc",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_scene5_probe.py",
+  "env": "TAG=after_gpu;PART=library_b1;SLOTS=1400:14,2100:21;EXTRA2=library_b1@studyA@-14,1.6,-11@5,1.0,-4@18/library_b1@studyA_back@6,1.6,-3.5@-14,1.0,-11@18/library_b1@disc1_wall@-5,1.6,10.2@0,1.4,10.2@20/library_b1@disc2_wall@5,1.6,10.2@0,1.4,10.2@20/library_b1@copy_door@9,1.6,6@16,1.2,6@20;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T14:39:11",
+  "end": "2026-11-08T14:42:11",
+  "seconds": 180,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 96,
+    "mem": 56,
+    "used_gb": 17.8,
+    "chrome_testing": 13
+  }
+}
