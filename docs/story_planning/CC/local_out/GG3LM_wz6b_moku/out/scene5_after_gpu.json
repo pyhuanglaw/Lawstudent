@@ -1,0 +1,295 @@
+{
+ "tag": "after_gpu",
+ "sha": "",
+ "wz_mokuyobi": {
+  "1400": {
+   "info": {
+    "meshes": 91,
+    "mats": 91,
+    "withLightMap": 6,
+    "maps": [
+     "mokuyobi_lm_day.webp"
+    ],
+    "uv1Meshes": 6,
+    "whiteNoTexMats": 11,
+    "views": [
+     {
+      "n": "WALL_front_VIEW_mks_street_view",
+      "vis": true
+     },
+     {
+      "n": "WALL_front_VIEW_mok_window_view",
+      "vis": true
+     }
+    ],
+    "charFailures": [],
+    "assetFailed": null,
+    "glb": true
+   },
+   "auto": {
+    "spawn": [
+     -3.75,
+     5.4
+    ],
+    "y0": 1.2,
+    "fy": 3.2,
+    "up": true,
+    "yaw": 3.14,
+    "center": [
+     0.5,
+     1.18
+    ],
+    "size": [
+     14,
+     9.3,
+     16.64
+    ],
+    "clerk": [
+     -2.95,
+     -6.2
+    ],
+    "seat": [
+     -1.45,
+     6.15
+    ],
+    "seatLv": [
+     1,
+     1,
+     null
+    ],
+    "views": {
+     "door": {
+      "eye": [
+       0.5,
+       4.8,
+       7
+      ],
+      "look": [
+       0.5,
+       4.2,
+       -5.48
+      ],
+      "lens": 18
+     },
+     "top": {
+      "eye": [
+       0.5,
+       14.3,
+       1.98
+      ],
+      "look": [
+       0.5,
+       0,
+       0.88
+      ],
+      "lens": 16
+     },
+     "seat": {
+      "eye": [
+       -0.37,
+       4.6,
+       4.81
+      ],
+      "look": [
+       -1.45,
+       3.8,
+       6.15
+      ],
+      "lens": 22
+     },
+     "clerk": {
+      "eye": [
+       -2.02,
+       4.8,
+       -4.21
+      ],
+      "look": [
+       -2.95,
+       4.4,
+       -6.2
+      ],
+      "lens": 24
+     },
+     "out": {
+      "eye": [
+       0.5,
+       4.75,
+       -2.15
+      ],
+      "look": [
+       0.5,
+       4.6,
+       11.16
+      ],
+      "lens": 20
+     }
+    }
+   },
+   "door": {
+    "eye": [
+     0.5,
+     4.8,
+     7
+    ],
+    "look": [
+     0.5,
+     4.2,
+     -5.48
+    ],
+    "lens": 18,
+    "vfov": 58.72
+   },
+   "top": {
+    "eye": [
+     0.5,
+     14.3,
+     1.98
+    ],
+    "look": [
+     0.5,
+     0,
+     0.88
+    ],
+    "lens": 16,
+    "vfov": 64.65
+   },
+   "seat": {
+    "eye": [
+     -0.37,
+     4.6,
+     4.81
+    ],
+    "look": [
+     -1.45,
+     3.8,
+     6.15
+    ],
+    "lens": 22,
+    "vfov": 49.43
+   },
+   "clerk": {
+    "eye": [
+     -2.02,
+     4.8,
+     -4.21
+    ],
+    "look": [
+     -2.95,
+     4.4,
+     -6.2
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "out": {
+    "eye": [
+     0.5,
+     4.75,
+     -2.15
+    ],
+    "look": [
+     0.5,
+     4.6,
+     11.16
+    ],
+    "lens": 20,
+    "vfov": 53.7
+   }
+  },
+  "2100": {
+   "info": {
+    "meshes": 89,
+    "mats": 89,
+    "withLightMap": 6,
+    "maps": [
+     "mokuyobi_lm_day.webp"
+    ],
+    "uv1Meshes": 6,
+    "whiteNoTexMats": 11,
+    "views": [
+     {
+      "n": "WALL_front_VIEW_mks_street_view",
+      "vis": true
+     },
+     {
+      "n": "WALL_front_VIEW_mok_window_view",
+      "vis": true
+     }
+    ],
+    "charFailures": [],
+    "assetFailed": null,
+    "glb": true
+   },
+   "door": {
+    "eye": [
+     0.5,
+     4.8,
+     7
+    ],
+    "look": [
+     0.5,
+     4.2,
+     -5.48
+    ],
+    "lens": 18,
+    "vfov": 58.72
+   },
+   "top": {
+    "eye": [
+     0.5,
+     14.3,
+     1.98
+    ],
+    "look": [
+     0.5,
+     0,
+     0.88
+    ],
+    "lens": 16,
+    "vfov": 64.65
+   },
+   "seat": {
+    "eye": [
+     -0.37,
+     4.6,
+     4.81
+    ],
+    "look": [
+     -1.45,
+     3.8,
+     6.15
+    ],
+    "lens": 22,
+    "vfov": 49.43
+   },
+   "clerk": {
+    "eye": [
+     -2.02,
+     4.8,
+     -4.21
+    ],
+    "look": [
+     -2.95,
+     4.4,
+     -6.2
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "out": {
+    "eye": [
+     0.5,
+     4.75,
+     -2.15
+    ],
+    "look": [
+     0.5,
+     4.6,
+     11.16
+    ],
+    "lens": 20,
+    "vfov": 53.7
+   }
+  }
+ }
+}

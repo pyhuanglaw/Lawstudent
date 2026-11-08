@@ -713,3 +713,17 @@
 [10:07:31] 正在跑：GG3LM_wz6_fps_mob_e276（已跑 2 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [10:12:31] 正在跑：GG3LM_wz6_fps_mob_e276（已跑 7 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [10:13:09] [res] cpu=0% mem=34% (10.7/31.4 GB) chrome_testing=0  END GG3LM_wz6_fps_mob_e276
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d2ef2edc5..24da9c02e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:13:14] ==== END   GG3LM_wz6_fps_mob_e276  exit=1  506s   ====
+[10:13:21] memory 34% before starting GG3LM_wz6b_moku (0 running)
+[10:13:21] memory 34% before starting GG3LM_gpu_4fcd (1 running)
+[10:13:21] ==== START GG3LM_wz6b_moku  (probe @ e2762e9d91df1cf8405301e54fd4bf286a5f626e) ====
+[10:13:21] memory 34% before starting GG3LM_shaola_yejian_9c01 (2 running)
+[10:13:21] ==== START GG3LM_gpu_4fcd  (probe @ 4fcd3c45b1d70471f46a2f765cdcca43094facf2) ====
+[10:13:21] ==== START GG3LM_shaola_yejian_9c01  (probe @ 9c012062864b34de673cbb534559324fbce26c85) ====
+[10:13:24] [res] cpu=3% mem=34% (10.9/31.4 GB) chrome_testing=0  START GG3LM_wz6b_moku
+[10:13:24] [res] cpu=2% mem=34% (10.9/31.4 GB) chrome_testing=0  START GG3LM_shaola_yejian_9c01
+[10:13:24] [res] cpu=3% mem=34% (10.9/31.4 GB) chrome_testing=0  START GG3LM_gpu_4fcd
+[10:15:30] [res] cpu=5% mem=47% (14.9/31.4 GB) chrome_testing=8  END GG3LM_wz6b_moku

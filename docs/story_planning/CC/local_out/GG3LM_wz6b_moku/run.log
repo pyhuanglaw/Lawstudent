@@ -1,0 +1,33 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_scene5_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3LM_wz6b_moku\out
+CC 燒臘、頁間書屋光照（after_gpu）：SHA=e2762e9d91df1cf8405301e54fd4bf286a5f626e（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [after_gpu wz_mokuyobi 1400] 讀檔 wz_mokuyobi 2025-10-18 14.0（條件事件關閉）
+PASS [after_gpu wz_mokuyobi 1400] 進得了 wz_mokuyobi  {"zone": "wz_mokuyobi", "x": -3.75, "z": 5.4, "y": 1.2, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  57.0s] [after_gpu wz_mokuyobi 1400] 材質／光照貼圖：{"meshes": 91, "mats": 91, "withLightMap": 6, "maps": ["mokuyobi_lm_day.webp"], "uv1Meshes": 6, "whiteNoTexMats": 11, "views": [{"n": "WALL_front_VIEW_mks_street_view", "vis": true}, {"n": "WALL_front_VIEW_mok_window_view", "vis": true}], "charFailures": [], "assetFailed": null, "glb": true}
+  [  57.0s] [after_gpu wz_mokuyobi 1400] 自動機位：{"spawn": [-3.75, 5.4], "y0": 1.2, "fy": 3.2, "up": true, "yaw": 3.14, "center": [0.5, 1.18], "size": [14, 9.3, 16.64], "clerk": [-2.95, -6.2], "seat": [-1.45, 6.15], "seatLv": [1, 1, null], "views": {"door": {"eye": [0.5, 4.8, 7], "look": [0.5, 4.2, -5.48], "lens": 18}, "top": {"eye": [0.5, 14.3, 1.98], "look": [0.5, 0, 0.88], "lens": 16}, "seat": {"eye": [-0.37, 4.6, 4.81], "look": [-1.45, 3.8, 6.15], "lens": 22}, "clerk": {"eye": [-2.02, 4.8, -4.21], "look": [-2.95, 4.4, -6.2], "lens": 24}, "out": {"eye": [0.5, 4.75, -2.15], "look": [0.5, 4.6, 11.16], "lens": 20}}}
+PASS [黑畫面] s5_after_gpu_wz_mokuyobi_1400_door 不是黑畫面（平均亮度 93.1、變化 42.6）  [93.1, 42.6]
+  [  59.7s] [截圖] s5_after_gpu_wz_mokuyobi_1400_door：鏡頭 {"eye": [0.5, 4.8, 7], "look": [0.5, 4.2, -5.48], "lens": 18, "vfov": 58.72}、亮度 [93.1, 42.6]
+PASS [黑畫面] s5_after_gpu_wz_mokuyobi_1400_top 不是黑畫面（平均亮度 149.1、變化 59.9）  [149.1, 59.9]
+  [  61.8s] [截圖] s5_after_gpu_wz_mokuyobi_1400_top：鏡頭 {"eye": [0.5, 14.3, 1.98], "look": [0.5, 0, 0.88], "lens": 16, "vfov": 64.65}、亮度 [149.1, 59.9]
+PASS [黑畫面] s5_after_gpu_wz_mokuyobi_1400_seat 不是黑畫面（平均亮度 70.3、變化 46.7）  [70.3, 46.7]
+  [  64.1s] [截圖] s5_after_gpu_wz_mokuyobi_1400_seat：鏡頭 {"eye": [-0.37, 4.6, 4.81], "look": [-1.45, 3.8, 6.15], "lens": 22, "vfov": 49.43}、亮度 [70.3, 46.7]
+PASS [黑畫面] s5_after_gpu_wz_mokuyobi_1400_clerk 不是黑畫面（平均亮度 106.8、變化 56）  [106.8, 56]
+  [  66.2s] [截圖] s5_after_gpu_wz_mokuyobi_1400_clerk：鏡頭 {"eye": [-2.02, 4.8, -4.21], "look": [-2.95, 4.4, -6.2], "lens": 24, "vfov": 45.75}、亮度 [106.8, 56]
+PASS [黑畫面] s5_after_gpu_wz_mokuyobi_1400_out 不是黑畫面（平均亮度 96.7、變化 39.1）  [96.7, 39.1]
+  [  68.6s] [截圖] s5_after_gpu_wz_mokuyobi_1400_out：鏡頭 {"eye": [0.5, 4.75, -2.15], "look": [0.5, 4.6, 11.16], "lens": 20, "vfov": 53.7}、亮度 [96.7, 39.1]
+  [前置／捷徑] [after_gpu wz_mokuyobi 2100] 讀檔 wz_mokuyobi 2025-10-18 21.0（條件事件關閉）
+PASS [after_gpu wz_mokuyobi 2100] 進得了 wz_mokuyobi  {"zone": "wz_mokuyobi", "x": -3.75, "z": 5.4, "y": 1.2, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.07}
+  [  83.7s] [after_gpu wz_mokuyobi 2100] 材質／光照貼圖：{"meshes": 89, "mats": 89, "withLightMap": 6, "maps": ["mokuyobi_lm_day.webp"], "uv1Meshes": 6, "whiteNoTexMats": 11, "views": [{"n": "WALL_front_VIEW_mks_street_view", "vis": true}, {"n": "WALL_front_VIEW_mok_window_view", "vis": true}], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_after_gpu_wz_mokuyobi_2100_door 不是黑畫面（平均亮度 86.6、變化 39.9）  [86.6, 39.9]
+  [  86.2s] [截圖] s5_after_gpu_wz_mokuyobi_2100_door：鏡頭 {"eye": [0.5, 4.8, 7], "look": [0.5, 4.2, -5.48], "lens": 18, "vfov": 58.72}、亮度 [86.6, 39.9]
+PASS [黑畫面] s5_after_gpu_wz_mokuyobi_2100_top 不是黑畫面（平均亮度 47.9、變化 45.9）  [47.9, 45.9]
+  [  88.2s] [截圖] s5_after_gpu_wz_mokuyobi_2100_top：鏡頭 {"eye": [0.5, 14.3, 1.98], "look": [0.5, 0, 0.88], "lens": 16, "vfov": 64.65}、亮度 [47.9, 45.9]
+PASS [黑畫面] s5_after_gpu_wz_mokuyobi_2100_seat 不是黑畫面（平均亮度 50、變化 34.3）  [50, 34.3]
+  [  90.3s] [截圖] s5_after_gpu_wz_mokuyobi_2100_seat：鏡頭 {"eye": [-0.37, 4.6, 4.81], "look": [-1.45, 3.8, 6.15], "lens": 22, "vfov": 49.43}、亮度 [50, 34.3]
+PASS [黑畫面] s5_after_gpu_wz_mokuyobi_2100_clerk 不是黑畫面（平均亮度 82.9、變化 49.1）  [82.9, 49.1]
+  [  92.4s] [截圖] s5_after_gpu_wz_mokuyobi_2100_clerk：鏡頭 {"eye": [-2.02, 4.8, -4.21], "look": [-2.95, 4.4, -6.2], "lens": 24, "vfov": 45.75}、亮度 [82.9, 49.1]
+PASS [黑畫面] s5_after_gpu_wz_mokuyobi_2100_out 不是黑畫面（平均亮度 88、變化 37.4）  [88, 37.4]
+  [  94.6s] [截圖] s5_after_gpu_wz_mokuyobi_2100_out：鏡頭 {"eye": [0.5, 4.75, -2.15], "look": [0.5, 4.6, 11.16], "lens": 20, "vfov": 53.7}、亮度 [88, 37.4]
+PASS 沒有 JS 例外  []
+ALL PASS
