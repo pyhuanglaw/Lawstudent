@@ -18525,8 +18525,8 @@
    "msg": "ACK",
    "what": "總圖多媒體中心洞洞板搬進南牆那一組（南牆淡出時不再浮在半空）＋重烘",
    "task": "INTERIOR-AAA-REVIEW-1028",
-   "integration": "已整合待測試",
-   "note": "23c5d852a：README 列的檔＋腳本 5bec6898f＋tests/library_media_peg_unit.js（原檔 FAIL 2）；74 支 ALL PASS；交 BB-B 看（CC 拍照工具要做 hideFaded，01:59 LAWWW2 已告訴 BB-B）",
+   "integration": "已驗收",
+   "note": "23c5d852a：README 列的檔＋腳本 5bec6898f＋tests/library_media_peg_unit.js（原檔 FAIL 2）；74 支 ALL PASS；交 BB-B 看（CC 拍照工具要做 hideFaded，01:59 LAWWW2 已告訴 BB-B）；BB-B 05:12 FIXED（雲端 SwiftShader：鏡頭在南牆外洞洞板一起藏、在房間裡照樣在牆上；ART_APPROVED 照舊 01:46 PC GPU）",
    "ack": "ACK"
   }
  ],
