@@ -173,7 +173,12 @@ async def m_flake(pg, cdp, tag, rec):
     await pg.evaluate("(q=>{ const G=GAME.G; const dd=q.day; G.weekday=(G.weekday+(dd-G.day)+7*10)%7; G.day=dd; G.hour=Math.max(8,(q.h||14)-(q.travelH||1)-0.3); })", q)
     await pg.evaluate("window.__says=[]")
     await stand_until(pg, cdp, q['day'], (q.get('h') or 14) - (q.get('travelH') or 0) - 0.02, max_s=900, stop_on_choice=True)   # CC-B 09:4x：等到出發時間（run47 flake：drive 20 秒沒事就結束，出發選單還沒跳）
-    c2 = await drive(pg, cdp, ['今天不去了', '算了，今天不去了'], max_s=400, idle_end=40)
+    dep = (q.get('h') or 14) - (q.get('travelH') or 0)
+    c2 = []
+    for _ in range(6):   # CC-B 11:3x：先跳的是提醒（「現在出發／到時間再說」）→ 選「到時間再說」；出發時間到才是 DATE.prompt（出發／改時間／今天不去了）
+        c = await drive(pg, cdp, ['今天不去了', '算了，今天不去了', '到時間再說'], max_s=300, idle_end=15); c2 += c
+        if any(('今天不去了' in x[-1]) for x in c if x): break
+        await stand_until(pg, cdp, q['day'], dep + 0.02, max_s=900, stop_on_choice=True)
     says = await pg.evaluate("window.__says||[]")
     R.note('%s 出發選單：%s；說的話 %s' % (tag, J(c2), J(says[-6:])))
     tx = [x['t'] for x in says]
