@@ -44,7 +44,9 @@ haopai)
   # 烘：地板、天花板（含後段吊頂 hp_ceiling 2.6～3.4）、吊頂的側面（hp_soffit_wall）、四面牆（WALL_*_wall_wall、WALL_front_front_wall）。
   GLB=bb_support/haopai.glb; INST=1
   LIGHTS=$(python3 $LB/glow_points.py "${IN:-$A/$GLB}" --only '^GLOW_tube' --drop 0.03 --no-below | area "${TW:-16}" 0.2 1.2)   # 冒煙測試（4 取樣）12 W：0.31／0.27 → 16 W
-  HIDE='glass'
+  # alpha（hp_alpha：右牆洞洞板 23.7 m²、左牆 9.6 m²、球拍卡）烘焙時藏起來（照樣原樣匯出）（11-08 BB-B XS9 雲端判 FAIL：進門右手那面牆整面深灰褐）：
+  #   洞洞板離牆 9 mm、貼圖 65% 是透空的，遊戲裡看到的是後面的牆；Cycles 烘焙卻把它當實心，牆的光照 0.02（藏起來試烘 0.45，和左牆、天花板一致）
+  HIDE='glass|alpha'
   NOLM="^(?!(hp_floor_floor|hp_ceiling|hp_soffit_wall|WALL_[a-z]+_wall_wall|WALL_front_front_wall)\$)"
   EXTRA=(--shell S)
   ;;
