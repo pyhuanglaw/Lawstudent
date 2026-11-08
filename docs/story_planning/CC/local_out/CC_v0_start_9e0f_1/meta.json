@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "CC_v0_start_9e0f_1",
+  "sha": "9e0ffabce61c839fb8c720c16229400b36305a22",
+  "kind": "game",
+  "script": "tests/flow_v0_start.py",
+  "env": "XARGS={url} {out};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T13:45:26",
+  "end": "2026-11-08T13:48:43",
+  "seconds": 197,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "6",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 68,
+    "mem": 51,
+    "used_gb": 16.3,
+    "chrome_testing": 15
+  }
+}
