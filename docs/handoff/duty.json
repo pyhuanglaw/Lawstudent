@@ -13,11 +13,11 @@
   "C",
   "D"
  ],
- "onDuty": "B",
- "previous": "C",
+ "onDuty": null,
+ "previous": "B",
  "accountState": {
   "A": "off",
-  "B": "on",
+  "B": "off",
   "C": "off",
   "D": "unused"
  },
@@ -26,16 +26,18 @@
    "account": "B",
    "session": "session_01DvRVNNnivf7da7qqWuGmw6",
    "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "77195b12",
+   "sha": "6c1d5f46",
    "sinceSha": "77195b12",
    "since": "2026-11-07T03:30Z",
-   "state": "on",
+   "state": "handed-off",
    "prev": {
     "account": "C",
     "session": "session_01Me1thu8Zn934H58kWKNfuF",
     "branch": "claude/adoring-meitner-mqzst8",
     "sha": "704c658d"
-   }
+   },
+   "handedOffAt": "2026-11-08T20:53Z",
+   "handoffSnapshot": "2026-11-08T2053Z_B_LAWWW.json"
   },
   "LAWWW2": {
    "account": "B",
@@ -103,8 +105,10 @@
    "BB": {
     "file": "docs/handoff/snapshots/2026-11-08T2047Z_B_BB.json",
     "ref": "origin/claude/elegant-brown-fcos7n"
-   }
-  }
+   },
+   "LAWWW": "2026-11-08T2053Z_B_LAWWW.json"
+  },
+  "closed": true
  },
  "history": [
   {
@@ -1077,7 +1081,7 @@
    "note": "LAWWW-B 11-07 03:4x 查核：交班 commit 7a675d98c 以後 3 個（d4e797c6d、56f47b4be、f1d31b2f0）都是 BB-C 11-05 16:11～16:15 自己的重新接班與再交班紀錄，比帳號 B 11-07 03:3x 接班早；已快轉進 BB-B 的 elegant-brown。不是兩個帳號同時寫"
   }
  ],
- "seq": 108,
+ "seq": 109,
  "chain": [
   {
    "seq": 1,
@@ -1834,15 +1838,14 @@
    "account": "B",
    "role": "LAWWW2,AA,BB,CC",
    "event": "sync"
+  },
+  {
+   "seq": 109,
+   "at": "2026-11-08T20:53Z",
+   "account": "B",
+   "role": "LAWWW",
+   "event": "handoff"
   }
  ],
- "pending": {
-  "from": "B",
-  "rolesHandedOff": [
-   "AA",
-   "BB",
-   "CC",
-   "LAWWW2"
-  ]
- }
+ "pending": null
 }
