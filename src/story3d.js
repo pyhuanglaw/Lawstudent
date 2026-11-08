@@ -979,19 +979,28 @@ const STORY = (function(){
   S.greetB=greetB;
   /* TEXT-QUOTE-UNIFY-1108 第四批（AA-B 2026-11-08 05:31）：閒聊是 GM.say(who,…) 有名字說的，events.js 的 SMALLTALK、src/data/pool_story*.js 的 talk／greet、上面的 B_GREET 都拿掉外面的「」。
      閒聊記的「說過了」是句子本身（G.social.small[id] 的 used、last、once 的 key、greet.used；pool3d.js、whois3d.js、aa614_3d.js 也照這個 key 查）——
-     舊存檔記的是有「」的句子：讀檔時（game3d.js migrate）換成現在的句子。只換「拿掉外面的「」以後是現在閒聊表上的句子」的；其他（'__greet'、'fact:…'、對不到的、「A」「B」好幾段）照留 */
+     舊存檔記的是有「」的句子：讀檔時（game3d.js migrate）換成現在的句子。只換「拿掉外面的「」以後是現在閒聊表上的句子」的；其他（'__greet'、'fact:…'、對不到的、「A」「B」好幾段）照留。
+     第五批（AA-B 2026-11-08 11:05）：①動作在前面的「（她點了一下頭。）「早。」」（sis_b13_3d.js 挽回中的短招呼、us_life_events.js libTalk）也拿掉說的話那一對＝「（她點了一下頭。）早。」——
+     舊存檔記的照 S.smallActUnq 換；②經濟系同學在社科圖的閒聊（src/data/econfr_soclib.js；src/econsl3d.js 記在 G.flags.ECON_SL[id].once，key＝句子）拿掉外面的「」——舊存檔的 key 也在這裡換 */
   S.smallUnq=k=>{ if(typeof k!=='string'||k.length<2||k[0]!=='「'||k[k.length-1]!=='」') return k; let d=0; for(let i=0;i<k.length;i++){ const ch=k[i]; if(ch==='「') d++; else if(ch==='」'){ d--; if(d===0&&i!==k.length-1) return k; } } return d===0?k.slice(1,-1):k; };   /* 同 invites3d.js 的 S.unq */
+  S.smallActUnq=k=>{ if(typeof k!=='string'||k[0]!=='（') return k; let d=0; for(let i=0;i<k.length;i++){ const ch=k[i]; if(ch==='（') d++; else if(ch==='）'){ d--; if(d===0){ const r=k.slice(i+1), c=S.smallUnq(r); return c!==r?k.slice(0,i+1)+c:k; } } } return k; };   /* 開頭一對（動作）＋整句一對「說的話」＝（動作）說的話；其他照留 */
   S.smallKnown=function(){ const K=new Set(), add=t=>{ if(typeof t==='string') K.add(t); };
     if(typeof SMALLTALK!=='undefined') for(const id of Object.keys(SMALLTALK)) for(const e of (SMALLTALK[id]||[])) add(typeof e==='string'?e:e&&e.t);
     if(typeof POOL!=='undefined'&&POOL.LINES) for(const id of Object.keys(POOL.LINES)) for(const e of ((POOL.LINES[id]&&POOL.LINES[id].talk)||[])){ if(e){ add(e.t); add(e.old); } }
     for(const p of B_GREET) for(const t of p.L.concat(p.law||[])) add(t);
     return K; };
-  S.smallQuoteMigrate=function(s){ const R=s&&s.social&&s.social.small; if(!R||typeof R!=='object') return 0; const K=S.smallKnown(); let n=0;
-    const fix=k=>{ if(typeof k!=='string'||K.has(k)) return k; const c=S.smallUnq(k); if(c!==k&&K.has(c)){ n++; return c; } return k; };
-    for(const id of Object.keys(R)){ const r=R[id]; if(!r||typeof r!=='object') continue;
-      if(Array.isArray(r.used)) r.used=r.used.map(fix); if(typeof r.last==='string') r.last=fix(r.last);
-      if(r.once&&typeof r.once==='object'&&!Array.isArray(r.once)){ const O={}; for(const k of Object.keys(r.once)){ const v=fix(k); if(!(v in O)||k===v) O[v]=r.once[k]; } r.once=O; }
-      if(r.greet&&typeof r.greet==='object'&&Array.isArray(r.greet.used)) r.greet.used=r.greet.used.map(fix); }
+  S.smallQuoteMigrate=function(s){ if(!s||typeof s!=='object') return 0; let n=0;
+    const fixBy=K=>k=>{ if(typeof k!=='string'||K.has(k)) return k; for(const c of [S.smallUnq(k),S.smallActUnq(k)]) if(c!==k&&K.has(c)){ n++; return c; } return k; };
+    const reOnce=(o,fix)=>{ const O={}; for(const k of Object.keys(o)){ const v=fix(k); if(!(v in O)||k===v) O[v]=o[k]; } return O; };
+    const R=s.social&&s.social.small;
+    if(R&&typeof R==='object'){ const fix=fixBy(S.smallKnown());
+      for(const id of Object.keys(R)){ const r=R[id]; if(!r||typeof r!=='object') continue;
+        if(Array.isArray(r.used)) r.used=r.used.map(fix); if(typeof r.last==='string') r.last=fix(r.last);
+        if(r.once&&typeof r.once==='object'&&!Array.isArray(r.once)) r.once=reOnce(r.once,fix);
+        if(r.greet&&typeof r.greet==='object'&&Array.isArray(r.greet.used)) r.greet.used=r.greet.used.map(fix); } }
+    const E=s.flags&&s.flags.ECON_SL, EP=typeof ECONFR_SOCLIB!=='undefined'&&ECONFR_SOCLIB&&ECONFR_SOCLIB.people;   /* 經濟系同學在社科圖（第五批）：只換這個人 talk 表上的句子 */
+    if(E&&typeof E==='object'&&!Array.isArray(E)&&EP) for(const id of Object.keys(E)){ const r=E[id], P=EP[id]; if(!P||!r||typeof r!=='object'||!r.once||typeof r.once!=='object'||Array.isArray(r.once)) continue;
+      r.once=reOnce(r.once,fixBy(new Set((P.talk||[]).map(e=>e&&e.t).filter(t=>typeof t==='string')))); }
     return n; };
   /* 柏翰的倒數：今天到這學期第一個考試時段（kind＝'final' 期末／'mid' 期中；照玩家的課表與日曆；放假的日子沒有課，自然跳過）的天數；這學期沒有那種考試＝null
      D118（使用者 11-02「沒有期中考」）：法律系第 8～9 週不考，期中恆為 null；柏翰的倒數改到第一科期末考（AA_578 第 2 節 #1）*/

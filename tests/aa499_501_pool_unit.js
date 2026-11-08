@@ -95,8 +95,12 @@ await sec(0,()=>{ const B={B2:typeof POOL_STORY_B2!=='undefined'?POOL_STORY_B2:n
   /* AA_528 第 9 點（AA-B 2026-10-30 04:55 回覆，LAWWW-B 轉交；任務 AA-FOLLOWUP-1030）：佳蓉在萬才館（法律系館B）值班認識的專用版本 meetB＋畢業照片 gradB——不在 AA_499 稿裡；
      企劃線 bec12db00 的 AA_528 還沒有這幾句（AA 回覆說原稿已同步，推上來以後改成對稿）。逐字對 AA 回覆：tests/aa_followup_1030_unit.js */
   const AA528_9=new Set(['（法服值班桌底下，一個女生蹲著，拉著一條很長的延長線。延長線的另一頭繞到柱子後面。）','同學，可以幫我拉一下嗎？插座在那根柱子後面，我一個人拉不到。','（你幫她拉過去，插好。桌上的檯燈亮了一下。）','（照片：值班桌旁邊那根柱子，底下一個插座）']);
-  for(const k of ['B2','B3','B4']){ if(!B[k]){ check('0. '+DOCS[k][0]+'：資料檔不存在',false); continue; } const G=[...new Set(strs(B[k]))], d=DOC[k];
-    const bad=G.filter(t=>d.indexOf(t)<0&&!(DERIVED[t]&&d.indexOf(t.replace(/^「|」$/g,''))>=0)&&!(OTHERDOC[t]&&D514.indexOf(t)>=0)&&!(AA519[t]&&d.indexOf(AA519[t])>=0)&&!(k==='B2'&&AA528_9.has(t)));
+  /* TEXT-QUOTE-UNIFY-1108 第五批（AA-B 2026-11-08 11:05）：之後的招呼（greet）「說的話」（動作）拿掉說的話那一對＝說的話（動作）；稿上是「說的話」（動作）——
+     只限 greet 裡本人說的（不是整句旁白）、結尾一對（動作）的那幾句：加回那一對再找（tests/invites_quote_b5_unit.js 第 21、22 項逐句查）*/
+  const greet5=b=>{ const S=new Set(); for(const id in (b.LINES||{})) for(const g of (b.LINES[id].greet||[])) if(typeof g==='string'&&g[0]!=='（'&&/（[^（）]*）$/.test(g)) S.add(g); return S; };
+  const q5=t=>{ const m=/^([^（「」]+)(（[^（）]*）)$/.exec(t); return m?'「'+m[1]+'」'+m[2]:null; };
+  for(const k of ['B2','B3','B4']){ if(!B[k]){ check('0. '+DOCS[k][0]+'：資料檔不存在',false); continue; } const G=[...new Set(strs(B[k]))], d=DOC[k], G5=greet5(B[k]);
+    const bad=G.filter(t=>d.indexOf(t)<0&&!(DERIVED[t]&&d.indexOf(t.replace(/^「|」$/g,''))>=0)&&!(OTHERDOC[t]&&D514.indexOf(t)>=0)&&!(AA519[t]&&d.indexOf(AA519[t])>=0)&&!(k==='B2'&&AA528_9.has(t))&&!(G5.has(t)&&q5(t)&&d.indexOf(q5(t))>=0));
     check('0. 遊戲 → 稿：'+DOCS[k][0]+' 的每一句台詞、旁白、選項、手機訊息、人物頁一行'+(k==='B4'?'、personality':'')+'都在稿裡（一字不差；例外：房間物品兩句，寫在 DERIVED）',G.length>150&&!bad.length,G.length+' 句；不在稿裡：'+J(bad)); }
   /* 稿 → 遊戲：抽出稿上的每一句 */
   const NOTE=/（(?:原句[^）]*|後[一兩]句是原句|接原句[^）]*|認識[^）]{1,12}|有 `[^）]*|沒有[^）]*)）\s*$/;

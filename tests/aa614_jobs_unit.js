@@ -54,9 +54,11 @@ const evText=id=>{ const e=evOf(id); return e?e.dialogue.filter(l=>typeof l.text
     const rowOk=(rows)=>rows.every(([id,t])=>doc.includes(NM[id]+'：「'+t+'」'));
     check('0. 第 3 節群組、私訊：說的人照稿（「阿哲：「宵夜？公館。」」這樣的寫法）',rowOk(L.g1)&&rowOk(L.g2)&&rowOk(L.g3)&&rowOk(L.g4)&&rowOk(L.g5),J([L.g1,L.g3].map(r=>r.map(x=>x[0]))));
     check('0. 第 3 列選項「好。」／「我不去了。」、旁白照稿',J(L.g3opts)===J(['好。','我不去了。'])&&doc.includes('玩家可以回「好。」／「我不去了。」')&&doc.includes('旁白帶過：「'+L.g3movie+'」'));
-    check('0. 第 2 節五種說法都在那一列（明軒、沛珊、阿凱、語彤兩種）',doc.includes('| 明軒 | 週二、週四 19:00～21:30 | '+L.inv.mx)&&doc.includes('| 沛珊 | 週三 18:00～21:30（大一、大二） | '+L.inv.ps)&&doc.includes('| 阿凱 | 週六 12:30～18:30 | '+L.inv.kai)&&doc.includes('她說'+L.inv.ytBoth)&&doc.includes('（祐廷沒排班的那一天：'+L.inv.ytOff+'）'));
+    /* 改時間的回覆（S.invRule → INV.playLines，有名字說的）不加外面的「」（TEXT-QUOTE-UNIFY-1108 第五批，AA-B 2026-11-08 11:05）；稿上有：加回那一對再找（Q）*/
+    const Q=t=>'「'+t+'」';
+    check('0. 第 2 節五種說法都在那一列（明軒、沛珊、阿凱、語彤兩種；遊戲裡沒有外面的「」）',Object.keys(L.inv).every(k=>typeof L.inv[k]==='string'&&!/^「|」$/.test(L.inv[k]))&&doc.includes('| 明軒 | 週二、週四 19:00～21:30 | '+Q(L.inv.mx))&&doc.includes('| 沛珊 | 週三 18:00～21:30（大一、大二） | '+Q(L.inv.ps))&&doc.includes('| 阿凱 | 週六 12:30～18:30 | '+Q(L.inv.kai))&&doc.includes('她說'+Q(L.inv.ytBoth))&&doc.includes('（祐廷沒排班的那一天：'+Q(L.inv.ytOff)+'）'));
     check('0. 第 4、5 節照稿（沛珊第一次那一句、第二次以後的旁白、阿凱的旁白、兩句閒聊）',doc.includes('「'+L.psDoor+'」第二次以後：「'+L.psDoorAgain+'」')&&doc.includes('「'+L.kaiDoor+'」')&&doc.includes('阿凱閒聊（大一上第 4 週起）：「'+L.talk.kai+'」')&&doc.includes('沛珊閒聊（大一上第 4 週起）：「'+L.talk.ps+'」'));
-    check('0. AA_615：1 廳三句旁白、「三位？……」、邀約那一句、人物頁那一行照稿',doc5.includes('旁白一句（隨機）：「'+L.watch[0]+'」「'+L.watch[1]+'」「'+L.watch[2]+'」')&&doc5.includes('Alison「'+L.three+'」')&&doc5.includes('玩家約她撞到時：'+L.inv.yu)&&doc5.includes('她的人物頁加一行「打工：南洋戲院（週五、週六晚上）」'));
+    check('0. AA_615：1 廳三句旁白、「三位？……」、邀約那一句、人物頁那一行照稿',doc5.includes('旁白一句（隨機）：「'+L.watch[0]+'」「'+L.watch[1]+'」「'+L.watch[2]+'」')&&doc5.includes('Alison「'+L.three+'」')&&doc5.includes('玩家約她撞到時：'+Q(L.inv.yu))&&doc5.includes('她的人物頁加一行「打工：南洋戲院（週五、週六晚上）」'));
     check('0. 阿凱閒聊進 SMALLTALK（閒聊是有名字說的：不加外面的「」，TEXT-QUOTE-UNIFY-1108 第四批）',(SMALLTALK.kai||[]).some(e=>e&&e.t===L.talk.kai&&e.once===true)&&!(SMALLTALK.kai||[]).some(e=>e&&e.t==='「'+L.talk.kai+'」')); }
 
   /* ================= 1 沛珊作息、ev_peishan_tutoring ================= */
@@ -115,7 +117,7 @@ const evText=id=>{ const e=evOf(id); return e?e.dialogue.filter(l=>typeof l.text
     /* Alison（AA_615）*/
     r=go(YU,TD('Y1S1',6,5),'wenzhou',19);
     check('2. Alison 週五 19:00：「禮拜五晚上我在戲院。……禮拜天下午？」→ 那個週日 14:00',r.res==='resched'&&tx(r)===J([L.inv.yu])&&r.alt&&r.alt.day===H.G.day+2&&wd(r.alt.day)===0&&r.alt.h===14,J(r));
-    r=go(YU,TD('Y1S1',6,6),'wenzhou',19); check('2. Alison 週六 19:00：「週六我在南洋上班，到很晚。……禮拜天下午可以嗎？」→ 週日 14:00（接線時補的 73ee9256d）',r.res==='resched'&&tx(r)===J([L.inv.yuSat])&&L.inv.yuSat==='「週六我在南洋上班，到很晚。……禮拜天下午可以嗎？」'&&r.alt&&wd(r.alt.day)===0&&r.alt.day===H.G.day+1&&r.alt.h===14,J(r));
+    r=go(YU,TD('Y1S1',6,6),'wenzhou',19); check('2. Alison 週六 19:00：「週六我在南洋上班，到很晚。……禮拜天下午可以嗎？」→ 週日 14:00（接線時補的 73ee9256d）',r.res==='resched'&&tx(r)===J([L.inv.yuSat])&&L.inv.yuSat==='週六我在南洋上班，到很晚。……禮拜天下午可以嗎？'&&r.alt&&wd(r.alt.day)===0&&r.alt.day===H.G.day+1&&r.alt.h===14,J(r));
     check('2. 接線時補的：「教國小的小朋友」「五年級的」（國小課輔班，32a5f7e12 說法統一）',L.psDoor==='你怎麼在這？……我在這裡當助教。教國小的小朋友。'&&L.talk.ps==='課輔班有一個五年級的，每次都說數學沒用。……我也這樣想過。'&&!J(L).includes('國中生')&&!J(L).includes('國二的'));
     r=go(YU,TD('Y1S1',3,5),'wenzhou',19); check('2. 對照：大一上第 3 週週五（第 4 週才開始打工）照舊答應',r.res==='accept',J(r));
     r=go(YU,TD('Y1S1',6,5),'wenzhou',17); check('2. 對照：Alison 週五 17:00（17:45 結束）照舊答應',r.res==='accept',J(r)); }

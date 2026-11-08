@@ -318,7 +318,7 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
     at('2028-09-11',11.6); G.zone='us_lawlib'; said=[]; const who={name:'溫書瑀',charId:'heroine_05'}; await STORY.ladderTalk(GM,who,'heroine_05');
     check('I5. 11:40 和她說話：先「（她把書收進包包，跟你走到圖書館外面才開口。）」（旁白）再 SU-L1「烘衣機的濾網，你清過沒有。」', said[0]&&said[0].t==='（她把書收進包包，跟你走到圖書館外面才開口。）'&&said[0].who===null&&said[1]&&said[1].t==='烘衣機的濾網，你清過沒有。', JSON.stringify(lines()));
     fresh('2028-08-10',16,'us_shared',US()); date('heroine_05'); said=[]; await STORY.ladderTalk(GM,{name:'溫書瑀',charId:'heroine_05'},'heroine_05'); check('I5. C 棟 208（原本的地點）：沒有那一句旁白', said[0]&&said[0].t==='烘衣機的濾網，你清過沒有。', JSON.stringify(lines())); }
-  { const lib=['（她把螢幕轉過來給你看：第四章，第三節。）「……還差一節。」','（她小聲）「三明治店十二點人很多。你先去占位子。」','（她指了一下桌上的紙杯）「圖書館的咖啡機又壞了。這杯是外面買的。」'];
+  { const lib=['（她把螢幕轉過來給你看：第四章，第三節。）……還差一節。','（她小聲）三明治店十二點人很多。你先去占位子。','（她指了一下桌上的紙杯）圖書館的咖啡機又壞了。這杯是外面買的。'];   /* 閒聊（GM.say(who,…) 有名字）：動作照舊在前面，說的話不加「」（稿上是（…）「…」；TEXT-QUOTE-UNIFY-1108 第五批，AA-B 2026-11-08 11:05）*/
     fresh('2028-09-11',10,'us_lawlib',US()); date('heroine_05'); R('heroine_05','FRI'); const got=[]; for(const k of ['2028-09-11','2028-09-12','2028-09-13','2028-09-14','2028-09-15']){ at(k,10); G.zone='us_lawlib'; const r=STORY.smallTalk(G,'heroine_05'); got.push(r.say||r.narr); }
     check('I5. 圖書館 09:00～11:30（交往中）：一般閒聊是原本的「……我沒事。只是沒睡。」加三句輪流', lib.every(t=>got.includes(t))&&got.includes('……我沒事。只是沒睡。'), JSON.stringify(got));
     fresh('2028-09-11',10,'us_lawlib',US()); R('heroine_05','FRI'); const got2=[]; for(const k of ['2028-09-11','2028-09-12','2028-09-13']){ at(k,10); G.zone='us_lawlib'; const r=STORY.smallTalk(G,'heroine_05'); got2.push(r.say||r.narr); }

@@ -35,6 +35,14 @@ const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
 /* 外面整句一對「」（「A」「B」這種好幾段的不算）——和 src/invites3d.js 的 S.unq 同一把尺 */
 const wrapped=t=>{ if(typeof t!=='string'||t.length<2||t[0]!=='「'||t[t.length-1]!=='」') return false; let d=0; for(let i=0;i<t.length;i++){ const c=t[i]; if(c==='「') d++; else if(c==='」'){ d--; if(d===0&&i!==t.length-1) return false; } } return d===0; };
 const unq=t=>wrapped(t)?t.slice(1,-1):t;
+/* TEXT-QUOTE-UNIFY-1108 第五批（AA-B 2026-11-08 11:05；tests/invites_quote_b5_unit.js）：第四批照留、列給 AA-B 看的兩種寫法也拿掉了——
+   「說的話」（動作）→說的話（動作）（pool 之後的招呼四句）、（動作）「說的話」→（動作）說的話（學姊挽回中的短招呼一句、libTalk 三句）。
+   這支測試和 BASE 比、讀現在的檔的地方，這八句照第五批以後的字比（B5：BASE 的字 → 第五批以後的字；只有這八句，其他照第四批的規則）*/
+const B5=new Map([['「……嗯。」（他點頭，比你預期的大聲一點。）','……嗯。（他點頭，比你預期的大聲一點。）'],['「先吃再說！」（塞給你一顆糖）','先吃再說！（塞給你一顆糖）'],
+  ['「再一次。」（她說的是手上的和弦，不是對你）','再一次。（她說的是手上的和弦，不是對你）'],['「我先走了！」（他還沒停下來）','我先走了！（他還沒停下來）'],
+  ['（她點了一下頭。）「早。」','（她點了一下頭。）早。'],['（她把螢幕轉過來給你看：第四章，第三節。）「……還差一節。」','（她把螢幕轉過來給你看：第四章，第三節。）……還差一節。'],
+  ['（她小聲）「三明治店十二點人很多。你先去占位子。」','（她小聲）三明治店十二點人很多。你先去占位子。'],['（她指了一下桌上的紙杯）「圖書館的咖啡機又壞了。這杯是外面買的。」','（她指了一下桌上的紙杯）圖書館的咖啡機又壞了。這杯是外面買的。']]);
+const b5=t=>B5.has(t)?B5.get(t):t, isB5=(a,b)=>B5.has(a)&&B5.get(a)===b;
 const noComments=s=>s.replace(/\/\*[\s\S]*?\*\//g,'');
 const LIT=/'((?:[^'\\\n]|\\.)*)'/g;
 const POOL_FILES=['src/data/pool_story.js','src/data/pool_story_b2.js','src/data/pool_story_b3.js','src/data/pool_story_b4.js'];
@@ -122,14 +130,14 @@ const isNarr=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; f
   const B=[], narr=[], room=[];
   const poolOpts=C=>{ const o=[]; for(const k of PSK){ const LN=(C[k]||{}).LINES||{}; for(const id of Object.keys(LN)) (function w(v,p){ if(v==null||typeof v==='function') return; if(typeof v==='string'){ if(/(Opts\.\d+$|\.choice\.\d+\.text$)/.test(p)) o.push(v); return; } if(typeof v==='object') for(const kk of Object.keys(v)) w(v[kk],p+'.'+kk); })(LN[id],id); } return o; };
   const opts=poolOpts(PS.now), optsW=opts.filter(wrapped);
-  const other=[];   /* 「說的話」（動作）：不是整句外面的一對＝照舊 */
+  const other=[];   /* 「說的話」（動作）：第四批照留（不是整句外面的一對）；第五批拿掉說的話那一對＝說的話（動作） */
   for(const k of PSK){ const LN=(PS.now[k]||{}).LINES||{}; for(const id of Object.keys(LN)){ const P=LN[id];
       for(const e of (P.talk||[])){ B.push(e.t); if(e.old) B.push(e.old); }
-      for(const g of (P.greet||[])){ if(isNarr(g)) narr.push(g); else if(/^「[^「」]*」（[^（）]*）$/.test(g)) other.push(g); else B.push(g); }
+      for(const g of (P.greet||[])){ if(isNarr(g)) narr.push(g); else if([...B5.values()].includes(g)) other.push(g); else B.push(g); }
       for(const x of ['zjwHand','bhCopier']) if(P[x]) B.push(P[x]);
       for(const x of ['card','cordLook','noteLook']) if(P[x]) room.push(P[x]); } }
   check('15. pool 的閒聊與之後的招呼：'+B.length+' 句（talk 的 t、old，greet 說的話，zjwHand、bhCopier）沒有一句外面還有「」',B.length===180&&B.every(t=>!wrapped(t)),sample(B.filter(wrapped)));
-  check('15. pool 之後的招呼「說的話」（動作）'+other.length+' 句不是整句外面的一對＝照舊（列給 AA-B 看）：'+other.join('／'),other.length===4);
+  check('15. pool 之後的招呼「說的話」（動作）'+other.length+' 句：第四批照留（列給 AA-B 看）；第五批拿掉說的話那一對、順序照舊＝'+other.join('／'),other.length===4&&other.every(t=>!/[「」]/.test(t)));
   check('15. pool 照留：greet 的整句旁白 '+narr.length+' 句、選項 '+opts.length+' 個（choice 的 text、…Opts；整句「」的 '+optsW.length+' 個）和 BASE 一字不差、房間物品 '+room.length+' 個（GM.say(null,…)）外面的「」都還在',
     narr.length===20&&optsW.length>=140&&J(opts)===J(poolOpts(PS.old))&&room.length===3&&room.every(wrapped),sample(room.filter(t=>!wrapped(t))));
   const st=noComments(cur('src/story3d.js')), bg=/const B_GREET=(\[[^;]*\]);/.exec(st), BG=bg?vm.runInNewContext('('+bg[1]+')'):[];
@@ -144,25 +152,30 @@ const isNarr=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; f
   const GS=cur('src/ggshops_sys3d.js'), gw=wrappedLits(GS);
   check('15. ggshops_sys3d.js：沒有整句「」的字串了（店員說的七句都拿掉；旁白裡的「剛出爐」「三十秒就好……」照留）',gw.length===0&&/店員說：「三十秒就好，不要泡太久。」/.test(GS)&&/寫著「剛出爐」/.test(GS),sample(gw.map(x=>x.t)));
   check('15. gg2shops3d.js 和 '+BASE+' 一字不差（第三批做完 ACC0 以後沒有整句「」的字串）',cur('src/gg2shops3d.js')===gitShow(BASE,'src/gg2shops3d.js')&&wrappedLits(cur('src/gg2shops3d.js')).length===0);
-  const lib=/libTalk:\[([^\]]*)\]/.exec(cur('src/data/us_life_events.js')), sq=/const smallQ=t=>\{[^\n]*\};/.exec(noComments(cur('src/sis_b13_3d.js')));
-  check('15. 動作在前面的（…）「…」照舊（不是整句外面的一對）：us_life_events.js libTalk 和 BASE 一樣；sis_b13 的 smallQ 只留動作那一種',!!lib&&lib[0]===(/libTalk:\[([^\]]*)\]/.exec(gitShow(BASE,'src/data/us_life_events.js'))||[])[0]&&!!sq&&/return m\?m\[1\]\+'「'\+m\[2\]\+'」':t;/.test(sq[0])); }
+  const libOf=t=>{ const m=/libTalk:(\[[^\]]*\])/.exec(noComments(t)); return m?vm.runInNewContext('('+m[1]+')'):null; }, lib=libOf(cur('src/data/us_life_events.js')), lib0=libOf(gitShow(BASE,'src/data/us_life_events.js')), sb=noComments(cur('src/sis_b13_3d.js'));
+  check('15. 動作在前面的（…）「…」：第四批照留（不是整句外面的一對）；第五批拿掉說的話那一對——us_life_events.js libTalk＝BASE 的三句拿掉那一對；sis_b13 不再包（沒有 smallQ，S.greetTexts＝稿上的字）',
+    !!lib&&!!lib0&&lib0.length===3&&lib0.every(t=>B5.has(t))&&J(lib)===J(lib0.map(b5))&&!/const smallQ=/.test(sb)&&/S\.greetTexts=\(\)=>\(L\.repairGreet\|\|\[\]\)\.slice\(\);/.test(sb),J([lib0,lib])); }
 
 /* ---------- 16. 資料和 BASE 逐句比 ---------- */
-const deepSame=(a,b,bad,p)=>{ if(typeof a==='string'&&typeof b==='string'){ if(a===b) return 0; if(wrapped(a)&&unq(a)===b) return 1; bad.push(p+'：'+a+' → '+b); return 0; }
+const B5HIT=[];   /* 第五批改的（B5 那八句）：另外記，不算第四批的 */
+const deepSame=(a,b,bad,p)=>{ if(typeof a==='string'&&typeof b==='string'){ if(a===b) return 0; if(wrapped(a)&&unq(a)===b) return 1; if(isB5(a,b)){ B5HIT.push(p); return 0; } bad.push(p+'：'+a+' → '+b); return 0; }
   if(typeof a==='function'||typeof b==='function'){ if(String(a)!==String(b)) bad.push(p+'：函式不同'); return 0; }
   if(a===null||b===null||typeof a!=='object'||typeof b!=='object'){ if(a!==b) bad.push(p+'：'+J(a)+' → '+J(b)); return 0; }
   const ka=Object.keys(a), kb=Object.keys(b); if(J(ka)!==J(kb)){ bad.push(p+'：欄位不同'); return 0; } let n=0; for(const k of ka) n+=deepSame(a[k],b[k],bad,p+'.'+k); return n; };
 { const bad=[]; const n=deepSame(ST.old,ST.now,bad,'SMALLTALK');
   check('16. SMALLTALK 和 '+BASE+' 逐句比：'+n+' 句只差外面的「」，條件（if、term、week、location、once、prio…）一字不差',n===149&&bad.length===0,sample(bad));
-  for(const k of PSK){ const b2=[]; const m=deepSame(PS.old[k],PS.now[k],b2,k); const W={POOL_STORY:49,POOL_STORY_B2:52,POOL_STORY_B3:46,POOL_STORY_B4:33}[k];
-    check('16. '+k+' 和 '+BASE+' 逐句比：'+m+' 句只差外面的「」（talk、greet、zjwHand、bhCopier），其他（旁白、選項、場景、條件）一字不差',m===W&&b2.length===0,sample(b2)); }
+  for(const k of PSK){ const b2=[]; const m=deepSame(PS.old[k],PS.now[k],b2,k); const W={POOL_STORY:49,POOL_STORY_B2:52,POOL_STORY_B3:46,POOL_STORY_B4:33}[k], W5={POOL_STORY:0,POOL_STORY_B2:1,POOL_STORY_B3:3,POOL_STORY_B4:0}[k], h5=B5HIT.filter(p=>p.startsWith(k+'.'));
+    check('16. '+k+' 和 '+BASE+' 逐句比：'+m+' 句只差外面的「」（talk、greet、zjwHand、bhCopier）'+(W5?'、'+h5.length+' 句是第五批的「說的話」（動作）→說的話（動作）（greet）':'')+'，其他（旁白、選項、場景、條件）一字不差',
+      m===W&&b2.length===0&&h5.length===W5&&h5.every(p=>/\.greet\.\d+$/.test(p)),sample(b2.concat(h5))); }
   /* 拿掉的都是說的話：BASE 那一句在 talk／greet（說的話）／zjwHand／bhCopier */
-  const ok=[], miss=[]; for(const k of PSK){ const LO=(PS.old[k]||{}).LINES||{}, LN=(PS.now[k]||{}).LINES||{}; for(const id of Object.keys(LO)){ const A=LO[id], Bn=LN[id];
-      (function w(a,b,p){ if(typeof a==='string'){ if(a!==b){ if(/^(talk\.\d+\.(t|old)|greet\.\d+|zjwHand|bhCopier)$/.test(p)) ok.push(p); else miss.push(id+'.'+p); } return; } if(a&&typeof a==='object'&&typeof a!=='function') for(const kk of Object.keys(a)) w(a[kk],b&&b[kk],p?p+'.'+kk:kk); })(A,Bn,''); } }
-  check('16. pool 改到的 '+ok.length+' 句都在 talk（t、old）、greet、zjwHand、bhCopier（選項、旁白、場景、房間物品沒有一句動）',ok.length===180&&miss.length===0,sample(miss));
-  const sg=t=>{ const m=/const smallQ=t=>\{[^\n]*\};/.exec(t); const L=vm.runInNewContext('('+/repairGreet:(\[[^\]]*\])/.exec(cur('src/data/sis_b13_events.js'))[1]+')'); const f=vm.runInNewContext('(t=>{ '+m[0]+' return smallQ(t); })'); return L.map(f); };
-  const so=sg(gitShow(BASE,'src/sis_b13_3d.js')), sn=sg(cur('src/sis_b13_3d.js'));
-  check('16. sis_b13 挽回中的短招呼：整句那兩句只差外面的「」，動作在前面的那一句照舊（'+J(sn)+'）',J(so.map((t,i)=>i===0?t:unq(t)))===J(sn)&&wrapped(so[1])&&wrapped(so[2])&&so[0]===sn[0],J(so)+' → '+J(sn)); }
+  const ok=[], ok5=[], miss=[]; for(const k of PSK){ const LO=(PS.old[k]||{}).LINES||{}, LN=(PS.now[k]||{}).LINES||{}; for(const id of Object.keys(LO)){ const A=LO[id], Bn=LN[id];
+      (function w(a,b,p){ if(typeof a==='string'){ if(a!==b){ if(isB5(a,b)){ if(/^greet\.\d+$/.test(p)) ok5.push(p); else miss.push(id+'.'+p); } else if(/^(talk\.\d+\.(t|old)|greet\.\d+|zjwHand|bhCopier)$/.test(p)) ok.push(p); else miss.push(id+'.'+p); } return; } if(a&&typeof a==='object'&&typeof a!=='function') for(const kk of Object.keys(a)) w(a[kk],b&&b[kk],p?p+'.'+kk:kk); })(A,Bn,''); } }
+  check('16. pool 改到的 '+ok.length+' 句都在 talk（t、old）、greet、zjwHand、bhCopier（選項、旁白、場景、房間物品沒有一句動）；第五批另外改了 greet 的 '+ok5.length+' 句',ok.length===180&&ok5.length===4&&miss.length===0,sample(miss));
+  /* S.greetTexts 照原始碼那幾行算（BASE：smallQ 包「」；第五批以後沒有 smallQ＝稿上的字）*/
+  const sg=t=>{ t=noComments(t); const m=/const smallQ=t=>\{[^\n]*\};/.exec(t), g=/S\.greetTexts=\(\)=>([^\n;]*);/.exec(t); const L=vm.runInNewContext('('+/repairGreet:(\[[^\]]*\])/.exec(noComments(cur('src/data/sis_b13_events.js')))[1]+')');
+    return g?vm.runInNewContext('(function(L){ '+(m?m[0]:'')+' return ('+g[1]+'); })')({repairGreet:L}):null; };
+  const so=sg(gitShow(BASE,'src/sis_b13_3d.js')), sn=sg(cur('src/sis_b13_3d.js'))||[];
+  check('16. sis_b13 挽回中的短招呼：整句那兩句只差外面的「」（第四批），動作在前面的那一句第五批拿掉說的話那一對（'+J(sn)+'）',J(so.map((t,i)=>i===0?b5(t):unq(t)))===J(sn)&&wrapped(so[1])&&wrapped(so[2])&&B5.has(so[0])&&b5(so[0])===sn[0],J(so)+' → '+J(sn)); }
 
 /* ---------- 17. 原始碼逐行比 ---------- */
 const strip=line=>{ let s=line.replace(/\s+$/,'');
@@ -215,7 +228,7 @@ const cmp=(A,B,cut)=>{ const bad=[], nw=[]; let ch=0, named=0; A=A||[]; B=B||[];
   if(A.length!==B.length) bad.push('句數 '+A.length+' → '+B.length);
   else A.forEach((a,i)=>{ const b=B[i], ta=a[a.length-1], tb=b[b.length-1];
     if(J(a.slice(0,-1))!==J(b.slice(0,-1))) bad.push('說的人不一樣：'+J(a)+' → '+J(b));
-    else if(ta!==tb){ if(wrapped(ta)&&unq(ta)===tb&&b[b.length-2]!=null) ch++; else bad.push(J(a)+' → '+J(b)); }
+    else if(ta!==tb){ if((wrapped(ta)&&unq(ta)===tb||isB5(ta,tb))&&b[b.length-2]!=null) ch++; else bad.push(J(a)+' → '+J(b)); }   /* isB5：第五批的八句 */
     if(b[b.length-2]!=null){ named++; if(wrapped(tb)) nw.push(J(b)); } });
   return {bad,nw,ch,named}; };
 { const KEYS={story:['閒聊（story3d.js S.smallTalk；SMALL_DAILY；不熟同學的短招呼）',150],pool:['法律系同學的閒聊、之後的招呼、短招呼（pool3d.js）',150],shops:['木曜日雨天、日常失速、公館三間店員',25]};

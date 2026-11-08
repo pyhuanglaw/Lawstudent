@@ -81,11 +81,10 @@ const SISB13=(function(){
   S.LAUNDRY={from:'2028-10-08',to:'2028-10-20'};
   S.laundryOk=G=>law(G)&&route(G)==='US'&&!S.dating(G)&&!!G.flags.met_sis&&inUS(G)&&inDays(G,S.LAUNDRY.from,S.LAUNDRY.to);
   S.repairGreetOk=G=>law(G)&&route(G)==='US'&&!S.dating(G)&&inUS(G);
-  /* SMALLTALK 的寫法：閒聊是 GM.say(who,…) 有名字說的，整句不加外面的「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第四批：原本程式加的「這邊的咖啡很淡。……」那一對拿掉）；
-     前面有動作的「（她點了一下頭。）「早。」」不是整句外面的一對，照舊（和 us_life_events.js libTalk、invites.js「（走出法圖）「……」」同一種寫法，列給 AA-B 看）。
-     舊存檔記的「這邊的咖啡很淡。……」（有「」）讀檔時 STORY.smallQuoteMigrate 換成這裡的句子 */
-  const smallQ=t=>{ const m=/^(（[^）]*）)(.+)$/.exec(t); return m?m[1]+'「'+m[2]+'」':t; };
-  S.greetTexts=()=>(L.repairGreet||[]).map(smallQ);
+  /* SMALLTALK 的寫法：閒聊是 GM.say(who,…) 有名字說的，不加「」——稿上的字直接放進去（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108：第四批拿掉整句外面那一對「這邊的咖啡很淡。……」；
+     第五批（AA-B 11:05）動作在前面的也不包：原本程式包成「（她點了一下頭。）「早。」」，現在＝「（她點了一下頭。）早。」，動作照舊在前面；和 us_life_events.js libTalk 同一批）。
+     舊存檔記的有「」的句子（「這邊的咖啡很淡。……」、「（她點了一下頭。）「早。」」）讀檔時 STORY.smallQuoteMigrate 換成這裡的句子 */
+  S.greetTexts=()=>(L.repairGreet||[]).slice();
   if(typeof SMALLTALK!=='undefined'){ const A=SMALLTALK[ID]||(SMALLTALK[ID]=[]); for(const t of S.greetTexts()) if(!A.some(e=>e&&e.t===t)) A.push({t,once:true,prio:1,if:{custom:G=>S.repairGreetOk(G)},aa512:true}); }   /* 輪流（一天一句）、各一次（once）；prio：比「……我沒事。只是沒睡。」先說 */
 
   /* ---------------- 13-7「歡迎回來」家聚 ---------------- */
