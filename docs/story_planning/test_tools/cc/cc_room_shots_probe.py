@@ -50,7 +50,14 @@ async def main():
                         fx, fz = _m.sin(sp['yaw']), _m.cos(sp['yaw'])
                         eye = [sp['x'] - fx * 0.2, 1.6, sp['z'] - fz * 0.2]
                         look = [sp['x'] + fx * 4, 1.1, sp['z'] + fz * 4] if view == 'yaw' else [sp['x'] + fx * 1.2, 3.6, sp['z'] + fz * 1.2]
-                    cam = await D.user_shot(pg, cdp, 'room_%s_%s' % (TAG, nm), {'eye': eye, 'look': look, 'lens': 20})
+                    if view == 'follow':   # BB-B 05:08：照玩家站在門口、用遊戲自己的跟隨鏡頭（不用 CAM）；記南牆淡出、洞洞板／耳機有沒有一起藏
+                        await pg.wait_for_timeout(2500)
+                        vis = await pg.evaluate(r"""(()=>{ const E=GAME.E, z=E.zone, out=[]; z.group.traverse(o=>{ if(o.isMesh&&/peg|board|hook|head|phone|洞|耳/i.test(o.name||'')){ let v=o.visible, p=o.parent; while(p){ if(!p.visible){ v=false; break; } p=p.parent; } out.push([o.name, v]); } }); const W=(z.walls||[]).map(w=>[w.name||'', w.visible, w.material&&w.material.opacity!=null?+w.material.opacity.toFixed(2):null]); const c=E.camera.position; return {cam:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], player:[+E.player.obj.position.x.toFixed(2),+E.player.obj.position.z.toFixed(2)], walls:W, peg:out.slice(0,30)}; })()""")
+                        R.note('%s 跟隨鏡頭：%s' % (tag, J(vis)))
+                        await pg.evaluate(D.HUD + '(false)'); await R.shot(pg, 'room_%s_%s' % (TAG, nm)); await pg.evaluate(D.HUD + '(true)')
+                        cam = {'follow': vis}
+                    else:
+                        cam = await D.user_shot(pg, cdp, 'room_%s_%s' % (TAG, nm), {'eye': eye, 'look': look, 'lens': 20})
                     R.note('%s 光照貼圖：材質 %d 個、接了 lightMap %d 個，貼圖 %s' % (tag, g['mats'], g['withLightMap'], J(g['maps'])))
                     rec['shots'].append({'name': nm, 'zone': zone, 'day': day, 'h': h, 'cam': cam, 'lm': g})
                 except Exception as ex: R.check('%s 探針沒有例外' % tag, False, repr(ex)[:300])
