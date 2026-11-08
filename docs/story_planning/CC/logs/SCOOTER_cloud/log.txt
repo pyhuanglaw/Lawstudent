@@ -1,0 +1,17 @@
+CC 溫州街機車 v2：worktree 89430fb0ac；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261108：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] 讀檔 wenzhou 2025-10-18 14:00（條件事件關閉）
+  [  48.5s] 機車：{"kitChildren": 36, "kitByType": {"Group": 28, "Mesh()": 8}, "kitHidden": true, "lods": 6, "lodInfo": [{"name": "scooters_4s", "pos": [-6.8, 3.9], "levels": [[0, "", true], [16, "", true]], "center": [-6.8, 0.6, 3.8], "size": [0.7, 1.9], "cur": 1}, {"name": "scooters_5n", "pos": [9.6, -3.9], "levels": [[0, "", true], [16, "", true]], "center": [9.7, 0.6, -3.8], "size": [10, 2.4], "cur": 1}, {"name": "scooters_6n", "pos": [34.5, -4], "levels": [[0, "", true], [16, "", true]], "center": [34.5, 0.6, -3.8], "size": [6.6, 2.2], "cur": 0}, {"name": "scooters_3n", "pos": [-26.4, -3.9], "levels": [[0, "", true], [16, "", true]], "center": [-26.4, 0.7, -3.8], "size": [4.9, 2.4], "cur": 1}, {"name": "scooters_5s", "pos": [17.7, 4], "levels": [[0, "", true], [16, "", true]], "center": [17.7, 0.6, 3.8], "size": [3.2, 2.3], "cur": 1}, {"name": "scooters_7s", "pos": [54.5, 11.3], "levels": [[0, "", true], [16, "", true]], "center": [54.3, 0.6, 11.3], "size": [2.2, 5.8], "cur": 0}], "placed": 28, "kinds": 9, "colors": 18, "pick": {"S1B": 6, "S2": 4, "S1A": 10, "S1B_D": 3, "S7": 1, "S3": 1, "S4": 1, "S5": 1, "S5_H": 1}, "levelsOK": true}
+PASS 套件機車藏起來
+FAIL placed＝套件機車台數（36）  [28, {"Group": 28, "Mesh()": 8}]
+PASS 至少 6 款、5 種顏色  [9, 18]
+PASS LOD 6 段、每段 2 層（levelsOK）  [[[0, "", true], [16, "", true]], [[0, "", true], [16, "", true]], [[0, "", true], [16, "", true]], [[0, "", true], [16, "", true]], [[0, "", true], [16, "", true]], [[0, "", true], [16, "", true]]]
+PASS [黑畫面] scooter_scooters_4s_near8 不是黑畫面（平均亮度 99.3、變化 29.8）  [99.3, 29.8]
+  [  55.6s] [截圖] scooter_scooters_4s_near8：鏡頭 {"eye": [-6.8, 1.7, 11.8], "look": [-6.8, 0.6, 3.8], "lens": 24, "vfov": 45.75}、亮度 [99.3, 29.8]
+  [  55.6s] near8 距離 8 m：LOD 目前那一層 0；鏡頭 {"eye": [-6.8, 1.7, 11.8], "look": [-6.8, 0.6, 3.8], "lens": 24, "vfov": 45.75}
+PASS [黑畫面] scooter_scooters_4s_far25 不是黑畫面（平均亮度 128.4、變化 44.4）  [128.4, 44.4]
+  [  62.6s] [截圖] scooter_scooters_4s_far25：鏡頭 {"eye": [-6.8, 1.7, 28.8], "look": [-6.8, 0.6, 3.8], "lens": 24, "vfov": 45.75}、亮度 [128.4, 44.4]
+  [  62.6s] far25 距離 25 m：LOD 目前那一層 1；鏡頭 {"eye": [-6.8, 1.7, 28.8], "look": [-6.8, 0.6, 3.8], "lens": 24, "vfov": 45.75}
+PASS 沒有 JS 例外  []
+FAILED 1: placed＝套件機車台數（36）
