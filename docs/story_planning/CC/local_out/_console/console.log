@@ -881,3 +881,12 @@
 [17:57:29] [res] cpu=0% mem=33% (10.3/31.4 GB) chrome_testing=0  START Raa36_touch
 [17:57:33] 正在跑：Raa36_touch（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [18:00:19] [res] cpu=0% mem=33% (10.4/31.4 GB) chrome_testing=0  END Raa36_touch
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f950cd344..c779ee1be  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:00:24] ==== END   Raa36_touch  exit=1  173s   ====
+[18:00:27] memory 33% before starting Raa36_movreg_r2 (0 running)
+[18:00:27] ==== START Raa36_movreg_r2  (game @ aa363f62a8363594199ba99ebefa3ce57512ee58) ====
+[18:00:29] [res] cpu=3% mem=33% (10.5/31.4 GB) chrome_testing=0  START Raa36_movreg_r2
+[18:02:33] 正在跑：Raa36_movreg_r2（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:06:02] [res] cpu=4% mem=33% (10.7/31.4 GB) chrome_testing=0  END Raa36_movreg_r2

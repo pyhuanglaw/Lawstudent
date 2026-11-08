@@ -2112,3 +2112,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 527.8s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 527.8s] BROWSER DISCONNECTED
 - 2026-11-08T18:00:19  Raa36_touch  sha=aa363f62a8363594199ba99ebefa3ce57512ee58  exit=1  173s    PASS 讀檔後可以走  4.34 / PASS 沒有 JS 例外 / FAILED: 溫州街：搖桿往前走, 溫州街：NPC 都是正式模型（沒有程序化球體人）
       err.log (last 5): [gpu_wrap 139.2s] page close url=http://127.0.0.1:8800/index.html?turbo&turbo | [gpu_wrap 139.3s] BROWSER DISCONNECTED
+- 2026-11-08T18:06:02  Raa36_movreg_r2  sha=aa363f62a8363594199ba99ebefa3ce57512ee58  exit=0  335s    PASS E 咖啡廳：exit 後能走（最佳方向 ≥ 1 m）   {'x': 45.57, 'z': -4.24, 'yaw': -3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 49.97, 'z': -4.73, 'yaw': -3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via right / console errors: [] / RESULT: 42/42 PASS
+      err.log (last 5): [gpu_wrap 301.7s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 301.7s] BROWSER DISCONNECTED
