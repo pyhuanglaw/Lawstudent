@@ -1629,3 +1629,9 @@ R13ffb_zone | 13ff2304529d0f7180c44266825f9d28718479ce | game | tests/zone_trans
 R13ffb_main12 | 13ff2304529d0f7180c44266825f9d28718479ce | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R13ffb_v0_start | 13ff2304529d0f7180c44266825f9d28718479ce | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R13ffb_movreg | 13ff2304529d0f7180c44266825f9d28718479ce | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
+# CC-B 11-08 13:5x：使用者「已經沒有測試在電腦跑了 請你安排」：13ff23045 回歸其餘 5 項（保持五項以上）
+R13ffb_classreal | 13ff2304529d0f7180c44266825f9d28718479ce | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
+R13ffb_mini | 13ff2304529d0f7180c44266825f9d28718479ce | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+R13ffb_v0_to1017 | 13ff2304529d0f7180c44266825f9d28718479ce | game | tests/flow_v0_to1017.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
+R13ffb_v0_tolaw | 13ff2304529d0f7180c44266825f9d28718479ce | game | tests/flow_v0_tolaw.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R13ffb_touch | 13ff2304529d0f7180c44266825f9d28718479ce | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
