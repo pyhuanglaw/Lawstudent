@@ -633,3 +633,14 @@
 [09:41:23] [res] cpu=0% mem=39% (12.3/31.4 GB) chrome_testing=4  END SC3_e66_gpu
 [09:41:23] memory 39% before starting CORNER_fps_mob_e66 (2 running)
 [09:41:23] ==== START CORNER_fps_mob_e66  (probe @ e66781d1f7850a3c3bbb848715404474992cfc1f) ====
+[09:41:26] [res] cpu=4% mem=39% (12.3/31.4 GB) chrome_testing=4  START CORNER_fps_mob_e66
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       64b7d3a39..5b1748bde  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:41:33] ==== END   SC3_e66_gpu  exit=0  228s   ====
+[09:41:59] memory 44% before starting GG3LM_fps_mob_4fcd (2 running)
+[09:41:59] ==== START GG3LM_fps_mob_4fcd  (probe @ 4fcd3c45b1d70471f46a2f765cdcca43094facf2) ====
+[09:42:03] [res] cpu=12% mem=44% (13.9/31.4 GB) chrome_testing=8  START GG3LM_fps_mob_4fcd
+[09:42:03] worktree add 4fcd3c45b1d70471f46a2f765cdcca43094facf2: invalid reference - fetching main and the commit itself
+[09:42:31] 正在跑：CORNER_fps_e66（已跑 2 分／上限 20 分）、CORNER_fps_mob_e66（已跑 1 分／上限 20 分）、GG3LM_fps_mob_4fcd（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:42:43] [res] cpu=1% mem=40% (12.9/31.4 GB) chrome_testing=8  END CORNER_fps_e66
