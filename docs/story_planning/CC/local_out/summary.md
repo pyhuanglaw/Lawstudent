@@ -1900,3 +1900,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 219.1s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 219.1s] BROWSER DISCONNECTED
 - 2026-11-08T10:35:11  L118_6_after  sha=6da721819b8d351fe12e0b848ca7e06f52553819  exit=0  148s      [ 113.7s] [l118_after night] crowd：這個時段 12 m 內最多只有 2 人（不到 5 人，沒另外拍）；spawn 那個鏡頭入鏡 3 人 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 114.2s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 114.2s] BROWSER DISCONNECTED
+- 2026-11-08T10:36:04  WZINTEG6_before  sha=126bdf93e82886673518705566dbe83b582c32c1  exit=1  156s    PASS 鏡頭碰撞方塊：完全相同  27 vs 27 個 / PASS 互動點（位置、半徑、名稱）：完全相同  39 vs 39 個；只在正式模型 []；只在 ?nobldg [] / FAILED: 機車（v2 多車型）：套件機車整組藏起來、換成正式模型（台數相同、至少 6 款、至少 5 種車殼顏色、每段近／遠兩層）
+      err.log (last 5): [gpu_wrap 55.5s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 55.5s] BROWSER DISCONNECTED | [gpu_wrap 95.4s] page close url=http://127.0.0.1:8800/index.html?nobldg | [gpu_wrap 95.4s] BROWSER DISCONNECTED
