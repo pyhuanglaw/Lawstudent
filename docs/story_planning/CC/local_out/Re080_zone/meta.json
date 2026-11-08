@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "Re080_zone",
+  "sha": "e0803ca0dfa57bbc8dabb689b54545905a5f85b7",
+  "kind": "game",
+  "script": "tests/zone_transitions.py",
+  "env": "XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T15:51:06",
+  "end": "2026-11-08T15:54:45",
+  "seconds": 219,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "12",
+  "url": "http://127.0.0.1:8801/index.html?turbo",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 73,
+    "mem": 58,
+    "used_gb": 18.2,
+    "chrome_testing": 12
+  }
+}
