@@ -16,6 +16,7 @@
 //     可昕 waited 之後兩天只回一句（六句輪流、第三天照常）；子晴 1/9 demo intern 版、動態說明文字；AA_717 子晴第 13 則改字、第 14／15 則 altIntern、ZQ_PL_CAT_CO 照關
 //  11 an1_later＋wiringAnswers2（075eae472，AA-B 回 LAWWW-B 03:16）：以安 AN-1 later（含預設值）3/19 21:00 桌遊團群組 Alison、21:20 以安私訊三選項（不在群組＝只有私訊、第一句換）；
 //     1/9 demo intern 版三處照 ZQ-2（沒有值＝cat）；沒交往 Café 當面版加「……獎學金拿到一半。」；選信的 9/28 生日電話照原本（明信片的照舊）；ev_zq_dad_angry 沒有、intern 只關 zq_intern.closes
+//     wiringAnswers3（3e6a7ff71，AA-B 回 LAWWW-B 03:33）：選信的 9/28 開頭旁白「（台灣晚上十點，手機響了。）」；選信又和別人交往中＝沒有這通；1/9 demo 第一句保留「資工系館的電腦教室。」
 // 修改前全部 FAIL（沒有 AA720P）。用法：node tests/aa720_decide_opened_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -28,7 +29,7 @@ for(const f of ['src/data/heroine_arcs.js','src/data/arc_rot.js','src/data/decid
   'src/ytjob3d.js','src/sis_grad3d.js','src/psresults3d.js','src/data/feed_y1s2.js','src/data/feed_y2s1.js','src/feed3d.js','src/data/aa723.js','src/confess723_3d.js',
   'src/y2r2_3d.js','src/aa555_3d.js','src/zq_testbuild3d.js']) loadG(f);
 const okD=loadG('src/data/aa720.js'), okP=loadG('src/aa720_3d.js');
-const SHA='075eae472', DOC='docs/story_planning/AA_720_decide_opened_scenes.json';
+const SHA='3e6a7ff71', DOC='docs/story_planning/AA_720_decide_opened_scenes.json';
 const dk=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h, wd=d=>CALENDAR.dateOf(d).wd%7, key=d=>CALENDAR.dateOf(d).key;
 const P=()=>typeof AA720P!=='undefined'?AA720P:null, DT=()=>AA720.data, EV=k=>AA720.data.events[k];
 const AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin';
@@ -48,7 +49,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
 /* 稿（照 read_fix）*/
 let SRC=null; try{ SRC=JSON.parse(cp.execFileSync('python3',['-c',"import json,subprocess,sys; sys.path.insert(0,'tools/story'); import import_guard as IG\n"+
   "def fx(x):\n  return IG.read_fix(x) if isinstance(x,str) else ([fx(v) for v in x] if isinstance(x,list) else ({k:fx(v) for k,v in x.items()} if isinstance(x,dict) else x))\n"+
-  "d=json.loads(subprocess.check_output(['git','show','"+SHA+":"+DOC+"']).decode('utf-8')); d.pop('_meta',None); d.pop('wiringAnswers',None); d.pop('wiringAnswers2',None); print(json.dumps(fx(d),ensure_ascii=False))"],{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26})); }catch(e){ SRC=null; }
+  "d=json.loads(subprocess.check_output(['git','show','"+SHA+":"+DOC+"']).decode('utf-8')); d.pop('_meta',None); d.pop('wiringAnswers',None); d.pop('wiringAnswers2',None); d.pop('wiringAnswers3',None); print(json.dumps(fx(d),ensure_ascii=False))"],{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26})); }catch(e){ SRC=null; }
 const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys(x).sort().reduce((o,k)=>(o[k]=canon(x[k]),o),{}):x);
 (async()=>{
   check('0. 載入（AA720、AA720P 和它要包的那幾支）',okD&&okP&&!loadErr.length,J(loadErr));
@@ -58,8 +59,8 @@ const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys
     check('0. src/data/aa720.js 和 AA_720@'+SHA+' 一致（import_aa720.py --check）',ok&&AA720.src===DOC+'@'+SHA,out.trim().slice(0,200));
     check('0. 內容逐字：events、七個區塊、endings、quietMove、kx_waited_after、an1_later＝稿（只照 read_fix 換名；wiringAnswers、wiringAnswers2 是說明、不進遊戲）',!!SRC&&J(canon(SRC))===J(canon(DT())),SRC?'':'讀不到稿');
     const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===DOC);
-    check('0. 匯入白名單：一筆、approved、sha '+SHA+'、task AA720-DECIDE-OPENED-1108、approvedBy 含「AA-B D109（11-08 01:39 AA_720 第一批）」、ee689cfb8 和 075eae472、history 留 4f37a68bb、ee689cfb8',allow.length===1&&allow[0].status==='approved'&&allow[0].sha===SHA&&allow[0].task==='AA720-DECIDE-OPENED-1108'&&allow[0].approvedBy.includes('AA-B D109（11-08 01:39 AA_720 第一批）')&&allow[0].approvedBy.includes('ee689cfb8（AA-B 11-08 02:4x wiringAnswers')&&allow[0].approvedBy.includes('075eae472（AA-B 11-08 03:2x an1_later＋wiringAnswers2')&&allow[0].history.some(h=>h.sha==='4f37a68bb')&&allow[0].history.some(h=>h.sha==='ee689cfb8'),J(allow));
-    check('0. wiringAnswers／wiringAnswers2 不在遊戲資料裡（要演的句子在 cfg：quotes、demo3）',!('wiringAnswers' in DT())&&!('wiringAnswers2' in DT())&&!!AA720.cfg.demo3&&!!AA720.cfg.quotes.zrScholarCafe&&!!AA720.cfg.quotes.anLaterNoGroup);
+    check('0. 匯入白名單：一筆、approved、sha '+SHA+'、task AA720-DECIDE-OPENED-1108、approvedBy 含「AA-B D109（11-08 01:39 AA_720 第一批）」、ee689cfb8、075eae472 和 3e6a7ff71、history 留 4f37a68bb、ee689cfb8、075eae472',allow.length===1&&allow[0].status==='approved'&&allow[0].sha===SHA&&allow[0].task==='AA720-DECIDE-OPENED-1108'&&allow[0].approvedBy.includes('AA-B D109（11-08 01:39 AA_720 第一批）')&&allow[0].approvedBy.includes('ee689cfb8（AA-B 11-08 02:4x wiringAnswers')&&allow[0].approvedBy.includes('075eae472（AA-B 11-08 03:2x an1_later＋wiringAnswers2')&&allow[0].approvedBy.includes('3e6a7ff71（AA-B 11-08 03:3x wiringAnswers3')&&allow[0].history.some(h=>h.sha==='075eae472')&&allow[0].history.some(h=>h.sha==='4f37a68bb')&&allow[0].history.some(h=>h.sha==='ee689cfb8'),J(allow));
+    check('0. wiringAnswers／wiringAnswers2／wiringAnswers3 不在遊戲資料裡（要演的句子在 cfg：quotes、demo3）',!('wiringAnswers' in DT())&&!('wiringAnswers2' in DT())&&!('wiringAnswers3' in DT())&&AA720.cfg.quotes.zrBdayLetterNarr==='（台灣晚上十點，手機響了。）'&&AA720.cfg.quotes.zqDemoKeep==='資工系館的電腦教室。'&&!!AA720.cfg.demo3&&!!AA720.cfg.quotes.zrScholarCafe&&!!AA720.cfg.quotes.anLaterNoGroup);
     const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), i1=html.indexOf('src/data/aa720.js?v=9.10.22'), i2=html.indexOf('src/aa720_3d.js?v=9.10.22');
     const after=['src/y34b3d.js','src/zr_sendoff3d.js','src/ytjob3d.js','src/y2b3d.js','src/feed3d.js','src/sis_grad3d.js','src/postgrad3d.js','src/arcs3d.js','src/invites3d.js','src/zr_uk3d.js'].every(f=>{ const j=html.indexOf(f+'?'); return j>=0&&j<i2; });
     check('0. index.html：資料在 decide_rules.js 旁邊、播放在它要包的那幾支後面',i1>0&&i2>i1&&html.indexOf('src/data/decide_rules.js')<i1&&after);
@@ -390,7 +391,9 @@ const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys
         &&J(D3.cat)===J(['（畫面上是一隻貓走在溫州街上。）','（你在路口跟丟了那隻貓。）','……第二關太難了。我回去改。'])
         &&W3.default==='沒有 ZQ-2 值＝cat'&&['一隻貓站在一座橋上','你在橋的一半掉下去','……第三關太難了。我回去改。'].every(t=>String(W3.rule).includes('「'+t+'」')),J(D3));
       check('10. 原本的四句（game 版照原本）：旁白「…一隻貓站在一座橋上。」、「第三關。橋是新的。」、旁白「（你在橋的一半掉下去。）」、「……第三關太難了。我回去改。」',J(T2(base))===J(['（資工系館的電腦教室。螢幕上，一隻貓站在一座橋上。）',orig,'（你在橋的一半掉下去。）','……第三關太難了。我回去改。']),J(T2(base)));
-      const want=v=>[D3[v][0],DJ.intern[v],D3[v][1],D3[v][2]];
+      const want=v=>['（資工系館的電腦教室。'+D3[v][0].slice(1),DJ.intern[v],D3[v][1],D3[v][2]];   /* 3e6a7ff71 wiringAnswers3 3：第一句保留「資工系館的電腦教室。」再接 AA 那一句 */
+      const W3b=(RAW&&RAW.wiringAnswers3||{})['3']||'';
+      check('10. 稿（wiringAnswers3 3）：不要整句換、保留「資工系館的電腦教室。」；例句「（資工系館的電腦教室。畫面上是一間五金行，鐵門拉起來一半。）」＝遊戲 shop 版第一句',/^不要整句換/.test(W3b)&&W3b.includes('「（資工系館的電腦教室。畫面上是一間五金行，鐵門拉起來一半。）」')&&T2(L(true,'shop'))[0]==='（資工系館的電腦教室。畫面上是一間五金行，鐵門拉起來一半。）'&&T2(L(true,'cat'))[0]==='（資工系館的電腦教室。畫面上是一隻貓走在溫州街上。）'&&T2(L(true,'tainan'))[0]==='（資工系館的電腦教室。畫面上是一條很窄的巷子，兩邊是紅磚牆。）',J([W3b,T2(L(true,'shop'))[0]]));
       const ok=(v,w,late)=>{ const x=L(true,v,late); return J(T2(x))===J(want(w))&&x[0].narr!=null&&x[2].narr!=null&&x[1].who===ZQ&&x[3].who===ZQ&&!x[0].who&&!x[2].who; };
       check('10. intern 版 1/9 demo：照 ZQ-2 換四句——shop（五金行）、tainan（巷子）、cat（溫州街的貓）；旁白還是旁白、她說的還是她說',ok('shop','shop')&&ok('tainan','tainan')&&ok('cat','cat'),J([T2(L(true,'shop')),T2(L(true,'tainan'))]));
       check('10. 還沒決定 ZQ-2（沒有值）＝cat 版四句；過了 before 才演到（late）也是 cat',ok(null,'cat')&&ok('shop','cat',true),J(T2(L(true,null))));
@@ -474,8 +477,14 @@ const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys
       const Gl=one('letters');
       check('11. 選信（letters）：沒有明信片（Y2B.pcCards 空的）、9/28 21:55～22:30 生日電話照樣來',Y2B.pcCards(Gl).length===0&&Y2B.bdayCard(Gl)===true&&Y2B.bdayDue(Gl)===true&&Y2B.bdayDue(one('letters',{h:21.9}))===false&&Y2B.bdayDue(one('letters',{h:22.5}))===false&&Y2B.bdayDue(one('letters',{d:bd-1}))===false&&Y2B.bdayDue(one('letters',{done:true}))===false);
       const Gc=one('letters'); H.said=[]; H.picks=[0]; await Y2B.bdayCall(GM); const s=said(), V=STORY_EVENTS.find(e=>e&&e.id==='ev_zhiruo_bday_video'), want=V?V.dialogue.filter(l=>l&&l.text).map(l=>l.text):[];
-      check('11. 選信的打給她：照原本——系統字＋「打給她。」→ 22:00 視訊（ev_zhiruo_bday_video 三句）、記 ZR_BDAY_CALL 2027',s[0]==='（明信片背面寫著：台灣晚上十點。）'&&J(s.slice(-3))===J(want)&&want.length===3&&!!Gc.flags.ZR_BDAY_CALL&&Gc.flags.ZR_BDAY_CALL[2027]===true&&(OUT.get(Gc,'y3_zr_bday_call')||{}).ev==='ev_zhiruo_bday_video',J(s));
-      check('11. 明信片的玩家照舊：沒讀過 9/24 那張＝沒有；讀過（寄給他本人：宿舍／交往）＝有；寄到 Café（常客版）＝沒有',Y2B.bdayDue(one('call'))===false&&Y2B.bdayDue(one(null))===false&&Y2B.bdayDue(one('call',{card:'dorm'}))===true&&Y2B.bdayDue(one('call',{card:'gf'}))===true&&Y2B.bdayDue(one('call',{card:'cafe'}))===false&&Y2B.bdayDue(one('visit',{card:'dorm'}))===true); }
+      check('11. 選信的打給她：開頭旁白換「（台灣晚上十點，手機響了。）」（3e6a7ff71 wiringAnswers3 1）＋「打給她。」→ 22:00 視訊（ev_zhiruo_bday_video 三句）、記 ZR_BDAY_CALL 2027',s[0]==='（台灣晚上十點，手機響了。）'&&J(s.slice(-3))===J(want)&&want.length===3&&!!Gc.flags.ZR_BDAY_CALL&&Gc.flags.ZR_BDAY_CALL[2027]===true&&(OUT.get(Gc,'y3_zr_bday_call')||{}).ev==='ev_zhiruo_bday_video',J(s));
+      check('11. 明信片的玩家照舊：沒讀過 9/24 那張＝沒有；讀過（寄給他本人：宿舍／交往）＝有；寄到 Café（常客版）＝沒有',Y2B.bdayDue(one('call'))===false&&Y2B.bdayDue(one(null))===false&&Y2B.bdayDue(one('call',{card:'dorm'}))===true&&Y2B.bdayDue(one('call',{card:'gf'}))===true&&Y2B.bdayDue(one('call',{card:'cafe'}))===false&&Y2B.bdayDue(one('visit',{card:'dorm'}))===true);
+      const W3=(RAW&&RAW.wiringAnswers3)||{};
+      check('11. 稿（wiringAnswers3 1、2）：選信版旁白、選信又和別人交往中的排除',W3['1']&&W3['1'].includes('「（台灣晚上十點，手機響了。）」')&&W3['1'].includes('明信片版照原本')&&/^排除：選信、但那時和別人交往中的玩家，9\/28 沒有這通電話/.test(W3['2']||''),J([W3['1'],W3['2']]));
+      const Go=one('letters'); Go.flags.dating_heroine_01=true; const Gz=one('letters'); Gz.flags.dating_heroine_02=true;
+      check('11. 選信、那時和別人交往中＝沒有這通（同明信片寄 Café 的常客版）；和芷若交往中照樣有',Y2B.bdayCard(Go)===false&&Y2B.bdayDue(Go)===false&&Y2B.bdayDue(Gz)===true,J([Y2B.pcVer(Go),Y2B.pcVer(Gz)]));
+      const Gp=one('call',{card:'dorm'}); H.said=[]; H.picks=[1]; await Y2B.bdayCall(GM); const sp=said();
+      check('11. 明信片的玩家開頭旁白照原本「（明信片背面寫著：台灣晚上十點。）」',sp[0]==='（明信片背面寫著：台灣晚上十點。）',J(sp)); }
   });
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });

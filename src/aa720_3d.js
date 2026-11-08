@@ -266,7 +266,10 @@ const AA720P=(function(){
   S.patchPostcards=function(){ if(typeof Y2B==='undefined'||!Y2B.pcCards||Y2B.pcCards.aa720) return false; const p0=Y2B.pcCards; const p1=function(G){ if(S.zrLetters(G)) return []; return p0.apply(this,arguments); }; p1.aa720=true; Y2B.pcCards=p1; return true; };
   /* 9/28 她的生日那一通（y2b3d.js 1B-10 AA_336 B6）：原本要讀過 9/24 那張明信片（寄給他本人的版本）才有（Y2B.bdayCard）。
      寫信的玩家沒有明信片，生日電話照原本來（075eae472 wiringAnswers2 7：不用明信片帶出來；同 12/25 視訊）：9/28 21:55「打給她。」「不打。」→ 22:00 視訊，其他照 y2b3d.js */
-  S.patchBday=function(){ if(typeof Y2B==='undefined'||!Y2B.bdayCard||Y2B.bdayCard.aa720) return false; const b0=Y2B.bdayCard; const b1=function(G){ if(S.zrLetters(G)) return true; return b0.apply(this,arguments); }; b1.aa720=true; Y2B.bdayCard=b1; return true; };
+  /* 3e6a7ff71 wiringAnswers3：1 選信的開頭旁白換「（台灣晚上十點，手機響了。）」（明信片版照原本）；2 選信、那時和別人交往中＝沒有這通（同明信片寄 Café 的常客版：Y2B.pcVer＝cafe；信照寄）*/
+  S.patchBday=function(){ if(typeof Y2B==='undefined'||!Y2B.bdayCard||Y2B.bdayCard.aa720) return false; const b0=Y2B.bdayCard; const b1=function(G){ if(S.zrLetters(G)) return !(Y2B.pcVer&&Y2B.pcVer(G)==='cafe'); return b0.apply(this,arguments); }; b1.aa720=true; Y2B.bdayCard=b1;
+    if(Y2B.bdayNarr&&!Y2B.bdayNarr.aa720&&Q('zrBdayLetterNarr')){ const n0=Y2B.bdayNarr; const n1=function(G){ if(S.zrLetters(G)) return Q('zrBdayLetterNarr'); return n0.apply(this,arguments); }; n1.aa720=true; Y2B.bdayNarr=n1; }
+    return true; };
   /* 沒交往在 Café 當面講的錄取（y2r2_3d.js ev_zhiruo_admitted）：ZR-1 scholar／both＝「我錄取了。英國那邊的信來了。」後面多她一句「……獎學金拿到一半。」（075eae472 wiringAnswers2 5；
      那一句演的時候才加。交往中 5/11 22:40 那則訊息是 S.AT_FIX y2r2_zr_admit）*/
   S.patchAdmitted=function(){ const ev=typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.find(e=>e&&e.id==='ev_zhiruo_admitted'); if(!ev||!Array.isArray(ev.dialogue)||ev.aa720||!Q('zrScholarCafe')) return false; const D=ev.dialogue;
@@ -349,14 +352,16 @@ const AA720P=(function(){
   /* 她辭掉延長的實習了（altIntern 第 15 則的前／後，ARCS.COND.zqQuitIntern）：演過騎樓那一場（ZQ_QUIT_INTERN），或 10/17 20:00 那則傳了（沒去、不回的版本她也辭了：「我辭掉實習了。」）*/
   S.zqQuit=G=>!!G&&!!G.flags&&(G.flags.ZQ_QUIT_INTERN===true||sent(G,'aa720_zq_next'));
   /* 1/9 資工系館 demo（termend_lines.js C15.zq_demo）intern 版：照 ZQ-2 的值（還沒決定＝default／cat）換四句——
-     「第三關。橋是新的。」＝demoJan9.intern（ee689cfb8）；「一隻貓站在一座橋上」那句旁白、「你在橋的一半掉下去」那句旁白、「……第三關太難了。我回去改。」＝wiringAnswers2.3 那個值的三句（075eae472，import_aa720.py DEMO3 → cfg.demo3，整句換）*/
+     「第三關。橋是新的。」＝demoJan9.intern（ee689cfb8）；「一隻貓站在一座橋上」那句旁白、「你在橋的一半掉下去」那句旁白、「……第三關太難了。我回去改。」＝wiringAnswers2.3 那個值的三句（075eae472，import_aa720.py DEMO3 → cfg.demo3；第一句保留「資工系館的電腦教室。」，3e6a7ff71）*/
   S.zqDemoLine=G=>{ const I=((BLK('zq_intern')||{}).demoJan9||{}).intern||{}, v=(S.dec(G,ZQ,'level')||{}).v; return I[v]||I.default||null; };
+  /* 3e6a7ff71 wiringAnswers3 3：第一句不整句換——保留原本前半「資工系館的電腦教室。」接 AA 那一句，合成一句旁白（例「（資工系館的電腦教室。畫面上是一間五金行，鐵門拉起來一半。）」）*/
+  S.demoKeep=(orig,v)=>{ const k=Q('zqDemoKeep'); if(!k||typeof v!=='string'||typeof orig!=='string'||orig.indexOf('（'+k)!==0||v[0]!=='（'||v.indexOf(k)>=0) return v; return '（'+k+v.slice(1); };
   S.zqDemo3=G=>{ const D=(A()&&A().cfg.demo3)||{}, v=(S.dec(G,ZQ,'level')||{}).v; return D[v]||D.cat||null; };   /* wiringAnswers2.3 default：沒有 ZQ-2 值＝cat */
   S.patchDemo=function(){ const C=typeof TERMEND_LINES!=='undefined'&&TERMEND_LINES.C15&&TERMEND_LINES.C15.zq_demo; if(!C||C.aa720) return false; const L0=C.lines;
     C.lines=function(G){ const L=typeof L0==='function'?L0.apply(this,arguments):L0; if(!G||!S.zqIntern(G)||!Array.isArray(L)) return L; const t=S.zqDemoLine(G), V=S.zqDemo3(G);
       const nar=(x,k)=>!!x&&typeof x.narr==='string'&&!!Q(k)&&x.narr.includes(Q(k)), her=(x,t0)=>!!x&&x.who===ZQ&&x.text===t0;
       return L.map(x=>{ if(t&&her(x,Q('zqDemoOrig'))) return Object.assign({},x,{text:t}); if(!V) return x;
-        if(nar(x,'zqDemoNarr')) return Object.assign({},x,{narr:V[0]}); if(nar(x,'zqDemoFall')) return Object.assign({},x,{narr:V[1]}); if(her(x,Q('zqDemoHard'))) return Object.assign({},x,{text:V[2]}); return x; }); };
+        if(nar(x,'zqDemoNarr')) return Object.assign({},x,{narr:S.demoKeep(x.narr,V[0])}); if(nar(x,'zqDemoFall')) return Object.assign({},x,{narr:V[1]}); if(her(x,Q('zqDemoHard'))) return Object.assign({},x,{text:V[2]}); return x; }); };
     C.aa720=true; return true; };
   /* ZQ-2 的 after（AA_719，DECIDE_RULES.afterQ）：2028-03-08 總圖二樓測試版那一場（zq_testbuild3d.js），「第三關是九份…」那一句之前（沒有九份就在選項之前）她說第二關——shop、tainan 各一句；cat＝原本 */
   const DQ=k=>(typeof DECIDE_RULES!=='undefined'&&DECIDE_RULES.afterQ&&DECIDE_RULES.afterQ[k])||null;

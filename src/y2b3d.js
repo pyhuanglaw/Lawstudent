@@ -223,8 +223,9 @@ const Y2B=(function(){
   S.bdayCard=G=>{ const Rr=S.pcRec(G), k=S.BDAY.card; return !!Rr.read[k]&&!!Rr.ver[k]&&Rr.ver[k]!=='cafe'; };
   S.bdayDue=G=>{ if(!G||!G.flags||!law(G)) return false; const d=D(S.BDAY.key); if(d==null||G.day!==d) return false; const hr=hh(G); if(hr<S.BDAY.h||hr>=S.BDAY.until) return false;
     const C=G.flags.ZR_BDAY_CALL; if(C&&typeof C==='object'&&C[S.BDAY.year]!=null) return false; return S.bdayCard(G); };
+  S.bdayNarr=G=>'（明信片背面寫著：台灣晚上十點。）';   /* 開頭那句旁白（明信片版）；選信的玩家換句（aa720_3d.js，AA_720 wiringAnswers3 1）*/
   S.bdayCall=async function(GM){ const G=GM.G, F=G.flags; let k=1;
-    GM.sceneBegin(); try{ await GM.say(null,'（明信片背面寫著：台灣晚上十點。）'); k=await GM.choose([{t:'打給她。'},{t:'不打。'}]); } finally { GM.sceneEnd(); }
+    GM.sceneBegin(); try{ await GM.say(null,S.bdayNarr(G)); k=await GM.choose([{t:'打給她。'},{t:'不打。'}]); } finally { GM.sceneEnd(); }
     F.ZR_BDAY_CALL=Object.assign({},F.ZR_BDAY_CALL&&typeof F.ZR_BDAY_CALL==='object'?F.ZR_BDAY_CALL:{},{[S.BDAY.year]:k===0});
     if(k!==0||typeof OUT==='undefined') return false;
     OUT.plan(G,{id:'y3_zr_bday_call',ev:'ev_zhiruo_bday_video',day:D(S.BDAY.key),h:22,late:0.5,place:'視訊',verb:'接起來',no:'今天先不要',back:'視訊結束。',title:'和芷若視訊（倫敦下午 3:00）',travel:'',travelH:0});

@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_aa720.py（docs/story_planning/AA_720_decide_opened_scenes.json@075eae472）。不要手改，改企劃 AA_720 再重新匯入。
+/* 自動產生：tools/story/import_aa720.py（docs/story_planning/AA_720_decide_opened_scenes.json@3e6a7ff71）。不要手改，改企劃 AA_720 再重新匯入。
    決定拍打開的場景、尾聲分版本（播放 src/aa720_3d.js）*/
 'use strict';
 const AA720={
- "src": "docs/story_planning/AA_720_decide_opened_scenes.json@075eae472",
+ "src": "docs/story_planning/AA_720_decide_opened_scenes.json@3e6a7ff71",
  "data": {
   "events": {
    "ev_an_expo_together": {
@@ -2911,7 +2911,10 @@ const AA720={
    "zqDemoFall": "你在橋的一半掉下去",
    "zqDemoHard": "……第三關太難了。我回去改。",
    "zrCafeAdmit": "我錄取了。英國那邊的信來了。",
-   "zrScholarCafe": "……獎學金拿到一半。"
+   "zrScholarCafe": "……獎學金拿到一半。",
+   "zrBdayOrigNarr": "（明信片背面寫著：台灣晚上十點。）",
+   "zrBdayLetterNarr": "（台灣晚上十點，手機響了。）",
+   "zqDemoKeep": "資工系館的電腦教室。"
   },
   "bg": {
    "ev_an_expo_together": "boya_lecture_hall",

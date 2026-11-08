@@ -9,6 +9,7 @@
 - ee689cfb8（AA720-WIRING-1108）：kx_waited_after（等了一個小時以後兩天的短回覆）、zq_intern.demoJan9（1/9 demo intern 版）進遊戲；wiringAnswers 是 AA 回 LAWWW 的說明，不進遊戲（第四封信那一句照 QUOTES 抽）。
 - 075eae472（AA720-WIRING-1108 第三輪）：an1_later（以安 AN-1 later 版，含預設值）進遊戲；wiringAnswers2 是 AA 回 LAWWW 的說明，不進遊戲——
   1/9 demo 實習版三處（wiringAnswers2.3 shop／tainan／cat 各三句）照 DEMO3 抽進 cfg.demo3、Café 當面版「……獎學金拿到一半。」照 QUOTES 抽。
+- 3e6a7ff71（wiringAnswers3，說明、不進遊戲）：選信版 9/28 電話開頭旁白、1/9 demo 保留的前半「資工系館的電腦教室。」照 QUOTES 抽（zrBdayLetterNarr、zqDemoKeep）；和別人交往中排除照 CHECKS 核對。
 - 背景（BG）：要在 OUT.BG（src/outings3d.js）；沒有 3D、也沒有圖的用 dark（稿 _meta.format：沒有 3D 的用 background 暗底）。
 白名單照 import_guard。用法：python3 tools/story/import_aa720.py [--ref <commit>] [--check]"""
 import json, os, re, subprocess, sys
@@ -56,6 +57,7 @@ AT = [
     ('an1_later.if', 'dec:heroine_01.jp_tell=later（含預設'), ('an1_later.group.at', '2027-03-19（五）21:00'), ('an1_later.group.th', 'g:noodle_team'),
     ('an1_later.group.cond', '祐廷在桌遊團群組（noodleGroup）'), ('an1_later.dm.at', '2027-03-19 21:20'), ('an1_later.dm.cond', '和以安 FAMILIAR 以上'),
     ('wiringAnswers2.3.default', '沒有 ZQ-2 值＝cat'), ('wiringAnswers2.7', '照舊打：選信的玩家 9/28 生日電話照原本來'),
+    ('wiringAnswers3.2', '排除：選信、但那時和別人交往中的玩家，9/28 沒有這通電話'), ('wiringAnswers3.3', '不要整句換'),
     ('kx_slot.wed.slot', '週三 19:00～22:00'), ('kx_slot.wed.ask.at', '每週三 18:00'), ('kx_slot.sat.slot', '週六 13:00～17:00'), ('kx_slot.sat.ask.at', '每週六 11:00'),
 ]
 # 寫在說明文字裡、要演出來的句子：名字 → (那一欄的路徑, 句子)；核對稿上有「句子」
@@ -89,6 +91,10 @@ QUOTES = {
     'zqDemoHard': ('wiringAnswers2.3.rule', '……第三關太難了。我回去改。'),
     'zrCafeAdmit': ('wiringAnswers2.5', '我錄取了。英國那邊的信來了。'),   # y2r2_3d.js ev_zhiruo_admitted 沒交往版那一句
     'zrScholarCafe': ('wiringAnswers2.5', '……獎學金拿到一半。'),   # ZR-1 scholar／both：接在那一句後面
+    # 3e6a7ff71 wiringAnswers3
+    'zrBdayOrigNarr': ('wiringAnswers3.1', '（明信片背面寫著：台灣晚上十點。）'),   # y2b3d.js S.bdayNarr 明信片版（照原本）
+    'zrBdayLetterNarr': ('wiringAnswers3.1', '（台灣晚上十點，手機響了。）'),   # 選信版 9/28 電話開頭的旁白
+    'zqDemoKeep': ('wiringAnswers3.3', '資工系館的電腦教室。'),   # 1/9 demo 第一句保留的前半（aa720_3d.js S.demoKeep）
 }
 # wiringAnswers2.3：1/9 demo 實習版三處照 ZQ-2 換（每個值三句，依序取代 QUOTES 的 zqDemoNarr、zqDemoFall、zqDemoHard 那三句）；沒有 ZQ-2 值＝cat
 DEMO3 = ('wiringAnswers2.3', ('shop', 'tainan', 'cat'))
@@ -204,7 +210,7 @@ def build(src, sha):
     for b in BLOCKS:
         if b not in src:
             raise SystemExit(f'AA_720 {b}：沒有')
-    extra = set(src) - set(BLOCKS) - {'_meta', 'events', 'endings', 'quietMove', 'kx_waited_after', 'wiringAnswers', 'an1_later', 'wiringAnswers2'}
+    extra = set(src) - set(BLOCKS) - {'_meta', 'events', 'endings', 'quietMove', 'kx_waited_after', 'wiringAnswers', 'an1_later', 'wiringAnswers2', 'wiringAnswers3'}
     if extra:
         raise SystemExit(f'AA_720 多了不認得的區塊：{sorted(extra)}')
     for k, v in list(ev.items()) + [(b, src[b]) for b in BLOCKS]:
@@ -285,8 +291,8 @@ def build(src, sha):
         demo3[v] = [IG.read_fix(t) for t in L]
     if not str(w3.get('rule', '')).startswith('要：1/9 demo 那一場實習版照 ZQ-2 換三處'):
         raise SystemExit(f'{p3}.rule：稿改了要先改 src/aa720_3d.js')
-    # wiringAnswers／wiringAnswers2＝AA 回 LAWWW 的說明（不是台詞）：不進遊戲；要演的句子照 QUOTES、DEMO3 抽出來
-    data = fix({k: v for k, v in src.items() if k not in ('_meta', 'wiringAnswers', 'wiringAnswers2')})
+    # wiringAnswers／wiringAnswers2／wiringAnswers3＝AA 回 LAWWW 的說明（不是台詞）：不進遊戲；要演的句子照 QUOTES、DEMO3 抽出來
+    data = fix({k: v for k, v in src.items() if k not in ('_meta', 'wiringAnswers', 'wiringAnswers2', 'wiringAnswers3')})
     return {'src': f'{PATH}@{sha}', 'data': data, 'cfg': {'quotes': q, 'bg': BG, 'endIf': end_if, 'demo3': demo3}}
 
 
