@@ -111,7 +111,7 @@ aa_sunnyside|aa_komichi|aa_mokuyobi|aa_yizhan|aa_offbeat|aa_afar|aa_aoki|aa_dayb
     aa_sunnyside) GLB=aa_support/sunnyside.glb; P=sns; OPEN=S,E; GSD=2.4 ;;   # SUNNY SIDE（wz_brunch）6.4 × 10 × 3.2：店面＋右牆整面落地窗
     aa_komichi)   GLB=aa_support/komichi.glb;   P=kmc; OPEN=S; GSD=4.5 ;;     # 小路（wz_teishoku）8 × 8 × 2.9：木頭天花板、老牆
     aa_mokuyobi)  GLB=aa_support/mokuyobi.glb;  P=mok; OPEN=S; GSD=2.6 ;;     # 木曜日（wz_mokuyobi）9 × 14 × 3.0
-    aa_yizhan)    GLB=aa_support/yizhan.glb;    P=yzn; OPEN=S; GSD=6 ;;     # 一盞（wz_teahouse）8.4 × 10 × 2.6＋緣側：格子玻璃拉門朝 +z（燈只有紙燈 3、行燈 3）
+    aa_yizhan)    GLB=aa_support/yizhan.glb;    P=yzn; OPEN=S; GSD=6; ORIG=33ba0087be49864893c215c66959f9eae8c64e1c ;;     # 一盞（wz_teahouse）8.4 × 10 × 2.6＋緣側：格子玻璃拉門朝 +z（燈只有紙燈 3、行燈 3）
     aa_offbeat)   GLB=aa_support/daily_offbeat.glb; P=dof; OPEN=S,E; GSD=1.5 ;;   # 日常失速（wz_offbeat）11 × 10 × 3.4：店面＋右牆窗
     # 第二級（11-07 21:xx）：公館 AA 三間，命名一樣；店面在 +z（S）。試烘 128（倍數 2.4）晚上：afar 0.31、青木 0.38、Daybreak 0.38 → afar 照舊、青木／Daybreak 1.7
     aa_afar)      GLB=aa_support/afar.glb;      P=afr; OPEN=S; GSD=${GSD_AFAR:-2.4} ;;    # afar（公館）：吊燈 5、投射燈 8、檯燈 10
@@ -120,11 +120,18 @@ aa_sunnyside|aa_komichi|aa_mokuyobi|aa_yizhan|aa_offbeat|aa_afar|aa_aoki|aa_dayb
   esac
   # 瓦數倍數 GSD（GLOW 的預設瓦數 × 倍數）：試烘第二輪（光源已放到燈罩口下）晚上的光照貼圖平均（WebP）小路 0.13、SUNNY SIDE 0.21、木曜日 0.20、一盞 0.09、日常失速 0.27，
   #   目標咖啡店、西式 0.32、日式 0.25（洋洋 0.38、轉角 0.32、頁間 0.29）；WebP 值大約是線性的 0.49 次方 → 倍數＝(目標／試烘)^2.04。GS＝環境變數蓋過。
-  PTS=$(python3 $LB/glow_points.py assets/models/env/second_ai/$GLB --scale "${GS:-$GSD}")
+  # 白天天光色調 SKYTINT（11-08 WZ6_LM_cloud，BB-B 判一盞 14:00 店門口的淺色木地板變灰藍、像水泥；日常失速門口一格青藍）：
+  #   沒有太陽、只吃 Nishita 的藍天光，開口大的店門口光照貼圖藍／紅到 1.34～1.39（WebP；其他四間 1.09～1.20）。--skytint 只乘白天的天光（燈不動、晚上那張不動），
+  #   1.32,1.0,0.72＝藍天光的亮度不變、顏色接近中性（一盞試烘 128：1.25,1.0,0.78 → 店門口 1.39→1.16、白天平均 0.31→0.31；再推一點到約 1.1）。
+  #   這一組從 11-08 起預設都套（公館三間第一次烘就套；溫州街其他四間還是 11-07 沒套的版本，重烘時會套）；SKYTINT= 空字串＝不套。
+  SKYTINT=${SKYTINT-1.32,1.0,0.72}
+  #   ORIG（一盞那一行）：AA 的原檔（git blob，sha256 a4d1bc30…）——assets 裡的已經烘過，不能再拿來烘。
+  if [ -n "${ORIG:-}" ] && [ -z "${IN:-}" ]; then git cat-file -p "$ORIG" > "$TMP/orig.glb"; IN=$TMP/orig.glb; fi
+  PTS=$(python3 $LB/glow_points.py "${IN:-assets/models/env/second_ai/$GLB}" --scale "${GS:-$GSD}")
   LIGHTS=""
   HIDE='glass|VIEW|bulb|washi|_pend$'
   NOLM="^(?!(${P}_(floor|ceiling|tatami)|WALL_[a-z]+_${P}_(wall|wood|post))\$)"
-  EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell "$OPEN" --points "$PTS")
+  EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell "$OPEN" --points "$PTS" ${SKYTINT:+--skytint "$SKYTINT"})
   ;;
 bb_bike)
   # 慢輪單車（CC 製作，bb_support/bike.glb，公館；第二級 11-07 21:xx）：10.2 × 12 × 3.6 m（天花板是外露的混凝土樓板＋樑 bk_concrete）；店面（+z）整面玻璃。
@@ -135,7 +142,8 @@ bb_bike)
   LIGHTS=""
   HIDE='glass|pendant'
   NOLM="^(?!(bk_floor_floor|bk_concrete|bk_partition_wall|WALL_[a-z]+_wall_wall|WALL_front_front_wall)\$)"
-  EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --points "$PTS" --keep-instances)
+  SKYTINT=${SKYTINT-1.32,1.0,0.72}   # 白天天光色調（同 AA 那一組，11-08）
+  EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --points "$PTS" --keep-instances ${SKYTINT:+--skytint "$SKYTINT"})
   ;;
 bb_ade)
   # 阿德影印（BB 製作，bb_support/ade.glb；溫州街 wz_print）：4.3 × 9.1 m、天花板 3.0 m；店面（+z）整面玻璃。
@@ -155,8 +163,16 @@ esac
 SRC=assets/models/env/second_ai/$GLB
 NAME=$(basename "$GLB" .glb)
 DST=${OUT:-$(dirname "$SRC")}
-SHA=$(sha256sum "$SRC" | cut -d' ' -f1)
-cp "$SRC" "$TMP/$NAME.glb"
+# 輸入：IN（環境變數，或上面各店的 ORIG＝原檔的 git blob）；沒有就用 assets 裡的檔。已經烘過的（場景有 extras.lightmap）不能再烘：第二套 UV 會疊兩次。
+IN=${IN:-$SRC}
+if python3 -I - "$IN" <<'EOF'
+import json, struct, sys
+b = open(sys.argv[1], 'rb').read(); J = json.loads(b[20:20 + struct.unpack('<I', b[12:16])[0]])
+sys.exit(0 if any('lightmap' in (J['scenes'][i].get('extras') or {}) for i in range(len(J.get('scenes', [])))) else 1)
+EOF
+then echo "$IN 已經烘過（有 extras.lightmap）：用 IN=<原檔> 指定沒烘過的版本（git log -- $SRC 找烘焙前的 commit，git show <commit>:$SRC）"; rm -rf "${TMP:?}"; exit 1; fi
+SHA=$(sha256sum "$IN" | cut -d' ' -f1)
+cp "$IN" "$TMP/$NAME.glb"
 /opt/blenv/bin/python $LB/bake_room.py -- --in "$TMP/$NAME.glb" --out "$DST/$NAME.glb" \
   --lm "$TMP/$NAME" --url "$(dirname "$SRC")/${NAME}_lm" --res 1024 --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
   --lights "$LIGHTS" --smooth 2 "${EXTRA[@]}"
