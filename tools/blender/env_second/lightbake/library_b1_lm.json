@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 3644.3,
+ "bake_seconds": 4037.1,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -28,6 +28,7 @@
   "day": null,
   "night": null
  },
+ "skytint": null,
  "objects": [
   "library_b1_ceiling",
   "library_b1_columns",
