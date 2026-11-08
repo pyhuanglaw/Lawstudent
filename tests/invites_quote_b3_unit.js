@@ -15,7 +15,7 @@
 // 檢查（BASE＝838db8710，拿掉「」以前）：
 //   11. termend_lines.js、lane118.js 一字不差；整句「」的字串都是選項（說的話沒有一句外面有「」）
 //   12. sis_grad3d.js、三個 ACC0：有名字的沒有外面的「」；和 BASE 逐句比只差外面的「」；S.narrLine（說的人）一樣；選項照留
-//   13. 原始碼逐行比：改到的行（註解以外）把 BASE 那一行外面的「」拿掉＝現在這一行（說話的人那個參數沒動）；每個檔改了幾行；名字寫在字裡的 rideBlock、選項照留
+//   13. 原始碼逐行比（第三批那一個 commit 0e08b4d4a 本身）：改到的行（註解以外）把前一版那一行外面的「」拿掉＝現在這一行（說話的人那個參數沒動）；每個檔改了幾行；名字寫在字裡的 rideBlock、選項照留
 //   14. 演出來（另開 node，一次用 BASE 的檔、一次用現在的檔，pg_harness 載入遊戲）：腳踏車上下車字幕、第一次見面、秘密、一般的「其實……」、
 //       沒回訊息那一句（needed_msgs 每一則）、沒去事務所、小卡、兩輪明信片、學姊婉拒／念書、ACC0——每一句說的人和 BASE 一樣、字只差外面的「」、現在沒有一句外面還有「」
 // 修改前（BASE 的十個 src 檔換回來跑）：36 項 FAIL——12 的 3 項（還有「」、逐句比、sis_grad3d.js 剩 18 個）、13 的 3 項（改的行數、現在的寫法、還有 GM.say(who,'「'+…)）、
@@ -143,11 +143,13 @@ const strip=line=>{ let s=line.replace(/\/\*[\s\S]*?\*\//g,'').replace(/\s+$/,''
   return s.replace(LIT,(m,t)=>{ if(wrapped(t)) return "'"+unq(t)+"'"; const o=(t.match(/「/g)||[]).length, c=(t.match(/」/g)||[]).length; if(t[0]==='「'&&o>c) t=t.slice(1); else if(t[t.length-1]==='」'&&c>o) t=t.slice(0,-1); return "'"+t+"'"; }); };
 { const WANT={'src/sis_grad3d.js':3,'src/offbeat_sys3d.js':1,'src/mokuyobi_sys3d.js':1,'src/gg2shops3d.js':1,'src/story3d.js':4,'src/termend3d.js':1,'src/cracktalk3d.js':1,'src/r2y4a3d.js':1,'src/y2b3d.js':1,'src/pool_more3d.js':1};
   const per={}, bad=[];
-  for(const f of CHANGED){ const A=gitShow(f).split('\n'), B=cur(f).split('\n'); if(A.length!==B.length){ bad.push(f+'：行數不同 '+A.length+' → '+B.length); continue; }
-    let k=0; A.forEach((a,i)=>{ const b=B[i]; if(a===b) return; k++; const sa=strip(a), sb=b.replace(/\/\*[\s\S]*?\*\//g,'').replace(/\s+$/,''); if(sa!==sb) bad.push(f+':'+(i+1)+'：拿掉外面的「」以後和 '+BASE+' 不一樣'); if(sa===noComments(a).replace(/\s+$/,'')) bad.push(f+':'+(i+1)+'：沒有拿掉「」（只改了註解？）'); });
+  /* 比第三批那一個 commit 本身（C3^ → C3），不是 BASE → 現在：之後別的修改（例：5292ead4d story3d.js 開場 y0Gate）改到同一個檔不會讓這一項失敗 */
+  const C3='0e08b4d4a', showAt=(r,f)=>cp.execFileSync('git',['-C',ROOT,'show',r+':'+f],{encoding:'utf8',maxBuffer:1<<28});
+  for(const f of CHANGED){ const A=showAt(C3+'^',f).split('\n'), B=showAt(C3,f).split('\n'); if(A.length!==B.length){ bad.push(f+'：行數不同 '+A.length+' → '+B.length); continue; }
+    let k=0; A.forEach((a,i)=>{ const b=B[i]; if(a===b) return; k++; const sa=strip(a), sb=b.replace(/\/\*[\s\S]*?\*\//g,'').replace(/\s+$/,''); if(sa!==sb) bad.push(f+':'+(i+1)+'：拿掉外面的「」以後和前一版不一樣'); if(sa===noComments(a).replace(/\s+$/,'')) bad.push(f+':'+(i+1)+'：沒有拿掉「」（只改了註解？）'); });
     per[f]=k; }
   check('13. 每個檔改了幾行：'+J(per),J(per)===J(WANT),J(per));
-  check('13. 改到的每一行：把 '+BASE+' 那一行外面的「」拿掉（字串常值、程式包的 \'「\'+…+\'」\'）＝現在這一行（註解以外一字不差，GM.say／GM.caption 說話的人那個參數沒動）',bad.length===0,sample(bad));
+  check('13. 第三批 commit 改到的每一行：把前一版那一行外面的「」拿掉（字串常值、程式包的 \'「\'+…+\'」\'）＝現在這一行（註解以外一字不差，GM.say／GM.caption 說話的人那個參數沒動）',bad.length===0,sample(bad));
   const st=noComments(cur('src/story3d.js')), te=noComments(cur('src/termend3d.js'));
   check('13. 有名字的那幾處現在是這樣：GM.caption(nm,r.on)、GM.caption(nm,r.off)、neededMiss GM.say(who,t)、事務所 GM.say(who,t)、小卡、兩輪明信片 GM.say(card,…)',
     /GM\.caption\(nm,r\.on,2800\)/.test(st)&&/GM\.caption\(nm,r\.off,2600\)/.test(st)&&/S\.neededMiss=async function\(GM,who,id\)\{[^\n]*for\(const t of L\) await GM\.say\(who,t\);/.test(st)
