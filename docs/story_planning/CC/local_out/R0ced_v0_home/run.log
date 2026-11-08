@@ -1,0 +1,250 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_R0ced_v0_home\tests\flow_v0_home.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\R0ced_v0_home\out
+PASS 遊戲載入
+  [前置／捷徑] 讀檔到 2024-10-19（六）19:00 在家（退宿後、和可昕交往中、宿營演過；聯絡人：可昕、經濟系五人）
+  [   0.0 分] 2024-10-19 {"stage": "econ", "key": "2024-10-19", "h": 19.01, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   0.1 分] 2024-10-20 {"stage": "econ", "key": "2024-10-20", "h": 22, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   0.2 分] 2024-10-21 {"stage": "econ", "key": "2024-10-21", "h": 22, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   0.2 分] 2024-10-22 {"stage": "econ", "key": "2024-10-22", "h": 22, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   0.3 分] 2024-10-23 {"stage": "econ", "key": "2024-10-23", "h": 21, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+   手機：按「跳過／收起來」
+  [   0.4 分] 2024-10-24 {"stage": "econ", "key": "2024-10-24", "h": 21, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   0.5 分] 2024-11-06 {"stage": "econ", "key": "2024-11-06", "h": 17.75, "zone": "campus", "home": true}
+   ▶ 「睡到中午。」 ／ ['「睡到中午。」', '「去書店站了一下午。」']
+   ▶ 「妳怎麼知道？」 ／ ['「妳怎麼知道？」', '「我要第三隻手，幫妳拿尾']
+  [   1.0 分] 2024-11-07 {"stage": "econ", "key": "2024-11-07", "h": 18, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   1.0 分] 2024-11-11 {"stage": "econ", "key": "2024-11-11", "h": 22, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   1.1 分] 2024-11-21 {"stage": "econ", "key": "2024-11-21", "h": 21, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   1.2 分] 2024-12-03 {"stage": "econ", "key": "2024-12-03", "h": 22, "zone": "campus", "home": true}
+   ▶ 「會。坐妳對面，一直睡。」 ／ ['「會。坐妳對面，一直睡。', '「不會。我會在宿舍睡覺。', '（吃豆花，不回答）']
+   ▶ 「草莓。」 ／ ['「草莓。」', '「一邊一個。」']
+  [   1.6 分] 2024-12-12 {"stage": "econ", "key": "2024-12-12", "h": 22, "zone": "campus", "home": true}
+  [   1.7 分] 2024-12-13 {"stage": "econ", "key": "2024-12-13", "h": 14, "zone": "campus", "home": true}
+   ▶ 「……他怎麼知道我會來？」 ／ ['「……他怎麼知道我會來？', '「我只是來問問。」', '「主任還有說什麼嗎？」']
+   手機：按「跳過／收起來」
+  [   2.2 分] 2024-12-20 {"stage": "econ", "key": "2024-12-20", "h": 16.25, "zone": "campus", "home": true}
+   ▶ 「我想考。」 ／ ['「我想考。」', '「先看看而已。」']
+   ▶ 「兩家都要排呢？」 ／ ['「兩家都要排呢？」', '「我先去排。」']
+  [   2.5 分] 2024-12-23 {"stage": "econ", "key": "2024-12-23", "h": 21, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   2.5 分] 2024-12-25 {"stage": "econ", "key": "2024-12-25", "h": 17, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+   ▶ 「扁扁的、方方的那個。」 ／ ['「扁扁的、方方的那個。」', '「小小一盒、會沙沙響的那', '「圓圓的、一搖就響的那個']
+  [   3.1 分] 2024-12-31 {"stage": "econ", "key": "2024-12-31", "h": 19, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   3.5 分] 2025-01-03 {"stage": "econ", "key": "2025-01-03", "h": 21, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   3.6 分] 2025-01-06 {"stage": "econ", "key": "2025-01-06", "h": 21, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   3.7 分] 2025-01-08 {"stage": "econ", "key": "2025-01-08", "h": 18.5, "zone": "campus", "home": true}
+   ▶ 「妳打算怎麼辦？」 ／ ['「妳打算怎麼辦？」', '（等她說下去）']
+  [   3.9 分] 2025-01-10 {"stage": "econ", "key": "2025-01-10", "h": 23, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   4.0 分] 2025-01-11 {"stage": "econ", "key": "2025-01-11", "h": 22, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   4.0 分] 2025-01-18 {"stage": "econ", "key": "2025-01-18", "h": 23, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   4.1 分] 2025-01-27 {"stage": "econ", "key": "2025-01-27", "h": 21, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   4.2 分] 2025-01-28 {"stage": "econ", "key": "2025-01-28", "h": 22, "zone": "campus", "home": true}
+   ▶ 「好。」 ／ ['「好。」', '「我媽會問我去哪。」']
+  [   4.4 分] 2025-02-02 {"stage": "econ", "key": "2025-02-02", "h": 23, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   4.4 分] 2025-02-08 {"stage": "econ", "key": "2025-02-08", "h": 23, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   4.5 分] 2025-02-12 {"stage": "econ", "key": "2025-02-12", "h": 20, "zone": "campus", "home": true}
+  [   4.6 分] 2025-02-13 {"stage": "econ", "key": "2025-02-13", "h": 13.25, "zone": "campus", "home": true}
+   ▶ 「歡迎。」 ／ ['「歡迎。」', '「明天去問補習班。」']
+   手機：按「跳過／收起來」
+  [   5.0 分] 2025-02-14 {"stage": "econ", "key": "2025-02-14", "h": 14.25, "zone": "campus", "home": true}
+   手機回覆： p:econ_zhengxun 說來話長。考完跟你說。
+   ▶ 「那我也在家讀。」 ／ ['「那我也在家讀。」', '「我們都在家讀，比較好約', '「那我們都在家讀。社會我']
+  [   5.6 分] 2025-02-15 {"stage": "econ", "key": "2025-02-15", "h": 15, "zone": "campus", "home": true}
+  [   5.8 分] 2025-02-18 {"stage": "econ", "key": "2025-02-18", "h": 18.5, "zone": "campus", "home": true}
+  [   5.8 分] 2025-02-21 {"stage": "econ", "key": "2025-02-21", "h": 14, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+   手機：按「跳過／收起來」
+  [   6.0 分] 2025-02-22 {"stage": "econ", "key": "2025-02-22", "h": 20, "zone": "campus", "home": true}
+   ▶ （過去幫忙） ／ ['（過去幫忙）', '（繼續讀）']
+  [   6.2 分] 2025-02-25 {"stage": "econ", "key": "2025-02-25", "h": 14, "zone": "campus", "home": true}
+   ▶ 「三十二。」 ／ ['「三十二。」', '「在想剛剛那題。」']
+  [   6.4 分] 2025-02-28 {"stage": "econ", "key": "2025-02-28", "h": 7.25, "zone": "campus", "home": true}
+  [   6.4 分] 2025-03-01 {"stage": "econ", "key": "2025-03-01", "h": 21, "zone": "campus", "home": true}
+   ▶ 「買一支冰？」 ／ ['「買一支冰？」', '「回去吧。」']
+  [   6.6 分] 2025-03-04 {"stage": "econ", "key": "2025-03-04", "h": 7.25, "zone": "campus", "home": true}
+   ▶ 「六點半。」 ／ ['「六點半。」', '「剛起來。」']
+  [   6.7 分] 2025-03-07 {"stage": "econ", "key": "2025-03-07", "h": 21.5, "zone": "campus", "home": true}
+  [   6.8 分] 2025-03-10 {"stage": "econ", "key": "2025-03-10", "h": 18.5, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   7.0 分] 2025-03-11 {"stage": "econ", "key": "2025-03-11", "h": 22, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   7.1 分] 2025-03-12 {"stage": "econ", "key": "2025-03-12", "h": 22, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   7.1 分] 2025-03-13 {"stage": "econ", "key": "2025-03-13", "h": 14, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   7.3 分] 2025-03-15 {"stage": "econ", "key": "2025-03-15", "h": 12.5, "zone": "campus", "home": true}
+   ▶ 「她們講了什麼？」 ／ ['「她們講了什麼？」', '（不問）']
+  [   7.5 分] 2025-03-18 {"stage": "econ", "key": "2025-03-18", "h": 18.5, "zone": "campus", "home": true}
+  [   7.6 分] 2025-03-21 {"stage": "econ", "key": "2025-03-21", "h": 14, "zone": "campus", "home": true}
+  [   7.7 分] 2025-03-24 {"stage": "econ", "key": "2025-03-24", "h": 7.25, "zone": "campus", "home": true}
+  [   7.8 分] 2025-03-27 {"stage": "econ", "key": "2025-03-27", "h": 21.5, "zone": "campus", "home": true}
+  [   7.9 分] 2025-03-29 {"stage": "econ", "key": "2025-03-29", "h": 16, "zone": "campus", "home": true}
+   ▶ 「我推妳？」 ／ ['「我推妳？」', '（坐上旁邊那一個）']
+  [   8.0 分] 2025-04-01 {"stage": "econ", "key": "2025-04-01", "h": 7.25, "zone": "campus", "home": true}
+   ▶ 「好，慢慢走。」 ／ ['「好，慢慢走。」', '「拍一張照片？」']
+  [   8.4 分] 2025-04-02 {"stage": "econ", "key": "2025-04-02", "h": 21, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   8.4 分] 2025-04-04 {"stage": "econ", "key": "2025-04-04", "h": 21.5, "zone": "campus", "home": true}
+   ▶ 「先睡吧。」 ／ ['「先睡吧。」', '（倒一杯熱水放在她旁邊）']
+  [   8.6 分] 2025-04-07 {"stage": "econ", "key": "2025-04-07", "h": 18.5, "zone": "campus", "home": true}
+  [   8.6 分] 2025-04-10 {"stage": "econ", "key": "2025-04-10", "h": 14, "zone": "campus", "home": true}
+  [   8.7 分] 2025-04-12 {"stage": "econ", "key": "2025-04-12", "h": 15, "zone": "campus", "home": true}
+   ▶ 「本來就是。」 ／ ['「本來就是。」', '「雞腿分我。」']
+  [   8.9 分] 2025-04-13 {"stage": "econ", "key": "2025-04-13", "h": 21, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   9.0 分] 2025-04-15 {"stage": "econ", "key": "2025-04-15", "h": 7.25, "zone": "campus", "home": true}
+  [   9.1 分] 2025-04-18 {"stage": "econ", "key": "2025-04-18", "h": 14, "zone": "campus", "home": true}
+  [   9.2 分] 2025-04-21 {"stage": "econ", "key": "2025-04-21", "h": 7.25, "zone": "campus", "home": true}
+  [   9.3 分] 2025-04-23 {"stage": "econ", "key": "2025-04-23", "h": 21, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [   9.4 分] 2025-04-24 {"stage": "econ", "key": "2025-04-24", "h": 18.25, "zone": "campus", "home": true}
+   ▶ 一本空白的筆記本 ／ ['一本空白的筆記本', '請她吃一碗豆花', '跟大家合送']
+   ▶ 「很可愛。」 ／ ['「很可愛。」', '「我也畫一隻給妳。」']
+  [   9.7 分] 2025-04-26 {"stage": "econ", "key": "2025-04-26", "h": 22, "zone": "campus", "home": true}
+   ▶ 「加一顆蛋。」 ／ ['「加一顆蛋。」', '「各點一碗。」']
+  [   9.9 分] 2025-04-29 {"stage": "econ", "key": "2025-04-29", "h": 14, "zone": "campus", "home": true}
+  [  10.0 分] 2025-05-02 {"stage": "econ", "key": "2025-05-02", "h": 21.5, "zone": "campus", "home": true}
+  [  10.0 分] 2025-05-05 {"stage": "econ", "key": "2025-05-05", "h": 7.25, "zone": "campus", "home": true}
+  [  10.4 分] 2025-05-08 {"stage": "econ", "key": "2025-05-08", "h": 14, "zone": "campus", "home": true}
+  [  10.5 分] 2025-05-10 {"stage": "econ", "key": "2025-05-10", "h": 17, "zone": "campus", "home": true}
+   ▶ 「買了。」 ／ ['「買了。」', '「……還沒。」']
+  [  10.7 分] 2025-05-13 {"stage": "econ", "key": "2025-05-13", "h": 14, "zone": "campus", "home": true}
+  [  10.8 分] 2025-05-16 {"stage": "econ", "key": "2025-05-16", "h": 14, "zone": "campus", "home": true}
+  [  10.9 分] 2025-05-17 {"stage": "econ", "key": "2025-05-17", "h": 15, "zone": "campus", "home": true}
+  [  11.0 分] 2025-05-20 {"stage": "econ", "key": "2025-05-20", "h": 21.5, "zone": "campus", "home": true}
+  [  11.1 分] 2025-05-23 {"stage": "econ", "key": "2025-05-23", "h": 7.25, "zone": "campus", "home": true}
+   ▶ 「六點半。」 ／ ['「六點半。」', '「剛起來。」']
+   手機：按「跳過／收起來」
+  [  11.3 分] 2025-05-24 {"stage": "econ", "key": "2025-05-24", "h": 13.25, "zone": "campus", "home": true}
+  [  11.6 分] 2025-05-26 {"stage": "econ", "key": "2025-05-26", "h": 21.5, "zone": "campus", "home": true}
+  [  11.7 分] 2025-05-29 {"stage": "econ", "key": "2025-05-29", "h": 18.5, "zone": "campus", "home": true}
+  [  11.8 分] 2025-05-31 {"stage": "econ", "key": "2025-05-31", "h": 10, "zone": "campus", "home": true}
+   ▶ 「好。」 ／ ['「好。」', '「我吃正常的。」']
+  [  12.0 分] 2025-06-03 {"stage": "econ", "key": "2025-06-03", "h": 21.5, "zone": "campus", "home": true}
+  [  12.1 分] 2025-06-06 {"stage": "econ", "key": "2025-06-06", "h": 18.5, "zone": "campus", "home": true}
+  [  12.1 分] 2025-06-08 {"stage": "econ", "key": "2025-06-08", "h": 15, "zone": "campus", "home": true}
+  [  12.3 分] 2025-06-09 {"stage": "econ", "key": "2025-06-09", "h": 9, "zone": "campus", "home": true}
+   ▶ 「累嗎？」 ／ ['「累嗎？」', '「回家吧。」']
+  [  12.5 分] 2025-06-12 {"stage": "econ", "key": "2025-06-12", "h": 17, "zone": "campus", "home": true}
+   ▶ 「我也是。」 ／ ['「我也是。」', '「再撐一堂？」']
+  [  12.8 分] 2025-06-14 {"stage": "econ", "key": "2025-06-14", "h": 22, "zone": "campus", "home": true}
+   ▶ 「那是一○一？」 ／ ['「那是一○一？」', '「下次帶書上來讀。」']
+  [  12.9 分] 2025-06-17 {"stage": "econ", "key": "2025-06-17", "h": 10.33, "zone": "campus", "home": true}
+   ▶ 「我請。」 ／ ['「我請。」', '「平手，不用請。」']
+  [  13.1 分] 2025-06-24 {"stage": "econ", "key": "2025-06-24", "h": 17, "zone": "campus", "home": true}
+  [  13.3 分] 2025-06-28 {"stage": "econ", "key": "2025-06-28", "h": 23, "zone": "campus", "home": true}
+  [  13.5 分] 2025-07-09 {"stage": "econ", "key": "2025-07-09", "h": 21, "zone": "campus", "home": true}
+   ▶ 「明天在家讀？」 ／ ['「明天在家讀？」', '「回家吧。」']
+  [  13.7 分] 2025-07-10 {"stage": "econ", "key": "2025-07-10", "h": 14, "zone": "campus", "home": true}
+   ▶ 「看完，安心了嗎？」 ／ ['「看完，安心了嗎？」', '「回去比誰先坐下。」']
+   ▶ 「海邊。」 ／ ['「海邊。」', '「睡一整天。」', '「妳選一家。」']
+  [  14.1 分] 2025-07-11 {"stage": "econ", "key": "2025-07-11", "h": 7.5, "zone": "campus", "home": true}
+  [  14.3 分] 2025-07-12 {"stage": "econ", "key": "2025-07-12", "h": 19, "zone": "campus", "home": true}
+  [  14.4 分] 2025-07-13 {"stage": "econ", "key": "2025-07-13", "h": 10, "zone": "campus", "home": true}
+   ▶ 「好。」 ／ ['「好。」', '「我想再睡一下。」']
+  [  14.6 分] 2025-07-14 {"stage": "econ", "key": "2025-07-14", "h": 20, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [  14.6 分] 2025-07-19 {"stage": "econ", "key": "2025-07-19", "h": 0, "zone": "campus", "home": true}
+  [  14.7 分] 2025-07-24 {"stage": "econ", "key": "2025-07-24", "h": 21, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [  14.8 分] 2025-07-25 {"stage": "econ", "key": "2025-07-25", "h": 7.5, "zone": "campus", "home": true}
+   ▶ 「（傳截圖給她。）」 ／ ['「（傳截圖給她。）」', '「我的還好。」', '「先不要講分數。晚上打給']
+   ▶ 「我只是在想，以後我們不在同一個學校了。」 ／ ['「我只是在想，以後我們不', '「妳那幾題，我們明明一起', '（沒有說話。）']
+  [  15.4 分] 2025-07-26 {"stage": "econ", "key": "2025-07-26", "h": 12, "zone": "campus", "home": true}
+   ▶ 「還可以。」 ／ ['「還可以。」', '「妳專程回來？」']
+  [  15.5 分] 2025-07-27 {"stage": "econ", "key": "2025-07-27", "h": 10, "zone": "campus", "home": true}
+   ▶ （去學校走一走） ／ ['（去學校走一走）', '（在家）']
+  [  44.8 分] 2025-07-31 {"stage": "econ", "key": "2025-07-31", "h": 10, "zone": "campus", "home": true}
+  [  44.9 分] 2025-08-08 {"stage": "econ", "key": "2025-08-08", "h": 20, "zone": "campus", "home": true}
+   ▶ 「父親節快樂。」 ／ ['「父親節快樂。」', '「你什麼時候回來？」']
+  [  45.1 分] 2025-08-10 {"stage": "econ", "key": "2025-08-10", "h": 21, "zone": "campus", "home": true}
+   ▶ 「我還不知道住哪一間。」 ／ ['「我還不知道住哪一間。」', '「應該一樣小。」']
+  [  45.2 分] 2025-08-13 {"stage": "econ", "key": "2025-08-13", "h": 9.5, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+   ▶ 「每週一天。我們說好。」 ／ ['「每週一天。我們說好。」', '「到時候再說。」', '「妳想怎麼做？」']
+   手機：按「跳過／收起來」
+   手機：按「跳過／收起來」
+  [  45.8 分] 2025-08-16 {"stage": "econ", "key": "2025-08-16", "h": 10, "zone": "campus", "home": true}
+  [  46.0 分] 2025-08-22 {"stage": "econ", "key": "2025-08-22", "h": 7.5, "zone": "campus", "home": true}
+   ▶ 「臺北。我家就在這附近。」 ／ ['「臺北。我家就在這附近。', '「臺北人。」']
+   ▶ 「你偷襲。」 ／ ['「你偷襲。」', '（揉一下被撞到的肩膀）']
+   ▶ 「好啊。」 ／ ['「好啊。」', '「我不太會玩。」']
+   ▶ 「嗯。」 ／ ['「嗯。」', '「我念過一個多月經濟系，']
+  [  46.8 分] 2025-08-23 {"stage": "econ", "key": "2025-08-23", "h": 17.5, "zone": "campus", "home": false}
+   ▶ 「還好，昨天主要在玩遊戲。」 ／ ['「還好，昨天主要在玩遊戲', '「妳怎麼今天才來？」']
+  [  47.0 分] 2025-08-24 {"stage": "econ", "key": "2025-08-24", "h": 7.5, "zone": "campus", "home": false}
+   ▶ 「好，開學見。」 ／ ['「好，開學見。」', '「這麼遠還跑一趟？」']
+   手機：按「跳過／收起來」
+  [  47.3 分] 2025-08-28 {"stage": "econ", "key": "2025-08-28", "h": 21, "zone": "campus", "home": true}
+   手機：按「跳過／收起來」
+  [  47.4 分] 2025-08-29 {"stage": "econ", "key": "2025-08-29", "h": 5, "zone": "campus", "home": true}
+PASS 畫面檢查（自動，199 次）：沒有黑畫面、被蓋住、文字超框、按鈕出界、人物不在畫面  []
+結束 {"key": "2025-08-29", "h": 16.09, "stage": "law", "zone": "dorm", "ev": {"ev_y0_e12": "2024-11-06", "ev_y0_e18a": "2024-12-03", "ev_y0_fight_h": "2024-12-12", "ev_y0_cram_h": "2024-12-13", "ev_y0_e22b": "2024-12-20", "ev_y0_e20": "2024-12-25", "ev_y0_e21": "2025-01-28", "ev_y0_e23": "2025-02-12", "ev_y0_e27": "2025-02-13", "ev_y0_e28": "done", "ev_y0_e24c": "done", "ev_y0_r3": "2025-04-01", "ev_y0_r6": "2025-05-05", "ev_y0_r7": "2025-05-24", "ev_y0_e18b": "2025-04-24", "ev_y0_e27b": "2025-02-14", "ev_y0_e35h": "2025-07-10", "ev_y0_exam1h": "2025-07-11", "ev_y0_exam2": "2025-07-12", "ev_y0_kh_home_h": "2025-07-25", "ev_y0_e36h": "2025-08-13", "ev_y0_e36rh": "2025-08-13"}, "fl": {"CRAM_FREE_KNOWN": true, "E22B_TOLD": true, "BIKE_LOOKED_UP": null, "RETAKE_TOGETHER": true, "E24C_REASON": "later", "E18A_DOUHUA": true, "KX_THINK_LEAVE": true, "CRAM_ASKED_TOGETHER": true, "E35_PLAN": "sea", "MATH_100": true, "KH_GO": null, "SCORE_REPLY": "shot", "KH_MADEUP": true, "E36_RESULT": true, "E36_PACT": "weekly", "PLAYED_Y0": true, "dating_kexin": true}, "fb": 0}
+    ev_y0_e12 2024-11-06
+    ev_y0_e14 — 沒有發生
+    ev_y0_e18 — 沒有發生
+    ev_y0_e18a 2024-12-03
+    ev_y0_fight — 沒有發生
+    ev_y0_fight_h 2024-12-12
+    ev_y0_cram — 沒有發生
+    ev_y0_cram_h 2024-12-13
+    ev_y0_e22b 2024-12-20
+    ev_y0_e20 2024-12-25
+    ev_y0_e21 2025-01-28
+    ev_y0_e21o — 沒有發生
+    ev_y0_e23 2025-02-12
+    ev_y0_e27 2025-02-13
+    ev_y0_e28 done
+    ev_y0_e24c done
+    ev_y0_r1 — 沒有發生
+    ev_y0_r2 — 沒有發生
+    ev_y0_r3 2025-04-01
+    ev_y0_r4 — 沒有發生
+    ev_y0_r5 — 沒有發生
+    ev_y0_r6 2025-05-05
+    ev_y0_r7 2025-05-24
+    ev_y0_rs — 沒有發生
+    ev_y0_e18b 2025-04-24
+    ev_y0_e34 — 沒有發生
+    ev_y0_cram_class — 沒有發生
+    ev_y0_e27b 2025-02-14
+    ev_y0_e35h 2025-07-10
+    ev_y0_exam1h 2025-07-11
+    ev_y0_exam1 — 沒有發生
+    ev_y0_exam2 2025-07-12
+    ev_y0_kh_bus_h — 沒有發生
+    ev_y0_kh_bus — 沒有發生
+    ev_y0_kh_home_h 2025-07-25
+    ev_y0_kh_home — 沒有發生
+    ev_y0_e36 — 沒有發生
+    ev_y0_e36h 2025-08-13
+    ev_y0_e36r — 沒有發生
+    ev_y0_e36rh 2025-08-13
+    ev_y0_e37 — 沒有發生
+   旗標 {"CRAM_FREE_KNOWN": true, "E22B_TOLD": true, "BIKE_LOOKED_UP": null, "RETAKE_TOGETHER": true, "E24C_REASON": "later", "E18A_DOUHUA": true, "KX_THINK_LEAVE": true, "CRAM_ASKED_TOGETHER": true, "E35_PLAN": "sea", "MATH_100": true, "KH_GO": null, "SCORE_REPLY": "shot", "KH_MADEUP": true, "E36_RESULT": true, "E36_PACT": "weekly", "PLAYED_Y0": true, "dating_kexin": true}
+PASS 玩到 8/29 進法律系（stage law）  {"key": "2025-08-29", "h": 16.09, "stage": "law", "zone": "dorm"}
+PASS 二月那一場：E23、E27、E24c 都演過（AA_269 第 8 點）  {"ev_y0_e23": "2025-02-12", "ev_y0_e27": "2025-02-13", "ev_y0_e24c": "done"}
+PASS 考試、放榜（AA_272 第 4、10、11 節）：E35h、考場、對答案、7/25 成績公布（客運版或在家版）、8/13 早上旁白＋晚上電話  {"ev_y0_cram_class": null, "ev_y0_e27b": "2025-02-14", "ev_y0_e35h": "2025-07-10", "ev_y0_exam1h": "2025-07-11", "ev_y0_exam1": null, "ev_y0_exam2": "2025-07-12", "ev_y0_kh_bus_h": null, "ev_y0_kh_bus": null, "ev_y0_kh_home_h": "2025-07-25", "ev_y0_kh_home": null, "ev_y0_e36": null, "ev_y0_e36h": "2025-08-13", "ev_y0_e36r": null, "ev_y0_e36rh": "2025-08-13", "ev_y0_e37": null}
+PASS 沒有用到卡住保險  0
+PASS 黑幕沒有擋住對話  0
+PASS 沒有 JS 例外  []
+   手機回覆 1 次；過到的日子 106 天
+ALL PASS
