@@ -38,7 +38,8 @@ async def main():
             R.note('機車：%s' % J(info))
             R.check('套件機車藏起來', info['kitHidden'] is True, '')
             R.check('placed＝套件機車台數（%s）' % info['kitChildren'], info['placed'] == info['kitChildren'], J([info['placed'], info['kitByType']]))
-            R.check('至少 6 款、5 種顏色', info['kinds'] >= 6 and info['colors'] >= 5, J([info['kinds'], info['colors']]))
+            R.check('台數 24～35（停車格 15% 空著、共用亂數；BB-B 07:13）', 24 <= info['placed'] <= 35, str(info['placed']))
+            R.check('至少 7 款、15 種顏色', info['kinds'] >= 7 and info['colors'] >= 15, J([info['kinds'], info['colors']]))
             R.check('LOD 6 段、每段 2 層（levelsOK）', info['lods'] == 6 and info['levelsOK'] is True and all(len(x['levels']) == 2 for x in info['lodInfo']), J([x['levels'] for x in info['lodInfo']]))
             seg = info['lodInfo'][0] if info['lodInfo'] else None
             if seg:
