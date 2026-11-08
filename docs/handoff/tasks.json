@@ -49995,7 +49995,7 @@
    "id": "BUG-POOL-REPEAT-SILENT-1108",
    "title": "上課前在必修課教室和法律系同學（林采潔）說第二次話：沒有台詞也沒有旁白（BB-B 11-08 11:28 觀察，候選）",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -50007,15 +50007,13 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-08 11:3x LAWWW-B】查程式：pool3d.js S.smallTalk 一天第二次走 repeat 分支，STORY.greetB 一定回 say 或 narr（「（{n}對你點點頭。）」），照理會出一句——可能是上課前另一條路（classes3d 互動、快上課擋掉）。誰決定：LAWWW-B。為什麼：還不知道是不是 bug。負責人：BB（給重現：時間、zone、互動鍵的字、E.player.busy）、LAWWW（查）。恢復條件：BB 給重現步驟。下次檢查：2026-11-09。",
-   "pausedReason": "等 BB-B 給重現步驟",
-   "resumeWhen": "BB-B 給重現",
+   "next": "【11-08 11:3x LAWWW-B】BB-B 11:37：不是 bug，關。重現（2025-11-03 08:56 classroom、離憲法 14 分鐘）：第二次說話有旁白「（林采潔揮了一下手。）」（greetB 的 B_NOD，repeat 分支）；之前第四批探針只數有名字的句子、旁白沒算。 ｜ 【11-08 11:3x LAWWW-B】查程式：pool3d.js S.smallTalk 一天第二次走 repeat 分支，STORY.greetB 一定回 say 或 narr（「（{n}對你點點頭。）」），照理會出一句——可能是上課前另一條路（classes3d 互動、快上課擋掉）。誰決定：LAWWW-B。為什麼：還不知道是不是 bug。負責人：BB（給重現：時間、zone、互動鍵的字、E.player.busy）、LAWWW（查）。恢復條件：BB 給重現步驟。下次檢查：2026-11-09。",
    "xai": {
     "spec": "BB-B 11-08 11:28",
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "一天第二次說話至少有點頭的旁白",
     "receiver": "BB（測）",
-    "ack": "SENT",
+    "ack": "ACTIONED",
     "owner": "LAWWW"
    },
    "evidence": ""
