@@ -55,11 +55,14 @@ async def main():
             for part in PARTS:
                 if part in VIEWS: zone, views = VIEWS[part]
                 else: zone, views = part, None   # BB-B 20:51：溫州街六間＝自動機位（照遊戲裡的出生點、店員、座位、區域範圍算）
-                for tn, h in (('1400', 14.0), ('2100', 21.0)):
+                for tn, h in [x for x in (('1400', 14.0), ('2100', 21.0)) if not os.environ.get('HOURS') or x[0] in os.environ['HOURS'].split(',')]:
                     tag = '[%s %s %s]' % (TAG, part, tn)
                     try:
                         R.setup('%s 讀檔 %s %s %.1f（條件事件關閉）' % (tag, zone, DAY, h))
                         s = await D.load_zone(pg, cdp, zone, DAY, h, wait=9000)
+                        if s['zone'] != zone:   # 讀檔進不去、停在門口：記下來，再讀一次（區分偶發和營業時間）
+                            R.note('%s 第一次讀檔停在 %s（互動「%s」），再讀一次' % (tag, s['zone'], s.get('interact')))
+                            s = await D.load_zone(pg, cdp, zone, DAY, h, wait=12000)
                         if not R.check('%s 進得了 %s' % (tag, zone), s['zone'] == zone, J(s)): continue
                         await pg.wait_for_timeout(3000)
                         info = await pg.evaluate(INFO); R.note('%s 材質／光照貼圖：%s' % (tag, J(info)))
