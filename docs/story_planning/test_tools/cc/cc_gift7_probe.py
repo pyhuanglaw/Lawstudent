@@ -17,6 +17,14 @@ import pt1108g_gift_friends_probe as G8
 import pt1108n_gift_romance_only_probe as N
 from playwright.async_api import async_playwright
 J = N.J
+_wu = C.walk_use
+ALIAS = {'和沈以安說話': '和小安說話'}   # 11-09 GIFT-MORNING：以安的互動鍵寫「和小安說話」（pt1108n 用全名找＝走到了也判走不到）
+async def _walk_use(pg, cdp, run, x, z, lv, label, near=1.2):
+    ok, st = await _wu(pg, cdp, run, x, z, lv, label, near)
+    if not ok and label in ALIAS and (st.get('interact') or '').startswith(ALIAS[label]):
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); return True, st
+    return ok, st
+C.walk_use = _walk_use
 NAMES = {'heroine_01': '以安', 'heroine_02': '芷若', 'heroine_03': '語彤', 'heroine_04': '子晴', 'heroine_05': '學姊', 'classmate_peishan': '沛珊', 'kexin': '可昕', 'zhe': '阿哲'}
 WHO = [w for w in (os.environ.get('WHO') or 'heroine_02,heroine_03,heroine_04,heroine_05,classmate_peishan,kexin,zhe').split(',') if w]
 ITEM = os.environ.get('ITEM') or '青茶'   # GIFT-MORNING：ITEM=飯糰 EXTRA= BUYH=8.5 HOURS=8.5,9,9.5,10 NODRINK=1
