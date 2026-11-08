@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "L118_6_after",
+  "sha": "6da721819b8d351fe12e0b848ca7e06f52553819",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_wz_dc_probe.py",
+  "env": "TAG=l118_after;ZONE=lane118;TIMES=day:11,night:20;TARGETS=dian:-5.2:1.6:25.0+self:-5.2:1.6:17.5+tea:-5.2:1.6:11.5+home:-5.2:1.6:-2.0+cafe2:-5.2:1.6:-12.5+pasta:5.2:1.6:24.0+korea:5.2:1.6:15.5+omu:5.2:1.6:1.5+noodle2:5.2:1.6:-10.5;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T10:32:43",
+  "end": "2026-11-08T10:35:11",
+  "seconds": 148,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 30,
+    "mem": 51,
+    "used_gb": 16.2,
+    "chrome_testing": 12
+  }
+}

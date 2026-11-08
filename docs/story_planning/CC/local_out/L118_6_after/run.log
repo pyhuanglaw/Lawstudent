@@ -1,0 +1,62 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_dc_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\L118_6_after\out
+CC PERF_WZ_DC（l118_after）：SHA=6da721819b8d351fe12e0b848ca7e06f52553819（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+== day
+  [前置／捷徑] [l118_after day] 讀檔 wenzhou 2025-10-18 11.00 晴（條件事件關閉）
+PASS [l118_after day] 進得了 lane118  {"zone": "lane118", "x": 0, "z": 31, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.06}
+  [  51.0s] [l118_after day] 出生點跟隨鏡頭 fps（參考）：{"frames": 168, "fpsAvg": 56, "fpsMin": 12, "msWorst": 83.4, "calls": 186, "tris": 390068}
+PASS [黑畫面] wzdc_l118_after_spawn_day 不是黑畫面（平均亮度 102.2、變化 56.4）  [102.2, 56.4]
+  [  53.0s] [l118_after day] spawn：draw call（主畫面／影子／合計）{"total": {"calls": 153, "tris": 328286}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 133, "tris": 289960}, "npcVis": 3, "outlineMats": 8, "outlineInVisibleChars": 15, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [0, 2.78, 36.07], "look": [0, 1.2, 31], "lens": 24, "vfov": 45.75}；亮度 [102.2, 56.4]
+PASS [黑畫面] wzdc_l118_after_lane_day 不是黑畫面（平均亮度 96.7、變化 57.2）  [96.7, 57.2]
+  [  54.8s] [l118_after day] lane：draw call（主畫面／影子／合計）{"total": {"calls": 107, "tris": 244388}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 87, "tris": 206062}, "npcVis": 1, "outlineMats": 8, "outlineInVisibleChars": 5, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [-6, 2.2, 31], "look": [30, 1.5, 31], "lens": 24, "vfov": 45.75}；亮度 [96.7, 57.2]
+PASS [黑畫面] wzdc_l118_after_t_dian_day 不是黑畫面（平均亮度 91.8、變化 49.6）  [91.8, 49.6]
+  [  56.6s] [l118_after day] t_dian：draw call（主畫面／影子／合計）{"total": {"calls": 107, "tris": 231222}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 87, "tris": 192896}, "npcVis": 1, "outlineMats": 8, "outlineInVisibleChars": 5, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [1.8, 1.7, 25], "look": [-5.2, 1.6, 25], "lens": 24, "vfov": 45.75}；亮度 [91.8, 49.6]
+PASS [黑畫面] wzdc_l118_after_t_self_day 不是黑畫面（平均亮度 93.9、變化 50）  [93.9, 50]
+  [  58.3s] [l118_after day] t_self：draw call（主畫面／影子／合計）{"total": {"calls": 92, "tris": 189088}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 72, "tris": 150762}, "npcVis": 0, "outlineMats": 8, "outlineInVisibleChars": 0, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [1.8, 1.7, 17.5], "look": [-5.2, 1.6, 17.5], "lens": 24, "vfov": 45.75}；亮度 [93.9, 50]
+PASS [黑畫面] wzdc_l118_after_t_tea_day 不是黑畫面（平均亮度 109、變化 52.8）  [109, 52.8]
+  [  60.2s] [l118_after day] t_tea：draw call（主畫面／影子／合計）{"total": {"calls": 108, "tris": 240059}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 88, "tris": 201733}, "npcVis": 1, "outlineMats": 8, "outlineInVisibleChars": 5, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [1.8, 1.7, 11.5], "look": [-5.2, 1.6, 11.5], "lens": 24, "vfov": 45.75}；亮度 [109, 52.8]
+PASS [黑畫面] wzdc_l118_after_t_home_day 不是黑畫面（平均亮度 105.1、變化 46.2）  [105.1, 46.2]
+  [  61.8s] [l118_after day] t_home：draw call（主畫面／影子／合計）{"total": {"calls": 86, "tris": 193202}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 66, "tris": 154876}, "npcVis": 0, "outlineMats": 8, "outlineInVisibleChars": 0, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [1.8, 1.7, -2], "look": [-5.2, 1.6, -2], "lens": 24, "vfov": 45.75}；亮度 [105.1, 46.2]
+PASS [黑畫面] wzdc_l118_after_t_cafe2_day 不是黑畫面（平均亮度 100.8、變化 51.9）  [100.8, 51.9]
+  [  63.7s] [l118_after day] t_cafe2：draw call（主畫面／影子／合計）{"total": {"calls": 82, "tris": 169289}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 62, "tris": 130963}, "npcVis": 0, "outlineMats": 8, "outlineInVisibleChars": 0, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [1.8, 1.7, -12.5], "look": [-5.2, 1.6, -12.5], "lens": 24, "vfov": 45.75}；亮度 [100.8, 51.9]
+PASS [黑畫面] wzdc_l118_after_t_pasta_day 不是黑畫面（平均亮度 80.7、變化 40.1）  [80.7, 40.1]
+  [  65.9s] [l118_after day] t_pasta：draw call（主畫面／影子／合計）{"total": {"calls": 144, "tris": 316189}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 124, "tris": 277863}, "npcVis": 2, "outlineMats": 8, "outlineInVisibleChars": 10, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [2.61, 1.7, 30.5], "look": [5.2, 1.6, 24], "lens": 24, "vfov": 45.75}；亮度 [80.7, 40.1]
+PASS [黑畫面] wzdc_l118_after_t_korea_day 不是黑畫面（平均亮度 82.9、變化 44.1）  [82.9, 44.1]
+  [  68.0s] [l118_after day] t_korea：draw call（主畫面／影子／合計）{"total": {"calls": 122, "tris": 262586}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 102, "tris": 224260}, "npcVis": 1, "outlineMats": 8, "outlineInVisibleChars": 5, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [2.61, 1.7, 22], "look": [5.2, 1.6, 15.5], "lens": 24, "vfov": 45.75}；亮度 [82.9, 44.1]
+PASS [黑畫面] wzdc_l118_after_t_omu_day 不是黑畫面（平均亮度 94.6、變化 56.1）  [94.6, 56.1]
+  [  70.2s] [l118_after day] t_omu：draw call（主畫面／影子／合計）{"total": {"calls": 95, "tris": 186370}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 75, "tris": 148044}, "npcVis": 0, "outlineMats": 8, "outlineInVisibleChars": 0, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [2.61, 1.7, 8], "look": [5.2, 1.6, 1.5], "lens": 24, "vfov": 45.75}；亮度 [94.6, 56.1]
+PASS [黑畫面] wzdc_l118_after_t_noodle2_day 不是黑畫面（平均亮度 102.2、變化 51）  [102.2, 51]
+  [  72.3s] [l118_after day] t_noodle2：draw call（主畫面／影子／合計）{"total": {"calls": 88, "tris": 196454}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 68, "tris": 158128}, "npcVis": 0, "outlineMats": 8, "outlineInVisibleChars": 0, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [2.61, 1.7, -4], "look": [5.2, 1.6, -10.5], "lens": 24, "vfov": 45.75}；亮度 [102.2, 51]
+  [  72.4s] [l118_after day] 路人分布：{"npcs": 3, "best": {"n": 3, "c": [0.67, 23.27]}}
+  [  72.4s] [l118_after day] crowd：這個時段 12 m 內最多只有 3 人（不到 5 人，沒另外拍）；spawn 那個鏡頭入鏡 3 人
+== night
+  [前置／捷徑] [l118_after night] 讀檔 wenzhou 2025-10-18 20.00 晴（條件事件關閉）
+PASS [l118_after night] 進得了 lane118  {"zone": "lane118", "x": 0, "z": 31, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.07}
+  [  92.5s] [l118_after night] 出生點跟隨鏡頭 fps（參考）：{"frames": 167, "fpsAvg": 55.7, "fpsMin": 7.5, "msWorst": 133.3, "calls": 123, "tris": 235634}
+PASS [黑畫面] wzdc_l118_after_spawn_night 不是黑畫面（平均亮度 49.6、變化 39）  [49.6, 39]
+  [  94.3s] [l118_after night] spawn：draw call（主畫面／影子／合計）{"total": {"calls": 124, "tris": 241959}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 104, "tris": 203633}, "npcVis": 3, "outlineMats": 8, "outlineInVisibleChars": 15, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [0, 2.78, 36.07], "look": [0, 1.2, 31], "lens": 24, "vfov": 45.75}；亮度 [49.6, 39]
+PASS [黑畫面] wzdc_l118_after_lane_night 不是黑畫面（平均亮度 52.1、變化 43）  [52.1, 43]
+  [  96.1s] [l118_after night] lane：draw call（主畫面／影子／合計）{"total": {"calls": 90, "tris": 194428}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 70, "tris": 156102}, "npcVis": 0, "outlineMats": 8, "outlineInVisibleChars": 0, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [-6, 2.2, 31], "look": [30, 1.5, 31], "lens": 24, "vfov": 45.75}；亮度 [52.1, 43]
+PASS [黑畫面] wzdc_l118_after_t_dian_night 不是黑畫面（平均亮度 50.9、變化 34.3）  [50.9, 34.3]
+  [  97.8s] [l118_after night] t_dian：draw call（主畫面／影子／合計）{"total": {"calls": 91, "tris": 182460}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 71, "tris": 144134}, "npcVis": 0, "outlineMats": 8, "outlineInVisibleChars": 0, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [1.8, 1.7, 25], "look": [-5.2, 1.6, 25], "lens": 24, "vfov": 45.75}；亮度 [50.9, 34.3]
+PASS [黑畫面] wzdc_l118_after_t_self_night 不是黑畫面（平均亮度 60、變化 41）  [60, 41]
+  [  99.5s] [l118_after night] t_self：draw call（主畫面／影子／合計）{"total": {"calls": 110, "tris": 238066}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 90, "tris": 199740}, "npcVis": 1, "outlineMats": 8, "outlineInVisibleChars": 5, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [1.8, 1.7, 17.5], "look": [-5.2, 1.6, 17.5], "lens": 24, "vfov": 45.75}；亮度 [60, 41]
+PASS [黑畫面] wzdc_l118_after_t_tea_night 不是黑畫面（平均亮度 61.9、變化 47.1）  [61.9, 47.1]
+  [ 101.3s] [l118_after night] t_tea：draw call（主畫面／影子／合計）{"total": {"calls": 92, "tris": 190113}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 72, "tris": 151787}, "npcVis": 0, "outlineMats": 8, "outlineInVisibleChars": 0, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [1.8, 1.7, 11.5], "look": [-5.2, 1.6, 11.5], "lens": 24, "vfov": 45.75}；亮度 [61.9, 47.1]
+PASS [黑畫面] wzdc_l118_after_t_home_night 不是黑畫面（平均亮度 52.2、變化 33.1）  [52.2, 33.1]
+  [ 103.0s] [l118_after night] t_home：draw call（主畫面／影子／合計）{"total": {"calls": 87, "tris": 193310}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 67, "tris": 154984}, "npcVis": 0, "outlineMats": 8, "outlineInVisibleChars": 0, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [1.8, 1.7, -2], "look": [-5.2, 1.6, -2], "lens": 24, "vfov": 45.75}；亮度 [52.2, 33.1]
+PASS [黑畫面] wzdc_l118_after_t_cafe2_night 不是黑畫面（平均亮度 51.8、變化 37.3）  [51.8, 37.3]
+  [ 104.8s] [l118_after night] t_cafe2：draw call（主畫面／影子／合計）{"total": {"calls": 83, "tris": 169397}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 63, "tris": 131071}, "npcVis": 0, "outlineMats": 8, "outlineInVisibleChars": 0, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [1.8, 1.7, -12.5], "look": [-5.2, 1.6, -12.5], "lens": 24, "vfov": 45.75}；亮度 [51.8, 37.3]
+PASS [黑畫面] wzdc_l118_after_t_pasta_night 不是黑畫面（平均亮度 54.7、變化 42.8）  [54.7, 42.8]
+  [ 107.0s] [l118_after night] t_pasta：draw call（主畫面／影子／合計）{"total": {"calls": 134, "tris": 277857}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 114, "tris": 239531}, "npcVis": 3, "outlineMats": 8, "outlineInVisibleChars": 15, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [2.61, 1.7, 30.5], "look": [5.2, 1.6, 24], "lens": 24, "vfov": 45.75}；亮度 [54.7, 42.8]
+PASS [黑畫面] wzdc_l118_after_t_korea_night 不是黑畫面（平均亮度 57.3、變化 47.7）  [57.3, 47.7]
+  [ 109.2s] [l118_after night] t_korea：draw call（主畫面／影子／合計）{"total": {"calls": 111, "tris": 225448}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 91, "tris": 187122}, "npcVis": 2, "outlineMats": 8, "outlineInVisibleChars": 10, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [2.61, 1.7, 22], "look": [5.2, 1.6, 15.5], "lens": 24, "vfov": 45.75}；亮度 [57.3, 47.7]
+PASS [黑畫面] wzdc_l118_after_t_omu_night 不是黑畫面（平均亮度 52.3、變化 46.7）  [52.3, 46.7]
+  [ 111.4s] [l118_after night] t_omu：draw call（主畫面／影子／合計）{"total": {"calls": 117, "tris": 242877}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 97, "tris": 204551}, "npcVis": 2, "outlineMats": 8, "outlineInVisibleChars": 10, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [2.61, 1.7, 8], "look": [5.2, 1.6, 1.5], "lens": 24, "vfov": 45.75}；亮度 [52.3, 46.7]
+PASS [黑畫面] wzdc_l118_after_t_noodle2_night 不是黑畫面（平均亮度 55.4、變化 48.6）  [55.4, 48.6]
+  [ 113.7s] [l118_after night] t_noodle2：draw call（主畫面／影子／合計）{"total": {"calls": 106, "tris": 246734}, "shadow": {"calls": 20, "tris": 38326, "passes": 1}, "main": {"calls": 86, "tris": 208408}, "npcVis": 1, "outlineMats": 8, "outlineInVisibleChars": 5, "outlineOnCasters": 0, "shadowsOn": true}；鏡頭 {"eye": [2.61, 1.7, -4], "look": [5.2, 1.6, -10.5], "lens": 24, "vfov": 45.75}；亮度 [55.4, 48.6]
+  [ 113.7s] [l118_after night] 路人分布：{"npcs": 3, "best": {"n": 2, "c": [0.32, -8.05]}}
+  [ 113.7s] [l118_after night] crowd：這個時段 12 m 內最多只有 2 人（不到 5 人，沒另外拍）；spawn 那個鏡頭入鏡 3 人
+PASS 沒有 JS 例外  []
+ALL PASS
