@@ -11,6 +11,7 @@
 // 修改前（開發分支 87aef2873）：模組不存在——FAIL。用法：node tests/aa625_yt_study_unit.js（先 git fetch origin claude/cool-heisenberg-o8kuqx）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
+const VER=((fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8').match(/版本 v([0-9.]+)（/)||[])[1]||'?');   /* ?v= 和標題的版號一樣：不寫死 9.10.22（發布樹會換版號，同 bike_shop_park_unit.js）*/
 const {check,GM,E}=H, J=JSON.stringify;
 const loadErr=[];
 const loadG=f=>{ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/^const ([A-Z_][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); };
@@ -37,7 +38,7 @@ const said=()=>H.said.map(s=>s.t);
   if(!A()){ H.done(); return; }
   const S=A(), L=S.L, L11=S.L11;
   { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), sc=[...html.matchAll(/<script src="([^"?]+)\?v=([^"]+)"/g)].map(m=>m[1]), ia=sc.indexOf('src/aa625_3d.js');
-    check('0. index.html：aa625_3d.js（?v=9.10.22）緊接在 aa614_3d.js 後面，在 invites3d、studyn3d、phone3d、outings3d、story3d、heroine_asks3d 之後',ia>0&&html.includes('<script src="src/aa625_3d.js?v=9.10.22"></script>')&&sc[ia-1]==='src/aa614_3d.js'&&['src/invites3d.js','src/studyn3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/heroine_asks3d.js','src/ytjob3d.js','src/classes3d.js'].every(f=>sc.indexOf(f)>=0&&sc.indexOf(f)<ia),J(sc.slice(ia-2,ia+2))); }
+    check('0. index.html：aa625_3d.js（?v=和標題同一版）緊接在 aa614_3d.js 後面，在 invites3d、studyn3d、phone3d、outings3d、story3d、heroine_asks3d 之後',ia>0&&html.includes('<script src="src/aa625_3d.js?v='+VER+'"></script>')&&sc[ia-1]==='src/aa614_3d.js'&&['src/invites3d.js','src/studyn3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/heroine_asks3d.js','src/ytjob3d.js','src/classes3d.js'].every(f=>sc.indexOf(f)>=0&&sc.indexOf(f)<ia),J(sc.slice(ia-2,ia+2))); }
   { let W=null; try{ W=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')); }catch(e){}
     const e=W&&W.files&&W.files.filter(x=>x.path===DOC625), e11=W&&W.files&&W.files.filter(x=>x.path===DOC11);
     check('0. 劇情匯入白名單：AA_625 只有一列、3248430b3、approved、AA（D109）、note 寫 AA624-YT-BACKGROUND-1103；舊的 0787572c6、65a1b2fe9 在 history',!!e&&e.length===1&&e[0].sha===SHA&&(e[0].history||[]).some(h=>h.sha==='0787572c6')&&e[0].status==='approved'&&/AA/.test(e[0].approvedBy)&&/D109/.test(e[0].approvedBy)&&e[0].kind==='text'&&e[0].note.includes('AA624-YT-BACKGROUND-1103')&&(e[0].history||[]).some(h=>h.sha==='65a1b2fe9'),J(e));

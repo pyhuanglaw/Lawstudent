@@ -11,6 +11,7 @@
 // 修改前（開發分支 db7966bf6）：模組不存在——FAIL。用法：node tests/aa613_opening_acts_unit.js（先 git fetch origin claude/cool-heisenberg-o8kuqx）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
+const VER=((fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8').match(/版本 v([0-9.]+)（/)||[])[1]||'?');   /* ?v= 和標題的版號一樣：不寫死 9.10.22（發布樹會換版號，同 bike_shop_park_unit.js）*/
 const {check,GM,E}=H, J=JSON.stringify;
 const loadErr=[];
 const loadG=f=>{ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/^const ([A-Z_][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); };
@@ -40,7 +41,7 @@ const caps=[]; GM.caption=(w,t)=>{ caps.push(t); };
   check('0. 模組都載得到（CLUBFAIR、AA613）',!loadErr.length&&!!A()&&typeof CLUBFAIR!=='undefined',J(loadErr));
   if(!A()){ H.done(); return; }
   const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), sc=[...html.matchAll(/<script src="([^"?]+)\?v=([^"]+)"/g)].map(m=>m[1]), ia=sc.indexOf('src/aa613_3d.js');
-  check('0. index.html：aa613_3d.js（?v=9.10.22）在 phone3d、story3d、classes3d、clubfair3d、aa667_3d 之後',ia>0&&html.includes('<script src="src/aa613_3d.js?v=9.10.22"></script>')&&['src/phone3d.js','src/story3d.js','src/classes3d.js','src/clubfair3d.js','src/aa667_3d.js'].every(f=>sc.indexOf(f)>=0&&sc.indexOf(f)<ia),J(ia));
+  check('0. index.html：aa613_3d.js（?v=和標題同一版）在 phone3d、story3d、classes3d、clubfair3d、aa667_3d 之後',ia>0&&html.includes('<script src="src/aa613_3d.js?v='+VER+'"></script>')&&['src/phone3d.js','src/story3d.js','src/classes3d.js','src/clubfair3d.js','src/aa667_3d.js'].every(f=>sc.indexOf(f)>=0&&sc.indexOf(f)<ia),J(ia));
   { let W=null; try{ W=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')); }catch(e){}
     const e=W&&W.files&&W.files.find(x=>x.path===DOC);
     check('0. 劇情匯入白名單：AA_613＝232fe4149、approved、approvedBy「AA（D109）」、任務 AA613-OPENING-ACTS-1103',!!e&&e.sha===SHA&&e.status==='approved'&&e.approvedBy==='AA（D109）'&&e.task==='AA613-OPENING-ACTS-1103',J(e&&{sha:e.sha,st:e.status})); }
