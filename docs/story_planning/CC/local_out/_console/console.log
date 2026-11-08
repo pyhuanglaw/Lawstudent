@@ -893,3 +893,12 @@
 [11:29:57] ==== START R126_mini  (game @ 126bdf93e82886673518705566dbe83b582c32c1) ====
 [11:30:00] [res] cpu=3% mem=33% (10.3/31.4 GB) chrome_testing=0  START R126_mini
 [11:31:13] [res] cpu=2% mem=33% (10.6/31.4 GB) chrome_testing=0  END R126_mini
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2b0974dfb..bd76eb20e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:31:19] ==== END   R126_mini  exit=0  76s   ====
+[11:31:22] memory 34% before starting R126_movreg (0 running)
+[11:31:22] ==== START R126_movreg  (game @ 126bdf93e82886673518705566dbe83b582c32c1) ====
+[11:31:25] [res] cpu=2% mem=34% (10.8/31.4 GB) chrome_testing=0  START R126_movreg
+[11:32:32] 正在跑：R126_movreg（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[11:36:47] [res] cpu=3% mem=33% (10.4/31.4 GB) chrome_testing=0  END R126_movreg
