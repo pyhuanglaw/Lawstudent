@@ -1996,3 +1996,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 142.9s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 142.9s] BROWSER DISCONNECTED
 - 2026-11-08T14:22:10  GG3LM_lm2_7db0_daybreak  sha=7db0871e0212282e5a60ca46e1aecfa139f45ace  exit=0  124s      [  87.5s] [截圖] s5_after_gpu_daybreak_1400_out：鏡頭 {"eye": [2.17, 1.55, -0.5], "look": [2.16, 1.4, 8], "lens": 20, "vfov": 53.7}、亮度 [135.7, 43.2] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 88.0s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 88.0s] BROWSER DISCONNECTED
+- 2026-11-08T14:23:27  GG3LM_lm2_3fb0_carrels  sha=3fb01c8d6a1f9ac4f3bb3fa340cac4bfeae9c275  exit=0  145s      [ 107.2s] [截圖] s5_after_gpu_library_carrels_2100_partS_in：鏡頭 {"eye": [-2.4, 1.5, 3.3], "look": [-2.4, 1.3, 1.4], "lens": 18, "vfov": 58.72}、亮度 [158.4, 58.5] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 107.7s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 107.7s] BROWSER DISCONNECTED

@@ -822,3 +822,12 @@
 [14:21:08] [res] cpu=77% mem=42% (12.9/31.4 GB) chrome_testing=4  START R0ced_v0_start
 [14:21:29] worktree add 0cedcbb716bbbe120007ef7c92abcbf494436b31: invalid reference - fetching main and the commit itself
 [14:22:10] [res] cpu=82% mem=45% (14.2/31.4 GB) chrome_testing=8  END GG3LM_lm2_7db0_daybreak
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d60dc6181..6ea7ce004  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:22:17] ==== END   GG3LM_lm2_7db0_daybreak  exit=0  124s   ====
+[14:22:20] memory 46% before starting R0ced_v0_home (2 running)
+[14:22:20] ==== START R0ced_v0_home  (game @ 0cedcbb716bbbe120007ef7c92abcbf494436b31) ====
+[14:22:23] [res] cpu=88% mem=47% (14.6/31.4 GB) chrome_testing=8  START R0ced_v0_home
+[14:22:28] 正在跑：GG3LM_lm2_3fb0_carrels（已跑 1 分／上限 30 分）、R0ced_v0_start（已跑 1 分／上限 60 分）、R0ced_v0_home（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:23:27] [res] cpu=91% mem=47% (14.8/31.4 GB) chrome_testing=9  END GG3LM_lm2_3fb0_carrels

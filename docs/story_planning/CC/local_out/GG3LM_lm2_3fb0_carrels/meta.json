@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GG3LM_lm2_3fb0_carrels",
+  "sha": "3fb01c8d6a1f9ac4f3bb3fa340cac4bfeae9c275",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_scene5_probe.py",
+  "env": "TAG=after_gpu;PART=library_carrels;SLOTS=1400:14,2100:21;EXTRA2=library_carrels@partN_corr@-6,1.6,0.8@2,1.4,-1.4@18/library_carrels@partN_in@-2.4,1.5,-3.3@-2.4,1.3,-1.4@18/library_carrels@partS_corr@-6,1.6,-0.8@2,1.4,1.4@18/library_carrels@partS_in@-2.4,1.5,3.3@-2.4,1.3,1.4@18;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T14:21:02",
+  "end": "2026-11-08T14:23:27",
+  "seconds": 145,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 96,
+    "mem": 54,
+    "used_gb": 17.0,
+    "chrome_testing": 13
+  }
+}
