@@ -1504,3 +1504,17 @@ R0ced_v0_tolaw_cc | 0cedcbb716bbbe120007ef7c92abcbf494436b31 | probe | docs/stor
 #   BB-B 06:16：經濟系兩支原檔（LAWWW-B 507d8f75a 以後）對照 CC 版（R0ced_v0_*_cc）
 R2951_v0_to1017 | 295179867600d145c4ef32b08ce644b4f27f7446 | game | tests/flow_v0_to1017.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
 R2951_v0_tolaw | 295179867600d145c4ef32b08ce644b4f27f7446 | game | tests/flow_v0_tolaw.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+# CC-B 11-08 07:4x：BB-B 5F 研究室光照 ART_APPROVED 最後一關（GPU 兩欄：左 8b6cbc908 隔間牆兩面都烘以前、右 e0803ca0d），排在 e0803ca0d 回歸前面
+GG3LM_5F_8b6c | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | probe | docs/story_planning/test_tools/cc/cc_linze_lm_probe.py | index.html | 20 | TAG=before_gpu;ZONES=linze_5f;VIEWS=lab_in:-5.6:1.6:0+lab_door:-4.2:-0.6:0+meeting:5.4:2.0:0+corridor:6.0:-5.5:-1.5708;HOURS=14,21;CC_HEADLESS=0
+GG3LM_5F_e080 | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | probe | docs/story_planning/test_tools/cc/cc_linze_lm_probe.py | index.html | 20 | TAG=after_gpu;ZONES=linze_5f;VIEWS=lab_in:-5.6:1.6:0+lab_door:-4.2:-0.6:0+meeting:5.4:2.0:0+corridor:6.0:-5.5:-1.5708;HOURS=14,21;CC_HEADLESS=0
+# CC-B 11-08 07:5x：e0803ca0d（LAWWW-B 整合 LAWWW2-B 5c4db6b53 光影）回歸；movreg 在 PC 上三個 SHA 都一樣 14/42（搖桿推不動、腳本走路正常），先不排，雲端另查
+Re080_p0 | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+Re080_reach | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
+Re080_zone | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
+Re080_mini | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+Re080_classreal | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
+Re080_main12 | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+Re080_v0_start | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+Re080_v0_to1017 | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | game | tests/flow_v0_to1017.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
+Re080_v0_tolaw | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | game | tests/flow_v0_tolaw.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+Re080_touch | e0803ca0dfa57bbc8dabb689b54545905a5f85b7 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
