@@ -749,3 +749,12 @@
 [10:18:51] [res] cpu=1% mem=35% (11.0/31.4 GB) chrome_testing=0  START GG3LM_wz6_fps2_e276
 [10:22:31] 正在跑：GG3LM_wz6_fps2_e276（已跑 3 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [10:22:56] [res] cpu=1% mem=35% (11.0/31.4 GB) chrome_testing=0  END GG3LM_wz6_fps2_e276
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a4d7f4ec1..0d5a2e0ac  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:23:01] ==== END   GG3LM_wz6_fps2_e276  exit=1  248s   ====
+[10:23:04] memory 33% before starting GG3LM_wz6_fps2_mob_e276 (0 running)
+[10:23:04] ==== START GG3LM_wz6_fps2_mob_e276  (probe @ e2762e9d91df1cf8405301e54fd4bf286a5f626e) ====
+[10:23:07] [res] cpu=20% mem=33% (10.5/31.4 GB) chrome_testing=0  START GG3LM_wz6_fps2_mob_e276
+[10:27:31] 正在跑：GG3LM_wz6_fps2_mob_e276（已跑 4 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[10:29:33] [res] cpu=17% mem=34% (10.9/31.4 GB) chrome_testing=0  END GG3LM_wz6_fps2_mob_e276
