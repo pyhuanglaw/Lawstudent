@@ -1306,6 +1306,8 @@ const STORY = (function(){
   S.privLead=async(GM,key,id)=>{ if(typeof PRIVTALK!=='undefined'&&PRIVTALK.lead) await PRIVTALK.lead(GM,key,id); };
   S.schedInZone=schedFor; S.walkRoutesOf=z=>walkRoutes[z]||[];   /* src/hcircle3d.js：她現在該不該在這一區（schedFor(id,區域,G)，同進區域生成那一套）、同伴配對結束以後回去走的路線（不叫 schedFor：tests/v3_p4_han3_unit.js 用 STORY.schedFor&&… 判斷沒有這個函式）*/
   S.TICKS=[]; S.PHONE_RULES=[]; S.WAKE_AT=[]; S.ALARMS=[]; S.PRE_TALK=[]; S.SCHED_X=[];   /* SCHED_X：fn(c,G)→作息那一筆或 null，比作息表優先、比約好的時間後面（例：沛珊週三總圖二樓，src/grades3d.js）*/   /* PRE_TALK：認識的人說話前先說一句（fn(GM,who,id)，例：書卷獎公告以後以安「名單上有你。……卷哥。」，src/honor3d.js）*/
+  /* decide3d.js 比 story3d.js 早載入（index.html），它結尾「載入當下推 STORY.PHONE_RULES」那時 STORY 還沒有＝DECIDE.tick 從來沒註冊（BUG-DECIDE-TICK-UNREG-1108，CC-B／BB-B 11-08 07:2x：決定拍三天內沒見到她、第 due+3 天改傳訊息整個不會送）。這裡補上 */
+  if(typeof DECIDE!=='undefined'&&typeof DECIDE.tick==='function'&&!S.PHONE_RULES.includes(DECIDE.tick)) S.PHONE_RULES.push(DECIDE.tick);
   S.TALK_OPTS=[]; S.ROOM_EXTRA=[];   /* TALK_OPTS＝和人說話最後的選單多一個一次性的選項（S.offerInvite）；ROOM_EXTRA＝宿舍房間物件多一件（S.roomItemList；fn(G,L) 往 L 加 [標籤, 旁白]）*/
   /* 收拾的時刻（AA_123 2-3）：分開以後一週內都沒做的玩家，一週後補一句旁白，也設 CLEANUP_DONE=true，不卡劇情（ROM.cleanupLate）。
      一週內的三選一（紙箱、阿哲的頂樓、手機筆記、BB 五位各自的物件）還沒做：任務 V6-S4 */

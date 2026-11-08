@@ -69,8 +69,11 @@ const DECIDE=(function(){
   S.playDue=async function(GM,whoObj,id,x){ if(!x) return false; x.played=GM.G.day; for(const t of x.say){ if(/^（/.test(t)) await GM.say(null,t); else await GM.say(whoObj,t); }
     for(const f of S.AFTER_SAY){ try{ await f(GM,whoObj,id,x); }catch(e){ console.warn('DECIDE.AFTER_SAY',e); } } return true; };
   /* 她三天內沒見到你：傳訊息（PHONE；只傳她說的話）*/
+  S.SAY_STALE=10;   /* 決定拍那天＋10 天以後還沒送的＝過期、不補（舊存檔）*/
   S.tick=function(G){ if(!G||!G.flags||!Array.isArray(G.flags.DECIDE_SAY)||typeof PHONE==='undefined'||!PHONE.at) return false; let did=false;
-    for(const x of G.flags.DECIDE_SAY){ if(x.played||G.day<x.due+3) continue; const L=x.say.filter(t=>!/^（/.test(t)); x.played=G.day; x.byMsg=true; if(L.length){ const M=L.map(t=>({th:'p:'+x.who,from:x.who,text:t})); for(const f of S.MSG_ASK){ let a=null; try{ a=f(G,x); }catch(e){ console.warn('DECIDE.MSG_ASK',e); } if(a){ M[M.length-1].ask=a; break; } } PHONE.at(G,G.day,G.hour,M,'decide_say_'+x.who+'_'+x.key); did=true; } }
+    for(const x of G.flags.DECIDE_SAY){ if(x.played||G.day<x.due+3) continue;
+      if(G.day>x.due+S.SAY_STALE){ x.played=G.day; x.expired=true; continue; }   /* 舊存檔：DECIDE.tick 以前沒註冊（BUG-DECIDE-TICK-UNREG-1108），沒送的一直留著——拖過 due+10 的不補傳（幾個禮拜以後才收到「謝謝你的綠茶。」對不上），記成過期 */
+      const L=x.say.filter(t=>!/^（/.test(t)); x.played=G.day; x.byMsg=true; if(L.length){ const M=L.map(t=>({th:'p:'+x.who,from:x.who,text:t})); for(const f of S.MSG_ASK){ let a=null; try{ a=f(G,x); }catch(e){ console.warn('DECIDE.MSG_ASK',e); } if(a){ M[M.length-1].ask=a; break; } } PHONE.at(G,G.day,G.hour,M,'decide_say_'+x.who+'_'+x.key); did=true; } }
     return did; };
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)&&!STORY.PHONE_RULES.includes(S.tick)) STORY.PHONE_RULES.push(S.tick);
   /* 選單：有 key 的那一組＝上方一行字＋選完確認（「再想想」回到同一組）*/
