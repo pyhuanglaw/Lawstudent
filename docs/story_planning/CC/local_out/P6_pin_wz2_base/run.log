@@ -1,0 +1,58 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\perf_cold_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\P6_pin_wz2_base\out
+wenzhou       base     黑畫面 5191.3 ms（預熱 0.3）｜淡入後 403 格 avg 33.5 fps 1%low 7.50 最慢 183 ms、>100 ms 2 格、>500 ms 0 格｜進區域以後才載 2 個
+    進區域以後才載：char.npc_nf7、char.npc_nm7
+      載好 char.npc_nf7（vrm）3738.8 ms，進區域後 4575 ms
+      載好 char.npc_nm7（vrm）3795.1 ms，進區域後 4632 ms
+      檔案 wz_park.glb：開始 -41549、下載完 -28024 ms（進區域後）、傳輸 4349700 bytes
+      檔案 wenzhou_street.glb：開始 -41608、下載完 -27894 ms（進區域後）、傳輸 10279768 bytes
+      檔案 lin_interior.glb：開始 -18538、下載完 -18499 ms（進區域後）、傳輸 2061656 bytes
+      檔案 gongguan_mrt_exit.glb：開始 -15618、下載完 -15593 ms（進區域後）、傳輸 350348 bytes
+      檔案 gongguan_far.glb：開始 -15389、下載完 -15348 ms（進區域後）、傳輸 1666056 bytes
+      檔案 bl_npc_nf6.lod.glb：開始 -14678、下載完 -14646 ms（進區域後）、傳輸 280920 bytes
+      檔案 bl_npc_nm6.lod.glb：開始 -14677、下載完 -14642 ms（進區域後）、傳輸 300272 bytes
+      檔案 bl_npc_nf6.vrm：開始 -14677、下載完 -12526 ms（進區域後）、傳輸 2680452 bytes
+      檔案 bl_npc_nm6.vrm：開始 -14676、下載完 -12523 ms（進區域後）、傳輸 2468432 bytes
+      檔案 gongguan_shops.glb：開始 -14969、下載完 -12394 ms（進區域後）、傳輸 9889732 bytes
+      檔案 bl_npc_nf7.lod.glb：開始 835、下載完 858 ms（進區域後）、傳輸 284460 bytes
+      檔案 bl_npc_nm7.lod.glb：開始 836、下載完 869 ms（進區域後）、傳輸 275360 bytes
+      檔案 bl_npc_nf7.vrm：開始 836、下載完 4285 ms（進區域後）、傳輸 2639004 bytes
+      檔案 bl_npc_nm7.vrm：開始 836、下載完 4296 ms（進區域後）、傳輸 2384808 bytes
+      parseVRM 進區域後 4331 ms：同步 3 ms、2638704 bytes
+      parseVRM 進區域後 4370 ms：同步 2.4 ms、2384508 bytes
+      parseVRM 做完 進區域後 4571 ms：共 240.6 ms
+      parseVRM 做完 進區域後 4629 ms：共 259.1 ms
+    慢格：淡入後 735 ms，183.3 ms（update 4.6、render 21.2、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 179.7 ms、不是 JS 3.6 ms
+          183.5 ms  FrameRequestCallback frame @ src/game3d.js:582
+    慢格：淡入後 2268 ms，183.3 ms（update 9.2、render 18.7、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 176.2 ms、不是 JS 7.1 ms
+          186.0 ms  FrameRequestCallback frame @ src/game3d.js:582
+    淡入後 JS 加總前幾名：
+          543.2 ms  FrameRequestCallback frame @ src/game3d.js:582
+           33.1 ms  TimerHandler:setTimeout step @ src/zones3d.js:2760
+    穩定以後的分項（整個場景 339 draw call／557535 三角形，含陰影那一輪；每一組單獨畫）：
+         106 calls    253550 tris    98 個網格  wenzhou_street_glb < Group
+          38 calls     79514 tris    22 個網格  human
+          36 calls     64924 tris    29 個網格  wz_park_glb < Group
+          29 calls     33334 tris    31 個網格  Group
+          24 calls     27439 tris    17 個網格  wz_jphouse_glb < Group
+          23 calls     67906 tris    16 個網格  human
+          23 calls     68936 tris    16 個網格  human
+          20 calls     25276 tris    15 個網格  wz_props_glb < Group
+          16 calls     20776 tris    84 個網格  Group < Group
+          14 calls     36010 tris     5 個網格  street_trees_field < Group
+           8 calls     18116 tris     3 個網格  skyline
+           8 calls     17744 tris     3 個網格  Group < Group
+           8 calls     23946 tris    16 個網格  human
+           8 calls     23749 tris    16 個網格  human
+           8 calls     23979 tris    16 個網格  human
+           7 calls     20724 tris     1 個網格  Mesh < Group
+           7 calls     24028 tris     1 個網格  Mesh < Group
+           7 calls     20928 tris     1 個網格  Mesh < Group
+           7 calls     17852 tris     1 個網格  Mesh < Group
+           6 calls     18692 tris     1 個網格  Mesh
+           6 calls     17734 tris     1 個網格  Group < Group
+           6 calls     17734 tris     1 個網格  Group < Group
+           6 calls     17734 tris     1 個網格  Group < Group
+           6 calls     17734 tris     1 個網格  Group < Group
+           6 calls     17734 tris     1 個網格  Mesh < Group
+    PERFPANEL：wenzhou：黑畫面 5.2 秒（建區域 1.0、預熱 3.7）；淡入後 10 秒最長一格 0.18 秒、卡 2 次；shader 黑畫面 +50、淡入後 +5｜prewarm None｜warmup {'zone': 'wenzhou', 'objects': 84, 'programs': 5, 'textures': 0, 'mpix': 0, 'depth': True, 'depthPrograms': 1, 'ticks': 40, 'parallel': True, 'done': False, 'ms': 0, 'settled': 125, 'depthMs': 30}｜平行編譯 True｜ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)
+ALL PASS（1 次）
