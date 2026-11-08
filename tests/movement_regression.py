@@ -56,11 +56,13 @@ async def test_A(rig):
     await rig.joy(0,60,900); e=await rig.pos(); check('A4 跑（推到底）位置改變', dist(d,e)>0.5, f'{e} pose={e["pose"]}')
     # 撞牆：往前牆持續推 3 秒（會撞到書架／牆）
     await rig.joy(0,-60,3200); f=await rig.pos(); check('A5 撞牆後仍在合法位置（standable，沒有陷進去）', f['stand'] and f['blocked'] is not None, f'{f}')
-    # 斜推的方向：往這面牆上空間比較大的那一側。前牆可以貼著走的範圍約 x=-1.2（床頭）到 0.7（書桌）；
-    # A5 停在哪裡會隨幀率不同（低幀率時一步很大，正面推牆會被沿牆脫困的偏移帶著橫移，可能已經停在書桌旁的牆角，
-    # 再往右推就是推進牆角，本來就滑不動）。標準不變：斜推要沿牆滑動 0.3 m 以上
-    sx=45 if f['x']<-0.3 else -45
-    await rig.joy(sx,-45,1500); g=await rig.pos(); check('A6 斜推 → 沿牆滑動（x 改變）', abs(g['x']-f['x'])>0.3, f'{f} → {g} 推的方向＝{"右前" if sx>0 else "左前"}')
+    # 斜推的方向：往這面牆上空間比較大的那一側（照 E.canStand 量 A5 停的那一點左右各還能站多遠，0.05 m 一步）。
+    # 四人房以後（AA_208）前牆站得住的範圍約 x=-0.6～0.5（BB-B 11-08 量的；原本註解寫 -1.2～0.7）：A5 停的位置會隨幀率不同（低幀率時一步很大），
+    # 停在 -0.29～-0.1 時舊規則（f.x<-0.3 才推右前）會推左前，只剩 0.22～0.28 m 可滑、不到門檻——不是黏牆（沿牆 4.4 m/s、空地 5.28 m/s）。
+    # 標準不變：斜推要沿牆滑動 0.3 m 以上（量到的左右距離寫在訊息裡，FAIL 時看得出是不是停在死角）
+    room = await rig.pg.evaluate("((x,z)=>{ const E=GAME.E, ok=(xx)=>E.canStand(xx,z); let L=0,R=0; for(let d=0.05;d<=2.0;d+=0.05){ if(ok(x-d)) L=d; else break; } for(let d=0.05;d<=2.0;d+=0.05){ if(ok(x+d)) R=d; else break; } return {L:+L.toFixed(2),R:+R.toFixed(2)}; })(%f,%f)" % (f['x'], f['z']))
+    sx=45 if room['R']>=room['L'] else -45
+    await rig.joy(sx,-45,1500); g=await rig.pos(); check('A6 斜推 → 沿牆滑動（x 改變；往空間大的那一側）', abs(g['x']-f['x'])>0.3, f'{f} → {g} 推的方向＝{"右前" if sx>0 else "左前"} 左右還能站 {room}')
     await rig.joy(0,60,1500); h=await rig.pos(); check('A7 離開牆 → 繼續走', dist(g,h)>0.8, f'{h}')
     await rig.pg.screenshot(path='screenshots/T_A_dorm_move.png')
 async def test_B(rig):
