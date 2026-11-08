@@ -34,7 +34,7 @@ import argparse, atexit, glob, hashlib, json, os, platform, queue, re, shutil, s
 from collections import OrderedDict, deque
 from datetime import datetime
 
-DEV_BRANCH = 'claude/confident-ritchie-8rwh7t'
+DEV_BRANCH = 'claude/modest-rubin-2lyp7g'   # CC-B 11-09（BB-B 19:14）：值班 LAWWW 的開發分支；config.txt 的 DEV_BRANCH= 每一輪蓋過（換班時改 config，不用改程式）
 CC_BRANCH = 'claude/cc-testing'
 LAWWW2_BRANCH = 'claude/second-ai-env-art'
 IS_WIN = os.name == 'nt'
@@ -1408,6 +1408,12 @@ class Runner(object):
         except Exception:
             pass
         meta['res_peak'] = peak
+        try:   # CC-B 11-09（BB-B）：記這一項的 SHA 在不在值班 LAWWW 的開發分支上，BB 核 SHA 時對得上
+            meta['dev_branch'] = DEV_BRANCH
+            rc_, _ = git('-C', self.repo, 'merge-base', '--is-ancestor', sha, 'origin/' + DEV_BRANCH, quiet=True)
+            meta['sha_on_dev_branch'] = (rc_ == 0)
+        except Exception as e:
+            meta['dev_branch_err'] = repr(e)[:120]
         try:   # BB-B 11-08 12:34：gpu_wrap 印的 WebGL renderer 寫進 meta.json（AMD＝GPU；SwiftShader＝不能判美術）
             with open(os.path.join(od, 'run.log'), 'rb') as fr:
                 rr = sorted(set(l.split(b'WEBGL_RENDERER:', 1)[1].strip().decode('utf-8', 'replace') for l in fr if b'WEBGL_RENDERER:' in l))
@@ -1891,6 +1897,11 @@ class Runner(object):
                 self.a.parallel = n
         # HEADLESS=1（使用者 11-04 15:4x 去睡覺：「我要去睡覺你可以采用那種……比較快」）：每一項都不開視窗，連佇列寫 CC_HEADLESS=0 的也照這個；
         # 拿掉或 0＝原本的行為（有視窗讓使用者看）。gpu_wrap 量過：d3d11 無視窗 26.6 fps、有視窗 17.1 fps，無視窗照樣用 GPU
+        db = cfg.get('DEV_BRANCH', '').strip()
+        global DEV_BRANCH
+        if db and re.match(r'^[A-Za-z0-9._/-]+$', db) and db != DEV_BRANCH:
+            log('config.txt: DEV_BRANCH %s -> %s' % (DEV_BRANCH, db))
+            DEV_BRANCH = db
         fh = cfg.get('HEADLESS', '').strip() == '1'
         if fh != getattr(self, 'force_headless', False):
             log('config.txt: HEADLESS %s -> %s（%s）' % (int(getattr(self, 'force_headless', False)), int(fh), '每一項都不開視窗' if fh else '照佇列和預設（有視窗）'))
