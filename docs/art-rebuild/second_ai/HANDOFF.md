@@ -6,7 +6,18 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-08 07:3x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-08 11:5x UTC，帳號 B LAWWW2-B）
+
+分支 `claude/funny-albattani-iawshm` 最新 `f67eb9963`；開發分支 `claude/modest-rubin-2lyp7g` 最新 `54d2f43d3`（LAWWW-B 已整合 --emit 修正 `9c94d128a`）。瀏覽器都沒跑（D131）。
+
+| 項目 | 狀態 | 位置 |
+|---|---|---|
+| **隔間牆兩面都烘 patch**（LAWWW-B 11:34 要） | **已交 LAWWW-B（`f67eb9963`，DELIVERED 等 ACK）**：eb857ec65 三行對開發 `54d2f43d3` apply --check 過；B1 原檔 --uvonly：開發 292.1 m² 被壓成一點 → 0 | `wip/bake_room_partition_1108/` |
+| **總圖 B1 重烘**（任務 #205） | 512 單次跑兩次都被背景工作兩小時上限停掉（白天好、晚上沒跑完）。`bake_room.py` 加續烘（`BAKE_CACHE`＝資料夾、`BAKE_STOP_AFTER=day`；雜湊＝輸入檔＋參數＋光照 UV；試過兩次跑雜湊一樣）。**11:40 起第一段（白天）**：`BAKE_CACHE=$S/b1_cache BAKE_STOP_AFTER=day bash tools/blender/env_second/lightbake/bake_library_b1.sh 512 $S/b1_v2`（正常結束碼 3）；**第二段**同一個指令拿掉 BAKE_STOP_AFTER（白天從 cache 讀、只烘晚上）。之後：glb_partition_at.py → lm_fill_covered.py → b1_region_stats.py → Node 測試 → README（sha256）→ 交 LAWWW-B，副本 BB-B（CC 拍 copy_door、disc1_wall、disc2_wall、studyA、上方大廳） | `$S/b1_v2/`、`$S/b1_cache/` |
+| 續烘功能要不要交開發 | 還沒交；B1 交件時一起問 LAWWW-B | `bake_room.py` |
+| P3 | 美國公寓浴室兩片門板拆節點；其他約 40 間外牆腳黑線可跑 lm_fill_covered（等決定）；#196、#201 | — |
+
+## 🔨 （舊）現在在做（11-08 07:3x UTC，帳號 B LAWWW2-B）
 
 分支 `claude/funny-albattani-iawshm`（09:3x 最新 `5c7b93d1a`）；`b517adf62` 那一個 commit 也帶了 lm_fill_covered 拿掉 scipy（輸出逐位元組一樣），訊息沒寫到；早一點的 `51aa51b20`（另有 `e2cf1f39c` 新生南路第二條鏈存檔）；開發分支 `claude/modest-rubin-2lyp7g` 最新 `d9646a770`。
 工作樹只留 `$S/wt_dev2`（開發 `d9646a770`＋這一包的 16 個檔、兩支新測試）；舊的 `$S/wt_dev` 07:0x 刪了（裡面的測試都在 docs wip）。
