@@ -1,0 +1,97 @@
+diff --git a/src/lawlib3d.js b/src/lawlib3d.js
+index e284337f4..f5bcccb8e 100644
+--- a/src/lawlib3d.js
++++ b/src/lawlib3d.js
+@@ -166,6 +166,18 @@ const LL3=(function(){
+     return seats; }
+ 
+   // ---- 區域 ----
++  /* 鏡頭碰撞（BUG-CAM-LAWLIB-DISCA-1108，BB-B 11-08；LAWWW2-B，D108）：北側房間（討論室 A／B、影印室、館員辦公室）的隔間牆、前牆交給 engine3d.js 的 followCam 當隔間牆（zone.camCols[0]）。
++     原本法圖沒有 camCols：講座日坐在討論室 A 西側的位子（面向東；鏡頭在人前面、往東退 4.4 m），鏡頭停在隔壁討論室 B（x −2.3），整場講座畫面是隔間牆的米色、看不到人。
++     看不見的板子（和教學館 teach3d.js camColliders 同一套：兩端各多 6 cm、厚 0.24 m、不參加合併）：隔間牆（L.partitions，北牆到前牆）、前牆（門洞兩側到天花板，
++     門洞上面 2.4 m 以上；討論室的玻璃也擋——鏡頭不退到玻璃另一邊）。坐著時 autoSwing 不轉，鏡頭被拉到牆前、抬高，從桌子對面看人。二樓不加（書架有網點透空）。
++     測試：node tests/lawlib_cam_disc_unit.js */
++  function camCols(L,g){ const D=L.D, FZ=L.frontZ, H=L.ceil0, inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), out=[];
++    const box=(name,horiz,a,b,c,y0,y1)=>{ a-=0.06; b+=0.06; const m=new THREE.Mesh(new THREE.BoxGeometry(horiz?b-a:0.24,y1-y0,horiz?0.24:b-a),inv); m.name=name; m.position.set(horiz?(a+b)/2:c,(y0+y1)/2,horiz?c:(a+b)/2); m.userData.noMerge=true; g.add(m); out.push(m); };
++    for(const px of L.partitions) box('CAMCOL_part',false,-D/2,FZ,px,0,H);
++    for(const r of L.rooms){ const segs=r.kind==='office'?[[r.x0,r.x1]]:[[r.x0,r.door[0]],[r.door[1],r.x1]];
++      for(const [a,b] of segs) if(b-a>=0.05) box('CAMCOL_front',true,a,b,FZ,0,H);
++      if(r.kind!=='office') box('CAMCOL_lintel',true,r.door[0],r.door[1],FZ,2.4,H); }
++    return out; }
+   const lawlib={ id:'lawlib', name:'法律學院圖書館', indoor:true, camDist:4.4, build(E){ const L=LAYOUT(), W=L.W, D=L.D, Y1=L.floors[1].y, S=L.stair;
+     const g=new THREE.Group(); const lv0=new THREE.Group(), lv1=new THREE.Group(); lv0.name='L0'; lv1.name='L1'; lv0.userData.dyn=true; lv1.userData.dyn=true; g.add(lv0); g.add(lv1);
+     const {nav0,nav1,ss}=buildNav(L);
+@@ -175,6 +187,7 @@ const LL3=(function(){
+       applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); for(const o of outs) B3.setOutView(o,h,weather,night); },
+       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
+     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,slabs); buildFurniture(E,L,lv0,lv1,fb0,fb1,zone); windowViews(L,lv0,lv1,outs);
++    zone.camCols=[camCols(L,lv0),[]];   /* 北側房間的隔間牆、前牆擋跟隨鏡頭（BUG-CAM-LAWLIB-DISCA-1108）*/
+     // 樓梯可以點的面（點地面移動；一直在，正式模型載入後也用這幾片）
+     for(const s of [ss.a,ss.ld,ss.b,ss.top]){ const w=s.x1-s.x0, d=s.z1-s.z0; const ya=s.y!==undefined?s.y:s.ya, yb=s.y!==undefined?s.y:s.yb; const m=new THREE.Mesh(new THREE.PlaneGeometry(w,Math.hypot(d,yb-ya)),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((s.x0+s.x1)/2,(ya+yb)/2+0.01,(s.z0+s.z1)/2); m.rotation.x=-Math.PI/2-Math.atan2(yb-ya,d); m.userData.walkLv=(s===ss.b||s===ss.top)?1:0; m.userData.dyn=true; lv0.add(m); walkMeshes.push(m);
+       /* 點在一跑樓梯上＝走完這一跑（engine3d.js；任務 #42）：[下面那一端, 上面那一端] */
+diff --git a/tests/lawlib_cam_disc_unit.js b/tests/lawlib_cam_disc_unit.js
+new file mode 100644
+index 000000000..3de412257
+--- /dev/null
++++ b/tests/lawlib_cam_disc_unit.js
+@@ -0,0 +1,60 @@
++// 法圖討論室：講座日坐下以後鏡頭在東牆外（BUG-CAM-LAWLIB-DISCA-1108，BB-B 11-08 P2；LAWWW2-B 修，D108）——不需要瀏覽器（D131）。
++// 現象（CC f40ffa537a AA613_cloud/eacc 02、05）：大一上講座日 15:30 坐討論室 A 的空位（−6.2, −6.8，面向東），整場講座鏡頭在 (−2.3, 3.21, −6.8)，
++//   討論室 A 是 x −7.1～−3.7，鏡頭在東牆外 1.4 m（隔壁討論室 B 裡），畫面整張是隔間牆的米色、看不到人。
++// 原因：法圖（src/lawlib3d.js）沒有 zone.camCols，跟隨鏡頭只撞 E.colliders（戶外建築），室內的隔間牆擋不住鏡頭；外牆會淡出，隔間牆不會。
++// 做法：北側房間的隔間牆、前牆（門洞兩側、門楣、討論室的玻璃）放看不見的板子當 camCols[0]（和教學館同一套）。
++// 檢查（在 Node 建出遊戲真正的法圖，照引擎的跟隨鏡頭算：距離＝區域的 camDist 4.4、室內俯角 0.38）：
++//   ① camCols 第 0 層有三道隔間牆（−3.6、0、3.2）和前牆：看不見、不參加合併；第 1 層沒有（書架有網點透空）
++//   ② CC 那一個畫面（討論室 A 西側 (−6.2, −6.8)、鏡頭在東邊）：修改前鏡頭在討論室 A 外面（測試抓得到）；修改後在討論室 A 裡面、天花板下面、離頭 1.2 m 以上
++//   ③ 兩間討論室的八個座位、八個方向：頭到鏡頭這一段不穿過隔間牆、前牆（穿出北牆、西牆到建築外面可以：外牆本來就會淡出）；修改前有穿過去的
++//   ④ 大廳（前牆以南 1 m 以外）鏡頭朝南（往大廳，不朝北側房間）時和修改前一模一樣
++// 用法：node tests/lawlib_cam_disc_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
++const _warn=console.warn; console.warn=(...a)=>{ if(/正式模型載入失敗/.test(String(a[0]))) return; _warn(...a); };
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster();
++E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++{ const lo=ASSETS.loadOne; ASSETS.loadOne=function(k){ if(k==='bldg.lawlib_interior') return Promise.reject(new Error('node')); return lo.apply(this,arguments); }; }
++const L=LAWLIB_LAYOUT, D=L.D, FZ=L.frontZ, H=L.ceil0;
++const z=Z3.ZONES.lawlib.build(E); E.zone=z; E.levels=z.levels; E.nav=z.nav; for(const n of E.levels) n._cm=null;
++E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; z.group.updateMatrixWorld(true);
++const DIST=Z3.ZONES.lawlib.camDist||4.4, PITCH=0.38;   /* engine3d.js enterZone：室內俯角 0.38 */
++const cols0=(z.camCols||[])[0]||[], cols1=(z.camCols||[])[1]||[];
++{ const parts=cols0.filter(m=>m.name==='CAMCOL_part'), fronts=cols0.filter(m=>/^CAMCOL_(front|lintel)$/.test(m.name));
++  const xs=parts.map(m=>+m.position.x.toFixed(2)).sort((a,b)=>a-b), ok=L.partitions.every(px=>xs.some(x=>Math.abs(x-px)<0.01));
++  const inv=cols0.length>0&&cols0.every(m=>m.material.visible===false&&m.userData.noMerge);
++  check('① camCols 第 0 層：三道隔間牆＋前牆（門洞兩側、門楣），看不見、不參加合併；第 1 層沒有', ok&&fronts.length>=7&&inv&&cols1.length===0,
++    `隔間牆 x ${xs.join('、')}、前牆 ${fronts.length} 塊、第 1 層 ${cols1.length} 塊`); }
++const keep=z.camCols;
++const camNow=(t,yaw,out)=>{ z._lcAll=null; return E.followCam(t,yaw,PITCH,DIST,0,out); };
++const camBefore=(t,yaw,out)=>{ z.camCols=null; z._lcAll=null; const r=E.followCam(t,yaw,PITCH,DIST,0,out); z.camCols=keep; z._lcAll=null; return r; };
++const seats=LL3.seatsOf?LL3.seatsOf(L).filter(s=>s.room&&/^disc/.test(s.room)):[];
++const roomOf=id=>L.rooms.find(r=>r.id===id);
++const inside=(c,r)=>c.x>r.x0-0.02&&c.x<r.x1+0.02&&c.z>-D/2&&c.z<FZ-0.1&&c.y<H-0.05;
++/* 頭 → 鏡頭這一段在建築裡面的部分都要在同一間房間裡（不穿過隔間牆、前牆）；穿出北牆、西牆到建築外面可以——外牆會淡出（法圖本來的剖面視角，zone.fadeWalls）*/
++const stays=(t,c,r)=>{ if(c.y>=H-0.05&&Math.abs(c.x)<L.W/2&&Math.abs(c.z)<D/2) return false; for(let i=1;i<=60;i++){ const k=i/60, x=t.x+(c.x-t.x)*k, zz=t.z+(c.z-t.z)*k; if(Math.abs(x)>=L.W/2-0.1||Math.abs(zz)>=D/2-0.1) continue; if(!(x>r.x0-0.02&&x<r.x1+0.02&&zz<FZ-0.1)) return false; } return true; };
++const f2=v=>v.toArray().map(a=>a.toFixed(2)).join(', ');
++{ const A=roomOf('discA'), t=new THREE.Vector3(-6.2,1.45,-6.8), yaw=Math.PI/2;   /* CC：鏡頭在 (−2.3, 3.21, −6.8)＝玩家正東 */
++  const c=new THREE.Vector3(), o=new THREE.Vector3(); const r=camNow(t,yaw,c); camBefore(t,yaw,o); const d=t.distanceTo(c);
++  check('② 修改前：討論室 A 西側的座位、鏡頭在東邊＝鏡頭在討論室 A 外面（測試抓得到；CC 量到 (−2.3, 3.21, −6.8)）', o.x>A.x1, `鏡頭 (${f2(o)})`);
++  check('② 修改後：鏡頭在討論室 A 裡面、天花板下面、離頭 1.2 m 以上', inside(c,A)&&d>=1.2, `鏡頭 (${f2(c)})、離頭 ${d.toFixed(2)} m、inner ${r.inner}`); }
++{ let n=0,bad=0,badOld=0,ex=null,exOld=null;
++  for(const s of seats){ const R=roomOf(s.room), t=new THREE.Vector3(s.x,1.45,s.z);
++    for(let k=0;k<8;k++){ const yaw=k*Math.PI/4; n++; const c=new THREE.Vector3(), o=new THREE.Vector3(); camNow(t,yaw,c); camBefore(t,yaw,o);
++      if(!stays(t,c,R)){ bad++; if(!ex) ex={seat:[s.x,s.z],yaw:+yaw.toFixed(2),cam:c.toArray().map(v=>+v.toFixed(2))}; }
++      if(!stays(t,o,R)){ badOld++; if(!exOld) exOld={seat:[s.x,s.z],yaw:+yaw.toFixed(2),cam:o.toArray().map(v=>+v.toFixed(2))}; } } }
++  check('③ 修改前：討論室的座位有鏡頭穿過隔間牆、前牆的（測試抓得到）', badOld>0, `${badOld}/${n}`+(exOld?' 例：'+JSON.stringify(exOld):''));
++  check('③ 兩間討論室的 8 個座位 × 8 個方向：頭到鏡頭這一段不穿過隔間牆、前牆（穿出外牆可以：外牆會淡出）', seats.length===8&&bad===0, `座位 ${seats.length} 個、跑出去 ${bad}/${n}`+(ex?' 例：'+JSON.stringify(ex):'')); }
++{ let n=0,diff=0,ex=null;
++  for(let x=-L.W/2+0.6;x<=L.W/2-0.6;x+=0.6) for(let zz=FZ+1;zz<=D/2-0.6;zz+=0.6){ if(!E.canStand(x,zz,0.32,0)) continue; const t=new THREE.Vector3(x,1.45,zz);
++    for(const yaw of [-Math.PI/2,-Math.PI/4,0,Math.PI/4,Math.PI/2]){ n++; const c=new THREE.Vector3(), o=new THREE.Vector3(); camNow(t,yaw,c); camBefore(t,yaw,o); if(c.distanceTo(o)>1e-6){ diff++; if(!ex) ex={x:+x.toFixed(2),z:+zz.toFixed(2),yaw:+yaw.toFixed(2)}; } } }
++  check('④ 大廳（前牆以南 1 m 以外）鏡頭朝南、東、西時和修改前一模一樣', n>100&&diff===0, `不一樣 ${diff}/${n}`+(ex?' 例：'+JSON.stringify(ex):'')); }
++console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
