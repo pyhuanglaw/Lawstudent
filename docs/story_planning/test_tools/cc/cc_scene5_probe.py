@@ -83,7 +83,15 @@ async def main():
                             r['auto'] = av
                         ex = [e.split('|') for e in (os.environ.get('EXTRA') or '').split(';') if e.count('|') == 4] + [e.split('@') for e in (os.environ.get('EXTRA2') or '').split('/') if e.count('@') == 4]   # EXTRA2＝PC 佇列用（ENV 已經用 ; 和 | 分欄）：項目之間 /、欄位之間 @   # EXTRA＝part|名字|ex,ey,ez|lx,ly,lz|lens;…（加拍的固定機位，例：總圖 B1 中庭往上看）
                         xv = [(e[1], [float(v) for v in e[2].split(',')], [float(v) for v in e[3].split(',')], float(e[4])) for e in ex if e[0] == part]
+                        on2 = False
                         for nm, eye, look, lens in list(views) + xv:
+                            if '_2f' in nm and not on2:   # 2F 的機位：玩家要站在 2F（lv1），遊戲才會顯示 2F（玩家在 1F 時樓上藏起來；11-08 第一輪拍到的是 1F 俯視）
+                                on2 = True
+                                p2 = await pg.evaluate("(()=>{ const q=GAME.E.interactables.find(i=>i.seat&&((i.seat.lv|0)>=1||(i.lv|0)>=1)); return q?{x:q.x,z:q.z}:null; })()")
+                                R.setup('%s 【前置／捷徑】讀檔把玩家放到 2F（lv1，2F 座位旁 %s）再拍 2F' % (tag, J(p2)))
+                                if p2:
+                                    s2 = await D.load_zone(pg, cdp, zone, DAY, h, x=p2['x'], z=p2['z'] + 0.6, yaw=0.0, lv=1, wait=9000); await pg.wait_for_timeout(3000)
+                                    R.note('%s 2F 讀檔後：%s；玩家 lv %s' % (tag, J(s2), await pg.evaluate("GAME.E.player.lv|0")))
                             r[nm] = await D.user_shot(pg, cdp, 's5_%s_%s_%s_%s' % (TAG, part, tn, nm), {'eye': eye, 'look': look, 'lens': lens})
                     except Exception as ex: R.check('%s 探針沒有例外' % tag, False, repr(ex)[:300])
             R.check('沒有 JS 例外', not errs, J(errs[:3]))

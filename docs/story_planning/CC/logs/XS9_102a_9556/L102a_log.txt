@@ -1,0 +1,277 @@
+CC 燒臘、頁間書屋光照（L102a）：SHA=?（worktree 實際 102a03cb9b）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [L102a xs_dabu 1400] 讀檔 xs_dabu 2025-10-18 14.0（條件事件關閉）
+PASS [L102a xs_dabu 1400] 進得了 xs_dabu  {"zone": "xs_dabu", "x": 2.5, "z": 4.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.02}
+  [  33.2s] [L102a xs_dabu 1400] 材質／光照貼圖：{"meshes": 97, "mats": 97, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 8, "views": [{"n": "VIEWPANE_xs_dabu", "vis": false}], "charFailures": [], "assetFailed": null, "glb": true}
+  [  33.2s] [L102a xs_dabu 1400] 自動機位：{"bmin": [-4.35, -0.36, -6.54], "bmax": [4.35, 4.14, 6.22], "spawn": [2.5, 4.4], "y0": 0, "fy": 0, "up": false, "yaw": 3.14, "center": [0, -0.16], "size": [8.7, 4.5, 12.76], "clerk": null, "seat": [-1.85, -0.7], "seatLv": [0, 0, null], "views": {"door": {"eye": [2.5, 1.6, 4.7], "look": [2.5, 1, -1.6], "lens": 18}, "top": {"eye": [0, 9.5, 0.64], "look": [0, 0, -0.46], "lens": 16}, "seat": {"eye": [-0.8, 1.4, -0.11], "look": [-1.85, 0.6, -0.7], "lens": 22}, "out": {"eye": [2.5, 1.55, 1.9], "look": [2.5, 1.4, 10.4], "lens": 20}}}
+PASS [黑畫面] s5_L102a_xs_dabu_1400_door 不是黑畫面（平均亮度 133.9、變化 44.1）  [133.9, 44.1]
+  [  37.9s] [截圖] s5_L102a_xs_dabu_1400_door：鏡頭 {"eye": [2.5, 1.6, 4.7], "look": [2.5, 1, -1.6], "lens": 18, "vfov": 58.72}、亮度 [133.9, 44.1]
+PASS [黑畫面] s5_L102a_xs_dabu_1400_top 不是黑畫面（平均亮度 171.6、變化 37.8）  [171.6, 37.8]
+  [  41.9s] [截圖] s5_L102a_xs_dabu_1400_top：鏡頭 {"eye": [0, 9.5, 0.64], "look": [0, 0, -0.46], "lens": 16, "vfov": 64.65}、亮度 [171.6, 37.8]
+PASS [黑畫面] s5_L102a_xs_dabu_1400_seat 不是黑畫面（平均亮度 140.1、變化 36.5）  [140.1, 36.5]
+  [  44.3s] [截圖] s5_L102a_xs_dabu_1400_seat：鏡頭 {"eye": [-0.8, 1.4, -0.11], "look": [-1.85, 0.6, -0.7], "lens": 22, "vfov": 49.43}、亮度 [140.1, 36.5]
+PASS [黑畫面] s5_L102a_xs_dabu_1400_out 不是黑畫面（平均亮度 127.8、變化 47.0）  [127.8, 47.0]
+  [  46.8s] [截圖] s5_L102a_xs_dabu_1400_out：鏡頭 {"eye": [2.5, 1.55, 1.9], "look": [2.5, 1.4, 10.4], "lens": 20, "vfov": 53.7}、亮度 [127.8, 47.0]
+PASS [黑畫面] s5_L102a_xs_dabu_1400_corner_a 不是黑畫面（平均亮度 145.8、變化 41.5）  [145.8, 41.5]
+  [  49.5s] [截圖] s5_L102a_xs_dabu_1400_corner_a：鏡頭 {"eye": [0, 0.6, -0.16], "look": [-4.05, 0.05, -6.24], "lens": 20, "vfov": 53.7}、亮度 [145.8, 41.5]
+PASS [黑畫面] s5_L102a_xs_dabu_1400_corner_b 不是黑畫面（平均亮度 131.0、變化 30.6）  [131.0, 30.6]
+  [  53.0s] [截圖] s5_L102a_xs_dabu_1400_corner_b：鏡頭 {"eye": [0, 0.6, -0.16], "look": [4.05, 0.05, 5.92], "lens": 20, "vfov": 53.7}、亮度 [131.0, 30.6]
+  [前置／捷徑] [L102a xs_dabu 2000] 讀檔 xs_dabu 2025-10-18 20.0（條件事件關閉）
+PASS [L102a xs_dabu 2000] 進得了 xs_dabu  {"zone": "xs_dabu", "x": 2.5, "z": 4.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.01}
+  [  67.5s] [L102a xs_dabu 2000] 材質／光照貼圖：{"meshes": 97, "mats": 97, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 8, "views": [{"n": "VIEWPANE_xs_dabu", "vis": false}], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_L102a_xs_dabu_2000_door 不是黑畫面（平均亮度 115.0、變化 42.2）  [115.0, 42.2]
+  [  70.8s] [截圖] s5_L102a_xs_dabu_2000_door：鏡頭 {"eye": [2.5, 1.6, 4.7], "look": [2.5, 1, -1.6], "lens": 18, "vfov": 58.72}、亮度 [115.0, 42.2]
+PASS [黑畫面] s5_L102a_xs_dabu_2000_top 不是黑畫面（平均亮度 72.3、變化 51.0）  [72.3, 51.0]
+  [  74.0s] [截圖] s5_L102a_xs_dabu_2000_top：鏡頭 {"eye": [0, 9.5, 0.64], "look": [0, 0, -0.46], "lens": 16, "vfov": 64.65}、亮度 [72.3, 51.0]
+PASS [黑畫面] s5_L102a_xs_dabu_2000_seat 不是黑畫面（平均亮度 111.8、變化 29.7）  [111.8, 29.7]
+  [  77.2s] [截圖] s5_L102a_xs_dabu_2000_seat：鏡頭 {"eye": [-0.8, 1.4, -0.11], "look": [-1.85, 0.6, -0.7], "lens": 22, "vfov": 49.43}、亮度 [111.8, 29.7]
+PASS [黑畫面] s5_L102a_xs_dabu_2000_out 不是黑畫面（平均亮度 91.9、變化 34.8）  [91.9, 34.8]
+  [  79.6s] [截圖] s5_L102a_xs_dabu_2000_out：鏡頭 {"eye": [2.5, 1.55, 1.9], "look": [2.5, 1.4, 10.4], "lens": 20, "vfov": 53.7}、亮度 [91.9, 34.8]
+PASS [黑畫面] s5_L102a_xs_dabu_2000_corner_a 不是黑畫面（平均亮度 125.5、變化 40.1）  [125.5, 40.1]
+  [  82.4s] [截圖] s5_L102a_xs_dabu_2000_corner_a：鏡頭 {"eye": [0, 0.6, -0.16], "look": [-4.05, 0.05, -6.24], "lens": 20, "vfov": 53.7}、亮度 [125.5, 40.1]
+PASS [黑畫面] s5_L102a_xs_dabu_2000_corner_b 不是黑畫面（平均亮度 99.9、變化 26.1）  [99.9, 26.1]
+  [  85.1s] [截圖] s5_L102a_xs_dabu_2000_corner_b：鏡頭 {"eye": [0, 0.6, -0.16], "look": [4.05, 0.05, 5.92], "lens": 20, "vfov": 53.7}、亮度 [99.9, 26.1]
+  [前置／捷徑] [L102a xs_haopai 1400] 讀檔 xs_haopai 2025-10-18 14.0（條件事件關閉）
+PASS [L102a xs_haopai 1400] 進得了 xs_haopai  {"zone": "xs_haopai", "x": 0, "z": 5.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [ 101.4s] [L102a xs_haopai 1400] 材質／光照貼圖：{"meshes": 110, "mats": 110, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 42, "views": [{"n": "VIEWPANE_xs_haopai", "vis": false}], "charFailures": [], "assetFailed": null, "glb": true}
+  [ 101.4s] [L102a xs_haopai 1400] 自動機位：{"bmin": [-2.3, -0.02, -7.45], "bmax": [2.33, 4.63, 7.22], "spawn": [0, 5.4], "y0": 0, "fy": 0, "up": false, "yaw": 3.14, "center": [0.02, -0.11], "size": [4.63, 4.65, 14.67], "clerk": null, "seat": [-0.26, 2.3], "seatLv": [0, 0, null], "views": {"door": {"eye": [-0.0, 1.6, 5.7], "look": [0, 1, -0.6], "lens": 18}, "top": {"eye": [0.02, 9.65, 0.69], "look": [0.02, 0, -0.41], "lens": 16}, "seat": {"eye": [0.24, 1.4, 1.85], "look": [-0.26, 0.6, 2.3], "lens": 22}, "out": {"eye": [0, 1.55, 2.9], "look": [-0.0, 1.4, 11.4], "lens": 20}}}
+PASS [黑畫面] s5_L102a_xs_haopai_1400_door 不是黑畫面（平均亮度 139.1、變化 60.8）  [139.1, 60.8]
+  [ 104.8s] [截圖] s5_L102a_xs_haopai_1400_door：鏡頭 {"eye": [-0.0, 1.6, 5.7], "look": [0, 1, -0.6], "lens": 18, "vfov": 58.72}、亮度 [139.1, 60.8]
+PASS [黑畫面] s5_L102a_xs_haopai_1400_top 不是黑畫面（平均亮度 190.8、變化 30.7）  [190.8, 30.7]
+  [ 108.4s] [截圖] s5_L102a_xs_haopai_1400_top：鏡頭 {"eye": [0.02, 9.65, 0.69], "look": [0.02, 0, -0.41], "lens": 16, "vfov": 64.65}、亮度 [190.8, 30.7]
+PASS [黑畫面] s5_L102a_xs_haopai_1400_seat 不是黑畫面（平均亮度 134.0、變化 67.9）  [134.0, 67.9]
+  [ 110.7s] [截圖] s5_L102a_xs_haopai_1400_seat：鏡頭 {"eye": [0.24, 1.4, 1.85], "look": [-0.26, 0.6, 2.3], "lens": 22, "vfov": 49.43}、亮度 [134.0, 67.9]
+PASS [黑畫面] s5_L102a_xs_haopai_1400_out 不是黑畫面（平均亮度 125.3、變化 43.2）  [125.3, 43.2]
+  [ 113.0s] [截圖] s5_L102a_xs_haopai_1400_out：鏡頭 {"eye": [0, 1.55, 2.9], "look": [-0.0, 1.4, 11.4], "lens": 20, "vfov": 53.7}、亮度 [125.3, 43.2]
+PASS [黑畫面] s5_L102a_xs_haopai_1400_corner_a 不是黑畫面（平均亮度 122.9、變化 65.2）  [122.9, 65.2]
+  [ 116.5s] [截圖] s5_L102a_xs_haopai_1400_corner_a：鏡頭 {"eye": [0.02, 0.6, -0.11], "look": [-1.9999999999999998, 0.05, -7.15], "lens": 20, "vfov": 53.7}、亮度 [122.9, 65.2]
+PASS [黑畫面] s5_L102a_xs_haopai_1400_corner_b 不是黑畫面（平均亮度 145.7、變化 60.1）  [145.7, 60.1]
+  [ 119.1s] [截圖] s5_L102a_xs_haopai_1400_corner_b：鏡頭 {"eye": [0.02, 0.6, -0.11], "look": [2.0300000000000002, 0.05, 6.92], "lens": 20, "vfov": 53.7}、亮度 [145.7, 60.1]
+  [前置／捷徑] [L102a xs_haopai 2000] 讀檔 xs_haopai 2025-10-18 20.0（條件事件關閉）
+PASS [L102a xs_haopai 2000] 進得了 xs_haopai  {"zone": "xs_haopai", "x": 0, "z": 5.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.01}
+  [ 133.9s] [L102a xs_haopai 2000] 材質／光照貼圖：{"meshes": 110, "mats": 110, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 42, "views": [{"n": "VIEWPANE_xs_haopai", "vis": false}], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_L102a_xs_haopai_2000_door 不是黑畫面（平均亮度 120.8、變化 57.4）  [120.8, 57.4]
+  [ 137.4s] [截圖] s5_L102a_xs_haopai_2000_door：鏡頭 {"eye": [-0.0, 1.6, 5.7], "look": [0, 1, -0.6], "lens": 18, "vfov": 58.72}、亮度 [120.8, 57.4]
+PASS [黑畫面] s5_L102a_xs_haopai_2000_top 不是黑畫面（平均亮度 59.5、變化 59.4）  [59.5, 59.4]
+  [ 139.4s] [截圖] s5_L102a_xs_haopai_2000_top：鏡頭 {"eye": [0.02, 9.65, 0.69], "look": [0.02, 0, -0.41], "lens": 16, "vfov": 64.65}、亮度 [59.5, 59.4]
+PASS [黑畫面] s5_L102a_xs_haopai_2000_seat 不是黑畫面（平均亮度 105.7、變化 49.5）  [105.7, 49.5]
+  [ 142.0s] [截圖] s5_L102a_xs_haopai_2000_seat：鏡頭 {"eye": [0.24, 1.4, 1.85], "look": [-0.26, 0.6, 2.3], "lens": 22, "vfov": 49.43}、亮度 [105.7, 49.5]
+PASS [黑畫面] s5_L102a_xs_haopai_2000_out 不是黑畫面（平均亮度 82.0、變化 32.6）  [82.0, 32.6]
+  [ 144.3s] [截圖] s5_L102a_xs_haopai_2000_out：鏡頭 {"eye": [0, 1.55, 2.9], "look": [-0.0, 1.4, 11.4], "lens": 20, "vfov": 53.7}、亮度 [82.0, 32.6]
+PASS [黑畫面] s5_L102a_xs_haopai_2000_corner_a 不是黑畫面（平均亮度 102.7、變化 54.4）  [102.7, 54.4]
+  [ 147.5s] [截圖] s5_L102a_xs_haopai_2000_corner_a：鏡頭 {"eye": [0.02, 0.6, -0.11], "look": [-1.9999999999999998, 0.05, -7.15], "lens": 20, "vfov": 53.7}、亮度 [102.7, 54.4]
+PASS [黑畫面] s5_L102a_xs_haopai_2000_corner_b 不是黑畫面（平均亮度 114.8、變化 49.4）  [114.8, 49.4]
+  [ 149.8s] [截圖] s5_L102a_xs_haopai_2000_corner_b：鏡頭 {"eye": [0.02, 0.6, -0.11], "look": [2.0300000000000002, 0.05, 6.92], "lens": 20, "vfov": 53.7}、亮度 [114.8, 49.4]
+  [前置／捷徑] [L102a xs_tongxian 1400] 讀檔 xs_tongxian 2025-10-18 14.0（條件事件關閉）
+PASS [L102a xs_tongxian 1400] 進得了 xs_tongxian  {"zone": "xs_tongxian", "x": 0.25, "z": 4.62, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [ 168.9s] [L102a xs_tongxian 1400] 材質／光照貼圖：{"meshes": 96, "mats": 96, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 16, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+  [ 168.9s] [L102a xs_tongxian 1400] 自動機位：{"bmin": [-3.8, -4.4, -6.8], "bmax": [3.32, 4.31, 5.26], "spawn": [0.25, 4.62], "y0": 0, "fy": 0, "up": false, "yaw": 2.55, "center": [-0.24, -0.77], "size": [7.12, 8.71, 12.06], "clerk": [1.75, 1], "seat": [-2.2, -4.05], "seatLv": [0, 0, null], "views": {"door": {"eye": [0.08, 1.6, 4.87], "look": [3.6, 1, -0.36], "lens": 18}, "top": {"eye": [-0.24, 13.71, 0.03], "look": [-0.24, 0, -1.07], "lens": 16}, "seat": {"eye": [-1.11, 1.4, -2.5], "look": [-2.2, 0.6, -4.05], "lens": 22}, "clerk": {"eye": [0.11, 1.6, -0.46], "look": [1.75, 1.2, 1], "lens": 24}, "out": {"eye": [1.64, 1.55, 2.54], "look": [-3.1, 1.4, 9.6], "lens": 20}}}
+PASS [黑畫面] s5_L102a_xs_tongxian_1400_door 不是黑畫面（平均亮度 157.9、變化 61.2）  [157.9, 61.2]
+  [ 172.8s] [截圖] s5_L102a_xs_tongxian_1400_door：鏡頭 {"eye": [0.08, 1.6, 4.87], "look": [3.6, 1, -0.36], "lens": 18, "vfov": 58.72}、亮度 [157.9, 61.2]
+PASS [黑畫面] s5_L102a_xs_tongxian_1400_top 不是黑畫面（平均亮度 192.2、變化 28.3）  [192.2, 28.3]
+  [ 175.6s] [截圖] s5_L102a_xs_tongxian_1400_top：鏡頭 {"eye": [-0.24, 13.71, 0.03], "look": [-0.24, 0, -1.07], "lens": 16, "vfov": 64.65}、亮度 [192.2, 28.3]
+PASS [黑畫面] s5_L102a_xs_tongxian_1400_seat 不是黑畫面（平均亮度 116.3、變化 60.4）  [116.3, 60.4]
+  [ 178.7s] [截圖] s5_L102a_xs_tongxian_1400_seat：鏡頭 {"eye": [-1.11, 1.4, -2.5], "look": [-2.2, 0.6, -4.05], "lens": 22, "vfov": 49.43}、亮度 [116.3, 60.4]
+PASS [黑畫面] s5_L102a_xs_tongxian_1400_clerk 不是黑畫面（平均亮度 156.1、變化 53.2）  [156.1, 53.2]
+  [ 181.8s] [截圖] s5_L102a_xs_tongxian_1400_clerk：鏡頭 {"eye": [0.11, 1.6, -0.46], "look": [1.75, 1.2, 1], "lens": 24, "vfov": 45.75}、亮度 [156.1, 53.2]
+PASS [黑畫面] s5_L102a_xs_tongxian_1400_out 不是黑畫面（平均亮度 155.2、變化 39.6）  [155.2, 39.6]
+  [ 185.2s] [截圖] s5_L102a_xs_tongxian_1400_out：鏡頭 {"eye": [1.64, 1.55, 2.54], "look": [-3.1, 1.4, 9.6], "lens": 20, "vfov": 53.7}、亮度 [155.2, 39.6]
+PASS [黑畫面] s5_L102a_xs_tongxian_1400_corner_a 不是黑畫面（平均亮度 154.8、變化 53.8）  [154.8, 53.8]
+  [ 187.7s] [截圖] s5_L102a_xs_tongxian_1400_corner_a：鏡頭 {"eye": [-0.24, 0.6, -0.77], "look": [-3.5, 0.05, -6.5], "lens": 20, "vfov": 53.7}、亮度 [154.8, 53.8]
+PASS [黑畫面] s5_L102a_xs_tongxian_1400_corner_b 不是黑畫面（平均亮度 150.4、變化 59.0）  [150.4, 59.0]
+  [ 191.1s] [截圖] s5_L102a_xs_tongxian_1400_corner_b：鏡頭 {"eye": [-0.24, 0.6, -0.77], "look": [3.02, 0.05, 4.96], "lens": 20, "vfov": 53.7}、亮度 [150.4, 59.0]
+  [前置／捷徑] [L102a xs_tongxian 2000] 讀檔 xs_tongxian 2025-10-18 20.0（條件事件關閉）
+PASS [L102a xs_tongxian 2000] 進得了 xs_tongxian  {"zone": "xs_tongxian", "x": 0.25, "z": 4.62, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.01}
+  [ 206.3s] [L102a xs_tongxian 2000] 材質／光照貼圖：{"meshes": 96, "mats": 96, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 16, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_L102a_xs_tongxian_2000_door 不是黑畫面（平均亮度 140.0、變化 58.3）  [140.0, 58.3]
+  [ 210.0s] [截圖] s5_L102a_xs_tongxian_2000_door：鏡頭 {"eye": [0.08, 1.6, 4.87], "look": [3.6, 1, -0.36], "lens": 18, "vfov": 58.72}、亮度 [140.0, 58.3]
+PASS [黑畫面] s5_L102a_xs_tongxian_2000_top 不是黑畫面（平均亮度 50.8、變化 51.0）  [50.8, 51.0]
+  [ 213.6s] [截圖] s5_L102a_xs_tongxian_2000_top：鏡頭 {"eye": [-0.24, 13.71, 0.03], "look": [-0.24, 0, -1.07], "lens": 16, "vfov": 64.65}、亮度 [50.8, 51.0]
+PASS [黑畫面] s5_L102a_xs_tongxian_2000_seat 不是黑畫面（平均亮度 104.3、變化 57.2）  [104.3, 57.2]
+  [ 216.5s] [截圖] s5_L102a_xs_tongxian_2000_seat：鏡頭 {"eye": [-1.11, 1.4, -2.5], "look": [-2.2, 0.6, -4.05], "lens": 22, "vfov": 49.43}、亮度 [104.3, 57.2]
+PASS [黑畫面] s5_L102a_xs_tongxian_2000_clerk 不是黑畫面（平均亮度 131.8、變化 49.3）  [131.8, 49.3]
+  [ 219.6s] [截圖] s5_L102a_xs_tongxian_2000_clerk：鏡頭 {"eye": [0.11, 1.6, -0.46], "look": [1.75, 1.2, 1], "lens": 24, "vfov": 45.75}、亮度 [131.8, 49.3]
+PASS [黑畫面] s5_L102a_xs_tongxian_2000_out 不是黑畫面（平均亮度 130.5、變化 33.6）  [130.5, 33.6]
+  [ 222.7s] [截圖] s5_L102a_xs_tongxian_2000_out：鏡頭 {"eye": [1.64, 1.55, 2.54], "look": [-3.1, 1.4, 9.6], "lens": 20, "vfov": 53.7}、亮度 [130.5, 33.6]
+PASS [黑畫面] s5_L102a_xs_tongxian_2000_corner_a 不是黑畫面（平均亮度 136.3、變化 45.3）  [136.3, 45.3]
+  [ 224.9s] [截圖] s5_L102a_xs_tongxian_2000_corner_a：鏡頭 {"eye": [-0.24, 0.6, -0.77], "look": [-3.5, 0.05, -6.5], "lens": 20, "vfov": 53.7}、亮度 [136.3, 45.3]
+PASS [黑畫面] s5_L102a_xs_tongxian_2000_corner_b 不是黑畫面（平均亮度 126.9、變化 51.4）  [126.9, 51.4]
+  [ 227.6s] [截圖] s5_L102a_xs_tongxian_2000_corner_b：鏡頭 {"eye": [-0.24, 0.6, -0.77], "look": [3.02, 0.05, 4.96], "lens": 20, "vfov": 53.7}、亮度 [126.9, 51.4]
+  [前置／捷徑] [L102a xs_xsports 1400] 讀檔 xs_xsports 2025-10-18 14.0（條件事件關閉）
+PASS [L102a xs_xsports 1400] 進得了 xs_xsports  {"zone": "xs_xsports", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [ 243.6s] [L102a xs_xsports 1400] 材質／光照貼圖：{"meshes": 132, "mats": 132, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 63, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+  [ 243.6s] [L102a xs_xsports 1400] 自動機位：{"bmin": [-8.2, -0.1, -8.35], "bmax": [7.1, 8.83, 8.5], "spawn": [0, 6.4], "y0": 0, "fy": 0, "up": false, "yaw": 3.14, "center": [-0.55, 0.08], "size": [15.3, 8.93, 16.85], "clerk": null, "seat": [-5.6, 3.5], "seatLv": [0, 0, null], "views": {"door": {"eye": [-0.0, 1.6, 6.7], "look": [0, 1, 0.4], "lens": 18}, "top": {"eye": [-0.55, 13.93, 0.88], "look": [-0.55, 0, -0.22], "lens": 16}, "seat": {"eye": [-3.43, 1.4, 2.7], "look": [-5.6, 0.6, 3.5], "lens": 22}, "out": {"eye": [0, 1.55, 3.9], "look": [-0.0, 1.4, 12.4], "lens": 20}}}
+PASS [黑畫面] s5_L102a_xs_xsports_1400_door 不是黑畫面（平均亮度 120.8、變化 66.5）  [120.8, 66.5]
+  [ 247.5s] [截圖] s5_L102a_xs_xsports_1400_door：鏡頭 {"eye": [-0.0, 1.6, 6.7], "look": [0, 1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [120.8, 66.5]
+PASS [黑畫面] s5_L102a_xs_xsports_1400_top 不是黑畫面（平均亮度 170.4、變化 41.4）  [170.4, 41.4]
+  [ 251.7s] [截圖] s5_L102a_xs_xsports_1400_top：鏡頭 {"eye": [-0.55, 13.93, 0.88], "look": [-0.55, 0, -0.22], "lens": 16, "vfov": 64.65}、亮度 [170.4, 41.4]
+PASS [黑畫面] s5_L102a_xs_xsports_1400_seat 不是黑畫面（平均亮度 128.9、變化 45.1）  [128.9, 45.1]
+  [ 254.2s] [截圖] s5_L102a_xs_xsports_1400_seat：鏡頭 {"eye": [-3.43, 1.4, 2.7], "look": [-5.6, 0.6, 3.5], "lens": 22, "vfov": 49.43}、亮度 [128.9, 45.1]
+PASS [黑畫面] s5_L102a_xs_xsports_1400_out 不是黑畫面（平均亮度 161.0、變化 44.0）  [161.0, 44.0]
+  [ 256.8s] [截圖] s5_L102a_xs_xsports_1400_out：鏡頭 {"eye": [0, 1.55, 3.9], "look": [-0.0, 1.4, 12.4], "lens": 20, "vfov": 53.7}、亮度 [161.0, 44.0]
+PASS [黑畫面] s5_L102a_xs_xsports_1400_corner_a 不是黑畫面（平均亮度 114.2、變化 61.0）  [114.2, 61.0]
+  [ 259.5s] [截圖] s5_L102a_xs_xsports_1400_corner_a：鏡頭 {"eye": [-0.55, 0.6, 0.08], "look": [-7.8999999999999995, 0.05, -8.049999999999999], "lens": 20, "vfov": 53.7}、亮度 [114.2, 61.0]
+PASS [黑畫面] s5_L102a_xs_xsports_1400_corner_b 不是黑畫面（平均亮度 125.0、變化 75.4）  [125.0, 75.4]
+  [ 262.2s] [截圖] s5_L102a_xs_xsports_1400_corner_b：鏡頭 {"eye": [-0.55, 0.6, 0.08], "look": [6.8, 0.05, 8.2], "lens": 20, "vfov": 53.7}、亮度 [125.0, 75.4]
+  [前置／捷徑] [L102a xs_xsports 2000] 讀檔 xs_xsports 2025-10-18 20.0（條件事件關閉）
+PASS [L102a xs_xsports 2000] 進得了 xs_xsports  {"zone": "xs_xsports", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.01}
+  [ 279.2s] [L102a xs_xsports 2000] 材質／光照貼圖：{"meshes": 132, "mats": 132, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 63, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_L102a_xs_xsports_2000_door 不是黑畫面（平均亮度 97.1、變化 56.9）  [97.1, 56.9]
+  [ 282.8s] [截圖] s5_L102a_xs_xsports_2000_door：鏡頭 {"eye": [-0.0, 1.6, 6.7], "look": [0, 1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [97.1, 56.9]
+PASS [黑畫面] s5_L102a_xs_xsports_2000_top 不是黑畫面（平均亮度 75.4、變化 51.3）  [75.4, 51.3]
+  [ 287.5s] [截圖] s5_L102a_xs_xsports_2000_top：鏡頭 {"eye": [-0.55, 13.93, 0.88], "look": [-0.55, 0, -0.22], "lens": 16, "vfov": 64.65}、亮度 [75.4, 51.3]
+PASS [黑畫面] s5_L102a_xs_xsports_2000_seat 不是黑畫面（平均亮度 90.7、變化 26.6）  [90.7, 26.6]
+  [ 290.2s] [截圖] s5_L102a_xs_xsports_2000_seat：鏡頭 {"eye": [-3.43, 1.4, 2.7], "look": [-5.6, 0.6, 3.5], "lens": 22, "vfov": 49.43}、亮度 [90.7, 26.6]
+PASS [黑畫面] s5_L102a_xs_xsports_2000_out 不是黑畫面（平均亮度 67.7、變化 40.7）  [67.7, 40.7]
+  [ 292.2s] [截圖] s5_L102a_xs_xsports_2000_out：鏡頭 {"eye": [0, 1.55, 3.9], "look": [-0.0, 1.4, 12.4], "lens": 20, "vfov": 53.7}、亮度 [67.7, 40.7]
+PASS [黑畫面] s5_L102a_xs_xsports_2000_corner_a 不是黑畫面（平均亮度 89.6、變化 49.2）  [89.6, 49.2]
+  [ 294.6s] [截圖] s5_L102a_xs_xsports_2000_corner_a：鏡頭 {"eye": [-0.55, 0.6, 0.08], "look": [-7.8999999999999995, 0.05, -8.049999999999999], "lens": 20, "vfov": 53.7}、亮度 [89.6, 49.2]
+PASS [黑畫面] s5_L102a_xs_xsports_2000_corner_b 不是黑畫面（平均亮度 91.5、變化 61.6）  [91.5, 61.6]
+  [ 297.3s] [截圖] s5_L102a_xs_xsports_2000_corner_b：鏡頭 {"eye": [-0.55, 0.6, 0.08], "look": [6.8, 0.05, 8.2], "lens": 20, "vfov": 53.7}、亮度 [91.5, 61.6]
+  [前置／捷徑] [L102a xs_shanlan 1400] 讀檔 xs_shanlan 2025-10-18 14.0（條件事件關閉）
+PASS [L102a xs_shanlan 1400] 進得了 xs_shanlan  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [ 313.6s] [L102a xs_shanlan 1400] 材質／光照貼圖：{"meshes": 53, "mats": 53, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 7, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+  [ 313.6s] [L102a xs_shanlan 1400] 自動機位：{"bmin": [-7.14, -0.02, -9.14], "bmax": [7.14, 8.85, 9.27], "spawn": [0.8, 7.5], "y0": 0, "fy": 0, "up": false, "yaw": 3.14, "center": [0, 0.06], "size": [14.28, 8.87, 18.41], "clerk": null, "seat": [-4.4, 8.7], "seatLv": [0, 0, null], "views": {"door": {"eye": [0.8, 1.6, 7.8], "look": [0.8, 1, 1.5], "lens": 18}, "top": {"eye": [0, 13.87, 0.86], "look": [0, 0, -0.24], "lens": 16}, "seat": {"eye": [-2.46, 1.4, 6.08], "look": [-4.4, 0.6, 8.7], "lens": 22}, "out": {"eye": [0.8, 1.55, 5], "look": [0.8, 1.4, 13.5], "lens": 20}}}
+PASS [黑畫面] s5_L102a_xs_shanlan_1400_door 不是黑畫面（平均亮度 122.9、變化 56.0）  [122.9, 56.0]
+  [ 320.1s] [截圖] s5_L102a_xs_shanlan_1400_door：鏡頭 {"eye": [0.8, 1.6, 7.8], "look": [0.8, 1, 1.5], "lens": 18, "vfov": 58.72}、亮度 [122.9, 56.0]
+PASS [黑畫面] s5_L102a_xs_shanlan_1400_top 不是黑畫面（平均亮度 108.7、變化 35.4）  [108.7, 35.4]
+  [ 327.3s] [截圖] s5_L102a_xs_shanlan_1400_top：鏡頭 {"eye": [0, 13.87, 0.86], "look": [0, 0, -0.24], "lens": 16, "vfov": 64.65}、亮度 [108.7, 35.4]
+PASS [黑畫面] s5_L102a_xs_shanlan_1400_seat 不是黑畫面（平均亮度 134.1、變化 56.4）  [134.1, 56.4]
+  [ 331.3s] [截圖] s5_L102a_xs_shanlan_1400_seat：鏡頭 {"eye": [-2.46, 1.4, 6.08], "look": [-4.4, 0.6, 8.7], "lens": 22, "vfov": 49.43}、亮度 [134.1, 56.4]
+PASS [黑畫面] s5_L102a_xs_shanlan_1400_out 不是黑畫面（平均亮度 154.8、變化 59.7）  [154.8, 59.7]
+  [ 334.0s] [截圖] s5_L102a_xs_shanlan_1400_out：鏡頭 {"eye": [0.8, 1.55, 5], "look": [0.8, 1.4, 13.5], "lens": 20, "vfov": 53.7}、亮度 [154.8, 59.7]
+PASS [黑畫面] s5_L102a_xs_shanlan_1400_corner_a 不是黑畫面（平均亮度 107.8、變化 41.9）  [107.8, 41.9]
+  [ 338.3s] [截圖] s5_L102a_xs_shanlan_1400_corner_a：鏡頭 {"eye": [0, 0.6, 0.06], "look": [-6.84, 0.05, -8.84], "lens": 20, "vfov": 53.7}、亮度 [107.8, 41.9]
+PASS [黑畫面] s5_L102a_xs_shanlan_1400_corner_b 不是黑畫面（平均亮度 142.4、變化 40.8）  [142.4, 40.8]
+  [ 341.8s] [截圖] s5_L102a_xs_shanlan_1400_corner_b：鏡頭 {"eye": [0, 0.6, 0.06], "look": [6.84, 0.05, 8.969999999999999], "lens": 20, "vfov": 53.7}、亮度 [142.4, 40.8]
+  [前置／捷徑] [L102a xs_shanlan 2000] 讀檔 xs_shanlan 2025-10-18 20.0（條件事件關閉）
+PASS [L102a xs_shanlan 2000] 進得了 xs_shanlan  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.01}
+  [ 356.4s] [L102a xs_shanlan 2000] 材質／光照貼圖：{"meshes": 53, "mats": 53, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 7, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_L102a_xs_shanlan_2000_door 不是黑畫面（平均亮度 99.1、變化 53.5）  [99.1, 53.5]
+  [ 361.7s] [截圖] s5_L102a_xs_shanlan_2000_door：鏡頭 {"eye": [0.8, 1.6, 7.8], "look": [0.8, 1, 1.5], "lens": 18, "vfov": 58.72}、亮度 [99.1, 53.5]
+PASS [黑畫面] s5_L102a_xs_shanlan_2000_top 不是黑畫面（平均亮度 78.7、變化 21.0）  [78.7, 21.0]
+  [ 368.6s] [截圖] s5_L102a_xs_shanlan_2000_top：鏡頭 {"eye": [0, 13.87, 0.86], "look": [0, 0, -0.24], "lens": 16, "vfov": 64.65}、亮度 [78.7, 21.0]
+PASS [黑畫面] s5_L102a_xs_shanlan_2000_seat 不是黑畫面（平均亮度 57.9、變化 29.1）  [57.9, 29.1]
+  [ 372.8s] [截圖] s5_L102a_xs_shanlan_2000_seat：鏡頭 {"eye": [-2.46, 1.4, 6.08], "look": [-4.4, 0.6, 8.7], "lens": 22, "vfov": 49.43}、亮度 [57.9, 29.1]
+PASS [黑畫面] s5_L102a_xs_shanlan_2000_out 不是黑畫面（平均亮度 39.0、變化 24.7）  [39.0, 24.7]
+  [ 374.9s] [截圖] s5_L102a_xs_shanlan_2000_out：鏡頭 {"eye": [0.8, 1.55, 5], "look": [0.8, 1.4, 13.5], "lens": 20, "vfov": 53.7}、亮度 [39.0, 24.7]
+PASS [黑畫面] s5_L102a_xs_shanlan_2000_corner_a 不是黑畫面（平均亮度 91.2、變化 36.7）  [91.2, 36.7]
+  [ 379.4s] [截圖] s5_L102a_xs_shanlan_2000_corner_a：鏡頭 {"eye": [0, 0.6, 0.06], "look": [-6.84, 0.05, -8.84], "lens": 20, "vfov": 53.7}、亮度 [91.2, 36.7]
+PASS [黑畫面] s5_L102a_xs_shanlan_2000_corner_b 不是黑畫面（平均亮度 90.6、變化 42.4）  [90.6, 42.4]
+  [ 382.7s] [截圖] s5_L102a_xs_shanlan_2000_corner_b：鏡頭 {"eye": [0, 0.6, 0.06], "look": [6.84, 0.05, 8.969999999999999], "lens": 20, "vfov": 53.7}、亮度 [90.6, 42.4]
+  [前置／捷徑] [L102a xs_dakou 1400] 讀檔 xs_dakou 2025-10-18 14.0（條件事件關閉）
+PASS [L102a xs_dakou 1400] 進得了 xs_dakou  {"zone": "xs_dakou", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [ 399.5s] [L102a xs_dakou 1400] 材質／光照貼圖：{"meshes": 87, "mats": 87, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 36, "views": [{"n": "VIEWPANE_xs_dakou", "vis": false}, {"n": "VIEWPANE_xs_dakou_2f", "vis": false}], "charFailures": [], "assetFailed": null, "glb": true}
+  [ 399.5s] [L102a xs_dakou 1400] 自動機位：{"bmin": [-6.2, -0.05, -8.2], "bmax": [6.2, 7.2, 8.22], "spawn": [0, 6.4], "y0": 0, "fy": 0, "up": false, "yaw": 3.14, "center": [0, 0.01], "size": [12.4, 7.25, 16.42], "clerk": [-1.5, -4.9], "seat": [-5.2, -2], "seatLv": [0, 0, null], "views": {"door": {"eye": [-0.0, 1.6, 6.7], "look": [0, 1, 0.4], "lens": 18}, "top": {"eye": [0, 12.25, 0.81], "look": [0, 0, -0.29], "lens": 16}, "seat": {"eye": [-2.98, 1.4, -0.9], "look": [-5.2, 0.6, -2], "lens": 22}, "clerk": {"eye": [-0.86, 1.6, -2.8], "look": [-1.5, 1.2, -4.9], "lens": 24}, "out": {"eye": [0, 1.55, 3.9], "look": [-0.0, 1.4, 12.4], "lens": 20}}}
+PASS [黑畫面] s5_L102a_xs_dakou_1400_door 不是黑畫面（平均亮度 170.7、變化 48.5）  [170.7, 48.5]
+  [ 403.9s] [截圖] s5_L102a_xs_dakou_1400_door：鏡頭 {"eye": [-0.0, 1.6, 6.7], "look": [0, 1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [170.7, 48.5]
+PASS [黑畫面] s5_L102a_xs_dakou_1400_top 不是黑畫面（平均亮度 175.5、變化 40.0）  [175.5, 40.0]
+  [ 409.0s] [截圖] s5_L102a_xs_dakou_1400_top：鏡頭 {"eye": [0, 12.25, 0.81], "look": [0, 0, -0.29], "lens": 16, "vfov": 64.65}、亮度 [175.5, 40.0]
+PASS [黑畫面] s5_L102a_xs_dakou_1400_seat 不是黑畫面（平均亮度 141.2、變化 69.2）  [141.2, 69.2]
+  [ 412.1s] [截圖] s5_L102a_xs_dakou_1400_seat：鏡頭 {"eye": [-2.98, 1.4, -0.9], "look": [-5.2, 0.6, -2], "lens": 22, "vfov": 49.43}、亮度 [141.2, 69.2]
+PASS [黑畫面] s5_L102a_xs_dakou_1400_clerk 不是黑畫面（平均亮度 140.7、變化 62.8）  [140.7, 62.8]
+  [ 415.0s] [截圖] s5_L102a_xs_dakou_1400_clerk：鏡頭 {"eye": [-0.86, 1.6, -2.8], "look": [-1.5, 1.2, -4.9], "lens": 24, "vfov": 45.75}、亮度 [140.7, 62.8]
+PASS [黑畫面] s5_L102a_xs_dakou_1400_out 不是黑畫面（平均亮度 133.4、變化 67.1）  [133.4, 67.1]
+  [ 418.3s] [截圖] s5_L102a_xs_dakou_1400_out：鏡頭 {"eye": [0, 1.55, 3.9], "look": [-0.0, 1.4, 12.4], "lens": 20, "vfov": 53.7}、亮度 [133.4, 67.1]
+PASS [黑畫面] s5_L102a_xs_dakou_1400_corner_a 不是黑畫面（平均亮度 150.7、變化 57.9）  [150.7, 57.9]
+  [ 421.6s] [截圖] s5_L102a_xs_dakou_1400_corner_a：鏡頭 {"eye": [0, 0.6, 0.01], "look": [-5.9, 0.05, -7.8999999999999995], "lens": 20, "vfov": 53.7}、亮度 [150.7, 57.9]
+PASS [黑畫面] s5_L102a_xs_dakou_1400_corner_b 不是黑畫面（平均亮度 158.9、變化 54.2）  [158.9, 54.2]
+  [ 424.6s] [截圖] s5_L102a_xs_dakou_1400_corner_b：鏡頭 {"eye": [0, 0.6, 0.01], "look": [5.9, 0.05, 7.920000000000001], "lens": 20, "vfov": 53.7}、亮度 [158.9, 54.2]
+PASS [黑畫面] s5_L102a_xs_dakou_1400_room_2f 不是黑畫面（平均亮度 169.3、變化 40.2）  [169.3, 40.2]
+  [ 428.0s] [截圖] s5_L102a_xs_dakou_1400_room_2f：鏡頭 {"eye": [0, 5.2, 7.620000000000001], "look": [0, 4.6, -7.699999999999999], "lens": 18, "vfov": 58.72}、亮度 [169.3, 40.2]
+PASS [黑畫面] s5_L102a_xs_dakou_1400_corner_2f_a 不是黑畫面（平均亮度 163.1、變化 47.4）  [163.1, 47.4]
+  [ 430.2s] [截圖] s5_L102a_xs_dakou_1400_corner_2f_a：鏡頭 {"eye": [0, 4.2, 0.01], "look": [-5.9, 3.65, -7.8999999999999995], "lens": 20, "vfov": 53.7}、亮度 [163.1, 47.4]
+PASS [黑畫面] s5_L102a_xs_dakou_1400_corner_2f_b 不是黑畫面（平均亮度 156.8、變化 46.8）  [156.8, 46.8]
+  [ 432.5s] [截圖] s5_L102a_xs_dakou_1400_corner_2f_b：鏡頭 {"eye": [0, 4.2, 0.01], "look": [5.9, 3.65, 7.920000000000001], "lens": 20, "vfov": 53.7}、亮度 [156.8, 46.8]
+  [前置／捷徑] [L102a xs_dakou 2000] 讀檔 xs_dakou 2025-10-18 20.0（條件事件關閉）
+PASS [L102a xs_dakou 2000] 進得了 xs_dakou  {"zone": "xs_dakou", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "聽一句", "stand": true, "fb": 0, "hour": 20.01}
+  [ 450.4s] [L102a xs_dakou 2000] 材質／光照貼圖：{"meshes": 98, "mats": 98, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 36, "views": [{"n": "VIEWPANE_xs_dakou", "vis": false}, {"n": "VIEWPANE_xs_dakou_2f", "vis": false}], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_L102a_xs_dakou_2000_door 不是黑畫面（平均亮度 134.6、變化 54.1）  [134.6, 54.1]
+  [ 455.4s] [截圖] s5_L102a_xs_dakou_2000_door：鏡頭 {"eye": [-0.0, 1.6, 6.7], "look": [0, 1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [134.6, 54.1]
+PASS [黑畫面] s5_L102a_xs_dakou_2000_top 不是黑畫面（平均亮度 75.7、變化 51.0）  [75.7, 51.0]
+  [ 461.0s] [截圖] s5_L102a_xs_dakou_2000_top：鏡頭 {"eye": [0, 12.25, 0.81], "look": [0, 0, -0.29], "lens": 16, "vfov": 64.65}、亮度 [75.7, 51.0]
+PASS [黑畫面] s5_L102a_xs_dakou_2000_seat 不是黑畫面（平均亮度 61.6、變化 48.5）  [61.6, 48.5]
+  [ 463.9s] [截圖] s5_L102a_xs_dakou_2000_seat：鏡頭 {"eye": [-2.98, 1.4, -0.9], "look": [-5.2, 0.6, -2], "lens": 22, "vfov": 49.43}、亮度 [61.6, 48.5]
+PASS [黑畫面] s5_L102a_xs_dakou_2000_clerk 不是黑畫面（平均亮度 107.3、變化 53.4）  [107.3, 53.4]
+  [ 466.9s] [截圖] s5_L102a_xs_dakou_2000_clerk：鏡頭 {"eye": [-0.86, 1.6, -2.8], "look": [-1.5, 1.2, -4.9], "lens": 24, "vfov": 45.75}、亮度 [107.3, 53.4]
+PASS [黑畫面] s5_L102a_xs_dakou_2000_out 不是黑畫面（平均亮度 62.0、變化 41.5）  [62.0, 41.5]
+  [ 470.5s] [截圖] s5_L102a_xs_dakou_2000_out：鏡頭 {"eye": [0, 1.55, 3.9], "look": [-0.0, 1.4, 12.4], "lens": 20, "vfov": 53.7}、亮度 [62.0, 41.5]
+PASS [黑畫面] s5_L102a_xs_dakou_2000_corner_a 不是黑畫面（平均亮度 106.8、變化 56.5）  [106.8, 56.5]
+  [ 473.2s] [截圖] s5_L102a_xs_dakou_2000_corner_a：鏡頭 {"eye": [0, 0.6, 0.01], "look": [-5.9, 0.05, -7.8999999999999995], "lens": 20, "vfov": 53.7}、亮度 [106.8, 56.5]
+PASS [黑畫面] s5_L102a_xs_dakou_2000_corner_b 不是黑畫面（平均亮度 114.9、變化 50.9）  [114.9, 50.9]
+  [ 476.5s] [截圖] s5_L102a_xs_dakou_2000_corner_b：鏡頭 {"eye": [0, 0.6, 0.01], "look": [5.9, 0.05, 7.920000000000001], "lens": 20, "vfov": 53.7}、亮度 [114.9, 50.9]
+PASS [黑畫面] s5_L102a_xs_dakou_2000_room_2f 不是黑畫面（平均亮度 49.9、變化 49.4）  [49.9, 49.4]
+  [ 479.8s] [截圖] s5_L102a_xs_dakou_2000_room_2f：鏡頭 {"eye": [0, 5.2, 7.620000000000001], "look": [0, 4.6, -7.699999999999999], "lens": 18, "vfov": 58.72}、亮度 [49.9, 49.4]
+PASS [黑畫面] s5_L102a_xs_dakou_2000_corner_2f_a 不是黑畫面（平均亮度 51.2、變化 53.2）  [51.2, 53.2]
+  [ 482.5s] [截圖] s5_L102a_xs_dakou_2000_corner_2f_a：鏡頭 {"eye": [0, 4.2, 0.01], "look": [-5.9, 3.65, -7.8999999999999995], "lens": 20, "vfov": 53.7}、亮度 [51.2, 53.2]
+PASS [黑畫面] s5_L102a_xs_dakou_2000_corner_2f_b 不是黑畫面（平均亮度 54.5、變化 47.9）  [54.5, 47.9]
+  [ 485.7s] [截圖] s5_L102a_xs_dakou_2000_corner_2f_b：鏡頭 {"eye": [0, 4.2, 0.01], "look": [5.9, 3.65, 7.920000000000001], "lens": 20, "vfov": 53.7}、亮度 [54.5, 47.9]
+  [前置／捷徑] [L102a xs_nanyang_hall 1400] 讀檔 xs_nanyang_hall 2025-10-18 14.0（條件事件關閉）
+PASS [L102a xs_nanyang_hall 1400] 進得了 xs_nanyang_hall  {"zone": "xs_nanyang_hall", "x": 3.5, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [ 501.7s] [L102a xs_nanyang_hall 1400] 材質／光照貼圖：{"meshes": 55, "mats": 55, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 11, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+  [ 501.7s] [L102a xs_nanyang_hall 1400] 自動機位：{"bmin": [-6, -0.96, -8.2], "bmax": [6, 5.6, 8.22], "spawn": [3.5, 6.4], "y0": 0, "fy": 0, "up": false, "yaw": 3.14, "center": [0, 0.01], "size": [12, 6.56, 16.42], "clerk": null, "seat": [2.26, 4.3], "seatLv": [0, 0, 0], "views": {"door": {"eye": [3.5, 1.6, 6.7], "look": [3.5, 1, 0.4], "lens": 18}, "top": {"eye": [0, 11.56, 0.81], "look": [0, 0, -0.29], "lens": 16}, "seat": {"eye": [1.87, 1.4, 3.2], "look": [2.26, 0.6, 4.3], "lens": 22}, "out": {"eye": [3.5, 1.55, 3.9], "look": [3.5, 1.4, 12.4], "lens": 20}}}
+PASS [黑畫面] s5_L102a_xs_nanyang_hall_1400_door 不是黑畫面（平均亮度 47.5、變化 41.2）  [47.5, 41.2]
+  [ 505.5s] [截圖] s5_L102a_xs_nanyang_hall_1400_door：鏡頭 {"eye": [3.5, 1.6, 6.7], "look": [3.5, 1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [47.5, 41.2]
+PASS [黑畫面] s5_L102a_xs_nanyang_hall_1400_top 不是黑畫面（平均亮度 76.7、變化 57.3）  [76.7, 57.3]
+  [ 509.0s] [截圖] s5_L102a_xs_nanyang_hall_1400_top：鏡頭 {"eye": [0, 11.56, 0.81], "look": [0, 0, -0.29], "lens": 16, "vfov": 64.65}、亮度 [76.7, 57.3]
+PASS [黑畫面] s5_L102a_xs_nanyang_hall_1400_seat 不是黑畫面（平均亮度 43.3、變化 16.3）  [43.3, 16.3]
+  [ 513.1s] [截圖] s5_L102a_xs_nanyang_hall_1400_seat：鏡頭 {"eye": [1.87, 1.4, 3.2], "look": [2.26, 0.6, 4.3], "lens": 22, "vfov": 49.43}、亮度 [43.3, 16.3]
+PASS [黑畫面] s5_L102a_xs_nanyang_hall_1400_out 不是黑畫面（平均亮度 54.7、變化 40.0）  [54.7, 40.0]
+  [ 515.4s] [截圖] s5_L102a_xs_nanyang_hall_1400_out：鏡頭 {"eye": [3.5, 1.55, 3.9], "look": [3.5, 1.4, 12.4], "lens": 20, "vfov": 53.7}、亮度 [54.7, 40.0]
+PASS [黑畫面] s5_L102a_xs_nanyang_hall_1400_corner_a 不是黑畫面（平均亮度 40.6、變化 34.2）  [40.6, 34.2]
+  [ 518.1s] [截圖] s5_L102a_xs_nanyang_hall_1400_corner_a：鏡頭 {"eye": [0, 0.6, 0.01], "look": [-5.7, 0.05, -7.8999999999999995], "lens": 20, "vfov": 53.7}、亮度 [40.6, 34.2]
+PASS [黑畫面] s5_L102a_xs_nanyang_hall_1400_corner_b 不是黑畫面（平均亮度 50.6、變化 27.0）  [50.6, 27.0]
+  [ 521.9s] [截圖] s5_L102a_xs_nanyang_hall_1400_corner_b：鏡頭 {"eye": [0, 0.6, 0.01], "look": [5.7, 0.05, 7.920000000000001], "lens": 20, "vfov": 53.7}、亮度 [50.6, 27.0]
+  [前置／捷徑] [L102a xs_nanyang_hall 2000] 讀檔 xs_nanyang_hall 2025-10-18 20.0（條件事件關閉）
+PASS [L102a xs_nanyang_hall 2000] 進得了 xs_nanyang_hall  {"zone": "xs_nanyang_hall", "x": 3.5, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.01}
+  [ 536.8s] [L102a xs_nanyang_hall 2000] 材質／光照貼圖：{"meshes": 55, "mats": 55, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 11, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_L102a_xs_nanyang_hall_2000_door 不是黑畫面（平均亮度 40.8、變化 40.2）  [40.8, 40.2]
+  [ 540.8s] [截圖] s5_L102a_xs_nanyang_hall_2000_door：鏡頭 {"eye": [3.5, 1.6, 6.7], "look": [3.5, 1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [40.8, 40.2]
+PASS [黑畫面] s5_L102a_xs_nanyang_hall_2000_top 不是黑畫面（平均亮度 39.1、變化 18.5）  [39.1, 18.5]
+  [ 544.0s] [截圖] s5_L102a_xs_nanyang_hall_2000_top：鏡頭 {"eye": [0, 11.56, 0.81], "look": [0, 0, -0.29], "lens": 16, "vfov": 64.65}、亮度 [39.1, 18.5]
+PASS [黑畫面] s5_L102a_xs_nanyang_hall_2000_seat 不是黑畫面（平均亮度 31.6、變化 10.7）  [31.6, 10.7]
+  [ 548.3s] [截圖] s5_L102a_xs_nanyang_hall_2000_seat：鏡頭 {"eye": [1.87, 1.4, 3.2], "look": [2.26, 0.6, 4.3], "lens": 22, "vfov": 49.43}、亮度 [31.6, 10.7]
+PASS [黑畫面] s5_L102a_xs_nanyang_hall_2000_out 不是黑畫面（平均亮度 38.7、變化 29.4）  [38.7, 29.4]
+  [ 551.5s] [截圖] s5_L102a_xs_nanyang_hall_2000_out：鏡頭 {"eye": [3.5, 1.55, 3.9], "look": [3.5, 1.4, 12.4], "lens": 20, "vfov": 53.7}、亮度 [38.7, 29.4]
+PASS [黑畫面] s5_L102a_xs_nanyang_hall_2000_corner_a 不是黑畫面（平均亮度 36.8、變化 30.4）  [36.8, 30.4]
+  [ 554.3s] [截圖] s5_L102a_xs_nanyang_hall_2000_corner_a：鏡頭 {"eye": [0, 0.6, 0.01], "look": [-5.7, 0.05, -7.8999999999999995], "lens": 20, "vfov": 53.7}、亮度 [36.8, 30.4]
+PASS [黑畫面] s5_L102a_xs_nanyang_hall_2000_corner_b 不是黑畫面（平均亮度 37.6、變化 20.4）  [37.6, 20.4]
+  [ 557.6s] [截圖] s5_L102a_xs_nanyang_hall_2000_corner_b：鏡頭 {"eye": [0, 0.6, 0.01], "look": [5.7, 0.05, 7.920000000000001], "lens": 20, "vfov": 53.7}、亮度 [37.6, 20.4]
+  [前置／捷徑] [L102a xs_nanyang 1400] 讀檔 xs_nanyang 2025-10-18 14.0（條件事件關閉）
+PASS [L102a xs_nanyang 1400] 進得了 xs_nanyang  {"zone": "xs_nanyang", "x": 0, "z": 5.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [ 573.2s] [L102a xs_nanyang 1400] 材質／光照貼圖：{"meshes": 44, "mats": 44, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 7, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+  [ 573.2s] [L102a xs_nanyang 1400] 自動機位：{"bmin": [-4.7, -0.05, -9.4], "bmax": [4.7, 4.5, 7.17], "spawn": [0, 5.2], "y0": 0, "fy": 0, "up": false, "yaw": 3.14, "center": [0, -1.11], "size": [9.4, 4.55, 16.57], "clerk": [-4.1, -3.7], "seat": [3.75, -4.8], "seatLv": [0, 0, null], "views": {"door": {"eye": [-0.0, 1.6, 5.5], "look": [0, 1, -0.8], "lens": 18}, "top": {"eye": [0, 9.55, -0.31], "look": [0, 0, -1.41], "lens": 16}, "seat": {"eye": [2.84, 1.4, -3.11], "look": [3.75, 0.6, -4.8], "lens": 22}, "clerk": {"eye": [-2.24, 1.6, -2.53], "look": [-4.1, 1.2, -3.7], "lens": 24}, "out": {"eye": [0, 1.55, 2.7], "look": [-0.0, 1.4, 11.2], "lens": 20}}}
+PASS [黑畫面] s5_L102a_xs_nanyang_1400_door 不是黑畫面（平均亮度 66.1、變化 46.3）  [66.1, 46.3]
+  [ 576.5s] [截圖] s5_L102a_xs_nanyang_1400_door：鏡頭 {"eye": [-0.0, 1.6, 5.5], "look": [0, 1, -0.8], "lens": 18, "vfov": 58.72}、亮度 [66.1, 46.3]
+PASS [黑畫面] s5_L102a_xs_nanyang_1400_top 不是黑畫面（平均亮度 93.6、變化 61.9）  [93.6, 61.9]
+  [ 580.8s] [截圖] s5_L102a_xs_nanyang_1400_top：鏡頭 {"eye": [0, 9.55, -0.31], "look": [0, 0, -1.41], "lens": 16, "vfov": 64.65}、亮度 [93.6, 61.9]
+PASS [黑畫面] s5_L102a_xs_nanyang_1400_seat 不是黑畫面（平均亮度 34.3、變化 24.6）  [34.3, 24.6]
+  [ 584.6s] [截圖] s5_L102a_xs_nanyang_1400_seat：鏡頭 {"eye": [2.84, 1.4, -3.11], "look": [3.75, 0.6, -4.8], "lens": 22, "vfov": 49.43}、亮度 [34.3, 24.6]
+PASS [黑畫面] s5_L102a_xs_nanyang_1400_clerk 不是黑畫面（平均亮度 98.5、變化 51.7）  [98.5, 51.7]
+  [ 588.1s] [截圖] s5_L102a_xs_nanyang_1400_clerk：鏡頭 {"eye": [-2.24, 1.6, -2.53], "look": [-4.1, 1.2, -3.7], "lens": 24, "vfov": 45.75}、亮度 [98.5, 51.7]
+PASS [黑畫面] s5_L102a_xs_nanyang_1400_out 不是黑畫面（平均亮度 98.8、變化 58.1）  [98.8, 58.1]
+  [ 590.6s] [截圖] s5_L102a_xs_nanyang_1400_out：鏡頭 {"eye": [0, 1.55, 2.7], "look": [-0.0, 1.4, 11.2], "lens": 20, "vfov": 53.7}、亮度 [98.8, 58.1]
+PASS [黑畫面] s5_L102a_xs_nanyang_1400_corner_a 不是黑畫面（平均亮度 50.3、變化 27.7）  [50.3, 27.7]
+  [ 593.7s] [截圖] s5_L102a_xs_nanyang_1400_corner_a：鏡頭 {"eye": [0, 0.6, -1.11], "look": [-4.4, 0.05, -9.1], "lens": 20, "vfov": 53.7}、亮度 [50.3, 27.7]
+PASS [黑畫面] s5_L102a_xs_nanyang_1400_corner_b 不是黑畫面（平均亮度 68.0、變化 50.9）  [68.0, 50.9]
+  [ 596.2s] [截圖] s5_L102a_xs_nanyang_1400_corner_b：鏡頭 {"eye": [0, 0.6, -1.11], "look": [4.4, 0.05, 6.87], "lens": 20, "vfov": 53.7}、亮度 [68.0, 50.9]
+  [前置／捷徑] [L102a xs_nanyang 2000] 讀檔 xs_nanyang 2025-10-18 20.0（條件事件關閉）
+PASS [L102a xs_nanyang 2000] 進得了 xs_nanyang  {"zone": "xs_nanyang", "x": 0, "z": 5.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.01}
+  [ 614.1s] [L102a xs_nanyang 2000] 材質／光照貼圖：{"meshes": 44, "mats": 44, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 7, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_L102a_xs_nanyang_2000_door 不是黑畫面（平均亮度 61.0、變化 43.6）  [61.0, 43.6]
+  [ 618.3s] [截圖] s5_L102a_xs_nanyang_2000_door：鏡頭 {"eye": [-0.0, 1.6, 5.5], "look": [0, 1, -0.8], "lens": 18, "vfov": 58.72}、亮度 [61.0, 43.6]
+PASS [黑畫面] s5_L102a_xs_nanyang_2000_top 不是黑畫面（平均亮度 49.2、變化 31.4）  [49.2, 31.4]
+  [ 621.7s] [截圖] s5_L102a_xs_nanyang_2000_top：鏡頭 {"eye": [0, 9.55, -0.31], "look": [0, 0, -1.41], "lens": 16, "vfov": 64.65}、亮度 [49.2, 31.4]
+PASS [黑畫面] s5_L102a_xs_nanyang_2000_seat 不是黑畫面（平均亮度 26.6、變化 18.1）  [26.6, 18.1]
+  [ 625.9s] [截圖] s5_L102a_xs_nanyang_2000_seat：鏡頭 {"eye": [2.84, 1.4, -3.11], "look": [3.75, 0.6, -4.8], "lens": 22, "vfov": 49.43}、亮度 [26.6, 18.1]
+PASS [黑畫面] s5_L102a_xs_nanyang_2000_clerk 不是黑畫面（平均亮度 90.3、變化 43.7）  [90.3, 43.7]
+  [ 629.7s] [截圖] s5_L102a_xs_nanyang_2000_clerk：鏡頭 {"eye": [-2.24, 1.6, -2.53], "look": [-4.1, 1.2, -3.7], "lens": 24, "vfov": 45.75}、亮度 [90.3, 43.7]
+PASS [黑畫面] s5_L102a_xs_nanyang_2000_out 不是黑畫面（平均亮度 60.1、變化 24.7）  [60.1, 24.7]
+  [ 632.7s] [截圖] s5_L102a_xs_nanyang_2000_out：鏡頭 {"eye": [0, 1.55, 2.7], "look": [-0.0, 1.4, 11.2], "lens": 20, "vfov": 53.7}、亮度 [60.1, 24.7]
+PASS [黑畫面] s5_L102a_xs_nanyang_2000_corner_a 不是黑畫面（平均亮度 46.5、變化 26.1）  [46.5, 26.1]
+  [ 636.4s] [截圖] s5_L102a_xs_nanyang_2000_corner_a：鏡頭 {"eye": [0, 0.6, -1.11], "look": [-4.4, 0.05, -9.1], "lens": 20, "vfov": 53.7}、亮度 [46.5, 26.1]
+PASS [黑畫面] s5_L102a_xs_nanyang_2000_corner_b 不是黑畫面（平均亮度 50.6、變化 25.6）  [50.6, 25.6]
+  [ 640.3s] [截圖] s5_L102a_xs_nanyang_2000_corner_b：鏡頭 {"eye": [0, 0.6, -1.11], "look": [4.4, 0.05, 6.87], "lens": 20, "vfov": 53.7}、亮度 [50.6, 25.6]
+PASS 沒有 JS 例外  []
+ALL PASS

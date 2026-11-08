@@ -1585,3 +1585,11 @@ R03c7_reach | 03c71f300bcafc99f9e70b18b7f77d5f0885ec91 | game | tests/reachabili
 R03c7_zone | 03c71f300bcafc99f9e70b18b7f77d5f0885ec91 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
 R03c7_main12 | 03c71f300bcafc99f9e70b18b7f77d5f0885ec91 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R03c7_classreal | 03c71f300bcafc99f9e70b18b7f77d5f0885ec91 | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
+# CC-B 11-08 12:2x：BB-B 新生南路九間光照 GPU 兩欄（左 102a03cb9 光照前／右 95566d0b5；同 scene5 自動機位＋CORNERS＋大口 2F 站在 2F 拍）
+GG3XS9_102a | 102a03cb9b6d6c2e2f3705876cfe119030228325 | probe | docs/story_planning/test_tools/cc/cc_scene5_probe.py | index.html | 90 | TAG=before_gpu;PART=xs_dabu,xs_haopai,xs_tongxian,xs_xsports,xs_shanlan,xs_dakou,xs_nanyang_hall,xs_nanyang;SLOTS=1400:14,2000:20;CORNERS=1;FLOOR2=xs_dakou:3.6;CC_HEADLESS=0
+GG3XS9_9556 | 95566d0b5cd1783c74fa1e5f68107bb1890daf5f | probe | docs/story_planning/test_tools/cc/cc_scene5_probe.py | index.html | 90 | TAG=after_gpu;PART=xs_dabu,xs_haopai,xs_tongxian,xs_xsports,xs_shanlan,xs_dakou,xs_nanyang_hall,xs_nanyang;SLOTS=1400:14,2000:20;CORNERS=1;FLOOR2=xs_dakou:3.6;CC_HEADLESS=0
+GG3NYW_9556 | 95566d0b5cd1783c74fa1e5f68107bb1890daf5f | probe | docs/story_planning/test_tools/cc/cc_nanyang_watch_probe.py | index.html | 30 | TAG=after_gpu;CC_HEADLESS=0
+# CC-B 11-08 12:2x：佇列保持五項以上（D121）：開發分支最新 7f8441f7e 常備
+R7f84_mini | 7f8441f7eb4243535672ac5e8645c0ce1a104b46 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+R7f84_v0_start | 7f8441f7eb4243535672ac5e8645c0ce1a104b46 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R7f84_v0_tolaw | 7f8441f7eb4243535672ac5e8645c0ce1a104b46 | game | tests/flow_v0_tolaw.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
