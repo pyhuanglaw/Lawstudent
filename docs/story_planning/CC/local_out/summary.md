@@ -1924,3 +1924,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 291.9s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 291.9s] BROWSER DISCONNECTED
 - 2026-11-08T11:39:51  R126_touch  sha=126bdf93e82886673518705566dbe83b582c32c1  exit=0  177s    PASS 讀檔後可以走  9.4 / PASS 沒有 JS 例外 / ALL PASS
       err.log (last 5): [gpu_wrap 142.7s] page close url=http://127.0.0.1:8800/index.html?turbo&turbo | [gpu_wrap 142.8s] BROWSER DISCONNECTED
+- 2026-11-08T11:41:52  WZ_PROGRAMS  sha=787f312df8d9e030a32c111b7b46400b84b02548  exit=0  113s      [  78.7s] [night] programs 共 121 個、材質（網格×材質）1061 筆；PERFPANEL：["wenzhou：黑畫面 4.7 秒（建區域 1.0、預熱 3.1）；淡入後 10 秒最長一格 0.15 秒、卡 1 次；shader 黑畫面 +54、淡入後 +4", "wenzhou：黑畫面 22.5 秒（建區域 2.7、預熱 13.1）；淡入後 10 秒最長一格 1.22 秒、卡 2 次；shader 黑畫面 +83、淡入後 +14"] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 79.2s] page close url=http://127.0.0.1:8800/index.html?perf | [gpu_wrap 79.2s] BROWSER DISCONNECTED

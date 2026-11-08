@@ -1,0 +1,12 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_shaders_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ_PROGRAMS\out
+CC WZ_SHADERS（wenzhou shader 清單）：SHA=787f312df8d9e030a32c111b7b46400b84b02548（worktree 實際 ?）
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [day] 讀檔 wenzhou 2025-10-18 11.00（條件事件關閉）；淡入後穩定 5 秒
+PASS [day] 進得了 wenzhou  {"zone": "wenzhou", "x": 44, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.07}
+  [  59.5s] [day] programs 共 124 個、材質（網格×材質）1106 筆；PERFPANEL：["wenzhou：黑畫面 22.5 秒（建區域 2.7、預熱 13.1）；淡入後 10 秒最長一格 1.22 秒、卡 2 次；shader 黑畫面 +83、淡入後 +14"]
+  [前置／捷徑] [night] 讀檔 wenzhou 2025-10-18 20.00（條件事件關閉）；淡入後穩定 5 秒
+PASS [night] 進得了 wenzhou  {"zone": "wenzhou", "x": 44, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.07}
+  [  78.7s] [night] programs 共 121 個、材質（網格×材質）1061 筆；PERFPANEL：["wenzhou：黑畫面 4.7 秒（建區域 1.0、預熱 3.1）；淡入後 10 秒最長一格 0.15 秒、卡 1 次；shader 黑畫面 +54、淡入後 +4", "wenzhou：黑畫面 22.5 秒（建區域 2.7、預熱 13.1）；淡入後 10 秒最長一格 1.22 秒、卡 2 次；shader 黑畫面 +83、淡入後 +14"]
+PASS 沒有 JS 例外  []
+ALL PASS

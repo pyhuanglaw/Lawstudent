@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "WZ_PROGRAMS",
+  "sha": "787f312df8d9e030a32c111b7b46400b84b02548",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_wz_shaders_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T11:39:58",
+  "end": "2026-11-08T11:41:51",
+  "seconds": 113,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 7,
+    "mem": 41,
+    "used_gb": 13.1,
+    "chrome_testing": 4
+  }
+}
