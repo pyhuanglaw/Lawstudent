@@ -1,0 +1,9 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\fps_zones.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3LM_perfday_BC_mob_e276\out
+CPU 降速 4 倍（手機模擬）
+OK   wz_print      h2100 avg 21.79 fps  1%low 5.0 fps  worst 216.8 ms  n=328  zone=wz_print h=21.02 w=sunny q=medium draw=78 
+INJECT noshadow @ wz_teahouse h1400：{'autoUpdate': False, 'ns': '()=>{}'}
+OK   wz_teahouse   h1400 avg 8.04 fps  1%low 1.3 fps  worst 766.6 ms  n=121  zone=wz_teahouse h=14.04 w=sunny q=medium draw=113 
+INJECT noshadow @ wz_mokuyobi h1400：{'autoUpdate': False, 'ns': '()=>{}'}
+OK   wz_mokuyobi   h1400 avg 5.64 fps  1%low 2.22 fps  worst 450 ms  n=85  zone=wz_mokuyobi h=14.04 w=sunny q=medium draw=115 
+JS 例外 0 個
+ALL PASS（量測完成 3 格）
