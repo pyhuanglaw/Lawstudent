@@ -1684,3 +1684,5 @@ Re830d_reach | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/reachabil
 Re830d_zone | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
 Re830d_main12 | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 Re830d_touch | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
+Re830d_mini | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+Re830d_classreal | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
