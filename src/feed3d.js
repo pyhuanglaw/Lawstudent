@@ -365,5 +365,9 @@ const FEED=(function(){
   if(typeof STORY!=='undefined'&&typeof STORY.neededAnswered==='function'&&!STORY._feedNeed){ const on=STORY.neededAnswered; STORY.neededAnswered=function(G,m,o){ if(o&&o.need==='zq_name'&&G&&G.flags) G.flags.ZQ_NAME_REPLIED=true; return on.apply(this,arguments); }; STORY._feedNeed=true; }
   if(typeof MSG!=='undefined'&&typeof MSG.replyAt==='function'&&!MSG._feedHold){ const r0=MSG.replyAt; MSG.replyAt=function(G,id){ const r=r0.apply(this,arguments); const hd=S.holdAt(G,id);
       if(hd!=null&&r&&r.day!=null&&abs(r.day,r.h)<hd){ const d=Math.floor(hd/24); return Object.assign({},r,{day:d,h:hd-d*24,late:false,after:true}); } return r; }; MSG._feedHold=true; }
+  /* 動態類私訊（aa503_）的回覆鍵沒寫期限的：7 天後收起來（UX-FEED-ASK-EXPIRE-1108；BB-B 11-08 03:20、AA-B 03:21）——過期＝跟沒回一樣（不記 set、不記 tell、不扣分），收起來不出字；有寫 until 的照原本 */
+  S.ASK_DAYS=7;
+  S.askExpired=(G,m)=>!!(m&&m.ask&&m.ask.until==null&&typeof m.ask.id==='string'&&m.ask.id.indexOf('aa503_')===0&&m.day!=null&&abs(G.day,G.hour)>abs(m.day,m.h||0)+S.ASK_DAYS*24);
+  if(typeof PHONE!=='undefined'&&typeof PHONE.askOpen==='function'&&!PHONE._feedAskExp){ const a0=PHONE.askOpen; PHONE.askOpen=function(G,m){ if(S.askExpired(G,m)) return false; return a0.apply(this,arguments); }; PHONE._feedAskExp=true; }
   return S;
 })();
