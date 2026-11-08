@@ -2056,3 +2056,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 535.1s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 535.1s] BROWSER DISCONNECTED
 - 2026-11-08T16:11:41  Re080_touch  sha=e0803ca0dfa57bbc8dabb689b54545905a5f85b7  exit=0  192s    PASS 讀檔後可以走  9.61 / PASS 沒有 JS 例外 / ALL PASS
       err.log (last 5): [gpu_wrap 157.3s] page close url=http://127.0.0.1:8800/index.html?turbo&turbo | [gpu_wrap 157.4s] BROWSER DISCONNECTED
+- 2026-11-08T16:19:34  GG3BIKE_489f  sha=489ff376246bcd2a9aeaaaa4f497587c0b43d044  exit=0  146s      [  64.1s] [截圖] s5_after_gpu_bikeshop_1930_out：鏡頭 {"eye": [0.55, 1.55, 1.5], "look": [0.55, 1.4, 10], "lens": 20, "vfov": 53.7}、亮度 [73.3, 28.5] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 64.6s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 64.6s] BROWSER DISCONNECTED
