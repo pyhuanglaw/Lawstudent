@@ -43013,17 +43013,45 @@
    "id": "AA613-OPENING-ACTS-1103",
    "title": "開學活動（AA_613）：社博阿哲約、法律資料講座芯慈約、第一次社課前群組通知、開學典禮和柏翰一起走；系籃四條加入路線講清楚",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
-   "next": "【11-07 23:5x LAWWW-B】BB-B：④合唱、⑦吉他社群組、⑧系籃第一次練球、⑥法圖準時版、⑥晚到版那句、A23 兩版 PASS；⑥晚到版她有沒有換到旁邊、⑤系籃攤位、A23 19:30 電話 CC 重跑；⑨典禮 FAIL→BUG-AA613-CER-WALK-1107（a912e110e）。 ｜ 【11-07 21:0x LAWWW-B】BB-B 瀏覽器 549020850：①阿哲私訊＋第七小隊群組、②晨思鐘 10:00 版＋「我也寫。」→「好欸。」→填表（在後面）、一起走到攤位 walkFallbacks 0、④10:40 晚到版旁白、③說好沒去 16:03 私訊＋「不要啦。」取消 PASS；合唱團、學長兩句、法圖講座兩版、社團群組、球場、典禮 CC 在跑。 ｜ 【11-07 20:3x LAWWW-B】5becbf4e8（子代理 5c59a046a）：§1 阿哲 9/5 21:00 社博私訊、芯慈＋沛珊 9/5 21:10 第七小隊群組、合唱團攤位 9/6 11～12 點、法圖講座前一天 21:00 芯慈約（15:20 門口「這邊。」、坐旁邊）、第一次社課前一天群組（吉他／辯論／登山）、典禮旁白「（你和柏翰一起走過去。）」、說好沒來 16:00 私訊；§2-1 晨思鐘一起走到系籃攤位、2-2 攤位多兩句、2-3 第一次練球前一天私訊／群組、2-4 學長兩句＋阿哲「我就說吧。」。Node aa613_opening_acts（77 項逐字對 52e3d83a8）、aa613_spots、相關＋掃全部 src 共 254 支 ALL PASS。BB 測；9 個問題已問 AA-B。 ｜ 【11-07 19:5x LAWWW-B】開工：§1（阿哲社博私訊、芯慈群組＋法圖講座約、第一次社課群組、柏翰典禮一句、沒來的私訊）、§2-1～2-4 系籃，派子代理照 AA_613（企劃線 52e3d83a8）逐字接線＋Node 測試；交件後 LAWWW 合併、BB 測。 ｜ 【11-07 17:3x LAWWW-B 稽核（唯讀子代理，對照企劃線原稿與 src）】§1、§2 還沒開始（阿哲社博私訊、芯慈約、社課群組通知、柏翰典禮一起走、系籃 2-1～2-4）；§3 山嵐書店另外做了（AA_695）。 ｜ 照 AA 稿實作",
-   "sha": "5becbf4e8"
+   "next": "【11-08 00:4x LAWWW-B】BB-B PASS／FIXED＝已驗收。 ｜ 【11-07 23:5x LAWWW-B】BB-B：④合唱、⑦吉他社群組、⑧系籃第一次練球、⑥法圖準時版、⑥晚到版那句、A23 兩版 PASS；⑥晚到版她有沒有換到旁邊、⑤系籃攤位、A23 19:30 電話 CC 重跑；⑨典禮 FAIL→BUG-AA613-CER-WALK-1107（a912e110e）。 ｜ 【11-07 21:0x LAWWW-B】BB-B 瀏覽器 549020850：①阿哲私訊＋第七小隊群組、②晨思鐘 10:00 版＋「我也寫。」→「好欸。」→填表（在後面）、一起走到攤位 walkFallbacks 0、④10:40 晚到版旁白、③說好沒去 16:03 私訊＋「不要啦。」取消 PASS；合唱團、學長兩句、法圖講座兩版、社團群組、球場、典禮 CC 在跑。 ｜ 【11-07 20:3x LAWWW-B】5becbf4e8（子代理 5c59a046a）：§1 阿哲 9/5 21:00 社博私訊、芯慈＋沛珊 9/5 21:10 第七小隊群組、合唱團攤位 9/6 11～12 點、法圖講座前一天 21:00 芯慈約（15:20 門口「這邊。」、坐旁邊）、第一次社課前一天群組（吉他／辯論／登山）、典禮旁白「（你和柏翰一起走過去。）」、說好沒來 16:00 私訊；§2-1 晨思鐘一起走到系籃攤位、2-2 攤位多兩句、2-3 第一次練球前一天私訊／群組、2-4 學長兩句＋阿哲「我就說吧。」。Node aa613_opening_acts（77 項逐字對 52e3d83a8）、aa613_spots、相關＋掃全部 src 共 254 支 ALL PASS。BB 測；9 個問題已問 AA-B。 ｜ 【11-07 19:5x LAWWW-B】開工：§1（阿哲社博私訊、芯慈群組＋法圖講座約、第一次社課群組、柏翰典禮一句、沒來的私訊）、§2-1～2-4 系籃，派子代理照 AA_613（企劃線 52e3d83a8）逐字接線＋Node 測試；交件後 LAWWW 合併、BB 測。 ｜ 【11-07 17:3x LAWWW-B 稽核（唯讀子代理，對照企劃線原稿與 src）】§1、§2 還沒開始（阿哲社博私訊、芯慈約、社課群組通知、柏翰典禮一起走、系籃 2-1～2-4）；§3 山嵐書店另外做了（AA_695）。 ｜ 照 AA 稿實作",
+   "sha": "5becbf4e8",
+   "evidence": "2026-11-08 BB-B／CC-B 瀏覽器（雲端 Playwright＋SwiftShader，不是 iPhone；cc-testing c1eea6959a、cd6c98f37e、f40ffa537a），549020850～eacc5837d：第 1～9 項全部 PASS——阿哲私訊＋第七小隊群組、晨思鐘 10:00 與 10:40 晚到版、說好沒去 16:03 私訊、合唱團、系籃攤位學長四句、法圖講座準時（「這邊。」→ 她換到你同一邊）與晚到（旁白一次、她換到同一邊）、吉他社群組、系籃第一次練球（學長兩句、阿哲「我就說吧。」）、典禮「（你和柏翰一起走過去。）」（認識才有）；Node aa613_opening_acts（80 項逐字對 232fe4149）、aa613_spots、gymcer 1b"
+  },
+  {
+   "id": "BUG-CAM-LAWLIB-DISCA-1108",
+   "title": "法圖講座坐在討論室 A，鏡頭在東牆外 1.4 m（(−2.3, 3.21, −6.8)；討論室 A x −7.1～−3.7）：整場只看到米色牆",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 4,
+    "earliest": "法圖講座（9/24、10/1）坐下聽",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 00:4x LAWWW-B】BB-B 00:43 開（CC eacc/02、05）；D108 場景鏡頭歸 LAWWW2，BB-B 同時給 LAWWW2-B。",
+   "xai": {
+    "spec": "BB-B 11-08 00:43（CC-B cc-testing f40ffa537a）",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "法圖討論室 A 坐下聽講座：鏡頭在房間裡、看得到人",
+    "receiver": "LAWWW（整合）、BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW2"
+   },
+   "evidence": ""
   },
   {
    "id": "BUG-AA613-CER-WALK-1107",
    "title": "開學典禮 8/31 認識柏翰也沒有「（你和柏翰一起走過去。）」：3D 體育館版（gymcer3d.js）取代了 2D 原路，沒叫 AA613.ceremonyWalk",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "sha": "a912e110e",
    "first": {
@@ -43036,7 +43064,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 23:5x LAWWW-B】a912e110e：S.open 淡入後先叫 AA613.ceremonyWalk；tests/gymcer_unit.js 1b（修改前 FAIL）。BB 重跑 ⑨。",
+   "next": "【11-08 00:4x LAWWW-B】BB-B PASS／FIXED＝已驗收。 ｜ 【11-07 23:5x LAWWW-B】a912e110e：S.open 淡入後先叫 AA613.ceremonyWalk；tests/gymcer_unit.js 1b（修改前 FAIL）。BB 重跑 ⑨。",
    "xai": {
     "spec": "BB-B 11-07 23:52（CC-B cc-testing c1eea6959a／cd6c98f37e）",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -43045,7 +43073,7 @@
     "ack": "ACK",
     "owner": "LAWWW"
    },
-   "evidence": ""
+   "evidence": "2026-11-08 BB-B／CC-B 瀏覽器（雲端 Playwright＋SwiftShader），eacc5837d：認識柏翰＝「（你和柏翰一起走過去。）」是第一句旁白、在「四千多個新生」前面；不認識（【捷徑】拿掉 FIRST_MET）沒有；兩種都記 CEREMONY_Y1、0 例外（cc-testing f40ffa537a）；Node gymcer_unit 1b（修改前 FAIL）"
   },
   {
    "first": {
