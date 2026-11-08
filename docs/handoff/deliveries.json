@@ -24020,6 +24020,70 @@
    "branch": "claude/focused-cray-c9uwvw",
    "reason": "XS-NORTH-EXT 第一版 WIP 檢查點；交件版 c6837632e 已接進 abf4dbbd5；LAWWW-C 11-05 交班稽核分類（D94）",
    "task": "XS-NORTH-EXT-1105"
+  },
+  {
+   "sha": "dc523514c3",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1107-L2-GGLM2",
+   "reason": "頁間書屋光照烘焙＋gg_lm2_1107 交件資料夾；交件版 09bbfefe2 已接（DLV-1107-L2-GGLM2）；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "2e66a9fa3a",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1107-L2-GGNEW-LM",
+   "reason": "轉角唱片光照烘焙＋窗景卡；交件版 a6509d2a0 已接（DLV-1107-L2-GGNEW-LM）；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "71c10bda6b",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1107-L2-GGNEW-LM",
+   "reason": "洋洋鹹酥雞光照烘焙＋窗景卡；交件版 a6509d2a0 已接（DLV-1107-L2-GGNEW-LM）；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "dc97355941",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1107-L2-GGNEW-LM",
+   "reason": "WIP 轉角唱片 CORNER-CEIL／FADE-1107；天花板與淡出在 a6509d2a0 已接（DLV-1107-L2-GGNEW-LM）；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "fd06def163",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "INTERIOR-AAA-REVIEW-1028",
+   "reason": "霖澤 5F 近景夜景 ×0.4；開發分支的 linze_5f_near_night.webp sha256 f61980f7 和這個 commit 一字不差（已接）；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "567b762302",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1107-LAWWW2-FARVIEW",
+   "reason": "WIP XS-FARVIEW-1105；交件版 07deb7085 已接（c8b09bcf0）；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "08fa5580f2",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DL-LAWWW2-655729e66",
+   "reason": "GYM-FIT-1107 ② 祐廷 fit 形狀；交件版 655729e66 已接（41bfc5cbe）；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "123a5c4642",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DL-LAWWW2-768da51ab",
+   "reason": "SKIRT-BENCH-CLIP-1105 路人裙子坐下；交件版 768da51ab 已接；LAWWW-B 11-08 交班 incr 分類（D94）"
   }
  ],
  "scannedThroughNote": "2026-11-02 05:3x 使用者刪了帳號 B 的分支（funny-albattani、cool-heisenberg、elegant-brown；內容整條在 second-ai-env-art、story-planning）：從這裡拿掉，之後的核對靠 watermarks.json（incr）"

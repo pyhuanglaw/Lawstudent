@@ -50191,6 +50191,48 @@
     "confirmed": true
    },
    "next": "【11-08 20:4x LAWWW-B】通知 LAWWW2-B、AA-B、BB-B、CC-B 交班；等四個 duty handoff 完，LAWWW-B 最後做 check → incr（advance）→ roles → duty sync → snapshot → duty handoff → 停用喚醒。"
+  },
+  {
+   "id": "PLAYTEST-1107-CHOICE",
+   "title": "（別名）AA-B outbox_AA.json 第 381、382 筆（963afea7",
+   "owner": "LAWWW",
+   "status": "取消／被取代",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "（別名）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 21:0x LAWWW-B】交班 incr 分類：AA-B outbox_AA.json 第 381、382 筆（963afea74、3e9cc0385）用的任務名；實際任務是 AA720-DECIDE-OPENED-1108（AA_720 第一批 19 場、第二批結局分版本，已整合）",
+   "reason": "AA-B outbox_AA.json 第 381、382 筆（963afea74、3e9cc0385）用的任務名；實際任務是 AA720-DECIDE-OPENED-1108（AA_720 第一批 19 場、第二批結局分版本，已整合）",
+   "replacedBy": "AA720-DECIDE-OPENED-1108",
+   "authorizedBy": "LAWWW-B 11-08 交班（任務名別名，沒有取消任何工作）"
+  },
+  {
+   "id": "RELEASE-V91023",
+   "title": "（別名）BB-B outbox_BB.json 第 78 筆（759406f47）用的任",
+   "owner": "LAWWW",
+   "status": "取消／被取代",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "（別名）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 21:0x LAWWW-B】交班 incr 分類：BB-B outbox_BB.json 第 78 筆（759406f47）用的任務名；實際任務是 RELEASE-V91023-1108",
+   "reason": "BB-B outbox_BB.json 第 78 筆（759406f47）用的任務名；實際任務是 RELEASE-V91023-1108",
+   "replacedBy": "RELEASE-V91023-1108",
+   "authorizedBy": "LAWWW-B 11-08 交班（任務名別名，沒有取消任何工作）"
   }
  ]
 }
