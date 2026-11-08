@@ -21,8 +21,8 @@ HOOK = r"""(()=>{ if(window.__ccE01) return; window.__ccE01=1; window.__said=[];
     return {fadeOn:!!(f&&f.classList.contains('on')), fadeOp:f?+getComputedStyle(f).opacity:null, fadePE:f?getComputedStyle(f).pointerEvents:null, t3:t?+getComputedStyle(t).opacity:null, t3txt:t?(t.innerText||'').trim().slice(0,30):null,
       gz:GAME.G?GAME.G.zone:null, ez:zid, phone:!!(ph&&!ph.classList.contains('hide')), h:GAME.G?+(+GAME.G.hour).toFixed(2):null, ms:Math.round(performance.now())}; };
   window.__ccSnap=snap;
-  const wrap=()=>{ if(!window.GAME||!GAME.say||GAME.say.__cc) return false; const o=GAME.say; const w=function(who,t){ try{ window.__said.push(Object.assign({who:who?(typeof who==='string'?who:(who.name||'')):'', t:String(t||'')},snap())); }catch(e){} return o.apply(this,arguments); }; w.__cc=1; GAME.say=w; return true; };
-  const iv=setInterval(()=>{ wrap(); try{ const ph=document.getElementById('phone'); if(ph&&!ph.classList.contains('hide')&&(window.__said||[]).length===0) window.__phoneSeen.push(snap()); }catch(e){} }, 50); })()"""
+  const wrap=()=>{ if(typeof GAME==='undefined'||!GAME.say||GAME.say.__cc) return false; const o=GAME.say; const w=function(who,t){ try{ window.__said.push(Object.assign({who:who?(typeof who==='string'?who:(who.name||'')):'', t:String(t||'')},snap())); }catch(e){} return o.apply(this,arguments); }; w.__cc=1; GAME.say=w; return true; };
+  const iv=setInterval(()=>{ wrap(); try{ const ph=document.getElementById('phone'); if(ph&&!ph.classList.contains('hide')&&typeof GAME!=='undefined'&&GAME.G&&GAME.G.flags&&!GAME.G.flags.E01_DONE&&!(window.__said||[]).some(x=>x.t.indexOf('開學前一天')===0)) window.__phoneSeen.push(snap()); }catch(e){} }, 50); })()"""
 
 
 async def one(p, k, rec):
