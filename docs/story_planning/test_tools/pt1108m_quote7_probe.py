@@ -56,7 +56,15 @@ async def main():
         else:
             run.note('③ 這一輪沒出現同學小聲那一句（chorus 要 classmate_bohan 在場）')
         intro = [x for x in allL if wrapped(x['t'])]
-        run.note('還有「」的整句（CLASS_INTRO 那類，這批不判）：%s' % J(intro[:10]))
+        if os.environ.get('B8') == '1':
+            # 第八批（LAWWW-B 14a6bddd5／13ff23045）：課堂出題表 36 句也拿掉「」、答錯那句補句號
+            prof = [x for x in allL if x['n'] and '林' in x['n']]
+            run.check('⑤ [第八批] 林教授有名字的句子外面都沒有「」（開場、答對、答錯）', bool(prof) and not [x for x in prof if wrapped(x['t'])], J({'wrapped': [x for x in prof if wrapped(x['t'])][:6]}))
+            wrong = [x for x in allL if x['t'].startswith('不是。')]
+            run.check('⑤ [第八批] 答錯那句最後有「。」', bool(wrong) and all(x['t'].endswith('。') for x in wrong if len(x['t']) > 20), J(wrong))
+            run.note('第八批還有「」的整句：%s' % J(intro[:10]))
+        else:
+            run.note('還有「」的整句（CLASS_INTRO 那類，這批不判）：%s' % J(intro[:10]))
         await run.shot(pg, 'class_after')
         run.check('④ 沒有 JS 例外', not errs, J(errs[:5]))
         await b.close()
