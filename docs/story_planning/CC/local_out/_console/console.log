@@ -1095,3 +1095,18 @@
 [22:22:05] [res] cpu=3% mem=37% (11.8/31.4 GB) chrome_testing=0  START R13ffb_movreg
 [22:24:31] 正在跑：R13ffb_movreg（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:28:01] [res] cpu=1% mem=37% (11.7/31.4 GB) chrome_testing=0  END R13ffb_movreg
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1e6933d08..6db959933  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:28:06] ==== END   R13ffb_movreg  exit=0  359s   ====
+[22:28:09] memory 38% before starting R13ffb_classreal (0 running)
+[22:28:09] memory 38% before starting R13ffb_mini (1 running)
+[22:28:09] ==== START R13ffb_classreal  (game @ 13ff2304529d0f7180c44266825f9d28718479ce) ====
+[22:28:09] memory 38% before starting R13ffb_v0_to1017 (2 running)
+[22:28:09] ==== START R13ffb_mini  (game @ 13ff2304529d0f7180c44266825f9d28718479ce) ====
+[22:28:09] ==== START R13ffb_v0_to1017  (game @ 13ff2304529d0f7180c44266825f9d28718479ce) ====
+[22:28:12] [res] cpu=8% mem=38% (12.1/31.4 GB) chrome_testing=0  START R13ffb_classreal
+[22:28:12] [res] cpu=8% mem=38% (12.1/31.4 GB) chrome_testing=0  START R13ffb_mini
+[22:28:12] [res] cpu=8% mem=38% (12.1/31.4 GB) chrome_testing=0  START R13ffb_v0_to1017
+[22:29:31] 正在跑：R13ffb_classreal（已跑 1 分／上限 20 分）、R13ffb_mini（已跑 1 分／上限 20 分）、R13ffb_v0_to1017（已跑 1 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:29:59] [res] cpu=5% mem=49% (15.5/31.4 GB) chrome_testing=10  END R13ffb_mini
