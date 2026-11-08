@@ -175,6 +175,19 @@ async def run_mode(pg, cdp, mode, rec):
     await pg.evaluate("(t=>{ void GAME.quickGo([t.zone,t.name,t.spawn||null],{force:true}); })", tgt)
     await pg.wait_for_timeout(8000)
     m = await drive(pg, cdp, tag + ' 見面', ['綠茶'], max_s=420, idle_end=15, shots=3)
+    for k in range(3):   # 總圖：她帶路到二樓座位（INV lead）——照玩家跟上去、走到她指的那張、按「坐下」，再接著演
+        ld = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).filter(q=>q.who===id).slice(-1)[0]; return v&&v.lead?JSON.parse(JSON.stringify({ph:v.lead.ph, me:v.lead.me, her:v.lead.her, state:v.state})):null; })", SIS)
+        if not ld or not ld.get('me'): break
+        me = ld['me']; R.note('%s 她帶路（第 %d 次）：%s' % (tag, k + 1, J(ld)))
+        await L.go_to(pg, cdp, R, me['x'], me['z'], 0.5, '%s 跟她走到二樓座位' % tag, max_s=240, lv=me.get('lv', 0))
+        await pg.wait_for_timeout(1500)
+        lab = await pg.evaluate("(()=>{ const e=document.getElementById('interact'); return e&&!e.classList.contains('hide')?e.innerText.trim():null; })()")
+        R.note('%s 座位旁的互動：%s' % (tag, lab))
+        if lab and '坐' in lab: await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        m2 = await drive(pg, cdp, tag + ' 坐下以後', ['綠茶'], max_s=420, idle_end=15, shots=3)
+        for kk in ('lines', 'choices', 'picked'): m[kk] += m2[kk]
+        if m2.get('stair_pos'): m['stair_pos'] = m2['stair_pos']
+        if m2['lines'] or await pg.evaluate("!!GAME.E.player.seat"): break
     says = await pg.evaluate("window.__says||[]")
     s2 = await pg.evaluate(STATE, SIS); R.note('%s 見面以後：%s' % (tag, J(s2)))
     q = await pg.evaluate("(()=>{ const P=GAME.E.player; return {zone:GAME.G.zone, lv:P.lv|0, x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), quiet:typeof LIBQ!=='undefined'&&LIBQ.studyAt?!!LIBQ.studyAt(GAME.G.zone,P.lv|0,P.obj.position.x,P.obj.position.z):null}; })()")
