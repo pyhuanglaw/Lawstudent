@@ -1449,3 +1449,17 @@ GG3LM_perfday_A_e276 | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | tools/
 GG3LM_perfday_A_mob_e276 | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | tools/cc_local/fps_zones.py | index.html?nightshadow=full | 30 | CPU_THROTTLE=4;ZONES=wz_print,wz_teahouse;ZSLOTS=wz_print:h2100/wz_teahouse:h1930;SECS=15;SOLO=1;CC_HEADLESS=0
 GG3LM_perfday_BC_e276 | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | tools/cc_local/fps_zones.py | index.html | 30 | ZONES=wz_print,wz_teahouse,wz_mokuyobi;ZSLOTS=wz_print:h2100/wz_teahouse:h1400/wz_mokuyobi:h1400;INJECT=noshadow;INJECT_AT=wz_teahouse,wz_mokuyobi;SECS=15;SOLO=1;CC_HEADLESS=0
 GG3LM_perfday_BC_mob_e276 | e2762e9d91df1cf8405301e54fd4bf286a5f626e | probe | tools/cc_local/fps_zones.py | index.html | 30 | CPU_THROTTLE=4;ZONES=wz_print,wz_teahouse,wz_mokuyobi;ZSLOTS=wz_print:h2100/wz_teahouse:h1400/wz_mokuyobi:h1400;INJECT=noshadow;INJECT_AT=wz_teahouse,wz_mokuyobi;SECS=15;SOLO=1;CC_HEADLESS=0
+
+#   CC-B 04:4x（11-08）常備回歸：LAWWW-B 最新 head 8b6cbc908（PC 佇列空了）
+R8B6_v0_to1017 | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/flow_v0_to1017.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
+R8B6_v0_start | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R8B6_v0_home | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/flow_v0_home.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R8B6_v0_tolaw | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/flow_v0_tolaw.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R8B6_main12 | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R8B6_classreal | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
+R8B6_reach | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
+R8B6_p0 | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+R8B6_zone | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
+R8B6_mini | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+R8B6_movreg | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
+R8B6_touch | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
