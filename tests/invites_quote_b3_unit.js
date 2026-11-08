@@ -33,6 +33,10 @@ const unq=t=>wrapped(t)?t.slice(1,-1):t;
 const narrLine=t=>/^（/.test(t)&&!/^（[^）]*小聲[^）]*）./.test(t)&&!/^（走出[^）]*）「/.test(t);   /* src/invites3d.js S.narrLine（第 14 項另外用遊戲裡那一支比）*/
 const noComments=s=>s.replace(/\/\*[\s\S]*?\*\//g,'');
 const LIT=/'((?:[^'\\\n]|\\.)*)'/g;
+/* 這一批以後劇情另外改的字（不是拿掉「」）：AA_593（學姊改稿①b，企劃線 6cbb0b4ab）第 8 列（學姊婉拒第四句）、第 64 列（心意版期末飯大四上那一句）——BASE 先照它換再比（第 11、12、14 項）*/
+const LATER=[['src/sis_grad3d.js','這週的時間用完了。下週再問我。','這週沒有時間了。下週好不好？'],['src/data/termend_lines.js',"table:'這學期的計畫本寫完了。……下學期那本，第一頁還是空的。'","table:'這學期過完了。……下學期的事，我還沒想。'"]];
+const LATER_TXT={'這週的時間用完了。下週再問我。':'這週沒有時間了。下週好不好？'}, lt=t=>LATER_TXT[t]||t;
+const later=(f,s)=>LATER.filter(x=>x[0]===f).reduce((a,x)=>a.split(x[1]).join(x[2]),s);
 
 if(process.env.QUOTE_B3_PROBE) (async()=>{
   /* ===================== 演出來（子程序）：QUOTE_B3_PROBE=old 讀 BASE 的 CHANGED，=new 讀現在的 ===================== */
@@ -104,7 +108,7 @@ const J=JSON.stringify, sample=L=>L.slice(0,6).join('／')+(L.length>6?'…（�
 const wrappedLits=s=>{ const t=noComments(s), out=[]; let m; LIT.lastIndex=0; while((m=LIT.exec(t))){ if(wrapped(m[1])) out.push({t:m[1],pre:t.slice(Math.max(0,m.index-40),m.index)}); } return out; };
 
 /* 11. termend_lines.js、lane118.js：不改；整句「」的都是選項字 */
-{ for(const f of SAME) check('11. '+f+' 和 '+BASE+' 一字不差（這個檔沒有有名字又整句「」的台詞）',cur(f)===gitShow(f));
+{ for(const f of SAME) check('11. '+f+' 和 '+BASE+' 一字不差（這個檔沒有有名字又整句「」的台詞；之後劇情另外改的字照 LATER）',cur(f)===later(f,gitShow(f)));
   /* TERMEND_LINES 載進來逐格走：選項的格子（t、ok、answer、OPTS、ANSWER、NOT_YET_OPT；函式裡寫在 t:／ok: 後面的字）＝GM.choose 的選項字；其他字串＝說的話、旁白、系統字 */
   const c=vm.createContext({console}); vm.runInContext(cur('src/data/termend_lines.js').replace(/^const TERMEND_LINES\s*=/m,'globalThis.TERMEND_LINES='),c); const TL=c.TERMEND_LINES;
   const OPTK=new Set(['t','ok','answer','OPTS','ANSWER','NOT_YET_OPT']); const spoken=[], opts=new Set(), seen=new Set();
@@ -128,7 +132,7 @@ const DATA=[['src/sis_grad3d.js','S.DECLINE',/S\.DECLINE=(\[[^\]]*\])/],['src/si
   for(const [f,k,re] of DATA){ const o=grab(gitShow(f),re), c=grab(cur(f),re); if(o==null||c==null){ bad.push(f+' '+k+'：讀不到'); continue; }
     const os=typeof o==='string'?[o]:Object.values(o), cs=typeof c==='string'?[c]:Object.values(c), ok=typeof o==='string'?['']:Object.keys(o), ck=typeof c==='string'?['']:Object.keys(c);
     if(J(ok)!==J(ck)||os.length!==cs.length){ bad.push(f+' '+k+'：結構不同'); continue; }
-    os.forEach((t,i)=>{ n++; if(!(wrapped(t)&&unq(t)===cs[i])) bad.push(f+' '+k+'['+i+']：'+t+' → '+cs[i]); if(wrapped(cs[i])) nw.push(f+' '+k+'：'+cs[i]); if(narrLine(t)!==narrLine(cs[i])||narrLine(cs[i])) who.push(f+' '+k+'：'+cs[i]); }); }
+    os.forEach((t,i)=>{ n++; if(!(wrapped(t)&&lt(unq(t))===cs[i])) bad.push(f+' '+k+'['+i+']：'+t+' → '+cs[i]); if(wrapped(cs[i])) nw.push(f+' '+k+'：'+cs[i]); if(narrLine(t)!==narrLine(cs[i])||narrLine(cs[i])) who.push(f+' '+k+'：'+cs[i]); }); }
   check('12. 有名字的 '+n+' 句（學姊婉拒 4＋2、念書 1、ACC0 6）沒有一句外面還有「」',n===13&&nw.length===0,sample(nw));
   check('12. 和 '+BASE+' 逐句比：每一句原本整句「」、現在只差外面的「」（其他字一字不差、輪流的順序一樣）',n===13&&bad.length===0,sample(bad));
   check('12. 誰說的（S.narrLine）和 '+BASE+' 一樣：都是她／他說的（拿掉以後沒有一句變成（ 開頭）',n===13&&who.length===0,sample(who));
@@ -171,7 +175,7 @@ const runProbe=m=>{ let o=''; try{ o=cp.execFileSync(process.execPath,[__filenam
     if(A.length!==B.length) bad.push('句數 '+A.length+' → '+B.length);
     else A.forEach((a,i)=>{ const b=B[i], ta=a[a.length-1], tb=b[b.length-1], wa=a[a.length-2], wb=b[b.length-2];
       if(J(a.slice(0,-1))!==J(b.slice(0,-1))) bad.push('說的人不一樣：'+J(a)+' → '+J(b));
-      else if(ta!==tb){ if(wrapped(ta)&&unq(ta)===tb&&wb!=null) ch++; else bad.push(J(a)+' → '+J(b)); }
+      else if(ta!==tb){ if(wrapped(ta)&&lt(unq(ta))===tb&&wb!=null) ch++; else bad.push(J(a)+' → '+J(b)); }
       if(wb!=null){ named++; if(wrapped(tb)) nw.push(J(b)); } });
     check('14. '+KEYS[k]+'：'+B.length+' 句，說的人和 '+BASE+' 一樣、字只差外面的「」（拿掉 '+ch+' 句）',!!B.length&&bad.length===0&&ch>=MIN[k],sample(bad));
     check('14. '+KEYS[k]+'：有名字說的 '+named+' 句沒有一句外面還有「」',named>=MIN[k]&&nw.length===0,sample(nw)); }

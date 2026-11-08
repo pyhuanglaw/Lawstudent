@@ -204,18 +204,18 @@ const R3=(function(){
         if(F.SIS_PLAN_POSTED&&!PHONE.sent(G,'r3_sis_plan_a2')){ if(F.SIS_PLAN_POSTED_T==null) F.SIS_PLAN_POSTED_T=t; const tt=Math.max(T(d,20+40/60),F.SIS_PLAN_POSTED_T+5/60), dd=Math.floor(tt/24);   /* 20:40（比 20:40 晚才貼的：貼完五分鐘後）*/
           PHONE.at(G,dd,tt-dd*24,[GW((G.name||'祐廷')+'的讀書計畫我看了。有休息日，有吃飯，有睡覺。'),GJ('學姊，妳以前不是這樣說的。'),GW('以前是以前。')],'r3_sis_plan_a2'); } } }
     { const d=D('2028-10-18'); if(d!=null&&route(G)==='US'&&dating(G,SIS)&&F.SIS_PLAN_SEEN==null&&t>=T(d,19)&&t<T(d+1,0)&&typeof OUT!=='undefined'&&!OUT.get(G,'r3_sis_plan_us')){   /* B（美東當地時間）*/
-        PHONE.at(G,d,19,[W('你的讀書計畫，帶去會所給我看。八點。')],'r3_sis_plan_b');
+        PHONE.at(G,d,19,[W('你的讀書計畫，我想看。八點，會所。')],'r3_sis_plan_b');
         OUT.plan(G,{id:'r3_sis_plan_us',ev:'ev_sis_plan_us',day:d,h:20,late:0.5,place:'會所',title:'會所・自習室',travel:'',travelH:0,back:'回到公寓。'}); } }
     if(F.SIS_PLAN_SEEN!=='us'&&!PHONE.sent(G,'r3_sis_plan_c')&&typeof OUT!=='undefined'){ const d=D(S.gradExam(G)?'2029-01-08':'2029-02-20');   /* C */
       if(d!=null&&t>=T(d,21)&&t<T(d+1,18)&&met(G,SIS,'FRIEND')&&!exS(G)&&S.sisKnowsPlan(G)&&contact(G,SIS)&&!(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))){
-        PHONE.at(G,d,21,[W('你的讀書計畫，拿來研究室給我看。明天晚上七點。')],'r3_sis_plan_c');
+        PHONE.at(G,d,21,[W('你的讀書計畫，我想看。明天晚上七點，研究室。')],'r3_sis_plan_c');
         OUT.plan(G,{id:'r3_sis_plan_lab',ev:'ev_sis_plan_lab',day:d+1,h:19,late:0.5,place:'法律系館A・研究室',title:'研究室',travel:'走路 約 10 分鐘',travelH:1/6}); } }
     { const d3=D('2029-02-03'); if(d3!=null&&F.SIS_NOTE_GRAD==null&&S.gradExam(G)&&met(G,SIS,'FRIEND')&&!exS(G)&&!S.noteDoor(G)&&t>=T(d3-1,21)&&t<T(d3+1,0)&&contact(G,SIS)){   /* D 照片（祐廷和別人交往中）*/
         F.SIS_NOTE_GRAD='photo'; const same=PHONE.sent(G,'y4_push_note');   /* AA_378 S3：收過 10/25 推甄前那一張的，這一張只寫「同上。」*/
         PHONE.at(G,d3-1,21,[Object.assign(W(same?'📷（一張手寫的便條：同上。）':'📷（一張手寫的便條：你可以。）'),{ask:{id:'r3_sis_note_photo',until:T(d3,18),opts:[{t:same?'同上。':'只有一句。',say:[{from:SIS,text:same?'對。':'一句就夠了。'}]},{t:'謝謝。',say:[{from:SIS,text:'考完傳訊息。'}]}]}})],'r3_sis_note_photo'); } } };
   /* B、C 沒到（outingMissed）：21:00 一則；C 沒到、在群組貼過計畫的＝她自己看了那一張 */
   S.sisPlanMissed=function(G,kind){ const F=G.flags, q=typeof OUT!=='undefined'?OUT.get(G,kind==='us'?'r3_sis_plan_us':'r3_sis_plan_lab'):null; if(!q) return; F.SIS_PLAN_SEEN='missed';
-    PHONE.at(G,q.day,21,[W(kind==='us'?'……下次帶來。':(F.SIS_PLAN_POSTED?'我自己看了你傳在群組的那張。……週六十二個小時，改成八個。':'……下次拿來。'))],'r3_sis_plan_miss_'+kind); };
+    PHONE.at(G,q.day,21,[W(kind==='us'?'……下次再給我看。':(F.SIS_PLAN_POSTED?'我自己看了你傳在群組的那張。……週六十二個小時，太多了。':'……下次再給我看。'))],'r3_sis_plan_miss_'+kind); };
   /* D 當面：2/3 08:00～08:40（醒著、空下來）→ 08:30 考場門口（接著 08:40 是 AA_327 2-Y4-27 以安在門口那一段：開發分支還沒有）*/
   S.noteDue=function(G){ const F=(G&&G.flags)||{}, d=D('2029-02-03'); return d!=null&&law(G)&&G.day===d&&G.hour>=8&&G.hour<8+40/60&&F.SIS_NOTE_GRAD==null&&S.gradExam(G)&&met(G,SIS,'FRIEND')&&!exS(G)&&S.noteDoor(G)&&!done(G,'ev_sis_exam_note'); };
   S.noteRun=async function(GM){ const G=GM.G, e=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(x=>x.id==='ev_sis_exam_note'):null; if(!e||typeof EVENTS==='undefined') return false; G.flags.SIS_NOTE_GRAD='door';
@@ -258,7 +258,7 @@ const R3=(function(){
      AA_523 5-3（企劃線 0d7b5388b）：2/14 電話選「開學以後，我們再補一天。」（SIS_VDAY_MAKEUP）的＝那一則換成三句、不給選項，直接排河堤 10:00（src/sis_b16_3d.js S.dayOffMakeup）*/
   const dayOffMark=G=>{ G.flags.SIS_DAY_OFF=true; if(typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!has(SIS,'SIS_DAY_OFF')) SOCIAL.remember(SIS,'SIS_DAY_OFF',''); };
   S.dayOff=function(G){ const F=G.flags, d27=D('2029-04-27'); if(d27==null||!dating(G,SIS)||typeof OUT==='undefined') return; const d28=d27+1, t=now(G); if(t<T(d27,21)||t>=T(d28+1,6)) return;
-    if(!PHONE.sent(G,'r3_sis_dayoff')&&t<T(d28,9)&&contact(G,SIS)&&!(typeof SISB16!=='undefined'&&SISB16.dayOffMakeup&&SISB16.dayOffMakeup(G,d27))) PHONE.at(G,d27,21,[W('明天我不寫論文。'),Object.assign(W('……你排。去哪裡都可以。'),{ask:{id:'r3_sis_dayoff',until:T(d28,9),opts:[
+    if(!PHONE.sent(G,'r3_sis_dayoff')&&t<T(d28,9)&&contact(G,SIS)&&!(typeof SISB16!=='undefined'&&SISB16.dayOffMakeup&&SISB16.dayOffMakeup(G,d27))) PHONE.at(G,d27,21,[W('明天我不寫論文。'),Object.assign(W('……去哪裡都可以。你想去哪？'),{ask:{id:'r3_sis_dayoff',until:T(d28,9),opts:[
         {t:'河堤，騎腳踏車。',say:[{from:SIS,text:'好。……我騎很慢。不要等我。'},ME('要等。')],set:{SIS_DAY_OFF_PLAN:'river'}},
         {t:'貓空，喝茶。',say:[{from:SIS,text:'好。纜車上不談論文。'}],set:{SIS_DAY_OFF_PLAN:'tea'}},
         {t:'哪裡都不去。妳睡到中午。',say:[{from:SIS,text:'……這是最難的選項。'}],set:{SIS_DAY_OFF_PLAN:'sleep'}}]}})],'r3_sis_dayoff');

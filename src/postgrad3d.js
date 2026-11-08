@@ -290,6 +290,7 @@ const PG=(function(){
     {tag:'pg_r1g_'+y,at:[K.r1,15],cond:G=>inNoodle(G)&&(y===2029||S.sits(G,2030)),items:G=>grp(y===2030&&L().R1.group2030||L().R1.group)},   /* AA_471 第 3 節：四次放榜各一版（2029-09-07 原句）*/
     {tag:'pg_r1f_'+y,at:[K.r1,15+6/60],cond:G=>y===2029&&G.flags.BAR_SIT_2029===true&&inNoodle(G),items:G=>grp(L().R1.friends.concat(S.stage(G,2029)==='none'?L().R1.low:[]))},
     {tag:'pg_r1kx_'+y,at:[K.r1,15+8/60],cond:G=>y===2029&&S.dating(G,'kexin'),items:G=>[P_('kexin',L().R1.kexin)].concat(S.stage2(G,2029)?[P_('kexin',L().R1.kexinBoth)]:[])},
+    {tag:'pg_r1me_'+y,at:[K.r1,15+10/60],cond:G=>y===2029&&G.flags.BAR_SIT_2029===true&&S.stage(G,2029)==='none'&&S.sisOk(G)&&!PHONE.sent(G,'pg_r1sis_'+y),items:G=>[{th:'p:heroine_05',from:'player',text:L().R1.sisLowMe}]},   /* AA_593 新1（決3 甲）：一試都沒過，15:10 祐廷先傳給學姊「沒上。」，15:20 她回（下一筆）；舊存檔已經收過她 15:20 那一則的不補 */
     {tag:'pg_r1sis_'+y,at:[K.r1,15+20/60],cond:G=>y===2029&&G.flags.BAR_SIT_2029===true&&S.stage(G,2029)==='none'&&S.sisOk(G),items:G=>L().R1.sisLow.map(t=>P_('heroine_05',t))},
     {tag:'pg_r2g_'+y,at:[K.r2,15],cond:G=>inNoodle(G)&&(y===2029||S.sits(G,2030)),items:G=>grp(y===2030&&L().R2.group2030||L().R2.group)},
     {tag:'pg_r2f_'+y,at:[K.r2,15+6/60],cond:G=>y===2029&&S.stage2(G,2029)&&inNoodle(G),items:G=>[GR('zhe',L().R2.zhe)].concat(L().R2.bohan.map(t=>GR('classmate_bohan',t)))},

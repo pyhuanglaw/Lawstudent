@@ -100,7 +100,7 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
     const q29=PG.draw(G,2029); H.picks=answerK(q29,10); await H.run('exam_2029');
     H.at('2029-09-07',14.6); PG.rules(GM); H.at('2029-09-07',15.1); await H.run('r1_2029'); H.at('2029-09-07',15.4); H.tick();
     check('12. Y2：答對 10＝「律師、司法官一試：未通過。」；阿哲「明年一起」Alison「我們一起明年。」',H.has('律師、司法官一試：未通過。')&&H.msgs('g:noodle_team').join('|').includes('明年一起|我們一起明年。'));
-    check('12. 學姊 15:20「明年。……讀書計畫你先排，我幫你看。」（AA_327 2-Y4-51）',H.msgs('p:heroine_05').includes('明年。……讀書計畫你先排，我幫你看。'));
+    check('12. 學姊：15:10 祐廷先傳「沒上。」、15:20 她「很厲害了啊。」「考完就先放鬆一下。」（AA_593 決3 甲＋第 10 節第 12 點；原本 AA_327 2-Y4-51「明年。……讀書計畫你先排，我幫你看。」）',JSON.stringify(H.msgs('p:heroine_05'))===JSON.stringify(['沒上。','很厲害了啊。','考完就先放鬆一下。'])&&!H.msgs('p:heroine_05').includes('明年。……讀書計畫你先排，我幫你看。'),JSON.stringify(H.msgs('p:heroine_05')));
     H.at('2029-10-20',8.5); check('12. Y2：沒有二試',!PG.due(G)||!/^e2/.test(PG.due(G).id));
     const q30=PG.draw(G,2030), s29=new Set(q29.map(q=>q.id)); check('12. 第二年換一組 20 題（和 2029 不重複）',q30.length===20&&q30.every(q=>!s29.has(q.id)));
     H.at('2030-08-02',20.6); PG.rules(GM); H.at('2030-08-02',21.1); H.tick(); check('12. 2030 重考的便條（照片）：「（便條：「你比去年多念了一年。」）」',H.msgs('p:heroine_05').includes('（便條：「你比去年多念了一年。」）'));

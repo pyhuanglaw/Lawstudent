@@ -345,7 +345,7 @@ await sec(7,async()=>{
   /* 4-4 */
   { const B=blk(part('### 4-4','### 4-5')), d=D('2028-09-11');
     us(d,21.5,'dating'); phAt(d,22.05); answer('sisb13_day40',1); const r=txt('p:'+ID).slice(-1)[0], q=OUT.get(H.G,'sisb14_day40');
-    check('7. 4-4 第四十天選「我過去。」（「好。……帶傘，外面在下雨。」）→ 當晚 22:30（當地）C 棟門口、不用移動、出遊 0.5 小時',r==='好。……帶傘，外面在下雨。'&&!!q&&q.day===d&&q.h===22.5&&q.travelH===0&&q.hours===0.5&&q.place==='C 棟門口',J({r,q}));
+    check('7. 4-4 第四十天選「我過去。」（「好。外面在下雨，你有帶傘嗎？」，AA_593 第 25 列）→ 當晚 22:30（當地）C 棟門口、不用移動、出遊 0.5 小時',r==='好。外面在下雨，你有帶傘嗎？'&&!!q&&q.day===d&&q.h===22.5&&q.travelH===0&&q.hours===0.5&&q.place==='C 棟門口',J({r,q}));
     at(d,22.3); await goOut('sisb14_day40'); check('7. 4-4 演：照稿逐字（兩把傘、你兩手空空、早餐店、雨停了）；記 SIS14_DAY40_WENT',J(said())===J(want(B,0))&&H.G.flags.SIS14_DAY40_WENT===true,J(said()));
     us(d,21.5,'dating'); phAt(d,22.05); answer('sisb13_day40',0); const n0=!OUT.get(H.G,'sisb14_day40');
     us(d,21.5,'dating'); phAt(d,22.05); at(d+1,10); answer('sisb13_day40',1); const n1=!OUT.get(H.G,'sisb14_day40');

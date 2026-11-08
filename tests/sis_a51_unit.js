@@ -50,7 +50,7 @@ GM.money=function(n){ G.money+=n; };
   check('1. 9/1 21:00 祐廷的自我介紹（原文，○○高中＝澄嶼高中；AA_372 第 10 項拿掉「重考一年」），前後有不具名同學的自介',B.includes('player:大家好，我是祐廷，財經法學組，澄嶼高中畢業。興趣是數學跟睡覺。請多指教。')&&B.length>=4&&TH('g:law_board').filter(m=>m.from!=='player').every(m=>!m.from&&m.name&&m.text.includes(m.name)),JSON.stringify(B));
   G.day=d2; G.weekday=2; run(11,12.4); check('1. 9/2 12:30 以前沒有她的留言',!PHONE.sent(G,'sis_b_comment'));
   said=[]; check('1. 留言還沒出現：關手機不演旁白',!(await STORY.afterPhoneClose(GM))&&!said.length);
-  run(12.5,12.6); B=txt('g:law_board'); check('1. 9/2 12:30 她的留言「歡迎學弟～選課或宿舍有問題可以私訊問我。」',B.includes('heroine_05:歡迎學弟～選課或宿舍有問題可以私訊問我。'),JSON.stringify(B));
+  run(12.5,12.6); B=txt('g:law_board'); check('1. 9/2 12:30 她的留言「歡迎學弟。選課或宿舍有問題，可以私訊問我。」（AA_593 第 1 列：剛認識拿掉「～」）',B.includes('heroine_05:歡迎學弟。選課或宿舍有問題，可以私訊問我。')&&!B.some(t=>/歡迎學弟～/.test(t)),JSON.stringify(B));
   said=[]; check('1. 留言出現了、但還沒打開自介版：關手機不演',!(await STORY.afterPhoneClose(GM))&&!said.length);
   PHONE.markSeen(G,'g:law_board'); said=[]; await STORY.afterPhoneClose(GM); let L=lines();
   check('1. 看過留言後第一次關手機：三行旁白（按讚加好友、大頭貼、多看了兩秒），只演一次',JSON.stringify(L)===JSON.stringify(['（你按了讚，點進她的名字，送出交友邀請。）','（她的大頭貼是在總圖前面拍的，綁著馬尾，看著鏡頭外面的某個地方。）','（你多看了兩秒。）'])&&G.flags.SIS_B_FRIEND===true,JSON.stringify(L));

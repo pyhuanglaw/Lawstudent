@@ -213,7 +213,7 @@ const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys
       try{ await goOut(G,'aa720_ev_sis_last_night',[2]); } finally { GM.say=sayQ; }
       check('6. 考前一晚照稿：（小聲）只有 AA 寫的那幾句；出了總圖那幾句不加（從 3F 出發也一樣）',J(said())===J(flat(G,E6.scene).concat(flat(G,E6.opts[2].say),flat(G,E6.end))),J(said().filter(t=>/小聲/.test(t))));
       check('6. 演完時間到閉館（22:00）',Math.abs(G.hour-22)<0.01,String(G.hour)); G.flags.SIS_STUDY=true; run(G,dk('2026-02-02'),17.55);
-      check('6. 2/2 17:30「考完了。」「……謝謝你昨天坐到閉館。」取代 alone 那則',E6.after.msgs.every(t=>texts(G).includes(t))&&!texts(G).includes('我想吃一碗很燙的東西，然後睡十二個小時'),J(texts(G).slice(-3))); }
+      check('6. 2/2 17:30「考完了。」「……謝謝你昨天坐到閉館。」取代 alone 那則',E6.after.msgs.every(t=>texts(G).includes(t))&&!texts(G).some(t=>/^我想吃一碗很燙的東西，然後睡十二個小時。?$/.test(t)),J(texts(G).slice(-3))); }
     /* Alison 猜到 */ { const E7=EV('ev_sis_alison_guess'); const G=fresh('2027-11-01',12); const d=G.day; dec(G,SIS,'tell_sis','guess',d); G.flags.KNOWS_SIS_ALISON=true; run(G,d+5,21.9); const a=!ask(G,'ev_sis_alison_guess'); run(G,d+5,22.05); const m=ask(G,'ev_sis_alison_guess');
       check('6. guess＋知道 Alison 是她妹妹：決定＋5 天 22:00 Alison 私訊三則（她的對話串）',a&&!!m&&m.th==='p:yu'&&E7.withKnows.dm.msgs.every(t=>texts(G).includes(t))&&G.flags.SIS_FAMILY_KNOWS==='guess');
       const G2=fresh('2027-11-01',12); dec(G2,SIS,'tell_sis','guess',G2.day); run(G2,G2.day+5,22.05); H.said=[]; await P().sisNextSay(GM,{name:'學姊',charId:SIS},SIS);

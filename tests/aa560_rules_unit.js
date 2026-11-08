@@ -40,7 +40,7 @@ check('0. 讀得到 AA_560 第 2-7 節（企劃線 '+SHA+'）、資料檔載得�
 
 /* C5 學姊 enc_walk（不數件數）*/
 { const L=(ENC_WALK.leave||[]).filter(e=>e.who==='heroine_05'&&e.spot==='D11'), e=L[0]||{};
-  check('C5. 學姊 D11 一起走一段的告別「我要回去了。計畫本上，今天那一格還沒劃掉。」；稿上「計畫本上，今天那一格還沒劃掉。」；src/ 沒有「計畫本上還有兩件事」；交往中那一句照舊',SEC.includes('→「計畫本上，今天那一格還沒劃掉。」')&&L.length===1&&e.friend==='我要回去了。計畫本上，今天那一格還沒劃掉。'&&e.dating==='支線只有一站。坐我旁邊。'&&e.batch===3&&!inSrc('計畫本上還有兩件事').length,J({e,old:inSrc('計畫本上還有兩件事')})); }
+  check('C5. 學姊 D11 一起走一段的告別：AA_560 的稿上「計畫本上，今天那一格還沒劃掉。」，遊戲再照 AA_593 第 79 列（企劃線 6cbb0b4ab，計畫本格子的梗拿掉）＝「我要回去了。今天的進度還沒做完。」；src/ 沒有「計畫本上還有兩件事」、也沒有「今天那一格還沒劃掉」；交往中那一句照舊',SEC.includes('→「計畫本上，今天那一格還沒劃掉。」')&&L.length===1&&e.friend==='我要回去了。今天的進度還沒做完。'&&!inSrc('今天那一格還沒劃掉').length&&e.dating==='支線只有一站。坐我旁邊。'&&e.batch===3&&!inSrc('計畫本上還有兩件事').length,J({e,old:inSrc('計畫本上還有兩件事')})); }
 
 /* C6 明軒 M4 阿哲（D116）*/
 { const ev=(R2Y4B_EVENTS||[]).find(e=>e.id==='ev_mingxuan_saved')||{dialogue:[]}, zl=ev.dialogue.filter(d=>d.speaker==='zhe');

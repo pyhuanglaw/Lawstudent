@@ -33,7 +33,8 @@ check('0. 讀得到企劃線 1ebcf530e 的 AA_472、AA_367',DOC.length>1000&&DOC
 await tsec(1,async()=>{ const NEW='明年。……讀書計畫你先排，我幫你看。';
   check('1. 稿：「學姊：'+NEW+'」；字卡「你自己排」不動',sec(1).includes('> 學姊：'+NEW)&&PG.CARDS_2030.some(r=>r[3]==='（考前三個禮拜。這次的讀書計畫表，你自己排。）'));
   const G=grad('2029-09-07',15.1,{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:5,BAR_STAGE_2029:'none'}); H.FRIEND('heroine_05'); H.tick(); H.at('2029-09-07',15.4); H.tick();
-  check('1. 2029 一試不到 12 題、學姊 FRIEND 以上：15:20 私訊「'+NEW+'」（不再是「我幫你排」）',J(H.msgs('p:heroine_05'))===J([NEW]),J(H.msgs('p:heroine_05'))); });
+  /* AA_593 決3 甲＋第 10 節第 12 點（企劃線 6cbb0b4ab，使用者 11-02）：AA_472 的「明年。……讀書計畫你先排，我幫你看。」換成共創那一段——15:10 祐廷「沒上。」、15:20 她「很厲害了啊。」「考完就先放鬆一下。」（逐字、順序在 tests/aa593_sis_1b_unit.js）*/
+  check('1. 2029 一試不到 12 題、學姊 FRIEND 以上：15:10 祐廷「沒上。」、15:20 她「很厲害了啊。」「考完就先放鬆一下。」（AA_593 決3；AA_472 那一句「'+NEW+'」不在了）',J(H.msgs('p:heroine_05'))===J(['沒上。','很厲害了啊。','考完就先放鬆一下。'])&&!H.msgs('p:heroine_05').includes(NEW),J(H.msgs('p:heroine_05'))); });
 
 /* ======================= 2. 2030 第二次考的便條：一張一句 ======================= */
 await tsec(2,async()=>{ const NOTE='（便條：「你比去年多念了一年。」）';

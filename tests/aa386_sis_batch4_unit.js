@@ -50,7 +50,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
   { const ML=SOCIAL.MEMORY_LABEL||{}, W={SIS_ADV_GRAD:'她說準備研究所準備得太早',SIS_ADV_EXCH:'她問：晚半年會怎樣',SIS_ADV_PICK:'她看了你的志願表',SIS_ADV_Y4:'她說：你的大四，你自己排',SIS_XMAS_Y2:'聖誕夜，Café 門口的熱水',SIS_XMAS_Y3:'研究室的小聖誕樹',SIS_VDAY_Y2:'情人節，植物園的荷花池',SIS_VDAY_Y3:'寒假那一天的假，公車坐到終點站',SIS_VDAY_Y4:'情人節的電話，她在陽台',SIS_REBUILD:'她說：等她說好的那天'};
     const bad=Object.keys(W).filter(k=>ML[k]!==W[k]||!(inDoc('`'+k+'`「'+W[k]+'」')||(doc398.includes('`'+k+'`')&&doc398.includes('「'+W[k]+'」'))));   /* SIS_ADV_PICK、SIS_REBUILD 照 AA_398 第 27、48 列改名 */
     check('0. 人物頁記憶 10 個（第 5 節的名稱，social3d.js MEMORY_LABEL）',!bad.length,J(bad)); }
-  { const A590=require('./aa590_doc.js'), A591=require('./aa591_doc.js'), bad=[]; const T=t=>{ if(typeof t==='string'&&!inDoc(t)&&!A590.has(t)&&!A591.has(t)) bad.push(t); };   /* AA_591（第四批，6b35748c7）改過的句子在 AA_591 的表上 */   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
+  { const A590=require('./aa590_doc.js'), A591=require('./aa591_doc.js'), A593=require('./aa593_doc.js'), bad=[]; const T=t=>{ if(typeof t==='string'&&!inDoc(t)&&!A590.has(t)&&!A591.has(t)&&!A593.has(t)) bad.push(t); };   /* AA_593（學姊改稿①b，企劃線 6cbb0b4ab）第 17、18 列改的兩則私訊在 AA_593 的表上 */   /* AA_591（第四批，6b35748c7）改過的句子在 AA_591 的表上 */   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
     for(const k in SISB4_LINES){ const v=SISB4_LINES[k]; if(Array.isArray(v)) v.forEach(T); else T(v); }
     for(const e of SISB4_EVENTS) for(const l of e.dialogue){ if(l.text!==undefined) T(l.text); if(l.scene!==undefined) T(l.scene); for(const c of (l.choice||[])) T(c.text); }
     check('0. 每一句台詞、選項、地點字幕都在稿裡（一字不差）',!bad.length,J(bad)); }
@@ -205,8 +205,8 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     check('3-5. SIS_VDAY_Y3 went、記憶 SIS_VDAY_Y3、+3／+6／+5、裂縫已經是 0 不變',H.G.flags.SIS_VDAY_Y3==='went'&&SOCIAL.has(ID,'SIS_VDAY_Y3')&&dRel(r0,r1)===J({fam:3,comf:6,npcRom:5})&&!(H.G.flags.SIS_CRACK<0),dRel(r0,r1)); }
   { setup('2028-02-13',21.05,'dorm','FRIEND'); dateSis(); rules(); PHONE.answer(H.G,'sisb4_vday_y3_ask',0); const L=await play('ev_sis_vday_y3',[0]);
     setup('2028-02-13',21.05,'dorm','FRIEND'); dateSis(); rules(); PHONE.answer(H.G,'sisb4_vday_y3_ask',1); rules(); const a=dms().slice(-1)[0]; at('2028-02-14',15.05); rules();
-    check('3-5. 「（拿出手機查終點站）」→「不要查。」「……今天不要查。」；「明天不行。」→「好。那一格先空著。」、15:00「📷（一碗湯圓）」「坐到終點站了。有湯圓。」',
-      J(L.slice(4,6))===J(['不要查。','……今天不要查。'])&&a==='好。那一格先空著。'&&J(dms().slice(-2))===J(['📷（一碗湯圓）','坐到終點站了。有湯圓。']),J({L,d:dms()})); }
+    check('3-5. 「（拿出手機查終點站）」→「不要查。」「……今天不要查。」；「明天不行。」→「好。我一個人去也可以。」（AA_593 第 17 列）、15:00「📷（一碗湯圓）」「坐到終點站了。有湯圓。」',
+      J(L.slice(4,6))===J(['不要查。','……今天不要查。'])&&a==='好。我一個人去也可以。'&&J(dms().slice(-2))===J(['📷（一碗湯圓）','坐到終點站了。有湯圓。']),J({L,d:dms()})); }
   /* 3-6 */
   { setup('2029-02-14',9,'dorm','CLOSE',{SIS_VDAY_Y3:'went'}); dateSis(); rules(); const q=OUT.get(H.G,'sisb4_vday_y4'); const r0=relOf(); const L=await play('ev_sis_vday_y4',[1]); const r1=relOf();
     check('3-6. 2029-02-14（三）22:30 她打來（那一天一開始就排好；電話、接起來）',!!q&&q.h===22.5&&q.call===true&&q.verb==='接起來'&&q.place==='電話'&&q.day===H.D('2029-02-14'),J(q));
@@ -216,7 +216,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
   { setup('2029-02-14',9,'dorm','CLOSE'); dateSis(); rules(); const L=await play('ev_sis_vday_y4',[0]);
     setup('2029-02-14',9,'dorm','CLOSE'); dateSis(); rules(); at('2029-02-14',22.5); const q=OUT.get(H.G,'sisb4_vday_y4'); q.state='missed'; OUT.onMissed(GM,q); rules(); const early=dms().length; at('2029-02-14',22.7); rules();
     check('3-6. 去年沒去的沒有湯圓那兩句；「開學以後，我們再補一天。」→「嗯。那一天我來寫。」',!L.includes('去年那家湯圓，我前幾天又想到。')&&L[L.length-1]==='嗯。那一天我來寫。',J(L));
-    check('3-6. 沒接（先不接）：記 missed、22:40 她傳「情人節快樂。」「我在陽台吹風。……你早點睡。」',H.G.flags.SIS_VDAY_Y4==='missed'&&early===0&&J(dms())===J(['情人節快樂。','我在陽台吹風。……你早點睡。']),J(dms())); }
+    check('3-6. 沒接（先不接）：記 missed、22:40 她傳「情人節快樂。」「你睡了嗎？」（AA_593 第 18 列、第 10 節第 6 點）',H.G.flags.SIS_VDAY_Y4==='missed'&&early===0&&J(dms())===J(['情人節快樂。','你睡了嗎？']),J(dms())); }
   /* 沒交往的都沒有 */
   { const r=[]; for(const [k,h] of [['2026-12-23',21.05],['2027-12-24',20.55],['2027-02-13',21.05],['2028-02-13',21.05]]){ setup(k,h,'dorm','CLOSE'); rules(); r.push(dms().length===0); }
     setup('2029-02-14',9,'dorm','CLOSE'); rules(); r.push(!OUT.get(H.G,'sisb4_vday_y4'));

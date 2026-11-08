@@ -112,6 +112,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   /* AA_591（學姊改稿第四批，企劃線 6b35748c7，使用者 11-02 確認）：表上換掉的句子照 MAP 換；整段刪的（決3 剪報段、第 11 節第 13 點重新開始那一版）、
      AA 對 AA_584 的補充第 4 點（2026-11-02 19:19：修正本私訊「一本給我爸了」刪、下一則改「多印了一本。……你說過要的。」）不在遊戲裡 */
   const A591=require('./aa591_doc.js');
+  const A593=require('./aa593_doc.js');   /* AA_593（學姊改稿①b，企劃線 6cbb0b4ab）第 25、26 列（6 第四十天、8 二月那一頁）、決5（confess_lines.js 第一次答應換共創那一套，第 114、115、117 列）：照 AA_593 的表 */
   const GONE591=new Set(['我爸寄了一份剪報給我。法律扶助的新聞。旁邊用原子筆寫：「妳寫的這個。」','他不會說。……他會寄剪報。','等的人越來越多。……我的論文寫的就是他們。','「他在關心妳。」','「剪報上寫什麼？」',
     '一本給我爸了。他放在辦公室書架最上面。','另一本。……你說過要的。']);
   const NEW584=['多印了一本。……你說過要的。'];
@@ -123,13 +124,13 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   const row611=D523.split('\n').find(l=>l.startsWith('| 6-11 |'))||'', NEW611=['禮拜四家聚！','歡迎學姊回來 118 巷那家'];
   check('0. AA_523 6-11：Kevin 舊的兩則（「學姊回來了！！」「禮拜四家聚 歡迎回來 118 巷那家」）不在遊戲裡；新的兩則在遊戲裡、一字不差在 AA_523 第 6 節 6-11 那一列（0d7b5388b）',
     !!row611&&['學姊回來了！！','禮拜四家聚 歡迎回來 118 巷那家'].every(t=>!GS.has(t)&&QUOTES.some(q=>q.t===t))&&NEW611.every(t=>GS.has(t)&&row611.includes('「'+t+'」')),J({row611:!!row611,miss:NEW611.filter(t=>!(GS.has(t)&&row611.includes('「'+t+'」')))}));
-  const lostQ=QUOTES.filter(q=>!GS.has(q.t)&&!SUPER[q.t]&&!GONE591.has(q.t)&&!GS.has(A591.MAP[q.t])&&!GS.has(A591x[q.t])).map(q=>q.who+'：'+q.t), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))&&!GONE591.has(o)), lostG=GREET.filter(t=>!GS.has(t));
+  const lostQ=QUOTES.filter(q=>!GS.has(q.t)&&!SUPER[q.t]&&!GONE591.has(q.t)&&!GS.has(A591.MAP[q.t])&&!GS.has(A593.MAP[q.t])&&!GS.has(A591x[q.t])).map(q=>q.who+'：'+q.t), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))&&!GONE591.has(o)), lostG=GREET.filter(t=>!GS.has(t));
   check('0. 稿 → 遊戲：第 1、2、5、6 節每一句（'+QUOTES.length+' 句「>」）都在遊戲裡',QUOTES.length>=150&&!lostQ.length,J(lostQ));
   check('0. 稿 → 遊戲：每個選項（'+OPTS.length+' 個）、13-6 三句短招呼都在遊戲裡',OPTS.length===37&&GREET.length===3&&!lostO.length&&!lostG.length,J({lostO,lostG}));
   const INLINE=['你說過要來吃。','（把學姊的筆記傳給她）','去。','好','（愛心貼圖）','燒臘店？說好的。']   /* AA_612 A-217：麵店改燒臘店（稿照 tools/story/aa612_fix.json 換）*/;   /* 稿寫在說明句裡的（「」括起來）：13-2 私訊、第 2 節第 1 點的選項、回「去。」、媽媽那則的回覆鍵、6-1 (c) 換上的選項 */
   check('0. 稿寫在說明裡的句子（13-2 私訊、佳穎那則的選項、回「去。」、回覆鍵「好」「（愛心貼圖）」）都在稿裡、也在遊戲裡',INLINE.every(t=>DOC.indexOf('「'+t+'」')>=0&&GS.has(t)),J(INLINE.filter(t=>!(DOC.indexOf('「'+t+'」')>=0&&GS.has(t)))));
   /* 遊戲 → 稿 */
-  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0&&!NEW611.includes(t)&&!A590.has(t)&&!A591.has(t)&&!NEW584.includes(t)&&!NEW609.includes(t)&&!['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。'].includes(t));   /* confess_lines.js 第一次答應的兩句：AA_591 拿掉重新開始那一版以後，帶 aa512 的那一行只剩它們（不是 AA_512 的稿）*/   /* AA_590 改過的句子：在 AA_590 的表上 */   /* AA_523 6-11 換上的兩則：上面對 AA_523 */
+  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0&&!NEW611.includes(t)&&!A590.has(t)&&!A591.has(t)&&!A593.has(t)&&!NEW584.includes(t)&&!NEW609.includes(t)&&!['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。'].includes(t));   /* confess_lines.js 第一次答應的兩句：AA_591 拿掉重新開始那一版以後，帶 aa512 的那一行只剩它們（不是 AA_512 的稿）*/   /* AA_590 改過的句子：在 AA_590 的表上 */   /* AA_523 6-11 換上的兩則：上面對 AA_523 */
   check('0. 遊戲 → 稿：新檔的每一句、各檔帶 aa512 的行、SMALLTALK 的三句（'+new Set(G0).size+' 句）都在稿裡（一字不差；SMALLTALK 說的話加「」、手機選項不加「」）',G0.length>=150&&!notIn.length,J(notIn));
   /* 改在現有檔的字 */
   const yes=(typeof CONFESS_LINES!=='undefined'&&CONFESS_LINES.heroine_05&&CONFESS_LINES.heroine_05.yes)||null, rs=SISB4.restartYes; SISB4.restartYes=()=>true; let yl=null; try{ yl=yes?yes({flags:{}}):null; } finally { SISB4.restartYes=rs; }
@@ -341,7 +342,7 @@ await sec(12,async()=>{ const d40=D('2028-09-11');
   const us=(key,h,kind,fl)=>{ fresh(key,h,kind,Object.assign({US_ARRIVED:true,US1:'together'},fl||{}),{route:'US',zone:'us_apartment'}); };
   us(d40,20,'dating',{SIS_ASKED_HOME_LAKE:true}); phAt(d40,21.9); const n0=byTag('sisb13_day40').length; phAt(d40,22.1); const M=byTag('sisb13_day40');
   check('12. 6 美國路線交往中：9/11（第四十天）22:00「今天第四十天。」；湖邊問過「想家嗎？」的多「你之前問我想不想家。」；「……想。一點點。」＋兩個選項',n0===0&&J(M.map(m=>m.text))===J(['今天第四十天。','你之前問我想不想家。','……想。一點點。'])&&J(askOpts('sisb13_day40'))===J(['想什麼？','我過去。']),J(M));
-  answer('sisb13_day40',1); check('12. 6「我過去。」→「好。……帶傘，外面在下雨。」',txt('p:'+ID).slice(-1)[0]==='好。……帶傘，外面在下雨。');
+  answer('sisb13_day40',1); check('12. 6「我過去。」→「好。外面在下雨，你有帶傘嗎？」（AA_593 第 25 列）',txt('p:'+ID).slice(-1)[0]==='好。外面在下雨，你有帶傘嗎？');
   us(d40,20,'dating'); phAt(d40,22.1); answer('sisb13_day40',0);
   check('12. 6 沒問過：兩則；「想什麼？」→「家裡樓下那家早餐店。……很奇怪，平常我都沒吃。」',J(byTag('sisb13_day40').map(m=>m.text))===J(['今天第四十天。','……想。一點點。'])&&txt('p:'+ID).slice(-1)[0]==='家裡樓下那家早餐店。……很奇怪，平常我都沒吃。',J(txt('p:'+ID)));
   us(d40,20,'ex'); phAt(d40,22.1); check('12. 6 美國路線挽回中：沒有',!byTag('sisb13_day40').length);
@@ -366,7 +367,7 @@ await sec(12,async()=>{ const d40=D('2028-09-11');
   answer('sisb13_feb_ask',1); ph(); const q8=OUT.get(H.G,'sisb13_feb');
   check('12. 8「妳先排，我配合。」→「……不要。說好一起排的。Café，下午三點。」；排 2/1 15:00 兩點半 Café',txt('p:'+ID).slice(-1)[0]==='……不要。說好一起排的。Café，下午三點。'&&!!q8&&q8.day===d8&&q8.h===15,J(q8));
   at(d8,14.8); await goOut('sisb13_feb'); check('12. 8 演：兩句旁白、「這天你排。」；SIS_FEB_PLAN',seq(['（她把計畫本攤開在二月那一頁。你們一格一格填。）','（填到週日那一格，她停下來，把筆遞給你。）','這天你排。'])&&H.G.flags.SIS_FEB_PLAN===true,J(said()));
-  fresh(a8,20,'dating',{SIS_NYE_PLAN_Q:true}); phAt(a8,21.1); answer('sisb13_feb_ask',0); check('12. 8「明天一起排。」→「好。Café，下午三點。帶筆。」',txt('p:'+ID).slice(-1)[0]==='好。Café，下午三點。帶筆。');
+  fresh(a8,20,'dating',{SIS_NYE_PLAN_Q:true}); phAt(a8,21.1); answer('sisb13_feb_ask',0); check('12. 8「明天一起排。」→「好。Café，下午三點。」（AA_593 第 26 列）',txt('p:'+ID).slice(-1)[0]==='好。Café，下午三點。');
   fresh(a8,20,'friend',{SIS_NYE_PLAN_Q:true}); phAt(a8,21.1); const f1=byTag('sisb13_feb_ask').length; fresh(a8,20,'dating'); phAt(a8,21.1); const f2=byTag('sisb13_feb_ask').length;
   check('12. 8 沒在交往、沒選過「寫到哪裡？」：沒有',f1===0&&f2===0);
   /* 9 每週視訊 g3、g2 的下一次開頭 */
@@ -425,7 +426,7 @@ await sec(14,async()=>{
   await pick('lover',{},[1]); check('14. 6-1 臺灣路線、沒有旗標的戀人版：照舊（沒有新句子）',!said().some(t=>/鹿咬|七月說要保密|燒臘店？|麵店？說好的|阿姨端了兩碗麵/.test(t))&&has('……還有。（她轉過頭看著你。）親一下。'));
   /* 6-2、6-3 */
   const yes=CONFESS_LINES.heroine_05.yes, rs=SISB4.restartYes; let a1, a2; SISB4.restartYes=()=>true; try{ a1=yes({flags:{}}); } finally { SISB4.restartYes=()=>false; } try{ a2=yes({flags:{}}); } finally { SISB4.restartYes=rs; }
-  check('14. 6-2 重新開始那一次（restartYes，AA_591 九件第 4 件放回）：「你做到了。」「……我也想好了。」「其他的，想了很久。……沒有了。」「這次，我選你。」；第一次答應照舊',J(a1)===J(['你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。'])&&J(a2)===J(['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。','好。']),J([a1,a2]));
+  check('14. 6-2 重新開始那一次（restartYes，AA_591 九件第 4 件放回）：「你做到了。」「……我也想好了。」「其他的，想了很久。……沒有了。」「這次，我選你。」；第一次答應照 AA_593 決5 乙（第 114、115、117 列）：「（她笑了。）你確定？」「我很難相處喔。」「（她把手伸給你。）走吧。」',J(a1)===J(['你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。'])&&J(a2)===J(['（她笑了。）你確定？','我很難相處喔。','（她把手伸給你。）走吧。']),J([a1,a2]));
   const tc=ev('ev_sis_three_conditions'); fresh('2028-04-12',10,'friend'); await runEv('ev_sis_three_conditions',[0]);
   check('14. 6-3 4-1：「還有，我要時間。等到我說好的那天。」（舊句不出現）',has('還有，我要時間。等到我說好的那天。')&&!has('還有，我要時間。不是一週，是我說好的那天。')&&!!tc,J(said())); });
 

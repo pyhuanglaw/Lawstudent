@@ -83,7 +83,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
 
   // ---------- 2-Y4-18 芝加哥 ----------
   fresh('2028-11-03',21.1,'us_apartment',US()); date('heroine_05'); rules();
-  check('C0. 沒有 MET_LONG：「香港來的那個同學也去，我們一起認識他。」＋去／這週不行', txt('p:heroine_05').join('|')==='heroine_05:下週末去芝加哥。巴士早上七點出發，帶厚外套。|heroine_05:香港來的那個同學也去，我們一起認識他。'&&PHONE.byAsk(G,'us_chi').ask.opts.length===2);
+  check('C0. 沒有 MET_LONG：「下週末去芝加哥。巴士早上七點出發。那邊很冷。」（AA_593 第 35 列）「香港來的那個同學也去，我們一起認識他。」＋去／這週不行', txt('p:heroine_05').join('|')==='heroine_05:下週末去芝加哥。巴士早上七點出發。那邊很冷。|heroine_05:香港來的那個同學也去，我們一起認識他。'&&PHONE.byAsk(G,'us_chi').ask.opts.length===2);
   fresh('2028-11-03',21.1,'us_apartment',US({MET_LONG:true})); date('heroine_05'); rules(); answer('us_chi',0); rules();
   const qc=OUT.get(G,'us_chicago'); check('C1. 有 MET_LONG：「……到了再看。」（AA_450 1-6，原「……我們去驗證。」是可昕的話）；去＝11/11 07:00 出遊', txt('p:heroine_05').includes('heroine_05:何俊朗也去。他說他知道哪一家的披薩最好吃。……到了再看。')&&!txt('p:heroine_05').some(t=>t.includes('我們去驗證'))&&!!qc&&qc.day===D('2028-11-11')&&qc.h===7);
   at('2028-11-11',6.9); said=[]; await OUT.go(GM,qc);

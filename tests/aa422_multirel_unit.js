@@ -65,7 +65,7 @@ await sec(1,async()=>{
 
   /* 學姊 2-1 */
   fresh('2026-01-10',15,'campus',{dating_kexin:true}); H.CLOSE(SIS); learn(SIS,KX); H.picks=['我好像喜歡學姊','不知道']; await X().dateOpen(GM,{who:SIS});
-  check('1. 學姊：開頭三句原文「你最近是不是有什麼話想跟我講？」「有一點。」「那你講啊。」',seq(['你最近是不是有什麼話想跟我講？','有一點。','那你講啊。']),J(T()));
+  check('1. 學姊：開頭三句「你最近是不是有什麼話想跟我講？」「有一點。」「嗯。你說。」（第三句 AA_593 第 100 列，原文「那你講啊。」）',seq(['你最近是不是有什麼話想跟我講？','有一點。','嗯。你說。'])&&!H.has('那你講啊。'),J(T()));
   check('1. 學姊筆試前「我好像喜歡學姊。」→「……我知道。」「我也不是沒感覺。」「可是我二月要考試，在那之前我不想開始任何事。」（沒有「你可以等…」）',seq(['……我知道。','我也不是沒感覺。','可是我二月要考試，在那之前我不想開始任何事。'])&&!T().some(t=>/你可以等/.test(t)));
   check('1. 學姊多一句「你女朋友知道你今天約我嗎？」→「不知道。」→「嗯。」「那你自己想好。我不替你想。」＝YT_HONEST、SIS_ASKED_GF',seq(['你女朋友知道你今天約我嗎？','嗯。','那你自己想好。我不替你想。'])&&H.G.flags.YT_HONEST[SIS]===true&&H.G.flags.SIS_ASKED_GF!=null);
   fresh('2026-03-01',15,'campus',{dating_kexin:true}); H.CLOSE(SIS); learn(SIS,KX); H.picks=['我好像喜歡學姊','這跟她沒關係']; await X().dateOpen(GM,{who:SIS});
@@ -147,7 +147,7 @@ await sec(2,async()=>{
   setT('2027-06-20',21); clr(); await walk(SIS,'Y2S2',['我喜歡妳。']);
   check('2. 學姊第二次沒做到：「你上次說會跟她說。」「……你沒有。」「那我們先這樣。」',seq(['你上次說會跟她說。','……你沒有。','那我們先這樣。']));
   fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(SIS); learn(SIS,KX); learn(KX,SIS); await walk(SIS,'Y2S1',['我喜歡妳。','她知道','她說可以']);
-  check('2. 學姊「她知道。」（可昕真的知道）→「……她怎麼說？」→「她說可以。」→「……好。我想一下。」＝第一次一律讓我想想（AA_474 1-2：開關打開也不接「我們試試看」）',seq(['……她怎麼說？','……好。我想一下。'])&&!H.has('我們試試看。')&&!H.has('我還沒準備好。')&&!H.G.flags.dating_heroine_05&&H.G.termend.think[SIS]==='Y2S1'&&J(H.opts[2])===J(['「她說可以。」','「她不太高興。」']),J(H.opts));
+  check('2. 學姊「她知道。」（可昕真的知道）→「她怎麼說？」（AA_593 第 101 列拿掉「……」）→「她說可以。」→「……好。我想一下。」＝第一次一律讓我想想（AA_474 1-2：開關打開也不接「我們試試看」）',seq(['她怎麼說？','……好。我想一下。'])&&!H.has('……她怎麼說？')&&!H.has('我們試試看。')&&!H.has('我還沒準備好。')&&!H.G.flags.dating_heroine_05&&H.G.termend.think[SIS]==='Y2S1'&&J(H.opts[2])===J(['「她說可以。」','「她不太高興。」']),J(H.opts));
   fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(SIS); learn(SIS,KX); learn(KX,SIS); await walk(SIS,'Y2S1',['我喜歡妳。','她知道','她不太高興']);
   check('2. 學姊「她不太高興。」→「嗯。那我更要想一下。」＝這學期讓我想想（acceptsOpen true 也不答應）',H.has('嗯。那我更要想一下。')&&!H.G.flags.dating_heroine_05&&H.G.termend.think[SIS]==='Y2S1');
   ROM.PARAMS.acceptsOpen[ZQ]=false; fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(ZQ); learn(ZQ,KX); await walk(ZQ,'Y2S1',['我喜歡妳。','對。']); ROM.PARAMS.acceptsOpen[ZQ]=true;
@@ -263,8 +263,8 @@ await sec(3,async()=>{
   fresh('2026-04-01',12,'campus',{}); H.CLOSE(SIS); ROM.start(H.G,SIS); H.G.flags.dating_heroine_04=true; ROM.get(H.G,ZQ).sinceDay=H.G.day;
   for(const k of ['2026-04-10','2026-04-11']){ setT(k,10); const t={trip:DATE.newTripId(H.G),who:ZQ,locs:['D03'],day:H.G.day,depart:10,back:16,transport:'mrt',departed:true,status:'done',spots:['x']}; H.G.trips.push(t); DATE.complete(H.G,t); }
   setT('2026-04-13',14); H.picks=['子晴']; await X().meet(GM,SIS,'talk');
-  check('3. 李冠宏（她不認識的人）：「冠宏說他禮拜六在{地點}看到你。」「跟一個女生。」「……你跟那個女生在一起喔？」「嗯。」「她是誰？」→「子晴。」→「……子晴。」接「什麼時候的事？」',
-    seq(['跟一個女生。','……你跟那個女生在一起喔？','嗯。','她是誰？','……子晴。','什麼時候的事？'])&&/^冠宏說他禮拜六在.+看到你。$/.test(T()[0]),J(T()));
+  check('3. 李冠宏（她不認識的人）：「冠宏說他禮拜六在{地點}看到你。」「跟一個女生。」「你跟那個女生在一起喔？」（AA_593 第 104 列拿掉「……」）「嗯。」「她是誰？」→「子晴。」→「……子晴。」接「什麼時候的事？」',
+    seq(['跟一個女生。','你跟那個女生在一起喔？','嗯。','她是誰？','……子晴。','什麼時候的事？'])&&/^冠宏說他禮拜六在.+看到你。$/.test(T()[0]),J(T()));
   fresh('2026-04-01',12,'campus',{dating_kexin:true}); H.CLOSE(SIS); ROM.start(H.G,SIS); H.G.flags.YT_PROMISED={heroine_05:'exclusive'}; X().rec(H.G).prom[SIS]={ys:[KX],day:H.G.day}; setT('2026-04-20',12); learn(SIS,KX); H.G.hour=13; await X().meet(GM,SIS,'talk');
   check('3. 學姊說會講卻沒講：「你上次說會跟她說。」「你沒有。」「我現在很生氣。這次不是有點。」「我先走。明天再講。」',seq(['你上次說會跟她說。','你沒有。','我現在很生氣。這次不是有點。','我先走。明天再講。']));
   fresh('2026-04-01',12,'campus',{dating_kexin:true}); H.CLOSE(SIS); ROM.start(H.G,SIS); H.G.flags.OPEN_OK={heroine_05:{kexin:true}}; H.G.flags.dating_heroine_03=true; ROM.get(H.G,YT).sinceDay=H.G.day; setT('2026-04-20',12); learn(SIS,YT); H.G.hour=13; await X().meet(GM,SIS,'talk');

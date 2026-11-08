@@ -38,7 +38,7 @@ const SISG=(function(){
      平日 12:00～13:00 約吃飯一律答應、不算次數（她本來就要吃飯；2/1～2/2 她在家、不在學校的不算）。總圖＝一起念書，不在這裡。
      婉拒不扣分；婉拒句四句輪流（G.flags.SISG_DECL）。散步的婉拒照 invites.js 原本那一句（AA_284 1-3），在這之前就回了 */
   S.CAP_PLACES=['cafe','noodle','brunch','teahouse','wenzhou','gym_badminton','run_avenue'];   /* 羽球、晨跑（AA_417 3-3：筆試以前照現有的 rule，和其他不讀書的邀約一起算上限）*/
-  S.DECLINE=['這學期我在準備研究所，晚上大多在圖書館。……約我沒關係，我只是真的沒空。','等我考完，你再約一次。','今天不行。刑訴在等我。','這週的時間用完了。下週再問我。'];   /* 有名字說的（INV.flow 的 S.playLines(GM,who,…)）不加外面的「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）*/
+  S.DECLINE=['這學期我在準備研究所，晚上大多在圖書館。……約我沒關係，我只是真的沒空。','等我考完，你再約一次。','今天不行。刑訴在等我。','這週沒有時間了。下週好不好？'];   /* 有名字說的（INV.flow 的 S.playLines(GM,who,…)）不加外面的「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）*/
   /* AA_535 第 1 節（INVITE-OPTS-1030，AA-B 定稿 dbd49dca7；第②級）放寬：第 1～9 週不設上限（w，她自己的規則照舊）；第 10～13 週一週一次（p＋週次；原本兩週一次）；
      第 14 週～筆試照舊婉拒（off），但她一定提「一起念書」（S.DECLINE_OFF 兩句輪流＋選項「那一起念書。」，S.studyOffer）；念書（總圖、慢讀咖啡）一直不算次數；
      校外：第 10～13 週和校內共用那一週的一次、只能約半天（S.tripWhy、S.halfOnly，date3d.js），第 14 週起照舊婉拒（S.DATE_NO.off）*/
@@ -58,7 +58,7 @@ const SISG=(function(){
     if(lunch(c.pid,c.day,c.h)&&!awayAt(G,c.day,c.h)) return null;
     if(b!=='off'&&!S.capUsed(G,c.day,c.h)) return null;
     if(b==='off') return {res:'decline',why:'exam',lines:[S.offLine(G)],alt:null,study:true};   /* 說完接「那一起念書。」（invites3d.js 的 flow → S.studyOffer）*/
-    return {res:'decline',why:'exam',lines:[S.declineLine(G)],alt:null}; };   /* 第 10～13 週：這一週用過了（四句輪流；「這週的時間用完了。下週再問我。」在這裡才合）*/
+    return {res:'decline',why:'exam',lines:[S.declineLine(G)],alt:null}; };   /* 第 10～13 週：這一週用過了（四句輪流；「這週沒有時間了。下週好不好？」在這裡才合）*/
   /* 「那一起念書。」（AA_535 1-3）：系統替你約同一個時間的念書地點——平日總圖、週末而且慢讀開著＝慢讀咖啡；那個時間都不行＝照一般「改天」算總圖的下一個空檔。她答應的那一句 S.STUDY_YES；「不用了。」什麼都不發生 */
   S.STUDY_YES='好。我帶刑訴。';   /* GM.say(who,…)／S.playLines：有名字，不加外面的「」（TEXT-QUOTE-UNIFY-1108）*/
   S.STUDY_OPTS=['那一起念書。','不用了。'];
@@ -106,7 +106,7 @@ const SISG=(function(){
         {label:'a'},{speaker:ID,expression:'neutral',text:'嗯。'},{goto:'end'},
         {label:'b'},{speaker:null,text:'（她走到門口，回頭揮了一下手。）'},
         {label:'end'} ],
-      after:G=>{ if(G.flags.SISG_WALK_TEXT===true&&typeof PHONE!=='undefined'){ G.flags.SISG_WALK_TEXT='sent'; PHONE.at(G,G.day,22+10/60,[P5('到了')],'sisg_walk_home'); } } },   /* 22:10 私訊「到了」；沒有下文、不加數值 */
+      after:G=>{ if(G.flags.SISG_WALK_TEXT===true&&typeof PHONE!=='undefined'){ G.flags.SISG_WALK_TEXT='sent'; PHONE.at(G,G.day,22+10/60,[P5('到了。')],'sisg_walk_home'); } } },   /* 22:10 私訊「到了。」（AA_593 第 9 列補句號）；沒有下文、不加數值 */
     /* 2-5 筆試前一週的晚上（BB_122 ★-3 5-2；CG BCG-42；AA_360 第 2-1 節取代 AA_284 2-5、AA_332 那一列）：不再由她約。1/24～1/27（筆試前一週）玩家第一次晚上（20:00 以後）在總圖、
        離開總圖的時候演（S.lowMark／S.lowDue，STORY.TICKS 叫；有 SIS_STUDY 才有、只一次；沒去總圖＝沒有這一場）。開頭兩行旁白新寫、「學弟。你怎麼在這裡。」、
        選項 c 換「我陪妳走到捷運站。」（熱的東西已經移到平常日），其餘照舊。「走在後面的男生」是李冠宏（BB_194 16-2），這裡不叫名字。
@@ -197,7 +197,7 @@ const SISG=(function(){
      星期二晚上睡著的：隔天 09:00 以前補（時間照星期二 21:30）。兩個選項都解鎖（傳的時候就記 SIS_STUDY）；回覆到星期三 19:00 */
   S.unlockRule=function(G,now){ const F=G.flags; if(F.SIS_STUDY||!F.SIS_W1||sent(G,'sisg_study_invite')||!atLeast(ID,'FRIEND')) return;
     for(const d of [G.day,G.day-1]){ if(wdOf(d)!==2) continue; const t=term(d); if(!t||t.id!=='Y1S1'||t.week<7||t.week>16||now<T(d,21.5)||now>=T(d+1,9)) continue;
-      PHONE.at(G,d,21.5,[P5('你晚上如果也要讀書，可以來法圖。我旁邊的位子常常空著。'),Object.assign(P5('不要講話就好。閉館的時候，可以一起去買飲料。'),{ask:{id:'sisg_study_invite',until:T(d+1,19),opts:[{t:'好。',say:[P5('明天七點。')]},{t:'這週有點忙。',say:[P5('好。位子還是空的。')]}]}})],'sisg_study_invite');   /* 兩句尾巴補句號（AA_458 3-4：學姊的私訊都用句號收尾）*/
+      PHONE.at(G,d,21.5,[P5('你晚上如果也要讀書，可以來法圖。我旁邊的位子常常空著。'),Object.assign(P5('閉館的時候，可以一起去買飲料。'),{ask:{id:'sisg_study_invite',until:T(d+1,19),opts:[{t:'好。',say:[P5('明天七點。')]},{t:'這週有點忙。',say:[P5('好。位子還是空的。')]}]}})],'sisg_study_invite');   /* 兩句尾巴補句號（AA_458 3-4：學姊的私訊都用句號收尾）*/
       F.SIS_STUDY=true; F.SISG_STUDY_DAY=d; done(G,'ev_sis_study_invite'); return; } };
   /* 2-3 她邀（一週最多一次）：解鎖以後的星期日 21:30「這週三晚上，法圖。」；那個星期三要在大一上的學期裡、法圖晚上有開；沒接不扣分。
      她不追人（AA_339 第 5 題）：剛解鎖（解鎖後的第一個星期日），或這一週（上一個星期日以後）有去法圖和她坐（SISG_SAT_DAY，S.onStudy 記）才傳——
@@ -213,9 +213,9 @@ const SISG=(function(){
     if(inFam(G)&&now>=T(d31,21)&&now<T(d2+1,0)&&!sent(G,'sisg_fam_0131'))   /* 2-6：1/31（六）21:00 家族群組（Kevin 1/31 從日本回來）：Kevin 起頭、她只回（所有在群組的人）；兩個學弟妹＝直屬學弟「致遠」、學妹「怡萱」（AA_339 第 1 題，只在家族群組出現）*/
       PHONE.at(G,d31,21,[K('學姊後天考試！！大家幫學姊集氣'),{th:'g:family_law',from:'fam_junior1',name:'致遠',text:'（貼圖）'},{th:'g:family_law',from:'fam_junior2',name:'怡萱',text:'（貼圖）'},W('謝謝。睡了。')],'sisg_fam_0131');
     if(st&&now>=T(d2,17.5)&&now<T(d2+3,0)&&!sent(G,'sisg_exam_done'))   /* 2-6：2/2（一）17:30 私訊，給一起念過書（SIS_STUDY）或有那一晚（SIS_PREEXAM_NIGHT）的；AA_360 2-1 放寬（原本只給 SIS_PREEXAM_NIGHT）*/
-      PHONE.at(G,d2,17.5,[P5('考完了'),Object.assign(P5('我想吃一碗很燙的東西，然後睡十二個小時'),{ask:{id:'sisg_exam_done',opts:[{t:'去吃。',say:[P5('嗯。')]},{t:'辛苦了。',say:[P5('不要問我考得怎麼樣。我也不知道')]}]}})],'sisg_exam_done');
+      PHONE.at(G,d2,17.5,[P5('考完了。'),Object.assign(P5('我想吃一碗很燙的東西，然後睡十二個小時。'),{ask:{id:'sisg_exam_done',opts:[{t:'去吃。',say:[P5('嗯。')]},{t:'辛苦了。',say:[P5('不要問我考得怎麼樣。我也不知道。')]}]}})],'sisg_exam_done');   /* AA_593 第 11～13 列：補句號（AA_458 3-4）*/
     if(st&&now>=T(d3,21)&&now<T(d4,13.5)&&!sent(G,'sisg_planner_ask'))   /* 2-7：2/3（二）21:00（同上，SIS_STUDY||SIS_PREEXAM_NIGHT）；「好。」＝2/4（三）14:00 公館的文具店 */
-      PHONE.at(G,d3,21,[P5('我想去買一本新的計畫本'),Object.assign(P5('你要一起來嗎？不來也沒關係'),{ask:{id:'sisg_planner_ask',until:T(d4,13.5),opts:[{t:'好。',set:{SISG_PLANNER_GO:true}},{t:'這次不行。',say:[P5('好。我自己去')]}]}})],'sisg_planner_ask');
+      PHONE.at(G,d3,21,[P5('我想去買一本新的計畫本。'),Object.assign(P5('你要一起來嗎？不來也沒關係。'),{ask:{id:'sisg_planner_ask',until:T(d4,13.5),opts:[{t:'好。',set:{SISG_PLANNER_GO:true}},{t:'這次不行。',say:[P5('好。我自己去。')]}]}})],'sisg_planner_ask');   /* AA_593 第 14～16 列：補句號 */
     if(F.SISG_PLANNER_GO===true){ F.SISG_PLANNER_GO='planned'; if(typeof OUT!=='undefined'&&now<T(d4,14.5)) OUT.plan(G,{id:'sisg_new_planner',ev:'ev_sis_new_planner',day:d4,h:14,late:0.5,place:'公館・文具店',title:'公館的文具店（學姊）',travel:'走過去約 15 分鐘',travelH:0.25,alarm:true}); } };
   /* 放榜（2-8）、上榜聚餐（2-9）*/
   S.rankRules=function(G,now){ const F=G.flags, d=D('rank'), d27=D('dinner'); if(d==null) return;
@@ -286,7 +286,7 @@ const SISG=(function(){
     } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); }
     if(GM.autosave) GM.autosave(); return true; };
 
-  /* ---------- 2-8 放榜：3/23（一）早上起床（一起念過書：SIS_STUDY 或 SIS_PREEXAM_NIGHT）。查了＝自動傳私訊，她 12:10、12:13 回（查得晚就是 10、13 分鐘後）----------*/
+  /* ---------- 2-8 放榜：3/23（一）早上起床（一起念過書：SIS_STUDY 或 SIS_PREEXAM_NIGHT）。查了＝自動傳私訊，她 12:10 回「謝啦。」（查得晚就是 10 分鐘後；AA_593 第 107～109 列）----------*/
   S.rankDue=function(G){ const F=(G&&G.flags)||{}, d=D('rank'); return law(G)&&d!=null&&G.day===d&&G.hour>=5&&G.hour<20&&F.SISG_RANK==null&&!!(F.SIS_STUDY||F.SIS_PREEXAM_NIGHT); };
   S.rankMorning=async function(GM){ const G=GM.G, F=G.flags; if(!S.rankDue(G)) return false; F.SISG_RANK='asked'; let k=1;
     GM.sceneBegin(); try{ await GM.say(null,'（今天法研所放榜。）'); k=await GM.choose([{t:'（上網查榜）'},{t:'（先不要）'}]);
@@ -294,7 +294,7 @@ const SISG=(function(){
         if(typeof PHONE!=='undefined') PHONE.post(G,{th:'p:'+ID,from:'player',who:null,text:t}); await GM.say({name:G.name+'（手機）'},t);
         F.SIS_RESULT_TOLD=true; if(typeof SOCIAL!=='undefined'){ SOCIAL.remember(ID,'SIS_RESULT_TOLD',''); SOCIAL.adjust(ID,{trust:3,rom:1}); }
         const h=G.hour%24, r1=h<12+10/60?12+10/60:h+10/60;
-        if(typeof PHONE!=='undefined'){ PHONE.at(G,G.day,r1,[P5('……我還沒去看。你比我快')],'sisg_rank_r1'); PHONE.at(G,G.day,r1+3/60,[P5('真的有'),P5('謝謝。我先去跟我媽說')],'sisg_rank_r2'); } }
+        if(typeof PHONE!=='undefined'){ PHONE.at(G,G.day,r1,[P5('謝啦。')],'sisg_rank_r1'); } }   /* AA_593 第 107～109 列＋第 10 節第 11 點（使用者 11-02 選擇題：只回「謝啦。」）：原本 12:10「……我還沒去看。你比我快」、12:13「真的有」「謝謝。我先去跟我媽說」（sisg_rank_r2）兩則拿掉 */
       else F.SISG_RANK='later';
     } finally { GM.sceneEnd(); }
     if(GM.autosave) GM.autosave(); return true; };
