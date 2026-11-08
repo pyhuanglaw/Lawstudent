@@ -1495,3 +1495,7 @@ R0ced_movreg | 0cedcbb716bbbe120007ef7c92abcbf494436b31 | game | tests/movement_
 R0ced_touch | 0cedcbb716bbbe120007ef7c92abcbf494436b31 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
 R0ced_v0_to1017_cc | 0cedcbb716bbbe120007ef7c92abcbf494436b31 | probe | docs/story_planning/test_tools/cc/cc_flow_v0_to1017.py | index.html | 90 | CC_HEADLESS=0
 R0ced_v0_tolaw_cc | 0cedcbb716bbbe120007ef7c92abcbf494436b31 | probe | docs/story_planning/test_tools/cc/cc_flow_v0_tolaw.py | index.html | 60 | CC_HEADLESS=0
+
+#   BB-B 06:16：經濟系兩支原檔（LAWWW-B 507d8f75a 以後）對照 CC 版（R0ced_v0_*_cc）
+R2951_v0_to1017 | 295179867600d145c4ef32b08ce644b4f27f7446 | game | tests/flow_v0_to1017.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
+R2951_v0_tolaw | 295179867600d145c4ef32b08ce644b4f27f7446 | game | tests/flow_v0_tolaw.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
