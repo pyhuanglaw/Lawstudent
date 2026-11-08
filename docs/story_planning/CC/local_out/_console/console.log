@@ -978,3 +978,12 @@
 [03:49:47] 正在跑：PERFAB_8172s（已跑 4 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [03:54:47] 正在跑：PERFAB_8172s（已跑 9 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [03:56:39] [res] cpu=4% mem=34% (10.9/31.4 GB) chrome_testing=0  END PERFAB_8172s
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9893eecd7..3168886f8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:56:45] ==== END   PERFAB_8172s  exit=0  711s   ====
+[03:56:48] memory 35% before starting R8172_movreg2 (0 running)
+[03:56:48] ==== START R8172_movreg2  (game @ 8172937340e0e41f1b5dd29e8ab92344688a1be5) ====
+[03:56:51] [res] cpu=21% mem=35% (11.0/31.4 GB) chrome_testing=0  START R8172_movreg2
+[03:59:47] 正在跑：R8172_movreg2（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:02:31] [res] cpu=7% mem=36% (11.3/31.4 GB) chrome_testing=0  END R8172_movreg2
