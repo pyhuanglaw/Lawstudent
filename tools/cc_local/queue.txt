@@ -1675,6 +1675,10 @@ Rc753c_touch | c753295dabdf8a0b0b2ec9767a7c5429237b7134 | game | tests/touch_flo
 Rc753c_movreg | c753295dabdf8a0b0b2ec9767a7c5429237b7134 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
 # CC-B 11-09 00:5x（台灣）：線上標題截圖重拍（橫向會裁掉版本字樣：加捲到那一行＋直向）；開發分支最新 e83043671 常備
 LIVE_V91023_title2 | 3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2 | probe | docs/story_planning/test_tools/cc/cc_live_title_probe.py | index.html | 10 | EXPECT=v9.10.23;RERUN=r2;CC_HEADLESS=0
+# CC-B 11-09 00:5x（台灣）：BB-B touch 包監看版（c753295da），連跑 3 次：手機自己打開哪一則、收起來以後的狀態、搖桿那幾秒的位置（log 的 CCW phone／close／after）
+TWATCH_c753_1 | c753295dabdf8a0b0b2ec9767a7c5429237b7134 | probe | docs/story_planning/test_tools/cc/cc_touch_wrap.py | index.html?turbo | 25 | SOLO=1;CC_HEADLESS=0
+TWATCH_c753_2 | c753295dabdf8a0b0b2ec9767a7c5429237b7134 | probe | docs/story_planning/test_tools/cc/cc_touch_wrap.py | index.html?turbo | 25 | SOLO=1;CC_HEADLESS=0
+TWATCH_c753_3 | c753295dabdf8a0b0b2ec9767a7c5429237b7134 | probe | docs/story_planning/test_tools/cc/cc_touch_wrap.py | index.html?turbo | 25 | SOLO=1;CC_HEADLESS=0
 Re830d_p0 | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
 Re830d_reach | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
 Re830d_zone | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
