@@ -1,0 +1,64 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_overlay_run.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\P6_cold_wz_f3\out
+[overlay] 受測版本 6da721819 ＋ 6da721819 的 []；暫存工作樹 C:\Users\USER\AppData\Local\Temp\cc_overlay_agtancvx\wt
+[overlay] 跑 perf_cold_probe.py http://127.0.0.1:53367/index.html?fixlights=3 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\P6_cold_wz_f3\out
+wenzhou       base     黑畫面 16185.1 ms（預熱 0.2）｜淡入後 368 格 avg 30.5 fps 1%low 12.85 最慢 100 ms、>100 ms 0 格、>500 ms 0 格｜進區域以後才載 8 個
+    進區域以後才載：bldg.wz_cat、bldg.wenzhou_street、bldg.wz_park、bldg.wz_props、bldg.wz_jphouse、bldg.cafe_exterior、char.npc_nf6、char.npc_nm6
+      載好 bldg.wz_cat（building）5018.9 ms，進區域後 5847 ms
+      載好 bldg.wz_jphouse（building）5181.2 ms，進區域後 6238 ms
+      載好 bldg.cafe_exterior（building）5226.4 ms，進區域後 6283 ms
+      載好 char.npc_nf6（vrm）7578.1 ms，進區域後 8662 ms
+      載好 bldg.wz_park（building）7622.5 ms，進區域後 8678 ms
+      載好 bldg.wz_props（building）7678.5 ms，進區域後 8735 ms
+      載好 char.npc_nm6（vrm）8942.5 ms，進區域後 10027 ms
+      載好 bldg.wenzhou_street（building）9243.3 ms，進區域後 10239 ms
+      檔案 bl_npc_nm5.vrm：開始 -18196、下載完 -14630 ms（進區域後）、傳輸 2384612 bytes
+      檔案 bl_npc_nf5.vrm：開始 -18197、下載完 -14622 ms（進區域後）、傳輸 2651424 bytes
+      檔案 gongguan_shops.glb：開始 -18497、下載完 -14475 ms（進區域後）、傳輸 9889732 bytes
+      檔案 wz_cat.glb：開始 828、下載完 879 ms（進區域後）、傳輸 970676 bytes
+      檔案 wz_jphouse.glb：開始 1056、下載完 1104 ms（進區域後）、傳輸 668876 bytes
+      檔案 wz_props.glb：開始 1056、下載完 1116 ms（進區域後）、傳輸 898600 bytes
+      檔案 bl_npc_nf6.lod.glb：開始 1082、下載完 1127 ms（進區域後）、傳輸 280920 bytes
+      檔案 cafe_exterior.glb：開始 1057、下載完 1137 ms（進區域後）、傳輸 1606876 bytes
+      檔案 bl_npc_nm6.lod.glb：開始 1084、下載完 1144 ms（進區域後）、傳輸 300272 bytes
+      檔案 wz_park.glb：開始 1055、下載完 5125 ms（進區域後）、傳輸 4349700 bytes
+      檔案 bl_npc_nf6.vrm：開始 1083、下載完 5234 ms（進區域後）、傳輸 2680452 bytes
+      檔案 bl_npc_nm6.vrm：開始 1084、下載完 5249 ms（進區域後）、傳輸 2468432 bytes
+      檔案 wenzhou_street.glb：開始 995、下載完 5300 ms（進區域後）、傳輸 10279768 bytes
+      檔案 lin_interior.glb：開始 16476、下載完 16530 ms（進區域後）、傳輸 2061656 bytes
+      parseVRM 進區域後 5411 ms：同步 2.6 ms、2680152 bytes
+      parseVRM 進區域後 5478 ms：同步 2.7 ms、2468132 bytes
+      parseVRM 做完 進區域後 8658 ms：共 3247.8 ms
+      parseVRM 做完 進區域後 10024 ms：共 4545.7 ms
+    慢格：淡入後 11783 ms，100 ms（update 6.9、render 27.3、換模型 0 次 0 ms、新 shader 0）；這段時間 JS 97.3 ms、不是 JS 2.7 ms
+          103.0 ms  FrameRequestCallback frame @ src/game3d.js:585
+    淡入後 JS 加總前幾名：
+          443.7 ms  FrameRequestCallback frame @ src/game3d.js:585
+           28.4 ms  TimerHandler:setTimeout step @ src/zones3d.js:2772
+    穩定以後的分項（整個場景 342 draw call／566646 三角形，含陰影那一輪；每一組單獨畫）：
+         106 calls    255435 tris    98 個網格  wenzhou_street_glb < Group
+          44 calls     79603 tris    31 個網格  Group
+          38 calls     81399 tris    22 個網格  human
+          36 calls     66809 tris    29 個網格  wz_park_glb < Group
+          24 calls     29324 tris    17 個網格  wz_jphouse_glb < Group
+          23 calls     70887 tris    16 個網格  human
+          20 calls     27161 tris    15 個網格  wz_props_glb < Group
+          16 calls     22661 tris    84 個網格  Group < Group
+          14 calls     37895 tris     5 個網格  street_trees_field < Group
+           8 calls     20001 tris     3 個網格  skyline
+           8 calls     19629 tris     3 個網格  Group < Group
+           8 calls     25818 tris    16 個網格  human
+           8 calls     26180 tris    16 個網格  human
+           8 calls     25864 tris    16 個網格  human
+           8 calls     25831 tris    16 個網格  human
+           8 calls     25818 tris    16 個網格  human
+           7 calls     22609 tris     1 個網格  Mesh < Group
+           7 calls     25913 tris     1 個網格  Mesh < Group
+           7 calls     22813 tris     1 個網格  Mesh < Group
+           7 calls     19737 tris     1 個網格  Mesh < Group
+           6 calls     20577 tris     1 個網格  Mesh
+           6 calls     19619 tris     1 個網格  Group < Group
+           6 calls     19619 tris     1 個網格  Group < Group
+           6 calls     19619 tris     1 個網格  Group < Group
+           6 calls     19619 tris     1 個網格  Group < Group
+    PERFPANEL：wenzhou：黑畫面 16.2 秒（建區域 1.2、預熱 14.4）；淡入後 10 秒最長一格 0.07 秒、卡 0 次；shader 黑畫面 +59、淡入後 +4｜prewarm None｜warmup {'zone': 'wenzhou', 'objects': 140, 'programs': 4, 'textures': 0, 'mpix': 0, 'depth': True, 'depthPrograms': 0, 'ticks': 37, 'parallel': True, 'done': True, 'ms': 11372, 'settled': 103, 'depthMs': 25}｜平行編譯 True｜ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)
+ALL PASS（1 次）
