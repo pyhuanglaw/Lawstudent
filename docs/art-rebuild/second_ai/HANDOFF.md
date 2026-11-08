@@ -14,8 +14,8 @@
 | 光照第二級②：研究小間 | **512 正式版 push** `be46b8878`：0.35／0.30、library_lm2_unit 研究小間全過 | — |
 | 光照第二級②：5F 書庫 | **512 正式版 push** `60c63348f`：0.41／0.37、library_lm2_unit 三間 ALL PASS（工作樹 eacc5837d） | — |
 | 光照第二級③：公館四間 | **afar 正式版 push** `56d91b587`（0.35／0.31、套天光色調）；背景排程 bb82800lc 跑到 30 分鐘上限被停在青木（青木的檔沒被動到）→ **重開 b4i1o1efa（上限 2 小時）：青木 → Daybreak → 單車** | bake_gg_new.sh |
-| 一盞重烘（WZ6_LM_cloud 第 1 點） | **已交 LAWWW-B（f164950dd，P1 等 ACK；BB-B 已給 SHA）**：店門口藍／紅 1.39→1.10、緣側 1.34→1.12、白天 0.31→0.305、晚上那張逐位元組沒變；gg_new_lm_unit ALL PASS、相關 66 支 64 過（2 支劇情開發原樣也 FAIL）；等 CC 重拍 14:00 door／clerk | `wip/wz6_yizhan_tint_1108/` |
-| **BUG-CAM-LAWLIB-DISCA-1108**（BB-B 00:43 P2，D108） | **已交 LAWWW-B（7cae81e72，P1 等 ACK）**：法圖沒有 camCols → 坐討論室 A 鏡頭退到討論室 B；加北側房間隔間牆／前牆碰撞板；lawlib_cam_disc_unit 開發原樣 FAILED 3→ALL PASS、相關 145 支 144 過；等 CC 重跑 cc_aa613_probe MODE=lib | `wip/cam_lawlib_disc_1108/` |
+| 一盞重烘（WZ6_LM_cloud 第 1 點） | **LAWWW-B 已整合 `5a6f73313`**（連 bake_room.py、bake_gg_new.sh 一起換成我分支的版本）；**BB-B 00:46 判 FIXED（雲端）**：門口木地板 R−B 16→50、淺米木色；櫃台前暖木色 OK。ART_APPROVED（溫州街六間）剩 PC GPU 顏色＋fps、一盞 21:00 夜間（BB-B 自己查） | `wip/wz6_yizhan_tint_1108/` |
+| **BUG-CAM-LAWLIB-DISCA-1108**（BB-B 00:43 P2，D108） | **已交 LAWWW-B（7cae81e72，P1 等 ACK；LAWWW-B 00:44 正式派工，和我的交件訊息交錯）**：法圖沒有 camCols → 坐討論室 A 鏡頭退到討論室 B；加北側房間隔間牆／前牆碰撞板；lawlib_cam_disc_unit 開發原樣 FAILED 3→ALL PASS、相關 145 支 144 過；等 CC 重跑 cc_aa613_probe MODE=lib | `wip/cam_lawlib_disc_1108/` |
 | BB-B 00:13 | 第 2 點收回、窗景照片不排；一盞照修法；溫州街其他四間＋阿德套色調＝不擋、低優先（任務 #196） | — |
 
 ## 🔨 （舊）現在在做（11-07 20:5x UTC，帳號 B LAWWW2-B）
