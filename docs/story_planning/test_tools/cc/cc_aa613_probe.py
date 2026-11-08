@@ -266,6 +266,11 @@ async def main():
                     late = '（她看到你，指了指旁邊的空位。）'
                     if mode == 'lib_late': R.check('%s 晚到：旁白「%s」一次' % (tag, late), sum(1 for _, x in sc['lines'] if x == late) == 1, J(sc['lines']))
                     else: R.check('%s 準時：沒有晚到那一句' % tag, not has(sc['lines'], late), J(sc['lines']))
+                    sit = {'lib_ontime': '你找了位子坐下。白板前的學長在接投影機，螢幕停在第一頁：「法律資料怎麼查」。', 'lib_late': '你輕輕坐下。白板前的學長已經開始講「法律資料怎麼查」了。'}[mode]   # BB-B 01:22（LAWWW-B e2762e9d9 小房間版）
+                    if os.environ.get('LIB_SIT'):
+                        xs = [x for _, x in sc['lines']]
+                        R.check('%s 坐下那一句逐字＝「%s」' % (tag, sit), sit in xs and (mode != 'lib_late' or (late in xs and xs.index(late) < xs.index(sit))), J(sc['lines']))
+                        R.check('%s 講座那段沒有「台上」' % tag, not any('台上' in x for x in xs), J([x for x in xs if '台上' in x]))
                     R.note('%s 講座中全部取樣（%d 筆）：%s' % (tag, len(samples), J(samples)))
                     same = [abs(x['ps'][0] - x['xs'][0]) < 0.05 for x in both]
                     R.note('%s 同一邊（座位 x 相同）逐筆：%s' % (tag, ''.join('1' if v else '0' for v in same)))
