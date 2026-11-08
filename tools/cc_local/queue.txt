@@ -1579,3 +1579,9 @@ R565c_movreg_r4 | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/moveme
 # [CC-B 11:3x BB-B 拿掉：LAWWW-B 03c71f300 已改 A6] A6_565c | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | probe | docs/story_planning/test_tools/cc/cc_a6_probe.py | index.html | 30 | SOLO=1;RUNS=2;CC_HEADLESS=0
 # CC-B 11-08 11:3x：BB-B movreg A6 改好（03c71f300，照 canStand 往空間大的那側推）跑整支
 R03c7_movreg | 03c71f300bcafc99f9e70b18b7f77d5f0885ec91 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
+# CC-B 11-08 11:4x：03c71f300 常備回歸（排在 R03c7_movreg 後面）
+R03c7_p0 | 03c71f300bcafc99f9e70b18b7f77d5f0885ec91 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+R03c7_reach | 03c71f300bcafc99f9e70b18b7f77d5f0885ec91 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
+R03c7_zone | 03c71f300bcafc99f9e70b18b7f77d5f0885ec91 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
+R03c7_main12 | 03c71f300bcafc99f9e70b18b7f77d5f0885ec91 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R03c7_classreal | 03c71f300bcafc99f9e70b18b7f77d5f0885ec91 | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
