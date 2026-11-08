@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_msg_replies.py（docs/story_planning/AA_709_msg_replies.json@211b71958）。不要手改，改企劃 AA_709 再重新匯入。
+/* 自動產生：tools/story/import_msg_replies.py（docs/story_planning/AA_709_msg_replies.json@ce8e3db3c）。不要手改，改企劃 AA_709 再重新匯入。
    女主角主動傳來的訊息的回覆選項（MSG-REPLY-1107；播放 src/msgreply3d.js）*/
 'use strict';
 const MSG_REPLIES={
- "src": "docs/story_planning/AA_709_msg_replies.json@211b71958",
+ "src": "docs/story_planning/AA_709_msg_replies.json@ce8e3db3c",
  "people": {
   "classmate_xinci": [
    {
@@ -5748,7 +5748,7 @@ const MSG_REPLIES={
     ]
    },
    {
-    "text": "七月排滿了。八月二號那一格，只寫了一個『走』。",
+    "text": "七月排滿了。八月二號出發。",
     "opts": [
      {
       "t": "八月二號，我還在日本。",
@@ -5758,17 +5758,17 @@ const MSG_REPLIES={
       },
       "say": [
        "我知道。",
-       "……所以我沒有寫「送」。"
+       "你回來的時候，我已經在那邊了。"
       ]
      },
      {
-      "t": "「走」這個字很學姊。",
+      "t": "行李收了嗎？",
       "rel": {
        "comf": 1
       },
       "say": [
-       "哪裡很我？",
-       "……好吧。很我。"
+       "還沒。",
+       "七月先把論文的進度趕完。"
       ]
      },
      {

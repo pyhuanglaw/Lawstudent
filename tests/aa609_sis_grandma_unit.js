@@ -137,5 +137,5 @@ await sec(8,()=>{
 H.done();
 })();  { const enc=require('fs').readFileSync(require('path').join(__dirname,'..','src/data/encounters.js'),'utf8'), r3=require('fs').readFileSync(require('path').join(__dirname,'..','src/r3_3d.js'),'utf8'), ev=require('fs').readFileSync(require('path').join(__dirname,'..','src/data/r3_events.js'),'utf8');
     check('AA 10:05 ① 3/14 答應以後「好。我跟她說。」（當面、私訊都有）；18:45 晚到的私訊照留、改「我奶奶先點菜了」、只有「快到了。」',/SIS\('好。我跟她說。'\),SIS\('好。不用穿太正式。'\)/.test(ev)&&/text:'好。我跟她說。'\},\{from:SIS,text:'好。不用穿太正式。'\}/.test(r3)&&/我奶奶先點菜了。……你在路上嗎？/.test(r3)&&/opts:\[\{t:'快到了。',say:\[\{from:SIS,text:'好。'\}\]\}\]\}/.test(r3));
-    check('AA 10:05 ② 礁溪沒有爸爸（AA_675 2-4：整場照 AA_609 第 8 節換，「爸媽排好了」拿掉）：「學弟。……我們一家來泡腳。」「你怎麼在這裡？」「……我好像沒跟你講過。這是我妹。」',/'學弟。……我們一家來泡腳。'/.test(enc)&&/'你怎麼在這裡？'/.test(enc)&&/'……我好像沒跟你講過。這是我妹。'/.test(enc)&&!/溫爸爸|我爸問你|我爸媽在那邊|我陪爸媽|爸媽排好了/.test(enc.replace(/\/\*[\s\S]*?\*\//g,''))); }   /* 註解裡寫了換掉的是哪一句：比對時拿掉註解 */
+    check('AA 10:05 ② 礁溪沒有爸爸（AA_675 2-4：整場照 AA_609 第 8 節換，「爸媽排好了」拿掉；AA_593 第 11 節 ce8e3db3c：第一句「學弟。……我們一家來的。」＋媽媽點頭、不邀泡）：「學弟。……我們一家來的。」「你怎麼在這裡？」「……我好像沒跟你講過。這是我妹。」',/'學弟。……我們一家來的。'/.test(enc)&&/'（學姊的媽媽點了一下頭。）'/.test(enc)&&!/我們一家來泡腳|坐下來一起泡吧/.test(enc.replace(/\/\*[\s\S]*?\*\//g,''))&&/'你怎麼在這裡？'/.test(enc)&&/'……我好像沒跟你講過。這是我妹。'/.test(enc)&&!/溫爸爸|我爸問你|我爸媽在那邊|我陪爸媽|爸媽排好了/.test(enc.replace(/\/\*[\s\S]*?\*\//g,''))); }   /* 註解裡寫了換掉的是哪一句：比對時拿掉註解 */
 
