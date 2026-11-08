@@ -182,7 +182,7 @@ async def run_mode(pg, cdp, mode, rec):
     await pg.evaluate("window.__says=[]"); wf0 = await pg.evaluate("GAME.walkFallbacks||0")
     await pg.evaluate("(t=>{ void GAME.quickGo([t.zone,t.name,t.spawn||null],{force:true}); })", tgt)
     await pg.wait_for_timeout(8000)
-    m = await drive(pg, cdp, tag + ' 見面', ['綠茶'], max_s=420, idle_end=15, shots=3)
+    m = await drive(pg, cdp, tag + ' 見面', ['綠茶'], max_s=420, idle_end=45, shots=3)
     for k in range(3):   # 總圖：她帶路到二樓座位（INV lead）——照玩家跟上去、走到她指的那張、按「坐下」，再接著演
         ld = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).filter(q=>q.who===id).slice(-1)[0]; return v&&v.lead?JSON.parse(JSON.stringify({ph:v.lead.ph, me:v.lead.me, her:v.lead.her, state:v.state})):null; })", SIS)
         if not ld or not ld.get('me'): break
