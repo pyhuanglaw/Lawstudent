@@ -2130,3 +2130,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 555.5s] page close url=http://127.0.0.1:8801/index.html?turbo?turbo | [gpu_wrap 555.5s] BROWSER DISCONNECTED
 - 2026-11-08T18:57:17  R565c_v0_start  sha=565cf3fd6537505461d1f51bb609c09c8c2b5fa2  exit=0  165s    PASS 畫面上沒有看得到的備用人物  [] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 128.0s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 128.0s] BROWSER DISCONNECTED
+- 2026-11-08T19:02:57  R565c_movreg  sha=565cf3fd6537505461d1f51bb609c09c8c2b5fa2  exit=1  333s    PASS E 咖啡廳：exit 後能走（最佳方向 ≥ 1 m）   {'x': 35.68, 'z': -4.57, 'yaw': -3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 35.57, 'z': -4.68, 'yaw': -3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True} via right / console errors: [] / RESULT: 41/42 PASS  FAILED: A6 斜推 → 沿牆滑動（x 改變）
+      err.log (last 5): [gpu_wrap 299.5s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 299.5s] BROWSER DISCONNECTED
