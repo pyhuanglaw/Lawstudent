@@ -22,7 +22,7 @@ await sec(1,()=>{
   check('1. AA_262 (b) 第 2 條（第四年自己一組選項）已經做過（AA_378 #10），照留',lab(e,'y4')[0].text==='（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。'); });
 
 await sec(2,()=>{
-  const ps=SMALLTALK.classmate_peishan, x=ps.find(t=>(t.t||t)==='「我今天旁聽了倫理學。」');
+  const ps=SMALLTALK.classmate_peishan, x=ps.find(t=>(t.t||t)==='我今天旁聽了倫理學。');
   check('2. SMALLTALK 沛珊「我今天旁聽了倫理學。」只到大二上（term Y1S1～Y2S1）；「讀書會週三，萬才館。」已經沒有（AA_369）',!!x&&J(x.term)===J(['Y1S1','Y1S2','Y2S1'])&&!SRC.includes('讀書會週三，萬才館'),J(ps)); });
 
 await sec(3,()=>{

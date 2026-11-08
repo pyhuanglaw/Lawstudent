@@ -48,7 +48,7 @@ check('0. 讀得到 AA_560 第 2-7 節（企劃線 '+SHA+'）、資料檔載得�
 
 /* C7 方奕廷 */
 { const s=SMALLTALK.npc_fangyt||[], e=s[0]||{};
-  check('C7. 方奕廷大一的閒聊「下週去溪頭。……第一次一個人上山，我帶了太多襪子。」；稿上「第一次一個人上山」；條件（once term、2026-09-01 以前）照舊、句數照舊；src/ 沒有「第一次上山」',SEC.includes('→「第一次一個人上山」')&&e.t==='「下週去溪頭。……第一次一個人上山，我帶了太多襪子。」'&&e.once==='term'&&typeof (e.if&&e.if.custom)==='function'&&s.length===4&&!inSrc('第一次上山').length,J({t:e.t,n:s.length,old:inSrc('第一次上山')})); }
+  check('C7. 方奕廷大一的閒聊「下週去溪頭。……第一次一個人上山，我帶了太多襪子。」；稿上「第一次一個人上山」；條件（once term、2026-09-01 以前）照舊、句數照舊；src/ 沒有「第一次上山」',SEC.includes('→「第一次一個人上山」')&&e.t==='下週去溪頭。……第一次一個人上山，我帶了太多襪子。'&&e.once==='term'&&typeof (e.if&&e.if.custom)==='function'&&s.length===4&&!inSrc('第一次上山').length,J({t:e.t,n:s.length,old:inSrc('第一次上山')})); }
 
 /* C8 Kevin（臺北人）*/
 { const a=(typeof SISB12_LINES!=='undefined'&&SISB12_LINES.hotAsk)||[];

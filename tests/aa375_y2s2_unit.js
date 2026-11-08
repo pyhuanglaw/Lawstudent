@@ -204,7 +204,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('19. 語彤雙主修的法律課：大二下週一上午債各在霖澤館 201',!!a&&a.zone==='classroom'&&a.act==='class',J(a&&[a.zone,a.act]));
     check('19. 對照：大二上週一上午照舊在總圖',!!b&&b.zone==='library',J(b&&b.zone)); }
   // ===== 第 20 項 =====
-  { const L=SMALLTALK.prof_xu||[], e=L.find(x=>typeof x==='object'&&x.t==='「行政法大二再說。先把民總讀好。」');
+  { const L=SMALLTALK.prof_xu||[], e=L.find(x=>typeof x==='object'&&x.t==='行政法大二再說。先把民總讀好。');
     check('20. 許教授「行政法大二再說。先把民總讀好。」只在大一',!!e&&J(e.term)===J(['Y1S1','Y1S2']),J(e)); }
   // ===== 第 21 項：語彤事件 11 補演和期末飯互斥 =====
   { fresh('2027-06-16',12,'dorm'); const b0=Y2R2.yt11bDay?Y2R2.yt11bDay(G):null;

@@ -130,7 +130,7 @@ const NARR='（回家的路上，手機震了一下。）', SAN='在公館的路
     check('D. 萬才館法服值班的週六：認識的版本是 meetB（不是借社博的 meetDuty）',sat!=null&&POOL.meetVersion(H.G,M)==='meetB',J({sat:sat&&keyOf(sat),v:sat&&POOL.meetVersion(H.G,M)}));
     H.said=[]; const ok=await POOL.meet(GM,{name:'法服攤位那個人'},M,null);
     check('D. 演 meetB：照五行說、記住在萬才館認識的（POOL.rec mv＝meetB）、認識了',ok===true&&J(H.said.map(s=>s.t))===J(WANT.filter(w=>w[0]!=='MEET').map(w=>w[1]))&&POOL.rec(H.G).mv[M]==='meetB'&&SOCIAL.has(M,'FIRST_MET'),J({said:H.said.map(s=>s.t),mv:POOL.rec(H.G).mv[M]}));
-    check('D. 社博那個入口照舊用 meet（帳篷、樹）；talk「法服的攤位每年都擺在同一個位置。因為那裡有插座。」照留',L.meet[0].text==='（帳篷後面，一個女生拉著一條很長的延長線，延長線的另一頭消失在樹後面。）'&&L.talk.some(x=>x.t==='「法服的攤位每年都擺在同一個位置。因為那裡有插座。」'));
+    check('D. 社博那個入口照舊用 meet（帳篷、樹）；talk「法服的攤位每年都擺在同一個位置。因為那裡有插座。」照留',L.meet[0].text==='（帳篷後面，一個女生拉著一條很長的延長線，延長線的另一頭消失在樹後面。）'&&L.talk.some(x=>x.t==='法服的攤位每年都擺在同一個位置。因為那裡有插座。'));
     /* 畢業那則 */
     const gd=TD('Y3S2',16,6);
     const grad=mv=>{ fresh(gd-1,12,'dorm'); contact(M); fam(M); if(mv) POOL.rec(H.G).mv[M]=mv; const ab=STORY.abroad; STORY.abroad=()=>false; try{ setAt(gd,12); ph(); setAt(gd,23); ph(); } finally { STORY.abroad=ab; } return (H.G.msgs||[]).filter(m=>m.tag==='pool_jr_grad').map(m=>m.text); };

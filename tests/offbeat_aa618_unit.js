@@ -95,14 +95,14 @@ const T=()=>said.map(s=>s.t);
     check('7. 沛珊：週三 21:30 以後在日常失速（大一大二；21:00 不在、大三不在）',!!p1&&p1.zone==='wz_offbeat'&&!(p2&&p2.offbeat)&&!(p3&&p3.offbeat),J([p1&&p1.zone,p2&&p2.zone,p3&&p3.zone]));
     const a1=at('yu',su,15); check('7. Alison：週日 14:00～17:00 在日常失速',!!a1&&a1.zone==='wz_offbeat',J(a1&&a1.zone));
     fresh(w3,21.6); know('classmate_peishan',S4); const id=OFFB.encDue(G); if(id) await OFFB.enc(GM,id); const t1=T(); said=[];
-    check('7. 一個人在店裡、沛珊這時候在：「你也在這！……我買個肉桂捲就走，明天早八。」一天一次',id==='classmate_peishan'&&J(t1)===J(['「你也在這！……我買個肉桂捲就走，明天早八。」'])&&OFFB.encDue(G)===null,J([id,t1]));
+    check('7. 一個人在店裡、沛珊這時候在：「你也在這！……我買個肉桂捲就走，明天早八。」一天一次',id==='classmate_peishan'&&J(t1)===J(['你也在這！……我買個肉桂捲就走，明天早八。'])&&OFFB.encDue(G)===null,J([id,t1]));
     fresh(su,15); know('yu',S4); const id2=OFFB.encDue(G); if(id2) await OFFB.enc(GM,id2);
     check('7. Alison 那一段（兩句中間「（三分鐘後）」）',id2==='yu'&&J(T())===J(OFFB.L.enc.yu.map(x=>x[1]))&&said[1].who===null,J(T()));
     fresh(su,15); check('7. 還不認識：不遇',OFFB.encDue(G)===null);
     const fri=(()=>{ for(let w=2;w<=15;w++){ const d=TD('Y1S1',w,5); if(ACTIVITIES.list.some(a=>a.id==='dept_basketball'&&ACTIVITIES.on(a,d,G))) return d; } return null; })();
     const z1=fri!=null?at('zhe',fri,19.5):null, m1=fri!=null?at('classmate_mingxuan',fri,19.5):null;
     check('7. 阿哲、明軒：大一上系籃練球的週五 19:15～20:00 在日常失速',!!z1&&z1.zone==='wz_offbeat'&&!!m1&&m1.zone==='wz_offbeat',J([fri,z1&&z1.zone,m1&&m1.zone]));
-    if(fri!=null){ fresh(fri,19.5); G.flags.week1Seen=true; know('zhe',S4); const id3=OFFB.encDue(G); if(id3) await OFFB.enc(GM,id3); check('7. 阿哲：「練完好餓。你要不要一起？」（之後的選項：第 20 項）',/^zhe/.test(id3)&&T()[0]==='「練完好餓。你要不要一起？」',J([id3,T()])); } }
+    if(fri!=null){ fresh(fri,19.5); G.flags.week1Seen=true; know('zhe',S4); const id3=OFFB.encDue(G); if(id3) await OFFB.enc(GM,id3); check('7. 阿哲：「練完好餓。你要不要一起？」（之後的選項：第 20 項）',/^zhe/.test(id3)&&T()[0]==='練完好餓。你要不要一起？',J([id3,T()])); } }
   // ===== 8. 打烊 =====
   { fresh(wed,27); E.player.seat={x:0,z:0}; check('8. 01:00 以後人在店裡：tick 開演',OFFB.tick(GM)===true); await new Promise(r=>setTimeout(r,10));
     check('8. 03:00（讀檔回到店裡）：出來站在店門外（配置 exit.spawn）、寫開放時間、起身（01:00 打烊那一刻：第 18 項）',G.zone==='wenzhou'&&entered[0][1].x===L.exit.spawn.x&&/開放時間/.test(toasts[0]||'')&&!E.player.seat,J([entered,toasts])); }
@@ -157,8 +157,8 @@ const T=()=>said.map(s=>s.t);
     const d=slot==null?null:INV.personal(G,'kai',P,sat,slot,INV.decide(G,'kai','offbeat',sat,slot)); check('19. 沒列的人（阿凱）答應：一般那句「好啊。那裡吃什麼都好吃。」',!!d&&d.res==='accept'&&J(d.lines)===J([OFFB.ACC0]),J([slot,d])); }
   { const fri=(()=>{ for(let w=2;w<=15;w++){ const d=TD('Y1S1',w,5); if(ACTIVITIES.list.some(a=>a.id==='dept_basketball'&&ACTIVITIES.on(a,d,G))) return d; } return null; })();
     fresh(fri,19.5); know('zhe',S4); picks=['好，一起。']; const h0=G.hour; const r=await OFFB.enc(GM,'zhe');
-    check('20. 阿哲「練完好餓」→「好，一起。」：旁白＋明軒「他每次都這樣。」、時間過 40 分鐘',r==='zhe_yes'&&J(T())===J(['「練完好餓。你要不要一起？」','（你們點了兩份厚片。阿哲吃完他那份，一直看著你那份。）','「他每次都這樣。」'])&&said[2].who===SOCIAL.displayName('classmate_mingxuan')&&Math.abs(G.hour-h0-40/60)<1e-9&&J(opts[0])===J(['「好，一起。」','「今天不行。」']),J([r,said,opts]));
-    fresh(fri,19.5); know('zhe',S4); picks=['今天不行。']; const r2=await OFFB.enc(GM,'zhe'); check('20.「今天不行。」→ 阿哲「好，下次。」',r2==='zhe_no'&&T()[1]==='「好，下次。」'&&G.hour===19.5,J(T())); }
+    check('20. 阿哲「練完好餓」→「好，一起。」：旁白＋明軒「他每次都這樣。」、時間過 40 分鐘',r==='zhe_yes'&&J(T())===J(['練完好餓。你要不要一起？','（你們點了兩份厚片。阿哲吃完他那份，一直看著你那份。）','他每次都這樣。'])&&said[2].who===SOCIAL.displayName('classmate_mingxuan')&&Math.abs(G.hour-h0-40/60)<1e-9&&J(opts[0])===J(['「好，一起。」','「今天不行。」']),J([r,said,opts]));
+    fresh(fri,19.5); know('zhe',S4); picks=['今天不行。']; const r2=await OFFB.enc(GM,'zhe'); check('20.「今天不行。」→ 阿哲「好，下次。」',r2==='zhe_no'&&T()[1]==='好，下次。'&&G.hour===19.5,J(T())); }
   // ===== 21. 期末考完的聚餐（取代燒臘店那一場）=====
   { const evOf=id=>STORY_EVENTS.find(e=>e.id===id), terms=Object.keys(OFFB.FINAL);
     check('21. 四場的地點：燒臘店或日常失速（AA_648 第 1 節）',terms.every(t=>J(evOf(OFFB.FINAL[t].ev).location)===J(['noodle','wz_offbeat'])));

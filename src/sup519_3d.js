@@ -182,7 +182,7 @@ const SUP519=(function(){
   S.TA_ROWS=yearRows(TA.years||{},'npc_ta_chen',(y,i)=>y===4&&i===1?{t:G=>met('heroine_05')?TA.years[4][1]:TA.noSis}:null);
   S.smallYear=function(G,id,r,nm,rows){ if(!law(G)||r.day===G.day) return null; const o=S.daily(G,id,rows,null,{alt:true}); if(!o) return null; r.day=G.day;
     if(o.weather){ r.last='__greet'; return {narr:'（'+nm+'跟你打了個招呼，聊了兩句天氣。）',fresh:true}; }
-    r.last=o.t; return {say:'「'+o.t+'」',fresh:true}; };
+    r.last=o.t; return {say:o.t,fresh:true}; };   /* GM.say(who,…) 有名字說的：不在外面加「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第四批）*/
   /* 4-1 筱涵：一年兩句（大三第二句「語彤最近比較好了」要認識語彤）；「語彤最近很累，你有注意到嗎？」只在大一、大二出（認識語彤），排在那一年兩句後面 */
   const HX=L.hxh||{};
   S.HXH_ROWS=(()=>{ const Y=HX.years||{}, yt=()=>met('heroine_03'), out=[];
@@ -226,7 +226,7 @@ const SUP519=(function(){
     y4s1_pre:G=>termAt(G.day)==='Y4S1'&&!S.k5Done(G), y4s1_k5:G=>termAt(G.day)==='Y4S1'&&S.k5Done(G), y4s2:G=>termAt(G.day)==='Y4S2' };
   S.kaiK5Line=G=>{ const R=(KAI.rows||[]).find(r=>r.k==='y4s1_k5'), M=(R&&R.k5)||{}; return M[G.flags.KAI_K5]||M.none; };   /* KAI_K5：write／bug／company／awake／none（沒回＝none）*/
   S.KAI_ROWS=(KAI.rows||[]).map(r=>({k:r.k,on:S.KAI_ON[r.k]||(()=>false),t:r.k5?S.kaiK5Line:r.t}));
-  S.kaiTalk=function(G,id,r,nm){ if(!S.kaiAtCs(G)) return null; const o=S.daily(G,'kai',S.KAI_ROWS,KAI.shorts); if(!o||!o.t) return null; r.day=G.day; r.last='__aa519'; return {say:'「'+o.t+'」',fresh:!!o.fresh}; };
+  S.kaiTalk=function(G,id,r,nm){ if(!S.kaiAtCs(G)) return null; const o=S.daily(G,'kai',S.KAI_ROWS,KAI.shorts); if(!o||!o.t) return null; r.day=G.day; r.last='__aa519'; return {say:o.t,fresh:!!o.fresh}; };   /* 同上：不加外面的「」（第四批）*/
   /* 5-4：一般聊天池（msg_pool.js 是產生器的檔，不手改）kai「寫作業 好難」：大四起「寫 code 好難」，畢業以後「上班好難」（畢業以後沒有學期中：那一則照樣可以回）*/
   S.KAI_HW='寫作業 好難';
   S.kaiHw=G=>{ if(!law(G)) return null; if(G.flags.GRADUATED) return KAI.hwPg; return S.yearOf(G)>=4?KAI.hw4:null; };

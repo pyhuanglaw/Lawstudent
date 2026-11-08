@@ -4289,60 +4289,62 @@ const STORY_EVENTS=[
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
    location（區域）、time:[a,b]、weekday、once（true＝一輩子一次；'term'＝每學期一次）。條件照 AA_120 第 1、2 節（第①級：只加條件、不改字）；
    改字（第 5 節：柏翰「二十一天」、芯慈「經濟系」、黃教授「電影」、Alison 的內層引號）等使用者批准，字先不動。 */
+/* TEXT-QUOTE-UNIFY-1108 第四批（AA-B 2026-11-08 05:31）：閒聊是 story3d.js S.smallTalk → GM.say(who,…) 有名字說的，句子不加外面的「」（原本「SMALLTALK 的寫法：說的話加「」」）。
+   說過了的記號是句子本身：舊存檔記的（有「」）讀檔時 STORY.smallQuoteMigrate 換成現在的句子 */
 const SMALLTALK={
-  heroine_02:[{t:'「今天的豆子很酸，我不推。」',location:'cafe'},'「你有看過《進城的那一週》嗎？沒有？那我們沒得聊了——開玩笑。」',{t:'「外文系的期中是報告，法律系呢？……我聽說你們期末要寫到手斷掉。」',week:[6,9]}],
-  heroine_03:['「……嗯。」',{t:'「三樓靠窗的燈壞了，你知道嗎。」',location:'library'},{t:'「我阿姨問你什麼時候再來。」',if:{events:['ev_noodle_yutong']}}],
-  heroine_04:[{t:'「你手指好了沒？」',term:['Y1S2'],if:{memory:[{npc:'heroine_04',tag:'INVITED_CLUB'}]}},{t:'「阿凱說他昨天又寫到四點。你們那間到底幾點關燈？」',term:['Y1S1','Y1S2'],if:{events:['ev_ziqing_club']}},{t:'「阿凱說他昨天又寫到四點。你看到他，叫他去睡。」',term:['Y2S1','Y2S2','Y3S1','Y3S2'],if:{events:['ev_ziqing_club']}},   /* BB_166 1-3：阿凱就是祐廷的室友、大二起不同房 */
-              {t:'「期末成發你要來。」',if:{memory:[{npc:'heroine_04',tag:'INVITED_CLUB'}],stage:{npc:'heroine_04',min:'FAMILIAR'}},term:['Y1S2','Y2S2'],week:[10,13]}],   /* 手指痛＝學過和弦；成發在大一下、大二下第 14 週（AA_120 第 1 節、BB_96 4-4）。大二下的成發（Q9）還沒做，先只在大一下說（BB_134 1-8，AA-B 2026-10-16：先關，和 Q9 一起做時把 'Y2S2' 加回來）——AA_325 2-Y2-19 做了 Q9，'Y2S2' 加回來 */
-  heroine_05:[{t:'「我大一的時候，判決只背結論。後來都要重讀。」',term:['Y1S1','Y1S2']},{t:'「總圖三樓靠窗那排，九點前就滿了。」',term:['Y1S1']},{t:'「……我沒事。只是沒睡。」',if:{stage:{npc:'heroine_05',min:'FAMILIAR'}}}],
-  classmate_bohan:['「我在寫考古題，第二題卡住了。」',{t:'「期末還有{n}天，我排了一份進度表，要的話傳你。」',final:[7,14],once:'term'}],   /* AA_209 附錄A §2 */   /* AA_120 7-1 第 1 項：{n}＝到這學期第一個期末考時段的天數（D118 沒有期中考，AA_578 第 2 節 #1：原本到期中考、「期中」→「期末」；照課表和日曆，story3d.js 的 smallTalk），7～14 天才說、每學期一次 */
-  classmate_xinci:[{t:'「筆記我還你了，你有收到嗎？」',if:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},once:true},/* AA_120 7-1 第 2 項：雙主修三個版本照她知道多少（ECON_PAST_SHARED）；到了雙主修事件就不再說 */
-    {t:'「雙主修要多修好多學分，我排了好幾種課表，每一種都好滿。」',/* AA_209 附錄A §2 */term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double']},unless:{flagIs:{ECON_PAST_SHARED:['full','half']}}},
-    {t:'「你說你自學過一點經濟。個經和總經，你覺得哪一個比較會卡住人？我排課表就卡在這一格。」',term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double'],flagIs:{ECON_PAST_SHARED:'half'}}},
-    {t:'「你念過經濟系，我只問一件事：經濟系的期末，會不會跟法律系的撞在同一週？」',term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double'],flagIs:{ECON_PAST_SHARED:'full'}}}],
+  heroine_02:[{t:'今天的豆子很酸，我不推。',location:'cafe'},'你有看過《進城的那一週》嗎？沒有？那我們沒得聊了——開玩笑。',{t:'外文系的期中是報告，法律系呢？……我聽說你們期末要寫到手斷掉。',week:[6,9]}],
+  heroine_03:['……嗯。',{t:'三樓靠窗的燈壞了，你知道嗎。',location:'library'},{t:'我阿姨問你什麼時候再來。',if:{events:['ev_noodle_yutong']}}],
+  heroine_04:[{t:'你手指好了沒？',term:['Y1S2'],if:{memory:[{npc:'heroine_04',tag:'INVITED_CLUB'}]}},{t:'阿凱說他昨天又寫到四點。你們那間到底幾點關燈？',term:['Y1S1','Y1S2'],if:{events:['ev_ziqing_club']}},{t:'阿凱說他昨天又寫到四點。你看到他，叫他去睡。',term:['Y2S1','Y2S2','Y3S1','Y3S2'],if:{events:['ev_ziqing_club']}},   /* BB_166 1-3：阿凱就是祐廷的室友、大二起不同房 */
+              {t:'期末成發你要來。',if:{memory:[{npc:'heroine_04',tag:'INVITED_CLUB'}],stage:{npc:'heroine_04',min:'FAMILIAR'}},term:['Y1S2','Y2S2'],week:[10,13]}],   /* 手指痛＝學過和弦；成發在大一下、大二下第 14 週（AA_120 第 1 節、BB_96 4-4）。大二下的成發（Q9）還沒做，先只在大一下說（BB_134 1-8，AA-B 2026-10-16：先關，和 Q9 一起做時把 'Y2S2' 加回來）——AA_325 2-Y2-19 做了 Q9，'Y2S2' 加回來 */
+  heroine_05:[{t:'我大一的時候，判決只背結論。後來都要重讀。',term:['Y1S1','Y1S2']},{t:'總圖三樓靠窗那排，九點前就滿了。',term:['Y1S1']},{t:'……我沒事。只是沒睡。',if:{stage:{npc:'heroine_05',min:'FAMILIAR'}}}],
+  classmate_bohan:['我在寫考古題，第二題卡住了。',{t:'期末還有{n}天，我排了一份進度表，要的話傳你。',final:[7,14],once:'term'}],   /* AA_209 附錄A §2 */   /* AA_120 7-1 第 1 項：{n}＝到這學期第一個期末考時段的天數（D118 沒有期中考，AA_578 第 2 節 #1：原本到期中考、「期中」→「期末」；照課表和日曆，story3d.js 的 smallTalk），7～14 天才說、每學期一次 */
+  classmate_xinci:[{t:'筆記我還你了，你有收到嗎？',if:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},once:true},/* AA_120 7-1 第 2 項：雙主修三個版本照她知道多少（ECON_PAST_SHARED）；到了雙主修事件就不再說 */
+    {t:'雙主修要多修好多學分，我排了好幾種課表，每一種都好滿。',/* AA_209 附錄A §2 */term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double']},unless:{flagIs:{ECON_PAST_SHARED:['full','half']}}},
+    {t:'你說你自學過一點經濟。個經和總經，你覺得哪一個比較會卡住人？我排課表就卡在這一格。',term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double'],flagIs:{ECON_PAST_SHARED:'half'}}},
+    {t:'你念過經濟系，我只問一件事：經濟系的期末，會不會跟法律系的撞在同一週？',term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double'],flagIs:{ECON_PAST_SHARED:'full'}}}],
   /* 明軒、宥辰的閒聊（AA_497 4-5、1-10，企劃線 7a38216ca）：取代原本兩句撐四年；每句一次（once）、照學期（term）；說完以後的一句旁白在 STORY.SMALL_AFTER（src/sup497_3d.js）。
      原句：「阿哲說週五練球。」只限大一；「你看起來很累。睡飽比較重要。」照原本的條件（前一晚很晚睡、當天第一次）；宥辰的兩句照原本的條件（8～13 點／DJ 那段之前），稿上那一句沒有「bar」照稿 */
-  classmate_mingxuan:[{t:'「阿哲說週五練球。」',term:['Y1S1','Y1S2'],once:true},{t:'「你看起來很累。睡飽比較重要。」',if:{lateNight:true},once:true,prio:1},
-    {t:'「家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。」',term:['Y1S2'],once:true},{t:'「這學期家教多接了一個。週六早上，小學五年級，很吵。」',term:['Y2S1'],once:true},
-    {t:'「系籃新來的學弟很高。阿哲說他是秘密武器。他不會投籃。」',term:['Y2S2'],once:true},{t:'「德文課在晚上。下課走出來，公館的店都要關了。」',term:['Y3S1'],once:true},
-    {t:'「冠軍賽那天，我是抱著獎盃去家教的。學生說我很臭。」',term:['Y3S2'],if:{custom:G=>typeof STORY!=='undefined'&&STORY.dayOfKey&&G.day>STORY.dayOfKey('2028-04-29')},once:true},   /* M3 之後（冠軍賽 2028-04-29）*/
-    {t:'「德文的冠詞有三個。我背了一學期，現在只確定一個。」',term:['Y4S1'],once:true},{t:'「我爸說畢業典禮要上來。他說要關店一天。」',term:['Y4S2'],once:true}],
-  classmate_youchen:[{t:'「……現在幾點？我昨天四點才睡。」',time:[8,13],once:true},{t:'「公館那間週五我放歌，來嗎？」',if:{notEvents:['ev_youchen_dj']},once:true},
-    {t:'「期末考前一週我會出現。學分要顧。」',term:['Y1S2'],once:true},{t:'「你有沒有發現，A館的電梯門關起來之前，會停一下。」',term:['Y2S1'],once:true},
-    {t:'「重修的教室在一樓。我到的時候，門還沒開。」',term:['Y2S2'],once:true},
-    {t:'「立群背刑訴是用唱的。我幫他錄起來，現在全班在傳。」',term:['Y3S1'],if:{memory:[{npc:'pool_16',tag:'FIRST_MET'}]},once:true},{t:'「刑訴的筆記有人用唱的背。你要聽嗎。很難聽。」',term:['Y3S1'],unless:{memory:[{npc:'pool_16',tag:'FIRST_MET'}]},once:true},   /* 認識詹立群才說；沒認識的照 BB_113 */
-    {t:'「立群唱的刑訴，學弟妹拿去用了。他假裝很生氣，其實很開心。」',term:['Y3S2'],if:{memory:[{npc:'pool_16',tag:'FIRST_MET'}]},once:true},
-    {t:'「實習的公司在西門町。下班走出來，整條街都是別人的歌。」',term:['Y4S1'],once:true},{t:'「畢業以後應該不用再早起了。……這四年我好像也沒早起過。」',term:['Y4S2'],once:true}],
-  classmate_peishan:[{t:'「我今天旁聽了倫理學。」',term:['Y1S1','Y1S2','Y2S1']}/* AA_259 (b) 第 5 點：只到大二上 */,{t:'「B館的研討室，下午都沒人。你可以去那裡讀書。」',if:{notFlags:['lawclub']}}],   /* AA_369 第 4 節：法服沒有週三讀書會（口氣表 0-3）*/
-  npc_fangyt:[{t:'「下週去溪頭。……第一次一個人上山，我帶了太多襪子。」',once:'term',if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.dayOfKey&&G.day<STORY.dayOfKey('2026-09-01')}},{t:'「這學期去奧萬大。樣區要自己找。」',once:'term',if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.dayOfKey&&G.day>=STORY.dayOfKey('2026-09-01')&&G.day<STORY.dayOfKey('2027-09-01')}},
-    {t:'「畢業專題的樣區在嘉義。……我可能會留在那邊。」',once:'term',if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.dayOfKey&&G.day>=STORY.dayOfKey('2027-09-01')&&G.day<STORY.dayOfKey('2028-07-01')}},   /* AA_519 第 6 節：原本「森林系的野外實習，下週去溪頭。」每學期一次同一句，改成照學年（大一、大二、大三；大四以後不說：AA_357 2-2 第 6 點，2028-07 起他在嘉義）*/{t:'「芷若跟你講過我嗎？她高中就這樣，什麼都不講。」',if:{events:['ev_fangyt_hint']}}],   /* 第二句在 Z6（BB_96 3-6，大一下）之後才說；Z6 還沒做，先不說（BB 2026-10-13）*/
+  classmate_mingxuan:[{t:'阿哲說週五練球。',term:['Y1S1','Y1S2'],once:true},{t:'你看起來很累。睡飽比較重要。',if:{lateNight:true},once:true,prio:1},
+    {t:'家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。',term:['Y1S2'],once:true},{t:'這學期家教多接了一個。週六早上，小學五年級，很吵。',term:['Y2S1'],once:true},
+    {t:'系籃新來的學弟很高。阿哲說他是秘密武器。他不會投籃。',term:['Y2S2'],once:true},{t:'德文課在晚上。下課走出來，公館的店都要關了。',term:['Y3S1'],once:true},
+    {t:'冠軍賽那天，我是抱著獎盃去家教的。學生說我很臭。',term:['Y3S2'],if:{custom:G=>typeof STORY!=='undefined'&&STORY.dayOfKey&&G.day>STORY.dayOfKey('2028-04-29')},once:true},   /* M3 之後（冠軍賽 2028-04-29）*/
+    {t:'德文的冠詞有三個。我背了一學期，現在只確定一個。',term:['Y4S1'],once:true},{t:'我爸說畢業典禮要上來。他說要關店一天。',term:['Y4S2'],once:true}],
+  classmate_youchen:[{t:'……現在幾點？我昨天四點才睡。',time:[8,13],once:true},{t:'公館那間週五我放歌，來嗎？',if:{notEvents:['ev_youchen_dj']},once:true},
+    {t:'期末考前一週我會出現。學分要顧。',term:['Y1S2'],once:true},{t:'你有沒有發現，A館的電梯門關起來之前，會停一下。',term:['Y2S1'],once:true},
+    {t:'重修的教室在一樓。我到的時候，門還沒開。',term:['Y2S2'],once:true},
+    {t:'立群背刑訴是用唱的。我幫他錄起來，現在全班在傳。',term:['Y3S1'],if:{memory:[{npc:'pool_16',tag:'FIRST_MET'}]},once:true},{t:'刑訴的筆記有人用唱的背。你要聽嗎。很難聽。',term:['Y3S1'],unless:{memory:[{npc:'pool_16',tag:'FIRST_MET'}]},once:true},   /* 認識詹立群才說；沒認識的照 BB_113 */
+    {t:'立群唱的刑訴，學弟妹拿去用了。他假裝很生氣，其實很開心。',term:['Y3S2'],if:{memory:[{npc:'pool_16',tag:'FIRST_MET'}]},once:true},
+    {t:'實習的公司在西門町。下班走出來，整條街都是別人的歌。',term:['Y4S1'],once:true},{t:'畢業以後應該不用再早起了。……這四年我好像也沒早起過。',term:['Y4S2'],once:true}],
+  classmate_peishan:[{t:'我今天旁聽了倫理學。',term:['Y1S1','Y1S2','Y2S1']}/* AA_259 (b) 第 5 點：只到大二上 */,{t:'B館的研討室，下午都沒人。你可以去那裡讀書。',if:{notFlags:['lawclub']}}],   /* AA_369 第 4 節：法服沒有週三讀書會（口氣表 0-3）*/
+  npc_fangyt:[{t:'下週去溪頭。……第一次一個人上山，我帶了太多襪子。',once:'term',if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.dayOfKey&&G.day<STORY.dayOfKey('2026-09-01')}},{t:'這學期去奧萬大。樣區要自己找。',once:'term',if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.dayOfKey&&G.day>=STORY.dayOfKey('2026-09-01')&&G.day<STORY.dayOfKey('2027-09-01')}},
+    {t:'畢業專題的樣區在嘉義。……我可能會留在那邊。',once:'term',if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.dayOfKey&&G.day>=STORY.dayOfKey('2027-09-01')&&G.day<STORY.dayOfKey('2028-07-01')}},   /* AA_519 第 6 節：原本「森林系的野外實習，下週去溪頭。」每學期一次同一句，改成照學年（大一、大二、大三；大四以後不說：AA_357 2-2 第 6 點，2028-07 起他在嘉義）*/{t:'芷若跟你講過我嗎？她高中就這樣，什麼都不講。',if:{events:['ev_fangyt_hint']}}],   /* 第二句在 Z6（BB_96 3-6，大一下）之後才說；Z6 還沒做，先不說（BB 2026-10-13）*/
   npc_huangxh:[],   /* AA_519 4-1（企劃線 d75cd0228）：原本一句撐四年，改成照學年一年兩句（「語彤最近很累」只在大一、大二；src/data/aa519_lines.js hxh.years，src/sup519_3d.js 登記 STORY.SMALL_DAILY）*/
   npc_ta_chen:[],   /* AA_519 2-2（企劃線 d75cd0228）：原本兩句撐四年，改成照學年一年兩句（src/data/aa519_lines.js ta.years，src/sup519_3d.js 登記 STORY.SMALL_DAILY）*/
-  prof_zhou:[{t:'「有問題可以來研究室。週四下課以後我都在。」',term:['Y1S1','Y1S2','Y2S1']},{t:'「大四了。你們這一屆，我從民總教到專題。」',term:['Y4S2']}]/* AA_522 1-1：研究室是週四他的課下課以後；只在他有課的學期說（其他學期沒有句子＝聊兩句天氣；story3d.js talkProf 同一句同一份學期）。第 9 節第 2 點（a3ea3918e）：大四下他的課在週一、週四沒有研究室，換「大四了……」、不邀研究室 */,prof_lin:['「判決要整個讀，不要只讀結論。」'],prof_zhang:[{t:'「講義第三十頁，自己回去看。」',if:{course:{const_1:{min:1}}}}],prof_wu:[{t:'「這個概念我們下週再講兩小時。」',if:{course:{crim_gen1:{min:1}}},term:['Y1S1','Y1S2','Y2S1']}],prof_huang:['「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」'],   /* AA_120 7-1 第 4 項：那是書不是電影（AA_522 第 4 節：她只在經濟系那年教法學緒論，這句沒有「上過她的課以後」的條件）*/prof_xu:[{t:'「行政法大二再說。先把民總讀好。」',if:{course:{admin_law:{max:0}}},term:['Y1S1','Y1S2']}]/* AA_375 第 20 項：只在大一說 */,prof_tsai:['「民訴的題目很長，因為人生很長。」'],prof_chen:['「國際法的新聞，每天都有。只是大部分人不知道那是國際法。」']/* AA_522 第 4 節：他沒有開課、沒有研究室事件，不說「來研究室聊」*/,
-  kai:[{t:'「所以那個賣家可以告嗎？……不能？那法律系在幹嘛。」',if:{flags:['classDone']}},{t:'「宿舍網路又斷了。你們有教這個嗎？」',location:'dorm',if:{notFlags:['GRADUATED']}}],   /* AA_357 2-2 第 2 點：畢業以後不說 */
-  zhe:[{t:'「系籃週五練球，來坐也可以。」',term:['Y1S1','Y1S2','Y2S1','Y2S2'],if:{notFlags:['ball_invite','GRADUATED']}},{t:'「這季我是隊長。週五你來記分。」',term:['Y3S1','Y3S2','Y4S1','Y4S2'],if:{notFlags:['GRADUATED']}},   /* AA_313 5-3：系籃那句到大二下，大三起他是隊長 */{t:'「總圖 B1 的冷氣，比去年冷。」',if:{flags:['GRADUATED']}},'「公館那家滷味晚上十點後半價。」'],   /* AA_357 2-2：畢業以後系籃那句換成總圖 B1 的冷氣 */
-  yu:[{t:'「辯論社下週辯『網拍標錯價要不要出貨』。」',term:['Y1S1'],week:[4,6],once:true,if:{flags:['classDone']}},   /* AA_120 7-1 第 5 項：引號；辯論社第 5 週開始，第 4～6 週說「下週」才對 */'「溫州街的貓你有看到嗎？」'],
+  prof_zhou:[{t:'有問題可以來研究室。週四下課以後我都在。',term:['Y1S1','Y1S2','Y2S1']},{t:'大四了。你們這一屆，我從民總教到專題。',term:['Y4S2']}]/* AA_522 1-1：研究室是週四他的課下課以後；只在他有課的學期說（其他學期沒有句子＝聊兩句天氣；story3d.js talkProf 同一句同一份學期）。第 9 節第 2 點（a3ea3918e）：大四下他的課在週一、週四沒有研究室，換「大四了……」、不邀研究室 */,prof_lin:['判決要整個讀，不要只讀結論。'],prof_zhang:[{t:'講義第三十頁，自己回去看。',if:{course:{const_1:{min:1}}}}],prof_wu:[{t:'這個概念我們下週再講兩小時。',if:{course:{crim_gen1:{min:1}}},term:['Y1S1','Y1S2','Y2S1']}],prof_huang:['最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。'],   /* AA_120 7-1 第 4 項：那是書不是電影（AA_522 第 4 節：她只在經濟系那年教法學緒論，這句沒有「上過她的課以後」的條件）*/prof_xu:[{t:'行政法大二再說。先把民總讀好。',if:{course:{admin_law:{max:0}}},term:['Y1S1','Y1S2']}]/* AA_375 第 20 項：只在大一說 */,prof_tsai:['民訴的題目很長，因為人生很長。'],prof_chen:['國際法的新聞，每天都有。只是大部分人不知道那是國際法。']/* AA_522 第 4 節：他沒有開課、沒有研究室事件，不說「來研究室聊」*/,
+  kai:[{t:'所以那個賣家可以告嗎？……不能？那法律系在幹嘛。',if:{flags:['classDone']}},{t:'宿舍網路又斷了。你們有教這個嗎？',location:'dorm',if:{notFlags:['GRADUATED']}}],   /* AA_357 2-2 第 2 點：畢業以後不說 */
+  zhe:[{t:'系籃週五練球，來坐也可以。',term:['Y1S1','Y1S2','Y2S1','Y2S2'],if:{notFlags:['ball_invite','GRADUATED']}},{t:'這季我是隊長。週五你來記分。',term:['Y3S1','Y3S2','Y4S1','Y4S2'],if:{notFlags:['GRADUATED']}},   /* AA_313 5-3：系籃那句到大二下，大三起他是隊長 */{t:'總圖 B1 的冷氣，比去年冷。',if:{flags:['GRADUATED']}},'公館那家滷味晚上十點後半價。'],   /* AA_357 2-2：畢業以後系籃那句換成總圖 B1 的冷氣 */
+  yu:[{t:'辯論社下週辯『網拍標錯價要不要出貨』。',term:['Y1S1'],week:[4,6],once:true,if:{flags:['classDone']}},   /* AA_120 7-1 第 5 項：引號；辯論社第 5 週開始，第 4～6 週說「下週」才對 */'溫州街的貓你有看到嗎？'],
   /* AA_120 7-2（使用者 2026-10-13 批准）：20 位不熟同學各三句，整個存檔各只說一次；第 3 句要對方說過心事（SHARED_SECRET）以後。說完以後只點頭或短招呼（story3d.js 的 smallTalk）。台詞【虛構】 */
-  pool_1:[{t:'「我在看一本推理小說，兇手是律師。……我還沒看完，你不要猜。」',once:true},{t:'「總圖那一區的推理小說，我大概看完一半了。剩下那一半都被借走。」',once:true},{t:'「我寫的那篇卡在第三章：兇手的動機，連我自己都不信。……法律系的課，會教怎麼判斷動機嗎？」',once:true,if:{memory:[{npc:'pool_1',tag:'SHARED_SECRET'}]}}],
-  pool_2:[{t:'「財金系的報告都在算錢，法律系的報告都在算誰要賠錢。差不多。」',once:true},{t:'「我這學期修了二十五學分。不要學我。」',once:true},{t:'「我在學日文。五十音背了三次，第三次終於記住了。」',once:true,if:{memory:[{npc:'pool_2',tag:'SHARED_SECRET'}]}}],
-  pool_3:[{t:'「台北的豆花太甜了。……好啦，是台南的太甜，台北的剛好。」',once:true},{t:'「我媽又寄了一箱虱目魚丸上來。冰箱塞不下，你要不要分一點？」',once:true},{t:'「每次搭高鐵回台南，過了嘉義就開始想吃早餐。」',once:true,if:{memory:[{npc:'pool_3',tag:'SHARED_SECRET'}]}}],
-  pool_4:[{t:'「系學會又要辦活動了。你有什麼想玩的，可以跟我說。」',once:true},{t:'「活動組就是：大家在玩的時候，我在數人數。」',once:true},{t:'「書記官的考試科目，我偷偷查過了。你不要說出去。」',once:true,if:{memory:[{npc:'pool_4',tag:'SHARED_SECRET'}]}}],
-  pool_5:[{t:'「社辦的吉他有一把斷了一根弦，大家都假裝沒看到。」',once:true},{t:'「我們社課有一半的時間在吃東西，另一半在找誰帶了撥片。」',once:true},{t:'「上次社辦有一隻蟑螂，我在走廊站了二十分鐘。不要笑。」',once:true,if:{memory:[{npc:'pool_5',tag:'SHARED_SECRET'}]}}],
-  pool_6:[{t:'「椰影大道下午四點的光最好看。你下次經過可以看一下。」',once:true},{t:'「系上活動的照片，十張裡有八張是我拍的。所以照片裡都沒有我。」',once:true},{t:'「上次那張映月湖的照片，我拿去投比賽。沒得獎，可是我很開心。」',once:true,if:{memory:[{npc:'pool_6',tag:'SHARED_SECRET'}]}}],
-  pool_7:[{t:'「我六點就到晨思鐘旁邊吃早餐了。那時候的校園很安靜，你應該來看一次。」',once:true},{t:'「早起的祕訣是早睡。……好，我知道這不算祕訣。」',once:true},{t:'「我想當律師，可是我還不知道要幫誰。你呢？」',once:true,if:{memory:[{npc:'pool_7',tag:'SHARED_SECRET'}]}}],
-  pool_8:[{t:'「辯論最難的是計時器響的時候閉嘴。我每次都多講半句。」',once:true},{t:'「下次辯論賽我當計時。……對，我每次都當計時。」',once:true},{t:'「上台之前我都要去洗三次手。今天洗了四次。」',once:true,if:{memory:[{npc:'pool_8',tag:'SHARED_SECRET'}]}}],
-  pool_9:[{t:'「我最近在聽一個講冷知識的 podcast。昨天那集在講醬油。」',once:true},{t:'「窗邊這個位子下午很曬，可是我還是會坐這裡。」',once:true},{t:'「我在查國外的研究所。查了一個月，還沒跟我媽講。」',once:true,if:{memory:[{npc:'pool_9',tag:'SHARED_SECRET'}]}}],
-  pool_10:[{t:'「冠廷學長說，讀書不要只畫重點，要問自己為什麼。他說了三次。」',once:true},{t:'「助教的研究室有一台很好喝的咖啡機。這是我知道的唯一祕密。」',once:true},{t:'「我想念研究所。……現在講這個好像太早了，對吧？」',once:true,if:{memory:[{npc:'pool_10',tag:'SHARED_SECRET'}]}}],
-  pool_11:[{t:'「吉他袋很重。可是背著它走在路上，會覺得自己很會彈。」',once:true},{t:'「B館那邊晚上很安靜，彈錯也沒人聽到。」',once:true},{t:'「上次跟你說我不會換和弦……我昨天換成功了一次。只有一次。」',once:true,if:{memory:[{npc:'pool_11',tag:'SHARED_SECRET'}]}}],
-  pool_12:[{t:'「系籃的水是我買的，毛巾是我洗的，比分是我記的。球是他們打的。」',once:true},{t:'「系服我有三件。這樣早上不用想要穿什麼。」',once:true},{t:'「翹課那幾次，我是去球場幫大家占位子。……好啦，也有一次是睡過頭。」',once:true,if:{memory:[{npc:'pool_12',tag:'SHARED_SECRET'}]}}],
-  pool_13:[{t:'「廣播社這週的節目在講校園裡的貓。你有推薦的貓嗎？」',once:true},{t:'「錄音的時候最怕咳嗽。剪掉一聲要花十分鐘。」',once:true},{t:'「上次跟你說我想跑司法新聞。……我現在看新聞，都會先想記者有沒有把判決講錯。」',once:true,if:{memory:[{npc:'pool_13',tag:'SHARED_SECRET'}]}}],
-  pool_14:[{t:'「從校門騎到總圖，我的紀錄是一分四十秒。不要學，很危險。」',once:true},{t:'「腳踏車社週末要騎去河堤。來的話記得帶水。」',once:true},{t:'「我一章讀十分鐘，可是隔天就忘了。所以我現在一章讀三次。」',once:true,if:{memory:[{npc:'pool_14',tag:'SHARED_SECRET'}]}}],
-  pool_15:[{t:'「哲學系的課上了一學期，作業都是問題，沒有答案。」',once:true},{t:'「讀書會上我問了一個問題，大家安靜了五秒。我很喜歡那五秒。」',once:true},{t:'「我最後沒轉系。法律系的課，也有在問為什麼。」',once:true,if:{memory:[{npc:'pool_15',tag:'SHARED_SECRET'}]}}],
-  pool_16:[{t:'「有人說我混音太吵。他說得對，可是我不改。」',once:true},{t:'「週五晚上公館那間，我偶爾去幫忙搬音響。」',once:true},{t:'「我背法條是配節奏的。……你不要叫我唱，我會害羞。」',once:true,if:{memory:[{npc:'pool_16',tag:'SHARED_SECRET'}]}}],
-  pool_17:[{t:'「我的筆記借出去之前都會先拍照。上次有一本回來的時候多了咖啡漬。」',once:true},{t:'「考前一週，我的筆記會被借走五次。我自己都要排隊。」',once:true},{t:'「考前我都睡不著。所以才一直寫筆記，寫下來比較不怕。」',once:true,if:{memory:[{npc:'pool_17',tag:'SHARED_SECRET'}]}}],
-  pool_18:[{t:'「早上的課我都坐最後一排。前二十分鐘，我還在開機。」',once:true},{t:'「刑法的案例很像推理小說，只是兇手都先寫好了。」',once:true},{t:'「大家說我刑法很強。其實我每次考前都怕得要命。」',once:true,if:{memory:[{npc:'pool_18',tag:'SHARED_SECRET'}]}}],
-  pool_19:[{t:'「我去旁聽社工系的課。有時候跟法律系在講同一件事，只是用不同的字。」',once:true},{t:'「週末我在社福中心當志工。有個小朋友問我『法律可以保護我嗎』，我還不會回答。」',once:true},{t:'「我家以前也被社工幫過。所以我想站在另一邊看看。」',once:true,if:{memory:[{npc:'pool_19',tag:'SHARED_SECRET'}]}}],
-  pool_20:[{t:'「法服的攤位每年都擺在同一個位置。因為那裡有插座。」',once:true},{t:'「法服的器材是我管的。延長線、名牌、那台很老的影印機。影印機最難管。」',once:true},{t:'「當幹部是抽籤抽到的。……可是我現在不想交出去了。」',once:true,if:{memory:[{npc:'pool_20',tag:'SHARED_SECRET'}]}}],
+  pool_1:[{t:'我在看一本推理小說，兇手是律師。……我還沒看完，你不要猜。',once:true},{t:'總圖那一區的推理小說，我大概看完一半了。剩下那一半都被借走。',once:true},{t:'我寫的那篇卡在第三章：兇手的動機，連我自己都不信。……法律系的課，會教怎麼判斷動機嗎？',once:true,if:{memory:[{npc:'pool_1',tag:'SHARED_SECRET'}]}}],
+  pool_2:[{t:'財金系的報告都在算錢，法律系的報告都在算誰要賠錢。差不多。',once:true},{t:'我這學期修了二十五學分。不要學我。',once:true},{t:'我在學日文。五十音背了三次，第三次終於記住了。',once:true,if:{memory:[{npc:'pool_2',tag:'SHARED_SECRET'}]}}],
+  pool_3:[{t:'台北的豆花太甜了。……好啦，是台南的太甜，台北的剛好。',once:true},{t:'我媽又寄了一箱虱目魚丸上來。冰箱塞不下，你要不要分一點？',once:true},{t:'每次搭高鐵回台南，過了嘉義就開始想吃早餐。',once:true,if:{memory:[{npc:'pool_3',tag:'SHARED_SECRET'}]}}],
+  pool_4:[{t:'系學會又要辦活動了。你有什麼想玩的，可以跟我說。',once:true},{t:'活動組就是：大家在玩的時候，我在數人數。',once:true},{t:'書記官的考試科目，我偷偷查過了。你不要說出去。',once:true,if:{memory:[{npc:'pool_4',tag:'SHARED_SECRET'}]}}],
+  pool_5:[{t:'社辦的吉他有一把斷了一根弦，大家都假裝沒看到。',once:true},{t:'我們社課有一半的時間在吃東西，另一半在找誰帶了撥片。',once:true},{t:'上次社辦有一隻蟑螂，我在走廊站了二十分鐘。不要笑。',once:true,if:{memory:[{npc:'pool_5',tag:'SHARED_SECRET'}]}}],
+  pool_6:[{t:'椰影大道下午四點的光最好看。你下次經過可以看一下。',once:true},{t:'系上活動的照片，十張裡有八張是我拍的。所以照片裡都沒有我。',once:true},{t:'上次那張映月湖的照片，我拿去投比賽。沒得獎，可是我很開心。',once:true,if:{memory:[{npc:'pool_6',tag:'SHARED_SECRET'}]}}],
+  pool_7:[{t:'我六點就到晨思鐘旁邊吃早餐了。那時候的校園很安靜，你應該來看一次。',once:true},{t:'早起的祕訣是早睡。……好，我知道這不算祕訣。',once:true},{t:'我想當律師，可是我還不知道要幫誰。你呢？',once:true,if:{memory:[{npc:'pool_7',tag:'SHARED_SECRET'}]}}],
+  pool_8:[{t:'辯論最難的是計時器響的時候閉嘴。我每次都多講半句。',once:true},{t:'下次辯論賽我當計時。……對，我每次都當計時。',once:true},{t:'上台之前我都要去洗三次手。今天洗了四次。',once:true,if:{memory:[{npc:'pool_8',tag:'SHARED_SECRET'}]}}],
+  pool_9:[{t:'我最近在聽一個講冷知識的 podcast。昨天那集在講醬油。',once:true},{t:'窗邊這個位子下午很曬，可是我還是會坐這裡。',once:true},{t:'我在查國外的研究所。查了一個月，還沒跟我媽講。',once:true,if:{memory:[{npc:'pool_9',tag:'SHARED_SECRET'}]}}],
+  pool_10:[{t:'冠廷學長說，讀書不要只畫重點，要問自己為什麼。他說了三次。',once:true},{t:'助教的研究室有一台很好喝的咖啡機。這是我知道的唯一祕密。',once:true},{t:'我想念研究所。……現在講這個好像太早了，對吧？',once:true,if:{memory:[{npc:'pool_10',tag:'SHARED_SECRET'}]}}],
+  pool_11:[{t:'吉他袋很重。可是背著它走在路上，會覺得自己很會彈。',once:true},{t:'B館那邊晚上很安靜，彈錯也沒人聽到。',once:true},{t:'上次跟你說我不會換和弦……我昨天換成功了一次。只有一次。',once:true,if:{memory:[{npc:'pool_11',tag:'SHARED_SECRET'}]}}],
+  pool_12:[{t:'系籃的水是我買的，毛巾是我洗的，比分是我記的。球是他們打的。',once:true},{t:'系服我有三件。這樣早上不用想要穿什麼。',once:true},{t:'翹課那幾次，我是去球場幫大家占位子。……好啦，也有一次是睡過頭。',once:true,if:{memory:[{npc:'pool_12',tag:'SHARED_SECRET'}]}}],
+  pool_13:[{t:'廣播社這週的節目在講校園裡的貓。你有推薦的貓嗎？',once:true},{t:'錄音的時候最怕咳嗽。剪掉一聲要花十分鐘。',once:true},{t:'上次跟你說我想跑司法新聞。……我現在看新聞，都會先想記者有沒有把判決講錯。',once:true,if:{memory:[{npc:'pool_13',tag:'SHARED_SECRET'}]}}],
+  pool_14:[{t:'從校門騎到總圖，我的紀錄是一分四十秒。不要學，很危險。',once:true},{t:'腳踏車社週末要騎去河堤。來的話記得帶水。',once:true},{t:'我一章讀十分鐘，可是隔天就忘了。所以我現在一章讀三次。',once:true,if:{memory:[{npc:'pool_14',tag:'SHARED_SECRET'}]}}],
+  pool_15:[{t:'哲學系的課上了一學期，作業都是問題，沒有答案。',once:true},{t:'讀書會上我問了一個問題，大家安靜了五秒。我很喜歡那五秒。',once:true},{t:'我最後沒轉系。法律系的課，也有在問為什麼。',once:true,if:{memory:[{npc:'pool_15',tag:'SHARED_SECRET'}]}}],
+  pool_16:[{t:'有人說我混音太吵。他說得對，可是我不改。',once:true},{t:'週五晚上公館那間，我偶爾去幫忙搬音響。',once:true},{t:'我背法條是配節奏的。……你不要叫我唱，我會害羞。',once:true,if:{memory:[{npc:'pool_16',tag:'SHARED_SECRET'}]}}],
+  pool_17:[{t:'我的筆記借出去之前都會先拍照。上次有一本回來的時候多了咖啡漬。',once:true},{t:'考前一週，我的筆記會被借走五次。我自己都要排隊。',once:true},{t:'考前我都睡不著。所以才一直寫筆記，寫下來比較不怕。',once:true,if:{memory:[{npc:'pool_17',tag:'SHARED_SECRET'}]}}],
+  pool_18:[{t:'早上的課我都坐最後一排。前二十分鐘，我還在開機。',once:true},{t:'刑法的案例很像推理小說，只是兇手都先寫好了。',once:true},{t:'大家說我刑法很強。其實我每次考前都怕得要命。',once:true,if:{memory:[{npc:'pool_18',tag:'SHARED_SECRET'}]}}],
+  pool_19:[{t:'我去旁聽社工系的課。有時候跟法律系在講同一件事，只是用不同的字。',once:true},{t:'週末我在社福中心當志工。有個小朋友問我『法律可以保護我嗎』，我還不會回答。',once:true},{t:'我家以前也被社工幫過。所以我想站在另一邊看看。',once:true,if:{memory:[{npc:'pool_19',tag:'SHARED_SECRET'}]}}],
+  pool_20:[{t:'法服的攤位每年都擺在同一個位置。因為那裡有插座。',once:true},{t:'法服的器材是我管的。延長線、名牌、那台很老的影印機。影印機最難管。',once:true},{t:'當幹部是抽籤抽到的。……可是我現在不想交出去了。',once:true,if:{memory:[{npc:'pool_20',tag:'SHARED_SECRET'}]}}],
 };
 
 // ══════════════════════════════════════ 事件包 v1.1：女主角 arc、教授、同學、生活小事、考試、研究所
@@ -4952,37 +4954,37 @@ Array.prototype.push.apply(STORY_EVENTS,Y4_EVENTS);
 /* AA_402（企劃線 235cf61ac；AA_389 第 8 點）：柏翰、芯慈大二起每學期兩句閒聊（取代 AA_313 5-1 第 15 點的閒聊階梯）；每句 once，條件照稿的「條件」欄（柏翰大二是法服社長＝固定設定，那一句不另加條件） */
 { const after=k=>({custom:G=>typeof STORY!=='undefined'&&STORY.dayOfKey&&G.day>=STORY.dayOfKey(k)}), notJP={custom:G=>!(G.flags&&G.flags.EXCHANGE_ROUTE==='JP')};
   SMALLTALK.classmate_bohan.push(
-    {t:'「法服的值班表，我排到十二月了。」',term:['Y2S1'],once:true},
-    {t:'「這學期我週三晚上空出來了。要讀書的話，可以找我。」',term:['Y2S1'],week:[7,99],once:true,unless:{custom:G=>{ if(G.flags&&G.flags.dating_classmate_peishan) return true; const R=typeof ROM!=='undefined'&&ROM.get?ROM.get(G,'classmate_peishan'):null, y=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays('Y1S2'):null; return !!(R&&R.sinceDay!=null&&y&&R.sinceDay<=y.to); }}},   /* AA_409 第 3 節：只給柏翰和沛珊真的交往過的玩家（大一下和祐廷交往的沒有）*/
-    {t:'「法服這學期的個案，比上學期多一倍。」',term:['Y2S2'],once:true},
-    {t:'「你下學期修幾學分。我在看要不要多修一門。」',term:['Y2S2'],week:[12,99],once:true},
-    {t:'「社長交出去了。週六早上我還是會去。習慣了。」',term:['Y3S1'],once:true},
-    {t:'「四樓樓梯間，下午兩點以後就沒有人了。」',term:['Y3S1'],if:{events:['ev_bohan_third_floor']},once:true},
-    {t:'「推甄的書面資料，我寫到第四版了。」',term:['Y3S2'],once:true},
-    {t:'「暑假我不回新竹。總圖暑假也開。」',term:['Y3S2'],week:[13,99],once:true},
-    {t:'「面試的問題，我準備了四十題。」',term:['Y4S1'],week:[5,8],once:true},
-    {t:'「推甄上了。……我媽在電話裡哭了，我沒有。」',term:['Y4S1'],week:[12,99],once:true},
-    {t:'「國考讀書會的考古題，我排到七月了。」',term:['Y4S2'],if:after('2029-03-01'),once:true},
-    {t:'「研究所九月開學。國考在那之前。時間剛好。」',term:['Y4S2'],once:true});
+    {t:'法服的值班表，我排到十二月了。',term:['Y2S1'],once:true},
+    {t:'這學期我週三晚上空出來了。要讀書的話，可以找我。',term:['Y2S1'],week:[7,99],once:true,unless:{custom:G=>{ if(G.flags&&G.flags.dating_classmate_peishan) return true; const R=typeof ROM!=='undefined'&&ROM.get?ROM.get(G,'classmate_peishan'):null, y=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays('Y1S2'):null; return !!(R&&R.sinceDay!=null&&y&&R.sinceDay<=y.to); }}},   /* AA_409 第 3 節：只給柏翰和沛珊真的交往過的玩家（大一下和祐廷交往的沒有）*/
+    {t:'法服這學期的個案，比上學期多一倍。',term:['Y2S2'],once:true},
+    {t:'你下學期修幾學分。我在看要不要多修一門。',term:['Y2S2'],week:[12,99],once:true},
+    {t:'社長交出去了。週六早上我還是會去。習慣了。',term:['Y3S1'],once:true},
+    {t:'四樓樓梯間，下午兩點以後就沒有人了。',term:['Y3S1'],if:{events:['ev_bohan_third_floor']},once:true},
+    {t:'推甄的書面資料，我寫到第四版了。',term:['Y3S2'],once:true},
+    {t:'暑假我不回新竹。總圖暑假也開。',term:['Y3S2'],week:[13,99],once:true},
+    {t:'面試的問題，我準備了四十題。',term:['Y4S1'],week:[5,8],once:true},
+    {t:'推甄上了。……我媽在電話裡哭了，我沒有。',term:['Y4S1'],week:[12,99],once:true},
+    {t:'國考讀書會的考古題，我排到七月了。',term:['Y4S2'],if:after('2029-03-01'),once:true},
+    {t:'研究所九月開學。國考在那之前。時間剛好。',term:['Y4S2'],once:true});
   SMALLTALK.classmate_xinci.push(
-    {t:'「財金系的課跟法律系的撞了一堂，我改修晚上那一班。」',   /* AA_547 第 4 節 */term:['Y2S1'],if:{events:['ev_xinci_double']},once:true},
-    {t:'「我每天早上七點的公車。永和過來要四十分鐘。」',term:['Y2S1'],if:{notEvents:['ev_xinci_double']},once:true},
-    {t:'「上禮拜的筆記我做了兩份，一份給以安。……她沒有要，是我自己給的。」',term:['Y2S1'],once:true},
-    {t:'「週四晚上我借了一間討論室。你要來的話，我多印一份。」',term:['Y2S2'],once:true},
-    {t:'「期末考完那天晚上，有空嗎？我先問，你不用現在回答。」',term:['Y2S2'],week:[13,99],once:true},
-    {t:'「我爸說寒假可以去事務所幫忙。……我還沒決定。」',term:['Y3S1'],once:true},
-    {t:'「以安的交換，你知道她選哪裡嗎？……我只是問。」',term:['Y3S1'],week:[8,12],once:true},
-    {t:'「以安不在，她的位子一直空著。我想把書放上去，又沒放。」',term:['Y3S2'],if:{custom:G=>after('2028-03-25').custom(G)&&notJP.custom(G)},once:true},   /* 以安去日本以後；日本路線的祐廷這時也不在。AA_497 2-9：她本來就坐第一排，原本的「以安不在，第一排的位子我坐了。……沒有比較好。」換成這一句 */
-    {t:'「暑假我在我爸的事務所。九點到六點，跟上班一樣。」',term:['Y3S2'],week:[13,99],once:true},
-    {t:'「國考跟研究所，我兩個都報了。本來想先實習再說的。」',term:['Y4S1'],once:true},   /* AA_497 2-9：取代「國考跟研究所，我兩個都報了。」（接上大三上「先實習再決定」）*/
+    {t:'財金系的課跟法律系的撞了一堂，我改修晚上那一班。',   /* AA_547 第 4 節 */term:['Y2S1'],if:{events:['ev_xinci_double']},once:true},
+    {t:'我每天早上七點的公車。永和過來要四十分鐘。',term:['Y2S1'],if:{notEvents:['ev_xinci_double']},once:true},
+    {t:'上禮拜的筆記我做了兩份，一份給以安。……她沒有要，是我自己給的。',term:['Y2S1'],once:true},
+    {t:'週四晚上我借了一間討論室。你要來的話，我多印一份。',term:['Y2S2'],once:true},
+    {t:'期末考完那天晚上，有空嗎？我先問，你不用現在回答。',term:['Y2S2'],week:[13,99],once:true},
+    {t:'我爸說寒假可以去事務所幫忙。……我還沒決定。',term:['Y3S1'],once:true},
+    {t:'以安的交換，你知道她選哪裡嗎？……我只是問。',term:['Y3S1'],week:[8,12],once:true},
+    {t:'以安不在，她的位子一直空著。我想把書放上去，又沒放。',term:['Y3S2'],if:{custom:G=>after('2028-03-25').custom(G)&&notJP.custom(G)},once:true},   /* 以安去日本以後；日本路線的祐廷這時也不在。AA_497 2-9：她本來就坐第一排，原本的「以安不在，第一排的位子我坐了。……沒有比較好。」換成這一句 */
+    {t:'暑假我在我爸的事務所。九點到六點，跟上班一樣。',term:['Y3S2'],week:[13,99],once:true},
+    {t:'國考跟研究所，我兩個都報了。本來想先實習再說的。',term:['Y4S1'],once:true},   /* AA_497 2-9：取代「國考跟研究所，我兩個都報了。」（接上大三上「先實習再決定」）*/
     /* AA_497 2-9 追劇減量：大二以後一學期最多一次、保留慈 3、慈 6、R1、尾聲各一句——大四上 R1（「我跟妳說一部劇。」）那一學期的「我最近在追一部日劇。……」拿掉（閒聊池那一句換成下表）*/
-    {t:'「畢業典禮那天，我媽要請假。她說要坐第一排。」',term:['Y4S2'],week:[10,99],once:true},
-    {t:'「國考那天，我叫我媽不要來。……她說她會在外面等。」',term:['Y4S2'],if:after('2029-06-01'),once:true},
+    {t:'畢業典禮那天，我媽要請假。她說要坐第一排。',term:['Y4S2'],week:[10,99],once:true},
+    {t:'國考那天，我叫我媽不要來。……她說她會在外面等。',term:['Y4S2'],if:after('2029-06-01'),once:true},
     /* AA_497 2-9 新閒聊（企劃線 7a38216ca）：每句一次；大三下、大四下兩句要有 XC5_RECONCILE；句子用完以後的旁白在 STORY.SMALL_AFTER（src/sup497_3d.js）*/
-    {t:'「永和到這裡要換一次車。我在車上可以看完一章。」',term:['Y2S2'],once:true},
-    {t:'「這學期雙主修的課沒有撞堂。……我把那一格空下來了。」',term:['Y3S1'],once:true},
-    {t:'「以安的手帳跟我用的是同一款。我們兩個都沒說。」',term:['Y3S2'],if:{flags:['XC5_RECONCILE']},once:true},
-    {t:'「最後一堂課，我坐第一排。以安坐我旁邊。」',term:['Y4S2'],if:{flags:['XC5_RECONCILE']},once:true}); }
+    {t:'永和到這裡要換一次車。我在車上可以看完一章。',term:['Y2S2'],once:true},
+    {t:'這學期雙主修的課沒有撞堂。……我把那一格空下來了。',term:['Y3S1'],once:true},
+    {t:'以安的手帳跟我用的是同一款。我們兩個都沒說。',term:['Y3S2'],if:{flags:['XC5_RECONCILE']},once:true},
+    {t:'最後一堂課，我坐第一排。以安坐我旁邊。',term:['Y4S2'],if:{flags:['XC5_RECONCILE']},once:true}); }
 /* AA_403（企劃線 720f32472；AA_389 第 9 點）：ev_grad_debate 選了「不同意」（W3_STANCE 'no'），學姊說「下次見面，這一段你來講。」的兌現——
    演完至少 3 天以後，在總圖、萬才館、Café 找她說話先演（同 ev_grad_debate 的 interact）；只一次；大二上結束以後不演 */
 STORY_EVENTS.push({ id:'ev_grad_debate_teach', title:'這一段你來講', participants:['heroine_05'], location:['library','wancai','cafe'], trigger:'interact', priority:9, once:true, background:'blur',

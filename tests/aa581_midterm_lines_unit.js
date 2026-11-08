@@ -173,7 +173,7 @@ const ALLOW = [
   ['src/data/date_lines.js', '這條路我走過。期中考前一個人走的。'],
   ['src/data/dorm_layout.js', '102 寢室。門上貼著一張紙：「期中考週，請小聲，謝謝。」'],
   ['src/data/events.js', 'AA_376 #2（企劃線 69aa3b0c，AA 定）：v7 舊課堂，課表系統已'],
-  ['src/data/events.js', '「家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。」'],
+  ['src/data/events.js', '家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。'],
   ['src/data/events.js', '下下禮拜就期中考了。你經原讀到哪了？'],
   ['src/data/events.js', '今天？快期中考了耶。'],
   ['src/data/events.js', '大一期中考那週，你有沒有發現我不在圖書館？'],
@@ -206,7 +206,7 @@ const ALLOW = [
   ['src/data/needed_msgs.js', '期中考你在總圖哪一層？我想找一個不會遇到茶屋客人的地方。'],
   ['src/data/pool_story_b3.js', '好。那你要是期中前改變主意，B1 找我。'],
   ['src/data/postgrad_lines.js', '我在帶大學部刑訴的討論課。期中考完，我第一件事是問他們錯哪裡。'],
-  ['src/data/sup497_lines.js', '「家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。」'],
+  ['src/data/sup497_lines.js', '「家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。」'],   /* sup497_lines.js 是稿的紀錄（遊戲不讀），照稿有「」；events.js 的閒聊拿掉外面的「」（TEXT-QUOTE-UNIFY-1108 第四批）*/
   ['src/data/syllabus.js', '下下週：期中考'],
   ['src/data/syllabus.js', '下週、下下週：期中考'],   /* 經濟系那一年的會計學（acct_y0）；法律課三處看 (a) 第 63～65 列 */
   ['src/data/syllabus.js', '期中考：一份完整的財報。'],

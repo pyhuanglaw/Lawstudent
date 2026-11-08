@@ -57,7 +57,7 @@ const evText=id=>{ const e=evOf(id); return e?e.dialogue.filter(l=>typeof l.text
     check('0. 第 2 節五種說法都在那一列（明軒、沛珊、阿凱、語彤兩種）',doc.includes('| 明軒 | 週二、週四 19:00～21:30 | '+L.inv.mx)&&doc.includes('| 沛珊 | 週三 18:00～21:30（大一、大二） | '+L.inv.ps)&&doc.includes('| 阿凱 | 週六 12:30～18:30 | '+L.inv.kai)&&doc.includes('她說'+L.inv.ytBoth)&&doc.includes('（祐廷沒排班的那一天：'+L.inv.ytOff+'）'));
     check('0. 第 4、5 節照稿（沛珊第一次那一句、第二次以後的旁白、阿凱的旁白、兩句閒聊）',doc.includes('「'+L.psDoor+'」第二次以後：「'+L.psDoorAgain+'」')&&doc.includes('「'+L.kaiDoor+'」')&&doc.includes('阿凱閒聊（大一上第 4 週起）：「'+L.talk.kai+'」')&&doc.includes('沛珊閒聊（大一上第 4 週起）：「'+L.talk.ps+'」'));
     check('0. AA_615：1 廳三句旁白、「三位？……」、邀約那一句、人物頁那一行照稿',doc5.includes('旁白一句（隨機）：「'+L.watch[0]+'」「'+L.watch[1]+'」「'+L.watch[2]+'」')&&doc5.includes('Alison「'+L.three+'」')&&doc5.includes('玩家約她撞到時：'+L.inv.yu)&&doc5.includes('她的人物頁加一行「打工：南洋戲院（週五、週六晚上）」'));
-    check('0. 阿凱閒聊進 SMALLTALK（寫法「…」）',(SMALLTALK.kai||[]).some(e=>e&&e.t==='「'+L.talk.kai+'」'&&e.once===true)); }
+    check('0. 阿凱閒聊進 SMALLTALK（閒聊是有名字說的：不加外面的「」，TEXT-QUOTE-UNIFY-1108 第四批）',(SMALLTALK.kai||[]).some(e=>e&&e.t===L.talk.kai&&e.once===true)&&!(SMALLTALK.kai||[]).some(e=>e&&e.t==='「'+L.talk.kai+'」')); }
 
   /* ================= 1 沛珊作息、ev_peishan_tutoring ================= */
   { const ps=CHARACTERS[PS], z=(d,h)=>{ fresh(d,h,'wenzhou'); return (STORY.schedEnt(ps,H.G)||{}).zone||null; };
@@ -173,7 +173,7 @@ const evText=id=>{ const e=evOf(id); return e?e.dialogue.filter(l=>typeof l.text
   { const say=()=>{ const r=STORY.smallTalk(H.G,KAI); return r.say||r.narr; };
     fresh(TD('Y1S1',3,4),15,'campus'); know([KAI]); const pre=say();
     fresh(TD('Y1S1',4,2),15,'campus'); know([KAI]); const s1=say(); H.G.day++; const s2=say();
-    check('5. 阿凱：大一上第 4 週起，閒聊「我禮拜六去教小學生寫程式。……其實還不會。」（第 3 週還沒有；說過就不再說）',pre!=='「'+L.talk.kai+'」'&&s1==='「'+L.talk.kai+'」'&&s2!=='「'+L.talk.kai+'」',J([pre,s1,s2])); }
+    check('5. 阿凱：大一上第 4 週起，閒聊「我禮拜六去教小學生寫程式。……其實還不會。」（第 3 週還沒有；說過就不再說）',pre!==L.talk.kai&&s1===L.talk.kai&&s2!==L.talk.kai,J([pre,s1,s2])); }
   { const who={name:'沛珊',charId:PS}; fresh(TD('Y1S1',3,4),15,'campus'); know([PS]); H.said=[]; await STORY.ladderTalk(GM,who,PS); const pre=H.lines();
     fresh(TD('Y1S1',5,2),15,'campus'); know([PS]); H.said=[]; const ok1=await STORY.ladderTalk(GM,who,PS); const s1=H.lines(); H.G.day++; H.said=[]; await STORY.ladderTalk(GM,who,PS); const s2=H.lines();
     check('5. 沛珊：大一上第 4 週起第一次說話「課輔班有一個國二的，每次都說數學沒用。……我也這樣想過。」（閒聊階梯前面；第 3 週沒有；之後照階梯）',ok1===true&&J(s1)===J(['沛珊：'+L.talk.ps])&&!pre.includes('沛珊：'+L.talk.ps)&&!s2.includes('沛珊：'+L.talk.ps)&&!!(H.G.flags.AA614_TALK&&H.G.flags.AA614_TALK.ps!=null),J([pre,s1,s2]));

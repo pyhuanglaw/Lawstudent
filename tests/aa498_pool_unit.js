@@ -90,7 +90,10 @@ await sec(0,()=>{ check('0. pool_story.js、pool3d.js 載得到；第一批五�
   const DERIVED={'明天晚上交誼廳。我媽寄了文旦。你來吃。':['明天晚上交誼廳。我媽寄了文旦。你跟阿凱來吃。','跟阿凱'],'（文旦剝了一整桌。）':['（文旦剝了一整桌。阿凱把文旦皮戴在頭上。）','阿凱把文旦皮戴在頭上。']};   /* 8-5：阿凱大二不住男一舍的話拿掉的兩句 */
   const COMPOSED={'印了五本。我媽、書房老闆、你，還有兩本我自己留著。':['印了五本。','我媽、書房老闆、你，還有兩本我自己留著。']};   /* 6-5 沒認識郁婷：「那句換成」列名字的那一句（兩段都一字不差在稿裡）*/
   const JY=t=>t.indexOf('佳穎')>=0&&doc.indexOf(t.split('佳穎').join('宜蓁'))>=0;   /* 2026-10-28：AA_497 第 8 節第 5 點（企劃線 60fc3b9a3）Kevin 的學妹改名「佳穎」（「宜蓁」是祐廷的姊姊）——報到桌那句旁白，稿上寫宜蓁 */
-  const bad=[...new Set(out)].filter(t=>doc.indexOf(t)<0&&!JY(t)&&!(DERIVED[t]&&doc.indexOf(DERIVED[t][0])>=0&&DERIVED[t][0].replace(DERIVED[t][1],'')===t)&&!(COMPOSED[t]&&COMPOSED[t].join('')===t&&COMPOSED[t].every(p=>doc.indexOf(p)>=0)));
+  /* 閒聊（talk 的 t、old）、之後的招呼說的話：遊戲裡不加外面的「」（TEXT-QUOTE-UNIFY-1108 第四批），稿上有——加回外面那一對再找（一字不差）*/
+  const SPOKEN=new Set(); for(const id of Object.keys(PS().LINES)){ const P0=PS().LINES[id]; for(const e of (P0.talk||[])){ SPOKEN.add(e.t); if(e.old) SPOKEN.add(e.old); } for(const g of (P0.greet||[])) if(!/^（/.test(g)) SPOKEN.add(g); }
+  const inDoc=t=>SPOKEN.has(t)?doc.indexOf('「'+t+'」')>=0:doc.indexOf(t)>=0;
+  const bad=[...new Set(out)].filter(t=>!inDoc(t)&&!JY(t)&&!(DERIVED[t]&&doc.indexOf(DERIVED[t][0])>=0&&DERIVED[t][0].replace(DERIVED[t][1],'')===t)&&!(COMPOSED[t]&&COMPOSED[t].join('')===t&&COMPOSED[t].every(p=>doc.indexOf(p)>=0)));
   check('0. 每一句台詞、旁白、選項、手機訊息、人物頁一行都在 AA_498 稿裡（'+SRC+'，一字不差）',!!doc&&out.length>250&&!bad.length,out.length+' 句；不在稿裡：'+J(bad));
   const P3=PS().PEOPLE, ids=Object.keys(P3), rows=ids.map(id=>{ const p=P3[id]; return [id,p.card,p.personality].concat(p.where.map(e=>e.desc)).concat(p.cls?[p.cls.desc]:[]); });
   const badT=[]; for(const r of rows){ const id=r[0]; for(const t of r.slice(1)){ if(t&&doc.indexOf(t)<0) badT.push(id+':'+t); } }
@@ -163,12 +166,14 @@ await sec(3,()=>{ const ids=Object.keys(CHARACTERS).filter(k=>/^pool_/.test(k)),
 function ASSETS_OK(k,g){ try{ const src=fs.readFileSync(path.join(H.ROOT,'src/assets3d.js'),'utf8'); const m=new RegExp("'"+k.replace('.','\\.')+"':\\s*\\{[^}]*anon:true[^}]*sex:'"+(g==='f'?'f':'m')+"'").test(src); return m; }catch(e){ return false; } }
 
 /* ---------- 4 第 9 節第 5 點 ---------- */
+/* 閒聊（她的閒聊表 talk、之後的招呼說的話）：TEXT-QUOTE-UNIFY-1108 第四批（AA-B 11-08 05:31）以後說的話不加外面的「」，不能再看開頭的「——照表比 */
+const talkZ=t=>!!PS()&&(PS().LINES[Z].talk||[]).some(e=>e.t===t), greetZ=t=>!!PS()&&(PS().LINES[Z].greet||[]).some(g=>g===t&&!/^（/.test(g)), chatZ=t=>talkZ(t)||greetZ(t);
 /* 曾靖雯：傅鐘認識選「剛好路過」；旁聽選「要看他做了什麼」；畢業典禮早上是 depends 版 */
 await sec('4 曾靖雯',async()=>{ const d1=TD('Y1S1',4,2); fresh(d1,6.75,'campus'); spawn(Z);
   check('4. 曾靖雯：認識前的按鈕「和晨思鐘旁邊吃早餐的人說話」',GM.npc[Z].name==='晨思鐘旁邊吃早餐的人');
   await talk(Z,['剛好路過']);
   check('4. 曾靖雯 晨思鐘認識：三句、選「……剛好路過。」→「六點半剛好路過晨思鐘？……好，我不問。」；說出名字以前的說話人是外觀描述、之後是名字',has('六點半剛好路過晨思鐘？……好，我不問。')&&whoOf('早安。')==='晨思鐘旁邊吃早餐的人'&&whoOf('我叫曾靖雯。你這麼早起來做什麼？')==='曾靖雯'&&SOCIAL.has(Z,'FIRST_MET')&&!has('……你呢？'),J(said()));
-  check('4. 曾靖雯：認識的那一場不加閒聊（第一次說話＝認識，2-3）；熟悉＋3、信任＋3（線的一段）',!H.said.some(x=>/^「/.test(x.t))&&SOCIAL.rel(Z).trust===3,J(SOCIAL.rel(Z)));
+  check('4. 曾靖雯：認識的那一場不加閒聊（第一次說話＝認識，2-3）；熟悉＋3、信任＋3（線的一段）',!H.said.some(x=>talkZ(x.t))&&!greetZ((H.said[H.said.length-1]||{}).t)&&H.said.length>3&&SOCIAL.rel(Z).trust===3,J(SOCIAL.rel(Z)));
   /* 旁聽 */
   const d2=TD('Y1S2',3,2); set(d2,6.75,'campus'); rel(Z,25,3); GM.npc={}; spawn(Z); await talk(Z,[0]);
   const r=SIDEQ.get(H.G,'PQ_ZJW'), q=(H.G.outings||[]).find(x=>x.ev==='ev_pool_zjw_court');
@@ -225,7 +230,7 @@ await sec('4 黃郁婷 報到桌',async()=>{ const d1=TD('Y2S1',1,1); fresh(d1-2
 await sec('4 林采潔',async()=>{ const a=ACTIVITIES.list.find(x=>x.id==='lib_tour_y1s1'); fresh(TD('Y1S1',1,1),15.5,'library_hall'); const d=onDay(a,TD('Y1S1',1,1)); set(d,15.5,'library_hall'); H.said=[]; H.picks=['法律系的課本']; await CLS.attendActivity(GM,a);
   check('4. 林采潔：總圖新生導覽走完 → 導覽版認識（「……這本的兇手，我猜到了。可是我還是要借。」…），選「法律系的課本算嗎？」',has('……這本的兇手，我猜到了。可是我還是要借。')&&has('算。兇手都寫在條文裡，只是要自己找。')&&SOCIAL.has(C,'FIRST_MET')&&whoOf('我叫林采潔。你看推理小說嗎？')==='林采潔',J(said()));
   const s0=TD('Y1S1',12,2); set(s0,14,'bookstore'); rel(C,25,6); GM.npc={}; spawn(C); await talk(C,[]);
-  check('4. 林采潔 秘密（大一上第 12 週起、有點熟）：「其實……我在寫一篇推理小說。」接「我寫的那篇卡在第三章…」；不加選項；這時還不開口（第三章在大一下）',has('其實……我在寫一篇推理小說。')&&has('「我寫的那篇卡在第三章：兇手的動機，連我自己都不信。……法律系的課，會教怎麼判斷動機嗎？」')&&!H.opts.length&&!SIDEQ.get(H.G,'PQ_CJ'),J(said()));
+  check('4. 林采潔 秘密（大一上第 12 週起、有點熟）：「其實……我在寫一篇推理小說。」接「我寫的那篇卡在第三章…」；不加選項；這時還不開口（第三章在大一下）',has('其實……我在寫一篇推理小說。')&&has('我寫的那篇卡在第三章：兇手的動機，連我自己都不信。……法律系的課，會教怎麼判斷動機嗎？')&&!H.opts.length&&!SIDEQ.get(H.G,'PQ_CJ'),J(said()));
   const s1=TD('Y1S2',3,2); set(s1,14,'bookstore'); GM.npc={}; spawn(C); await talk(C,[0]); const r=SIDEQ.get(H.G,'PQ_CJ');
   check('4. 林采潔 6-3（大一下第 2～12 週、舊路書房）：「好，我看看。」＝檔案傳給你、加好友、掛「第三章」',has('我的第三章卡住了。兇手被抓到以後，在警察局自白。可是我不確定那個自白在法庭上能不能用。')&&has('檔案傳給你。只看第三章，你不要往後翻……後面還沒寫，翻了也沒有。')&&!!r&&r.state==='open'&&INV.hasContact(H.G,C),J(said()));
   set(s1+1,14,'bookstore'); GM.npc={}; spawn(C); await talk(C,['不能用']);
@@ -273,11 +278,11 @@ await sec('4 邱家齊',async()=>{ const d=TD('Y1S1',5,7); fresh(d,21.5,'dorm_ha
 
 /* 舊存檔：說過舊三句、說過秘密的，不重問，後面照「沒選」那一版 */
 await sec('4 舊存檔',async()=>{ const d=TD('Y1S2',12,2); fresh(d,6.75,'campus'); meet(Z); rel(Z,25,4);
-  const OLD3=SMALLTALK[Z].map(e=>e.t); H.G.social.small={[Z]:{day:0,used:OLD3.slice(),last:OLD3[2],once:{[OLD3[0]]:true,[OLD3[1]]:true,[OLD3[2]]:true}}}; SOCIAL.remember(Z,'SHARED_SECRET','想當律師');
-  const s=JSON.parse(J(H.G)); P().migrate(s); Object.assign(H.G.flags,s.flags); H.G.pool=s.pool;
+  const OLD3=SMALLTALK[Z].map(e=>e.t), Q3=OLD3.map(t=>'「'+t+'」'); H.G.social.small={[Z]:{day:0,used:Q3.slice(),last:Q3[2],once:{[Q3[0]]:true,[Q3[1]]:true,[Q3[2]]:true}}}; SOCIAL.remember(Z,'SHARED_SECRET','想當律師');   /* 舊存檔記的是有「」的句子（TEXT-QUOTE-UNIFY-1108 第四批以前） */
+  const s=JSON.parse(J(H.G)); P().migrate(s); STORY.smallQuoteMigrate(s); Object.assign(H.G.flags,s.flags); H.G.pool=s.pool; H.G.social.small=s.social.small;   /* 讀檔：game3d.js migrate 叫 POOL.migrate、STORY.smallQuoteMigrate */
   check('4. 舊存檔：說過秘密（舊的「其實……」）的記成「沒選」（ZJW_HELP none）',H.G.flags.ZJW_HELP==='none'&&H.G.pool.secret[Z]==='none',J([H.G.flags.ZJW_HELP,H.G.pool]));
   spawn(Z); const heard=[]; for(let k=0;k<4;k++){ set(d+k,6.75,'campus'); GM.npc={}; spawn(Z); await talk(Z,[]); heard.push(...H.said.map(x=>x.t)); }
-  check('4. 舊存檔：說過的舊三句（原句）不再說，新的閒聊從沒說過的開始；秘密不重問（大一下第 12 週起在晨思鐘也不演）',!heard.some(t=>OLD3.includes(t))&&!heard.includes('其實……我想當律師。可是我還不知道要幫誰。你呢？')&&heard.includes('「民總講到意思表示那天，我寫了三頁。回去看，只看得懂第一頁。」')===false&&heard.some(t=>/^「/.test(t)),J(heard));
+  check('4. 舊存檔：說過的舊三句（原句）不再說，新的閒聊從沒說過的開始；秘密不重問（大一下第 12 週起在晨思鐘也不演）',!heard.some(t=>OLD3.includes(t))&&!heard.includes('其實……我想當律師。可是我還不知道要幫誰。你呢？')&&heard.includes('民總講到意思表示那天，我寫了三頁。回去看，只看得懂第一頁。')===false&&heard.some(t=>chatZ(t)),J(heard));
   set(D('2029-06-02'),6.4,'campus'); GM.npc={}; spawn(Z); await talk(Z,[]);
   check('4. 舊存檔：畢業典禮早上照「沒選」那一版（「我還是不知道要幫誰。可是我會一直找下去。」）',has('我還是不知道要幫誰。可是我會一直找下去。')&&!has('畢業以後先考試。考上的話，我想去法扶。先說好，你不要笑。'),J(said())); });
 

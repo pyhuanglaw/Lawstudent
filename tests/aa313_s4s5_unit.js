@@ -138,7 +138,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     /* 2026-10-28 改：AA_497 3-8「三個社團」只留人物頁、第一次自我介紹、迎新旁白、語 1、聖誕禮物——大二上這一句換成「辯論社」（tests/aa497_supporting_unit.js 3-8）*/
     check('5-4. Alison 的閒聊：大二上「我這禮拜辯論社都要開會，快死了。」（AA_497 3-8）、大二下退了辯論社以後「我這禮拜兩個社團都要開會，快死了。」',y21.includes('我這禮拜辯論社都要開會，快死了。')&&!y21.includes('我這禮拜三個社團都要開會，快死了。')&&y22.includes('我這禮拜兩個社團都要開會，快死了。'),J([y21,y22]));
     const st=SMALLTALK.zhe.filter(e=>typeof e==='object'&&/系籃|隊長/.test(e.t));
-    check('5-3. SMALLTALK 阿哲：系籃那句大一、大二；大三起「這季我是隊長。週五你來記分。」',st.length===2&&J(st[0].term)===J(['Y1S1','Y1S2','Y2S1','Y2S2'])&&st[1].t==='「這季我是隊長。週五你來記分。」'&&J(st[1].term)===J(['Y3S1','Y3S2','Y4S1','Y4S2']),J(st)); }
+    check('5-3. SMALLTALK 阿哲：系籃那句大一、大二；大三起「這季我是隊長。週五你來記分。」',st.length===2&&J(st[0].term)===J(['Y1S1','Y1S2','Y2S1','Y2S2'])&&st[1].t==='這季我是隊長。週五你來記分。'&&J(st[1].term)===J(['Y3S1','Y3S2','Y4S1','Y4S2']),J(st)); }
   // 迎新（5-3、5-4）：說了「哥」記 ZHE_CALLS_GE；還不認識阿哲、Alison 的說話人
   { const W=ev('ev_welcome_y1s1'), go=async(k,known)=>{ fresh(D('2025-08-31'),9,'campus',{}); onlyKnow(known); said=[]; picks=[k,0]; try{ await EVENTS.run(W); } finally { knowReset(); } return lines(); };
     let L=await go(1,[]); const g1=!!G.flags.ZHE_CALLS_GE;

@@ -124,9 +124,9 @@ const T=()=>said.map(s=>s.t);
   // ===== 10. 打烊 =====
   { const ex=TD('Y1S1',8,1); fresh(ex,22.02); know('classmate_bohan',S4); E.player.seat={x:0,z:0}; picks=['去。']; const r=await MOKS.closeOut(GM);
     const iv=G.invites.find(q=>q.who==='classmate_bohan');
-    check('10. 考試週 22:00、柏翰在：「兩點半還開。你要去嗎？」→「去。」＝一起走過去兩點半（邀約 going）、出來在 B4 門口',r==='cafe'&&said[0].t==='「兩點半還開。你要去嗎？」'&&!!iv&&iv.place==='cafe'&&iv.state==='going'&&entered[0][0]==='wenzhou'&&entered[0][1].x===7.4&&!E.player.seat,J([r,said,iv,entered]));
+    check('10. 考試週 22:00、柏翰在：「兩點半還開。你要去嗎？」→「去。」＝一起走過去兩點半（邀約 going）、出來在 B4 門口',r==='cafe'&&said[0].t==='兩點半還開。你要去嗎？'&&!!iv&&iv.place==='cafe'&&iv.state==='going'&&entered[0][0]==='wenzhou'&&entered[0][1].x===7.4&&!E.player.seat,J([r,said,iv,entered]));
     fresh(ex,22.02); know('classmate_bohan',S4); picks=['我回去了。']; const r2=await MOKS.closeOut(GM);
-    check('10.「我回去了。」→ 柏翰「嗯，明天見。」',r2==='home'&&said[1].t==='「嗯，明天見。」'&&!G.invites.length,J(said));
+    check('10.「我回去了。」→ 柏翰「嗯，明天見。」',r2==='home'&&said[1].t==='嗯，明天見。'&&!G.invites.length,J(said));
     fresh(TD('Y1S1',5,3),3); const r3=await MOKS.closeOut(GM); check('10. 還沒開（讀檔回到店裡）：請你出來＋開放時間',r3==='out'&&!said.length&&/木曜日/.test(toasts.join(''))&&entered[0][0]==='wenzhou',J([r3,toasts]));
     fresh(TD('Y1S1',5,3),22.02); check('10. tick：打烊了人在店裡＝開演',MOKS.tick(GM)===true); await new Promise(r=>setTimeout(r,10)); check('10. tick 演完人在溫州街',G.zone==='wenzhou'); }
   // ===== 11. 邀約 =====

@@ -238,9 +238,9 @@ await sec(6,async()=>{ const e6=ev('ev_sis13_laundry'), d=D('2028-10-10');
     us(key,h,kind,fl,zone); if(EVENTS.check(e6)) no.push(n); }
   fresh(d,21.3,'ex',{},{zone:'us_outside'}); if(EVENTS.check(e6)) no.push('臺灣路線');
   check('6. 交往中、窗口外、時間外、不在社區、還沒到、臺灣路線：不演',!no.length,J(no));
-  const G3=GREET.map(t=>/^（/.test(t)?t.replace(/^(（[^）]*）)(.+)$/,'$1「$2」'):'「'+t+'」'), got=[];
+  const G3=GREET.map(t=>/^（/.test(t)?t.replace(/^(（[^）]*）)(.+)$/,'$1「$2」'):t), got=[];   /* 閒聊（GM.say(who,…) 有名字）整句不加外面的「」（TEXT-QUOTE-UNIFY-1108 第四批）；動作在前面的那一句照舊（她點了一下頭。）「早。」 */
   us(D('2028-10-02'),10,'ex',{},'us_lawlib'); for(let i=0;i<4;i++){ H.G.day=D('2028-10-02')+i; H.G.weekday=wdOf(H.G.day); const r=STORY.smallTalk(H.G,ID); got.push(r.say||r.narr); }
-  check('6. 挽回中的短招呼（SMALLTALK，美國、挽回中）：照順序一天一句「（她點了一下頭。）「早。」」「「這邊的咖啡很淡。…」」「「報告完了。…」」，各一次；第四天回到「……我沒事。只是沒睡。」',J(got.slice(0,3))===J(G3)&&got[3]==='「……我沒事。只是沒睡。」',J(got));
+  check('6. 挽回中的短招呼（SMALLTALK，美國、挽回中）：照順序一天一句「（她點了一下頭。）「早。」」「這邊的咖啡很淡。…」「報告完了。…」（外面不加「」），各一次；第四天回到「……我沒事。只是沒睡。」',J(got.slice(0,3))===J(G3)&&got[3]==='……我沒事。只是沒睡。',J(got));
   us(D('2028-10-02'),10,'dating',{},'us_lawlib'); const gd=STORY.smallTalk(H.G,ID); fresh(D('2028-10-02'),10,'ex',{},{zone:'library'}); const gt=STORY.smallTalk(H.G,ID);
   check('6. 交往中、臺灣：沒有這三句',!G3.includes(gd.say)&&!G3.includes(gt.say),J([gd,gt])); });
 

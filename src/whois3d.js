@@ -85,7 +85,7 @@ const WHOIS=(()=>{
     {c:3,id:'score',if:f('BOHAN_SCORE'),t:'大一上期中週的案例作業，他問過你第三題怎麼寫。'},   /* AA_546 1-6（D116）*/
     {c:3,id:'ps',keep:true,if:psBh,t:'大一下，他和沛珊在一起了。'},
     {c:3,id:'split',keep:true,if:f('PEISHAN_BOHAN_SPLIT'),t:'大一下他和沛珊在一起過，大二上分開了。',rep:['ps']},
-    {c:3,id:'club',if:G=>y(G,2)&&heard(G,BH,'「法服的值班表，我排到十二月了。」'),t:'大二當法服社長。'},
+    {c:3,id:'club',if:G=>y(G,2)&&heard(G,BH,'法服的值班表，我排到十二月了。'),t:'大二當法服社長。'},
     {c:3,id:'grp',if:f('BOHAN_GROUP'),t:'大二上，他找你進他的考古題小組。'},
     {c:3,id:'honest',if:G=>mem(G,BH,'BOHAN_HONEST'),t:'大三上，他在四樓樓梯間跟你說了，為什麼每天要念六小時。'},
     {c:3,id:'dinner',if:G=>F(G).BH_DINNER==='went',t:'推甄上了以後，他請你吃了一頓。'} ];

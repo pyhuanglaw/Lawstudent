@@ -91,7 +91,7 @@ await sec(0,()=>{ const B={B2:typeof POOL_STORY_B2!=='undefined'?POOL_STORY_B2:n
   const DERIVED={'「這條比你資深。對它好一點。」':'AA_499 5-4 房間物品「法服的延長線」：稿沒有寫「看」的句子，用她交給你時說的那一句',
     '「週五以前還我。」':'AA_500 6-1 房間物品「乃文學姊的民總筆記」：稿沒有寫「看」的句子，用她借你時說的那一句'};
   /* AA_519 2-1（企劃線 d75cd0228，2026-10-28 NPC-STORY2-1028）：陳助教的論文卡在第五章（不再用第三章，和學姊的第三章分開）——何宇軒那一句跟著換（遊戲是新的字，這份稿是舊的字；tests/aa519_support2_unit.js 也查）*/
-  const AA519={'「冠廷學長在寫論文的第五章。他說不要問第六章。」':'「冠廷學長在寫論文的第三章。他說不要問第四章。」'}, AA519R={}; for(const a in AA519) AA519R[AA519[a]]=a;
+  const AA519={'冠廷學長在寫論文的第五章。他說不要問第六章。':'「冠廷學長在寫論文的第三章。他說不要問第四章。」'}, AA519R={}; for(const a in AA519) AA519R[AA519[a]]=a;
   /* AA_528 第 9 點（AA-B 2026-10-30 04:55 回覆，LAWWW-B 轉交；任務 AA-FOLLOWUP-1030）：佳蓉在萬才館（法律系館B）值班認識的專用版本 meetB＋畢業照片 gradB——不在 AA_499 稿裡；
      企劃線 bec12db00 的 AA_528 還沒有這幾句（AA 回覆說原稿已同步，推上來以後改成對稿）。逐字對 AA 回覆：tests/aa_followup_1030_unit.js */
   const AA528_9=new Set(['（法服值班桌底下，一個女生蹲著，拉著一條很長的延長線。延長線的另一頭繞到柱子後面。）','同學，可以幫我拉一下嗎？插座在那根柱子後面，我一個人拉不到。','（你幫她拉過去，插好。桌上的檯燈亮了一下。）','（照片：值班桌旁邊那根柱子，底下一個插座）']);
@@ -175,7 +175,7 @@ await sec('2 何宇軒',async()=>{ const d=TD('Y1S1',4,2); fresh(d,14.5,'library
   await go('ev_pool_hyx_office',[]);
   check('2. 何宇軒 研究室（2D，周教授研究室門口）：「（小聲）……你敲。」、周教授「進來。」、走廊那兩句；HYX_OFFICE、人物頁「陪他去敲過周老師的門」、做完',has('（小聲）……你敲。')&&has('進來。')&&has('換我被問「為什麼」了。……原來是這種感覺。')&&H.G.flags.HYX_OFFICE===true&&deeds(HX).includes('陪他去敲過周老師的門')&&r1.state==='done',J(said()));
   markTalk(HX,'hyxOffice'); await again(HX,[],TD('Y2S1',5,1),14.5,'library');
-  check('2. 何宇軒：去過研究室＝大二上閒聊多「周老師的研究室很小，書疊到天花板。…」',has('「周老師的研究室很小，書疊到天花板。他說那些書他都看過。……我不敢問是不是真的。」'),J(said()));
+  check('2. 何宇軒：去過研究室＝大二上閒聊多「周老師的研究室很小，書疊到天花板。…」',has('周老師的研究室很小，書疊到天花板。他說那些書他都看過。……我不敢問是不是真的。'),J(said()));
   phAt(TD('Y3S1',3,1),21.1); const m3=tagged('pool_hyx_y3').find(m=>m.ask);
   check('2. 何宇軒 1-4 大三上第 3 週（有聯絡方式）週一 21:00 兩則＋回覆（「好。」／「我那幾天都很忙。」）',J(msgs(HX).slice(-2))===J(L(HX).y3)&&!!m3&&J(m3.ask.opts.map(o=>o.t))===J(L(HX).y3Opts),J(msgs(HX)));
   ans('pool_hyx_y3',0); const r2=quest('PQ_HYX2'), q2=outing('ev_pool_hyx_cases');
@@ -188,7 +188,7 @@ await sec('2 何宇軒',async()=>{ const d=TD('Y1S1',4,2); fresh(d,14.5,'library
   fresh(d3,14.5,'library'); meet(HX); rel(HX,25,3); SOCIAL.remember(HX,'SHARED_SECRET',''); spawn(HX); await talk(HX,['你自己去比較好']);
   const dec=has('……為什麼？')&&has('不用回答。我知道為什麼。')&&quest('PQ_HYX1').state==='declined'&&!INV.hasContact(H.G,HX);
   set(TD('Y2S1',9,1),14.5); const w9=P().WHEN.hyxSelf(H.G); markTalk(HX,'hyxSelf'); await again(HX,[],TD('Y2S1',10,1),14.5,'library');
-  check('2. 何宇軒「你自己去比較好。」→ 那兩句、婉拒（不交換聯絡方式、不扣）；大二上第 10 週以後閒聊多「我自己去敲周老師的門了。…」（第 9 週還沒有）',dec&&!w9&&has('「我自己去敲周老師的門了。站了五分鐘才敲。」'),J(said()));
+  check('2. 何宇軒「你自己去比較好。」→ 那兩句、婉拒（不交換聯絡方式、不扣）；大二上第 10 週以後閒聊多「我自己去敲周老師的門了。…」（第 9 週還沒有）',dec&&!w9&&has('我自己去敲周老師的門了。站了五分鐘才敲。'),J(said()));
   /* 1-6 推甄（2028-10-26，霖澤館一樓，柏翰也在）*/
   fresh(D('2028-10-26'),9,'linze'); meet(HX); rel(HX,25,3); SOCIAL.remember(HX,'SHARED_SECRET',''); spawn(HX); spawn(BH);
   const iv=STORY_EVENTS.find(e=>e.id==='ev_push_interview'), ok0=EVENTS.check(PM().PUSH_EV);
@@ -229,7 +229,7 @@ await sec('3 徐靜儀',async()=>{ const d=TD('Y1S1',4,1); fresh(d,12.5,'campus'
   phAt(qr.day+7,21.1); const ep=tagged('pool_jy_episode')[0];
   check('3. 徐靜儀：之後一週她傳那一集（「（語音 9:58）」點開是一句旁白）',!!ep&&ep.text==='（語音 9:58）'&&J(ep.fold)===J(L(JY).episode.fold),J(ep));
   set(TD('Y2S1',12,5),12.5,'gongguan'); markTalk(LQ,'Y2S1jyLq'); rel(LQ,25,3); GM.npc={}; spawn(LQ); SOCIAL.remember(LQ,'SHARED_SECRET',''); await talk(LQ,[]);
-  check('3. 徐靜儀 選了「用唱的背」＝詹立群大二上多一句「靜儀叫我去廣播社唱民總。…」',has('「靜儀叫我去廣播社唱民總。我唱到一半就跑出來了。……她有錄到。」'),J(said()));
+  check('3. 徐靜儀 選了「用唱的背」＝詹立群大二上多一句「靜儀叫我去廣播社唱民總。…」',has('靜儀叫我去廣播社唱民總。我唱到一半就跑出來了。……她有錄到。'),J(said()));
   fresh(TD('Y2S1',10,4),19.5,'campus'); H.said=[]; H.opts=[]; await EVENTS.runLines(L(JY).radio,{id:'t',participants:[JY]});
   check('3. 徐靜儀：沒認識詹立群＝錄音只有兩個選項',(H.opts[0]||[]).length===2,J(H.opts));
   /* 2-6 宥辰那一集：2026-11-20（地下室那場 11/14 之後一週的週五）*/
@@ -244,7 +244,7 @@ await sec('4 詹立群',async()=>{ const d=TD('Y1S1',4,5); fresh(d,21,'gongguan'
   fresh(TD('Y2S1',4,5),21,'gongguan'); check('4. 詹立群：稿沒有說年級＝大二在公館遇到也是這一場',P().meetVersion(H.G,LQ)==='meet');
   fresh(TD('Y1S1',9,5),21,'gongguan'); meet(LQ); rel(LQ,25,3); spawn(LQ); await talk(LQ,[]); const w9=SOCIAL.has(LQ,'SHARED_SECRET');
   await again(LQ,['我也想學'],TD('Y1S1',10,5),21,'gongguan');
-  check('4. 詹立群 秘密（大一上第 10 週起、有點熟；第 9 週還沒有）：「其實……我背法條是配節奏的。……你不要叫我唱，我會害羞。」一句說完（AA_528 3-1：不再接閒聊那一句）、再三個選項；「我也想學。」→ LQ_SONG',!w9&&has('其實……我背法條是配節奏的。……你不要叫我唱，我會害羞。')&&!has('「我背法條是配節奏的。……你不要叫我唱，我會害羞。」')&&!has('「刑法那幾條比較好押韻。……不要問我押什麼。」')&&has('真的？那我寫一首給你。……你不能笑。')&&H.G.flags.LQ_SONG===true&&SOCIAL.has(LQ,'SHARED_SECRET'),J(said()));
+  check('4. 詹立群 秘密（大一上第 10 週起、有點熟；第 9 週還沒有）：「其實……我背法條是配節奏的。……你不要叫我唱，我會害羞。」一句說完（AA_528 3-1：不再接閒聊那一句）、再三個選項；「我也想學。」→ LQ_SONG',!w9&&has('其實……我背法條是配節奏的。……你不要叫我唱，我會害羞。')&&!has('我背法條是配節奏的。……你不要叫我唱，我會害羞。')&&!has('刑法那幾條比較好押韻。……不要問我押什麼。')&&has('真的？那我寫一首給你。……你不能笑。')&&H.G.flags.LQ_SONG===true&&SOCIAL.has(LQ,'SHARED_SECRET'),J(said()));
   await again(LQ,['我來'],TD('Y1S2',11,5),21,'gongguan'); const r=quest('PQ_LQ'), q=outing('ev_pool_lq_teach');
   check('4. 詹立群 3-3 試教（大一下第 11～13 週、有點熟）：開口三句；「我來。」＝交換聯絡方式、掛事、排下週四 19:00 普通教學館的空教室',hasL(L(LQ).ask[2])&&r.state==='open'&&INV.hasContact(H.G,LQ)&&!!q&&q.h===19&&wdOf(q.day)===4&&q.day>H.G.day,J([r,q&&keyOf(q.day)]));
   await go('ev_pool_lq_teach',['假裝睡覺']);
@@ -454,7 +454,7 @@ await sec('12 蕭乃文',async()=>{ const d=TD('Y1S1',4,2); fresh(d,20,'library_
   check('12. 蕭乃文：之後在 B1 還＝「下次準時，我會比較好睡。」；筆記不在房間了',has(L(NW).backLate)&&!has(L(NW).back)&&!STORY.roomItemList(H.G).some(x=>x[0]==='乃文學姊的民總筆記'),J(said()));
   /* 秘密（大一下第 8 週起，B1）*/
   rel(NW,25,3); await again(NW,['陪妳去散步'],TD('Y1S2',8,2),20,'library_b1');
-  check('12. 蕭乃文 秘密：「其實……我很容易焦慮。」接原句「考前我都睡不著。…」、再三個選項（「我陪妳去散步？」→ NW_WALK）',has('其實……我很容易焦慮。')&&has('「考前我都睡不著。所以才一直寫筆記，寫下來比較不怕。」')&&H.G.flags.NW_WALK===true&&SOCIAL.has(NW,'SHARED_SECRET'),J(said()));
+  check('12. 蕭乃文 秘密：「其實……我很容易焦慮。」接原句「考前我都睡不著。…」、再三個選項（「我陪妳去散步？」→ NW_WALK）',has('其實……我很容易焦慮。')&&has('考前我都睡不著。所以才一直寫筆記，寫下來比較不怕。')&&H.G.flags.NW_WALK===true&&SOCIAL.has(NW,'SHARED_SECRET'),J(said()));
   /* 6-3 網拍（大二上第 5～9 週，週二 23:10）：選「阿凱」→ 一週以後那三則 */
   meet('kai'); let x=TD('Y2S1',5,2); phAt(x,23.2); const m=tagged('pool_nw_sold').find(q=>q.ask);
   check('12. 蕭乃文 6-3 筆記被拿去賣（大二上第 5 週週二 23:10，焦慮的時候一次傳很多則）：六則；回覆三個（認識阿凱多「阿凱也很常問這個。」）',J(msgs(NW).slice(-6))===J(L(NW).sold)&&!!m&&m.ask.opts.length===3,J(msgs(NW).slice(-6)));
@@ -604,8 +604,8 @@ await sec('18 共同',async()=>{ /* 晨希的錄音（閒聊型）：一個月�
   const old={social:{mem:{pool_13:[{tag:'SHARED_SECRET',note:''}],pool_18:[{tag:'FIRST_MET',note:''},{tag:'SHARED_SECRET',note:''}]}},flags:{}};
   const n=P().migrate(old);
   check('18. 舊存檔（AA_498 2-10）：說過秘密的第二～四批（徐靜儀、嚴守誠）記成「沒選」（不重問）',n===2&&old.pool.secret.pool_13==='none'&&old.pool.secret.pool_18==='none',J(old.pool));
-  const NEWL='「週五我在那間暖場，也幫宥辰搬音響。」'; fresh(TD('Y1S1',6,5),21,'gongguan'); meet(LQ); said1(LQ).once={'「有人說我混音太吵。他說得對，可是我不改。」':true}; const n1=(P().nextLine(H.G,LQ)||{}).t;
-  said1(LQ).once['「週五晚上公館那間，我偶爾去幫忙搬音響。」']=true; const n2=(P().nextLine(H.G,LQ)||{}).t;
+  const NEWL='週五我在那間暖場，也幫宥辰搬音響。'; fresh(TD('Y1S1',6,5),21,'gongguan'); meet(LQ); said1(LQ).once={'有人說我混音太吵。他說得對，可是我不改。':true}; const n1=(P().nextLine(H.G,LQ)||{}).t;
+  said1(LQ).once['「週五晚上公館那間，我偶爾去幫忙搬音響。」']=true; STORY.smallQuoteMigrate(H.G); const n2=(P().nextLine(H.G,LQ)||{}).t;   /* 舊存檔記的是有「」的原句（TEXT-QUOTE-UNIFY-1108 第四批以前）：讀檔時 game3d.js migrate 叫 STORY.smallQuoteMigrate 換成現在的寫法 */
   check('18. 舊存檔：詹立群改過的那一句（AA_499 3-2，原句「週五晚上公館那間…」改成「週五我在那間暖場…」）——新局照說新的；舊存檔說過舊的＝照算說過（不再說新的那一句）',n1===NEWL&&n2!==NEWL,J([n1,n2])); });
 H.done();
 }

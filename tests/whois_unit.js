@@ -159,7 +159,7 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
   await sec(7,()=>{ const four={DORM_FOUR:true,ROOM_Y2:D('2026-09-06'),ROOM_Y3:D('2027-09-05'),ROOM_Y4:D('2028-09-03')};
     save('2028-10-01',four,['classmate_bohan']); check('7. 柏翰大四（四年都同房）：「四年都是室友：203、312、507、409。」',has('classmate_bohan','四年都是室友：203、312、507、409。'),J(L('classmate_bohan')));
     save('2028-10-01',Object.assign({},four,{DORM_FOUR:false})); check('7. 柏翰沒有 DORM_FOUR：從有的那一年寫起「室友：大二 312、大三 507、大四 409。」；舊開局「第一排那個」',has('classmate_bohan','室友：大二 312、大三 507、大四 409。')&&has('classmate_bohan','許柏翰。法律系，跟你同班，第一排那個。'),J(L('classmate_bohan')));
-    save('2026-10-20',{}); SOCIAL.remember('classmate_bohan','FIRST_MET',''); H.G.social.small={classmate_bohan:{once:{'「法服的值班表，我排到十二月了。」':'Y2S1'}}};
+    save('2026-10-20',{}); SOCIAL.remember('classmate_bohan','FIRST_MET',''); H.G.social.small={classmate_bohan:{once:{'法服的值班表，我排到十二月了。':'Y2S1'}}};
     check('7. 柏翰：大二起、聽過法服值班表那一句＝「大二當法服社長。」',has('classmate_bohan','大二當法服社長。'),J(L('classmate_bohan')));
     save('2025-10-20',{}); done('ev_xinci_notes'); SOCIAL.remember('classmate_xinci','LENT_NOTES','');
     check('7. 芯慈舊開局（演過借筆記、沒有宿營）：第一行「……大一上借筆記那次說上話。」，不再另外寫「她的筆記借過你。」',J(L('classmate_xinci'))===J(['吳芯慈。法律系，跟你同班。大一上借筆記那次說上話。']),J(L('classmate_xinci')));

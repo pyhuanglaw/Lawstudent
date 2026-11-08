@@ -138,7 +138,7 @@ const AA614=(function(){
     const end=DK(who==='kai'?'2029-06-27':'2026-12-17'); return end==null||G.day<=end; };   /* 阿凱做到宿舍期滿那天、沛珊到 12/17（characters.js 那一筆的 dates）*/
   S.heard=(G,who)=>{ const R=F_(G).AA614_TALK; return !!(R&&typeof R==='object'&&R[who]!=null); };
   const markTalk=(G,who)=>{ const F=F_(G); if(!F.AA614_TALK||typeof F.AA614_TALK!=='object') F.AA614_TALK={}; F.AA614_TALK[who]=G.day; };
-  S.KAI_SMALL={t:'「'+S.L.talk.kai+'」',once:true,aa614:true,if:{custom:G=>S.talkOn(G,'kai')}};   /* SMALLTALK 的寫法：說的話加「」*/
+  S.KAI_SMALL={t:S.L.talk.kai,once:true,aa614:true,if:{custom:G=>S.talkOn(G,'kai')}};   /* SMALLTALK 的寫法：說的話不加外面的「」（閒聊是 GM.say(who,…) 有名字說的，AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第四批；舊存檔記的「…」讀檔時 STORY.smallQuoteMigrate 換成這一句）*/
   /* 沛珊每一學期都有閒聊階梯（ladder.js），一般閒聊輪不到：第一次說話（條件到了、還沒說過）先說這一句，這一次不走階梯 */
   S.psTalk=async function(GM,who,id){ const G=GM&&GM.G; if(id!==PS||!G||S.heard(G,'ps')||!S.talkOn(G,'ps')) return false;
     await GM.say(who,S.L.talk.ps); markTalk(G,'ps'); if(typeof SOCIAL!=='undefined'&&SOCIAL.activity){ SOCIAL.activity(PS,'chat'); SOCIAL.activity(PS,'chatNew'); } return true; };

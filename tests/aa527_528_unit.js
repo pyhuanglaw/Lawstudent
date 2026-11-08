@@ -246,18 +246,18 @@ const docRe=(n,re)=>re.test(docOf(n));
     check('AA_528 第 3 節：阿凱兩句收尾「……就這樣。」',k2.t==='上次宵夜是我下去拿的。……就這樣。'&&k2c.t==='上次宵夜，你說了謝謝。……就這樣。'&&inDoc('AA_502','「上次宵夜是我下去拿的。……就這樣。」')&&inDoc('AA_502','「上次宵夜，你說了謝謝。……就這樣。」')); });
 
   await sec('528-3',()=>{ const B2=POOL_STORY_B2.LINES, B3=POOL_STORY_B3.LINES, B4=POOL_STORY_B4.LINES;
-    const rows=[[B2.pool_10.greet,'「為什麼你今天這麼早？……算了，你不用回答。」','AA_499','為什麼你今天這麼早？……算了，你不用回答。'],
-      [B2.pool_19.greet,'「這週六中心有活動。……你不用來。」','AA_499','這週六中心有活動。……你不用來。'],
-      [B3.pool_8.greet,'「（他按掉手機的計時器）時間到。」','AA_500','（他按掉手機的計時器）時間到。'],
-      [B3.pool_8.greet,'「你今天走得比較慢。」','AA_500','你今天走得比較慢。'],
-      [B3.pool_17.greet,'「我拍一下。……拍筆記，不是拍你。」','AA_500','我拍一下。……拍筆記，不是拍你。']];
+    const rows=[[B2.pool_10.greet,'為什麼你今天這麼早？……算了，你不用回答。','AA_499','為什麼你今天這麼早？……算了，你不用回答。'],
+      [B2.pool_19.greet,'這週六中心有活動。……你不用來。','AA_499','這週六中心有活動。……你不用來。'],
+      [B3.pool_8.greet,'（他按掉手機的計時器）時間到。','AA_500','（他按掉手機的計時器）時間到。'],
+      [B3.pool_8.greet,'你今天走得比較慢。','AA_500','你今天走得比較慢。'],
+      [B3.pool_17.greet,'我拍一下。……拍筆記，不是拍你。','AA_500','我拍一下。……拍筆記，不是拍你。']];
     const bad=rows.filter(([a,t,n,dt])=>!a.includes(t)||!inDoc(n,dt)).map(r=>r[1]);
     check('AA_528 第 3 節：宇軒、維倫、書豪兩句、乃文的招呼換字（照稿）',!bad.length,J(bad));
     const flat=J([B2,B3,B4]); check('AA_528 第 3 節：舊句（「……沒事，我只是想問。」「……沒事，習慣了。」「慢十秒」「……沒事，我在拍我的筆記」）不在遊戲',!/沒事，我只是想問|沒事，習慣了|慢十秒|沒事，我在拍我的筆記|沒事，我只是說一下/.test(flat));
     check('AA_528 第 3 節：芸萱「好。……那我先問別人。」（不留下次）',B4.pool_15.inviteNo==='好。……那我先問別人。'&&inDoc('AA_501','廖芸萱：好。……那我先問別人。'));
     check('AA_528 第 3 節：晨希的人物頁「背吉他袋的學姊」',CHARACTERS.pool_11.cardBefore==='背吉他袋的學姊'&&inDoc('AA_498','「背吉他袋的學姊」'),CHARACTERS.pool_11.cardBefore); });
 
-  await sec('528-3-1',async()=>{ const LQ='pool_16', L=POOL_STORY_B2.LINES[LQ], one='其實……我背法條是配節奏的。……你不要叫我唱，我會害羞。', nt='「刑法那幾條比較好押韻。……不要問我押什麼。」';
+  await sec('528-3-1',async()=>{ const LQ='pool_16', L=POOL_STORY_B2.LINES[LQ], one='其實……我背法條是配節奏的。……你不要叫我唱，我會害羞。', nt='刑法那幾條比較好押韻。……不要問我押什麼。';
     check('AA_528 3-1：立群秘密那一場一句說完；閒聊「說過秘密以後」那一格換新句',L.secret.length===1&&L.secret[0].text===one&&L.talk.some(x=>x.when==='secret'&&x.t===nt)&&inDoc('AA_499','詹立群：'+one)&&inDoc('AA_499',nt.replace(/^「|」$/g,'')));
     fresh(TD('Y1S1',11,5),20,'gongguan'); fam(LQ); H.said=[]; H.picks=[0]; const ok=await POOL.FLOW[LQ][0](GM,{name:'詹立群'}); const s=H.said.map(x=>x.t);
     check('AA_528 3-1：秘密那一場只聽到一次「我背法條是配節奏的」，新的閒聊句不在同一場',ok&&s.filter(t=>/我背法條是配節奏的/.test(t)).length===1&&!s.includes(nt)&&SOCIAL.has(LQ,'SHARED_SECRET'),J(s)); });

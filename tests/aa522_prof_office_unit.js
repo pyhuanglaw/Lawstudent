@@ -171,9 +171,9 @@ await sec('0',async()=>{
 
 /* ======================= 1 周教授 ======================= */
 await sec('1-1',async()=>{
-  const TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'], NOW='「'+D11.now+'」', WX='（周教授跟你打了個招呼，聊了兩句天氣。）';
+  const TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'], NOW=D11.now, WX='（周教授跟你打了個招呼，聊了兩句天氣。）';   /* 閒聊（GM.say(who,…) 有名字說的）不加外面的「」（TEXT-QUOTE-UNIFY-1108 第四批，AA-B 11-08 05:31）*/
   /* 第 9 節第 2 點改了下面三項的期待值（照新稿，檢查留著）：原本四個學期都說「週四下課以後我都在」（SMALLTALK 一筆）→ 大四下換「大四了……」（SMALLTALK 兩筆，學期合起來照舊是那四個學期）*/
-  const Y4L='「'+D9.y4+'」', ZST=SMALLTALK.prof_zhou||[], ZTH=ZST.find(e=>e&&typeof e==='object'&&unq(e.t)===D11.now)||null, ZY4=ZST.find(e=>e&&typeof e==='object'&&unq(e.t)===D9.y4)||null;
+  const Y4L=D9.y4, ZST=SMALLTALK.prof_zhou||[], ZTH=ZST.find(e=>e&&typeof e==='object'&&unq(e.t)===D11.now)||null, ZY4=ZST.find(e=>e&&typeof e==='object'&&unq(e.t)===D9.y4)||null;
   check('1-1. 稿上的學期＝大一上、大一下、大二上、大四下（STORY.ZHOU_TALK_TERMS 同一份）；SMALLTALK 兩筆：「週四下課以後」大一上、大一下、大二上，大四下換第 9 節第 2 點那一句（兩筆的學期合起來＝那四個學期）',
     J(D11.terms)===J(['Y1S1','Y1S2','Y2S1','Y4S2'])&&D9.term==='Y4S2'&&!!D9.y4&&J(STORY.ZHOU_TALK_TERMS)===J(D11.terms)&&ZST.length===2&&!!ZTH&&J(ZTH.term)===J(D11.terms.filter(t=>t!==D9.term))&&!!ZY4&&J(ZY4.term)===J([D9.term]),J([D11.terms,D9.term,ZST,STORY.ZHOU_TALK_TERMS]));
   const out=TERMS.map(t=>{ fresh(TD(t,5,3),12,'campus'); const r=STORY.smallTalk(H.G,'prof_zhou'); return [t,r.say||r.narr]; });
@@ -335,8 +335,8 @@ await sec('3-2',async()=>{
 /* ======================= 4 陳教授、黃教授 ======================= */
 await sec('4',async()=>{
   const src=fs.readFileSync(path.join(H.ROOT,'src/data/events.js'),'utf8');
-  check('4. 陳教授的閒聊：「'+D4.now+'」（不說來研究室聊）',J(SMALLTALK.prof_chen)===J(['「'+D4.now+'」']),J(SMALLTALK.prof_chen));
-  check('4. 黃教授的閒聊照舊（一句、沒有條件）；過時的註解「上過她的課以後」拿掉',J(SMALLTALK.prof_huang)===J(['「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」'])&&!src.includes('那是書不是電影；上過她的課以後'));
+  check('4. 陳教授的閒聊：「'+D4.now+'」（不說來研究室聊）',J(SMALLTALK.prof_chen)===J([D4.now]),J(SMALLTALK.prof_chen));
+  check('4. 黃教授的閒聊照舊（一句、沒有條件）；過時的註解「上過她的課以後」拿掉',J(SMALLTALK.prof_huang)===J(['最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。'])&&!src.includes('那是書不是電影；上過她的課以後'));
 });
 
 /* ======================= 5 舊存檔 ======================= */
@@ -457,7 +457,7 @@ await sec('9',async()=>{
   check('9. 稿 → 遊戲（第 1 點）：民總第一堂那天下課後（研究室的題目都還沒問）和他說話，答得好「'+g0+'……」（舊局、新局兩版都是這個開頭）、沒讀「'+D9.none+'」（逐字，前面是名字）',
     !!D9.good&&!!D9.none&&g.every(x=>x.length===1&&x[0].startsWith('祐廷。'+g0))&&n.every(x=>J(x)===J(['祐廷。'+D9.none])),J([g,n]));
   fresh(TD('Y4S2',5,3),12,'campus'); const sm=STORY.smallTalk(H.G,'prof_zhou'); const tk=await tq(TD('Y4S2',5,4),15.5,{});
-  check('9. 稿 → 遊戲（第 2 點）：大四下照作息遇到他（SMALLTALK.prof_zhou）、週四萬才館的他（talkProf）都是「'+D9.y4+'」（逐字）',!!D9.y4&&sm.say==='「'+D9.y4+'」'&&J(tk)===J([D9.y4]),J([sm,tk]));
+  check('9. 稿 → 遊戲（第 2 點）：大四下照作息遇到他（SMALLTALK.prof_zhou）、週四萬才館的他（talkProf）都是「'+D9.y4+'」（逐字）',!!D9.y4&&sm.say===D9.y4&&J(tk)===J([D9.y4]),J([sm,tk]));
   check('9. 第 2 點：大四下不邀研究室（兩句都不說「'+D9.not+'」、不提研究室）',!!D9.not&&[sm.say||sm.narr].concat(tk).every(t=>!String(t).includes(D9.not)&&!String(t).includes('研究室')),J([sm,tk]));
   const ZST=(SMALLTALK.prof_zhou||[]).map(e=>typeof e==='string'?e:e.t);
   check('9. 遊戲 → 稿：SMALLTALK.prof_zhou 的每一句都在稿上（1-1 那一句、第 9 節第 2 點那一句；外面的「」不算字）',ZST.length===2&&ZST.every(t=>[D11.now,D9.y4].includes(unq(t))),J(ZST));
