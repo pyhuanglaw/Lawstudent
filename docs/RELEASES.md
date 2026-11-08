@@ -57,20 +57,22 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.23（2026-11-08，發布中；發布樹 `52a7e5337`＝候選 `9eef2b95b`＋版本字樣）
+## v9.10.23（2026-11-08，發布中；遊戲檔案＝飲料版 `b103b3089`＝候選 `9eef2b95b`＋版本字樣（發布樹 `52a7e5337`）＋送東西只給可攻略的對象 `33127181b`＋四支測試版號 `b103b3089`）
+
+**經過**：15:2x 使用者選擇題「可以發佈」→ PR #31 合併 main `68206e0fd`（遊戲檔案＝`52a7e5337`）→ 使用者隨即「飲料改完再發布」「中間不用發布別的版本」→ 15:31 取消 Pages run 42495110198（build、deploy 都 cancelled，沒有上線，線上照舊 v9.10.22）→ 飲料改好（`5d6d297c9`、`33127181b`：朋友只剩芯慈，XCROM.ON 才能送；阿哲、阿凱、Alison、柏翰、明軒拿掉）→ GHA 33127181b 四支測試寫死 ?v=9.10.22 FAIL → `b103b3089` 改照標題版號、GHA success → BB-B 16:26 GO → 再開 PR 合併、部署（版本字樣照 v9.10.23：68206e0fd 那一版沒上線）。
 
 使用者 11-08 13:4x 問 LAWWW2-B「你今天做的事情可以發布一個版本嗎」，15:2x 回 LAWWW-B 選擇題「可以發佈」（X267、RELEASE-V91023-1108）。同時說「送飲料只需要給可攻略的對象」——這一版照測過的發布，下一版改（X266、GIFT-ROMANCE-ONLY-1108）。
 
 **玩得到的（比 v9.10.22 多 122 筆遊戲 commit）**：
 - 全遊戲有名字的人說話外面不再包「」（TEXT-QUOTE-UNIFY-1108 一到八批：邀約、日常、事件、教授課堂、法律出題表；答錯句尾補「。」）；教授出題不再用同學那組台詞、鄭教授課堂開場拆三段（BUG-LEGAL-PROF-TONE-1108）。
 - 「（動作）說的話」顯示是誰在說（女主角故事線、學姊考前一晚，BUG-ARCS-NARR-NAME-1108）。
-- 送飲料、早餐給朋友六位（AA_728；下一版改成只給可攻略的對象）。
+- 送飲料、早餐只給可攻略的對象：七位女主角（AA_710）＋芯慈（她的線打開時）；阿哲、阿凱、Alison、柏翰、明軒不送（使用者 11-08「送飲料只需要給可攻略的對象」，GIFT-ROMANCE-ONLY-1108）。
 - 週末邀約沒回會自己過期收起來（UX-WEEKEND-ASK-EXPIRE-1108、UX-FEED-ASK-EXPIRE）。
 - AA_720 決定拍打開的 19 場（以安交換說明會／研究所分組／送機、芷若打電話給媽媽／獎學金兩場／機場接送、語彤告訴媽媽／放榜、子晴騎樓咖啡店、學姊考前一晚／Alison 猜到／阿哲被問／奶奶家、沛珊課輔班門口／臺北車站送行、可昕模擬面試／等了）、尾聲分版本；AA_709 第七～十一批手機訊息（大三寒假到畢業以後一年）。
 - 光照：新生南路九間、總圖 B1（討論室、影印中心、會議廳）、溫州街、公館、霖澤 5F、體育館 B1、美國公寓、合租戶；隔間牆淡出以後不露出烘焙陰影。
 - 小地圖：出入口方塊畫在指路的上面；經濟系 9/1 第一晚不在日期卡底下開演。
 
-**測試**：BB-B GO——PC（AMD RX 6600M）發布前清單 11／11（deploy、reach、classreal、mini、zone、touch、p0、save_compat_v7、main12、v0_tolaw、movreg 43/43）；雲端 deploy_check（預期 v9.10.23）ALL PASS（3282 網址、394 個 ?v=9.10.23、沒有 JS 例外）；GHA node-unit-auto 9eef2b95b success；本機全套 1156 支沒有 FAIL。**沒測**：iPhone 實機。
+**測試**：飲料版 BB-B 16:26 GO（瀏覽器：阿凱、Alison 沒有「送」、以安和芯慈有、舊 gift3d.js 對照 FAIL；deploy_check 33127181b 預期 v9.10.23 ALL PASS（3261 網址）；PC p0、reach、zone、main12 ALL PASS；GHA b103b3089 success）。9eef2b95b：BB-B GO——PC（AMD RX 6600M）發布前清單 11／11（deploy、reach、classreal、mini、zone、touch、p0、save_compat_v7、main12、v0_tolaw、movreg 43/43）；雲端 deploy_check（預期 v9.10.23）ALL PASS（3282 網址、394 個 ?v=9.10.23、沒有 JS 例外）；GHA node-unit-auto 9eef2b95b success；本機全套 1156 支沒有 FAIL。**沒測**：iPhone 實機。
 
 **已知不擋**：總圖 B1 會議廳是關著的房間（P3）；雲端 movreg A 段不穩（PC 為準）。
 
