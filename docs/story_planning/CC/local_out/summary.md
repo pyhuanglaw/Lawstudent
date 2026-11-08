@@ -1962,3 +1962,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 156.5s] page close url=http://127.0.0.1:8802/index.html?turbo | [gpu_wrap 156.6s] BROWSER DISCONNECTED
 - 2026-11-08T13:13:02  R8B6_reach  sha=8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5  exit=0  630s    統計：29 個區域、1233 個互動點、15 個劇情走路目的地、87 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 593.7s] page close url=http://127.0.0.1:8801/index.html?turbo?turbo | [gpu_wrap 593.7s] BROWSER DISCONNECTED
+- 2026-11-08T13:14:37  R8B6_mini  sha=8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5  exit=1  86s    PASS 玩家箭頭朝地圖上方（往前走時）  arrow=1.3073986337985843e-12 / PASS 沒有 JS 例外  [] / FAILED: 鏡頭朝北：小地圖上看得到出入口方塊, 鏡頭朝西：小地圖上看得到出入口方塊, 鏡頭朝南：小地圖上看得到出入口方塊, 鏡頭朝東：小地圖上看得到出入口方塊, 拖曳轉鏡頭之後：小地圖上看得到出入口方塊
+      err.log (last 5): [gpu_wrap 50.2s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 50.2s] BROWSER DISCONNECTED
