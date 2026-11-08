@@ -1,7 +1,7 @@
-// AA_720 決定拍打開的場景＋尾聲分版本（企劃線 4f37a68bb；AA720-DECIDE-OPENED-1108、SIS1-QUIET-LIB-1108）——不需要瀏覽器（D131）。
+// AA_720 決定拍打開的場景＋尾聲分版本（企劃線 ee689cfb8；AA720-DECIDE-OPENED-1108、SIS1-QUIET-LIB-1108、AA720-WIRING-1108）——不需要瀏覽器（D131）。
 // 使用者 11-07 對 BB-B：「我想要的是我的選項會改變故事」；Q3「要分版本」；Q4 沛珊 before「可以 但前提是有交往」。
 // 檢查：
-//   0 匯入：src/data/aa720.js 和 AA_720@4f37a68bb 一致（import_aa720.py --check；內容逐字＝稿照 read_fix）；白名單 approved；index.html 有兩支；19 場都有事件或加段
+//   0 匯入：src/data/aa720.js 和 AA_720@ee689cfb8 一致（import_aa720.py --check；內容逐字＝稿照 read_fix）；白名單 approved；index.html 有兩支；19 場都有事件或加段
 //   1 打開：每一場只在她的決定拍記了那個值才演（別的值、沒演到的預設值、過了 before 的 late＝不演）
 //   2 邀約 → 回答應／不去 → 排出遊（時間照稿）→ 那一場逐句（scene、選項她回的、end、opts2）、記 set、mem；答應了沒到＝missed 的訊息照稿的時間、記 missed
 //   3 接在決定拍 say 後面的三個選項（說明會、店後門、模擬面試）：當面＝說完接著選；三天沒見面＝最後一則訊息掛選項
@@ -12,6 +12,8 @@
 //   7 沛珊 PS-2 ruleIf：future=seen＋support＋信任高，還要交往中才是 before
 //   8 尾聲：每位照 order 取第一個符合的一句（friend／partner）、交往中＋CONF_FAIL＝再加 confFail、學姊 guess 要 KNOWS_SIS_ALISON、都不符合＝照原本
 //   9 quietMove：學姊第 6 拍在總圖安靜區（平日 1/27）＝樓梯間版、樓梯間不加（小聲）、SIS-1 照記；週末慢讀照原本；1/31 以後才演到＝late
+//  10 wiringAnswers（ee689cfb8，AA-B 回 LAWWW-B 02:39）：ps_result 09:58 兩則→10:00→10:02→12:00 照原本；交往中＋信＝第四封多一句、12/25 視訊照舊；AA_719 after 四處；
+//     可昕 waited 之後兩天只回一句（六句輪流、第三天照常）；子晴 1/9 demo intern 版、動態說明文字；AA_717 子晴第 13 則改字、第 14／15 則 altIntern、ZQ_PL_CAT_CO 照關
 // 修改前全部 FAIL（沒有 AA720P）。用法：node tests/aa720_decide_opened_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -21,9 +23,10 @@ const loadErr=[];
 const loadG=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.push(f+'：沒有'); return false; } try{ const s=fs.readFileSync(p,'utf8').replace(/^const ([A-Z_][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); return true; }catch(e){ loadErr.push(f+'：'+String(e&&e.message||e).slice(0,160)); return false; } };
 for(const f of ['src/data/heroine_arcs.js','src/data/arc_rot.js','src/data/decide_rules.js','src/decide3d.js','src/arcs3d.js','src/libquiet3d.js',
   'src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/zr_uk3d.js','src/data/y2b_events.js','src/y2b3d.js','src/zr_sendoff3d.js','src/y34b3d.js',
-  'src/ytjob3d.js','src/sis_grad3d.js','src/psresults3d.js','src/data/feed_y1s2.js','src/data/feed_y2s1.js','src/feed3d.js','src/data/aa723.js','src/confess723_3d.js']) loadG(f);
+  'src/ytjob3d.js','src/sis_grad3d.js','src/psresults3d.js','src/data/feed_y1s2.js','src/data/feed_y2s1.js','src/feed3d.js','src/data/aa723.js','src/confess723_3d.js',
+  'src/y2r2_3d.js','src/aa555_3d.js','src/zq_testbuild3d.js']) loadG(f);
 const okD=loadG('src/data/aa720.js'), okP=loadG('src/aa720_3d.js');
-const SHA='4f37a68bb', DOC='docs/story_planning/AA_720_decide_opened_scenes.json';
+const SHA='ee689cfb8', DOC='docs/story_planning/AA_720_decide_opened_scenes.json';
 const dk=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h, wd=d=>CALENDAR.dateOf(d).wd%7, key=d=>CALENDAR.dateOf(d).key;
 const P=()=>typeof AA720P!=='undefined'?AA720P:null, DT=()=>AA720.data, EV=k=>AA720.data.events[k];
 const AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin';
@@ -43,7 +46,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
 /* 稿（照 read_fix）*/
 let SRC=null; try{ SRC=JSON.parse(cp.execFileSync('python3',['-c',"import json,subprocess,sys; sys.path.insert(0,'tools/story'); import import_guard as IG\n"+
   "def fx(x):\n  return IG.read_fix(x) if isinstance(x,str) else ([fx(v) for v in x] if isinstance(x,list) else ({k:fx(v) for k,v in x.items()} if isinstance(x,dict) else x))\n"+
-  "d=json.loads(subprocess.check_output(['git','show','"+SHA+":"+DOC+"']).decode('utf-8')); d.pop('_meta',None); print(json.dumps(fx(d),ensure_ascii=False))"],{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26})); }catch(e){ SRC=null; }
+  "d=json.loads(subprocess.check_output(['git','show','"+SHA+":"+DOC+"']).decode('utf-8')); d.pop('_meta',None); d.pop('wiringAnswers',None); print(json.dumps(fx(d),ensure_ascii=False))"],{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26})); }catch(e){ SRC=null; }
 const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys(x).sort().reduce((o,k)=>(o[k]=canon(x[k]),o),{}):x);
 (async()=>{
   check('0. 載入（AA720、AA720P 和它要包的那幾支）',okD&&okP&&!loadErr.length,J(loadErr));
@@ -51,9 +54,9 @@ const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys
   /* ---------------- 0 匯入 ---------------- */
   await sec(0,async()=>{ let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_aa720.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
     check('0. src/data/aa720.js 和 AA_720@'+SHA+' 一致（import_aa720.py --check）',ok&&AA720.src===DOC+'@'+SHA,out.trim().slice(0,200));
-    check('0. 內容逐字：events、七個區塊、endings、quietMove＝稿（只照 read_fix 換名）',!!SRC&&J(canon(SRC))===J(canon(DT())),SRC?'':'讀不到稿');
+    check('0. 內容逐字：events、七個區塊、endings、quietMove、kx_waited_after＝稿（只照 read_fix 換名；wiringAnswers 是說明、不進遊戲）',!!SRC&&J(canon(SRC))===J(canon(DT())),SRC?'':'讀不到稿');
     const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===DOC);
-    check('0. 匯入白名單：一筆、approved、sha '+SHA+'、task AA720-DECIDE-OPENED-1108、approvedBy 含「AA-B D109（11-08 01:39 AA_720 第一批）」',allow.length===1&&allow[0].status==='approved'&&allow[0].sha===SHA&&allow[0].task==='AA720-DECIDE-OPENED-1108'&&allow[0].approvedBy.includes('AA-B D109（11-08 01:39 AA_720 第一批）'),J(allow));
+    check('0. 匯入白名單：一筆、approved、sha '+SHA+'、task AA720-DECIDE-OPENED-1108、approvedBy 含「AA-B D109（11-08 01:39 AA_720 第一批）」和 ee689cfb8、history 留 4f37a68bb',allow.length===1&&allow[0].status==='approved'&&allow[0].sha===SHA&&allow[0].task==='AA720-DECIDE-OPENED-1108'&&allow[0].approvedBy.includes('AA-B D109（11-08 01:39 AA_720 第一批）')&&allow[0].approvedBy.includes('ee689cfb8（AA-B 11-08 02:4x wiringAnswers')&&allow[0].history.some(h=>h.sha==='4f37a68bb'),J(allow));
     const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), i1=html.indexOf('src/data/aa720.js?v=9.10.22'), i2=html.indexOf('src/aa720_3d.js?v=9.10.22');
     const after=['src/y34b3d.js','src/zr_sendoff3d.js','src/ytjob3d.js','src/y2b3d.js','src/feed3d.js','src/sis_grad3d.js','src/postgrad3d.js','src/arcs3d.js','src/invites3d.js','src/zr_uk3d.js'].every(f=>{ const j=html.indexOf(f+'?'); return j>=0&&j<i2; });
     check('0. index.html：資料在 decide_rules.js 旁邊、播放在它要包的那幾支後面',i1>0&&i2>i1&&html.indexOf('src/data/decide_rules.js')<i1&&after);
@@ -177,9 +180,8 @@ const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys
       at(G,dk('2027-11-12'),12); H.said=[]; await P().sceneTick(GM); check('6. 第二封：店員換「又一封。」',said()[0]===B.pickupAlt[1]&&said()[1]===B.letters[1].text[0]);
       check('6. letters 的玩家不寄明信片（Y2B.pcCards 空的）',typeof Y2B!=='undefined'&&Y2B.pcCards(Object.assign({},G,{day:dk('2027-09-25')})).length===0);
       const G2=fresh('2027-10-01',14,'cafe'); dec(G2,ZR,'distance','letters',1); H.said=[]; await P().sceneTick(GM); check('6. 還沒到日期＝沒有',H.said.length===0); }
-    /* ps_result */ { const G=fresh('2027-08-06',9); dec(G,PS,'tell','before',dk('2026-12-10')); H.date(PS); run(G,dk('2027-08-06'),10.02); const B=DT().ps_result, m=ask(G,'ps_result');
-      check('6. ps_result：2027-08-06 10:00 三則（可以回）；原本 10:00「你現在在哪？」不傳',!!m&&m.h>=10&&m.h<10.1&&B.msgs.every(t=>texts(G).includes(t))&&!texts(G).includes('你現在在哪？'),J(texts(G)));
-      PHONE.answer(G,m.ask.id,0); const n=(G.msgs||[]).find(x=>x.text===B.opts[0].say[0]); check('6. 回「我打給妳。」＝她那一句是灰字旁白（電話）',!!n&&n.narr===true); }
+    /* ps_result（ee689cfb8 起：09:58 兩則、原本照演；細節在第 10 節）*/ { const G=fresh('2027-08-06',9); dec(G,PS,'tell','before',dk('2026-12-10')); H.date(PS); run(G,dk('2027-08-06'),10.02); const B=DT().ps_result;
+      check('6. ps_result：2027-08-06 09:58「上了。」「台南。教育系。」（沒有選項）；原本 10:00「你現在在哪？」照傳',B.msgs.every(t=>texts(G).includes(t))&&texts(G).includes('你現在在哪？')&&!ask(G,'ps_result'),J(texts(G))); }
     /* kx_quiet */ { const G=fresh('2027-04-01',20); const d=G.day; dec(G,KX,'after_fail','quiet',d); run(G,d+7,21.5); const a=!ask(G,'kx_quiet'); run(G,d+8,21.05);
       check('6. kx_quiet：決定那天＋8 天 21:00（第 7 天還沒有）',a&&!!ask(G,'kx_quiet')&&DT().kx_quiet.msgs.every(t=>texts(G).includes(t))); }
     /* kx_eat */ { const B=DT().kx_eat; const G=fresh('2027-04-01',18); dec(G,KX,'after_fail','eat',G.day); const m0=G.money=1000; tick(G); const q=OUT.get(G,'aa720_kx_eat');
@@ -196,7 +198,8 @@ const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys
       const zq5=FEED.post('zq5b',G); check('6. 假實習的動態（7/3 騎樓咖啡店、7/17 公司在哪、8/28 實習結束）intern 版不傳',['zq5b','zq6b','zq8b'].every(id=>FEED.blocked(G,FEED.post(id,G),{day:dk('2026-07-03'),h:14})==='aa720')&&FEED.blocked(G,FEED.post('zq7b',G),{day:dk('2026-08-07'),h:23})!=='aa720',J(!!zq5));
       const w5=FEED.post('zq1c',G), j9=FEED.post('zq4c',G); dec(G,ZQ,'level','shop',dk('2026-12-01'));
       check('6. 大二上第 5 週那則：圖換「截圖：第一關的地圖，還是灰色的」、私訊換「第二關呢？」「還沒」「延長實習的錯」；1/9：第二關＋ZQ-2 的畫面、留言「好漂亮。」→「第二關。比第一關難」',w5.pic==='截圖：第一關的地圖，還是灰色的'&&J(w5.dm)===J(['第二關呢？','還沒','延長實習的錯'])&&FEED.post('zq4c',G).pic==='截圖：第二關，一間五金行，鐵門拉起來一半'&&J(FEED.post('zq4c',G).cm)===J(['好漂亮。','第二關。比第一關難']),J([w5.pic,FEED.post('zq4c',G).pic]));
-      check('6. life：intern 版第 4、5 階照稿；「實習公司叫貓」那幾句輪換句不出',ARCS.lifeState(Object.assign({},G,{day:dk('2026-07-01')}),ZQ)===B.life.s4.state&&ARCS.rotTier(Object.assign({},G,{day:dk('2026-07-01')}),ZQ,ARC_ROT.rot[ZQ][13])===-1);
+      { const Gj=Object.assign({},G,{day:dk('2026-07-01')}); const iCat=ARC_ROT.rot[ZQ].findIndex(x=>x.if==='ans:ZQ_PL_CAT_CO');
+        check('6. life：intern 版第 4、5 階照稿；ZQ_PL_CAT_CO 那一則（「公司叫貓」）照關；life 4 那一則不關了（ee689cfb8：改說 altIntern，第 10 節）',ARCS.lifeState(Gj,ZQ)===B.life.s4.state&&ARCS.rotTier(Gj,ZQ,ARC_ROT.rot[ZQ][iCat])===-1&&ARCS.rotTier(Gj,ZQ,ARC_ROT.rot[ZQ][13])>=0,J({iCat})); }
       const G2=fresh('2026-06-30',20); dec(G2,ZQ,'summer','game',1); check('6. game 照原本（動態、輪換句）',FEED.blocked(G2,FEED.post('zq5b',G2),{day:dk('2026-07-03'),h:14})!=='aa720'&&FEED.post('zq1c',G2).pic==='截圖：第二關的地圖，還是灰色的');
       const G3=fresh('2026-10-16',22); dec(G3,ZQ,'summer','intern',1); run(G3,dk('2026-10-16'),22.2); PHONE.answer(G3,ask(G3,'ev_zq_quit_intern').ask.id,2); run(G3,dk('2026-10-17'),20.05);
       check('6. 辭掉實習：10/16 22:10；回「我今天不行。」＝ZQ_QUIT_SEEN msg、10/17 20:00 前面先加「我辭掉實習了。」',G3.flags.ZQ_QUIT_SEEN==='msg'&&texts(G3).indexOf('我辭掉實習了。')>=0&&texts(G3).indexOf('我辭掉實習了。')<texts(G3).indexOf('我爸知道了。')); }
@@ -297,5 +300,109 @@ const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys
     { const {G,b}=await play('2026-02-05','library',true,[sup,0]); check('9. 1/31 以後才演到：照演，SIS-1 記 late（alone）',!!b&&DECIDE.get(G,SIS,'exam')==='alone'&&G.flags.DECIDE[SIS].exam.late===true,J(G.flags.DECIDE[SIS])); }
     { const G=fresh('2026-01-27',15,'library'); const r=ARCS.rec(G,SIS); r.k=8; r.last=null; const DS=DATE.stageNum; DATE.stageNum=()=>4; const b=ARCS.pick(G,SIS,{kind:'study',quiet:true}); DATE.stageNum=DS; check('9. 別的 quietOk:false 的拍（學姊第 8 拍）在安靜區照舊不演',b==null); }
     GM.say=sayQ; });
+  /* ---------------- 10 wiringAnswers（ee689cfb8）---------------- */
+  const SHA717='033b5150a';
+  let RAW=null; try{ RAW=JSON.parse(cp.execFileSync('git',['show',SHA+':'+DOC],{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26})); }catch(e){ RAW=null; }
+  let R719=null; try{ R719=JSON.parse(cp.execFileSync('git',['show','963afea74:docs/story_planning/AA_719_decide_rules.json'],{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26})); }catch(e){ R719=null; }
+  let R717=null; try{ R717=JSON.parse(cp.execFileSync('git',['show',SHA717+':docs/story_planning/AA_717_rot_life.json'],{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26})); }catch(e){ R717=null; }
+  const WA=RAW&&RAW.wiringAnswers||{};   /* AA_717 是 033b5150a（ee689cfb8 的子晴 rot 13～15＋芷若 life 第 5 階 state 改字）*/
+  const tagT=(G,tag)=>(G.msgs||[]).filter(m=>m.tag===tag).map(m=>m.text);
+  await sec(10,async()=>{ const B=DT().ps_result, d=dk('2027-08-06'), H58=9+58/60;
+    /* 10a ps_result：09:58 → 10:00 → 10:02 → 12:00 */
+    { const G=fresh('2027-08-06',9); dec(G,PS,'tell','before',dk('2026-12-10')); H.date(PS);
+      run(G,d,9.9); const a=!B.msgs.some(t=>texts(G).includes(t));
+      run(G,d,H58+0.002); const m1=G.msgs.filter(x=>B.msgs.includes(x.text));
+      check('10. ps_result：09:58 以前沒有；09:58「上了。」「台南。教育系。」（照稿、照順序；不用回＝沒有選項）；10:00 那則還沒到',a&&J(m1.map(x=>x.text))===J(B.msgs)&&J(B.msgs)===J(['上了。','台南。教育系。'])&&m1.every(x=>!x.ask&&Math.abs(x.h-H58)<0.01&&x.th==='p:'+PS)&&!texts(G).includes(PSR.LINES.where),J(m1));
+      run(G,d,10.01); const w=G.msgs.find(x=>x.text===PSR.LINES.where);
+      check('10. 10:00 原本那則「你現在在哪？」照傳（兩個回覆選項照舊）、在那兩則後面',!!w&&!!w.ask&&w.ask.opts.length===2&&G.msgs.indexOf(w)>G.msgs.indexOf(m1[1]),J(w&&w.ask));
+      PHONE.answer(G,w.ask.id,0); run(G,d,10.05); const bus=G.msgs.find(x=>x.text===PSR.LINES.bus);
+      check('10. 10:02 客運兩則照傳（在「你現在在哪？」後面）',!!bus&&G.msgs.indexOf(bus)>G.msgs.indexOf(w)&&texts(G).includes(PSR.LINES.steps),J(texts(G).slice(-3)));
+      const q=OUT.get(G,'ps_results'); check('10. 12:00 總圖外面的台階那一場照排（psresults3d.js）',!!q&&q.day===d&&q.h===12&&q.ev==='ev_peishan_results',J(q));
+      check('10. 4f37a68bb 的「……我可以打給你嗎？」、三個選項、選項 3 的灰字旁白都沒有；原本 10:00 那則不再記成傳過（cut）',!texts(G).includes('……我可以打給你嗎？')&&!texts(G).some(t=>/晚上九點，她又傳了一次/.test(t))&&!ask(G,'ps_result')&&!(PHONE.rec(G).cut||[]).includes('ps_results_where')&&!B.opts&&!G.msgs.some(m=>m.narr&&m.th==='p:'+PS),J(texts(G)));
+      check('10. 稿（wiringAnswers 2）：ps_result.at 09:58、rule「只加這兩則」',/^2027-08-06 09:58/.test(B.at)&&/^只加這兩則（不用回、沒有選項）/.test(B.rule)&&/ps_result/.test(WA['2']||''),J([B.at,WA['2']])); }
+    { const G=fresh('2027-08-06',9); dec(G,PS,'tell','before',dk('2026-12-10')); run(G,d,10.05); check('10. 沒交往（psresults3d.js 那一版沒有）＝09:58 也不傳',!B.msgs.some(t=>texts(G).includes(t))); }
+    { const G=fresh('2027-08-06',9); dec(G,PS,'tell','after',dk('2026-12-10')); H.date(PS); run(G,d,10.05); check('10. after 的玩家＝不傳兩則、10:00 照原本',!B.msgs.some(t=>texts(G).includes(t))&&texts(G).includes(PSR.LINES.where)); }
+    { const G=fresh('2027-08-06',7); dec(G,PS,'tell','before',dk('2026-12-10')); H.date(PS); run(G,d,10.01); const L=G.msgs.filter(x=>x.th==='p:'+PS).map(x=>x.text);
+      check('10. 睡過 09:58（10:00 才醒）：兩則還是在「你現在在哪？」前面',J(L.slice(0,3))===J(B.msgs.concat([PSR.LINES.where])),J(L)); }
+
+    /* 10b 交往中＋信：第四封多一句、12/25 視訊照舊 */
+    { const ZB=DT().zr_letters, add=AA720.cfg.quotes.zrLetter4Video;
+      const mk=(date,dating)=>{ const G=fresh(date,14,'cafe'); dec(G,ZR,'distance','letters',dk('2027-05-01')); G.flags.ZR_LETTERS=1; G.flags.ZR_SENDOFF_2027='met'; if(dating) H.date(ZR); const r=P().r(G,'zr_letters'); r.l1=dk('2027-09-02'); return {G,r}; };
+      check('10. 稿（wiringAnswers 6）：「二十五號晚上視訊。時間寫在這裡，你不要忘記。」逐字',add==='二十五號晚上視訊。時間寫在這裡，你不要忘記。'&&String(WA['6']||'').includes('「'+add+'」'),J(WA['6']));
+      { const {G,r}=mk('2027-12-10',true); r.n=2; H.said=[]; await P().sceneTick(GM); const s=said();
+        check('10. 交往中＋信：第四封（12/10，第一封是送機那一封）最後多一句、接旁白',J(s.slice(1))===J(ZB.letters[2].text.map(t=>rx(G,t)).concat([add,ZB.after]))&&P().r(G,'zr_letters').xmas===G.day,J(s));
+        const q=OUT.get(G,'y3_zr_xmas_video'); check('10. 12/25 20:00 視訊照排（同明信片那一版：ev_zhiruo_xmas_video、倫敦中午 12:00）',!!q&&q.day===dk('2027-12-25')&&q.h===20&&q.ev==='ev_zhiruo_xmas_video'&&q.state==='planned',J(q));
+        check('10. 明信片照樣不寄（12/17 那張沒有）',Y2B.pcCards(Object.assign({},G,{day:dk('2027-12-18')})).length===0); }
+      { const {G,r}=mk('2027-12-10',false); r.n=2; H.said=[]; await P().sceneTick(GM); const s=said(); check('10. 沒交往：第四封照原本、沒有視訊',!s.includes(add)&&s[s.length-1]===ZB.after&&!OUT.get(G,'y3_zr_xmas_video'),J(s.slice(-2))); }
+      { const {G,r}=mk('2027-11-12',true); r.n=1; H.said=[]; await P().sceneTick(GM); check('10. 交往中的第三封（11/12）不加',!said().includes(add)&&!OUT.get(G,'y3_zr_xmas_video')); }
+      { const {G,r}=mk('2028-01-14',true); r.n=2; H.said=[]; await P().sceneTick(GM); check('10. 12/25 過了才去拿第四封：那一句照信上寫的，視訊不排（已經過了）',said().includes(add)&&!OUT.get(G,'y3_zr_xmas_video')); }
+      { const G=fresh('2027-12-17',13,'dorm'); dec(G,ZR,'distance','call',1); H.date(ZR); H.FRIEND(ZR); const c=Y2B.pcCards(G).find(x=>x.key==='2027-12-17'); check('10. 不是 letters 的交往中：12/17 那張照舊（背面那一行）',!!c&&c.ver==='gf'&&Y2B.pcLines(G,c).includes('12/25，台灣晚上八點。打給我。')); } }
+
+    /* 10c AA_719 after 的句子 */
+    { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_decide_rules.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
+      const AQ=DECIDE_RULES.afterQ||{}, by={}; for(const k of (R719&&R719.keys)||[]) by[k.id]=k;
+      const W={anExpoFirst:['AN-1','first'],anPlane:['AN-2','alone'],zrScholarHalf:['ZR-1','scholar'],zqTbShop:['ZQ-2','all'],zqTbTainan:['ZQ-2','all']};
+      check('10. AA_719 after 的五句：decide_rules.js afterQ 和 963afea74 一致（import_decide_rules.py --check），每一句都在那一個 after 裡（「」逐字）',ok&&Object.keys(W).every(k=>AQ[k]&&String(((by[W[k][0]]||{}).after||{})[W[k][1]]||'').includes('「'+AQ[k]+'」'))&&/AA_719 的 after／closes 句/.test(WA.afterLines||''),out.trim().slice(0,160)); }
+    { const src=fs.readFileSync(path.join(H.ROOT,'src/aa555_3d.js'),'utf8'); const tagOk=src.includes("['y2s2_an_expo',AN,")&&src.includes("'a118_'+id+'_'+j"); const orig='說明會的資料四十頁，我讀完了。有三頁是同一頁印兩次。';
+      const one=(v,exp)=>{ const G=fresh('2027-03-25',20); dec(G,AN,'jp_tell',v,dk('2026-04-20')); if(exp) G.flags.AN_EXPO=exp; PHONE.at(G,G.day,21,[{th:'p:'+AN,from:AN,text:orig}],'a118_y2s2_an_expo_0'); run(G,G.day,21.05); return tagT(G,'a118_y2s2_an_expo_0'); };
+      const a=one('first','went'), b=one('first','missed'), c=one('first','declined'), e=one('later',null);
+      check('10. 以安 AN-1 first＋說明會有去：aa555 y2s2_an_expo 那則換成「…你那天坐我旁邊，第三頁的時候睡著了。」',tagOk&&J(a)===J([DECIDE_RULES.afterQ.anExpoFirst]),J(a));
+      check('10. missed／declined／later：那則照原本',J(b)===J([orig])&&J(c)===J([orig])&&J(e)===J([orig]),J([b,c,e])); }
+    { const one=v=>{ const G=fresh('2028-03-25',11.5); if(v) dec(G,AN,'grad',v,dk('2027-10-01')); run(G,dk('2028-03-25'),11.75); return tagT(G,'y3_an_sendoff_miss'); };
+      const a=one('alone'), b=one('together'), c=one(null);
+      check('10. 以安 AN-2 alone：出國那天（3/25，沒去送機）只有一則「我上飛機了。」',J(a)===J([DECIDE_RULES.afterQ.anPlane]),J(a));
+      check('10. together、沒決定：11:40 登機證那三則照原本',J(b)===J(['（照片：登機證）','要登機了。','到了再傳。'])&&J(c)===J(b),J([b,c])); }
+    { const one=v=>{ const G=fresh('2027-05-11',22); H.date(ZR); if(v) dec(G,ZR,'fund',v,dk('2027-03-01')); run(G,dk('2027-05-11'),22.7); return G.msgs.filter(m=>m.tag==='y2r2_zr_admit'); };
+      const a=one('scholar'), b=one('both'), c=one('tell');
+      check('10. 芷若 ZR-1 scholar（交往中 5/11 22:40 錄取那則）：「……錄取了。」後面多一句「獎學金拿到一半。」、最後一則照樣可以回（打給她）',J(a.map(m=>m.text))===J(['信來了。','……錄取了。',DECIDE_RULES.afterQ.zrScholarHalf,'我現在不想打字。你可以打給我嗎。'])&&!!a[3].ask&&!a[2].ask,J(a.map(m=>m.text)));
+      check('10. both 也多那一句（兩個都有）；tell 照原本三則',J(b.map(m=>m.text))===J(a.map(m=>m.text))&&J(c.map(m=>m.text))===J(['信來了。','……錄取了。','我現在不想打字。你可以打給我嗎。']),J(c.map(m=>m.text))); }
+    { const one=async v=>{ const G=fresh('2028-03-08',12.2,'library'); if(v) dec(G,ZQ,'level',v,dk('2028-02-20')); H.said=[]; H.picks=['第一關好難']; await EVENTS.run(ZQTB.EVENT); return said(); };
+      const s1=await one('shop'), s2=await one('tainan'), s3=await one('cat'), s4=await one(null), i=s1.indexOf('你坐。用我的筆電，玩第一關就好。');
+      check('10. 子晴 ZQ-2 測試版那一場（2028-03-08）：shop＝「你說的五金行，我放在第二關的角落。不是因為你說的。」（在第一關的畫面之後、選項之前）',s1.includes(DECIDE_RULES.afterQ.zqTbShop)&&s1.indexOf(DECIDE_RULES.afterQ.zqTbShop)>i&&s1.indexOf(DECIDE_RULES.afterQ.zqTbShop)<s1.indexOf('欸不是，你才玩兩分鐘。'),J(s1.slice(0,5)));
+      check('10. tainan＝「第二關有一條巷子。我沒去過台南，照你說的畫。」；cat、沒決定＝原本（沒有那一句）',s2.includes(DECIDE_RULES.afterQ.zqTbTainan)&&!s2.includes(DECIDE_RULES.afterQ.zqTbShop)&&J(s3)===J(s4)&&!s3.includes(DECIDE_RULES.afterQ.zqTbShop)&&!s3.includes(DECIDE_RULES.afterQ.zqTbTainan)&&s3.length===s1.length-1,J([s2.length,s3.length,s1.length])); }
+
+    /* 10d 可昕等了一個小時以後兩天：她回訊息只回一句（六句輪流，用完從頭）；第三天起照常 */
+    { const KA=DT().kx_waited_after.lines; check('10. 稿：kx_waited_after 六句照稿（嗯。／好。／知道了。／……嗯。／再說。／喔。）',J(KA)===J(['嗯。','好。','知道了。','……嗯。','再說。','喔。'])&&!!RAW&&J(RAW.kx_waited_after.lines)===J(KA),J(KA));
+      const setup=(pick)=>{ const G=fresh('2027-01-05',12); dec(G,KX,'slot','show',G.day); H.date(KX); const d=P().kxWaitDay(G); run(G,d,10.05); at(G,d,16.3); OUT.tick(GM); run(G,d,17.05); if(pick!=null) PHONE.answer(G,ask(G,'ev_kx_waited').ask.id,pick); else run(G,d,19.05); return {G,d}; };
+      const send=(G,dd,hh)=>{ at(G,dd,hh); const tp=(MSG.topics(G,KX)[0]||{}).k; const r=MSG.send(G,KX,tp); return r; };
+      { const {G,d}=setup(1); const got=[[d,21],[d+1,15],[d+2,15],[d+3,15]].map(([dd,hh])=>send(G,dd,hh));
+        const q=PHONE.rec(G).q.filter(x=>x.items.some(it=>it.from===KX)).map(x=>x.items.map(it=>it.text));
+        check('10. 「我忘了。對不起。」（KX_WAITED nothing）：那天晚上、隔天、後天傳訊息給她＝她只回一句，照順序「嗯。」「好。」「知道了。」',G.flags.KX_WAITED==='nothing'&&got.slice(0,3).every((r,i)=>r.ok&&r.override===KA[i])&&q.slice(0,3).every((L,i)=>J(L)===J([KA[i]])),J({g:got.map(r=>r.override),q}));
+        check('10. 第三天起照常（不是那六句）',got[3].ok&&!got[3].override&&!(q[3]&&q[3].length===1&&KA.includes(q[3][0])),J(q[3]));
+        at(G,d+2,20); const more=[0,1,2,3,4].map(()=>P().kxAfterLine(G,KX)); check('10. 用完從頭：接著「……嗯。」「再說。」「喔。」「嗯。」「好。」',J(more)===J([KA[3],KA[4],KA[5],KA[0],KA[1]]),J(more)); }
+      { const {G,d}=setup(null); const r=send(G,d+1,15); check('10. 不回（19:00「算了。」）也一樣',G.flags.KX_WAITED==='nothing'&&r.override===KA[0],J(r)); }
+      { const {G,d}=setup(0); await goOut(G,'aa720_kx_waited_late',[0]); const r=send(G,d+1,15); check('10. 「我現在過去」、到了（KX_WAITED late）也一樣',G.flags.KX_WAITED==='late'&&r.override===KA[0],J(r)); }
+      { const G=fresh('2027-01-05',12); dec(G,KX,'slot','show',G.day); H.date(KX); const d=P().kxWaitDay(G); run(G,d,10.05); await goOut(G,'aa720_kx_waited',[]); const r=send(G,d+1,15);
+        check('10. 16:15 以前到（came，她沒說什麼）＝照常',G.flags.KX_WAITED==='came'&&r.ok&&!r.override,J({w:G.flags.KX_WAITED,r})); }
+      { const G=fresh('2027-01-05',12); H.date(ZQ); const r=P().kxAfterLine(G,ZQ); check('10. 別人＝不換',r==null); } }
+
+    /* 10e 子晴 1/9 demo intern 版、動態說明文字 */
+    { const DJ=DT().zq_intern.demoJan9, C=TERMEND_LINES.C15.zq_demo, orig='第三關。橋是新的。';
+      const L=(intern,v)=>{ const G=fresh('2027-01-09',13); dec(G,ZQ,'summer',intern?'intern':'game',dk('2026-06-10')); if(v) dec(G,ZQ,'level',v,dk('2026-12-01')); const x=typeof C.lines==='function'?C.lines(G):C.lines; return x; };
+      const base=L(false,null), T2=x=>x.map(l=>l.text);
+      check('10. 稿：demoJan9 shop／tainan／cat／default 照稿',J(DJ.intern)===J({shop:'第二關。五金行是新的。',tainan:'第二關。巷子是新的。',cat:'第二關。貓會自己找路了。',default:'第二關。貓會自己找路了。'})&&!!RAW&&J(RAW.zq_intern.demoJan9.intern)===J(DJ.intern),J(DJ.intern));
+      const ok=(v,want)=>{ const x=L(true,v); return J(T2(x))===J(T2(base).map(t=>t===orig?want:t))&&x.find(l=>l.text===want).who===ZQ; };
+      check('10. intern 版 1/9 demo：「第三關。橋是新的。」那一句照 ZQ-2 換（shop／tainan／cat／還沒決定＝default）；其他句照原本',T2(base).includes(orig)&&ok('shop',DJ.intern.shop)&&ok('tainan',DJ.intern.tainan)&&ok('cat',DJ.intern.cat)&&ok(null,DJ.intern.default),J(T2(L(true,'shop'))));
+      check('10. game 版照原本',J(T2(L(false,'shop')))===J(T2(base)));
+      const G=fresh('2026-10-01',20); dec(G,ZQ,'summer','intern',dk('2026-06-10')); const G2=fresh('2026-10-01',20); dec(G2,ZQ,'summer','game',dk('2026-06-10'));
+      check('10. 動態說明文字（demoJan9.captions）：intern 版 zq1c「第一關」、zq4c「第二關」；圖和選項照之前；game 版照原本（第二關／第三關）',FEED.post('zq1c',G).say===DJ.captions.zq1c&&DJ.captions.zq1c==='第一關'&&FEED.post('zq4c',G).say===DJ.captions.zq4c&&DJ.captions.zq4c==='第二關'&&FEED.post('zq1c',G).pic===AA720.cfg.quotes.zqW5Pic&&FEED.post('zq1c',G2).say==='第二關'&&FEED.post('zq4c',G2).say==='第三關',J([FEED.post('zq1c',G).say,FEED.post('zq4c',G).say,FEED.post('zq1c',G2).say])); }
+
+    /* 10f AA_717：子晴第 13 則改字、第 14／15 則 altIntern、ZQ_PL_CAT_CO 照關 */
+    { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_arc_rot.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
+      const A=ARC_ROT.rot[ZQ], S7=(R717&&R717.rot&&R717.rot[ZQ])||[];
+      check('10. arc_rot.js 和 AA_717@'+SHA717+' 一致；第 13 則每一版「第一關的畫面做出來了。還不能玩。」「我自己按了很多次，每次都卡在同一個地方。」',ok&&ARC_ROT.src==='docs/story_planning/AA_717_rot_life.json@'+SHA717&&J(A[12].lines)===J(['第一關的畫面做出來了。還不能玩。','我自己按了很多次，每次都卡在同一個地方。'])&&!A[12].altIntern&&J(S7[12]&&S7[12].lines)===J(A[12].lines),out.trim().slice(0,160));
+      check('10. 第 14、15 則的 altIntern 逐字照稿（第 15 則兩段：辭掉前／後）',!!S7[13]&&J(A[13].altIntern.map(a=>a.lines))===J([S7[13].altIntern.lines])&&J(A[14].altIntern.map(a=>a.lines))===J(S7[14].altIntern.map(a=>a.lines))&&J(A[14].altIntern.map(a=>a.if))===J([['dec:heroine_04.summer=intern','!zqQuitIntern'],['dec:heroine_04.summer=intern','zqQuitIntern']]),J(A[14].altIntern));
+      const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path==='docs/story_planning/AA_717_rot_life.json');
+      check('10. 匯入白名單：AA_717 一筆、sha '+SHA717+'、history 留 963afea74、ee689cfb8',allow.length===1&&allow[0].sha===SHA717&&allow[0].status==='approved'&&allow[0].history.some(h=>h.sha==='963afea74')&&allow[0].history.some(h=>h.sha==='ee689cfb8'),J(allow.map(e=>e.sha)));
+      const pick=(G,i)=>{ const save=ARC_ROT.rot[ZQ]; ARC_ROT.rot[ZQ]=[A[i]]; try{ const r=ARCS.rec(G,ZQ); r.k=1; r.rot=[]; const p=ARCS.rotPick(G,ZQ); return p&&Object.assign({},p,{rot:i}); } finally { ARC_ROT.rot[ZQ]=save; } };   /* 只留那一則（其他則不干擾），看 rotPick 說哪幾句 */
+      const mk=(date,v,fl)=>{ const G=fresh(date,15); dec(G,ZQ,'summer',v,dk('2026-06-10')); Object.assign(G.flags,fl||{}); return G; };
+      { const p1=pick(mk('2026-07-20','intern'),13), p2=pick(mk('2026-07-20','game'),13);
+        check('10. 第 14 則（life 4，暑假）：intern＝「暑假我在我爸介紹的公司實習。測試組。」「午休的時候，我在寫第一關。」；game＝原本「公司叫貓」',!!p1&&p1.rot===13&&J(p1.lines)===J(S7[13].altIntern.lines)&&!!p2&&J(p2.lines)===J(A[13].lines),J([p1,p2])); }
+      { const G=mk('2026-09-20','intern'), p1=pick(G,14); G.flags.ZQ_QUIT_INTERN=true; const p2=pick(G,14); const G3=mk('2026-10-20','intern'); PHONE.at(G3,dk('2026-10-17'),20,[{th:'p:'+ZQ,from:ZQ,text:'我辭掉實習了。'}],'aa720_zq_next'); const p3=pick(G3,14); const p4=pick(mk('2026-09-20','game'),14);
+        check('10. 第 15 則（life 5，大三上）：intern 還沒辭＝「實習延長到學期中，每週兩天。」…；演過騎樓那一場（ZQ_QUIT_INTERN）＝「延長的實習我辭掉了。」…',!!p1&&J(p1.lines)===J(S7[14].altIntern[0].lines)&&!!p2&&J(p2.lines)===J(S7[14].altIntern[1].lines),J([p1,p2]));
+        check('10. 沒去騎樓（10/17 20:00「我辭掉實習了。」傳了）也算辭了；game＝原本',!!p3&&J(p3.lines)===J(S7[14].altIntern[1].lines)&&!!p4&&J(p4.lines)===J(A[14].lines),J([p3,p4])); }
+      { const G=mk('2026-07-20','intern'); const iCat=A.findIndex(x=>x.if==='ans:ZQ_PL_CAT_CO'); ARCS.rec(G,ZQ).k=9; ARCS.rec(G,ZQ).ans.ZQ_PL_CAT_CO=1; const G2=mk('2026-07-20','game'); ARCS.rec(G2,ZQ).k=9; ARCS.rec(G2,ZQ).ans.ZQ_PL_CAT_CO=1;
+        check('10. ZQ_PL_CAT_CO（「…在『貓』公司實習」）intern 照關（wiringAnswers「關掉照你」）、game 照出',ARCS.rotTier(G,ZQ,A[iCat])===-1&&ARCS.rotTier(G2,ZQ,A[iCat])>=0&&/ZQ_PL_CAT_CO 關掉照你/.test((RAW&&RAW.zq_intern&&RAW.zq_intern.rot)||'')); } }
+  });
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });

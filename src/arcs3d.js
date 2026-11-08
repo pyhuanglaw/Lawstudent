@@ -10,8 +10,8 @@
    - 演到一半出錯或被打斷（例外）＝這一拍不算演過，下次重演（S.done 在演完以後才叫）。
    - 活動的次數（STUDYN）、第 6 場算一次約會、DATE.log、告白條件都不動。
    存檔：G.flags.BEATS＝{人物:{k:下一拍, last:最後演的那天, ans:{mem:{opt,day}}, missed:[拍]}}、G.flags.YT_TOLD＝{topic:{人物:那天}}、G.flags.ARC_INVITE＝{人物:{拍:那天}}；舊存檔沒有＝從第 1 拍開始。
-   輪換句（AA_717）：S.rotPick／rotRun；存檔 BEATS[id].rot（最近 3 個）、rotSrc（'arc'／'act'）。
-   測試：node tests/heroine_arcs_unit.js、node tests/arc_rot_unit.js */
+   輪換句（AA_717）：S.rotPick／rotRun；存檔 BEATS[id].rot（最近 3 個）、rotSrc（'arc'／'act'）；她記得你說過的（AA_712 cite）：BEATS[id].citeUsed[ansId]（用過幾句）、citeDay。
+   測試：node tests/heroine_arcs_unit.js、node tests/arc_rot_unit.js、node tests/arc_cite_unit.js */
 'use strict';
 const ARCS=(function(){
   const S={};
@@ -84,6 +84,8 @@ const ARCS=(function(){
     const m=/^month:(\d+)$/.exec(w); if(m) return CALENDAR.dateOf(G.day).m===+m[1];
     return false; };
   S.ifOk=function(G,id,c){ if(!c) return true; if(c==='dating') return dating(G,id); if(c.indexOf('ans:')===0){ const r=S.rec(G,id); return !!(r.ans&&r.ans[c.slice(4)]); } return S.cond(G,c); };
+  /* altIntern（AA_717 ee689cfb8，子晴第 14、15 則）：[{if:[條件…（全部成立；「!」開頭＝不成立）], lines}]，第一個成立的換那幾句；條件名 zqQuitIntern 在 src/aa720_3d.js 註冊 */
+  S.altIntern=function(G,id,x){ const A=x&&x.altIntern; if(!Array.isArray(A)) return null; const ok=c=>c[0]==='!'?!S.ifOk(G,id,c.slice(1)):S.ifOk(G,id,c); const a=A.find(a=>Array.isArray(a.if)&&a.if.every(ok)); return a?a.lines:null; };
   /* 這一則現在能不能說：回傳 0（沒條件）／1（beat、if、life）／2（when）；不能說＝-1 */
   S.rotTier=function(G,id,x){ const r=S.rec(G,id);
     if(x.from){ const d=S.dayOf(x.from); if(d!=null&&G.day<d) return -1; } if(x.until){ const d=S.dayOf(x.until); if(d!=null&&G.day>d) return -1; }
@@ -92,19 +94,31 @@ const ARCS=(function(){
     if(x.if&&!S.ifOk(G,id,x.if)) return -1;
     const ls=S.lifeStage(G,id); if(x.life!=null&&ls<x.life) return -1; if(x.lifeMax!=null&&ls>x.lifeMax) return -1;
     return x.when?2:(x.beat!=null||x.if||x.life!=null||x.lifeMax!=null?1:0); };
+  /* 她記得你說過的（AA712-CITE-LATER-1108；AA_712 cite_later → heroine_arcs.js 每一拍的 cite：{ansId:[句…]}；AA_712 _meta「輪換句、訊息、偶遇用；每句用一次」）：
+     那一拍你選的答案（BEATS[id].ans[ansId]）記了、而且過了 5 天以上＝下一次一起做事、輪到中途那一句的時候，先說這一句（一次活動最多一句：rotPick 一次只給一則）。
+     每句只用一次（BEATS[id].citeUsed[ansId]＝用過幾句）；同一個答案有兩句＝先第一句，下一次輪到再第二句。那一拍沒演（關掉、late）＝沒有 ans＝沒有。舊存檔有 ans 的照這個規則（ans 沒有記日子＝當作夠久了）。
+     照拍的順序、那一拍 cite 的順序挑第一個；訊息、偶遇這一版不做（AA-B 03:00）。*/
+  S.CITE_DAYS=5;
+  S.citePick=function(G,id){ const P=D()[id]; if(!G||!P||!Array.isArray(P.beats)) return null; const r=S.rec(G,id), U=r.citeUsed&&typeof r.citeUsed==='object'?r.citeUsed:{};
+    for(const b of P.beats){ if(!b||!b.cite||typeof b.cite!=='object') continue;
+      for(const mem of Object.keys(b.cite)){ const a=r.ans[mem]; if(!a) continue; const d=typeof a==='object'&&typeof a.day==='number'?a.day:null; if(d!=null&&G.day-d<S.CITE_DAYS) continue;
+        const Lc=Array.isArray(b.cite[mem])?b.cite[mem]:[], n=U[mem]|0; if(n>=Lc.length) continue; return {cite:mem,n,beat:b.n,tier:3,lines:[Lc[n]]}; } }
+    return null; };
   /* 這一次的中途說哪一則：{rot:編號, tier, lines}；null＝沒有（沒有稿；或沒條件那一層輪到活動自己的輪換句，ctx.alt）*/
-  S.rotPick=function(G,id,ctx){ ctx=ctx||{}; const L=R().rot[id]; if(!L||!L.length||!G) return null; const r=S.rec(G,id), used=Array.isArray(r.rot)?r.rot:[];
+  S.rotPick=function(G,id,ctx){ ctx=ctx||{}; const L=R().rot[id]; if(!G) return null; if(!L||!L.length) return S.citePick(G,id); const r=S.rec(G,id), used=Array.isArray(r.rot)?r.rot:[];
     const C=L.map((x,i)=>({x,i,t:S.rotTier(G,id,x)})).filter(c=>c.t>=0);
     const top=C.length?Math.max(...C.map(c=>c.t)):-1;
     if(top<2&&typeof ARCINV!=='undefined'&&ARCINV.np){ const np=ARCINV.np(G,id); if(np) return {np:np.key,tier:1,lines:np.lines}; }   /* 故事線約她、沒排成（AA_716 noPlan）：說一次；when 那幾句還是優先 */
+    { const ci=S.citePick(G,id); if(ci) return ci; }   /* 她記得你說過的（AA_712 cite_later）：比輪換句優先（when 也是）；noPlan 照舊在前面 */
     if(!C.length) return null;
-    const out=c=>({rot:c.i,tier:c.t,lines:c.x.alt&&S.ifOk(G,id,c.x.alt.if)?c.x.alt.lines:c.x.lines});
+    const out=c=>({rot:c.i,tier:c.t,lines:S.altIntern(G,id,c.x)||(c.x.alt&&S.ifOk(G,id,c.x.alt.if)?c.x.alt.lines:c.x.lines)});
     for(let t=top;t>=0;t--){ const fresh=C.filter(c=>c.t===t&&!used.includes(c.i)); if(!fresh.length) continue;
       if(t===0&&ctx.alt&&r.rotSrc==='arc') return null;   /* 沒條件那一層：上次用了這一份，這次輪活動自己的 */
       return out(fresh[0]); }
     if(ctx.alt&&r.rotSrc==='arc') return null;   /* 能說的都在最近 3 次裡：活動自己有輪換句就先輪那邊 */
     return out(C.slice().sort((a,b)=>used.indexOf(a.i)-used.indexOf(b.i))[0]); };   /* 都用過：最久以前用過的 */
-  S.rotDone=function(G,id,x){ const r=S.rec(G,id); if(x&&x.np){ if(typeof ARCINV!=='undefined'&&ARCINV.npDone) ARCINV.npDone(G,x.np); r.rotSrc='arc'; return r; } if(x&&x.rot!=null){ const u=(Array.isArray(r.rot)?r.rot:[]).filter(i=>i!==x.rot); u.push(x.rot); r.rot=u.slice(-3); r.rotSrc='arc'; } else r.rotSrc='act'; return r; };
+  S.rotDone=function(G,id,x){ const r=S.rec(G,id); if(x&&x.cite){ const U=r.citeUsed&&typeof r.citeUsed==='object'?r.citeUsed:(r.citeUsed={}); U[x.cite]=Math.max(U[x.cite]|0,(x.n|0)+1); r.citeDay=G.day; r.rotSrc='arc'; return r; }
+    if(x&&x.np){ if(typeof ARCINV!=='undefined'&&ARCINV.npDone) ARCINV.npDone(G,x.np); r.rotSrc='arc'; return r; } if(x&&x.rot!=null){ const u=(Array.isArray(r.rot)?r.rot:[]).filter(i=>i!==x.rot); u.push(x.rot); r.rot=u.slice(-3); r.rotSrc='arc'; } else r.rotSrc='act'; return r; };
   S.rotRun=async function(GM,who,id,x){ await play(GM,who,x.lines); S.rotDone(GM.G,id,x); };
   /* 一起的活動演這一拍（INV.meet 呼叫）：演完才記；中途出錯照丟，沒記＝下次重演 */
   S.run=async function(GM,who,id,b){ const k=await S.play(GM,who,id,b); S.done(GM.G,id,b,k); if(typeof DECIDE!=='undefined'&&DECIDE.due){ const x=DECIDE.due(GM.G,id); if(x) await DECIDE.playDue(GM,who,id,x); } return k; };   /* 決定拍 delay 0 有 say：演完馬上說 */

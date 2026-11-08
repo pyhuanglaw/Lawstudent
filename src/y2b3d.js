@@ -192,6 +192,8 @@ const Y2B=(function(){
   S.pcLines=function(G,c){ const L=[]; if(c.ver!=='cafe'&&c.key==='2027-09-24'&&G.flags.ZR_LAST_SHIFT==='missed') L.push(...c.missed);
     if(c.key==='2027-12-17'){ if(c.ver==='cafe') L.push(...c.group); else if(!(G.flags.ZR_CARDS_SENT||[]).length) L.push(...c.text); if(c.ver==='gf') L.push(c.gfBack); }
     else { L.push(...c.text); if(c.back&&c.ver!=='cafe') L.push(c.back); } return L; };
+  /* 12/25 20:00 的視訊（ev_zhiruo_xmas_video）：交往中 12/17 那張背面帶出來；寫信的玩家（AA_720 zr_letters）在第四封信那裡排（src/aa720_3d.js）*/
+  S.xmasVideo=function(G){ if(typeof OUT==='undefined') return false; const d=D('2027-12-25'); return OUT.plan(G,{id:'y3_zr_xmas_video',ev:'ev_zhiruo_xmas_video',day:d,h:20,late:0.5,place:'視訊',verb:'接起來',no:'今天先不要',back:'視訊結束。',title:'和芷若視訊（倫敦中午 12:00）',travel:'',travelH:0}); };
   S.pcPending=function(G){ const Rr=S.pcRec(G); return S.pcCards(G).filter(c=>!Rr.read[c.key]||S.pcCanReply(G,c)); };
   const PC_ZONE={dorm:'dorm',gf:'dorm',cafe:'cafe'};
   S.pcPlace=function(GM){ const G=GM.G, E=GM.E; if(!E||!E.interactables) return; const P=S.pcPending(G).filter(c=>PC_ZONE[c.ver]===G.zone), k=E.interactables.findIndex(it=>it.zrPostcard);
@@ -204,7 +206,7 @@ const Y2B=(function(){
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'blur'});
       for(const t of S.pcLines(G,c)) await GM.say(card,'「'+t+'」');
       Rr.read[c.key]=G.day;
-      if(c.ver==='gf'&&c.key==='2027-12-17'&&typeof OUT!=='undefined'){ const d=D('2027-12-25'); OUT.plan(G,{id:'y3_zr_xmas_video',ev:'ev_zhiruo_xmas_video',day:d,h:20,late:0.5,place:'視訊',verb:'接起來',no:'今天先不要',back:'視訊結束。',title:'和芷若視訊（倫敦中午 12:00）',travel:'',travelH:0}); }
+      if(c.ver==='gf'&&c.key==='2027-12-17') S.xmasVideo(G);
       if(S.pcCanReply(G,c)){ const O=S.pcOpts(G); const k=await GM.choose(O.map(o=>({t:'「'+o.t+'」'})).concat([{t:'（先不回）'}]));
         if(k>=0&&k<O.length){ const o=O[k]; Rr.sent[c.key]=o.id; (F.ZR_CARDS_SENT||(F.ZR_CARDS_SENT=[])).push(o.id);
           if(c.ver==='cafe'){ if(!has('heroine_02','POSTCARDS_GROUP')&&SOCIAL.remember) SOCIAL.remember('heroine_02','POSTCARDS_GROUP','寫了一句，寄到英國的大明信片'); }

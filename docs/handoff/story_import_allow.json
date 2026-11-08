@@ -4864,16 +4864,24 @@
   },
   {
    "path": "docs/story_planning/AA_717_rot_life.json",
-   "sha": "963afea74",
+   "sha": "033b5150a",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 06:11「交付 BB_305 第 5、6 節」）；963afea74（AA-B 11-08 01:39 AA_720 第一批同 commit：子晴 life 第 3 階 state 改「第一關的畫面出來了」、芷若「2:30 AM 吧檯」）",
+   "approvedBy": "AA-B D109（11-07 06:11「交付 BB_305 第 5、6 節」）；963afea74（AA-B 11-08 01:39 AA_720 第一批同 commit：子晴 life 第 3 階 state 改「第一關的畫面出來了」、芷若「2:30 AM 吧檯」）；ee689cfb8（AA-B 11-08 02:4x 同 AA_720 wiringAnswers：子晴 rot 第 13 則每一版改字、第 14／15 則 altIntern）；033b5150a（AA-B 11-08：芷若 life 第 5 階 state 改「外文三，帶新人；開始接試譯」，第一筆稿費是 11/11）",
    "task": "STUDY-DATE-PROGRESS-1107",
    "kind": "json",
-   "note": "七位輪換句 15～19 則（when／beat／if／life／lifeMax／from／until／alt）＋life 7～12 階；tools/story/import_arc_rot.py → src/data/arc_rot.js",
+   "note": "七位輪換句 15～19 則（when／beat／if／life／lifeMax／from／until／alt）＋life 7～12 階；tools/story/import_arc_rot.py → src/data/arc_rot.js；ee689cfb8 起子晴第 14、15 則有 altIntern（dec:heroine_04.summer=intern；延長實習辭掉前／後）",
    "history": [
     {
      "sha": "578ba675e",
      "note": "被 963afea74 取代"
+    },
+    {
+     "sha": "963afea74",
+     "note": "被 ee689cfb8 取代（子晴 rot 第 13 則還是「第一關做好了。」、第 14／15 則沒有 altIntern）"
+    },
+    {
+     "sha": "ee689cfb8",
+     "note": "被 033b5150a 取代（芷若 life 第 5 階 state 還寫「試譯、拿到第一筆稿費」）"
     }
    ]
   },
@@ -4992,12 +5000,12 @@
   },
   {
    "path": "docs/story_planning/AA_720_decide_opened_scenes.json",
-   "sha": "4f37a68bb",
+   "sha": "ee689cfb8",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-08 01:39 AA_720 第一批）；3e9cc0385（AA-B 11-08 第二批：endings 尾聲七位照 DECIDE 各最多一句＋confFail）；4f37a68bb（AA-B 11-08 quietMove：SIS1-QUIET-LIB-1108 學姊第 6 拍在總圖安靜區＝走到樓梯間再演）",
+   "approvedBy": "AA-B D109（11-08 01:39 AA_720 第一批）；3e9cc0385（AA-B 11-08 第二批：endings 尾聲七位照 DECIDE 各最多一句＋confFail）；4f37a68bb（AA-B 11-08 quietMove：SIS1-QUIET-LIB-1108 學姊第 6 拍在總圖安靜區＝走到樓梯間再演）；ee689cfb8（AA-B 11-08 02:4x wiringAnswers：回 LAWWW-B 02:39 十二點＋沒做的三件——ps_result 改 09:58 先傳兩則、原本照演；可昕 waited 之後兩天的短回覆 kx_waited_after；子晴 1/9 demo intern 版 demoJan9＋動態說明）",
    "task": "AA720-DECIDE-OPENED-1108",
    "kind": "json",
-   "note": "決定拍打開的 19 場（events：invite／plan／scene／opts／end／missed）＋zr_letters、zr_call、zq_intern、ps_result、kx_quiet、kx_eat、kx_slot＋endings＋quietMove；tools/story/import_aa720.py → src/data/aa720.js（AA720），播放 src/aa720_3d.js",
+   "note": "決定拍打開的 19 場（events：invite／plan／scene／opts／end／missed）＋zr_letters、zr_call、zq_intern、ps_result、kx_quiet、kx_eat、kx_slot＋endings＋quietMove；tools/story/import_aa720.py → src/data/aa720.js（AA720），播放 src/aa720_3d.js；ee689cfb8 起多 kx_waited_after、wiringAnswers（AA720-WIRING-1108）",
    "history": [
     {
      "sha": "963afea74",
@@ -5006,6 +5014,10 @@
     {
      "sha": "3e9cc0385",
      "note": "被 4f37a68bb 取代（沒有 quietMove）"
+    },
+    {
+     "sha": "4f37a68bb",
+     "note": "被 ee689cfb8 取代（沒有 wiringAnswers、kx_waited_after、zq_intern.demoJan9；ps_result 還是 10:00 三則＋三個選項）"
     }
    ]
   }

@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_aa720.py（docs/story_planning/AA_720_decide_opened_scenes.json@4f37a68bb）。不要手改，改企劃 AA_720 再重新匯入。
+/* 自動產生：tools/story/import_aa720.py（docs/story_planning/AA_720_decide_opened_scenes.json@ee689cfb8）。不要手改，改企劃 AA_720 再重新匯入。
    決定拍打開的場景、尾聲分版本（播放 src/aa720_3d.js）*/
 'use strict';
 const AA720={
- "src": "docs/story_planning/AA_720_decide_opened_scenes.json@4f37a68bb",
+ "src": "docs/story_planning/AA_720_decide_opened_scenes.json@ee689cfb8",
  "data": {
   "events": {
    "ev_an_expo_together": {
@@ -2378,48 +2378,33 @@ const AA720={
     "week5": "大二上第 5 週那則動態（AA_505：「第二關的地圖，還是灰色的」）：intern 版＝「截圖：第一關的地圖，還是灰色的」；選項「灰的？」→「顏色最後上」照舊；第二個選項換「第二關呢？」→「還沒」「延長實習的錯」",
     "jan9": "1/9 那則（AA_505：「第三關，一隻貓站在一座橋上」）與資工系館 demo：intern 版是第二關，畫面照 ZQ-2 的值——shop＝「一間五金行，鐵門拉起來一半」、tainan＝「一條很窄的巷子，兩邊都是紅磚牆」、cat＝「一隻貓走在溫州街上」；選項「好漂亮。」→「第二關。比第一關難」"
    },
-   "rot": "AA_717 子晴輪換句用到「暑假」「實習」「第一關」的，intern 版照上面的 life 讀；寫到「爸爸生氣」的（ev_zq_dad_angry 之後）intern 版不出"
+   "rot": "AA_717 子晴 rot 第 14、15 則加了 altIntern（第 14＝暑假實習、第 15＝延長實習辭掉前／後兩句）；第 13 則每一版都改字（「第一關的畫面做出來了。還不能玩。」）。ZQ_PL_CAT_CO 關掉照你。",
+   "demoJan9": {
+    "where": "1/9 資工系館 demo 那一場「第三關。橋是新的。」那一句（LAWWW-B 02:39 沒做的第 3 件）",
+    "intern": {
+     "shop": "第二關。五金行是新的。",
+     "tainan": "第二關。巷子是新的。",
+     "cat": "第二關。貓會自己找路了。",
+     "default": "第二關。貓會自己找路了。"
+    },
+    "captions": {
+     "zq1c": "第一關",
+     "zq4c": "第二關"
+    },
+    "note": "zq1c／zq4c 動態的說明文字 intern 版照上面；圖和選項照你已接的"
+   }
   },
   "ps_result": {
    "who": "classmate_peishan",
    "key": "PS-2",
    "if": "dec:classmate_peishan.tell=before",
-   "at": "2027-08-06 10:00（放榜）",
+   "at": "2027-08-06 09:58（psresults3d.js 原本 10:00「你現在在哪？」之前）",
    "msgs": [
     "上了。",
-    "台南。教育系。",
-    "……我可以打給你嗎？"
+    "台南。教育系。"
    ],
-   "opts": [
-    {
-     "t": "我打給妳。",
-     "say": [
-      "（電話一接通，她就哭了。哭完，她說：「我要當老師了。」）"
-     ],
-     "rel": {
-      "npcRom": 2
-     }
-    },
-    {
-     "t": "恭喜！",
-     "say": [
-      "嗯！！",
-      "……打給你喔。",
-      "（她打來，講到一半又哭了一次。）"
-     ],
-     "rel": {
-      "comf": 2
-     }
-    },
-    {
-     "t": "等一下，我在忙。",
-     "say": [
-      "好～",
-      "（晚上九點，她又傳了一次：「現在可以嗎？」）"
-     ]
-    }
-   ],
-   "note": "交往中原本的 8/6 那則（如果有）before 版換成這三則；after 版照原本。"
+   "rule": "只加這兩則（不用回、沒有選項）；10:00「你現在在哪？」、10:02 客運兩則、12:00 總圖台階照原本全部照演。「放榜那天，我先傳給你。」＝她先傳結果，再來找你。",
+   "note": "AA-B 11-08 改（LAWWW-B 02:39 第 2 點）：原本這裡寫的「……我可以打給你嗎？」＋三個選項作廢，和原本 12:00 見面撞。"
   },
   "kx_quiet": {
    "who": "kexin",
@@ -2828,6 +2813,17 @@ const AA720={
     "note": "演完回到原本的座位（不換場景）；這一拍的 decide（SIS-1）照常記，before 2026-01-31 不變。"
    },
    "general": "其他女主角 quietOk:false 的拍，如果那段時間只約得到總圖，也可以照這個做法：開頭兩句（她起身、比樓梯間）＋原稿第一句的旁白換成樓梯間的版本＋結尾一句回座位；要用的時候 LAWWW 列給 AA，AA 一拍一拍寫那兩句，不用通用句。"
+  },
+  "kx_waited_after": {
+   "rule": "ev_kx_waited 演完（或沒來）以後兩天，她回訊息的那一句換成下面輪流（照順序，用完從頭）；第三天起照常（LAWWW-B 02:39 沒做的第 2 件）。",
+   "lines": [
+    "嗯。",
+    "好。",
+    "知道了。",
+    "……嗯。",
+    "再說。",
+    "喔。"
+   ]
   }
  },
  "cfg": {
@@ -2851,7 +2847,9 @@ const AA720={
    "zqJ9Cm": "好漂亮。",
    "zqJ9CmR": "第二關。比第一關難",
    "zqJ9Orig": "第三關，一隻貓站在一座橋上",
-   "zqW5Orig": "第二關的地圖，還是灰色的"
+   "zqW5Orig": "第二關的地圖，還是灰色的",
+   "zqDemoOrig": "第三關。橋是新的。",
+   "zrLetter4Video": "二十五號晚上視訊。時間寫在這裡，你不要忘記。"
   },
   "bg": {
    "ev_an_expo_together": "boya_lecture_hall",

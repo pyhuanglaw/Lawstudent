@@ -1205,5 +1205,12 @@ const DECIDE_RULES={
    "closes": {},
    "keyNote": "（她把行程表推到你面前，等你看。）"
   }
- ]
+ ],
+ "afterQ": {
+  "anExpoFirst": "說明會的資料四十頁，我讀完了。你那天坐我旁邊，第三頁的時候睡著了。",
+  "anPlane": "我上飛機了。",
+  "zrScholarHalf": "獎學金拿到一半。",
+  "zqTbShop": "你說的五金行，我放在第二關的角落。不是因為你說的。",
+  "zqTbTainan": "第二關有一條巷子。我沒去過台南，照你說的畫。"
+ }
 };

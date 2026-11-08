@@ -6,6 +6,7 @@
   這裡逐項核對稿上的字還是那樣（日期、時間、句子），稿改了就停下來，不猜。
 - 寫在說明文字裡的句子（「……你要來嗎？」「這週你有出現。」、E07 多的那一句……）照 QUOTES 抽出來，核對稿上真的有「那一句」。
 - quietMove（4f37a68bb）：replaceFirst.from 要是 AA_712 學姊第 6 拍（src/data/heroine_arcs.js）現在的第一句。
+- ee689cfb8（AA720-WIRING-1108）：kx_waited_after（等了一個小時以後兩天的短回覆）、zq_intern.demoJan9（1/9 demo intern 版）進遊戲；wiringAnswers 是 AA 回 LAWWW 的說明，不進遊戲（第四封信那一句照 QUOTES 抽）。
 - 背景（BG）：要在 OUT.BG（src/outings3d.js）；沒有 3D、也沒有圖的用 dark（稿 _meta.format：沒有 3D 的用 background 暗底）。
 白名單照 import_guard。用法：python3 tools/story/import_aa720.py [--ref <commit>] [--check]"""
 import json, os, re, subprocess, sys
@@ -45,7 +46,9 @@ AT = [
     ('events.ev_kx_mock_interview.plan.day', 'say 那天以後第一個週四'), ('events.ev_kx_mock_interview.result.at', 'plan 那天＋5 天 17:00'),
     ('events.ev_kx_waited.when', '決定那天的下一個學期第 3 週週六'), ('events.ev_kx_waited.ask.at', '那週六 10:00'), ('events.ev_kx_waited.showUp.cond', '16:15 以前到公館捷運站'), ('events.ev_kx_waited.late.at', '17:00（16:15 還沒到）'),
     ('zr_call.rule', '2027-09-07～2028-02-11，每週二、週五 22:25'),
-    ('ps_result.at', '2027-08-06 10:00'),
+    ('ps_result.at', '2027-08-06 09:58'), ('ps_result.rule', '只加這兩則（不用回、沒有選項）'),   # ee689cfb8：先傳兩則，psresults3d.js 原本 10:00 起的全部照演
+    ('kx_waited_after.rule', 'ev_kx_waited 演完（或沒來）以後兩天，她回訊息的那一句換成下面輪流（照順序，用完從頭）；第三天起照常'),
+    ('zq_intern.demoJan9.where', '1/9 資工系館 demo 那一場「第三關。橋是新的。」那一句'),
     ('kx_quiet.at', '決定那天＋8 天 21:00'),
     ('kx_eat.plan.day', '決定那天'), ('kx_eat.plan.h', '現在＋1 小時（最晚 21:00）'),
     ('kx_slot.wed.slot', '週三 19:00～22:00'), ('kx_slot.wed.ask.at', '每週三 18:00'), ('kx_slot.sat.slot', '週六 13:00～17:00'), ('kx_slot.sat.ask.at', '每週六 11:00'),
@@ -72,6 +75,8 @@ QUOTES = {
     'zqJ9CmR': ('zq_intern.y2s1Moments.jan9', '第二關。比第一關難'),
     'zqJ9Orig': ('zq_intern.y2s1Moments.jan9', '第三關，一隻貓站在一座橋上'),
     'zqW5Orig': ('zq_intern.y2s1Moments.week5', '第二關的地圖，還是灰色的'),
+    'zqDemoOrig': ('zq_intern.demoJan9.where', '第三關。橋是新的。'),   # src/data/termend_lines.js C15.zq_demo 換掉的那一句（ee689cfb8）
+    'zrLetter4Video': ('wiringAnswers.6', '二十五號晚上視訊。時間寫在這裡，你不要忘記。'),   # 交往中＋信：第四封（第一封是送機那一封）最後加這一句、12/25 視訊照舊
 }
 # 那一場的背景：OUT.BG 的鍵（地點字幕照稿 plan.place）；dark＝沒有 3D、也沒有圖
 BG = {
@@ -185,7 +190,7 @@ def build(src, sha):
     for b in BLOCKS:
         if b not in src:
             raise SystemExit(f'AA_720 {b}：沒有')
-    extra = set(src) - set(BLOCKS) - {'_meta', 'events', 'endings', 'quietMove'}
+    extra = set(src) - set(BLOCKS) - {'_meta', 'events', 'endings', 'quietMove', 'kx_waited_after', 'wiringAnswers'}
     if extra:
         raise SystemExit(f'AA_720 多了不認得的區塊：{sorted(extra)}')
     for k, v in list(ev.items()) + [(b, src[b]) for b in BLOCKS]:
@@ -238,7 +243,17 @@ def build(src, sha):
             raise SystemExit('quietMove.sis_beat6.replaceFirst.from：和 AA_712 學姊第 6 拍（src/data/heroine_arcs.js）的第一句對不上')
         if not isinstance(rf.get('to'), str) or not rf['to'].strip():
             raise SystemExit('quietMove.sis_beat6.replaceFirst.to：要有字')
-    data = fix({k: v for k, v in src.items() if k != '_meta'})
+    ka = src.get('kx_waited_after')   # ee689cfb8：等了一個小時以後兩天，她回訊息照這幾句輪
+    if ka is not None:
+        lines(ka.get('lines'), 'kx_waited_after.lines')
+    dj = (src.get('zq_intern') or {}).get('demoJan9')   # ee689cfb8：1/9 demo intern 版（照 ZQ-2 的值）、動態的說明文字
+    if dj is not None:
+        if set((dj.get('intern') or {})) != {'shop', 'tainan', 'cat', 'default'} or not all(isinstance(t, str) and t.strip() for t in dj['intern'].values()):
+            raise SystemExit('zq_intern.demoJan9.intern：要有 shop／tainan／cat／default 四句')
+        if set((dj.get('captions') or {})) != {'zq1c', 'zq4c'}:
+            raise SystemExit('zq_intern.demoJan9.captions：要有 zq1c、zq4c')
+    # wiringAnswers＝AA 回 LAWWW 的十二點（說明，不是台詞）：不進遊戲；要演的句子照 QUOTES 抽出來
+    data = fix({k: v for k, v in src.items() if k not in ('_meta', 'wiringAnswers')})
     return {'src': f'{PATH}@{sha}', 'data': data, 'cfg': {'quotes': q, 'bg': BG, 'endIf': end_if}}
 
 

@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_arc_rot.py（docs/story_planning/AA_717_rot_life.json@963afea74）。不要手改，改企劃 AA_717 再重新匯入。
+/* 自動產生：tools/story/import_arc_rot.py（docs/story_planning/AA_717_rot_life.json@033b5150a）。不要手改，改企劃 AA_717 再重新匯入。
    輪換句跟著日期和故事走、她的生活（BB_305 第 5、6 節；播放 src/arcs3d.js ARCS.rotPick）*/
 'use strict';
 const ARC_ROT={
- "src": "docs/story_planning/AA_717_rot_life.json@963afea74",
+ "src": "docs/story_planning/AA_717_rot_life.json@033b5150a",
  "rot": {
   "heroine_01": [
    {
@@ -489,8 +489,8 @@ const ARC_ROT={
    },
    {
     "lines": [
-     "第一關做好了。",
-     "我自己玩了二十次，每次都死在同一個地方。"
+     "第一關的畫面做出來了。還不能玩。",
+     "我自己按了很多次，每次都卡在同一個地方。"
     ],
     "life": 3,
     "lifeMax": 3
@@ -501,7 +501,18 @@ const ARC_ROT={
      "公司叫貓，老闆是我。"
     ],
     "life": 4,
-    "lifeMax": 4
+    "lifeMax": 4,
+    "altIntern": [
+     {
+      "if": [
+       "dec:heroine_04.summer=intern"
+      ],
+      "lines": [
+       "暑假我在我爸介紹的公司實習。測試組。",
+       "午休的時候，我在寫第一關。"
+      ]
+     }
+    ]
    },
    {
     "lines": [
@@ -509,7 +520,29 @@ const ARC_ROT={
      "實驗室找我，我說不要。"
     ],
     "life": 5,
-    "lifeMax": 5
+    "lifeMax": 5,
+    "altIntern": [
+     {
+      "if": [
+       "dec:heroine_04.summer=intern",
+       "!zqQuitIntern"
+      ],
+      "lines": [
+       "實習延長到學期中，每週兩天。",
+       "第一關還沒做完。午休寫不完。"
+      ]
+     },
+     {
+      "if": [
+       "dec:heroine_04.summer=intern",
+       "zqQuitIntern"
+      ],
+      "lines": [
+       "延長的實習我辭掉了。",
+       "第一關十一月做好。第二關一月要 demo。"
+      ]
+     }
+    ]
    },
    {
     "lines": [
@@ -1022,7 +1055,7 @@ const ARC_ROT={
    {
     "s": 5,
     "from": "2026-09-16",
-    "state": "外文三，帶新人；試譯、拿到第一筆稿費"
+    "state": "外文三，帶新人；開始接試譯"
    },
    {
     "s": 6,

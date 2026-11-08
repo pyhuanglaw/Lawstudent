@@ -21,6 +21,15 @@ SPECIAL = {
     'PS-2': {'ruleIf': {0: ['dec:classmate_peishan.future=seen', 'dating']}},   # 第一條還要 future=seen、而且和沛珊交往中（963afea74 ruleIf；使用者 11-07 Q4「可以 但前提是有交往」）；沒交往一律 after（AA_723 B）
     'SIS-2': {'if': None},   # 只影響那一拍說「我妹」或 Alison（AA_712 alt），規則照常
 }
+# after 裡要演出來的句子（AA_720 wiringAnswers.afterLines，ee689cfb8：「字都在 AA_719 after，下一批照那裡接，不用 AA 另寫」）：名字 → (key id, after 的哪一個值, 句子)；核對稿上有「句子」
+# 播放：src/aa720_3d.js（DECIDE_RULES.afterQ）
+AFTER_Q = {
+    'anExpoFirst': ('AN-1', 'first', '說明會的資料四十頁，我讀完了。你那天坐我旁邊，第三頁的時候睡著了。'),   # aa555 y2s2_an_expo 那則換這句
+    'anPlane': ('AN-2', 'alone', '我上飛機了。'),   # 出國那天只有這一則
+    'zrScholarHalf': ('ZR-1', 'scholar', '獎學金拿到一半。'),   # 2027-05 錄取那則多一句
+    'zqTbShop': ('ZQ-2', 'all', '你說的五金行，我放在第二關的角落。不是因為你說的。'),   # 2028-03-08 測試版那一場（AA_400）
+    'zqTbTainan': ('ZQ-2', 'all', '第二關有一條巷子。我沒去過台南，照你說的畫。'),
+}
 
 
 def git(*a):
@@ -88,7 +97,14 @@ def build(src, sha):
                 raise SystemExit(f'{w}.revealAt「{v["revealAt"]}」：要 YYYY-MM-DD HH:MM')
             e['revealAt'] = {'day': m.group(1), 'h': int(m.group(2)) + int(m.group(3)) / 60}   # 結果要等到那天才說（取代 delay）
         out.append(e)
-    return {'src': f'{PATH}@{sha}', 'keys': out}
+    by = {v['id']: v for v in src['keys']}
+    aq = {}
+    for name, (kid, val, t) in AFTER_Q.items():
+        x = ((by.get(kid) or {}).get('after') or {}).get(val)
+        if not isinstance(x, str) or '「' + t + '」' not in x:
+            raise SystemExit(f'AA_719 {kid}.after.{val}：找不到「{t}」')
+        aq[name] = IG.read_fix(t)
+    return {'src': f'{PATH}@{sha}', 'keys': out, 'afterQ': aq}
 
 
 def main():

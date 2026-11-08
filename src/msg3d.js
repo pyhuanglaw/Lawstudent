@@ -171,6 +171,7 @@ const MSG=(function(){
   /* 不在回覆池的人，由她自己的模組決定能不能傳、有哪些話題、回什麼（SHOP-ENCOUNTER-1103：宋知寧，AA_641 第 2 節「回了也只回一句」，src/shopenc3d.js）：
      S.EXTRA[id]＝{open(G)→{ok,why}, topics(G)→[{k,t}], reply(G,topic,sub)→她回的那一句, at(G)→{day,h}（沒寫＝S.replyAt）}。祐廷傳的字照舊（S.playerText）；熟悉度不加（她不在 SOCIAL 裡）*/
   S.EXTRA={};
+  S.REPLY_OVERRIDE=[];   /* (G,id,topic)→她回的那一句（有＝整個回覆只有這一句，照 replyAt 的時間）；null＝照原本（S.send）*/
   /* 這個人現在有哪些話題 */
   S.topics=function(G,id){ const o=S.open(G,id); if(!o.ok) return []; if(S.EXTRA[id]&&S.EXTRA[id].topics) return S.EXTRA[id].topics(G); const t=T(G), h=G.hour%24, tier=S.tier(G,id), out=[];
     if(o.mode==='y0'){ const L=S.y0Pool(G); for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&h<21.5&&h>=5) continue; if(L.some(e=>q.k==='share'?/^share/.test(e.topic):e.topic===q.k)) out.push(q); } return out; }   /* 經濟系那一年的可昕（AA_301）*/
@@ -457,6 +458,8 @@ const MSG=(function(){
     if(topic==='bday') R.bday[id+':'+calY(G)]=G.day;   /* 沛珊放榜那天（2027-08-06）看 3/15 有沒有傳過（AA_257 §4 表下註）*/
     { const X=S.EXTRA[id]; if(X&&X.reply){ const at=X.at?X.at(G):S.replyAt(G,id), t=X.reply(G,topic,sub); if(t&&typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,[{th,from:id,name:X.name,text:t}],null); return {ok:true,text,at}; } }   /* 宋知寧（S.EXTRA）：只回一句 */
     if(o.mode==='silent') return {ok:true,silent:true,text};   /* 沛珊重考消失期：已送達、不回（BB_178 0-1）*/
+    for(const f of S.REPLY_OVERRIDE){ let t=null; try{ t=f(G,id,topic); }catch(e){ console.warn('MSG.REPLY_OVERRIDE',e); } if(!t) continue;   /* 她這幾天只回一句（AA_720 kx_waited_after：可昕等了一個小時以後兩天，src/aa720_3d.js）*/
+      const at=S.replyAt(G,id); if(typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,[{th,from:id,text:t}],null); if(W.n<=3&&typeof SOCIAL!=='undefined'&&SOCIAL.activity&&id!=='kevin') SOCIAL.activity(id,'msg'); return {ok:true,text,at,override:t}; }
     if(id==='heroine_05'&&typeof V6EX!=='undefined'&&V6EX.sisExMsg&&V6EX.noContact(G,id)){ const n=V6EX.sisExMsg(G,topic), at=S.replyAt(G,id);   /* AA_600 S8（企劃線 031414cad）：前任的學姊——第 1、2 則已讀不回；第 3 則才回最短的一句（「嗯。」「好。」「謝謝。」），回完計數歸零 */
       if(typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,[n<3?{th,text:V6EX.SIS_EX_READ}:{th,from:id,text:V6EX.sisExShort(topic)}],null);
       return n<3?{ok:true,exRead:true,text,at}:{ok:true,exShort:V6EX.sisExShort(topic),text,at}; }
