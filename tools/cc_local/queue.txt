@@ -1471,6 +1471,7 @@ CC_v0_start_9e0f_2 | 9e0ffabce61c839fb8c720c16229400b36305a22 | game | tests/flo
 CC_v0_start_9e0f_3 | 9e0ffabce61c839fb8c720c16229400b36305a22 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 #   BB-B 05:44 R8B6_mini：8b6c 指路箭頭蓋住出入口方塊＝測試前提變了；CC 版關掉指路，要 ALL PASS
 CC_mini_noguide_8b6c | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | probe | docs/story_planning/test_tools/cc/cc_minimap_noguide.py | index.html?turbo | 20 | CC_HEADLESS=0
+R_mini_fixed_e9adf6ac | e9adf6ac579cb5c4e978e67f433d2d41f31d2c97 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
 #   BB-B 05:26（11-08）經濟系兩支 flow 的 CC 版（探針修好：v0_to1017 走到床邊手機開著先關、v0_tolaw 拿掉在家選單、從讀檔開始收台詞），最新 head e86f402e3
 CC_v0_to1017_e86f | e86f402e3daf9515216b5bb5b032e1844dba8f94 | probe | docs/story_planning/test_tools/cc/cc_flow_v0_to1017.py | index.html | 90 | CC_HEADLESS=0
 CC_v0_tolaw_e86f | e86f402e3daf9515216b5bb5b032e1844dba8f94 | probe | docs/story_planning/test_tools/cc/cc_flow_v0_tolaw.py | index.html | 60 | CC_HEADLESS=0
