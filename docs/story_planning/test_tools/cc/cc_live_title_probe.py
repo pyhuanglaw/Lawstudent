@@ -22,6 +22,11 @@ async def main():
           const c=document.createElement('canvas'), gl=c.getContext('webgl2')||c.getContext('webgl'); const e=gl&&gl.getExtension('WEBGL_debug_renderer_info');
           return {ver, nV:n, vValues:vs, renderer:e?gl.getParameter(e.UNMASKED_RENDERER_WEBGL):null, url:location.href}; })()""")
         await pg.screenshot(path=os.path.join(OUT, 'live_title.png'))
+        try:   # 版本字樣在橫向 844×390 會被裁掉（11-09 第一次）：捲到那一行、整頁、另外直向各一張
+            await pg.evaluate("(()=>{ const t=document.getElementById('titleScreen'); const el=[...(t?t.querySelectorAll('*'):[])].reverse().find(e=>/版本|v9\\./.test(e.textContent||'')&&e.children.length===0); if(el) el.scrollIntoView({block:'center'}); })()")
+            await pg.wait_for_timeout(500); await pg.screenshot(path=os.path.join(OUT, 'live_title_ver.png'), full_page=True)
+            await pg.set_viewport_size({'width': 390, 'height': 844}); await pg.wait_for_timeout(1500); await pg.evaluate("(()=>{ const r=document.getElementById('rotate'); if(r&&getComputedStyle(r).display!=='none') r.click(); })()"); await pg.wait_for_timeout(1000); await pg.screenshot(path=os.path.join(OUT, 'live_title_portrait.png'), full_page=True)
+        except Exception as e: print('extra shot failed', e, flush=True)
         print('LIVE TITLE %s' % json.dumps(info, ensure_ascii=False), flush=True)
         json.dump(info, open(os.path.join(OUT, 'live_title.json'), 'w'), ensure_ascii=False, indent=1)
         await b.close()
