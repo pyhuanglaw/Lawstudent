@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "P6_fps_mob_after",
+  "sha": "6da721819b8d351fe12e0b848ca7e06f52553819",
+  "kind": "probe",
+  "script": "tools/cc_local/fps_zones.py",
+  "env": "CPU_THROTTLE=4;ZONES=campus,wenzhou;SLOTS=day,night;SECS=15;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T09:22:23",
+  "end": "2026-11-08T09:28:26",
+  "seconds": 363,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 100,
+    "mem": 56,
+    "used_gb": 17.7,
+    "chrome_testing": 12
+  }
+}

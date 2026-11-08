@@ -525,3 +525,12 @@
 [09:24:41] ==== START P6_pin_wz2_base  (probe @ 6da721819b8d351fe12e0b848ca7e06f52553819) ====
 [09:24:44] [res] cpu=17% mem=46% (14.6/31.4 GB) chrome_testing=8  START P6_pin_wz2_base
 [09:26:47] [res] cpu=35% mem=49% (15.5/31.4 GB) chrome_testing=8  END P6_pin_wz2_base
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f4597af48..ef63de2c5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:26:52] ==== END   P6_pin_wz2_base  exit=0  126s   ====
+[09:26:56] memory 49% before starting P6_pin_wz2_pin (2 running)
+[09:26:56] ==== START P6_pin_wz2_pin  (probe @ 6da721819b8d351fe12e0b848ca7e06f52553819) ====
+[09:26:59] [res] cpu=33% mem=49% (15.7/31.4 GB) chrome_testing=8  START P6_pin_wz2_pin
+[09:27:31] 正在跑：P6_fps_mob_after（已跑 5 分／上限 30 分）、P6_fps_mob_f3（已跑 4 分／上限 30 分）、P6_pin_wz2_pin（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:28:26] [res] cpu=20% mem=47% (15.0/31.4 GB) chrome_testing=8  END P6_fps_mob_after

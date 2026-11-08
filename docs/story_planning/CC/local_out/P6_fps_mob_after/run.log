@@ -1,0 +1,8 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\fps_zones.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\P6_fps_mob_after\out
+CPU 降速 4 倍（手機模擬）
+OK   campus        day   avg 3.09 fps  1%low 0.63 fps  worst 1599.9 ms  n=47  zone=campus h=11.02 w=sunny q=medium draw=433 
+OK   campus        night avg 3.65 fps  1%low 0.61 fps  worst 1633.2 ms  n=55  zone=campus h=21.02 w=sunny q=medium draw=383 
+OK   wenzhou       day   avg 0.92 fps  1%low 0.16 fps  worst 6216.5 ms  n=14  zone=wenzhou h=11.02 w=sunny q=medium draw=431 
+OK   wenzhou       night avg 4.02 fps  1%low 2.07 fps  worst 483.4 ms  n=61  zone=wenzhou h=21.01 w=sunny q=medium draw=301 
+JS 例外 0 個
+ALL PASS（量測完成 4 格）
