@@ -62,7 +62,7 @@ async def run_mode(pg, cdp, mode, rec):
     ok = await pg.evaluate("(id=>{ const b=document.querySelector('[data-inv=\"'+id+'\"]'); if(!b) return false; b.scrollIntoView({block:'center'}); return true; })", WHO)
     if not R.check('%s 手機「朋友」有 %s 的「約」' % (tag, WHO), ok, ''): return
     await L.tap(pg, cdp, '[data-inv="%s"]' % WHO); await pg.wait_for_timeout(1200)
-    c0 = await drive(pg, cdp, ['念書', '總圖', '今天'])
+    c0 = await drive(pg, cdp, ['念書…', '總圖', '今天'])
     iv = await pg.evaluate(LEAD, WHO); R.note('%s 約：選項 %s；結果 %s' % (tag, J(c0), J(iv)))
     if not R.check('%s 約成總圖' % tag, bool(iv and iv['state'] == 'accepted' and iv['place'] == 'library'), J(iv)): return
     await pg.evaluate("GAME.closePhone&&GAME.closePhone()")
