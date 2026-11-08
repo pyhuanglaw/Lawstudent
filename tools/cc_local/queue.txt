@@ -1705,3 +1705,9 @@ R9526f_mini | 9526bf100b2be394f2618be8100d5f0e25540ea9 | game | tests/minimap_di
 R9526f_v0_start | 9526bf100b2be394f2618be8100d5f0e25540ea9 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R9526f_v0_to1017 | 9526bf100b2be394f2618be8100d5f0e25540ea9 | game | tests/flow_v0_to1017.py | index.html | 90 | XARGS={url} {out};CC_HEADLESS=0
 R9526f_movreg | 9526bf100b2be394f2618be8100d5f0e25540ea9 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
+R28f5_p0 | 28f5f5287c3c752ae62454d8f3e31e1ac4f254df | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+R28f5_reach | 28f5f5287c3c752ae62454d8f3e31e1ac4f254df | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
+R28f5_zone | 28f5f5287c3c752ae62454d8f3e31e1ac4f254df | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
+R28f5_mini | 28f5f5287c3c752ae62454d8f3e31e1ac4f254df | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+R28f5_main12 | 28f5f5287c3c752ae62454d8f3e31e1ac4f254df | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R28f5_classreal | 28f5f5287c3c752ae62454d8f3e31e1ac4f254df | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
