@@ -74,7 +74,7 @@ async def main():
                             av = await pg.evaluate(AUTO); R.note('%s 自動機位：%s' % (tag, J(av)))
                             views = [(k, v['eye'], v['look'], v['lens']) for k, v in av['views'].items()]
                             r['auto'] = av
-                        ex = [e.split('|') for e in (os.environ.get('EXTRA') or '').split(';') if e.count('|') == 4]   # EXTRA＝part|名字|ex,ey,ez|lx,ly,lz|lens;…（加拍的固定機位，例：總圖 B1 中庭往上看）
+                        ex = [e.split('|') for e in (os.environ.get('EXTRA') or '').split(';') if e.count('|') == 4] + [e.split('@') for e in (os.environ.get('EXTRA2') or '').split('/') if e.count('@') == 4]   # EXTRA2＝PC 佇列用（ENV 已經用 ; 和 | 分欄）：項目之間 /、欄位之間 @   # EXTRA＝part|名字|ex,ey,ez|lx,ly,lz|lens;…（加拍的固定機位，例：總圖 B1 中庭往上看）
                         xv = [(e[1], [float(v) for v in e[2].split(',')], [float(v) for v in e[3].split(',')], float(e[4])) for e in ex if e[0] == part]
                         for nm, eye, look, lens in list(views) + xv:
                             r[nm] = await D.user_shot(pg, cdp, 's5_%s_%s_%s_%s' % (TAG, part, tn, nm), {'eye': eye, 'look': look, 'lens': lens})
