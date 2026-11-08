@@ -74,6 +74,21 @@ async def drive(pg, cdp, tag, prefs, max_s=300, idle_end=8, shots=0):
 
 
 TEA = ['謝謝你的綠茶。', '最後一晚，我想一個人。……考完請你吃飯。']
+HOOK_DEC = r"""(()=>{ if(window.__decW) return 'already'; const tag='decide_say_heroine_05_exam'; window.__decLog=[];
+  const snap=why=>{ const G=GAME.G, P=PHONE.rec(G), ds=(G.flags.DECIDE_SAY||[]).find(q=>q.who==='heroine_05'&&q.key==='exam'); return {why, ms:Math.round(performance.now()), day:G.day, h:+(+G.hour).toFixed(3), played:ds?ds.played:null, byMsg:ds?!!ds.byMsg:null, expired:ds?!!ds.expired:null,
+    qTag:P.q.filter(q=>q.tag===tag).map(q=>[q.day,+(+q.h).toFixed(3),(q.items||[]).length]), qLen:P.q.length, sent:PHONE.sent(G,tag), msgs:(G.msgs||[]).length, got:(G.msgs||[]).filter(m=>m.tag===tag).length,
+    paused:!!GAME.E.paused, busy:!!GAME.E.player.busy, Dactive:!!(GAME.D&&GAME.D.active), busyDepth:GAME.D?GAME.D.busyDepth:null, sleeping:STORY._sleeping, zone:G.zone}; };
+  const orig=DECIDE.tick; const w=function(G){ const before=JSON.stringify((G.flags.DECIDE_SAY||[]).map(q=>q.played)); const r=orig.apply(this,arguments); const after=JSON.stringify((G.flags.DECIDE_SAY||[]).map(q=>q.played));
+    if(before!==after){ const e=snap('tick changed played'); e.stack=String(new Error().stack).split('\n').slice(2,9).map(x=>x.trim()).join(' | '); e.sameG=(G===GAME.G); window.__decLog.push(e); } return r; };
+  const i=STORY.PHONE_RULES.indexOf(orig); if(i>=0) STORY.PHONE_RULES[i]=w; DECIDE.tick=w;
+  let lastG=GAME.G, lastLen=(GAME.G.msgs||[]).length, lastMsgs=GAME.G.msgs, lastGot=0;
+  window.__decW=setInterval(()=>{ try{ const G=GAME.G, L=(G.msgs||[]).length, got=(G.msgs||[]).filter(m=>m.tag===tag).length;
+    if(G!==lastG) window.__decLog.push(snap('GAME.G 換了一個物件（讀檔？）'));
+    else if(G.msgs!==lastMsgs) window.__decLog.push(snap('G.msgs 換了一個陣列'));
+    else if(L<lastLen) window.__decLog.push(snap('G.msgs 變短 '+lastLen+'→'+L));
+    if(got!==lastGot) window.__decLog.push(snap('那兩句數量 '+lastGot+'→'+got));
+    lastG=G; lastLen=L; lastMsgs=G.msgs; lastGot=got; }catch(e){} },200);
+  return 'hooked@'+i; })()"""
 QS = r"""(()=>{ const G=GAME.G, tag='decide_say_heroine_05_exam', P=PHONE.rec(G); return {q:P.q.filter(q=>q.tag===tag).map(q=>({day:q.day,h:q.h,n:(q.items||[]).length})), qAll:P.q.length, sent:PHONE.sent(G,tag), anyTag:(G.msgs||[]).filter(m=>m.tag===tag).length, paused:!!GAME.E.paused}; })()"""
 MSGS = "(id=>(GAME.G.msgs||[]).filter(m=>m.th==='p:'+id||m.from===id).map(m=>({text:m.text, day:m.day, h:m.h, tag:m.tag||null})))"
 
@@ -130,6 +145,7 @@ async def follow(pg, cdp, tag, rec):
     x = await pg.evaluate("(id=>JSON.parse(JSON.stringify((GAME.G.flags.DECIDE_SAY||[]).find(q=>q.who===id&&q.key==='exam')||null)))", SIS)
     R.note('%s FOLLOW 開始：DECIDE_SAY %s' % (tag, J(x)))
     if not x: return
+    R.note('%s 掛 DECIDE.tick 監看（LAWWW-B 08:29：played 變的那一刻記佇列、sent、時間、呼叫路徑；G／G.msgs 被換掉或變短）：%s' % (tag, await pg.evaluate(HOOK_DEC)))
     out = {}
     ok = await sleep_once(pg, cdp, tag + ' 第 1 晚')
     ok = await wait_until(pg, cdp, x['due'], 21.5) and ok
@@ -144,6 +160,7 @@ async def follow(pg, cdp, tag, rec):
     await wait_until(pg, cdp, x['due'] + 3, 12.0, max_s=900)
     await L.close_panels(pg, cdp); await pg.wait_for_timeout(10000)   # 跳過時間以後讓遊戲自己跑一下（手機規則、PHONE.tick）再看
     R.note('%s due+3 手機佇列／sent：%s' % (tag, J(await pg.evaluate(QS))))
+    R.note('%s due+3 當下 DECIDE 監看紀錄：%s' % (tag, J(await pg.evaluate("window.__decLog||[]"))))
     m2 = await pg.evaluate(MSGS, SIS); c2 = {t: sum(1 for m in m2 if m['text'] == t) for t in TEA}
     st = await pg.evaluate("(id=>JSON.parse(JSON.stringify((GAME.G.flags.DECIDE_SAY||[]).find(q=>q.who===id&&q.key==='exam')||null)))", SIS)
     R.note('%s %s %.2f（due+3 以後）：那兩句次數 %s；DECIDE_SAY %s；學姊那一串最後 4 則 %s' % (tag, await pg.evaluate("CALENDAR.dateOf(GAME.G.day).key"), await pg.evaluate("+GAME.G.hour"), J(c2), J(st), J(m2[-4:])))
@@ -158,6 +175,7 @@ async def follow(pg, cdp, tag, rec):
     m3 = await pg.evaluate(MSGS, SIS); c3 = {t: sum(1 for m in m3 if m['text'] == t) for t in TEA}
     R.check('%s 再過一天（%s）不重送：那兩句仍各一次' % (tag, await pg.evaluate("CALENDAR.dateOf(GAME.G.day).key")), all(c3[t] == 1 for t in TEA), J(c3))
     out['next'] = {'count': c3}
+    dl = await pg.evaluate("window.__decLog||[]"); R.note('%s DECIDE 監看紀錄（%d 筆）：%s' % (tag, len(dl), J(dl))); out['declog'] = dl
     rec['follow'] = out
 
 
@@ -165,12 +183,14 @@ async def expire(pg, cdp, tag, rec):
     """舊存檔過期（BB-B 07:42 1b）：A 演完、DECIDE_SAY 還沒送 →【捷徑】直接跳到 due+11，等遊戲裡手機規則自己跑（站著等 1 小時遊戲時間）"""
     x = await pg.evaluate("(id=>JSON.parse(JSON.stringify((GAME.G.flags.DECIDE_SAY||[]).find(q=>q.who===id&&q.key==='exam')||null)))", SIS)
     R.note('%s EXPIRE 開始：DECIDE_SAY %s' % (tag, J(x)))
+    R.note('%s 掛 DECIDE.tick 監看：%s' % (tag, await pg.evaluate(HOOK_DEC)))
     if not R.check('%s 演完時 DECIDE_SAY 還沒送' % tag, bool(x) and not x.get('played'), J(x)): return
     R.setup('%s 【前置／捷徑】G.day 直接跳到 due+11（day %d）10:00，weekday 跟著加' % (tag, x['due'] + 11))
     await pg.evaluate("(d=>{ const G=GAME.G; G.weekday=((G.weekday+(d-G.day))%7+7)%7; G.day=d; G.hour=10; })", x['due'] + 11)
     await wait_until(pg, cdp, x['due'] + 11, 11.5, max_s=900)
     await L.close_panels(pg, cdp); await pg.wait_for_timeout(10000)   # 跳過時間以後讓遊戲自己跑一下再看
     R.note('%s 手機佇列／sent：%s' % (tag, J(await pg.evaluate(QS))))
+    R.note('%s DECIDE 監看紀錄：%s' % (tag, J(await pg.evaluate("window.__decLog||[]"))))
     m = await pg.evaluate(MSGS, SIS); c = {t: sum(1 for q in m if q['text'] == t) for t in TEA}
     st = await pg.evaluate("(id=>JSON.parse(JSON.stringify((GAME.G.flags.DECIDE_SAY||[]).find(q=>q.who===id&&q.key==='exam')||null)))", SIS)
     R.note('%s %s %.2f：那兩句次數 %s；DECIDE_SAY %s' % (tag, await pg.evaluate("CALENDAR.dateOf(GAME.G.day).key"), await pg.evaluate("+GAME.G.hour"), J(c), J(st)))
