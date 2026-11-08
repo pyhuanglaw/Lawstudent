@@ -175,8 +175,11 @@ const STORY = (function(){
   S.newGameEcon=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; if(GM.chooseReset) GM.chooseReset(); GM.hideHUD(false); const d=S.y0Day1(); if(d==null) return null;
     G.stage='econ'; G.day=d; G.flags.LIFELINE_V=1; G.weekday=CALENDAR.dateOf(d).wd%7; G.hour=21; G.flags.fundsV2=1; G.flags.allowanceMonth=S.dateOf(d).m; G.flags.dating_kexin=false; G.flags.KX_FIRST_MSG=true; G.zone='dorm'; E.hour=G.hour; G.weather='clear'; E.setWeather('clear');
     if(o.camp!==false&&!(typeof location!=='undefined'&&/[?&]y0nocamp\b/.test(location.search||''))){ G.flags.ECON_CAMP_OPEN=true; await S.econCampPrologue(GM); G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; G.hour=21; E.hour=G.hour; G.flags.allowanceMonth=S.dateOf(d).m; }   /* 第 7 組：新局一律先演 8/23～25 宿營（?y0 的開發按鈕也一樣；?y0nocamp＝舊的 9/1 起點，測試用）*/
-    await GM.fade(true); if(GM.titleCard) await GM.titleCard('2024 年 9 月 1 日（日）','開學前一天',2000);   /* AA_168 第 1 節：黑底白字 2 秒 */
-    await GM.enter('dorm',{x:-0.5,z:0.5,yaw:Math.PI},{}); await y0FirstNight(GM); };
+    /* 字卡到進房間這一段鎖住（BUG-Y0-E01-UNDER-CARD-1108，BB-B 11-08 05:26）：宿營 finally 已經放開 busy、G.zone 早就是 dorm，
+       原本這 2.5 秒 S.y0Tick 會自己開 E01（對話框疊在黑幕上、點不到），接著這裡的 enter('dorm') 又在演到一半時重建房間。現在由這裡演完字卡、進房間以後自己開 E01 */
+    y0Gate=true; try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard('2024 年 9 月 1 日（日）','開學前一天',2000);   /* AA_168 第 1 節：黑底白字 2 秒 */
+      await GM.enter('dorm',{x:-0.5,z:0.5,yaw:Math.PI},{}); } finally { y0Gate=false; }
+    await y0FirstNight(GM); };
   /* 第 7 組 7-2：經濟系迎新宿營 2024-08-23～25（AA_224 第 7 組 @4e3a7c2b，AA 定稿）。回顧前三句 → 字卡 → 遊覽車上第一次見到可昕（二選一，E15_BUS）→ CG＋E15 的三句旁白 → 8/25 回家 → 21:00 小隊群組三則 → 開學前那一週一句旁白（接 9/1 E01）*/
   S.econCampPrologue=async function(GM){ const G=GM.G, F=G.flags, E=GM.E; const d0=S.dayOfKey('2024-08-23'); if(d0==null) return false;
     await S.recap(GM,S.LAW_START_RECAP.slice(0,3),{keep:true});   /* X09（BUG-CAMP-CUT-1018，使用者 10-18「去宿營前一秒還在椰林大道」）：回顧完不關 2D，字卡疊在黑底上，不露出 3D */
@@ -245,15 +248,16 @@ const STORY = (function(){
     finally { GM.letterbox(false); GM.sceneEnd(); y0Busy=false; }
     if(night){ await sleepNow(GM,night==='sleep'?7:7+40/60); await y0Morning(GM); }   /* E02 開學典禮假設 09:00：典禮前 2 小時／1 小時 20 分 */
     return true; }
-  let y0Busy=false;
-  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['story3d:y0Busy']=()=>{ y0Busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
+  let y0Busy=false, y0Gate=false;   /* y0Gate：newGameEcon 字卡到進房間（S.y0Tick 不自己開）*/
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['story3d:y0Busy']=()=>{ y0Busy=false; y0Gate=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   async function y0Morning(GM){ const G=GM.G, F=G.flags; if(!S.isEcon(G)||!F.E01_NIGHT||F.E01_MORNING||y0Busy) return false; y0Busy=true; F.E01_MORNING=true;
     GM.sceneBegin(); try{ const n=GM.npc[XUN]||(()=>{ const st=dormSeat('R2'); return GM.spawnCharacter(XUN,st.x,st.z,{seat:st,pose:'sit'}); })(); const E=GM.E; if(n&&GM.cine) GM.cine('two',E.player.obj,n.obj); const who=xunWho(GM);
       const L=F.E01_NIGHT==='unpack'?['你拆到兩點。','你的鬧鐘響了兩次。它快七分鐘，我剛剛對過。']:['你昨天十點就睡了。','經原九點十分，在博思。'];
       for(const t of L) await GM.say(who,t); }
     finally { GM.sceneEnd(); y0Busy=false; } if(GM.autosave) GM.autosave(); return true; }
   /* 待在房間裡（S.tick）：E01 演到一半關掉遊戲 → 從頭演；起床那一句沒聽到（讀檔）→ 補；先睡的玩家 9/2 晚上回房間 → 箱子拆完那一句 */
-  S.y0Tick=function(GM){ const G=GM.G, F=G.flags, d1=S.y0Day1(); if(!S.isEcon(G)||G.zone!=='dorm'||y0Busy||GM.E.player.busy||(GM.D&&GM.D.active)) return false;
+  S.y0Tick=function(GM){ const G=GM.G, F=G.flags, d1=S.y0Day1(); if(y0Gate&&S.isEcon(G)) return true;   /* 開場字卡還沒收：房間裡的其他事也先不跑 */
+    if(!S.isEcon(G)||G.zone!=='dorm'||y0Busy||GM.E.player.busy||(GM.D&&GM.D.active)) return false;
     if(G.day===d1&&!F.E01_DONE){ y0FirstNight(GM); return true; }
     if(G.day===d1+1&&F.E01_NIGHT&&!F.E01_MORNING&&h(G)<12){ y0Morning(GM); return true; }
     if(F.E01_NIGHT&&!F.E01_BOXES&&!F.E412_MOVEIN&&(G.day>d1+1||(G.day===d1+1&&h(G)>=17))){ const box=F.E01_NIGHT==='sleep'; F.E01_BOXES=true; F.E412_MOVEIN=true; if(box) v0Box(GM,'none'); if(typeof SOCIAL!=='undefined'&&SOCIAL.meet){ SOCIAL.meet('econ_weilun','dorm'); SOCIAL.meet('econ_tangrui','dorm'); }   /* AA_543 2-3（CHAR-WHOIS-1030）：同房兩個月，搬進來那天就認識（原本沒有記 FIRST_MET，朋友清單裡沒有他們）*/  y0Busy=true; GM.sceneBegin();   /* 先睡的玩家：箱子拆完那一句；所有人：韋綸、唐睿 9/2 迎新以後搬進來（AA_208 第 3 節）*/

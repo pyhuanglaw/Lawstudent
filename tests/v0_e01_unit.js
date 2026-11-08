@@ -39,6 +39,14 @@ const XUN='econ_zhengxun';
   if(fails){ console.log('FAILED '+fails); process.exit(1); }
   const Y0=STORY.y0Day1();
   const start=async(pk)=>{ fresh(Y0,21,'dorm',{}); G.flags={}; G.stage='law'; cards.length=0; picks=pk.slice(); await STORY.newGameEcon(GM,{camp:false}); return lines(); };   /* 舊的 9/1 起點（第 7 組以前的開發局；宿營版另測 v0_g7_unit）*/
+  /* BUG-Y0-E01-UNDER-CARD-1108（BB-B 11-08 05:26）：字卡還在的時候 S.tick 照跑——E01 不能自己開（原本對話框疊在黑幕上、點不到）；進房間以後由 newGameEcon 開、只演一次 */
+  { const tc=GM.titleCard, en=GM.enter, seq=[]; let tickOn=null, tickIn=null;
+    GM.titleCard=async(a,b)=>{ if(tickOn===null){ seq.push('card'); tickOn=STORY.y0Tick(GM); seq.push('said:'+said.length); } return tc(a,b); };   /* 只看開場那一張（E01 裡面換日的字卡不算）*/
+    GM.enter=async(z,p,o)=>{ const first=tickIn===null; if(first) seq.push('enter'); const r=await en(z,p,o); if(first){ tickIn=STORY.y0Tick(GM); seq.push('said:'+said.length); } return r; };
+    try{ const L=await start(['怎麼知道','先睡']);
+      check('0. 開場字卡期間跑 S.y0Tick：E01 沒有開（字卡時、進房間那一刻都還沒有一句）；字卡收起來、進房間以後 E01 才從第一句演、演一次',seq.join()==='card,said:0,enter,said:0'&&tickOn===true&&tickIn===true&&L[0]==='開學前一天，晚上九點。男生宿舍四樓，四一二。'&&L.filter(t=>t==='開學前一天，晚上九點。男生宿舍四樓，四一二。').length===1&&G.flags.E01_DONE===true,JSON.stringify({seq,tickOn,tickIn,L0:L[0]}));
+      check('0. 演完以後 y0Tick 照常（9/1 E01 已經演過、不會再開）',STORY.y0Tick(GM)===false||G.flags.E01_DONE===true); }
+    finally{ GM.titleCard=tc; GM.enter=en; } }
   // 先睡
   { const L=await start(['怎麼知道','先睡']);
     check('2. 標題卡「2024 年 9 月 1 日（日）｜開學前一天」',cards[0]==='2024 年 9 月 1 日（日）｜開學前一天',cards.join(' / '));
