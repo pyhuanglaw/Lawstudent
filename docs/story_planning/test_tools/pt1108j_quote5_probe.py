@@ -54,7 +54,7 @@ async def talk(pg, cdp, run, cid, tag):
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(800)
         await P.dialog(pg, cdp, run, picks=(), max_s=120, start_s=10, idle_s=4, tag=tag)
         first = Q.full_lines(await pg.evaluate("window.__DW.slice()"))
-        if first and all(not x['n'] and '點了一下頭' in x['t'] for x in first):
+        if first and all(not x['n'] and '抬頭看到你' in x['t'] for x in first):
             # 讀書區今天第一次遇到＝只點頭（libquiet3d.js LIBQ.gate，AA_595 1-A1）：玩家再按一次才說話
             run.note('%s：第一次按＝讀書區點頭（%s），再按一次' % (tag, first[-1]['t']))
             for _ in range(6):
@@ -106,7 +106,7 @@ async def mode_soclib(pg, cdp, run, s0):
     lines2 = await talk(pg, cdp, run, PY, 'py_2')
     named2, bad2 = named_bad(lines2)
     said2 = [x['t'] for x in named2]
-    run.check('[soclib] 下一次：名字欄品妤、外面沒有「」（%d 句；可能是打招呼輪流）' % len(named2), not bad2 and (named2 or lines2), J({'lines': lines2, 'bad': bad2}))
+    run.check('[soclib] 下一次（點頭以後再按）：品妤有說話、名字欄品妤、外面沒有「」（%d 句；可能是打招呼輪流）' % len(named2), named2 and not bad2, J({'lines': lines2, 'bad': bad2}))
     rep = [t for t in said2 if t in said1 and t not in ('早。',)]
     run.check('[soclib] 下一次沒有重講第一次說過的那一句', not rep, J({'said1': said1, 'said2': said2}))
 
