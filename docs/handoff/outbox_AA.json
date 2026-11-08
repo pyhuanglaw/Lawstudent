@@ -6065,6 +6065,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "vsweep ROUTE=US 4c94585ca"
+  },
+  {
+   "task": "MSG-REPLY-1107（AA_709 第十批）",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_709_msg_replies.json"
+   ],
+   "state": "已交付",
+   "remaining": "大一上～大四全部掃完；畢業以後（2029-07～）還沒掃",
+   "next": "LAWWW-B 照 batch 10 接 27 則（大四臺灣路線）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "vsweep ROUTE=TW 2028-07～2029-06 4c94585ca"
   }
  ],
  "items": [
