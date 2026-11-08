@@ -113,7 +113,14 @@ async def wait_until(pg, cdp, day, h, max_s=1500):
         s = await L.state(pg)
         if s['choices']: await L.tap(pg, cdp, '#choices button'); await pg.wait_for_timeout(600); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
-        await L.close_panels(pg, cdp); await pg.wait_for_timeout(2000)
+        await L.close_panels(pg, cdp)
+        if c['d'] == day and c['h'] < h - 0.4 or c['d'] < day:   # 照玩家用手機「今天」的「跳過時間」（站著等在 SwiftShader 上一小時遊戲時間要好幾分鐘）
+            await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+            await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)
+            sk = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#phoneBody [data-skip]')]; if(!bs.length) return null; const e=bs[bs.length-1]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,24)]; })()")
+            if sk: await L.touch_tap(cdp, sk[0], sk[1]); R.note('   跳過時間：%s（%s %.2f）' % (sk[2], c['d'], c['h'])); await pg.wait_for_timeout(2500); continue
+            await L.tap(pg, cdp, '#btnPhoneClose')
+        await pg.wait_for_timeout(2000)
     return False
 
 
@@ -182,7 +189,7 @@ async def run_mode(pg, cdp, mode, rec):
     await pg.evaluate("window.__says=[]"); wf0 = await pg.evaluate("GAME.walkFallbacks||0")
     await pg.evaluate("(t=>{ void GAME.quickGo([t.zone,t.name,t.spawn||null],{force:true}); })", tgt)
     await pg.wait_for_timeout(8000)
-    m = await drive(pg, cdp, tag + ' 見面', ['綠茶'], max_s=420, idle_end=15, shots=3)
+    m = await drive(pg, cdp, tag + ' 見面', ['綠茶'], max_s=420, idle_end=45, shots=3)
     for k in range(3):   # 總圖：她帶路到二樓座位（INV lead）——照玩家跟上去、走到她指的那張、按「坐下」，再接著演
         ld = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).filter(q=>q.who===id).slice(-1)[0]; return v&&v.lead?JSON.parse(JSON.stringify({ph:v.lead.ph, me:v.lead.me, her:v.lead.her, state:v.state})):null; })", SIS)
         if not ld or not ld.get('me'): break

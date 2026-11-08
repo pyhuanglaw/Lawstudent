@@ -71,9 +71,9 @@ async def run_mode(pg, cdp, mode, rec):
     R.setup('%s 【前置】時間撥到約的前 6 分鐘，照手機「直接過去」GM.quickGo(%s, force)' % (tag, J(tgt)))
     wf0 = await pg.evaluate("GAME.walkFallbacks||0")
     await pg.evaluate("(t=>{ void GAME.quickGo([t.zone,t.name,t.spawn||null],{force:true}); })", tgt); await pg.wait_for_timeout(8000)
-    c1 = await drive(pg, cdp, [], max_s=120, idle_end=5)
+    c1 = await drive(pg, cdp, [], max_s=180, idle_end=20)
     ld = None
-    for _ in range(40):
+    for _ in range(150):   # SwiftShader 慢：她到、說話、開始帶路可能要一兩分鐘
         ld = await pg.evaluate(LEAD, WHO)
         if ld and ld.get('lead') and ld['lead'].get('me'): break
         await pg.wait_for_timeout(1000)
