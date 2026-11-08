@@ -6,6 +6,10 @@
 - `asks --role AA`：OK（162 筆）。`roles --role AA`：OK。
 - 「醒來要問的」三題：使用者 11-05 03:4x 都答了，不用再問。語彤共創 11-11 再問（DIALOGUE-DEPTH-1031）。
 - **使用者 11-07 03:2x 實玩回報＋四個存檔**（UA-AA-1107-01、-02；存檔在 `docs/story_planning/user_saves/2026-11-07/`）：AA 的部分登記在「全部待辦」最上面 PLAYTEST-1107；開發的部分交 LAWWW-B。
+- **AA-B 2026-11-08 進度（隨時更新；交班時照這一段寫 A～F）**：
+  - 已交：`AA_720` 第一批 19 場（963afea74）＋第二批結局分版本（3e9cc0385）＋quietMove 學姊第 6 拍樓梯間（4f37a68bb）＋wiringAnswers（ee689cfb8）；LAWWW-B 已接（43c4030cd／6146b9b16），逐字 642 句 0 缺。`AA_709` 第七～十一批（5c8664179、f82035701、cc38793f7、359a545eb、211b71958＋學姊南瓜改句 0a4e74f2b）：大一上到畢業以後一年全掃完。`AA_717` 子晴 rot 13～15、芷若 life 5 改字（ee689cfb8、033b5150a，要重匯）。VAC-GAP-ROUTES 複查（da5ff447a）。
+  - 等別人：AA_712 cite_later 沒有程式讀（02:5x 給 LAWWW-B 接法：輪換句優先、答了五天後、一句一次）；AA_720 背景兩張（Café 後巷、臺北車站剪票口）BB 跟使用者要；國外逐週重讀等 BB 測 AA_660／667；DRIVE-PICKUP 等停車場；語彤共創 11-11 用選擇題再問使用者（DIALOGUE-DEPTH-1031）。
+  - 02:3x 問過 BB-B「有沒有要 AA 給字的」：暫時沒有。
 
 值班登記：帳號 C｜AA-C｜session_019evvieJUJD23EGf4nyLPgo｜分支 claude/magical-albattani-bk7b4n｜接班基準 69a24fa5d（快轉合併 AA-B 的 `claude/cool-heisenberg-o8kuqx`，含帳號 A 的 story-planning 81f740cb7）｜2026-11-04 UTC
 上一班：帳號 B｜AA-B｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 69a24fa5d｜正常交班（2026-11-04 12:20 UTC，快照 `2026-11-04T1220Z_B_AA.json`）
