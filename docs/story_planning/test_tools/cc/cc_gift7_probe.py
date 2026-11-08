@@ -40,8 +40,8 @@ async def main():
             if not ct or not await G8.buy(pg, cdp, run, ct, ITEM, '微糖'):
                 r0['skip'] = '買不到'; rec.append(r0); continue
             c0 = await C.carry(pg); r0['carry0'] = c0
-            if who == 'zhe':   # 找他「不是走走」的時段
-                h = await pg.evaluate("(()=>{ for(let h=8; h<21.5; h+=0.5){ GAME.G.hour=h; const r=STORY.whereIs(GAME,'zhe'); if(r&&r.zone&&!r.away&&!/走走|walk|wander|stroll/i.test(String(r.act||r.label||r.doing||''))) return {h, r}; } return null; })()")
+            if True:   # 找他／她「不是走走、不是在打工」的時段（11-09 第二輪：芷若 13:00 在 2:30 AM 櫃台裡打工，走不到旁邊，30 分鐘逾時）
+                h = await pg.evaluate("(w=>{ const h0=GAME.G.hour; for(const h of [13,13.5,14,14.5,15,15.5,16,16.5,17,17.5,18,18.5,19,19.5,20,12,11.5,11,10.5,10,9.5,9]){ GAME.G.hour=h; const r=STORY.whereIs(GAME,w); if(r&&r.zone&&!r.away&&!/走走|walk|wander|stroll|打工|上班|值班|班/i.test(String(r.act||r.label||r.doing||''))){ GAME.G.hour=h0; return {h, r}; } } GAME.G.hour=h0; return null; })(%s)" % J(who))
                 run.note('%s 不是走走的時段：%s' % (tag, J(h)))
                 if not h: r0['skip'] = '今天找不到他坐著或站著的時段'; rec.append(r0); continue
                 await pg.evaluate("h=>{ GAME.G.hour=h; }", h['h'])
