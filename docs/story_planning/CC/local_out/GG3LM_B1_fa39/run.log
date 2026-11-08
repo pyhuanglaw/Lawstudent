@@ -1,0 +1,49 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_scene5_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3LM_B1_fa39\out
+CC 燒臘、頁間書屋光照（before_gpu）：SHA=fa3982bcd550dcea827ff6323e23daf9c8a09082（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [before_gpu library_b1 1400] 讀檔 library_b1 2025-10-18 14.0（條件事件關閉）
+PASS [before_gpu library_b1 1400] 進得了 library_b1  {"zone": "library_b1", "x": -20.5, "z": -2.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  59.3s] [before_gpu library_b1 1400] 材質／光照貼圖：{"meshes": 207, "mats": 207, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 23, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+  [  59.3s] [before_gpu library_b1 1400] 自動機位：{"spawn": [-20.5, -2.4], "y0": 0, "fy": 0, "up": false, "yaw": 1.57, "center": [-3.19, -0.82], "size": [50.42, 4.62, 27.64], "clerk": null, "seat": [-14.8, -11.08], "seatLv": [0, 0, null], "views": {"door": {"eye": [-20.8, 1.6, -2.4], "look": [-14.5, 1, -2.4], "lens": 18}, "top": {"eye": [-3.19, 9.62, -0.02], "look": [-3.19, 0, -1.12], "lens": 16}, "seat": {"eye": [-10.34, 1.4, -7.09], "look": [-14.8, 0.6, -11.08], "lens": 22}, "out": {"eye": [-18, 1.55, -2.4], "look": [-26.5, 1.4, -2.4], "lens": 20}}}
+PASS [黑畫面] s5_before_gpu_library_b1_1400_door 不是黑畫面（平均亮度 150.9、變化 39.9）  [150.9, 39.9]
+  [  61.8s] [截圖] s5_before_gpu_library_b1_1400_door：鏡頭 {"eye": [-20.8, 1.6, -2.4], "look": [-14.5, 1, -2.4], "lens": 18, "vfov": 58.72}、亮度 [150.9, 39.9]
+PASS [黑畫面] s5_before_gpu_library_b1_1400_top 不是黑畫面（平均亮度 164.7、變化 38.6）  [164.7, 38.6]
+  [  64.4s] [截圖] s5_before_gpu_library_b1_1400_top：鏡頭 {"eye": [-3.19, 9.62, -0.02], "look": [-3.19, 0, -1.12], "lens": 16, "vfov": 64.65}、亮度 [164.7, 38.6]
+PASS [黑畫面] s5_before_gpu_library_b1_1400_seat 不是黑畫面（平均亮度 124.7、變化 52）  [124.7, 52]
+  [  66.7s] [截圖] s5_before_gpu_library_b1_1400_seat：鏡頭 {"eye": [-10.34, 1.4, -7.09], "look": [-14.8, 0.6, -11.08], "lens": 22, "vfov": 49.43}、亮度 [124.7, 52]
+PASS [黑畫面] s5_before_gpu_library_b1_1400_out 不是黑畫面（平均亮度 124、變化 50.9）  [124, 50.9]
+  [  68.5s] [截圖] s5_before_gpu_library_b1_1400_out：鏡頭 {"eye": [-18, 1.55, -2.4], "look": [-26.5, 1.4, -2.4], "lens": 20, "vfov": 53.7}、亮度 [124, 50.9]
+PASS [黑畫面] s5_before_gpu_library_b1_1400_studyA 不是黑畫面（平均亮度 149.7、變化 59.1）  [149.7, 59.1]
+  [  70.8s] [截圖] s5_before_gpu_library_b1_1400_studyA：鏡頭 {"eye": [-14, 1.6, -11], "look": [5, 1, -4], "lens": 18, "vfov": 58.72}、亮度 [149.7, 59.1]
+PASS [黑畫面] s5_before_gpu_library_b1_1400_studyA_back 不是黑畫面（平均亮度 162.8、變化 60.3）  [162.8, 60.3]
+  [  73.0s] [截圖] s5_before_gpu_library_b1_1400_studyA_back：鏡頭 {"eye": [6, 1.6, -3.5], "look": [-14, 1, -11], "lens": 18, "vfov": 58.72}、亮度 [162.8, 60.3]
+PASS [黑畫面] s5_before_gpu_library_b1_1400_disc1_wall 不是黑畫面（平均亮度 152.9、變化 48.2）  [152.9, 48.2]
+  [  74.9s] [截圖] s5_before_gpu_library_b1_1400_disc1_wall：鏡頭 {"eye": [-5, 1.6, 10.2], "look": [0, 1.4, 10.2], "lens": 20, "vfov": 53.7}、亮度 [152.9, 48.2]
+PASS [黑畫面] s5_before_gpu_library_b1_1400_disc2_wall 不是黑畫面（平均亮度 156.7、變化 57.9）  [156.7, 57.9]
+  [  77.0s] [截圖] s5_before_gpu_library_b1_1400_disc2_wall：鏡頭 {"eye": [5, 1.6, 10.2], "look": [0, 1.4, 10.2], "lens": 20, "vfov": 53.7}、亮度 [156.7, 57.9]
+PASS [黑畫面] s5_before_gpu_library_b1_1400_copy_door 不是黑畫面（平均亮度 166.5、變化 34.6）  [166.5, 34.6]
+  [  79.0s] [截圖] s5_before_gpu_library_b1_1400_copy_door：鏡頭 {"eye": [9, 1.6, 6], "look": [16, 1.2, 6], "lens": 20, "vfov": 53.7}、亮度 [166.5, 34.6]
+  [前置／捷徑] [before_gpu library_b1 2100] 讀檔 library_b1 2025-10-18 21.0（條件事件關閉）
+PASS [before_gpu library_b1 2100] 進得了 library_b1  {"zone": "library_b1", "x": -20.5, "z": -2.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.07}
+  [  94.8s] [before_gpu library_b1 2100] 材質／光照貼圖：{"meshes": 212, "mats": 212, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 23, "views": [], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_before_gpu_library_b1_2100_door 不是黑畫面（平均亮度 153、變化 38.1）  [153, 38.1]
+  [  97.0s] [截圖] s5_before_gpu_library_b1_2100_door：鏡頭 {"eye": [-20.8, 1.6, -2.4], "look": [-14.5, 1, -2.4], "lens": 18, "vfov": 58.72}、亮度 [153, 38.1]
+PASS [黑畫面] s5_before_gpu_library_b1_2100_top 不是黑畫面（平均亮度 149.9、變化 34.6）  [149.9, 34.6]
+  [  99.6s] [截圖] s5_before_gpu_library_b1_2100_top：鏡頭 {"eye": [-3.19, 9.62, -0.02], "look": [-3.19, 0, -1.12], "lens": 16, "vfov": 64.65}、亮度 [149.9, 34.6]
+PASS [黑畫面] s5_before_gpu_library_b1_2100_seat 不是黑畫面（平均亮度 121、變化 49.3）  [121, 49.3]
+  [ 101.8s] [截圖] s5_before_gpu_library_b1_2100_seat：鏡頭 {"eye": [-10.34, 1.4, -7.09], "look": [-14.8, 0.6, -11.08], "lens": 22, "vfov": 49.43}、亮度 [121, 49.3]
+PASS [黑畫面] s5_before_gpu_library_b1_2100_out 不是黑畫面（平均亮度 121.2、變化 49.8）  [121.2, 49.8]
+  [ 103.8s] [截圖] s5_before_gpu_library_b1_2100_out：鏡頭 {"eye": [-18, 1.55, -2.4], "look": [-26.5, 1.4, -2.4], "lens": 20, "vfov": 53.7}、亮度 [121.2, 49.8]
+PASS [黑畫面] s5_before_gpu_library_b1_2100_studyA 不是黑畫面（平均亮度 147.1、變化 59.4）  [147.1, 59.4]
+  [ 106.0s] [截圖] s5_before_gpu_library_b1_2100_studyA：鏡頭 {"eye": [-14, 1.6, -11], "look": [5, 1, -4], "lens": 18, "vfov": 58.72}、亮度 [147.1, 59.4]
+PASS [黑畫面] s5_before_gpu_library_b1_2100_studyA_back 不是黑畫面（平均亮度 158.4、變化 58.5）  [158.4, 58.5]
+  [ 108.2s] [截圖] s5_before_gpu_library_b1_2100_studyA_back：鏡頭 {"eye": [6, 1.6, -3.5], "look": [-14, 1, -11], "lens": 18, "vfov": 58.72}、亮度 [158.4, 58.5]
+PASS [黑畫面] s5_before_gpu_library_b1_2100_disc1_wall 不是黑畫面（平均亮度 155、變化 48.1）  [155, 48.1]
+  [ 110.2s] [截圖] s5_before_gpu_library_b1_2100_disc1_wall：鏡頭 {"eye": [-5, 1.6, 10.2], "look": [0, 1.4, 10.2], "lens": 20, "vfov": 53.7}、亮度 [155, 48.1]
+PASS [黑畫面] s5_before_gpu_library_b1_2100_disc2_wall 不是黑畫面（平均亮度 149.7、變化 55.5）  [149.7, 55.5]
+  [ 112.2s] [截圖] s5_before_gpu_library_b1_2100_disc2_wall：鏡頭 {"eye": [5, 1.6, 10.2], "look": [0, 1.4, 10.2], "lens": 20, "vfov": 53.7}、亮度 [149.7, 55.5]
+PASS [黑畫面] s5_before_gpu_library_b1_2100_copy_door 不是黑畫面（平均亮度 161.4、變化 39.9）  [161.4, 39.9]
+  [ 114.3s] [截圖] s5_before_gpu_library_b1_2100_copy_door：鏡頭 {"eye": [9, 1.6, 6], "look": [16, 1.2, 6], "lens": 20, "vfov": 53.7}、亮度 [161.4, 39.9]
+PASS 沒有 JS 例外  []
+ALL PASS

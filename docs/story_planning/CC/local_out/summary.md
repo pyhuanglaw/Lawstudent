@@ -2014,3 +2014,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 608.2s] page close url=http://127.0.0.1:8801/index.html?turbo?turbo | [gpu_wrap 608.2s] BROWSER DISCONNECTED
 - 2026-11-08T14:42:11  GG3LM_B1_7206  sha=7206a12dedfb04bda4bf9918afff73e45fb53adc  exit=0  180s      [ 117.7s] [截圖] s5_after_gpu_library_b1_2100_copy_door：鏡頭 {"eye": [9, 1.6, 6], "look": [16, 1.2, 6], "lens": 20, "vfov": 53.7}、亮度 [113.1, 25.7] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 118.2s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 118.2s] BROWSER DISCONNECTED
+- 2026-11-08T14:43:10  GG3LM_B1_fa39  sha=fa3982bcd550dcea827ff6323e23daf9c8a09082  exit=0  151s      [ 114.3s] [截圖] s5_before_gpu_library_b1_2100_copy_door：鏡頭 {"eye": [9, 1.6, 6], "look": [16, 1.2, 6], "lens": 20, "vfov": 53.7}、亮度 [161.4, 39.9] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 114.8s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 114.8s] BROWSER DISCONNECTED
