@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "RENDER_9556",
+  "sha": "95566d0b5cd1783c74fa1e5f68107bb1890daf5f",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_renderer_probe.py",
+  "env": "TAG=after_gpu;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T20:38:23",
+  "end": "2026-11-08T20:39:18",
+  "seconds": 55,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "33",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 11,
+    "mem": 38,
+    "used_gb": 12.2,
+    "chrome_testing": 4
+  }
+}
