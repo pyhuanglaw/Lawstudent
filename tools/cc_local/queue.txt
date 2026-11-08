@@ -1681,6 +1681,12 @@ TWATCH_c753_2 | c753295dabdf8a0b0b2ec9767a7c5429237b7134 | probe | docs/story_pl
 TWATCH_c753_3 | c753295dabdf8a0b0b2ec9767a7c5429237b7134 | probe | docs/story_planning/test_tools/cc/cc_touch_wrap.py | index.html?turbo | 25 | SOLO=1;CC_HEADLESS=0
 Re830d_p0 | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
 Re830d_reach | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
+# CC-B 11-09 01:1x（台灣）：BB-B LAWWW-B 87f1b01cf 改 touch_flow_wenzhou（推的當下手機開著就收起來再推），監看版連跑 3 次
+TOUCH_87f1_1 | 87f1b01cf9078727e3dbc15dc6e3e453d108149d | probe | docs/story_planning/test_tools/cc/cc_touch_wrap.py | index.html?turbo | 25 | SOLO=1;CC_HEADLESS=0
+TOUCH_87f1_2 | 87f1b01cf9078727e3dbc15dc6e3e453d108149d | probe | docs/story_planning/test_tools/cc/cc_touch_wrap.py | index.html?turbo | 25 | SOLO=1;CC_HEADLESS=0
+TOUCH_87f1_3 | 87f1b01cf9078727e3dbc15dc6e3e453d108149d | probe | docs/story_planning/test_tools/cc/cc_touch_wrap.py | index.html?turbo | 25 | SOLO=1;CC_HEADLESS=0
 Re830d_zone | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
 Re830d_main12 | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 Re830d_touch | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
+Re830d_mini | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+Re830d_classreal | e83043671c25dcf64655d860a508a0aaa74c8a28 | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
