@@ -841,3 +841,13 @@
 [17:14:28] [res] cpu=2% mem=35% (11.1/31.4 GB) chrome_testing=0  START R489f_movreg_hl
 [17:19:25] 正在跑：R489f_movreg_hl（已跑 4 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:19:42] [res] cpu=5% mem=34% (10.9/31.4 GB) chrome_testing=0  END R489f_movreg_hl
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       cf550f7d3..fb631f663  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:19:46] ==== END   R489f_movreg_hl  exit=1  317s   ====
+[17:19:53] memory 35% before starting Raa36_movreg (0 running)
+[17:19:53] ==== START Raa36_movreg  (game @ aa363f62a8363594199ba99ebefa3ce57512ee58) ====
+[17:19:56] [res] cpu=9% mem=35% (11.1/31.4 GB) chrome_testing=0  START Raa36_movreg
+[17:19:56] worktree add aa363f62a8363594199ba99ebefa3ce57512ee58: invalid reference - fetching main and the commit itself
+[17:24:25] 正在跑：Raa36_movreg（已跑 4 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:25:37] [res] cpu=3% mem=33% (10.6/31.4 GB) chrome_testing=0  END Raa36_movreg
