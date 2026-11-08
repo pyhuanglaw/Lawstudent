@@ -49753,6 +49753,33 @@
     "owner": "LAWWW"
    },
    "evidence": ""
+  },
+  {
+   "id": "SIS1-QUIET-LIB-1108",
+   "title": "學姊考前第 6 拍（SIS-1）平日演不到：第 14 週到筆試只約得到「一起念書」、平日一律總圖（安靜區），這一拍 quietOk:false＝跳過，1/31 以後補演一律 late",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": 14,
+    "earliest": "大一下第 14 週～2026-02-02 學姊筆試",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 02:1x LAWWW-B】BB-B 02:01／02:06（CC cc-testing 08051c8483、825c2dba30 SIS_EXAM_cloud：平日三種點法都改總圖、第 6 拍沒演；週末慢讀照稿 PASS）；AA-B 02:02 定：走樓梯間（AA_720 quietMove，4f37a68bb；open 兩句→樓梯間版第一句旁白→原稿→結尾一句，不加小聲，SIS-1 照常記、before 不變、AA_535 地點不改）；交給接 AA720 的子代理一起做，並列出其他 quietOk:false＋只約得到安靜區的拍給 AA。",
+   "xai": {
+    "spec": "BB-B 11-08 02:01；AA-B 02:02（企劃線 4f37a68bb）",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "BB 驗 A1、A3（平日 1/27 總圖：第 6 拍走樓梯間演、DECIDE 記決定不是 late）、B（2/3 late）、週末慢讀",
+    "receiver": "BB（測）",
+    "ack": "ACK",
+    "owner": "LAWWW"
+   },
+   "evidence": ""
   }
  ]
 }
