@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "R13ffb_touch",
+  "sha": "13ff2304529d0f7180c44266825f9d28718479ce",
+  "kind": "game",
+  "script": "tests/touch_flow_wenzhou.py",
+  "env": "SOLO=1;XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T22:38:29",
+  "end": "2026-11-08T22:41:44",
+  "seconds": 196,
+  "exit": 0,
+  "error": null,
+  "runner": "ca6fd18292",
+  "rf_round": "41",
+  "url": "http://127.0.0.1:8800/index.html?turbo",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 16,
+    "mem": 48,
+    "used_gb": 14.9,
+    "chrome_testing": 5
+  },
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
