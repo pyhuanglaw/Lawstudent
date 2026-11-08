@@ -43,7 +43,7 @@ haopai)
   # 燈：GLOW_tube 11 支日光燈（前段兩排 8 支在 3.28 m、後段吊頂下 3 支在 2.48 m），每支一個 0.2 × 1.2 m 朝下的面光源（沿 z），TW W。
   # 烘：地板、天花板（含後段吊頂 hp_ceiling 2.6～3.4）、吊頂的側面（hp_soffit_wall）、四面牆（WALL_*_wall_wall、WALL_front_front_wall）。
   GLB=bb_support/haopai.glb; INST=1
-  LIGHTS=$(python3 $LB/glow_points.py "${IN:-$A/$GLB}" --only '^GLOW_tube' --drop 0.03 --no-below | area "${TW:-12}" 0.2 1.2)
+  LIGHTS=$(python3 $LB/glow_points.py "${IN:-$A/$GLB}" --only '^GLOW_tube' --drop 0.03 --no-below | area "${TW:-16}" 0.2 1.2)   # 冒煙測試（4 取樣）12 W：0.31／0.27 → 16 W
   HIDE='glass'
   NOLM="^(?!(hp_floor_floor|hp_ceiling|hp_soffit_wall|WALL_[a-z]+_wall_wall|WALL_front_front_wall)\$)"
   EXTRA=(--shell S)
@@ -51,12 +51,12 @@ haopai)
 tongxian)
   # 同弦樂器（BB 製作，bb_support/tongxian.glb；新生南路的二樓）：7.1 × 12 × 3.2 m；臨街的窗在後牆（−z，北），店門開在樓梯平台（不是開口）。
   # 燈：tx_emit 的 14 顆（tube_lights.py 讀位置）：東側軌道投射燈 8、西側 4（2.96 m）、吊燈 1（2.58 m）、櫃台檯燈 1（1.22 m）；
-  #     燈頭在 tx_emit 網格裡，烘的時候藏起來，光源放在燈頭下 8 cm。投射燈 SW W、吊燈 9 W、檯燈 3 W，暖色。
+  #     燈頭在 tx_emit 網格裡，烘的時候藏起來，光源放在燈頭下 8 cm。投射燈 SW W（預設 9）、吊燈 12 W、檯燈 4 W，暖色。
   # 烘：地板、天花板、四面牆的漆面（WALL_*_plaster）。吉他、吉他牆、木條板、頂點色、金屬不烘。
   GLB=bb_support/tongxian.glb; INST=1
   WC=1.0,0.80,0.58
   PTS=$(python3 $LB/tube_lights.py "${IN:-$A/$GLB}" --mesh 'tx_emit$' --w 1 --shrink 0.0 | tr ';' '\n' | \
-    awk -F, -v sw="${SW:-6}" -v wc="$WC" '{x=($1+$2)/2; z=($3+$4)/2; y=$5; w=(y>2.8)?sw:((y>2.0)?9:3); printf "%s%.3f,%.3f,%.3f,%s,%s,0.05", (NR>1?";":""), x, y-0.08, z, w, wc}')
+    awk -F, -v sw="${SW:-9}" -v wc="$WC" '{x=($1+$2)/2; z=($3+$4)/2; y=$5; w=(y>2.8)?sw:((y>2.0)?12:4); printf "%s%.3f,%.3f,%.3f,%s,%s,0.05", (NR>1?";":""), x, y-0.08, z, w, wc}')
   HIDE='glass|tx_emit$'
   NOLM="^(?!(tx_floor|tx_ceiling|WALL_[a-z]+_plaster)\$)"
   EXTRA=(--shell N)
@@ -67,7 +67,7 @@ xsports)
   # 燈：GLOW_tube 39 支日光燈（挑空和二樓的天花板 7.48 m 20 支、一樓後段 3.28 m 19 支），每支一個 0.2 × 1.2 m 朝下的面光源，TW W。
   # 烘：兩層的地板、天花板、牆的漆面（L0_／L1_ 的 floor、ceil、WALL_*_wall_wall、xs_plaster）、一樓的石材。
   GLB=bb_support/xinsheng_sports.glb; INST=1
-  LIGHTS=$(python3 $LB/glow_points.py "${IN:-$A/$GLB}" --only '^GLOW_tube' --drop 0.03 --no-below | area "${TW:-12}" 0.2 1.2)
+  LIGHTS=$(python3 $LB/glow_points.py "${IN:-$A/$GLB}" --only '^GLOW_tube' --drop 0.03 --no-below | area "${TW:-16}" 0.2 1.2)   # 冒煙測試 12 W：0.36／0.27 → 16 W
   HIDE='glass'
   NOLM="^(?!(L0_floor_floor|L0_ceiling_ceil|L1_slab_floor|L1_ceiling_ceil|L[01]_xs_plaster|L0_xs_stone|WALL_[a-z]+_L[01]_wall_wall)\$)"
   EXTRA=(--shell S,W)
@@ -77,7 +77,7 @@ shanlan)
   # 燈（GLOW_ 空節點，glow_points.py）：筒燈 30、投射燈 33、吊燈 4、層板燈條 3、檯燈 3、燈籠 1；燈泡（shl_bulb）烘的時候藏起來。倍數 GS。
   # 烘：兩層的地板、天花板、牆面（shl_wall、WALL_*_shl_wall）、牆上的木作條（WALL_*_shl_wood）。書櫃、書、家具、植物、印刷品不烘。
   GLB=aa_support/shanlan.glb
-  PTS=$(python3 $LB/glow_points.py "${IN:-$A/$GLB}" --scale "${GS:-1.4}" --hide 'glass|bulb')
+  PTS=$(python3 $LB/glow_points.py "${IN:-$A/$GLB}" --scale "${GS:-2.2}" --hide 'glass|bulb')   # 冒煙測試 ×1.4：0.32／0.23（書店，頁間 0.29）→ ×2.2
   HIDE='glass|bulb'
   NOLM="^(?!(shl_floor|shl_ceiling1|L2_shl_floor2|L2_shl_ceiling2|shl_wall|WALL_[a-z]+_shl_wall|WALL_[a-z]+_shl_wood)\$)"
   EXTRA=(--shell S)
@@ -103,7 +103,7 @@ nanyang_lobby)
   #     暖色燈具（ny_warm）烘的時候藏起來。倍數 GS。
   # 烘：地毯（地板）、天花板、四面牆的漆面（WALL_*_plaster）。護牆板（WALL_*_wains：頂點色、幾千個小面）、櫃台、木作、海報不烘。
   GLB=bb_support/nanyang_lobby.glb
-  G=${GS:-4.0}; WC=1.0,0.76,0.50   # 冒煙測試（4 取樣）×1.0 晚上 0.11（太暗，4.5 m 高的大廳）→ 先 ×4，試烘再調
+  G=${GS:-8.0}; WC=1.0,0.76,0.50   # 冒煙測試（4 取樣）×1.0 晚上 0.11（太暗，4.5 m 高的大廳）；WebP 值約是線性的 0.42 次方 → 目標 0.27 要 ×8
   PTS=$(node -e "
     const L=require(process.argv[1]).lobby, W={pendant:9,sconce:5,gooseneck:4,poster_spot:6,counter_band:3,fridge:2}, D={pendant:0.12,sconce:0.05,gooseneck:0.06,poster_spot:0.08,counter_band:0.03,fridge:0};
     console.log(L.lights.map(l=>[l.x,(l.y-(D[l.kind]||0.05)).toFixed(3),l.z,(W[l.kind]*$G).toFixed(2),...(l.kind==='fridge'?[0.85,0.92,1.0]:[$WC]),0.05].join(',')).join(';'));" "$PWD/src/data/nanyang_layout.js")
@@ -117,7 +117,7 @@ nanyang_hall)
   # 第三張「開演」（--dark）：場燈關掉，只剩走道地燈、太平門、銀幕（--darkpoints）。遊戲：NY3.houseLights(false) → z.lightsOff(1)（patch）。
   # 烘：地毯（含斜面）、天花板、四面牆的漆面。座椅、護牆板、壁柱、絨布、銀幕不烘。
   GLB=bb_support/nanyang_hall.glb
-  HW=${HW:-40}; SCW=${SCW:-4}   # 冒煙測試（4 取樣）10 W 場燈開著 0.07（太暗）→ 先 40 W，試烘再調
+  HW=${HW:-100}; SCW=${SCW:-4}   # 冒煙測試（4 取樣）10 W 場燈開著 0.07（太暗）→ 目標 0.2（戲院場燈偏暗）要約 ×10
   PTS=""
   for x in -5.25 5.25; do for z in 3.0 -0.5 -4.0; do PTS="$PTS${PTS:+;}$x,2.75,$z,$HW,1.0,0.74,0.48,0.06"; done; done
   DARKP=$(node -e "
