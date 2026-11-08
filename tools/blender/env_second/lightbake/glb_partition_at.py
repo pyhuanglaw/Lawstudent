@@ -61,6 +61,50 @@ def main():
         changed.append((w['name'], best['name'], round(float(((w['mn'] + w['mx']) / 2)[w['ax']] - best['c'][w['ax']]), 3)))
     for a, bn, off in changed: print(f'  {a} → 跟 {bn} 一起淡出（原本中心沿 dir 差 {off:+.3f} m）')
     print(f'{src}：隔間牆 {len(walls)} 個，加 at {len(changed)} 個')
+    # 規則 B（11-08 BB-B LM3_cloud：霖澤 5F 研究室左牆深褐斜帶）：開著的門板。門板屬於門洞那面牆（dir 是那面牆的），卻轉了 90° 貼在另一面牆前面（5F：WALL_P1_door 在 P2 西面前 15 cm）。
+    #   門洞那面牆淡出時門板跟著不見，露出它烘在貼著的那面牆上的影子；貼著的那面牆淡出、門板還在時，露出門板朝牆那一面（烘成黑的）。
+    #   → 門板的淡出改跟它貼著的那面牆：dir、at、partition 都照那面牆。判斷：WALL_ 網格最薄的方向不是自己 dir 的方向（轉過 90°）、厚度 ≤ 20 cm，
+    #     前面 30 cm 內有一面和它平行的牆（那面牆 dir 的方向＝門板最薄的方向，面積 ≥ 1 m²，外框各邊放寬 6 cm 包住門板的中心）。門把（WALL_P1_doormetal）一樣。
+    #   一個節點裡有兩片門板、各貼不同的牆（美國公寓 WALL_bath_n_door）：外框不薄，不會被選到，要在 Blender 拆成兩個節點（記在 README）。
+    def anc_dir(i):
+        while i is not None:
+            d = (J['nodes'][i].get('extras') or {}).get('dir')
+            if isinstance(d, list) and len(d) == 3: return [float(v) for v in d]
+            i = par.get(i)
+        return None
+    allw = []
+    for i, nd in enumerate(J['nodes']):
+        if nd.get('mesh') is None or 'extensions' in nd or 'WALL_' not in nd.get('name', ''): continue
+        mn = np.full(3, 1e9); mx = np.full(3, -1e9); M = world(i)
+        for pr in J['meshes'][nd['mesh']]['primitives']:
+            a = J['accessors'][pr['attributes']['POSITION']]
+            for cx in (a['min'][0], a['max'][0]):
+                for cy in (a['min'][1], a['max'][1]):
+                    for cz in (a['min'][2], a['max'][2]):
+                        p = M[:3, :3] @ np.array([cx, cy, cz]) + M[:3, 3]; mn = np.minimum(mn, p); mx = np.maximum(mx, p)
+        ex = nd.get('extras') or {}; d = anc_dir(i) or [0.0, 0.0, 1.0]; ax = int(np.argmax(np.abs(d))); ext = mx - mn
+        at = ex.get('at'); c = [float(v) for v in at] if isinstance(at, list) and len(at) == 3 else [float(v) for v in (mn + mx) / 2]
+        allw.append({'i': i, 'name': nd.get('name', ''), 'mn': mn, 'mx': mx, 'ext': ext, 'ax': ax, 'dir': d, 'c': c, 'part': bool(ex.get('partition')),
+                     'area': float(np.prod([ext[k] for k in range(3) if k != ax]))})
+    leaves = []
+    for w in allw:
+        t = int(np.argmin(w['ext']))
+        if t == w['ax'] or w['ext'][t] > 0.2 or t == 1: continue
+        cc = (w['mn'] + w['mx']) / 2; best = None
+        for o in allw:
+            if o is w or o['ax'] != t or o['area'] < 1.0: continue
+            gap = max(o['mn'][t] - w['mx'][t], w['mn'][t] - o['mx'][t], 0.0)
+            if gap > 0.3 or not all(o['mn'][k] - 0.06 <= cc[k] <= o['mx'][k] + 0.06 for k in range(3) if k != t): continue
+            if best is None or o['area'] > best['area']: best = o
+        if best is None: continue
+        ex = J['nodes'][w['i']].setdefault('extras', {}); old = (ex.get('dir'), ex.get('partition'))
+        ex['dir'] = best['dir']; ex['at'] = best['c']
+        if best['part']: ex['partition'] = 1
+        else: ex.pop('partition', None)
+        leaves.append((w['name'], best['name'], old))
+    for a, bn, old in leaves: print(f'  開著的門板 {a}（原本 dir {old[0]}、partition {old[1]}）→ 跟它貼著的 {bn} 一起淡出')
+    if leaves: print(f'  門板 {len(leaves)} 個')
+    changed += leaves
     if dry or not changed: return
     js = json.dumps(J, ensure_ascii=False, separators=(',', ':')).encode('utf-8'); js += b' ' * ((4 - len(js) % 4) % 4)
     out = struct.pack('<III', 0x46546C67, 2, 12 + 8 + len(js) + len(rest)) + struct.pack('<II', len(js), 0x4E4F534A) + js + rest
