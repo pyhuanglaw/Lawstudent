@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "R8B6_main12",
+  "sha": "8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5",
+  "kind": "game",
+  "script": "tests/flow_main_day12.py",
+  "env": "XARGS={url} {out};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T12:53:53",
+  "end": "2026-11-08T12:59:47",
+  "seconds": 354,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "6",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 32,
+    "mem": 53,
+    "used_gb": 16.8,
+    "chrome_testing": 15
+  }
+}
