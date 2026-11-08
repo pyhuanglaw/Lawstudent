@@ -1,0 +1,69 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_overlay_run.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\AB3LM_after\out
+[overlay] 受測版本 e9d8c668f ＋ f7f4b80e8 的 ['assets/models/env/second_ai/gongtong_3f.glb', 'assets/models/env/second_ai/gongtong_3f_lm_day.webp', 'assets/models/env/second_ai/gongtong_3f_lm_night.webp', 'assets/models/env/second_ai/linze_office.glb', 'assets/models/env/second_ai/linze_office_lm_day.webp', 'assets/models/env/second_ai/linze_office_lm_night.webp', 'assets/models/env/second_ai/boya_203.glb', 'assets/models/env/second_ai/boya_203_lm_day.webp', 'assets/models/env/second_ai/boya_203_lm_night.webp', 'assets/models/env/second_ai/dorm_laundry.glb', 'assets/models/env/second_ai/dorm_laundry_lm_day.webp', 'assets/models/env/second_ai/dorm_laundry_lm_night.webp', 'assets/models/env/second_ai/library_media.glb', 'assets/models/env/second_ai/library_media_lm_day.webp', 'assets/models/env/second_ai/library_media_lm_night.webp']；暫存工作樹 C:\Users\USER\AppData\Local\Temp\cc_overlay_rkzak09n\wt
+[overlay] 本機沒有 f7f4b80e8c12e71135e6c6a8797cec3c944fcaa6，git fetch origin f7f4b80e8c12e71135e6c6a8797cec3c944fcaa6
+[overlay] 換檔 assets/models/env/second_ai/gongtong_3f.glb：18ff1d67c → 2353c118f（1368140 bytes）
+[overlay] 換檔 assets/models/env/second_ai/gongtong_3f_lm_day.webp：fatal: pa → 58c184e9c（64560 bytes）
+[overlay] 換檔 assets/models/env/second_ai/gongtong_3f_lm_night.webp：fatal: pa → 503b01ae0（54336 bytes）
+[overlay] 換檔 assets/models/env/second_ai/linze_office.glb：44dbaf306 → 478baecdd（964356 bytes）
+[overlay] 換檔 assets/models/env/second_ai/linze_office_lm_day.webp：fatal: pa → e59d970ed（72950 bytes）
+[overlay] 換檔 assets/models/env/second_ai/linze_office_lm_night.webp：fatal: pa → 344616bc7（63402 bytes）
+[overlay] 換檔 assets/models/env/second_ai/boya_203.glb：008c839c0 → aa024c7b7（906548 bytes）
+[overlay] 換檔 assets/models/env/second_ai/boya_203_lm_day.webp：fatal: pa → 80cae795d（60546 bytes）
+[overlay] 換檔 assets/models/env/second_ai/boya_203_lm_night.webp：fatal: pa → 90b5f5559（54414 bytes）
+[overlay] 換檔 assets/models/env/second_ai/dorm_laundry.glb：6e8c6cca8 → e74c690f9（600656 bytes）
+[overlay] 換檔 assets/models/env/second_ai/dorm_laundry_lm_day.webp：fatal: pa → f26743433（38986 bytes）
+[overlay] 換檔 assets/models/env/second_ai/dorm_laundry_lm_night.webp：fatal: pa → b4037d557（30188 bytes）
+[overlay] 換檔 assets/models/env/second_ai/library_media.glb：6c049ada4 → 877b2c01a（2122568 bytes）
+[overlay] 換檔 assets/models/env/second_ai/library_media_lm_day.webp：fatal: pa → f3b496d53（38512 bytes）
+[overlay] 換檔 assets/models/env/second_ai/library_media_lm_night.webp：fatal: pa → 4114544a6（36686 bytes）
+[overlay] 跑 cc_room_shots_probe.py http://127.0.0.1:58131/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\AB3LM_after\out
+CC 房間截圖（after）：SHA=e9d8c668fd832f13beeb79903f3270aa1b914089+f7f4b80e8（worktree 實際 ?）；9 張；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [after g3f_day] 讀檔 gongtong_3f 2025-10-15 11（條件事件關閉）
+PASS [after g3f_day] 進得了 gongtong_3f  {"zone": "gongtong_3f", "x": 4.6, "z": -3.15, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.06}
+PASS [黑畫面] room_after_g3f_day 不是黑畫面（平均亮度 151.8、變化 52.4）  [151.8, 52.4]
+  [  50.9s] [截圖] room_after_g3f_day：鏡頭 {"eye": [3.9099999999999997, 1.6, -3.35], "look": [0, 1.1, 4.5], "lens": 20, "vfov": 53.7}、亮度 [151.8, 52.4]
+  [  50.9s] [after g3f_day] 光照貼圖：材質 97 個、接了 lightMap 21 個，貼圖 ["gongtong_3f_lm_day.webp"]
+  [前置／捷徑] [after g3f_night] 讀檔 gongtong_3f 2025-10-15 20（條件事件關閉）
+PASS [after g3f_night] 進得了 gongtong_3f  {"zone": "gongtong_3f", "x": 4.6, "z": -3.15, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.07}
+PASS [黑畫面] room_after_g3f_night 不是黑畫面（平均亮度 129.4、變化 58）  [129.4, 58]
+  [  66.8s] [截圖] room_after_g3f_night：鏡頭 {"eye": [3.9099999999999997, 1.6, -3.35], "look": [0, 1.1, 4.5], "lens": 20, "vfov": 53.7}、亮度 [129.4, 58]
+  [  66.8s] [after g3f_night] 光照貼圖：材質 97 個、接了 lightMap 21 個，貼圖 ["gongtong_3f_lm_day.webp"]
+  [前置／捷徑] [after office_day] 讀檔 linze_office 2025-10-15 11（條件事件關閉）
+PASS [after office_day] 進得了 linze_office  {"zone": "linze_office", "x": 2.8, "z": -1.65, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "表格架", "stand": true, "fb": 0, "hour": 11.07}
+PASS [黑畫面] room_after_office_day 不是黑畫面（平均亮度 143.7、變化 59）  [143.7, 59]
+  [  86.6s] [截圖] room_after_office_day：鏡頭 {"eye": [2.38, 1.6, -1.8499999999999999], "look": [0, 1.1, 3], "lens": 20, "vfov": 53.7}、亮度 [143.7, 59]
+  [  86.6s] [after office_day] 光照貼圖：材質 76 個、接了 lightMap 25 個，貼圖 ["linze_office_lm_day.webp"]
+  [前置／捷徑] [after office_night] 讀檔 linze_office 2025-10-15 20（條件事件關閉）
+PASS [after office_night] 進得了 linze_office  {"zone": "linze_office", "x": 2.8, "z": -1.65, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "表格架", "stand": true, "fb": 0, "hour": 20.07}
+PASS [黑畫面] room_after_office_night 不是黑畫面（平均亮度 129.3、變化 61.9）  [129.3, 61.9]
+  [ 102.8s] [截圖] room_after_office_night：鏡頭 {"eye": [2.38, 1.6, -1.8499999999999999], "look": [0, 1.1, 3], "lens": 20, "vfov": 53.7}、亮度 [129.3, 61.9]
+  [ 102.8s] [after office_night] 光照貼圖：材質 76 個、接了 lightMap 25 個，貼圖 ["linze_office_lm_day.webp"]
+  [前置／捷徑] [after b203_day] 讀檔 boya_203 2025-10-15 11（條件事件關閉）
+PASS [after b203_day] 進得了 boya_203  {"zone": "boya_203", "x": -0.15, "z": -1.95, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下（看演出）", "stand": true, "fb": 0, "hour": 11.07}
+PASS [黑畫面] room_after_b203_day 不是黑畫面（平均亮度 125.4、變化 58.3）  [125.4, 58.3]
+  [ 121.9s] [截圖] room_after_b203_day：鏡頭 {"eye": [-0.1275, 1.6, -2.15], "look": [0, 1.1, 3.2], "lens": 20, "vfov": 53.7}、亮度 [125.4, 58.3]
+  [ 121.9s] [after b203_day] 光照貼圖：材質 69 個、接了 lightMap 20 個，貼圖 ["boya_203_lm_day.webp"]
+  [前置／捷徑] [after b203_night] 讀檔 boya_203 2025-10-15 20（條件事件關閉）
+PASS [after b203_night] 進得了 boya_203  {"zone": "boya_203", "x": -0.15, "z": -1.95, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下（看演出）", "stand": true, "fb": 0, "hour": 20.07}
+PASS [黑畫面] room_after_b203_night 不是黑畫面（平均亮度 118.8、變化 58.2）  [118.8, 58.2]
+  [ 137.7s] [截圖] room_after_b203_night：鏡頭 {"eye": [-0.1275, 1.6, -2.15], "look": [0, 1.1, 3.2], "lens": 20, "vfov": 53.7}、亮度 [118.8, 58.2]
+  [ 137.7s] [after b203_night] 光照貼圖：材質 69 個、接了 lightMap 20 個，貼圖 ["boya_203_lm_day.webp"]
+  [前置／捷徑] [after laundry_day] 讀檔 dorm_laundry 2025-10-15 11（條件事件關閉）
+PASS [after laundry_day] 進得了 dorm_laundry  {"zone": "dorm_laundry", "x": 0, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.07}
+PASS [黑畫面] room_after_laundry_day 不是黑畫面（平均亮度 198.5、變化 45.6）  [198.5, 45.6]
+  [ 156.8s] [截圖] room_after_laundry_day：鏡頭 {"eye": [0, 1.6, -1.2], "look": [0, 1.1, 2.2], "lens": 20, "vfov": 53.7}、亮度 [198.5, 45.6]
+  [ 156.8s] [after laundry_day] 光照貼圖：材質 46 個、接了 lightMap 16 個，貼圖 ["dorm_laundry_lm_day.webp"]
+  [前置／捷徑] [after laundry_night] 讀檔 dorm_laundry 2025-10-15 20（條件事件關閉）
+PASS [after laundry_night] 進得了 dorm_laundry  {"zone": "dorm_laundry", "x": 0, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.07}
+PASS [黑畫面] room_after_laundry_night 不是黑畫面（平均亮度 201.2、變化 48.7）  [201.2, 48.7]
+  [ 172.5s] [截圖] room_after_laundry_night：鏡頭 {"eye": [0, 1.6, -1.2], "look": [0, 1.1, 2.2], "lens": 20, "vfov": 53.7}、亮度 [201.2, 48.7]
+  [ 172.5s] [after laundry_night] 光照貼圖：材質 46 個、接了 lightMap 16 個，貼圖 ["dorm_laundry_lm_day.webp"]
+  [前置／捷徑] [after media] 讀檔 library_media 2025-10-15 11（條件事件關閉）
+PASS [after media] 進得了 library_media  {"zone": "library_media", "x": 3.4, "z": 2.25, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 11.07}
+PASS [黑畫面] room_after_media 不是黑畫面（平均亮度 159.8、變化 47.4）  [159.8, 47.4]
+  [ 190.9s] [截圖] room_after_media：鏡頭 {"eye": [2.8899999999999997, 1.6, 2.05], "look": [0, 1.1, 3.5], "lens": 20, "vfov": 53.7}、亮度 [159.8, 47.4]
+  [ 190.9s] [after media] 光照貼圖：材質 40 個、接了 lightMap 16 個，貼圖 ["library_media_lm_day.webp"]
+PASS 沒有 JS 例外  []
+ALL PASS

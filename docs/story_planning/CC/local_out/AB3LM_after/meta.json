@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "AB3LM_after",
+  "sha": "e9d8c668fd832f13beeb79903f3270aa1b914089",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_overlay_run.py",
+  "env": "RUN=cc_room_shots_probe.py;OVERLAY_SHA=f7f4b80e8c12e71135e6c6a8797cec3c944fcaa6;OVERLAY_FILES=assets/models/env/second_ai/gongtong_3f.glb,assets/models/env/second_ai/gongtong_3f_lm_day.webp,assets/models/env/second_ai/gongtong_3f_lm_night.webp,assets/models/env/second_ai/linze_office.glb,assets/models/env/second_ai/linze_office_lm_day.webp,assets/models/env/second_ai/linze_office_lm_night.webp,assets/models/env/second_ai/boya_203.glb,assets/models/env/second_ai/boya_203_lm_day.webp,assets/models/env/second_ai/boya_203_lm_night.webp,assets/models/env/second_ai/dorm_laundry.glb,assets/models/env/second_ai/dorm_laundry_lm_day.webp,assets/models/env/second_ai/dorm_laundry_lm_night.webp,assets/models/env/second_ai/library_media.glb,assets/models/env/second_ai/library_media_lm_day.webp,assets/models/env/second_ai/library_media_lm_night.webp;TAG=after;SHOTS=gongtong_3f,2025-10-15,11,g3f_day+gongtong_3f,2025-10-15,20,g3f_night+linze_office,2025-10-15,11,office_day+linze_office,2025-10-15,20,office_night+boya_203,2025-10-15,11,b203_day+boya_203,2025-10-15,20,b203_night+dorm_laundry,2025-10-15,11,laundry_day+dorm_laundry,2025-10-15,20,laundry_night+library_media,2025-10-15,11,media;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T09:31:14",
+  "end": "2026-11-08T09:35:46",
+  "seconds": 272,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 23,
+    "mem": 51,
+    "used_gb": 16.5,
+    "chrome_testing": 12
+  }
+}
