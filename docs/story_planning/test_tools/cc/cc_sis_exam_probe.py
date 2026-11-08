@@ -87,7 +87,7 @@ async def run_mode(pg, cdp, mode, rec):
     inv = None
     if R.check('%s 手機「朋友」有學姊的「約」' % tag, ok, ''):
         await L.tap(pg, cdp, '[data-inv="%s"]' % SIS); await pg.wait_for_timeout(1200)
-        a = await drive(pg, cdp, tag + ' 約', ['喝咖啡', '今天'], max_s=200, idle_end=6)
+        a = await drive(pg, cdp, tag + ' 約', (os.environ.get('PREFS') or '喝咖啡,今天').split(','), max_s=200, idle_end=6)
         inv = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).filter(q=>q.who===id&&q.day===GAME.G.day&&q.state==='accepted').slice(-1)[0]; return v?JSON.parse(JSON.stringify(v)):null; })", SIS)
         R.note('%s 約的結果：%s；說的話 %s' % (tag, J(inv), J(await pg.evaluate("window.__says||[]"))))
     if not inv:
