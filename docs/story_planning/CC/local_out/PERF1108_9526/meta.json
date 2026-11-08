@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "PERF1108_9526",
+  "sha": "9526bf100b2be394f2618be8100d5f0e25540ea9",
+  "kind": "probe",
+  "script": "tools/cc_local/fps_zones.py",
+  "env": "ZONES=xs_dabu,xs_haopai,xs_tongxian,xs_xsports,xs_shanlan,xs_dakou,xs_nanyang_hall,xs_nanyang,library_b1,wz_teahouse,wz_mokuyobi,wz_print,campus,gongguan;SLOTS=h1400;SECS=20;WARM=6;SOLO=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-09T02:18:03",
+  "end": "2026-11-09T02:27:14",
+  "seconds": 551,
+  "exit": 0,
+  "error": null,
+  "runner": "ca6fd18292",
+  "rf_round": "54",
+  "url": "http://127.0.0.1:8800/index.html?perf",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 20,
+    "mem": 46,
+    "used_gb": 14.6,
+    "chrome_testing": 4
+  },
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\fps_zones.py http://127.0.0.1:8800/index.html?perf C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\PERF1108_9526\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+OK   xs_dabu       h1400 avg 57.6 fps  1%low 12.69 fps  worst 116.7 ms  n=1153  zone=xs_dabu h=14.04 w=sunny q=medium draw=135 
+OK   xs_haopai     h1400 avg 57.9 fps  1%low 12.45 fps  worst 83.4 ms  n=1159  zone=xs_haopai h=14.05 w=sunny q=medium draw=134 
+OK   xs_tongxian   h1400 avg 55.8 fps  1%low 7.33 fps  worst 616.6 ms  n=1116  zone=xs_tongxian h=14.05 w=sunny q=medium draw=98 
+OK   xs_xsports    h1400 avg 57.25 fps  1%low 10.31 fps  worst 300.1 ms  n=1146  zone=xs_xsports h=14.04 w=sunny q=medium draw=155 
+OK   xs_shanlan    h1400 avg 32.06 fps  1%low 4.74 fps  worst 283.3 ms  n=645  zone=xs_shanlan h=14.05 w=sunny q=medium draw=95 
+OK   xs_dakou      h1400 avg 35.82 fps  1%low 6.46 fps  worst 433.4 ms  n=717  zone=xs_dakou h=14.05 w=sunny q=medium draw=130 
+OK   xs_nanyang_hall h1400 avg 57.8 fps  1%low 12.0 fps  worst 99.9 ms  n=1156  zone=xs_nanyang_hall h=14.05 w=sunny q=medium draw=69 
+OK   xs_nanyang    h1400 avg 56.46 fps  1%low 8.57 fps  worst 283.4 ms  n=1130  zone=xs_nanyang h=14.05 w=sunny q=medium draw=77 
+OK   library_b1    h1400 avg 34.97 fps  1%low 8.08 fps  worst 150 ms  n=700  zone=library_b1 h=14.05 w=sunny q=medium draw=227 
+OK   wz_teahouse   h1400 avg 54.01 fps  1%low 12.5 fps  worst 83.5 ms  n=1081  zone=wz_teahouse h=14.05 w=sunny q=medium draw=125 
+OK   wz_mokuyobi   h1400 avg 40.27 fps  1%low 12.0 fps  worst 100 ms  n=806  zone=wz_mokuyobi h=14.05 w=sunny q=medium draw=127 
+OK   wz_print      h1400 avg 58.35 fps  1%low 15.0 fps  worst 66.8 ms  n=1167  zone=wz_print h=14.05 w=sunny q=medium draw=116 
+OK   campus        h1400 avg 36.34 fps  1%low 11.66 fps  worst 166.7 ms  n=728  zone=campus h=14.04 w=sunny q=medium draw=426 
+OK   gongguan      h1400 avg 55.31 fps  1%low 28.64 fps  worst 49.9 ms  n=1107  zone=gongguan h=14.05 w=sunny q=medium draw=206 
+JS 例外 0 個
+ALL PASS（量測完成 14 格）
