@@ -53,6 +53,15 @@ async def talk(pg, cdp, run, cid, tag):
     if ok:
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(800)
         await P.dialog(pg, cdp, run, picks=(), max_s=120, start_s=10, idle_s=4, tag=tag)
+        first = Q.full_lines(await pg.evaluate("window.__DW.slice()"))
+        if first and all(not x['n'] and '點了一下頭' in x['t'] for x in first):
+            # 讀書區今天第一次遇到＝只點頭（libquiet3d.js LIBQ.gate，AA_595 1-A1）：玩家再按一次才說話
+            run.note('%s：第一次按＝讀書區點頭（%s），再按一次' % (tag, first[-1]['t']))
+            for _ in range(6):
+                if (await lab()).startswith(want): break
+                await pg.wait_for_timeout(500)
+            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(800)
+            await P.dialog(pg, cdp, run, picks=(), max_s=120, start_s=10, idle_s=4, tag=tag + '_b')
     lines = Q.full_lines(await pg.evaluate("window.__DW.slice()"))
     await run.shot(pg, tag)
     run.note('%s：在場 %s；畫面 %s' % (tag, J(pr, 200), J(lines)))
@@ -75,7 +84,7 @@ async def mode_soclib(pg, cdp, run, s0):
     run.setup('[前置] day46 存檔同一份進度跳到 %s %.2f 社科圖（品妤在的時候）' % (hit['key'], hit['h']))
     lines = await talk(pg, cdp, run, PY, 'py_1')
     named, bad = named_bad(lines)
-    run.check('[soclib] 第一次：先有旁白「%s」' % NARR, any(x['t'].startswith(NARR.rstrip('）')) and not x['n'] for x in lines), J(lines))
+    run.check('[soclib] 第一次（點頭以後再按）：先有旁白「%s」' % NARR, any(x['t'].startswith(NARR.rstrip('）')) and not x['n'] for x in lines), J(lines))
     run.check('[soclib] 第一次：品妤說的那幾句名字欄是品妤、外面沒有「」（%d 句）' % len(named), named and not bad and any('品妤' in x['n'] for x in named), J({'named': named, 'bad': bad}))
     sl = await pg.evaluate("(()=>JSON.parse(JSON.stringify(((GAME.G.flags||{}).ECON_SL||{})['%s']||null)))()" % PY)
     run.note('[soclib] 說完 ECON_SL.%s＝%s' % (PY, J(sl)))
