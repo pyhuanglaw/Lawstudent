@@ -20,7 +20,7 @@ const ROOMS={
     nodes:['WALL_S_glass','WALL_C_tube','WALL_C_lamp','library_stacks_books'], extras:{'WALL_S_glass':{dir:[0,0,-1]},'WALL_C_tube':{dir:[0,-1,0]}}, inst:53 },
 };
 /* 總圖 B1、研究小間先不接（LAWWW2-B 11-08 02:04：烘焙工具 hidden_faces 沒看 partition，隔間牆背面被壓成一個亮度；修工具重烘以後補交）＝這兩間先跳過，接回來時拿掉 PENDING */
-const PENDING=new Set(['library_b1','library_carrels']);
+const PENDING=new Set([]);   /* 11-08 03:5x LAWWW-B：B1、研究小間接回 LAWWW2-B 14ef1ff10（LM-PARTITION-1108 第一批：隔間牆兩面都烘）*/
 for(const id of PENDING) check('0. '+id+'：光照烘焙等 LAWWW2 重烘（先用原檔，沒有 extras.lightmap）',(()=>{ const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/'+id+'.glb')), J=JSON.parse(b.slice(20,20+b.readUInt32LE(12)).toString('utf8')); return !((J.scenes[0].extras||{}).lightmap); })());
 for(const [id,R] of Object.entries(ROOMS)){ if(PENDING.has(id)) continue; const buf=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/'+id+'.glb')), J=JSON.parse(buf.slice(20,20+buf.readUInt32LE(12)).toString('utf8'));
   const l=((J.scenes[0].extras||{}).lightmap)||null;
