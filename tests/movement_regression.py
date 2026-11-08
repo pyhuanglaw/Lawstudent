@@ -62,7 +62,8 @@ async def test_A(rig):
     # 標準不變：斜推要沿牆滑動 0.3 m 以上（量到的左右距離寫在訊息裡，FAIL 時看得出是不是停在死角）
     room = await rig.pg.evaluate("((x,z)=>{ const E=GAME.E, ok=(xx)=>E.canStand(xx,z); let L=0,R=0; for(let d=0.05;d<=2.0;d+=0.05){ if(ok(x-d)) L=d; else break; } for(let d=0.05;d<=2.0;d+=0.05){ if(ok(x+d)) R=d; else break; } return {L:+L.toFixed(2),R:+R.toFixed(2)}; })(%f,%f)" % (f['x'], f['z']))
     sx=45 if room['R']>=room['L'] else -45
-    await rig.joy(sx,-45,1500); g=await rig.pos(); check('A6 斜推 → 沿牆滑動（x 改變；往空間大的那一側）', abs(g['x']-f['x'])>0.3, f'{f} → {g} 推的方向＝{"右前" if sx>0 else "左前"} 左右還能站 {room}')
+    # 推 2.5 秒（原本 1.5 秒）：低幀率時 1.5 秒只有兩三幀、一步 0.44 m，斜推沒幾步就結束；推久一點只是讓低幀率也走得到牆邊，門檻 0.3 m 不變（BB-B 11-08 12:15 P3）
+    await rig.joy(sx,-45,2500); g=await rig.pos(); check('A6 斜推 → 沿牆滑動（x 改變；往空間大的那一側）', abs(g['x']-f['x'])>0.3, f'{f} → {g} 推的方向＝{"右前" if sx>0 else "左前"} 左右還能站 {room}')
     await rig.joy(0,60,1500); h=await rig.pos(); check('A7 離開牆 → 繼續走', dist(g,h)>0.8, f'{h}')
     await rig.pg.screenshot(path='screenshots/T_A_dorm_move.png')
 async def test_B(rig):
@@ -108,7 +109,12 @@ async def test_E(rig):
         r=await rig.use(inter); print('   ',r); await rig.pg.wait_for_timeout(1500)
         if inter.startswith('進入'):
             # 進了另一區：再走出來
-            z=await rig.pg.evaluate("GAME.G.zone"); check(f'E {name}：interact 進入 {z}', z!=zone, z)
+            # 進區域有淡出淡入＋載入：低幀率（雲端 1～2 fps）時 1.5 秒還沒換區，最多等 15 秒看 zone 有沒有變（BB-B 11-08 12:15 P3）
+            z=await rig.pg.evaluate("GAME.G.zone")
+            for _ in range(27):
+                if z!=zone: break
+                await rig.pg.wait_for_timeout(500); z=await rig.pg.evaluate("GAME.G.zone")
+            check(f'E {name}：interact 進入 {z}', z!=zone, z)
             await rig.drive(pick=0); await rig.pg.evaluate("GAME.doInteract()"); await rig.pg.wait_for_timeout(600); await rig.drive(pick=0)
             ex=await rig.pg.evaluate("(async()=>{ const it=GAME.E.interactables.find(i=>i.exit); if(!it) return 'no exit'; const P=GAME.E.player; const nf=GAME.E.nav.nearestFree(it.x,it.z-0.6,6)||[it.x,it.z]; P.obj.position.set(nf[0],0,nf[1]); GAME.updateInteract(); await new Promise(r=>setTimeout(r,80)); GAME.updateInteract(); GAME.doInteract(); return 'exit '+it.label; })()"); print('   ',ex); await rig.pg.wait_for_timeout(2500); await rig.drive(pick=0)
         else:
