@@ -2148,3 +2148,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 306.0s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 306.0s] BROWSER DISCONNECTED
 - 2026-11-08T19:47:32  R03c7_movreg  sha=03c71f300bcafc99f9e70b18b7f77d5f0885ec91  exit=0  352s    PASS E 咖啡廳：exit 後能走（最佳方向 ≥ 1 m）   {'x': 46.76, 'z': -4.57, 'yaw': -3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 49.9, 'z': 7.07, 'yaw': -6.28, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via left / console errors: [] / RESULT: 42/42 PASS
       err.log (last 5): [gpu_wrap 304.9s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 304.9s] BROWSER DISCONNECTED
+- 2026-11-08T19:51:32  R03c7_zone  sha=03c71f300bcafc99f9e70b18b7f77d5f0885ec91  exit=0  231s    PASS 校門 → 公館：回到校園後走得到霖澤館前 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 174.4s] page close url=http://127.0.0.1:8801/index.html?turbo?turbo | [gpu_wrap 174.5s] BROWSER DISCONNECTED
