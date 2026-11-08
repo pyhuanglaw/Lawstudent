@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GG3LM_shaola_yejian_fps_mob_9c01",
+  "sha": "9c012062864b34de673cbb534559324fbce26c85",
+  "kind": "probe",
+  "script": "tools/cc_local/fps_zones.py",
+  "env": "CPU_THROTTLE=4;ZONES=noodle,bookstore;SLOTS=day,night;SECS=15;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T10:29:41",
+  "end": "2026-11-08T10:34:01",
+  "seconds": 261,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 34,
+    "mem": 52,
+    "used_gb": 16.3,
+    "chrome_testing": 12
+  }
+}

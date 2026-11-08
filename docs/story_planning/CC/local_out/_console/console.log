@@ -781,3 +781,11 @@
 [10:32:43] ==== START L118_6_after  (probe @ 6da721819b8d351fe12e0b848ca7e06f52553819) ====
 [10:32:46] [res] cpu=9% mem=41% (14.5/31.4 GB) chrome_testing=4  START L118_6_after
 [10:33:15] [res] cpu=9% mem=43% (13.3/31.4 GB) chrome_testing=8  END L118_6_before
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       29c48bd91..126413251  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:33:25] ==== END   L118_6_before  exit=0  214s   ====
+[10:33:28] memory 45% before starting WZINTEG6_before (2 running)
+[10:33:28] ==== START WZINTEG6_before  (game @ 126bdf93e82886673518705566dbe83b582c32c1) ====
+[10:33:31] [res] cpu=6% mem=45% (14.3/31.4 GB) chrome_testing=8  START WZINTEG6_before
+[10:34:01] [res] cpu=1% mem=44% (14.3/31.4 GB) chrome_testing=8  END GG3LM_shaola_yejian_fps_mob_9c01

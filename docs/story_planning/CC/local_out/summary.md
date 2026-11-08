@@ -1896,3 +1896,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 118.7s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 118.7s] BROWSER DISCONNECTED
 - 2026-11-08T10:33:15  L118_6_before  sha=126bdf93e82886673518705566dbe83b582c32c1  exit=0  214s      [ 114.5s] [l118_before night] crowd：這個時段 12 m 內最多只有 1 人（不到 5 人，沒另外拍）；spawn 那個鏡頭入鏡 2 人 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 115.2s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 115.2s] BROWSER DISCONNECTED
+- 2026-11-08T10:34:01  GG3LM_shaola_yejian_fps_mob_9c01  sha=9c012062864b34de673cbb534559324fbce26c85  exit=0  261s    OK   bookstore     night avg 19.29 fps  1%low 4.44 fps  worst 233.4 ms  n=291  zone=bookstore h=21.04 w=sunny q=medium draw=47  / JS 例外 0 個 / ALL PASS（量測完成 4 格）
+      err.log (last 5): [gpu_wrap 219.1s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 219.1s] BROWSER DISCONNECTED
