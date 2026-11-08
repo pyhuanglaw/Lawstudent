@@ -1,0 +1,15 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\fps_zones.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3LM_wz6_fps_e276\out
+OK   wz_brunch     day   avg 48.95 fps  1%low 12.35 fps  worst 100 ms  n=735  zone=wz_brunch h=11.03 w=sunny q=medium draw=113 
+FAIL wz_brunch     night avg 22.71 fps  1%low 0.42 fps  worst 3316.5 ms  n=341  zone=wenzhou h=21.01 w=sunny q=medium draw=307 
+FAIL wz_teishoku   day   avg 49.62 fps  1%low 6.77 fps  worst 516.7 ms  n=746  zone=wenzhou h=11.01 w=sunny q=medium draw=238 
+OK   wz_teishoku   night avg 57.94 fps  1%low 13.7 fps  worst 83.4 ms  n=869  zone=wz_teishoku h=21.04 w=sunny q=medium draw=57 
+FAIL wz_mokuyobi   day   avg 49.96 fps  1%low 8.4 fps  worst 250 ms  n=751  zone=wenzhou h=11.02 w=sunny q=medium draw=221 
+OK   wz_mokuyobi   night avg 54.41 fps  1%low 14.55 fps  worst 83.3 ms  n=817  zone=wz_mokuyobi h=21.04 w=sunny q=medium draw=81 
+FAIL wz_teahouse   day   avg 55.68 fps  1%low 18.44 fps  worst 100 ms  n=837  zone=wenzhou h=11.02 w=sunny q=medium draw=244 
+FAIL wz_teahouse   night avg 49.56 fps  1%low 15.55 fps  worst 83.3 ms  n=745  zone=wenzhou h=21.02 w=sunny q=medium draw=206 
+FAIL wz_offbeat    day   avg 39.34 fps  1%low 12.0 fps  worst 100 ms  n=592  zone=wenzhou h=11.02 w=sunny q=medium draw=358 
+OK   wz_offbeat    night avg 49.68 fps  1%low 24.66 fps  worst 83.4 ms  n=746  zone=wz_offbeat h=21.01 w=sunny q=medium draw=122 
+OK   wz_print      day   avg 59.94 fps  1%low 53.67 fps  worst 33.3 ms  n=900  zone=wz_print h=11.04 w=sunny q=medium draw=99 
+OK   wz_print      night avg 60.0 fps  1%low 59.52 fps  worst 16.8 ms  n=900  zone=wz_print h=21.04 w=sunny q=medium draw=67 
+JS 例外 0 個
+FAILED: 6 格量不到：wenzhou/night, wenzhou/day, wenzhou/day, wenzhou/day, wenzhou/night, wenzhou/day
