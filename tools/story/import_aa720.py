@@ -7,6 +7,8 @@
 - 寫在說明文字裡的句子（「……你要來嗎？」「這週你有出現。」、E07 多的那一句……）照 QUOTES 抽出來，核對稿上真的有「那一句」。
 - quietMove（4f37a68bb）：replaceFirst.from 要是 AA_712 學姊第 6 拍（src/data/heroine_arcs.js）現在的第一句。
 - ee689cfb8（AA720-WIRING-1108）：kx_waited_after（等了一個小時以後兩天的短回覆）、zq_intern.demoJan9（1/9 demo intern 版）進遊戲；wiringAnswers 是 AA 回 LAWWW 的說明，不進遊戲（第四封信那一句照 QUOTES 抽）。
+- 075eae472（AA720-WIRING-1108 第三輪）：an1_later（以安 AN-1 later 版，含預設值）進遊戲；wiringAnswers2 是 AA 回 LAWWW 的說明，不進遊戲——
+  1/9 demo 實習版三處（wiringAnswers2.3 shop／tainan／cat 各三句）照 DEMO3 抽進 cfg.demo3、Café 當面版「……獎學金拿到一半。」照 QUOTES 抽。
 - 背景（BG）：要在 OUT.BG（src/outings3d.js）；沒有 3D、也沒有圖的用 dark（稿 _meta.format：沒有 3D 的用 background 暗底）。
 白名單照 import_guard。用法：python3 tools/story/import_aa720.py [--ref <commit>] [--check]"""
 import json, os, re, subprocess, sys
@@ -51,6 +53,9 @@ AT = [
     ('zq_intern.demoJan9.where', '1/9 資工系館 demo 那一場「第三關。橋是新的。」那一句'),
     ('kx_quiet.at', '決定那天＋8 天 21:00'),
     ('kx_eat.plan.day', '決定那天'), ('kx_eat.plan.h', '現在＋1 小時（最晚 21:00）'),
+    ('an1_later.if', 'dec:heroine_01.jp_tell=later（含預設'), ('an1_later.group.at', '2027-03-19（五）21:00'), ('an1_later.group.th', 'g:noodle_team'),
+    ('an1_later.group.cond', '祐廷在桌遊團群組（noodleGroup）'), ('an1_later.dm.at', '2027-03-19 21:20'), ('an1_later.dm.cond', '和以安 FAMILIAR 以上'),
+    ('wiringAnswers2.3.default', '沒有 ZQ-2 值＝cat'), ('wiringAnswers2.7', '照舊打：選信的玩家 9/28 生日電話照原本來'),
     ('kx_slot.wed.slot', '週三 19:00～22:00'), ('kx_slot.wed.ask.at', '每週三 18:00'), ('kx_slot.sat.slot', '週六 13:00～17:00'), ('kx_slot.sat.ask.at', '每週六 11:00'),
 ]
 # 寫在說明文字裡、要演出來的句子：名字 → (那一欄的路徑, 句子)；核對稿上有「句子」
@@ -77,7 +82,16 @@ QUOTES = {
     'zqW5Orig': ('zq_intern.y2s1Moments.week5', '第二關的地圖，還是灰色的'),
     'zqDemoOrig': ('zq_intern.demoJan9.where', '第三關。橋是新的。'),   # src/data/termend_lines.js C15.zq_demo 換掉的那一句（ee689cfb8）
     'zrLetter4Video': ('wiringAnswers.6', '二十五號晚上視訊。時間寫在這裡，你不要忘記。'),   # 交往中＋信：第四封（第一封是送機那一封）最後加這一句、12/25 視訊照舊
+    # 075eae472
+    'anLaterNoGroup': ('an1_later.noGroup', '我要申請日本交換。……先跟你說一聲。'),   # 不在桌遊團群組：私訊的第一句換成這一句（選項一樣）
+    'zqDemoNarr': ('wiringAnswers2.3.rule', '一隻貓站在一座橋上'),   # termend_lines.js C15.zq_demo 換掉的三處（原本的字）
+    'zqDemoFall': ('wiringAnswers2.3.rule', '你在橋的一半掉下去'),
+    'zqDemoHard': ('wiringAnswers2.3.rule', '……第三關太難了。我回去改。'),
+    'zrCafeAdmit': ('wiringAnswers2.5', '我錄取了。英國那邊的信來了。'),   # y2r2_3d.js ev_zhiruo_admitted 沒交往版那一句
+    'zrScholarCafe': ('wiringAnswers2.5', '……獎學金拿到一半。'),   # ZR-1 scholar／both：接在那一句後面
 }
+# wiringAnswers2.3：1/9 demo 實習版三處照 ZQ-2 換（每個值三句，依序取代 QUOTES 的 zqDemoNarr、zqDemoFall、zqDemoHard 那三句）；沒有 ZQ-2 值＝cat
+DEMO3 = ('wiringAnswers2.3', ('shop', 'tainan', 'cat'))
 # 那一場的背景：OUT.BG 的鍵（地點字幕照稿 plan.place）；dark＝沒有 3D、也沒有圖
 BG = {
     'ev_an_expo_together': 'boya_lecture_hall', 'ev_an_grad_think': 'library_b1', 'ev_zr_call_mom': 'dark', 'ev_zr_scholar_1': 'library_b1',
@@ -190,7 +204,7 @@ def build(src, sha):
     for b in BLOCKS:
         if b not in src:
             raise SystemExit(f'AA_720 {b}：沒有')
-    extra = set(src) - set(BLOCKS) - {'_meta', 'events', 'endings', 'quietMove', 'kx_waited_after', 'wiringAnswers'}
+    extra = set(src) - set(BLOCKS) - {'_meta', 'events', 'endings', 'quietMove', 'kx_waited_after', 'wiringAnswers', 'an1_later', 'wiringAnswers2'}
     if extra:
         raise SystemExit(f'AA_720 多了不認得的區塊：{sorted(extra)}')
     for k, v in list(ev.items()) + [(b, src[b]) for b in BLOCKS]:
@@ -252,9 +266,28 @@ def build(src, sha):
             raise SystemExit('zq_intern.demoJan9.intern：要有 shop／tainan／cat／default 四句')
         if set((dj.get('captions') or {})) != {'zq1c', 'zq4c'}:
             raise SystemExit('zq_intern.demoJan9.captions：要有 zq1c、zq4c')
-    # wiringAnswers＝AA 回 LAWWW 的十二點（說明，不是台詞）：不進遊戲；要演的句子照 QUOTES 抽出來
-    data = fix({k: v for k, v in src.items() if k not in ('_meta', 'wiringAnswers')})
-    return {'src': f'{PATH}@{sha}', 'data': data, 'cfg': {'quotes': q, 'bg': BG, 'endIf': end_if}}
+    al = src.get('an1_later')   # 075eae472：以安 AN-1 later（含預設）——3/19 21:00 桌遊團群組 Alison、21:20 以安私訊＋三個選項
+    if al is not None:
+        lines(al['group'].get('msgs'), 'an1_later.group.msgs')
+        lines(al['dm'].get('msgs'), 'an1_later.dm.msgs')
+        if len(al['dm']['msgs']) != 1:
+            raise SystemExit('an1_later.dm.msgs：播放程式照「一則」換第一句（不在群組的版本），稿改了要先改 src/aa720_3d.js')
+        opts(al['dm'].get('opts'), 'an1_later.dm.opts')
+        if '選項一樣' not in al.get('noGroup', ''):
+            raise SystemExit('an1_later.noGroup：找不到「選項一樣」')
+    p3, vals = DEMO3
+    w3 = get(src, p3)
+    demo3 = {}
+    for v in vals:
+        L = w3.get(v)
+        if not isinstance(L, list) or len(L) != 3 or not all(isinstance(t, str) and t.strip() for t in L):
+            raise SystemExit(f'{p3}.{v}：要是三句（依序取代「一隻貓站在一座橋上」那句旁白、「你在橋的一半掉下去」、「……第三關太難了。我回去改。」）')
+        demo3[v] = [IG.read_fix(t) for t in L]
+    if not str(w3.get('rule', '')).startswith('要：1/9 demo 那一場實習版照 ZQ-2 換三處'):
+        raise SystemExit(f'{p3}.rule：稿改了要先改 src/aa720_3d.js')
+    # wiringAnswers／wiringAnswers2＝AA 回 LAWWW 的說明（不是台詞）：不進遊戲；要演的句子照 QUOTES、DEMO3 抽出來
+    data = fix({k: v for k, v in src.items() if k not in ('_meta', 'wiringAnswers', 'wiringAnswers2')})
+    return {'src': f'{PATH}@{sha}', 'data': data, 'cfg': {'quotes': q, 'bg': BG, 'endIf': end_if, 'demo3': demo3}}
 
 
 def main():

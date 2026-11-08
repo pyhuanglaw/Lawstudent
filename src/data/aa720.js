@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_aa720.py（docs/story_planning/AA_720_decide_opened_scenes.json@ee689cfb8）。不要手改，改企劃 AA_720 再重新匯入。
+/* 自動產生：tools/story/import_aa720.py（docs/story_planning/AA_720_decide_opened_scenes.json@075eae472）。不要手改，改企劃 AA_720 再重新匯入。
    決定拍打開的場景、尾聲分版本（播放 src/aa720_3d.js）*/
 'use strict';
 const AA720={
- "src": "docs/story_planning/AA_720_decide_opened_scenes.json@ee689cfb8",
+ "src": "docs/story_planning/AA_720_decide_opened_scenes.json@075eae472",
  "data": {
   "events": {
    "ev_an_expo_together": {
@@ -2824,6 +2824,62 @@ const AA720={
     "再說。",
     "喔。"
    ]
+  },
+  "an1_later": {
+   "if": "dec:heroine_01.jp_tell=later（含預設：沒演到第 6 拍、舊存檔）",
+   "by": "AA-B 11-08 03:2x（LAWWW-B 03:16 沒做的第 1 件）",
+   "group": {
+    "at": "2027-03-19（五）21:00（說明會 3/18 的隔天）",
+    "th": "g:noodle_team",
+    "cond": "祐廷在桌遊團群組（noodleGroup）",
+    "msgs": [
+     [
+      "yu",
+      "以安要去日本交換了！她自己都不講！"
+     ]
+    ]
+   },
+   "dm": {
+    "at": "2027-03-19 21:20",
+    "cond": "和以安 FAMILIAR 以上",
+    "msgs": [
+     "……你應該已經聽 Alison 說了。"
+    ],
+    "opts": [
+     {
+      "t": "聽說了。恭喜。",
+      "rel": {
+       "comf": 1
+      },
+      "say": [
+       "還沒申請上。",
+       "……謝謝。"
+      ]
+     },
+     {
+      "t": "妳怎麼沒跟我說？",
+      "rel": {
+       "trust": 1
+      },
+      "say": [
+       "我想申請上了再說。",
+       "……結果 Alison 先說了。"
+      ]
+     },
+     {
+      "t": "日本很適合妳。",
+      "rel": {
+       "fam": 1
+      },
+      "say": [
+       "你又知道了。",
+       "……我也覺得。"
+      ]
+     }
+    ]
+   },
+   "noGroup": "不在群組的：只有私訊那一則，第一句換成「我要申請日本交換。……先跟你說一聲。」，選項一樣",
+   "note": "aa555 y2s2_an_expo（說明會資料四十頁那則）照原本（AA_719 after.later）"
   }
  },
  "cfg": {
@@ -2849,7 +2905,13 @@ const AA720={
    "zqJ9Orig": "第三關，一隻貓站在一座橋上",
    "zqW5Orig": "第二關的地圖，還是灰色的",
    "zqDemoOrig": "第三關。橋是新的。",
-   "zrLetter4Video": "二十五號晚上視訊。時間寫在這裡，你不要忘記。"
+   "zrLetter4Video": "二十五號晚上視訊。時間寫在這裡，你不要忘記。",
+   "anLaterNoGroup": "我要申請日本交換。……先跟你說一聲。",
+   "zqDemoNarr": "一隻貓站在一座橋上",
+   "zqDemoFall": "你在橋的一半掉下去",
+   "zqDemoHard": "……第三關太難了。我回去改。",
+   "zrCafeAdmit": "我錄取了。英國那邊的信來了。",
+   "zrScholarCafe": "……獎學金拿到一半。"
   },
   "bg": {
    "ev_an_expo_together": "boya_lecture_hall",
@@ -3087,6 +3149,23 @@ const AA720={
      ]
     ]
    }
+  },
+  "demo3": {
+   "shop": [
+    "（畫面上是一間五金行，鐵門拉起來一半。）",
+    "（你在兩排貨架中間卡住了，怎麼走都出不去。）",
+    "……第二關太難了。我回去改。"
+   ],
+   "tainan": [
+    "（畫面上是一條很窄的巷子，兩邊是紅磚牆。）",
+    "（你在巷子的轉角走錯了好幾次。）",
+    "……第二關太難了。我回去改。"
+   ],
+   "cat": [
+    "（畫面上是一隻貓走在溫州街上。）",
+    "（你在路口跟丟了那隻貓。）",
+    "……第二關太難了。我回去改。"
+   ]
   }
  }
 };

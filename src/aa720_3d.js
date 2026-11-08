@@ -1,5 +1,5 @@
 /* ===== 決定拍打開的場景（AA_720，src/data/aa720.js；AA720-DECIDE-OPENED-1108；接 AA_719 src/decide3d.js）=====
-   使用者 11-07 對 BB-B：「我想要的是我的選項會改變故事」；Q3「要分版本」（尾聲）。台詞照 AA_720 一字不改（D109，AA 定稿；tests/aa720_decide_opened_unit.js 逐句對 ee689cfb8）。
+   使用者 11-07 對 BB-B：「我想要的是我的選項會改變故事」；Q3「要分版本」（尾聲）。台詞照 AA_720 一字不改（D109，AA 定稿；tests/aa720_decide_opened_unit.js 逐句對 075eae472）。
    - 誰會演：她的決定拍（AA_719）真的演過、記了那個值（DECIDE[人][key]，不是預設值、不是過了 before 的 late）＝打開；舊存檔、沒演到＝照原本，不演。
    - 邀約（invite）：她傳訊息（PHONE.at，最後一則可以回；或接在決定拍 say 的最後一句之後，當面選 DECIDE.AFTER_SAY／傳訊息 DECIDE.MSG_ASK）
      → plan:true＝排那一場（OUT.plan；時間到跳「出發」）；「+1天」「下一週」「now」＝照稿；set＝不去（declined）；一直沒回＝不排、不扣。
@@ -12,6 +12,8 @@
      ps_result（2027-08-06 09:58 先傳兩則，psresults3d.js 照演）、kx_quiet、kx_eat（公館麵店）、kx_slot（週三／週六那一格）、kx_waited_after（等了一個小時以後兩天只回一句）。
    - ee689cfb8（AA720-WIRING-1108，AA-B wiringAnswers）：上面幾處照 AA 的回答改；AA_719 的 after 句子（DECIDE_RULES.afterQ）接到原本的訊息（S.AT_FIX）和子晴測試版那一場；
      子晴輪換句第 14、15 則 intern 版說 altIntern（src/arcs3d.js）。
+   - 075eae472（AA720-WIRING-1108 第三輪，AA-B an1_later、wiringAnswers2）：以安 AN-1 later 版（含預設值）3/19 21:00 桌遊團群組 Alison、21:20 以安私訊三選項（不在群組＝只有私訊、第一句換）；
+     1/9 demo 實習版三處照 ZQ-2（S.patchDemo）；沒交往 Café 當面版加「……獎學金拿到一半。」（y2r2_3d.js ev_zhiruo_admitted）；選信的 9/28 生日電話照原本打（Y2B.bdayCard，不用明信片）。
    - 尾聲（endings，第二批）：PG.epiLine 每位她原本的句子後面，照 order 取第一個符合的多一句；交往中＋CONF_FAIL[她]＝再加 confFail；都不符合＝照原本。
    存檔：G.flags.AA720＝{key:{st:'offer'|'planned'|'done'|'missed'|'declined'|'skip'|'na', inv, slot, plan, k, ...}}；舊存檔沒有＝都沒演過。
    測試：node tests/aa720_decide_opened_unit.js */
@@ -207,6 +209,18 @@ const AA720P=(function(){
     if(r.st||now(G)<T(d,22.5)||G.day>d+1) return false; const L=S.msgs(G,AN,E.dm.msgs); L[L.length-1].ask=S.askOf(G,'ev_an_airport',AN,E.dm.opts,T(d+1,10.25)); PHONE.at(G,d,22.5,L,'aa720_an_airport'); r.st='offer'; return true; });
   S.OPTS.ev_an_airport=()=>EV('ev_an_airport').dm.opts;
   S.ON.ev_an_airport=(G,i,m,op)=>{ const r=S.r(G,'ev_an_airport'); r.st='answered'; r.k=i; if(op&&op.plan==='y3_an_sendoff'){ if(F(G).HOOK_AN_SENDOFF==null) F(G).HOOK_AN_SENDOFF=G.day; if(typeof Y34B!=='undefined'&&Y34B.planSendoff) Y34B.planSendoff(G); } };
+  /* 以安 AN-1 later（an1_later，075eae472；含預設值：沒演到第 6 拍、過了 before 才演到的 late、舊存檔＝不是真的記了 first 的都算）：
+     2027-03-19（五）21:00 桌遊團群組（noodle_team）Alison 一則；21:20 以安私訊（和她 FAMILIAR 以上、有她的聯絡方式）一則＋三個選項（她回兩句、rel）。
+     21:00 那時不在群組＝沒有群組那則，私訊的第一句換成 an1_later.noGroup 那一句（選項一樣）。三天內補（照稿的時間）；aa555 y2s2_an_expo 照原本（稿 note）*/
+  S.AN_LATER={day:'2027-03-19',grp:21,dm:21+20/60};
+  S.anLater=G=>law(G)&&!S.is(G,AN,'jp_tell','first');
+  S.anFam=G=>met(AN)&&typeof SOCIAL!=='undefined'&&!!SOCIAL.STAGES&&!!SOCIAL.stage&&SOCIAL.STAGES.indexOf(SOCIAL.stage(AN))>=SOCIAL.STAGES.indexOf('FAMILIAR');
+  S.inGrp=G=>typeof PHONE!=='undefined'&&!!PHONE.inGroup&&PHONE.inGroup(G,'noodle_team');
+  S.RULES.push(function anLater(G){ if(!S.anLater(G)||typeof PHONE==='undefined') return false; const B=DATA().an1_later, d=dk(S.AN_LATER.day); if(!B||d==null||G.day>d+3) return false; const r=S.r(G,'an1_later'); let did=false;
+    if(r.grp==null&&now(G)>=T(d,S.AN_LATER.grp)){ r.grp=S.inGrp(G); if(r.grp){ PHONE.at(G,d,S.AN_LATER.grp,S.msgs(G,'yu',B.group.msgs,B.group.th),'aa720_an_later_grp'); did=true; } }
+    if(r.dm==null&&r.grp!=null&&now(G)>=T(d,S.AN_LATER.dm)){ r.dm=S.anFam(G)&&contact(G,AN); if(r.dm){ const L0=B.dm.msgs.slice(); if(!r.grp) L0[0]=Q('anLaterNoGroup'); const L=S.msgs(G,AN,L0); L[L.length-1].ask=S.askOf(G,'an1_later',AN,B.dm.opts,T(d+3,24)); PHONE.at(G,d,S.AN_LATER.dm,L,'aa720_an_later_dm'); did=true; } }
+    return did; });
+  S.OPTS.an1_later=()=>DATA().an1_later.dm.opts; S.WHO.an1_later=AN; S.ON.an1_later=(G,i)=>{ S.r(G,'an1_later').k=i; };   /* rel 在 onAnswer 加給以安 */
   S.anSlip=G=>S.is(G,AN,'grad','together')&&F(G).AN_GRAD_THINK===true;   /* 有 ev_an_grad_think 才有那張紙條（missed 的不加）*/
   S.patchSendoff=function(){ const ev=typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.find(e=>e&&e.id==='ev_an_sendoff'); const I=EV('ev_an_airport'); if(!ev||!I||!Array.isArray(ev.dialogue)||ev.aa720) return false; const D=ev.dialogue;
     const C=f=>({custom:f}), nar=t=>/^（/.test(t), mk=(t,c)=>({if:C(c),speaker:nar(t)?null:AN,text:t});
@@ -250,6 +264,14 @@ const AA720P=(function(){
   S.xmasVideo=function(G){ const d=dk('2027-12-25'); if(d==null||now(G)>=T(d,20.5)) return false; if(typeof Y2B!=='undefined'&&Y2B.xmasVideo) return Y2B.xmasVideo(G); return false; };
   /* 明信片（y2b3d.js 1B-10 Z10）：distance=letters 的玩家不寄（信取代）*/
   S.patchPostcards=function(){ if(typeof Y2B==='undefined'||!Y2B.pcCards||Y2B.pcCards.aa720) return false; const p0=Y2B.pcCards; const p1=function(G){ if(S.zrLetters(G)) return []; return p0.apply(this,arguments); }; p1.aa720=true; Y2B.pcCards=p1; return true; };
+  /* 9/28 她的生日那一通（y2b3d.js 1B-10 AA_336 B6）：原本要讀過 9/24 那張明信片（寄給他本人的版本）才有（Y2B.bdayCard）。
+     寫信的玩家沒有明信片，生日電話照原本來（075eae472 wiringAnswers2 7：不用明信片帶出來；同 12/25 視訊）：9/28 21:55「打給她。」「不打。」→ 22:00 視訊，其他照 y2b3d.js */
+  S.patchBday=function(){ if(typeof Y2B==='undefined'||!Y2B.bdayCard||Y2B.bdayCard.aa720) return false; const b0=Y2B.bdayCard; const b1=function(G){ if(S.zrLetters(G)) return true; return b0.apply(this,arguments); }; b1.aa720=true; Y2B.bdayCard=b1; return true; };
+  /* 沒交往在 Café 當面講的錄取（y2r2_3d.js ev_zhiruo_admitted）：ZR-1 scholar／both＝「我錄取了。英國那邊的信來了。」後面多她一句「……獎學金拿到一半。」（075eae472 wiringAnswers2 5；
+     那一句演的時候才加。交往中 5/11 22:40 那則訊息是 S.AT_FIX y2r2_zr_admit）*/
+  S.patchAdmitted=function(){ const ev=typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.find(e=>e&&e.id==='ev_zhiruo_admitted'); if(!ev||!Array.isArray(ev.dialogue)||ev.aa720||!Q('zrScholarCafe')) return false; const D=ev.dialogue;
+    const i=D.findIndex(l=>l&&l.speaker===ZR&&l.text===Q('zrCafeAdmit')); if(i<0) return false; const c0=D[i].if&&D[i].if.custom;
+    D.splice(i+1,0,{if:{custom:G=>(typeof c0!=='function'||!!c0(G))&&law(G)&&S.is(G,ZR,'fund',['scholar','both'])},speaker:ZR,text:Q('zrScholarCafe')}); ev.aa720=true; return true; };
   /* 十點半的電話（distance=call）：2027-09-07～2028-02-11 每週二、週五 22:25 她傳一則（照順序輪）；「今天不行」＝那一次不講 */
   S.zrCallOn=G=>law(G)&&S.is(G,ZR,'distance','call');
   S.RULES.push(function zrCall(G){ if(!S.zrCallOn(G)||typeof PHONE==='undefined') return false; const a=dk('2027-09-07'), b=dk('2028-02-11'), d=G.day; if(a==null||b==null||d<a||d>b) return false; const w=wdOf(d); if(w!==2&&w!==5) return false;
@@ -326,11 +348,15 @@ const AA720P=(function(){
 
   /* 她辭掉延長的實習了（altIntern 第 15 則的前／後，ARCS.COND.zqQuitIntern）：演過騎樓那一場（ZQ_QUIT_INTERN），或 10/17 20:00 那則傳了（沒去、不回的版本她也辭了：「我辭掉實習了。」）*/
   S.zqQuit=G=>!!G&&!!G.flags&&(G.flags.ZQ_QUIT_INTERN===true||sent(G,'aa720_zq_next'));
-  /* 1/9 資工系館 demo（termend_lines.js C15.zq_demo）：intern 版「第三關。橋是新的。」那一句換 demoJan9.intern（照 ZQ-2 的值；還沒決定＝default）；其他句照原本（ee689cfb8 demoJan9.where 只換那一句）*/
+  /* 1/9 資工系館 demo（termend_lines.js C15.zq_demo）intern 版：照 ZQ-2 的值（還沒決定＝default／cat）換四句——
+     「第三關。橋是新的。」＝demoJan9.intern（ee689cfb8）；「一隻貓站在一座橋上」那句旁白、「你在橋的一半掉下去」那句旁白、「……第三關太難了。我回去改。」＝wiringAnswers2.3 那個值的三句（075eae472，import_aa720.py DEMO3 → cfg.demo3，整句換）*/
   S.zqDemoLine=G=>{ const I=((BLK('zq_intern')||{}).demoJan9||{}).intern||{}, v=(S.dec(G,ZQ,'level')||{}).v; return I[v]||I.default||null; };
+  S.zqDemo3=G=>{ const D=(A()&&A().cfg.demo3)||{}, v=(S.dec(G,ZQ,'level')||{}).v; return D[v]||D.cat||null; };   /* wiringAnswers2.3 default：沒有 ZQ-2 值＝cat */
   S.patchDemo=function(){ const C=typeof TERMEND_LINES!=='undefined'&&TERMEND_LINES.C15&&TERMEND_LINES.C15.zq_demo; if(!C||C.aa720) return false; const L0=C.lines;
-    C.lines=function(G){ const L=typeof L0==='function'?L0.apply(this,arguments):L0; if(!G||!S.zqIntern(G)||!Array.isArray(L)) return L; const t=S.zqDemoLine(G); if(!t) return L;
-      return L.map(x=>x&&x.who===ZQ&&x.text===Q('zqDemoOrig')?Object.assign({},x,{text:t}):x); };
+    C.lines=function(G){ const L=typeof L0==='function'?L0.apply(this,arguments):L0; if(!G||!S.zqIntern(G)||!Array.isArray(L)) return L; const t=S.zqDemoLine(G), V=S.zqDemo3(G);
+      const nar=(x,k)=>!!x&&typeof x.narr==='string'&&!!Q(k)&&x.narr.includes(Q(k)), her=(x,t0)=>!!x&&x.who===ZQ&&x.text===t0;
+      return L.map(x=>{ if(t&&her(x,Q('zqDemoOrig'))) return Object.assign({},x,{text:t}); if(!V) return x;
+        if(nar(x,'zqDemoNarr')) return Object.assign({},x,{narr:V[0]}); if(nar(x,'zqDemoFall')) return Object.assign({},x,{narr:V[1]}); if(her(x,Q('zqDemoHard'))) return Object.assign({},x,{text:V[2]}); return x; }); };
     C.aa720=true; return true; };
   /* ZQ-2 的 after（AA_719，DECIDE_RULES.afterQ）：2028-03-08 總圖二樓測試版那一場（zq_testbuild3d.js），「第三關是九份…」那一句之前（沒有九份就在選項之前）她說第二關——shop、tainan 各一句；cat＝原本 */
   const DQ=k=>(typeof DECIDE_RULES!=='undefined'&&DECIDE_RULES.afterQ&&DECIDE_RULES.afterQ[k])||null;
@@ -463,7 +489,7 @@ const AA720P=(function(){
     if(typeof DECIDE!=='undefined'){ if(Array.isArray(DECIDE.AFTER_SAY)&&!DECIDE.AFTER_SAY.includes(S.afterSay)) DECIDE.AFTER_SAY.push(S.afterSay); if(Array.isArray(DECIDE.MSG_ASK)&&!DECIDE.MSG_ASK.includes(S.msgAsk)) DECIDE.MSG_ASK.push(S.msgAsk); }
     if(typeof INV!=='undefined'&&INV.meetOpen&&!INV.meetOpen._aa720){ const M0=INV.meetOpen; const M1=async function(GM,iv,who,o){ const r=await M0.apply(this,arguments); try{ await S.sisNextSay(GM,who,iv&&iv.who); await S.kxShownSay(GM,who,iv&&iv.who); }catch(e){ console.warn('AA720P.meetOpen',e); } return r; }; M1._aa720=true; Object.keys(M0).forEach(k=>{ if(k!=='_aa720') M1[k]=M0[k]; }); INV.meetOpen=M1; }   /* 約好的見面開場（同 CF723 normalSay）*/
     S.patchSendoff(); S.patchZrSendoff(); S.patchPostcards(); S.patchE07(); S.patchYT(); S.patchArcs(); S.patchFeed(); S.patchSisExam(); S.patchInv(); S.patchEpi(); S.patchPsr();
-    S.patchFeedPost(); S.patchDemo(); S.patchTestBuild(); S.patchPhoneAt();
+    S.patchFeedPost(); S.patchDemo(); S.patchTestBuild(); S.patchPhoneAt(); S.patchBday(); S.patchAdmitted();
     if(typeof MSG!=='undefined'&&Array.isArray(MSG.REPLY_OVERRIDE)&&!MSG.REPLY_OVERRIDE.includes(S.kxAfterLine)) MSG.REPLY_OVERRIDE.push(S.kxAfterLine);
     return true; };
   /* 動態換圖、換選項（zq1c、zq4c）*/
