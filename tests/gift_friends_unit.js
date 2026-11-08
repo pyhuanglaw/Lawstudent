@@ -54,13 +54,16 @@ const PRE="import sys,json,subprocess;sys.path.insert(0,'tools/story');import im
   /* 0b 只給可攻略的對象（使用者 11-08 15:2x「送飲料只需要給可攻略的對象」「飲料改完再發布」；X266、GIFT-ROMANCE-ONLY-1108）：
      預設只有芯慈（可以攻略）照朋友版還收得到；阿哲、阿凱、Alison、柏翰、明軒當面說話不會出現「送他／她○○」、GIFT.give 不收（東西還在身上）；七位女主角照舊 */
   { const OK0=Object.assign({},GIFT.FRIEND_OK||{}); const NO=['zhe','kai','yu','classmate_bohan','classmate_mingxuan'];
-    check('0b. 預設可以送的朋友只有芯慈（GIFT.FRIEND_OK）',same(Object.keys(OK0).filter(k=>OK0[k]).sort(),['classmate_xinci']),J(OK0));
+    check('0b. 預設可以送的朋友只有芯慈（GIFT.FRIEND_OK）',same(Object.keys(OK0).filter(k=>OK0[k]).sort(),['classmate_xinci']),J(Object.keys(OK0)));
+    const XC0=globalThis.XCROM; globalThis.XCROM={ON:true};   /* 芯慈：XCROM.ON 才能送（AA-B 15:33）；harness 沒載 xcrom3d.js，用替身，下面另外查遊戲裡現在是打開的 */
     const bad=[]; for(const id of NO){ const G=fresh(); mk(G,'青茶'); G.carry.push({n:'飯糰',cat:'breakfast',day:G.day,shop:'便利商店'});
       const viaStory=STORY.TALK_OPTS.some(f=>{ try{ return (f(G,id,GM)||[]).length>0; }catch(e){ return false; } });
       if(GIFT.talkOpts(G,id).length||viaStory) bad.push(id+' 有選項');
       H.said=[]; const c=G.carry[0]; const r=await GIFT.give(GM,who(id),id,c); if(r!==null||H.said.length||!G.carry.includes(c)) bad.push(id+' give='+r); }
     check('0b. 阿哲、阿凱、Alison、柏翰、明軒：當面說話沒有「送○○」、GIFT.give 不收（不說話、東西留著）',!bad.length,J(bad));
-    { const G=fresh(); mk(G,'青茶'); check('0b. 芯慈照舊有「送她青茶」',same(GIFT.talkOpts(G,'classmate_xinci').map(x=>x.t),['送她青茶'])); }
+    { const G=fresh(); mk(G,'青茶'); check('0b. 芯慈（她的線打開，XCROM.ON）照舊有「送她青茶」',same(GIFT.talkOpts(G,'classmate_xinci').map(x=>x.t),['送她青茶']));
+      globalThis.XCROM={ON:false}; check('0b. 芯慈的線關著（XCROM.ON false）＝跟朋友一樣不能送',GIFT.talkOpts(G,'classmate_xinci').length===0); globalThis.XCROM={ON:true}; }
+    check('0b. 遊戲裡芯慈的線現在是打開的（src/xcrom3d.js S.ON=true）',/\n\s*S\.ON=true;/.test(fs.readFileSync(path.join(H.ROOT,'src/xcrom3d.js'),'utf8')));
     { const G=fresh(); mk(G,'青茶'); const hs=Object.keys(GIFT_LINES.people||{}); check('0b. 七位女主角照舊有「送她○○」（AA_710）',hs.length===7&&hs.every(id=>GIFT.talkOpts(G,id).length>0),J(hs.filter(id=>!GIFT.talkOpts(G,id).length))); }
     /* 下面 1～6 驗朋友版本身（芯慈在用；以後要再打開某一位也是這一套）：六位都打開來測，測完換回預設 */
     GIFT.FRIEND_OK=Object.fromEntries(IDS.map(id=>[id,true])); }

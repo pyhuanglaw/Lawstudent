@@ -78,10 +78,11 @@ const GIFT=(function(){
     const m=month(G), t=S.TEMP[c.n]; if(k==='winterCold') return (m===12||m<=2)&&m>0&&t==='cold'; if(k==='summerHot') return m>=6&&m<=8&&t==='hot'; return false; };
   /* 朋友（AA_728）：{kind:'no'|'yes', lines, rel（今天還沒算過才有）, k, i, cat, friend:true} */
   /* 送東西只給可攻略的對象（使用者 11-08 15:2x「送飲料只需要給可攻略的對象」「飲料改完再發布」；X266、GIFT-ROMANCE-ONLY-1108）：
-     七位女主角（AA_710，GIFT_LINES.people）照舊；朋友六位（AA_728）只留可以攻略的——芯慈（AA_728「芯慈可以攻略也照朋友版」）；阿哲、阿凱、Alison、柏翰、明軒不會出現「送他／她○○」。
+     七位女主角（AA_710，GIFT_LINES.people）照舊；朋友六位（AA_728）只留可以攻略的——芯慈（AA_728「芯慈可以攻略也照朋友版」；AA-B 15:33「芯慈留」）；阿哲、阿凱、Alison、柏翰、明軒不會出現「送他／她○○」（AA_728 稿那五位標 unused）。
      稿和匯入照舊（gift_lines.js 的 friends 還在，只是不送）；要再打開某一位，加進這裡就好 */
-  S.FRIEND_OK={classmate_xinci:true};
-  const friendOK=id=>!!(S.FRIEND_OK&&S.FRIEND_OK[id]);
+  /* 芯慈：她的線打開（xcrom3d.js XCROM.ON）才算可以攻略、才能送；線關著＝跟朋友一樣不能送（AA-B 11-08 15:33「芯慈留…條件寫成 XCROM.ON 才能送」）。值是 true 或函式 */
+  S.FRIEND_OK={classmate_xinci:()=>typeof XCROM!=='undefined'&&!!XCROM.ON};
+  const friendOK=id=>{ const v=S.FRIEND_OK&&S.FRIEND_OK[id]; return typeof v==='function'?!!v():!!v; };
   const pickFriend=function(G,id,c){ const T=friendOK(id)?LFP()[id]:null; if(!T) return null; const R=F(G), cat=S.CAT[c.n]||c.cat, sec=T[cat]?cat:'drink', key=id+'|'+cat, x={n:c.n,cnt:R.n[id]|0,h:+G.hour||0};
     if(!T[sec]) return null;
     if(R.day[key]===G.day){ const r=rot(R,id+'|no',T.no,x)||{k:id+'|no',i:0,g:T.no[0]}; return {kind:'no',lines:r.g.lines,k:r.k,i:r.i,cat,friend:true}; }   /* 一天第二次同一種：不收，東西留著 */
