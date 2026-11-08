@@ -1557,3 +1557,13 @@ Raa36_touch | aa363f62a8363594199ba99ebefa3ce57512ee58 | game | tests/touch_flow
 Raa36_movreg_r2 | aa363f62a8363594199ba99ebefa3ce57512ee58 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
 # CC-B 11-08 10:1x：touch 第二次改跑 0f5c836ac（含 c6732693c 可昕導遊補 until；BB-B 10:12）
 R0f5c_touch | 0f5c836ac45739192c3c38eaee93cdfbd5b801e7 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
+# CC-B 11-08 10:4x：開發分支最新 565cf3fd6 常備回歸
+R565c_p0 | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+R565c_reach | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
+R565c_zone | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
+R565c_mini | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+R565c_main12 | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R565c_classreal | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
+R565c_v0_start | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/flow_v0_start.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R565c_movreg | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
+R565c_touch | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
