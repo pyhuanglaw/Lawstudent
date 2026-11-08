@@ -49990,6 +49990,35 @@
     "owner": "LAWWW"
    },
    "evidence": "c1f89f8e0；3c5469cb4；c6732693c"
+  },
+  {
+   "id": "BUG-POOL-REPEAT-SILENT-1108",
+   "title": "上課前在必修課教室和法律系同學（林采潔）說第二次話：沒有台詞也沒有旁白（BB-B 11-08 11:28 觀察，候選）",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "上課前在教室和法律系同學說第二次話",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-08 11:3x LAWWW-B】查程式：pool3d.js S.smallTalk 一天第二次走 repeat 分支，STORY.greetB 一定回 say 或 narr（「（{n}對你點點頭。）」），照理會出一句——可能是上課前另一條路（classes3d 互動、快上課擋掉）。誰決定：LAWWW-B。為什麼：還不知道是不是 bug。負責人：BB（給重現：時間、zone、互動鍵的字、E.player.busy）、LAWWW（查）。恢復條件：BB 給重現步驟。下次檢查：2026-11-09。",
+   "pausedReason": "等 BB-B 給重現步驟",
+   "resumeWhen": "BB-B 給重現",
+   "xai": {
+    "spec": "BB-B 11-08 11:28",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "一天第二次說話至少有點頭的旁白",
+    "receiver": "BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW"
+   },
+   "evidence": ""
   }
  ]
 }
