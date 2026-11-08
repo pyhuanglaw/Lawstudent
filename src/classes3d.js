@@ -197,6 +197,10 @@ const CLS=(function(){
     prof_jian:t=>['「出事了——假設你是保險公司。今天談'+t+'。」','有人小聲說：「每次都是出事了。」'],
   };
   const GENERAL=t=>['老師今天上'+t+'。','旁邊的人打了一個呵欠，又趕快坐直。'];
+  /* 外面整句一對「」拿掉（同 invites3d.js、libquiet3d.js 的 S.unq；「A」「B」這種好幾段的、「…」後面還有字的不動）。TEXT-QUOTE-UNIFY-1108 第八批（AA-B 11-08 13:05「只做有名字的」）：
+     上面 STYLE 的開場同一個字串兩條路——教授在場（S.attend 的 GM.say(prof,…)，對話框是教授的名字）＝拿掉外面的「」；不在場（EVENTS.npcOf 找不到教授：名字寫在字裡「周老師：「…」」、對話框沒有名字；
+     y5s1_3d.js 大五補修的重播也是這樣）照留、一字不改。所以 STYLE 的字不改，只在教授在場那一條路拿掉；鄭教授那句「「我先畫張圖。」黑板上…」不是整句一對，不動 */
+  S.unq=t=>{ if(typeof t!=='string'||t.length<2||t[0]!=='「'||t[t.length-1]!=='」') return t; let d=0; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='「') d++; else if(ch==='」'){ d--; if(d===0&&i!==t.length-1) return t; } } return d===0?t.slice(1,-1):t; };
   /* BB 的普通課堂內容（src/data/syllabus.js，AA_104 的 syllabus 格式）：每週 {w, tpl A／B／C, board 三行, line 教授一句, react 同學反應[{who,text}], obs 觀察小選擇, call 被點到}；
      國文、英文、體育、實習是台詞池（pools：每週一句）。同學反應只用遊戲裡已經有的人物（heroine_06、日文班等新人物的設定還沒確認：略過），'class'＝不具名同學 */
   let sylDone=false; function attachSyllabus(){ if(sylDone||typeof SYLLABUS==='undefined'||typeof COURSES==='undefined') return; sylDone=true;
@@ -348,7 +352,7 @@ const CLS=(function(){
         if(p1){ const k=await GM.choose(S.P1_SEATS.map(q=>({t:q[1]}))); G.flags=G.flags||{}; G.flags.Y0_P1_SEAT=(S.P1_SEATS[k]||S.P1_SEATS[0])[0]; }   /* 坐哪裡（法律系 P4c 的旁白讀它）*/
         if(S.attCourse(c)){ const rk=it.term+':'+c.id; R.attRule=R.attRule&&typeof R.attRule==='object'?R.attRule:{}; if(!R.attRule[rk]){ R.attRule[rk]=G.day; for(const [w,t] of S.attRuleLines(G,c)) await GM.say(w?{name:w}:null,t); } if(!lateAbs&&S.rollWeeks(G,c,it.term).includes(it.week)){ R.rollSaid=R.rollSaid&&typeof R.rollSaid==='object'?R.rollSaid:{}; const rk2=it.term+':'+c.id+':'+it.week; if(!R.rollSaid[rk2]){ R.rollSaid[rk2]=1; await GM.say(null,'（老師今天點名。）'); } } }   /* ATTEND-ROLLCALL-1102（AA_574 方案 B）：點名日那堂坐在教室才知道；遲到超過 15 分鐘＝缺，不說 */   /* AA_418 第 1 節：這一學期第一次出席（遲到記缺席的那一堂不算）*/
         for(const [w,t] of (S.SPECIAL_PRE[c.id+'|'+it.week]||[])) await GM.say(w==='prof'?(prof||null):w,(w==='prof'&&!prof?(ct.prof||S.profName(c))+'：':'')+t);   /* 特別週：黑板第一行講完以後、原本那一句之前（AA-103-SP）*/
-        if(peN) await GM.say(null,peN); else await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+ct.line);   /* 體育課：每週一句旁白取代台詞池那一句（AA_644）*/
+        if(peN) await GM.say(null,peN); else await GM.say(prof||null,prof?S.unq(''+ct.line):(ct.prof||S.profName(c))+'：'+ct.line);   /* 體育課：每週一句旁白取代台詞池那一句（AA_644）*/   /* 教授在場（對話框有名字）：外面整句的「」拿掉（STYLE 的開場；TEXT-QUOTE-UNIFY-1108 第八批）；不在場＝「周老師：「…」」照舊 */
         if(c.id==='econ_principles_y0'&&!e03&&it.week===1&&!/邊際效用遞減/.test(ct.line+(ct.react||''))) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+S.ECON_W1_MU);   /* AA_200 7-2：魏老師第一堂順口講（可昕下午迎新用）；之後企劃的 syllabus 有這句就不重複 */
         for(const r of (ct.recall||[])) if(!r.after||r.after==='line'){ const t=S.recallText(G,r,it); if(t) await GM.say(null,t); }   /* 週層級的回想（v2 C15：憲法二第 12 週，聽過 B4 演講的玩家多一句旁白）；條件不到不說 */
         for(const f of S.IN_CLASS){ try{ await f(GM,it,prof,ct); }catch(e){ console.warn('CLS.IN_CLASS',e); } }

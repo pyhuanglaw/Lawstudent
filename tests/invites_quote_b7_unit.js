@@ -161,6 +161,14 @@ const O=runProbe('old'), N=runProbe('new');
 const QB=(()=>{ const c=vm.createContext({}); vm.runInContext(gitShow(BASE,'src/data/legal_qbank.js').replace(/^const QBANK\s*=/m,'globalThis.QBANK='),c); return vm.runInContext('globalThis.QBANK',c); })();
 const st=q=>q.q.replace(/。$/,''), op=q=>['A','B','C','D'].map(k=>k+'、'+q.options[k]).join('；');
 const formsOf=q=>q.type==='tf'?[st(q)+'——這句話對不對？祐廷，你說。']:[q.q,op(q)+'。祐廷，你選哪個？',op(q)];
+/* 第八批（TEXT-QUOTE-UNIFY-1108，AA-B 11-08 13:05、13:14；tests/invites_quote_b8_unit.js）：legal3d.js 13 張表的 36 句拿掉外面那一對「」，句尾是答案（{core}）、填完沒有標點的補一個「。」。
+   第 33、37 項看得到這一批以後的 legal3d.js：只認「BASE 的表（0e2690b0b，第七批沒動）× 84 題填完的那一句」→「拿掉外面那一對（＋句尾是答案的補「。」）」，一句一句寫死比；第七批自己的檢查（23 句、程式包的那一對）照舊 */
+const B8=(()=>{ const T=['CLASS_INTRO','CLASS_OK','CLASS_BAD','CLASS_UNSURE','MATE_ASK','MATE_MC','MATE_OK','MATE_BAD','STUDY_ASK','STUDY_OK','STUDY_BAD','STUDY_UNSURE','MATE_UNSURE'];
+  const L=gitShow(BASE,'src/legal3d.js').split('\n').map(l=>l.replace(/\/\*[\s\S]*?\*\//g,'')), one=re=>L.filter(l=>re.test(l))[0]||'';
+  const c=vm.createContext({G:{name:'祐廷'}}); vm.runInContext(['stmt','coreText','fill'].map(n=>one(new RegExp('^  function '+n+'\\('))).concat(T.map(n=>one(new RegExp('^  const '+n+'=')))).join('\n')+'\nglobalThis.K={fill,T:{'+T.join(',')+'}};',c);
+  const K=vm.runInContext('globalThis.K',c), m=new Map(), tl=[]; for(const n of T){ const x=K.T[n]; (Array.isArray(x)?[x]:Object.values(x)).forEach(a=>tl.push(...a)); }
+  for(const t of tl) for(const q of QB){ const a=K.fill(t,q); if(!wrapped(a)) continue; const u=unq(a); m.set(a,/\{core\}」$/.test(t)&&!/[。！？!?…」』）)]$/.test(u)?u+'。':u); }
+  return {m,n:tl.length}; })();
 
 /* ---------- 33. 分類 ---------- */
 check('33. 兩次都跑得起來（'+BASE+' 的檔、現在的檔；index.html 全部載入、沒有例外）',!(O.errs||[]).length&&!(N.errs||[]).length,sample((O.errs||[]).concat(N.errs||[])));
@@ -186,8 +194,11 @@ check('33. 兩次都跑得起來（'+BASE+' 的檔、現在的檔；index.html �
   check('33. legal3d.js LEGAL.ask：出題的人說的（say(…)）沒有一句是程式在外面包「」的；課堂選擇題說的就是 q.q；程式加的「」只剩給玩家選的選項（GM.choose：「對。」「不對。」、「A，…。」）',
     say.length>=8&&!say.some(s=>/^'「'\+|\+'[^']*」'$/.test(s))&&say.includes('q.q')&&(LG.match(/'「'\+/g)||[]).length===1&&/options=opts4\(q\)\.map\(o=>\(\{t:'「'\+o\.k\+'，'\+o\.t\+'。」',v:o\.k\}\)\)/.test(LG)&&/\{t:'「對。」',v:'對'\},\{t:'「不對。」',v:'錯'\}/.test(LG),J(say));
   const wl=lits(cur('src/legal3d.js')).filter(wrapped), wlo=lits(gitShow(BASE,'src/legal3d.js')).filter(wrapped);
-  console.log('（33. 列給 AA-B（這一批沒動）：legal3d.js 表上整句「…」的 '+wl.length+' 個（出題的人、同學說的開場、回應；給玩家選的 4 個）：'+wl.join('／')+'）');
-  check('33. legal3d.js 表上整句「…」的字串（CLASS_INTRO、MATE_ASK…，字串本身就包著）這一批沒動：和 BASE 一樣 '+wl.length+' 個',wl.length>30&&J(wl)===J(wlo)); }
+  console.log('（33. legal3d.js 表上整句「…」：BASE '+wlo.length+' 個（第七批沒動，列給 AA-B）；第八批拿掉 36 句外面那一對，現在剩給玩家選的 '+wl.length+' 個：'+wl.join('／')+'）');
+  /* 第七批：表上的字串沒動（第 35 項比第七批那一個 commit 本身）。第八批（tests/invites_quote_b8_unit.js）以後：BASE 的 40 個＝表上 36 句＋選項 4 個；現在只剩選項 4 個，表上 36 句拿掉外面那一對的字都在 */
+  const OPT4=['「對。」','「不對。」','「……我不確定。」','「……不確定。」'], litN=lits(cur('src/legal3d.js')), tab=wlo.filter(t=>!OPT4.includes(t));
+  check('33. legal3d.js 表上整句「…」的字串（CLASS_INTRO、MATE_ASK…，字串本身就包著）第七批沒動（BASE '+wlo.length+' 個＝表上 '+tab.length+' 句＋選項 4 個）；第八批以後只剩選項 4 個，表上 '+tab.length+' 句拿掉外面那一對的字各在一次',
+    wlo.length===40&&tab.length===36&&J(wl)===J(OPT4)&&B8.n===36&&tab.every(t=>litN.filter(x=>x===unq(t)).length===1)); }
 
 /* ---------- 34. 資料和 BASE 逐句比 ---------- */
 { const A=O.data||[], B=N.data||[], bad=[], hit=[];
@@ -228,10 +239,10 @@ const findC7=()=>{ try{ const L=cp.execFileSync('git',['-C',ROOT,'log','--format
   check('36. LIBQ.quiet：23 句 BASE 的字和現在的字加完一樣',ln.length===23&&badS.length===0,sample(badS)); }
 
 /* ---------- 37. 演出來：BASE 和現在各跑一次 ---------- */
-const cmp=(A,B,asked)=>{ const r={bad:[],n23:0,nL:0,tw:[]}; A=A||[]; B=B||[]; const forms=new Set(); for(const id of (asked||[])){ const q=QB.find(x=>x.id===id); if(q) formsOf(q).forEach(t=>forms.add(t)); }
+const cmp=(A,B,asked)=>{ const r={bad:[],n23:0,nL:0,n8:0,tw:[]}; A=A||[]; B=B||[]; const forms=new Set(); for(const id of (asked||[])){ const q=QB.find(x=>x.id===id); if(q) formsOf(q).forEach(t=>forms.add(t)); }
   if(A.length!==B.length) r.bad.push('句數 '+A.length+' → '+B.length);
   else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ r.bad.push('說的人不一樣：'+J(a)+' → '+J(b)); return; } if(a[1]===b[1]) return; if(!b[0]){ r.bad.push('沒有名字的句子改了：'+J(a)+' → '+J(b)); return; }
-    if(OLD23.includes(a[1])&&unq(a[1])===b[1]){ r.n23++; r.tw.push(a[1]); } else if(forms.has(b[1])&&a[1]==='「'+b[1]+'」') r.nL++; else r.bad.push(J(a)+' → '+J(b)); });
+    if(OLD23.includes(a[1])&&unq(a[1])===b[1]){ r.n23++; r.tw.push(a[1]); } else if(forms.has(b[1])&&a[1]==='「'+b[1]+'」') r.nL++; else if(B8.m.has(a[1])&&B8.m.get(a[1])===b[1]) r.n8++;   /* 第八批：表上的句子（只認 BASE 的表填完的那一句、照第八批的改法）*/ else r.bad.push(J(a)+' → '+J(b)); });
   return r; };
 const PO=O.play||{}, PN=N.play||{};
 { const want={zhou_q88:[2,0],zhou_book:[2,0],zhou_plus:[1,0],xu_grad:[2,0],xu_book:[1,0],yc_back:[2,0],mx_water:[1,0],jp_1:[1,0],jp_2:[1,0],jp_3:[1,0],jp_4:[1,0],jp_5:[1,0]};
@@ -250,7 +261,8 @@ const PO=O.play||{}, PN=N.play||{};
   /* LEGAL.ask：五種情境 × 三題 */
   const per={}, badL=[], lib=[];
   for(const ctx of CTXS) for(const qid of QIDS){ const k='legal_out_'+ctx+'_'+qid, P=PN[k]||{}, r=cmp((PO[k]||{}).lines,P.lines,P.asked); if(r.bad.length||J(P.asked)!==J([qid])) badL.push(k+'：'+sample(r.bad)+J(P.asked)); per[ctx+'_'+qid]=r.nL;
-    const kl='legal_lib_'+ctx+'_'+qid; if(J((PN[kl]||{}).lines)!==J((PO[kl]||{}).lines)||!((PN[kl]||{}).lines||[]).length) lib.push(kl); }
+    const kl='legal_lib_'+ctx+'_'+qid, LN=(PN[kl]||{}).lines||[], LO=(PO[kl]||{}).lines||[], P8='（小聲）';   /* 第八批：補了「。」的那一句只差最後那一個（（小聲）後面的字＝BASE 的表填完拿掉外面那一對＋「。」）；其他一字不差 */
+    if(!LN.length||LN.length!==LO.length||!LN.every((x,i)=>{ const o=LO[i]; return x[0]===o[0]&&(x[1]===o[1]||(x[1].startsWith(P8)&&o[1].startsWith(P8)&&B8.m.get('「'+o[1].slice(P8.length)+'」')===x[1].slice(P8.length))); })) lib.push(kl); }
   const tf=QB.find(q=>q.id==='Q001').type==='tf', W={}; for(const ctx of CTXS) for(const qid of QIDS){ const mc=QB.find(q=>q.id===qid).type==='mc'; W[ctx+'_'+qid]=ctx==='class'?(mc?2:1):(mc?1:0); }
   console.log('（37. 出題拿掉「」的句數 '+J(per)+'）');
   check('37. LEGAL.ask 五種情境（課堂、讀書會、同學、小考、研究室）× 是非題 Q001、選擇題 Q002、Q004：說的人和 BASE 一樣（出題的人有名字），只差程式包的那一對——課堂是非 1 句、課堂選擇 2 句（題目、選項）、其他情境選擇 1 句（選項）、其他是非 0 句',

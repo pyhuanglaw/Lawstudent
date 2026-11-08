@@ -22,22 +22,23 @@ const LEGAL = (function(){
   // ---- 自然語言包裝 ----
   function opts4(q){ return ['A','B','C','D'].map(k=>({k,t:q.options[k]})); }
   function stmt(q){ return q.q.replace(/。$/,''); }
-  const CLASS_INTRO={prof_lin:['「我們看一個實務上常見的情況。」','「先不要翻條文，用你們現在的理解。」','「這題判決和學說有不同看法，先講你的。」'],prof_zhou:['「來，換個角度。」'],default:['「這個問題——」']};
-  const CLASS_OK={prof_lin:['「對。這個你們之後會在判決裡一直看到。」','「可以。坐下。」','「嗯，重點抓到了。」'],default:['「很好。」']};
-  const CLASS_BAD={prof_lin:['「不是。這是很多人第一年都會混淆的地方——{core}」','「差一點。想一下：{core}」','「……這個之後考試會出。{core}」'],default:['「再想一下。{core}」']};
-  const CLASS_UNSURE={prof_lin:['「沒關係，不確定比亂答好。記住：{core}」'],default:['「先記住：{core}」']};
-  const MATE_ASK=['「欸，我覺得{stmt}——對吧？」','「我剛剛跟柏翰吵這個：{stmt}。你覺得？」','「考古題有一題：{stmt}。這是對的嗎？」'];
-  const MATE_MC=['「那個——{q} 你覺得是哪個？」','「老師講的那題我沒跟上：{q}」'];
-  const MATE_OK=['「喔——所以是這樣。好我懂了。」','「……你怎麼記得住。」','「對吼。」'];
-  const MATE_BAD=['「我也這樣想，可是筆記上寫的好像不是……{core}」','「嗯？我筆記上寫：{core}」','「等等，我查一下……{core}」'];
-  const STUDY_ASK=['「這一題，{name}你來。{q}」','「下一個：{q}」'];
-  const STUDY_OK=['「對。下一題。」','「好，這題可以。」'];
-  const STUDY_BAD=['「錯。這裡的重點是——{core}。不要再混。」','「不對。{core}。這個上次讀書會就講過。」'];
-  const STUDY_UNSURE=['「不確定就先記起來：{core}。」','「好，先記：{core}。下次我會再問。」'];
-  const MATE_UNSURE=['「你也不知道喔……我筆記上寫：{core}。」','「那我們都不知道。等等問柏翰……啊他寫：{core}。」'];
+  const CLASS_INTRO={prof_lin:['我們看一個實務上常見的情況。','先不要翻條文，用你們現在的理解。','這題判決和學說有不同看法，先講你的。'],prof_zhou:['來，換個角度。'],default:['這個問題——']};   /* 下面 13 張表 36 句（出題的人、同學說的，LEGAL.ask 的 say＝對話框有名字）：外面不包整句的「」（TEXT-QUOTE-UNIFY-1108 第八批，AA-B 11-08 13:05）；填進去的題目字（{stmt}、{q}、{core}）一字不動，原本有的「」照留；給玩家選的選項（GM.choose）照留 */
+  const CLASS_OK={prof_lin:['對。這個你們之後會在判決裡一直看到。','可以。坐下。','嗯，重點抓到了。'],default:['很好。']};
+  const CLASS_BAD={prof_lin:['不是。這是很多人第一年都會混淆的地方——{core}','差一點。想一下：{core}','……這個之後考試會出。{core}'],default:['再想一下。{core}']};
+  const CLASS_UNSURE={prof_lin:['沒關係，不確定比亂答好。記住：{core}'],default:['先記住：{core}']};
+  const MATE_ASK=['欸，我覺得{stmt}——對吧？','我剛剛跟柏翰吵這個：{stmt}。你覺得？','考古題有一題：{stmt}。這是對的嗎？'];
+  const MATE_MC=['那個——{q} 你覺得是哪個？','老師講的那題我沒跟上：{q}'];
+  const MATE_OK=['喔——所以是這樣。好我懂了。','……你怎麼記得住。','對吼。'];
+  const MATE_BAD=['我也這樣想，可是筆記上寫的好像不是……{core}','嗯？我筆記上寫：{core}','等等，我查一下……{core}'];
+  const STUDY_ASK=['這一題，{name}你來。{q}','下一個：{q}'];
+  const STUDY_OK=['對。下一題。','好，這題可以。'];
+  const STUDY_BAD=['錯。這裡的重點是——{core}。不要再混。','不對。{core}。這個上次讀書會就講過。'];
+  const STUDY_UNSURE=['不確定就先記起來：{core}。','好，先記：{core}。下次我會再問。'];
+  const MATE_UNSURE=['你也不知道喔……我筆記上寫：{core}。','那我們都不知道。等等問柏翰……啊他寫：{core}。'];
   function pick(arr){ return arr[(Math.random()*arr.length)|0]; }
   function coreText(q){ if(q.core) return q.core.replace(/。$/,''); if(q.type==='tf') return (q.answer==='對'?'這句話本身是對的':'這句話本身不對'); return '答案是 '+q.answer+'、'+q.options[q.answer]; }
-  function fill(t,q){ return t.replace('{core}',coreText(q)).replace('{stmt}',stmt(q)).replace('{q}',q.q).replace('{name}',G.name); }
+  const END_P=/[。！？!?…」』）)]$/;
+  function fill(t,q){ const s=t.replace('{core}',coreText(q)).replace('{stmt}',stmt(q)).replace('{q}',q.q).replace('{name}',G.name); return /\{core\}$/.test(t)&&!END_P.test(s)?s+'。':s; }   /* 句尾是程式填進去的答案（{core}：CLASS_BAD、CLASS_UNSURE、MATE_BAD 那 9 句）、填完結尾不是標點＝補一個「。」；已經是標點的不補（不會變成「。。」）。題庫的字不改（TEXT-QUOTE-UNIFY-1108 第八批，AA-B 11-08 13:14「結尾不是標點才補「。」，題庫不改」）*/
   // 主要 API：在 ADV／對話中問一題。spec: {context, by(charId), qid|pick:{section,type,prefer}, chorus(charId 旁邊插話), quiet}
   L.ask=async function(spec,ev){ const ctx=spec.context||'classmate'; const by=spec.by; const q=spec.qid?L.byId(spec.qid):L.pick(Object.assign({n:1},spec.pick||{})); if(!q){ return null; } const byName=SOCIAL.displayName(by); const npc=EVENTS.npcOf(by); const who={name:byName,obj:npc&&npc.obj,charId:by,pose:npc&&npc.pose};
     const say=(t,expr)=>{ ADV.speaker(by,expr||'neutral'); if(!ADV.active) ADV.log(byName,t); return GM.say(who,t,{keepPose:!!(npc&&npc.seat)}); };   /* ADV 開著時 GM.say 自己會記 */
