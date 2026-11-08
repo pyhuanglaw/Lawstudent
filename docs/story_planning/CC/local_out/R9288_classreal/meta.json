@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "R9288_classreal",
+  "sha": "9288a37aa945eb26b3dbd6d95cbba7c6d67be5ad",
+  "kind": "game",
+  "script": "tests/flow_class_real.py",
+  "env": "XARGS={url} {out};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T21:18:26",
+  "end": "2026-11-08T21:20:53",
+  "seconds": 148,
+  "exit": 0,
+  "error": null,
+  "runner": "ca6fd18292",
+  "rf_round": "38",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 38,
+    "mem": 56,
+    "used_gb": 17.6,
+    "chrome_testing": 13
+  },
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
