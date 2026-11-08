@@ -18500,6 +18500,20 @@
    "integration": "已整合待測試",
    "note": "3fb01c8d6：README 列的 8 個檔（原檔、新檔 sha256 都對 README）；library_lm2_unit 拿掉 PENDING；50 支 ALL PASS；B1 是 ART_APPROVED 4.1 版，只有光照變了，交 BB-B 再看。第二批（5F、體育館 B1、美國兩間＋多媒體洞洞板）LAWWW2-B 預計 05:00 前後",
    "ack": "ACK"
+  },
+  {
+   "id": "DLV-1108-L2-LMPART2",
+   "date": "2026-11-08",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "63b636735",
+   "msg": "ACK",
+   "what": "LM-PARTITION-1108 第二批：霖澤 5F、體育館 B1、美國公寓、合租戶重烘（隔間牆兩面都烘）",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "c435933a6：README 列的 17 個檔（原檔、新檔 sha256 都對）；132 支 ALL PASS；交 BB-B 看 5F 研究室左牆、體育館 B1 健身房／泳池隔間牆、美國兩間臥室牆。之後多媒體中心洞洞板、新生南路 9 個模型 512 正式烘焙",
+   "ack": "ACK"
   }
  ],
  "ignored": [
