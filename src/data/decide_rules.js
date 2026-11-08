@@ -973,7 +973,10 @@ const DECIDE_RULES={
       "npcRom": 2
      },
      "delay": 0,
-     "if": "dec:classmate_peishan.future=seen"
+     "if": [
+      "dec:classmate_peishan.future=seen",
+      "dating"
+     ]
     },
     {
      "stance": "support",

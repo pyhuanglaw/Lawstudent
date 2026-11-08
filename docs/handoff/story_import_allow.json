@@ -4985,6 +4985,25 @@
    "task": "AA624-YT-BACKGROUND-1103",
    "kind": "text",
    "note": "只用事件 15「一盞茶屋十週年」誰會來、兩個版本的句子（和別人交往中「兩把。你們自己分。」；和語彤交往中「（散場下雨。語彤拿出兩把傘。）」＋兩句）：AA_625 第 15 節「同班圈誰會來照 AA_11 事件 15 的規則」。照抄進 src/aa625_3d.js（AA625.L11）；tests/aa625_yt_study_unit.js 逐句對這一版（最後改這份的是 56cf47f22，內容和 0787572c6 一樣）"
+  },
+  {
+   "path": "docs/story_planning/AA_720_decide_opened_scenes.json",
+   "sha": "4f37a68bb",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-08 01:39 AA_720 第一批）；3e9cc0385（AA-B 11-08 第二批：endings 尾聲七位照 DECIDE 各最多一句＋confFail）；4f37a68bb（AA-B 11-08 quietMove：SIS1-QUIET-LIB-1108 學姊第 6 拍在總圖安靜區＝走到樓梯間再演）",
+   "task": "AA720-DECIDE-OPENED-1108",
+   "kind": "json",
+   "note": "決定拍打開的 19 場（events：invite／plan／scene／opts／end／missed）＋zr_letters、zr_call、zq_intern、ps_result、kx_quiet、kx_eat、kx_slot＋endings＋quietMove；tools/story/import_aa720.py → src/data/aa720.js（AA720），播放 src/aa720_3d.js",
+   "history": [
+    {
+     "sha": "963afea74",
+     "note": "被 3e9cc0385 取代（第一批，沒有 endings）"
+    },
+    {
+     "sha": "3e9cc0385",
+     "note": "被 4f37a68bb 取代（沒有 quietMove）"
+    }
+   ]
   }
  ]
 }

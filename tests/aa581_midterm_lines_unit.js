@@ -229,7 +229,8 @@ const ALLOW = [
   ['src/story3d.js', '期中考週停社課，下下週見'],
   ['src/story3d.js', '民總期中考，我的答案被老師拿去當範例。匿名的，可是我認得自己的字。'],
   ['src/story3d.js', '玩了一整晚。明天去總圖念書吧。期中考快到了。'],
-  ['src/data/study_units.js', '在系上的群組裡造謠，說某位同學「期中考作弊被抓」：這是一件具體、可以查證的事'],   /* 觀念卡（AA 的誹謗例子，crim_spec_w6／const_1_w11）：法律舉例，不是遊戲的期中考 */
+  ['src/data/study_units.js', '在系上的群組裡造謠，說某位同學「期中考作弊被抓」：這是一件具體、可以查證的事'],
+  ['src/data/aa720.js', '書有念。期中考考完了。'],   /* AA_720 ev_yt_tell_mom live（AA-B 11-08 定稿，D109）：語彤（社會系一年級）對媽媽說她自己的期中考＝別人的期中（同上 r2y4b3d 那句）；已列給 AA 確認 */   /* 觀念卡（AA 的誹謗例子，crim_spec_w6／const_1_w11）：法律舉例，不是遊戲的期中考 */
 ];
 const okKey = new Set(ALLOW.map(([f, p]) => f + '\t' + p.slice(0, 30)));
 const bad = [];

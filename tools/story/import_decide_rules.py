@@ -18,7 +18,7 @@ REVEAL = re.compile(r'^(\d{4}-\d{2}-\d{2}) (\d{1,2}):(\d{2})$')
 # 稿裡的中文條件 → 遊戲（AA_719 3788d00c1）
 SPECIAL = {
     'YT-1': {'if': {'before': 'Y1S2W9'}},   # 只在大一下第 9 週（媽媽發現）以前演到第 4 拍才算；已經過了＝default（found）
-    'PS-2': {'ruleIf': {0: 'dec:classmate_peishan.future=seen'}},   # 第一條還要 future=seen；hide＋support＋hi 照下面的條（沒有符合＝default after）
+    'PS-2': {'ruleIf': {0: ['dec:classmate_peishan.future=seen', 'dating']}},   # 第一條還要 future=seen、而且和沛珊交往中（963afea74 ruleIf；使用者 11-07 Q4「可以 但前提是有交往」）；沒交往一律 after（AA_723 B）
     'SIS-2': {'if': None},   # 只影響那一拍說「我妹」或 Alison（AA_712 alt），規則照常
 }
 
