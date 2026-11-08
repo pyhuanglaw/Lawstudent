@@ -39,7 +39,10 @@ async def buy(pg, cdp, run, ct, item, extra=None):
     return True
 
 
-async def go_to_person(pg, cdp, run, s2, who):
+async def go_to_person(pg, cdp, run, s2, who, hour=None):
+    if hour is not None:
+        await pg.evaluate("h=>{ GAME.G.hour=h; }", hour)
+        run.setup('【捷徑】時間撥到 %s（同一天；%s 這時候不在打工）' % (hour, who))
     w = await pg.evaluate("(w=>STORY.whereIs(GAME,w)||null)(%s)" % J(who))
     if not w or w.get('away') or not w.get('zone'):
         # 先往後找；今天後面都不在（例：Alison 週五 18:00～23:00 在南洋戲院打工）就從早上 8:00 找——時間往回撥是捷徑，送禮紀錄照日期記、不受影響
@@ -99,20 +102,24 @@ async def main():
             if not await buy(pg, cdp, run, ct, item, extra): return run.finish()
         c1 = await C.carry(pg)
         run.check('身上帶著%s、%s、%s' % BUY, all(any(x.startswith(bn) for x in c1) for bn in BUY), J(c1))
+        SKIP_KAI = os.environ.get('SKIP_KAI') == '1'   # 阿凱那一段前兩輪都 PASS；只補 Alison 時跳過
         # 阿凱
-        if not await go_to_person(pg, cdp, run, s2, 'kai'): return run.finish()
-        g1 = await give(pg, cdp, run, 'kai', '送他' + BUY[0], await allowed('kai', 'drink'), 'kai_1')
+        if SKIP_KAI:
+            run.note('阿凱那一段這一輪不跑（前一輪 ALL PASS）')
+        elif not await go_to_person(pg, cdp, run, s2, 'kai'): return run.finish()
+        g1 = None if SKIP_KAI else await give(pg, cdp, run, 'kai', '送他' + BUY[0], await allowed('kai', 'drink'), 'kai_1')
         if g1:
             run.check('[阿凱 1] 「送他%s」：他的話在 AA_728 阿凱那一組（%d 句）' % (BUY[0], len(g1['hers'])), len(g1['hers']) >= 1, J(g1['hers']))
             run.check('[阿凱 1] %s 送出去了' % BUY[0], not any(x.startswith(BUY[0]) for x in g1['carry']), J(g1['carry']))
             run.check('[阿凱 1] 好感 fam +1、comf +1、戀愛不動', g1['d']['fam'] == 1 and g1['d']['comf'] == 1 and not g1['d']['rom'], J(g1['d']))
-        g2 = await give(pg, cdp, run, 'kai', '送他' + BUY[1], await allowed('kai', 'no'), 'kai_2')
+        g2 = None if SKIP_KAI else await give(pg, cdp, run, 'kai', '送他' + BUY[1], await allowed('kai', 'no'), 'kai_2')
         if g2:
             run.check('[阿凱 2] 同一天再送一杯飲料：他不收（no 那一組）', len(g2['hers']) >= 1, J(g2['hers']))
             run.check('[阿凱 2] %s 還在身上' % BUY[1], any(x.startswith(BUY[1]) for x in g2['carry']), J(g2['carry']))
             run.check('[阿凱 2] 好感不再加', not any(g2['d'].values()), J(g2['d']))
         # Alison
-        if not await go_to_person(pg, cdp, run, s2, 'yu'): return run.finish()
+        YH = os.environ.get('YU_HOUR')   # Alison 週五、六 18:00～23:00 在南洋戲院櫃檯（店員，說話鍵不是「和Alison說話」）：給 10 就是早上在晨思鐘旁
+        if not await go_to_person(pg, cdp, run, s2, 'yu', float(YH) if YH else None): return run.finish()
         g3 = await give(pg, cdp, run, 'yu', '送她' + BUY[1], await allowed('yu', 'drink'), 'yu_1')
         if g3:
             run.check('[Alison] 「送她%s」：換一個人可以收、她的話在 AA_728 Alison 那一組' % BUY[1], len(g3['hers']) >= 1 and not any(x.startswith(BUY[1]) for x in g3['carry']), J([g3['hers'], g3['carry']]))
