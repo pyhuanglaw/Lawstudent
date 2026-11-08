@@ -1914,3 +1914,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 589.6s] page close url=http://127.0.0.1:8802/index.html?turbo?turbo | [gpu_wrap 589.6s] BROWSER DISCONNECTED
 - 2026-11-08T11:24:14  R126_v0_home  sha=126bdf93e82886673518705566dbe83b582c32c1  exit=0  2929s    PASS 沒有 JS 例外  [] /    手機回覆 1 次；過到的日子 106 天 / ALL PASS
       err.log (last 5): [gpu_wrap 2887.7s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 2887.7s] BROWSER DISCONNECTED
+- 2026-11-08T11:26:18  GG3LM_wz6_fps2b_e276  sha=e2762e9d91df1cf8405301e54fd4bf286a5f626e  exit=0  116s    OK   wz_offbeat    h1400 avg 50.15 fps  1%low 20.97 fps  worst 116.6 ms  n=753  zone=wz_offbeat h=14.01 w=sunny q=medium draw=117  / JS 例外 0 個 / ALL PASS（量測完成 2 格）
+      err.log (last 5): [gpu_wrap 82.5s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 82.5s] BROWSER DISCONNECTED
