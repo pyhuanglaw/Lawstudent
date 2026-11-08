@@ -10,7 +10,8 @@ import cc_d141_lib as D
 from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 PTS = [p.split(':') for p in (os.environ.get('PTS') or 'xs_shanlan:1f,xs_shanlan:2f,xs_dakou:1f,xs_dakou:2f,xs_haopai:1f,xs_tongxian:1f').split(',') if p]
-JS = open(os.path.join(HERE, 'perf_ab_probe_lawww2_789ed786c.js'), encoding='utf-8').read()
+JSF = os.environ.get('JSF') or 'perf_ab_probe_lawww2_789ed786c.js'   # 第 2 版：JSF=perf_ab_probe_lawww2_b9d3f33af.js（BB-B 19:46）
+JS = open(os.path.join(HERE, JSF), encoding='utf-8').read()
 JS = re.sub(r'^/\*.*?\*/\s*', '', JS, flags=re.S).strip().rstrip(';')
 DAY = os.environ.get('DAY') or '2025-10-18'
 R = L.Run('perf_ab', OUT); D.setup(R, OUT)
@@ -39,7 +40,7 @@ async def main():
                 if fl == '2f' and rec['info']['lv'] < 1: R.check('%s 玩家在 2F（lv1）' % tag, False, json.dumps(rec['info']))
                 out = await pg.evaluate(JS); rec['out'] = out
                 print('%s TABLE1 calls=%s programs=%s' % (tag, out.get('calls'), out.get('programs')), flush=True)
-                for r in out.get('rows', []): print('%s   %-16s n=%-5s fps %-6s worst %s ms' % (tag, r['cond'], r['n'], r['fps'], r['worst']), flush=True)
+                for r in out.get('rows', []): print('%s   %s' % (tag, json.dumps(r, ensure_ascii=False)), flush=True)
                 print('%s TABLE2 卡頓 >100 ms：%d 個' % (tag, len(out.get('hitches', []))), flush=True)
                 for h in out.get('hitches', []): print('%s   %s' % (tag, json.dumps(h, ensure_ascii=False)), flush=True)
                 R.check('%s 量完（%s 列、info.zone=%s）' % (tag, len(out.get('rows', [])), rec['info']['zone']), rec['info']['zone'] == zone and len(out.get('rows', [])) >= 8, '')
