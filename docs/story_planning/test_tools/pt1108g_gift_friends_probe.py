@@ -42,8 +42,9 @@ async def buy(pg, cdp, run, ct, item, extra=None):
 async def go_to_person(pg, cdp, run, s2, who):
     w = await pg.evaluate("(w=>STORY.whereIs(GAME,w)||null)(%s)" % J(who))
     if not w or w.get('away') or not w.get('zone'):
-        h = await pg.evaluate("(w=>{ const h0=GAME.G.hour; for(let h=Math.ceil(h0*2)/2; h<21; h+=0.5){ GAME.G.hour=h; const r=STORY.whereIs(GAME,w); if(r&&r.zone&&!r.away) return h; } GAME.G.hour=h0; return null; })(%s)" % J(who))
-        run.setup('【捷徑】%s 現在不在，時間撥到 %s 他在的時候' % (who, h))
+        # 先往後找；今天後面都不在（例：Alison 週五 18:00～23:00 在南洋戲院打工）就從早上 8:00 找——時間往回撥是捷徑，送禮紀錄照日期記、不受影響
+        h = await pg.evaluate("(w=>{ const h0=GAME.G.hour; const tryH=h=>{ GAME.G.hour=h; const r=STORY.whereIs(GAME,w); return r&&r.zone&&!r.away; }; for(let h=Math.ceil(h0*2)/2; h<21; h+=0.5) if(tryH(h)) return h; for(let h=8; h<h0; h+=0.5) if(tryH(h)) return h; GAME.G.hour=h0; return null; })(%s)" % J(who))
+        run.setup('【捷徑】%s 現在不在，時間撥到 %s 在的時候（%s）' % (who, h, '往回撥，同一天' if (h is not None and h < 18) else '往後'))
         w = await pg.evaluate("(w=>STORY.whereIs(GAME,w)||null)(%s)" % J(who))
     print('   %s 在' % who, w, flush=True)
     if not (w and w.get('zone')):
