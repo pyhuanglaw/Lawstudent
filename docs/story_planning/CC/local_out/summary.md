@@ -2110,3 +2110,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 127.8s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 127.8s] BROWSER DISCONNECTED
 - 2026-11-08T17:57:19  Raa36_v0_to1017  sha=aa363f62a8363594199ba99ebefa3ce57512ee58  exit=0  585s    PASS 黑幕沒有擋住對話  0 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 527.8s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 527.8s] BROWSER DISCONNECTED
+- 2026-11-08T18:00:19  Raa36_touch  sha=aa363f62a8363594199ba99ebefa3ce57512ee58  exit=1  173s    PASS 讀檔後可以走  4.34 / PASS 沒有 JS 例外 / FAILED: 溫州街：搖桿往前走, 溫州街：NPC 都是正式模型（沒有程序化球體人）
+      err.log (last 5): [gpu_wrap 139.2s] page close url=http://127.0.0.1:8800/index.html?turbo&turbo | [gpu_wrap 139.3s] BROWSER DISCONNECTED
