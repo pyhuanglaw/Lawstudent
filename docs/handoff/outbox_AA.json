@@ -6035,6 +6035,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "大三寒假＋大三下臺灣；vsweep 4c94585ca"
+  },
+  {
+   "task": "MSG-REPLY-1107（AA_709 第八批）",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_709_msg_replies.json"
+   ],
+   "state": "已交付",
+   "remaining": "美國路線（第九批）、大四",
+   "next": "LAWWW-B 照 batch 8 接 20 則（日本路線）；SA_T1 兩則美國路線會不會傳請確認",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "vsweep ROUTE=JP 4c94585ca"
   }
  ],
  "items": [
