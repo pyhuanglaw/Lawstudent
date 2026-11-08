@@ -206,7 +206,7 @@ const CRACKTALK=(function(){
   S.isBusy=()=>busy;
   S.runTalk=async function(GM,id,evId){ const G=GM.G, e=evOf(evId); if(!e||typeof EVENTS==='undefined') return false; S.prep(G,id); await EVENTS.run(e,{noTitle:true}); S.after(G,id); if(GM.autosave) GM.autosave(); return true; };
   S.letter=async function(GM){ const G=GM.G, r=S.pr(G,ZR), X=L.DRIFT[ZR].letter; r.letter=null; GM.sceneBegin();
-    try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'blur'}); await GM.say(null,X.nar); await GM.say({name:'小卡'},'「'+X.card+'」'); }
+    try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'blur'}); await GM.say(null,X.nar); await GM.say({name:'小卡'},X.card); }   /* 對話框寫「小卡」＝有名字，不在外面加「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）*/
     finally{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GM.sceneEnd(); } return true; };
   const free=GM=>{ const E=GM.E, P=E&&E.player; return !!P&&!E.paused&&!P.busy&&!(GM.D&&GM.D.active)&&!(typeof EVENTS!=='undefined'&&EVENTS.running)&&!(typeof ADV!=='undefined'&&ADV.active)&&!GM.titleIdle; };
   S.plgAttended=G=>typeof ACTIVITIES!=='undefined'&&!!ACTIVITIES.lastAttendedDay&&ACTIVITIES.lastAttendedDay(G,'public_law_group',true)===G.day;

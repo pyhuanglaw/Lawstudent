@@ -160,7 +160,7 @@ const OFFB=(function(){
         return oi.apply(this,arguments); }; }
       if(STORY.populate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(zoneId===ZONE) S.populate(GM); }catch(e){ console.warn('OFFB.populate',e); } return r; }; } } }
   /* AA_648 第 3 節：約去日常失速答應的那一句——十三人各一句在 src/data/invites.js（people[人].acc.offbeat），沒列的人＝一般那句 */
-  S.ACC0='「好啊。那裡吃什麼都好吃。」';
+  S.ACC0='好啊。那裡吃什麼都好吃。';   /* 包 INV.personal 的 lines → S.playLines(GM,who,…)＝有名字說的，不加外面的「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）*/
   if(typeof INV!=='undefined'&&INV.personal&&!INV._offb){ INV._offb=true; const p0=INV.personal; INV.personal=function(G,id,P,day,h,r){ const out=p0.apply(this,arguments);
       if(P&&P.id==='offbeat'&&out&&out.res==='accept'&&!(Array.isArray(out.lines)&&out.lines.length)) return Object.assign({},out,{lines:[S.ACC0]}); return out; }; }
   /* ---------- AA_648 第 1 節：期末考完的聚餐（取代燒臘店那一場）----------

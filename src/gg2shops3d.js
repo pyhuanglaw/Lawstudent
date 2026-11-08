@@ -118,7 +118,7 @@ const GG2=(function(){
   S.EAT_KEY={afar:'afar café',daybreak:'Daybreak',yangyang:'洋洋鹹酥雞'};
   S.HRS={afar:0.15,daybreak:40/60,yangyang:{wait:10/60,eat:30/60},corner_records:{listen:0.25}};   /* 轉角唱片：試聽 15 分鐘（AA_725 第 3 節）*/   /* afar 點完的時間照兩點半 Café 的櫃台（稿上沒寫）；Daybreak「時間過 40 分鐘（吃飯）」；洋洋：等炸好 10 分鐘、內用 30 分鐘（AA_724 第 3、4 節）*/
   /* 約去答應的「一般」那一句（沒有自己句子的人）*/
-  S.ACC0={afar:'「好啊。那間的手沖很好喝。」',daybreak:'「好啊。早上嗎？我爬得起來。」',yangyang:'「好啊。宵夜？我可以。」',corner_records:'「唱片行？好啊。我沒去過。」'};
+  S.ACC0={afar:'好啊。那間的手沖很好喝。',daybreak:'好啊。早上嗎？我爬得起來。',yangyang:'好啊。宵夜？我可以。',corner_records:'唱片行？好啊。我沒去過。'};   /* 包 INV.personal 的 lines → S.playLines(GM,who,…)＝有名字說的，不加外面的「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）*/
 
   /* ---------- 共用 ---------- */
   S.rand=()=>Math.random();

@@ -185,7 +185,7 @@ const MOKS=(function(){
     if(F){ if(!before||S.rand()<0.5) await GM.say(who,F); return; }
     if(iv.now) await GM.say(null,'你和'+nameOf(id)+'在木曜日坐坐。'); };   /* 稿上沒有的人、一起走過來的（沒有進門那一句）：照邀約一般的見面旁白 */
   /* AA_645 第 4 節：約去木曜日答應的那一句——十人各一句在 src/data/invites.js（people[人].acc.mokuyobi）；沒列的人（答應了、沒有自己的句子）＝一般那句 */
-  S.ACC0='「好啊。那裡要小聲一點喔。」';
+  S.ACC0='好啊。那裡要小聲一點喔。';   /* 包 INV.personal 的 lines → S.playLines(GM,who,…)＝有名字說的，不加外面的「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）*/
   if(typeof INV!=='undefined'&&INV.personal&&!INV._moks){ INV._moks=true; const p0=INV.personal; INV.personal=function(G,id,P,day,h,r){ const out=p0.apply(this,arguments);
       if(P&&P.id==='mokuyobi'&&out&&out.res==='accept'&&!(Array.isArray(out.lines)&&out.lines.length)) return Object.assign({},out,{lines:[S.ACC0]}); return out; }; }
   if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL) SOCIAL.MEMORY_LABEL.MOKUYOBI_TOGETHER=SOCIAL.MEMORY_LABEL.MOKUYOBI_TOGETHER||'一起去木曜日';   /* 人物頁的記憶名稱 */

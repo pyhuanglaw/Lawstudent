@@ -204,14 +204,14 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   fresh('2027-09-24',13,'dorm',{ZR_LAST_SHIFT:'seen'}); R('heroine_02','FAM'); SOCIAL.remember('heroine_02','TICKET_STUB',''); E.interactables=[{x:0.5,z:-2,deskStudy:true}]; Y2B.tick(GM,0.6); const pc=E.interactables.find(i=>i.zrPostcard);
   check('C1. 9/24 中午以後：宿舍書桌上一張「明信片」', !!pc&&pc.label==='明信片');
   picks=['慢車']; said=[]; await Y2B.pcScene(GM);
-  check('C1. 讀到「倫敦一直下雨……」；可以回寄（四個選項＋先不回；沒看過早場＝沒有落差那個）；記 ZR_CARDS_SENT', said[0].t.indexOf('「倫敦一直下雨。')===0&&opts[0].length===4&&!opts[0].some(t=>/落差/.test(t))&&JSON.stringify(G.flags.ZR_CARDS_SENT)==='["slow"]'&&!E.interactables.some(i=>i.zrPostcard), JSON.stringify(opts[0]));
+  check('C1. 讀到「倫敦一直下雨……」；可以回寄（四個選項＋先不回；沒看過早場＝沒有落差那個）；記 ZR_CARDS_SENT', said[0].t.indexOf('倫敦一直下雨。')===0&&opts[0].length===4&&!opts[0].some(t=>/落差/.test(t))&&JSON.stringify(G.flags.ZR_CARDS_SENT)==='["slow"]'&&!E.interactables.some(i=>i.zrPostcard), JSON.stringify(opts[0]));
   fresh('2027-09-24',13,'dorm',{ZR_LAST_SHIFT:'missed'}); R('heroine_02','FAM'); said=[]; picks=[4]; await Y2B.pcScene(GM);
-  check('C2. 沒去 Z9：9/24 那張最前面多「到倫敦了」兩行', said[0].t==='「到倫敦了。這學期在這裡交換。」'&&said[1].t==='「櫃台那張票根，是要你去看一部電影，看完寫一句話給我。」');
+  check('C2. 沒去 Z9：9/24 那張最前面多「到倫敦了」兩行', said[0].t==='到倫敦了。這學期在這裡交換。'&&said[1].t==='櫃台那張票根，是要你去看一部電影，看完寫一句話給我。');   /* 明信片上的字：對話框寫「明信片」＝有名字，外面不加「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）；回寄的選項照舊有「」*/
   fresh('2027-09-24',13,'cafe'); R('heroine_02','FAM'); date('kexin'); E.interactables=[{x:3,z:1,counter:'cafe'}]; Y2B.tick(GM,0.6);
   check('C3. 和可昕交往：明信片在 Café 的牆上', E.interactables.some(i=>i.zrPostcard&&i.label==='牆上的明信片'));
   G.zone='dorm'; E.interactables=[]; Y2B.tick(GM,0.6); check('C3. 不在宿舍', !E.interactables.some(i=>i.zrPostcard));
   fresh('2027-12-17',13,'dorm'); R('heroine_02','FAM'); date('heroine_02'); for(let i=0;i<4;i++){ said=[]; picks=['先不回']; await Y2B.pcScene(GM); } const xv=OUT.get(G,'y3_zr_xmas_video');   /* 四張依序讀（9/24 起），最後一張是 12/17 */
-  check('C4. 和芷若交往：12/17 那張背面「12/25，台灣晚上八點。打給我。」；12/25 20:00 視訊', said.some(s=>s.t==='「12/25，台灣晚上八點。打給我。」')&&xv&&xv.day===D('2027-12-25')&&xv.h===20&&xv.verb==='接起來');
+  check('C4. 和芷若交往：12/17 那張背面「12/25，台灣晚上八點。打給我。」；12/25 20:00 視訊', said.some(s=>s.t==='12/25，台灣晚上八點。打給我。')&&xv&&xv.day===D('2027-12-25')&&xv.h===20&&xv.verb==='接起來');
   await run('ev_zhiruo_xmas_video'); check('C4. 視訊兩句（BB_124 聖誕「她在國外」）', has('這裡的聖誕節，店都關了。')&&has('我很想做一杯給你。'));
   { const s=fs.readFileSync(path.join(ROOT,'src/y2b3d.js'),'utf8')+fs.readFileSync(path.join(ROOT,'src/data/y2b_events.js'),'utf8'); check('C5. 沒有真實片名', !/戀戀風塵|東京物語|晚春/.test(s)); }
   fresh('2027-12-17',13,'dorm'); R('heroine_02','FAM'); G.flags.ZR_CARDS_SENT=['slow']; Y2B.tick(GM,0.6);
@@ -219,11 +219,11 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
 
   // ---------- AA_336 B5 面板名稱、B6 芷若英國的生日 ----------
   { const L=SOCIAL.MEMORY_LABEL; check('B5. 六個回憶面板的名稱照 AA_336 B5', L.LAW_MEETS_LIFE==='把買賣不破租賃那一頁傳給她'&&L.RENT_CONSULTATION==='聽她說陪秀琴姨去法服諮詢'&&L.TICKET_STUB==='她出國前給的電影票根'&&L.TOLD_HER_CHANGE==='跟她說過自己從經濟換到法律'&&L.POSTCARDS==='回寄過她從英國寄來的明信片'&&L.POSTCARDS_GROUP==='在寄給她的大明信片上寫了一句', JSON.stringify(['LAW_MEETS_LIFE','RENT_CONSULTATION','TICKET_STUB','TOLD_HER_CHANGE','POSTCARDS','POSTCARDS_GROUP'].map(k=>L[k]))); }
-  const BACK='「9/28，台灣晚上十點。打給我。」', V3=['今天我一個人看了一部電影。','……你打來了，所以不算一個人。','好了。去睡。你那邊很晚了。'];
+  const BACK='9/28，台灣晚上十點。打給我。', V3=['今天我一個人看了一部電影。','……你打來了，所以不算一個人。','好了。去睡。你那邊很晚了。'];
   const card924=async(zone,fl,dt)=>{ fresh('2027-09-24',13,zone,Object.assign({ZR_LAST_SHIFT:'seen'},fl||{})); R('heroine_02','FAM'); SOCIAL.remember('heroine_02','TICKET_STUB',''); if(dt) date(dt); picks=['先不回']; said=[]; await Y2B.pcScene(GM); };
   const tickWait=async()=>{ const r=Y2B.tick(GM,0.6); await new Promise(z=>setTimeout(z,30)); return r; };
   await card924('dorm');
-  check('B6. 9/24 那張（寄到宿舍）：她寫的那段後面，背面多「9/28，台灣晚上十點。打給我。」', said.length>=2&&said[0].t.indexOf('「倫敦一直下雨。')===0&&said[said.length-1].t===BACK, JSON.stringify(said.map(s=>s.t)));
+  check('B6. 9/24 那張（寄到宿舍）：她寫的那段後面，背面多「9/28，台灣晚上十點。打給我。」', said.length>=2&&said[0].t.indexOf('倫敦一直下雨。')===0&&said[said.length-1].t===BACK, JSON.stringify(said.map(s=>s.t)));
   at('2027-09-28',21.8); check('B6. 9/28 21:48 還不問', !Y2B.bdayDue(G));
   { at('2027-09-28',21+56/60); said=[]; opts=[]; picks=[0]; let h0=null; const s0=GM.say; GM.say=async(w,t)=>{ if(t===V3[0]) h0=G.hour; return s0(w,t); }; const r=await tickWait(); GM.say=s0;
     const ix=t=>said.findIndex(s=>s.t===t);
@@ -235,7 +235,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   await card924('dorm'); at('2027-09-28',22); G.home={at:true}; check('B6. 人在家：不問', Y2B.tick(GM,0.6)===false); delete G.home;
   fresh('2027-09-28',22,'dorm'); R('heroine_02','FAM'); Y2B.tick(GM,0.6); check('B6. 沒讀 9/24 那張（沒收到明信片）：不問', !Y2B.bdayDue(G)&&Y2B.tick(GM,0.6)===false&&!G.flags.ZR_BDAY_CALL);
   await card924('cafe',{},'kexin');
-  check('B6. 寄到 Café 的常客版（和可昕交往）：背面沒有那一行；9/28 不問', said.length>0&&!has(BACK)&&(at('2027-09-28',22),!Y2B.bdayDue(G)), JSON.stringify(said.map(s=>s.t)));
+  check('B6. 寄到 Café 的常客版（和可昕交往）：背面沒有那一行；9/28 不問', said.length>0&&!has(BACK)&&!has('「'+BACK+'」')&&(at('2027-09-28',22),!Y2B.bdayDue(G)), JSON.stringify(said.map(s=>s.t)));
 
   // ---------- 1B-11 沛珊 ----------
   /* AA_296 2-3-1 ④（企劃線 3f406dbc）：8/7 21:00 改成她打來；那兩則私訊是沒接的替代版（逐字對稿在 tests/aa296_phone_live_unit.js）

@@ -48,7 +48,7 @@ const joinFam=()=>PHONE.join(G,'family_law','法律系直屬家族');
 const relOf=()=>Object.assign({},SOCIAL.rel(ID));
 const ask=tag=>(G.msgs||[]).find(m=>m.ask&&m.ask.id===tag);
 const answer=(askId,k)=>PHONE.answer(G,askId,k);
-const DECL=['「這學期我在準備研究所，晚上大多在圖書館。……約我沒關係，我只是真的沒空。」','「等我考完，你再約一次。」','「今天不行。刑訴在等我。」','「這週的時間用完了。下週再問我。」'];
+const DECL=['這學期我在準備研究所，晚上大多在圖書館。……約我沒關係，我只是真的沒空。','等我考完，你再約一次。','今天不行。刑訴在等我。','這週的時間用完了。下週再問我。'];   /* AA_284 2-1 的四句；有名字說的不加外面的「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）*/
 (async()=>{
   /* ---------- 0. 掛勾、素材、舊資料 ---------- */
   await sec('0',async()=>{

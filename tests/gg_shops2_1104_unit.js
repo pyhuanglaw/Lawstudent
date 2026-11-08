@@ -196,12 +196,12 @@ const run=async()=>{
     if(A){ const ACC={heroine_01:'好。我帶書去，你不要一直跟我講話。',heroine_02:'afar？好。……窗邊那一排的燈很好看。',heroine_03:'好。我想吃他們的布丁。',heroine_04:'可以。那裡插座很多。',heroine_05:'好。我也剛好要寫東西。',classmate_peishan:'好！我上次經過就想進去了。',kexin:'好啊。我到公館再跟你說。'};
       const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,A,G.day+1,15.5,{res:'accept'}); return !(o&&J(o.lines)===J([ACC[id]])); });
       check('9 約去 afar 答應：七位各自那一句',!bad.length,J(bad.map(id=>[id,(INV.personal(G,id,A,G.day+1,15.5,{res:'accept'})||{}).lines])));
-      const o=INV.personal(G,'zhe',A,G.day+1,15.5,{res:'accept'}); check('9 約去 afar 答應：沒列的人（阿哲）＝一般那句「好啊。那間的手沖很好喝。」',o&&J(o.lines)===J(['「好啊。那間的手沖很好喝。」']),J(o&&o.lines));
-      const no=INV.personal(G,'zhe',A,G.day+1,15.5,{res:'decline',why:'rel'}); check('9 不答應：不套答應句',!(no&&no.lines&&no.lines[0]==='「好啊。那間的手沖很好喝。」')); }
+      const o=INV.personal(G,'zhe',A,G.day+1,15.5,{res:'accept'}); check('9 約去 afar 答應：沒列的人（阿哲）＝一般那句「好啊。那間的手沖很好喝。」',o&&J(o.lines)===J(['好啊。那間的手沖很好喝。']),J(o&&o.lines));   /* 有名字說的不加外面的「」（TEXT-QUOTE-UNIFY-1108 第三批，GG2.ACC0）*/
+      const no=INV.personal(G,'zhe',A,G.day+1,15.5,{res:'decline',why:'rel'}); check('9 不答應：不套答應句',!(no&&no.lines&&['好啊。那間的手沖很好喝。','「好啊。那間的手沖很好喝。」'].includes(no.lines[0]))); }
     if(D){ const ACC={heroine_01:'好。九點，不要遲到。',heroine_02:'好……我想坐窗邊。',heroine_03:'Daybreak？好。我想吃法式吐司。',heroine_04:'早上？……十點以後可以。',heroine_05:'好。週末早上我剛好有空。',classmate_peishan:'好啊！那家的卡座好可愛。',kexin:'好啊。我早一點從木柵出發。'};
       const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,D,G.day+1,10,{res:'accept'}); return !(o&&J(o.lines)===J([ACC[id]])); });
       check('9 約去 Daybreak 答應：七位各自那一句',!bad.length,J(bad));
-      const o=INV.personal(G,'zhe',D,G.day+1,10,{res:'accept'}); check('9 約去 Daybreak 答應：沒列的人＝一般那句「好啊。早上嗎？我爬得起來。」',o&&J(o.lines)===J(['「好啊。早上嗎？我爬得起來。」']),J(o&&o.lines)); }
+      const o=INV.personal(G,'zhe',D,G.day+1,10,{res:'accept'}); check('9 約去 Daybreak 答應：沒列的人＝一般那句「好啊。早上嗎？我爬得起來。」',o&&J(o.lines)===J(['好啊。早上嗎？我爬得起來。']),J(o&&o.lines)); }
     const SO=INVITE_DATA.seatOpen; check('9 坐下以後的開場句：afar、daybreak 各兩則（byPlace）',SO.byPlace.afar==='afar'&&SO.byPlace.daybreak==='daybreak'&&SO.afar.length===2&&SO.daybreak.length===2);
     if(A){ H.said=[]; GG2.rand=Math.random; const R0=Math.random, PS0=E.player.seat; Math.random=()=>0; E.player.seat={x:-0.9,z:3.1,yaw:0,table:6}; await INV.seatOpenLines(GM,{who:'heroine_01'},{name:'沈以安'},A); Math.random=R0;
       check('9 afar 兩個人坐在窗邊長桌（table 6）：小燈那一則（旁白＋她一句）',J(H.said.map(s=>[s.who,s.t]))===J([[null,'（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）'],['沈以安','……這個燈好可愛。']]),J(said()));

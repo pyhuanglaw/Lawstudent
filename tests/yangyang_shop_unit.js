@@ -235,8 +235,8 @@ const run=async()=>{
       const ACC={heroine_01:'……宵夜？好。我只吃一點。',heroine_02:'好。我下班剛好餓。',heroine_03:'鹹酥雞？……好。我沒有在店裡吃過。',heroine_04:'好！！我要雞皮。很多雞皮。',heroine_05:'好。讀完書，剛好。',classmate_peishan:'好啊！我要九層塔加很多！',kexin:'好。十點以前，我還要回木柵。'};
       const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,P,d+1,20,{res:'accept'}); return !(o&&J(o.lines)===J([ACC[id]])); });
       check('9 約去洋洋答應：七位各自那一句（AA_724 第 8 節）',!bad.length,J(bad.map(id=>[id,(INV.personal(G,id,P,d+1,20,{res:'accept'})||{}).lines])));
-      const o=INV.personal(G,'zhe',P,d+1,20,{res:'accept'}); check('9 沒列的人（阿哲）＝一般那句「好啊。宵夜？我可以。」',o&&J(o.lines)===J(['「好啊。宵夜？我可以。」']),J(o&&o.lines));
-      const no=INV.personal(G,'zhe',P,d+1,20,{res:'decline',why:'rel'}); check('9 不答應：不套答應句',!(no&&no.lines&&no.lines[0]==='「好啊。宵夜？我可以。」'));
+      const o=INV.personal(G,'zhe',P,d+1,20,{res:'accept'}); check('9 沒列的人（阿哲）＝一般那句「好啊。宵夜？我可以。」',o&&J(o.lines)===J(['好啊。宵夜？我可以。']),J(o&&o.lines));   /* 有名字說的不加外面的「」（TEXT-QUOTE-UNIFY-1108 第三批，GG2.ACC0）*/
+      const no=INV.personal(G,'zhe',P,d+1,20,{res:'decline',why:'rel'}); check('9 不答應：不套答應句',!(no&&no.lines&&['好啊。宵夜？我可以。','「好啊。宵夜？我可以。」'].includes(no.lines[0])));
       const pb=[]; for(const [id,fl,kn] of [['heroine_03',{},null],['heroine_03',{dating_heroine_01:true},null],['heroine_03',{dating_heroine_01:true},'heroine_01'],['heroine_01',{dating_heroine_01:true},null]]){ const G2=fresh('2025-10-15',12,'campus',fl); if(kn) ROM.learn(G2,id,kn,'test'); pb.push([INV.partnerBlock(G2,id,P),INV.partnerBlock(G2,id,DB),INV.partnerBlock(G2,id,INV.place('afar'))]); }
       check('9 兩個人單獨吃飯（partnerBlock）照吃飯那一類的規則：和 Daybreak 一樣（祐廷和以安交往、語彤知道＝擋；不知道、約的是以安本人＝不擋；喝咖啡的 afar 不擋）',INVITE_DATA.soloKinds.includes('meal')&&J(pb)===J([[false,false,false],[false,false,false],[true,true,false],[false,false,false]]),J(pb));
       check('9 可昕交往中：列得出來（有她自己的答應句）',!INV.kxPlaceOk||INV.kxPlaceOk(G,P));

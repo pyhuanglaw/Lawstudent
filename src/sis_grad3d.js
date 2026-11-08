@@ -38,7 +38,7 @@ const SISG=(function(){
      平日 12:00～13:00 約吃飯一律答應、不算次數（她本來就要吃飯；2/1～2/2 她在家、不在學校的不算）。總圖＝一起念書，不在這裡。
      婉拒不扣分；婉拒句四句輪流（G.flags.SISG_DECL）。散步的婉拒照 invites.js 原本那一句（AA_284 1-3），在這之前就回了 */
   S.CAP_PLACES=['cafe','noodle','brunch','teahouse','wenzhou','gym_badminton','run_avenue'];   /* 羽球、晨跑（AA_417 3-3：筆試以前照現有的 rule，和其他不讀書的邀約一起算上限）*/
-  S.DECLINE=['「這學期我在準備研究所，晚上大多在圖書館。……約我沒關係，我只是真的沒空。」','「等我考完，你再約一次。」','「今天不行。刑訴在等我。」','「這週的時間用完了。下週再問我。」'];
+  S.DECLINE=['這學期我在準備研究所，晚上大多在圖書館。……約我沒關係，我只是真的沒空。','等我考完，你再約一次。','今天不行。刑訴在等我。','這週的時間用完了。下週再問我。'];   /* 有名字說的（INV.flow 的 S.playLines(GM,who,…)）不加外面的「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）*/
   /* AA_535 第 1 節（INVITE-OPTS-1030，AA-B 定稿 dbd49dca7；第②級）放寬：第 1～9 週不設上限（w，她自己的規則照舊）；第 10～13 週一週一次（p＋週次；原本兩週一次）；
      第 14 週～筆試照舊婉拒（off），但她一定提「一起念書」（S.DECLINE_OFF 兩句輪流＋選項「那一起念書。」，S.studyOffer）；念書（總圖、慢讀咖啡）一直不算次數；
      校外：第 10～13 週和校內共用那一週的一次、只能約半天（S.tripWhy、S.halfOnly，date3d.js），第 14 週起照舊婉拒（S.DATE_NO.off）*/
@@ -51,7 +51,7 @@ const SISG=(function(){
     return (G.invites||[]).some(iv=>iv.who===ID&&S.CAP_PLACES.includes(iv.place)&&['accepted','going','done','missed'].includes(iv.state)&&!lunch(iv.place,iv.day,iv.h)&&S.capBucket(G,iv.day,iv.h)===b)
       ||(G.trips||[]).some(t=>t&&t.who===ID&&t.trip!==skipTrip&&t.status!=='cancelled'&&S.capBucket(G,t.day,+t.depart||0)===b); };   /* 校外約會也算那一週的一次（AA_535 1-2）*/
   S.declineLine=function(G){ const F=G.flags||(G.flags={}), n=F.SISG_DECL|0; F.SISG_DECL=n+1; return S.DECLINE[n%S.DECLINE.length]; };
-  S.DECLINE_OFF=['「這陣子只剩念書的時間。……一起念的話可以。」','「考前我不出去。總圖的話，我在。」'];   /* AA_535 1-3：第 14 週～筆試，兩句輪流（G.flags.SISG_DECL2）*/
+  S.DECLINE_OFF=['這陣子只剩念書的時間。……一起念的話可以。','考前我不出去。總圖的話，我在。'];   /* AA_535 1-3：第 14 週～筆試，兩句輪流（G.flags.SISG_DECL2）*/
   S.offLine=function(G){ const F=G.flags||(G.flags={}), n=F.SISG_DECL2|0; F.SISG_DECL2=n+1; return S.DECLINE_OFF[n%S.DECLINE_OFF.length]; };
   S.inviteCap=function(G,c){ if(!c||!c.r||c.postExam||!S.CAP_PLACES.includes(c.pid)||(c.r.res!=='accept'&&c.r.res!=='resched')) return null;
     const b=S.capBucket(G,c.day,c.h); if(!b||/^w/.test(b)) return null;   /* 第 1～9 週不設上限（AA_535 1-2）*/
@@ -60,7 +60,7 @@ const SISG=(function(){
     if(b==='off') return {res:'decline',why:'exam',lines:[S.offLine(G)],alt:null,study:true};   /* 說完接「那一起念書。」（invites3d.js 的 flow → S.studyOffer）*/
     return {res:'decline',why:'exam',lines:[S.declineLine(G)],alt:null}; };   /* 第 10～13 週：這一週用過了（四句輪流；「這週的時間用完了。下週再問我。」在這裡才合）*/
   /* 「那一起念書。」（AA_535 1-3）：系統替你約同一個時間的念書地點——平日總圖、週末而且慢讀開著＝慢讀咖啡；那個時間都不行＝照一般「改天」算總圖的下一個空檔。她答應的那一句 S.STUDY_YES；「不用了。」什麼都不發生 */
-  S.STUDY_YES='「好。我帶刑訴。」';
+  S.STUDY_YES='好。我帶刑訴。';   /* GM.say(who,…)／S.playLines：有名字，不加外面的「」（TEXT-QUOTE-UNIFY-1108）*/
   S.STUDY_OPTS=['那一起念書。','不用了。'];
   S.studyAt=function(G,W){ if(typeof INV==='undefined'||!INV.place) return null; const wk=[1,2,3,4,5].includes(wdOf(W.day)), ok=pid=>{ const P=INV.place(pid); return !!P&&(!P.show||P.show(G,ID))&&INV.freeAt(G,ID,P,W.day,W.h); };
     if(!wk&&ok('slowread')) return {pid:'slowread',day:W.day,h:W.h}; if(ok('library')) return {pid:'library',day:W.day,h:W.h};

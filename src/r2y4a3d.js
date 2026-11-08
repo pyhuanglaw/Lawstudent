@@ -451,7 +451,7 @@ const R2Y4A=(function(){
     const card={name:'明信片'}, seen1=has('heroine_02','POSTCARDS')||has('heroine_02','POSTCARDS_GROUP')||!!(F.ZR_PC&&F.ZR_PC.read&&Object.keys(F.ZR_PC.read).length);   /* 大三收過第一輪（1B-10）*/
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'blur'});
       if(!R.first){ R.first=G.day; await GM.say(null,seen1?P.first.seen:P.first.none); }
-      for(const l of S.pc2Lines(G,c)){ if(l.n) await GM.say(null,l.n); else await GM.say(card,'「'+l.q+'」'); }
+      for(const l of S.pc2Lines(G,c)){ if(l.n) await GM.say(null,l.n); else await GM.say(card,l.q); }   /* 對話框寫「明信片」＝有名字，不在外面加「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）；回寄的選項字照舊有「」*/
       if(!R.read[c.key]){ R.read[c.key]=G.day; if(!F.ZR_POSTCARD2.includes(c.m)) F.ZR_POSTCARD2.push(c.m); }
       if(S.pc2CanReply(G,c)){ const O=S.pc2Opts(G,c); const k=await GM.choose(O.map(o=>({t:'「'+o.t+'」'})).concat([{t:'（先不回）'}]));
         if(k>=0&&k<O.length){ const o=O[k]; R.sent[c.key]=o.id; F.ZR_REPLY2.push(o.id); if(GM.toast) GM.toast('寄出了。',2200); } } }   /* 不寄不扣分 */

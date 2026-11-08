@@ -204,7 +204,7 @@ const Y2B=(function(){
   S.pcScene=async function(GM){ const G=GM.G, F=G.flags, Rr=S.pcRec(G); const P=S.pcPending(G).filter(c=>PC_ZONE[c.ver]===G.zone); const c=P.find(q=>!Rr.read[q.key])||P[P.length-1]; if(!c) return false;
     const card={name:c.ver==='cafe'?'明信片（兩點半的常客們）':'明信片'};
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'blur'});
-      for(const t of S.pcLines(G,c)) await GM.say(card,'「'+t+'」');
+      for(const t of S.pcLines(G,c)) await GM.say(card,t);   /* 對話框寫「明信片」＝有名字，不在外面加「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）；回寄的選項字照舊有「」*/
       Rr.read[c.key]=G.day;
       if(c.ver==='gf'&&c.key==='2027-12-17') S.xmasVideo(G);
       if(S.pcCanReply(G,c)){ const O=S.pcOpts(G); const k=await GM.choose(O.map(o=>({t:'「'+o.t+'」'})).concat([{t:'（先不回）'}]));

@@ -228,7 +228,7 @@ const run=async()=>{
       const ACC={heroine_01:'好。……我不太懂音樂，你不要笑。',heroine_02:'轉角唱片？好。我想找一張電影原聲帶。',heroine_03:'好。……我喜歡那間的味道。舊紙的味道。',heroine_04:'好！我要找遊戲配樂的靈感。',heroine_05:'好。……讀累了，聽一點音樂也好。',classmate_peishan:'好啊！我想找動畫的原聲帶！',kexin:'好。週末的話。'};
       const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,P,d+1,15.5,{res:'accept'}); return !(o&&J(o.lines)===J([ACC[id]])); });
       check('9 約去轉角唱片答應：七位各自那一句（AA_725 第 8 節）',!bad.length,J(bad.map(id=>[id,(INV.personal(G,id,P,d+1,15.5,{res:'accept'})||{}).lines])));
-      const o=INV.personal(G,'zhe',P,d+1,15.5,{res:'accept'}); check('9 沒列的人（阿哲）＝一般那句「唱片行？好啊。我沒去過。」',o&&J(o.lines)===J(['「唱片行？好啊。我沒去過。」']),J(o&&o.lines));
+      const o=INV.personal(G,'zhe',P,d+1,15.5,{res:'accept'}); check('9 沒列的人（阿哲）＝一般那句「唱片行？好啊。我沒去過。」',o&&J(o.lines)===J(['唱片行？好啊。我沒去過。']),J(o&&o.lines));   /* 有名字說的不加外面的「」（TEXT-QUOTE-UNIFY-1108 第三批，GG2.ACC0）*/
       check('9 可昕交往中：列得出來（有她自己的答應句）',!INV.kxPlaceOk||INV.kxPlaceOk(G,P));
       const SO=INVITE_DATA.seatOpen; check('9 坐下以後的開場句：轉角自己的兩則（byPlace）、一起聽那一則只在試聽的高腳椅；兩個人先找高腳椅（prefTable listen）',SO.byPlace[ZID]===ZID&&SO[ZID].length===2&&J(SO[ZID][1].onlyAt)===J({table:'listen'})&&P.prefTable==='listen');
       { fresh('2025-10-15',15,ZID); const R0=Math.random, PS0=E.player.seat; Math.random=()=>0.99; E.player.seat={x:2.95,z:3.2,yaw:Math.PI/2,table:'listen'}; await INV.seatOpenLines(GM,{who:'heroine_02'},{name:'林芷若'},P);

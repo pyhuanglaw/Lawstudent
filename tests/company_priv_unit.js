@@ -328,7 +328,7 @@ await sec('7. (g) 1A-02 攤牌以後那一句：只在要說的時候問',async(
 /* (h) 有期限：子晴「我爸要來那則，你沒回。」（關閉後 14 天） */
 await sec('7. (h) 有期限：子晴「我爸要來那則，你沒回。」（關閉後',async()=>{ const d=TD('Y2S1',10,3); fresh(d,16,'campus'); const N=STORY.neededRec(H.G); N.batches.push({d:d-8,ids:[['zq_dad','heroine_04']],ans:[],said:{},closedAt:(d-1)*24+21}); crowd('heroine_04',['kai']);
     const due=PRIVTALK.missDue(H.G,'zq_dad','heroine_04'), l0=STORY.neededMissLine(H.G,'heroine_04'); day(d+8); const l8=STORY.neededMissLine(H.G,'heroine_04'); day(due); H.said=[]; const r=await STORY.neededMiss(GM,{name:'高子晴'},'heroine_04');
-    check('7. 有期限（子晴「我爸要來那則，你沒回。」，關閉後 14 天）：擋下來以後第 9 天還擋；最後一天照說，第一句旁白',due===d+13&&l0===null&&l8===null&&r===true&&narrFirst()&&(H.said[1]||{}).t==='「我爸要來那則，你沒回。」',J({due,d,l0,l8,r,s:said()})); });
+    check('7. 有期限（子晴「我爸要來那則，你沒回。」，關閉後 14 天）：擋下來以後第 9 天還擋；最後一天照說，第一句旁白',due===d+13&&l0===null&&l8===null&&r===true&&narrFirst()&&(H.said[1]||{}).t==='我爸要來那則，你沒回。',J({due,d,l0,l8,r,s:said()})); });   /* 有名字說的不加外面的「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批：story3d.js S.neededMiss）*/
 /* (i) 事件裡的選項：傅鐘「妳的交換申請交了嗎？」（沒有期限） */
 await sec('7. (i) 事件裡的選項：傅鐘「妳的交換申請交了嗎？」（沒',async()=>{ const Q='「妳的交換申請交了嗎？」', d0=TD('Y1S2',13,2); const run=async()=>{ H.opts=[]; H.said=[]; H.picks=['交換申請']; await EVENTS.run(evOf('ev_zhiruo_bell')); return H.opts[0]||[]; };
     fresh(d0,13,'campus'); H.FAMILIAR('heroine_02'); SOCIAL.remember('heroine_02','SHARED_SECRET',''); crowd('heroine_02',['hc_xt']);

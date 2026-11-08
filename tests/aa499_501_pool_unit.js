@@ -136,7 +136,7 @@ await sec(0,()=>{ const B={B2:typeof POOL_STORY_B2!=='undefined'?POOL_STORY_B2:n
   check('0. 例外都還用得到（稿改了就拿掉）',Object.keys(EXC).every(t=>Object.values(DOC).some(d=>d.indexOf(t)>=0)),J(Object.keys(EXC)));
   /* pool_more3d.js 沒有自己寫的台詞：只有一般的「其實……」（story3d.js 原本那一句，AA_120 定稿）和找位子用的「（全場笑。）」*/
   const sayLit=MORE.filter(t=>/^[「（].*[」）]$/.test(t)&&!/^（[一二三四五六日]）/.test(t));
-  check('0. 流程那一份（pool_more3d.js）沒有自己編的台詞（只有找插入位置的「（全場笑。）」；一般的「其實……」照 story3d.js 原本的句型）',J(sayLit)===J(['（全場笑。）'])&&/'「其實……'\+/.test(fs.readFileSync(path.join(H.ROOT,'src/pool_more3d.js'),'utf8')),J(sayLit)); });
+  check('0. 流程那一份（pool_more3d.js）沒有自己編的台詞（只有找插入位置的「（全場笑。）」；一般的「其實……」照 story3d.js 原本的句型）',J(sayLit)===J(['（全場笑。）'])&&/'其實……'\+/.test(fs.readFileSync(path.join(H.ROOT,'src/pool_more3d.js'),'utf8'))&&/'其實……'\+/.test(fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8')),J(sayLit)); });   /* 有名字說的不加外面的「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）：兩個檔同一個句型 */
 
 /* ---------- 1 接線 ---------- */
 await sec(1,()=>{ check('1. 十五位都有自己那一套（POOL.owns；認識的版本、流程、閒聊表）',!!PM()&&ALL15.every(id=>P().owns(id)&&P().LINES[id]&&(P().LINES[id].talk||[]).length>=5&&(P().LINES[id].greet||[]).length===3&&Array.isArray(P().FLOW[id])),J(ALL15.filter(id=>!(P()&&P().owns(id)))));

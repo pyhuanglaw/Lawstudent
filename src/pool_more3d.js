@@ -207,7 +207,7 @@ const POOL_MORE=(function(){
   if(typeof STORY_EVENTS!=='undefined'){ const iv=STORY_EVENTS.find(e=>e.id==='ev_push_interview'); if(iv&&!iv.next_event) iv.next_event='ev_pool_hyx_push'; }
 
   /* ---------- 一般的「其實……」（AA_499 2-3「無罪就是沒做吧。」以後、5-2 沒到交接的）：照 story3d.js 原本那一句（facts[1]，AA_120 定稿）、不加選項 ---------- */
-  S.genericLine=id=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; return c&&c.facts&&c.facts[1]?'「其實……'+String(c.facts[1]).replace(/^其實/,'')+'。沒跟很多人講過。」':null; };
+  S.genericLine=id=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; return c&&c.facts&&c.facts[1]?'其實……'+String(c.facts[1]).replace(/^其實/,'')+'。沒跟很多人講過。':null; };   /* GM.say(who,…)＝有名字說的：和 story3d.js 那一句一樣不加外面的「」（AA-B 2026-11-08，TEXT-QUOTE-UNIFY-1108 第三批）*/
   S.genericSecret=async function(GM,who,id){ const G=GM.G, t=S.genericLine(id); if(!t) return false; await GM.say(who,t); P.secretMark(G,id); doneToday(G,id); return true; };
 
   /* ---------- 各人的流程 ---------- */
