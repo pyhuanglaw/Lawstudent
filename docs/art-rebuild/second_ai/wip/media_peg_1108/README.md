@@ -1,6 +1,6 @@
 # 總圖多媒體中心：南牆的洞洞板不再浮在半空（LAWWW2-B 2026-11-08；BB-B 01:46 PC GPU 第一批第 1 點；D108 場景）
 
-**狀態：交件**（`<本 commit>`）。模型已改好，光照從新白模重烘（512），測試過。
+**狀態：交件**（`ce18ef1f4`）。模型已改好，光照從新白模重烘（512），測試過。
 
 ## 現象
 - BB-B 01:46 的回報（AB3LM media 那張，烘前烘後一樣）：「鏡頭左邊那面牆上方直接看到天空，掛著牛頓擺的木板像浮在半空」。
@@ -31,7 +31,7 @@
 
 - `library_media.glb` sha256：開發的 `8a3fe4d4…` → `40abc920…`；大小 2,122,568 → 2,123,980 B。
 
-## 要接的檔（`<本 commit>`）
+## 要接的檔（`ce18ef1f4`）
 - `assets/models/env/second_ai/library_media.glb`、`library_media_lm_day.webp`、`library_media_lm_night.webp`。
 - `assets/models/env/second_ai/library_media.json`：匯出紀錄，節點 21 → 23。
 - `tools/blender/env_second/lightbake/library_media_lm.json`。
