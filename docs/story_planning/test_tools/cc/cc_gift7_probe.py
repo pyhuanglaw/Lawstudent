@@ -81,6 +81,11 @@ async def main():
                     await pg.wait_for_timeout(1000)
                 run.note('%s 走走：等他／她停住 still=%d 在 %s' % (tag, still, J(last)))
             t = await N.talk(pg, cdp, run, who, prefs, 'g_' + who)
+            for k in range(int(os.environ.get('MENU_TRIES') or 0)):   # 11-09：以安在總圖第二次按＝「一起讀書」事件（選讀什麼），還沒到說話選單 → 再按，直到有「就這樣」那一組
+                if not t or t[0]: break
+                run.note('%s 這次沒有說話選單（%s）→ 第 %d 次再按' % (tag, J(t[2][-2:]), k + 3))
+                t2 = await N.talk(pg, cdp, run, who, prefs, 'g%d_' % (k + 3) + who)
+                if t2: t = (t2[0], t[1] + t2[1], t[2] + t2[2])
             if not t and os.environ.get('TRY2') == '1':   # 最多兩次
                 run.note('%s 第一次走不到，再試一次' % tag); t = await N.talk(pg, cdp, run, who, prefs, 'g2_' + who)
             if not t: r0['skip'] = '走不到旁邊'; rec.append(r0); continue
