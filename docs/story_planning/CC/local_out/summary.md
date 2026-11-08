@@ -2060,3 +2060,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 64.6s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 64.6s] BROWSER DISCONNECTED
 - 2026-11-08T16:19:49  GG3US_7206  sha=7206a12dedfb04bda4bf9918afff73e45fb53adc  exit=0  160s      [ 120.2s] [before_gpu shared_kitchen_follow] 光照貼圖：材質 260 個、接了 lightMap 87 個，貼圖 ["us_shared_lm_day.webp"] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 120.6s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 120.6s] BROWSER DISCONNECTED
+- 2026-11-08T16:20:25  GG3BIKE_7206  sha=7206a12dedfb04bda4bf9918afff73e45fb53adc  exit=0  174s      [  63.0s] [截圖] s5_before_gpu_bikeshop_1930_out：鏡頭 {"eye": [0.55, 1.55, 1.5], "look": [0.55, 1.4, 10], "lens": 20, "vfov": 53.7}、亮度 [75.3, 31.3] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 63.5s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 63.5s] BROWSER DISCONNECTED
