@@ -1,25 +1,127 @@
-[20:44:38] Windows console: QuickEdit already off (mode 0x1b7); keep awake while running: on
-[20:44:38] run_forever round: 35   runner sha256: ca6fd18292
-[20:44:38] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[20:44:38]          playwright 1.64.1 OK
-[20:44:38] git    : git version 2.56.0.windows.4
-[20:44:38] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[20:44:38] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[20:44:38] repo   : C:\Users\USER\Documents\Lawstudent
-[20:44:38] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[20:44:38] parallel: 2  (blender items run alone)
-[20:44:38] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[20:44:38] git fetch
+[20:49:50] Windows console: QuickEdit already off (mode 0x1b7); keep awake while running: on
+[20:49:50] run_forever round: 36   runner sha256: ca6fd18292
+[20:49:50] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[20:49:50]          playwright 1.64.1 OK
+[20:49:50] git    : git version 2.56.0.windows.4
+[20:49:50] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[20:49:50] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[20:49:50] repo   : C:\Users\USER\Documents\Lawstudent
+[20:49:50] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[20:49:50] parallel: 2  (blender items run alone)
+[20:49:50] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[20:49:50] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/confident-ritchie-8rwh7t -> FETCH_HEAD
+       51ad659cb..46286d38d  claude/cc-testing -> origin/claude/cc-testing
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
     Already on 'claude/cc-local'
     Your branch is up to date with 'origin/claude/cc-local'.
     Already up to date.
-    Already up to date.
-[20:44:43] dev head = 28f5f5287   lawww2 head = 5f85444cd
-[20:44:45] config.txt: PARALLEL 2 -> 3
-[20:44:45] config.txt: HEADLESS 0 -> 1（每一項都不開視窗）
-[20:44:45] memory used: 34%  (new items wait while >= 85%)
+    Merge made by the 'ort' strategy.
+     docs/story_planning/CC/logs/XS9_GPU/g_dakou.jpg        | Bin 0 -> 380151 bytes
+     docs/story_planning/CC/logs/XS9_GPU/g_haopai.jpg       | Bin 0 -> 323894 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dabu_1400_corner_a.jpg       | Bin 0 -> 152228 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dabu_1400_corner_b.jpg       | Bin 0 -> 140260 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dabu_1400_door.jpg           | Bin 0 -> 155375 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dabu_1400_out.jpg            | Bin 0 -> 155280 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dabu_1400_seat.jpg           | Bin 0 -> 138462 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dabu_1400_top.jpg            | Bin 0 -> 114382 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dabu_2000_corner_a.jpg       | Bin 0 -> 148196 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dabu_2000_corner_b.jpg       | Bin 0 -> 124373 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dabu_2000_door.jpg           | Bin 0 -> 151577 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dabu_2000_out.jpg            | Bin 0 -> 131864 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dabu_2000_seat.jpg           | Bin 0 -> 125339 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dabu_2000_top.jpg            | Bin 0 -> 107476 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_1400_clerk.jpg         | Bin 0 -> 82626 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_1400_corner_2f_a.jpg   | Bin 0 -> 120969 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_1400_corner_2f_b.jpg   | Bin 0 -> 125353 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_1400_corner_a.jpg      | Bin 0 -> 115932 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_1400_corner_b.jpg      | Bin 0 -> 118314 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_1400_door.jpg          | Bin 0 -> 124502 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_1400_out.jpg           | Bin 0 -> 133448 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_1400_room_2f.jpg       | Bin 0 -> 146177 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_1400_seat.jpg          | Bin 0 -> 87151 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_1400_top.jpg           | Bin 0 -> 111161 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_2000_clerk.jpg         | Bin 0 -> 78846 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_2000_corner_2f_a.jpg   | Bin 0 -> 109147 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_2000_corner_2f_b.jpg   | Bin 0 -> 116827 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_2000_corner_a.jpg      | Bin 0 -> 112198 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_2000_corner_b.jpg      | Bin 0 -> 103933 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_2000_door.jpg          | Bin 0 -> 119705 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_2000_out.jpg           | Bin 0 -> 104242 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_2000_room_2f.jpg       | Bin 0 -> 136428 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_2000_seat.jpg          | Bin 0 -> 82474 bytes
+     .../CC/logs/XS9_GPU/s5_xs_dakou_2000_top.jpg           | Bin 0 -> 113096 bytes
+     .../CC/logs/XS9_GPU/s5_xs_haopai_1400_corner_a.jpg     | Bin 0 -> 146927 bytes
+     .../CC/logs/XS9_GPU/s5_xs_haopai_1400_corner_b.jpg     | Bin 0 -> 135255 bytes
+     .../CC/logs/XS9_GPU/s5_xs_haopai_1400_door.jpg         | Bin 0 -> 198490 bytes
+     .../CC/logs/XS9_GPU/s5_xs_haopai_1400_out.jpg          | Bin 0 -> 167923 bytes
+     .../CC/logs/XS9_GPU/s5_xs_haopai_1400_seat.jpg         | Bin 0 -> 106513 bytes
+     .../CC/logs/XS9_GPU/s5_xs_haopai_1400_top.jpg          | Bin 0 -> 86279 bytes
+     .../CC/logs/XS9_GPU/s5_xs_haopai_2000_corner_a.jpg     | Bin 0 -> 142723 bytes
+     .../CC/logs/XS9_GPU/s5_xs_haopai_2000_corner_b.jpg     | Bin 0 -> 128272 bytes
+     .../CC/logs/XS9_GPU/s5_xs_haopai_2000_door.jpg         | Bin 0 -> 188551 bytes
+     .../CC/logs/XS9_GPU/s5_xs_haopai_2000_out.jpg          | Bin 0 -> 145834 bytes
+     .../CC/logs/XS9_GPU/s5_xs_haopai_2000_seat.jpg         | Bin 0 -> 100558 bytes
+     .../CC/logs/XS9_GPU/s5_xs_haopai_2000_top.jpg          | Bin 0 -> 84070 bytes
+     .../CC/logs/XS9_GPU/s5_xs_nanyang_1400_corner_a.jpg    | Bin 0 -> 90900 bytes
+     docs/story_planning/test_tools/cc/cc_scene5_probe.py   |   2 ++
+     tools/cc_local/queue.txt                               |   8 ++++++++
+     49 files changed, 10 insertions(+)
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/g_dakou.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/g_haopai.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dabu_1400_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dabu_1400_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dabu_1400_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dabu_1400_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dabu_1400_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dabu_1400_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dabu_2000_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dabu_2000_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dabu_2000_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dabu_2000_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dabu_2000_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dabu_2000_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_1400_clerk.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_1400_corner_2f_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_1400_corner_2f_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_1400_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_1400_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_1400_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_1400_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_1400_room_2f.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_1400_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_1400_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_2000_clerk.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_2000_corner_2f_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_2000_corner_2f_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_2000_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_2000_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_2000_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_2000_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_2000_room_2f.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_2000_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_dakou_2000_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_haopai_1400_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_haopai_1400_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_haopai_1400_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_haopai_1400_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_haopai_1400_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_haopai_1400_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_haopai_2000_corner_a.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_haopai_2000_corner_b.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_haopai_2000_door.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_haopai_2000_out.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_haopai_2000_seat.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_haopai_2000_top.jpg
+     create mode 100644 docs/story_planning/CC/logs/XS9_GPU/s5_xs_nanyang_1400_corner_a.jpg
+[20:50:00] dev head = 28f5f5287   lawww2 head = 5f85444cd
+[20:50:01] startup: 4 local result commit(s) not on origin yet - merge origin and push now
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       63a629518..1074fcebe  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:50:06] config.txt: PARALLEL 2 -> 3
+[20:50:06] config.txt: HEADLESS 0 -> 1（每一項都不開視窗）
+[20:50:06] memory used: 35%  (new items wait while >= 85%)
