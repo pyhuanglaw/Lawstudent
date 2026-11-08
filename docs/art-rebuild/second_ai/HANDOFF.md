@@ -6,7 +6,22 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-08 05:1x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-08 07:3x UTC，帳號 B LAWWW2-B）
+
+分支 `claude/funny-albattani-iawshm` 最新 `51aa51b20`（另有 `e2cf1f39c` 新生南路第二條鏈存檔）；開發分支 `claude/modest-rubin-2lyp7g` 最新 `d9646a770`。
+工作樹只留 `$S/wt_dev2`（開發 `d9646a770`＋這一包的 16 個檔、兩支新測試）；舊的 `$S/wt_dev` 07:0x 刪了（裡面的測試都在 docs wip）。
+
+| 項目 | 狀態 | 位置 |
+|---|---|---|
+| **LM-REVEAL-1108**（BB-B 06:25 LM3_cloud：5F 研究室左牆斜帶＋兩批隔間牆都掃） | **已交 LAWWW-B（`5c4db6b53`／README `51aa51b20`，P1 等 ACK），已告訴 BB-B**。①開著的門板跟它貼著的牆淡出（`glb_partition_at.py` 規則 B：5F 門板＋門把、美國兩間大門；只改 extras）②被牆蓋住的格子補色（`lm_fill_covered.py`：六間 13 張光照貼圖）③檢查工具 `lm_fade_reveal_check.py`。partition_fade ③ FAILED 4→ALL PASS；lm_covered_fill_check FAILED 12→ALL PASS；相關 89 支過 | `wip/lm_reveal_1108/` |
+| 隔間牆零件跟主牆一起淡出（0c49eb7a7） | **LAWWW-B 已整合 `7206a12de`**；BB-B 06:35 B1 studyA_back 雲端 PASS | `wip/partition_fade_1108/` |
+| BB-B 06:43 PC GPU 判 | **ART_APPROVED（光照）**：總圖 5F 書庫、公館四間、研究小間、體育館 B1、美國公寓、合租戶。B1、5F 等新 SHA | — |
+| 機車台數（BB-B 06:46） | **已回**：台數本來就不固定（停車格 15% 空、共用亂數），Node 實測 27～35；建議 CC 門檻 24～35、款 ≥7、色 ≥15；28 台算 PASS | — |
+| **新生南路 9 個模型 512**（任務 #200） | 第一條鏈 4 間 `bcd3c5d05`；第二條鏈好拍、同弦 `e2cf1f39c`；**新生運動 06:55 起烘、大步、山嵐排在後面**（`bc0wuztf7`）。全好、xs_lm_unit 跑過才一起交 | `wip/xs_lm_1108/` |
+| P3（任務 #204） | 慢輪 19:30 門外亮白長方形；美國公寓浴室兩片門板拆節點；其他約 40 間外牆腳黑線可跑 lm_fill_covered（等決定） | — |
+| P3 會議廳暗補光 | B1 下次重烘時，排在新生南路後面 | — |
+
+## 🔨 （舊）現在在做（11-08 05:1x UTC，帳號 B LAWWW2-B）
 
 分支 `claude/funny-albattani-iawshm` 最新 `c2e6f4633`；開發分支 `claude/modest-rubin-2lyp7g` 最新 `f7c6380d7`（LAWWW-B 02:08 `bba757532` 把總圖 B1、研究小間退回原檔，等重烘）。瀏覽器都沒跑（D131，交 CC）。
 工作樹只留 `$S/wt_dev`（05:0x 照 LAWWW-B 建議重建在開發最新 `838db8710`＋xs_lm_1108.patch＋兩支新測試）；`$S/devnow` 02:3x 刪了（磁碟剩 2 GB；文字改動先存 `$S/devnow_text_changes_1108.patch`），現在剩 4.5 GB。
