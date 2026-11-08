@@ -5098,6 +5098,16 @@
    "kind": "md",
    "note": "學姊改稿①b（手機與其他系統）逐句表：手抄檔照 apply_line_table.py；產生檔的源稿在企劃線 9aa8ec40c（AA_367、BB_128 3-6、wish_bb、solo_before_bb、date_system/lines）；tools/date/import_wish.py 第 82 列（學姊 herInvite.decline「好。……那下次。」）對這一份",
    "history": []
+  },
+  {
+   "path": "docs/story_planning/AA_728_gifts_friends.json",
+   "sha": "955ea3a03",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-08 08:24「回 08:21 PLAYTEST-1107 兩項」：送給朋友要、六位 drink／breakfast yes 三組輪流＋no；AA_710 itemOnly 清單在 _meta）",
+   "task": "GIFT-FLIRT-1107",
+   "kind": "json",
+   "note": "送飲料、早餐給朋友（阿哲、阿凱、Alison、柏翰、明軒、芯慈）；_meta.itemOnly＝AA_710 只配某一樣的那幾組；tools/story/import_gifts.py",
+   "history": []
   }
  ]
 }
