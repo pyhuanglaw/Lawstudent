@@ -63,6 +63,75 @@ async def drive(pg, cdp, tag, prefs, max_s=300, idle_end=8, shots=0):
     return out
 
 
+TEA = ['謝謝你的綠茶。', '最後一晚，我想一個人。……考完請你吃飯。']
+MSGS = "(id=>(GAME.G.msgs||[]).filter(m=>m.th==='p:'+id||m.from===id).map(m=>({text:m.text, day:m.day, h:m.h, tag:m.tag||null})))"
+
+
+async def sleep_once(pg, cdp, tag):
+    """照玩家一鍵「回去睡覺」（ONETAP.sleepPlan → #btnGo → 睡覺 → 確認），睡到隔天早上；回傳有沒有換日"""
+    d0 = await pg.evaluate("GAME.G.day")
+    for k in range(3):
+        for _ in range(30):
+            s = await L.state(pg)
+            if s['choices']: await L.tap(pg, cdp, '#choices button'); await pg.wait_for_timeout(600); continue
+            if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+            break
+        await L.close_panels(pg, cdp)
+        plan = await pg.evaluate("(()=>{ try{ const p=ONETAP.sleepPlan(GAME); return {ok:!!p.ok, why:p.why||null}; }catch(e){ return {ok:null, why:String(e)}; } })()")
+        R.note('%s 一鍵「回去睡覺」第 %d 次：%s（%s）' % (tag, k + 1, J(plan), J(await pg.evaluate("({day:GAME.G.day,h:+(+GAME.G.hour).toFixed(2),zone:GAME.G.zone})"))))
+        if plan.get('ok') and await L.tap(pg, cdp, '#btnGo'):
+            await pg.wait_for_timeout(1000)
+            if await L.tap(pg, cdp, '#goPop [data-gok="sleep"]'):
+                await pg.wait_for_timeout(1500)
+                if await pg.evaluate("(()=>{ const b=document.getElementById('goConfirm'); return !!b&&!b.classList.contains('hide'); })()"): await L.tap(pg, cdp, '#goCfYes')
+                for _ in range(90):
+                    if await pg.evaluate("(d=>GAME.G.day>d&&+GAME.G.hour<12)", d0): return True
+                    s = await L.state(pg)
+                    if s['choices']: await L.tap(pg, cdp, '#choices button')
+                    elif s['dlg']: await L.tap(pg, cdp, '#dlg')
+                    await pg.wait_for_timeout(1000)
+        await pg.wait_for_timeout(2000)
+    return False
+
+
+async def wait_until(pg, cdp, day, h, max_s=1500):
+    """站著等（不改時間）到 day 那天 h 點；中途對話點掉、手機收掉"""
+    t0 = time.time()
+    while time.time() - t0 < max_s:
+        c = await pg.evaluate("({d:GAME.G.day, h:+GAME.G.hour})")
+        if c['d'] > day or (c['d'] == day and c['h'] >= h): return True
+        s = await L.state(pg)
+        if s['choices']: await L.tap(pg, cdp, '#choices button'); await pg.wait_for_timeout(600); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+        await L.close_panels(pg, cdp); await pg.wait_for_timeout(2000)
+    return False
+
+
+async def follow(pg, cdp, tag, rec):
+    """A 演完以後照玩家過日子（睡覺、站著等，不改 day）：1/25 21:30 看一次、再睡到 due+3（她三天沒見到你）以後看一次；那兩句各只收到一次"""
+    x = await pg.evaluate("(id=>JSON.parse(JSON.stringify((GAME.G.flags.DECIDE_SAY||[]).find(q=>q.who===id&&q.key==='exam')||null)))", SIS)
+    R.note('%s FOLLOW 開始：DECIDE_SAY %s' % (tag, J(x)))
+    if not x: return
+    out = {}
+    ok = await sleep_once(pg, cdp, tag + ' 第 1 晚')
+    ok = ok and await wait_until(pg, cdp, x['due'], 21.5)
+    m1 = await pg.evaluate(MSGS, SIS); c1 = {t: sum(1 for m in m1 if m['text'] == t) for t in TEA}
+    R.note('%s %s 21:30（due 那天）：睡到了＝%s；那兩句次數 %s；學姊那一串最後 4 則 %s' % (tag, await pg.evaluate("CALENDAR.dateOf(GAME.G.day).key"), ok, J(c1), J(m1[-4:])))
+    out['due_2130'] = {'ok': ok, 'count': c1}
+    n = 0
+    while await pg.evaluate("GAME.G.day") < x['due'] + 3 and n < 5:
+        n += 1
+        if not await sleep_once(pg, cdp, tag + ' 第 %d 晚' % (n + 1)): break
+    await wait_until(pg, cdp, x['due'] + 3, 12.0, max_s=900)
+    m2 = await pg.evaluate(MSGS, SIS); c2 = {t: sum(1 for m in m2 if m['text'] == t) for t in TEA}
+    st = await pg.evaluate("(id=>JSON.parse(JSON.stringify((GAME.G.flags.DECIDE_SAY||[]).find(q=>q.who===id&&q.key==='exam')||null)))", SIS)
+    R.note('%s %s %.2f（due+3 以後）：那兩句次數 %s；DECIDE_SAY %s；學姊那一串最後 4 則 %s' % (tag, await pg.evaluate("CALENDAR.dateOf(GAME.G.day).key"), await pg.evaluate("+GAME.G.hour"), J(c2), J(st), J(m2[-4:])))
+    await pg.evaluate("GAME.openPhone('msg')"); await pg.wait_for_timeout(1200); await R.shot(pg, 'sis_follow_phone')
+    R.check('%s 三天沒見到你：手機學姊那一串收到那兩句、各只一次（照玩家睡覺、等時間）' % tag, all(c2[t] == 1 for t in TEA), J(c2))
+    out['due3'] = {'count': c2, 'decide_say': st}
+    rec['follow'] = out
+
+
 async def run_mode(pg, cdp, mode, rec):
     tag = '[%s %s]' % (mode, DATES[mode])
     sv = json.load(open(SAVE46, encoding='utf-8'))
@@ -117,7 +186,8 @@ async def run_mode(pg, cdp, mode, rec):
     if mode == 'A':
         R.check('%s DECIDE.heroine_05.exam＝alone、不是 late、stance support' % tag, bool(ex) and ex.get('v') == 'alone' and not ex.get('late') and ex.get('stance') == 'support', J(ex))
         R.check('%s DECIDE_SAY 有「謝謝你的綠茶。」「最後一晚，我想一個人。……考完請你吃飯。」' % tag, any(x.get('say') == ['謝謝你的綠茶。', '最後一晚，我想一個人。……考完請你吃飯。'] for x in my), J(my))
-        if my:
+        if my and os.environ.get('FOLLOW'): await follow(pg, cdp, tag, rec)
+        elif my:
             R.setup('%s 【捷徑】日子 +3（她三天沒見到你）→ DECIDE.tick（手機規則同一支）' % tag)
             ph = await pg.evaluate("(id=>{ const G=GAME.G, x=(G.flags.DECIDE_SAY||[]).find(q=>q.who===id&&q.key==='exam'); G.day=x.due+3; G.weekday=(G.weekday+3)%7; const r=DECIDE.tick(G); return {r, msgs:JSON.parse(JSON.stringify((G.msgs||[]).filter(m=>m.th==='p:'+id||m.who===id||m.from===id).slice(-4))), x:JSON.parse(JSON.stringify(x))}; })", SIS)
             R.note('%s tick：%s' % (tag, J(ph)))
