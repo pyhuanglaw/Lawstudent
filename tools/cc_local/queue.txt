@@ -1463,3 +1463,7 @@ R8B6_zone | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/zone_transit
 R8B6_mini | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
 R8B6_movreg | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
 R8B6_touch | 8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
+
+#   BB-B 05:26（11-08）經濟系兩支 flow 的 CC 版（探針修好：v0_to1017 走到床邊手機開著先關、v0_tolaw 拿掉在家選單、從讀檔開始收台詞），最新 head e86f402e3
+CC_v0_to1017_e86f | e86f402e3daf9515216b5bb5b032e1844dba8f94 | probe | docs/story_planning/test_tools/cc/cc_flow_v0_to1017.py | index.html | 90 | CC_HEADLESS=0
+CC_v0_tolaw_e86f | e86f402e3daf9515216b5bb5b032e1844dba8f94 | probe | docs/story_planning/test_tools/cc/cc_flow_v0_tolaw.py | index.html | 60 | CC_HEADLESS=0
