@@ -72,7 +72,9 @@ realize()
 # ---- 2. 烘焙的物件：網格、不是玻璃（HIDE）、有面 ----
 def mats(o): return [s.material.name for s in o.material_slots if s.material]
 def hidden(o): return bool(HIDE and (HIDE.search(o.name) or any(HIDE.search(m) for m in mats(o))))
-objs = [o for o in bpy.data.objects if o.type == 'MESH' and len(o.data.polygons) and not hidden(o) and not (NOLM and NOLM.search(o.name))]
+objs = [o for o in bpy.data.objects if o.type == 'MESH' and len(o.data.polygons) and not hidden(o) and not (NOLM and NOLM.search(o.name))
+        and not (KEEP_INST and o.data.users > 1)]   # --keep-instances：好幾個物件共用的網格（GPU instancing）不烘——每個實例的光不一樣，同一份 UV 給不了；
+#   而且 Blender 匯入時第二個以後的實例叫「網格名.001」，--nolm 的 …_vc$、…_inst$ 認不到，烘進去以後共用網格的全部多了第二套 UV（LAWWW2-B 11-07 轉角唱片試烘）
 for o in bpy.data.objects:
     if o.type == 'MESH' and hidden(o): o.hide_render = True   # 玻璃：烘焙時當作不存在（窗外的光直接進來）
 print('bake objects', len(objs), flush=True)
@@ -311,7 +313,15 @@ w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; nt = w.node_tree
 sky = nt.nodes.new('ShaderNodeTexSky')
 try: sky.sky_type = 'NISHITA'; sky.sun_disc = False; sky.sun_elevation = math.radians(max(SUN[1], 2)); sky.sun_rotation = math.radians(SUN[0])
 except Exception: pass
-nt.links.new(sky.outputs['Color'], bg.inputs['Color'])
+# --skytint r,g,b（11-08 LAWWW2-B，一盞 WZ6_LM_cloud：BB-B 判店門口的淺色木地板白天變灰藍、像水泥）：白天那一張的天光乘這個顏色（只乘天光，燈不受影響；晚上那一張照舊）。
+#   Nishita 晴空沒有太陽（這幾間的 --sun 強度 0）只剩藍天光，開口大的店門口一帶光照貼圖藍／紅到 1.4（WebP），遊戲室內白天的即時光是暖灰（0xf4f1ea），木頭乘上去變灰藍。
+#   沒給 --skytint 就不加這個節點（和原本完全一樣）。
+SKYTINT = [float(t) for t in arg('--skytint').split(',')] if arg('--skytint') else None
+if SKYTINT:
+    sky_tint = nt.nodes.new('ShaderNodeVectorMath'); sky_tint.operation = 'MULTIPLY'; sky_tint.inputs[1].default_value = SKYTINT
+    nt.links.new(sky.outputs['Color'], sky_tint.inputs[0]); nt.links.new(sky_tint.outputs['Vector'], bg.inputs['Color'])
+else:
+    nt.links.new(sky.outputs['Color'], bg.inputs['Color'])
 sd = bpy.data.lights.new('sun', 'SUN'); sd.angle = math.radians(1.0); so = bpy.data.objects.new('sun', sd); sc.collection.objects.link(so)
 # 遊戲座標的羅盤方位（0＝北＝−z、90＝東＝+x）→ 太陽「照過來」的方向；Blender 的太陽沿自己的 −Z 照
 az, el = math.radians(SUN[0]), math.radians(SUN[1])
@@ -380,6 +390,7 @@ DAYL = float(arg('--daylights', '1.0'))   # 白天那一張的燈（--lights）�
 for lo in AREAS: lo['W0'] = lo.data.energy
 def bake(tag, sky_strength, sun_energy, emit_scale, lamp_scale=1.0):
     bg.inputs['Strength'].default_value = sky_strength; sd.energy = sun_energy
+    if SKYTINT: sky_tint.inputs[1].default_value = SKYTINT if tag == 'day' else (1.0, 1.0, 1.0)   # --skytint 只乘白天
     for lo in AREAS: lo.data.energy = lo['W0'] * lamp_scale
     for lo in DAYFILL: lo.data.energy = lo['W0'] if tag == 'day' else 0.0   # --dayfill：只有白天那一張
     # 發光的強度（--emit、--dayemit）：所有網格的材質都要設，不是只有要烘的物件——發光面通常在 --nolm 裡（不烘、照樣發光）。
@@ -574,7 +585,7 @@ for o in SHELL: bpy.data.objects.remove(o)   # 外殼只在烘焙時用
 if arg('--drop'):
     _drop = re.compile(arg('--drop'))
     for o in [o for o in bpy.data.objects if _drop.search(o.name)]: bpy.data.objects.remove(o)
-json.dump({'device': DEVICE, 'blender': bpy.app.version_string, 'bake_seconds': round(_time.time() - _T0, 1), 'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'dayemit': DAYEMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'knee': KNEE, 'dayscale': arg('--dayscale'), 'lights': arg('--lights'), 'points': arg('--points'), 'dayfill': arg('--dayfill'), 'wb': WB,
+json.dump({'device': DEVICE, 'blender': bpy.app.version_string, 'bake_seconds': round(_time.time() - _T0, 1), 'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'dayemit': DAYEMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'knee': KNEE, 'dayscale': arg('--dayscale'), 'lights': arg('--lights'), 'points': arg('--points'), 'dayfill': arg('--dayfill'), 'wb': WB, 'skytint': SKYTINT,
            'objects': [o.name for o in objs]}, open(LM + '.json', 'w'), ensure_ascii=False, indent=1)
 URL = arg('--url')   # 遊戲裡光照貼圖的路徑前綴（例：assets/models/env/classroom_201_lm）→ 寫進 GLB 場景的 extras.lightmap，遊戲的 attachRoomGLB 看到就自動接
 if URL:
