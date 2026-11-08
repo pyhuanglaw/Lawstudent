@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "R7f84_mini",
+  "sha": "7f8441f7eb4243535672ac5e8645c0ce1a104b46",
+  "kind": "game",
+  "script": "tests/minimap_direction.py",
+  "env": "XARGS={url} {out};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T20:22:13",
+  "end": "2026-11-08T20:23:48",
+  "seconds": 95,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "32",
+  "url": "http://127.0.0.1:8802/index.html?turbo",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 18,
+    "mem": 53,
+    "used_gb": 17.0,
+    "chrome_testing": 12
+  }
+}
