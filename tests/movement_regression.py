@@ -19,8 +19,8 @@ def check(name,ok,info=''):
 def dist(a,b): return math.hypot(a['x']-b['x'],a['z']-b['z'])
 class Rig:
     def __init__(s,pg,cdp): s.pg=pg; s.cdp=cdp
-    async def load(s,st):
-        js="(async()=>{ const s=GAME.defaults('祐廷'); Object.assign(s,"+json.dumps(st,ensure_ascii=False)+"); document.getElementById('titleScreen').classList.add('hide'); await GAME.applySave(s); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; })()"
+    async def load(s,st):   # [前置] 讀檔時關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto，D103；同 playlib.load_state quiet_events）：手機一開遊戲暫停、搖桿推不動（CC-B 11-08：可昕 kx_tour_ask）；前一次讀檔開著的手機也先收起來
+        js="(async()=>{ const s=GAME.defaults('祐廷'); Object.assign(s,"+json.dumps(st,ensure_ascii=False)+"); document.getElementById('titleScreen').classList.add('hide'); await GAME.applySave(s); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}; if(GAME.phoneIsOpen&&GAME.phoneIsOpen()&&GAME.closePhone) GAME.closePhone(); })()"
         await s.pg.evaluate(js); await s.pg.wait_for_timeout(1200)
     async def pos(s): return await s.pg.evaluate("(()=>{ const P=GAME.E.player; const o=P.obj; return {x:+o.position.x.toFixed(2),z:+o.position.z.toFixed(2),yaw:+o.rotation.y.toFixed(2),pose:P.pose,busy:P.busy,cam:GAME.E.cam.mode,blocked:P.blockedAt?P.blockedAt.slide:null,stand:GAME.E.canStand(o.position.x,o.position.z,0.3)}; })()")
     async def joy(s,dx,dy,ms):
