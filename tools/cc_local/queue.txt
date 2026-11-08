@@ -1653,3 +1653,8 @@ R9eef_v0_to1017 | 9eef2b95bc023e3201d0575935913319243a3670 | game | tests/flow_v
 R9eef_v0_home | 9eef2b95bc023e3201d0575935913319243a3670 | game | tests/flow_v0_home.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R9eef_p0_r2 | 9eef2b95bc023e3201d0575935913319243a3670 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
 R9eef_movreg_r2 | 9eef2b95bc023e3201d0575935913319243a3670 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
+# CC-B 11-08 15:1x：保持五項以上：開發分支最新 52a7e5337（v9.10.23 發布樹）常備
+R52a7_p0 | 52a7e53379ccd1fa8398266b760ebedccaa83fbb | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+R52a7_reach | 52a7e53379ccd1fa8398266b760ebedccaa83fbb | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
+R52a7_zone | 52a7e53379ccd1fa8398266b760ebedccaa83fbb | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
+R52a7_main12 | 52a7e53379ccd1fa8398266b760ebedccaa83fbb | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
