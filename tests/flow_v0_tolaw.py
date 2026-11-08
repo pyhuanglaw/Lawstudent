@@ -6,7 +6,7 @@
 用法：python3 tests/flow_v0_tolaw.py URL [輸出資料夾]"""
 import asyncio, json, sys
 from playwright.async_api import async_playwright
-sys.path.insert(0, __import__('os').path.dirname(__file__))
+sys.path.insert(0, __import__('os').environ.get('LW_TESTS') or __import__('os').path.dirname(__file__))
 import playlib as L
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
@@ -54,16 +54,13 @@ async def main():
               'flags': {'CAMP_Y1': True, 'Y0_MOVED_OUT': True, 'LEAVE_WEEK': 6, 'Y0_LEFT': True, 'E36_PACT': 'weekly', 'E25_ANSWER': 'only_me', 'E35_PLAN': 'sea', 'Y0_STICKY': True, 'dating_kexin': False, 'KX_FIRST_MSG': True, 'fundsV2': 1, 'allowanceMonth': 8, 'E01_DONE': True},
               'events': {'done': {'ev_y0_e36': 1, 'ev_y0_e36n': 1, 'ev_y0_e37': 1, 'ev_y0_a3': 1, 'ev_y0_e35': 1, 'ev_y0_e35sh': 1}, 'last': {}, 'count': 6}}
         run.setup('讀檔到 8/28（四）22:00 在家（經濟系、休學後、宿營演過）')
+        # CC-B 11-08（BB-B 05:26）：讀 8/28 22:00 在家不出家裡選單、直接睡到 8/29 換階段（126b、8b6c 都一樣）——拿掉「在家的選單」那一項；GM.say 從讀檔一開始就記
+        await pg.evaluate("(()=>{ window.__said=[]; const o=GAME.say; GAME.say=function(w,t){ window.__said.push(String(t||'')); return o.apply(this,arguments); }; })()")
         await L.load_state(pg, st)
-        ok, log = await drive(pg, cdp, "!!document.querySelector('#choices button')&&[...document.querySelectorAll('#choices button')].some(x=>x.textContent.includes('睡覺'))", [], 60)
-        run.check('在家的選單出來了（有「睡覺」）', ok, json.dumps(log[-4:], ensure_ascii=False))
-        await run.shot(pg, 'home_828')
-        # 打字機效果下畫面上的字只抓得到開頭：另外記下 GM.say 收到的完整句子（只記錄、不改流程）
-        await pg.evaluate("(()=>{ if(window.__said) return; window.__said=[]; const o=GAME.say; GAME.say=function(w,t){ window.__said.push(String(t||'')); return o.apply(this,arguments); }; })()")
-        await pick(pg, cdp, ['睡覺'])
+        log0 = []
         ok, log = await drive(pg, cdp, "GAME.G.stage==='law'&&GAME.G.zone==='dorm'&&!!GAME.E.zone&&!!GAME.E.zone.def&&GAME.E.zone.def.id==='dorm'&&!GAME.E.player.busy&&!document.querySelector('#choices button')&&!(GAME.D&&GAME.D.active)", ['讀到一半。'], 300)   # G.zone 在搬宿舍那兩句之前就設成 dorm 了：要等真的進了宿舍（E.zone）、劇情演完
         said = await pg.evaluate("window.__said||[]")
-        text = ' | '.join(log + said)
+        text = ' | '.join(log0 + log + said)
         d29 = d28 + 1
         run.check('8/29 早上換階段：3b② 前兩句（「暑假剩下的日子，過得很快。」）、搬宿舍「你去年也搬過一次宿舍，這次只有一個行李箱。」', ok and '暑假剩下的日子，過得很快。' in text and '你去年也搬過一次宿舍，這次只有一個行李箱。' in text, json.dumps(said[:30], ensure_ascii=False))
         s = await pg.evaluate("({stage:GAME.G.stage,day:GAME.G.day,h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,dk:GAME.G.flags.dating_kexin,xun:GAME.G.flags.MET_XUN,played:GAME.G.flags.PLAYED_Y0,pact:GAME.G.flags.E36_PACT,money:GAME.G.money,home:HOME.at(GAME.G)})")
