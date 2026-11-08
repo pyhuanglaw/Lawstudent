@@ -103,7 +103,7 @@ nanyang_lobby)
   #     暖色燈具（ny_warm）烘的時候藏起來。倍數 GS。
   # 烘：地毯（地板）、天花板、四面牆的漆面（WALL_*_plaster）。護牆板（WALL_*_wains：頂點色、幾千個小面）、櫃台、木作、海報不烘。
   GLB=bb_support/nanyang_lobby.glb
-  G=${GS:-1.0}; WC=1.0,0.76,0.50
+  G=${GS:-4.0}; WC=1.0,0.76,0.50   # 冒煙測試（4 取樣）×1.0 晚上 0.11（太暗，4.5 m 高的大廳）→ 先 ×4，試烘再調
   PTS=$(node -e "
     const L=require(process.argv[1]).lobby, W={pendant:9,sconce:5,gooseneck:4,poster_spot:6,counter_band:3,fridge:2}, D={pendant:0.12,sconce:0.05,gooseneck:0.06,poster_spot:0.08,counter_band:0.03,fridge:0};
     console.log(L.lights.map(l=>[l.x,(l.y-(D[l.kind]||0.05)).toFixed(3),l.z,(W[l.kind]*$G).toFixed(2),...(l.kind==='fridge'?[0.85,0.92,1.0]:[$WC]),0.05].join(',')).join(';'));" "$PWD/src/data/nanyang_layout.js")
@@ -117,7 +117,7 @@ nanyang_hall)
   # 第三張「開演」（--dark）：場燈關掉，只剩走道地燈、太平門、銀幕（--darkpoints）。遊戲：NY3.houseLights(false) → z.lightsOff(1)（patch）。
   # 烘：地毯（含斜面）、天花板、四面牆的漆面。座椅、護牆板、壁柱、絨布、銀幕不烘。
   GLB=bb_support/nanyang_hall.glb
-  HW=${HW:-10}; SCW=${SCW:-4}
+  HW=${HW:-40}; SCW=${SCW:-4}   # 冒煙測試（4 取樣）10 W 場燈開著 0.07（太暗）→ 先 40 W，試烘再調
   PTS=""
   for x in -5.25 5.25; do for z in 3.0 -0.5 -4.0; do PTS="$PTS${PTS:+;}$x,2.75,$z,$HW,1.0,0.74,0.48,0.06"; done; done
   DARKP=$(node -e "
@@ -150,7 +150,7 @@ KEEP=(); [ $INST = 1 ] && KEEP=(--keep-instances)
   --lm "$TMP/$NAME" --url "$(dirname "$SRC")/${NAME}_lm" --res 1024 --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
   --lights "$LIGHTS" ${PTS:+--points "$PTS"} --smooth 2 --sun 180,35,0 --sky "$SKYD" --daylights "$DAYLD" "${KEEP[@]}" ${SKYTINT:+--skytint "$SKYTINT"} "${EXTRA[@]}"
 python3 $LB/to_webp.py "$TMP/$NAME" "$DST/${NAME}_lm" 90
-if [ $INST = 1 ]; then python3 $LB/glb_fix_instnames.py "$TMP/$NAME.glb" "$DST/$NAME.glb"; fi   # instancing 節點的名字、extras 照原檔補回去
+if [ $INST = 1 ]; then python3 $LB/glb_fix_instnames.py "$TMP/$NAME.glb" "$DST/$NAME.glb" --match; fi   # instancing 節點的名字、extras 照原檔補回去（--match：比對位置，名字整個照原檔；大口二樓、大步的鞋子不是「網格名＋_inst」）
 if [ -n "${DARKOFF:-}" ]; then   # 熄燈那一張時一起調暗自發光的材質（遊戲 roomDarkMap 的 spec.darkOff，預設 tube|lamp_bulb）：寫進 extras.lightmap.darkOff
   python3 -I - "$DST/$NAME.glb" "$DARKOFF" <<'EOF'
 import json, struct, sys
