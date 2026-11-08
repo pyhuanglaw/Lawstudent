@@ -2114,3 +2114,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 139.2s] page close url=http://127.0.0.1:8800/index.html?turbo&turbo | [gpu_wrap 139.3s] BROWSER DISCONNECTED
 - 2026-11-08T18:06:02  Raa36_movreg_r2  sha=aa363f62a8363594199ba99ebefa3ce57512ee58  exit=0  335s    PASS E 咖啡廳：exit 後能走（最佳方向 ≥ 1 m）   {'x': 45.57, 'z': -4.24, 'yaw': -3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 49.97, 'z': -4.73, 'yaw': -3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via right / console errors: [] / RESULT: 42/42 PASS
       err.log (last 5): [gpu_wrap 301.7s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 301.7s] BROWSER DISCONNECTED
+- 2026-11-08T18:19:57  R0f5c_touch  sha=0f5c836ac45739192c3c38eaee93cdfbd5b801e7  exit=0  189s    PASS 讀檔後可以走  7.34 / PASS 沒有 JS 例外 / ALL PASS
+      err.log (last 5): [gpu_wrap 137.1s] page close url=http://127.0.0.1:8800/index.html?turbo&turbo | [gpu_wrap 137.2s] BROWSER DISCONNECTED
