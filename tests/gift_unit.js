@@ -1,4 +1,4 @@
-// 送早餐、飲料（GIFT-FLIRT-1107，USER_WANTS X262；台詞 AA_710 第二版 be775af69）——不需要瀏覽器（D131）。
+// 送早餐、飲料（GIFT-FLIRT-1107，USER_WANTS X262；台詞 AA_710 第二版 be775af69；只配某一樣的組、早餐、可昕微糖照 AA_728 955ea3a03 _meta）——不需要瀏覽器（D131）。
 // 使用者 11-07 試玩：「買飲料 早餐 給別人」「也沒辦法送早餐飲料?」；AA-B 05:39「AA_710 第二版，請重匯」。
 // 句子一律從 src/data/gift_lines.js 讀來比對（不寫死台詞）。檢查：
 //   0. gift_lines.js 和白名單上的 AA_710 一致（import_gifts.py --check）；七位都有飲料、早餐、fav；每格 pool、lines＝pool 第一組；品項都是遊戲買得到的
@@ -13,6 +13,11 @@
 //   8. 講到品項／稱呼的組：學姊送到第 3 次起「學弟」換成名字；子晴「冰美式」那兩句只在送冰美式；「冰你一下」不配熱的
 //   9. 舊存檔（沒有 G.carry、G.flags.GIFT 只有第一版的 day／fav／n、帶著的東西沒有店名）照樣能送
 //  10. 一句開頭是（動作）、後面接著講話的：拆成旁白＋她說的，字不改
+//  11. AA_728 _meta.itemOnly（AA-B 11-08 08:24）：五筆都對到那幾組（only／hour）；只在送那一樣（「再喝我晚上會睡不著」：咖啡、21 點以後）才出，不然跳過、輪到下一組；
+//      匯入工具：位置對不到、那一組沒提到那一樣、句子改了、item 寫法不認得、kexinSugar／早餐那一句改了 → 停下來
+//  12. 早餐＝豆漿、米漿、飯糰、三明治（AA_728 notes；不加早餐店）：送她豆漿算早餐（同一天再送飯糰＝no）；以安的豆漿、沛珊的米漿 AA_710 寫在飲料（她最喜歡的）＝對她算飲料
+//  13. 挑反應的順序 fav＞opinion＞ctx＞yes；opinion、ctx 沒寫 rel＝用她這時候 yes 那一格的 rel
+//  朋友六位（AA_728 people）：tests/gift_friends_unit.js
 // 用法：node tests/gift_unit.js
 const H=require('./pg_harness.js');
 const {check,GM}=H;
@@ -37,22 +42,23 @@ const same=(a,b)=>J(a)===J(b);
   const LN=GIFT_LINES.people;
   const ITEMN=Object.keys(GIFT.TEMP);
   const catOf=n=>{ for(const it of GIFT.ITEMS) for(const o of it.opt||[['','']]) if(it.n+o[1]===n) return it.cat; return null; };
+  const kindOf=(id,n)=>((LN[id]&&LN[id].sec)||{})[n]||catOf(n);   /* 這一樣對她算哪一種（以安的豆漿、沛珊的米漿寫在飲料）*/
   { const bad=[];
     for(const id of IDS) for(const c of ['drink','breakfast']){ const E=LN[id]&&LN[id][c]; if(!E){ bad.push(id+'.'+c+' 沒有'); continue; }
       const norm=E.yes.filter(y=>!y.dating); if(!norm.length||norm[0].need!==1) bad.push(id+'.'+c+' 沒有 need 1');
       if(!E.yes.some(y=>y.dating)) bad.push(id+'.'+c+' 沒有交往中那一格');
       for(const y of E.yes){ if(!Array.isArray(y.pool)||!y.pool.length||!same(y.lines,y.pool[0].lines)) bad.push(id+'.'+c+' yes lines≠pool[0]'); }
       if(!E.no.length||!E.no.every(g=>g.lines&&g.lines.length)) bad.push(id+'.'+c+' no');
-      for(const e of [E.fav].concat(E.opinion||[]).filter(Boolean)) if(!ITEMN.includes(e.n)||catOf(e.n)!==c) bad.push(id+'.'+c+' 品項 '+e.item+'→'+e.n);
+      for(const e of [E.fav].concat(E.opinion||[]).filter(Boolean)) if(!ITEMN.includes(e.n)||kindOf(id,e.n)!==c) bad.push(id+'.'+c+' 品項 '+e.item+'→'+e.n);
       for(const k in E.ctx||{}) if(!GIFT.CTX.includes(k)) bad.push(id+'.'+c+' ctx '+k); }
     check('0. 七位都有飲料、早餐：need 1、交往中那一格、pool（lines＝第一組）、no；fav／opinion 的品項都是遊戲買得到的',!bad.length,bad.join('；'));
     check('0. 七位都有最喜歡的（fav；以安豆漿、語彤紅茶拿鐵、沛珊米漿是第二版新的）',IDS.every(id=>LN[id].drink.fav)&&LN.heroine_01.drink.fav.n==='豆漿'&&LN.heroine_03.drink.fav.n==='紅茶拿鐵'&&LN.classmate_peishan.drink.fav.n==='米漿',J(IDS.map(id=>(LN[id].drink.fav||{}).n)));
     const py=(code)=>{ try{ cp.execFileSync('python3',['-c',code],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); return 'ran'; }catch(e){ return String(e.stderr||''); } };
-    const pre="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;d=json.loads(subprocess.check_output(['git','show','be775af69:'+M.PATH]).decode());I=M.game_items();";
-    const e1=py(pre+"d['heroine_01']['drink']['fav']['item']='珍珠奶茶';M.build(d,'x',I)");
-    const e2=py(pre+"d['heroine_01']['drink']['ctx']['night']=[['x']];M.build(d,'x',I)");
-    const e3=py(pre+"d['heroine_01']['drink']['yes'][0]['lines']=['x'];M.build(d,'x',I)");
-    const e4=py(pre+"M.build(d,'x',I)");
+    const pre="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;d=json.loads(subprocess.check_output(['git','show','be775af69:'+M.PATH]).decode());I=M.game_items();m2=json.loads(subprocess.check_output(['git','show','955ea3a03:'+M.PATH2]).decode())['_meta'];";
+    const e1=py(pre+"d['heroine_01']['drink']['fav']['item']='珍珠奶茶';M.build(d,'x',I,m2)");
+    const e2=py(pre+"d['heroine_01']['drink']['ctx']['night']=[['x']];M.build(d,'x',I,m2)");
+    const e3=py(pre+"d['heroine_01']['drink']['yes'][0]['lines']=['x'];M.build(d,'x',I,m2)");
+    const e4=py(pre+"M.build(d,'x',I,m2)");
     check('0. 匯入工具：品項名對不到、飲料寫 night、lines≠pool 第一組 → 停下來；原稿通過',/遊戲沒有這個品項/.test(e1)&&/不認得/.test(e2)&&/pool 第一組/.test(e3)&&e4==='ran',[e1,e2,e3,e4].map(s=>s.trim().split('\n').pop()).join(' | ')); }
   /* 1 買 */
   { const G=H.fresh('2025-09-16',9,'cvs'); G.money=500; money=0;
@@ -72,7 +78,7 @@ const same=(a,b)=>J(a)===J(b);
   const E_=(id,c)=>LN[id][c];
   const onlyItems=(id,c)=>{ const E=E_(id,c), o=new Set(); const add=gs=>(gs||[]).forEach(g=>(g.only||[]).forEach(n=>o.add(n))); E.yes.forEach(y=>add(y.pool)); add(E.no); (E.opinion||[]).forEach(x=>add(x.pool)); for(const k in E.ctx||{}) add(E.ctx[k]); return o; };
   /* 「中性」的品項：不是她最喜歡的、她沒意見、沒有句子講到它 */
-  const neutral=(id,c)=>{ const E=E_(id,c), O=onlyItems(id,c); return ITEMN.filter(n=>catOf(n)===c&&!(E.fav&&E.fav.n===n)&&!(E.opinion||[]).some(o=>o.n===n)&&!O.has(n)); };
+  const neutral=(id,c)=>{ const E=E_(id,c), O=onlyItems(id,c); return ITEMN.filter(n=>kindOf(id,n)===c&&!(E.fav&&E.fav.n===n)&&!(E.opinion||[]).some(o=>o.n===n)&&!O.has(n)); };
   const cond=g=>!!(g.only||g.swap||g.hour);
   const fresh=(key,hour)=>{ const G=H.fresh(key||'2025-09-16',hour==null?9:hour,'campus'); G.money=5000; for(const k in stageOf) delete stageOf[k]; return G; };
   /* 2 一般 yes：階段、好感、輪流 */
@@ -104,8 +110,9 @@ const same=(a,b)=>J(a)===J(b);
   { const bad=[];
     for(const id of IDS) for(const c of ['drink','breakfast']){ const G=fresh(); const N=neutral(id,c), E=E_(id,c); await give(G,id,N[0]);
       const seq=[]; for(let k=0;k<=E.no.length;k++){ const h=await give(G,id,N[0]); seq.push(h.r==='no'?E.no.findIndex(p=>same(split(p.lines),h.s)):'x'); if(G.carry.length!==1) bad.push(id+'.'+c+' 東西沒留著'); }
-      const want=seq.map((_,k)=>k%E.no.length); if(!same(seq,want)) bad.push(id+'.'+c+' no '+J(seq)+' 要 '+J(want)); }
-    check('3. 同一種一天第二次：她不收（no）、東西留著；no 輪流（七位 × 兩種）',!bad.length,bad.join('；')); }
+      const okI=E.no.map((g,i)=>(!g.only||g.only.includes(N[0]))&&(!g.hour||(G.hour>=g.hour[0]&&G.hour<g.hour[1]))?i:-1).filter(i=>i>=0);   /* 只配某一樣／幾點以後的組（11）不算 */
+      const want=seq.map((_,k)=>okI[k%okI.length]); if(!same(seq,want)) bad.push(id+'.'+c+' no '+J(seq)+' 要 '+J(want)); }
+    check('3. 同一種一天第二次：她不收（no）、東西留著；no 輪流（七位 × 兩種；只配某一樣的組跳過）',!bad.length,bad.join('；')); }
   /* 4 fav */
   { const bad=[];
     for(const id of IDS){ const G=fresh(); stageOf[id]=3; const FV=E_(id,'drink').fav; const r0=Object.assign({},SOCIAL.rel(id)); const g=await give(G,id,FV.n); const r1=SOCIAL.rel(id);
@@ -162,7 +169,7 @@ const same=(a,b)=>J(a)===J(b);
       check('7. 以安交往中：送三明治＝「三明治分成兩半」那組；送飯糰跳過那組',same(a.s,split(D.pool[0].lines))&&/三明治/.test(a.s.join(''))&&same(b.s,split(D.pool[1].lines)),J([a.s,b.s])); }
     { const G=fresh(); stageOf.heroine_04=6; G.flags.dating_heroine_04=true; const h=await give(G,'heroine_04','三明治'); const y4=E_('heroine_04','breakfast').yes.find(y=>!y.dating&&y.need===4);
       check('7. 子晴交往中送三明治：交往中那一格只有「飯糰」那組 → 照階段那一格',h.r==='yes'&&same(h.s,split(y4.pool[0].lines)),J(h.s)); }
-    { const G=fresh(); G.flags.romance={heroine_02:{status:'dating'}}; stageOf.heroine_02=6; const D=E_('heroine_02','drink').yes.find(y=>y.dating); const h=await give(G,'heroine_02','豆漿');
+    { const G=fresh(); G.flags.romance={heroine_02:{status:'dating'}}; stageOf.heroine_02=6; const D=E_('heroine_02','drink').yes.find(y=>y.dating); const h=await give(G,'heroine_02','無糖綠茶');
       check('7. 交往中也認 G.flags.romance[id].status＝dating',same(h.s,split(D.pool[0].lines)),J(h.s)); } }
   /* 8 講到品項／稱呼的組 */
   { const bad=[]; for(const c of ['drink','breakfast']){ const G=fresh(); stageOf.heroine_05=1; const P=E_('heroine_05',c).yes[0].pool, N=neutral('heroine_05',c), ls=[];
@@ -173,9 +180,9 @@ const same=(a,b)=>J(a)===J(b);
     check('8. 學姊（飲料、早餐）：第 1～2 次叫「學弟」，第 3 次起那一句的「學弟」換成名字（notes「之後 {name}」）、照樣輪流',!bad.length,bad.join('；')); }
   { const G=fresh(); stageOf.heroine_04=2; await give(G,'heroine_04','青茶'); G.day+=1; const h=await give(G,'heroine_04','青茶'); const G2=fresh('2025-12-10'); const h2=await give(G2,'heroine_04','紅茶拿鐵');
     check('8. 子晴：連續兩天送青茶不說「又是冰美式」；冬天送紅茶拿鐵不說「冬天的冰美式」',h.r==='yes'&&!/冰美式/.test(h.s.join(''))&&h2.r==='yes'&&!/冰美式/.test(h2.s.join('')),J([h.r,h.s,h2.r,h2.s])); }
-  { const bad=[]; for(const n of ['拿鐵','熱可可（加一份濃縮）','豆漿']) for(let k=0;k<4;k++){ const G=fresh(); stageOf.heroine_04=6; G.flags.dating_heroine_04=true; G.flags.GIFT={pool:{'heroine_04|drink|yes2':k%2}}; const h=await give(G,'heroine_04',n); if(/冰你一下/.test(h.s.join(''))) bad.push(n+' '+k); }
+  { const bad=[]; for(const n of ['拿鐵','熱可可（加一份濃縮）','美式咖啡']) for(let k=0;k<4;k++){ const G=fresh(); stageOf.heroine_04=6; G.flags.dating_heroine_04=true; G.flags.GIFT={pool:{'heroine_04|drink|yes2':k%2}}; const h=await give(G,'heroine_04',n); if(/冰你一下/.test(h.s.join(''))) bad.push(n+' '+k); }
     const G=fresh(); stageOf.heroine_04=6; G.flags.dating_heroine_04=true; G.flags.GIFT={pool:{'heroine_04|drink|yes2':0}}; const h=await give(G,'heroine_04','無糖綠茶');
-    check('8. 子晴交往中：「冰你一下」不配熱的、沒寫冷熱的（拿鐵、熱可可、豆漿）；冰的（無糖綠茶）可以',!bad.length&&/冰你一下/.test(h.s.join('')),bad.join('；')+' '+J(h.s)); }
+    check('8. 子晴交往中：「冰你一下」不配熱的（拿鐵、熱可可、熱美式）；冰的（無糖綠茶）可以',!bad.length&&/冰你一下/.test(h.s.join('')),bad.join('；')+' '+J(h.s)); }
   /* 9 舊存檔 */
   { const G=fresh(); delete G.carry; delete G.flags.GIFT; let err=null; try{ GIFT.talkOpts(G,'heroine_01'); GIFT.shopOpt(G,'便利商店'); }catch(e){ err=e; }
     check('9. 舊存檔（沒有 carry、GIFT）不丟例外',!err,String(err));
@@ -187,5 +194,73 @@ const same=(a,b)=>J(a)===J(b);
   { const G=fresh(); stageOf.heroine_02=2; const o=E_('heroine_02','drink').opinion.find(x=>x.n==='拿鐵'); const raw=o.pool[0].lines.find(t=>/^（[^）]*）./.test(t));
     H.said=[]; const c=mk(G,'拿鐵','便利商店'); await GIFT.give(GM,who('heroine_02'),'heroine_02',c); const m=/^(（[^）]*）)(.+)$/.exec(raw||''); const i=H.said.findIndex(s=>m&&s.t===m[1]);
     check('10. 「（動作）講的話」拆成旁白＋她說的、字不改',!!m&&i>0&&H.said[i].who===null&&H.said[i+1].t===m[2]&&H.said[i+1].who==='林芷若'&&H.said[i].t+H.said[i+1].t===raw,J(H.said)); }
+  /* 11 只配某一樣（AA_728 _meta.itemOnly，AA-B 11-08 08:24）*/
+  const py2=(code)=>{ try{ cp.execFileSync('python3',['-c',code],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); return 'ran'; }catch(e){ return String(e.stderr||''); } };
+  const PRE="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;d=json.loads(subprocess.check_output(['git','show','be775af69:'+M.PATH]).decode());s2=json.loads(subprocess.check_output(['git','show','955ea3a03:'+M.PATH2]).decode());m2=s2['_meta'];I=M.game_items();";
+  const A728=JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show','955ea3a03:docs/story_planning/AA_728_gifts_friends.json'],{encoding:'utf8'}));
+  { const io=A728._meta.itemOnly, bad=[], has=(g,re)=>re.test(g.lines.join(''));
+    const an_bf=E_('heroine_01','breakfast').yes.find(y=>y.dating).pool, yt_bf=E_('heroine_03','breakfast').yes.find(y=>!y.dating&&y.need===4).pool, zq_bf=E_('heroine_04','breakfast').yes.find(y=>y.dating).pool, zq_dr=E_('heroine_04','drink'), an_no=E_('heroine_01','drink').no;
+    if(!(same(an_bf[0].only,['三明治'])&&has(an_bf[0],/三明治分成兩半/)&&!an_bf[1].only)) bad.push('以安早餐交往中 '+J(an_bf));
+    if(!(same(yt_bf[1].only,['飯糰'])&&has(yt_bf[1],/這個飯糰/)&&!yt_bf[0].only)) bad.push('語彤早餐 need 4 '+J(yt_bf));
+    if(!(same(zq_bf[0].only,['飯糰'])&&has(zq_bf[0],/把飯糰吃完/))) bad.push('子晴早餐交往中 '+J(zq_bf));
+    if(!(same(zq_dr.ctx.winterCold[0].only,['美式咖啡（冰的）'])&&same(zq_dr.ctx.again[0].only,['美式咖啡（冰的）']))) bad.push('子晴 ctx '+J(zq_dr.ctx));
+    const sl=an_no.find(g=>g.lines.includes('再喝我晚上會睡不著。你喝。'));
+    if(!(sl&&same(sl.only,['美式咖啡','美式咖啡（冰的）','拿鐵'])&&sl.hour&&sl.hour[0]===21&&sl.hour[1]>=27&&an_no.filter(g=>g.only||g.hour).length===1)) bad.push('以安 no '+J(an_no));
+    let n=0; for(const id of IDS) for(const c of ['drink','breakfast']) n+=onlyItems(id,c).size?[].concat(...E_(id,c).yes.map(y=>y.pool),E_(id,c).no,...(E_(id,c).opinion||[]).map(o=>o.pool),...Object.values(E_(id,c).ctx||{})).filter(g=>g.only).length:0;
+    check('11. AA_728 itemOnly 五筆（AA-B 955ea3a03）都對到：以安三明治、語彤飯糰、子晴飯糰、子晴冰美式（winterCold、again）、以安「再喝我晚上會睡不著」（咖啡、21 點以後）；加上子晴「冰你一下」只有這 7 組有 only',
+      io.list.length===5&&!bad.length&&n===7,bad.join('；')+' 有 only 的組 '+n); }
+  { const seqNo=async(hour,items)=>{ const G=fresh('2025-09-16',hour); stageOf.heroine_01=2; const E=E_('heroine_01','drink'); await give(G,'heroine_01',items[0]); const out=[];
+      for(let k=0;k<3;k++){ const h=await give(G,'heroine_01',items[(k+1)%items.length]); out.push(h.r==='no'?E.no.findIndex(p=>same(split(p.lines),h.s)):'x'); } return out.join(''); };
+    const a=await seqNo(21,['美式咖啡','拿鐵']), b=await seqNo(20,['美式咖啡','拿鐵']), c=await seqNo(21,['無糖綠茶','熱可可']), d=await seqNo(25,['美式咖啡（冰的）','拿鐵']);
+    check('11. 以安「再喝我晚上會睡不著。你喝。」：送咖啡（美式、拿鐵）而且 21 點以後才輪得到（21 點 010、過了午夜 010）；20 點、送綠茶熱可可都跳過（000）',a==='010'&&d==='010'&&b==='000'&&c==='000',J({h21:a,h20:b,tea21:c,h25:d})); }
+  { const G=fresh(); stageOf.heroine_03=4; const P=E_('heroine_03','breakfast').yes.find(y=>!y.dating&&y.need===4).pool, s1=[], s2=[];
+    for(let k=0;k<3;k++){ const h=await give(G,'heroine_03','飯糰'); s1.push(P.findIndex(p=>same(split(p.lines),h.s))); G.day+=2; }
+    const G2=fresh(); stageOf.heroine_03=4; for(let k=0;k<3;k++){ const h=await give(G2,'heroine_03','三明治'); s2.push(P.findIndex(p=>same(split(p.lines),h.s))); G2.day+=2; }
+    check('11. 語彤（熟了）送飯糰：輪流 010（「這個飯糰…」在第 1 組）；送三明治跳過那一組：000',s1.join('')==='010'&&s2.join('')==='000',J([s1,s2])); }
+  { const G=fresh(); stageOf.heroine_04=6; G.flags.dating_heroine_04=true; const D=E_('heroine_04','breakfast').yes.find(y=>y.dating); const h=await give(G,'heroine_04','飯糰');
+    check('11. 子晴交往中送飯糰＝「把飯糰吃完」那一組（送三明治跳過，見 7）',h.r==='yes'&&same(h.s,split(D.pool[0].lines)),J(h.s)); }
+  { const G=fresh('2025-12-10'); stageOf.heroine_04=2; await give(G,'heroine_04','美式咖啡（冰的）'); G.day+=2; const a=await give(G,'heroine_04','美式咖啡（冰的）'); G.day+=1; const b=await give(G,'heroine_04','美式咖啡（冰的）');
+    const G2=fresh('2025-12-10'); stageOf.heroine_04=2; const c=await give(G2,'heroine_04','無糖綠茶'); G2.day+=1; const d=await give(G2,'heroine_04','無糖綠茶'); const G3=fresh(); stageOf.heroine_04=2; await give(G3,'heroine_04','美式咖啡'); G3.day+=1; const e=await give(G3,'heroine_04','美式咖啡');
+    check('11. 子晴：冬天送冰美式＝winterCold「冬天的冰美式」、連續兩天＝again「又是冰美式」；冬天送冰的綠茶、連續兩天送熱美式都不說「冰美式」',a.r==='winterCold'&&b.r==='again'&&c.r==='yes'&&d.r==='yes'&&e.r==='yes'&&![c,d,e].some(x=>/冰美式/.test(x.s.join(''))),J([a.r,b.r,c.r,d.r,e.r])); }
+  { const e1=py2(PRE+"m2['itemOnly']['list'][0]['where']='breakfast.yes[9]';M.build(d,'x',I,m2)");
+    const e2=py2(PRE+"m2['itemOnly']['list'][0]['item']='三明治（大）';M.build(d,'x',I,m2)");
+    const e3=py2(PRE+"d['heroine_01']['drink']['no'][1]=['再喝我會睡不著。'];M.build(d,'x',I,m2)");
+    const e4=py2(PRE+"y=d['heroine_03']['breakfast']['yes'][1];y['pool'][1]=['這個，我上次在便利商店看到，一直想試。'];M.build(d,'x',I,m2)");
+    const e5=py2(PRE+"m2['itemOnly']['list'][3]['where']='drink.ctx.night';M.build(d,'x',I,m2)");
+    const e6=py2(PRE+"d['heroine_01']['drink']['no'][0]=['「今天已經喝過了。」'];M.build(d,'x',I,m2)");
+    const e7=py2(PRE+"M.build(d,'x',I,m2)");
+    check('11. 匯入工具：位置對不到、item 寫法不認得、句子改了、那一組沒提到那一樣、ctx 沒有那一格、有名字的句子外面加「」 → 停下來；原稿通過',
+      /只有 \d+ 格/.test(e1)&&/ONLY_ITEM 沒有/.test(e2)&&/有這一句的組有 0 組/.test(e3)&&/沒有提到「飯糰」/.test(e4)&&/沒有 ctx\.night/.test(e5)&&/TEXT-QUOTE-UNIFY/.test(e6)&&e7==='ran',[e1,e2,e3,e4,e5,e6,e7].map(s=>s.trim().split('\n').pop()).join(' | ')); }
+  { const o=E_('kexin','drink').opinion.find(x=>x.item==='青茶（有加糖）'); const G=fresh(); const a=await give(G,'kexin','青茶'); G.day+=2; const b=await give(G,'kexin','青茶（無糖）');
+    const e1=py2(PRE+"m2['itemOnly']['kexinSugar']='可昕的青茶要有糖';M.build(d,'x',I,m2)");
+    check('11. 可昕 kexinSugar：「青茶（有加糖）」＝青茶不是無糖的每一種（ns：遊戲的微糖）；微糖＝opinion、無糖＝fav；kexinSugar 那一句改了 → 匯入停下來',!!o&&same(o.ns,['青茶'])&&a.r==='opinion'&&b.r==='fav'&&/kexinSugar/.test(e1),J([o&&o.ns,a.r,b.r,e1.trim().split('\n').pop()])); }
+  /* 12 早餐＝豆漿、米漿、飯糰、三明治（AA_728 notes；不加早餐店）*/
+  { const m=/breakfast＝([^；。]+)/.exec(A728._meta.notes.join('\n')), want=m?m[1].split('、').sort():[];
+    const bf=GIFT.ITEMS.filter(it=>it.cat==='breakfast').map(it=>it.n).sort();
+    check('12. 早餐（S.ITEMS cat breakfast）＝AA_728 notes「breakfast＝豆漿、米漿、飯糰、三明治」；其他都是飲料',same(bf,want)&&same(want,['三明治','米漿','豆漿','飯糰'].sort())&&['豆漿','米漿','飯糰','三明治'].every(n=>GIFT.CAT[n]==='breakfast')&&Object.keys(GIFT.CAT).filter(n=>GIFT.CAT[n]==='drink').length===ITEMN.length-4,J({bf,want}));
+    const e1=py2(PRE+"s2['_meta']['notes'][3]=s2['_meta']['notes'][3].replace('豆漿、米漿、','');M.build_friends(s2,'x',I)");
+    const e2=py2(PRE+"M.build_friends(s2,'x',I)");
+    check('12. 匯入工具：AA_728 的早餐那一句和遊戲的早餐對不上 → 停下來；原稿通過',/不一樣/.test(e1)&&e2==='ran',[e1,e2].map(s=>s.trim().split('\n').pop()).join(' | '));
+    const G=fresh(); stageOf.heroine_02=2; const a=await give(G,'heroine_02','豆漿'); const b=await give(G,'heroine_02','飯糰'); const c=await give(G,'heroine_02','無糖綠茶');
+    const y=E_('heroine_02','breakfast').yes.find(q=>!q.dating&&q.need===1);
+    check('12. 芷若：豆漿＝早餐（早餐那一格的話）；同一天再送飯糰＝no（早餐的 no）；再送綠茶（飲料）照收',a.r==='yes'&&y.pool.some(p=>same(split(p.lines),a.s))&&b.r==='no'&&E_('heroine_02','breakfast').no.some(p=>same(split(p.lines),b.s))&&c.r==='yes',J([a.r,a.s,b.r,b.s,c.r]));
+    const G2=fresh('2025-09-16',18); stageOf.heroine_02=2; const n=await give(G2,'heroine_02','米漿');
+    check('12. 芷若晚上收到米漿＝晚上送早餐（night）',n.r==='night'&&same(n.s,split(E_('heroine_02','breakfast').ctx.night[0].lines)),J([n.r,n.s]));
+    const G3=fresh(); stageOf.heroine_01=2; const f=await give(G3,'heroine_01','豆漿'); const g=await give(G3,'heroine_01','飯糰'); const h=await give(G3,'heroine_01','無糖綠茶');
+    check('12. 以安：豆漿 AA_710 寫在她的飲料（她最喜歡的）＝fav；同一天再送飯糰（早餐）照收、再送綠茶（飲料）＝no',same(LN.heroine_01.sec,{'豆漿':'drink'})&&f.r==='fav'&&g.r==='yes'&&h.r==='no'&&E_('heroine_01','drink').no.some(p=>same(split(p.lines),h.s)),J([f.r,g.r,h.r,h.s]));
+    const G4=fresh(); stageOf.classmate_peishan=2; const p1=await give(G4,'classmate_peishan','米漿'); G4.day+=1; const p2=await give(G4,'classmate_peishan','米漿');
+    check('12. 沛珊：米漿（寫在她的飲料）第一次＝fav、隔天再送＝again「你昨天也買這個！」',same(LN.classmate_peishan.sec,{'米漿':'drink'})&&p1.r==='fav'&&p2.r==='again'&&same(p2.s,split(E_('classmate_peishan','drink').ctx.again[0].lines)),J([p1.r,p2.r,p2.s]));
+    const G5=fresh(); mk(G5,'豆漿'); G5.carry.push({n:'米漿',cat:'breakfast',day:G5.day,shop:'便利商店'});
+    check('12. 當面說話：以安、芷若都有「送她豆漿」「送她米漿」',same(GIFT.talkOpts(G5,'heroine_01').map(x=>x.t),['送她豆漿','送她米漿'])&&same(GIFT.talkOpts(G5,'heroine_02').map(x=>x.t),['送她豆漿','送她米漿']),J(GIFT.talkOpts(G5,'heroine_01').map(x=>x.t))); }
+  /* 13 順序與好感 */
+  { const G=fresh('2025-12-15'); stageOf.heroine_01=2; const a=await give(G,'heroine_01','豆漿');
+    check('13. fav 先於情境（以安期末週第一次收到豆漿：fav，不是 exam）',(CALENDAR.termOf(G.day)||{}).exam==='final'&&a.r==='fav',a.r);
+    const bad=[];
+    for(const [id,n,st] of [['heroine_02','美式咖啡',2],['heroine_02','美式咖啡',4],['heroine_05','紅茶拿鐵',4],['kexin','青茶',2]]){ const G2=fresh(); stageOf[id]=st; const r0=Object.assign({},SOCIAL.rel(id)); const h=await give(G2,id,n); const r1=SOCIAL.rel(id);
+      const y=E_(id,'drink').yes.filter(q=>!q.dating&&q.need<=st).sort((p,q)=>q.need-p.need)[0], d={fam:r1.fam-(r0.fam|0),comf:r1.comf-(r0.comf|0),trust:r1.trust-(r0.trust|0),npcRom:r1.npcRom-(r0.npcRom|0)};
+      const want={fam:y.rel.fam|0,comf:y.rel.comf|0,trust:y.rel.trust|0,npcRom:st>=3?(y.rel.npcRom|0):0}; if(h.r!=='opinion'||!same(d,want)) bad.push(id+' '+n+' '+st+' '+h.r+' '+J(d)+' 要 '+J(want)); }
+    { const G3=fresh(); stageOf.heroine_01=2; await give(G3,'heroine_01','無糖綠茶'); G3.day+=1; const r0=Object.assign({},SOCIAL.rel('heroine_01')); const h=await give(G3,'heroine_01','無糖綠茶'); const r1=SOCIAL.rel('heroine_01'); const y=E_('heroine_01','drink').yes.find(q=>!q.dating&&q.need===1);
+      if(h.r!=='again'||r1.fam-r0.fam!==(y.rel.fam|0)||r1.comf-r0.comf!==(y.rel.comf|0)) bad.push('以安 again '+h.r); }
+    check('13. opinion、ctx 稿裡沒寫 rel：好感照她這時候 yes 那一格（階段 2＝need 1、階段 4＝need 4，npcRom 朋友以上才算）',!bad.length,bad.join('；')); }
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });
