@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GG3LM_5F_8b6c",
+  "sha": "8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_linze_lm_probe.py",
+  "env": "TAG=before_gpu;ZONES=linze_5f;VIEWS=lab_in:-5.6:1.6:0+lab_door:-4.2:-0.6:0+meeting:5.4:2.0:0+corridor:6.0:-5.5:-1.5708;HOURS=14,21;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T15:46:47",
+  "end": "2026-11-08T15:51:06",
+  "seconds": 258,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "12",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 80,
+    "mem": 53,
+    "used_gb": 16.7,
+    "chrome_testing": 13
+  }
+}
