@@ -1976,3 +1976,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 130.3s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 130.3s] BROWSER DISCONNECTED
 - 2026-11-08T13:49:03  CC_v0_start_9e0f_1  sha=9e0ffabce61c839fb8c720c16229400b36305a22  exit=0  197s    PASS 畫面上沒有看得到的備用人物  [] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 129.5s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 129.5s] BROWSER DISCONNECTED
+- 2026-11-08T13:50:39  CC_mini_noguide_8b6c  sha=8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5  exit=0  87s    PASS 玩家箭頭朝地圖上方（往前走時）  arrow=9.663381206337363e-13 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 51.4s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 51.4s] BROWSER DISCONNECTED

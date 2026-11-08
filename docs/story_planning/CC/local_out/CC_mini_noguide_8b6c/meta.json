@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "CC_mini_noguide_8b6c",
+  "sha": "8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_minimap_noguide.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T13:49:12",
+  "end": "2026-11-08T13:50:39",
+  "seconds": 87,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "6",
+  "url": "http://127.0.0.1:8801/index.html?turbo",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 37,
+    "mem": 50,
+    "used_gb": 16.0,
+    "chrome_testing": 14
+  }
+}
