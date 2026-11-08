@@ -183,7 +183,9 @@ async def run_mode(pg, cdp, mode, rec):
         await pg.wait_for_timeout(1500)
         lab = await pg.evaluate("(()=>{ const e=document.getElementById('interact'); return e&&!e.classList.contains('hide')?e.innerText.trim():null; })()")
         R.note('%s 座位旁的互動：%s' % (tag, lab))
-        if lab and '坐' in lab: await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        if lab and '坐' in lab:
+            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500); await R.shot(pg, 'sit_%d' % (k + 1))
+            m['sat'] = await pg.evaluate("(()=>{ const P=GAME.E.player; return {lv:P.lv|0, x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), seat:P.seat?[P.seat.x,P.seat.z]:null}; })()"); R.note('%s 按「坐下」以後：%s' % (tag, J(m['sat'])))
         m2 = await drive(pg, cdp, tag + ' 坐下以後', ['綠茶'], max_s=420, idle_end=15, shots=3)
         for kk in ('lines', 'choices', 'picked'): m[kk] += m2[kk]
         if m2.get('stair_pos'): m['stair_pos'] = m2['stair_pos']
