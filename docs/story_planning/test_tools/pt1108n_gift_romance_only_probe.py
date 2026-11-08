@@ -21,9 +21,10 @@ import pt1108g_gift_friends_probe as G8   # buy、go_to_person
 URL, SAVES, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
 MODE = os.environ.get('MODE', 'new')
 OLD = os.environ.get('OLD_GIFT3D')
+ONLY = [x for x in os.environ.get('ONLY', '').split(',') if x]   # 例：ONLY=kai,yu（舊版對照只跑朋友）
 J = lambda o, n=1200: json.dumps(o, ensure_ascii=False)[:n]
 BUY = ('青茶', '紅茶拿鐵')
-NEUTRAL = ['算了', '不用了', '先這樣', '沒事', '聊天', '聊聊', '閒聊']   # 只看選項、不送：有「算了」類的先選，沒有就聊天
+NEUTRAL = ['就這樣', '算了', '不用了', '先這樣', '沒事', '聊天', '聊聊', '閒聊']   # 只看選項、不送也不約：選單最後的「就這樣」先選（不然會點進「約他去…」）
 
 
 async def npc_of(pg, who):
@@ -46,9 +47,16 @@ async def talk(pg, cdp, run, who, prefs, tag):
     run.check('%s 走到旁邊、互動鍵「%s」' % (tag, lab), ok, J({k: st.get(k) for k in ('x', 'z', 'interact')}))
     if not ok: return None
     said, seen = await C.run_dialog(pg, cdp, prefs, 40)
+    if not any(any('就這樣' in o for o in grp) for grp in seen):
+        # 安靜區（總圖閱覽室、法圖，LIBQ.gate）當天第一次按只會點頭；她先開口問一句（「期中週了…」）的，說話選單在後面那一組：再按一次
+        run.note('%s 第一次沒有說話選單（%s；安靜區第一次只點頭）→ 再按一次' % (tag, J(said[-3:])))
+        ok, st = await C.walk_use(pg, cdp, run, n['x'], n['z'], n['lv'], lab, 1.4)
+        if ok:
+            s2_, seen2 = await C.run_dialog(pg, cdp, prefs, 40); said += s2_; seen += seen2
     await run.shot(pg, tag)
-    print('   %s 選項' % tag, seen[:2], flush=True)
-    return (seen[0] if seen else []), seen, said
+    print('   %s 選項' % tag, seen[:3], flush=True)
+    menu = next((grp for grp in seen if any('就這樣' in o for o in grp)), [])   # 當面說話的選單＝最後有「就這樣」那一組
+    return menu, seen, said
 
 
 async def main():
@@ -76,8 +84,14 @@ async def main():
         run.check('身上帶著%s、%s' % BUY, all(any(x.startswith(bn) for x in c1) for bn in BUY), J(c1))
         # ① 朋友：沒有「送」
         for who, name, hour in (('kai', '阿凱', None), ('yu', 'Alison', 10.0), ('zhe', '阿哲', None)):
+            if ONLY and who not in ONLY: continue
             if not await G8.go_to_person(pg, cdp, run, s2, who, hour):
-                run.note('%s 找不到（這一輪不看他）' % name); continue
+                for _ in range(30):   # 時間撥過去以後人要等作息生成
+                    if await npc_of(pg, who): break
+                    await pg.wait_for_timeout(2000)
+                if not await npc_of(pg, who):
+                    run.note('%s 找不到（這一輪不看他）' % name); continue
+                run.note('%s 等了一下才生成' % name)
             c0 = await C.carry(pg)
             r = await talk(pg, cdp, run, who, NEUTRAL, 'f_' + who)
             if not r: continue
@@ -86,7 +100,7 @@ async def main():
             run.check('① [%s] 當面說話的選項沒有「送他／送她○○」' % name, bool(menu) and not gifts, J({'menu': menu, 'gifts': gifts}))
             run.check('① [%s] 東西還在身上' % name, sorted(await C.carry(pg)) == sorted(c0), J({'before': c0, 'after': await C.carry(pg)}))
         # ② 以安：照舊有，選了收下
-        if await G8.go_to_person(pg, cdp, run, s2, 'heroine_01', None):
+        if not ONLY and await G8.go_to_person(pg, cdp, run, s2, 'heroine_01', None):
             c0 = await C.carry(pg)
             r = await talk(pg, cdp, run, 'heroine_01', ['送她' + BUY[0]], 'h_yian')
             if r:
@@ -95,10 +109,12 @@ async def main():
                 run.check('② [以安] 選項有「送她%s」' % BUY[0], had, J(menu))
                 c2 = await C.carry(pg)
                 run.check('② [以安] 選了以後%s送出去了、她有回話' % BUY[0], had and len(c2) == len(c0) - 1 and not any(x.startswith(BUY[0]) for x in c2) and len(said) >= 2, J({'carry': c2, 'said': said[:6]}))
-        else:
+        elif not ONLY:
             run.check('② 找得到以安', False)
         # ③ 芯慈：線開著有、線關著沒有
-        if await G8.go_to_person(pg, cdp, run, s2, 'classmate_xinci', None):
+        if ONLY:
+            pass
+        elif await G8.go_to_person(pg, cdp, run, s2, 'classmate_xinci', None):
             on = await pg.evaluate("typeof XCROM!=='undefined'?XCROM.ON:null")
             r = await talk(pg, cdp, run, 'classmate_xinci', NEUTRAL, 'x_on')
             if r:
