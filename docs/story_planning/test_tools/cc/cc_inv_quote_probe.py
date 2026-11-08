@@ -130,6 +130,22 @@ async def main():
                             await pg.evaluate("window.__says=[]")
                             await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
                             bdr = await drive(pg, cdp, '[B 當面]', ['約', '一起'] + CATS + ['現在一起過去'], max_s=420, idle_end=12, shots=8)
+                            iv = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).filter(q=>q.who===id).slice(-1)[0]; return v?{id:v.id, state:v.state, place:v.place, zone:v.zone}:null; })", WHO)
+                            R.note('[B 當面] 約好以後：%s' % J(iv))
+                            if iv and iv['state'] == 'going':   # 現在一起過去：先站著等 40 秒（她起身跟上、一起走的字幕 walkChat＝going 6 秒、她在 6 m 內），再照手機「直接過去」（GM.quickGo，force＝約好的地方）到目的地，看見面開場
+                                t0 = time.time()
+                                while time.time() - t0 < 40:
+                                    await pg.wait_for_timeout(2000)
+                                    ws = await pg.evaluate("(id=>{ const n=GAME.npc&&GAME.npc[id], P=GAME.E.player.obj.position; return n&&n.obj?{d:+Math.hypot(n.obj.position.x-P.x,n.obj.position.z-P.z).toFixed(2), seat:!!n.seat, beh:n.beh||null}:null; })", WHO)
+                                R.note('[B 當面] 等 40 秒後她：%s；字幕 %s' % (J(ws), J([x for x in await pg.evaluate("window.__says||[]") if x['k'] == 'cap'])))
+                                await R.shot(pg, 'B_going')
+                                tgt = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).filter(q=>q.who===id).slice(-1)[0]; try{ return INV.goTarget(GAME.G,v); }catch(e){ return {err:String(e)}; } })", WHO)
+                                R.setup('[B 當面] 照手機「直接過去」GM.quickGo(%s, force)（和 INV.goNow 同一條）' % J(tgt))
+                                if tgt and tgt.get('zone'):
+                                    await pg.evaluate("(t=>{ void GAME.quickGo([t.zone,t.name,t.sp||t.spawn||null],{force:true}); })", tgt)
+                                    await pg.wait_for_timeout(8000)
+                                    bdr2 = await drive(pg, cdp, '[B 到了]', ['好', '坐'], max_s=300, idle_end=12, shots=6)
+                                    bdr['arrive'] = bdr2
                             says = await pg.evaluate("window.__says||[]"); rec['B'] = {'drive': bdr, 'says': says, 'end': await pg.evaluate("({zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(2), inv:(GAME.G.invites||[]).slice(-1)})")}
                             R.note('[B 當面] 結束：%s' % J(rec['B']['end']))
                             judge('[B 當面]', says)
