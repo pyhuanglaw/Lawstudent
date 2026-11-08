@@ -19,7 +19,10 @@ const ROOMS={
   library_stacks:{ bake:/^(library_stacks_floorm|library_stacks_ceiling|WALL_[A-Z0-9]+_(wall|wain))$/, live:/(GLOW|glass|books|props|tube|screens|prints?)/,
     nodes:['WALL_S_glass','WALL_C_tube','WALL_C_lamp','library_stacks_books'], extras:{'WALL_S_glass':{dir:[0,0,-1]},'WALL_C_tube':{dir:[0,-1,0]}}, inst:53 },
 };
-for(const [id,R] of Object.entries(ROOMS)){ const buf=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/'+id+'.glb')), J=JSON.parse(buf.slice(20,20+buf.readUInt32LE(12)).toString('utf8'));
+/* 總圖 B1、研究小間先不接（LAWWW2-B 11-08 02:04：烘焙工具 hidden_faces 沒看 partition，隔間牆背面被壓成一個亮度；修工具重烘以後補交）＝這兩間先跳過，接回來時拿掉 PENDING */
+const PENDING=new Set(['library_b1','library_carrels']);
+for(const id of PENDING) check('0. '+id+'：光照烘焙等 LAWWW2 重烘（先用原檔，沒有 extras.lightmap）',(()=>{ const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/'+id+'.glb')), J=JSON.parse(b.slice(20,20+b.readUInt32LE(12)).toString('utf8')); return !((J.scenes[0].extras||{}).lightmap); })());
+for(const [id,R] of Object.entries(ROOMS)){ if(PENDING.has(id)) continue; const buf=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/'+id+'.glb')), J=JSON.parse(buf.slice(20,20+buf.readUInt32LE(12)).toString('utf8'));
   const l=((J.scenes[0].extras||{}).lightmap)||null;
   check('1. '+id+'：extras.lightmap 白天、晚上的貼圖都在', !!l&&exists(l.day)&&exists(l.night)&&l.intensity>0, l?l.day:'沒有');
   if(!l) continue;
