@@ -24,6 +24,14 @@ from playwright.async_api import async_playwright
 ZONES = [z for z in os.environ.get('ZONES', 'campus,wenzhou,gongguan,library_hall,wancai,linze').split(',') if z]
 SLOTS = {'day': (11.0, 'sunny'), 'night': (21.0, 'sunny'), 'rain': (15.0, 'rain')}
 SLOT_IDS = [s for s in os.environ.get('SLOTS', 'day,night,rain').split(',') if s in SLOTS]
+for _s in os.environ.get('SLOTS', '').split(','):   # CC-B 11-08：hHHMM＝那個時刻、晴（例 h1400、h1930），照營業時間量
+    if len(_s) == 5 and _s[0] == 'h' and _s[1:].isdigit(): SLOTS[_s] = (int(_s[1:3]) + int(_s[3:]) / 60, 'sunny'); SLOT_IDS.append(_s)
+ZSLOTS = {}   # ZSLOTS＝zone:slot+slot;zone:slot…（每一區自己的時段；有寫的區只量這些）
+for _e in os.environ.get('ZSLOTS', '').split(';'):
+    if ':' in _e:
+        _z, _l = _e.split(':', 1); ZSLOTS[_z] = [x for x in _l.split('+') if x]
+        for _s in ZSLOTS[_z]:
+            if _s not in SLOTS and len(_s) == 5 and _s[0] == 'h': SLOTS[_s] = (int(_s[1:3]) + int(_s[3:]) / 60, 'sunny')
 SECS = float(os.environ.get('SECS', '15')); WARM = float(os.environ.get('WARM', '4'))
 LAND = os.environ.get('LAND', '1') != '0'
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
@@ -53,7 +61,7 @@ async def main(url, od):
         if not await L.wait_loaded(pg):
             print('FAIL 遊戲載入'); await b.close(); return 1
         for z in ZONES:
-            for sid in SLOT_IDS:
+            for sid in (ZSLOTS.get(z) or SLOT_IDS):
                 h, w = SLOTS[sid]
                 rec = {'zone': z, 'slot': sid}
                 try:
