@@ -1916,3 +1916,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 2887.7s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 2887.7s] BROWSER DISCONNECTED
 - 2026-11-08T11:26:18  GG3LM_wz6_fps2b_e276  sha=e2762e9d91df1cf8405301e54fd4bf286a5f626e  exit=0  116s    OK   wz_offbeat    h1400 avg 50.15 fps  1%low 20.97 fps  worst 116.6 ms  n=753  zone=wz_offbeat h=14.01 w=sunny q=medium draw=117  / JS 例外 0 個 / ALL PASS（量測完成 2 格）
       err.log (last 5): [gpu_wrap 82.5s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 82.5s] BROWSER DISCONNECTED
+- 2026-11-08T11:29:50  GG3LM_wz6_fps2b_mob_e276  sha=e2762e9d91df1cf8405301e54fd4bf286a5f626e  exit=0  204s    OK   wz_offbeat    h1400 avg 5.45 fps  1%low 0.91 fps  worst 1099.9 ms  n=82  zone=wz_offbeat h=14.02 w=sunny q=medium draw=116  / JS 例外 0 個 / ALL PASS（量測完成 2 格）
+      err.log (last 5): [gpu_wrap 170.0s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 170.0s] BROWSER DISCONNECTED

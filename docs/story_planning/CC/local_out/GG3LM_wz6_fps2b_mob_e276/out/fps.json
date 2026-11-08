@@ -1,0 +1,43 @@
+{
+ "url": "http://127.0.0.1:8800/index.html",
+ "land": true,
+ "headless_env": "1",
+ "secs": 15.0,
+ "rows": [
+  {
+   "zone": "wz_mokuyobi",
+   "slot": "h1400",
+   "hour": 14.03,
+   "weather": "sunny",
+   "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+   "dpr": 1,
+   "q": "medium",
+   "draw": 128,
+   "tris": 265878,
+   "n": 26,
+   "avg_fps": 1.72,
+   "low1_fps": 0.11,
+   "worst_ms": 8949.7,
+   "p50_ms": 216.6,
+   "ok": true
+  },
+  {
+   "zone": "wz_offbeat",
+   "slot": "h1400",
+   "hour": 14.02,
+   "weather": "sunny",
+   "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+   "dpr": 1,
+   "q": "medium",
+   "draw": 116,
+   "tris": 205580,
+   "n": 82,
+   "avg_fps": 5.45,
+   "low1_fps": 0.91,
+   "worst_ms": 1099.9,
+   "p50_ms": 166.6,
+   "ok": true
+  }
+ ],
+ "js_errors": []
+}
