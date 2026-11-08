@@ -241,19 +241,19 @@ async def main():
                     else:
                         await jump(pg, cdp, tag, '2025-09-24', 15 + 35 / 60, 'lawlib')
                     # 講座＝走進討論室 A、坐「坐下（討論室）」，坐下的選單裡有「參加：法律資料怎麼查」（lib_dbg 11-07 21:4x：討論室 A 四個座位，芯慈先坐了一個）
-                    it = await use_it(pg, cdp, tag, "i=>i.seat&&i.seat.room==='discA'&&!(GAME.E.npcs||[]).some(n=>n&&n.seat&&Math.hypot(n.seat.x-i.seat.x,n.seat.z-i.seat.z)<0.3)", '討論室 A 的空座位')
-                    await pg.evaluate("window.__says=[]")
                     samples = []; stop = {'v': False}
                     async def sampler():   # 講座中每秒記一次：玩家、芯慈的座位、鏡頭（演完就站起來了，演完才量會量不到）；第 6、16 筆各拍一張（BB-B 23:51）
                         k = 0
                         while not stop['v']:
                             try:
                                 x = await pg.evaluate("(id=>{ const E=GAME.E, P=E.player, n=GAME.npc&&GAME.npc[id]; const f=o=>o?[+o.x.toFixed(2),+o.z.toFixed(2)]:null; const cam=E.camera||(E.cam&&E.cam.camera)||null; const c=cam&&cam.position; return {h:+(+GAME.G.hour).toFixed(3), ps:P.seat?f(P.seat):null, pp:f(P.obj.position), xs:n&&n.seat?f(n.seat):null, xp:n&&n.obj?f(n.obj.position):null, xpose:n?n.pose:null, cam:c?[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)]:null, adv:!!(typeof ADV!=='undefined'&&ADV.active)}; })", XC)
-                                samples.append(x); k += 1
-                                if k in (6, 16): await R.shot(pg, 'lib_mid%d_%s' % (k, mode)); R.note('%s 講座中第 %d 筆截圖：%s' % (tag, k, J(x)))
+                                samples.append(x); k += 1 if x.get('ps') else 0   # 第幾筆＝坐下以後算（走過去那段不算）
+                                if x.get('ps') and k in (6, 12): await R.shot(pg, 'lib_mid%d_%s' % (k, mode)); R.note('%s 講座中第 %d 筆截圖：%s' % (tag, k, J(x)))
                             except Exception: pass
                             await asyncio.sleep(1.0)
                     stask = asyncio.ensure_future(sampler())
+                    it = await use_it(pg, cdp, tag, "i=>i.seat&&i.seat.room==='discA'&&!(GAME.E.npcs||[]).some(n=>n&&n.seat&&Math.hypot(n.seat.x-i.seat.x,n.seat.z-i.seat.z)<0.3)", '討論室 A 的空座位')
+                    await pg.evaluate("window.__says=[]")
                     sc = await scene(pg, cdp, tag + ' 講座', prefs=['法律資料', '參加', '聽'], max_s=300, idle_end=8)
                     stop['v'] = True; await stask
                     both = [x for x in samples if x['ps'] and x['xs']]
@@ -269,6 +269,10 @@ async def main():
                     R.note('%s 講座中全部取樣（%d 筆）：%s' % (tag, len(samples), J(samples)))
                     same = [abs(x['ps'][0] - x['xs'][0]) < 0.05 for x in both]
                     R.note('%s 同一邊（座位 x 相同）逐筆：%s' % (tag, ''.join('1' if v else '0' for v in same)))
+                    inroom = [x for x in samples if x.get('cam') and -7.1 <= x['pp'][0] <= -3.7]   # 玩家在討論室 A 裡的每一筆（含坐下、起身那一刻）
+                    bad = [x for x in inroom if not (-7.1 <= x['cam'][0] <= -3.7)]
+                    R.note('%s 鏡頭 x 逐筆：%s' % (tag, J([[x['h'], x['cam'][0], 's' if x['ps'] else '-'] for x in inroom])))
+                    R.check('%s 鏡頭在討論室 A 裡（玩家在房裡的每一筆，鏡頭 x 在 −7.1～−3.7；BUG-CAM-LAWLIB-DISCA-1108）' % tag, bool(inroom) and not bad, J(bad[:4]))
                     R.check('%s 聽講座時芯慈坐在你旁邊（講座中最後一筆兩個座位 x 相同；BB-B 23:51）' % tag, bool(same) and same[-1], J({'last': both[-1:] , 'end': pos}))
                     rec[mode] = {'days': days, 'dm': m, 'scene': sc, 'pos': pos, 'walkFallbacks': (await pg.evaluate("GAME.walkFallbacks||0")) - wf0}
             if 'guitar' in STEPS:
