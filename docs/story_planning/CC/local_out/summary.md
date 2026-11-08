@@ -2000,3 +2000,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 107.7s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 107.7s] BROWSER DISCONNECTED
 - 2026-11-08T14:24:22  R0ced_v0_start  sha=0cedcbb716bbbe120007ef7c92abcbf494436b31  exit=0  197s    PASS 畫面上沒有看得到的備用人物  [] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 129.6s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 129.6s] BROWSER DISCONNECTED
+- 2026-11-08T14:27:04  R0ced_classreal  sha=0cedcbb716bbbe120007ef7c92abcbf494436b31  exit=0  151s    PASS 回到法律系館A二樓、站得住、搖桿走得動  {"zone": "linze", "x": -2.02, "z": -3.52, "ry": -0.0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "還有——你剛剛那個，很帥。", "choices": 0, "interact": "", "hour": 15.32, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 4.2, "lv": 1, "frame": 1888, "paused": false} 推了 1 次、走了 2.48 m / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 114.7s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 114.7s] BROWSER DISCONNECTED
