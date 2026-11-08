@@ -44,7 +44,7 @@
   - 20.3 m² 是埋在天花板、地板裡的牆頂、牆底（39 個三角形，法線朝上下）。
 - 研究小間 `lm_partition_check` 0 m²。
 
-### 第二批：霖澤 5F、體育館 B1、美國公寓、C 棟合租戶（`<本 commit>`）
+### 第二批：霖澤 5F、體育館 B1、美國公寓、C 棟合租戶（`63b636735`）
 都是 **LAWWW2** 做的模型。每間 4 個檔：`<名字>.glb`、`_lm_day.webp`、`_lm_night.webp`、`tools/blender/env_second/lightbake/<名字>_lm.json`；5F 多一張 `_lm_dark.webp`。
 
 | 間 | 怎麼烘 | 舊檔 → 新檔 sha256 | 大小 |
