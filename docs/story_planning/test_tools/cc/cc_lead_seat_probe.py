@@ -62,15 +62,15 @@ async def run_mode(pg, cdp, mode, rec):
     ok = await pg.evaluate("(id=>{ const b=document.querySelector('[data-inv=\"'+id+'\"]'); if(!b) return false; b.scrollIntoView({block:'center'}); return true; })", WHO)
     if not R.check('%s 手機「朋友」有 %s 的「約」' % (tag, WHO), ok, ''): return
     await L.tap(pg, cdp, '[data-inv="%s"]' % WHO); await pg.wait_for_timeout(1200)
-    c0 = await drive(pg, cdp, ['念書…', '總圖', '今天'])
+    c0 = await drive(pg, cdp, ['這週請假', '念書…', '總圖', '今天'])   # 【前置／捷徑】13:00 一盞的班提醒先跳出來時選「這週請假」（run41 b 選錯選單）
     iv = await pg.evaluate(LEAD, WHO); R.note('%s 約：選項 %s；結果 %s' % (tag, J(c0), J(iv)))
     if not R.check('%s 約成總圖' % tag, bool(iv and iv['state'] == 'accepted' and iv['place'] == 'library'), J(iv)): return
     await pg.evaluate("GAME.closePhone&&GAME.closePhone()")
-    await pg.evaluate("(h=>{ GAME.G.hour=Math.max(GAME.G.hour,h-0.1); })", iv['h'])
     tgt = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).filter(q=>q.who===id&&q.state==='accepted').slice(-1)[0]; return INV.goTarget(GAME.G,v); })", WHO)
-    R.setup('%s 【前置】時間撥到約的前 6 分鐘，照手機「直接過去」GM.quickGo(%s, force)' % (tag, J(tgt)))
+    R.setup('%s 【前置】照手機「直接過去」、到了再把時間撥到約的前 6 分鐘，GM.quickGo(%s, force)' % (tag, J(tgt)))
     wf0 = await pg.evaluate("GAME.walkFallbacks||0")
     await pg.evaluate("(t=>{ void GAME.quickGo([t.zone,t.name,t.spawn||null],{force:true}); })", tgt); await pg.wait_for_timeout(8000)
+    await pg.evaluate("(h=>{ GAME.G.hour=Math.min(GAME.G.hour,h-0.1); })", iv['h'])   # 【前置／捷徑】到了以後才把時間撥回約的前 6 分鐘（「直接過去」會加走路時間，run41 c 因此 missed）
     c1 = await drive(pg, cdp, [], max_s=180, idle_end=20)
     ld = None
     for _ in range(150):   # SwiftShader 慢：她到、說話、開始帶路可能要一兩分鐘
