@@ -1,4 +1,4 @@
-/* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@be775af69、docs/story_planning/AA_728_gifts_friends.json@6528d7681）。不要手改，改企劃 AA_710／AA_728 再重新匯入。
+/* 自動產生：tools/story/import_gifts.py（docs/story_planning/AA_710_gifts.json@be775af69、docs/story_planning/AA_728_gifts_friends.json@7ac7380ff）。不要手改，改企劃 AA_710／AA_728 再重新匯入。
    送早餐、飲料（GIFT-FLIRT-1107；播放 src/gift3d.js）：people＝七位女主角（AA_710）、friends＝朋友六位（AA_728）*/
 'use strict';
 const GIFT_LINES={
@@ -1685,7 +1685,7 @@ const GIFT_LINES={
   }
  },
  "friends": {
-  "src": "docs/story_planning/AA_728_gifts_friends.json@6528d7681",
+  "src": "docs/story_planning/AA_728_gifts_friends.json@7ac7380ff",
   "rel": {
    "fam": 1,
    "comf": 1
@@ -1734,8 +1734,8 @@ const GIFT_LINES={
     "no": [
      {
       "lines": [
-       "又一杯？",
-       "哥我喝不下了。你自己喝。"
+       "又一個？",
+       "哥我飽了。你自己留著。"
       ]
      }
     ]
@@ -1831,7 +1831,7 @@ const GIFT_LINES={
      {
       "lines": [
        "你今天已經請過了啦！",
-       "留給你自己喝～"
+       "留給你自己～"
       ]
      }
     ]
@@ -1878,8 +1878,8 @@ const GIFT_LINES={
     "no": [
      {
       "lines": [
-       "已經有一杯了。",
-       "……謝謝。你自己喝。"
+       "已經有了。",
+       "……謝謝。你留著吧。"
       ]
      }
     ]
@@ -1926,8 +1926,8 @@ const GIFT_LINES={
     "no": [
      {
       "lines": [
-       "一杯就夠了。",
-       "你自己喝吧。"
+       "一個就夠了。",
+       "你自己留著吧。"
       ]
      }
     ]

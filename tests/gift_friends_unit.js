@@ -1,5 +1,5 @@
-// 送飲料、早餐給朋友（GIFT-FLIRT-1107，USER_WANTS X262；台詞 AA_728 6528d7681 people，AA-B 11-08 08:24、08:49 更正：豆漿米漿是飲料、四位補早餐）——不需要瀏覽器（D131）。
-// 使用者 11-07 試玩：「買飲料 早餐 給別人」。句子一律從 src/data/gift_lines.js 讀來比對；0 再拿 gift_lines.js 和 AA_728@6528d7681 逐句比。檢查：
+// 送飲料、早餐給朋友（GIFT-FLIRT-1107，USER_WANTS X262；台詞 AA_728 7ac7380ff people，AA-B 11-08 08:24、08:49 更正：豆漿米漿是飲料、四位補早餐）——不需要瀏覽器（D131）。
+// 使用者 11-07 試玩：「買飲料 早餐 給別人」。句子一律從 src/data/gift_lines.js 讀來比對；0 再拿 gift_lines.js 和 AA_728@7ac7380ff 逐句比。檢查：
 //   0. gift_lines.js 的 friends 和白名單上的 AA_728 一致（import_gifts.py --check）；六位都在 characters.js（阿哲、阿凱、Alison、柏翰、明軒、芯慈）；
 //      句子和 AA_728 一字不差；好感＝notes「yes 每次 fam+1、comf+1」；匯入工具：不在 characters.js、notes 改了、多了不認得的欄位 → 停下來
 //   1. 當面說話多「送他○○」（阿哲、阿凱、柏翰、明軒）／「送她○○」（Alison、芯慈），掛在 STORY.TALK_OPTS；沒帶東西不出；不是女主角也不是這六位的人不出
@@ -20,14 +20,14 @@ const PRON={zhe:'他',kai:'他',yu:'她',classmate_bohan:'他',classmate_mingxua
 const who=id=>({name:NAME[id],charId:id});
 const J=x=>JSON.stringify(x);
 const same=(a,b)=>J(a)===J(b);
-const A728=JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show','6528d7681:docs/story_planning/AA_728_gifts_friends.json'],{encoding:'utf8'}));
+const A728=JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show','7ac7380ff:docs/story_planning/AA_728_gifts_friends.json'],{encoding:'utf8'}));
 const py=(code)=>{ try{ cp.execFileSync('python3',['-c',code],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']}); return 'ran'; }catch(e){ return String(e.stderr||''); } };
-const PRE="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;s2=json.loads(subprocess.check_output(['git','show','6528d7681:'+M.PATH2]).decode());I=M.game_items();";
+const PRE="import sys,json,subprocess;sys.path.insert(0,'tools/story');import import_gifts as M;s2=json.loads(subprocess.check_output(['git','show','7ac7380ff:'+M.PATH2]).decode());I=M.game_items();";
 (async()=>{
   /* 0 資料 */
   { let out='', ok=false; try{ out=cp.execFileSync('python3',[path.join(H.ROOT,'tools/story/import_gifts.py'),'--check'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}); ok=/^OK/.test(out); }catch(e){ out=String(e.stderr||e.message); }
     const FR=ok1&&GIFT_LINES.friends;
-    check('0. src/data/gift_lines.js 的 friends 和白名單上的 AA_728 一致（import_gifts.py --check；6528d7681）',ok1&&ok2&&ok&&!!FR&&/AA_728_gifts_friends\.json@6528d7681$/.test(FR.src||''),out.trim().slice(0,200)+' '+(FR&&FR.src)); }
+    check('0. src/data/gift_lines.js 的 friends 和白名單上的 AA_728 一致（import_gifts.py --check；7ac7380ff）',ok1&&ok2&&ok&&!!FR&&/AA_728_gifts_friends\.json@7ac7380ff$/.test(FR.src||''),out.trim().slice(0,200)+' '+(FR&&FR.src)); }
   if(!ok1||!ok2||!GIFT_LINES.friends){ H.done(); return; }
   const FR=GIFT_LINES.friends, P=FR.people;
   check('0. 六位：阿哲、阿凱、Alison、柏翰、明軒、芯慈（characters.js 的 id、名字、性別）',same(Object.keys(P).sort(),IDS.slice().sort())&&IDS.every(id=>CHARACTERS[id]&&CHARACTERS[id].name===NAME[id]&&(CHARACTERS[id].gender==='m')===(PRON[id]==='他')),J(IDS.map(id=>[id,CHARACTERS[id]&&CHARACTERS[id].name,CHARACTERS[id]&&CHARACTERS[id].gender])));
@@ -35,7 +35,7 @@ const PRE="import sys,json,subprocess;sys.path.insert(0,'tools/story');import im
     for(const id of IDS){ const a=A728.people[id];
       for(const c of ['drink','breakfast']){ if(!!a[c]!==!!P[id][c]) bad.push(id+'.'+c+' 有沒有'); else if(a[c]&&!same(G2(P[id][c].pool),a[c].yes)) bad.push(id+'.'+c); }
       if(!same(G2(P[id].no),a.no)) bad.push(id+'.no'); }
-    check('0. 句子和 AA_728@6528d7681 一字不差（飲料 yes、早餐 yes、no）；六位都有早餐（6528d7681：阿哲、Alison、柏翰、明軒補了各兩組）',!bad.length&&IDS.every(id=>P[id].drink.pool.length===3&&P[id].no.length===1&&!!P[id].breakfast)&&['zhe','yu','classmate_bohan','classmate_mingxuan'].every(id=>P[id].breakfast.pool.length===2),bad.join('；'));
+    check('0. 句子和 AA_728@7ac7380ff 一字不差（飲料 yes、早餐 yes、no）；六位都有早餐（7ac7380ff：阿哲、Alison、柏翰、明軒補了各兩組）',!bad.length&&IDS.every(id=>P[id].drink.pool.length===3&&P[id].no.length===1&&!!P[id].breakfast)&&['zhe','yu','classmate_bohan','classmate_mingxuan'].every(id=>P[id].breakfast.pool.length===2),bad.join('；'));
     const quoted=[].concat(...IDS.map(id=>[].concat(P[id].drink.pool,(P[id].breakfast||{pool:[]}).pool,P[id].no).map(g=>g.lines))).flat().filter(t=>/^「.*」$/.test(t));
     check('0. 有名字說的句子外面沒有「」（TEXT-QUOTE-UNIFY-1108）；好感＝fam+1、comf+1（AA_728 notes），沒有 npcRom',!quoted.length&&same(FR.rel,{fam:1,comf:1}),J(quoted)+' '+J(FR.rel)); }
   { const e1=py(PRE+"s2['people']['nobody']=s2['people']['zhe'];M.build_friends(s2,'x',I)");
@@ -66,10 +66,13 @@ const PRE="import sys,json,subprocess;sys.path.insert(0,'tools/story');import im
     const G=fresh(), s=[]; for(let k=0;k<3;k++){ const h=await give(G,'kai','飯糰'); s.push(idx(P.kai.breakfast.pool,h.s)); G.day+=1; }
     const G2=fresh(), s2=[]; for(let k=0;k<2;k++){ const h=await give(G2,'classmate_xinci','三明治'); s2.push(idx(P.classmate_xinci.breakfast.pool,h.s)); G2.day+=1; }
     const G3=fresh(); const k1=await give(G3,'kai','豆漿');
-    check('2. 早餐：阿凱兩組輪流（010）、芯慈只有一組（00）；豆漿、米漿是飲料（6528d7681：阿凱收到豆漿＝飲料那一格）',s.join('')==='010'&&s2.join('')==='00'&&idx(P.kai.drink.pool,k1.s)===0&&idx(P.kai.breakfast.pool,k1.s)<0,J([s,s2,k1.s]));
+    check('2. 早餐：阿凱兩組輪流（010）、芯慈只有一組（00）；豆漿、米漿是飲料（7ac7380ff：阿凱收到豆漿＝飲料那一格）',s.join('')==='010'&&s2.join('')==='00'&&idx(P.kai.drink.pool,k1.s)===0&&idx(P.kai.breakfast.pool,k1.s)<0,J([s,s2,k1.s]));
     const bad2=[]; for(const id of ['zhe','yu','classmate_bohan','classmate_mingxuan']){ const G4=fresh(), q=[]; for(let k=0;k<3;k++){ const h=await give(G4,id,['飯糰','三明治','飯糰'][k]); q.push(idx(P[id].breakfast.pool,h.s)); G4.day+=1; } if(q.join('')!=='010') bad2.push(id+' '+q.join(''));
       const G5=fresh(); const a=await give(G5,id,'青茶'), b=await give(G5,id,'飯糰'); if(a.r!=='yes'||b.r!=='yes'||idx(P[id].drink.pool,a.s)!==0||idx(P[id].breakfast.pool,b.s)!==0) bad2.push(id+' 同一天飲料＋早餐 '+J([a.r,b.r])); }
-    check('2. 補了早餐的四位（阿哲、Alison、柏翰、明軒，6528d7681）：送早餐照早餐那一格兩組輪流（010）、不會配到喝的句子；同一天先飲料再早餐：兩樣都收、各用各的那一格',!bad2.length,bad2.join('；')); }
+    check('2. 補了早餐的四位（阿哲、Alison、柏翰、明軒，7ac7380ff）：送早餐照早餐那一格兩組輪流（010）、不會配到喝的句子；同一天先飲料再早餐：兩樣都收、各用各的那一格',!bad2.length,bad2.join('；')); }
+  /* AA-B 11-08 09:54（7ac7380ff，BB-B P3）：阿哲、Alison、柏翰、明軒的 no 改成飲料、早餐都通——同一天送第二個飯糰不會配到「喝」 */
+  { const bad=[]; for(const id of ['zhe','yu','classmate_bohan','classmate_mingxuan']){ const G=fresh(); await give(G,id,'飯糰'); const h=await give(G,id,'三明治'); if(h.r!=='no'||h.s.some(t=>/喝/.test(t))) bad.push(id+' '+JSON.stringify([h.r,h.s])); }
+    check('2b. 四位同一天第二次送早餐＝no，那句不提「喝」（7ac7380ff）',!bad.length,bad.join('；')); }
   /* 3 好感 */
   { const bad=[];
     for(const id of IDS){ const G=fresh(); const r0=Object.assign({},SOCIAL.rel(id)); await give(G,id,'青茶'); const r1=Object.assign({},SOCIAL.rel(id)); await give(G,id,'飯糰'); const r2=Object.assign({},SOCIAL.rel(id)); G.day+=1; await give(G,id,'飯糰'); const r3=Object.assign({},SOCIAL.rel(id));

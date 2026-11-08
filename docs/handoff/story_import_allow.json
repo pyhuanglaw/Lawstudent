@@ -5101,9 +5101,9 @@
   },
   {
    "path": "docs/story_planning/AA_728_gifts_friends.json",
-   "sha": "6528d7681",
+   "sha": "7ac7380ff",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-08 08:24「回 08:21 PLAYTEST-1107 兩項」：送給朋友要、六位 drink／breakfast yes 三組輪流＋no；AA_710 itemOnly 清單在 _meta）；6528d7681（AA-B 11-08 08:49 回五點：豆漿米漿是飲料、四位補早餐、咖啡類只算美式和拿鐵、冰你一下只配冰的）",
+   "approvedBy": "AA-B D109（11-08 08:24「回 08:21 PLAYTEST-1107 兩項」：送給朋友要、六位 drink／breakfast yes 三組輪流＋no；AA_710 itemOnly 清單在 _meta）；6528d7681（AA-B 11-08 08:49 回五點：豆漿米漿是飲料、四位補早餐、咖啡類只算美式和拿鐵、冰你一下只配冰的）；7ac7380ff（AA-B 11-08 09:54：阿哲、Alison、柏翰、明軒的 no 改成飲料早餐都通——BB-B P3）",
    "task": "GIFT-FLIRT-1107",
    "kind": "json",
    "note": "送飲料、早餐給朋友（阿哲、阿凱、Alison、柏翰、明軒、芯慈）；_meta.itemOnly＝AA_710 只配某一樣的那幾組；tools/story/import_gifts.py",
@@ -5111,6 +5111,10 @@
     {
      "sha": "955ea3a03",
      "note": "被 6528d7681 取代（AA-B 11-08 08:49：豆漿、米漿改回飲料；阿哲、Alison、柏翰、明軒補 breakfast）"
+    },
+    {
+     "sha": "6528d7681",
+     "note": "被 7ac7380ff 取代（AA-B 11-08 09:54：朋友的 no 改成飲料、早餐都通）"
     }
    ]
   }

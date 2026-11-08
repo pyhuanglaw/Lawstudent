@@ -29,7 +29,7 @@ const ZRLAST=(function(){
   const dating=G=>{ const F=(G&&G.flags)||{}, R=romR(G); return F['dating_'+ZR]===true||!!(R&&R.status==='dating'); };
   S.DAYS={ask:'2028-08-24',until:'2028-08-25',day:'2028-08-26',fly:'2028-09-01',back:'2029-09-01'};
   S.ASK='zr_last_ask'; S.OUT_ID='zr_last_screening'; S.H=19.5; S.LATE=0.25;   /* 19:30 開演；19:45 以後不能出發＝沒到 */
-  S.NOREPLY_LINE='看完了。一個人。';   /* AA-B 11-08 09:39（企劃線 AA_交接紀錄 bafaa4386）：芷若沒回的玩家，週六 21:30 */
+  S.NOREPLY_LINE='看完了。一個人。';   /* AA-B 11-08 09:39：芷若沒回的玩家，週六 21:30（企劃線 AA_387 第 28 行下面，7ac7380ff）*/
   S.TAGS={no:'zr_last_noreply',late:'zr_last_late',after:'zr_last_after',night:'zr_last_night',fly:'zr_last_fly',fang:'zr_f3_fang'};
   /* 祐廷單身（第 1 節第 5 點，第 10 節 A2）：沒有交往中的人；剛分開的要收拾過（ROM.canStart 的那一條，不另外建她的戀愛紀錄）*/
   const single=G=>{ if(typeof ROM==='undefined') return true; if(ROM.partners&&ROM.partners(G).length) return false; return G.flags.CLEANUP_DONE!==false||!!(ROM.cleanupLate&&ROM.cleanupLate(G)); };
