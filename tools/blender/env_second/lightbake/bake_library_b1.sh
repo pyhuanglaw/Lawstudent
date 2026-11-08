@@ -28,23 +28,29 @@ NOLM="^(?!(library_b1_floorm|library_b1_ceiling|library_b1_columns|library_b1_wo
 COL=${LCOL:-0.95,0.98,1.0}
 # 11-08 BB-B B1 GPU 判定（CC/logs/B1_gpu_7206）：南半邊的影印中心、討論室那一帶比使用者驗收的 4.1 版（即時光＋天花板自發光）暗三成多
 #   （copy_door 166→115、disc1_wall 153→100、disc2_wall 157→97），燈板旁的天花板深灰。那一帶的日光燈本來就比自習室 A 區稀。
-#   → 南半邊（z > SOUTHZ，預設 5：南走廊、討論室、影印中心、南邊兩間小房間）日光燈 ×SOUTHT（預設 2.0）、燈下往上打天花板的點光源 ×SOUTHU（預設 2.5）。
+#   烘焙前量（b1_region_stats）：討論室天花板 0.12、地板 0.29，影印中心 0.25／0.39，自習室 A 區 0.27／0.51（WebP 編碼值）。
+#   → 分區加燈（REGIONS＝「x0:x1:z0:z1:日光燈倍數:往上補光倍數」用分號隔開，前面的先算）：
+#     討論室兩間（x −6～6、z 7.5～13.5）日光燈 ×3、燈下往上打天花板的點光源 ×3；南走廊、影印中心、南邊兩間小房間（z > 5）×2、×2.5。
+#     討論室每間只有 2 盞日光燈：只加倍會在天花板燒出一個亮點、角落照舊暗 → 每間再加 4 顆分散的補光（天花板下 1 m，DISCW 預設 3 W）。
 #   自習室 A 區（z < 4.7）、東北那一間不動（BB-B：自習室 A 區不要改回去）。
 # 會議廳（x −8～8、z −2.4～4.7，關著、沒有燈，從上面看像黑洞；BB-B LM2_cloud P3）：天花板下四顆 HALLW（預設 0.8 W）的點光源，地板是暗灰、不是黑。
-SOUTHZ=${SOUTHZ:-5}; SOUTHT=${SOUTHT:-2.0}; SOUTHU=${SOUTHU:-2.5}; HALLW=${HALLW:-0.8}
-zscale() { python3 -c 'import sys
-mode, zc, k = sys.argv[1], float(sys.argv[2]), float(sys.argv[3]); out = []
+REGIONS=${REGIONS:-"-6:6:7.5:13.5:3.0:3.0;-23:23:5:13.5:2.0:2.5"}; HALLW=${HALLW:-0.8}; DISCW=${DISCW:-3}
+rscale() { python3 -c 'import sys
+mode, regs = sys.argv[1], [[float(t) for t in r.split(":")] for r in sys.argv[2].split(";") if r]
+out = []
 for e in sys.stdin.read().strip().split(";"):
     v = e.split(",")
-    if mode == "cells": z, wi = (float(v[2]) + float(v[3])) / 2, 7
-    else: z, wi = float(v[2]), 3
-    if z > zc: v[wi] = "%g" % (float(v[wi]) * k)
+    if mode == "cells": x, z, wi = (float(v[0]) + float(v[1])) / 2, (float(v[2]) + float(v[3])) / 2, 7
+    else: x, z, wi = float(v[0]), float(v[2]), 3
+    for x0, x1, z0, z1, kt, ku in regs:
+        if x0 < x < x1 and z0 < z < z1: v[wi] = "%g" % (float(v[wi]) * (kt if mode == "cells" else ku)); break
     out.append(",".join(v))
 print(";".join(out))' "$@"; }
-LIGHTS=$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_tubes cells --w "${TUBEW:-4.7}" --y -0.03 --col "$COL" | zscale cells "$SOUTHZ" "$SOUTHT")
-UP=$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_tubes up --w "${UPW:-3.8}" --y -0.9 --col "$COL" | zscale points "$SOUTHZ" "$SOUTHU")
+LIGHTS=$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_tubes cells --w "${TUBEW:-4.7}" --y -0.03 --col "$COL" | rscale cells "$REGIONS")
+UP=$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_tubes up --w "${UPW:-3.8}" --y -0.9 --col "$COL" | rscale points "$REGIONS")
 HALL="-5,2.6,0,$HALLW,1.0,0.92,0.82;5,2.6,0,$HALLW,1.0,0.92,0.82;-5,2.6,3,$HALLW,1.0,0.92,0.82;5,2.6,3,$HALLW,1.0,0.92,0.82"
-POINTS="$UP;$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_warm points --w "${LAMPW:-3}" --y -0.03 --col 1.0,0.82,0.6);$HALL"
+DISC=""; for x in -4.5 -1.5 1.5 4.5; do for z in 9.2 11.8; do DISC="$DISC;$x,2.0,$z,$DISCW,0.95,0.98,1.0"; done; done; DISC=${DISC#;}
+POINTS="$UP;$DISC;$(python3 $LB/mesh_lights.py "$PLAIN" library_b1_warm points --w "${LAMPW:-3}" --y -0.03 --col 1.0,0.82,0.6);$HALL"
 echo "lights $(echo "$LIGHTS" | tr ';' '\n' | wc -l), points $(echo "$POINTS" | tr ';' '\n' | wc -l)"
 /opt/blenv/bin/python $LB/bake_room.py -- --in "$PLAIN" --out "$OUTDIR/library_b1.glb" \
   --lm "$TMP/b1" --url assets/models/env/second_ai/library_b1_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
