@@ -92,6 +92,14 @@ async def main():
                                 if p2:
                                     s2 = await D.load_zone(pg, cdp, zone, DAY, h, x=p2['x'], z=p2['z'] + 0.6, yaw=0.0, lv=1, wait=9000); await pg.wait_for_timeout(3000)
                                     R.note('%s 2F 讀檔後：%s；玩家 lv %s' % (tag, J(s2), await pg.evaluate("GAME.E.player.lv|0")))
+                                    pp = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [+o.x.toFixed(2), +o.z.toFixed(2)]; })()")
+                                    mn_, mx_ = av['bmin'], av['bmax']; y2_ = float(next(f.split(':')[1] for f in os.environ['FLOOR2'].split(',') if f.startswith(zone + ':')))
+                                    wx = mn_[0] + 0.3 if abs(pp[0] - mn_[0]) < abs(pp[0] - mx_[0]) else mx_[0] - 0.3   # BB-B 12:26：2F 牆腳改從走道（玩家站的那一點）1.4 m 高往最近的兩面牆腳看
+                                    wz = mn_[2] + 0.3 if abs(pp[1] - mn_[2]) < abs(pp[1] - mx_[2]) else mx_[2] - 0.3
+                                    C2 = {'corner_2f_a': ([pp[0], y2_ + 1.4, pp[1]], [wx, y2_ + 0.05, pp[1]]), 'corner_2f_b': ([pp[0], y2_ + 1.4, pp[1]], [pp[0], y2_ + 0.05, wz])}
+                                    R.note('%s 2F 牆腳機位：玩家 %s；%s' % (tag, J(pp), J(C2)))
+                            if nm in ('corner_2f_a', 'corner_2f_b') and on2 and 'C2' in dir():
+                                eye, look = C2[nm]
                             r[nm] = await D.user_shot(pg, cdp, 's5_%s_%s_%s_%s' % (TAG, part, tn, nm), {'eye': eye, 'look': look, 'lens': lens})
                     except Exception as ex: R.check('%s 探針沒有例外' % tag, False, repr(ex)[:300])
             R.check('沒有 JS 例外', not errs, J(errs[:3]))
