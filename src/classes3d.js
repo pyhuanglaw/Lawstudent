@@ -458,6 +458,7 @@ const CLS=(function(){
   S.attendActivity=async function(GM,a,o){ o=o||{}; const G=GM.G; if(!a||typeof ACTIVITIES==='undefined'||ACTIVITIES.attended(G,a.id,G.day)) return false;
     if(a.id==='lib_tour_y1s1'&&GM.E&&GM.E.player&&GM.E.moveTo&&typeof CHAR!=='undefined'&&GM.G.zone==='library_hall'&&!o.inScene) return S.runLibTour(GM,a);   /* 沒有 3D 引擎（單元測試）照舊快轉 */   /* 總圖新生導覽：館員帶著走一圈（AA_134 第 2 節）*/
     const lec=a.kind==='lecture', tour=a.kind==='tour', club=a.kind==='club';
+    const small=lec&&!!a.smallRoom, who=a.speakerWord||'學長';   /* 小房間（討論室、沒有台）的講座：AA-B 11-08 01:20 兩句（AA_613 最後一節）；講的人照那一場（館員就寫 speakerWord:'館員'）*/
     const rainNarr=a.rain&&ACTIVITIES.rainy&&ACTIVITIES.rainy(a,G,true)&&a.narr?a.narr[a.rain.narr]:null;   /* 下雨場（BBALL-RAIN-1030）：17:30 以前就參加＝參加的那一刻照當下的天氣定；旁白固定用走廊那一句（不佔晴天照順序輪的那一格）*/
     ACTIVITIES.markAttended(G,a); if(a.id==='public_law_group'&&typeof STORY!=='undefined'&&STORY.mootTogetherCheck) STORY.mootTogetherCheck(G,'plg');   /* 模擬法庭準備分第 4 項（AA_143 3-3）*/ if(a.id==='B4'&&G.flags) G.flags.B4_ATTENDED=true;   /* AA_140 G07：聽過 B4 演講（重訪日 1 的「那場演講。」、C15 回想讀它）*/ if(club&&G.flags){ G.flags['CLUB_'+a.id]=true; if(a.id==='lawclub_study') G.flags.lawclub=true; }   /* 第一次去社課就算加入（AA_110 6-3：CLUB_<id>）；法服另外記 lawclub（看過招募公告的那個旗標）*/
     const ev=club?S.clubEvent(G,a):(a.event?S.actEvent(G,a):null);   /* 活動的事件（event：迎新，交接包 v1 A11）*/
@@ -465,7 +466,7 @@ const CLS=(function(){
     if(!o.inScene) GM.sceneBegin(o.door&&!ev?{adv:a.id==='lawclub_study'?{charId:'heroine_05',expression:'neutral'}:true}:undefined);   /* 門口參加（進不去的房間）＝2D 畫面 */
     try{
       if(GM.E&&GM.E.zone&&GM.E.zone.setBoard) GM.E.zone.setBoard(a.title,lec?'演講':'活動',hhmm(a.t0)+'–'+hhmm(a.t1));
-      if(!ev&&!(club&&a.spot)) await GM.say(null,tour?(hr(G)<a.t0?'你在集合點等「'+a.title+'」開始。':'你跟上「'+a.title+'」的隊伍。'):hr(G)<a.t0?(lec?'你找了位子坐下。台上的人在試麥克風，投影片停在第一頁：「'+a.title+'」。':'你找了位子坐下，等「'+a.title+'」開始。'):(lec?'你輕輕坐下。台上已經開始講「'+a.title+'」了。':'你輕輕坐下。「'+a.title+'」已經開始了。'));   /* 系籃（集合點的社課）：AA 6-8 (c) 選「去練球」→ 直接轉暗 */
+      if(!ev&&!(club&&a.spot)) await GM.say(null,tour?(hr(G)<a.t0?'你在集合點等「'+a.title+'」開始。':'你跟上「'+a.title+'」的隊伍。'):hr(G)<a.t0?(lec?(small?'你找了位子坐下。白板前的'+who+'在接投影機，螢幕停在第一頁：「'+a.title+'」。':'你找了位子坐下。台上的人在試麥克風，投影片停在第一頁：「'+a.title+'」。'):'你找了位子坐下，等「'+a.title+'」開始。'):(lec?(small?'你輕輕坐下。白板前的'+who+'已經開始講「'+a.title+'」了。':'你輕輕坐下。台上已經開始講「'+a.title+'」了。'):'你輕輕坐下。「'+a.title+'」已經開始了。'));   /* 系籃（集合點的社課）：AA 6-8 (c) 選「去練球」→ 直接轉暗 */
       let cin=null; if(club) for(const f of S.CLUB_IN){ try{ const r=await f(GM,a,ev); if(r) cin=r; }catch(e){ console.warn('CLS.CLUB_IN',e); } }   /* 社課開始、人物事件之後接著演的（S.CLUB_IN.push(async fn(GM,a,ev))；回傳 {narr}＝這一次的旁白換成它，輪流的那幾句不往前；例：AA_619 2-1 吉他社第一次社課，src/guitar3d.js）*/
       let narr=''; if(club&&cin&&cin.narr!=null){ narr=cin.narr; if(narr&&a.narrAt==='start') await GM.say(null,narr); } else if(club&&!ev){ narr=rainNarr||S.clubNarr(G,a); if(narr&&a.narrAt==='start') await GM.say(null,narr); if(a.id==='lawclub_study') await S.studyQs(GM); }
       if(GM.E&&roomy(GM.E.zone)) S.syncRooms(GM);   /* 快轉前聽眾先坐好（2026-10-13 批次 3：演講開始前 5 分鐘坐下選「聽演講」，聽眾還沒排進來就快轉到結束，散場時沒有人站起來）*/

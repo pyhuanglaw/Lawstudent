@@ -142,7 +142,7 @@ const caps=[]; GM.caption=(w,t)=>{ caps.push(t); };
     /* 15:30 以後才到（232fe4149 第 9 點）*/
     { fresh('2025-09-23',12); runAt('2025-09-23',21.5); PHONE.answer(H.G,'aa613_xc_lib_'+L1,0); at(L1,15.6); H.G.zone='lawlib';
       const due=AA613.lateDue(GM,a); H.said=[]; await CLS.attendActivity(GM,a); const s1=said(); const due2=AA613.lateDue(GM,a);
-      check('1-3. 15:30 以後才到（沒在門口碰到）：聽講座時旁白「（她看到你，指了指旁邊的空位。）」，一次',due&&s1[0]==='（她看到你，指了指旁邊的空位。）'&&AA613.L.xcLib.late==='（她看到你，指了指旁邊的空位。）'&&!s1.includes('芯慈：這邊。')&&!due2,J({due,s1:s1.slice(0,2),due2})); }
+      check('1-3. 15:30 以後才到（沒在門口碰到）：聽講座時旁白「（她看到你，指了指旁邊的空位。）」，一次',due&&s1[0]==='（她看到你，指了指旁邊的空位。）'&&AA613.L.xcLib.late==='（她看到你，指了指旁邊的空位。）'&&!s1.includes('芯慈：這邊。')&&!due2,J({due,s1:s1.slice(0,2),due2})); check('1-3. 小房間的講座（討論室 A、沒有台）：晚到「你輕輕坐下。白板前的學長已經開始講「法律資料怎麼查」了。」，不是「台上」（AA-B 11-08 01:20）',s1.includes('你輕輕坐下。白板前的學長已經開始講「法律資料怎麼查」了。')&&!s1.some(t=>/台上/.test(t)),J(s1)); }
     /* 第二場 */
     fresh('2025-09-23',12); runAt('2025-09-23',21.5); PHONE.answer(H.G,'aa613_xc_lib_'+L1,1); runAt('2025-09-30',21.1); const M2=byTag('aa613_xc_lib_'+L2);
     check('1-3. 9/24 沒去：9/30 21:00 再傳一次（同兩則）',M2.length===2&&J(tx(M2))===J(AA613.L.xcLib.dm)&&M2[0].day===L2-1,J(M2.map(m=>[m.day,m.text])));
