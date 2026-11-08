@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "TWATCH_c753_1",
+  "sha": "c753295dabdf8a0b0b2ec9767a7c5429237b7134",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_touch_wrap.py",
+  "env": "SOLO=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-09T01:02:19",
+  "end": "2026-11-09T01:05:27",
+  "seconds": 188,
+  "exit": 1,
+  "error": null,
+  "runner": "ca6fd18292",
+  "rf_round": "49",
+  "url": "http://127.0.0.1:8800/index.html?turbo",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 35,
+    "mem": 45,
+    "used_gb": 14.9,
+    "chrome_testing": 5
+  },
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
