@@ -2116,3 +2116,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 301.7s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 301.7s] BROWSER DISCONNECTED
 - 2026-11-08T18:19:57  R0f5c_touch  sha=0f5c836ac45739192c3c38eaee93cdfbd5b801e7  exit=0  189s    PASS 讀檔後可以走  7.34 / PASS 沒有 JS 例外 / ALL PASS
       err.log (last 5): [gpu_wrap 137.1s] page close url=http://127.0.0.1:8800/index.html?turbo&turbo | [gpu_wrap 137.2s] BROWSER DISCONNECTED
+- 2026-11-08T18:50:11  R565c_zone  sha=565cf3fd6537505461d1f51bb609c09c8c2b5fa2  exit=0  230s    PASS 校門 → 公館：回到校園後走得到霖澤館前 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 185.0s] page close url=http://127.0.0.1:8800/index.html?turbo?turbo | [gpu_wrap 185.0s] BROWSER DISCONNECTED
