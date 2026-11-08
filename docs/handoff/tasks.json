@@ -49898,7 +49898,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 06:2x LAWWW-B】BB-B 06:14 FIXED（PC RX 6600M 跑 9e0ffabce：CC_E01CARD 三次第一句時 #fade 沒有 on、字卡收起來、在 dorm、手機沒開、第一句只一次；flow_v0_start 三次 ALL PASS）。P3 那一題（8/28 22:00 在家不出選單直接睡）還沒查。 ｜ 【11-08 05:3x LAWWW-B】5292ead4d：newGameEcon 字卡到 enter('dorm') 設 y0Gate（try/finally、LOADLOCKS 放開），S.y0Tick 看到先不跑，進房間以後由 newGameEcon 開 E01；v0_e01_unit 第 0 項（舊程式 FAIL）；96 支 ALL PASS；交 BB-B（CC 跑 v0_start＋v0_to1017 第一段三次，E01 第一句時 #fade 沒有 on、字卡收起來）。BB-B 另問（P3）：讀 8/28 22:00 在家不出選單直接睡到 8/29，是不是設計——還沒查清楚。",
+   "next": "【11-08 06:2x LAWWW-B】BB-B 06:14 FIXED（PC RX 6600M 跑 9e0ffabce：CC_E01CARD 三次第一句時 #fade 沒有 on、字卡收起來、在 dorm、手機沒開、第一句只一次；flow_v0_start 三次 ALL PASS）。P3 那一題（8/28 22:00 在家不出選單直接睡）＝設計：經濟系短版事件接事件（D102、AA_300），econff3d.js S.tick 閒著 1.5 秒就 S.advance 到下一個停點（8/29 搬宿舍），已回 BB-B。 ｜ 【11-08 05:3x LAWWW-B】5292ead4d：newGameEcon 字卡到 enter('dorm') 設 y0Gate（try/finally、LOADLOCKS 放開），S.y0Tick 看到先不跑，進房間以後由 newGameEcon 開 E01；v0_e01_unit 第 0 項（舊程式 FAIL）；96 支 ALL PASS；交 BB-B（CC 跑 v0_start＋v0_to1017 第一段三次，E01 第一句時 #fade 沒有 on、字卡收起來）。BB-B 另問（P3）：讀 8/28 22:00 在家不出選單直接睡到 8/29，是不是設計——還沒查清楚。",
    "xai": {
     "spec": "BB-B 11-08 05:26（PC 常備回歸 R8B6_v0_to1017，8b6cbc908，out/03_fade_block_1.png）",
     "branch": "claude/modest-rubin-2lyp7g",
