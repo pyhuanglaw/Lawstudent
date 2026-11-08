@@ -6,14 +6,15 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
-## 🔨 現在在做（11-08 01:0x UTC，帳號 B LAWWW2-B）
+## 🔨 現在在做（11-08 02:0x UTC，帳號 B LAWWW2-B）
 
 | 項目 | 狀態 | 位置 |
 |---|---|---|
 | **BB-B 00:04 溫州街六間光照判定（WZ6_LM_cloud；cc-testing 9c115cd9d9）**：功能 PASS；畫面三點 | ③ 晚上 lightMap 欄位是 *_lm_day＝**刻意**（晚上那張在 shader 的 lmNight，lmMixAt 混合）；② 日常失速窗景洗白＝**不是烘焙**（窗景卡、玻璃材質原檔＝烘好的；截圖窗區平均差 3.4／255；「霧面」是窗景照片裡對面的素面水泥牆）；① **一盞店門口木地板灰藍＝光照貼圖**（白天店門口藍／紅 1.34～1.39，其他四間 1.09～1.20：緣側整片開口、沒有太陽、只吃藍天光）→ bake_room.py 加 `--skytint`（只乘白天天光，燈不動；沒給＝原樣），一盞試烘中，之後 512 重烘交 LAWWW-B、請 CC 重拍 14:00 door／clerk。已回 BB-B 兩則（DELIVERED） | bake_room.py（未 commit，等試烘）；bake_gg_new.sh 的修改備好在 `$S/bake_gg_new.next.sh`（一盞用原檔 blob 33ba0087＋SKYTINT；已烘過的檔當輸入會擋下來）——**公館四間跑完才換上** |
 | 光照第二級②：研究小間 | **512 正式版 push** `be46b8878`：0.35／0.30、library_lm2_unit 研究小間全過 | — |
 | 光照第二級②：5F 書庫 | **512 正式版 push** `60c63348f`：0.41／0.37、library_lm2_unit 三間 ALL PASS（工作樹 eacc5837d） | — |
-| 光照第二級③：公館四間 | **afar 正式版 push** `56d91b587`（0.35／0.31、套天光色調）；背景排程 bb82800lc 跑到 30 分鐘上限被停在青木（青木的檔沒被動到）→ **重開 b4i1o1efa（上限 2 小時）：青木 → Daybreak → 單車** | bake_gg_new.sh |
+| **光照第二級 lib_lm2_1107（總圖 3＋公館 4）** | **已交 LAWWW-B（c30131f5c，P1 等 ACK）**：B1 0.38／0.38、研究小間 0.35／0.30、書庫 0.41／0.37、afar 0.35／0.31、青木 0.35／0.32、Daybreak 0.36／0.32、單車 0.33／0.31（公館套天光色調）；測試 patch 對開發 df95b5042（FAILED 3／4→ALL PASS；67 支全過）；**B1 是使用者 ART_APPROVED 4.1 版，請 BB-B 再看** | `wip/lib_lm2_1107/` |
+| BB-B 01:46 PC GPU 第一批（六組 PASS）三點 | ① 總圖 library_media 左牆（門牆 S）看到天空、牛頓擺板浮空：查中——GLB 的 S 牆雙面、法線朝內、dir 對；CC 的 CAM 有照新鏡頭重算 fadeWalls，照理不該淡出 → 用 Node 建 library_media＋正式模型照 CC 鏡頭重算（$S/media_fade.js 寫到一半）；② L5FLM lab_in 左白牆過曝：排在 ① 後面；③ 205／美國臥室偏灰：併任務 #196（天光色調） | — |
 | 一盞重烘（WZ6_LM_cloud 第 1 點） | **LAWWW-B 已整合 `5a6f73313`**（連 bake_room.py、bake_gg_new.sh 一起換成我分支的版本）；**BB-B 00:46 判 FIXED（雲端）**：門口木地板 R−B 16→50、淺米木色；櫃台前暖木色 OK。ART_APPROVED（溫州街六間）剩 PC GPU 顏色＋fps；**一盞夜間 BB-B 00:55 判 PASS**（19:30 是 14:00 的 70～80%、門口降 47% 合理）——溫州街六間雲端判定全部處理完 | `wip/wz6_yizhan_tint_1108/` |
 | **BUG-CAM-LAWLIB-DISCA-1108**（BB-B 00:43 P2，D108） | **LAWWW-B 已整合 `3584f3ac3`**（01:09 ACK；lawlib_cam_disc_unit ALL PASS）；等 CC 用 cc_aa613_probe MODE=lib 重跑、BB-B 判 | `wip/cam_lawlib_disc_1108/` |
 | BB-B 00:13 | 第 2 點收回、窗景照片不排；一盞照修法；溫州街其他四間＋阿德套色調＝不擋、低優先（任務 #196） | — |
