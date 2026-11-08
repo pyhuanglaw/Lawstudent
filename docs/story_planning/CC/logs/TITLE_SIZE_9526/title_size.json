@@ -1,0 +1,116 @@
+[
+ {
+  "text": "版本 v9.10.23（2026-11-08）",
+  "rect": [
+   30,
+   472,
+   290,
+   488
+  ],
+  "vw": 320,
+  "vh": 568,
+  "dpr": 2,
+  "visible": true,
+  "partly": true,
+  "rotate": true,
+  "scrollY": 0,
+  "device": "iPhone SE",
+  "orient": "portrait",
+  "shot": "title_iPhoneSE_portrait.png"
+ },
+ {
+  "text": "版本 v9.10.23（2026-11-08）",
+  "rect": [
+   30,
+   388,
+   538,
+   404
+  ],
+  "vw": 568,
+  "vh": 320,
+  "dpr": 2,
+  "visible": false,
+  "partly": false,
+  "rotate": false,
+  "scrollY": 0,
+  "device": "iPhone SE",
+  "orient": "landscape",
+  "shot": "title_iPhoneSE_landscape.png"
+ },
+ {
+  "text": "版本 v9.10.23（2026-11-08）",
+  "rect": [
+   30,
+   504,
+   360,
+   520
+  ],
+  "vw": 390,
+  "vh": 664,
+  "dpr": 3,
+  "visible": true,
+  "partly": true,
+  "rotate": true,
+  "scrollY": 0,
+  "device": "iPhone 14",
+  "orient": "portrait",
+  "shot": "title_iPhone14_portrait.png"
+ },
+ {
+  "text": "版本 v9.10.23（2026-11-08）",
+  "rect": [
+   33,
+   388,
+   717,
+   404
+  ],
+  "vw": 750,
+  "vh": 340,
+  "dpr": 3,
+  "visible": false,
+  "partly": false,
+  "rotate": false,
+  "scrollY": 0,
+  "device": "iPhone 14",
+  "orient": "landscape",
+  "shot": "title_iPhone14_landscape.png"
+ },
+ {
+  "text": "版本 v9.10.23（2026-11-08）",
+  "rect": [
+   30,
+   542,
+   400,
+   558
+  ],
+  "vw": 430,
+  "vh": 740,
+  "dpr": 3,
+  "visible": true,
+  "partly": true,
+  "rotate": true,
+  "scrollY": 0,
+  "device": "iPhone 14 Pro Max",
+  "orient": "portrait",
+  "shot": "title_iPhone14ProMax_portrait.png"
+ },
+ {
+  "text": "版本 v9.10.23（2026-11-08）",
+  "rect": [
+   65,
+   388,
+   749,
+   404
+  ],
+  "vw": 814,
+  "vh": 380,
+  "dpr": 3,
+  "visible": false,
+  "partly": false,
+  "rotate": false,
+  "scrollY": 0,
+  "device": "iPhone 14 Pro Max",
+  "orient": "landscape",
+  "shot": "title_iPhone14ProMax_landscape.png"
+ }
+]
