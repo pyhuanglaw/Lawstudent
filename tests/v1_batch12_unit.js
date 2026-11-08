@@ -86,6 +86,12 @@ const KX={dating_kexin:true};
   { fresh(FRI3,8,'campus',KX); run(8,20); const m=ask('kx_tour_ask'); delete m.ask.until; const F0=G.flags, ms=G.msgs, ph=G.phone;
     fresh(FRI4+10,10,'campus',F0); G.msgs=ms; G.phone=ph; const open0=PHONE.askOpen(G,m); run(10,10.2);
     check('K1 舊存檔：沒有 until 的那一則讀進來補上（週日 24:00）、過期＝收起來、不在待回覆；過期超過一週＝NO、NO2 都 expired、沒有第二則',open0===true&&m.ask.until===(FRI3+3)*24&&!PHONE.askOpen(G,m)&&!PHONE.pending(G).includes(m)&&G.flags.KX_TOUR_NO==='expired'&&G.flags.KX_TOUR_NO2==='expired'&&!ask('kx_tour_ask2'),JSON.stringify({open0,u:m.ask.until,f:[G.flags.KX_TOUR_NO,G.flags.KX_TOUR_NO2]})); }
+  /* 讀檔當下就補（BB-B 11-08 11:06：原本讀檔後約 9 秒內還算待回覆）：game3d.js migrate 叫 STORY.askFixUntil；對讀進來的存檔物件直接補、不用等手機規則 */
+  { const src=require('fs').readFileSync(require('path').join(__dirname,'..','src','game3d.js'),'utf8');
+    const sv={flags:{dating_kexin:true},msgs:[{tag:'kx_tour_ask',day:FRI3,h:19.5,text:'週末來木柵大學？我當導遊。',ask:{opts:[{t:'好，週六下午過去。'},{t:'這週末不行。'}]}},{tag:'kx_tour_ask2',day:FRI4,h:19.5,text:'這週末呢？導遊還在。',ask:{opts:[{t:'好，週六下午過去。'},{t:'這週末不行。'}]}}]};
+    STORY.askFixUntil(sv,'kx_tour_ask',3); STORY.askFixUntil(sv,'kx_tour_ask2',3);
+    check('K1 讀檔當下：game3d.js migrate 叫 askFixUntil（兩則）；存檔物件直接補上 until（週日 24:00），有 until 的不動',/STORY\.askFixUntil\(s,'kx_tour_ask',3\)/.test(src)&&/STORY\.askFixUntil\(s,'kx_tour_ask2',3\)/.test(src)&&sv.msgs[0].ask.until===(FRI3+3)*24&&sv.msgs[1].ask.until===(FRI4+3)*24,JSON.stringify(sv.msgs.map(m=>m.ask.until)));
+    const sv2={msgs:[{tag:'kx_tour_ask',day:FRI3,ask:{until:1,opts:[]}}]}; STORY.askFixUntil(sv2,'kx_tour_ask',3); check('K1 讀檔當下：本來有 until 的不改',sv2.msgs[0].ask.until===1); }
   /* ---------- K3、CG-14：中秋烤肉 ---------- */
   const BBQ=ev('ev_mid_autumn_bbq'), SATB=termDay(5,6);
   const bbq=async(flags,setup,pk)=>{ fresh(SATB,15,'campus',Object.assign({},KX,{ZHE_CALLS_GE:true},flags||{}));   /* 已經有「哥」：不問「你幾年次的」（那段另外測）*/ if(setup) setup(); cgs=[]; picks=pk||[]; await EVENTS.run(BBQ); return {L:lines(),cg:cgs.slice()}; };
