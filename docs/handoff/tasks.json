@@ -50074,6 +50074,51 @@
     "owner": "LAWWW"
    },
    "evidence": "tests/legal_prof_tone_unit.js"
+  },
+  {
+   "id": "RELEASE-V91023-1108",
+   "title": "發布 v9.10.23（11-08 的修改：拿掉「」一到八批、決定拍 19 場、送東西、光照等）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "開新遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 15:2x LAWWW-B】使用者選擇題「可以發佈」（UA-LAWWW-1108-03）。發布樹 52a7e5337＝候選 9eef2b95b＋版本字樣；BB-B GO（PC 發布前清單 11／11、雲端 deploy_check v9.10.23 ALL PASS）；GHA 9eef2b95b success、本機全套 1156 支沒有 FAIL。下一步：PR 合併 main、Pages 部署、BB-B 線上 deploy_check。"
+  },
+  {
+   "id": "GIFT-ROMANCE-ONLY-1108",
+   "title": "送飲料、早餐只給可攻略的對象（朋友六位拿掉）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "送東西給朋友",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 15:2x LAWWW-B】使用者「送飲料只需要給可攻略的對象」（UA-LAWWW-1108-01、X266）。v9.10.23 照測過的發布；下一版：問 AA-B 改 AA_728 的範圍（朋友那六位的台詞怎麼處理），LAWWW 改 gift3d／import_gifts 的名單，BB 測。",
+   "xai": {
+    "spec": "使用者 11-08 15:2x",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "送飲料、早餐的對象只剩可攻略的人；朋友不再出現",
+    "receiver": "BB（測）",
+    "ack": "未派",
+    "owner": "LAWWW"
+   },
+   "notWaitUser": "使用者已經說了要什麼（11-08 15:2x「送飲料只需要給可攻略的對象」）；等的是 AA-B 改 AA_728 的範圍、LAWWW 照做，不是等使用者"
   }
  ]
 }

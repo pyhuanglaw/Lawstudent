@@ -3415,6 +3415,50 @@
    "task": "RELEASE-V91022-1107",
    "src": "使用者對 LAWWW-B，2026-11-07 10:4x UTC（先問「現在可以玩到哪些新東西？」；AskUserQuestion：等 BB 測完再發布（推薦）／現在就準備發布／先不要發布）",
    "checked": "線上照舊 v9.10.21（92c3daad8）；11-07 試玩以後的修改都在 claude/modest-rubin-2lyp7g；BB、CC 測完今天最後一批＋發布前清單全過才合併 main；11-07 13:20 UTC v9.10.22 已部署（main 74cb8314d、PR #30、Pages run 42376299962）"
+  },
+  {
+   "id": "UA-LAWWW-1108-00",
+   "at": "2026-11-08T15:2x",
+   "quote": "寫中文（第一次英文的發布選擇題的回答）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X267",
+   "task": "RELEASE-V91023-1108",
+   "src": "使用者對 LAWWW-B，2026-11-08 15:2x UTC（AskUserQuestion「要我合併 main、發布 v9.10.23 嗎？」）",
+   "checked": "選擇題改成繁體中文重問（規則 1：只用繁體中文）"
+  },
+  {
+   "id": "UA-LAWWW-1108-01",
+   "at": "2026-11-08T15:2x",
+   "quote": "送飲料只需要給可攻略的對象",
+   "kind": "原話",
+   "status": "還沒做",
+   "wants": "X266",
+   "task": "GIFT-ROMANCE-ONLY-1108",
+   "src": "使用者對 LAWWW-B，2026-11-08 15:2x UTC（AskUserQuestion「要我合併 main、發布 v9.10.23 嗎？」）",
+   "checked": "v9.10.23 照測過的版本發布（朋友那六位還在）；下一版拿掉，先問 AA-B 改 AA_728"
+  },
+  {
+   "id": "UA-LAWWW-1108-02",
+   "at": "2026-11-08T15:2x",
+   "quote": "新增的19場劇情是什麼",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X267",
+   "task": "RELEASE-V91023-1108",
+   "src": "使用者對 LAWWW-B，2026-11-08 15:2x UTC（AskUserQuestion「要我合併 main、發布 v9.10.23 嗎？」）",
+   "checked": "回覆時列出 AA_720 決定拍打開的 19 場"
+  },
+  {
+   "id": "UA-LAWWW-1108-03",
+   "at": "2026-11-08T15:2x",
+   "quote": "可以發佈（選擇題「要我合併 main、發布 v9.10.23 嗎？」）",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X267",
+   "task": "RELEASE-V91023-1108",
+   "src": "使用者對 LAWWW-B，2026-11-08 15:2x UTC（AskUserQuestion「要我合併 main、發布 v9.10.23 嗎？」）",
+   "checked": "發布樹 52a7e5337（候選 9eef2b95b）BB-B GO；PR 合併 main、Pages 部署"
   }
  ]
 }
