@@ -1988,3 +1988,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 72.8s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 72.8s] BROWSER DISCONNECTED
 - 2026-11-08T14:01:16  CC_v0_to1017_e86f  sha=e86f402e3daf9515216b5bb5b032e1844dba8f94  exit=1  562s    PASS 黑幕沒有擋住對話  0 / PASS 沒有 JS 例外  [] / FAILED: 2024-09-01～2024-10-17 每一天都過到（沒有跳日）
       err.log (last 5): [gpu_wrap 526.8s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 526.8s] BROWSER DISCONNECTED
+- 2026-11-08T14:19:56  GG3LM_lm2_7db0_stacks  sha=7db0871e0212282e5a60ca46e1aecfa139f45ace  exit=0  148s      [  88.3s] [截圖] s5_after_gpu_library_stacks_2100_out：鏡頭 {"eye": [10.4, 1.55, -6.8], "look": [10.4, 1.4, 1.7], "lens": 20, "vfov": 53.7}、亮度 [101.2, 41.2] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 88.8s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 88.8s] BROWSER DISCONNECTED
