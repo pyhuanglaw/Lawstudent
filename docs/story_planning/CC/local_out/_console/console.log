@@ -842,3 +842,13 @@
 [13:14:42] ==== END   R8B6_mini  exit=1  86s   ====
 [13:14:45] solo item R8B6_movreg waits: no new items start until the 2 running item(s) finish
 [13:16:08] [res] cpu=14% mem=39% (12.5/31.4 GB) chrome_testing=5  END R8B6_zone
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ff49d14fc..3889d5b36  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:16:12] ==== END   R8B6_zone  exit=0  228s   ====
+[13:16:15] solo item R8B6_movreg waits: no new items start until the 1 running item(s) finish
+[13:17:06] 正在跑：R8B6_v0_home（已跑 29 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:22:06] 正在跑：R8B6_v0_home（已跑 34 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:27:06] 正在跑：R8B6_v0_home（已跑 39 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:32:06] 正在跑：R8B6_v0_home（已跑 44 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:36:16] [res] cpu=4% mem=34% (10.7/31.4 GB) chrome_testing=0  END R8B6_v0_home

@@ -1966,3 +1966,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 50.2s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 50.2s] BROWSER DISCONNECTED
 - 2026-11-08T13:16:08  R8B6_zone  sha=8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5  exit=0  228s    PASS 校門 → 公館：回到校園後走得到霖澤館前 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 193.1s] page close url=http://127.0.0.1:8802/index.html?turbo?turbo | [gpu_wrap 193.1s] BROWSER DISCONNECTED
+- 2026-11-08T13:36:16  R8B6_v0_home  sha=8b6cbc9081c07e61bc8af0d2382e4eeb8607caf5  exit=0  2950s    PASS 沒有 JS 例外  [] /    手機回覆 1 次；過到的日子 106 天 / ALL PASS
+      err.log (last 5): [gpu_wrap 2891.4s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 2891.4s] BROWSER DISCONNECTED
