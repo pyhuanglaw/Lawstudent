@@ -1,0 +1,59 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_scene5_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3DK2F_102a\out
+CC 燒臘、頁間書屋光照（before_gpu）：SHA=102a03cb9b6d6c2e2f3705876cfe119030228325（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [before_gpu xs_dakou 1400] 讀檔 xs_dakou 2025-10-18 14.0（條件事件關閉）
+PASS [before_gpu xs_dakou 1400] 進得了 xs_dakou  {"zone": "xs_dakou", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "聽一句", "stand": true, "fb": 0, "hour": 14.05}
+  [  49.8s] [before_gpu xs_dakou 1400] 材質／光照貼圖：{"meshes": 96, "mats": 96, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 36, "views": [{"n": "VIEWPANE_xs_dakou", "vis": false}, {"n": "VIEWPANE_xs_dakou_2f", "vis": false}], "charFailures": [], "assetFailed": null, "glb": true}
+  [  49.9s] [before_gpu xs_dakou 1400] 自動機位：{"bmin": [-6.2, -0.05, -8.2], "bmax": [6.2, 7.2, 8.22], "spawn": [0, 6.4], "y0": 0, "fy": 0, "up": false, "yaw": 3.14, "center": [0, 0.01], "size": [12.4, 7.25, 16.42], "clerk": [-1.5, -4.9], "seat": [-5.2, -2], "seatLv": [0, 0, null], "views": {"door": {"eye": [-0.0, 1.6, 6.7], "look": [0, 1, 0.4], "lens": 18}, "top": {"eye": [0, 12.25, 0.81], "look": [0, 0, -0.29], "lens": 16}, "seat": {"eye": [-2.98, 1.4, -0.9], "look": [-5.2, 0.6, -2], "lens": 22}, "clerk": {"eye": [-0.86, 1.6, -2.8], "look": [-1.5, 1.2, -4.9], "lens": 24}, "out": {"eye": [0, 1.55, 3.9], "look": [-0.0, 1.4, 12.4], "lens": 20}}}
+PASS [黑畫面] s5_before_gpu_xs_dakou_1400_door 不是黑畫面（平均亮度 170.7、變化 48.4）  [170.7, 48.4]
+  [  52.6s] [截圖] s5_before_gpu_xs_dakou_1400_door：鏡頭 {"eye": [-0.0, 1.6, 6.7], "look": [0, 1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [170.7, 48.4]
+PASS [黑畫面] s5_before_gpu_xs_dakou_1400_top 不是黑畫面（平均亮度 175.2、變化 40.3）  [175.2, 40.3]
+  [  62.0s] [截圖] s5_before_gpu_xs_dakou_1400_top：鏡頭 {"eye": [0, 12.25, 0.81], "look": [0, 0, -0.29], "lens": 16, "vfov": 64.65}、亮度 [175.2, 40.3]
+PASS [黑畫面] s5_before_gpu_xs_dakou_1400_seat 不是黑畫面（平均亮度 141.3、變化 69.2）  [141.3, 69.2]
+  [  64.6s] [截圖] s5_before_gpu_xs_dakou_1400_seat：鏡頭 {"eye": [-2.98, 1.4, -0.9], "look": [-5.2, 0.6, -2], "lens": 22, "vfov": 49.43}、亮度 [141.3, 69.2]
+PASS [黑畫面] s5_before_gpu_xs_dakou_1400_clerk 不是黑畫面（平均亮度 140.3、變化 62.9）  [140.3, 62.9]
+  [  66.4s] [截圖] s5_before_gpu_xs_dakou_1400_clerk：鏡頭 {"eye": [-0.86, 1.6, -2.8], "look": [-1.5, 1.2, -4.9], "lens": 24, "vfov": 45.75}、亮度 [140.3, 62.9]
+PASS [黑畫面] s5_before_gpu_xs_dakou_1400_out 不是黑畫面（平均亮度 133.3、變化 67.1）  [133.3, 67.1]
+  [  68.3s] [截圖] s5_before_gpu_xs_dakou_1400_out：鏡頭 {"eye": [0, 1.55, 3.9], "look": [-0.0, 1.4, 12.4], "lens": 20, "vfov": 53.7}、亮度 [133.3, 67.1]
+PASS [黑畫面] s5_before_gpu_xs_dakou_1400_corner_a 不是黑畫面（平均亮度 150.3、變化 57.7）  [150.3, 57.7]
+  [  70.2s] [截圖] s5_before_gpu_xs_dakou_1400_corner_a：鏡頭 {"eye": [0, 0.6, 0.01], "look": [-5.9, 0.05, -7.8999999999999995], "lens": 20, "vfov": 53.7}、亮度 [150.3, 57.7]
+PASS [黑畫面] s5_before_gpu_xs_dakou_1400_corner_b 不是黑畫面（平均亮度 159、變化 54.2）  [159, 54.2]
+  [  72.1s] [截圖] s5_before_gpu_xs_dakou_1400_corner_b：鏡頭 {"eye": [0, 0.6, 0.01], "look": [5.9, 0.05, 7.920000000000001], "lens": 20, "vfov": 53.7}、亮度 [159, 54.2]
+  [前置／捷徑] [before_gpu xs_dakou 1400] 【前置／捷徑】讀檔把玩家放到 2F（lv1，2F 座位旁 {"x": -2, "z": -5.35}）再拍 2F
+  [  88.2s] [before_gpu xs_dakou 1400] 2F 讀檔後：{"zone": "xs_dakou", "x": -2.65, "z": -5.45, "y": 3.6, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下讀書", "stand": true, "fb": 0, "hour": 14.07}；玩家 lv 1
+  [  88.2s] [before_gpu xs_dakou 1400] 2F 牆腳機位：玩家 [-2.65, -5.45]；{"corner_2f_a": [[-2.65, 5.0, -5.45], [-5.9, 3.65, -5.45]], "corner_2f_b": [[-2.65, 5.0, -5.45], [-2.65, 3.65, -7.8999999999999995]]}
+PASS [黑畫面] s5_before_gpu_xs_dakou_1400_room_2f 不是黑畫面（平均亮度 154、變化 59.1）  [154, 59.1]
+  [  90.4s] [截圖] s5_before_gpu_xs_dakou_1400_room_2f：鏡頭 {"eye": [0, 5.2, 7.620000000000001], "look": [0, 4.6, -7.699999999999999], "lens": 18, "vfov": 58.72}、亮度 [154, 59.1]
+PASS [黑畫面] s5_before_gpu_xs_dakou_1400_corner_2f_a 不是黑畫面（平均亮度 143.4、變化 57.8）  [143.4, 57.8]
+  [  92.2s] [截圖] s5_before_gpu_xs_dakou_1400_corner_2f_a：鏡頭 {"eye": [-2.65, 5, -5.45], "look": [-5.9, 3.65, -5.45], "lens": 20, "vfov": 53.7}、亮度 [143.4, 57.8]
+PASS [黑畫面] s5_before_gpu_xs_dakou_1400_corner_2f_b 不是黑畫面（平均亮度 122、變化 56.9）  [122, 56.9]
+  [  94.1s] [截圖] s5_before_gpu_xs_dakou_1400_corner_2f_b：鏡頭 {"eye": [-2.65, 5, -5.45], "look": [-2.65, 3.65, -7.8999999999999995], "lens": 20, "vfov": 53.7}、亮度 [122, 56.9]
+  [前置／捷徑] [before_gpu xs_dakou 2000] 讀檔 xs_dakou 2025-10-18 20.0（條件事件關閉）
+PASS [before_gpu xs_dakou 2000] 進得了 xs_dakou  {"zone": "xs_dakou", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "聽一句", "stand": true, "fb": 0, "hour": 20.07}
+  [ 109.3s] [before_gpu xs_dakou 2000] 材質／光照貼圖：{"meshes": 98, "mats": 98, "withLightMap": 0, "maps": [], "uv1Meshes": 0, "whiteNoTexMats": 36, "views": [{"n": "VIEWPANE_xs_dakou", "vis": false}, {"n": "VIEWPANE_xs_dakou_2f", "vis": false}], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_before_gpu_xs_dakou_2000_door 不是黑畫面（平均亮度 134.5、變化 54.2）  [134.5, 54.2]
+  [ 111.3s] [截圖] s5_before_gpu_xs_dakou_2000_door：鏡頭 {"eye": [-0.0, 1.6, 6.7], "look": [0, 1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [134.5, 54.2]
+PASS [黑畫面] s5_before_gpu_xs_dakou_2000_top 不是黑畫面（平均亮度 75.2、變化 51.2）  [75.2, 51.2]
+  [ 113.9s] [截圖] s5_before_gpu_xs_dakou_2000_top：鏡頭 {"eye": [0, 12.25, 0.81], "look": [0, 0, -0.29], "lens": 16, "vfov": 64.65}、亮度 [75.2, 51.2]
+PASS [黑畫面] s5_before_gpu_xs_dakou_2000_seat 不是黑畫面（平均亮度 61.5、變化 48.5）  [61.5, 48.5]
+  [ 115.8s] [截圖] s5_before_gpu_xs_dakou_2000_seat：鏡頭 {"eye": [-2.98, 1.4, -0.9], "look": [-5.2, 0.6, -2], "lens": 22, "vfov": 49.43}、亮度 [61.5, 48.5]
+PASS [黑畫面] s5_before_gpu_xs_dakou_2000_clerk 不是黑畫面（平均亮度 106.8、變化 53.8）  [106.8, 53.8]
+  [ 117.6s] [截圖] s5_before_gpu_xs_dakou_2000_clerk：鏡頭 {"eye": [-0.86, 1.6, -2.8], "look": [-1.5, 1.2, -4.9], "lens": 24, "vfov": 45.75}、亮度 [106.8, 53.8]
+PASS [黑畫面] s5_before_gpu_xs_dakou_2000_out 不是黑畫面（平均亮度 62.2、變化 42）  [62.2, 42]
+  [ 119.6s] [截圖] s5_before_gpu_xs_dakou_2000_out：鏡頭 {"eye": [0, 1.55, 3.9], "look": [-0.0, 1.4, 12.4], "lens": 20, "vfov": 53.7}、亮度 [62.2, 42]
+PASS [黑畫面] s5_before_gpu_xs_dakou_2000_corner_a 不是黑畫面（平均亮度 106.7、變化 56.5）  [106.7, 56.5]
+  [ 121.5s] [截圖] s5_before_gpu_xs_dakou_2000_corner_a：鏡頭 {"eye": [0, 0.6, 0.01], "look": [-5.9, 0.05, -7.8999999999999995], "lens": 20, "vfov": 53.7}、亮度 [106.7, 56.5]
+PASS [黑畫面] s5_before_gpu_xs_dakou_2000_corner_b 不是黑畫面（平均亮度 114.8、變化 50.9）  [114.8, 50.9]
+  [ 123.5s] [截圖] s5_before_gpu_xs_dakou_2000_corner_b：鏡頭 {"eye": [0, 0.6, 0.01], "look": [5.9, 0.05, 7.920000000000001], "lens": 20, "vfov": 53.7}、亮度 [114.8, 50.9]
+  [前置／捷徑] [before_gpu xs_dakou 2000] 【前置／捷徑】讀檔把玩家放到 2F（lv1，2F 座位旁 {"x": -2, "z": -5.35}）再拍 2F
+  [ 138.0s] [before_gpu xs_dakou 2000] 2F 讀檔後：{"zone": "xs_dakou", "x": -2.65, "z": -5.45, "y": 3.6, "lv": 1, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "坐下讀書", "stand": true, "fb": 0, "hour": 20.07}；玩家 lv 1
+  [ 138.0s] [before_gpu xs_dakou 2000] 2F 牆腳機位：玩家 [-2.65, -5.45]；{"corner_2f_a": [[-2.65, 5.0, -5.45], [-5.9, 3.65, -5.45]], "corner_2f_b": [[-2.65, 5.0, -5.45], [-2.65, 3.65, -7.8999999999999995]]}
+PASS [黑畫面] s5_before_gpu_xs_dakou_2000_room_2f 不是黑畫面（平均亮度 115.3、變化 64.2）  [115.3, 64.2]
+  [ 140.1s] [截圖] s5_before_gpu_xs_dakou_2000_room_2f：鏡頭 {"eye": [0, 5.2, 7.620000000000001], "look": [0, 4.6, -7.699999999999999], "lens": 18, "vfov": 58.72}、亮度 [115.3, 64.2]
+PASS [黑畫面] s5_before_gpu_xs_dakou_2000_corner_2f_a 不是黑畫面（平均亮度 61.2、變化 37）  [61.2, 37]
+  [ 142.0s] [截圖] s5_before_gpu_xs_dakou_2000_corner_2f_a：鏡頭 {"eye": [-2.65, 5, -5.45], "look": [-5.9, 3.65, -5.45], "lens": 20, "vfov": 53.7}、亮度 [61.2, 37]
+PASS [黑畫面] s5_before_gpu_xs_dakou_2000_corner_2f_b 不是黑畫面（平均亮度 82.3、變化 38）  [82.3, 38]
+  [ 143.9s] [截圖] s5_before_gpu_xs_dakou_2000_corner_2f_b：鏡頭 {"eye": [-2.65, 5, -5.45], "look": [-2.65, 3.65, -7.8999999999999995], "lens": 20, "vfov": 53.7}、亮度 [82.3, 38]
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GG3DK2F_102a",
+  "sha": "102a03cb9b6d6c2e2f3705876cfe119030228325",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_scene5_probe.py",
+  "env": "TAG=before_gpu;PART=xs_dakou;SLOTS=1400:14,2000:20;CORNERS=1;FLOOR2=xs_dakou:3.6;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T20:28:57",
+  "end": "2026-11-08T20:31:56",
+  "seconds": 179,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "32",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 37,
+    "mem": 49,
+    "used_gb": 15.6,
+    "chrome_testing": 8
+  }
+}
