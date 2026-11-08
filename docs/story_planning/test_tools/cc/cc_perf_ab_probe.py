@@ -17,6 +17,12 @@ DAY = os.environ.get('DAY') or '2025-10-18'
 R = L.Run('perf_ab', OUT); D.setup(R, OUT)
 INFO = """(()=>{ const E=GAME.E; let rnd=''; try{ const gl=E.renderer.getContext(); const x=gl.getExtension('WEBGL_debug_renderer_info'); rnd=x?gl.getParameter(x.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER); }catch(e){}
   const P=E.player.obj.position; return {zone:E.zone&&E.zone.id, lv:E.player.lv|0, pos:[+P.x.toFixed(2),+P.z.toFixed(2)], yaw:+E.cam.yaw.toFixed(2), hour:+(+GAME.G.hour).toFixed(2), weather:E.weather||GAME.G.weather, q:(E.q&&E.q.level)||null, dpr:devicePixelRatio, pr:E.renderer.getPixelRatio(), renderer:rnd}; })()"""
+MEAS10 = r"""(async()=>{ const raf=()=>new Promise(r=>requestAnimationFrame(r)), wait=ms=>new Promise(r=>setTimeout(r,ms));
+  async function m(sec){ let n=0,w=0,t0=performance.now(),l=t0; while(performance.now()-t0<sec*1000){ await raf(); const t=performance.now(); w=Math.max(w,t-l); l=t; n++; } return {fps:+(n/((l-t0)/1000)).toFixed(1), worst:Math.round(w)}; }
+  const S=GAME.E.scene; const before=await m(10); let k=0; S.traverse(o=>{ if(o.name==='L1'){ o.userData._v=o.visible; o.visible=false; k++; } }); await wait(2000); const hid=await m(10);
+  S.traverse(o=>{ if(o.name==='L1'&&'_v' in o.userData){ o.visible=o.userData._v; delete o.userData._v; } }); await wait(1000); const after=await m(10); const calls=GAME.E.renderer.info.render.calls;
+  return {L1_groups:k, base10:before, noL1_10:hid, base10_after:after, calls_now:calls}; })()"""
+
 async def main():
     res = []
     async with async_playwright() as p:
@@ -38,7 +44,12 @@ async def main():
                 rec['info'] = await pg.evaluate(INFO); print('%s INFO %s' % (tag, json.dumps(rec['info'], ensure_ascii=False)), flush=True)
                 await pg.screenshot(path=os.path.join(OUT, 'ab_%s_%s.png' % (zone, fl)))
                 if fl == '2f' and rec['info']['lv'] < 1: R.check('%s 玩家在 2F（lv1）' % tag, False, json.dumps(rec['info']))
+                st_ = float(os.environ.get('SETTLE') or 0)   # LAWWW2-B 20:13：進區域先站 30 秒扣掉暖機（SETTLE=30）
+                if st_: print('%s 先站 %s 秒（暖機）' % (tag, st_), flush=True); await pg.wait_for_timeout(int(st_ * 1000))
                 out = await pg.evaluate(JS); rec['out'] = out
+                if '%s:%s' % (zone, fl) in (os.environ.get('L1HIDE') or '').split(','):   # LAWWW2-B 20:13：大口 2F 把一樓那一組（name L1）藏起來量 10 秒
+                    rec['l1hide'] = await pg.evaluate(MEAS10)
+                    print('%s L1HIDE %s' % (tag, json.dumps(rec['l1hide'], ensure_ascii=False)), flush=True)
                 print('%s TABLE1 calls=%s programs=%s' % (tag, out.get('calls'), out.get('programs')), flush=True)
                 for r in out.get('rows', []): print('%s   %s' % (tag, json.dumps(r, ensure_ascii=False)), flush=True)
                 print('%s TABLE2 卡頓 >100 ms：%d 個' % (tag, len(out.get('hitches', []))), flush=True)
