@@ -957,3 +957,12 @@
 [15:20:35] [res] cpu=65% mem=33% (10.6/31.4 GB) chrome_testing=0  START R0ced_v0_to1017_cc
 [15:20:35] [res] cpu=65% mem=33% (10.6/31.4 GB) chrome_testing=0  START R2951_v0_to1017
 [15:22:23] [res] cpu=74% mem=46% (14.4/31.4 GB) chrome_testing=10  END R0ced_v0_tolaw_cc
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       79ad08deb..9f12d37aa  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:22:28] ==== END   R0ced_v0_tolaw_cc  exit=0  112s   ====
+[15:22:28] 正在跑：R0ced_v0_to1017_cc（已跑 1 分／上限 90 分）、R2951_v0_to1017（已跑 1 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:22:31] memory 46% before starting R2951_v0_tolaw (2 running)
+[15:22:31] ==== START R2951_v0_tolaw  (game @ 295179867600d145c4ef32b08ce644b4f27f7446) ====
+[15:22:34] [res] cpu=87% mem=46% (14.6/31.4 GB) chrome_testing=10  START R2951_v0_tolaw
+[15:24:25] [res] cpu=57% mem=45% (14.3/31.4 GB) chrome_testing=10  END R2951_v0_tolaw

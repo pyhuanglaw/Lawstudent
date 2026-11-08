@@ -2026,3 +2026,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 157.2s] page close url=http://127.0.0.1:8800/index.html?turbo&turbo | [gpu_wrap 157.2s] BROWSER DISCONNECTED
 - 2026-11-08T15:22:24  R0ced_v0_tolaw_cc  sha=0cedcbb716bbbe120007ef7c92abcbf494436b31  exit=0  112s    PASS 黑幕沒有擋住對話（8/29 搬宿舍那兩句可以點） / PASS 全程沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 75.8s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 75.8s] BROWSER DISCONNECTED
+- 2026-11-08T15:24:25  R2951_v0_tolaw  sha=295179867600d145c4ef32b08ce644b4f27f7446  exit=0  114s    PASS 黑幕沒有擋住對話（8/29 搬宿舍那兩句可以點） / PASS 全程沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 77.0s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 77.1s] BROWSER DISCONNECTED
