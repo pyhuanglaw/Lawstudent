@@ -49953,7 +49953,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 07:5x LAWWW-B】GHA node-unit-auto 489ff3762（含 6cb2c2404）success。 ｜ 【11-08 07:4x LAWWW-B】6cb2c2404：story3d.js 建 PHONE_RULES 時補 DECIDE.tick；舊存檔拖過 due+10 的記 expired 不補傳（DECIDE.SAY_STALE=10）；tests/decide_tick_reg_unit.js（照 index.html 順序，舊程式 FAIL 2）；397 支 ALL PASS；交 BB-B／CC-B 照 SIS FOLLOW3 重跑（學姊 exam 睡到 due+3）。",
+   "next": "【11-08 09:2x LAWWW-B】CC-B 09:12／09:18 初判 PASS（判定等 BB-B）：FOLLOW5 監看——醒來時 vacfill dayBusy 跑 phoneRules（_sleeping=true，排進佇列 134 天 7.504），早上那段對話結束、第一個一般 tick 送到，隔天不重送；過期（due+11）記 expired 不送。觀察：dayBusy 會先跑一次整組 phoneRules（不改）。 ｜ 【11-08 07:5x LAWWW-B】GHA node-unit-auto 489ff3762（含 6cb2c2404）success。 ｜ 【11-08 07:4x LAWWW-B】6cb2c2404：story3d.js 建 PHONE_RULES 時補 DECIDE.tick；舊存檔拖過 due+10 的記 expired 不補傳（DECIDE.SAY_STALE=10）；tests/decide_tick_reg_unit.js（照 index.html 順序，舊程式 FAIL 2）；397 支 ALL PASS；交 BB-B／CC-B 照 SIS FOLLOW3 重跑（學姊 exam 睡到 due+3）。",
    "xai": {
     "spec": "CC-B 11-08 07:25、BB-B 07:26",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -49963,6 +49963,35 @@
     "owner": "LAWWW"
    },
    "evidence": "6cb2c2404；tests/decide_tick_reg_unit.js"
+  },
+  {
+   "id": "UX-WEEKEND-ASK-EXPIRE-1108",
+   "title": "「這週末」類邀約（例：可昕 kx_tour_ask「週末來木柵大學？我當導遊。」）沒有回覆期限，週末過了還一直待回覆、讀檔或醒來手機自動打開",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 2,
+    "earliest": "交往中，可昕第 2／3 週週五 19:30",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 09:2x LAWWW-B】誰決定：LAWWW-B（問 AA-B）。為什麼：週末邀約過期與否、沒回要不要記 KX_TOUR_NO（ask2 的前提）是劇情決定。負責人：AA（定）、LAWWW（做）。恢復條件：AA-B 回覆。下次檢查：2026-11-09。CC-B movreg 時看到（tests/movement_regression.py 已改成讀檔關 phoneAuto，aa363f62a）。",
+   "pausedReason": "等 AA-B 決定週末邀約要不要收、沒回算不算 NO",
+   "resumeWhen": "AA-B 回覆",
+   "xai": {
+    "spec": "CC-B 11-08 09:18",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "週末過了的邀約不再自動打開手機；ask2 照 AA 定的條件",
+    "receiver": "BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW"
+   },
+   "evidence": ""
   }
  ]
 }
