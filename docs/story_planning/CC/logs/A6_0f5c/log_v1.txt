@@ -1,0 +1,22 @@
+CC A6 斜推沿牆重現：worktree 0f5c836ac4；RUNS=2；Playwright ≠ iPhone
+  [前置] [第 1 次] 照 movreg A1～A5 走到前牆
+  [第 1 次] A5 停在 {"x": -0.36, "z": -2.06, "yaw": 3.14, "pose": "idle", "busy": false, "cam": "follow", "blocked": null, "stand": true}；鏡頭 {"camYaw": 6.283, "fps": null}；推的方向 右前
+  [第 1 次] (a) 斜推沿牆 2.0 秒遊戲時間：{"x": -0.36, "z": -2.06, "yaw": 3.14, "pose": "idle", "busy": false, "cam": "follow", "blocked": null, "stand": true} → {"x": 0.52, "z": -2.72, "yaw": 2.36, "pose": "idle", "busy": false, "cam": "follow", "blocked": "none", "stand": true}；沿牆 0.88 m、垂直 0.66 m；{"game_s": 2.367, "frames": 33, "real_s": 19.95, "fps": 1.7}
+  [第 1 次] 原本 A6 推法（真實 1500 ms）：{"x": -0.43, "z": -0.89, "yaw": -0.79, "pose": "run", "busy": false, "cam": "follow", "blocked": "z", "stand": true} → {"x": 0.45, "z": -2.64, "yaw": 2.36, "pose": "idle", "busy": false, "cam": "follow", "blocked": "z", "stand": true}；x 變 0.88 m；遊戲時間 0.900 秒、9 幀
+  [前置／捷徑] [第 1 次] 讀檔到椰影大道 (-40,-5)（Rig.load）
+  [第 1 次] (b) 空地同一個搖桿 2.0 秒遊戲時間：{"x": -40, "z": -5, "yaw": -1.57, "pose": "idle", "busy": false, "cam": "follow", "blocked": "z", "stand": true} → {"x": -47.96, "z": -10.77, "yaw": -2.36, "pose": "idle", "busy": false, "cam": "follow", "blocked": null, "stand": true}；走了 9.83 m；{"game_s": 2.35, "frames": 25, "real_s": 24.91, "fps": 1.0}
+  [第 1 次] 沿牆 ÷ 空地 ＝ 0.09（預期約 0.7；≥0.5＝滑得正常）
+PASS [第 1 次] (a)(b) 都推滿 2.0 秒遊戲時間   [{"game_s": 2.367, "frames": 33, "real_s": 19.95, "fps": 1.7}, {"game_s": 2.35, "frames": 25, "real_s": 24.91, "fps": 1.0}]
+FAIL [第 1 次] 沿牆 ÷ 空地 ≥ 0.5   0.08951001561308115（沿牆 0.88／空地 9.83）
+PASS [第 1 次] 沒有 JS 例外   []
+  [前置] [第 2 次] 照 movreg A1～A5 走到前牆
+  [第 2 次] A5 停在 {"x": -0.28, "z": -0.65, "yaw": 3.14, "pose": "idle", "busy": false, "cam": "follow", "blocked": null, "stand": true}；鏡頭 {"camYaw": 6.283, "fps": null}；推的方向 左前
+  [第 2 次] (a) 斜推沿牆 2.0 秒遊戲時間：{"x": -0.28, "z": -0.65, "yaw": 3.14, "pose": "idle", "busy": false, "cam": "follow", "blocked": null, "stand": true} → {"x": -0.57, "z": -2.77, "yaw": 3.93, "pose": "idle", "busy": false, "cam": "follow", "blocked": "none", "stand": true}；沿牆 0.29 m、垂直 2.12 m；{"game_s": 2.383, "frames": 32, "real_s": 21.96, "fps": 1.5}
+  [第 2 次] 原本 A6 推法（真實 1500 ms）：{"x": 0.31, "z": -1.01, "yaw": 0.79, "pose": "run", "busy": false, "cam": "follow", "blocked": "z", "stand": true} → {"x": -0.57, "z": -2.77, "yaw": -2.36, "pose": "run", "busy": false, "cam": "follow", "blocked": "none", "stand": true}；x 變 0.88 m；遊戲時間 0.833 秒、9 幀
+  [前置／捷徑] [第 2 次] 讀檔到椰影大道 (-40,-5)（Rig.load）
+  [第 2 次] (b) 空地同一個搖桿 2.0 秒遊戲時間：{"x": -40, "z": -5, "yaw": -1.57, "pose": "idle", "busy": false, "cam": "follow", "blocked": "none", "stand": true} → {"x": -47.75, "z": 2.75, "yaw": -0.79, "pose": "idle", "busy": false, "cam": "follow", "blocked": null, "stand": true}；走了 10.96 m；{"game_s": 2.267, "frames": 24, "real_s": 21.99, "fps": 1.1}
+  [第 2 次] 沿牆 ÷ 空地 ＝ 0.03（預期約 0.7；≥0.5＝滑得正常）
+PASS [第 2 次] (a)(b) 都推滿 2.0 秒遊戲時間   [{"game_s": 2.383, "frames": 32, "real_s": 21.96, "fps": 1.5}, {"game_s": 2.267, "frames": 24, "real_s": 21.99, "fps": 1.1}]
+FAIL [第 2 次] 沿牆 ÷ 空地 ≥ 0.5   0.026459479554077257（沿牆 0.29／空地 10.96）
+PASS [第 2 次] 沒有 JS 例外   []
+FAILED 2: [第 1 次] 沿牆 ÷ 空地 ≥ 0.5；[第 2 次] 沿牆 ÷ 空地 ≥ 0.5
