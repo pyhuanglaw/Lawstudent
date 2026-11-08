@@ -1575,3 +1575,5 @@ R565c_v0_tolaw | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/flow_v0
 R565c_movreg_r2 | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
 R565c_movreg_r3 | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
 R565c_movreg_r4 | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
+# CC-B 11-08 11:2x：BB-B A6 斜推沿牆重現（遊戲時間 2.0 秒；沿牆 ÷ 空地），排在 movreg 三次後面
+A6_565c | 565cf3fd6537505461d1f51bb609c09c8c2b5fa2 | probe | docs/story_planning/test_tools/cc/cc_a6_probe.py | index.html | 30 | SOLO=1;RUNS=2;CC_HEADLESS=0
