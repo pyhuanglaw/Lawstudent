@@ -3470,6 +3470,17 @@
    "task": "GIFT-ROMANCE-ONLY-1108",
    "src": "使用者對 LAWWW-B，2026-11-08 15:3x UTC（v9.10.23 剛合併 main、Pages 部署中）",
    "checked": "15:31 取消 Pages 部署（run 42495110198 build／deploy 都 cancelled，線上照舊 v9.10.22）；gift3d.js 改成朋友只剩芯慈（S.FRIEND_OK）；改完 BB-B 測、再發布；15:5x 使用者又說一次「飲料改完再發布」（同一個要求）：線上照舊 v9.10.22（Pages 最後一次成功＝74cb8314d，68206e0fd 那次 cancelled），飲料版 33127181b BB-B 測中、測試版號修正 b103b3089 GHA 跑中"
+  },
+  {
+   "id": "UA-LAWWW-1108-05",
+   "at": "2026-11-08T15:5x",
+   "quote": "中間不用發布別的版本",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X267",
+   "task": "RELEASE-V91023-1108",
+   "src": "使用者對 LAWWW-B，2026-11-08 15:5x UTC（「飲料改完再發布」之後）",
+   "checked": "下一次發布就是飲料改好的 v9.10.23（33127181b＋b103b3089 測試修正），中間不發別的版本；線上照舊 v9.10.22 直到那時"
   }
  ]
 }

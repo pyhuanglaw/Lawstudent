@@ -50091,7 +50091,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 15:4x LAWWW-B】PR #31 合併 main 68206e0fd（15:3x）；使用者隨即「飲料改完再發布」→ 15:31 取消 Pages run 42495110198（build、deploy 都 cancelled，沒有部署，線上照舊 v9.10.22）。飲料改完（GIFT-ROMANCE-ONLY-1108）、BB-B 測過，再做發布樹合併、部署（版本字樣照 v9.10.23：那一版沒上線）。 ｜ 【11-08 15:2x LAWWW-B】使用者選擇題「可以發佈」（UA-LAWWW-1108-03）。發布樹 52a7e5337＝候選 9eef2b95b＋版本字樣；BB-B GO（PC 發布前清單 11／11、雲端 deploy_check v9.10.23 ALL PASS）；GHA 9eef2b95b success、本機全套 1156 支沒有 FAIL。下一步：PR 合併 main、Pages 部署、BB-B 線上 deploy_check。"
+   "next": "【11-08 15:5x LAWWW-B】使用者「中間不用發布別的版本」（UA-LAWWW-1108-05）：下一次發布就是飲料改好的 v9.10.23，中間不發別的。 ｜ 【11-08 15:4x LAWWW-B】PR #31 合併 main 68206e0fd（15:3x）；使用者隨即「飲料改完再發布」→ 15:31 取消 Pages run 42495110198（build、deploy 都 cancelled，沒有部署，線上照舊 v9.10.22）。飲料改完（GIFT-ROMANCE-ONLY-1108）、BB-B 測過，再做發布樹合併、部署（版本字樣照 v9.10.23：那一版沒上線）。 ｜ 【11-08 15:2x LAWWW-B】使用者選擇題「可以發佈」（UA-LAWWW-1108-03）。發布樹 52a7e5337＝候選 9eef2b95b＋版本字樣；BB-B GO（PC 發布前清單 11／11、雲端 deploy_check v9.10.23 ALL PASS）；GHA 9eef2b95b success、本機全套 1156 支沒有 FAIL。下一步：PR 合併 main、Pages 部署、BB-B 線上 deploy_check。"
   },
   {
    "id": "GIFT-ROMANCE-ONLY-1108",
