@@ -68,6 +68,10 @@ async def main(url, od):
                     await L.load_state(pg, {'zone': z, 'hour': h, 'day': 8, 'weekday': 6, 'weather': w, 'pos': None, 'flags': FLAGS}, quiet_events=True, quiet_phone=True)
                     await pg.evaluate("w=>{ try{ GAME.G.weather=w; GAME.E.setWeather&&GAME.E.setWeather(w); }catch(e){} }", w)
                     await pg.wait_for_timeout(int(WARM * 1000))
+                    if os.environ.get('INJECT') == 'noshadow' and z in os.environ.get('INJECT_AT', '').split(','):   # PERF-WZ-DAY-1108（LAWWW2-B）：關掉白天每格重畫太陽陰影；佇列 ENV 用 ; 分欄，JS 寫在這裡
+                        rec['inject'] = await pg.evaluate("(()=>{ const E=GAME.E; E.nightShadow=()=>{}; if(typeof E3!=='undefined') E3.nightShadow=()=>{}; const r=E.renderer||(typeof E3!=='undefined'&&E3.renderer); if(r) r.shadowMap.autoUpdate=false; return {autoUpdate:r?r.shadowMap.autoUpdate:null, ns:String(E.nightShadow).slice(0,20)}; })()")
+                        print('INJECT noshadow @ %s %s：%s' % (z, sid, rec['inject']), flush=True)
+                        await pg.wait_for_timeout(1000)
                     rec.update(await pg.evaluate(INFO_JS))
                     rec.update(stats(await pg.evaluate(FRAMES_JS, int(SECS * 1000))))
                     rec['ok'] = rec.get('zone') == z and rec.get('n', 0) > 0

@@ -56,6 +56,14 @@ async def drive(pg, cdp, tag, prefs, max_s=300, idle_end=8, shots=0):
             dd = await pg.evaluate("(()=>{ const D=GAME.D, w=D&&D.who; return {who:w?(typeof w==='string'?w:(w.name||'')):'', t:(D&&D.full)||''}; })()")
             if dd['t'] and (not out['lines'] or out['lines'][-1] != [dd['who'], dd['t']]):
                 out['lines'].append([dd['who'], dd['t']])
+                if os.environ.get('BGSHOTS'):   # BB-B 04:17（LAWWW-B 4c0880fbe）：樓梯間那段換深色底——每句記 ADV 的底，三個時刻截圖
+                    bg = await pg.evaluate("(()=>{ try{ const A=ADV; return {bgMode:A.bgMode!=null?A.bgMode:null, bg:A.bg!=null?String(A.bg).slice(0,40):null, active:!!A.active, cls:(document.getElementById('advBg')||document.querySelector('.advBg')||{}).className||null}; }catch(e){ return {err:String(e)}; } })()")
+                    out.setdefault('bg', []).append([dd['t'][:24], bg])
+                    t = dd['t']
+                    if t.startswith('（她起身，用下巴比了一下樓梯間'): await R.shot(pg, 'bg1_open2')
+                    elif t.startswith('（樓梯間的門一關上'): await R.shot(pg, 'bg2_stair')
+                    elif out.get('_closed') and not out.get('_bg3'): out['_bg3'] = 1; await R.shot(pg, 'bg3_back')
+                    if t.startswith('（她把筆撿起來'): out['_closed'] = 1
                 if dd['t'].startswith('（樓梯間的門一關上'): await R.shot(pg, 'stairwell'); out.setdefault('stair_pos', await pg.evaluate("(()=>{ const P=GAME.E.player; return {zone:GAME.G.zone, lv:P.lv|0, x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), seat:P.seat?[P.seat.x,P.seat.z]:null}; })()"))
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
         if quiet is None: quiet = time.time()
@@ -192,12 +200,14 @@ async def run_mode(pg, cdp, mode, rec):
         m2 = await drive(pg, cdp, tag + ' 坐下以後', ['綠茶'], max_s=420, idle_end=15, shots=3)
         for kk in ('lines', 'choices', 'picked'): m[kk] += m2[kk]
         if m2.get('stair_pos'): m['stair_pos'] = m2['stair_pos']
+        if m2.get('bg'): m.setdefault('bg', []).extend(m2['bg'])
         if m2['lines'] or await pg.evaluate("!!GAME.E.player.seat"): break
     says = await pg.evaluate("window.__says||[]")
     s2 = await pg.evaluate(STATE, SIS); R.note('%s 見面以後：%s' % (tag, J(s2)))
     q = await pg.evaluate("(()=>{ const P=GAME.E.player; return {zone:GAME.G.zone, lv:P.lv|0, x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), quiet:typeof LIBQ!=='undefined'&&LIBQ.studyAt?!!LIBQ.studyAt(GAME.G.zone,P.lv|0,P.obj.position.x,P.obj.position.z):null}; })()")
     R.note('%s 見面地點與 ctx.quiet（LIBQ.studyAt，見面結束時玩家的位置）：%s' % (tag, J(q)))
     R.note('%s 見面全部的話：%s' % (tag, J([[x['k'], x['who'], x['t']] for x in says])))
+    if m.get('bg'): R.note('%s 每句的底（ADV.bgMode）：%s' % (tag, J(m['bg'])))
     await R.shot(pg, 'sis_%s_end' % mode)
     txt = [x['t'] for x in says]
     if os.environ.get('QM'):   # SIS1-QUIET-LIB-1108 修好以後（AA_720 quietMove）：總圖安靜區＝走到樓梯間演
