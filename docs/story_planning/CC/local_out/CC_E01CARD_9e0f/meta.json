@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "CC_E01CARD_9e0f",
+  "sha": "9e0ffabce61c839fb8c720c16229400b36305a22",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_e01_card_probe.py",
+  "env": "RUNS=3;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T13:45:26",
+  "end": "2026-11-08T13:52:28",
+  "seconds": 422,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "6",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 68,
+    "mem": 51,
+    "used_gb": 16.3,
+    "chrome_testing": 15
+  }
+}
