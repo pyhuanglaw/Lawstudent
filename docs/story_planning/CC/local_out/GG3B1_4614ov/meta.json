@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "GG3B1_4614ov",
+  "sha": "9288a37aa945eb26b3dbd6d95cbba7c6d67be5ad",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_overlay_run.py",
+  "env": "TAG=after_gpu;RUN=cc_scene5_probe.py;OVERLAY_SHA=4614f4fc023bbb442cd000e2efd9904c2c35a5ce;OVERLAY_FILES=assets/models/env/second_ai/library_b1.glb,assets/models/env/second_ai/library_b1_lm_day.webp,assets/models/env/second_ai/library_b1_lm_night.webp;PART=library_b1;SLOTS=1400:14,2000:20;VIEWS_ONLY=studyA,studyA_back,copy_door,disc1_wall,disc2_wall,disc1_ceil,disc2_ceil,hall_top;CC_HEADLESS=0;EXTRA2=library_b1@studyA@-14,1.6,-11@5,1.0,-4@18/library_b1@studyA_back@6,1.6,-3.5@-14,1.0,-11@18/library_b1@copy_door@9,1.6,6@16,1.2,6@20/library_b1@disc1_wall@-5,1.6,10.2@0,1.4,10.2@20/library_b1@disc2_wall@5,1.6,10.2@0,1.4,10.2@20/library_b1@disc1_ceil@-5,1.2,9.5@-3,3.2,9.5@20/library_b1@disc2_ceil@5,1.2,9.5@3,3.2,9.5@20/library_b1@hall_top@0,7,1.15@0,0,1.1@18",
+  "machine": "MSI",
+  "start": "2026-11-08T21:14:41",
+  "end": "2026-11-08T21:18:09",
+  "seconds": 207,
+  "exit": 0,
+  "error": null,
+  "runner": "ca6fd18292",
+  "rf_round": "38",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 41,
+    "mem": 57,
+    "used_gb": 18.1,
+    "chrome_testing": 12
+  },
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
