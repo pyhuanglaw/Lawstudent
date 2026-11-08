@@ -990,3 +990,12 @@
 [20:53:18] ==== START GG3XS3b_9556  (probe @ 95566d0b5cd1783c74fa1e5f68107bb1890daf5f) ====
 [20:53:21] [res] cpu=11% mem=46% (14.6/31.4 GB) chrome_testing=8  START GG3XS3b_9556
 [20:53:52] [res] cpu=17% mem=44% (13.8/31.4 GB) chrome_testing=8  END GG3XS3a_102a
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       059894441..dd79d3a22  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:54:01] ==== END   GG3XS3a_102a  exit=0  222s   ====
+[20:54:04] memory 46% before starting R9288_p0 (2 running)
+[20:54:04] ==== START R9288_p0  (game @ 9288a37aa945eb26b3dbd6d95cbba7c6d67be5ad) ====
+[20:54:07] [res] cpu=13% mem=47% (14.7/31.4 GB) chrome_testing=8  START R9288_p0
+[20:54:07] worktree add 9288a37aa945eb26b3dbd6d95cbba7c6d67be5ad: invalid reference - fetching main and the commit itself
+[20:55:08] [res] cpu=21% mem=43% (13.6/31.4 GB) chrome_testing=8  END GG3XS3a_9556
