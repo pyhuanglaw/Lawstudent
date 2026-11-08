@@ -41,63 +41,70 @@
    "account": "B",
    "session": "session_01GV1WG3UeT2DhuDpxeWJsvD",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "b9d3f33a",
-   "since": "2026-11-07T03:30Z",
-   "state": "on",
+   "sha": "e16f828b",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
-   "sinceSha": "629e042e",
-   "handedOffAt": "2026-11-05T10:51Z",
-   "handoffSnapshot": "2026-11-05T1050Z_C_LAWWW2.json"
+   "sinceSha": null,
+   "handedOffAt": "2026-11-08T20:50Z",
+   "handoffSnapshot": "2026-11-08T2050Z_B_LAWWW2.json"
   },
   "AA": {
    "account": "B",
    "session": "session_016ACZaD4oB9tX94WqQR4dkS",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "bb3bdad7",
-   "since": "2026-11-07T03:27Z",
-   "state": "on",
+   "sha": "6a546575",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
-   "sinceSha": "708d5f5b",
-   "handedOffAt": "2026-11-05T10:51Z",
-   "handoffSnapshot": "docs/handoff/snapshots/2026-11-05T1051Z_C_AA.json"
+   "sinceSha": null,
+   "handedOffAt": "2026-11-08T20:48Z",
+   "handoffSnapshot": "docs/handoff/snapshots/2026-11-08T2047Z_B_AA.json"
   },
   "BB": {
    "account": "B",
    "session": "session_01J1g2TPcPzWrihXSY2WvseV",
    "branch": "claude/elegant-brown-fcos7n",
-   "sha": "cc06b6f7",
-   "since": "2026-11-07T03:32Z",
-   "state": "on",
+   "sha": "131f3d5b",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
-   "sinceSha": "f1d31b2f",
-   "handedOffAt": "2026-11-05T10:50Z",
-   "handoffSnapshot": "docs/handoff/snapshots/2026-11-05T1050Z_C_BB.json"
+   "sinceSha": null,
+   "handedOffAt": "2026-11-08T20:47Z",
+   "handoffSnapshot": "docs/handoff/snapshots/2026-11-08T2047Z_B_BB.json"
   },
   "CC": {
    "account": "B",
    "session": "session_01WXeLH8aaCTWiEivqGFc9na",
    "branch": "claude/cc-testing",
-   "sha": "0df01141",
-   "since": "2026-11-07T03:26Z",
-   "state": "on",
+   "sha": "4bd73903",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/CC/CC_00_交接紀錄.md（claude/cc-testing）",
-   "sinceSha": "21430727",
-   "handedOffAt": "2026-11-05T11:1xZ",
+   "sinceSha": null,
+   "handedOffAt": "2026-11-08T20:44Z",
    "handoffSnapshot": null,
    "note": "CC-C 11:1x 只在 CC_00 寫了交班紀錄（41f993657），沒跑 duty handoff、沒存快照；LAWWW-C 11:4x 照交班紀錄手動標 handed-off（異常，HV-20 第①點：下一任 CC 交班一定要跑 duty handoff）"
   }
  },
  "lastHandoff": {
-  "from": "C",
-  "at": "2026-11-05T23:48Z",
+  "from": "B",
+  "at": "2026-11-08T20:52Z",
   "kind": "handoff",
   "snapshots": {
-   "LAWWW": {
-    "file": "2026-11-05T2348Z_C_LAWWW.json",
-    "ref": "origin/claude/adoring-meitner-mqzst8"
+   "LAWWW2": {
+    "file": "2026-11-08T2050Z_B_LAWWW2.json",
+    "ref": "origin/claude/funny-albattani-iawshm"
+   },
+   "AA": {
+    "file": "docs/handoff/snapshots/2026-11-08T2047Z_B_AA.json",
+    "ref": "origin/claude/cool-heisenberg-o8kuqx"
+   },
+   "BB": {
+    "file": "docs/handoff/snapshots/2026-11-08T2047Z_B_BB.json",
+    "ref": "origin/claude/elegant-brown-fcos7n"
    }
-  },
-  "closed": true
+  }
  },
  "history": [
   {
@@ -1070,7 +1077,7 @@
    "note": "LAWWW-B 11-07 03:4x 查核：交班 commit 7a675d98c 以後 3 個（d4e797c6d、56f47b4be、f1d31b2f0）都是 BB-C 11-05 16:11～16:15 自己的重新接班與再交班紀錄，比帳號 B 11-07 03:3x 接班早；已快轉進 BB-B 的 elegant-brown。不是兩個帳號同時寫"
   }
  ],
- "seq": 107,
+ "seq": 108,
  "chain": [
   {
    "seq": 1,
@@ -1820,7 +1827,22 @@
    "account": "B",
    "role": "LAWWW2,BB,CC",
    "event": "sync"
+  },
+  {
+   "seq": 108,
+   "at": "2026-11-08T20:52Z",
+   "account": "B",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
   }
  ],
- "pending": null
+ "pending": {
+  "from": "B",
+  "rolesHandedOff": [
+   "AA",
+   "BB",
+   "CC",
+   "LAWWW2"
+  ]
+ }
 }

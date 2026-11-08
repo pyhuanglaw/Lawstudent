@@ -43,7 +43,7 @@
   - 其餘照總表（v0～v5、D99 三個優先項目）。
 - **C｜正在做**：沒有。子代理都合併、worktree 已清（批次 6、7、8）；沒有只在本機的東西。
 - **D｜規則**：本班沒有新的 D／HV。使用者決定：X266（送飲料只給可攻略的對象）、X267（發布 v9.10.23；中間不發別的版本，UA-LAWWW-1108-05 是這一次的）。
-- **E｜各職位**：（交班時補）
+- **E｜各職位（都已交班、duty sync 收了）**：CC-B 20:44（claude/cc-testing cd7ba30f2；快照 2026-11-08T2044Z_B_CC；排程停用；大口 1F CPU trace 在 CC_00 待辦第 6 點）、BB-B 20:47（elegant-brown 03d6ed8f6；快照 2026-11-08T2047Z_B_BB；全部待辦 BB_00 第 3 節 11 項：UX-TITLE-LANDSCAPE 重拍、movreg 咖啡廳第三次對照、GIFT 第四輪、學姊法圖站位、PERF-AB 重量）、AA-B 20:48（cool-heisenberg 0a61c0990；快照 2026-11-08T2047Z_B_AA；AA_728 五位 unused 已推 bb3bdad7d；未完成：語彤共創 11-11 再問使用者、國外逐週重讀、DRIVE-PICKUP、AA530-PG-CONFESS、AA_720 兩張背景）、LAWWW2-B 20:50（funny-albattani 07725e9fc；快照 2026-11-08T2050Z_B_LAWWW2；outbox 格式改好；PERF1108 等 CPU trace）。交班核對：incr 水位線全部前進（3e5d85520；分類了 LAWWW2 八個前一版 commit、兩個任務名別名）、roles／check／asks OK。
 - **F｜測試**：v9.10.23：PC 發布前清單 11／11（9eef2b95b）、飲料版 BB GO、GHA b103b3089 success、線上 deploy_check／p0 PASS；**沒測 iPhone 實機**。開發 head 的 GHA：817293734 success。雲端 movreg A 段不穩（PC 為準）。
 
 ### 帳號 C → 下一個帳號｜LAWWW-C（`session_01Me1thu8Zn934H58kWKNfuF`）｜2026-11-05 23:4x UTC 第二次交班（使用者 23:2x「現在接班……BB說可以go 照條件可以發布」、23:4x「現在交班」）
