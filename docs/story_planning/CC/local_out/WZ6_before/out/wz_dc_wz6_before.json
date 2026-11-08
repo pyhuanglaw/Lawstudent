@@ -1,0 +1,344 @@
+{
+ "tag": "wz6_before",
+ "sha": "",
+ "day": {
+  "fps": {
+   "frames": 82,
+   "fpsAvg": 26.2,
+   "fpsMin": 7.5,
+   "msWorst": 133.4,
+   "calls": 380,
+   "tris": 634548
+  },
+  "spawn": {
+   "dc": {
+    "total": {
+     "calls": 341,
+     "tris": 567168
+    },
+    "shadow": {
+     "calls": 40,
+     "tris": 45809,
+     "passes": 1
+    },
+    "main": {
+     "calls": 301,
+     "tris": 521359
+    },
+    "npcVis": 9,
+    "outlineMats": 8,
+    "outlineInVisibleChars": 45,
+    "outlineOnCasters": 0,
+    "shadowsOn": true
+   },
+   "cam": {
+    "eye": [
+     49.07,
+     2.78,
+     -1
+    ],
+    "look": [
+     44,
+     1.2,
+     -1
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "lum": [
+    119.7,
+    57.2
+   ]
+  },
+  "lane": {
+   "dc": {
+    "total": {
+     "calls": 186,
+     "tris": 236385
+    },
+    "shadow": {
+     "calls": 40,
+     "tris": 45809,
+     "passes": 1
+    },
+    "main": {
+     "calls": 146,
+     "tris": 190576
+    },
+    "npcVis": 0,
+    "outlineMats": 8,
+    "outlineInVisibleChars": 0,
+    "outlineOnCasters": 0,
+    "shadowsOn": true
+   },
+   "cam": {
+    "eye": [
+     38,
+     2.2,
+     -1
+    ],
+    "look": [
+     74,
+     1.5,
+     -1
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "lum": [
+    91.8,
+    53.9
+   ]
+  },
+  "t_A1": {
+   "dc": {
+    "total": {
+     "calls": 180,
+     "tris": 290773
+    },
+    "shadow": {
+     "calls": 40,
+     "tris": 46065,
+     "passes": 1
+    },
+    "main": {
+     "calls": 140,
+     "tris": 244708
+    },
+    "npcVis": 1,
+    "outlineMats": 8,
+    "outlineInVisibleChars": 5,
+    "outlineOnCasters": 0,
+    "shadowsOn": true
+   },
+   "cam": {
+    "eye": [
+     -1.53,
+     1.7,
+     1.94
+    ],
+    "look": [
+     -8,
+     2.2,
+     4.6
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "lum": [
+    103.1,
+    51
+   ]
+  },
+  "t_B7": {
+   "dc": {
+    "total": {
+     "calls": 305,
+     "tris": 527298
+    },
+    "shadow": {
+     "calls": 40,
+     "tris": 45809,
+     "passes": 1
+    },
+    "main": {
+     "calls": 265,
+     "tris": 481489
+    },
+    "npcVis": 8,
+    "outlineMats": 8,
+    "outlineInVisibleChars": 40,
+    "outlineOnCasters": 0,
+    "shadowsOn": true
+   },
+   "cam": {
+    "eye": [
+     51,
+     1.7,
+     -4.6
+    ],
+    "look": [
+     44,
+     2.2,
+     -4.6
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "lum": [
+    84.8,
+    53.2
+   ]
+  }
+ },
+ "night": {
+  "fps": {
+   "frames": 105,
+   "fpsAvg": 34.8,
+   "fpsMin": 20,
+   "msWorst": 50,
+   "calls": 284,
+   "tris": 480755
+  },
+  "spawn": {
+   "dc": {
+    "total": {
+     "calls": 308,
+     "tris": 451025
+    },
+    "shadow": {
+     "calls": 61,
+     "tris": 52968,
+     "passes": 1
+    },
+    "main": {
+     "calls": 247,
+     "tris": 398057
+    },
+    "npcVis": 6,
+    "outlineMats": 8,
+    "outlineInVisibleChars": 30,
+    "outlineOnCasters": 0,
+    "shadowsOn": true
+   },
+   "cam": {
+    "eye": [
+     49.07,
+     2.78,
+     -1
+    ],
+    "look": [
+     44,
+     1.2,
+     -1
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "lum": [
+    84.6,
+    43.2
+   ]
+  },
+  "lane": {
+   "dc": {
+    "total": {
+     "calls": 217,
+     "tris": 244643
+    },
+    "shadow": {
+     "calls": 67,
+     "tris": 57004,
+     "passes": 1
+    },
+    "main": {
+     "calls": 150,
+     "tris": 187639
+    },
+    "npcVis": 0,
+    "outlineMats": 8,
+    "outlineInVisibleChars": 0,
+    "outlineOnCasters": 0,
+    "shadowsOn": true
+   },
+   "cam": {
+    "eye": [
+     38,
+     2.2,
+     -1
+    ],
+    "look": [
+     74,
+     1.5,
+     -1
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "lum": [
+    90.1,
+    49.7
+   ]
+  },
+  "t_A1": {
+   "dc": {
+    "total": {
+     "calls": 197,
+     "tris": 296717
+    },
+    "shadow": {
+     "calls": 55,
+     "tris": 49188,
+     "passes": 1
+    },
+    "main": {
+     "calls": 142,
+     "tris": 247529
+    },
+    "npcVis": 1,
+    "outlineMats": 8,
+    "outlineInVisibleChars": 5,
+    "outlineOnCasters": 0,
+    "shadowsOn": true
+   },
+   "cam": {
+    "eye": [
+     -1.53,
+     1.7,
+     1.94
+    ],
+    "look": [
+     -8,
+     2.2,
+     4.6
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "lum": [
+    66.4,
+    48.5
+   ]
+  },
+  "t_B7": {
+   "dc": {
+    "total": {
+     "calls": 289,
+     "tris": 430347
+    },
+    "shadow": {
+     "calls": 55,
+     "tris": 48932,
+     "passes": 1
+    },
+    "main": {
+     "calls": 234,
+     "tris": 381415
+    },
+    "npcVis": 6,
+    "outlineMats": 8,
+    "outlineInVisibleChars": 30,
+    "outlineOnCasters": 0,
+    "shadowsOn": true
+   },
+   "cam": {
+    "eye": [
+     51,
+     1.7,
+     -4.6
+    ],
+    "look": [
+     44,
+     2.2,
+     -4.6
+    ],
+    "lens": 24,
+    "vfov": 45.75
+   },
+   "lum": [
+    61.8,
+    31.9
+   ]
+  }
+ }
+}

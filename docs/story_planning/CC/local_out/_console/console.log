@@ -550,3 +550,12 @@
 [09:29:38] ==== START WZ6_after  (probe @ 6da721819b8d351fe12e0b848ca7e06f52553819) ====
 [09:29:41] [res] cpu=29% mem=41% (13.2/31.4 GB) chrome_testing=4  START WZ6_after
 [09:29:47] [res] cpu=26% mem=43% (13.2/31.4 GB) chrome_testing=4  END P6_fps_mob_f3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       59fce477c..36adb1652  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:30:11] ==== END   P6_fps_mob_f3  exit=0  395s   ====
+[09:30:14] memory 45% before starting AB3LM_before (2 running)
+[09:30:14] ==== START AB3LM_before  (probe @ e9d8c668fd832f13beeb79903f3270aa1b914089) ====
+[09:30:17] [res] cpu=40% mem=46% (14.4/31.4 GB) chrome_testing=8  START AB3LM_before
+[09:30:18] worktree add e9d8c668fd832f13beeb79903f3270aa1b914089: invalid reference - fetching main and the commit itself
+[09:30:58] [res] cpu=7% mem=45% (14.0/31.4 GB) chrome_testing=8  END WZ6_before
