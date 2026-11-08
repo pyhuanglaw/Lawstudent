@@ -49773,7 +49773,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 02:4x LAWWW-B】43c4030cd：quietMove（總圖安靜區輪到學姊第 6 拍＝open 兩句→樓梯間版第一句→原稿→結尾一句，樓梯間不加小聲，SIS-1 照常記）；aa720_decide_opened 有：平日 1/27 總圖照順序演、不加小聲、記 stay 不是 late；週末慢讀照舊；2/5 照舊 late。其他 quietOk:false 的拍：只有學姊大一上第 14 週～2/2 會被逼到安靜區（平日中午 12～13 的飯照收＝第 6 拍也可能在午飯演），SIS-2 沒期限只會延後；子晴 4/5、可昕 1/7 沒有被逼的時段。BB 驗 A1、A3、B、週末。 ｜ 【11-08 02:1x LAWWW-B】BB-B 02:01／02:06（CC cc-testing 08051c8483、825c2dba30 SIS_EXAM_cloud：平日三種點法都改總圖、第 6 拍沒演；週末慢讀照稿 PASS）；AA-B 02:02 定：走樓梯間（AA_720 quietMove，4f37a68bb；open 兩句→樓梯間版第一句旁白→原稿→結尾一句，不加小聲，SIS-1 照常記、before 不變、AA_535 地點不改）；交給接 AA720 的子代理一起做，並列出其他 quietOk:false＋只約得到安靜區的拍給 AA。",
+   "next": "【11-08 02:5x LAWWW-B】BB-B 02:56 更正：原本 A1／A1b／A3 三份 log 是探針沒跟到二樓坐下（停在大廳），不能當「坐下以後演不到」的實證；結論照舊依程式（arcs3d.js:46 quietOk:false＋ctx.quiet、invites3d.js:382、sis_grad3d.js:65）。6146b9b16：ARCS.pick(quiet:true) 回第 6 拍 quietMove、第一句樓梯間版；B（2/3）、A2（1/24 慢讀）PASS；A1、A3 照玩家走到二樓坐下重跑中。 ｜ 【11-08 02:4x LAWWW-B】43c4030cd：quietMove（總圖安靜區輪到學姊第 6 拍＝open 兩句→樓梯間版第一句→原稿→結尾一句，樓梯間不加小聲，SIS-1 照常記）；aa720_decide_opened 有：平日 1/27 總圖照順序演、不加小聲、記 stay 不是 late；週末慢讀照舊；2/5 照舊 late。其他 quietOk:false 的拍：只有學姊大一上第 14 週～2/2 會被逼到安靜區（平日中午 12～13 的飯照收＝第 6 拍也可能在午飯演），SIS-2 沒期限只會延後；子晴 4/5、可昕 1/7 沒有被逼的時段。BB 驗 A1、A3、B、週末。 ｜ 【11-08 02:1x LAWWW-B】BB-B 02:01／02:06（CC cc-testing 08051c8483、825c2dba30 SIS_EXAM_cloud：平日三種點法都改總圖、第 6 拍沒演；週末慢讀照稿 PASS）；AA-B 02:02 定：走樓梯間（AA_720 quietMove，4f37a68bb；open 兩句→樓梯間版第一句旁白→原稿→結尾一句，不加小聲，SIS-1 照常記、before 不變、AA_535 地點不改）；交給接 AA720 的子代理一起做，並列出其他 quietOk:false＋只約得到安靜區的拍給 AA。",
    "xai": {
     "spec": "BB-B 11-08 02:01；AA-B 02:02（企劃線 4f37a68bb）",
     "branch": "claude/modest-rubin-2lyp7g",
