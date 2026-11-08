@@ -2156,3 +2156,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 113.1s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 113.1s] BROWSER DISCONNECTED
 - 2026-11-08T19:57:33  R03c7_main12  sha=03c71f300bcafc99f9e70b18b7f77d5f0885ec91  exit=0  349s    PASS 讀檔後搖桿走得動  {"zone": "campus", "x": 30, "z": -107.4, "ry": 1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 15.48, "stand": true, "camYaw": 4.713, "fallbacks": 0, "y": 0.9, "lv": 0, "frame": 95, "paused": false} 推了 1 次、走了 124.04 m / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 315.1s] page close url=http://127.0.0.1:8801/index.html?start0 | [gpu_wrap 315.1s] BROWSER DISCONNECTED
+- 2026-11-08T19:58:04  R03c7_reach  sha=03c71f300bcafc99f9e70b18b7f77d5f0885ec91  exit=0  625s    統計：29 個區域、1233 個互動點、15 個劇情走路目的地、87 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 591.0s] page close url=http://127.0.0.1:8800/index.html?turbo?turbo | [gpu_wrap 591.0s] BROWSER DISCONNECTED
