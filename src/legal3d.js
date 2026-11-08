@@ -43,9 +43,9 @@ const LEGAL = (function(){
     const say=(t,expr)=>{ ADV.speaker(by,expr||'neutral'); if(!ADV.active) ADV.log(byName,t); return GM.say(who,t,{keepPose:!!(npc&&npc.seat)}); };   /* ADV 開著時 GM.say 自己會記 */
     const table={class:[CLASS_INTRO,CLASS_OK,CLASS_BAD,CLASS_UNSURE],classmate:[null,MATE_OK,MATE_BAD,MATE_UNSURE],study:[null,STUDY_OK,STUDY_BAD,STUDY_UNSURE],quiz:[null,STUDY_OK,STUDY_BAD,STUDY_UNSURE]}[ctx]||[null,MATE_OK,MATE_BAD,MATE_UNSURE];
     const byTable=(T)=>Array.isArray(T)?T:(T[by]||T.default);
-    if(ctx==='class'){ await say(pick(byTable(CLASS_INTRO)),'serious'); if(q.type==='tf') await say('「'+stmt(q)+'——這句話對不對？'+G.name+'，你說。」','serious'); else { await say('「'+q.q+'」','serious'); await say('「'+opts4(q).map(o=>o.k+'、'+o.t).join('；')+'。'+G.name+'，你選哪個？」','neutral'); } }
-    else if(ctx==='study'){ await say(fill(pick(STUDY_ASK),q),'serious'); if(q.type==='mc') await say('「'+opts4(q).map(o=>o.k+'、'+o.t).join('；')+'」','neutral'); }
-    else { if(q.type==='tf') await say(fill(pick(MATE_ASK),q),'thinking'); else { await say(fill(pick(MATE_MC),q),'thinking'); await say('「'+opts4(q).map(o=>o.k+'、'+o.t).join('；')+'」','neutral'); } }
+    if(ctx==='class'){ await say(pick(byTable(CLASS_INTRO)),'serious'); if(q.type==='tf') await say(stmt(q)+'——這句話對不對？'+G.name+'，你說。','serious'); else { await say(q.q,'serious'); await say(opts4(q).map(o=>o.k+'、'+o.t).join('；')+'。'+G.name+'，你選哪個？','neutral'); } }   /* 出題的人（有名字）說的題目、選項：程式不在外面另外包「」（TEXT-QUOTE-UNIFY-1108 第七批，AA-B 11-08 12:29）；q.q 一字不動，裡面原本有的「」照留 */
+    else if(ctx==='study'){ await say(fill(pick(STUDY_ASK),q),'serious'); if(q.type==='mc') await say(opts4(q).map(o=>o.k+'、'+o.t).join('；'),'neutral'); }
+    else { if(q.type==='tf') await say(fill(pick(MATE_ASK),q),'thinking'); else { await say(fill(pick(MATE_MC),q),'thinking'); await say(opts4(q).map(o=>o.k+'、'+o.t).join('；'),'neutral'); } }
     let options; if(q.type==='tf'){ options=[{t:'「對。」',v:'對'},{t:'「不對。」',v:'錯'},{t:'「……我不確定。」',v:null}]; if(Math.random()<0.5) [options[0],options[1]]=[options[1],options[0]]; } else { options=opts4(q).map(o=>({t:'「'+o.k+'，'+o.t+'。」',v:o.k})); options.push({t:'「……不確定。」',v:null}); }
     const k=await GM.choose(options.map(o=>({t:o.t}))); const v=options[k].v; ADV.log(G.name,'▶ '+options[k].t);
     let result; if(v===null){ L.expose(q.id,ctx); result='unsure'; await say(fill(pick(byTable(table[3])),q),'neutral'); }

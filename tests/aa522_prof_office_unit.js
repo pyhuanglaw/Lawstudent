@@ -199,7 +199,7 @@ await sec('1-2',async()=>{
   at(T1+1,15.5); H.G.weekday=4; const c1=ok(Z); at(T1+7,15.5); const c7=ok(Z);
   check('1-2. 冷卻：隔天（就算是週四）不演；下週四照常',c1===false&&c7===true,J([c1,c7]));
   await run(Z,['無過失']); const o2=H.opts[0]; const s2=said();
-  check('1-2. 問過的不再出：第二次的選項＝無過失、推薦書、沒事（越權代理問過了）；無過失照舊（筆記 zhou_88）、記進 ZHOU_ASKED',J(o2)===J(['「老師，錯誤的『無過失』要怎麼判斷？」','「老師推薦一本書？」','「沒事。」'])&&!!noteOf('zhou_88')&&s2.includes('「好問題。看他有沒有『合理注意的可能』。網頁掛三天沒改，跟掛三分鐘，不一樣。」')&&J(H.G.flags.ZHOU_ASKED)===J({Y1S1:['agency','q88']}),J([o2,s2,H.G.flags.ZHOU_ASKED]));
+  check('1-2. 問過的不再出：第二次的選項＝無過失、推薦書、沒事（越權代理問過了）；無過失照舊（筆記 zhou_88）、記進 ZHOU_ASKED',J(o2)===J(['「老師，錯誤的『無過失』要怎麼判斷？」','「老師推薦一本書？」','「沒事。」'])&&!!noteOf('zhou_88')&&s2.includes('好問題。看他有沒有『合理注意的可能』。網頁掛三天沒改，跟掛三分鐘，不一樣。')&&J(H.G.flags.ZHOU_ASKED)===J({Y1S1:['agency','q88']}),J([o2,s2,H.G.flags.ZHOU_ASKED]));
   at(T1+14,15.5); await run(Z,['推薦書']); const o3=H.opts[0];
   at(T1+21,15.5); const c21=ok(Z);
   check('1-2. 大一上三題都問過＝不再觸發（不留只剩「沒事。」）；第三次的選項只剩推薦書、沒事',J(o3)===J(['「老師推薦一本書？」','「沒事。」'])&&c21===false&&J(H.G.flags.ZHOU_ASKED.Y1S1.slice().sort())===J(['agency','book','q88']),J([o3,c21,H.G.flags.ZHOU_ASKED]));

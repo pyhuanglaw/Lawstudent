@@ -104,8 +104,8 @@ const FRIENDS2=(function(){
         {speaker:BH,text:'（從前面回頭）第一排有。影印一份五塊。'},
         {speaker:YC,text:'成交。'},
         {speaker:YC,text:'（翻了兩頁筆記）第七十一條。'},
-        {speaker:YC,text:'「法律行為，違反強制或禁止之規定者，無效。」'},   /* 民法第 71 條（現行條文）：BB 照法律審查核對一字不差 */
-        {speaker:YC,text:'「但其規定並不以之為無效者，不在此限。」'},
+        {speaker:YC,text:'法律行為，違反強制或禁止之規定者，無效。'},   /* 民法第 71 條（現行條文）：BB 照法律審查核對一字不差 */
+        {speaker:YC,text:'但其規定並不以之為無效者，不在此限。'},
         {speaker:ZHE,text:'……你剛剛才看第一次欸。'},
         {speaker:YC,text:'記性好。其他都不好。'},
         done('F2_06',[YC]) ] },

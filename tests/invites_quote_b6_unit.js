@@ -60,6 +60,9 @@ const NINE=[
   ['src/legal3d.js','（小聲）「我也選那個。」','（小聲）我也選那個。','chorus'],
   ['src/legal3d.js','（小聲）「這題我上週錯過。」','（小聲）這題我上週錯過。','chorus'] ];
 const SPEECH=NINE.map(x=>x[2].slice(parEnd(x[2])+1));   /* 說的話本身（存檔裡不該有）*/
+/* 第七批（TEXT-QUOTE-UNIFY-1108，AA-B 11-08 12:29；tests/invites_quote_b7_unit.js）：STORY_EVENTS 有名字、整句「…」的 23 句拿掉外面那一對。第 28 項的 STORY_EVENTS 只有 CHANGED 那幾個檔換成 BASE 的版本
+   （events.js、friends2_3d.js 不在裡面，兩邊都讀現在的檔），所以看得到的是 y2r2_3d.js、bbpack_events.js 這 6 句（BASE＝cda383b07 的字）；23 句全部在第七批的測試裡比 */
+const SEVEN=['「……我的呢？」','「お疲れさまです。」','「ただいま。」','「別に。」','「よろしくお願いします。」','「まさか。」'];
 const OUTL={old:NINE[0][1],now:NINE[0][2]};
 
 if(process.env.QUOTE_B6_PROBE) (async()=>{
@@ -214,10 +217,14 @@ const O=runProbe('old'), N=runProbe('new');
 
 /* ---------- 28. 資料和 BASE 逐句比 ---------- */
 { for(const [k,nm,want] of [['inv','INVITE_DATA（invites.js 和推進來的）',[NINE[0]]],['enc','ENCOUNTERS（偶遇）',[NINE[4]]],['zrzq','ZRZQ_LINES（子晴芷若）',[NINE[3]]],['ev','STORY_EVENTS（全部載入以後，每一場的 dialogue；子晴那一場是 ZRZQ_EVENTS 推進來的預設版）',[NINE[1],NINE[2],NINE[3]]]]){
-    const A=(O.data||{})[k]||[], B=(N.data||{})[k]||[], bad=[], hit=[];
+    const A=(O.data||{})[k]||[], B=(N.data||{})[k]||[], bad=[], hit=[], hit7=[];
     if(A.length!==B.length) bad.push('字串個數 '+A.length+' → '+B.length);
-    else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(kindOf(a[1],b[1])==='act'&&want.some(x=>x[1]===a[1]&&x[2]===b[1])) hit.push(b[0]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
-    check('28. '+nm+' 和 '+BASE+' 比（'+B.length+' 個值，含函式原始碼）：只改了 '+hit.length+' 個（'+want.map(x=>x[2]).join('、')+'），只差裡面那一對「」，其他一字不差',A.length>100&&bad.length===0&&hit.length===want.length,sample(bad)+'｜'+sample(hit)); } }
+    else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(kindOf(a[1],b[1])==='act'&&want.some(x=>x[1]===a[1]&&x[2]===b[1])) hit.push(b[0]);
+      else if(k==='ev'&&wrapped(a[1])&&unq(a[1])===b[1]&&SEVEN.includes(a[1])) hit7.push(a[1]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
+    /* 第七批（tests/invites_quote_b7_unit.js）：STORY_EVENTS 有名字、整句「…」的拿掉外面那一對——這裡看得到的是上面 SEVEN 那 6 句，只認這 6 句、只差外面那一對、一句一次；其他資料（inv、enc、zrzq）沒有 */
+    const w7=k==='ev'?SEVEN:[];
+    check('28. '+nm+' 和 '+BASE+' 比（'+B.length+' 個值，含函式原始碼）：只改了 '+hit.length+' 個（'+want.map(x=>x[2]).join('、')+'），只差裡面那一對「」'+(w7.length?'；加上第七批的 '+hit7.length+' 句（只差外面那一對「」）':'')+'，其他一字不差',
+      A.length>100&&bad.length===0&&hit.length===want.length&&J(hit7.slice().sort())===J(w7.slice().sort()),sample(bad)+'｜'+sample(hit)+'｜'+sample(hit7)); } }
 
 /* ---------- 29. 原始碼逐行比（這一個 commit 本身）---------- */
 const findC6=()=>{ try{ const L=cp.execFileSync('git',['-C',ROOT,'log','--format=%H %s','-F','--grep='+TITLE],{encoding:'utf8',maxBuffer:1<<26}).split('\n'); const x=L.find(l=>l.slice(41).startsWith(TITLE)); return x?x.slice(0,40):null; }catch(e){ return null; } };

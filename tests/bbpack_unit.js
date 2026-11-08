@@ -91,7 +91,7 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
     const G=fresh('Y2S1',hit.w,1,13.0,{zone:'gongtong',flags:{JP_MET:true}}); const it=itOf('japanese_1',hit.w);
     check('1. G3 上課前（beforeClass）：提早到（13:00）才演，13:25 不演',EVENTS.check(ev('ev_jp_g3'),{chain:true})&&(()=>{ G.hour=13.42; const r=!EVENTS.check(ev('ev_jp_g3'),{chain:true}); G.hour=13.0; return r; })());
     H.said=[]; H.opts=[]; H.picks=['「辛苦了。」']; await CLS.beforeClassEvent(GM,it); let L=said();
-    check('1. G3 第 1 題お疲れさまです、猜對記 JP_DRAMA_1（BB_137 1-2）',L[0]==='欸，考你。昨天的日劇有一句——'&&L[1]==='「お疲れさまです。」'&&L.includes('對！日劇裡上班的人，一天說二十次。')&&G.flags.JP_DRAMA_1===true&&J(G.flags.JP_G3_USED)==='[1]',J(L));
+    check('1. G3 第 1 題お疲れさまです、猜對記 JP_DRAMA_1（BB_137 1-2）',L[0]==='欸，考你。昨天的日劇有一句——'&&L[1]==='お疲れさまです。'&&L.includes('對！日劇裡上班的人，一天說二十次。')&&G.flags.JP_DRAMA_1===true&&J(G.flags.JP_G3_USED)==='[1]',J(L));
     H.picks=['「現在幾點？」']; await EVENTS.run(ev('ev_jp_g3')); H.said=[]; H.picks=['「其實很在意。」']; await EVENTS.run(ev('ev_jp_g3')); L=said();
     check('1. G3 不重複：第 2 題猜錯不記、第 3 題兩個答案都算對',!G.flags.JP_DRAMA_2&&G.flags.JP_DRAMA_3===true&&L.includes('你很懂日劇！說這句的人，九成都很在意。'));
     G.flags.JP_G3_USED=[1,2,3,4,5]; check('1. G3 五題用完就沒有',!EVENTS.check(ev('ev_jp_g3'),{chain:true})); }

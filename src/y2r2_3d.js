@@ -289,7 +289,7 @@ const Y2R2=(function(){
       {choice:[{text:'（拍手）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2B',note:'你拍手'}]},goto:'clap'},{text:'（記分）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2B',note:'你記分'}]},goto:'score'},{text:'（送水）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2B',note:'你送水'}]},goto:'water'}]},
       {label:'clap'},{if:KN('heroine_01'),speaker:null,text:'（你拍手。旁邊的以安看了你一眼，也跟著拍了兩下，拍得很整齊。）'},{unless:KN('heroine_01'),speaker:null,text:'（你拍到手掌發紅。）'},{goto:'end'},
       {label:'score'},{speaker:null,text:'（你坐到記分台。最後一節，只差一分。）'},{speaker:'classmate_mingxuan',text:'（跑過記分台）你翻慢一點，我緊張。'},{goto:'end'},
-      {label:'water'},{speaker:null,text:'（中場你把水搬到場邊。阿哲拿了一瓶，自己先喝。）'},{speaker:'classmate_mingxuan',text:'「……我的呢？」'},
+      {label:'water'},{speaker:null,text:'（中場你把水搬到場邊。阿哲拿了一瓶，自己先喝。）'},{speaker:'classmate_mingxuan',text:'……我的呢？'},
       {label:'end'},
       {if:KN('yu'),speaker:null,text:'（比賽結束。阿哲走到觀眾席，先去拿 Alison 的加油板。）'},
       {if:KN('yu'),speaker:'zhe',text:'妳的板子寫錯字了。'},
