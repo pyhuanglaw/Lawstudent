@@ -933,3 +933,11 @@
 [00:14:51] [res] cpu=4% mem=38% (11.9/31.4 GB) chrome_testing=0  START Rc753c_classreal
 [00:14:51] worktree add c753295dabdf8a0b0b2ec9767a7c5429237b7134: invalid reference - fetching main and the commit itself
 [00:16:39] [res] cpu=5% mem=50% (15.8/31.4 GB) chrome_testing=9  END Rc753c_mini
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       22e9dd33b..561f6c77d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:16:47] ==== END   Rc753c_mini  exit=0  111s   ====
+[00:16:50] memory 50% before starting Rc753c_v0_tolaw (2 running)
+[00:16:50] ==== START Rc753c_v0_tolaw  (game @ c753295dabdf8a0b0b2ec9767a7c5429237b7134) ====
+[00:16:53] [res] cpu=0% mem=51% (16.0/31.4 GB) chrome_testing=10  START Rc753c_v0_tolaw
+[00:17:39] [res] cpu=66% mem=50% (15.8/31.4 GB) chrome_testing=9  END Rc753c_v0_start
