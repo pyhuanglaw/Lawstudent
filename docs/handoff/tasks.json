@@ -49952,7 +49952,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 07:4x LAWWW-B】6cb2c2404：story3d.js 建 PHONE_RULES 時補 DECIDE.tick；舊存檔拖過 due+10 的記 expired 不補傳（DECIDE.SAY_STALE=10）；tests/decide_tick_reg_unit.js（照 index.html 順序，舊程式 FAIL 2）；397 支 ALL PASS；交 BB-B／CC-B 照 SIS FOLLOW3 重跑（學姊 exam 睡到 due+3）。",
+   "next": "【11-08 07:5x LAWWW-B】GHA node-unit-auto 489ff3762（含 6cb2c2404）success。 ｜ 【11-08 07:4x LAWWW-B】6cb2c2404：story3d.js 建 PHONE_RULES 時補 DECIDE.tick；舊存檔拖過 due+10 的記 expired 不補傳（DECIDE.SAY_STALE=10）；tests/decide_tick_reg_unit.js（照 index.html 順序，舊程式 FAIL 2）；397 支 ALL PASS；交 BB-B／CC-B 照 SIS FOLLOW3 重跑（學姊 exam 睡到 due+3）。",
    "xai": {
     "spec": "CC-B 11-08 07:25、BB-B 07:26",
     "branch": "claude/modest-rubin-2lyp7g",
