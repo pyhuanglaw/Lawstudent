@@ -2072,3 +2072,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 303.3s] page close url=http://127.0.0.1:8801/index.html?start0 | [gpu_wrap 303.3s] BROWSER DISCONNECTED
 - 2026-11-08T16:31:08  R489f_reach  sha=489ff376246bcd2a9aeaaaa4f497587c0b43d044  exit=0  609s    統計：29 個區域、1233 個互動點、15 個劇情走路目的地、87 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 572.2s] page close url=http://127.0.0.1:8802/index.html?turbo?turbo | [gpu_wrap 572.2s] BROWSER DISCONNECTED
+- 2026-11-08T16:35:52  R489f_v0_to1017  sha=489ff376246bcd2a9aeaaaa4f497587c0b43d044  exit=0  565s    PASS 黑幕沒有擋住對話  0 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 528.0s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 528.0s] BROWSER DISCONNECTED
