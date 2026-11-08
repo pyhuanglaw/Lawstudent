@@ -39,6 +39,20 @@ async def goto_person(pg, cdp, run, cid, hours=None):
     return pr
 
 
+async def goto_class_pool(pg, cdp, run, want=None):
+    """pool 同學（poolClass）只在必修課的教室：找存檔那天以後第一堂在 classroom 的課，【捷徑】讀檔到上課前 6 分鐘的教室，回傳在場的 pool 同學"""
+    it = await pg.evaluate("(()=>{ const G=GAME.G; for(let d=G.day; d<G.day+21; d++){ const L=(typeof CLS!=='undefined'&&CLS.dayItems)?CLS.dayItems(G,d):[]; const x=L.find(q=>q&&q.zone==='classroom'&&q.t0!=null); if(x){ const c=CALENDAR.dateOf(d); return {d, wd:c.wd===7?0:c.wd, key:c.key, t0:x.t0, name:(x.c&&(x.c.name||x.c.id))||x.name||null}; } } return null; })()")
+    if not it: run.check('找得到存檔以後三週內在 classroom 的課', False); return None, []
+    s = await pg.evaluate("()=>JSON.parse(JSON.stringify(GAME.snapshot()))")
+    s.update(day=it['d'], weekday=it['wd'], hour=round(it['t0'] - 0.1, 2), zone='classroom', pos=None)
+    await P.load(pg, cdp, s, quiet=True); await P.init(pg); await pg.evaluate(Q.DLG_WATCH)
+    run.setup('【捷徑】讀檔到 %s 上課前 6 分鐘的教室（%s，%s）' % (it['key'], it['name'], it['t0']))
+    await pg.wait_for_timeout(8000)
+    ids = await pg.evaluate("(()=>(GAME.E.npcs||[]).map(n=>n.charId||n.id).filter(x=>/^pool_/.test(x||'')))()")
+    run.note('教室裡的 pool 同學：%s' % J(ids))
+    return it, ids
+
+
 async def chat(pg, cdp, run, cid, tag):
     await pg.evaluate("window.__DW.length=0")
     r = await P.talk_to(pg, cdp, run, cid, tag, picks=('聊天', '聊聊', '閒聊'))
@@ -58,7 +72,7 @@ async def main():
     run = L.Run('pt1108i_quote4_' + MODE, OUT)
     raw = json.load(open(os.path.join(SAVES, 'fatiao3d_save_day46.json'), encoding='utf-8'))
     G0 = raw.get('G', raw)
-    modes = ['yian', 'pool', 'greet'] if MODE == 'all' else [MODE]
+    modes = ['yian', 'pool', 'greet'] if MODE == 'all' else MODE.split(',')
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg))
@@ -70,9 +84,13 @@ async def main():
             s = copy.deepcopy(G0); s['invites'] = [v for v in s.get('invites', []) if v.get('state') != 'going']; s.setdefault('home', {})['at'] = False
             await P.load(pg, cdp, s, quiet=True); await P.init(pg); await pg.evaluate(Q.DLG_WATCH)
             mig = await pg.evaluate("(()=>{ const R=(GAME.G.social||{}).small||{}; const q=[]; for(const [id,v] of Object.entries(R)){ for(const u of (v.used||[])) if(typeof u==='string'&&u[0]==='「') q.push([id,'used',u]); if(typeof v.last==='string'&&v.last[0]==='「') q.push([id,'last',v.last]); for(const k of Object.keys(v.once||{})) if(k[0]==='「') q.push([id,'once',k]); } return {q, p1:R.pool_1||null}; })()")
-            run.check('[pool] 讀檔以後「說過了」的紀錄沒有「」的舊寫法了（smallQuoteMigrate）', not mig['q'] and mig['p1'] and all(not u.startswith('「') for u in (mig['p1'].get('used') or [])), J(mig))
+            known = await pg.evaluate("(()=>{ const K=STORY.smallKnown(); return %s.map(x=>[x[0],x[1],x[2],K.has(x[2]),K.has(x[2].slice(1,-1))]); })()" % J(mig['q']))
+            stale = [k for k in known if k[4]]   # 有「」的舊紀錄、但沒有「」的那一句現在還在資料裡＝該換沒換
+            run.check('[pool] 讀檔以後「說過了」的紀錄：現在資料裡有的句子都換成沒有「」的（smallQuoteMigrate）；pool_1 兩句換好', not stale and mig['p1'] and all(not u.startswith('「') for u in (mig['p1'].get('used') or [])), J({'stale': stale, 'left': known, 'p1': mig['p1']}))
+            if known: run.note('還有「」的舊紀錄（資料裡已經沒有這一句，例：AA_519 改掉的助教兩句；不會重講，不用換）：%s' % J(known))
             said = []
-            if await goto_person(pg, cdp, run, 'pool_1'):
+            it, ids = await goto_class_pool(pg, cdp, run)
+            if 'pool_1' in ids and await P.wait_present(pg, 'pool_1', 60):
                 for i in range(2):
                     r, lines = await chat(pg, cdp, run, 'pool_1', 'pool_1_%d' % (i + 1))
                     named = judge_named(run, '[pool] pool_1 第 %d 次' % (i + 1), lines)
@@ -99,8 +117,9 @@ async def main():
             cand = await pg.evaluate("(()=>{ const out=[]; for(let i=1;i<=24;i++){ const id='pool_'+i; if(typeof CHARACTERS!=='undefined'&&!CHARACTERS[id]) continue; if(SOCIAL.has(id,'FIRST_MET')) continue; out.push(id); } return out; })()")
             run.setup('[前置] day46 存檔 10:30；還沒認識的 pool：%s' % J(cand))
             done = False
-            for cid in cand[:4]:
-                if await goto_person(pg, cdp, run, cid):
+            it, ids = await goto_class_pool(pg, cdp, run)
+            for cid in [c for c in cand if c in ids][:3]:
+                if await P.wait_present(pg, cid, 60):
                     r, lines = await chat(pg, cdp, run, cid, 'greet_' + cid)
                     if lines:
                         judge_named(run, '[greet] 還沒認識的 %s 打招呼' % cid, lines); done = True; break
