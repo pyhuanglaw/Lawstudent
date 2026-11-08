@@ -2104,3 +2104,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 511.5s] page close url=http://127.0.0.1:8802/index.html?turbo?turbo | [gpu_wrap 511.5s] BROWSER DISCONNECTED
 - 2026-11-08T17:49:00  Raa36_mini  sha=aa363f62a8363594199ba99ebefa3ce57512ee58  exit=0  86s    PASS 玩家箭頭朝地圖上方（往前走時）  arrow=3.979039320256561e-13 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 50.6s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 50.6s] BROWSER DISCONNECTED
+- 2026-11-08T17:51:01  Raa36_v0_tolaw  sha=aa363f62a8363594199ba99ebefa3ce57512ee58  exit=0  111s    PASS 黑幕沒有擋住對話（8/29 搬宿舍那兩句可以點） / PASS 全程沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 73.4s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 73.4s] BROWSER DISCONNECTED
