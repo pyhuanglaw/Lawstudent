@@ -1,0 +1,55 @@
+{
+ "sha": "",
+ "cam": {
+  "eye": [
+   0,
+   3.2,
+   6.25
+  ],
+  "look": [
+   0,
+   1.4,
+   -8.2
+  ],
+  "lens": 18,
+  "box": [
+   -6,
+   -8.2,
+   6,
+   8.22
+  ]
+ },
+ "lm0": {
+  "n": 6,
+  "maps": [
+   "nanyang_hall_lm_day.webp"
+  ],
+  "K": 0
+ },
+ "lm1": {
+  "n": 6,
+  "maps": [
+   "nanyang_hall_lm_day.webp"
+  ],
+  "K": 1
+ },
+ "lm2": {
+  "n": 6,
+  "maps": [
+   "nanyang_hall_lm_day.webp"
+  ],
+  "K": 0
+ },
+ "lightsOff": [
+  {
+   "k": 1,
+   "h": 19.232,
+   "ms": 82100
+  },
+  {
+   "k": 0,
+   "h": 23.232,
+   "ms": 84991
+  }
+ ]
+}

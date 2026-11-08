@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GG3NYW_9556",
+  "sha": "95566d0b5cd1783c74fa1e5f68107bb1890daf5f",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_nanyang_watch_probe.py",
+  "env": "TAG=after_gpu;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T20:19:11",
+  "end": "2026-11-08T20:22:04",
+  "seconds": 173,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "32",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 26,
+    "mem": 51,
+    "used_gb": 16.3,
+    "chrome_testing": 13
+  }
+}
