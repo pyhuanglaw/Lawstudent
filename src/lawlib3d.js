@@ -166,6 +166,18 @@ const LL3=(function(){
     return seats; }
 
   // ---- 區域 ----
+  /* 鏡頭碰撞（BUG-CAM-LAWLIB-DISCA-1108，BB-B 11-08；LAWWW2-B，D108）：北側房間（討論室 A／B、影印室、館員辦公室）的隔間牆、前牆交給 engine3d.js 的 followCam 當隔間牆（zone.camCols[0]）。
+     原本法圖沒有 camCols：講座日坐在討論室 A 西側的位子（面向東；鏡頭在人前面、往東退 4.4 m），鏡頭停在隔壁討論室 B（x −2.3），整場講座畫面是隔間牆的米色、看不到人。
+     看不見的板子（和教學館 teach3d.js camColliders 同一套：兩端各多 6 cm、厚 0.24 m、不參加合併）：隔間牆（L.partitions，北牆到前牆）、前牆（門洞兩側到天花板，
+     門洞上面 2.4 m 以上；討論室的玻璃也擋——鏡頭不退到玻璃另一邊）。坐著時 autoSwing 不轉，鏡頭被拉到牆前、抬高，從桌子對面看人。二樓不加（書架有網點透空）。
+     測試：node tests/lawlib_cam_disc_unit.js */
+  function camCols(L,g){ const D=L.D, FZ=L.frontZ, H=L.ceil0, inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), out=[];
+    const box=(name,horiz,a,b,c,y0,y1)=>{ a-=0.06; b+=0.06; const m=new THREE.Mesh(new THREE.BoxGeometry(horiz?b-a:0.24,y1-y0,horiz?0.24:b-a),inv); m.name=name; m.position.set(horiz?(a+b)/2:c,(y0+y1)/2,horiz?c:(a+b)/2); m.userData.noMerge=true; g.add(m); out.push(m); };
+    for(const px of L.partitions) box('CAMCOL_part',false,-D/2,FZ,px,0,H);
+    for(const r of L.rooms){ const segs=r.kind==='office'?[[r.x0,r.x1]]:[[r.x0,r.door[0]],[r.door[1],r.x1]];
+      for(const [a,b] of segs) if(b-a>=0.05) box('CAMCOL_front',true,a,b,FZ,0,H);
+      if(r.kind!=='office') box('CAMCOL_lintel',true,r.door[0],r.door[1],FZ,2.4,H); }
+    return out; }
   const lawlib={ id:'lawlib', name:'法律學院圖書館', indoor:true, camDist:4.4, build(E){ const L=LAYOUT(), W=L.W, D=L.D, Y1=L.floors[1].y, S=L.stair;
     const g=new THREE.Group(); const lv0=new THREE.Group(), lv1=new THREE.Group(); lv0.name='L0'; lv1.name='L1'; lv0.userData.dyn=true; lv1.userData.dyn=true; g.add(lv0); g.add(lv1);
     const {nav0,nav1,ss}=buildNav(L);
@@ -175,6 +187,7 @@ const LL3=(function(){
       applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); for(const o of outs) B3.setOutView(o,h,weather,night); },
       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,slabs); buildFurniture(E,L,lv0,lv1,fb0,fb1,zone); windowViews(L,lv0,lv1,outs);
+    zone.camCols=[camCols(L,lv0),[]];   /* 北側房間的隔間牆、前牆擋跟隨鏡頭（BUG-CAM-LAWLIB-DISCA-1108）*/
     // 樓梯可以點的面（點地面移動；一直在，正式模型載入後也用這幾片）
     for(const s of [ss.a,ss.ld,ss.b,ss.top]){ const w=s.x1-s.x0, d=s.z1-s.z0; const ya=s.y!==undefined?s.y:s.ya, yb=s.y!==undefined?s.y:s.yb; const m=new THREE.Mesh(new THREE.PlaneGeometry(w,Math.hypot(d,yb-ya)),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((s.x0+s.x1)/2,(ya+yb)/2+0.01,(s.z0+s.z1)/2); m.rotation.x=-Math.PI/2-Math.atan2(yb-ya,d); m.userData.walkLv=(s===ss.b||s===ss.top)?1:0; m.userData.dyn=true; lv0.add(m); walkMeshes.push(m);
       /* 點在一跑樓梯上＝走完這一跑（engine3d.js；任務 #42）：[下面那一端, 上面那一端] */
