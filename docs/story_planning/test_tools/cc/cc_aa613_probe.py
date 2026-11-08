@@ -235,8 +235,9 @@ async def main():
                         if says: sc['lines'] = [[w, t] for w, t, _ in says]
                         await R.shot(pg, 'lib_door')
                         R.check('%s 法圖門口芯慈「%s」' % (tag, AL['xcLib']['here']), has(sc['lines'], AL['xcLib']['here']), J(sc['lines']))
-                        await pg.evaluate("GAME.G.hour=Math.max(GAME.G.hour,15+27/60)")
-                        R.setup('%s 【前置】時間撥到 15:27，GAME.enter(lawlib)（法圖門）' % tag)
+                        lt0 = float(os.environ.get('LIB_T0') or 15 + 27 / 60)   # 準時＝15:30 前坐下（classes3d.js:469 hr<a.t0）；走到座位要幾分鐘遊戲時間，LIB_SIT 用 15:20
+                        h_door = await pg.evaluate("GAME.G.hour"); await pg.evaluate("(t=>{ GAME.G.hour=Math.max(GAME.G.hour,t); })", lt0)
+                        R.setup('%s 【前置】門口演完 %.3f，時間撥到 %.3f，GAME.enter(lawlib)（法圖門）' % (tag, h_door, max(h_door, lt0)))
                         await pg.evaluate("GAME.enter('lawlib')"); await D.wait_zone(pg, cdp, 'lawlib', max_s=40); await pg.wait_for_timeout(3000)
                     else:
                         await jump(pg, cdp, tag, '2025-09-24', 15 + 35 / 60, 'lawlib')
@@ -269,6 +270,7 @@ async def main():
                     sit = {'lib_ontime': '你找了位子坐下。白板前的學長在接投影機，螢幕停在第一頁：「法律資料怎麼查」。', 'lib_late': '你輕輕坐下。白板前的學長已經開始講「法律資料怎麼查」了。'}[mode]   # BB-B 01:22（LAWWW-B e2762e9d9 小房間版）
                     if os.environ.get('LIB_SIT'):
                         xs = [x for _, x in sc['lines']]
+                        R.note('%s 坐下的時刻（第一筆 ps 有值）：%s（講座 15:30 開始）' % (tag, next((x['h'] for x in samples if x.get('ps')), None)))
                         R.check('%s 坐下那一句逐字＝「%s」' % (tag, sit), sit in xs and (mode != 'lib_late' or (late in xs and xs.index(late) < xs.index(sit))), J(sc['lines']))
                         R.check('%s 講座那段沒有「台上」' % tag, not any('台上' in x for x in xs), J([x for x in xs if '台上' in x]))
                     R.note('%s 講座中全部取樣（%d 筆）：%s' % (tag, len(samples), J(samples)))
