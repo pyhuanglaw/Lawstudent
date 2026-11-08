@@ -252,6 +252,14 @@ if '--uvonly' in A:   # 只看 UV 排版、不烘焙（幾十秒）：輸出加�
                               export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False, export_gpu_instances=KEEP_INST)
     print('uvonly exported', OUT, flush=True); sys.exit(0)
 
+# --emit／--dayemit 會改材質的發光強度：先記下原本的，匯出前（第 6 步）照原本的設回去。
+#   11-08 以前一律設成 1.0：原本是 1.0 的材質沒差（到 11-08 交過的都是），大口一樓的燈板原本 26，用 --emit 就會在遊戲裡變暗。
+ORIG_EMIT = {}
+for _m in bpy.data.materials:
+    if _m.node_tree and any(k in _m.name for k in list(EMIT) + list(DAYEMIT)):
+        _b = next((x for x in _m.node_tree.nodes if x.type == 'BSDF_PRINCIPLED'), None)
+        if _b: ORIG_EMIT[_m.name] = _b.inputs['Emission Strength'].default_value
+
 # ---- 4. 貼圖＋每個材質裡一個「要寫進去」的貼圖節點（Cycles 烘焙寫到作用中的貼圖節點，用作用中的 UV）----
 img = bpy.data.images.new('LM_bake', RES, RES, alpha=False, float_buffer=True)
 img.colorspace_settings.name = 'Non-Color'
@@ -567,7 +575,7 @@ for m in bpy.data.materials:
     for k, v in list(EMIT.items()) + list(DAYEMIT.items()):
         if k in m.name and m.node_tree:
             b = next((x for x in m.node_tree.nodes if x.type == 'BSDF_PRINCIPLED'), None)
-            if b: b.inputs['Emission Strength'].default_value = 1.0
+            if b: b.inputs['Emission Strength'].default_value = ORIG_EMIT.get(m.name, 1.0)   # 設回原本的（見第 4 步前面）
 for m, src, dv in ONESIDE:   # --emit-oneside 的混合拿掉、發光顏色接回原本的（匯出的材質和白模一樣）
     nt = m.node_tree; b = next((x for x in nt.nodes if x.type == 'BSDF_PRINCIPLED'), None); inp = b.inputs['Emission Color']
     for n in [x for x in nt.nodes if x.name in ('ONESIDE_geo', 'ONESIDE_mix')]: nt.nodes.remove(n)
