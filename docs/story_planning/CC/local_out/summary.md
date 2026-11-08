@@ -2010,3 +2010,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 159.5s] page close url=http://127.0.0.1:8800/index.html?turbo | [gpu_wrap 159.5s] BROWSER DISCONNECTED
 - 2026-11-08T14:38:59  R0ced_zone  sha=0cedcbb716bbbe120007ef7c92abcbf494436b31  exit=0  218s    PASS 校門 → 公館：回到校園後走得到霖澤館前 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 181.8s] page close url=http://127.0.0.1:8800/index.html?turbo?turbo | [gpu_wrap 181.8s] BROWSER DISCONNECTED
+- 2026-11-08T14:40:31  R0ced_reach  sha=0cedcbb716bbbe120007ef7c92abcbf494436b31  exit=0  645s    統計：29 個區域、1233 個互動點、15 個劇情走路目的地、87 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 608.2s] page close url=http://127.0.0.1:8801/index.html?turbo?turbo | [gpu_wrap 608.2s] BROWSER DISCONNECTED

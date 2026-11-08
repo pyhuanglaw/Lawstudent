@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "R0ced_reach",
+  "sha": "0cedcbb716bbbe120007ef7c92abcbf494436b31",
+  "kind": "game",
+  "script": "tests/reachability_all.py",
+  "env": "XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T14:29:46",
+  "end": "2026-11-08T14:40:31",
+  "seconds": 645,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8801/index.html?turbo",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 96,
+    "mem": 59,
+    "used_gb": 18.8,
+    "chrome_testing": 14
+  }
+}
