@@ -18584,6 +18584,19 @@
    "integration": "已整合待測試",
    "note": "注意：9 個 glb、19 張光照貼圖、9 個 lm.json、bake_xs.sh、glb_fix_instnames.py 被 git checkout 預先 stage，跟著進了 a6c7e7ce9（那筆訊息只寫了機車測試）；程式 patch 和 tests/xs_lm_unit.js 在 d82db91b5。sha256 都和 README 一致；xs_lm_unit 開發原樣 FAILED 15 → ALL PASS；116 支 ALL PASS。沒拿 bake_room.py（f6b2caf18，開發版不是它的前一版）、shanlan.json（不在清單）。交 BB-B。",
    "ack": "ACK"
+  },
+  {
+   "id": "DLV-1108-L2-B1LM",
+   "date": "2026-11-08",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "4614f4fc0",
+   "msg": "ACK",
+   "what": "總圖 B1 光照重烘（#218；BB-B 07:14 PC GPU：影印中心、討論室暗三成多、會議廳黑洞）：library_b1.glb＋lm_day／lm_night.webp、烘焙紀錄 library_b1_lm.json、tests/library_b1_lm_regions_check.py",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "sha256 開發原檔 d6ac021b／5678dc11／218e552b、新檔 e2e8bf0b／5242af84／78e4182d 都和 README 一致；只拿 README 列的檔；regions_check 開發原樣 FAILED 9（LAWWW2 量）→ ALL PASS；不用改程式。"
   }
  ],
  "ignored": [
