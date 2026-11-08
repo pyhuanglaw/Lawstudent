@@ -18542,6 +18542,20 @@
    "integration": "已整合待測試",
    "note": "7206a12de：六個 glb（sha256 和 README 一致）＋glb_partition_at.py＋tests/partition_fade_group_unit.js（原檔 FAILED 6）；142 支 ALL PASS；交 BB-B 重拍 B1 入口",
    "ack": "ACK"
+  },
+  {
+   "id": "DLV-1108-L2-LMREVEAL",
+   "date": "2026-11-08",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "5c4db6b53",
+   "msg": "ACK",
+   "what": "牆淡出以後露出烘焙陰影（門板跟貼著的牆、被牆蓋住的格子補色）",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "e0803ca0d：16 個檔（sha256 和 README 一致）＋三個工具＋tests/partition_fade_group_unit.js（新版）、tests/lm_covered_fill_check.py（要 scipy）；142 支 ALL PASS；交 BB-B 重拍 5F lab_in",
+   "ack": "ACK"
   }
  ],
  "ignored": [
