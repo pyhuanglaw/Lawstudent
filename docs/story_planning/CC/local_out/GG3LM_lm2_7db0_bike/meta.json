@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "GG3LM_lm2_7db0_bike",
+  "sha": "7db0871e0212282e5a60ca46e1aecfa139f45ace",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_scene5_probe.py",
+  "env": "TAG=after_gpu;PART=bikeshop;SLOTS=1400:14,1930:19.5;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-08T14:17:28",
+  "end": "2026-11-08T14:20:39",
+  "seconds": 191,
+  "exit": 0,
+  "error": null,
+  "runner": "5ba0949b5e",
+  "rf_round": "9",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 96,
+    "mem": 54,
+    "used_gb": 17.2,
+    "chrome_testing": 12
+  }
+}

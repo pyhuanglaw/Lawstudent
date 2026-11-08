@@ -1,0 +1,33 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_scene5_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3LM_lm2_7db0_bike\out
+CC 燒臘、頁間書屋光照（after_gpu）：SHA=7db0871e0212282e5a60ca46e1aecfa139f45ace（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+PASS 遊戲載入
+  [前置／捷徑] [after_gpu bikeshop 1400] 讀檔 bikeshop 2025-10-18 14.0（條件事件關閉）
+PASS [after_gpu bikeshop 1400] 進得了 bikeshop  {"zone": "bikeshop", "x": 0.55, "z": 4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  51.3s] [after_gpu bikeshop 1400] 材質／光照貼圖：{"meshes": 154, "mats": 154, "withLightMap": 7, "maps": ["bike_lm_day.webp"], "uv1Meshes": 7, "whiteNoTexMats": 52, "views": [{"n": "VIEWPANE_bikeshop", "vis": false}], "charFailures": [], "assetFailed": null, "glb": true}
+  [  51.3s] [after_gpu bikeshop 1400] 自動機位：{"spawn": [0.55, 4], "y0": 0, "fy": 0, "up": false, "yaw": 3.14, "center": [-0.15, -0.05], "size": [10.7, 3.62, 12.1], "clerk": [1.95, -3.35], "seat": [-0.85, 1.12], "seatLv": [null, null, null], "views": {"door": {"eye": [0.55, 1.6, 4.3], "look": [0.55, 1, -2], "lens": 18}, "top": {"eye": [-0.15, 8.62, 0.75], "look": [-0.15, 0, -0.35], "lens": 16}, "seat": {"eye": [-0.2, 1.4, 1.11], "look": [-0.85, 0.6, 1.12], "lens": 22}, "clerk": {"eye": [0.77, 1.6, -1.49], "look": [1.95, 1.2, -3.35], "lens": 24}, "out": {"eye": [0.55, 1.55, 1.5], "look": [0.55, 1.4, 10], "lens": 20}}}
+PASS [黑畫面] s5_after_gpu_bikeshop_1400_door 不是黑畫面（平均亮度 100、變化 47.5）  [100, 47.5]
+  [  53.8s] [截圖] s5_after_gpu_bikeshop_1400_door：鏡頭 {"eye": [0.55, 1.6, 4.3], "look": [0.55, 1, -2], "lens": 18, "vfov": 58.72}、亮度 [100, 47.5]
+PASS [黑畫面] s5_after_gpu_bikeshop_1400_top 不是黑畫面（平均亮度 93.7、變化 58.3）  [93.7, 58.3]
+  [  56.3s] [截圖] s5_after_gpu_bikeshop_1400_top：鏡頭 {"eye": [-0.15, 8.62, 0.75], "look": [-0.15, 0, -0.35], "lens": 16, "vfov": 64.65}、亮度 [93.7, 58.3]
+PASS [黑畫面] s5_after_gpu_bikeshop_1400_seat 不是黑畫面（平均亮度 129.1、變化 50.8）  [129.1, 50.8]
+  [  58.6s] [截圖] s5_after_gpu_bikeshop_1400_seat：鏡頭 {"eye": [-0.2, 1.4, 1.11], "look": [-0.85, 0.6, 1.12], "lens": 22, "vfov": 49.43}、亮度 [129.1, 50.8]
+PASS [黑畫面] s5_after_gpu_bikeshop_1400_clerk 不是黑畫面（平均亮度 72.4、變化 38.5）  [72.4, 38.5]
+  [  60.9s] [截圖] s5_after_gpu_bikeshop_1400_clerk：鏡頭 {"eye": [0.77, 1.6, -1.49], "look": [1.95, 1.2, -3.35], "lens": 24, "vfov": 45.75}、亮度 [72.4, 38.5]
+PASS [黑畫面] s5_after_gpu_bikeshop_1400_out 不是黑畫面（平均亮度 122.3、變化 42.9）  [122.3, 42.9]
+  [  63.0s] [截圖] s5_after_gpu_bikeshop_1400_out：鏡頭 {"eye": [0.55, 1.55, 1.5], "look": [0.55, 1.4, 10], "lens": 20, "vfov": 53.7}、亮度 [122.3, 42.9]
+  [前置／捷徑] [after_gpu bikeshop 1930] 讀檔 bikeshop 2025-10-18 19.5（條件事件關閉）
+PASS [after_gpu bikeshop 1930] 進得了 bikeshop  {"zone": "bikeshop", "x": 0.55, "z": 4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 19.57}
+  [  77.2s] [after_gpu bikeshop 1930] 材質／光照貼圖：{"meshes": 154, "mats": 154, "withLightMap": 7, "maps": ["bike_lm_day.webp"], "uv1Meshes": 7, "whiteNoTexMats": 52, "views": [{"n": "VIEWPANE_bikeshop", "vis": false}], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_after_gpu_bikeshop_1930_door 不是黑畫面（平均亮度 85.6、變化 42.5）  [85.6, 42.5]
+  [  79.6s] [截圖] s5_after_gpu_bikeshop_1930_door：鏡頭 {"eye": [0.55, 1.6, 4.3], "look": [0.55, 1, -2], "lens": 18, "vfov": 58.72}、亮度 [85.6, 42.5]
+PASS [黑畫面] s5_after_gpu_bikeshop_1930_top 不是黑畫面（平均亮度 56.3、變化 44.2）  [56.3, 44.2]
+  [  81.8s] [截圖] s5_after_gpu_bikeshop_1930_top：鏡頭 {"eye": [-0.15, 8.62, 0.75], "look": [-0.15, 0, -0.35], "lens": 16, "vfov": 64.65}、亮度 [56.3, 44.2]
+PASS [黑畫面] s5_after_gpu_bikeshop_1930_seat 不是黑畫面（平均亮度 101.7、變化 42.9）  [101.7, 42.9]
+  [  84.0s] [截圖] s5_after_gpu_bikeshop_1930_seat：鏡頭 {"eye": [-0.2, 1.4, 1.11], "look": [-0.85, 0.6, 1.12], "lens": 22, "vfov": 49.43}、亮度 [101.7, 42.9]
+PASS [黑畫面] s5_after_gpu_bikeshop_1930_clerk 不是黑畫面（平均亮度 58.8、變化 27.8）  [58.8, 27.8]
+  [  86.2s] [截圖] s5_after_gpu_bikeshop_1930_clerk：鏡頭 {"eye": [0.77, 1.6, -1.49], "look": [1.95, 1.2, -3.35], "lens": 24, "vfov": 45.75}、亮度 [58.8, 27.8]
+PASS [黑畫面] s5_after_gpu_bikeshop_1930_out 不是黑畫面（平均亮度 75.4、變化 31.3）  [75.4, 31.3]
+  [  88.4s] [截圖] s5_after_gpu_bikeshop_1930_out：鏡頭 {"eye": [0.55, 1.55, 1.5], "look": [0.55, 1.4, 10], "lens": 20, "vfov": 53.7}、亮度 [75.4, 31.3]
+PASS 沒有 JS 例外  []
+ALL PASS
