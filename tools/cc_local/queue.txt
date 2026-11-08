@@ -1712,3 +1712,11 @@ R28f5_zone | 28f5f5287c3c752ae62454d8f3e31e1ac4f254df | game | tests/zone_transi
 R28f5_mini | 28f5f5287c3c752ae62454d8f3e31e1ac4f254df | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
 R28f5_main12 | 28f5f5287c3c752ae62454d8f3e31e1ac4f254df | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R28f5_classreal | 28f5f5287c3c752ae62454d8f3e31e1ac4f254df | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
+PERFAB_8172 | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_perf_ab_probe.py | index.html?perf | 30 | PTS=xs_shanlan:1f,xs_shanlan:2f,xs_dakou:1f,xs_dakou:2f,xs_haopai:1f,xs_tongxian:1f
+R8172_p0 | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+R8172_reach | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
+R8172_zone | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
+R8172_mini | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+R8172_main12 | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R8172_classreal | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
+R8172_movreg | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
