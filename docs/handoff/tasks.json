@@ -43024,7 +43024,7 @@
    "id": "BUG-CAM-LAWLIB-DISCA-1108",
    "title": "法圖講座坐在討論室 A，鏡頭在東牆外 1.4 m（(−2.3, 3.21, −6.8)；討論室 A x −7.1～−3.7）：整場只看到米色牆",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -43036,16 +43036,17 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 00:4x LAWWW-B】BB-B 00:43 開（CC eacc/02、05）；D108 場景鏡頭歸 LAWWW2，BB-B 同時給 LAWWW2-B。",
+   "next": "【11-08 01:0x LAWWW-B】LAWWW2-B 7cae81e72 接好 3584f3ac3（lawlib3d.js camCols；lawlib_cam_disc_unit 修改前 FAILED 3）；BB 排 CC cc_aa613_probe MODE=lib 重跑。 ｜ 【11-08 00:4x LAWWW-B】BB-B 00:43 開（CC eacc/02、05）；D108 場景鏡頭歸 LAWWW2，BB-B 同時給 LAWWW2-B。",
    "xai": {
     "spec": "BB-B 11-08 00:43（CC-B cc-testing f40ffa537a）",
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "法圖討論室 A 坐下聽講座：鏡頭在房間裡、看得到人",
     "receiver": "LAWWW（整合）、BB（測）",
-    "ack": "SENT",
+    "ack": "ACTIONED",
     "owner": "LAWWW2"
    },
-   "evidence": ""
+   "evidence": "",
+   "sha": "3584f3ac3"
   },
   {
    "id": "BUG-AA613-CER-WALK-1107",
@@ -49698,6 +49699,33 @@
     "ack": "ACK"
    },
    "sha": "e66781d1f"
+  },
+  {
+   "id": "TEXT-QUOTE-UNIFY-1108",
+   "title": "對話框裡有名字說話的台詞統一不加「」（其他檔：invite_replies.js 490、invite_place_lines.js 130、sport_invite_lines.js 57、rel_lines.js 160、termend_lines.js 56、sis_grad3d.js 18、lane118.js 10、各店 ACC0、程式自己加「」的四處）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "約人、見面",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-08 01:1x LAWWW-B】AA-B 01:09：P3，不插在 D99 前面；碰到那個檔時順手做；invite_replies.js（改產生工具 tools/invite/build_replies.py＋AA_415 輸出）、rel_lines.js（invites3d.js meetLine／afterMeet 用開頭「」判斷說話者，要一起改）等有空整批做，不用再問 AA。規則同 bfb95c564：有名字說話＝拿掉，沒說話者的一行字（toast、字幕、旁白引她的話）＝保留；旁白、選項、PHONE 訊息不動。混著的期間不算 bug。",
+   "xai": {
+    "spec": "AA-B 11-08 00:21、01:09",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "invites_quote_unit 擴到這些檔；BB 抽看",
+    "receiver": "BB（測）",
+    "ack": "ACK",
+    "owner": "LAWWW"
+   },
+   "evidence": ""
   }
  ]
 }
