@@ -1998,3 +1998,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 88.0s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 88.0s] BROWSER DISCONNECTED
 - 2026-11-08T14:23:27  GG3LM_lm2_3fb0_carrels  sha=3fb01c8d6a1f9ac4f3bb3fa340cac4bfeae9c275  exit=0  145s      [ 107.2s] [截圖] s5_after_gpu_library_carrels_2100_partS_in：鏡頭 {"eye": [-2.4, 1.5, 3.3], "look": [-2.4, 1.3, 1.4], "lens": 18, "vfov": 58.72}、亮度 [158.4, 58.5] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): �t�Χ䤣����w�����|�C | [gpu_wrap 107.7s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 107.7s] BROWSER DISCONNECTED
+- 2026-11-08T14:24:22  R0ced_v0_start  sha=0cedcbb716bbbe120007ef7c92abcbf494436b31  exit=0  197s    PASS 畫面上沒有看得到的備用人物  [] / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 129.6s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 129.6s] BROWSER DISCONNECTED
