@@ -83,3 +83,11 @@ assets/models/env/second_ai/bb_support/nanyang_hall.glb：光照貼圖 1024×102
   nh_carpet ← WALL_right_wains：301 格
   nh_carpet ← WALL_back_wains：208 格
 rc=0 561 s
+=== assets/models/env/second_ai/bb_support/haopai.glb
+assets/models/env/second_ai/bb_support/haopai.glb：光照貼圖 1024×1024，屬於網格的格子 669495，被蓋住、會露出來的 101332 格（15.14%）
+  WALL_right_wall_wall ← WALL_right_pegwall_alpha：57422 格
+  WALL_left_wall_wall ← WALL_left_hp_goods：11253 格
+  WALL_right_wall_wall ← WALL_right_hp_vc：5419 格
+  hp_floor_floor ← WALL_left_wall_wall：4105 格
+  hp_floor_floor ← WALL_right_wall_wall：4105 格
+rc=0 1101 s

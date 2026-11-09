@@ -104,3 +104,13 @@ DONE
   露出：WALL_right_right_paint 被 WALL_front_front_paint 擋住 0.24 m²，0% 的組合會露出來；亮度 0.04／沒擋住 0.09（0.48）
   要修 7 對
 DONE
+=== assets/models/env/second_ai/bb_support/haopai.glb
+  露出：WALL_front_front_wall 被 WALL_front_front_vcm 擋住 0.84 m²，1% 的組合會露出來；亮度 0.11／沒擋住 0.42（0.25）
+  露出：WALL_front_front_wall 被 WALL_left_hp_goods 擋住 0.07 m²，6% 的組合會露出來；亮度 0.21／沒擋住 0.42（0.5）
+  露出：hp_ceiling 被 WALL_right_pegwall_wood 擋住 0.17 m²，2% 的組合會露出來；亮度 0.19／沒擋住 0.31（0.61）
+  露出：hp_floor_floor 被 WALL_back_hp_vc 擋住 0.05 m²，2% 的組合會露出來；亮度 0.00／沒擋住 0.05（0.0）
+  露出：hp_ceiling 被 WALL_left_hp_wood 擋住 0.05 m²，2% 的組合會露出來；亮度 0.14／沒擋住 0.31（0.46）
+  露出：hp_ceiling 被 WALL_left_hp_goods 擋住 0.04 m²，3% 的組合會露出來；亮度 0.20／沒擋住 0.31（0.65）
+  露出：WALL_right_pegwall_alpha 被 WALL_right_pegwall_wood 擋住 0.10 m²，0% 的組合會露出來；亮度 0.22／沒擋住 0.45（0.5）
+  要修 7 對
+DONE
