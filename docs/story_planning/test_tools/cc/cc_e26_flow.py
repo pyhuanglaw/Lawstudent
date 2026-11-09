@@ -29,7 +29,7 @@ PATCH1_NEW = PATCH1_OLD + '''    try: await pg.evaluate(@HOOK@)
             return await L.close_panels(pg, cdp)
         if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500); print('   [E08=@E08@] 韋綸「烤肉你要去嗎？」：回「%s」（E08_GO=%s）' % (c[2], await pg.evaluate("GAME.G.flags.E08_GO||null")), flush=True)
         else: print('   [E08] 韋綸的訊息開了但找不到「@ANSRAW@」', flush=True)
-        return ['e08:' + ANS]
+        return ['e08:@ANSRAW@']
 '''.replace('@HOOK@', repr(HOOK)).replace('@ANS@', repr(ANS)).replace('@E08@', E08).replace('@ANSRAW@', ANS).replace('@NONE@', 'True' if E08 == 'none' else 'False')
 assert PATCH1_OLD in src; src = src.replace(PATCH1_OLD, PATCH1_NEW, 1)
 SKF_OLD = '    await L.tap(pg, cdp, \'#btnPhone\'); await pg.wait_for_timeout(900)\n    await pg.evaluate("(()=>{ const b=document.querySelector(\'#phoneTabs button[data-ptab=\\"today\\"]\'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)\n    g = await pg.evaluate('
