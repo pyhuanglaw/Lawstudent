@@ -1,0 +1,13 @@
+CC 美國公寓門板：worktree 07ce887a13；TAG cloud；Playwright ≠ iPhone
+PASS 遊戲載入
+  [前置／捷徑] [closet 14.0] 【前置／捷徑】讀檔把玩家放在 us_apartment (2.0, 0.3)、14.0 點
+  [  30.2s] [closet 14.0] 淡出中的牆／門：[]
+PASS [closet 14.0] 在 us_apartment  {"zone": "us_apartment", "x": 2, "z": 0, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "衣物間", "stand": true, "fb": 0, "hour": 14.02}
+  [前置／捷徑] [bath 14.0] 【前置／捷徑】讀檔把玩家放在 us_apartment (4.2, 2.2)、14.0 點
+  [  47.7s] [bath 14.0] 淡出中的牆／門：[]
+PASS [bath 14.0] 在 us_apartment  {"zone": "us_apartment", "x": 4, "z": 1.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.03}
+  [前置／捷徑] [normal 14.0] 【前置／捷徑】讀檔把玩家放在 us_apartment (2.4, -0.6)、14.0 點
+  [  64.4s] [normal 14.0] 淡出中的牆／門：[{"n": "WALL_bath_w_trim", "vis": false, "op": 0.12}, {"n": "WALL_bath_w_wall", "vis": false, "op": 0.12}, {"n": "WALL_bed_w_door", "vis": false, "op": 0.12}, {"n": "WALL_bed_w_trim", "vis": false, "op": 0.12}, {"n": "WALL_bed_w_wall", "vis": false, "op": 0.12}]
+PASS [normal 14.0] 在 us_apartment  {"zone": "us_apartment", "x": 2.4, "z": -0.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.02}
+PASS 沒有 JS 例外  []
+ALL PASS
