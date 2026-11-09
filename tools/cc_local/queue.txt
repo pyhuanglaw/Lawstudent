@@ -1741,4 +1741,5 @@ POP_8172_shanlan2f | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/sto
 SEATOFF_88c8 | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | probe | docs/story_planning/test_tools/cc/cc_perf_ab_probe.py | index.html?perf | 40 | SOLO=1;SETTLE=30;ROWMIN=5;JSF=seat_off_probe_lawww2_1c1dab1c9b.js;PTS=xs_shanlan:1f,xs_shanlan:2f,xs_dakou:2f,xs_haopai:1f
 CPUTRACE_8172_dakou | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf | 20 | SOLO=1;ZONE=xs_dakou;SETTLE=30;SECS=20
 CPUTRACE_8172_haopai | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf | 20 | SOLO=1;ZONE=xs_haopai;SETTLE=30;SECS=20
+R8172_seatspawn | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/flow_seated_spawn.py | index.html | 40 | XARGS={url} {out};CC_HEADLESS=0
 STUDY_8172_d118b3 | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py | index.html | 240 |
