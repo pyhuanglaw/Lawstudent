@@ -1138,3 +1138,13 @@
 [01:56:51] ==== START E26s_0cf8_yes  (probe @ 0cf83c1f84ed173b5d791897c2ef5209cfcc3759) ====
 [01:56:53] [res] cpu=12% mem=46% (14.7/31.4 GB) chrome_testing=10  START E26s_0cf8_yes
 [01:57:25] [res] cpu=34% mem=46% (14.5/31.4 GB) chrome_testing=9  END E26s_c05e_no
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       bcde8a411..c3dd43002  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:57:31] ==== END   E26s_c05e_no  exit=1  579s   ====
+[01:57:34] memory 47% before starting E26s_0cf8_no (2 running)
+[01:57:34] ==== START E26s_0cf8_no  (probe @ 0cf83c1f84ed173b5d791897c2ef5209cfcc3759) ====
+[01:57:37] [res] cpu=19% mem=47% (14.9/31.4 GB) chrome_testing=9  START E26s_0cf8_no
+[02:00:33] 正在跑：STUDY_8172_d118b3（已跑 56 分／上限 240 分）、E26s_0cf8_yes（已跑 3 分／上限 60 分）、E26s_0cf8_no（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[02:05:33] 正在跑：STUDY_8172_d118b3（已跑 61 分／上限 240 分）、E26s_0cf8_yes（已跑 8 分／上限 60 分）、E26s_0cf8_no（已跑 7 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[02:06:29] [res] cpu=3% mem=44% (13.8/31.4 GB) chrome_testing=10  END E26s_0cf8_yes
