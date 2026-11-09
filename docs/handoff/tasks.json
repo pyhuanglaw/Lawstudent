@@ -50309,7 +50309,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-09 20:0x LAWWW-B】BB-B 19:53 抽查是真的 bug（aa614 看電影 19:30：答應以後按等到晚上直接跳到 20:00、20:027 變 missed、沒演、沒提示，和「時間到會跳出出發」對不上）。照 BB 建議：OUT.alarmOn(q)＝alarm!==false（預設停），CLS.skipStops、STORY.wakeAlarms、STORY.outStopsToday 都改看它；舊存檔排好的出遊也適用；真的不用停的再個別寫 alarm:false。tests/v0_e08_unit.js 4h（舊程式 3 FAIL）。本機全套跑中。交 BB：CC 抽兩三個出遊回歸（看電影、系烤、一個早上的出遊；一般走路出發不受影響）。 ｜ 【11-09 19:5x LAWWW-B】BB-B 19:43 問要不要一起查。OUT.plan 預設沒有 alarm；classes3d skipStops 只停有 alarm 的出遊。先查：每一個沒寫 alarm 的出遊，玩家答應以後按等到晚上會不會跳過（請 CC 抽一個，例如 aa614 看電影 19:30）；確認是問題再決定 OUT.plan 預設 alarm（有 ev、玩家答應的）還是逐一加。",
+   "next": "【11-09 20:1x LAWWW-B】fa4f63cf8 GHA 紅兩支（bed_tonight_alarm 5、date_book 10：校外約會本來就有 DATE.alarmsFor，預設停以後重複停）→ 87f52f2f3：date3d 排進 OUT 寫 alarm:false、OUT.alarmOn 排除 dateTrip（舊存檔的約會也一樣）；bed_tonight 5 加「沒寫 alarm＝停」「舊存檔約會不重複停」（舊規則 FAIL）。已通知 BB-B：CC 在 87f52f2f3 抽 aa614 看電影、系烤 E26v4 三條、一個早上的出遊、一般走路出發與校外約會對照。 ｜ 【11-09 20:0x LAWWW-B】BB-B 19:53 抽查是真的 bug（aa614 看電影 19:30：答應以後按等到晚上直接跳到 20:00、20:027 變 missed、沒演、沒提示，和「時間到會跳出出發」對不上）。照 BB 建議：OUT.alarmOn(q)＝alarm!==false（預設停），CLS.skipStops、STORY.wakeAlarms、STORY.outStopsToday 都改看它；舊存檔排好的出遊也適用；真的不用停的再個別寫 alarm:false。tests/v0_e08_unit.js 4h（舊程式 3 FAIL）。本機全套跑中。交 BB：CC 抽兩三個出遊回歸（看電影、系烤、一個早上的出遊；一般走路出發不受影響）。 ｜ 【11-09 19:5x LAWWW-B】BB-B 19:43 問要不要一起查。OUT.plan 預設沒有 alarm；classes3d skipStops 只停有 alarm 的出遊。先查：每一個沒寫 alarm 的出遊，玩家答應以後按等到晚上會不會跳過（請 CC 抽一個，例如 aa614 看電影 19:30）；確認是問題再決定 OUT.plan 預設 alarm（有 ev、玩家答應的）還是逐一加。",
    "xai": {
     "spec": "BB-B 11-09 19:43",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50318,7 +50318,9 @@
     "ack": "SENT",
     "owner": "LAWWW"
    },
-   "evidence": "tests/v0_e08_unit.js 4h"
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": "87f52f2f34b4144cc9002de02bd1cb213c0ecb78",
+   "test": "tests/v0_e08_unit.js 4h、tests/bed_tonight_alarm_unit.js 5、tests/date_book_unit.js 10（本機 ALL PASS）"
   }
  ]
 }
