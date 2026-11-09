@@ -18778,7 +18778,7 @@
    "what": "CAM-VIEWPANE-SIDE-1109 窗景卡側看：zones3d.js vpPart 記店面左右範圍，鏡頭在範圍外藏窗景卡（阿德影印、林家乾麵、慢輪單車）；tests/viewpane_side_unit.js",
    "task": "CAM-VIEWPANE-SIDE-1109",
    "integration": "已整合待測試",
-   "note": "整合 b8cffd669。patch sha256 e03e7be7、zones3d f667cd55、測試 bc2c1ba0 和交件一致；新測試舊程式 FAILED 5 → ALL PASS；交件 76 支背景跑中。待 CC 新舊對照：阿德出生點 270°（補 90°）、慢輪側牆外一張＋店裡斜看前窗（出生點 150°、210°）；BB-B 判。"
+   "note": "整合 b8cffd669。patch sha256 e03e7be7、zones3d f667cd55、測試 bc2c1ba0 和交件一致；新測試舊程式 FAILED 5 → ALL PASS；交件 76 支 LAWWW-B 本機全過。待 CC 新舊對照：阿德出生點 270°（補 90°）、慢輪側牆外一張＋店裡斜看前窗（出生點 150°、210°）；BB-B 判。"
   }
  ],
  "ignored": [

@@ -50369,7 +50369,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-09 23:3x LAWWW-B】LAWWW2-B 80abb49e1 → 整合 b8cffd669：鏡頭在店面左右範圍外藏窗景卡（阿德影印、林家乾麵、慢輪單車；其他店用模型自己的窗景卡、沒放大）；viewpane_side_unit 舊 FAILED 5 → PASS；76 支背景跑中。待 CC 新舊對照、BB-B 判。 ｜ 【11-09 23:2x LAWWW-B 決定】BB-B 23:12 疑點、LAWWW2-B 查：鏡頭碰撞沒問題，是 18.9 m 寬的窗景卡超出店面那段擋住。選 (1) 鏡頭在店面左右範圍外時藏窗景卡（winParts 加左右判斷；代價：那個角度窗外只有天空色），全部 ggViewPanes 的店一起；測試：範圍外藏、範圍內出現。P3，排在 LAWWW2 主線後面。",
+   "next": "【11-09 23:3x LAWWW-B】LAWWW2-B 80abb49e1 → 整合 b8cffd669：鏡頭在店面左右範圍外藏窗景卡（阿德影印、林家乾麵、慢輪單車；其他店用模型自己的窗景卡、沒放大）；viewpane_side_unit 舊 FAILED 5 → PASS；76 支本機全過。待 CC 新舊對照、BB-B 判。 ｜ 【11-09 23:2x LAWWW-B 決定】BB-B 23:12 疑點、LAWWW2-B 查：鏡頭碰撞沒問題，是 18.9 m 寬的窗景卡超出店面那段擋住。選 (1) 鏡頭在店面左右範圍外時藏窗景卡（winParts 加左右判斷；代價：那個角度窗外只有天空色），全部 ggViewPanes 的店一起；測試：範圍外藏、範圍內出現。P3，排在 LAWWW2 主線後面。",
    "xai": {
     "spec": "BB-B 11-09 23:12；LAWWW2-B cam_teayard_1109 README 第 2 節；LAWWW-B 選 (1)",
     "branch": "claude/funny-albattani-iawshm",
@@ -50380,7 +50380,7 @@
    },
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": "b8cffd6699",
-   "test": null
+   "test": "tests/viewpane_side_unit.js（舊 FAILED 5 → PASS）；交件 76 支 PASS"
   }
  ]
 }
