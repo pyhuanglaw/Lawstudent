@@ -6651,6 +6651,22 @@
    "noDirectIntegrate": false,
    "note": "不用改遊戲程式；洞洞板 224 面朝店裡、hp_peg OPAQUE、板面 ×3.0；右牆前段 0.451／0.438（舊淺牆 0.483／0.463），看起來約舊淺牆 0.89；左牆鐵網格翻 118 面；xs9 check 開發資產 FAILED 2→ALL PASS；好拍／新生南路相關 13 支全過",
    "next": "CC 用 XS_FIX_1032 同角度＋洞洞板近拍＋左牆鐵網格重拍（BB-B 排在 E08 主線兩條後面）；BB-B 判 D120（貼圖＋亮度）"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "585c765ae",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "PERF-XS-NPC-1108 (D)：新的人物第一次畫的卡頓（C.presetSphere）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/README.md",
+    "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/skinned_sphere_1109.patch",
+    "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/transparent_order_probe.js"
+   ],
+   "state": "已交付（READY_FOR_REVIEW）",
+   "noDirectIntegrate": false,
+   "note": "原因：three.js projectObject 排序時不管 frustumCulled，boundingSphere null 就逐頂點套骨頭算（每個新人物 40～60 ms）。不透明蓋皮網格建好就給靜止包圍球（每個幾何算一次）；透明的臉部網格不動（全給會讓 53% 鏡頭位置眼線／高光先後對調）。character3d.js +14／−3＋tests/skinned_sphere_unit.js；第一次畫 618→23.8 ms（−96%）；開發 FAILED 4→ALL PASS；104 支相關 *_unit.js 全過",
+   "next": "LAWWW-B git apply（對 abfa888cf）；CC 用 render_probe_dc.js 的 computeBoundingSphere 表＋CPU trace 看大口 1F 兩次 >100 ms 還在不在"
   }
  ]
 }
