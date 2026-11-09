@@ -50,8 +50,11 @@ haopai)
   #   Cycles 有照 MASK 透光。但洞洞板的面朝向反了（朝牆、單面）：遊戲裡被背面剔除、看不到，玩家看到的是後面的牆；烘焙時兩面都擋光，把看得到的牆擋成 0.02。
   #   所以烘焙時藏起來是對的（牆 0.45，BB-B 11-09 看 PC 截圖確認）。如果以後把洞洞板的面翻正（看得到），這裡就要拿掉 alpha，改成烘洞洞板本身。
   # 11-09 BACKFACE-HAOPAI（BB-B 選 (b)）：輸入改成翻正過的原檔（glb_flip_faces.py 翻右牆洞洞板、左牆鐵網格；洞洞板另一份不透明材質 hp_peg，
-  #   glb_split_tile.py 拆出自己的貼圖、板面 ×2.5 調亮），IN=<那個檔>。洞洞板看得到了：烘焙時不藏、自己也烘（NOLM 加 WALL_right_pegwall_alpha）；
+  #   glb_split_tile.py 拆出自己的貼圖、板面調亮），IN=<那個檔>。洞洞板看得到了：烘焙時不藏、自己也烘（NOLM 加 WALL_right_pegwall_alpha）；
   #   其他鏤空（球拍卡、鐵網格）也不藏：Cycles 照 MASK 透光，影子是對的。
+  #   倍數：烘焙用的是 ×2.5 的板面；烘完看亮度不夠（看起來約舊淺牆的 0.74），板面改 ×3.0、用 glb_replace_image.py 只換那一張圖（光照貼圖和板子
+  #   本身的顏色無關，不用重烘；其他圖、accessor 位元組都一樣）。重做時直接用 ×3.0 烘也可以（結果只差洞洞板自己反彈到別處的那一點點）。
+  #   步驟與數字：docs/art-rebuild/second_ai/wip/backface_haopai_1109/README.md。
   HIDE='glass'
   NOLM="^(?!(hp_floor_floor|hp_ceiling|hp_soffit_wall|WALL_[a-z]+_wall_wall|WALL_front_front_wall|WALL_right_pegwall_alpha)\$)"
   EXTRA=(--shell S)

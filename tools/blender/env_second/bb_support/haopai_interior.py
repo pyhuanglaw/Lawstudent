@@ -391,7 +391,7 @@ def wall_grid(side, z0, z1, y0, y1):
 RZ0, RZ1 = -1.25, 6.62
 def peg_wall(z0, z1, y0, y1):
     # 11-09 BACKFACE-HAOPAI：遊戲用的 GLB 匯出後另外做了兩步（不在這支裡）：洞洞板換一份不透明材質 hp_peg（glb_flip_faces.py --opaque-copy），
-    #   再把貼圖集裡洞洞板那一塊拆成自己的貼圖、板面線性 ×2.5（glb_split_tile.py；BB-B：亮度接近旁邊的灰泥牆）。重新匯出要照 bake_xs.sh 好拍那一段再做一次。
+    #   再把貼圖集裡洞洞板那一塊拆成自己的貼圖、板面線性 ×3.0（glb_split_tile.py；BB-B：亮度接近原本看到的淺牆）。重新匯出要照 bake_xs.sh 好拍那一段再做一次。
     """v2b：右牆整面洞洞板（灰褐色烤漆纖維板，每 0.5 m 一片、木條收邊）——取代網格＋白牆（LAWWW2：「牆面換成洞洞板，不要白磁磚」）"""
     p = Part('pegwall', side='right'); u = p['alpha']; g = ATL['peg']; x = XI1 - 0.01
     z = z0
