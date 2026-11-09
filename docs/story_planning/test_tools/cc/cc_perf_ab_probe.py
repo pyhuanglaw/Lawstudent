@@ -54,7 +54,7 @@ async def main():
                 for r in out.get('rows', []): print('%s   %s' % (tag, json.dumps(r, ensure_ascii=False)), flush=True)
                 print('%s TABLE2 卡頓 >100 ms：%d 個' % (tag, len(out.get('hitches', []))), flush=True)
                 for h in out.get('hitches', []): print('%s   %s' % (tag, json.dumps(h, ensure_ascii=False)), flush=True)
-                R.check('%s 量完（%s 列、info.zone=%s）' % (tag, len(out.get('rows', [])), rec['info']['zone']), rec['info']['zone'] == zone and len(out.get('rows', [])) >= 8, '')
+                R.check('%s 量完（%s 列、info.zone=%s）' % (tag, len(out.get('rows', [])), rec['info']['zone']), rec['info']['zone'] == zone and len(out.get('rows', [])) >= int(os.environ.get('ROWMIN') or 8), json.dumps({k: v for k, v in out.items() if k not in ('rows', 'hitches')}, ensure_ascii=False)[:400])
             except Exception as ex:
                 rec['err'] = repr(ex)[:300]; R.check('%s 沒有例外' % tag, False, rec['err'])
             res.append(rec)
