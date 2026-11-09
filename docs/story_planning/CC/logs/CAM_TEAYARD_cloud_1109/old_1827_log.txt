@@ -1,0 +1,11 @@
+CC 一盞前院鏡頭：worktree 1827999fb4；TAG old；Playwright ≠ iPhone
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 wz_teahouse 2025-10-18 14.0，站 (-3.0, 9.0)
+  [  29.1s] 轉到 180.0°：{"yawDeg": 180, "dist": 4, "distTarget": 4, "camHead": 4.08, "cam": [-3, 2.71, 5.29], "player": [-3, -0.42, 9], "zone": "wz_teahouse"}
+PASS 180.0° 鏡頭轉到了（差 <6°）  180
+  [  30.7s] 180.0° 畫面亮度標準差 30.4（整片牆通常 <15）
+  [  48.7s] 轉到 270.0°：{"yawDeg": 270, "dist": 4, "distTarget": 4, "camHead": 4.08, "cam": [-6.71, 2.71, 9], "player": [-3, -0.42, 9], "zone": "wz_teahouse"}
+PASS 270.0° 鏡頭轉到了（差 <6°）  270
+  [  51.9s] 270.0° 畫面亮度標準差 15.3（整片牆通常 <15）
+PASS 沒有 JS 例外  []
+ALL PASS
