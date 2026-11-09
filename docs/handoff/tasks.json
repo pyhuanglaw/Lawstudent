@@ -50340,7 +50340,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-09 23:2x LAWWW-B】LAWWW2-B f072ddeef → 整合 b6685c824：前院時 camCols 加緣側牆＋鄰居房子／灰泥牆；teahouse_yard_cam_unit 舊 FAILED 2 → PASS；87 支背景跑中。待 CC 重拍 180°、270°、BB-B 判（BB-B 23:06 疑點 3）。",
+   "next": "【11-09 23:2x LAWWW-B】LAWWW2-B f072ddeef → 整合 b6685c824：前院時 camCols 加緣側牆＋鄰居房子／灰泥牆；teahouse_yard_cam_unit 舊 FAILED 2 → PASS；87 支本機全過。待 CC 重拍 180°、270°、BB-B 判（BB-B 23:06 疑點 3）。",
    "xai": {
     "spec": "BB-B 11-09 23:06 疑點 3；LAWWW2-B cam_teayard_1109 README",
     "branch": "claude/funny-albattani-iawshm",
@@ -50351,7 +50351,7 @@
    },
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": "b6685c8242",
-   "test": null
+   "test": "tests/teahouse_yard_cam_unit.js（舊 FAILED 2 → PASS）；交件 87 支 PASS"
   },
   {
    "id": "CAM-VIEWPANE-SIDE-1109",

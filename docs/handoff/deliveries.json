@@ -18765,7 +18765,7 @@
    "what": "CAM-TEAYARD-1109 一盞前院鏡頭碰撞：zones3d.js teaYard 在前院時 camCols 加緣側牆＋鄰居房子／灰泥牆；tests/teahouse_yard_cam_unit.js",
    "task": "CAM-TEAYARD-1109",
    "integration": "已整合待測試",
-   "note": "整合 b6685c824。patch sha256 0b748de7、zones3d cd5b538a、測試 c63d09d3 和交件一致；新測試舊程式 FAILED 2 → ALL PASS；交件 87 支背景跑中。待 CC 重拍 180°、270°、BB-B 判。"
+   "note": "整合 b6685c824。patch sha256 0b748de7、zones3d cd5b538a、測試 c63d09d3 和交件一致；新測試舊程式 FAILED 2 → ALL PASS；交件 87 支 LAWWW-B 本機全過。待 CC 重拍 180°、270°、BB-B 判。"
   }
  ],
  "ignored": [
