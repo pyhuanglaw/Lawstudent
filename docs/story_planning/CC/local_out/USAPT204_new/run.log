@@ -1,0 +1,24 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_usapt_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\USAPT204_new\out
+CC 美國公寓門板：worktree ?；TAG new；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [closet 14.0] 【前置／捷徑】讀檔把玩家放在 us_apartment (2.0, 0.3)、14.0 點
+  [  50.5s] [closet 14.0] 淡出中的牆／門：[]
+PASS [closet 14.0] 在 us_apartment  {"zone": "us_apartment", "x": 2, "z": 0, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "衣物間", "stand": true, "fb": 0, "hour": 14.08}
+  [前置／捷徑] [bath 14.0] 【前置／捷徑】讀檔把玩家放在 us_apartment (4.2, 2.2)、14.0 點
+  [  67.2s] [bath 14.0] 淡出中的牆／門：[]
+PASS [bath 14.0] 在 us_apartment  {"zone": "us_apartment", "x": 4, "z": 1.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.09}
+  [前置／捷徑] [normal 14.0] 【前置／捷徑】讀檔把玩家放在 us_apartment (2.4, -0.6)、14.0 點
+  [  81.7s] [normal 14.0] 淡出中的牆／門：[{"n": "WALL_bath_n_door", "vis": false, "op": 0.12}, {"n": "WALL_bath_w_trim", "vis": false, "op": 0.12}, {"n": "WALL_bath_w_wall", "vis": false, "op": 0.12}, {"n": "WALL_bed_w_door", "vis": false, "op": 0.12}, {"n": "WALL_bed_w_trim", "vis": false, "op": 0.12}, {"n": "WALL_bed_w_wall", "vis": false, "op": 0.12}]
+PASS [normal 14.0] 在 us_apartment  {"zone": "us_apartment", "x": 2.4, "z": -0.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.09}
+  [前置／捷徑] [closet 21.0] 【前置／捷徑】讀檔把玩家放在 us_apartment (2.0, 0.3)、21.0 點
+  [  96.2s] [closet 21.0] 淡出中的牆／門：[]
+PASS [closet 21.0] 在 us_apartment  {"zone": "us_apartment", "x": 2, "z": 0, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "衣物間", "stand": true, "fb": 0, "hour": 21.09}
+  [前置／捷徑] [bath 21.0] 【前置／捷徑】讀檔把玩家放在 us_apartment (4.2, 2.2)、21.0 點
+  [ 110.8s] [bath 21.0] 淡出中的牆／門：[]
+PASS [bath 21.0] 在 us_apartment  {"zone": "us_apartment", "x": 4, "z": 1.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.09}
+  [前置／捷徑] [normal 21.0] 【前置／捷徑】讀檔把玩家放在 us_apartment (2.4, -0.6)、21.0 點
+  [ 125.2s] [normal 21.0] 淡出中的牆／門：[{"n": "WALL_bath_n_door", "vis": false, "op": 0.12}, {"n": "WALL_bath_w_trim", "vis": false, "op": 0.12}, {"n": "WALL_bath_w_wall", "vis": false, "op": 0.12}, {"n": "WALL_bed_w_door", "vis": false, "op": 0.12}, {"n": "WALL_bed_w_trim", "vis": false, "op": 0.12}, {"n": "WALL_bed_w_wall", "vis": false, "op": 0.12}]
+PASS [normal 21.0] 在 us_apartment  {"zone": "us_apartment", "x": 2.4, "z": -0.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.09}
+PASS 沒有 JS 例外  []
+ALL PASS
