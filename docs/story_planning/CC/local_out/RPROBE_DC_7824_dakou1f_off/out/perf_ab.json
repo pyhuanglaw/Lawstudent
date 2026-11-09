@@ -1,0 +1,698 @@
+[
+ {
+  "zone": "xs_dakou",
+  "floor": "1f",
+  "info": {
+   "zone": "xs_dakou",
+   "lv": 0,
+   "pos": [
+    0,
+    6.4
+   ],
+   "yaw": 6.28,
+   "hour": 14.08,
+   "weather": "sunny",
+   "q": "medium",
+   "dpr": 1,
+   "pr": 1,
+   "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "out": {
+   "zone": "xs_dakou",
+   "sec": 30,
+   "frames": 1701,
+   "fps": 56.7,
+   "npc": 11,
+   "frustumCulledSkinned": [],
+   "computeBoundingSphere": [
+    {
+     "name": "Facebaked",
+     "path": "Facebaked < Face < Group < vrmWrap < human < Scene",
+     "ms": 1.1,
+     "verts": 551,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_1",
+     "path": "Facebaked_1 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.3,
+     "verts": 142,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_2",
+     "path": "Facebaked_2 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.5,
+     "verts": 274,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_3",
+     "path": "Facebaked_3 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.6,
+     "verts": 168,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_4",
+     "path": "Facebaked_4 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.1,
+     "verts": 110,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_5",
+     "path": "Facebaked_5 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.2,
+     "verts": 122,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_6",
+     "path": "Facebaked_6 < Face < Group < vrmWrap < human < Scene",
+     "ms": 3,
+     "verts": 1962,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_7",
+     "path": "Facebaked_7 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.1,
+     "verts": 50,
+     "frustumCulled": false
+    },
+    {
+     "name": "Body",
+     "path": "Body < Group < vrmWrap < human < Scene",
+     "ms": 7.7,
+     "verts": 2824,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01",
+     "path": "Clothes_H01 < Clothes_NF2 < Group < vrmWrap < human < Scene",
+     "ms": 6.5,
+     "verts": 2079,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01_1",
+     "path": "Clothes_H01_1 < Clothes_NF2 < Group < vrmWrap < human < Scene",
+     "ms": 13.6,
+     "verts": 3575,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01_2",
+     "path": "Clothes_H01_2 < Clothes_NF2 < Group < vrmWrap < human < Scene",
+     "ms": 1.4,
+     "verts": 652,
+     "frustumCulled": false
+    },
+    {
+     "name": "Hair_NF2",
+     "path": "Hair_NF2 < Group < vrmWrap < human < Scene",
+     "ms": 12.1,
+     "verts": 7437,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked",
+     "path": "Facebaked < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.2,
+     "verts": 110,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_1",
+     "path": "Facebaked_1 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.8,
+     "verts": 523,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_2",
+     "path": "Facebaked_2 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.2,
+     "verts": 134,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_3",
+     "path": "Facebaked_3 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.4,
+     "verts": 130,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_4",
+     "path": "Facebaked_4 < Face < Group < vrmWrap < human < Scene",
+     "ms": 3.1,
+     "verts": 2018,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_5",
+     "path": "Facebaked_5 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.2,
+     "verts": 160,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_6",
+     "path": "Facebaked_6 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.4,
+     "verts": 266,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_7",
+     "path": "Facebaked_7 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.1,
+     "verts": 50,
+     "frustumCulled": false
+    },
+    {
+     "name": "Body",
+     "path": "Body < Group < vrmWrap < human < Scene",
+     "ms": 6.6,
+     "verts": 2495,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01",
+     "path": "Clothes_H01 < Clothes_NM3 < Group < vrmWrap < human < Scene",
+     "ms": 3.9,
+     "verts": 2079,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01_1",
+     "path": "Clothes_H01_1 < Clothes_NM3 < Group < vrmWrap < human < Scene",
+     "ms": 8.9,
+     "verts": 3575,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01_2",
+     "path": "Clothes_H01_2 < Clothes_NM3 < Group < vrmWrap < human < Scene",
+     "ms": 0.9,
+     "verts": 652,
+     "frustumCulled": false
+    },
+    {
+     "name": "Hair_NM3",
+     "path": "Hair_NM3 < Group < vrmWrap < human < Scene",
+     "ms": 12.2,
+     "verts": 8449,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked",
+     "path": "Facebaked < Face < Group < vrmWrap < human < Scene",
+     "ms": 2,
+     "verts": 543,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_1",
+     "path": "Facebaked_1 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.5,
+     "verts": 142,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_2",
+     "path": "Facebaked_2 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.6,
+     "verts": 274,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_3",
+     "path": "Facebaked_3 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.3,
+     "verts": 168,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_4",
+     "path": "Facebaked_4 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.2,
+     "verts": 110,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_5",
+     "path": "Facebaked_5 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.2,
+     "verts": 122,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_6",
+     "path": "Facebaked_6 < Face < Group < vrmWrap < human < Scene",
+     "ms": 4.8,
+     "verts": 1934,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_7",
+     "path": "Facebaked_7 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.1,
+     "verts": 50,
+     "frustumCulled": false
+    },
+    {
+     "name": "Body",
+     "path": "Body < Group < vrmWrap < human < Scene",
+     "ms": 7.4,
+     "verts": 2402,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01",
+     "path": "Clothes_H01 < Clothes_NF3 < Group < vrmWrap < human < Scene",
+     "ms": 8.9,
+     "verts": 2079,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01_1",
+     "path": "Clothes_H01_1 < Clothes_NF3 < Group < vrmWrap < human < Scene",
+     "ms": 13.3,
+     "verts": 3575,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01_2",
+     "path": "Clothes_H01_2 < Clothes_NF3 < Group < vrmWrap < human < Scene",
+     "ms": 1,
+     "verts": 652,
+     "frustumCulled": false
+    },
+    {
+     "name": "Hair_NF3",
+     "path": "Hair_NF3 < Group < vrmWrap < human < Scene",
+     "ms": 12,
+     "verts": 7650,
+     "frustumCulled": false
+    },
+    {
+     "name": "npc_far",
+     "path": "npc_far < Face < Group < vrmWrap < human < Scene",
+     "ms": 2.6,
+     "verts": 1277,
+     "frustumCulled": false
+    },
+    {
+     "name": "npc_far",
+     "path": "npc_far < Face < Group < vrmWrap < human < Scene",
+     "ms": 5.1,
+     "verts": 3223,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked",
+     "path": "Facebaked < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.4,
+     "verts": 110,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_1",
+     "path": "Facebaked_1 < Face < Group < vrmWrap < human < Scene",
+     "ms": 1.6,
+     "verts": 515,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_2",
+     "path": "Facebaked_2 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.2,
+     "verts": 134,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_3",
+     "path": "Facebaked_3 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.5,
+     "verts": 130,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_4",
+     "path": "Facebaked_4 < Face < Group < vrmWrap < human < Scene",
+     "ms": 4.3,
+     "verts": 2021,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_5",
+     "path": "Facebaked_5 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.3,
+     "verts": 160,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_6",
+     "path": "Facebaked_6 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.4,
+     "verts": 266,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_7",
+     "path": "Facebaked_7 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0,
+     "verts": 50,
+     "frustumCulled": false
+    },
+    {
+     "name": "Body",
+     "path": "Body < Group < vrmWrap < human < Scene",
+     "ms": 5.2,
+     "verts": 2525,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01",
+     "path": "Clothes_H01 < Clothes_NM2 < Group < vrmWrap < human < Scene",
+     "ms": 4.5,
+     "verts": 2079,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01_1",
+     "path": "Clothes_H01_1 < Clothes_NM2 < Group < vrmWrap < human < Scene",
+     "ms": 10.3,
+     "verts": 3575,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01_2",
+     "path": "Clothes_H01_2 < Clothes_NM2 < Group < vrmWrap < human < Scene",
+     "ms": 1,
+     "verts": 652,
+     "frustumCulled": false
+    },
+    {
+     "name": "Hair_NM2",
+     "path": "Hair_NM2 < Group < vrmWrap < human < Scene",
+     "ms": 13.9,
+     "verts": 8308,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked",
+     "path": "Facebaked < Face < Group < vrmWrap < human < Scene",
+     "ms": 1.8,
+     "verts": 551,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_1",
+     "path": "Facebaked_1 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.5,
+     "verts": 142,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_2",
+     "path": "Facebaked_2 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.8,
+     "verts": 274,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_3",
+     "path": "Facebaked_3 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.5,
+     "verts": 168,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_4",
+     "path": "Facebaked_4 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.3,
+     "verts": 110,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_5",
+     "path": "Facebaked_5 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.4,
+     "verts": 122,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_6",
+     "path": "Facebaked_6 < Face < Group < vrmWrap < human < Scene",
+     "ms": 4.7,
+     "verts": 1962,
+     "frustumCulled": false
+    },
+    {
+     "name": "Facebaked_7",
+     "path": "Facebaked_7 < Face < Group < vrmWrap < human < Scene",
+     "ms": 0.2,
+     "verts": 50,
+     "frustumCulled": false
+    },
+    {
+     "name": "Body",
+     "path": "Body < Group < vrmWrap < human < Scene",
+     "ms": 6.2,
+     "verts": 2786,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01",
+     "path": "Clothes_H01 < Clothes_NF4 < Group < vrmWrap < human < Scene",
+     "ms": 6,
+     "verts": 2079,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01_1",
+     "path": "Clothes_H01_1 < Clothes_NF4 < Group < vrmWrap < human < Scene",
+     "ms": 9.6,
+     "verts": 3575,
+     "frustumCulled": false
+    },
+    {
+     "name": "Clothes_H01_2",
+     "path": "Clothes_H01_2 < Clothes_NF4 < Group < vrmWrap < human < Scene",
+     "ms": 0.9,
+     "verts": 652,
+     "frustumCulled": false
+    },
+    {
+     "name": "Hair_NF4",
+     "path": "Hair_NF4 < Group < vrmWrap < human < Scene",
+     "ms": 11.9,
+     "verts": 7584,
+     "frustumCulled": false
+    },
+    {
+     "name": "npc_far",
+     "path": "npc_far < Face < Group < vrmWrap < human < Scene",
+     "ms": 2.9,
+     "verts": 1347,
+     "frustumCulled": false
+    },
+    {
+     "name": "npc_far",
+     "path": "npc_far < Face < Group < vrmWrap < human < Scene",
+     "ms": 5,
+     "verts": 3188,
+     "frustumCulled": false
+    }
+   ],
+   "programReasonsPerSec": [
+    {
+     "name": "dk_vc_matte",
+     "draws": 1133.4,
+     "version": 1133.4,
+     "programChanged": 1133.4
+    },
+    {
+     "name": "dk_vc_metal",
+     "draws": 340,
+     "version": 226.7,
+     "programChanged": 226.7
+    },
+    {
+     "name": "dk_glass",
+     "draws": 226.7,
+     "version": 226.7,
+     "programChanged": 226.7
+    },
+    {
+     "name": "(no name)",
+     "draws": 1238,
+     "skinning": 113.3,
+     "morphTargets": 113.3,
+     "morphTargetsCount": 113.3,
+     "programChanged": 226.7,
+     "version": 113.3
+    },
+    {
+     "name": "npc_far",
+     "draws": 250.5,
+     "version": 0.1
+    },
+    {
+     "name": "M00_000_00_FaceMouth_00_FACE",
+     "draws": 74,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_000_00_EyeWhite_00_EYE",
+     "draws": 74,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_000_00_Face_00_SKIN",
+     "draws": 74,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_000_00_Face_00_SKIN (Outline)",
+     "draws": 74,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_001_01_Body_00_SKIN",
+     "draws": 74,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_001_01_Body_00_SKIN (Outline)",
+     "draws": 74,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_000_00_FaceBrow_00_FACE",
+     "draws": 74,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_000_00_FaceEyeline_00_FACE",
+     "draws": 74,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "M00_000_00_FaceEyelash_00_FACE",
+     "draws": 74,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "F00_000_00_FaceMouth_00_FACE",
+     "draws": 18.6,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "F00_000_00_EyeWhite_00_EYE",
+     "draws": 18.6,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "F00_000_00_Face_00_SKIN",
+     "draws": 18.6,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "F00_000_00_Face_00_SKIN (Outline)",
+     "draws": 18.6,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "F00_002_02_Body_00_SKIN",
+     "draws": 18.6,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "F00_002_02_Body_00_SKIN (Outline)",
+     "draws": 18.6,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "H01_Iris_EYE",
+     "draws": 36,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "F00_000_00_FaceEyeline_00_FACE",
+     "draws": 18.6,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "F00_000_00_FaceBrow_00_FACE",
+     "draws": 18.6,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "F00_000_00_FaceEyelash_00_FACE",
+     "draws": 18.6,
+     "programChanged": 0.1,
+     "lightsStateVersion": 0.1
+    },
+    {
+     "name": "NF2_Trouser_CLOTH",
+     "draws": 5.7,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NF2_Knit_CLOTH",
+     "draws": 5.7,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NF2_Loafer_CLOTH",
+     "draws": 5.7,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NF2_Trouser_CLOTH (Outline)",
+     "draws": 5.7,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NF2_Knit_CLOTH (Outline)",
+     "draws": 5.7,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    },
+    {
+     "name": "NF2_Loafer_CLOTH (Outline)",
+     "draws": 5.7,
+     "programChanged": 0,
+     "lightsStateVersion": 0
+    }
+   ]
+  }
+ }
+]
