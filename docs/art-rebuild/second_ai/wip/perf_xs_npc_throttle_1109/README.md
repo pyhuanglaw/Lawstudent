@@ -215,7 +215,7 @@ LAWWW-B 17:21 定的順序是 D → C → A。D、C 要等 CC 的探針結果（
     - ⑤ `E.wallOnePass=false` 回到兩次。
   - 開發原樣 **FAILED 4**（② 三間、⑤）→ 加 patch **ALL PASS**。
   - 三間 × 四個方向合計：畫牆 **264 → 144 次**、`version` **+240 → +0**（大口 96 → 48 次）。
-- **回歸**：見下面（跑中）。
+- **回歸**：工作樹＝開發 `28d40e6e3`＋這個 patch，提到 hideFaded／fadeWalls／walls／forceSinglePass／capTextures／attachRoomGLB／ASSET_DATA 的 77 支 `*_unit.js`＋新的這支：**78／0 全過**。
 - **效能前後**：整合後請 CC 用 `render_probe_dc.js`（大口 1F、山嵐）：
   - `programReasonsPerSec` 的 `dk_vc_matte`、`dk_vc_metal`、`shl_*` 那幾行應該消失或 `version`／`programChanged` 變 0；
   - 加 `?wall2pass` 再量一次當對照；

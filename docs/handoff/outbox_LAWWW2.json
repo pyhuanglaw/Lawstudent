@@ -6700,6 +6700,22 @@
    "noDirectIntegrate": false,
    "note": "只改節點：衣物間那片跟臥室牆、衛浴那片跟外牆 E 淡出（規則 B）；三角形 312 逐一相同、其他 90 個節點不變、光照貼圖不動；露出暗面約 7 m²（30%／10%／5% 的組合）→ 剩鉸鍊那邊約 0.3 m² 接觸陰影；55 支 Node 全過（deploy_check 要瀏覽器不算）",
    "next": "衛浴那片跟外牆 E：CC 補拍、BB-B 看"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "PERF-XS-NPC-1108 (C)：牆一次畫完（transparent＋雙面的牆每一幀畫兩次、換兩次 shader）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/README.md",
+    "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/wall_onepass_1109.patch",
+    "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/wall_onepass_glb_walls.txt"
+   ],
+   "state": "READY_FOR_REVIEW（Node：開發 28d40e6e3 FAILED 4 → 加 patch ALL PASS；回歸 78／0）",
+   "noDirectIntegrate": false,
+   "note": "three.js renderObject 對 transparent＋DoubleSide＋forceSinglePass=false 畫兩次並各 needsUpdate；各區域淡出把牆材質複製、設 transparent，GLB 牆大多雙面（66／84 顆）。assets3d.js 載建築 GLB 時記 userData.op0（原本不透明），engine3d.js hideFaded 對 op0、opacity 1、雙面、無 alphaTest 的牆設 forceSinglePass；玻璃（BLEND）、葉子（MASK）不碰。三間 12 個方向：畫牆 264→144、version +240→0。?wall2pass 回舊做法。另附 (D) CC 實測 238.4 ms／69 次 → 10.0 ms／20 次、(A) SITFEET_abfa 前後。",
+   "next": "LAWWW-B 整合；CC 用 render_probe_dc.js 量大口 1F、山嵐（加 ?wall2pass 對照）；BB-B 可同角度開關各拍一張比對（應該一樣）"
   }
  ]
 }
