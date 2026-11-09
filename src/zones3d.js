@@ -2632,13 +2632,19 @@ const Z3 = (function(){
       const tm=navTapMesh(nav,x0,x1,z0,z1,0.2,0,cz); g0.add(tm); z.walkMeshes=(z.walkMeshes||[]).concat([tm]); }
     const fy=new THREE.Mesh(new THREE.PlaneGeometry(9.2,3.4),M('#6f7a52',{rough:0.95})); fy.rotation.x=-Math.PI/2; fy.position.set(0,-0.41,7.9-cz); g.add(fy);   /* 備用（模型載入失敗時）：前院的地面 */
     z.yardZ=Y.inYardZ||6.35; z._inYard=!!(z.spawn&&z.spawn.z>z.yardZ); z.yardParts=[];
+    /* 前院的鏡頭碰撞（CAM-TEAYARD-1109，LAWWW2-B；BB-B 11-09 WALLFADE_W1P：出生點把鏡頭轉到 180°、270°，鏡頭跑進屋裡、鄰居的牆裡，整個畫面只剩牆）：
+       這一區的 camCols 原本只有屋裡兩道隔間牆；在前院時緣側那面牆照下面的規則不淡出，鏡頭退到屋裡就被它擋住，西邊、北邊鄰居的房子也沒有碰撞。
+       玩家在前院時，把緣側的牆（WALL_engawa_*）、前院模型的鄰居房子和兩側灰泥牆（wzy_apt、wzy_apt2、wzy_plaster）加進鏡頭碰撞（擋到就拉近、抬高，和教學館、美國公寓同一套）；回到屋裡照舊 */
+    const camBase=z.camCols?z.camCols[0]:[]; z.yardCams=[];
     const fw=z.fadeWalls; z.fadeWalls=function(cam,pp){ if(fw) fw.call(this,cam,pp); const iy=!!pp&&pp.z>(this._inYard?this.yardZ-0.15:this.yardZ); this._inYard=iy;
+      const ck=iy?this.yardCams.length+'|'+this.walls.length:'in'; if(this._camKey!==ck){ this._camKey=ck; this.camCols=[iy?camBase.concat(this.yardCams,this.walls.filter(w=>/WALL_engawa/.test(w.name||''))):camBase]; this._lcAll=null; }
       for(const o of this.yardParts) o.visible=iy;
       if(iy) for(const w of this.walls){ if(/WALL_engawa/.test(w.name||'')&&w.material&&!Array.isArray(w.material)){ w.material.opacity=1; w.material.depthWrite=true; } } };
     teaCatBowl(z,g0,L,cz);
     const mk=Y.manifest||'bldg.wz_teahouse_yard'; if(typeof ASSETS==='undefined'||!ASSETS.manifest[mk]) return;
     ASSETS.loadOne(mk).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const r=c.scene.clone(true); if(cz) r.position.z-=cz; r.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(r); r.updateMatrixWorld(true);
       r.traverse(o=>{ if(/^YARD_(ROOF|EAVE)$/.test(o.name)) z.yardParts.push(o); }); for(const o of z.yardParts) o.visible=z._inYard;
+      r.traverse(o=>{ if(o.isMesh&&/^wzy_(apt|apt2|plaster)$/.test(o.name)) z.yardCams.push(o); }); z._camKey=null;   /* 前院的鏡頭碰撞（見上面）*/
       fy.visible=false;
       const gl=[]; r.traverse(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
       if(gl.length){ const mesh=wzGlowBatch(E,g0,r,gl,'wz_teahouse_yard_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; mesh.material.emissiveIntensity=E.lampsOn?1:0; }   /* 冠木門的門燈、石燈籠、玄關的提燈：晚上亮 */
