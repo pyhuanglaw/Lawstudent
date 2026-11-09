@@ -1,0 +1,28 @@
+diff --git a/tests/viewpane_side_unit.js b/tests/viewpane_side_unit.js
+index d3aa2d2..792ceb9 100644
+--- a/tests/viewpane_side_unit.js
++++ b/tests/viewpane_side_unit.js
+@@ -4,7 +4,8 @@
+ //   ① 鏡頭在左、右側牆外 1 m（店深中間）：窗景卡藏起來
+ //   ② 鏡頭在店裡（正中、靠左右側牆 0.3 m）：窗景卡看得到（店裡看窗外的景照舊）
+ //   ③ 鏡頭在前牆外 2 m：窗景卡藏起來（原本的規則照舊）
+-//   ④ 玩家站在出生點，跟隨鏡頭（引擎的 followCam、區域的 camDist）轉一圈（每 15°）：鏡頭在店面左右範圍外的角度窗景卡都藏；鏡頭在店裡、朝前窗（150°～210°）的角度都看得到
++//   ④ 玩家站在出生點，跟隨鏡頭（引擎的 followCam、區域的 camDist；俯角＝引擎的預設（室內 0.38，engine3d.js cam.pitch=E.indoor?0.38:0.22）和玩家往下拖的 0.6）轉一圈（每 15°）：
++//      鏡頭在店面左右範圍外的角度窗景卡都藏；鏡頭在店裡、朝前窗（150°～210°）的角度都看得到
+ // 修改前（開發分支 2d58e8a52）：阿德影印、林家乾麵 ①、④ FAIL（慢輪單車店面寬 10.2 m，出生點轉一圈鏡頭不會出店面，只有 ① FAIL）。用法：node tests/viewpane_side_unit.js
+ const fs=require('fs'), vm=require('vm'), path=require('path');
+ const ROOT=path.resolve(__dirname,'..');
+@@ -47,10 +48,10 @@ const shown=o=>{ for(let p=o;p;p=p.parent) if(!p.visible) return false; return t
+     const F=at(0,2.5,cp.z+2);
+     check(id+' ③ 鏡頭在前牆外 2 m：窗景卡藏起來', !F);
+     const out=new THREE.Vector3(), tgt=new THREE.Vector3(sp.x,1.45,sp.z), dist=Zd.camDist||4.0, badOut=[], badIn=[]; let nOut=0, nIn=0;
+-    for(let deg=0;deg<360;deg+=15){ for(let k=0;k<3;k++){ E.followCam(tgt,deg*Math.PI/180,0.22,dist,0,out); cam.position.copy(out); cam.lookAt(tgt); cam.updateMatrixWorld(true); z.fadeWalls(cam,P); if(E.hideFaded) E.hideFaded(); }
++    for(const pitch of [Zd.indoor?0.38:0.22,0.6]) for(let deg=0;deg<360;deg+=15){ for(let k=0;k<3;k++){ E.followCam(tgt,deg*Math.PI/180,pitch,dist,0,out); cam.position.copy(out); cam.lookAt(tgt); cam.updateMatrixWorld(true); z.fadeWalls(cam,P); if(E.hideFaded) E.hideFaded(); }
+       const v=shown(card), lat=Math.abs(out.x)>W;
+-      if(lat){ nOut++; if(v) badOut.push(deg+'°'); } else if(deg>=150&&deg<=210&&out.z<cp.z){ nIn++; if(!v) badIn.push(deg+'°'); } }
+-    check(id+' ④ 出生點轉一圈：鏡頭在店面左右範圍外的角度窗景卡都藏、店裡朝前窗的角度都看得到', !badOut.length&&!badIn.length&&nIn>0,
++      if(lat){ nOut++; if(v) badOut.push(pitch+'/'+deg+'°'); } else if(deg>=150&&deg<=210&&out.z<cp.z){ nIn++; if(!v) badIn.push(pitch+'/'+deg+'°'); } }
++    check(id+' ④ 出生點轉一圈（俯角 '+(Zd.indoor?0.38:0.22)+'、0.6）：鏡頭在店面左右範圍外的角度窗景卡都藏、店裡朝前窗的角度都看得到', !badOut.length&&!badIn.length&&nIn>0,
+       `範圍外 ${nOut} 個角度${badOut.length?'，還看得到：'+badOut.join('、'):''}；朝前窗 ${nIn} 個角度${badIn.length?'，藏起來：'+badIn.join('、'):''}`); }
+   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+   }catch(e){ console.log('ERR',e.stack); process.exit(1); }

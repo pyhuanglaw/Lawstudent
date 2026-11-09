@@ -78,3 +78,16 @@ BB-B 23:16 指定的，每一張都要新舊對照：
 
 - 遊戲內截圖還沒拍（雲端沒有瀏覽器，D131）。
 - 手機實機沒測。
+
+## 補充（11-09 23:5x）：測試的俯角修正（只改測試）
+
+- **整合**：LAWWW-B 已把 v1 整合進開發分支（b8cffd669）。
+- **錯在哪**：v1 測試 ④ 的跟隨鏡頭用了俯角 0.22（戶外）。引擎在室內區域的預設是 **0.38**（`engine3d.js`：`cam.pitch=E.indoor?0.38:0.22`），三間店都是室內區域。茶屋第二輪也是同一個錯。
+- **改法**：`viewpane_test_pitch_1109.patch` 只改 `tests/viewpane_side_unit.js`。④ 改用引擎的預設俯角，再加上玩家往下拖的 0.6，兩種都轉一圈。程式碼不變。
+- **結果**：開發分支原樣 FAILED 5 → 改後 ALL PASS（`test_pitch_dev.txt`、`test_pitch_new.txt`）。改用正確的俯角後，範圍外的角度仍然全部藏好。
+- **檢查**：對開發分支 8fd90fc6a 執行 `git apply --check` 通過。
+
+| 檔案 | 開發分支 8fd90fc6a | 改後 |
+|---|---|---|
+| `tests/viewpane_side_unit.js` | bc2c1ba0292a8de8 | 2047ae975ae7ad5b |
+| `viewpane_test_pitch_1109.patch` | — | 6410cd2c90b8206f |
