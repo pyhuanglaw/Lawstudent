@@ -1108,3 +1108,12 @@
 [06:55:54] ==== START WALL1P_shot_2pass  (probe @ 676be35773c0a2dd5ce13faf28ba43c89eee8265) ====
 [06:55:57] [res] cpu=5% mem=32% (10.2/31.4 GB) chrome_testing=0  START WALL1P_shot_2pass
 [06:57:57] [res] cpu=6% mem=33% (10.6/31.4 GB) chrome_testing=0  END WALL1P_shot_2pass
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b11fbea44..ddbf2682a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:58:03] ==== END   WALL1P_shot_2pass  exit=0  123s   ====
+[06:58:07] memory 34% before starting WALLFADE_old (0 running)
+[06:58:07] ==== START WALLFADE_old  (probe @ c8af31018a9ce570422ad748aa277af842f8db37) ====
+[06:58:10] [res] cpu=11% mem=34% (10.8/31.4 GB) chrome_testing=0  START WALLFADE_old
+[06:58:27] 正在跑：WALLFADE_old（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[07:01:14] [res] cpu=26% mem=33% (10.3/31.4 GB) chrome_testing=0  END WALLFADE_old
