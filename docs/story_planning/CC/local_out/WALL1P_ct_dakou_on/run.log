@@ -1,0 +1,12 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_cpu_trace_probe.py http://127.0.0.1:8800/index.html?perf C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WALL1P_ct_dakou_on\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 xs_dakou 2025-10-18 14（條件事件、手機關），出生點
+  [  40.7s] INFO {"zone": "xs_dakou", "lv": 0, "npc": 11, "q": "medium", "pr": 1, "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"}
+PASS 在 xs_dakou
+  [  40.7s] 先站 30.0 秒（暖機）
+  [ 107.7s] 卡頓 >100 ms：2 個 [{"at_ms": 7095, "ms": 100, "ts_us": 1794264310752700, "mark": "cc_hitch_7095"}, {"at_ms": 13111, "ms": 100, "ts_us": 1794264316769100, "mark": "cc_hitch_13111"}]
+  [ 107.7s] 檔案：cpu.cpuprofile 581 KB、trace.json.gz 2387 KB（事件 158275 個）
+PASS 錄到 trace 事件  158275
+PASS 沒有 JS 例外  []
+ALL PASS
