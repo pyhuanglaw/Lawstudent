@@ -2643,11 +2643,13 @@ const Z3 = (function(){
     const fw=z.fadeWalls; z.fadeWalls=function(cam,pp){ if(fw) fw.call(this,cam,pp); const iy=!!pp&&pp.z>(this._inYard?this.yardZ-0.15:this.yardZ); this._inYard=iy;
       const ck=iy?this.yardCams.length+'|'+this.walls.length:'in'; if(this._camKey!==ck){ this._camKey=ck; this.camCols=[iy?camBase.concat(this.yardCams,this.walls.filter(w=>/WALL_engawa/.test(w.name||''))):camBase]; this._lcAll=null; }
       for(const o of this.yardParts) o.visible=iy;
+      if(iy&&this.yardEave&&cam){ const ez=this.yardEaveZ, under=cam.position.z<(this._eaveHid?ez+0.1:ez-0.1); this._eaveHid=under; if(under) this.yardEave.visible=false; } else this._eaveHid=false;   /* 鏡頭跑到緣側屋簷外緣的房子那一側（轉到 150°～210°）：屋簷整組藏起來，和牆淡出同一個道理——鏡頭在屋簷的體積裡、或隔著屋簷看前院的人，橫樑、椽子、瓦蓋住畫面上半、擋住頭（CAM-TEAYARD-1109 第二輪，BB-B 23:23 180° PARTIAL；加進鏡頭碰撞試過：鏡頭被擠到簷下，畫面上半一樣是簷下板）*/
       if(iy) for(const w of this.walls){ if(/WALL_engawa/.test(w.name||'')&&w.material&&!Array.isArray(w.material)){ w.material.opacity=1; w.material.depthWrite=true; } } };
     teaCatBowl(z,g0,L,cz);
     const mk=Y.manifest||'bldg.wz_teahouse_yard'; if(typeof ASSETS==='undefined'||!ASSETS.manifest[mk]) return;
     ASSETS.loadOne(mk).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const r=c.scene.clone(true); if(cz) r.position.z-=cz; r.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(r); r.updateMatrixWorld(true);
       r.traverse(o=>{ if(/^YARD_(ROOF|EAVE)$/.test(o.name)) z.yardParts.push(o); }); for(const o of z.yardParts) o.visible=z._inYard;
+      z.yardEave=r.getObjectByName('YARD_EAVE')||null; if(z.yardEave){ g0.updateMatrixWorld(true); z.yardEaveZ=new THREE.Box3().setFromObject(z.yardEave).max.z; }   /* 屋簷外緣（世界座標 z 6.93）；g0 整組往 +z 移了 cz，先更新矩陣（不然少算 2.3 m）*/
       r.traverse(o=>{ if(o.isMesh&&/^wzy_(apt|apt2|plaster)$/.test(o.name)) z.yardCams.push(o); }); z._camKey=null;   /* 前院的鏡頭碰撞（見上面）*/
       fy.visible=false;
       const gl=[]; r.traverse(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
