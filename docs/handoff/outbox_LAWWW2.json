@@ -6733,6 +6733,22 @@
    "noDirectIntegrate": false,
    "note": "被另一個 WALL_ 網格 2 cm 內蓋住、牆淡出時露出的格子補色；亮度比 0.10～0.38 → 0.95～1.37；其他格子 WebP 重編碼平均差 0.5～1.2／255。GLB、程式不動；測試 patch 加五個模型。",
    "next": "LAWWW-B 整合；CC 拍四間（牆外讓那面牆淡出：宿舍左牆外看床架、浴室牆外看白框；萬才一樓西牆外；大口 1F 右牆外；茶屋右牆外）、BB-B 判"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "a81a8c837",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "#204 記憶體不夠的 12 間：分批版盤點（只讀，不改檔）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/wall_base_survey_1109/README.md",
+    "docs/art-rebuild/second_ai/wip/wall_base_survey_1109/oom12_dry.txt",
+    "docs/art-rebuild/second_ai/wip/wall_base_survey_1109/oom12_reveal.txt"
+   ],
+   "state": "報告，等 LAWWW-B 選",
+   "noDirectIntegrate": true,
+   "note": "嚴重度：轉角唱片 0.94、大步 0.61、總圖 5F 書庫 0.51、阿德 0.49、萬才多功能 0.23、燒臘 0.21、腳踏車 0.20、同弦 0.17、南洋 1 廳 0.01、好拍 0.01；山嵐、南洋大廳 <1% 不跑。建議做轉角唱片，2～4 由 LAWWW-B 決定。",
+   "next": "LAWWW-B 選好再做（lm_fill_covered＋lm_covered_fill_check 前後比）"
   }
  ]
 }
