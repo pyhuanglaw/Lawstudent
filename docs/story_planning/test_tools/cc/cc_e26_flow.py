@@ -12,7 +12,7 @@ src = open(os.path.join(T, 'flow_v0_to1017.py'), encoding='utf-8').read()
 HOOK = ("(()=>{ if(window.__LOGH) return; window.__LOGH=1; window.__LOG=[]; const o=ADV.log; ADV.log=function(n,t){ try{ window.__LOG.push({n:n||'',t:String(t),h:+GAME.G.hour.toFixed(2),d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return o.apply(this,arguments); }; "
         "if(!GAME.say.__bbs){ const s0=GAME.say; const f=function(w,t){ try{ if(!(typeof ADV!=='undefined'&&ADV.active)) window.__LOG.push({n:(w&&(w.name||w.charId))||'',t:String(t),h:+GAME.G.hour.toFixed(2),d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return s0.apply(this,arguments); }; f.__bbs=1; GAME.say=f; } })()")
 # BB-B 17:44：y0_e08_missed 第一次排進佇列的那一刻（G.day／G.hour、ev_y0_e08 演過沒、OUT y0_e08 的 state、E08_GO）
-HOOK = HOOK[:-4] + (" if(typeof PHONE!=='undefined'&&!PHONE.__ccE08){ const pa=PHONE.at; PHONE.at=function(G,day,h,list,tag){ try{ if(tag==='y0_e08_missed'&&!window.__E08Q){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y0_e08'):null; window.__E08Q={now:CALENDAR.dateOf(G.day).key, h:+(+G.hour).toFixed(3), forDay:CALENDAR.dateOf(day).key, forH:h, e08done:!!(G.events&&G.events.done&&G.events.done.ev_y0_e08), outState:q?q.state:null, E08_GO:G.flags.E08_GO||null}; } }catch(e){} return pa.apply(this,arguments); }; PHONE.__ccE08=1; } })()")
+HOOK = HOOK[:-4] + (" if(typeof PHONE!=='undefined'&&!PHONE.__ccE08){ const pa=PHONE.at; PHONE.at=function(G,day,h,list,tag){ try{ if(tag==='y0_e08_missed'&&!window.__E08Q){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y0_e08'):null; window.__E08Q={now:CALENDAR.dateOf(G.day).key, h:+(+G.hour).toFixed(3), forDay:CALENDAR.dateOf(day).key, forH:h, e08done:!!(G.events&&G.events.done&&G.events.done.ev_y0_e08), outState:q?q.state:null, E08_GO:G.flags.E08_GO||null, running:(typeof EVENTS!=='undefined'&&EVENTS.running)?String(EVENTS.running.id||EVENTS.running):null}; } }catch(e){} return pa.apply(this,arguments); }; PHONE.__ccE08=1; } })()")
 ANS = '好' if E08 == 'yes' else '今天不行'
 PATCH1_OLD = 'async def close_or_answer(pg, cdp, run):\n'
 PATCH1_NEW = PATCH1_OLD + '''    try: await pg.evaluate(@HOOK@)
@@ -28,6 +28,20 @@ PATCH1_NEW = PATCH1_OLD + '''    try: await pg.evaluate(@HOOK@)
         return ['e08:' + ANS]
 '''.replace('@HOOK@', repr(HOOK)).replace('@ANS@', repr(ANS)).replace('@E08@', E08).replace('@ANSRAW@', ANS)
 assert PATCH1_OLD in src; src = src.replace(PATCH1_OLD, PATCH1_NEW, 1)
+if os.environ.get('WAIT0921') == '1':   # BB-B 18:14：9/21 不要一次跳過 16:00 的韋綸私訊——只按目標時間 ≤ 16:00 的「跳過時間」，沒有就站著等
+    SK_OLD = "    c = await pg.evaluate(\"(()=>{ const bs=[...document.querySelectorAll('#phoneBody [data-skip]')]; if(!bs.length) return null; const e=bs[bs.length-1];"
+    assert SK_OLD in src
+    SK_NEW = """    w0921 = await pg.evaluate("(()=>{ const G=GAME.G; return CALENDAR.dateOf(G.day).key==='2024-09-21'&&G.hour<16; })()")
+    if w0921:
+        c = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#phoneBody [data-skip]')].filter(b=>{ const m=b.textContent.match(/(\\d{1,2}):(\\d{2})/); return m&&(+m[1]+m[2]/60)<=16; }); if(!bs.length) return null; const e=bs[bs.length-1]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,20)]; })()")
+        if not c:
+            await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(800)
+            print('   [9/21 等 16:00] 沒有 ≤16:00 的跳過時間，站著等 20 秒（遊戲時間 %s）' % await pg.evaluate("+GAME.G.hour.toFixed(2)"), flush=True)
+            await pg.wait_for_timeout(20000); return '9/21 站著等'
+        print('   [9/21 等 16:00] 按「%s」（不按會跳過 16:00 的）' % c[2], flush=True)
+        await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500); return c[2]
+"""
+    src = src.replace(SK_OLD, SK_NEW + SK_OLD, 1)
 P3_OLD = '        await pg.evaluate("localStorage.clear()")\n'
 assert P3_OLD in src; src = src.replace(P3_OLD, P3_OLD + '        await pg.evaluate(' + repr(HOOK) + ')\n', 1)   # 一開始就裝好（PHONE.at 包裝要在 9/21 之前）
 PATCH2_OLD = "        run.check('沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))\n"
