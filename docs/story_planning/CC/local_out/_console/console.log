@@ -1227,3 +1227,16 @@
 [02:41:10] ==== END   E26w_4154_yes  exit=1  588s   ====
 [02:41:14] solo item RPROBE_DC_7824_dakou1f waits: no new items start until the 2 running item(s) finish
 [02:42:57] [res] cpu=20% mem=47% (14.8/31.4 GB) chrome_testing=5  END E26w_4154_no
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       bc8ea4da1..fbce1e022  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[02:43:03] ==== END   E26w_4154_no  exit=0  580s   ====
+[02:43:10] solo item WZ196_front_old waits: no new items start until the 1 running item(s) finish
+[02:45:34] 正在跑：E26s_4154_skipyes（已跑 5 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[02:48:19] memory 46% before starting E26v2_4154_skip (1 running)
+[02:48:19] memory 46% before starting E26v2_4154_yes (2 running)
+[02:48:19] ==== START E26v2_4154_skip  (probe @ 4154aeb61763e4653a4c358a0d277d2e8f3e37d1) ====
+[02:48:19] ==== START E26v2_4154_yes  (probe @ 4154aeb61763e4653a4c358a0d277d2e8f3e37d1) ====
+[02:48:22] [res] cpu=3% mem=46% (14.7/31.4 GB) chrome_testing=5  START E26v2_4154_yes
+[02:48:22] [res] cpu=3% mem=46% (14.7/31.4 GB) chrome_testing=5  START E26v2_4154_skip
+[02:49:18] [res] cpu=3% mem=49% (15.3/31.4 GB) chrome_testing=9  END E26s_4154_skipyes
