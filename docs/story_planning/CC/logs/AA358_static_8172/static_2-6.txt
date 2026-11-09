@@ -1,0 +1,8 @@
+PASS events.js ev_noodle_yutong | 新字在： ['data/events.js'] | 舊字還在： —
+PASS group_events.js ev_kexin_trip_spring_y2 | 新字在： ['data/group_events.js'] | 舊字還在： —
+FAIL events.js ev_bohan_kaogu | 新字在： — | 舊字還在： —
+FAIL events.js ev_bohan_scores 選項 | 新字在： — | 舊字還在： —
+PASS events.js ev_y2_newyear 旁白 | 新字在： ['data/events.js'] | 舊字還在： —
+PASS y2r2_3d.js 子晴大二演出 | 新字在： ['y2r2_3d.js', 'data/events.js'] | 舊字還在： —
+PASS encounters.js ENC_D12_PS | 新字在： ['data/encounters.js'] | 舊字還在： —
+PASS termend_lines.js 阿凱保底 | 新字在： ['data/termend_lines.js'] | 舊字還在： —
