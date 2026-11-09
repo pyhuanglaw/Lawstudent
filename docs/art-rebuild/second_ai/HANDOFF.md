@@ -36,6 +36,15 @@
     - 第二批（日常失速、阿德）好拍之後跑：`bash wz196/run.sh aa_offbeat:daily_offbeat bb_ade:ade`；
     - 原檔 blob：sunnyside ee1aee00、komichi d000b6ce、mokuyobi 24e2df31、daily_offbeat 6dcba992、ade 49e0de80。
   - CC-B：SEATOFF_88c8、大口／好拍 CPU trace 都排在 PC，等結果。
+- **17:5x 進度**：
+  - PERF-XS-NPC-1108：seatOff 已整合（88c83d1be）。CPU trace 分析之後，LAWWW-B 排的順序是 (D) 卡頓 → (C) program 切換 → (A) sitFeet；(B) 彈簧骨半速不做。
+    - (A) sitFeet 只更新兩條腿：已交 ee34acf82，LAWWW-B 已整合（abfa888cf）；等 CC 跑 SITFEET_PERFAB。
+    - (D)／(C)：等 CC-B 跑 `render_probe_dc.js`（RPROBE_DC），有結果再寫 patch。
+  - #196 第一批（SUNNY SIDE、小路、木曜日）已 commit（1643618c0）；第二批（日常失速、阿德）17:42 開始烘（背景，輸出 `wz196/out`）。
+  - **BACKFACE-HAOPAI-1109 已交件 `fd585f991`**（`wip/backface_haopai_1109/`）：
+    - 洞洞板翻正、改用 hp_peg（OPAQUE）、有自己的貼圖（×3.0）、重烘光照；左牆鐵網格翻 118 面；
+    - xs9 檢查 patch：開發分支資產 FAILED 2 → 新資產 ALL PASS；好拍、新生南路相關 13 支全過；
+    - 等 LAWWW-B 整合、CC 用 XS_FIX_1032 同角度重拍、BB-B 判 D120。
 
 ## 🔁 交班（2026-11-08 20:5x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
 
