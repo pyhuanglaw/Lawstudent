@@ -187,7 +187,7 @@ LAWWW-B 17:21 定的順序是 D → C → A。D、C 要等 CC 的探針結果（
   - 和 17:2x 那份紀錄裡 2375／4358／13191 ms 三次一樣，是 GPU 那邊（可能是第一次用到的 shader 在驅動裡編譯，或貼圖上傳）。
   - 要再查的話：卡頓那幾幀記 `renderer.info.programs.length`、`renderer.info.memory.textures` 有沒有增加（低優先，沒有寫探針）。
 
-## 11-09 20:4x：(C) 牆一次畫完（交件，READY_FOR_REVIEW）
+## 11-09 20:4x：(C) 牆一次畫完（交件；LAWWW-B 已整合 `6bbfca043`，DLV-1109-L2-WALLONEPASS）
 - **原因**（CC `RPROBE_DC_7824_dakou1f`：`dk_vc_matte` 每秒畫 1128 次、每一次都 `version` 變了、換 program；`dk_vc_metal`、`dk_glass` 每秒 226 次；山嵐 `shl_wall`、`shl_oak` 也一樣）：
   - three.js r187 的 `renderObject`（`lib/three.bundle.js` 78579 行）：材質 `transparent`、`DoubleSide`、`forceSinglePass=false` 時**畫兩次**（先 BackSide、再 FrontSide），兩次前面都 `needsUpdate=true`（`material.version++`）。
   - 所以 `setProgram` 每一次都判斷要換 program，走 `getProgram`＋`getParameters`（CPU 效能紀錄 9.6%）。
