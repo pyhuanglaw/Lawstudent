@@ -4,10 +4,10 @@
  "roles": {
   "LAWWW": {
    "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "a3ae6ca7432c0515d0adfe28e72ec510d34ddca8",
-   "at": "2026-11-08T20:52Z",
+   "sha": "1e71a398bb724a695313673213a868d34708d57c",
+   "at": "2026-11-09T21:20Z",
    "by": "session_01DvRVNNnivf7da7qqWuGmw6",
-   "scanned": 638,
+   "scanned": 45,
    "evidence": "帳號 B LAWWW 最後一個 commit（交班＋交接補強＋使用者授權補記）；LAWWW-C 接班時查核、合併成 bfd5f40d",
    "open": [
     "WIP-AB65-3-Y1S2-L",
@@ -255,16 +255,23 @@
      "at": "2026-11-05T02:42Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 24
+    },
+    {
+     "branch": "claude/modest-rubin-2lyp7g",
+     "sha": "a3ae6ca7432c0515d0adfe28e72ec510d34ddca8",
+     "at": "2026-11-08T20:52Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 638
     }
    ],
    "classify": false
   },
   "LAWWW2": {
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "07725e9fcf05a34d5560c396e497ab9c4ebadab9",
-   "at": "2026-11-08T20:52Z",
+   "sha": "63626337e5ee050c8edd15b24476c026aca560f5",
+   "at": "2026-11-09T21:20Z",
    "by": "session_01DvRVNNnivf7da7qqWuGmw6",
-   "scanned": 286,
+   "scanned": 54,
    "evidence": "帳號 B 交接補強逐筆核對 16 筆（bbb4301b）＋deliveries scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-L2-DATE-CUTOUTS",
@@ -512,15 +519,22 @@
      "at": "2026-11-05T02:42Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 5
+    },
+    {
+     "branch": "claude/funny-albattani-iawshm",
+     "sha": "07725e9fcf05a34d5560c396e497ab9c4ebadab9",
+     "at": "2026-11-08T20:52Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 286
     }
    ]
   },
   "AA": {
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "0a61c09904a7425f84c6bd0d4fb3abe938bf0fd0",
-   "at": "2026-11-08T20:52Z",
+   "sha": "8affc9fc486152608ab2e77a17153524314c6534",
+   "at": "2026-11-09T21:20Z",
    "by": "session_01DvRVNNnivf7da7qqWuGmw6",
-   "scanned": 149,
+   "scanned": 1,
    "evidence": "帳號 B 交接補強逐筆核對 126 筆（c02a440e、1af66e42）＋scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-AA-103-SP",
@@ -763,15 +777,22 @@
      "at": "2026-11-05T02:42Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 4
+    },
+    {
+     "branch": "claude/cool-heisenberg-o8kuqx",
+     "sha": "0a61c09904a7425f84c6bd0d4fb3abe938bf0fd0",
+     "at": "2026-11-08T20:52Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 149
     }
    ]
   },
   "BB": {
    "branch": "claude/elegant-brown-fcos7n",
-   "sha": "03d6ed8f64dfdb30d72ab1a2f5b0f9b19a341a16",
-   "at": "2026-11-08T20:52Z",
+   "sha": "ebc705638531d34da42b61bd9a5a316c71a77b56",
+   "at": "2026-11-09T21:20Z",
    "by": "session_01DvRVNNnivf7da7qqWuGmw6",
-   "scanned": 385,
+   "scanned": 32,
    "evidence": "帳號 B 交接補強逐筆核對 113 筆（558f381b）＋scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-BB-181",
@@ -1020,15 +1041,22 @@
      "at": "2026-11-05T02:42Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 12
+    },
+    {
+     "branch": "claude/elegant-brown-fcos7n",
+     "sha": "03d6ed8f64dfdb30d72ab1a2f5b0f9b19a341a16",
+     "at": "2026-11-08T20:52Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 385
     }
    ]
   },
   "CC": {
    "branch": "claude/cc-testing",
-   "sha": "cd7ba30f258064b8fd973dabbad9eaefcfb5f321",
-   "at": "2026-11-08T20:52Z",
+   "sha": "060625f58db6e867dec6976c0b412d7deb67974f",
+   "at": "2026-11-09T21:20Z",
    "by": "session_01DvRVNNnivf7da7qqWuGmw6",
-   "scanned": 368,
+   "scanned": 51,
    "evidence": "新職位 CC（D119／HV-22，使用者 2026-11-02 03:5x 對 BB）的基準：claude/cc-testing 從企劃線 claude/story-planning 734026659 開出，分岔點以前是 AA、BB 的 commit（由它們的水位線核對）；只核對 CC 自己的 commit（第一筆 336d26c35 值班登記）",
    "open": [],
    "history": [
@@ -1108,6 +1136,13 @@
      "at": "2026-11-05T02:42Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 13
+    },
+    {
+     "branch": "claude/cc-testing",
+     "sha": "cd7ba30f258064b8fd973dabbad9eaefcfb5f321",
+     "at": "2026-11-08T20:52Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 368
     }
    ]
   }
