@@ -18791,7 +18791,7 @@
    "what": "CAM-TEAYARD-1109 第二輪（鏡頭在屋簷外緣房子那一側時藏 YARD_EAVE；測試 ④ 用遊戲俯角 0.38）＋CAM-VIEWPANE-SIDE-1109 測試俯角修正（只改測試）",
    "task": "CAM-TEAYARD-1109",
    "integration": "已整合待測試",
-   "note": "整合 4f888cf3c。兩個 patch（db7f13b5、6410cd2c）、zones3d 3ee81197、兩支測試 d11eae35／2047ae97 和交件一致；teahouse ④ 第一輪程式 FAILED 1 → PASS；viewpane 修改前程式照舊 FAILED 5、新的 PASS；130 支背景跑中。待 CC 出生點 (−3,9) 預設鏡頭 150°／180°／210° 新舊對照；剩樹葉 wzy_leaf、木柱 wzy_wood 偶爾擋頭（開發本來就有）BB-B 看畫面決定。"
+   "note": "整合 4f888cf3c。兩個 patch（db7f13b5、6410cd2c）、zones3d 3ee81197、兩支測試 d11eae35／2047ae97 和交件一致；teahouse ④ 第一輪程式 FAILED 1 → PASS；viewpane 修改前程式照舊 FAILED 5、新的 PASS；130 支 LAWWW-B 本機全過。待 CC 出生點 (−3,9) 預設鏡頭 150°／180°／210° 新舊對照；剩樹葉 wzy_leaf、木柱 wzy_wood 偶爾擋頭（開發本來就有）BB-B 看畫面決定。"
   }
  ],
  "ignored": [

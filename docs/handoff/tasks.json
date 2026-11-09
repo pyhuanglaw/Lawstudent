@@ -50340,7 +50340,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-09 23:5x LAWWW-B】第二輪（BB-B 23:23 180° PARTIAL）：LAWWW2-B 60e5add72 → 整合 4f888cf3c：室內預設俯角 0.38＋距離 4 鏡頭在緣側屋簷裡（畫面 67% 屋簷）；鏡頭在屋簷外緣房子那一側時藏 YARD_EAVE；測試 ④ 第一輪 FAILED 1 → PASS；130 支跑中。待 CC 150°／180°／210° 新舊對照；剩樹葉、木柱偶爾擋頭（開發本來就有）BB-B 決定。 ｜ 【11-09 23:2x LAWWW-B】LAWWW2-B f072ddeef → 整合 b6685c824：前院時 camCols 加緣側牆＋鄰居房子／灰泥牆；teahouse_yard_cam_unit 舊 FAILED 2 → PASS；87 支本機全過。待 CC 重拍 180°、270°、BB-B 判（BB-B 23:06 疑點 3）。",
+   "next": "【11-09 23:5x LAWWW-B】第二輪（BB-B 23:23 180° PARTIAL）：LAWWW2-B 60e5add72 → 整合 4f888cf3c：室內預設俯角 0.38＋距離 4 鏡頭在緣側屋簷裡（畫面 67% 屋簷）；鏡頭在屋簷外緣房子那一側時藏 YARD_EAVE；測試 ④ 第一輪 FAILED 1 → PASS；130 支本機全過。待 CC 150°／180°／210° 新舊對照；剩樹葉、木柱偶爾擋頭（開發本來就有）BB-B 決定。 ｜ 【11-09 23:2x LAWWW-B】LAWWW2-B f072ddeef → 整合 b6685c824：前院時 camCols 加緣側牆＋鄰居房子／灰泥牆；teahouse_yard_cam_unit 舊 FAILED 2 → PASS；87 支本機全過。待 CC 重拍 180°、270°、BB-B 判（BB-B 23:06 疑點 3）。",
    "xai": {
     "spec": "BB-B 11-09 23:06 疑點 3；LAWWW2-B cam_teayard_1109 README",
     "branch": "claude/funny-albattani-iawshm",
