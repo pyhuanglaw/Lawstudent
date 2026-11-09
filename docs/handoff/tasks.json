@@ -48739,9 +48739,9 @@
    "title": "使用者 11-07 試玩回報總表（兩則訊息 26 項＋四個存檔）：逐項拆成下面的任務，全部進遊戲才算完成",
    "area": "PLAYTEST",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
-   "next": "【11-07 05:3x LAWWW-B】GHA node-unit-auto 全套 8618f9d80：只剩 tests/ladder_headroom_unit.js ④（上下床梯子的動畫平滑度，11-07 以前就 FAIL，和試玩修正無關）。 ｜ 【11-07 03:4x LAWWW-B】拆成 ACTION-BUDGET／MSG-REPLY／GIFT-FLIRT／INVITE-PLACES／STUDY-DATE-PROGRESS／SHOP-STAFF／GYM-FIT／BUG-PE-CLASS／BUG-YIZHAN／YT-INVITE-LINES／BUG-YT-MET／CINEMA-CG／WINDOW-FLICKER（都是 -1107）",
+   "next": "【11-09 16:2x LAWWW-B】狀態更正：拆好的子任務在推進，這一項是總表、不是待開工。子任務：ACTION-BUDGET-1107=已驗收；MSG-REPLY-1107=已整合待測試；GIFT-FLIRT-1107=已整合待測試；INVITE-PLACES-1107=進行中；STUDY-DATE-PROGRESS-1107=已整合待測試；SHOP-STAFF-1107=已整合待測試；GYM-FIT-1107=進行中；BUG-PE-CLASS-1107=已驗收；BUG-YIZHAN-1107=已驗收；YT-INVITE-LINES-1107=已驗收；BUG-YT-MET-1107=已整合待測試；CINEMA-CG-1107=等待其他AI／素材；WINDOW-FLICKER-1107=已驗收 ｜ 【11-07 05:3x LAWWW-B】GHA node-unit-auto 全套 8618f9d80：只剩 tests/ladder_headroom_unit.js ④（上下床梯子的動畫平滑度，11-07 以前就 FAIL，和試玩修正無關）。 ｜ 【11-07 03:4x LAWWW-B】拆成 ACTION-BUDGET／MSG-REPLY／GIFT-FLIRT／INVITE-PLACES／STUDY-DATE-PROGRESS／SHOP-STAFF／GYM-FIT／BUG-PE-CLASS／BUG-YIZHAN／YT-INVITE-LINES／BUG-YT-MET／CINEMA-CG／WINDOW-FLICKER（都是 -1107）",
    "first": {
     "term": "Y1S1",
     "week": 6,
@@ -50201,7 +50201,7 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "山嵐 1F／2F、大口 2F 有 NPC 時 PC 50 fps 以上",
     "receiver": "LAWWW（整合）、BB（測）",
-    "ack": "SENT",
+    "ack": "ACK",
     "owner": "LAWWW2"
    }
   },
