@@ -6647,10 +6647,10 @@
     "docs/art-rebuild/second_ai/wip/backface_haopai_1109/README.md",
     "docs/art-rebuild/second_ai/wip/backface_haopai_1109/xs9_haopai_check_1109.patch"
    ],
-   "state": "已整合（LAWWW-B a7c26e0eb，xs9 ALL PASS）",
+   "state": "ART_APPROVED（BB-B 18:45 D120，PC GPU 新舊對照；LAWWW-B 已整合 a7c26e0eb）",
    "noDirectIntegrate": false,
    "note": "不用改遊戲程式；洞洞板 224 面朝店裡、hp_peg OPAQUE、板面 ×3.0；右牆前段 0.451／0.438（舊淺牆 0.483／0.463），看起來約舊淺牆 0.89；左牆鐵網格翻 118 面；xs9 check 開發資產 FAILED 2→ALL PASS；好拍／新生南路相關 13 支全過",
-   "next": "CC 用 XS_FIX_1032 同角度＋洞洞板近拍＋左牆鐵網格重拍（BB-B 排在 E08 主線兩條後面）；BB-B 判 D120（貼圖＋亮度）"
+   "next": "P3（不擋）：遠看掛勾只是一條細黑線、球拍那一組沒拍到——之後拍更近的再說（BB_255）"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
