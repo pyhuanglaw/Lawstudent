@@ -32,6 +32,17 @@ PATCH1_NEW = PATCH1_OLD + '''    try: await pg.evaluate(@HOOK@)
         return ['e08:' + ANS]
 '''.replace('@HOOK@', repr(HOOK)).replace('@ANS@', repr(ANS)).replace('@E08@', E08).replace('@ANSRAW@', ANS).replace('@NONE@', 'True' if E08 == 'none' else 'False')
 assert PATCH1_OLD in src; src = src.replace(PATCH1_OLD, PATCH1_NEW, 1)
+SKF_OLD = '    await L.tap(pg, cdp, \'#btnPhone\'); await pg.wait_for_timeout(900)\n    await pg.evaluate("(()=>{ const b=document.querySelector(\'#phoneTabs button[data-ptab=\\"today\\"]\'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)\n    g = await pg.evaluate('
+assert SKF_OLD in src, 'skip_time 開頭對不上'
+SKF_NEW = """    pend = await pg.evaluate("(()=>{ try{ const G=GAME.G; if(G.flags.E08_GO) return null; return PHONE.pending(G).some(q=>q.ask&&PHONE.th(q)==='p:econ_weilun')?1:null; }catch(e){ return null; } })()")
+    if pend:   # 11-09 PC：4154 停在 16:00、私訊在待回覆，但手機不會自己打開——按跳過時間之前先處理（照玩家：看到「韋綸傳訊息來」就打開手機）
+        r = await close_or_answer(pg, cdp, None)
+        if @NONE@:
+            print('   [E08] 私訊在待回覆，不回（E08=none），照樣按跳過時間', flush=True)
+        else:
+            return 'e08:' + str(r)
+"""
+src = src.replace(SKF_OLD, SKF_NEW.replace('@NONE@', 'True' if E08 == 'none' else 'False') + SKF_OLD, 1)
 if os.environ.get('WAIT0921') == '1':   # BB-B 18:14：9/21 不要一次跳過 16:00 的韋綸私訊——只按目標時間 ≤ 16:00 的「跳過時間」，沒有就站著等
     SK_OLD = "    c = await pg.evaluate(\"(()=>{ const bs=[...document.querySelectorAll('#phoneBody [data-skip]')]; if(!bs.length) return null; const e=bs[bs.length-1];"
     assert SK_OLD in src
