@@ -18675,6 +18675,19 @@
    "task": "PERF-XS-NPC-1108",
    "integration": "已整合待測試",
    "note": "git apply --check OK（基準 abfa888cf）；新測試舊程式 FAILED 4 → ALL PASS（LAWWW-B 重跑）；第一次畫 618→23.8 ms；透明網格包圍球不變。遊戲內效能等 CC（大口 1F render_probe_dc＋CPU trace）。"
+  },
+  {
+   "id": "DLV-1109-L2-WZ196",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "aad8d3839",
+   "msg": "ACK",
+   "what": "#196 溫州街五間（SUNNY SIDE、小路、木曜日、日常失速、阿德）白天光照照一盞色調（--skytint 1.32,1.0,0.72）重烘：5 個 glb＋5 張白天光照＋5 個 _lm.json",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "15 個檔 sha256（開發 e767a3e3e → 新）逐一核對和 README 一致；晚上那張不動；相關 node 測試 PASS。不用改程式。"
   }
  ],
  "ignored": [
