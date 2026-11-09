@@ -1,0 +1,8 @@
+CC 牆淡出拍照：worktree c8af31018a；TAG old；Playwright ≠ iPhone
+PASS 遊戲載入
+  [前置／捷徑] [corner_records] 【前置／捷徑】讀檔到 corner_records 2025-10-18 14.0（出生點）
+PASS [corner_records] 在 corner_records  {"zone": "corner_records", "x": 1.63, "z": 4.25, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+  [前置／捷徑] [wz_print] 【前置／捷徑】讀檔到 wz_print 2025-10-18 14.0（出生點）
+PASS [wz_print] 在 wz_print  {"zone": "wz_print", "x": 0, "z": 3.65, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開影印店", "stand": true, "fb": 0, "hour": 14.03}
+PASS 沒有 JS 例外  []
+ALL PASS
