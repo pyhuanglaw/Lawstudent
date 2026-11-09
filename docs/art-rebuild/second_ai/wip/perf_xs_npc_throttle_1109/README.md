@@ -2,7 +2,7 @@
 
 - **派工**：LAWWW-B 2026-11-09 16:17 UTC（①只動坐著、不在畫面裡的 NPC；②不改人數、位置、站位，進畫面不能跳；③patch＋Node 單元測試（舊程式要 FAIL）＋CC-B PC PERFAB 前後）。
 - **起因**：PERFAB 第 2 版（`../perf_xs_1108/README.md`）：新生南路山嵐 1F／2F、大口 2F 店裡 9～11 個人，拿掉 NPC 以後 39.7→57.9、33.2→57.8、45.1→57.2 fps。
-- **狀態**：`READY_FOR_REVIEW`（LAWWW-B 審、整合；`character3d` 那一段的回歸由 LAWWW-B 負責）。效能前後**還沒量**：雲端沒有瀏覽器（D131），等 CC-B 在 PC 量。
+- **狀態**：`READY_FOR_REVIEW`（交件）（LAWWW-B 審、整合；`character3d` 那一段的回歸由 LAWWW-B 負責）。效能前後**還沒量**：雲端沒有瀏覽器（D131），等 CC-B 在 PC 量。
 
 ## 改了什麼（`src/engine3d.js`，+7／−1 行）
 - 原本：畫面外 16 m 內的 NPC 每一幀都跑 `CHAR.animate`（坐姿小動作、VRM 彈簧骨、表情、腳步貼合、`vrm.scene.updateWorldMatrix`）。16 m 外照舊不跑、畫面裡 28 m 外照舊隔一幀，這兩條沒改。
@@ -32,7 +32,7 @@
   - **開發分支 `f8b0e30d1` 原樣：FAILED 5**（0 沒有 seatOff、1 更新 60 次、1 每次 1 幀、4 沒有 seatOff、5 每一幀 8 次）。2、3、6 是不能改壞的部分，舊的也過。
   - **加 patch：ALL PASS**。
   - 用法：`node tests/seat_off_throttle_unit.js [engine3d.js 路徑]`。
-- 回歸（和引擎有關的 Node 測試，加 patch 跑）：見下面「回歸結果」。
+- 回歸（和引擎有關的 Node 測試，加 patch 跑）：310 支全部通過，見下面「回歸結果」。
 - **沒測**：遊戲內畫面（雲端沒有瀏覽器）；PC 的 fps 前後（等 CC-B）；手機真機。
 
 ## 效能前後（請 CC-B 量）
@@ -52,7 +52,11 @@
   - `seatOff` 很小（例如 1～2）：這幾間店大部分的人都在畫面裡，這個 patch 能省的本來就少。
 
 ## 回歸結果
-（跑完補上）
+- 開發 `f8b0e30d1`＋這個 patch，`tests/` 裡提到 engine3d、E3、updateNPC 的 `*_unit.js` 共 **310 支，全部通過**（每支逾時 120 秒，0 失敗）。新測試也在這 310 支裡面。
+- 沒跑：Playwright 流程測試（雲端沒有瀏覽器，D131）。整合以後建議跑：
+  - `tests/flow_seated_spawn.py`：座位上的人每一幀畫之前都是坐姿；
+  - `tests/flow_b4_lecture.py`：散場起身走到圓桌；
+  - 大口、山嵐的 `xsshop`／`xs_lm` 流程。
 
 ## sha256（開發分支 f8b0e30d1 → 加 patch）
 | 檔案 | 開發 | 加 patch |
