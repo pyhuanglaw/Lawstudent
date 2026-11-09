@@ -18649,6 +18649,19 @@
    "task": "PERF-XS-NPC-1108",
    "integration": "已整合待測試",
    "note": "git apply --check OK（基準 88c83d1be）；新測試舊程式 FAILED 2 → ALL PASS（LAWWW-B 重跑）：腿骨位置差 0、updateWorldMatrix 678→325／人／幀；rotWorld 會更新子孫矩陣，直接讀 matrixWorld 安全。"
+  },
+  {
+   "id": "DLV-1109-L2-HAOPAI-BACKFACE",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "fd585f991",
+   "msg": "ACK",
+   "what": "BACKFACE-HAOPAI-1109：好拍右牆洞洞板 224 面翻正（原本背面剔除看不到）、改不透明材質 hp_peg＋自己的貼圖與光照、左牆鐵網格翻 118 面；haopai.glb＋兩張光照＋haopai_lm.json＋tests/xs9_haopai_shanlan_check.py",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "sha256 開發 8088e492／a80833e6／9f737ebe／d628e73f → 新 5676e220／cbe256f9／9ebe785d／86d72bb2，和 README 一致；xs9 check patch 套上 d061c339；開發原樣 FAILED 2 → ALL PASS；好拍／新生南路相關 node 測試 PASS。遊戲內沒拍。"
   }
  ],
  "ignored": [

@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1232.8,
+ "bake_seconds": 1019.1,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -38,8 +38,9 @@
   "WALL_back_wall_wall",
   "WALL_front_front_wall",
   "WALL_left_wall_wall",
+  "WALL_right_pegwall_alpha",
   "WALL_right_wall_wall"
  ],
  "src": "assets/models/env/second_ai/bb_support/haopai.glb",
- "src_sha256": "d3fd4b7ab3ec17a215780d46184e82c467b90bde92e45b58aca73f6fd81784ca"
+ "src_sha256": "9d52932c2b845af78495c02b228dfebad607631e5959c2c74c4d843fb4bd7778"
 }
