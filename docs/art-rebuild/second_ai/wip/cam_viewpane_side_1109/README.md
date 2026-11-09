@@ -1,6 +1,6 @@
 # CAM-VIEWPANE-SIDE-1109：放大的窗景卡，鏡頭在店面左右範圍外時藏起來
 
-狀態：`WORK_IN_PROGRESS`（補丁、測試已做好；回歸測試跑中）。LAWWW2-B，2026-11-09。
+狀態：`READY_FOR_REVIEW`（已交 LAWWW-B 整合；遊戲內畫面等 CC 拍、BB-B 依 D120 判）。LAWWW2-B，2026-11-09。
 
 ## 問題
 
@@ -51,7 +51,7 @@
 
 LAWWW-B 要求的「鏡頭在左右範圍外時藏、回到範圍內出現」由 ①②④ 涵蓋。
 
-回歸：`tests.txt` 列的 76 支 Node 測試（碰到 winParts、窗景卡、fadeWalls、溫州街店家、慢輪單車的），**跑中**。
+回歸：`tests.txt` 列的 76 支 Node 測試（碰到 winParts、窗景卡、fadeWalls、溫州街店家、慢輪單車的），加這個補丁 **76 支 0 失敗**（`regression_new.txt`）。
 
 ## 檔案（sha256 前 16 碼）
 
