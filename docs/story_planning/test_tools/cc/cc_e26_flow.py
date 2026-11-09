@@ -19,6 +19,8 @@ PATCH1_NEW = PATCH1_OLD + '''    try: await pg.evaluate(@HOOK@)
     if wl:
         await pg.wait_for_timeout(1200)
         c = await pg.evaluate("(a=>{ const b=[...document.querySelectorAll('#phoneBody [data-ask]')].find(x=>x.textContent.trim()===a); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,b.textContent.trim()]; })(@ANS@)")
+        info = await pg.evaluate("(()=>{ const G=GAME.G; let t=''; try{ const m=PHONE.pending(G).find(q=>q.ask&&PHONE.th(q)==='p:econ_weilun'); t=m?m.text:''; }catch(e){} return {d:CALENDAR.dateOf(G.day).key, h:+(+G.hour).toFixed(3), text:t, opts:[...document.querySelectorAll('#phoneBody [data-ask]')].map(b=>b.textContent.trim())}; })()")
+        print('   [E08=@E08@] 停在 %s %s；私訊原文「%s」；回覆鍵 %s' % (info['d'], info['h'], info['text'], info['opts']), flush=True)
         if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500); print('   [E08=@E08@] 韋綸「烤肉你要去嗎？」：回「%s」（E08_GO=%s）' % (c[2], await pg.evaluate("GAME.G.flags.E08_GO||null")), flush=True)
         else: print('   [E08] 韋綸的訊息開了但找不到「@ANSRAW@」', flush=True)
         return ['e08:' + ANS]

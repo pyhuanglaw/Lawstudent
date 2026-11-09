@@ -1742,8 +1742,8 @@ SEATOFF_88c8 | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | probe | docs/story_pla
 CPUTRACE_8172_dakou | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf | 20 | SOLO=1;ZONE=xs_dakou;SETTLE=30;SECS=20
 CPUTRACE_8172_haopai | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf | 20 | SOLO=1;ZONE=xs_haopai;SETTLE=30;SECS=20
 R8172_seatspawn | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/flow_seated_spawn.py | index.html | 40 | XARGS={url} {out};CC_HEADLESS=0
-E26_fefd_no | fefd7d32a3a61c5bd418fac8f50ae5496987c79d | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=no
-E26_fefd_yes | fefd7d32a3a61c5bd418fac8f50ae5496987c79d | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=yes
+E26_c05e_yes | c05e036a991f16408ef13257d90cd588b3dca1a1 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=yes
+E26_c05e_no | c05e036a991f16408ef13257d90cd588b3dca1a1 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=no
 POP2_88c8_shanlan2f | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | probe | docs/story_planning/test_tools/cc/cc_seat_pop_probe.py | index.html | 20 | SOLO=1;ZONE=xs_shanlan;FLOOR=2;TAG=88c8b;CAMDIST=1.6
 POP2_8172_shanlan2f | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_seat_pop_probe.py | index.html | 20 | SOLO=1;ZONE=xs_shanlan;FLOOR=2;TAG=8172b;CAMDIST=1.6
 RPROBE_DC_fefd | fefd7d32a3a61c5bd418fac8f50ae5496987c79d | probe | docs/story_planning/test_tools/cc/cc_perf_ab_probe.py | index.html?perf | 40 | SOLO=1;SETTLE=30;ROWMIN=0;DUMP=1;JSF=render_probe_dc_lawww2_e1918f59a.js;PTS=xs_dakou:1f,xs_dakou:2f,xs_shanlan:1f
