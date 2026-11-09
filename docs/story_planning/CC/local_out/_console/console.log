@@ -1186,3 +1186,16 @@
 [07:18:51] ==== START R88c8_zone  (game @ 88c83d1be5c69a81de3af59b7342df6cc932bdfa) ====
 [07:18:54] [res] cpu=1% mem=49% (15.5/31.4 GB) chrome_testing=10  START R88c8_zone
 [07:22:24] [res] cpu=4% mem=47% (15.8/31.4 GB) chrome_testing=10  END R88c8_zone
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e9f6f3ee0..34616b06a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[07:22:29] ==== END   R88c8_zone  exit=0  213s   ====
+[07:22:37] memory 47% before starting SOCX_2d58_study_h1 (2 running)
+[07:22:37] ==== START SOCX_2d58_study_h1  (probe @ 2d58e8a5209ae061784c20f14dd5de5819b562e6) ====
+[07:22:39] [res] cpu=2% mem=48% (15.0/31.4 GB) chrome_testing=10  START SOCX_2d58_study_h1
+[07:23:27] 正在跑：SOC_88c8_rom_c（已跑 18 分／上限 120 分）、SOC_88c8_rom_d（已跑 18 分／上限 120 分）、SOCX_2d58_study_h1（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[07:28:27] 正在跑：SOC_88c8_rom_c（已跑 23 分／上限 120 分）、SOC_88c8_rom_d（已跑 23 分／上限 120 分）、SOCX_2d58_study_h1（已跑 5 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[07:33:27] 正在跑：SOC_88c8_rom_c（已跑 28 分／上限 120 分）、SOC_88c8_rom_d（已跑 28 分／上限 120 分）、SOCX_2d58_study_h1（已跑 10 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[07:38:27] 正在跑：SOC_88c8_rom_c（已跑 33 分／上限 120 分）、SOC_88c8_rom_d（已跑 33 分／上限 120 分）、SOCX_2d58_study_h1（已跑 15 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[07:43:27] 正在跑：SOC_88c8_rom_c（已跑 38 分／上限 120 分）、SOC_88c8_rom_d（已跑 38 分／上限 120 分）、SOCX_2d58_study_h1（已跑 20 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[07:43:41] [res] cpu=20% mem=47% (14.7/31.4 GB) chrome_testing=10  END SOCX_2d58_study_h1
