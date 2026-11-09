@@ -1,0 +1,373 @@
+=== assets/models/env/classroom_201.glb
+assets/models/env/classroom_201.glb：光照貼圖 1024×1024，屬於網格的格子 217364，被蓋住、會露出來的 8908 格（4.10%）
+  WALL_E ← WALL_E_wain：5778 格
+  WALL_E ← WALL_N：324 格
+  WALL_W ← WALL_W_frame：258 格
+  WALL_E ← WALL_E_cap：248 格
+  WALL_E ← WALL_S：243 格
+=== assets/models/env/dorm_hall.glb
+assets/models/env/dorm_hall.glb：光照貼圖 1024×1024，屬於網格的格子 492769，被蓋住、會露出來的 99 格（0.02%）
+  L0_WALL_wall+0+0+1_dm_plaster_hupdownEW ← L0_WALL_wall+0-1+0_dm_fixture：75 格
+  L0_dm_wood ← L0_WALL_wall-1+0+0_dm_plaster_hupdownNS：23 格
+  L0_dm_wood ← L0_WALL_wall-1+0+0_dm_dado_hupdownNS：1 格
+=== assets/models/env/lawlib_interior.glb
+assets/models/env/lawlib_interior.glb：光照貼圖 1024×1024，屬於網格的格子 283723，被蓋住、會露出來的 1975 格（0.70%）
+  L0_stone ← L0_WALL_N_wall：326 格
+  L0_WALL_W_wall ← L0_WALL_W_white：216 格
+  L0_stone ← L0_WALL_W_wall：179 格
+  L0_stone ← L0_WALL_S_wall：163 格
+  L0_stone ← L0_WALL_E_wall：161 格
+=== assets/models/env/library_interior.glb
+assets/models/env/library_interior.glb：光照貼圖 1024×1024，屬於網格的格子 282874，被蓋住、會露出來的 2485 格（0.88%）
+  L0_floor ← L0_WALL_wall+1+0+0_lb_plaster_hupdownNS：406 格
+  L0_floor ← L0_WALL_wall+0+0+1_lb_plaster_hupdownEW：293 格
+  L0_floor ← L0_WALL_wall-1+0+0_lb_plaster_hupdownNS：217 格
+  L0_floor ← L0_WALL_wall+0+0-1_lb_plaster_hupdownEW：165 格
+  L0_floor ← L0_WALL_wall+0+0-1_lb_plaster：124 格
+=== assets/models/env/linze_interior.glb
+assets/models/env/linze_interior.glb：光照貼圖 1024×1024，屬於網格的格子 394574，被蓋住、會露出來的 10399 格（2.64%）
+  L1_WALL_Ndoor_frame ← L1_WALL_Ndoor_wood_dark：3124 格
+  L0_WALL_Ndoor_frame ← L0_WALL_Ndoor_wood_dark：2068 格
+  L0_floor ← L0_WALL_W：1548 格
+  L0_floor ← L0_WALL_N_2：612 格
+  L0_floor ← L0_WALL_N_0：456 格
+=== assets/models/env/second_ai/aa_support/afar.glb
+assets/models/env/second_ai/aa_support/afar.glb：光照貼圖 1024×1024，屬於網格的格子 628677，被蓋住、會露出來的 4258 格（0.68%）
+  WALL_back_afr_wall ← WALL_back_afr_wood：2619 格
+  WALL_front_afr_wall ← WALL_front_afr_vc：780 格
+  afr_floor ← WALL_right_afr_vc：361 格
+  WALL_front_afr_wall ← WALL_front_afr_wood：265 格
+  afr_floor ← WALL_front_afr_wood：134 格
+=== assets/models/env/second_ai/aa_support/aoki.glb
+assets/models/env/second_ai/aa_support/aoki.glb：光照貼圖 1024×1024，屬於網格的格子 643117，被蓋住、會露出來的 5273 格（0.82%）
+  WALL_back_aok_wall ← WALL_back_aok_wood：2295 格
+  WALL_right_aok_wood ← WALL_right_aok_print：1711 格
+  aok_floor ← WALL_back_aok_wood：459 格
+  aok_floor ← WALL_left_aok_wood：348 格
+  aok_floor ← WALL_right_aok_wood：348 格
+=== assets/models/env/second_ai/aa_support/daily_offbeat.glb
+assets/models/env/second_ai/aa_support/daily_offbeat.glb：光照貼圖 1024×1024，屬於網格的格子 592227，被蓋住、會露出來的 33431 格（5.64%）
+  WALL_right_dof_wall ← WALL_right_dof_print：10873 格
+  WALL_back_dof_wall ← WALL_back_dof_wood：6997 格
+  WALL_left_dof_wall ← WALL_left_dof_print：6683 格
+  WALL_right_dof_wood ← WALL_right_dof_print：5991 格
+  WALL_back_dof_wall ← WALL_back_dof_vcm：2779 格
+=== assets/models/env/second_ai/aa_support/daybreak.glb
+assets/models/env/second_ai/aa_support/daybreak.glb：光照貼圖 1024×1024，屬於網格的格子 742675，被蓋住、會露出來的 20806 格（2.80%）
+  WALL_back_dbk_wall ← WALL_back_dbk_print：13861 格
+  WALL_left_dbk_wall ← WALL_left_dbk_wood：4448 格
+  WALL_back_dbk_wall ← WALL_back_dbk_wood：2385 格
+  dbk_floor ← WALL_front_dbk_frame：112 格
+=== assets/models/env/second_ai/aa_support/komichi.glb
+assets/models/env/second_ai/aa_support/komichi.glb：光照貼圖 1024×1024，屬於網格的格子 608656，被蓋住、會露出來的 5131 格（0.84%）
+  WALL_left_kmc_wall ← WALL_left_kmc_print：4394 格
+  kmc_floor ← WALL_front_kmc_wood：444 格
+  WALL_left_kmc_wall ← WALL_left_kmc_vc：171 格
+  WALL_left_kmc_wall ← WALL_left_kmc_vcm：70 格
+  WALL_left_kmc_wood ← WALL_back_kmc_wood：10 格
+=== assets/models/env/second_ai/aa_support/mokuyobi.glb
+assets/models/env/second_ai/aa_support/mokuyobi.glb：光照貼圖 1024×1024，屬於網格的格子 803150，被蓋住、會露出來的 5924 格（0.74%）
+  WALL_back_mok_wall ← WALL_back_mok_walnut：1961 格
+  mok_ceiling ← WALL_front_mok_wall：1520 格
+  mok_floor ← WALL_front_mok_wall：1056 格
+  WALL_left_mok_wall ← WALL_front_mok_wall：660 格
+  mok_floor ← WALL_left_mok_walnut：370 格
+=== assets/models/env/second_ai/aa_support/shanlan.glb
+=== assets/models/env/second_ai/aa_support/sunnyside.glb
+assets/models/env/second_ai/aa_support/sunnyside.glb：光照貼圖 1024×1024，屬於網格的格子 593151，被蓋住、會露出來的 13241 格（2.23%）
+  WALL_left_sns_wall ← WALL_left_sns_wood：4971 格
+  WALL_right_sns_wall ← WALL_right_sns_wood：4460 格
+  WALL_left_sns_wall ← WALL_left_sns_vc：1645 格
+  WALL_right_sns_wall ← WALL_right_sns_vcg：1025 格
+  sns_floor ← WALL_left_sns_wood：492 格
+=== assets/models/env/second_ai/aa_support/yejian.glb
+assets/models/env/second_ai/aa_support/yejian.glb：光照貼圖 1024×1024，屬於網格的格子 579395，被蓋住、會露出來的 4648 格（0.80%）
+  WALL_right_yej_wall ← WALL_right_yej_wood：2710 格
+  WALL_right_yej_wall ← WALL_right_yej_print：1127 格
+  yej_floor ← WALL_right_yej_wood：372 格
+  WALL_left_yej_wall ← WALL_back_yej_wall：142 格
+  WALL_right_yej_wall ← WALL_front_yej_wall：141 格
+=== assets/models/env/second_ai/aa_support/yizhan.glb
+assets/models/env/second_ai/aa_support/yizhan.glb：光照貼圖 1024×1024，屬於網格的格子 510672，被蓋住、會露出來的 8728 格（1.71%）
+  WALL_engawa_yzn_post ← WALL_engawa_yzn_wall：2380 格
+  yzn_ceiling ← WALL_engawa_yzn_post：789 格
+  WALL_back_yzn_wall ← WALL_back_yzn_print：532 格
+  WALL_left_yzn_wall ← WALL_engawa_yzn_post：496 格
+  WALL_engawa_yzn_post ← WALL_left_yzn_wall：413 格
+=== assets/models/env/second_ai/bb_support/ade.glb
+=== assets/models/env/second_ai/bb_support/bike.glb
+=== assets/models/env/second_ai/bb_support/corner.glb
+=== assets/models/env/second_ai/bb_support/cvs_interior.glb
+assets/models/env/second_ai/bb_support/cvs_interior.glb：光照貼圖 1024×1024，屬於網格的格子 564880，被蓋住、會露出來的 2023 格（0.36%）
+  WALL_front_vc ← WALL_front_vm：573 格
+  WALL_front_vc ← WALL_right_vc：434 格
+  WALL_front_vc ← WALL_left_vc：428 格
+  FLOOR ← WALL_left_vc：357 格
+  FLOOR ← WALL_front_vm：118 格
+=== assets/models/env/second_ai/bb_support/dabu.glb
+=== assets/models/env/second_ai/bb_support/dakou_1f.glb
+assets/models/env/second_ai/bb_support/dakou_1f.glb：光照貼圖 1024×1024，屬於網格的格子 608275，被蓋住、會露出來的 7748 格（1.27%）
+  WALL_right_plaster ← WALL_BANDS：4114 格
+  WALL_back_plaster ← WALL_back_base：1528 格
+  FLOOR ← WALL_left_frame：750 格
+  FLOOR ← WALL_front_frame：624 格
+  FLOOR ← WALL_back_base：382 格
+=== assets/models/env/second_ai/bb_support/dakou_2f.glb
+assets/models/env/second_ai/bb_support/dakou_2f.glb：光照貼圖 1024×1024，屬於網格的格子 576625，被蓋住、會露出來的 3963 格（0.69%）
+  WALL_back_plaster ← WALL_back_base：1158 格
+  FLOOR ← WALL_left_frame：975 格
+  FLOOR ← WALL_front_frame：732 格
+  FLOOR ← WALL_back_base：339 格
+  WALL_back_plaster ← WALL_left_frame：311 格
+=== assets/models/env/second_ai/bb_support/haopai.glb
+=== assets/models/env/second_ai/bb_support/nanyang_hall.glb
+=== assets/models/env/second_ai/bb_support/nanyang_lobby.glb
+=== assets/models/env/second_ai/bb_support/shaola_interior.glb
+=== assets/models/env/second_ai/bb_support/tongxian.glb
+=== assets/models/env/second_ai/bb_support/xinsheng_sports.glb
+assets/models/env/second_ai/bb_support/xinsheng_sports.glb：光照貼圖 1024×1024，屬於網格的格子 430387，被蓋住、會露出來的 11899 格（2.76%）
+  WALL_back_L1_wall_wall ← WALL_back_L1_wall_signs_vc：2664 格
+  WALL_right_L0_wall_wall ← WALL_right_L0_shoe_right_goods：2044 格
+  WALL_left_L0_wall_wall ← WALL_left_L0_xs_vc：743 格
+  L0_floor_floor ← WALL_back_L0_wall_wall：723 格
+  L1_slab_floor ← WALL_back_L1_wall_wall：623 格
+=== assets/models/env/second_ai/bb_support/yangyang_interior.glb
+assets/models/env/second_ai/bb_support/yangyang_interior.glb：光照貼圖 1024×1024，屬於網格的格子 538349，被蓋住、會露出來的 1760 格（0.33%）
+  WALL_front_vc ← WALL_front_vm：587 格
+  FLOOR ← WALL_right_vc：342 格
+  FLOOR ← WALL_back_vc：259 格
+  WALL_back_vc ← WALL_back_print：221 格
+  WALL_back_wall ← WALL_back_print：221 格
+=== assets/models/env/second_ai/bookstore_interior.glb
+assets/models/env/second_ai/bookstore_interior.glb：光照貼圖 1024×1024，屬於網格的格子 424621，被蓋住、會露出來的 30521 格（7.19%）
+  bk_shelf ← WALL_right_wall：10256 格
+  bk_shelf ← WALL_back_wall：7775 格
+  bk_shelf ← WALL_left_wall：5598 格
+  WALL_front_wall ← WALL_front_frame：860 格
+  bk_ceiling ← WALL_back_wall：825 格
+=== assets/models/env/second_ai/boya_203.glb
+assets/models/env/second_ai/boya_203.glb：光照貼圖 1024×1024，屬於網格的格子 635537，被蓋住、會露出來的 20667 格（3.25%）
+  WALL_W_wall ← WALL_W_trim：14811 格
+  WALL_N_wall ← WALL_N_print：2854 格
+  WALL_E_wall ← WALL_E_trim：861 格
+  WALL_S_wall ← WALL_S_frame：523 格
+  WALL_N_wain ← WALL_N_trim：458 格
+=== assets/models/env/second_ai/boya_interior.glb
+assets/models/env/second_ai/boya_interior.glb：光照貼圖 1024×1024，屬於網格的格子 290879，被蓋住、會露出來的 809 格（0.28%）
+  L0_floor ← L0_WALL_N_wall：316 格
+  L0_floor ← L0_WALL_S_wall：282 格
+  L0_WALL_S_wall ← L0_WALL_S_frame：48 格
+  L0_floor ← L0_WALL_S_frame：34 格
+  L0_WALL_E_wall ← L0_WALL_N_wall：27 格
+=== assets/models/env/second_ai/cafe230.glb
+assets/models/env/second_ai/cafe230.glb：光照貼圖 1024×1024，屬於網格的格子 312978，被蓋住、會露出來的 3046 格（0.97%）
+  a23_wood ← WALL_back_a23_wall：1644 格
+  a23_wood ← WALL_back_a23_wood：1018 格
+  a23_wood ← WALL_left_a23_wall：189 格
+  a23_wood ← WALL_left_a23_wood：156 格
+  a23_wood ← WALL_right_a23_wood：96 格
+=== assets/models/env/second_ai/cafe_interior.glb
+assets/models/env/second_ai/cafe_interior.glb：光照貼圖 1024×1024，屬於網格的格子 358692，被蓋住、會露出來的 20726 格（5.78%）
+  WALL_back_plaster ← WALL_back_cafe_int_shelf：7073 格
+  WALL_back_wainscot ← WALL_back_cafe_int_shelf：5186 格
+  int_floor ← WALL_back_cafe_int_shelf：2571 格
+  int_floor ← WALL_front_base_stone：1014 格
+  WALL_left_plaster ← WALL_left_frames：944 格
+=== assets/models/env/second_ai/cvs_interior.glb
+assets/models/env/second_ai/cvs_interior.glb：光照貼圖 1024×1024，屬於網格的格子 425259，被蓋住、會露出來的 19047 格（4.48%）
+  WALL_back_wall ← WALL_back_posters：2100 格
+  cvs_shelf ← WALL_back_wall：1865 格
+  cvs_ceiling ← WALL_front_wall：1412 格
+  cvs_floor ← WALL_back_mat：1412 格
+  WALL_front_wall ← WALL_front_frame：1348 格
+=== assets/models/env/second_ai/dorm_205.glb
+assets/models/env/second_ai/dorm_205.glb：光照貼圖 1024×1024，屬於網格的格子 285655，被蓋住、會露出來的 17387 格（6.09%）
+  dorm_wood ← WALL_left_wall：2977 格
+  dorm_wood ← WALL_right_wall：1903 格
+  dorm_frame_white ← WALL_left_wall：1155 格
+  dorm_floor ← WALL_left_wall：1101 格
+  dorm_floor ← WALL_right_wall：1093 格
+=== assets/models/env/second_ai/dorm_laundry.glb
+assets/models/env/second_ai/dorm_laundry.glb：光照貼圖 1024×1024，屬於網格的格子 776851，被蓋住、會露出來的 2758 格（0.36%）
+  WALL_E_wall ← WALL_E_trim：1536 格
+  WALL_S_wall ← WALL_S_frame：915 格
+  dorm_laundry_floorm ← WALL_N_trim：307 格
+=== assets/models/env/second_ai/dorm_room4.glb
+assets/models/env/second_ai/dorm_room4.glb：光照貼圖 1024×1024，屬於網格的格子 283440，被蓋住、會露出來的 16960 格（5.98%）
+  dorm_wood ← WALL_left_wall：2813 格
+  dorm_wood ← WALL_right_wall：1823 格
+  dorm_frame_white ← WALL_left_wall：1138 格
+  dorm_floor ← WALL_left_wall：1101 格
+  dorm_floor ← WALL_right_wall：1093 格
+=== assets/models/env/second_ai/gongtong_3f.glb
+assets/models/env/second_ai/gongtong_3f.glb：光照貼圖 1024×1024，屬於網格的格子 617092，被蓋住、會露出來的 14781 格（2.40%）
+  WALL_W_wall ← WALL_W_trim：13208 格
+  WALL_E_wall ← WALL_E_trim：781 格
+  WALL_S_wall ← WALL_S_frame：432 格
+  WALL_E_wain ← WALL_E_trim：354 格
+  WALL_N_trim ← WALL_E_trim：2 格
+=== assets/models/env/second_ai/gongtong_interior.glb
+assets/models/env/second_ai/gongtong_interior.glb：光照貼圖 1024×1024，屬於網格的格子 331403，被蓋住、會露出來的 5446 格（1.64%）
+  L0_carpet ← L0_WALL_N_wall：2311 格
+  L0_floor ← L0_WALL_N_wall：648 格
+  L0_floor ← L0_WALL_W_wall：372 格
+  L0_ceil ← L0_WALL_ceil_trof：292 格
+  L0_floor ← L0_WALL_S_wall：292 格
+=== assets/models/env/second_ai/gym_arena.glb
+assets/models/env/second_ai/gym_arena.glb：光照貼圖 1024×1024，屬於網格的格子 190132，被蓋住、會露出來的 0 格（0.00%）
+=== assets/models/env/second_ai/gym_interior.glb
+assets/models/env/second_ai/gym_interior.glb：光照貼圖 1024×1024，屬於網格的格子 229772，被蓋住、會露出來的 43 格（0.02%）
+  WALL_right_right_stone ← WALL_front_front_steel_dk：27 格
+  gym_stone ← WALL_left_left_pad：7 格
+  gym_concrete ← WALL_left_left_pad：6 格
+  WALL_back_back_concrete ← WALL_left_left_pad_trim：1 格
+  WALL_back_back_pad_trim ← WALL_left_left_pad_trim：1 格
+=== assets/models/env/second_ai/jp_room.glb
+assets/models/env/second_ai/jp_room.glb：光照貼圖 1024×1024，屬於網格的格子 690073，被蓋住、會露出來的 50788 格（7.36%）
+  WALL_S_closet_wood ← WALL_S_closet：18612 格
+  WALL_W_wall ← WALL_W_shelf_wood：11147 格
+  WALL_E_wall ← WALL_E_trim：2634 格
+  WALL_N_wall ← WALL_N_trim：2516 格
+  jp_room_woodparts ← WALL_E_wall：2104 格
+=== assets/models/env/second_ai/library_3f.glb
+assets/models/env/second_ai/library_3f.glb：光照貼圖 1024×1024，屬於網格的格子 268354，被蓋住、會露出來的 12563 格（4.68%）
+  l3_ceil ← WALL_ceil_tbar：8380 格
+  WALL_right_plaster ← WALL_right_cornice：936 格
+  WALL_back_plaster ← WALL_back_cornice：895 格
+  WALL_back_plaster ← WALL_back_walnut：655 格
+  WALL_back_plaster ← WALL_back_frame：378 格
+=== assets/models/env/second_ai/library_3f_v2.glb
+assets/models/env/second_ai/library_3f_v2.glb：光照貼圖 1024×1024，屬於網格的格子 438865，被蓋住、會露出來的 2712 格（0.62%）
+  L3_walnut ← WALL_E：668 格
+  L3_plaster ← WALL_N：653 格
+  WALL_E ← WALL_N：165 格
+  WALL_W ← WALL_N：165 格
+  WALL_E ← WALL_S：162 格
+=== assets/models/env/second_ai/library_hall_v2.glb
+assets/models/env/second_ai/library_hall_v2.glb：光照貼圖 1024×1024，屬於網格的格子 216189，被蓋住、會露出來的 2092 格（0.97%）
+  L0_stone ← WALL_RW0：244 格
+  L0_stone ← WALL_RE0：237 格
+  L0_stone ← WALL_RN0：200 格
+  L1_stone ← WALL_E1：165 格
+  L1_plaster ← WALL_MEDIA_W：138 格
+=== assets/models/env/second_ai/library_media.glb
+assets/models/env/second_ai/library_media.glb：光照貼圖 1024×1024，屬於網格的格子 694128，被蓋住、會露出來的 12634 格（1.82%）
+  WALL_S_wall ← WALL_S_pegprops：4655 格
+  WALL_W_wall ← WALL_W_trim：2410 格
+  WALL_S_wall ← WALL_S_trim：2250 格
+  WALL_E_wall ← WALL_E_trim：1763 格
+  library_media_floorm ← WALL_S_trim：474 格
+=== assets/models/env/second_ai/library_stacks.glb
+=== assets/models/env/second_ai/linze_202.glb
+assets/models/env/second_ai/linze_202.glb：光照貼圖 1024×1024，屬於網格的格子 478994，被蓋住、會露出來的 30524 格（6.37%）
+  linze_202_ceiling ← WALL_ceil_linze_202_grid：13919 格
+  WALL_W_wall ← WALL_W_trim：9112 格
+  WALL_E_wall ← WALL_E_trim：2651 格
+  WALL_E_wain ← WALL_E_trim：2017 格
+  linze_202_floorm ← WALL_E_trim：806 格
+=== assets/models/env/second_ai/linze_3f.glb
+assets/models/env/second_ai/linze_3f.glb：光照貼圖 1024×1024，屬於網格的格子 568675，被蓋住、會露出來的 1532 格（0.27%）
+  WALL_W_wall ← WALL_W_trim：1280 格
+  WALL_S_wall ← WALL_S_frame：252 格
+=== assets/models/env/second_ai/linze_4f.glb
+assets/models/env/second_ai/linze_4f.glb：光照貼圖 1024×1024，屬於網格的格子 599987，被蓋住、會露出來的 1627 格（0.27%）
+  WALL_W_wall ← WALL_W_trim：1389 格
+  WALL_S_wall ← WALL_S_frame：238 格
+=== assets/models/env/second_ai/linze_office.glb
+assets/models/env/second_ai/linze_office.glb：光照貼圖 1024×1024，屬於網格的格子 500408，被蓋住、會露出來的 41869 格（8.37%）
+  WALL_S_wain ← WALL_S_cab：10792 格
+  WALL_N_wall ← WALL_N_pigeonvc：5710 格
+  WALL_N_wall ← WALL_N_print：5240 格
+  linze_office_floorm ← WALL_S_cab：5112 格
+  WALL_N_trim ← WALL_N_print：4365 格
+=== assets/models/env/second_ai/noodle_interior.glb
+assets/models/env/second_ai/noodle_interior.glb：光照貼圖 1024×1024，屬於網格的格子 590334，被蓋住、會露出來的 29525 格（5.00%）
+  WALL_back_paint ← WALL_back_wood：3724 格
+  WALL_front_paint ← WALL_front_frame：2269 格
+  ndl_ceiling ← WALL_back_paint：2080 格
+  ndl_ceiling ← WALL_front_paint：2080 格
+  ndl_floor ← WALL_back_tile：2080 格
+=== assets/models/env/second_ai/putong_interior.glb
+assets/models/env/second_ai/putong_interior.glb：光照貼圖 1024×1024，屬於網格的格子 372097，被蓋住、會露出來的 2057 格（0.55%）
+  L0_floor ← L0_WALL_N_wall：424 格
+  L0_floor ← L0_WALL_S_wall：379 格
+  L0_WALL_N_wall ← L0_WALL_N_base：254 格
+  L0_WALL_N_wall ← L0_WALL_N_frame：235 格
+  L1_WALL_N_wall ← L1_WALL_N_base：169 格
+=== assets/models/env/second_ai/soclib2f_interior.glb
+assets/models/env/second_ai/soclib2f_interior.glb：光照貼圖 1024×1024，屬於網格的格子 362300，被蓋住、會露出來的 2670 格（0.74%）
+  L1_wall ← WALL_L1_W：300 格
+  WALL_L0_N ← WALL_L0_W：200 格
+  L1_wall ← WALL_L1_N：172 格
+  WALL_L1_E ← WALL_L1_N：168 格
+  L0_wall ← WALL_L0_W：150 格
+=== assets/models/env/second_ai/soclib_interior.glb
+assets/models/env/second_ai/soclib_interior.glb：光照貼圖 1024×1024，屬於網格的格子 475003，被蓋住、會露出來的 9037 格（1.90%）
+  soclib_ceiling ← WALL_front_wall：1269 格
+  soclib_floor ← WALL_front_mat：1269 格
+  soclib_ceiling ← WALL_back_mull：1182 格
+  soclib_floor ← WALL_back_mull：1182 格
+  soclib_ceiling ← WALL_right_wall：915 格
+=== assets/models/env/second_ai/us_asian_market.glb
+assets/models/env/second_ai/us_asian_market.glb：光照貼圖 1024×1024，屬於網格的格子 252605，被蓋住、會露出來的 752 格（0.30%）
+  WALL_S_wall ← WALL_S_sign：531 格
+  WALL_S_wall ← WALL_S_mullions：207 格
+  usam_shelves ← WALL_W_wall：14 格
+=== assets/models/env/second_ai/us_bed_c.glb
+assets/models/env/second_ai/us_bed_c.glb：光照貼圖 1024×1024，屬於網格的格子 511957，被蓋住、會露出來的 23791 格（4.65%）
+  WALL_S_wall ← WALL_S_trim：16399 格
+  WALL_E_wall ← WALL_E_trim：3492 格
+  WALL_E_wall ← WALL_E_print：1324 格
+  WALL_W_wall ← WALL_W_trim：1260 格
+  us_bed_c_floorm ← WALL_S_trim：565 格
+=== assets/models/env/second_ai/us_lawlib.glb
+assets/models/env/second_ai/us_lawlib.glb：光照貼圖 1024×1024，屬於網格的格子 107407，被蓋住、會露出來的 101 格（0.09%）
+  WALL_N_trim ← WALL_N_wainscot：83 格
+  WALL_S_door ← WALL_S_trim：18 格
+=== assets/models/env/second_ai/us_market.glb
+assets/models/env/second_ai/us_market.glb：光照貼圖 1024×1024，屬於網格的格子 581260，被蓋住、會露出來的 18 格（0.00%）
+  usm_wood ← WALL_usm_walls：18 格
+=== assets/models/env/second_ai/wancai_multi.glb
+=== assets/models/env/second_ai/wancai_sema.glb
+assets/models/env/second_ai/wancai_sema.glb：光照貼圖 1024×1024，屬於網格的格子 632444，被蓋住、會露出來的 48547 格（7.68%）
+  WALL_W_wall ← WALL_W_trim：15163 格
+  WALL_W_board ← WALL_W_print：11913 格
+  WALL_E_wall ← WALL_E_books：8085 格
+  WALL_E_wain ← WALL_E_books：5733 格
+  WALL_N_wall ← WALL_N_trim：5121 格
+=== assets/models/env/second_ai/wancai_semb.glb
+assets/models/env/second_ai/wancai_semb.glb：光照貼圖 1024×1024，屬於網格的格子 639598，被蓋住、會露出來的 26660 格（4.17%）
+  WALL_N_wall ← WALL_N_trim：9213 格
+  WALL_E_wall ← WALL_E_books：3840 格
+  WALL_E_wain ← WALL_E_books：2944 格
+  WALL_E_wain ← WALL_E_cabinet：2744 格
+  WALL_E_wall ← WALL_E_print：2655 格
+=== assets/models/env/second_ai/wz_brunch_interior.glb
+assets/models/env/second_ai/wz_brunch_interior.glb：光照貼圖 1024×1024，屬於網格的格子 446389，被蓋住、會露出來的 25672 格（5.75%）
+  WALL_back_back_wood_dk ← WALL_back_board：2409 格
+  WALL_back_back_paint ← WALL_back_board：2235 格
+  wzs_steel ← WALL_back_back_tile：1867 格
+  wzs_ceiling ← WALL_left_left_paint：1815 格
+  wzs_floor ← WALL_right_right_wood_lt：1815 格
+=== assets/models/env/second_ai/wz_print_interior.glb
+assets/models/env/second_ai/wz_print_interior.glb：光照貼圖 1024×1024，屬於網格的格子 383142，被蓋住、會露出來的 27573 格（7.20%）
+  wzs_white ← WALL_right_right_lower：2960 格
+  wzs_copier ← WALL_left_left_lower：1836 格
+  wzs_ceiling ← WALL_left_left_paint：1795 格
+  wzs_ceiling ← WALL_right_right_paint：1795 格
+  wzs_floor ← WALL_right_right_lower：1795 格
+=== assets/models/env/second_ai/wz_teahouse_interior.glb
+assets/models/env/second_ai/wz_teahouse_interior.glb：光照貼圖 1024×1024，屬於網格的格子 299528，被蓋住、會露出來的 8944 格（2.99%）
+  wzs_post ← WALL_right_right_plaster：1848 格
+  wzs_ceiling_boards ← WALL_right_right_plaster：633 格
+  wzs_post ← WALL_left_left_plaster：565 格
+  wzs_ceiling_boards ← WALL_left_left_plaster：420 格
+  wzs_tatami ← WALL_back_back_plaster：403 格
+=== assets/models/env/wancai_interior.glb
+assets/models/env/wancai_interior.glb：光照貼圖 1024×1024，屬於網格的格子 318606，被蓋住、會露出來的 3814 格（1.20%）
+  L0_floor ← L0_WALL_Eb：612 格
+  L0_floor ← L0_WALL_W_0：540 格
+  L0_floor ← L0_WALL_N_2：270 格
+  L0_floor ← L0_WALL_N_0：246 格
+  L0_floor ← L0_WALL_Sb：166 格
+DONE
