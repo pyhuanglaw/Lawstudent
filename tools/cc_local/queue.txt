@@ -1789,6 +1789,12 @@ E26v4_4c45_no | 4c45bd05c194e9f8e8e1139a33925d073e1b2f31 | probe | docs/story_pl
 E26v3_4154_yes | 4154aeb61763e4653a4c358a0d277d2e8f3e37d1 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=yes;WAIT0921=1
 E26v3_4154_no | 4154aeb61763e4653a4c358a0d277d2e8f3e37d1 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=no;WAIT0921=1
 E26v3_4154_skipyes | 4154aeb61763e4653a4c358a0d277d2e8f3e37d1 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=yes
+# ===== ★ CC-B 11-09 23:2x（BB-B 23:18 P2，排最前面）：SOC rom_a/b 的 FAIL 單獨重跑、用開發線 head 2d58e8a52（不用 88c8）；單獨都 PASS＝判 120 分鐘逾時造成 =====
+SOCX_2d58_study_h1 | 2d58e8a5209ae061784c20f14dd5de5819b562e6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01;STEPS=phone_date;STUDY_ONLY=1
+SOCX_2d58_study_h3 | 2d58e8a5209ae061784c20f14dd5de5819b562e6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_03;STEPS=phone_date;STUDY_ONLY=1
+SOCX_2d58_pd_h1 | 2d58e8a5209ae061784c20f14dd5de5819b562e6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 90 | CASES=heroine_01;STEPS=phone_date
+SOCX_2d58_pd_h3 | 2d58e8a5209ae061784c20f14dd5de5819b562e6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 90 | CASES=heroine_03;STEPS=phone_date
+SOCX_2d58_menu_h4 | 2d58e8a5209ae061784c20f14dd5de5819b562e6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | CASES=heroine_04;STEPS=menu
 WZ196_front_old | 4154aeb61763e4653a4c358a0d277d2e8f3e37d1 | probe | docs/story_planning/test_tools/cc/cc_storefront_probe.py | index.html | 15 | SOLO=1;TAG=old;SHOPS=wz_brunch,wz_teishoku,wz_mokuyobi,wz_offbeat,wz_print
 WZ196_front_new | 07ce887a13d3aa3b743567b857dfd7b22e44a5b8 | probe | docs/story_planning/test_tools/cc/cc_storefront_probe.py | index.html | 15 | SOLO=1;TAG=new;SHOPS=wz_brunch,wz_teishoku,wz_mokuyobi,wz_offbeat,wz_print
 WZ196_in_old | 4154aeb61763e4653a4c358a0d277d2e8f3e37d1 | probe | docs/story_planning/test_tools/cc/cc_scene5_probe.py | index.html | 30 | TAG=before_gpu;PART=wz_brunch,wz_teishoku,wz_mokuyobi,wz_offbeat,wz_print;SLOTS=1400:14;CORNERS=1;VIEWS_ONLY=door,corner_b;CC_HEADLESS=0
