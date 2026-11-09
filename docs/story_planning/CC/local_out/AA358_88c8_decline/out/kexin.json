@@ -1,0 +1,57 @@
+[
+{
+"t": "你在哪？我已經出閘門了。行李好重。",
+"slot": null,
+"d": "2025-08-30",
+"h": 13.75,
+"z": "dorm"
+},
+{
+"t": "（擦汗）……好。這是我的床。",
+"slot": {
+"want": "tired",
+"outfit": "",
+"shown": "kexin/campus/tired.webp",
+"compact": false
+},
+"d": "2025-08-30",
+"h": 14.42,
+"z": "dorm"
+},
+{
+"t": "以後你開車來找我。我負責選宵夜。",
+"slot": {
+"want": "smile",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-08-30",
+"h": 14.42,
+"z": "dorm"
+},
+{
+"t": "去年這個時候，我以為我九月會在首都帝大念大二。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/thinking.webp",
+"compact": false
+},
+"d": "2025-08-30",
+"h": 14.42,
+"z": "dorm"
+},
+{
+"t": "現在在想，湯餃要不要再買一份帶回去。",
+"slot": {
+"want": "teasing",
+"outfit": "",
+"shown": "kexin/campus/teasing.webp",
+"compact": false
+},
+"d": "2025-08-30",
+"h": 14.42,
+"z": "dorm"
+}
+]

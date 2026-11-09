@@ -1462,3 +1462,31 @@
 [04:07:04] ==== START SOC_88c8_rom_a  (probe @ 88c83d1be5c69a81de3af59b7342df6cc932bdfa) ====
 [04:07:07] [res] cpu=34% mem=45% (14.1/31.4 GB) chrome_testing=5  START SOC_88c8_rom_a
 [04:07:13] [res] cpu=33% mem=46% (14.2/31.4 GB) chrome_testing=5  END E26v4_4c45_no
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e822631bb..6cac65908  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:07:41] ==== END   E26v4_4c45_no  exit=0  657s   ====
+[04:07:45] memory 51% before starting SOC_88c8_rom_b (2 running)
+[04:07:45] ==== START SOC_88c8_rom_b  (probe @ 88c83d1be5c69a81de3af59b7342df6cc932bdfa) ====
+[04:07:48] [res] cpu=32% mem=49% (16.2/31.4 GB) chrome_testing=9  START SOC_88c8_rom_b
+[04:10:34] 正在跑：AA358_88c8_decline（已跑 4 分／上限 240 分）、SOC_88c8_rom_a（已跑 3 分／上限 120 分）、SOC_88c8_rom_b（已跑 2 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:15:34] 正在跑：AA358_88c8_decline（已跑 9 分／上限 240 分）、SOC_88c8_rom_a（已跑 8 分／上限 120 分）、SOC_88c8_rom_b（已跑 7 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:20:34] 正在跑：AA358_88c8_decline（已跑 14 分／上限 240 分）、SOC_88c8_rom_a（已跑 13 分／上限 120 分）、SOC_88c8_rom_b（已跑 12 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:25:34] 正在跑：AA358_88c8_decline（已跑 19 分／上限 240 分）、SOC_88c8_rom_a（已跑 18 分／上限 120 分）、SOC_88c8_rom_b（已跑 17 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:30:34] 正在跑：AA358_88c8_decline（已跑 24 分／上限 240 分）、SOC_88c8_rom_a（已跑 23 分／上限 120 分）、SOC_88c8_rom_b（已跑 22 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:35:34] 正在跑：AA358_88c8_decline（已跑 29 分／上限 240 分）、SOC_88c8_rom_a（已跑 28 分／上限 120 分）、SOC_88c8_rom_b（已跑 27 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:40:34] 正在跑：AA358_88c8_decline（已跑 34 分／上限 240 分）、SOC_88c8_rom_a（已跑 33 分／上限 120 分）、SOC_88c8_rom_b（已跑 32 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:43:29] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
+[04:45:34] 正在跑：AA358_88c8_decline（已跑 39 分／上限 240 分）、SOC_88c8_rom_a（已跑 38 分／上限 120 分）、SOC_88c8_rom_b（已跑 37 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:50:34] 正在跑：AA358_88c8_decline（已跑 44 分／上限 240 分）、SOC_88c8_rom_a（已跑 43 分／上限 120 分）、SOC_88c8_rom_b（已跑 42 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:55:34] 正在跑：AA358_88c8_decline（已跑 49 分／上限 240 分）、SOC_88c8_rom_a（已跑 48 分／上限 120 分）、SOC_88c8_rom_b（已跑 47 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:00:34] 正在跑：AA358_88c8_decline（已跑 54 分／上限 240 分）、SOC_88c8_rom_a（已跑 53 分／上限 120 分）、SOC_88c8_rom_b（已跑 52 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:05:34] 正在跑：AA358_88c8_decline（已跑 59 分／上限 240 分）、SOC_88c8_rom_a（已跑 58 分／上限 120 分）、SOC_88c8_rom_b（已跑 57 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:10:34] 正在跑：AA358_88c8_decline（已跑 64 分／上限 240 分）、SOC_88c8_rom_a（已跑 63 分／上限 120 分）、SOC_88c8_rom_b（已跑 62 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:15:34] 正在跑：AA358_88c8_decline（已跑 69 分／上限 240 分）、SOC_88c8_rom_a（已跑 68 分／上限 120 分）、SOC_88c8_rom_b（已跑 67 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:20:34] 正在跑：AA358_88c8_decline（已跑 74 分／上限 240 分）、SOC_88c8_rom_a（已跑 73 分／上限 120 分）、SOC_88c8_rom_b（已跑 72 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:25:34] 正在跑：AA358_88c8_decline（已跑 79 分／上限 240 分）、SOC_88c8_rom_a（已跑 78 分／上限 120 分）、SOC_88c8_rom_b（已跑 77 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:30:34] 正在跑：AA358_88c8_decline（已跑 84 分／上限 240 分）、SOC_88c8_rom_a（已跑 83 分／上限 120 分）、SOC_88c8_rom_b（已跑 82 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:35:34] 正在跑：AA358_88c8_decline（已跑 89 分／上限 240 分）、SOC_88c8_rom_a（已跑 88 分／上限 120 分）、SOC_88c8_rom_b（已跑 87 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:40:34] 正在跑：AA358_88c8_decline（已跑 94 分／上限 240 分）、SOC_88c8_rom_a（已跑 93 分／上限 120 分）、SOC_88c8_rom_b（已跑 92 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[05:43:19] [res] cpu=51% mem=58% (18.2/31.4 GB) chrome_testing=10  END AA358_88c8_decline
