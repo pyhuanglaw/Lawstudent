@@ -40,7 +40,8 @@ async def main():
             R.setup('【捷徑】DATE.book（沈以安、D01、10:00 出發）→ %s' % J(bk)); qid = 'date_' + ((bk.get('trip') or {}).get('trip') or '')
         await pg.wait_for_timeout(2000)
         s0 = await pg.evaluate(STATE, [qid, EV]); R.note('開始：%s' % J(s0))
-        R.check('有排出出遊 %s' % qid, bool(s0.get('q')), J(s0))
+        if MODE == 'walk': R.note('（walk：讀檔當下還沒排出遊是正常的；改在出發選單那一刻檢查）q=%s' % J(s0.get('q')))
+        else: R.check('有排出出遊 %s' % qid, bool(s0.get('q')), J(s0))
         stops, prompts, hist = [], 0, []
         if MODE in ('movie', 'morning', 'date'):
             await L.close_panels(pg, cdp)
@@ -77,6 +78,7 @@ async def main():
         R.note('最後：%s' % J(fin)); R.note('手機最後 8 則：%s' % J(msgs)); R.note('出發選單出現 %d 次；停下的時間 %s' % (prompts, J([x['h'] for x in stops])))
         await pg.screenshot(path=os.path.join(OUT, 'outa_%s_final.png' % MODE))
         R.check('停在出發前（出發選單至少 1 次）', prompts >= 1, J([x['h'] for x in stops]))
+        if MODE == 'walk': R.check('有排出出遊 %s（出發選單那一刻）' % qid, any(x.get('q') for x in stops), J([x.get('q') for x in stops]))
         if MODE in ('walk', 'date'): R.check('出發選單（鬧鐘）只出現 1 次、只停一次', prompts == 1, str(prompts))
         R.check('出遊演了（events.done）', fin['played'], J(fin))
         R.check('q.state 是 done、不是 missed', (fin.get('q') or {}).get('state') == 'done', J(fin.get('q')))
