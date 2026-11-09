@@ -118,7 +118,10 @@ PLAY_S = int(os.environ.get('PLAY_S') or 900)
 PHONE_AUTO = (os.environ.get('PHONE_AUTO') or '0') == '1'
 QUICK = (os.environ.get('QUICK') or '0') == '1'
 DATE_BRANCH_MAX = int(os.environ.get('DATE_BRANCH_MAX') or MENU_MAX)   # 一場約會換選項重跑最多幾次
-STUDY_ONLY = (os.environ.get('STUDY_ONLY') or '0') == '1'             # 1＝invite／phone_date 只跑「念書」那幾場（STUDY_ctl／STUDY_fix）
+STUDY_ONLY = (os.environ.get('STUDY_ONLY') or '0') == '1'
+IVLOG = (os.environ.get('IVLOG') or '0') == '1'   # CC-B 11-09：存檔那一刻、讀檔以後每秒記 iv（含 goAsked）、選單、事件（BB-B 23:44）
+STUDY_SHIFT = float(os.environ.get('STUDY_SHIFT') or 0.45)   # 存檔點離約定幾小時（對照組用 2）
+IVRAW_JS = r"""(id=>{ const G=GAME.G, $=x=>document.getElementById(x); const ch=[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,24)); const dv=$('dlg'); return {day:G.day, hour:+(+G.hour).toFixed(3), zone:G.zone, px:+GAME.E.player.obj.position.x.toFixed(1), pz:+GAME.E.player.obj.position.z.toFixed(1), iv:(G.invites||[]).filter(v=>v.who===id).map(v=>Object.assign({},v)), out:(typeof OUT!=='undefined'&&G.outings)?(G.outings||[]).slice(-2):null, choices:ch, dlg:dv&&getComputedStyle(dv).display!=='none'?(dv.textContent||'').trim().slice(0,40):'', phone:!!($('phone')&&!$('phone').classList.contains('hide')), evr:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, cur:(typeof EVENTS!=='undefined'&&(EVENTS.current||EVENTS.cur))||null}; })"""             # 1＝invite／phone_date 只跑「念書」那幾場（STUDY_ctl／STUDY_fix）
 ROSTER = (os.environ.get('ROSTER') or '1') == '1'                     # phone_date：先列「手機能約誰」的名單
 AFTER_S = int(os.environ.get('AFTER_S') or 150)                       # 約會結束後等幾秒看她回到自己的行程
 SLOT_OVERRIDE = (os.environ.get('SLOT_OVERRIDE') or '').strip()   # 'zone,hour,YYYY-MM-DD'：greet／up／menu／invite／reload 讀檔到這個時段（不掃）
@@ -1364,6 +1367,14 @@ class Person:
         """從「出發前」的存檔：等「直接過去／自己走過去」→ 到場 → 見面那一場一路演完；record＝做完整報告"""
         R, pg = self.R, self.pg
         if go_snap: await self.load(snap=go_snap, why='%s：約好、時間快到的那一刻' % tag)
+        if IVLOG and go_snap:
+            t1 = time.time(); seen = None
+            while time.time() - t1 < float(os.environ.get('IVLOG_S') or 150):
+                r = await pg.evaluate(IVRAW_JS, self.pid); v = (r['iv'] or [{}])[-1]
+                key2 = (round(r['hour'], 2), r['zone'], v.get('state'), v.get('goAsked'), tuple(r['choices']), r['dlg'][:12], str(r['evr'])[:30])
+                if key2 != seen: R.note('IVLOG 讀檔後 %.0fs：%s' % (time.time() - t1, J({k: r[k] for k in ('hour', 'zone', 'px', 'pz', 'choices', 'dlg', 'phone', 'evr', 'cur')} | {'iv': {k: v.get(k) for k in ('state', 'h', 'goAsked', 'lead', 'waitSeat', 'zone')}}))); seen = key2
+                if v.get('state') != 'accepted' or r['choices'] or r['dlg']: break
+                await pg.wait_for_timeout(1000)
         fb0, err0 = await self.base_marks(); rec0 = await pg.evaluate(REC_JS, self.pid); rec0['fb'] = fb0; rec0['err'] = err0
         say0 = await pg.evaluate("(window.__CCS||[]).length"); self.tx = []; self.seat_sample = None; self.seat_pending = True; self.mid_tag = tag
         self.study_on = bool(iv.get('study')); self.guide_on = iv['zone'] if self.study_on else None; self.guide = []; self.last_seat = None; self.mid_reloaded = False
@@ -1637,7 +1648,8 @@ class Person:
         R.note('%s：手機約 → 算了 %s' % (tag, J(out)))
         return out
 
-    async def study_prep(self, late=False, shift=0.45, reload_after=False):
+    async def study_prep(self, late=False, shift=None, reload_after=False):
+        if shift is None: shift = STUDY_SHIFT
         """共同前置：平日 09:00 校園 → 手機約總圖念書 →（reload_after：回標題 → 繼續）→ 時間快到；回傳 (iv, 出發前的存檔, 約之前的存檔)；同一個人同一組參數只做一次"""
         key = (late, shift, reload_after)
         if key in self.sprep: return self.sprep[key]
@@ -1670,6 +1682,7 @@ class Person:
             if not R.check('study_phone_reload：讀回來（%s）以後約還在（accepted）' % used, any(x['id'] == iv['id'] and x['state'] == 'accepted' for x in ivs), J(ivs)): return self.sprep[key]
             if not await self.check_free('study_phone_reload 讀回來'): return self.sprep[key]
         await self.shift_to('study', iv['day'], iv['h'] - shift)
+        if IVLOG: R.note('IVLOG 存檔那一刻（shift %.2f h）：%s' % (shift, J(await pg.evaluate(IVRAW_JS, self.pid))))
         go = await pg.evaluate(SNAP_JS)
         self.sprep[key] = (iv, go, s0)
         return self.sprep[key]
