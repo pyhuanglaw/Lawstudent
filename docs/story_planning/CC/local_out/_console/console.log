@@ -1278,3 +1278,12 @@
 [02:58:01] ==== START WZ196_front_old  (probe @ 4154aeb61763e4653a4c358a0d277d2e8f3e37d1) ====
 [02:58:04] [res] cpu=7% mem=39% (12.4/31.4 GB) chrome_testing=0  START WZ196_front_old
 [02:59:46] [res] cpu=4% mem=39% (12.4/31.4 GB) chrome_testing=0  END WZ196_front_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2d41e33c3..6ce2c6d08  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[02:59:52] ==== END   WZ196_front_old  exit=0  105s   ====
+[02:59:55] memory 37% before starting WZ196_front_new (0 running)
+[02:59:55] ==== START WZ196_front_new  (probe @ 07ce887a13d3aa3b743567b857dfd7b22e44a5b8) ====
+[02:59:58] [res] cpu=3% mem=38% (11.9/31.4 GB) chrome_testing=0  START WZ196_front_new
+[03:00:34] 正在跑：WZ196_front_new（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[03:01:37] [res] cpu=1% mem=39% (12.4/31.4 GB) chrome_testing=0  END WZ196_front_new

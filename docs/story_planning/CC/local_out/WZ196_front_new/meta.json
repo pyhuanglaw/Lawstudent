@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "WZ196_front_new",
+  "sha": "07ce887a13d3aa3b743567b857dfd7b22e44a5b8",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_storefront_probe.py",
+  "env": "SOLO=1;TAG=new;SHOPS=wz_brunch,wz_teishoku,wz_mokuyobi,wz_offbeat,wz_print",
+  "machine": "MSI",
+  "start": "2026-11-10T02:59:55",
+  "end": "2026-11-10T03:01:37",
+  "seconds": 102,
+  "exit": 0,
+  "error": null,
+  "runner": "c0b2a5e558",
+  "rf_round": "4",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 26,
+    "mem": 47,
+    "used_gb": 14.8,
+    "chrome_testing": 4
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
