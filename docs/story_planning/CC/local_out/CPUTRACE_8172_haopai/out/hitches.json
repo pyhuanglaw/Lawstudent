@@ -1,0 +1,15 @@
+{
+ "info": {
+  "zone": "xs_haopai",
+  "lv": 0,
+  "npc": 2,
+  "q": "medium",
+  "pr": 1,
+  "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+ },
+ "frames": {
+  "n_hitch": 0,
+  "hitches": [],
+  "t0_us": 1794243793867300
+ }
+}
