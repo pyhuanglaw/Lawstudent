@@ -69,6 +69,13 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   // 4b. 30 分鐘短版（econff3d.js 事件接事件）直接演 ev_y0_e08、沒有走 OUT：去了就不能收到「你沒來」（BUG-Y0-E08-MISSED-AFTER-GOING-1109，BB-B 11-09 PC cc_e26_flow）
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.events=G.events||{}; G.events.done=G.events.done||{}; G.events.done.ev_y0_e08=D21; at(D21,21.6); at(D21+1,10);
   check('4b. 短版直接演過系烤（沒有出遊紀錄）：沒有「沒去」的照片和可昕的私訊',!OUT.get(G,'y0_e08')&&!PHONE.sent(G,'y0_e08_missed')&&!TH('p:kexin').includes('你沒來。火很小，月亮很晚才出來。'),JSON.stringify(TH('p:kexin')));
+  // 4c～4e（BB-B 11-09 17:44：排進佇列就一定送到）：演的途中時間過了 18:00、說好要去，都不能排；說好要去但錯過了出遊＝照樣送
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.flags.E08_GO='yes'; at(D21,16.5); at(D21,18.5); at(D21,20.9);
+  check('4c. 回「好」、出遊排了還沒演完（18:30、20:54）：「你沒來」沒有排進佇列',!PHONE.sent(G,'y0_e08_missed'));
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); { const R0=EVENTS.running; EVENTS.running='ev_y0_e08'; at(D21,18.5); at(D21,20.5); EVENTS.running=R0; }
+  check('4d. 短版直接演、還沒演完（EVENTS.running＝ev_y0_e08，18:30、20:30）：沒有排進佇列',!PHONE.sent(G,'y0_e08_missed'));
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.flags.E08_GO='yes'; at(D21,16.5); { const q=OUT.get(G,'y0_e08'); if(q) q.state='missed'; } at(D21,22);
+  check('4e. 回「好」但出遊錯過了（missed）：照樣送沒去的版本',PHONE.sent(G,'y0_e08_missed'));
   // 5. 法律系開局照舊
   fresh(1,21,'dorm',{},'law'); run(); check('5. 法律系開局：第一天就有「走啦」和 8/13 的照片（照舊）',PHONE.inGroup(G,'econ_friends')&&PHONE.sent(G,'econ_photo_0813')&&!PHONE.inGroup(G,'econ_class'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

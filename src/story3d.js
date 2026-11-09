@@ -1958,7 +1958,9 @@ const STORY = (function(){
       if(F.E08_GO==='yes'&&typeof OUT!=='undefined'&&sat3!=null&&G.day===sat3&&!OUT.get(G,'y0_e08')) OUT.plan(G,{id:'y0_e08',ev:'ev_y0_e08',day:sat3,h:17,place:'河濱',title:'中秋系烤',travel:'和韋綸走過去',travelH:0.25});
       const q8=typeof OUT!=='undefined'?OUT.get(G,'y0_e08'):null;
       /* 已經演過系烤（30 分鐘短版事件接事件直接演 ev_y0_e08、沒走 OUT）＝去了，不送「你沒來」（BUG-Y0-E08-MISSED-AFTER-GOING-1109，BB-B 11-09 17:15：PC cc_e26_flow 去了又收到） */
-      if(sat3!=null&&!(q8&&q8.state==='done')&&!(G.events&&G.events.done&&G.events.done.ev_y0_e08)&&(G.day>sat3||(G.day===sat3&&G.hour>=18))&&G.day<=sat3+2&&!PHONE.sent(G,'y0_e08_missed'))
+      /* 說好要去（回「好」，出遊沒錯過）、系烤正在演（17:00～21:00 演的途中時間過了 18:00，還沒標成演過）＝也不排（BB-B 11-09 17:44：PHONE.sent 包含佇列、排進去就一定送到；CC fefd yes 那條演過了還是排了）*/
+      const e08Going=(F.E08_GO==='yes'&&!(q8&&q8.state==='missed'))||(typeof EVENTS!=='undefined'&&EVENTS.running==='ev_y0_e08');
+      if(sat3!=null&&!e08Going&&!(q8&&q8.state==='done')&&!(G.events&&G.events.done&&G.events.done.ev_y0_e08)&&(G.day>sat3||(G.day===sat3&&G.hour>=18))&&G.day<=sat3+2&&!PHONE.sent(G,'y0_e08_missed'))
         PHONE.at(G,sat3,21.5,[{th:'g:econ_class',text:'📷（河濱的烤肉架、一圈人、一盤烤焦的玉米）'},{th:'p:kexin',from:'kexin',text:'你沒來。火很小，月亮很晚才出來。'}],'y0_e08_missed'); }
     /* E07 沒去（BB_104 8b-2）：博覽會結束後可昕私訊「我加了即興劇社。你呢？」，玩家在手機上選社團（Y0_CLUB），她照 E07 的表回。
        時間：9/21（六）12:30（E06 她的第一則私訊在 9/19 或 9/20，這一則排在那之後；AA-B 確認中）*/
