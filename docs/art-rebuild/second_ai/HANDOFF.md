@@ -24,8 +24,8 @@
     - 開發原樣 FAILED 5 → ALL PASS；引擎相關 310 支 Node 全過；
     - 等 LAWWW-B 整合，再請 CC-B 跑 `seat_off_probe.js`。
   - P3 MASK 查完（`wip/mask_bake_rootcause_1109/`）：Cycles 沒問題，紀錄寫錯了，已更正。
-    - 好拍右牆洞洞板貼圖本來就不透空。
-    - 11-08 重烘不會改變洞洞板的樣子，要等 CC 重拍確認。
+    - 好拍右牆洞洞板貼圖本來就不透空，而且面朝向反了，遊戲裡看不到；11-08 重烘對玩家畫面是對的（BB-B 16:40 確認）。
+    - 洞洞板、左牆卡片、電視要不要翻正：問 BB-B。
   - CC-B 排了大口 1F CPU trace（CPUTRACE_8172_dakou／haopai），等路徑。
   - 下一步：#196 溫州街四間＋阿德 --skytint。
 
@@ -76,7 +76,7 @@
 | bake_room 續烘（BAKE_CACHE／BAKE_STOP_AFTER） | **已整合**（`c29fd2654`→開發 `aa46cdb7f`）；LAWWW-B 那台 Blender 結束時 segfault 139 → 回歸改成接受 139 但輸出／cache 要對（`bc9b27053`，patch 已交、P3） | `wip/bake_room_resume_1108/` |
 | **新生南路 XS9**（BB-B） | **九間全部 ART_APPROVED**（BB-B 13:43 PC GPU；好拍 `ca47949cf`、山嵐柱子 P3 結案）。原本：8 間 **ART_APPROVED**（大口 1F／2F、大步、同弦、新生運動、南洋大廳、1 廳、山嵐）。**好拍**重烘（HIDE 加 alpha：鏤空洞洞板 Cycles 當實心）＋**山嵐柱子**朝街那一面壓暗（新工具 lm_scale_faces.py）**已交 LAWWW-B（`1032e6097`）**，等整合、CC 拍、BB-B 判 | `wip/xs9_fix_1108/` |
 | 教訓（11-08 13:17） | **執行中的 .sh 不能原地改**：我覆寫 bake_xs.sh 時好拍正在烘，bash 讀錯位又重跑了一次 bake_room（PID 停掉、手動補 glb_fix_instnames 和烘焙紀錄，輸出核對過）。一律寫 .new 再 mv | — |
-| P3 查完（11-09） | ~~Cycles 烘焙把 MASK 鏤空當實心~~：Cycles 沒問題（最小場景透光比＝貼圖透空比）。好拍右牆洞洞板貼圖本來就不透空（alpha 255），葉片卡真的有透空、影子被光照解析度糊成卡片形。好拍右牆暗不暗要等 CC 重拍（見 wip/mask_bake_rootcause_1109） | BB-B 判 |
+| P3 查完（11-09） | ~~Cycles 烘焙把 MASK 鏤空當實心~~：Cycles 沒問題（最小場景透光比＝貼圖透空比）。好拍右牆洞洞板貼圖本來就不透空，而且面朝向反了、遊戲裡看不到（掛勾浮在牆上＝BB-B P3 的暗色斜線），11-08 藏起來重烘是對的；葉片卡真的有透空。翻不翻正洞洞板（左牆卡片、電視也反）等 BB-B 判（wip/mask_bake_rootcause_1109） | BB-B 判 |
 | P3 | 美國公寓浴室兩片門板拆節點；約 40 間外牆腳黑線可跑 lm_fill_covered（等決定）；#196、#201 | — |
 
 ## 🔨 （舊）現在在做（11-08 11:5x UTC，帳號 B LAWWW2-B）
