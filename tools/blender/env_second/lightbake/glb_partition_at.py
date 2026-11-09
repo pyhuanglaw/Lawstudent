@@ -65,7 +65,7 @@ def main():
     #   門洞那面牆淡出時門板跟著不見，露出它烘在貼著的那面牆上的影子；貼著的那面牆淡出、門板還在時，露出門板朝牆那一面（烘成黑的）。
     #   → 門板的淡出改跟它貼著的那面牆：dir、at、partition 都照那面牆。判斷：WALL_ 網格最薄的方向不是自己 dir 的方向（轉過 90°）、厚度 ≤ 20 cm，
     #     前面 30 cm 內有一面和它平行的牆（那面牆 dir 的方向＝門板最薄的方向，面積 ≥ 1 m²，外框各邊放寬 6 cm 包住門板的中心）。門把（WALL_P1_doormetal）一樣。
-    #   一個節點裡有兩片門板、各貼不同的牆（美國公寓 WALL_bath_n_door）：外框不薄，不會被選到，要在 Blender 拆成兩個節點（記在 README）。
+    #   一個節點裡有兩片門板、各貼不同的牆（美國公寓 WALL_bath_n_door）：外框不薄，不會被選到。先用 glb_split_node.py 切成兩個節點再跑這支（11-09 #204）。
     def anc_dir(i):
         while i is not None:
             d = (J['nodes'][i].get('extras') or {}).get('dir')

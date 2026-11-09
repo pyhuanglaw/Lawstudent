@@ -274,6 +274,9 @@ for d in LAY['doors']:
             for v in range(10): wm(wid, 'trim').box(at - 0.025, at - 0.02, 0.35 + v * 0.13, 0.4 + v * 0.13, u0 + 0.04, u1 - 0.04)
         continue
     # v3（使用者 10-27 美國公寓）：衣物間、衛浴的門開著、往臥室開（swingOut：門板轉到牆的另一邊）；衛浴的鉸鍊在東邊（hinge E：門板靠在書桌南邊的牆角）
+    #   11-09 #204：衣物間、衛浴這兩片開著的門板都在 bath_n_door 一個網格裡，各貼不同的牆。遊戲用的 GLB 匯出後另外切成兩個節點：
+    #   glb_split_node.py --node WALL_bath_n_door --axis x --cut 3.1 --name WALL_bath_n_door_e，再跑 glb_partition_at.py（規則 B：每片門板跟它貼著的牆淡出）。
+    #   重新匯出要再做一次（docs/art-rebuild/second_ai/wip/us_door_split_1109/README.md）。
     m = wm(wid, 'door'); six_panel(m, axis, at, c, 0.0, w_ - 0.02, -nrm if d.get('swingOut') else nrm, rot=(math.radians(95) if d.get('openDoor') else 0.0), hinge_end=d.get('hinge', 'W'))
     if d.get('plate'):   # 門牌（虛構的號碼）：遊戲照 PLATE_FACE 畫字
         x_, z_ = (c + 0.0, at + 0.03 * nrm * -1) if axis == 'x' else (at, c)
