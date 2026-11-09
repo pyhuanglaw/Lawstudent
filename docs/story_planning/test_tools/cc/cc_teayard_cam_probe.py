@@ -17,6 +17,19 @@ R = L.Run('camdrag_%s_%s' % (ZONE, TAG), OUT); D.setup(R, OUT)
 CAM = """(()=>{ const C=GAME.E.cam, P=GAME.E.player.obj.position, c=GAME.E.camera.position; const hx=P.x, hy=P.y+1.45, hz=P.z;
   return {yawDeg:+(((C.yaw*180/Math.PI)%360+360)%360).toFixed(1), dist:+C.dist.toFixed(2), distTarget:+C.distTarget.toFixed(2), camHead:+Math.hypot(c.x-hx,c.y-hy,c.z-hz).toFixed(2),
           cam:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], player:[+P.x.toFixed(2),+P.y.toFixed(2),+P.z.toFixed(2)], zone:GAME.G.zone}; })()"""
+OCC_JS = r"""(()=>{ const E=GAME.E, cam=E.camera, P=E.player.obj, pp=P.position; cam.updateMatrixWorld(true);
+  const head=new THREE.Vector3(pp.x,pp.y+1.45,pp.z), dHead=cam.position.distanceTo(head), rc=new THREE.Raycaster();
+  const isPlayer=o=>{ for(let q=o;q;q=q.parent) if(q===P) return true; return false; };
+  const vis=o=>{ for(let q=o;q;q=q.parent) if(!q.visible) return false; const m=[].concat(o.material)[0]; return !(m&&(m.visible===false||(m.transparent&&m.opacity<0.15))); };
+  const meshes=[]; E.scene.traverse(o=>{ if(o.isMesh&&!o.isSkinnedMesh&&vis(o)) meshes.push(o); });
+  const hitFirst=(from,dir,maxD)=>{ rc.set(from,dir); rc.far=maxD; const h=rc.intersectObjects(meshes,false).filter(x=>vis(x.object)&&!isPlayer(x.object)); return h[0]||null; };
+  /* ① 畫面 32×18 格：鏡頭射線第一個打到的東西比頭還近（< 頭距離 −0.3 m）的比例 */
+  let near=0,n=0; const v=new THREE.Vector3(); for(let j=0;j<18;j++) for(let i=0;i<32;i++){ v.set((i+0.5)/32*2-1,(j+0.5)/18*2-1,0.5).unproject(cam).sub(cam.position).normalize(); const h=hitFirst(cam.position,v,dHead-0.3); n++; if(h) near++; }
+  /* ② 頭、左右肩：鏡頭到那一點之間有沒有東西擋 */
+  const right=new THREE.Vector3().subVectors(head,cam.position).cross(new THREE.Vector3(0,1,0)).normalize();
+  const pts={head:head.clone(), shoulderL:head.clone().add(new THREE.Vector3(0,-0.2,0)).addScaledVector(right,-0.2), shoulderR:head.clone().add(new THREE.Vector3(0,-0.2,0)).addScaledVector(right,0.2)};
+  const seen={}, by={}; for(const k in pts){ const d=pts[k].clone().sub(cam.position), L=d.length(); const h=hitFirst(cam.position,d.normalize(),L-0.05); seen[k]=!h; if(h) by[k]=(h.object.name||h.object.parent&&h.object.parent.name||'?')+' @'+h.distance.toFixed(2); }
+  return {nearFrac:+(near/n).toFixed(3), seen, blockedBy:by, meshes:meshes.length}; })()"""
 CLOSE = "(()=>{ const d=document.querySelector('#dlg'); return !!(d && d.offsetParent!==null && getComputedStyle(d).display!=='none'); })()"
 async def main():
     real = os.popen('git -C "%s" rev-parse --short HEAD 2>/dev/null' % os.path.join(os.environ.get('LW_TESTS') or '.', '..')).read().strip()
@@ -60,6 +73,8 @@ async def main():
                 await L.drag(pg, cdp, 422 - px / 2, 120, 422 + px / 2, 120, steps=12); await pg.wait_for_timeout(400)
             await pg.wait_for_timeout(3000)
             s = await pg.evaluate(CAM); R.note('轉到 %s°：%s' % (yd, json.dumps(s)))
+            if os.environ.get('OCC') == '1':
+                oc = await pg.evaluate(OCC_JS); s['occ'] = oc; R.note('%s° 遮擋：比頭近的東西佔畫面 %.1f%%；看得到 頭 %s、左肩 %s、右肩 %s；擋住的 %s' % (yd, oc['nearFrac'] * 100, oc['seen']['head'], oc['seen']['shoulderL'], oc['seen']['shoulderR'], json.dumps(oc['blockedBy'], ensure_ascii=False)))
             await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(300)
             fn = os.path.join(OUT, 'camdrag_%s_%s_%s.png' % (ZONE, TAG, label)); await pg.screenshot(path=fn)
             await pg.evaluate(D.HUD + '(true)')
