@@ -85,6 +85,11 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   { const g2=JSON.parse(JSON.stringify(G)); g2.flags.E08_GO='no'; const g3=JSON.parse(JSON.stringify(G)); g3.hour=16.5; const g4=JSON.parse(JSON.stringify(G)); g4.day=D21+1;
     check('4f. 已經回了／16:00 以後／不是那一天：不停',E8S(g2)==null&&E8S(g3)==null&&E8S(g4)==null,[E8S(g2),E8S(g3),E8S(g4)].join(',')); }
   at(D21,16); check('4f. 停在 16:00：韋綸的私訊送出（兩個選項）',PHONE.sent(G,'y0_e08_dm')&&E8S(G)==null);
+  // 4g. 回「好」以後按「等到晚上」：停在出發前 10 分鐘（出遊有 alarm；BB-B 11-09 19:43 (a)：原本直接跳過 17:00 出發、出遊被標 missed、20:00 照演系烤又收到「你沒來」）
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.flags.E08_GO='yes'; at(D21,16.2); { const q=OUT.get(G,'y0_e08');
+    check('4g. 回「好」排的出遊有 alarm',!!q&&q.alarm===true,JSON.stringify(q));
+    let st=null; try{ st=CLS.skipStops({G},20); }catch(e){ st=String(e); } const hs=Array.isArray(st)?st.map(a=>+a.h.toFixed(3)):[];
+    check('4g. 16:12 按「等到晚上」：停在出發前 10 分鐘（16:35）',hs.some(h=>Math.abs(h-(17-0.25-1/6))<0.01),JSON.stringify(st).slice(0,200)); }
   // 5. 法律系開局照舊
   fresh(1,21,'dorm',{},'law'); run(); check('5. 法律系開局：第一天就有「走啦」和 8/13 的照片（照舊）',PHONE.inGroup(G,'econ_friends')&&PHONE.sent(G,'econ_photo_0813')&&!PHONE.inGroup(G,'econ_class'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

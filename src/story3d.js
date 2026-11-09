@@ -1955,7 +1955,7 @@ const STORY = (function(){
          「今天不行」、沒回、出發選單選不去＝沒去：21:30 群組一張照片＋可昕私訊（BB_104 AB-09，不用回、不扣分）*/
       if(mon3!=null&&sat3!=null&&PHONE.inGroup(G,'econ_class')&&G.day<=sat3) PHONE.at(G,mon3,21,[{th:'g:econ_class',text:'中秋系烤：9/21（六）17:00，河濱。自備餐具。'},{th:'g:econ_class',from:'econ_weilun',name:'韋綸',text:'我要去！有人要一起走過去嗎？'}],'y0_e08_grp');   /* BB_179 段A #56 */
       if(sat3!=null&&G.day===sat3&&G.hour>=16&&G.hour<17&&!PHONE.sent(G,'y0_e08_dm')) PHONE.at(G,sat3,Math.max(16,G.hour),[{th:'p:econ_weilun',from:'econ_weilun',name:'韋綸',text:'烤肉你要去嗎？我在舟山路門口，可以一起走過去。',ask:{until:sat3*24+17,opts:[{t:'好',set:{E08_GO:'yes'}},{t:'今天不行',set:{E08_GO:'no'}}]}}],'y0_e08_dm');
-      if(F.E08_GO==='yes'&&typeof OUT!=='undefined'&&sat3!=null&&G.day===sat3&&!OUT.get(G,'y0_e08')) OUT.plan(G,{id:'y0_e08',ev:'ev_y0_e08',day:sat3,h:17,place:'河濱',title:'中秋系烤',travel:'和韋綸走過去',travelH:0.25});
+      if(F.E08_GO==='yes'&&typeof OUT!=='undefined'&&sat3!=null&&G.day===sat3&&!OUT.get(G,'y0_e08')) OUT.plan(G,{id:'y0_e08',ev:'ev_y0_e08',day:sat3,h:17,place:'河濱',title:'中秋系烤',travel:'和韋綸走過去',travelH:0.25,alarm:true});
       const q8=typeof OUT!=='undefined'?OUT.get(G,'y0_e08'):null;
       /* 已經演過系烤（30 分鐘短版事件接事件直接演 ev_y0_e08、沒走 OUT）＝去了，不送「你沒來」（BUG-Y0-E08-MISSED-AFTER-GOING-1109，BB-B 11-09 17:15：PC cc_e26_flow 去了又收到） */
       /* 說好要去（回「好」，出遊沒錯過）、系烤正在演（17:00～21:00 演的途中時間過了 18:00，還沒標成演過）＝也不排（BB-B 11-09 17:44：PHONE.sent 包含佇列、排進去就一定送到；CC fefd yes 那條演過了還是排了）*/

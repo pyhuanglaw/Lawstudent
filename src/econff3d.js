@@ -164,6 +164,7 @@ const ECONFF=(()=>{
      玩家沒機會回「今天不行」。改成：還沒送＝停在 16:00（送出、跳的途中收到要回的訊息就停）；回「好」＝17:00 演（出遊）；「今天不行」、到 17:00 還沒回、已經演過＝這一步做完（沒去的照片、可昕私訊照完整版 21:30）*/
   S.e08Step=function(G){ const d=DK('2024-09-21'); if(d==null) return null; const F=G.flags||{};
     if((G.events&&G.events.done&&G.events.done.ev_y0_e08)||F.E08_GO==='no') return {done:true};
+    { const q8=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y0_e08'):null; if(q8&&q8.state==='missed') return {done:true}; }   /* 說好要去但出遊錯過了（missed）＝沒去，不補演（和 21:30「你沒來」、10/17 沒去版一致；BB-B 11-09 19:43 (b)）*/
     if(F.E08_GO==='yes') return {t:d*24+17};
     if(!(typeof PHONE!=='undefined'&&PHONE.sent&&PHONE.sent(G,'y0_e08_dm'))) return (G.day*24+G.hour>=d*24+17)?{done:true}:{t:d*24+16};   /* 私訊沒送就已經過了 17:00（別的路一次跳過去）＝沒去，不補演（補演會推到半夜；BB-B 11-09 18:14 (b)）*/
     return (G.day*24+G.hour>=d*24+17)?{done:true}:{t:d*24+17}; };
