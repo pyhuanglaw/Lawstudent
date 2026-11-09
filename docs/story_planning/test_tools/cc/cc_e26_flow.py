@@ -29,8 +29,12 @@ PATCH1_NEW = PATCH1_OLD + '''    try: await pg.evaluate(@HOOK@)
             return await L.close_panels(pg, cdp)
         if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500); print('   [E08=@E08@] 韋綸「烤肉你要去嗎？」：回「%s」（E08_GO=%s）' % (c[2], await pg.evaluate("GAME.G.flags.E08_GO||null")), flush=True)
         else: print('   [E08] 韋綸的訊息開了但找不到「@ANSRAW@」', flush=True)
+        try: await L.close_panels(pg, cdp)   # 回完把私訊那一串關掉（上一版回完第一次按跳過沒生效，疑似面板還開著）
+        except Exception: pass
+        if @AFTERWAIT@ > 0:   # BB-B 20:33：回「好」以後等幾秒（真實時間，遊戲時間照走）再跳；0＝馬上跳
+            print('   [E08] 回完等 @AFTERWAIT@ 秒再跳（遊戲時間 %s）' % await pg.evaluate("+GAME.G.hour.toFixed(3)"), flush=True); await pg.wait_for_timeout(int(@AFTERWAIT@ * 1000))
         return ['e08:@ANSRAW@']
-'''.replace('@HOOK@', repr(HOOK)).replace('@ANS@', repr(ANS)).replace('@E08@', E08).replace('@ANSRAW@', ANS).replace('@NONE@', 'True' if E08 == 'none' else 'False')
+'''.replace('@HOOK@', repr(HOOK)).replace('@ANS@', repr(ANS)).replace('@E08@', E08).replace('@ANSRAW@', ANS).replace('@NONE@', 'True' if E08 == 'none' else 'False').replace('@AFTERWAIT@', str(float(os.environ.get('AFTERWAIT') or 0)))
 assert PATCH1_OLD in src; src = src.replace(PATCH1_OLD, PATCH1_NEW, 1)
 SKF_OLD = '    await L.tap(pg, cdp, \'#btnPhone\'); await pg.wait_for_timeout(900)\n    await pg.evaluate("(()=>{ const b=document.querySelector(\'#phoneTabs button[data-ptab=\\"today\\"]\'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)\n    g = await pg.evaluate('
 assert SKF_OLD in src, 'skip_time 開頭對不上'
