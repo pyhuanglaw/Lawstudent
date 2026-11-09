@@ -1,0 +1,14 @@
+CC 牆外往裡拍：worktree 1827999fb4；TAG nowall；Playwright ≠ iPhone
+PASS 遊戲載入
+  [前置／捷徑] [corner_records] 【前置／捷徑】讀檔到 corner_records 2025-10-18 14.0（出生點，先量可走範圍）
+  [  30.3s] [corner_records] 牆 L：{"bbox": [-3.5, 3.5, -5.25, 5.15], "pick": [-3.3, -0.05]}
+  [前置／捷徑] [corner_records] 【捷徑】讀檔站到 (-3.3, -0.05)
+  [前置／捷徑] [corner_records] 【診斷】PREJS：let n=0; GAME.E.scene.traverse(o=>{ if(/^WALL_/.test(o.name||'')){ o.scale.set(0.0001,0.0001,0.0001); n++; } }); return  → 46
+PASS [corner_records] 牆 L 在 corner_records  {"zone": "corner_records", "x": -3.1, "z": -0.25, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb
+  [前置／捷徑] [wz_print] 【前置／捷徑】讀檔到 wz_print 2025-10-18 14.0（出生點，先量可走範圍）
+  [  80.1s] [wz_print] 牆 B：{"bbox": [-1.8, 1.8, -3.8, 3.8], "pick": [-0.2, -3.8]}
+  [前置／捷徑] [wz_print] 【捷徑】讀檔站到 (-0.2, -3.8)
+  [前置／捷徑] [wz_print] 【診斷】PREJS：let n=0; GAME.E.scene.traverse(o=>{ if(/^WALL_/.test(o.name||'')){ o.scale.set(0.0001,0.0001,0.0001); n++; } }); return  → 23
+PASS [wz_print] 牆 B 在 wz_print  {"zone": "wz_print", "x": -0.6, "z": -3.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "
+PASS 沒有 JS 例外  []
+ALL PASS

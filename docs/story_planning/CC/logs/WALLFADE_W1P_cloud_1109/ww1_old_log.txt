@@ -1,0 +1,20 @@
+CC 牆外往裡拍：worktree c8af31018a；TAG old；Playwright ≠ iPhone
+PASS 遊戲載入
+  [前置／捷徑] [xs_dakou] 【前置／捷徑】讀檔到 xs_dakou 2025-10-18 14.0（出生點，先量可走範圍）
+  [  32.6s] [xs_dakou] 牆 R：{"bbox": [-5.55, 5.85, -7.55, 7.55], "pick": [5.85, -0.05]}
+  [前置／捷徑] [xs_dakou] 【捷徑】讀檔站到 (5.85, -0.05)
+PASS [xs_dakou] 牆 R 在 xs_dakou  {"zone": "xs_dakou", "x": 5.55, "z": -0.35, "y": 2.742, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb":
+  [前置／捷徑] [wz_teahouse] 【前置／捷徑】讀檔到 wz_teahouse 2025-10-18 14.0（出生點，先量可走範圍）
+  [  87.6s] [wz_teahouse] 牆 R：{"bbox": [-3.8, 3.8, -4.2, 9.4], "pick": [3, 2.6]}
+  [前置／捷徑] [wz_teahouse] 【捷徑】讀檔站到 (3, 2.6)
+PASS [wz_teahouse] 牆 R 在 wz_teahouse  {"zone": "wz_teahouse", "x": 2.6, "z": 2.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "應徵：週末幫手　洽蘇姨", "stand": true
+  [前置／捷徑] [dorm] 【前置／捷徑】讀檔到 dorm 2025-10-18 14.0（出生點，先量可走範圍）
+  [ 132.6s] [dorm] 牆 L：{"bbox": [-1.6, 0.8, -3, 3], "pick": [-0.8, 0]}
+  [前置／捷徑] [dorm] 【捷徑】讀檔站到 (-0.8, 0)
+PASS [dorm] 牆 L 在 dorm  {"zone": "dorm", "x": -0.6, "z": -0.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "看看房間裡的東西", "stand": true, "fb": 
+  [前置／捷徑] [wancai] 【前置／捷徑】讀檔到 wancai 2025-10-18 14.0（出生點，先量可走範圍）
+  [ 175.4s] [wancai] 牆 L：{"bbox": [-8.6, 8.2, -6.6, 6.2], "pick": [-8.6, -0.2]}
+  [前置／捷徑] [wancai] 【捷徑】讀檔站到 (-8.6, -0.2)
+PASS [wancai] 牆 L 在 wancai  {"zone": "wancai", "x": -8.2, "z": -0.6, "y": 1.848, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0,
+PASS 沒有 JS 例外  []
+ALL PASS
