@@ -29,12 +29,20 @@ PATCH1_NEW = PATCH1_OLD + '''    try: await pg.evaluate(@HOOK@)
             return await L.close_panels(pg, cdp)
         if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500); print('   [E08=@E08@] 韋綸「烤肉你要去嗎？」：回「%s」（E08_GO=%s）' % (c[2], await pg.evaluate("GAME.G.flags.E08_GO||null")), flush=True)
         else: print('   [E08] 韋綸的訊息開了但找不到「@ANSRAW@」', flush=True)
+        if @FAST@:   # BB-B 21:25：回完不關面板，馬上切「今天」按「等到晚上」，要比事件接事件 1.5 秒的自動跳快
+            fr = await pg.evaluate("""(()=>{ const h0=+(+GAME.G.hour).toFixed(3); const tb=document.querySelector('#phoneTabs button[data-ptab=today]'); if(tb) tb.click();
+              const bs=[...document.querySelectorAll('#phoneBody [data-skip]')]; const b=bs.find(x=>/20:00/.test(x.textContent))||bs[bs.length-1]; const lab=b?b.textContent.trim():null; if(b) b.click(); return {pressAt:h0, label:lab, n:bs.length}; })()""")
+            print('   [E08 FAST] 回完不關面板、馬上按：%s' % json.dumps(fr, ensure_ascii=False), flush=True)
+            await pg.wait_for_timeout(2500)
+            sk = await pg.evaluate("""(()=>{ const G=GAME.G; const tx=id=>{ const e=document.getElementById(id); return e?e.textContent.trim().slice(0,80):''; }; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y0_e08'):null; return {h:+(+G.hour).toFixed(3), caption:tx('caption')||tx('cap'), q8:q?q.state:null, E08_GO:G.flags.E08_GO||null, choices:[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,30))}; })()""")
+            print('   [9/21 跳過後] FAST → %s' % json.dumps(sk, ensure_ascii=False), flush=True)
+            return ['e08:fast']
         try: await L.close_panels(pg, cdp)   # 回完把私訊那一串關掉（上一版回完第一次按跳過沒生效，疑似面板還開著）
         except Exception: pass
         if @AFTERWAIT@ > 0:   # BB-B 20:33：回「好」以後等幾秒（真實時間，遊戲時間照走）再跳；0＝馬上跳
             print('   [E08] 回完等 @AFTERWAIT@ 秒再跳（遊戲時間 %s）' % await pg.evaluate("+GAME.G.hour.toFixed(3)"), flush=True); await pg.wait_for_timeout(int(@AFTERWAIT@ * 1000))
         return ['e08:@ANSRAW@']
-'''.replace('@HOOK@', repr(HOOK)).replace('@ANS@', repr(ANS)).replace('@E08@', E08).replace('@ANSRAW@', ANS).replace('@NONE@', 'True' if E08 == 'none' else 'False').replace('@AFTERWAIT@', str(float(os.environ.get('AFTERWAIT') or 0)))
+'''.replace('@HOOK@', repr(HOOK)).replace('@ANS@', repr(ANS)).replace('@E08@', E08).replace('@ANSRAW@', ANS).replace('@NONE@', 'True' if E08 == 'none' else 'False').replace('@AFTERWAIT@', str(float(os.environ.get('AFTERWAIT') or 0))).replace('@FAST@', 'True' if os.environ.get('FAST') == '1' else 'False')
 assert PATCH1_OLD in src; src = src.replace(PATCH1_OLD, PATCH1_NEW, 1)
 SKF_OLD = '    await L.tap(pg, cdp, \'#btnPhone\'); await pg.wait_for_timeout(900)\n    await pg.evaluate("(()=>{ const b=document.querySelector(\'#phoneTabs button[data-ptab=\\"today\\"]\'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)\n    g = await pg.evaluate('
 assert SKF_OLD in src, 'skip_time 開頭對不上'
