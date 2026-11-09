@@ -1746,6 +1746,7 @@ E26_c05e_yes | c05e036a991f16408ef13257d90cd588b3dca1a1 | probe | docs/story_pla
 E26_c05e_no | c05e036a991f16408ef13257d90cd588b3dca1a1 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=no
 POP2_88c8_shanlan2f | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | probe | docs/story_planning/test_tools/cc/cc_seat_pop_probe.py | index.html | 20 | SOLO=1;ZONE=xs_shanlan;FLOOR=2;TAG=88c8b;CAMDIST=1.6
 POP2_8172_shanlan2f | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_seat_pop_probe.py | index.html | 20 | SOLO=1;ZONE=xs_shanlan;FLOOR=2;TAG=8172b;CAMDIST=1.6
+FEET_abfa | abfa888cf6e2cb8ab95c65bda15ccc417f7a2a8c | probe | docs/story_planning/test_tools/cc/cc_sitfeet_shots_probe.py | index.html | 30 | SOLO=1;SCENES=cafe:2025-09-16:14,classroom:2025-09-16:10.2,xs_shanlan:2025-10-18:14:2
 RPROBE_DC_fefd | fefd7d32a3a61c5bd418fac8f50ae5496987c79d | probe | docs/story_planning/test_tools/cc/cc_perf_ab_probe.py | index.html?perf | 40 | SOLO=1;SETTLE=30;ROWMIN=0;DUMP=1;JSF=render_probe_dc_lawww2_e1918f59a.js;PTS=xs_dakou:1f,xs_dakou:2f,xs_shanlan:1f
 SITFEET_abfa | abfa888cf6e2cb8ab95c65bda15ccc417f7a2a8c | probe | docs/story_planning/test_tools/cc/cc_perf_ab_probe.py | index.html?perf | 40 | SOLO=1;SETTLE=30;ROWMIN=5;JSF=sit_feet_probe_lawww2_ee34acf82.js;PTS=xs_shanlan:1f,xs_shanlan:2f,xs_dakou:1f,xs_dakou:2f,xs_haopai:1f
 AA358_88c8_decline | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | probe | docs/story_planning/test_tools/aa358_probe.py | index.html?turbo | 240 | MODE=decline
