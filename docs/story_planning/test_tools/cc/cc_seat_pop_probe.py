@@ -12,7 +12,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 VISN = """(()=>{ const E=GAME.E, cam=E.camera||GAME.E.cam.camera||(typeof camera!=='undefined'?camera:null); const c=cam||E.renderer&&E.scene&&E.scene.getObjectByProperty('isCamera',true);
   const C=c; C.updateMatrixWorld(); const F=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(C.projectionMatrix,C.matrixWorldInverse));
-  const L=(E.npcs||[]).filter(n=>/sit|read/.test(n.pose||'')&&((n.lv|0)===(E.player.lv|0))); let v=0; L.forEach(n=>{ const s=new THREE.Sphere(new THREE.Vector3(n.obj.position.x,n.obj.position.y+0.9,n.obj.position.z),0.6); if(F.intersectsSphere(s)) v++; }); return {seated:L.length, visible:v}; })()"""
+  const L=(E.npcs||[]).filter(n=>/sit|read/.test(n.pose||'')&&((n.lv|0)===(E.player.lv|0))); const P=E.player.obj.position; let v=0, vn=0, far=0; L.forEach(n=>{ const fr=Math.hypot(n.obj.position.x-P.x,n.obj.position.z-P.z)>=3; if(fr) far++; const s=new THREE.Sphere(new THREE.Vector3(n.obj.position.x,n.obj.position.y+0.9,n.obj.position.z),0.6); if(F.intersectsSphere(s)){ if(fr) v++; else vn++; } }); return {seated:L.length, far3:far, visible:v, visibleNear:vn}; })()"""
 ZONE = os.environ.get('ZONE') or 'xs_shanlan'; FLOOR = os.environ.get('FLOOR') or '2'; TAG = os.environ.get('TAG') or 'x'
 R = L.Run('seat_pop_' + TAG, OUT); D.setup(R, OUT)
 SEATED = """(()=>{ const E=GAME.E, P=E.player.obj.position; const L=(E.npcs||[]).filter(n=>/sit|read/.test(n.pose||'')&&((n.lv|0)===(E.player.lv|0)));
@@ -40,15 +40,18 @@ async def main():
         s = await pg.evaluate(SEATED); R.note('坐著的人：%s' % json.dumps(s, ensure_ascii=False))
         if not R.check('同一層有坐著的人', bool(s), ''): await b.close(); return
         yaw_face = await pg.evaluate("(c=>{ const P=GAME.E.player.obj.position; return Math.atan2(-(c[0]-P.x), -(c[1]-P.z)); })(%s)" % json.dumps(s['c']))
-        back = None   # BB-B 17:15：背對那張畫面裡一個坐著的人都不能有——每 30° 試，等鏡頭停好，用視錐算看得到幾個
-        for k in range(12):
+        if os.environ.get('CAMDIST'):   # 鏡頭拉近（高處的跟隨鏡頭看得到整層，背對也有人在畫面裡）
+            await pg.evaluate("d=>{ const C=GAME.E.cam; C.distTarget=d; C.dist=d; }", float(os.environ['CAMDIST'])); await pg.wait_for_timeout(1500)
+            R.note('鏡頭距離設成 %s m（E.cam.distTarget）' % os.environ['CAMDIST'])
+        back = None   # BB-B 17:15：背對那張畫面裡一個坐著的人都不能有——每 30° 試，等鏡頭停好，用視錐算看得到幾個（visible＝離玩家 3 m 以上、會被降頻的那些；3 m 內的本來就不降頻，另記 visibleNear）
+        for k in range(int(os.environ.get('YAWSTEPS') or 12)):
             y = yaw_face + 3.14159 + (k // 2 + (k % 2)) * (0.5236 if k % 2 else -0.5236)
             await pg.evaluate("y=>{ const C=GAME.E.cam; C.yaw=y; C.manualT=3; }", y); await pg.wait_for_timeout(2500)
             vn = await pg.evaluate(VISN); R.note('試 yaw %.2f：%s' % (y, json.dumps(vn)))
             if vn['visible'] == 0: back = y; break
-        if not R.check('找得到一個「坐著的人一個都不在畫面裡」的鏡頭方向', back is not None, ''): await b.close(); return
+        if not R.check('找得到一個「離玩家 3 m 以上的坐著的人一個都不在畫面裡」的鏡頭方向', back is not None, ''): await b.close(); return
         R.note('鏡頭背對（yaw %.2f），等 5 秒' % back); await pg.wait_for_timeout(5000)
-        vn0 = await pg.evaluate(VISN); R.check('背對 5 秒後畫面裡坐著的人 0 個', vn0['visible'] == 0, json.dumps(vn0))
+        vn0 = await pg.evaluate(VISN); R.check('背對 5 秒後畫面裡（3 m 以上）坐著的人 0 個', vn0['visible'] == 0, json.dumps(vn0))
         await pg.screenshot(path=os.path.join(OUT, 'pop_%s_0_back.png' % TAG))
         caps = await pg.evaluate(CAP.replace('FACE', '%.4f' % yaw_face).replace('const k=', 'const k='), 12)
         for i, c in enumerate(caps):
@@ -57,7 +60,7 @@ async def main():
         await pg.wait_for_timeout(1500); await pg.screenshot(path=os.path.join(OUT, 'pop_%s_7_after.png' % TAG))
         bad = [(i + 1, q) for i, c in enumerate(caps) for q in c['npc'] if q['hipsY'] is not None and q['hipsY'] > 0.75]
         R.note('hips 高於 0.75 m（像站著）的：%s' % json.dumps(bad[:10], ensure_ascii=False))
-        R.check('拍到 6 張', len(caps) == 6, str(len(caps)))
+        R.check('拍到 12 張', len(caps) == 12, str(len(caps))); R.note('轉過去以後畫面裡：%s' % json.dumps(await pg.evaluate(VISN)))
         R.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         json.dump({'seated': s, 'caps': [{'f': c['f'], 'npc': c['npc']} for c in caps]}, open(os.path.join(OUT, 'seat_pop_%s.json' % TAG), 'w'), ensure_ascii=False, indent=1)
         await b.close()
