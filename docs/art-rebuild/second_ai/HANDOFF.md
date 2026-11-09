@@ -55,6 +55,15 @@
   - #196 五間 --skytint 重烘：交件 aad8d3839（63 支 Node 全過），等 LAWWW-B ACK、CC 拍、BB-B 判。
   - 等 CC：RPROBE_DC_fefd（(C) 要的 program 原因）、SITFEET_PERFAB、上面兩個 7824 量測。
   - 再下一步（P3）：#201 PERF-WZ-DAY、#204 美國公寓門板／lm_fill。
+- **20:4x 進度**：
+  - BACKFACE-HAOPAI、#196 五間、#204 美國公寓門板都已 ART_APPROVED（BB-B）。
+  - PERF-XS-NPC-1108：
+    - (D) CC 實測：大口 1F 包圍球 238.4 ms／69 次 → 10.0 ms／20 次。剩一次 117 ms 卡頓是等 GPU（idle 84.5 ms），不是包圍球。
+    - (A) CC `SITFEET_abfa`：坐著多的地方動畫 −11～−23%、fps +2.6～5.2（兩輪差很多，只當方向）。
+    - **(C) 牆一次畫完：交件 `9e79b8750`，LAWWW-B 20:40 ACK、整合中**。原因是 three.js 對 transparent＋雙面材質畫兩次並 needsUpdate；淡出的牆都是這樣（66／84 顆 GLB）。patch：assets3d 記 op0、engine3d hideFaded 設 forceSinglePass。Node 開發 FAILED 4 → ALL PASS、回歸 78／0。
+  - #204 外牆腳：四間補光照交件 `7e11170d7`（回歸 101／0），等 ACK；`lm_fill_covered.py` 改分批 `625ba04c3`（結果一樣，山嵐 11.8 GB → 381 MB）；12 間量測跑中（`$S/oom12/`），超過 1% 的再跑淡出露出檢查。
+  - **教訓**：`ulimit -v 9000000` 只能給 Python。Node 在這個限制下 WebAssembly（undici fetch）配不到記憶體，會出假失敗（這一班第一次回歸因此重跑）。
+  - 等：LAWWW-B 整合 (C)、#204 四間 ACK；CC 的 (C) render_probe_dc、WZDAY trace（#201）、美國公寓衛浴門板補拍。
 
 ## 🔁 交班（2026-11-08 20:5x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
 
