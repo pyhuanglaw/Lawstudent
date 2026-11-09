@@ -1,0 +1,16 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_outa_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\OUTA_fc87_walk\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到宿舍 2025-10-18 18.83；旗標 {"AA614_MOVIE": 32}
+  [  44.5s] 開始：{"d": "2025-10-18", "h": 18.876, "zone": "dorm", "caption": "", "toast": "手機｜可昕：下禮拜五是我們的週年。", "dlg": "▼ 點一下繼續", "choices": [], "q": {"state": "planned", "h": 19.5, "alarm": "(沒寫)"}, "played": false}
+PASS 有排出出遊 aa614_movie  {"d": "2025-10-18", "h": 18.876, "zone": "dorm", "caption": "", "toast": "手機｜可昕：下禮拜五是我們的週年。", "dlg": "▼ 點一下繼續", "choices": [], "q": {"state": "planned", "h": 19.5, "alarm": "(沒寫)"}, "played": false}
+  [  76.7s] 停下（出發選單）：{"d": "2025-10-18", "h": 19.087, "zone": "dorm", "caption": "", "toast": "手機｜可昕：📷（一張卡片）", "dlg": "▼ 點一下繼續", "choices": ["出發：看電影 19:30（南洋戲院）走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"], "q": {"state": "planned", "h": 19.5, "alarm": "(沒寫)"}, "played": false}
+  [ 945.1s] 最後：{"d": "2025-10-19", "h": 10.156, "zone": "dorm", "caption": "阿凱朝你揮了揮手。", "toast": "手機｜可昕：早安。今天讀到哪了？", "dlg": "去上課吧。下課再跟我說你讀到哪了。", "choices": [], "q": {"state": "done", "h": 19.5, "alarm": "(沒寫)"}, "played": true}
+  [ 945.1s] 手機最後 8 則：[{"from": "kexin", "text": "週年快樂。下次你準備。", "day": 32, "h": 12.01, "tag": "kx_anniv_photo"}, {"from": "kexin", "text": "早安。今天讀到哪了？", "day": 33, "h": 7.52, "tag": null}, {"from": "kexin", "text": "我們老師今天講的案例，好像跟你們的是同一個。", "day": 33, "h": 7.52, "tag": null}, {"from": "kexin", "text": "兩個老師講的不一樣。……我好奇你們的怎麼講。", "day": 33, "h": 7.52, "tag": null}, {"from": "kexin", "text": "……不用回答。我只是想知道你讀到哪了。", "day": 33, "h": 7.52, "tag": null}, {"from": "player", "text": "讀到一半。案例比想像的長。", "day": 33, "h": 7.52, "tag": null}, {"from": "kexin", "text": "我也是。讀到一半去泡麵，回來就忘了誰告誰。", "day": 33, "h": 7.52, "tag": null}, {"from": "kexin", "text": "去上課吧。下課再跟我說你讀到哪了。", "day": 33, "h": 7.52, "tag": null}]
+  [ 945.1s] 出發選單出現 1 次；停下的時間 [19.087]
+PASS 停在出發前（出發選單至少 1 次）  [19.087]
+PASS 出發選單（鬧鐘）只出現 1 次、只停一次  1
+PASS 出遊演了（events.done）  {"d": "2025-10-19", "h": 10.156, "zone": "dorm", "caption": "阿凱朝你揮了揮手。", "toast": "手機｜可昕：早安。今天讀到哪了？", "dlg": "去上課吧。下課再跟我說你讀到哪了。", "choices": [], "q": {"state": "done", "h": 19.5, "alarm": "(沒寫)"}, "played": true}
+PASS q.state 是 done、不是 missed  {"state": "done", "h": 19.5, "alarm": "(沒寫)"}
+PASS 沒有 JS 例外  []
+ALL PASS
