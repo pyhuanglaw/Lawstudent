@@ -1646,7 +1646,8 @@ const Z3 = (function(){
       fadeWalls(cam,pp){ for(const w of walls){ const c=w.userData.center||w.position, toCam=new THREE.Vector3().subVectors(cam.position,c); let facing=toCam.dot(w.userData.dir)>0;
           if(w.userData.partition&&pp) facing=facing===(new THREE.Vector3().subVectors(pp,c).dot(w.userData.dir)>0);   /* 隔間牆（GLB 的 partition＝1，例：新體育館 B1 v6）：鏡頭和玩家在牆的不同邊才淡出 */
           w.material.opacity= facing?1:0.12; w.material.depthWrite=facing; }
-        /* 窗的零件（窗、框、窗台、窗簾）跟著所在的牆：牆淡出時一起隱藏，不然會浮在半空中擋住房間 */ if(this.winParts) for(const wp of this.winParts){ const toCam=new THREE.Vector3().subVectors(cam.position,wp.at); let v=toCam.dot(wp.dir)>0; if(wp.partition&&pp) v=v===(new THREE.Vector3().subVectors(pp,wp.at).dot(wp.dir)>0); wp.obj.visible=v; } },
+        /* 窗的零件（窗、框、窗台、窗簾）跟著所在的牆：牆淡出時一起隱藏，不然會浮在半空中擋住房間 */ if(this.winParts) for(const wp of this.winParts){ const toCam=new THREE.Vector3().subVectors(cam.position,wp.at); let v=toCam.dot(wp.dir)>0; if(wp.partition&&pp) v=v===(new THREE.Vector3().subVectors(pp,wp.at).dot(wp.dir)>0);
+          if(v&&wp.side) v=Math.abs(cam.position.x*wp.side.ax+cam.position.z*wp.side.az-wp.side.c)<=wp.side.half;   /* 放大的窗景卡（ggViewPanes）：鏡頭跑到店面左右範圍外（側牆外）也藏，不然超出店面的那一段擋在畫面旁邊（CAM-VIEWPANE-SIDE-1109，BB-B 23:12 阿德影印 270°）*/ wp.obj.visible=v; } },
       onLamps(on){ ceilLight.intensity=on?28:12; for(const l of lights) l.material.color.set(on?0xfff6e0:0xf4efe6); }, bounds:{w:W,d:D} };
     // 窗（外牆上的假窗，帶天光）
     if(o.windows!==false){ zone.wins=[]; zone.sunPatches=[]; const nW=Math.max(1,Math.round(W/5)); const xs=o.winXs||Array.from({length:nW},(_,i)=>-W/2+(i+0.5)*W/nW); const WW=o.winWall||'back'; const ry=WW==='left'?Math.PI/2:(WW==='right'?-Math.PI/2:(WW==='front'?Math.PI:0)); const half=(WW==='left'||WW==='right')?W/2:D/2;
@@ -2113,9 +2114,12 @@ const Z3 = (function(){
      日和、燒臘的正式模型（BB）沒有窗景卡；原本的程序化房間有視差窗（W3.windowMat，照片 assets/models/env/views/<名>_{day,night}.webp，遊戲裡拍的兩層景深），
      但正式模型載入時整個備用房間藏起來，窗也跟著藏，玻璃外只剩天空。
      ggViewPanes：把房間原本的視差窗搬到正式模型的玻璃外面（往外推 0.3 m）；shopViewPane：沒有開窗的房間（燒臘）照玻璃的位置放一片。
-     兩種都放進 z.wins（房間的 applyTime 照舊換白天／晚上、照時段調色）和 z.winParts（鏡頭在牆外時跟著前牆藏，不然會擋住鏡頭）。
+     兩種都放進 z.wins（房間的 applyTime 照舊換白天／晚上、照時段調色）和 z.winParts（鏡頭在牆外時跟著前牆藏，不然會擋住鏡頭；ggViewPanes 放大的那一片，鏡頭在店面左右範圍外時也藏：CAM-VIEWPANE-SIDE-1109）。
      模型裡已經有窗景卡（名字有 VIEW）的店不動 */
-  function vpPart(z,w){ const dir=new THREE.Vector3(0,0,1).applyQuaternion(w.quaternion); (z.winParts||(z.winParts=[])).push({obj:w,at:w.position.clone(),dir}); }
+  function vpPart(z,w,side){ const dir=new THREE.Vector3(0,0,1).applyQuaternion(w.quaternion); z.winParts=(z.winParts||[]).filter(p=>p.obj!==w); const wp={obj:w,at:w.position.clone(),dir};   /* 同一片窗景以前會有兩筆（attachRoomGLB 搬窗時一筆、這裡一筆，後面那筆蓋掉前面的）：只留這一筆 */
+    if(side&&z.bounds&&w.parent){ const g=w.parent; g.updateMatrixWorld(true); const lat=new THREE.Vector3(-dir.z,0,dir.x).normalize(), half=Math.abs(lat.x)*z.bounds.w/2+Math.abs(lat.z)*z.bounds.d/2;   /* 店面左右的範圍：room() 以原點為中心、寬 w 深 d；換成世界座標（一盞整組往 +z 移）*/
+      const o=g.localToWorld(new THREE.Vector3()), lw=g.localToWorld(lat.clone()).sub(o).normalize(); wp.side={ax:lw.x,az:lw.z,c:o.x*lw.x+o.z*lw.z,half}; }
+    z.winParts.push(wp); }
   function ggViewPanes(z,g0,root){ let card=false; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name||'')) card=true; }); if(card||!z.wins) return 0;
     const ws=z.wins.filter(w=>w.userData&&w.userData.pview&&w.parent); if(!ws.length) return 0; root.updateMatrixWorld(true); g0.updateMatrixWorld(true);
     const groups=[]; for(const w of ws){ g0.attach(w); const dir=new THREE.Vector3(0,0,1).applyQuaternion(w.quaternion); const pl=w.position.dot(dir); let gr=groups.find(q=>q.dir.dot(dir)>0.99&&Math.abs(q.pl-pl)<0.5); if(!gr){ gr={dir,pl,ws:[]}; groups.push(gr); } gr.ws.push(w); }
@@ -2128,7 +2132,7 @@ const Z3 = (function(){
         for(const x of [tb.min.x,tb.max.x]) for(const y of [tb.min.y,tb.max.y]) for(const zz of [tb.min.z,tb.max.z]){ const p=g0.worldToLocal(new THREE.Vector3(x,y,zz)); far=Math.max(far,p.dot(out)+0.05); } });
       w.position.addScaledVector(out,far-w.position.dot(out)); w.visible=true;
       { const pr=w.geometry.parameters||{}, W=Math.max(pr.width||0,14), H=Math.max(pr.height||0,2*Math.max(w.position.y,4.2-w.position.y)); if(W!==pr.width||H!==pr.height){ w.geometry.dispose(); w.geometry=new THREE.PlaneGeometry(W,H); } }   /* 平面放大到蓋住整面店面（林家乾麵整面開著）：中心不動＝照片的地平線不動，視差照舊（windowMat 照平面上的點算，平面大小不影響照片）*/
-      w.name='VIEWPANE_'+w.userData.pview; vpPart(z,w); n++; }
+      w.name='VIEWPANE_'+w.userData.pview; vpPart(z,w,true); n++; }
     z.viewPanes=n; if(n&&z.applyTime&&typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); return n; }
   function shopViewPane(z,g0,o){ if(typeof W3==='undefined'||!W3.windowMat) return null; const w=new THREE.Mesh(new THREE.PlaneGeometry(o.w,o.h),W3.windowMat(o.depth||20));
     w.position.set(o.x,o.y,o.z); w.rotation.y=o.ry||0; w.userData.pview=o.kind; w.userData.dyn=true; w.name='VIEWPANE_'+o.kind; g0.add(w); (z.wins||(z.wins=[])).push(w); vpPart(z,w);
