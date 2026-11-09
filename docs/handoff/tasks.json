@@ -50265,6 +50265,33 @@
    "reason": "BB-B outbox_BB.json 第 78 筆（759406f47）用的任務名；實際任務是 RELEASE-V91023-1108",
    "replacedBy": "RELEASE-V91023-1108",
    "authorizedBy": "LAWWW-B 11-08 交班（任務名別名，沒有取消任何工作）"
+  },
+  {
+   "id": "BUG-Y0-E08-MISSED-AFTER-GOING-1109",
+   "title": "經濟系 9/21 中秋系烤去了，21:30 又收到可昕「你沒來」＋群組「你們沒來的照片」（30 分鐘短版直接演 ev_y0_e08、沒走 OUT）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 3,
+    "earliest": "經濟系 9/21 中秋系烤（30 分鐘短版）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-09 17:2x LAWWW-B】BB-B 17:15（CC-B PC cc_e26_flow 817293734 兩條都一樣）。story3d.js：y0_e08_missed 多看 G.events.done.ev_y0_e08（演過＝去了）；tests/v0_e08_unit.js 4b（舊程式 FAIL）。交 BB：CC 照同一支 cc_e26_flow 重跑（有去那條不能收到「你沒來」）。另一件（不是 bug，問 AA-B）：短版 9/21 韋綸「烤肉你要去嗎？」沒出現，「沒去系烤」那一路在 30 分鐘版走不到——要不要留「不去」的選擇。",
+   "xai": {
+    "spec": "BB-B 11-09 17:15",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "PC cc_e26_flow 有去那條 21:30 沒有「你沒來」、10/17 照有去那一版",
+    "receiver": "BB（測）",
+    "ack": "ACK",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4b"
   }
  ]
 }

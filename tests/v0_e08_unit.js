@@ -66,6 +66,9 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.flags.E08_GO='no'; at(D21,17.5); check('4. 今天不行：沒有排出遊；18:00 以前還沒有照片',!OUT.get(G,'y0_e08')&&!PHONE.sent(G,'y0_e08_missed'));
   at(D21,21.6); check('4. 21:30 全班群組一張照片＋可昕私訊「你沒來。火很小，月亮很晚才出來。」',TH('g:econ_class').includes('📷（河濱的烤肉架、一圈人、一盤烤焦的玉米）')&&TH('p:kexin').includes('你沒來。火很小，月亮很晚才出來。'));
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); at(D21,22); check('4. 沒回：一樣是沒去的版本',PHONE.sent(G,'y0_e08_missed'));
+  // 4b. 30 分鐘短版（econff3d.js 事件接事件）直接演 ev_y0_e08、沒有走 OUT：去了就不能收到「你沒來」（BUG-Y0-E08-MISSED-AFTER-GOING-1109，BB-B 11-09 PC cc_e26_flow）
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.events=G.events||{}; G.events.done=G.events.done||{}; G.events.done.ev_y0_e08=D21; at(D21,21.6); at(D21+1,10);
+  check('4b. 短版直接演過系烤（沒有出遊紀錄）：沒有「沒去」的照片和可昕的私訊',!OUT.get(G,'y0_e08')&&!PHONE.sent(G,'y0_e08_missed')&&!TH('p:kexin').includes('你沒來。火很小，月亮很晚才出來。'),JSON.stringify(TH('p:kexin')));
   // 5. 法律系開局照舊
   fresh(1,21,'dorm',{},'law'); run(); check('5. 法律系開局：第一天就有「走啦」和 8/13 的照片（照舊）',PHONE.inGroup(G,'econ_friends')&&PHONE.sent(G,'econ_photo_0813')&&!PHONE.inGroup(G,'econ_class'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
