@@ -18753,6 +18753,19 @@
    "task": "INTERIOR-AAA-REVIEW-1028",
    "integration": "已整合待測試",
    "note": "整合 1827999fb。6 個檔 sha256 新舊都和 README 一致；露出嚴重度 0.94→0.12、0.49→0.13；交件回歸 46／0。LAWWW-B 背景驗證：兩間新舊對照、46 支、整支 lm_covered_fill_check。待 CC 拍：轉角唱片左牆外看地板、右牆外看樑；阿德右牆外看貨架後、後牆外看格櫃後；BB-B 判。"
+  },
+  {
+   "id": "DLV-1109-L2-CAMTEAYARD",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "f072ddeef",
+   "msg": "ACK",
+   "what": "CAM-TEAYARD-1109 一盞前院鏡頭碰撞：zones3d.js teaYard 在前院時 camCols 加緣側牆＋鄰居房子／灰泥牆；tests/teahouse_yard_cam_unit.js",
+   "task": "CAM-TEAYARD-1109",
+   "integration": "已整合待測試",
+   "note": "整合 b6685c824。patch sha256 0b748de7、zones3d cd5b538a、測試 c63d09d3 和交件一致；新測試舊程式 FAILED 2 → ALL PASS；交件 87 支背景跑中。待 CC 重拍 180°、270°、BB-B 判。"
   }
  ],
  "ignored": [

@@ -50323,6 +50323,64 @@
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": "87f52f2f34b4144cc9002de02bd1cb213c0ecb78",
    "test": "tests/v0_e08_unit.js 4h、tests/bed_tonight_alarm_unit.js 5、tests/date_book_unit.js 10（本機 ALL PASS）；GHA node-unit-auto 42690452156（87f52f2f3）success；本機全套 1160／1160 PASS；BB-B 雲端換回 4c45 版確認舊程式 FAIL"
+  },
+  {
+   "id": "CAM-TEAYARD-1109",
+   "title": "溫州街一盞前院：出生點鏡頭轉到 180°、270° 跑進牆裡（緣側牆、鄰居房子沒有鏡頭碰撞）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次走進溫州街一盞（前院出生點）轉鏡頭",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-09 23:2x LAWWW-B】LAWWW2-B f072ddeef → 整合 b6685c824：前院時 camCols 加緣側牆＋鄰居房子／灰泥牆；teahouse_yard_cam_unit 舊 FAILED 2 → PASS；87 支背景跑中。待 CC 重拍 180°、270°、BB-B 判（BB-B 23:06 疑點 3）。",
+   "xai": {
+    "spec": "BB-B 11-09 23:06 疑點 3；LAWWW2-B cam_teayard_1109 README",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "前院四個方向鏡頭不被牆擋、畫面裡最近 ≥0.6 m；CC 重拍 180°、270° BB-B 判",
+    "receiver": "LAWWW（整合）→ BB（測）",
+    "ack": "ACTIONED",
+    "owner": "LAWWW2"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": "b6685c8242",
+   "test": null
+  },
+  {
+   "id": "CAM-VIEWPANE-SIDE-1109",
+   "title": "用 ggViewPanes 的店：鏡頭退到店面左右範圍外時，放大的窗景卡擋在畫面旁邊（例：溫州街印刷店 wz_print 270°）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "在有窗景卡的店（溫州街印刷店等）把鏡頭轉到側面",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-09 23:2x LAWWW-B 決定】BB-B 23:12 疑點、LAWWW2-B 查：鏡頭碰撞沒問題，是 18.9 m 寬的窗景卡超出店面那段擋住。選 (1) 鏡頭在店面左右範圍外時藏窗景卡（winParts 加左右判斷；代價：那個角度窗外只有天空色），全部 ggViewPanes 的店一起；測試：範圍外藏、範圍內出現。P3，排在 LAWWW2 主線後面。",
+   "xai": {
+    "spec": "BB-B 11-09 23:12；LAWWW2-B cam_teayard_1109 README 第 2 節；LAWWW-B 選 (1)",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "鏡頭在店面左右範圍外時窗景卡藏起來、回到範圍內出現；Node 測試＋CC 截圖 BB-B 判",
+    "receiver": "LAWWW（整合）→ BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW2"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
   }
  ]
 }
