@@ -107,3 +107,32 @@
 2. 坐著、在畫面裡的人：彈簧骨（5.9%）半速。坐著的時候頭髮幾乎不動。
 3. `getProgram`／`getParameters`（9.6%）：查哪個材質每幀換 program。可能是同一個材質給 morph、skinning 狀態不同的網格用（近的 VRM 和遠距離版本、有沒有表情 morph）。
 4. 卡頓：等 `skinned_probe.js` 的結果。找到以後把那個網格設 `frustumCulled=false`，或先給它一個 boundingSphere。
+
+## 11-09 17:3x：(A) sitFeet 只更新兩條腿的矩陣（交件，READY_FOR_REVIEW）
+LAWWW-B 17:21 定的順序是 D → C → A。D、C 要等 CC 的探針結果（RPROBE_DC_fefd 已排 PC），所以 A 先做完先交。
+
+- **做法**（`sit_feet_fast_1109.patch`，對開發 `88c83d1be`，`git apply --check` OK；`src/character3d.js` +18／−9）：
+  - LAWWW-B 原本提的「腿的解記下來」行不通：坐姿小動作（sitAmbient）每一幀都會轉髖部（Hips 在片段裡），腿的解每一幀都不一樣。
+  - 改成**算法照舊、少做沒用到的矩陣更新**：
+    - 原本先 `h.updateWorldMatrix(true,true)` 更新整個人物（頭髮彈簧骨、手指、配件、網格都算），每根腿骨再 `getWorldPosition`（每次都往上走到根）；
+    - 新的只更新「髖部往上那一條鏈＋兩條腿的子樹」，位置、旋轉直接從剛更新過的 `matrixWorld` 讀。
+  - 站著量腳踝高度那一段也一樣處理。
+  - 後面的 `readIK`、`headFit`、`lookAt` 都自己更新矩陣；`updateVRM` 在畫之前也會把整個人物再更新一次，不靠 sitFeet 那一次。
+  - `CHAR.sitFeetFast=false`＝原本的做法，同一個版本可以量前後。
+- **測試** `tests/sit_feet_fast_unit.js`（新）：
+  - 同一個模型建兩個人物，放在同一個位置，一個舊做法、一個新做法，同步跑：站 → 坐（座位 1）→ 換座位（二樓、轉向、椅子矮 7 cm）→ 站起來 → 再坐下讀書。
+  - 主角、四位女主角、兩個路人底模，坐姿小動作的亂數換成固定值。
+  - 結果：
+    - ① 每一幀兩條腿 9 根骨頭的位置差 0（< 1e-6 m）；
+    - ② 換座位照新的座位重算：大腿上下差 8.3 → 1.3 cm 這類，和舊做法一樣；
+    - ③ 同一個人物坐著，每幀 `updateWorldMatrix` 呼叫數 678 → 325（**少 52%**，這是整個 `CHAR.animate` 的總數）；
+    - ④ 開關存在；
+    - ⑤ 確認測試真的有用到 sitFeet：關掉 sitFeet，腳的位置差 12～17 cm。
+  - 開發原樣 **FAILED 2**（④、③）→ 加 patch **ALL PASS**。
+- **回歸**：提到 character3d／CHAR.animate／CHAR.build 的 102 支 `*_unit.js`（含 sit_feet、sit_floor、sit_height、seat_ambient、stairs_feet、skirt_sit_morph）**全部通過**。
+- **效能前後**：還沒量，等整合後請 CC 跑 `sit_feet_probe.js`。點和上一步一樣：山嵐 1F／2F、大口 1F／2F、好拍；slow／fast 交錯各兩次＋noNPC。
+  - 預期 animMs 下降：大口 1F 的 sitFeet 佔整幀 9.1%，其中整個人物的矩陣更新 5.9%、getWorldPosition 往上走 1.6%。
+- sha256（開發 → 新）：
+  - `src/character3d.js` `9baa633a…` → `6c8f2548bb20946a80fe93adf26446c7019ac9c2188af83835fed8220200c2ec`
+  - `tests/sit_feet_fast_unit.js`（新）`142fe51b66c2fba684f55bd088611167978fa38b31c296e40a8985e335bf6aa1`
+  - patch `35b9d2593d5a6a86944f5b7b76fa1d3e2b804276dc2e5c355968a0730ad795c3`

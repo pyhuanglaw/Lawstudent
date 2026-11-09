@@ -6616,6 +6616,22 @@
    "noDirectIntegrate": false,
    "note": "engine3d.js +7／−1（seatOff、E.SEAT_OFF_EVERY=4、E.SEAT_OFF_NEAR=3）＋tests/seat_off_throttle_unit.js；開發 f8b0e30d1 FAILED 5→ALL PASS；引擎相關 310 支 *_unit.js 全過；效能前後未量（等 CC-B 跑 seat_off_probe.js）",
    "next": "LAWWW-B 審、git apply、跑 flow_seated_spawn／flow_b4_lecture；整合後請 CC-B 量山嵐 1F／2F、大口 2F、好拍"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "PERF-XS-NPC-1108 (A)：sitFeet 只更新兩條腿的矩陣",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/README.md",
+    "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/sit_feet_fast_1109.patch",
+    "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/sit_feet_probe.js"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "character3d.js +18／−9（CHAR.sitFeetFast）＋tests/sit_feet_fast_unit.js；腿骨位置差 0、updateWorldMatrix 678→325／人／幀；開發 FAILED 2→ALL PASS；102 支 character3d 相關 *_unit.js 全過；PERFAB 待 CC",
+   "next": "LAWWW-B git apply、跑 flow 測試；CC 跑 sit_feet_probe.js（山嵐 1F／2F、大口 1F／2F、好拍）"
   }
  ]
 }
