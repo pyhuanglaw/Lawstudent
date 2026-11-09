@@ -6705,14 +6705,14 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "9e79b8750",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACKNOWLEDGED",
    "task": "PERF-XS-NPC-1108 (C)：牆一次畫完（transparent＋雙面的牆每一幀畫兩次、換兩次 shader）",
    "files": [
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/README.md",
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/wall_onepass_1109.patch",
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/wall_onepass_glb_walls.txt"
    ],
-   "state": "READY_FOR_REVIEW（Node：開發 28d40e6e3 FAILED 4 → 加 patch ALL PASS；回歸 78／0）",
+   "state": "READY_FOR_REVIEW；LAWWW-B 20:40 ACK、整合中（核 sha256、apply --check、測試）",
    "noDirectIntegrate": false,
    "note": "three.js renderObject 對 transparent＋DoubleSide＋forceSinglePass=false 畫兩次並各 needsUpdate；各區域淡出把牆材質複製、設 transparent，GLB 牆大多雙面（66／84 顆）。assets3d.js 載建築 GLB 時記 userData.op0（原本不透明），engine3d.js hideFaded 對 op0、opacity 1、雙面、無 alphaTest 的牆設 forceSinglePass；玻璃（BLEND）、葉子（MASK）不碰。三間 12 個方向：畫牆 264→144、version +240→0。?wall2pass 回舊做法。另附 (D) CC 實測 238.4 ms／69 次 → 10.0 ms／20 次、(A) SITFEET_abfa 前後。",
    "next": "LAWWW-B 整合；CC 用 render_probe_dc.js 量大口 1F、山嵐（加 ?wall2pass 對照）；BB-B 可同角度開關各拍一張比對（應該一樣）"
