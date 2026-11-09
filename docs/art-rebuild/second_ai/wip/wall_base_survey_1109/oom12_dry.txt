@@ -1,5 +1,11 @@
 === assets/models/env/second_ai/aa_support/shanlan.glb
 assets/models/env/second_ai/aa_support/shanlan.glb：光照貼圖 1024×1024，屬於網格的格子 686110，被蓋住、會露出來的 2695 格（0.39%）
+  WALL_front_shl_wall ← WALL_front_shl_vcm：1468 格
+  shl_floor ← WALL_right_shl_wood：395 格
+  WALL_left_shl_wall ← WALL_front_shl_vcm：333 格
+  shl_floor ← WALL_front_shl_vcm：293 格
+  shl_ceiling1 ← WALL_front_shl_vcm：186 格
+rc=0 124 s
 === assets/models/env/second_ai/bb_support/ade.glb
 assets/models/env/second_ai/bb_support/ade.glb：光照貼圖 1024×1024，屬於網格的格子 737706，被蓋住、會露出來的 85222 格（11.55%）
   WALL_back_wall_wall ← WALL_back_cubby_wood：16575 格
@@ -25,6 +31,13 @@ assets/models/env/second_ai/bb_support/corner.glb：光照貼圖 1024×1024，�
   cr_floor_floor ← WALL_back_cr_wood：1716 格
 rc=0 1237 s
 === assets/models/env/second_ai/bb_support/dabu.glb
+assets/models/env/second_ai/bb_support/dabu.glb：光照貼圖 1024×1024，屬於網格的格子 715540，被蓋住、會露出來的 216893 格（30.31%）
+  WALL_left_left_paint ← WALL_left_left_vc：51773 格
+  WALL_right_right_paint ← WALL_right_right_vc：39687 格
+  WALL_back_back_paint ← WALL_back_back_vc：29318 格
+  WALL_right_right_paint ← WALL_right_right_wood：28910 格
+  WALL_left_left_paint ← WALL_left_left_wood：11770 格
+（大步：外層停掉了，沒有 rc 行；約 20 分鐘）
 === assets/models/env/second_ai/wancai_multi.glb
 assets/models/env/second_ai/wancai_multi.glb：光照貼圖 1024×1024，屬於網格的格子 618485，被蓋住、會露出來的 46453 格（7.51%）
   wancai_multi_ceiling ← WALL_ceil_wancai_multi_grid：19136 格
@@ -46,7 +59,6 @@ assets/models/env/second_ai/bb_support/tongxian.glb：光照貼圖 1024×1024，
   WALL_left_plaster ← WALL_left_wood：2057 格
   WALL_back_plaster ← WALL_back_vc：1823 格
 rc=0 331 s
-DONE
 === assets/models/env/second_ai/bb_support/shaola_interior.glb
 assets/models/env/second_ai/bb_support/shaola_interior.glb：光照貼圖 1024×1024，屬於網格的格子 676360，被蓋住、會露出來的 16247 格（2.40%）
   WALL_left_wall ← WALL_left_vc：8510 格
@@ -56,10 +68,18 @@ assets/models/env/second_ai/bb_support/shaola_interior.glb：光照貼圖 1024×
   FLOOR ← WALL_right_vc：448 格
 rc=0 616 s
 === assets/models/env/second_ai/bb_support/nanyang_lobby.glb
-=== assets/models/env/second_ai/bb_support/dabu.glb
-assets/models/env/second_ai/bb_support/dabu.glb：光照貼圖 1024×1024，屬於網格的格子 715540，被蓋住、會露出來的 216893 格（30.31%）
-  WALL_left_left_paint ← WALL_left_left_vc：51773 格
-  WALL_right_right_paint ← WALL_right_right_vc：39687 格
-  WALL_back_back_paint ← WALL_back_back_vc：29318 格
-  WALL_right_right_paint ← WALL_right_right_wood：28910 格
-  WALL_left_left_paint ← WALL_left_left_wood：11770 格
+assets/models/env/second_ai/bb_support/nanyang_lobby.glb：光照貼圖 1024×1024，屬於網格的格子 822332，被蓋住、會露出來的 1319 格（0.16%）
+  ny_carpet ← WALL_left_wains：363 格
+  ny_carpet ← WALL_right_wains：362 格
+  ny_carpet ← WALL_back_wains：211 格
+  ny_carpet ← WALL_front_wains：121 格
+  WALL_back_plaster ← WALL_right_wains：45 格
+rc=0 756 s
+=== assets/models/env/second_ai/bb_support/nanyang_hall.glb
+assets/models/env/second_ai/bb_support/nanyang_hall.glb：光照貼圖 1024×1024，屬於網格的格子 669820，被蓋住、會露出來的 20875 格（3.12%）
+  WALL_left_plaster ← WALL_left_pilasters：10023 格
+  WALL_right_plaster ← WALL_right_pilasters：9955 格
+  nh_carpet ← WALL_left_wains：305 格
+  nh_carpet ← WALL_right_wains：301 格
+  nh_carpet ← WALL_back_wains：208 格
+rc=0 561 s
