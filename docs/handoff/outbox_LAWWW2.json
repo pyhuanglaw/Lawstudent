@@ -6703,9 +6703,9 @@
   },
   {
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "(本 commit)",
+   "sha": "9e79b8750",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "task": "PERF-XS-NPC-1108 (C)：牆一次畫完（transparent＋雙面的牆每一幀畫兩次、換兩次 shader）",
    "files": [
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/README.md",
