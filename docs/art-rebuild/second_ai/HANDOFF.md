@@ -6,6 +6,18 @@
 > - 每一包 README 的「先將就」都收在那裡。
 > - 接班的人從那裡挑；新交一包就加上去。
 
+## ✅ 值班登記（2026-11-09 16:1x UTC；帳號 B LAWWW2-B；使用者：「現在接班」）
+
+- 工作階段 `session_01GV1WG3UeT2DhuDpxeWJsvD`，分支 `claude/funny-albattani-iawshm`。接班基準 `07725e9fc`，就是上一班（我自己，11-08 20:50 UTC 正常交班）最後 push 的那一筆。
+- 離開期間，開發分支 `claude/modest-rubin-2lyp7g` 多了 9 個 commit（到 `6c6bfd421`），全部是換班紀錄。沒有新的派工、使用者決策、規則。main 還是 v9.10.23。
+- 對帳：
+  - `duty find` → RULE_SOURCE 開發分支（seq 110）。
+  - `duty verify` 結束碼 1，LAWWW2 的兩項：「職位標成已交班」，這次 register 以後就消失；「e16f828b 之後多 1 個 commit」是交班快照那一筆，預期中。其他異常屬 LAWWW-B：AA／BB／CC 還是已交班；LAWWW 帳號 C、BB 帳號 A 的舊分支在交班後還有 commit。
+  - `check` 結束碼 1（29 項，HANDOFF_GAP_MATRIX 提到、tasks.json 沒登記，屬 LAWWW-B）。
+  - `roles` OK（LAWWW2 158 行待辦都在總表）。
+- `duty register` 已寫 `duty_LAWWW2.json`（state on，sinceSha 07725e9f），等 LAWWW-B `duty sync`。
+- 接著做：照下面「交班」那一節的 E（下一班第一步），問 LAWWW-B 有沒有新的派工。沒有就做 P3：Cycles 把 MASK 鏤空當實心的根本原因、#196 溫州街四間＋阿德 --skytint。
+
 ## 🔁 交班（2026-11-08 20:5x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
 
 分支 `claude/funny-albattani-iawshm`，交班前最後一筆 `191df62aa`（已 push、遠端核對）；開發 `claude/modest-rubin-2lyp7g` 交班時 `de622db20`。
