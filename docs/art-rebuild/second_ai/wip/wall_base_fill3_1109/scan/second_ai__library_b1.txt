@@ -1,0 +1,11 @@
+second_ai/library_b1：1024×1024，被蓋住、會露出來的 6638 格，其中只因新規則 (c) 的 198 格（91 秒）
+  改前 library_b1_lm_day.webp：平均 78.8，旁邊 85.2（0.92 倍）PASS；新規則那些平均 107.6
+  改前 library_b1_lm_night.webp：平均 78.4，旁邊 84.5（0.93 倍）PASS；新規則那些平均 99.6
+  新規則：WALL_P4_trim 底下 24 格
+  新規則：WALL_P7_trim 底下 4 格
+  新規則：WALL_P8_trim 底下 6 格
+  新規則：WALL_P9_trim 底下 18 格
+  新規則：WALL_P10_trim 底下 41 格
+  新規則：WALL_W_trim 底下 105 格
+  不用補（改前已經 PASS 或沒有新規則的格子）
+  共 92 秒

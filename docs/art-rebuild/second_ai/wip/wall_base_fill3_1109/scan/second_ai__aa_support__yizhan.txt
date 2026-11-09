@@ -1,0 +1,11 @@
+second_ai/aa_support/yizhan：1024×1024，被蓋住、會露出來的 11160 格，其中只因新規則 (c) 的 2432 格（77 秒）
+  改前 yizhan_lm_day.webp：平均 34.2，旁邊 74.1（0.46 倍）FAIL；新規則那些平均 98.5
+  改前 yizhan_lm_night.webp：平均 18.1，旁邊 47.5（0.38 倍）FAIL；新規則那些平均 52.8
+  新規則：WALL_back_yzn_post 底下 289 格
+  新規則：WALL_engawa_yzn_post 底下 1277 格
+  新規則：WALL_left_yzn_post 底下 487 格
+  新規則：WALL_right_yzn_post 底下 379 格
+  改後 yizhan_lm_day.webp：平均 75.6，旁邊 74.1（1.02 倍）PASS；新規則那些平均 100.6
+  改後 yizhan_lm_night.webp：平均 47.2，旁邊 47.6（0.99 倍）PASS；新規則那些平均 53.5
+  補了 11160 格（28 圈；中位數 1011 格；留邊 19612 格）
+  共 85 秒

@@ -1,0 +1,10 @@
+second_ai/library_carrels：1024×1024，被蓋住、會露出來的 32275 格，其中只因新規則 (c) 的 1647 格（109 秒）
+  改前 library_carrels_lm_day.webp：平均 98.6，旁邊 103.3（0.95 倍）PASS；新規則那些平均 99.5
+  改前 library_carrels_lm_night.webp：平均 83.7，旁邊 88.5（0.95 倍）PASS；新規則那些平均 89.6
+  新規則：WALL_PN_doorframe 底下 80 格
+  新規則：WALL_PN_trim 底下 701 格
+  新規則：WALL_PS_doorframe 底下 48 格
+  新規則：WALL_PS_trim 底下 708 格
+  新規則：WALL_W_trim 底下 110 格
+  不用補（改前已經 PASS 或沒有新規則的格子）
+  共 110 秒

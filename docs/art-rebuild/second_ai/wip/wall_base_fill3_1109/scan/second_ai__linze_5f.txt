@@ -1,0 +1,9 @@
+second_ai/linze_5f：1024×1024，被蓋住、會露出來的 6725 格，其中只因新規則 (c) 的 273 格（22 秒）
+  改前 linze_5f_lm_dark.webp：平均 2.2，旁邊 2.7（0.82 倍）PASS；新規則那些平均 2.2
+  改前 linze_5f_lm_day.webp：平均 88.0，旁邊 90.6（0.97 倍）PASS；新規則那些平均 139.8
+  改前 linze_5f_lm_night.webp：平均 80.9，旁邊 83.1（0.97 倍）PASS；新規則那些平均 134.2
+  新規則：WALL_P1_doormetal 底下 4 格
+  新規則：WALL_P1_trim 底下 205 格
+  新規則：WALL_P3_trim 底下 64 格
+  不用補（改前已經 PASS 或沒有新規則的格子）
+  共 23 秒

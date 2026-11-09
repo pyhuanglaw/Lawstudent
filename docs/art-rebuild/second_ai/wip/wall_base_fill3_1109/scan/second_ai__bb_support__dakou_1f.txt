@@ -1,0 +1,7 @@
+second_ai/bb_support/dakou_1f：1024×1024，被蓋住、會露出來的 7930 格，其中只因新規則 (c) 的 182 格（25 秒）
+  改前 dakou_1f_lm_day.webp：平均 113.0，旁邊 120.0（0.94 倍）PASS；新規則那些平均 123.0
+  改前 dakou_1f_lm_night.webp：平均 67.7，旁邊 58.4（1.16 倍）PASS；新規則那些平均 71.3
+  新規則：WALL_front_frame 底下 142 格
+  新規則：WALL_left_frame 底下 40 格
+  不用補（改前已經 PASS 或沒有新規則的格子）
+  共 25 秒

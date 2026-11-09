@@ -1,0 +1,8 @@
+second_ai/gym_b1：1024×1024，被蓋住、會露出來的 3486 格，其中只因新規則 (c) 的 256 格（5 秒）
+  改前 gym_b1_lm_day.webp：平均 75.1，旁邊 77.6（0.97 倍）PASS；新規則那些平均 110.4
+  改前 gym_b1_lm_night.webp：平均 74.8，旁邊 77.6（0.96 倍）PASS；新規則那些平均 110.0
+  新規則：WALL_fitN_fitN_plaster 底下 236 格
+  新規則：WALL_left_left_steel_dk 底下 8 格
+  新規則：WALL_poolN_poolN_steel_dk 底下 12 格
+  不用補（改前已經 PASS 或沒有新規則的格子）
+  共 5 秒

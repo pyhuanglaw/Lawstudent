@@ -1,0 +1,15 @@
+second_ai/us_shared：1024×1024，被蓋住、會露出來的 8946 格，其中只因新規則 (c) 的 304 格（7 秒）
+  改前 us_shared_lm_day.webp：平均 58.6，旁邊 64.0（0.92 倍）PASS；新規則那些平均 76.0
+  改前 us_shared_lm_night.webp：平均 44.7，旁邊 49.9（0.90 倍）PASS；新規則那些平均 64.9
+  新規則：WALL_bath_n_door 底下 8 格
+  新規則：WALL_bath_n_wall 底下 71 格
+  新規則：WALL_bed_w_wall 底下 41 格
+  新規則：WALL_kit_e_wall_k 底下 39 格
+  新規則：WALL_N_trim 底下 63 格
+  新規則：WALL_N_wall 底下 28 格
+  新規則：WALL_S_door 底下 2 格
+  新規則：WALL_S_trim 底下 1 格
+  新規則：WALL_S_wall 底下 38 格
+  新規則：WALL_W_wall 底下 13 格
+  不用補（改前已經 PASS 或沒有新規則的格子）
+  共 8 秒

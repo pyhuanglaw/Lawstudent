@@ -1,0 +1,221 @@
+[
+ {
+  "label": "阿德：後牆腳的地板（販賣機、木櫃底下）",
+  "zone": "wz_print",
+  "wall": "WALL_back_ad_vc",
+  "surf": "ad_floor_floor",
+  "target": [
+   -0.6,
+   0,
+   -4.3
+  ],
+  "surfFound": 1,
+  "wallFound": 1,
+  "targetInSurf": true,
+  "pitch": 0.38,
+  "dist": 4,
+  "tried": 2568,
+  "cnt": {
+   "free": 107,
+   "wallHidden": 659,
+   "angle": 181,
+   "ray": 155,
+   "blk": "WALL_back_wall_wall@0.41/4.40"
+  },
+  "best": {
+   "sc": 19.31727788996932,
+   "x": -1.1,
+   "z": -3.55,
+   "y": 0,
+   "yaw": 255,
+   "ang": 16.6,
+   "camDist": 4,
+   "cam": [
+    -4.69,
+    3.13,
+    -4.51
+   ],
+   "hit": "ad_floor_floor"
+  }
+ },
+ {
+  "label": "茶屋（遊戲的一盞 yizhan）：右牆木柱後面那條後牆",
+  "zone": "wz_teahouse",
+  "wall": "WALL_right_yzn_post",
+  "surf": "WALL_back_yzn_wall",
+  "target": [
+   4.15,
+   1.53,
+   -5
+  ],
+  "surfFound": 1,
+  "wallFound": 1,
+  "targetInSurf": true,
+  "pitch": 0.38,
+  "dist": 4,
+  "tried": 3648,
+  "cnt": {
+   "free": 152,
+   "wallHidden": 799,
+   "angle": 263,
+   "ray": 33,
+   "blk": "wzy_apt@0.14/2.09"
+  },
+  "best": {
+   "sc": 13.399077612334086,
+   "x": 3.65,
+   "z": -4,
+   "y": 0,
+   "yaw": 15,
+   "ang": 10,
+   "camDist": 4,
+   "cam": [
+    4.61,
+    3.13,
+    -0.41
+   ],
+   "hit": "WALL_back_yzn_wall"
+  }
+ },
+ {
+  "label": "茶屋（一盞）：緣側的柱子（被緣側牆蓋住那面）",
+  "zone": "wz_teahouse",
+  "wall": "WALL_engawa_yzn_wall",
+  "surf": "WALL_engawa_yzn_post",
+  "target": [
+   -3.4,
+   1.02,
+   5.03
+  ],
+  "surfFound": 1,
+  "wallFound": 1,
+  "targetInSurf": true,
+  "pitch": 0.38,
+  "dist": 4,
+  "tried": 10368,
+  "cnt": {
+   "free": 432,
+   "wallHidden": 2449,
+   "angle": 1238,
+   "ray": 0,
+   "blk": "wzy_apt@0.16/3.22"
+  },
+  "best": null
+ },
+ {
+  "label": "四人房：左牆的床架",
+  "zone": "dorm",
+  "wall": "WALL_left_wall",
+  "surf": "dorm_wood",
+  "target": [
+   -2,
+   0.8,
+   -0.82
+  ],
+  "surfFound": 1,
+  "wallFound": 1,
+  "targetInSurf": true,
+  "pitch": 0.38,
+  "dist": 3.6,
+  "tried": 2376,
+  "cnt": {
+   "free": 99,
+   "wallHidden": 138,
+   "angle": 6,
+   "ray": 6
+  },
+  "best": {
+   "sc": 32.995198962526516,
+   "x": -0.75,
+   "z": 1.93,
+   "y": 0,
+   "yaw": 330,
+   "ang": 23.9,
+   "camDist": 3.6,
+   "cam": [
+    -2.42,
+    2.99,
+    4.83
+   ],
+   "hit": "dorm_frame_white"
+  }
+ },
+ {
+  "label": "四人房：浴室牆的白框",
+  "zone": "dorm",
+  "wall": "WALL_bath_n_wall",
+  "surf": "dorm_frame_white",
+  "target": [
+   1.62,
+   0.57,
+   1.76
+  ],
+  "surfFound": 1,
+  "wallFound": 1,
+  "targetInSurf": true,
+  "pitch": 0.38,
+  "dist": 3.6,
+  "tried": 1992,
+  "cnt": {
+   "free": 83,
+   "wallHidden": 480,
+   "angle": 211,
+   "ray": 7,
+   "blk": "WALL_bath_w_wall@5.16/6.28"
+  },
+  "best": {
+   "sc": 10.332207677356921,
+   "x": 0.12,
+   "z": 2.26,
+   "y": 0,
+   "yaw": 270,
+   "ang": 5.6,
+   "camDist": 3.6,
+   "cam": [
+    -3.22,
+    2.99,
+    2.26
+   ],
+   "hit": "dorm_frame_white"
+  }
+ },
+ {
+  "label": "萬才一樓：西牆的深色木頭",
+  "zone": "wancai",
+  "wall": "L0_WALL_S",
+  "surf": "L0_WALL_Wdoor_wc_wood_dark",
+  "target": [
+   -8.89,
+   2.67,
+   6.98
+  ],
+  "surfFound": 1,
+  "wallFound": 1,
+  "targetInSurf": true,
+  "pitch": 0.38,
+  "dist": 4.6,
+  "tried": 2952,
+  "cnt": {
+   "free": 123,
+   "wallHidden": 863,
+   "angle": 228,
+   "ray": 121,
+   "blk": "L0_lldoor_beyond_glow@0.20/3.33"
+  },
+  "best": {
+   "sc": 18.1918680846874,
+   "x": -8.39,
+   "z": 5.98,
+   "y": 0,
+   "yaw": 0,
+   "ang": 14.8,
+   "camDist": 4.6,
+   "cam": [
+    -8.39,
+    3.36,
+    10.25
+   ],
+   "hit": "L0_WALL_Wdoor_wc_wood_dark"
+  }
+ }
+]

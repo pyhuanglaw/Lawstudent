@@ -1,0 +1,8 @@
+wancai_interior：1024×1024，被蓋住、會露出來的 4800 格，其中只因新規則 (c) 的 986 格（14 秒）
+  改前 wancai_interior_lm_day.webp：平均 77.9，旁邊 69.9（1.11 倍）PASS；新規則那些平均 151.4
+  改前 wancai_interior_lm_night.webp：平均 62.2，旁邊 59.3（1.05 倍）PASS；新規則那些平均 86.9
+  新規則：L0_WALL_Ndoor_wc_vc 底下 10 格
+  新規則：L0_WALL_Sfacade_wc_frame 底下 928 格
+  新規則：L0_WALL_Wdoor_wc_frame 底下 48 格
+  不用補（改前已經 PASS 或沒有新規則的格子）
+  共 15 秒

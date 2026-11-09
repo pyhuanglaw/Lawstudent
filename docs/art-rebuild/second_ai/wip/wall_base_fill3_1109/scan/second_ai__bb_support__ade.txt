@@ -1,0 +1,12 @@
+second_ai/bb_support/ade：1024×1024，被蓋住、會露出來的 95890 格，其中只因新規則 (c) 的 10668 格（453 秒）
+  改前 ade_lm_day.webp：平均 87.4，旁邊 91.4（0.96 倍）PASS；新規則那些平均 33.5
+  改前 ade_lm_night.webp：平均 77.2，旁邊 80.4（0.96 倍）PASS；新規則那些平均 26.6
+  新規則：WALL_back_ad_vc 底下 3547 格
+  新規則：WALL_back_cubby_wood 底下 1717 格
+  新規則：WALL_front_ad_vc_metal 底下 1731 格
+  新規則：WALL_front_front_wall 底下 96 格
+  新規則：WALL_left_ad_vc 底下 108 格
+  新規則：WALL_right_ad_vc 底下 709 格
+  新規則：WALL_right_stat_rack_vcm 底下 2760 格
+  不用補（改前已經 PASS 或沒有新規則的格子）
+  共 453 秒

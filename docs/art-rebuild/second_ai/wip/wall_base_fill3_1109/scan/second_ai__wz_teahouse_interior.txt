@@ -1,0 +1,9 @@
+second_ai/wz_teahouse_interior：1024×1024，被蓋住、會露出來的 9558 格，其中只因新規則 (c) 的 614 格（12 秒）
+  改前 wz_teahouse_interior_lm_day.webp：平均 53.8，旁邊 56.4（0.96 倍）PASS；新規則那些平均 74.5
+  改前 wz_teahouse_interior_lm_night.webp：平均 51.3，旁邊 50.5（1.02 倍）PASS；新規則那些平均 44.6
+  新規則：WALL_back_back_post 底下 81 格
+  新規則：WALL_engawa_engawa_post 底下 347 格
+  新規則：WALL_left_left_post 底下 54 格
+  新規則：WALL_right_right_post 底下 132 格
+  不用補（改前已經 PASS 或沒有新規則的格子）
+  共 13 秒

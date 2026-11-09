@@ -1,0 +1,13 @@
+second_ai/dorm_205：1024×1024，被蓋住、會露出來的 17830 格，其中只因新規則 (c) 的 443 格（10 秒）
+  改前 dorm_205_lm_day.webp：平均 43.3，旁邊 30.5（1.42 倍）PASS；新規則那些平均 113.5
+  改前 dorm_205_lm_night.webp：平均 45.6，旁邊 33.6（1.36 倍）PASS；新規則那些平均 88.7
+  新規則：WALL_back_trim 底下 215 格
+  新規則：WALL_bath_n_wall 底下 8 格
+  新規則：WALL_bath_w_bdoor 底下 16 格
+  新規則：WALL_bath_w_trim 底下 9 格
+  新規則：WALL_bath_w_wall 底下 25 格
+  新規則：WALL_front_chrome 底下 26 格
+  新規則：WALL_front_trim 底下 35 格
+  新規則：WALL_front_wall 底下 109 格
+  不用補（改前已經 PASS 或沒有新規則的格子）
+  共 11 秒
