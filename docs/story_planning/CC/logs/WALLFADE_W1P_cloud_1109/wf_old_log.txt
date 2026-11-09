@@ -1,0 +1,12 @@
+CC 牆淡出拍照：worktree c8af31018a；TAG old；Playwright ≠ iPhone
+PASS 遊戲載入
+  [前置／捷徑] [dorm] 【前置／捷徑】讀檔到 dorm 2025-10-18 14.0（出生點）
+PASS [dorm] 在 dorm  {"zone": "dorm", "x": 0, "z": 2.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "收拾背包回家", "stand": true, "fb": 0, "hour": 14.02}
+  [前置／捷徑] [wancai] 【前置／捷徑】讀檔到 wancai 2025-10-18 14.0（出生點）
+PASS [wancai] 在 wancai  {"zone": "wancai", "x": 0, "z": 6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開法律系館B", "stand": true, "fb": 0, "hour": 14.02}
+  [前置／捷徑] [xs_dakou] 【前置／捷徑】讀檔到 xs_dakou 2025-10-18 14.0（出生點）
+PASS [xs_dakou] 在 xs_dakou  {"zone": "xs_dakou", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.02}
+  [前置／捷徑] [wz_teahouse] 【前置／捷徑】讀檔到 wz_teahouse 2025-10-18 14.0（出生點）
+PASS [wz_teahouse] 在 wz_teahouse  {"zone": "wz_teahouse", "x": -3, "z": 9, "y": -0.42, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開一盞", "stand": true, "fb": 0, "hour": 14.02}
+PASS 沒有 JS 例外  []
+ALL PASS
