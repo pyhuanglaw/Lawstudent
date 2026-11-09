@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "R88c8_p0",
+  "sha": "88c83d1be5c69a81de3af59b7342df6cc932bdfa",
+  "kind": "game",
+  "script": "tests/p0_movement.py",
+  "env": "XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-10T07:04:38",
+  "end": "2026-11-10T07:08:10",
+  "seconds": 212,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 60,
+    "mem": 56,
+    "used_gb": 17.5,
+    "chrome_testing": 13
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
