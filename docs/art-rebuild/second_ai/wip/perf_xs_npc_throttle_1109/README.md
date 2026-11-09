@@ -165,7 +165,7 @@ LAWWW-B 17:21 定的順序是 D → C → A。D、C 要等 CC 的探針結果（
     - ⑤ 包住每一個靜止頂點，clone 和池裡第一個一樣；
     - ⑥ 蓋皮網格不做射線、frustumCulled 全部 false。
   - 開發原樣 **FAILED 4**（①②③⑤）→ 加 patch **ALL PASS**。
-- **回歸**：提到 character3d／CHAR.build／CHAR.animate／setFar／boundingSphere 的 `*_unit.js`（見下面「回歸結果」）。
+- **回歸**：提到 character3d／CHAR.build／CHAR.animate／setFar／boundingSphere 的 104 支 `*_unit.js`（含 npc_far、crowd_far_indoor、seat_off_throttle、sit_feet_fast、sit_height、skirt_sit_morph、seated_figures_lod），加 patch 以後**全部通過**（104／0）。
 - **效能前後**：還沒在遊戲裡量。整合後請 CC 用 `render_probe_dc.js`（`computeBoundingSphere` 表）＋ CPU trace：進大口 1F、等人走進來，看 >100 ms 的那兩次還在不在。
 - sha256（開發 → 新）：
   - `src/character3d.js` `6c8f2548bb20946a…` → `52239b695b45379f…`
