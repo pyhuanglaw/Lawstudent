@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "FEET_abfa",
+  "sha": "abfa888cf6e2cb8ab95c65bda15ccc417f7a2a8c",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_sitfeet_shots_probe.py",
+  "env": "SOLO=1;SCENES=cafe:2025-09-16:14,classroom:2025-09-16:10.2,xs_shanlan:2025-10-18:14:2",
+  "machine": "MSI",
+  "start": "2026-11-10T03:37:07",
+  "end": "2026-11-10T03:40:31",
+  "seconds": 205,
+  "exit": 0,
+  "error": null,
+  "runner": "c0b2a5e558",
+  "rf_round": "4",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 20,
+    "mem": 47,
+    "used_gb": 14.8,
+    "chrome_testing": 4
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

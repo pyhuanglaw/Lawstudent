@@ -1,0 +1,73 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_sitfeet_shots_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FEET_abfa\out
+CC 坐著的人的腳：worktree ?；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  20.0s] CHAR.sitFeetFast 預設：True
+  [前置／捷徑] [cafe 2025-09-16 14.0] 【前置／捷徑】讀檔到 cafe 2025-09-16 14.0（條件事件、手機關）
+  [  48.0s] [cafe 2025-09-16 14.0] 坐著的人：{"n": 3, "id": "?", "pose": "read", "x": 4.5, "y": 0, "z": 2.3, "ry": 3.142, "lv": 0, "idx": 1}
+PASS [cafe 2025-09-16 14.0] 有坐著的人
+  [  49.5s] [cafe 2025-09-16 14.0] sitFeetFast=True（新）腳離地板（m）＋膝蓋和面向的夾角（度）：{"leftFoot": 0.084, "rightFoot": 0.084, "leftToes": 0.009, "rightToes": 0.009, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [黑畫面] feet_cafe_35_new 不是黑畫面（平均亮度 83、變化 52.7）  [83, 52.7]
+  [  58.2s] [截圖] feet_cafe_35_new：鏡頭 {"eye": [3.524, 0.5, 0.908], "look": [4.5, 0.2, 2.3], "lens": 18, "vfov": 58.72}、亮度 [83, 52.7]
+PASS [黑畫面] feet_cafe_90_new 不是黑畫面（平均亮度 90.1、變化 42.8）  [90.1, 42.8]
+  [  60.5s] [截圖] feet_cafe_90_new：鏡頭 {"eye": [2.8, 0.5, 2.301], "look": [4.5, 0.2, 2.3], "lens": 18, "vfov": 58.72}、亮度 [90.1, 42.8]
+PASS [黑畫面] feet_cafe_-90_new 不是黑畫面（平均亮度 107.1、變化 61.1）  [107.1, 61.1]
+  [  62.8s] [截圖] feet_cafe_-90_new：鏡頭 {"eye": [6.2, 0.5, 2.299], "look": [4.5, 0.2, 2.3], "lens": 18, "vfov": 58.72}、亮度 [107.1, 61.1]
+  [  64.4s] [cafe 2025-09-16 14.0] sitFeetFast=False（舊）腳離地板（m）＋膝蓋和面向的夾角（度）：{"leftFoot": 0.084, "rightFoot": 0.084, "leftToes": 0.009, "rightToes": 0.009, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [黑畫面] feet_cafe_35_old 不是黑畫面（平均亮度 83、變化 52.7）  [83, 52.7]
+  [  66.7s] [截圖] feet_cafe_35_old：鏡頭 {"eye": [3.524, 0.5, 0.908], "look": [4.5, 0.2, 2.3], "lens": 18, "vfov": 58.72}、亮度 [83, 52.7]
+PASS [黑畫面] feet_cafe_90_old 不是黑畫面（平均亮度 90.1、變化 42.8）  [90.1, 42.8]
+  [  69.0s] [截圖] feet_cafe_90_old：鏡頭 {"eye": [2.8, 0.5, 2.301], "look": [4.5, 0.2, 2.3], "lens": 18, "vfov": 58.72}、亮度 [90.1, 42.8]
+PASS [黑畫面] feet_cafe_-90_old 不是黑畫面（平均亮度 107.1、變化 61.1）  [107.1, 61.1]
+  [  71.4s] [截圖] feet_cafe_-90_old：鏡頭 {"eye": [6.2, 0.5, 2.299], "look": [4.5, 0.2, 2.3], "lens": 18, "vfov": 58.72}、亮度 [107.1, 61.1]
+PASS [cafe 2025-09-16 14.0] new：腳沒有穿進地板（腳、腳尖 ≥ -0.02 m）  {"leftFoot": 0.084, "rightFoot": 0.084, "leftToes": 0.009, "rightToes": 0.009, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [cafe 2025-09-16 14.0] new：膝蓋沒有往後彎（夾角 ≤ 90°）  {"leftFoot": 0.084, "rightFoot": 0.084, "leftToes": 0.009, "rightToes": 0.009, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [cafe 2025-09-16 14.0] old：腳沒有穿進地板（腳、腳尖 ≥ -0.02 m）  {"leftFoot": 0.084, "rightFoot": 0.084, "leftToes": 0.009, "rightToes": 0.009, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [cafe 2025-09-16 14.0] old：膝蓋沒有往後彎（夾角 ≤ 90°）  {"leftFoot": 0.084, "rightFoot": 0.084, "leftToes": 0.009, "rightToes": 0.009, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+  [  71.4s] [cafe 2025-09-16 14.0] 新－舊（m）：{"leftFoot": 0.0, "rightFoot": 0.0, "leftToes": 0.0, "rightToes": 0.0}
+  [前置／捷徑] [classroom 2025-09-16 10.2] 【前置／捷徑】讀檔到 classroom 2025-09-16 10.2（條件事件、手機關）
+  [  96.4s] [classroom 2025-09-16 10.2] 坐著的人：{"n": 6, "id": "?", "pose": "read", "x": -3.75, "y": 0.9, "z": 0.4, "ry": 3.142, "lv": 0, "idx": 0}
+PASS [classroom 2025-09-16 10.2] 有坐著的人
+  [  98.0s] [classroom 2025-09-16 10.2] sitFeetFast=True（新）腳離地板（m）＋膝蓋和面向的夾角（度）：{"leftFoot": 0.077, "rightFoot": 0.077, "leftToes": 0.011, "rightToes": 0.011, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [黑畫面] feet_classroom_35_new 不是黑畫面（平均亮度 48.7、變化 42.9）  [48.7, 42.9]
+  [ 100.2s] [截圖] feet_classroom_35_new：鏡頭 {"eye": [-4.726, 1.4, -0.992], "look": [-3.75, 1.1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [48.7, 42.9]
+PASS [黑畫面] feet_classroom_90_new 不是黑畫面（平均亮度 55.7、變化 55.9）  [55.7, 55.9]
+  [ 102.3s] [截圖] feet_classroom_90_new：鏡頭 {"eye": [-5.45, 1.4, 0.401], "look": [-3.75, 1.1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [55.7, 55.9]
+PASS [黑畫面] feet_classroom_-90_new 不是黑畫面（平均亮度 55.5、變化 55.8）  [55.5, 55.8]
+  [ 104.3s] [截圖] feet_classroom_-90_new：鏡頭 {"eye": [-2.05, 1.4, 0.399], "look": [-3.75, 1.1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [55.5, 55.8]
+  [ 105.8s] [classroom 2025-09-16 10.2] sitFeetFast=False（舊）腳離地板（m）＋膝蓋和面向的夾角（度）：{"leftFoot": 0.077, "rightFoot": 0.077, "leftToes": 0.011, "rightToes": 0.011, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [黑畫面] feet_classroom_35_old 不是黑畫面（平均亮度 48.7、變化 42.9）  [48.7, 42.9]
+  [ 107.8s] [截圖] feet_classroom_35_old：鏡頭 {"eye": [-4.726, 1.4, -0.992], "look": [-3.75, 1.1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [48.7, 42.9]
+PASS [黑畫面] feet_classroom_90_old 不是黑畫面（平均亮度 55.7、變化 55.9）  [55.7, 55.9]
+  [ 109.9s] [截圖] feet_classroom_90_old：鏡頭 {"eye": [-5.45, 1.4, 0.401], "look": [-3.75, 1.1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [55.7, 55.9]
+PASS [黑畫面] feet_classroom_-90_old 不是黑畫面（平均亮度 55.5、變化 55.8）  [55.5, 55.8]
+  [ 111.9s] [截圖] feet_classroom_-90_old：鏡頭 {"eye": [-2.05, 1.4, 0.399], "look": [-3.75, 1.1, 0.4], "lens": 18, "vfov": 58.72}、亮度 [55.5, 55.8]
+PASS [classroom 2025-09-16 10.2] new：腳沒有穿進地板（腳、腳尖 ≥ -0.02 m）  {"leftFoot": 0.077, "rightFoot": 0.077, "leftToes": 0.011, "rightToes": 0.011, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [classroom 2025-09-16 10.2] new：膝蓋沒有往後彎（夾角 ≤ 90°）  {"leftFoot": 0.077, "rightFoot": 0.077, "leftToes": 0.011, "rightToes": 0.011, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [classroom 2025-09-16 10.2] old：腳沒有穿進地板（腳、腳尖 ≥ -0.02 m）  {"leftFoot": 0.077, "rightFoot": 0.077, "leftToes": 0.011, "rightToes": 0.011, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [classroom 2025-09-16 10.2] old：膝蓋沒有往後彎（夾角 ≤ 90°）  {"leftFoot": 0.077, "rightFoot": 0.077, "leftToes": 0.011, "rightToes": 0.011, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+  [ 111.9s] [classroom 2025-09-16 10.2] 新－舊（m）：{"leftFoot": 0.0, "rightFoot": 0.0, "leftToes": 0.0, "rightToes": 0.0}
+  [前置／捷徑] [xs_shanlan 2025-10-18 14.0 2F] 【前置／捷徑】讀檔到 xs_shanlan 2025-10-18 14.0（條件事件、手機關）
+  [ 155.3s] [xs_shanlan 2025-10-18 14.0 2F] 坐著的人：{"n": 4, "id": "?", "pose": "read", "x": -0.3, "y": 4.2, "z": 8.7, "ry": 3.142, "lv": 1, "idx": 0}
+PASS [xs_shanlan 2025-10-18 14.0 2F] 有坐著的人
+  [ 156.8s] [xs_shanlan 2025-10-18 14.0 2F] sitFeetFast=True（新）腳離地板（m）＋膝蓋和面向的夾角（度）：{"leftFoot": 0.109, "rightFoot": 0.109, "leftToes": 0.033, "rightToes": 0.033, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [黑畫面] feet_xs_shanlan_35_new 不是黑畫面（平均亮度 117.1、變化 55.6）  [117.1, 55.6]
+  [ 158.9s] [截圖] feet_xs_shanlan_35_new：鏡頭 {"eye": [-1.276, 4.7, 7.308], "look": [-0.3, 4.4, 8.7], "lens": 18, "vfov": 58.72}、亮度 [117.1, 55.6]
+PASS [黑畫面] feet_xs_shanlan_90_new 不是黑畫面（平均亮度 102、變化 55.9）  [102, 55.9]
+  [ 160.9s] [截圖] feet_xs_shanlan_90_new：鏡頭 {"eye": [-2, 4.7, 8.701], "look": [-0.3, 4.4, 8.7], "lens": 18, "vfov": 58.72}、亮度 [102, 55.9]
+PASS [黑畫面] feet_xs_shanlan_-90_new 不是黑畫面（平均亮度 137.4、變化 32.9）  [137.4, 32.9]
+  [ 162.6s] [截圖] feet_xs_shanlan_-90_new：鏡頭 {"eye": [1.4, 4.7, 8.699], "look": [-0.3, 4.4, 8.7], "lens": 18, "vfov": 58.72}、亮度 [137.4, 32.9]
+  [ 164.1s] [xs_shanlan 2025-10-18 14.0 2F] sitFeetFast=False（舊）腳離地板（m）＋膝蓋和面向的夾角（度）：{"leftFoot": 0.109, "rightFoot": 0.109, "leftToes": 0.033, "rightToes": 0.033, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [黑畫面] feet_xs_shanlan_35_old 不是黑畫面（平均亮度 117.1、變化 55.6）  [117.1, 55.6]
+  [ 166.2s] [截圖] feet_xs_shanlan_35_old：鏡頭 {"eye": [-1.276, 4.7, 7.308], "look": [-0.3, 4.4, 8.7], "lens": 18, "vfov": 58.72}、亮度 [117.1, 55.6]
+PASS [黑畫面] feet_xs_shanlan_90_old 不是黑畫面（平均亮度 102、變化 55.9）  [102, 55.9]
+  [ 168.3s] [截圖] feet_xs_shanlan_90_old：鏡頭 {"eye": [-2, 4.7, 8.701], "look": [-0.3, 4.4, 8.7], "lens": 18, "vfov": 58.72}、亮度 [102, 55.9]
+PASS [黑畫面] feet_xs_shanlan_-90_old 不是黑畫面（平均亮度 137.3、變化 32.9）  [137.3, 32.9]
+  [ 170.1s] [截圖] feet_xs_shanlan_-90_old：鏡頭 {"eye": [1.4, 4.7, 8.699], "look": [-0.3, 4.4, 8.7], "lens": 18, "vfov": 58.72}、亮度 [137.3, 32.9]
+PASS [xs_shanlan 2025-10-18 14.0 2F] new：腳沒有穿進地板（腳、腳尖 ≥ -0.02 m）  {"leftFoot": 0.109, "rightFoot": 0.109, "leftToes": 0.033, "rightToes": 0.033, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [xs_shanlan 2025-10-18 14.0 2F] new：膝蓋沒有往後彎（夾角 ≤ 90°）  {"leftFoot": 0.109, "rightFoot": 0.109, "leftToes": 0.033, "rightToes": 0.033, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [xs_shanlan 2025-10-18 14.0 2F] old：腳沒有穿進地板（腳、腳尖 ≥ -0.02 m）  {"leftFoot": 0.109, "rightFoot": 0.109, "leftToes": 0.033, "rightToes": 0.033, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+PASS [xs_shanlan 2025-10-18 14.0 2F] old：膝蓋沒有往後彎（夾角 ≤ 90°）  {"leftFoot": 0.109, "rightFoot": 0.109, "leftToes": 0.033, "rightToes": 0.033, "leftKneeVsFacing": 1, "rightKneeVsFacing": 1}
+  [ 170.2s] [xs_shanlan 2025-10-18 14.0 2F] 新－舊（m）：{"leftFoot": 0.0, "rightFoot": 0.0, "leftToes": 0.0, "rightToes": 0.0}
+PASS 沒有 JS 例外  []
+ALL PASS

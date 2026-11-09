@@ -1,0 +1,246 @@
+[
+ {
+  "scene": [
+   "cafe",
+   "2025-09-16",
+   "14"
+  ],
+  "npc": {
+   "n": 3,
+   "id": "?",
+   "pose": "read",
+   "x": 4.5,
+   "y": 0,
+   "z": 2.3,
+   "ry": 3.142,
+   "lv": 0,
+   "idx": 1
+  },
+  "cams": {
+   "35": {
+    "eye": [
+     3.524,
+     0.5,
+     0.908
+    ],
+    "look": [
+     4.5,
+     0.2,
+     2.3
+    ],
+    "lens": 18
+   },
+   "90": {
+    "eye": [
+     2.8,
+     0.5,
+     2.301
+    ],
+    "look": [
+     4.5,
+     0.2,
+     2.3
+    ],
+    "lens": 18
+   },
+   "-90": {
+    "eye": [
+     6.2,
+     0.5,
+     2.299
+    ],
+    "look": [
+     4.5,
+     0.2,
+     2.3
+    ],
+    "lens": 18
+   }
+  },
+  "new": {
+   "leftFoot": 0.084,
+   "rightFoot": 0.084,
+   "leftToes": 0.009,
+   "rightToes": 0.009,
+   "leftKneeVsFacing": 1,
+   "rightKneeVsFacing": 1
+  },
+  "old": {
+   "leftFoot": 0.084,
+   "rightFoot": 0.084,
+   "leftToes": 0.009,
+   "rightToes": 0.009,
+   "leftKneeVsFacing": 1,
+   "rightKneeVsFacing": 1
+  },
+  "diff": {
+   "leftFoot": 0.0,
+   "rightFoot": 0.0,
+   "leftToes": 0.0,
+   "rightToes": 0.0
+  }
+ },
+ {
+  "scene": [
+   "classroom",
+   "2025-09-16",
+   "10.2"
+  ],
+  "npc": {
+   "n": 6,
+   "id": "?",
+   "pose": "read",
+   "x": -3.75,
+   "y": 0.9,
+   "z": 0.4,
+   "ry": 3.142,
+   "lv": 0,
+   "idx": 0
+  },
+  "cams": {
+   "35": {
+    "eye": [
+     -4.726,
+     1.4,
+     -0.992
+    ],
+    "look": [
+     -3.75,
+     1.1,
+     0.4
+    ],
+    "lens": 18
+   },
+   "90": {
+    "eye": [
+     -5.45,
+     1.4,
+     0.401
+    ],
+    "look": [
+     -3.75,
+     1.1,
+     0.4
+    ],
+    "lens": 18
+   },
+   "-90": {
+    "eye": [
+     -2.05,
+     1.4,
+     0.399
+    ],
+    "look": [
+     -3.75,
+     1.1,
+     0.4
+    ],
+    "lens": 18
+   }
+  },
+  "new": {
+   "leftFoot": 0.077,
+   "rightFoot": 0.077,
+   "leftToes": 0.011,
+   "rightToes": 0.011,
+   "leftKneeVsFacing": 1,
+   "rightKneeVsFacing": 1
+  },
+  "old": {
+   "leftFoot": 0.077,
+   "rightFoot": 0.077,
+   "leftToes": 0.011,
+   "rightToes": 0.011,
+   "leftKneeVsFacing": 1,
+   "rightKneeVsFacing": 1
+  },
+  "diff": {
+   "leftFoot": 0.0,
+   "rightFoot": 0.0,
+   "leftToes": 0.0,
+   "rightToes": 0.0
+  }
+ },
+ {
+  "scene": [
+   "xs_shanlan",
+   "2025-10-18",
+   "14",
+   "2"
+  ],
+  "npc": {
+   "n": 4,
+   "id": "?",
+   "pose": "read",
+   "x": -0.3,
+   "y": 4.2,
+   "z": 8.7,
+   "ry": 3.142,
+   "lv": 1,
+   "idx": 0
+  },
+  "cams": {
+   "35": {
+    "eye": [
+     -1.276,
+     4.7,
+     7.308
+    ],
+    "look": [
+     -0.3,
+     4.4,
+     8.7
+    ],
+    "lens": 18
+   },
+   "90": {
+    "eye": [
+     -2.0,
+     4.7,
+     8.701
+    ],
+    "look": [
+     -0.3,
+     4.4,
+     8.7
+    ],
+    "lens": 18
+   },
+   "-90": {
+    "eye": [
+     1.4,
+     4.7,
+     8.699
+    ],
+    "look": [
+     -0.3,
+     4.4,
+     8.7
+    ],
+    "lens": 18
+   }
+  },
+  "new": {
+   "leftFoot": 0.109,
+   "rightFoot": 0.109,
+   "leftToes": 0.033,
+   "rightToes": 0.033,
+   "leftKneeVsFacing": 1,
+   "rightKneeVsFacing": 1
+  },
+  "old": {
+   "leftFoot": 0.109,
+   "rightFoot": 0.109,
+   "leftToes": 0.033,
+   "rightToes": 0.033,
+   "leftKneeVsFacing": 1,
+   "rightKneeVsFacing": 1
+  },
+  "diff": {
+   "leftFoot": 0.0,
+   "rightFoot": 0.0,
+   "leftToes": 0.0,
+   "rightToes": 0.0
+  }
+ }
+]
