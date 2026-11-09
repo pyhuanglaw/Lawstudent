@@ -1,0 +1,51 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_perf_ab_probe.py http://127.0.0.1:8800/index.html?perf C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SEATOFF_88c8\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [xs_shanlan 1f] 【前置／捷徑】讀檔到 xs_shanlan 2025-10-18 14:00（條件事件、手機關）
+[xs_shanlan 1f] INFO {"zone": "xs_shanlan", "lv": 0, "pos": [0.8, 7.5], "yaw": 6.28, "hour": 14.08, "weather": "sunny", "q": "medium", "dpr": 1, "pr": 1, "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"}
+[xs_shanlan 1f] 先站 30.0 秒（暖機）
+[xs_shanlan 1f] TABLE1 calls=None programs=None
+[xs_shanlan 1f]   {"cond": "every1", "fps": 30.3, "worst": 251, "renderMs": 11.78, "animMs": 18.82, "animN": 9.1, "seatOff": 1, "vis": 3.3, "npc": 9}
+[xs_shanlan 1f]   {"cond": "every4", "fps": 36.1, "worst": 134, "renderMs": 9.72, "animMs": 15.57, "animN": 7.8, "seatOff": 1, "vis": 2.3, "npc": 7}
+[xs_shanlan 1f]   {"cond": "every1", "fps": 47.8, "worst": 101, "renderMs": 8.74, "animMs": 9.96, "animN": 8.6, "seatOff": 1, "vis": 2, "npc": 8}
+[xs_shanlan 1f]   {"cond": "every4", "fps": 44.5, "worst": 105, "renderMs": 10.47, "animMs": 9.81, "animN": 7.2, "seatOff": 1, "vis": 3.9, "npc": 8}
+[xs_shanlan 1f]   {"cond": "noNPC（參考）", "fps": 53.4, "worst": 257, "renderMs": 11.38, "animMs": 2.01, "animN": 3.2, "seatOff": 0, "vis": 1.9, "npc": 3}
+[xs_shanlan 1f] TABLE2 卡頓 >100 ms：0 個
+PASS [xs_shanlan 1f] 量完（5 列、info.zone=xs_shanlan）  {"zone": "xs_shanlan", "lv": 0}
+  [前置／捷徑] [xs_shanlan 2f] 【前置／捷徑】讀檔到 xs_shanlan 2025-10-18 14:00（條件事件、手機關）
+  [前置／捷徑] [xs_shanlan 2f] 【前置／捷徑】讀檔把玩家放到 2F（lv1，2F 座位旁 {"x": -0.3, "z": 8.7}）
+[xs_shanlan 2f] INFO {"zone": "xs_shanlan", "lv": 1, "pos": [-1.05, 8.15], "yaw": 3.14, "hour": 14.09, "weather": "sunny", "q": "medium", "dpr": 1, "pr": 1, "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"}
+[xs_shanlan 2f] 先站 30.0 秒（暖機）
+[xs_shanlan 2f] TABLE1 calls=None programs=None
+[xs_shanlan 2f]   {"cond": "every1", "fps": 28.2, "worst": 273, "renderMs": 14.56, "animMs": 18.23, "animN": 9.5, "seatOff": 1, "vis": 4.8, "npc": 8}
+[xs_shanlan 2f]   {"cond": "every4", "fps": 30.9, "worst": 199, "renderMs": 14.59, "animMs": 15.04, "animN": 7.9, "seatOff": 1, "vis": 4.9, "npc": 8}
+[xs_shanlan 2f]   {"cond": "every1", "fps": 37.4, "worst": 92, "renderMs": 11.38, "animMs": 13.14, "animN": 9, "seatOff": 1, "vis": 2.1, "npc": 8}
+[xs_shanlan 2f]   {"cond": "every4", "fps": 44.5, "worst": 84, "renderMs": 10.19, "animMs": 10.19, "animN": 8.1, "seatOff": 1, "vis": 2, "npc": 7}
+[xs_shanlan 2f]   {"cond": "noNPC（參考）", "fps": 39, "worst": 292, "renderMs": 13.85, "animMs": 9.31, "animN": 3.7, "seatOff": 0, "vis": 1.9, "npc": 3}
+[xs_shanlan 2f] TABLE2 卡頓 >100 ms：0 個
+PASS [xs_shanlan 2f] 量完（5 列、info.zone=xs_shanlan）  {"zone": "xs_shanlan", "lv": 1}
+  [前置／捷徑] [xs_dakou 2f] 【前置／捷徑】讀檔到 xs_dakou 2025-10-18 14:00（條件事件、手機關）
+  [前置／捷徑] [xs_dakou 2f] 【前置／捷徑】讀檔把玩家放到 2F（lv1，2F 座位旁 {"x": -2, "z": -5.35}）
+[xs_dakou 2f] INFO {"zone": "xs_dakou", "lv": 1, "pos": [-2.65, -5.45], "yaw": 3.14, "hour": 14.09, "weather": "sunny", "q": "medium", "dpr": 1, "pr": 1, "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"}
+[xs_dakou 2f] 先站 30.0 秒（暖機）
+[xs_dakou 2f] TABLE1 calls=None programs=None
+[xs_dakou 2f]   {"cond": "every1", "fps": 27.2, "worst": 129, "renderMs": 22.66, "animMs": 11.28, "animN": 11.1, "seatOff": 1, "vis": 9.1, "npc": 9}
+[xs_dakou 2f]   {"cond": "every4", "fps": 27, "worst": 185, "renderMs": 24.56, "animMs": 9.46, "animN": 10.2, "seatOff": 1, "vis": 8.9, "npc": 10}
+[xs_dakou 2f]   {"cond": "every1", "fps": 25.1, "worst": 209, "renderMs": 25.29, "animMs": 11.32, "animN": 11.3, "seatOff": 1, "vis": 9.3, "npc": 11}
+[xs_dakou 2f]   {"cond": "every4", "fps": 30.6, "worst": 76, "renderMs": 19.94, "animMs": 10.46, "animN": 11.3, "seatOff": 1, "vis": 10, "npc": 11}
+[xs_dakou 2f]   {"cond": "noNPC（參考）", "fps": 56.5, "worst": 112, "renderMs": 13.3, "animMs": 1.42, "animN": 1, "seatOff": 0, "vis": 0, "npc": 0}
+[xs_dakou 2f] TABLE2 卡頓 >100 ms：0 個
+PASS [xs_dakou 2f] 量完（5 列、info.zone=xs_dakou）  {"zone": "xs_dakou", "lv": 1}
+  [前置／捷徑] [xs_haopai 1f] 【前置／捷徑】讀檔到 xs_haopai 2025-10-18 14:00（條件事件、手機關）
+[xs_haopai 1f] INFO {"zone": "xs_haopai", "lv": 0, "pos": [0, 5.4], "yaw": 6.28, "hour": 14.1, "weather": "sunny", "q": "medium", "dpr": 1, "pr": 1, "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"}
+[xs_haopai 1f] 先站 30.0 秒（暖機）
+[xs_haopai 1f] TABLE1 calls=None programs=None
+[xs_haopai 1f]   {"cond": "every1", "fps": 57, "worst": 105, "renderMs": 11.52, "animMs": 1.67, "animN": 2, "seatOff": 0, "vis": 1, "npc": 1}
+[xs_haopai 1f]   {"cond": "every4", "fps": 57.8, "worst": 109, "renderMs": 10.94, "animMs": 1.37, "animN": 1.3, "seatOff": 0, "vis": 0.3, "npc": 0}
+[xs_haopai 1f]   {"cond": "every1", "fps": 56.2, "worst": 217, "renderMs": 11.31, "animMs": 1.59, "animN": 1.2, "seatOff": 0, "vis": 0.2, "npc": 1}
+[xs_haopai 1f]   {"cond": "every4", "fps": 57.2, "worst": 106, "renderMs": 11.42, "animMs": 1.44, "animN": 2, "seatOff": 0, "vis": 1, "npc": 1}
+[xs_haopai 1f]   {"cond": "noNPC（參考）", "fps": 57.5, "worst": 103, "renderMs": 11, "animMs": 1.27, "animN": 1, "seatOff": 0, "vis": 0, "npc": 0}
+[xs_haopai 1f] TABLE2 卡頓 >100 ms：0 個
+PASS [xs_haopai 1f] 量完（5 列、info.zone=xs_haopai）  {"zone": "xs_haopai", "lv": 0}
+PASS 沒有 JS 例外  []
+ALL PASS
