@@ -478,7 +478,12 @@ const E3 = (function(){
     camera.position.lerp(desired,Math.min(1,posK)); slabClip(C.target,camera.position,1.15); camera.lookAt(lookPt); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); camera.updateMatrixWorld(); updateSeeThrough(); }
   /* 淡出的牆整面藏起來（BUG-LIGHTBAND，使用者 2026-10-16 總圖大廳、舊路書房「畫面中間一道從上到下的半透明直條」）：各區域的 fadeWalls 把鏡頭這一側的牆調成 12% 透明，
      細長的牆段、門框、壁柱留下的殘影在鏡頭前變成一條條鬼影（Café 早就改成整面藏，zones3d.js）。鏡頭碰撞的射線不看 visible，藏起來不影響 */
-  function hideFaded(){ const W=E.zone&&E.zone.walls; if(!W) return; for(const w of W){ const m=w&&w.material; if(m&&!Array.isArray(m)) w.visible=m.opacity>0.5; } }
+  /* 牆一次畫完（PERF-XS-NPC-1108 (C)，LAWWW2-B 11-09）：各區域接 GLB 時把牆的材質複製、設成 transparent（淡出要用），GLB 的牆大多是雙面。
+     three.js 的 renderObject 碰到「transparent＋雙面」會畫兩次（先背面再正面），每次都先 needsUpdate＝每一面牆每一幀換兩次 shader（getProgram＋getParameters）。
+     CC PC GPU 量大口一樓：dk_vc_matte 每秒 1128 次換 program＝牆 10 面 ×2 ×56 fps。牆看得到的時候 opacity 是 1（淡出的已經整面藏起來；不是 1 的時候照舊分兩次），
+     原本又是不透明的材質（assets3d.js 載入建築 GLB 時記 userData.op0）：一次畫完和分兩次畫結果一樣。玻璃、葉子（本來就半透明、alphaTest）照舊。網址 ?wall2pass 回到舊做法 */
+  E.wallOnePass=!(typeof location!=='undefined'&&/[?&]wall2pass\b/.test(location.search||''));
+  function hideFaded(){ const W=E.zone&&E.zone.walls; if(!W) return; for(const w of W){ const m=w&&w.material; if(m&&!Array.isArray(m)){ w.visible=m.opacity>0.5; if(m.userData.op0){ const one=E.wallOnePass&&m.opacity>=1&&m.side===THREE.DoubleSide&&!(m.alphaTest>0); if(m.forceSinglePass!==one) m.forceSinglePass=one; } } } }
   E.hideFaded=hideFaded;
   // 多樓層的剖面視角（v9.4）：zone.levelGroups＝[{group,y}]（每一層的模型、那一層地板的高度）。玩家所在的那一層和下面的層一定畫；
   // 上面的層只有在鏡頭比那一層的地板低的時候才畫（從下面看得到上面的天花板、走廊欄杆；鏡頭拉高到上一層地板以上時藏起來，才看得到玩家）。

@@ -287,6 +287,9 @@ const ASSETS = (function(){
      在第一次畫出來（上傳 GPU）之前縮；同一張圖只縮一次。網址 ?texfull＝不縮；?texcap＝桌機也縮（測試用）。 */
   A.texCap=(()=>{ try{ const q=location.search||''; if(/[?&]texfull/.test(q)) return null; const ua=navigator.userAgent||''; const mobile=/iPhone|iPad|iPod|Android|Mobile/i.test(ua)||(navigator.maxTouchPoints>1&&/Macintosh/.test(ua)); return (mobile||/[?&]texcap/.test(q))?{color:1024,data:512}:null; }catch(e){ return null; } })();
   const TEX_KEYS=['map','emissiveMap','normalMap','roughnessMap','metalnessMap','aoMap','bumpMap','alphaMap','lightMap','shadeMultiplyTexture','shadingShiftTexture','rimMultiplyTexture','matcapTexture','outlineWidthMultiplyTexture','uvAnimationMaskTexture'];
+  /* 建築 GLB 原本不透明的材質記 userData.op0（OPAQUE、MASK：transparent 是 false）。各區域淡出時把牆的材質複製（userData 跟著複製）、設成 transparent；
+     engine3d.js 的 hideFaded 看 op0 決定牆能不能一次畫完（PERF-XS-NPC-1108 (C)，LAWWW2-B 11-09）*/
+  A.markOpaque=function(root){ let n=0; root.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])) if(mt&&!mt.transparent&&!mt.userData.op0){ mt.userData.op0=true; n++; } }); return n; };
   const capDone=new WeakSet(), capImg=new WeakMap();   /* WeakMap：原圖沒有人用了就可以回收（原本 Map 的 key 會把全尺寸原圖一直留著）*/
   const capImgKeys=[];   /* 這一次 capTextures 縮過的原圖（做完檢查要不要 close）*/
   A.capTextures=function(root){ const cap=A.texCap; if(!cap||!root||typeof document==='undefined') return 0; let n=0;
@@ -348,7 +351,7 @@ const ASSETS = (function(){
     if(best) A.prefetch(ZONE_ASSETS[best]); return best; };
   A.loadOne=function(key){ const m=A.manifest[key]; if(!m) return Promise.reject(new Error('unknown asset '+key)); if(A._req) A._req.add(key); if(A.cache[key]) return Promise.resolve(A.cache[key]); if(A.status[key]) return A.status[key];
     const b64ToBuf=(data)=>{ const bin=atob(data); const buf=new ArrayBuffer(bin.length); const u8=new Uint8Array(buf); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); return buf; };
-    A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ A.capTextures(gltf.scene); if(m.type==='character'||m.type==='clips'||m.type==='building'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; }   /* building：建築正式模型（遊戲座標、不縮放）*/ else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
+    A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ A.capTextures(gltf.scene); if(m.type==='building') A.markOpaque(gltf.scene); if(m.type==='character'||m.type==='clips'||m.type==='building'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; }   /* building：建築正式模型（遊戲座標、不縮放）*/ else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
       if(m.type==='vrm'){ // VRM：只 parse 一次。第一個實例用原本的 VRM（表情、彈簧骨、視線）；之後的實例用骨架 clone（共用幾何與貼圖，手機記憶體才夠）
         const lu=A.lodUrl(key), lodP=lu?loadLOD(lu).catch(e=>{ console.warn('npc far LOD',key,e&&e.message); return null; }):Promise.resolve(null);   /* 路人底模的遠距離版本：和 VRM 一起下載（小檔）；沒有或失敗＝照舊畫原本的人 */
         const setup=(buf)=>A.parseVRM(buf).then(x=>{ A.capTextures(x.vrm.scene); const rest=THREE_JSM.SkeletonUtils.clone(x.vrm.scene); copyColliderShapes(x.vrm.scene,rest); const rig=rest.getObjectByName('VRMHumanoidRig'); if(rig&&rig.parent) rig.parent.remove(rig); const ent={vrm:true,tpl:{vrm:x.vrm,gltf:x.gltf,inUse:false,full:true},rest,clones:[]}; return lodP.then(lod=>{ ent.lod=lod; A.cache[key]=ent; res(ent); }); });
