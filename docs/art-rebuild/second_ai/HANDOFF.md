@@ -79,6 +79,16 @@
     - `lm_fill_covered.py` 沒抓到，因為櫃子沒有底面：往上打的線先碰到層板，而且離地超過 2 cm。
     - 等 CC 的「WALL_ 全藏」診斷，結果出來前不改東西。量測腳本在 scratch `band/profile.py`。
   - 等：CC 拍茶屋 180°／270°、窗景卡、#204 PC GPU 亮度；(C) render_probe_dc 已有結果（持平）。
+- **23:5x 進度**：
+  - 窗景卡 ART：BB-B D120 PASS（已驗收）。CAM-TEAYARD 第二輪（屋簷藏起來）已整合 4f888cf3c。
+  - **教訓**：室內區域的預設俯角是 0.38（`engine3d.js`：`cam.pitch=E.indoor?0.38:0.22`），Node 鏡頭測試要用它，不要用 0.22。
+  - **#213（#204 第三批）**：
+    - `lm_fill_covered` 加了規則 (c)：地板在落地的 WALL_ 底下也算被蓋住。13 間＋一盞重掃，要補的只有阿德、轉角唱片、一盞。
+    - **第一批茶屋補錯檔**：遊戲用的是 `aa_support/yizhan.glb`，不是 `second_ai/wz_teahouse_interior`，已回報 BB-B。
+    - 大口的 `WALL_BANDS` 在遊戲裡被改名成 `DK_BANDS`，不會淡出。
+    - 測試加分群檢查（整間平均會稀釋黑塊）。WIP 在 cc372d5fa，`wip/wall_base_fill3_1109/`。
+    - 轉角唱片的掃描和「改前」測試在背景跑：scratch 的 `scan204/`。
+  - 待查（P3）：BB-B 說慢輪左牆外 270°（−3.9, −0.4）畫面左半邊一大塊暗色，新舊一樣。
 
 ## 🔁 交班（2026-11-08 20:5x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
 

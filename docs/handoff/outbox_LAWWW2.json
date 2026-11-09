@@ -6789,24 +6789,24 @@
    "files": [
     "docs/art-rebuild/second_ai/wip/cam_viewpane_side_1109/（README、cam_viewpane_side_1109.patch、test_dev.txt、test_new.txt、tests.txt、regression_new.txt）"
    ],
-   "state": "已整合",
+   "state": "已驗收",
    "noDirectIntegrate": false,
-   "note": "zones3d.js：vpPart 記店面左右範圍（世界座標）、同一片窗景 winParts 只留一筆；room() fadeWalls 有 side 的超出範圍就藏。用到的三間：阿德影印、林家乾麵、慢輪單車。viewpane_side_unit 開發 2d58e8a52 FAILED 5→ALL PASS；回歸 76／0。（LAWWW-B 23:28 整合 b8cffd669，DLV-1109-L2-VIEWPANESIDE）；測試 ④ 俯角 0.22→引擎預設 0.38 另交 viewpane_test_pitch_1109.patch（60e5add72）",
+   "note": "zones3d.js：vpPart 記店面左右範圍（世界座標）、同一片窗景 winParts 只留一筆；room() fadeWalls 有 side 的超出範圍就藏。用到的三間：阿德影印、林家乾麵、慢輪單車。viewpane_side_unit 開發 2d58e8a52 FAILED 5→ALL PASS；回歸 76／0。（LAWWW-B 23:28 整合 b8cffd669，DLV-1109-L2-VIEWPANESIDE）；測試 ④ 俯角 0.22→引擎預設 0.38 另交 viewpane_test_pitch_1109.patch（60e5add72）；BB-B 23:43 D120 PASS（cc-testing b3019f9d22：阿德 270° 灰板不見、90° 沒擋、慢輪斜看前窗街景照舊；側牆外只剩天空色＝選 (1) 的代價）",
    "next": "LAWWW-B 整合；CC 拍阿德 270°（＋90°）、慢輪側牆外＋店裡斜看前窗，新舊對照；BB-B 依 D120 判"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "60e5add72",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "CAM-TEAYARD-1109 第二輪：180° 緣側屋簷擋頭（BB-B 23:23 PARTIAL）＋窗景卡測試俯角修正（只改測試）",
    "files": [
     "docs/art-rebuild/second_ai/wip/cam_teayard2_1109/（README、cam_teayard2_1109.patch、test_dev.txt、test_new.txt、tests.txt、regression_new.txt）",
     "docs/art-rebuild/second_ai/wip/cam_viewpane_side_1109/viewpane_test_pitch_1109.patch（＋test_pitch_dev／new.txt）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "室內預設俯角是 0.38（不是 0.22）：0.38／距離 4／180° 鏡頭在屋簷體積裡，頭被 wzy_wood_yard_eave 擋、近物 67%。改法：鏡頭在屋簷外緣（z 6.93）房子那一側時藏 YARD_EAVE（±0.1 緩衝），碰撞不動。teahouse_yard_cam_unit ④ 開發 2d58e8a52 FAILED 1→ALL PASS；回歸 130／0（兩包都套）。兩份補丁對 8fd90fc6a 都能套。剩：樹葉 wzy_leaf 180°～210°、165° 木柱（開發本來就有，回報 BB-B）",
+   "note": "室內預設俯角是 0.38（不是 0.22）：0.38／距離 4／180° 鏡頭在屋簷體積裡，頭被 wzy_wood_yard_eave 擋、近物 67%。改法：鏡頭在屋簷外緣（z 6.93）房子那一側時藏 YARD_EAVE（±0.1 緩衝），碰撞不動。teahouse_yard_cam_unit ④ 開發 2d58e8a52 FAILED 1→ALL PASS；回歸 130／0（兩包都套）。兩份補丁對 8fd90fc6a 都能套。剩：樹葉 wzy_leaf 180°～210°、165° 木柱（開發本來就有，回報 BB-B）（LAWWW-B 23:44 整合 4f888cf3c，DLV-1109-L2-CAMTEAYARD2）",
    "next": "LAWWW-B 整合；CC 出生點 (−3,9) 預設鏡頭拍 150°／180°／210°，BB-B 判"
   }
  ]
