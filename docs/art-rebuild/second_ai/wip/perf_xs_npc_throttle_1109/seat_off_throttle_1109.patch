@@ -1,0 +1,109 @@
+diff --git a/src/engine3d.js b/src/engine3d.js
+index d7f377d5c..74b37c73a 100644
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -402,10 +402,16 @@ const E3 = (function(){
+     if(n.greet&&E.player){ n.greetCd=(n.greetCd||0)-dt; if(n.beh==='follow'||n.beh==='passenger') n.greetCd=Math.max(n.greetCd,90);   /* 和你一起走、坐你後座的人不跟你揮手；到了以後 90 秒內也不揮（使用者 2026-10-16「一起到達地點的人為什麼要跟我揮手」）*/ const pp=E.player.obj.position; const d=Math.hypot(pp.x-o.position.x,pp.z-o.position.z); if(!n.frozen&&!E.player.busy&&n.greetCd<=0&&d<3.4&&!n.waveT){ if(n.path&&d>2.2){} else { n.waveT=1.9; n.greetCd=50; n.lookAt=pp; CHAR.setExpr(o,'smile'); if(E.onGreet) E.onGreet(n); } } if(n.waveT>0){ n.waveT-=dt; if(!moving) n.pose='wave'; if(n.waveT<=0){ n.waveT=0; n.pose=n.idlePose||'idle'; n.lookAt=null; CHAR.setExpr(o,'normal'); } } }
+     if(!moving&&n.faceYaw!=null&&!n.frozen){ flatYaw(o); let d=n.faceYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*6); }
+     // 距離 LOD：遠處路人不畫、動畫降頻；n.lodLim＝{low,medium,high} 這個人比較短的距離（社博顧攤的人，FAIR-STAFF-LOD-1027）
+-    const cd=Math.hypot(camera.position.x-o.position.x,camera.position.z-o.position.z); const lim0=E.q.level==='low'?34:(E.q.level==='high'?95:60), lim=n.lodLim&&n.lodLim[E.q.level]?Math.min(lim0,n.lodLim[E.q.level]):lim0; _frS.center.set(o.position.x,o.position.y+0.9,o.position.z); _frS.radius=1.3; const vis=!n.hidden&&(cd<lim||!n.isExtra)&&_fr.intersectsSphere(_frS)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5);   /* 多樓層剖面視角：被藏起來的樓層上的人也不畫 */ /* 畫面外的人不畫也不更新骨架（VRM 人物 frustumCulled 關掉，所以在這裡做）*/ if(o.visible!==vis) o.visible=vis; if(n.isExtra&&o.userData.farLOD) CHAR.setFar(o,farWant(!!o.userData.isFar,cd,!!E.indoor));   /* 30 m 外的路人換遠距離版本（PERF-CROWD-LOD-1021；回到 28 m 內才換回來，不會在邊界閃）*/ if(!vis&&cd>16) return;   /* 16 m 內的人畫面外也更新骨架：鏡頭一切過去（劇情運鏡、轉身）的那一格，視錐用的是上一格的鏡頭，沒更新過的人會露出模型原始的 T 字手臂（BB-C 2026-10-17：沛珊上樓梯第一段手臂往前平舉）*/ if(cd>28&&(E.frame+(n.lodPhase||0))%2) { n._skipDt=(n._skipDt||0)+dt; return; } const adt=dt+(n._skipDt||0); n._skipDt=0;
++    const cd=Math.hypot(camera.position.x-o.position.x,camera.position.z-o.position.z); const lim0=E.q.level==='low'?34:(E.q.level==='high'?95:60), lim=n.lodLim&&n.lodLim[E.q.level]?Math.min(lim0,n.lodLim[E.q.level]):lim0; _frS.center.set(o.position.x,o.position.y+0.9,o.position.z); _frS.radius=1.3; const vis=!n.hidden&&(cd<lim||!n.isExtra)&&_fr.intersectsSphere(_frS)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5);   /* 多樓層剖面視角：被藏起來的樓層上的人也不畫 */ /* 畫面外的人不畫也不更新骨架（VRM 人物 frustumCulled 關掉，所以在這裡做）*/ if(o.visible!==vis) o.visible=vis; if(n.isExtra&&o.userData.farLOD) CHAR.setFar(o,farWant(!!o.userData.isFar,cd,!!E.indoor));   /* 30 m 外的路人換遠距離版本（PERF-CROWD-LOD-1021；回到 28 m 內才換回來，不會在邊界閃）*/ if(!vis&&cd>16) return;   /* 16 m 內的人畫面外也更新骨架：鏡頭一切過去（劇情運鏡、轉身）的那一格，視錐用的是上一格的鏡頭，沒更新過的人會露出模型原始的 T 字手臂（BB-C 2026-10-17：沛珊上樓梯第一段手臂往前平舉）*/ if(cd>28&&(E.frame+(n.lodPhase||0))%2) { n._skipDt=(n._skipDt||0)+dt; return; } if(!vis&&seatOff(n,o,moving)&&(E.frame+(n.lodPhase||0))%E.SEAT_OFF_EVERY) { n._skipDt=(n._skipDt||0)+dt; return; }   /* 坐著、在畫面外、離你 3 m 以上的人：動畫、彈簧骨每 4 幀更新一次（PERF-XS-NPC-1108，下面 seatOff）*/ const adt=dt+(n._skipDt||0); n._skipDt=0;
+     CHAR.animate(o,adt,{pose:n.pose,speed:n.speed,handsPockets:n.pockets&&n.pose==='idle',lookAt:n.lookAt,ground:groundFn(n)}); }
+   /* 無名路人要不要換遠距離版本（PERF-CROWD-LOD-1021）：室外 18 m 外換、16.5 m 內換回來（原本 30／28 m，PERF-PATROL-ECON-1025 改）；室內 7 m 外換、6.5 m 內換回來（LAWWW2-B 2026-10-24，LAWWW-B 同意：
+      博雅一樓階梯教室一整班坐著的路人，後排換了幾乎看不出來；有名字的角色不換）。中間差一段才換回來：在邊界上不會一直切換。測試：node tests/crowd_far_indoor_unit.js */
++  /* 坐著、在畫面外的人降頻（PERF-XS-NPC-1108，LAWWW2-B 2026-11-09；PERFAB：新生南路山嵐、大口的店裡 9～11 個人，拿掉 NPC 39.7→57.9 fps）：
++     畫面外 16 m 內的人原本每一幀都跑 CHAR.animate（坐姿小動作、VRM 彈簧骨、表情、腳步貼合），這裡改成每 E.SEAT_OFF_EVERY 幀一次；沒跑的那幾幀時間累加在 n._skipDt，
++     下一次一起補（和 28 m 外的降頻同一個做法，時間不丟）。只限：坐著（sit、read）、沒在走、不是載在你後座／跟著你走的人、沒在揮手、離你（水平）E.SEAT_OFF_NEAR m 以上。
++     一進畫面（vis）那一幀就照常更新，累加的時間一起補，再畫——不會看到舊姿勢。E.SEAT_OFF_EVERY=1＝關掉（PERFAB 前後對照）。測試：node tests/seat_off_throttle_unit.js */
++  E.SEAT_OFF_EVERY=4; E.SEAT_OFF_NEAR=3; const SEAT_OFF={sit:1,read:1};
++  function seatOff(n,o,moving){ if(!(E.SEAT_OFF_EVERY>1)||!SEAT_OFF[n.pose]||moving||n.path||n.beh==='passenger'||n.beh==='follow'||n.waveT>0) return false; const P=E.player; if(!P) return true; const pp=P.obj.position; return Math.hypot(pp.x-o.position.x,pp.z-o.position.z)>=E.SEAT_OFF_NEAR; }
+   function farWant(isFar,cd,indoor){ const out=indoor&&CHAR.FAR_OUT_IN?CHAR.FAR_OUT_IN:CHAR.FAR_OUT, back=indoor&&CHAR.FAR_IN_IN?CHAR.FAR_IN_IN:CHAR.FAR_IN; return isFar?cd>back:cd>out; }
+   // ---------- 樹幹透視 ----------
+   // 跟隨鏡頭時，擋在鏡頭和玩家之間的樹幹、電線桿，在玩家周圍（直立的橢圓，高約玩家身高的 1.2 倍）變成網點透空（鏡頭本身不動、碰撞不變）；離鏡頭 1.7 m 內的部分也透空。
+diff --git a/tests/seat_off_throttle_unit.js b/tests/seat_off_throttle_unit.js
+new file mode 100644
+index 000000000..32723c765
+--- /dev/null
++++ b/tests/seat_off_throttle_unit.js
+@@ -0,0 +1,81 @@
++// PERF-XS-NPC-1108：坐著、在畫面外的 NPC 動畫＋彈簧骨降頻（LAWWW2-B 2026-11-09，LAWWW-B 派工）——不需要瀏覽器。
++//   PERFAB（docs/art-rebuild/second_ai/wip/perf_xs_1108）：新生南路山嵐 1F／2F、大口 2F 店裡 9～11 個人，拿掉 NPC 39.7→57.9、33.2→57.8、45.1→57.2 fps。
++//   做法（engine3d.js 的 updateNPC＋seatOff）：畫面外 16 m 內原本每一幀都跑 CHAR.animate；坐著（sit、read）、沒在走、不是後座／跟著走、沒在揮手、離玩家 3 m 以上的，
++//   改成每 E.SEAT_OFF_EVERY（4）幀一次，沒跑的時間累加（n._skipDt）下一次一起補。
++//   這支測試把 engine3d.js 裡真正的 updateNPC（和 seatOff）拿出來，用假的鏡頭、視錐、CHAR.animate 跑 60 幀（dt 1/60）：
++//   1. 畫面外坐著（離玩家 8 m）：60 幀只更新 15 次；交給 CHAR.animate 的時間加上還沒補的時間＝60 幀的時間（不丟）
++//   2. 畫面外 30 幀以後進畫面：進畫面那一幀就更新（而且 o.visible 已經是 true、補上累加的時間），之後每一幀都更新；時間不丟
++//   3. 不受影響（每一幀都更新）：畫面外走路的、畫面外站著的、畫面外坐著但離玩家 2.5 m、畫面裡坐著的
++//   4. seatOff 排除：載在你後座（passenger）、跟著你走（follow）、正在揮手、有路線的；E.SEAT_OFF_EVERY=1 ＝關掉（每一幀）
++//   5. 8 個畫面外坐著的人分散在不同幀更新（每一幀 1～3 次，不會 8 個擠同一幀）
++//   6. 原本就有的：畫面外 16 m 以外照舊不更新；畫面裡 28 m 外照舊隔一幀
++//   修改前 0、1、4、5 FAIL（開發分支 f8b0e30d1：FAILED 5）；2、3、6 是不能改壞的部分，修改前後都要過。用法：node tests/seat_off_throttle_unit.js [engine3d.js 路徑]
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const src=fs.readFileSync(process.argv[2]||path.join(ROOT,'src/engine3d.js'),'utf8');
++const mU=src.match(/  function updateNPC\(n,dt\)\{[\s\S]*?CHAR\.animate\(o,adt,[^\n]*\}\n/);
++const mS=src.match(/  E\.SEAT_OFF_EVERY=[^\n]*\n  function seatOff\([^\n]*\n/);
++check('0. engine3d.js 有 updateNPC',!!mU);
++check('0. engine3d.js 有 seatOff、E.SEAT_OFF_EVERY、E.SEAT_OFF_NEAR',!!mS);
++if(!mU){ console.log('FAILED '+fails); process.exit(1); }
++const DT=1/60, close=(a,b)=>Math.abs(a-b)<1e-9;
++/* 假的世界：鏡頭在 (0,1.6,0)；visFn 決定誰在畫面裡（視錐用 _frS 的球心）*/
++function world(){
++  const calls=[]; let visFn=()=>false;
++  const E={frame:0,q:{level:'medium'},zone:{},indoor:true,npcs:[],player:{obj:{position:{x:0,y:0,z:0}},lv:0,busy:false}};
++  const ctx={E,Math,camera:{position:{x:0,y:1.6,z:0}},
++    _frS:{center:{x:0,y:0,z:0,set(x,y,z){ this.x=x; this.y=y; this.z=z; }},radius:1},
++    _fr:{intersectsSphere:s=>visFn(s.center)},
++    CHAR:{animate:(o,dt,st)=>calls.push({id:o.id,dt,pose:st.pose,vis:o.visible,f:E.frame}),setFar(){},setExpr(){}},
++    farWant:()=>false, groundFn:()=>null, flatYaw(){}, wpReached:()=>false, stepSp:sp=>sp, npcStall:()=>false, followStep:()=>false,
++    stepEntity:(n,dx,dz,ss,dt)=>{ n.obj.position.x+=dx*ss*dt; n.obj.position.z+=dz*ss*dt; }};
++  vm.createContext(ctx); vm.runInContext((mS?mS[0]:'')+mU[0]+'\nthis.updateNPC=updateNPC;',ctx);
++  const mk=(id,x,z,extra)=>{ const n=Object.assign({obj:{id,position:{x,y:0,z},rotation:{x:0,y:0,z:0,set(){}},visible:true,userData:{}},pose:'sit',idlePose:'sit',speed:0,timer:0,lv:0,lodPhase:E.npcs.length},extra||{}); E.npcs.push(n); return n; };
++  const step=()=>{ E.frame++; for(const n of E.npcs) ctx.updateNPC(n,DT); };
++  return {E,ctx,calls,mk,step,setVis:f=>{ visFn=f; }};
++}
++const of=(calls,id)=>calls.filter(c=>c.id===id);
++const sumDt=a=>a.reduce((s,c)=>s+c.dt,0);
++/* 1 */
++{ const W=world(); const n=W.mk('a',8,0); for(let i=0;i<60;i++) W.step(); const c=of(W.calls,'a');
++  check('1. 畫面外坐著（離玩家 8 m）：60 幀只更新 15 次',c.length===15,c.length+' 次');
++  check('1. 時間不丟：交給 CHAR.animate 的＋還沒補的＝60 幀',close(sumDt(c)+(n._skipDt||0),60*DT),(sumDt(c)+(n._skipDt||0)).toFixed(6)+' s');
++  check('1. 每一次補的是 4 幀的時間（第一次以外）',c.slice(1).every(x=>close(x.dt,4*DT)),c.slice(0,4).map(x=>x.dt.toFixed(4)).join('、')); }
++/* 2 */
++{ const W=world(); const n=W.mk('b',8,0); let on=false; W.setVis(()=>on);
++  for(let i=0;i<30;i++) W.step(); const before=of(W.calls,'b').length; const pending=n._skipDt||0;
++  on=true; W.step(); const c=of(W.calls,'b'), first=c[before];
++  check('2. 進畫面那一幀就更新',!!first&&first.f===W.E.frame,first?'第 '+first.f+' 幀':'沒有更新');
++  check('2. 那一次 o.visible 已經是 true（同一幀先補再畫）',!!first&&first.vis===true);
++  check('2. 那一次補上累加的時間（'+(pending/DT).toFixed(0)+' 幀＋這一幀）',!!first&&close(first.dt,pending+DT)&&!(n._skipDt),first&&first.dt.toFixed(4));
++  for(let i=0;i<29;i++) W.step(); const c2=of(W.calls,'b');
++  check('2. 在畫面裡之後每一幀都更新',c2.length-before===30,(c2.length-before)+'／30');
++  check('2. 時間不丟（60 幀）',close(sumDt(c2)+(n._skipDt||0),60*DT)); }
++/* 3 */
++{ const W=world(); W.mk('walk',8,0,{pose:'walk',idlePose:'idle',path:[[8,40]],speed:1.35}); W.mk('stand',8,2,{pose:'idle',idlePose:'idle'});
++  W.mk('near',2.5,0); W.mk('seen',6,6); W.setVis(c=>Math.abs(c.x-6)<0.01&&Math.abs(c.z-6)<0.01);
++  for(let i=0;i<60;i++) W.step();
++  for(const [id,what] of [['walk','畫面外走路的'],['stand','畫面外站著的'],['near','畫面外坐著、離玩家 2.5 m'],['seen','畫面裡坐著的']]) check('3. '+what+'：每一幀都更新',of(W.calls,id).length===60,of(W.calls,id).length+'／60'); }
++/* 4 */
++{ const W=world(); const seatOff=W.ctx.seatOff; const o={position:{x:8,y:0,z:0}};
++  check('4. seatOff 存在',typeof seatOff==='function');
++  if(typeof seatOff==='function'){
++    check('4. 坐著、離 8 m：降頻',seatOff({pose:'sit'},o,false)===true&&seatOff({pose:'read'},o,false)===true);
++    check('4. 載在你後座的不降頻',seatOff({pose:'sit',beh:'passenger'},o,false)===false);
++    check('4. 跟著你走的不降頻',seatOff({pose:'sit',beh:'follow'},o,false)===false);
++    check('4. 正在揮手的不降頻',seatOff({pose:'sit',waveT:1.2},o,false)===false);
++    check('4. 有路線、這一幀在走的不降頻',seatOff({pose:'sit',path:[[0,0]]},o,false)===false&&seatOff({pose:'sit'},o,true)===false);
++    check('4. 躺著、站著、健身的不降頻（只限 sit、read）',['lie','idle','talk','gym_row'].every(p=>seatOff({pose:p},o,false)===false));
++    check('4. 離玩家 2.9 m 不降頻、3.0 m 降頻',seatOff({pose:'sit'},{position:{x:2.9,y:0,z:0}},false)===false&&seatOff({pose:'sit'},{position:{x:3.0,y:0,z:0}},false)===true); }
++  const W2=world(); W2.E.SEAT_OFF_EVERY=1; W2.mk('c',8,0); for(let i=0;i<60;i++) W2.step();
++  check('4. E.SEAT_OFF_EVERY=1：關掉（每一幀更新）',of(W2.calls,'c').length===60,of(W2.calls,'c').length+'／60'); }
++/* 5 */
++{ const W=world(); for(let k=0;k<8;k++) W.mk('s'+k,8,k-4); const per={}; for(let i=0;i<60;i++){ const n0=W.calls.length; W.step(); per[i]=W.calls.length-n0; }
++  const v=Object.values(per), mx=Math.max(...v), mn=Math.min(...v);
++  check('5. 8 個畫面外坐著的人分散在不同幀（每一幀 1～3 次）',mn>=1&&mx<=3,'最少 '+mn+'、最多 '+mx+'、60 幀共 '+W.calls.length+' 次'); }
++/* 6 */
++{ const W=world(); W.mk('far',20,0); W.mk('farseen',30,0); W.setVis(c=>c.x>25); for(let i=0;i<60;i++) W.step();
++  check('6. 原本就有：畫面外 16 m 以外不更新',of(W.calls,'far').length===0,of(W.calls,'far').length+' 次');
++  check('6. 原本就有：畫面裡 28 m 外隔一幀',of(W.calls,'farseen').length===30,of(W.calls,'farseen').length+'／60'); }
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
