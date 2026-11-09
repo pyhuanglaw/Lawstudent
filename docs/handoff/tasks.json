@@ -50320,7 +50320,7 @@
    },
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": "87f52f2f34b4144cc9002de02bd1cb213c0ecb78",
-   "test": "tests/v0_e08_unit.js 4h、tests/bed_tonight_alarm_unit.js 5、tests/date_book_unit.js 10（本機 ALL PASS）"
+   "test": "tests/v0_e08_unit.js 4h、tests/bed_tonight_alarm_unit.js 5、tests/date_book_unit.js 10（本機 ALL PASS）；GHA node-unit-auto 42690452156（87f52f2f3）success；本機全套 1160／1160 PASS；BB-B 雲端換回 4c45 版確認舊程式 FAIL"
   }
  ]
 }
