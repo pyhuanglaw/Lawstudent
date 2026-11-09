@@ -1766,6 +1766,16 @@ OUTA_fc87_movie | fc879e47b92b8859021fe8c4247d23de90e07006 | probe | docs/story_
 OUTA_fc87_morning | fc879e47b92b8859021fe8c4247d23de90e07006 | probe | docs/story_planning/test_tools/cc/cc_outa_probe.py | index.html | 20 | MODE=morning
 OUTA_fc87_walk | fc879e47b92b8859021fe8c4247d23de90e07006 | probe | docs/story_planning/test_tools/cc/cc_outa_probe.py | index.html | 30 | MODE=walk;MAXS=900
 OUTA_fc87_date | fc879e47b92b8859021fe8c4247d23de90e07006 | probe | docs/story_planning/test_tools/cc/cc_outa_probe.py | index.html | 20 | MODE=date
+WALL1P_rp_on | 676be35773c0a2dd5ce13faf28ba43c89eee8265 | probe | docs/story_planning/test_tools/cc/cc_perf_ab_probe.py | index.html?perf | 30 | SOLO=1;SETTLE=30;ROWMIN=0;DUMP=1;JSF=render_probe_dc_lawww2_e1918f59a.js;PTS=xs_dakou:1f,xs_shanlan:1f
+WALL1P_rp_2pass | 676be35773c0a2dd5ce13faf28ba43c89eee8265 | probe | docs/story_planning/test_tools/cc/cc_perf_ab_probe.py | index.html?perf&wall2pass | 30 | SOLO=1;SETTLE=30;ROWMIN=0;DUMP=1;JSF=render_probe_dc_lawww2_e1918f59a.js;PTS=xs_dakou:1f,xs_shanlan:1f
+WALL1P_ct_dakou_on | 676be35773c0a2dd5ce13faf28ba43c89eee8265 | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf | 20 | SOLO=1;ZONE=xs_dakou;SETTLE=30;SECS=20
+WALL1P_ct_dakou_2pass | 676be35773c0a2dd5ce13faf28ba43c89eee8265 | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf&wall2pass | 20 | SOLO=1;ZONE=xs_dakou;SETTLE=30;SECS=20
+WALL1P_ct_shanlan_on | 676be35773c0a2dd5ce13faf28ba43c89eee8265 | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf | 20 | SOLO=1;ZONE=xs_shanlan;SETTLE=30;SECS=20
+WALL1P_ct_shanlan_2pass | 676be35773c0a2dd5ce13faf28ba43c89eee8265 | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf&wall2pass | 20 | SOLO=1;ZONE=xs_shanlan;SETTLE=30;SECS=20
+WALL1P_shot_on | 676be35773c0a2dd5ce13faf28ba43c89eee8265 | probe | docs/story_planning/test_tools/cc/cc_wallfade_probe.py | index.html | 15 | SOLO=1;TAG=on;ZONES=xs_dakou,xs_shanlan
+WALL1P_shot_2pass | 676be35773c0a2dd5ce13faf28ba43c89eee8265 | probe | docs/story_planning/test_tools/cc/cc_wallfade_probe.py | index.html?wall2pass | 15 | SOLO=1;TAG=2pass;ZONES=xs_dakou,xs_shanlan
+WALLFADE_old | c8af31018a9ce570422ad748aa277af842f8db37 | probe | docs/story_planning/test_tools/cc/cc_wallfade_probe.py | index.html | 20 | SOLO=1;TAG=old;ZONES=dorm,wancai,xs_dakou,wz_teahouse
+WALLFADE_new | 676be35773c0a2dd5ce13faf28ba43c89eee8265 | probe | docs/story_planning/test_tools/cc/cc_wallfade_probe.py | index.html | 20 | SOLO=1;TAG=new;ZONES=dorm,wancai,xs_dakou,wz_teahouse
 #REPLACED-1109（BB-B 20:39 改 fc879e47b）OUTA_87f5_movie | 87f52f2f34b4144cc9002de02bd1cb213c0ecb78 | probe | docs/story_planning/test_tools/cc/cc_outa_probe.py | index.html | 20 | MODE=movie
 #REPLACED-1109（BB-B 20:39 改 fc879e47b）E26v5_87f5_yes | 87f52f2f34b4144cc9002de02bd1cb213c0ecb78 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=yes;WAIT0921=1
 #REPLACED-1109（BB-B 20:39 改 fc879e47b）E26v5_87f5_skipyes | 87f52f2f34b4144cc9002de02bd1cb213c0ecb78 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=yes
