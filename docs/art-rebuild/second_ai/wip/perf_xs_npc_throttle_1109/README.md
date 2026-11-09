@@ -66,3 +66,44 @@
 | seat_off_throttle_1109.patch | | a918a567c4faf7e10b6ef15fcb239def0ac9e5899dfd28865ad24b5213f44ae6 |
 
 `git apply --check` 對開發分支 `f8b0e30d1` 乾淨的 checkout：OK。
+
+## 11-09 17:2x：CC-B 量到的結果（SEATOFF_88c8、CPUTRACE_8172_dakou）與分析
+### seatOff 前後（PC GPU RX 6600M，88c83d1be，cc-local `local_out/SEATOFF_88c8`）
+| 點 | every1／every4／every1／every4 fps | animMs（每幀 CHAR.animate 總時間） | seatOff（每幀符合降頻的人數） | vis |
+|---|---|---|---|---|
+| 山嵐 1F | 30.3／36.1／47.8／44.5 | 18.8／15.6／10.0／9.8 | 1 | 2～4 |
+| 山嵐 2F | 28.2／30.9／37.4／44.5 | 18.2／15.0／13.1／10.2 | 1 | 2～5 |
+| 大口 2F | 27.2／27.0／25.1／30.6 | 11.3／9.5／11.3／10.5 | 1 | 9～10 |
+| 好拍 | 57.0／57.8／56.2／57.2 | 1.3～1.7 | 0 | — |
+
+- **seatOff 每幀只有 1 個人符合**：大部分坐著的人在畫面裡，或離你不到 3 m。所以降頻省的很少，前後差異被暖機蓋過去了（同一條件第一次、第二次就差 30.3 → 47.8）。
+- **真正的大頭是 `CHAR.animate` 本身**：每幀 10～19 ms、8～11 次，**每個人 1～2 ms**。noNPC 剩 1.4～2 ms（只有玩家）。
+
+### 大口 1F CPU 效能紀錄（20.7 秒、11 個 NPC；`cpuprof_*.py` 分析，cc-local `local_out/CPUTRACE_8172_dakou/out/cpu.cpuprofile`）
+| 項目 | 時間 | 佔全部 |
+|---|---|---|
+| `C.animate` → `animateVRM` | 5.6 s | 27.1% |
+| └ `updateVRM` | 4.96 s | 23.9% |
+| 　└ 腳步貼合那一段（:1329 的回呼） | 2.50 s | 12.1% |
+| 　　└ **`sitFeet`**（坐著的腳踩地） | **1.89 s** | **9.1%** |
+| 　　　└ 其中 `h.updateWorldMatrix(true,true)`（整個人物、含頭髮配件的矩陣） | 1.23 s | 5.9% |
+| 　　└ `footIK` | 0.58 s | 2.8% |
+| 　└ 彈簧骨（three-vrm update :2296） | 1.23 s | 5.9% |
+| 　└ 表情（three-vrm update :6048） | 0.63 s | 3.0% |
+| 　└ `vrm.scene.updateWorldMatrix` | 0.36 s | 1.8% |
+| 畫面 `setProgram` | 3.98 s | 19.2% |
+| └ `getProgram`＋`getParameters` | 1.26 s＋0.73 s | 6.1%＋3.5% |
+| 　（對照：好拍 `getProgram` 只有 0.27 s：大口有人物的材質每一幀都在重新判斷 shader） | | |
+
+- **卡頓（>100 ms）5 次**：
+  - 10708 ms、10874 ms：`projectObject` → `SkinnedMesh.computeBoundingSphere` → `applyBoneTransform` 60～68 ms。這是某個 **frustumCulled 開著的蓋皮網格**第一次被畫時，three.js 用每根骨頭算每個頂點的包圍球。
+    - character3d.js、props3d.js、遠距離版本都設了 `frustumCulled=false`，原始碼裡找不到是誰。請 CC 跑 `skinned_probe.js`（列出來＋記錄誰被算、花幾 ms）。
+  - 2375、4358、13191 ms：那一幀 70～82 ms 是 idle，主執行緒在等 GPU，不是 JavaScript。
+
+### 建議（給 LAWWW-B，人物系統）
+1. **`sitFeet`（9.1%）**：坐著不動的人，腿的解每一幀都一樣。可以：
+   - 解一次就記下大腿、小腿、腳的 raw 四元數，之後直接套（座位、模型、坐姿沒變就不重算）；
+   - 或至少把 `h.updateWorldMatrix(true,true)` 換成只更新腿那一條鏈（髖 → 腳）。
+2. 坐著、在畫面裡的人：彈簧骨（5.9%）半速。坐著的時候頭髮幾乎不動。
+3. `getProgram`／`getParameters`（9.6%）：查哪個材質每幀換 program。可能是同一個材質給 morph、skinning 狀態不同的網格用（近的 VRM 和遠距離版本、有沒有表情 morph）。
+4. 卡頓：等 `skinned_probe.js` 的結果。找到以後把那個網格設 `frustumCulled=false`，或先給它一個 boundingSphere。
