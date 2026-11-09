@@ -1,6 +1,6 @@
 # #204 外牆腳黑線：四間補光照貼圖（LAWWW2-B 2026-11-09；LAWWW-B 19:42 選盤點的 1～4）
 
-狀態：`INTEGRATED`（LAWWW-B 已整合 `a5ec91a36`，DLV-1109-L2-WALLBASE；只改光照貼圖，GLB、程式都不動；Node 回歸 101／0；遊戲內等 CC 拍、BB-B 判）。
+狀態：`INTEGRATED`；**黑線部分 `ART_APPROVED`**（BB-B 11-09 23:06 D120，雲端 SwiftShader：萬才底邊黑短線、四人房床下黑塊、淡出牆邊黑粗線都不見，沒有新的接縫；亮度、色調等 PC GPU）（LAWWW-B 已整合 `a5ec91a36`，DLV-1109-L2-WALLBASE；只改光照貼圖，GLB、程式都不動；Node 回歸 101／0；遊戲內等 CC 拍、BB-B 判）。
 盤點：`docs/art-rebuild/second_ai/wip/wall_base_survey_1109/README.md`。
 
 ## 做了什麼
