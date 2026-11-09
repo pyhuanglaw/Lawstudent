@@ -47,6 +47,7 @@ async def main():
                 st_ = float(os.environ.get('SETTLE') or 0)   # LAWWW2-B 20:13：進區域先站 30 秒扣掉暖機（SETTLE=30）
                 if st_: print('%s 先站 %s 秒（暖機）' % (tag, st_), flush=True); await pg.wait_for_timeout(int(st_ * 1000))
                 out = await pg.evaluate(JS); rec['out'] = out
+                if os.environ.get('DUMP') == '1': print('%s OUT %s' % (tag, json.dumps(out, ensure_ascii=False)), flush=True)   # render_probe_dc（LAWWW2-B 11-09）：out 不是 rows 表，原樣全部印出
                 if '%s:%s' % (zone, fl) in (os.environ.get('L1HIDE') or '').split(','):   # LAWWW2-B 20:13：大口 2F 把一樓那一組（name L1）藏起來量 10 秒
                     rec['l1hide'] = await pg.evaluate(MEAS10)
                     print('%s L1HIDE %s' % (tag, json.dumps(rec['l1hide'], ensure_ascii=False)), flush=True)
