@@ -6714,7 +6714,7 @@
    ],
    "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "【狀態說明】已整合（LAWWW-B 6bbfca043，DLV-1109-L2-WALLONEPASS；舊 FAILED 4→ALL PASS、313 支 PASS）；等 CC render_probe_dc（?wall2pass 對照）。three.js renderObject 對 transparent＋DoubleSide＋forceSinglePass=false 畫兩次並各 needsUpdate；各區域淡出把牆材質複製、設 transparent，GLB 牆大多雙面（66／84 顆）。assets3d.js 載建築 GLB 時記 userData.op0（原本不透明），engine3d.js hideFaded 對 op0、opacity 1、雙面、無 alphaTest 的牆設 forceSinglePass；玻璃（BLEND）、葉子（MASK）不碰。三間 12 個方向：畫牆 264→144、version +240→0。?wall2pass 回舊做法。另附 (D) CC 實測 238.4 ms／69 次 → 10.0 ms／20 次、(A) SITFEET_abfa 前後。 BB-B 23:06：同角度比對像素差 0；效能數字等 PC。",
+   "note": "【狀態說明】已整合（LAWWW-B 6bbfca043，DLV-1109-L2-WALLONEPASS；舊 FAILED 4→ALL PASS、313 支 PASS）；等 CC render_probe_dc（?wall2pass 對照）。three.js renderObject 對 transparent＋DoubleSide＋forceSinglePass=false 畫兩次並各 needsUpdate；各區域淡出把牆材質複製、設 transparent，GLB 牆大多雙面（66／84 顆）。assets3d.js 載建築 GLB 時記 userData.op0（原本不透明），engine3d.js hideFaded 對 op0、opacity 1、雙面、無 alphaTest 的牆設 forceSinglePass；玻璃（BLEND）、葉子（MASK）不碰。三間 12 個方向：畫牆 264→144、version +240→0。?wall2pass 回舊做法。另附 (D) CC 實測 238.4 ms／69 次 → 10.0 ms／20 次、(A) SITFEET_abfa 前後。 BB-B 23:06：同角度比對像素差 0；效能數字等 PC。；CC-B 23:17 PC（RX 6600M）效能：大口 56.9／56.8、山嵐 49.7／49.3 fps，卡頓在雜訊內，畫面 0 差異＝持平",
    "next": "LAWWW-B 整合；CC 用 render_probe_dc.js 量大口 1F、山嵐（加 ?wall2pass 對照）；BB-B 可同角度開關各拍一張比對（應該一樣）"
   },
   {
@@ -6761,24 +6761,38 @@
     "tools/blender/env_second/lightbake/lm_fill_covered.py",
     "docs/art-rebuild/second_ai/wip/wall_base_fill2_1109/（README、lm_covered_fill_check_1109b.patch、ratio_before／after、reveal_before／after、tests.txt）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "露出嚴重度 0.94→0.12、0.49→0.13；lm_covered_fill_check 開發 FAILED 4→ALL PASS（約 30 分鐘）；回歸 46／0；要一起拿分批版 lm_fill_covered.py（開發是舊版，會 OOM）。 LAWWW-B 22:24 ACK、整合中。",
+   "note": "露出嚴重度 0.94→0.12、0.49→0.13；lm_covered_fill_check 開發 FAILED 4→ALL PASS（約 30 分鐘）；回歸 46／0；要一起拿分批版 lm_fill_covered.py（開發是舊版，會 OOM）。 LAWWW-B 22:24 ACK、整合中。（LAWWW-B 整合 1827999fb）；BB-B 23:22 雲端：轉角唱片左牆外、阿德後牆外地板暗帶還在——LAWWW2-B 查：是落地櫃（唱片櫃、木櫃）底下和前面的地板光照，工具沒抓到（櫃子沒底面），另案 #213",
    "next": "LAWWW-B 整合；CC 拍轉角唱片左牆外地板／右牆外樑、阿德右牆外貨架後／後牆外格櫃後，BB-B 判"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
    "sha": "f072ddeef",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACTIONED",
    "task": "CAM-TEAYARD-1109：一盞前院跟隨鏡頭轉進牆（BB-B 23:06 疑點 3；D108 場景鏡頭）",
    "files": [
     "docs/art-rebuild/second_ai/wip/cam_teayard_1109/（README、cam_teayard_1109.patch、test_dev.txt、test_new.txt、tests.txt）"
    ],
+   "state": "已整合",
+   "noDirectIntegrate": false,
+   "note": "正常玩也會：camCols 只有屋裡隔間牆，前院緣側牆強制不淡出、鄰居房子沒碰撞。teaYard 在前院時把 WALL_engawa_*、wzy_apt/apt2/plaster 加進 camCols。teahouse_yard_cam_unit 開發 FAILED 2→ALL PASS；回歸 87／0。印刷店 270° 是另一類（窗景卡 VIEWPANE 太寬），只回報、等選改法。（LAWWW-B 23:2x 整合 b6685c824，87 支 PASS）",
+   "next": "CC 照 180°、270° 重拍茶屋，BB-B 判"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "80abb49e1",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "CAM-VIEWPANE-SIDE-1109：放大的窗景卡，鏡頭在店面左右範圍外時藏起來（BB-B 23:12；LAWWW-B、BB-B 選 (1)）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/cam_viewpane_side_1109/（README、cam_viewpane_side_1109.patch、test_dev.txt、test_new.txt、tests.txt、regression_new.txt）"
+   ],
    "state": "已交付",
    "noDirectIntegrate": false,
-   "note": "正常玩也會：camCols 只有屋裡隔間牆，前院緣側牆強制不淡出、鄰居房子沒碰撞。teaYard 在前院時把 WALL_engawa_*、wzy_apt/apt2/plaster 加進 camCols。teahouse_yard_cam_unit 開發 FAILED 2→ALL PASS；回歸 87／0。印刷店 270° 是另一類（窗景卡 VIEWPANE 太寬），只回報、等選改法。",
-   "next": "LAWWW-B 整合；CC 照 180°、270° 重拍茶屋，BB-B 判；印刷店改法等 BB-B／LAWWW-B 選"
+   "note": "zones3d.js：vpPart 記店面左右範圍（世界座標）、同一片窗景 winParts 只留一筆；room() fadeWalls 有 side 的超出範圍就藏。用到的三間：阿德影印、林家乾麵、慢輪單車。viewpane_side_unit 開發 2d58e8a52 FAILED 5→ALL PASS；回歸 76／0。",
+   "next": "LAWWW-B 整合；CC 拍阿德 270°（＋90°）、慢輪側牆外＋店裡斜看前窗，新舊對照；BB-B 依 D120 判"
   }
  ]
 }

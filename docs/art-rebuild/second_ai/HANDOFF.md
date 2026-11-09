@@ -66,6 +66,19 @@
   - 等：LAWWW-B 整合 (C)、#204 四間 ACK；CC 的 (C) render_probe_dc、WZDAY trace（#201）、美國公寓衛浴門板補拍。
 - **21:2x 進度**：(C) 已整合 6bbfca043、#204 四間已整合 a5ec91a36（BB-B 派 CC）；12 間盤點報告 a81a8c837 已送，建議做轉角唱片（0.94），等 LAWWW-B 選；轉角唱片先在 scratch 試補（`corner_fill/`，沒進資產）。
   - **outbox 規則（LAWWW-B 21:18）**：`state` 只能是 WIP／已交付／已整合／已測試／已驗收 五個值之一；ART_APPROVED 寫「已驗收」，整合 SHA、CC／BB-B 說明都寫在 `note`。
+- **23:3x 進度**：
+  - 已整合：#204 第二批（1827999fb）、CAM-TEAYARD-1109（b6685c824）。
+  - **CAM-VIEWPANE-SIDE-1109 交件 `80abb49e1`**（`wip/cam_viewpane_side_1109/`）：
+    - 放大的窗景卡在鏡頭跑到店面左右範圍外時藏起來。
+    - 影響三間：阿德、林家、慢輪。
+    - `viewpane_side_unit` 開發 2d58e8a52 FAILED 5 → ALL PASS；回歸 76／0。
+    - 等 LAWWW-B 整合、CC 拍、BB-B 判。
+  - (C) 牆一次畫完：CC-B 在 PC 量的結果是效能持平，畫面 0 差異。
+  - **#213 地板暗帶（BB-B 23:22，P3）**：
+    - 轉角唱片、阿德靠牆那條暗的地板，是落地櫃（WALL_ 的唱片櫃、木櫃，和牆一起淡出）底下的地板，光照貼圖幾乎是 0；阿德的木櫃前面另外還有一條烘進去的影子（約 0.55 倍）。
+    - `lm_fill_covered.py` 沒抓到，因為櫃子沒有底面：往上打的線先碰到層板，而且離地超過 2 cm。
+    - 等 CC 的「WALL_ 全藏」診斷，結果出來前不改東西。量測腳本在 scratch `band/profile.py`。
+  - 等：CC 拍茶屋 180°／270°、窗景卡、#204 PC GPU 亮度；(C) render_probe_dc 已有結果（持平）。
 
 ## 🔁 交班（2026-11-08 20:5x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
 
