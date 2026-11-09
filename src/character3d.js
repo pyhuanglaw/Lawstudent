@@ -803,39 +803,48 @@ const CHAR = (function(){
     u.readHands=hands;
     if(u.readTurn>0&&kd==='book') readTurnFx(u,get,MW,K); else if(u.readScroll>0&&kd!=='book') readScrollFx(u,get,MW);   /* 坐著的小動作：翻頁、滑手機（NPC-AMBIENT-ANIM-1104）*/ }
   const RA={}, SFV=[new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()];
+  /* sitFeet 的矩陣（PERF-XS-NPC-1108 (A)，LAWWW2-B 2026-11-09；大口 1F CPU 效能紀錄：sitFeet 佔整幀 9.1%，其中整個人物的 h.updateWorldMatrix(true,true) 5.9%）：
+     原本先把整個人物（頭髮彈簧骨、手指、配件、網格都算）更新一次，再對每根腿骨 getWorldPosition（每次都往上走到根）。這裡只用到兩條腿：
+     髖部往上那一條鏈更新一次，再更新兩條腿（大腿以下）的子樹；讀位置、旋轉直接從 matrixWorld 拿（剛更新過，和 getWorld* 一樣）。
+     算出來的結果和原本一樣（node tests/sit_feet_fast_unit.js：兩個相同的人物同步坐下，一個舊做法一個新做法，腿骨位置差 < 1e-6 m）。
+     後面的 readIK、headFit、lookAt 都自己更新矩陣；畫面前 updateVRM 也會整個再更新一次，不靠這裡。C.sitFeetFast=false＝原本的做法（PERFAB 前後對照）。 */
+  C.sitFeetFast=true; const SFS=new THREE.Vector3(), SFP=new THREE.Vector3();
+  function legsWM(h,B){ if(!C.sitFeetFast){ h.updateWorldMatrix(true,true); return; } const hips=B[LEGS[0][0]].parent; hips.updateWorldMatrix(true,false); for(const L of LEGS){ const t=B[L[0]]; if(t.parent!==hips) t.parent.updateWorldMatrix(true,false); t.updateWorldMatrix(false,true); } }
+  function wpos(b,v){ return C.sitFeetFast?v.setFromMatrixPosition(b.matrixWorld):b.getWorldPosition(v); }
+  function wquat(b,q){ if(!C.sitFeetFast) return b.getWorldQuaternion(q); b.matrixWorld.decompose(SFP,q,SFS); return q; }
   function sitFeet(h,u){ const hm=u.vrm.humanoid; const B=u.rawLegs||(u.rawLegs=(()=>{ const o={}; for(const L of LEGS) for(const n of L) o[n]=hm.getRawBoneNode(n); return o; })());
     if(LEGS.some(L=>L.slice(0,3).some(n=>!B[n]))) return;
     const gy=h.getWorldPosition(SFV[0]).y, key=u.key||'_';
     if(!(u.anim&&u.anim.static)){   // 站著（不是坐姿）：記下腳踝離地的高度
-      if(u.anim&&u.anim.cur==='idle'&&!u.ikDrop&&!u.gym){ h.updateWorldMatrix(true,true); const a=Math.min(B.leftFoot.getWorldPosition(SFV[1]).y,B.rightFoot.getWorldPosition(SFV[2]).y)-gy; if(a>0.02&&a<0.2) RA[key]=RA[key]?Math.min(RA[key],a):a; }
+      if(u.anim&&u.anim.cur==='idle'&&!u.ikDrop&&!u.gym){ legsWM(h,B); const a=Math.min(wpos(B.leftFoot,SFV[1]).y,wpos(B.rightFoot,SFV[2]).y)-gy; if(a>0.02&&a<0.2) RA[key]=RA[key]?Math.min(RA[key],a):a; }
       return; }
     if(u.sitFeet===false||u.ride||u.gym||u.anim.staticKind==='lie') return;     // 躺著不調腳；騎車：腳在踏板上（rideIK）。階梯教室的座位（有平台高度、前面是桌子）：腳往前伸會從桌子下面、平台邊緣突出來，維持原樣（GAME.sitAt 設定）
-    const ra=RA[key]||0.085*(u.k||1); h.updateWorldMatrix(true,true);
-    for(const [a,b,c] of LEGS){ const hip=B[a].getWorldPosition(SFV[1]), knee=B[b].getWorldPosition(SFV[2]), ank=B[c].getWorldPosition(SFV[3]);
+    const ra=RA[key]||0.085*(u.k||1); legsWM(h,B);
+    for(const [a,b,c] of LEGS){ const hip=wpos(B[a],SFV[1]), knee=wpos(B[b],SFV[2]), ank=wpos(B[c],SFV[3]);
       const target=gy+ra;
       if(ank.y>target+0.003){   /* 腳懸空（SIT-HEIGHT-1104：照大腿底部坐在椅面上以後，腿比較短的人坐 0.47 m 以上的椅子腳會離地 1～2 cm）：大腿往下放（最多到水平以下 26°），
            膝蓋反轉同樣的角度——小腿的方向不變、整段往下，腳踩到地（和下面往上抬對稱；腳掌照原本的方向）*/
-        B[c].getWorldQuaternion(IKQ[3]); const tv=SFV[4].copy(knee).sub(hip), Lt=tv.length();
+        wquat(B[c],IKQ[3]); const tv=SFV[4].copy(knee).sub(hip), Lt=tv.length();
         if(Lt>1e-3){ const e0=Math.asin(Math.max(-1,Math.min(1,tv.y/Lt))), e1=Math.max(-0.45,Math.asin(Math.max(-1,Math.min(1,(tv.y-(ank.y-target))/Lt)))), al=e1-e0;
           const ax=new THREE.Vector3().crossVectors(tv,new THREE.Vector3(0,1,0));
-          if(al<-1e-4&&ax.lengthSq()>1e-10){ ax.normalize(); rotWorld(B[a],ax,al); rotWorld(B[b],ax,-al); B[c].parent.getWorldQuaternion(IKQ[0]); B[c].quaternion.copy(IKQ[0].invert().multiply(IKQ[3])); B[c].updateWorldMatrix(false,true); } }
+          if(al<-1e-4&&ax.lengthSq()>1e-10){ ax.normalize(); rotWorld(B[a],ax,al); rotWorld(B[b],ax,-al); wquat(B[c].parent,IKQ[0]); B[c].quaternion.copy(IKQ[0].invert().multiply(IKQ[3])); B[c].updateWorldMatrix(false,true); } }
         continue; }
       if(ank.y>=target-0.003) continue;
-      B[c].getWorldQuaternion(IKQ[3]);   // 腳掌原本的方向
+      wquat(B[c],IKQ[3]);   // 腳掌原本的方向
       { // 1. 大腿往上抬（最多抬到水平以上 17°），膝蓋同時反轉同樣的角度：小腿的方向不變、整段往上移（試過只補 85%：剩下 2 cm 要靠小腿斜 19° 才補得到——接近垂直時小腿要轉很多角度才抬得高一點）
         const tv=SFV[4].copy(knee).sub(hip), Lt=tv.length();
         if(Lt>1e-3){ const e0=Math.asin(Math.max(-1,Math.min(1,tv.y/Lt))), need=target-ank.y;
           const e1=Math.min(0.30,Math.asin(Math.max(-1,Math.min(1,(tv.y+need)/Lt)))), al=e1-e0;
           const ax=new THREE.Vector3().crossVectors(tv,new THREE.Vector3(0,1,0));
           if(al>1e-4&&ax.lengthSq()>1e-10){ ax.normalize(); rotWorld(B[a],ax,al); rotWorld(B[b],ax,-al);
-            B[b].getWorldPosition(knee); B[c].getWorldPosition(ank); } } }
+            wpos(B[b],knee); wpos(B[c],ank); } } }
       const L=knee.distanceTo(ank); if(L<1e-3) continue;
       const ry=h.rotation.y, fwd=(ank.x-knee.x)*Math.sin(ry)+(ank.z-knee.z)*Math.cos(ry);   // 小腿往前（＋）還是往後（－）斜：坐姿的小腿本來略往後
       const ph0=Math.sign(fwd||1)*Math.acos(Math.max(-1,Math.min(1,(knee.y-ank.y)/L))), ph1=Math.acos(Math.max(0.17,Math.min(1,(knee.y-target)/L)));   // 最多往前伸到離垂直 80°
       const d=ph1-ph0;
-      if(d>1e-4){ B[a].getWorldPosition(hip); const u1=SFV[4].copy(hip).sub(knee), v1=new THREE.Vector3().copy(ank).sub(knee), n=new THREE.Vector3().crossVectors(u1,v1);
+      if(d>1e-4){ wpos(B[a],hip); const u1=SFV[4].copy(hip).sub(knee), v1=new THREE.Vector3().copy(ank).sub(knee), n=new THREE.Vector3().crossVectors(u1,v1);
         if(n.lengthSq()>1e-10){ n.normalize(); rotWorld(B[b],n,d); } }   // 2. 還差的部分：小腿往前伸（膝蓋角度變大）
-      B[c].parent.getWorldQuaternion(IKQ[0]); B[c].quaternion.copy(IKQ[0].invert().multiply(IKQ[3])); B[c].updateWorldMatrix(false,true); } }
+      wquat(B[c].parent,IKQ[0]); B[c].quaternion.copy(IKQ[0].invert().multiply(IKQ[3])); B[c].updateWorldMatrix(false,true); } }
   /* 跪坐的高度：膝蓋、腳踝、腳趾（骨頭在腿的中間）最低的那一個放在坐墊頂＋5 cm（腿的半徑）。animateVRM 每一幀把高度重設成椅子的坐姿，這裡再往下移，不會累加 */
   function sitFloorFit(h,u){ if(!u.sitFloor||!(u.anim&&u.anim.static&&u.anim.staticKind==='sit')||u.ride) return; const hm=u.vrm.humanoid; const B=u.rawLegs||(u.rawLegs=(()=>{ const o={}; for(const L of LEGS) for(const n of L) o[n]=hm.getRawBoneNode(n); return o; })());
     if(LEGS.some(L=>L.slice(0,3).some(n=>!B[n]))) return; h.updateWorldMatrix(true,true); const gy=h.getWorldPosition(SFV[0]).y; let lo=Infinity;
