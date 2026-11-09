@@ -6647,9 +6647,9 @@
     "docs/art-rebuild/second_ai/wip/backface_haopai_1109/README.md",
     "docs/art-rebuild/second_ai/wip/backface_haopai_1109/xs9_haopai_check_1109.patch"
    ],
-   "state": "ART_APPROVED（BB-B 18:45 D120，PC GPU 新舊對照；LAWWW-B 已整合 a7c26e0eb）",
+   "state": "已驗收",
    "noDirectIntegrate": false,
-   "note": "不用改遊戲程式；洞洞板 224 面朝店裡、hp_peg OPAQUE、板面 ×3.0；右牆前段 0.451／0.438（舊淺牆 0.483／0.463），看起來約舊淺牆 0.89；左牆鐵網格翻 118 面；xs9 check 開發資產 FAILED 2→ALL PASS；好拍／新生南路相關 13 支全過",
+   "note": "【狀態說明】ART_APPROVED（BB-B 18:45 D120，PC GPU 新舊對照；LAWWW-B 已整合 a7c26e0eb）。不用改遊戲程式；洞洞板 224 面朝店裡、hp_peg OPAQUE、板面 ×3.0；右牆前段 0.451／0.438（舊淺牆 0.483／0.463），看起來約舊淺牆 0.89；左牆鐵網格翻 118 面；xs9 check 開發資產 FAILED 2→ALL PASS；好拍／新生南路相關 13 支全過",
    "next": "P3（不擋）：遠看掛勾只是一條細黑線、球拍那一組沒拍到——之後拍更近的再說（BB_255）"
   },
   {
@@ -6663,9 +6663,9 @@
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/skinned_sphere_1109.patch",
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/transparent_order_probe.js"
    ],
-   "state": "已整合（LAWWW-B 7824d9598，新測試舊 4 FAIL、新 ALL PASS）",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "原因：three.js projectObject 排序時不管 frustumCulled，boundingSphere null 就逐頂點套骨頭算（每個新人物 40～60 ms）。不透明蓋皮網格建好就給靜止包圍球（每個幾何算一次）；透明的臉部網格不動（全給會讓 53% 鏡頭位置眼線／高光先後對調）。character3d.js +14／−3＋tests/skinned_sphere_unit.js；第一次畫 618→23.8 ms（−96%）；開發 FAILED 4→ALL PASS；104 支相關 *_unit.js 全過",
+   "note": "【狀態說明】已整合（LAWWW-B 7824d9598，新測試舊 4 FAIL、新 ALL PASS）。原因：three.js projectObject 排序時不管 frustumCulled，boundingSphere null 就逐頂點套骨頭算（每個新人物 40～60 ms）。不透明蓋皮網格建好就給靜止包圍球（每個幾何算一次）；透明的臉部網格不動（全給會讓 53% 鏡頭位置眼線／高光先後對調）。character3d.js +14／−3＋tests/skinned_sphere_unit.js；第一次畫 618→23.8 ms（−96%）；開發 FAILED 4→ALL PASS；104 支相關 *_unit.js 全過",
    "next": "CC-B 在 7824d9598 大口 1F 跑 render_probe_dc.js＋CPU trace（18:0x 已請；改前＝RPROBE_DC_fefd）；數字給 LAWWW-B、BB-B"
   },
   {
@@ -6680,9 +6680,9 @@
     "tools/blender/env_second/lightbake/{sunnyside,komichi,mokuyobi,daily_offbeat,ade}_lm.json",
     "docs/art-rebuild/second_ai/wip/wz196_skytint_1109/README.md"
    ],
-   "state": "ART_APPROVED（BB-B 19:14 D120，PC GPU 14:00 新舊對照；已整合 07ce887a1）",
+   "state": "已驗收",
    "noDirectIntegrate": false,
-   "note": "15 個檔、不用改程式；店門口藍/紅 1.17→0.98、0.88→0.81、0.93→0.82、1.22→0.99、1.26→1.11；亮度 −1%；節點／材質／LM 網格不變、晚上那張逐位元組一樣；63 支 Node 全過（開發 e767a3e3e＋15 檔）",
+   "note": "【狀態說明】ART_APPROVED（BB-B 19:14 D120，PC GPU 14:00 新舊對照；已整合 07ce887a1）。15 個檔、不用改程式；店門口藍/紅 1.17→0.98、0.88→0.81、0.93→0.82、1.22→0.99、1.26→1.11；亮度 −1%；節點／材質／LM 網格不變、晚上那張逐位元組一樣；63 支 Node 全過（開發 e767a3e3e＋15 檔）",
    "next": "無（小路白天沒開門，只看店門口）"
   },
   {
@@ -6696,9 +6696,9 @@
     "docs/art-rebuild/second_ai/wip/us_door_split_1109/README.md",
     "tools/blender/env_second/lightbake/glb_split_node.py"
    ],
-   "state": "ART_APPROVED（BB-B 19:44：臥室牆淡出時門板一起淡出；已整合 c8af31018）",
+   "state": "已驗收",
    "noDirectIntegrate": false,
-   "note": "只改節點：衣物間那片跟臥室牆、衛浴那片跟外牆 E 淡出（規則 B）；三角形 312 逐一相同、其他 90 個節點不變、光照貼圖不動；露出暗面約 7 m²（30%／10%／5% 的組合）→ 剩鉸鍊那邊約 0.3 m² 接觸陰影；55 支 Node 全過（deploy_check 要瀏覽器不算）",
+   "note": "【狀態說明】ART_APPROVED（BB-B 19:44：臥室牆淡出時門板一起淡出；已整合 c8af31018）。只改節點：衣物間那片跟臥室牆、衛浴那片跟外牆 E 淡出（規則 B）；三角形 312 逐一相同、其他 90 個節點不變、光照貼圖不動；露出暗面約 7 m²（30%／10%／5% 的組合）→ 剩鉸鍊那邊約 0.3 m² 接觸陰影；55 支 Node 全過（deploy_check 要瀏覽器不算）",
    "next": "衛浴那片跟外牆 E：CC 補拍、BB-B 看"
   },
   {
@@ -6712,9 +6712,9 @@
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/wall_onepass_1109.patch",
     "docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/wall_onepass_glb_walls.txt"
    ],
-   "state": "已整合（LAWWW-B 6bbfca043，DLV-1109-L2-WALLONEPASS；舊 FAILED 4→ALL PASS、313 支 PASS）；等 CC render_probe_dc（?wall2pass 對照）",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "three.js renderObject 對 transparent＋DoubleSide＋forceSinglePass=false 畫兩次並各 needsUpdate；各區域淡出把牆材質複製、設 transparent，GLB 牆大多雙面（66／84 顆）。assets3d.js 載建築 GLB 時記 userData.op0（原本不透明），engine3d.js hideFaded 對 op0、opacity 1、雙面、無 alphaTest 的牆設 forceSinglePass；玻璃（BLEND）、葉子（MASK）不碰。三間 12 個方向：畫牆 264→144、version +240→0。?wall2pass 回舊做法。另附 (D) CC 實測 238.4 ms／69 次 → 10.0 ms／20 次、(A) SITFEET_abfa 前後。",
+   "note": "【狀態說明】已整合（LAWWW-B 6bbfca043，DLV-1109-L2-WALLONEPASS；舊 FAILED 4→ALL PASS、313 支 PASS）；等 CC render_probe_dc（?wall2pass 對照）。three.js renderObject 對 transparent＋DoubleSide＋forceSinglePass=false 畫兩次並各 needsUpdate；各區域淡出把牆材質複製、設 transparent，GLB 牆大多雙面（66／84 顆）。assets3d.js 載建築 GLB 時記 userData.op0（原本不透明），engine3d.js hideFaded 對 op0、opacity 1、雙面、無 alphaTest 的牆設 forceSinglePass；玻璃（BLEND）、葉子（MASK）不碰。三間 12 個方向：畫牆 264→144、version +240→0。?wall2pass 回舊做法。另附 (D) CC 實測 238.4 ms／69 次 → 10.0 ms／20 次、(A) SITFEET_abfa 前後。",
    "next": "LAWWW-B 整合；CC 用 render_probe_dc.js 量大口 1F、山嵐（加 ?wall2pass 對照）；BB-B 可同角度開關各拍一張比對（應該一樣）"
   },
   {
@@ -6729,9 +6729,9 @@
     "assets/models/env/wancai_interior_lm_{day,night}.webp",
     "docs/art-rebuild/second_ai/wip/wall_base_fill_1109/（README、lm_covered_fill_check_1109.patch、ratio_before/after.txt、tests.txt）"
    ],
-   "state": "已整合（LAWWW-B a5ec91a36，DLV-1109-L2-WALLBASE；lm_covered_fill_check 舊 FAILED 10→PASS、101 支 PASS）；等 CC 五個鏡頭、BB-B 判",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "被另一個 WALL_ 網格 2 cm 內蓋住、牆淡出時露出的格子補色；亮度比 0.10～0.38 → 0.95～1.37；其他格子 WebP 重編碼平均差 0.5～1.2／255。GLB、程式不動；測試 patch 加五個模型。",
+   "note": "【狀態說明】已整合（LAWWW-B a5ec91a36，DLV-1109-L2-WALLBASE；lm_covered_fill_check 舊 FAILED 10→PASS、101 支 PASS）；等 CC 五個鏡頭、BB-B 判。被另一個 WALL_ 網格 2 cm 內蓋住、牆淡出時露出的格子補色；亮度比 0.10～0.38 → 0.95～1.37；其他格子 WebP 重編碼平均差 0.5～1.2／255。GLB、程式不動；測試 patch 加五個模型。",
    "next": "LAWWW-B 整合；CC 拍四間（牆外讓那面牆淡出：宿舍左牆外看床架、浴室牆外看白框；萬才一樓西牆外；大口 1F 右牆外；茶屋右牆外）、BB-B 判"
   },
   {
@@ -6745,9 +6745,9 @@
     "docs/art-rebuild/second_ai/wip/wall_base_survey_1109/oom12_dry.txt",
     "docs/art-rebuild/second_ai/wip/wall_base_survey_1109/oom12_reveal.txt"
    ],
-   "state": "報告，等 LAWWW-B 選",
+   "state": "已交付",
    "noDirectIntegrate": true,
-   "note": "嚴重度：轉角唱片 0.94、大步 0.61、總圖 5F 書庫 0.51、阿德 0.49、萬才多功能 0.23、燒臘 0.21、腳踏車 0.20、同弦 0.17、南洋 1 廳 0.01、好拍 0.01；山嵐、南洋大廳 <1% 不跑。建議做轉角唱片，2～4 由 LAWWW-B 決定。",
+   "note": "【狀態說明】報告，等 LAWWW-B 選。嚴重度：轉角唱片 0.94、大步 0.61、總圖 5F 書庫 0.51、阿德 0.49、萬才多功能 0.23、燒臘 0.21、腳踏車 0.20、同弦 0.17、南洋 1 廳 0.01、好拍 0.01；山嵐、南洋大廳 <1% 不跑。建議做轉角唱片，2～4 由 LAWWW-B 決定。",
    "next": "LAWWW-B 選好再做（lm_fill_covered＋lm_covered_fill_check 前後比）"
   }
  ]
