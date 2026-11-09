@@ -43,6 +43,17 @@ SKF_NEW = """    pend = await pg.evaluate("(()=>{ try{ const G=GAME.G; if(G.flag
             return 'e08:' + str(r)
 """
 src = src.replace(SKF_OLD, SKF_NEW.replace('@NONE@', 'True' if E08 == 'none' else 'False') + SKF_OLD, 1)
+# BB-B 19:43：9/21 每次按完跳過時間，記停在幾點、caption、OUT y0_e08 的 state、E08_GO（看回「好」以後有沒有停在 16:35 出發前）
+LOGSK_OLD = "    lab = c and c[2]\n"
+assert LOGSK_OLD in src
+LOGSK_NEW = LOGSK_OLD + """    if c:
+        try:
+            await pg.wait_for_timeout(2500)
+            sk = await pg.evaluate("(()=>{ const G=GAME.G; if(CALENDAR.dateOf(G.day).key!=='2024-09-21') return null; const tx=id=>{ const e=document.getElementById(id); return e?e.textContent.trim().slice(0,80):''; }; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y0_e08'):null; return {h:+(+G.hour).toFixed(3), caption:tx('caption')||tx('cap'), toast:tx('toast'), q8:q?q.state:null, E08_GO:G.flags.E08_GO||null, zone:G.zone}; })()")
+            if sk: print('   [9/21 跳過後] 按「%s」→ %s' % (c[2], json.dumps(sk, ensure_ascii=False)), flush=True)
+        except Exception as e: print('   [9/21 跳過後] 記錄失敗 %r' % e, flush=True)
+"""
+src = src.replace(LOGSK_OLD, LOGSK_NEW, 1)
 if os.environ.get('WAIT0921') == '1':   # BB-B 18:14：9/21 不要一次跳過 16:00 的韋綸私訊——只按目標時間 ≤ 16:00 的「跳過時間」，沒有就站著等
     SK_OLD = "    c = await pg.evaluate(\"(()=>{ const bs=[...document.querySelectorAll('#phoneBody [data-skip]')]; if(!bs.length) return null; const e=bs[bs.length-1];"
     assert SK_OLD in src
