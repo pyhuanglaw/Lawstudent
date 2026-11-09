@@ -21,13 +21,14 @@ async def main():
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
         if os.environ.get('PREJS'): R.setup('【前置】載入後先執行 %s' % os.environ['PREJS']); R.note('PREJS → %s' % await pg.evaluate('(()=>{ ' + os.environ['PREJS'] + '; return true; })()'))   # 例：CHAR.presetSphere=false（PERF-XS-NPC-1108 (D) 改前對照）
-        R.setup('【前置／捷徑】讀檔到 %s 2025-10-18 14:00（條件事件、手機關），1F 出生點' % ZONE)
-        await D.load_zone(pg, cdp, ZONE, '2025-10-18', 14.0, wait=9000)
+        R.setup('【前置／捷徑】讀檔到 %s %s %s（條件事件、手機關），出生點' % (ZONE, os.environ.get('DAY') or '2025-10-18', os.environ.get('HOUR') or 14))
+        await D.load_zone(pg, cdp, ZONE, os.environ.get('DAY') or '2025-10-18', float(os.environ.get('HOUR') or 14.0), wait=9000)
         await pg.evaluate("w=>{ try{ GAME.G.weather=w; GAME.E.setWeather&&GAME.E.setWeather(w); }catch(e){} }", 'sunny')
         info = await pg.evaluate("""(()=>{ const E=GAME.E; let rnd=''; try{ const gl=E.renderer.getContext(); const x=gl.getExtension('WEBGL_debug_renderer_info'); rnd=x?gl.getParameter(x.UNMASKED_RENDERER_WEBGL):''; }catch(e){}
           return {zone:E.zone&&E.zone.id, lv:E.player.lv|0, npc:(E.npcs||[]).length, q:(E.q&&E.q.level)||null, pr:E.renderer.getPixelRatio(), renderer:rnd}; })()""")
         R.note('INFO %s' % json.dumps(info, ensure_ascii=False)); R.check('在 %s' % ZONE, info['zone'] == ZONE, '')
         R.note('先站 %s 秒（暖機）' % SETTLE); await pg.wait_for_timeout(int(SETTLE * 1000))
+        if os.environ.get('CPU_THROTTLE'): await cdp.send('Emulation.setCPUThrottlingRate', {'rate': float(os.environ['CPU_THROTTLE'])}); R.note('CPU 降速 %s 倍（手機模擬）' % os.environ['CPU_THROTTLE'])
         chunks = []; done = asyncio.get_event_loop().create_future()
         cdp.on('Tracing.dataCollected', lambda e: chunks.extend(e.get('value', [])))
         cdp.on('Tracing.tracingComplete', lambda e: (not done.done()) and done.set_result(1))
