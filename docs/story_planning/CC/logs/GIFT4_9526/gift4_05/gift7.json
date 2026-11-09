@@ -1,0 +1,21 @@
+[
+ {
+  "who": "heroine_05",
+  "name": "學姊",
+  "carry0": [
+   "青茶"
+  ],
+  "whereIs0": {
+   "zone": "lawlib",
+   "room": null,
+   "act": "看書",
+   "until": "17:00"
+  },
+  "at": {
+   "zone": "lawlib",
+   "h": 15.01,
+   "day": 38
+  },
+  "skip": "走不到旁邊"
+ }
+]

@@ -1729,3 +1729,6 @@ PERFAB_8172v2 | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_pl
 R9526f_movreg3 | 9526bf100b2be394f2618be8100d5f0e25540ea9 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
 R8172_movreg3 | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/movement_regression.py | index.html | 60 | SOLO=1;XARGS={url};CC_HEADLESS=0
 R8172_p0b | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+R8172_wcfl | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/flow_wancai_floors.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R8172_libfl | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/flow_library_floors.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R8172_dormhall | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/flow_dorm_hall.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
