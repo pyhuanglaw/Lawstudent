@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_scene5_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\HPPEG_before_0cf8\out
+CC 燒臘、頁間書屋光照（before_gpu）：SHA=0cf83c1f84ed173b5d791897c2ef5209cfcc3759（worktree 實際 ?）；Playwright ≠ iPhone
+  [前置／捷徑] CC_SEED=20261107：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [before_gpu xs_haopai 1400] 讀檔 xs_haopai 2025-10-18 14.0（條件事件關閉）
+PASS [before_gpu xs_haopai 1400] 進得了 xs_haopai  {"zone": "xs_haopai", "x": 0, "z": 5.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  51.6s] [before_gpu xs_haopai 1400] 材質／光照貼圖：{"meshes": 110, "mats": 110, "withLightMap": 7, "maps": ["haopai_lm_day.webp"], "uv1Meshes": 7, "whiteNoTexMats": 42, "views": [{"n": "VIEWPANE_xs_haopai", "vis": false}], "charFailures": [], "assetFailed": null, "glb": true}
+  [  51.7s] [before_gpu xs_haopai 1400] 自動機位：{"bmin": [-2.3, -0.02, -7.45], "bmax": [2.33, 4.63, 7.22], "spawn": [0, 5.4], "y0": 0, "fy": 0, "up": false, "yaw": 3.14, "center": [0.02, -0.11], "size": [4.63, 4.65, 14.67], "clerk": null, "seat": [-0.26, 2.3], "seatLv": [0, 0, null], "views": {"door": {"eye": [-0.0, 1.6, 5.7], "look": [0, 1, -0.6], "lens": 18}, "top": {"eye": [0.02, 9.65, 0.69], "look": [0.02, 0, -0.41], "lens": 16}, "seat": {"eye": [0.24, 1.4, 1.85], "look": [-0.26, 0.6, 2.3], "lens": 22}, "out": {"eye": [0, 1.55, 2.9], "look": [-0.0, 1.4, 11.4], "lens": 20}}}
+PASS [黑畫面] s5_before_gpu_xs_haopai_1400_door 不是黑畫面（平均亮度 128.2、變化 56.3）  [128.2, 56.3]
+  [  54.1s] [截圖] s5_before_gpu_xs_haopai_1400_door：鏡頭 {"eye": [-0.0, 1.6, 5.7], "look": [0, 1, -0.6], "lens": 18, "vfov": 58.72}、亮度 [128.2, 56.3]
+PASS [黑畫面] s5_before_gpu_xs_haopai_1400_corner_b 不是黑畫面（平均亮度 137、變化 55.4）  [137, 55.4]
+  [  56.3s] [截圖] s5_before_gpu_xs_haopai_1400_corner_b：鏡頭 {"eye": [0.02, 0.6, -0.11], "look": [2.0300000000000002, 0.05, 6.92], "lens": 20, "vfov": 53.7}、亮度 [137, 55.4]
+PASS [黑畫面] s5_before_gpu_xs_haopai_1400_peg_front 不是黑畫面（平均亮度 121.4、變化 43.8）  [121.4, 43.8]
+  [  58.5s] [截圖] s5_before_gpu_xs_haopai_1400_peg_front：鏡頭 {"eye": [-0.4, 1.5, 0], "look": [-2.3, 1.4, 0], "lens": 20, "vfov": 53.7}、亮度 [121.4, 43.8]
+PASS [黑畫面] s5_before_gpu_xs_haopai_1400_mesh_front 不是黑畫面（平均亮度 148.9、變化 23.2）  [148.9, 23.2]
+  [  60.8s] [截圖] s5_before_gpu_xs_haopai_1400_mesh_front：鏡頭 {"eye": [0.4, 1.5, 0], "look": [2.33, 1.4, 0], "lens": 20, "vfov": 53.7}、亮度 [148.9, 23.2]
+  [前置／捷徑] [before_gpu xs_haopai 2000] 讀檔 xs_haopai 2025-10-18 20.0（條件事件關閉）
+PASS [before_gpu xs_haopai 2000] 進得了 xs_haopai  {"zone": "xs_haopai", "x": 0, "z": 5.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.07}
+  [  75.1s] [before_gpu xs_haopai 2000] 材質／光照貼圖：{"meshes": 110, "mats": 110, "withLightMap": 7, "maps": ["haopai_lm_day.webp"], "uv1Meshes": 7, "whiteNoTexMats": 42, "views": [{"n": "VIEWPANE_xs_haopai", "vis": false}], "charFailures": [], "assetFailed": null, "glb": true}
+PASS [黑畫面] s5_before_gpu_xs_haopai_2000_door 不是黑畫面（平均亮度 123.5、變化 59.9）  [123.5, 59.9]
+  [  77.4s] [截圖] s5_before_gpu_xs_haopai_2000_door：鏡頭 {"eye": [-0.0, 1.6, 5.7], "look": [0, 1, -0.6], "lens": 18, "vfov": 58.72}、亮度 [123.5, 59.9]
+PASS [黑畫面] s5_before_gpu_xs_haopai_2000_corner_b 不是黑畫面（平均亮度 125.4、變化 58.4）  [125.4, 58.4]
+  [  79.6s] [截圖] s5_before_gpu_xs_haopai_2000_corner_b：鏡頭 {"eye": [0.02, 0.6, -0.11], "look": [2.0300000000000002, 0.05, 6.92], "lens": 20, "vfov": 53.7}、亮度 [125.4, 58.4]
+PASS [黑畫面] s5_before_gpu_xs_haopai_2000_peg_front 不是黑畫面（平均亮度 115.4、變化 39.1）  [115.4, 39.1]
+  [  81.8s] [截圖] s5_before_gpu_xs_haopai_2000_peg_front：鏡頭 {"eye": [-0.4, 1.5, 0], "look": [-2.3, 1.4, 0], "lens": 20, "vfov": 53.7}、亮度 [115.4, 39.1]
+PASS [黑畫面] s5_before_gpu_xs_haopai_2000_mesh_front 不是黑畫面（平均亮度 150.8、變化 25.8）  [150.8, 25.8]
+  [  84.0s] [截圖] s5_before_gpu_xs_haopai_2000_mesh_front：鏡頭 {"eye": [0.4, 1.5, 0], "look": [2.33, 1.4, 0], "lens": 20, "vfov": 53.7}、亮度 [150.8, 25.8]
+PASS 沒有 JS 例外  []
+ALL PASS
