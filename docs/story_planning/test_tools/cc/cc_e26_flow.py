@@ -13,7 +13,7 @@ HOOK = ("(()=>{ if(window.__LOGH) return; window.__LOGH=1; window.__LOG=[]; cons
         "if(!GAME.say.__bbs){ const s0=GAME.say; const f=function(w,t){ try{ if(!(typeof ADV!=='undefined'&&ADV.active)) window.__LOG.push({n:(w&&(w.name||w.charId))||'',t:String(t),h:+GAME.G.hour.toFixed(2),d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return s0.apply(this,arguments); }; f.__bbs=1; GAME.say=f; } })()")
 # BB-B 17:44：y0_e08_missed 第一次排進佇列的那一刻（G.day／G.hour、ev_y0_e08 演過沒、OUT y0_e08 的 state、E08_GO）
 HOOK = HOOK[:-4] + (" if(typeof PHONE!=='undefined'&&!PHONE.__ccE08){ const pa=PHONE.at; PHONE.at=function(G,day,h,list,tag){ try{ if(tag==='y0_e08_missed'&&!window.__E08Q){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y0_e08'):null; window.__E08Q={now:CALENDAR.dateOf(G.day).key, h:+(+G.hour).toFixed(3), forDay:CALENDAR.dateOf(day).key, forH:h, e08done:!!(G.events&&G.events.done&&G.events.done.ev_y0_e08), outState:q?q.state:null, E08_GO:G.flags.E08_GO||null, running:(typeof EVENTS!=='undefined'&&EVENTS.running)?String(EVENTS.running.id||EVENTS.running):null}; } }catch(e){} return pa.apply(this,arguments); }; PHONE.__ccE08=1; } })()")
-ANS = '好' if E08 == 'yes' else '今天不行'
+ANS = '好' if E08 == 'yes' else ('今天不行' if E08 == 'no' else '（不回）')   # E08=none：停在私訊但不回，讓它過 17:00（BB-B 18:20 第 1 條）
 PATCH1_OLD = 'async def close_or_answer(pg, cdp, run):\n'
 PATCH1_NEW = PATCH1_OLD + '''    try: await pg.evaluate(@HOOK@)
     except Exception: pass
@@ -21,12 +21,16 @@ PATCH1_NEW = PATCH1_OLD + '''    try: await pg.evaluate(@HOOK@)
     if wl:
         await pg.wait_for_timeout(1200)
         c = await pg.evaluate("(a=>{ const b=[...document.querySelectorAll('#phoneBody [data-ask]')].find(x=>x.textContent.trim()===a); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,b.textContent.trim()]; })(@ANS@)")
-        info = await pg.evaluate("(()=>{ const G=GAME.G; let t=''; try{ const m=PHONE.pending(G).find(q=>q.ask&&PHONE.th(q)==='p:econ_weilun'); t=m?m.text:''; }catch(e){} return {d:CALENDAR.dateOf(G.day).key, h:+(+G.hour).toFixed(3), text:t, opts:[...document.querySelectorAll('#phoneBody [data-ask]')].map(b=>b.textContent.trim())}; })()")
-        print('   [E08=@E08@] 停在 %s %s；私訊原文「%s」；回覆鍵 %s' % (info['d'], info['h'], info['text'], info['opts']), flush=True)
+        info = await pg.evaluate("(()=>{ const G=GAME.G; let t=''; try{ const m=PHONE.pending(G).find(q=>q.ask&&PHONE.th(q)==='p:econ_weilun'); t=m?m.text:''; }catch(e){} const tx=id=>{ const e=document.getElementById(id); return e?e.textContent.trim().slice(0,60):''; }; return {d:CALENDAR.dateOf(G.day).key, h:+(+G.hour).toFixed(3), text:t, opts:[...document.querySelectorAll('#phoneBody [data-ask]')].map(b=>b.textContent.trim()), toast:tx('toast'), caption:tx('caption')||tx('cap')}; })()")
+        if not await pg.evaluate("window.__ccE08seen||0"):
+            await pg.evaluate("window.__ccE08seen=1")
+            print('   [E08=@E08@] 停在 %s %s；私訊原文「%s」；回覆鍵 %s；toast「%s」；caption「%s」' % (info['d'], info['h'], info['text'], info['opts'], info['toast'], info['caption']), flush=True)
+        if @NONE@:
+            return await L.close_panels(pg, cdp)
         if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500); print('   [E08=@E08@] 韋綸「烤肉你要去嗎？」：回「%s」（E08_GO=%s）' % (c[2], await pg.evaluate("GAME.G.flags.E08_GO||null")), flush=True)
         else: print('   [E08] 韋綸的訊息開了但找不到「@ANSRAW@」', flush=True)
         return ['e08:' + ANS]
-'''.replace('@HOOK@', repr(HOOK)).replace('@ANS@', repr(ANS)).replace('@E08@', E08).replace('@ANSRAW@', ANS)
+'''.replace('@HOOK@', repr(HOOK)).replace('@ANS@', repr(ANS)).replace('@E08@', E08).replace('@ANSRAW@', ANS).replace('@NONE@', 'True' if E08 == 'none' else 'False')
 assert PATCH1_OLD in src; src = src.replace(PATCH1_OLD, PATCH1_NEW, 1)
 if os.environ.get('WAIT0921') == '1':   # BB-B 18:14：9/21 不要一次跳過 16:00 的韋綸私訊——只按目標時間 ≤ 16:00 的「跳過時間」，沒有就站著等
     SK_OLD = "    c = await pg.evaluate(\"(()=>{ const bs=[...document.querySelectorAll('#phoneBody [data-skip]')]; if(!bs.length) return null; const e=bs[bs.length-1];"
@@ -58,7 +62,7 @@ PATCH2_NEW = '''        if not SEG_TO:
             run.note('y0_e08_missed 細節（G.msgs＝玩家手機上真的收到、queue＝排了還沒送、cut）：' + json.dumps(mdet, ensure_ascii=False))
             run.note('y0_e08_missed 第一次排進佇列：' + json.dumps(await pg.evaluate("window.__E08Q||null"), ensure_ascii=False))
             run.note('E08_GO=%%s、ev_y0_e08 演過=%%s、「你沒來」那則送過=%%s' %% (await pg.evaluate("GAME.G.flags.E08_GO||null"), e08done, missed))
-            want, avoid = (a_yes, a_no) if %r == 'yes' else (a_no, a_yes)
+            want, avoid = (a_yes, a_no) if %r == 'yes' else (a_no, a_yes)   # none（不回）＝沒去
             run.check('E26 車上：%%s 那兩句都出現' %% ('有去系烤' if %r == 'yes' else '沒去系烤'), all(has(s) for s in want), json.dumps(want, ensure_ascii=False))
             run.check('E26 車上：另一種的兩句都沒出現', not any(has(s) for s in avoid), json.dumps([s for s in avoid if has(s)], ensure_ascii=False))
             run.check('系烤：%%s' %% ('演過 ev_y0_e08、沒有「你沒來」' if %r == 'yes' else '沒演 ev_y0_e08、收到「你沒來」'), ((e08done and missed == 0) if %r == 'yes' else (not e08done and missed == 1)), json.dumps([e08done, missed]))
