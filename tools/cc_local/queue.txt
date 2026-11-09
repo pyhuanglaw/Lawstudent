@@ -1776,3 +1776,9 @@ R88c8_reach | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | game | tests/reachabili
 R88c8_zone | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
 R88c8_main12 | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R88c8_classreal | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
+WZDAY_rp_1400 | 8be828ca6427c544da0ec942209828066564adba | probe | docs/story_planning/test_tools/cc/cc_perf_ab_probe.py | index.html?perf | 30 | SOLO=1;SETTLE=30;ROWMIN=0;DUMP=1;HOUR=14;JSF=render_probe_dc_lawww2_e1918f59a.js;PTS=wz_mokuyobi:1f,wz_teahouse:1f
+WZDAY_rp_1930 | 8be828ca6427c544da0ec942209828066564adba | probe | docs/story_planning/test_tools/cc/cc_perf_ab_probe.py | index.html?perf | 30 | SOLO=1;SETTLE=30;ROWMIN=0;DUMP=1;HOUR=19.5;JSF=render_probe_dc_lawww2_e1918f59a.js;PTS=wz_mokuyobi:1f,wz_teahouse:1f
+WZDAY_ct_moku_1400 | 8be828ca6427c544da0ec942209828066564adba | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf | 20 | SOLO=1;ZONE=wz_mokuyobi;HOUR=14;SETTLE=30;SECS=20;CPU_THROTTLE=4
+WZDAY_ct_moku_1930 | 8be828ca6427c544da0ec942209828066564adba | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf | 20 | SOLO=1;ZONE=wz_mokuyobi;HOUR=19.5;SETTLE=30;SECS=20;CPU_THROTTLE=4
+WZDAY_ct_tea_1400 | 8be828ca6427c544da0ec942209828066564adba | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf | 20 | SOLO=1;ZONE=wz_teahouse;HOUR=14;SETTLE=30;SECS=20;CPU_THROTTLE=4
+WZDAY_ct_tea_1930 | 8be828ca6427c544da0ec942209828066564adba | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf | 20 | SOLO=1;ZONE=wz_teahouse;HOUR=19.5;SETTLE=30;SECS=20;CPU_THROTTLE=4

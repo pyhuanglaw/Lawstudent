@@ -14,6 +14,7 @@ JSF = os.environ.get('JSF') or 'perf_ab_probe_lawww2_789ed786c.js'   # 第 2 版
 JS = open(os.path.join(HERE, JSF), encoding='utf-8').read()
 JS = re.sub(r'^/\*.*?\*/\s*', '', JS, flags=re.S).strip().rstrip(';')
 DAY = os.environ.get('DAY') or '2025-10-18'
+HOUR = float(os.environ.get('HOUR') or 14.0)   # PERF-WZ-DAY-1108：19:30＝19.5
 R = L.Run('perf_ab', OUT); D.setup(R, OUT)
 INFO = """(()=>{ const E=GAME.E; let rnd=''; try{ const gl=E.renderer.getContext(); const x=gl.getExtension('WEBGL_debug_renderer_info'); rnd=x?gl.getParameter(x.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER); }catch(e){}
   const P=E.player.obj.position; return {zone:E.zone&&E.zone.id, lv:E.player.lv|0, pos:[+P.x.toFixed(2),+P.z.toFixed(2)], yaw:+E.cam.yaw.toFixed(2), hour:+(+GAME.G.hour).toFixed(2), weather:E.weather||GAME.G.weather, q:(E.q&&E.q.level)||null, dpr:devicePixelRatio, pr:E.renderer.getPixelRatio(), renderer:rnd}; })()"""
@@ -34,12 +35,12 @@ async def main():
             tag = '[%s %s]' % (zone, fl); rec = {'zone': zone, 'floor': fl}
             try:
                 R.setup('%s 【前置／捷徑】讀檔到 %s %s 14:00（條件事件、手機關）' % (tag, zone, DAY))
-                await D.load_zone(pg, cdp, zone, DAY, 14.0, wait=9000)
+                await D.load_zone(pg, cdp, zone, DAY, HOUR, wait=9000)
                 if fl == '2f':
                     p2 = await pg.evaluate("(()=>{ const q=GAME.E.interactables.find(i=>i.seat&&((i.seat.lv|0)>=1||(i.lv|0)>=1)); return q?{x:q.x,z:q.z}:null; })()")
                     R.setup('%s 【前置／捷徑】讀檔把玩家放到 2F（lv1，2F 座位旁 %s）' % (tag, json.dumps(p2)))
                     if not p2: R.check('%s 找得到 2F 座位' % tag, False, ''); continue
-                    await D.load_zone(pg, cdp, zone, DAY, 14.0, x=p2['x'], z=p2['z'] + 0.6, yaw=0.0, lv=1, wait=9000)
+                    await D.load_zone(pg, cdp, zone, DAY, HOUR, x=p2['x'], z=p2['z'] + 0.6, yaw=0.0, lv=1, wait=9000)
                 await pg.evaluate("w=>{ try{ GAME.G.weather=w; GAME.E.setWeather&&GAME.E.setWeather(w); }catch(e){} }", 'sunny')
                 await pg.wait_for_timeout(4000)
                 rec['info'] = await pg.evaluate(INFO); print('%s INFO %s' % (tag, json.dumps(rec['info'], ensure_ascii=False)), flush=True)
