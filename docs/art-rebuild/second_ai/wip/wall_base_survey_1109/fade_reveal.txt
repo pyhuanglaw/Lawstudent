@@ -1,0 +1,589 @@
+=== assets/models/env/classroom_201.glb
+  露出：WALL_E 被 WALL_E_wain 擋住 29.41 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.52（0.0）
+  露出：WALL_N_wain 被 WALL_N_screen 擋住 2.52 m²，0% 的組合會露出來；亮度 0.13／沒擋住 0.48（0.28）
+  露出：WALL_E 被 WALL_N_black 擋住 0.25 m²，2% 的組合會露出來；亮度 0.36／沒擋住 0.52（0.7）
+  露出：WALL_W 被 WALL_W_sill 擋住 0.80 m²，0% 的組合會露出來；亮度 0.13／沒擋住 0.50（0.27）
+  露出：WALL_E 被 WALL_E_props 擋住 0.49 m²，0% 的組合會露出來；亮度 0.08／沒擋住 0.52（0.16）
+  露出：WALL_N 被 WALL_N_cap 擋住 0.29 m²，0% 的組合會露出來；亮度 0.01／沒擋住 0.06（0.26）
+  露出：WALL_W 被 WALL_W_cap 擋住 0.62 m²，0% 的組合會露出來；亮度 0.21／沒擋住 0.50（0.42）
+  露出：WALL_W 被 WALL_N_black 擋住 0.14 m²，2% 的組合會露出來；亮度 0.37／沒擋住 0.50（0.74）
+  露出：WALL_N_wain 被 WALL_N_black 擋住 0.10 m²，0% 的組合會露出來；亮度 0.30／沒擋住 0.48（0.62）
+  要修 9 對
+=== assets/models/env/linze_interior.glb
+  露出：L1_WALL_Ndoor_frame 被 L1_WALL_Ndoor_wood_dark 擋住 10.12 m²，0% 的組合會露出來；亮度 0.02／沒擋住 0.30（0.06）
+  露出：L0_frame 被 L0_WALL_Nu_1 擋住 2.72 m²，1% 的組合會露出來；亮度 0.05／沒擋住 0.42（0.13）
+  露出：L0_WALL_Ndoor_frame 被 L0_WALL_Ndoor_wood_dark 擋住 6.83 m²，0% 的組合會露出來；亮度 0.02／沒擋住 0.24（0.07）
+  露出：L0_WALL_Sfacade_frame 被 L1_WALL_E 擋住 1.62 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.38（0.0）
+  露出：L0_wood_dark 被 L0_WALL_N_0 擋住 2.24 m²，1% 的組合會露出來；亮度 0.15／沒擋住 0.30（0.48）
+  露出：L0_WALL_Efacade_frame 被 L0_WALL_Sfacade_frame 擋住 0.54 m²，2% 的組合會露出來；亮度 0.11／沒擋住 0.40（0.29）
+  露出：L1_WALL_E 被 L1_WALL_Nd_7.0 擋住 0.96 m²，1% 的組合會露出來；亮度 0.08／沒擋住 0.40（0.19）
+  露出：L0_WALL_Sfacade_frame 被 L0_WALL_Efacade_frame 擋住 0.53 m²，2% 的組合會露出來；亮度 0.08／沒擋住 0.38（0.22）
+  露出：L0_frame 被 L0_WALL_N_1 擋住 0.53 m²，1% 的組合會露出來；亮度 0.09／沒擋住 0.42（0.22）
+  露出：L1_WALL_E 被 L1_WALL_Nu_3 擋住 0.40 m²，1% 的組合會露出來；亮度 0.03／沒擋住 0.40（0.07）
+  露出：L1_slab 被 L0_WALL_W 擋住 0.99 m²，1% 的組合會露出來；亮度 0.12／沒擋住 0.24（0.48）
+  露出：L1_WALL_E 被 L1_WALL_N_3 擋住 0.35 m²，1% 的組合會露出來；亮度 0.03／沒擋住 0.40（0.08）
+  露出：L0_WALL_Nd_-3.0 被 L0_WALL_Ndoor_frame 擋住 0.14 m²，2% 的組合會露出來；亮度 0.10／沒擋住 0.28（0.36）
+  露出：L0_WALL_N_2 被 L0_WALL_Ndoor_lz_vc 擋住 0.29 m²，0% 的組合會露出來；亮度 0.02／沒擋住 0.31（0.07）
+  露出：L0_WALL_Efacade_frame 被 L0_WALL_Nu_2 擋住 0.28 m²，1% 的組合會露出來；亮度 0.21／沒擋住 0.40（0.53）
+  露出：L1_WALL_E 被 L1_WALL_Ndoor_wood_dark 擋住 0.10 m²，3% 的組合會露出來；亮度 0.24／沒擋住 0.40（0.59）
+  露出：L1_floor 被 L1_WALL_N_0 擋住 0.11 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.30（0.0）
+  露出：L1_WALL_Ndoor_frame 被 L1_WALL_E 擋住 0.19 m²，1% 的組合會露出來；亮度 0.15／沒擋住 0.30（0.49）
+  露出：L0_floor 被 L0_WALL_Efacade_frame 擋住 0.19 m²，2% 的組合會露出來；亮度 0.32／沒擋住 0.46（0.69）
+  露出：L1_floor 被 L1_WALL_N_1 擋住 0.07 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.30（0.0）
+  露出：L0_WALL_Nu_2 被 L0_WALL_Ndoor_lz_vc 擋住 0.18 m²，0% 的組合會露出來；亮度 0.10／沒擋住 0.28（0.34）
+  露出：L1_WALL_E 被 L1_WALL_Ndoor_frame 擋住 0.05 m²，2% 的組合會露出來；亮度 0.22／沒擋住 0.40（0.54）
+  露出：L1_WALL_Ndoor_wood_dark 被 L1_WALL_E 擋住 0.10 m²，1% 的組合會露出來；亮度 0.18／沒擋住 0.40（0.46）
+  露出：L0_WALL_Nd_1.6 被 L0_WALL_Ndoor_frame 擋住 0.15 m²，1% 的組合會露出來；亮度 0.12／沒擋住 0.18（0.65）
+  露出：L1_floor 被 L1_WALL_N_2 擋住 0.04 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.30（0.01）
+  露出：L0_WALL_Efacade_frame 被 L0_WALL_N_2 擋住 0.11 m²，1% 的組合會露出來；亮度 0.26／沒擋住 0.40（0.65）
+  露出：L0_lz_vc 被 L0_WALL_N_0 擋住 0.10 m²，1% 的組合會露出來；亮度 0.24／沒擋住 0.36（0.67）
+  露出：L1_slab 被 L1_WALL_E 擋住 0.03 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.24（0.0）
+  露出：L1_floor 被 L1_WALL_E 擋住 0.07 m²，1% 的組合會露出來；亮度 0.17／沒擋住 0.30（0.56）
+  露出：L0_lz_vc 被 L0_WALL_N_2 擋住 0.08 m²，1% 的組合會露出來；亮度 0.24／沒擋住 0.36（0.66）
+  露出：L1_slab 被 L1_WALL_W 擋住 0.04 m²，1% 的組合會露出來；亮度 0.01／沒擋住 0.24（0.03）
+  露出：L1_slab_edge 被 L0_WALL_W 擋住 0.03 m²，1% 的組合會露出來；亮度 0.01／沒擋住 0.23（0.04）
+  要修 32 對
+=== assets/models/env/second_ai/aa_support/daily_offbeat.glb
+  露出：WALL_right_dof_wall 被 WALL_right_dof_print 擋住 6.05 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.05（0.01）
+  露出：WALL_right_dof_wood 被 WALL_right_dof_print 擋住 5.85 m²，1% 的組合會露出來；亮度 0.11／沒擋住 0.36（0.31）
+  露出：WALL_back_dof_wall 被 WALL_back_dof_wood 擋住 3.96 m²，0% 的組合會露出來；亮度 0.03／沒擋住 0.45（0.07）
+  露出：dof_floor 被 WALL_front_dof_wood 擋住 0.28 m²，18% 的組合會露出來；亮度 0.33／沒擋住 0.49（0.68）
+  露出：WALL_left_dof_wall 被 WALL_left_dof_print 擋住 4.35 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.46（0.0）
+  露出：WALL_back_dof_wall 被 WALL_back_dof_vcm 擋住 1.90 m²，0% 的組合會露出來；亮度 0.02／沒擋住 0.45（0.05）
+  露出：WALL_back_dof_wood 被 WALL_left_dof_wall 擋住 0.02 m²，8% 的組合會露出來；亮度 0.04／沒擋住 0.24（0.16）
+  露出：WALL_right_dof_wood 被 WALL_back_dof_wall 擋住 0.01 m²，12% 的組合會露出來；亮度 0.19／沒擋住 0.36（0.53）
+  要修 8 對
+=== assets/models/env/second_ai/aa_support/daybreak.glb
+  露出：dbk_floor 被 WALL_front_dbk_frame 擋住 0.18 m²，24% 的組合會露出來；亮度 0.36／沒擋住 0.49（0.73）
+  露出：WALL_left_dbk_wall 被 WALL_left_dbk_wood 擋住 1.50 m²，1% 的組合會露出來；亮度 0.07／沒擋住 0.43（0.17）
+  要修 2 對
+=== assets/models/env/second_ai/aa_support/sunnyside.glb
+  露出：sns_floor 被 WALL_right_sns_wood 擋住 0.16 m²，30% 的組合會露出來；亮度 0.27／沒擋住 0.53（0.5）
+  露出：sns_floor 被 WALL_left_sns_wood 擋住 0.11 m²，29% 的組合會露出來；亮度 0.25／沒擋住 0.53（0.48）
+  露出：WALL_left_sns_wall 被 WALL_left_sns_wood 擋住 1.95 m²，0% 的組合會露出來；亮度 0.02／沒擋住 0.77（0.02）
+  露出：WALL_right_sns_wall 被 WALL_right_sns_wood 擋住 1.91 m²，0% 的組合會露出來；亮度 0.05／沒擋住 0.20（0.24）
+  露出：WALL_front_sns_wood 被 WALL_right_sns_wall 擋住 0.03 m²，23% 的組合會露出來；亮度 0.21／沒擋住 0.47（0.46）
+  露出：WALL_left_sns_wall 被 WALL_front_sns_wood 擋住 0.05 m²，16% 的組合會露出來；亮度 0.43／沒擋住 0.77（0.56）
+  露出：WALL_front_sns_wood 被 WALL_left_sns_wall 擋住 0.03 m²，24% 的組合會露出來；亮度 0.23／沒擋住 0.47（0.49）
+  露出：WALL_left_sns_wall 被 WALL_left_sns_vc 擋住 0.77 m²，0% 的組合會露出來；亮度 0.13／沒擋住 0.77（0.17）
+  露出：WALL_left_sns_wall 被 WALL_left_sns_mirror 擋住 0.59 m²，0% 的組合會露出來；亮度 0.04／沒擋住 0.77（0.06）
+  露出：sns_floor 被 WALL_back_sns_wood 擋住 0.16 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.53（0.0）
+  露出：WALL_right_sns_wall 被 WALL_right_sns_vcg 擋住 0.96 m²，0% 的組合會露出來；亮度 0.10／沒擋住 0.20（0.52）
+  露出：WALL_left_sns_wall 被 WALL_left_sns_vcm 擋住 0.35 m²，0% 的組合會露出來；亮度 0.44／沒擋住 0.77（0.57）
+  露出：WALL_right_sns_wall 被 WALL_right_sns_glass 擋住 0.07 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.20（0.01）
+  要修 13 對
+=== assets/models/env/second_ai/aa_support/yizhan.glb
+  露出：yzn_ceiling 被 WALL_engawa_yzn_post 擋住 0.42 m²，6% 的組合會露出來；亮度 0.09／沒擋住 0.24（0.35）
+  露出：WALL_left_yzn_wall 被 WALL_engawa_yzn_post 擋住 0.25 m²，12% 的組合會露出來；亮度 0.15／沒擋住 0.21（0.71）
+  露出：WALL_left_yzn_post 被 WALL_engawa_yzn_post 擋住 0.08 m²，12% 的組合會露出來；亮度 0.09／沒擋住 0.20（0.44）
+  露出：WALL_engawa_yzn_post 被 WALL_engawa_yzn_wall 擋住 2.54 m²，0% 的組合會露出來；亮度 0.23／沒擋住 0.37（0.62）
+  露出：WALL_back_yzn_wall 被 WALL_right_yzn_post 擋住 0.25 m²，2% 的組合會露出來；亮度 0.00／沒擋住 0.09（0.02）
+  露出：WALL_left_yzn_wall 被 WALL_back_yzn_post 擋住 0.32 m²，1% 的組合會露出來；亮度 0.05／沒擋住 0.21（0.22）
+  露出：yzn_tatami 被 WALL_back_yzn_post 擋住 0.24 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.00（0.0）
+  露出：WALL_left_yzn_post 被 WALL_back_yzn_post 擋住 0.46 m²，1% 的組合會露出來；亮度 0.11／沒擋住 0.20（0.54）
+  露出：WALL_back_yzn_post 被 WALL_left_yzn_post 擋住 0.40 m²，1% 的組合會露出來；亮度 0.21／沒擋住 0.35（0.6）
+  露出：yzn_tatami 被 WALL_right_yzn_post 擋住 0.13 m²，2% 的組合會露出來；亮度 0.00／沒擋住 0.00（0.0）
+  露出：yzn_tatami 被 WALL_left_yzn_post 擋住 0.13 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.00（0.0）
+  露出：WALL_right_yzn_post 被 WALL_back_yzn_wall 擋住 0.24 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.07（0.0）
+  露出：WALL_back_yzn_wall 被 WALL_left_yzn_post 擋住 0.21 m²，1% 的組合會露出來；亮度 0.06／沒擋住 0.09（0.63）
+  露出：WALL_back_yzn_post 被 WALL_right_yzn_post 擋住 0.08 m²，2% 的組合會露出來；亮度 0.14／沒擋住 0.35（0.4）
+  露出：WALL_engawa_yzn_post 被 WALL_right_yzn_wall 擋住 0.13 m²，1% 的組合會露出來；亮度 0.20／沒擋住 0.37（0.53）
+  露出：WALL_engawa_yzn_post 被 WALL_left_yzn_wall 擋住 0.16 m²，0% 的組合會露出來；亮度 0.13／沒擋住 0.37（0.34）
+  露出：WALL_engawa_yzn_post 被 WALL_right_yzn_post 擋住 0.05 m²，2% 的組合會露出來；亮度 0.20／沒擋住 0.37（0.54）
+  露出：WALL_right_yzn_post 被 WALL_back_yzn_post 擋住 0.07 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.07（0.0）
+  露出：WALL_engawa_yzn_post 被 WALL_left_yzn_post 擋住 0.05 m²，1% 的組合會露出來；亮度 0.23／沒擋住 0.37（0.61）
+  要修 19 對
+=== assets/models/env/second_ai/bb_support/dakou_1f.glb
+  露出：WALL_right_plaster 被 WALL_BANDS 擋住 3.94 m²，37% 的組合會露出來；亮度 0.05／沒擋住 0.18（0.29）
+  露出：FLOOR 被 WALL_left_frame 擋住 0.96 m²，35% 的組合會露出來；亮度 0.10／沒擋住 0.70（0.14）
+  露出：FLOOR 被 WALL_right_base 擋住 0.64 m²，36% 的組合會露出來；亮度 0.20／沒擋住 0.70（0.29）
+  露出：FLOOR 被 WALL_front_frame 擋住 0.16 m²，30% 的組合會露出來；亮度 0.00／沒擋住 0.70（0.01）
+  露出：WALL_right_base 被 WALL_front_frame 擋住 0.02 m²，18% 的組合會露出來；亮度 0.00／沒擋住 0.07（0.01）
+  要修 5 對
+=== assets/models/env/second_ai/bb_support/xinsheng_sports.glb
+  露出：L0_floor_floor 被 WALL_left_L0_xs_vc 擋住 2.43 m²，10% 的組合會露出來；亮度 0.20／沒擋住 0.56（0.36）
+  露出：WALL_back_L0_wall_wall 被 WALL_back_L0_xs_goods 擋住 7.75 m²，2% 的組合會露出來；亮度 0.19／沒擋住 0.57（0.33）
+  露出：WALL_left_L0_wall_wall 被 WALL_left_L0_xs_goods 擋住 9.98 m²，2% 的組合會露出來；亮度 0.13／沒擋住 0.28（0.46）
+  露出：L0_floor_floor 被 WALL_back_L0_xs_vc 擋住 1.68 m²，4% 的組合會露出來；亮度 0.17／沒擋住 0.56（0.3）
+  露出：L0_floor_floor 被 WALL_back_L0_trophy_shelf_wood 擋住 1.12 m²，4% 的組合會露出來；亮度 0.14／沒擋住 0.56（0.24）
+  露出：WALL_back_L0_wall_wall 被 WALL_back_L0_xs_vc 擋住 1.31 m²，2% 的組合會露出來；亮度 0.03／沒擋住 0.57（0.05）
+  露出：WALL_left_L0_wall_wall 被 WALL_back_L0_trophy_shelf_wood 擋住 0.84 m²，4% 的組合會露出來；亮度 0.15／沒擋住 0.28（0.52）
+  露出：WALL_left_L0_wall_wall 被 WALL_left_L0_xs_vc 擋住 1.69 m²，2% 的組合會露出來；亮度 0.10／沒擋住 0.28（0.37）
+  露出：WALL_right_L0_wall_wall 被 WALL_right_L0_shoe_right_goods 擋住 4.78 m²，0% 的組合會露出來；亮度 0.23／沒擋住 0.48（0.48）
+  露出：L0_floor_floor 被 WALL_back_L0_xs_vc_metal 擋住 0.37 m²，4% 的組合會露出來；亮度 0.38／沒擋住 0.56（0.67）
+  露出：WALL_front_L0_wall_wall 被 WALL_front_L0_front_frames_vcm 擋住 2.85 m²，0% 的組合會露出來；亮度 0.17／沒擋住 0.45（0.37）
+  露出：WALL_back_L0_wall_wall 被 WALL_back_L0_xs_vc_metal 擋住 0.30 m²，2% 的組合會露出來；亮度 0.23／沒擋住 0.57（0.41）
+  露出：WALL_right_L1_wall_wall 被 WALL_front_L1_front_upper_vcm 擋住 0.26 m²，4% 的組合會露出來；亮度 0.37／沒擋住 0.52（0.71）
+  露出：WALL_front_L1_wall_wall 被 WALL_front_L1_front_upper_vcm 擋住 0.69 m²，0% 的組合會露出來；亮度 0.15／沒擋住 0.32（0.48）
+  露出：WALL_back_L0_wall_wall 被 WALL_back_L0_trophy_shelf_wood 擋住 0.05 m²，2% 的組合會露出來；亮度 0.23／沒擋住 0.57（0.41）
+  露出：WALL_left_L0_wall_wall 被 WALL_left_L1_xs_vc 擋住 0.09 m²，2% 的組合會露出來；亮度 0.20／沒擋住 0.28（0.69）
+  露出：WALL_right_L0_wall_wall 被 WALL_right_L0_shoe_right_wood 擋住 0.10 m²，0% 的組合會露出來；亮度 0.28／沒擋住 0.48（0.57）
+  露出：WALL_right_L0_wall_wall 被 WALL_right_L0_shoe_right_vcm 擋住 0.05 m²，0% 的組合會露出來；亮度 0.34／沒擋住 0.48（0.71）
+  要修 18 對
+=== assets/models/env/second_ai/bookstore_interior.glb
+  露出：bk_shelf 被 WALL_right_wall 擋住 20.25 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.15（0.01）
+  露出：bk_shelf 被 WALL_back_wall 擋住 27.77 m²，0% 的組合會露出來；亮度 0.01／沒擋住 0.15（0.08）
+  露出：bk_shelf 被 WALL_left_wall 擋住 20.33 m²，0% 的組合會露出來；亮度 0.01／沒擋住 0.15（0.06）
+  露出：WALL_front_wall 被 WALL_front_frame 擋住 3.74 m²，0% 的組合會露出來；亮度 0.12／沒擋住 0.34（0.35）
+  露出：bk_floor 被 WALL_right_frame 擋住 1.40 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.17（0.01）
+  露出：bk_floor 被 WALL_left_frame 擋住 1.10 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.17（0.01）
+  露出：bk_floor 被 WALL_back_frame 擋住 1.40 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.17（0.01）
+  露出：bk_shelf 被 WALL_right_frame 擋住 1.61 m²，1% 的組合會露出來；亮度 0.07／沒擋住 0.15（0.48）
+  要修 8 對
+=== assets/models/env/second_ai/boya_203.glb
+  露出：WALL_W_wall 被 WALL_W_trim 擋住 6.49 m²，0% 的組合會露出來；亮度 0.01／沒擋住 0.34（0.02）
+  露出：WALL_S_wall 被 WALL_S_frame 擋住 1.02 m²，3% 的組合會露出來；亮度 0.23／沒擋住 0.42（0.54）
+  露出：WALL_E_wall 被 WALL_E_trim 擋住 0.44 m²，1% 的組合會露出來；亮度 0.11／沒擋住 0.53（0.21）
+  露出：WALL_N_wall 被 WALL_N_print 擋住 1.31 m²，0% 的組合會露出來；亮度 0.19／沒擋住 0.51（0.38）
+  露出：WALL_E_wain 被 WALL_E_trim 擋住 0.11 m²，1% 的組合會露出來；亮度 0.08／沒擋住 0.44（0.18）
+  露出：WALL_N_wall 被 WALL_N_trim 擋住 0.29 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.51（0.0）
+  露出：WALL_N_wain 被 WALL_N_trim 擋住 0.20 m²，0% 的組合會露出來；亮度 0.25／沒擋住 0.53（0.48）
+  露出：WALL_N_door 被 WALL_N_trim 擋住 0.20 m²，0% 的組合會露出來；亮度 0.37／沒擋住 0.69（0.54）
+  要修 8 對
+=== assets/models/env/second_ai/cafe_interior.glb
+  露出：WALL_back_wainscot 被 WALL_back_cafe_int_shelf 擋住 5.94 m²，3% 的組合會露出來；亮度 0.00／沒擋住 0.10（0.01）
+  露出：int_floor 被 WALL_back_cafe_int_shelf 擋住 2.10 m²，4% 的組合會露出來；亮度 0.02／沒擋住 0.32（0.06）
+  露出：int_floor 被 WALL_front_base_stone 擋住 1.12 m²，2% 的組合會露出來；亮度 0.03／沒擋住 0.32（0.09）
+  露出：WALL_right_plaster 被 WALL_back_cafe_int_shelf 擋住 0.72 m²，4% 的組合會露出來；亮度 0.19／沒擋住 0.30（0.64）
+  露出：WALL_left_plaster 被 WALL_left_frames 擋住 2.14 m²，0% 的組合會露出來；亮度 0.05／沒擋住 0.26（0.19）
+  露出：int_sofa 被 WALL_left_wainscot 擋住 1.74 m²，1% 的組合會露出來；亮度 0.07／沒擋住 0.15（0.49）
+  露出：WALL_right_plaster 被 WALL_right_winframe 擋住 0.78 m²，1% 的組合會露出來；亮度 0.19／沒擋住 0.30（0.63）
+  露出：int_floor 被 WALL_front_shop_wood 擋住 0.14 m²，2% 的組合會露出來；亮度 0.01／沒擋住 0.32（0.03）
+  露出：WALL_front_shop_wood 被 WALL_front_base_stone 擋住 2.57 m²，0% 的組合會露出來；亮度 0.20／沒擋住 0.29（0.69）
+  露出：WALL_back_cafe_int_shelf 被 WALL_right_wainscot 擋住 0.48 m²，1% 的組合會露出來；亮度 0.08／沒擋住 0.13（0.58）
+  露出：WALL_front_shop_wood 被 WALL_front_piers 擋住 0.25 m²，0% 的組合會露出來；亮度 0.06／沒擋住 0.29（0.21）
+  露出：WALL_front_piers 被 WALL_left_plaster 擋住 0.61 m²，0% 的組合會露出來；亮度 0.16／沒擋住 0.32（0.51）
+  露出：WALL_back_cafe_int_shelf 被 WALL_right_plaster 擋住 0.90 m²，0% 的組合會露出來；亮度 0.09／沒擋住 0.13（0.67）
+  露出：WALL_back_wainscot 被 WALL_back_books 擋住 0.08 m²，1% 的組合會露出來；亮度 0.01／沒擋住 0.10（0.15）
+  露出：WALL_front_base_stone 被 WALL_right_wainscot 擋住 0.13 m²，1% 的組合會露出來；亮度 0.06／沒擋住 0.20（0.3）
+  露出：WALL_front_piers 被 WALL_right_plaster 擋住 0.59 m²，0% 的組合會露出來；亮度 0.21／沒擋住 0.32（0.67）
+  露出：WALL_front_base_stone 被 WALL_left_wainscot 擋住 0.12 m²，0% 的組合會露出來；亮度 0.01／沒擋住 0.20（0.08）
+  露出：int_window_counter 被 WALL_front_base_stone 擋住 0.03 m²，2% 的組合會露出來；亮度 0.09／沒擋住 0.28（0.3）
+  露出：WALL_front_piers 被 WALL_right_wainscot 擋住 0.18 m²，1% 的組合會露出來；亮度 0.22／沒擋住 0.32（0.69）
+  露出：WALL_left_plaster 被 WALL_left_prints 擋住 0.07 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.26（0.0）
+  露出：WALL_left_wainscot 被 WALL_front_piers 擋住 0.01 m²，2% 的組合會露出來；亮度 0.09／沒擋住 0.21（0.44）
+  露出：WALL_back_wainscot 被 WALL_left_wainscot 擋住 0.02 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.10（0.03）
+  露出：WALL_right_wainscot 被 WALL_front_piers 擋住 0.01 m²，2% 的組合會露出來；亮度 0.13／沒擋住 0.18（0.73）
+  露出：WALL_front_front_plaster 被 WALL_right_plaster 擋住 0.05 m²，0% 的組合會露出來；亮度 0.09／沒擋住 0.15（0.62）
+  要修 24 對
+=== assets/models/env/second_ai/cvs_interior.glb
+  露出：WALL_front_wall 被 WALL_front_frame 擋住 4.12 m²，2% 的組合會露出來；亮度 0.20／沒擋住 0.59（0.34）
+  露出：cvs_shelf 被 WALL_back_wall 擋住 17.49 m²，0% 的組合會露出來；亮度 0.18／沒擋住 0.30（0.61）
+  露出：WALL_front_amber 被 WALL_front_frame 擋住 0.68 m²，2% 的組合會露出來；亮度 0.09／沒擋住 0.62（0.15）
+  露出：cvs_floor 被 WALL_back_mat 擋住 1.62 m²，0% 的組合會露出來；亮度 0.06／沒擋住 0.37（0.15）
+  露出：cvs_ceiling 被 WALL_front_frame 擋住 0.45 m²，2% 的組合會露出來；亮度 0.22／沒擋住 0.64（0.35）
+  露出：cvs_ceiling 被 WALL_left_amber 擋住 1.53 m²，0% 的組合會露出來；亮度 0.19／沒擋住 0.64（0.29）
+  露出：WALL_back_wall 被 WALL_back_posters 擋住 2.43 m²，0% 的組合會露出來；亮度 0.17／沒擋住 0.58（0.29）
+  露出：cvs_floor 被 WALL_right_wall 擋住 0.63 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.37（0.01）
+  露出：cvs_ceiling 被 WALL_right_amber 擋住 0.90 m²，0% 的組合會露出來；亮度 0.16／沒擋住 0.64（0.25）
+  露出：cvs_ceiling 被 WALL_front_amber 擋住 0.99 m²，0% 的組合會露出來；亮度 0.21／沒擋住 0.64（0.32）
+  露出：cvs_ceiling 被 WALL_back_amber 擋住 1.44 m²，0% 的組合會露出來；亮度 0.18／沒擋住 0.64（0.28）
+  露出：cvs_floor 被 WALL_left_wall 擋住 0.90 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.37（0.0）
+  露出：cvs_floor 被 WALL_right_mat 擋住 0.18 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.37（0.0）
+  露出：cvs_shelf 被 WALL_left_mat 擋住 0.16 m²，1% 的組合會露出來；亮度 0.16／沒擋住 0.30（0.54）
+  露出：WALL_left_amber 被 WALL_front_teal 擋住 0.02 m²，0% 的組合會露出來；亮度 0.01／沒擋住 0.34（0.02）
+  露出：WALL_right_amber 被 WALL_front_teal 擋住 0.02 m²，0% 的組合會露出來；亮度 0.27／沒擋住 0.56（0.47）
+  露出：WALL_right_amber 被 WALL_back_teal 擋住 0.02 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.56（0.0）
+  露出：WALL_right_amber 被 WALL_back_wall 擋住 0.01 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.56（0.0）
+  露出：WALL_left_amber 被 WALL_back_wall 擋住 0.01 m²，0% 的組合會露出來；亮度 0.04／沒擋住 0.34（0.12）
+  露出：WALL_right_teal 被 WALL_back_amber 擋住 0.01 m²，0% 的組合會露出來；亮度 0.10／沒擋住 0.39（0.27）
+  露出：WALL_left_amber 被 WALL_back_teal 擋住 0.02 m²，0% 的組合會露出來；亮度 0.22／沒擋住 0.34（0.64）
+  要修 21 對
+=== assets/models/env/second_ai/dorm_205.glb
+  露出：dorm_wood 被 WALL_left_wall 擋住 3.23 m²，6% 的組合會露出來；亮度 0.07／沒擋住 0.23（0.28）
+  露出：dorm_frame_white 被 WALL_left_wall 擋住 2.60 m²，6% 的組合會露出來；亮度 0.09／沒擋住 0.24（0.38）
+  露出：dorm_frame_white 被 WALL_bath_n_wall 擋住 1.09 m²，24% 的組合會露出來；亮度 0.16／沒擋住 0.24（0.66）
+  露出：dorm_wood 被 WALL_right_wall 擋住 3.23 m²，1% 的組合會露出來；亮度 0.04／沒擋住 0.23（0.18）
+  露出：dorm_frame_white 被 WALL_right_wall 擋住 1.72 m²，1% 的組合會露出來；亮度 0.11／沒擋住 0.24（0.46）
+  露出：WALL_front_trim 被 WALL_bath_w_wall 擋住 0.06 m²，33% 的組合會露出來；亮度 0.11／沒擋住 0.24（0.45）
+  露出：dorm_bath_tile 被 WALL_front_wall 擋住 2.86 m²，0% 的組合會露出來；亮度 0.16／沒擋住 0.30（0.52）
+  露出：dorm_bath_tile 被 WALL_bath_w_wall 擋住 1.68 m²，2% 的組合會露出來；亮度 0.22／沒擋住 0.30（0.73）
+  露出：dorm_frame_white 被 WALL_left_skirt 擋住 0.08 m²，8% 的組合會露出來；亮度 0.00／沒擋住 0.24（0.0）
+  露出：dorm_floor 被 WALL_bath_w_black 擋住 0.05 m²，34% 的組合會露出來；亮度 0.21／沒擋住 0.30（0.7）
+  露出：WALL_front_wall 被 WALL_front_trim 擋住 0.41 m²，2% 的組合會露出來；亮度 0.06／沒擋住 0.16（0.35）
+  露出：WALL_bath_n_wall 被 WALL_right_wall 擋住 0.34 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.37（0.0）
+  露出：WALL_back_wall 被 WALL_back_ac 擋住 0.27 m²，2% 的組合會露出來；亮度 0.09／沒擋住 0.33（0.28）
+  露出：dorm_bath_tile 被 WALL_bath_w_trim 擋住 0.26 m²，2% 的組合會露出來；亮度 0.18／沒擋住 0.30（0.61）
+  露出：WALL_bath_w_wall 被 WALL_bath_w_trim 擋住 0.35 m²，1% 的組合會露出來；亮度 0.09／沒擋住 0.31（0.29）
+  露出：LOFT_L1_frame 被 WALL_left_wall 擋住 0.10 m²，6% 的組合會露出來；亮度 0.21／沒擋住 0.33（0.63）
+  露出：LOFT_R1_frame 被 WALL_back_wall 擋住 0.49 m²，0% 的組合會露出來；亮度 0.06／沒擋住 0.35（0.16）
+  露出：LOFT_L1_frame 被 WALL_back_wall 擋住 0.49 m²，0% 的組合會露出來；亮度 0.07／沒擋住 0.33（0.2）
+  露出：LOFT_L2_frame 被 WALL_left_wall 擋住 0.10 m²，6% 的組合會露出來；亮度 0.21／沒擋住 0.29（0.74）
+  露出：WALL_back_wall 被 WALL_back_trim 擋住 0.47 m²，1% 的組合會露出來；亮度 0.18／沒擋住 0.33（0.54）
+  露出：WALL_bath_w_wall 被 WALL_front_wall 擋住 0.49 m²，0% 的組合會露出來；亮度 0.15／沒擋住 0.31（0.5）
+  露出：dorm_bath_tile 被 WALL_bath_w_skirt 擋住 0.05 m²，3% 的組合會露出來；亮度 0.05／沒擋住 0.30（0.15）
+  露出：dorm_floor 被 WALL_left_skirt 擋住 0.02 m²，8% 的組合會露出來；亮度 0.14／沒擋住 0.30（0.45）
+  露出：WALL_back_wall 被 WALL_back_skirt 擋住 0.17 m²，0% 的組合會露出來；亮度 0.02／沒擋住 0.33（0.07）
+  露出：LOFT_R2_frame 被 WALL_right_wall 擋住 0.10 m²，1% 的組合會露出來；亮度 0.13／沒擋住 0.32（0.39）
+  露出：WALL_front_wall 被 WALL_front_door 擋住 0.24 m²，1% 的組合會露出來；亮度 0.10／沒擋住 0.16（0.62）
+  露出：LOFT_R1_frame 被 WALL_right_wall 擋住 0.10 m²，1% 的組合會露出來；亮度 0.19／沒擋住 0.35（0.55）
+  露出：WALL_back_alu 被 WALL_back_sill 擋住 0.14 m²，0% 的組合會露出來；亮度 0.14／沒擋住 0.53（0.27）
+  露出：dorm_bath_floor 被 WALL_bath_w_skirt 擋住 0.01 m²，3% 的組合會露出來；亮度 0.00／沒擋住 0.30（0.01）
+  露出：WALL_back_trim 被 WALL_back_ac 擋住 0.07 m²，1% 的組合會露出來；亮度 0.20／沒擋住 0.35（0.55）
+  露出：dorm_floor 被 WALL_front_door 擋住 0.05 m²，1% 的組合會露出來；亮度 0.20／沒擋住 0.30（0.65）
+  露出：WALL_front_wall 被 WALL_front_chrome 擋住 0.10 m²，1% 的組合會露出來；亮度 0.12／沒擋住 0.16（0.72）
+  露出：WALL_bath_w_wall 被 WALL_bath_w_skirt 擋住 0.05 m²，0% 的組合會露出來；亮度 0.01／沒擋住 0.31（0.03）
+  露出：WALL_bath_w_bdoor 被 WALL_bath_w_sign 擋住 0.03 m²，2% 的組合會露出來；亮度 0.18／沒擋住 0.28（0.67）
+  露出：dorm_bath_floor 被 WALL_right_wall 擋住 0.02 m²，1% 的組合會露出來；亮度 0.20／沒擋住 0.30（0.68）
+  露出：WALL_bath_n_wall 被 WALL_bath_n_skirt 擋住 0.03 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.37（0.01）
+  露出：dorm_bath_floor 被 WALL_front_wall 擋住 0.02 m²，0% 的組合會露出來；亮度 0.13／沒擋住 0.30（0.45）
+  露出：WALL_bath_n_wall 被 WALL_bath_w_skirt 擋住 0.01 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.37（0.01）
+  露出：dorm_bath_floor 被 WALL_bath_n_wall 擋住 0.02 m²，0% 的組合會露出來；亮度 0.11／沒擋住 0.30（0.36）
+  要修 39 對
+=== assets/models/env/second_ai/dorm_room4.glb
+  露出：dorm_wood 被 WALL_left_wall 擋住 3.23 m²，6% 的組合會露出來；亮度 0.05／沒擋住 0.25（0.2）
+  露出：dorm_frame_white 被 WALL_left_wall 擋住 2.60 m²，6% 的組合會露出來；亮度 0.10／沒擋住 0.26（0.38）
+  露出：dorm_frame_white 被 WALL_bath_n_wall 擋住 1.09 m²，24% 的組合會露出來；亮度 0.17／沒擋住 0.26（0.64）
+  露出：dorm_wood 被 WALL_right_wall 擋住 3.23 m²，1% 的組合會露出來；亮度 0.05／沒擋住 0.25（0.18）
+  露出：dorm_ceramic 被 WALL_bath_n_wall 擋住 0.16 m²，24% 的組合會露出來；亮度 0.11／沒擋住 0.15（0.69）
+  露出：WALL_front_trim 被 WALL_bath_w_wall 擋住 0.06 m²，33% 的組合會露出來；亮度 0.10／沒擋住 0.26（0.4）
+  露出：dorm_frame_white 被 WALL_right_wall 擋住 1.72 m²，1% 的組合會露出來；亮度 0.15／沒擋住 0.26（0.56）
+  露出：dorm_bath_tile 被 WALL_front_wall 擋住 2.86 m²，0% 的組合會露出來；亮度 0.16／沒擋住 0.30（0.52）
+  露出：dorm_frame_white 被 WALL_left_skirt 擋住 0.08 m²，8% 的組合會露出來；亮度 0.00／沒擋住 0.26（0.0）
+  露出：WALL_front_wall 被 WALL_front_trim 擋住 0.49 m²，2% 的組合會露出來；亮度 0.09／沒擋住 0.18（0.49）
+  露出：WALL_bath_n_wall 被 WALL_right_wall 擋住 0.34 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.38（0.01）
+  露出：WALL_back_wall 被 WALL_back_ac 擋住 0.26 m²，2% 的組合會露出來；亮度 0.08／沒擋住 0.36（0.23）
+  露出：WALL_bath_w_wall 被 WALL_bath_w_trim 擋住 0.35 m²，1% 的組合會露出來；亮度 0.08／沒擋住 0.31（0.27）
+  露出：LOFT_R1_frame 被 WALL_back_wall 擋住 0.49 m²，0% 的組合會露出來；亮度 0.04／沒擋住 0.36（0.11）
+  露出：LOFT_L1_frame 被 WALL_left_wall 擋住 0.10 m²，6% 的組合會露出來；亮度 0.22／沒擋住 0.34（0.66）
+  露出：LOFT_L2_frame 被 WALL_left_wall 擋住 0.10 m²，6% 的組合會露出來；亮度 0.20／沒擋住 0.30（0.66）
+  露出：LOFT_L1_frame 被 WALL_back_wall 擋住 0.49 m²，0% 的組合會露出來；亮度 0.05／沒擋住 0.34（0.14）
+  露出：dorm_wood 被 WALL_back_wall 擋住 0.87 m²，0% 的組合會露出來；亮度 0.14／沒擋住 0.25（0.56）
+  露出：WALL_bath_w_wall 被 WALL_front_wall 擋住 0.47 m²，0% 的組合會露出來；亮度 0.12／沒擋住 0.31（0.38）
+  露出：WALL_back_wall 被 WALL_back_trim 擋住 0.42 m²，1% 的組合會露出來；亮度 0.19／沒擋住 0.36（0.54）
+  露出：BEDDING_R2_duvet 被 WALL_right_wall 擋住 0.32 m²，1% 的組合會露出來；亮度 0.25／沒擋住 0.36（0.68）
+  露出：dorm_bath_tile 被 WALL_bath_w_skirt 擋住 0.05 m²，3% 的組合會露出來；亮度 0.04／沒擋住 0.30（0.15）
+  露出：WALL_back_wall 被 WALL_back_sill 擋住 0.15 m²，1% 的組合會露出來；亮度 0.17／沒擋住 0.36（0.48）
+  露出：dorm_floor 被 WALL_left_skirt 擋住 0.02 m²，8% 的組合會露出來；亮度 0.14／沒擋住 0.26（0.55）
+  露出：LOFT_R2_frame 被 WALL_right_wall 擋住 0.10 m²，1% 的組合會露出來；亮度 0.14／沒擋住 0.32（0.45）
+  露出：WALL_back_wall 被 WALL_back_skirt 擋住 0.16 m²，0% 的組合會露出來；亮度 0.04／沒擋住 0.36（0.1）
+  露出：WALL_front_wall 被 WALL_front_door 擋住 0.25 m²，1% 的組合會露出來；亮度 0.11／沒擋住 0.18（0.61）
+  露出：LOFT_R1_frame 被 WALL_right_wall 擋住 0.10 m²，1% 的組合會露出來；亮度 0.23／沒擋住 0.36（0.62）
+  露出：WALL_back_alu 被 WALL_back_sill 擋住 0.14 m²，0% 的組合會露出來；亮度 0.16／沒擋住 0.52（0.3）
+  露出：WALL_bath_w_wall 被 WALL_front_trim 擋住 0.04 m²，2% 的組合會露出來；亮度 0.22／沒擋住 0.31（0.7）
+  露出：WALL_bath_w_wall 被 WALL_bath_w_bdoor 擋住 0.24 m²，0% 的組合會露出來；亮度 0.22／沒擋住 0.31（0.71）
+  露出：WALL_back_trim 被 WALL_back_ac 擋住 0.07 m²，1% 的組合會露出來；亮度 0.24／沒擋住 0.38（0.63）
+  露出：WALL_bath_w_bdoor 被 WALL_bath_w_sign 擋住 0.03 m²，2% 的組合會露出來；亮度 0.18／沒擋住 0.28（0.67）
+  露出：WALL_bath_w_wall 被 WALL_bath_w_skirt 擋住 0.05 m²，0% 的組合會露出來；亮度 0.08／沒擋住 0.31（0.26）
+  露出：dorm_bath_floor 被 WALL_right_wall 擋住 0.02 m²，1% 的組合會露出來；亮度 0.20／沒擋住 0.30（0.67）
+  露出：WALL_bath_n_wall 被 WALL_bath_n_skirt 擋住 0.03 m²，0% 的組合會露出來；亮度 0.01／沒擋住 0.38（0.02）
+  露出：dorm_bath_floor 被 WALL_front_wall 擋住 0.02 m²，0% 的組合會露出來；亮度 0.13／沒擋住 0.30（0.42）
+  露出：dorm_bath_floor 被 WALL_bath_n_wall 擋住 0.02 m²，0% 的組合會露出來；亮度 0.11／沒擋住 0.30（0.36）
+  露出：WALL_bath_n_wall 被 WALL_bath_w_skirt 擋住 0.01 m²，0% 的組合會露出來；亮度 0.05／沒擋住 0.38（0.13）
+  露出：WALL_back_ac 被 WALL_back_black 擋住 0.02 m²，0% 的組合會露出來；亮度 0.27／沒擋住 0.41（0.66）
+=== assets/models/env/second_ai/gongtong_3f.glb
+  露出：WALL_W_wall 被 WALL_W_trim 擋住 8.72 m²，0% 的組合會露出來；亮度 0.01／沒擋住 0.52（0.02）
+  露出：WALL_S_wall 被 WALL_S_frame 擋住 1.09 m²，2% 的組合會露出來；亮度 0.30／沒擋住 0.43（0.7）
+  露出：WALL_E_wall 被 WALL_E_trim 擋住 0.68 m²，1% 的組合會露出來；亮度 0.17／沒擋住 0.56（0.29）
+  要修 3 對
+=== assets/models/env/second_ai/gongtong_interior.glb
+  露出：L0_carpet 被 L0_WALL_N_wall 擋住 8.09 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.00（0.01）
+  露出：L0_ceil 被 L0_WALL_ceil_trof 擋住 18.08 m²，0% 的組合會露出來；亮度 0.18／沒擋住 0.30（0.6）
+  露出：L1_slab 被 L0_WALL_N_wall 擋住 8.98 m²，0% 的組合會露出來；亮度 0.13／沒擋住 0.28（0.47）
+  露出：L1_board 被 L1_WALL_E_wall 擋住 5.04 m²，0% 的組合會露出來；亮度 0.06／沒擋住 0.60（0.09）
+  露出：L1_board 被 L1_WALL_W_wall 擋住 5.04 m²，0% 的組合會露出來；亮度 0.06／沒擋住 0.60（0.1）
+  露出：L0_board 被 L0_WALL_W_wall 擋住 5.04 m²，0% 的組合會露出來；亮度 0.06／沒擋住 0.37（0.16）
+  露出：L0_floor 被 L0_WALL_S_base 擋住 0.56 m²，2% 的組合會露出來；亮度 0.34／沒擋住 0.61（0.57）
+  露出：L0_carpet 被 L0_WALL_N_wood 擋住 0.28 m²，2% 的組合會露出來；亮度 0.00／沒擋住 0.00（0.16）
+  露出：L1_part 被 L1_WALL_N_wall 擋住 2.16 m²，0% 的組合會露出來；亮度 0.28／沒擋住 0.41（0.68）
+  露出：L0_part 被 L0_WALL_N_wall 擋住 2.16 m²，0% 的組合會露出來；亮度 0.22／沒擋住 0.31（0.71）
+  露出：L0_floor 被 L0_WALL_E_base 擋住 0.28 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.61（0.0）
+  露出：L1_WALL_E_wall 被 L1_WALL_N_wall 擋住 0.35 m²，0% 的組合會露出來；亮度 0.02／沒擋住 0.26（0.07）
+  露出：L1_WALL_W_wall 被 L1_WALL_S_wall 擋住 0.35 m²，0% 的組合會露出來；亮度 0.06／沒擋住 0.40（0.15）
+  露出：L1_WALL_W_wall 被 L1_WALL_N_wall 擋住 0.35 m²，0% 的組合會露出來；亮度 0.20／沒擋住 0.40（0.5）
+  露出：L1_floor 被 L0_WALL_N_wall 擋住 0.29 m²，0% 的組合會露出來；亮度 0.22／沒擋住 0.35（0.61）
+  要修 15 對
+=== assets/models/env/second_ai/jp_room.glb
+  露出：WALL_W_wall 被 WALL_W_shelf_wood 擋住 1.30 m²，4% 的組合會露出來；亮度 0.01／沒擋住 0.46（0.02）
+  露出：jp_room_woodparts 被 WALL_N_wall 擋住 0.80 m²，19% 的組合會露出來；亮度 0.06／沒擋住 0.09（0.72）
+  露出：WALL_E_wall 被 WALL_N_curtain 擋住 0.18 m²，18% 的組合會露出來；亮度 0.15／沒擋住 0.46（0.32）
+  露出：WALL_W_wall 被 WALL_N_curtain 擋住 0.12 m²，19% 的組合會露出來；亮度 0.11／沒擋住 0.46（0.23）
+  露出：jp_room_woodparts 被 WALL_N_trim 擋住 0.17 m²，20% 的組合會露出來；亮度 0.05／沒擋住 0.09（0.59）
+  露出：jp_room_ceiling 被 WALL_S_closet_wood 擋住 0.90 m²，3% 的組合會露出來；亮度 0.25／沒擋住 0.44（0.57）
+  露出：WALL_S_closet_wood 被 WALL_S_closet 擋住 2.46 m²，0% 的組合會露出來；亮度 0.01／沒擋住 0.24（0.04）
+  露出：jp_room_floorm 被 WALL_W_shelf_wood 擋住 0.17 m²，9% 的組合會露出來；亮度 0.04／沒擋住 0.09（0.41）
+  露出：WALL_W_wall 被 WALL_W_trim 擋住 0.29 m²，3% 的組合會露出來；亮度 0.06／沒擋住 0.46（0.12）
+  露出：WALL_E_wall 被 WALL_E_ac 擋住 0.29 m²，3% 的組合會露出來；亮度 0.07／沒擋住 0.46（0.15）
+  露出：WALL_E_wall 被 WALL_E_trim 擋住 0.40 m²，2% 的組合會露出來；亮度 0.04／沒擋住 0.46（0.09）
+  露出：jp_room_floorm 被 WALL_N_trim 擋住 0.04 m²，20% 的組合會露出來；亮度 0.03／沒擋住 0.09（0.29）
+  露出：WALL_E_wall 被 WALL_S_closet 擋住 0.08 m²，13% 的組合會露出來；亮度 0.21／沒擋住 0.46（0.45）
+  露出：WALL_N_wall 被 WALL_N_curtain 擋住 1.45 m²，0% 的組合會露出來；亮度 0.08／沒擋住 0.34（0.23）
+  露出：WALL_W_wall 被 WALL_N_frame 擋住 0.04 m²，18% 的組合會露出來；亮度 0.10／沒擋住 0.46（0.22）
+  露出：jp_room_ceiling 被 WALL_E_ac 擋住 0.19 m²，4% 的組合會露出來；亮度 0.29／沒擋住 0.44（0.66）
+  露出：jp_room_floorm 被 WALL_E_trim 擋住 0.04 m²，6% 的組合會露出來；亮度 0.00／沒擋住 0.09（0.01）
+  露出：WALL_N_wall 被 WALL_N_trim 擋住 0.22 m²，1% 的組合會露出來；亮度 0.03／沒擋住 0.34（0.09）
+  露出：jp_room_floorm 被 WALL_W_trim 擋住 0.03 m²，8% 的組合會露出來；亮度 0.00／沒擋住 0.09（0.0）
+  露出：WALL_E_wall 被 WALL_N_frame 擋住 0.01 m²，18% 的組合會露出來；亮度 0.10／沒擋住 0.46（0.22）
+  露出：WALL_W_wall 被 WALL_W_wood 擋住 0.05 m²，4% 的組合會露出來；亮度 0.09／沒擋住 0.46（0.2）
+  露出：WALL_S_closet 被 WALL_E_wall 擋住 0.06 m²，3% 的組合會露出來；亮度 0.17／沒擋住 0.49（0.34）
+  露出：jp_room_woodparts 被 WALL_E_trim 擋住 0.01 m²，6% 的組合會露出來；亮度 0.02／沒擋住 0.09（0.27）
+  露出：WALL_E_wall 被 WALL_E_print 擋住 0.09 m²，0% 的組合會露出來；亮度 0.18／沒擋住 0.46（0.38）
+  露出：WALL_W_wall 被 WALL_W_print 擋住 0.06 m²，0% 的組合會露出來；亮度 0.29／沒擋住 0.46（0.62）
+  要修 25 對
+=== assets/models/env/second_ai/library_3f.glb
+  露出：WALL_front_plaster 被 WALL_front_walnut 擋住 18.81 m²，2% 的組合會露出來；亮度 0.05／沒擋住 0.19（0.28）
+  露出：WALL_back_plaster 被 WALL_back_cornice 擋住 5.48 m²，1% 的組合會露出來；亮度 0.11／沒擋住 0.25（0.45）
+  露出：l3_ceil 被 WALL_ceil_tbar 擋住 44.78 m²，0% 的組合會露出來；亮度 0.28／沒擋住 0.39（0.71）
+  露出：l3_walnut 被 WALL_back_plaster 擋住 12.79 m²，0% 的組合會露出來；亮度 0.09／沒擋住 0.14（0.64）
+  露出：l3_ceil 被 WALL_back_cornice 擋住 2.01 m²，2% 的組合會露出來；亮度 0.20／沒擋住 0.39（0.5）
+  露出：WALL_right_plaster 被 WALL_right_cornice 擋住 4.21 m²，0% 的組合會露出來；亮度 0.06／沒擋住 0.20（0.31）
+  露出：l3_ceil 被 WALL_front_cornice 擋住 0.86 m²，2% 的組合會露出來；亮度 0.25／沒擋住 0.39（0.64）
+  露出：l3_ceil 被 WALL_right_cornice 擋住 1.15 m²，1% 的組合會露出來；亮度 0.27／沒擋住 0.39（0.69）
+  露出：l3_base 被 WALL_left_plaster 擋住 0.99 m²，0% 的組合會露出來；亮度 0.03／沒擋住 0.06（0.42）
+  露出：WALL_back_plaster 被 WALL_back_signback 擋住 0.53 m²，0% 的組合會露出來；亮度 0.09／沒擋住 0.25（0.38）
+  露出：WALL_back_cornice 被 WALL_ceil_tbar 擋住 0.60 m²，0% 的組合會露出來；亮度 0.17／沒擋住 0.36（0.47）
+  露出：WALL_front_cornice 被 WALL_ceil_tbar 擋住 0.59 m²，0% 的組合會露出來；亮度 0.18／沒擋住 0.40（0.46）
+  露出：l3_ceil 被 WALL_left_cornice 擋住 0.29 m²，1% 的組合會露出來；亮度 0.23／沒擋住 0.39（0.6）
+  露出：WALL_right_cornice 被 WALL_front_cornice 擋住 0.01 m²，2% 的組合會露出來；亮度 0.08／沒擋住 0.36（0.24）
+  露出：WALL_right_cornice 被 WALL_ceil_tbar 擋住 0.13 m²，0% 的組合會露出來；亮度 0.19／沒擋住 0.36（0.53）
+  露出：WALL_front_cornice 被 WALL_right_cornice 擋住 0.01 m²，1% 的組合會露出來；亮度 0.01／沒擋住 0.40（0.01）
+  露出：WALL_right_cornice 被 WALL_back_cornice 擋住 0.01 m²，2% 的組合會露出來；亮度 0.16／沒擋住 0.36（0.46）
+  露出：l3_bc1 被 WALL_back_plaster 擋住 0.01 m²，0% 的組合會露出來；亮度 0.08／沒擋住 0.39（0.2）
+  露出：WALL_right_walnut 被 WALL_back_plaster 擋住 0.02 m²，0% 的組合會露出來；亮度 0.20／沒擋住 0.44（0.45）
+  露出：WALL_left_walnut 被 WALL_back_plaster 擋住 0.02 m²，0% 的組合會露出來；亮度 0.20／沒擋住 0.37（0.55）
+  露出：WALL_front_cornice 被 WALL_left_cornice 擋住 0.01 m²，0% 的組合會露出來；亮度 0.10／沒擋住 0.40（0.25）
+  露出：l3_bc3 被 WALL_back_plaster 擋住 0.02 m²，0% 的組合會露出來；亮度 0.15／沒擋住 0.23（0.66）
+  露出：WALL_back_cornice 被 WALL_right_plaster 擋住 0.01 m²，0% 的組合會露出來；亮度 0.15／沒擋住 0.36（0.42）
+  露出：WALL_front_walnut 被 WALL_right_plaster 擋住 0.02 m²，0% 的組合會露出來；亮度 0.31／沒擋住 0.45（0.7）
+  露出：WALL_front_cornice 被 WALL_right_plaster 擋住 0.01 m²，0% 的組合會露出來；亮度 0.19／沒擋住 0.40（0.47）
+  露出：WALL_right_cornice 被 WALL_back_plaster 擋住 0.01 m²，0% 的組合會露出來；亮度 0.17／沒擋住 0.36（0.48）
+  露出：WALL_left_cornice 被 WALL_back_plaster 擋住 0.01 m²，0% 的組合會露出來；亮度 0.14／沒擋住 0.23（0.62）
+  露出：WALL_right_cornice 被 WALL_front_plaster 擋住 0.01 m²，0% 的組合會露出來；亮度 0.25／沒擋住 0.36（0.71）
+  露出：WALL_right_walnut 被 WALL_right_cornice 擋住 0.01 m²，0% 的組合會露出來；亮度 0.30／沒擋住 0.44（0.69）
+  露出：WALL_back_cornice 被 WALL_left_plaster 擋住 0.01 m²，0% 的組合會露出來；亮度 0.19／沒擋住 0.36（0.54）
+  露出：WALL_front_cornice 被 WALL_left_plaster 擋住 0.01 m²，0% 的組合會露出來；亮度 0.24／沒擋住 0.40（0.61）
+  要修 31 對
+=== assets/models/env/second_ai/library_media.glb
+  露出：WALL_S_wall 被 WALL_S_pegprops 擋住 1.96 m²，1% 的組合會露出來；亮度 0.09／沒擋住 0.42（0.2）
+  露出：WALL_W_wall 被 WALL_W_trim 擋住 1.00 m²，1% 的組合會露出來；亮度 0.03／沒擋住 0.45（0.07）
+  露出：WALL_S_wall 被 WALL_S_trim 擋住 0.74 m²，0% 的組合會露出來；亮度 0.04／沒擋住 0.42（0.1）
+  露出：WALL_E_wall 被 WALL_E_trim 擋住 0.53 m²，0% 的組合會露出來；亮度 0.06／沒擋住 0.44（0.13）
+  露出：library_media_woodparts 被 WALL_S_trim 擋住 0.20 m²，0% 的組合會露出來；亮度 0.05／沒擋住 0.22（0.22）
+  露出：library_media_floorm 被 WALL_W_trim 擋住 0.06 m²，1% 的組合會露出來；亮度 0.32／沒擋住 0.70（0.45）
+  露出：library_media_floorm 被 WALL_E_trim 擋住 0.12 m²，0% 的組合會露出來；亮度 0.37／沒擋住 0.70（0.54）
+  露出：library_media_floorm 被 WALL_S_trim 擋住 0.06 m²，0% 的組合會露出來；亮度 0.30／沒擋住 0.70（0.43）
+  露出：WALL_E_trim 被 WALL_E_print 擋住 0.01 m²，0% 的組合會露出來；亮度 0.21／沒擋住 0.40（0.52）
+  要修 9 對
+=== assets/models/env/second_ai/linze_202.glb
+  露出：WALL_W_wall 被 WALL_W_trim 擋住 10.62 m²，1% 的組合會露出來；亮度 0.03／沒擋住 0.50（0.06）
+  露出：WALL_E_wall 被 WALL_E_trim 擋住 3.03 m²，2% 的組合會露出來；亮度 0.07／沒擋住 0.46（0.15）
+  露出：linze_202_ceiling 被 WALL_ceil_linze_202_grid 擋住 15.01 m²，0% 的組合會露出來；亮度 0.19／沒擋住 0.35（0.55）
+  露出：WALL_W_wain 被 WALL_W_trim 擋住 0.66 m²，1% 的組合會露出來；亮度 0.09／沒擋住 0.49（0.19）
+  露出：WALL_S_wall 被 WALL_S_frame 擋住 0.49 m²，2% 的組合會露出來；亮度 0.27／沒擋住 0.40（0.67）
+  露出：WALL_S_wall 被 WALL_S_trim 擋住 0.36 m²，2% 的組合會露出來；亮度 0.28／沒擋住 0.40（0.7）
+  露出：WALL_E_wain 被 WALL_E_trim 擋住 0.22 m²，2% 的組合會露出來；亮度 0.33／沒擋住 0.47（0.7）
+  露出：WALL_N_door 被 WALL_N_trim 擋住 0.40 m²，0% 的組合會露出來；亮度 0.09／沒擋住 0.38（0.24）
+  露出：WALL_N_wall 被 WALL_N_trim 擋住 0.50 m²，0% 的組合會露出來；亮度 0.30／沒擋住 0.44（0.69）
+  要修 9 對
+=== assets/models/env/second_ai/linze_office.glb
+  露出：WALL_S_wain 被 WALL_S_cab 擋住 5.50 m²，4% 的組合會露出來；亮度 0.02／沒擋住 0.30（0.06）
+  露出：WALL_N_wall 被 WALL_N_pigeonvc 擋住 2.81 m²，3% 的組合會露出來；亮度 0.00／沒擋住 0.60（0.0）
+  露出：WALL_S_wall 被 WALL_S_cab 擋住 0.62 m²，4% 的組合會露出來；亮度 0.20／沒擋住 0.45（0.43）
+  露出：WALL_E_wain 被 WALL_E_rack 擋住 0.94 m²，2% 的組合會露出來；亮度 0.01／沒擋住 0.44（0.01）
+  露出：WALL_E_wall 被 WALL_E_rack 擋住 0.66 m²，2% 的組合會露出來；亮度 0.01／沒擋住 0.62（0.02）
+  露出：WALL_N_wall 被 WALL_N_print 擋住 0.36 m²，3% 的組合會露出來；亮度 0.29／沒擋住 0.60（0.49）
+  露出：WALL_S_wall 被 WALL_S_frame 擋住 0.19 m²，3% 的組合會露出來；亮度 0.06／沒擋住 0.45（0.14）
+  露出：WALL_S_trim 被 WALL_S_cab 擋住 0.15 m²，4% 的組合會露出來；亮度 0.14／沒擋住 0.26（0.55）
+  露出：WALL_W_wall 被 WALL_W_trim 擋住 0.41 m²，1% 的組合會露出來；亮度 0.18／沒擋住 0.61（0.3）
+  露出：WALL_E_trim 被 WALL_E_rack 擋住 0.03 m²，2% 的組合會露出來；亮度 0.00／沒擋住 0.62（0.0）
+  露出：WALL_W_wain 被 WALL_W_trim 擋住 0.10 m²，1% 的組合會露出來；亮度 0.31／沒擋住 0.43（0.73）
+  要修 11 對
+=== assets/models/env/second_ai/noodle_interior.glb
+  露出：WALL_front_paint 被 WALL_front_frame 擋住 2.17 m²，1% 的組合會露出來；亮度 0.10／沒擋住 0.50（0.19）
+  露出：WALL_front_tile 被 WALL_front_frame 擋住 1.35 m²，1% 的組合會露出來；亮度 0.05／沒擋住 0.53（0.09）
+  露出：WALL_back_paint 被 WALL_back_wood 擋住 2.18 m²，1% 的組合會露出來；亮度 0.01／沒擋住 0.45（0.03）
+  露出：ndl_ceiling 被 WALL_front_frame 擋住 0.45 m²，2% 的組合會露出來；亮度 0.19／沒擋住 0.49（0.38）
+  露出：WALL_left_paint 被 WALL_left_tv 擋住 0.47 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.48（0.0）
+  露出：WALL_right_paint 被 WALL_right_fan 擋住 0.07 m²，2% 的組合會露出來；亮度 0.00／沒擋住 0.50（0.0）
+  露出：ndl_ceiling 被 WALL_front_paint 擋住 0.23 m²，0% 的組合會露出來；亮度 0.04／沒擋住 0.49（0.07）
+  露出：ndl_steel_dark 被 WALL_back_tile 擋住 0.36 m²，0% 的組合會露出來；亮度 0.36／沒擋住 0.61（0.59）
+  露出：WALL_back_tile 被 WALL_left_trim 擋住 0.02 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.37（0.01）
+  露出：WALL_front_tile 被 WALL_left_trim 擋住 0.02 m²，1% 的組合會露出來；亮度 0.06／沒擋住 0.53（0.11）
+  露出：WALL_front_tile 被 WALL_right_trim 擋住 0.01 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.53（0.0）
+  露出：WALL_left_paint 被 WALL_left_black 擋住 0.03 m²，0% 的組合會露出來；亮度 0.19／沒擋住 0.48（0.39）
+  露出：ndl_steel_dark 被 WALL_back_paint 擋住 0.04 m²，0% 的組合會露出來；亮度 0.40／沒擋住 0.61（0.65）
+  露出：ndl_steel_dark 被 WALL_back_trim 擋住 0.03 m²，0% 的組合會露出來；亮度 0.39／沒擋住 0.61（0.64）
+  露出：WALL_back_tile 被 WALL_right_trim 擋住 0.02 m²，1% 的組合會露出來；亮度 0.23／沒擋住 0.37（0.61）
+  要修 15 對
+=== assets/models/env/second_ai/soclib_interior.glb
+  露出：soclib_floor 被 WALL_right_mat 擋住 8.25 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.77（0.0）
+  露出：soclib_floor 被 WALL_back_mull 擋住 5.50 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.77（0.0）
+  露出：soclib_floor 被 WALL_front_mat 擋住 5.50 m²，0% 的組合會露出來；亮度 0.03／沒擋住 0.77（0.04）
+  露出：soclib_ceiling 被 WALL_back_mull 擋住 5.88 m²，0% 的組合會露出來；亮度 0.23／沒擋住 0.42（0.56）
+  露出：soclib_floor 被 WALL_left_mull 擋住 2.75 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.77（0.0）
+  露出：soclib_ceiling 被 WALL_left_mull 擋住 4.67 m²，0% 的組合會露出來；亮度 0.21／沒擋住 0.42（0.5）
+  要修 6 對
+=== assets/models/env/second_ai/us_bed_c.glb
+  露出：WALL_S_wall 被 WALL_S_trim 擋住 2.94 m²，1% 的組合會露出來；亮度 0.04／沒擋住 0.32（0.11）
+  露出：WALL_E_wall 被 WALL_E_trim 擋住 0.66 m²，2% 的組合會露出來；亮度 0.02／沒擋住 0.29（0.07）
+  露出：WALL_W_wall 被 WALL_W_trim 擋住 0.21 m²，1% 的組合會露出來；亮度 0.02／沒擋住 0.34（0.06）
+  露出：WALL_E_wall 被 WALL_E_print 擋住 0.24 m²，0% 的組合會露出來；亮度 0.10／沒擋住 0.29（0.32）
+  露出：us_bed_c_floorm 被 WALL_E_trim 擋住 0.04 m²，2% 的組合會露出來；亮度 0.16／沒擋住 0.30（0.52）
+  露出：us_bed_c_floorm 被 WALL_S_trim 擋住 0.11 m²，1% 的組合會露出來；亮度 0.16／沒擋住 0.30（0.55）
+  露出：us_bed_c_floorm 被 WALL_W_trim 擋住 0.06 m²，1% 的組合會露出來；亮度 0.06／沒擋住 0.30（0.21）
+  要修 7 對
+=== assets/models/env/second_ai/wancai_sema.glb
+  露出：WALL_E_wall 被 WALL_E_books 擋住 3.69 m²，2% 的組合會露出來；亮度 0.00／沒擋住 0.60（0.01）
+  露出：WALL_W_wall 被 WALL_W_trim 擋住 6.67 m²，1% 的組合會露出來；亮度 0.02／沒擋住 0.60（0.03）
+  露出：WALL_E_wain 被 WALL_E_books 擋住 2.46 m²，2% 的組合會露出來；亮度 0.00／沒擋住 0.52（0.01）
+  露出：wancai_sema_floorm 被 WALL_E_bookwood 擋住 0.94 m²，2% 的組合會露出來；亮度 0.00／沒擋住 0.47（0.0）
+  露出：WALL_W_board 被 WALL_W_print 擋住 5.32 m²，0% 的組合會露出來；亮度 0.03／沒擋住 0.58（0.06）
+  露出：WALL_N_wall 被 WALL_N_trim 擋住 2.60 m²，0% 的組合會露出來；亮度 0.06／沒擋住 0.64（0.09）
+  露出：WALL_S_wall 被 WALL_S_frame 擋住 0.81 m²，3% 的組合會露出來；亮度 0.28／沒擋住 0.49（0.56）
+  露出：WALL_E_wall 被 WALL_E_trim 擋住 0.42 m²，2% 的組合會露出來；亮度 0.06／沒擋住 0.60（0.1）
+  露出：WALL_E_wain 被 WALL_E_trim 擋住 0.20 m²，2% 的組合會露出來；亮度 0.07／沒擋住 0.52（0.14）
+  露出：WALL_N_door 被 WALL_N_trim 擋住 0.38 m²，0% 的組合會露出來；亮度 0.30／沒擋住 0.65（0.47）
+  露出：wancai_sema_floorm 被 WALL_E_books 擋住 0.05 m²，2% 的組合會露出來；亮度 0.00／沒擋住 0.47（0.0）
+  露出：WALL_N_wain 被 WALL_N_trim 擋住 0.12 m²，0% 的組合會露出來；亮度 0.29／沒擋住 0.57（0.5）
+  露出：WALL_W_wain 被 WALL_W_trim 擋住 0.12 m²，1% 的組合會露出來；亮度 0.37／沒擋住 0.59（0.63）
+  要修 13 對
+=== assets/models/env/second_ai/wancai_semb.glb
+  露出：WALL_E_wall 被 WALL_E_books 擋住 0.98 m²，2% 的組合會露出來；亮度 0.01／沒擋住 0.56（0.02）
+  露出：WALL_E_wain 被 WALL_E_books 擋住 0.93 m²，2% 的組合會露出來；亮度 0.01／沒擋住 0.43（0.02）
+  露出：WALL_N_wall 被 WALL_N_trim 擋住 2.87 m²，0% 的組合會露出來；亮度 0.02／沒擋住 0.56（0.04）
+  露出：WALL_S_wall 被 WALL_S_frame 擋住 1.01 m²，3% 的組合會露出來；亮度 0.28／沒擋住 0.42（0.66）
+  露出：wancai_semb_floorm 被 WALL_E_bookwood 擋住 0.53 m²，2% 的組合會露出來；亮度 0.03／沒擋住 0.62（0.05）
+  露出：WALL_E_wall 被 WALL_E_print 擋住 0.67 m²，2% 的組合會露出來；亮度 0.18／沒擋住 0.56（0.32）
+  露出：WALL_E_wall 被 WALL_E_trim 擋住 0.40 m²，2% 的組合會露出來；亮度 0.11／沒擋住 0.56（0.2）
+  露出：WALL_E_wain 被 WALL_E_trim 擋住 0.14 m²，2% 的組合會露出來；亮度 0.15／沒擋住 0.43（0.36）
+  露出：WALL_N_door 被 WALL_N_trim 擋住 0.35 m²，0% 的組合會露出來；亮度 0.30／沒擋住 0.62（0.48）
+  露出：WALL_N_wain 被 WALL_N_trim 擋住 0.15 m²，0% 的組合會露出來；亮度 0.12／沒擋住 0.44（0.28）
+  露出：WALL_E_trim 被 WALL_E_books 擋住 0.05 m²，1% 的組合會露出來；亮度 0.00／沒擋住 0.46（0.0）
+  露出：WALL_E_trim 被 WALL_E_bookwood 擋住 0.02 m²，1% 的組合會露出來；亮度 0.34／沒擋住 0.46（0.73）
+  要修 12 對
+=== assets/models/env/second_ai/wz_brunch_interior.glb
+  露出：WALL_back_back_paint 被 WALL_back_back_steel 擋住 0.73 m²，3% 的組合會露出來；亮度 0.00／沒擋住 0.23（0.01）
+  露出：WALL_front_front_paint 被 WALL_front_front_wood_dk 擋住 1.90 m²，2% 的組合會露出來；亮度 0.08／沒擋住 0.20（0.41）
+  露出：wzs_steel 被 WALL_right_right_wood_lt 擋住 0.71 m²，2% 的組合會露出來；亮度 0.04／沒擋住 0.21（0.19）
+  露出：wzs_steel 被 WALL_left_left_wood_lt 擋住 0.63 m²，2% 的組合會露出來；亮度 0.05／沒擋住 0.21（0.24）
+  露出：WALL_front_front_wood_lt 被 WALL_front_front_wood_dk 擋住 1.19 m²，2% 的組合會露出來；亮度 0.18／沒擋住 0.42（0.43）
+  露出：wzs_wood_dk 被 WALL_right_right_wood_lt 擋住 1.16 m²，2% 的組合會露出來；亮度 0.13／沒擋住 0.19（0.7）
+  露出：wzs_steel 被 WALL_right_right_paint 擋住 0.67 m²，2% 的組合會露出來；亮度 0.11／沒擋住 0.21（0.5）
+  露出：WALL_back_back_wood_dk 被 WALL_back_board 擋住 1.92 m²，0% 的組合會露出來；亮度 0.02／沒擋住 0.24（0.09）
+  露出：WALL_right_right_wood_lt 被 WALL_right_right_wood_dk 擋住 1.45 m²，0% 的組合會露出來；亮度 0.01／沒擋住 0.23（0.02）
+  露出：wzs_wood_dk 被 WALL_left_left_wood_lt 擋住 0.49 m²，2% 的組合會露出來；亮度 0.12／沒擋住 0.19（0.66）
+  露出：WALL_front_front_wood_dk 被 WALL_right_right_paint 擋住 0.20 m²，2% 的組合會露出來；亮度 0.09／沒擋住 0.43（0.2）
+  露出：WALL_left_left_paint 被 WALL_left_clock 擋住 0.51 m²，0% 的組合會露出來；亮度 0.02／沒擋住 0.27（0.08）
+  露出：WALL_right_right_paint 被 WALL_front_front_wood_dk 擋住 0.18 m²，2% 的組合會露出來；亮度 0.08／沒擋住 0.26（0.31）
+  露出：WALL_left_left_paint 被 WALL_front_front_wood_dk 擋住 0.15 m²，2% 的組合會露出來；亮度 0.04／沒擋住 0.27（0.15）
+  露出：WALL_right_right_paint 被 WALL_right_eggprint 擋住 0.40 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.26（0.0）
+  露出：WALL_front_front_wood_lt 被 WALL_left_left_wood_lt 擋住 0.09 m²，2% 的組合會露出來；亮度 0.06／沒擋住 0.42（0.15）
+  露出：WALL_front_front_wood_lt 被 WALL_right_right_wood_lt 擋住 0.09 m²，2% 的組合會露出來；亮度 0.08／沒擋住 0.42（0.2）
+  露出：WALL_front_front_paint 被 WALL_right_right_paint 擋住 0.08 m²，2% 的組合會露出來；亮度 0.02／沒擋住 0.20（0.11）
+  露出：wzs_steel 被 WALL_right_right_wood_dk 擋住 0.06 m²，2% 的組合會露出來；亮度 0.04／沒擋住 0.21（0.17）
+  露出：WALL_front_front_wood_dk 被 WALL_left_left_paint 擋住 0.18 m²，0% 的組合會露出來；亮度 0.04／沒擋住 0.43（0.09）
+  露出：WALL_front_front_wood_dk 被 WALL_left_left_wood_lt 擋住 0.04 m²，2% 的組合會露出來；亮度 0.02／沒擋住 0.43（0.04）
+  露出：WALL_right_right_paint 被 WALL_front_front_paint 擋住 0.15 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.26（0.01）
+  露出：WALL_left_left_wood_lt 被 WALL_front_front_wood_lt 擋住 0.15 m²，0% 的組合會露出來；亮度 0.03／沒擋住 0.31（0.09）
+  露出：WALL_left_left_paint 被 WALL_front_front_paint 擋住 0.15 m²，0% 的組合會露出來；亮度 0.04／沒擋住 0.27（0.13）
+  露出：WALL_right_right_wood_lt 被 WALL_front_front_wood_dk 擋住 0.04 m²，2% 的組合會露出來；亮度 0.04／沒擋住 0.23（0.18）
+  露出：WALL_left_left_paint 被 WALL_left_left_wood_lt 擋住 0.06 m²，1% 的組合會露出來；亮度 0.01／沒擋住 0.27（0.04）
+  露出：WALL_left_left_paint 被 WALL_back_back_steel 擋住 0.04 m²，4% 的組合會露出來；亮度 0.18／沒擋住 0.27（0.65）
+  露出：WALL_front_front_paint 被 WALL_left_left_paint 擋住 0.08 m²，1% 的組合會露出來；亮度 0.02／沒擋住 0.20（0.11）
+  露出：WALL_front_front_wood_dk 被 WALL_right_right_wood_lt 擋住 0.03 m²，2% 的組合會露出來；亮度 0.02／沒擋住 0.43（0.05）
+  露出：WALL_right_right_wood_lt 被 WALL_front_front_wood_lt 擋住 0.10 m²，0% 的組合會露出來；亮度 0.04／沒擋住 0.23（0.19）
+  露出：WALL_front_front_wood_lt 被 WALL_right_right_wood_dk 擋住 0.02 m²，2% 的組合會露出來；亮度 0.02／沒擋住 0.42（0.06）
+  露出：wzs_wood_lt 被 WALL_right_right_wood_dk 擋住 0.03 m²，2% 的組合會露出來；亮度 0.17／沒擋住 0.32（0.53）
+  露出：WALL_left_left_wood_lt 被 WALL_front_front_wood_dk 擋住 0.04 m²，2% 的組合會露出來；亮度 0.18／沒擋住 0.31（0.59）
+  露出：wzs_griddle 被 WALL_back_back_tile 擋住 0.09 m²，0% 的組合會露出來；亮度 0.16／沒擋住 0.32（0.49）
+  露出：wzs_wood_dk 被 WALL_right_right_paint 擋住 0.01 m²，2% 的組合會露出來；亮度 0.03／沒擋住 0.19（0.13）
+  露出：WALL_front_front_wood_dk 被 WALL_right_right_wood_dk 擋住 0.01 m²，2% 的組合會露出來；亮度 0.02／沒擋住 0.43（0.05）
+  露出：wzs_griddle 被 WALL_left_left_wood_lt 擋住 0.02 m²，2% 的組合會露出來；亮度 0.14／沒擋住 0.32（0.44）
+  露出：wzs_wood_lt 被 WALL_left_left_wood_lt 擋住 0.01 m²，2% 的組合會露出來；亮度 0.15／沒擋住 0.32（0.47）
+  露出：wzs_wood_dk 被 WALL_right_right_wood_dk 擋住 0.01 m²，2% 的組合會露出來；亮度 0.11／沒擋住 0.19（0.58）
+  露出：WALL_front_front_wood_lt 被 WALL_left_left_wood_dk 擋住 0.02 m²，1% 的組合會露出來；亮度 0.09／沒擋住 0.42（0.22）
+=== assets/models/env/second_ai/wz_print_interior.glb
+  露出：wzs_white 被 WALL_right_right_lower 擋住 4.33 m²，2% 的組合會露出來；亮度 0.20／沒擋住 0.38（0.52）
+  露出：WALL_front_front_paint 被 WALL_front_front_frame_alu 擋住 1.63 m²，2% 的組合會露出來；亮度 0.16／沒擋住 0.35（0.46）
+  露出：WALL_front_front_lower 被 WALL_front_front_frame_alu 擋住 0.99 m²，2% 的組合會露出來；亮度 0.13／沒擋住 0.58（0.22）
+  露出：wzs_copier 被 WALL_left_left_lower 擋住 2.18 m²，1% 的組合會露出來；亮度 0.22／沒擋住 0.38（0.59）
+  露出：wzs_white 被 WALL_right_right_paint 擋住 2.12 m²，2% 的組合會露出來；亮度 0.28／沒擋住 0.38（0.73）
+  露出：wzs_copier_dk 被 WALL_back_back_lower 擋住 0.48 m²，2% 的組合會露出來；亮度 0.19／沒擋住 0.38（0.5）
+  露出：WALL_right_right_paint 被 WALL_front_front_frame_alu 擋住 0.24 m²，2% 的組合會露出來；亮度 0.08／沒擋住 0.56（0.14）
+  露出：wzs_steel 被 WALL_right_right_lower 擋住 0.40 m²，2% 的組合會露出來；亮度 0.11／沒擋住 0.31（0.37）
+  露出：wzs_card 被 WALL_back_back_lower 擋住 0.49 m²，2% 的組合會露出來；亮度 0.19／沒擋住 0.29（0.65）
+  露出：WALL_right_right_paint 被 WALL_right_price 擋住 0.81 m²，0% 的組合會露出來；亮度 0.10／沒擋住 0.56（0.18）
+  露出：wzs_card 被 WALL_right_right_lower 擋住 0.49 m²，2% 的組合會露出來；亮度 0.17／沒擋住 0.29（0.59）
+  露出：wzs_counter 被 WALL_right_right_lower 擋住 0.42 m²，2% 的組合會露出來；亮度 0.29／沒擋住 0.41（0.71）
+  露出：WALL_left_left_paint 被 WALL_front_front_frame_alu 擋住 0.11 m²，2% 的組合會露出來；亮度 0.08／沒擋住 0.58（0.14）
+  露出：wzs_copier_dk 被 WALL_left_left_lower 擋住 0.29 m²，1% 的組合會露出來；亮度 0.22／沒擋住 0.38（0.56）
+  露出：wzs_vc_parts 被 WALL_right_right_paint 擋住 0.27 m²，2% 的組合會露出來；亮度 0.18／沒擋住 0.29（0.64）
+  露出：wzs_vc_parts 被 WALL_right_right_lower 擋住 0.23 m²，2% 的組合會露出來；亮度 0.17／沒擋住 0.29（0.59）
+  露出：wzs_counter_fr 被 WALL_right_right_lower 擋住 0.14 m²，2% 的組合會露出來；亮度 0.21／沒擋住 0.49（0.42）
+  露出：WALL_right_right_lower 被 WALL_front_front_frame_alu 擋住 0.06 m²，2% 的組合會露出來；亮度 0.00／沒擋住 0.30（0.01）
+  露出：wzs_copier 被 WALL_back_back_paint 擋住 0.11 m²，2% 的組合會露出來；亮度 0.22／沒擋住 0.38（0.59）
+  露出：WALL_back_back_paint 被 WALL_back_back_paper 擋住 0.16 m²，2% 的組合會露出來；亮度 0.38／沒擋住 0.52（0.74）
+  露出：wzs_counter_fr 被 WALL_left_left_lower 擋住 0.13 m²，1% 的組合會露出來；亮度 0.26／沒擋住 0.49（0.52）
+  露出：WALL_front_front_lower 被 WALL_right_right_lower 擋住 0.05 m²，2% 的組合會露出來；亮度 0.10／沒擋住 0.58（0.17）
+  露出：WALL_back_back_paint 被 WALL_back_back_wood_lt 擋住 0.08 m²，2% 的組合會露出來；亮度 0.34／沒擋住 0.52（0.66）
+  露出：WALL_left_left_lower 被 WALL_front_front_frame_alu 擋住 0.10 m²，2% 的組合會露出來；亮度 0.26／沒擋住 0.37（0.7）
+  露出：WALL_front_front_lower 被 WALL_left_left_lower 擋住 0.05 m²，1% 的組合會露出來；亮度 0.11／沒擋住 0.58（0.18）
+  露出：WALL_left_left_paint 被 WALL_front_front_paint 擋住 0.11 m²，0% 的組合會露出來；亮度 0.12／沒擋住 0.58（0.21）
+  露出：WALL_right_right_lower 被 WALL_front_front_lower 擋住 0.07 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.30（0.01）
+  露出：WALL_right_right_paint 被 WALL_front_front_paint 擋住 0.06 m²，0% 的組合會露出來；亮度 0.13／沒擋住 0.56（0.23）
+  露出：WALL_left_left_paint 被 WALL_back_back_wood_lt 擋住 0.01 m²，4% 的組合會露出來；亮度 0.40／沒擋住 0.58（0.68）
+  露出：wzs_copier 被 WALL_right_right_lower 擋住 0.03 m²，2% 的組合會露出來；亮度 0.22／沒擋住 0.38（0.57）
+  露出：WALL_left_left_lower 被 WALL_front_front_lower 擋住 0.03 m²，0% 的組合會露出來；亮度 0.00／沒擋住 0.37（0.0）
+  露出：wzs_wood_lt 被 WALL_right_right_lower 擋住 0.03 m²，2% 的組合會露出來；亮度 0.36／沒擋住 0.55（0.66）
+  要修 32 對
+=== assets/models/env/second_ai/wz_teahouse_interior.glb
+  露出：wzs_post 被 WALL_right_right_plaster 擋住 2.97 m²，27% 的組合會露出來；亮度 0.01／沒擋住 0.23（0.06）
+  露出：wzs_post 被 WALL_left_left_plaster 擋住 1.03 m²，26% 的組合會露出來；亮度 0.05／沒擋住 0.23（0.21）
+  露出：wzs_post 被 WALL_right_right_post 擋住 0.56 m²，27% 的組合會露出來；亮度 0.03／沒擋住 0.23（0.14）
+  露出：wzs_planks 被 WALL_right_right_post 擋住 0.98 m²，27% 的組合會露出來；亮度 0.01／沒擋住 0.01（0.53）
+  露出：wzs_post 被 WALL_engawa_engawa_shoji 擋住 0.35 m²，45% 的組合會露出來；亮度 0.07／沒擋住 0.23（0.32）
+  露出：wzs_shoji 被 WALL_right_right_post 擋住 0.37 m²，27% 的組合會露出來；亮度 0.00／沒擋住 0.23（0.01）
+  露出：wzs_shoji 被 WALL_left_left_post 擋住 0.38 m²，26% 的組合會露出來；亮度 0.00／沒擋住 0.23（0.02）
+  露出：WALL_left_left_plaster 被 WALL_engawa_engawa_post 擋住 0.28 m²，30% 的組合會露出來；亮度 0.05／沒擋住 0.24（0.2）
+  露出：wzs_post 被 WALL_left_left_post 擋住 0.19 m²，26% 的組合會露出來；亮度 0.03／沒擋住 0.23（0.14）
+  露出：WALL_left_left_plaster 被 WALL_engawa_engawa_shoji 擋住 0.13 m²，32% 的組合會露出來；亮度 0.01／沒擋住 0.24（0.04）
+  露出：wzs_stone 被 WALL_left_left_post 擋住 0.16 m²，26% 的組合會露出來；亮度 0.01／沒擋住 0.10（0.12）
+  露出：wzs_ceiling_boards 被 WALL_right_right_plaster 擋住 0.17 m²，27% 的組合會露出來；亮度 0.08／沒擋住 0.30（0.27）
+  露出：WALL_right_right_plaster 被 WALL_engawa_engawa_shoji 擋住 0.15 m²，33% 的組合會露出來；亮度 0.06／沒擋住 0.19（0.34）
+  露出：WALL_engawa_engawa_shoji 被 WALL_left_left_plaster 擋住 0.06 m²，13% 的組合會露出來；亮度 0.02／沒擋住 0.26（0.08）
+  露出：wzs_heri 被 WALL_right_right_post 擋住 0.07 m²，27% 的組合會露出來；亮度 0.01／沒擋住 0.02（0.6）
+  露出：WALL_left_left_post 被 WALL_engawa_engawa_post 擋住 0.02 m²，30% 的組合會露出來；亮度 0.00／沒擋住 0.01（0.41）
+  露出：wzs_stone 被 WALL_left_left_plaster 擋住 0.01 m²，26% 的組合會露出來；亮度 0.02／沒擋住 0.10（0.18）
+  露出：WALL_engawa_engawa_shoji 被 WALL_right_right_plaster 擋住 0.04 m²，15% 的組合會露出來；亮度 0.17／沒擋住 0.26（0.65）
+  露出：WALL_back_back_plaster 被 WALL_back_scroll 擋住 0.69 m²，0% 的組合會露出來；亮度 0.12／沒擋住 0.18（0.67）
+  露出：wzs_post 被 WALL_back_back_post 擋住 0.06 m²，0% 的組合會露出來；亮度 0.10／沒擋住 0.23（0.41）
+  露出：wzs_fusuma 被 WALL_back_back_post 擋住 0.03 m²，0% 的組合會露出來；亮度 0.03／沒擋住 0.22（0.14）
+  露出：wzs_post 被 WALL_back_back_plaster 擋住 0.04 m²，0% 的組合會露出來；亮度 0.16／沒擋住 0.23（0.71）
+  要修 22 對
+=== assets/models/env/wancai_interior.glb
+  露出：L0_wc_wood_dark 被 L0_WALL_W_0 擋住 1.47 m²，14% 的組合會露出來；亮度 0.00／沒擋住 0.25（0.01）
+  露出：L0_WALL_S 被 L0_WALL_W_1 擋住 0.59 m²，13% 的組合會露出來；亮度 0.09／沒擋住 0.28（0.3）
+  露出：L1_wc_slab 被 L0_WALL_S 擋住 1.01 m²，6% 的組合會露出來；亮度 0.11／沒擋住 0.24（0.47）
+  露出：L0_WALL_Sb 被 L0_WALL_W_1 擋住 0.24 m²，13% 的組合會露出來；亮度 0.09／沒擋住 0.26（0.33）
+  露出：L0_wc_granite 被 L0_WALL_W_0 擋住 0.21 m²，14% 的組合會露出來；亮度 0.14／沒擋住 0.25（0.57）
+  露出：L0_wc_wood_dark 被 L0_WALL_N_1 擋住 2.16 m²，0% 的組合會露出來；亮度 0.03／沒擋住 0.25（0.13）
+  露出：L0_wc_frame 被 L0_WALL_Nu_0 擋住 1.80 m²，0% 的組合會露出來；亮度 0.03／沒擋住 0.42（0.08）
+  露出：L0_display_9_back 被 L0_WALL_Nu_1 擋住 1.86 m²，0% 的組合會露出來；亮度 0.08／沒擋住 0.30（0.27）
+  露出：L0_wc_vc 被 L0_WALL_Eb 擋住 0.98 m²，1% 的組合會露出來；亮度 0.10／沒擋住 0.23（0.44）
+  露出：L0_display_9_back 被 L0_WALL_N_1 擋住 0.74 m²，0% 的組合會露出來；亮度 0.03／沒擋住 0.30（0.11）
+  露出：L0_WALL_N_2 被 L0_WALL_Ndoor_wc_vc 擋住 0.25 m²，1% 的組合會露出來；亮度 0.03／沒擋住 0.28（0.1）
+  露出：L1_WALL_Nd_1.5 被 L1_WALL_Ndoor_wc_frame 擋住 0.17 m²，1% 的組合會露出來；亮度 0.01／沒擋住 0.26（0.05）
+  露出：L1_wc_granite 被 L0_WALL_Sfacade_wc_frame 擋住 0.03 m²，7% 的組合會露出來；亮度 0.00／沒擋住 0.29（0.01）
+  露出：L1_WALL_S_1 被 L0_WALL_Sfacade_wc_frame 擋住 0.63 m²，0% 的組合會露出來；亮度 0.11／沒擋住 0.29（0.37）
+  露出：L1_wc_terrazzo_lm1.3 被 L1_WALL_S_0 擋住 0.03 m²，6% 的組合會露出來；亮度 0.00／沒擋住 0.28（0.0）
+  露出：L0_WALL_Nu_2 被 L0_WALL_Ndoor_wc_vc 擋住 0.23 m²，1% 的組合會露出來；亮度 0.04／沒擋住 0.29（0.15）
+  露出：L0_wc_wood_dark 被 L0_WALL_W_1 擋住 0.04 m²，14% 的組合會露出來；亮度 0.18／沒擋住 0.25（0.73）
+  露出：L1_WALL_S_0 被 L1_WALL_Sdoor_wc_frame 擋住 0.50 m²，0% 的組合會露出來；亮度 0.10／沒擋住 0.34（0.3）
+  露出：L0_WALL_S 被 L0_WALL_Sfacade_wc_frame 擋住 0.51 m²，0% 的組合會露出來；亮度 0.18／沒擋住 0.28（0.63）
+  露出：L1_wc_terrazzo_lm1.3 被 L1_WALL_S_1 擋住 0.01 m²，6% 的組合會露出來；亮度 0.00／沒擋住 0.28（0.0）
+  露出：L1_wc_slab 被 L0_WALL_Sfacade_wc_frame 擋住 0.02 m²，7% 的組合會露出來；亮度 0.11／沒擋住 0.24（0.46）
+  露出：L1_WALL_Nd_5.0 被 L1_WALL_Ndoor_wc_frame 擋住 0.14 m²，0% 的組合會露出來；亮度 0.02／沒擋住 0.22（0.08）
+  露出：L1_wc_slab 被 L1_WALL_S_0 擋住 0.01 m²，6% 的組合會露出來；亮度 0.03／沒擋住 0.24（0.12）
+  露出：L0_wc_granite 被 L0_WALL_N_0 擋住 0.23 m²，0% 的組合會露出來；亮度 0.12／沒擋住 0.25（0.5）
+  露出：L1_wc_terrazzo_lm1.3 被 L1_WALL_N_0 擋住 0.11 m²，0% 的組合會露出來；亮度 0.05／沒擋住 0.28（0.18）
+  露出：L0_wc_frame 被 L0_WALL_N_0 擋住 0.10 m²，0% 的組合會露出來；亮度 0.05／沒擋住 0.42（0.13）
+  露出：L1_WALL_Nd_-3.0 被 L1_WALL_Ndoor_wc_frame 擋住 0.15 m²，0% 的組合會露出來；亮度 0.02／沒擋住 0.25（0.08）
+  露出：L0_WALL_Sb 被 L0_WALL_Sfacade_wc_frame 擋住 0.18 m²，0% 的組合會露出來；亮度 0.15／沒擋住 0.26（0.56）
+  露出：L0_wc_wood_dark 被 L0_WALL_Nu_1 擋住 0.22 m²，0% 的組合會露出來；亮度 0.17／沒擋住 0.25（0.66）
+  露出：L0_WALL_Nd_-2.5 被 L0_WALL_Ndoor_wc_frame 擋住 0.17 m²，1% 的組合會露出來；亮度 0.19／沒擋住 0.27（0.73）
+  露出：L0_WALL_Nd_2.0 被 L0_WALL_Ndoor_wc_vc 擋住 0.08 m²，1% 的組合會露出來；亮度 0.15／沒擋住 0.22（0.69）
+  露出：L0_WALL_Nd_-2.5 被 L0_WALL_Ndoor_wc_exitglow 擋住 0.05 m²，1% 的組合會露出來；亮度 0.10／沒擋住 0.27（0.39）
+  露出：L1_WALL_N_0 被 L1_WALL_Ndoor_wc_frame 擋住 0.09 m²，0% 的組合會露出來；亮度 0.11／沒擋住 0.25（0.45）
+  露出：L1_wc_terrazzo_lm1.3 被 L1_WALL_N_1 擋住 0.06 m²，0% 的組合會露出來；亮度 0.19／沒擋住 0.28（0.7）
+  要修 34 對
+DONE
