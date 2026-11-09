@@ -1,0 +1,18 @@
+== assets/models/env/second_ai/bb_support/dabu.glb 單面網格 164 個；可疑 0
+== assets/models/env/second_ai/bb_support/haopai.glb 單面網格 460 個；可疑 2
+   WALL_right_pegwall_alpha                   23.69 m²  貼著東西  99%  朝室內 0%  hp_alpha
+   WALL_left_hp_alpha                          9.61 m²  貼著東西  75%  朝室內 3%  hp_alpha
+== assets/models/env/second_ai/bb_support/tongxian.glb 單面網格 71 個；可疑 0
+== assets/models/env/second_ai/bb_support/xinsheng_sports.glb 單面網格 485 個；可疑 0
+== assets/models/env/second_ai/aa_support/shanlan.glb 單面網格 2 個；可疑 0
+== assets/models/env/second_ai/bb_support/dakou_1f.glb 單面網格 1 個；可疑 0
+== assets/models/env/second_ai/bb_support/dakou_2f.glb 單面網格 1 個；可疑 0
+== assets/models/env/second_ai/bb_support/nanyang_lobby.glb 單面網格 1 個；可疑 0
+== assets/models/env/second_ai/bb_support/nanyang_hall.glb 單面網格 1 個；可疑 0
+== assets/models/env/second_ai/aa_support/sunnyside.glb 單面網格 10 個；可疑 0
+== assets/models/env/second_ai/aa_support/komichi.glb 單面網格 5 個；可疑 0
+== assets/models/env/second_ai/aa_support/mokuyobi.glb 單面網格 5 個；可疑 0
+== assets/models/env/second_ai/aa_support/yizhan.glb 單面網格 11 個；可疑 0
+== assets/models/env/second_ai/aa_support/daily_offbeat.glb 單面網格 5 個；可疑 0
+== assets/models/env/second_ai/bb_support/ade.glb 單面網格 65 個；可疑 0
+== assets/models/env/second_ai/library_b1.glb 單面網格 1 個；可疑 0

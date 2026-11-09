@@ -375,7 +375,7 @@ def wall_grid(side, z0, z1, y0, y1):
             yy = min(y + 0.5, y1); fu = (zz - z) / 0.5; fv = (yy - y) / 0.5
             uv = [(g[0], g[1]), (g[0] + (g[2] - g[0]) * fu, g[1]), (g[0] + (g[2] - g[0]) * fu, g[1] + (g[3] - g[1]) * fv), (g[0], g[1] + (g[3] - g[1]) * fv)]
             pts = [(x, y, z), (x, y, zz), (x, yy, zz), (x, yy, z)]
-            u.face(pts if side == 'left' else list(reversed(pts)), uv if side == 'left' else list(reversed(uv))); y = yy
+            u.face(list(reversed(pts)) if side == 'left' else pts, list(reversed(uv)) if side == 'left' else uv); y = yy   # 11-09：左右原本相反，正面朝牆（BACKFACE-HAOPAI）
         z = zz
     c = p['vcm']; col = '#7f8388'
     for (a, b) in (((x, y0, z0), (x, y0, z1)), ((x, y1, z0), (x, y1, z1)), ((x, y0, z0), (x, y1, z0)), ((x, y0, z1), (x, y1, z1))): ccyl(c, a, b, 0.006, col, seg=5)
@@ -390,6 +390,8 @@ def wall_grid(side, z0, z1, y0, y1):
 # ---------------- 右牆：球拍牆（羽球拍四排、前段網球拍） ----------------
 RZ0, RZ1 = -1.25, 6.62
 def peg_wall(z0, z1, y0, y1):
+    # 11-09 BACKFACE-HAOPAI：遊戲用的 GLB 匯出後另外做了兩步（不在這支裡）：洞洞板換一份不透明材質 hp_peg（glb_flip_faces.py --opaque-copy），
+    #   再把貼圖集裡洞洞板那一塊拆成自己的貼圖、板面線性 ×2.5（glb_split_tile.py；BB-B：亮度接近旁邊的灰泥牆）。重新匯出要照 bake_xs.sh 好拍那一段再做一次。
     """v2b：右牆整面洞洞板（灰褐色烤漆纖維板，每 0.5 m 一片、木條收邊）——取代網格＋白牆（LAWWW2：「牆面換成洞洞板，不要白磁磚」）"""
     p = Part('pegwall', side='right'); u = p['alpha']; g = ATL['peg']; x = XI1 - 0.01
     z = z0
@@ -398,7 +400,7 @@ def peg_wall(z0, z1, y0, y1):
         while y < y1 - 1e-4:
             yy = min(y + 0.5, y1); fu = (zz - z) / 0.5; fv = (yy - y) / 0.5
             uv = [(g[0], g[1]), (g[0] + (g[2] - g[0]) * fu, g[1]), (g[0] + (g[2] - g[0]) * fu, g[1] + (g[3] - g[1]) * fv), (g[0], g[1] + (g[3] - g[1]) * fv)]
-            u.face(list(reversed([(x, y, z), (x, y, zz), (x, yy, zz), (x, yy, z)])), list(reversed(uv))); y = yy
+            u.face([(x, y, z), (x, y, zz), (x, yy, zz), (x, yy, z)], uv); y = yy   # 11-09：原本 reversed，正面朝牆、遊戲裡被背面剔除（LAWWW2-B BACKFACE-HAOPAI）
         z = zz
     for (b0, b1) in ((y0 - 0.04, y0), (y1, y1 + 0.03)): p['wood'].rbox(x - 0.015, XI1, b0, b1, z0, z1, r=0.004)
     for zc in (z0, z1): p['wood'].rbox(x - 0.015, XI1, y0, y1, zc - 0.02, zc + 0.02, r=0.004)
