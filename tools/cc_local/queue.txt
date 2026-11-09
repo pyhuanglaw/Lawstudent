@@ -1758,6 +1758,13 @@ E26v2_4154_skip | 4154aeb61763e4653a4c358a0d277d2e8f3e37d1 | probe | docs/story_
 E26v2_4154_yes | 4154aeb61763e4653a4c358a0d277d2e8f3e37d1 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=yes;WAIT0921=1
 E26v2_4154_no | 4154aeb61763e4653a4c358a0d277d2e8f3e37d1 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=no;WAIT0921=1
 E26v2_4154_skipyes | 4154aeb61763e4653a4c358a0d277d2e8f3e37d1 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=yes
+OUTA_87f5_movie | 87f52f2f34b4144cc9002de02bd1cb213c0ecb78 | probe | docs/story_planning/test_tools/cc/cc_outa_probe.py | index.html | 20 | MODE=movie
+E26v5_87f5_yes | 87f52f2f34b4144cc9002de02bd1cb213c0ecb78 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=yes;WAIT0921=1
+E26v5_87f5_skipyes | 87f52f2f34b4144cc9002de02bd1cb213c0ecb78 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=yes
+E26v5_87f5_no | 87f52f2f34b4144cc9002de02bd1cb213c0ecb78 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=no;WAIT0921=1
+OUTA_87f5_morning | 87f52f2f34b4144cc9002de02bd1cb213c0ecb78 | probe | docs/story_planning/test_tools/cc/cc_outa_probe.py | index.html | 20 | MODE=morning
+OUTA_87f5_walk | 87f52f2f34b4144cc9002de02bd1cb213c0ecb78 | probe | docs/story_planning/test_tools/cc/cc_outa_probe.py | index.html | 30 | MODE=walk;MAXS=900
+OUTA_87f5_date | 87f52f2f34b4144cc9002de02bd1cb213c0ecb78 | probe | docs/story_planning/test_tools/cc/cc_outa_probe.py | index.html | 20 | MODE=date
 E26v4_4c45_yes | 4c45bd05c194e9f8e8e1139a33925d073e1b2f31 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=yes;WAIT0921=1
 E26v4_4c45_skipyes | 4c45bd05c194e9f8e8e1139a33925d073e1b2f31 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=yes
 E26v4_4c45_no | 4c45bd05c194e9f8e8e1139a33925d073e1b2f31 | probe | docs/story_planning/test_tools/cc/cc_e26_flow.py | index.html | 60 | E08=no;WAIT0921=1
