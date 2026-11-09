@@ -1,0 +1,58 @@
+=== assets/models/env/second_ai/aa_support/shanlan.glb
+assets/models/env/second_ai/aa_support/shanlan.glb：光照貼圖 1024×1024，屬於網格的格子 686110，被蓋住、會露出來的 2695 格（0.39%）
+=== assets/models/env/second_ai/bb_support/ade.glb
+assets/models/env/second_ai/bb_support/ade.glb：光照貼圖 1024×1024，屬於網格的格子 737706，被蓋住、會露出來的 85222 格（11.55%）
+  WALL_back_wall_wall ← WALL_back_cubby_wood：16575 格
+  WALL_right_wall_wall ← WALL_right_ad_vc：15317 格
+  WALL_left_wall_wall ← WALL_left_ad_vc：10744 格
+  WALL_front_front_wall ← WALL_front_ad_vc_metal：6862 格
+  WALL_back_wall_wall ← WALL_back_ad_vc：5401 格
+rc=0 505 s
+=== assets/models/env/second_ai/bb_support/bike.glb
+assets/models/env/second_ai/bb_support/bike.glb：光照貼圖 1024×1024，屬於網格的格子 671844，被蓋住、會露出來的 34774 格（5.18%）
+  WALL_back_wall_wall ← WALL_back_bk_wood：5173 格
+  WALL_right_wall_wall ← WALL_right_bk_goods：3682 格
+  WALL_left_wall_wall ← WALL_left_bk_wood：3219 格
+  WALL_right_wall_wall ← WALL_right_bk_wood：2832 格
+  WALL_left_wall_wall ← WALL_left_bk_goods：2826 格
+rc=0 641 s
+=== assets/models/env/second_ai/bb_support/corner.glb
+assets/models/env/second_ai/bb_support/corner.glb：光照貼圖 1024×1024，屬於網格的格子 783152，被蓋住、會露出來的 20029 格（2.56%）
+  cr_floor_floor ← WALL_left_wall_wall：3361 格
+  cr_floor_floor ← WALL_right_wall_wall：3360 格
+  cr_floor_floor ← WALL_back_wall_wall：2364 格
+  cr_floor_floor ← WALL_front_front_wall：1804 格
+  cr_floor_floor ← WALL_back_cr_wood：1716 格
+rc=0 1237 s
+=== assets/models/env/second_ai/bb_support/dabu.glb
+=== assets/models/env/second_ai/wancai_multi.glb
+assets/models/env/second_ai/wancai_multi.glb：光照貼圖 1024×1024，屬於網格的格子 618485，被蓋住、會露出來的 46453 格（7.51%）
+  wancai_multi_ceiling ← WALL_ceil_wancai_multi_grid：19136 格
+  WALL_W_wall ← WALL_W_trim：14467 格
+  WALL_N_wall ← WALL_N_trim：4945 格
+  WALL_E_wall ← WALL_E_trim：3738 格
+  WALL_N_wain ← WALL_N_trim：1580 格
+rc=0 348 s
+=== assets/models/env/second_ai/library_stacks.glb
+assets/models/env/second_ai/library_stacks.glb：光照貼圖 1024×1024，屬於網格的格子 867253，被蓋住、會露出來的 26098 格（3.01%）
+  library_stacks_ceiling ← WALL_C_lamp：25730 格
+  WALL_S_wall ← WALL_S_frame：368 格
+rc=0 182 s
+=== assets/models/env/second_ai/bb_support/tongxian.glb
+assets/models/env/second_ai/bb_support/tongxian.glb：光照貼圖 1024×1024，屬於網格的格子 790806，被蓋住、會露出來的 83952 格（10.62%）
+  WALL_right_plaster ← WALL_right_slat：50813 格
+  WALL_left_plaster ← WALL_left_vc：16354 格
+  WALL_right_plaster ← WALL_right_wood：2574 格
+  WALL_left_plaster ← WALL_left_wood：2057 格
+  WALL_back_plaster ← WALL_back_vc：1823 格
+rc=0 331 s
+DONE
+=== assets/models/env/second_ai/bb_support/shaola_interior.glb
+assets/models/env/second_ai/bb_support/shaola_interior.glb：光照貼圖 1024×1024，屬於網格的格子 676360，被蓋住、會露出來的 16247 格（2.40%）
+  WALL_left_wall ← WALL_left_vc：8510 格
+  WALL_right_wall ← WALL_right_vc：5110 格
+  WALL_back_wall ← WALL_back_print：988 格
+  FLOOR ← WALL_left_vc：448 格
+  FLOOR ← WALL_right_vc：448 格
+rc=0 616 s
+=== assets/models/env/second_ai/bb_support/nanyang_lobby.glb
