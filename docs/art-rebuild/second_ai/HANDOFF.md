@@ -27,7 +27,15 @@
     - 好拍右牆洞洞板貼圖本來就不透空，而且面朝向反了，遊戲裡看不到；11-08 重烘對玩家畫面是對的（BB-B 16:40 確認）。
     - 洞洞板、左牆卡片、電視要不要翻正：問 BB-B。
   - CC-B 排了大口 1F CPU trace（CPUTRACE_8172_dakou／haopai），等路徑。
-  - 下一步：#196 溫州街四間＋阿德 --skytint。
+  - 16:5x：BB-B 選好拍 (b)（洞洞板翻正＋烘光照＋不藏鏤空）＋電視、左牆卡片一起查＋離線掃描。
+    - 掃描完成：16 個 GLB 只有好拍兩處（`wip/backface_scan_1109`）；電視沒問題（朝店門）。
+    - 好拍 (b) 的輸入檔：原檔 9a2a40d9 翻正＋hp_peg 材質＋拆貼圖、×2.5。在 scratchpad `haopai_b/haopai_b.glb`，可以用工具重做。
+    - 背景：`chain_1109.sh` 等 #196 第一批烘完，就烘好拍到 `haopai_b/out`（BAKE_CACHE `haopai_b/cache`）。
+  - #196：
+    - 第一批（SUNNY SIDE、小路、木曜日）16:41 開始烘，輸出 `wz196/out`，改前數字 `wz196/before.txt`；
+    - 第二批（日常失速、阿德）好拍之後跑：`bash wz196/run.sh aa_offbeat:daily_offbeat bb_ade:ade`；
+    - 原檔 blob：sunnyside ee1aee00、komichi d000b6ce、mokuyobi 24e2df31、daily_offbeat 6dcba992、ade 49e0de80。
+  - CC-B：SEATOFF_88c8、大口／好拍 CPU trace 都排在 PC，等結果。
 
 ## 🔁 交班（2026-11-08 20:5x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
 
