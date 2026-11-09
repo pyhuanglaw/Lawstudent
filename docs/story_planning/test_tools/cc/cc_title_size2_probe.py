@@ -41,7 +41,7 @@ async def shoot(b, p, d, orient, with_save, res):
 async def main():
     res = []
     async with async_playwright() as p:
-        b = await p.chromium.launch(executable_path='/opt/pw-browsers/chromium')
+        b = await p.chromium.launch(**({'executable_path': '/opt/pw-browsers/chromium'} if os.path.exists('/opt/pw-browsers/chromium') else {}))
         for d in DEVS:
             await shoot(b, p, d, 'landscape', False, res)
             await shoot(b, p, d, 'landscape', True, res)

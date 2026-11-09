@@ -1732,3 +1732,6 @@ R8172_p0b | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/p0_movement.
 R8172_wcfl | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/flow_wancai_floors.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R8172_libfl | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/flow_library_floors.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 R8172_dormhall | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/flow_dorm_hall.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+CPUTRACE_8172_dakou | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf | 20 | SOLO=1;ZONE=xs_dakou;SETTLE=30;SECS=20
+CPUTRACE_8172_haopai | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py | index.html?perf | 20 | SOLO=1;ZONE=xs_haopai;SETTLE=30;SECS=20
+STUDY_8172_d118b3 | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py | index.html | 240 |
