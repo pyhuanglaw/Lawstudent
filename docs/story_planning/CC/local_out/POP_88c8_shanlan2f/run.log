@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_seat_pop_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\POP_88c8_shanlan2f\out
+CC 坐著的人進畫面：worktree ?；xs_shanlan 2F；TAG 88c8；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 xs_shanlan 2025-10-18 14:00（條件事件、手機關）
+  [前置／捷徑] 【前置／捷徑】讀檔把玩家放到 2F（lv1，2F 座位旁 {"x": -0.3, "z": 8.7}）
+  [  67.3s] 坐著的人：{"n": 4, "c": [0.75, 6.72], "p": [-1.05, 8.15], "far3": 2, "every": 4}
+PASS 同一層有坐著的人
+  [  67.4s] 鏡頭轉到背對坐著的人（yaw 2.24），等 5 秒
+  [  73.4s] 第 1 張（轉過去後第 2 幀）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  73.4s] 第 2 張（轉過去後第 4 幀）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  73.4s] 第 3 張（轉過去後第 6 幀）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  73.4s] 第 4 張（轉過去後第 8 幀）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  73.4s] 第 5 張（轉過去後第 10 幀）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  73.4s] 第 6 張（轉過去後第 12 幀）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  75.3s] hips 高於 0.75 m（像站著）的：[]
+PASS 拍到 6 張  6
+PASS 沒有 JS 例外  []
+ALL PASS
