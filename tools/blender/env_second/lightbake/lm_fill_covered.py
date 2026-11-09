@@ -44,6 +44,18 @@ def hits(P, d, tris, eps=1e-9):
     return np.where(h, t, np.inf)
 
 
+def hit_min_count(P, d, tris, budget=2_000_000):
+    """和 hits 一樣，但只回傳每一點的最近距離（沒碰到＝inf）和碰到幾個三角形（11-09 #204：大的房間——山嵐、阿德、好拍——
+    一個三角形幾千格 × 牆幾萬個三角形，hits 的 k×m×3 陣列要十幾 GB，被系統砍掉）。分批算，每批 k×m ≤ budget；結果和 hits 完全一樣。"""
+    k, m = len(P), len(tris); D = np.broadcast_to(d, P.shape)
+    mins = np.full(k, np.inf); cnt = np.zeros(k, np.int64)
+    if m == 0 or k == 0: return mins, cnt
+    step = max(1, budget // m)
+    for i in range(0, k, step):
+        h = hits(P[i:i + step], D[i:i + step], tris); mins[i:i + step] = h.min(1); cnt[i:i + step] = np.isfinite(h).sum(1)
+    return mins, cnt
+
+
 def covered(glb, H, W, CONTACT=0.02):
     """光照貼圖 W×H 上：objmap（每一格屬於哪個網格，-1＝留邊）、cov（被 WALL_ 網格蓋住、會露出來的格子）、stats（（網格、蓋住它的）：格數）。測試也用。"""
     SC = scene(glb, 400); objs, walls, cam = SC['objs'], SC['walls'], SC['cam']
@@ -80,11 +92,10 @@ def covered(glb, H, W, CONTACT=0.02):
             c = np.zeros(len(P), bool); by = np.full(len(P), -1)
             for k in cand:
                 tr = wtris[k]
-                dist = hits(P, N[t], tr)
-                a = (dist.min(1) <= CONTACT)
-                n1 = np.isfinite(dist).sum(1)
+                dmin, n1 = hit_min_count(P, N[t], tr)
+                a = (dmin <= CONTACT)
                 d2 = d2s[0] if abs(N[t][1]) < 0.9 else d2s[1]
-                n2 = np.isfinite(hits(P, d2, tr)).sum(1)
+                n2 = hit_min_count(P, d2, tr)[1]
                 inside = (n1 % 2 == 1) & (n2 % 2 == 1)
                 hit = (a | inside) & ~c; by[hit] = k; c |= a | inside
             if c.any():
