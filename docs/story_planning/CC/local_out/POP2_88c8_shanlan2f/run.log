@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_seat_pop_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\POP2_88c8_shanlan2f\out
+CC 坐著的人進畫面：worktree ?；xs_shanlan 2F；TAG 88c8b；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 xs_shanlan 2025-10-18 14:00（條件事件、手機關）
+  [前置／捷徑] 【前置／捷徑】讀檔把玩家放到 2F（lv1，2F 座位旁 {"x": -0.3, "z": 8.7}）
+  [  62.7s] 坐著的人：{"n": 4, "c": [0.75, 6.72], "p": [-1.05, 8.15], "far3": 2, "every": 4}
+PASS 同一層有坐著的人
+  [  64.2s] 鏡頭距離設成 1.6 m（E.cam.distTarget）
+  [  66.8s] 試 yaw 2.24：{"seated": 4, "far3": 2, "visible": 0, "visibleNear": 1}
+PASS 找得到一個「離玩家 3 m 以上的坐著的人一個都不在畫面裡」的鏡頭方向
+  [  66.8s] 鏡頭背對（yaw 2.24），等 5 秒
+PASS 背對 5 秒後畫面裡（3 m 以上）坐著的人 0 個  {"seated": 4, "far3": 2, "visible": 0, "visibleNear": 1}
+  [  72.9s] 第 1 張（轉過去後第 2 幀，鏡頭 yaw -0.899）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  72.9s] 第 2 張（轉過去後第 4 幀，鏡頭 yaw -0.899）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  72.9s] 第 3 張（轉過去後第 6 幀，鏡頭 yaw -0.899）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  72.9s] 第 4 張（轉過去後第 8 幀，鏡頭 yaw -0.899）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  72.9s] 第 5 張（轉過去後第 10 幀，鏡頭 yaw -0.899）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  72.9s] 第 6 張（轉過去後第 12 幀，鏡頭 yaw -0.899）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  72.9s] 第 7 張（轉過去後第 14 幀，鏡頭 yaw -0.899）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  72.9s] 第 8 張（轉過去後第 16 幀，鏡頭 yaw -0.899）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  72.9s] 第 9 張（轉過去後第 18 幀，鏡頭 yaw -0.899）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  72.9s] 第 10 張（轉過去後第 20 幀，鏡頭 yaw -0.899）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  72.9s] 第 11 張（轉過去後第 22 幀，鏡頭 yaw -0.899）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  72.9s] 第 12 張（轉過去後第 24 幀，鏡頭 yaw -0.899）：[{"id": "?", "pose": "read", "hipsY": 0.588}, {"id": "?", "pose": "sit", "hipsY": 0.594}, {"id": "?", "pose": "read", "hipsY": 0.62}, {"id": "?", "pose": "read", "hipsY": 0.588}]
+  [  75.0s] hips 高於 0.75 m（像站著）的：[]
+PASS 拍到 12 張  12
+  [  75.0s] 轉過去以後畫面裡：{"seated": 4, "far3": 2, "visible": 2, "visibleNear": 2}
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -1,0 +1,317 @@
+{
+ "seated": {
+  "n": 4,
+  "c": [
+   0.75,
+   6.72
+  ],
+  "p": [
+   -1.05,
+   8.15
+  ],
+  "far3": 2,
+  "every": 4
+ },
+ "caps": [
+  {
+   "f": 2,
+   "npc": [
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    },
+    {
+     "id": "?",
+     "pose": "sit",
+     "hipsY": 0.594
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.62
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    }
+   ]
+  },
+  {
+   "f": 4,
+   "npc": [
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    },
+    {
+     "id": "?",
+     "pose": "sit",
+     "hipsY": 0.594
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.62
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    }
+   ]
+  },
+  {
+   "f": 6,
+   "npc": [
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    },
+    {
+     "id": "?",
+     "pose": "sit",
+     "hipsY": 0.594
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.62
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    }
+   ]
+  },
+  {
+   "f": 8,
+   "npc": [
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    },
+    {
+     "id": "?",
+     "pose": "sit",
+     "hipsY": 0.594
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.62
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    }
+   ]
+  },
+  {
+   "f": 10,
+   "npc": [
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    },
+    {
+     "id": "?",
+     "pose": "sit",
+     "hipsY": 0.594
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.62
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    }
+   ]
+  },
+  {
+   "f": 12,
+   "npc": [
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    },
+    {
+     "id": "?",
+     "pose": "sit",
+     "hipsY": 0.594
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.62
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    }
+   ]
+  },
+  {
+   "f": 14,
+   "npc": [
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    },
+    {
+     "id": "?",
+     "pose": "sit",
+     "hipsY": 0.594
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.62
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    }
+   ]
+  },
+  {
+   "f": 16,
+   "npc": [
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    },
+    {
+     "id": "?",
+     "pose": "sit",
+     "hipsY": 0.594
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.62
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    }
+   ]
+  },
+  {
+   "f": 18,
+   "npc": [
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    },
+    {
+     "id": "?",
+     "pose": "sit",
+     "hipsY": 0.594
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.62
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    }
+   ]
+  },
+  {
+   "f": 20,
+   "npc": [
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    },
+    {
+     "id": "?",
+     "pose": "sit",
+     "hipsY": 0.594
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.62
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    }
+   ]
+  },
+  {
+   "f": 22,
+   "npc": [
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    },
+    {
+     "id": "?",
+     "pose": "sit",
+     "hipsY": 0.594
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.62
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    }
+   ]
+  },
+  {
+   "f": 24,
+   "npc": [
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    },
+    {
+     "id": "?",
+     "pose": "sit",
+     "hipsY": 0.594
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.62
+    },
+    {
+     "id": "?",
+     "pose": "read",
+     "hipsY": 0.588
+    }
+   ]
+  }
+ ]
+}
