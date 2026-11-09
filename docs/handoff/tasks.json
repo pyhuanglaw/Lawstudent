@@ -50183,7 +50183,7 @@
    "id": "PERF-XS-NPC-1108",
    "title": "新生南路山嵐（32 fps）、大口二樓（36 fps）慢：主因是店裡的 NPC（6～11 個），拿掉回到 57～58 fps",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "進行中",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -50195,13 +50195,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-09 16:4x LAWWW-B】LAWWW2-B 682859723 接回（DLV-1109-L2-SEATOFF）：engine3d.js seatOff（坐著、畫面外、離玩家 ≥3 m、不在走／後座／揮手＝每 4 幀 CHAR.animate，時間累加、進畫面先補）＋tests/seat_off_throttle_unit.js（舊 5 FAIL）。下一步：CC-B PC 跑 seat_off_probe（山嵐 1F／2F、大口 2F、好拍；every1 vs every4）＋BB 排 flow_seated_spawn.py、flow_b4_lecture.py。LAWWW2 提醒：只省畫面外的人，renderMs 大塊在畫面裡，效果小就做 seated_figures_lod。 ｜ 【11-09 16:2x LAWWW-B】派 LAWWW2-B 寫 patch（它提的；有 PERFAB 對照腳本）：坐著、不在畫面裡的 NPC 動畫與彈簧骨降頻（dt 累加、進畫面先補一次、走路的／3 m 內照舊）；交 patch＋Node 單元測試（舊程式 FAIL）＋CC-B PC PERFAB 前後數字；LAWWW 接、負責 character3d 回歸。之後再看 seated_figures_lod。 ｜ 【11-08 20:4x LAWWW-B】LAWWW2-B 20:42（191df62aa docs/art-rebuild/second_ai/wip/perf_xs_1108/README.md；CC-B PC PERFAB_8172v2）：找路、一樓也畫、GPU 填像素都排除。LAWWW 決定先做 (3) 坐著、在畫面外的 NPC 動畫和彈簧骨降頻，再看 (2) 坐著的 NPC 用 seated_figures_lod；不做 (1) 人數上限（店裡會變空）。山嵐 PointLight、100～120 ms 小卡頓（CC-B 錄 CPU 紀錄）等 NPC 處理完再量。D99 後面。",
+   "next": "【11-09 17:2x LAWWW-B】LAWWW2-B 59f82156a（README 最後一節）：seatOff 幾乎沒作用（三個慢的點每幀只有 1 人符合），留著；大頭是 CHAR.animate（每人 1～2 ms：sitFeet 9.1%（整個人 updateWorldMatrix 5.9%）、footIK 2.8%、彈簧骨 5.9%、表情 3%）、畫面 getProgram＋getParameters 9.6%（大口有人物的材質每幀重判 shader）、117 ms 卡頓 2 次＝SkinnedMesh.computeBoundingSphere（某個 frustumCulled 開著的蓋皮網格第一次被畫）。派 LAWWW2 寫：(D) 卡頓（CC 跑 skinned_probe）→ (C) 換 program 的材質 → (A) sitFeet 記下解；不做 (B)。每步附 PERFAB 前後。 ｜ 【11-09 16:4x LAWWW-B】LAWWW2-B 682859723 接回（DLV-1109-L2-SEATOFF）：engine3d.js seatOff（坐著、畫面外、離玩家 ≥3 m、不在走／後座／揮手＝每 4 幀 CHAR.animate，時間累加、進畫面先補）＋tests/seat_off_throttle_unit.js（舊 5 FAIL）。下一步：CC-B PC 跑 seat_off_probe（山嵐 1F／2F、大口 2F、好拍；every1 vs every4）＋BB 排 flow_seated_spawn.py、flow_b4_lecture.py。LAWWW2 提醒：只省畫面外的人，renderMs 大塊在畫面裡，效果小就做 seated_figures_lod。 ｜ 【11-09 16:2x LAWWW-B】派 LAWWW2-B 寫 patch（它提的；有 PERFAB 對照腳本）：坐著、不在畫面裡的 NPC 動畫與彈簧骨降頻（dt 累加、進畫面先補一次、走路的／3 m 內照舊）；交 patch＋Node 單元測試（舊程式 FAIL）＋CC-B PC PERFAB 前後數字；LAWWW 接、負責 character3d 回歸。之後再看 seated_figures_lod。 ｜ 【11-08 20:4x LAWWW-B】LAWWW2-B 20:42（191df62aa docs/art-rebuild/second_ai/wip/perf_xs_1108/README.md；CC-B PC PERFAB_8172v2）：找路、一樓也畫、GPU 填像素都排除。LAWWW 決定先做 (3) 坐著、在畫面外的 NPC 動畫和彈簧骨降頻，再看 (2) 坐著的 NPC 用 seated_figures_lod；不做 (1) 人數上限（店裡會變空）。山嵐 PointLight、100～120 ms 小卡頓（CC-B 錄 CPU 紀錄）等 NPC 處理完再量。D99 後面。",
    "xai": {
     "spec": "LAWWW2-B 11-08 20:42（BB-B 18:43 P3）",
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "山嵐 1F／2F、大口 2F 有 NPC 時 PC 50 fps 以上",
     "receiver": "LAWWW（整合）、BB（測）",
-    "ack": "ACTIONED",
+    "ack": "SENT",
     "owner": "LAWWW2"
    }
   },
