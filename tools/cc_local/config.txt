@@ -5,3 +5,5 @@ PARALLEL=3
 HEADLESS=1
 # DEV_BRANCH＝值班 LAWWW 的開發分支（runner 印 dev head、meta.json 的 dev_branch／sha_on_dev_branch 照這個）。CC-B 11-09：帳號 B＝modest-rubin；換班照 duty.json ruleSource.branch 改
 DEV_BRANCH=claude/modest-rubin-2lyp7g
+# CANCEL=<ID>,<ID>：停掉正在跑的那幾項（runner 每 2 分鐘看一次 cc-testing 上的這個檔；停掉的 meta.error＝cancelled）。CC-B 11-09。用完記得清掉，不然重排同一個 ID 也會被停
+CANCEL=
