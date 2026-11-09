@@ -1,0 +1,22 @@
+{
+ "info": {
+  "zone": "xs_dakou",
+  "lv": 0,
+  "npc": 11,
+  "q": "medium",
+  "pr": 1,
+  "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+ },
+ "frames": {
+  "n_hitch": 1,
+  "hitches": [
+   {
+    "at_ms": 17432,
+    "ms": 100,
+    "ts_us": 1794264480395900,
+    "mark": "cc_hitch_17432"
+   }
+  ],
+  "t0_us": 1794264462963900
+ }
+}
