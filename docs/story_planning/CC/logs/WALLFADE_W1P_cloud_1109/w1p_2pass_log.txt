@@ -1,0 +1,8 @@
+CC 牆淡出拍照：worktree 676be35773；TAG 2pass；Playwright ≠ iPhone
+PASS 遊戲載入
+  [前置／捷徑] [xs_dakou] 【前置／捷徑】讀檔到 xs_dakou 2025-10-18 14.0（出生點）
+PASS [xs_dakou] 在 xs_dakou  {"zone": "xs_dakou", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.02}
+  [前置／捷徑] [xs_shanlan] 【前置／捷徑】讀檔到 xs_shanlan 2025-10-18 14.0（出生點）
+PASS [xs_shanlan] 在 xs_shanlan  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+PASS 沒有 JS 例外  []
+ALL PASS
