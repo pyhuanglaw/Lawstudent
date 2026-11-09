@@ -11,6 +11,8 @@ BB-B XS9_102a_9556（雲端）＋XS9_GPU（PC GPU）判定：
   - 右牆前 9 mm 有一片鏤空洞洞板 `WALL_right_pegwall_alpha`（hp_alpha，MASK，貼圖 65% 透空，23.7 m²），遊戲裡透過鏤空看到的就是後面那面牆。
   - Cycles 烘焙把它當實心，牆的光照只有 0.02。
   - Blender 匯入的材質，alpha 有經 MASK 判斷接到 BSDF Alpha，照理會透光，但實測就是不透光。根本原因還在查，見最後一節。
+  - **11-09 更正**（`../mask_bake_rootcause_1109/README.md`）：上面兩點錯了。洞洞板在貼圖上那一塊 alpha 全是 255（`haopai_tex.py`：洞畫成暗的、不透空），遊戲裡、烘焙裡都是實心板；Cycles 有照 MASK 透光。
+    所以後面那面牆在遊戲裡看不到，BB-B 看到的深灰褐最可能是洞洞板本身（灰褐烤漆、即時光）。這次重烘不會改變它的樣子，要等 CC 重拍確認。
 - **改法**：`bake_xs.sh` 好拍的 HIDE 加 `alpha`（`fbee5485a`）。烘焙時藏起來：洞洞板、左牆 9.6 m² 的鏤空板、球拍卡。匯出照舊。
 - **重烘**：512 取樣，原檔是開發 `51d7f0ff6` 的 `d3fd4b7a`。
   - GLB 和開發那一版**逐位元組一樣**：HIDE 只影響烘焙時的光，不影響 UV、節點。所以只換兩張貼圖。
@@ -62,4 +64,4 @@ BB-B XS9_102a_9556（雲端）＋XS9_GPU（PC GPU）判定：
 - P3 待查：其他店的 MASK 鏤空物件，烘焙時影子都是整片卡片的形狀。
   - 黃金葛葉片卡：大步 39.5 m²、山嵐 22 m²、同弦 1.2 m²；新生運動另有 `L0_xs_alpha` 27.6 m²。
   - BB-B 已經判這幾間 ART_APPROVED，這次不動。
-  - Cycles 為什麼不透 MASK 的光，還沒查到。
+  - ~~Cycles 為什麼不透 MASK 的光，還沒查到。~~ 11-09 查完：Cycles 沒問題，見 `../mask_bake_rootcause_1109/README.md`。

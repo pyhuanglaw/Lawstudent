@@ -17,6 +17,17 @@
   - `roles` OK（LAWWW2 158 行待辦都在總表）。
 - `duty register` 已寫 `duty_LAWWW2.json`（state on，sinceSha 07725e9f），等 LAWWW-B `duty sync`。
 - 接著做：照下面「交班」那一節的 E（下一班第一步），問 LAWWW-B 有沒有新的派工。沒有就做 P3：Cycles 把 MASK 鏤空當實心的根本原因、#196 溫州街四間＋阿德 --skytint。
+- **16:4x 進度**：
+  - LAWWW-B 16:17 duty sync（a57112161，五職位都 on），派 PERF-XS-NPC-1108。
+  - PERF-XS-NPC-1108 **已交件**（682859723，`wip/perf_xs_npc_throttle_1109/`）：
+    - engine3d.js 坐著、畫面外、離你 3 m 以上的 NPC 每 4 幀更新一次；
+    - 開發原樣 FAILED 5 → ALL PASS；引擎相關 310 支 Node 全過；
+    - 等 LAWWW-B 整合，再請 CC-B 跑 `seat_off_probe.js`。
+  - P3 MASK 查完（`wip/mask_bake_rootcause_1109/`）：Cycles 沒問題，紀錄寫錯了，已更正。
+    - 好拍右牆洞洞板貼圖本來就不透空。
+    - 11-08 重烘不會改變洞洞板的樣子，要等 CC 重拍確認。
+  - CC-B 排了大口 1F CPU trace（CPUTRACE_8172_dakou／haopai），等路徑。
+  - 下一步：#196 溫州街四間＋阿德 --skytint。
 
 ## 🔁 交班（2026-11-08 20:5x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
 
@@ -65,7 +76,7 @@
 | bake_room 續烘（BAKE_CACHE／BAKE_STOP_AFTER） | **已整合**（`c29fd2654`→開發 `aa46cdb7f`）；LAWWW-B 那台 Blender 結束時 segfault 139 → 回歸改成接受 139 但輸出／cache 要對（`bc9b27053`，patch 已交、P3） | `wip/bake_room_resume_1108/` |
 | **新生南路 XS9**（BB-B） | **九間全部 ART_APPROVED**（BB-B 13:43 PC GPU；好拍 `ca47949cf`、山嵐柱子 P3 結案）。原本：8 間 **ART_APPROVED**（大口 1F／2F、大步、同弦、新生運動、南洋大廳、1 廳、山嵐）。**好拍**重烘（HIDE 加 alpha：鏤空洞洞板 Cycles 當實心）＋**山嵐柱子**朝街那一面壓暗（新工具 lm_scale_faces.py）**已交 LAWWW-B（`1032e6097`）**，等整合、CC 拍、BB-B 判 | `wip/xs9_fix_1108/` |
 | 教訓（11-08 13:17） | **執行中的 .sh 不能原地改**：我覆寫 bake_xs.sh 時好拍正在烘，bash 讀錯位又重跑了一次 bake_room（PID 停掉、手動補 glb_fix_instnames 和烘焙紀錄，輸出核對過）。一律寫 .new 再 mv | — |
-| P3 待查 | Cycles 烘焙把 MASK 鏤空當實心（葉片卡：大步 39.5 m²、山嵐 22、同弦 1.2；新生運動 L0_xs_alpha 27.6）：卡片形影子；BB-B 已 ART_APPROVED，不擋 | — |
+| P3 查完（11-09） | ~~Cycles 烘焙把 MASK 鏤空當實心~~：Cycles 沒問題（最小場景透光比＝貼圖透空比）。好拍右牆洞洞板貼圖本來就不透空（alpha 255），葉片卡真的有透空、影子被光照解析度糊成卡片形。好拍右牆暗不暗要等 CC 重拍（見 wip/mask_bake_rootcause_1109） | BB-B 判 |
 | P3 | 美國公寓浴室兩片門板拆節點；約 40 間外牆腳黑線可跑 lm_fill_covered（等決定）；#196、#201 | — |
 
 ## 🔨 （舊）現在在做（11-08 11:5x UTC，帳號 B LAWWW2-B）
