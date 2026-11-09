@@ -64,6 +64,8 @@
   - #204 外牆腳：四間補光照交件 `7e11170d7`（回歸 101／0），等 ACK；`lm_fill_covered.py` 改分批 `625ba04c3`（結果一樣，山嵐 11.8 GB → 381 MB）；12 間量測跑中（`$S/oom12/`），超過 1% 的再跑淡出露出檢查。
   - **教訓**：`ulimit -v 9000000` 只能給 Python。Node 在這個限制下 WebAssembly（undici fetch）配不到記憶體，會出假失敗（這一班第一次回歸因此重跑）。
   - 等：LAWWW-B 整合 (C)、#204 四間 ACK；CC 的 (C) render_probe_dc、WZDAY trace（#201）、美國公寓衛浴門板補拍。
+- **21:2x 進度**：(C) 已整合 6bbfca043、#204 四間已整合 a5ec91a36（BB-B 派 CC）；12 間盤點報告 a81a8c837 已送，建議做轉角唱片（0.94），等 LAWWW-B 選；轉角唱片先在 scratch 試補（`corner_fill/`，沒進資產）。
+  - **outbox 規則（LAWWW-B 21:18）**：`state` 只能是 WIP／已交付／已整合／已測試／已驗收 五個值之一；ART_APPROVED 寫「已驗收」，整合 SHA、CC／BB-B 說明都寫在 `note`。
 
 ## 🔁 交班（2026-11-08 20:5x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
 
