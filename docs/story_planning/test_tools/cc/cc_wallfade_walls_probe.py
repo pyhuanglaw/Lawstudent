@@ -28,13 +28,17 @@ async def main():
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
         for zw in ZONES:
-            zone, walls = zw[0], (zw[1] if len(zw) > 1 else 'LRB'); tag = '[%s]' % zone
+            zone, walls = zw[0], ([zw[1]] if len(zw) > 1 and zw[1].startswith('@') else (zw[1] if len(zw) > 1 else 'LRB')); tag = '[%s]' % zone
             R.setup('%s 【前置／捷徑】讀檔到 %s %s %s（出生點，先量可走範圍）' % (tag, zone, DAY, HOUR))
             await D.load_zone(pg, cdp, zone, DAY, HOUR, wait=9000)
             for w in walls:
-                pk = await pg.evaluate(PICK, [w, WIN]); R.note('%s 牆 %s：%s' % (tag, w, json.dumps(pk)))
-                if not pk['pick']: R.check('%s 牆 %s 找得到站的格子' % (tag, w), False, json.dumps(pk)); continue
-                x, z = pk['pick']; R.setup('%s 【捷徑】讀檔站到 (%s, %s)' % (tag, x, z))
+                if w.startswith('@'):   # 指定站位：zone:@x@z@yaw度（LAWWW2 給的座標；yaw＝鏡頭在玩家的 (sin, cos) 那一側）
+                    _, x, z, yd = w.split('@'); x, z = float(x), float(z); YAW[w] = math.radians(float(yd)); R.note('%s 指定站位 (%s, %s) yaw %s°' % (tag, x, z, yd))
+                else:
+                    pk = await pg.evaluate(PICK, [w, WIN]); R.note('%s 牆 %s：%s' % (tag, w, json.dumps(pk)))
+                    if not pk['pick']: R.check('%s 牆 %s 找得到站的格子' % (tag, w), False, json.dumps(pk)); continue
+                    x, z = pk['pick']
+                R.setup('%s 【捷徑】讀檔站到 (%s, %s)' % (tag, x, z))
                 await D.load_zone(pg, cdp, zone, DAY, HOUR, x=x, z=z, yaw=0.0, wait=9000)
                 for _ in range(12):
                     if not await pg.evaluate(CLOSE): break
@@ -52,7 +56,7 @@ async def main():
                         await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700)
                     await pg.evaluate("a=>{ const C=GAME.E.cam; C.yaw=a[0]; C.distTarget=a[1]; C.dist=a[1]; C.manualT=3; }", [yaw, DIST]); await pg.wait_for_timeout(1500)
                     await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(300)
-                    await pg.screenshot(path=os.path.join(OUT, 'ww_%s_%s_%s%+d.png' % (TAG, zone, w, int(o))))
+                    await pg.screenshot(path=os.path.join(OUT, 'ww_%s_%s_%s%+d.png' % (TAG, zone, w.replace('@','_').replace('.','p'), int(o))))
                     await pg.evaluate(D.HUD + '(true)')
         R.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
