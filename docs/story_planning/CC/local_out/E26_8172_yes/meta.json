@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "E26_8172_yes",
+  "sha": "8172937340e0e41f1b5dd29e8ab92344688a1be5",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_e26_flow.py",
+  "env": "E08=yes",
+  "machine": "MSI",
+  "start": "2026-11-10T00:38:19",
+  "end": "2026-11-10T00:47:59",
+  "seconds": 580,
+  "exit": 0,
+  "error": null,
+  "runner": "c0b2a5e558",
+  "rf_round": "4",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 16,
+    "mem": 54,
+    "used_gb": 17.1,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
