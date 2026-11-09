@@ -1240,3 +1240,12 @@
 [02:48:22] [res] cpu=3% mem=46% (14.7/31.4 GB) chrome_testing=5  START E26v2_4154_yes
 [02:48:22] [res] cpu=3% mem=46% (14.7/31.4 GB) chrome_testing=5  START E26v2_4154_skip
 [02:49:18] [res] cpu=3% mem=49% (15.3/31.4 GB) chrome_testing=9  END E26s_4154_skipyes
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       fbce1e022..e97480278  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[02:49:25] ==== END   E26s_4154_skipyes  exit=1  553s   ====
+[02:49:29] memory 51% before starting E26v2_4154_no (2 running)
+[02:49:29] ==== START E26v2_4154_no  (probe @ 4154aeb61763e4653a4c358a0d277d2e8f3e37d1) ====
+[02:49:32] [res] cpu=12% mem=52% (16.2/31.4 GB) chrome_testing=9  START E26v2_4154_no
+[02:50:34] 正在跑：E26v2_4154_skip（已跑 2 分／上限 60 分）、E26v2_4154_yes（已跑 2 分／上限 60 分）、E26v2_4154_no（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[02:52:47] [res] cpu=12% mem=48% (15.2/31.4 GB) chrome_testing=10  END E26v2_4154_yes

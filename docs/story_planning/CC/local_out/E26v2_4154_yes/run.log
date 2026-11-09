@@ -1,0 +1,29 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_e26_flow.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\E26v2_4154_yes\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [   0.0 分] 2024-09-01 {"h": 21, "zone": "dorm", "stage": "econ"}
+  [   0.1 分] 2024-08-23 {"h": 9, "zone": "dorm", "stage": "econ"}
+   ▶ 「……我昨天沒睡。」 ／ ['「……我昨天沒睡。」', '「妳一直在看我睡覺喔？」']
+  [   0.3 分] 2024-08-25 {"h": 16, "zone": "dorm", "stage": "econ"}
+  [   0.4 分] 2024-09-01 {"h": 21, "zone": "dorm", "stage": "econ"}
+   ▶ 「你怎麼知道？」 ／ ['「你怎麼知道？」', '「……對。」']
+   ▶ 先睡。明天再拆。 ／ ['先睡。明天再拆。', '今天拆完。']
+  [   1.0 分] 2024-09-02 {"h": 7, "zone": "dorm", "stage": "econ"}
+  [   1.2 分] 2024-09-12 {"h": 21, "zone": "dorm", "stage": "econ"}
+  [ 108.3s] 「睡覺」途中：phone 開著（遊戲暫停），先關掉
+  [ 109.2s] 「睡覺」途中停下（離目標 1.23 m）：你終於把箱子拆完了。阿勳幫你把空
+  [   1.5 分] 2024-09-13 {"h": 19, "zone": "dorm", "stage": "econ"}
+   ▶ 「這件妳穿太大了。」 ／ ['「這件妳穿太大了。」', '「那我穿妳的？」', '（拿起手機拍照）']
+  [   1.9 分] 2024-09-16 {"h": 21, "zone": "dorm", "stage": "econ"}
+  [ 148.0s] 「睡覺」途中：phone 開著（遊戲暫停），先關掉
+  [ 151.5s] 到達「睡覺」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+   ▶ 睡覺到下一件事 ／ ['睡覺到下一件事', '先不睡']
+  [   2.2 分] 2024-09-20 {"h": 17, "zone": "dorm", "stage": "econ"}
+   跳過時間： 等到晚上（20:00）
+  [   2.5 分] 2024-09-21 {"h": 13, "zone": "dorm", "stage": "econ"}
+   [9/21 等 16:00] 按「等到下午（14:00）」（不按會跳過 16:00 的）
+   跳過時間： 等到下午（14:00）
+   [9/21 等 16:00] 沒有 ≤16:00 的跳過時間，站著等 20 秒（遊戲時間 14.01）
+   跳過時間： 9/21 站著等
+   [E08=yes] 停在 2024-09-21 16；私訊原文「烤肉你要去嗎？我在舟山路門口，可以一起走過去。」；回覆鍵 ['好', '今天不行']；toast「手機｜可昕：沒事了。路過的人幫我裝好了。」；caption「你在宿舍 房間待到 14:00。」
+   [E08=yes] 韋綸「烤肉你要去嗎？」：回「好」（E08_GO=yes）
