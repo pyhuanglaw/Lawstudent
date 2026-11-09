@@ -1744,6 +1744,10 @@ CPUTRACE_8172_haopai | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/s
 R8172_seatspawn | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | game | tests/flow_seated_spawn.py | index.html | 40 | XARGS={url} {out};CC_HEADLESS=0
 POP2_88c8_shanlan2f | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | probe | docs/story_planning/test_tools/cc/cc_seat_pop_probe.py | index.html | 20 | SOLO=1;ZONE=xs_shanlan;FLOOR=2;TAG=88c8b
 POP2_8172_shanlan2f | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_seat_pop_probe.py | index.html | 20 | SOLO=1;ZONE=xs_shanlan;FLOOR=2;TAG=8172b
+SOC_88c8_rom_a | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 120 | CASES=heroine_01,heroine_02
+SOC_88c8_rom_b | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 120 | CASES=heroine_03,heroine_04
+SOC_88c8_rom_c | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 120 | CASES=heroine_05,classmate_peishan
+SOC_88c8_rom_d | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 120 | CASES=kexin,classmate_xinci
 STUDY_8172_d118b3 | 8172937340e0e41f1b5dd29e8ab92344688a1be5 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py | index.html | 240 |
 R88c8_p0 | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
 R88c8_reach | 88c83d1be5c69a81de3af59b7342df6cc932bdfa | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
