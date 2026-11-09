@@ -6672,7 +6672,7 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "aad8d3839",
    "receiver": "LAWWW",
-   "ack": "ACKNOWLEDGED",
+   "ack": "ACTIONED",
    "task": "#196 溫州街五間白天光照照 --skytint 重烘（SUNNY SIDE、小路、木曜日、日常失速、阿德）",
    "files": [
     "assets/models/env/second_ai/aa_support/{sunnyside,komichi,mokuyobi,daily_offbeat}.glb＋_lm_day.webp",
@@ -6680,10 +6680,10 @@
     "tools/blender/env_second/lightbake/{sunnyside,komichi,mokuyobi,daily_offbeat,ade}_lm.json",
     "docs/art-rebuild/second_ai/wip/wz196_skytint_1109/README.md"
    ],
-   "state": "已交付（READY_FOR_REVIEW）",
+   "state": "已整合（LAWWW-B 07ce887a1；本機全套 1160 支沒有 FAIL）",
    "noDirectIntegrate": false,
    "note": "15 個檔、不用改程式；店門口藍/紅 1.17→0.98、0.88→0.81、0.93→0.82、1.22→0.99、1.26→1.11；亮度 −1%；節點／材質／LM 網格不變、晚上那張逐位元組一樣；63 支 Node 全過（開發 e767a3e3e＋15 檔）",
-   "next": "LAWWW-B 18:28 核對 15 個檔 sha256 一致，跑完全套（GHA 啟動失敗，改雲端本機）就接；CC 拍、BB-B 判"
+   "next": "BB-B 排 CC 拍五間 14:00；BB-B 判"
   }
  ]
 }
