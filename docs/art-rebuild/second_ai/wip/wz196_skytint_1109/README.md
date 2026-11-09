@@ -69,7 +69,7 @@
 **不用改程式、不用改測試**：直接從 `claude/funny-albattani-iawshm` 複製這 15 個檔。
 
 ## 測試（Node，D131；工作樹＝開發 `e767a3e3e`＋這 15 個檔）
-- 提到這五間或光照紀錄的 63 支 `*_unit.js`／`*check*.py`：結果見下面「測試結果」。
+- 提到這五間或光照紀錄的 63 支 `*_unit.js`／`*check*.py`（含 ade_v1c、ade_seat_clip、mokuyobi、offbeat_storefront、offbeat_cat_board、te_komichi_stage、gg_new_lm、shop_npc、quick_travel、invites_quote 系列）：**63／0 全過**。
 
 ## 還沒驗
 1. **遊戲內**（請 CC 拍、BB-B 判）：五間 14:00 的店門口（door）、店裡（clerk 或 corner）。21:00 不用拍（晚上那張沒變）。
