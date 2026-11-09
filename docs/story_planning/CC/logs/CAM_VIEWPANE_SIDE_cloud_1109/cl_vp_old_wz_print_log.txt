@@ -1,0 +1,11 @@
+CC 一盞前院鏡頭：worktree 1827999fb4；TAG old；Playwright ≠ iPhone
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 wz_print 2025-10-18 14.0（出生點）
+  [  42.4s] 轉到 270.0°：{"yawDeg": 270, "dist": 4, "distTarget": 4, "camHead": 4.08, "cam": [-3.71, 3.13, 3.65], "player": [0, 0, 3.65], "zone": "wz_print"}
+PASS 270.0° 鏡頭轉到了（差 <6°）  270
+  [  44.7s] 270.0° 畫面亮度標準差 62.1（整片牆通常 <15）
+  [ 131.8s] 轉到 90.0°：{"yawDeg": 94.2, "dist": 4, "distTarget": 4, "camHead": 4.08, "cam": [2.14, 3.13, -3.4], "player": [-1.57, 0, -3.12], "zone": "wz_print"}
+PASS 90.0° 鏡頭轉到了（差 <6°）  94.2
+  [ 134.0s] 90.0° 畫面亮度標準差 68.5（整片牆通常 <15）
+PASS 沒有 JS 例外  []
+ALL PASS
