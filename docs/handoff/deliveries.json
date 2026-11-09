@@ -18662,6 +18662,19 @@
    "task": "INTERIOR-AAA-REVIEW-1028",
    "integration": "已整合待測試",
    "note": "sha256 開發 8088e492／a80833e6／9f737ebe／d628e73f → 新 5676e220／cbe256f9／9ebe785d／86d72bb2，和 README 一致；xs9 check patch 套上 d061c339；開發原樣 FAILED 2 → ALL PASS；好拍／新生南路相關 node 測試 PASS。遊戲內沒拍。"
+  },
+  {
+   "id": "DLV-1109-L2-SKINSPHERE",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "585c765ae",
+   "msg": "ACK",
+   "what": "PERF-XS-NPC-1108 (D)：新人物第一次出現的卡頓——不透明蓋皮網格先給靜止網格的包圍球（每個幾何算一次、clone 共用）；透明的照舊；C.presetSphere=false＝原本＋tests/skinned_sphere_unit.js",
+   "task": "PERF-XS-NPC-1108",
+   "integration": "已整合待測試",
+   "note": "git apply --check OK（基準 abfa888cf）；新測試舊程式 FAILED 4 → ALL PASS（LAWWW-B 重跑）；第一次畫 618→23.8 ms；透明網格包圍球不變。遊戲內效能等 CC（大口 1F render_probe_dc＋CPU trace）。"
   }
  ],
  "ignored": [
