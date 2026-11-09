@@ -1,0 +1,132 @@
+diff --git a/src/assets3d.js b/src/assets3d.js
+index bf0a4a629..01a901c99 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -287,6 +287,9 @@ const ASSETS = (function(){
+      在第一次畫出來（上傳 GPU）之前縮；同一張圖只縮一次。網址 ?texfull＝不縮；?texcap＝桌機也縮（測試用）。 */
+   A.texCap=(()=>{ try{ const q=location.search||''; if(/[?&]texfull/.test(q)) return null; const ua=navigator.userAgent||''; const mobile=/iPhone|iPad|iPod|Android|Mobile/i.test(ua)||(navigator.maxTouchPoints>1&&/Macintosh/.test(ua)); return (mobile||/[?&]texcap/.test(q))?{color:1024,data:512}:null; }catch(e){ return null; } })();
+   const TEX_KEYS=['map','emissiveMap','normalMap','roughnessMap','metalnessMap','aoMap','bumpMap','alphaMap','lightMap','shadeMultiplyTexture','shadingShiftTexture','rimMultiplyTexture','matcapTexture','outlineWidthMultiplyTexture','uvAnimationMaskTexture'];
++  /* 建築 GLB 原本不透明的材質記 userData.op0（OPAQUE、MASK：transparent 是 false）。各區域淡出時把牆的材質複製（userData 跟著複製）、設成 transparent；
++     engine3d.js 的 hideFaded 看 op0 決定牆能不能一次畫完（PERF-XS-NPC-1108 (C)，LAWWW2-B 11-09）*/
++  A.markOpaque=function(root){ let n=0; root.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])) if(mt&&!mt.transparent&&!mt.userData.op0){ mt.userData.op0=true; n++; } }); return n; };
+   const capDone=new WeakSet(), capImg=new WeakMap();   /* WeakMap：原圖沒有人用了就可以回收（原本 Map 的 key 會把全尺寸原圖一直留著）*/
+   const capImgKeys=[];   /* 這一次 capTextures 縮過的原圖（做完檢查要不要 close）*/
+   A.capTextures=function(root){ const cap=A.texCap; if(!cap||!root||typeof document==='undefined') return 0; let n=0;
+@@ -348,7 +351,7 @@ const ASSETS = (function(){
+     if(best) A.prefetch(ZONE_ASSETS[best]); return best; };
+   A.loadOne=function(key){ const m=A.manifest[key]; if(!m) return Promise.reject(new Error('unknown asset '+key)); if(A._req) A._req.add(key); if(A.cache[key]) return Promise.resolve(A.cache[key]); if(A.status[key]) return A.status[key];
+     const b64ToBuf=(data)=>{ const bin=atob(data); const buf=new ArrayBuffer(bin.length); const u8=new Uint8Array(buf); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); return buf; };
+-    A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ A.capTextures(gltf.scene); if(m.type==='character'||m.type==='clips'||m.type==='building'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; }   /* building：建築正式模型（遊戲座標、不縮放）*/ else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
++    A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ A.capTextures(gltf.scene); if(m.type==='building') A.markOpaque(gltf.scene); if(m.type==='character'||m.type==='clips'||m.type==='building'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; }   /* building：建築正式模型（遊戲座標、不縮放）*/ else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
+       if(m.type==='vrm'){ // VRM：只 parse 一次。第一個實例用原本的 VRM（表情、彈簧骨、視線）；之後的實例用骨架 clone（共用幾何與貼圖，手機記憶體才夠）
+         const lu=A.lodUrl(key), lodP=lu?loadLOD(lu).catch(e=>{ console.warn('npc far LOD',key,e&&e.message); return null; }):Promise.resolve(null);   /* 路人底模的遠距離版本：和 VRM 一起下載（小檔）；沒有或失敗＝照舊畫原本的人 */
+         const setup=(buf)=>A.parseVRM(buf).then(x=>{ A.capTextures(x.vrm.scene); const rest=THREE_JSM.SkeletonUtils.clone(x.vrm.scene); copyColliderShapes(x.vrm.scene,rest); const rig=rest.getObjectByName('VRMHumanoidRig'); if(rig&&rig.parent) rig.parent.remove(rig); const ent={vrm:true,tpl:{vrm:x.vrm,gltf:x.gltf,inUse:false,full:true},rest,clones:[]}; return lodP.then(lod=>{ ent.lod=lod; A.cache[key]=ent; res(ent); }); });
+diff --git a/src/engine3d.js b/src/engine3d.js
+index 74b37c73a..efe7845a9 100644
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -478,7 +478,12 @@ const E3 = (function(){
+     camera.position.lerp(desired,Math.min(1,posK)); slabClip(C.target,camera.position,1.15); camera.lookAt(lookPt); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); camera.updateMatrixWorld(); updateSeeThrough(); }
+   /* 淡出的牆整面藏起來（BUG-LIGHTBAND，使用者 2026-10-16 總圖大廳、舊路書房「畫面中間一道從上到下的半透明直條」）：各區域的 fadeWalls 把鏡頭這一側的牆調成 12% 透明，
+      細長的牆段、門框、壁柱留下的殘影在鏡頭前變成一條條鬼影（Café 早就改成整面藏，zones3d.js）。鏡頭碰撞的射線不看 visible，藏起來不影響 */
+-  function hideFaded(){ const W=E.zone&&E.zone.walls; if(!W) return; for(const w of W){ const m=w&&w.material; if(m&&!Array.isArray(m)) w.visible=m.opacity>0.5; } }
++  /* 牆一次畫完（PERF-XS-NPC-1108 (C)，LAWWW2-B 11-09）：各區域接 GLB 時把牆的材質複製、設成 transparent（淡出要用），GLB 的牆大多是雙面。
++     three.js 的 renderObject 碰到「transparent＋雙面」會畫兩次（先背面再正面），每次都先 needsUpdate＝每一面牆每一幀換兩次 shader（getProgram＋getParameters）。
++     CC PC GPU 量大口一樓：dk_vc_matte 每秒 1128 次換 program＝牆 10 面 ×2 ×56 fps。牆看得到的時候 opacity 是 1（淡出的已經整面藏起來；不是 1 的時候照舊分兩次），
++     原本又是不透明的材質（assets3d.js 載入建築 GLB 時記 userData.op0）：一次畫完和分兩次畫結果一樣。玻璃、葉子（本來就半透明、alphaTest）照舊。網址 ?wall2pass 回到舊做法 */
++  E.wallOnePass=!(typeof location!=='undefined'&&/[?&]wall2pass\b/.test(location.search||''));
++  function hideFaded(){ const W=E.zone&&E.zone.walls; if(!W) return; for(const w of W){ const m=w&&w.material; if(m&&!Array.isArray(m)){ w.visible=m.opacity>0.5; if(m.userData.op0){ const one=E.wallOnePass&&m.opacity>=1&&m.side===THREE.DoubleSide&&!(m.alphaTest>0); if(m.forceSinglePass!==one) m.forceSinglePass=one; } } } }
+   E.hideFaded=hideFaded;
+   // 多樓層的剖面視角（v9.4）：zone.levelGroups＝[{group,y}]（每一層的模型、那一層地板的高度）。玩家所在的那一層和下面的層一定畫；
+   // 上面的層只有在鏡頭比那一層的地板低的時候才畫（從下面看得到上面的天花板、走廊欄杆；鏡頭拉高到上一層地板以上時藏起來，才看得到玩家）。
+diff --git a/tests/wall_onepass_unit.js b/tests/wall_onepass_unit.js
+new file mode 100644
+index 000000000..049fb2198
+--- /dev/null
++++ b/tests/wall_onepass_unit.js
+@@ -0,0 +1,85 @@
++// 牆一次畫完（PERF-XS-NPC-1108 (C)，LAWWW2-B 2026-11-09）——不需要瀏覽器（D131）。
++// 背景：CC 用 PC GPU 量大口一樓（render_probe_dc，RPROBE_DC_7824_dakou1f）：dk_vc_matte 每秒畫 1128 次、每一次都 material.version 變了、換 program。
++//   原因是 three.js 的 renderObject：材質 transparent＋DoubleSide＋forceSinglePass=false 時畫兩次（先 BackSide 再 FrontSide），兩次前面都 needsUpdate
++//   （version++）→ setProgram 每次都走 getProgram＋getParameters。各區域接 GLB 時把牆的材質複製、設成 transparent（淡出要用），GLB 的牆大多是雙面。
++// 修改：assets3d.js 載入建築 GLB 時，原本不透明的材質記 userData.op0；engine3d.js 的 hideFaded（每一幀淡出牆之後）對 op0、opacity 1、雙面、沒有 alphaTest 的牆設 forceSinglePass。
++// 在 Node 建出真正的區域（正式模型），跑區域的 fadeWalls＋引擎的 hideFaded，照 three.js renderObject 的條件模擬一幀畫牆（畫幾次、version 加幾次）：
++//   ① three.js（lib/three.bundle.js）的 renderObject 還是「transparent＋DoubleSide＋forceSinglePass=false 就分兩次、各 needsUpdate」（升級 three.js 時這支要重看）
++//   ② 大口（一樓＋二樓 GLB）、山嵐、木曜日：鏡頭在店裡四個方向，看得到的牆，原本不透明的每一面每一幀只畫一次、version 不動
++//   ③ 一次畫完的牆：GLB 的材質是 OPAQUE（讀 GLB 的 alphaMode）、opacity 1、沒有 alphaTest；本來就半透明的（玻璃 BLEND）不碰（木曜日的正面玻璃牆也在 walls 裡）
++//   ④ 淡出的牆（opacity 0.12）照舊整面藏起來、不畫；鏡頭移回來又一次畫完
++//   ⑤ E.wallOnePass=false（網址 ?wall2pass）：回到舊做法（和開發分支一樣分兩次）
++// 修改前（開發分支 28d40e6e3）：② 三間、⑤ FAIL（FAILED 4；三間 12 個方向畫牆 264 次、version +240）；修改後 ALL PASS（144 次、+0）。用法：node tests/wall_onepass_unit.js
++const {ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
++const fs=require('fs'), path=require('path'), vm=require('vm');
++const run=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
++global.innerWidth=844; global.innerHeight=390; global.location={search:''}; global.addEventListener=()=>{}; process.on('unhandledRejection',()=>{});
++const w0=console.warn; console.warn=(...a)=>{ if(/LOD|Missing|載入失敗/.test(String(a[0]))) return; w0(...a); };
++const e0=console.error; console.error=(...a)=>{ if(/texture|Texture|image/.test(String(a[0]))) return; e0(...a); };
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const exists=u=>!!u&&fs.existsSync(path.join(ROOT,u));
++
++// ① three.js 的 renderObject
++{ const B=fs.readFileSync(path.join(ROOT,'lib/three.bundle.js'),'utf8'), i=B.indexOf('function renderObject( object, scene, camera, geometry, material, group ) {'), s=i>=0?B.slice(i,i+1600):'';
++  const cond=s.indexOf("if ( material.transparent === true && material.side === DoubleSide && material.forceSinglePass === false ) {");
++  const two=cond>=0&&/material\.side = BackSide;\s*material\.needsUpdate = true;\s*_this\.renderBufferDirect[\s\S]*?material\.side = FrontSide;\s*material\.needsUpdate = true;\s*_this\.renderBufferDirect/.test(s.slice(cond));
++  check('① three.js renderObject：transparent＋DoubleSide＋forceSinglePass=false → 分兩次畫、每次 needsUpdate', i>=0&&two, i<0?'找不到 renderObject':''); }
++
++for(const f of ['src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/calendar.js','src/data/places.js','src/zones3d.js',
++  'src/data/xinsheng_layout.js','src/xinsheng3d.js','src/data/dakou_layout.js','src/dakou3d.js','src/data/shanlan_layout.js','src/shanlan3d.js','src/data/mokuyobi_layout.js','src/mokuyobi3d.js']) if(fs.existsSync(path.join(ROOT,f))) run(f);
++const sleep=ms=>new Promise(r=>setTimeout(r,ms));
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++const MAN=ASSETS.manifest;
++const preload=keys=>{ window.ASSET_DATA=window.ASSET_DATA||{}; for(const k of keys){ const m=MAN[k]; if(m&&exists(m.url)) window.ASSET_DATA[m.url]=fs.readFileSync(path.join(ROOT,m.url)).toString('base64'); } };
++/* GLB 裡每個材質名字的 alphaMode（OPAQUE／MASK／BLEND）*/
++const alphaModes=keys=>{ const r={}; for(const k of keys){ const m=MAN[k]; if(!m||!exists(m.url)) continue; const b=fs.readFileSync(path.join(ROOT,m.url)), n=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+n).toString('utf8')); for(const mt of J.materials||[]) r[mt.name]=mt.alphaMode||'OPAQUE'; } return r; };
++const shown=o=>{ for(let p=o;p;p=p.parent) if(!p.visible) return false; return true; };
++/* 照 three.js renderObject 畫一幀牆：回傳每一面看得到的牆畫幾次、version 加幾次 */
++function frame(z){ const out=[]; for(const w of z.walls){ if(!w||!w.isMesh||!shown(w)) continue; const m=w.material; if(Array.isArray(m)) continue; const v0=m.version; let draws=1;
++    if(m.transparent===true&&m.side===THREE.DoubleSide&&m.forceSinglePass===false){ m.side=THREE.BackSide; m.needsUpdate=true; m.side=THREE.FrontSide; m.needsUpdate=true; m.side=THREE.DoubleSide; draws=2; }
++    out.push({w,m,draws,bump:m.version-v0}); } return out; }
++const ZONES=[
++  {id:'xs_dakou', keys:['bldg.xs_dakou_1f','bldg.xs_dakou_2f'], G:'xs_dakou'},
++  {id:'xs_shanlan', keys:['bldg.xs_shanlan'], G:'xs_shanlan'},
++  {id:'wz_mokuyobi', keys:['bldg.wz_mokuyobi_interior','bldg.wz_mokuyobi_stair'], G:'wz_mokuyobi'},
++];
++(async()=>{
++  const all={draws:0,draws2:0,bump:0,walls:0,one:0}; const glassOne=[], badOne=[];
++  for(const Z of ZONES){
++    if(!Z3.ZONES[Z.id]||!Z.keys.every(k=>MAN[k]&&exists(MAN[k].url))){ check(`${Z.id}：區域、正式模型都在`, false); continue; }
++    preload(Z.keys); const AM=alphaModes(Z.keys);
++    global.GAME={G:{zone:Z.G,day:30,hour:14,flags:{},money:5000,weather:'clear',visited:{}}};
++    E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[Z.id].build(E); E.zone=z; E.scene.add(z.group);
++    const sp=z.spawn||{x:0,z:0}; E.player={obj:{position:new THREE.Vector3(sp.x||0,0,sp.z||0),rotation:{y:0}},radius:0.32,lv:0};
++    let ok=false; for(let i=0;i<150&&!ok;i++){ await sleep(100); ok=z.walls.some(w=>w&&w.isMesh&&/^WALL_/.test(w.name||'')&&AM[w.material&&w.material.name]); } await sleep(300);
++    if(!ok){ check(`${Z.id}：正式模型的牆接上了`, false); E.scene.remove(z.group); continue; }
++    z.group.updateMatrixWorld(true);
++    /* 鏡頭：店裡中心往四個方向退到牆外 1.5 m（那一面牆會淡出）、高 3.2；玩家在中心 */
++    const bb=new THREE.Box3(); for(const w of z.walls) if(w&&w.isMesh) bb.expandByObject(w); const c=bb.getCenter(new THREE.Vector3()), hs=bb.getSize(new THREE.Vector3()); c.y=0;
++    const pp=new THREE.Vector3(c.x,0,c.z); E.player.obj.position.copy(pp);
++    const res={draws:0,draws2:0,bump:0,walls:0,one:0,names:new Set()}; let fadedDrawn=0, fadedCount=0;
++    for(const [dx,dz] of [[0,hs.z/2+1.5],[0,-hs.z/2-1.5],[hs.x/2+1.5,0],[-hs.x/2-1.5,0]]){
++      const cam=new THREE.PerspectiveCamera(); cam.position.set(c.x+dx,3.2,c.z+dz); cam.lookAt(pp.x,1.2,pp.z);
++      for(let f=0;f<3;f++){ z.fadeWalls(cam,pp); E.hideFaded();
++        for(const w of z.walls) if(w&&w.isMesh&&!Array.isArray(w.material)&&w.material.opacity<0.5){ fadedCount++; if(shown(w)) fadedDrawn++; }
++        const fr=frame(z); if(f<2) continue;   /* 第三幀才數（前兩幀讓淡出、hideFaded 穩定）*/
++        for(const r of fr){ const am=AM[r.m.name]; res.walls++; res.draws+=r.draws; res.bump+=r.bump; if(r.draws===2) res.draws2++; else res.one++;
++          if(r.m.forceSinglePass){ if(am==='BLEND') glassOne.push(Z.id+':'+r.w.name); if(am!=='OPAQUE'&&am!=='MASK'||r.m.opacity<1||r.m.alphaTest>0) badOne.push(Z.id+':'+r.w.name+'('+am+','+r.m.opacity+','+r.m.alphaTest+')'); }
++          if(r.draws===2&&am==='OPAQUE'&&!(r.m.alphaTest>0)) res.names.add(r.m.name); } } }
++    check(`② ${Z.id}：看得到的牆，原本不透明的每一面每一幀只畫一次、不換 program`, res.walls>0&&res.names.size===0,
++      `四個方向 ${res.walls} 面次：畫 ${res.draws} 次（一次 ${res.one}、兩次 ${res.draws2}）、version +${res.bump}`+(res.names.size?'；還分兩次的不透明材質：'+[...res.names].join('、'):''));
++    check(`④ ${Z.id}：淡出的牆（opacity 0.12）整面藏起來、不畫`, fadedCount>0&&fadedDrawn===0, `淡出 ${fadedCount} 面次、還在畫 ${fadedDrawn}`);
++    for(const k of ['draws','draws2','bump','walls','one']) all[k]+=res[k];
++    if(Z.id==='xs_dakou'){
++      /* ⑤ ?wall2pass：回到舊做法 */
++      E.wallOnePass=false; const cam=new THREE.PerspectiveCamera(); cam.position.set(c.x,3.2,c.z+3.5); cam.lookAt(pp.x,1.2,pp.z); z.fadeWalls(cam,pp); E.hideFaded(); const a=frame(z), aF=a.filter(r=>r.m.forceSinglePass).length;
++      E.wallOnePass=true; z.fadeWalls(cam,pp); E.hideFaded(); const b=frame(z);
++      const a2=a.filter(r=>r.draws===2).length, b2=b.filter(r=>r.draws===2&&AM[r.m.name]==='OPAQUE').length;
++      check('⑤ 大口：E.wallOnePass=false（?wall2pass）回到兩次；改回 true 又一次畫完', E.wallOnePass!==undefined&&a2>0&&aF===0&&b2===0, `false：${a2}／${a.length} 面兩次；true：不透明的還分兩次 ${b2}`);
++    }
++    E.scene.remove(z.group);
++  }
++  check('③ 一次畫完的都是原本不透明（OPAQUE）、opacity 1、沒有 alphaTest；玻璃（BLEND）照舊分兩次', all.one>0&&!glassOne.length&&!badOne.length, (glassOne.concat(badOne).join('、')||`一次 ${all.one} 面次`));
++  console.log(`合計（三間 × 四個方向，每方向一幀）：牆 ${all.walls} 面次，畫 ${all.draws} 次，version +${all.bump}`);
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();

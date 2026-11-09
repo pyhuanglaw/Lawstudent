@@ -172,3 +172,60 @@ LAWWW-B 17:21 定的順序是 D → C → A。D、C 要等 CC 的探針結果（
   - `tests/skinned_sphere_unit.js`（新）`f77d3c989bc3f9c4…`
   - patch `e34461446c21aca8…`（`git apply --check` 對 `abfa888cf` OK）
 - `transparent_order_probe.js`：上面「53% 不一樣」那個量法（全部給靜止包圍球時，透明臉部網格的先後）。用法：`WT=<repo> node docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/transparent_order_probe.js`。
+
+## 11-09 20:1x：(D) CC 量到的結果（PC GPU RX 6600M，開發 `7824d9598`；cc-local `local_out/RPROBE_DC_7824_dakou1f`、`_off`、`CPUTRACE_7824_dakou`）
+- `render_probe_dc.js` 的 `computeBoundingSphere` 表，大口 1F 站 30 秒（11 個 NPC）：
+
+| | 呼叫次數 | 合計 | 最長一次 | fps |
+|---|---|---|---|---|
+| `CHAR.presetSphere=false`（原本的做法） | 69 | 238.4 ms | 13.9 ms | 56.7 |
+| 開（`7824d9598`） | 20 | **10.0 ms** | 1.5 ms | 56.4 |
+
+  - 剩下的 20 次都是透明的臉部網格（照設計留著，頂點少）。
+- CPU 效能紀錄（20 秒，`cpuprof_hitch.py`）：**還有一次 117 ms 的卡頓（9276 ms）**，但已經不是包圍球：
+  - 那段時間主執行緒 84.5 ms 是 idle（在等 GPU），JavaScript 合計約 30 ms：`setProgram` 27.7 ms（其中 uniform 上傳 13.9）、`texSubImage2D` 6.2 ms。
+  - 和 17:2x 那份紀錄裡 2375／4358／13191 ms 三次一樣，是 GPU 那邊（可能是第一次用到的 shader 在驅動裡編譯，或貼圖上傳）。
+  - 要再查的話：卡頓那幾幀記 `renderer.info.programs.length`、`renderer.info.memory.textures` 有沒有增加（低優先，沒有寫探針）。
+
+## 11-09 20:4x：(C) 牆一次畫完（交件，READY_FOR_REVIEW）
+- **原因**（CC `RPROBE_DC_7824_dakou1f`：`dk_vc_matte` 每秒畫 1128 次、每一次都 `version` 變了、換 program；`dk_vc_metal`、`dk_glass` 每秒 226 次；山嵐 `shl_wall`、`shl_oak` 也一樣）：
+  - three.js r187 的 `renderObject`（`lib/three.bundle.js` 78579 行）：材質 `transparent`、`DoubleSide`、`forceSinglePass=false` 時**畫兩次**（先 BackSide、再 FrontSide），兩次前面都 `needsUpdate=true`（`material.version++`）。
+  - 所以 `setProgram` 每一次都判斷要換 program，走 `getProgram`＋`getParameters`（CPU 效能紀錄 9.6%）。
+  - 各區域接 GLB 時，牆（`WALL_*`）的材質會複製、設成 `transparent=true`（淡出要用；`zones3d.js` attachRoomGLB 和另外 6 個地方）。GLB 的牆大多是雙面（Blender 預設沒開背面剔除）。
+  - 結果：**每一面看得到的牆，每一幀畫兩次、換兩次 shader**。大口 1F 的 `dk_vc_matte`＝10 面 × 2 × 56 fps。
+  - 全部 84 顆有 `WALL_` 的 GLB 裡，66 顆有雙面不透明的牆，合計 1,091 個 primitive（`wall_onepass_glb_walls.txt`），幾乎每一間室內都是這樣。
+- **為什麼可以一次畫完**：
+  - 牆看得到的時候 opacity 一定是 1：淡出的（0.12）已經被 `hideFaded` 整面藏起來（BUG-LIGHTBAND），各區域的 fadeWalls 都只設 1 或 0.12。
+  - 原本又是不透明的材質（GLB 的 OPAQUE）：alpha 都是 1、深度寫入開著。分兩次畫和一次畫，每個像素最後都是最近的那一面，結果一樣。
+  - 例外：兩面完全重合、方向相反的三角形，原本一定是正面贏，一次畫完照三角形順序。這種疊面本來就會閃（z-fighting），BUG-COPLANAR 清過三輪；這次沒有另外再掃。
+- **做法**（`wall_onepass_1109.patch`，對開發 `28d40e6e3`；`src/assets3d.js` +4／−1、`src/engine3d.js` +6／−1、`tests/wall_onepass_unit.js` 新）：
+  - `assets3d.js`：載入 `type:'building'` 的 GLB 時（`capTextures` 旁邊），原本 `transparent=false` 的材質記 `userData.op0=true`（`A.markOpaque`）。之後各區域複製材質，userData 會跟著複製。
+  - `engine3d.js` 的 `hideFaded`（每一幀 fadeWalls 之後）：`op0`、`opacity>=1`、`DoubleSide`、沒有 `alphaTest` 的牆設 `forceSinglePass=true`；條件不合就設回 false。
+  - **不碰**：本來就半透明的玻璃（BLEND；木曜日、好拍等的正面玻璃牆也在 walls 裡）、有 alphaTest 的葉子／洞洞板（MASK）、不是牆的東西。
+  - `forceSinglePass` 不在 shader 參數裡，改它不用 `needsUpdate`、不會多編 shader。
+  - 網址 `?wall2pass`（`E.wallOnePass=false`）回到原本的做法，給 CC 對照。
+- **測試** `tests/wall_onepass_unit.js`（新）：
+  - Node 建出真正的大口（一樓＋二樓 GLB）、山嵐、木曜日（另一個接牆的地方 `mokuyobi3d.js`）。
+  - 鏡頭在四面牆外各一個方向，跑區域的 fadeWalls＋引擎的 hideFaded，照 three.js renderObject 的條件模擬一幀畫牆，數畫幾次、`version` 加幾次。
+  - 項目：
+    - ① three.js renderObject 還是這個條件（升級 three.js 時這支要重看）；
+    - ② 三間：原本不透明的牆每一面每一幀只畫一次、不換 program；
+    - ③ 一次畫完的都是 GLB 的 OPAQUE、opacity 1、沒有 alphaTest，玻璃照舊兩次；
+    - ④ 淡出的牆照舊整面藏起來；
+    - ⑤ `E.wallOnePass=false` 回到兩次。
+  - 開發原樣 **FAILED 4**（② 三間、⑤）→ 加 patch **ALL PASS**。
+  - 三間 × 四個方向合計：畫牆 **264 → 144 次**、`version` **+240 → +0**（大口 96 → 48 次）。
+- **回歸**：見下面（跑中）。
+- **效能前後**：整合後請 CC 用 `render_probe_dc.js`（大口 1F、山嵐）：
+  - `programReasonsPerSec` 的 `dk_vc_matte`、`dk_vc_metal`、`shl_*` 那幾行應該消失或 `version`／`programChanged` 變 0；
+  - 加 `?wall2pass` 再量一次當對照；
+  - CPU 效能紀錄看 `getProgram`＋`getParameters` 的比例。
+  - 畫面應該完全一樣（BB-B 可以用同一個角度、`?wall2pass` 開關各拍一張比對）。
+- 還沒處理（不在這一包）：
+  - `dk_glass` 每秒 226 次：不是牆、本來就半透明的雙面玻璃。three.js 分兩次畫是為了半透明的前後順序，照舊。
+  - `(no name)` 每秒 113 次：影子的深度材質，有 alphaTest 的和沒有的輪流用，three.js 內部的做法。
+- sha256（開發 `28d40e6e3` → 新）：
+  - `src/assets3d.js` `8cdd5e80b1b70f18…` → `0a40aa0efa38ce9d…`
+  - `src/engine3d.js` `21bffefb72c7c371…` → `82fce2955266aa69…`
+  - `tests/wall_onepass_unit.js`（新）`d5c66c07f10a6010…`
+  - patch `1deb8fda4705b83e…`（`git apply --check` 對 `28d40e6e3` OK）
