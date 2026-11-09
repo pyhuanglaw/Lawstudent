@@ -90,3 +90,17 @@ DONE
   露出：WALL_N_wall 被 WALL_N_print 擋住 0.14 m²，0% 的組合會露出來；亮度 0.37／沒擋住 0.51（0.72）
   要修 17 對
 DONE
+=== assets/models/env/second_ai/bb_support/nanyang_hall.glb
+  露出：nh_carpet 被 WALL_back_wains 擋住 0.03 m²，98% 的組合會露出來；亮度 0.12／沒擋住 0.18（0.63）
+  要修 1 對
+DONE
+=== assets/models/env/second_ai/bb_support/dabu.glb
+  露出：WALL_right_right_paint 被 WALL_right_right_vc 擋住 17.61 m²，2% 的組合會露出來；亮度 0.01／沒擋住 0.09（0.1）
+  露出：WALL_right_right_paint 被 WALL_right_right_wood 擋住 12.85 m²，2% 的組合會露出來；亮度 0.01／沒擋住 0.09（0.11）
+  露出：WALL_front_front_paint 被 WALL_front_front_vcm 擋住 2.45 m²，3% 的組合會露出來；亮度 0.10／沒擋住 0.35（0.29）
+  露出：WALL_front_front_paint 被 WALL_front_front_vc 擋住 0.47 m²，2% 的組合會露出來；亮度 0.12／沒擋住 0.35（0.35）
+  露出：WALL_front_front_paint 被 WALL_right_right_wood 擋住 0.06 m²，5% 的組合會露出來；亮度 0.21／沒擋住 0.35（0.59）
+  露出：WALL_back_back_paint 被 WALL_left_left_wood 擋住 0.01 m²，5% 的組合會露出來；亮度 0.00／沒擋住 0.01（0.38）
+  露出：WALL_right_right_paint 被 WALL_front_front_paint 擋住 0.24 m²，0% 的組合會露出來；亮度 0.04／沒擋住 0.09（0.48）
+  要修 7 對
+DONE

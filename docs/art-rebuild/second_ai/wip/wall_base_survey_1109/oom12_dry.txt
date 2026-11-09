@@ -56,3 +56,10 @@ assets/models/env/second_ai/bb_support/shaola_interior.glb：光照貼圖 1024×
   FLOOR ← WALL_right_vc：448 格
 rc=0 616 s
 === assets/models/env/second_ai/bb_support/nanyang_lobby.glb
+=== assets/models/env/second_ai/bb_support/dabu.glb
+assets/models/env/second_ai/bb_support/dabu.glb：光照貼圖 1024×1024，屬於網格的格子 715540，被蓋住、會露出來的 216893 格（30.31%）
+  WALL_left_left_paint ← WALL_left_left_vc：51773 格
+  WALL_right_right_paint ← WALL_right_right_vc：39687 格
+  WALL_back_back_paint ← WALL_back_back_vc：29318 格
+  WALL_right_right_paint ← WALL_right_right_wood：28910 格
+  WALL_left_left_paint ← WALL_left_left_wood：11770 格
