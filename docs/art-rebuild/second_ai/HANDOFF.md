@@ -45,6 +45,16 @@
     - 洞洞板翻正、改用 hp_peg（OPAQUE）、有自己的貼圖（×3.0）、重烘光照；左牆鐵網格翻 118 面；
     - xs9 檢查 patch：開發分支資產 FAILED 2 → 新資產 ALL PASS；好拍、新生南路相關 13 支全過；
     - 等 LAWWW-B 整合、CC 用 XS_FIX_1032 同角度重拍、BB-B 判 D120。
+- **18:3x 進度**：
+  - BACKFACE-HAOPAI：LAWWW-B 已整合（a7c26e0eb）；BB-B 已派 CC 重拍，D120 待判。
+  - PERF-XS-NPC-1108 (D) 新人物第一次出現的卡頓：交件 585c765ae，LAWWW-B 已整合（7824d9598）。
+    - 原因：three.js 排序時不管 frustumCulled，boundingSphere 是 null 就逐頂點套骨頭算。
+    - 做法：不透明的蓋皮網格建好就給靜止包圍球，透明臉部網格不動。
+    - 結果：第一次畫 618 → 23.8 ms；104 支 Node 全過。
+    - CC-B 已排 RPROBE_DC_7824_dakou1f、CPUTRACE_7824_dakou（＋_off 對照）。
+  - #196 五間 --skytint 重烘：交件 aad8d3839（63 支 Node 全過），等 LAWWW-B ACK、CC 拍、BB-B 判。
+  - 等 CC：RPROBE_DC_fefd（(C) 要的 program 原因）、SITFEET_PERFAB、上面兩個 7824 量測。
+  - 再下一步（P3）：#201 PERF-WZ-DAY、#204 美國公寓門板／lm_fill。
 
 ## 🔁 交班（2026-11-08 20:5x UTC；帳號 B LAWWW2-B；使用者：「現在交班」）
 
