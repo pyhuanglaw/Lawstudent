@@ -991,3 +991,20 @@
 [00:35:34] ==== START CPUTRACE_8172_dakou  (probe @ 8172937340e0e41f1b5dd29e8ab92344688a1be5) ====
 [00:35:37] [res] cpu=5% mem=36% (11.5/31.4 GB) chrome_testing=0  START CPUTRACE_8172_dakou
 [00:38:05] [res] cpu=2% mem=35% (11.2/31.4 GB) chrome_testing=0  END CPUTRACE_8172_dakou
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       28f1de417..684cea26d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:38:12] ==== END   CPUTRACE_8172_dakou  exit=0  151s   ====
+[00:38:19] memory 36% before starting E26_8172_no (0 running)
+[00:38:19] memory 36% before starting E26_8172_yes (1 running)
+[00:38:19] ==== START E26_8172_no  (probe @ 8172937340e0e41f1b5dd29e8ab92344688a1be5) ====
+[00:38:19] solo item CPUTRACE_8172_haopai waits: no new items start until the 2 running item(s) finish
+[00:38:19] ==== START E26_8172_yes  (probe @ 8172937340e0e41f1b5dd29e8ab92344688a1be5) ====
+[00:38:22] [res] cpu=0% mem=36% (11.6/31.4 GB) chrome_testing=0  START E26_8172_yes
+[00:38:22] [res] cpu=0% mem=36% (11.6/31.4 GB) chrome_testing=0  START E26_8172_no
+[00:40:33] 正在跑：E26_8172_no（已跑 2 分／上限 60 分）、E26_8172_yes（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:43:27] memory 46% before starting R88c8_seatspawn (2 running)
+[00:43:27] ==== START R88c8_seatspawn  (game @ 88c83d1be5c69a81de3af59b7342df6cc932bdfa) ====
+[00:43:29] [res] cpu=3% mem=46% (14.7/31.4 GB) chrome_testing=10  START R88c8_seatspawn
+[00:45:33] 正在跑：E26_8172_no（已跑 7 分／上限 60 分）、E26_8172_yes（已跑 7 分／上限 60 分）、R88c8_seatspawn（已跑 2 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:45:53] [res] cpu=6% mem=48% (15.2/31.4 GB) chrome_testing=10  END R88c8_seatspawn
