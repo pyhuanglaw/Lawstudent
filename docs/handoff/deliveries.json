@@ -24188,6 +24188,22 @@
    "branch": "claude/funny-albattani-iawshm",
    "coveredBy": "DL-LAWWW2-768da51ab",
    "reason": "SKIRT-BENCH-CLIP-1105 路人裙子坐下；交件版 768da51ab 已接；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "6b4d5c8ee4",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1109-L2-WALLBASE",
+   "reason": "#204 外牆腳 1～4 補光照的 WIP 那一步；同一批 11 張貼圖由交件 7e11170d7 交、a5ec91a36 整合（sha256 一致）；LAWWW-B 11-09 21:2x incr 分類（D94）"
+  },
+  {
+   "sha": "d8d165cc01",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1109-L2-WZ196",
+   "reason": "#196 阿德 --skytint 重烘；ade.glb、ade_lm_day.webp 和開發分支現在的 sha256 一致（交件 aad8d3839 已接）；LAWWW-B 11-09 21:2x incr 分類（D94）"
   }
  ],
  "scannedThroughNote": "2026-11-02 05:3x 使用者刪了帳號 B 的分支（funny-albattani、cool-heisenberg、elegant-brown；內容整條在 second-ai-env-art、story-planning）：從這裡拿掉，之後的核對靠 watermarks.json（incr）"
