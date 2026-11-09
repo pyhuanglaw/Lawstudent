@@ -1377,11 +1377,23 @@ class Runner(object):
                 it._t_proc = time.time()
             with open(os.path.join(od, 'run.log'), 'wb') as fo, open(os.path.join(od, 'err.log'), 'wb') as fe:
                 p = subprocess.Popen(cmd, cwd=cwd, env=env, stdout=fo, stderr=fe, stdin=subprocess.DEVNULL, **popen_flags())
-                try:
-                    p.wait(it.tmin * 60)
-                except subprocess.TimeoutExpired:
-                    kill_tree(p)
-                    meta['error'] = 'timeout %d min' % it.tmin
+                deadline = time.time() + it.tmin * 60; next_chk = time.time() + 120
+                while True:   # CC-B 11-09（BB-B 20:41：要能遠端停掉跑到一半的項目）：每 2 分鐘看一次 cc-testing 上的 config.txt，CANCEL= 有這一項的 ID 就停掉
+                    try:
+                        p.wait(max(1, min(30, deadline - time.time())))
+                        break
+                    except subprocess.TimeoutExpired:
+                        if time.time() >= deadline:
+                            kill_tree(p)
+                            meta['error'] = 'timeout %d min' % it.tmin
+                            break
+                        if time.time() >= next_chk:
+                            next_chk = time.time() + 120
+                            if it.id in self.remote_cancel_ids():
+                                log('config.txt CANCEL: stopping %s (still running)' % it.id)
+                                kill_tree(p)
+                                meta['error'] = 'cancelled (config.txt CANCEL)'
+                                break
             meta['exit'] = p.returncode
             if ar_on:
                 try:
@@ -1885,6 +1897,21 @@ class Runner(object):
                     gray(out2)
                 else:
                     _push(' part 2')
+
+    def remote_cancel_ids(self):
+        """cc-testing 上最新的 config.txt 的 CANCEL=（逗號分隔的 ID）。讀不到就回空集合（不影響原本的流程）"""
+        try:
+            with GIT_LOCK:
+                git('-C', self.repo, 'fetch', 'origin', CC_BRANCH, quiet=True)
+                rc, out = git('-C', self.repo, 'show', 'FETCH_HEAD:tools/cc_local/config.txt', capture=True)
+            if rc != 0: return set()
+            for line in out.splitlines():
+                line = line.strip()
+                if line.startswith('CANCEL='):
+                    return set(x.strip() for x in line[7:].split(',') if x.strip())
+        except Exception as e:
+            log('WARNING remote cancel check failed: %r' % e)
+        return set()
 
     def apply_config(self):
         """每一輪讀 tools/cc_local/config.txt（從 cc-testing 合併來的）：PARALLEL=n（1～4）。改了就記一行"""
