@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "USAPT204_old",
+  "sha": "07ce887a13d3aa3b743567b857dfd7b22e44a5b8",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_usapt_probe.py",
+  "env": "SOLO=1;TAG=old;HOURS=14,21",
+  "machine": "MSI",
+  "start": "2026-11-10T03:05:53",
+  "end": "2026-11-10T03:08:35",
+  "seconds": 162,
+  "exit": 0,
+  "error": null,
+  "runner": "c0b2a5e558",
+  "rf_round": "4",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 12,
+    "mem": 44,
+    "used_gb": 14.0,
+    "chrome_testing": 4
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
