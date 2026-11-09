@@ -6696,10 +6696,10 @@
     "docs/art-rebuild/second_ai/wip/us_door_split_1109/README.md",
     "tools/blender/env_second/lightbake/glb_split_node.py"
    ],
-   "state": "已整合（LAWWW-B 18:49，sha256 一致、相關 Node PASS；DLV-1109-L2-USDOOR）",
+   "state": "ART_APPROVED（BB-B 19:44：臥室牆淡出時門板一起淡出；已整合 c8af31018）",
    "noDirectIntegrate": false,
    "note": "只改節點：衣物間那片跟臥室牆、衛浴那片跟外牆 E 淡出（規則 B）；三角形 312 逐一相同、其他 90 個節點不變、光照貼圖不動；露出暗面約 7 m²（30%／10%／5% 的組合）→ 剩鉸鍊那邊約 0.3 m² 接觸陰影；55 支 Node 全過（deploy_check 要瀏覽器不算）",
-   "next": "CC 拍美國公寓臥室／衛浴門口（白天、晚上）、BB-B 判"
+   "next": "衛浴那片跟外牆 E：CC 補拍、BB-B 看"
   }
  ]
 }

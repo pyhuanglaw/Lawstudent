@@ -1,6 +1,6 @@
 # #204 美國公寓兩片開著的門板拆成兩個節點（LAWWW2-B 2026-11-09；LAWWW-B 18:37 派「直接做」，美國交換＝D99 第三項）
 
-狀態：`READY_FOR_REVIEW`（只改 GLB 的節點，幾何、材質、光照貼圖都不變；遊戲內等 CC 拍、BB-B 判）。
+狀態：**`ART_APPROVED`**（BB-B 11-09 19:44：臥室牆淡出時門板一起淡出；衛浴那片跟外牆 E 那一張 CC 補拍。LAWWW-B 已整合 `c8af31018`）。只改 GLB 的節點，幾何、材質、光照貼圖都不變。
 
 ## 為什麼
 - `docs/art-rebuild/second_ai/wip/lm_reveal_1108/README.md` 的「沒修、記下來的」第 1 點。
