@@ -1,0 +1,30 @@
+PASS library_b1_lm_day.webp：被蓋住、會露出來的 6440 格，平均 77.9，旁邊 84.2（0.93 倍）
+PASS library_b1_lm_night.webp：被蓋住、會露出來的 6440 格，平均 77.7，旁邊 83.9（0.93 倍）
+PASS library_carrels_lm_day.webp：被蓋住、會露出來的 30628 格，平均 98.5，旁邊 103.5（0.95 倍）
+PASS library_carrels_lm_night.webp：被蓋住、會露出來的 30628 格，平均 83.4，旁邊 88.4（0.94 倍）
+PASS linze_5f_lm_dark.webp：被蓋住、會露出來的 6452 格，平均 2.2，旁邊 2.7（0.81 倍）
+PASS linze_5f_lm_day.webp：被蓋住、會露出來的 6452 格，平均 85.8，旁邊 89.5（0.96 倍）
+PASS linze_5f_lm_night.webp：被蓋住、會露出來的 6452 格，平均 78.6，旁邊 81.9（0.96 倍）
+PASS gym_b1_lm_day.webp：被蓋住、會露出來的 3230 格，平均 72.3，旁邊 75.0（0.96 倍）
+PASS gym_b1_lm_night.webp：被蓋住、會露出來的 3230 格，平均 72.0，旁邊 75.1（0.96 倍）
+PASS us_apartment_lm_day.webp：被蓋住、會露出來的 7956 格，平均 59.0，旁邊 60.3（0.98 倍）
+PASS us_apartment_lm_night.webp：被蓋住、會露出來的 7956 格，平均 56.1，旁邊 58.1（0.97 倍）
+PASS us_shared_lm_day.webp：被蓋住、會露出來的 8642 格，平均 58.0，旁邊 62.0（0.94 倍）
+PASS us_shared_lm_night.webp：被蓋住、會露出來的 8642 格，平均 44.0，旁邊 47.1（0.93 倍）
+PASS dorm_room4_lm_dark.webp：被蓋住、會露出來的 16960 格，平均 2.9，旁邊 2.7（1.07 倍）
+PASS dorm_room4_lm_day.webp：被蓋住、會露出來的 16960 格，平均 42.0，旁邊 30.5（1.37 倍）
+PASS dorm_room4_lm_night.webp：被蓋住、會露出來的 16960 格，平均 45.3，旁邊 33.1（1.37 倍）
+PASS dorm_205_lm_day.webp：被蓋住、會露出來的 17387 格，平均 40.0，旁邊 30.3（1.32 倍）
+PASS dorm_205_lm_night.webp：被蓋住、會露出來的 17387 格，平均 42.8，旁邊 33.3（1.28 倍）
+PASS wancai_interior_lm_day.webp：被蓋住、會露出來的 3814 格，平均 58.9，旁邊 62.0（0.95 倍）
+PASS wancai_interior_lm_night.webp：被蓋住、會露出來的 3814 格，平均 55.8，旁邊 57.5（0.97 倍）
+PASS dakou_1f_lm_day.webp：被蓋住、會露出來的 7748 格，平均 112.7，旁邊 118.8（0.95 倍）
+PASS dakou_1f_lm_night.webp：被蓋住、會露出來的 7748 格，平均 67.6，旁邊 57.3（1.18 倍）
+PASS wz_teahouse_interior_lm_day.webp：被蓋住、會露出來的 8944 格，平均 52.4，旁邊 51.8（1.01 倍）
+PASS wz_teahouse_interior_lm_night.webp：被蓋住、會露出來的 8944 格，平均 51.8，旁邊 49.5（1.05 倍）
+FAIL corner_lm_day.webp：被蓋住、會露出來的 20029 格，平均 4.7，旁邊 40.2（0.12 倍）
+FAIL corner_lm_night.webp：被蓋住、會露出來的 20029 格，平均 4.8，旁邊 40.4（0.12 倍）
+FAIL ade_lm_day.webp：被蓋住、會露出來的 85222 格，平均 6.7，旁邊 90.2（0.07 倍）
+FAIL ade_lm_night.webp：被蓋住、會露出來的 85222 格，平均 5.9，旁邊 77.8（0.08 倍）
+FAILED 4
+rc=1 1960 s

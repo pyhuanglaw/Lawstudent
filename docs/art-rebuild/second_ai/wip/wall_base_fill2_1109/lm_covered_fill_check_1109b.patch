@@ -1,0 +1,21 @@
+diff --git a/tests/lm_covered_fill_check.py b/tests/lm_covered_fill_check.py
+index 506c9f262..7223fca85 100644
+--- a/tests/lm_covered_fill_check.py
++++ b/tests/lm_covered_fill_check.py
+@@ -1,5 +1,5 @@
+ """光照貼圖「被牆蓋住、牆淡出時會露出來」的格子不能是黑的（BB-B 11-08 LM3_cloud；LAWWW2-B lm_fill_covered.py）——不需要瀏覽器、不需要 Blender（D131）。
+-檢查：六間有隔間牆的房間（總圖 B1、研究小間、霖澤 5F、體育館 B1、美國公寓、合租戶）＋11-09 #204 五個（宿舍四人房、205、萬才館一樓、大口漢堡一樓、溫州街茶屋），
++檢查：六間有隔間牆的房間（總圖 B1、研究小間、霖澤 5F、體育館 B1、美國公寓、合租戶）＋11-09 #204 五個（宿舍四人房、205、萬才館一樓、大口漢堡一樓、溫州街茶屋）＋#204 第二批兩個（公館轉角唱片、溫州街阿德；LAWWW-B 21:19 選），
+   每一張光照貼圖（白天、晚上；5F、四人房加熄燈）：
+   被 WALL_ 網格蓋住、而且有鏡頭／玩家位置會讓它露出來的格子（lm_fill_covered.covered），平均亮度 ≥ 旁邊 3 格內同一個網格沒被蓋住的格子的 0.85 倍。
+   （熄燈那一張本來就近乎全黑：差 ≤ 3／255 也算過。）
+@@ -17,7 +17,8 @@ fails = 0
+ # 11-09 #204（LAWWW2-B；LAWWW-B 19:42 選盤點的 1～4）：宿舍四人房、205、萬才館一樓、大口漢堡一樓、溫州街茶屋（路徑相對 assets/models/env/）
+ E = os.path.join(ROOT, 'assets/models/env/')
+ for r in ['second_ai/library_b1', 'second_ai/library_carrels', 'second_ai/linze_5f', 'second_ai/gym_b1', 'second_ai/us_apartment', 'second_ai/us_shared',
+-          'second_ai/dorm_room4', 'second_ai/dorm_205', 'wancai_interior', 'second_ai/bb_support/dakou_1f', 'second_ai/wz_teahouse_interior']:
++          'second_ai/dorm_room4', 'second_ai/dorm_205', 'wancai_interior', 'second_ai/bb_support/dakou_1f', 'second_ai/wz_teahouse_interior',
++          'second_ai/bb_support/corner', 'second_ai/bb_support/ade']:
+     A = E
+     ims = sorted(glob.glob(A + r + '_lm_*.webp'))
+     im0 = np.asarray(Image.open(ims[0]).convert('L'), dtype=np.float32)
