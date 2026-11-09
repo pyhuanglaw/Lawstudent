@@ -3,8 +3,8 @@
  "account": "B",
  "session": "session_01J1g2TPcPzWrihXSY2WvseV",
  "branch": "claude/elegant-brown-fcos7n",
- "state": "handed-off",
- "handedOffAt": "2026-11-08T20:47Z",
- "sha": "131f3d5b",
- "snapshot": "docs/handoff/snapshots/2026-11-08T2047Z_B_BB.json"
+ "since": "2026-11-09T16:10Z",
+ "state": "on",
+ "sinceSha": "03d6ed8f",
+ "userOk": false
 }
