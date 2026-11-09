@@ -6721,7 +6721,7 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "7e11170d7",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACKNOWLEDGED",
    "task": "#204 外牆腳黑線：宿舍四人房、205、萬才一樓、大口一樓、茶屋補光照貼圖（lm_fill_covered；LAWWW-B 19:42 派 1～4）",
    "files": [
     "assets/models/env/second_ai/{dorm_room4_lm_day,dorm_room4_lm_night,dorm_room4_lm_dark,dorm_205_lm_day,dorm_205_lm_night,wz_teahouse_interior_lm_day,wz_teahouse_interior_lm_night}.webp",
@@ -6729,7 +6729,7 @@
     "assets/models/env/wancai_interior_lm_{day,night}.webp",
     "docs/art-rebuild/second_ai/wip/wall_base_fill_1109/（README、lm_covered_fill_check_1109.patch、ratio_before/after.txt、tests.txt）"
    ],
-   "state": "READY_FOR_REVIEW（只改光照貼圖；lm_covered_fill_check 開發 FAILED 10 → ALL PASS；回歸 101／0）",
+   "state": "READY_FOR_REVIEW；LAWWW-B 20:42 ACK，和 (C) 一起整合中",
    "noDirectIntegrate": false,
    "note": "被另一個 WALL_ 網格 2 cm 內蓋住、牆淡出時露出的格子補色；亮度比 0.10～0.38 → 0.95～1.37；其他格子 WebP 重編碼平均差 0.5～1.2／255。GLB、程式不動；測試 patch 加五個模型。",
    "next": "LAWWW-B 整合；CC 拍四間（牆外讓那面牆淡出：宿舍左牆外看床架、浴室牆外看白框；萬才一樓西牆外；大口 1F 右牆外；茶屋右牆外）、BB-B 判"
