@@ -50297,7 +50297,7 @@
    "id": "BUG-OUT-ALARM-SKIP-1109",
    "title": "約好的出遊沒有 alarm：按「等到晚上」、小睡會直接跳過出發時間，出遊被標 missed（E08 同一類；約 38 個 OUT.plan 沒寫 alarm）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -50309,7 +50309,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-09 19:5x LAWWW-B】BB-B 19:43 問要不要一起查。OUT.plan 預設沒有 alarm；classes3d skipStops 只停有 alarm 的出遊。先查：每一個沒寫 alarm 的出遊，玩家答應以後按等到晚上會不會跳過（請 CC 抽一個，例如 aa614 看電影 19:30）；確認是問題再決定 OUT.plan 預設 alarm（有 ev、玩家答應的）還是逐一加。",
+   "next": "【11-09 20:0x LAWWW-B】BB-B 19:53 抽查是真的 bug（aa614 看電影 19:30：答應以後按等到晚上直接跳到 20:00、20:027 變 missed、沒演、沒提示，和「時間到會跳出出發」對不上）。照 BB 建議：OUT.alarmOn(q)＝alarm!==false（預設停），CLS.skipStops、STORY.wakeAlarms、STORY.outStopsToday 都改看它；舊存檔排好的出遊也適用；真的不用停的再個別寫 alarm:false。tests/v0_e08_unit.js 4h（舊程式 3 FAIL）。本機全套跑中。交 BB：CC 抽兩三個出遊回歸（看電影、系烤、一個早上的出遊；一般走路出發不受影響）。 ｜ 【11-09 19:5x LAWWW-B】BB-B 19:43 問要不要一起查。OUT.plan 預設沒有 alarm；classes3d skipStops 只停有 alarm 的出遊。先查：每一個沒寫 alarm 的出遊，玩家答應以後按等到晚上會不會跳過（請 CC 抽一個，例如 aa614 看電影 19:30）；確認是問題再決定 OUT.plan 預設 alarm（有 ev、玩家答應的）還是逐一加。",
    "xai": {
     "spec": "BB-B 11-09 19:43",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50317,7 +50317,8 @@
     "receiver": "BB（測）",
     "ack": "SENT",
     "owner": "LAWWW"
-   }
+   },
+   "evidence": "tests/v0_e08_unit.js 4h"
   }
  ]
 }

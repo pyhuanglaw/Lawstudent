@@ -90,6 +90,13 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
     check('4g. 回「好」排的出遊有 alarm',!!q&&q.alarm===true,JSON.stringify(q));
     let st=null; try{ st=CLS.skipStops({G},20); }catch(e){ st=String(e); } const hs=Array.isArray(st)?st.map(a=>+a.h.toFixed(3)):[];
     check('4g. 16:12 按「等到晚上」：停在出發前 10 分鐘（16:35）',hs.some(h=>Math.abs(h-(17-0.25-1/6))<0.01),JSON.stringify(st).slice(0,200)); }
+  // 4h. 沒寫 alarm 的出遊也停（BUG-OUT-ALARM-SKIP-1109，BB-B 11-09 19:53：aa614 看電影 19:30 答應以後按「等到晚上」直接跳過、安靜地 missed）：預設停，寫 alarm:false 才不停
+  G=JSON.parse(snapPre); SOCIAL.bind(G); EVENTS.bind(GM); G.hour=15;
+  { OUT.plan(G,{id:'t_movie',ev:'ev_none',day:D21,h:19.5,late:0.5,place:'南洋戲院',title:'看電影',travelH:0.25}); OUT.plan(G,{id:'t_noalarm',ev:'ev_none2',day:D21,h:18,late:0.5,place:'某處',title:'不用叫',travelH:0.25,alarm:false});
+    check('4h. OUT.alarmOn：沒寫＝停、alarm:false＝不停',typeof OUT.alarmOn==='function'&&OUT.alarmOn(OUT.get(G,'t_movie'))===true&&OUT.alarmOn(OUT.get(G,'t_noalarm'))===false);
+    let st=null; try{ st=CLS.skipStops({G},21); }catch(e){ st=String(e); } const hs=Array.isArray(st)?st.map(a=>+a.h.toFixed(3)):[];
+    check('4h. 15:00 按「等到晚上」：停在看電影出發前 10 分鐘（19:05）、alarm:false 的不停',hs.some(h=>Math.abs(h-(19.5-0.25-1/6))<0.01)&&!hs.some(h=>Math.abs(h-(18-0.25-1/6))<0.01),JSON.stringify(st).slice(0,240));
+    const W=(STORY.wakeAlarms?STORY.wakeAlarms(G,D21):[]).map(a=>a.why); check('4h. 鬧鐘（睡覺、小睡）也有看電影、沒有 alarm:false 那個',W.some(w=>/看電影/.test(w))&&!W.some(w=>/不用叫/.test(w)),JSON.stringify(W)); }
   // 5. 法律系開局照舊
   fresh(1,21,'dorm',{},'law'); run(); check('5. 法律系開局：第一天就有「走啦」和 8/13 的照片（照舊）',PHONE.inGroup(G,'econ_friends')&&PHONE.sent(G,'econ_photo_0813')&&!PHONE.inGroup(G,'econ_class'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

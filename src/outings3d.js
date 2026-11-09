@@ -101,6 +101,9 @@ const OUT=(function(){
   const afterDone=new Set();   /* 這一趟已經做過結尾的（不存檔；S.go 結束時清掉）*/
   S.runAfter=async function(GM,q,ev){ if(!q||afterDone.has(q.id)) return; afterDone.add(q.id); for(const f of S.AFTER){ try{ await f(GM,q,ev); }catch(e){ console.warn('OUT.AFTER',e); } } };
   const running=new Set();   /* 正在演的那一個（不存檔）：演完才標 done，演的途中不能再被叫出來 */
+  /* 跳過時間、小睡、睡覺要不要停在出發前（BUG-OUT-ALARM-SKIP-1109，BB-B 11-09 19:53：沒寫 alarm 的出遊——看電影、系烤…——按「等到晚上」直接跳過、安靜地變 missed，和排進行程時的「時間到會跳出『出發』」對不上）：
+     預設都停；真的不用停的出遊寫 alarm:false。CLS.skipStops、STORY.wakeAlarms、STORY.outStopsToday 都看這一個 */
+  S.alarmOn=q=>!!q&&q.alarm!==false;
   S.due=function(G){ const now=t(G.day,G.hour); return S.rec(G).find(q=>q.state==='planned'&&!running.has(q.id)&&!(typeof CARLOT!=='undefined'&&CARLOT.walking&&CARLOT.walking(G,q))&&now>=t(q.day,q.h)-S.trip(G,q).travelH-0.25&&now<=lateEnd(q)&&(q.ask==null||now>=q.ask))||null; };
   S.lateEnd=q=>lateEnd(q); S.isRunning=id=>running.has(id);   /* 望月台停車場的「開車出發」（src/carlot3d.js）用：出發的時間窗、正在演的那一趟 */   /* CARLOT.walking：選了出發、正走去停車場的那一趟不再跳出發選單（到車旁邊按「開車出發」）*/
   /* 過了時間（後 45 分鐘以上）還沒出發＝missed */
