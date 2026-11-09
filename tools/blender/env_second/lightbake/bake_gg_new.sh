@@ -156,7 +156,8 @@ bb_ade)
     awk -F, -v w="$PW" '{printf "%s%.3f,%.3f,%.3f,%.3f,%.3f,1,1,%s,0.4,1.2,%s,%s,%s", (NR>1?";":""), $1, $1, $3, $3, $2, w, $5, $6, $7}')
   HIDE='glass'
   NOLM="^(?!(ad_floor_floor|ad_ceiling_ceil|WALL_[a-z]+_wall_wall|WALL_front_front_wall)\$)"
-  EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --keep-instances)
+  SKYTINT=${SKYTINT-1.32,1.0,0.72}   # 白天天光色調（同 AA 那一組；11-09 #196 重烘時加，BB-B 判不擋）
+  EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --keep-instances ${SKYTINT:+--skytint "$SKYTINT"})
   ;;
 *) echo "不認得的店 $SHOP（cvs、yangyang、corner、shaola、yejian、aa_sunnyside、aa_komichi、aa_mokuyobi、aa_yizhan、aa_offbeat、aa_afar、aa_aoki、aa_daybreak、bb_ade、bb_bike）"; exit 1;;
 esac
