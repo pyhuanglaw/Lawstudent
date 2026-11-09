@@ -39,6 +39,8 @@ async def main():
                 for _ in range(12):
                     if not await pg.evaluate(CLOSE): break
                     await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600)
+                if os.environ.get('PREJS'):   # 診斷用：例 GAME.E.scene.traverse(o=>{ if(/^WALL_/.test(o.name||'')) o.visible=false; })
+                    R.setup('%s 【診斷】PREJS：%s → %s' % (tag, os.environ['PREJS'][:120], await pg.evaluate('(()=>{ ' + os.environ['PREJS'] + ' })()')))
                 st = await D.st(pg)
                 if not R.check('%s 牆 %s 在 %s' % (tag, w, zone), st['zone'] == zone, json.dumps(st, ensure_ascii=False)[:160]): continue
                 for o in (-OFF, 0, OFF):
