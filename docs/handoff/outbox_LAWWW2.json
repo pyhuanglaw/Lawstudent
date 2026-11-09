@@ -6719,9 +6719,9 @@
   },
   {
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "(本 commit)",
+   "sha": "7e11170d7",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "task": "#204 外牆腳黑線：宿舍四人房、205、萬才一樓、大口一樓、茶屋補光照貼圖（lm_fill_covered；LAWWW-B 19:42 派 1～4）",
    "files": [
     "assets/models/env/second_ai/{dorm_room4_lm_day,dorm_room4_lm_night,dorm_room4_lm_dark,dorm_205_lm_day,dorm_205_lm_night,wz_teahouse_interior_lm_day,wz_teahouse_interior_lm_night}.webp",
