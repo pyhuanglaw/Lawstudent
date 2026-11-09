@@ -102,6 +102,12 @@ PATCH2_NEW = '''        if not SEG_TO:
             run.check('系烤：%%s' %% ('演過 ev_y0_e08、沒有「你沒來」' if %r == 'yes' else '沒演 ev_y0_e08、收到「你沒來」'), ((e08done and missed == 0) if %r == 'yes' else (not e08done and missed == 1)), json.dumps([e08done, missed]))
 ''' % (E08, E08, E08, E08) + PATCH2_OLD
 assert PATCH2_OLD in src; src = src.replace(PATCH2_OLD, PATCH2_NEW, 1)
+MS_OLD = "            miss_s = [k for k in want_s if k not in days]\n"
+if MS_OLD in src:   # BB-B 21:49：停點檢查改看 ECONFF done／events.done（flow 的迴圈只記它醒著時看到的日期，整天在事件裡演完的會漏記；9/13 保齡球那次）
+    src = src.replace(MS_OLD, """            done_keys = set(await pg.evaluate("(()=>{ const G=GAME.G, D=(ECONFF.rec(G).done||{}), E=(G.events&&G.events.done)||{}; return ECONFF.STEPS.filter(s=>D[s.n]===1||(s.ev&&E[s.ev])).map(s=>s.key); })()"))
+            miss_s = [k for k in want_s if k not in days and k not in done_keys]
+            run.note('  停點：迴圈看到的日期以外，靠 ECONFF done／events.done 算到的：' + json.dumps(sorted(k for k in want_s if k not in days and k in done_keys)))
+""", 1)
 sys.path.insert(0, T)
 g = {'__name__': '__main__', '__file__': os.path.join(T, 'flow_v0_to1017.py')}
 exec(compile(src, 'cc_e26_flow(flow_v0_to1017)', 'exec'), g)
