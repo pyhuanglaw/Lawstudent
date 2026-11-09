@@ -6680,10 +6680,10 @@
     "tools/blender/env_second/lightbake/{sunnyside,komichi,mokuyobi,daily_offbeat,ade}_lm.json",
     "docs/art-rebuild/second_ai/wip/wz196_skytint_1109/README.md"
    ],
-   "state": "已整合（LAWWW-B 07ce887a1；本機全套 1160 支沒有 FAIL）",
+   "state": "ART_APPROVED（BB-B 19:14 D120，PC GPU 14:00 新舊對照；已整合 07ce887a1）",
    "noDirectIntegrate": false,
    "note": "15 個檔、不用改程式；店門口藍/紅 1.17→0.98、0.88→0.81、0.93→0.82、1.22→0.99、1.26→1.11；亮度 −1%；節點／材質／LM 網格不變、晚上那張逐位元組一樣；63 支 Node 全過（開發 e767a3e3e＋15 檔）",
-   "next": "BB-B 排 CC 拍五間 14:00；BB-B 判"
+   "next": "無（小路白天沒開門，只看店門口）"
   },
   {
    "branch": "claude/funny-albattani-iawshm",
