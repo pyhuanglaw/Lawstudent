@@ -50282,7 +50282,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-09 17:2x LAWWW-B】BB-B 17:15（CC-B PC cc_e26_flow 817293734 兩條都一樣）。story3d.js：y0_e08_missed 多看 G.events.done.ev_y0_e08（演過＝去了）；tests/v0_e08_unit.js 4b（舊程式 FAIL）。交 BB：CC 照同一支 cc_e26_flow 重跑（有去那條不能收到「你沒來」）。另一件（不是 bug，問 AA-B）：短版 9/21 韋綸「烤肉你要去嗎？」沒出現，「沒去系烤」那一路在 30 分鐘版走不到——要不要留「不去」的選擇。",
+   "next": "【11-09 17:4x LAWWW-B】AA-B 17:21「留」：短版也能不去——econff3d.js 第 12 步改 dyn e08：還沒送韋綸私訊＝停在 16:00（原字、兩個選項照完整版）；好＝17:00 演；今天不行／17:00 還沒回＝做完（沒去，21:30 照完整版）；advance 發現做完就不演。tests/econ_ff_e08_unit.js（舊程式 9 FAIL）。交 BB：CC 跑 cc_e26_flow 兩條（回好＝去了、沒有「你沒來」；回今天不行＝10/17 車上沒去版、21:30「你沒來。」）。 ｜ 【11-09 17:2x LAWWW-B】BB-B 17:15（CC-B PC cc_e26_flow 817293734 兩條都一樣）。story3d.js：y0_e08_missed 多看 G.events.done.ev_y0_e08（演過＝去了）；tests/v0_e08_unit.js 4b（舊程式 FAIL）。交 BB：CC 照同一支 cc_e26_flow 重跑（有去那條不能收到「你沒來」）。另一件（不是 bug，問 AA-B）：短版 9/21 韋綸「烤肉你要去嗎？」沒出現，「沒去系烤」那一路在 30 分鐘版走不到——要不要留「不去」的選擇。",
    "xai": {
     "spec": "BB-B 11-09 17:15",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50291,7 +50291,7 @@
     "ack": "ACK",
     "owner": "LAWWW"
    },
-   "evidence": "tests/v0_e08_unit.js 4b"
+   "evidence": "tests/v0_e08_unit.js 4b；tests/econ_ff_e08_unit.js"
   }
  ]
 }

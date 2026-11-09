@@ -25,7 +25,7 @@ const ECONFF=(()=>{
     {n:7, key:'2024-09-18',h:10,zone:'campus',at:{x:-3,z:12,yaw:0},ev:'ev_y0_e07'},
     {n:8, key:'2024-09-19',h:15.17,zone:'putong',ev:'ev_y0_p2'},
     {n:9, key:'2024-09-20',h:17,ev:'ev_y0_e05',dyn:'e05'},   /* AA_727（Y0-E05-BIKE-LOCATION-1107）：時間、地點照 STORY.e05Step——17:00 停在她的訊息；回了＝跳到見面的時間、帶到普通教學館演；沒回＝停在 19:00「沒事了。」 */
-    {n:12,key:'2024-09-21',h:17,ev:'ev_y0_e08'},
+    {n:12,key:'2024-09-21',h:17,ev:'ev_y0_e08',dyn:'e08'},   /* AA-B 11-09 17:21「留」：短版也停在 16:00 韋綸那則私訊（原字、兩個選項照完整版）；好＝17:00 演，今天不行／沒回＝沒去（AA_358 2-3 那一路）*/
     {n:'t1',key:'2024-09-22',h:22+40/60,ev:'ev_y0_kt1'},
     {n:13,key:'2024-09-23',h:12.17,zone:'campus',ev:'ev_y0_e09'},
     {n:14,key:'2024-09-26',h:15.17,zone:'putong',ev:'ev_y0_p1b1',then:'ev_y0_p2'},
@@ -160,7 +160,14 @@ const ECONFF=(()=>{
   S.step2Done=(G,s)=>!!S.rec(G).done[s.n]||(!!s.ev&&done(G,s.ev))||(!!s.play&&done(G,s.play))||(!!s.trip&&done(G,s.trip));
   S.next2=function(G){ const now=G.day*24+G.hour; const L=S.STEPS2.concat(S.rhLong(G)).map(s=>Object.assign({t:(DK(s.key)!=null?DK(s.key)*24+s.h:Infinity)},s)).sort((a,b)=>a.t-b.t); for(const s of L){ if(S.step2Done(G,s)) continue; if(S.stepCut(G,s)){ S.rec(G).done[s.n]='cut'; continue; } if(s.trip&&!(G.flags&&G.flags.KH_TRIP)){ if(DK(s.key)!=null&&DK(s.key)*24+s.h<now) S.rec(G).done[s.n]='missed'; continue; }   /* 高雄：除夕電話還沒約，先不算；過了出發時間還沒約＝不去 */ const d=DK(s.key); if(d==null) continue; const t=d*24+s.h; if(t<now-6){ S.rec(G).done[s.n]='missed'; continue; } return Object.assign({t},s); } return null; };
   /* 時間、地點跟著劇情狀態走的一步（dyn；第 9 步 E05，AA_727）：{done}＝做完了；{t, zone, at, card}＝那個時間、那個地點（card＝到之前那一張字卡）；{t}＝停在那個時間 */
-  S.DYN={e05:G=>typeof STORY!=='undefined'&&STORY.e05Step?STORY.e05Step(G):null};
+  /* E08 中秋系烤（BUG-Y0-E08-MISSED-AFTER-GOING-1109 的另一半，AA-B 11-09 17:21「留」）：原本這一步固定 17:00 直接演 ev_y0_e08，跳過 16:00 韋綸那則私訊（story3d.js 的手機規則只在 16:00～17:00 送），
+     玩家沒機會回「今天不行」。改成：還沒送＝停在 16:00（送出、跳的途中收到要回的訊息就停）；回「好」＝17:00 演（出遊）；「今天不行」、到 17:00 還沒回、已經演過＝這一步做完（沒去的照片、可昕私訊照完整版 21:30）*/
+  S.e08Step=function(G){ const d=DK('2024-09-21'); if(d==null) return null; const F=G.flags||{};
+    if((G.events&&G.events.done&&G.events.done.ev_y0_e08)||F.E08_GO==='no') return {done:true};
+    if(F.E08_GO==='yes') return {t:d*24+17};
+    if(!(typeof PHONE!=='undefined'&&PHONE.sent&&PHONE.sent(G,'y0_e08_dm'))) return {t:d*24+16};
+    return (G.day*24+G.hour>=d*24+17)?{done:true}:{t:d*24+17}; };
+  S.DYN={e05:G=>typeof STORY!=='undefined'&&STORY.e05Step?STORY.e05Step(G):null, e08:G=>S.e08Step(G)};
   S.dynOf=(G,s)=>s&&s.dyn&&S.DYN[s.dyn]?S.DYN[s.dyn](G,s):null;
   S.clsItem=(G,day,cid)=>typeof CLS==='undefined'?null:((CLS.dayItems(G,day)||[]).find(it=>it.c&&it.c.id===cid)||null);
   S.tOf=(G,s)=>{ const d=DK(s.key); if(d==null) return null; if(s.cls){ const it=S.clsItem(G,d,s.cls); return it?d*24+it.t0-1/12:d*24+9; } { const x=S.dynOf(G,s); if(x&&x.t!=null) return x.t; } return d*24+s.h; };
@@ -235,7 +242,7 @@ const ECONFF=(()=>{
       await GM.fade(false); } finally { if(sb) GM.sceneEnd(); } }
     else if(x&&sz&&G.zone!==sz&&GM.enter){ const sb=!!(GM.sceneBegin&&GM.sceneEnd); if(sb) GM.sceneBegin(); try{ await GM.fade(true); await GM.enter(sz,sat?Object.assign({lv:0},sat):undefined,{noFade:true}); if(GM.titleCard&&x.card) await GM.titleCard(x.card[0],x.card[1]||'',2400); await GM.fade(false); } finally { if(sb) GM.sceneEnd(); } }   /* 見面的時間已經到了、人還不在那裡：帶過去 */
     try{ if(s.cls) await storyClass(GM,s);
-      else { await runEv(GM,s.ev); if(s.then) await runEv(GM,s.then); } }
+      else if(!(s.dyn==='e08'&&(S.dynOf(G,s)||{}).done)){ await runEv(GM,s.ev); if(s.then) await runEv(GM,s.then); } }   /* E08 跳到 17:00 才發現沒回／今天不行＝不演 */
     catch(e){ console.warn('ECONFF step '+s.n,e); }
     if(!s.dyn||S.stepDone(G,s)) r.done[s.n]=r.done[s.n]||1; if(GM.autosave) GM.autosave();   /* dyn：還沒做完（17:00 還沒回、見面還沒演）不記，下一次照新的狀態接（停點、時間會變）*/
     if(s.chain&&done(G,s.ev)&&S.next(G)&&GM.fade){ await GM.fade(true); return S.advance(GM); }   /* chain：演完不放回 3D，黑幕直接跳下一個（下一步自己會淡入）*/
