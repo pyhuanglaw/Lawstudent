@@ -6637,7 +6637,7 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "fd585f991",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "BACKFACE-HAOPAI-1109：好拍右牆洞洞板翻正＋自己的光照（BB-B 選 (b)）",
    "files": [
     "assets/models/env/second_ai/bb_support/haopai.glb",
@@ -6647,10 +6647,10 @@
     "docs/art-rebuild/second_ai/wip/backface_haopai_1109/README.md",
     "docs/art-rebuild/second_ai/wip/backface_haopai_1109/xs9_haopai_check_1109.patch"
    ],
-   "state": "已交付（READY_FOR_REVIEW）",
+   "state": "已整合（LAWWW-B a7c26e0eb，xs9 ALL PASS）",
    "noDirectIntegrate": false,
    "note": "不用改遊戲程式；洞洞板 224 面朝店裡、hp_peg OPAQUE、板面 ×3.0；右牆前段 0.451／0.438（舊淺牆 0.483／0.463），看起來約舊淺牆 0.89；左牆鐵網格翻 118 面；xs9 check 開發資產 FAILED 2→ALL PASS；好拍／新生南路相關 13 支全過",
-   "next": "LAWWW-B 複製 4 個資產＋git apply xs9 patch；CC 用 XS_FIX_1032 同角度（1400／2000 door、corner_b，PC GPU）重拍；BB-B 判 D120"
+   "next": "CC 用 XS_FIX_1032 同角度＋洞洞板近拍＋左牆鐵網格重拍（BB-B 排在 E08 主線兩條後面）；BB-B 判 D120（貼圖＋亮度）"
   }
  ]
 }

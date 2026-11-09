@@ -98,6 +98,7 @@
 - **卡頓（>100 ms）5 次**：
   - 10708 ms、10874 ms：`projectObject` → `SkinnedMesh.computeBoundingSphere` → `applyBoneTransform` 60～68 ms。這是某個 **frustumCulled 開著的蓋皮網格**第一次被畫時，three.js 用每根骨頭算每個頂點的包圍球。
     - character3d.js、props3d.js、遠距離版本都設了 `frustumCulled=false`，原始碼裡找不到是誰。請 CC 跑 `skinned_probe.js`（列出來＋記錄誰被算、花幾 ms）。
+    - **11-09 18:0x 更正**：「frustumCulled 開著的」是錯的。three.js 的 projectObject 在 `sortObjects`（預設開）時，**不管 frustumCulled**，boundingSphere 是 null 就算一次（排先後要用中心）。所以每個人物的每個蓋皮網格第一次畫都會算。見下面 (D)。
   - 2375、4358、13191 ms：那一幀 70～82 ms 是 idle，主執行緒在等 GPU，不是 JavaScript。
 
 ### 建議（給 LAWWW-B，人物系統）
@@ -136,3 +137,38 @@ LAWWW-B 17:21 定的順序是 D → C → A。D、C 要等 CC 的探針結果（
   - `src/character3d.js` `9baa633a…` → `6c8f2548bb20946a80fe93adf26446c7019ac9c2188af83835fed8220200c2ec`
   - `tests/sit_feet_fast_unit.js`（新）`142fe51b66c2fba684f55bd088611167978fa38b31c296e40a8985e335bf6aa1`
   - patch `35b9d2593d5a6a86944f5b7b76fa1d3e2b804276dc2e5c355968a0730ad795c3`
+
+## 11-09 18:0x：(D) 新的人物第一次出現的卡頓（交件，READY_FOR_REVIEW）
+- **原因**（看 `lib/three.bundle.js` 的 projectObject，78338～78360 行）：
+  - 畫面排序（`renderer.sortObjects`，預設開）時，`object.boundingSphere === null` 就呼叫 `object.computeBoundingSphere()`。這一段在 frustumCulled 判斷**之後、不管它是不是 false** 都會走到。
+  - SkinnedMesh 的 computeBoundingSphere 逐頂點套骨頭（`getVertexPosition` → `applyBoneTransform`）。
+  - CHAR.build 出來的 VRM（池裡第一個、每個新的 clone）和遠距離版本，每個蓋皮網格的 boundingSphere 都是 null：第一次畫的那一幀一起算。
+  - Node 量：一個人物 40～60 ms（頭髮 1.2～1.5 萬個頂點，一個網格就 16～20 ms）。大口 1F 的兩次 117 ms 就是有人走進來、第一次被畫到。
+  - `render_probe_dc.js` 的 (D) 部分照樣有用：`computeBoundingSphere` 表會列出被算的網格，`frustumCulled` 那一欄應該都是 false。
+- **做法**（`skinned_sphere_1109.patch`，對開發 `abfa888cf`；`src/character3d.js` +14／−3＋`tests/skinned_sphere_unit.js`（新））：
+  - 在 buildVRM、buildGLB 設 `frustumCulled=false` 的同一個地方，和遠距離版本建網格的地方，呼叫 `presetSphere(o)`。
+  - **不透明的蓋皮網格**：先給它「靜止網格的包圍球」。
+    - 照頂點位置算，不套骨頭；每個幾何算一次，存在 WeakMap，同一個模型的 clone 共用。
+    - 包圍球只用來排先後：不透明的有深度測試，先後不影響畫面；遊戲裡也沒有對蓋皮網格做射線，frustumCulled 全部 false。
+  - **透明的蓋皮網格**不動（眉毛、眼線、眼睛高光、睫毛、後髮）：照舊讓 three.js 第一次畫時用當下的姿勢算。
+    - 原因：先試過全部都給靜止包圍球。透明的臉部網格先後順序在 4,032 個鏡頭位置裡有 53% 不一樣（眼線和高光對調），會改到臉的樣子，所以不做。
+    - 這些網格頂點少，合計每個人物約 1～3 ms。
+  - `CHAR.presetSphere=false` 就是原本的做法。
+- **測試** `tests/skinned_sphere_unit.js`（新）：
+  - 模型：主角、四位女主角、兩個路人底模，加兩個有遠距離版本的路人底模，每個建兩個（池裡第一個、clone），也切到遠距離版本。
+  - 「第一次畫」照 projectObject 的做法。
+  - 結果：
+    - ① 開關存在；
+    - ② 不透明的 186 個（含遠距離版本 8 個）建好就有包圍球，透明的 92 個一個都沒動；
+    - ③ 第一次畫：原本 278 個網格 618 ms → 只算透明的 92 個 23.8 ms（**少 96%**）；
+    - ④ 透明網格算出來的包圍球和原本完全一樣，所以畫的先後不變；
+    - ⑤ 包住每一個靜止頂點，clone 和池裡第一個一樣；
+    - ⑥ 蓋皮網格不做射線、frustumCulled 全部 false。
+  - 開發原樣 **FAILED 4**（①②③⑤）→ 加 patch **ALL PASS**。
+- **回歸**：提到 character3d／CHAR.build／CHAR.animate／setFar／boundingSphere 的 `*_unit.js`（見下面「回歸結果」）。
+- **效能前後**：還沒在遊戲裡量。整合後請 CC 用 `render_probe_dc.js`（`computeBoundingSphere` 表）＋ CPU trace：進大口 1F、等人走進來，看 >100 ms 的那兩次還在不在。
+- sha256（開發 → 新）：
+  - `src/character3d.js` `6c8f2548bb20946a…` → `52239b695b45379f…`
+  - `tests/skinned_sphere_unit.js`（新）`f77d3c989bc3f9c4…`
+  - patch `e34461446c21aca8…`（`git apply --check` 對 `abfa888cf` OK）
+- `transparent_order_probe.js`：上面「53% 不一樣」那個量法（全部給靜止包圍球時，透明臉部網格的先後）。用法：`WT=<repo> node docs/art-rebuild/second_ai/wip/perf_xs_npc_throttle_1109/transparent_order_probe.js`。
