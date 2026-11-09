@@ -42,6 +42,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   G.flags.P2_PICK='river'; at(D19,17); check('1. P2 去成（河濱）：韋綸建立了群組「走啦」',PHONE.inGroup(G,'econ_friends')&&TH('g:econ_friends')[0]==='韋綸建立了群組「走啦」，把你加了進來。',JSON.stringify(TH('g:econ_friends')));
   // 2. 9/21 的私訊
   at(D21,15.5); check('2. 9/21 15:30：還沒有韋綸的私訊',!TH('p:econ_weilun').length);
+  const snapPre=JSON.stringify(G);   /* 4f 用：9/21 私訊還沒送 */
   at(D21,16.1); const dm=PHONE.thread(G,'p:econ_weilun');
   check('2. 9/21 16:00：韋綸私訊「烤肉你要去嗎？我在舟山路門口，可以一起走過去。」、選項「好」「今天不行」',dm.length===1&&dm[0].text==='烤肉你要去嗎？我在舟山路門口，可以一起走過去。'&&dm[0].ask&&dm[0].ask.opts.map(o=>o.t).join('/')==='好/今天不行',JSON.stringify(dm.map(m=>[m.text,m.ask&&m.ask.opts.map(o=>o.t)])));
   // 3. 回「好」→ 出遊
@@ -76,6 +77,14 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   check('4d. 短版直接演、還沒演完（EVENTS.running＝ev_y0_e08，18:30、20:30）：沒有排進佇列',!PHONE.sent(G,'y0_e08_missed'));
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.flags.E08_GO='yes'; at(D21,16.5); { const q=OUT.get(G,'y0_e08'); if(q) q.state='missed'; } at(D21,22);
   check('4e. 回「好」但出遊錯過了（missed）：照樣送沒去的版本',PHONE.sent(G,'y0_e08_missed'));
+  // 4f. 跳過時間停在 16:00（BB-B 11-09 18:14 (a)：9/21 13:00 按「等到晚上」一次跳到 20:00，私訊沒送）
+  G=JSON.parse(snapPre); SOCIAL.bind(G); EVENTS.bind(GM); G.hour=13;
+  const E8S=g=>typeof STORY.e08StopAt==='function'?STORY.e08StopAt(g):'沒有 STORY.e08StopAt';
+  check('4f. 9/21 13:00 私訊還沒送：STORY.e08StopAt＝16',E8S(G)===16,E8S(G));
+  { let st=null; try{ st=CLS.skipStops({G},20); }catch(e){ st=String(e); } const hs=Array.isArray(st)?st.map(a=>a.h):[]; check('4f. 跳過時間 13:00→20:00 的停點有 16:00（CLS.skipStops／STOP_FNS）',hs.includes(16),JSON.stringify(st).slice(0,200)); }
+  { const g2=JSON.parse(JSON.stringify(G)); g2.flags.E08_GO='no'; const g3=JSON.parse(JSON.stringify(G)); g3.hour=16.5; const g4=JSON.parse(JSON.stringify(G)); g4.day=D21+1;
+    check('4f. 已經回了／16:00 以後／不是那一天：不停',E8S(g2)==null&&E8S(g3)==null&&E8S(g4)==null,[E8S(g2),E8S(g3),E8S(g4)].join(',')); }
+  at(D21,16); check('4f. 停在 16:00：韋綸的私訊送出（兩個選項）',PHONE.sent(G,'y0_e08_dm')&&E8S(G)==null);
   // 5. 法律系開局照舊
   fresh(1,21,'dorm',{},'law'); run(); check('5. 法律系開局：第一天就有「走啦」和 8/13 的照片（照舊）',PHONE.inGroup(G,'econ_friends')&&PHONE.sent(G,'econ_photo_0813')&&!PHONE.inGroup(G,'econ_class'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

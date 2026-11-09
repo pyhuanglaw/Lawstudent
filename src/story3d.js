@@ -3903,6 +3903,11 @@ const STORY = (function(){
     return true; };
   /* 跳過時間的停點（CLS.STOP_FNS）：回了她、約好的見面還沒演＝停在見面前 10 分鐘（BB-B 11-07 17:20 P3：回了以後自己按「等到晚上（20:00）」，這一跳不停，睡覺時才演 E05、晚了三小時）；
      停下來以後經濟系快轉（ECONFF 第 9 步）照見面時間帶到 putong 演，舊流程照出發選單 */
+  /* 經濟系 9/21 中秋系烤：跳過時間（等到晚上、小睡）停在 16:00，讓韋綸那則私訊出現、玩家能回「好」或「今天不行」（BUG-Y0-E08-MISSED-AFTER-GOING-1109，BB-B 11-09 18:14 (a)：
+     13:00 按「等到晚上」一次跳到 20:00，私訊沒送、econff 照演系烤又收到「你沒來」）。已經送了、已經回了、演過了、不是那一天、16:00 以後＝不停 */
+  S.e08StopAt=function(G){ if(!G||!S.isEcon(G)) return null; const d=termDay('Y0S1',3,6); if(d==null||G.day!==d) return null; const F=G.flags||{};
+    if(F.E08_GO||(G.events&&G.events.done&&G.events.done.ev_y0_e08)) return null; if(typeof PHONE!=='undefined'&&PHONE.sent&&PHONE.sent(G,'y0_e08_dm')) return null;
+    const h0=((+G.hour||0)%24+24)%24; return h0<16?16:null; };
   S.e05StopAt=function(G){ const m=S.e05Meet(G), F=(G&&G.flags)||{}; if(!m||F.E05_OPEN||S.e05Done(G)) return null; const d=Math.floor(m.t/24); if(d!==G.day) return null; const at=m.t-d*24, h0=((+G.hour||0)%24+24)%24; return at-1/6>h0+0.02?at-1/6:Math.max(h0+0.01,at-1/60); };   /* 「我過去。」10 分鐘後見面＝見面前 10 分鐘就是現在：改停在見面前 1 分鐘 */
   S.e05Meet=function(G){ const F=G.flags||{}; if(!F.E05_MEET||F.E05_MEET_AT==null) return null; const g=S.E05_GOTO; return {t:F.E05_MEET_AT,zone:g.zone,at:{x:g.x,z:g.z,yaw:g.yaw},title:'普通教學館前',travel:F.E05_MEET_TR||''}; };
   /* econff3d.js 第 9 步（dyn:'e05'）：{done}＝演過或不演了；{t, zone, at, card}＝見面（帶過去演）；{t}＝下一個要停的時間（17:00 訊息、19:00 還沒回的那一則）*/

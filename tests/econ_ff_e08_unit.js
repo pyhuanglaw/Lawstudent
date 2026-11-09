@@ -2,6 +2,7 @@
 // 原本 src/econff3d.js 第 12 步固定 17:00 直接演 ev_y0_e08，跳過 16:00 韋綸那則私訊（story3d.js 手機規則只在 16:00～17:00 送），玩家沒機會回「今天不行」，AA_358 2-3「沒去系烤」走不到。
 // 檢查：1 第 12 步是 dyn e08；還沒送私訊＝停在 16:00 ／ 2 送了沒回：17:00 以前等到 17:00，到了 17:00 還沒回＝做完（沒去）
 //      3 回「好」＝17:00 演；演過＝做完 ／ 4「今天不行」＝做完 ／ 5 ECONFF.next：9/21 早上下一步是系烤、時間 16:00
+//      2b 私訊沒送就已經過 17:00（等到晚上一次跳過去）＝做完、不補演（BB-B 11-09 18:14 (b)）
 //      6 advance：跳到 17:00 才發現沒回、今天不行＝不演 ev_y0_e08（原始碼）
 // 修改前（沒有 dyn）：1、2、4、5、6 FAIL。用法：node tests/econ_ff_e08_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'); const ROOT=path.resolve(__dirname,'..');
@@ -18,6 +19,8 @@ check('1. 第 12 步（9/21 系烤）是 dyn e08',!!s12&&s12.dyn==='e08'&&s12.ev
 { SENT.clear(); const G=mkG('2024-09-21',10); const x=dyn(G); check('1. 還沒送韋綸的私訊：停在 16:00',!!x&&x.t===D*24+16,JSON.stringify(x)); }
 { SENT.clear(); SENT.add('y0_e08_dm'); const G=mkG('2024-09-21',16.2); const x=dyn(G); check('2. 送了、還沒回、16:12：等到 17:00',!!x&&x.t===D*24+17&&!x.done,JSON.stringify(x));
   G.hour=17; const y=dyn(G); check('2. 17:00 還沒回＝做完（沒去）',!!y&&y.done===true,JSON.stringify(y)); check('2. stepDone 也是做完',ECONFF.stepDone(G,s12)); }
+{ SENT.clear(); const G=mkG('2024-09-21',20); const x=dyn(G); check('2b. 私訊沒送就已經 20:00（13:00 按「等到晚上」一次跳過去）＝做完（沒去）、不補演',!!x&&x.done===true&&ECONFF.stepDone(G,s12),JSON.stringify(x));
+  G.hour=17; check('2b. 私訊沒送、17:00 整＝做完',(dyn(G)||{}).done===true); G.hour=16.5; const y=dyn(G); check('2b. 私訊沒送、16:30＝還停在 16:00 那一步（時間已過＝下一次馬上處理）',!!y&&y.t===D*24+16,JSON.stringify(y)); }
 { SENT.clear(); SENT.add('y0_e08_dm'); const G=mkG('2024-09-21',16.3,{E08_GO:'yes'}); const x=dyn(G); check('3. 回「好」：17:00 演（還沒做完）',!!x&&x.t===D*24+17&&!x.done&&!ECONFF.stepDone(G,s12),JSON.stringify(x));
   G.events.done.ev_y0_e08=D; check('3. 演過＝做完',ECONFF.stepDone(G,s12)); }
 { SENT.clear(); SENT.add('y0_e08_dm'); const G=mkG('2024-09-21',16.3,{E08_GO:'no'}); check('4. 回「今天不行」＝做完（沒去）',ECONFF.stepDone(G,s12)&&(dyn(G)||{}).done===true); }
