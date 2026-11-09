@@ -1,0 +1,11 @@
+PASS dorm_room4_lm_dark.webp：被蓋住、會露出來的 16960 格，平均 2.9，旁邊 2.7（1.07 倍）
+PASS dorm_room4_lm_day.webp：被蓋住、會露出來的 16960 格，平均 42.0，旁邊 30.5（1.37 倍）
+PASS dorm_room4_lm_night.webp：被蓋住、會露出來的 16960 格，平均 45.3，旁邊 33.1（1.37 倍）
+PASS dorm_205_lm_day.webp：被蓋住、會露出來的 17387 格，平均 40.0，旁邊 30.3（1.32 倍）
+PASS dorm_205_lm_night.webp：被蓋住、會露出來的 17387 格，平均 42.8，旁邊 33.3（1.28 倍）
+PASS wancai_interior_lm_day.webp：被蓋住、會露出來的 3814 格，平均 58.9，旁邊 62.0（0.95 倍）
+PASS wancai_interior_lm_night.webp：被蓋住、會露出來的 3814 格，平均 55.8，旁邊 57.5（0.97 倍）
+PASS dakou_1f_lm_day.webp：被蓋住、會露出來的 7748 格，平均 112.7，旁邊 118.8（0.95 倍）
+PASS dakou_1f_lm_night.webp：被蓋住、會露出來的 7748 格，平均 67.6，旁邊 57.3（1.18 倍）
+PASS wz_teahouse_interior_lm_day.webp：被蓋住、會露出來的 8944 格，平均 52.4，旁邊 51.8（1.01 倍）
+PASS wz_teahouse_interior_lm_night.webp：被蓋住、會露出來的 8944 格，平均 51.8，旁邊 49.5（1.05 倍）
