@@ -18701,6 +18701,32 @@
    "task": "INTERIOR-AAA-REVIEW-1028",
    "integration": "已整合待測試",
    "note": "sha256 762e9d2f → 03c4dd3c 和交件一致；三角形逐一相同、其他節點不變；牆淡出露出門板暗面 7 m² → 0.3 m²；美國公寓相關 node 測試 PASS。"
+  },
+  {
+   "id": "DLV-1109-L2-WALLONEPASS",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "9e79b8750",
+   "msg": "ACK",
+   "what": "PERF-XS-NPC-1108 (C) 牆一次畫完：wall_onepass_1109.patch（assets3d.js A.markOpaque、engine3d.js hideFaded forceSinglePass、?wall2pass、tests/wall_onepass_unit.js）",
+   "task": "PERF-XS-NPC-1108",
+   "integration": "已整合待測試",
+   "note": "整合 6bbfca043。patch sha256 1deb8fda、三個檔和交件一致；新測試開發原樣 FAILED 4 → ALL PASS；相關 313 支單元測試 PASS。待 CC render_probe_dc（大口 1F、山嵐，?wall2pass 對照）、BB-B 同角度開關比對畫面。"
+  },
+  {
+   "id": "DLV-1109-L2-WALLBASE",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "7e11170d7",
+   "msg": "ACK",
+   "what": "#204 外牆腳黑線 1～4：宿舍四人房、205、萬才一樓、大口一樓、茶屋 11 張光照貼圖（lm_fill_covered）＋tests/lm_covered_fill_check.py 加五個模型",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "整合 a5ec91a36。11 張 sha256 新舊都和 README 表一致；lm_covered_fill_check 舊貼圖 FAILED 10 → 新 ALL PASS；交件列的 101 支相關測試 PASS。待 CC 拍五個鏡頭（宿舍左牆外床架、浴室牆外白框；萬才一樓西牆外；大口 1F 右牆外橫帶後；茶屋右牆外木柱）、BB-B 判。12 間記憶體不夠那批 LAWWW2 分批量測中。"
   }
  ],
  "ignored": [
