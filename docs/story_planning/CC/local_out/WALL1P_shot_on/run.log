@@ -1,0 +1,10 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wallfade_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WALL1P_shot_on\out
+CC 牆淡出拍照：worktree ?；TAG on；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [xs_dakou] 【前置／捷徑】讀檔到 xs_dakou 2025-10-18 14.0（出生點）
+PASS [xs_dakou] 在 xs_dakou  {"zone": "xs_dakou", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.05}
+  [前置／捷徑] [xs_shanlan] 【前置／捷徑】讀檔到 xs_shanlan 2025-10-18 14.0（出生點）
+PASS [xs_shanlan] 在 xs_shanlan  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+PASS 沒有 JS 例外  []
+ALL PASS
