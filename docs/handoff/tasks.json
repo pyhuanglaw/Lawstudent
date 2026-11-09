@@ -450,6 +450,12 @@
       "by": "LAWWW-B",
       "result": "沒問",
       "why": "使用者 11-07 03:2x 正在用電腦試玩 v9.10.21、一次回報 26 項；先修回報的問題，這一班的試玩修好再一起請使用者用 iPhone 看，不在同一則多塞問題"
+     },
+     {
+      "at": "2026-11-09T16:09Z",
+      "by": "LAWWW-B",
+      "result": "沒問",
+      "why": "使用者 11-01 23:1x 選先不要幫忙用 iPhone ?debug；下一次發布前再問"
      }
     ]
    }
@@ -855,6 +861,12 @@
       "by": "LAWWW-B",
       "result": "沒問",
       "why": "使用者 11-07 03:2x 正在用電腦試玩 v9.10.21、一次回報 26 項；先修回報的問題，這一班的試玩修好再一起請使用者用 iPhone 看，不在同一則多塞問題"
+     },
+     {
+      "at": "2026-11-09T16:09Z",
+      "by": "LAWWW-B",
+      "result": "沒問",
+      "why": "同 BUG-02：iPhone 實機實測下一次發布前再問"
      }
     ]
    }
@@ -23493,6 +23505,12 @@
       "by": "LAWWW-B",
       "result": "沒問",
       "why": "BB 職位的提示詞要求（第 111 組已給），帳號 B 的 BB 還沒接班；BB 回來自己問"
+     },
+     {
+      "at": "2026-11-09T16:09Z",
+      "by": "LAWWW-B",
+      "result": "沒問",
+      "why": "跟使用者要圖是 BB 的工作（D100）；BB-B 還沒上線，上線後由 BB 問"
      }
     ]
    }
@@ -49056,6 +49074,12 @@
       "by": "LAWWW-B",
       "result": "沒問",
       "why": "BB-B 10:02 轉：使用者這幾天沒空給圖；提示詞先存著，BB 等使用者有空時再要（D97），LAWWW 不另外催；圖到之前銀幕維持現狀、燈暗那一句已經接（8c07196b7）"
+     },
+     {
+      "at": "2026-11-09T16:09Z",
+      "by": "LAWWW-B",
+      "result": "沒問",
+      "why": "跟使用者要圖是 BB 的工作；BB-B 上線後問"
      }
     ]
    }
@@ -49824,6 +49848,12 @@
       "by": "LAWWW-B",
       "result": "沒問",
       "why": "使用者 11-07 說這幾天沒空給圖；BB-B 02:43 決定提示詞先存著，下次要純場景那一批（第 114～117 組）時一起給；圖來以前深色底，不擋測試"
+     },
+     {
+      "at": "2026-11-09T16:09Z",
+      "by": "LAWWW-B",
+      "result": "沒問",
+      "why": "跟使用者要圖是 BB 的工作；BB-B 上線後問"
      }
     ]
    }
@@ -50178,7 +50208,7 @@
    "id": "HANDOFF-B-1108",
    "title": "帳號 B 交班（使用者 11-08 20:4x「現在交班 等其他AI做好你才交班」）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -50190,7 +50220,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-08 20:4x LAWWW-B】通知 LAWWW2-B、AA-B、BB-B、CC-B 交班；等四個 duty handoff 完，LAWWW-B 最後做 check → incr（advance）→ roles → duty sync → snapshot → duty handoff → 停用喚醒。"
+   "next": "【11-09 LAWWW-B】交班完成；使用者「現在交班 你上次交班後沒有人接班 我會通知其他AI上線」→ 帳號 B 重新接班（LAWWW-B duty register）。duty verify 的「AA、BB 快照找不到」是 duty.json 記成完整路徑（LAWWW2 記檔名），改成檔名以後 OK。 ｜ 【11-08 20:4x LAWWW-B】通知 LAWWW2-B、AA-B、BB-B、CC-B 交班；等四個 duty handoff 完，LAWWW-B 最後做 check → incr（advance）→ roles → duty sync → snapshot → duty handoff → 停用喚醒。",
+   "evidence": "11-08 20:5x 五職位 duty handoff（duty.json handed-off；快照 2026-11-08T2044Z_B_CC、2047Z_B_BB、2047Z_B_AA、2050Z_B_LAWWW2、2053Z_B_LAWWW）；d56e4f051"
   },
   {
    "id": "PLAYTEST-1107-CHOICE",
