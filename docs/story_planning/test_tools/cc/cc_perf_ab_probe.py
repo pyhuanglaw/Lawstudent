@@ -29,6 +29,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
+        if os.environ.get('PREJS'): R.setup('【前置】載入後先執行 %s' % os.environ['PREJS']); R.note('PREJS → %s' % await pg.evaluate('(()=>{ ' + os.environ['PREJS'] + '; return true; })()'))   # 例：CHAR.presetSphere=false（PERF-XS-NPC-1108 (D) 改前對照）
         for zone, fl in PTS:
             tag = '[%s %s]' % (zone, fl); rec = {'zone': zone, 'floor': fl}
             try:

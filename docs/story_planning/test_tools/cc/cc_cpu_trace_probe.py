@@ -13,13 +13,14 @@ URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 ZONE = os.environ.get('ZONE') or 'xs_dakou'; SETTLE = float(os.environ.get('SETTLE') or 30); SECS = float(os.environ.get('SECS') or 20)
 R = L.Run('cpu_trace', OUT); D.setup(R, OUT)
 CATS = 'devtools.timeline,disabled-by-default-devtools.timeline,disabled-by-default-devtools.timeline.frame,v8.execute,disabled-by-default-v8.cpu_profiler,v8,blink.user_timing'
-FRAMES = """(ms)=>new Promise(r=>{ const out=[]; let last=performance.now(); const t0=last; const to=performance.timeOrigin;
-  function f(t){ const d=t-last; if(d>100) out.push({at_ms:Math.round(t-t0), ms:Math.round(d), ts_us:Math.round((to+t)*1000)}); last=t; if(t-t0<ms) requestAnimationFrame(f); else r({n_hitch:out.length, hitches:out, t0_us:Math.round((to+t0)*1000)}); } requestAnimationFrame(f); })"""
+FRAMES = """(ms)=>new Promise(r=>{ const out=[]; let last=performance.now(); const t0=last; const to=performance.timeOrigin; try{ performance.mark('cc_trace_start'); }catch(e){}
+  function f(t){ const d=t-last; if(d>100){ out.push({at_ms:Math.round(t-t0), ms:Math.round(d), ts_us:Math.round((to+t)*1000), mark:'cc_hitch_'+Math.round(t-t0)}); try{ performance.mark('cc_hitch_'+Math.round(t-t0)+'_'+Math.round(d)+'ms'); }catch(e){} } last=t; if(t-t0<ms) requestAnimationFrame(f); else r({n_hitch:out.length, hitches:out, t0_us:Math.round((to+t0)*1000)}); } requestAnimationFrame(f); })"""
 async def main():
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
+        if os.environ.get('PREJS'): R.setup('【前置】載入後先執行 %s' % os.environ['PREJS']); R.note('PREJS → %s' % await pg.evaluate('(()=>{ ' + os.environ['PREJS'] + '; return true; })()'))   # 例：CHAR.presetSphere=false（PERF-XS-NPC-1108 (D) 改前對照）
         R.setup('【前置／捷徑】讀檔到 %s 2025-10-18 14:00（條件事件、手機關），1F 出生點' % ZONE)
         await D.load_zone(pg, cdp, ZONE, '2025-10-18', 14.0, wait=9000)
         await pg.evaluate("w=>{ try{ GAME.G.weather=w; GAME.E.setWeather&&GAME.E.setWeather(w); }catch(e){} }", 'sunny')
