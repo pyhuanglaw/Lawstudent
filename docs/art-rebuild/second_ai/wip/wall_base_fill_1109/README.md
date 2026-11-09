@@ -1,6 +1,6 @@
 # #204 外牆腳黑線：四間補光照貼圖（LAWWW2-B 2026-11-09；LAWWW-B 19:42 選盤點的 1～4）
 
-狀態：`READY_FOR_REVIEW`（只改光照貼圖，GLB、程式都不動；遊戲內等 CC 拍、BB-B 判）。
+狀態：`READY_FOR_REVIEW`（只改光照貼圖，GLB、程式都不動；Node 回歸 101／0；遊戲內等 CC 拍、BB-B 判）。
 盤點：`docs/art-rebuild/second_ai/wip/wall_base_survey_1109/README.md`。
 
 ## 做了什麼
@@ -42,7 +42,9 @@
   - 開發的光照貼圖：**FAILED 10**（這五個的白天、晚上都 FAIL；熄燈那張差 ≤ 3／255 算過；原本六間照舊 PASS）。
   - 新的光照貼圖：**ALL PASS**。
 - 改前、改後的原始輸出：`ratio_before.txt`、`ratio_after.txt`。
-- Node 測試：見下面「回歸」。
+- **回歸**：工作樹＝開發 `28d40e6e3`＋這 11 張圖＋patch 過的測試，提到這五個模型、光照貼圖、淡出的 101 支（`*_unit.js`、`*check*.py`，清單 `tests.txt`）：**101／0 全過**。
+  - `0e7491b75` → `28d40e6e3` 開發分支沒動到這 12 個檔，sha256 照下表。
+  - （第一次跑錯：工作樹被重置回開發原樣、又加了 `ulimit -v`，Node 的 WebAssembly 配不到記憶體出假失敗；那一次不算，已重跑。）
 
 ## 交付的檔案（sha256 前 16 碼：開發 `0e7491b75` → 新）
 | 檔案 | 開發 | 新 |
@@ -60,7 +62,7 @@
 | `assets/models/env/second_ai/wz_teahouse_interior_lm_night.webp` | `d1eba950628e1c04` | `5cc0c5a0497b7845` |
 | `tests/lm_covered_fill_check.py`（patch） | `8aff7fb384e05746` | `0bc93b9e70ec1641` |
 
-- patch `lm_covered_fill_check_1109.patch` sha256 `5b6dc03f3a6337ac…`
+- patch `lm_covered_fill_check_1109.patch` sha256 `5b6dc03f3a6337ac…`（`git apply --check` 對 `28d40e6e3` OK）
 - **不用改程式**。GLB 不動。
 
 ## 還沒驗
