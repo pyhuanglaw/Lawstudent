@@ -45,6 +45,10 @@ async def main():
                     yaw = YAW[w] + math.radians(o)
                     await pg.evaluate("a=>{ const C=GAME.E.cam; C.yaw=a[0]; C.distTarget=a[1]; C.dist=a[1]; C.manualT=3; }", [yaw, DIST])
                     await pg.wait_for_timeout(3000)
+                    for _ in range(12):   # 進門旁白會晚一點才出來：每張拍之前都再關一次
+                        if not await pg.evaluate(CLOSE): break
+                        await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700)
+                    await pg.evaluate("a=>{ const C=GAME.E.cam; C.yaw=a[0]; C.distTarget=a[1]; C.dist=a[1]; C.manualT=3; }", [yaw, DIST]); await pg.wait_for_timeout(1500)
                     await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(300)
                     await pg.screenshot(path=os.path.join(OUT, 'ww_%s_%s_%s%+d.png' % (TAG, zone, w, int(o))))
                     await pg.evaluate(D.HUD + '(true)')
