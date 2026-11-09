@@ -90,6 +90,11 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
     check('4g. 回「好」排的出遊有 alarm',!!q&&q.alarm===true,JSON.stringify(q));
     let st=null; try{ st=CLS.skipStops({G},20); }catch(e){ st=String(e); } const hs=Array.isArray(st)?st.map(a=>+a.h.toFixed(3)):[];
     check('4g. 16:12 按「等到晚上」：停在出發前 10 分鐘（16:35）',hs.some(h=>Math.abs(h-(17-0.25-1/6))<0.01),JSON.stringify(st).slice(0,200)); }
+  // 4i. 回「好」以後手機還開著就馬上按「等到晚上」（BB-B 11-09 20:3x，PC E26v4 yes／skipyes：出遊要等下一格 tick 的手機規則才排，跳過時間算停點時還沒有 → 直接跳到 20:00）
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.hour=16.2; { const dm=PHONE.thread(G,'p:econ_weilun').find(m=>m.ask); const r=dm?PHONE.answer(G,dm.ask.id,0):null;
+    check('4i. 前置：回「好」（PHONE.answer）＝E08_GO yes、手機規則還沒跑、出遊還沒排',!!r&&G.flags.E08_GO==='yes'&&!OUT.get(G,'y0_e08'),JSON.stringify({r:!!r,go:G.flags.E08_GO,q:OUT.get(G,'y0_e08')}));
+    let ok=null; try{ ok=await CLS.skipTo(GM,20); }catch(e){ ok=String(e); } const q=OUT.get(G,'y0_e08');
+    check('4i. 馬上按「等到晚上」：停在出發前 10 分鐘（16:35），出遊排好、還沒錯過',ok===true&&Math.abs(G.hour-(17-0.25-1/6))<0.01&&!!q&&q.state==='planned',JSON.stringify({ok,h:G.hour,q:q&&q.state})); }
   // 4h. 沒寫 alarm 的出遊也停（BUG-OUT-ALARM-SKIP-1109，BB-B 11-09 19:53：aa614 看電影 19:30 答應以後按「等到晚上」直接跳過、安靜地 missed）：預設停，寫 alarm:false 才不停
   G=JSON.parse(snapPre); SOCIAL.bind(G); EVENTS.bind(GM); G.hour=15;
   { OUT.plan(G,{id:'t_movie',ev:'ev_none',day:D21,h:19.5,late:0.5,place:'南洋戲院',title:'看電影',travelH:0.25}); OUT.plan(G,{id:'t_noalarm',ev:'ev_none2',day:D21,h:18,late:0.5,place:'某處',title:'不用叫',travelH:0.25,alarm:false});

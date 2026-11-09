@@ -1029,6 +1029,7 @@ const CLS=(function(){
   S.skipTo=async function(GM,h1,o){ o=o||{}; const G=GM.G, why=S.canSkip(GM); if(why){ GM.toast(why,3000); return false; } const h0=hr(G); if(h1<=h0+0.05) return false; if(h1>23.99) h1=23.99;
     const cb=S.closingBlock(G,h1); if(cb){ GM.toast(cb,4000); return false; }
     { const ex=S.dayItems(G).find(it=>it.exam&&!S.rec(G).done[it.key]&&S.status(G,it)==='open'&&h0>=it.t0-1/6); if(ex){ GM.toast(S.examName(ex)+'快開始了。',3000); return false; } }   /* 考試前 10 分鐘以後不能跳過去（AA_294 ①）*/
+    if(typeof STORY!=='undefined'&&STORY.phoneRules){ try{ STORY.phoneRules(GM); }catch(e){ console.warn('CLS.skipTo phoneRules',e); } }   /* 先跑一次手機規則：剛回完私訊（例：韋綸問系烤回「好」＝E08_GO）、手機還開著就按跳過時間，回覆以後才排的出遊要先排出來，停點才算得到（BB-B 11-09 20:3x E26v4：q8 還沒排、直接跳到 20:00）*/
     const stops=S.skipStops(GM,h1); const stop=stops[0]; const target=stop?stop.h:h1;
     const passed=S.dayItems(G).filter(it=>S.status(G,it)!=='done'&&it.t1-LATE_END>h0&&it.t1-LATE_END<=target&&!S.storyClass(G,it)&&!(h0>it.t0+WIN1));   /* 已經遲到超過 15 分鐘的課（照樣記缺席）不再警告「會錯過」（v9.7 試玩回歸 flow_playtest_fixes C：10:00 小睡，跳出「會錯過 09:10 國文」）*/
     if(passed.length){ GM.sceneBegin(); let i=0; try{ i=await GM.choose([{t:'照樣跳過',hint:'會錯過：'+passed.map(it=>hhmm(it.t0)+' '+it.c.name).join('、')},{t:'先不要'}]); } finally { GM.sceneEnd(); } if(i!==0) return false; }
