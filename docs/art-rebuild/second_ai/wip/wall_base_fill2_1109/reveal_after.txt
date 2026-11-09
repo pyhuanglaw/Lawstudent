@@ -1,0 +1,21 @@
+=== assets/models/env/second_ai/bb_support/corner.glb
+  露出：CEIL_beams_ceil 被 WALL_right_cr_vc_metal 擋住 0.45 m²，29% 的組合會露出來；亮度 0.10／沒擋住 0.27（0.36）
+  露出：cr_ceiling_ceil 被 WALL_left_cr_alpha 擋住 0.15 m²，22% 的組合會露出來；亮度 0.09／沒擋住 0.28（0.32）
+  露出：CEIL_beams_ceil 被 WALL_left_cr_alpha 擋住 0.05 m²，30% 的組合會露出來；亮度 0.09／沒擋住 0.27（0.32）
+  露出：CEIL_beams_ceil 被 WALL_left_cr_vc 擋住 0.01 m²，30% 的組合會露出來；亮度 0.07／沒擋住 0.27（0.26）
+  露出：CEIL_beams_ceil 被 WALL_right_cr_wood 擋住 0.02 m²，29% 的組合會露出來；亮度 0.18／沒擋住 0.27（0.68）
+  要修 5 對
+=== assets/models/env/second_ai/bb_support/ade.glb
+  露出：ad_floor_floor 被 WALL_right_stat_rack_vcm 擋住 1.05 m²，6% 的組合會露出來；亮度 0.07／沒擋住 0.71（0.09）
+  露出：ad_floor_floor 被 WALL_back_cubby_wood 擋住 0.91 m²，4% 的組合會露出來；亮度 0.00／沒擋住 0.71（0.0）
+  露出：WALL_left_wall_wall 被 WALL_back_cubby_wood 擋住 0.67 m²，4% 的組合會露出來；亮度 0.18／沒擋住 0.65（0.28）
+  露出：ad_floor_floor 被 WALL_right_ad_vc 擋住 0.07 m²，9% 的組合會露出來；亮度 0.05／沒擋住 0.71（0.07）
+  露出：ad_floor_floor 被 WALL_back_ad_vc 擋住 0.17 m²，4% 的組合會露出來；亮度 0.20／沒擋住 0.71（0.28）
+  露出：WALL_left_wall_wall 被 WALL_left_ad_vc 擋住 2.67 m²，0% 的組合會露出來；亮度 0.47／沒擋住 0.65（0.71）
+  露出：ad_floor_floor 被 WALL_left_ad_vc 擋住 0.07 m²，3% 的組合會露出來；亮度 0.00／沒擋住 0.71（0.0）
+  露出：WALL_left_wall_wall 被 WALL_front_ad_vc_metal 擋住 0.25 m²，2% 的組合會露出來；亮度 0.47／沒擋住 0.65（0.72）
+  露出：WALL_left_wall_wall 被 WALL_front_front_wall 擋住 0.21 m²，0% 的組合會露出來；亮度 0.40／沒擋住 0.65（0.61）
+  露出：ad_ceiling_ceil 被 WALL_left_ad_vc 擋住 0.03 m²，2% 的組合會露出來；亮度 0.21／沒擋住 0.48（0.45）
+  露出：ad_ceiling_ceil 被 WALL_front_ad_vc 擋住 0.03 m²，2% 的組合會露出來；亮度 0.32／沒擋住 0.48（0.66）
+  要修 11 對
+DONE
