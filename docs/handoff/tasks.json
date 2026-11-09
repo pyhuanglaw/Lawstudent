@@ -50292,7 +50292,8 @@
     "owner": "LAWWW"
    },
    "evidence": "tests/v0_e08_unit.js 4b；tests/econ_ff_e08_unit.js",
-   "sha": "fc879e47b92b8859021fe8c4247d23de90e07006"
+   "sha": "fc879e47b92b8859021fe8c4247d23de90e07006",
+   "test": "fc879e47b：tests/v0_e08_unit.js 4i（舊程式 FAIL）；本機全套 1160／1160 PASS；GHA node-unit-auto 42695033207 success；BB-B 雲端換回 87f5 確認 4i FAIL"
   },
   {
    "id": "BUG-OUT-ALARM-SKIP-1109",
