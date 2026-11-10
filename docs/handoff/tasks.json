@@ -51431,7 +51431,7 @@
    "id": "HANDOFF-B-1110B",
    "title": "帳號 B 第二次交班（11-10 04:1x，使用者「現在交班」；本班只有 LAWWW-B）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -51443,7 +51443,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW-B 存快照、duty handoff、關喚醒。",
+   "next": "【11-10 04:1x】快照 2026-11-10T0410Z_B_LAWWW、duty handoff、每小時喚醒停用。",
    "evidence": "HANDOFF_GAP_MATRIX 第 1 節",
    "sha": null
   }
