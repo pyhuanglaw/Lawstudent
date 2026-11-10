@@ -1,0 +1,12 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_movie_talk_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MT2_ps\out
+CC MOVIE_TALK（X324）：CASES PS0,PS1,PS2；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】day46 08:00、沛珊朋友＋聯絡方式
+FAIL [PS0 沛珊 m2511a] 手機朋友頁有 classmate_peishan
+  [前置／捷徑] 【前置／捷徑】day46 08:00、沛珊朋友＋聯絡方式
+FAIL [PS1 沛珊 m2511a] 手機朋友頁有 classmate_peishan
+  [前置／捷徑] 【前置／捷徑】day46 08:00、沛珊朋友＋聯絡方式
+FAIL [PS2 沛珊 m2511a] 手機朋友頁有 classmate_peishan
+PASS 沒有 JS 例外  []
+FAILED 3: [PS0 沛珊 m2511a] 手機朋友頁有 classmate_peishan；[PS1 沛珊 m2511a] 手機朋友頁有 classmate_peishan；[PS2 沛珊 m2511a] 手機朋友頁有 classmate_peishan
