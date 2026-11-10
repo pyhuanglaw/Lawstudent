@@ -1,0 +1,34 @@
+{
+ "flower_day": {
+  "yaw": 0,
+  "dist": 6,
+  "cam": [
+   -47,
+   2.96,
+   21.86
+  ],
+  "player": [
+   -47,
+   0,
+   16
+  ],
+  "zone": "gongguan",
+  "hour": 14.09
+ },
+ "flower_night": {
+  "yaw": 0,
+  "dist": 6,
+  "cam": [
+   -47,
+   2.96,
+   21.86
+  ],
+  "player": [
+   -47,
+   0,
+   16
+  ],
+  "zone": "gongguan",
+  "hour": 20.1
+ }
+}
