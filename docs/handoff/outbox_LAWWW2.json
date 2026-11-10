@@ -7650,12 +7650,12 @@
    "sha": "8dd2084a2",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "REJECTED",
    "task": "花序 Flower Notes 第 1 版・B 件（公館 G11 外觀、拿掉舊花攤）＋GG-SHOPS3-ART-1110（G04 安泰藥局、G08 汀州鮮果、G13 榮恩典文具社外觀）",
    "files": [
     "docs/art-rebuild/second_ai/wip/flower_notes_1110/（README_B.md、flower_notes_v1b_gg_shops3.patch、regression_b.log、preview_gg_fronts.jpg、crops_gg3_flower_from_ref.jpg）"
    ],
-   "state": "待整合；遊戲截圖待 CC；BB 判",
+   "state": "LAWWW 22:43 退（zq_arcade_seat_unit、street_props_nav_unit）；r2 重交見下面",
    "noDirectIntegrate": false,
    "note": "在 dev 2a7edffd5 上 apply --check 乾淨，套上後 flower_notes_unit、tingzhou_unit ALL PASS；相關 56 支 Node 測試 ALL PASS。src/zones3d.js 改兩處（柱子名單一行、花攤那一段拿掉）、src/assets3d.js 拿掉 bldg.gg_flower_stall。G09、G10 沒動。",
    "next": "等 G09／G10 的決定；花序第 2 版（花的造型、二樓高度的窗景、門口橄欖樹和花台）；公館三間門口的東西和室內；夜市等使用者授權"
@@ -7665,12 +7665,12 @@
    "sha": "525dc11eb",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "汀州路路邊機車（使用者 11-10 21:5x「長得幾乎一樣莫名其妙」；BB 收回街景 ART_APPROVED）：一群一群停、有空位、角度不一、有腳踏車",
    "files": [
     "docs/art-rebuild/second_ai/wip/tingzhou_1110/tingzhou_v3b_parking.patch（README_v3.md 最後一節）"
    ],
-   "state": "待整合；CC 同機位重拍、新舊並排給使用者看",
+   "state": "已整合 dev f6947aff3",
    "noDirectIntegrate": false,
    "note": "只動 src/tingzhou3d.js、tests/tingzhou_unit.js；最新 dev 上 apply --check 乾淨、tingzhou_unit ALL PASS。zone.tzScooterGLB＝正式機車模型載入成功的台數（CC 截圖時看）。",
    "next": "夜市規劃文件補使用者四題的答案"
@@ -7695,12 +7695,12 @@
    "sha": "51a7dfb8d",
    "receiver": "LAWWW",
    "cc": "BB、AA",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "GG-SHOPS3-ART-1110 泰米村食＋洗樂洗衣坊室內第 1 版（一個 patch）",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/（README.md、tz_shops_int_v1_taimi_xile.patch、preview_taimi.jpg、preview_xile.jpg、regression_taimi.log）"
    ],
-   "state": "待整合；遊戲截圖待 CC；BB 判",
+   "state": "已整合 dev f6947aff3",
    "noDirectIntegrate": false,
    "note": "底 dev 2a7edffd5；tz_shops_unit 兩間 ALL PASS。kind tz_taimi_*、tz_xile_*、zone.shopClerk 給 LAWWW 接。",
    "next": "印得好 → 安泰藥局 → 汀州鮮果 → 榮恩典文具社"
@@ -7710,12 +7710,12 @@
    "sha": "3042b26e9",
    "receiver": "LAWWW",
    "cc": "BB、AA",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "GG-SHOPS3-ART-1110 印得好室內第 1 版（套在泰米＋洗樂 patch 後面）",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/（README.md 最後一節、tz_shops_int_v1b_yindehao.patch、preview_yindehao.jpg）"
    ],
-   "state": "待整合；遊戲截圖待 CC；BB 判",
+   "state": "已整合 dev f6947aff3",
    "noDirectIntegrate": false,
    "note": "先套 tz_shops_int_v1_taimi_xile.patch 再套這一個；tz_shops_unit 三間 ALL PASS。kind tz_yin_copy／counter／price／samples、zone.shopClerk。",
    "next": "公館三間室內：安泰藥局 → 汀州鮮果 → 榮恩典文具社（公館那邊的店門入口要先講好怎麼接）"
@@ -7725,15 +7725,31 @@
    "sha": "34a5e0656",
    "receiver": "LAWWW",
    "cc": "BB、AA",
-   "ack": "SENT",
+   "ack": "SUPERSEDED",
    "task": "GG-SHOPS3-ART-1110 公館三間室內第 1 版：安泰藥局 gg_antai、汀州鮮果 gg_xianguo、榮恩典文具社 gg_rongendian（六間室內到齊）",
    "files": [
     "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/（README.md 最後一節、tz_shops_int_v1c_gg3.patch、preview_antai／xianguo／rongendian.jpg、regression_gg3.log）"
    ],
-   "state": "待整合；遊戲截圖待 CC；BB 判",
+   "state": "併進 r2",
    "noDirectIntegrate": false,
    "note": "依序套 v1_taimi_xile → v1b_yindehao → v1c_gg3；tz_shops_unit 六間 ALL PASS。公館入口用 hookOut 包住 gongguan build（不改 zones3d.js）。LICENSES.md 和花序 B 件可能要手動併；zone_assets 重產。",
    "next": "X332 禮貌生財規劃補一節；FACTS 幾行給 LAWWW；等判定"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "8e15235bc",
+   "receiver": "LAWWW",
+   "cc": "BB、AA",
+   "ack": "SENT",
+   "task": "重交 r2：花序 B 件（公館 G11 外觀、拿掉舊花攤）＋公館三間外觀（G04／G08／G13）＋公館三間室內（gg_antai／gg_xianguo／gg_rongendian），一個 patch",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/flower_notes_1110/（README_r2.md、gg_flowerB_gg3_ext_int_r2.patch、regression_r2_full.log；內容說明 README_B.md）",
+    "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/README.md（公館三間室內）"
+   ],
+   "state": "待整合；遊戲截圖待 CC；BB 判",
+   "noDirectIntegrate": false,
+   "note": "底 dev fd4dd9aef，9a5164f24 上 apply --check 乾淨；全部 1241 支 Node 測試通過；套上後 zq_arcade_seat、street_props_nav、flower_notes、tz_shops（六間）、tingzhou、gift_holiday ALL PASS。",
+   "next": "等判定；花序第 2 版換花；六間室內第 2 版"
   }
  ]
 }
