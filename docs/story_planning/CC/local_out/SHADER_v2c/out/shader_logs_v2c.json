@@ -1,0 +1,182 @@
+{
+ "shaderLogs": [
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "type": "warning",
+   "text": "[.WebGL-0x7b3c00427400] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."
+  },
+  {
+   "type": "warning",
+   "text": "[.WebGL-0x7b3c00427400] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."
+  }
+ ],
+ "allErrors": [],
+ "pageErrors": []
+}

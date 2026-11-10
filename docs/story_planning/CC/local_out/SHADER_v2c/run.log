@@ -1,0 +1,17 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shader_smoke_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHADER_v2c\out
+CC shader 冒煙：worktree ?；TAG v2c；['campus'] × [14.0, 20.0]；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 標題畫面／載入時沒有 shader／WebGL 錯誤  [{"type": "warning", "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."}, {"type": "warning", "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."}, {"type": "warning", "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."}, {"type": "warning", "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."}, {"type": "warning", "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."}]
+  [前置／捷徑] 【前置／捷徑】讀檔到 campus 2025-10-18 14.0 時（出生點）
+PASS campus 14 時 讀得進去  {"zone": "campus", "x": 34, "z": -98, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [  50.7s] campus 14 時 畫面 {"mean": 132.5, "pink": 0, "black": 0, "zone": "campus", "hour": 14.07}；console error／warning 0 則，其中 shader 類 0 則：[]
+PASS campus 14 時 沒有 shader／WebGL 編譯錯誤  []
+PASS campus 14 時 畫面不是整片黑、沒有洋紅（黑 0.000 ≤ 0.9、洋紅 0.000 ≤ 0.05）  {"mean": 132.5, "pink": 0, "black": 0, "zone": "campus", "hour": 14.07}
+  [前置／捷徑] 【前置／捷徑】讀檔到 campus 2025-10-18 20.0 時（出生點）
+PASS campus 20 時 讀得進去  {"zone": "campus", "x": 34, "z": -98, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.08}
+  [  68.7s] campus 20 時 畫面 {"mean": 32.4, "pink": 0, "black": 0.112, "zone": "campus", "hour": 20.08}；console error／warning 0 則，其中 shader 類 0 則：[]
+PASS campus 20 時 沒有 shader／WebGL 編譯錯誤  []
+PASS campus 20 時 畫面不是整片黑、沒有洋紅（黑 0.112 ≤ 0.9、洋紅 0.000 ≤ 0.05）  {"mean": 32.4, "pink": 0, "black": 0.112, "zone": "campus", "hour": 20.08}
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
