@@ -56,7 +56,7 @@ async def part_list(pg, cdp):
     inside = []
     if door:
         R.note('%s G11 的門：%s' % (tag, J(door)))
-        s = await D.use_exit(pg, cdp, tag, door['label'], door['to'])
+        s = await F.enter_door(pg, cdp, tag, door)
         if s:
             inside = await pg.evaluate("(%s)(%s)" % (F.LIST_FLOWER_JS, J(F.FLOWER_KIND)))
             R.note('%s 店裡（%s）kind gg_flower 的互動點 %d 個：%s' % (tag, s['zone'], len(inside), J(inside)))
@@ -151,7 +151,7 @@ async def reach_flower(pg, cdp, tag):
     """觸控走到 gg_flower 前面（有 G11 的門＝先走進店）；回傳那個互動點"""
     g, fl, door, exs = await survey(pg, cdp)
     if door:
-        s = await D.use_exit(pg, cdp, tag, door['label'], door['to'])
+        s = await F.enter_door(pg, cdp, tag, door)
         if not s: return None
         fl = await pg.evaluate("(%s)(%s)" % (F.LIST_FLOWER_JS, J(F.FLOWER_KIND)))
     fl = [x for x in fl if not x['hidden']]

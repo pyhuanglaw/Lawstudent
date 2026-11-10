@@ -472,7 +472,7 @@ def analyze(t, case, run, segs, info, check=True):
         if check: R.note('%s 朋友版：祐廷自動回 %s（朋友版照舊有）；她的戀愛 applyFx %s、adjust %s' % (t, J(replies), love, adjl))
         return res
     if OLD:
-        allopt = set(x for s in segs for x in (s.get('all') or []))
+        allopt = set(x for s in segs for x in (s.get('all') or [])) - set(info.get('say3') or []) - {info.get('notYet')}   # 和舊版原本一字不差的不算
         hit = [e['v'] for e in dl if e.get('k') == 'choose' and allopt & set(str(x) for x in (e.get('v') or []))]
         ck('%s 【舊版對照】沒有稿上的選項（舊版還沒有 TERMEND_OPTS）' % t, not hit, J(hit[:2]))
         if kind == 'gf':
@@ -480,9 +480,10 @@ def analyze(t, case, run, segs, info, check=True):
         res['old_menus'] = [e['v'] for e in dl[start:] if e.get('k') == 'choose']
         return res
     if expect == 'old':   # 稿沒匯的人（芷若、沛珊告白）：不該出現稿上的字；說出來那一組照遊戲原本的三句＋（先不說）
-        allopt = set(x for s in segs for x in (s.get('all') or []))
+        # 稿上和遊戲原本一字不差的（「我喜歡妳。」）不算：只看稿才有的字
+        allopt = set(x for s in segs for x in (s.get('all') or [])) - set(info.get('say3') or []) - {info.get('notYet')}
         hit = [e['v'] for e in dl if e.get('k') == 'choose' and allopt & set(str(x) for x in (e.get('v') or []))]
-        ck('%s 稿沒匯：沒有稿上的飯桌選項、告白選項' % t, not hit, J(hit[:2]))
+        ck('%s 稿沒匯：沒有稿上才有的飯桌選項、告白選項（%d 句）' % (t, len(allopt)), not hit, J(hit[:2]))
         menu = (info.get('say3') or []) + [info.get('notYet')]
         got = [e['v'] for e in dl[start:] if e.get('k') == 'choose']
         ck('%s 稿沒匯：說出來的選單＝遊戲原本的三句＋「（先不說）」' % t, menu in got, '期望 %s；實際選單 %s' % (J(menu), J(got)))

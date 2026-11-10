@@ -610,4 +610,18 @@ R8A_main12 | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/flow_main_d
 R8A_ggnav | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
 R8A_guide | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
 R8A_touch | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
-
+# BB 22:05 TZQ／TZP／WZQ（快速前往汀州路九間、路人、溫州街十一間）：新＝3a216dfb2（含 5e6f4990c＋汀州路機車第 3 版，只改停車）、舊＝c17a9919e。預期 FAIL：TZQ_misc 的 A3（places.js known0.tingzhou=1，規格衝突待 BB 判）、WZQ_old 少 7 間
+TZQ_go | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 15 | PARTS=TZQ_MAP,TZQ_GO;SHA=3a216dfb27f46b54fb578b06d1ef09ee7d154ab4
+TZQ_misc | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 15 | PARTS=TZQ_NEW,TZQ_OLD;SHA=3a216dfb27f46b54fb578b06d1ef09ee7d154ab4
+TZP_cnt | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 15 | PARTS=TZP_CNT;Q=low,medium,high;SHA=3a216dfb27f46b54fb578b06d1ef09ee7d154ab4
+TZP_walk | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 10 | PARTS=TZP_WALK,TZP_TY;Q=medium;SHA=3a216dfb27f46b54fb578b06d1ef09ee7d154ab4
+TZP_fps | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 5 | PARTS=TZP_FPS;SHA=3a216dfb27f46b54fb578b06d1ef09ee7d154ab4
+WZQ_new | 3a216dfb27f46b54fb578b06d1ef09ee7d154ab4 | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 15 | PARTS=WZQ;SHA=3a216dfb27f46b54fb578b06d1ef09ee7d154ab4
+WZQ_old | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 10 | PARTS=WZQ;SHA=c17a9919ec13ff237181709df0a3ee70e4e4d5e2
+TZQ_go_old | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tzq_probe.py | index.html | 15 | PARTS=TZQ_MAP,TZQ_GO;SHA=c17a9919ec13ff237181709df0a3ee70e4e4d5e2
+# 常備回歸（D143：佇列空、PC 閒；開發分支最新 9da05d8eb；汀州路發布前暖身）
+REG_9da05d8_deploy | 9da05d8ebba1822de6de1490217755d6ca5353af | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
+REG_9da05d8_p0 | 9da05d8ebba1822de6de1490217755d6ca5353af | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+REG_9da05d8_zone | 9da05d8ebba1822de6de1490217755d6ca5353af | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+REG_9da05d8_mini | 9da05d8ebba1822de6de1490217755d6ca5353af | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+REG_9da05d8_tzgate | 9da05d8ebba1822de6de1490217755d6ca5353af | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=GATE,SHOPS
