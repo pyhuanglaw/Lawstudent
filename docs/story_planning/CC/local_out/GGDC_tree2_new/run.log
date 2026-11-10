@@ -1,0 +1,17 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canopy_shot_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GGDC_tree2_new\out
+CC 樹冠網點：worktree ?；TAG new；campus (-40.0,6.5)；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 campus (-40.0,6.5) 2025-10-18 14.0 時
+PASS 沒在騎車
+  [  46.3s] 附近的樹冠網格（前 8）：[{"name": "trees_palm_a_bark#7", "see": true, "min": [-42.94, -0.05, 9.06], "max": [-42.06, 15.23, 9.94], "c": [-42.5, 7.59, 9.5], "d": 3.9}, {"name": "trees_palm_a_leaf#7", "see": true, "min": [-46.36, 15.07, 5.69], "max": [-38.9, 19.71, 13.25], "c": [-42.63, 17.39, 9.47], "d": 4}, {"name": "trees_palm_a_bark#9", "see": true, "min": [-35.55, -0.05, 8.95], "max": [-34.45, 13.93, 10.05], "c": [-35, 6.94, 9.5], "d": 5.8}, {"name": "trees_palm_a_leaf#9", "see": true, "min": [-39.57, 13.79, 4.77], "max": [-30.22, 18.04, 14.12], "c": [-34.9, 15.91, 9.44], "d": 5.9}, {"name": "bell_pstone", "see": true, "min": [-39.62, 0, 13.27], "max": [-36.38, 3.92, 18.05], "c": [-38, 1.96, 15.66], "d": 9.4}, {"name": "trees_palm_a_bark#5", "see": true, "min": [-50.4, -0.05, 9.1], "max": [-49.6, 13.93, 9.9], "c": [-50, 6.94, 9.5], "d": 10.4}, {"name": "trees_palm_a_leaf#5", "see": true, "min": [-53.51, 13.79, 6.02], "max": [-46.71, 18.04, 12.91], "c": [-50.11, 15.91, 9.47], "d": 10.5}, {"name": "trees_palm_a_bark#11", "see": true, "min": [-28.02, -0.05, 8.98], "max": [-26.98, 15.23, 10.02], "c": [-27.5, 7.59, 9.5], "d": 12.9}]
+PASS 40.0 m 內找得到樹冠網格
+  [  46.3s] 樹 1：trees_palm_a_bark#7 中心 [-42.5, 7.59, 9.5] 高 -0.1～15.2、seeThrough True
+  [  52.3s] 到達「走到樹 1 正下方」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  55.4s] 樹 1 遊戲鏡頭：[-42.33, 2.3, 7.4]
+  [  55.4s] 樹 2：trees_palm_a_bark#9 中心 [-35, 6.94, 9.5] 高 -0.1～13.9、seeThrough True
+  [  64.3s] 到達「走到樹 2 正下方」附近（0.64 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [  67.3s] 樹 2 遊戲鏡頭：[-35.47, 2.3, 7.81]
+PASS 拍到 2 棵  2
+PASS 沒有 JS 例外  []
+ALL PASS
