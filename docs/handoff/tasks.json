@@ -53086,7 +53086,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "朋友版七個學期 72 頓（AA_749 @5ffd725b8）已合併 7c56e3cc8，termend_friend_1110_unit 等 10 支 ALL PASS，瀏覽器沒跑（BB 排）。還沒做：芷若告白（AA_748：順序反過來、地點 2:30 AM 不走路、inviteHeart、匯入工具讀 HEART；先問 AA 用哪個 SHA、店裡有沒有客人）；沛珊等 X327；多人桌照舊 POOL；可昕白名單還在 898820f8b（企劃線 5932e4681 有四處修正待重匯）。等 AA 回五題（KX_KHH 補記、學姊大三上那句、七個鉤子）",
+   "next": "朋友版七個學期 72 頓（AA_749 @5ffd725b8）已合併 7c56e3cc8，termend_friend_1110_unit 等 10 支 ALL PASS，瀏覽器沒跑（BB 排）。還沒做：芷若告白（AA_748：順序反過來、地點 2:30 AM 不走路、inviteHeart、匯入工具讀 HEART；先問 AA 用哪個 SHA、店裡有沒有客人）；沛珊等 X327；多人桌照舊 POOL；可昕白名單還在 898820f8b（企劃線 5932e4681 有四處修正待重匯）。等 AA 回五題（KX_KHH 補記、學姊大三上那句、七個鉤子）｜11-10 23:3x AA 回了五題（企劃線 1cf434dee）：背景子代理（worktree，基準 e45f7d814）在做——可昕每個選項的 set（KX_KHH／KX_Y5_CALL）、學姊大三上 thenIf、鉤子③④；回來當回合合併（D148）。芷若告白以 d5b6fb0d9（＝2cb84d6df）為準：店還開著、還有兩桌客人；「她先說」模式和沛珊共用，等 AA 標 result 格式",
    "xai": {
     "spec": "X324、BB_314",
     "branch": "claude/confident-ritchie-8rwh7t",
