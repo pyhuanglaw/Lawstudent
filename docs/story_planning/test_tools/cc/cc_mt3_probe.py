@@ -372,9 +372,14 @@ async def case_other(pg, cdp, who, day_key, film, tag, mode):
     for k_, dk in enumerate(days):
         await M.load(pg, cdp, M.base_state([who]), day_key=dk, why='%s 08:00、%s 朋友＋聯絡方式' % (dk, who))
         if k_ == len(days) - 1: break
-        await pe.phone(pg, cdp, 'friends'); ok_ = await pg.evaluate("(w=>!!document.querySelector('#phoneBody [data-inv=\"'+w+'\"]'))(%s)" % J(who)); await pe.close_phone(pg, cdp)
-        R.note('%s %s 手機朋友頁有 %s：%s' % (tag, dk, who, ok_))
-        if ok_: break
+        # r3：除了朋友頁有她，還要她的選單有「看電影、逛書店」、而且讀檔後時間沒有被劇情推過 09:50（2030-07-13 讀進來變成 27:00；2029-07-21 有她但沒有看電影）
+        hr_ = await pg.evaluate("+GAME.G.hour"); await pe.phone(pg, cdp, 'friends')
+        ok_ = await pe.tap_sel(pg, cdp, '#phoneBody [data-inv="%s"]' % who); o_ = []
+        if ok_: await pg.wait_for_timeout(1500); o_ = [x['t'] for x in await pe.opts(pg)]
+        mv_ = any('看電影' in t for t in o_)
+        await pe.close_phone(pg, cdp); await pe.settle(pg, cdp, [], 10)
+        R.note('%s %s：時間 %.2f、朋友頁有 %s：%s、選單 %s' % (tag, dk, hr_, who, ok_, J(o_)))
+        if ok_ and mv_ and hr_ < 9.5: break
     iv = await M.book(pg, cdp, tag, who, 0)
     if not iv: return
     await setfilm(pg, iv, film, tag)
@@ -457,10 +462,10 @@ async def main():
                 elif c == 'FB_JOKE': await case_fb(pg, cdp, 'kexin', '2027-03-20', 'm2703a', '我比較同情過敏的那個。', 'joke', '[FB_JOKE 可昕 m2703a]')   # r2：2027-01-16 寒假她在高雄（只有出去玩）
                 elif c == 'FB_CRIT': await case_fb(pg, cdp, 'heroine_01', '2026-01-17', 'm2601b', '中間等極光那九個晚上，可以剪掉五個。', 'crit', '[FB_CRIT 以安 m2601b]')
                 elif c == 'QOTHER': await case_other(pg, cdp, 'kexin', '2025-11-15', 'm2511b', '[QOTHER 可昕 m2511b]', 'qother')
-                elif c == 'OO_3007': await case_other(pg, cdp, 'heroine_01', '2030-07-13', 'm3007b', '[OO 以安 m3007b]', 'optsother')
-                elif c == 'OO_2805': await case_other(pg, cdp, 'heroine_01', '2028-05-13', 'm2805b', '[OO 以安 m2805b]', 'optsother')
+                elif c == 'OO_3007': await case_other(pg, cdp, 'heroine_01', ['2030-07-06', '2030-07-20', '2030-08-03', '2030-08-17'], 'm3007b', '[OO 以安 m3007b]', 'optsother')
+                elif c == 'OO_2805': await case_other(pg, cdp, 'heroine_01', ['2028-05-20', '2028-06-03', '2028-06-10', '2028-06-24'], 'm2805b', '[OO 以安 m2805b]', 'optsother')
                 elif c == 'NOASK': await case_other(pg, cdp, 'heroine_01', '2026-11-14', 'm2611a', '[NOASK 以安 m2611a]', 'noask')
-                elif c == 'NOFB': await case_other(pg, cdp, 'heroine_01', ['2029-07-21', '2029-08-04', '2029-08-18', '2029-08-29'], 'm2907a', '[NOFB 以安 m2907a]', 'nofb')
+                elif c == 'NOFB': await case_other(pg, cdp, 'heroine_01', ['2029-07-07', '2029-07-28', '2029-08-04', '2029-08-18', '2029-08-29'], 'm2907a', '[NOFB 以安 m2907a]', 'nofb')
                 elif c == 'LATER2': await case_later_movie(pg, cdp)
                 elif c == 'ARC_AN': await case_arcafter(pg, cdp, 'heroine_01', '2027-09-15', 'm2709b', False, '[ARC_AN 以安 借據]')
                 elif c == 'ARC_KX': await case_arcafter(pg, cdp, 'kexin', '2027-05-15', 'm2705a', False, '[ARC_KX 可昕 放學後的球場]')
