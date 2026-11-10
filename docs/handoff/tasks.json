@@ -34450,7 +34450,7 @@
    "title": "開發分支能重新匯出美國公寓、C 棟 208 的 GLB：補 us_apartment_layout 舊檔名的配置、aa_support／bb_support 道具組（或改腳本讀現在的檔名）",
    "area": "v4",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P3",
    "source": "LAWWW2-C 10-27 17:13 交件訊息（README 第四份「匯出環境」）",
    "first": {
@@ -34463,14 +34463,15 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 17:1x UTC】不擋遊戲（GLB 已經在）；只影響以後重匯。LAWWW2 自己排（D111 美術總監），下次動到這兩個模型前做",
+   "next": "【LAWWW 11-10 14:4x】接 LAWWW2 01d3577ef：新版 us_apartment.py、glb_split_node.py、rebuild_us_rooms.sh 一個指令重建；乾淨分支重跑和部署中 GLB 逐一相同；只動工具、遊戲不讀；us_reexport_inputs_unit ALL PASS。結案。 ｜ 【LAWWW-C 2026-10-27 17:1x UTC】不擋遊戲（GLB 已經在）；只影響以後重匯。LAWWW2 自己排（D111 美術總監），下次動到這兩個模型前做",
    "xai": {
     "spec": "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/README.md 第四份「匯出環境」",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "在開發分支的檔案上跑公寓、C 棟 208 的 Blender 匯出腳本成功，匯出的 GLB 和現在的一樣（--check 或逐物件比對）",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "sha": "01d3577ef"
   },
   {
    "id": "USER-WANTS-AUDIT-C-1027",
