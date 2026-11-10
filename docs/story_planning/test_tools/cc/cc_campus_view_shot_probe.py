@@ -1,7 +1,7 @@
 """CC 校園定點截圖（11-10 LAWWW dcc9276f8：X283 CAMPUS-FLOOR-STRIP-1110 路緣長條、X285 AVENUE-FAR-SIGNS-1110 遠景看板；改前 e73888074c／改後 dcc9276f8 同一支）。
 【前置／捷徑】讀使用者存檔（FIX，預設遊戲 repo tests/fixtures/user_save_day51b_1110.json），區域、時間改成 VIEW 指定的、玩家擺到那一點；條件事件關掉；
 鏡頭：遊戲鏡頭直接擺 yaw／距離（和使用者截圖同一個角度，不是玩家流程）＋（有給 look 的）另一台相機 render 看遠處。只截圖、記鏡頭與畫面，判斷給 BB。
-VIEWS（分號分隔）：name:zone:x:z:hour:camYawRad:dist[:lx:ly:lz:fov]——lx/ly/lz 有給＝另一台相機從玩家頭（+1.6 m）看那一點、fov 度。
+VIEWS（+ 分隔；佇列 ENV 裡不能用分號）：name:zone:x:z:hour:camYawRad:dist[:lx:ly:lz:fov]——lx/ly/lz 有給＝另一台相機從玩家頭（+1.6 m）看那一點、fov 度。
 Playwright／SwiftShader ≠ iPhone。用法：LW_TESTS=<wt>/tests TAG=old|new VIEWS=... python3 cc_campus_view_shot_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -10,7 +10,7 @@ import cc_d141_lib as D
 from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 FIX = os.environ.get('FIX') or 'tests/fixtures/user_save_day51b_1110.json'; TAG = os.environ.get('TAG') or 'x'
-VIEWS = [v.split(':') for v in (os.environ.get('VIEWS') or 'curb:campus:29.9:-54.4:18.4:0.82:6').split(';') if v]
+VIEWS = [v.split(':') for v in (os.environ.get('VIEWS') or 'curb:campus:29.9:-54.4:18.4:0.82:6').replace(';', '+').split('+') if v]   # 11-10：PC 佇列的 ENV 用 ; 分欄，多個 VIEW 要用 + 分（r1 只跑到第一個）
 R = L.Run('campus_view_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 CAM = "(()=>{ const C=GAME.E.cam, c=GAME.E.camera.position, P=GAME.E.player.obj.position; return {yaw:+C.yaw.toFixed(3), dist:+C.dist.toFixed(2), cam:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], player:[+P.x.toFixed(2),+P.y.toFixed(2),+P.z.toFixed(2)], zone:GAME.G.zone, hour:+GAME.G.hour.toFixed(2)}; })()"
