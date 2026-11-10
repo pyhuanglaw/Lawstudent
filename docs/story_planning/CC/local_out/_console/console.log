@@ -730,3 +730,12 @@
 [18:25:53] [res] cpu=1% mem=43% (13.1/31.4 GB) chrome_testing=5  START X295B_skip
 [18:28:06] 正在跑：X295B_new_1103（已跑 3 分／上限 40 分）、X295B_new（已跑 2 分／上限 40 分）、X295B_skip（已跑 2 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [18:29:12] [res] cpu=16% mem=47% (14.8/31.4 GB) chrome_testing=9  END X295B_new_1103
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       81d4560e6..3d82b2f50  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:29:20] ==== END   X295B_new_1103  exit=0  274s   ====
+[18:29:23] memory 47% before starting GGDC_art_new (2 running)
+[18:29:23] ==== START GGDC_art_new  (probe @ d8b669175bcf363974b401e1eed3d6709f2b0949) ====
+[18:29:26] [res] cpu=4% mem=47% (15.0/31.4 GB) chrome_testing=10  START GGDC_art_new
+[18:29:26] worktree add d8b669175bcf363974b401e1eed3d6709f2b0949: invalid reference - fetching main and the commit itself
+[18:30:22] [res] cpu=15% mem=47% (15.0/31.4 GB) chrome_testing=9  END X295B_new
