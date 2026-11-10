@@ -32,7 +32,8 @@ const GFP=['heroine_01','heroine_03','heroine_05','heroine_02','heroine_04'], HP
     check('1. 匯入工具 --check：src/data/termend_opts.js 和白名單的稿一樣',/^OK /.test(out),out.slice(0,200));
     check('1. 女朋友版只有五位（沒有沛珊、芯慈）；心意邀約的飯桌選項、說出來的選項只有四位（沒有芷若、沛珊）；可昕六頓',ok0&&J(Object.keys(TOx.GF).sort())===J(GFP.slice().sort())&&J(Object.keys(TOx.TABLE).sort())===J(HP.slice().sort())&&J(Object.keys(TOx.CONFESS).sort())===J(HP.slice().sort())&&J(Object.keys(TOx.KX))===J(['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y5S1']),ok0?J([Object.keys(TOx.GF),Object.keys(TOx.TABLE),Object.keys(TOx.CONFESS),Object.keys(TOx.KX)]):'沒有 TERMEND_OPTS');
     const txt=require('fs').readFileSync(require('path').join(H.ROOT,'src/data/termend_opts.js'),'utf8');
-    check('1. 檔裡沒有沛珊重寫前的句子、沒有不該帶進來的欄位（note、sayMore）',ok0&&!/peishan|蛋餅|"note"|sayMore/.test(txt)); });
+    /* 2026-11-11 改期望（PEISHAN-VOICE-1110／SHE-FIRST-1110）：沛珊重寫好了（AA_751@33a1769f8）、匯進這個檔——原本整個檔不能出現 peishan；現在查的是重寫前的句子一句都沒有 */
+    check('1. 檔裡沒有沛珊重寫前的句子、沒有不該帶進來的欄位（note、sayMore）',ok0&&!/蛋餅|早餐店|我有問題想問你|那我問最後一個問題|我可以問一個奇怪的問題嗎|我有一堆問題想問你|下次再問你問題|"note"|sayMore/.test(txt)); });
 
   await sec(2,async()=>{ if(!ok0){ check('2. 女朋友版五位每一頓都有選項',false,'沒有 TERMEND_OPTS'); return; }
     const bad=[]; let n=0;
@@ -153,9 +154,11 @@ const GFP=['heroine_01','heroine_03','heroine_05','heroine_02','heroine_04'], HP
     await dinner(ps,'Y1S2','gf'); const a={tbl:has('這學期有幾次我想打給你，後來沒打。怕你在讀書。'),pool:poolOf('Y1S2',ps).filter(has).length,opt3:CH.some(c=>c.length===3)};
     await dinner(ps,'Y3S1','gf'); const b={tbl:has('台南我還沒找到喜歡的早餐店。')&&has('……我家的比較好吃。不是我偏心。')};
     check('8. 沛珊女朋友版照現在的字：一句＋話題池（沒有三個選項）；大三上照 termend_lines.js 的兩句',a.tbl&&a.pool>=1&&!a.opt3&&b.tbl&&J(g.tableByTerm.Y4S1)===J(['下學期去國小實習，要穿得像老師。','……你幫我挑。我挑的都太像學生。']),J({a,b}));
-    await dinner('heroine_02','Y1S2','heart'); const z=CH.find(c=>c.includes('（先不說）'));
-    check('8. 芷若心意邀約照現在的字：飯桌句後面沒有選項、說出來＝通用三句',has('（她把吸管套折成很小一塊）……這學期，有幾次下班想傳訊息給你。打好了，沒送出去。')&&CH.length===1&&J(z)===J(Lx.OPTS().concat(['（先不說）'])),J(CH));
-    await dinner(ps,'Y1S2','heart'); const pz=CH.find(c=>c.includes('（先不說）')); check('8. 沛珊心意邀約照現在的字：沒有飯桌選項（只有原本的鉤子二選一）、說出來的三句照原本',!CH.some(c=>c.length===3)&&J(pz)===J(Lx.OPTS().concat(['（先不說）']))&&!!pz&&pz.length===4&&has(Lx.HEART[ps].table),J(CH));
+    /* 2026-11-11 改期望（SHE-FIRST-1110；芷若 AA_748、沛珊 AA_751@33a1769f8）：這兩位的心意邀約重寫好了、改成「她先說」——原本期望「照現在的字：沒有飯桌選項、說出來＝通用三句＋（先不說）」。
+       細節在 tests/te_shefirst_1110_unit.js；這裡只看：有飯桌選項、她說完直接出稿上的回應、沒有「（先不說）」 */
+    await dinner('heroine_02','Y1S2','heart');
+    check('8. 芷若心意邀約（她先說）：飯桌句後面有選項、她寫在杯套上以後直接三個回應、沒有「（先不說）」',has('你坐著。我今天最後一杯做給你。')&&has('不要念出來！')&&CH.length===2&&CH.every(c=>c.length===3)&&!CH.some(c=>c.includes('（先不說）'))&&J(CH[1])===J(TOx.HEART.heroine_02.confessOpts.map(o=>o.t)),J(CH));
+    await dinner(ps,'Y1S2','heart'); check('8. 沛珊心意邀約（她先說）：飯桌兩句＋選項、她說完直接三個回應、沒有「（先不說）」',has('你今天話好少。')&&has('我真的很喜歡你。')&&!CH.some(c=>c.includes('（先不說）'))&&J(CH[CH.length-1])===J(TOx.HEART[ps].confessOpts.map(o=>o.t)),J(CH));
     /* 沒有 TERMEND_OPTS（舊資料）＝全部照原本 */
     const keep=globalThis.TERMEND_OPTS; globalThis.TERMEND_OPTS=null;
     try{ await dinner('heroine_01','Y2S1','gf'); const o={tbl:has('寒假東京那兩個禮拜，時差一個小時。……你那邊比較早，我知道。'),noOpt:!CH.some(c=>c.length===3)};

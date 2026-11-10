@@ -1,10 +1,10 @@
-/* 自動產生：tools/story/import_termend_opts.py（docs/story_planning/AA_749_termend_gf_v2.json@da2f67faa、docs/story_planning/AA_748_termend_heart_v2.json@da2f67faa、docs/story_planning/AA_749_termend_kx_v2.json@1cf434dee、docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@1cf434dee、docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@5ffd725b8）。不要手改，改企劃稿再重新匯入。
-   期末飯的選項（TERMEND-OPTS-1110，使用者 X324）：女朋友版 GF、心意邀約飯桌句之後 TABLE、祐廷說出來的選項 CONFESS、可昕 KX、朋友版 FRIEND[學期][人]；只有 people 列的人，其他人照 termend_lines.js。播放 src/termend3d.js */
+/* 自動產生：tools/story/import_termend_opts.py（docs/story_planning/AA_749_termend_gf_v2.json@da2f67faa、docs/story_planning/AA_748_termend_heart_v2.json@33a1769f8、docs/story_planning/AA_749_termend_kx_v2.json@1cf434dee、docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@1cf434dee、docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@5ffd725b8、docs/story_planning/AA_751_peishan_termend.json@33a1769f8）。不要手改，改企劃稿再重新匯入。
+   期末飯的選項（TERMEND-OPTS-1110，使用者 X324）：女朋友版 GF、心意邀約飯桌句之後 TABLE、祐廷說出來的選項 CONFESS、可昕 KX、朋友版 FRIEND[學期][人]、「她先說」的告白 HEART[人]（SHE-FIRST-1110）；只有 people 列的人，其他人照 termend_lines.js。播放 src/termend3d.js */
 'use strict';
 const TERMEND_OPTS={
  "src": {
   "gf": "docs/story_planning/AA_749_termend_gf_v2.json@da2f67faa",
-  "heart": "docs/story_planning/AA_748_termend_heart_v2.json@da2f67faa",
+  "heart": "docs/story_planning/AA_748_termend_heart_v2.json@33a1769f8",
   "kx": "docs/story_planning/AA_749_termend_kx_v2.json@1cf434dee",
   "friend": [
    "docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@5ffd725b8",
@@ -13,7 +13,8 @@ const TERMEND_OPTS={
    "docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@5ffd725b8",
    "docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@1cf434dee",
    "docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@5ffd725b8"
-  ]
+  ],
+  "ps": "docs/story_planning/AA_751_peishan_termend.json@33a1769f8"
  },
  "people": {
   "gf": [
@@ -123,7 +124,11 @@ const TERMEND_OPTS={
     "heroine_04",
     "kai"
    ]
-  }
+  },
+  "heart": [
+   "heroine_02",
+   "classmate_peishan"
+  ]
  },
  "FRIEND": {
   "Y1S1": {
@@ -3404,6 +3409,320 @@ const TERMEND_OPTS={
       }
      }
     ]
+   }
+  }
+ },
+ "HEART": {
+  "heroine_02": {
+   "mode": "sheFirst",
+   "atBar": true,
+   "invite": {
+    "gen": "這禮拜五你來店裡等我下班。先不要吃太飽。",
+    "byTerm": {
+     "Y2S2": "下禮拜五你來店裡等我下班。先不要吃太飽。",
+     "Y3S2": "這禮拜四你來店裡等我下班。先不要吃太飽。"
+    }
+   },
+   "invite2": {
+    "gen": "禮拜五九點。老地方。",
+    "byTerm": {
+     "Y1S1": "禮拜五十點。老地方。",
+     "Y1S2": "禮拜五十點。老地方。",
+     "Y2S1": "禮拜五十點。老地方。",
+     "Y3S2": "禮拜四十點。老地方。"
+    }
+   },
+   "table": [
+    {
+     "narr": "（她的班結束了。店裡還有兩桌客人。她沒有脫圍裙，回到吧台後面。）"
+    },
+    "你坐著。我今天最後一杯做給你。"
+   ],
+   "she": [
+    {
+     "narr": "（她做了很久。杯子推過來的時候，杯套上有她的字。）"
+    },
+    {
+     "narr": "（「今天不收錢。可以的話，以後都不收。」）"
+    },
+    "不要念出來！",
+    "……意思你看得懂吧。",
+    "我喜歡你。",
+    "用寫的比較不會結巴。"
+   ],
+   "yes": [
+    "好了。你可以喝了，要涼了。",
+    "……店長明天一定會看出來。"
+   ],
+   "she2": [
+    {
+     "narr": "（打烊以後，她又做了一杯。這次杯套上只有兩個字：「一樣。」）"
+    },
+    "我懶得重寫。"
+   ],
+   "yes2": [
+    {
+     "narr": "（她把杯套抽走，折起來放進圍裙口袋。）"
+    },
+    "你讓我寫了兩次。"
+   ],
+   "closeAdd": "（她脫下圍裙。你們去吃了宵夜。）",
+   "tableOpts": [
+    {
+     "t": "「我可以點嗎？」",
+     "re": [
+      "不行。",
+      "今天我決定。你喝就對了。"
+     ],
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "t": "（坐到吧台最靠近她的那個位子。）",
+     "re": [
+      "你坐那裡我會分心。",
+      "……算了，坐著。"
+     ],
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "t": "「妳不是下班了？」",
+     "re": [
+      "下班了才能做我想做的。"
+     ],
+     "fx": {
+      "love": 1
+     }
+    }
+   ],
+   "confessOpts": [
+    {
+     "t": "（拿起筆，在杯套上她的字下面寫：「好。」）",
+     "result": "yes",
+     "yesLead": [
+      {
+       "narr": "（她把杯套轉過去看，看了很久。）"
+      },
+      "你字好醜。",
+      "等一下。讓我蹲一下。",
+      {
+       "narr": "（她整個人蹲到吧台後面，只剩聲音。）"
+      },
+      "這個我要留著。"
+     ],
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "t": "「那以後我都喝免費的？我喜歡妳。」",
+     "result": "yes",
+     "yesLead": [
+      "你很煩欸！",
+      "對啦。以後都免費。只有我做的。"
+     ],
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "t": "「……讓我想一下。這杯我先喝完。」",
+     "result": "think",
+     "re": [
+      "好。那這杯還是不收。",
+      "以後的再說。"
+     ]
+    }
+   ]
+  },
+  "classmate_peishan": {
+   "mode": "sheFirst",
+   "invite": "期末考完了！吃飯好不好？就我們兩個。",
+   "decline": "好喔！那你欠我一頓。",
+   "invite2": "期末考完了！吃飯？你上次欠我一杯飲料，還有一個答案。",
+   "table": [
+    "你今天話好少。",
+    "平常這個時候，你已經被我鬧到翻白眼了。"
+   ],
+   "tableOpts": [
+    {
+     "t": "「我在想事情。」",
+     "re": [
+      "想什麼。",
+      "算了，你想好再講。我先吃你的。"
+     ],
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "t": "「妳才話少吧。」",
+     "re": [
+      "我有嗎。",
+      "……好啦，有一點。期末考完腦袋還沒回來。"
+     ],
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "t": "「我怕講錯話。」",
+     "re": [
+      "你平常講錯的還少嗎。",
+      "我又沒有在記。好啦，有記幾個。"
+     ],
+     "fx": {
+      "love": 2
+     }
+    }
+   ],
+   "walk": [
+    {
+     "narr": "（走去捷運站的路上。她走在你左邊，手插在外套口袋裡。）"
+    },
+    "今天謝謝你來。你整個晚上怪怪的，是不是在緊張什麼。"
+   ],
+   "she": [
+    {
+     "narr": "（她轉過來，倒著走，看著你。眼神像在開玩笑。）"
+    },
+    "是你啦。",
+    "我真的很喜歡你。",
+    "你現在的表情我要記起來，以後可以笑你很久。"
+   ],
+   "yes": [
+    "好。那從現在開始，我鬧你就是合法的了。",
+    "之前也沒有不合法啦。"
+   ],
+   "she2": [
+    {
+     "narr": "（走到同一個路口。她沒有倒著走，只是放慢了。）"
+    },
+    "上次那句我不重講，很丟臉。",
+    "意思一樣。你呢。"
+   ],
+   "yes2": [
+    {
+     "narr": "（她用力拍了一下你的手臂。）"
+    },
+    "你讓我丟臉了一整個學期！",
+    "好啦。原諒你。"
+   ],
+   "confessOpts": [
+    {
+     "t": "「我也喜歡妳。」",
+     "result": "yes",
+     "yesLead": [
+      {
+       "narr": "（她停下來，不倒著走了。）"
+      },
+      "你認真的喔。",
+      "等一下，我剛剛都準備好要被拒絕了，我還想好要怎麼假裝沒事。"
+     ],
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "t": "（把她拉回來，牽住她的手。）「妳倒著走會撞到人。」",
+     "result": "yes",
+     "yesLead": [
+      "我在告白，你在管交通。",
+      {
+       "narr": "（她低頭看了一眼被牽住的手，耳朵紅了。）"
+      },
+      "……這個算答應喔。我當你答應了。"
+     ],
+     "fx": {
+      "love": 2
+     }
+    },
+    {
+     "t": "「……讓我想一下，好不好。」",
+     "result": "think",
+     "re": [
+      "好啊，你慢慢想。我又不會跑掉。",
+      "飲料還是要請。"
+     ]
+    }
+   ],
+   "walkOpts": [
+    {
+     "t": "「欸，妳有沒有喜歡的人？」",
+     "re": [
+      "有啊。"
+     ],
+     "fx": {
+      "love": 1
+     }
+    },
+    {
+     "t": "「沒有緊張啊。」",
+     "re": [
+      "有。你筷子拿反了一次。",
+      "欸，你都不問我有沒有喜歡的人喔？"
+     ]
+    },
+    {
+     "t": "（沒有回答。）",
+     "re": [
+      "好啦，不鬧你。",
+      "那換我講一件事。我有喜歡的人。"
+     ]
+    }
+   ],
+   "guess": {
+    "say": [
+     "你猜是誰。猜錯要請我喝飲料。"
+    ],
+    "opts": [
+     {
+      "t": "（猜了一個名字。）",
+      "re": [
+       {
+        "narr": "（她笑到停下來，扶著路燈。）"
+       },
+       "錯。差很多。你欠我一杯。"
+      ]
+     },
+     {
+      "t": "「是我嗎？」",
+      "re": [
+       {
+        "narr": "（她愣了一下。）"
+       },
+       "……你這樣我很難接下去欸。",
+       "對啦。"
+      ],
+      "fx": {
+       "love": 1
+      },
+      "sheFrom": "我真的很喜歡你。"
+     },
+     {
+      "t": "「我不猜。妳直接講。」",
+      "re": [
+       "好沒有情調。",
+       "好啦，我講。"
+      ]
+     }
+    ]
+   },
+   "byTerm": {
+    "Y4S1": {
+     "she": [
+      "我現在念教育、住台南，跟你認識的那個不太一樣了。",
+      "不過還是很愛鬧你。這個沒有變。",
+      "你要不要重新認識一下。"
+     ],
+     "answer": [
+      "「好。從這頓飯開始。」",
+      "「……讓我想一下。」"
+     ]
+    }
    }
   }
  },

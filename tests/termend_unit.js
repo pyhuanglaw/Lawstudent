@@ -10,6 +10,9 @@ global.document={ getElementById:()=>null, addEventListener(){} }; global.naviga
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|DATE|ROM|CONFESS_LINES|TERMEND|TERMEND_LINES|DATE_LOCATIONS|DATE_LINES|VAC|VAC_DATA|INVITE_DATA)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+/* 2026-11-11（SHE-FIRST-1110／PEISHAN-VOICE-1110）：芷若、沛珊心意邀約的台詞搬到 src/data/termend_opts.js 的 TERMEND_OPTS.HEART（沒載＝這兩位沒有邀約句、不發）——這支測試只載那一份的 HEART、LINES，
+   其他人的期末飯選項（GF／TABLE／CONFESS／KX／FRIEND）照舊不載（這支測的是沒有選項的原本流程；選項在 tests/termend_opts_1110_unit.js、「她先說」在 tests/te_shefirst_1110_unit.js）*/
+{ const fs_=require('fs'), p_=require('path').join(__dirname,'..','src/data/termend_opts.js'); if(fs_.existsSync(p_)){ require('vm').runInThisContext(fs_.readFileSync(p_,'utf8').replace(/^const TERMEND_OPTS\s*=/m,'globalThis.__TO_ALL='),{filename:'src/data/termend_opts.js'}); globalThis.TERMEND_OPTS={HEART:globalThis.__TO_ALL.HEART||{},LINES:globalThis.__TO_ALL.LINES||{}}; } }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 let cgs=[]; global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(id){ cgs.push(id); }}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -251,8 +254,10 @@ GM.money=function(n){ G.money+=n; };
     PHONE.answer(G,'te_Y3S1_classmate_peishan',0); STORY.phoneRules(GM); let q=OUT.get(G,'te_Y3S1');
     check('13. 沛珊大三起：地點＝台南・她學校附近的簡餐（AA_282 第 5 節第 5 點；原本的舊路書房旁邊的簡餐作廢）',!!q&&q.place==='台南・她學校附近的簡餐',JSON.stringify(q&&q.place));
     check('13. 沛珊大三起：回家走回她在台南租的地方；大一還是新生南路',TERMEND.heart('classmate_peishan','Y3S1').walkPlace==='台南・往她租的地方'&&TERMEND.heart('classmate_peishan','Y1S2').walkPlace==='新生南路・往捷運站');
-    w=setup('Y4S1','classmate_peishan',PSK); run(20,21); PHONE.answer(G,'te_Y4S1_classmate_peishan',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y4S1'); said=[]; opts=[]; picks=[3,0]; await TERMEND.dinner(GM,q); let L=lines();
-    check('13. 沛珊大四上先不說：BB_119 3-1「我可以問一個奇怪的問題嗎？」「如果我們兩個都不是當年的樣子了，還可以重新認識嗎？」→「從今天開始認識。」＝交往',L.some(x=>x.endsWith('我可以問一個奇怪的問題嗎？'))&&L.some(x=>x.endsWith('如果我們兩個都不是當年的樣子了，還可以重新認識嗎？'))&&JSON.stringify(opts[opts.length-1])===JSON.stringify(['「從今天開始認識。」','「……讓我想一下。」'])&&G.flags.dating_classmate_peishan===true,JSON.stringify(opts[opts.length-1]));
+    w=setup('Y4S1','classmate_peishan',PSK); run(20,21); PHONE.answer(G,'te_Y4S1_classmate_peishan',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y4S1'); said=[]; opts=[]; picks=[0,0,0]; await TERMEND.dinner(GM,q); let L=lines();
+    /* 2026-11-11 改期望（使用者 X327 沛珊重寫 PEISHAN-VOICE-1110＋「她先說」SHE-FIRST-1110，AA_751@33a1769f8）：大四上她先說的三句換了（原本 BB_119 3-1「我可以問一個奇怪的問題嗎？」「如果我們兩個都不是當年的樣子了，還可以重新認識嗎？」→「從今天開始認識。」），
+       而且不再先出「說出來三句＋（先不說）」——她說完直接兩個選項 */
+    check('13. 沛珊大四上（她先說）：「我現在念教育、住台南…」「你要不要重新認識一下。」→「好。從這頓飯開始。」＝交往；沒有「（先不說）」',L.some(x=>x.endsWith('我現在念教育、住台南，跟你認識的那個不太一樣了。'))&&L.some(x=>x.endsWith('你要不要重新認識一下。'))&&JSON.stringify(opts[opts.length-1])===JSON.stringify(['「好。從這頓飯開始。」','「……讓我想一下。」'])&&!opts.some(o=>o.includes('（先不說）'))&&G.flags.dating_classmate_peishan===true,JSON.stringify(opts));
     w=setup('Y4S1','heroine_04'); run(20,21); let a=(G.msgs||[]).filter(x=>x.th==='p:heroine_04').map(x=>x.text);
     check('13. 子晴大四上（已經畢業）：「欸 你考完了吧 宵夜」「只有我們兩個 不要找阿凱」',JSON.stringify(a)===JSON.stringify(['欸 你考完了吧 宵夜','只有我們兩個 不要找阿凱']),JSON.stringify(a));
     w=setup('Y4S1','heroine_04',{EXCHANGE_ROUTE:'US'}); G.day=w.to-2; run(20,21); a=(G.msgs||[]).filter(x=>x.th==='p:heroine_04').map(x=>x.text);

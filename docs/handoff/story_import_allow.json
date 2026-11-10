@@ -5398,7 +5398,7 @@
   },
   {
    "path": "docs/story_planning/AA_748_termend_heart_v2.json",
-   "sha": "da2f67faa",
+   "sha": "33a1769f8",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "TERMEND-OPTS-1110",
@@ -5415,9 +5415,18 @@
      "heroine_03",
      "heroine_05",
      "heroine_04"
+    ],
+    "heart": [
+     "heroine_02"
     ]
    },
-   "note": "X324 心意邀約（學期末的告白）：飯桌那一句之後的選項 tableOpts、祐廷說出來的選項 confessOpts——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.TABLE／CONFESS）。只匯入 people 的四位（以安、語彤、學姊、子晴）；芷若（heroine_02）、沛珊（classmate_peishan）的 HEART／tableOpts／confessOpts 不匯入（使用者 X327：重寫中），遊戲照 termend_lines.js、confess_lines.js 現在的字。"
+   "note": "X324 心意邀約（學期末的告白）：飯桌那一句之後的選項 tableOpts、祐廷說出來的選項 confessOpts——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.TABLE／CONFESS）。只匯入 people 的四位（以安、語彤、學姊、子晴）；芷若（heroine_02）、沛珊（classmate_peishan）的 HEART／tableOpts／confessOpts 不匯入（使用者 X327：重寫中），遊戲照 termend_lines.js、confess_lines.js 現在的字。；33a1769f8（＝09f276fff 那一版，兩版這個檔沒有差別）：芷若的告白改成「寫在杯子上」＋「她先說」模式（SHE-FIRST-1110，LAWWW 2026-11-10 23:26；people.heart → TERMEND_OPTS.HEART.heroine_02）；其他四位的 tableOpts／confessOpts 只是排版不同、匯出來的字一樣；沛珊三段已經從這個檔刪掉（改在 AA_751）",
+   "history": [
+    {
+     "sha": "da2f67faa",
+     "approvedBy": "（2026-11-11 換成 33a1769f8 以前的版本：芷若、沛珊還沒重寫）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_749_termend_kx_v2.json",
@@ -5573,6 +5582,20 @@
     ]
    },
    "note": "X324 朋友版的期末飯（一對一）：Y3S2、Y4S1——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.FRIEND[學期][人]）。只匯入 people.friend 的人；classmate_peishan 不匯入（使用者 X327 重寫中，稿上也沒有），她照 termend_lines.js 現在的字。AA 11-10 經 LAWWW：七個學期全部以企劃線 5ffd725b8 為準。"
+  },
+  {
+   "path": "docs/story_planning/AA_751_peishan_termend.json",
+   "sha": "33a1769f8",
+   "status": "approved",
+   "approvedBy": "AA（D109、D149：稿由 AA 定、BB 看過即匯；BB_318 的修正已改）；LAWWW 2026-11-10 指定只認 33a1769f8（使用者 X327 糾正「不是看到食物就要評論」以後的那一版）",
+   "task": "PEISHAN-VOICE-1110",
+   "kind": "json",
+   "people": {
+    "heart": [
+     "classmate_peishan"
+    ]
+   },
+   "note": "X327 沛珊重寫（有趣、聰明、會接梗；家裡是台中的小型連鎖餐廳）——tools/story/import_termend_opts.py → src/data/termend_opts.js。people.heart：「她先說」的告白（TERMEND_OPTS.HEART.classmate_peishan）。**只認這個 sha**（工具的 PS_SHA），更舊的版本不匯"
   }
  ]
 }

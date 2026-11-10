@@ -104,7 +104,8 @@ const q6=G=>{ G.events.done.ev_ziqing_secret_game=G.day-30; };
     await dinner(ps,'Y1S2','friend'); const a=poolOf('Y1S2',ps).filter(has).length;
     check('6. 沛珊（沒匯入）朋友版照原本：話題池的句子、沒有三個選項',a>=1&&!CH.some(c=>c.length===3),J({a,ch:CH}));
     { const G=H.fresh(DAY.Y1S2,18.5); H.rel(ps,65,50,45); SOCIAL.adjust(ps,{npcRom:40}); H.said=[]; CH=[]; WANT=['（先不說）']; await TERMEND.dinner(GM,{te:{term:'Y1S2',who:ps,kind:'heart'}});
-      check('6. 沛珊心意的飯照原本（話題池還在）',poolOf('Y1S2',ps).filter(has).length>=1&&has(Lx.HEART[ps].table),J(said().slice(0,6))); }
+      /* 2026-11-11 改期望（SHE-FIRST-1110，AA_751@33a1769f8）：沛珊心意的飯桌句換成兩句（原本 Lx.HEART[沛珊].table 那一句）；話題池這一格等她的朋友版匯入（下一個 commit）才拿掉 */
+      check('6. 沛珊心意的飯：飯桌兩句換成重寫的（話題池還在，等朋友版匯入）',poolOf('Y1S2',ps).filter(has).length>=1&&has('你今天話好少。')&&has('平常這個時候，你已經被我鬧到翻白眼了。'),J(said().slice(0,6))); }
     const keep=globalThis.TERMEND_OPTS; globalThis.TERMEND_OPTS=keep?Object.assign({},keep,{FRIEND:undefined}):keep;
     try{ await dinner('zhe','Y1S1','friend'); const p=poolOf('Y1S1','zhe').filter(has).length, auto=H.said.some(s=>s.who==='祐廷'&&Lx.REPLY.includes(s.t));
       check('6. 沒有 TERMEND_OPTS.FRIEND（舊資料）：朋友版照原本的話題池、祐廷照回',p>=2&&auto&&!CH.some(c=>c.length===3),J({p,auto,ch:CH}));

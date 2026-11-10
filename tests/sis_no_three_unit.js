@@ -21,6 +21,8 @@ const files=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).m
 const found=new Map(); for(const f of files){ for(const s of lits(fs.readFileSync(path.join(ROOT,f),'utf8'))) if(RE.test(s)){ const k=s.trim(); if(!found.has(k)) found.set(k,f); } }
 /* ---- 看過、可以留的 ---- */
 const OK={
+  /* 2026-11-11（PEISHAN-VOICE-1110，AA_751@33a1769f8）：沛珊期末告白回家路上的一句——不是學姊 */
+  '那換我講一件事。我有喜歡的人。':'沛珊（AA_751 HEART.walkOpts 第三個選項的回話）：「一件事」不是學姊在數件數',
   '（她低頭看著桌面。好像有一件事，要看你怎麼回答才決定說不說。）':'以安 AN-1 的小心選擇那一行（AA_719 keyNote）：「一件事」不是學姊在數件數',
   '她每天五點來，第一件事是開窗戶。':'語彤講秀琴姨（AA_709 第九批「報告交了。最後一個是秀琴姨…」的回覆，企劃線 cc38793f7）：「第一件事」不是學姊在數件數',
   '回來第一件事要做什麼？':'祐廷回以安的選項（AA_709 第三批「回臺北了。台中好熱。」）：「第一件事」不是學姊在數件數',

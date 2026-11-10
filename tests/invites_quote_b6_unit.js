@@ -202,13 +202,15 @@ const O=runProbe('old'), N=runProbe('new');
     /* 2026-11-10 改期望（TERMEND-OPTS-1110）：AA_748／AA_749 期末飯的選項字（祐廷的選項，動作＋說的話；選項照留那一類）三個 */
     'src/data/termend_opts.js':['choice',['（兩手捧著杯子。）「謝謝。」','（從頭看到尾。）「沒有傘。」','（把自己的手機遞過去。）「我的也是。」',
       /* 2026-11-10 改期望：朋友版七學期（AA_749 @5ffd725b8）多兩個選項字，同一類 */
-      '（指了最近的一顆。）「這個一天就可以來回。」','（聽完。）「第二句很好。最後一句太長。」']] };
+      '（指了最近的一顆。）「這個一天就可以來回。」','（聽完。）「第二句很好。最後一句太長。」',
+      /* 2026-11-11 改期望（SHE-FIRST-1110，AA_751@33a1769f8）：沛珊告白三個回應的第二個（祐廷的選項，動作＋說的話；選項照留那一類）一個 */
+      '（把她拉回來，牽住她的手。）「妳倒著走會撞到人。」']] };
   const scan=re=>{ const o=[]; (function walk(d){ for(const f of fs.readdirSync(path.join(ROOT,d)).sort()){ const p=d+'/'+f; if(fs.statSync(path.join(ROOT,p)).isDirectory()) walk(p); else if(/\.js$/.test(f)) for(const t of lits(cur(p),re)) if(actQ(t)||sayQ(t)) o.push(p+'：'+t); } })('src'); return o.sort(); };
   const flat=K=>{ const o=[]; for(const f of Object.keys(K)) for(const t of K[f][1]) o.push(f+'：'+t); return o.sort(); };
   const s1=scan(LIT), want1=flat(KEEP);
   check('27. 單引號的字串（第五批第 21 項那一套掃描）：剩下 '+s1.length+' 個＝照留的 '+want1.length+' 個（路人沒名字 4、分科系拆開播 5、選項 7），一個不多一個不少',J(s1)===J(want1),sample(s1.filter(x=>!want1.includes(x)).concat(want1.filter(x=>!s1.includes(x)).map(x=>'少了 '+x))));
   const s2=scan(LIT2), want2=flat(Object.assign({},KEEP,KEEP2));
-  check('27. 單、雙引號一起掃：剩下 '+s2.length+' 個＝照留的 '+want2.length+' 個（再加：選項 2＋電影選項 3＋期末飯選項 5、稿的紀錄 5、沒名字 4）',J(s2)===J(want2),sample(s2.filter(x=>!want2.includes(x)).concat(want2.filter(x=>!s2.includes(x)).map(x=>'少了 '+x))));
+  check('27. 單、雙引號一起掃：剩下 '+s2.length+' 個＝照留的 '+want2.length+' 個（再加：選項 2＋電影選項 3＋期末飯選項 6、稿的紀錄 5、沒名字 4）',J(s2)===J(want2),sample(s2.filter(x=>!want2.includes(x)).concat(want2.filter(x=>!s2.includes(x)).map(x=>'少了 '+x))));
   /* 照留的理由：選項＝choice 的 text；沒名字＝播的程式看開頭的（給 null；拆開播＝deptSteps；紀錄＝不播的欄位 */
   const opt=st.opt||[];
   check('27. 選項（events.js 三個、r2y4a_events.js 三個、y2r2_3d.js 一個）都是事件 choice 的 text（GM.choose，不是誰說的）',KEEP['src/data/events.js'][1].concat(KEEP['src/data/r2y4a_events.js'][1],KEEP['src/y2r2_3d.js'][1]).every(t=>opt.some(s=>s.text===t&&s.choice)&&!opt.some(s=>s.text===t&&!s.choice)),J(opt.map(s=>[s.ev,s.choice,s.text])));

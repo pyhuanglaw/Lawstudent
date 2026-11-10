@@ -41,6 +41,11 @@ const LATER=[['src/sis_grad3d.js','這週的時間用完了。下週再問我。
   ['src/data/termend_lines.js',"  return {KX_ASK,","  const GF_MORE={heroine_05:{Y4S1:SIS_XM3}}, COND={Q6,SNOWQ,YOUPAY,C10,US:US3,SIS_FU};   /* TERMEND-OPTS-1110：termend_opts.js 的 if 用的條件 */\n  return {GF_MORE,COND,KX_ASK,"]];   /* 2026-11-10 再加：COND 多 SIS_FU（朋友版學姊大三上 thenIf，企劃線 1cf434dee；字沒有改）*/
 const LATER_TXT={'這週的時間用完了。下週再問我。':'這週沒有時間了。下週好不好？'}, lt=t=>LATER_TXT[t]||t;
 const later=(f,s)=>LATER.filter(x=>x[0]===f).reduce((a,x)=>a.split(x[1]).join(x[2]),s);
+/* 2026-11-11（SHE-FIRST-1110／PEISHAN-VOICE-1110；使用者 11-10 芷若告白「寫在杯子上」、X327 沛珊重寫）：termend_lines.js 的 HEART 裡芷若、沛珊那兩段台詞整段搬到 src/data/termend_opts.js（TERMEND_OPTS.HEART，
+   匯入工具照企劃稿 AA_748／AA_751@33a1769f8，逐字比對在 tests/te_shefirst_1110_unit.js）——這一項比「其他地方一字不差」，所以兩邊都先把那兩段拿掉再比：[檔, BASE 那一段的開頭, 現在那一段的開頭, 兩邊共同的結尾（不含）] */
+const MOVED=[['src/data/termend_lines.js',"    heroine_02:{ src:'AA_254 第 4 節'","    /* SHE-FIRST-1110（使用者 2026-11-10 選「寫在杯子上」","    heroine_04:{ src:'AA_254 第 5 節'"],
+  ['src/data/termend_lines.js',"    classmate_peishan:{ src:'AA_254 第 6 節'","    /* PEISHAN-VOICE-1110（使用者 X327：沛珊重寫成有趣、聰明、會接梗）＋SHE-FIRST-1110","  /* 說出來的通用三句＋先不說"]];
+const cutMoved=(f,s,k)=>MOVED.filter(x=>x[0]===f).reduce((a,x)=>{ const i=a.indexOf(x[k]), j=i<0?-1:a.indexOf(x[3],i); if(i<0||j<0||a.indexOf(x[k],i+1)>=0) throw new Error('MOVED 找不到或不只一段：'+x[k]); return a.slice(0,i)+a.slice(j); },s);
 
 if(process.env.QUOTE_B3_PROBE) (async()=>{
   /* ===================== 演出來（子程序）：QUOTE_B3_PROBE=old 讀 BASE 的 CHANGED，=new 讀現在的 ===================== */
@@ -112,7 +117,7 @@ const J=JSON.stringify, sample=L=>L.slice(0,6).join('／')+(L.length>6?'…（�
 const wrappedLits=s=>{ const t=noComments(s), out=[]; let m; LIT.lastIndex=0; while((m=LIT.exec(t))){ if(wrapped(m[1])) out.push({t:m[1],pre:t.slice(Math.max(0,m.index-40),m.index)}); } return out; };
 
 /* 11. termend_lines.js、lane118.js：不改；整句「」的都是選項字 */
-{ for(const f of SAME) check('11. '+f+' 和 '+BASE+' 一字不差（這個檔沒有有名字又整句「」的台詞；之後劇情另外改的字照 LATER）',cur(f)===later(f,gitShow(f)));
+{ for(const f of SAME) check('11. '+f+' 和 '+BASE+' 一字不差（這個檔沒有有名字又整句「」的台詞；之後劇情另外改的字照 LATER；搬到 TERMEND_OPTS.HEART 的那兩段照 MOVED 不比）',cutMoved(f,cur(f),2)===cutMoved(f,later(f,gitShow(f)),1));
   /* TERMEND_LINES 載進來逐格走：選項的格子（t、ok、answer、OPTS、ANSWER、NOT_YET_OPT；函式裡寫在 t:／ok: 後面的字）＝GM.choose 的選項字；其他字串＝說的話、旁白、系統字 */
   const c=vm.createContext({console}); vm.runInContext(cur('src/data/termend_lines.js').replace(/^const TERMEND_LINES\s*=/m,'globalThis.TERMEND_LINES='),c); const TL=c.TERMEND_LINES;
   const OPTK=new Set(['t','ok','answer','OPTS','ANSWER','NOT_YET_OPT']); const spoken=[], opts=new Set(), seen=new Set();
@@ -121,7 +126,7 @@ const wrappedLits=s=>{ const t=noComments(s), out=[]; let m; LIT.lastIndex=0; wh
     if(typeof v==='function'){ const s=noComments(String(v)); let m; LIT.lastIndex=0; while((m=LIT.exec(s))){ if(isOpt||/(\bt|\bok):\s*$/.test(s.slice(Math.max(0,m.index-6),m.index))) opts.add(m[1]); else spoken.push([p+'()',m[1]]); } return; }
     if(typeof v==='object'){ if(seen.has(v)) return; seen.add(v); for(const kk of Object.keys(v)) w(v[kk],Array.isArray(v)?k:kk,p+'.'+kk); } })(TL,'','');
   const T=wrappedLits(cur('src/data/termend_lines.js')), Tbad=T.filter(x=>!opts.has(x.t));
-  check('11. termend_lines.js：原始碼整句「」的 '+T.length+' 個字串都是選項字（OPTS、ANSWER、answer、choice／KX_ASK／C14／C15 opts 的 t、邀約鉤子的 ok）',T.length===56&&Tbad.length===0,sample(Tbad.map(x=>x.t)));
+  check('11. termend_lines.js：原始碼整句「」的 '+T.length+' 個字串都是選項字（OPTS、ANSWER、answer、choice／KX_ASK／C14／C15 opts 的 t、邀約鉤子的 ok）',T.length===54&&Tbad.length===0   /* 2026-11-11：56 → 54（沛珊大四上的兩個選項「從今天開始認識。」「……讓我想一下。」跟著她那一段搬到 TERMEND_OPTS.HEART，字也換了：AA_751 over_Y4S1）*/,sample(Tbad.map(x=>x.t)));
   const sw=spoken.filter(([p,t])=>wrapped(t));
   check('11. TERMEND_LINES 選項以外的字串（'+spoken.length+' 個，含函式裡的）沒有一句外面有「」（說的話本來就不加）',spoken.length>500&&sw.length===0,sample(sw.map(x=>x.join('：'))));
   check('11. 選項照留「」（說出來的三選一、「好。」／「讓我想想。」、邀約鉤子「我也想報。」）',TL.OPTS()[0]==='「我喜歡妳。」'&&J(TL.ANSWER)===J(['「好。」','「讓我想想。」'])&&TL.HOOK.Y1S2.heroine_01.ok==='「我也想報。」');
