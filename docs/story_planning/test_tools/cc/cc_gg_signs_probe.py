@@ -15,17 +15,18 @@ R = L.Run('gg_signs_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 GROUPS = [('gongguan', '公館', ['青木茶室', '頁間書屋', '慢輪單車', 'afar', '轉角唱片'], 3),
           ('xinsheng', '新生南路', ['山嵐', '同弦', '大口漢堡', '南洋戲院'], 9),
-          ('wenzhou', '溫州街', ['SUNNY SIDE', '小路', '書店的櫥窗|溫州書屋', '夏日冰菓', '買一杯飲料|帝大紅茶', '2:30 AM'], 3),
-          ('wenzhou', '日常失速', ['日常失速'], 3)]   # r3：第 4 欄＝相機最少退幾 m（新生南路 r2 相機在騎樓裡、招牌被天花板切掉 → 至少 9 m 不管導航格）；帝大紅茶在遊戲裡是「買一杯飲料」(17.4,−7.3)   # r2（BB 20:12）：16 間；溫州書屋在遊戲裡是「看書店的櫥窗」；2:30 AM 是對照組（本來就正）
+          ('wenzhou', '溫州街', ['SUNNY SIDE', '小路', '書店的櫥窗|溫州書屋@0,-1', '夏日冰菓', '買一杯飲料|帝大紅茶', '2:30 AM'], 3),
+          ('wenzhou', '日常失速', ['日常失速@1,0'], 3)]   # r3：第 4 欄＝相機最少退幾 m（新生南路 r2 相機在騎樓裡、招牌被天花板切掉 → 至少 9 m 不管導航格）；帝大紅茶在遊戲裡是「買一杯飲料」(17.4,−7.3)   # r2（BB 20:12）：16 間；溫州書屋在遊戲裡是「看書店的櫥窗」；2:30 AM 是對照組（本來就正）
+GROUPS.append(('xinsheng', '同弦（二樓）', ['同弦'], 6, 4.6, 4.7))   # r5b（BB 20:34）：同弦的招牌在二樓陽台欄杆後 → 相機升到 y 4.6、看 y 4.7、正對（第 5、6 欄＝相機高度、看的高度）
 ONLY = [g for g in (os.environ.get('GROUPS') or '').split(',') if g]
 FIND = r"""((names,mind)=>{ const E=GAME.E, N=E.nav, ZN=id=>(typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[id]&&Z3.ZONES[id].name)||'';
   const free=(x,z)=>!N||N.free(x,z);
-  return names.map(key=>{ const ks=key.split('|'), nm=ks[ks.length-1]; const it=(E.interactables||[]).find(i=>!i.hidden&&ks.some(k=>String(i.label||'').includes(k)||(i.exit&&ZN(i.exit.to).includes(k))));
+  return names.map(key0=>{ const at0=String(key0).split('@'), key=at0[0], OV=at0[1]?at0[1].split(',').map(Number):null; const ks=key.split('|'), nm=ks[ks.length-1];   /* r5：@ox,oz＝手動指定店面朝哪邊（導航格判錯的：溫州書屋櫥窗朝溫州街 −z、日常失速店門朝西側橫巷 +x〔daily_offbeat_layout.js exit spawn yaw π/2〕）*/ const it=(E.interactables||[]).find(i=>!i.hidden&&ks.some(k=>String(i.label||'').includes(k)||(i.exit&&ZN(i.exit.to).includes(k))));
     if(!it) return {nm, x:null};
     /* 店門朝哪邊：16 個方向找最近的擋住的格子＝店面那一邊；相反方向＝街上 */
     let best=null; for(let a=0;a<16;a++){ const t=a*Math.PI/8, dx=Math.sin(t), dz=Math.cos(t); for(let r=0.25;r<=3.5;r+=0.25){ if(!free(it.x+dx*r,it.z+dz*r)){ if(!best||r<best.r) best={r,dx,dz,t}; break; } } }
     if(!best) best={r:1.5,dx:0,dz:-1,t:Math.PI};
-    let ox=-best.dx, oz=-best.dz; if(Math.abs(ox)>=Math.abs(oz)){ ox=Math.sign(ox); oz=0; } else { oz=Math.sign(oz); ox=0; }   /* r3：貼齊最近的軸（街都是沿 x 或 z；r2 斜 22.5°）*/
+    let ox=-best.dx, oz=-best.dz; if(OV){ ox=OV[0]; oz=OV[1]; } else if(Math.abs(ox)>=Math.abs(oz)){ ox=Math.sign(ox); oz=0; } else { oz=Math.sign(oz); ox=0; }   /* r3：貼齊最近的軸（街都是沿 x 或 z；r2 斜 22.5°）*/
     let fr=best.r; for(let r=0.25;r<=3.5;r+=0.25){ if(!free(it.x-ox*r,it.z-oz*r)){ fr=r; break; } } const fx=it.x-ox*fr, fz=it.z-oz*fr;
     const run=(vx,vz)=>{ let d=0; for(let r=0.5;r<=12;r+=0.25){ if(!free(fx+vx*r,fz+vz*r)) break; d=r; } return d; };
     const dOut=run(ox,oz), dist=Math.max(mind||3,Math.min(10,dOut*0.85));
@@ -52,8 +53,9 @@ async def main():
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
         try:
-            for zone, title, keys, mind in GROUPS:
-                if ONLY and title not in ONLY: continue
+            for G_ in GROUPS:
+                zone, title, keys, mind = G_[:4]; camy = G_[4] if len(G_) > 4 else 2.2; aty = G_[5] if len(G_) > 5 else 3.6
+                if (ONLY and title not in ONLY) or (not ONLY and len(G_) > 4): continue
                 await pg.evaluate("window.__GS=[]")
                 cnt = 0
                 for h in (14.0, 20.0):
@@ -69,16 +71,17 @@ async def main():
                             if h == 14.0: R.check('[%s] 找得到「%s」' % (title, q['nm']), False, '')
                             continue
                         for kind, frm in (('正面', q['front']), ('斜30°', q['obl'])):
+                            frm = [frm[0], camy, frm[2]]; q['at'][1] = aty
                             dd = math.dist(frm[::2], q['at'][::2]); fov = max(30, min(80, 2 * math.degrees(math.atan2(3.8, dd))))
                             u = await pg.evaluate(SNAP, {'from': frm, 'at': q['at'], 'fov': fov, 'tw': 420, 'label': '%s %s %02d:00 %s %s' % (TAG, sha, h, q['nm'], kind), 'full': kind == '正面' and h == 14.0})
                             cnt += 1
-                            if u: open(os.path.join(OUT, 'sign_%s_%s_%s.jpg' % (TAG, zone, q['nm'].replace(' ', '').replace(':', ''))), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
+                            if u: open(os.path.join(OUT, 'sign_%s_%s_%s.jpg' % (TAG, zone + ('2f' if len(G_) > 4 else ''), q['nm'].replace(' ', '').replace(':', ''))), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
                 n = len(keys)
                 R.check('[%s] %d 間都拍到 14、20 時各兩張（%d 張）' % (title, n, cnt), cnt == n * 4, str(cnt))
                 if cnt:
                     await pg.evaluate("(n=>{ const L=window.__GS, h=L.length/2, out=[]; for(let i=0;i<h/2;i++){ out.push(L[2*i],L[2*i+1],L[h+2*i],L[h+2*i+1]); } window.__GS=out; })(%d)" % n)
                     u = await pg.evaluate(MONT, {'cols': 4, 'title': '%s 招牌 %s %s：每列一間（14 正面、14 斜 30°、20 正面、20 斜 30°）' % (title, TAG, sha)})
-                    open(os.path.join(OUT, 'signs_%s_%s.jpg' % (TAG, zone if title != '日常失速' else 'offbeat')), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
+                    open(os.path.join(OUT, 'signs_%s_%s.jpg' % (TAG, {'日常失速': 'offbeat', '同弦（二樓）': 'tongxian2f'}.get(title, zone))), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
         except Exception as e:
             R.check('沒有中斷', False, repr(e)[:300])
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
