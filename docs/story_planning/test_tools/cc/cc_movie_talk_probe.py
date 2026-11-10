@@ -94,7 +94,11 @@ async def go_watch(pg, cdp, tag, who, iv, pickK=0, want=None):
         await pe.close_phone(pg, cdp)
         ex = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(q=>q.exit&&q.exit.to!=='xs_nanyang_hall'); return i?{x:i.x,z:i.z,label:i.label}:null; })()")
         if ex:
-            await L.go_to(pg, cdp, R, ex['x'], ex['z'], 0.6, '%s 先走出戲院（%s）' % (tag, ex['label']), max_s=90); await L.tap(pg, cdp, '#interact')
+            dg = await pg.evaluate("(()=>{ const P=GAME.E.player; return {me:[+P.obj.position.x.toFixed(2),+P.obj.position.z.toFixed(2)], busy:!!P.busy, seat:!!P.seat, npcs:(GAME.E.npcs||[]).filter(n=>n.obj&&!n.isExtra).map(n=>({id:n.charId||n.id||n.name, x:+n.obj.position.x.toFixed(2), z:+n.obj.position.z.toFixed(2), frozen:!!n.frozen}))}; })()")
+            R.note('%s 看完一場以後在大廳：%s' % (tag, J(dg))); await pg.screenshot(path=os.path.join(OUT, 'mt_lobby_after_%s.jpg' % tag.strip('[]').replace(' ', '_')), type='jpeg', quality=70)   # r5：走不到出口是探針還是她擋路
+            okw = await L.go_to(pg, cdp, R, ex['x'], ex['z'], 0.6, '%s 先走出戲院（%s）' % (tag, ex['label']), max_s=90)
+            if not okw: await pg.screenshot(path=os.path.join(OUT, 'mt_lobby_stuck_%s.jpg' % tag.strip('[]').replace(' ', '_')), type='jpeg', quality=70)
+            await L.tap(pg, cdp, '#interact')
             for _ in range(30):
                 if await pg.evaluate("GAME.G.zone") != 'xs_nanyang': break
                 await pg.wait_for_timeout(500)
@@ -107,8 +111,8 @@ async def go_watch(pg, cdp, tag, who, iv, pickK=0, want=None):
         if not zones or zones[-1] != z: zones.append(z)
         if z == 'xs_nanyang_hall': hall = True
         if q['choices']:
-            o = await pe.opts(pg); ot = [x['t'] for x in o]; after = (bool(want) and ot[:len(want)] == want) or (not want and hall)   # 散場三選項：照 MOVIE_PLOTS 的選項字認（不靠區域）
-            k = min(pickK, len(o) - 1) if after else 0
+            o = await pe.opts(pg); ot = [x['t'] for x in o]; after = (bool(want) and sorted(ot[:len(want)]) == sorted(want)) or (not want and hall)   # 散場三選項：照 MOVIE_PLOTS 的選項字認（r5：第二版選項隨機排順序＝比集合）
+            k = (ot.index(want[pickK]) if (want and pickK < len(want) and want[pickK] in ot) else min(pickK, len(o) - 1)) if after else 0   # r5：選 MOVIE_PLOTS 第 K 個的字（不管畫面順序）
             chs.append({'after': after, 'opts': [x['t'] for x in o], 'pick': k, 'n': await pg.evaluate("(window.__MT||[]).length"), 'rel_before': await pg.evaluate("(%s)(%s)" % (REL, J(who)))})
             await pe.choose(pg, cdp, o[k]['t'], True); continue
         st = await pg.evaluate("((id)=>{ const v=(GAME.G.invites||[]).find(x=>String(x.id)===String(id)); return v&&v.state; })(%s)" % J(iv['id']))
@@ -154,7 +158,7 @@ async def case_talk(pg, cdp, K, chain):
     aft = [c for c in r['choices'] if c['after']]
     T = ex['talk'] or {}
     want = [o['t'] for o in (T.get('opts') or [])]
-    R.check('%s 散場後三個選項＝MOVIE_PLOTS talk（%s）' % (tag, J(want)), bool(aft) and aft[0]['opts'][:len(want)] == want and len(want) == 3, J(aft))
+    R.check('%s 散場後三個選項＝MOVIE_PLOTS talk（%s；順序不比）' % (tag, J(want)), bool(aft) and sorted(aft[0]['opts'][:len(want)]) == sorted(want) and len(want) == 3, J(aft))
     if aft and T.get('opts'):
         o = T['opts'][K]; re_ = o.get('lines') or []
         R.check('%s 選第 %d 個以後她的回答＝re（%d 句）' % (tag, K + 1, len(re_)), all(any(x.replace('{name}', '')[:10] in s for s in says) for x in re_), J(re_))
@@ -342,9 +346,9 @@ async def case_kexin(pg, cdp, c):
     R.check('%s walkFallbacks 0' % tag, (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
 
 
-async def case_ps(pg, cdp, K):
-    """r4（CC）：以安在《聖誕快遞》的 talk 沒有回答、沒有 fx（AA_745 只寫了芷若、沛珊）→ 用沛珊測「她的回答＋fx」三個選項"""
-    who, film = 'classmate_peishan', 'm2511a'; tag = '[PS%d 沛珊 %s]' % (K, film)
+async def case_ps(pg, cdp, K, who='classmate_peishan', film='m2511a', nm='沛珊'):
+    """r4（CC）：以安在《聖誕快遞》的 talk 沒有回答、沒有 fx（AA_745 只寫了芷若、沛珊）→ 用別人測「她的回答＋fx」三個選項（r5：芷若；沛珊不在手機朋友頁）"""
+    tag = '[%s%d %s %s]' % ('ZR' if who == 'heroine_02' else 'PS', K, nm, film)
     await load(pg, cdp, base_state([who]), why='day46 08:00、沛珊朋友＋聯絡方式')
     iv = await book(pg, cdp, tag, who, 0)
     if not iv: return
@@ -356,7 +360,7 @@ async def case_ps(pg, cdp, K):
     r = await go_watch(pg, cdp, tag, who, iv, K, want); mt, adj = await dump(pg, tag)
     says = [e['v'] for e in mt if e['k'] == 'say']
     aft = [c for c in (r or {}).get('choices', []) if c['after']]
-    R.check('%s 散場三選項＝MOVIE_PLOTS' % tag, bool(aft) and aft[0]['opts'][:len(want)] == want and len(want) == 3, J(aft))
+    R.check('%s 散場三選項＝MOVIE_PLOTS（順序不比）' % tag, bool(aft) and sorted(aft[0]['opts'][:len(want)]) == sorted(want) and len(want) == 3, J(aft))
     if aft and T.get('opts'):
         o = T['opts'][K]; re_ = o.get('lines') or []
         R.check('%s 選第 %d 個：她的回答＝re（%s）' % (tag, K + 1, J(re_)), bool(re_) and all(any(x[:10] in s_ for s_ in says) for x in re_), J(says[-6:]))
@@ -393,6 +397,7 @@ async def main():
                     elif c == 'WITHZR': await case_with(pg, cdp, 'heroine_02', '2025-11-01', 'm2511b')
                     elif c in KX: await case_kexin(pg, cdp, c)
                     elif c.startswith('PS'): await case_ps(pg, cdp, int(c[2:]))
+                    elif c.startswith('ZR'): await case_ps(pg, cdp, int(c[2:]), 'heroine_02', os.environ.get('ZRFILM') or 'm2511a', '芷若')
                 except Exception as e:
                     R.check('[%s] 沒有中斷' % c, False, repr(e)[:300])
                 open(os.path.join(OUT, 'movie_talk_lines.txt'), 'w', encoding='utf-8').write('\n'.join(TXT))
