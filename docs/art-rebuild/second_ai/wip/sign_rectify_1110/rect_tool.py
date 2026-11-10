@@ -9,13 +9,17 @@ def rect(f,quad,w,h):
     src=Image.open(f).convert('RGB'); c=coeffs([(0,0),(w,0),(w,h),(0,h)],quad); im=src.transform((w,h),Image.PERSPECTIVE,c,Image.BICUBIC)
     m=Image.new('L',src.size,255).transform((w,h),Image.PERSPECTIVE,c,Image.NEAREST)   # 參考圖外面的地方（招牌被圖的邊切掉）：用同一欄最近的招牌底色補
     a=np.asarray(im).copy(); mk=np.asarray(m)>0
-    if not mk.all():
+    if not mk.all():   # 參考圖外面的地方：每一欄取邊緣附近的底色，再沿著橫向大範圍平滑（不平滑會是一條一條的直條紋），往外漸漸接上
+        cols_top=np.zeros((w,3)); cols_bot=np.zeros((w,3)); tops=np.zeros(w,int); bots=np.full(w,h-1,int)
         for x in range(w):
-            col=mk[:,x]
-            if col.all() or not col.any(): continue
-            ys=np.where(col)[0]; top,bot=ys[0],ys[-1]
-            if top>0: a[:top,x]=np.median(a[top:top+6,x],axis=0)
-            if bot<h-1: a[bot+1:,x]=np.median(a[bot-5:bot+1,x],axis=0)
+            ys=np.where(mk[:,x])[0]
+            if len(ys)==0: continue
+            tops[x],bots[x]=ys[0],ys[-1]; cols_top[x]=np.median(a[ys[0]+2:ys[0]+10,x],axis=0); cols_bot[x]=np.median(a[max(0,ys[-1]-9):ys[-1]-1,x],axis=0)
+        k=np.ones(121)/121
+        for c in range(3): cols_top[:,c]=np.convolve(np.pad(cols_top[:,c],60,mode='edge'),k,mode='valid'); cols_bot[:,c]=np.convolve(np.pad(cols_bot[:,c],60,mode='edge'),k,mode='valid')
+        for x in range(w):
+            if tops[x]>0: a[:tops[x]+2,x]=cols_top[x]
+            if bots[x]<h-1: a[bots[x]-1:,x]=cols_bot[x]
         im=Image.fromarray(a)
     return im
 if __name__=='__main__':

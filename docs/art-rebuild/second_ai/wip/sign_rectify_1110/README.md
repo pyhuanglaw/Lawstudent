@@ -24,6 +24,12 @@
   - SUNNY SIDE、小路在 `wz_signs_atlas` 也各有一格（sign_atlas.py），遊戲實際用哪一格要看截圖。
   - → 這四塊（2:30 AM、日常失速、SUNNY SIDE、小路）等 CC 截圖確認哪一張圖在用，再換那一張。
 
+## 第 3 包第三版：加日常失速（11-10 20:4x）——十七塊全部做完
+- CC 20:22 的遊戲截圖（cc-testing `gg16_offbeat_old_new.jpg`）：日常失速在遊戲裡是斜的（字往右下）；公館五塊新版都水平了。
+- **更正上一版寫的**：`offbeat_storefront.glb` 烘的是「從街上看的店內」，不是招牌。日常失速的招牌在 `wenzhou_street.glb` 的 `wz_fronts_atlas` 的 `offbeat_sign` 那一格（外觀 OFFBEAT_XS）——上一版就是漏了這一格，不用重烘。
+- `wz_signs_rectify.patch` 第三版：再加 `offbeat_sign`（`offbeat_sign_after.jpg`）；`wenzhou_street.glb` 10,279,468 → 10,413,648 bytes。右上角被參考圖的邊切掉的地方：每一欄取邊緣附近的底色、橫向平滑以後補（`rect_tool.py`；原本一條一條的直條紋沒有了）。
+- 回歸同一組 10 支 ALL PASS。
+
 ## 第 3 包第二版：溫州街補齊（11-10 20:3x；LAWWW 20:09：補齊再一次交）
 - `wz_signs_rectify.patch` 換成第二版：`wenzhou_street.glb` 換兩張圖——`wz_fronts_atlas`（SUNNY SIDE、小路、2:30 AM 三格，同第一版）＋ **`wz_signs_atlas`（溫州書屋、夏日冰菓室、帝大紅茶、SUNNY SIDE、小路五格）**；10,279,468 → 10,415,748 bytes。SUNNY SIDE、小路兩張圖裡的那一格都換了，遊戲用哪一張都是正的。
 - `wz_signs_atlas_after.jpg`：換完的整張圖集。第二批三塊的四個角：溫州書屋 [(544,304),(1516,90),(1516,256),(544,410)]、夏日冰菓室 [(410,118),(964,244),(956,336),(400,258)]、帝大紅茶 [(230,176),(994,326),(990,402),(224,326)]（參考圖 `wip/wz_second_1104/ref/`）。
