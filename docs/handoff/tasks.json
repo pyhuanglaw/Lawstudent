@@ -52877,7 +52877,7 @@
    "id": "DLG-FX-MECH-1110",
    "title": "對話選項效果機制（AA_746 第 2 節，X324）：①選項統一 fx:{fr,love}（可負；date_lines、ladder、一起活動／念書 opts、期末飯、手機回覆、邀約見面）②校外約會選項每次去都出（first／again／dating）③閒聊階梯加「交往中」一階＋愛情效果 ④期末飯桌給玩家選項；另查 AA 報告列的程式行為（termend 鉤子重複、可昕 dating 約 200 句沒讀、語彤 D14 結束句匯入錯誤、characters.js 語彤作息 noodle／help）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52890,7 +52890,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "機制在開發分支（資料沒有新欄位＝行為不變）；等 AA 改稿分批匯入；msg_pool 產生器的 fx 要交稿時填；10 處期末飯近似重複句、可昕 dating、語彤 D14 等 AA 決定",
+   "next": "還要做：①love 上限統一——一次活動一人合計最多 +2（約會、階梯、念書、期末飯；告白那一晚最多 +3）（AA 11-10 21:15 同意）②電影 fallback：AA_745_fallback.json {人:{feel,detail,joke,meh:[{re,fx}]}}＋每部 opts 的 kind，沒有專屬 re 時輪流用（AA 寫中）③m3007b 的 reBy（企劃線 1a1af8866）重匯 ④期末飯 tableOpts、告白 confessOpts（AA_748，等使用者選芷若、沛珊新舊版）；等 AA 各批 SHA",
    "xai": {
     "spec": "X324、AA_746 第 2 節、docs/story_planning/audit_1110/",
     "branch": "claude/confident-ritchie-8rwh7t",
