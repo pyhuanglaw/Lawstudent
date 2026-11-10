@@ -185,6 +185,22 @@ async def walk_to_npc(pg, cdp, tag, who):
         if lab and ('說話' in lab or '打招呼' in lab) and (not n['name'] or n['name'][:2] in lab or (n['label'] and lab.startswith(n['label'][:4]))):
             return {'npc': n, 'label': lab}
         R.note('%s 互動鍵是「%s」（她 %s），再靠近' % (tag, lab, J(n)))
+        if k >= 1: break
+    # 她在走動（作息「走走」）：點地板走到她剛才的位置她已經走開了（DLGFX_old_b r1 TEST_BUG）→ 像玩家一樣用搖桿追（每 0.4 秒照她現在的位置改方向，最多 40 秒）
+    import math
+    t0 = time.time()
+    while time.time() - t0 < 40:
+        n = await pg.evaluate(NPC_JS, who)
+        if not n: await pg.wait_for_timeout(500); continue
+        me = await pg.evaluate("(()=>{ const p=GAME.E.player.obj.position; return [p.x,p.z,GAME.E.cam.yaw]; })()")
+        dx, dz = n['x'] - me[0], n['z'] - me[1]; dist = math.hypot(dx, dz)
+        s = await L.state(pg); lab = s['interact']
+        if lab and ('說話' in lab or '打招呼' in lab) and (not n['name'] or n['name'][:2] in lab):
+            R.note('%s 搖桿追上她（%.1f 秒、距離 %.2f m）' % (tag, time.time() - t0, dist)); return {'npc': n, 'label': lab}
+        yaw = me[2]; fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = math.cos(yaw), -math.sin(yaw)
+        vx, vz = dx / (dist or 1), dz / (dist or 1); sx, sy = vx * rx + vz * rz, -(vx * fx + vz * fz); m = math.hypot(sx, sy) or 1
+        await L.joystick(pg, cdp, sx / m * 45, sy / m * 45, 400 if dist > 1.2 else 150)
+    R.note('%s 搖桿追 40 秒還是沒有和她說話的互動鍵（她 %s）' % (tag, J(n)))
     return None
 
 

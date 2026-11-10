@@ -167,6 +167,7 @@ async def case_lovecap(pg, cdp):
     R.note('%s 隔天總圖：選單 %s；之後 %s；npcRom %s → %s' % (tag, J(r2 and r2['choices']), J(ml2), rom0, ml2['rom']))
     R.check('%s 下次見面（總圖）演了微捲機那段' % tag, any('微捲機' in s for s in says), J(says[-8:]))
     picked = [c for c in (r2 or {}).get('choices', []) if any('也幫我印一張' in t for t in c['opts'])]
+    R.check('%s AN_BIRTHDAY_PAPER 有設' % tag, ml2.get('flag') is not None, J(ml2))
     R.check('%s 選了「也幫我印一張。」（love 2）、這部合計不超過 +2：MOVIE_LOVE 仍 2、這次沒有加 npcRom' % tag, bool(picked) and ((ml2['love'] or {}).get('m2709b')) == 2 and not any((a['d'].get('npcRom') or 0) > 0 for a in adj2 if a['id'] == who and a['n'] >= (picked[0]['n'] if picked else 0)), J({'ml2': ml2, 'adj': adj2[-4:]}))
 
 
