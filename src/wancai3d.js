@@ -115,6 +115,7 @@ const WC3=(function(){
     const IT=E.interactables, EN=L.entrance, UD=L.upperDoor;
     IT.push({x:EN.x,z:EN.exitZ,radius:1.6,lv:0,label:'離開法律系館B',exit:{to:'campus',spawn:Object.assign({},CAMPUS_1F)}});
     IT.push({x:UD.x,z:UD.z,radius:1.0,lv:1,label:'走出去（大樓梯平台）',exit:{to:'campus',spawn:Object.assign({},CAMPUS_2F)}});
+    if(typeof CLS!=='undefined'&&CLS.DOORS&&CLS.DOORS.wancai_lsc_desk){ const look=CLS.DOORS.wancai_lsc_desk.look; IT.push({x:8.0,z:2.0,radius:1.2,lv:0,label:'法律服務中心',look,door:'wancai_lsc_desk',onInteract:()=>CLS.doorInteract(GAME,'wancai_lsc_desk',{look})}); }   /* 服務學習（二）的報到處（AA_735：大廳東側的接待桌；電梯南邊、自動販賣機北邊的空位）；桌子和門牌的模型交 LAWWW2（SERVICE2-LEGAL-1110）*/
     if(typeof LAWLIB_LAYOUT!=='undefined'){ const LD=L.lawlibDoor; IT.push({x:LD.it.x,z:LD.it.z,radius:LD.it.r,lv:0,label:LD.label,exit:{to:'lawlib',spawn:Object.assign({},LAWLIB_LAYOUT.entrance.spawn)}});   /* 法律學院圖書館（D46）：開放時間在 places.js，關門時 story3d.js 擋 */
       const sp=W3.signPlane('法律學院圖書館',1.9,0.36,{color:'#3b2a1e'}); sp.position.set(-W/2+0.17,LD.h+0.42,LD.z); sp.rotation.y=Math.PI/2; lv0.add(sp); }
     const gateHide=(it,shut)=>Z3.roomGlbGate?Z3.roomGlbGate(it,shut):it;   /* 有開放時段的房間（rooms_glb3d.js d.gate；研討室 B）：時段內出現「進入」、時段外照舊是門上的字 */

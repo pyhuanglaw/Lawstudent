@@ -100,7 +100,8 @@ M = {
     'wall': L.pbr(P + 'wall', 'painted_plaster_wall', tile=2.5, target='#e3d3b4', normal=0.15, maps=('diff', 'nor')),
     'wall_k': L.pbr(P + 'wall_kitchen', 'painted_plaster_wall', tile=2.5, target='#ece3cf', normal=0.15, maps=('diff', 'nor')),
     'siding': img_mat(P + 'siding', 'us_siding.png', rough=0.7),
-    'concrete': L.pbr(P + 'concrete', 'concrete_floor_painted', tile=1.5, target='#c2bfb8', sat=0.0, normal=0.3, maps=('diff', 'nor')),   # sat 0：原貼圖剝落的藍色油漆在陽台地上一塊一塊藍
+    'concrete': L.pbr(P + 'concrete', 'granular_concrete', tile=1.2, target='#a9a6a0', sat=0.0, normal=0.25, maps=('diff', 'nor')),   # 屋外的陽台、走廊平台、樓梯：素面水泥。
+    # 原本 concrete_floor_painted（sat 0）：剝落的油漆去色以後變成一塊一塊白斑，白天看起來像積雪（11-01 LAWWW-B「公寓門外平台、陽台白天偏白」）；改素面水泥、底色暗一點（#c2bfb8 → #a9a6a0）
     'backsplash': L.pbr(P + 'backsplash', 'long_white_tiles', tile=0.5, target='#d8d2c4', normal=0.4, maps=('diff', 'nor'), rough_value=0.25),
     'ceil': L.flat(P + 'ceiling', '#f1efea', rough=0.9, cull=True),
     'trim': L.flat(P + 'trim', '#f4f2ec', rough=0.4), 'door': L.flat(P + 'door', '#f2f0ea', rough=0.35),
@@ -273,6 +274,9 @@ for d in LAY['doors']:
             for v in range(10): wm(wid, 'trim').box(at - 0.025, at - 0.02, 0.35 + v * 0.13, 0.4 + v * 0.13, u0 + 0.04, u1 - 0.04)
         continue
     # v3（使用者 10-27 美國公寓）：衣物間、衛浴的門開著、往臥室開（swingOut：門板轉到牆的另一邊）；衛浴的鉸鍊在東邊（hinge E：門板靠在書桌南邊的牆角）
+    #   11-09 #204：衣物間、衛浴這兩片開著的門板都在 bath_n_door 一個網格裡，各貼不同的牆。遊戲用的 GLB 匯出後另外切成兩個節點：
+    #   glb_split_node.py --node WALL_bath_n_door --axis x --cut 3.1 --name WALL_bath_n_door_e，再跑 glb_partition_at.py（規則 B：每片門板跟它貼著的牆淡出）。
+    #   重新匯出要再做一次（docs/art-rebuild/second_ai/wip/us_door_split_1109/README.md）。
     m = wm(wid, 'door'); six_panel(m, axis, at, c, 0.0, w_ - 0.02, -nrm if d.get('swingOut') else nrm, rot=(math.radians(95) if d.get('openDoor') else 0.0), hinge_end=d.get('hinge', 'W'))
     if d.get('plate'):   # 門牌（虛構的號碼）：遊戲照 PLATE_FACE 畫字
         x_, z_ = (c + 0.0, at + 0.03 * nrm * -1) if axis == 'x' else (at, c)
@@ -750,7 +754,8 @@ for wid, ms in walls.items():
     if w.get('fadeInside'): props['inside'] = 1   # 南牆（樓梯平台那一面）：遊戲只在玩家在屋裡、鏡頭在平台那一側時淡出（us3d.js）
     for key, m in ms.items():
         nm = (f'WALL_{wid}_{key}' if w.get('fade') else f'{wid}_{key}'); m.name = nm; m.finish(root, uv=not key.startswith(('life_art', 'life_pol', 'deco_')), props=props, smooth=key.startswith('deco_coat'))   # 牆上的畫、照片自己有 UV（uv=True 會照世界座標重算，貼圖變成一格一格重複）
-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or 'EVENT_' in ob.name or (ob.parent is not None and 'EVENT_' in ob.parent.name) or (ob.parent is not None and ('SEASON' in ob.parent.name or ob.parent.name == 'furniture')) or ob.name.startswith('WALL_') or (ob.parent is not None and ob.parent.parent is not None and ob.parent.parent.name == 'furniture'),
+# 平台上鄰居的門（door213）不合進 usa_door（11-01，LAWWW-B 派「鄰居 207 的門白天偏亮」）：自己一個物件，烘焙的 --dayscale 才能只壓它（屋外、白色、屋簷下照到天光；屋裡的門不動）。多一個 draw call
+L.merge_by_material(root, keep=lambda ob: ob.name == 'door213' or 'FACE' in ob.name or 'SEASON' in ob.name or 'EVENT_' in ob.name or (ob.parent is not None and 'EVENT_' in ob.parent.name) or (ob.parent is not None and ('SEASON' in ob.parent.name or ob.parent.name == 'furniture')) or ob.name.startswith('WALL_') or (ob.parent is not None and ob.parent.parent is not None and ob.parent.parent.name == 'furniture'),
                     key=lambda ob: '')
 # PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：材質改單面（lib2.single_side）——遊戲把 WALL_* 設成 transparent 才能淡出，雙面又半透明要畫兩次。同一頁上限：公寓 2.0→3.05、C 棟 208 1.85→2.9。
 _ss = L.single_side(root, keep=r'glass', skip=lambda ob: 'FACE' in ob.name)   # 門牌（PLATE_FACE_*）遊戲照名字接手，不動網格

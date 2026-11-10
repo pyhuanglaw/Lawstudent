@@ -130,6 +130,11 @@ async def main():
         await pg.screenshot(path=SHOTS+'/flow_01_wenzhou.png')
         # 1. 自由走在溫州街（搖桿）
         p0 = await state(pg); await t.joy(0, -55, 1600); p1 = await state(pg)
+        if math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']) <= 0.5 and await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):
+            # 【前置】要回的訊息在推搖桿的那一下自己打開（讀檔後阿哲 bbq_ask、可昕 kx_bbq_ask 兩則待回覆，打開時遊戲暫停）：像玩家一樣點「收起來」、再推一次。
+            # 同下面「出來後可以繼續走」那一步（v9.10.4）；BB-B 11-08 17:13（BB_255 a49dd3541，PC run1 手機在出生點 t=37 秒打開蓋到推搖桿＝FAIL、run2 晚 9 秒＝PASS）。不關 phoneAuto（那樣不像玩家）
+            print('  [前置] 推搖桿時手機自己打開了 → 收起來、再推一次')
+            await t.phone_away(); p0 = await state(pg); await t.joy(0, -55, 1600); p1 = await state(pg)
         check('溫州街：搖桿往前走', math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']) > 0.5, (p0['x'], p1['x']))
         # 2. 看見 NPC
         npcs = await pg.evaluate("GAME.E.npcs.map(n=>({name:n.name||'(路人)',driver:n.obj.userData.driver,x:+n.obj.position.x.toFixed(1),z:+n.obj.position.z.toFixed(1)}))")

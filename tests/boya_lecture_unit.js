@@ -20,7 +20,7 @@ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[];
 const z=Z3.ZONES.boya.build(E); E.zone=z; E.levels=z.levels; E.nav=z.nav; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
 E.addNPC=n=>{ if(n.seat&&n.seat.y!=null) n.obj.position.y=n.seat.y; E.npcs.push(n); return n; }; E.removeNPC=n=>{ E.npcs=E.npcs.filter(m=>m!==n); };   /* 和引擎的 addNPC 一樣：坐著的放在座位的高度 */
 const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
-check('遊戲裡排在博雅 101 的活動只有 B4（交接包 v2 C13 的博雅午後講座，大一下第 11 週週四）和 EXPO_Y2（交接包 v3 的交換說明會，大二下第 4 週週四中午；AA_177 4-2）；其他是 AA_110 6-3 的一般活動',ACTIVITIES.list.filter(a=>a.zone==='boya'&&a.room==='101').map(a=>a.id).join(',')==='B4,EXPO_Y2',ACTIVITIES.list.map(a=>a.id+':'+a.zone+'/'+(a.room||'-')).join(','));
+check('遊戲裡排在博雅 101 的活動只有 B4（交接包 v2 C13 的博雅午後講座，大一下第 11 週週四）和 EXPO_Y2（交接包 v3 的交換說明會，大二下第 4 週週四中午；AA_177 4-2）、su_movie_night（AA_737 期中電影夜，每學年上學期第 10 週週四晚上，story:false；BULLETIN-BOARD-1110 加，原期望只有 B4,EXPO_Y2）；其他是 AA_110 6-3 的一般活動',ACTIVITIES.list.filter(a=>a.zone==='boya'&&a.room==='101').map(a=>a.id).join(',')==='B4,EXPO_Y2,su_movie_night',ACTIVITIES.list.map(a=>a.id+':'+a.zone+'/'+(a.room||'-')).join(','));
 const LD=dayOf('2025-10-22');   /* 週三 */
 ACTIVITIES.list=[{id:'t_boya',title:'測試演講',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',dates:['2025-10-22'],t0:18.5,t1:20.5,poster:{daysBefore:4},crowd:{n:14}}];
 const GM={G:{day:LD,hour:18.0,zone:'boya',flags:{},weekday:3},E}; const aud=()=>E.npcs.filter(n=>n.clsStudent);
@@ -31,6 +31,6 @@ const pos=a.map(n=>n.seat.x+','+n.seat.z).join('|'); E.npcs=[]; CLS.syncRooms(GM
 GM.G.hour=19.5; CLS.syncRooms(GM); check('19:30（演講中）：人數不變、沒有重複加人',aud().length===14,aud().length+' 人');
 GM.G.hour=20.52; CLS.syncRooms(GM); check('20:31（結束）：聽眾離開',!aud().length,aud().length+' 人');
 GM.G.day=LD+1; GM.G.hour=19.0; CLS.syncRooms(GM); check('隔天同一時間：沒有演講、沒有聽眾',!aud().length);
-{ const scr=E.interactables.find(i=>i.board&&/講座資訊/.test(i.label)); global.GAME={G:{day:LD-2,hour:10}}; const t=scr.look; check('講座資訊螢幕：列出這場演講（10/22（三）18:30–20:30、博雅 101）',/10\/22（三） 18:30–20:30　測試演講（博雅 101）/.test(t),t);
+{ const scr=E.interactables.find(i=>i.board&&/講座資訊/.test(i.label)); global.GAME={G:{day:LD-2,hour:10}}; const t=scr.look; check('講座資訊螢幕：列出這場演講（10/22（三）18:30–20:30、博雅 101；BULLETIN-BOARD-1110 起照 AA_737 lineFormat.event，原期望地點在括號裡）',/10\/22（三） 18:30–20:30　測試演講　博雅 101/.test(t),t);
   ACTIVITIES.list.push({id:'t_other',title:'別棟的活動',kind:'club',zone:'wancai',dates:['2025-10-21'],t0:19,t1:21,poster:{daysBefore:4}}); check('螢幕只列博雅的（萬才館的社團不列）',!/別棟的活動/.test(scr.look),scr.look); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -3,14 +3,15 @@
    要接它的東西讀它的旗標（US1、US2、US3、US_TRIP_MODE…），ev_us3_lake 開頭／結尾多的兩句（AA_340 G1、G6）是在這裡插進去的（見 patchUS3）。
    「人在美國」＝美國路線、抵達以後、回臺灣以前（S.here）：
    S1  美國的學期日曆：開學 8/21、勞動節 9/4、秋假 10/9～10/13、感恩節 11/23～11/24、最後一堂 12/8、期末週 12/11～12/15、12/16 離開。台灣的節日提示不跳（CLS.dayLabel、todayLine、goalFor）。
-   S2  一鍵上課（AA_291 1-1）：週一、三 10:00～11:15 Introduction、週二、四 13:00～14:15 Comparative、週五 09:00～11:50 Legal Writing；2D us_classroom，四句輪流；
+   S2  一鍵上課（AA_291 1-1）：週一、三 10:00～11:15 Introduction、週二、四 13:00～14:15 Comparative、週五 09:00～11:50 Legal Writing；3D Room 120（us_classroom，AA_740；沒有 3D 教室才用 2D us_classroom），句子輪流；
        10/26 期中報告、12/8 最後一堂換旁白；出席不影響結果。入口：起床選單（CLS.wakeMenu）、公寓平台「去上課」、社區「搭公車（去學校）」、校園「進教室」。
    S3  快轉（照經濟系休學在家那一套）：床的「快轉」、到下一件有事的時候／過三天／過一週；停在 AA_340 第 1 節的事件、出遊、要回的訊息、交往中週末的 208、特別的課；
        日期卡寫「公寓」；摘要日（G1、G2、G6、AA_291 1-2）跳過時出在日期卡下面，沒跳過的那天到時間出一次。
    S4  學姊的作息（AA_340 4-1）：平日 09～12 法學院圖書館（3D us_lawlib）、週三 14:00～16:50 研討課、平日 18～21 C 棟 208（10 月起週二、四 19～21 會所自習室）、週末 14～21 C 棟 208；
        3D 裡照這份作息出現（us_lawlib、us_shared），「現在大概在」照同一份；SU 階梯從 8/3 起算（4-5）。
        AA_345 I5：SU 階梯多一個地方＝法學院圖書館，平日 11:30～12:00（她收書去吃午餐）演，開頭一句旁白（自習室、湖邊作廢）；圖書館 09:00～11:30 的一般閒聊多三句（交往中）。
-   S5  會所（2D）：交誼廳＋自習室；自習室＝讀書；何俊朗平日 19～22 在（AA_291 3-1 招呼）；9/4 烤肉。12/14 晚餐照 r2y4a3d.js。
+   S5  會所：3D us_clubhouse_in（US-CLUBHOUSE-3D-1110，AA_741；沒有 3D 區域才用 2D 選單）——門廳、交誼廳、自習室；自習室坐下＝讀書；何俊朗平日 19～22 在（AA_291 3-1 招呼，走到 3 m 內）；
+       學姊 10 月起週二、四 19～21 在最裡面角落；10/4、10/12、10/18 自習室、11/23 交誼廳、12/14 晚餐在 3D 演；9/4 烤肉照舊 2D。12/14 晚餐照 r2y4a3d.js。
    S6  超市：買一樣東西＝時間 +20 分鐘、不做錢；「看」的字照 AA_287；換季（G5）。
    S7  台灣的大四上：不選課、不跳開學／期中／期末提示；成績單只有美國三門（2029-01-08「三門通過」）。
    S8  時差：可昕週年視訊（story3d.js）、12/11 讀書會群組（y34b3d.js）、阿凱的評鑑表、台灣朋友回訊息的時間（MSG.replyAt）照台灣時間換算；家人群組週四「這週回來吃飯嗎」在美國不問；
@@ -83,18 +84,137 @@ const USL=(function(){
     const f=S.FINALS[it.c.id]; return f&&it.day===D(f[0])&&evOf(f[1])?f[1]:null; };
   const SPAWN0={us_outside:{x:-35,z:0,yaw:Math.PI/2},us_apartment:{x:2.4,z:-1,yaw:Math.PI/2},us_campus_class_out:{x:0,z:9.02,yaw:0},us_clubhouse:{x:-28,z:10.6,yaw:Math.PI},us_lawlib:{x:0,z:7.8,yaw:Math.PI},us_shared:{x:0.4,z:4,yaw:-Math.PI/2}};
   const SP=k=>Object.assign({},(typeof US3!=='undefined'&&US3.SPAWN&&US3.SPAWN[k])||SPAWN0[k]||{x:0,z:2,yaw:Math.PI});
-  S.attend=async function(GM,it){ const G=GM.G, R=S.rec(G); if(!it||R.cls[it.key]) return false; const st=S.status(G,it); if(st!=='open'&&!(st==='upcoming'&&it.day===G.day)) return false;
+  S.attend=async function(GM,it,o){ o=o||{}; const G=GM.G, R=S.rec(G); if(!it||R.cls[it.key]) return false; const st=S.status(G,it); if(st!=='open'&&!(st==='upcoming'&&it.day===G.day)) return false;
     const sp=S.special(G,it), n=R.att[it.c.id]|0; GM.sceneBegin();
-    try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard(it.c.name,hm(it.t0)+'–'+hm(it.t1),2200);
-      const arrive=Math.max(now(G)+(G.zone==='us_campus'?0:1/3),T(it.day,it.t0)); if(arrive>now(G)) GM.advance(arrive-now(G));   /* 公車約 20 分鐘；早到就等到上課 */
-      R.cls[it.key]=1; R.att[it.c.id]=n+1;
-      if(sp){ await GM.fade(false); await run(sp,{noTitle:true}); }
-      else { if(typeof ADV!=='undefined') ADV.begin({background:typeof OUT!=='undefined'?OUT.bg('us_classroom'):'dark'}); await GM.fade(false); if(typeof ADV!=='undefined'&&ADV.log) ADV.log('',it.c.name); GM.caption('',it.c.name,2400); await GM.sleep(700);
-        await GM.say(null,S.classLine(it.c.id,n,G)); if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); }
-      await GM.fade(true); const end=T(it.day,it.t1); if(now(G)<end) GM.advance(end-now(G));
-      await GM.enter('us_campus',SP('us_campus_class_out'),{noFade:true}); await GM.fade(false); }   /* 下課：法學院台階下（US3.SPAWN.us_campus_class_out）*/
-    finally{ GM.sceneEnd(); }
+    try{ if(S.room3d()) await S.attend3d(GM,it,sp,n,o);   /* US-CLASSROOM-3D-1110：Room 120（3D）*/
+      else { await GM.fade(true); if(GM.titleCard) await GM.titleCard(it.c.name,hm(it.t0)+'–'+hm(it.t1),2200);
+        const arrive=Math.max(now(G)+(G.zone==='us_campus'?0:1/3),T(it.day,it.t0)); if(arrive>now(G)) GM.advance(arrive-now(G));   /* 公車約 20 分鐘；早到就等到上課 */
+        R.cls[it.key]=1; R.att[it.c.id]=n+1;
+        if(sp){ await GM.fade(false); await run(sp,{noTitle:true}); }
+        else { if(typeof ADV!=='undefined') ADV.begin({background:typeof OUT!=='undefined'?OUT.bg('us_classroom'):'dark'}); await GM.fade(false); if(typeof ADV!=='undefined'&&ADV.log) ADV.log('',it.c.name); GM.caption('',it.c.name,2400); await GM.sleep(700);
+          await GM.say(null,S.classLine(it.c.id,n,G)); if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); }
+        await GM.fade(true); const end=T(it.day,it.t1); if(now(G)<end) GM.advance(end-now(G));
+        await GM.enter('us_campus',SP('us_campus_class_out'),{noFade:true}); await GM.fade(false); } }   /* 下課：法學院台階下（US3.SPAWN.us_campus_class_out）*/
+    finally{ live=null; GM.sceneEnd(); }
     if(GM.autosave) GM.autosave(); return true; };
+
+  /* ======================= US-CLASSROOM-3D-1110：Room 120 階梯教室（3D）上課（AA_740，AA 定 D109；企劃線 961025d4c）=======================
+     區域、座位、站位在 src/us_classroom3d.js＋src/data/us_classroom_layout.js（LAWWW2）；這裡是劇情接線：
+     - 校園「進教室」：現在有課（S.openItem：開始前 1 小時～下課前 15 分鐘）＝走進 Room 120（門口）；沒課＝照舊只出「看」那一句、進不去（S.interact）。
+     - 走進來：其他人已經坐好（S.castPlan：AA_740 第 2 節）；自己那門課的座位「坐下」變成「坐下（你常坐的位置）」；坐哪一個位子都算（CLS.seatClass 在 Room 120 回美國的課）
+       → 座位選單「上課：課名」→ S.attend（seated）：坐著上，下課大家起身往門口走、玩家留在教室自己走出去。
+     - 一鍵上課（起床選單、公寓「去上課」、社區「搭公車」）：淡出 → 字卡 → 淡入時已經坐在自己的座位、大家都到了 → 下課照舊回到法學院台階下（AA_740 第 3 節允許）。
+     - 一般課：classLines 那一句是字幕（GM.caption）蓋在 3D 上，不切 2D 背景；特別的課（10/26 期中、12/7 期末報告、12/6 期末考、12/8 最後一堂）的事件在 3D 演：
+       背景 freeze（看得到教室）、scene 只出地點字幕（bg:false）；台詞、選項不動（同一個事件 id，記錄照舊）。
+     - 期中、期末報告：玩家和德國同學站講桌兩邊（z.present，左右照 layout），教授坐第 1 排最右邊（present.professorSeat）；期末考：大家坐自己的位子、教授站講桌後面（z.examProf）。
+     - 學姊不在這間（研討課是她自己的課；她的作息在研討課是「away」，沒有區域）。
+     沒有 3D 教室（Z3.ZONES.us_classroom 不在：Node 舊測試、載入失敗）＝照舊 2D。測試：node tests/us_classroom_story_unit.js */
+  const CK={us_intro:'intro',us_comp:'comp',us_writing:'lw'}; S.CK=CK;
+  let live=null;   /* 正在上的那一堂（S.attend 期間；populate、tick 認得）*/
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['us_life3d:live']=()=>{ live=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：上課演到一半讀檔＝finally 走不到，不放開的話 roomSync 一直以為在上課 */
+  S.room3d=()=>typeof Z3!=='undefined'&&!!Z3.ZONES&&!!Z3.ZONES.us_classroom&&typeof US_CLASSROOM!=='undefined'&&!!US_CLASSROOM.SPAWN;
+  S.roomItem=G=>S.items(G).find(it=>it.key===live||S.status(G,it)==='open')||null;   /* 教室裡現在有人的那一堂 */
+  S.sessionN=(G,it)=>{ const R=S.rec(G); return (R.att[it.c.id]|0)+(R.cls[it.key]?0:1); };   /* 這一堂是第幾次上這門課（上課開始時 att 才加 1：還沒開始的也算這一次）*/
+  const CAP={low:8,medium:16,high:40};   /* 路人同學最多幾個完整人物（AA_740：人數是上限，手機上可以減；有名字的人一定在）*/
+  const PROF_SEX={intro:'m',comp:'f',lw:'m'};
+  /* 誰坐哪（AA_740 第 2 節）：回傳 [{who,key,seat|spot,sex,walk?,stand?}]。mode：class（一般課、12/8 最後一堂）／present（10/26、12/7 報告）／exam（12/6 期末考）
+     psSeat：玩家坐的位子（坐哪裡都算；有名字的人不跟著換，只有他的位子剛好被玩家坐了才換另一個：德國同學 after↔before、何俊朗 met↔unmet）*/
+  S.castPlan=function(G,it,z,mode,psSeat,cap){ const ck=it&&it.c&&CK[it.c.id]; if(!ck||!z||!z.seatOf) return []; mode=mode||'class'; const out=[], used=new Set();
+    const busy=s=>!s||used.has(s)||(!!psSeat&&Math.hypot(psSeat.x-s.x,psSeat.z-s.z)<0.4);
+    const put=(who,keys,sex)=>{ for(const k of keys){ const s=z.seatOf(ck,k); if(!busy(s)){ used.add(s); out.push({who,key:k,seat:s,sex}); return true; } } return false; };
+    if(ck==='intro') put('korean',['korean'],'m');
+    if(ck==='comp'){ if(mode==='present'&&z.present&&z.present.partner) out.push({who:'german',key:'present',spot:Object.assign({},z.present.partner),sex:'f',stand:true});
+      else put('german',S.sessionN(G,it)>=4?['german_after','german_before']:['german_before','german_after'],'f');   /* att.us_comp>=4（第 4 次「期中報告分組」那一堂起）坐玩家左邊 */
+      put('brazil',['brazil'],'m'); put('japan',['japan'],'f'); }
+    if(ck==='lw') put('long',LONG(G)?['long_met','long_unmet']:['long_unmet','long_met'],'m');   /* 見過他（MET_LONG）坐玩家右邊；沒見過坐玩家正前方 */
+    const ps=mode==='present'&&z.present?z.present.professorSeat:null;
+    if(ps&&!busy(ps)){ used.add(ps); out.push({who:'prof',key:'professorSeat',seat:ps,sex:PROF_SEX[ck]}); }
+    else if(mode==='exam'&&z.examProf) out.push({who:'prof',key:'examProf',spot:Object.assign({},z.examProf),sex:PROF_SEX[ck],stand:true});
+    else out.push({who:'prof',key:'teacher',spot:Object.assign({},z.teacherSpot||{x:0,z:-6.6,yaw:0}),walk:(z.teacherWalk||[]).map(p=>({x:p.x,z:p.z})),sex:PROF_SEX[ck]});
+    const oth=(z.others?z.others(ck):[]).filter(s=>!busy(s)), n=Math.min(oth.length,cap==null?oth.length:Math.max(0,cap|0));
+    for(let i=0;i<n;i++){ const s=oth[Math.floor(i*oth.length/n)]; if(busy(s)) continue; used.add(s); out.push({who:'student',key:'others',seat:s,sex:null}); }   /* 減人數時平均挑（每一排都還有人）*/
+    return out; };
+  /* 外型：有名字的四位、何俊朗、三位教授固定；路人照順序輪（STORY.extraSpecUS：偶數女、奇數男）*/
+  const NAMED={korean:{i:7,skin:'#f3d9c4',hair:'#1f1613'},german:{i:4,skin:'#f3d9c4',hair:'#b88a4a'},brazil:{i:9,skin:'#c68e65',hair:'#2a1d16'},japan:{i:14,skin:'#f6dcc9',hair:'#1f1613'},long:{i:21,skin:'#efd0b3',hair:'#1f1613'}};
+  /* 何俊朗自己的 3D 模型（US-LONG-3D-1110，LAWWW2）：manifest 是 lazy，第一次要用時才下載；下載完以前 CHAR.build 先建備用的人（藏起來），到了由 GM.upgradeModels 換上。
+     下載失敗：記下來，之後的人用路人的樣子（不要求那個模型），已經在場、藏起來等的人也露出來（不能一直隱形）*/
+  const LONG_KEY='char.us_long'; S._longFail=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['us_life3d:longLoading']=()=>{ S._longLoading=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：何俊朗模型下載中讀檔＝新的一局可以再要一次（ASSETS.loadOne 同一個 key 不會重複下載：A.status 留著那個 promise）*/
+  S.longModel=function(){ if(S._longFail||typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[LONG_KEY]) return null;
+    if(ASSETS.has&&!ASSETS.has(LONG_KEY)&&ASSETS.loadOne&&!S._longLoading){ S._longLoading=true; let p; try{ p=Promise.resolve(ASSETS.loadOne(LONG_KEY)); }catch(e){ p=Promise.reject(e); } p.catch(e=>{ S._longFail=true; console.warn('USL long model',e&&e.message); S.longReveal(); }).finally(()=>{ S._longLoading=false; }); }
+    return LONG_KEY; };
+  S.longReveal=function(){ const E=typeof GAME!=='undefined'&&GAME.E; for(const n of (E&&E.npcs)||[]){ const u=n&&n.obj&&n.obj.userData; if(!u||u.wantModel!==LONG_KEY) continue; u.wantModel=null; if(u.degradedHidden){ for(const c of n.obj.children) c.visible=true; u.degradedHidden=false; } } };
+  const specOf=(q,i,ck)=>{ const xs=STORY.extraSpecUS||STORY.extraSpec; let s=null;
+    if(q.who==='prof'&&STORY.profSpec){ s=STORY.profSpec({id:'us_prof_'+ck,name:'',gender:PROF_SEX[ck]});
+      if(ck==='intro'){ s.hair=Object.assign({},s.hair,{color:'#8a8580'}); if(s.outfit) s.outfit=Object.assign({},s.outfit,{top:{type:'cardiganOpen',color:'#4a4238',inner:'#f2f0ea'}}); }   /* 年紀大的男教授（西裝背心：還沒有背心的衣服，暫用深色開襟）*/
+      if(ck==='lw'&&s.outfit) s.outfit=Object.assign({},s.outfit,{top:{type:'shirt',color:'#c9d3dd',inner:'#c9d3dd'}}); }   /* 年輕的男教授，襯衫 */
+    else if(NAMED[q.who]&&xs){ const N=NAMED[q.who]; s=xs(N.i); s.skin=N.skin; s.hair=Object.assign({},s.hair,{color:N.hair}); if(q.who==='long'){ const k=S.longModel(); if(k) s.model=k; } }   /* 何俊朗：自己的模型（US-LONG-3D-1110）；路人的穿搭留著當備用 */
+    else if(xs) s=xs(30+i);
+    s=Object.assign({},s||{}); s.id='usc_'+q.who+'_'+i; s.name=''; return s; };
+  S.specOf=specOf;   /* 測試用（tests/us_long_model_unit.js）*/
+  const HINT='坐下（你常坐的位置）';
+  const hintSet=(E,seat)=>{ for(const q of (E.interactables||[])){ if(!q.seat) continue; if(q.seat===seat){ if(q.uscHint==null) q.uscHint=q.label; q.label=HINT; } else if(q.uscHint!=null){ q.label=q.uscHint; q.uscHint=null; } } };
+  S.cast3d=function(GM,it,mode){ const G=GM.G, E=GM.E, z=E&&E.zone; S.uncast(GM,true); if(!z||G.zone!=='us_classroom'||!it||!CK[it.c.id]) return [];
+    if(z.seatOf) hintSet(E,z.seatOf(CK[it.c.id],'player'));
+    if(typeof CHAR==='undefined'||!CHAR.build||!E.addNPC) return [];
+    const P=E.player, ps=mode==='present'?null:((P&&P.seat)||null); const plan=S.castPlan(G,it,z,mode,ps,CAP[(E.q&&E.q.level)||'medium']); const made=[];
+    plan.forEach((q,i)=>{ try{ const o=CHAR.build(specOf(q,i,CK[it.c.id])), at=q.seat||q.spot; o.position.set(at.x,at.y||0,at.z); o.rotation.y=at.yaw||0;
+      const walk=q.walk&&q.walk.length>=2?q.walk.map(p=>[p.x,p.z]):null;
+      const n=E.addNPC({obj:o,name:'',beh:walk?'wander':'idle',waypoints:walk||undefined,isExtra:true,usCls:it.key,usWho:q.who,pose:'idle',idlePose:'idle'}); if(!n) return;   /* 不能聊天（沒有 talk）*/
+      if(q.seat&&GM.sitAt){ GM.sitAt(n,q.seat); if(q.who!=='prof'){ n.pose='read'; n.idlePose='read'; } if(E.prePose) E.prePose(n); }
+      else if(q.stand){ if(E.placeAt) E.placeAt(n,at.x,at.z,0); n.frozen=true; }
+      made.push(n); }catch(e){ console.warn('USL.cast3d',q.who,e); } });
+    return made; };
+  /* 下課：instant＝直接拿掉（重排、讀檔）；不然起身往門口走（story3d.js leaveTouch：走到門口就拿掉）*/
+  S.uncast=function(GM,instant){ const E=GM.E; if(!E||!E.npcs) return 0; const z=E.zone, door=z&&z.spawn; let k=0;
+    for(const n of E.npcs.slice()){ if(!n||!n.usCls) continue; k++; n.usCls=null;
+      if(instant||!door||!E.moveTo){ E.removeNPC(n); continue; }
+      if(n.seat&&GM.standUp) GM.standUp(n); n.beh='idle'; n.waypoints=null; n.frozen=false; n.pose='idle'; n.idlePose='idle'; n.leaving=true; n.arrived=false; n.leaveTo={x:door.x,z:door.z};
+      if(!E.moveTo(n,door.x,door.z,()=>{ n.arrived=true; },0)) E.removeNPC(n); }
+    if(E.interactables) for(const q of E.interactables) if(q.uscHint!=null){ q.label=q.uscHint; q.uscHint=null; }
+    return k; };
+  S.castOf=(GM,who)=>((GM.E&&GM.E.npcs)||[]).find(n=>n&&n.usCls&&n.usWho===who)||null;
+  /* 特別的課在 3D 演：同一個事件，背景 freeze、scene 只出字幕；HOOK＝演到那一拍時的動作（條件函式永遠 false＝不出字）*/
+  const HOOK=fn=>({if:{custom:()=>{ try{ fn(); }catch(e){ console.warn('USL hook',e); } return false; }}});
+  S.ev3d=function(GM,id){ const e=evOf(id); if(!e) return null; const L=(e.dialogue||[]).map(l=>l&&l.scene!==undefined?Object.assign({},l,{bg:false}):l);
+    if(id==='ev_usl_lastclass'){ const k=L.findIndex(l=>l&&(l.if||l.unless)); if(k>=0) L.splice(k,0,HOOK(()=>{ const n=S.castOf(GM,'long'); if(n&&n.seat&&GM.standUp){ GM.standUp(n); n.frozen=true; n.usStood=true; } })); }   /* 何俊朗（沒見過＝坐你前面的香港交換生）念句子那一拍站起來 */
+    if(id==='ev_usl_comp_final'){ const k=L.findIndex(l=>l&&l.label==='b'); if(k>=0) L.splice(k+1,0,HOOK(()=>{ const E=GM.E, n=S.castOf(GM,'prof'), z=E.zone, P=E.player&&E.player.obj&&E.player.obj.position; if(!n||!z||!z.spawn||!E.moveTo) return;   /* 選 b：下課她從第 1 排走到門口、經過講台（你旁邊）*/
+      if(n.seat&&GM.standUp) GM.standUp(n); n.frozen=false; n.usWalk=true; const door=z.spawn, via=P?{x:P.x,z:P.z+0.9}:null; const toDoor=()=>E.moveTo(n,door.x,door.z,()=>{ n.arrived=true; },0);
+      if(!via||!E.moveTo(n,via.x,via.z,toDoor,0)) toDoor(); })); }
+    return Object.assign({},e,{background:'freeze',dialogue:L}); };
+  const MODE={ev_usl_midterm:'present',ev_usl_comp_final:'present',ev_usl_intro_final:'exam'};
+  S.modeOf=sp=>MODE[sp]||'class';
+  /* 一鍵上課進教室的出生點：自己座位後面 0.6 m（坐下前站的位置，同 game3d.js seatApproach）；報告＝講桌旁的站位。照 layout 算（區域還沒建）*/
+  S.spawn3d=function(it,mode){ const C=typeof US_CLASSROOM_LAYOUT!=='undefined'?US_CLASSROOM_LAYOUT:null, ck=it&&it.c&&CK[it.c.id], base=Object.assign({},US_CLASSROOM.SPAWN); if(!C||!ck) return base;
+    if(mode==='present'&&C.present&&C.present.player) return {x:C.present.player.x,z:C.present.player.z,yaw:C.present.player.yaw||0};
+    const rc=C.seatPlan&&C.seatPlan[ck]&&C.seatPlan[ck].player; if(!rc) return base; const ap=(C.seat&&C.seat.approach)||0.6;
+    return {x:C.colX0+rc[1]*C.colDX,z:C.rowZ0+rc[0]*C.rowDepth+C.seat.dz+ap,yaw:Math.PI}; };
+  S.attend3d=async function(GM,it,sp,n,o){ const G=GM.G, E=GM.E, R=S.rec(G); const seated=!!(o&&o.seated)&&G.zone==='us_classroom'&&!!(E.player&&E.player.seat);
+    await GM.fade(true); if(GM.titleCard) await GM.titleCard(it.c.name,hm(it.t0)+'–'+hm(it.t1),2200);
+    const arrive=Math.max(now(G)+(G.zone==='us_campus'||G.zone==='us_classroom'?0:1/3),T(it.day,it.t0)); if(arrive>now(G)) GM.advance(arrive-now(G));
+    R.cls[it.key]=1; R.att[it.c.id]=n+1; live=it.key;
+    const mode=S.modeOf(sp);
+    if(G.zone!=='us_classroom'){ await GM.enter('us_classroom',S.spawn3d(it,mode),{noFade:true,deferStory:true,noAutosave:true});   /* 出生在座位後面（報告：講桌旁），鏡頭一進來就在那裡，不從門口飄過來 */
+      if(typeof ASSETS!=='undefined'&&ASSETS.waitLoaded&&GM._zoneReq&&GM.zoneWaitCap){ try{ await ASSETS.waitLoaded(GM._zoneReq,GM.zoneWaitCap('us_classroom')); }catch(e){} }   /* 畫面還黑著：等正式模型、人物載好再淡入（noFade 的 enter 不等，PERF-ZONE-POPIN-1103 同一套）*/
+      if(typeof Z3!=='undefined'&&Z3.prewarm){ try{ await Z3.prewarm(E,{cap:2000}); }catch(e){} } }
+    const z=E.zone, P=E.player;
+    if(mode==='present'){ if(P.seat&&GM.standUp) GM.standUp(P); const p=z&&z.present&&z.present.player; if(p){ if(E.placeAt) E.placeAt(P,p.x,p.z,0); if(P.obj&&P.obj.rotation) P.obj.rotation.y=p.yaw||0; } }
+    else if(!seated){ const s=z&&z.seatOf?z.seatOf(CK[it.c.id],'player'):null; if(s&&GM.sitAt) GM.sitAt(P,s); }
+    if(P.seat){ P.pose='read'; P.idlePose='read'; } if(E.recenter) E.recenter();   /* 鏡頭轉到玩家背後（看講台；報告時看台下）*/
+    S.cast3d(GM,it,mode);
+    await GM.fade(false);
+    if(sp){ const e=S.ev3d(GM,sp), ex=mode==='exam'&&z&&typeof z.setExam==='function'; if(ex) z.setExam(true); try{ if(e&&typeof EVENTS!=='undefined') await EVENTS.run(e,{noTitle:true}); } finally { if(ex) z.setExam(false); } }   /* 12/6 期末考：桌上的答案本、筆、書（US-EXAM-PROPS-1110，LAWWW2 b146570f8 z.setExam）只在那一場 */
+    else { if(typeof ADV!=='undefined'&&ADV.log) ADV.log('',it.c.name); GM.caption('',it.c.name,2400); await GM.sleep(700);
+      const line=S.classLine(it.c.id,n,G), ms=Math.max(3600,Math.min(7000,1800+String(line).length*110)); if(typeof ADV!=='undefined'&&ADV.log) ADV.log('',line); GM.caption('',line,ms); await GM.sleep(ms); }   /* 旁白＝字幕蓋在 3D 上（AA_740 第 3 節）；紀錄裡看得到 */
+    await GM.fade(true); const end=T(it.day,it.t1); if(now(G)<end) GM.advance(end-now(G)); live=null;
+    if(seated){ S.uncast(GM,false); await GM.fade(false); }   /* 走進來上的：大家起身往門口走，玩家站在座位旁邊（seatMenu 起身）／講台前，自己走出去 */
+    else { await GM.enter('us_campus',SP('us_campus_class_out'),{noFade:true}); await GM.fade(false); } };   /* 一鍵上課：下課回到法學院台階下（照舊）*/
+  S.roomSync=function(GM){ const G=GM.G, E=GM.E; if(!G||G.zone!=='us_classroom'||live||!E||!E.npcs) return 0; const it=S.roomItem(G), have=E.npcs.filter(n=>n&&n.usCls);
+    if(it&&!have.length){ S.cast3d(GM,it,'class'); return 1; } if(have.length&&(!it||have[0].usCls!==it.key)){ S.uncast(GM,false); return -1; } return 0; };   /* 讀檔回到教室、待到上課時間過了：補人／讓人走 */
+  /* 座位選單（game3d.js seatMenu）：在 Room 120 坐下＝「上課：課名」（坐哪個位子都算）；選了＝S.attend（坐著上）*/
+  { const sc0=CLS.seatClass, at0=CLS.attend;
+    CLS.seatClass=function(G,seat){ if(G&&G.zone==='us_classroom'&&S.here(G)) return S.openItem(G); return sc0?sc0.apply(this,arguments):null; };
+    CLS.attend=function(GM,it,o){ if(it&&it.c&&S.COURSES.includes(it.c)) return S.attend(GM,it,Object.assign({},o||{},{seated:true})); return at0.apply(this,arguments); }; }
   /* 起床選單（CLS.wakeMenu 在美國換成這一份）：今天的課，「直接去上課」一鍵 */
   S.wakeMenu=async function(GM){ const G=GM.G; if(CLS.wakeMenuOn&&!CLS.wakeMenuOn(GM)) return false; const list=S.items(G).filter(it=>{ const s=S.status(G,it); return s==='open'||s==='upcoming'; }); if(!list.length) return false;
     const it=list[0]; let k=1; GM.sceneBegin();
@@ -170,7 +290,7 @@ const USL=(function(){
     return h>=14&&h<21?{zone:'us_shared',act:'sit',to:21}:null; };
   S.sisClub=G=>{ const a=S.sisAt(G); return !!(a&&a.club); };
   /* 手機「人」的「現在大概在」（game3d.js whereText：PLACES.names[zone]＋（看書，到 12:00））：美國的區域用 us3d.js 的區域名字 */
-  if(typeof PLACES!=='undefined'&&PLACES.names&&typeof Z3!=='undefined'&&Z3.ZONES) for(const k of ['us_campus','us_lawlib','us_apartment','us_shared','us_outside','us_market','us_asian_market','us_market_street','us_lawlib_2f','us_bed_c']) if(!PLACES.names[k]&&Z3.ZONES[k]&&Z3.ZONES[k].name) PLACES.names[k]=Z3.ZONES[k].name;
+  if(typeof PLACES!=='undefined'&&PLACES.names&&typeof Z3!=='undefined'&&Z3.ZONES) for(const k of ['us_campus','us_lawlib','us_apartment','us_shared','us_outside','us_market','us_asian_market','us_market_street','us_lawlib_2f','us_clubhouse_in','us_bed_c','us_classroom']) if(!PLACES.names[k]&&Z3.ZONES[k]&&Z3.ZONES[k].name) PLACES.names[k]=Z3.ZONES[k].name;
   /* 「現在大概在」：法學院圖書館只在玩家人在校園或圖書館時給區域（「帶我去」指得到路：校園有往圖書館的門）；其他地方只寫地名（美國的區域沒有在 guide3d.js 的 LINKS 裡）*/
   { const wh0=STORY.whereIs; STORY.whereIs=function(GM,id){ const G=GM&&GM.G; if(id!==S5||!G||!S.here(G)) return wh0.apply(this,arguments); const a=S.sisAt(G); if(!a) return null; const until=a.to!=null?hm(a.to):null;
       if(a.away) return {zone:null,act:'',away:a.away,until}; if(a.zone==='us_shared') return {zone:null,act:'',away:'C 棟 208',until};
@@ -264,10 +384,11 @@ const USL=(function(){
     if(it.uslClass){ const c=S.openItem(G); if(c){ await S.attend(GM,c); return true; } return false; }
     if(it.uslLake){ await S.lake(GM); return true; }
     if(it.usBus==='campus'){ const c=S.openItem(G); if(c){ let k=1; GM.sceneBegin(); try{ k=await GM.choose([{t:'直接去上課：'+c.c.name,hint:hm(c.t0)+'–'+hm(c.t1)},{t:it.label||'搭公車（去學校）'}]); } finally { GM.sceneEnd(); } if(k===0){ await S.attend(GM,c); return true; } } return false; }
-    if(it.usClass==='law'){ const c=S.openItem(G); if(c){ await S.attend(GM,c); return true; } return false; }
+    if(it.usClass==='law'){ const c=S.openItem(G); if(c){ if(S.room3d()){ await GM.enter('us_classroom',Object.assign({},US_CLASSROOM.SPAWN)); return true; } await S.attend(GM,c); return true; } return false; }   /* 有課＝走進 Room 120（US-CLASSROOM-3D-1110；沒有 3D 教室＝照舊直接 2D 上課）；沒課＝「看」那一句、進不去 */
     if(G.zone==='us_lawlib_2f'&&X.looks.lib2f&&X.looks.lib2f[it.label]&&!it.exit){ GM.sceneBegin(); try{ for(const t of X.looks.lib2f[it.label]) await GM.say(null,t); } finally { GM.sceneEnd(); } return true; }   /* AA_444 第 4 節：往三樓的樓梯、木梯（各兩句）*/
     if(G.zone==='us_bed_c'){ const L=S.roomCLook(G,it.label); if(L){ GM.sceneBegin(); try{ for(const t of L) await GM.say(null,t); } finally { GM.sceneEnd(); } return true; } }   /* AA_444 第 2 節：書桌、書架、窗外 */
     if(it.usShared==='door'&&!S.c208Open(G)){ GM.caption('',S.c208Closed(G),4600); return true; }   /* 其他時間門關著（AA_291 第 3 節）；字是旁白（AA_345 I7）*/
+    if(G.zone===CZ&&it.usClubLook==='counter'){ const t=S.look(G,'us_outside','club'); if(t) GM.caption('',t,4600); return true; }   /* US-CLUBHOUSE-3D-1110：會所裡「看櫃台」＝照舊 AA_287 那一句（AA_741 第 2 節）*/
     if(it.usClub==='door'){ const d4=D(S.CAL.labor), h=hh(G);
       if(G.day===d4&&h>=17&&h<19&&!done(G,'ev_usl_bbq')){ await run('ev_usl_bbq'); GM.advance(1); return true; }   /* G3 勞動節的烤肉 */
       if(G.day>=d4-3&&(G.day<d4||(G.day===d4&&h<19))){ GM.caption('',X.looks.bbqPoster,4600); return true; }   /* 9/1 起門口的公告 */
@@ -278,15 +399,153 @@ const USL=(function(){
   S.shop=async function(GM,t){ const G=GM.G; let k=1; GM.sceneBegin(); try{ k=await GM.choose([{t:'買一樣東西',hint:'時間 +20 分鐘'},{t:'只看看'}]); } finally { GM.sceneEnd(); }
     if(k===0){ GM.sceneBegin(); try{ await GM.fade(true); GM.advance(1/3); await GM.fade(false); } finally { GM.sceneEnd(); } } GM.caption('',t,4600); if(k===0&&GM.autosave) GM.autosave(); return true; };
   if(STORY.interact&&!STORY._uslInteract){ const o0=STORY.interact; STORY.interact=async function(it,GM){ if(await S.interact(it,GM)) return true; if(await o0.apply(this,arguments)) return true;   /* o0：r2y4a3d.js 的 12/14 會所晚餐、story3d.js 原本的 */
-      if(it&&it.usClub==='door'&&GM&&GM.G&&S.here(GM.G)){ if(S.clubOpen(GM.G)){ await S.club(GM); return true; } GM.caption('',S.look(GM.G,'us_outside','club'),4600); return true; } return false; }; STORY._uslInteract=true; }
+      if(it&&it.usClub==='door'&&GM&&GM.G&&S.here(GM.G)){ if(S.clubOpen(GM.G)){ if(S.club3d()){ await GM.enter(CZ,Object.assign({},US_CLUBHOUSE.SPAWN)); return true; } await S.club(GM); return true; }   /* US-CLUBHOUSE-3D-1110：有 3D 會所＝走進門廳（AA_741 第 3 節）；沒有＝照舊 2D 選單 */ GM.caption('',S.look(GM.G,'us_outside','club'),4600); return true; } return false; }; STORY._uslInteract=true; }
 
   /* ======================= 進區域（包住 STORY.populate）：互動點、學姊 ======================= */
   S.populate=function(zoneId,GM){ const G=GM.G, E=GM.E; if(!G||!S.here(G)||!E) return; const IT=E.interactables||(E.interactables=[]);
     if(zoneId==='us_apartment') IT.push({x:0.4,z:4.0,radius:0.8,lv:0,uslClass:true,get label(){ const c=S.openItem(GM.G); return c?'去上課：'+c.c.name:'去上課'; },get hidden(){ return !S.openItem(GM.G); }});   /* 樓梯平台（從外面回來站的地方）*/
     if(zoneId==='us_outside'){ IT.push({x:-38.8,z:3.6,radius:1.2,lv:0,label:'去湖邊',uslLake:true,get hidden(){ return !S.lakeOpen(GM.G); }}); }   /* 社區出口（和「出門（去超市）」相距 3.6 m）*/
     if(zoneId==='us_asian_market'){ const R=S.rec(G); if(!R.asia[G.day]){ R.asia[G.day]=1; G.flags.USL_ASIA_N=Object.keys(R.asia).length; } }   /* 去過亞洲超市幾天（G4 萬聖節：三次以上＝小饅頭餅乾）*/
+    if(zoneId==='us_classroom'){ const it=live?S.items(G).find(q=>q.key===live):S.roomItem(G); if(it) S.cast3d(GM,it,'class'); }   /* Room 120：進來的時候其他人已經坐好（US-CLASSROOM-3D-1110）*/
+    if(zoneId===CZ){ for(const q of IT) if(q&&q.usClubStudy) q.study=true; try{ S.clubSync(GM); }catch(e){ console.warn('USL club',e); } }   /* 會所（US-CLUBHOUSE-3D-1110）：自習室的座位坐下＝照舊讀書（seatMenu 的 it.study）；誰在場照作息 */
     try{ S.sisSync(GM); }catch(e){ console.warn('USL sis',e); } };
   if(STORY.populate&&!STORY._uslPopulate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ S.populate(zoneId,GM); }catch(e){ console.warn('USL.populate',e); } return r; }; STORY._uslPopulate=true; }
+  /* ======================= US-CLUBHOUSE-3D-1110：會所在 3D（AA_741，AA 定 D109；企劃線 bd4f5df43）=======================
+     區域、座位、站位在 src/us_clubhouse3d.js＋src/data/us_clubhouse_layout.js（LAWWW2 212f42660）；這裡是劇情接線，作息、台詞都不改：
+     - 社區「會所」門口：開著（S.clubOpen）＝走進門廳（US_CLUBHOUSE.SPAWN），不再跳「讀書／離開」；關著照舊那一句；9/4 烤肉、門口公告照舊（S.interact）。
+     - 自習室的座位（usClubStudy）＝座位選單的「讀書」（seatMenu 的 it.study → CLS.chooseStudy → studySession，slotPlan 不能讀的照舊提示）。
+     - 誰在場（S.clubSync，進區域、每 0.5 秒）：何俊朗（S.longHere）靠窗那張的老位子（z.npc.long，看書）；學姊（S.sisClub）最裡面角落（z.npc.sis）；
+       交誼廳的住戶 2～4（沙發、長桌、販賣機或微波爐前輪流）、自習室 0～2、辦公室的人（平日 09～17，US_CLUBHOUSE.officeOpen）——兩小時換一批；
+       都不能聊（按學姊＝「她在讀書。」，AA_741 第 2 節）。
+     - 自習室（S.clubTick）：那天第一次走進來、學姊在＝旁白一次（交往中 sisStudyDating：她把外套拿起來、旁邊那張空出來、上方「坐她旁邊」；何俊朗在＝他接 longSisThere；
+       挽回中 sisStudyRepair：外套一直在、那張不能坐）；走到何俊朗 3 m 內＝S.longGreet（一天一次；longSisThere 已經在旁白那一拍說了）。
+     - 劇情在 3D 演（同一個事件，演的時候複製一份：背景 freeze、scene 只出地點字幕；台詞、選項不動）：
+       出遊的 10/4 long3、10/18 sis_plan_us、11/23 thanks_long、12/14 club_dinner（OUT.STAGE：演之前換到會所、人照 z.events 放，演完回到原本的地方）；
+       10/12 fb_study（挽回中，走進自習室她在就演；玩家走到她桌子旁邊，自習室沒有別人）。9/4 烤肉、BLOOM18 照舊。
+     沒有 3D 會所（Z3.ZONES.us_clubhouse_in 不在）＝整個照舊 2D。測試：node tests/us_clubhouse_story_unit.js */
+  const CZ='us_clubhouse_in';
+  S.club3d=()=>typeof Z3!=='undefined'&&!!Z3.ZONES&&!!Z3.ZONES[CZ]&&typeof US_CLUBHOUSE!=='undefined'&&!!US_CLUBHOUSE.SPAWN;
+  const CLAY=()=>typeof US_CLUBHOUSE_LAYOUT!=='undefined'?US_CLUBHOUSE_LAYOUT:null;
+  S.SIS_BUSY='她在讀書。';   /* AA_741 第 2 節：按學姊出這一句（不能聊）*/
+  S.SIS_NEXT='坐她旁邊';     /* AA_741 第 3 節：交往中，她旁邊那張椅子的提示 */
+  S.clubRec=G=>{ const R=S.rec(G); if(!R.club||typeof R.club!=='object') R.club={}; return R.club; };   /* 存檔欄位（舊存檔沒有＝空的）：g＝何俊朗招呼過的那天、s＝學姊旁白演過的那天 */
+  S.inStudy=(x,z)=>{ const L=CLAY(), r=L&&L.rooms.find(q=>q.id==='study'); return !!r&&x>r.x0+0.25&&x<r.x1&&z>r.z0&&z<r.z1; };   /* 走進自習室（門口那條牆線再往裡 0.25 m）*/
+  S.inLounge=(x,z)=>{ const L=CLAY(), r=L&&L.rooms.find(q=>q.id==='lounge'); return !!r&&x>r.x0&&x<r.x1&&z>r.z0&&z<r.z1; };
+  /* 12/14 晚餐那晚（AA 11-10 17:14）：沒排晚餐的玩家 18:30～21:30 走進會所——學姊、何俊朗在晚餐、不在自習室；交誼廳在聚餐（門上一句「今晚交誼廳有聚餐。」；門關起來要 LAWWW2 的 z.setLoungeClosed）；有排的照舊由門口觸發晚餐 */
+  S.DINNER_NOTE='今晚交誼廳有聚餐。';
+  S.dinnerNight=G=>{ if(!G||G.day!==D('2028-12-14')) return false; const h=hh(G); if(h<18.5||h>=21.5) return false; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'us_club'):null; return !(q&&(q.state==='planned'||q.state==='going')); };
+  let clubStaged=null, clubGM=null;
+  S.clubStaged=()=>clubStaged;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['us_life3d:club']=()=>{ clubStaged=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：會所的劇情演到一半讀檔＝restore 走不到 */
+  const hsh=(a,b)=>{ let h=((a|0)*73856093)^((b|0)*19349663); h=Math.imul(h^(h>>>13),1274126177); return (h^(h>>>16))>>>0; };
+  const taken=(E,s)=>{ const P=E.player; return !!(s&&P&&P.seat&&Math.hypot(P.seat.x-s.x,P.seat.z-s.z)<0.4); };
+  /* 住戶（AA_741 第 2 節）：08:00～23:00；交誼廳 2～4 人（沙發看電視、長桌開電腦、販賣機或微波爐前輪流換）、自習室 0～2 人；兩小時換一批（同一天同一段固定）。
+     10/12 秋假那一場的自習室（US_BLANK.studyDue）＝「只有兩個人」：自習室沒有住戶 */
+  S.residents=function(G,z){ if(!G||!z||!z.npc||!S.clubOpen(G)) return []; const dn=S.dinnerNight(G); const blk=Math.floor(hh(G)/2), r=hsh(G.day,blk), N=z.npc, out=[];
+    const LG=N.lounge||[], alt=blk%2?[2,3]:[3,2], order=[0,1,alt[0],alt[1]], nL=Math.min(2+r%3,order.length);
+    if(!dn) for(let i=0;i<nL;i++){ const q=LG[order[i]]; if(q) out.push({key:'l'+order[i],room:'lounge',kind:q.kind,at:q,sit:q.kind==='sofa'||q.kind==='table'}); }
+    const quiet=typeof US_BLANK!=='undefined'&&US_BLANK.studyDue&&US_BLANK.studyDue(G);
+    const ST=(N.study||[]).filter(Boolean), nS=quiet?0:Math.min((r>>>5)%3,ST.length); for(let i=0;i<nS;i++) out.push({key:'s'+i,room:'study',kind:'study',at:ST[i],sit:true});
+    return out; };
+  /* 外型：何俊朗同 Room 120（NAMED.long）；其他人照 STORY.extraSpecUS（偶數女、奇數男）*/
+  const clubSpec=(who,i)=>{ const xs=STORY.extraSpecUS||STORY.extraSpec; let s=who==='long'?specOf({who:'long'},0,'lw'):(xs?xs(i):{}); s=Object.assign({},s||{}); s.id='usch_'+who+'_'+i; s.name=''; return s; };
+  /* 不能聊的人（沒有 talk）：坐著（sit：'read'／'sit'）或站著（place:false＝不在導航上，櫃台後面）*/
+  const clubNPC=(GM,who,i,at,o)=>{ const E=GM.E; o=o||{}; if(typeof CHAR==='undefined'||!CHAR.build||!E||!E.addNPC||!at) return null;
+    const ob=CHAR.build(clubSpec(who,i)); ob.position.set(at.x,at.y||0,at.z); ob.rotation.y=at.yaw||0;
+    const n=E.addNPC({obj:ob,name:'',beh:'idle',isExtra:true,usClub:o.tag||who,pose:'idle',idlePose:'idle'}); if(!n) return null;
+    if(o.sit&&GM.sitAt){ GM.sitAt(n,at); n.pose=o.sit; n.idlePose=o.sit; if(E.prePose) E.prePose(n); }
+    else { if(o.place!==false&&E.placeAt) E.placeAt(n,at.x,at.z,0); if(n.obj&&n.obj.rotation) n.obj.rotation.y=at.yaw||0; n.frozen=true; }
+    return n; };
+  /* 學姊：照 GM.spawnCharacter（她的 3D 人物），但按她只出「她在讀書。」、不打招呼 */
+  const clubSis=(GM,seat,pose)=>{ if(!GM.spawnCharacter||!seat) return null; if(GM.npc&&GM.npc[S5]&&GM.removeNPC) GM.removeNPC(S5);
+    const m=GM.spawnCharacter(S5,seat.x,seat.z,{seat,pose:pose||'read',greet:false,talk:()=>{ GM.caption('',S.SIS_BUSY,2600); }}); if(m){ m.uslClub=true; m.idlePose=pose||'read'; } return m; };
+  const clubLong=GM=>((GM.E&&GM.E.npcs)||[]).find(n=>n&&n.usClub==='long')||null;
+  const clubSisN=GM=>{ const n=GM.npc&&GM.npc[S5]; return n&&n.uslClub?n:null; };
+  /* 她旁邊那張（z.npc.sisNext）：挽回中外套一直在（不能坐）；交往中旁白（她把外套拿起來）以前也在、以後空出來，上方「坐她旁邊」；她不在＝照原本 */
+  S.clubSisSeat=function(GM){ const G=GM.G, E=GM.E, z=E&&E.zone; if(!G||!z||!z.npc) return; const nx=z.npc.sisNext, sis=!!clubSisN(GM), nar=S.clubRec(G).s===G.day;
+    const coat=sis&&(!dating(G)||!nar); if(z.setSisCoat&&!!z.sisCoatOn!==coat) z.setSisCoat(coat);
+    const hint=sis&&dating(G)&&nar;
+    for(const it of (E.interactables||[])){ if(!it||!it.seat||!nx||Math.hypot(it.seat.x-nx.x,it.seat.z-nx.z)>0.05) continue;
+      if(hint){ if(it.uslLab==null) it.uslLab=it.label; it.label=S.SIS_NEXT; } else if(it.uslLab!=null){ it.label=it.uslLab; it.uslLab=null; } } };
+  S.clubSync=function(GM){ const G=GM.G, E=GM.E, z=E&&E.zone; if(!G||G.zone!==CZ||!z||!z.npc||clubStaged||!S.here(G)||!E.npcs) return 0; let k=0; const P=E.player&&E.player.obj&&E.player.obj.position;
+    const far=o=>!P||!o||Math.hypot(P.x-o.x,P.z-o.z)>4;
+    /* 住戶 */
+    if(typeof z.setLoungeClosed==='function'){ const dn=S.dinnerNight(G); if(!!z.loungeClosedWant!==dn){ if(z.setLoungeClosed(dn)!==false||!dn) z.loungeClosedWant=dn; } }   /* 12/14 晚餐那晚交誼廳的門關起來（LAWWW2 575ef8ae3 z.setLoungeClosed；玩家已經在交誼廳裡就先不關，下一格再試）*/
+    const want=S.residents(G,z), keys=new Set(want.map(q=>'res:'+q.key));
+    for(const n of E.npcs.slice()) if(n&&typeof n.usClub==='string'&&/^res:/.test(n.usClub)&&!keys.has(n.usClub)){ E.removeNPC(n); k--; }
+    for(const q of want){ const tag='res:'+q.key; if(E.npcs.some(n=>n&&n.usClub===tag)||(q.sit&&taken(E,q.at))) continue;
+      if(clubNPC(GM,'res_'+q.key,60+hsh(G.day,q.key.charCodeAt(1))%40,q.at,{tag,sit:q.sit?(q.room==='study'?'read':'sit'):null})) k++; }
+    /* 辦公室的人（平日 09～17）*/
+    { const on=typeof US_CLUBHOUSE!=='undefined'&&US_CLUBHOUSE.officeOpen?US_CLUBHOUSE.officeOpen(G):false, n=E.npcs.find(q=>q&&q.usClub==='office');
+      if(on&&!n&&z.npc.office){ if(clubNPC(GM,'office',23,z.npc.office,{place:false})) k++; } else if(!on&&n){ E.removeNPC(n); k--; } }
+    /* 何俊朗（S.longHere）：老位子，看書；不在了＝玩家離他 4 m 以上或 10 分鐘後拿掉 */
+    { const want=S.longHere(G)&&!S.dinnerNight(G), n=clubLong(GM);
+      if(want&&!n&&z.npc.long&&!taken(E,z.npc.long)){ if(clubNPC(GM,'long',0,z.npc.long,{sit:'read'})) k++; }
+      else if(!want&&n){ if(far(n.obj&&n.obj.position)||(n.uslUntil!=null&&now(G)>n.uslUntil)){ E.removeNPC(n); k--; } else if(n.uslUntil==null) n.uslUntil=now(G)+1/6; } }
+    /* 學姊（S.sisClub：10 月起週二、四 19～21）*/
+    { const want=S.sisClub(G)&&!S.dinnerNight(G), n=clubSisN(GM);
+      if(want&&!n&&z.npc.sis&&!taken(E,z.npc.sis)){ if(clubSis(GM,z.npc.sis,'read')) k++; }
+      else if(!want&&n){ if(far(n.obj&&n.obj.position)||(n.uslUntil!=null&&now(G)>n.uslUntil)){ GM.removeNPC(S5); k--; } else if(n.uslUntil==null) n.uslUntil=now(G)+1/6; } }
+    S.clubSisSeat(GM); return k; };
+  /* 自習室：一天一次的旁白、招呼；10/12 秋假的那一場（每 0.5 秒，玩家能動的時候）*/
+  S.clubTick=function(GM){ const G=GM.G, E=GM.E, P=E&&E.player&&E.player.obj&&E.player.obj.position; if(!G||!P||clubStaged||!E.zone||G.zone!==CZ) return false;
+    { const R0=S.clubRec(G); if(S.dinnerNight(G)&&S.inLounge(P.x,P.z)&&R0.dn!==G.day){ R0.dn=G.day; GM.caption('',S.DINNER_NOTE,3000); return true; } }   /* 12/14 晚餐那晚走到交誼廳：門上一句（門關起來等 LAWWW2 z.setLoungeClosed）*/
+    if(!S.inStudy(P.x,P.z)) return false; const R=S.clubRec(G), sis=clubSisN(GM), lg=clubLong(GM);
+    const fb=typeof US_BLANK!=='undefined'&&!!US_BLANK.studyOn&&US_BLANK.studyOn(G,G.day);   /* 10/12 挽回中還沒演：那一場取代「她抬頭看了你一眼」那句 */
+    if(fb&&sis&&US_BLANK.studyDue&&US_BLANK.studyDue(G)) return go(()=>S.clubFbStudy(GM));
+    if(sis&&!fb&&R.s!==G.day) return go(()=>S.clubSisNar(GM));
+    if(lg&&S.longHere(G)&&R.g!==G.day){ const o=lg.obj&&lg.obj.position; if(o&&Math.hypot(P.x-o.x,P.z-o.z)<=3) return go(()=>S.clubGreet(GM)); }
+    return false; };
+  S.clubSisNar=async function(GM){ const G=GM.G, R=S.clubRec(G); R.s=G.day; GM.sceneBegin();
+    try{ if(dating(G)){ await GM.say(null,X.sisStudyDating); S.clubSisSeat(GM); if(clubLong(GM)&&S.longHere(G)) await GM.say({name:'何俊朗'},X.longSisThere); }   /* 交往中：她把外套拿起來（旁邊那張空出來）；何俊朗在＝他接著說（AA_345 I3、4-1）*/
+      else await GM.say(null,X.sisStudyRepair); }   /* 挽回中：她抬頭看了你一眼 */
+    finally{ GM.sceneEnd(); S.clubSisSeat(GM); } };
+  S.clubGreet=async function(GM){ const G=GM.G, R=S.clubRec(G); R.g=G.day; const L=S.longGreet(G).filter(t=>t!==X.longSisThere);   /* longSisThere 在學姊的旁白那一拍（AA_741 第 3 節）*/
+    GM.sceneBegin(); try{ for(const t of L) await GM.say({name:'何俊朗'},t); } finally{ GM.sceneEnd(); } };
+  /* 10/12 秋假（挽回中）：她在角落；玩家走到她桌子旁邊（z.events.ev_usb_fb_study.player）開始；自習室沒有別人。演完自己找位子坐下讀書 */
+  S.clubFbStudy=async function(GM){ const G=GM.G, E=GM.E, z=E.zone, P=E.player, e=evOf('ev_usb_fb_study'); if(!e||typeof EVENTS==='undefined') return;
+    const cf=(z.events&&z.events.ev_usb_fb_study)||{}, sp=cf.player||(z.npc&&z.npc.sisStand), sis=clubSisN(GM); S.clubRec(G).s=G.day;
+    for(const n of E.npcs.slice()) if(n&&typeof n.usClub==='string'&&/^res:s/.test(n.usClub)) E.removeNPC(n);
+    GM.sceneBegin(); try{ if(sp){ if(P.seat&&GM.standUp) GM.standUp(P); const ok=GM.walkTo?await GM.walkTo(P,sp.x,sp.z):false; if(!ok&&E.placeAt) E.placeAt(P,sp.x,sp.z,0); if(sis&&sis.obj&&GM.face) GM.face(P,sis.obj.position.x,sis.obj.position.z); } }
+    finally{ GM.sceneEnd(); }
+    await EVENTS.run(S.clubEv3d(GM,e),{noTitle:true}); S.clubSisSeat(GM); if(GM.autosave) GM.autosave(); };
+  /* 出遊的事件在 3D 演（OUT.STAGE）：AA_741 第 4 節的表 */
+  S.CLUB_EV={ev_usl_long3:'study',ev_sis_plan_us:'study',ev_usl_thanks_long:'lounge',ev_us_club_dinner:'lounge'};
+  const seatPos=v=>{ const L=CLAY(); if(!v) return null; if(typeof v==='object') return {x:v.x,z:v.z,yaw:v.yaw||0}; const s=L&&L.seats.find(q=>q.id===v); if(!s) return null;
+    if(s.ap) return {x:s.ap[0],z:s.ap[1],yaw:s.yaw||0}; return {x:s.x-Math.sin(s.yaw||0)*0.35,z:s.z-Math.cos(s.yaw||0)*0.35,yaw:s.yaw||0}; };   /* 坐下前站的地方（同 us_clubhouse3d.js 的互動點）*/
+  S.clubSpawn=function(id){ const L=CLAY(), e=L&&L.events&&L.events[id]; const v=e?(e.start?e.start.player:e.player):null; return seatPos(v)||Object.assign({},US_CLUBHOUSE.SPAWN); };
+  /* 誰坐哪（z.events）：演完跟著區域一起拿掉 */
+  S.clubCast=function(GM,id){ const G=GM.G, E=GM.E, z=E.zone, P=E.player; if(!z||!z.events) return []; const c=z.events[id]||{}, made=[];
+    const sitMe=s=>{ if(s&&GM.sitAt) GM.sitAt(P,s); }, add=n=>{ if(n) made.push(n); return n; };
+    { const R=S.clubRec(G); if(id!=='ev_sis_plan_us') R.g=G.day; if(id==='ev_sis_plan_us'||id==='ev_us_club_dinner') R.s=G.day; }   /* 今天已經和他／她在這裡演過：演完回到會所（從會所出發的）不再補招呼、旁白 */
+    if(z.setSisCoat) z.setSisCoat(false); if(c.dinner&&z.setDinner) z.setDinner(true); if(c.notice&&z.setNotice) z.setNotice(true); if(c.plan&&z.setPlan) z.setPlan(true);
+    if(id==='ev_usl_long3'){ add(clubNPC(GM,'long',0,c.long,{tag:'long',sit:'read'})); sitMe(c.player); }
+    else if(id==='ev_sis_plan_us'){ add(clubSis(GM,c.sis,'read')); sitMe(c.player); }
+    else if(id==='ev_usl_thanks_long'){ const st=c.start||{}; if(st.player&&E.placeAt){ E.placeAt(P,st.player.x,st.player.z,0); if(P.obj&&P.obj.rotation) P.obj.rotation.y=st.player.yaw||0; } add(clubNPC(GM,'long',0,st.long,{tag:'long'})); }
+    else if(id==='ev_us_club_dinner'){ add(clubSis(GM,c.head,'sit')); (c.roommates||[]).forEach((s,i)=>add(clubNPC(GM,'mate'+i,40+i*2,s,{tag:'stage',sit:'sit'})));   /* 她的兩位室友（偶數＝女）*/
+      if(LONG(G)) add(clubNPC(GM,'long',0,c.long,{tag:'long',sit:'sit'})); else add(clubNPC(GM,'guest_x',51,c.long,{tag:'stage',sit:'sit'}));   /* 沒見過何俊朗（MET_LONG）：他的位子是另一位交換生 */
+      (c.others||[]).forEach((s,i)=>add(clubNPC(GM,'guest'+i,52+i,s,{tag:'stage',sit:'sit'}))); sitMe(c.player); }
+    if(E.recenter) E.recenter(); return made; };
+  /* 演到那一拍時的動作：11/23 熱可可推過來以後，坐到沙發（玩家 sofa_2、何俊朗 sofa_1）*/
+  S.clubSofa=function(GM){ const E=GM.E, z=E&&E.zone, c=z&&z.events&&z.events.ev_usl_thanks_long, so=c&&c.sofa; if(!so) return; const n=clubLong(GM);
+    if(so.player&&GM.sitAt) GM.sitAt(E.player,so.player); if(n&&so.long&&GM.sitAt){ n.frozen=false; GM.sitAt(n,so.long); n.pose='sit'; n.idlePose='sit'; } };
+  S.clubCocoaMove=async function(GM){ const E=GM.E, z=E&&E.zone, N=z&&z.npc; if(!N||!N.long) { S.clubSofa(GM); return; } const n=clubLong(GM);
+    if(GM.fade) await GM.fade(true); try{ if(N.longNext&&GM.sitAt) GM.sitAt(E.player,N.longNext); if(n&&GM.sitAt){ n.frozen=false; GM.sitAt(n,N.long); n.pose='sit'; n.idlePose='sit'; } if(E.recenter) E.recenter(); } finally { if(GM.fade) await GM.fade(false); } };
+  /* 3D 版的事件：同一個事件複製一份，背景 freeze、scene 只出字幕（bg:false）；原本的資料不動（沒有 3D 會所照舊 2D）*/
+  S.clubEv3d=function(GM,ev){ const L=(ev.dialogue||[]).map(l=>l&&l.scene!==undefined?Object.assign({},l,{bg:false}):l);
+    if(ev.id==='ev_usl_thanks_long'){ const k=L.findIndex(l=>l&&l.text!==undefined); if(k>=0) L.splice(k+1,0,{call:async()=>{ await S.clubCocoaMove(GM); }}); }   /* AA 11-10 17:14：第二句（「你們坐在自習室的窗邊喝完」）以前淡出淡入，兩個人坐到自習室窗邊何俊朗那張桌子 */
+    return Object.assign({},ev,{background:'freeze',dialogue:L,uslClub3d:true}); };
+  S.clubStage=async function(GM,q,ev){ const id=ev&&ev.id; if(!id||!S.CLUB_EV[id]||!S.club3d()) return null; const G=GM.G, E=GM.E, P=E&&E.player;
+    if(!G||!P||!P.obj||!GM.enter||!S.here(G)||P.riding||!Z3.ZONES[G.zone]||(typeof OUT!=='undefined'&&OUT.fromHome)) return null;
+    const prev={zone:G.zone,x:P.obj.position.x,z:P.obj.position.z,yaw:P.obj.rotation.y,lv:P.lv|0}; if(P.seat&&GM.standUp) GM.standUp(P);
+    clubStaged=id; clubGM=GM;
+    try{ await GM.enter(CZ,S.clubSpawn(id),{noFade:true,deferStory:true,noAutosave:true}); S.clubCast(GM,id); }catch(e){ console.warn('USL.clubStage',e); }
+    let fin=false;
+    return {bg:'freeze',restore:async()=>{ if(fin) return; fin=true; clubStaged=null; if(P.seat&&GM.standUp) GM.standUp(P);
+      await GM.enter(prev.zone,{x:prev.x,z:prev.z,yaw:prev.yaw,lv:prev.lv},{noFade:true,deferStory:true,noAutosave:true}); }}; };
+  if(typeof OUT!=='undefined'&&Array.isArray(OUT.STAGE)&&!OUT._uslClub){ OUT.STAGE.push((GM,q,ev)=>S.clubStage(GM,q,ev)); OUT._uslClub=true; }
+  /* OUT.go 演的是原本的事件物件：換到會所演的那一場，換成 3D 版（同 closed2_3d.js 包 EVENTS.run 的做法）*/
+  if(typeof EVENTS!=='undefined'&&EVENTS.run&&!EVENTS._uslClub){ const r0=EVENTS.run; EVENTS.run=function(ev,o){ if(ev&&clubStaged&&ev.id===clubStaged&&!ev.uslClub3d&&clubGM) return r0.call(this,S.clubEv3d(clubGM,ev),o); return r0.apply(this,arguments); }; EVENTS._uslClub=true; }
 
   /* ======================= 床：8/2 晚上時差（04:30 醒來）、隔天有課照美國的第一堂 ======================= */
   { const b0=STORY.bedOptions; STORY.bedOptions=function(G){ const out=b0.apply(this,arguments); if(!S.here(G)||!out) return out; const h=hh(G), night=G.hour>=24||h>=17.5||h<5;
@@ -442,7 +701,10 @@ const USL=(function(){
   const free=GM=>{ const E=GM.E, P=E&&E.player; return !!P&&!E.paused&&!P.busy&&!(GM.D&&GM.D.active)&&!(typeof EVENTS!=='undefined'&&EVENTS.running)&&!(typeof ADV!=='undefined'&&ADV.active)&&!GM.titleIdle; };
   S.tick=function(GM,dt){ const G=GM&&GM.G; if(!G||!G.flags||busy||!S.here(G)) { if(G) lastZone=G.zone; return false; } const F=G.flags, z=G.zone, prev=lastZone; lastZone=z;
     sisT-=(dt||0.5); if(sisT<=0){ sisT=2; try{ S.sisSync(GM); }catch(e){ console.warn('USL sis',e); } }
+    if(z==='us_classroom'){ try{ S.roomSync(GM); }catch(e){ console.warn('USL room',e); } }
+    if(z===CZ){ try{ S.clubSync(GM); }catch(e){ console.warn('USL club',e); } }   /* 會所：何俊朗、學姊、住戶照時間進出（US-CLUBHOUSE-3D-1110）*/
     if(!free(GM)) return false; const h=hh(G);
+    if(z===CZ){ const r=S.clubTick(GM); if(r) return r; }   /* 會所自習室：學姊的旁白、何俊朗的招呼、10/12 秋假的自習室 */
     /* G1 8/3 04:30 時差（公寓醒來，只演一次）*/
     if(G.day===D('2028-08-03')&&z==='us_apartment'&&h>=4.5&&h<9&&!F.USL_JETLAG) return go(()=>run('ev_usl_jetlag',{noTitle:true}));
     /* 何俊朗 4：10/4 當晚回公寓（自動）*/

@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_arc_invites.py（docs/story_planning/AA_716_arc_invites.json@026a2dd34）。不要手改，改企劃 AA_716 再重新匯入。
+/* 自動產生：tools/story/import_arc_invites.py（docs/story_planning/AA_716_arc_invites.json@256bcdc42）。不要手改，改企劃 AA_716 再重新匯入。
    故事線的「下次帶你去」變成真的約（播放 src/arcinv3d.js）*/
 'use strict';
 const ARC_INV={
- "src": "docs/story_planning/AA_716_arc_invites.json@026a2dd34",
+ "src": "docs/story_planning/AA_716_arc_invites.json@256bcdc42",
  "list": [
   {
    "key": "heroine_03:7",
@@ -150,7 +150,7 @@ const ARC_INV={
    "by": {
     "ZQ_PL_RUN": {
      "end": [
-      "「你說你重考的時候每天走。……那我也每天走一點。」"
+      "「你說你考試前每天走。……那我也每天走一點。」"
      ]
     }
    },

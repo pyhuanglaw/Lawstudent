@@ -1,0 +1,34 @@
+{
+ "kind": "gym_moving_parts",
+ "tris": {
+  "gym_bike_crank": 72,
+  "gym_bike_pedal_L": 108,
+  "gym_bike_pedal_R": 108,
+  "gym_rower_seat": 216,
+  "gym_rower_handle": 36,
+  "gym_bike_pedal_L_center": [
+   0.12,
+   0.257,
+   -0.153
+  ],
+  "gym_bike_pedal_R_center": [
+   -0.12,
+   0.468,
+   0.113
+  ]
+ },
+ "stripped_from_gym_b1": 540,
+ "axle": [
+  0.0,
+  0.36,
+  -0.02
+ ],
+ "crank": 0.17,
+ "crank0": 4.0415926535897935,
+ "handle": [
+  0.0,
+  0.46,
+  0.53
+ ],
+ "note": "遊戲 src/gym3d.js gymMoving：曲柄繞 +x 轉（角度＝gymIK 的 g.ph − crank0）、踏板跟著曲柄末端、座椅照臀部的 z 滑、有人划船時藏拉把"
+}

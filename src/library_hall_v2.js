@@ -166,7 +166,7 @@ const LBV2=(function(){
     const IT=E.interactables, EN=L.entrance, SDR=L.stairDoor;
     IT.push({x:EN.x,z:EN.exitZ,radius:1.4,lv:0,label:'離開總圖',exit:{to:'campus',spawn:Object.assign({},LB3.CAMPUS)}});
     IT.push({x:SDR.x-0.7,z:SDR.z,radius:1.0,lv:1,label:SDR.label,exit:{to:'library',spawn:Object.assign({},L.reading.spawnFromStairs)}});
-    if(L.b1Door&&typeof LIBRARY_B1_LAYOUT!=='undefined'){ const BD=L.b1Door, sp=LIBRARY_B1_LAYOUT.stairs.spawn; IT.push({x:BD.x+0.55,z:BD.z,radius:0.8,lv:0,label:BD.label,exit:{to:'library_b1',spawn:{x:sp.x,z:sp.z,yaw:sp.yaw}}}); }
+    if(L.b1Door&&typeof LIBRARY_B1_LAYOUT!=='undefined'){ const BD=L.b1Door; IT.push({x:BD.x+0.55,z:BD.z,radius:0.8,lv:0,label:'看這扇門',look:'通往 B1 的員工樓梯，平常鎖著。B1 的自習室要從總圖北側的戶外中庭走樓梯下去。'}); }   /* B1 的入口改到總圖北側的下沉中庭（LIB-B1-OUTSIDE-1110，使用者 11-10 X298「不是從一樓過去」）：門照舊在，不能走 */
     for(const lv of [0,1]) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv,label:'搭電梯',elevator:true});
     IT.push({x:R.cx,z:R.cz-1.6,radius:1.6,lv:0,label:'看展演廳',look:'展演廳：半圓形的大廳挑高兩層，上下兩排窗外都是樹。中間一排矮矮的木頭展示櫃，上面立著這學期館藏特展的書。'});
     IT.push({x:0,z:BS.z1+0.9,radius:1.2,lv:0,label:'看台階書牆',look:'中庭的大階梯：中間走的樓梯上二樓，兩旁是可以坐的木頭階梯，每一階的立面都是書架。'});
@@ -174,12 +174,12 @@ const LBV2=(function(){
     for(const s of L.signs){ const y=(s.lv?Y1:0)+s.y; const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.18),new THREE.MeshBasicMaterial({map:TK.signTex(s.text,{bg:'#24303a',color:'#f3efe4'})})); sp.position.set(s.x,y,s.z); sp.rotation.y=s.ry||0; (s.lv?lv1:lv0).add(sp); }
     // 樓層簡介（入口閘門後面的立牌，面朝門口；第一版掛在大樓梯旁的核心書架上）：字是 canvas、架子在正式模型和備用模型各一份
     { const D=L.directory; if(D){ const tx=W3.canvasTex('lbboard2',512,256,(x,w,h)=>{ x.fillStyle='#24303a'; x.fillRect(0,0,w,h); x.fillStyle='#f3efe4'; x.font='bold 34px "Noto Sans TC",sans-serif'; x.fillText('總圖書館 樓層簡介',24,52); x.font='22px "Noto Sans TC",sans-serif';
-        x.fillText('1F　大廳｜台階書牆｜展演廳｜共享區｜媒體區',24,100); x.fillText('2F　自習區｜研究小間',24,138); x.fillText('3F　閱覽區（東側樓梯間、電梯）',24,176); x.fillText(L.stacks?'4F–6F　書庫（5F 開放，搭電梯）':'4F–6F　書庫（整理中）',24,214); if(L.b1Door) x.fillText('B1　自習室｜討論室｜影印（西側樓梯）',24,246); });
+        x.fillText('1F　大廳｜台階書牆｜展演廳｜共享區｜媒體區',24,100); x.fillText('2F　自習區｜研究小間',24,138); x.fillText('3F　閱覽區（東側樓梯間、電梯）',24,176); x.fillText(L.stacks?'4F–6F　書庫（5F 開放，搭電梯）':'4F–6F　書庫（整理中）',24,214); if(L.b1Door) x.fillText('B1　自習室｜討論室｜影印（北側中庭）',24,246); });
         const bd=new THREE.Mesh(new THREE.PlaneGeometry(1.8,0.9),new THREE.MeshBasicMaterial({map:tx})); bd.position.set(D.x,1.6,D.z+0.032); lv0.add(bd);
         const stM=new THREE.MeshStandardMaterial({color:0x3a3d41,roughness:0.45}), st=new THREE.Mesh(new THREE.BoxGeometry(1.9,1.0,0.05),stM); st.position.set(D.x,1.6,D.z); fb0.add(st);
         for(const sx of [-0.85,0.85]){ const leg=new THREE.Mesh(new THREE.BoxGeometry(0.05,1.1,0.04),stM); leg.position.set(D.x+sx,0.55,D.z); fb0.add(leg); }
         nav0.blockRect(D.x,D.z,2.0,0.3,0); nav0._cm=null;
-        IT.push({x:D.x,z:D.z+0.9,radius:1.0,lv:0,label:'看樓層簡介',look:'總圖書館 樓層簡介：1F 大廳、服務台、中庭的台階書牆、展演廳、多元共享區、數位媒體區；2F 自習區、研究小間；3F 閱覽區（從二樓東側的樓梯間，或搭電梯）；'+(L.stacks?'5F 書庫是自然科學（搭電梯；4F、6F 這學期整理中）。':'4F–6F 書庫（這學期整理中）。')+(L.b1Door?'B1 是 24 小時自習室、討論室、影印中心（一樓西側的樓梯間下去）。':'')+'中庭台階書牆中間的樓梯上二樓。'}); } }
+        IT.push({x:D.x,z:D.z+0.9,radius:1.0,lv:0,label:'看樓層簡介',look:'總圖書館 樓層簡介：1F 大廳、服務台、中庭的台階書牆、展演廳、多元共享區、數位媒體區；2F 自習區、研究小間；3F 閱覽區（從二樓東側的樓梯間，或搭電梯）；'+(L.stacks?'5F 書庫是自然科學（搭電梯；4F、6F 這學期整理中）。':'4F–6F 書庫（這學期整理中）。')+(L.b1Door?'B1 是 24 小時自習室、討論室、影印中心（從總圖北側的戶外中庭走樓梯下去）。':'')+'中庭台階書牆中間的樓梯上二樓。'}); } }
     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）
     zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_hall_v2']){ ASSETS.loadOne('bldg.library_hall_v2').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); B3.attachFormal(zone,root,fb0,fb1,lv0,lv1,walls,walkMeshes); for(const o of outs) o.visible=false;
       zone.seeThru=true; g.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||m.userData.seeThrough||!/leaf|lh2_books|lh2_shelf/.test(m.name||'')) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } });

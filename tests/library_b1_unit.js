@@ -11,6 +11,7 @@
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={M:()=>({})}; global.Z3={ZONES:{}}; global.ASSETS={manifest:{}};
+{ const m=/const B1C=(\{[^\n]*\});/.exec(require('fs').readFileSync(require('path').join(__dirname,'..','src/zones3d.js'),'utf8')); global.Z3.B1C=m?eval('('+m[1]+')'):null; }   /* [前置] 總圖北側中庭的落點（zones3d.js 的 B1C；LIB-B1-OUTSIDE-1110）*/
 global.CHAR={ build:()=>({position:{x:0,y:0,z:0,set(){}},rotation:{y:0}}) }; global.STORY={ extraSpec:i=>({i}) };
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CALENDAR|LIBRARY_LAYOUT|LIBRARY_B1_LAYOUT)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 const ex=p=>fs.existsSync(path.join(ROOT,p));
@@ -42,9 +43,9 @@ global.E3={NavGrid:function(W,D,cs,ox,oz){ this.W=W; this.D=D; this.cs=cs; this.
 global.Z3.room=(E,o)=>{ const g=new THREE.Group(); return {group:g,walls:[],winParts:[],onLamps(){},applyTime(){}}; };
 const IT=[]; const E={interactables:IT}; const z=Z3.ZONES.library_b1.build(E); const nav=z.nav;
 // 3. 進出
-{ const up=IT.find(q=>q.exit&&q.exit.to==='library_hall'), BD=LL.b1Door, sp=LB.stairs.spawn;
+{ const up=IT.find(q=>q.exit&&q.exit.to==='campus'), BD=LL.b1Door, sp=LB.stairs.spawn, CS=Z3.B1C&&Z3.B1C.spawn;   /* 2026-11-10 LIB-B1-OUTSIDE-1110：B1 的出口改到總圖北側的下沉中庭 */
   const lib=fs.readFileSync(path.join(ROOT,'src/library3d.js'),'utf8');
-  check('3. B1「走樓梯上 1F」→ library_hall、站到大廳那扇門前（b1Door.spawn，lv 0、面向東）', !!up&&up.label==='走樓梯上 1F'&&up.exit.spawn.x===BD.spawn.x&&up.exit.spawn.z===BD.spawn.z&&(up.exit.spawn.lv|0)===0&&Math.abs(up.exit.spawn.yaw-Math.PI/2)<0.01);
+  check('3. B1「走出去（總圖北側的中庭）」→ campus、站到中庭 B1 的門前（Z3.B1C.spawn，lv 0、面向北）', !!up&&!!CS&&up.label==='走出去（總圖北側的中庭）'&&up.exit.spawn.x===CS.x&&up.exit.spawn.z===CS.z&&(up.exit.spawn.lv|0)===0&&Math.abs(up.exit.spawn.yaw-Math.PI)<0.01);
   check('3. 大廳「走樓梯下 B1」→ library_b1、站到 B1 樓梯間的門前（stairs.spawn）', /exit:\{to:'library_b1',spawn:\{x:sp\.x,z:sp\.z,yaw:sp\.yaw\}\}/.test(lib)&&/label:BD\.label/.test(lib)&&BD.label==='走樓梯下 B1');
   const hb=/IT\.push\(\{x:BD\.x\+([\d.]+),z:BD\.z,radius:([\d.]+),lv:0,label:BD\.label/.exec(lib), hx=hb?BD.x+(+hb[1]):NaN, hr=hb?+hb[2]:0;
   check('3. 出生點離「走樓梯」按鈕夠遠（大於按鈕半徑：一進來不會馬上跳出來）：B1、大廳', !!up&&Math.hypot(sp.x-up.x,sp.z-up.z)>up.radius&&!!hb&&Math.hypot(BD.spawn.x-hx,BD.spawn.z-BD.z)>hr, (up?Math.hypot(sp.x-up.x,sp.z-up.z).toFixed(2)+'>'+up.radius:'')+'／'+(hb?Math.hypot(BD.spawn.x-hx,0).toFixed(2)+'>'+hr:'')); }
@@ -75,7 +76,7 @@ const IT=[]; const E={interactables:IT}; const z=Z3.ZONES.library_b1.build(E); c
   check('7. 背景的同學只坐自習室（晚上 8 點有人）', w.length>0&&w.every(i=>z.seats[i].room==='study24'), w.length+' 位');
   const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), g=fs.readFileSync(path.join(ROOT,'src/guide3d.js'),'utf8'), pm=fs.readFileSync(path.join(ROOT,'src/placemap3d.js'),'utf8'), pl=fs.readFileSync(path.join(ROOT,'src/data/places.js'),'utf8');
   check('7. story3d.js 進來（populate）、待著（refreshSchedule）都叫 LB1.populate', /LB1\.populate\(GM,true\)/.test(st)&&/LB1\.populate\(GM,false\)/.test(st));
-  check('7. guide3d.js 大廳 ⇄ B1、placemap 的地圖釘（總圖）、places 的名字', /library_hall:\['campus','library','library_b1'[,\]]/.test(g)&&/library_b1:\['library_hall'\]/.test(g)&&/library_b1:'library'/.test(pm)&&/library_b1:'總圖 B1/.test(pl)); }
+  check('7. guide3d.js 校園 ⇄ B1（2026-11-10 起從北側中庭進去）、placemap 的地圖釘（總圖）、places 的名字', /campus:\[[^\]]*'library_b1'/.test(g)&&/library_b1:\['campus'\]/.test(g)&&/library_b1:'library'/.test(pm)&&/library_b1:'總圖 B1/.test(pl)); }
 // 8. 第四版（使用者 11-02 18:1x 直接對 LAWWW2 說）：「自習室的桌椅太擠了吧…很寬敞」「桌椅的方向…跟進門的門應該是平行的，不是垂直」
 //    第三版：A 區正門在西牆（門在南北向的牆上）、桌子東西向＝垂直；背靠背兩排椅子只隔 1.64 m。第四版正門在西段南牆、B 區的門在南牆，桌子東西向
 { const S=z.seats.filter(s=>s.study&&s.room==='study24'), rooms=LB.rooms.filter(r=>r.id==='study24'&&r.door), bad=[];

@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_activity_scenes.py（docs/story_planning/AA_708_activity_scenes.json@e0e92919e）。不要手改，改企劃 AA_708 再重新匯入。
+/* 自動產生：tools/story/import_activity_scenes.py（docs/story_planning/AA_708_activity_scenes.json@256bcdc42）。不要手改，改企劃 AA_708 再重新匯入。
    一起活動第 1～N 次（吃飯、咖啡、電影、書店；播放 src/studyn3d.js STUDYN.act）*/
 'use strict';
 const ACTIVITY_SCENES={
- "src": "docs/story_planning/AA_708_activity_scenes.json@e0e92919e",
+ "src": "docs/story_planning/AA_708_activity_scenes.json@256bcdc42",
  "kinds": {
   "eat": {
    "people": {
@@ -1620,7 +1620,7 @@ const ACTIVITY_SCENES={
         "我今天不趕車。末班車才走。"
        ],
        "mid": [
-        "（她講起經濟系那一年，你們在系館樓下吃的那家便當。）",
+        "（她講起以前你們常吃的那家便當。）",
         "那家關了。我上次回去看，變成手搖飲了。"
        ],
        "bye": [
@@ -1847,7 +1847,7 @@ const ACTIVITY_SCENES={
         "今天的片是我選的。是紀錄片。"
        ],
        "mid": [
-        "（紀錄片拍的是一間開了四十年的老茶行。她看得很專心，眼睛一直沒離開螢幕。）"
+        "（是一部紀錄片，拍一個做了幾十年生意的老闆。她看得很專心，眼睛一直沒離開螢幕。）"
        ],
        "bye": [
         "我想像那個老闆那樣，記得每一個客人。"

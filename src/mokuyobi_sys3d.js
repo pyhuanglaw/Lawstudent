@@ -19,6 +19,12 @@
    存檔：G.mokuyobi＝{n:來過幾次, seats:{座位編號: 坐過幾次}, last:上一次坐的座位, first, narr, water:學期, chat:{t:學期,k:第幾句}, examDay, bh, mx, rain:{人物:那天}}；
      舊存檔沒有＝game3d.js defaults 補 {n:0,seats:{}}（從零開始），壞掉的欄位 S.rec 重設。
    書櫃、唱片機、海報（配置的 interact bookcase／record／poster）：AA_645 第 1 節的旁白，每次隨機一句、不連續同一句（S.look）。
+   - 考試週坐滿（BUG-MOKU-EXAM-SEATS-1110，使用者 11-10 00:3x「去木曜日說只剩吧台有位置 但明明還有空桌 吧台也沒位子」；USER_WANTS X270）：進門那一句（S.L.exam，不改）說
+     「每一桌都坐了人。只剩吧檯旁邊一個位子」——考試週、開著、一個人來（S.examFull：和那一句同一組條件）的時候場景照這句：
+       每一桌至少一個人（S.examSync：作息的人、已經坐著的人算；沒人的桌子放一位讀書的路人，進門時已經坐著、待著的時候從樓梯走上來；吧檯那一桌坐「坐吧檯」那一個）；
+       其他空的位子＝「有人了」（桌上放東西、人不在：按鈕寫「有人了」、按了只說「有人了。」，和期末考前的圖書館 src/examlib3d.js 同一種；SEATACT.AWAY 放「休息」那一組）；
+       「坐吧檯旁邊」那一個留給玩家（seat.taken＝'mokExam'：路人、照作息的人不坐；玩家的「坐下」照舊）。這段時間路人系統（CROWD）不排木曜日的客人（人由這裡放，一桌一位：最多 11 位＋老闆）。
+       一起來的（約好、一起走過來）、不是考試週、打烊＝照舊（拿掉「有人了」、放開吧檯旁邊那一個）。測試：node tests/moku_exam_seats_1110_unit.js
    測試：node tests/mokuyobi_aa618_unit.js */
 'use strict';
 const MOKS=(function(){
@@ -218,15 +224,59 @@ const MOKS=(function(){
       const ost=STORY.onStudy; STORY.onStudy=function(GM,hrs){ if(ost){ try{ ost.apply(this,arguments); }catch(e){ console.warn('STORY.onStudy',e); } } S.markStudy(GM,hrs); };
       const n0=STORY.studyNarr; STORY.studyNarr=GM=>S.narr(GM)||(typeof n0==='function'?n0(GM):null);
       if(STORY.interact){ const oi=STORY.interact; STORY.interact=async function(it,GM){ const G=GM&&GM.G;
+        if(it&&it.mokHeld&&G&&G.zone===ZONE){ if(GM.toast) GM.toast(S.EXAM_HELD+'。',2200); return true; }   /* 考試週：桌上放了東西的位子（S.examSync）*/
         if(it&&it.mokOrder&&G){ GM.sceneBegin(); try{ await S.order(GM); } finally { GM.sceneEnd(); } return true; }
         if(it&&it.mokLook&&G){ GM.sceneBegin(); try{ await GM.say(null,S.look(G,it.mokLook)); } finally { GM.sceneEnd(); } return true; }
         if(it&&it.exit&&G&&G.zone===ZONE&&it.exit.to==='wenzhou'){ const iv=S.rainDue(G); if(iv) await S.rainScene(GM,iv); }   /* 演完照常走出去 */
         return oi.apply(this,arguments); }; }
-      if(STORY.populate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(zoneId===ZONE) S.populate(GM); }catch(e){ console.warn('MOKS.populate',e); } return r; }; } } }
+      if(STORY.populate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(zoneId===ZONE){ S.populate(GM); S.examSync(GM,true); } }catch(e){ console.warn('MOKS.populate',e); } return r; }; } } }
   /* 老闆：吧檯後面（配置：老闆在 z −6.6～−5.9、面向客人＝南），開門的時候在 */
   S.BOSS_AT={x:-2.95,z:-6.2,yaw:0};
   S.populate=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!E.addNPC||typeof CHAR==='undefined'||!CHAR.build||!S.isOpen(G)) return null; if((E.npcs||[]).some(n=>n&&n.mokBoss)) return null;
     const sp=typeof STORY!=='undefined'&&STORY.extraSpec?STORY.extraSpec(91):{}; const o=CHAR.build(sp); if(!o) return null; o.position.set(S.BOSS_AT.x,0,S.BOSS_AT.z); o.rotation.y=S.BOSS_AT.yaw;
     return E.addNPC({obj:o,lv:1,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,clerk:true,mokBoss:true}); };
+
+  /* ---------- 1-5 考試週坐滿（BUG-MOKU-EXAM-SEATS-1110；開頭的說明）---------- */
+  S.EXAM_SPEC0=1700;   /* STORY.extraSpec 的編號（社科圖二樓 1600 起）*/
+  S.EXAM_HELD='有人了';
+  S.EXAM_TAKEN='mokExam';
+  S.examFull=G=>!!G&&G.zone===ZONE&&S.examWeek(G)&&S.isOpen(G)&&S.alone(G);   /* 和進門那一句（S.door 的考試週）同一組條件 */
+  S.barSide=function(E){ const L=LAY(), s=L&&(L.seats||[]).find(q=>/吧檯旁邊/.test(q.label||'')); if(!s||!E||!E.zone||!Array.isArray(E.zone.seats)) return null; return E.zone.seats.find(q=>Math.hypot(q.x-s.x,q.z-s.z)<0.05&&(q.lv|0)===1)||null; };
+  const nearS=(q,st)=>!!q&&(q.lv==null||(q.lv|0)===(st.lv|0))&&Math.hypot(q.x-st.x,q.z-st.z)<0.35;
+  S.seatUsed=(E,st)=>(!!E.player&&nearS(E.player.seat,st))||(E.npcs||[]).some(n=>n&&!n.leaving&&(nearS(n.seat,st)||nearS(n.seatTarget,st)));
+  const seatIts=(E,st)=>(E.interactables||[]).filter(it=>it&&it.seat&&it.shop==='mokuyobi'&&Math.hypot(it.seat.x-st.x,it.seat.z-st.z)<0.05);
+  const hold=(E,st)=>{ st.mokHeld=true; for(const it of seatIts(E,st)){ if(it.mokHeld) continue; it.mokLabel0=it.label; it.mokPrio0=it.prio; it.label=S.EXAM_HELD; it.prio=(it.prio||0)-0.4; it.mokHeld=true; } };
+  const unhold=(E,st)=>{ st.mokHeld=false; for(const it of seatIts(E,st)){ if(!it.mokHeld) continue; it.label=it.mokLabel0; it.prio=it.mokPrio0; delete it.mokHeld; delete it.mokLabel0; delete it.mokPrio0; } };
+  let XS=null;   /* {zone:E.zone, held:Set（座位）, bar, on} ：換區域就重來 */
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['mokuyobi:exam']=()=>{ XS=null; };
+  /* 一位讀書的路人（沒有名字、沒有台詞）：entering＝進門時已經坐著；待著的時候＝從一樓樓梯口走上來坐（不憑空出現）*/
+  S.examPerson=function(GM,st,entering){ const E=GM.E, G=GM.G; if(typeof CHAR==='undefined'||!CHAR.build||!E.addNPC) return null;
+    const sp=typeof STORY!=='undefined'&&STORY.extraSpec?STORY.extraSpec(S.EXAM_SPEC0+(((G.day|0)*7+(st.table|0)*3)%60)):{}; const o=CHAR.build(sp); if(!o) return null; const lv=st.lv|0;
+    if(entering){ o.position.set(st.x,0,st.z); o.rotation.y=st.yaw||0; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'read',idlePose:'read',frozen:true,isExtra:true,mokExam:true,lv,until:22}); if(n&&GM.sitAt){ GM.sitAt(n,st); n.pose=n.idlePose='read'; } return n; }
+    const IN=typeof MOK3!=='undefined'&&MOK3.IN?MOK3.IN:{x:-3.75,z:5.4,lv:0}; o.position.set(IN.x,0,IN.z); o.rotation.y=IN.yaw||0;
+    const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',isExtra:true,mokExam:true,lv:IN.lv|0,until:22}); if(!n) return null; n.seatTarget=st;
+    const sit=()=>{ n.seatTarget=null; if(n.leaving) return; if(E.player&&nearS(E.player.seat,st)){ n.until=G.hour%24; return; } if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose='read'; };   /* 走到了玩家先坐了：站一下就走 */
+    const ap=(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; if(!(E.moveTo&&E.moveTo(n,ap[0],ap[1],sit,lv))) sit(); return n; };
+  S.examSync=function(GM,entering){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!G||!E.zone) return null;
+    if(!XS||XS.zone!==E.zone) XS={zone:E.zone,held:new Set(),bar:null,on:false};
+    const seats=E.zone.seats; if(G.zone!==ZONE||!Array.isArray(seats)||!seats.length) return XS;
+    const bar=S.barSide(E), on=!!bar&&S.examFull(G);
+    if(!on){ for(const st of XS.held) unhold(E,st); XS.held.clear(); if(XS.bar&&XS.bar.taken===S.EXAM_TAKEN) XS.bar.taken=null; XS.bar=null; XS.on=false; return XS; }
+    XS.on=true; XS.bar=bar; if(!bar.taken) bar.taken=S.EXAM_TAKEN;   /* 吧檯旁邊：留給玩家（路人、照作息的人不坐；玩家的「坐下」GM.freeSeat 不看 taken）*/
+    if(bar.mokHeld){ unhold(E,bar); XS.held.delete(bar); }
+    const tables=[...new Set(seats.map(q=>q.table))];
+    for(const t of tables){ const ts=seats.filter(q=>q.table===t&&q!==bar); if(!ts.length||ts.some(q=>S.seatUsed(E,q))) continue;   /* 這一桌已經有人（作息的人、已經坐著的、正走過去的）*/
+      const free=ts.filter(q=>!q.taken); if(!free.length) continue; const st=free[((G.day|0)+(t|0))%free.length];
+      if(st.mokHeld){ unhold(E,st); XS.held.delete(st); } S.examPerson(GM,st,!!entering); }
+    for(const st of seats){ if(st===bar||XS.held.has(st)||st.taken||S.seatUsed(E,st)) continue; hold(E,st); XS.held.add(st); }   /* 其他空的位子：有人了（坐著人的也留著這個字：人走了還是他的位子）*/
+    return XS; };
+  S.examTick=function(GM){ const G=GM&&GM.G; if(!G||G.zone!==ZONE||GM.titleIdle) return false; S.examSync(GM,false); return !!(XS&&XS.on); };
+  /* 桌上放東西（SEATACT「休息」那一組）：有人了、現在沒人坐的位子 */
+  S.examAway=function(GM){ const E=GM&&GM.E; if(!XS||!XS.on||!E||XS.zone!==E.zone) return []; return [...XS.held].filter(st=>!S.seatUsed(E,st)); };
+  if(typeof SEATACT!=='undefined'&&Array.isArray(SEATACT.AWAY)&&!SEATACT._moks){ SEATACT.AWAY.push(GM=>S.examAway(GM)); SEATACT._moks=true; }
+  if(typeof STORY!=='undefined'&&Array.isArray(STORY.TICKS)&&!STORY.TICKS.includes(S.examTick)) STORY.TICKS.push(S.examTick);   /* 每 0.5 秒：作息的人走了、桌子空了＝補一位；放開、重新標「有人了」*/
+  /* 這段時間路人系統不排木曜日的客人（人由 S.examSync 放）*/
+  if(typeof CROWD!=='undefined'&&CROWD.shopPlan&&!CROWD._moks){ CROWD._moks=true; const sp0=CROWD.shopPlan;
+    CROWD.shopPlan=function(def,G){ if(def&&def.zone===ZONE&&S.examFull(G)) return {keep:-1,units:(def.units||[]).map(()=>[]),wins:[]}; return sp0.apply(this,arguments); }; }
   return S;
 })();

@@ -1,4 +1,5 @@
-"""臺大傅鐘（椰林大道南側的傅鐘廣場，行政大樓正前方）的正式模型 → 一個 GLB（校園世界座標）。第二 AI 工作階段（環境美術）製作：
+"""【第 2 版 NTU-REF-1110（LAWWW2 帳號 A 11-10）：照官網照片改成沒有屋頂的金屬鐘架（見「鐘架」那一段）；石柱、梁、瓦頂、柱面暖光拿掉。下面是第 1 版的說明。】
+臺大傅鐘（椰林大道南側的傅鐘廣場，行政大樓正前方）的正式模型 → 一個 GLB（校園世界座標）。第二 AI 工作階段（環境美術）製作：
   /opt/blenv/bin/python tools/blender/env_second/campus_bell.py [-- --out assets/models/env/second_ai/campus_bell.glb]
 
 取代 src/zones3d.js campus 區塊的 CK.bell() 的外觀（LAWWW 2026-10-10 23:26Z 分派的校園地標②）：台基、四根柱子、梁、屋頂、吊鐘、石碑、
@@ -44,6 +45,8 @@ M = {
     'wood': L.pbr('ck_bell_wood', 'dark_wood', tile=1.0, target='#4a3426', maps=('diff',), res=256, rough_value=0.65),
     'bronze': L.flat('ck_bell_bronze', '#5f5c43', rough=0.42, metal=0.35),
     'lens': L.flat('ck_bell_lens', '#fff1d6', rough=0.3),
+    # 鐘架（NTU-REF-1110）：深古銅色的鋼（真的是紅色，D136 不照抄）；seethru_ 開頭：擋住玩家時網點透空（和原本的石柱一樣）。遊戲沒有環境貼圖：金屬度 ≤ 0.45
+    'steel': L.flat('seethru_bell_steel', '#3d3428', rough=0.42, metal=0.4),
     'board': L.flat('ck_board', '#e3dccd', rough=0.8),
 }
 # 柱面的暖光：由下往上淡出（下面暖白、中間褐、上面黑）；遊戲裡改成加法混合＋晚上發光（黑色＝不加光）
@@ -112,48 +115,51 @@ st = acc('stone')
 cbox(st, 0, 0, 4.8, 4.8, 0.0, 0.2, ch=0.03, skip=('bottom',))
 cbox(st, 0, 0, 4.0, 4.0, 0.2, F, ch=0.03, skip=('bottom',))
 
-pst = acc('pstone')   # 柱子、梁、線腳、石碑：seethru_bell_stone（見材質那裡）
-# ---------------- 四根柱子：柱腳（切石、倒角）＋柱身（粉光、四角倒角）＋柱頸＋柱頭 ----------------
+pst = acc('pstone')   # 石碑：seethru_bell_stone（見材質那裡）
+# ---------------- 鐘架（NTU-REF-1110 ①，LAWWW2 帳號 A 11-10；X223／D136）----------------
+# 官網照片（docs/story_planning/ref_images/buildings/README.md 傅鐘一列）：真的傅鐘是**紅色鋼管鐘架**（細柱＋兩道圓環、鐘吊在頂上）、**沒有屋頂**，下面石砌台座＋石碑；
+# 第一版是石柱、梁、四坡瓦頂的鐘亭（照套件），和照片差最多。D136 像但不照抄：
+#   保留：沒有屋頂、細的金屬柱、鐘吊在架子頂上、石砌台座、石碑；
+#   不照抄：只有一道圓環（真的兩道）、頂上四道弧形拱肋交在中間吊鐘、顏色是深古銅（真的是紅色）、柱子微微往內收。
+# 四根柱子的腳照舊在套件柱子的位置（±C, ±C）：遊戲的導航阻擋（套件 bell() 的 blocks）不用改。
+st_ = acc('steel'); TOP = 4.3; APX = TOP + 0.95; LEAN = 0.22
+def postxz(sx, sz, y):   # 柱子在高度 y 的位置（從台基往上微微往內收）
+    t = (y - F) / (TOP - F); k = 1.0 - LEAN * t; return (sx * C * k, sz * C * k)
 for sx in (-1, 1):
     for sz in (-1, 1):
-        x, z = sx * C, sz * C
-        cbox(pst, x, z, CW + 0.14, CW + 0.14, F, F + 0.14, ch=0.03, skip=('bottom',))
-        cbox(pst, x, z, CW, CW, F + 0.14, F + 0.14 + CH - 0.04, corner=0.035, skip=('bottom', 'top'))   # 柱身也是切石（第一版用粉光 white_plaster_02：灰色斑駁，像髒的水泥）
-        cbox(pst, x, z, CW + 0.04, CW + 0.04, F + 0.14 + CH - 0.04, F + 0.14 + CH, skip=('bottom', 'top'))         # 柱頸
-        cbox(pst, x, z, CW + 0.16, CW + 0.16, F + 0.14 + CH, BT, cb=0.03, skip=('top',))                           # 柱頭（下緣倒角）
-
-# ---------------- 梁（四面；轉角不重疊）＋梁上的線腳 ----------------
-# 重疊的面在同一個平面上會閃爍（材質是雙面的）：梁頂被屋簷板蓋住不做；沿 z 的梁兩端插進沿 x 的梁 1 cm、底面高 4 mm；
-# 線腳往梁裡面埋 1 cm（裡面那一面不和梁的外面同一個平面），轉角那兩段少凸 1 mm
-for s in (-1, 1):
-    cbox(pst, 0, s * C, BL, 0.4, BT, BT + 0.34, skip=('top',))                                   # 沿 x 的兩根（長，蓋住轉角）
-    cbox(pst, s * C, 0, 0.4, 2 * C - 0.4 + 0.02, BT + 0.004, BT + 0.34, skip=('top',))          # 沿 z 的兩根（夾在中間）
-ho, hz_ = BL / 2, C + 0.2
-for (x0, x1, z0, z1) in ((-ho - 0.05, ho + 0.05, hz_ - 0.01, hz_ + 0.05), (-ho - 0.05, ho + 0.05, -hz_ - 0.05, -hz_ + 0.01),
-                         (ho - 0.01, ho + 0.049, -hz_ + 0.01, hz_ - 0.01), (-ho - 0.049, -ho + 0.01, -hz_ + 0.01, hz_ - 0.01)):
-    cbox(pst, (x0 + x1) / 2, (z0 + z1) / 2, x1 - x0, z1 - z0, BT + 0.24, BT + 0.32, skip=())   # 外凸 5 cm、高 8 cm 的一圈線腳
-
-# ---------------- 屋簷板＋四坡屋頂（瓦）＋垂脊＋寶頂 ----------------
-cbox(acc('dark'), 0, 0, RW, RW, RY, RY + 0.12, skip=())
-rf = acc('roof'); hw = (RW + 0.1) / 2; ry0 = RY + 0.12; apex = (0.0, ry0 + RH, 0.0)
-corners = [(-hw, ry0, hw), (hw, ry0, hw), (hw, ry0, -hw), (-hw, ry0, -hw)]
-for i in range(4):
-    a, b = corners[i], corners[(i + 1) % 4]; mx, mz = (a[0] + b[0]) / 2, (a[2] + b[2]) / 2
-    face(rf, [a, b, apex], (mx, hw * 0.8, mz))
-    face(rf, [a, b, (b[0], ry0 - 0.06, b[2]), (a[0], ry0 - 0.06, a[2])], (mx, 0, mz))          # 瓦的前緣（厚 6 cm）
-for (cx_, _, cz_) in corners:   # 垂脊：沿著四條斜脊的脊瓦（寬 12 cm、高 6 cm 的三角斷面）
-    L_ = math.sqrt(cx_ ** 2 + cz_ ** 2); hx, hzz = -cz_ / L_ * 0.06, cx_ / L_ * 0.06
-    up = 0.06
-    a0, a1 = (cx_, ry0 + 0.01, cz_), (apex[0], apex[1] + 0.01, apex[2])
-    for sgn in (-1, 1):
-        face(acc('dark'), [(a0[0] + sgn * hx, a0[1], a0[2] + sgn * hzz), (a1[0] + sgn * hx, a1[1], a1[2] + sgn * hzz), (a1[0], a1[1] + up, a1[2]), (a0[0], a0[1] + up, a0[2])],
-             (sgn * hx + cx_ * 0.2, 0.08, sgn * hzz + cz_ * 0.2))
-cbox(st, 0, 0, 0.3, 0.3, ry0 + RH - 0.06, ry0 + RH + 0.1, ch=0.02, skip=('bottom',))
-acc('bronze').sphere(W(0, ry0 + RH + 0.28, 0), 0.13, seg=10, rings=6)
+        cbox(st_, sx * C, sz * C, 0.30, 0.30, F, F + 0.05, ch=0.01, skip=('bottom',))          # 柱腳鋼板
+        x1, z1 = postxz(sx, sz, TOP)
+        st_.cyl(W(sx * C, F + 0.05, sz * C), W(x1, TOP, z1), 0.07, seg=10, r2=0.05)            # 柱身（下粗上細）
+        st_.sphere(W(x1, TOP, z1), 0.065, seg=8, rings=5)                                        # 柱頭的球節
+# 中間一道水平圓環（真的有兩道；這裡一道）
+RY_ = 2.75; rx, _ = postxz(1, 1, RY_); RR = math.hypot(rx, rx)
+_tor = []; ts, tt = 32, 6
+for i_ in range(ts):
+    u = 2 * math.pi * i_ / ts; row = []
+    for j_ in range(tt):
+        v = 2 * math.pi * j_ / tt; rr = RR + 0.04 * math.cos(v)
+        row.append(st_.bm.verts.new(g2b(*W(rr * math.cos(u), RY_ + 0.04 * math.sin(v), rr * math.sin(u)))))
+    _tor.append(row)
+for i_ in range(ts):
+    for j_ in range(tt):
+        a_, b_, c_, d_ = _tor[i_][j_], _tor[(i_ + 1) % ts][j_], _tor[(i_ + 1) % ts][(j_ + 1) % tt], _tor[i_][(j_ + 1) % tt]
+        st_.bm.faces.new((a_, b_, c_, d_))
+# 頂上四根橫桿（柱頭連成一圈）＋四道弧形拱肋（柱頭 → 中間的頂點，鐘吊在那裡）
+tops = [postxz(sx, sz, TOP) for (sx, sz) in ((-1, -1), (1, -1), (1, 1), (-1, 1))]
+for k_ in range(4):
+    a_, b_ = tops[k_], tops[(k_ + 1) % 4]
+    st_.cyl(W(a_[0], TOP, a_[1]), W(b_[0], TOP, b_[1]), 0.04, seg=8)
+    pts = []
+    for q in range(6):
+        t = q / 5; ang = t * math.pi / 2
+        pts.append((a_[0] * (1 - math.sin(ang)), TOP + (APX - TOP) * math.sin(ang) ** 0.8, a_[1] * (1 - math.sin(ang))))
+    for p0, p1 in zip(pts, pts[1:]): st_.cyl(W(*p0), W(*p1), 0.045, seg=8)
+st_.sphere(W(0, APX + 0.04, 0), 0.11, seg=10, rings=6)                                          # 頂上的球
+cbox(st_, 0, 0, 0.16, 0.16, APX - 0.18, APX - 0.02, skip=())                                     # 吊鐘的座
 
 # ---------------- 吊鐘：木橫梁、鐵吊件、吊環、銅鐘（三道鐘帶）、鐘舌 ----------------
-cbox(acc('wood'), 0, 0, 2 * C - 0.4, 0.26, BT - 0.19, BT + 0.05, skip=())      # 套件：2C 長、中心 BT−0.07（兩端插進梁，看不到的那段不做）
 by = BT - 0.19
+st_.cyl(W(0, APX - 0.18, 0), W(0, by, 0), 0.025, seg=8)   # 吊桿：從頂上的座往下吊到鐘的吊件（原本是木橫梁）
 cbox(acc('dark'), 0, 0, 0.05, 0.08, by - 0.04, by, skip=('top',))
 # 吊環（直立的圓環）
 tm = acc('bronze'); R_, r_ = 0.07, 0.025; ts, tt = 10, 5; c0 = W(0, by - 0.11, 0); ring_v = []
@@ -191,8 +197,7 @@ for sx in (-1, 1):
     x = sx * C; zl = C + 0.42
     cbox(acc('dark'), x, zl, 0.18, 0.14, F, F + 0.07, skip=('bottom',))
     face(acc('lens'), [(x - 0.07, F + 0.072, zl - 0.05), (x + 0.07, F + 0.072, zl - 0.05), (x + 0.07, F + 0.072, zl + 0.05), (x - 0.07, F + 0.072, zl + 0.05)], (0, 1, 0))
-    zw = C + CW / 2 + 0.012; ww = (CW - 0.02) / 2   # 套件是 CW+0.04（比柱子寬，晚上柱子兩側的空中也有一條光）
-    face(acc('wash'), [(x - ww, F + 0.14, zw), (x + ww, F + 0.14, zw), (x + ww, F + 0.14 + CH, zw), (x - ww, F + 0.14 + CH, zw)], (0, 0, 1))
+    # 柱面的暖光（ck_bell_wash）：石柱拿掉了，細鋼柱不放（地燈＋光暈照舊）
     g = B.group('GLOW_bell_%s' % ('w' if sx < 0 else 'e'), root, props={'glow': 'rgba(255,214,160,1)', 'size': 0.7, 'day': 0, 'night': 0.55})
     g.location = g2b(*W(x, F + 0.14, zl))
 

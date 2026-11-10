@@ -16,17 +16,17 @@ const set=(id,o)=>{ const r=SOCIAL.rel(id); Object.assign(r,{fam:0,trust:0,comf:
 const P=id=>has?DATE.progress(G,id):null;
 const H='heroine_02';
 fresh(); set(H,{fam:10}); let p=P(H);
-check('1. 不太認識（熟悉 10）：友情條一半、「再熟一點」；戀愛條空的、沒有提示',!!p&&Math.abs(p.fr.pct-0.5)<1e-9&&p.fr.hint==='再熟一點'&&p.rom&&p.rom.pct===0&&p.rom.hint==='',JSON.stringify(p));
+check('1. 不太認識（熟悉 10）：友情條一半、「再熟一點」；戀愛條照她的戀愛（ROM-PRIVATE-DATE-1110：朋友以下也看得到；還不是朋友、0＝「你們還在互相認識。」AA 11-10 17:40）',!!p&&Math.abs(p.fr.pct-0.5)<1e-9&&p.fr.hint==='再熟一點'&&p.rom&&p.rom.pct===0&&p.rom.hint==='你們還在互相認識。',JSON.stringify(p));
 set(H,{fam:45,trust:10}); p=P(H);
 check('2. 有點熟（熟悉 45、信任 10）：差信任＝「再多信任一點」',!!p&&p.fr.hint==='再多信任一點'&&Math.abs(p.fr.pct-0.4)<1e-9,JSON.stringify(p));
 set(H,{fam:50,trust:30,comf:10}); p=P(H);
 check('3. 朋友（自在 10）：往好朋友差自在＝「相處再自在一點」（AA 10-21 定）',!!p&&p.fr.hint==='相處再自在一點'&&p.fr.pct<0.3,JSON.stringify(p));
 set(H,{fam:50,trust:30,comf:10,npcRom:10}); p=P(H);
-check('4. 朋友、她的戀愛 10：戀愛條 1/3、「她還沒有那樣看你」',!!p&&Math.abs(p.rom.pct-1/3)<1e-9&&p.rom.hint==='她還沒有那樣看你',JSON.stringify(p));
+check('4. 朋友、她的戀愛 10：戀愛條 1/3、「現在是朋友的感覺」（AA 11-10 17:40 0482e76f2，取代「她還沒有那樣看你」）',!!p&&Math.abs(p.rom.pct-1/3)<1e-9&&p.rom.hint==='現在是朋友的感覺',JSON.stringify(p));
 set(H,{fam:50,trust:30,comf:10,npcRom:35}); p=P(H);
 check('5. 第 5 階但還不是好朋友：戀愛條最多一半、「先成為好朋友」（AA 10-21 定）',!!p&&p.rom.pct<=0.5&&p.rom.hint==='先成為好朋友',JSON.stringify(p));
 set(H,{fam:70,trust:50,comf:45,npcRom:40,rom:10}); p=P(H);
-check('6. 好朋友、第 5 階：往第 6 階差祐廷的戀愛＝「你還沒有那樣看她」（AA 10-21 定，和「她還沒有那樣看你」對著寫）；友情條滿、沒有提示',!!p&&p.fr.pct===1&&p.fr.hint===''&&p.rom.hint==='你還沒有那樣看她',JSON.stringify(p));
+check('6. 好朋友、第 5 階、祐廷的戀愛 10：只看她的戀愛（40/55，過一半＝「她好像開始在意你了」），不出現祐廷自己的戀愛（ROM-NO-PLAYER-ROM-1110，使用者 11-10 17:4x）；友情條滿、沒有提示',!!p&&p.fr.pct===1&&p.fr.hint===''&&Math.abs(p.rom.pct-40/55)<1e-9&&p.rom.hint==='她好像開始在意你了',JSON.stringify(p));
 set(H,{fam:70,trust:50,comf:45,npcRom:60,rom:35}); G.dateLog[H]={count:2,wishKnown:false,wish:false}; p=P(H);
 check('7. 第 6 階、出去兩次：「再多一些兩個人出去的時間」（AA_128 3-2）',!!p&&p.rom.hint==='再多一些兩個人出去的時間'&&p.rom.pct<0.5,JSON.stringify(p));
 G.dateLog[H]={count:4,wishKnown:false,wish:false}; p=P(H); const a=p&&p.rom.hint;
@@ -38,5 +38,6 @@ check('8. 交往中：只回 {dating:true}（人物頁寫「交往中」）',!!p
 fresh(); set('zhe',{fam:30,trust:30}); p=P('zhe');
 check('9. 男生朋友（阿哲）：只有友情那一條',!!p&&!!p.fr&&p.rom===null,JSON.stringify(p));
 { const s=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), i=s.indexOf('function progHTML('), j=s.indexOf('\n',s.indexOf('\n',s.indexOf('\n',s.indexOf('\n',i)+1)+1)+1), f=s.slice(i,j), k=s.indexOf('function personHTML(');
-  check('10. 人物頁接上進度條（personHTML 用 progHTML）；條只用寬度（width:%），不印數字；交往中寫「交往中」',i>=0&&s.slice(k,k+2000).includes('progHTML(id)')&&/width:'\+Math\.round/.test(f)&&!/pct\*100\)\+'%</.test(f)&&f.includes('交往中'),f.slice(0,200)); }
+  /* 2026-11-10：personHTML 多了 SOCIAL.memLabel（MEM-LABEL-RAW-1110），progHTML(id) 往後移，看前 4000 字 */
+  check('10. 人物頁接上進度條（personHTML 用 progHTML）；條只用寬度（width:%），不印數字；交往中寫「交往中」',i>=0&&s.slice(k,k+4000).includes('progHTML(id)')&&/width:'\+Math\.round/.test(f)&&!/pct\*100\)\+'%</.test(f)&&f.includes('交往中'),f.slice(0,200)); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

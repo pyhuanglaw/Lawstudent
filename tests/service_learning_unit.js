@@ -52,7 +52,7 @@ check('次數還沒滿：第 15、16 週有補做',has(w15.day)&&has(w16.day));
   /* 自學、手機課表 */
   G.day=want[0].day; G.hour=19; chose.length=0; await CLS.studyPick(GM); const opts=chose[0]||[];
   check('自學的科目不列服務學習',opts.length>0&&!opts.some(t=>/服務學習/.test(t)),opts.join('、'));
-  const wh=CLS.weekHTML(G);
+  const wh=CLS.weekHTML(G).replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');   /* 2026-11-10 ATTEND-TIDY-1110：出席改成一門課一行，比對前先拿掉標籤 */
   check('手機「課表」：週三下午一寫服務學習（一）、第 4–7、10–14 週；出席寫「9／9 次」',/服務學習（一）/.test(wh)&&/第 4–7、10–14 週/.test(wh)&&/服務學習（一） 9／9 次/.test(wh));
   /* 櫃台 */
   G.courses={}; G.day=want[1].day; G.hour=13.25; chose.length=0; caps.length=0; answer=0;
@@ -61,11 +61,13 @@ check('次數還沒滿：第 15、16 週有補做',has(w15.day)&&has(w16.day));
   G.day=want[1].day+1; G.hour=13.25; chose.length=0; caps.length=0;
   await CLS.doorInteract(GM,'lawlib_desk',{look:'櫃台：說明'});
   check('沒有報到時段時按櫃台：照舊只是櫃台的說明（不寫「今天沒有你在這裡的課」）',!chose.length&&caps[0]==='櫃台：說明',JSON.stringify(caps));
-  /* 服務學習（二）的集合點：只在大二上 */
+  /* 服務學習（二）（AA_735，使用者 11-10「服務學習另外有法律服務一學期」）：法律系館B 一樓的法律服務中心接待桌報到；校園不再有晨思鐘旁的集合點 */
   const its=[]; const GM2=Object.assign({},GM,{E:{interactables:its}}); G.day=want[0].day; CLS.addDoors(GM2,'campus');
-  check('大一上：校園沒有服務學習（二）的集合點',!its.some(i=>i.door==='campus_service'),its.map(i=>i.door).join(','));
+  check('校園沒有服務學習的集合點（campus_service 不再用）',!its.some(i=>i.door==='campus_service'),its.map(i=>i.door).join(','));
   let dY2=null; for(let d=300; d<1200&&!dY2; d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y2S1'&&t.week===4&&CALENDAR.dateOf(d).wd===3) dY2=d; }
-  its.length=0; G.day=dY2; CLS.addDoors(GM2,'campus');
-  check('大二上：校園有服務學習（二）的集合點；那一週週三下午二有服務學習（二）',its.some(i=>i.door==='campus_service')&&CLS.dayItems(G).some(it=>it.c.id==='service_2'&&it.slot.block==='pm2'));
+  G.day=dY2; const s2=CLS.dayItems(G).find(it=>it.c.id==='service_2');
+  check('大二上第 4 週週三下午二：服務學習（二）在法律服務中心（法律系館B 一樓的接待桌，wancai_lsc_desk）；老師是法律服務中心的老師',!!s2&&s2.slot.block==='pm2'&&s2.room.door==='wancai_lsc_desk'&&s2.room.zone==='wancai'&&CLS.DOORS.wancai_lsc_desk&&CLS.DOORS.wancai_lsc_desk.built===true&&s2.c.profName==='法律服務中心的老師',JSON.stringify(s2&&{room:s2.room,prof:s2.c.profName}));
+  check('服務學習（二）九句旁白、第一句老師講明不回答法律問題（AA_735）',(s2&&s2.c.serviceLines||[]).length===9&&/你們不回答法律問題/.test(s2.c.serviceLines[0]),'');
+  check('只有兩學期：服務學習（一）大一上、（二）大二上',COURSES.list?COURSES.list.filter(c=>c.kind==='service').map(c=>c.term).join(',')==='Y1S1,Y2S1':true,'');
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

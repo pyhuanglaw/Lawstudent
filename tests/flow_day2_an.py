@@ -166,12 +166,14 @@ async def main():
         s = await wait_story(pg, cdp, run, "GAME.G.zone==='wenzhou'", max_s=120)
         an_wz = await pg.evaluate("!!GAME.npc.an&&GAME.npc.an.beh==='follow'")
         run.check('到溫州街、以安跟著', s['zone'] == 'wenzhou' and an_wz)
-        door = await L.find_it(pg, '進入兩點半')
+        # 門口互動點：從 E.interactables 找進 cafe 的出口（店名改成 2:30 AM 以後「進入兩點半」找不到，BB 11-10 TEST_BUG；不寫死店名）
+        door = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i&&i.exit&&i.exit.to==='cafe'); return it?{x:it.x,z:it.z,r:it.radius||1.5,label:it.label}:null; })()")
+        door_label = (door or {}).get('label') or '進入 2:30 AM'
         ok = bool(door) and await L.go_to(pg, cdp, run, door['x'], door['z'], door['r'] * 0.8, '兩點半門口', max_s=600)
         run.check('走到兩點半門口（點地面／搖桿）', ok)
         if ok:
             await pg.wait_for_timeout(800)
-            run.check('門口出現「進入 2:30 AM」', await use_interact(pg, cdp, run, '進入 2:30 AM'))   # WORLD_NAMING／AA_655 改名（e8c657891）：原本「進入兩點半 Café」
+            run.check('門口出現「'+door_label+'」', await use_interact(pg, cdp, run, door_label))   # WORLD_NAMING／AA_655 改名（e8c657891）：原本「進入兩點半 Café」
             t0 = time.time(); seated = False
             while time.time() - t0 < 300:
                 s = await L.state(pg)

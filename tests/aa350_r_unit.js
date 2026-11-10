@@ -34,11 +34,13 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   const R2N='（學活二樓，靠窗那一桌。阿勳已經坐在那裡了。）';   /* AA_350 9-1 缺的字（2026-11-01 補）：R2 開頭多一句旁白，原本第一句變第二句（R2-1～R2-3 照新稿改查 L[0] 旁白＋L[1]；沒見過阿勳那一版在 tests/aa350_t_unit.js）*/
   const econIt=()=>CLS.dayItems(G).find(q=>q.c&&q.c.id==='econ_principles_2');
   /* 那個週五沒去經原下：h 點在下課選單選「先去吃飯」→ 選 meal（'活大'／'公館燒臘'）*/
-  const huoda=async(day,h,flags,meal,attended)=>{ fresh(day,h,'putong',Object.assign({},base,flags)); if(attended){ const it=econIt(); if(it) CLS.rec(G).done[it.key]=1; } const m0=G.money; picks=[meal||'學活']; said=[]; opts=[]; caps=[]; const r=await CLS.lunchBreak(GM); return {r,L:lines(),opts:opts.slice(),paid:m0-G.money,caps:caps.slice()}; };
+  const huoda=async(day,h,flags,meal,attended)=>{ fresh(day,h,'putong',Object.assign({},base,flags)); if(attended){ const it=econIt(); if(it) CLS.rec(G).done[it.key]=1; } const m0=G.money; said=[]; opts=[]; caps=[]; const r=await CLS.lunchBreak(GM,meal||'學活');   /* LUNCH-NO-ASK-1110：不問吃哪家，指定那一家 */ return {r,L:lines(),opts:opts.slice(),paid:m0-G.money,caps:caps.slice()}; };
   check('R2-0. 第 11、12、13 週週五是有經原下的日子（不是放假、不是期中考：第 8、9 週期中考不能翹、也不演；第 10 週週五 5/1 放假）',[F13,F11,F12].every(d=>{ fresh(d,12.2,'putong',base); const it=econIt(); return !!it&&!it.exam; }));
+  { const x0=await (async()=>{ fresh(F13,12.3,'putong',Object.assign({},base,{SK03_FIRST:true,SK03_N:0})); said=[]; opts=[]; caps=[]; await CLS.lunchBreak(GM); return {L:lines(),opts:opts.slice()}; })();
+    check('R2-1b. 不指定（LUNCH-NO-ASK-1110 直接挑）：學活事件還沒演＝自動去學活、演 ev_sk03_lunch、不問',x0.opts.length===0&&x0.L[1]==='阿勳：……你今天沒來上課。坐。',JSON.stringify(x0)); }
   { const x=await huoda(F13,12.3,{SK03_FIRST:true,SK03_N:0});
     check('R2-1. 第 13 週週五沒去經原下、12:18 選「學活」：第一句「阿勳：……你今天沒來上課。坐。」，沒有走廊那兩句、不出「一起去／今天不行」，接平常的週五（1-2）',
-      x.r===true&&x.L[0]===R2N&&x.L[1]==='阿勳：……你今天沒來上課。坐。'&&!x.L.some(t=>/走不走|你要來就來/.test(t))&&x.opts.length===1&&!x.opts.flat().some(t=>/一起去|今天不行/.test(t))&&x.L.some(t=>t.includes('永遠在講統計')),JSON.stringify([x.L,x.opts]));
+      x.r===true&&x.L[0]===R2N&&x.L[1]==='阿勳：……你今天沒來上課。坐。'&&!x.L.some(t=>/走不走|你要來就來/.test(t))&&x.opts.length===0&&!x.opts.flat().some(t=>/一起去|今天不行/.test(t))&&x.L.some(t=>t.includes('永遠在講統計')),JSON.stringify([x.L,x.opts]));
     check('R2-1. 記的跟「一起去」一樣：SK03_LAST、SK03_ASKED、SK03_INV1、SK03_N +1、習慣 meal:xiaofu:fri；快轉到 13:00「午休結束。」；付了學活的錢（90 元）；記 SK03_HUODA',
       G.flags.SK03_LAST===F13&&G.flags.SK03_ASKED===F13&&G.flags.SK03_INV1===true&&G.flags.SK03_N===1&&EVENTS.habitCount({key:'meal:xiaofu:fri'})===1&&Math.abs(G.hour-13)<1e-6&&x.caps.includes('午休結束。')&&x.paid===90&&G.flags.SK03_HUODA===F13,JSON.stringify([G.flags.SK03_LAST,G.flags.SK03_ASKED,G.flags.SK03_N,G.hour,x.caps,x.paid])); }
   { const x=await huoda(F13,12.3,{});

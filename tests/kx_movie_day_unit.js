@@ -7,7 +7,7 @@ const fs=require('fs'), path=require('path'), vm=require('vm');
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
 loadG('src/data/study_scenes.js',['STUDY_SCENES']); loadG('src/data/activity_scenes.js',['ACTIVITY_SCENES']); loadG('src/studyn3d.js',['STUDYN']);
 const K=ACTIVITY_SCENES.kinds, sc=(kind,k)=>K[kind].people.kexin.scenes[String(k)];
-check('0. activity_scenes.js 照 AA_708 e0e92919e（有 day）',/@e0e92919e/.test(ACTIVITY_SCENES.src||'')&&!!(sc('movie',1)||{}).day,ACTIVITY_SCENES.src);
+check('0. activity_scenes.js 照 AA_708 白名單版本（256bcdc42 起含 e0e92919e 的 day）、有 day',/@(e0e92919e|256bcdc42)/.test(ACTIVITY_SCENES.src||'')&&!!(sc('movie',1)||{}).day,ACTIVITY_SCENES.src);
 const at=h=>{ const G=H.fresh('2025-10-25',h,'campus'); return G; };
 const r=(kind,k,h,f)=>STUDYN.resolve(at(h),sc(kind,k),{k,kind})[f];
 check('1. 電影第 1 場：14:00 散場＝白天那兩句；20:00＝「末班車還有。好險。」',J(r('movie',1,14,'bye'))===J(['出來天還這麼亮。','我搭下一班就好，不用趕。'])&&J(r('movie',1,20,'bye'))===J(['末班車還有。好險。']),J([r('movie',1,14,'bye'),r('movie',1,20,'bye')]));

@@ -88,7 +88,7 @@ const W=[5,6,7,10,11,12,13,14,15];   /* 16 週制：第 16 週期末，社課停
   chose=[]; log=[]; answers=[1]; await CLS.spotInteract(GM,x); check('再看一次：吉他社寫「已加入」、再選一次說填過了',/已加入/.test(chose[0][1])&&log.some(t=>/表你已經填過了/.test(t)),JSON.stringify([chose,log]));
   chose=[]; log=[]; answers=[0]; G.zone='campus'; await CLS.spotInteract(GM,x); check('選法服＝演法服攤位那一段（AA_218 17-3：學姊、寫報名表）（ev_sis_club_expo；加入法服由那一段記，這裡的 EVENTS.run 是替身）',log.includes('〔事件 ev_sis_club_expo〕'),JSON.stringify(log));
   /* H：系籃 */
-  const friDay=W.map(w=>dOf(w,5)).find(d=>d&&!CALENDAR.holiday(d)); fresh(friDay,17.6); G.zone='campus'; answers=[0]; await CLS.spotInteract(GM,b);
+  /* BULLETIN-BOARD-1110（AA_737 lateJoin）：第 5、6 週還不是社員改成社課結束時問入社單；學長兩句（AA_613 2-4）是第 7 週以後第一次去才演——原本用第一個社團週（第 5 週）的週五，改用第 7 週起的第一個週五 */ const friDay=W.filter(w=>w>=7).map(w=>dOf(w,5)).find(d=>d&&!CALENDAR.holiday(d)); fresh(friDay,17.6); G.zone='campus'; answers=[0]; await CLS.spotInteract(GM,b);
   { const iF=log.indexOf('〔轉暗〕'), iN=log.indexOf(b.narr[0]);
     check('系籃：球場（映月湖東側）「去練球：系籃練球」→ 沒去社博、第一次去＝學長「新來的？大一？」「名字寫這裡。之後每週五，有空就來。」（AA_613 2-4；原本 AA_491 C 的「（你在場邊填了表。）」）→ 沒有入座的句子、直接轉暗 → 19:00 → 旁白 → 社課結束了',(chose[0]||[])[0]==='去練球：系籃練球'&&log[0]==='新來的？大一？'&&log[1]==='名字寫這裡。之後每週五，有空就來。'&&!log.includes('（你在場邊填了表。）')&&iF===2&&iN>iF&&Math.abs(G.hour-19)<0.01&&caps[caps.length-1]==='社課結束了。'&&G.flags.CLUB_dept_basketball===true,JSON.stringify(log)); }
   /* I：事件的條件 */

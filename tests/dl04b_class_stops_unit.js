@@ -47,8 +47,9 @@ const dropTest=()=>{ for(let i=STORY_EVENTS.length-1;i>=0;i--) if(/^ev_test_dl04
   fresh(THU,12,'dorm'); const it0=civ();
   check('0. 前提：大一上第 4 週週四有 13:20 民法總則（201），可以一鍵上課',!!it0&&Math.abs(it0.t0-(13+20/60))<1e-6&&it0.room.zone==='classroom'&&CLS.canGo(GM)==='',JSON.stringify({it:it0&&it0.c.id,why:CLS.canGo(GM)}));
   check('0. 路線：宿舍房間 → 男生宿舍 → 校園 → 法律系館A → 201（中間三區）',JSON.stringify(CLS.routeVia&&CLS.routeVia('dorm','classroom'))===JSON.stringify(['dorm_hall','campus','linze']),JSON.stringify(CLS.routeVia&&CLS.routeVia('dorm','classroom')));
-  check('0. 路線：法律系館A → 201 中間沒有別的區；兩點半 → 溫州街 → 公館 → 校園 → 法律系館A；國外的區域不知道路線（不停）',
-    CLS.routeVia&&CLS.routeVia('linze','classroom').length===0&&JSON.stringify(CLS.routeVia('cafe','classroom'))===JSON.stringify(['wenzhou','gongguan','campus','linze'])&&CLS.routeVia('us_apartment','classroom').length===0);
+  /* WZ-ENTRY-XINSHENG-1103（X199，使用者 11-03：溫州街只從新生南路進出）：舊期待 兩點半 → 溫州街 → 公館 → 校園；新期待 → 溫州街 → 新生南路 → 校園 */
+  check('0. 路線：法律系館A → 201 中間沒有別的區；兩點半 → 溫州街 → 新生南路 → 校園 → 法律系館A；國外的區域不知道路線（不停）',
+    CLS.routeVia&&CLS.routeVia('linze','classroom').length===0&&JSON.stringify(CLS.routeVia('cafe','classroom'))===JSON.stringify(['wenzhou','xinsheng','campus','linze'])&&CLS.routeVia('us_apartment','classroom').length===0);
   check('0. 3-1 的分類：keep 照寫；沒寫的有 weeks／time／afterClass／beforeClass＝【固】、其他＝【延】',CLS.evKeep&&CLS.evKeep({keep:'must'})==='must'&&CLS.evKeep({time:[9,10]})==='fixed'&&CLS.evKeep({afterClass:'x'})==='fixed'&&CLS.evKeep({weeks:[1]})==='fixed'&&CLS.evKeep({})==='defer'&&CLS.evKeep({keep:'defer',time:[9,10]})==='defer');
 
   /* ---------- 1. 【必】的 enter 事件在校園（1-8 第 8 點）：停在校園演完，再「繼續去上課」 ---------- */

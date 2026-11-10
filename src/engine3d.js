@@ -402,10 +402,16 @@ const E3 = (function(){
     if(n.greet&&E.player){ n.greetCd=(n.greetCd||0)-dt; if(n.beh==='follow'||n.beh==='passenger') n.greetCd=Math.max(n.greetCd,90);   /* 和你一起走、坐你後座的人不跟你揮手；到了以後 90 秒內也不揮（使用者 2026-10-16「一起到達地點的人為什麼要跟我揮手」）*/ const pp=E.player.obj.position; const d=Math.hypot(pp.x-o.position.x,pp.z-o.position.z); if(!n.frozen&&!E.player.busy&&n.greetCd<=0&&d<3.4&&!n.waveT){ if(n.path&&d>2.2){} else { n.waveT=1.9; n.greetCd=50; n.lookAt=pp; CHAR.setExpr(o,'smile'); if(E.onGreet) E.onGreet(n); } } if(n.waveT>0){ n.waveT-=dt; if(!moving) n.pose='wave'; if(n.waveT<=0){ n.waveT=0; n.pose=n.idlePose||'idle'; n.lookAt=null; CHAR.setExpr(o,'normal'); } } }
     if(!moving&&n.faceYaw!=null&&!n.frozen){ flatYaw(o); let d=n.faceYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*6); }
     // 距離 LOD：遠處路人不畫、動畫降頻；n.lodLim＝{low,medium,high} 這個人比較短的距離（社博顧攤的人，FAIR-STAFF-LOD-1027）
-    const cd=Math.hypot(camera.position.x-o.position.x,camera.position.z-o.position.z); const lim0=E.q.level==='low'?34:(E.q.level==='high'?95:60), lim=n.lodLim&&n.lodLim[E.q.level]?Math.min(lim0,n.lodLim[E.q.level]):lim0; _frS.center.set(o.position.x,o.position.y+0.9,o.position.z); _frS.radius=1.3; const vis=!n.hidden&&(cd<lim||!n.isExtra)&&_fr.intersectsSphere(_frS)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5);   /* 多樓層剖面視角：被藏起來的樓層上的人也不畫 */ /* 畫面外的人不畫也不更新骨架（VRM 人物 frustumCulled 關掉，所以在這裡做）*/ if(o.visible!==vis) o.visible=vis; if(n.isExtra&&o.userData.farLOD) CHAR.setFar(o,farWant(!!o.userData.isFar,cd,!!E.indoor));   /* 30 m 外的路人換遠距離版本（PERF-CROWD-LOD-1021；回到 28 m 內才換回來，不會在邊界閃）*/ if(!vis&&cd>16) return;   /* 16 m 內的人畫面外也更新骨架：鏡頭一切過去（劇情運鏡、轉身）的那一格，視錐用的是上一格的鏡頭，沒更新過的人會露出模型原始的 T 字手臂（BB-C 2026-10-17：沛珊上樓梯第一段手臂往前平舉）*/ if(cd>28&&(E.frame+(n.lodPhase||0))%2) { n._skipDt=(n._skipDt||0)+dt; return; } const adt=dt+(n._skipDt||0); n._skipDt=0;
+    const cd=Math.hypot(camera.position.x-o.position.x,camera.position.z-o.position.z); const lim0=E.q.level==='low'?34:(E.q.level==='high'?95:60), lim=n.lodLim&&n.lodLim[E.q.level]?Math.min(lim0,n.lodLim[E.q.level]):lim0; _frS.center.set(o.position.x,o.position.y+0.9,o.position.z); _frS.radius=1.3; const vis=!n.hidden&&(cd<lim||!n.isExtra)&&_fr.intersectsSphere(_frS)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5);   /* 多樓層剖面視角：被藏起來的樓層上的人也不畫 */ /* 畫面外的人不畫也不更新骨架（VRM 人物 frustumCulled 關掉，所以在這裡做）*/ if(o.visible!==vis) o.visible=vis; if(n.isExtra&&o.userData.farLOD) CHAR.setFar(o,farWant(!!o.userData.isFar,cd,!!E.indoor));   /* 30 m 外的路人換遠距離版本（PERF-CROWD-LOD-1021；回到 28 m 內才換回來，不會在邊界閃）*/ if(!vis&&cd>16) return;   /* 16 m 內的人畫面外也更新骨架：鏡頭一切過去（劇情運鏡、轉身）的那一格，視錐用的是上一格的鏡頭，沒更新過的人會露出模型原始的 T 字手臂（BB-C 2026-10-17：沛珊上樓梯第一段手臂往前平舉）*/ if(cd>28&&(E.frame+(n.lodPhase||0))%2) { n._skipDt=(n._skipDt||0)+dt; return; } if(!vis&&seatOff(n,o,moving)&&(E.frame+(n.lodPhase||0))%E.SEAT_OFF_EVERY) { n._skipDt=(n._skipDt||0)+dt; return; }   /* 坐著、在畫面外、離你 3 m 以上的人：動畫、彈簧骨每 4 幀更新一次（PERF-XS-NPC-1108，下面 seatOff）*/ const adt=dt+(n._skipDt||0); n._skipDt=0;
     CHAR.animate(o,adt,{pose:n.pose,speed:n.speed,handsPockets:n.pockets&&n.pose==='idle',lookAt:n.lookAt,ground:groundFn(n)}); }
   /* 無名路人要不要換遠距離版本（PERF-CROWD-LOD-1021）：室外 18 m 外換、16.5 m 內換回來（原本 30／28 m，PERF-PATROL-ECON-1025 改）；室內 7 m 外換、6.5 m 內換回來（LAWWW2-B 2026-10-24，LAWWW-B 同意：
      博雅一樓階梯教室一整班坐著的路人，後排換了幾乎看不出來；有名字的角色不換）。中間差一段才換回來：在邊界上不會一直切換。測試：node tests/crowd_far_indoor_unit.js */
+  /* 坐著、在畫面外的人降頻（PERF-XS-NPC-1108，LAWWW2-B 2026-11-09；PERFAB：新生南路山嵐、大口的店裡 9～11 個人，拿掉 NPC 39.7→57.9 fps）：
+     畫面外 16 m 內的人原本每一幀都跑 CHAR.animate（坐姿小動作、VRM 彈簧骨、表情、腳步貼合），這裡改成每 E.SEAT_OFF_EVERY 幀一次；沒跑的那幾幀時間累加在 n._skipDt，
+     下一次一起補（和 28 m 外的降頻同一個做法，時間不丟）。只限：坐著（sit、read）、沒在走、不是載在你後座／跟著你走的人、沒在揮手、離你（水平）E.SEAT_OFF_NEAR m 以上。
+     一進畫面（vis）那一幀就照常更新，累加的時間一起補，再畫——不會看到舊姿勢。E.SEAT_OFF_EVERY=1＝關掉（PERFAB 前後對照）。測試：node tests/seat_off_throttle_unit.js */
+  E.SEAT_OFF_EVERY=4; E.SEAT_OFF_NEAR=3; const SEAT_OFF={sit:1,read:1};
+  function seatOff(n,o,moving){ if(!(E.SEAT_OFF_EVERY>1)||!SEAT_OFF[n.pose]||moving||n.path||n.beh==='passenger'||n.beh==='follow'||n.waveT>0) return false; const P=E.player; if(!P) return true; const pp=P.obj.position; return Math.hypot(pp.x-o.position.x,pp.z-o.position.z)>=E.SEAT_OFF_NEAR; }
   function farWant(isFar,cd,indoor){ const out=indoor&&CHAR.FAR_OUT_IN?CHAR.FAR_OUT_IN:CHAR.FAR_OUT, back=indoor&&CHAR.FAR_IN_IN?CHAR.FAR_IN_IN:CHAR.FAR_IN; return isFar?cd>back:cd>out; }
   // ---------- 樹幹透視 ----------
   // 跟隨鏡頭時，擋在鏡頭和玩家之間的樹幹、電線桿，在玩家周圍（直立的橢圓，高約玩家身高的 1.2 倍）變成網點透空（鏡頭本身不動、碰撞不變）；離鏡頭 1.7 m 內的部分也透空。
@@ -472,7 +478,12 @@ const E3 = (function(){
     camera.position.lerp(desired,Math.min(1,posK)); slabClip(C.target,camera.position,1.15); camera.lookAt(lookPt); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); camera.updateMatrixWorld(); updateSeeThrough(); }
   /* 淡出的牆整面藏起來（BUG-LIGHTBAND，使用者 2026-10-16 總圖大廳、舊路書房「畫面中間一道從上到下的半透明直條」）：各區域的 fadeWalls 把鏡頭這一側的牆調成 12% 透明，
      細長的牆段、門框、壁柱留下的殘影在鏡頭前變成一條條鬼影（Café 早就改成整面藏，zones3d.js）。鏡頭碰撞的射線不看 visible，藏起來不影響 */
-  function hideFaded(){ const W=E.zone&&E.zone.walls; if(!W) return; for(const w of W){ const m=w&&w.material; if(m&&!Array.isArray(m)) w.visible=m.opacity>0.5; } }
+  /* 牆一次畫完（PERF-XS-NPC-1108 (C)，LAWWW2-B 11-09）：各區域接 GLB 時把牆的材質複製、設成 transparent（淡出要用），GLB 的牆大多是雙面。
+     three.js 的 renderObject 碰到「transparent＋雙面」會畫兩次（先背面再正面），每次都先 needsUpdate＝每一面牆每一幀換兩次 shader（getProgram＋getParameters）。
+     CC PC GPU 量大口一樓：dk_vc_matte 每秒 1128 次換 program＝牆 10 面 ×2 ×56 fps。牆看得到的時候 opacity 是 1（淡出的已經整面藏起來；不是 1 的時候照舊分兩次），
+     原本又是不透明的材質（assets3d.js 載入建築 GLB 時記 userData.op0）：一次畫完和分兩次畫結果一樣。玻璃、葉子（本來就半透明、alphaTest）照舊。網址 ?wall2pass 回到舊做法 */
+  E.wallOnePass=!(typeof location!=='undefined'&&/[?&]wall2pass\b/.test(location.search||''));
+  function hideFaded(){ const W=E.zone&&E.zone.walls; if(!W) return; for(const w of W){ const m=w&&w.material; if(m&&!Array.isArray(m)){ w.visible=m.opacity>0.5; if(m.userData.op0){ const one=E.wallOnePass&&m.opacity>=1&&m.side===THREE.DoubleSide&&!(m.alphaTest>0); if(m.forceSinglePass!==one) m.forceSinglePass=one; } } } }
   E.hideFaded=hideFaded;
   // 多樓層的剖面視角（v9.4）：zone.levelGroups＝[{group,y}]（每一層的模型、那一層地板的高度）。玩家所在的那一層和下面的層一定畫；
   // 上面的層只有在鏡頭比那一層的地板低的時候才畫（從下面看得到上面的天花板、走廊欄杆；鏡頭拉高到上一層地板以上時藏起來，才看得到玩家）。

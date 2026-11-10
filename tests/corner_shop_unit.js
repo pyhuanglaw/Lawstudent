@@ -113,7 +113,7 @@ if(R){ const z=R.z, its=R.its;
   check('6 zone_assets.js：corner_records 用 bldg.corner_interior（node tools/gen_zone_assets.js --check）',/"corner_records":\["bldg\.corner_interior"\]/.test(rd('src/data/zone_assets.js')));
   check('6 LICENSES.md：GLB 一行（LAWWW2-B 的 corner_in_1107.patch：本作 Blender、CC 製作、自製貼圖＋Poly Haven CC0、虛構）',/\| 轉角唱片室內 v1c `assets\/models\/env\/second_ai\/bb_support\/corner\.glb`[^\n]*CC〔帳號 A〕製作[^\n]*Poly Haven CC0/.test(rd('LICENSES.md')));
   const al=JSON.parse(rd('docs/handoff/story_import_allow.json')), ent=(al.files||[]).find(e=>e&&e.path===AA725);
-  check('6 劇情匯入白名單：AA_725（路徑＋來源 commit bf5c3e6c6＋approved＋AA（D109））',!!ent&&ent.status==='approved'&&ent.approvedBy==='AA（D109）'&&ent.sha==='bf5c3e6c6',J(ent));
+  check('6 劇情匯入白名單：AA_725（路徑＋來源 commit 94ab0865e（11-10 AA_731 答應句；bf5c3e6c6 在 history）＋approved＋AA（D109））',!!ent&&ent.status==='approved'&&ent.approvedBy==='AA（D109）'&&ent.sha==='94ab0865e',J(ent));
   check('6 模型的 MODEL_READY 檢查 tests/corner_glb_unit.js 在（LAWWW2-B 的 patch）',fs.existsSync(path.join(ROOT,'tests/corner_glb_unit.js')));
   check('6 存檔的預設有 records:[]（game3d.js defaults；舊存檔 migrate 補空陣列）',/records:\[\],savedAt:0\}/.test(rd('src/game3d.js'))); }
 // ---- B 子程序 ----
@@ -225,7 +225,7 @@ const run=async()=>{
         check('9 和頁間、山嵐一樣：自己走進去過一次才列（show：G.visited.corner_records）',a&&b===true&&INV.place('bookstore').show&&!!INV.place('xs_shanlan').show,J([a,b])); }
       check('9 一起的時候照 AA_708 書店第 N 次的中途（invites3d.js S.actKind＝bookstore，和頁間、山嵐一樣）',INV.actKind({},P)==='bookstore'&&INV.actKind({},INV.place('bookstore'))==='bookstore');
       check('9 不是兩個人單獨（吃飯、散步）那一類：partnerBlock 不擋（和頁間一樣）',!(INVITE_DATA.soloKinds||[]).includes(P.kind)&&!INV.partnerBlock(fresh('2025-10-15',12,'campus',{dating_heroine_01:true}),'heroine_03',P));
-      const ACC={heroine_01:'好。……我不太懂音樂，你不要笑。',heroine_02:'轉角唱片？好。我想找一張電影原聲帶。',heroine_03:'好。……我喜歡那間的味道。舊紙的味道。',heroine_04:'好！我要找遊戲配樂的靈感。',heroine_05:'好。……讀累了，聽一點音樂也好。',classmate_peishan:'好啊！我想找動畫的原聲帶！',kexin:'好。週末的話。'};
+      const ACC={heroine_01:'好。……我不太懂音樂，你不要笑。',heroine_02:'轉角唱片？好。我想找一張電影原聲帶。',heroine_03:'好。……我喜歡那間的味道。舊紙的味道。',heroine_04:'好！我要找遊戲配樂的靈感。',heroine_05:'好。……讀累了，聽一點音樂也好。',classmate_peishan:'好啊！我想找動畫的原聲帶！',kexin:'好啊。我想找一張老唱片。'};   /* 11-10 AA_731：答應句不寫週末（BUG-INV-ACC-TIME-1110）*/
       const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,P,d+1,15.5,{res:'accept'}); return !(o&&J(o.lines)===J([ACC[id]])); });
       check('9 約去轉角唱片答應：七位各自那一句（AA_725 第 8 節）',!bad.length,J(bad.map(id=>[id,(INV.personal(G,id,P,d+1,15.5,{res:'accept'})||{}).lines])));
       const o=INV.personal(G,'zhe',P,d+1,15.5,{res:'accept'}); check('9 沒列的人（阿哲）＝一般那句「唱片行？好啊。我沒去過。」',o&&J(o.lines)===J(['唱片行？好啊。我沒去過。']),J(o&&o.lines));   /* 有名字說的不加外面的「」（TEXT-QUOTE-UNIFY-1108 第三批，GG2.ACC0）*/
@@ -235,7 +235,7 @@ const run=async()=>{
         const a=pairs(); H.said=[]; E.player.seat={x:-2.9,z:3.05,yaw:0.75,table:'lounge'}; await INV.seatOpenLines(GM,{who:'heroine_02'},{name:'林芷若'},P); const b=pairs(); Math.random=R0; E.player.seat=PS0;
         check('9 坐在試聽的高腳椅：抽得到「一起聽」那一則（旁白＋她一句）；坐沙發：只抽翻唱片那一則',J(a)===J([[null,'（試聽區有兩副耳機。她戴上一副，把另一副遞給你。）'],['林芷若','一起聽。']])&&J(b)===J([[null,'（她在唱片箱前面停下來，一張一張往後翻，翻得很慢。）'],['林芷若','你看，這張的封面好好看。']]),J([a,b])); } } }
   // ---- 10 逐字對照 AA_725 ----
-  { const doc=gitShow(['bf5c3e6c6','origin/claude/cool-heisenberg-o8kuqx'],AA725);
+  { const doc=gitShow(['94ab0865e','origin/claude/cool-heisenberg-o8kuqx'],AA725);
     if(!doc) console.log('SKIP 10 讀不到 AA_725（企劃線 bf5c3e6c6）');
     else { const out=[]; const T=t=>{ if(typeof t==='string') out.push(t); };
       C.door.forEach(T); Object.values(C.browse).forEach(a=>a.forEach(T)); C.browseOpts.forEach(T); T(C.listen.start); T(C.listen.stand); T(C.listen.again); Object.values(C.listen.g).forEach(T); T(C.listen.end);

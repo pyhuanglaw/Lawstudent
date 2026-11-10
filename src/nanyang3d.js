@@ -15,6 +15,8 @@
    測試：node tests/nanyang_unit.js */
 'use strict';
 const NY3=(function(){
+  /* XS-WINCARD 第二批（LAWWW2 帳號 A 11-10）：正面玻璃外 0.3 m 的視差窗（店內座標；照片在新生南路的座標拍：街 x＝立面 −16.5＋（店內 z − d/2）、街 z＝店的中心 − 店內 x）*/
+  const PANES=[{kind:'xs_nanyang',x:0,y:1.6,z:7.3,w:9.4,h:3.6,ry:Math.PI,depth:36}]   /* 大廳正面的玻璃 0～2.86（前面 z 7、x ±4.5） */;
   const ZL='xs_nanyang', ZH='xs_nanyang_hall';
   const LAY=()=>typeof NANYANG_LAYOUT!=='undefined'?NANYANG_LAYOUT:null;
   const M=(c,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.85},o||{}));
@@ -30,7 +32,7 @@ const NY3=(function(){
   /* 正式模型、光暈（燈具材質自己發光）、即時光：同弦那一套 */
   function attachFormal(E,z,g0,fb,key,W,D,label){
     if(typeof ASSETS==='undefined'||!ASSETS.manifest[key]) return;
-    ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); wallDirs(root,W,D); Z3.attachRoomGLB(z,g0,fb,root);
+    ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); wallDirs(root,W,D); Z3.attachRoomGLB(z,g0,fb,root); if(key==='bldg.xs_nanyang'&&Z3.shopViewPane) Z3.shopViewPane(z,g0,PANES[0]);   /* XS-WINCARD 第二批（LAWWW2 帳號 A 11-10；BB 11-10「山嵐、南洋、同弦沒有窗景卡」：GLB 只有玻璃，白天玻璃外是天空、晚上一片暗）：正面玻璃外 0.3 m 接視差窗景，照片 assets/models/env/views/xs_nanyang_{day,night}.webp（Blender 用新生南路正式模型從窗中間往外拍，docs/art-rebuild/second_ai/wip/xs_wincard2_1110）。測試：node tests/xs_wincard2_1110_unit.js */
       if(z.applyTime&&typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); }).catch(e=>console.warn(label+'正式模型載入失敗，用備用模型',e)); }
   function lampsOf(z,list){ const lamps=[]; for(const [x,y,zz,on,off,dist] of list){ const l=new THREE.PointLight(0xffc98a,off,dist||9,2); l.position.set(x,y,zz); l.userData.on=on; l.userData.off=off; z.group.add(l); lamps.push(l); }
     const onL=z.onLamps; z.onLamps=function(on){ if(onL) onL.call(this,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; }; return lamps; }
@@ -94,7 +96,7 @@ const NY3=(function(){
     ASSETS.manifest['bldg.xs_nanyang_hall']={url:'assets/models/env/second_ai/bb_support/nanyang_hall.glb',type:'building',lazy:true,source:'BB（tools/blender/env_second/bb_support/nanyang_hall.py v2）',license:'本作'}; }
   const INTERACT=()=>{ const L=LAY(); return L?L.lobby.interact.filter(q=>q.kind!=='hall'&&q.kind!=='clerk').map(q=>Object.assign({},q)):[]; };
   const HALL_INTERACT=()=>{ const L=LAY(); return L?L.hall.interact.filter(q=>q.kind!=='lobby').map(q=>Object.assign({},q)):[]; };
-  return {ZL,ZH,lobby,hall,streetOut,wallDirs,houseLights,INTERACT,HALL_INTERACT,
+  return {PANES,ZL,ZH,lobby,hall,streetOut,wallDirs,houseLights,INTERACT,HALL_INTERACT,
     get CLERK(){ const L=LAY(), c=L&&L.lobby.interact.find(q=>q.kind==='clerk'); return c?{x:c.x,z:c.z,yaw:c.yaw}:null; },
     get TICKET(){ const XL=typeof XINSHENG_LAYOUT!=='undefined'?XINSHENG_LAYOUT:null, q=XL&&XL.shops.find(s=>s.id==='nanyang'); return q&&q.ticket?{x:+(XL.facade.x+0.9).toFixed(2),z:q.ticket.z,yaw:-Math.PI/2}:null; }};
 })();

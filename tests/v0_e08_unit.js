@@ -42,6 +42,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   G.flags.P2_PICK='river'; at(D19,17); check('1. P2 去成（河濱）：韋綸建立了群組「走啦」',PHONE.inGroup(G,'econ_friends')&&TH('g:econ_friends')[0]==='韋綸建立了群組「走啦」，把你加了進來。',JSON.stringify(TH('g:econ_friends')));
   // 2. 9/21 的私訊
   at(D21,15.5); check('2. 9/21 15:30：還沒有韋綸的私訊',!TH('p:econ_weilun').length);
+  const snapPre=JSON.stringify(G);   /* 4f 用：9/21 私訊還沒送 */
   at(D21,16.1); const dm=PHONE.thread(G,'p:econ_weilun');
   check('2. 9/21 16:00：韋綸私訊「烤肉你要去嗎？我在舟山路門口，可以一起走過去。」、選項「好」「今天不行」',dm.length===1&&dm[0].text==='烤肉你要去嗎？我在舟山路門口，可以一起走過去。'&&dm[0].ask&&dm[0].ask.opts.map(o=>o.t).join('/')==='好/今天不行',JSON.stringify(dm.map(m=>[m.text,m.ask&&m.ask.opts.map(o=>o.t)])));
   // 3. 回「好」→ 出遊
@@ -66,6 +67,41 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.flags.E08_GO='no'; at(D21,17.5); check('4. 今天不行：沒有排出遊；18:00 以前還沒有照片',!OUT.get(G,'y0_e08')&&!PHONE.sent(G,'y0_e08_missed'));
   at(D21,21.6); check('4. 21:30 全班群組一張照片＋可昕私訊「你沒來。火很小，月亮很晚才出來。」',TH('g:econ_class').includes('📷（河濱的烤肉架、一圈人、一盤烤焦的玉米）')&&TH('p:kexin').includes('你沒來。火很小，月亮很晚才出來。'));
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); at(D21,22); check('4. 沒回：一樣是沒去的版本',PHONE.sent(G,'y0_e08_missed'));
+  // 4b. 30 分鐘短版（econff3d.js 事件接事件）直接演 ev_y0_e08、沒有走 OUT：去了就不能收到「你沒來」（BUG-Y0-E08-MISSED-AFTER-GOING-1109，BB-B 11-09 PC cc_e26_flow）
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.events=G.events||{}; G.events.done=G.events.done||{}; G.events.done.ev_y0_e08=D21; at(D21,21.6); at(D21+1,10);
+  check('4b. 短版直接演過系烤（沒有出遊紀錄）：沒有「沒去」的照片和可昕的私訊',!OUT.get(G,'y0_e08')&&!PHONE.sent(G,'y0_e08_missed')&&!TH('p:kexin').includes('你沒來。火很小，月亮很晚才出來。'),JSON.stringify(TH('p:kexin')));
+  // 4c～4e（BB-B 11-09 17:44：排進佇列就一定送到）：演的途中時間過了 18:00、說好要去，都不能排；說好要去但錯過了出遊＝照樣送
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.flags.E08_GO='yes'; at(D21,16.5); at(D21,18.5); at(D21,20.9);
+  check('4c. 回「好」、出遊排了還沒演完（18:30、20:54）：「你沒來」沒有排進佇列',!PHONE.sent(G,'y0_e08_missed'));
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); { const R0=EVENTS.running; EVENTS.running='ev_y0_e08'; at(D21,18.5); at(D21,20.5); EVENTS.running=R0; }
+  check('4d. 短版直接演、還沒演完（EVENTS.running＝ev_y0_e08，18:30、20:30）：沒有排進佇列',!PHONE.sent(G,'y0_e08_missed'));
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.flags.E08_GO='yes'; at(D21,16.5); { const q=OUT.get(G,'y0_e08'); if(q) q.state='missed'; } at(D21,22);
+  check('4e. 回「好」但出遊錯過了（missed）：照樣送沒去的版本',PHONE.sent(G,'y0_e08_missed'));
+  // 4f. 跳過時間停在 16:00（BB-B 11-09 18:14 (a)：9/21 13:00 按「等到晚上」一次跳到 20:00，私訊沒送）
+  G=JSON.parse(snapPre); SOCIAL.bind(G); EVENTS.bind(GM); G.hour=13;
+  const E8S=g=>typeof STORY.e08StopAt==='function'?STORY.e08StopAt(g):'沒有 STORY.e08StopAt';
+  check('4f. 9/21 13:00 私訊還沒送：STORY.e08StopAt＝16',E8S(G)===16,E8S(G));
+  { let st=null; try{ st=CLS.skipStops({G},20); }catch(e){ st=String(e); } const hs=Array.isArray(st)?st.map(a=>a.h):[]; check('4f. 跳過時間 13:00→20:00 的停點有 16:00（CLS.skipStops／STOP_FNS）',hs.includes(16),JSON.stringify(st).slice(0,200)); }
+  { const g2=JSON.parse(JSON.stringify(G)); g2.flags.E08_GO='no'; const g3=JSON.parse(JSON.stringify(G)); g3.hour=16.5; const g4=JSON.parse(JSON.stringify(G)); g4.day=D21+1;
+    check('4f. 已經回了／16:00 以後／不是那一天：不停',E8S(g2)==null&&E8S(g3)==null&&E8S(g4)==null,[E8S(g2),E8S(g3),E8S(g4)].join(',')); }
+  at(D21,16); check('4f. 停在 16:00：韋綸的私訊送出（兩個選項）',PHONE.sent(G,'y0_e08_dm')&&E8S(G)==null);
+  // 4g. 回「好」以後按「等到晚上」：停在出發前 10 分鐘（出遊有 alarm；BB-B 11-09 19:43 (a)：原本直接跳過 17:00 出發、出遊被標 missed、20:00 照演系烤又收到「你沒來」）
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.flags.E08_GO='yes'; at(D21,16.2); { const q=OUT.get(G,'y0_e08');
+    check('4g. 回「好」排的出遊有 alarm',!!q&&q.alarm===true,JSON.stringify(q));
+    let st=null; try{ st=CLS.skipStops({G},20); }catch(e){ st=String(e); } const hs=Array.isArray(st)?st.map(a=>+a.h.toFixed(3)):[];
+    check('4g. 16:12 按「等到晚上」：停在出發前 10 分鐘（16:35）',hs.some(h=>Math.abs(h-(17-0.25-1/6))<0.01),JSON.stringify(st).slice(0,200)); }
+  // 4i. 回「好」以後手機還開著就馬上按「等到晚上」（BB-B 11-09 20:3x，PC E26v4 yes／skipyes：出遊要等下一格 tick 的手機規則才排，跳過時間算停點時還沒有 → 直接跳到 20:00）
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.hour=16.2; { const dm=PHONE.thread(G,'p:econ_weilun').find(m=>m.ask); const r=dm?PHONE.answer(G,dm.ask.id,0):null;
+    check('4i. 前置：回「好」（PHONE.answer）＝E08_GO yes、手機規則還沒跑、出遊還沒排',!!r&&G.flags.E08_GO==='yes'&&!OUT.get(G,'y0_e08'),JSON.stringify({r:!!r,go:G.flags.E08_GO,q:OUT.get(G,'y0_e08')}));
+    let ok=null; try{ ok=await CLS.skipTo(GM,20); }catch(e){ ok=String(e); } const q=OUT.get(G,'y0_e08');
+    check('4i. 馬上按「等到晚上」：停在出發前 10 分鐘（16:35），出遊排好、還沒錯過',ok===true&&Math.abs(G.hour-(17-0.25-1/6))<0.01&&!!q&&q.state==='planned',JSON.stringify({ok,h:G.hour,q:q&&q.state})); }
+  // 4h. 沒寫 alarm 的出遊也停（BUG-OUT-ALARM-SKIP-1109，BB-B 11-09 19:53：aa614 看電影 19:30 答應以後按「等到晚上」直接跳過、安靜地 missed）：預設停，寫 alarm:false 才不停
+  G=JSON.parse(snapPre); SOCIAL.bind(G); EVENTS.bind(GM); G.hour=15;
+  { OUT.plan(G,{id:'t_movie',ev:'ev_none',day:D21,h:19.5,late:0.5,place:'南洋戲院',title:'看電影',travelH:0.25}); OUT.plan(G,{id:'t_noalarm',ev:'ev_none2',day:D21,h:18,late:0.5,place:'某處',title:'不用叫',travelH:0.25,alarm:false});
+    check('4h. OUT.alarmOn：沒寫＝停、alarm:false＝不停',typeof OUT.alarmOn==='function'&&OUT.alarmOn(OUT.get(G,'t_movie'))===true&&OUT.alarmOn(OUT.get(G,'t_noalarm'))===false);
+    let st=null; try{ st=CLS.skipStops({G},21); }catch(e){ st=String(e); } const hs=Array.isArray(st)?st.map(a=>+a.h.toFixed(3)):[];
+    check('4h. 15:00 按「等到晚上」：停在看電影出發前 10 分鐘（19:05）、alarm:false 的不停',hs.some(h=>Math.abs(h-(19.5-0.25-1/6))<0.01)&&!hs.some(h=>Math.abs(h-(18-0.25-1/6))<0.01),JSON.stringify(st).slice(0,240));
+    const W=(STORY.wakeAlarms?STORY.wakeAlarms(G,D21):[]).map(a=>a.why); check('4h. 鬧鐘（睡覺、小睡）也有看電影、沒有 alarm:false 那個',W.some(w=>/看電影/.test(w))&&!W.some(w=>/不用叫/.test(w)),JSON.stringify(W)); }
   // 5. 法律系開局照舊
   fresh(1,21,'dorm',{},'law'); run(); check('5. 法律系開局：第一天就有「走啦」和 8/13 的照片（照舊）',PHONE.inGroup(G,'econ_friends')&&PHONE.sent(G,'econ_photo_0813')&&!PHONE.inGroup(G,'econ_class'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

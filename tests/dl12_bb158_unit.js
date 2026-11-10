@@ -39,7 +39,7 @@ const S3SAT=termDay('Y3S2',5,6);   /* 學姊美國改到大四上（AA_260／BB_
   check('4. 子晴的半熟一律婉拒（週末 14:00 才起床）：「週末早上我在睡覺。……下午的話，Café。」，改天指向 Café 下午',ok,info.join(' ')); }
 { STAGE.kai='FRIEND'; const G=mkG(SAT); const r=INV.personal(G,'kai',INV.place('brunch'),SAT,10,INV.decide(G,'kai','brunch',SAT,10));
   const x=tryAt('kai','brunch',SAT,[12+10/60]);
-  check('5. 阿凱：半熟早上「早上 不行 我在睡」、改天 12:10；12:10 答應「十二點 好 那是我的早餐」',r.res==='resched'&&r.alt&&Math.abs(r.alt.h-(12+10/60))<1e-6&&r.lines[0]==='早上 不行 我在睡'&&x.h!=null&&x.r.lines[0]==='十二點 好 那是我的早餐',JSON.stringify([r,x.r]).slice(0,240)); }
+  check('5. 阿凱：半熟早上「早上 不行 我在睡」、改天 12:10；12:10 答應「早午餐 好 那是我的早餐」（11-10 AA_731：答應句不寫幾點）',r.res==='resched'&&r.alt&&Math.abs(r.alt.h-(12+10/60))<1e-6&&r.lines[0]==='早上 不行 我在睡'&&x.h!=null&&x.r.lines[0]==='早午餐 好 那是我的早餐',JSON.stringify([r,x.r]).slice(0,240)); }
 { STAGE.classmate_peishan='FRIEND'; const d=termDay('Y2S2',5,6); const G=mkG(d); const r=INV.personal(G,'classmate_peishan',INV.place('brunch'),d,10,INV.decide(G,'classmate_peishan','brunch',d,10));
   const d2=termDay('Y2S2',5,3); const G2=mkG(d2); const r2=INV.personal(G2,'classmate_peishan',INV.place('teahouse'),d2,14,INV.decide(G2,'classmate_peishan','teahouse',d2,14));
   check('6. 沛珊大二下（消失期）：半熟、一盞都是「沒有回覆」——沒有她的句子（AA_255 (b-1) 第 20 條；原本「我在念書。……考完再去。你先幫我記住菜單。」）',r.res==='decline'&&r2.res==='decline'&&r.why==='away'&&r2.why==='away'&&!r.lines&&!r2.lines,JSON.stringify([r,r2]).slice(0,240)); }

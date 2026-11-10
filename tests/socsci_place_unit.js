@@ -53,7 +53,7 @@ const cx=(all.x0+all.x1)/2, cz=(all.z0+all.z1)/2;
   check('6. 社科院原本的位置有一棟系館（校園套件，ckPlace 在 (112,−62)；LAW-RELAYOUT-1102 起萬才館往東南搬，這棟往東讓 7 m 到 (119,−62)）', mod.length===1, mod.length+' 棟');
   const zsrc=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
   check('6. 社科院新位置裡面原本的三棵樹（(8,−70)、(8,−50)、(0,−56)）有新模型時不種', /\.\.\.\(SOCX\?\[\]:\[\[8,-70\],\[8,-50\],\[0,-56\]\]\)/.test(zsrc));
-  check('6. 原本位置的系館不掛「社會科學院」', /const hall=CK\.modern\(\{w:44,d:20,floors:4,gfh:4\.4,fh:3\.85(,sign:'電機二館')?\}\); ckPlace\(hall,(?:112|LR\?119:112),-62,-Math\.PI\/2\)/.test(zsrc)); }
+  check('6. 原本位置的系館不掛「社會科學院」（NTU-REF-1110 套件五棟起電機二館改用 CK.hall 紅磚拱窗、多了顏色參數；尺寸、位置、名字照舊）', /const hall=CK\.(?:modern|hall)\(\{w:44,d:20,floors:4,gfh:4\.4,fh:3\.85(?:(?!sign:)[^}])*(,sign:'電機二館')?\}\); ckPlace\(hall,(?:112|LR\?119:112),-62,-Math\.PI\/2\)/.test(zsrc)); }
 // 3. layout＝LAWWW2 的 json 照 place 換算
 { const P=SX.place||{}, T=(x,z)=>[+(P.x-x).toFixed(2),+(P.z-z).toFixed(2)], near=(a,b)=>Math.abs(a[0]-b[0])<0.011&&Math.abs(a[1]-b[1])<0.011;
   check('3. place：轉 180°（ry＝π）、平移 (112, −135)', P.ry===Math.PI&&P.x===112&&P.z===-135, JSON.stringify(P));

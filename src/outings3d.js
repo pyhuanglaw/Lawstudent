@@ -101,6 +101,9 @@ const OUT=(function(){
   const afterDone=new Set();   /* 這一趟已經做過結尾的（不存檔；S.go 結束時清掉）*/
   S.runAfter=async function(GM,q,ev){ if(!q||afterDone.has(q.id)) return; afterDone.add(q.id); for(const f of S.AFTER){ try{ await f(GM,q,ev); }catch(e){ console.warn('OUT.AFTER',e); } } };
   const running=new Set();   /* 正在演的那一個（不存檔）：演完才標 done，演的途中不能再被叫出來 */
+  /* 跳過時間、小睡、睡覺要不要停在出發前（BUG-OUT-ALARM-SKIP-1109，BB-B 11-09 19:53：沒寫 alarm 的出遊——看電影、系烤…——按「等到晚上」直接跳過、安靜地變 missed，和排進行程時的「時間到會跳出『出發』」對不上）：
+     預設都停；真的不用停的出遊寫 alarm:false。CLS.skipStops、STORY.wakeAlarms、STORY.outStopsToday 都看這一個 */
+  S.alarmOn=q=>!!q&&q.alarm!==false&&!q.dateTrip;   /* 校外約會（date3d.js，dateTrip）有自己的鬧鐘（DATE.alarmsFor），不重複；舊存檔排好的約會也一樣 */
   S.due=function(G){ const now=t(G.day,G.hour); return S.rec(G).find(q=>q.state==='planned'&&!running.has(q.id)&&!(typeof CARLOT!=='undefined'&&CARLOT.walking&&CARLOT.walking(G,q))&&now>=t(q.day,q.h)-S.trip(G,q).travelH-0.25&&now<=lateEnd(q)&&(q.ask==null||now>=q.ask))||null; };
   S.lateEnd=q=>lateEnd(q); S.isRunning=id=>running.has(id);   /* 望月台停車場的「開車出發」（src/carlot3d.js）用：出發的時間窗、正在演的那一趟 */   /* CARLOT.walking：選了出發、正走去停車場的那一趟不再跳出發選單（到車旁邊按「開車出發」）*/
   /* 過了時間（後 45 分鐘以上）還沒出發＝missed */
@@ -147,6 +150,7 @@ const OUT=(function(){
     await GM.fade(true); if(GM.titleCard&&o&&o.card) await GM.titleCard(o.card[0],o.card[1]||'',2400); else if(GM.titleCard&&!(o&&o.noCard)) await GM.titleCard(S.tt(q.title),tr.travel,2400);
     if(q.car&&G.flags&&!G.flags.DRIVE_PICKUP_SEEN&&GM.caption&&!S.carHome(G,q,o)){ G.flags.DRIVE_PICKUP_SEEN=G.day; await GM.caption(null,S.CAR_PICKUP_LINE); }   /* DRIVE-PICKUP-1105（AA_704 第 2 節）：第一次開車出去，取車那一下的旁白（之後不出）；舊存檔沒有旗標＝下一次開車出一次 */   /* o.noCard：已經到了、字卡出過了（寒暑假出國在 3D 出境大廳「登機」以後接著演，E08 vac3d.js）；o.card＝[標題, 小字]：換成這一張（登機以後的「飛往〇〇」，AA_478 第 1 節）*/
     const arrive=q.arrived?t(G.day,G.hour):Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.syncWeekday) GM.syncWeekday(); if(GM.updateHUD) GM.updateHUD();
+    /* 演完以後：那個時段用完＝和約好的見面一樣排「時段用完」（CLS.queueJump；晚上＝回宿舍睡，CLS.eveSleep）——BGN-AFTER-HOME-1110（使用者 11-10：「桌遊日桌遊完回到前往之前的系館 ?都晚上這麼晚了 而且行動次數用完不是應該回去睡覺嗎」：出遊只填時段、沒有排，演完就留在出發前的地方）*/
     const h0=G.hour, fill=()=>{ if(typeof CLS!=='undefined'&&CLS.slotFillSpan) CLS.slotFillSpan(G,h0,G.day*24+G.hour-Math.floor(arrive/24)*24); };   /* 出遊、校外約會＝到了那裡起的時段都算一件主要的事（DEC-SLOTS-1018 ③；約好的照樣能去）*/
     q.arrived=true; if(GM.autosave) GM.autosave(true);   /* 到了再存一次：中途被踢回標題，讀檔就是到了那裡、重新演這一段（不用再搭一次車）*/
     if(dt){ const L0=DATE.loc((DATE.trip(G,q.dateTrip)||{locs:[]}).locs[0])||{}; const bg=DATE.bgKey?DATE.bgKey(L0.id,0):Object.keys(S.BG).find(k=>k.startsWith(String(L0.id||'').toLowerCase()+'_base'));   /* DATE.bgKey：地點的底圖（D28 兩天都用 d28a，夕陽那一點才換 d28b：AA_359 5-1 B12，date3d.js 的 S.POINT_BG）*/
@@ -169,7 +173,7 @@ const OUT=(function(){
       if(go) await STORY.ladPlay(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin',st); }
     await S.runAfter(GM,q,ev);   /* 結尾、分開以前（OUT.AFTER）：畫面還在那裡（可昕在場的還在右邊）*/
     if(kxTail&&ADV.active) ADV.end();
-    await GM.fade(true); if(stg&&stg.restore){ try{ await stg.restore(); }catch(e){ console.warn('OUT.STAGE restore',e); } } GM.advance(ev.hours||2); fill(); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):HOME.baseMode&&HOME.baseMode(G)))) GM.caption('',q.back||S.backText(G),2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
+    await GM.fade(true); if(stg&&stg.restore){ try{ await stg.restore(); }catch(e){ console.warn('OUT.STAGE restore',e); } } GM.advance(ev.hours||2); fill(); if(typeof CLS!=='undefined'&&CLS.queueJump&&!(o&&o.fromHome)) CLS.queueJump(G); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):HOME.baseMode&&HOME.baseMode(G)))) GM.caption('',q.back||S.backText(G),2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
     if(typeof ev.afterBack==='function') await ev.afterBack(G,GM,q);   /* 回程的地點字幕之後才接的（例：ev_y0_gather「（回家的路上，手機震了一下。）」排在「在公館的路口散了。」後面，AA_529 第⑤點）；劇情還沒結束（sceneEnd 在 finally）*/
     } finally { GM.sceneEnd(); S.fromHome=false; afterDone.delete(q.id); }
     if(GM.autosave) GM.autosave(); return true; };

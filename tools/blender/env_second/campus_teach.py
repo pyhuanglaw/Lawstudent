@@ -218,7 +218,18 @@ def build_boya():
     SET_ = 0.6; fr = FRONT; a0, a1 = -W / 2 + 8.0, W / 2 - 8.0
     IN = K.Fr(tuple(fr.O[i] - fr.N[i] * SET_ for i in range(3)), fr.R, fr.N)
     kit.wall_strip(fr, -W / 2, a0, 0.0, YF[1], []); kit.wall_strip(fr, a1, W / 2, 0.0, YF[1], [], mk='trim')
+    # PUTONG101-WINDOW-1102（LAWWW2 帳號 A 11-10；BB-B n28：普通 101 北窗白天整片深藍黑）：一樓玻璃大廳往內退 0.6 m、上面有樓板，遊戲裡照不到光，
+    # 照 archkit 的玻璃色（上 0.26、下 0.06）幾乎是黑的；真的玻璃白天會反射對面的天空和普通的白牆——這一片帷幕換亮一點、偏灰藍的漸層（只有這一片，其他棟的 ck_glass 不動）
+    _gt, _gb = K.GL_TOP, K.GL_BOT; K.GL_TOP, K.GL_BOT = (0.48, 0.55, 0.62), (0.20, 0.24, 0.28)
     curtain(IN, a0, a1, 0.15, YF[1] - 0.35, 1.5, 10, door_at=0.0, door_w=3.0)
+    K.GL_TOP, K.GL_BOT = _gt, _gb
+    # 第 2 版（BB PARTIAL：白天 RGB 只從 [35,31,22] 到 [42,38,28]）：遊戲的 ck_glass 白天不發光、這片又照不到光，頂點色調亮看不出來。
+    # 這一片帷幕的範圍（校園座標＝GLB 頂點的座標，前後各放 0.1 m；從地面起：中間玻璃門從 0.05 m 開始）寫進玻璃網格的 extras.skyBox：遊戲 zones3d.js 的 ck_glass 在這個範圍內白天加一層灰藍（像反射對面的天空），晚上 0，
+    # 晚上照舊看得到室內的燈。不另外加網格（LAWWW 11-10 選 B：teach_east_drawcall 博雅一棟 ≤ 4 個網格）。
+    # 第 3 版（BB 11-10 v2b PARTIAL：東南角那一片窗（帷幕東邊、往內 0.65 m 的那一扇，本地 x a1～W/2）沒套到）：範圍往東延到 W/2、往內多 0.7 m
+    _c = [kit.XF(*IN.p(a0, 0.15, -0.02)), kit.XF(*IN.p(W / 2, YF[1] - 0.35, -0.02)), kit.XF(*IN.p(a0, 0.15, -0.72))]   # 換成校園座標（GLB 的頂點是校園座標）
+    _xs, _zs = [q[0] for q in _c], [q[2] for q in _c]
+    SKYBOX[:] = [min(_xs) - 0.05, 0.0, min(_zs) - 0.05, max(_xs) + 0.05, YF[1] - 0.30, max(_zs) + 0.10]
     kit.fbox('trim', IN, a0, a1, YF[1] - 0.35, YF[1], 0.0, 0.02, skip=('in',))
     kit.face('ceil', [IN.p(a0, YF[1] - 0.35, 0.0), IN.p(a1, YF[1] - 0.35, 0.0), fr.p(a1, YF[1] - 0.35, 0.0), fr.p(a0, YF[1] - 0.35, 0.0)], (0, -1, 0))
     for s_ in (-1, 1):
@@ -343,6 +354,9 @@ def build_boya():
     return finish(root, accs, VC, plates, out, '博雅 v2（TEACH-PTBOYA-REF-1104）：南面二樓以上紅磚、清水混凝土大雨遮＋一排小方形天窗、北面長草斜坡到二樓＋木格柵樓梯（底下關著）、入口木格柵、一樓圓柱；照官網照片，D136 像但不照抄')
 
 
+SKYBOX = []   # PUTONG101-WINDOW v2-B：博雅一樓南面帷幕的範圍 [x0, y0, z0, x1, y1, z1]（校園座標）；build_boya 填
+
+
 def finish(root, accs, VC, plates, out, note):
     K.finish(accs, root, VC)
     for (m, props) in plates: uv01(m.finish(root, uv=True, props=props))
@@ -359,6 +373,15 @@ def finish(root, accs, VC, plates, out, note):
         L.atlas_tiles(root, os.path.join(HERE, 'textures', 'gen', f'teach_{pre}_tiles'), f'{pre}_tiles', only=TILES, cell=512, keep=lambda ob: 'FACE' in ob.name, reps=REPS, solid=sol, orm_div=8)
         L.fold_vc(root, f'wz_vc_{pre}', f'{pre}_tiles', sol['uv'], new_name=f'wz_vc_{pre}')
     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
+    if pre == 'by' and SKYBOX:   # 玻璃網格（材質 ck_glass）的 extras.skyBox：遊戲 zones3d.js attachWenzhouModel 讀
+        gls = [ob for ob in root.children_recursive if ob.type == 'MESH' and ob.material_slots and ob.material_slots[0].material and ob.material_slots[0].material.name == 'ck_glass']
+        assert len(gls) == 1, ('ck_glass 的網格不是一個', [ob.name for ob in gls])
+        # 第 4 版（v2D，BB 11-10 v2c：東南角三版都沒變）：「東南角那一片」其實是東立面一樓的玻璃（朝東，x≈−21.16、z −75.25～−84.25），
+        # 範圍的 z 只到帷幕往內 0.7 m，只碰到它的邊。照玻璃網格實際的頂點，把範圍往南延到東立面一樓那一片的盡頭（一樓沒有別的玻璃在這個範圍裡，測試第 3 項會查）
+        _M = gls[0].matrix_world; _g = [(_M @ v.co) for v in gls[0].data.vertices]; _g = [(q.x, q.z, -q.y) for q in _g]   # Blender → 校園座標（glTF：y 朝上、z＝−Blender y）
+        _e = [q for q in _g if q[1] <= SKYBOX[4] and q[0] >= SKYBOX[3] - 0.4]
+        if _e: SKYBOX[2] = min(SKYBOX[2], min(q[2] for q in _e) - 0.05)
+        gls[0]['skyBox'] = [round(v, 3) for v in SKYBOX]
     info = L.export(out, gpu_instances=False); info['note'] = note
     L.write_json(out[:-4] + '.json', info)
     return info

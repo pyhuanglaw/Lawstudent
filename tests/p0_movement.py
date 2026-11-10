@@ -1,13 +1,13 @@
 """P0 回歸測試：霖澤館前（與其他出生點）玩家必須能用手機虛擬搖桿移動。
 流程：BOOT → 讀檔出生在霖澤館前 → 搖桿上（位置必須改變）→ 搖桿左／右（轉向／移動）→ 跑 → 觸發對話 → 結束對話 → 移動必須恢復 → 存檔 → 重新讀取 → 移動仍正常。
 用 iPhone 直向 viewport（390×844）＋ CDP 觸控事件直接按在 #joy 上（不是鍵盤）。
-用法：python3 tests/p0_movement.py [URL]   （預設 http://127.0.0.1:8765/build/index.html）"""
+用法：python3 tests/p0_movement.py [URL]   （預設 http://127.0.0.1:8765/index.html）"""
 import asyncio, json, sys, math
 from playwright.async_api import async_playwright
 import os, tempfile
 SHOTS = os.environ.get('SHOT_DIR') or os.path.join(tempfile.gettempdir(), 'lawstudent_shots')   # 2026-10-18：截圖不再寫進 repo（每次跑完都留一堆沒 commit 的改動）
 os.makedirs(SHOTS, exist_ok=True)
-URL=(sys.argv[1] if len(sys.argv)>1 else 'http://127.0.0.1:8765/build/index.html')+'?turbo'
+URL=(sys.argv[1] if len(sys.argv)>1 else 'http://127.0.0.1:8765/index.html')+'?turbo'
 # v9.3 第十九批：霖澤館改成墊高的門廊＋大台階（不能走），門口互動點移到台階下面 (34,-99.8)，教室出口改成 (34,-97.6)；(34,-101) 現在在台階上
 SPAWNS=[('霖澤館前（教室出口）','campus',{'x':34,'z':-97.6,'yaw':0}),('法律系館A門口（台階下）','campus',{'x':34,'z':-99.6,'yaw':0}),('舊存檔：站在法律系館A舊門口（現在是台階）','campus',{'x':34,'z':-101,'yaw':0}),('校園預設出生點','campus',{'x':34,'z':-98,'yaw':0}),('宿舍門口','campus',{'x':20,'z':54,'yaw':3.1416}),('公館麵店門口','gongguan',{'x':-63,'z':18,'yaw':3.1416}),('公館便利商店門口','gongguan',{'x':-29.4,'z':18,'yaw':3.1416}),('校門外','gongguan',{'x':-2.5,'z':-29,'yaw':0}),('溫州街','wenzhou',{'x':40,'z':-1,'yaw':-1.5708})]
 async def joystick(pg,cdp,dx,dy,ms):

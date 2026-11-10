@@ -70,7 +70,8 @@ const XSSA=(function(){
     if(pay) pay(-it.price); else G.money=(G.money|0)-it.price;
     if(it.flag) (G.flags||(G.flags={}))[it.flag]=id; return true; };
   S.shop=async function(GM,k){ const G=GM.G; await S.talkLine(GM,k);
-    const opts=S.menu(k,G), i=await GM.choose(opts.concat([{t:'不用了'}])), o=opts[i]; if(!o) return null;
+    const hO=typeof GIFTH!=='undefined'&&GIFTH.shopOpt?GIFTH.shopOpt(G,'xs_'+k):null;   /* 買禮物（GIFT-HOLIDAY-1110，src/gifthol3d.js）*/
+    const opts=S.menu(k,G), i=await GM.choose(opts.concat(hO?[hO]:[],[{t:'不用了'}])), o=opts[i]; if(hO&&i===opts.length){ await GIFTH.pick(GM,hO); return 'gift'; } if(!o) return null;
     const res=S.buy(G,k,o.id,GM.money?d=>GM.money(d):null);
     if(res==='poor'){ if(GM.toast) GM.toast('錢不夠'); return 'poor'; } if(res!==true) return null;
     if(GM.advance) GM.advance(S.BUY_H);

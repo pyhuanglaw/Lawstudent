@@ -175,7 +175,7 @@ const W3 = (function(){
      <名稱>_near_<day|night>.webp，當成窗外 near 公尺的一面景疊在遠景前面；兩層各自視差，走動時近的東西移動得比遠的街快（原本一張照片，柱子和遠處的大樓一起移動，像貼在窗上的圖）。
      遠景、近景都是 tools/shots/shop_views_layers.py 在遊戲裡拍的（近景＝鏡頭 far 設在分界、黑白兩種底色去背）；景深照它量的中位數（遠景的 far 取代區域給的 viewDepth）。
      不在這個表裡的窗（教室、圖書館、宿舍…）照舊一層，不多載任何檔案 */
-  const VIEW_LAYERS={cvs:{far:22.4,near:6.54},noodle:{far:13.31,near:4.01},bookstore:{far:12.48,near:8.96},cafe:{far:12.06,near:5.25}};   /* 公館三家 10-23 公館街景加了機車、行道樹後重拍（ART-GG-STREETLIFE-1023）：麵店、書店的遠景景深變近 */
+  const VIEW_LAYERS={cvs:{far:17.07,near:5.91},noodle:{far:13.31,near:4.01},bookstore:{far:12.48,near:8.96},cafe:{far:12.06,near:5.25}};   /* 公館三家 10-23 公館街景加了機車、行道樹後重拍（ART-GG-STREETLIFE-1023）：麵店、書店的遠景景深變近；cvs 11-10 照新店面的窗重拍（WINVIEW-AUDIT-1105，LAWWW2 c16014ada 的拍攝位置，CC PC＋GPU d4854c6ce）*/
   function windowMat(depth){ return new THREE.ShaderMaterial({ uniforms:{ map:{value:null}, tint:{value:new THREE.Color(1,1,1)}, depth:{value:depth||20}, photo:{value:0}, sxy:{value:new THREE.Vector2(1,1)}, nmap:{value:null}, ndepth:{value:4}, near:{value:0}, map2:{value:null}, nmap2:{value:null}, near2:{value:0}, xf:{value:0} },
     vertexShader:'varying vec3 vP; varying vec3 vC; varying vec2 vUv; void main(){ vP=position; vUv=uv; vC=(inverse(modelMatrix)*vec4(cameraPosition,1.0)).xyz; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
     fragmentShader:'uniform sampler2D map; uniform sampler2D nmap; uniform sampler2D map2; uniform sampler2D nmap2; uniform vec3 tint; uniform float depth; uniform float ndepth; uniform float photo; uniform float near; uniform float near2; uniform float xf; uniform vec2 sxy; varying vec3 vP; varying vec3 vC; varying vec2 vUv;\n'+

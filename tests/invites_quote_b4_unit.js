@@ -151,7 +151,9 @@ const isNarr=t=>{ if(typeof t!=='string'||t[0]!=='（') return false; let d=0; f
   check('15. offbeat_sys3d.js：剩下整句「」的 '+ow.length+' 個都是選項（zheOpts 的 t）',ow.length===2&&ow.every(x=>/\bt:\s*$/.test(x.pre)),sample(ow.map(x=>x.pre.slice(-10)+'|'+x.t)));
   const GS=cur('src/ggshops_sys3d.js'), gw=wrappedLits(GS);
   check('15. ggshops_sys3d.js：沒有整句「」的字串了（店員說的七句都拿掉；旁白裡的「剛出爐」「三十秒就好……」照留）',gw.length===0&&/店員說：「三十秒就好，不要泡太久。」/.test(GS)&&/寫著「剛出爐」/.test(GS),sample(gw.map(x=>x.t)));
-  check('15. gg2shops3d.js 和 '+BASE+' 一字不差（第三批做完 ACC0 以後沒有整句「」的字串）',cur('src/gg2shops3d.js')===gitShow(BASE,'src/gg2shops3d.js')&&wrappedLits(cur('src/gg2shops3d.js')).length===0);
+  /* 2026-11-10 改期望（GIFT-HOLIDAY-1110 d4ea487b7：afar 的「選物…」、轉角唱片的「買禮物…」在 gg2shops3d.js 加了 GIFTH 兩段）：舊期望「和 BASE 一字不差」→ 新期望「拿掉含 GIFTH 的行以後和 BASE 一字不差」，沒有整句「」的字串照舊 */
+  const noGH=t=>t.split('\n').filter(l=>!/GIFTH|\bhO\b|const opts=D\.menu\.map|const gs=S\.CR_GENRES, k=await/.test(l)).join('\n');   /* 送禮那幾行（GIFTH、hO，和被改成接 hO 的兩行選單 opts／gs）；其他行照舊要一字不差 */
+  check('15. gg2shops3d.js 除了送禮（GIFTH、hO）那幾行，和 '+BASE+' 一字不差（第三批做完 ACC0 以後沒有整句「」的字串）',noGH(cur('src/gg2shops3d.js'))===noGH(gitShow(BASE,'src/gg2shops3d.js'))&&wrappedLits(cur('src/gg2shops3d.js')).length===0);
   const libOf=t=>{ const m=/libTalk:(\[[^\]]*\])/.exec(noComments(t)); return m?vm.runInNewContext('('+m[1]+')'):null; }, lib=libOf(cur('src/data/us_life_events.js')), lib0=libOf(gitShow(BASE,'src/data/us_life_events.js')), sb=noComments(cur('src/sis_b13_3d.js'));
   check('15. 動作在前面的（…）「…」：第四批照留（不是整句外面的一對）；第五批拿掉說的話那一對——us_life_events.js libTalk＝BASE 的三句拿掉那一對；sis_b13 不再包（沒有 smallQ，S.greetTexts＝稿上的字）',
     !!lib&&!!lib0&&lib0.length===3&&lib0.every(t=>B5.has(t))&&J(lib)===J(lib0.map(b5))&&!/const smallQ=/.test(sb)&&/S\.greetTexts=\(\)=>\(L\.repairGreet\|\|\[\]\)\.slice\(\);/.test(sb),J([lib0,lib])); }

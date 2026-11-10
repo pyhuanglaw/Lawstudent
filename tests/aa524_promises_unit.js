@@ -366,8 +366,12 @@ await sec('Z7',async()=>{
   check('Z7. 第一次選「好吃嗎？」：remember 沒有那一句',has('上次那家的老闆，今天還記得你不要香菜。')&&!has(NEW.Z7[2]),J(said()));
 });
 await sec('Z8',async()=>{
-  fresh('2026-09-27',19); H.FRIEND(ZR); H.said=[]; H.picks=['一張老電影的海報']; const g=await FEST.gift(GM,ZR,'bday',2026);
-  check('Z8. 節日禮物送老電影海報：「這部我看過四次。……第五次要跟你看。」、記 ZR_POSTER',g==='poster'&&has('這部我看過四次。……第五次要跟你看。')&&H.G.flags.ZR_POSTER===true,J({g,L:said()}));
+  /* 2026-11-10 改期望（GIFT-HOLIDAY-1110，AA_732 rules 第 8 條）：節日約會的「四樣禮物」改成「包包裡的禮物＋（沒有準備）」——舊期望是直接在四樣裡挑「一張老電影的海報」、回 'poster'；
+     新期望是先在包包裡放 g_old_poster（AA_732 的「一張老電影海報」），挑它、回 'g_old_poster'，反應照 AA_733 item.g_old_poster（同一句「這部我看過四次。……第五次要跟你看。」），一樣記 ZR_POSTER */
+  const putBag=gid=>{ if(typeof GIFTH!=='undefined'&&GIFTH.rec) GIFTH.rec(H.G).bag.push({id:gid,day:H.G.day,shop:(GIFT_HOLIDAY.items[gid]||{}).shop}); };
+  const PN=(typeof GIFT_HOLIDAY!=='undefined'&&GIFT_HOLIDAY.items.g_old_poster||{}).name;
+  fresh('2026-09-27',19); H.FRIEND(ZR); putBag('g_old_poster'); H.said=[]; H.picks=[PN]; const g=await FEST.gift(GM,ZR,'bday',2026);
+  check('Z8. 節日禮物送老電影海報：「這部我看過四次。……第五次要跟你看。」、記 ZR_POSTER',(g==='poster'||g==='g_old_poster')&&has('這部我看過四次。……第五次要跟你看。')&&H.G.flags.ZR_POSTER===true,J({g,L:said()}));
   fresh('2026-09-27',19); H.FRIEND(ZR); H.picks=['一本絕版的電影書']; await FEST.gift(GM,ZR,'bday',2026); check('Z8. 送別的不記',!H.G.flags.ZR_POSTER);
   const d04=async(flags)=>{ fresh('2026-10-17',18,flags); H.FRIEND(ZR); H.said=[]; H.picks=[]; await DATE.arriveLine(GM,trip(ZR,'D04',{by:'npc'}),0); return said(); };
   let L=await d04({ZR_POSTER:true});

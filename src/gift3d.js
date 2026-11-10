@@ -60,7 +60,7 @@ const GIFT=(function(){
   S.text=(G,t)=>String(t).replace(/\{name\}/g,(G&&G.name)||'祐廷');
   /* 一句開頭是（動作）、後面接著講話的，拆成旁白＋她說的（字不改）*/
   const play=async(GM,who,lines)=>{ for(const t of lines||[]){ const s=S.text(GM.G,t), m=/^(（[^）]*）)(.+)$/.exec(s); if(m){ await GM.say(null,m[1]); await GM.say(who,m[2]); } else if(/^（/.test(s)) await GM.say(null,s); else await GM.say(who,s); } };
-  const adj=(id,r)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.adjust||!r) return; const d=Object.assign({},r); if(stage(id)<3) delete d.npcRom; SOCIAL.adjust(id,d); };
+  const adj=(id,r)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.adjust||!r) return; const d=Object.assign({},r); if(!(typeof SOCIAL!=='undefined'&&SOCIAL.romOk&&SOCIAL.romOk(id))) delete d.npcRom; SOCIAL.adjust(id,d); };
   const match=(e,c)=>!!e&&(Array.isArray(e.ns)?e.ns.includes(c.n):e.n===c.n)&&(!e.shop||c.shop===e.shop);   /* ns：可昕「青茶（有加糖）」＝青茶不是無糖的每一種（AA_728 kexinSugar）*/
   /* 這一組現在可以用嗎（only 只在送這幾樣、hour [幾點, 幾點)）*/
   const okG=(g,x)=>!!g&&(!g.only||g.only.includes(x.n))&&(!g.hour||(x.h>=g.hour[0]&&x.h<g.hour[1]));

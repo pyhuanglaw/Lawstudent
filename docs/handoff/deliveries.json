@@ -18623,6 +18623,188 @@
    "task": "INTERIOR-AAA-REVIEW-1028",
    "integration": "已整合待測試",
    "note": "sha256 開發原檔 0004e70c／8023e321／bb364cf1、新檔 a80833e6／9f737ebe／0400dce6 和 README 一致；haopai.glb 不變（8088e492）；bake_xs.sh 只多 POSTDAY 和好拍 HIDE；新測試開發原樣 FAILED 2（LAWWW2 量）→ ALL PASS；提到好拍／山嵐的 node 測試全 PASS。"
+  },
+  {
+   "id": "DLV-1109-L2-SEATOFF",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "682859723",
+   "msg": "ACK",
+   "what": "PERF-XS-NPC-1108：坐著、畫面外的 NPC 動畫＋彈簧骨降頻（engine3d.js updateNPC seatOff，每 4 幀、時間累加、進畫面先補；E.SEAT_OFF_EVERY=1 關掉）＋tests/seat_off_throttle_unit.js",
+   "task": "PERF-XS-NPC-1108",
+   "integration": "已整合待測試",
+   "note": "git apply --check OK（基準 f8b0e30d1）；新測試開發原樣 FAILED 5 → ALL PASS（LAWWW-B 也重跑確認）；提到 engine3d／updateNPC 的測試＋readdirSync 掃描 PASS。character3d.js 沒動。"
+  },
+  {
+   "id": "DLV-1109-L2-SITFEET",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "ee34acf82",
+   "msg": "ACK",
+   "what": "PERF-XS-NPC-1108 (A)：sitFeet 只更新髖部鏈＋兩條腿的矩陣、直接讀 matrixWorld（C.sitFeetFast=false＝原本）＋tests/sit_feet_fast_unit.js",
+   "task": "PERF-XS-NPC-1108",
+   "integration": "已整合待測試",
+   "note": "git apply --check OK（基準 88c83d1be）；新測試舊程式 FAILED 2 → ALL PASS（LAWWW-B 重跑）：腿骨位置差 0、updateWorldMatrix 678→325／人／幀；rotWorld 會更新子孫矩陣，直接讀 matrixWorld 安全。"
+  },
+  {
+   "id": "DLV-1109-L2-HAOPAI-BACKFACE",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "fd585f991",
+   "msg": "ACK",
+   "what": "BACKFACE-HAOPAI-1109：好拍右牆洞洞板 224 面翻正（原本背面剔除看不到）、改不透明材質 hp_peg＋自己的貼圖與光照、左牆鐵網格翻 118 面；haopai.glb＋兩張光照＋haopai_lm.json＋tests/xs9_haopai_shanlan_check.py",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "sha256 開發 8088e492／a80833e6／9f737ebe／d628e73f → 新 5676e220／cbe256f9／9ebe785d／86d72bb2，和 README 一致；xs9 check patch 套上 d061c339；開發原樣 FAILED 2 → ALL PASS；好拍／新生南路相關 node 測試 PASS。遊戲內沒拍。"
+  },
+  {
+   "id": "DLV-1109-L2-SKINSPHERE",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "585c765ae",
+   "msg": "ACK",
+   "what": "PERF-XS-NPC-1108 (D)：新人物第一次出現的卡頓——不透明蓋皮網格先給靜止網格的包圍球（每個幾何算一次、clone 共用）；透明的照舊；C.presetSphere=false＝原本＋tests/skinned_sphere_unit.js",
+   "task": "PERF-XS-NPC-1108",
+   "integration": "已整合待測試",
+   "note": "git apply --check OK（基準 abfa888cf）；新測試舊程式 FAILED 4 → ALL PASS（LAWWW-B 重跑）；第一次畫 618→23.8 ms；透明網格包圍球不變。遊戲內效能等 CC（大口 1F render_probe_dc＋CPU trace）。"
+  },
+  {
+   "id": "DLV-1109-L2-WZ196",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "aad8d3839",
+   "msg": "ACK",
+   "what": "#196 溫州街五間（SUNNY SIDE、小路、木曜日、日常失速、阿德）白天光照照一盞色調（--skytint 1.32,1.0,0.72）重烘：5 個 glb＋5 張白天光照＋5 個 _lm.json",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "15 個檔 sha256（開發 e767a3e3e → 新）逐一核對和 README 一致；晚上那張不動；相關 node 測試 PASS。不用改程式。"
+  },
+  {
+   "id": "DLV-1109-L2-USDOOR",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "e6f83d010",
+   "msg": "ACK",
+   "what": "#204 美國公寓兩片開著的門板拆成兩個節點（WALL_bath_n_door → 衣物間那片跟臥室牆淡出、衛浴那片 WALL_bath_n_door_e 跟外牆淡出）：us_apartment.glb",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "sha256 762e9d2f → 03c4dd3c 和交件一致；三角形逐一相同、其他節點不變；牆淡出露出門板暗面 7 m² → 0.3 m²；美國公寓相關 node 測試 PASS。"
+  },
+  {
+   "id": "DLV-1109-L2-WALLONEPASS",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "9e79b8750",
+   "msg": "ACK",
+   "what": "PERF-XS-NPC-1108 (C) 牆一次畫完：wall_onepass_1109.patch（assets3d.js A.markOpaque、engine3d.js hideFaded forceSinglePass、?wall2pass、tests/wall_onepass_unit.js）",
+   "task": "PERF-XS-NPC-1108",
+   "integration": "已整合待測試",
+   "note": "整合 6bbfca043。patch sha256 1deb8fda、三個檔和交件一致；新測試開發原樣 FAILED 4 → ALL PASS；相關 313 支單元測試 PASS。待 CC render_probe_dc（大口 1F、山嵐，?wall2pass 對照）、BB-B 同角度開關比對畫面。 GHA node-unit-auto 42700601096（a5ec91a36）success。 BB-B 23:06 畫面 PASS（像素差 0）；效能等 PC。"
+  },
+  {
+   "id": "DLV-1109-L2-WALLBASE",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "7e11170d7",
+   "msg": "ACK",
+   "what": "#204 外牆腳黑線 1～4：宿舍四人房、205、萬才一樓、大口一樓、茶屋 11 張光照貼圖（lm_fill_covered）＋tests/lm_covered_fill_check.py 加五個模型",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "整合 a5ec91a36。11 張 sha256 新舊都和 README 表一致；lm_covered_fill_check 舊貼圖 FAILED 10 → 新 ALL PASS；交件列的 101 支相關測試 PASS。待 CC 拍五個鏡頭（宿舍左牆外床架、浴室牆外白框；萬才一樓西牆外；大口 1F 右牆外橫帶後；茶屋右牆外木柱）、BB-B 判。12 間記憶體不夠那批 LAWWW2 分批量測中。 GHA node-unit-auto 42700601096（a5ec91a36）success。 BB-B 23:06 ART_APPROVED（D120，黑線部分，雲端 SwiftShader）；亮度色調等 PC。 【更正 BB-B 23:22】ART_APPROVED 只算宿舍四人房、萬才一樓（有拍到修好的地方）；大口 1F、茶屋出生點四方向差 <0.35%＝沒拍到要修的地方，撤回成還沒驗，CC 用指定牆面探針補拍。"
+  },
+  {
+   "id": "DLV-1109-L2-WALLBASE-SURVEY12",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "a81a8c837",
+   "msg": "ACK",
+   "what": "#204 記憶體不夠的 12 間：分批版 lm_fill_covered --dry 盤點報告（wall_base_survey_1109 README「沒量到的 12 間」、oom12_dry.txt、oom12_reveal.txt；只讀，不改資產）",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已驗收",
+   "note": "報告，不進遊戲。LAWWW-B 21:2x 決定：做轉角唱片（0.94）、阿德（0.49）；大步、總圖書庫 P3；其餘不做。"
+  },
+  {
+   "id": "DLV-1109-L2-WALLBASE2",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "70097274a",
+   "msg": "ACK",
+   "what": "#204 外牆腳黑線第二批：轉角唱片、阿德 4 張光照貼圖＋lm_fill_covered.py 分批版＋tests/lm_covered_fill_check.py 加 corner、ade",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "整合 1827999fb。6 個檔 sha256 新舊都和 README 一致；露出嚴重度 0.94→0.12、0.49→0.13；交件回歸 46／0。LAWWW-B 背景驗證：兩間新舊對照、46 支、整支 lm_covered_fill_check。待 CC 拍：轉角唱片左牆外看地板、右牆外看樑；阿德右牆外看貨架後、後牆外看格櫃後；BB-B 判。 兩間新舊對照：舊 4 FAIL（0.07～0.12 倍）→ 新 4 PASS（0.91～1.07 倍）；46 支 PASS；GHA 1827999fb success。 【BB-B 23:22 雲端初判 FAIL（P3）】轉角唱片左牆外、阿德後牆外靠牆那條暗地板新舊幾乎一樣（轉角唱片新 47–54／舊 47–51，旁邊 130–170）；CC 做 WALL_ 隱藏診斷（牆的殘影還是光照貼圖），已轉 LAWWW2-B。 LAWWW-B 本機整支 lm_covered_fill_check（13 間 30 張）ALL PASS——Node 檢查的「被牆蓋住 2 cm 內」那一塊已補亮，BB 看到的暗地板要查是不是在那一塊以外。"
+  },
+  {
+   "id": "DLV-1109-L2-CAMTEAYARD",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "f072ddeef",
+   "msg": "ACK",
+   "what": "CAM-TEAYARD-1109 一盞前院鏡頭碰撞：zones3d.js teaYard 在前院時 camCols 加緣側牆＋鄰居房子／灰泥牆；tests/teahouse_yard_cam_unit.js",
+   "task": "CAM-TEAYARD-1109",
+   "integration": "已整合待測試",
+   "note": "整合 b6685c824。patch sha256 0b748de7、zones3d cd5b538a、測試 c63d09d3 和交件一致；新測試舊程式 FAILED 2 → ALL PASS；交件 87 支 LAWWW-B 本機全過。待 CC 重拍 180°、270°、BB-B 判。 GHA node-unit-auto 42722885640（4f888cf3c，含 b6685c824、b8cffd669）success。"
+  },
+  {
+   "id": "DLV-1109-L2-VIEWPANESIDE",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "80abb49e1",
+   "msg": "ACK",
+   "what": "CAM-VIEWPANE-SIDE-1109 窗景卡側看：zones3d.js vpPart 記店面左右範圍，鏡頭在範圍外藏窗景卡（阿德影印、林家乾麵、慢輪單車）；tests/viewpane_side_unit.js",
+   "task": "CAM-VIEWPANE-SIDE-1109",
+   "integration": "已整合待測試",
+   "note": "整合 b8cffd669。patch sha256 e03e7be7、zones3d f667cd55、測試 bc2c1ba0 和交件一致；新測試舊程式 FAILED 5 → ALL PASS；交件 76 支 LAWWW-B 本機全過。待 CC 新舊對照：阿德出生點 270°（補 90°）、慢輪側牆外一張＋店裡斜看前窗（出生點 150°、210°）；BB-B 判。 GHA node-unit-auto 42722885640（4f888cf3c，含 b6685c824、b8cffd669）success。"
+  },
+  {
+   "id": "DLV-1109-L2-CAMTEAYARD2",
+   "date": "2026-11-09",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "60e5add72",
+   "msg": "ACK",
+   "what": "CAM-TEAYARD-1109 第二輪（鏡頭在屋簷外緣房子那一側時藏 YARD_EAVE；測試 ④ 用遊戲俯角 0.38）＋CAM-VIEWPANE-SIDE-1109 測試俯角修正（只改測試）",
+   "task": "CAM-TEAYARD-1109",
+   "integration": "已整合待測試",
+   "note": "整合 4f888cf3c。兩個 patch（db7f13b5、6410cd2c）、zones3d 3ee81197、兩支測試 d11eae35／2047ae97 和交件一致；teahouse ④ 第一輪程式 FAILED 1 → PASS；viewpane 修改前程式照舊 FAILED 5、新的 PASS；130 支 LAWWW-B 本機全過。待 CC 出生點 (−3,9) 預設鏡頭 150°／180°／210° 新舊對照；剩樹葉 wzy_leaf、木柱 wzy_wood 偶爾擋頭（開發本來就有）BB-B 看畫面決定。 GHA node-unit-auto 42722885640（4f888cf3c，含 b6685c824、b8cffd669）success。"
+  },
+  {
+   "id": "DLV-1110-L2-WALLBASE3",
+   "date": "2026-11-10",
+   "from": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "134c01b93",
+   "msg": "ACK",
+   "what": "#204 外牆腳第三批：落地 WALL_ 櫃子底下的地板（轉角唱片、阿德）＋一盞改補遊戲真正載入的 yizhan（第一批補到舊檔）；lm_fill_covered 規則 (c)、lm_covered_fill_check 分群檢查",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "整合 faf1b75a4（11-10 00:4x）。6 張貼圖、工具、測試 sha256 和交件一致；交件：開發貼圖 FAILED 10 → ALL PASS、回歸 109／0。LAWWW-B 本機整支檢查跑到一半磁碟滿（舊貼圖對照沒跑完）；待 CC 照站位拍、BB 判。"
   }
  ],
  "ignored": [
@@ -24020,6 +24202,102 @@
    "branch": "claude/focused-cray-c9uwvw",
    "reason": "XS-NORTH-EXT 第一版 WIP 檢查點；交件版 c6837632e 已接進 abf4dbbd5；LAWWW-C 11-05 交班稽核分類（D94）",
    "task": "XS-NORTH-EXT-1105"
+  },
+  {
+   "sha": "dc523514c3",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1107-L2-GGLM2",
+   "reason": "頁間書屋光照烘焙＋gg_lm2_1107 交件資料夾；交件版 09bbfefe2 已接（DLV-1107-L2-GGLM2）；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "2e66a9fa3a",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1107-L2-GGNEW-LM",
+   "reason": "轉角唱片光照烘焙＋窗景卡；交件版 a6509d2a0 已接（DLV-1107-L2-GGNEW-LM）；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "71c10bda6b",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1107-L2-GGNEW-LM",
+   "reason": "洋洋鹹酥雞光照烘焙＋窗景卡；交件版 a6509d2a0 已接（DLV-1107-L2-GGNEW-LM）；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "dc97355941",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1107-L2-GGNEW-LM",
+   "reason": "WIP 轉角唱片 CORNER-CEIL／FADE-1107；天花板與淡出在 a6509d2a0 已接（DLV-1107-L2-GGNEW-LM）；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "fd06def163",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "INTERIOR-AAA-REVIEW-1028",
+   "reason": "霖澤 5F 近景夜景 ×0.4；開發分支的 linze_5f_near_night.webp sha256 f61980f7 和這個 commit 一字不差（已接）；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "567b762302",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1107-LAWWW2-FARVIEW",
+   "reason": "WIP XS-FARVIEW-1105；交件版 07deb7085 已接（c8b09bcf0）；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "08fa5580f2",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DL-LAWWW2-655729e66",
+   "reason": "GYM-FIT-1107 ② 祐廷 fit 形狀；交件版 655729e66 已接（41bfc5cbe）；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "123a5c4642",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DL-LAWWW2-768da51ab",
+   "reason": "SKIRT-BENCH-CLIP-1105 路人裙子坐下；交件版 768da51ab 已接；LAWWW-B 11-08 交班 incr 分類（D94）"
+  },
+  {
+   "sha": "6b4d5c8ee4",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1109-L2-WALLBASE",
+   "reason": "#204 外牆腳 1～4 補光照的 WIP 那一步；同一批 11 張貼圖由交件 7e11170d7 交、a5ec91a36 整合（sha256 一致）；LAWWW-B 11-09 21:2x incr 分類（D94）"
+  },
+  {
+   "sha": "d8d165cc01",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1109-L2-WZ196",
+   "reason": "#196 阿德 --skytint 重烘；ade.glb、ade_lm_day.webp 和開發分支現在的 sha256 一致（交件 aad8d3839 已接）；LAWWW-B 11-09 21:2x incr 分類（D94）"
+  },
+  {
+   "sha": "d724432c",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1109-L2-WALLBASE2",
+   "reason": "#204 第二批 WIP 那一步；同一批貼圖由交件 70097274a 交、1827999fb 整合；LAWWW-B 11-09 22:4x incr 分類（D94）"
+  },
+  {
+   "sha": "f471ad86",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/funny-albattani-iawshm",
+   "coveredBy": "DLV-1110-L2-WALLBASE3",
+   "reason": "#204 第三批 WIP 那一步；同一批由交件 134c01b93 交、faf1b75a4 整合；LAWWW-B 11-10 交班 incr 分類（D94）"
   }
  ],
  "scannedThroughNote": "2026-11-02 05:3x 使用者刪了帳號 B 的分支（funny-albattani、cool-heisenberg、elegant-brown；內容整條在 second-ai-env-art、story-planning）：從這裡拿掉，之後的核對靠 watermarks.json（incr）"

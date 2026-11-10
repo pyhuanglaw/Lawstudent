@@ -1,0 +1,24 @@
+{
+ "objects": 75,
+ "unique_meshes": 75,
+ "tris": 20736,
+ "tris_drawn": 20736,
+ "materials": 23,
+ "out": "assets/models/env/second_ai/us_clubhouse.glb",
+ "bytes": 2283500,
+ "texres": 512,
+ "layout": 1,
+ "groups": [
+  "CORK_NOTICE",
+  "DINNER_SET",
+  "LOUNGE_DOOR",
+  "SHUTTER_DOWN",
+  "SIS_COAT",
+  "SIS_PLAN",
+  "TABLES_APART",
+  "TABLES_MERGED",
+  "XMAS_LIGHTS",
+  "XMAS_TREE"
+ ],
+ "note": "US-CLUBHOUSE-3D-1110 社區會所室內（AA_741）"
+}

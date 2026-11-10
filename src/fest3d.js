@@ -188,7 +188,7 @@ const FEST=(function(){
   /* 情人節（交往中）：這學期的裂縫計數 -1（AA_126；已經是 0 就不動）*/
   S.crackDown=function(G,id){ const k=(typeof ROM!=='undefined'&&ROM.CRACK&&ROM.CRACK[id])||null; if(!k||!G||!G.flags||!((+G.flags[k]||0)>0)) return 0;
     if(ROM.crack) ROM.crack(G,id,-1); else G.flags[k]=(+G.flags[k]||0)-1; return -1; };
-  /* 1-8 禮物（生日、聖誕）*/
+  /* 1-8 禮物（生日、聖誕）。GIFT-HOLIDAY-1110 起（AA_732 rules 第 8 條）：src/gifthol3d.js 包住 S.gift——四樣改成包包裡的禮物＋（沒有準備），反應照 AA_732／733；沒載入 gifthol3d.js 時照下面舊的 */
   S.giftList=function(G,id){ const P=X.PEOPLE[id]||{}, given=S.rec(G).gifts[id]||[]; return (P.gifts||[]).filter(g=>!given.includes(g.id)&&(!g.cond||g.cond(G))); };
   S.gift=async function(GM,id,k,y){ const G=GM.G, P=X.PEOPLE[id]||{}; if(!P.gifts) return null;
     if(id==='heroine_05'&&k==='xmas'&&y===2025&&typeof FAMXMAS!=='undefined'&&FAMXMAS.gave&&FAMXMAS.gave(G)) return null;   /* AA_406：家族的那一份算那一年的聖誕禮物 */

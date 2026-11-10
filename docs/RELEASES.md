@@ -57,7 +57,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.23（2026-11-08，發布中；遊戲檔案＝飲料版 `b103b3089`＝候選 `9eef2b95b`＋版本字樣（發布樹 `52a7e5337`）＋送東西只給可攻略的對象 `33127181b`＋四支測試版號 `b103b3089`）
+## v9.10.23（2026-11-08 16:30 UTC 部署；PR [pyhuanglaw/Lawstudent#32](https://github.com/pyhuanglaw/Lawstudent/pull/32) 合併 `3a34dbaa5`；Pages run 42500010426 success；遊戲檔案＝飲料版 `b103b3089`＝候選 `9eef2b95b`＋版本字樣（發布樹 `52a7e5337`）＋送東西只給可攻略的對象 `33127181b`＋四支測試版號 `b103b3089`）
 
 **經過**：15:2x 使用者選擇題「可以發佈」→ PR #31 合併 main `68206e0fd`（遊戲檔案＝`52a7e5337`）→ 使用者隨即「飲料改完再發布」「中間不用發布別的版本」→ 15:31 取消 Pages run 42495110198（build、deploy 都 cancelled，沒有上線，線上照舊 v9.10.22）→ 飲料改好（`5d6d297c9`、`33127181b`：朋友只剩芯慈，XCROM.ON 才能送；阿哲、阿凱、Alison、柏翰、明軒拿掉）→ GHA 33127181b 四支測試寫死 ?v=9.10.22 FAIL → `b103b3089` 改照標題版號、GHA success → BB-B 16:26 GO → 再開 PR 合併、部署（版本字樣照 v9.10.23：68206e0fd 那一版沒上線）。
 
@@ -74,7 +74,10 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 
 **測試**：飲料版 BB-B 16:26 GO（瀏覽器：阿凱、Alison 沒有「送」、以安和芯慈有、舊 gift3d.js 對照 FAIL；deploy_check 33127181b 預期 v9.10.23 ALL PASS（3261 網址）；PC p0、reach、zone、main12 ALL PASS；GHA b103b3089 success）。9eef2b95b：BB-B GO——PC（AMD RX 6600M）發布前清單 11／11（deploy、reach、classreal、mini、zone、touch、p0、save_compat_v7、main12、v0_tolaw、movreg 43/43）；雲端 deploy_check（預期 v9.10.23）ALL PASS（3282 網址、394 個 ?v=9.10.23、沒有 JS 例外）；GHA node-unit-auto 9eef2b95b success；本機全套 1156 支沒有 FAIL。**沒測**：iPhone 實機。
 
+**線上已驗**（BB-B 16:47 PASS，CC-B LIVE_V91023，使用者電腦 AMD RX 6600M）：線上 deploy_check ALL PASS（「版本 v9.10.23（2026-11-08）」、394 個 ?v=、第一次載入就是新版）、線上 p0 ALL PASS、標題探針 ?v= 只有 9.10.23。**沒測**：iPhone 實機。
+
 **已知不擋**：總圖 B1 會議廳是關著的房間（P3）；雲端 movreg A 段不穩（PC 為準）。
+- PC 常備 touch_flow_wenzhou 在 c753295da（檔案＝線上這一版）FAIL 1 項「溫州街：搖桿往前走」：手機自動打開（要回的訊息）點收起來以後沒走到；9eef2b95b 同一支 PASS。BB-B 請 CC 包監看版重跑查是哪一則、搖桿是不是真的不動（P2，不擋已上線）。
 
 ## v9.10.22（2026-11-07 13:1x UTC 合併 `74cb8314d`，PR [pyhuanglaw/Lawstudent#30](https://github.com/pyhuanglaw/Lawstudent/pull/30)；發布樹 `5c855a881`＝候選 `126bdf93e`＋版本字樣；GitHub Pages run 42376299962 success，deploy 13:20:16 UTC）
 

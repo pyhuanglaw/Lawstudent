@@ -3,11 +3,11 @@
  "note": "各職位已核對水位線（2026-11-02 起五個職位，加 CC）（使用者 2026-10-17 P0 交接制度效能改善）：sha 以前的 commit 已核對過、不重掃；以後的每個非合併 commit 都要有結構化分類（deliveries／ignored kind／outbox／tasks.sha）。只有 check_handoff.py incr --advance 在全部分類、沒有異常、已 commit＋push 時才前進；history 留每一次的舊值。LAWWW 的 classify=false：值班 LAWWW 自己的整合分支不逐筆分類（成果直接寫在 tasks.json），但祖先關係、未結項目照查。基準＝帳號 B 交班時逐筆核對 255 筆的結果（WIP_INVENTORY_2026-10-17.md）。",
  "roles": {
   "LAWWW": {
-   "branch": "claude/adoring-meitner-mqzst8",
-   "sha": "0d307f3ec4ab531961d27a8e1cdb1c73489b46a6",
-   "at": "2026-11-05T02:42Z",
-   "by": "session_01Me1thu8Zn934H58kWKNfuF",
-   "scanned": 24,
+   "branch": "claude/modest-rubin-2lyp7g",
+   "sha": "4d2a5b6b18025e8193a644cc4f5fda2fdc14b130",
+   "at": "2026-11-10T01:39Z",
+   "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+   "scanned": 60,
    "evidence": "帳號 B LAWWW 最後一個 commit（交班＋交接補強＋使用者授權補記）；LAWWW-C 接班時查核、合併成 bfd5f40d",
    "open": [
     "WIP-AB65-3-Y1S2-L",
@@ -248,16 +248,37 @@
      "at": "2026-11-05T01:48Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 23
+    },
+    {
+     "branch": "claude/adoring-meitner-mqzst8",
+     "sha": "0d307f3ec4ab531961d27a8e1cdb1c73489b46a6",
+     "at": "2026-11-05T02:42Z",
+     "by": "session_01Me1thu8Zn934H58kWKNfuF",
+     "scanned": 24
+    },
+    {
+     "branch": "claude/modest-rubin-2lyp7g",
+     "sha": "a3ae6ca7432c0515d0adfe28e72ec510d34ddca8",
+     "at": "2026-11-08T20:52Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 638
+    },
+    {
+     "branch": "claude/modest-rubin-2lyp7g",
+     "sha": "1e71a398bb724a695313673213a868d34708d57c",
+     "at": "2026-11-09T21:20Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 45
     }
    ],
    "classify": false
   },
   "LAWWW2": {
-   "branch": "claude/focused-cray-c9uwvw",
-   "sha": "91f944c15d66b8dec3e21301a6f2287c3eefd080",
-   "at": "2026-11-05T02:42Z",
-   "by": "session_01Me1thu8Zn934H58kWKNfuF",
-   "scanned": 5,
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "49f2fe92406ca2dcafe414477220aa92832d1ba5",
+   "at": "2026-11-10T01:40Z",
+   "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+   "scanned": 26,
    "evidence": "帳號 B 交接補強逐筆核對 16 筆（bbb4301b）＋deliveries scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-L2-DATE-CUTOUTS",
@@ -498,15 +519,36 @@
      "at": "2026-11-05T01:48Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 8
+    },
+    {
+     "branch": "claude/focused-cray-c9uwvw",
+     "sha": "91f944c15d66b8dec3e21301a6f2287c3eefd080",
+     "at": "2026-11-05T02:42Z",
+     "by": "session_01Me1thu8Zn934H58kWKNfuF",
+     "scanned": 5
+    },
+    {
+     "branch": "claude/funny-albattani-iawshm",
+     "sha": "07725e9fcf05a34d5560c396e497ab9c4ebadab9",
+     "at": "2026-11-08T20:52Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 286
+    },
+    {
+     "branch": "claude/funny-albattani-iawshm",
+     "sha": "63626337e5ee050c8edd15b24476c026aca560f5",
+     "at": "2026-11-09T21:20Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 54
     }
    ]
   },
   "AA": {
-   "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "2fd7e92ea29ce14a4e842612df9ddfb92aa02614",
-   "at": "2026-11-05T02:42Z",
-   "by": "session_01Me1thu8Zn934H58kWKNfuF",
-   "scanned": 4,
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "8affc9fc486152608ab2e77a17153524314c6534",
+   "at": "2026-11-09T21:20Z",
+   "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+   "scanned": 1,
    "evidence": "帳號 B 交接補強逐筆核對 126 筆（c02a440e、1af66e42）＋scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-AA-103-SP",
@@ -742,15 +784,29 @@
      "at": "2026-11-05T01:48Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 3
+    },
+    {
+     "branch": "claude/magical-albattani-bk7b4n",
+     "sha": "2fd7e92ea29ce14a4e842612df9ddfb92aa02614",
+     "at": "2026-11-05T02:42Z",
+     "by": "session_01Me1thu8Zn934H58kWKNfuF",
+     "scanned": 4
+    },
+    {
+     "branch": "claude/cool-heisenberg-o8kuqx",
+     "sha": "0a61c09904a7425f84c6bd0d4fb3abe938bf0fd0",
+     "at": "2026-11-08T20:52Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 149
     }
    ]
   },
   "BB": {
-   "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "9b4f9d56d389287fd3716d738365eba188a118b3",
-   "at": "2026-11-05T02:42Z",
-   "by": "session_01Me1thu8Zn934H58kWKNfuF",
-   "scanned": 12,
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "fb9e47c404dfb0d0b15bb5aa55650548d21f188a",
+   "at": "2026-11-10T01:40Z",
+   "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+   "scanned": 36,
    "evidence": "帳號 B 交接補強逐筆核對 113 筆（558f381b）＋scannedThrough；d3eeb8bb 已 push",
    "open": [
     "WIP-BB-181",
@@ -992,15 +1048,36 @@
      "at": "2026-11-05T01:48Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 5
+    },
+    {
+     "branch": "claude/wonderful-mayer-7fm9g6",
+     "sha": "9b4f9d56d389287fd3716d738365eba188a118b3",
+     "at": "2026-11-05T02:42Z",
+     "by": "session_01Me1thu8Zn934H58kWKNfuF",
+     "scanned": 12
+    },
+    {
+     "branch": "claude/elegant-brown-fcos7n",
+     "sha": "03d6ed8f64dfdb30d72ab1a2f5b0f9b19a341a16",
+     "at": "2026-11-08T20:52Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 385
+    },
+    {
+     "branch": "claude/elegant-brown-fcos7n",
+     "sha": "ebc705638531d34da42b61bd9a5a316c71a77b56",
+     "at": "2026-11-09T21:20Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 32
     }
    ]
   },
   "CC": {
    "branch": "claude/cc-testing",
-   "sha": "3dc8ba67033b967b7f6603a813c181516081cd24",
-   "at": "2026-11-05T02:42Z",
-   "by": "session_01Me1thu8Zn934H58kWKNfuF",
-   "scanned": 13,
+   "sha": "31d4ce230ef359af1cbf669774091d1926d55d49",
+   "at": "2026-11-10T01:40Z",
+   "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+   "scanned": 41,
    "evidence": "新職位 CC（D119／HV-22，使用者 2026-11-02 03:5x 對 BB）的基準：claude/cc-testing 從企劃線 claude/story-planning 734026659 開出，分岔點以前是 AA、BB 的 commit（由它們的水位線核對）；只核對 CC 自己的 commit（第一筆 336d26c35 值班登記）",
    "open": [],
    "history": [
@@ -1073,6 +1150,27 @@
      "at": "2026-11-05T01:48Z",
      "by": "session_01Me1thu8Zn934H58kWKNfuF",
      "scanned": 4
+    },
+    {
+     "branch": "claude/cc-testing",
+     "sha": "3dc8ba67033b967b7f6603a813c181516081cd24",
+     "at": "2026-11-05T02:42Z",
+     "by": "session_01Me1thu8Zn934H58kWKNfuF",
+     "scanned": 13
+    },
+    {
+     "branch": "claude/cc-testing",
+     "sha": "cd7ba30f258064b8fd973dabbad9eaefcfb5f321",
+     "at": "2026-11-08T20:52Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 368
+    },
+    {
+     "branch": "claude/cc-testing",
+     "sha": "060625f58db6e867dec6976c0b412d7deb67974f",
+     "at": "2026-11-09T21:20Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 51
     }
    ]
   }

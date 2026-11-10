@@ -1,8 +1,8 @@
-/* 自動產生：tools/story/import_arcs.py（docs/story_planning/AA_712_heroine_arcs.json@026a2dd34）。不要手改，改企劃 AA_712 再重新匯入。
+/* 自動產生：tools/story/import_arcs.py（docs/story_planning/AA_712_heroine_arcs.json@256bcdc42）。不要手改，改企劃 AA_712 再重新匯入。
    女主角自己的故事線（8 拍；規則 BB_305；播放 src/arcs3d.js）*/
 'use strict';
 const HEROINE_ARCS={
- "src": "docs/story_planning/AA_712_heroine_arcs.json@026a2dd34",
+ "src": "docs/story_planning/AA_712_heroine_arcs.json@256bcdc42",
  "people": {
   "heroine_01": {
    "theme": "她什麼都照規則、照計畫，卻不知道自己喜歡什麼；從「一個人不敢進那間店」開始，慢慢學會為自己選。",
@@ -21,7 +21,7 @@ const HEROINE_ARCS={
      "topic": "規則以外的事",
      "opts": [
       {
-       "t": "重考那年，我半夜騎車去河堤吹風。",
+       "t": "有一次半夜睡不著，我騎車去河堤吹風。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -30,8 +30,7 @@ const HEROINE_ARCS={
         "半夜……一個人？",
         "（她想了一下，好像在想那是什麼樣子。）"
        ],
-       "ansId": "PL_RETAKE_NIGHT",
-       "tell": "retake"
+       "ansId": "PL_RETAKE_NIGHT"
       },
       {
        "t": "我很少做規則以外的事。",
@@ -79,16 +78,15 @@ const HEROINE_ARCS={
      "topic": "一個人不敢進的店",
      "opts": [
       {
-       "t": "會。念經濟系那一個多月，我一個人吃遍公館。",
+       "t": "會。我常一個人走進沒去過的店，就只是想看看。",
        "rel": {
         "trust": 1,
         "comf": 2
        },
        "reply": [
-        "一個人吃遍……哪一間最好吃？我要寫下來。"
+        "就只是想看看……那你最近進去的是哪一間？我要寫下來。"
        ],
-       "ansId": "PL_ECON_SOLO",
-       "tell": "econ"
+       "ansId": "PL_ECON_SOLO"
       },
       {
        "t": "不會。我也需要理由。",
@@ -135,7 +133,7 @@ const HEROINE_ARCS={
      "topic": "選課單上的那一格",
      "opts": [
       {
-       "t": "重考那年什麼都照計畫排。這次選課，我想選我有興趣的。",
+       "t": "我以前什麼都照計畫排。這次選課，我想選我有興趣的。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -144,8 +142,7 @@ const HEROINE_ARCS={
         "照計畫排……我現在就是這樣。",
         "你有興趣的，是哪一門？"
        ],
-       "ansId": "PL_ECON_PICK",
-       "tell": "retake"
+       "ansId": "PL_ECON_PICK"
       },
       {
        "t": "看我以後想做什麼。其實我也還不知道。",
@@ -260,7 +257,7 @@ const HEROINE_ARCS={
      "topic": "她說了一個謊",
      "opts": [
       {
-       "t": "重考那年我也是躲起來讀。不想被問考得怎樣。",
+       "t": "我高中也是躲起來讀。不想被問考得怎樣。",
        "rel": {
         "trust": 3,
         "comf": 1
@@ -269,8 +266,7 @@ const HEROINE_ARCS={
         "你也躲過？",
         "那我們躲的原因一樣。"
        ],
-       "ansId": "PL_RETAKE_HIDE",
-       "tell": "retake"
+       "ansId": "PL_RETAKE_HIDE"
       },
       {
        "t": "我覺得妳只是喜歡讀書。",
@@ -668,17 +664,16 @@ const HEROINE_ARCS={
      "topic": "不務正業",
      "opts": [
       {
-       "t": "會。我休學重考的時候，經濟系的室友都覺得我瘋了。",
+       "t": "會。我做過一個很多人都說不要的決定。我沒有理他們。",
        "rel": {
         "trust": 3,
         "npcRom": 1
        },
        "reply": [
         "你那時候怎麼撐過去的？",
-        "（你說每天就讀，不去想別人。她小聲重複了一次「不去想別人」。）"
+        "（你說每天就做自己的事，不去想別人。她小聲重複了一次「不去想別人」。）"
        ],
-       "ansId": "PL_RETAKE_CRAZY",
-       "tell": "retake"
+       "ansId": "PL_RETAKE_CRAZY"
       },
       {
        "t": "我會先想清楚，再做。",
@@ -731,11 +726,10 @@ const HEROINE_ARCS={
        },
        "reply": [
         "寫了什麼？",
-        "（你說寫了「不要怕重考」。她看著你，很久才說：）",
+        "（你說寫了「不要怕選錯」。她看著你，很久才說：）",
         "那封信有寄到。"
        ],
-       "ansId": "PL_LETTER_SELF",
-       "tell": "retake"
+       "ansId": "PL_LETTER_SELF"
       },
       {
        "t": "不會。我會想他看不到。",
@@ -863,7 +857,7 @@ const HEROINE_ARCS={
        "ansId": "PL_SHOP"
       },
       {
-       "t": "寫妳為什麼想做電影。像我跟我媽說要重考那樣，直接說。",
+       "t": "寫妳為什麼想做電影。不要繞，直接說。",
        "rel": {
         "trust": 3,
         "npcRom": 1
@@ -872,8 +866,7 @@ const HEROINE_ARCS={
         "直接說……好。",
         "第一句就寫「我想做電影」。"
        ],
-       "ansId": "PL_DIRECT",
-       "tell": "retake"
+       "ansId": "PL_DIRECT"
       }
      ],
      "from": "Y2S2W1",
@@ -962,7 +955,7 @@ const HEROINE_ARCS={
      "topic": "她從小就在看人",
      "opts": [
       {
-       "t": "被看的。重考那年，親戚每一個都在看我考得怎樣。",
+       "t": "被看的。過年的時候，親戚每一個都在看我考得怎樣。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -971,21 +964,19 @@ const HEROINE_ARCS={
         "那一定很累。",
         "被看的人，會比較會看別人。你應該也很會看。"
        ],
-       "ansId": "YT_PL_WATCHED",
-       "tell": "retake"
+       "ansId": "YT_PL_WATCHED"
       },
       {
-       "t": "看人的。念經濟系那一個多月，我常坐在系館樓下，看大家在忙什麼。",
+       "t": "看人的。我常坐在系館樓下，看大家在忙什麼。",
        "rel": {
         "trust": 2
        },
        "reply": [
-        "一個多月……你看到什麼？",
+        "……你看到什麼？",
         "（你說看到大家都很確定自己要什麼。她想了一下。）",
         "我也看到一樣的。所以我來念社會。"
        ],
-       "ansId": "YT_PL_ECON_WATCH",
-       "tell": "econ"
+       "ansId": "YT_PL_ECON_WATCH"
       },
       {
        "t": "我在看妳。",
@@ -1001,7 +992,7 @@ const HEROINE_ARCS={
      ],
      "cite": {
       "YT_PL_WATCHED": [
-       "你說重考那年大家都在看你。……我今天在茶屋，也被一個客人看了一整個下午。我想到你。"
+       "你說過年的時候大家都在看你。……我今天在茶屋，也被一個客人看了一整個下午。我想到你。"
       ]
      }
     },
@@ -1019,7 +1010,7 @@ const HEROINE_ARCS={
      "topic": "為什麼念社會",
      "opts": [
       {
-       "t": "我從小就想念法律。第一次社會考壞了，差四分，所以重考。",
+       "t": "我從小就想念法律。這件事一直沒變過。",
        "rel": {
         "trust": 3,
         "npcRom": 1
@@ -1028,8 +1019,7 @@ const HEROINE_ARCS={
         "從小就想……",
         "我很少遇到從小就知道自己要什麼的人。我有點想知道那是什麼感覺。"
        ],
-       "ansId": "YT_PL_ALWAYS_LAW",
-       "tell": "retake"
+       "ansId": "YT_PL_ALWAYS_LAW"
       },
       {
        "t": "我想懂人跟人之間的事。這件事，我想很久了。",
@@ -1068,7 +1058,7 @@ const HEROINE_ARCS={
      "topic": "蘇姨說不要急",
      "opts": [
       {
-       "t": "重考那年，我自己學會排一整天的讀書時間。",
+       "t": "高三那年，我自己學會排一整天的讀書時間。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -1077,8 +1067,7 @@ const HEROINE_ARCS={
         "一整天……你那時候一定很孤單。",
         "（她說完，把茶杯往你那邊推了一點。）"
        ],
-       "ansId": "YT_PL_SCHEDULE",
-       "tell": "retake"
+       "ansId": "YT_PL_SCHEDULE"
       },
       {
        "t": "我媽在家幫人記帳，我小時候看她算，就學會了心算。",
@@ -1230,7 +1219,7 @@ const HEROINE_ARCS={
      "topic": "她在媽媽面前把茶倒完",
      "opts": [
       {
-       "t": "沒有吵。我說要休學重考那天，她沒罵我，只說你想清楚就好。",
+       "t": "沒有吵。我做過一個很大的決定，她沒罵我，只說你想清楚就好。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -1240,7 +1229,7 @@ const HEROINE_ARCS={
         "我媽不會說這句。可是我想讓她說。"
        ],
        "ansId": "YT_PL_MOM_OK",
-       "tell": "retake"
+       "tell": "mom"
       },
       {
        "t": "很少。我爸在上海，家裡只有她，我不想讓她更累。",
@@ -1299,7 +1288,7 @@ const HEROINE_ARCS={
        }
       },
       {
-       "t": "衝刺班樓下。重考最後那個月，等自己下課。",
+       "t": "補習班樓下。高三最後那個月，等自己下課。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -1308,8 +1297,7 @@ const HEROINE_ARCS={
         "等自己下課。",
         "這句很好。我想寫下來。"
        ],
-       "ansId": "YT_PL_WAIT_SELF",
-       "tell": "retake"
+       "ansId": "YT_PL_WAIT_SELF"
       },
       {
        "t": "我不太等人，都是人家等我。",
@@ -1338,7 +1326,7 @@ const HEROINE_ARCS={
      "topic": "第一次自己選",
      "opts": [
       {
-       "t": "重考。我媽沒罵我，只說想清楚就好。我那時候其實很怕。",
+       "t": "念法律。我從小就想，可是真的要選的時候，其實很怕。",
        "rel": {
         "trust": 3,
         "npcRom": 1
@@ -1348,8 +1336,7 @@ const HEROINE_ARCS={
         "（她深呼吸了一下。）",
         "好。那我也要怕著怕著，把它做完。"
        ],
-       "ansId": "YT_PL_RETAKE_CHOICE",
-       "tell": "mom"
+       "ansId": "YT_PL_RETAKE_CHOICE"
       },
       {
        "t": "離開經濟系。我到現在還不知道對不對，可是不後悔。",
@@ -1396,20 +1383,19 @@ const HEROINE_ARCS={
      "topic": "她今天又翹課",
      "opts": [
       {
-       "t": "念經濟系那一個多月，我都在陪別人上課。後來休學了。",
+       "t": "我高中也翹過。翹去圖書館，結果被老師抓到。",
        "rel": {
         "trust": 2,
         "comf": 1
        },
        "reply": [
-        "陪別人上課……那個人一定很重要。",
-        "好，那我少翹一堂。只有一堂。"
+        "翹去圖書館？你很怪耶。",
+        "……好，那我少翹一堂。只有一堂。"
        ],
-       "ansId": "ZQ_PL_ECON_FAIL",
-       "tell": "econ"
+       "ansId": "ZQ_PL_ECON_FAIL"
       },
       {
-       "t": "每堂都去。重考過，就捨不得浪費。",
+       "t": "每堂都去。學費很貴，捨不得浪費。",
        "rel": {
         "trust": 2
        },
@@ -1417,8 +1403,7 @@ const HEROINE_ARCS={
         "捨不得浪費……",
         "你這樣說，我有點想去上下一堂了。有點。"
        ],
-       "ansId": "ZQ_PL_NOSKIP",
-       "tell": "retake"
+       "ansId": "ZQ_PL_NOSKIP"
       },
       {
        "t": "翹過一次，在宿舍睡到中午。",
@@ -1502,7 +1487,7 @@ const HEROINE_ARCS={
      "topic": "腰痛",
      "opts": [
       {
-       "t": "重考那年，每天傍晚去河堤走一圈，不然坐不住。",
+       "t": "我考試前每天傍晚去河堤走一圈，不然坐不住。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -1511,8 +1496,7 @@ const HEROINE_ARCS={
         "每天？",
         "好，那你陪我。你有經驗。"
        ],
-       "ansId": "ZQ_PL_RUN",
-       "tell": "retake"
+       "ansId": "ZQ_PL_RUN"
       },
       {
        "t": "沒有。我也坐到腰痛。",
@@ -1566,7 +1550,7 @@ const HEROINE_ARCS={
        "tell": "dad"
       },
       {
-       "t": "我說要重考的時候，我媽只說：你想清楚就好。",
+       "t": "我做大決定的時候，我媽只說：你想清楚就好。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -1608,7 +1592,7 @@ const HEROINE_ARCS={
      "topic": "做到四十歲",
      "opts": [
       {
-       "t": "重考。第三個月我把書都收進箱子裡，隔天又拿出來。",
+       "t": "我也有。高三有一次我把書都收進箱子裡，隔天又拿出來。",
        "rel": {
         "trust": 3,
         "npcRom": 1
@@ -1617,8 +1601,7 @@ const HEROINE_ARCS={
         "收進箱子裡……那你隔天為什麼拿出來？",
         "（你說因為箱子太小，放不下那些書。她笑了，這次笑得出來。）"
        ],
-       "ansId": "ZQ_PL_BOX",
-       "tell": "retake"
+       "ansId": "ZQ_PL_BOX"
       },
       {
        "t": "休學那天，我在捷運上打給一個人，講了很久。說出口以後，就比較不怕了。",
@@ -1769,7 +1752,7 @@ const HEROINE_ARCS={
      "topic": "她不去爸爸說的公司",
      "opts": [
       {
-       "t": "做得到。我重考都做到了，妳一定可以。",
+       "t": "做得到。我看過妳寫程式的樣子。",
        "rel": {
         "trust": 3,
         "npcRom": 1
@@ -1778,8 +1761,7 @@ const HEROINE_ARCS={
         "你這個比較有說服力。",
         "好。做完第一關，我會跟你說。"
        ],
-       "ansId": "ZQ_PL_CAN",
-       "tell": "retake"
+       "ansId": "ZQ_PL_CAN"
       },
       {
        "t": "我媽說，想清楚就好。我也這樣覺得。",
@@ -1828,7 +1810,7 @@ const HEROINE_ARCS={
      "topic": "她常坐的位子",
      "opts": [
       {
-       "t": "有。重考那年，家裡餐桌靠窗那一邊。",
+       "t": "有。高中圖書館最後一排靠窗那一個。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -1837,11 +1819,10 @@ const HEROINE_ARCS={
         "最後一排靠窗……",
         "那種位子坐久了，會有感情。我懂。"
        ],
-       "ansId": "SIS_PL_SEAT",
-       "tell": "retake"
+       "ansId": "SIS_PL_SEAT"
       },
       {
-       "t": "念經濟系那一個多月有。現在還沒找到。",
+       "t": "以前有。現在還沒找到。",
        "rel": {
         "trust": 1,
         "comf": 1
@@ -1850,8 +1831,7 @@ const HEROINE_ARCS={
         "那你慢慢找。",
         "……旁邊這個，可以先借你。"
        ],
-       "ansId": "SIS_PL_NOSEAT",
-       "tell": "econ"
+       "ansId": "SIS_PL_NOSEAT"
       },
       {
        "t": "現在有了。學姊旁邊。",
@@ -1945,7 +1925,7 @@ const HEROINE_ARCS={
        "tell": "mom"
       },
       {
-       "t": "重考那年沒有放假。現在放假反而不知道要幹嘛。",
+       "t": "我很少放假。放假反而不知道要幹嘛。",
        "rel": {
         "trust": 2
        },
@@ -1953,8 +1933,7 @@ const HEROINE_ARCS={
         "一樣。",
         "不知道要做什麼的時候，我就寫考古題。……好像不太健康。"
        ],
-       "ansId": "SIS_PL_NOBREAK",
-       "tell": "retake"
+       "ansId": "SIS_PL_NOBREAK"
       },
       {
        "t": "騎腳踏車亂逛。學姊要不要一起？",
@@ -1992,7 +1971,7 @@ const HEROINE_ARCS={
      "topic": "她跟 Alison 吵架",
      "opts": [
       {
-       "t": "我姊大我五歲，在台南當編輯。我要重考的時候，她寄了一箱參考書來，什麼都沒說。",
+       "t": "我姊大我五歲，在台南當編輯。我高三的時候，她寄了一箱參考書來，什麼都沒說。",
        "rel": {
         "trust": 3,
         "npcRom": 1
@@ -2104,7 +2083,7 @@ const HEROINE_ARCS={
      "topic": "她把筆摔在桌上",
      "opts": [
       {
-       "t": "重考前一個禮拜，我把講義撕了一頁。",
+       "t": "考試前一個禮拜，我把講義撕了一頁。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -2114,8 +2093,7 @@ const HEROINE_ARCS={
         "（你說有。她從考古題上撕下錯的那一頁，摺成一小塊。）",
         "……好像有。"
        ],
-       "ansId": "SIS_PL_TEAR",
-       "tell": "retake"
+       "ansId": "SIS_PL_TEAR"
       },
       {
        "t": "會。然後我會打給我媽，聽她講記帳的客人。",
@@ -2161,7 +2139,7 @@ const HEROINE_ARCS={
      "topic": "最大的棉花糖",
      "opts": [
       {
-       "t": "去河堤騎車。重考那年發現的。",
+       "t": "去河堤騎車。騎到沒力氣就好了。",
        "rel": {
         "comf": 2,
         "trust": 1
@@ -2170,8 +2148,7 @@ const HEROINE_ARCS={
         "河堤……",
         "下次我帶棉花糖，你帶腳踏車。"
        ],
-       "ansId": "SIS_PL_RIVER",
-       "tell": "retake"
+       "ansId": "SIS_PL_RIVER"
       },
       {
        "t": "回家吃我媽煮的飯。",
@@ -2382,7 +2359,7 @@ const HEROINE_ARCS={
      "topic": "凌晨三點的動畫",
      "opts": [
       {
-       "t": "重考那年常睡不著。我會起來把隔天要讀的排好。",
+       "t": "我睡不著的時候，會起來把隔天要做的排好。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -2391,8 +2368,7 @@ const HEROINE_ARCS={
         "排好……排好以後，就睡得著嗎？",
         "（你說有時候。她小聲說：「我也想試試看。」）"
        ],
-       "ansId": "PS_PL_PLAN",
-       "tell": "retake"
+       "ansId": "PS_PL_PLAN"
       },
       {
        "t": "打給我姊。她在台南，很晚睡。",
@@ -2451,7 +2427,7 @@ const HEROINE_ARCS={
        }
       },
       {
-       "t": "重考那年的准考證。",
+       "t": "高中最後一張准考證。",
        "rel": {
         "trust": 2,
         "comf": 1
@@ -2460,8 +2436,7 @@ const HEROINE_ARCS={
         "准考證～那就是你的公車票。",
         "去一個很重要的地方的那張。"
        ],
-       "ansId": "PS_PL_TICKET",
-       "tell": "retake"
+       "ansId": "PS_PL_TICKET"
       },
       {
        "t": "沒有。我東西都亂丟。",
@@ -2613,7 +2588,7 @@ const HEROINE_ARCS={
        "ansId": "PS_PL_ASK_HER"
       },
       {
-       "t": "重考那年，我也常說沒事。其實都有事。",
+       "t": "我以前也常說沒事。其實都有事。",
        "rel": {
         "trust": 3,
         "comf": 1
@@ -2623,8 +2598,7 @@ const HEROINE_ARCS={
         "（她安靜了很久。）",
         "那……如果我有事，我會跟你說。可能。"
        ],
-       "ansId": "PS_PL_SAME",
-       "tell": "retake"
+       "ansId": "PS_PL_SAME"
       },
       {
        "t": "我媽說，累的時候吃飽睡飽就好。",
@@ -2777,7 +2751,7 @@ const HEROINE_ARCS={
        "tell": "sister"
       },
       {
-       "t": "會。重考那年我每天穿同一件，那是我的讀書制服。",
+       "t": "會。我有一件每天都穿的，那是我的讀書制服。",
        "rel": {
         "comf": 2,
         "trust": 1
@@ -2786,8 +2760,7 @@ const HEROINE_ARCS={
         "那件灰色的？我記得。",
         "（她皺了一下眉頭。）那件真的很醜。"
        ],
-       "ansId": "KX_PL_UNIFORM",
-       "tell": "retake"
+       "ansId": "KX_PL_UNIFORM"
       },
       {
        "t": "妳戴什麼都好看。",
@@ -2868,7 +2841,7 @@ const HEROINE_ARCS={
      "topic": "兩間學校",
      "opts": [
       {
-       "t": "會變。可是我休學、重考那段，我們也變過，還是走到現在。",
+       "t": "會變。可是我們之前也變過，還是走到現在。",
        "rel": {
         "trust": 3,
         "npcRom": 2
@@ -2877,8 +2850,7 @@ const HEROINE_ARCS={
         "那時候我們變得很快。",
         "好，那就繼續變，不要變遠就好。"
        ],
-       "ansId": "KX_PL_CHANGE",
-       "tell": "econ"
+       "ansId": "KX_PL_CHANGE"
       },
       {
        "t": "不會。",
@@ -2987,7 +2959,7 @@ const HEROINE_ARCS={
        "tell": "sister"
       },
       {
-       "t": "重考完那天，我媽帶我去買的。",
+       "t": "考完那天，我媽帶我去買的。",
        "rel": {
         "comf": 2,
         "trust": 1
@@ -3028,7 +3000,7 @@ const HEROINE_ARCS={
      "topic": "面試沒過",
      "opts": [
       {
-       "t": "有。重考那年，我每天都想放棄，每天又撐下去。",
+       "t": "有。有一段時間，我每天都想放棄，每天又撐下去。",
        "rel": {
         "trust": 3,
         "npcRom": 1
@@ -3038,8 +3010,7 @@ const HEROINE_ARCS={
         "（她看著你，表情慢慢鬆下來。）",
         "我現在就是這樣。"
        ],
-       "ansId": "KX_PL_EVERYDAY",
-       "tell": "retake"
+       "ansId": "KX_PL_EVERYDAY"
       },
       {
        "t": "（什麼都不說，陪她坐著。）",
@@ -3083,17 +3054,16 @@ const HEROINE_ARCS={
      "topic": "空出來的格子",
      "opts": [
       {
-       "t": "比去年空很多。重考那年，每天都是滿的。",
+       "t": "比以前空很多。以前每天都是滿的。",
        "rel": {
         "trust": 2,
         "comf": 1
        },
        "reply": [
-        "去年你每天都是滿的，我記得。",
+        "以前你每天都是滿的，我記得。",
         "今年空出來的，不准給別人。"
        ],
-       "ansId": "KX_PL_EMPTY",
-       "tell": "retake"
+       "ansId": "KX_PL_EMPTY"
       },
       {
        "t": "週三晚上我有家教。我換成週二。",

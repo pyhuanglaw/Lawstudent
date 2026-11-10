@@ -1,5 +1,5 @@
 #!/bin/bash
-# 獨立室內（麵店 noodle、書店 bookstore、宿舍 dorm）的驗收流程（第二個 AI）：整合測試＋回歸測試（docs/SECOND_AI_HANDOFF.md 第 3 節）→ 修改前／後截圖（fast_shots）。
+# 獨立室內（麵店 noodle、書店 bookstore、宿舍 dorm）的驗收流程（第二個 AI）：整合測試＋回歸測試（docs/rules/ROLE_LAWWW2.md 第 1.1 節（原 SECOND_AI_HANDOFF 第 3 節））→ 修改前／後截圖（fast_shots）。
 # 模擬器（SwiftShader）一次只跑一個，不要和其他瀏覽器工作同時跑。
 # 用法：bash tools/blender/env_second/run_interiors_acceptance.sh [log 資料夾] [tests|shots|all] [網址] [區域，預設 noodle,bookstore,dorm]
 cd "$(dirname "$0")/../../.."

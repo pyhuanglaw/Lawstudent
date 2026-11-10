@@ -62,7 +62,7 @@ const ARCINV=(function(){
     return did; };
   /* 回了：她回那一句（PHONE 的 say）、好感照選項；this／next／late＝排進行程 */
   S.onAnswer=function(G,m,o){ const id=m&&m.ask&&m.ask.id; if(!G||!id||String(id).indexOf('arcinv:')!==0) return; const key=String(id).slice(7), e=S.get(key), R=S.rec(G), r=R[key]; if(!e||!r||r.st!=='offer') return;
-    if(o&&o.arcRel&&Object.keys(o.arcRel).length&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ const d=Object.assign({},o.arcRel); if(typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum(e.who)<3) delete d.npcRom; SOCIAL.adjust(e.who,d); }
+    if(o&&o.arcRel&&Object.keys(o.arcRel).length&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ const d=Object.assign({},o.arcRel); if(!(typeof SOCIAL!=='undefined'&&SOCIAL.romOk&&SOCIAL.romOk(e.who))) delete d.npcRom; SOCIAL.adjust(e.who,d); }
     const p=o&&o.arcPlan; if(!p||p==='none'){ r.st='none'; S.npMsg(G,e,r); return; }
     const slot=p==='next'?r.sc.next:(p==='late'?r.sc.late:r.sc.this); if(!slot){ r.st='none'; return; }
     r.mode=p; r.plan=slot; r.st='planned';

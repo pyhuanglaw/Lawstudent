@@ -1,0 +1,15 @@
+{
+ "glb": "assets/models/char/second_ai/keychain_milktea.glb",
+ "tris": {
+  "kc_metal": 648,
+  "kc_tea": 136,
+  "kc_pearl": 792,
+  "kc_clear": 76,
+  "kc_lid": 266,
+  "kc_straw": 72
+ },
+ "bytes": 55116,
+ "length": 0.088,
+ "cup_h": 0.042,
+ "origin": "鑰匙環最上面（扣在拉鍊頭上）；往 −y 垂下、吸管那面朝 +z（three.js 模型座標）"
+}

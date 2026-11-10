@@ -4,10 +4,10 @@ TEST B 互動：走到書桌 → 坐下／讀書 → 起身 → 前進；圖書�
 TEST C ADV：觸發 NPC ADV → 結束 → 前進 ≥5 m
 TEST D 存檔：自由移動 → save → reload → 前進 ≥5 m
 TEST E 區域：宿舍／霖澤館前／椰林大道／教室／咖啡廳：spawn → walk → run → turn → interact → exit → walk
-用法：python3 tests/movement_regression.py [URL]（預設 build/index.html）"""
+用法：python3 tests/movement_regression.py [URL]（預設 index.html）"""
 import asyncio, json, sys, math
 from playwright.async_api import async_playwright
-BASE=(sys.argv[1] if len(sys.argv)>1 else 'http://127.0.0.1:8765/build/index.html')
+BASE=(sys.argv[1] if len(sys.argv)>1 else 'http://127.0.0.1:8765/index.html')
 URL=BASE+'?turbo'
 FLAGS={'introDone':True,'campusIntro':True,'classDone':True,'metAn':True,'met_an':True,'afternoonDone':True,'lawclub':True}
 def state(zone,pos,**kw):

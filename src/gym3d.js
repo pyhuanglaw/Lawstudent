@@ -201,6 +201,41 @@ const GY3=(function(){
     for(const e of (F&&F.equip)||[]){ if(!e.stand||!(e.use||[]).length) continue; const s=e.stand;
       IT.push({x:s.x,z:s.z,radius:0.8,lv:0,label:EQ_LABEL[e.kind]||('用'+(e.label||'器材')),gymEquip:e.id,get hidden(){ return !inFit(F,P())||!eqFree(E,e); },onInteract:()=>scene(GAME,GM=>useEquip(GM,e))}); } }   /* 只在健身中心裡面（走廊、游泳池看不到）；有人在用＝不出現 */
   async function deskB1(GM){ const r=rec(GM.G); if(!r.card){ await cardScene(GM,r); return; } GM.toast(r.pass===ym(GM.G)?'會員證：這個月的月票':'會員證：單次 50 元（或買這個月的月票）',3200); }
+  /* 器材會動的零件（GYM-FIT-PROPS-1103 第二包，LAWWW2 帳號 A 2026-11-10；第一包＝手上的啞鈴、槓、拉把，character3d.js gymProps）。
+     飛輪的曲柄、踏板，划船機的座椅、滑車、拉把原本是 gym_b1.glb 器材原型網格的一部分＝固定的：有人在踩飛輪曲柄不轉、在划船座椅不滑。
+     tools/blender/env_second/gym_moving_parts.py 把那些三角形從 gym_b1.glb 拿掉（退化三角形），同樣的三角形寫成 gym_moving_parts.glb（ASSETS 'prop.gym_moving'，lazy）；
+     這裡照配置 fitness.equip 每一台飛輪、划船機放一份，材質換成 gym_b1.glb 同名的材質（gymb1_metal、gymb1_vc：看起來和原本一樣）。每一格：
+       飛輪：有人在踩（人物原點在器材原點 0.3 m 內、pose gym_bike）→ 曲柄的角度＝gymIK 的 g.ph（腳踩的那一圈，+x 那支＝th、−x＝th+π；和 C.GYM.bike 的 axle、crank 同一組數字），
+             VRM 以外的人物（沒有 g.ph）照 C.GYM.bike.T 自己轉；踏板放在曲柄末端、保持水平。沒人的停在最後的角度（一開始＝原本模型的角度）。
+       划船機：有人在划 → 座椅的中心放在臀部骨頭（器材座標）的 z 往後 SEAT_BACK（坐骨在髖關節後面一點），限制在滑軌上；手上有拉把（gymPropOn）→ 掛在前面的拉把藏起來。
+     測試：node tests/gym_moving_parts_unit.js */
+  const MOV={SEAT_BACK:0.03, SEAT0:-0.10, Z0:-0.85, Z1:0.40, C0:0.9+Math.PI};
+  function gymMoving(E,z,g0,root,B,cz){ if(typeof ASSETS==='undefined'||!ASSETS.manifest['prop.gym_moving']) return;
+    ASSETS.loadOne('prop.gym_moving').then(c=>{ if(!c||!c.scene||E.zone!==z) return;
+      const mats={}; root.traverse(o=>{ if(o.isMesh&&o.material&&o.material.name&&!mats[o.material.name]) mats[o.material.name]=o.material; });
+      const src={}; c.scene.traverse(o=>{ if(/^gym_(bike|rower)_/.test(o.name)) src[o.name]=o; });
+      const mk=n=>{ if(!src[n]) return new THREE.Object3D(); const o=src[n].clone(true); o.traverse(q=>{ if(q.isMesh){ const m=mats[q.material&&q.material.name]; if(m) q.material=m; q.castShadow=false; q.receiveShadow=true; } }); return o; };
+      const grp=new THREE.Group(); grp.name='gym_moving_parts'; grp.position.z=-cz; g0.add(grp); const list=[];
+      for(const eq of (B.fitness&&B.fitness.equip)||[]){ if(eq.kind!=='bike'&&eq.kind!=='rower') continue; const m=new THREE.Group(); m.name='gym_mov_'+eq.id; m.position.set(eq.at[0],0,eq.at[1]); m.rotation.y=eq.ry||0; grp.add(m);
+        const it={eq,m,kind:eq.kind,occ:null,scan:0};
+        if(eq.kind==='bike'){ it.crank=mk('gym_bike_crank'); it.pl=mk('gym_bike_pedal_L'); it.pr=mk('gym_bike_pedal_R'); m.add(it.crank,it.pl,it.pr); it.th=MOV.C0; }
+        else { it.seat=mk('gym_rower_seat'); it.handle=mk('gym_rower_handle'); m.add(it.seat,it.handle); }
+        list.push(it); }
+      z.gymMoving=list; const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); gymMovingStep(list,Math.min(dt||0,0.1),E2||E); }; },e=>console.warn('健身中心器材會動的零件載入失敗（飛輪少了曲柄、踏板，划船機少了座椅、拉把）',e)); }
+  const MV=[new THREE.Vector3(),new THREE.Vector3()];
+  function gymMovingStep(list,dt,E){ const C=typeof CHAR!=='undefined'?CHAR:null, BK=C&&C.GYM&&C.GYM.bike||{T:0.9,axle:[0,0.36,-0.02],crank:0.17};
+    const ents=[]; if(E&&E.player&&E.player.obj) ents.push(E.player); for(const n of (E&&E.npcs)||[]) if(n&&n.obj) ents.push(n);
+    for(const it of list){ const want=it.kind==='bike'?'gym_bike':'gym_row';
+      const ax=it.eq.at[0], az=it.eq.at[1], near=n=>{ const p=n.obj.position; return n.pose===want&&Math.abs(p.x-ax)<0.3&&Math.abs(p.z-az)<0.3; };
+      if(it.occ&&!(near(it.occ)&&ents.includes(it.occ))){ it.occ=null; it.scan=0; }   /* 起來了、走了、換動作：同一格就放開（拉把馬上回來）*/
+      if(!it.occ&&(it.scan-=dt)<=0){ it.scan=0.25; for(const n of ents) if(near(n)){ it.occ=n; break; } }   /* 找新的人：0.25 秒找一次 */
+      const n=it.occ, u=n&&n.obj.userData, g=u&&u.gym&&u.gym.pose===want?u.gym:null;
+      if(it.kind==='bike'){ if(n){ if(g&&typeof g.ph==='number') it.th=g.ph; else it.th+=dt*2*Math.PI/(BK.T||0.9); }
+        it.crank.rotation.x=it.th-MOV.C0; const r=BK.crank, ay=BK.axle[1], az=BK.axle[2];
+        it.pl.position.set(0.07,ay+Math.cos(it.th)*r,az+Math.sin(it.th)*r); it.pr.position.set(-0.07,ay-Math.cos(it.th)*r,az-Math.sin(it.th)*r); }
+      else { const R=u&&u.rawGym; if(n&&g&&R&&R.hips){ it.m.updateWorldMatrix(true,false); const hz=it.m.worldToLocal(R.hips.getWorldPosition(MV[0])).z;
+          it.seat.position.z=Math.max(MOV.Z0,Math.min(MOV.Z1,hz-MOV.SEAT_BACK))-MOV.SEAT0; }
+        it.handle.visible=!(n&&u&&u.gymPropOn); } } }
   const gym_b1={ id:'gym_b1', name:'綜合體育館 B1', indoor:true, windowless:true, camDist:3.6, build(E){ const Ly=L(), B=Ly.b1, cz=-5;   /* 配置：x −24～24、z −24～14（room() 中心在原點，整個往 −z 移 5 m）*/
     const z=Z3.room(E,{w:48,d:38,h:B.h,windows:false,cool:true,wallColor:'#eceae4',floorTex:W3.stoneTex('#3a3d40'),spawn:Object.assign({},B.spawn)}); const g0=z.group, nav=z.nav;
     g0.position.z+=cz; nav.oz+=cz; for(const w of z.walls) w.userData.center=new THREE.Vector3(w.position.x,w.position.y,w.position.z+cz);
@@ -222,7 +257,7 @@ const GY3=(function(){
     { const P=typeof CLS!=='undefined'&&CLS.PE_POOL; if(P) IT.push({x:17.4,z:-3.2,radius:1.2,lv:0,label:'體育課集合（池邊）',mark:true,peSwim:true,visIf:p=>p.z<B.pool.z1&&(()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; return !!G&&CLS.dayItems(G).some(it=>it.room&&it.room.door==='gym'&&CLS.peSwim(G,it)); })(),onInteract:()=>peClass(GAME)}); }
     for(const q of B.interact){ if(q.kind==='gym_fitness') IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:'去健身房',mark:true,visIf:p=>p.z>B.pool.z1,onInteract:()=>scene(GAME,workout)});   /* visIf：人在游泳池（牆的北邊）看不到走廊的名牌（使用者 11-03 截圖）*/ else if(q.kind==='gym_b1_desk') IT.push({x:q.x,z:q.z,radius:1.1,lv:0,label:'服務櫃台',onInteract:()=>scene(GAME,deskB1)}); }   /* 看游泳池、更衣室：還沒有字（要 AA／BB），先不開 */
     equipIts(E,B,IT);   /* 器材一台一台用（GYM-FIT-1107）*/
-    z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_b1_glows'); b1Plates(root,B); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
+    z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_b1_glows'); b1Plates(root,B); gymMoving(E,z,g0,root,B,cz); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
     return z; } };
   /* ---------- 3F 主球場（ART-GYM2-INT，LAWWW2 2026-10-21；gym_layout.js 的 arena 段＋gym_arena.glb（LAWWW2-B 3effc0e0、f1e732f8、f1d23fd4））----------
      從 1F 大廳西側的樓梯上來＝南看台中間的入口通道（vomitory）。場地整片能走；三面看台走中間的走道（樓梯）上去：導航是連續的斜面（碰撞、找路），
@@ -298,6 +333,6 @@ const GY3=(function(){
       const sets=['SET_STAGE','SET_CEREMONY','SET_LECTURE','SET_CONCERT'].map(n=>root.getObjectByName(n)).filter(Boolean); for(const o of sets) o.visible=!!z.ceremonyOn&&(o.name==='SET_STAGE'||o.name==='SET_CEREMONY');   /* 典禮那天打開舞台＋典禮（SET-CEREMONY-1023）*/   /* 布置平常藏著（劇情要用時打開：導航加椅子區的阻擋，見 gym_layout.js arena.sets）*/
       Z3.attachRoomGLB(z,g0,fb,root); { const hp=root.getObjectByName('SET_HOOPS'); if(hp) hp.visible=!z.ceremonyOn; }   /* 籃架（ART-ARENA-HOOPS-1105，LAWWW2-B 11-07：屋頂吊下來、放下來的樣子，平常一直在）：典禮那天北端有舞台，籃架在舞台前緣上方——收起來 */ glowBatch(E,z,g0,root,'gym_arena_glows'); for(const o of sets) setGlowBatch(E,z,o,o.name+'_glows'); const G0=typeof GAME!=='undefined'?GAME.G:null; if(G0) z.applyTime(G0.hour,G0.weather); }).catch(e=>console.warn('3F 主球場正式模型載入失敗，用程序化備用模型',e)); }
     return z; } };
-  return {b1Plates,gym,gym_b1,gym_arena,ceremonyDay,ceremonyNav,arenaGeo,arenaLook,ARENA_LOOK,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday,fitOpen,fitPay,fitDone,useEquip,eqLine,eqFree,eqOn,EQ_LABEL,stageIx,using:()=>eqUse};
+  return {gymMoving,gymMovingStep,MOV,b1Plates,gym,gym_b1,gym_arena,ceremonyDay,ceremonyNav,arenaGeo,arenaLook,ARENA_LOOK,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday,fitOpen,fitPay,fitDone,useEquip,eqLine,eqFree,eqOn,EQ_LABEL,stageIx,using:()=>eqUse};
 })();
 Z3.ZONES.gym=GY3.gym; Z3.ZONES.gym_b1=GY3.gym_b1; Z3.ZONES.gym_arena=GY3.gym_arena;

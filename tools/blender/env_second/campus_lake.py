@@ -43,7 +43,10 @@ M = {
     'stone': L.pbr('lk_revetment', 'japanese_stone_wall', tile=1.6, target='#a8a295', sat=0.5, normal=0.6, maps=('diff', 'nor'), res=512, rough_value=0.85),
     'rock': L.pbr('lk_rock', 'mossy_rock', tile=1.2, target='#7b7b6c', sat=0.45, normal=0.7, maps=('diff', 'nor'), res=512, rough_value=0.9),
     'granite': L.pbr('lk_granite', 'granite_tile', tile=1.5, target='#a29c92', sat=0.4, normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.6),
-    'tile': L.pbr('lk_roof_tile', 'jp_kawara', tile=1.0, target='#4a524e', sat=0.4, normal=0.7, maps=('diff', 'nor'), res=512, rough_value=0.55),
+    # NTU-REF-1110 ③-3（LAWWW2 帳號 A 11-10；X223／D136）：官網照片（docs/story_planning/ref_images/buildings/README.md 醉月湖一列）湖心亭是六角亭、**綠色琉璃瓦**，湖邊有**垂柳**、**紅色木欄杆**。
+    #   亭子本來就是六角形；屋瓦從深灰改成綠色琉璃瓦（亮一點、比較光滑）；木棧道的欄杆改紅漆；湖邊加三棵垂柳（下面「垂柳」）。
+    #   不照抄：亭子的比例、斗拱和彩畫照舊是自己的；「分三池」、石砌拱橋不做（湖照遊戲的一個橢圓，D136＋導航不動）
+    'tile': L.pbr('lk_roof_tile', 'jp_kawara', tile=1.0, target='#3f7a4f', sat=0.8, normal=0.7, maps=('diff', 'nor'), res=512, rough_value=0.32),
     'soffit': L.pbr('lk_soffit', 'dark_wood', tile=1.0, target='#5a3e2a', maps=('diff',), res=256, rough_value=0.7),
     'plank': L.pbr('lk_plank', 'dark_planks', tile=1.0, target='#7a5a3e', normal=0.5, maps=('diff', 'nor'), res=512, rough_value=0.75),
     'pile': L.pbr('lk_pile', 'dark_wood', tile=0.8, target='#4a3626', maps=('diff',), res=256, rough_value=0.8),
@@ -51,6 +54,7 @@ M = {
     'teal': L.flat('lk_teal_paint', '#2f6a64', rough=0.5),
     'gold': L.flat('lk_gold', '#b08a3a', rough=0.35, metal=0.45),
     'cream': L.flat('lk_cream', '#e9e4d6', rough=0.6),
+    'paper': L.flat('lk_lantern_paper', '#f0d6a2', rough=0.8),   # 宮燈的燈紙（遊戲晚上讓它發光：zones3d.js attachLakeGLB 照路燈開關）
 }
 PMS = {}
 def pm(part, key):
@@ -220,6 +224,21 @@ lathe(gold, [(0.16, YA - 0.02, 0.2, YA + 0.06, lambda u, v: (u, v), 'out'), (0.2
              (0.07, YA + 0.16, 0.13, YA + 0.27, lambda u, v: (u, v), 'out'), (0.13, YA + 0.27, 0.06, YA + 0.4, lambda u, v: (u, v), 'out'),
              (0.06, YA + 0.4, 0.09, YA + 0.48, lambda u, v: (u, v), 'out'), (0.09, YA + 0.48, 0.0, YA + 0.62, lambda u, v: (u, v), 'out')], 12, M=T(PX, 0, PZ))
 
+# 宮燈（ART-ECON-3D-GAP-1021 D，LAWWW2-B 11-01：E12「湖對面的燈一盞一盞亮起來」11/6 17:45 已經天黑，湖心亭原本沒有燈）：
+#   亭子正中間從天花（寶頂下 y 4.67）吊下來的六角宮燈：金色吊桿、紅漆上下蓋、米黃燈紙（lake_lantern_paper，遊戲晚上發光）、紅色流蘇。
+#   燈身 2.12～2.44 m：要在柱頭之間的額枋（2.48～2.84 m）下面——第一版掛在 2.62～3.02，從亭子外面看整個被額枋擋住（遊戲內截圖）；流蘇最低 1.98 m（人物最高 1.85 m，走到亭子中間不會穿過）
+LANT_Y0, LANT_Y1 = 2.12, 2.44
+lathe(gold, [(0.014, LANT_Y1 + 0.08, 0.014, YA - 0.08, lambda u, v: (u, v), 'out')], 6, M=T(PX, 0, PZ))
+lathe(red, [(0.25, LANT_Y1, 0.17, LANT_Y1 + 0.06, lambda u, v: (u, v), 'out'), (0.17, LANT_Y1 + 0.06, 0.06, LANT_Y1 + 0.09, lambda u, v: (u, v), 'out'),
+            (0.255, LANT_Y0 - 0.06, 0.255, LANT_Y0, lambda u, v: (u, v), 'out'), (0.255, LANT_Y1, 0.255, LANT_Y1 + 0.005, lambda u, v: (u, v), 'out')], 6, a0=math.pi / 6,
+      caps=[(0.255, LANT_Y0 - 0.06, lambda a, b: (a, b), 'down')], M=T(PX, 0, PZ))
+lathe(pm('lantern', 'paper'), [(0.235, LANT_Y0, 0.265, (LANT_Y0 + LANT_Y1) / 2, lambda u, v: (u * 6, v), 'out'), (0.265, (LANT_Y0 + LANT_Y1) / 2, 0.235, LANT_Y1, lambda u, v: (u * 6, v), 'out')], 6, a0=math.pi / 6,
+      caps=[(0.235, LANT_Y1, lambda a, b: (a, b), 'up')], M=T(PX, 0, PZ))
+for k in range(6):                                                                                   # 六條直的紅框
+    a = math.pi / 6 + k * math.pi / 3; ca, sa = math.cos(a), math.sin(a)
+    bar(red, (PX + 0.262 * ca, LANT_Y0, PZ + 0.262 * sa), (PX + 0.262 * ca, LANT_Y1, PZ + 0.262 * sa), 0.03, 0.03, lambda p: (p[0], p[1]))
+lathe(red, [(0.03, LANT_Y0 - 0.14, 0.012, LANT_Y0 - 0.06, lambda u, v: (u, v), 'out')], 6, caps=[(0.03, LANT_Y0 - 0.14, lambda a, b: (a, b), 'down')], M=T(PX, 0, PZ))   # 流蘇（最低 1.98 m）
+
 # ================= 木棧道 =================
 plank, pile = pm('boardwalk', 'plank'), pm('boardwalk', 'pile')
 HW = DECK_HW
@@ -241,10 +260,72 @@ posts = []
 zq = BZ0 + 0.25
 while zq <= BZ1 - 0.25: posts.append(zq); zq += 1.6
 if BZ1 - 0.25 - posts[-1] > 0.4: posts.append(BZ1 - 0.25)
+rail_red = pm('boardwalk', 'red')   # NTU-REF-1110 ③-3：欄杆紅漆（照片：湖邊紅色木欄杆）
 for sx in (-RX, RX):
-    for zq in posts: box(pile, PX + sx - 0.045, PX + sx + 0.045, DECK_Y, 0.95, zq - 0.045, zq + 0.045, {'*': lambda p: (p[2] + p[0], p[1])}, faces='tfkrl')
-    box(plank, PX + sx - 0.05, PX + sx + 0.05, 0.92, 0.97, posts[0] - 0.05, posts[-1] + 0.05, {'*': lambda p: (p[2] / 1.2, p[0] / 1.2)})
-    box(pile, PX + sx - 0.025, PX + sx + 0.025, 0.47, 0.53, posts[0], posts[-1], {'*': lambda p: (p[2], p[1])}, faces='tbrl')
+    for zq in posts: box(rail_red, PX + sx - 0.045, PX + sx + 0.045, DECK_Y, 0.95, zq - 0.045, zq + 0.045, {'*': lambda p: (p[2] + p[0], p[1])}, faces='tfkrl')
+    box(rail_red, PX + sx - 0.05, PX + sx + 0.05, 0.92, 0.97, posts[0] - 0.05, posts[-1] + 0.05, {'*': lambda p: (p[2] / 1.2, p[0] / 1.2)})
+    box(rail_red, PX + sx - 0.025, PX + sx + 0.025, 0.47, 0.53, posts[0], posts[-1], {'*': lambda p: (p[2], p[1])}, faces='tbrl')
+
+# ================= 垂柳（NTU-REF-1110 ③-3）=================
+# 三棵，樹幹在湖岸石砌的內側（水裡、遊戲的導航本來就擋住，導航不動），往湖心斜；枝條是往下垂的長條葉片卡（本作 PIL 畫的貼圖：透明底、細枝＋細長的葉子）。
+# 位置避開南岸的木棧道（z>0、靠 PX）和湖心亭：西北、東北、東岸
+from PIL import Image as _Im, ImageDraw as _Dr   # noqa: E402
+GEN = os.path.join(HERE, 'textures', 'gen'); os.makedirs(GEN, exist_ok=True)
+_wp = os.path.join(GEN, 'willow_strand.png')
+# 第 2 版（BB_255 P3「從上面看像枯樹」，LAWWW2 帳號 A 11-10）：枝條 5 → 8 條、葉子密一點長一點（每一節都長、兩邊各 1～2 片）、顏色綠一點亮一點（細枝也帶綠）
+_r = random.Random(77); _img = _Im.new('RGBA', (128, 512), (0, 0, 0, 0)); _d = _Dr.Draw(_img)
+for _k in range(8):
+    x0 = 9 + _k * 15.5 + _r.uniform(-3, 3); pts = [(x0 + 5 * math.sin(y / 70 + _k), y) for y in range(0, 512, 7)]
+    _d.line(pts, fill=(96, 112, 58, 255), width=2)
+    for (x, y) in pts[1::1]:
+        for sd in (-1, 1):
+            for _q in range(1 if _r.random() < 0.5 else 2):
+                L_ = _r.uniform(11, 19); a = math.radians(_r.uniform(50, 78)); ex, ey = x + sd * L_ * math.sin(a) * 0.55, y + L_ * math.cos(a)
+                g = _r.randint(0, 45); _d.line([(x, y), (ex, ey)], fill=(84 + g, 150 + g, 56 + g // 2, 255), width=3)
+_img.save(_wp)
+_px = [q for q in _img.getdata()]; _op = [q for q in _px if q[3] > 127]
+WILLOW_TEX = {'cover': round(len(_op) / len(_px), 3), 'green': round(sum(q[1] / max(1, q[0] + q[1] + q[2]) for q in _op) / max(1, len(_op)), 3)}   # 葉子貼圖：不透明的比例、平均綠色比例（GLB 裡是 webp，測試讀這裡）
+WL = bpy.data.materials.new('lk_willow_leaf'); WL.use_nodes = True; _nt = WL.node_tree; _bs = _nt.nodes['Principled BSDF']; _bs.inputs['Roughness'].default_value = 0.7
+_tx = _nt.nodes.new('ShaderNodeTexImage'); _tx.image = bpy.data.images.load(_wp); _nt.links.new(_tx.outputs['Color'], _bs.inputs['Base Color'])
+_rd = _nt.nodes.new('ShaderNodeMath'); _rd.operation = 'ROUND'; _nt.links.new(_tx.outputs['Alpha'], _rd.inputs[0]); _nt.links.new(_rd.outputs[0], _bs.inputs['Alpha'])
+try: WL.surface_render_method = 'DITHERED'
+except Exception: pass
+WL.use_backface_culling = False; WL['tile'] = 1.0
+M['willow'] = WL
+M['bark'] = L.pbr('lk_willow_bark', 'dark_wood', tile=1.0, target='#4f4537', maps=('diff',), res=256, rough_value=0.9)
+bark, leaf = pm('willow', 'bark'), pm('willow', 'willow')
+def _cyl(pmx, a, b, r0, r1, n=8):
+    a, b = np.array(a, float), np.array(b, float); ax = b - a; ax /= np.linalg.norm(ax)
+    u = np.cross(ax, (0, 0, 1) if abs(ax[2]) < 0.9 else (1, 0, 0)); u /= np.linalg.norm(u); w = np.cross(ax, u)
+    ra = [pmx.vid(a + r0 * (math.cos(2 * math.pi * i / n) * u + math.sin(2 * math.pi * i / n) * w)) for i in range(n)]
+    rb = [pmx.vid(b + r1 * (math.cos(2 * math.pi * i / n) * u + math.sin(2 * math.pi * i / n) * w)) for i in range(n)]
+    for i in range(n):
+        j = (i + 1) % n; pmx.face([ra[i], ra[j], rb[j], rb[i]], [(i / n, 0), ((i + 1) / n, 0), ((i + 1) / n, 1), (i / n, 1)])
+WILLOWS = []
+for t_ in (2.35, 0.95, 0.15):
+    i_ = int(round(t_ / (2 * math.pi) * N)) % N; bx, bz = P[i_]; nx, nz = NR[i_]; bx -= nx * 0.6; bz -= nz * 0.6
+    WILLOWS.append((round(bx, 2), round(bz, 2)))
+    lean = (-nx * 1.4, -nz * 1.4); h = rng.uniform(5.2, 6.2)
+    top = (bx + lean[0], h, bz + lean[1]); mid = (bx + lean[0] * 0.45, h * 0.55, bz + lean[1] * 0.45)
+    _cyl(bark, (bx, -0.3, bz), mid, 0.22, 0.16); _cyl(bark, mid, top, 0.16, 0.09)
+    for k in range(7):                                                                                  # 幾根往外彎的粗枝
+        a = 2 * math.pi * k / 7 + rng.uniform(-0.3, 0.3); e = (top[0] + 1.6 * math.cos(a), h + rng.uniform(0.2, 0.8), top[2] + 1.6 * math.sin(a))
+        _cyl(bark, mid if k % 2 else top, e, 0.07, 0.03, n=5)
+    def _card(c4, uv4):   # 兩面的葉片卡（四個角各自的 UV）
+        n_ = np.cross(np.array(c4[1]) - np.array(c4[0]), np.array(c4[3]) - np.array(c4[0])); ids = [leaf.vid(q) for q in c4]
+        leaf.face(ids, uv4, tuple(n_)); leaf.face(ids, uv4, tuple(-n_))
+    # 第 2 版（BB_255 P3「從上面看像枯樹」）：①樹冠：從樹頂往外、往下斜的一圈葉片卡（傘狀），從上面看蓋住樹冠；②垂下的枝條 46 → 84 條、每條兩片交叉（從哪個角度都看得到面，不是一條線）
+    for k in range(30):
+        a = 2 * math.pi * k / 30 + rng.uniform(-0.08, 0.08); ca, sa = math.cos(a), math.sin(a); r0, r1 = rng.uniform(0.1, 0.4), rng.uniform(2.0, 2.8)
+        y0 = h + 0.55 + rng.uniform(-0.1, 0.15); y1 = y0 - (r1 - r0) * rng.uniform(0.45, 0.7); w = rng.uniform(0.45, 0.65); px, pz = -sa * w / 2, ca * w / 2
+        p0 = (top[0] + r0 * ca, y0, top[2] + r0 * sa); p1 = (top[0] + r1 * ca, y1, top[2] + r1 * sa)
+        _card([(p0[0] - px, p0[1], p0[2] - pz), (p0[0] + px, p0[1], p0[2] + pz), (p1[0] + px, p1[1], p1[2] + pz), (p1[0] - px, p1[1], p1[2] - pz)], [(0, 1), (1, 1), (1, 0), (0, 0)])
+    for k in range(84):                                                                                 # 垂下的枝條：寬 0.4 的兩面葉片卡，長 2.2～3.6 m，交叉兩片
+        a = rng.uniform(0, 2 * math.pi); rr = rng.uniform(0.5, 2.5); cx, cz = top[0] + rr * math.cos(a), top[2] + rr * math.sin(a)
+        cy = h + 0.5 - rr * 0.25 + rng.uniform(-0.2, 0.2); Ls = rng.uniform(2.2, 3.6); yaw = rng.uniform(0, math.pi); y1 = max(0.25, cy - Ls)
+        for yw in (yaw, yaw + math.pi / 2):
+            dx, dz = 0.2 * math.cos(yw), 0.2 * math.sin(yw)
+            _card([(cx - dx, cy, cz - dz), (cx + dx, cy, cz + dz), (cx + dx, y1, cz + dz), (cx - dx, y1, cz - dz)], [(0, 1), (1, 1), (1, 0), (0, 0)])
 
 # ================= 輸出 =================
 objs = {}
@@ -253,8 +334,8 @@ for (part, key), p_ in PMS.items():
     ob = to_blender(p_, f'lake_{part}_{key}', M[key], root, B, g2b, bpy); objs[ob.name] = p_.tris()
 st = L.export(OUT, gpu_instances=False)
 info = dict(st, tris_by_object=objs, origin='湖中心（遊戲 lake() 的 cx, cz）；x 東、z 南', outline={'A': A_, 'B': B_, 'N': N, 'rad': '1+0.10 sin(3t+0.6)+0.05 cos(5t+1.3)'},
-            pavilion={'center': [PX, PZ], 'r': PR, 'deck_y': DECK_Y, 'col_r': COL_R, 'eave_r': RE, 'apex_y': YA},
-            boardwalk={'x': [PX - HW, PX + HW], 'z': [BZ0, BZ1], 'deck_y': DECK_Y}, rocks=len(placed),
+            pavilion={'center': [PX, PZ], 'r': PR, 'deck_y': DECK_Y, 'col_r': COL_R, 'eave_r': RE, 'apex_y': YA, 'lantern': [PX, (LANT_Y0 + LANT_Y1) / 2, PZ]},
+            boardwalk={'x': [PX - HW, PX + HW], 'z': [BZ0, BZ1], 'deck_y': DECK_Y}, rocks=len(placed), willows=WILLOWS, willow_tex=WILLOW_TEX,
             hide_in_game='lake() 的程序化湖岸（rim）、湖心亭（deck、6 根柱、beam、roof、eave、fin）、木棧道（bw、兩條 rail、posts、piles）；水面、睡蓮、草叢、樹、長椅、路燈留著',
             nav_note='導航不變；木棧道走得到的寬度是 |x−PX|≤0.9（遊戲 onBoard），欄杆在 ±0.8：人走到邊上身體會穿過欄杆——建議接的時候把木棧道的可走寬度縮到 |x−PX|≤0.45')
 L.write_json(OUT[:-4] + '.json', info)

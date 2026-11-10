@@ -19,6 +19,11 @@ const TX3=(function(){
   /* 新生南路那一邊（src/data/xinsheng_layout.js）：店門的互動點在 (facade.x＋0.9, door.z)、半徑 1.4；走出來站在它外面 1.7 m、騎樓裡、面向馬路（+x）*/
   function streetOut(){ const XL=typeof XINSHENG_LAYOUT!=='undefined'?XINSHENG_LAYOUT:null, q=XL&&XL.shops.find(s=>s.id==='tongxian');
     const fx=XL?XL.facade.x:-16.5, dz=q?q.door.z:-7.2; return {x:+(fx+0.9+1.7).toFixed(2),z:dz,yaw:Math.PI/2}; }
+  /* 臨街窗的窗景（XS-TONGXIAN-VIEW-1110，LAWWW2 帳號 A 11-10；BB X254 GAME_BUG P2：21:00 窗外和白天一模一樣）：CC 的 tongxian.glb 窗外是一塊固定的白天街景板（窗外 1.6 m）。
+     照新生南路其他店（XS-WINCARD）放一片視差窗（照片 assets/models/env/views/xs_tongxian_{day,night}.webp：Blender 在新生南路場景裡、站在這片的位置往外拍），擋在那塊板子前面；換時段時白天、晚上換圖。
+     位置：窗 x −3.0～−0.4、窗台 0.87、窗頂 2.53，後牆 z −5.2（0.12 厚）→ 牆外 5 cm。換算成新生南路：街 x＝−18.2 − 店內 z、街 z＝−9.2 ＋ 店內 x、y＋4.2（render.sh 的說明）。
+     片子比窗大（4.4×2.6）：斜看也不露邊。測試：node tests/xs_tongxian_view_unit.js */
+  const PANES=[{kind:'xs_tongxian',x:-1.7,y:1.7,z:-5.37,w:4.4,h:2.6,ry:0,depth:36}];
   const zone={ id:ZONE, name:'同弦樂器', indoor:true, camDist:3.6, build(E){ const L=LAY();
     const IN=Object.assign({},L.enterAt||L.spawn);
     const z=Z3.room(E,{w:L.w,d:L.d,h:L.h,cell:0.1,warm:true,wallColor:L.wallColor||'#ecdfca',floorTex:W3.stoneTex('#c9a780'),windows:false,spawn:IN});
@@ -44,7 +49,7 @@ const TX3=(function(){
     const onL2=z.onLamps; z.onLamps=function(on){ onL2.call(this,on); z._lampsOn=!!on; if(gMesh&&gMesh.material) gMesh.material.emissiveIntensity=on?1:0; };
     const take=root=>{ root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) glows.push(o); }); };
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xs_tongxian']) ASSETS.loadOne('bldg.xs_tongxian').then(c=>{ if(!c||!c.scene||E.zone!==z) return;
-      const root=c.scene.clone(true); Z3.attachRoomGLB(z,g0,fb,root); take(root); glowUp(); if(z.applyTime&&typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); }).catch(e=>console.warn('同弦樂器室內正式模型載入失敗，用備用模型',e));
+      const root=c.scene.clone(true); Z3.attachRoomGLB(z,g0,fb,root); take(root); glowUp(); if(Z3.shopViewPane) Z3.shopViewPane(z,g0,PANES[0]);   /* 臨街窗的窗景（XS-TONGXIAN-VIEW-1110，見 PANES）*/ if(z.applyTime&&typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); }).catch(e=>console.warn('同弦樂器室內正式模型載入失敗，用備用模型',e));
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xs_tongxian_stair']) ASSETS.loadOne('bldg.xs_tongxian_stair').then(c=>{ if(!c||!c.scene||E.zone!==z) return;
       const r=c.scene.clone(true); r.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(r); r.updateMatrixWorld(true); take(r); glowUp(); }).catch(e=>console.warn('同弦樂器樓梯間正式模型載入失敗',e));
     return z; } };
@@ -52,6 +57,6 @@ const TX3=(function(){
     ASSETS.manifest['bldg.xs_tongxian']={url:'assets/models/env/second_ai/bb_support/tongxian.glb',type:'building',lazy:true,source:'CC（帳號 A）tools/blender/env_second/bb_support/tongxian_interior.py v4d；樓梯間挖洞、木地板調淺（D112）LAWWW2-C tools/blender/env_second/glb_floor_hole.py、glb_tint_image.py',license:'本作'};
     ASSETS.manifest['bldg.xs_tongxian_stair']={url:'assets/models/env/second_ai/tongxian_stair.glb',type:'building',lazy:true,source:'LAWWW2-C tools/blender/env_second/tongxian_stair.py',license:'本作'}; }
   const INTERACT=()=>{ const L=LAY(); return L?L.interact.map(q=>Object.assign({},q)):[]; };
-  return {ZONE,zone,streetOut,INTERACT,get OWNER(){ const L=LAY(); return L&&L.npc?Object.assign({},L.npc.owner):null; }};
+  return {ZONE,zone,streetOut,INTERACT,PANES,get OWNER(){ const L=LAY(); return L&&L.npc?Object.assign({},L.npc.owner):null; }};
 })();
 if(typeof Z3!=='undefined'&&Z3.ZONES) Z3.ZONES.xs_tongxian=TX3.zone;

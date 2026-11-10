@@ -110,7 +110,7 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i1=sc('src/data/feed_
   for(const term of ['Y1S2','Y2S1']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!ADD514.includes(p.id)).map(A524)}), md=doc[term], D=DOC[term];   /* AA_514 加的那一則不在 AA_505 的表裡（tests/aa514_kx_moot3_unit.js 對 AA_514）*/
     if(!S||!md){ check('0. '+term+' 對稿（'+D.sha+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
-    const L=strs(S), bad=L.filter(t=>!md.includes(t));
+    const UE=require('./user_line_edits.js'), L=strs(S), bad=L.filter(t=>!md.includes(t)&&!(UE[t]&&md.includes(UE[t])));   /* UE：使用者核准改過的句子（2026-11-10 KX-NO-SWEAR-1110）*/
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+D.sha+'，一字不差；'+L.length+' 句）',L.length>=(term==='Y1S2'?300:230)&&!bad.length,J(bad.slice(0,8)));
     /* ② 稿 → 遊戲：動態表每一列 */
     const rows=rowsOf(md).filter(r=>!CUT661.includes(expectRow(term,r).id)), wrong=[], wd=[];   /* CUT661：稿上有、遊戲拿掉的（AA_661 第 51 列 ps2b）*/
@@ -125,7 +125,7 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i1=sc('src/data/feed_
     check('0. '+term+' 稿上的日期和星期對得上（'+rows.length+' 列；寫錯的照日期：'+(WD_KNOWN[term].join('、')||'沒有')+'）',J(wd)===J(WD_KNOWN[term]),J(wd));
     /* ② 稿 → 遊戲：私訊的每一句、每一個選項 */
     const Q=dmQuotes(md), all=new Set(L), optT=new Set(); for(const q of S.dms) if(q.ask) for(const o of q.ask.opts) optT.add(o.t);
-    const missL=Q.lines.filter(([w,t])=>!all.has(t)), missO=Q.opts.filter(t=>!optT.has(t));
+    const UEr=Object.fromEntries(Object.entries(require('./user_line_edits.js')).map(([a,b])=>[b,a])), missL=Q.lines.filter(([w,t])=>!all.has(t)&&!(UEr[t]&&all.has(UEr[t]))), missO=Q.opts.filter(t=>!optT.has(t));
     check('0. '+term+' ② 稿的私訊 '+Q.lines.length+' 句、選項 '+Q.opts.length+' 個都在遊戲裡（阿姨那一句＝麵店）',Q.lines.length>=(term==='Y1S2'?25:12)&&Q.opts.length>=6&&!missL.length&&!missO.length,J({n:[Q.lines.length,Q.opts.length],missL,missO}));
     if(term==='Y1S2') check('0. Y1S2 稿裡唯一一句不是手機的旁白（公館窗邊）列在沒做：3D 的旁白不在這一輪',J(Q.nar)===J(['公館一間店的窗邊，以安和那個穿套裝的女人面對面坐著。這次說話的是對面的人，以安一直在點頭。']),J(Q.nar)); }
   /* AA_505 更正（e05e87992、010515370）以前的句子 */
@@ -194,7 +194,7 @@ sec('3',()=>{ if(!HAS()||!SET.Y1S2){ check('3. 私訊',false,'沒有資料'); re
   /* 可昕被叫妹妹 */
   const D79=DK('2026-07-09');
   for(const [k,flag,want] of [[0,'great',['我知道。……可是他還是很煩。']],[1,'abo',['（貼圖：長頸鹿）','好主意。明天他再來我就叫。']],[2,'tired',['嗯。我要睡了。']]]){ fresh(D79,21,{dating_kexin:true}); rel('kexin','ACQ'); contact('kexin'); walk(D79,22.8); const got=answer('kx_mei',k);
-    check('3. 可昕（交往中）7/9 22:40 被叫妹妹，選第 '+(k+1)+' 個 → KX_MEI_DM '+flag,J(tagged('kx_mei').slice(0,3))===J(['今天有一個客人一直叫我妹妹。','我忍住了。','……操。'])&&J(got)===J(want)&&H.G.flags.KX_MEI_DM===flag,J(got)); }
+    check('3. 可昕（交往中）7/9 22:40 被叫妹妹，選第 '+(k+1)+' 個 → KX_MEI_DM '+flag,J(tagged('kx_mei').slice(0,3))===J(['今天有一個客人一直叫我妹妹。','我忍住了。','……真的很想翻白眼。'])&&J(got)===J(want)&&H.G.flags.KX_MEI_DM===flag,J(got)); }
   fresh(D79,21); who('kexin','FRIEND'); walk(D79,23); check('3. 沒有交往、朋友：也有',tagged('kx_mei').length===3);
   fresh(D79,21); who('kexin','ACQ'); walk(D79,23); check('3. 沒有交往、只認識：沒有',!tagged('kx_mei').length&&R().dm.kx_mei==='x:stage');
   if(!SET.Y2S1) return;

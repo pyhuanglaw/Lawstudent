@@ -184,7 +184,7 @@
 
 | 種類 | 是什麼 | 怎麼處理 |
 |---|---|---|
-| A 現行規範 | CLAUDE.md、本檔、`docs/TESTING.md`、`docs/PROJECT_DECISIONS.md`、`00_人物口氣表.md`、`00_文件狀態表.md`、Character Bible、校園規劃、交接總入口 | 照本檔改成新名稱；保留舊名時寫「（原霖澤館）」方便對照 |
+| A 現行規範 | CLAUDE.md、本檔、`docs/TESTING.md`、`docs/rules/`（職位頁）、`00_人物口氣表.md`、`00_文件狀態表.md`、Character Bible、校園規劃、交接總入口 | 照本檔改成新名稱；保留舊名時寫「（原霖澤館）」方便對照 |
 | B 還會被開發流程讀取的企劃 | `docs/story_planning/` 的 AA_*、BB_*、ladder、交接包；`docs/handoff/` 的任務、交付清單 | 台詞照第 3 節換字，出新 SHA（逐字對稿的測試照新 SHA）；檔頭加一行「10-30 起照 `docs/WORLD_NAMING.md` 換名」 |
 | C 歷史紀錄、真實素材來源 | `docs/history/`、使用者需求原文、實機截圖、參考照片、授權紀錄、`LICENSES.md` 的出處、舊的測試紀錄 | **不改原文**（使用者原話、日期、來源、授權都保留）；檔頭或資料夾加一行「本文件為歷史紀錄，遊戲現行名稱以 `docs/WORLD_NAMING.md` 為準」 |
 

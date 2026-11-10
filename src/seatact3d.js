@@ -299,14 +299,14 @@ const SEATACT=(function(){
   function drop(r){ unChat(r); R.on.delete(r.n); unhold(r); if(r.set) R.dirty=true; }
   S.drop=function(n){ const r=R.on.get(n); if(r){ drop(r); } };
   /* 占著、人不在的位子（EXAM-LIB-CROWD-1104：期末考前的圖書館，src/examlib3d.js）：S.AWAY＝[fn(GM)→[座位…]]，每個位子桌上放「休息」那一組（圖書館：闔上的筆電、課本、杯子、蓋著的手機／闔上的筆記本）；
-     沒有人坐（座位上有人＝照那個人配）、最多 S.AWAY_CAP 個（離玩家近的先）；位子不在清單上了（有人坐下、占的人回來了、換區域）就拿掉。沒有 AWAY＝照舊 */
+     考試週的木曜日（咖啡廳：杯子＋蓋著的手機，src/mokuyobi_sys3d.js）也用；沒有人坐（座位上有人＝照那個人配）、最多 S.AWAY_CAP 個（離玩家近的先）；位子不在清單上了（有人坐下、占的人回來了、換區域）就拿掉。沒有 AWAY＝照舊 */
   S.AWAY=[]; S.AWAY_CAP=40;
   const awayKeys=new Map();   /* 座位鍵 → 代表那個位子的物件（R.on 的鍵；不是人）*/
   function awayList(GM,E){ const out=new Map(); for(const f of S.AWAY){ let L=null; try{ L=f(GM); }catch(e){ console.warn('SEATACT.AWAY',e); } for(const st of (L||[])){ if(!st) continue; const k=skey(st); if(!out.has(k)) out.set(k,st); } }
     if(out.size>S.AWAY_CAP){ const P=E.player&&E.player.obj&&E.player.obj.position; const L=[...out.entries()]; if(P) L.sort((a,b)=>Math.hypot(a[1].x-P.x,a[1].z-P.z)-Math.hypot(b[1].x-P.x,b[1].z-P.z)); return new Map(L.slice(0,S.AWAY_CAP)); }
     return out; }
   const sitAt=(E,st)=>(E.npcs||[]).some(n=>n&&(n.seat||n.seatTarget)&&Math.hypot((n.seat||n.seatTarget).x-st.x,(n.seat||n.seatTarget).z-st.z)<0.35&&((n.seat||n.seatTarget).lv|0)===(st.lv|0))||!!(E.player&&E.player.seat&&Math.hypot(E.player.seat.x-st.x,E.player.seat.z-st.z)<0.35);
-  S.awayTick=function(GM,place,ixDone){ const E=GM.E; if(!S.AWAY.length&&!awayKeys.size) return; const want=place==='library'?awayList(GM,E):new Map();
+  S.awayTick=function(GM,place,ixDone){ const E=GM.E; if(!S.AWAY.length&&!awayKeys.size) return; const want=place==='library'||place==='cafe'?awayList(GM,E):new Map();   /* cafe：考試週的木曜日（BUG-MOKU-EXAM-SEATS-1110，src/mokuyobi_sys3d.js S.examAway）；清單由各模組自己只給自己那一區的位子 */
     for(const [k,n] of [...awayKeys.entries()]){ const r=R.on.get(n); if(!r||!want.has(k)||sitAt(E,r.st)){ if(r) drop(r); awayKeys.delete(k); } }   /* !r：換日時整批 drop 掉了＝下面重新放 */
     for(const [k,st] of want){ if(awayKeys.has(k)||sitAt(E,st)) continue; const n={away:true,key:k};   /* 不是人：applyBody、手上的東西、聊天都不碰 */
       const r={n,st,act:'rest',named:false,away:true,forced:undefined,set:null,items:null,tb:undefined,tbT:0,tbN:0,pose:null,hold:null,kind:null}; awayKeys.set(k,n); R.on.set(n,r); if(ixDone) retable(E,r,place); R.dirty=true; } };
@@ -332,7 +332,11 @@ const SEATACT=(function(){
       const ims={}; for(const [nm,n] of cnt){ const a=R.props[nm], b=R.props[nm+'_lod1']; const mk=(src,name)=>{ const im=new THREE.InstancedMesh(src.geometry,src.material,n); im.count=0; im.castShadow=false; im.receiveShadow=true; im.name=name; im.frustumCulled=true; g.add(im); return im; };
         const A=a?mk(a,'desk:'+nm):null; ims[nm]={near:A,far:b?mk(b,'desk:'+nm+'_lod1'):A,item:!b}; }
       g.userData.rs=rs; g.userData.ims=ims;
-      const LG=E.zone.levelGroups, lg=LG&&LG[lv]; (lg&&lg.group||E.zone.group||E.scene).add(g); R.groups.set(lv,g); lay(g,P,true); } }
+      const LG=E.zone.levelGroups, lg=LG&&LG[lv], par=lg&&lg.group||E.zone.group||E.scene; par.add(g);
+      /* 桌上的東西是世界座標（S.probe 用 matrixWorld 找桌子）：掛的群組自己有位移的區域（一盞：zones3d.js wzShop 把整個房間 g0 往 +z 搬了 cz＝2.3 m），
+         這一組要抵銷掉——不然每一件都多偏 2.3 m（BUG X289，11-08 BB：一盞的外帶杯浮在離座位 1.87 m、下面沒有桌子的地方）。群組沒有位移＝單位矩陣＝照舊 */
+      par.updateWorldMatrix(true,false); new THREE.Matrix4().copy(par.matrixWorld).invert().decompose(g.position,g.quaternion,g.scale); g.updateMatrixWorld(true);
+      R.groups.set(lv,g); lay(g,P,true); } }
   let M4=null, Q4=null, V4=null, ONE=null, UP=null;   /* 第一次畫的時候才建（只載資料、THREE 是假的測試環境也載得起來）*/
   S.NEAR=7; S.ITEM_FAR=12;
   function lay(g,P,force){ if(!M4){ M4=new THREE.Matrix4(); Q4=new THREE.Quaternion(); V4=new THREE.Vector3(); ONE=new THREE.Vector3(1,1,1); UP=new THREE.Vector3(0,1,0); } const rs=g.userData.rs, ims=g.userData.ims; let ch=!!force;

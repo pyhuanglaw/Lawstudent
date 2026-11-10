@@ -1,0 +1,17 @@
+{
+ "objects": 3,
+ "unique_meshes": 3,
+ "tris": 716,
+ "tris_drawn": 716,
+ "materials": 4,
+ "out": "assets/models/env/second_ai/gg_lane_gate.glb",
+ "bytes": 78316,
+ "texres": 512,
+ "note": "GG-LANE-CLOSE-1110 公館往溫州街巷口的鐵門",
+ "gate": {
+  "x0": -74.0,
+  "x1": -68.0,
+  "z": 22.3,
+  "h": 2.3
+ }
+}

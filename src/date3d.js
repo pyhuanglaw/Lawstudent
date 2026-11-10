@@ -47,26 +47,27 @@ const DATE=(function(){
   /* 第 6 階（AA_126 4-1）：好朋友（熟悉 ≥60、信任 ≥45、自在 ≥40），她的戀愛（npcRom）≥55、祐廷的戀愛（rom）≥30 */
   S.stageNum=function(id){ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return 0; const r=SOCIAL.rel(id), n=v=>+v||0;
     const fr=n(r.fam)>=60&&n(r.trust)>=45&&n(r.comf)>=40?4:(n(r.fam)>=40&&n(r.trust)>=25?3:(n(r.fam)>=20?2:1));
-    if(fr>=4&&n(r.npcRom)>=55&&n(r.rom)>=30) return 6; if(fr>=3&&n(r.npcRom)>=30) return 5; return fr; };
+    if(fr>=4&&n(r.npcRom)>=55) return 6;   /* 祐廷自己的戀愛（rom）不當條件（使用者 11-10 17:4x 對 AA：「「你還沒有那樣看她」沒必要吧…玩家自己知道有沒有 不應該有這個數據」；AA_126 5d6d31e3e；ROM-NO-PLAYER-ROM-1110）*/ if(fr>=3&&n(r.npcRom)>=30) return 5; return fr; };
 
   /* 人物頁的進度條（D36；AA_126 4-1、AA_128 3-2）：友情（往第 4 階好朋友）、戀愛（七位，往第 5、6 階；第 6 階以後是告白的條件），不顯示數字，
      下面一句寫還差哪一種。交往中＝{dating:true}（人物頁只寫「交往中」）；男生朋友只有友情那一條。PROG_HINT 的自在、祐廷的戀愛、先成為好朋友三句：AA 10-21 22:3x 定（企劃線 0b057075，AA_126 4-1；「你還沒有那樣看她」和「她還沒有那樣看你」對著寫）*/
-  S.PROG_HINT={fam:'再熟一點',trust:'再多信任一點',comf:'相處再自在一點',npcRom:'她還沒有那樣看你',rom:'你還沒有那樣看她',close:'先成為好朋友',
-    count:'再多一些兩個人出去的時間',wishUnknown:'她好像有一個很想去的地方',wishPlace:'她提過想去{place}'};
+  S.PROG_HINT={fam:'再熟一點',trust:'再多信任一點',comf:'相處再自在一點',npcRom:'現在是朋友的感覺',npcRomAcq:'你們還在互相認識。',close:'先成為好朋友',
+    count:'再多一些兩個人出去的時間',wishUnknown:'她好像有一個很想去的地方',wishPlace:'她提過想去{place}',
+    npcRomHalf:'她好像開始在意你了',ambi:'你們之間有點曖昧'};   /* 曖昧分三段（ROM-STAGE-TEXT-1110，使用者 11-10 選擇題「照程度寫三段」：「都已經這個程度 她還沒有那樣看我? 要區分曖昧階段吧??」）：戀愛條還沒一半照舊、一半以上「開始在意」、第 6 階多一行「有點曖昧」 */
   S.progress=function(G,id){ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return null; const F=(G&&G.flags)||{}; if(F['dating_'+id]) return {dating:true};
     const r=SOCIAL.rel(id), n=v=>+v||0, v={fam:n(r.fam),trust:n(r.trust),comf:n(r.comf),npcRom:n(r.npcRom),rom:n(r.rom)};
     const fr=v.fam>=60&&v.trust>=45&&v.comf>=40?4:(v.fam>=40&&v.trust>=25?3:(v.fam>=20?2:1));
-    const bar=need=>{ let k=null, lo=1; for(const key in need){ const x=Math.min(1,Math.max(0,v[key]/need[key])); if(x<lo-1e-9){ lo=x; k=key; } } return {pct:lo,hint:k?S.PROG_HINT[k]:''}; };
+    const bar=need=>{ let k=null, lo=1; for(const key in need){ const x=Math.min(1,Math.max(0,v[key]/need[key])); if(x<lo-1e-9){ lo=x; k=key; } } return {pct:lo,hint:k?((k==='npcRom'||k==='rom')&&lo>=0.5?S.PROG_HINT[k+'Half']:S.PROG_HINT[k]):''}; };
     const NEED=[null,{fam:20},{fam:40,trust:25},{fam:60,trust:45,comf:40}];
     const out={fr:fr>=4?{pct:1,hint:''}:bar(NEED[fr]),rom:null};
     if(!S.HEROINES.includes(id)) return out;
     const st=S.stageNum(id);
-    if(st<5) out.rom=fr<3?{pct:0,hint:''}:bar({npcRom:30});
-    else if(st===5){ const b=bar({npcRom:55,rom:30}); out.rom=fr<4?{pct:Math.min(b.pct,0.5),hint:S.PROG_HINT.close}:b; }
+    if(st<5){ out.rom=bar({npcRom:30}); if(fr<3&&out.rom.hint===S.PROG_HINT.npcRom) out.rom.hint=S.PROG_HINT.npcRomAcq; }   /* 還不是朋友（認識、有點熟）、還沒過一半＝「你們還在互相認識。」（AA 11-10 17:40）*/   /* ROM-PRIVATE-DATE-1110：認識、有點熟也看得到她的戀愛（原本朋友以下一律 0，使用者「都約這麼多次還沒有戀愛?」）*/
+    else if(st===5){ const b=bar({npcRom:55}); out.rom=fr<4?{pct:Math.min(b.pct,0.5),hint:S.PROG_HINT.close}:b; }
     else { const L=(G&&G.dateLog&&G.dateLog[id])||{count:0,wishKnown:false,wish:false}, NC=S.COUNT_NEED[id]||4, c=Math.min(NC,L.count|0);   /* 芯慈要 6 次（AA_537 G9）*/
       const pct=(c/NC+(L.wishKnown?0.5:0)+(L.wish?0.5:0))/2;
       const hint=c<NC?S.PROG_HINT.count:(!L.wishKnown?S.PROG_HINT.wishUnknown:(!L.wish?S.PROG_HINT.wishPlace.replace('{place}',S.wishName(G,id)||'一個地方'):''));
-      out.rom={pct,hint}; }
+      out.rom={pct,hint,mood:S.PROG_HINT.ambi}; }   /* 第 6 階：多一行「你們之間有點曖昧」（game3d.js progHTML）*/
     return out; };
 
   /* 走完一趟：符合五個條件才 +1（一趟只算一次；同一天去兩個地點也是一趟）；同一個地點記次數（遞減用）；心願地點和她單獨去＝wish */
@@ -183,7 +184,7 @@ const DATE=(function(){
     if(P.kind==='overnight') Object.assign(trip,{nights:1,lodging:P.lodging,leave:P.leave});
     G.trips.push(trip);
     if(typeof OUT!=='undefined'&&OUT.plan){ const nm=typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(o.who):o.who, names=P.locs.map(l=>S.loc(l).name).join('、');
-      OUT.plan(G,{id:'date_'+id,dateTrip:id,ev:null,day:o.day,h:P.depart+P.travelH,travelH:P.travelH,travel:S.travelText(P),place:names,car:P.transport==='car',title:'和'+nm+'去'+names+(P.kind==='overnight'?'（兩天一夜）':''),late:1,back:'回到首都帝大。'}); }
+      OUT.plan(G,{id:'date_'+id,dateTrip:id,ev:null,day:o.day,h:P.depart+P.travelH,travelH:P.travelH,travel:S.travelText(P),place:names,car:P.transport==='car',title:'和'+nm+'去'+names+(P.kind==='overnight'?'（兩天一夜）':''),late:1,back:'回到首都帝大。',alarm:false}); }
     return Object.assign({ok:true},trip); };
   S.trip=(G,id)=>{ S.rec(G); return G.trips.find(t=>t.trip===id)||null; };
   /* ===== 預約（AA_128 4-1；DATE-S3）=====
@@ -210,9 +211,16 @@ const DATE=(function(){
     if(typeof INV!=='undefined'&&INV.whyNot){ const w=INV.whyNot(G,id,o); if(w) return {ok:false,why:w}; }
     return S.canAskCore(G,id); };
   /* INV.whyNot 以外的條件（第 5 階、她在等你說清楚、她有交往的對象）：INV.whyNot 也用它（AA_350 T7a：她在台中、約得到才打開手機的「約」；不能叫 canAsk，會繞回 whyNot）*/
+  /* 出去玩從戀愛條過一半起就能約（使用者 11-10 16:2x 選擇題「戀愛條過一半就可以」：「我不是跟你說曖昧要分階段嗎？應該後期就可以了吧」；
+     原本要第 5 階＝她的戀愛 30，戀愛條過一半時人物頁寫「她好像開始在意你了」、出去玩卻寫「她還沒有那樣看你」，前後矛盾）。
+     過一半＝人物頁戀愛條（第 5 階以前 bar({npcRom:30})）≥ 0.5＝她的戀愛 ≥ 15；分手後的冷淡期（INV.capStage 壓低了階段）不算。
+     還不能約：還不是朋友「你們還沒那麼熟。」、朋友但她的戀愛還沒過一半「你們現在是朋友。再多相處一陣子。」（AA 11-10 16:46，企劃線 08543d6fd；不再寫「她還沒有那樣看你」）*/
+  S.ASK_ROM_HALF=15; S.ASK_NOT_YET='你們還沒那麼熟。'; S.ASK_NOT_YET_FRIEND='你們現在是朋友。再多相處一陣子。';   /* AA 11-10 16:46（企劃線 08543d6fd）：還不是朋友／已經是朋友、她的戀愛還沒過一半 */
+  S.askHalf=id=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return false; const r=SOCIAL.rel(id); return (+r.npcRom||0)>=S.ASK_ROM_HALF; };
   S.canAskCore=function(G,id){ const F=G.flags||{}, dating=!!F['dating_'+id];
-    const sn=typeof INV!=='undefined'&&INV.capStage?INV.capStage(G,id,S.stageNum(id)):S.stageNum(id);   /* 分手後的冷淡期照朋友的階段（AA_434 4-3；INV.capStage）*/
-    if(!dating&&sn<5) return {ok:false,why:'還沒熟到可以兩個人出去'};
+    const raw=S.stageNum(id), sn=typeof INV!=='undefined'&&INV.capStage?INV.capStage(G,id,raw):raw;   /* 分手後的冷淡期照朋友的階段（AA_434 4-3；INV.capStage）*/
+    const cool=typeof INV!=='undefined'&&typeof INV.cool==='function'&&INV.cool(G,id);   /* 分手後的冷淡期（V6EX.cool）：戀愛條過一半也不放行——原本 sn===raw 擋不住「本來就是好朋友 4 階」的人（BB 11-10 17:15 X304 FAIL，day46 存檔以安）*/
+    if(!dating&&sn<5&&!(!cool&&sn===raw&&S.askHalf(id))) return {ok:false,why:sn>=3?S.ASK_NOT_YET_FRIEND:S.ASK_NOT_YET};   /* 已經是朋友以上、差她的戀愛（第 5 階要她的戀愛 30）：說清楚差什麼（ROM-STAGE-TEXT-1110，使用者 11-10「而且也不能約校外?」）*/
     if(typeof ROM!=='undefined'&&ROM.get){ const R=ROM.get(G,id); if(R&&R.status==='paused') return {ok:false,why:'她在等你把話說清楚'}; }
     const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))) return {ok:false,why:'她現在有交往的對象'};
     return {ok:true}; };

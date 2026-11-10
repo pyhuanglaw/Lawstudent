@@ -163,6 +163,9 @@ const PROPS = (function(){
     name_pin:{bone:'spine',make:namePin,pos:[-0.0431,0.26,-0.1395],rot:[0.083,0.3,0]},
     mug:{bone:'rightLowerArm',make:mugGlb,sit:'hide'},
     lawbook:{bone:'leftLowerArm',make:lawbookGlb},
+    /* 何俊朗（US-LONG-3D-1110，LAWWW2）背包上的奶茶杯鑰匙圈：GLB 原點＝鑰匙環最上面、往 −y 垂下；扣在 backpack() 前袋的拉鍊頭（前袋 pk：中心 (0,-0.15,0.235)、0.24×0.17×0.06 → 上緣 y −0.065、外面 z 0.265），
+       右邊一點（x 0.08）；往外斜 0.15 rad：杯子的下半截離開前袋表面（直直垂下會有幾公釐插進袋子）。背包 drop 改了（芷若那種）要一起移 */
+    keychain_milktea:{bone:'upperChest',make:boneGlb('prop.keychain_milktea','keychain_milktea'),pos:[0.08,-0.066,0.274],rot:[-0.15,0,0]},
   };
   // 依骨頭與眼睛位置把配件掛上去；回傳 {name: object}
   function attach(vrm,list,opts){ opts=opts||{}; const out={}; const H=vrm.humanoid; for(const item of list){ const name=typeof item==='string'?item:item.name; const d=DEF[name]; if(!d) continue; const bone=H.getRawBoneNode(d.bone)||H.getRawBoneNode('chest')||H.getRawBoneNode('head'); if(!bone) continue; const o=d.make(typeof item==='object'?item:{}); o.name='prop:'+name; o.traverse(m=>{ if(m.isMesh){ m.castShadow=!!opts.shadow; m.frustumCulled=false; } });
