@@ -50572,7 +50572,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:1x LAWWW-B】使用者 X274。現況：約看電影（activity_scenes.js movie）在見面的南洋大廳演完（截圖是大廳海報牆前）；1 廳已經有 aa614 的坐下看電影（場燈關掉）。分工：① LAWWW：見面以後一起走進 1 廳坐下、場燈關、再演 seat／mid，散場出來演 bye；② AA：大一～大四每段期間（幾月～幾月）上映哪幾部電影（原創片名，D77，不用真實電影），約的時候、海報牆、台詞照這份；③ BB：照 D97 跟使用者要海報（AA 片單出來後）；④ LAWWW 接海報到大廳海報牆、1 廳銀幕前。",
+   "next": "【11-10 交班】BB-B 海報第一批 10 張交件（claude/elegant-brown-fcos7n e4eea1c780 docs/story_planning/bg_approved/posters/m2509a～m2605b.webp，圖上沒字、上方四分之一留白）；片單 AA_730 8a246c40f。下一班 LAWWW 接：進 1 廳坐下關燈、片名、海報牆、銀幕。 ｜ 【11-10 01:1x LAWWW-B】使用者 X274。現況：約看電影（activity_scenes.js movie）在見面的南洋大廳演完（截圖是大廳海報牆前）；1 廳已經有 aa614 的坐下看電影（場燈關掉）。分工：① LAWWW：見面以後一起走進 1 廳坐下、場燈關、再演 seat／mid，散場出來演 bye；② AA：大一～大四每段期間（幾月～幾月）上映哪幾部電影（原創片名，D77，不用真實電影），約的時候、海報牆、台詞照這份；③ BB：照 D97 跟使用者要海報（AA 片單出來後）；④ LAWWW 接海報到大廳海報牆、1 廳銀幕前。",
    "xai": {
     "spec": "使用者 11-10 01:1x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50630,7 +50630,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 00:5x LAWWW-B】併進 GIFT-HOLIDAY-1110（使用者 X277：各店都有東西買、節日生日送禮）；學姊文具是其中一店一人。 ｜ 【11-10 00:5x LAWWW-B】使用者 X276（人物設定「學姊很喜歡文具」使用者定）。現況：山嵐有「文具」互動點（AA_613 旁白），學姊 2/3 計畫本在公館文具店（sis_grad3d 2-7）。分工：AA 寫文具品項（名稱、價錢、一句說明）、學姊收到的反應（依關係階段）、哪些特殊日子能送（生日等）、文具區的劇情（例：在文具區遇到學姊）；LAWWW2 看山嵐文具區夠不夠（貨架、品項擺設）；LAWWW 接買文具（山嵐文具互動點→選單、扣錢、放進背包）、特殊日子送（和送飲料同一套流程）；BB 測。",
+   "next": "【11-10 01:36 LAWWW2-B 交班】文具區 WIP（分區＋原創分類牌＋「文具選物」木牌），還沒交件。 ｜ 【11-10 00:5x LAWWW-B】併進 GIFT-HOLIDAY-1110（使用者 X277：各店都有東西買、節日生日送禮）；學姊文具是其中一店一人。 ｜ 【11-10 00:5x LAWWW-B】使用者 X276（人物設定「學姊很喜歡文具」使用者定）。現況：山嵐有「文具」互動點（AA_613 旁白），學姊 2/3 計畫本在公館文具店（sis_grad3d 2-7）。分工：AA 寫文具品項（名稱、價錢、一句說明）、學姊收到的反應（依關係階段）、哪些特殊日子能送（生日等）、文具區的劇情（例：在文具區遇到學姊）；LAWWW2 看山嵐文具區夠不夠（貨架、品項擺設）；LAWWW 接買文具（山嵐文具互動點→選單、扣錢、放進背包）、特殊日子送（和送飲料同一套流程）；BB 測。",
    "xai": {
     "spec": "使用者 11-10 00:5x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50688,7 +50688,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:3x LAWWW-B】使用者 X279：服務學習只有兩學期——（一）圖書館（大一上法律學院圖書館櫃台，照舊）、（二）法律服務一學期。courses.js service_2（Y2S1 週三下午二，CAMPUS_SVC）改成法律服務：AA 寫地點（法律系館B 的法律服務中心之類）、每次的一句（serviceLines，照 service_1 的寫法）、和 D118 法律服務社（純劇情）的區別；學期照舊大二上，使用者沒說要改；LAWWW 改課程資料、上課地點；BB 測。",
+   "next": "【11-10 01:36 LAWWW2-B】接待桌模型交班後才讀到，0 進度（順序最後）。AA_342 svc 兩句拿掉（AA 4470f4908）待 LAWWW 改 src/twfill3d.js。 ｜ 【11-10 01:3x LAWWW-B】使用者 X279：服務學習只有兩學期——（一）圖書館（大一上法律學院圖書館櫃台，照舊）、（二）法律服務一學期。courses.js service_2（Y2S1 週三下午二，CAMPUS_SVC）改成法律服務：AA 寫地點（法律系館B 的法律服務中心之類）、每次的一句（serviceLines，照 service_1 的寫法）、和 D118 法律服務社（純劇情）的區別；學期照舊大二上，使用者沒說要改；LAWWW 改課程資料、上課地點；BB 測。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50792,7 +50792,7 @@
    "id": "CAMPUS-FLOOR-STRIP-1110",
    "title": "校園步道中間一條條凸起的長條（使用者截圖）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -50804,7 +50804,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 02:0x LAWWW-B】使用者 X283。截圖 docs/handoff/user_shots/1110_campus_floor_strip.webp、存檔 tests/fixtures/user_save_day51b_1110.json（校園 (29.88,−54.4) 18:29，騎腳踏車）。LAWWW2 查是哪個網格（路緣、地磚接縫、重疊面），修完 Node 測試＋BB 截圖。",
+   "next": "【11-10 01:36 LAWWW2-B 交班】原因：curb() 碰到路口不斷開，7 段約 56 m 路緣橫在別條步道上。補丁＋測試在 claude/funny-albattani-iawshm 49f2fe924 docs/art-rebuild/second_ai/wip/campus_curb_gap_1110/（a883f36de 測試 FAILED 2 → 加補丁 ALL PASS；回歸 38 支；apply --check 對 a883f36de OK）。下一班 LAWWW：核 sha、套、跑測試、整合；CC 用使用者存檔拍、BB 判。 ｜ 【11-10 02:0x LAWWW-B】使用者 X283。截圖 docs/handoff/user_shots/1110_campus_floor_strip.webp、存檔 tests/fixtures/user_save_day51b_1110.json（校園 (29.88,−54.4) 18:29，騎腳踏車）。LAWWW2 查是哪個網格（路緣、地磚接縫、重疊面），修完 Node 測試＋BB 截圖。",
    "xai": {
     "spec": "使用者 11-10 02:0x 對 LAWWW-B",
     "branch": "claude/funny-albattani-iawshm",
@@ -50821,7 +50821,7 @@
    "id": "AVENUE-FAR-SIGNS-1110",
    "title": "椰影大道遠景（校門外）都是補習班招牌",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -50833,7 +50833,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 02:0x LAWWW-B】使用者 X285。截圖 docs/handoff/user_shots/1110_avenue_far_cram.webp：大道盡頭校門外的遠景大樓一排粉紅直式「○○文理補習班」招牌。LAWWW2 查 campusBackdrop／TK.bgCity 的招牌：照公館實際（各種店家、銀行、餐廳），不要全是補習班，店名照 D77 原創。",
+   "next": "【11-10 01:36 LAWWW2-B 交班】只查到來源：gg_textures.py 的 BILLBOARDS；還沒改，下一班 LAWWW2 接。 ｜ 【11-10 02:0x LAWWW-B】使用者 X285。截圖 docs/handoff/user_shots/1110_avenue_far_cram.webp：大道盡頭校門外的遠景大樓一排粉紅直式「○○文理補習班」招牌。LAWWW2 查 campusBackdrop／TK.bgCity 的招牌：照公館實際（各種店家、銀行、餐廳），不要全是補習班，店名照 D77 原創。",
    "xai": {
     "spec": "使用者 11-10 02:0x 對 LAWWW-B",
     "branch": "claude/funny-albattani-iawshm",
@@ -50949,7 +50949,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:3x LAWWW-B】使用者 X289。11/8 週六 18:28 一盞，左側榻榻米房間：兩個外帶紙杯浮在半空（靠近跪坐的客人、沒有桌子的地方）。LAWWW2 查是 yizhan.glb 的擺設、還是路人（crowd3d）的道具位置；修好附 Node 測試，BB 截圖判。",
+   "next": "【11-10 01:36 LAWWW2-B】交班後才讀到，0 進度；下一班 LAWWW2 照順序：路緣 → 遠景招牌 → 一盞浮杯、法服攤位 → 文具區 → 接待桌。 ｜ 【11-10 01:3x LAWWW-B】使用者 X289。11/8 週六 18:28 一盞，左側榻榻米房間：兩個外帶紙杯浮在半空（靠近跪坐的客人、沒有桌子的地方）。LAWWW2 查是 yizhan.glb 的擺設、還是路人（crowd3d）的道具位置；修好附 Node 測試，BB 截圖判。",
    "xai": {
     "spec": "使用者 11-10 02:0x 對 LAWWW-B",
     "branch": "claude/funny-albattani-iawshm",
@@ -51065,7 +51065,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:5x LAWWW-B】使用者 X294。zones3d.js 社團招生攤位（SX=-18,SZ=14.5，面向椰影大道）搬到法學院廣場（兩館前面），互動點跟著搬；博覽會那兩天照舊收起來。",
+   "next": "【11-10 01:36 LAWWW2-B】交班後才讀到，0 進度（順序同上）。 ｜ 【11-10 01:5x LAWWW-B】使用者 X294。zones3d.js 社團招生攤位（SX=-18,SZ=14.5，面向椰影大道）搬到法學院廣場（兩館前面），互動點跟著搬；博覽會那兩天照舊收起來。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -51094,7 +51094,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:5x LAWWW-B】使用者 X295。公告欄互動＝打開「本週公告」：照 ACTIVITIES 列這週的社課、講座、活動（時間、地點）、招生中的社團；AA 寫公告的標題、迎新派對要不要做成活動（AA 決定，D109）。",
+   "next": "【11-10 01:34 AA-B 交班】還沒開工；AA 打算：迎新派對做成活動（每年上學期第 2 週週五、綜合體育館）、特殊活動清單，寫在 AA_交接紀錄 B 類，下一班 AA 接。 ｜ 【11-10 01:5x LAWWW-B】使用者 X295。公告欄互動＝打開「本週公告」：照 ACTIVITIES 列這週的社課、講座、活動（時間、地點）、招生中的社團；AA 寫公告的標題、迎新派對要不要做成活動（AA 決定，D109）。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -51172,7 +51172,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:2x BB-B】CC PC SOCX_edae_study_h1_iv：invites3d.js:463 S.goPrompt 跳選單前就設 iv.goAsked=1，goAsked 存在 G.invites、讀檔 LOADLOCKS 只放 goBusy；提醒跳出時存檔（或自動存檔）讀回來就不再提醒、站著等到錯過。改法（LAWWW 決定）：讀檔時把還沒到期、在提醒時間範圍內的那筆 goAsked 清掉，或 goAsked 不存進存檔。改好給 BB SHA，CC 用同一個存檔重測。",
+   "next": "【11-10 01:2x BB-B】CC PC SOCX_edae_study_h1_iv：invites3d.js:463 S.goPrompt 跳選單前就設 iv.goAsked=1，goAsked 存在 G.invites、讀檔 LOADLOCKS 只放 goBusy；提醒跳出時存檔（或自動存檔）讀回來就不再提醒、站著等到錯過。改法（LAWWW 決定）：讀檔時把還沒到期、在提醒時間範圍內的那筆 goAsked 清掉，或 goAsked 不存進存檔。改好給 BB SHA，CC 用同一個存檔重測。 ｜ BB-B 交接檔【表外】已補（LAWWW-B 11-10）；測試 owner BB。",
    "xai": {
     "spec": "使用者 11-10 00:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
