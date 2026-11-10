@@ -53164,7 +53164,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "使用者 11-10 23:1x 授權開始做、聊天免費。LAWWW2：店面＋室內 tz_limao（6c 節）；AA：AA_750（871b331c9）轉成可匯入的稿；LAWWW：事件、營業時間、書房解鎖旗標"
+   "next": "AA 稿已交：企劃線 d259dfc6c docs/story_planning/AA_750_limao.json（menu／first／pool 四類／prof／reveal／study_room；全部免費、不加好感；orig:true 的句子不改字）。人物圖 docs/handoff/user_specs/limao_ref/shangshi_character.png。等 LAWWW2 店面＋室內 tz_limao（外觀圖在它分支）；LAWWW：匯入工具＋事件（旗標 LM_MET／LM_KNOWN／LM_PROF／LM_STUDY 要有預設值）、營業時間、書房解鎖"
   },
   {
    "id": "HANDOFF-LOOSE-1110",
