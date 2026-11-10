@@ -1012,11 +1012,11 @@ const CLS=(function(){
      遊戲的校園比真的小（校門到霖澤館 160 m，真的大約 1 km）：時間照真實步行算——遊戲距離 ×6、每分鐘 80 m，加 2 分鐘進出建築，四捨五入到 5 分鐘、最少 5 分鐘
      （宿舍→霖澤館約 15 分鐘、霖澤館→溫州街 Café 約 20 分鐘）*/
   const ANCHOR={ linze:[34,-112], classroom:[34,-112], gongtong:[2,33], boya:[-38,-83], putong:[-38,-58.5], wancai:[90.28,-83.2], lawlib:[85.08,-90.58], soclib:(typeof SL3!=='undefined'?[SL3.DOOR.x,SL3.DOOR.z]:[11,-65.7]), library_hall:[80,0], library:[80,0], dorm:[20,68], dorm_hall:[20,68],
-                 gongguan:[-140,0], cvs:[-188,-29], bookstore:[-188,-42], noodle:[-188,-63], wenzhou:[-90,-240], cafe:[-90,-300], xinsheng:[-101.4,-150] };   /* 新生南路：側門外（側門在校園北牆 (−101.4,−141)，XS-GATE-NORTH-1105；原本寫舊的西牆 (−124,−84)）；那一排的店照 PLACES.base 算新生南路（XS-PHONEMAP-1105）*/
+                 gongguan:[-140,0], cvs:[-188,-29], bookstore:[-188,-42], noodle:[-188,-63], wenzhou:[-90,-240], cafe:[-90,-300], xinsheng:[-101.4,-150], tingzhou:[-215,37] };   /* 汀州路（TINGZHOU-SHOPS-MOVE-1110）：公館店面街 G10 的巷子往西 27 m（公館的區域座標 +x 往南、+z 往西：巷口 (37.1,18) ≈ 校園座標 (−190,37)）*/   /* 新生南路：側門外（側門在校園北牆 (−101.4,−141)，XS-GATE-NORTH-1105；原本寫舊的西牆 (−124,−84)）；那一排的店照 PLACES.base 算新生南路（XS-PHONEMAP-1105）*/
   /* 溫州街、Café（WZ-ENTRY-XINSHENG-1103，X199：溫州街只從新生南路進出）：原本 [-200,-95]、[-192,-75]＝從公館巷口進去的位置。現在照新生南路往北走：
      新生南路的「往溫州街」在校園座標約 (−90,−190)（xinsheng3d.js 的 C2X 反算），進溫州街西側橫巷、再沿主巷往東到 Café 約 110 m——溫州街取中間 (−90,−240)、Café (−90,−300)。
      路程：霖澤館→Café 約 20 分鐘（和原本一樣）、公館→Café 約 25 分鐘（要繞回校園走側門；原本經巷口約 10 分鐘）*/
-  S.travelMinutes=function(G,fromZone,toZone,pos,toPos){ if(fromZone===toZone&&toZone==='gongguan'&&pos&&toPos){ const d=Math.hypot(pos.x-toPos.x,pos.z-toPos.z); return d<12?0:Math.max(5,Math.round((2+d/13)/5)*5); }   /* 公館有兩個落點（商圈、捷運站）：照距離算，和校園一樣（BB-B 10-23：人在公館時捷運站也寫「你在這裡」）*/
+  S.travelMinutes=function(G,fromZone,toZone,pos,toPos){ if(fromZone===toZone&&(toZone==='gongguan'||toZone==='wenzhou'||toZone==='tingzhou')&&pos&&toPos){   /* 汀州路：巷子口＋八間店門口（TINGZHOU-SHOPS-MOVE-1110）*/   /* 溫州街也有好幾個落點（溫州街、帝大紅茶、夏日冰菓室、溫州書屋；WZ-QUICKTRAVEL-1110）*/ const d=Math.hypot(pos.x-toPos.x,pos.z-toPos.z); return d<12?0:Math.max(5,Math.round((2+d/13)/5)*5); }   /* 公館有兩個落點（商圈、捷運站）：照距離算，和校園一樣（BB-B 10-23：人在公館時捷運站也寫「你在這裡」）*/
     if(fromZone===toZone&&toZone!=='campus') return 0;
     const anc=z=>ANCHOR[z]||(typeof PLACES!=='undefined'&&PLACES.base?ANCHOR[PLACES.base(z)]:null);   /* 沒有自己位置的樓上樓層、房間：照那一棟（PHONE-UNIFY-1030，手機「朋友」直接過去到霖澤館 3F＝霖澤館）*/
     const a=fromZone==='campus'&&pos?[pos.x,pos.z]:anc(fromZone), b=toZone==='campus'?(toPos?[toPos.x,toPos.z]:[-38,6]):anc(toZone); if(!a||!b) return 15;
@@ -1140,7 +1140,7 @@ const CLS=(function(){
      樓上樓層、房間照 PLACES.base 對到那一棟（宿舍房間→男生宿舍、總圖 3F→總圖、霖澤館 3F→霖澤館、溫州街的店→溫州街）；
      公館從校門進校園；溫州街經新生南路、從新生南路側門進校園（X199）。走不到校園的區域（國外、日本、美國…）＝不知道路線，不停（照舊直接到）。 */
   const OUTER={library_b1:'campus',classroom:'linze',lawlib:'wancai',linze:'campus',wancai:'campus',dorm_hall:'campus',library_hall:'campus',gongtong:'campus',putong:'campus',boya:'campus',gym:'campus',soclib:'campus',soclib_2f:'soclib',lane118:'campus',gongguan:'campus',
-               noodle:'gongguan',cvs:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',aoki:'gongguan',afar:'gongguan',daybreak:'gongguan',yangyang:'gongguan',corner_records:'gongguan',wenzhou:'xinsheng',cafe:'wenzhou',xinsheng:'campus'};   /* 新生南路從側門進校園（xs_ 的店照 PLACES.base→xinsheng）；溫州街只從新生南路進出（WZ-ENTRY-XINSHENG-1103，X199；原本 wenzhou:'gongguan'）*/
+               noodle:'gongguan',cvs:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',aoki:'gongguan',afar:'gongguan',daybreak:'gongguan',yangyang:'gongguan',corner_records:'gongguan',wenzhou:'xinsheng',cafe:'wenzhou',xinsheng:'campus',tingzhou:'gongguan'};   /* 汀州路只從公館店面街的巷子進出（TINGZHOU-SHOPS-MOVE-1110）*/   /* 新生南路從側門進校園（xs_ 的店照 PLACES.base→xinsheng）；溫州街只從新生南路進出（WZ-ENTRY-XINSHENG-1103，X199；原本 wenzhou:'gongguan'）*/
   const outerOf=z=>{ if(OUTER[z]) return OUTER[z]; const b=typeof PLACES!=='undefined'&&PLACES.base?PLACES.base(z):z; return b&&b!==z?b:null; };
   const upTo=z=>{ const out=[]; for(let q=z,n=0;q&&n<8;n++){ out.push(q); if(q==='campus') return out; q=outerOf(q); } return null; };
   /* 中間經過的區域（不含出發的那一區、不含教室那一區），照走的順序 */
