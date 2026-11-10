@@ -7538,6 +7538,21 @@
    "noDirectIntegrate": false,
    "note": "D144：setup_env.sh 裝好工具直接做。swimmer.py（正式人物生產線：npc.py stage0＋face＋泳衣／泳帽／泳鏡貼身殼、襪子重畫成皮膚）→ bl_swim_{sm1,sm2,sf1,sf2}.vrm 1.4～1.8 MB；character3d.js swim_free／swim_breast（gymIK 同一套，趴在水面 water −0.14）、C.swimLap；manifest char.swim_*（swim:true、不是 anon／ambient）。新測試四個人 ALL PASS，沒有新動作 FAILED 26；回歸 519 支過；可以套在 97979ca46。",
    "next": "MOVIE-POSTER-POS-1110 → GG-LANE 告示牌字 → US-LONG-3D-1110"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "GG-LANE-SIGN-1110 公館巷口告示牌的字被切掉（BB P3）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_lane_sign_1110/（README、gg_lane_sign_1110.patch、gg_lane_close_unit.js、regression.log）"
+   ],
+   "state": "待整合",
+   "noDirectIntegrate": false,
+   "note": "一行 9 個字要 4.5 倍板高、牌子只有 3.2 倍 → 兩行（text＋sub）；GLB 二進位不變、只有 extras；測試加 2b，開發 FAILED 1 → ALL PASS；回歸 159／160（aa498_pool_unit 開發分支上一樣失敗）。",
+   "next": "MOVIE-POSTER-POS-1110（等截圖）→ US-LONG-3D-1110"
   }
  ]
 }

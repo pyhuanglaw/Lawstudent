@@ -1,0 +1,70 @@
+diff --git a/assets/models/env/second_ai/gg_lane_gate.glb b/assets/models/env/second_ai/gg_lane_gate.glb
+index d48116e57a49e32c70d1bd470c511aa37eb401ad..8f462d7058d44765b74da199d0a49336ab23dadd 100644
+GIT binary patch
+delta 43
+zcmaFznB~o57T)xn5H}_U28K6=j0_qZc^w%!m2{MfOOuqWl$!k+xBD|PPBj1kFF6cC
+
+delta 35
+rcmaF!nB~c17T)xn5H}_U28Jhwj0_4Jc^w%U6`I2tw}&$_PBj1k)hh}j
+
+diff --git a/assets/models/env/second_ai/gg_lane_gate.json b/assets/models/env/second_ai/gg_lane_gate.json
+index 953546776..06f94e87c 100644
+--- a/assets/models/env/second_ai/gg_lane_gate.json
++++ b/assets/models/env/second_ai/gg_lane_gate.json
+@@ -5,7 +5,7 @@
+  "tris_drawn": 716,
+  "materials": 4,
+  "out": "assets/models/env/second_ai/gg_lane_gate.glb",
+- "bytes": 78308,
++ "bytes": 78316,
+  "texres": 512,
+  "note": "GG-LANE-CLOSE-1110 公館往溫州街巷口的鐵門",
+  "gate": {
+diff --git a/tests/gg_lane_close_unit.js b/tests/gg_lane_close_unit.js
+index bdd954443..15ccbfe8b 100644
+--- a/tests/gg_lane_close_unit.js
++++ b/tests/gg_lane_close_unit.js
+@@ -1,6 +1,7 @@
+ // 公館往溫州街那條巷子的巷口關起來（GG-LANE-CLOSE-1110，X199 配套；LAWWW2 帳號 A 11-10；LAWWW 14:21 派）——不需要瀏覽器（D131）。
+ // 使用者 X199：溫州街只從新生南路進出、公館往溫州街的巷口「拿掉」。遊戲已經用導航擋住＋一排盆栽，但公館正式模型還看得到巷子往南延伸 → 巷口加一道住戶的鐵門（tools/blender/env_second/gg_lane_gate.py）。
+ //   1 有鐵門的正式模型（ASSETS bldg.gg_lane_gate、檔案在、zone_assets 公館有它）
++//   2b 告示牌的字放得進牌子（BB 11-10 P3：一行 9 個字，近看只剩「人巷道 請勿進」→ 兩行）
+ //   2 GLB：鐵門擋滿巷口（x −74～−68 兩邊的牆之間，寬 ≥ 5.9 m）、在騎樓店面玻璃那條線往裡（z 22.1～22.5）、高 ≥ 2.2 m；有「私人巷道」告示牌（PLATE_FACE_）
+ //   3 遊戲：接上了（gg_lane_gate_glb）；導航和沒有模型時一格都不差（巷口照舊走不進去、騎樓照舊走得通）
+ //   4 看得出來關著：站在騎樓往巷子裡看（腰的高度往 +z），先碰到鐵門（z ≈ 22.3），看不到巷子深處
+@@ -36,6 +37,13 @@ const sc=HAS?glbScene(glbF):null; if(sc) sc.updateMatrixWorld(true);
+     ok=bb.min.x>=-74.01&&bb.max.x<=-67.99&&bb.max.x-bb.min.x>=5.9&&bb.min.z>=22.1&&bb.max.z<=22.5&&bb.max.y>=2.2&&!!plate&&/私人巷道/.test(plate.userData.text||'');
+     info=`x ${bb.min.x.toFixed(2)}～${bb.max.x.toFixed(2)}、z ${bb.min.z.toFixed(2)}～${bb.max.z.toFixed(2)}、高 ${bb.max.y.toFixed(2)}；告示牌 ${plate?'「'+plate.userData.text+'」':'沒有'}`; }
+   check('2 GLB：鐵門擋滿巷口兩邊的牆之間、在騎樓店面線往裡、高 ≥ 2.2 m；有「私人巷道」告示牌', ok, info); }
++  { /* 字放得進牌子（BB 11-10 P3：近看只剩「人巷道 請勿進」）：照 zones3d.js 的 wzPlateTex 算（橫的牌子：畫布寬＝高×板寬／板高；一行字高＝板高 0.5，有第二行 sub 時第一行 0.34、第二行 0.26；
++       中文字寬約＝字高），每一行的寬 ≤ 畫布寬的 90% */
++    const pl=sc&&sc.getObjectByName('PLATE_FACE_GG_LANE'); if(sc) sc.updateMatrixWorld(true); let fit=false, info2='沒有告示牌';
++    if(pl){ const bb=new THREE.Box3().setFromObject(pl), sz=bb.getSize(new THREE.Vector3()), wM=Math.max(sz.x,sz.z), hM=sz.y, W=wM/hM, d=pl.userData;
++      const lines=d.sub?[[d.text,0.34],[d.sub,0.26]]:[[d.text,0.5]], need=lines.map(([s_,f])=>[...(s_||'')].length*f);
++      fit=need.every(n=>n<=0.9*W); info2=`牌子 ${wM.toFixed(2)}×${hM.toFixed(2)} m（寬是高的 ${W.toFixed(2)} 倍）；每一行要 ${need.map(n=>n.toFixed(2)).join('、')} 倍高`; }
++    check('2b 告示牌的字放得進牌子（每一行 ≤ 寬的 90%）', fit, info2); }
+ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.renderer={capabilities:{getMaxAnisotropy:()=>8}};
+ global.GAME=global.GAME||{}; GAME.G={hour:14,weather:'clear',flags:{},zone:'gongguan',day:30};
+ const build=withGate=>{ const pend=[]; ASSETS.loadOne=k=>{ if(withGate&&k===KEY&&HAS){ const p=Promise.resolve({scene:glbScene(glbF)}); pend.push(p); return p; } return new Promise(()=>{}); };
+diff --git a/tools/blender/env_second/gg_lane_gate.py b/tools/blender/env_second/gg_lane_gate.py
+index e70a59ada..def40a449 100644
+--- a/tools/blender/env_second/gg_lane_gate.py
++++ b/tools/blender/env_second/gg_lane_gate.py
+@@ -2,7 +2,7 @@
+ 使用者 X199（11-03 選擇題）：溫州街只從新生南路進出，公館往溫州街的巷口「拿掉」。LAWWW 11-10 14:21 派：遊戲已經用導航擋住＋一排盆栽（gg_lane_closed_pots），
+ 但公館正式模型 gongguan_shops.glb 還看得到 6 m 寬的巷子往南延伸——巷口要一看就是進不去（D36：不用隱形牆、不要讓人以為能走）。導航不動。
+ 做法：巷子裡、騎樓店面玻璃那條線（z 22）往裡 0.3 m，兩邊牆之間（x −74～−68）一道住戶的鐵門（像但不照抄：台北巷弄常見的社區巷道鐵門）：
+-  兩根清水混凝土門柱（貼著兩邊的牆）、深綠色烤漆鐵門（下半截鐵板＋橫向壓條、上半截直條＋頂上一排短尖頭）、地上的滑軌、門上掛白底紅字的告示牌「私人巷道 請勿進入」（字由遊戲畫：PLATE_FACE_）。
++  兩根清水混凝土門柱（貼著兩邊的牆）、深綠色烤漆鐵門（下半截鐵板＋橫向壓條、上半截直條＋頂上一排短尖頭）、地上的滑軌、門上掛白底紅字的告示牌「私人巷道／請勿進入」兩行（字由遊戲畫：PLATE_FACE_）。
+ 座標：公館區域（x 往東、z 往南，y 朝上；店面街 FZ＝19，騎樓 z 19～22），GLB 原點＝區域原點。
+   /opt/blenv/bin/python tools/blender/env_second/gg_lane_gate.py [-- --out <glb>]"""
+ import os, sys
+@@ -64,7 +64,7 @@ def build():
+     kit.fbox('misc', PF, -0.62, 0.62, 1.42, 1.86, 0.0, 0.02, col='#d9d6cf')
+     plate = Mesh('PLATE_FACE_GG_LANE', M['board']); kit.face(plate, [PF.p(-0.58, 1.46, 0.022), PF.p(0.58, 1.46, 0.022), PF.p(0.58, 1.82, 0.022), PF.p(-0.58, 1.82, 0.022)], PF.N)
+     K.finish(accs, root, VC)
+-    uv01(plate.finish(root, uv=True, props={'text': '私人巷道 請勿進入', 'bg': '#f6f4ef', 'color': '#b3261e'}))
++    uv01(plate.finish(root, uv=True, props={'text': '私人巷道', 'sub': '請勿進入', 'bg': '#f6f4ef', 'color': '#b3261e'}))   # 兩行（遊戲的 wzPlateTex 第二行 sub）：一行 9 個字放不下 1.16×0.36 m 的牌子，近看只剩「人巷道 請勿進」（BB 11-10 P3）
+     VCM = L.vc_material('wz_vc_glg', rough=0.45)
+     L.vc_consolidate(root, {'glg_misc': VCM})
+     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
