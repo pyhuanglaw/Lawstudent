@@ -1,0 +1,7 @@
+gym_pose_unit: ALL PASS
+gym_crowd_unit: ALL PASS
+gym_unit: ALL PASS
+sit_task_wire_unit: ALL PASS
+sit_task_loops_unit: ALL PASS
+stairs_feet_unit: ALL PASS （門檻：穿進 < 4.5 cm、支撐腳離地 < 5 cm，而且比關掉時好）
+seat_ambient_unit: ALL PASS
