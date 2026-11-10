@@ -6,10 +6,10 @@
 - **第一節是逐項看過的**（待開工、進行中、已實作待整合，共 38 項）；第二、三節（157 項）是程式照 next 欄最新一段＋git log 分類的，只標出要核對的。
 
 ## 結論
-- 待開工、進行中裡**已經做完、只是狀態沒改**的：SPORT-SHOPS-1103、FASTFOOD-24H-1103、GG-SHOPS-REDO-1104、WZ-SECOND-1104、WZ-FIVE-1104、XS-GATE-MOVE-1105、ART-XINSHENG-GATE-1103、PERF-XS-NPC-1108 → 改「已整合待測試」。
+- 待開工、進行中裡**已經做完、只是狀態沒改**的：ART-WZ6（025ab4f30）、SPORT-SHOPS-1103、FASTFOOD-24H-1103、GG-SHOPS-REDO-1104、WZ-SECOND-1104、WZ-FIVE-1104、XS-GATE-MOVE-1105、ART-XINSHENG-GATE-1103、PERF-XS-NPC-1108 → 改「已整合待測試」。
 - 可以結案／被取代的：ART-POLISH、ART-DIRECTOR-LAWWW2、ART-ECON-3D-GAP-1021、ART-PHOTO-CMP-1021、PERF-CAMPUS-SHADOW-1020、MODEL-HELP-1103、OPEN-SRC-2D3D-1104。
 - 改成等別人的：ART-13（明軒，D99 凍結）、ART-SOY1（等豆漿店場景）、PERF-ZONE-ENTER-1018（等使用者數字）。
-- **真的還沒做、留在 LAWWW2 佇列的 16 項**：ART-WZ6、ART-SOP、LAWWW2-REEXPORT-US-1027、CROWD-DEPTS-LOOK-1028、INTERIOR-AAA-REVIEW-1028、FAIR-TENT-CAM-1102、DORM1-WALL-SEAM-1102、PUTONG101-WINDOW-1102、BAKE-PC-1102-S2、ART-OLDROAD-SHELF-1103、ART-GYM-POOL-SWIMMERS-1103、GYM-FIT-PROPS-1103、PERF-CAMPUS-GLB-1102、LM-SEAM-GEO、WZ-SEAT-CAMS-1104、GG-DOOR-CAMS-1104。
+- **真的還沒做、留在 LAWWW2 佇列的 15 項**（10:2x 更正：ART-WZ6 其實 025ab4f30 已整合）：ART-SOP、LAWWW2-REEXPORT-US-1027、CROWD-DEPTS-LOOK-1028、INTERIOR-AAA-REVIEW-1028、FAIR-TENT-CAM-1102、DORM1-WALL-SEAM-1102、PUTONG101-WINDOW-1102、BAKE-PC-1102-S2、ART-OLDROAD-SHELF-1103、ART-GYM-POOL-SWIMMERS-1103、GYM-FIT-PROPS-1103、PERF-CAMPUS-GLB-1102、LM-SEAM-GEO、WZ-SEAT-CAMS-1104、GG-DOOR-CAMS-1104。
   - 加上進行中的 WINVIEW-AUDIT-1105。
   - DORM1-WALL-SEAM-1102 和 LM-SEAM-GEO 是同一件。
 - 「已整合待測試」82 項、「等待」68 項：絕大多數是**等 CC 拍、BB 判**（場景美術 D120 由 BB 標），不是 LAWWW2 的待做。BB 已經寫 PASS、可能可以改已驗收的 4 項列在第二節，請核對。
@@ -21,7 +21,7 @@
 |---|---|---|---|---|
 | ART-13 | 進行中 | 部分完成、剩下的凍結：小語模型已接（55b67ccf9），明軒照 D99 凍結不排 | 55b67ccf9、145952ccd | 改「暫停」（明軒等 D99 解凍） |
 | ART-POLISH | 進行中 | 長期總目標，沒有單一交付；實際工作已拆到 INTERIOR-AAA-REVIEW-1028、各場景任務 | a453cb7e9 | 改「被取代」或標成長期原則，不算佇列 |
-| ART-WZ6 | 已實作待整合 | 真的還沒整合：wz6_items.glb 在 repo，src 一個地方都沒有載入（git grep 0） | 0e2ca42d4（登記） | **留**：LAWWW2 出擺放 patch（位置照 AA_420）→ LAWWW 接 |
+| ART-WZ6 | 已實作待整合 | **已整合**（10:2x 更正）：內容在 025ab4f30（10-24）用別的檔名接進遊戲——宿舍房間六件 `dorm_wz_items.glb`（計時器、卡片、筆記本、茶罐、白板影印、海報）、阿德影印兩種外觀（wenzhou_street 的 COPY_*）、一盞前院貓碗（WZ_CATBOWL）；tests/dorm_wz_items、wz_copy_shop、wz_work_spots。`aa_support/wz6_items.glb` 是 AA-B 的單件樣品，被這些取代、本來就不載入（BB-C 11-04 是照這個檔名 grep 的） | 025ab4f30 | 改「已整合待測試」（等 CC 拍、BB 判）；wz6_items.glb 可以標「被取代」 |
 | ART-SOY1 | 待開工 | 沒有做：src 沒有 soy_props；豆漿店場景（DL-11）也還沒有 | 381f38d23（登記） | 改「等待其他AI／素材」（等豆漿店場景） |
 | ART-SOP | 待開工 | ART_SOP.md、SCENE_RULES.md 還不在開發分支（只在 focused-cray／funny 分支） | bbb4301b6 | **留**：LAWWW 把文件合進開發分支（或 LAWWW2 出 patch），然後結案 |
 | PERF-ZONE-ENTER-1018 | 進行中 | 量測工具 ?perf 已驗收（BB-B n26_perfpanel_e ALL PASS）；剩使用者在自己電腦／手機回報數字 | 1df75303c | 改「等待使用者」 |
