@@ -1,7 +1,18 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-10 22:1x UTC）
+## 交接（最新｜帳號 A｜2026-11-10 22:3x UTC）
+- **今天交出去、等整合／CC 拍／BB 判的**（outbox 都登了）：
+  - 汀州路第 3 版（6c560d699，三間招牌）——LAWWW 已整合。
+  - 花序 A 件（033f083db，室內）——LAWWW 已整合（dev 2a7edffd5）。
+  - **花序 B 件＋公館三間外觀（8dd2084a2，`wip/flower_notes_1110/README_B.md`、`flower_notes_v1b_gg_shops3.patch`）**：dev 2a7edffd5 上試套乾淨。公館 G11 花序外觀、G04 安泰藥局／G08 汀州鮮果／G13 榮恩典文具社照使用者參考圖、四間門前中間的柱子拿掉、舊花攤拿掉。等 LAWWW ACK。
+  - 夜市規劃文件（a05a5277d）：等使用者回四題、授權。
+- **沒人定、不要自己做的**：公館 G09（洗樂搬走以後放什麼）、G10 要不要改成巷口模型。
+- **下一步（照順序）**：①看 LAWWW／BB／CC 回來的東西，照判定改；②花序第 2 版：花的造型（現在是小球）、「公館二樓高度」的窗景（做法照總圖 `tools/shots/library_views.py`）、門口橄欖樹和花台、洞石紋；③公館三間門口的東西（安泰特價推車和血壓計、榮恩典筆記本推車、汀州鮮果騎樓的水果箱）和室內（AA_743）；④汀州路：印得好門外樣本架、泰米黑板立牌、泰米室內、遠景；⑤排著的小項：同弦樂器招牌被擋（BB P2）、泳池水面、南洋戲院海報、季節布置 20 項。
+- **重建公館店面街的做法**（這次才補齊）：參考圖在企劃線 `docs/story_planning/ref_images/`（`git show origin/claude/story-planning:<檔>` 抓到一個資料夾，wz_cafes 的也放進同一個資料夾）；`python3 tools/blender/env_second/gg_shops6_tex.py`（新的六間＋花序）→ `XS_ONLY=gg python3 tools/blender/env_second/xs_front_tex.py <參考圖資料夾>` → `/opt/blenv/bin/python tools/blender/env_second/wz_street.py -- --set gongguan`（約 80 秒；**一定要有 `--`**，沒有的話會把溫州街的 GLB 蓋掉）。`textures/src/gg_cards/` 舊的幾張只在這個分支。
+- 工作樹：`$SP/wt_tz2`（dev a37b2ff61＋本機兩個 commit＝汀州路第 3 版、花序 A；上面是 B 件的改動）。換容器就沒有了，以分支上的 patch 為準。
+
+## 交接（上一則｜帳號 A｜2026-11-10 22:1x UTC）
 - **汀州路**：第 2 版已整合（dev 9cc173c29）；BB：街景＋五間正式店面 **ART_APPROVED**；三間（洗樂、印得好、泰米）只差招牌 → **第 3 版已交**（6c560d699，`wip/tingzhou_1110/README_v3.md`、`tingzhou_v3_signs.patch`，底 dev a37b2ff61）：各留一塊、放大到店面寬。等整合、CC 重拍。巷 A 和夜市攤 BB 不判，併到夜市任務。
 - **NIGHT-MARKET-1110（X326）規劃文件已交**（a05a5277d，`proposals/night_market_1110.md`）：使用者未授權實作，**不要動攤位模型**；等使用者回第 7 節四題。授權後照文件第 6 節做（01 刈包要整攤換成沈三盃黑糖鮮奶）。
 - **花序 Flower Notes（X325）A 件（室內）做好、在跑回歸**：`$SP/wt_fn`（dev 8372e7086）有配置 `src/data/flower_notes_layout.js`、區域 `src/flower_notes3d.js`（兩層導航、公館 G11 進出）、`tools/blender/env_second/flower_notes_interior.py` → `flower_notes_interior.glb`（3.7 MB、11 萬三角形）、`tests/flower_notes_unit.js`（ALL PASS）。程式備份在 `wip/flower_notes_1110/flower_notes_WIP_code.patch`（GLB 沒進備份，腳本跑得出來：約 3 分鐘）。交件說明 `wip/flower_notes_1110/README.md` 已寫好，回歸跑完就打包 `flower_notes_v1a.patch`、登 outbox、通知 LAWWW（副本 BB）。
