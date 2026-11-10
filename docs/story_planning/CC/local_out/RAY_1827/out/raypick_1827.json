@@ -1,0 +1,297 @@
+{
+ "corner_records": {
+  "W": 844,
+  "H": 390,
+  "hits": [
+   {
+    "px": [
+     100,
+     338
+    ],
+    "mesh": "cr_floor_floor",
+    "parent": "corner_interior",
+    "mat": "cr_floor_terrazzo",
+    "dist": 5.85,
+    "x": -3.73,
+    "y": -0.0,
+    "z": -3.5,
+    "uv": [
+     -3.7294,
+     -2.5023
+    ],
+    "uv2": [
+     0.0174,
+     0.5512
+    ],
+    "lightMap": true,
+    "lmIntensity": 6.283185307179586,
+    "lmValue": [
+     0,
+     0,
+     0
+    ],
+    "lmName": "corner_lm_day.webp",
+    "screen": null
+   },
+   {
+    "px": [
+     250,
+     338
+    ],
+    "mesh": "cr_floor_floor",
+    "parent": "corner_interior",
+    "mat": "cr_floor_terrazzo",
+    "dist": 5.16,
+    "x": -3.73,
+    "y": -0.0,
+    "z": -1.99,
+    "uv": [
+     -3.7294,
+     -0.9873
+    ],
+    "uv2": [
+     0.0174,
+     0.6241
+    ],
+    "lightMap": true,
+    "lmIntensity": 6.283185307179586,
+    "lmValue": [
+     0,
+     0,
+     0
+    ],
+    "lmName": "corner_lm_day.webp",
+    "screen": null
+   },
+   {
+    "px": [
+     400,
+     338
+    ],
+    "mesh": "cr_floor_floor",
+    "parent": "corner_interior",
+    "mat": "cr_floor_terrazzo",
+    "dist": 4.86,
+    "x": -3.73,
+    "y": 0,
+    "z": -0.47,
+    "uv": [
+     -3.7294,
+     0.5278
+    ],
+    "uv2": [
+     0.0174,
+     0.6969
+    ],
+    "lightMap": true,
+    "lmIntensity": 6.283185307179586,
+    "lmValue": [
+     0,
+     0,
+     0
+    ],
+    "lmName": "corner_lm_day.webp",
+    "screen": null
+   },
+   {
+    "px": [
+     550,
+     338
+    ],
+    "mesh": "cr_floor_floor",
+    "parent": "corner_interior",
+    "mat": "cr_floor_terrazzo",
+    "dist": 5.03,
+    "x": -3.73,
+    "y": -0.0,
+    "z": 1.04,
+    "uv": [
+     -3.7294,
+     2.0429
+    ],
+    "uv2": [
+     0.0174,
+     0.7697
+    ],
+    "lightMap": true,
+    "lmIntensity": 6.283185307179586,
+    "lmValue": [
+     0,
+     0,
+     0
+    ],
+    "lmName": "corner_lm_day.webp",
+    "screen": null
+   },
+   {
+    "px": [
+     300,
+     300
+    ],
+    "mesh": "cr_floor_floor",
+    "parent": "corner_interior",
+    "mat": "cr_floor_terrazzo",
+    "dist": 5.49,
+    "x": -3.13,
+    "y": 0,
+    "z": -1.63,
+    "uv": [
+     -3.1305,
+     -0.6255
+    ],
+    "uv2": [
+     0.0462,
+     0.6415
+    ],
+    "lightMap": true,
+    "lmIntensity": 6.283185307179586,
+    "lmValue": [
+     135,
+     124,
+     112
+    ],
+    "lmName": "corner_lm_day.webp",
+    "screen": null
+   }
+  ]
+ },
+ "wz_print": {
+  "W": 844,
+  "H": 390,
+  "hits": [
+   {
+    "px": [
+     250,
+     365
+    ],
+    "mesh": "ad_vc",
+    "parent": "ade_interior",
+    "mat": "ad_vc",
+    "dist": 4.78,
+    "x": 0.98,
+    "y": 0.07,
+    "z": -4.45,
+    "uv": null,
+    "uv2": null,
+    "lightMap": false,
+    "lmIntensity": null,
+    "lmValue": null,
+    "lmName": null,
+    "screen": null
+   },
+   {
+    "px": [
+     400,
+     365
+    ],
+    "mesh": "ad_floor_floor",
+    "parent": "ade_interior",
+    "mat": "ad_floor_tile",
+    "dist": 4.61,
+    "x": -0.39,
+    "y": -0.0,
+    "z": -4.38,
+    "uv": [
+     -0.2184,
+     -1.4358
+    ],
+    "uv2": [
+     0.1251,
+     0.3936
+    ],
+    "lightMap": true,
+    "lmIntensity": 6.283185307179586,
+    "lmValue": [
+     0,
+     0,
+     0
+    ],
+    "lmName": "ade_lm_day.webp",
+    "screen": null
+   },
+   {
+    "px": [
+     550,
+     365
+    ],
+    "mesh": "ad_floor_floor",
+    "parent": "ade_interior",
+    "mat": "ad_floor_tile",
+    "dist": 4.76,
+    "x": -1.8,
+    "y": 0,
+    "z": -4.38,
+    "uv": [
+     -1.0021,
+     -1.4358
+    ],
+    "uv2": [
+     0.0305,
+     0.3936
+    ],
+    "lightMap": true,
+    "lmIntensity": 6.283185307179586,
+    "lmValue": [
+     0,
+     0,
+     0
+    ],
+    "lmName": "ade_lm_day.webp",
+    "screen": null
+   },
+   {
+    "px": [
+     600,
+     365
+    ],
+    "mesh": "WALL_left_wall_wall",
+    "parent": "ade_interior",
+    "mat": "ad_plaster",
+    "dist": 4.57,
+    "x": -2.16,
+    "y": 0.22,
+    "z": -4.6,
+    "uv": [
+     -0.9823,
+     0.8982
+    ],
+    "uv2": [
+     0.5848,
+     0.5848
+    ],
+    "lightMap": true,
+    "lmIntensity": 6.283185307179586,
+    "lmValue": [
+     167,
+     167,
+     164
+    ],
+    "lmName": "ade_lm_day.webp",
+    "screen": null
+   },
+   {
+    "px": [
+     450,
+     310
+    ],
+    "mesh": "blobShadow",
+    "parent": "human",
+    "mat": "",
+    "dist": 5.16,
+    "x": -0.9,
+    "y": 0.02,
+    "z": -3.63,
+    "uv": [
+     0.5506,
+     0.7502
+    ],
+    "uv2": null,
+    "lightMap": false,
+    "lmIntensity": null,
+    "lmValue": null,
+    "lmName": null,
+    "screen": null
+   }
+  ]
+ }
+}
