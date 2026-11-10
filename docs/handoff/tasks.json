@@ -52053,6 +52053,25 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "RULES-CONSOLIDATE-1110",
+   "title": "規則整合：CLAUDE.md 只留現行共同規則（短）＋各職位一頁（docs/rules/），被取代的舊規則、舊文件、根目錄舊檔直接刪掉（git 歷史留著）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "所有工作階段接班",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【LAWWW 11-10 17:0x】使用者 X311 選擇題：舊的直接刪、一份規則＋各職位一頁。第一步：盤點所有帶規則的文件和根目錄舊檔（現行／被取代／過時），列每條現行規則搬到哪；第二步：寫新 CLAUDE.md＋docs/rules/ROLE_*.md、刪舊的、改讀這些檔的工具和測試；第三步：通知各職位整併自己分支上的職位文件。"
   }
  ]
 }
