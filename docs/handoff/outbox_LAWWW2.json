@@ -7620,12 +7620,12 @@
    "sha": "6c560d699",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "TINGZHOU-AREA-1110 第 3 版（D141 3／3）：洗樂／印得好／泰米招牌各留一塊、放大到店面寬",
    "files": [
     "docs/art-rebuild/second_ai/wip/tingzhou_1110/（README_v3.md、tingzhou_v3_signs.patch、preview_v3_three_signs.jpg）"
    ],
-   "state": "待整合；CC 只重拍三間正面和招牌近拍",
+   "state": "已整合（dev 2a7edffd5 以前）",
    "noDirectIntegrate": false,
    "note": "底 dev a37b2ff61；只動 tingzhou_street.glb（＋json）、wz_street.py、wz_shopkit.py；tingzhou_unit ALL PASS。",
    "next": "花序 A 件 → 夜市規劃文件 → 花序 B 件 → 公館三間"
@@ -7635,15 +7635,30 @@
    "sha": "033f083db",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "FLOWER-NOTES-ART-1110 花序 Flower Notes 第 1 版・A 件（室內；D141 1／3）：區域 flower_notes、兩層導航、室內模型、公館 G11 進出",
    "files": [
     "docs/art-rebuild/second_ai/wip/flower_notes_1110/（README.md、flower_notes_v1a.patch、regression.log、preview_1f.jpg、preview_2f.jpg）"
    ],
-   "state": "待整合（A 件；B 件公館外觀＋拿掉舊花攤還沒做）",
+   "state": "已整合（dev 2a7edffd5 以前）",
    "noDirectIntegrate": false,
    "note": "底 dev 8372e7086、9d28235df 上 apply --check 乾淨；flower_notes_unit ALL PASS；套完重跑 gen_zone_assets。買花互動點 kind gg_flower 在收銀櫃檯前（LAWWW 接）、zone.fnLooks／fnClerk。先將就的寫在 README。",
    "next": "B 件和公館三間（安泰、汀州鮮果、榮恩典）一起重建 gongguan_shops.glb；G09 放什麼要先定"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "8dd2084a2",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "花序 Flower Notes 第 1 版・B 件（公館 G11 外觀、拿掉舊花攤）＋GG-SHOPS3-ART-1110（G04 安泰藥局、G08 汀州鮮果、G13 榮恩典文具社外觀）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/flower_notes_1110/（README_B.md、flower_notes_v1b_gg_shops3.patch、regression_b.log、preview_gg_fronts.jpg、crops_gg3_flower_from_ref.jpg）"
+   ],
+   "state": "待整合；遊戲截圖待 CC；BB 判",
+   "noDirectIntegrate": false,
+   "note": "在 dev 2a7edffd5 上 apply --check 乾淨，套上後 flower_notes_unit、tingzhou_unit ALL PASS；相關 56 支 Node 測試 ALL PASS。src/zones3d.js 改兩處（柱子名單一行、花攤那一段拿掉）、src/assets3d.js 拿掉 bldg.gg_flower_stall。G09、G10 沒動。",
+   "next": "等 G09／G10 的決定；花序第 2 版（花的造型、二樓高度的窗景、門口橄欖樹和花台）；公館三間門口的東西和室內；夜市等使用者授權"
   }
  ]
 }
