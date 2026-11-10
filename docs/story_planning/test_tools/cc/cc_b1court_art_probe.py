@@ -8,11 +8,13 @@ Playwright／SwiftShader ≠ iPhone。用法：LW_TESTS=<wt>/tests TAG=old|new p
 import os, sys, json, asyncio, math
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import playlib as L
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import cc_d141_lib as DL
 from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 TAG = os.environ.get('TAG') or 'x'; WALK = os.environ.get('WALK', '1') == '1'
 BF = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheInvite': True, 'zheNoodleDone': True}
-VIEWS = [('top_mouth', {'x': 88, 'z': -40}, 1.5708, None), ('bottom_north', {'x': 98, 'z': -33}, 3.1416, None), ('bottom_south', {'x': 98, 'z': -37}, 0.0, None), ('floor_close', {'x': 98, 'z': -36}, 0.6, 1.6)]
+VIEWS = [('top_mouth', {'x': 88, 'z': -40}, 1.5708, None), ('top_mouth_in', {'x': 88, 'z': -40}, -1.5708, 7.0), ('bottom_door_far', {'x': 98, 'z': -38}, 3.1416, 6.0), ('bottom_north', {'x': 98, 'z': -33}, 3.1416, None), ('bottom_south', {'x': 98, 'z': -37}, 0.0, None), ('floor_close', {'x': 98, 'z': -36}, 0.6, 1.6)]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ST = "(()=>{ const P=GAME.E.player.obj.position, ib=document.getElementById('interact'); return {zone:GAME.G.zone, x:+P.x.toFixed(2), y:+P.y.toFixed(2), z:+P.z.toFixed(2), lv:GAME.E.player.lv|0, fb:GAME.walkFallbacks|0, interact:ib&&ib.offsetParent!==null?(ib.textContent||'').trim():''}; })()"
 FLOOR = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, rc=new THREE.Raycaster(new THREE.Vector3(P.x+0.6,P.y+1.5,P.z+0.6), new THREE.Vector3(0,-1,0)); rc.far=3;
@@ -41,16 +43,16 @@ async def main():
                 await L.load_state(pg, {'zone': 'campus', 'hour': hour, 'day': 10, 'weekday': 5, 'weather': 'sunny', 'pos': dict(pos, yaw=yaw), 'flags': BF}, quiet_events=True)
                 await pg.wait_for_timeout(7000)
                 await pg.evaluate("a=>{ const C=GAME.E.cam; C.yaw=a[0]; if(a[1]){ C.distTarget=a[1]; C.dist=a[1]; } C.manualT=30; }", [yaw, dist]); await pg.wait_for_timeout(3000)
-                s = await pg.evaluate(ST); want = 0 if name == 'top_mouth' else -4.2
+                s = await pg.evaluate(ST); want = 0 if name.startswith('top_mouth') else -4.2
                 run.check('%s %s：站的高度 %s' % (tag, name, want), abs(s['y'] - want) < 0.05, J(s))
                 if name == 'floor_close':
                     f = await pg.evaluate(FLOOR); run.note('%s 地面（腳邊射線）：%s' % (tag, J(f)))
                     if f and f.get('mapAvg') and f['mapAvg'] != 'err':
                         r_, g_, b_ = f['mapAvg']; lum = 0.299 * r_ + 0.587 * g_ + 0.114 * b_; woodish = r_ > b_ + 25 and r_ > g_ and lum < 110
                         run.check('%s 地面不是深色木頭（D112；貼圖平均色 %s、亮度 %.0f；名字有 wood／木 也算）' % (tag, f['mapAvg'], lum), not woodish and not any(k in (f['mat'] + f['mesh']).lower() for k in ('wood', '木')), J(f))
-                await pg.evaluate(HUD + '(false)'); await pg.wait_for_timeout(300)
+                await pg.evaluate(DL.HUD + '(false)'); await pg.wait_for_timeout(300)
                 await run.shot(pg, '%s_%s' % (tag, name))
-                await pg.evaluate(HUD + '(true)')
+                await pg.evaluate(DL.HUD + '(true)')
         if WALK:
             run.setup('【前置／捷徑】讀檔：9/26 14:30 校園地面樓梯口 (88,−40)；之後全程真的走、真的按')
             await L.load_state(pg, {'zone': 'campus', 'hour': 14.5, 'day': 10, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': 88, 'z': -40, 'yaw': 1.5708}, 'flags': BF}, quiet_events=True)
