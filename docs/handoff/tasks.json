@@ -51389,8 +51389,8 @@
    "sha": "60ce48f0f",
    "id": "ROM-STAGE-TEXT-1110",
    "title": "戀愛條提示分三段、出去玩說清楚差什麼（使用者 11-10 X304 選擇題）",
-   "status": "已整合待測試",
-   "next": "【LAWWW 11-10 17:4x】使用者：「一鍵前往一定要在下個版本，你沒做好前就不要發佈」「曖昧要分期 某個程度可以約對方出去校外玩 也一定要在下個版本」→【下一版必須】（D146）：BB 在 PC 驗 PASS（已驗收）才發布。 ｜ 【LAWWW 11-10 16:3x】使用者選擇題「戀愛條過一半就可以」：DATE.canAskCore 她的戀愛 ≥15（S.ASK_ROM_HALF）就能約出去玩（冷淡期 capStage 不算）；還不能約＝「還沒熟到可以兩個人出去」，等 AA 定句子；rom_stage_text_unit 5b、5c。 ｜ 【11-10 03:5x LAWWW-B】date3d.js PROG_HINT npcRomHalf／romHalf／ambi、progress 的 bar 和第 6 階 mood、canAskCore 的說明；game3d.js progHTML 印 mood。tests/rom_stage_text_unit.js 修改前 FAIL 4 項；rel_progress_unit 第 10 項看前 4000 字。字是 LAWWW 定的系統字，AA 回來可以改。"
+   "status": "已驗收",
+   "next": "【LAWWW 11-10 17:5x】BB PASS（ecc3e12a7）：冷淡期擋、戀愛 14 灰（朋友／還不是朋友兩句）、15 約成並出發（法庭→看守所走廊→名字的牆→園區小路，walkFallbacks 0）、人物頁；D34 對照成立。 ｜ 【LAWWW 11-10 17:4x】使用者：「一鍵前往一定要在下個版本，你沒做好前就不要發佈」「曖昧要分期 某個程度可以約對方出去校外玩 也一定要在下個版本」→【下一版必須】（D146）：BB 在 PC 驗 PASS（已驗收）才發布。 ｜ 【LAWWW 11-10 16:3x】使用者選擇題「戀愛條過一半就可以」：DATE.canAskCore 她的戀愛 ≥15（S.ASK_ROM_HALF）就能約出去玩（冷淡期 capStage 不算）；還不能約＝「還沒熟到可以兩個人出去」，等 AA 定句子；rom_stage_text_unit 5b、5c。 ｜ 【11-10 03:5x LAWWW-B】date3d.js PROG_HINT npcRomHalf／romHalf／ambi、progress 的 bar 和第 6 階 mood、canAskCore 的說明；game3d.js progHTML 印 mood。tests/rom_stage_text_unit.js 修改前 FAIL 4 項；rel_progress_unit 第 10 項看前 4000 字。字是 LAWWW 定的系統字，AA 回來可以改。"
   },
   {
    "owner": "LAWWW",
