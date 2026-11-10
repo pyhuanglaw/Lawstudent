@@ -172,8 +172,10 @@ async def shop_one(pg, cdp, key, zone, pred, label, opt=None):
             await tap_choice(pg, cdp, i0); said = ''
             for _ in range(20):
                 await pg.wait_for_timeout(500); v = await ui(pg)
-                if v['dtext']: said = said or v['dtext']
-                if v['dlg']: await L.tap(pg, cdp, '#dlg'); continue
+                if v['dlg']:   # 字是一個一個出來的（試跑抓到只有「你買了」）：讀 GAME.D.full（這一句的全文，只讀）再點掉
+                    full = await pg.evaluate("(GAME.D&&GAME.D.full)||''")
+                    said += (full or v['dtext']) + '／'
+                    await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(300); await L.tap(pg, cdp, '#dlg'); continue
                 if not v['busy'] and not v['choices']: break
             v = await ui(pg); bag = await pg.evaluate("GIFTH.bag(GAME.G).map(b=>[b.id,b.shop])")
             R.check('%s 買「%s」：錢 %d → %d（少 %d）、包包 +1（%s, %s）、旁白「你買了…放進包包」' % (tag, c0['t'], MONEY_OK, v['money'], p0, exp_id, key),
