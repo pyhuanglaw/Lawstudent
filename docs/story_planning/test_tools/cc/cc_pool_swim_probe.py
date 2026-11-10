@@ -23,7 +23,7 @@ CASES = (os.environ.get('CASES') or 'ENTRY,POSE,TURN,FPS,QUAL,CLOSED').split(','
 R = L.Run('pool_swim', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 WATER = -0.14
-LUM = "(()=>{ const c=GAME.E.renderer.domElement, k=document.createElement('canvas'); k.width=64; k.height=36; const g=k.getContext('2d'); g.drawImage(c,0,0,64,36); const d=g.getImageData(0,0,64,36).data; let s=0; for(let i=0;i<d.length;i+=4) s+=0.2126*d[i]+0.7152*d[i+1]+0.0722*d[i+2]; return +(s/(d.length/4)).toFixed(1); })()"
+LUM_OLD = "(()=>{ const c=GAME.E.renderer.domElement, k=document.createElement('canvas'); k.width=64; k.height=36; const g=k.getContext('2d'); g.drawImage(c,0,0,64,36); const d=g.getImageData(0,0,64,36).data; let s=0; for(let i=0;i<d.length;i+=4) s+=0.2126*d[i]+0.7152*d[i+1]+0.0722*d[i+2]; return +(s/(d.length/4)).toFixed(1); })()"
 SW = r"""(()=>{ const E=GAME.E, cam=E.camera; const inV=p=>{ if(!cam) return null; const v=new THREE.Vector3(p.x,0.5,p.z).project(cam); return v.z<1&&Math.abs(v.x)<1.05&&Math.abs(v.y)<1.05; };
   const live=CROWD.swimLive||{}; const out=[];
   for(const k in live){ const Lv=live[k], n=Lv.n, o=n.obj; let hips=null, head=null, lo=1e9, hi=-1e9; const w=new THREE.Vector3();
@@ -34,6 +34,15 @@ SW = r"""(()=>{ const E=GAME.E, cam=E.camera; const inV=p=>{ if(!cam) return nul
   return {zone:GAME.G.zone, entering:!!(GAME.isEntering&&GAME.isEntering()), h:+(+GAME.G.hour).toFixed(3), q:E.q&&E.q.level, plan:CROWD.swimPlan?(CROWD.swimPlan(GAME.G,E.q&&E.q.level)||[]).length:0, n:out.length, sw:out}; })()"""
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov||50, c.width/c.height, 0.05, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   let url; r.render(E.scene,cam); url=c.toDataURL('image/jpeg',0.82); return url; })"""   # 不藏人、不改遊戲鏡頭；下一格遊戲自己會再畫
+LUMJS = "(u=>new Promise(res=>{ const im=new Image(); im.onload=()=>{ const k=document.createElement('canvas'); k.width=64; k.height=36; const g=k.getContext('2d'); g.drawImage(im,0,0,64,36); const d=g.getImageData(0,0,64,36).data; let s=0; for(let i=0;i<d.length;i+=4) s+=0.2126*d[i]+0.7152*d[i+1]+0.0722*d[i+2]; res(+(s/(d.length/4)).toFixed(1)); }; im.onerror=()=>res(-1); im.src=u; }))"
+
+
+async def lum_of(pg):
+    '''r2：畫面亮度用 page.screenshot 算（原本 drawImage WebGL canvas，PC 上 preserveDrawingBuffer=false 永遠 0）'''
+    b = await pg.screenshot(type='jpeg', quality=40)
+    return await pg.evaluate(LUMJS, 'data:image/jpeg;base64,' + base64.b64encode(b).decode())
+
+
 ME = "(()=>{ const P=GAME.E.player; return {zone:GAME.G.zone, x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), fb:GAME.walkFallbacks|0}; })()"
 
 
@@ -64,11 +73,11 @@ async def main():
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
         await pg.wait_for_timeout(2000)
         BASE = os.environ.get('BASE') == '1'
-        if BASE: dd = {'key4': '2025-11-01'}; CASES[:] = ['ENTRY']
+        if BASE: dd = {'key4': os.environ.get('DAY') or '2025-11-01'}; CASES[:] = ['ENTRY']
         else: dd = await pick_day(pg)
         R.note('挑的日子：%s' % J(dd))
         if not BASE and not R.check('找得到 14:00 開館、原本 4 個人的一天', dd.get('day4') is not None, J(dd)): await b.close(); return
-        K4 = dd['key4']
+        K4 = os.environ.get('DAY') or dd['key4']   # r2：DAY＝指定日子（新舊比進場黑幕用同一天）
         try:
             if 'ENTRY' in CASES or 'POSE' in CASES or 'TURN' in CASES or 'FPS' in CASES:
                 await set_quality(pg, 'medium')
@@ -80,18 +89,19 @@ async def main():
                 await L.go_to(pg, cdp, R, it['x'], it['z'], 0.6, '走到「%s」' % it['label'], max_s=90)
                 await pg.wait_for_timeout(500)
                 t0 = time.time(); await L.tap(pg, cdp, '#interact')
-                tl = []; seen = {}; t_lit = None; t_sw = None; appear = []
+                tl = []; seen = {}; t_lit = None; t_end = None; t_sw = None; appear = []
                 while time.time() - t0 < 60:
-                    s = await pg.evaluate(SW); lum = await pg.evaluate(LUM); dt = round(time.time() - t0, 2)
+                    s = await pg.evaluate(SW); dt = round(time.time() - t0, 2); lum = await lum_of(pg) if (s['zone'] == 'gym_b1' and not s['entering'] and t_lit is None) else None
                     tl.append({'t': dt, 'zone': s['zone'], 'ent': s['entering'], 'lum': lum, 'n': s['n']})
-                    if t_lit is None and s['zone'] == 'gym_b1' and not s['entering'] and lum >= 12: t_lit = dt
+                    if t_end is None and s['zone'] == 'gym_b1' and not s['entering']: t_end = dt
+                    if t_lit is None and s['zone'] == 'gym_b1' and not s['entering'] and lum is not None and lum >= 12: t_lit = dt
                     for w in s['sw']:
                         if w['k'] not in seen: seen[w['k']] = dt; appear.append(dict(w, t=dt, entering=s['entering']))
                     if t_sw is None and s['n'] > 0: t_sw = dt
                     if t_lit is not None and ((s['n'] >= s['plan'] and s['plan'] > 0) or BASE) and dt - t_lit > 2: break
                     await pg.wait_for_timeout(250)
                 json.dump({'timeline': tl, 'appear': appear}, open(os.path.join(OUT, 'entry_timeline.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-                R.note('[ENTRY] 按下去 → 畫面亮 %s 秒；→ 第一個泳客 %s 秒；出現的那一刻：%s' % (t_lit, t_sw, J([{k: a[k] for k in ('k', 't', 'turn', 'view', 'entering')} for a in appear])))
+                R.note('[ENTRY] 按下去 → 黑幕結束（isEntering false）%s 秒；→ 畫面亮（截圖亮度 ≥12）%s 秒；→ 第一個泳客 %s 秒；' % (t_end, t_lit, t_sw) + '（%s）' % '出現的那一刻：%s' % (J([{k: a[k] for k in ('k', 't', 'turn', 'view', 'entering')} for a in appear])))
                 R.note('[ENTRY] 時間軸（前 40 筆）：%s' % J(tl[:40]))
                 R.check('[ENTRY] 進得去 B1、畫面亮起來（%s 秒）' % t_lit, t_lit is not None, J(tl[-3:]))
                 bad = [a for a in appear if not a['entering'] and a['turn'] <= 0 and a['view']]
@@ -133,7 +143,7 @@ async def main():
                             await snap(pg, 'pool_%s_%d.jpg' % (pose, i), (w3['x'] + 0.2, 0.9, w3['z'] + 2.4), (w3['x'], -0.2, w3['z']), 45)
                             await pg.wait_for_timeout(350)
                         R.note('[POSE] %s 連拍 8 張：pool_%s_0～7.jpg（側後方 2.4 m）' % (pose, pose))
-                    w = s['sw'][0] if s['sw'] else None
+                    s = await pg.evaluate(SW); w = s['sw'][0] if s['sw'] else None   # r2：拍之前重新讀位置（r1 用 4 秒前的位置，近看沒拍到人）
                     if w:
                         await snap(pg, 'pool_near.jpg', (w['x'] + 1.0, 0.6, w['z'] + 1.2), (w['x'], -0.15, w['z']), 50)
                         await snap(pg, 'pool_far.jpg', (-13.5, 3.2, -1.5), (2.0, -0.3, -12.0), 55)
