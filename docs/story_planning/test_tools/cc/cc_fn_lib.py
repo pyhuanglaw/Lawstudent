@@ -270,27 +270,32 @@ async def give(pg, cdp, tag, pid, gid, max_walk=180, select=True):
         R.note('%s 走到她旁邊，互動按鈕是「%s」（要「%s」）' % (tag, s['interact'], lab))
     else:
         out['why'] = '走不到她旁邊、沒有「和她說話」'; return out
-    out['label'] = s['interact']
-    await L.tap(pg, cdp, '#interact')
-    for _ in range(120):
-        await pg.wait_for_timeout(600); q = await L.state(pg)
-        if q['choices']:
-            o = await pe_opts(pg); out['opts'].append([x['t'][:24] for x in o])
-            if not out['picked']:
-                k = next((i for i, x in enumerate(o) if x['t'].startswith('送她禮物')), None)
-                if k is not None and not out['offered']:
-                    out['offered'] = True; out['offer_dim'] = o[k]['dim']
-                    if select: await choose_k(pg, cdp, k); continue
-                k = next((i for i, x in enumerate(o) if name and x['t'].startswith(name)), None) if out['offered'] else None
-                if k is not None: out['picked'] = True; await choose_k(pg, cdp, k); continue
-            k = next((i for i, x in enumerate(o) if any(w in x['t'] for w in ('就這樣', '算了', '沒事', '先這樣', '下次', '不用了', '再見', '離開'))), len(o) - 1)
-            await choose_k(pg, cdp, k); continue
-        if q['dlg']:
-            if not out['said'] or out['said'][-1] != q['dtext']: out['said'].append(q['dtext'])
-            await L.tap(pg, cdp, '#dlg'); continue
-        if not q['busy']:
-            await pg.wait_for_timeout(1200); q = await L.state(pg)
-            if not q['busy'] and not q['dlg'] and not q['choices']: break
+    out['label'] = s['interact']; out['talks'] = 0
+    for talk in range(3):   # 這次說話沒有選單（例：圖書館讀書區今天第一次遇到＝只點頭，game3d.js doInteract → GM.guardTalk、D127）：像玩家一樣再按一次說話
+        s = await wait_btn(pg, out['label'], 4)
+        if not s['interact'].startswith(out['label']): out['why'] = '第 %d 次說話前按鈕變成「%s」' % (talk + 1, s['interact']); break
+        await L.tap(pg, cdp, '#interact'); out['talks'] += 1; n_opts = len(out['opts'])
+        for _ in range(120):
+            await pg.wait_for_timeout(600); q = await L.state(pg)
+            if q['choices']:
+                o = await pe_opts(pg); out['opts'].append([x['t'][:24] for x in o])
+                if not out['picked']:
+                    k = next((i for i, x in enumerate(o) if x['t'].startswith('送她禮物')), None)
+                    if k is not None and not out['offered']:
+                        out['offered'] = True; out['offer_dim'] = o[k]['dim']
+                        if select: await choose_k(pg, cdp, k); continue
+                    k = next((i for i, x in enumerate(o) if name and x['t'].startswith(name)), None) if out['offered'] else None
+                    if k is not None: out['picked'] = True; await choose_k(pg, cdp, k); continue
+                k = next((i for i, x in enumerate(o) if any(w in x['t'] for w in ('就這樣', '算了', '沒事', '先這樣', '下次', '不用了', '再見', '離開'))), len(o) - 1)
+                await choose_k(pg, cdp, k); continue
+            if q['dlg']:
+                if not out['said'] or out['said'][-1] != q['dtext']: out['said'].append(q['dtext'])
+                await L.tap(pg, cdp, '#dlg'); continue
+            if not q['busy']:
+                await pg.wait_for_timeout(1200); q = await L.state(pg)
+                if not q['busy'] and not q['dlg'] and not q['choices']: break
+        if out['offered'] or len(out['opts']) > n_opts: break
+        out['said'].append('【這次說話沒有選單，再按一次說話】')
     return out
 
 
