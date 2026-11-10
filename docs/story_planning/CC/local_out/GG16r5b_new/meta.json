@@ -1,0 +1,27 @@
+{
+  "rerun": "r5b",
+  "id": "GG16r5b_new",
+  "sha": "9c769623a07c9b13b9345771e856b55beceb2e16",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_signs_probe.py",
+  "env": "TAG=new;GROUPS=同弦（二樓）;RERUN=r5b",
+  "machine": "MSI",
+  "start": "2026-11-11T04:36:56",
+  "end": "2026-11-11T04:38:52",
+  "seconds": 116,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "23",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 9,
+    "mem": 53,
+    "used_gb": 16.6,
+    "chrome_testing": 12
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
