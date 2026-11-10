@@ -336,6 +336,17 @@ US_ART_1b | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planni
 US_ART_1d | d78228f85825e139790bc42904bb7056ebf31e50 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 30 | ZONES=us_classroom
 US_ART_1c | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_campus
 US_ART_2b | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_market_street;SEASON=1
-# BB 15:21：公寓 20:00 鳥瞰、衛浴（退到門口）、法圖 tables_north（往房間裡 1 m）重拍——等 LAWWW2 的場景修正 SHA 再開（SHA 是暫填）
-#HOLD US_ART_1r | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 30 | ZONES=us_apartment,us_lawlib
+# BB 15:21：公寓 20:00 鳥瞰、衛浴（退到門口）、法圖 tables_north（往房間裡 1 m）重拍——等 LAWWW2 的場景修正 SHA 再開（SHA 是暫填）；BB 15:38：拍照前照拍照鏡頭跑 fadeWalls、加臥室窗外、208 的窗、超市結帳區玻璃外（14、20 時＋平均亮度）；LAWWW2 dfd5ee2b8 等 LAWWW 整合的 SHA
+US_ART_1r | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 30 | ZONES=us_apartment,us_lawlib,us_shared,us_market
+# BB 15:39：發布前回歸組在 8a98ff1e0 重跑（含 gongguan_layout_nav：麵店出口站位改互動點往裡 0.4 m，6600000d3）；save_compat_v7 要兩個網址，PC runner 一次只開一個，不排（記在 CC_01）
+R8A_deploy | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
+R8A_p0 | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+R8A_reach | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
+R8A_zone | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+R8A_mini | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+R8A_classreal | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/flow_class_real.py | index.html | 25 | XARGS={url} {out};CC_HEADLESS=0
+R8A_main12 | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+R8A_ggnav | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+R8A_guide | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
+R8A_touch | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
 
