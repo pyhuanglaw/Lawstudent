@@ -25,7 +25,7 @@ check('1. 朋友、她的戀愛 10（1/3）：照舊「現在是朋友的感覺�
 set(H,{fam:50,trust:30,npcRom:20}); p=P(H);
 check('2. 朋友、她的戀愛 20（2/3）：「她好像開始在意你了」',!!p&&p.rom.hint==='她好像開始在意你了',JSON.stringify(p));
 set(H,{fam:70,trust:50,comf:45,npcRom:50,rom:20}); p=P(H);
-check('3. 好朋友、第 5 階、祐廷的戀愛 20／30：「你好像開始在意她了」',!!p&&p.rom.hint==='你好像開始在意她了',JSON.stringify(p));
+check('3. 好朋友、第 5 階：人物頁不出現祐廷自己的戀愛（沒有「你好像開始在意她了」「你還沒有那樣看她」；ROM-NO-PLAYER-ROM-1110）',!!p&&!/你好像開始在意她了|你還沒有那樣看她/.test(JSON.stringify(p))&&!('romHalf' in DATE.PROG_HINT)&&!('rom' in DATE.PROG_HINT),JSON.stringify(p));
 set(H,{fam:70,trust:50,comf:45,npcRom:60,rom:35}); G.dateLog[H]={count:2,wishKnown:false,wish:false}; p=P(H);
 const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
 check('4. 第 6 階：mood「你們之間有點曖昧」，hint 照舊；game3d.js 把 mood 印出來',!!p&&p.rom.mood==='你們之間有點曖昧'&&p.rom.hint==='再多一些兩個人出去的時間'&&/b\.mood\?'<div[^']*'\+esc\(b\.mood\)/.test(g),JSON.stringify(p));

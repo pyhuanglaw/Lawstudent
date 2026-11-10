@@ -29,7 +29,7 @@ check('2. 一群人去淡水：記在 groupTrips，以安的次數、心願都�
 const setRel=(id,v)=>Object.assign(SOCIAL.rel(id),v);
 setRel('heroine_03',{fam:60,trust:45,comf:40,npcRom:55,rom:30});
 check('3. 第 6 階的數值（好朋友＋她的戀愛 55＋祐廷的戀愛 30）',DATE.stageNum('heroine_03')===6);
-setRel('heroine_03',{rom:29}); check('3. 祐廷的戀愛 29 → 第 5 階',DATE.stageNum('heroine_03')===5); setRel('heroine_03',{rom:30});
+setRel('heroine_03',{rom:0}); check('3. 祐廷自己的戀愛不當條件：rom 0 照樣第 6 階（ROM-NO-PLAYER-ROM-1110，使用者 11-10 17:4x）',DATE.stageNum('heroine_03')===6); setRel('heroine_03',{rom:30});
 check('3. 第 6 階、只有 1 次 → 不能告白（count）',DATE.canConfess(G,'heroine_03').why==='count');
 check('3. 進度提示：「再多一些兩個人出去的時間」',DATE.hint(G,'heroine_03')==='再多一些兩個人出去的時間');
 for(let i=0;i<3;i++){ G.day+=10; DATE.complete(G,trip({locs:['D01']})); }

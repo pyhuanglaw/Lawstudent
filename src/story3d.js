@@ -4304,7 +4304,7 @@ const STORY = (function(){
   const CW_LOUNGE={x:7.6,z:4.6,yaw:Math.PI/2,lv:0}, CW_ROOM={x:0,z:2.4,yaw:Math.PI};   /* 宿舍一樓交誼廳（長桌和沙發之間，dorm_layout.js）；房間 */
   const cwSt=id=>typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.STAGES?SOCIAL.STAGES.indexOf(SOCIAL.stage(id)):-1;
   const cwAt=(id,lv)=>typeof SOCIAL!=='undefined'&&!!SOCIAL.STAGES&&cwSt(id)>=SOCIAL.STAGES.indexOf(lv);   /* 第 0 節：好朋友以上＝SOCIAL.stage 在 CLOSE_FRIEND 以上 */
-  const cwSum=id=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return 0; const r=SOCIAL.rel(id); return ['fam','trust','aff','resp','comf','rom'].reduce((a,k)=>a+(+r[k]||0),0); };   /* 關係數值總和（第 4 節第 3、4 點）*/
+  const cwSum=id=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return 0; const r=SOCIAL.rel(id); return ['fam','trust','aff','resp','comf'].reduce((a,k)=>a+(+r[k]||0),0); };   /* 祐廷自己的戀愛不算（ROM-NO-PLAYER-ROM-1110）*/   /* 關係數值總和（第 4 節第 3、4 點）*/
   const cwDating=(G,id)=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F['dating_'+id]===true||!!(R[id]&&R[id].status==='dating'); };
   const cwPartners=G=>{ const s=new Set(typeof ROM!=='undefined'&&ROM.partners?ROM.partners(G):[]); for(const id of CW_LOVE) if(cwDating(G,id)) s.add(id); return [...s]; };
   const cwHasMate=(G,id)=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; return !!(c&&c.partner&&S.partnerOn(G,c.partner)); };   /* 她自己有伴侶（characters.js 的 partner，例：Alison 大二下起）*/

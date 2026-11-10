@@ -16,7 +16,7 @@ const YTJOB=(function(){
   /* 舊存檔：已經認識的照舊 */
   S.wasMet=function(s){ if(!s) return false; const F=s.flags||{}; if(F.YT_MET_JOB||F.met_heroine_03) return true;
     const M=s.social&&s.social.mem&&s.social.mem[YT]; if(Array.isArray(M)&&M.some(m=>m&&m.tag==='FIRST_MET')) return true;
-    const R=s.social&&s.social.rel&&s.social.rel[YT]; if(R&&((R.fam|0)>=5||(R.trust|0)>0||(R.rom|0)>0)) return true;   /* 熟悉度不是陌生人（SOCIAL.friendLevel：fam 5 以上＝ACQUAINTANCE）*/
+    const R=s.social&&s.social.rel&&s.social.rel[YT]; if(R&&((R.fam|0)>=5||(R.trust|0)>0)) return true;   /* 熟悉度不是陌生人（SOCIAL.friendLevel：fam 5 以上＝ACQUAINTANCE）*/
     if(F.dating_heroine_03||F.EX_heroine_03) return true; return false; };
   /* YT_JOB_V：這一版以後的新遊戲（game3d.js defaults）＝不用看（認識她一定是在茶屋記的）；舊存檔看一次就記上 */
   S.migrate=function(s){ if(!s||!s.flags||typeof s.flags!=='object') return false; const F=s.flags; if(F.YT_JOB_V) return false; F.YT_JOB_V=1; if(F.YT_MET_JOB||!S.wasMet(s)) return false; F.YT_MET_JOB=true; return true; };

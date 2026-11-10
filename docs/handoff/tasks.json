@@ -52143,6 +52143,32 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "ROM-NO-PLAYER-ROM-1110",
+   "title": "拿掉祐廷自己的戀愛：人物頁不顯示、不當任何條件（第 6 階＝好朋友＋她的戀愛 ≥55）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "人物頁",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【LAWWW 11-10 17:4x】使用者對 AA（UA-AA-1110-01）；AA_126 5d6d31e3e。date3d stageNum 第 6 階拿掉 rom≥30、progress 第 5 階只看 npcRom 55、PROG_HINT 拿掉 rom／romHalf；ytjob3d、story3d cwSum 不讀 rom；加 rom 的地方照舊加（存檔留著、不讀）。date_core、rel_progress、rom_stage_text 期待照改；相關 104 支全過。BB 測：人物頁不再出現祐廷那一行、告白條件。",
+   "xai": {
+    "spec": "AA_126 5d6d31e3e、UA-AA-1110-01",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "人物頁沒有祐廷自己的戀愛；第 6 階、告白不看它；BB 判",
+    "receiver": "BB",
+    "ack": "SENT"
+   }
   }
  ]
 }

@@ -47,13 +47,13 @@ const DATE=(function(){
   /* 第 6 階（AA_126 4-1）：好朋友（熟悉 ≥60、信任 ≥45、自在 ≥40），她的戀愛（npcRom）≥55、祐廷的戀愛（rom）≥30 */
   S.stageNum=function(id){ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return 0; const r=SOCIAL.rel(id), n=v=>+v||0;
     const fr=n(r.fam)>=60&&n(r.trust)>=45&&n(r.comf)>=40?4:(n(r.fam)>=40&&n(r.trust)>=25?3:(n(r.fam)>=20?2:1));
-    if(fr>=4&&n(r.npcRom)>=55&&n(r.rom)>=30) return 6; if(fr>=3&&n(r.npcRom)>=30) return 5; return fr; };
+    if(fr>=4&&n(r.npcRom)>=55) return 6;   /* 祐廷自己的戀愛（rom）不當條件（使用者 11-10 17:4x 對 AA：「「你還沒有那樣看她」沒必要吧…玩家自己知道有沒有 不應該有這個數據」；AA_126 5d6d31e3e；ROM-NO-PLAYER-ROM-1110）*/ if(fr>=3&&n(r.npcRom)>=30) return 5; return fr; };
 
   /* 人物頁的進度條（D36；AA_126 4-1、AA_128 3-2）：友情（往第 4 階好朋友）、戀愛（七位，往第 5、6 階；第 6 階以後是告白的條件），不顯示數字，
      下面一句寫還差哪一種。交往中＝{dating:true}（人物頁只寫「交往中」）；男生朋友只有友情那一條。PROG_HINT 的自在、祐廷的戀愛、先成為好朋友三句：AA 10-21 22:3x 定（企劃線 0b057075，AA_126 4-1；「你還沒有那樣看她」和「她還沒有那樣看你」對著寫）*/
-  S.PROG_HINT={fam:'再熟一點',trust:'再多信任一點',comf:'相處再自在一點',npcRom:'現在是朋友的感覺',npcRomAcq:'你們還在互相認識。',rom:'你還沒有那樣看她',close:'先成為好朋友',
+  S.PROG_HINT={fam:'再熟一點',trust:'再多信任一點',comf:'相處再自在一點',npcRom:'現在是朋友的感覺',npcRomAcq:'你們還在互相認識。',close:'先成為好朋友',
     count:'再多一些兩個人出去的時間',wishUnknown:'她好像有一個很想去的地方',wishPlace:'她提過想去{place}',
-    npcRomHalf:'她好像開始在意你了',romHalf:'你好像開始在意她了',ambi:'你們之間有點曖昧'};   /* 曖昧分三段（ROM-STAGE-TEXT-1110，使用者 11-10 選擇題「照程度寫三段」：「都已經這個程度 她還沒有那樣看我? 要區分曖昧階段吧??」）：戀愛條還沒一半照舊、一半以上「開始在意」、第 6 階多一行「有點曖昧」 */
+    npcRomHalf:'她好像開始在意你了',ambi:'你們之間有點曖昧'};   /* 曖昧分三段（ROM-STAGE-TEXT-1110，使用者 11-10 選擇題「照程度寫三段」：「都已經這個程度 她還沒有那樣看我? 要區分曖昧階段吧??」）：戀愛條還沒一半照舊、一半以上「開始在意」、第 6 階多一行「有點曖昧」 */
   S.progress=function(G,id){ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return null; const F=(G&&G.flags)||{}; if(F['dating_'+id]) return {dating:true};
     const r=SOCIAL.rel(id), n=v=>+v||0, v={fam:n(r.fam),trust:n(r.trust),comf:n(r.comf),npcRom:n(r.npcRom),rom:n(r.rom)};
     const fr=v.fam>=60&&v.trust>=45&&v.comf>=40?4:(v.fam>=40&&v.trust>=25?3:(v.fam>=20?2:1));
@@ -63,7 +63,7 @@ const DATE=(function(){
     if(!S.HEROINES.includes(id)) return out;
     const st=S.stageNum(id);
     if(st<5){ out.rom=bar({npcRom:30}); if(fr<3&&out.rom.hint===S.PROG_HINT.npcRom) out.rom.hint=S.PROG_HINT.npcRomAcq; }   /* 還不是朋友（認識、有點熟）、還沒過一半＝「你們還在互相認識。」（AA 11-10 17:40）*/   /* ROM-PRIVATE-DATE-1110：認識、有點熟也看得到她的戀愛（原本朋友以下一律 0，使用者「都約這麼多次還沒有戀愛?」）*/
-    else if(st===5){ const b=bar({npcRom:55,rom:30}); out.rom=fr<4?{pct:Math.min(b.pct,0.5),hint:S.PROG_HINT.close}:b; }
+    else if(st===5){ const b=bar({npcRom:55}); out.rom=fr<4?{pct:Math.min(b.pct,0.5),hint:S.PROG_HINT.close}:b; }
     else { const L=(G&&G.dateLog&&G.dateLog[id])||{count:0,wishKnown:false,wish:false}, NC=S.COUNT_NEED[id]||4, c=Math.min(NC,L.count|0);   /* 芯慈要 6 次（AA_537 G9）*/
       const pct=(c/NC+(L.wishKnown?0.5:0)+(L.wish?0.5:0))/2;
       const hint=c<NC?S.PROG_HINT.count:(!L.wishKnown?S.PROG_HINT.wishUnknown:(!L.wish?S.PROG_HINT.wishPlace.replace('{place}',S.wishName(G,id)||'一個地方'):''));
