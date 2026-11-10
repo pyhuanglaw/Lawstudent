@@ -3,7 +3,7 @@
   （舊版 rel 12＋7、第一天在公館燒臘一起吃過麵＝SHARED_MEAL 記憶，story3d.js 記的）；關掉條件事件（這個測試不測劇情，避免其他事件插進來）。
 A. 手機「朋友」→ 阿哲「約」→ 選「去公館燒臘吃飯」→「今天 19:00」→ 旁白「阿哲答應了」；手機「今天」列出約好的；「訊息」有一則。
 B. 手機「跳過時間」選「等到晚上」→ 在約好的時間前 10 分鐘停下來（18:50）。
-C. 手機「地點」→ 公館燒臘（快速前往）→ 阿哲已經坐在店裡等 → 自己走過去、按「和阿哲說話」→ 見面：時間過了 45 分鐘、邀約變成見到了、訊息「和阿哲在公館燒臘」。
+C. （2026-11-10 改）約好的時間前 30 分鐘跳出「直接過去／自己走過去」→ 選直接過去（一鍵前往）→ 人到公館燒臘 → 兩個人都在場就自動開始 → 見面：邀約變成見到了、時間往前、訊息「和阿哲在公館燒臘」。
 用法：python3 tests/flow_invite_phone.py URL [輸出資料夾]"""
 import asyncio, json, sys
 from playwright.async_api import async_playwright
@@ -54,7 +54,7 @@ async def main():
         run.check('手機「朋友」有阿哲、有「約」', '阿哲' in txt and await pg.evaluate("!!document.querySelector('#phoneBody [data-inv=\"zhe\"]')"), txt[:160])
         await tap_sel(pg, cdp, '#phoneBody [data-inv="zhe"]'); await pg.wait_for_timeout(1500)
         opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
-        run.check('選地方（分層，INVITE-MENU-1030／AA_535）：第一層有「吃飯…」（小字有公館燒臘）、溫州街、算了', any(o.startswith('吃飯…') and '公館燒臘' in o for o in opts) and any('溫州街' in o for o in opts), json.dumps(opts, ensure_ascii=False))
+        run.check('選地方（分層，INVITE-MENU-1030／AA_535）：第一層有「吃飯…」（小字有公館燒臘）、最後是「算了」（2026-11-10：分類以後沒有「溫州街」這一項）', any(o.startswith('吃飯…') and '公館燒臘' in o for o in opts) and bool(opts) and opts[-1].startswith('算了'), json.dumps(opts, ensure_ascii=False))
         await choose(pg, cdp, '吃飯…')
         await choose(pg, cdp, '去公館燒臘吃飯')
         opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
@@ -84,27 +84,37 @@ async def main():
         s = await L.state(pg)
         run.check('「等到晚上」在約好的時間前 10 分鐘停下來（18:50）', ok and abs(s['hour'] - (19 - 1 / 6)) < 0.05, f"{s['hour']:.3f}")
         # ---------- C：去公館燒臘赴約 ----------
-        await phone(pg, cdp, 'places')
-        await tap_sel(pg, cdp, '#phoneBody [data-parea="gongguan"]'); await pg.wait_for_timeout(600)   # 快速前往分地區兩層（QUICK-TRAVEL-AREAS-1105）：先打開「公館」
-        await tap_sel(pg, cdp, '#phoneBody [data-place="noodle|公館燒臘"]'); await pg.wait_for_timeout(7000)
-        s = await L.state(pg)
-        run.check('快速前往公館燒臘', s['zone'] == 'noodle' and s['stand'], json.dumps(s, ensure_ascii=False))
-        zhe = await pg.evaluate("(()=>{ const n=GAME.npc.zhe||GAME.E.npcs.find(q=>q.id==='zhe'||q.charId==='zhe'); return n?{x:n.obj.position.x,z:n.obj.position.z,pose:n.pose,seat:!!n.seat}:null; })()")
-        run.check('阿哲已經坐在店裡等', bool(zhe) and zhe['seat'], json.dumps(zhe))
+        # 2026-11-10 改（LAWWW-B 代判 L492_invphone：舊流程過時）：約好的時間前 30 分鐘遊戲會問「直接過去／自己走過去」（UX-INV-GO-1023），選直接過去＝一鍵前往
+        # （INV-GO-JUMP-1110：先跳到出發時間再快速前往）；到了以後兩個人都在場就自動開始（使用者 10-21），不用走到他旁邊說話
+        # 「直接過去」是 STORY.tick 問的（每 30 格一次）：雲端 SwiftShader 一秒約 1 格，最多等 90 秒
+        opts = []
+        for _ in range(180):
+            opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
+            if any(o.startswith('直接過去') for o in opts): break
+            await pg.wait_for_timeout(500)
+        if any(o.startswith('直接過去') for o in opts):
+            await choose(pg, cdp, '直接過去')
+        else:
+            await phone(pg, cdp, 'places')
+            await tap_sel(pg, cdp, '#phoneBody [data-parea="gongguan"]'); await pg.wait_for_timeout(600)
+            await tap_sel(pg, cdp, '#phoneBody [data-place="noodle|公館燒臘"]')
+        for _ in range(180):
+            if await pg.evaluate("GAME.G.zone") == 'noodle': break
+            await pg.wait_for_timeout(500)
+        s = await L.state(pg); h0 = s['hour']
+        run.check('約好的時間前跳出「直接過去」、選了就到公館燒臘', s['zone'] == 'noodle', json.dumps({'opts': opts, 'zone': s['zone'], 'hour': round(s['hour'], 3)}, ensure_ascii=False))
         await run.shot(pg, 'C_noodle')
-        h0 = s['hour']
-        ok = await L.go_to(pg, cdp, run, zhe['x'], zhe['z'] + 0.9, 0.6, '阿哲旁邊') if zhe else False
-        s = await L.state(pg)
-        run.check('自己走到阿哲旁邊、出現「和阿哲說話」', ok and '阿哲' in s['interact'], json.dumps(s, ensure_ascii=False))
-        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2000)
-        for _ in range(14):
+        for _ in range(60):
+            iv = await pg.evaluate("(GAME.G.invites||[]).find(v=>v.who==='zhe')||null")
             q = await L.state(pg)
-            if not q['busy'] and not q['dlg'] and not q['choices']: break
-            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(1200)
+            if iv and iv['state'] == 'done' and not q['busy'] and not q['dlg'] and not q['choices']: break   # 見面一開始就標 done，時間和訊息在演完以後才寫
+            if q['choices']: await L.tap(pg, cdp, '#choices button')
+            elif q['dlg'] or q['busy']: await L.tap(pg, cdp, '#dlg')
+            await pg.wait_for_timeout(1000)
         s = await L.state(pg)
         iv = await pg.evaluate("(GAME.G.invites||[]).find(v=>v.who==='zhe')||null")
         msgs = await pg.evaluate("(GAME.G.msgs||[]).map(m=>m.text)")
-        run.check('見面：邀約變成見到了、時間過了 45 分鐘、訊息「和阿哲在公館燒臘」', iv and iv['state'] == 'done' and abs(s['hour'] - h0 - 0.75) < 0.1 and any('和阿哲在公館燒臘' in t for t in msgs), json.dumps(iv, ensure_ascii=False) + f" {h0:.2f}→{s['hour']:.2f}")
+        run.check('到了以後自動開始、見面：邀約變成見到了、時間有往前、訊息「和阿哲在公館燒臘」', iv and iv['state'] == 'done' and s['hour'] - h0 > 0.3 and any('和阿哲在公館燒臘' in t for t in msgs), json.dumps(iv, ensure_ascii=False) + f" {h0:.2f}→{s['hour']:.2f} " + json.dumps(msgs[-3:], ensure_ascii=False))
         await run.shot(pg, 'C_after_meet')
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()

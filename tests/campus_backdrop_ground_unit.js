@@ -34,6 +34,7 @@ check('1. 找得到外圍打底的柏油、蓋在上面的地面', base.length>0
 let both=0, total=0; for(let x=-409.37;x<410;x+=2) for(let zz=-429.37;zz<390;zz+=2){ if(!hit(base,x,zz)) continue; total++; if(hit(grass,x,zz)) both++; }
 check('2. 外圍柏油不墊在校園、外圍草地底下（重疊 < 50 m²；'+grass.length+' 片整片的地面）', both*4<50, '重疊約 '+(both*4)+' m²；柏油約 '+(total*4)+' m²');
 // 3. 原本 820 m 見方那一片，每一點都還有地面（柏油或上面的地面）：沒有破洞
-let holes=[]; for(let x=-407.13;x<410;x+=5) for(let zz=-427.13;zz<390;zz+=5){ if(!hit(base,x,zz)&&!hit(cover,x,zz)) holes.push([+x.toFixed(0),+zz.toFixed(0)]); }
+const B1C=typeof Z3!=='undefined'&&Z3.B1C, inPit=(x,zz)=>!!B1C&&x>=B1C.x0&&x<=B1C.x1&&zz>=B1C.z0&&zz<=B1C.z1;   /* 總圖北側的下沉中庭（LIB-B1-OUTSIDE-1110）：故意開的洞，地面在 −4.2 */
+let holes=[]; for(let x=-407.13;x<410;x+=5) for(let zz=-427.13;zz<390;zz+=5){ if(inPit(x,zz)) continue; if(!hit(base,x,zz)&&!hit(cover,x,zz)) holes.push([+x.toFixed(0),+zz.toFixed(0)]); }
 check('3. 原本柏油那一片沒有破洞（每 5 m 一點）', !holes.length, holes.length?holes.length+' 點沒有地面，例如 '+JSON.stringify(holes.slice(0,6)):'');
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

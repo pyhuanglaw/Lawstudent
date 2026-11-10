@@ -3973,7 +3973,7 @@
    "at": "2026-11-10T03:0xZ",
    "quote": "總圖地下室入口應該是獨立 總圖建築物外面左邊有個下樓到一個小中庭到地下一樓 露天的 有B1入口 不是從一樓過去",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X298",
    "task": "LIB-B1-OUTSIDE-1110",
    "src": "使用者對 LAWWW-B（附總圖 B1 平面圖）"
@@ -4156,6 +4156,16 @@
    "status": "在開發分支",
    "wants": "X297",
    "task": "LIB-ARCADE-FLICKER-1110",
+   "src": "使用者對 LAWWW-B（AskUserQuestion）"
+  },
+  {
+   "id": "UA-LAWWW-1110-65",
+   "at": "2026-11-10T03:3xZ",
+   "quote": "總圖 B1 的下沉中庭要放在哪一側？＝「北側（建議）」（站在椰影大道面向總圖正門的左手邊）",
+   "kind": "選擇題答案",
+   "status": "在開發分支",
+   "wants": "X298",
+   "task": "LIB-B1-OUTSIDE-1110",
    "src": "使用者對 LAWWW-B（AskUserQuestion）"
   }
  ]
