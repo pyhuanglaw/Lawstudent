@@ -52736,6 +52736,32 @@
     "receiver": "BB",
     "ack": "未派"
    }
+  },
+  {
+   "id": "POOL-SWIM-LOOK-1110",
+   "title": "泳池泳客的樣子（LAWWW 角色驗收 PARTIAL）：①水太透明、沒有水面，近看像趴在水上——水面加一層淺藍半透明＋反光，身體在水面下要被水蓋到（頭、肩、手臂划水露出）②腿的膚色偏灰白、和手臂不一樣",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "游泳課",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "遠景（pool_far）可以；近景要改。功能 BB PASS（2c37122b6），不擋發布",
+   "xai": {
+    "spec": "BB 18:47 轉 CC 截圖 cc-testing docs/story_planning/CC/shots/pool_swim_free.jpg、pool_swim_breast.jpg、pool_far.jpg",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "同角度重拍，LAWWW 判（D100a）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
