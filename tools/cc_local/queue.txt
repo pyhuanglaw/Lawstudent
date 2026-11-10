@@ -346,6 +346,8 @@ W24_v7 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v7.
 W24_live | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
 W24_live_pos | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
 # 3 新功能各玩一次（探針寫好就補上）
+W24_movie | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/pt1107i_invplaces_probe.py | index.html | 30 | MODE=meet;WHO=heroine_01;MOVIE=1
+W24_newfeat | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_newfeat_probe.py | index.html | 40 | CASES=YEJIAN,MOKU,CLUB
 # ===== P0 BB 17:12（D146 下一版必須，排最前面）：X290 一鍵前往、X304 出去玩分期 =====
 #SUPERSEDED(ecc3e12a7) V24_invgo | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/flow_inv_go_jump.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
 #SUPERSEDED(ecc3e12a7) V24_invgo_real | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_invgo_real_probe.py | index.html | 20 | 

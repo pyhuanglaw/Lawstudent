@@ -16,7 +16,7 @@ WHO = os.environ.get('WHO') or 'heroine_01'; pe.WHO = WHO
 R = L.Run('invgo_real', OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 SAVE = os.path.join(HERE, 'fixtures', 'user_saves_1107', 'fatiao3d_save_day46.json')
-CAND = ['wz_books', 'wz_tea', 'bikeshop', 'afar', 'aoki', 'xs_shanlan']
+CAND = ['bookstore', 'afar', 'aoki', 'slowread']   # 去過（visited 用 zone）：頁間書屋 hrs [10,22]＝10:00 才開
 HOOK = r"""(()=>{ if(window.__IG) return; window.__IG=[]; const P=(k,v)=>{ try{ window.__IG.push({k, v:String(v||''), h:+(+GAME.G.hour).toFixed(3), z:GAME.G.zone}); }catch(e){} };
   for(const [n,k] of [['toast','toast'],['caption','cap'],['say','say']]){ const f=GAME[n]; if(typeof f!=='function') continue; GAME[n]=function(a,b){ P(k, n==='toast'?a:(n==='caption'?((a?a+'｜':'')+b):(((a&&a.name)||'')+'｜'+b))); return f.apply(this,arguments); }; } })()"""
 
@@ -42,8 +42,8 @@ async def main():
         await L.load_state(pg, state(None), quiet_phone=True); await pg.wait_for_timeout(3000); await pe.settle(pg, cdp, [], 30)
         R.setup('【前置／捷徑】day46 存檔 08:00、清邀約、%s 朋友（fam≥50 trust≥35 comf≥30）、錢 3000、去過 %s' % (WHO, J(CAND)))
         await pg.evaluate(HOOK)
-        pl = await pg.evaluate("""(c=>{ const G=GAME.G, wd=(CALENDAR.dateOf(G.day).wd)%7; const out=[]; for(const id of c){ let P=null; try{ P=INV.place(id); }catch(e){} const rule=PLACES[(P&&P.zone)||id]; const w=rule&&rule.rules&&rule.rules.week?rule.rules.week[wd]:null;
-            const open=Array.isArray(w)?(Array.isArray(w[0])?w[0][0]:w[0]):null; out.push({id, name:P&&P.name, zone:P&&P.zone, open}); } return {wd, day:G.day, list:out}; })(%s)""" % J(CAND))
+        pl = await pg.evaluate("""(()=>{ const G=GAME.G; const ps=(typeof INVITE_DATA!=='undefined'&&INVITE_DATA.places)||[];   /* r2：邀約地點的營業時間在 INVITE_DATA.places[].hrs（PLACES 查不到，r1 會一間都找不到） */
+            return {day:G.day, list:ps.filter(p=>Array.isArray(p.hrs)).map(p=>({id:p.id, name:p.name, zone:p.zone, open:p.hrs[0], close:p.hrs[1]}))}; })()""")
         R.note('候選店（那一天的開門時間）：%s' % J(pl))
         tgt = next((q for q in pl['list'] if q['name'] and q['open'] == 10), None) or next((q for q in pl['list'] if q['name'] and q['open'] and q['open'] >= 10), None)
         if not R.check('找到一間 10:00 才開、約得到的店', bool(tgt), J(pl)): await b.close(); return
