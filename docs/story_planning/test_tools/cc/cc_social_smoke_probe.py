@@ -861,18 +861,38 @@ class Person:
             if o: R.info('greetn：%s 排除讀書區／店內偶遇以後掃不到，退回不排除（第一次可能是點頭或偶遇，照樣記下來）' % J({k: v for k, v in extra.items() if k != 'days'}), J(o[:1]))
             return o
 
-        sun = await scan({'max': 6, 'wds': [0]})
-        targets = []
+        WDONLY = (os.environ.get('GREET_WD') or '').strip()   # BB 09:47：只補測平日（她坐著不走開的時段）。'auto'＝掃上課前在教室等的時段；或 'zone,hour,YYYY-MM-DD' 直接指定
+        if WDONLY:
+            if WDONLY == 'auto':
+                cand = await pg.evaluate(r"""(id=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekday,zone:G.zone}, out=[]; const T=CALENDAR.termDays('Y1S1');
+                  try{ for(let d=T.from; d<=T.to&&out.length<12; d++){ const t=CALENDAR.termOf(d); if(!t||(t.week|0)<3) continue; const wd=CALENDAR.dateOf(d).wd%7; if(wd<1||wd>5) continue; if(CALENDAR.kind&&CALENDAR.kind(d)==='holiday') continue;
+                    for(let hr=7.5; hr<=18; hr+=0.25){ G.day=d; G.hour=hr; G.weekday=wd; let w=null; try{ w=STORY.whereIs(GAME,id); }catch(e){} if(!w||!w.zone||w.away) continue;
+                      if(w.zone==='classroom'&&!/上課/.test(w.act||'')){ G.hour=hr+0.25; let w2=null; try{ w2=STORY.whereIs(GAME,id); }catch(e){} if(w2&&w2.zone==='classroom') { out.push({d, wd, key:CALENDAR.dateOf(d).key, hr, zone:w.zone, act:w.act||'', term:'Y1S1', week:t.week|0}); break; } } } } }
+                  finally{ Object.assign(G,keep); } return out; })""", self.pid)
+                cand.sort(key=lambda q: (0 if q['wd'] == 3 else 1, q['d']))
+                R.note('greetn 平日補測：上課前在教室等的時段 %s' % J(cand[:6]))
+                if not cand:
+                    R.check('greetn 平日補測：找得到她上課前在教室等的平日時段', False, ''); return
+                sl0 = cand[0]
+            else:
+                z, hr, key = [x.strip() for x in WDONLY.split(',')]
+                sl0 = await pg.evaluate("(k=>{ const d=STORY.dayOfKey(k); const t=CALENDAR.termOf(d)||{}; return {d, wd:CALENDAR.dateOf(d).wd%7, key:CALENDAR.dateOf(d).key, term:t.id||'', week:t.week|0}; })", key)
+                sl0.update({'hr': float(hr), 'zone': z, 'act': 'GREET_WD'})
+            R.setup('【前置／捷徑】greetn 平日補測時段：%s' % J(sl0))
+            sun = []; targets = [('同一週平日（補測，週%d）' % sl0['wd'], sl0)]
+        else:
+            sun = await scan({'max': 6, 'wds': [0]})
+            targets = []
         if sun:
             targets.append(('週日', sun[0]))
             d0 = sun[0]['d']; wd = await scan({'max': 10, 'days': [d0 - 4, d0 + 3, d0 - 5, d0 - 3, d0 - 6, d0 - 2, d0 + 1, d0 + 2, d0 + 4, d0 + 5]})
             wd.sort(key=lambda q: (1 if '走' in (q.get('act') or '') else 0, 0 if q['wd'] == 3 else 1, abs(q['d'] - d0)))
             if wd: targets.append(('同一週週三' if wd[0]['wd'] == 3 else '前後一週平日（週%d）' % wd[0]['wd'], wd[0]))
-        hol = await pg.evaluate("(()=>{ const out=[]; const T=CALENDAR.termDays('Y1S1'); for(let d=T.from; d<=T.to; d++){ const w=CALENDAR.dateOf(d).wd%7; if(w>=1&&w<=5&&CALENDAR.kind&&CALENDAR.kind(d)==='holiday') out.push(d); } return out; })()")
+        hol = [] if WDONLY else await pg.evaluate("(()=>{ const out=[]; const T=CALENDAR.termDays('Y1S1'); for(let d=T.from; d<=T.to; d++){ const w=CALENDAR.dateOf(d).wd%7; if(w>=1&&w<=5&&CALENDAR.kind&&CALENDAR.kind(d)==='holiday') out.push(d); } return out; })()")
         hs = await scan({'max': 6, 'days': hol}) if hol else []
         R.note('greetn：學期中平日的國定假日 %s；她在 3D 的 %s' % (J(hol), J(hs[:3])))
         if hs: targets.append(('國定假日（平日）', hs[0]))
-        if not sun: R.check('greetn：找得到週日她在 3D 的時段', False, '')
+        if not sun and not WDONLY: R.check('greetn：找得到週日她在 3D 的時段', False, '')
         NOT_GREET = ('點了一下頭', '你也來這裡', '沒有注意到你')
         for name, sl in targets:
             tag = 'greetn %s %s' % (name, sl['key'])
@@ -903,6 +923,10 @@ class Person:
             if name.startswith(('同一週', '前後一週')):
                 if info['classDay'] is False: R.info('%s：這一天不是上課日（%s），不判問上課' % (tag, J(info))); continue
                 R.check('%s：問上課那幾句出現（≥1）' % tag, len(hit_cls) >= 1, J(hit_cls))
+                if WDONLY:   # BB 09:47：第 1 次說話裡就要有問上課的句子；不能出現週末、放假的新句
+                    first = got[0] if got else []
+                    R.check('%s：第 1 次說話就有問上課的句子' % tag, any(x in cls for x in first), J(first))
+                    R.check('%s：沒有出現週末／放假的新句' % tag, not hit_add, J(hit_add))
             else:
                 R.check('%s：沒有講到今天上課的句子' % tag, not hit_cls, J(hit_cls))
                 R.check('%s：週末／放假新句至少一句' % tag, len(hit_add) >= 1, J(hit_add))
