@@ -51692,6 +51692,32 @@
     "ack": "SENT"
    },
    "sha": null
+  },
+  {
+   "id": "XS-WINCARD-1110",
+   "title": "新生南路店面窗景卡第二批（山嵐一二樓、X-Sports 一二樓、南洋一樓）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次進新生南路的店",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 11-10 11:4x】第二批 LAWWW2 b8d833642 接進開發分支：山嵐一二樓、X-Sports 一二樓、南洋一樓 5 片 shopViewPane＋10 張白天／晚上照片（統一館二樓沒正面玻璃跳過）；xs_wincard2_1110（開發 FAIL 12→ALL PASS）、xs_wincard_1105、shanlan、nanyang、xsports 等 ALL PASS；CC 拍、BB 判。",
+   "xai": {
+    "spec": "BB 11-10 10:52 派",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "窗外看得到對街、白天晚上換圖；BB 判",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   },
+   "sha": "b8d833642"
   }
  ]
 }
