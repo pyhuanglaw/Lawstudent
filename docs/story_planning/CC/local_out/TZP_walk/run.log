@@ -1,0 +1,29 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tzq_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TZP_walk\out
+CC TZQ／TZP／WZQ：SHA 3a216dfb2 PARTS TZP_WALK,TZP_TY Q medium；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+== TZP_WALK
+  [前置／捷徑] 設定頁畫質改成 medium（#setQuality 改值＋change；之後讀檔才照新畫質生路人）→ E.q.level=medium
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-01 18.5 時 (0.00,6.00) （路中間；觀察 60 秒）
+  [ 111.3s] [B3] medium 18:30 觀察 60 秒、12 個路人（軌跡 B3_tracks_medium.json）；每人移動總長 {"x0": 70.8, "x1": 63.6, "x2": 87.7, "x3": 65.1, "x4": 95.1, "x5": 56.2, "x6": 75.8, "x7": 75.3, "x8": 64.4, "x9": 81.9, "x10": 69.3, "x11": 92.9}
+PASS [B3] 路人每一秒都在走得到的格子（沒有穿牆、沒有卡在機車／攤子／柱子裡）  []
+PASS [B3] 路人沒有站在夜市攤的範圍  []
+PASS [B3] 路人沒有停在店門互動點 1 m 內（1 m 內而且那一秒移動 < min(0.15 m, 自己每秒中位數的 1/4)）  []
+PASS [B3] 沒有原地踏步（連續 2 秒每秒移動 < min(0.05 m, 自己每秒中位數的 1/5)）  []
+  [ 111.3s] [B3] 兩次取樣之間的直線經過擋住的格子（可能是轉角切過去，不當判定）：0 次 []
+PASS [B3] 有路人可以觀察
+PASS [TZP_WALK] 沒有 JS 例外  []
+== TZP_TY
+  [前置／捷徑] 設定頁畫質改成 medium（#setQuality 改值＋change；之後讀檔才照新畫質生路人）→ E.q.level=medium
+PASS [B4] 行事曆 2025-10-13 是颱風假（CALENDAR.typhoon）  day 27
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-01 18.5 時 (0.00,6.00) {"weather": "clear"} 【捷徑】（平常日 18:30、路中間）
+PASS [黑畫面] B4_normal_alleyA 不是黑畫面（平均亮度 73.3、變化 42.3）  [73.3, 42.3]
+  [ 133.5s] [B4] 平常日：{"on": true, "closed": false, "open_vis": 14, "closed_vis": 0, "loaded": 14, "n": 12, "lum": [73.3, 42.3]}
+  [前置／捷徑] 讀檔到 tingzhou 2025-10-13 18.5 時 (0.00,6.00) {"weather": "rain"} 【捷徑】（颱風假 18:30、路中間）
+PASS [黑畫面] B4_typhoon_alleyA 不是黑畫面（平均亮度 67.8、變化 42.8）  [67.8, 42.8]
+  [ 154.1s] [B4] 颱風假：{"on": false, "closed": true, "open_vis": 0, "closed_vis": 14, "loaded": 14, "n": 1, "lum": [67.8, 42.8]}
+PASS [B4] 平常日 18:30 攤子擺出來（對照：tzStallsOn、看得到營業的攤）  {"on": true, "closed": false, "open_vis": 14, "closed_vis": 0, "loaded": 14, "n": 12, "lum": [73.3, 42.3]}
+PASS [B4] 颱風假 18:30 攤子收起來（tzStallsClosed、tzStallsOn false、營業的攤 0 個看得到）  {"on": false, "closed": true, "open_vis": 0, "closed_vis": 14, "loaded": 14, "n": 1, "lum": [67.8, 42.8]}
+PASS [B4] 颱風假街上只剩一個路人  {"on": false, "closed": true, "open_vis": 0, "closed_vis": 14, "loaded": 14, "n": 1, "lum": [67.8, 42.8]}
+PASS [TZP_TY] 沒有 JS 例外  []
+ALL PASS
