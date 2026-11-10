@@ -1,0 +1,46 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_outing_gate_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\X315_pre_new\out
+CC OUTING_GATE：worktree ?；TAG new；WHO heroine_01；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】day46 存檔、10:00、清邀約；heroine_01 的戀愛 npcRom＝14；拿掉 dating_heroine_01
+  [  36.1s] [NF] 狀態：{"rom": 14, "lvl": "ACQUAINTANCE", "stage": 1, "cap": 1, "ask": {"ok": false, "why": "你們還沒那麼熟。"}, "half": 15}
+  [  36.1s] [NF] 人物頁戀愛條提示：你們還在互相認識。
+  [  36.1s] [NF] DATE.progress 全部：{"fr":{"pct":0.5,"hint":"再熟一點"},"rom":{"pct":0.4666666666666667,"hint":"你們還在互相認識。"}}
+PASS [NF] X315：人物頁沒有祐廷自己的戀愛字（她還沒有那樣看你／你還沒有那樣看她／你好像開始在意她了）  []
+PASS [NF] X315：戀愛條沒過一半的字是「你們還在互相認識。」（原文：你們還在互相認識。）  你們還在互相認識。
+  [  40.6s] [NF] 邀約第一層：[{"t": "念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館", "dim": false}, {"t": "吃飯…兩個人單獨去吃飯不太好。約在 Café 或總圖吧。", "dim": true}, {"t": "喝咖啡、喝茶…2:30 AM、慢讀咖啡、木曜日、afar café", "dim": false}, {"t": "看電影、逛書店…頁間書屋、山嵐書店", "dim": false}, {"t": "散步…兩個人單獨去散步不太好。約在 Café 或總圖吧。", "dim": true}, {"t": "運動…新體育館羽球場、椰影大道", "dim": false}, {"t": "出去玩…你們還沒那麼熟。", "dim": true}, {"t": "算了", "dim": false}]
+PASS [NF] 邀約選單有「出去玩…」  [{"t": "念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館", "dim": false}, {"t": "吃飯…兩個人單獨去吃飯不太好。約在 Café 或總圖吧。", "dim": true}, {"t": "喝咖啡、喝茶…2:30 AM、慢讀咖啡、木曜日、afar café", "dim": false}, {"t": "看電影、逛書店…頁間書屋、山嵐書店", "dim": false}, {"t": "散步…兩個人單獨去散步不太好。約在 Café 或總圖吧。", "dim": true}, {"t": "運動…新體育館羽球場、椰影大道", "dim": false}, {"t": "出去玩…你們還沒那麼熟。", "dim": true}, {"t": "算了", "dim": false}]
+PASS [NF] 說明字是 AA 的稿「你們還沒那麼熟。」（原文：出去玩…你們還沒那麼熟。）  {"t": "出去玩…你們還沒那麼熟。", "dim": true}
+PASS [NF] 「出去玩…」灰掉  {"t": "出去玩…你們還沒那麼熟。", "dim": true}
+PASS [NF] 說明不是「她還沒有那樣看你」（原文：出去玩…你們還沒那麼熟。）  {"t": "出去玩…你們還沒那麼熟。", "dim": true}
+  [前置／捷徑] 【前置／捷徑】day46 存檔、10:00、清邀約；heroine_01 的戀愛 npcRom＝14；拿掉 dating_heroine_01
+  [  46.1s] [R14] 狀態：{"rom": 14, "lvl": "CLOSE_FRIEND", "stage": 4, "cap": 4, "ask": {"ok": false, "why": "你們現在是朋友。再多相處一陣子。"}, "half": 15}
+  [  46.1s] [R14] 人物頁戀愛條提示：現在是朋友的感覺
+  [  46.1s] [R14] DATE.progress 全部：{"fr":{"pct":1,"hint":""},"rom":{"pct":0.4666666666666667,"hint":"現在是朋友的感覺"}}
+PASS [R14] X315：人物頁沒有祐廷自己的戀愛字（她還沒有那樣看你／你還沒有那樣看她／你好像開始在意她了）  []
+PASS [R14] X315：戀愛條沒過一半的字是「現在是朋友的感覺」（原文：現在是朋友的感覺）  現在是朋友的感覺
+  [  50.2s] [R14] 邀約第一層：[{"t": "念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館", "dim": false}, {"t": "吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、巷口家常菜", "dim": false}, {"t": "喝咖啡、喝茶…2:30 AM、一盞、慢讀咖啡、木曜日、日常失速、afar café", "dim": false}, {"t": "看電影、逛書店…南洋戲院、頁間書屋、山嵐書店", "dim": false}, {"t": "散步…溫州街、映月湖、一一八茶飲", "dim": false}, {"t": "運動…新體育館羽球場、椰影大道、游泳池", "dim": false}, {"t": "出去玩…你們現在是朋友。再多相處一陣子。", "dim": true}, {"t": "算了", "dim": false}]
+PASS [R14] 邀約選單有「出去玩…」  [{"t": "念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館", "dim": false}, {"t": "吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、巷口家常菜", "dim": false}, {"t": "喝咖啡、喝茶…2:30 AM、一盞、慢讀咖啡、木曜日、日常失速、afar café", "dim": false}, {"t": "看電影、逛書店…南洋戲院、頁間書屋、山嵐書店", "dim": false}, {"t": "散步…溫州街、映月湖、一一八茶飲", "dim": false}, {"t": "運動…新體育館羽球場、椰影大道、游泳池", "dim": false}, {"t": "出去玩…你們現在是朋友。再多相處一陣子。", "dim": true}, {"t": "算了", "dim": false}]
+PASS [R14] 說明字是 AA 的稿「你們現在是朋友。再多相處一陣子。」（原文：出去玩…你們現在是朋友。再多相處一陣子。）  {"t": "出去玩…你們現在是朋友。再多相處一陣子。", "dim": true}
+PASS [R14] 「出去玩…」灰掉  {"t": "出去玩…你們現在是朋友。再多相處一陣子。", "dim": true}
+PASS [R14] 說明不是「她還沒有那樣看你」（原文：出去玩…你們現在是朋友。再多相處一陣子。）  {"t": "出去玩…你們現在是朋友。再多相處一陣子。", "dim": true}
+  [前置／捷徑] 【前置／捷徑】day46 存檔、10:00、清邀約；heroine_01 的戀愛 npcRom＝15＋冷淡期（V6EX.cool：昨天起 30 天）；拿掉 dating_heroine_01
+  [  55.2s] [COOL] 狀態：{"rom": 15, "lvl": "CLOSE_FRIEND", "stage": 4, "cap": 4, "ask": {"ok": false, "why": "你們現在是朋友。再多相處一陣子。"}, "half": 15}
+  [  55.2s] [COOL] 人物頁戀愛條提示：她好像開始在意你了
+  [  55.2s] [COOL] DATE.progress 全部：{"fr":{"pct":1,"hint":""},"rom":{"pct":0.5,"hint":"她好像開始在意你了"}}
+PASS [COOL] X315：人物頁沒有祐廷自己的戀愛字（她還沒有那樣看你／你還沒有那樣看她／你好像開始在意她了）  []
+FAIL [COOL] X315：戀愛條沒過一半的字是「現在是朋友的感覺」（原文：她好像開始在意你了）  她好像開始在意你了
+  [  59.3s] [COOL] 邀約第一層：[{"t": "念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館", "dim": false}, {"t": "吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、巷口家常菜", "dim": false}, {"t": "喝咖啡、喝茶…2:30 AM、一盞、慢讀咖啡、木曜日、日常失速、afar café", "dim": false}, {"t": "看電影、逛書店…南洋戲院、頁間書屋、山嵐書店", "dim": false}, {"t": "散步…溫州街、映月湖、一一八茶飲", "dim": false}, {"t": "運動…新體育館羽球場、椰影大道、游泳池", "dim": false}, {"t": "出去玩…你們現在是朋友。再多相處一陣子。", "dim": true}, {"t": "算了", "dim": false}]
+PASS [COOL] 邀約選單有「出去玩…」  [{"t": "念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館", "dim": false}, {"t": "吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、巷口家常菜", "dim": false}, {"t": "喝咖啡、喝茶…2:30 AM、一盞、慢讀咖啡、木曜日、日常失速、afar café", "dim": false}, {"t": "看電影、逛書店…南洋戲院、頁間書屋、山嵐書店", "dim": false}, {"t": "散步…溫州街、映月湖、一一八茶飲", "dim": false}, {"t": "運動…新體育館羽球場、椰影大道、游泳池", "dim": false}, {"t": "出去玩…你們現在是朋友。再多相處一陣子。", "dim": true}, {"t": "算了", "dim": false}]
+PASS [COOL] 說明字是 AA 的稿「你們現在是朋友。再多相處一陣子。」（原文：出去玩…你們現在是朋友。再多相處一陣子。）  {"t": "出去玩…你們現在是朋友。再多相處一陣子。", "dim": true}
+PASS [COOL] 「出去玩…」灰掉  {"t": "出去玩…你們現在是朋友。再多相處一陣子。", "dim": true}
+PASS [COOL] 說明不是「她還沒有那樣看你」（原文：出去玩…你們現在是朋友。再多相處一陣子。）  {"t": "出去玩…你們現在是朋友。再多相處一陣子。", "dim": true}
+  [前置／捷徑] 【前置／捷徑】day46 存檔、10:00、清邀約；heroine_01 的戀愛 npcRom＝55；拿掉 dating_heroine_01
+  [  64.1s] [S6] 狀態：{"rom": 55, "lvl": "CLOSE_FRIEND", "stage": 6, "cap": 6, "ask": {"ok": true}, "half": 15}
+  [  64.2s] [S6] 人物頁戀愛條提示：再多一些兩個人出去的時間
+  [  64.2s] [S6] DATE.progress 全部：{"fr":{"pct":1,"hint":""},"rom":{"pct":0.25,"hint":"再多一些兩個人出去的時間","mood":"你們之間有點曖昧"}}
+PASS [S6] X315：人物頁沒有祐廷自己的戀愛字（她還沒有那樣看你／你還沒有那樣看她／你好像開始在意她了）  []
+PASS [S6] X315：rom 0、npcRom 55、好朋友 → 第 6 階（stageNum 6）  {"rom": 55, "lvl": "CLOSE_FRIEND", "stage": 6, "cap": 6, "ask": {"ok": true}, "half": 15}
+  [  64.2s] [S6] 關係值：{"rom": 0, "npcRom": 55, "fam": 65, "trust": 50, "comf": 45, "lvl": "CLOSE_FRIEND"}
+PASS 沒有 JS 例外  []
+FAILED 1: [COOL] X315：戀愛條沒過一半的字是「現在是朋友的感覺」（原文：她好像開始在意你了）
