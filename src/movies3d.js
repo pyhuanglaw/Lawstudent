@@ -22,7 +22,7 @@ const MOVIES=(function(){
   const ZL='xs_nanyang', ZH='xs_nanyang_hall'; S.ZL=ZL; S.ZH=ZH;
   const ENTER_O={noFade:true,deferStory:true,noAutosave:true};   /* 同 closed2_3d.js：換區域不觸發劇情、不自動存檔（見面演完 INV.meet 自己存）*/
   /* 第一批海報（BB-B 11-10，claude/elegant-brown-fcos7n e4eea1c780；法律系大一那一年 5 段 10 部）。之後的海報到了加進來 */
-  S.POSTERS=['m2509a','m2509b','m2511a','m2511b','m2601a','m2601b','m2603a','m2603b','m2605a','m2605b','m2607a','m2607b','m2609a','m2609b','m2611a','m2611b','m2701a','m2701b','m2703a','m2703b','m2705a','m2705b','m2707a','m2707b','m2709a','m2709b','m2803a','m2803b','m2805a','m2805b','m2807a','m2807b','m2901b','m2903a','m2903b','m2905a','m2905b','m2907b','m2909a','m2909b'];   /* BB 檢查通過、放進 assets/posters 的（11-10 17:5x：40 張；片單 72 張，其餘 BB 跟使用者要；使用者：「等所有電影海報都放進去，才發佈最新版」X314）*/
+  S.POSTERS=['m2409a','m2409b','m2411a','m2411b','m2501a','m2501b','m2509a','m2509b','m2511a','m2511b','m2601a','m2601b','m2603a','m2603b','m2605a','m2605b','m2607a','m2607b','m2609a','m2609b','m2611a','m2611b','m2701a','m2701b','m2703a','m2703b','m2705a','m2705b','m2707a','m2707b','m2709a','m2709b','m2803a','m2803b','m2805a','m2805b','m2807a','m2807b','m2901b','m2903a','m2903b','m2905a','m2905b','m2907b','m2909a','m2909b'];   /* BB 檢查通過、放進 assets/posters 的（11-10 17:5x：40 張；片單 72 張，其餘 BB 跟使用者要；使用者：「等所有電影海報都放進去，才發佈最新版」X314）*/
   S.posterUrl=id=>id&&S.POSTERS.includes(id)?'assets/posters/'+id+'.webp':null;
   const ymOf=s=>{ const a=String(s).split('-'); return (+a[0])*100+(+a[1]); };
   S.ym=function(G,day){ const d=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(day!=null?day:(G?G.day:0)):null; return d&&d.y?d.y*100+d.m:null; };
