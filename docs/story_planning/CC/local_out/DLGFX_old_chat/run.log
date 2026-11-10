@@ -1,0 +1,25 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_dlgfx_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\DLGFX_old_chat\out
+CC DLGFX（DLG-FX-MECH-1110）：TAG old；SHA 779ddd65081bf770e9850d948b54ecc21dc4d120；CASES CHAT；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  25.7s] 畫面上的版本：版本 v9.10.24
+  [前置／捷徑] [CHAT] day46 10:00、清邀約（掃時段用）
+  [  35.6s] [CHAT] 掃到的時段：{"id": "heroine_05", "key": "heroine_05", "k": 5, "k0": 5, "step": "S-L5", "choices": ["「那妳想當司法官嗎？」", "「妳說『一直都』。」"], "d": 46, "wd": 6, "dkey": "2025-11-01", "hr": 10, "zone": "campus", "act": "走走"}
+PASS [CHAT] 前置：14 天內找得到她在 3D、下一層有選項的時段
+  [前置／捷徑] [CHAT] 日期 2025-11-01（第 46 天）10.05 點、區域 campus（她的作息：走走）；閒聊階梯 heroine_05 進度 5 → 5（下一層 S-L5，有選項 ["「那妳想當司法官嗎？」", "「妳說『一直都』。」"]）、拿掉今天已經聊過的記號
+  [  70.2s] 到達「[CHAT] 走到 溫書瑀 旁邊（第 1 次）」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，18 秒
+  [  70.9s] [CHAT] 互動鍵是「聽一句」（她 {"x": 0.27, "z": -7.33, "lv": 0, "label": "和溫書瑀說話", "name": "溫書瑀", "seat": false}），再靠近
+  [  85.4s] 到達「[CHAT] 走到 溫書瑀 旁邊（第 2 次）」附近（0.20 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+  [  86.1s] [CHAT] 互動鍵是「」（她 {"x": -17.37, "z": -7.17, "lv": 0, "label": "和溫書瑀說話", "name": "溫書瑀", "seat": false}），再靠近
+  [  94.1s] [CHAT] 搖桿追上她（8.0 秒、距離 1.05 m）
+PASS [CHAT] 走到她旁邊、互動鍵是和她說話  {"x": -46.8, "z": -7.01, "lv": 0, "label": "和溫書瑀說話", "name": "溫書瑀", "seat": false}
+PASS [CHAT] 按「和溫書瑀說話」開始說話
+  [ 102.5s] [CHAT] 期望的那一層 S-L5 有演（選單裡有「「那妳想當司法官嗎？」」）：True；階梯進度之後 6
+  [ 103.1s] [CHAT] 原文 3 句、選單 2 個、SOCIAL.adjust 3 筆；關係 {"fam": 50, "trust": 15, "comf": 14, "npcRom": 0, "rom": 0} → {"fam": 54, "trust": 18, "comf": 15, "npcRom": 0, "rom": 0}；選的：[["「那妳想當司法官嗎？」"], ["就這樣"]]
+PASS [CHAT] 流程走完（沒有 60 秒沒進展、沒有逾時）  {"stuck": false, "done": true, "secs": 7.8}
+PASS [CHAT] 最後沒有對話框、選單開著  {"zone": "campus", "dlg": false, "choices": 0, "busy": false, "hour": 10.38, "dtext": "……想啊。（她低頭翻書）"}
+PASS [CHAT] 沒有連續重複的句子（同一句連續兩次）  []
+PASS [CHAT] 沒有 JS 例外  []
+PASS [CHAT] walkFallbacks 0（這一項 0 → 0）
+PASS 全程沒有 JS 例外  []
+ALL PASS
