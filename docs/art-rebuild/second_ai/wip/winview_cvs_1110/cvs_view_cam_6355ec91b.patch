@@ -1,0 +1,68 @@
+diff --git a/tests/cvs_view_cam_1110_unit.js b/tests/cvs_view_cam_1110_unit.js
+new file mode 100644
+index 000000000..89e4ce2e8
+--- /dev/null
++++ b/tests/cvs_view_cam_1110_unit.js
+@@ -0,0 +1,46 @@
++// 日和便利店的窗景照片從哪裡拍（WINVIEW-AUDIT-1105，LAWWW 11-10：「程式註解自己寫『舊店面角度，要重拍』」；LAWWW2 帳號 A）——不需要瀏覽器（D131）。
++// 窗景是 W3.windowMat 的視差窗：照片要從「視差窗那一片的中心」拍（shader 照平面中心算，2:1、水平 90°）。照片是 tools/shots/shop_views_layers.py 在遊戲裡拍的，
++// 拍照的位置寫在那支工具的 VIEWS['cvs']。最早 (−29.4, 2.1, 21.7) 是舊店面的門口，11-04（GG-VIEWS-1104）改成 (−27.7, 1.4, 21.7)，但照片一直沒有重拍；正式模型 cvs_interior_v2 換上以後，視差窗中心在店內 (−1.18, 1.4, 6.1)，
++// 換成公館座標是 (−27.62, 1.4, 21.41)：照片（10-23 拍的）和視差窗左右差 1.78 m、高 0.7 m（窗外的地平線、街角都偏了）；11-04 的工具位置還差 0.29 m（z 21.7 在玻璃內側）。
++// 檢查（在 Node 建出遊戲真正的 cvs 區域，正式模型照 ASSETS 從檔案讀）：
++//   1 正式模型接上、視差窗只有一片、照片是 'cvs'
++//   2 工具 VIEWS['cvs'] 的鏡頭＝遊戲視差窗中心（換成公館座標，差 ≤ 0.15 m）
++//   3 工具的鏡頭看的方向＝視差窗朝外的方向（公館 −z，往北）
++// 公館座標：店中心 x −28.8（zones3d.js 公館店面那一排第 4 間：x −34.4～−23.2）、房間轉 180°（公館 x＝店中心 − 店內 x）；店面玻璃在公館 z 22.07（wz_street.py 那一排 dep 3.0），
++// 店內玻璃的 z 照正式模型的 GLASS_front 量。
++// 修改前（開發分支 6355ec91b）：2 FAIL（差 0.30 m）。改了工具以後要請 CC 在遊戲裡重拍（D131），照片和 VIEW_LAYERS 的景深照工具寫的 json 換。用法：node tests/cvs_view_cam_1110_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{};
++const HTML=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), SRCS=[...HTML.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]);
++const loadErr=[]; for(const f of SRCS){ try{ vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (\w+)\s*=/mg,'globalThis.$1='),{filename:f}); }catch(e){ loadErr.push(f+'：'+String(e).slice(0,120)); } }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++check('0 照 index.html 的順序載入每一個檔都沒有錯',!loadErr.length,loadErr.slice(0,3).join('；'));
++function glbScene(file){ const b=fs.readFileSync(file), jl=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+jl).toString('utf8')), bin=b.slice(20+jl+8);
++  const acc=i=>{ const a=J.accessors[i], v=J.bufferViews[a.bufferView], n={SCALAR:1,VEC2:2,VEC3:3,VEC4:4}[a.type], off=(v.byteOffset||0)+(a.byteOffset||0); const T={5126:Float32Array,5125:Uint32Array,5123:Uint16Array,5121:Uint8Array}[a.componentType]; return new T(bin.buffer.slice(bin.byteOffset+off,bin.byteOffset+off+a.count*n*T.BYTES_PER_ELEMENT)); };
++  const mats=(J.materials||[]).map(m=>{ const t=new THREE.MeshStandardMaterial(); t.name=m.name||''; t.transparent=m.alphaMode==='BLEND'; if(t.transparent) t.opacity=0.4; return t; });
++  const objs=J.nodes.map(nd=>{ let o; if(nd.mesh!=null&&!(nd.extensions&&nd.extensions.EXT_mesh_gpu_instancing)){ const prs=J.meshes[nd.mesh].primitives.map(pr=>{ const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(acc(pr.attributes.POSITION),3)); if(pr.indices!=null) g.setIndex(new THREE.BufferAttribute(acc(pr.indices),1)); return new THREE.Mesh(g,mats[pr.material]); }); if(prs.length===1) o=prs[0]; else { o=new THREE.Group(); for(const q of prs) o.add(q); } } else o=new THREE.Object3D();
++    o.name=nd.name||''; if(nd.extras) o.userData=JSON.parse(JSON.stringify(nd.extras)); if(nd.translation) o.position.fromArray(nd.translation); if(nd.rotation) o.quaternion.fromArray(nd.rotation); if(nd.scale) o.scale.fromArray(nd.scale); return o; });
++  J.nodes.forEach((nd,i)=>{ for(const c of nd.children||[]) objs[i].add(objs[c]); }); const sc=new THREE.Group(); for(const r of J.scenes[J.scene||0].nodes) sc.add(objs[r]); return sc; }
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++const GLB={}; ASSETS.loadOne=k=>{ const m=ASSETS.manifest[k]; if(m&&/building/.test(m.type)&&fs.existsSync(path.join(ROOT,m.url))){ if(!GLB[k]) GLB[k]=glbScene(path.join(ROOT,m.url)); return Promise.resolve({scene:GLB[k]}); } return new Promise(()=>{}); };
++global.GAME=global.GAME||{}; GAME.G={hour:14,weather:'clear',flags:{},zone:'cvs',day:1};
++/* 工具的 VIEWS['cvs']（Python 的一列）*/
++const PY=fs.readFileSync(path.join(ROOT,'tools/shots/shop_views_layers.py'),'utf8'), row=PY.match(/^\s*'cvs': \('gongguan', \[[^\]]*\], \[([^\]]*)\], \[([^\]]*)\]/m);
++const cam=row?row[1].split(',').map(Number):null, at=row?row[2].split(',').map(Number):null;
++(async()=>{ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; const z=Z3.ZONES.cvs.build(E); E.zone=z; for(let i=0;i<40;i++) await new Promise(r=>setTimeout(r,0)); z.group.updateMatrixWorld(true);
++  const ws=(z.wins||[]).filter(w=>w.userData&&w.userData.pview), w=ws[0];
++  check('1 正式模型接上、視差窗一片、照片是 cvs', !!z.formal&&ws.length===1&&w.userData.pview==='cvs', `formal ${!!z.formal}、視差窗 ${ws.length} 片${w?'（'+w.userData.pview+'）':''}`);
++  if(!w){ console.log('FAILED'); process.exit(1); }
++  const p=new THREE.Vector3(), q=new THREE.Quaternion(), s=new THREE.Vector3(); w.matrixWorld.decompose(p,q,s); const out=new THREE.Vector3(0,0,1).applyQuaternion(q).negate();   /* 平面朝房間（−z）＝往外是 +z */
++  let gz=null; z.group.traverse(o=>{ if(o.isMesh&&o.name==='GLASS_front'){ const b=new THREE.Box3().setFromObject(o); gz=(b.min.z+b.max.z)/2; } });
++  const CX=-28.8, GLASS=22.07, want=[+(CX-p.x).toFixed(3),+p.y.toFixed(3),+(GLASS-(p.z-gz)).toFixed(3)];
++  const d=cam?Math.hypot(cam[0]-want[0],cam[1]-want[1],cam[2]-want[2]):Infinity;
++  check('2 工具 VIEWS[cvs] 的鏡頭＝遊戲視差窗的中心（公館座標，差 ≤ 0.15 m）', d<=0.15, `視差窗 店內 (${p.toArray().map(v=>+v.toFixed(2)).join(', ')})、玻璃 z ${gz==null?'?':gz.toFixed(2)} → 公館 (${want.join(', ')})；工具 (${cam?cam.join(', '):'讀不到'})，差 ${isFinite(d)?d.toFixed(2):'?'} m`);
++  const dir=cam&&at?new THREE.Vector3(at[0]-cam[0],at[1]-cam[1],at[2]-cam[2]).normalize():null;   /* 房間轉 180°：店內往外（+z）＝公館的 −z */
++  check('3 工具看的方向＝視差窗往外（公館 −z，往北）', !!dir&&out.z>0.99&&dir.z<-0.999, dir?`工具方向 (${dir.toArray().map(v=>+v.toFixed(3)).join(', ')})、視差窗往外（店內）(${out.toArray().map(v=>+v.toFixed(2)).join(', ')})`:'');
++  console.log(fails?`FAILED ${fails}`:'ALL PASS'); process.exit(fails?1:0); })();
+diff --git a/tools/shots/shop_views_layers.py b/tools/shots/shop_views_layers.py
+index e76e35055..38fe096bc 100644
+--- a/tools/shots/shop_views_layers.py
++++ b/tools/shots/shop_views_layers.py
+@@ -31,7 +31,10 @@ VIEWS = {
+     'bookstore': ('gongguan', [-41.6, 14], [-41.6, 2.1, 21.7], [-41.6, 2.1, -40], 9.0, 3.4),
+     # 公館新店面（GG-SHOPS-REDO-1104，LAWWW2 11-04）：鏡頭在新店面窗的中心（世界 x＝店中心 cx－配置的窗中心 x；房間轉 180°）、高度＝窗中心高（ggRoom 的 winY）
+     #   日和便利店：正面落地窗＋自動門一整片 x −5.3～2.93（配置），中心 −1.19 → 世界 −27.7；winY 1.4（原本舊店面在 −29.4、2.1 m 高）
+-    'cvs': ('gongguan', [-27.7, 14], [-27.7, 1.4, 21.7], [-27.7, 1.4, -40], 9.0, 3.4),
++    #   11-10（LAWWW2 帳號 A，WINVIEW-AUDIT-1105）：照正式模型 cvs_interior_v2 載入後的視差窗中心再對一次——店內 (−1.18, 1.4, 6.1)、玻璃在店內 z 5.44（視差窗在玻璃外 0.66 m），
++    #   公館 x −28.8 + 1.18＝−27.62、z 22.07 − 0.66＝21.41（原本 21.7 是玻璃內側）。tests/cvs_view_cam_1110_unit.js 比對這一列和遊戲的視差窗。
++    #   照片（assets/models/env/views/cvs_*）還是 10-23 舊店面那個位置拍的，要在遊戲裡重拍（D131：CC 跑 `python3 tools/shots/shop_views_layers.py <網址> cvs`）
++    'cvs': ('gongguan', [-27.6, 14], [-27.62, 1.4, 21.41], [-27.62, 1.4, -40], 9.0, 3.4),
+     #   頁間書屋：窗 x −3.6～5.6（配置），中心 1.0 → 世界 −42.0；窗台 0.55～窗頂 2.85，中心 1.7（原本模型裡是一張靜態圖 WALL_front_VIEW，沒有夜景）
+     'yejian': ('gongguan', [-42.0, 14], [-42.0, 1.7, 21.7], [-42.0, 1.7, -40], 9.0, 3.4),
+     #   青木茶室：窗 x −1.93～1.27（配置），中心 −0.33 → 世界 −51.87；窗台 0.79～窗頂 2.5，中心 1.65（同上，原本是模型裡的靜態圖）
