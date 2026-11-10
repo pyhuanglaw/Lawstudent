@@ -53184,6 +53184,32 @@
    },
    "sha": null,
    "next": "四個職位把自己知道的「已經有的東西」各交幾行進 FACTS.md；loose 補單元測試；下次換班實際用一次"
+  },
+  {
+   "id": "GG-G09-G10-SHUTTER-1111",
+   "title": "公館 G09、G10 先拉下鐵門（洗樂、印得好已搬到汀州路；USER_WANTS X335）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "夜市旁巷子",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "LAWWW2：gongguan_shops 兩格改鐵捲門、拿掉「自助洗衣」「影印・輸出」招牌和看得到的洗衣機／影印機（G08 子晴的凳子、GG_PROP_BLOCKS 照舊規則）；LAWWW：這兩格若有互動點／室內入口／快速前往項目一起拿掉，確認沒有劇情或邀約用到這兩間",
+   "xai": {
+    "spec": "使用者 11-11 00:0x 選擇題（UA-LAWWW-1110-113）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "BB：兩格是鐵門、走得過去、沒有互動點",
+    "receiver": "LAWWW2",
+    "ack": "SENT"
+   }
   }
  ]
 }
