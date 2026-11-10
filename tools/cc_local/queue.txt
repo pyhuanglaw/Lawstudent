@@ -343,6 +343,9 @@ SHIFT_IMM_r4_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story
 SHIFT_IMM_r4_old | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 45 | TAG=imm4_old;IMM=1;CASES=B,F,X
 # SHIFT r5：F（芷若 Café）先等 pending 出現再等它清掉、每秒記 pending／busy／對話框（r4 一進來讀到 null 就往下；之後 pending 停在 k 3）
 SHIFT_r5_F | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 20 | TAG=r5;CASES=F
+# BB 16:42：Café 免費第一杯要真的點（r6：選「拿鐵…」不是「只是看看」），第一杯 0 元、第二杯照扣；D34 新舊：舊 8b31 兩杯都扣
+SHIFT_r6_F_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 20 | TAG=r6_new;CASES=F
+SHIFT_r6_F_old | 8b31bbaa0b8a651aeb6c3653bec468f6cbfdebed | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 20 | TAG=r6_old;CASES=F
 # USCLS r2（開發分支最新）：ONE／EXAM 改 09:15（r1 08:30 公寓還沒有「去上課」）、FINAL 每頁停 2.5 秒看教授走到門口、WALK 字卡過了再拍坐著、坐著 8 秒幀率
 USCLS_r2 | aa691df333d23bc46abb9445c249090d4b57f3d1 | probe | docs/story_planning/test_tools/cc/cc_us_class_story_probe.py | index.html | 60 | CASES=WALK,ONE,EXAM,FINAL;Q=medium
 # 接著（BB 15:53 順序）：SHIFT-TREAT 新舊對照（IMM）→ SHIFT r3（A～F）
