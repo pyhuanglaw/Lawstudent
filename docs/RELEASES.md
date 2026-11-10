@@ -44,7 +44,7 @@
 | v9.10.19 | `039a9227a`（PR [pyhuanglaw/Lawstudent#25](https://github.com/pyhuanglaw/Lawstudent/pull/25)；快取字樣 `e1603907e`，PR [pyhuanglaw/Lawstudent#26](https://github.com/pyhuanglaw/Lawstudent/pull/26)；遊戲檔案＝候選 `55939fc71`＋版本字樣） | 2026-11-03（Pages run 41716647717、41716916666） | v9.10.18 `e8b6a84dd` |
 | v9.10.19.1（熱修） | `b0c3032af`（PR [pyhuanglaw/Lawstudent#27](https://github.com/pyhuanglaw/Lawstudent/pull/27)；發布樹 `ae2914d40`＝main `e1603907e`＋EVENTS.cond attended、GM.guardTalk 兩個修正＋版本字樣） | 2026-11-04 | v9.10.19 `e1603907e` |
 | v9.10.20 | `40c0abedb`（PR [pyhuanglaw/Lawstudent#28](https://github.com/pyhuanglaw/Lawstudent/pull/28)；遊戲檔案＝BB GO 的候選 `d3828452a`＋版本字樣，發布樹 `9e6d85711`、RELEASES.md `37cd3253d`） | 2026-11-05 02:28:25 UTC（run 41955182303） | `b0c3032af`（v9.10.19.1） |
-| v9.10.24 | `779ddd650`（PR [pyhuanglaw/Lawstudent#34](https://github.com/pyhuanglaw/Lawstudent/pull/34)；遊戲檔案＝發布樹 `951824630`＝BB GO 的候選 `6ef185726`＋版本字樣） | Pages run 42892403766（部署中，確認後補時間） | `3a34dbaa5`（v9.10.23） |
+| v9.10.24 | `779ddd650`（PR [pyhuanglaw/Lawstudent#34](https://github.com/pyhuanglaw/Lawstudent/pull/34)；遊戲檔案＝發布樹 `951824630`＝BB GO 的候選 `6ef185726`＋版本字樣） | 2026-11-10 20:11:47 UTC（Pages run 42892403766 success） | `3a34dbaa5`（v9.10.23） |
 
 ---
 
