@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canopy_shot_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GGDC_tree4c_old\out
+CC 樹冠網點：worktree ?；TAG 4c_old；campus (-40.0,6.5)；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 campus (-40.0,6.5) 2025-10-18 14.0 時
+PASS 沒在騎車
+  [  41.4s] 附近的樹冠網格（前 8）：[{"name": "trees_camphor_a_leaf#0", "see": false, "min": [-54.37, 2.13, 18.06], "max": [-47.4, 8.22, 24.95], "c": [-50.88, 5.17, 21.51], "d": 18.5}, {"name": "trees_camphor_a_leaf#3", "see": false, "min": [-64.49, 3.19, 8.42], "max": [-44.43, 12.33, 28.39], "c": [-54.46, 7.76, 18.4], "d": 18.7}, {"name": "trees_camphor_b_leaf#0", "see": false, "min": [-28.37, 2.32, 17.95], "max": [-21.57, 8.16, 25.01], "c": [-24.97, 5.24, 21.48], "d": 21.2}, {"name": "trees_camphor_b_leaf#4", "see": false, "min": [-71.09, 3.65, 6.37], "max": [-48.73, 12.86, 28.67], "c": [-59.91, 8.26, 17.52], "d": 22.8}, {"name": "trees_camphor_a_leaf#1", "see": false, "min": [-39.52, 2.86, -27.22], "max": [-20.75, 11.07, -8.41], "c": [-30.14, 6.96, -17.81], "d": 26.2}, {"name": "trees_camphor_b_leaf#3", "see": false, "min": [-35.79, 3.65, -28.63], "max": [-13.43, 12.86, -6.33], "c": [-24.61, 8.26, -17.48], "d": 28.5}, {"name": "trees_camphor_b_leaf#2", "see": false, "min": [-63.75, 3.3, -27.62], "max": [-45.81, 11.61, -9.34], "c": [-54.78, 7.45, -18.48], "d": 29}, {"name": "trees_camphor_b_leaf#1", "see": false, "min": [-56.3, 1.43, -21.34], "max": [-51.74, 5.02, -16.63], "c": [-54.02, 3.22, -18.98], "d": 29.1}]
+PASS 40.0 m 內找得到樹冠網格
+  [  41.5s] 樹 1：trees_camphor_a_leaf#0 中心 [-50.88, 5.17, 21.51] 高 2.1～8.2、seeThrough False
+  [ 167.0s] 到達「走到樹 1 正下方」附近（0.58 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，125 秒
+  [ 169.9s] 樹 1 遊戲鏡頭（距離 3）：[-50.87, 2.3, 19.96]
+  [ 172.7s] 樹 1 遊戲鏡頭（距離 7）：[-50.86, 3.18, 16.06]
+  [ 172.8s] 樹 2：trees_camphor_a_leaf#3 中心 [-54.46, 7.76, 18.4] 高 3.2～12.3、seeThrough False
+  [ 186.4s] 到達「走到樹 2 正下方」附近（0.31 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，13 秒
+  [ 189.3s] 樹 2 遊戲鏡頭（距離 3）：[-51.79, 2.3, 21.02]
+  [ 192.2s] 樹 2 遊戲鏡頭（距離 7）：[-48.61, 3.18, 23.29]
+PASS 拍到 2 棵  2
+PASS 沒有 JS 例外  []
+ALL PASS
