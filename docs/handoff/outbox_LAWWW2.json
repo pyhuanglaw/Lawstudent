@@ -7485,7 +7485,7 @@
    "sha": "212f42660",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED",
    "task": "US-CLUBHOUSE-3D-1110 美國社區會所的室內 3D（門廳、交誼廳、自習室；AA_741）",
    "files": [
     "docs/art-rebuild/second_ai/wip/us_clubhouse_3d_1110/（README、us_clubhouse_3d_1110.patch、us_clubhouse_unit.js、regression.log、blender_preview.jpg、window_views.jpg）"
@@ -7500,7 +7500,7 @@
    "sha": "b146570f8",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED",
    "task": "US-EXAM-PROPS-1110 美國教室 12/6 期末考桌上的考卷和書（z.setExam）",
    "files": [
     "docs/art-rebuild/second_ai/wip/us_exam_props_1110/（README、us_exam_props_1110.patch、us_exam_props_unit.js、regression.log、blender_preview.jpg）"
@@ -7523,6 +7523,21 @@
    "noDirectIntegrate": false,
    "note": "us_clubhouse.glb 加 LOUNGE_DOOR 群組；us_clubhouse3d.js 加 z.setLoungeClosed(on)：門板、導航擋門口、鏡頭牆、門廳的「看」（今晚交誼廳有聚餐。）；玩家在交誼廳裡不關（D36）。新測試開發 FAILED 1 → ALL PASS；回歸 11 支過。",
    "next": "ART-GYM-POOL-SWIMMERS-1103 交件（回歸快跑完）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "ART-GYM-POOL-SWIMMERS-1103 游泳池裡游泳的人（四個泳客 VRM＋自由式、蛙式＋C.swimLap）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gym_pool_swimmers_1110/（README、gym_pool_swimmers_1110.patch、swim_pose_unit.js、regression.log、blender_render.jpg、pose_strip.png）"
+   ],
+   "state": "MODEL_READY＋動作做好，待 LAWWW 接 crowd3d；人物美術待 BB 驗收（D59）",
+   "noDirectIntegrate": false,
+   "note": "D144：setup_env.sh 裝好工具直接做。swimmer.py（正式人物生產線：npc.py stage0＋face＋泳衣／泳帽／泳鏡貼身殼、襪子重畫成皮膚）→ bl_swim_{sm1,sm2,sf1,sf2}.vrm 1.4～1.8 MB；character3d.js swim_free／swim_breast（gymIK 同一套，趴在水面 water −0.14）、C.swimLap；manifest char.swim_*（swim:true、不是 anon／ambient）。新測試四個人 ALL PASS，沒有新動作 FAILED 26；回歸 519 支過；可以套在 97979ca46。",
+   "next": "MOVIE-POSTER-POS-1110 → GG-LANE 告示牌字 → US-LONG-3D-1110"
   }
  ]
 }

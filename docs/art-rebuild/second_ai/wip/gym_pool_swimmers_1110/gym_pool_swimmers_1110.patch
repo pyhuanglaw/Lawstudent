@@ -56567,22 +56567,22 @@ literal 0
 HcmV?d00001
 
 diff --git a/src/assets3d.js b/src/assets3d.js
-index 406810077..21c70de43 100644
+index 406810077..c0cbeeddb 100644
 --- a/src/assets3d.js
 +++ b/src/assets3d.js
 @@ -238,6 +238,10 @@ const ASSETS = (function(){
      'char.npc_nm14': {url:'assets/models/char/second_ai/bl_npc_nm14.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.8,ambient:true,anon:true,lazy:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」：深棕微捲、灰色開襟衫、黑 T、米色寬褲、黑球鞋',license:'CC0'},
      'char.npc_nm15': {url:'assets/models/char/second_ai/bl_npc_nm15.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.77,ambient:true,anon:true,lazy:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Male」：淺棕髮、深咖啡針織衫、淺色牛仔褲、白球鞋',license:'CC0'},
      'char.npc_nm20': {url:'assets/models/char/second_ai/bl_npc_nm20.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.72,ambient:true,anon:true,lazy:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」：深棕微捲中長髮、米白針織衫、深橄欖寬褲、白球鞋',license:'CC0'},
-+    'char.swim_sm1':  {url:'assets/models/char/second_ai/bl_swim_sm1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.73,swim:true,anon:true,lazy:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」（tools/blender/char_second/swimmer.py；ART-GYM-POOL-SWIMMERS-1103）：黑色泳帽、藍色泳鏡、深藍及膝泳褲；不是 ambient（不會被抽去當街上的路人），游泳池用',license:'CC0'},
-+    'char.swim_sm2':  {url:'assets/models/char/second_ai/bl_swim_sm2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.75,swim:true,anon:true,lazy:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Male」（tools/blender/char_second/swimmer.py；ART-GYM-POOL-SWIMMERS-1103）：紅色泳帽、黑色泳鏡、黑色及膝泳褲（膚色較深）；不是 ambient（不會被抽去當街上的路人），游泳池用',license:'CC0'},
-+    'char.swim_sf1':  {url:'assets/models/char/second_ai/bl_swim_sf1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.58,swim:true,anon:true,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Female」（tools/blender/char_second/swimmer.py；ART-GYM-POOL-SWIMMERS-1103）：白色泳帽、紫色泳鏡、深藍連身泳衣；不是 ambient（不會被抽去當街上的路人），游泳池用',license:'CC0'},
-+    'char.swim_sf2':  {url:'assets/models/char/second_ai/bl_swim_sf2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.66,swim:true,anon:true,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」（tools/blender/char_second/swimmer.py；ART-GYM-POOL-SWIMMERS-1103）：藍色泳帽、藍色泳鏡、黑色連身泳衣；不是 ambient（不會被抽去當街上的路人），游泳池用',license:'CC0'},
++    'char.swim_sm1':  {url:'assets/models/char/second_ai/bl_swim_sm1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.73,swim:true,lazy:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」（tools/blender/char_second/swimmer.py；ART-GYM-POOL-SWIMMERS-1103）：黑色泳帽、藍色泳鏡、深藍及膝泳褲；不是 anon／ambient（不進路人的分批池、不會被抽去當街上的路人），游泳池用',license:'CC0'},
++    'char.swim_sm2':  {url:'assets/models/char/second_ai/bl_swim_sm2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.75,swim:true,lazy:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Male」（tools/blender/char_second/swimmer.py；ART-GYM-POOL-SWIMMERS-1103）：紅色泳帽、黑色泳鏡、黑色及膝泳褲（膚色較深）；不是 anon／ambient（不進路人的分批池、不會被抽去當街上的路人），游泳池用',license:'CC0'},
++    'char.swim_sf1':  {url:'assets/models/char/second_ai/bl_swim_sf1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.58,swim:true,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Female」（tools/blender/char_second/swimmer.py；ART-GYM-POOL-SWIMMERS-1103）：白色泳帽、紫色泳鏡、深藍連身泳衣；不是 anon／ambient（不進路人的分批池、不會被抽去當街上的路人），游泳池用',license:'CC0'},
++    'char.swim_sf2':  {url:'assets/models/char/second_ai/bl_swim_sf2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.66,swim:true,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」（tools/blender/char_second/swimmer.py；ART-GYM-POOL-SWIMMERS-1103）：藍色泳帽、藍色泳鏡、黑色連身泳衣；不是 anon／ambient（不進路人的分批池、不會被抽去當街上的路人），游泳池用',license:'CC0'},
      'char.su': {url:'assets/models/char/second_ai/bl_su.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.61,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」（npc.py 變體 su，7dc6db1ec）：一盞茶屋的蘇姨——灰白低髮髻、燕麥白亞麻上衣、炭灰寬褲；不是路人池',license:'CC0'},
      'char.su_apron': {url:'assets/models/char/second_ai/bl_su_apron.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.61,lazy:true,sex:'f',source:'同 char.su，加靛藍腰間前掛（店裡用）',license:'CC0'},
      'char.xiuqin': {url:'assets/models/char/second_ai/bl_xiuqin.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.58,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Darkness_Shibu」（npc.py 變體 xiuqin，1b0baf8df）：秀琴姨——黑灰燙捲短髮、深靛藍針織衫、深灰長裙、棕樂福鞋；不是路人池（沒有 ambient／anon），語彤家用',license:'CC0'},
 diff --git a/src/character3d.js b/src/character3d.js
-index d05c7ca5b..9e88eb6b2 100644
+index d05c7ca5b..6fa47f090 100644
 --- a/src/character3d.js
 +++ b/src/character3d.js
 @@ -879,10 +879,23 @@ const CHAR = (function(){
@@ -56644,8 +56644,8 @@ index d05c7ca5b..9e88eb6b2 100644
 +            Ch=S.clone().addScaledVector(tf.up,-0.16*k).addScaledVector(tf.fw,0.3*k).addScaledVector(tf.lf,-s*0.13*k);   /* 收到胸口下面（肩膀往下 16 cm）*/
 +          const T=a3>0?Ch.clone().lerp(O,a3):(a2>0?Wd_.clone().lerp(Ch,a2):O.clone().lerp(Wd_,a1));
 +          return [T,S.clone().addScaledVector(tf.lf,s*0.6).addScaledVector(tf.fw,0.25).addScaledVector(tf.up,-0.1)]; },0);   /* 手肘往外 */
-+        const r1=sm01(p,0.34,0.58), r2=sm01(p,0.58,0.76), r3=sm01(p,0.76,0.98);   /* 腳：收（腳跟往屁股、膝蓋往外）→ 往外往後踢 → 併攏 */
-+        for(const [i,s] of [[0,1],[1,-1]]){ const St=roots[i].clone().add(V(s*0.03*k,-leg,0)), Rc=roots[i].clone().add(V(s*0.22*k,-0.42*k,-0.3*k)), Kk=roots[i].clone().add(V(s*0.36*k,-leg*0.88,-0.04*k));
++        const r1=sm01(p,0.34,0.58), r2=sm01(p,0.58,0.76), r3=sm01(p,0.76,0.98);   /* 腳：收（腳跟往屁股、膝蓋往外；腳跟到水面為止——第一版往後 30 cm，腳跟出水 20 cm）→ 往外往後踢 → 併攏 */
++        for(const [i,s] of [[0,1],[1,-1]]){ const St=roots[i].clone().add(V(s*0.03*k,-leg,0)), Rc=roots[i].clone().add(V(s*0.22*k,-0.42*k,-0.17*k)), Kk=roots[i].clone().add(V(s*0.36*k,-leg*0.88,-0.04*k));
 +          const F=r3>0?Kk.clone().lerp(St,r3):(r2>0?Rc.clone().lerp(Kk,r2):St.clone().lerp(Rc,r1)); limb(LEGS[i],F,legPole(i,s,0.7),false); } }
 +      lean([['leftFoot',1.15],['rightFoot',1.15]]);   /* 腳背打直（腳尖往後：趴著的時候順著身體）*/
 +      const hy=Lc(R.hips).y-base; w.rotation.x=Math.PI/2*wt; w.position.set(0,base+(Q.water+Q.y-base)*wt,-hy*wt); h.updateWorldMatrix(true,true); }   /* 趴下：上方轉到前方、臉朝下；臀部在人物原點正上方、背在水面 */
@@ -56681,15 +56681,15 @@ index d05c7ca5b..9e88eb6b2 100644
        /* 上臂往外張 armOut（manifest，度；ART-PS-SKIRT-HAND，LAWWW2-C 2026-10-21）：長 A 字裙的人走路、上樓梯時，手往後擺會伸進裙子後面鼓起來的地方（裙子綁在大腿上、不跟手臂動）。
 diff --git a/tests/swim_pose_unit.js b/tests/swim_pose_unit.js
 new file mode 100644
-index 000000000..f92eafb4d
+index 000000000..1af6555f4
 --- /dev/null
 +++ b/tests/swim_pose_unit.js
-@@ -0,0 +1,62 @@
+@@ -0,0 +1,64 @@
 +// 游泳池裡游泳的人（ART-GYM-POOL-SWIMMERS-1103，LAWWW2 帳號 A 11-10；使用者 11-03「游泳池完全沒人？」）：在 Node 裡載入遊戲的泳客人物（不算圖），
 +// swim_free（自由式）、swim_breast（蛙式）各跑 6 秒（每格 1/30 秒），量真實骨架的關節（人物座標：x 往左、y 往上、z 往前；人物原點＝池邊地面的高度，水面 W＝C.GYM.swim.water）：
 +//   ① 趴在水面上：頭、臀部差不多高（≤ 25 cm），頭在臀部前面 ≥ 站著時頭比臀部高的 80%（第一版寫死 50 cm：比這個人站著的頭到臀部 49 cm 還長，不可能）；臀部在水面下 0～35 cm、頭在水面附近（−30～+25 cm）、腳不沉到水面下 80 cm 以下
-+//   ② 自由式：每隻手前後 ≥ 80 cm（畫大圓）、兩手輪流（相關 ≤ −0.3）、手會出水（從水面上回來，比水面高 5 cm）也會下去（水裡划，水面下 20 cm）；腳上下踢 ≥ 10 cm、兩腳輪流
-+//   ③ 蛙式：兩手左右對稱（相關 ≥ 0.9）、手前後 ≥ 40 cm、手會往外撥（左右 ≥ 30 cm）；腳收、踢的時候兩腳張開 ≥ 20 cm；換氣時頭抬起來 ≥ 5 cm
++//   ② 自由式：每隻手前後 ≥ 80 cm（畫大圓）、伸到頭前面 ≥ 15 cm（第一版的示意圖看起來手縮在肩膀旁邊：量了是樣本手臂短，手腕已經在頭骨前 25 cm）、兩手輪流（相關 ≤ −0.3）、手會出水（從水面上回來，比水面高 5 cm）也會下去（水裡划，水面下 20 cm）；腳上下踢 ≥ 10 cm、兩腳輪流
++//   ③ 蛙式：兩手左右對稱（相關 ≥ 0.9）、手前後 ≥ 40 cm、手會往外撥（左右 ≥ 30 cm）；腳收、踢的時候兩腳張開 ≥ 20 cm、腳不出水超過 10 cm（第一版收腳時腳跟出水 20 cm）；換氣時頭抬起來 ≥ 5 cm
 +//   ④ 每一格關節移動 ≤ 8 cm（30 fps；從站姿換過來的頭 2 秒 ≤ 15 cm：C.GYM.swim.blend，趴到水裡要移 1 m 多）、沒有 NaN；兩個人同一個動作不同步；換回站著（idle）時整個人轉回直立
 +//   ⑤ C.swimLap：在水道裡來回（不超出兩頭）、到池邊轉身半圈、方向輪流；⑥ manifest：四個泳客有檔案、不是 ambient（不會被抽去當街上的路人）
 +// 修改前（沒有這些動作：當成站著）：①全部失敗。用法：node tests/swim_pose_unit.js [char.swim_sm1 ...]
@@ -56704,7 +56704,7 @@ index 000000000..f92eafb4d
 +(async()=>{
 +  // ⑥ manifest
 +  { const ks=Object.keys(ASSETS.manifest).filter(k=>/^char\.swim_/.test(k)); const ROOT=path.resolve(__dirname,'..');
-+    check('⑥ manifest 有四個泳客（char.swim_*）、檔案都在、swim:true、不是 ambient',ks.length===4&&ks.every(k=>{ const m=ASSETS.manifest[k]; return m.type==='vrm'&&m.swim===true&&!m.ambient&&fs.existsSync(path.join(ROOT,m.url)); }),ks.join(' ')); }
++    check('⑥ manifest 有四個泳客（char.swim_*）、檔案都在、swim:true、不是 ambient',ks.length===4&&ks.every(k=>{ const m=ASSETS.manifest[k]; return m.type==='vrm'&&m.swim===true&&!m.ambient&&!m.anon&&fs.existsSync(path.join(ROOT,m.url)); }),ks.join(' ')); }
 +  check('C.GYM_POSES 有 swim_free、swim_breast',CHAR.GYM_POSES.includes('swim_free')&&CHAR.GYM_POSES.includes('swim_breast'));
 +  // ⑤ swimLap
 +  if(typeof CHAR.swimLap!=='function') check('⑤ C.swimLap 存在',false); else { const L=25, v=1.0, xs=[], bad=[]; let prev=null, flips=0, turnSeen=false;
@@ -56733,11 +56733,13 @@ index 000000000..f92eafb4d
 +      const lz=S.map(f=>f.leftHand.z-f.hips.z), rz=S.map(f=>f.rightHand.z-f.hips.z), ly=S.map(f=>f.leftHand.y), lx=S.map(f=>f.leftHand.x-f.hips.x), rx=S.map(f=>f.rightHand.x-f.hips.x);
 +      if(pose==='swim_free'){
 +        check(`${tag} ② 每隻手前後畫大圓 ≥ 80 cm、兩手輪流`,rng(lz)>=0.8&&rng(rz)>=0.8&&corr(lz,rz)<=-0.3,`左 ${cm(rng(lz))} 右 ${cm(rng(rz))} 相關 ${corr(lz,rz).toFixed(2)}`);
++        const reach=Math.max(...S.map(f=>Math.max(f.leftHand.z,f.rightHand.z)-f.head.z)); check(`${tag} ② 手伸到頭前面 ≥ 15 cm`,reach>=0.15,cm(reach));
 +        check(`${tag} ② 手會出水（回來）、也會下到水裡（划水）`,Math.max(...ly)>0.05&&Math.min(...ly)<-0.2,`手 ${cm(Math.min(...ly))}～${cm(Math.max(...ly))}`);
 +        const lf=S.map(f=>f.leftFoot.y), rf=S.map(f=>f.rightFoot.y); check(`${tag} ② 腳上下踢 ≥ 10 cm、兩腳輪流`,rng(lf)>=0.1&&rng(rf)>=0.1&&corr(lf,rf)<=-0.3,`${cm(rng(lf))} ${cm(rng(rf))} 相關 ${corr(lf,rf).toFixed(2)}`); }
 +      else {
 +        check(`${tag} ③ 兩手對稱、前後 ≥ 40 cm、往外撥 ≥ 30 cm`,corr(lz,rz)>=0.9&&corr(lx,rx.map(v=>-v))>=0.9&&rng(lz)>=0.4&&rng(lx)>=0.3,`前後 ${cm(rng(lz))} 左右 ${cm(rng(lx))} 相關 ${corr(lz,rz).toFixed(2)}`);
 +        const sp=S.map(f=>Math.abs(f.leftFoot.x-f.rightFoot.x)); check(`${tag} ③ 腳收、踢的時候兩腳張開 ≥ 20 cm`,rng(sp)>=0.2,cm(rng(sp)));
++        const fh=Math.max(...footY); check(`${tag} ③ 收腳時腳跟不出水超過 10 cm`,fh<=0.10,cm(fh));
 +        check(`${tag} ③ 換氣時頭抬起來 ≥ 5 cm`,rng(headY)>=0.05,cm(rng(headY))); }
 +      const a=F.slice(75).map(f=>f.leftHand.z), b=F2.slice(75).map(f=>f.leftHand.z); check(`${tag} ④ 兩個人不同步`,Math.abs(corr(a,b))<0.95,corr(a,b).toFixed(2));
 +    }
