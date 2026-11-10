@@ -7074,6 +7074,20 @@
    "noDirectIntegrate": false,
    "note": "BIKE_RACKS.campus 加 [89.5,−35,π/2]（中庭西邊樓梯口南邊的空地，離 B1 出口 8.8 m）。bike_park_1104 開發 FAIL（28.5 m）→ ALL PASS；腳踏車相關 67 支＋3 支，65 PASS；aa653_shops、gg_interiors_1104 各 FAIL 1 開發原樣也一樣（story3d.js 清葉茶行外帶）。 ｜ LAWWW 11-10 11:10 接進開發分支（bike_park_1104 ALL PASS）；aa653、gg_interiors 兩支 LAWWW 已修。",
    "next": "—"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "XS-WINCARD-1110 第二批（新生南路山蘭一二樓、X-Sports 一二樓、南洋的視差窗景）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/xs_wincard2_1110/（README、xs_wincard2_1110.patch、xs_wincard2_1110_unit.js、regression.log、views_xs2_sheet.jpg、render.sh）"
+   ],
+   "state": "MODEL_READY，待整合",
+   "noDirectIntegrate": false,
+   "note": "5 片 Z3.shopViewPane＋10 張照片（Blender 在新生南路場景裡站在玻璃位置拍，白天／晚上）。新測試開發 6e00d9103 FAILED 12 → ALL PASS；新生南路相關回歸 31 支全過（沒截斷）。統一館跳過（二樓、正面沒有玻璃）。遊戲截圖請 CC 拍（D131）。",
+   "next": "PUTONG101-WINDOW v2（等 LAWWW 決定 draw call）→ GYM-FIT-PROPS 第二包"
   }
  ]
 }
