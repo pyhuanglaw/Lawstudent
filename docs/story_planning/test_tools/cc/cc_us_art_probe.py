@@ -37,6 +37,8 @@ V = {
                 ('street_w', (-20.6, 1.7, 20.2), (-90, 1.5, 19.6)), ('gate', (-66, 1.7, 15), (-66, 3, -10)), ('west_air', (-80, 30, 40), (-80, 0, 0))],
   'us_lawlib': [('atrium', (0, 1.6, 7.4), (0, 4.5, -7)), ('stained', (0, 2.0, -1.0), (0, 4.0, -10)), ('tables', (-8.5, 1.6, 3.5), (-1.5, 0.8, -1.2)),
                 ('tables_north', (-7, 1.6, -4.6), (-7, 1.4, -9.8)), ('skylight', (0, 1.6, 0.6), (0, 18, -0.4)), ('desk', (-1, 1.6, 3), (-5, 1.0, 7.4))],
+  'us_classroom': [('door_to_stage', (0, 3.4, 7.3), (0, 1.4, -7)), ('row1_back', (2.0, 1.55, -4.2), (0, 2.4, 7.9)), ('window', (-4.5, 1.9, 1.0), (-8, 3.6, -2.0)),
+                   ('window_out', (-6.6, 3.6, -1.5), (-12, 3.8, -1.5)), ('overview', (5.5, 5.2, 7.6), (-2, 0.5, -3))],   # BB 15:19 US-CLASSROOM（d78228f85）：門口往講台、第 1 排往後、窗邊、窗外
   'us_market': [('entry', (13.5, 1.7, 14), (0, 2, -10)), ('aisles', (0, 2.2, 10), (0, 1.5, -14)), ('overview', (0, 5.8, 15), (0, 0, -8)), ('checkout', (-8, 1.7, 4), (-14, 1.2, 14))],
   'us_market_street': [('overview', (0, 26, 44), (0, 0, 0)), ('lot', (-22.6, 1.7, 12.9), (0, 3, -22))],
 }
@@ -80,6 +82,32 @@ async def main():
         for zone in ZONES:
             for h in HOURS:
                 tag = '%02d' % int(h); allf['%s_%s' % (zone, tag)] = await visit(pg, cdp, zone, DATE, h, V.get(zone, []), tag)
+        if 'us_classroom' in ZONES:   # BB 15:19：四季同一個窗邊鏡頭、坐一個位子、從出口出去
+            sv = [v for v in V['us_classroom'] if v[0] in ('window', 'window_out')]
+            for d in ('2028-08-20', '2028-10-20', '2028-12-15'):
+                tag = 'season' + d[5:7]; allf['us_classroom_' + tag] = await visit(pg, cdp, 'us_classroom', d, 14.0, sv, tag)
+            R.setup('【前置／捷徑】GAME.enter(\'us_classroom\', US_CLASSROOM.SPAWN)（劇情接線還沒做，門口還是 2D）')
+            await D.load_zone(pg, cdp, 'us_campus', DATE, 14.0, wait=8000)
+            await pg.evaluate("void GAME.enter('us_classroom', US_CLASSROOM.SPAWN)"); await pg.wait_for_timeout(9000)
+            seats = await pg.evaluate(D.SEATS); R.note('us_classroom 座位 %d 張' % len(seats))
+            R.check('us_classroom 有可以坐的位子（6 排 × 8 席＝48）', len(seats) >= 48, str(len(seats)))
+            if seats:
+                q = max(seats, key=lambda q: q['sz'])   # 最後一排（離門口最近）
+                q2 = min(seats, key=lambda q: q['sz'])   # 第 1 排
+                res = await D.sit_all(pg, cdp, '[教室坐下]', 'us_cls_sit', max_walk=240, only=[(q['sx'], q['sz']), (q2['sx'], q2['sz'])])
+                R.note('坐下結果：%s' % J(res))
+            ex = await pg.evaluate("(()=>(GAME.E.interactables||[]).filter(i=>i.exit).map(i=>({label:i.label,x:i.x,z:i.z,r:i.radius||1.2,lv:i.lv|0,to:i.exit.to})))()")
+            R.note('教室的出口：%s' % J(ex)); e = next((q for q in ex if q['to'] == 'us_campus'), None)
+            if R.check('教室有往 us_campus 的出口', bool(e), J(ex)):
+                ok = await L.go_to(pg, cdp, R, e['x'], e['z'], min(0.9, e['r'] * 0.8), '走到「%s」' % e['label'], max_s=240, lv=e['lv'])
+                await pg.wait_for_timeout(800); stx = await L.state(pg)
+                R.check('走到出口、按鈕「%s」' % e['label'], bool(ok) and stx['interact'].startswith(e['label'][:3]), J(stx))
+                await L.tap(pg, cdp, '#interact')
+                for _ in range(30):
+                    await pg.wait_for_timeout(500)
+                    if (await L.state(pg))['zone'] != 'us_classroom': break
+                await pg.wait_for_timeout(3000); stx = await L.state(pg)
+                R.check('從出口出得去：回到 us_campus、站得住、walkFallbacks 0', stx['zone'] == 'us_campus' and stx['stand'] is not False and not stx['fallbacks'], J(stx))
         if os.environ.get('SEASON'):
             sv = [v for v in V['us_outside'] if v[0] in ('overview', 'home_n', 'lot')]
             for d in ('2028-08-20', '2028-12-15'):

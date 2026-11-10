@@ -332,6 +332,8 @@ US_ART_1 | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_plannin
 US_ART_2 | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_lawlib,us_market,us_market_street;SEASON=1
 # US_ART r2：PC 每項只上傳二十幾張 PNG，社區、校園、超市街、季節沒上來 → 改存 JPEG、分小批重拍（063cf14ab）
 US_ART_1b | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_outside
+# BB 15:19 US-CLASSROOM（d78228f85）Room 120：門口往講台、第 1 排往後、窗邊白天晚上、四季窗景（8／10／12 月）、坐最後一排和第 1 排各一張、從出口出去
+US_ART_1d | d78228f85825e139790bc42904bb7056ebf31e50 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 30 | ZONES=us_classroom
 US_ART_1c | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_campus
 US_ART_2b | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_market_street;SEASON=1
 
