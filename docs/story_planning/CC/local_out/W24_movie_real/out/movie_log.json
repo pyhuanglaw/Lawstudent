@@ -1,0 +1,193 @@
+{
+ "trace": [
+  {
+   "zone": "dorm",
+   "h": 8.018,
+   "st": "accepted",
+   "money": 3000,
+   "her": false,
+   "pSeat": null,
+   "hSeat": null,
+   "fb": 0,
+   "watched": null
+  },
+  {
+   "zone": "xs_nanyang",
+   "h": 9.588,
+   "st": "accepted",
+   "money": 3000,
+   "her": true,
+   "pSeat": null,
+   "hSeat": [
+    3.75,
+    -1.4
+   ],
+   "fb": 0,
+   "watched": null
+  },
+  {
+   "zone": "xs_nanyang",
+   "h": 9.597,
+   "st": "done",
+   "money": 2850,
+   "her": true,
+   "pSeat": null,
+   "hSeat": [
+    3.75,
+    -1.4
+   ],
+   "fb": 0,
+   "watched": null
+  },
+  {
+   "zone": "xs_nanyang_hall",
+   "h": 9.597,
+   "st": "done",
+   "money": 2850,
+   "her": true,
+   "pSeat": [
+    2.26,
+    0.38
+   ],
+   "hSeat": [
+    1.68,
+    0.38
+   ],
+   "fb": 0,
+   "watched": 46
+  },
+  {
+   "zone": "xs_nanyang",
+   "h": 11.597,
+   "st": "done",
+   "money": 2850,
+   "her": false,
+   "pSeat": null,
+   "hSeat": null,
+   "fb": 0,
+   "watched": 46
+  }
+ ],
+ "ev": [
+  {
+   "k": "say",
+   "v": "沈以安（手機）｜電影？好。我先查一下片長。",
+   "h": 8.018,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "v": "｜約好 今天 09:50，南洋戲院。",
+   "h": 8.018,
+   "z": "dorm"
+  },
+  {
+   "k": "cap",
+   "v": "（等到該出發去赴約）你在宿舍 房間待到 09:15。",
+   "h": 9.25,
+   "z": "dorm"
+  },
+  {
+   "k": "toast",
+   "v": "提醒：09:50 和沈以安約在南洋戲院。",
+   "h": 9.597,
+   "z": "xs_nanyang"
+  },
+  {
+   "k": "say",
+   "v": "｜（你們找到位子坐下。燈還沒暗，她把爆米花放在中間的扶手上。）",
+   "h": 9.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "v": "沈以安｜（小聲）預告片開始了。",
+   "h": 9.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "v": "｜你和沈以安在南洋戲院看電影。",
+   "h": 9.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "v": "｜（她在售票口前面，把每一部的片長都看了一遍。）",
+   "h": 9.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "v": "｜（燈暗下來，《聖誕快遞》開始了。）",
+   "h": 9.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "v": "沈以安｜你知道女舍的門禁是十二點嗎？",
+   "h": 10.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "v": "沈以安｜我昨天十一點五十九分進門。舍監看了我一眼。",
+   "h": 10.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "v": "沈以安｜我從來沒有那麼晚回去過。是讀書會拖到的。",
+   "h": 10.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "v": "沈以安｜你呢？你上一次做規則以外的事，是什麼時候？",
+   "h": 10.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "v": "祐廷｜有一次半夜睡不著，我騎車去河堤吹風。",
+   "h": 10.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "v": "沈以安｜半夜……一個人？",
+   "h": 10.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "v": "｜（她想了一下，好像在想那是什麼樣子。）",
+   "h": 10.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "cap",
+   "v": "南洋戲院・沈以安・（2 小時）",
+   "h": 11.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "v": "｜（燈亮了。她還在看片尾的字幕。）",
+   "h": 11.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "v": "沈以安｜……等一下再走。",
+   "h": 11.597,
+   "z": "xs_nanyang_hall"
+  },
+  {
+   "k": "say",
+   "v": "沈以安｜我先回去了。晚點再傳你。",
+   "h": 11.597,
+   "z": "xs_nanyang"
+  }
+ ]
+}
