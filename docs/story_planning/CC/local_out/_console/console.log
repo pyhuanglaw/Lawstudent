@@ -1350,3 +1350,11 @@
 [09:39:06] ==== START ROMPRIV_old  (probe @ 443fb4a0bde0c7e0d760cd6f6f516bfa90cd5cd8) ====
 [09:39:09] [res] cpu=0% mem=47% (14.8/31.4 GB) chrome_testing=9  START ROMPRIV_old
 [09:39:43] [res] cpu=20% mem=44% (14.8/31.4 GB) chrome_testing=9  END ROMPRIV_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d12761c46..10a6d3d1e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:39:47] ==== END   ROMPRIV_old  exit=1  36s   ====
+[09:39:51] memory 45% before starting SVC2_new (2 running)
+[09:39:51] ==== START SVC2_new  (probe @ dea6f2f45515e8c56b4e2e242124ae2e344af466) ====
+[09:39:54] [res] cpu=4% mem=45% (14.3/31.4 GB) chrome_testing=9  START SVC2_new
+[09:40:27] [res] cpu=5% mem=44% (14.8/31.4 GB) chrome_testing=9  END SVC2_new
