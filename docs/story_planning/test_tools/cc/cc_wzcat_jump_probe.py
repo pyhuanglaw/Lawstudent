@@ -87,11 +87,11 @@ async def main():
         sleepH = q['sleepH'] or 18.5
         # ① 早上跳下來
         R.setup('【前置／捷徑】讀檔到 wenzhou 公園 %s 06:58（貓還在圓椅上睡）' % day)
-        await D.load_zone(pg, cdp, 'wenzhou', day, 6.0 + 58 / 60, x=POS[0], z=POS[1], yaw=0.0, wait=9000)
+        await D.load_zone(pg, cdp, 'wenzhou', day, 6.0 + 52 / 60, x=POS[0], z=POS[1], yaw=0.0, wait=9000)   # r2：06:52（PC r1 06:58 讀檔等 9 秒＝遊戲 3.6 分，貓在讀檔時就跳完了）
         q0 = await pg.evaluate(ST); s0 = q0['s'] or {}
         await snap(pg, 'cat_%s_1_0658.png' % TAG, s0.get('x') or 26.0, s0.get('z') or 24.0)
         R.check('06:58 貓在圓椅上睡（state sleep、lie bench）', s0.get('state') == 'sleep' and s0.get('lie') == 'bench', J(q0))
-        log1, q1, f1 = await watch(pg, '① 07:00 前後', 75, stop=lambda q: (q['s'] or {}).get('state') in ('walk', 'sit', 'look', 'idle', 'wander') and q['h'] > 7.02,
+        log1, q1, f1 = await watch(pg, '① 07:00 前後', 150, stop=lambda q: (q['s'] or {}).get('state') in ('walk', 'sit', 'look', 'idle', 'wander') and q['h'] > 7.02,
                                shots=(('jturn', 'cat_%s_1_jturn.png' % TAG), ('jdown', 'cat_%s_1_jdown.png' % TAG), ('rise', 'cat_%s_1_rise.png' % TAG)))
         sts = [x['state'] for x in log1]
         R.check('07:00 以後：jturn → jdown（從座面轉向外、跳下來）', 'jdown' in sts and ('jturn' not in sts or sts.index('jturn') < sts.index('jdown')), J(sts))
@@ -100,10 +100,10 @@ async def main():
         await snap(pg, 'cat_%s_1_after.png' % TAG, s1.get('x') or 26.0, s1.get('z') or 23.3)
         R.check('跳下來以後在地上（貓高度 < 0.15 m）', q1['y'] is not None and q1['y'] < 0.15, J({'y': q1['y'], 's': s1}))
         # ② 傍晚跳上去
-        h2 = sleepH - 0.03
+        h2 = sleepH - 0.12   # r2：日落前約 7 分（r1 −0.03 讀檔時就跳上去了）
         R.setup('【前置／捷徑】讀檔到 wenzhou 公園 %s %.3f 時（日落 %.3f 前約 2 分鐘）' % (day, h2, sleepH))
         await D.load_zone(pg, cdp, 'wenzhou', day, h2, x=POS[0], z=POS[1], yaw=0.0, wait=9000)
-        log2, q2, f2 = await watch(pg, '② 日落前後', 150, stop=lambda q: (q['s'] or {}).get('state') == 'sleep' and (q['s'] or {}).get('lie') == 'bench',
+        log2, q2, f2 = await watch(pg, '② 日落前後', 240, stop=lambda q: (q['s'] or {}).get('state') == 'sleep' and (q['s'] or {}).get('lie') == 'bench',
                                shots=(('prejump', 'cat_%s_2_prejump.png' % TAG), ('jup', 'cat_%s_2_jup.png' % TAG), ('sleep', 'cat_%s_2_sleep.png' % TAG)))
         sts = [x['state'] for x in log2]
         R.check('日落以後：prejump → jup → sleep（走到座面前、跳上去、趴好）', 'jup' in sts and sts[-1] == 'sleep' and sts.index('jup') < len(sts) - 1, J(sts))
