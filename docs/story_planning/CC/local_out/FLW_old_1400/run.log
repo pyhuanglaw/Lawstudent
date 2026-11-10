@@ -1,0 +1,16 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shop_spot_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FLW_old_1400\out
+CC 店裡定點：worktree ?；gongguan old_1400 → (-47.2, 13.45)「看看花攤」；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-10-18 14.0 時（出生點＝門口），條件事件關掉
+  [前置／捷徑] 【前置／捷徑】起點改成 (-35.6, 12.6)
+  [  49.6s] 出生點：{"zone": "gongguan", "x": -35.6, "z": 12.6, "lv": 0, "fb": 0, "interact": "捷運公館站入口", "dlg": "", "cap": "", "choices": []}
+  [  49.6s] 含「看看花攤」的互動點：[]
+PASS 在 gongguan  {"zone": "gongguan", "x": -35.6, "z": 12.6, "lv": 0, "fb": 0, "interact": "捷運公館站入口", "dlg": "", "cap": "", "choices": []}
+  [  52.1s] 門口看向 (-47.0, 11.7)：鏡頭直接擺 yaw 1.49（只為截圖）
+  [  60.2s] 到達「走到 (-47.2, 13.45)」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+PASS 真的走到 (-47.2, 13.45)（0.5 m 內、walkFallbacks 沒加）  {"zone": "gongguan", "x": -46.96, "z": 13.45, "lv": 0, "fb": 0, "interact": "", "dlg": "", "cap": "", "choices": []}
+FAIL 互動鍵是「看看花攤」  {"zone": "gongguan", "x": -46.96, "z": 13.45, "lv": 0, "fb": 0, "interact": "", "dlg": "", "cap": "", "choices": []}
+FAIL 按下去 4 秒內出現選單或對話  沒有互動鍵可以按
+PASS 沒有 JS 例外  []
+FAILED 2: 互動鍵是「看看花攤」；按下去 4 秒內出現選單或對話
