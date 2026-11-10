@@ -6813,7 +6813,7 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "134c01b93",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "#204 第三批：落地 WALL_ 櫃子底下的地板（BB-B 23:22／23:33）＋一盞遊戲真正用的 yizhan（第一批補錯檔）",
    "files": [
     "assets/models/env/second_ai/bb_support/{ade,corner}_lm_{day,night}.webp",
@@ -6821,9 +6821,9 @@
     "tools/blender/env_second/lightbake/lm_fill_covered.py",
     "docs/art-rebuild/second_ai/wip/wall_base_fill3_1109/（README、lm_covered_fill_check_1109c.patch、check_before／after、regression_new、tests、scan、tools）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "規則 (c)：地板往上碰到落地 WALL_ 也算被蓋住（櫃子沒底面）；測試加分群檢查（整間平均會稀釋黑塊）、茶屋換成 yizhan。13 間＋一盞重掃，只補阿德、轉角唱片、一盞。lm_covered_fill_check 開發貼圖 FAILED 10→ALL PASS；回歸 109／0。站位已給 CC-B。大口 WALL_BANDS 遊戲裡改名 DK_BANDS 不淡出＝不用拍。",
+   "note": "規則 (c)：地板往上碰到落地 WALL_ 也算被蓋住（櫃子沒底面）；測試加分群檢查（整間平均會稀釋黑塊）、茶屋換成 yizhan。13 間＋一盞重掃，只補阿德、轉角唱片、一盞。lm_covered_fill_check 開發貼圖 FAILED 10→ALL PASS；回歸 109／0。站位已給 CC-B。大口 WALL_BANDS 遊戲裡改名 DK_BANDS 不淡出＝不用拍。（LAWWW-B 00:49 整合 faf1b75a4，sha256 全對）",
    "next": "LAWWW-B 整合；CC 照 README 站位拍新舊；BB-B 判"
   }
  ]
