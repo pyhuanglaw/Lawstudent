@@ -42935,7 +42935,7 @@
    "id": "GYM-FIT-PROPS-1103",
    "title": "健身中心手持道具（啞鈴、槓、划船把手）＋飛輪踏板、划船座椅會動（接 character3d gymIK）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "note": "GYM-FIT-ACTIVE-1103 合併後的缺點（子代理截圖：空手、器材不動）",
    "next": "【LAWWW 11-10 12:2x】BB_255（12:21）：第一包（手上道具）PASS；第二包（飛輪、划船）等拍。 ｜ 【LAWWW 11-10 11:5x】第二包 LAWWW2 ff443d9da：飛輪曲柄、踏板跟腳轉，划船座椅跟臀部滑 34～37 cm，有人划時拉把在手上、掛著的藏起來；gym_moving_parts.glb（從 gym_b1 搬出 540 三角形，不重烘）；gym_moving_parts（開發 FAIL 3→ALL PASS）＋健身房 6 支 ALL PASS；B1 多 18 個小網格。CC 拍飛輪、划船機各一張有人在用的，LAWWW 判動作。 ｜ 【LAWWW 11-10 10:4x】第一包 LAWWW2 86751d821 接進開發分支：gym_hand_props.glb（啞鈴、槓鈴、划船拉把）＋character3d.js gymProps（gymIK 後照掌心擺）；gym_hand_props＋gym／seat／stairs 等 7 支 ALL PASS。第二包（飛輪踏板、划船座椅會動，要重建 gym_b1、重烘 B1）另交。CC 拍健身房各動作近景、LAWWW 判（人物動作／道具）。 ｜ LAWWW2 總圖重排之後",
@@ -42946,7 +42946,8 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "sha": "ff443d9da"
+   "sha": "ff443d9da",
+   "evidence": "BB_255：第一包（手上道具）PASS（12:21）、第二包（飛輪踏板跟腳、划船座椅跟人滑）PASS（12:46），CC PC 截圖"
   },
   {
    "first": {
@@ -51630,7 +51631,7 @@
    "id": "BUG-SHANLAN-SIS-OVERLAP-1110",
    "title": "山嵐文具區學姊開演時玩家和她身體疊 0.23 m（背包穿進她）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -51650,13 +51651,14 @@
     "receiver": "BB",
     "ack": "SENT"
    },
-   "sha": null
+   "sha": "173c7c49f",
+   "evidence": "BB_255（11-10 12:46）GIFT ui 三項 FIXED（CC 重拍 0ec32e6f6）"
   },
   {
    "id": "BUG-GIFT-SHOPNAME-NEW-1110",
    "title": "物品頁店名多「新」（AA_732 店名註記）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -51676,13 +51678,14 @@
     "receiver": "BB",
     "ack": "SENT"
    },
-   "sha": null
+   "sha": "173c7c49f",
+   "evidence": "BB_255（11-10 12:46）GIFT ui 三項 FIXED（CC 重拍 0ec32e6f6）"
   },
   {
    "id": "BUG-TABS-44PX-1110",
    "title": "選單分頁按鈕 40 px，不到 44 px",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -51702,7 +51705,8 @@
     "receiver": "BB",
     "ack": "SENT"
    },
-   "sha": null
+   "sha": "173c7c49f",
+   "evidence": "BB_255（11-10 12:46）GIFT ui 三項 FIXED（CC 重拍 0ec32e6f6）"
   },
   {
    "id": "XS-WINCARD-1110",
