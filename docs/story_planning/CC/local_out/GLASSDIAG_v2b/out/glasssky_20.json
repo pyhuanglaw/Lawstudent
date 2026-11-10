@@ -1,0 +1,57 @@
+{
+ "n": 1,
+ "programsWithGlassSky": 1,
+ "rows": [
+  {
+   "mesh": "by_glass",
+   "parent": "campus_boya",
+   "vis": true,
+   "mat": "ck_glass",
+   "transparent": false,
+   "opacity": 1,
+   "emissiveI": 1,
+   "nightI": 1,
+   "uDay": 0,
+   "hasDivA": true,
+   "skyMin": [
+    -47.05,
+    0,
+    -74.72
+   ],
+   "skyMax": [
+    -28.95,
+    4.3,
+    -74.52
+   ],
+   "geoMin": [
+    -54.85,
+    0.05,
+    -85.5
+   ],
+   "geoMax": [
+    -21.16,
+    20.6,
+    -74.15
+   ],
+   "overlap": 0.002,
+   "overlapXYZ": [
+    18.1,
+    4.25,
+    0.2
+   ],
+   "worldMin": [
+    -54.85,
+    0.05,
+    -85.5
+   ],
+   "worldMax": [
+    -21.16,
+    20.6,
+    -74.15
+   ],
+   "cacheKey": "function(sh,r){ if(prev) prev.call(this,sh,r); Object.assign(sh.uniforms,{uSkyDay:U.uDay,uSkyDivA:U.uDivA,uSkyMin:U.uMin,uSkyMax:U.uMax,uSkyCol:U.uCol});\n        sh.vertexShader='varying vec3 vSkyP;\\n'+sh.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\\n  vSkyP=position;');\n        sh.fragmentShader='uniform float uSkyDay, uSkyDivA;\\nuniform vec3 uSkyMin, uSkyMax, uSkyCol;\\nvarying vec3 vSkyP;\\n'+sh.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\\n'+\n          '  if(uSkyDay>0.0&&all(greaterThanEqual(vSkyP,uSkyMin))&&all(lessThanEqual(vSkyP,uSkyMax))){\\n    float skyF=uSkyDay;\\n'+\n          '    #ifdef USE_FOG\\n    skyF*=1.0-fogFactor;\\n    #endif\\n    #ifdef PREMULTIPLIED_ALPHA\\n    gl_FragColor.rgb+=uSkyCol*skyF;\\n    #else\\n    gl_FragColor.rgb+=uSkyCol*skyF/mix(1.0,max(gl_FragColor.a,0.05),uSkyDivA);\\n    #endif\\n  }'); }|glassSky",
+   "onBR": true,
+   "needsUpdate": 1
+  }
+ ]
+}
