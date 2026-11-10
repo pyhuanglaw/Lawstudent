@@ -26,6 +26,8 @@ const WZCAT=(function(){
   S.sleepH=function(G){ try{ if(G&&G.day!=null&&typeof E3!=='undefined'&&E3.sunsetPlace&&typeof CALENDAR!=='undefined'&&CALENDAR.dateOf){ const v=E3.sunsetPlace(CALENDAR.dateOf(G.day).key,'tw'); if(v!=null&&isFinite(v)&&v>16&&v<20) return v; } }catch(e){} return S.AWAKE[1]; };
   S.NEAR=1.6; S.FAR=2.8;
   S.SIT0=[4,14]; S.SIT=[15,50];   /* 秒：進公園時已經坐著的那一段、走到一個點坐下待多久（原本 15～45、25～70：玩家進公園看了半分鐘，貓都沒動，WZ-CAT-FLOAT-RUB-1103）*/
+  S.JUMP={DOWN:0.35,UP:0.30};   /* X186（LAWWW2 帳號 A 11-10）：cat_jump_down／up 的 body 骨頭位移（往前 0.35／0.30 m、上下 0.45 m＝圓椅座面高，LAWWW2 f22ef5dcd README）：播完那一格把貓搬到落點 */
+  const JST={jturn:1,jdown:1,jup:1};   /* 在座面上、或跳到一半：不把高度壓回地面、不被玩家推開 */
   S.RUB={R:4,WAIT:3,P:0.55,CD:45,MISS:20,RING:0.44,V:0.16,LEAN:0.25,CAT_R:0.12,MOVE:0.12};
   let cat=null, held=null; const breathers=[];
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['wzcat3d:held']=()=>{ held=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
@@ -51,6 +53,7 @@ const WZCAT=(function(){
     for(const c of glb.animations){ const a=mixer.clipAction(c); act[c.name]=a; }
     if(!act.cat_walk||!act.cat_idle||!act.cat_sit||!act.cat_sit_idle) return false;
     act.cat_sit.setLoop(THREE.LoopOnce,1); act.cat_sit.clampWhenFinished=true;
+    for(const k of ['cat_jump_down','cat_jump_up']) if(act[k]){ act[k].setLoop(THREE.LoopOnce,1); act[k].clampWhenFinished=true; }
     m.traverse(o=>{ if(o.isMesh) o.frustumCulled=false; });   /* 骨架動畫的包圍盒是靜止的：走出去以後會被誤判在畫面外 */
     const blob=shadowBlob(); m.add(blob);
     const s0=spots[0]; m.position.set(s0.x,0,s0.z); m.rotation.y=Math.PI; parent.add(m);
@@ -69,13 +72,24 @@ const WZCAT=(function(){
   function standUp(){ const a=cat.act.cat_sit; play('cat_sit',0.15); a.time=a.getClip().duration; a.timeScale=-1; a.paused=false; }   /* 坐下倒著播＝站起來 */
   /* 趴著的模型（圓椅上／石桌底下）：放上去就藏起走路的貓；「摸摸」的互動點回到那裡 */
   function lieSpot(where){ return where==='under'?(cat.under||cat.lie):cat.lie; }
-  function showLie(where){ const c=cat, L=lieSpot(where); if(!L||typeof Z3==='undefined'||!Z3.wzCatModel) return false;
+  function setIt(where,L){ const c=cat; if(c.it){ if(where==='bench'&&c.it0){ c.it.x=c.it0.x; c.it.z=c.it0.z; } else { c.it.x=L.x-0.1; c.it.z=L.z+0.04; } } }
+  /* X186（LAWWW2 帳號 A 11-10）：GLB 有 cat_lie_idle（有骨架的趴姿：呼吸、甩尾尖、頭抖，LAWWW2 f22ef5dcd）就用走路那一隻趴在原地播它（c.lieAnim），不換成沒有骨架的 CAT_lie＋整隻縮放的呼吸；
+     keepYaw：跳上座面以後先不轉，sleep 那一段慢慢轉到趴的方向。沒有這個片段（舊 GLB）照舊 */
+  function showLie(where,keepYaw){ const c=cat, L=lieSpot(where); if(!L) return false;
+    if(c.act.cat_lie_idle){ if(c.lieObj&&c.lieObj.parent) c.lieObj.parent.remove(c.lieObj); c.lieObj=null; const o=c.obj; o.visible=true; o.position.set(L.x,L.y||0,L.z); if(!keepYaw) o.rotation.y=L.yaw||0;
+      c.lieYaw=L.yaw||0; play('cat_lie_idle',keepYaw?0.35:0); c.lieAnim=true; c.lieAt=where; setIt(where,L); return true; }
+    if(typeof Z3==='undefined'||!Z3.wzCatModel) return false;
     if(!c.lieModel) c.lieModel=Z3.wzCatModel(c.glb.scene.clone(true),c.G,'lie'); const m=c.lieModel; if(!m) return false;
-    m.position.set(L.x,L.y||0,L.z); m.rotation.y=L.yaw||0; if(m.parent!==c.parent) c.parent.add(m); c.lieObj=m; c.lieAt=where; c.obj.visible=false;
-    if(c.it){ if(where==='bench'&&c.it0){ c.it.x=c.it0.x; c.it.z=c.it0.z; } else { c.it.x=L.x-0.1; c.it.z=L.z+0.04; } } return true; }
-  function hideLie(){ const c=cat; if(c.lieObj&&c.lieObj.parent) c.lieObj.parent.remove(c.lieObj); c.lieObj=null; c.lieAt=null; c.obj.visible=true; }
+    m.position.set(L.x,L.y||0,L.z); m.rotation.y=L.yaw||0; if(m.parent!==c.parent) c.parent.add(m); c.lieObj=m; c.lieAt=where; c.obj.visible=false; setIt(where,L); return true; }
+  function hideLie(){ const c=cat; if(c.lieAnim){ c.lieAnim=false; c.lieAt=null; c.obj.visible=true; return; } if(c.lieObj&&c.lieObj.parent) c.lieObj.parent.remove(c.lieObj); c.lieObj=null; c.lieAt=null; c.obj.visible=true; }
+  /* 回圓椅睡：有 cat_jump_up 就先走到座面前 0.30 m、面向座面跳上去（jup），落在趴的位置；石桌底下、沒有片段照舊直接趴 */
+  function goSleep(where){ const c=cat; if(where==='bench'&&c.act.cat_lie_idle&&c.act.cat_jump_up){ const L=lieSpot('bench'), w=S.WAKE.bench;
+      if(L){ const yaw=Math.atan2(L.x-w.x,L.z-w.z); c.jump={yaw,where}; c.path=[{x:L.x-Math.sin(yaw)*S.JUMP.UP,z:L.z-Math.cos(yaw)*S.JUMP.UP}]; c.next=null; c.rub=null; c.leave=false; c.state='prejump'; play('cat_walk',0.2); return true; } }
+    return sleepNow(where); }
   function sleepNow(where){ if(!showLie(where)) return false; cat.state='sleep'; cat.path=null; cat.next=null; cat.rub=null; cat.leave=false; cat.pend=null; return true; }
-  function wakeNow(E){ const c=cat, w=S.WAKE[c.lieAt]||S.WAKE.bench; hideLie(); const o=c.obj; o.position.set(w.x,E.heightAt?E.heightAt(w.x,w.z,0):0,w.z); o.rotation.y=w.yaw; c.at=c.spots.find(s=>Math.hypot(s.x-w.x,s.z-w.z)<0.05)||null;
+  function wakeNow(E){ const c=cat, w=S.WAKE[c.lieAt]||S.WAKE.bench;
+    if(c.lieAnim&&c.lieAt==='bench'&&c.act.cat_jump_down){ const L=lieSpot('bench'); c.jump={yaw:Math.atan2(w.x-L.x,w.z-L.z),w}; c.lieAnim=false; c.lieAt=null; c.state='jturn'; c.t=0.6; return; }   /* X186：從座面上轉向外、跳下來（jdown）、再走到圓椅前 */
+    hideLie(); const o=c.obj; o.position.set(w.x,E.heightAt?E.heightAt(w.x,w.z,0):0,w.z); o.rotation.y=w.yaw; c.at=c.spots.find(s=>Math.hypot(s.x-w.x,s.z-w.z)<0.05)||null;
     play('cat_sit_idle',0); standUp(); c.state='rise'; c.t=c.act.cat_sit.getClip().duration+0.05; }   /* 從圓椅前（或涼亭台階下）站起來：趴→坐→站要 LAWWW2 補跳下來的動畫（cat_jump）*/
   const inScene=o=>{ for(let p=o;p;p=p.parent) if(p.isScene) return true; return false; };
   const busy=()=>{ const GM=typeof GAME!=='undefined'?GAME:null; return !!(GM&&GM.E&&GM.E.player&&GM.E.player.busy); };
@@ -104,10 +118,11 @@ const WZCAT=(function(){
     for(let i=breathers.length-1;i>=0;i--){ const b=breathers[i]; if(!inScene(b)){ breathers.splice(i,1); continue; } breath(b,Math.min(dt,0.25)); }
     if(!cat||cat.E!==E) return; if(!inScene(cat.obj)){ cat=null; return; }
     dt=Math.min(dt,0.25); const c=cat, o=c.obj, pl=E.player&&E.player.obj, G=typeof GAME!=='undefined'&&GAME.G;
-    if(held){ if(c.lieObj) breath(c.lieObj,dt); if(c.it&&c.it0&&c.lieAt==='bench'){ c.it.x=c.it0.x; c.it.z=c.it0.z; } return; }   /* 趴在圓椅上：不走、不更新動畫 */
+    if(held){ if(c.lieObj) breath(c.lieObj,dt); if(c.lieAnim) c.mixer.update(dt); if(c.it&&c.it0&&c.lieAt==='bench'){ c.it.x=c.it0.x; c.it.z=c.it0.z; } return; }   /* 趴在圓椅上：不走、不更新動畫 */
     const dp=pl?Math.hypot(pl.position.x-o.position.x,pl.position.z-o.position.z):99, aw=S.awake(G), bz=busy();
     if(c.state==='sleep'){ if(c.lieObj) breath(c.lieObj,dt);
-      const lp=c.lieObj&&c.lieObj.position, dl=pl&&lp?Math.hypot(pl.position.x-lp.x,pl.position.z-lp.z):99;
+      if(c.lieAnim){ let d=c.lieYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,3*dt); c.mixer.update(dt); }   /* 有骨架的趴姿：片段自己呼吸；跳上來以後慢慢轉到趴的方向 */
+      const lp=(c.lieObj||(c.lieAnim?o:null))&&(c.lieObj||o).position, dl=pl&&lp?Math.hypot(pl.position.x-lp.x,pl.position.z-lp.z):99;
       if(aw&&!bz&&dl>S.NEAR) wakeNow(E);   /* 07:00、雨停：玩家不在旁邊時醒來 */
       else if(!aw&&c.lieAt&&S.sleepWhere(G)!==c.lieAt&&dl>6) showLie(S.sleepWhere(G));   /* 半夜下起雨：沒人看的時候躲到石桌底下 */
       return; }
@@ -118,21 +133,27 @@ const WZCAT=(function(){
     if(pp){ if(!c.anchor||Math.hypot(pp.x-c.anchor.x,pp.z-c.anchor.z)>S.RUB.MOVE||seated){ if(c.anchor) c.moved=true; c.anchor={x:pp.x,z:pp.z}; c.still=0; c.rolled=false; } else c.still+=dt; }
     const canRub=aw&&!bz&&!seated&&pp&&c.rubCd<=0&&!c.rolled&&c.still>=S.RUB.WAIT&&dp<=S.RUB.R&&(c.state==='sit'||c.state==='look'||(c.state==='walk'&&!c.leave));
     if(canRub){ c.rolled=true; if(c.rnd()<S.RUB.P){ if(c.state==='sit'){ standUp(); c.state='rise'; c.t=c.act.cat_sit.getClip().duration+0.05; c.pend='approach'; } else beginApproach(E,pp); } else c.rubCd=S.RUB.MISS; }
-    if(c.state==='sit'){
+    if(c.state==='jturn'){ turnTo(c.jump.yaw,6); if(c.t<=0){ o.rotation.y=c.jump.yaw; play('cat_jump_down',0.2); c.state='jdown'; c.t=c.act.cat_jump_down.getClip().duration; } }
+    else if(c.state==='jdown'){ if(c.t<=0){ const y=o.rotation.y, w=c.jump.w; o.position.x+=Math.sin(y)*S.JUMP.DOWN; o.position.z+=Math.cos(y)*S.JUMP.DOWN; o.position.y=E.heightAt?E.heightAt(o.position.x,o.position.z,0):0;
+        c.jump=null; c.at=null; c.path=[{x:w.x,z:w.z}]; c.next=c.spots.find(s=>Math.hypot(s.x-w.x,s.z-w.z)<0.05)||null; c.leave=false; c.state='walk'; play('cat_walk',0.15); } }   /* 落地：搬到落點（片段的位移），走到圓椅前 */
+    else if(c.state==='prejump'){ if(walkStep(E,dt,o,turnTo)){ c.state='jupturn'; c.t=0.5; } }
+    else if(c.state==='jupturn'){ turnTo(c.jump.yaw,6); if(c.t<=0){ o.rotation.y=c.jump.yaw; play('cat_jump_up',0.2); c.state='jup'; c.t=c.act.cat_jump_up.getClip().duration; } }
+    else if(c.state==='jup'){ if(c.t<=0){ const where=c.jump.where; c.jump=null; c.path=null; if(showLie(where,true)) c.state='sleep'; else sleepNow(where); } }   /* 落在座面上（趴的位置）：接 cat_lie_idle */
+    else if(c.state==='sit'){
       if(c.cur!=='cat_sit_idle'&&c.cur==='cat_sit'&&!c.act.cat_sit.isRunning()) play('cat_sit_idle',0.2);
       const home=!aw&&c.at&&S.WAKE[S.sleepWhere(G)]&&Math.hypot(o.position.x-S.WAKE[S.sleepWhere(G)].x,o.position.z-S.WAKE[S.sleepWhere(G)].z)<0.3;
-      if(home&&!bz&&dp>S.NEAR) sleepNow(S.sleepWhere(G));   /* 坐在圓椅前、時間到了：趴上去 */
+      if(home&&!bz&&dp>S.NEAR) goSleep(S.sleepWhere(G));   /* 坐在圓椅前、時間到了：趴上去 */
       else if((c.t<=0||!aw)&&!bz&&dp>S.NEAR){ standUp(); c.state='rise'; c.t=c.act.cat_sit.getClip().duration+0.05; } }
     else if(c.state==='rise'){ if(c.t<=0){ play('cat_idle',0.2); if(c.pend==='approach'&&aw&&!bz&&pp){ c.pend=null; if(!beginApproach(E,pp)){ c.state='look'; c.t=1.5; } } else { c.pend=null; c.state='look'; c.t=1.5+c.rnd()*2.5; } } }
     else if(c.state==='look'){
       if(pl&&dp<S.FAR) turnTo(Math.atan2(pl.position.x-o.position.x,pl.position.z-o.position.z),3);
       if(bz){ play('cat_sit',0.2); c.state='sit'; c.t=20; }
       else if((c.t<=0||!aw)&&dp>S.NEAR){ const where=aw?null:S.sleepWhere(G), tgt=aw?pick(c.at,c.rnd):S.WAKE[where]; const p=E.pathTo?E.pathTo(o.position.x,o.position.z,0,tgt.x,tgt.z,0):[[tgt.x,tgt.z]];
-        if(Math.hypot(o.position.x-tgt.x,o.position.z-tgt.z)<0.3&&!aw) sleepNow(where);
+        if(Math.hypot(o.position.x-tgt.x,o.position.z-tgt.z)<0.3&&!aw) goSleep(where);
         else if(p&&p.length){ c.path=p.map(q=>({x:q[0],z:q[1]})); c.next=aw?tgt:{home:where,x:tgt.x,z:tgt.z}; c.state='walk'; play('cat_walk',0.25); } else c.t=3; } }
     else if(c.state==='walk'){
       if((dp<S.NEAR&&!c.leave)||bz||(!aw&&c.next&&!c.next.home)){ play('cat_idle',0.2); c.state='look'; c.t=bz?99:(aw?2.5:0); c.leave=false; }   /* 時間到了：先停下來，look 會改走回圓椅 */
-      else if(walkStep(E,dt,o,turnTo)){ const n=c.next; c.leave=false; if(n&&n.home&&!aw&&!bz){ sleepNow(n.home); } else { c.at=n&&!n.home?n:c.at; c.state='sit'; c.t=S.SIT[0]+c.rnd()*(S.SIT[1]-S.SIT[0]); play('cat_sit',0.25); } } }
+      else if(walkStep(E,dt,o,turnTo)){ const n=c.next; c.leave=false; if(n&&n.home&&!aw&&!bz){ goSleep(n.home); } else { c.at=n&&!n.home?n:c.at; c.state='sit'; c.t=S.SIT[0]+c.rnd()*(S.SIT[1]-S.SIT[0]); play('cat_sit',0.25); } } }
     else if(c.state==='approach'){
       if(!aw||bz||c.moved||c.t<=0){ c.rubCd=S.RUB.MISS; play(bz?'cat_sit':'cat_idle',0.2); c.state=bz?'sit':'look'; c.t=bz?20:2.5; c.path=null; }
       else if(dp<=S.RUB.RING+0.02||walkStep(E,dt,o,turnTo)) beginRub(pp); }
@@ -143,9 +164,9 @@ const WZCAT=(function(){
         else { o.position.x=nx; o.position.z=nz; r.a=na; r.left-=da; r.swept+=da;
           const h=Math.atan2(r.dir*Math.cos(na),-r.dir*Math.sin(na)), cy=na+Math.PI; let dd=cy-h; dd=Math.atan2(Math.sin(dd),Math.cos(dd)); turnTo(h+Math.sign(dd)*S.RUB.LEAN,6);   /* 身體沿著腳邊、頭往玩家那邊偏 */
           if(r.left<=0) endRub(E,false); } } }
-    if(c.state!=='sleep'&&pp){ const R=S.RUB.RING, ddx=o.position.x-pp.x, ddz=o.position.z-pp.z, dd=Math.hypot(ddx,ddz);   /* 不穿過玩家：貓的中心離玩家中心至少 0.44 m（玩家碰撞半徑 0.33＋貓半寬 0.11）；玩家走過來就讓開 */
+    if(c.state!=='sleep'&&!JST[c.state]&&pp){ const R=S.RUB.RING, ddx=o.position.x-pp.x, ddz=o.position.z-pp.z, dd=Math.hypot(ddx,ddz);   /* 不穿過玩家：貓的中心離玩家中心至少 0.44 m（玩家碰撞半徑 0.33＋貓半寬 0.11）；玩家走過來就讓開 */
       if(dd<R-0.005&&dd>1e-4){ const nx=pp.x+ddx/dd*R, nz=pp.z+ddz/dd*R; if(!E.canStand||E.canStand(nx,nz,S.RUB.CAT_R,0)){ o.position.x=nx; o.position.z=nz; } } }
-    if(c.state!=='sleep'){ o.position.y=E.heightAt?E.heightAt(o.position.x,o.position.z,0):0; if(c.it){ c.it.x=o.position.x; c.it.z=o.position.z; } c.mixer.update(dt); } };
+    if(c.state!=='sleep'){ if(!JST[c.state]){ o.position.y=E.heightAt?E.heightAt(o.position.x,o.position.z,0):0; if(c.it){ c.it.x=o.position.x; c.it.z=o.position.z; } } c.mixer.update(dt); } };
   S.state=()=>cat?{state:cat.state,t:+cat.t.toFixed(1),busy:busy(),x:+cat.obj.position.x.toFixed(2),z:+cat.obj.position.z.toFixed(2),yaw:+cat.obj.rotation.y.toFixed(2),clip:cat.cur,at:cat.at&&[cat.at.x,cat.at.z],path:cat.path?cat.path.length:0,lie:cat.lieAt,still:+cat.still.toFixed(1),rubCd:+cat.rubCd.toFixed(1),rub:cat.rub?{left:+cat.rub.left.toFixed(2),swept:+cat.rub.swept.toFixed(2),dir:cat.rub.dir}:null}:null;
   S._cat=()=>cat;   /* 測試用 */
   /* 劇情要貓固定趴在圓椅上（不管幾點）：hold('lie')。
@@ -153,10 +174,12 @@ const WZCAT=(function(){
      - 已經睡在圓椅上：照舊。還沒進公園：進公園時 attach 照睡著的時段接手（趴在圓椅上）。下雨照舊在石桌底下（AA_493 第 5 節；zones3d.js 不交給這裡）。
      - release()：hold 前醒著：拿掉趴著的貓，走路的貓從剛才的位置接著走；hold 前睡著：繼續睡（時間到了照常醒）。hold 不存檔（讀檔以後沒有）。*/
   S.hold=function(mode){ held=mode||'lie'; if(!cat||!cat.lie||typeof Z3==='undefined'||!Z3.wzCatModel) return true;
-    if(cat.holdPrev==null) cat.holdPrev=cat.state==='sleep'?'sleep':'awake';
-    if(cat.lieAt!=='bench'){ if(cat.lieObj) hideLie(); showLie('bench'); } cat.state='sleep'; cat.path=null; cat.rub=null; return true; };
+    if(cat.holdPrev==null){ cat.holdPrev=cat.state==='sleep'?'sleep':'awake'; if(cat.holdPrev==='awake'){ const o=cat.obj; cat.holdPos={x:o.position.x,y:o.position.y,z:o.position.z,yaw:o.rotation.y}; } }
+    cat.jump=null; if(cat.lieAt!=='bench'){ if(cat.lieObj||cat.lieAnim) hideLie(); showLie('bench'); } cat.state='sleep'; cat.path=null; cat.rub=null; return true; };
   S.release=function(){ held=null; if(!cat) return; const prev=cat.holdPrev; cat.holdPrev=null; if(prev==='sleep') return;
-    if(cat.lieObj) hideLie(); cat.obj.visible=true; if(cat.state==='sleep'){ cat.state='look'; cat.t=1; play('cat_idle',0); } };
+    if(cat.lieObj||cat.lieAnim) hideLie(); cat.obj.visible=true;
+    if(cat.holdPos){ const o=cat.obj, h=cat.holdPos; o.position.set(h.x,h.y,h.z); o.rotation.y=h.yaw; cat.holdPos=null; }   /* 有骨架的趴姿是同一隻貓搬到圓椅上：放開時搬回 hold 前的位置 */
+    if(cat.state==='sleep'){ cat.state='look'; cat.t=1; play('cat_idle',0); } };
   S.held=()=>held;
   return S;
 })();

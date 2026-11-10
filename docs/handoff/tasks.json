@@ -44279,11 +44279,12 @@
    "id": "WZ-ENTRY-XINSHENG-1103",
    "title": "溫州街只從新生南路進出：拿掉公館往溫州街的巷口；溫州街「回公館」改回新生南路；手機地圖、places.js、劇情裡「從公館走去溫州街」的移動照改；舊存檔不管（使用者 11-03 22:0x 對 AA，X199）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "UA-AA-1103-92～94；AA 已通知 LAWWW2",
-   "next": "【LAWWW 11-10 14:0x】LAWWW2 盤點：等的新生南路立面早就接了，不必再等。LAWWW 子代理開工：拿掉公館「往溫州街」、溫州街「回公館」，地圖／劇情帶路／guide 改走新生南路；舊存檔不管但不能卡住（X199）。 ｜ 11-04：整合的新版 xinsheng patch（50c1b0681，接 e95e0e4e9）沒有包含「公館『往溫州街』拿掉、溫州街『回公館』拿掉」那一段（4c6ce4d12 舊版才有）；溫州街西側往新生南路的出口已在。等 LAWWW2 立面進來時一起拿掉公館巷口，並改 guide 路線（兩點半走側門）、tests/guide_flow.py、gongguan_layout_nav.py 98–106、places.js",
-   "nextCheck": "2026-11-06"
+   "next": "【LAWWW 14:2x】子代理 c288d361e 合併：公館拿掉往溫州街（巷口盆栽擋、路名牌拿掉）、溫州街拿掉回公館（沒有新生南路的建置才留）；places、classes3d 路線、路程 ANCHOR、guide LINKS（加新生南路與 xs 店）、預先載入、第二天小安在新生南路也生出、目標字改走側門；wz_entry_xinsheng（01fd4420c FAIL 8→PASS）＋435 支相關 ALL PASS；改了 dl04b_class_stops、zone_prewarm、gg_shops2_1104、mokuyobi_aa618、guide 的期待（X199）。要 CC 跑：guide_flow、gongguan_layout_nav、reachability_all、touch_flow_wenzhou、flow_day2_an、gongguan_glb_integration、zone_transitions。待 AA：小安三句台詞（校門過馬路、公館「溫州街在那邊」、走路經晨思鐘／校門豆花）；公館正式模型巷子仍看得到（LAWWW2 看）。 ｜ 【LAWWW 11-10 14:0x】LAWWW2 盤點：等的新生南路立面早就接了，不必再等。LAWWW 子代理開工：拿掉公館「往溫州街」、溫州街「回公館」，地圖／劇情帶路／guide 改走新生南路；舊存檔不管但不能卡住（X199）。 ｜ 11-04：整合的新版 xinsheng patch（50c1b0681，接 e95e0e4e9）沒有包含「公館『往溫州街』拿掉、溫州街『回公館』拿掉」那一段（4c6ce4d12 舊版才有）；溫州街西側往新生南路的出口已在。等 LAWWW2 立面進來時一起拿掉公館巷口，並改 guide 路線（兩點半走側門）、tests/guide_flow.py、gongguan_layout_nav.py 98–106、places.js",
+   "nextCheck": "2026-11-06",
+   "sha": "c288d361e"
   },
   {
    "first": {
@@ -48072,7 +48073,7 @@
    "title": "每間店窗外街景照實際位置（青木、Daybreak、頁間、日常失速、定食用錯窗景；新生南路那排待查）",
    "area": "SCENE",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -48084,7 +48085,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 12:2x】BB_255（12:21）：日和便利店窗景重拍 PASS；青木、日常失速不重拍（LAWWW2 查過）；同弦、SUNNY SIDE 另立任務。 ｜ 【LAWWW 11-10 11:5x】日和便利店照片重拍完成：CC PC＋GPU 拍原始、雲端去背（cc-testing d4854c6ce views_out/cvs/），四張換進 assets/models/env/views/、shop_views_layers.json 併入 cvs_day／night（D 9、near 5.91、far 17.07、cam (−27.62,1.4,21.41)）、world3d VIEW_LAYERS.cvs 改 far 17.07 near 5.91、拿掉 zones3d「舊店面角度」註解；窗景 10 支 ALL PASS；BB 判 ART（CC：GONGGUAN 字牌從店裡看是背面，照實）。 ｜ 【LAWWW 11-10 10:1x】日和便利店：LAWWW2 c16014ada 查到照片拍在舊店面門口（差 1.78 m、高 0.7 m），shop_views_layers.py VIEWS.cvs 改成視差窗中心 (−27.62,1.4,21.41)＋tests/cvs_view_cam_1110_unit.js 接進開發分支；照片要 CC 在 PC 跑 shop_views_layers.py cvs 重拍四張，回來 LAWWW 改 VIEW_LAYERS.cvs、拿掉 buildCvs2「舊店面角度」註解。 ｜ 【LAWWW 11-10 10:1x】先做日和便利店（程式註解自己寫舊角度要重拍），照木曜日 345574e2d 做法；其他間等 BB 判角度清單。 ｜ 【11-07 04:4x LAWWW-B】木曜日 BB-B PASS（26d1babdc，溫州街公寓＋招牌日／夜）。其他店的窗景照舊待做。 ｜ 【11-07 03:5x LAWWW-B】木曜日窗景（mok_window_view）換成溫州街正式模型白天／晚上照片（LAWWW2-B 345574e2d winview_moku_1107.patch）接進開發；tests/mok_view_1107_unit.js；等 CC-B 木曜日二樓窗邊白天／晚上。門前種樹：不種（D99、D141，窗外照真的街景）。其他店的窗景照舊待做。 ｜ LAWWW2 先交每間店窗外的表，公館三間先換",
+   "next": "【LAWWW 14:2x】LAWWW2：X254 掃到的店都處理完（一盞窗外是前院 3D 模型、不用改），等 BB 判完結案。 ｜ 【LAWWW 11-10 12:2x】BB_255（12:21）：日和便利店窗景重拍 PASS；青木、日常失速不重拍（LAWWW2 查過）；同弦、SUNNY SIDE 另立任務。 ｜ 【LAWWW 11-10 11:5x】日和便利店照片重拍完成：CC PC＋GPU 拍原始、雲端去背（cc-testing d4854c6ce views_out/cvs/），四張換進 assets/models/env/views/、shop_views_layers.json 併入 cvs_day／night（D 9、near 5.91、far 17.07、cam (−27.62,1.4,21.41)）、world3d VIEW_LAYERS.cvs 改 far 17.07 near 5.91、拿掉 zones3d「舊店面角度」註解；窗景 10 支 ALL PASS；BB 判 ART（CC：GONGGUAN 字牌從店裡看是背面，照實）。 ｜ 【LAWWW 11-10 10:1x】日和便利店：LAWWW2 c16014ada 查到照片拍在舊店面門口（差 1.78 m、高 0.7 m），shop_views_layers.py VIEWS.cvs 改成視差窗中心 (−27.62,1.4,21.41)＋tests/cvs_view_cam_1110_unit.js 接進開發分支；照片要 CC 在 PC 跑 shop_views_layers.py cvs 重拍四張，回來 LAWWW 改 VIEW_LAYERS.cvs、拿掉 buildCvs2「舊店面角度」註解。 ｜ 【LAWWW 11-10 10:1x】先做日和便利店（程式註解自己寫舊角度要重拍），照木曜日 345574e2d 做法；其他間等 BB 判角度清單。 ｜ 【11-07 04:4x LAWWW-B】木曜日 BB-B PASS（26d1babdc，溫州街公寓＋招牌日／夜）。其他店的窗景照舊待做。 ｜ 【11-07 03:5x LAWWW-B】木曜日窗景（mok_window_view）換成溫州街正式模型白天／晚上照片（LAWWW2-B 345574e2d winview_moku_1107.patch）接進開發；tests/mok_view_1107_unit.js；等 CC-B 木曜日二樓窗邊白天／晚上。門前種樹：不種（D99、D141，窗外照真的街景）。其他店的窗景照舊待做。 ｜ LAWWW2 先交每間店窗外的表，公館三間先換",
    "source": "UA-LAWWW-1105-41",
    "authorized": "使用者原話",
    "xai": {
@@ -51918,6 +51919,32 @@
     "ack": "ACTIONED"
    },
    "sha": "1ce81da56"
+  },
+  {
+   "id": "WZ-CAT-LIE-JUMP-1110",
+   "title": "X186 溫州街橘貓：接上趴姿呼吸、跳下、跳上三段動畫（模型 11-03 就做好、只接了 rub）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "溫州街一盞前院的貓",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 14:2x】LAWWW2 f09ac1444：wzcat3d.js 接 cat_lie_idle、cat_jump_down、cat_jump_up；wz_cat_lie_jump（開發 FAIL 4→PASS）、貓 4 支 ALL PASS；CC 錄 07:00 跳下、17:30～18:40 跳上、晚上趴著，BB 判。",
+   "xai": {
+    "spec": "USER_WANTS X186",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "跳上跳下、趴著呼吸看得到；BB 判",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   },
+   "sha": "f09ac1444"
   }
  ]
 }
