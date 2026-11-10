@@ -259,3 +259,6 @@ WINVIEW_tea21 | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_pl
 
 # ART-NANYANG-CINEMA v4（CC 12:4x）：v3 跑的是 fe4d893ac（舊），3 項 FAIL（旁白時場燈沒全關、24:00 散場句不是 AA_695）；用開發分支 74da28ca9 再跑一次看現況
 NANYANG_v4 | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_nanyang_v1_probe.py | index.html | 150 | CC_HEADLESS=0
+# BB 12:46：P2 園遊會停車蓋互動點、P3 文具區學姊搶「看文具」鍵——LAWWW 修好給 SHA 以後，同一個站位重跑（keep2＝X295E fair BIKE=keep、GUI＝shanlan 段）
+#HOLD X295E_fair_keep_fix | <等 LAWWW 修 P2 的 SHA> | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_keep_fix;CASES=fair;BIKE=keep
+#HOLD GUI_fix2 | <等 LAWWW 修 P3 的 SHA> | probe | docs/story_planning/test_tools/cc/cc_gift_ui_probe.py | index.html | 25 | TAG=fix2;CASES=shanlan
