@@ -502,6 +502,7 @@ const USL=(function(){
   /* 誰坐哪（z.events）：演完跟著區域一起拿掉 */
   S.clubCast=function(GM,id){ const G=GM.G, E=GM.E, z=E.zone, P=E.player; if(!z||!z.events) return []; const c=z.events[id]||{}, made=[];
     const sitMe=s=>{ if(s&&GM.sitAt) GM.sitAt(P,s); }, add=n=>{ if(n) made.push(n); return n; };
+    { const R=S.clubRec(G); if(id!=='ev_sis_plan_us') R.g=G.day; if(id==='ev_sis_plan_us'||id==='ev_us_club_dinner') R.s=G.day; }   /* 今天已經和他／她在這裡演過：演完回到會所（從會所出發的）不再補招呼、旁白 */
     if(z.setSisCoat) z.setSisCoat(false); if(c.dinner&&z.setDinner) z.setDinner(true); if(c.notice&&z.setNotice) z.setNotice(true); if(c.plan&&z.setPlan) z.setPlan(true);
     if(id==='ev_usl_long3'){ add(clubNPC(GM,'long',0,c.long,{tag:'long',sit:'read'})); sitMe(c.player); }
     else if(id==='ev_sis_plan_us'){ add(clubSis(GM,c.sis,'read')); sitMe(c.player); }
