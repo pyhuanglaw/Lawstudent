@@ -8,7 +8,8 @@
      10 大地圖的地名：公館沒有「往溫州街」、溫州街的「往新生南路」和出口同一點
      11～12 路線（CLS.routeVia）：公館 → 2:30 AM 經校園、新生南路、溫州街；路程（travelMinutes，直線估算）公館 → Café 至少 20 分鐘（原本經巷口 10 分鐘）
      13 舊存檔站在公館巷口（現在擋住的那一塊）：引擎 unstick 找到的最近站得住的格子走得到校門
-   修改前（開發分支 01fd4420c）：1、2、4、9、10、11、12 FAIL。用法：node tests/wz_entry_xinsheng_unit.js */
+     14 第二天和以安一起去 Café：霖澤館 → 新生南路側門的路上接得到「報告」那段話
+   修改前（開發分支 01fd4420c，2026-11-10 實際跑過）：1、2、4、9、10、11、12、14 FAIL（FAILED 8）。用法：node tests/wz_entry_xinsheng_unit.js */
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global;
@@ -80,6 +81,11 @@ check('10. 大地圖：公館沒有「往溫州街」、溫州街沒有「往公
   const CLS=ctx.CLS, r1=CLS.routeVia('gongguan','cafe'), r2=CLS.routeVia('cafe','gongguan');
   check('11. 路線：公館 → 2:30 AM 經 校園、新生南路、溫州街；2:30 AM → 公館 經 溫州街、新生南路、校園',JSON.stringify(r1)===JSON.stringify(['campus','xinsheng','wenzhou'])&&JSON.stringify(r2)===JSON.stringify(['wenzhou','xinsheng','campus']),JSON.stringify(r1)+' '+JSON.stringify(r2));
   const G={day:1,hour:12}, mGC=CLS.travelMinutes(G,'gongguan','cafe'), mCC=CLS.travelMinutes(G,'campus','cafe',{x:-38,z:6}), mLC=CLS.travelMinutes(G,'linze','cafe'), mXW=CLS.travelMinutes(G,'xinsheng','wenzhou');
+  /* 14：第二天和以安一起去 Café，路上「報告」那段話（WHY_LAW_WALK，key road）在新的路線（霖澤館 → 新生南路側門）上接得到——沿 A* 路線每 0.5 m 取一點，有一點落在某個 road 觸發點的半徑裡 */
+  { const cks=(ctx.STORY&&ctx.STORY._day2&&ctx.STORY._day2.walkChecks('cafe'))||[], roads=cks.filter(c=>c.k==='road');
+    const pth=CA.nav.path(34,-97.6,caXs?caXs.x:-101.4,caXs?caXs.z:-139.4)||[]; let hit=null, prev=[34,-97.6];
+    for(const q of pth){ const L=Math.hypot(q[0]-prev[0],q[1]-prev[1]); for(let t=0;t<=L&&!hit;t+=0.5){ const x=prev[0]+(q[0]-prev[0])*t/(L||1), zz=prev[1]+(q[1]-prev[1])*t/(L||1); const c=roads.find(c=>Math.hypot(x-c.x,zz-c.z)<c.r); if(c) hit=[c.x,c.z]; } prev=q; }
+    check('14. 第二天一起去 Café：霖澤館 → 新生南路側門的路上接得到「報告」那段話（walkChecks road）',!!hit&&pth.length>0,hit?'觸發點 '+hit.join(','):'路線 '+pth.length+' 點都沒經過 '+JSON.stringify(roads.map(c=>[c.x,c.z]))); }
   check('12. 路程：公館 → Café 至少 20 分鐘、不比校園（椰影大道）→ Café 近（要繞回校園走側門；原本經巷口 10 分鐘）；霖澤館 → Café 約 20 分鐘；新生南路 → 溫州街比公館 → 溫州街近',mGC>=20&&mGC>=mCC&&mLC>=15&&mLC<=25&&mXW<CLS.travelMinutes(G,'gongguan','wenzhou'),'公館→Café '+mGC+'、校園→Café '+mCC+'、霖澤館→Café '+mLC+'、新生南路→溫州街 '+mXW+' 分鐘'); }
 
 /* ---------- 舊存檔站在公館巷口 ---------- */
