@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "TZ4_scoot_v2",
+  "sha": "c17a9919ec13ff237181709df0a3ee70e4e4d5e2",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_tingzhou_probe.py",
+  "env": "PARTS=SCOOT;HOURS=14",
+  "machine": "MSI",
+  "start": "2026-11-11T06:50:41",
+  "end": "2026-11-11T06:52:33",
+  "seconds": 112,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 18,
+    "mem": 46,
+    "used_gb": 14.5,
+    "chrome_testing": 9
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

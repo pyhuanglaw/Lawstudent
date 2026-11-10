@@ -1,0 +1,10 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tingzhou_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TZ4_scoot_v2\out
+CC 汀州路 v1：PARTS SCOOT；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 14.0 時 (0.0,6.0) （機車模型）
+  [  48.9s] [SCOOT 14.00] 等 1 秒：{"tzScooters": 100, "tzScooterGLB": "undefined", "glbGroup": true, "glbChildren": 9, "glbMeshes": 17, "glbGeoKinds": 17, "manifest": true, "url": "assets/models/env/second_ai/scooter.glb", "state": null}
+  [  49.0s] [SCOOT 14.00] 統計：{"tzScooters": 100, "tzBikes": null, "tzParkGroups": null, "tzParkGaps": null, "tzScooterGLB": "undefined", "glbModels": ["S1A", "S1A_C", "S1B", "S1B_D", "S2", "S3", "S4", "S5", "S5_H", "S6", "S7", "S9"], "scPick": {"S4": 8, "S1B": 22, "S5": 7, "S1A_C": 2, "S2": 13, "S3": 7, "S7": 9, "S5_H": 5, "S1A": 17, "S1B_D": 5, "S6": 3, "S9": 2}, "scColors": 45, "groups": 8, "fallbackFound": true, "side": {"W": {"n": 53, "kinds": 11, "colors": 35, "maxSameCodeColor": 3, "maxSameCode": 5, "gaps": 9}, "E": {"n": 47, "kinds": 11, "colors": 29, "maxSameCodeColor": 1, "maxSameCode": 2, "gaps": 9}}}
+PASS [SCOOT 14.00] 正式機車模型有掛上（tz_scooters_glb 存在、有網格）  {"tzScooters": 100, "tzScooterGLB": "undefined", "glbGroup": true, "glbChildren": 9, "glbMeshes": 17, "glbGeoKinds": 17, "manifest": true, "url": "assets/models/env/second_ai/scooter.glb", "state": null}
+PASS 沒有 JS 例外  []
+ALL PASS

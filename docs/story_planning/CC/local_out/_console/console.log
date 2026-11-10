@@ -737,3 +737,11 @@
 [06:51:14] ==== START TZ4_scoot3  (probe @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
 [06:51:17] [res] cpu=26% mem=46% (14.2/31.4 GB) chrome_testing=9  START TZ4_scoot3
 [06:51:49] [res] cpu=13% mem=44% (13.6/31.4 GB) chrome_testing=8  END SHIFT_IMM_r8_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d58308b9c..b226475cf  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:51:56] ==== END   SHIFT_IMM_r8_old  exit=0  217s   ====
+[06:51:59] memory 44% before starting TZ4_scoot3_v2 (2 running)
+[06:51:59] ==== START TZ4_scoot3_v2  (probe @ c17a9919ec13ff237181709df0a3ee70e4e4d5e2) ====
+[06:52:02] [res] cpu=33% mem=44% (13.9/31.4 GB) chrome_testing=4  START TZ4_scoot3_v2
+[06:52:33] [res] cpu=8% mem=45% (14.1/31.4 GB) chrome_testing=6  END TZ4_scoot_v2
