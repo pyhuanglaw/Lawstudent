@@ -1,7 +1,15 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-10 20:5x UTC）
+## 交接（最新｜帳號 A｜2026-11-10 21:4x UTC）
+- **汀州路第 2 版已交**（39fcb2b72，`wip/tingzhou_1110/README_v2.md`、`tingzhou_v2.patch`，底 dev 6c55e63e3）：五間沒有騎樓（使用者「混合」）、洗樂／印得好／泰米照使用者 21:1x 的參考圖、夜市攤位模組十四種（`tz_stalls.py`）、路邊機車、BB 第 1 版五點。等 LAWWW 整合、CC 重拍、BB 判。沒在遊戲裡看過：攤位顏色、店內調暗。第 3 版要做的寫在 README_v2「還沒做」。
+- **使用者 21:1x 給了六間店外觀參考圖**：`ref/gg_shops6_1110/`（concept/ 六張＋README）。汀州路三間已用；**公館三間（G04 安泰藥局、G08 汀州鮮果、G13 榮恩典文具社）還沒做**（GG-SHOPS3-ART-1110）：照 RULES_2D_TO_3D，招牌從圖拉正裁（做法看 `tz_fronts_tex.py` 的 tzyin_／tztai_／tzxile_ 和 wz_street.py 的 TZ_ARC）。
+- **正在做：FLOWER-NOTES-ART-1110 花序 Flower Notes（X325）**。規格 dev `docs/handoff/user_specs/FLOWER_NOTES_1110.md` 第四～六節、參考圖 `flower_notes_ref/exterior.png、interior_1f.png、interior_2f.png`（二樓只參考室內，窗外用遊戲裡公館二樓高度的街景，做法照總圖 library_view）。公館店面街 G11、寬 10 m。我要做：外觀、一樓、走得上去的二樓教室、區域／導航／進出（照 wancai3d.js 兩層導航）、舊花攤 gg_flower_stall 同一個 patch 拿掉。買花互動點 LAWWW 接到收銀櫃檯。
+  - 我定的配置（還沒寫成檔）：房間 10×14 m，店面在 +z；前半（z 0.5～7）挑高、後半（z −7～0.5）上面是二樓教室（樓板 3.9 m）；樓梯沿東牆往北爬（寬 1.4、樓板開口）；一樓：門在正面中間、中央橢圓展示台在挑高區、左牆永生花＋鮮花、後牆冷藏花櫃、東牆包裝收銀長櫃檯。二樓朝街那一面是玻璃欄杆，隔著挑高看正面二樓的玻璃和白紗簾。外觀保留公館的騎樓線（一樓玻璃退 3 m，二樓和招牌帶在立面線），不改公館導航。
+  - 分兩件交：A 室內區域（配置、區域 JS、Blender 室內、測試）；B 公館外觀（重建 gongguan_shops.glb 的 G11）＋拿掉舊花攤。
+- 工作樹：`$SP/wt_tz2`（dev 6c55e63e3＋汀州路第 2 版，乾淨的交件樹）。不要在工作樹用 git stash。
+
+## 交接（上一則｜帳號 A｜2026-11-10 20:5x UTC）
 - **正在做：汀州路商圈（TINGZHOU-AREA-1110，X321／X322）**。第 1 版已交、LAWWW 已套（開發分支 7a625da3c）；CC 在拍遊戲截圖（14:00、18:30、20:30；機位在我 20:4x 給 LAWWW 的訊息、wip/tingzhou_1110/README）。
   - 依據全在 `docs/art-rebuild/second_ai/ref/tingzhou_1110/`（USER_INSTRUCTION_1110.md 四則原文、concept/ 七張使用者的概念圖、REF_ANALYSIS.md）。交件 `wip/tingzhou_1110/`。
   - **等使用者決定**：五間概念圖店面前面要不要騎樓（現在有 3 m 騎樓；概念圖是直接臨人行道；可以混合）。其他 21 間店面只寫種類、店名等使用者定（她說「店面新增由我決定」，AA_744 的店名取消）。
