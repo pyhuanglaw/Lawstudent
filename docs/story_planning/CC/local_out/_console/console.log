@@ -531,3 +531,11 @@
 [17:38:00] [res] cpu=14% mem=48% (15.4/31.4 GB) chrome_testing=9  START ROMPRIV_new
 [17:38:05] 正在跑：GREET_968b_new2（已跑 10 分／上限 60 分）、NOASK_faf1_r2（已跑 4 分／上限 40 分）、ROMPRIV_new（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:39:26] [res] cpu=3% mem=47% (15.0/31.4 GB) chrome_testing=10  END GREET_968b_new2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9a544b697..76e565b6f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:39:35] ==== END   GREET_968b_new2  exit=1  685s   ====
+[17:39:41] memory 48% before starting ROMPRIV_old (2 running)
+[17:39:41] ==== START ROMPRIV_old  (probe @ 13e84dc2703a340c1ad3ad7ae56ee3a763cce0d6) ====
+[17:39:44] [res] cpu=4% mem=48% (15.3/31.4 GB) chrome_testing=10  START ROMPRIV_old
+[17:42:42] [res] cpu=10% mem=48% (15.2/31.4 GB) chrome_testing=10  END ROMPRIV_new
