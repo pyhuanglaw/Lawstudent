@@ -52659,7 +52659,7 @@
    "id": "TINGZHOU-AREA-1110",
    "title": "新區域「汀州路商圈」：和公館相連、走得過去；放泰米村食、洗樂洗衣坊、印得好三間（使用者：LAWWW2 優先規劃生成）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "等待其他AI／素材",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52672,14 +52672,16 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "LAWWW2 先出配置提案（從公館哪裡接過去、街道長度、三間店的位置、其他店面），再建模、接區域和出入口（D108）；公館原本 G09／G10／G11 三個店面改成什麼也由 LAWWW2 提",
+   "next": "等示意圖以前只做不受配置影響的：泰米村食室內（照 AA_743 縮成 10×9）、夜市攤車模型",
    "xai": {
     "spec": "X321（UA-LAWWW-1110-89）",
     "branch": "claude/second-ai-env-art",
     "acceptance": "從公館自然走到汀州路、三間店進得去；BB 判（D120）",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "pausedReason": "使用者 19:0x：店面新增由她決定（AA_744 店名取消、夜市攤留著），她會給汀州路和店面的示意圖",
+   "resumeWhen": "使用者給示意圖"
   },
   {
    "id": "TINGZHOU-SHOPS-MOVE-1110",

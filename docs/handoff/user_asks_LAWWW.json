@@ -4380,6 +4380,24 @@
    "status": "進行中",
    "wants": "X321",
    "task": "TINGZHOU-AREA-1110"
+  },
+  {
+   "id": "UA-LAWWW-1110-90",
+   "at": "2026-11-10T19:0xZ",
+   "quote": "店面新增由我決定 AA做的取消",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X321",
+   "task": "TINGZHOU-AREA-1110"
+  },
+  {
+   "id": "UA-LAWWW-1110-91",
+   "at": "2026-11-10T19:0xZ",
+   "quote": "只取消店名，夜市攤留著；我等等跟你示意圖 包括汀州路和店面（選擇題回答）",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X321",
+   "task": "TINGZHOU-AREA-1110"
   }
  ]
 }
