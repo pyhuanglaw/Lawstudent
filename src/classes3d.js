@@ -1243,8 +1243,12 @@ const CLS=(function(){
   S.sk03Huoda=function(G){ if(!G||(G.stage||'law')!=='law'||typeof STORY_EVENTS==='undefined'||typeof EVENTS==='undefined'||!EVENTS.check) return null; const h=hr(G); if(h<12||h>=13) return null;
     const it=S.dayItems(G).find(q=>q.c&&q.c.id==='econ_principles_2'&&!q.exam); if(!it||S.rec(G).done[it.key]) return null;
     const ev=STORY_EVENTS.find(e=>e.id==='ev_sk03_lunch'); return ev&&EVENTS.check(ev)?ev:null; };
-  S.lunchBreak=async function(GM){ const G=GM.G, MEALS=mealsOf(G); const opts=MEALS.map(m=>({t:m.t+'　'+m.price+' 元',dim:G.money<m.price})).concat([{t:'算了'}]); let i=opts.length-1; GM.sceneBegin(); try{ i=await GM.choose(opts); } finally { GM.sceneEnd(); }
-    const m=MEALS[i]; if(!m) return false; if(G.money<m.price){ GM.toast('錢不夠',2400); return false; }
+  /* 不問吃哪家（LUNCH-NO-ASK-1110，使用者 11-10：「下課選先去吃飯的時候 只有三家可以選 然後也不會真的去吃 可以不用特別問嗎」）：直接挑一家——
+     學活的事件（SK03）還沒演＝學活；其他照錢夠的輪流（不連著同一家）；都不夠＝不吃。want：指定那一家（測試、劇情用）*/
+  S.lunchPick=function(G,MEALS){ const ok=MEALS.filter(m=>G.money>=m.price); if(!ok.length) return null; if(S.sk03Huoda&&S.sk03Huoda(G)){ const h=ok.find(m=>m.t==='學活'); if(h) return h; }
+    const last=G.flags&&G.flags.LUNCH_LAST, c=ok.length>1?ok.filter(m=>m.t!==last):ok; return c[((G.day|0)%c.length+c.length)%c.length]; };
+  S.lunchBreak=async function(GM,want){ const G=GM.G, MEALS=mealsOf(G); G.flags=G.flags||{};
+    const m=want?MEALS.find(x=>x.t===want):S.lunchPick(G,MEALS); if(!m){ GM.toast('錢不夠，先不吃了',2400); return false; } if(G.money<m.price){ GM.toast('錢不夠',2400); return false; } G.flags.LUNCH_LAST=m.t;
     const sk=m.t==='學活'?S.sk03Huoda(G):null; if(sk){ GM.sceneBegin(); try{ await GM.fade(true); GM.money(-m.price); await GM.fade(false); } finally { GM.sceneEnd(); } G.flags.SK03_HUODA=G.day; await EVENTS.run(sk); return true; }   /* 時間：事件的 after 快轉到 13:00「午休結束。」*/
     /* BUG-EAT-AFTER-CLASS-SCENE-1103（使用者 11-03：「上課完去吃飯居然扣錢和吃飽 場景都是教室」）：吃飯那一段換到那家店（2D 背景＋地點字幕），吃完再出發去下一堂；原本只淡出淡入、人一直在教室 */
     const bgKey=(hr(G)>=18&&m.bgNight)||m.bg, bg=bgKey&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(bgKey):'dark';
