@@ -119,7 +119,7 @@ const PLACES={
        第一筆「汀州路」＝從公館的巷子走進來站的地方（配置 fromGongguan，也是區域的出生點）；使用者指定名字的八間店（PLACES.TZ_SHOPS，名字照配置、不在這裡另外寫）
        落在那一間的店門口、面對店面（PLACES.tzDoor：和 src/tingzhou3d.js 店門互動點同一個算法——立面往騎樓裡 arcade−0.9 m、店面中間）。
        這一版店都還沒有室內（只有「看」）：都在 tingzhou 這一區，沒有營業時間（第 4 格不寫）；有室內以後（tz_＋id 的區域）再改成進店裡。測試：node tests/tingzhou_places_1110_unit.js */
-    const TL=typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT:null, TZ=TL?[['tingzhou',PLACES.names.tingzhou,{x:TL.fromGongguan.x,z:TL.fromGongguan.z,yaw:TL.fromGongguan.yaw}]].concat(PLACES.TZ_SHOPS.map(id=>{ const q=TL.shops.find(s=>s.id===id), sp=PLACES.tzDoor(id); return q&&sp?['tingzhou',q.name,sp]:null; })):[];
+    const TL=typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT:null, TZ=TL?[['tingzhou',PLACES.names.tingzhou,{x:TL.fromGongguan.x,z:TL.fromGongguan.z,yaw:TL.fromGongguan.yaw}]].concat(PLACES.TZ_SHOPS.map(id=>{ const q=TL.shops.find(s=>s.id===id), sp=PLACES.tzDoor(id); return q&&sp?['tingzhou',q.name,sp,undefined,'tingzhou']:null;   /* 第 5 格＝要自己走進過這一區一次才出現（D54 ①：特定的店留給探索去發現；BB 11-10：新存檔一開始就能直達八間店門口）；街本身一開始就知道 */ })):[];
     const N=PLACES.names, WZ=[['wz_brunch',N.wz_brunch,null],['wz_print',N.wz_print,null],['wz_lin',N.wz_lin,null],['wz_teishoku',N.wz_teishoku,null],
       ['wenzhou',N.wz_tea,{x:17.4,z:-6.85,yaw:Math.PI},'wz_tea'],['wenzhou',N.wz_ice,{x:24.4,z:-6.9,yaw:Math.PI},'wz_ice'],['wenzhou',N.wz_books,{x:14.2,z:3.0,yaw:0},'wz_books']];
     /* BUG-YIZHAN-1107（使用者 11-07 試玩「一盞不見了？」）：一盞（wz_teahouse）進得去，但手機「地點」、大地圖、導航都沒列；落點 null＝區域出生點（從冠木門進來站的地方）。營業週三～週日 12–20 */
