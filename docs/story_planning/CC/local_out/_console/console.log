@@ -1351,3 +1351,13 @@
 [20:39:04] ==== START GIFTHOL_new  (probe @ 509b54c2d9d7a2f1ab6f227124abeb4d30747db6) ====
 [20:39:07] [res] cpu=7% mem=49% (15.5/31.4 GB) chrome_testing=10  START GIFTHOL_new
 [20:40:41] [res] cpu=49% mem=43% (13.5/31.4 GB) chrome_testing=8  END NANYANG_v3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       03c9017ef..2039d5a19  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:40:50] ==== END   NANYANG_v3  exit=0  647s   ====
+[20:40:53] memory 46% before starting GIFTHOL_old (2 running)
+[20:40:53] ==== START GIFTHOL_old  (probe @ fda54d616e57b40c74ca1b6404dccb6ea927e50c) ====
+[20:40:56] [res] cpu=39% mem=47% (14.6/31.4 GB) chrome_testing=9  START GIFTHOL_old
+[20:43:06] 正在跑：NOASK_faf1_r2（已跑 13 分／上限 40 分）、GIFTHOL_new（已跑 4 分／上限 75 分）、GIFTHOL_old（已跑 2 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:48:06] 正在跑：NOASK_faf1_r2（已跑 18 分／上限 40 分）、GIFTHOL_new（已跑 9 分／上限 75 分）、GIFTHOL_old（已跑 7 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:49:04] [res] cpu=18% mem=50% (15.8/31.4 GB) chrome_testing=10  END GIFTHOL_old
