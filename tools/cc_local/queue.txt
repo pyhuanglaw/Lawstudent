@@ -15,6 +15,7 @@ F24_reach | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/reachability
 F24_classreal | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/flow_class_real.py | index.html | 25 | XARGS={url} {out};CC_HEADLESS=0
 F24_movie | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | probe | docs/story_planning/test_tools/cc/cc_movie_probe.py | index.html | 30 | WHO=heroine_01;PLACE=xs_nanyang
 F24_x315 | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 20 | TAG=f24;X315=1;CASES=NF,R14,COOL,S6
+F24_posters | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | probe | docs/story_planning/test_tools/cc/cc_poster_probe.py | index.html | 30 | PARTS=A,B,C
 F24_main12 | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 F24_touch | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
 F24_guide | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
