@@ -45614,7 +45614,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 13:3x】套件五棟（LAWWW2 5b47de929）：電機二館 CK.hall 紅磚拱窗平頂、土木 4 層平頂＋玻璃樓梯塔、圖資白色頂層拱窗、農綜紅磚 5 層、國青 11 層米色＋深褐凸窗＋灰屋頂面；campuskit3d 加 topArch／stairTower／bays／roofCol（預設行為不變）；ntu_ref_kit5（底 FAIL 5→PASS）、socsci_place（第 6 項正規式也接受 CK.hall，LAWWW 同意）、nav、campus、blackforest ALL PASS；CC 拍、BB 判。X223 這一輪（晨思鐘、三棟外牆、男一舍、共同、映月湖、研三舍、套件五棟）全部交件。 ｜ 【LAWWW 13:2x】③-4 研三舍（LAWWW2 3b080b7f3）：拿掉 (63,−108) 那一棟與導航阻擋、places.js 地名；原址草地連霖澤館前、附近 3,146 格無孤島；ntu_ref_r3（開發 FAIL 3→PASS）、blackforest（拿掉「研三舍走不到」一點，LAWWW 同意）、nav、campus_public、placemap 等 ALL PASS；LAWWW 另改 campus_layout_nav.py 拿掉「研三舍內走不到」。 ｜ 【LAWWW 13:1x】③-3 映月湖（LAWWW2 50ac4d5c6）：亭子綠琉璃瓦、木棧道紅漆欄杆、三棵垂柳（樹幹在湖岸內、導航不動；葉片不投影、alphaTest、網點透空）；ntu_ref_lake（開發 FAIL 3→PASS）、lake_night、aa535b、nav、campus_public ALL PASS；CC 疊圖、BB 判。下一件 ③-4 拿掉研三舍。 ｜ 【LAWWW 13:1x】③-2 共同教學館（LAWWW2 812dd23d8）：東半部舊館紅磚、西翼米色粉刷（照使用者 11-04 照片），gt_wall 拆 gt_brick／gt_wing_plaster，網格 8→9、三角形不變、導航不動；已知：翼樓樓板豎貼帶仍是紅磚帶（留著）；ntu_ref_gongtong（開發 FAIL 2→PASS）、gongtong 2 支、nav、campus_public ALL PASS；CC 疊圖、BB 判。 ｜ 【LAWWW 13:0x】③-1 男一舍（LAWWW2 4f695028e）：外牆米灰馬賽克→灰色清水模、框架雨遮灰；樓梯塔清水模牆開 5 個圓窗（D136 數量位置不照抄）；5 層、佔地導航不動；ntu_ref_male1（開發 FAIL 2→PASS）、nav_buildings、campus_public ALL PASS；CC 疊圖、BB 判。下一包共同教學館（舊館紅磚、西翼米色）、映月湖亭、拿掉研三舍。 ｜ 【LAWWW 13:0x】② 三棟外牆（LAWWW2 36e234d0f）：行政大樓紅色清水磚、北棟 2 層（三角形 19.6k→15.0k）；文學院 #9a8560、校史館 #b39762；CK.hall 備用外觀同步 floors:2、新顏色（footprint、導航不動）；PERF ② 照舊 5 網格；ntu_ref_halls（開發 FAIL 3→PASS）、campus_hall_drawcall、pillar_seethru、campus_public 等 ALL PASS；CC 疊圖、BB 判。 ｜ 【LAWWW 11-10 13:0x】① 晨思鐘（LAWWW2 00a298885）：瓦頂鐘亭→無頂金屬鐘架，D136 改一道圓環、四道弧形拱肋、深古銅；台座、石碑、銅鐘、地燈照舊；鐘架 seethru_bell_steel 維持網點透空；campus_bell_seethru 加③（開發 FAIL→PASS，①接受兩版、沒放寬）、campus 回歸 ALL PASS；CC 同角度疊圖 --mode campus、BB 判。② campus_hall 三棟外牆製作中。 ｜ 【LAWWW 11-10 12:5x】LAWWW2 e3941a266 保留／改掉表（docs/art-rebuild/second_ai/ntu_ref_keep_change_1110.md）：差很多要改＝晨思鐘（無頂金屬鐘架）、行政大樓（紅色清水磚、北棟 2 層）、文學院、校史館（土黃十三溝面磚）、男一舍、共同舊館、映月湖亭、套件五棟參數；不用改＝校門、社科院、黑森林、圓窗館、大一女舍。LAWWW 定順序：晨思鐘 → campus_hall 三棟外牆 → 男一舍、共同、映月湖 → 套件五棟；D141、D136、BB 判（D120、D128 不經使用者）；國青／研三舍問 AA。 ｜ 【LAWWW-C 11-04 15:2x】使用者 15:1x 點名普通、博雅「太不像」→ 這兩棟拆成 TEACH-PTBOYA-REF-1104（LAWWW2）先做｜【LAWWW-C 11-04 15:05】D136（使用者 15:0x）：校園建築可以部分相同、絕對不可以照抄——LAWWW2 比對時每棟寫「保留什麼（氣氛、材質、大小、動線）、改掉什麼（獨特造型、細節）」，不做一比一複製；BB 驗收看像但不照抄｜【LAWWW-C 11-04 15:00】①完成（子代理 15c3224a7 → 合併 ea28fa410）：23 處、167 張只留網址（list.json），總表 docs/story_planning/ref_images/buildings/README.md 有「和遊戲可能不一樣的事實」（附行號）、建議拍的角度；前 10：晨思鐘造型、綜合體育館位置方向、行政大樓材質層數、大一女舍二樓平台入口、男一舍外牆（5 層是 AA 裁定）、博思外觀、國際學苑層數（研三舍在國青大樓內）、映月湖亭池、共同教學館外牆、法律系館A／B 層數待確認｜②CC 照總表最後一節拍遊戲同角度（排在 v9.10.20 測試之後）③LAWWW2 逐棟比對提修改（照玩家先遇到的先做：校門→行政大樓／晨思鐘→總圖→女舍／男一舍…，D81）④BB 判｜【LAWWW-C 11-04 14:23】照片檔不放 repo（公開 repo＋GitHub Pages，著作權）：只放 README＋list.json，看圖用 tools/ref/fetch_ref_images.py 抓到 ref_cache/（.gitignore）；子代理照這個改｜【LAWWW-C 11-04 14:19】①LAWWW（子代理）：列出遊戲裡所有有原型的建築（zones3d／campuskit 的館、宿舍、總圖、系館…），逐棟在 *.ntu.edu.tw 找官方照片與介紹（樓層、入口、外牆材料、室內），存 docs/story_planning/ref_images/buildings/<建築>/web/＋README（事實＋逐張說明）②CC 在使用者電腦拍遊戲裡同角度的畫面（D131）③LAWWW2 逐棟比對、提修改（D108、D133 照參考圖）④BB 照 D120／D133 判；第一棟：大一女舍 24 張已存（freshman_women_dorm_1104/web/）；照片只當參考、不進遊戲，校名照 WORLD_NAMING",
+   "next": "【LAWWW 13:4x】BB_255（13:46）：X223 照 LAWWW 建議（照片不上傳、對 keep_change 表看截圖）：晨思鐘、行政大樓、文學院、校史館、男一舍、共同教學館 ART_APPROVED（D120）；研三舍拿掉 PASS；映月湖等 r2；套件五棟等拍。 ｜ 【LAWWW 13:3x】套件五棟（LAWWW2 5b47de929）：電機二館 CK.hall 紅磚拱窗平頂、土木 4 層平頂＋玻璃樓梯塔、圖資白色頂層拱窗、農綜紅磚 5 層、國青 11 層米色＋深褐凸窗＋灰屋頂面；campuskit3d 加 topArch／stairTower／bays／roofCol（預設行為不變）；ntu_ref_kit5（底 FAIL 5→PASS）、socsci_place（第 6 項正規式也接受 CK.hall，LAWWW 同意）、nav、campus、blackforest ALL PASS；CC 拍、BB 判。X223 這一輪（晨思鐘、三棟外牆、男一舍、共同、映月湖、研三舍、套件五棟）全部交件。 ｜ 【LAWWW 13:2x】③-4 研三舍（LAWWW2 3b080b7f3）：拿掉 (63,−108) 那一棟與導航阻擋、places.js 地名；原址草地連霖澤館前、附近 3,146 格無孤島；ntu_ref_r3（開發 FAIL 3→PASS）、blackforest（拿掉「研三舍走不到」一點，LAWWW 同意）、nav、campus_public、placemap 等 ALL PASS；LAWWW 另改 campus_layout_nav.py 拿掉「研三舍內走不到」。 ｜ 【LAWWW 13:1x】③-3 映月湖（LAWWW2 50ac4d5c6）：亭子綠琉璃瓦、木棧道紅漆欄杆、三棵垂柳（樹幹在湖岸內、導航不動；葉片不投影、alphaTest、網點透空）；ntu_ref_lake（開發 FAIL 3→PASS）、lake_night、aa535b、nav、campus_public ALL PASS；CC 疊圖、BB 判。下一件 ③-4 拿掉研三舍。 ｜ 【LAWWW 13:1x】③-2 共同教學館（LAWWW2 812dd23d8）：東半部舊館紅磚、西翼米色粉刷（照使用者 11-04 照片），gt_wall 拆 gt_brick／gt_wing_plaster，網格 8→9、三角形不變、導航不動；已知：翼樓樓板豎貼帶仍是紅磚帶（留著）；ntu_ref_gongtong（開發 FAIL 2→PASS）、gongtong 2 支、nav、campus_public ALL PASS；CC 疊圖、BB 判。 ｜ 【LAWWW 13:0x】③-1 男一舍（LAWWW2 4f695028e）：外牆米灰馬賽克→灰色清水模、框架雨遮灰；樓梯塔清水模牆開 5 個圓窗（D136 數量位置不照抄）；5 層、佔地導航不動；ntu_ref_male1（開發 FAIL 2→PASS）、nav_buildings、campus_public ALL PASS；CC 疊圖、BB 判。下一包共同教學館（舊館紅磚、西翼米色）、映月湖亭、拿掉研三舍。 ｜ 【LAWWW 13:0x】② 三棟外牆（LAWWW2 36e234d0f）：行政大樓紅色清水磚、北棟 2 層（三角形 19.6k→15.0k）；文學院 #9a8560、校史館 #b39762；CK.hall 備用外觀同步 floors:2、新顏色（footprint、導航不動）；PERF ② 照舊 5 網格；ntu_ref_halls（開發 FAIL 3→PASS）、campus_hall_drawcall、pillar_seethru、campus_public 等 ALL PASS；CC 疊圖、BB 判。 ｜ 【LAWWW 11-10 13:0x】① 晨思鐘（LAWWW2 00a298885）：瓦頂鐘亭→無頂金屬鐘架，D136 改一道圓環、四道弧形拱肋、深古銅；台座、石碑、銅鐘、地燈照舊；鐘架 seethru_bell_steel 維持網點透空；campus_bell_seethru 加③（開發 FAIL→PASS，①接受兩版、沒放寬）、campus 回歸 ALL PASS；CC 同角度疊圖 --mode campus、BB 判。② campus_hall 三棟外牆製作中。 ｜ 【LAWWW 11-10 12:5x】LAWWW2 e3941a266 保留／改掉表（docs/art-rebuild/second_ai/ntu_ref_keep_change_1110.md）：差很多要改＝晨思鐘（無頂金屬鐘架）、行政大樓（紅色清水磚、北棟 2 層）、文學院、校史館（土黃十三溝面磚）、男一舍、共同舊館、映月湖亭、套件五棟參數；不用改＝校門、社科院、黑森林、圓窗館、大一女舍。LAWWW 定順序：晨思鐘 → campus_hall 三棟外牆 → 男一舍、共同、映月湖 → 套件五棟；D141、D136、BB 判（D120、D128 不經使用者）；國青／研三舍問 AA。 ｜ 【LAWWW-C 11-04 15:2x】使用者 15:1x 點名普通、博雅「太不像」→ 這兩棟拆成 TEACH-PTBOYA-REF-1104（LAWWW2）先做｜【LAWWW-C 11-04 15:05】D136（使用者 15:0x）：校園建築可以部分相同、絕對不可以照抄——LAWWW2 比對時每棟寫「保留什麼（氣氛、材質、大小、動線）、改掉什麼（獨特造型、細節）」，不做一比一複製；BB 驗收看像但不照抄｜【LAWWW-C 11-04 15:00】①完成（子代理 15c3224a7 → 合併 ea28fa410）：23 處、167 張只留網址（list.json），總表 docs/story_planning/ref_images/buildings/README.md 有「和遊戲可能不一樣的事實」（附行號）、建議拍的角度；前 10：晨思鐘造型、綜合體育館位置方向、行政大樓材質層數、大一女舍二樓平台入口、男一舍外牆（5 層是 AA 裁定）、博思外觀、國際學苑層數（研三舍在國青大樓內）、映月湖亭池、共同教學館外牆、法律系館A／B 層數待確認｜②CC 照總表最後一節拍遊戲同角度（排在 v9.10.20 測試之後）③LAWWW2 逐棟比對提修改（照玩家先遇到的先做：校門→行政大樓／晨思鐘→總圖→女舍／男一舍…，D81）④BB 判｜【LAWWW-C 11-04 14:23】照片檔不放 repo（公開 repo＋GitHub Pages，著作權）：只放 README＋list.json，看圖用 tools/ref/fetch_ref_images.py 抓到 ref_cache/（.gitignore）；子代理照這個改｜【LAWWW-C 11-04 14:19】①LAWWW（子代理）：列出遊戲裡所有有原型的建築（zones3d／campuskit 的館、宿舍、總圖、系館…），逐棟在 *.ntu.edu.tw 找官方照片與介紹（樓層、入口、外牆材料、室內），存 docs/story_planning/ref_images/buildings/<建築>/web/＋README（事實＋逐張說明）②CC 在使用者電腦拍遊戲裡同角度的畫面（D131）③LAWWW2 逐棟比對、提修改（D108、D133 照參考圖）④BB 照 D120／D133 判；第一棟：大一女舍 24 張已存（freshman_women_dorm_1104/web/）；照片只當參考、不進遊戲，校名照 WORLD_NAMING",
    "source": "使用者 11-04 14:15 對 LAWWW-C（UA-LAWWW-1104-92）",
    "authorized": "使用者直接要求"
   },
@@ -50699,7 +50699,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW 11-10 13:0x】AA_732 d1bf75f6f 補四條已接（子代理 87d49641a，合併 d27c60858）：①第三個人照舊；②期末考前法圖（EXLIB.talk）打完招呼出「送她禮物…／就這樣」，她第一句加（小聲）；③芷若吧檯點餐選單加「送她禮物…」，演完加「（她把東西收到吧檯下面。）」——限制：每天第一次說話是 ev_cafe_barista_zhiruo（一天一次），節日要第二次說話才看得到，要不要加進那個事件問 AA；④學姊生日 2-4 事件演過（there／tea／water）那天不出送禮，tea 記成生日禮物＋GIFT_GIVEN（解讀：選另外兩個也算演過但不記，問 AA）。gift_holiday、shanlan、cafe_barista 等 30 支 ALL PASS。 ｜ 【LAWWW 11-10 12:2x】BB_255（12:21）：GIFT shops（各店買禮物）FIXED；GIFT ui 三項已修等重拍；GIFT holiday 等。 ｜ 【LAWWW 11-10 10:0x】子代理 4180c910f 合併進開發分支 d4ea487b7：gifthol3d.js＋data/gift_holiday.js（匯入工具 tools/gift/import_gift_holiday.py、白名單三筆）；13 家店「買禮物…」、包包 10 樣、物品分頁（X291）、聖誕／2/14／七夕／生日當面送、每節兩人、她送祐廷（X278，含信箱包裹）、山嵐文具區學姊四場（X276）；gift_holiday＋37 支既有單元測試 ALL PASS（Node）。PARTIAL：可昕專屬場次那天的擋法、AA_734 existing 的判斷；公館站口花攤遊戲裡沒有（花束、向日葵買不到）→ LAWWW2；AI 解讀 7 項問 AA。CC 排 PC、BB 判。 ｜ 【LAWWW 11-10 09:3x】帳號 A LAWWW 開工：子代理（worktree）照 AA_732（1edb14888 版）、AA_733、AA_734 實作買禮物、包包／物品欄（X291）、節日生日送、她送祐廷（X278）、山嵐文具區學姊四場（X276）；完成後 LAWWW 合併、Node 單元測試、CC 排 PC、BB 判。 ｜ 【11-10 01:4x LAWWW-B】使用者 X291：買了的禮物要有物品欄位看得到（品名、哪裡買、說明；她送的另一欄）。AA 三批交齊：AA_732 fc9ff6d3d（規則、14 店 57 樣、學姊）、AA_733 1edb14888（七位）、AA_734 246ef6735（她送你、門檻、山嵐文具區學姊四場）。 ｜ 【11-10 01:0x LAWWW-B】使用者 X278：好感度到一定程度，聖誕、情人節（七夕和 2/14 都算）她也送玩家禮物（只限可以攻略的對象）；七夕也是送禮的節日（玩家送的「每節最多兩人」照算）。AA 寫她送的禮物、情境、門檻建議（照現有的戀愛／好感階段）。 ｜ 【11-10 00:5x LAWWW-B】使用者 X277（選擇題：只送可以攻略的對象＝七位女主角＋芯慈（她的線打開時），和送飲料一樣）。分工：AA 寫各店賣的禮物（品名原創、價錢、一句說明）、每位的喜好與收禮反應（照關係階段、喜歡／普通／不喜歡）、節日當天的情境；LAWWW 接：店家購買選單、背包（存檔欄位、舊存檔預設空）、節日／她生日那天見到她可以送、不扣時段（slot）、聖誕／情人節每節最多兩人（生日不限）；LAWWW2 看各店的商品區；BB 測。SIS-STATIONERY-1110（學姊文具、山嵐文具區）是這一套的一部分。",
+   "next": "【LAWWW 13:4x】BB_255（13:46）：人物頁 FIXED。 ｜ 【LAWWW 11-10 13:0x】AA_732 d1bf75f6f 補四條已接（子代理 87d49641a，合併 d27c60858）：①第三個人照舊；②期末考前法圖（EXLIB.talk）打完招呼出「送她禮物…／就這樣」，她第一句加（小聲）；③芷若吧檯點餐選單加「送她禮物…」，演完加「（她把東西收到吧檯下面。）」——限制：每天第一次說話是 ev_cafe_barista_zhiruo（一天一次），節日要第二次說話才看得到，要不要加進那個事件問 AA；④學姊生日 2-4 事件演過（there／tea／water）那天不出送禮，tea 記成生日禮物＋GIFT_GIVEN（解讀：選另外兩個也算演過但不記，問 AA）。gift_holiday、shanlan、cafe_barista 等 30 支 ALL PASS。 ｜ 【LAWWW 11-10 12:2x】BB_255（12:21）：GIFT shops（各店買禮物）FIXED；GIFT ui 三項已修等重拍；GIFT holiday 等。 ｜ 【LAWWW 11-10 10:0x】子代理 4180c910f 合併進開發分支 d4ea487b7：gifthol3d.js＋data/gift_holiday.js（匯入工具 tools/gift/import_gift_holiday.py、白名單三筆）；13 家店「買禮物…」、包包 10 樣、物品分頁（X291）、聖誕／2/14／七夕／生日當面送、每節兩人、她送祐廷（X278，含信箱包裹）、山嵐文具區學姊四場（X276）；gift_holiday＋37 支既有單元測試 ALL PASS（Node）。PARTIAL：可昕專屬場次那天的擋法、AA_734 existing 的判斷；公館站口花攤遊戲裡沒有（花束、向日葵買不到）→ LAWWW2；AI 解讀 7 項問 AA。CC 排 PC、BB 判。 ｜ 【LAWWW 11-10 09:3x】帳號 A LAWWW 開工：子代理（worktree）照 AA_732（1edb14888 版）、AA_733、AA_734 實作買禮物、包包／物品欄（X291）、節日生日送、她送祐廷（X278）、山嵐文具區學姊四場（X276）；完成後 LAWWW 合併、Node 單元測試、CC 排 PC、BB 判。 ｜ 【11-10 01:4x LAWWW-B】使用者 X291：買了的禮物要有物品欄位看得到（品名、哪裡買、說明；她送的另一欄）。AA 三批交齊：AA_732 fc9ff6d3d（規則、14 店 57 樣、學姊）、AA_733 1edb14888（七位）、AA_734 246ef6735（她送你、門檻、山嵐文具區學姊四場）。 ｜ 【11-10 01:0x LAWWW-B】使用者 X278：好感度到一定程度，聖誕、情人節（七夕和 2/14 都算）她也送玩家禮物（只限可以攻略的對象）；七夕也是送禮的節日（玩家送的「每節最多兩人」照算）。AA 寫她送的禮物、情境、門檻建議（照現有的戀愛／好感階段）。 ｜ 【11-10 00:5x LAWWW-B】使用者 X277（選擇題：只送可以攻略的對象＝七位女主角＋芯慈（她的線打開時），和送飲料一樣）。分工：AA 寫各店賣的禮物（品名原創、價錢、一句說明）、每位的喜好與收禮反應（照關係階段、喜歡／普通／不喜歡）、節日當天的情境；LAWWW 接：店家購買選單、背包（存檔欄位、舊存檔預設空）、節日／她生日那天見到她可以送、不扣時段（slot）、聖誕／情人節每節最多兩人（生日不限）；LAWWW2 看各店的商品區；BB 測。SIS-STATIONERY-1110（學姊文具、山嵐文具區）是這一套的一部分。",
    "xai": {
     "spec": "使用者 11-10 00:5x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -51791,7 +51791,7 @@
    "id": "XS-GATE-PLANTER-1110",
    "title": "X246 新生南路側門：人行道花台（使用者照片有、遊戲沒有）；磚紋、正式門柱圍牆記在差距表",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -51803,7 +51803,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 13:4x】紅磚人行道磚紋（LAWWW2 4ec912641）：Poly Haven CC0 brick_pavement_04 調回 #b77a62，xs_brick_walk 共用材質、世界座標 UV，網格數 238→238；xs_brick_walk（開發 FAIL 4→PASS）、xs_planters、xinsheng ALL PASS；CC 拍側門外白天晚上、BB 判。差距表剩：正式門柱圍牆（派 LAWWW2）、望月台停車場取車（系統）。 ｜ 【LAWWW 11-10 12:5x】LAWWW2 a347731be：新生南路靠校園圍牆 16 段花台（花崗石矮框 0.45 m、修剪杜鵑，3 月開花，季節照 wzParkSeason；段間 1.2 m、側門前後空 1 m），xs_planters.glb 1.2 萬三角形，導航擋花台；xs_planters（開發 FAIL 3→ALL PASS）、xinsheng、窗景卡、bike_park ALL PASS；CC 從側門往南、往北各拍一張，BB 判。差距表待排：正式門柱圍牆、紅磚紋、望月台停車場取車。 ｜ 【LAWWW 11-10 12:4x】LAWWW2 差距表：紅磚人行道（只有純色，小）、廣場、望月台都有；人行道花台沒有 → 做（圍牆內側 x 15.5～17.8，避開門洞、候車亭，花崗石矮框＋灌木杜鵑，導航擋住）；側門門柱、鐵門、圍牆還是程序化（大，D38 近景）→ 先不做、待排；停車場取車是 DRIVE-PICKUP（系統）。",
+   "next": "【LAWWW 13:4x】BB_255（13:46）：花台 ART_APPROVED；P3：側門正面右邊那台腳踏車疊進花台，停車點往外移 0.5 m（派 LAWWW2 併 XS-GATE-FORMAL）；磚紋等拍。 ｜ 【LAWWW 13:4x】紅磚人行道磚紋（LAWWW2 4ec912641）：Poly Haven CC0 brick_pavement_04 調回 #b77a62，xs_brick_walk 共用材質、世界座標 UV，網格數 238→238；xs_brick_walk（開發 FAIL 4→PASS）、xs_planters、xinsheng ALL PASS；CC 拍側門外白天晚上、BB 判。差距表剩：正式門柱圍牆（派 LAWWW2）、望月台停車場取車（系統）。 ｜ 【LAWWW 11-10 12:5x】LAWWW2 a347731be：新生南路靠校園圍牆 16 段花台（花崗石矮框 0.45 m、修剪杜鵑，3 月開花，季節照 wzParkSeason；段間 1.2 m、側門前後空 1 m），xs_planters.glb 1.2 萬三角形，導航擋花台；xs_planters（開發 FAIL 3→ALL PASS）、xinsheng、窗景卡、bike_park ALL PASS；CC 從側門往南、往北各拍一張，BB 判。差距表待排：正式門柱圍牆、紅磚紋、望月台停車場取車。 ｜ 【LAWWW 11-10 12:4x】LAWWW2 差距表：紅磚人行道（只有純色，小）、廣場、望月台都有；人行道花台沒有 → 做（圍牆內側 x 15.5～17.8，避開門洞、候車亭，花崗石矮框＋灌木杜鵑，導航擋住）；側門門柱、鐵門、圍牆還是程序化（大，D38 近景）→ 先不做、待排；停車場取車是 DRIVE-PICKUP（系統）。",
    "xai": {
     "spec": "USER_WANTS X246（使用者照片，不在 repo）",
     "branch": "claude/second-ai-env-art",
@@ -51811,13 +51811,14 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "sha": "a347731be"
+   "sha": "a347731be",
+   "evidence": "BB_255 ART_APPROVED（D120）側門花台"
   },
   {
    "id": "XS-DOOR-LABELS-1110",
    "title": "新生南路店門標籤括號套括號（「進山嵐書店（書店（兩層））」）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -51829,7 +51830,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 12:4x】LAWWW2 7bedf7d51：xinsheng3d.js 一行，「進山嵐書店（書店）」；xs_door_labels（開發 FAIL 2→ALL PASS）、xinsheng ALL PASS。",
+   "next": "【LAWWW 13:4x】BB_255（13:46）：BB_255 FIXED ｜ 【LAWWW 11-10 12:4x】LAWWW2 7bedf7d51：xinsheng3d.js 一行，「進山嵐書店（書店）」；xs_door_labels（開發 FAIL 2→ALL PASS）、xinsheng ALL PASS。",
    "xai": {
     "spec": "LAWWW2 TODO_SHORTCUTS 盤點",
     "branch": "claude/second-ai-env-art",
@@ -51837,13 +51838,14 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "sha": "7bedf7d51"
+   "sha": "7bedf7d51",
+   "evidence": "BB_255 FIXED"
   },
   {
    "id": "BUG-FAIR-BIKE-BLOCK-1110",
    "title": "騎車到校慶園遊會，學姊攤位自動開演把人放下車，車停在園遊會互動點正中間、演完按不到園遊會",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -51855,7 +51857,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 12:5x】bike3d.js B.sceneParkAt：劇情（busy）放下車時旁邊 1.5 m 有互動點 → 車停最近合法停車處（legalSpot、30 m 內），人不動；bike_unit 加 7b（修前 FAIL、修後 PASS）＋腳踏車 5 支 ALL PASS；請 CC 重跑 X295E_fair_keep2。",
+   "next": "【LAWWW 13:4x】BB_255（13:46）：BB_255 FIXED（車停到合法停車架，CC X295E 重跑） ｜ 【LAWWW 11-10 12:5x】bike3d.js B.sceneParkAt：劇情（busy）放下車時旁邊 1.5 m 有互動點 → 車停最近合法停車處（legalSpot、30 m 內），人不動；bike_unit 加 7b（修前 FAIL、修後 PASS）＋腳踏車 5 支 ALL PASS；請 CC 重跑 X295E_fair_keep2。",
    "xai": {
     "spec": "BB 11-10 12:46（cc-local local_out/X295E_fair_keep2）",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -51863,13 +51865,14 @@
     "receiver": "BB",
     "ack": "SENT"
    },
-   "sha": null
+   "sha": null,
+   "evidence": "BB_255 FIXED（車停到合法停車架，CC X295E 重跑）"
   },
   {
    "id": "BUG-SHANLAN-SIS-STEAL-1110",
    "title": "山嵐學姊那段演完，「看文具」按鈕被「和溫書瑀說話」搶走（她站得比較近）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "Y1S2",
@@ -51881,7 +51884,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 13:0x】學姊站位 (4.15,6.5)→兩張文具桌中間走道 (5.8,6.5)、面向東牆文具架，離「看文具」1.3 m；shanlan_unit ⑪（真的導航：站得住、走得到、看文具 0.6 m 內的點都比較靠近看文具；舊位置 FAIL）。走道 0.9 m 寬，穿模要 CC 截圖看。",
+   "next": "【LAWWW 13:4x】BB_255（13:46）：BB_255 FIXED（學姊在走道、沒穿桌） ｜ 【LAWWW 11-10 13:0x】學姊站位 (4.15,6.5)→兩張文具桌中間走道 (5.8,6.5)、面向東牆文具架，離「看文具」1.3 m；shanlan_unit ⑪（真的導航：站得住、走得到、看文具 0.6 m 內的點都比較靠近看文具；舊位置 FAIL）。走道 0.9 m 寬，穿模要 CC 截圖看。",
    "xai": {
     "spec": "BB 11-10 12:46",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -51889,7 +51892,8 @@
     "receiver": "BB",
     "ack": "SENT"
    },
-   "sha": "87d49641a"
+   "sha": "87d49641a",
+   "evidence": "BB_255 FIXED（學姊在走道、沒穿桌）"
   },
   {
    "id": "XS-GATE-FORMAL-1110",
