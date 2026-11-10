@@ -1,0 +1,352 @@
+{
+ "run": "new_m",
+ "sha": "74da28ca942cbe1e00f033903b3778a9ccaacca1",
+ "zone": "campus",
+ "glb": "campus_admin_glb",
+ "pos": {
+  "x": -20,
+  "z": 0.5,
+  "yaw": 1.5708
+ },
+ "hour": 14.0,
+ "views_def": {
+  "av_west": [
+   [
+    -10,
+    1.7,
+    0.5
+   ],
+   [
+    -90,
+    5,
+    0
+   ]
+  ],
+  "gate_avenue": [
+   [
+    -110,
+    1.7,
+    0.5
+   ],
+   [
+    100,
+    8,
+    0
+   ]
+  ],
+  "admin_front": [
+   [
+    -30,
+    1.7,
+    14
+   ],
+   [
+    -38,
+    6,
+    28
+   ]
+  ],
+  "arts_front": [
+   [
+    -30,
+    1.7,
+    -12
+   ],
+   [
+    -38,
+    6,
+    -28
+   ]
+  ],
+  "hist_front": [
+   [
+    -69,
+    1.7,
+    -8
+   ],
+   [
+    -77,
+    6,
+    -24
+   ]
+  ]
+ },
+ "formal": {
+  "boot_s": 21.1,
+  "zone_s": 9.66,
+  "glb_s": 9.69,
+  "glb_files": [],
+  "glb_kb_total": 0,
+  "mem": {
+   "textures": 197,
+   "geometries": 287,
+   "texCount": 416,
+   "texPixels": 106379931,
+   "texMP": 106.38,
+   "biggest": {
+    "w": 1024,
+    "h": 1024,
+    "name": "map"
+   }
+  },
+  "views": {
+   "av_west": {
+    "calls": 212,
+    "tris": 455954,
+    "frames": 230,
+    "avg": 28.69,
+    "min": 9.99,
+    "low1": 10,
+    "calls_live": 300,
+    "tris_live": 543718,
+    "hour": 14.103,
+    "npcs": 26,
+    "npcsVisible": 26
+   },
+   "gate_avenue": {
+    "calls": 399,
+    "tris": 656691,
+    "frames": 238,
+    "avg": 29.63,
+    "min": 5,
+    "low1": 8,
+    "calls_live": 490,
+    "tris_live": 810148,
+    "hour": 14.18,
+    "npcs": 26,
+    "npcsVisible": 26
+   },
+   "admin_front": {
+    "calls": 152,
+    "tris": 405668,
+    "frames": 388,
+    "avg": 48.4,
+    "min": 20.04,
+    "low1": 26.63,
+    "calls_live": 181,
+    "tris_live": 477682,
+    "hour": 14.256,
+    "npcs": 26,
+    "npcsVisible": 26
+   },
+   "arts_front": {
+    "calls": 360,
+    "tris": 501899,
+    "frames": 324,
+    "avg": 40.33,
+    "min": 19.96,
+    "low1": 19.97,
+    "calls_live": 370,
+    "tris_live": 518203,
+    "hour": 14.332,
+    "npcs": 26,
+    "npcsVisible": 26
+   },
+   "hist_front": {
+    "calls": 311,
+    "tris": 461148,
+    "frames": 361,
+    "avg": 44.94,
+    "min": 14.99,
+    "low1": 19.98,
+    "calls_live": 306,
+    "tris_live": 449320,
+    "hour": 14.407,
+    "npcs": 26,
+    "npcsVisible": 26
+   }
+  }
+ },
+ "nobldg": {
+  "boot_s": 17.6,
+  "zone_s": 10.81,
+  "glb_s": null,
+  "glb_files": [],
+  "glb_kb_total": 0,
+  "mem": {
+   "textures": 145,
+   "geometries": 232,
+   "texCount": 229,
+   "texPixels": 56504475,
+   "texMP": 56.5,
+   "biggest": {
+    "w": 1024,
+    "h": 1024,
+    "name": "map"
+   }
+  },
+  "views": {
+   "av_west": {
+    "calls": 210,
+    "tris": 795592,
+    "frames": 192,
+    "avg": 23.9,
+    "min": 1.94,
+    "low1": 2,
+    "calls_live": 306,
+    "tris_live": 924584,
+    "hour": 14.074,
+    "npcs": 26,
+    "npcsVisible": 25
+   },
+   "gate_avenue": {
+    "calls": 396,
+    "tris": 963567,
+    "frames": 268,
+    "avg": 33.36,
+    "min": 2.07,
+    "low1": 3.46,
+    "calls_live": 369,
+    "tris_live": 1019383,
+    "hour": 14.138,
+    "npcs": 26,
+    "npcsVisible": 25
+   },
+   "admin_front": {
+    "calls": 160,
+    "tris": 775304,
+    "frames": 370,
+    "avg": 45.97,
+    "min": 8.57,
+    "low1": 9.23,
+    "calls_live": 186,
+    "tris_live": 841738,
+    "hour": 14.206,
+    "npcs": 26,
+    "npcsVisible": 25
+   },
+   "arts_front": {
+    "calls": 257,
+    "tris": 794110,
+    "frames": 395,
+    "avg": 49.27,
+    "min": 9.99,
+    "low1": 10,
+    "calls_live": 263,
+    "tris_live": 803742,
+    "hour": 14.274,
+    "npcs": 26,
+    "npcsVisible": 25
+   },
+   "hist_front": {
+    "calls": 218,
+    "tris": 797770,
+    "frames": 395,
+    "avg": 49.27,
+    "min": 8.57,
+    "low1": 8.89,
+    "calls_live": 215,
+    "tris_live": 786302,
+    "hour": 14.343,
+    "npcs": 26,
+    "npcsVisible": 25
+   }
+  }
+ },
+ "table": {
+  "av_west": {
+   "calls": 212,
+   "nobldg_calls": 210,
+   "limit_1.3x": 273.0,
+   "margin": 61.0,
+   "ratio": 1.0095,
+   "tris": 455954,
+   "tris_limit": 420000,
+   "tris_margin": -35954,
+   "fps_avg": 28.69,
+   "fps_min": 9.99,
+   "fps_low1": 10,
+   "nobldg_fps_avg": 23.9,
+   "nobldg_fps_min": 1.94
+  },
+  "gate_avenue": {
+   "calls": 399,
+   "nobldg_calls": 396,
+   "limit_1.3x": 514.8,
+   "margin": 115.8,
+   "ratio": 1.0076,
+   "tris": 656691,
+   "tris_limit": 420000,
+   "tris_margin": -236691,
+   "fps_avg": 29.63,
+   "fps_min": 5,
+   "fps_low1": 8,
+   "nobldg_fps_avg": 33.36,
+   "nobldg_fps_min": 2.07
+  },
+  "admin_front": {
+   "calls": 152,
+   "nobldg_calls": 160,
+   "limit_1.3x": 208.0,
+   "margin": 56.0,
+   "ratio": 0.95,
+   "tris": 405668,
+   "tris_limit": 420000,
+   "tris_margin": 14332,
+   "fps_avg": 48.4,
+   "fps_min": 20.04,
+   "fps_low1": 26.63,
+   "nobldg_fps_avg": 45.97,
+   "nobldg_fps_min": 8.57
+  },
+  "arts_front": {
+   "calls": 360,
+   "nobldg_calls": 257,
+   "limit_1.3x": 334.1,
+   "margin": -25.9,
+   "ratio": 1.4008,
+   "tris": 501899,
+   "tris_limit": 420000,
+   "tris_margin": -81899,
+   "fps_avg": 40.33,
+   "fps_min": 19.96,
+   "fps_low1": 19.97,
+   "nobldg_fps_avg": 49.27,
+   "nobldg_fps_min": 9.99
+  },
+  "hist_front": {
+   "calls": 311,
+   "nobldg_calls": 218,
+   "limit_1.3x": 283.4,
+   "margin": -27.6,
+   "ratio": 1.4266,
+   "tris": 461148,
+   "tris_limit": 420000,
+   "tris_margin": -41148,
+   "fps_avg": 44.94,
+   "fps_min": 14.99,
+   "fps_low1": 19.98,
+   "nobldg_fps_avg": 49.27,
+   "nobldg_fps_min": 8.57
+  },
+  "_mem": {
+   "formal": {
+    "textures": 197,
+    "geometries": 287,
+    "texCount": 416,
+    "texPixels": 106379931,
+    "texMP": 106.38,
+    "biggest": {
+     "w": 1024,
+     "h": 1024,
+     "name": "map"
+    }
+   },
+   "nobldg": {
+    "textures": 145,
+    "geometries": 232,
+    "texCount": 229,
+    "texPixels": 56504475,
+    "texMP": 56.5,
+    "biggest": {
+     "w": 1024,
+     "h": 1024,
+     "name": "map"
+    }
+   },
+   "glb_kb_total": 0,
+   "glb_files": [],
+   "glb_s": 9.69
+  }
+ }
+}
