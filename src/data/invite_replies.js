@@ -1,9 +1,9 @@
 /* 自動產生：python3 tools/invite/build_replies.py（不要手改；改 AA_415 或白名單以後重跑）。
-   來源：docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md @ c71772fbc（docs/handoff/story_import_allow.json，D14-T9／USER_WANTS D37）。句子一字不改。
+   來源：docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md @ 94ab0865e（docs/handoff/story_import_allow.json，D14-T9／USER_WANTS D37）。句子一字不改。
    每一筆：id、n（表上第幾列）、k（acc 答應／resched 改天／decline 婉拒）、stage（表上寫的）、st（可以用的階段 [低,高]，7＝交往中）、tags、cond（條件，src/invites3d.js S.REPLY_COND）、
    lines（她說的話、（…）旁白、{me}祐廷說的；有名字說的外面不加「」，AA-B 11-08）、say（表上原文，照舊有「」）、src（來源）、ex（現有：acc／first／here／plan／rule／partnerSay）、band（現有答應句的 A／R）、
    when（句子說到的時間星期）、at（改天的時間）、sec（可昕 y0／law）、apart（可昕分開以後）、off（不出現的原因）。選句：src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）。*/
-const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md","sha":"c71772fbc","task":"D14-T9","people":{
+const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md","sha":"94ab0865e","task":"D14-T9","people":{
  "heroine_01":[
   {"id":"an1","n":1,"k":"acc","stage":"1","st":[1,2],"tags":["cafe"],"cond":null,"lines":["好啊。我本來就想去。"],"say":"「好啊。我本來就想去。」","src":"現有","ex":"acc","band":"A"},
   {"id":"an2","n":2,"k":"acc","stage":"1","st":[1,1],"tags":["library"],"cond":null,"lines":["我本來就在總圖。二樓靠窗。"],"say":"「我本來就在總圖。二樓靠窗。」","src":"現有（here）","ex":"here","off":"現有（here）：照 INVITE_DATA.people.heroine_01.here 原本的程式"},
@@ -163,7 +163,7 @@ const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變
   {"id":"sis2","n":2,"k":"acc","stage":"1","st":[1,1],"tags":["library"],"cond":"平日 9～17","lines":["好啊，我在總圖三樓。到了跟我說。"],"say":"「好啊，我在總圖三樓。到了跟我說。」","src":"現有（rule）","ex":"rule","off":"現有（rule）：照 INVITE_DATA.people.heroine_05.rule 原本的程式"},
   {"id":"sis3","n":3,"k":"acc","stage":"1","st":[1,1],"tags":[],"cond":null,"lines":["好。我只能待半小時。"],"say":"「好。我只能待半小時。」","src":"新"},
   {"id":"sis4","n":4,"k":"acc","stage":"2","st":[1,2],"tags":["noodle"],"cond":null,"lines":["好啊。"],"say":"「好啊。」","src":"現有","ex":"acc","band":"A"},
-  {"id":"sis5","n":5,"k":"acc","stage":"2","st":[1,2],"tags":["brunch"],"cond":null,"lines":["SUNNY SIDE。好。我九點到。"],"say":"「SUNNY SIDE。好。我九點到。」","src":"現有","ex":"acc","band":"A"},
+  {"id":"sis5","n":5,"k":"acc","stage":"2","st":[1,2],"tags":["brunch"],"cond":null,"lines":["SUNNY SIDE。好。我會準時到。"],"say":"「SUNNY SIDE。好。我會準時到。」","src":"現有","ex":"acc","band":"A"},
   {"id":"sis6","n":6,"k":"acc","stage":"2","st":[2,2],"tags":["library"],"cond":null,"lines":["好。總圖見。"],"say":"「好。總圖見。」","src":"改（BB_123）"},
   {"id":"sis7","n":7,"k":"acc","stage":"2","st":[2,2],"tags":[],"cond":null,"lines":["走吧。"],"say":"「走吧。」","src":"新（取代「三件事」那一句）"},
   {"id":"sis8","n":8,"k":"acc","stage":"3","st":[3,4],"tags":["cafe"],"cond":null,"lines":["今天不看筆記。"],"say":"「今天不看筆記。」","src":"現有","ex":"acc","band":"R"},
@@ -253,8 +253,8 @@ const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變
   {"id":"kx22","n":22,"k":"acc","stage":"交往中","st":[7,7],"tags":["library"],"cond":null,"lines":["首都帝大總圖？好。我睡著的話，叫醒我。"],"say":"「首都帝大總圖？好。我睡著的話，叫醒我。」","src":"改（BB_123）","sec":"law"},
   {"id":"kx23","n":23,"k":"acc","stage":"交往中","st":[7,7],"tags":["noodle"],"cond":null,"lines":["公館燒臘？好。我要點你講了一整年的那盤。"],"say":"「公館燒臘？好。我要點你講了一整年的那盤。」","src":"BB_123","sec":"law"},
   {"id":"kx24","n":24,"k":"acc","stage":"交往中","st":[7,7],"tags":["wenzhou"],"cond":null,"lines":["好。找一家我們都沒進去過的店。"],"say":"「好。找一家我們都沒進去過的店。」","src":"BB_123","sec":"law"},
-  {"id":"kx25","n":25,"k":"acc","stage":"交往中","st":[7,7],"tags":["brunch"],"cond":null,"lines":["SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我十點到。"],"say":"「SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我十點到。」／`來過`「好啊，我先查一下菜單。」","src":"現有","sec":"law","ex":"acc","band":"A"},
-  {"id":"kx25b","n":25,"k":"acc","stage":"交往中","st":[7,7],"tags":["brunch","來過"],"cond":null,"lines":["好啊，我先查一下菜單。"],"say":"「SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我十點到。」／`來過`「好啊，我先查一下菜單。」","src":"現有","sec":"law","ex":"acc","band":"R"},
+  {"id":"kx25","n":25,"k":"acc","stage":"交往中","st":[7,7],"tags":["brunch"],"cond":null,"lines":["SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。"],"say":"「SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。」／`來過`「好啊，我先查一下菜單。」","src":"現有","sec":"law","ex":"acc","band":"A"},
+  {"id":"kx25b","n":25,"k":"acc","stage":"交往中","st":[7,7],"tags":["brunch","來過"],"cond":null,"lines":["好啊，我先查一下菜單。"],"say":"「SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。」／`來過`「好啊，我先查一下菜單。」","src":"現有","sec":"law","ex":"acc","band":"R"},
   {"id":"kx26","n":26,"k":"acc","stage":"交往中","st":[7,7],"tags":["teahouse"],"cond":null,"lines":["一盞。安靜的地方。……我可能一個小時都不講話喔。"],"say":"「一盞。安靜的地方。……我可能一個小時都不講話喔。」","src":"現有","sec":"law","ex":"acc","band":"R"},
   {"id":"kx27","n":27,"k":"acc","stage":"交往中","st":[7,7],"tags":["考試週"],"cond":null,"lines":["考試週。……好。我帶考古題，我們互考。"],"say":"「考試週。……好。我帶考古題，我們互考。」","src":"BB_123","sec":"law"},
   {"id":"kx28","n":28,"k":"acc","stage":"交往中","st":[7,7],"tags":["開車"],"cond":null,"lines":["好。我管音樂，你管方向。"],"say":"「好。我管音樂，你管方向。」","src":"改（BB_123）","sec":"law"},

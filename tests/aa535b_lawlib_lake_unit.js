@@ -4,7 +4,7 @@
 //   學姊筆試前約映月湖 → 婉拒；以安、語彤校外約會走完三個點 → enough。
 //   第 4 節：語彤慢讀的 walk 看 H8（滇香小館）；可昕 Pasta 118、茶席的 acc，Café、總圖、麵店、溫州街的 firstAt；沛珊大三起約慢讀撞到書店、課輔班 → 下一個她有空的早上 10:00。
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
-const ROOT=path.resolve(__dirname,'..'), GIT=process.env.SPEC_GIT_DIR||ROOT, SPEC_SHA='b3e5bca3b', SPEC_PATH='docs/story_planning/AA_535b_約她選項_第二份_缺的台詞_法圖_映月湖.md';
+const ROOT=path.resolve(__dirname,'..'), GIT=process.env.SPEC_GIT_DIR||ROOT, SPEC_SHA='94ab0865e'   /* 11-10 AA_731：語彤映月湖答應句不寫時間（b3e5bca3b 在白名單 history）*/, SPEC_PATH='docs/story_planning/AA_535b_約她選項_第二份_缺的台詞_法圖_映月湖.md';
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:'?noriders'};
 const NAMES=/^(ROM|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INVITE_REPLIES|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|CG_REGISTRY|NEEDED_MSGS|MSG|MSG_POOL|MSG2_POOL|MSG_KX_Y0|HOMETOWN_LINES|HV|DATE|DATE_DATA|DATE_LINES|CONFESS_LINES|TERMEND|TERMEND_LINES|VAC|VAC_DATA|FREE_TRIPS|TRIP|ENCOUNTERS|ENC_WALK|ENC|DORM_ROOM|SISG|SLOWREAD)$/;

@@ -2590,9 +2590,9 @@
   },
   {
    "path": "docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md",
-   "sha": "c71772fbc",
+   "sha": "94ab0865e",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：第 1 節以安的表；e1e361335：AA_579 學姊改稿第一批（AA 2026-11-02 09:37 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 5 節學姊的表（22 句）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS）：第 1 節以安新增三句答應（新1～新3）；166dc131a：AA 2026-11-02 10:18 回 AA_579 第 7 節第 2 點——學姊 sis4（第 2 階約麵店）「好啊。這次你選地方。」→「好啊。」（AA_415:246；地點已經選好的邀約不問地方）；c71772fbc：AA-B 11-07 03:30 語彤 5 句照新背景改（使用者實玩 PLAYTEST-1107，D109）",
+   "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：第 1 節以安的表；e1e361335：AA_579 學姊改稿第一批（AA 2026-11-02 09:37 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 5 節學姊的表（22 句）；759e5c000：AA_580 以安改稿第二批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS）：第 1 節以安新增三句答應（新1～新3）；166dc131a：AA 2026-11-02 10:18 回 AA_579 第 7 節第 2 點——學姊 sis4（第 2 階約麵店）「好啊。這次你選地方。」→「好啊。」（AA_415:246；地點已經選好的邀約不問地方）；c71772fbc：AA-B 11-07 03:30 語彤 5 句照新背景改（使用者實玩 PLAYTEST-1107，D109）；94ab0865e（AA-B 11-10 AA_731 答應句不寫時間，BB-B BUG-INV-ACC-TIME-1110）",
    "task": "D14-T9",
    "kind": "text",
    "note": "tools/invite/build_replies.py → src/data/invite_replies.js（INVITE_REPLIES）；選句 src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）",
@@ -2616,6 +2616,10 @@
     {
      "sha": "166dc131a",
      "approvedBy": "（11-07 前的版本；c71772fbc 取代：語彤 5 句）"
+    },
+    {
+     "sha": "c71772fbc",
+     "note": "被 94ab0865e 取代（AA-B 11-10 00:58 AA_731：答應句不寫幾點、週末、早上，BUG-INV-ACC-TIME-1110）"
     }
    ]
   },
@@ -3971,11 +3975,17 @@
   },
   {
    "path": "docs/story_planning/AA_535b_約她選項_第二份_缺的台詞_法圖_映月湖.md",
-   "sha": "b3e5bca3b",
+   "sha": "94ab0865e",
    "status": "approved",
-   "approvedBy": "AA-B 定稿（D109、D111；第②級；INVITE-OPTS-1030 第二份；b3e5bca3b 加第 4 節：回 LAWWW-B 實作問答、更正語彤慢讀的 walk、補可昕六句、沛珊慢讀撞到書店課輔班）",
+   "approvedBy": "AA-B 定稿（D109、D111；第②級；INVITE-OPTS-1030 第二份；b3e5bca3b 加第 4 節：回 LAWWW-B 實作問答、更正語彤慢讀的 walk、補可昕六句、沛珊慢讀撞到書店課輔班）；94ab0865e（AA-B 11-10 AA_731 答應句不寫時間，BB-B BUG-INV-ACC-TIME-1110）",
    "task": "INVITE-OPTS-1030",
-   "note": "子代理登記（LAWWW-B 的 invite-menu，10-30）：1-1 以安、語彤、可昕缺的 meet、1-2 可昕的 bye（src/data/rel_lines.js 尾巴）；1-3 以安、語彤校外 depart／enough／leaveEarly／noPair（src/date3d.js 的 S.EXTRA_LINES：date_lines.js 是匯入工具產生的，不手改）；2-1 法圖、2-2 映月湖（src/data/invites.js 尾巴、rel_lines.js meet.lawlib／meet.lake）；第 4 節（b3e5bca3b）：4-1 語彤慢讀的 walk 看 118 巷 H8（滇香小館）、4-2 可昕 Pasta 118／茶席的 acc 與 Café／總圖／麵店／溫州街的 firstAt（INVITE_DATA.people.kexin）、4-3 沛珊大三起約慢讀撞到書店／課輔班改到下一個她有空的早上 10:00（invites.js 沛珊的 rule）。台詞一字照稿；tests/aa535b_lawlib_lake_unit.js 逐句對稿。"
+   "note": "子代理登記（LAWWW-B 的 invite-menu，10-30）：1-1 以安、語彤、可昕缺的 meet、1-2 可昕的 bye（src/data/rel_lines.js 尾巴）；1-3 以安、語彤校外 depart／enough／leaveEarly／noPair（src/date3d.js 的 S.EXTRA_LINES：date_lines.js 是匯入工具產生的，不手改）；2-1 法圖、2-2 映月湖（src/data/invites.js 尾巴、rel_lines.js meet.lawlib／meet.lake）；第 4 節（b3e5bca3b）：4-1 語彤慢讀的 walk 看 118 巷 H8（滇香小館）、4-2 可昕 Pasta 118／茶席的 acc 與 Café／總圖／麵店／溫州街的 firstAt（INVITE_DATA.people.kexin）、4-3 沛珊大三起約慢讀撞到書店／課輔班改到下一個她有空的早上 10:00（invites.js 沛珊的 rule）。台詞一字照稿；tests/aa535b_lawlib_lake_unit.js 逐句對稿。",
+   "history": [
+    {
+     "sha": "b3e5bca3b",
+     "note": "被 94ab0865e 取代（AA-B 11-10 00:58 AA_731：答應句不寫幾點、週末、早上，BUG-INV-ACC-TIME-1110）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_531_D99美國交換_人在美國還被揪118午餐_在臺灣的伴侶四個月沒聯絡_上課期末.md",
@@ -4475,12 +4485,18 @@
   },
   {
    "path": "docs/story_planning/AA_652_afar與Daybreak店內台詞.md",
-   "sha": "89b4367ca",
+   "sha": "94ab0865e",
    "status": "approved",
-   "approvedBy": "AA（D109）",
+   "approvedBy": "AA（D109）；94ab0865e（AA-B 11-10 AA_731 答應句不寫時間，BB-B BUG-INV-ACC-TIME-1110）",
    "task": "GG-SHOPS2-1104",
    "kind": "text",
-   "note": "afar café、Daybreak 店內台詞：進門（一天一次）、點餐（含錢不夠）、看甜點櫃／書架／菜單、照位子的坐下句、打烊、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；gg_shops2_1104_unit 逐字對照；同一份內容也在 4a98d57f6）；89b4367ca 補 afar 打烊以後、afar／Daybreak 颱風假門口句"
+   "note": "afar café、Daybreak 店內台詞：進門（一天一次）、點餐（含錢不夠）、看甜點櫃／書架／菜單、照位子的坐下句、打烊、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；gg_shops2_1104_unit 逐字對照；同一份內容也在 4a98d57f6）；89b4367ca 補 afar 打烊以後、afar／Daybreak 颱風假門口句",
+   "history": [
+    {
+     "sha": "89b4367ca",
+     "note": "被 94ab0865e 取代（AA-B 11-10 00:58 AA_731：答應句不寫幾點、週末、早上，BUG-INV-ACC-TIME-1110）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_653_回LAWWW_公館三間室內缺的台詞_青木外帶與讀書.md",
@@ -4979,12 +4995,18 @@
   },
   {
    "path": "docs/story_planning/AA_721_l118_invite_acc.json",
-   "sha": "b782e2c08",
+   "sha": "94ab0865e",
    "status": "approved",
-   "approvedBy": "AA-B D109（11-07 09:27「INVITE-PLACES 第二批」）",
+   "approvedBy": "AA-B D109（11-07 09:27「INVITE-PLACES 第二批」）；94ab0865e（AA-B 11-10 AA_731 答應句不寫時間，BB-B BUG-INV-ACC-TIME-1110）",
    "task": "INVITE-PLACES-1107",
    "kind": "json",
-   "note": "118 巷七家店 × 七位 acc／firstAt；可昕不去好家自助餐（no）；tools/story/import_place_acc.py → src/data/invite_place_lines.js"
+   "note": "118 巷七家店 × 七位 acc／firstAt；可昕不去好家自助餐（no）；tools/story/import_place_acc.py → src/data/invite_place_lines.js",
+   "history": [
+    {
+     "sha": "b782e2c08",
+     "note": "被 94ab0865e 取代（AA-B 11-10 00:58 AA_731：答應句不寫幾點、週末、早上，BUG-INV-ACC-TIME-1110）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_722_study_unlock_slots.json",
@@ -5015,12 +5037,18 @@
   },
   {
    "path": "docs/story_planning/AA_725_轉角唱片店內台詞.md",
-   "sha": "bf5c3e6c6",
+   "sha": "94ab0865e",
    "status": "approved",
-   "approvedBy": "AA（D109）",
+   "approvedBy": "AA（D109）；94ab0865e（AA-B 11-10 AA_731 答應句不寫時間，BB-B BUG-INV-ACC-TIME-1110）",
    "task": "CORNER-IN-1107",
    "kind": "text",
-   "note": "轉角唱片店內台詞：進門（一天一次）、翻唱片（七箱，拿去試聽／買這張／放回去）、試聽（開始：高腳椅／站著／同一天第二次，聽的時候六種，結束）、買一張（一百五、兩百五、買完兩句、錢不夠、第一次在櫃台問）、看音響、高腳椅／沙發的坐下句、21:00 打烊（bf5c3e6c6：照 AA_700 店員「我們今天要打烊了。」一句、不加旁白）、木門、颱風假、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；corner_shop_unit 逐字對照）"
+   "note": "轉角唱片店內台詞：進門（一天一次）、翻唱片（七箱，拿去試聽／買這張／放回去）、試聽（開始：高腳椅／站著／同一天第二次，聽的時候六種，結束）、買一張（一百五、兩百五、買完兩句、錢不夠、第一次在櫃台問）、看音響、高腳椅／沙發的坐下句、21:00 打烊（bf5c3e6c6：照 AA_700 店員「我們今天要打烊了。」一句、不加旁白）、木門、颱風假、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；corner_shop_unit 逐字對照）",
+   "history": [
+    {
+     "sha": "bf5c3e6c6",
+     "note": "被 94ab0865e 取代（AA-B 11-10 00:58 AA_731：答應句不寫幾點、週末、早上，BUG-INV-ACC-TIME-1110）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_667_交換路線_同時交往的另一位_出發前回國當天.md",
@@ -5126,6 +5154,15 @@
    "task": "BUG-GREET-NOCLASS-1110",
    "kind": "json",
    "note": "招呼只在上課日說的標記＋週末、放假的招呼（使用者 11-10「禮拜天遇到沈以安 他問我今天還有課嗎」）；tools/story/import_greet_classday.py → src/data/greet_classday.js"
+  },
+  {
+   "path": "docs/story_planning/AA_731_invite_acc_no_time.json",
+   "sha": "94ab0865e",
+   "status": "approved",
+   "approvedBy": "AA-B D109（11-10 00:58，BB_255 BUG-INV-ACC-TIME-1110）",
+   "task": "BUG-INV-ACC-TIME-1110",
+   "kind": "json",
+   "note": "10 句答應句 old→new（invites.js 手寫的照 rows 換；invite_replies、invite_place_lines 重新匯入）"
   }
  ]
 }
