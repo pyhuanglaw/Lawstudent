@@ -24,6 +24,14 @@ F24_capgap | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | probe | docs/story_plann
 F24_v7 | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
 F24_live | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
 F24_live_pos | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
+# ===== F24 之後：POOL 進場黑幕新舊同一天各 3 次（BB 18:10 第 4 項；r1 單次新 6.02／舊 4.50 秒不能下結論）、新功能 r3（亮度、坐下的檢查修好）=====
+POOL_ent_new1 | 2c37122b682225cbf5ec82e84d3746a43adb12c8 | probe | docs/story_planning/test_tools/cc/cc_pool_swim_probe.py | index.html | 12 | CASES=ENTRY;DAY=2025-11-01
+POOL_ent_old1 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_pool_swim_probe.py | index.html | 8 | BASE=1;DAY=2025-11-01
+POOL_ent_new2 | 2c37122b682225cbf5ec82e84d3746a43adb12c8 | probe | docs/story_planning/test_tools/cc/cc_pool_swim_probe.py | index.html | 12 | CASES=ENTRY;DAY=2025-11-01
+POOL_ent_old2 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_pool_swim_probe.py | index.html | 8 | BASE=1;DAY=2025-11-01
+POOL_ent_new3 | 2c37122b682225cbf5ec82e84d3746a43adb12c8 | probe | docs/story_planning/test_tools/cc/cc_pool_swim_probe.py | index.html | 12 | CASES=ENTRY;DAY=2025-11-01
+POOL_ent_old3 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_pool_swim_probe.py | index.html | 8 | BASE=1;DAY=2025-11-01
+NF_r3 | 05a715eaddcb6ad0cc7c838cad3cb5b33fdca205 | probe | docs/story_planning/test_tools/cc/cc_newfeat_probe.py | index.html | 30 | CASES=MOKU,LOUNGE
 # ===== LAWWW-B 11-10 03:1x（使用者：「其他 AI 不會工作 電腦測試繼續跑」、選擇題「我來排、我來判」——BB、CC 不在，LAWWW-B 排、LAWWW-B 代判）=====
 #   這一版把已經跑完的 1000 多行拿掉（結果都在 claude/cc-local 的 local_out/；runner 照 ID@SHA#RERUN 看 meta.json 判斷跑過沒，拿掉不影響）。
 #   舊的整份佇列（CC-B 交班時）＝claude/cc-testing 31d4ce230（blob ade40ce47），要查舊項目看那一份。

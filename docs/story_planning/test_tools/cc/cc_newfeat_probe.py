@@ -29,9 +29,17 @@ SAVE = os.path.join(HERE, 'fixtures', 'user_saves_1107', 'fatiao3d_save_day46.js
 USF = "({EXCHANGE_ROUTE:'US',EXCH_RULE:1,US_DEPARTED:true,US_ARRIVED:true,US_ARRIVED_DAY:STORY.dayOfKey('2028-08-02'),US1:'together',Y4_PATH:'bar',Y4_PATH_DAY:STORY.dayOfKey('2028-06-08')})"
 
 
+LUMJS = "(u=>new Promise(res=>{ const im=new Image(); im.onload=()=>{ const k=document.createElement('canvas'); k.width=64; k.height=36; const g=k.getContext('2d'); g.drawImage(im,0,0,64,36); const d=g.getImageData(0,0,64,36).data; let s=0; for(let i=0;i<d.length;i+=4) s+=0.2126*d[i]+0.7152*d[i+1]+0.0722*d[i+2]; res(+(s/(d.length/4)).toFixed(1)); }; im.onerror=()=>res(-1); im.src=u; }))"
+
+
 async def shot(pg, name):
-    await pg.screenshot(path=os.path.join(OUT, 'nf_%s.png' % name)); lum = await pg.evaluate(LUM)
+    import base64
+    b = await pg.screenshot(path=os.path.join(OUT, 'nf_%s.png' % name))   # r3：亮度用截圖算（r2 讀 WebGL canvas，PC 上 preserveDrawingBuffer=false 永遠 0）
+    lum = await pg.evaluate(LUMJS, 'data:image/png;base64,' + base64.b64encode(b).decode())
     R.check('[黑畫面] %s 不是黑畫面（平均亮度 %.1f）' % (name, lum), lum >= 12, str(lum))
+
+
+SEATSEEN = []
 
 
 async def play(pg, cdp, tag, pick=None, max_s=60):
@@ -40,6 +48,7 @@ async def play(pg, cdp, tag, pick=None, max_s=60):
     while time.time() - t0 < max_s:
         s = await L.state(pg)
         if s['choices']:
+            SEATSEEN.append(await pg.evaluate("!!GAME.E.player.seat"))   # r3：選單出現時坐著沒（演完會自己起身）
             o = await pe.opts(pg); k = pick(o) if pick else 0; picked.append(o[k]['t'] if k < len(o) else None)
             await pe.choose(pg, cdp, o[k]['t'], True); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(400); continue
@@ -49,6 +58,7 @@ async def play(pg, cdp, tag, pick=None, max_s=60):
 
 
 async def use(pg, cdp, it, tag, pick=None):
+    SEATSEEN.clear()
     await L.go_to(pg, cdp, R, it['x'], it['z'], min(0.9, it['r'] * 0.8), '%s 走到「%s」' % (tag, it['label']), max_s=120, lv=it['lv'])
     await pg.wait_for_timeout(600); s = await L.state(pg)
     if not s['interact']: R.note('%s「%s」旁邊沒有按鈕：%s' % (tag, it['label'], J(s))); return None
@@ -117,7 +127,7 @@ async def main():
                     if R.check('%s 有「坐吧檯旁邊」' % tag, bool(bar), J(cnt['labels'])):
                         await use(pg, cdp, bar, tag, pick=lambda o: next((i for i, x in enumerate(o) if '起身' not in x['t']), 0))
                         me = await pg.evaluate(ME); await shot(pg, 'moku_2_bar')
-                        R.check('%s 坐得下吧檯旁邊' % tag, me['seat'], J(me))
+                        R.check('%s 坐得下吧檯旁邊（選單出現時 E.player.seat）' % tag, any(SEATSEEN), J({'seatSeen': SEATSEEN, 'after': me}))
                         await stand(pg, cdp, tag)
                     await leave(pg, cdp, tag)
                 if case == 'CLUB':
@@ -181,7 +191,7 @@ async def main():
                     if R.check('%s 自習室座位還在（study）' % tag, bool(st), J(its)[:400]):
                         await use(pg, cdp, st, tag, pick=lambda o: next((i for i, x in enumerate(o) if '讀書' in x['t']), 0))
                         me = await pg.evaluate(ME); await shot(pg, 'lounge_2_study')
-                        R.check('%s 交誼廳關門時自習室照常坐得下' % tag, me['seat'], J(me)); await stand(pg, cdp, tag)
+                        R.check('%s 交誼廳關門時自習室照常坐得下（選單出現時 E.player.seat）' % tag, any(SEATSEEN), J({'seatSeen': SEATSEEN, 'after': me})); await stand(pg, cdp, tag)
                     await leave(pg, cdp, tag)
             except Exception as e:
                 R.check('%s 沒有中斷' % tag, False, repr(e)[:300])
