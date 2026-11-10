@@ -1376,3 +1376,11 @@
 [09:47:16] [res] cpu=17% mem=44% (13.9/31.4 GB) chrome_testing=9  START WAKE_old
 [09:48:27] 正在跑：NOASK_faf1（已跑 42 分／上限 240 分）、SOCX_8677_date_h5（已跑 25 分／上限 90 分）、WAKE_old（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [09:49:40] [res] cpu=0% mem=45% (14.3/31.4 GB) chrome_testing=9  END WAKE_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       49673de8e..373e01539  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:49:46] ==== END   WAKE_old  exit=1  147s   ====
+[09:49:50] memory 46% before starting TEA2_old (2 running)
+[09:49:50] ==== START TEA2_old  (probe @ 2d58e8a5209ae061784c20f14dd5de5819b562e6) ====
+[09:49:53] [res] cpu=28% mem=46% (14.5/31.4 GB) chrome_testing=9  START TEA2_old
+[09:51:40] [res] cpu=68% mem=50% (15.8/31.4 GB) chrome_testing=9  END TEA2_old
