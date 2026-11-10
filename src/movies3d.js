@@ -105,6 +105,9 @@ const MOVIES=(function(){
   S.drawPoster=function(img,title){ const c=document.createElement('canvas'); c.width=512; c.height=768; const x=c.getContext('2d'); if(!x) return null; x.drawImage(img,0,0,512,768);
     if(title){ let fs=64; x.textAlign='center'; x.textBaseline='middle'; const font=s=>'bold '+s+'px "Noto Serif TC","Noto Sans TC","PingFang TC","Microsoft JhengHei",serif';
       x.font=font(fs); while(fs>28&&x.measureText(title).width>460){ fs-=4; x.font=font(fs); }
+      /* 淺色底的海報白字看不見（BB 11-10 19:15 P2，cc-testing shots/poster_all72.jpg：m2801b、m2809b、m3007b、m2611a、m2509b、m2601a）：
+         先畫深色描邊（3 px 寬的外框＝lineWidth 6，圓角）＋陰影，再填字；72 張一樣處理，不一張一張調 */
+      x.lineJoin='round'; x.miterLimit=2; x.shadowColor='rgba(0,0,0,0.6)'; x.shadowBlur=8; x.lineWidth=Math.max(4,Math.round(fs/10)); x.strokeStyle='rgba(0,0,0,0.72)'; if(x.strokeText) x.strokeText(title,256,96);
       x.shadowColor='rgba(0,0,0,0.75)'; x.shadowBlur=10; x.fillStyle='#fbf6ea'; x.fillText(title,256,96); }
     return c; };
   S.posterMesh=function(id,w,h,lit){ const url=S.posterUrl(id), f=S.film(id); if(!url||!canDraw()) return null;
