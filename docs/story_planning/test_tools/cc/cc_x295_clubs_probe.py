@@ -129,7 +129,7 @@ async def place_start(pg, cdp, tag, aid, rain):
             pt = {'x': sx, 'z': sz, 'lv': slv} if ok else await pg.evaluate(START_JS + '(%s)' % J(tg))
         else:
             pt = await pg.evaluate(START_JS + '(%s)' % J(tg))
-        if not R.check('%s 目標附近有站得住的起點' % tag, bool(pt), J(tg)): return None
+        if not R.check('%s 目標附近有站得住的起點' % tag, bool(pt), J(pt or tg)): return None
         snap = json.loads(await pg.evaluate("JSON.stringify(GAME.snapshot())"))
         snap['pos'] = {'x': pt['x'], 'z': pt['z'], 'yaw': 0, 'lv': pt['lv']}
         R.setup('%s 同一份存檔再讀一次，人站到 (%s, %s, lv %s)（離互動點 %.1f m；原本入口離 %.1f m、lv %s）' % (tag, pt['x'], pt['z'], pt['lv'], math.hypot(tg['x'] - pt['x'], tg['z'] - pt['z']), far, s['lv']))
@@ -145,7 +145,7 @@ async def play_session(pg, cdp, tag, aid, rain, picks):
     c = CLUB[aid]; zone = 'gym' if rain else c['zone']
     tg = await place_start(pg, cdp, tag, aid, rain)
     if not tg: return None
-    s = await st(pg)
+    s = await st(pg); fb0 = s['fb']
     R.check('%s 開始時在 %s（天氣 %s）' % (tag, zone, s['weather']), s['zone'] == zone, J({k: s[k] for k in ('zone', 'x', 'z', 'lv', 'hour', 'weather')}))
     near = 0.5 if c['kind'] == 'seat' else max(0.4, tg['r'] * 0.5)
     await L.go_to(pg, cdp, R, tg['x'], tg['z'], near, '%s 走到互動點' % tag, max_s=360, lv=tg['lv'])
@@ -203,7 +203,7 @@ async def play_session(pg, cdp, tag, aid, rain, picks):
     log['info'] = await pg.evaluate(INFO_JS + '(%s)' % J(aid)); log['end'] = await st(pg)
     R.note('%s 結束：%s' % (tag, J(log['info'])))
     R.check('%s 選單有「%s」並參加了' % (tag, c['join']), bool(log['join']), J(log['join']))
-    R.check('%s 沒有用到自動走路的備援（walkFallbacks＝0）' % tag, log['end']['fb'] == 0, str(log['end']['fb']))
+    R.check('%s 沒有用到自動走路的備援（walkFallbacks 沒有增加）' % tag, log['end']['fb'] == fb0, '%s → %s' % (fb0, log['end']['fb']))
     return log
 
 
