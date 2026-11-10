@@ -64,6 +64,9 @@ X295B_old | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_planni
 # X295 clubs（社課入社單；雲端 8c050804c 六段 PASS、later 第 5、6 週 PASS、第 7 週雲端還在跑）：新 8c050804c／改前 10df264ed（沒有 LATE_JOIN，預期 FAIL）
 X295C_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_x295_clubs_probe.py | index.html | 120 | TAG=new
 X295C_old | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_planning/test_tools/cc/cc_x295_clubs_probe.py | index.html | 60 | TAG=old
+# X295 events（迎新派對 9/12、捐血 10/14→10/15、學生會電影夜 11/6、園遊會 11/15；雲端改後四段分次 PASS，fair 選單判斷修正後沒重跑）：新 8c050804c／改前 10df264ed（四個 id 都沒有，預期 FAIL）
+X295E_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 120 | TAG=new
+X295E_old | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 60 | TAG=old
 # GG-DOOR-CAMS-1104 ②③（BB 10:23：X295B 後面）：cc_gg_int_probe art 重拍青木、頁間門口（改前 fe4d893ac）；椰影大道樹冠網點（鏡頭距離 1.8 卡進樹冠）；花攤清單打開時的截圖 d8b669175 對 de1f25768（看左半邊網點）
 GGDC_art_new | d8b669175bcf363974b401e1eed3d6709f2b0949 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 20 | CASES=art;CC_HEADLESS=0
 GGDC_art_old | fe4d893acdb08eb93f93b688380bd0700ff5ad48 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 20 | CASES=art;CC_HEADLESS=0
