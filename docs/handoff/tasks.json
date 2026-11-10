@@ -53086,7 +53086,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "11-10 23:2x：背景子代理（worktree）在匯朋友版五個學期＋芷若告白，基準 a5651ccc7；回來的那個回合合併、跑測試、push（D148 ③）。來源 SHA：Y1S1 20145308e、Y1S2 9665a9075、Y2S1 20145308e、Y2S2 fc0cafa27、Y3S1 35a39a54e、芷若告白 2cb84d6df；Y3S2／Y4S1 e232327db BB 在看",
+   "next": "朋友版七個學期 72 頓（AA_749 @5ffd725b8）已合併 7c56e3cc8，termend_friend_1110_unit 等 10 支 ALL PASS，瀏覽器沒跑（BB 排）。還沒做：芷若告白（AA_748：順序反過來、地點 2:30 AM 不走路、inviteHeart、匯入工具讀 HEART；先問 AA 用哪個 SHA、店裡有沒有客人）；沛珊等 X327；多人桌照舊 POOL；可昕白名單還在 898820f8b（企劃線 5932e4681 有四處修正待重匯）。等 AA 回五題（KX_KHH 補記、學姊大三上那句、七個鉤子）",
    "xai": {
     "spec": "X324、BB_314",
     "branch": "claude/confident-ritchie-8rwh7t",
