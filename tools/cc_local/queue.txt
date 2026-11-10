@@ -56,6 +56,10 @@ MT4_old_cd | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_plann
 # 汀州路第 3 版（BB 21:59）：三間招牌，和參考圖＋第 2 版並排
 TZ3_signs | 24b4c2fb483a623fb42e6c0d03040548254a3237 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=SHOTS;HOURS=14,20.5;V2=1;SHOPS3=1
 TZ3_signs_v2 | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=SHOTS;HOURS=14,20.5;V2=1;SHOPS3=1
+# BB 22:05：汀州路快速前往／路人、溫州街快速前往的回歸（5e6f4990c）
+TZQ_ggnav | 5e6f4990ce37fb9b1809d056eaa64c8024476948 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+TZQ_zone | 5e6f4990ce37fb9b1809d056eaa64c8024476948 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+TZQ_reach | 5e6f4990ce37fb9b1809d056eaa64c8024476948 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
 ARCAFTER_base_b | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=ARC_AXDONE
 SHIFT_IMM_r6_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 20 | TAG=imm6_new;IMM=1;CASES=B,F
 SHIFT_IMM_r6_old | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 20 | TAG=imm6_old;IMM=1;CASES=B,F
