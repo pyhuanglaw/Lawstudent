@@ -7228,6 +7228,20 @@
    "noDirectIntegrate": true,
    "note": "23 處分三類：已照照片重做（普通、博思、體育館、總圖、望月台）、差很多建議排（晨思鐘 A、行政大樓 A、文學院／校史館 B…）、不用改。建議順序：晨思鐘鐘架 → campus_hall 三棟改外牆（行政紅磚、文學院校史館土黃十三溝）→ 男一舍、共同、映月湖。",
    "next": "等回覆"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "NTU-REF-1110 ① 晨思鐘改成無頂金屬鐘架（X223）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/ntu_ref_bell_1110/（README、ntu_ref_bell_1110.patch、campus_bell_seethru_unit.js、regression.log、bell_before_after.jpg）"
+   ],
+   "state": "MODEL_READY，待整合；BB 判（第 1 版）",
+   "noDirectIntegrate": false,
+   "note": "campus_bell.py：瓦頂鐘亭 → 深古銅鋼管鐘架（一道圓環、四道拱肋，D136 不照抄紅色／兩道環）；柱腳在原位，導航不用改。測試 ③ 開發 FAIL → ALL PASS；回歸 36 支過。",
+   "next": "② campus_hall 三棟外牆（做好了，跑測試中）"
   }
  ]
 }
