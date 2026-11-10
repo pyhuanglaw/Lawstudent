@@ -1,0 +1,26 @@
+{
+  "rerun": "",
+  "id": "LW2_FN_VIEW",
+  "sha": "2a7edffd52730b9410533f7c1a503b83e288d28c",
+  "kind": "blender",
+  "script": "tools/blender/env_second/flower_notes_view.py",
+  "env": "SCRIPT_FROM=lawww2;XARGS=--out {out}",
+  "machine": "MSI",
+  "start": "2026-11-11T07:10:44",
+  "end": "2026-11-11T07:12:38",
+  "seconds": 114,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8800/index.html",
+  "blender_threads": "14",
+  "res_peak": {
+    "cpu": 21,
+    "mem": 38,
+    "used_gb": 12.1,
+    "chrome_testing": 0
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false
+}
