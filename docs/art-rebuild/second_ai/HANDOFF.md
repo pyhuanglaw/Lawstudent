@@ -1,7 +1,13 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-10 22:3x UTC）
+## 交接（最新｜帳號 A｜2026-11-10 22:5x UTC）
+- **Blender 慢的工作排到使用者的電腦**（X331，ROLE_LAWWW2 1.0，接班必讀）：超過幾分鐘的算圖、烘焙不要在雲端算。佇列列傳給 CC。**現在排著兩項**（22:4x 傳給 CC，還沒回）：`LW2_FN_VIEW`（花序室內六張，`tools/blender/env_second/flower_notes_view.py`）、`LW2_TZ_PREV`（汀州路十張，`tingzhou_preview.py`）；腳本在這個分支 285963bc6、模型用 dev 2a7edffd5。這兩支沒在 Windows 跑過，失敗的話看 CC 給的 run.log。結果在 `claude/cc-local` 的 `docs/story_planning/CC/local_out/<ID>/`。
+- **汀州路機車**（使用者：「長得幾乎一樣莫名其妙」）：`wip/tingzhou_1110/tingzhou_v3b_parking.patch`（525dc11eb）已交，一群一群停、有空位、有腳踏車。BB 收回了街景的 ART_APPROVED，等 CC 重拍。如果重拍還是同一款：看 `E3.zone.tzScooterGLB`（undefined＝正式機車模型沒載入）。
+- **夜市**：使用者回了四題（配置照方案、背景攤只寫賣的東西、公館那一側也擺幾攤、各攤時間不一樣），已補進 `proposals/night_market_1110.md` 6b（公館三攤的提案、逐攤時間表）。**仍然沒有授權實作**，她會再給十張攤位參考圖。
+- **花序**：LAWWW 看了 A 件——**花是小球，第 2 版一定要換**（葉片卡／花瓣模型，玫瑰、繡球、櫻枝要認得出來；`tools/blender/plants.py` 有葉片卡的做法），冷藏櫃、永生花玻璃罩、包裝紙捲、收銀螢幕照參考圖補；二樓的決定他同意。G09 放什麼他在問使用者。
+
+## 交接（上一則｜帳號 A｜2026-11-10 22:3x UTC）
 - **今天交出去、等整合／CC 拍／BB 判的**（outbox 都登了）：
   - 汀州路第 3 版（6c560d699，三間招牌）——LAWWW 已整合。
   - 花序 A 件（033f083db，室內）——LAWWW 已整合（dev 2a7edffd5）。
