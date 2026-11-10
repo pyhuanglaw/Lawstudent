@@ -471,3 +471,12 @@
 [00:30:18] [res] cpu=20% mem=48% (16.0/31.4 GB) chrome_testing=9  START SHIFT_IMM_r4_old
 [00:31:59] 正在跑：X199_ANROUTE_fix（已跑 6 分／上限 75 分）、SHIFT_IMM_r4_new（已跑 3 分／上限 45 分）、SHIFT_IMM_r4_old（已跑 1 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
 [00:36:40] [res] cpu=14% mem=51% (16.1/31.4 GB) chrome_testing=10  END X199_ANROUTE_fix
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5704f6ac1..b397ecf1d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:36:57] ==== END   X199_ANROUTE_fix  exit=1  659s   ====
+[00:36:59] 正在跑：SHIFT_IMM_r4_new（已跑 8 分／上限 45 分）、SHIFT_IMM_r4_old（已跑 6 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:37:07] memory 50% before starting SHIFT_r5_F (2 running)
+[00:37:07] ==== START SHIFT_r5_F  (probe @ 01bab1823003df827be3d76bc7d2c13ef034dacb) ====
+[00:37:10] [res] cpu=29% mem=50% (15.7/31.4 GB) chrome_testing=10  START SHIFT_r5_F
+[00:39:54] [res] cpu=17% mem=52% (16.3/31.4 GB) chrome_testing=10  END SHIFT_r5_F
