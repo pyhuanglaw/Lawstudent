@@ -6924,7 +6924,7 @@
    "branch": "claude/second-ai-env-art",
    "sha": "bc4598101",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "LIB-B1-COURT-ART-1110 第二輪（X307：鏡頭在背後時畫面下半白霧，BB 判 GAME_BUG）",
    "files": [
     "assets/models/env/second_ai/lib_b1_court.glb",
@@ -6932,10 +6932,10 @@
     "tools/blender/env_second/lib_b1_court.py",
     "docs/art-rebuild/second_ai/wip/lib_b1_court_1110/（README 第二輪、b1court_fog_1c767edf8.patch、b1court_glass_cam_unit.js、regression_fog_1c767edf8.txt）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "原因：followCam 最近 0.7 m 把鏡頭放到 B1 玻璃帷幕後面，雙面玻璃從背後看＝白霧。修法：玻璃只畫朝中庭那一面，重匯 GLB（三角形不變）。新測試：舊 GLB 65 次看得到玻璃背面 FAIL，新 GLB ALL PASS；B1 中庭相關 5 支回歸 ALL PASS。",
-   "next": "LAWWW 套 patch（--binary）；CC 重拍 X307 probe 的 03、07；BB 判，再加參考圖疊圖判 ART"
+   "note": "原因：followCam 最近 0.7 m 把鏡頭放到 B1 玻璃帷幕後面，雙面玻璃從背後看＝白霧。修法：玻璃只畫朝中庭那一面，重匯 GLB（三角形不變）。新測試：舊 GLB 65 次看得到玻璃背面 FAIL，新 GLB ALL PASS；B1 中庭相關 5 支回歸 ALL PASS。 ｜ LAWWW 11-10 09:25 接進開發分支 fda54d616（b1court_glass_cam、lib_b1_court、lib_b1_court_art ALL PASS）。",
+   "next": "CC 重拍 03、07；BB 判"
   }
  ]
 }
