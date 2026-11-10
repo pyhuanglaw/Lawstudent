@@ -1,0 +1,32 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_movie_talk_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MT2_talk12\out
+CC MOVIE_TALK（X324）：CASES TALK1,TALK2；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】day46 08:00、以安和語彤朋友＋聯絡方式、錢 5000、去過南洋
+PASS [TALK1] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《聖誕快遞》②《黑白的城市》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [TALK1] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [  46.4s] [TALK1] 約好：{"id": "iv54", "h": 9.83, "film": "m2511a", "title": "聖誕快遞"}；對話 ["電影？好。我先查一下片長。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [TALK1] 約成了  ["電影？好。我先查一下片長。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [TALK1]「今天」有「前往」
+  [  91.9s] [TALK1] 區域：["dorm", "xs_nanyang", "xs_nanyang_hall", "xs_nanyang"]；選單：[{"after": false, "opts": ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"], "pick": 0, "rel_before": {"fam": 100, "trust": 45, "comf": 49, "npcRom": 9}}, {"after": true, "opts": ["會。我騎了一整晚的車耶。", "不會。有人花時間騙我，蠻好的。", "包裹裡面到底是什麼？"], "pick": 1, "rel_before": {"fam": 100, "trust": 49, "comf": 52, "npcRom": 10}}]
+PASS [TALK1] 那一幕（scene）有演  "第三條路的盡頭是她自己的分站，鐵門拉下一半，裡面的燈亮著。"
+PASS [TALK1] 散場後三個選項＝MOVIE_PLOTS talk（["會。我騎了一整晚的車耶。", "不會。有人花時間騙我，蠻好的。", "包裹裡面到底是什麼？"]）  [{"after": true, "opts": ["會。我騎了一整晚的車耶。", "不會。有人花時間騙我，蠻好的。", "包裹裡面到底是什麼？"], "pick": 1, "rel_before": {"fam": 100, "trust": 49, "comf": 52, "npcRom": 10}}]
+PASS [TALK1] 選第 2 個以後她的回答＝re（0 句）  []
+  [  91.9s] [TALK1] fx 期望 {}；大廳的 SOCIAL.adjust：[{"id": "heroine_01", "d": {"trust": 2, "comf": 1}, "h": 10.598, "z": "xs_nanyang_hall", "n": 18}, {"id": "heroine_01", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.598, "z": "xs_nanyang_hall", "n": 21}]；選之前 {"fam": 100, "trust": 49, "comf": 52, "npcRom": 10}
+FAIL [TALK1] fx 照 AA_745（{}）  [{"id": "heroine_01", "d": {"trust": 2, "comf": 1}, "h": 10.598, "z": "xs_nanyang_hall", "n": 18}, {"id": "heroine_01", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.598, "z": "xs_nanyang_hall", "n": 21}]
+PASS [TALK1] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】day46 08:00、以安和語彤朋友＋聯絡方式、錢 5000、去過南洋
+PASS [TALK2] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《聖誕快遞》②《黑白的城市》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [TALK2] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [ 107.6s] [TALK2] 約好：{"id": "iv54", "h": 9.83, "film": "m2511a", "title": "聖誕快遞"}；對話 ["電影？好。我先查一下片長。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [TALK2] 約成了  ["電影？好。我先查一下片長。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [TALK2]「今天」有「前往」
+  [ 137.2s] [TALK2] 區域：["dorm", "xs_nanyang", "xs_nanyang_hall", "xs_nanyang"]；選單：[{"after": false, "opts": ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"], "pick": 0, "rel_before": {"fam": 100, "trust": 45, "comf": 49, "npcRom": 9}}, {"after": true, "opts": ["會。我騎了一整晚的車耶。", "不會。有人花時間騙我，蠻好的。", "包裹裡面到底是什麼？"], "pick": 2, "rel_before": {"fam": 100, "trust": 49, "comf": 52, "npcRom": 10}}]
+PASS [TALK2] 那一幕（scene）有演  "第三條路的盡頭是她自己的分站，鐵門拉下一半，裡面的燈亮著。"
+PASS [TALK2] 散場後三個選項＝MOVIE_PLOTS talk（["會。我騎了一整晚的車耶。", "不會。有人花時間騙我，蠻好的。", "包裹裡面到底是什麼？"]）  [{"after": true, "opts": ["會。我騎了一整晚的車耶。", "不會。有人花時間騙我，蠻好的。", "包裹裡面到底是什麼？"], "pick": 2, "rel_before": {"fam": 100, "trust": 49, "comf": 52, "npcRom": 10}}]
+PASS [TALK2] 選第 3 個以後她的回答＝re（0 句）  []
+  [ 137.2s] [TALK2] fx 期望 {}；大廳的 SOCIAL.adjust：[{"id": "heroine_01", "d": {"trust": 2, "comf": 1}, "h": 10.595, "z": "xs_nanyang_hall", "n": 36}, {"id": "heroine_01", "d": {"trust": 2, "comf": 1}, "h": 10.595, "z": "xs_nanyang_hall", "n": 36}, {"id": "heroine_01", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.595, "z": "xs_nanyang_hall", "n": 42}, {"id": "heroine_01", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.595, "z": "xs_nanyang_hall", "n": 42}]；選之前 {"fam": 100, "trust": 49, "comf": 52, "npcRom": 10}
+FAIL [TALK2] fx 照 AA_745（{}）  [{"id": "heroine_01", "d": {"trust": 2, "comf": 1}, "h": 10.595, "z": "xs_nanyang_hall", "n": 36}, {"id": "heroine_01", "d": {"trust": 2, "comf": 1}, "h": 10.595, "z": "xs_nanyang_hall", "n": 36}, {"id": "heroine_01", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.595, "z": "xs_nanyang_hall", "n": 42}, {"id": "heroine_01", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.595, "z": "xs_nanyang_hall", "n": 42}]
+PASS [TALK2] walkFallbacks 0
+PASS 沒有 JS 例外  []
+FAILED 2: [TALK1] fx 照 AA_745（{}）；[TALK2] fx 照 AA_745（{}）
