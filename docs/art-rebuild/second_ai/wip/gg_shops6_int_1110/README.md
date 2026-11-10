@@ -8,7 +8,7 @@
 | 泰米村食 | `tz_taimi`（汀州路） | **第 1 版已交** |
 | 洗樂洗衣坊 | `tz_xile`（汀州路） | **第 1 版已交** |
 | 印得好 | `tz_yindehao`（汀州路） | **第 1 版已交：`tz_shops_int_v1b_yindehao.patch`（套在泰米＋洗樂那一個後面）** |
-| 安泰藥局、汀州鮮果、榮恩典文具社 | 公館 | 還沒做（公館那邊的店門入口要 LAWWW 接，或照花序用包住 build 的方式加） |
+| 安泰藥局、汀州鮮果、榮恩典文具社 | `gg_antai`、`gg_xianguo`、`gg_rongendian`（公館） | **第 1 版已交：`tz_shops_int_v1c_gg3.patch`（套在前兩個後面）** |
 
 ## 泰米村食 第 1 版（D141 1／3）
 **patch：`tz_shops_int_v1_taimi_xile.patch`（base＝dev `2a7edffd5`；泰米＋洗樂兩間一起，取代原本只有泰米的 `taimi_int_v1.patch`）**。泰米的部分：`index.html` 兩行、配置、區域、模型 `tz_taimi_interior.glb`（1.1 MB、1.6 萬三角形）、貼圖集 `tz_taimi_int_atlas.jpg`（牆上的菜色照片板、兩張街景照片，從參考圖裁）、測試、`zone_assets.js`、LICENSES。
@@ -54,3 +54,24 @@ patch `tz_shops_int_v1b_yindehao.patch`：**先套 `tz_shops_int_v1_taimi_xile.p
 給 LAWWW 接：kind `tz_yin_copy`（自助影印）、`tz_yin_counter`（櫃台：列印・裝訂）、`tz_yin_price`（價目表）、`tz_yin_samples`（裝訂樣本）；`zone.shopClerk` (2.3, 0.6)。
 先將就的：影印機是簡化的方盒造型（紙匣、掃描台、面板有做，細節少）；價目表沒有清楚的字；沒有光照貼圖。預覽 `preview_yindehao.jpg`（Blender，不是遊戲截圖）。
 `node tests/tz_shops_unit.js` 三間 ALL PASS。
+
+## 公館三間 第 1 版（D141 1／3）：安泰藥局、汀州鮮果、榮恩典文具社
+patch `tz_shops_int_v1c_gg3.patch`：**依序套 `tz_shops_int_v1_taimi_xile.patch` → `tz_shops_int_v1b_yindehao.patch` → 這一個**。`LICENSES.md` 和花序 B 件（`flower_notes_v1b_gg_shops3.patch`）都在「花序室內」那一列後面加列，兩邊都套的時候那一檔可能要手動併；`zone_assets.js` 套完重跑 `node tools/gen_zone_assets.js`。
+
+進出（不改 `zones3d.js`）：`src/tz_shops3d.js` 的 `hookOut` 包住 gongguan 的 build，在 G04／G08／G13 店門前（騎樓裡 z 21）加「進入＋店名」，出來站在門前人行道（z 18）；x 照實際的樓房位置。**如果花序 B 件還沒套，G04／G08／G13 門前中間還有一根騎樓柱**（B 件才拿掉），互動點在柱子後面 1.7 m，站得到、走得到，但畫面上門前有柱子。
+
+| 店 | 區域・大小 | 照參考圖做的 | 給 LAWWW 接的 kind |
+|---|---|---|---|
+| 安泰藥局 | `gg_antai` 9×10 m，1.9 萬三角形 | 中間走道兩邊各一排白色雙面貨架（四層，藥盒、瓶罐）；正後方白色藥師櫃台（深綠踢腳、收銀螢幕）＋後牆整面藥品櫃、上面白底綠字招牌（**用外觀那一塊：藥罐圖示，沒有十字**——規格寫不用十字，室內參考圖上的綠十字沒照做）；左牆玻璃櫃、壁扇、時鐘；右牆兩張衛教海報（參考圖裁）、書報架、血壓計桌和黑色圓凳（一個座位）；門邊盆栽、玻璃上的綠線；格柵天花板和日光燈 | `gg_antai_counter`（藥師櫃台）、`gg_antai_shelf`（看貨架）、`gg_antai_bp`（量血壓）；`zone.shopClerk` (0, −3.95)；座位 `antai_t1` |
+| 汀州鮮果 | `gg_xianguo` 8×10 m，6.2 萬三角形 | 整面開著（沒有玻璃門）；左牆三階木架，一格一格綠色塑膠籃和木箱裝水果（蘋果、芭樂、柳丁、葡萄），最上面鳳梨和西瓜；門口左邊一桌香蕉；中間木工作桌（電子秤、切好的水果盒、砧板鳳梨、桌邊粉紅條紋塑膠袋、桌下的籃子）；右牆不鏽鋼冷藏展示櫃（切好的水果盒三層）；門口右邊一籃橘子；後面紙箱堆、水槽、立扇；左牆水果壁畫（參考圖裁）；吊燈、日光燈 | `gg_fruit_pick`（挑水果）、`gg_fruit_counter`（秤重結帳）、`gg_fruit_box`（切好的水果盒）；`zone.shopClerk` (1.1, 0.45)（老闆站工作桌後面，客人走得到那一區） |
+| 榮恩典文具社 | `gg_rongendian` 9×10 m，3.5 萬三角形 | 左牆整面筆（七層壓克力格，一格一把同色的筆）＋下面木櫃；中間兩座木層架（筆記本、資料夾）；右牆畫材四層（素描本、畫筆筒、顏料瓶、調色盤）；正後方木櫃台（收銀機、檯燈、筆筒）、後牆層架和紙捲、**小十字架和祝福卡**（規格：小、低調）、植物；門口左邊特價推車（黃底紅牌，沒有字）；右前方兩個木畫架、靠牆的畫布；格柵天花板、日光燈、吊扇 | `gg_rong_pens`、`gg_rong_art`、`gg_rong_notes`、`gg_rong_counter`（結帳）、`gg_rong_cart`（特價推車）；`zone.shopClerk` (−0.3, −4.05) |
+
+和 AA_743 的差異：三間我還沒逐項對 AA_743（只對了泰米）；配置照參考圖。AA 那邊的互動點名稱（window、card、art、cart…）和這裡的 kind 不一樣的，請 AA／LAWWW 對一次，要改名我改。
+
+先將就的：
+1. 貨架上的商品是一排排彩色小方塊（藥盒、筆記本），沒有圖案、沒有字；汀州鮮果的籃子裡水果堆得不夠滿（從門口看有些籃子像空的）。
+2. 汀州鮮果三角形 6.2 萬（水果一顆顆是圓的），手機上要看 CC 量的幀數。
+3. 特價牌、海報架沒有字；沒有光照貼圖；窗外沒有景。
+預覽 `preview_antai.jpg`、`preview_xianguo.jpg`、`preview_rongendian.jpg`（Blender，不是遊戲截圖；預覽沒有暖色燈）。
+
+驗證：`node tests/tz_shops_unit.js` 六間 ALL PASS；相關 31 支 Node 測試只有 `gg_shops2_1104_unit` 第 6 項沒過（dev 本來就沒過）——`regression_gg3.log`。
