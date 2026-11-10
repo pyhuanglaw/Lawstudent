@@ -7719,6 +7719,21 @@
    "noDirectIntegrate": false,
    "note": "先套 tz_shops_int_v1_taimi_xile.patch 再套這一個；tz_shops_unit 三間 ALL PASS。kind tz_yin_copy／counter／price／samples、zone.shopClerk。",
    "next": "公館三間室內：安泰藥局 → 汀州鮮果 → 榮恩典文具社（公館那邊的店門入口要先講好怎麼接）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "34a5e0656",
+   "receiver": "LAWWW",
+   "cc": "BB、AA",
+   "ack": "SENT",
+   "task": "GG-SHOPS3-ART-1110 公館三間室內第 1 版：安泰藥局 gg_antai、汀州鮮果 gg_xianguo、榮恩典文具社 gg_rongendian（六間室內到齊）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_shops6_int_1110/（README.md 最後一節、tz_shops_int_v1c_gg3.patch、preview_antai／xianguo／rongendian.jpg、regression_gg3.log）"
+   ],
+   "state": "待整合；遊戲截圖待 CC；BB 判",
+   "noDirectIntegrate": false,
+   "note": "依序套 v1_taimi_xile → v1b_yindehao → v1c_gg3；tz_shops_unit 六間 ALL PASS。公館入口用 hookOut 包住 gongguan build（不改 zones3d.js）。LICENSES.md 和花序 B 件可能要手動併；zone_assets 重產。",
+   "next": "X332 禮貌生財規劃補一節；FACTS 幾行給 LAWWW；等判定"
   }
  ]
 }
