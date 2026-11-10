@@ -51,7 +51,42 @@ def strip_notes(text, path):
 
 CJK = re.compile(r'[\u4e00-\u9fff]')
 
+SKIP_KEYS = {'note', 'notes', '_note', 'src', 'source', 'why', '_meta', 'plot', 'when', 'need', 'doc', 'by', 'task', 'user', 'checked'}
+
+def json_strings(text):
+    # 純 JSON：正式解析，走每一個字串值（欄位名只有一個字時，用引號配對會配錯、漏掉一半；2026-11-10 BB_308）
+    import json
+    data = json.loads(text)
+    out = []
+    def walk(v, key=''):
+        if isinstance(v, dict):
+            for k, x in v.items():
+                if k in SKIP_KEYS:
+                    continue
+                walk(x, k)
+        elif isinstance(v, list):
+            for x in v:
+                walk(x, key)
+        elif isinstance(v, str) and len(CJK.findall(v)) >= 3:
+            out.append(v)
+    walk(data)
+    return out
+
 def lines_of(text, path=''):
+    if path.endswith('.json'):
+        try:
+            cur = 0
+            for v in json_strings(text):
+                probe = v[:12]
+                pos = text.find(probe, cur)
+                if pos < 0:
+                    pos = text.find(probe)
+                if pos >= 0:
+                    cur = pos
+                yield 'str', v, max(pos, 0)
+            return
+        except Exception:
+            pass
     if path.endswith(('.js', '.json')):
         # 程式和資料檔：玩家看到的字在字串裡（text:'…'、"reply": "…"），一個字串當一句
         for m in re.finditer(r"'((?:[^'\\\n]|\\.){2,300})'|\"((?:[^\"\\\n]|\\.){2,300})\"", text):
