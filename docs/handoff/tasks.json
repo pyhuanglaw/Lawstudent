@@ -51956,7 +51956,7 @@
    "id": "US-CLASSROOM-3D-1110",
    "title": "美國教室做 3D（目前 2D us_classroom；20 週每個上課日都會去）",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -51968,7 +51968,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW 11-10 15:1x】接 LAWWW2 261bc909c：新區域 us_classroom（Room 120，6×8 席、48 個能坐、出口→us_campus spawn_class_out）＋us_classroom.glb 3.6 MB＋四季白天晚上窗景 8 張；us_classroom_unit ALL PASS。還沒接劇情：進教室改 exit、座位 seatOf／others、報告站位 present、監考、白板字（LAWWW 接，README）；報告左右待 AA 確認；截圖 CC、ART BB。 ｜ 【LAWWW 11-10 14:4x】AA_740（961025d4c）規格到：Room 120 階梯教室三門課共用、照 201（6×8）、灰藍地毯、不放學姊；已轉 LAWWW2（模型＋layout＋區域接線 D108），劇情接線 LAWWW。 ｜ 【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP 建議第一；D99 第三優先（美國交換）。",
+   "next": "【LAWWW 11-10 15:5x】劇情接線已整合（b1d9457ed）：有課才能進 Room 120、坐自己的位子上課、一鍵上課坐好淡入、旁白字幕蓋 3D；10/26、12/6、12/7、12/8 在 3D 演；報告站位照 AA 1f0e891f1 對調；us_classroom_story_unit＋美國篇回歸全過。PARTIAL：教授服裝（沒有西裝背心）、何俊朗用路人底模、期末考桌上沒考卷；沒課那句沿用 AA_412「現在沒有你的課。」待 AA 確認。BB／CC 瀏覽器：鏡頭、教授走動、下課走道、效能、淡入、字幕時間。 ｜ 【LAWWW 11-10 15:1x】接 LAWWW2 261bc909c：新區域 us_classroom（Room 120，6×8 席、48 個能坐、出口→us_campus spawn_class_out）＋us_classroom.glb 3.6 MB＋四季白天晚上窗景 8 張；us_classroom_unit ALL PASS。還沒接劇情：進教室改 exit、座位 seatOf／others、報告站位 present、監考、白板字（LAWWW 接，README）；報告左右待 AA 確認；截圖 CC、ART BB。 ｜ 【LAWWW 11-10 14:4x】AA_740（961025d4c）規格到：Room 120 階梯教室三門課共用、照 201（6×8）、灰藍地毯、不放學姊；已轉 LAWWW2（模型＋layout＋區域接線 D108），劇情接線 LAWWW。 ｜ 【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP 建議第一；D99 第三優先（美國交換）。",
    "xai": {
     "spec": "企劃線 961025d4c docs/story_planning/AA_740_美國教室3D_座位與NPC.md＋docs/art-rebuild/second_ai/us_scene_gap_1110.md",
     "branch": "claude/second-ai-env-art",
@@ -51976,7 +51976,7 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "sha": "261bc909c"
+   "sha": "b1d9457ed"
   },
   {
    "id": "US-CLUBHOUSE-3D-1110",
