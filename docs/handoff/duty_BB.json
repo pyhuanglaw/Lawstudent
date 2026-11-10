@@ -1,10 +1,10 @@
 {
  "role": "BB",
- "account": "B",
- "session": "session_01J1g2TPcPzWrihXSY2WvseV",
- "branch": "claude/elegant-brown-fcos7n",
- "state": "handed-off",
- "handedOffAt": "2026-11-10T01:34Z",
- "sha": "498d8ceb",
- "snapshot": "docs/handoff/snapshots/2026-11-10T0134Z_B_BB.json"
+ "account": "A",
+ "session": "session_01XVHYLaK9Vcnae3U1aAJoZv",
+ "branch": "claude/story-planning",
+ "since": "2026-11-10T08:10Z",
+ "state": "on",
+ "sinceSha": "fb9e47c4",
+ "userOk": false
 }
