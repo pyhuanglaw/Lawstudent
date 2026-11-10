@@ -119,7 +119,8 @@ PHONE_AUTO = (os.environ.get('PHONE_AUTO') or '0') == '1'
 QUICK = (os.environ.get('QUICK') or '0') == '1'
 DATE_BRANCH_MAX = int(os.environ.get('DATE_BRANCH_MAX') or MENU_MAX)   # 一場約會換選項重跑最多幾次
 STUDY_ONLY = (os.environ.get('STUDY_ONLY') or '0') == '1'
-IVLOG = (os.environ.get('IVLOG') or '0') == '1'   # CC-B 11-09：存檔那一刻、讀檔以後每秒記 iv（含 goAsked）、選單、事件（BB-B 23:44）
+IVLOG = (os.environ.get('IVLOG') or '0') == '1'
+MONEYSHOT = (os.environ.get('MONEYSHOT') or '0') == '1'   # CC-B 11-10（BB-B 00:54）：錢不夠那一條，每一層有灰的選項：存全文（innerText、title、aria）、截圖、點一下灰的看會不會跳原因   # CC-B 11-09：存檔那一刻、讀檔以後每秒記 iv（含 goAsked）、選單、事件（BB-B 23:44）
 STUDY_SHIFT = float(os.environ.get('STUDY_SHIFT') or 0.45)   # 存檔點離約定幾小時（對照組用 2）
 IVRAW_JS = r"""(id=>{ const G=GAME.G, $=x=>document.getElementById(x); const ch=[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,24)); const dv=$('dlg'); return {day:G.day, hour:+(+G.hour).toFixed(3), zone:G.zone, px:+GAME.E.player.obj.position.x.toFixed(1), pz:+GAME.E.player.obj.position.z.toFixed(1), iv:(G.invites||[]).filter(v=>v.who===id).map(v=>Object.assign({},v)), out:(typeof OUT!=='undefined'&&G.outings)?(G.outings||[]).slice(-2):null, choices:ch, dlg:dv&&getComputedStyle(dv).display!=='none'?(dv.textContent||'').trim().slice(0,40):'', phone:!!($('phone')&&!$('phone').classList.contains('hide')), evr:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, cur:(typeof EVENTS!=='undefined'&&(EVENTS.current||EVENTS.cur))||null}; })"""             # 1＝invite／phone_date 只跑「念書」那幾場（STUDY_ctl／STUDY_fix）
 ROSTER = (os.environ.get('ROSTER') or '1') == '1'                     # phone_date：先列「手機能約誰」的名單
@@ -566,6 +567,16 @@ class Person:
             if s['menu'] or s['bigmap']:
                 await L.close_panels(pg, self.cdp); continue
             if s['ch']:
+                if MONEYSHOT and 'MONEY' in tag.upper().replace('錢不夠', 'MONEY') and any(o['dim'] for o in s['ch']) and not getattr(self, '_mshot', {}).get(tuple(o['t'] for o in s['ch'])):
+                    self._mshot = getattr(self, '_mshot', {}); self._mshot[tuple(o['t'] for o in s['ch'])] = 1; nshot = len(self._mshot)
+                    full = await pg.evaluate("(()=>[...document.querySelectorAll('#choices button')].map(b=>({text:b.innerText.replace(/\\s+/g,' ').trim(),title:b.title||null,aria:b.getAttribute('aria-label')||b.getAttribute('aria-disabled'),dim:b.classList.contains('dim')||b.disabled})))()")
+                    await pg.screenshot(path=os.path.join(OUT, 'money_layer_%d.png' % nshot))
+                    t0n = await pg.evaluate("(document.getElementById('toast')||{}).innerText||''")
+                    kd = next(j for j, o in enumerate(s['ch']) if o['dim']); await self.tap_choice(kd); await pg.wait_for_timeout(1300)
+                    t1n = await pg.evaluate("(document.getElementById('toast')||{}).innerText||''"); s2 = await self.st()
+                    await pg.screenshot(path=os.path.join(OUT, 'money_layer_%d_tapdim.png' % nshot))
+                    self.R.note('MONEYSHOT 第 %d 層（有灰的）：%s；點第一個灰的「%s」→ toast 前「%s」後「%s」、選單還在 %s' % (nshot, J(full), s['ch'][kd]['t'], t0n[:60], t1n[:80], bool(s2['ch'])))
+                    continue
                 k = plan(s['ch'], menus)
                 menus.append({'opts': [o['t'] for o in s['ch']], 'dim': [o['dim'] for o in s['ch']], 'pick': k})
                 self.R.note('%s 選單 %s → 選「%s」' % (tag, J([o['t'] + ('（灰）' if o['dim'] else '') for o in s['ch']]), s['ch'][k]['t'] if k < len(s['ch']) else k))
@@ -1523,7 +1534,7 @@ class Person:
                 seen = any('錢不夠' in x for mm in m for x in mm['opts']) or any('錢不夠' in x for x in l)
                 if R.check('phone_date 錢不夠：收尾正常', ok, why_not_free(s)): await self.check_free('phone_date 錢不夠', fb0, err0)
                 else: await self.dump('phone_date_錢不夠', s)
-                R.check('phone_date 錢不夠：選項看得到「錢不夠」的原因', seen or any('錢不夠' in (x.get('hint') or '') for x in []), J([mm['opts'] for mm in m][:4]))
+                R.check('phone_date 錢不夠：選項看得到「錢不夠」的原因', seen, J([[o + ('（灰）' if d else '') for o, d in zip(mm['opts'], mm.get('dim') or [])] for mm in m]))
             else: await L.close_panels(pg, self.cdp)
             # 能出去玩的：手機約一次校外約會、整場演完
             await self.load(snap=s0, why='phone_date 出去玩')

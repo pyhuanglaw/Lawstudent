@@ -1795,6 +1795,7 @@ SOCX_2d58_study_h3 | 2d58e8a5209ae061784c20f14dd5de5819b562e6 | probe | docs/sto
 # CC-B 11-10 00:1x（BB-B 00:13）：最新 head 只跑以安念書的讀檔段＋IVLOG（存檔那一刻、讀檔後每秒的 iv／選單／事件），和 SOCX_2d58_study_h1 比對
 SOCX_edae_study_h1_iv | edaedb2672eac7f5047d518e9c07f63b5e2f7537 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01;STEPS=phone_date;STUDY_ONLY=1;STUDY_VARIANTS=full;DATE_BRANCH_MAX=1;IVLOG=1
 # CC-B 11-10 00:5x（BB-B 00:44、00:54）：SEAT／LUNCH 不問（faf1b75a4 的 src 和 be11c7361 一樣）→ #204 第三批外牆腳（舊 1827／新 faf1，日 14:00／夜 21:00）
+MONEY_8677_xinci | 8677568a378f133e45179f251f37f9dfa75943e6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 90 | CASES=classmate_xinci;STEPS=phone_date;MONEYSHOT=1;DATE_BRANCH_MAX=1
 NOASK_faf1 | faf1b75a4081a575d797a90f8cbe7fca8a087b58 | probe | docs/story_planning/test_tools/cc/cc_noask_probe.py | index.html | 240 | X=1
 WW3B_old_day | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_planning/test_tools/cc/cc_wallfade_walls_probe.py | index.html | 20 | ZONES=corner_records:@-3.3@-0.05@270,wz_print:@-0.2@-3.8@180;DIST=4.5;HOUR=14;TAG=oldday
 WW3T_old_day | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_planning/test_tools/cc/cc_wallfade_walls_probe.py | index.html | 20 | ZONES=wz_teahouse:@3.65@-4.00@15;DIST=4.0;HOUR=14;TAG=oldday
