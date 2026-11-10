@@ -9,7 +9,12 @@
   → TERMEND_OPTS.FRIEND[學期][人]。白名單每個檔一筆，people.friend 列要匯入的人（沒列的人不匯入；沛珊重寫中，稿上本來也沒有）。
   稿上用文字寫的條件，這支工具換成程式認得的：芷若大二下前兩個選項（ZR_LAST／noZR_LAST）、學姊大三下第三個選項（noUS）、學姊大四上 sayUS（US4P）、
   Alison 大三上第三個選項（note：日本路線不出＝noJP）、柏翰大三下（note：鉤子不念 say＝hookNoSay）。{子晴學姊|一個學姊} 照字留著，播放時照 Q6 二選一。
-- 可昕大二上的選項「我去。妳排哪幾天？」＝記 KX_KHH.Y2W（AA 11-10：有選項稿的學期 KX_ASK 的二選一不再接在後面）。
+- 可昕（企劃線 1cf434dee）：每個選項的 set 取代舊的 KX_ASK 二選一（有選項稿的學期 KX_ASK 不再接在後面）——
+  KX_KHH true／false → 選項的 khh＝[那一次寒暑假的 key（Y2W、Y2S、Y3W、Y3S、Y4W）, 'yes'／'no']（和原本二選一記進 G.flags.KX_KHH 的值一樣：yes＝去、no＝沒空）；
+  KX_Y5_CALL true → 選項的 y5＝'sat'（原本「週末一定打。」記的值，src/kx_khh3d.js 只認這個值排「打給可昕」的提醒）。美國路線 optsUS 不能有 set（不記）。
+- 朋友版 thenIf｛if, lines｝（學姊大三上，1cf434dee）：選項演完（then 之後）照條件多說的；if 只認得 SIS_FU（termend_lines.js 的 SIS_FU）。
+- 鉤子（AA 11-10 回 LAWWW，不在稿上）：子晴女朋友版 Q6 通用格（大一下）——選「（現在玩。）」＝鉤子整個不出（opts 的 hook:'skip'），
+  另外兩個＝不念 say、直接出選項（hook:'nosay'）；那一頓記 hookTerm:'Y1S2'（只有大一下的鉤子「要不要玩？」這樣）。以安女朋友版大二下（京都）在 src/termend3d.js 的 S.HOOK_NOSAY。
 
 **只匯入白名單那一筆 `people` 列的人**（gf／table／confess 各一份名單）：沒列的人（重寫中的沛珊、芷若的心意邀約）不寫進 TERMEND_OPTS，
 遊戲照 src/data/termend_lines.js 現在的字、一個字都不動。AA_748 的 HEART（芷若、沛珊重寫）這支工具不讀。
@@ -34,6 +39,7 @@ OUT = 'src/data/termend_opts.js'
 TERMS = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y5S1']
 IFS = {'Q6', 'noQ6'}
 FR_IFS = {'ZR_LAST', 'noZR_LAST', 'noUS', 'noJP'}
+KX_KEY = {'Y2S1': 'Y2W', 'Y2S2': 'Y2S', 'Y3S1': 'Y3W', 'Y3S2': 'Y3S', 'Y4S1': 'Y4W'}   # 那一頓問的是哪一次寒暑假（termend_lines.js KX_ASK 的 khh[0]）
 
 
 def git(*a):
@@ -89,10 +95,28 @@ def opt(o, where, extra=(), ifs=IFS):
     return r
 
 
-def opts(a, where):
+def opts(a, where, extra=()):
     if not isinstance(a, list) or len(a) < 2:
         die(f'{where}：opts 至少兩個')
-    return [opt(o, f'{where}[{i}]') for i, o in enumerate(a)]
+    return [opt(o, f'{where}[{i}]', extra=extra) for i, o in enumerate(a)]
+
+
+def kx_opts(a, term, where, us=False):
+    """可昕的選項：set → khh／y5（存檔值和原本 KX_ASK 二選一記的一樣）；美國路線那一組不記"""
+    O = opts(a, where, extra=() if us else ('set',))
+    if us:
+        return O
+    for i, (o, r) in enumerate(zip(a, O)):
+        s, w = o.get('set'), f'{where}[{i}].set'
+        if term == 'Y5S1':
+            if s != {'KX_Y5_CALL': True}:
+                die(f'{w}：大五上只認得 {{KX_Y5_CALL: true}}（{json.dumps(s, ensure_ascii=False)}）')
+            r['y5'] = 'sat'
+        else:
+            if not isinstance(s, dict) or set(s) != {'KX_KHH'} or not isinstance(s['KX_KHH'], bool) or term not in KX_KEY:
+                die(f'{w}：只認得 {{KX_KHH: true／false}}（{json.dumps(s, ensure_ascii=False)}）')
+            r['khh'] = [KX_KEY[term], 'yes' if s['KX_KHH'] else 'no']
+    return O
 
 
 def quoted(note, pat, where):
@@ -121,6 +145,14 @@ def gf_entry(who, key, e):
     r = {'says': says, 'opts': opts(e.get('opts'), where + '.opts')}
     note = e.get('note', '')
     after = []
+    if who == 'heroine_04' and key == 'table':   # AA 11-10：Q6 通用格（大一下）——選「（現在玩。）」鉤子整個不出；另外兩個不念鉤子的 say、直接出選項
+        Q = [o for o in r['opts'] if o.get('if') == 'Q6']
+        play = [o for o in Q if o['t'] == '（現在玩。）']
+        if len(Q) != 3 or len(play) != 1:
+            die(f'{where}：Q6 那三個選項改了（找不到「（現在玩。）」），先改這支工具')
+        for o in Q:
+            o['hook'] = 'skip' if o is play[0] else 'nosay'
+        r['hookTerm'] = 'Y1S2'
     if who == 'heroine_03' and key == 'table':   # note：選「我去」＝多記一個旗標 YT_DINNER_YES
         m = re.search(r'選「我去」＝多記一個旗標 (\w+)', note)
         hit = [o for o in r['opts'] if o['t'].startswith('「我去。')]
@@ -228,18 +260,13 @@ def build_kx(src):
             die(f'{where}：不認得的欄位 {sorted(e)}')
         says = [{'if': c, 'say': lines(e[k], f'{where}.{k}')} for k, c in (('sayC10', 'C10'), ('sayUS', 'US')) if k in e]
         says.append({'say': lines(e.get('say'), where + '.say')})
-        O = opts(e.get('opts'), where + '.opts')
+        O = kx_opts(e.get('opts'), t, where + '.opts')
         if 'optsUS' in e:   # 美國路線的那一組；opts＝臺灣路線
             if 'sayUS' not in e:
                 die(f'{where}：optsUS 要配 sayUS')
             for o in O:
                 o['if'] = 'noUS'
-            O = [dict(o, **{'if': 'US'}) for o in opts(e['optsUS'], where + '.optsUS')] + O
-        if t == 'Y2S1':   # AA 11-10：有選項稿的學期不再接 KX_ASK；大二上「好。哪幾天？」原本記的 KX_KHH.Y2W 改由這個選項記
-            hit = [o for o in O if o['t'].startswith('「我去。妳排哪幾天？')]
-            if len(hit) != 1:
-                die(f'{where}：找不到「我去。妳排哪幾天？」那個選項，先改這支工具')
-            hit[0]['khh'] = ['Y2W', 'yes']
+            O = [dict(o, **{'if': 'US'}) for o in kx_opts(e['optsUS'], t, where + '.optsUS', us=True)] + O
         r = {'says': says, 'opts': O}
         if 'then' in e:   # 選項之後她接著說
             r['then'] = lines(e['then'], where + '.then')
@@ -258,8 +285,8 @@ def fr_if(v, where):
 def friend_entry(term, who, e):
     """朋友版的一頓：{says:[{if?, say}], opts, then?, hookNoSay?}"""
     where = f'FRIEND.{term}.{who}'
-    if set(e) - {'say', 'sayUS', 'opts', 'then', 'note'}:
-        die(f'{where}：不認得的欄位 {sorted(set(e) - {"say", "sayUS", "opts", "then", "note"})}')
+    if set(e) - {'say', 'sayUS', 'opts', 'then', 'thenIf', 'note'}:
+        die(f'{where}：不認得的欄位 {sorted(set(e) - {"say", "sayUS", "opts", "then", "thenIf", "note"})}')
     note = e.get('note', '')
     says = []
     if 'sayUS' in e:   # 學姊大四上：美國路線（現有 US4P 判斷）的開頭
@@ -280,6 +307,11 @@ def friend_entry(term, who, e):
     r = {'says': says, 'opts': O}
     if 'then' in e:   # 選項之後她（他）接著說，後面才是鉤子、收尾
         r['then'] = lines(e['then'], where + '.then')
+    if 'thenIf' in e:   # 選項演完以後照條件多說的（學姊大三上：SIS_FU＝朋友以上，「……收到信那天，我打給你。」）
+        ti = e['thenIf']
+        if not isinstance(ti, dict) or set(ti) != {'if', 'lines'} or not str(ti['if']).startswith('SIS_FU'):
+            die(f'{where}.thenIf：只認得 {{if: SIS_FU…, lines}}')
+        r['thenIf'] = {'if': 'SIS_FU', 'lines': lines(ti['lines'], where + '.thenIf.lines')}
     if '鉤子不念 say' in note:   # 柏翰大三下：飯桌已經講了補習班，鉤子那一句不念、直接出選項
         r['hookNoSay'] = True
     txt = json.dumps(r, ensure_ascii=False)

@@ -397,6 +397,6 @@ const TERMEND_LINES=(function(){
   const AUTO_NO_GRAD_DELAYED={heroine_01:'好。今天恭喜。',classmate_xinci:'好。今天恭喜。',yu:'好吧！！今天恭喜！',heroine_05:'好。今天恭喜。'};   /* 交換延畢的玩家（日本、美國路線，PG.delayed）：典禮那天不說「畢業快樂」（AA_381 第 1 節，企劃線 d14a0388）*/
   const ENDED={heroine_01:'這學期不了。謝謝你約我。',heroine_03:'這次先不要。',heroine_05:'這學期我排不出來。你自己保重。',heroine_02:'謝謝。這次我想自己過。',heroine_04:'這次先不要啦。',classmate_peishan:'謝謝你問。……這次我先不去。',kexin:'現在還不行。謝謝你還會約我。'};
   const REPLY=['嗯。','真的假的。','我也是。'];   /* 祐廷回的一句（AA_250 10-1：池子以外，輪流）*/
-  const GF_MORE={heroine_05:{Y4S1:SIS_XM3}}, COND={Q6,SNOWQ,YOUPAY,C10,US:US3};   /* TERMEND-OPTS-1110：termend_opts.js 的 if 用的條件 */
+  const GF_MORE={heroine_05:{Y4S1:SIS_XM3}}, COND={Q6,SNOWQ,YOUPAY,C10,US:US3,SIS_FU};   /* TERMEND-OPTS-1110：termend_opts.js 的 if 用的條件 */
   return {GF_MORE,COND,KX_ASK,KX_EXTRA,PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,AUTO_NO_GRAD_DELAYED,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
 })();

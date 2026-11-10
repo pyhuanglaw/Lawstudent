@@ -1,17 +1,17 @@
-/* 自動產生：tools/story/import_termend_opts.py（docs/story_planning/AA_749_termend_gf_v2.json@da2f67faa、docs/story_planning/AA_748_termend_heart_v2.json@da2f67faa、docs/story_planning/AA_749_termend_kx_v2.json@898820f8b、docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@5ffd725b8）。不要手改，改企劃稿再重新匯入。
+/* 自動產生：tools/story/import_termend_opts.py（docs/story_planning/AA_749_termend_gf_v2.json@da2f67faa、docs/story_planning/AA_748_termend_heart_v2.json@da2f67faa、docs/story_planning/AA_749_termend_kx_v2.json@1cf434dee、docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@5ffd725b8、docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@1cf434dee、docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@5ffd725b8）。不要手改，改企劃稿再重新匯入。
    期末飯的選項（TERMEND-OPTS-1110，使用者 X324）：女朋友版 GF、心意邀約飯桌句之後 TABLE、祐廷說出來的選項 CONFESS、可昕 KX、朋友版 FRIEND[學期][人]；只有 people 列的人，其他人照 termend_lines.js。播放 src/termend3d.js */
 'use strict';
 const TERMEND_OPTS={
  "src": {
   "gf": "docs/story_planning/AA_749_termend_gf_v2.json@da2f67faa",
   "heart": "docs/story_planning/AA_748_termend_heart_v2.json@da2f67faa",
-  "kx": "docs/story_planning/AA_749_termend_kx_v2.json@898820f8b",
+  "kx": "docs/story_planning/AA_749_termend_kx_v2.json@1cf434dee",
   "friend": [
    "docs/story_planning/AA_749_termend_friend_v2_Y1S1.json@5ffd725b8",
    "docs/story_planning/AA_749_termend_friend_v2_Y1S2.json@5ffd725b8",
    "docs/story_planning/AA_749_termend_friend_v2_Y2S1.json@5ffd725b8",
    "docs/story_planning/AA_749_termend_friend_v2_Y2S2.json@5ffd725b8",
-   "docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@5ffd725b8",
+   "docs/story_planning/AA_749_termend_friend_v2_Y3S1.json@1cf434dee",
    "docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json@5ffd725b8"
   ]
  },
@@ -2583,7 +2583,13 @@ const TERMEND_OPTS={
        "fr": 1
       }
      }
-    ]
+    ],
+    "thenIf": {
+     "if": "SIS_FU",
+     "lines": [
+      "……收到信那天，我打給你。"
+     ]
+    }
    },
    "classmate_mingxuan": {
     "says": [
@@ -4557,7 +4563,8 @@ const TERMEND_OPTS={
       "fx": {
        "love": 2
       },
-      "if": "Q6"
+      "if": "Q6",
+      "hook": "skip"
      },
      {
       "t": "「改了哪裡？」",
@@ -4568,7 +4575,8 @@ const TERMEND_OPTS={
       "fx": {
        "love": 1
       },
-      "if": "Q6"
+      "if": "Q6",
+      "hook": "nosay"
      },
      {
       "t": "「吃完再玩。」",
@@ -4578,9 +4586,11 @@ const TERMEND_OPTS={
         "narr": "（她把手機拿回去，放在自己那邊，螢幕沒有關。）"
        }
       ],
-      "if": "Q6"
+      "if": "Q6",
+      "hook": "nosay"
      }
-    ]
+    ],
+    "hookTerm": "Y1S2"
    },
    "tableByTerm": {
     "Y2S1": {
@@ -5166,7 +5176,11 @@ const TERMEND_OPTS={
      ],
      "fx": {
       "love": 1
-     }
+     },
+     "khh": [
+      "Y2W",
+      "yes"
+     ]
     },
     {
      "t": "「我去。妳排哪幾天？」",
@@ -5190,7 +5204,11 @@ const TERMEND_OPTS={
      ],
      "fx": {
       "fr": -1
-     }
+     },
+     "khh": [
+      "Y2W",
+      "no"
+     ]
     }
    ]
   },
@@ -5219,7 +5237,11 @@ const TERMEND_OPTS={
      ],
      "fx": {
       "love": 2
-     }
+     },
+     "khh": [
+      "Y2S",
+      "yes"
+     ]
     },
     {
      "t": "「上次是妳說末班車很晚的。」",
@@ -5229,13 +5251,21 @@ const TERMEND_OPTS={
      ],
      "fx": {
       "love": 1
-     }
+     },
+     "khh": [
+      "Y2S",
+      "yes"
+     ]
     },
     {
      "t": "「高雄夏天很熱耶。」",
      "re": [
       "對啊，很熱。",
       "所以呢？"
+     ],
+     "khh": [
+      "Y2S",
+      "no"
      ]
     }
    ]
@@ -5258,7 +5288,11 @@ const TERMEND_OPTS={
      ],
      "fx": {
       "love": 1
-     }
+     },
+     "khh": [
+      "Y3W",
+      "yes"
+     ]
     },
     {
      "t": "「妳房東後來呢？」",
@@ -5268,7 +5302,11 @@ const TERMEND_OPTS={
      ],
      "fx": {
       "love": 2
-     }
+     },
+     "khh": [
+      "Y3W",
+      "yes"
+     ]
     },
     {
      "t": "「妳每次題目都很奇怪。」",
@@ -5278,7 +5316,11 @@ const TERMEND_OPTS={
      ],
      "fx": {
       "love": 1
-     }
+     },
+     "khh": [
+      "Y3W",
+      "yes"
+     ]
     }
    ],
    "then": [
@@ -5344,6 +5386,10 @@ const TERMEND_OPTS={
      "fx": {
       "love": 2
      },
+     "khh": [
+      "Y3S",
+      "yes"
+     ],
      "if": "noUS"
     },
     {
@@ -5355,6 +5401,10 @@ const TERMEND_OPTS={
      "fx": {
       "love": 1
      },
+     "khh": [
+      "Y3S",
+      "no"
+     ],
      "if": "noUS"
     },
     {
@@ -5365,6 +5415,10 @@ const TERMEND_OPTS={
      "fx": {
       "fr": -1
      },
+     "khh": [
+      "Y3S",
+      "no"
+     ],
      "if": "noUS"
     }
    ]
@@ -5387,7 +5441,11 @@ const TERMEND_OPTS={
      ],
      "fx": {
       "love": 1
-     }
+     },
+     "khh": [
+      "Y4W",
+      "yes"
+     ]
     },
     {
      "t": "「我去。妳念妳的，我念我的。」",
@@ -5397,7 +5455,11 @@ const TERMEND_OPTS={
      ],
      "fx": {
       "love": 2
-     }
+     },
+     "khh": [
+      "Y4W",
+      "yes"
+     ]
     },
     {
      "t": "「我在妳旁邊，妳念得下去嗎？」",
@@ -5410,7 +5472,11 @@ const TERMEND_OPTS={
      ],
      "fx": {
       "love": 2
-     }
+     },
+     "khh": [
+      "Y4W",
+      "yes"
+     ]
     }
    ]
   },
@@ -5432,7 +5498,8 @@ const TERMEND_OPTS={
      ],
      "fx": {
       "love": 2
-     }
+     },
+     "y5": "sat"
     },
     {
      "t": "「十四號那天妳要做什麼？」",
@@ -5442,7 +5509,8 @@ const TERMEND_OPTS={
      ],
      "fx": {
       "love": 2
-     }
+     },
+     "y5": "sat"
     },
     {
      "t": "「妳比我早。」",
@@ -5452,7 +5520,8 @@ const TERMEND_OPTS={
      ],
      "fx": {
       "love": 1
-     }
+     },
+     "y5": "sat"
     }
    ]
   }
