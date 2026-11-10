@@ -2886,7 +2886,7 @@ const Z3 = (function(){
      （一次一個、中間空 1.5 秒；已經載過的跳過；換了區域就停）。下次進去時模型已經在快取裡，prewarm 在黑畫面就接上、編好。
      只在電腦上做（ASSETS.texCap 是空的＝不是手機；手機記憶體少，照舊進去才載）；網址 ?noprefetch 關掉，?prefetch 在手機模擬也做（量測用）。*/
   const ZONE_GLBS={ wenzhou:['bldg.wenzhou_street','bldg.wz_park','bldg.wz_props','bldg.wz_jphouse','bldg.cafe_exterior','bldg.wz_scooter'], cafe:['bldg.cafe_interior'] };
-  const NEXT={ gongguan:['wenzhou'], wenzhou:['cafe'], cafe:['wenzhou'] };
+  const NEXT={ xinsheng:['wenzhou'], wenzhou:['cafe'], cafe:['wenzhou'] };   /* 溫州街只從新生南路進出（WZ-ENTRY-XINSHENG-1103，X199）：原本 gongguan:['wenzhou']（公館巷口拿掉）*/
   let prefetchGen=0;
   function prefetchNext(E,opts){ opts=opts||{}; const q=(typeof location!=='undefined'&&location.search)||'';
     if(/[?&]noprefetch\b/.test(q)||typeof ASSETS==='undefined'||!ASSETS.loadOne||(ASSETS.texCap&&!/[?&]prefetch\b/.test(q))) return null;

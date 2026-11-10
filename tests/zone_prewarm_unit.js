@@ -71,17 +71,19 @@ const glbTpl=()=>{ const g=new THREE.Group(); g.add(new THREE.Mesh(new THREE.Box
     ASSETS.loadOne=k=>{ calls.push(k); pending++; maxPending=Math.max(maxPending,pending); return new Promise(r=>setTimeout(()=>{ pending--; ASSETS.cache[k]={scene:new THREE.Group()}; r(ASSETS.cache[k]); },15)); };
     const wait=ms=>new Promise(r=>setTimeout(r,ms)), wz=['bldg.wenzhou_street','bldg.wz_park','bldg.wz_props','bldg.wz_jphouse','bldg.cafe_exterior','bldg.wz_scooter'].filter(k=>ASSETS.manifest[k]);
     const clear=()=>{ for(const k of wz.concat(['bldg.cafe_interior'])) delete ASSETS.cache[k]; calls.length=0; };
-    clear(); ASSETS.cache['bldg.wz_park']={scene:new THREE.Group()}; const E1={zone:{def:{id:'gongguan'}}}; ASSETS.texCap=null;
+    /* WZ-ENTRY-XINSHENG-1103（X199）：預先載溫州街模型的區域從公館改成新生南路（公館巷口拿掉）；公館不再預先載溫州街 */
+    clear(); { const E0={zone:{def:{id:'gongguan'}}}; ASSETS.texCap=null; const o0=Z3.prefetchNext(E0,{delay:5,gap:5}); check('⑧ 在公館不預先載溫州街（巷口拿掉，X199）',o0===null,JSON.stringify(o0)); }
+    clear(); ASSETS.cache['bldg.wz_park']={scene:new THREE.Group()}; const E1={zone:{def:{id:'xinsheng'}}}; ASSETS.texCap=null;
     const o1=Z3.prefetchNext(E1,{delay:5,gap:5}); await wait(400);
     const want=wz.filter(k=>k!=='bldg.wz_park');
-    check('⑧ 在公館：溫州街的建築模型一個一個載（已經載過的小公園跳過）',JSON.stringify(calls)===JSON.stringify(want)&&maxPending===1,`載了 ${JSON.stringify(calls)}；同時最多 ${maxPending} 個`);
-    clear(); const E2={zone:{def:{id:'gongguan'}}}; Z3.prefetchNext(E2,{delay:5,gap:40}); await wait(30); E2.zone={def:{id:'wenzhou'}}; await wait(300);
+    check('⑧ 在新生南路（X199：溫州街只從新生南路進出，原本是公館）：溫州街的建築模型一個一個載（已經載過的小公園跳過）',JSON.stringify(calls)===JSON.stringify(want)&&maxPending===1,`載了 ${JSON.stringify(calls)}；同時最多 ${maxPending} 個`);
+    clear(); const E2={zone:{def:{id:'xinsheng'}}}; Z3.prefetchNext(E2,{delay:5,gap:40}); await wait(30); E2.zone={def:{id:'wenzhou'}}; await wait(300);
     check('⑧ 換了區域就停（只載了第一個）',calls.length===1,JSON.stringify(calls));
-    clear(); ASSETS.texCap={color:1024,data:512}; const o3=Z3.prefetchNext({zone:{def:{id:'gongguan'}}},{delay:5,gap:5}); await wait(200);
+    clear(); ASSETS.texCap={color:1024,data:512}; const o3=Z3.prefetchNext({zone:{def:{id:'xinsheng'}}},{delay:5,gap:5}); await wait(200);
     check('⑧ 手機（ASSETS.texCap）不預先載',o3===null&&calls.length===0,JSON.stringify(calls));
     clear(); global.location={search:'?prefetch'}; const o4=Z3.prefetchNext({zone:{def:{id:'wenzhou'}}},{delay:5,gap:5}); await wait(200);
     check('⑧ ?prefetch：手機模擬也預先載（量測用；溫州街 → 咖啡廳室內）',!!o4&&JSON.stringify(calls)===JSON.stringify(['bldg.cafe_interior']),JSON.stringify(calls));
-    clear(); ASSETS.texCap=null; global.location={search:'?noprefetch'}; const o5=Z3.prefetchNext({zone:{def:{id:'gongguan'}}},{delay:5,gap:5}); await wait(150);
+    clear(); ASSETS.texCap=null; global.location={search:'?noprefetch'}; const o5=Z3.prefetchNext({zone:{def:{id:'xinsheng'}}},{delay:5,gap:5}); await wait(150);
     check('⑧ ?noprefetch 關掉',o5===null&&calls.length===0,JSON.stringify(calls));
     global.location={search:''}; clear();
     const R5=fakeRenderer(0), E5={renderer:R5,scene:new THREE.Scene(),camera:new THREE.PerspectiveCamera(),zone:{def:{id:'wenzhou'}}}; await Z3.prewarm(E5,{cap:500});
