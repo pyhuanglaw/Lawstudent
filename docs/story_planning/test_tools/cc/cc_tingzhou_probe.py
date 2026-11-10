@@ -271,11 +271,18 @@ async def part_int(pg, cdp):
             W_, D_ = L_['w'], L_['d']
             # r3（BB 23:07）：角落＝「離牆和家具最近、人站得住、從出生點走得到的格子」——從出生點在導航格上擴散（四周 0.35 m 都 free 才算人站得住），每個象限取離房間角最近的那一格；
             #   櫃台後面的店員區（z < counter.z0、x 在 counter 範圍）不列（印得好右後角）
-            pts = await pg.evaluate("(a=>{ const N=GAME.E.nav, L=(typeof TZ_SHOPS_LAYOUT!=='undefined'?TZ_SHOPS_LAYOUT[a.sid]:null)||{}, C=L.counter, st=0.2, ok=(x,z)=>N&&N.free(x,z)&&[0,1,2,3,4,5,6,7].every(j=>N.free(x+Math.cos(j/8*6.283)*0.35,z+Math.sin(j/8*6.283)*0.35));"
-                                   " const staff=(x,z)=>C&&z<C.z0&&x>C.x0-0.3&&x<C.x1+0.3; const k=(x,z)=>Math.round(x/st)+','+Math.round(z/st); const seen=new Set(), Q=[[a.sx,a.sz]], R=[]; seen.add(k(a.sx,a.sz));"
-                                   " while(Q.length&&R.length<6000){ const [x,z]=Q.shift(); R.push([x,z]); for(const [dx,dz] of [[st,0],[-st,0],[0,st],[0,-st]]){ const nx=+(x+dx).toFixed(2), nz=+(z+dz).toFixed(2), kk=k(nx,nz); if(seen.has(kk)) continue; seen.add(kk); if(ok(nx,nz)&&!staff(nx,nz)) Q.push([nx,nz]); } }"
-                                   " return a.corners.map(([cx,cz])=>{ let b=null,bd=1e9; for(const [x,z] of R){ const d=Math.hypot(x-cx,z-cz); if(d<bd){ bd=d; b=[x,z]; } } return b; }); })",
+            # r4（CC 23:5x，GG3_int_new 第一輪：r3 的「四周 0.35 m 都 free」在 0.5 m 導航格上只剩門口那一排連得起來，四角全挑到 z≈3 的門口那一排＝TEST_BUG）：
+            #   改用遊戲自己的 E.canStand(x,z,0.3)（玩家半徑 0.33、D35 的 clearMask 同一套）、步長 0.25；印出擴散到的範圍（格數、x／z 範圍）讓人看得出有沒有走進店裡
+            bfs = await pg.evaluate("(a=>{ const E=GAME.E, N=E.nav, L=(typeof TZ_SHOPS_LAYOUT!=='undefined'?TZ_SHOPS_LAYOUT[a.sid]:null)||{}, C=L.counter, st=0.25;"
+                                   " const ok=(x,z)=>E.canStand?E.canStand(x,z,0.3):(N&&N.free(x,z)); const staff=(x,z)=>C&&z<C.z0&&x>C.x0-0.3&&x<C.x1+0.3;"
+                                   " const k=(x,z)=>Math.round(x/st)+','+Math.round(z/st); const seen=new Set(), Q=[[a.sx,a.sz]], R=[]; seen.add(k(a.sx,a.sz));"
+                                   " while(Q.length&&R.length<8000){ const [x,z]=Q.shift(); R.push([x,z]); for(const [dx,dz] of [[st,0],[-st,0],[0,st],[0,-st]]){ const nx=+(x+dx).toFixed(2), nz=+(z+dz).toFixed(2), kk=k(nx,nz); if(seen.has(kk)) continue; seen.add(kk); if(ok(nx,nz)&&!staff(nx,nz)) Q.push([nx,nz]); } }"
+                                   " const xs=R.map(p=>p[0]), zs=R.map(p=>p[1]);"
+                                   " return {n:R.length, x:[Math.min(...xs),Math.max(...xs)], z:[Math.min(...zs),Math.max(...zs)], canStand:!!E.canStand, pts:a.corners.map(([cx,cz])=>{ let b=null,bd=1e9; for(const [x,z] of R){ const d=Math.hypot(x-cx,z-cz); if(d<bd){ bd=d; b=[x,z]; } } return b; })}; })",
                                    {'sid': sid, 'sx': L_['spawn']['x'], 'sz': L_['spawn']['z'], 'corners': [[-W_ / 2, D_ / 2], [W_ / 2, D_ / 2], [W_ / 2, -D_ / 2], [-W_ / 2, -D_ / 2]]})
+            pts = bfs['pts']
+            R.note('%s 角落挑點：從出生點擴散 %d 點、x %s、z %s（房間 %.1f×%.1f；canStand %s）→ %s' % (tag, bfs['n'], bfs['x'], bfs['z'], W_, D_, bfs['canStand'], J(pts)))
+            R.check('%s 挑點有走進店裡（擴散範圍 z 跨過房間一半以上）' % tag, bfs['z'][1] - bfs['z'][0] > D_ / 2, J(bfs['z']))
             miss = []
             for k, pt in enumerate(pts):
                 if not pt: miss.append(['角落%d 附近沒有站得住的格子' % (k + 1)]); continue
@@ -347,7 +354,8 @@ async def part_zqseat(pg, cdp):
         R.note('%s 子晴：%s' % (tag, J(her)))
         if not her: R.note('%s 這天公館沒有子晴，換下一天' % tag); continue
         await pg.evaluate("window.__TZ=[]")
-        for lab, frm, at_, fov in [('正面', (SX + 0.6, 1.5, SZ - 4.2), (SX, 0.8, SZ), 45), ('側面', (SX + 3.5, 1.5, SZ + 0.6), (SX, 0.8, SZ), 45), ('放大', (SX + 0.3, 1.3, SZ - 2.0), (SX, 0.7, SZ), 30)]:
+        # r2：r1 機位在柱子靠馬路那一側（z<19），被柱子、機車擋住看不到她
+        for lab, frm, at_, fov in [('騎樓這一側正面', (SX + 0.4, 1.4, SZ + 2.6), (SX, 0.8, SZ), 50), ('騎樓斜看', (SX + 2.8, 1.5, SZ + 1.8), (SX, 0.8, SZ), 48), ('放大', (SX + 0.3, 1.2, SZ + 1.5), (SX, 0.75, SZ), 35)]:
             u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'tw': 560, 'label': '子晴 騎樓板凳 %s %.1f %s' % (day, h, lab), 'full': True})
             save(u, 'zqseat_%s_%s.jpg' % (day, lab))
         b = await pg.screenshot(type='jpeg', quality=82); open(os.path.join(OUT, 'zqseat_%s_game.jpg' % day), 'wb').write(b)
@@ -356,7 +364,8 @@ async def part_zqseat(pg, cdp):
         fr = await pg.evaluate("(()=>{ const N=GAME.E.nav; return [[15.6,20.6],[15.6,21.2],[14.6,20.6],[16.6,20.6]].map(([x,z])=>[x,z,!!(N&&N.free(x,z))]); })()")
         R.check('%s 她前面（騎樓那一側）站得住、沒有被擋' % tag, any(f[2] for f in fr), J(fr))
         ok = await L.go_to(pg, cdp, R, SX, SZ + 1.0, 1.1, '%s 走到她前面' % tag, max_s=120)
-        await pg.wait_for_timeout(800); s = await L.state(pg); her2 = await pg.evaluate(HER, {'who': who, 'sx': SX, 'sz': SZ})
+        await pg.wait_for_timeout(800); bb = await pg.screenshot(type='jpeg', quality=82); open(os.path.join(OUT, 'zqseat_%s_game_front.jpg' % day), 'wb').write(bb)
+        s = await L.state(pg); her2 = await pg.evaluate(HER, {'who': who, 'sx': SX, 'sz': SZ})
         R.check('%s 走得到她前面' % tag, ok, J({k: s[k] for k in ('x', 'z', 'interact')}))
         R.note('%s 按鈕：「%s」；她還坐著：%s' % (tag, s['interact'], J(her2)))
         R.check('%s 按鈕是和她說話（不是「坐下」或別的）' % tag, bool(s['interact']) and '坐' not in s['interact'], s['interact'])
