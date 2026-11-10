@@ -34,6 +34,7 @@ BAG_DAY = os.environ.get('BAG_DAY') or '2025-10-18'; BAG_HOUR = float(os.environ
 PROF_DAY = os.environ.get('PROF_DAY') or '2026-03-10'
 SL_NEG_WALK = os.environ.get('SL_NEG_WALK') or 'even'
 STAT = (4.5, 6.5); SPOT = (4.15, 6.5); MAXBAG = 10
+SPOT_ENV = os.environ.get('SL_SPOT')   # GUI_fix2（LAWWW 8d8b475dc：學姊站位改到文具桌走道 (5.8, 6.5)）：不給就讀遊戲的 GIFTH.SL_SCHED.at
 R = L.Run('gift_ui_' + TAG, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 
@@ -365,12 +366,27 @@ def pick_dates(sats):
     return pos, even, jo or (jan[0] if jan else None), bool(jo)
 
 
+CLIP_JS = r"""(()=>{ const N=GAME.npc||{}; const n=N.heroine_05||N.sis; if(!n||!n.obj) return null; n.obj.updateMatrixWorld(true);
+  const hb=new THREE.Box3(); n.obj.traverse(o=>{ if(o.isMesh||o.isSkinnedMesh){ if(o.geometry&&!o.geometry.boundingBox) o.geometry.computeBoundingBox(); hb.expandByObject(o); } });
+  const p=n.obj.position, r=0.25; const body=new THREE.Box3(new THREE.Vector3(p.x-r,p.y+0.05,p.z-r), new THREE.Vector3(p.x+r,p.y+1.6,p.z+r));
+  const hits=[]; GAME.E.zone.group.traverse(o=>{ if(!o.isMesh||!o.visible) return; let v=true; for(let q=o;q;q=q.parent) if(q.visible===false){ v=false; break; } if(!v) return;
+    if(/glass|VIEW|floor|ceil|WALL_|ground|shadow|rug|carpet/i.test(o.name||'')) return; let inNpc=false; for(let q=o;q;q=q.parent) if(q===n.obj){ inNpc=true; break; } if(inNpc) return;
+    const b=new THREE.Box3().setFromObject(o); if(b.max.y-b.min.y>3.5) return; if(!b.intersectsBox(body)) return; const ib=b.clone().intersect(body); const vol=(ib.max.x-ib.min.x)*(ib.max.y-ib.min.y)*(ib.max.z-ib.min.z);
+    if(vol>0.002) hits.push({name:o.name||'(無名)', vol:+vol.toFixed(4), box:[[+b.min.x.toFixed(2),+b.min.y.toFixed(2),+b.min.z.toFixed(2)],[+b.max.x.toFixed(2),+b.max.y.toFixed(2),+b.max.z.toFixed(2)]]}); });
+  hits.sort((a,b)=>b.vol-a.vol); return {at:[+p.x.toFixed(2),+p.z.toFixed(2)], hits:hits.slice(0,8)}; })()"""
+
+
 async def her_at(pg):
     return await pg.evaluate(NPC_JS, list(SPOT))
 
 
 async def shanlan_case(pg, cdp, orient):
     tag = '[%s｜shanlan]' % orient
+    global SPOT
+    at = await pg.evaluate("(()=>typeof GIFTH!=='undefined'&&GIFTH.SL_SCHED&&GIFTH.SL_SCHED.at?GIFTH.SL_SCHED.at.slice(0,2):null)()")
+    if SPOT_ENV: SPOT = tuple(float(v) for v in SPOT_ENV.split(','))
+    elif at: SPOT = (float(at[0]), float(at[1]))
+    R.note('%s 學姊站位＝%s（遊戲 GIFTH.SL_SCHED.at＝%s）' % (tag, J(SPOT), J(at)))
     sats = await pg.evaluate(SL_DATES_JS, {})
     R.note('%s 2025-12～2026-07 的週六（CALENDAR.termOf 週次；slDay＝程式的 GIFTH.slDay 對照）：%s' % (tag, J([(x['key'], x['term'], x['week'], x['slDay']) for x in sats])))
     pos, even, jan, jan_odd = pick_dates(sats)
@@ -396,6 +412,12 @@ async def shanlan_case(pg, cdp, orient):
         R.note('%s %s 時，學姊：%s；她的名字（SOCIAL.displayName）＝%s' % (ctag, s['hour'], J(h), hername))
         near = bool(h['here'] and h['d'] <= 0.3 and h['lv'] == 0)
         if want: R.check('%s 學姊在文具區 (%s, %s) 0.3 m 內' % (ctag, SPOT[0], SPOT[1]), near, J(h))
+        if want and near:   # GUI_fix2（LAWWW 13:02 ⑤）：她身體 0.25 m 半徑、0.05～1.6 m 高的盒子和家具網格的包圍盒有沒有重疊（只看 >2 公升，包圍盒會偏大：判定看截圖）
+            cl = await pg.evaluate(CLIP_JS); R.note('%s 學姊身體和家具包圍盒重疊：%s' % (ctag, J(cl)))
+            if cl and cl['hits']: print('  INFO %s 學姊身體盒子和這些家具的包圍盒重疊（包圍盒會偏大，看截圖）：%s' % (ctag, J([(x['name'], x['vol']) for x in cl['hits']])), flush=True)
+            await pg.evaluate("""(([x,z])=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(x+1.8,1.5,z+1.6),new THREE.Vector3(x,0.9,z)); })""", list(SPOT))
+            await pg.wait_for_timeout(1200); await pg.screenshot(path=os.path.join(OUT, 'gift_%s_sl_%s_0her.png' % (TAG, key)))
+            await pg.evaluate("(()=>{ const E=GAME.E; if(E.endCinematic) E.endCinematic(); else if(E.cam) E.cam.mode=null; })()")
         else: R.check('%s 學姊不在文具區 (%s, %s)（0.3 m 內沒有她）' % (ctag, SPOT[0], SPOT[1]), not near, J(h))
         await pg.screenshot(path=os.path.join(OUT, 'gift_%s_sl_%s_0load.png' % (TAG, key)))
         dowalk = want or SL_NEG_WALK == 'all' or (SL_NEG_WALK == 'even' and key == 'neg_even')
