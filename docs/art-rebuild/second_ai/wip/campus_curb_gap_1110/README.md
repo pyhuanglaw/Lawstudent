@@ -1,6 +1,7 @@
 # CAMPUS-FLOOR-STRIP-1110：校園步道上浮起來的斜長條（路緣橫過別條步道）
 
-狀態：`READY_FOR_REVIEW`
+狀態：`READY_FOR_REVIEW`，**已交件**（LAWWW2 帳號 A，11-10 08:3x）。
+- 在開發分支 bb8a32765 上 `git apply --check` 通過；新測試 ALL PASS；回歸 38 支 ALL PASS（`regression_bb8a32765.txt`）。
 - 補丁和測試都做完、測過，交班時存在這裡，**還沒正式通知 LAWWW-B 整合**。
 - 遊戲內畫面還沒拍：要 CC 拍，BB 判。
 - LAWWW2-B，2026-11-10。

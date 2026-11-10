@@ -6825,6 +6825,20 @@
    "noDirectIntegrate": false,
    "note": "規則 (c)：地板往上碰到落地 WALL_ 也算被蓋住（櫃子沒底面）；測試加分群檢查（整間平均會稀釋黑塊）、茶屋換成 yizhan。13 間＋一盞重掃，只補阿德、轉角唱片、一盞。lm_covered_fill_check 開發貼圖 FAILED 10→ALL PASS；回歸 109／0。站位已給 CC-B。大口 WALL_BANDS 遊戲裡改名 DK_BANDS 不淡出＝不用拍。（LAWWW-B 00:49 整合 faf1b75a4，sha256 全對）",
    "next": "LAWWW-B 整合；CC 照 README 站位拍新舊；BB-B 判"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "CAMPUS-FLOOR-STRIP-1110（X283：校園步道上浮起來的路緣長條）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/campus_curb_gap_1110/（README、campus_curb_gap_1110.patch、campus_curb_gap_unit.js、regression_bb8a32765.txt、tests.txt）"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "curb() 在路口不斷開，7 段約 56 m 路緣橫過別條步道；改成步道都鋪好以後才放、跳過別條步道（只改 src/zones3d.js），路緣合成一個網格（10→1 draw call），導航不變。新測試 campus_curb_gap_unit 開發分支 FAILED 2 → ALL PASS；在 bb8a32765 apply --check 通過、回歸 38 支 ALL PASS。LAWWW2-B 做、帳號 A 交件。",
+   "next": "LAWWW 整合；CC 用使用者存檔 user_save_day51b_1110 拍 (29.9,−54.4) 18:2x；BB 判"
   }
  ]
 }
