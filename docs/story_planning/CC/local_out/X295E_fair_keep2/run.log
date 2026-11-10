@@ -1,0 +1,22 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_x295_events_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\X295E_fair_keep2\out
+CC X295 公告欄特殊活動：worktree ?；TAG fair_keep2；段 ['fair']；條件事件開；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀得到存檔 tests/fixtures/user_save_day51b_1110.json
+  [前置／捷徑] 使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51）當底；每一段從它改日期、時間、區域、位置（GAME.applySave）
+==== fair ====
+  [前置／捷徑] [園遊會] 讀檔到 2025-11-15（第 60 天，第 11 週週六）10:30、校園，站在晨思鐘旁的互動點 (−14.5, 10.5) 幾公尺外（從社博服務台 (−13.5, 13.6) 的另一邊）
+  [  42.4s] [園遊會] 讀檔後：campus 2025-11-15 10.55 時、(-14.5, 4)；讀檔後的對話 []
+  [  42.5s] [園遊會] 活動資料：{"id": "school_fair", "title": "校慶園遊會", "zone": "campus", "room": null, "spot": {"x": -14.5, "z": 10.5, "lv": 0, "label": "校慶園遊會", "r": 1.3}, "t0": 10, "t1": 16, "on": true}；社博今天：{"id": "club_expo_y1s1", "title": "社團博覽會", "zone": "campus", "room": null, "spot": {"x": -20.8, "z": 2.9, "lv": 0, "label": "社團博覽會", "r": 1.3}, "t0": 10, "t1": 16, "on": false}
+  [  42.6s] [園遊會] 互動點 6 m 內的東西：[{"label": "校慶園遊會", "x": -14.5, "z": 10.5, "r": 1.3}]
+  [  42.6s] [園遊會] 存檔的車：{"riding": true, "zone": "campus", "x": 26.1, "z": -99.2}
+  [  45.8s] 「[園遊會] 走到「校慶園遊會」(-14.5, 10.5)」途中停下（離目標 0.65 m）：學弟。有空嗎？
+  [  60.3s] 到達「[園遊會] 走到「校慶園遊會」(-14.5, 10.5)」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  60.4s] [園遊會] 走路途中遇到的對話／選項（照玩家點過去；選項選 dodge 的那一個）：[["campus", 10.57, "學弟。有空嗎？"], ["campus", 10.57, "幫我顧十分鐘就好。不會的叫我。"], ["campus", 10.57, "少年仔，隔壁的樹長到我家這邊，我可以自己剪嗎？"], ["campus", 10.57, "少年仔，隔壁的樹長到我家這邊，我可以自己剪嗎？"], ["campus", 10.57, "阿嬤，先跟鄰居講，請他剪。講了一直沒剪，兩週後的週六早"], ["campus", 10.57, "阿嬤，先跟鄰居講，請他剪。講了一直沒剪，兩週後的週六早上，九點到十二點，來B館。值班的學長姊會幫妳看。"], ["campus", 10.57, "聽說你在顧法律問答攤。問一題：電影裡偷看別人的信，算犯罪"], ["campus", 10.57, "（從旁邊看到螢幕）哪部電影？"], ["campus", 10.57, "……很多部。"], ["campus", 10.57, "那要一部一部看。"]]
+  [  61.6s] 到達「[園遊會] 再往「校慶園遊會」中心走一點」附近（0.23 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [  66.2s] [園遊會] 走到以後：車 {"riding": false, "zone": "campus", "x": -14.5, "z": 10.5}；玩家 3 m 內的互動點（距離）[{"label": "校慶園遊會", "d": 0.23, "r": 1.3, "bike": false}, {"label": "騎腳踏車", "d": 0.23, "r": 1.3, "bike": true}]
+  [  66.2s] [園遊會] 停著的車（騎腳踏車互動點）和它 2 m 內的其他互動點（BB 11:46：店門、攤位都算）：{"bike": [-14.5, 10.5], "within2m": [{"label": "校慶園遊會", "d": 0}]}
+PASS [園遊會] 真的走到晨思鐘旁（沒有被放到目的地）  {"x": -14.34, "z": 10.67, "fb": false}
+FAIL [園遊會] 互動鍵是「校慶園遊會」  "騎腳踏車"
+PASS 沒有 JS 例外  []
+FAILED 1: [園遊會] 互動鍵是「校慶園遊會」
