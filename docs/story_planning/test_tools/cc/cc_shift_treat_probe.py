@@ -195,12 +195,15 @@ async def main():
                 R.setup('【前置／捷徑】day54 存檔 → %s 20:00 溫州街；芷若熟悉 45 信任 30（朋友）＋SHIFTT nf 2、friend.treat idx 2（T3 輪到）' % fz['key'])
                 await P.say_hook(pg); n0 = await pg.evaluate("window.__SAY.length")
                 if not await enter_shop(pg, cdp, tag, 'cafe'): R.check('F 進了 Café', False, J(await pg.evaluate(ST))); continue
+                for _ in range(20):   # r5：先等 SHIFTT.pending 出現（進區域以後 STORY.onEnter 才登記；r4 一進來讀到 null＝當成 clear 直接往下）
+                    if await pg.evaluate("(()=>typeof SHIFTT==='undefined'||!!SHIFTT.pending())()"): break
+                    await pg.wait_for_timeout(500)
                 t0w = time.time()   # r3：STORY.tick 每 30 格才跑一次（game3d.js 600 行），「等兩秒」＝4 次 STORY.tick；雲端 SwiftShader 約 2 fps＝一次 15 秒——等到 SHIFTT.pending() 清掉（最多 150 秒），舊版沒有 SHIFTT 就等 10 秒
                 while time.time() - t0w < 150:
                     pend = await pg.evaluate("(()=>typeof SHIFTT==='undefined'?'none':(SHIFTT.pending()?'pending':'clear'))()")
                     if pend == 'none' and time.time() - t0w > 10: break
                     if pend == 'clear': break
-                    if int(time.time() - t0w) % 5 == 0: R.note('%s 等待中 %.0f 秒：%s' % (tag, time.time() - t0w, J(await pg.evaluate("(()=>({p:typeof SHIFTT==='undefined'?null:SHIFTT.pending(), busy:GAME.E.player.busy, dlg:!!(GAME.D&&GAME.D.active), ev:typeof EVENTS!=='undefined'&&!!EVENTS.running, frame:GAME.E.frame}))()"))))
+                    if True: R.note('%s 等待中 %.0f 秒：%s' % (tag, time.time() - t0w, J(await pg.evaluate("(()=>({p:typeof SHIFTT==='undefined'?null:SHIFTT.pending(), busy:GAME.E.player.busy, dlg:!!(GAME.D&&GAME.D.active), ev:typeof EVENTS!=='undefined'&&!!EVENTS.running, frame:GAME.E.frame}))()"))))
                     s_ = await L.state(pg)
                     if s_['dlg']: await L.tap(pg, cdp, '#dlg')
                     await pg.wait_for_timeout(1000)
@@ -233,12 +236,15 @@ async def main():
             await P.say_hook(pg); n0 = await pg.evaluate("window.__SAY.length")
             st0 = await pg.evaluate(ST); R.note('%s 進店前：%s' % (tag, J(st0)))
             if not await enter_shop(pg, cdp, tag): R.check('%s 進了一盞' % tag, False, J(await pg.evaluate(ST))); continue
+            for _ in range(20):   # r5：先等 SHIFTT.pending 出現（進區域以後 STORY.onEnter 才登記；r4 一進來讀到 null＝當成 clear 直接往下）
+                if await pg.evaluate("(()=>typeof SHIFTT==='undefined'||!!SHIFTT.pending())()"): break
+                await pg.wait_for_timeout(500)
             t0w = time.time()   # r3：STORY.tick 每 30 格才跑一次（game3d.js 600 行），「等兩秒」＝4 次 STORY.tick；雲端 SwiftShader 約 2 fps＝一次 15 秒——等到 SHIFTT.pending() 清掉（最多 150 秒），舊版沒有 SHIFTT 就等 10 秒
             while time.time() - t0w < 150:
                 pend = await pg.evaluate("(()=>typeof SHIFTT==='undefined'?'none':(SHIFTT.pending()?'pending':'clear'))()")
                 if pend == 'none' and time.time() - t0w > 10: break
                 if pend == 'clear': break
-                if int(time.time() - t0w) % 5 == 0: R.note('%s 等待中 %.0f 秒：%s' % (tag, time.time() - t0w, J(await pg.evaluate("(()=>({p:typeof SHIFTT==='undefined'?null:SHIFTT.pending(), busy:GAME.E.player.busy, dlg:!!(GAME.D&&GAME.D.active), ev:typeof EVENTS!=='undefined'&&!!EVENTS.running, frame:GAME.E.frame}))()"))))
+                if True: R.note('%s 等待中 %.0f 秒：%s' % (tag, time.time() - t0w, J(await pg.evaluate("(()=>({p:typeof SHIFTT==='undefined'?null:SHIFTT.pending(), busy:GAME.E.player.busy, dlg:!!(GAME.D&&GAME.D.active), ev:typeof EVENTS!=='undefined'&&!!EVENTS.running, frame:GAME.E.frame}))()"))))
                 s_ = await L.state(pg)
                 if s_['dlg']: await L.tap(pg, cdp, '#dlg')
                 await pg.wait_for_timeout(1000)
