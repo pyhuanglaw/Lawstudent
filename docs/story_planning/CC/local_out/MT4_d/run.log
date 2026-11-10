@@ -1,0 +1,17 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_mt3_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MT4_d\out
+CC MT3（MOVIE-TALK-1110 第二輪）：CASES NOASK,NOFB；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】2026-11-14 08:00、heroine_01 朋友＋聯絡方式
+PASS [NOASK 以安 m2611a] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《雪人信差》②《老街照相館》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [NOASK 以安 m2611a] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [  47.9s] [NOASK 以安 m2611a] 約好：{"id": "iv54", "h": 9.83, "film": "m2611a", "title": "雪人信差"}；對話 ["電影？好。我先查一下片長。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [NOASK 以安 m2611a] 約成了  ["電影？好。我先查一下片長。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+  [  47.9s] [NOASK 以安 m2611a] talkFor＝{"by": "her", "q": "（散場的燈亮了，前後都有人在吸鼻子。）", "qOther": true, "other": true, "opts": [{"k": 1, "t": "「貓明明就不是順路。」", "lines": ["你有看到？我以為只有我在注意。"], "fx": {"love": 2}, "set": null, "fb": "notice"}, {"k": 2, "t": "「雪人早就知道自己會融吧。」", "lines": ["我想的跟你差不多。"], "fx": {"fr": 1}, "set": null, "fb": "feel"}]}；稿＝{"q": "（散場的燈亮了，她還坐著。）", "qOther": "（散場的燈亮了，前後都有人在吸鼻子。）", "opts": ["（把面紙遞過去。）", "「貓明明就不是順路。」", "「雪人早就知道自己會融吧。」"], "other": [], "nofb": false}
+PASS [NOASK 以安 m2611a]「今天」有「前往」
+  [  93.4s] [NOASK 以安 m2611a] 選單 [["「貓明明就不是順路。」", "「雪人早就知道自己會融吧。」"], ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"]]
+PASS [NOASK 以安 m2611a] 散場選單剩兩個、沒有「（把面紙遞過去。）」  [["「貓明明就不是順路。」", "「雪人早就知道自己會融吧。」"], ["有一次半夜睡不著，我騎車去河堤吹風。", "我很少做規則以外的事。", "現在。我本來應該在讀書。"]]
+  [前置／捷徑] 【前置／捷徑】2029-07-14 08:00、heroine_01 朋友＋聯絡方式
+FAIL [NOFB 以安 m2907a] 手機朋友頁有 heroine_01
+PASS 沒有 JS 例外  []
+FAILED 1: [NOFB 以安 m2907a] 手機朋友頁有 heroine_01
