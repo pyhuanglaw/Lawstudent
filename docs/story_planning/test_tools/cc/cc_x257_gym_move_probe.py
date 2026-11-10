@@ -134,7 +134,7 @@ async def shot(pg, name, hud=False, judge_black=True):
 
 
 async def day_info(pg, day):
-    return await pg.evaluate("(d=>{ try{ const q=CALENDAR.dateOf(d); return {key:q.key, wd:q.wd%7}; }catch(e){ return null; } })(%d)" % day)
+    return await pg.evaluate("(d=>{ try{ const q=CALENDAR.dateOf(d); return {key:q.key, wd:q.wd%7}; }catch(e){ return null; } })", int(day))   # r1：字串裡的 %7 被 Python 的 % 格式化吃掉＝每一段都例外（TEST_BUG）
 
 
 async def day_of_key(pg, key):
