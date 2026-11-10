@@ -7,7 +7,7 @@ import playlib as L
 import cc_d141_lib as D
 from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
-SPOTS = [s for s in (os.environ.get('SPOTS') or '').split('|') if s]
+SPOTS = [s for s in (os.environ.get('SPOTS') or '').replace('+', '|').split('|') if s]
 DIST = float(os.environ.get('DIST') or 4.5); DAY = os.environ.get('DAY') or '2025-10-18'; HOUR = float(os.environ.get('HOUR') or 14); TAG = os.environ.get('TAG') or 'x'
 R = L.Run('raypick_' + TAG, OUT); D.setup(R, OUT)
 PICK_JS = r"""(px=>{ const E=GAME.E, cam=E.camera, c=E.renderer?E.renderer.domElement:document.getElementById('c'); const W=c.clientWidth, H=c.clientHeight; cam.updateMatrixWorld(true);
@@ -35,7 +35,7 @@ async def main():
         for sp in SPOTS:
             head, pix = sp.split('@', 4)[:4], sp.split('@', 4)[4]
             zone, x, z, yd = head[0], float(head[1]), float(head[2]), float(head[3])
-            px = [[float(a) for a in q.split(':')] for q in pix.split(';')]
+            px = [[float(a) for a in q.split(':')] for q in pix.replace('/', ';').split(';')]
             R.setup('【捷徑】讀檔到 %s，站 (%s, %s)；鏡頭 yaw %s°、距離 %s（直接擺，和牆外截圖同一個畫面）' % (zone, x, z, yd, DIST))
             await D.load_zone(pg, cdp, zone, DAY, HOUR, x=x, z=z, yaw=0.0, wait=9000)
             for _ in range(12):
