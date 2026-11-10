@@ -1,0 +1,21 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wzcat_jump_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZCAT_old\out
+CC 橘貓跳上跳下：worktree ?；TAG old；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 這一版有 WZCAT（會動的貓）
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 公園 (24.0, 19.0) 2025-10-22 10:00（先看這一天貓會不會醒）
+  [  50.6s] 2025-10-22 10:00：{"awake": true, "sleepH": 17.358, "rainy": false, "cold": false, "lost": false, "adopted": false}
+PASS 找得到貓醒著的一天  ["2025-10-22", "2025-10-23", "2025-10-16", "2025-11-05"]
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 公園 2025-10-22 06:58（貓還在圓椅上睡）
+FAIL 06:58 貓在圓椅上睡（state sleep、lie bench）  {"h": 7.034, "zone": "wenzhou", "s": {"state": "walk", "t": -0.6, "busy": false, "x": 26.14, "z": 23.39, "yaw": 0.98, "clip": "cat_walk", "at": [26, 23.3], "path": 2, "lie": null, "still": 5.1, "rubCd": -5.1, "rub": null}, "y": 0, "vis": true, "bone": {"name": "body", "x": 26.094, "y": 0.203, "z": 23.353}, "awake": true, "sleepH": 17.358, "rainy": false, "cold": false, "lost": false, "adopted": false, "clips": null}
+  [  64.0s] ① 07:00 前後 狀態變化：[{"h": 7.035, "state": "walk", "clip": "cat_walk", "lie": null, "x": 26.19, "z": 23.41, "y": 0, "vis": true}]
+FAIL 07:00 以後：jturn → jdown（從座面轉向外、跳下來）  ["walk"]
+PASS 跳下來以後在地上（貓高度 < 0.15 m）  {"y": 0, "s": {"state": "walk", "t": -0.7, "busy": false, "x": 26.19, "z": 23.41, "yaw": 1.01, "clip": "cat_walk", "at": [26, 23.3], "path": 2, "lie": null, "still": 5.2, "rubCd": -5.3, "rub": null}}
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 公園 2025-10-22 17.328 時（日落 17.358 前約 2 分鐘）
+  [  76.8s] ② 日落前後 狀態變化：[{"h": 17.399, "state": "sleep", "clip": "cat_sit_idle", "lie": "bench", "x": 26, "z": 23.3, "y": 0, "vis": false}]
+FAIL 日落以後：prejump → jup → sleep（走到座面前、跳上去、趴好）  ["sleep"]
+FAIL 趴在圓椅座面上（lie bench、clip cat_lie_idle、高度 ≥ 0.35 m）  {"h": 17.399, "zone": "wenzhou", "s": {"state": "sleep", "t": 2.2, "busy": false, "x": 26, "z": 23.3, "yaw": 3.14, "clip": "cat_sit_idle", "at": [26, 23.3], "path": 0, "lie": "bench", "still": 4, "rubCd": -4, "rub": null}, "y": 0, "vis": false, "bone": {"name": "body", "x": 26, "y": 0.109, "z": 23.353}, "awake": false, "sleepH": 17.358, "rainy": false, "cold": false, "lost": false, "adopted": false, "clips": null}
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 公園 2025-10-22 21:00
+FAIL 21:00 趴在圓椅上（sleep、lie bench、cat_lie_idle、高度 ≥ 0.35 m）  {"h": 21.091, "zone": "wenzhou", "s": {"state": "sleep", "t": 5.4, "busy": false, "x": 26, "z": 23.3, "yaw": 3.14, "clip": "cat_sit_idle", "at": [26, 23.3], "path": 0, "lie": "bench", "still": 0, "rubCd": 0, "rub": null}, "y": 0, "vis": false, "bone": {"name": "body", "x": 26, "y": 0.2, "z": 23.36}, "awake": false, "sleepH": 17.358, "rainy": false, "cold": false, "lost": false, "adopted": false, "clips": null}
+PASS 沒有 JS 例外  []
+FAILED 5: 06:58 貓在圓椅上睡（state sleep、lie bench）；07:00 以後：jturn → jdown（從座面轉向外、跳下來）；日落以後：prejump → jup → sleep（走到座面前、跳上去、趴好）；趴在圓椅座面上（lie bench、clip cat_lie_idle、高度 ≥ 0.35 m）；21:00 趴在圓椅上（sleep、lie bench、cat_lie_idle、高度 ≥ 0.35 m）
