@@ -19,7 +19,7 @@ CASES（逗號隔開，預設全部）：guitar,debate,bball_sun,bball_rain,zhe_
     bball_rain：在 gym、旁白是走廊那句；bball_sun：在 campus、沒有走廊那句。四段都不能出現「我就說吧。」（沒設 AA613_BALL_GO）。
   zhe_yes：系籃晴天＋AA613_BALL_GO → 填 → 回那一句之後「我就說吧。」；zhe_no：系籃晴天、沒有 AA613_BALL_GO → 填 → 不能有「我就說吧。」。
   later（LATER_CLUB，預設 club_guitar）：第 5 週「先不要」→ no；第 6 週再問一次 → 「先不要」→ no6；第 7 週一去開頭就有門口那一句、沒有入社單、CLUB_<id>＝true。
-截圖：入社單選單出現時（*_menu.png）、「系籃隊長」出現時（*_captain.png）、到達互動點時、結束時。對話框實際文字全部印出（LINE／CAP）。
+截圖：入社單選單出現時（*_menu.png）、「系籃隊長」出現時（*_captain.png）、「我就說吧。」出現時（*_told.png）、到達互動點時、結束時。對話框實際文字全部印出（LINE／CAP）。
 改前（10df264ed）沒有 LATE_JOIN：預期 FAIL；改後 PASS。Playwright 手機橫向模擬（SwiftShader），不是 iPhone。
 用法：LW_TESTS=<wt>/tests TAG=new|old [CASES=…] [LATER_CLUB=club_debate] python3 cc_x295_clubs_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, time
@@ -173,6 +173,8 @@ async def play_session(pg, cdp, tag, aid, rain, picks):
             if key != last_line:
                 last_line = key; log['lines'].append({'name': s['name'], 'text': s['text'], 'hour': s['hour'], 'zone': s['zone']})
                 print('  LINE %.2f [%s] %s' % (s['hour'], s['name'] or '旁白', s['text']), flush=True)
+                if s['text'].strip() == TOLD:
+                    await pg.wait_for_timeout(1500); await D.shot(pg, '%s_%s_told' % (TAG, tag))
                 if s['name'] == CAPTAIN and not log['captain_shot']:
                     await pg.wait_for_timeout(2200); await D.shot(pg, '%s_%s_captain' % (TAG, tag)); log['captain_shot'] = True
         if s['choices']:
