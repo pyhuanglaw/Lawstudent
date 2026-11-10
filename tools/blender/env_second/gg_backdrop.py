@@ -23,6 +23,12 @@ OUT = os.path.join(L.ROOT, ARGS[ARGS.index('--out') + 1] if '--out' in ARGS else
 NMIN, SMAX = (-230.0, 230.0) if ZONE else (-142.0, 152.0)
 CORE = (-88.0, 77.6)   # 公館區域自己蓋的：轉角公寓（−88～−74）、巷子、15 棟店面（−68～77.6）——公館區域的遠景不重複蓋
 GEN = TXS.GEN; PI = math.pi
+_BB_N = [0]
+_BB_ORDER = (0, 3, 6, 1, 4, 7, 2, 5)   # 8 張輪流：相鄰的兩棟一定不同，8 棟裡每張各一次
+def _bb(k):
+    """大看板挑第幾張（AVENUE-FAR-SIGNS-1110）：照舊呼叫一次 randrange(8)（其他亂數、樓的長相都不變），但不用它的結果——
+    原本亂數挑到第 0 格的機會特別多（第一版改名以後「穗豐銀行」在同一個畫面出現三次），改成照 _BB_ORDER 輪流"""
+    n = _BB_N[0]; _BB_N[0] += 1; return _BB_ORDER[n % 8]
 GH, FH = 4.2, 3.1                  # 一樓（騎樓）高、樓層高
 X1F, D1 = -189.0, 16.0             # 第一排：立面在 x −189、朝 +x（校園）、往西 16 m
 X2F, D2 = -212.0, 18.0             # 第二排（高樓）
@@ -125,7 +131,7 @@ def building(xf, d, za, zb, floors, k, arcade=True, extras=True, row=1, R=None):
             if nb == 1 and rr.random() < 0.5: a = zb - 0.5 - bw
             hb = FH * rr.choice((3, 4, 5, 5, 6)); y0 = GH + FH * 0.5 + rr.uniform(0, FH); y1 = min(H - 0.5, y0 + hb)
             if y1 - y0 < 4: continue
-            VC.cbox(xf, xf + 0.12, y0 - 0.08, y1 + 0.08, a - 0.08, a + bw + 0.08, '#3a3d40'); sign_quad_x(xf + 0.125, a, a + bw, y0, y1, 'bb%d' % rr.randrange(8))
+            VC.cbox(xf, xf + 0.12, y0 - 0.08, y1 + 0.08, a - 0.08, a + bw + 0.08, '#3a3d40'); sign_quad_x(xf + 0.125, a, a + bw, y0, y1, 'bb%d' % _bb(rr.randrange(8)))
     # 二、三樓整面的大招牌（補習班、診所常見：整面蓋住二、三樓的窗）
     if floors >= 5 and rr.random() < 0.3:
         y0 = GH + 1.4; y1 = GH + FH + 2.6; VC.cbox(xf, xf + 0.18, y0 - 0.06, y1 + 0.06, za + 0.2, zb - 0.2, '#2b2b2b')
@@ -192,7 +198,7 @@ if ZONE:
             bw = min(3.6, span - 0.4); a = a0 + j * span + (span - bw) / 2
             y0 = GH + FH + 0.4; y1 = min(H - 0.6, y0 + FH * R.choice((3, 4, 5)))
             if y1 - y0 < 4: continue
-            VC.cbox(X1F, X1F + 0.42, y0 - 0.08, y1 + 0.08, a - 0.08, a + bw + 0.08, '#3a3d40'); sign_quad_x(X1F + 0.425, a, a + bw, y0, y1, 'bb%d' % R.randrange(8)); stats['near_boards'] += 1
+            VC.cbox(X1F, X1F + 0.42, y0 - 0.08, y1 + 0.08, a - 0.08, a + bw + 0.08, '#3a3d40'); sign_quad_x(X1F + 0.425, a, a + bw, y0, y1, 'bb%d' % _bb(R.randrange(8))); stats['near_boards'] += 1
 
 # 水源市場（第一排南段）：藍色大樓、彩色橫條、大字；一樓是攤位（遮雨棚）
 za, zb = MKT_Z; fm = 8; Hm = GH + (fm - 1) * FH
