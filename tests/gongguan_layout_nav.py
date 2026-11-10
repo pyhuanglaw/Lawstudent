@@ -91,9 +91,12 @@ async def main():
         await pg.wait_for_timeout(1500)
         vis = await wait_label('離開公館燒臘')   # [前置] 手機自動打開要回的訊息（STORY.phoneAuto，D103）時先收起來，互動按鈕才會更新
         check('麵店門口出現「離開公館燒臘」', (not vis['hidden']) and vis['label'] == '離開公館燒臘', json.dumps(vis, ensure_ascii=False))
-        await pg.evaluate("document.getElementById('interact').click()")
+        # 用真的滑鼠點互動鈕（這支是桌機視窗、沒有觸控）；原本 element.click()（BB 11-10：30 秒後還在 noodle，CC 觸控按同一顆就回公館）
+        c = await pg.evaluate("(()=>{ const e=document.getElementById('interact'); if(!e||e.classList.contains('hide')) return null; const r=e.getBoundingClientRect(); return [r.left+r.width/2, r.top+r.height/2]; })()")
+        if c: await pg.mouse.click(c[0], c[1])
         for i in range(60):
             zone = await pg.evaluate("GAME.G.zone")
+            if i == 6 and zone == 'noodle': print('[診斷] 點了 3 秒還在麵店：', await pg.evaluate("JSON.stringify({dlg:!!(GAME.D&&GAME.D.active),busy:!!GAME.E.player.busy,label:(document.getElementById('interactLabel')||{}).textContent,hidden:document.getElementById('interact').classList.contains('hide'),cap:(document.getElementById('caption')||{}).textContent})"))
             if zone == 'gongguan' and not await pg.evaluate("!!GAME.E.player.busy"): break
             await pg.wait_for_timeout(500)
         r = await pg.evaluate("(s=>{ const E=GAME.E, o=E.player.obj.position; const p=E.nav.path(o.x,o.z,s[0],s[1]); return {zone:GAME.G.zone,x:+o.x.toFixed(2),z:+o.z.toFixed(2),stand:E.canStand(o.x,o.z,0.3),reach:!!(p&&p.length)}; })(%s)" % json.dumps(START))
