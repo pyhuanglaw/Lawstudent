@@ -8,6 +8,7 @@
     PERF_VIEWS（JSON {名字:[eye,look]}，給了就取代內建的鏡頭；VIEWS 沒給時全部量）、PERF_GLB（要等的正式模型節點名，預設 gongguan_shops_glb；溫州街 wenzhou_street_glb，src/zones3d.js:1143）。
     溫州街範例：PERF_ZONE=wenzhou；PERF_POS={"x":10,"z":0,"yaw":1.5708}；PERF_GLB=wenzhou_street_glb；
       PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]}
+DESKTOP=1＝桌機視窗 1366×768（非手機模擬）；沒設＝照舊手機模擬 844×390。
 用法：LW_TESTS=<wt>/tests [VIEWS=street_west,arcade] [PERF_ZONE=… PERF_POS=… PERF_VIEWS=… PERF_GLB=…] python3 cc_gg_perf_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
@@ -58,7 +59,10 @@ GLBREADY = "(()=>{ const z=GAME.E.zone; if(!z||!z.group) return false; const g=z
 async def one(p, formal):
     url = URL if formal else URL + ('&' if '?' in URL else '?') + 'nobldg'
     tag = '一般網址' if formal else '?nobldg'
-    b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+    if os.environ.get('DESKTOP') == '1':   # PERF-CAMPUS-GLB ②（LAWWW 12:39「PC＋手機模擬各一組」）：桌機視窗 1366×768、非手機、DPR 1（PC 上 gpu_wrap 照樣換 GPU）
+        b = await p.chromium.launch(executable_path='/opt/pw-browsers/chromium', args=L.ARGS); ctx = await b.new_context(viewport={'width': 1366, 'height': 768}, device_scale_factor=1)
+        pg = await ctx.new_page(); cdp = await ctx.new_cdp_session(pg); errs = []; pg.on('pageerror', lambda e: errs.append(str(e)))
+    else: b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
     t0 = time.time(); await pg.goto(url); ok = await L.wait_loaded(pg); boot = time.time() - t0
     check('%s：遊戲載入' % tag, ok, '%.1f 秒' % boot)
     await pg.evaluate("localStorage.clear(); if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}")
