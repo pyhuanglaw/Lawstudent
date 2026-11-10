@@ -7031,7 +7031,7 @@
    "branch": "claude/second-ai-env-art",
    "sha": "a43da6a27",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "PUTONG101-WINDOW-1102（普通 101 北窗白天整片深藍黑）",
    "files": [
     "assets/models/env/second_ai/campus_boya.glb",
@@ -7039,10 +7039,10 @@
     "tools/blender/env_second/campus_teach.py",
     "docs/art-rebuild/second_ai/wip/putong101_window_1110/（README、putong101_window_9d4c54c16.patch、putong101_window_unit.js、pt_reg.txt、blender_before_after.jpg）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "窗外是博思一樓退縮的玻璃大廳，照不到光、玻璃頂點色太暗 → 只有這一片換亮一點的灰藍漸層（campus_teach.py），重匯 campus_boya.glb。新測試開發 FAIL → ALL PASS；e05_putong、nav_teach、teach_east_drawcall、zone_prefetch ALL PASS。窗景照片要 CC 重拍（teach_views.py putong_north）。",
-   "next": "LAWWW 套 patch；CC 重拍 putong_north 窗景；BB 判普通 101 北窗"
+   "note": "窗外是博思一樓退縮的玻璃大廳，照不到光、玻璃頂點色太暗 → 只有這一片換亮一點的灰藍漸層（campus_teach.py），重匯 campus_boya.glb。新測試開發 FAIL → ALL PASS；e05_putong、nav_teach、teach_east_drawcall、zone_prefetch ALL PASS。窗景照片要 CC 重拍（teach_views.py putong_north）。 ｜ LAWWW 11-10 10:38 在本機接進開發分支 3c6c91bdd（4 支 ALL PASS），GHA 跑完一起推。",
+   "next": "LAWWW 推；CC 重拍 putong_north；BB 判"
   }
  ]
 }
