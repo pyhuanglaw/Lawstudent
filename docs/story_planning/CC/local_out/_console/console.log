@@ -1705,3 +1705,17 @@
 [22:11:13] [res] cpu=5% mem=35% (11.1/31.4 GB) chrome_testing=0  START PERFCG_new_d
 [22:13:06] 正在跑：PERFCG_new_d（已跑 1 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:14:50] [res] cpu=3% mem=37% (11.6/31.4 GB) chrome_testing=0  END PERFCG_new_d
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8f93be631..6091ae9b3  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:15:07] ==== END   PERFCG_new_d  exit=0  220s   ====
+[22:15:10] memory 35% before starting WINVIEW_own2 (0 running)
+[22:15:10] memory 35% before starting WINVIEW_haopai2 (1 running)
+[22:15:10] ==== START WINVIEW_own2  (probe @ 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43) ====
+[22:15:10] memory 35% before starting WINVIEW_tea21 (2 running)
+[22:15:10] ==== START WINVIEW_haopai2  (probe @ 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43) ====
+[22:15:10] ==== START WINVIEW_tea21  (probe @ 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43) ====
+[22:15:13] [res] cpu=0% mem=35% (11.1/31.4 GB) chrome_testing=0  START WINVIEW_haopai2
+[22:15:13] [res] cpu=0% mem=35% (11.1/31.4 GB) chrome_testing=0  START WINVIEW_tea21
+[22:15:13] [res] cpu=0% mem=35% (11.1/31.4 GB) chrome_testing=0  START WINVIEW_own2
+[22:17:00] [res] cpu=9% mem=49% (15.4/31.4 GB) chrome_testing=6  END WINVIEW_tea21

@@ -1,0 +1,19 @@
+{
+ "sha": "",
+ "day": "2025-10-18",
+ "hours": [
+  21.0
+ ],
+ "shops": [
+  {
+   "key": "teahouse",
+   "name": "一盞",
+   "group": "tea",
+   "zone": "wz_teahouse",
+   "day": "2025-10-18",
+   "shots": {},
+   "notes": [],
+   "error": "zone"
+  }
+ ]
+}
