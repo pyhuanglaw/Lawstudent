@@ -1,0 +1,26 @@
+{
+  "rerun": "",
+  "id": "ROMPRIV_old",
+  "sha": "443fb4a0bde0c7e0d760cd6f6f516bfa90cd5cd8",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_rom_private_probe.py",
+  "env": "CASES=a,c",
+  "machine": "MSI",
+  "start": "2026-11-10T09:39:06",
+  "end": "2026-11-10T09:39:43",
+  "seconds": 36,
+  "exit": 1,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 21,
+    "mem": 47,
+    "used_gb": 14.9,
+    "chrome_testing": 9
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true
+}

@@ -1342,3 +1342,11 @@
 [09:38:25] [res] cpu=2% mem=47% (14.9/31.4 GB) chrome_testing=9  START ROMPRIV_new
 [09:38:27] 正在跑：NOASK_faf1（已跑 32 分／上限 240 分）、SOCX_8677_date_h5（已跑 15 分／上限 90 分）、ROMPRIV_new（已跑 0 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
 [09:38:58] [res] cpu=2% mem=46% (14.6/31.4 GB) chrome_testing=9  END ROMPRIV_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       86967857b..d12761c46  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:39:03] ==== END   ROMPRIV_new  exit=1  36s   ====
+[09:39:06] memory 47% before starting ROMPRIV_old (2 running)
+[09:39:06] ==== START ROMPRIV_old  (probe @ 443fb4a0bde0c7e0d760cd6f6f516bfa90cd5cd8) ====
+[09:39:09] [res] cpu=0% mem=47% (14.8/31.4 GB) chrome_testing=9  START ROMPRIV_old
+[09:39:43] [res] cpu=20% mem=44% (14.8/31.4 GB) chrome_testing=9  END ROMPRIV_old
