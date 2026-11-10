@@ -7200,6 +7200,20 @@
    "noDirectIntegrate": false,
    "note": "xinsheng3d.js 一行：type 的括號拿掉。新測試開發 FAILED 2 → ALL PASS；新生南路 53 支過。TODO_SHORTCUTS 11-10 盤點 c64b9086a。",
    "next": "X246 花台（做中）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "XS-PLANTERS-1110（X246 新生南路人行道花台）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/xs_planters_1110/（README、xs_planters_1110.patch、xs_planters_unit.js、regression.log、blender_preview_*.jpg）"
+   ],
+   "state": "MODEL_READY，待整合（先套 XS-DOOR-LABELS）",
+   "noDirectIntegrate": false,
+   "note": "16 段花崗石矮花台＋杜鵑（SEASON_AZALEA，3 月開花），GLB extras.planters 擋導航。新測試開發 FAILED 3 → ALL PASS；新生南路 54 支過。差距表：紅磚、廣場、望月台已有；門柱圍牆正式模型、磚紋、停車場另排。",
+   "next": "C：NTU-REF-AUDIT 逐棟「保留／改掉」表"
   }
  ]
 }
