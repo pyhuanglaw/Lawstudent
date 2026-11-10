@@ -1,0 +1,44 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_us_art_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\US_ART_1r\out
+CC 美國篇 ART 巡拍：worktree ?；區域 ['us_apartment', 'us_lawlib', 'us_shared', 'us_market']；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_apartment 出生點 2028-09-15 14.0 時
+  [  55.0s] us_apartment 2028-09-15 14 時：等模型 0 次；{"zone": "us_apartment", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0.4, 4]}
+PASS us_apartment 2028-09-15 14 時 讀得進這個區域  {"zone": "us_apartment", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0.4, 4]}
+  [  55.7s] 平均亮度 us_us_apartment_14_balcony_out.jpg：146.8
+  [  55.8s] 平均亮度 us_us_apartment_14_bedwin_out.jpg：169.9
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_apartment 出生點 2028-09-15 20.0 時
+  [  72.7s] us_apartment 2028-09-15 20 時：等模型 0 次；{"zone": "us_apartment", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0.4, 4]}
+PASS us_apartment 2028-09-15 20 時 讀得進這個區域  {"zone": "us_apartment", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0.4, 4]}
+  [  73.4s] 平均亮度 us_us_apartment_20_balcony_out.jpg：44.4
+  [  73.5s] 平均亮度 us_us_apartment_20_bedwin_out.jpg：154.6
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_lawlib 出生點 2028-09-15 14.0 時
+  [  97.2s] us_lawlib 2028-09-15 14 時：等模型 0 次；{"zone": "us_lawlib", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0, 7.8]}
+PASS us_lawlib 2028-09-15 14 時 讀得進這個區域  {"zone": "us_lawlib", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0, 7.8]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_lawlib 出生點 2028-09-15 20.0 時
+  [ 114.1s] us_lawlib 2028-09-15 20 時：等模型 0 次；{"zone": "us_lawlib", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0, 7.8]}
+PASS us_lawlib 2028-09-15 20 時 讀得進這個區域  {"zone": "us_lawlib", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0, 7.8]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_shared 出生點 2028-09-15 14.0 時
+  [ 137.1s] us_shared 2028-09-15 14 時：等模型 0 次；{"zone": "us_shared", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0.4, 4]}
+PASS us_shared 2028-09-15 14 時 讀得進這個區域  {"zone": "us_shared", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0.4, 4]}
+  [ 137.3s] 平均亮度 us_us_shared_14_livwin_out.jpg：147
+  [ 137.4s] 平均亮度 us_us_shared_14_bedwin_out.jpg：182.4
+  [ 137.4s] 平均亮度 us_us_shared_14_balcony_out.jpg：147
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_shared 出生點 2028-09-15 20.0 時
+  [ 154.6s] us_shared 2028-09-15 20 時：等模型 0 次；{"zone": "us_shared", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0.4, 4]}
+PASS us_shared 2028-09-15 20 時 讀得進這個區域  {"zone": "us_shared", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0.4, 4]}
+  [ 154.8s] 平均亮度 us_us_shared_20_livwin_out.jpg：122.2
+  [ 154.9s] 平均亮度 us_us_shared_20_bedwin_out.jpg：152.5
+  [ 154.9s] 平均亮度 us_us_shared_20_balcony_out.jpg：44.4
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_market 出生點 2028-09-15 14.0 時
+  [ 176.6s] us_market 2028-09-15 14 時：等模型 0 次；{"zone": "us_market", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [13.5, 13.6]}
+PASS us_market 2028-09-15 14 時 讀得進這個區域  {"zone": "us_market", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [13.5, 13.6]}
+  [ 176.9s] 平均亮度 us_us_market_14_checkout.jpg：101.4
+  [ 177.0s] 平均亮度 us_us_market_14_glass_out.jpg：104.1
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_market 出生點 2028-09-15 20.0 時
+  [ 195.2s] us_market 2028-09-15 20 時：等模型 0 次；{"zone": "us_market", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [13.5, 13.6]}
+PASS us_market 2028-09-15 20 時 讀得進這個區域  {"zone": "us_market", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [13.5, 13.6]}
+  [ 195.5s] 平均亮度 us_us_market_20_checkout.jpg：76
+  [ 195.5s] 平均亮度 us_us_market_20_glass_out.jpg：53.1
+PASS 沒有 JS 例外  []
+ALL PASS
