@@ -1,0 +1,108 @@
+{
+ "_meta": {
+  "doc": "AA_731 答應句寫死時間改稿（BUG-INV-ACC-TIME-1110）",
+  "by": "AA-B 2026-11-10",
+  "level": "第①級，AA 定稿（D109）",
+  "from": "BB-B BB_255（fb83dce001）：玩家約得到的時間和答應句裡的時間對不上",
+  "rule": "答應句不寫幾點；要講時間的感覺用「準時」「早一點出門」「我會起來」。約好的時間照系統那一行「約好 今天 10:00，Daybreak。」。之後新寫的答應句照這條（00_台詞寫作規則 加一條）。",
+  "apply": "LAWWW：照 rows 換 src/data/invites.js 的手寫句（invites.js 不是自動產生的那幾處）；invite_replies.js 重跑 tools/invite/build_replies.py（AA_415 已改）；invite_place_lines.js 重跑 import_place_acc.py（AA_721 已改）。白名單更新到本 commit。"
+ },
+ "rows": [
+  {
+   "who": "heroine_01",
+   "place": "Daybreak",
+   "old": "好。九點，不要遲到。",
+   "new": "好。不要遲到。",
+   "where": "src/data/invites.js DB（約 535 行）",
+   "sourceEdited": [
+    "AA_652_afar與Daybreak店內台詞.md"
+   ]
+  },
+  {
+   "who": "heroine_04",
+   "place": "Daybreak",
+   "old": "早上？……十點以後可以。",
+   "new": "Daybreak？……好。我會起來。",
+   "where": "src/data/invites.js DB",
+   "sourceEdited": [
+    "AA_652_afar與Daybreak店內台詞.md"
+   ]
+  },
+  {
+   "who": "heroine_05",
+   "place": "Daybreak",
+   "old": "好。週末早上我剛好有空。",
+   "new": "好。那天我空下來。",
+   "where": "src/data/invites.js DB",
+   "sourceEdited": [
+    "AA_652_afar與Daybreak店內台詞.md"
+   ]
+  },
+  {
+   "who": "heroine_05",
+   "place": "SUNNY SIDE",
+   "old": "SUNNY SIDE。好。我九點到。",
+   "new": "SUNNY SIDE。好。我會準時到。",
+   "where": "src/data/invites.js heroine_05 acc.brunch.A；src/data/invite_replies.js sis5（AA_415 第 247 行「半熟。好。我九點到。」）",
+   "sourceEdited": [
+    "AA_415_邀約回覆照階段變_七位定稿.md"
+   ]
+  },
+  {
+   "who": "kexin",
+   "place": "SUNNY SIDE",
+   "old": "SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我十點到。",
+   "new": "SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。",
+   "where": "src/data/invites.js kexin acc.brunch.A；src/data/invite_replies.js kx25（AA_415 第 359 行）",
+   "sourceEdited": [
+    "AA_415_邀約回覆照階段變_七位定稿.md"
+   ]
+  },
+  {
+   "who": "kai",
+   "place": "SUNNY SIDE",
+   "old": "十二點？好，那是我的早餐。",
+   "new": "早午餐？好，那是我的早餐。",
+   "where": "src/data/invites.js 阿凱 acc.brunch.face",
+   "sourceEdited": []
+  },
+  {
+   "who": "kai",
+   "place": "SUNNY SIDE（手機）",
+   "old": "十二點 好 那是我的早餐",
+   "new": "早午餐 好 那是我的早餐",
+   "where": "src/data/invites.js 阿凱 acc.brunch.phone",
+   "sourceEdited": []
+  },
+  {
+   "who": "heroine_03",
+   "place": "映月湖",
+   "old": "好。我九點以前要回店裡。",
+   "new": "好。……我跟店裡說一聲。",
+   "where": "src/data/invites.js 映月湖 heroine_03.acc",
+   "sourceEdited": [
+    "AA_535b_約她選項_第二份_缺的台詞_法圖_映月湖.md"
+   ]
+  },
+  {
+   "who": "kexin",
+   "place": "轉角唱片",
+   "old": "好。週末的話。",
+   "new": "好啊。我想找一張老唱片。",
+   "where": "src/data/invites.js 轉角唱片（約 559 行）",
+   "sourceEdited": [
+    "AA_725_轉角唱片店內台詞.md"
+   ]
+  },
+  {
+   "who": "kexin",
+   "place": "118 巷蛋包飯（l118_omu）",
+   "old": "蛋包飯？好。週末的話。",
+   "new": "蛋包飯？好。我坐捷運過去。",
+   "where": "src/data/invite_place_lines.js（AA_721 l118_omu.kexin.acc[0]，重新匯入）",
+   "sourceEdited": [
+    "AA_721_l118_invite_acc.json"
+   ]
+  }
+ ]
+}

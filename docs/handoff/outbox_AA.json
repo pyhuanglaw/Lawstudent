@@ -6154,6 +6154,26 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false
+  },
+  {
+   "task": "BUG-INV-ACC-TIME-1110",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_731_invite_acc_no_time.json",
+    "docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md",
+    "docs/story_planning/AA_721_l118_invite_acc.json",
+    "docs/story_planning/AA_652_afar與Daybreak店內台詞.md",
+    "docs/story_planning/AA_535b_約她選項_第二份_缺的台詞_法圖_映月湖.md",
+    "docs/story_planning/AA_725_轉角唱片店內台詞.md",
+    "docs/story_planning/00_台詞寫作規則.md"
+   ],
+   "state": "已交付",
+   "at": "2026-11-10",
+   "next": "LAWWW 換 invites.js 手寫句（AA_731 rows）、重跑 build_replies.py 與 import_place_acc.py、白名單；BB/CC 測",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false
   }
  ],
  "items": [
