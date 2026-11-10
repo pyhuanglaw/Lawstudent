@@ -35,8 +35,8 @@ await sec(1,()=>{ const A=TERMEND_LINES.KX_ASK, f=x=>typeof x==='function';
   check('1. 大三上兩個都記 Y3W yes；大五上記 KX_Y5_CALL',A.Y3S1.every(o=>o.khh[0]==='Y3W'&&o.khh[1]==='yes')&&A.Y5S1[0].y5==='sat'&&A.Y5S1[1].y5==='cheer');
   const src=fs.readFileSync(path.join(H.ROOT,'src/termend3d.js'),'utf8');
   check('1. termend3d.js kexinDinner：table 後面接 KX_ASK 的二選一、記 KX_KHH',/Lx\.KX_ASK&&Lx\.KX_ASK\[te\.term\]/.test(src)&&/KX_KHH\|\|\(G\.flags\.KX_KHH=\{\}\)/.test(src)); });
-await sec('1b',async()=>{ const te={term:'Y2S1'}; fresh('2026-12-30',18); H.said=[]; H.opts=[]; H.picks=[1]; await TERMEND.kexinDinner(GM,te);
-  check('1. 實際演大二上：「我家附近那個夜市，你還沒去過。」→ 兩個選項 →「寒假我可能沒空。」→「……好。那夜市我自己去，拍給你看。」；KX_KHH.Y2W no',has('我家附近那個夜市，你還沒去過。')&&H.opts[0]&&H.opts[0].length===2&&has('……好。那夜市我自己去，拍給你看。')&&H.G.flags.KX_KHH.Y2W==='no',J({s:H.said.map(x=>x.t),o:H.opts})); });
+await sec('1b',async()=>{ const te={term:'Y2S1'}; fresh('2026-12-30',18); H.said=[]; H.opts=[]; H.picks=[0,1]; await TERMEND.kexinDinner(GM,te);   /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版）：開頭照新稿、先有一組三個選項，KX_ASK 的二選一是第二組 */
+  check('1. 實際演大二上：「我家附近那個夜市，你還沒去過。」→ 兩個選項 →「寒假我可能沒空。」→「……好。那夜市我自己去，拍給你看。」；KX_KHH.Y2W no',has('我家附近那個夜市你還沒去過。我已經跟我媽說了。')&&H.opts[0]&&H.opts[0].length===3&&H.opts[1]&&H.opts[1].length===2&&has('……好。那夜市我自己去，拍給你看。')&&H.G.flags.KX_KHH.Y2W==='no',J({s:H.said.map(x=>x.t),o:H.opts})); });
 /* ---- 2 ---- */
 await sec(2,async()=>{ fresh('2027-01-01',12,{KX_KHH:{Y2W:'yes'}}); const R=homeRun('2026-12-15','2027-02-20');
   check('2. 可昕大二寒假在高雄（presence home）、這一段算 Y2W',!!R&&R.key==='Y2W',J(R));

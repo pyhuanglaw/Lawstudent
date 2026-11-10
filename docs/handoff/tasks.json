@@ -364,6 +364,12 @@
     "match": "【表外】（交給值班 LAWWW 補進總表）",
     "task": "HANDOFF-B-1101",
     "why": "標題行；底下兩件已補成 LAKE-LAMPS-STAGGER-1101、ZQ-C504-LAPTOP-1101（LAWWW-B 11-01）"
+   },
+   {
+    "role": "BB",
+    "match": "BUG-LIB-DOOR-LABEL-1110",
+    "task": "BUG-LIB-DOOR-LABEL-1110",
+    "why": "BB 11-10 20:56 表外，LAWWW 補成任務"
    }
   ],
   "timeNote1023": "LAWWW-B 10-23 17:2x～18:0x 的紀錄（tasks notes、USER_WANTS、BB 清單、commit 訊息、給其他 AI 的訊息）裡寫的「19:0x～21:1x」是時間標錯：實際都在 17:2x～18:0x UTC 之間（18:05 核對 date -u）。內容照舊有效。"
@@ -44747,7 +44753,7 @@
    "priority": "P1",
    "title": "坐著的人有各種樣子＋桌上有東西（筆電、平板、滑手機、看書、寫筆記；咖啡廳、圖書館、店裡座位；USER_WANTS X217）",
    "status": "進行中",
-   "next": "子代理實作：照 desk_props.glb 的 rset／tset／lset 組＋hold_phone，路人與有名字的人坐下讀書時配一種；平板模型請 BB／CC（X215）或 LAWWW2 做",
+   "next": "【待查，loose 11-10 抓到】原本寫「子代理實作」但沒有結果紀錄（前一個帳號留下的）；LAWWW 下一批查程式裡有沒有（desk_props 的 rset／tset／lset、hold_phone），有就補 SHA、沒有就重新排。原文：子代理實作：照 desk_props.glb 的 rset／tset／lset 組＋hold_phone，路人與有名字的人坐下讀書時配一種；平板模型請 BB／CC（X215）或 LAWWW2 做",
    "xai": {
     "spec": "使用者 11-04 06:2x 對 LAWWW",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -51363,8 +51369,8 @@
    "sha": "aec7f851c",
    "id": "SHIFT-TREAT-1110",
    "title": "可以攻略的對象打工時專屬的劇情：主動招待、很開心你來（使用者 11-10 X302）",
-   "status": "已整合待測試",
-   "next": "【LAWWW 11-10 15:0x】已整合（bbb0db1e0＋aec7f851c，AA_739 dc607dd90；src/shifttreat3d.js、data/shift_treat.js、tests/shift_treat_unit.js ALL PASS）；AA 確認四處解讀、語彤 T3 第一句改進店版；BB 排瀏覽器（芷若 Café 吧檯、語彤一盞打工時走進店裡兩秒後演；朋友以上招待；T3 那次不扣錢）。 ｜ 【LAWWW 11-10 14:3x】AA_739（企劃線 5eff96441）交稿：芷若（Café）、語彤（一盞）在班時的專屬反應＋招待（朋友第 3 次起每 3 次隔 7 天、交往每 2 次隔 5 天，rel +1，T3 不扣錢）；LAWWW 子代理實作中。 ｜ 【11-10 03:2x LAWWW-B】AA：芷若（Café）、語彤（一盞）等打工中的女主角，玩家來店裡時的專屬反應（招待一樣東西、很開心你來；頻率、關係門檻）；LAWWW 實作。xai 照 D84。",
+   "status": "已驗收",
+   "next": "BB 11-10 21:38 判 FIXED／PASS（BB_255 5d599c76c6）",
    "xai": {
     "spec": "USER_WANTS X302",
     "branch": "claude/cool-heisenberg-o8kuqx（AA 企劃線）",
@@ -51954,7 +51960,7 @@
    "id": "US-CLASSROOM-3D-1110",
    "title": "美國教室做 3D（目前 2D us_classroom；20 週每個上課日都會去）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -51966,7 +51972,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW 11-10 15:5x】劇情接線已整合（b1d9457ed）：有課才能進 Room 120、坐自己的位子上課、一鍵上課坐好淡入、旁白字幕蓋 3D；10/26、12/6、12/7、12/8 在 3D 演；報告站位照 AA 1f0e891f1 對調；us_classroom_story_unit＋美國篇回歸全過。PARTIAL：教授服裝（沒有西裝背心）、何俊朗用路人底模、期末考桌上沒考卷；沒課那句沿用 AA_412「現在沒有你的課。」待 AA 確認。BB／CC 瀏覽器：鏡頭、教授走動、下課走道、效能、淡入、字幕時間。 ｜ 【LAWWW 11-10 15:1x】接 LAWWW2 261bc909c：新區域 us_classroom（Room 120，6×8 席、48 個能坐、出口→us_campus spawn_class_out）＋us_classroom.glb 3.6 MB＋四季白天晚上窗景 8 張；us_classroom_unit ALL PASS。還沒接劇情：進教室改 exit、座位 seatOf／others、報告站位 present、監考、白板字（LAWWW 接，README）；報告左右待 AA 確認；截圖 CC、ART BB。 ｜ 【LAWWW 11-10 14:4x】AA_740（961025d4c）規格到：Room 120 階梯教室三門課共用、照 201（6×8）、灰藍地毯、不放學姊；已轉 LAWWW2（模型＋layout＋區域接線 D108），劇情接線 LAWWW。 ｜ 【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP 建議第一；D99 第三優先（美國交換）。",
+   "next": "BB 11-10 21:38 判 FIXED／PASS（BB_255 5d599c76c6）",
    "xai": {
     "spec": "企劃線 961025d4c docs/story_planning/AA_740_美國教室3D_座位與NPC.md＋docs/art-rebuild/second_ai/us_scene_gap_1110.md",
     "branch": "claude/second-ai-env-art",
@@ -52058,7 +52064,7 @@
    "id": "RULES-CONSOLIDATE-1110",
    "title": "規則整合：CLAUDE.md 只留現行共同規則（短）＋各職位一頁（docs/rules/），被取代的舊規則、舊文件、根目錄舊檔直接刪掉（git 歷史留著）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52071,7 +52077,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【LAWWW 11-10 17:0x】使用者 X311 選擇題：舊的直接刪、一份規則＋各職位一頁。第一步：盤點所有帶規則的文件和根目錄舊檔（現行／被取代／過時），列每條現行規則搬到哪；第二步：寫新 CLAUDE.md＋docs/rules/ROLE_*.md、刪舊的、改讀這些檔的工具和測試；第三步：通知各職位整併自己分支上的職位文件。"
+   "next": "第二階段 d0435a63f 完成；啟動提示詞使用者選短範本；各職位分支清理 AA、BB 已做，LAWWW2、CC 今天內"
   },
   {
    "id": "RELEASE-V91024-1110",
@@ -52174,7 +52180,7 @@
    "id": "LIFE-DETAILS-SEASONAL-1110",
    "title": "生活細節環境美術：季節性攤販、店門口隨季節／時間的小變化、節日布置（X317）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52187,7 +52193,7 @@
     "confirmed": false
    },
    "sha": null,
-   "next": "【LAWWW 11-10 18:1x】使用者對 LAWWW2：「季節性的攤販、店門口的小變化、節日的布置 很棒」→ LAWWW2 先出清單提案（哪些店、哪些節日、季節、要不要劇情條件），劇情部分問 AA；LAWWW 接（節日日期、時段開關）。",
+   "next": "使用者 20:3x：20 項全做、含萬聖節、攤販能看能買；LAWWW2 做模型與 SEASON_ 節點（排汀州路、公館六間後）；AA 寫攤販看／買句；LAWWW 接買的互動",
    "xai": {
     "spec": "使用者 11-10 18:1x 對 LAWWW2",
     "branch": "claude/second-ai-env-art",
@@ -52382,7 +52388,7 @@
    "id": "WZ-QUICKTRAVEL-1110",
    "title": "手機／地圖快速前往：溫州街列出全部 11 間店、直接到那一間（X319）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52395,7 +52401,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【LAWWW 11-10 18:4x】子代理實作（places.js 快速前往清單＋站位可站檢查＋tests/wz_quicktravel_1110_unit.js）。"
+   "next": "11-10 22:0x 才真的進開發分支（之前只在子代理分支 d24d3743f，LAWWW 以為已合併）；BB／CC 測"
   },
   {
    "id": "WZ-SHOP-TEA-1110",
@@ -52672,7 +52678,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "使用者 19:2x 給了七張概念圖＋五間正式店名（X322）：照概念圖做汀州路一段街、五間外觀、泰米／洗樂／印得好照舊",
+   "next": "第 2 版 BB 11-10 21:52：功能 PASS、街景＋五間外觀 ART_APPROVED；泰米、洗樂、印得好招牌退 LAWWW2 第 3 版（店名重複一塊、字太小）；巷 A、夜市攤併 NIGHT-MARKET-1110；iPhone 沒驗",
    "xai": {
     "spec": "X321（UA-LAWWW-1110-89）",
     "branch": "claude/second-ai-env-art",
@@ -52685,7 +52691,7 @@
    "id": "TINGZHOU-SHOPS-MOVE-1110",
    "title": "三間店搬到汀州路以後：地圖標記、手機快速前往、場景入口、劇情地點文字（公館→汀州路）、相關資料與測試",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52698,9 +52704,7 @@
     "confirmed": true
    },
    "sha": null,
-   "pausedReason": "等 LAWWW2 的汀州路區域（TINGZHOU-AREA-1110）",
-   "resumeWhen": "LAWWW2 交區域配置",
-   "next": "區域交了就接 places.js、快速前往、小地圖；店的商品互動照 GG-SHOPS3 不重做",
+   "next": "地點名、地圖標記、快速前往（汀州路＋八間門口）、路人（時段、畫質分級、不複製同一個人）在開發分支；BB／CC 測；室內做好後快速前往改到店內",
    "xai": {
     "spec": "X321",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -52728,7 +52732,7 @@
    "sha": null,
    "pausedReason": "等 LAWWW2 的汀州路區域和攤位位置（TINGZHOU-AREA-1110）",
    "resumeWhen": "LAWWW2 交區域",
-   "next": "區域到了照 AA_744 接",
+   "next": "店名、品項照 X326 新規格（舊的 AA_744 攤名作廢、刈包改黑糖鮮奶）；等使用者授權實作",
    "xai": {
     "spec": "X321、AA_744",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -52845,7 +52849,7 @@
    "id": "MOVIE-TALK-1110",
    "title": "電影情節與散場對話（AA_745）：手機／海報牆顯示 plot、scene 旁白、散場 talk 三選項（fx 加友情／愛情）、with（after／mid／later／skip）、看過記 G.flags.MOVIE_SEEN（X324）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52858,7 +52862,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "v9.10.24 發完先用第 1 批（企劃線 d94b6ae6d AA_745_movie_plots_1.json）做框架＋匯入工具，第 2、3 批重匯",
+   "next": "AA_745 4e41f0d09 重匯、fallback 開：504 組有 talk 493、沒有 11；BB／CC MT4；【發布前】BB 文字核對通過才發",
    "xai": {
     "spec": "X324、AA_745",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -52866,6 +52870,325 @@
     "receiver": "BB",
     "ack": "未派"
    }
+  },
+  {
+   "id": "DLG-FX-MECH-1110",
+   "title": "對話選項效果機制（AA_746 第 2 節，X324）：①選項統一 fx:{fr,love}（可負；date_lines、ladder、一起活動／念書 opts、期末飯、手機回覆、邀約見面）②校外約會選項每次去都出（first／again／dating）③閒聊階梯加「交往中」一階＋愛情效果 ④期末飯桌給玩家選項；另查 AA 報告列的程式行為（termend 鉤子重複、可昕 dating 約 200 句沒讀、語彤 D14 結束句匯入錯誤、characters.js 語彤作息 noodle／help）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "全遊戲對話選項",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "love 上限已進開發分支（8372e7086；只管選項 fx，單獨約出來的 +1 等其他來源不算）；電影 fallback 機制關著——AA 第二版 c90083882（kind 七種、m2805b optsOther）等 BB 複看，通過後重匯、開 CFG.fallback；等 AA 各批改稿（期末飯、告白 AA_748、校外約會…）",
+   "xai": {
+    "spec": "X324、AA_746 第 2 節、docs/story_planning/audit_1110/",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "BB 判",
+    "receiver": "BB",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "FLOWER-NOTES-1110",
+   "title": "公館花攤（晨露花舖）升級成雙層精品花藝店「花序 Flower Notes」（X325）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "使用者 21:1x「你可以自己決定嗎」＝位置、開工交 LAWWW 定：位置 G11（原泰米村食）；AA 先寫商品文案、店員台詞、畢業／母親節規劃；LAWWW 做商品資料與遷移（店代號 gg_flower、g_bouquet、g_sunflower 不改）；LAWWW2 的外觀、室內模型等使用者兩張正式參考圖；使用者 21:3x 已給兩張參考圖（docs/handoff/user_specs/flower_notes_ref/），LAWWW2 可以開始做模型（FLOWER-NOTES-ART-1110）；【發布前】含花序的版本發布前先問使用者（規格書十五之 9；她的「你可以自己決定嗎」講的是位置和開工，不含發布）；BB 驗收計畫 BB_312（企劃線 b74636eafb），交 SHA 時告訴 BB：原 G11 之前進不去（type none）、舊兩樣價錢不改（g_bouquet 450、g_sunflower 120）",
+   "xai": {
+    "spec": "X325，docs/handoff/user_specs/FLOWER_NOTES_1110.md",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "規格書第十四節驗收條件；BB 判",
+    "receiver": "BB",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "FLOWER-NOTES-ART-1110",
+   "title": "花序 Flower Notes 外觀（公館 G11 雙層立面）＋一樓室內＋二樓花藝教室，照使用者兩張參考圖（X325）；舊花攤 gg_flower_stall 拿掉",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "照 RULES_2D_TO_3D；排在汀州路第 2 版後面",
+   "xai": {
+    "spec": "X325；docs/handoff/user_specs/FLOWER_NOTES_1110.md 第四～六節；參考圖 docs/handoff/user_specs/flower_notes_ref/",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "同角度疊圖；BB 判（D120、D141）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "BUG-LIB-DOOR-LABEL-1110",
+   "title": "早上 07:12 站在總圖門口 (84.5,0)，互動鍵顯示「互動」不是「進入總圖書館」，閉館訊息出不來（guide_flow 那一項 FAIL；已加 [診斷]）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "總圖門口（開館前）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "看 guide_flow 的 [診斷] 輸出（是哪個互動點搶了）再修"
+  },
+  {
+   "id": "BUG-NY-EXIT-1110",
+   "title": "待查 P1：看完電影在南洋戲院大廳道別以後走不到出口（CC：120 秒停在 (2.6,−0.3)，出口 (0,6.55)；另一次 88 秒才到）——線上 v9.10.24 也有這個流程",
+   "owner": "LAWWW",
+   "status": "取消／被取代",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "約看電影",
+    "mainline": false,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "無（不是遊戲問題）",
+   "cancelReason": "BB 11-10 21:14 判 TEST_BUG：線上 779ddd650、開發 9f20f1808 觸控和搖桿各一次都走得到出口（busy false、ADV 關、她不擋路）；上一輪是 CC 探針的走法繞到長椅那一帶（BB_255 d614215431）"
+  },
+  {
+   "id": "MOVIE-ARC-AFTER-1110",
+   "title": "看電影時她的故事線那一拍（ARC／RT）不在放映中演：地點是南洋戲院時改到散場 talk 之後、道別之前；片中固定演片子的 scene（有 with.mid 照舊）（BB 11-10 21:30 P2）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "約看電影",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "開發分支（子代理 6e43ca121 合併）；BB／CC MT4"
+  },
+  {
+   "id": "US-FINAL-PROF-PASS-1110",
+   "title": "美國期末報告選 b：「教授經過你旁邊，說了一句：Good choice.」先等她走到旁邊再出（BB 11-10 21:38 P3）",
+   "owner": "LAWWW",
+   "status": "已驗收",
+   "priority": "P3",
+   "first": {
+    "term": "Y4S1",
+    "week": null,
+    "earliest": "美國 12/7",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "CC 只重跑 FINAL"
+  },
+  {
+   "id": "NIGHT-MARKET-1110",
+   "title": "公館／汀州路夜市十一攤正式規格（店名、外觀、營業／收攤）＋禮貌生財上師算命支線（X326）",
+   "owner": "LAWWW",
+   "status": "暫停",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "汀州路晚上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "使用者規格書：只規劃、差異分析，未得到明確實作授權不修改（使用者 11-10 21:5x）",
+   "resumeWhen": "使用者說可以實作；上師真實身分由她從 AA 三個候選裡選",
+   "recheckOn": "2026-11-13",
+   "next": "規劃階段可以做的：LAWWW2 資產盤點表、美術差異、街道配置方案；AA 上師大綱與三種身分候選；BB 檢查清單。TINGZHOU-NIGHTMARKET-1110（看／買互動）照新店名等授權"
+  },
+  {
+   "id": "PEISHAN-VOICE-1110",
+   "title": "沛珊全遊戲台詞重寫：有趣、聰明、會接好笑的梗（使用者更正人物個性，X327）",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "沛珊出場",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "AA 分批重寫（階梯、約會、期末飯、告白、訊息、事件），每批 SHA 交 LAWWW 重匯；BB 看",
+   "xai": {
+    "spec": "X327、UA-AA-1110-06",
+    "branch": "claude/story-planning",
+    "acceptance": "AA 定稿＋BB 第二意見；LAWWW 匯入",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "TERMEND-OPTS-1110",
+   "title": "期末飯桌選項（AA_748 朋友版、AA_749 女朋友版）：匯入、選項顯示順序洗牌（同一天固定）、三種特別結構（子晴 if:noQ6／Q6 兩組、學姊大四上 snow 分支、語彤 sayByKind）、有選項那一頓不接朋友話題池",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "學期末",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "11-10 23:2x：背景子代理（worktree）在匯朋友版五個學期＋芷若告白，基準 a5651ccc7；回來的那個回合合併、跑測試、push（D148 ③）。來源 SHA：Y1S1 20145308e、Y1S2 9665a9075、Y2S1 20145308e、Y2S2 fc0cafa27、Y3S1 35a39a54e、芷若告白 2cb84d6df；Y3S2／Y4S1 e232327db BB 在看",
+   "xai": {
+    "spec": "X324、BB_314",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "BB 判",
+    "receiver": "BB",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "CHAR-OLD-PURGE-1110",
+   "title": "人物舊設定不符合現行的字直接刪（不標過時留著）（X330）",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "全遊戲",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "AA 掃企劃線；LAWWW 掃開發分支 characters.js、docs（CHARACTER_*、art-rebuild 的人物描述）；遊戲台詞照 AA 清單",
+   "xai": {
+    "spec": "X330、UA-AA-1110-12",
+    "branch": "claude/story-planning",
+    "acceptance": "現行設定總表以外沒有相衝突的舊設定字",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "BLENDER-ON-PC-1110",
+   "title": "LAWWW2 慢的 Blender 工作（算預覽圖、烘焙、整條街匯出）排到使用者電腦的佇列（kind blender）；規則寫進 ROLE_LAWWW2 1.0（X331）",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "美術製作",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "LAWWW2 回報現在哪一步慢、把它排上電腦；CC 排佇列",
+   "xai": {
+    "spec": "X331；cc-testing tools/cc_local/README.md「別人的 Blender 工作」",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "至少一項 Blender 工作在電腦上跑出結果",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "LIMAO-SHOP-1110",
+   "title": "「禮貌生財」巷弄算命小店（店面、前半命理館、後半書房、騎樓算命桌）＋上師輕量趣味支線四類短事件（X332；取代 X326 的算命攤和三條長支線）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "夜市旁巷子",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "使用者 11-10 23:1x 授權開始做、聊天免費。LAWWW2：店面＋室內 tz_limao（6c 節）；AA：AA_750（871b331c9）轉成可匯入的稿；LAWWW：事件、營業時間、書房解鎖旗標"
+  },
+  {
+   "id": "HANDOFF-LOOSE-1110",
+   "title": "D148 交班規則：做過的不能不見——FACTS.md、check_handoff.py loose、子代理當回合合併、說「沒有」以前先查、交班 G 類（X333）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "交接",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "四個職位把自己知道的「已經有的東西」各交幾行進 FACTS.md；loose 補單元測試；下次換班實際用一次"
   }
  ]
 }

@@ -988,6 +988,51 @@ def releasegate(args):
     return 1 if bad else 0
 
 
+def loose(args):
+    """LOOSE-1110（D148，使用者 2026-11-10：「發現了很多什麼已經做過，結果忘記了交班，或你不知道什麼分支還在他的那邊」）：
+    做好了、卻沒進開發分支的東西——本機分支（含子代理 worktree 分支）、本機 worktree、沒 commit 的檔、沒 push 的 commit、
+    狀態寫「進行中／待開工」而 next 提到子代理的任務。每批工作結束、交班存快照前、接班第 9 步都跑；結束碼 1＝有東西還沒收進來。"""
+    import subprocess
+    def git(*a):
+        return subprocess.run(['git'] + list(a), cwd=str(ROOT), capture_output=True, text=True).stdout
+    head = git('rev-parse', '--abbrev-ref', 'HEAD').strip()
+    bad = []
+    for ln in git('for-each-ref', '--format=%(refname:short)', 'refs/heads').split():
+        if ln in (head, 'main'):
+            continue
+        n = git('rev-list', '--count', head + '..' + ln).strip() or '0'
+        if n != '0':
+            files = [f for f in git('diff', '--name-only', head + '...' + ln).split('\n') if f][:6]
+            bad.append('本機分支 %s 有 %s 個 commit 不在 %s（%s…）——合併，或確認不要再刪' % (ln, n, head, '、'.join(files)))
+        else:
+            print('[資訊] 本機分支 %s 已經全部在 %s 裡，可以刪' % (ln, head))
+    wts = [l for l in git('worktree', 'list').split('\n') if l.strip()]
+    for l in wts[1:]:
+        print('[資訊] worktree：' + l.strip())
+    dirty = [l for l in git('status', '--porcelain').split('\n') if l.strip()]
+    if dirty:
+        bad.append('工作目錄有 %d 個沒 commit 的檔（%s…）' % (len(dirty), '、'.join(x[3:] for x in dirty[:5])))
+    up = git('rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}').strip()
+    if up:
+        n = git('rev-list', '--count', up + '..HEAD').strip()
+        if n and n != '0':
+            bad.append('有 %s 個 commit 還沒 push 到 %s' % (n, up))
+    else:
+        bad.append('目前分支沒有設定遠端（沒 push 過）')
+    try:
+        tasks = json.load(open(os.path.join(ROOT, 'docs/handoff/tasks.json'), encoding='utf-8'))['tasks']
+    except Exception as e:
+        tasks = []; bad.append('讀不到 tasks.json：%s' % e)
+    for t in tasks:
+        if t.get('status') in ('進行中', '待開工') and re.search(r'子代理(在做|實作|正在)', str(t.get('next') or '')):
+            bad.append('任務 %s 寫「%s」、next 說子代理在做——子代理做完了嗎？成果合進來了嗎？（%s）' % (t['id'], t['status'], str(t.get('next'))[:60]))
+    for b in bad:
+        print('[異常] ' + b)
+    print('結果：' + ('異常 %d 項——有做好的東西還沒收進開發分支，不得宣稱交接完整' % len(bad) if bad else 'OK（沒有散落在外面的成果）'))
+    return 1 if bad else 0
+
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', default=ROOT)
@@ -1017,6 +1062,8 @@ def main(argv=None):
     w = sub.add_parser('userwork', help='USERWORK-1110：使用者交代、還沒做完、歸這個職位的事，這一班有沒有動過（接班確認逐項寫）')
     w.add_argument('--owner', default='LAWWW')
     w.add_argument('--ref')
+    lo = sub.add_parser('loose', help='D148：做好了卻沒進開發分支的東西（本機分支、子代理 worktree、沒 commit、沒 push、任務寫子代理在做）')
+    lo.add_argument('--ref')
     g = sub.add_parser('releasegate', help='D146：USER_WANTS【下一版必須】的任務都已驗收才可以發布')
     g.add_argument('--ref')
     i = sub.add_parser('incr', help='增量核對：各職位水位線以後的新 commit、outbox、WIP 索引')
@@ -1025,7 +1072,7 @@ def main(argv=None):
     i.add_argument('--by', help='誰核對的（例：LAWWW-C）')
     duty_state.add_parser(sub)
     a = ap.parse_args(argv)
-    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'asks': asks, 'askuser': askuser, 'userwork': userwork, 'releasegate': releasegate, 'incr': incr, 'duty': duty_state.run}[a.cmd](a)
+    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'asks': asks, 'askuser': askuser, 'userwork': userwork, 'releasegate': releasegate, 'loose': loose, 'incr': incr, 'duty': duty_state.run}[a.cmd](a)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,88 @@
+{
+ "objects": 42,
+ "unique_meshes": 42,
+ "tris": 26292,
+ "tris_drawn": 26292,
+ "materials": 2,
+ "out": "assets/models/env/second_ai/tingzhou_stalls.glb",
+ "bytes": 2056032,
+ "texres": 1024,
+ "note": "TINGZHOU-AREA-1110 夜市攤位模組",
+ "kinds": {
+  "guabao": {
+   "name": "老鄭割包",
+   "price": "割包 60",
+   "buy": true
+  },
+  "pepper": {
+   "name": "炭爐胡椒餅",
+   "price": "胡椒餅 60",
+   "buy": true
+  },
+  "wheelcake": {
+   "name": "三姊妹紅豆餅",
+   "price": "紅豆・奶油・芋頭 15",
+   "buy": true
+  },
+  "ball": {
+   "name": "小黃地瓜球",
+   "price": "一包 40",
+   "buy": true
+  },
+  "scallion": {
+   "name": "阿嬤蔥油餅",
+   "price": "加蛋 45",
+   "buy": true
+  },
+  "stinky": {
+   "name": "巷尾臭豆腐",
+   "price": "炸臭豆腐 70",
+   "buy": true
+  },
+  "corn": {
+   "name": "炭火烤玉米",
+   "price": "烤玉米 80",
+   "buy": true
+  },
+  "eggcake": {
+   "name": "動物雞蛋糕",
+   "price": "十個 50",
+   "buy": true
+  },
+  "cane": {
+   "name": "現榨甘蔗汁",
+   "price": "加檸檬 50",
+   "buy": true
+  },
+  "jelly": {
+   "name": "粉圓冰・燒仙草",
+   "price": "一碗 45",
+   "buy": true
+  },
+  "ring": {
+   "name": "套圈圈",
+   "price": "十個圈 50",
+   "buy": false
+  },
+  "phonecase": {
+   "name": "手機殼・配件",
+   "price": "任選 100",
+   "buy": false
+  },
+  "socks": {
+   "name": "襪子",
+   "price": "三雙一百",
+   "buy": false
+  },
+  "fortune": {
+   "name": "算命・卜卦",
+   "price": "",
+   "buy": false
+  }
+ },
+ "footprint": {
+  "w": 2.4,
+  "d": 1.6,
+  "note": "攤車＋瓦斯桶、水桶、後面站人的位置（導航擋這麼大）"
+ }
+}

@@ -206,7 +206,7 @@ const SOCIAL = (function(){
       const t=String(o.t||o.n||o.s||'').replace('{name}',G.name||'祐廷'); if(!t) continue; if(o.n||/^（/.test(t)) await GM.say(null,t); else await GM.say(who,t.replace(/^「([^「」]*)」$/,'$1')); } };   /* 稿上整句用「」括起來的（rel_lines、閒聊階梯）：說話框裡不再多一層「」（BB-B 11-01 n40 女主角暑假版邀約）*/
   /* 門檻台詞＋小選擇（不加數值）；說了回傳 true（先記下來，演到一半出錯也不會每次都說） */
   S.playUp=async function(GM,who,id,ctx){ const U=S.upLine(id,ctx); if(!U) return false; S.markUp(id,U.k); await S.playSteps(GM,who,id,U.l); if(U.set&&G.flags) Object.assign(G.flags,U.set);
-    if(U.ch&&U.ch.length){ const k=await GM.choose(U.ch.map(c=>({t:c.t}))); const c=U.ch[k]; if(c) await S.playSteps(GM,who,id,c.r); } return true; };
+    if(U.ch&&U.ch.length){ const k=await GM.choose(U.ch.map(c=>({t:c.t}))); const c=U.ch[k]; if(c){ await S.playSteps(GM,who,id,c.r||(c.re!=null?[].concat(c.re):[])); if(c.fx) S.applyFx(G,id,c.fx,(ctx&&ctx.cap)||{cap:'chat:'+G.day}); } } return true; };   /* 升級句後面的小選擇 {t, r|re, fx}：原本不加數值，有 fx 才加（DLG-FX-MECH-1110）；love 的上限：約好的那一次照那一次的鍵（ctx.cap），平常聊天＝chat:<天>（FX-LOVE-CAP-1110）*/
   S.describe=function(id){ const c=CHARACTERS[id]; if(!c) return ''; const st=S.stage(id); const label={STRANGER:'還不認識',ACQUAINTANCE:'認識',FAMILIAR:'有點熟',FRIEND:'朋友',CLOSE_FRIEND:'好朋友',POSSIBLE_ROMANTIC_INTEREST:'……有點在意',ROMANTIC_TENSION:'說不清楚的關係',RELATIONSHIP:'在一起'}[st]; const mems=S.memories(id).slice(-4).map(m=>{ if(!MEMORY_LABEL[m.tag]) return null; const nt=S.noteShown(id,m); return MEMORY_LABEL[m.tag]+(nt?'（'+nt+'）':''); }).filter(Boolean); return label+(mems.length?' · '+mems.join('、'):''); };
   const MEMORY_LABEL={XC_MIDNIGHT:'一起去看了西門町的午夜場',   /* 芯慈的心願（XINCI-ROMANCE-1030，src/xcrom3d.js；這條線現在關著）*/ AN_L1_NOTES_PHONE:'跟她說筆記寫在手機上',AN_L1_NOTES_PAPER:'跟她說筆記寫紙本（說好考前互借一頁）',AN_L2_PLANNER:'看過她的手帳（寫滿待辦）',AN_L3_DORM:'知道她也住宿舍（宿舍規則十七頁，她讀完了）',AN_L4_HOME:'知道她家在台中、媽媽每個月一次的晚餐',AN_L5_CONST:'憲法課她坐第三排',AN_L6_RULE_EXAMPLE:'跟她舉過一條沒有理由的規則',AN_L6_RULE_NONE:'跟她說自己都照規則',AN_L7_RUN:'知道她早上總圖一開門就去',AN_L8_MIDTERM:'和她聊過期中週讀書的進度',AN_L9_REASON:'聽她說為什麼講話都先準備理由',AN_L10_WINTER:'知道她寒假回台中、媽媽要教她一道菜',AN_L10_PHOTO_PROMISE:'說好寒假互傳照片',
     YT_MOM_HEARD:'聽她說媽媽講話很快',YT_CLASS_PRAISED:'聽她說社會學課被老師說「很好」',YT_TEN_MINUTES:'聽她說打烊時那十分鐘（椅子倒放在桌上）',ZR_ASKED_MESSY:'問過她經原那學期怎麼了（她說「就是亂」）',ZR_HOMETOWN:'知道她家在台中開影印店（一張一塊）',ZQ_GAME_HEARD:'聽她說在做的遊戲（一隻一直在找插座的貓）',CONTEST_HEARD:'聽她說那場比賽她沒去，在公館喝咖啡',   /* AA_363 R5：子晴 Q4 錯過的玩家第 9～11 週那一句（story3d.js S.contestHeard）*/
@@ -263,5 +263,24 @@ const SOCIAL = (function(){
   S.memLabel=tag=>MEMORY_LABEL[tag]||(/^SHOP_/.test(String(tag||''))?'在店裡碰到':'一段回憶');
   /* 她的戀愛（npcRom）算不算（ROM-PRIVATE-DATE-1110，使用者 11-10「大一上…應該也要可以培養戀愛」「學姊旁邊 應該要增加戀愛值」）：可以攻略的對象（DATE.HEROINES）一開始就算；原本五處（arcs、arcinv、decide、gift、aa720）都要朋友（第 3 階）以上才算，認識、有點熟選再多都是 0。朋友（男生、Alison…）不算 */
   S.romOk=id=>typeof DATE!=='undefined'&&Array.isArray(DATE.HEROINES)&&DATE.HEROINES.includes(id);
+  /* 選項的效果（DLG-FX-MECH-1110，使用者 X324「每次約會都要有選擇性的對話選項，依據選項內容增加友情或者愛情」；AA_746 第 2 節第 1 點）：
+     fx＝{fr:n, love:n}（都可以不寫、可以是 0 或負的）。fr＝熟悉、信任、自在各加 n（直接加，不占一起活動的每日上限）；love＝她的戀愛（npcRom），只有可以攻略的對象（S.romOk）。
+     全遊戲的選項（電影、校外約會、閒聊階梯、一起活動／念書、期末飯、手機回覆、邀約見面）都叫這一支；沒有 fx＝什麼都不做、回 null。回傳實際送進 S.adjust 的差值。 */
+  /* 她的戀愛的上限（FX-LOVE-CAP-1110；LAWWW 和 AA 11-10 講好）：同一次活動、同一個人，選項加的 love 合計最多 +2（告白那一晚 +3）；扣的不限、也不補回額度；fr 不限。
+     第四個參數 o＝{cap:'這一次活動的鍵', max?:上限（沒寫＝2）, keep?:true（不清掉：電影那部片×那個人，之後傳訊息、下次見面那一段也算同一次）, base?:舊存檔已經拿了多少（第一次建這一筆時用）}。
+     鍵由叫的那一邊給（同一次活動用同一個鍵）：電影 movie:<片>、校外約會 date:<那一天>:<地點>、閒聊階梯 ladder:<天>:<那一層>、平常聊天的升級句 chat:<天>、
+     一起活動／念書 act:<天>:<活動>（約好的那一次＝meet:<約的 id>）、期末的飯 termend:<天>、邀約見面 meet:<約的 id>、手機回覆 phone:<天>（＝一個人一天 +2）。沒有 o.cap＝和原本一樣不限。
+     存檔：G.flags.FX_CAP＝{人:{鍵:{d:最後一次的那一天, n:已經加了多少, k?:1}}}；沒有 k 的超過 S.FX_CAP_DAYS 天就清掉（不會一直長）。舊存檔沒有＝{}，不用遷移。 */
+  S.FX_CAP_MAX=2; S.FX_CAP_CONFESS=3; S.FX_CAP_DAYS=3;
+  const capRec=(G_,mk)=>{ if(!G_) return null; if(!G_.flags){ if(!mk) return null; G_.flags={}; } let R=G_.flags.FX_CAP; if(!R||typeof R!=='object'||Array.isArray(R)){ if(!mk) return null; R=G_.flags.FX_CAP={}; } return R; };
+  S.fxCapGot=function(G_,id,key){ const R=capRec(G_,false), e=R&&R[id]&&typeof R[id]==='object'?R[id][key]:null; return e&&typeof e==='object'?Math.max(0,+e.n||0):0; };
+  S.fxCapPrune=function(G_){ const R=capRec(G_,false); if(!R) return; const day=+G_.day||0; for(const id of Object.keys(R)){ const P=R[id]; if(!P||typeof P!=='object'){ delete R[id]; continue; }
+      for(const k of Object.keys(P)){ const e=P[k]; if(!e||typeof e!=='object'||(!e.k&&!((+e.d||0)>=day-S.FX_CAP_DAYS))) delete P[k]; } if(!Object.keys(P).length) delete R[id]; } };
+  S.fxCapTake=function(G_,id,lv,o){ const R=capRec(G_,true); if(!R) return lv; let P=R[id]; if(!P||typeof P!=='object'||Array.isArray(P)) P=R[id]={}; const key=String(o.cap); let e=P[key];
+    if(!e||typeof e!=='object') e=P[key]={d:+G_.day||0,n:Math.max(0,Math.trunc(+o.base||0))}; const mx=o.max!=null&&isFinite(+o.max)?+o.max:S.FX_CAP_MAX, got=Math.max(0,+e.n||0), give=Math.max(0,Math.min(lv,mx-got));
+    e.n=got+give; e.d=+G_.day||0; if(o.keep) e.k=1; S.fxCapPrune(G_); return give; };
+  S.applyFx=function(G_,id,fx,o){ if(!id||!fx||typeof fx!=='object') return null; const d={}, n=v=>{ v=Math.trunc(+v); return isFinite(v)?v:0; }, fr=n(fx.fr); let lv=n(fx.love);
+    if(lv&&!S.romOk(id)) lv=0; if(lv>0&&o&&o.cap) lv=S.fxCapTake(G_||G,id,lv,o);
+    if(fr){ d.fam=fr; d.trust=fr; d.comf=fr; } if(lv) d.npcRom=lv; if(!Object.keys(d).length) return null; S.adjust(id,d); return d; };
   return S;
 })();

@@ -62,7 +62,8 @@ SK = {
     'vend_panel': L.flat('wz_sf_vend_panel', '#dfe9f2', rough=0.2, emit=B.srgb('#cfe4ff')),
 }
 import json as _json, sys
-_ATL = 'gg_signs_atlas' if ('--set' in sys.argv and sys.argv[sys.argv.index('--set') + 1] == 'gongguan') else 'wz_signs_atlas'   # 公館用自己的貼圖集（sign_atlas.py --set gongguan）
+_SETN = sys.argv[sys.argv.index('--set') + 1] if '--set' in sys.argv else ''
+_ATL = {'gongguan': 'gg_signs_atlas'}.get(_SETN, 'wz_signs_atlas')   # 公館用自己的貼圖集（sign_atlas.py --set gongguan）
 SIGN_ATLAS = _json.load(open(os.path.join(GEN, _ATL + '.json'), encoding='utf-8'))   # sign_atlas.py 產生
 
 
@@ -860,11 +861,11 @@ def mok_window(spec, xf, w):
 # ======================================================================== 新生南路七家店（ART-XINSHENG-FRONTS-1104，LAWWW2）
 # 參考圖就是規格（SCENE_RULES 第 12 節）：招牌、玻璃後面看到的店內、二樓窗後面，都是從使用者的參考圖直接裁出來校正透視（xs_front_tex.py → xs_fronts_atlas.jpg，整條街一個材質）；
 # 框、玻璃、招牌板、騎樓柱子、天花板、店內的地板／兩側牆／天花燈是 3D。店內景深卡在玻璃後 0.8 m（看斜一點看得到兩側的牆，不是貼在玻璃上的一張照片）。
-_XSA = {'xinsheng': 'xs_fronts_atlas', 'wenzhou': 'wz_fronts_atlas', 'gongguan': 'gg_fronts_atlas'}.get(SET)   # 溫州街（日常失速，WZ-OFFBEAT-1104）用自己的小圖集：兩條街不同 GLB，各帶各的
+_XSA = {'xinsheng': 'xs_fronts_atlas', 'wenzhou': 'wz_fronts_atlas', 'gongguan': 'gg_fronts_atlas', 'tingzhou': 'tz_fronts_atlas'}.get(SET)   # 溫州街（日常失速，WZ-OFFBEAT-1104）用自己的小圖集：兩條街不同 GLB，各帶各的
 XS_ATLAS = _json.load(open(os.path.join(GEN, _XSA + '.json'), encoding='utf-8')) if (_XSA and os.path.exists(os.path.join(GEN, _XSA + '.json'))) else {}
 XS_MAT = _img_mat('wz_xs_fronts', _XSA + '.jpg', rough=0.55, emit=0.85) if XS_ATLAS else None   # 店裡、二樓窗後面、燈箱：自發光（參考圖裡店都是亮的；在騎樓的陰影裡只靠反光會變成一片暗）
 XS_MAT_M = _img_mat('wz_xs_fronts_matte', _XSA + '.jpg', rough=0.75, emit=0.1) if XS_ATLAS else None   # 外牆上的字、招牌板、海報櫃：不發光
-XS_LIT = ('_int', '_up', '_side', 'nanyang_sign', 'dakou_sign', 'dakou_v', 'xsports_v', '_door', '_take', '_shop', 'ggcvs_sign', 'ggcvs_vend', '_kitchen', '_win', 'ggyy_sign')
+XS_LIT = ('_int', '_up', '_side', 'nanyang_sign', 'dakou_sign', 'dakou_v', 'xsports_v', '_door', '_take', '_shop', 'ggcvs_sign', 'ggcvs_vend', '_kitchen', '_win', 'ggyy_sign', 'tzlian_sign', 'tzxile_sign', 'tzyue_sign', 'tzkeju_sign', 'tzdong_sign', '_vsign', '_menu')   # 汀州路五間（tz_fronts_tex.py）：燈箱招牌、照片菜單燈箱晚上亮；溫特寶邸的黑底招牌不發光（上面三盞鵝頸燈照）
 _XSQ = []   # 先收起來，最後一次做成兩個網格（同材質合併）
 XS_SHOPS = []   # 窗卡的店前綴（照第一次出現的順序編號，寫進 xs_fronts_lit 的 extras xsShops）
 
@@ -978,7 +979,7 @@ def xs_awning(xf, x0, x1, y0, y1, d, col, along='x', zc=0.0):
 
 def xs_street_front(spec, xf, W, wall, c, gx0, gx1, gy1, z):
     """沒有騎樓的店面（溫州街日常失速）：落地窗（黑鐵窗框，每 pane 公尺一格、tr 一道橫框）、門、玻璃上方到一樓頂的牆、綠色波浪雨棚、牆上的招牌（參考圖裁的字）、兩盞門燈、側面的窗、門口的 A 字立牌和大理石小圓桌"""
-    fr = acc(SK['black']); wm = wall
+    fr = acc(frame_mat(c['frame'])) if c.get('frame') else acc(SK['black']); wm = wall
     xf.box(wm, -W / 2, W / 2, gy1 + 0.08, GH, z - 0.85, 0.0)                      # 窗上的牆（一樓牆體從 rec＝dep＋0.85 開始，玻璃前後這一段要補；原本只補到玻璃後 0.25，北面轉角露出一條縫）
     xf.box(wm, -W / 2, gx0 - 0.05, 0.0, gy1 + 0.08, z - 0.85, 0.0); xf.box(wm, gx1 + 0.05, W / 2, 0.0, gy1 + 0.08, z - 0.85, 0.0)   # 玻璃兩側的牆
     tr, pane = c.get('transom', 2.65), c.get('pane', 1.1)
@@ -1003,6 +1004,12 @@ def xs_street_front(spec, xf, W, wall, c, gx0, gx1, gy1, z):
         k = acc(SK['black']); xf.box(k, lx - 0.06, lx + 0.06, ly + 0.15, ly + 0.35, 0.0, 0.04); xf.cyl(k, (lx, ly + 0.3, 0.03), (lx, ly + 0.3, 0.32), 0.015, seg=6)
         xf.box(k, lx - 0.1, lx + 0.1, ly + 0.2, ly + 0.24, 0.22, 0.42); acc(M['bulb']).sphere(xf.p(lx, ly + 0.08, 0.32), 0.08, seg=8, rings=4)
         q = xf.p(lx, ly + 0.08, 0.32); CL.glow(root, 'offbeat_lamp', q[0], q[1], q[2], color='rgba(255,214,150,1)', size=0.9, day=0.15, night=0.9)
+    for (key, x, y0, y1, w) in c.get('vsigns', []):   # 直立燈箱招牌（兩面；同 gg_front。汀州路沒有騎樓的五間）
+        for yy in (y1 + 0.05, y0 - 0.05): xf.box(acc(M['metal']), x - 0.04, x + 0.04, yy - 0.03, yy + 0.03, 0.0, w + 0.25)
+        xf.box(acc(frame_mat('#1f2e4a')), x - 0.07, x + 0.07, y0, y1, 0.2, 0.2 + w)
+        for sx in (-1, 1):
+            p = [xf.p(x + sx * 0.075, y0, 0.2), xf.p(x + sx * 0.075, y0, 0.2 + w), xf.p(x + sx * 0.075, y1, 0.2 + w), xf.p(x + sx * 0.075, y1, 0.2)]
+            xs_quad(key, p if sx < 0 else [p[1], p[0], p[3], p[2]], tiles=1)
     sd = c.get('side')
     if sd: xs_side_window(spec, xf, W, c, sd)
     for it in c.get('clutter', []):
@@ -2034,7 +2041,7 @@ def arcade_front_v2(spec, xf, W, wall):
         a = acc(M['alu']); xf.box(a, -iw / 2 + 0.05, iw / 2 - 0.05, 2.72, 3.0, gz, gz + 0.26)
         for sx in (-1, 1): xf.box(a, sx * (iw / 2 - 0.05) - 0.035, sx * (iw / 2 - 0.05) + 0.035, 0.0, 2.72, gz, gz + 0.08)
     else:
-        if sf.get('inner'): shallow_interior(dict(spec, shop=dict(s, type=kind)), xf, iw, gz, ih, bright=0.85)   # 騎樓底下（只有環境光）：店裡要比騎樓亮
+        if sf.get('inner'): shallow_interior(dict(spec, shop=dict(s, type=kind)), xf, iw, gz, ih, bright=sf.get('bright', 0.85))   # 騎樓底下（只有環境光）：店裡要比騎樓亮
         else:                                                                                         # 店內景深卡（遊戲畫 TK.interiorTex(店種)，亮的）：立體的淺店內在 3 m 深的騎樓後面白天太暗（試做：書店一片黑）
             face(f'INTERIOR_FACE_{spec["id"]}', M['board'], xf, [(-iw / 2, 0.15, gz - 1.2), (iw / 2, 0.15, gz - 1.2), (iw / 2, ih + 0.15, gz - 1.2), (-iw / 2, ih + 0.15, gz - 1.2)], {'interior': s['type']})
             xf.box(acc(M['gwall']), -iw / 2, iw / 2, 0, 0.15, gz - 1.3, gz)
@@ -2058,6 +2065,7 @@ def arcade_front_v2(spec, xf, W, wall):
     sw = min(W - 0.4, 6.5); sy0, sy1 = GH - 0.67, GH - 0.03
     if XSM:   # 公館四間新店：騎樓外的招牌也是參考圖裁的字（同一塊招牌，貼在騎樓樑上給馬路看）
         key = XSM['street']; h_ = sy1 - sy0; w_ = min(sw, h_ * XS_ATLAS.get(key, [0, 0, 1, 1, 4])[4]); cx_ = XSM.get('street_x', 0.0)
+        if XSM.get('street_fit'): w_ = min(W - 0.4, XSM['street_fit']); h_ = w_ / XS_ATLAS.get(key, [0, 0, 1, 1, 4])[4]; sy1 = sy0 + h_   # 招牌板照指定的寬度、高度照貼圖比例往上長（汀州路三間：BB 第 2 版——字比參考圖小、街上讀不出來）
         xf.box(acc(SK['alu2']), cx_ - w_ / 2 - 0.04, cx_ + w_ / 2 + 0.04, sy0 - 0.05, sy1 + 0.03, 0.0, 0.2); _xq(xf, key, cx_ - w_ / 2, cx_ + w_ / 2, sy0, sy1, 0.204, tiles=1)
         if XSM.get('street_lit'): CL.glow(root, 'signbox', *xf.p(cx_, (sy0 + sy1) / 2, 0.6), color='rgba(255,250,235,1)', size=2.2, day=0.0, night=0.55)
     elif s.get('atlas') and s['atlas'] in SIGN_ATLAS:

@@ -227,10 +227,10 @@ await sec('2-4',async()=>{
 /* ================= 3 可昕 ================= */
 const dinner=async(term,key,h,flags,picks)=>{ fresh(key,h,Object.assign({dating_kexin:true},flags)); H.FRIEND(KX); H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); await TERMEND.kexinDinner(GM,{term,kind:'kexin'}); return said(); };
 await sec('3-1',async()=>{
-  const A=await dinner('Y3S1','2028-01-18',18,{KX_XMAS:{2:'went',3:'video'}},['題目哪裡奇怪','河濱']);
+  const A=await dinner('Y3S1','2028-01-18',18,{KX_XMAS:{2:'went',3:'video'}},[0,'題目哪裡奇怪','河濱']);   /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版）：飯桌前面多一組三個選項（先選一個）；「寒假你來高雄。」那一句照新稿（沒有「……」）*/
   check('3-1. 大三上期末飯（2027 聖誕視訊 KX_XMAS[3] video、2026 收過卡片 KX_XMAS[2] went）：飯桌後面交換禮物、「還有，去年說的。今年的第二頁，你排。」、二選一、會合；記 KX_PAGE2_MINE',
-    seq(['寒假你來高雄。……我們都沒去過的地方，我來排。','（吃完飯，她從包包拿出一個小盒子，推過來。）','聖誕的。說好考完換。','（你也把準備好的那一份拿出來。）','還有，去年說的。今年的第二頁，你排。','……抄我的。好。','（那一晚的第二頁，是你排的。）'])&&J(H.opts[H.opts.length-1])===J(['「河濱，看燈。」','「山上，看夜景。」'])&&H.G.flags.KX_PAGE2_MINE==='river',J(A.slice(2)));
-  const B=await dinner('Y3S1','2028-01-18',18,{KX_XMAS:{3:'missed'}},[0,'山上']);
+    seq(['寒假你來高雄。我們都沒去過的地方，我來排。','（吃完飯，她從包包拿出一個小盒子，推過來。）','聖誕的。說好考完換。','（你也把準備好的那一份拿出來。）','還有，去年說的。今年的第二頁，你排。','……抄我的。好。','（那一晚的第二頁，是你排的。）'])&&J(H.opts[H.opts.length-1])===J(['「河濱，看燈。」','「山上，看夜景。」'])&&H.G.flags.KX_PAGE2_MINE==='river',J(A.slice(2)));
+  const B=await dinner('Y3S1','2028-01-18',18,{KX_XMAS:{3:'missed'}},[0,0,'山上']);
   check('3-1. 只有 2027 聖誕（沒視訊 missed）＝交換禮物，沒有第二頁',B.includes('聖誕的。說好考完換。')&&!B.includes('還有，去年說的。今年的第二頁，你排。')&&H.G.flags.KX_PAGE2_MINE==null,J(B.slice(2)));
   const C=await dinner('Y3S1','2028-01-18',18,{KX_XMAS:{2:'went'}},[0]);
   check('3-1. 2027 聖誕沒記（期末飯在聖誕以前、或沒交往）＝都沒有',!C.includes('聖誕的。說好考完換。')&&!C.includes('還有，去年說的。今年的第二頁，你排。'),J(C.slice(2)));
@@ -309,7 +309,7 @@ await sec('3-10',async()=>{
   const mk=sentMsg=>dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'US'},[0]).then(x=>x);
   fresh('2029-01-17',18,{dating_kexin:true,EXCHANGE_ROUTE:'US'}); H.FRIEND(KX); PHONE.at(H.G,D('2028-12-14'),7.5,[{th:'p:kexin',from:'kexin',text:'你說了四年的麵。……今天少你一碗。'},{th:'p:kexin',from:'kexin',text:'23 號回來，第一碗我請。'}],'y4_a23_us_kx'); tick();
   H.said=[]; H.opts=[]; H.picks=[0]; await TERMEND.kexinDinner(GM,{term:'Y4S1',kind:'kexin'}); const A=said();
-  check('3-10. 大四上期末飯（美國路線、交往中、收過「23 號回來，第一碗我請。」）：飯桌一開始「第一碗。說好我請。」「（她先去付了錢。）」',A[0]==='（山下那家店，她點了兩人份，沒有問你。）'&&seq(['第一碗。說好我請。','（她先去付了錢。）','大四了。……我們期末考完，就剩一個學期。']),J(A.slice(0,5)));
+  check('3-10. 大四上期末飯（美國路線、交往中、收過「23 號回來，第一碗我請。」）：飯桌一開始「第一碗。說好我請。」「（她先去付了錢。）」',A[0]==='（山下那家店，她點了兩人份，沒有問你。）'&&seq(['第一碗。說好我請。','（她先去付了錢。）','大四了。考完期末，就剩一個學期。'])   /* 2026-11-10 改期望（TERMEND-OPTS-1110，使用者 X324；AA_749 女朋友版／可昕期末飯第二版） */,J(A.slice(0,5)));
   const B=await dinner('Y4S1','2029-01-17',18,{EXCHANGE_ROUTE:'US'},[0]);
   check('3-10. 沒收過那兩則＝沒有',!B.includes('第一碗。說好我請。'));
 });

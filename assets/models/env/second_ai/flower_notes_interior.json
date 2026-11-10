@@ -1,0 +1,22 @@
+{
+ "objects": 24,
+ "unique_meshes": 24,
+ "tris": 111280,
+ "tris_drawn": 111280,
+ "materials": 10,
+ "out": "assets/models/env/second_ai/flower_notes_interior.glb",
+ "bytes": 3714180,
+ "texres": 512,
+ "tris_total": 111280,
+ "walls": [
+  "L0_E",
+  "L0_N",
+  "L0_S",
+  "L0_W",
+  "L1_E",
+  "L1_N",
+  "L1_S",
+  "L1_W"
+ ],
+ "note": "FLOWER-NOTES-ART-1110 花序室內：L0_root 一樓花藝賣場、L1_root 二樓花藝教室"
+}

@@ -232,11 +232,14 @@ const ALLOW = [
   ['src/data/study_units.js', '在系上的群組裡造謠，說某位同學「期中考作弊被抓」：這是一件具體、可以查證的事'],
   ['src/data/aa720.js', '書有念。期中考考完了。'],   /* AA_720 ev_yt_tell_mom live（AA-B 11-08 定稿，D109）：語彤（社會系一年級）對媽媽說她自己的期中考＝別人的期中（同上 r2y4b3d 那句）；已列給 AA 確認 */   /* 觀念卡（AA 的誹謗例子，crim_spec_w6／const_1_w11）：法律舉例，不是遊戲的期中考 */
 ];
+const FILM_TEXT = (() => { try { const src = fs.readFileSync(path.join(ROOT, 'src/data/movie_plots.js'), 'utf8'); const M = new Function(src + '; return MOVIE_PLOTS;')(); const o = new Set(); for (const f of Object.values(M.films || {})) { if (f.plot) o.add(f.plot); if (f.scene) o.add(f.scene); } return o; } catch (e) { return new Set(); } })();
 const okKey = new Set(ALLOW.map(([f, p]) => f + '\t' + p.slice(0, 30)));
 const bad = [];
 for (const file of walk(path.join(ROOT, 'src'), [])) {
   const rel = path.relative(ROOT, file).split(path.sep).join('/');
-  for (const s of strings(fs.readFileSync(file, 'utf8'))) if (MID.test(s) && !okKey.has(rel + '\t' + s.slice(0, 30))) bad.push(rel + '：' + s.slice(0, 60));
+  /* 2026-11-10：src/data/movie_plots.js 的 plot、scene 是南洋戲院電影的情節（AA_745，虛構的片子裡的學校），不是遊戲裡的課和考試——那兩個欄位不掃；同一個檔的 talk、re 照掃 */
+  const filmText = rel === 'src/data/movie_plots.js' ? FILM_TEXT : null;
+  for (const s of strings(fs.readFileSync(file, 'utf8'))) if (MID.test(s) && !okKey.has(rel + '\t' + s.slice(0, 30)) && !(filmText && filmText.has(s))) bad.push(rel + '：' + s.slice(0, 60));
 }
 check('(b) src/ 字串常值裡提到期中考的，都在允許清單上（AA_581 保留、別人的期中、D118 第一輪保留）', !bad.length, JSON.stringify([...new Set(bad)].slice(0, 30)) + '（共 ' + bad.length + '）');
 console.log(fails ? 'FAILED ' + fails + '／' + n : 'ALL PASS（' + n + ' 項）'); process.exit(fails ? 1 : 0);
