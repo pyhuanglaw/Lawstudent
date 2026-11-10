@@ -98,11 +98,16 @@ async def enter_shop(pg, cdp, g, tag):
     return {'door': door, 'spawn': sp, 'zone': s['zone']}
 
 
-AREA_JS = r"""((pats)=>{ const E=GAME.E, out={}; for(const [k,p] of Object.entries(pats)){ const re=new RegExp(p,'i'); let hit=null;
-    E.scene.traverse(o=>{ if(hit||!o.name||!re.test(o.name)) return; let v=o.visible; for(let q=o.parent;q&&v;q=q.parent) if(q.visible===false) v=false; if(!v) return; const b=new THREE.Box3().setFromObject(o); if(b.isEmpty()) return; const s=b.getSize(new THREE.Vector3()); if(s.x>20||s.z>20) return;
+AREA_JS = r"""((pats)=>{ const E=GAME.E, root=(E.zone&&E.zone.group)||E.scene, out={}; for(const [k,p] of Object.entries(pats)){ const re=new RegExp(p,'i'); let hit=null;
+    root.traverse(o=>{ if(hit||!o.name||!re.test(o.name)) return; let v=o.visible; for(let q=o.parent;q&&v;q=q.parent) if(q.visible===false) v=false; if(!v) return; const b=new THREE.Box3().setFromObject(o); if(b.isEmpty()) return; const s=b.getSize(new THREE.Vector3()); if(s.x>20||s.z>20) return;
       const c=b.getCenter(new THREE.Vector3()); hit={name:o.name, c:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], size:[+s.x.toFixed(2),+s.y.toFixed(2),+s.z.toFixed(2)]}; });
     out[k]=hit; }
-  const names=new Set(); E.scene.traverse(o=>{ if(o.name&&(o.isMesh||o.isGroup)) names.add(o.name); }); return {hit:out, names:[...names].slice(0,200)}; })"""
+  /* 名稱找不到：這一版有花序的配置（FLOWER_NOTES_LAYOUT，201803df0 起）就用配置的位置（家具中心、高 1 m） */
+  if(typeof FLOWER_NOTES_LAYOUT!=='undefined'&&E.zone&&E.zone.id==='flower_notes'){ const L=FLOWER_NOTES_LAYOUT, it=k=>L.items0.find(q=>q.kind===k), ctr=o=>[(o.x0+o.x1)/2,1.0,(o.z0+o.z1)/2], sz=o=>[o.x1-o.x0,o.h||1,o.z1-o.z0];
+    const lay={'中央展示':{c:[L.display.x,1.0,L.display.z],size:[L.display.w,1,L.display.d]}, '鮮花':it('bouquet_stand')&&{c:ctr(it('bouquet_stand')),size:sz(it('bouquet_stand'))}, '永生花':it('preserved_shelf')&&{c:ctr(it('preserved_shelf')),size:sz(it('preserved_shelf'))},
+      '收銀':{c:ctr(L.counter),size:sz(L.counter)}, '入口':{c:[(L.front.door.x0+L.front.door.x1)/2,1.4,L.D/2],size:[L.front.door.x1-L.front.door.x0,2.9,0.2]}};
+    for(const k in lay) if(!out[k]&&lay[k]) out[k]=Object.assign({name:'FLOWER_NOTES_LAYOUT'},lay[k]); }
+  const names=new Set(); root.traverse(o=>{ if(o.name&&(o.isMesh||o.isGroup)) names.add(o.name); }); return {hit:out, names:[...names].slice(0,200)}; })"""
 
 
 async def part_int(pg, cdp, g):
@@ -132,7 +137,7 @@ UP_JS = r"""((q)=>{ const E=GAME.E, N=E.levels&&E.levels[1]; if(!N) return null;
   for(let cz=0;cz<N.rows;cz+=2) for(let cx=0;cx<N.cols;cx+=2){ if(N.b[N.idx(cx,cz)]) continue; const [x,z]=N.toWorld(cx,cz); if(!E.canStand(x,z,0.3,1)) continue; const y=N.heightAt(x,z); if(y<q.minY) continue;
     const p=E.pathTo(P.x,P.z,E.player.lv|0,x,z,1); if(!p||!p.length) continue; const last=p[p.length-1]; if(Math.hypot(last[0]-x,last[1]-z)>0.6) continue; const sc=y*10-Math.hypot(x-P.x,z-P.z)*0.1; if(!best||sc>best.sc) best={x:+x.toFixed(2),z:+z.toFixed(2),y:+y.toFixed(2),sc,n:p.length}; }
   return best; })"""
-STAIR_OBJ_JS = r"""(()=>{ const E=GAME.E; let hit=null; E.scene.traverse(o=>{ if(hit||!o.name||!/stair|step|樓梯|階/i.test(o.name)) return; const b=new THREE.Box3().setFromObject(o); if(b.isEmpty()) return; const c=b.getCenter(new THREE.Vector3()); hit={name:o.name,c:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)]}; });
+STAIR_OBJ_JS = r"""(()=>{ const E=GAME.E; let hit=null; ((E.zone&&E.zone.group)||E.scene).traverse(o=>{ if(hit||!o.name||!/stair|step|樓梯|階/i.test(o.name)) return; const b=new THREE.Box3().setFromObject(o); if(b.isEmpty()) return; const c=b.getCenter(new THREE.Vector3()); hit={name:o.name,c:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)]}; });
   const its=hit?(E.interactables||[]).filter(i=>Math.hypot(i.x-hit.c[0],i.z-hit.c[2])<4).map(i=>({label:i.label,look:i.look||null,x:+i.x.toFixed(2),z:+i.z.toFixed(2)})):[]; return {stair:hit, its}; })()"""
 
 

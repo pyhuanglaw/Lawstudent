@@ -28,7 +28,7 @@ PARTS（逗號分開；TZQ、TZP 是下面幾個的總稱）：
   TZP_FPS  B5 高畫質 18:30 路中間 8 秒 requestAnimationFrame（PC GPU 才有意義；雲端 SwiftShader 不當結論）
   WZQ      C 手機「地點」溫州街那一區列出全部 11 間（舊版 c17a9919e 會 FAIL：印出有幾間、少哪幾間）；每一間：【前置】讀檔到新生南路（側門進來的地方）、visited 有那幾家店、
            挑那一家開門的日子時間 → 點「前往」→ 到那一區、落點、站得住、面向、互動鍵是那一間（窗口／櫥窗三家：照 wzshops3d.js 的 label；店裡：不是別家的名字）
-用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=TZQ,TZP,WZQ [Q=low|medium|high（可以逗號列多個）] [WAIT=8000] [ONLY=店名,…（雲端自檢：A2、C 只跑這幾筆）] [OBS_S=60] python3 cc_tzq_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=TZQ,TZP,WZQ [Q=low|medium|high（可以逗號列多個）] [WAIT=8000] [ONLY=店名,…（雲端自檢：A2、C 只跑這幾筆）] [HOURS=14,18.5,22.5,25（TZP_CNT 的時間）] [OBS_S=60] python3 cc_tzq_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, base64, math, re
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import playlib as L
@@ -55,7 +55,7 @@ WZ_VISIT = {'dorm': True, 'cafe': True, 'wz_mokuyobi': True, 'wz_offbeat': True,
 WZ_WIN = {'帝大紅茶': ['買一杯飲料'], '夏日冰菓室': ['買一碗冰', '看夏日冰菓室'], '溫州書屋': ['看書店的櫥窗']}   # wzshops3d.js S.windowItems、zones3d.js 溫州街櫥窗
 GG_START = (-2.5, -29.0, 0.0)   # places.js「公館商圈」落點
 NIGHT_N = {'low': 8, 'medium': 12, 'high': 16}   # BB：17～23 點依畫質 8／12／16
-TZP_HOURS = [14.0, 18.5, 22.5, 25.0]           # 01:00＝前一天的 25:00（遊戲過午夜 G.hour 繼續往上加；populate 用 hour%24）
+TZP_HOURS = [float(h) for h in (os.environ.get('HOURS') or '14,18.5,22.5,25').split(',')]           # 01:00＝前一天的 25:00（遊戲過午夜 G.hour 繼續往上加；populate 用 hour%24）
 
 DAYOF = "(k=>{ if(typeof STORY!=='undefined'&&STORY.dayOfKey) return STORY.dayOfKey(k); for(let d=0;d<4000;d++){ try{ if(CALENDAR.dateOf(d).key===k) return d; }catch(e){} } return null; })"
 ME = r"""(()=>{ const E=GAME.E, P=E.player, p=P.obj.position, N=E.nav, it=document.getElementById('interact'), lb=document.getElementById('interactLabel');
@@ -337,7 +337,9 @@ async def part_tzq_old(pg, cdp, errs):
             me = await load(pg, cdp, 'gongguan', DAY, 14.0, x, z, math.pi, why='（舊格式存檔的 pos：三間還在公館時站的地方）')
             await pg.wait_for_timeout(2000); me2 = await pg.evaluate(ME)
             R.note('%s 讀進來 %s；2 秒後 %s' % (tag, J(me), J(me2)))
-            R.check('%s 讀得進來、在公館、站得住、2 秒沒有被帶走' % tag, me2['zone'] == 'gongguan' and me2['free'] and me2['stand'] and math.hypot(me2['x'] - x, me2['z'] - z) < 0.5, J(me2))
+            sh = math.hypot(me['x'] - x, me['z'] - z)
+            if sh > 0.1: R.note('%s 讀檔時被挪了 %.2f m（存的那一點在擋住的格子上，engine3d.js 出生點 E.unstick）' % (tag, sh))
+            R.check('%s 讀得進來、在公館、站得住（讀檔挪動 ≤1 m）、之後 2 秒沒有被帶走（<0.3 m）' % tag, me2['zone'] == 'gongguan' and me2['free'] and me2['stand'] and sh <= 1.0 and math.hypot(me2['x'] - me['x'], me2['z'] - me['z']) < 0.3, J(me2))
             ok = await L.go_to(pg, cdp, R, x, 14.0, 0.8, '%s 點地面走到人行道 (%.1f,14)' % (tag, x), max_s=60)
             R.check('%s 走得動（點地面走到 (%.1f,14)）' % (tag, x), ok, J(await pg.evaluate(ME)))
     R.check('[A4] walkFallbacks 0', (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
