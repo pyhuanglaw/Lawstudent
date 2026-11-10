@@ -1008,3 +1008,11 @@
 [19:25:08] ==== START GGDC_tree3g_new  (probe @ d8b669175bcf363974b401e1eed3d6709f2b0949) ====
 [19:25:11] [res] cpu=45% mem=47% (14.8/31.4 GB) chrome_testing=9  START GGDC_tree3g_new
 [19:26:40] [res] cpu=14% mem=48% (15.1/31.4 GB) chrome_testing=10  END WINVIEW_yk
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       68fd2f5e2..a63435b08  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:26:45] ==== END   WINVIEW_yk  exit=0  125s   ====
+[19:26:48] memory 42% before starting GGDC_tree3g_old (2 running)
+[19:26:48] ==== START GGDC_tree3g_old  (probe @ fe4d893acdb08eb93f93b688380bd0700ff5ad48) ====
+[19:26:51] [res] cpu=23% mem=42% (13.4/31.4 GB) chrome_testing=5  START GGDC_tree3g_old
+[19:26:56] [res] cpu=21% mem=43% (13.3/31.4 GB) chrome_testing=5  END GGDC_tree3g_new
