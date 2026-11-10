@@ -76,5 +76,5 @@ if(L.version>=4){
   const wc=E.interactables.find(i=>i.exit&&i.exit.to==='wancai'&&!i.lv), ex=wb?toW(5.8,11.4):[0,0]; check('第四版起（法學院重排）：萬才館一樓入口在建築本地 (5.8, 11.4)（陽台下），跟著建築搬、轉', !!wc&&Math.abs(wc.x-ex[0])<0.3&&Math.abs(wc.z-ex[1])<0.3, wc?JSON.stringify([+wc.x.toFixed(2),+wc.z.toFixed(2)]):'沒有');
   check('第四版：萬才館在霖澤館東南、不是東西並排（萬才館入口比霖澤館入口 (34,−98) 東 ≥ 40 m、南 ≥ 8 m）', !!wc&&wc.x-34>=40&&wc.z-(-98)>=8, wc?JSON.stringify([wc.x,wc.z]):'');
   for(const [p,label] of [[[WC3.CAMPUS_1F.x,WC3.CAMPUS_1F.z],'萬才館出來的落點（wancai3d.js CAMPUS_1F）'],[toW(5.8,14.4),'以安在萬才館門口等的站位（heroine_circle.js）'],[toW(9.5,17),'吉他社女生的站位（pool）']]){ const [x,zz]=p; const f=stand(x,zz)?walk(LINZE,[x,zz]):{ok:false,why:'站不住'}; check('第四版：'+label+' '+JSON.stringify([+x.toFixed(2),+zz.toFixed(2)])+' 站得住、從霖澤館前走得到', stand(x,zz)&&!f, f?JSON.stringify(f):''); }
-  const bk=toW(-1,-17.3); check('第四版：國青大樓、研三舍、萬才館背面走不到', !stand(bk[0],bk[1])&&!stand(65,-119)&&!stand(63,-108), JSON.stringify(bk.map(v=>+v.toFixed(1)))); }
+  const bk=toW(-1,-17.3); check('第四版：國青大樓、萬才館背面走不到（研三舍那一棟 NTU-REF-1110 ③-4 拿掉了：研三舍就在國青大樓裡，原址現在是國青南邊的草地，走得到）', !stand(bk[0],bk[1])&&!stand(65,-119), JSON.stringify(bk.map(v=>+v.toFixed(1)))); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

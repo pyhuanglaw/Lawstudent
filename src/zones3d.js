@@ -663,7 +663,7 @@ const Z3 = (function(){
     // 放在兩館中間的後方（中庭與北側圍牆之間，玩家走不到，不加導航），從兩館之間、霖澤館前都看得到。外觀沒有照片：灰色現代板樓是推測
     { const gq=CK.modern({w:LR?20:30,d:10,floors:7,gfh:4.0,fh:3.2,wall:'#a9aba6',slab:'#c8c9c4',sign:'國際學苑'}); place(g,gq,LR?65:64,LR?-119:-134,0);
       if(LR){ nav.blockRect(65,-119,20,10,0,0);   /* 重排：國青大樓在霖澤館東邊、辛亥路旁（官方地圖）；後面到圍牆走不到 */
-        const r3=CK.modern({w:12,d:7,floors:4,gfh:3.6,fh:3.1,wall:'#c9c2b4',slab:'#dad5ca',sign:'研三舍'}); place(g,r3,63,-108,0); nav.blockRect(63,-108,12,7,0,0);   /* 研三舍：國青南邊、萬才館西邊（官方地圖）*/
+        /* 研三舍那一棟拿掉（NTU-REF-1110 ③-4，LAWWW2 帳號 A 11-10；X223）：住宿組「研三舍位於國青大樓」＝同一棟（男 5～7 樓、女 2、8～11 樓），原本另外蓋的 4 層「研三舍」(63,−108) 是多的；AA 11-10：劇情沒用到 */
         { const bk=WCW(-1,-17.3); nav.blockRect(bk[0],bk[1],34,12,-WRY,0); } } }   /* 萬才館背面到辛亥路圍牆（法學院後面不能走，D31 同一個做法）*/
     // 黑森林（CAMPUS-BLACKFOREST-1102，LAWWW2 11-02；使用者 20:3x「你的黑森林超奇怪的，而且裡面怎麼還會有草皮中的磁磚啊，而且你這一小塊根本就不能叫做黑森林」）：
     //   配置 src/data/blackforest_layout.js（tools/blender/env_second/campus_blackforest_layout.py）：法學院廣場南邊整塊＋z −60 那條路的南邊（路變成穿過森林），
