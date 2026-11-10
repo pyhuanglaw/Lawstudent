@@ -4325,6 +4325,15 @@
    "kind": "選擇題答案",
    "status": "進行中",
    "wants": "X200"
+  },
+  {
+   "id": "UA-LAWWW-1110-84",
+   "at": "2026-11-10T18:3xZ",
+   "quote": "溫州街的所有店面也都要找這個模式",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X318",
+   "task": "WZ-SHOPS-REF-AUDIT-1110"
   }
  ]
 }
