@@ -1,0 +1,35 @@
+{
+ "inst": [
+  {
+   "mesh": "desk:item_cup",
+   "i": 0,
+   "vis": true,
+   "x": -2.32,
+   "y": 0.34,
+   "z": -0.24,
+   "below": {
+    "d": 0.35,
+    "y": 0.01,
+    "mesh": "TAP_FLOOR",
+    "parent": ""
+   },
+   "float": true,
+   "chain": "desk:item_cup<seatact:0<Group<Scene"
+  }
+ ],
+ "bbox": [
+  -3.8,
+  3.8,
+  -4.200000000000001,
+  9.399999999999999
+ ],
+ "zone": "wz_teahouse",
+ "hour": 18.55,
+ "day": 53,
+ "weekday": 6,
+ "seatactN": 3,
+ "player": [
+  -3,
+  9
+ ]
+}

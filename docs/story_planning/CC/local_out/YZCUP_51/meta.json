@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "YZCUP_51",
+  "sha": "dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_yizhan_cups_probe.py",
+  "env": "FIX=tests/fixtures/user_save_day51_1110.json",
+  "machine": "MSI",
+  "start": "2026-11-10T16:31:33",
+  "end": "2026-11-10T16:33:25",
+  "seconds": 111,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "6",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 16,
+    "mem": 55,
+    "used_gb": 17.3,
+    "chrome_testing": 9
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

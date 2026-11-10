@@ -122,3 +122,20 @@
 [16:28:30] ==== START LE738_touch  (game @ e73888074c) ====
 [16:28:33] [res] cpu=5% mem=34% (11.7/31.4 GB) chrome_testing=0  START LE738_touch
 [16:31:21] [res] cpu=1% mem=36% (11.6/31.4 GB) chrome_testing=0  END LE738_touch
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a1e26162b..292aa58a5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:31:26] ==== END   LE738_touch  exit=0  171s   ====
+[16:31:33] memory 35% before starting BGN_new (0 running)
+[16:31:33] ==== START BGN_new  (probe @ 063592f18baec790f772bd64a32835cd98a0a950) ====
+[16:31:33] skip BGN_old (already done on cdcb2650730bc9a90563690e63f35e75e63c9fb3)
+[16:31:33] memory 35% before starting YZCUP_47 (1 running)
+[16:31:33] memory 35% before starting YZCUP_51 (2 running)
+[16:31:33] ==== START YZCUP_47  (probe @ dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963) ====
+[16:31:33] ==== START YZCUP_51  (probe @ dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963) ====
+[16:31:36] [res] cpu=5% mem=35% (11.1/31.4 GB) chrome_testing=0  START BGN_new
+[16:31:36] [res] cpu=7% mem=35% (11.1/31.4 GB) chrome_testing=0  START YZCUP_51
+[16:31:36] [res] cpu=5% mem=35% (11.1/31.4 GB) chrome_testing=0  START YZCUP_47
+[16:31:58] worktree add dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963: invalid reference - fetching main and the commit itself
+[16:33:05] 正在跑：BGN_new（已跑 1 分／上限 40 分）、YZCUP_47（已跑 1 分／上限 20 分）、YZCUP_51（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:33:25] [res] cpu=16% mem=47% (14.9/31.4 GB) chrome_testing=9  END YZCUP_51
