@@ -375,16 +375,17 @@ if SET == 'tingzhou':
                           panel=dict(x0=-2.4, x1=2.4, y0=2.95, y1=3.88, color='#8a2a26', text=[('tzyue_sign', -2.35, 2.35, 2.96, 3.87), ('tzyue_menu', 1.55, 2.3, 0.7, 2.45)]), frame='#3a2a20', vsigns=[('tzyue_vsign', -2.8, 4.3, 7.9, 0.95)]),
     }
     # 第 2 版：三間有規格的店照使用者 11-10 21:1x 的外觀參考圖（docs/art-rebuild/second_ai/ref/gg_shops6_1110/concept/）。三張圖都有騎樓：保留騎樓，店面用參考圖裁的景深卡（wz_shopkit.gg_front）
+    # 第 3 版（BB 第 2 版判定）：一間店只留一塊招牌（參考圖只有一塊：騎樓外面那一塊），招牌板放大到整個店面寬（street_fit）
     TZ_ARC = {
-        'taimi': dict(dep=3.0, wallc='#4a2f1c', frame='#3a2416', street='tztai_sign', sign_back='wood',   # 泰米村食：深木色店面、米白字招牌＋三盞射燈；左大窗（藤編吊燈、木桌椅）、窗下一排菜色照片；中間米色布簾的門；右窗（吧台、層架）
+        'taimi': dict(dep=3.0, wallc='#4a2f1c', frame='#3a2416', street='tztai_sign', street_fit=7.4,   # 泰米村食：深木色店面、米白字招牌＋三盞射燈；左大窗（藤編吊燈、木桌椅）、窗下一排菜色照片；中間米色布簾的門；右窗（吧台、層架）
                       cards=[('tztai_winl', -3.6, -0.5, 0.95, 2.75, 0.8, [-2.05]), ('tztai_door', -0.4, 0.7, 0.0, 2.75, 0.8), ('tztai_winr', 0.85, 3.55, 0.95, 2.65, 0.8, [2.2])], open=('tztai_door',),
-                      signs=[('tztai_sign', -3.6, 3.55, 2.86, 3.76, 'front')], decals=[('tztai_menu', -3.6, -0.5, 0.2, 0.86, 0.03)], lamps=[(-2.0, 3.86), (0.0, 3.86), (2.0, 3.86)],
+                      decals=[('tztai_menu', -3.6, -0.5, 0.2, 0.86, 0.03)],
                       props=[('pot', -3.75, 0.35, 'broad'), ('pot', 1.1, 0.4, 'fern')]),
-        'xile': dict(dep=3.0, wallc='#f2f2ee', frame='alu', street='tzxile_sign', street_lit=True, sign_lit=True,   # 洗樂洗衣坊：淺天藍燈箱；鋁框大玻璃，左一排洗衣機、中間折衣桌、右邊上下疊的烘衣機；騎樓木長椅、盆栽
-                     cards=[('tzxile_int', -2.65, 2.65, 0.12, 2.7, 0.8, [-1.3, 0.1, 1.05])], signs=[('tzxile_sign', -2.65, 2.65, 2.9, 3.57, 'front')], props=[('pot', -2.45, 0.4, 'broad')]),
-        'yindehao': dict(dep=3.0, wallc='#e8e6e0', frame='alu', street='tzyin_sign', street_lit=True,   # 印得好：深灰藍招牌；左窗（輸出樣張、色票、窗台的裝訂樣本）、中間玻璃雙開門（影印機、櫃台）、右窗（海報、門外的樣本架）
+        'xile': dict(dep=3.0, wallc='#f2f2ee', frame='alu', street='tzxile_sign', street_fit=5.6, street_lit=True,   # 洗樂洗衣坊：淺天藍燈箱；鋁框大玻璃，左一排洗衣機、中間折衣桌、右邊上下疊的烘衣機；騎樓木長椅、盆栽
+                     cards=[('tzxile_int', -2.65, 2.65, 0.12, 2.7, 0.8, [-1.3, 0.1, 1.05])], props=[('pot', -2.45, 0.4, 'broad')]),
+        'yindehao': dict(dep=3.0, wallc='#e8e6e0', frame='alu', street='tzyin_sign', street_fit=6.1, street_lit=True,   # 印得好：深灰藍招牌；左窗（輸出樣張、色票、窗台的裝訂樣本）、中間玻璃雙開門（影印機、櫃台）、右窗（海報、門外的樣本架）
                          cards=[('tzyin_winl', -2.95, -0.8, 0.12, 2.7, 0.8), ('tzyin_door', -0.7, 0.75, 0.0, 2.7, 0.8, [0.02]), ('tzyin_winr', 0.85, 2.95, 0.12, 2.7, 0.8)],
-                         signs=[('tzyin_sign', -2.95, 2.95, 2.9, 3.76, 'front')]),
+                         ),
     }
     _WALLC = ['#e6e2d8', '#d9d4c6', '#cfd2cc', '#e2d6c0', '#d4c7b0', '#c9cfc6', '#ddd2c2', '#bfb7aa', '#e9e4da', '#cbbfae']; _WALLT = ['mosaic', 'tile', 'mosaic', 'plaster', 'tile', 'mosaic']
     SPECS = []

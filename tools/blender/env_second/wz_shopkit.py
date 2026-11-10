@@ -2065,6 +2065,7 @@ def arcade_front_v2(spec, xf, W, wall):
     sw = min(W - 0.4, 6.5); sy0, sy1 = GH - 0.67, GH - 0.03
     if XSM:   # 公館四間新店：騎樓外的招牌也是參考圖裁的字（同一塊招牌，貼在騎樓樑上給馬路看）
         key = XSM['street']; h_ = sy1 - sy0; w_ = min(sw, h_ * XS_ATLAS.get(key, [0, 0, 1, 1, 4])[4]); cx_ = XSM.get('street_x', 0.0)
+        if XSM.get('street_fit'): w_ = min(W - 0.4, XSM['street_fit']); h_ = w_ / XS_ATLAS.get(key, [0, 0, 1, 1, 4])[4]; sy1 = sy0 + h_   # 招牌板照指定的寬度、高度照貼圖比例往上長（汀州路三間：BB 第 2 版——字比參考圖小、街上讀不出來）
         xf.box(acc(SK['alu2']), cx_ - w_ / 2 - 0.04, cx_ + w_ / 2 + 0.04, sy0 - 0.05, sy1 + 0.03, 0.0, 0.2); _xq(xf, key, cx_ - w_ / 2, cx_ + w_ / 2, sy0, sy1, 0.204, tiles=1)
         if XSM.get('street_lit'): CL.glow(root, 'signbox', *xf.p(cx_, (sy0 + sy1) / 2, 0.6), color='rgba(255,250,235,1)', size=2.2, day=0.0, night=0.55)
     elif s.get('atlas') and s['atlas'] in SIGN_ATLAS:
