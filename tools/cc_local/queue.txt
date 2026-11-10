@@ -22,6 +22,9 @@ GG16r4_old | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_plann
 # r5（CC 20:3x）：溫州書屋、日常失速店面方向手動指定（r4 導航格判錯：書屋拍到側面、日常失速拍到巷子）；只溫州街、日常失速
 GG16r5_new | 9c769623a07c9b13b9345771e856b55beceb2e16 | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 15 | TAG=new;GROUPS=溫州街,日常失速;RERUN=r5
 GG16r5_old | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 15 | TAG=old;GROUPS=溫州街,日常失速;RERUN=r5
+# r5b（BB 20:34）：同弦相機升到二樓招牌高度（y 4.6）、正對、不隔欄杆，新舊各一
+GG16r5b_new | 9c769623a07c9b13b9345771e856b55beceb2e16 | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 10 | TAG=new;GROUPS=同弦（二樓）;RERUN=r5b
+GG16r5b_old | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 10 | TAG=old;GROUPS=同弦（二樓）;RERUN=r5b
 #SUPERSEDED(BB 20:10 改用 5c260f19e) GG_SIGNS_new | 8efee4fbf9b05526f2ed05db136817b0037f108b | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 12 | TAG=new
 #SUPERSEDED(BB 20:12 改 16 間 GG16) GG_SIGNS_new5c | 5c260f19ebf408cb332615020b22a7648fdbd8c4 | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 12 | TAG=new
 #SUPERSEDED(BB 20:12 改 16 間 GG16) GG_SIGNS_old | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 12 | TAG=old
