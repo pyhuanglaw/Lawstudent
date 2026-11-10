@@ -1,0 +1,150 @@
+[
+ {
+  "act": "curl",
+  "hour": 10.0,
+  "use": {
+   "using": "db_rack_1",
+   "pose": "gym_curl",
+   "x": -9.55,
+   "z": 12.35,
+   "y": 0,
+   "yaw": 0,
+   "dlg": true
+  },
+  "props": {
+   "pose": "gym_curl",
+   "gymPose": "gym_curl",
+   "isFar": false,
+   "loaded": false,
+   "failed": 0,
+   "lh": [
+    -9.394,
+    1.141,
+    12.668
+   ],
+   "rh": [
+    -9.706,
+    0.953,
+    12.583
+   ],
+   "mid": [
+    -9.55,
+    1.047,
+    12.626
+   ],
+   "props": []
+  },
+  "info": []
+ },
+ {
+  "act": "press",
+  "hour": 10.0,
+  "use": {
+   "using": "bench_1",
+   "pose": "gym_press",
+   "x": -10.6,
+   "z": 10,
+   "y": 0,
+   "yaw": 0,
+   "dlg": true
+  },
+  "props": {
+   "pose": "gym_press",
+   "gymPose": "gym_press",
+   "isFar": false,
+   "loaded": false,
+   "failed": 0,
+   "lh": [
+    -10.322,
+    1.249,
+    10.291
+   ],
+   "rh": [
+    -10.877,
+    1.246,
+    10.297
+   ],
+   "mid": [
+    -10.599,
+    1.247,
+    10.294
+   ],
+   "props": []
+  },
+  "info": []
+ },
+ {
+  "act": "squat",
+  "hour": 10.0,
+  "use": {
+   "using": "squat_rack_2",
+   "pose": "gym_squat",
+   "x": -18.4,
+   "z": 12.55,
+   "y": 0,
+   "yaw": 0,
+   "dlg": true
+  },
+  "props": {
+   "pose": "gym_squat",
+   "gymPose": "gym_squat",
+   "isFar": false,
+   "loaded": false,
+   "failed": 0,
+   "lh": [
+    -17.998,
+    1.016,
+    12.511
+   ],
+   "rh": [
+    -18.798,
+    1.021,
+    12.513
+   ],
+   "mid": [
+    -18.398,
+    1.019,
+    12.512
+   ],
+   "props": []
+  },
+  "info": []
+ },
+ {
+  "act": "row",
+  "hour": 10.0,
+  "use": {
+   "using": "rower_1",
+   "pose": "gym_row",
+   "x": 7.4,
+   "z": 8.5,
+   "y": 0,
+   "yaw": 1.571,
+   "dlg": true
+  },
+  "props": {
+   "pose": "gym_row",
+   "gymPose": "gym_row",
+   "isFar": false,
+   "loaded": false,
+   "failed": 0,
+   "lh": [
+    7.871,
+    0.556,
+    8.378
+   ],
+   "rh": [
+    7.876,
+    0.552,
+    8.622
+   ],
+   "mid": [
+    7.873,
+    0.554,
+    8.5
+   ],
+   "props": []
+  },
+  "info": []
+ }
+]

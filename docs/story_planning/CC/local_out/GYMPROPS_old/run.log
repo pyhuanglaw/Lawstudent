@@ -1,0 +1,96 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gym_props_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GYMPROPS_old\out
+CC 健身房手上的道具：worktree ?；TAG old；['curl', 'press', 'squat', 'row']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  22.9s] 這一版：{"gy3": true, "layout": true, "props": false, "asset": false}（props／asset false＝GYM-FIT-PROPS-1103 之前的版本，道具那一項會 FAIL）
+PASS 這一版有健身器材互動（GY3.useEquip、b1.fitness.equip）  {"gy3": true, "layout": true, "props": false, "asset": false}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gym_b1 出生點 2025-09-23 10.00 時、條件事件關掉；G.daily.gym 設會員卡＋這個月月票、錢 ≥ 2000（不演辦卡／買月票）
+  [  36.5s] 前置後：{"card": 7, "pass": "2025-09", "fit": 0, "money": 22000, "open": true, "wd": 2, "key": "2025-09-23"}；位置 {"zone": "gym_b1", "x": 18, "z": 7, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.06}
+  [  36.5s] curl 10.00 時 器材：[{"id": "db_rack_1", "kind": "db_rack", "label": "啞鈴架 1", "stand": {"x": -9, "z": 12.35, "yaw": 0}, "use": [{"x": -9.55, "z": 12.35, "yaw": 0, "pose": "gym_curl"}, {"x": -8.45, "z": 12.35, "yaw": 0, "pose": "gym_curl"}], "free": true}]
+PASS curl：用啞鈴 有一台有空位（db_rack_1）  {"hours": [10.0, 8.6, 14.2]}
+  [  45.8s] 到達「curl 走到 db_rack_1 的 stand (-9, 12.35)」附近（0.15 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+PASS curl：真的走到 db_rack_1 的 stand（0.45 m 內、walkFallbacks 沒加）  {"zone": "gym_b1", "x": -8.856, "z": 12.287, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "用啞鈴", "stand": true, "fb": 0, "hour": 10.13}
+PASS curl：互動鍵是「用啞鈴」、最近的互動點是 db_rack_1  {"interact": "用啞鈴", "near": {"label": "用啞鈴", "eq": "db_rack_1"}}
+PASS curl：按下去以後在用 db_rack_1、玩家 pose＝gym_curl  {"using": "db_rack_1", "pose": "gym_curl", "x": -9.55, "z": 12.35, "y": 0, "yaw": 0, "dlg": true}
+FAIL curl：手上看得到 2 個 gymProp:dd*（道具載好 False、遠距離版本 False）  {"vis": [], "failed": 0, "gymPose": "gym_curl"}
+  [  59.5s] curl 第 1 次：手 L [-9.394, 1.135, 12.668] R [-9.706, 0.957, 12.587]；道具 []
+  [  59.5s] curl 第 2 次：手 L [-9.396, 0.957, 12.593] R [-9.704, 1.136, 12.663]；道具 []
+  [  59.5s] curl 第 3 次：手 L [-9.396, 0.898, 12.475] R [-9.703, 1.26, 12.627]；道具 []
+  [  59.5s] curl 第 4 次：手 L [-9.395, 0.9, 12.481] R [-9.704, 1.254, 12.63]；道具 []
+  [  59.5s] curl 第 5 次：手 L [-9.395, 0.969, 12.603] R [-9.705, 1.12, 12.663]；道具 []
+  [  59.5s] curl 第 6 次：手 L [-9.394, 1.141, 12.668] R [-9.706, 0.953, 12.583]；道具 []
+  [  59.5s] curl：道具離手（啞鈴＝自己那隻手骨；槓鈴、拉把＝兩手中點）、手到軸線都 ≤ 0.15 m
+PASS [黑畫面] gp_old_curl_game 不是黑畫面（平均亮度 44.4、變化 43.2）  [44.4, 43.2]
+  [  60.4s] curl 遊戲鏡頭：{"cam": [-6.27, 2.99, 11.7], "yaw": 8.05, "dist": 3.6, "mode": "follow"}
+  [  60.5s] curl 另一台相機 sideL：[-7.85, 1.05, 12.63] → 兩手中點 [-9.55, 1.047, 12.626]（fov 50）
+  [  60.5s] curl 另一台相機 sideR：[-11.25, 1.05, 12.63] → 兩手中點 [-9.55, 1.047, 12.626]（fov 50）
+  [  60.5s] curl 另一台相機 front：[-9.55, 1.05, 14.33] → 兩手中點 [-9.55, 1.047, 12.626]（fov 50）
+PASS curl：旁白點掉以後站回 stand、pose idle、手上的道具藏起來  {"u": {"using": null, "pose": "idle", "x": -9, "z": 12.35, "y": 0, "yaw": 0, "dlg": false}, "vis": []}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gym_b1 出生點 2025-09-23 10.00 時、條件事件關掉；G.daily.gym 設會員卡＋這個月月票、錢 ≥ 2000（不演辦卡／買月票）
+  [  73.7s] 前置後：{"card": 7, "pass": "2025-09", "fit": 0, "money": 22000, "open": true, "wd": 2, "key": "2025-09-23"}；位置 {"zone": "gym_b1", "x": 18, "z": 7, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.07}
+  [  73.8s] press 10.00 時 器材：[{"id": "bench_1", "kind": "bench", "label": "訓練椅 1", "stand": {"x": -11.35, "z": 10.3, "yaw": 1.5707963267948966}, "use": [{"x": -10.6, "z": 10, "yaw": 0, "pose": "gym_press"}], "free": true}, {"id": "bench_2", "kind": "bench", "label": "訓練椅 2", "stand": {"x": -9.35, "z": 10.3, "yaw": 1.5707963267948966}, "use": [{"x": -8.6, "z": 10, "yaw": 0, "pose": "gym_press"}], "free": true}, {"id": "bench_3", "kind": "bench", "label": "訓練椅 3", "stand": {"x": -7.35, "z": 10.3, "yaw": 1.5707963267948966}, "use": [{"x": -6.6, "z": 10, "yaw": 0, "pose": "gym_press"}], "free": true}]
+PASS press：用臥推椅 有一台有空位（bench_1／bench_2／bench_3）  {"hours": [10.0, 8.6, 14.2]}
+  [  87.0s] 到達「press 走到 bench_1 的 stand (-11.35, 10.3)」附近（0.22 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，13 秒
+PASS press：真的走到 bench_1 的 stand（0.45 m 內、walkFallbacks 沒加）  {"zone": "gym_b1", "x": -11.37, "z": 10.08, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "用臥推椅", "stand": true, "fb": 0, "hour": 10.16}
+PASS press：互動鍵是「用臥推椅」、最近的互動點是 bench_1  {"interact": "用臥推椅", "near": {"label": "用臥推椅", "eq": "bench_1"}}
+PASS press：按下去以後在用 bench_1、玩家 pose＝gym_press  {"using": "bench_1", "pose": "gym_press", "x": -10.6, "z": 10, "y": 0, "yaw": 0, "dlg": true}
+FAIL press：手上看得到 2 個 gymProp:dd*（道具載好 False、遠距離版本 False）  {"vis": [], "failed": 0, "gymPose": "gym_press"}
+  [ 100.8s] press 第 1 次：手 L [-10.316, 1.234, 10.292] R [-10.882, 1.231, 10.298]；道具 []
+  [ 100.8s] press 第 2 次：手 L [-10.349, 1.319, 10.283] R [-10.849, 1.316, 10.289]；道具 []
+  [ 100.8s] press 第 3 次：手 L [-10.371, 1.373, 10.278] R [-10.827, 1.371, 10.284]；道具 []
+  [ 100.8s] press 第 4 次：手 L [-10.371, 1.375, 10.278] R [-10.827, 1.373, 10.284]；道具 []
+  [ 100.8s] press 第 5 次：手 L [-10.353, 1.327, 10.283] R [-10.846, 1.325, 10.289]；道具 []
+  [ 100.8s] press 第 6 次：手 L [-10.322, 1.249, 10.291] R [-10.877, 1.246, 10.297]；道具 []
+  [ 100.8s] press：道具離手（啞鈴＝自己那隻手骨；槓鈴、拉把＝兩手中點）、手到軸線都 ≤ 0.15 m
+PASS [黑畫面] gp_old_press_game 不是黑畫面（平均亮度 45.1、變化 44.3）  [45.1, 44.3]
+  [ 101.6s] press 遊戲鏡頭：{"cam": [-7.34, 2.99, 9.24], "yaw": 8.083, "dist": 3.6, "mode": "follow"}
+  [ 101.7s] press 另一台相機 sideL：[-8.9, 1.25, 10.29] → 兩手中點 [-10.599, 1.247, 10.294]（fov 50）
+  [ 101.8s] press 另一台相機 sideR：[-12.3, 1.25, 10.29] → 兩手中點 [-10.599, 1.247, 10.294]（fov 50）
+  [ 101.8s] press 另一台相機 front：[-10.6, 1.25, 11.99] → 兩手中點 [-10.599, 1.247, 10.294]（fov 50）
+PASS press：旁白點掉以後站回 stand、pose idle、手上的道具藏起來  {"u": {"using": null, "pose": "idle", "x": -11.35, "z": 10.3, "y": 0, "yaw": 1.571, "dlg": false}, "vis": []}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gym_b1 出生點 2025-09-23 10.00 時、條件事件關掉；G.daily.gym 設會員卡＋這個月月票、錢 ≥ 2000（不演辦卡／買月票）
+  [ 114.8s] 前置後：{"card": 7, "pass": "2025-09", "fit": 0, "money": 22000, "open": true, "wd": 2, "key": "2025-09-23"}；位置 {"zone": "gym_b1", "x": 18, "z": 7, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.07}
+  [ 114.8s] squat 10.00 時 器材：[{"id": "squat_rack_1", "kind": "squat_rack", "label": "深蹲架 1", "stand": {"x": -21.5, "z": 12.55, "yaw": 0}, "use": [{"x": -21.5, "z": 12.55, "yaw": 0, "pose": "gym_squat"}], "free": false}, {"id": "squat_rack_2", "kind": "squat_rack", "label": "深蹲架 2", "stand": {"x": -18.4, "z": 12.55, "yaw": 0}, "use": [{"x": -18.4, "z": 12.55, "yaw": 0, "pose": "gym_squat"}], "free": true}]
+PASS squat：用深蹲架 有一台有空位（squat_rack_1／squat_rack_2）  {"hours": [10.0, 8.6, 14.2]}
+  [ 130.7s] 到達「squat 走到 squat_rack_2 的 stand (-18.4, 12.55)」附近（0.25 m）：點地面 3 次、轉鏡頭 1 次、搖桿 0 次，16 秒
+PASS squat：真的走到 squat_rack_2 的 stand（0.45 m 內、walkFallbacks 沒加）  {"zone": "gym_b1", "x": -18.148, "z": 12.571, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "用深蹲架", "stand": true, "fb": 0, "hour": 10.18}
+PASS squat：互動鍵是「用深蹲架」、最近的互動點是 squat_rack_2  {"interact": "用深蹲架", "near": {"label": "用深蹲架", "eq": "squat_rack_2"}}
+PASS squat：按下去以後在用 squat_rack_2、玩家 pose＝gym_squat  {"using": "squat_rack_2", "pose": "gym_squat", "x": -18.4, "z": 12.55, "y": 0, "yaw": 0, "dlg": true}
+FAIL squat：手上看得到 1 個 gymProp:bar*（道具載好 False、遠距離版本 False）  {"vis": [], "failed": 0, "gymPose": "gym_squat"}
+  [ 144.2s] squat 第 1 次：手 L [-17.996, 1.351, 12.534] R [-18.796, 1.36, 12.535]；道具 []
+  [ 144.2s] squat 第 2 次：手 L [-17.996, 1.27, 12.53] R [-18.796, 1.279, 12.531]；道具 []
+  [ 144.2s] squat 第 3 次：手 L [-17.998, 1.159, 12.522] R [-18.798, 1.163, 12.523]；道具 []
+  [ 144.2s] squat 第 4 次：手 L [-17.999, 1.055, 12.514] R [-18.799, 1.058, 12.515]；道具 []
+  [ 144.2s] squat 第 5 次：手 L [-17.999, 0.999, 12.509] R [-18.799, 1.003, 12.51]；道具 []
+  [ 144.2s] squat 第 6 次：手 L [-17.998, 1.016, 12.511] R [-18.798, 1.021, 12.513]；道具 []
+  [ 144.2s] squat：道具離手（啞鈴＝自己那隻手骨；槓鈴、拉把＝兩手中點）、手到軸線都 ≤ 0.15 m
+PASS [黑畫面] gp_old_squat_game 不是黑畫面（平均亮度 54.7、變化 53.9）  [54.7, 53.9]
+  [ 145.0s] squat 遊戲鏡頭：{"cam": [-15.14, 2.99, 11.79], "yaw": 8.083, "dist": 3.6, "mode": "follow"}
+  [ 145.1s] squat 另一台相機 sideL：[-16.7, 1.02, 12.51] → 兩手中點 [-18.398, 1.019, 12.512]（fov 50）
+  [ 145.1s] squat 另一台相機 sideR：[-20.1, 1.02, 12.51] → 兩手中點 [-18.398, 1.019, 12.512]（fov 50）
+  [ 145.2s] squat 另一台相機 front：[-18.4, 1.02, 14.21] → 兩手中點 [-18.398, 1.019, 12.512]（fov 50）
+PASS squat：旁白點掉以後站回 stand、pose idle、手上的道具藏起來  {"u": {"using": null, "pose": "idle", "x": -18.4, "z": 12.55, "y": 0, "yaw": 0, "dlg": false}, "vis": []}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gym_b1 出生點 2025-09-23 10.00 時、條件事件關掉；G.daily.gym 設會員卡＋這個月月票、錢 ≥ 2000（不演辦卡／買月票）
+  [ 158.2s] 前置後：{"card": 7, "pass": "2025-09", "fit": 0, "money": 22000, "open": true, "wd": 2, "key": "2025-09-23"}；位置 {"zone": "gym_b1", "x": 18, "z": 7, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.07}
+  [ 158.2s] row 10.00 時 器材：[{"id": "rower_1", "kind": "rower", "label": "划船機 1", "stand": {"x": 7.3, "z": 7.85, "yaw": 0}, "use": [{"x": 7.4, "z": 8.5, "yaw": 1.5707963267948966, "pose": "gym_row"}], "free": true}, {"id": "rower_2", "kind": "rower", "label": "划船機 2", "stand": {"x": 7.3, "z": 10.55, "yaw": 3.141592653589793}, "use": [{"x": 7.4, "z": 9.9, "yaw": 1.5707963267948966, "pose": "gym_row"}], "free": true}]
+PASS row：用划船機 有一台有空位（rower_1／rower_2）  {"hours": [10.0, 8.6, 14.2]}
+  [ 174.9s] 到達「row 走到 rower_1 的 stand (7.3, 7.85)」附近（0.22 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，17 秒
+PASS row：真的走到 rower_1 的 stand（0.45 m 內、walkFallbacks 沒加）  {"zone": "gym_b1", "x": 7.18, "z": 7.661, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "用划船機", "stand": true, "fb": 0, "hour": 10.19}
+PASS row：互動鍵是「用划船機」、最近的互動點是 rower_1  {"interact": "用划船機", "near": {"label": "用划船機", "eq": "rower_1"}}
+PASS row：按下去以後在用 rower_1、玩家 pose＝gym_row  {"using": "rower_1", "pose": "gym_row", "x": 7.4, "z": 8.5, "y": 0, "yaw": 1.571, "dlg": true}
+FAIL row：手上看得到 1 個 gymProp:row*（道具載好 False、遠距離版本 False）  {"vis": [], "failed": 0, "gymPose": "gym_row"}
+  [ 188.7s] row 第 1 次：手 L [7.129, 0.85, 8.351] R [7.129, 0.85, 8.65]；道具 []
+  [ 188.7s] row 第 2 次：手 L [7.23, 0.799, 8.359] R [7.232, 0.798, 8.642]；道具 []
+  [ 188.7s] row 第 3 次：手 L [7.449, 0.711, 8.371] R [7.456, 0.708, 8.628]；道具 []
+  [ 188.7s] row 第 4 次：手 L [7.642, 0.657, 8.373] R [7.647, 0.653, 8.626]；道具 []
+  [ 188.7s] row 第 5 次：手 L [7.818, 0.588, 8.376] R [7.823, 0.584, 8.623]；道具 []
+  [ 188.7s] row 第 6 次：手 L [7.871, 0.556, 8.378] R [7.876, 0.552, 8.622]；道具 []
+  [ 188.7s] row：道具離手（啞鈴＝自己那隻手骨；槓鈴、拉把＝兩手中點）、手到軸線都 ≤ 0.15 m
+PASS [黑畫面] gp_old_row_game 不是黑畫面（平均亮度 75.8、變化 39.3）  [75.8, 39.3]
+  [ 189.6s] row 遊戲鏡頭：{"cam": [9.38, 2.99, 5.81], "yaw": 8.791, "dist": 3.6, "mode": "follow"}
+  [ 189.7s] row 另一台相機 sideL：[7.87, 0.55, 6.8] → 兩手中點 [7.873, 0.554, 8.5]（fov 50）
+  [ 189.7s] row 另一台相機 sideR：[7.87, 0.55, 10.2] → 兩手中點 [7.873, 0.554, 8.5]（fov 50）
+  [ 189.8s] row 另一台相機 front：[9.57, 0.55, 8.5] → 兩手中點 [7.873, 0.554, 8.5]（fov 50）
+PASS row：旁白點掉以後站回 stand、pose idle、手上的道具藏起來  {"u": {"using": null, "pose": "idle", "x": 7.3, "z": 7.85, "y": 0, "yaw": 0, "dlg": false}, "vis": []}
+PASS 沒有 JS 例外  []
+FAILED 4: curl：手上看得到 2 個 gymProp:dd*（道具載好 False、遠距離版本 False）；press：手上看得到 2 個 gymProp:dd*（道具載好 False、遠距離版本 False）；squat：手上看得到 1 個 gymProp:bar*（道具載好 False、遠距離版本 False）；row：手上看得到 1 個 gymProp:row*（道具載好 False、遠距離版本 False）
