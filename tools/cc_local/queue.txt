@@ -19,6 +19,11 @@ MT3_kxch | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_plannin
 MT3_later | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 20 | CASES=LATER
 MT3_second | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 25 | CASES=SECOND
 MT3_kxvb | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 20 | CASES=KXVB
+MT3_zrnofx_RERUN | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=ZRNOFX
+DLGFX_old_a | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_dlgfx_probe.py | index.html | 20 | TAG=old;CASES=DATE,TERMEND
+DLGFX_new_a | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_dlgfx_probe.py | index.html | 20 | TAG=new;CASES=DATE,TERMEND
+DLGFX_old_b | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_dlgfx_probe.py | index.html | 20 | TAG=old;CASES=CHAT,PHONE,FACE
+DLGFX_new_b | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_dlgfx_probe.py | index.html | 20 | TAG=new;CASES=CHAT,PHONE,FACE
 # ===== P0 BB 20:10：v9.10.24 已上線（main 779ddd650，PR #34），驗線上網址；Pages 還沒更新完（仍 v9.10.23）就等 5 分鐘再跑 LIVE_V91024_deploy RERUN，最多 3 次 =====
 LIVE_V91024_deploy | 779ddd65081bf770e9850d948b54ecc21dc4d120 | game | tests/deploy_check.py | index.html | 15 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.24;CC_HEADLESS=0
 LIVE_V91024_p0 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | game | tests/p0_movement.py | index.html | 20 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
