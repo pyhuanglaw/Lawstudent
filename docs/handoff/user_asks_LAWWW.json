@@ -3578,7 +3578,7 @@
    "at": "2026-11-10T00:4xZ",
    "quote": "禮拜天遇到沈以安 他問我今天還有課嗎",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X271",
    "task": "BUG-GREET-NOCLASS-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
@@ -3672,6 +3672,26 @@
    "wants": "X278",
    "task": "GIFT-HOLIDAY-1110",
    "src": "使用者對 LAWWW-B（接 X277；七夕算情人節）"
+  },
+  {
+   "id": "UA-LAWWW-1110-16",
+   "at": "2026-11-10T01:3xZ",
+   "quote": "服務學習是每個學期都要?如果是圖書館應該只有一個學期我記得",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X279",
+   "task": "SERVICE2-LEGAL-1110",
+   "src": "使用者對 LAWWW-B（問題＋設定：圖書館只有一學期）"
+  },
+  {
+   "id": "UA-LAWWW-1110-17",
+   "at": "2026-11-10T01:3xZ",
+   "quote": "服務學習另外有法律服務一學期",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X279",
+   "task": "SERVICE2-LEGAL-1110",
+   "src": "使用者對 LAWWW-B"
   }
  ]
 }

@@ -50473,7 +50473,7 @@
    "id": "BUG-GREET-NOCLASS-1110",
    "title": "禮拜天遇到沈以安，她問「今天還有課嗎」：招呼沒看今天有沒有課（使用者試玩）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50485,7 +50485,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 00:4x LAWWW-B】src/data/ladder.js（匯入白名單，不直接改）heroine_01 greet.base 有「你今天還有課嗎？」，選招呼時沒看星期幾、假日、放假。改法：選招呼的程式在今天沒課（週末、國定假日、寒暑假、玩家今天沒排課）時跳過問課的那幾句；請 AA 在企劃標出「只在有課的日子說」的招呼（七位都看），之後照標記，不靠關鍵字。",
+   "next": "【11-10 01:3x LAWWW-B】968bd311f：AA_729 匯入（import_greet_classday.py）、S.ladGreet 照上課日；greet_classday_unit 舊 FAILED 4。待 BB 測。 ｜ 【11-10 00:4x LAWWW-B】src/data/ladder.js（匯入白名單，不直接改）heroine_01 greet.base 有「你今天還有課嗎？」，選招呼時沒看星期幾、假日、放假。改法：選招呼的程式在今天沒課（週末、國定假日、寒暑假、玩家今天沒排課）時跳過問課的那幾句；請 AA 在企劃標出「只在有課的日子說」的招呼（七位都看），之後照標記，不靠關鍵字。",
    "xai": {
     "spec": "使用者 11-10 00:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50495,7 +50495,7 @@
     "owner": "LAWWW"
    },
    "evidence": "tests/v0_e08_unit.js 4h",
-   "sha": null,
+   "sha": "968bd311f8",
    "test": null
   },
   {
@@ -50665,6 +50665,35 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "各店買得到禮物；節日、生日見到她能送、她有反應；不扣時段；同一個節日第三個人送不了；舊存檔可讀",
     "receiver": "AA（品項、反應）、LAWWW2（商品區）、BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
+  },
+  {
+   "id": "SERVICE2-LEGAL-1110",
+   "title": "服務學習（二）改成法律服務一學期（原本大二上椰影大道、映月湖校園環境）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大二上第 4 週週三下午",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 01:3x LAWWW-B】使用者 X279：服務學習只有兩學期——（一）圖書館（大一上法律學院圖書館櫃台，照舊）、（二）法律服務一學期。courses.js service_2（Y2S1 週三下午二，CAMPUS_SVC）改成法律服務：AA 寫地點（法律系館B 的法律服務中心之類）、每次的一句（serviceLines，照 service_1 的寫法）、和 D118 法律服務社（純劇情）的區別；學期照舊大二上，使用者沒說要改；LAWWW 改課程資料、上課地點；BB 測。",
+   "xai": {
+    "spec": "使用者 11-10 01:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "服務學習（二）是法律服務、地點和每次一句照 AA；只有兩學期；舊存檔已上過的次數照算",
+    "receiver": "AA（內容）、BB（測）",
     "ack": "SENT",
     "owner": "LAWWW"
    },
