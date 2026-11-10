@@ -4516,6 +4516,15 @@
    "status": "暫停",
    "wants": "X326",
    "task": "NIGHT-MARKET-1110"
+  },
+  {
+   "id": "UA-LAWWW-1110-105",
+   "at": "2026-11-10T23:0xZ",
+   "quote": "（整份「新場景與 NPC 企劃：禮貌生財」，全文 docs/handoff/user_specs/LIMAO_SHENGCAI_1110.md；貼在選擇題「公館空店面放什麼」的回答欄）本次先確認企劃、檢查既有場景與系統的相容性，提出實作方案。尚未授權直接修改……這一輪只要規劃，不要修改 GitHub 或遊戲檔案。",
+   "kind": "原話",
+   "status": "暫停",
+   "wants": "X332",
+   "task": "LIMAO-SHOP-1110"
   }
  ]
 }

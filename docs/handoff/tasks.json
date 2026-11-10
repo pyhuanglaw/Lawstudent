@@ -53078,7 +53078,7 @@
    "id": "TERMEND-OPTS-1110",
    "title": "期末飯桌選項（AA_748 朋友版、AA_749 女朋友版）：匯入、選項顯示順序洗牌（同一天固定）、三種特別結構（子晴 if:noQ6／Q6 兩組、學姊大四上 snow 分支、語彤 sayByKind）、有選項那一頓不接朋友話題池",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -53091,10 +53091,7 @@
     "confirmed": true
    },
    "sha": null,
-   "pausedReason": "等 AA 的 SHA（AA_749 改五處；AA_748 拿掉芷若、沛珊；LAWWW 11-10）",
-   "resumeWhen": "AA 給 SHA",
-   "recheckOn": "2026-11-11",
-   "next": "到了就匯、做洗牌，交 BB 測（每人抽兩頓）",
+   "next": "開發分支 30dee73c2：女朋友版五位＋可昕、朋友版與告白選項四位；沛珊、芷若告白等 AA 重寫；BB／CC 測；給 AA 的八個問題已轉",
    "xai": {
     "spec": "X324、BB_314",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -53154,6 +53151,28 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "LIMAO-SHOP-1110",
+   "title": "「禮貌生財」巷弄算命小店（店面、前半命理館、後半書房、騎樓算命桌）＋上師輕量趣味支線四類短事件（X332；取代 X326 的算命攤和三條長支線）",
+   "owner": "LAWWW",
+   "status": "暫停",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "夜市旁巷子",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "使用者規格書：這一輪只規劃、不修改（使用者 11-10 23:0x）",
+   "resumeWhen": "使用者確認位置和付費那一題、說可以實作",
+   "recheckOn": "2026-11-13",
+   "next": "方案 11-10 23:1x 已回使用者；AA 把 AA_750 縮成四類短事件的台詞草案（提案）"
   }
  ]
 }
