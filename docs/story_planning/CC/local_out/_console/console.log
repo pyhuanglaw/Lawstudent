@@ -1745,3 +1745,12 @@
 [22:25:59] ==== START GIFTHOL2_new  (probe @ 8d8b475dc3a6b3546853a98fc24b60edb7829989) ====
 [22:26:02] [res] cpu=8% mem=50% (15.9/31.4 GB) chrome_testing=10  START GIFTHOL2_new
 [22:27:15] [res] cpu=12% mem=49% (15.4/31.4 GB) chrome_testing=9  END WINVIEW_own2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f46714b13..393d3dea1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:27:25] ==== END   WINVIEW_own2  exit=0  725s   ====
+[22:27:31] memory 50% before starting WINVIEW_tea195 (2 running)
+[22:27:31] ==== START WINVIEW_tea195  (probe @ 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43) ====
+[22:27:34] [res] cpu=14% mem=50% (15.8/31.4 GB) chrome_testing=5  START WINVIEW_tea195
+[22:28:06] [res] cpu=20% mem=47% (14.7/31.4 GB) chrome_testing=9  END NANYANG_v4
+[22:28:06] 正在跑：NANYANG_v4（已跑 10 分／上限 150 分）、GIFTHOL2_new（已跑 2 分／上限 60 分）、WINVIEW_tea195（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
