@@ -14,6 +14,12 @@
 //   8. note 的條件：芷若《起霧的城》第三個選項要和她看過《黑白的城市》、她那一句照當時選的換字；學姊《新年快樂，陌生人》第二句只在朋友以上、交往中換句
 //   9. 看到一半：沒有第 N 場（一般句）＝演那部片的那一幕（scene）；和沛珊看《雪融之前》（with.mid）＝取代那一幕
 //  10. 舊存檔（沒有 MOVIE_SEEN、MOVIE_TALK；或格式壞掉）：照常演、存檔 JSON 來回不壞
+//  11. AA 11-10 20:35：語彤《m2605b》下次在一盞茶屋見面說；沛珊《m2607a》下次見面（2026-12-17 起不演）；可昕《m2505b》考試以前的下次見面
+//  12. 芷若《m2703b》：出發那天（2027-09-02）她傳訊息、兩個回覆（+3／+1）；句子是 AA 11-10 20:35 回覆（匯入工具 OVERRIDE，稿的 films 不動）
+//  13. 開關 MOVIES.CFG.kxVolleyball（預設關，BB 11-10 20:38：可昕排球是新設定、等使用者確認）
+//  14. 資料不齊（沒有 re、沒有 fx、第二句 heroine_012、m2801b 的 skip＝一定挑、q 是說明、壞資料）：不出空的框、不丟例外、不卡
+//  15. AA_745 v2：with.kind pick、fx 0 和負的（SOCIAL.applyFx）；匯入工具：不認得的人列警告、不停
+//  片名不寫死（AA_730 可能改片名）：一律 MOVIES.film(id).title
 // 修改前（e77ae86ac 以前，movies3d.js 沒有 AA_745）：FAIL。用法：node tests/movie_talk_1110_unit.js
 const H=require('./pg_harness.js');
 const {check,GM,E}=H; const J=JSON.stringify;
@@ -42,6 +48,7 @@ const fresh=(key,h,zone)=>{ const G=H.fresh(key,h,zone||'xs_nanyang'); G.invites
   trace.length=0; sits=[]; LIGHTS=true; WANT=[]; CH=[]; ADJ=[]; return G; };
 const npc=id=>{ const n={id,charId:id,obj:{position:{x:0.5,y:0,z:4.6},rotation:{y:0}},beh:'idle',pose:'idle',lv:0}; GM.npc[id]=n; E.npcs.push(n); return n; };
 const film=id=>PL().films[id];
+const ttl=id=>MOVIES.film(id).title, dimOf=id=>'（燈暗下來，《'+ttl(id)+'》開始了。）';   /* 片名會改（AA_730）：一律從片單讀 */
 const watch=async(id,film,h)=>{ const G=H.G; const iv=INV.accept(G,id,'xs_nanyang',G.day,h||19.5,{by:'player'}); if(film) iv.film=film; H.said=[]; trace.length=0; CH=[]; ADJ=[]; await INV.startTogether(GM,iv,npc(id)); return iv; };
 const idx=t=>H.said.findIndex(s=>s.t===t);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); } };
@@ -62,7 +69,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
 
   await sec(1,async()=>{ const G=fresh('2025-10-18',19.4), id='heroine_01'; H.FRIEND(id);
     const T=film('m2509a').talk, o=T.opts[0]; WANT=[o.t];
-    const iv=await watch(id); const qi=idx(T.q), ri=idx(o.re[id]), dim=idx('（燈暗下來，《第十三號月台》開始了。）');
+    const iv=await watch(id); const qi=idx(T.q), ri=idx(o.re[id]), dim=idx(dimOf('m2509a'));
     const tk=CH.find(c=>J(c)===J(T.opts.map(x=>x.t)));
     check('1. 片是《第十三號月台》；散場以後她先問、三個選項照稿、她的回答',iv.film==='m2509a'&&qi>dim&&!!tk&&ri>qi&&trace[qi].zone==='xs_nanyang'&&H.said[qi].who!==null,J({qi,ri,dim,CH,L:H.said.map(s=>s.t).slice(-12)}));
     check('1. 效果：她的戀愛 +1（fx love 1）',ADJ.some(([w,d])=>w===id&&d.npcRom===o.fx[id].love&&Object.keys(d).length===1),J(ADJ));
@@ -93,17 +100,17 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     check('4. 一個人看：solo 第一句、第一部的那一幕、第二句、第二部的那一幕、第三句；沒有選項',J(L.slice(0,5))===J([SL[0],a.scene,SL[1],b.scene,SL[2]])&&CH.length===0,J(L.slice(0,6)));
     check('4. 兩部都記看過（me），沒有記成和誰看過',MOVIES.seenWith(G,'me','m2509a')&&MOVIES.seenWith(G,'me','m2509b')&&Object.keys(G.flags.MOVIE_SEEN).length===1,J(G.flags.MOVIE_SEEN));
     const post=MOVIES.infoLines(G);
-    check('4. 海報牆：看過以前只有第一句、看過以後全部',pre[0]==='《第十三號月台》'+MOVIES.firstSentence(a.plot)&&pre[0]!=='《第十三號月台》'+a.plot&&post[0]==='《第十三號月台》'+a.plot&&post[1]==='《三份證詞》'+b.plot,J({pre,post}));
+    check('4. 海報牆：看過以前只有第一句、看過以後全部',pre[0]==='《'+ttl('m2509a')+'》'+MOVIES.firstSentence(a.plot)&&pre[0]!=='《'+ttl('m2509a')+'》'+a.plot&&post[0]==='《'+ttl('m2509a')+'》'+a.plot&&post[1]==='《'+ttl('m2509b')+'》'+b.plot,J({pre,post}));
     fresh('2025-10-18',15); E.interactables=[]; NY3.lobby.build(E); const it=E.interactables.find(q=>q&&q.movieInfo); H.said=[]; const r=it?await STORY.interact(it,GM):false;
-    check('4. 大廳的海報牆「看這部在演什麼」',!!it&&it.label==='看這部在演什麼'&&r===true&&H.said.length===2&&H.said[0].t.indexOf('《第十三號月台》')===0,J({it,said:H.said})); });
+    check('4. 大廳的海報牆「看這部在演什麼」',!!it&&it.label==='看這部在演什麼'&&r===true&&H.said.length===2&&H.said[0].t.indexOf('《'+ttl('m2509a')+'》')===0,J({it,said:H.said})); });
 
   await sec(5,async()=>{ const G=fresh('2025-11-15',19.4), id='heroine_04'; H.FRIEND(id);
     const P=MOVIES.periodOf('m2511b'), a=MOVIES.pickAdj(P.bill,id,MOVIES.film('m2511b'),null), W=film('m2511b').with[id];
     check('5. 子晴選到《黑白的城市》＝換《聖誕快遞》、她說稿上的兩句',a.film.id==='m2511a'&&J(a.say)===J(W.lines),J(a));
     const pf=MOVIES.pickFrom; MOVIES.pickFrom=(bill)=>({film:bill.find(b=>b.id==='m2511b'),ok:true});
     let iv; try{ iv=INV.accept(G,id,'xs_nanyang',G.day,19.5,{by:'player'}); } finally { MOVIES.pickFrom=pf; }
-    check('5. 約的那一筆存換過的片（m2511a）、標籤寫《聖誕快遞》、換片那一句排著',iv.film==='m2511a'&&/看《聖誕快遞》/.test(iv.label)&&J(iv.filmSay)===J(W.lines),J([iv.film,iv.label,iv.filmSay]));
-    H.said=[]; ADJ=[]; await INV.startTogether(GM,iv,npc(id)); const s0=idx(W.lines[0]), dim=idx('（燈暗下來，《聖誕快遞》開始了。）');
+    check('5. 約的那一筆存換過的片（m2511a）、標籤寫《聖誕快遞》、換片那一句排著',iv.film==='m2511a'&&iv.label.includes('看《'+ttl('m2511a')+'》')&&J(iv.filmSay)===J(W.lines),J([iv.film,iv.label,iv.filmSay]));
+    H.said=[]; ADJ=[]; await INV.startTogether(GM,iv,npc(id)); const s0=idx(W.lines[0]), dim=idx(dimOf('m2511a'));
     check('5. 還沒說的換片那一句：見面時先說（燈暗以前）、之後不再說；好感一個都沒扣',s0>=0&&s0<dim&&!iv.filmSay&&H.said.filter(s=>s.t===W.lines[0]).length===1&&ADJ.every(([,d])=>Object.values(d).every(v=>v>=0)),J({s0,dim,ADJ})); });
 
   await sec(6,async()=>{ const G=fresh('2028-01-10',15); const id='heroine_04'; H.FRIEND(id); const c=MOVIES.choose(G,id);
@@ -125,8 +132,14 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     const ans=m?PHONE.answer(G,m.ask.id,0):null;
     check('7. 可昕《颱風夜的貨船》：訊息有兩個選項；回第一個＝她的戀愛 +2、KX_SHIP_REPORT、她回稿上那一句',!!m&&J(m.ask.opts.map(o=>o.t))===J(C.map(c=>c.t))&&!!ans&&G.flags.KX_SHIP_REPORT===G.day&&ADJ.some(([w,d])=>w===k&&d.npcRom===2)&&(G.msgs||[]).some(x=>x.text===C[0].say[0]&&x.from===k),J({m:m&&m.ask,ADJ}));
     const G3=fresh('2026-04-10',19); const a='heroine_01'; H.FRIEND(a);
-    await MOVIES.after(GM,{place:'xs_nanyang',film:'m2603b',who:a,id:'ivz'},{name:'以安',charId:a});
-    check('7. 以安《沉默的書記官》（下一次刑法、民法下課：接點還沒有）＝只記 AN_MOM_ASKED、MOVIE_LATER_DUE',G3.flags.AN_MOM_ASKED===G3.day&&G3.flags.MOVIE_LATER_DUE['m2603b:'+a]===G3.day&&!(G3.flags.MOVIE_LATER||[]).length,J(G3.flags.MOVIE_LATER_DUE));
+    await MOVIES.after(GM,{place:'xs_nanyang',film:'m2603b',who:a,id:'ivz'},{name:'以安',charId:a}); const W3=film('m2603b').with[a];
+    const q3=(G3.flags.MOVIE_LATER||[]).slice(); H.said=[]; CH=[]; ADJ=[]; WANT=[W3.choice[0].t]; G3.day+=30;
+    const s0=await MOVIES.onSeated(GM,{who:'heroine_02',id:'ivo'},{name:'芷若',charId:'heroine_02'},INV.place('noodle'));
+    const s1=await MOVIES.onSeated(GM,{who:a,id:'ivz2'},{name:'以安',charId:a},INV.place('noodle')); const said3=H.said.map(x=>x.t);
+    const s2=await MOVIES.onSeated(GM,{who:a,id:'ivz3'},{name:'以安',charId:a},INV.place('noodle'));
+    check('7. 以安《沉默的書記官》（AA 11-10 20:35：下一次見面）＝AN_MOM_ASKED、排進 MOVIE_LATER（不再只記 MOVIE_LATER_DUE）；三十天後在哪裡見面都說、只說一次、別人見面不說',
+      G3.flags.AN_MOM_ASKED!=null&&!G3.flags.MOVIE_LATER_DUE&&q3.length===1&&s0===false&&s1===true&&s2===false&&J(said3.slice(0,3))===J(W3.lines)&&said3.includes(W3.choice[0].say[0])&&ADJ.some(([w,d])=>w===a&&d.npcRom===2),J({q3,s0,s1,s2,said3,ADJ,due:G3.flags.MOVIE_LATER_DUE}));
+    WANT=[];
     const G4=fresh('2027-09-20',19); H.FRIEND(a);
     await MOVIES.after(GM,{place:'xs_nanyang',film:'m2709b',who:a,id:'ivw'},{name:'以安',charId:a});
     const Q=(G4.flags.MOVIE_LATER||[]).slice(); const W2=film('m2709b').with[a];
@@ -143,7 +156,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     check('8. 學姊《新年快樂，陌生人》第二句：有點熟不說、朋友照稿、交往中換成「今年跟我看。不要去擠。」',J(A)===J([R.heroine_05])&&J(B)===J([R.heroine_05,R.heroine_052])&&J(C)===J([R.heroine_05,'今年跟我看。不要去擠。']),J([A,B,C])); });
 
   await sec(9,async()=>{ const G=fresh('2025-11-15',19.4), id='heroine_04'; H.FRIEND(id); const iv=await watch(id);
-    check('9. 子晴 2025-11（第 1 場對不上＝一般句）：看到一半演《聖誕快遞》的那一幕（旁白）',iv.film==='m2511a'&&idx(film('m2511a').scene)>idx('（燈暗下來，《聖誕快遞》開始了。）')&&H.said[idx(film('m2511a').scene)].who===null,J(H.said.map(s=>s.t).slice(0,12)));
+    check('9. 子晴 2025-11（第 1 場對不上＝一般句）：看到一半演《聖誕快遞》的那一幕（旁白）',iv.film==='m2511a'&&idx(film('m2511a').scene)>idx(dimOf('m2511a'))&&H.said[idx(film('m2511a').scene)].who===null,J(H.said.map(s=>s.t).slice(0,12)));
     const L=MOVIES.midLines(G,{place:'xs_nanyang',film:'m2501a',who:'classmate_peishan'},null), L2=MOVIES.midLines(G,{place:'xs_nanyang',film:'m2501a',who:'classmate_peishan'},{k:2,mid:['x']}), L3=MOVIES.midLines(G,{place:'xs_nanyang',film:'m2501a',who:'kexin'},{rot:0});
     check('9. 沛珊《雪融之前》（with.mid）取代那一幕；AA_708 第 N 場＝照 AA_708（null）；別人輪換那一則＝那一幕',J(L)===J(film('m2501a').with.classmate_peishan.lines)&&L2===null&&J(L3)===J([film('m2501a').scene]),J([L,L2,L3])); });
 
@@ -152,5 +165,101 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     check('10. 舊存檔（沒有 MOVIE_SEEN）：照常演、聊、記看過；JSON 來回不壞',iv.state==='done'&&idx(film('m2509a').talk.q)>=0&&JSON.parse(JSON.stringify(old)).flags.MOVIE_SEEN[id].m2509a===old.day,J(old.flags.MOVIE_SEEN));
     const G2=fresh('2025-10-18',19.4); H.FRIEND(id); G2.flags.MOVIE_SEEN=[1,2]; G2.flags.MOVIE_TALK='x'; const iv2=await watch(id);
     check('10. 格式壞掉的 MOVIE_SEEN／MOVIE_TALK：重建、照常演',iv2.state==='done'&&MOVIES.seenWith(G2,id,'m2509a')&&G2.flags.MOVIE_TALK[id].m2509a!=null,J([G2.flags.MOVIE_SEEN,G2.flags.MOVIE_TALK])); });
+
+  /* ===== AA 11-10 20:35 的裁定、BB 11-10 20:38 的檢查、AA_745 v2（pick、0 和負的 fx）===== */
+  const seat=async(w,pid)=>{ H.said=[]; CH=[]; ADJ=[]; return MOVIES.onSeated(GM,{who:w,id:'s'+Math.random()},{name:w,charId:w},INV.place(pid)); };
+  const aft=async(w,f)=>{ H.said=[]; CH=[]; ADJ=[]; return MOVIES.after(GM,{place:'xs_nanyang',film:f,who:w,id:'a'+f+w},{name:w,charId:w}); };
+  const noEmpty=()=>H.said.every(x=>typeof x.t==='string'&&x.t.trim()&&x.t!=='undefined'&&x.t!=='null')&&CH.every(c=>c.length>0&&c.every(t=>typeof t==='string'&&t.trim()));
+
+  await sec(11,async()=>{ const yt='heroine_03', ps='classmate_peishan', kx='kexin';
+    let G=fresh('2026-05-10',19); H.FRIEND(yt); await aft(yt,'m2605b'); const Wy=film('m2605b').with[yt]; G.day+=20;
+    const y0=await seat(yt,'noodle'), y1=await seat(yt,'teahouse'), saidY=H.said.map(x=>x.t), y2=await seat(yt,'teahouse');
+    check('11. 語彤《m2605b》：下一次在一盞茶屋見面才說（別的地方不說、留著）、只說一次；YT_ASKED_SU_WALL 看完那天記',!!INV.place('teahouse')&&y0===false&&y1===true&&y2===false&&J(saidY)===J(Wy.lines)&&G.flags.YT_ASKED_SU_WALL!=null,J({y0,y1,y2,saidY}));
+    G=fresh('2026-08-10',19); H.FRIEND(ps); await aft(ps,'m2607a'); const noFlag=(G.flags.MOVIE_LATER||[]).length;
+    G=fresh('2026-08-10',19); H.FRIEND(ps); G.flags.PS_SECRET_PATH=1; await aft(ps,'m2607a'); const Wp=film('m2607a').with[ps]; G.day=H.D('2026-12-16');
+    const p1=await seat(ps,'noodle'), saidP=H.said.map(x=>x.t);
+    G=fresh('2026-08-10',19); H.FRIEND(ps); G.flags.PS_SECRET_PATH=1; await aft(ps,'m2607a'); G.day=H.D('2026-12-17'); const p2=await seat(ps,'noodle'), left=(G.flags.MOVIE_LATER||[]).length;
+    check('11. 沛珊《m2607a》：要 PS_SECRET_PATH；2026-12-16 以前的下一次見面說；2026-12-17 起不說、也不留著',noFlag===0&&p1===true&&saidP[0]===Wp.lines[0]&&p2===false&&left===0,J({noFlag,p1,p2,left,saidP:saidP.slice(0,2)}));
+    G=fresh('2025-05-20',19); G.stage='econ'; H.FRIEND(kx); await aft(kx,'m2505b'); const Wk=film('m2505b').with[kx]; const setK=G.flags.KX_SAW_LAST_QUESTION; G.day=H.D('2025-07-10');
+    const k1=await seat(kx,'noodle'), saidK=H.said.map(x=>x.t);
+    G=fresh('2025-05-20',19); G.stage='econ'; H.FRIEND(kx); await aft(kx,'m2505b'); G.day=H.D('2025-07-11'); const k2=await seat(kx,'noodle');
+    check('11. 可昕《m2505b》：考試（2025-07-11）以前的下一次見面說那三句；7/11 起不說',setK!=null&&k1===true&&J(saidK)===J(Wk.lines)&&k2===false,J({k1,k2,saidK})); });
+
+  await sec(12,async()=>{ const z='heroine_02', O=PL().override['m2703b:'+z], tag='mv745_m2703b_'+z, dep=H.D('2027-09-02');
+    let G=fresh('2027-03-20',19); H.FRIEND(z); G.contacts={[z]:1}; await aft(z,'m2703b'); const q0=(PHONE.rec(G).q||[]).find(x=>x.tag===tag);
+    G=fresh('2027-03-20',19); H.FRIEND(z); G.contacts={[z]:1}; G.flags.ZR_FOUR_WORDS=G.day; await aft(z,'m2703b'); const q=(PHONE.rec(G).q||[]).find(x=>x.tag===tag);
+    check('12. 芷若《m2703b》（AA 11-10 20:35）：要 ZR_FOUR_WORDS；出發那天（2027-09-02）她傳「欸。那四個字。」「你再傳一次。」；稿的 films 不動（另外放 override、寫出處）',
+      !q0&&!!q&&q.day===dep&&J(q.items.map(i=>i.text))===J(['欸。那四個字。','你再傳一次。'])&&q.items.every(i=>i.from===z)&&/AA 11-10 20:35/.test(O.src)&&film('m2703b').with[z].lines.length===3&&!(G.flags.MOVIE_LATER_DUE),J({q0,q,O}));
+    const run=async k=>{ const G=fresh('2027-03-20',19); H.FRIEND(z); G.contacts={[z]:1}; G.flags.ZR_FOUR_WORDS=G.day; await aft(z,'m2703b'); G.day=dep; G.hour=11.2; ADJ=[]; PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag===tag&&x.ask); const a=m?PHONE.answer(G,m.ask.id,k):null;
+      return {m:!!m,opts:m?m.ask.opts.map(o=>o.t):null,a:!!a,love:ADJ.filter(([w,d])=>w===z&&d.npcRom!=null).map(([,d])=>d.npcRom),re:(G.msgs||[]).filter(x=>x.from===z).map(x=>x.text).slice(-1)[0]}; };
+    const r0=await run(0), r1=await run(1);
+    check('12. 回「不要走遠。」＝她回「半年而已。」、她的戀愛 +3；回「妳要保重。」＝「這個是放手的人講的。……我會啦。」、+1',J(r0.opts)===J(['「不要走遠。」','「妳要保重。」'])&&r0.a&&J(r0.love)==='[3]'&&r0.re==='半年而已。'&&r1.a&&J(r1.love)==='[1]'&&r1.re==='這個是放手的人講的。……我會啦。',J([r0,r1])); });
+
+  await sec(13,async()=>{ const k='kexin', W=film('m2705a').with[k], W2=film('m2811a').with[k], cfg0=MOVIES.CFG.kxVolleyball; WANT=[W.choice[0].t];
+    let G=fresh('2027-05-10',19); H.FRIEND(k); await aft(k,'m2705a'); const T=film('m2705a').talk;
+    const off={def:cfg0,with:MOVIES.withOf('m2705a',k),q:idx(T.q)>=0,line:idx(W.lines[0])>=0,flag:G.flags.KX_VOLLEYBALL,ok:noEmpty()};
+    G=fresh('2028-11-10',19); H.FRIEND(k); G.flags.KX_VOLLEYBALL=5; await aft(k,'m2811a'); off.l2=idx(W2.lines[0])>=0; off.q2=idx(film('m2811a').talk.q)>=0;
+    G=fresh('2030-07-10',19); H.FRIEND(k); G.flags.KX_VOLLEYBALL=5; const kx2=o=>MOVIES.talkFor(G,k,'m3007a').opts.some(x=>x.lines.length>1&&film('m3007a').talk.opts.some(y=>y.re&&y.re.kexin2===x.lines[1])); off.re2=kx2();
+    check('13. 開關 MOVIES.CFG.kxVolleyball 預設關：可昕排球那幾段（m2705a、m2811a 的 with、m3007a 的 kexin2）不演、KX_VOLLEYBALL 不記；talk 照常',off.def===false&&off.with===null&&off.q&&!off.line&&off.flag==null&&off.ok&&!off.l2&&off.q2&&!off.re2,J(off));
+    MOVIES.CFG.kxVolleyball=true; try{
+      G=fresh('2027-05-10',19); H.FRIEND(k); await aft(k,'m2705a'); const on={line:idx(W.lines[0])>=0,flag:G.flags.KX_VOLLEYBALL};
+      G=fresh('2028-11-10',19); H.FRIEND(k); G.flags.KX_VOLLEYBALL=5; await aft(k,'m2811a'); on.l2=idx(W2.lines[0])>=0;
+      G=fresh('2030-07-10',19); H.FRIEND(k); G.flags.KX_VOLLEYBALL=5; on.re2=kx2();
+      check('13. 開關打開：照稿演、記 KX_VOLLEYBALL',on.line&&on.flag!=null&&on.l2&&on.re2,J(on)); } finally { MOVIES.CFG.kxVolleyball=cfg0; WANT=[]; } });
+
+  await sec(14,async()=>{ const bad=[]; let n=0;
+    const one=async(w,f,date)=>{ for(let k=0;k<3;k++){ const G=fresh(date,19); if(/kexin/.test(w)&&date<'2025-09') G.stage='econ'; H.FRIEND(w); const T=film(f).talk; WANT=[T.opts[k].t]; let r,e=null; try{ r=await aft(w,f); }catch(x){ e=String(x); }
+        const want=['',2,3].map(sfx=>T.opts[k].re&&T.opts[k].re[w+sfx]).filter(t=>typeof t==='string'), got=want.every(t=>idx(t)>=0); n++;
+        if(e||r!==true||!noEmpty()||!CH.some(c=>J(c)===J(T.opts.map(o=>o.t)))||(G.flags.MOVIE_TALK||{})[w][f]!==k||!MOVIES.seenWith(G,w,f)||!got||E.player.busy) bad.push([w,f,k,e,H.said.map(x=>x.t)]); } WANT=[]; };
+    await one('kexin','m2411b','2024-11-10'); await one('kexin','m2503b','2025-03-10'); await one('kexin','m2505a','2025-05-10'); await one('kexin','m2507b','2025-07-20');
+    await one('heroine_01','m2807b','2028-07-10'); await one('kexin','m2807b','2028-07-10'); await one('heroine_01','m2803b','2028-03-10'); await one('kexin','m2803b','2028-03-10');
+    check('14. 稿上沒寫到她（沒有 re）、沒有 fx、re 有第二句（heroine_012）：每個選項都演得完——沒有空的框、沒有例外、選項照出、記選了哪個、記看過（'+n+' 次）',n===24&&!bad.length,J(bad.slice(0,3)));
+    fresh('2028-07-10',19); H.FRIEND('heroine_01'); await aft('heroine_01','m2807b');
+    check('14. 《m2807b》的 q 是給程式的說明（NOQ 表）：不說出來',PL().noQ.includes('m2807b')&&MOVIES.talkFor(H.G,'heroine_01','m2807b').q===null&&!H.said.some(x=>/約得到沛珊/.test(x.t)),J(H.said.map(x=>x.t)));
+    fresh('2028-03-10',19); H.FRIEND('heroine_01'); const o2=film('m2803b').talk.opts[2]; WANT=[o2.t]; await aft('heroine_01','m2803b'); WANT=[];
+    check('14. 《m2803b》第三個選項：以安說兩句（heroine_01、heroine_012）',idx(o2.re.heroine_01)>=0&&idx(o2.re.heroine_012)===idx(o2.re.heroine_01)+1,J(H.said.map(x=>x.t)));
+    const G=fresh('2028-01-10',19), zq='heroine_04'; H.FRIEND(zq); const P=MOVIES.periodOf('m2801b'), other=P.bill.find(b=>b.id!=='m2801b'), a=MOVIES.pickAdj(P.bill,zq,other,null), r=await aft(zq,'m2801b');
+    check('14. 《m2801b》（舊稿：skip 欄寫「一定挑」）：約子晴＝這部、她說那兩句；看完不演 with、不卡',a.film.id==='m2801b'&&a.forced===true&&J(a.say)===J(film('m2801b').with[zq].lines)&&r===true&&noEmpty()&&!film('m2801b').with[zq].lines.some(t=>idx(t)>=0),J([a,H.said.map(x=>x.t)]));
+    /* 壞資料（假的）：不認得的人、不認得的 kind、lines 不是陣列、空的 re、沒有字的選項、沒有 opts */
+    const F=PL().films, keep=JSON.stringify(F.m2509a), id='heroine_01'; try{
+      F.m2509a.with={heroine_099:{kind:'after',lines:['x']},[id]:{kind:'zzz',lines:['不該出現']}}; F.m2509a.talk.opts[0].re={[id]:'',heroine_099:'y'}; delete F.m2509a.talk.opts[0].fx; F.m2509a.talk.opts[1].t='';
+      fresh('2025-10-18',19); H.FRIEND(id); WANT=[F.m2509a.talk.opts[0].t]; const r1=await aft(id,'m2509a'); const c1=CH.slice(), s1=H.said.map(x=>x.t), e1=noEmpty();
+      F.m2509a.with={[id]:{kind:'after'}}; F.m2509a.talk.opts=[]; fresh('2025-10-18',19); H.FRIEND(id); const r2=await aft(id,'m2509a'), s2=H.said.length, c2=CH.length;
+      delete F.m2509a.talk; fresh('2025-10-18',19); H.FRIEND(id); const r3=await aft(id,'m2509a');
+      check('14. 壞資料：不認得的人和 kind 不演、空的 re 不說、沒有字的選項不出（剩兩個）、沒有選項＝不問；都不丟例外、不出空的框',r1===true&&e1&&c1.length===1&&c1[0].length===2&&!s1.includes('不該出現')&&!s1.includes('y')&&r2===true&&s2===0&&c2===0&&r3===true,J({r1,c1,s1,r2,s2,c2,r3}));
+    } finally { F.m2509a=JSON.parse(keep); WANT=[]; } });
+
+  await sec(15,async()=>{ const P0=PL(), F=P0.films, id='heroine_01', keepF=JSON.stringify(F.m2509a), keepP=JSON.stringify(P0.pick); try{
+      /* AA_745 v2 的 pick（假的）：以安一定挑 m2509b */
+      F.m2509b.with=Object.assign({},F.m2509b.with,{[id]:{kind:'pick',lines:['（假的）這部。','我想看這部。']}}); P0.pick.m2509b=Object.assign({},P0.pick.m2509b,{[id]:{mode:'force'}});
+      const G=fresh('2025-10-18',19.4); H.FRIEND(id); const P=MOVIES.periodOf('m2509a'), a=MOVIES.pickAdj(P.bill,id,MOVIES.film('m2509a'),null), b=MOVIES.pickAdj(P.bill,id,MOVIES.film('m2509b'),null);
+      const iv=INV.accept(G,id,'xs_nanyang',G.day,19.5,{by:'player'}); const r=await aft(id,'m2509b');
+      check('15. with.kind pick（假資料）：選到另一部＝換成她挑的、她說 lines；本來就是這部＝不說；約好的那一筆存她挑的；看完不把 pick 的 lines 當 with 演',a.film.id==='m2509b'&&a.forced&&J(a.say)===J(F.m2509b.with[id].lines)&&b.film.id==='m2509b'&&!b.say&&iv.film==='m2509b'&&J(iv.filmSay)===J(F.m2509b.with[id].lines)&&r===true&&idx('（假的）這部。')<0&&noEmpty(),J([a,b,iv.film,iv.filmSay,H.said.map(x=>x.t)]));
+    } finally { const b=JSON.parse(keepF); delete F.m2509b.with; P0.pick=JSON.parse(keepP); }
+    /* 0 和負的 fx */
+    const G=fresh('2025-10-18',19); H.FRIEND(id); H.FRIEND('classmate_bohan'); SOCIAL.adjust(id,{npcRom:10}); const r0=Object.assign({},SOCIAL.rel(id));
+    const z=SOCIAL.applyFx(G,id,{fr:0,love:0}), ng=SOCIAL.applyFx(G,id,{fr:-2,love:-3}), r1=Object.assign({},SOCIAL.rel(id)), bh=SOCIAL.applyFx(G,'classmate_bohan',{love:-2}), junk=[SOCIAL.applyFx(G,id,null),SOCIAL.applyFx(G,id,{fr:'x'}),SOCIAL.applyFx(G,null,{fr:1}),SOCIAL.applyFx(G,id,{})];
+    SOCIAL.adjust(id,{fam:-100}); SOCIAL.applyFx(G,id,{fr:-5}); const fl=SOCIAL.rel(id).fam;
+    check('15. SOCIAL.applyFx：0＝不動（null）；負的照扣（fr -2＝三項各 -2、love -3）；男生朋友 love 不算；壞的 fx＝null；不會扣到 0 以下',z===null&&J(ng)===J({fam:-2,trust:-2,comf:-2,npcRom:-3})&&r1.fam===r0.fam-2&&r1.trust===r0.trust-2&&r1.npcRom===r0.npcRom-3&&bh===null&&junk.every(x=>x===null)&&fl===0,J({z,ng,r0,r1,bh,junk,fl}));
+    const keep=JSON.stringify(F.m2509a); try{ F.m2509a.talk.opts[0].fx={[id]:{love:-2,fr:-1}}; delete F.m2509a.with; fresh('2025-10-18',19); H.FRIEND(id); SOCIAL.adjust(id,{npcRom:10}); WANT=[F.m2509a.talk.opts[0].t]; await aft(id,'m2509a');
+      check('15. talk 選項的 fx 是負的（假資料）：照扣',ADJ.some(([w,d])=>w===id&&d.npcRom===-2&&d.fam===-1&&d.trust===-1&&d.comf===-1),J(ADJ)); } finally { F.m2509a=JSON.parse(keep); WANT=[]; }
+    /* 匯入工具：pick、0／負的 fx、不認得的人（列警告、不停）——拿第 1 批的稿改幾格、直接叫 build() */
+    const py=`
+import sys, json
+sys.path.insert(0, 'tools/movie')
+import import_movie_plots as M
+allow = M.IG.load(M.ROOT)
+B = M.load_batches(allow)
+p, sha, d = B[0]
+fid = sorted(d['films'])[0]
+f = d['films'][fid]
+f['talk']['opts'][0]['re'] = dict(f['talk']['opts'][0].get('re') or {}, heroine_099='x')
+f['talk']['opts'][0]['fx'] = {'heroine_01': {'love': -2, 'fr': 0}, 'heroine_099': {'fr': 1}}
+f['with'] = dict(f.get('with') or {}, heroine_04={'kind': 'pick', 'lines': ['x']}, nobody={'kind': 'after', 'lines': ['x']})
+out = M.build(B)
+print(json.dumps({'fid': fid, 'pick': out['pick'].get(fid), 'fx': out['films'][fid]['talk']['opts'][0]['fx'], 'warn': M.WARN, 'm2801b': out['pick'].get('m2801b')}, ensure_ascii=False))
+`;
+    let o=null, err=''; try{ o=JSON.parse(cp.execFileSync('python3',['-c',py],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']})); }catch(e){ err=String(e.stderr||e.message).slice(0,400); }
+    check('15. 匯入工具：kind pick＝一定挑（force）、舊的 m2801b 照舊 force；fx 0 和負的收；不認得的人列進警告（3 項）、不停',!!o&&o.pick&&o.pick.heroine_04&&o.pick.heroine_04.mode==='force'&&o.m2801b.heroine_04.mode==='force'&&o.fx.heroine_01.love===-2&&o.warn.length===3&&o.warn.every(w=>/不認得的人/.test(w)),err||J(o)); });
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });

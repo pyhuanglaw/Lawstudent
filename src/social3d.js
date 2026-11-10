@@ -263,5 +263,10 @@ const SOCIAL = (function(){
   S.memLabel=tag=>MEMORY_LABEL[tag]||(/^SHOP_/.test(String(tag||''))?'在店裡碰到':'一段回憶');
   /* 她的戀愛（npcRom）算不算（ROM-PRIVATE-DATE-1110，使用者 11-10「大一上…應該也要可以培養戀愛」「學姊旁邊 應該要增加戀愛值」）：可以攻略的對象（DATE.HEROINES）一開始就算；原本五處（arcs、arcinv、decide、gift、aa720）都要朋友（第 3 階）以上才算，認識、有點熟選再多都是 0。朋友（男生、Alison…）不算 */
   S.romOk=id=>typeof DATE!=='undefined'&&Array.isArray(DATE.HEROINES)&&DATE.HEROINES.includes(id);
+  /* 選項的效果（DLG-FX-MECH-1110，使用者 X324「每次約會都要有選擇性的對話選項，依據選項內容增加友情或者愛情」；AA_746 第 2 節第 1 點）：
+     fx＝{fr:n, love:n}（都可以不寫、可以是 0 或負的）。fr＝熟悉、信任、自在各加 n（直接加，不占一起活動的每日上限）；love＝她的戀愛（npcRom），只有可以攻略的對象（S.romOk）。
+     全遊戲的選項（電影、校外約會、閒聊階梯、一起活動／念書、期末飯、手機回覆、邀約見面）都叫這一支；沒有 fx＝什麼都不做、回 null。回傳實際送進 S.adjust 的差值。 */
+  S.applyFx=function(G_,id,fx){ if(!id||!fx||typeof fx!=='object') return null; const d={}, n=v=>{ v=Math.trunc(+v); return isFinite(v)?v:0; }, fr=n(fx.fr), lv=n(fx.love);
+    if(fr){ d.fam=fr; d.trust=fr; d.comf=fr; } if(lv&&S.romOk(id)) d.npcRom=lv; if(!Object.keys(d).length) return null; S.adjust(id,d); return d; };
   return S;
 })();

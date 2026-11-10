@@ -37,8 +37,8 @@ const MOVIE_PLOTS={
    "h": 21
   },
   "m2505b:kexin": {
-   "mode": "hook",
-   "hook": "分科測驗前一晚（2025-07-10，AA_272 第 10 節）那一場的最後面"
+   "mode": "meet",
+   "before": "2025-07-11"
   },
   "m2507b:heroine_03": {
    "mode": "meet",
@@ -46,16 +46,15 @@ const MOVIE_PLOTS={
    "at": "teaOrMeal"
   },
   "m2603b:heroine_01": {
-   "mode": "hook",
-   "hook": "下一次刑法或民法課下課（同班）"
+   "mode": "meet"
   },
   "m2605b:heroine_03": {
-   "mode": "hook",
-   "hook": "下一個她在一盞茶屋上班的週末玩家進茶屋（要 YT_MET_JOB）"
+   "mode": "meet",
+   "at": "teahouse"
   },
   "m2607a:classmate_peishan": {
-   "mode": "hook",
-   "hook": "一週內平日白天在校園遇到沛珊（要 PS_SECRET_PATH）",
+   "mode": "meet",
+   "before": "2026-12-17",
    "needFlag": "PS_SECRET_PATH"
   },
   "m2609a:kexin": {
@@ -69,8 +68,9 @@ const MOVIE_PLOTS={
    "h": 22
   },
   "m2703b:heroine_02": {
-   "mode": "hook",
-   "hook": "2027-09 初芷若出發去英國交換那一場的最後（要 ZR_FOUR_WORDS）",
+   "mode": "msg",
+   "at": "2027-09-02",
+   "h": 11,
    "needFlag": "ZR_FOUR_WORDS"
   },
   "m2709b:heroine_01": {
@@ -103,6 +103,38 @@ const MOVIE_PLOTS={
    "series": true
   }
  },
+ "override": {
+  "m2703b:heroine_02": {
+   "src": "AA 11-10 20:35 回覆（MOVIE-TALK-1110：沒有機場那一場，她出發那天改傳訊息）",
+   "lines": [
+    "欸。那四個字。",
+    "你再傳一次。"
+   ],
+   "choice": [
+    {
+     "t": "「不要走遠。」",
+     "say": [
+      "半年而已。"
+     ],
+     "fx": {
+      "love": 3
+     }
+    },
+    {
+     "t": "「妳要保重。」",
+     "say": [
+      "這個是放手的人講的。……我會啦。"
+     ],
+     "fx": {
+      "love": 1
+     }
+    }
+   ]
+  }
+ },
+ "noQ": [
+  "m2807b"
+ ],
  "pick": {
   "m2511b": {
    "heroine_04": {

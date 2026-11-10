@@ -21,7 +21,8 @@ SRCS = ['docs/story_planning/AA_745_movie_plots_1.json', 'docs/story_planning/AA
 OUT = 'src/data/movie_plots.js'
 FILMS_JS = 'src/data/nanyang_movies.js'
 PEOPLE = ('heroine_01', 'heroine_02', 'heroine_03', 'heroine_04', 'heroine_05', 'classmate_peishan', 'kexin')
-KINDS = ('after', 'mid', 'later', 'skip')
+KINDS = ('after', 'mid', 'later', 'skip', 'pick')   # pick＝她一定挑這部（AA_745 v2）；skip＝她不看（舊稿 m2801b 的 skip＋need「一定挑」照舊認）
+WARN = []   # 不認得的人（re／fx 的 key）：列出來、不停（AA 改稿以後重匯）；遊戲裡這些 key 不會被讀到
 BY = ('her', 'me', 'none')
 # 稿裡有名字說的句子外面整句加「」的（TEXT-QUOTE-UNIFY-1108 會擋）——這一句是沛珊自己學自己要寫的信，不是外面多加的引號，照留
 QUOTE_OK = {'「妳好，我是小學坐妳旁邊的人，我欠妳三封信。」'}
@@ -35,23 +36,34 @@ NEED = {
     '大四下（2029-03～04），朋友以上': {'stage': 3},
 }
 # later 的時機（when）→ 怎麼演：msg＝她傳訊息（d＝看完後第幾天、h＝幾點；at＝指定日期；series＝連續幾天一天一則）；
-# meet＝下一次和她見面（INV.meet 坐下以後；days 天內、at 地點）；hook＝要接在別的劇情裡（那一場還沒有接點＝只記旗標，列在報告）
+# meet＝下一次和她見面（INV.meet 坐下以後；days 天內〔沒寫＝不限〕、at 地點、before＝這一天起不演）；hook＝要接在別的劇情裡（那一場還沒有接點＝只記旗標，列在報告）
 LATER = {
     'm2409b:kexin': {'mode': 'msg', 'd': 1, 'h': 21},
-    'm2505b:kexin': {'mode': 'hook', 'hook': '分科測驗前一晚（2025-07-10，AA_272 第 10 節）那一場的最後面'},
+    'm2505b:kexin': {'mode': 'meet', 'before': '2025-07-11'},   # AA 11-10 20:35：考試（2025-07-11）以前的下一次見面，過了就不演
     'm2507b:heroine_03': {'mode': 'meet', 'days': 7, 'at': 'teaOrMeal'},
-    'm2603b:heroine_01': {'mode': 'hook', 'hook': '下一次刑法或民法課下課（同班）'},
-    'm2605b:heroine_03': {'mode': 'hook', 'hook': '下一個她在一盞茶屋上班的週末玩家進茶屋（要 YT_MET_JOB）'},
-    'm2607a:classmate_peishan': {'mode': 'hook', 'hook': '一週內平日白天在校園遇到沛珊（要 PS_SECRET_PATH）', 'needFlag': 'PS_SECRET_PATH'},
+    'm2603b:heroine_01': {'mode': 'meet'},   # AA 11-10 20:35：下一次見面
+    'm2605b:heroine_03': {'mode': 'meet', 'at': 'teahouse'},   # AA 11-10 20:35：下一次在一盞茶屋見面（INV 的 teahouse／wz_teahouse）
+    'm2607a:classmate_peishan': {'mode': 'meet', 'before': '2026-12-17', 'needFlag': 'PS_SECRET_PATH'},   # AA 11-10 20:35：下一次見面，2026-12-17 起不演
     'm2609a:kexin': {'mode': 'msg', 'd': 1, 'h': 21},
     'm2703a:heroine_04': {'mode': 'msg', 'd': 0, 'h': 22},
-    'm2703b:heroine_02': {'mode': 'hook', 'hook': '2027-09 初芷若出發去英國交換那一場的最後（要 ZR_FOUR_WORDS）', 'needFlag': 'ZR_FOUR_WORDS'},
+    'm2703b:heroine_02': {'mode': 'msg', 'at': '2027-09-02', 'h': 11, 'needFlag': 'ZR_FOUR_WORDS'},   # AA 11-10 20:35：沒有機場那一場，改成出發那天（zr_sendoff3d.js 2027-09-02）她傳訊息；句子在 OVERRIDE
     'm2709b:heroine_01': {'mode': 'meet', 'days': 7, 'at': 'library'},
     'm2805b:heroine_04': {'mode': 'msg', 'at': '2028-07-03', 'h': 21, 'needFlag': 'ZQ_LEVEL8'},
     'm2807b:classmate_peishan': {'mode': 'msg', 'd': 0, 'h': 22, 'anyView': True},
     'm2901b:heroine_05': {'mode': 'msg', 'd': 2, 'h': 21, 'stage': 3},
     'm2909a:heroine_04': {'mode': 'msg', 'd': 1, 'h': 22, 'series': True},
 }
+# AA 交稿以後另外改的句子（稿 films 不動、另外放 override；src/movies3d.js S.withOf 套上去）。每一筆寫出處；選項的字（t）要和稿上一樣。
+OVERRIDE = {
+    'm2703b:heroine_02': {
+        'src': 'AA 11-10 20:35 回覆（MOVIE-TALK-1110：沒有機場那一場，她出發那天改傳訊息）',
+        'lines': ['欸。那四個字。', '你再傳一次。'],
+        'choice': [{'t': '「不要走遠。」', 'say': ['半年而已。'], 'fx': {'love': 3}},
+                   {'t': '「妳要保重。」', 'say': ['這個是放手的人講的。……我會啦。'], 'fx': {'love': 1}}],
+    },
+}
+# talk.q 寫的是給程式的說明、不是台詞的片（不說 q，三個選項照出）
+NOQ = {'m2807b': '這部沒有人約得到沛珊'}
 # 她一定挑的片（AA 11-10 20:11 答：子晴《貓咪咖啡館的星期三》《第八關》、芷若《黑白的城市》；寫在 note 裡，不是 skip 欄）
 # noRule＝只在 AA_708 那一場沒有指定片（sceneFilm 沒寫）的時候（芷若那則 note：「sceneFilm 沒指定時」）
 FORCE = {
@@ -138,7 +150,8 @@ def chk_fx(fx, where, people=True):
     items = fx.items() if people else [('', fx)]
     for p, v in items:
         if people and p not in PEOPLE:
-            raise SystemExit(f'{where}.{p}：不認得的人')
+            WARN.append(f'{where}.{p}：不認得的人')
+            continue
         if not isinstance(v, dict) or any(k not in ('fr', 'love') or not isinstance(n, int) for k, n in v.items()):
             raise SystemExit(f'{where}.{p}：只能是 fr／love（整數）')
 
@@ -162,14 +175,15 @@ def chk_film(fid, f, ids):
             raise SystemExit(f'{wo}：只能有 t、re、fx、set')
         for k in (o.get('re') or {}):
             if not re_base(k)[0]:
-                raise SystemExit(f'{wo}.re.{k}：不認得的 key')
+                WARN.append(f'{wo}.re.{k}：不認得的人')
         chk_fx(o.get('fx', {}), wo + '.fx')
         if 'set' in o and not re.fullmatch(r'[A-Z][A-Z0-9_]+', o['set']):
             raise SystemExit(f'{wo}.set：旗標名')
     for p, x in (f.get('with') or {}).items():
         wx = f'{w}.with.{p}'
         if p not in PEOPLE:
-            raise SystemExit(f'{wx}：不認得的人')
+            WARN.append(f'{wx}：不認得的人')
+            continue
         if x.get('kind') not in KINDS or not isinstance(x.get('lines'), list):
             raise SystemExit(f'{wx}：kind 要是 {KINDS}、要有 lines')
         bad = [k for k in x if k not in ('kind', 'lines', 'when', 'set', 'note', 'need', 'choice')]
@@ -278,6 +292,10 @@ def build(batches):
     pick = {}
     for fid, f in films.items():
         for who, x in (f.get('with') or {}).items():
+            if who not in PEOPLE:
+                continue
+            if x['kind'] == 'pick':
+                pick.setdefault(fid, {})[who] = {'mode': 'force'}
             if x['kind'] == 'skip':
                 nd = NEED.get(x.get('need'), {})
                 pick.setdefault(fid, {})[who] = {'mode': 'force' if nd.get('force') else 'skip'}
@@ -286,10 +304,30 @@ def build(batches):
         if f in films:
             pick.setdefault(f, {})[who] = {'mode': 'force', 'noRule': bool(x.get('noRule'))}
     later = {k: v for k, v in LATER.items() if k.split(':')[0] in films}
+    override = {}
+    for key, o in OVERRIDE.items():
+        f, who = key.split(':')
+        if f not in films:
+            continue
+        x = (films[f].get('with') or {}).get(who)
+        if not x or not o.get('src'):
+            raise SystemExit(f'OVERRIDE {key}：稿裡沒有這一組，或沒寫出處')
+        if [c['t'] for c in o.get('choice', [])] != [c['t'] for c in x.get('choice', [])]:
+            raise SystemExit(f'OVERRIDE {key}：選項的字要和稿上一樣（AA 改了稿要重看這張表）')
+        for i, c in enumerate(o.get('choice', [])):
+            chk_fx(c.get('fx', {}), f'OVERRIDE {key}.choice[{i}].fx', people=False)
+        override[key] = o
+    noq = []
+    for fid, has in NOQ.items():
+        if fid in films:
+            if has in films[fid]['talk'].get('q', ''):
+                noq.append(fid)
+            else:
+                WARN.append(f'NOQ {fid}：q 改過了（找不到「{has}」），這一筆不套，請重看')
     cond = {k: v for k, v in COND.items() if k == 'with' or k in films}
     cond['with'] = {k: {kk: vv for kk, vv in v.items() if kk != 'noteHas'} for k, v in cond['with'].items()}
     order = sorted(films)
-    return {'src': src, 'again': again, 'need': NEED, 'later': later, 'pick': pick, 'cond': cond,
+    return {'src': src, 'again': again, 'need': NEED, 'later': later, 'override': override, 'noQ': sorted(noq), 'pick': pick, 'cond': cond,
             'films': {k: films[k] for k in order}}
 
 
@@ -314,6 +352,13 @@ def render(data):
             "if(typeof module!=='undefined') module.exports=MOVIE_PLOTS;\n")
 
 
+def warn():
+    if WARN:
+        print(f'警告 {len(WARN)} 項（不擋匯入；請 AA 改稿以後重匯）：')
+        for w in WARN:
+            print('  -', w)
+
+
 def main():
     allow = IG.load(ROOT)
     data = build(load_batches(allow))
@@ -324,10 +369,13 @@ def main():
         if cur != js:
             raise SystemExit(f'{OUT} 和白名單上的 AA_745 不一樣：重新匯入')
         print('OK', ', '.join(data['src']))
+        warn()
         return
     open(p, 'w', encoding='utf-8').write(js)
     W = sum(len(f.get('with') or {}) for f in data['films'].values())
     print('寫入', OUT, '：', len(data['films']), '部；with', W, '組；', ', '.join(data['src']))
+    warn()
+
 
 
 if __name__ == '__main__':
