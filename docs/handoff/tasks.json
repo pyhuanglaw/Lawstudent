@@ -51371,7 +51371,7 @@
    "next": "【11-10 03:2x LAWWW-B】social3d.js 補約會地點的記憶名稱、S.memLabel（SHOP_＝在店裡碰到、其他沒登記＝一段回憶）；game3d.js 兩處用 memLabel。tests/mem_label_unit.js 修改前 FAIL 3 項。"
   },
   {
-   "owner": "AA",
+   "owner": "LAWWW",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -51386,10 +51386,8 @@
    "sha": null,
    "id": "SHIFT-TREAT-1110",
    "title": "可以攻略的對象打工時專屬的劇情：主動招待、很開心你來（使用者 11-10 X302）",
-   "status": "暫停",
-   "pausedReason": "新台詞：使用者 11-10 02:0x 選「新台詞等 AA 回來」；AA 不在",
-   "resumeWhen": "AA 接班",
-   "next": "【11-10 03:2x LAWWW-B】AA：芷若（Café）、語彤（一盞）等打工中的女主角，玩家來店裡時的專屬反應（招待一樣東西、很開心你來；頻率、關係門檻）；LAWWW 實作。xai 照 D84。",
+   "status": "進行中",
+   "next": "【LAWWW 11-10 14:3x】AA_739（企劃線 5eff96441）交稿：芷若（Café）、語彤（一盞）在班時的專屬反應＋招待（朋友第 3 次起每 3 次隔 7 天、交往每 2 次隔 5 天，rel +1，T3 不扣錢）；LAWWW 子代理實作中。 ｜ 【11-10 03:2x LAWWW-B】AA：芷若（Café）、語彤（一盞）等打工中的女主角，玩家來店裡時的專屬反應（招待一樣東西、很開心你來；頻率、關係門檻）；LAWWW 實作。xai 照 D84。",
    "xai": {
     "spec": "USER_WANTS X302",
     "branch": "claude/cool-heisenberg-o8kuqx（AA 企劃線）",
