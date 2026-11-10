@@ -308,3 +308,15 @@
 [01:18:22] [res] cpu=1% mem=46% (14.7/31.4 GB) chrome_testing=4  END V24_invgo
 [01:18:23] memory 46% before starting V24_outing (2 running)
 [01:18:23] ==== START V24_outing  (probe @ 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c) ====
+[01:18:26] [res] cpu=25% mem=46% (14.7/31.4 GB) chrome_testing=4  START V24_outing
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ea9bb7517..5f0fecb7f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:18:29] ==== END   V24_invgo  exit=0  127s   ====
+[01:18:59] memory 49% before starting W24_outing (2 running)
+[01:18:59] ==== START W24_outing  (probe @ ecc3e12a798dfab4af60e85fac29b93e5f2d7321) ====
+[01:19:02] [res] cpu=8% mem=50% (15.7/31.4 GB) chrome_testing=8  START W24_outing
+[01:19:02] worktree add ecc3e12a798dfab4af60e85fac29b93e5f2d7321: invalid reference - fetching main and the commit itself
+[01:19:27] 正在跑：V24_reach（已跑 4 分／上限 40 分）、V24_outing（已跑 1 分／上限 30 分）、W24_outing（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:24:27] 正在跑：V24_reach（已跑 9 分／上限 40 分）、V24_outing（已跑 6 分／上限 30 分）、W24_outing（已跑 5 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:24:52] [res] cpu=1% mem=44% (14.0/31.4 GB) chrome_testing=10  END V24_reach
