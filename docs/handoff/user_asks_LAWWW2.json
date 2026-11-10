@@ -813,6 +813,66 @@
    "notify": "",
    "wants": "",
    "task": "WINDOW-FLICKER-1107"
+  },
+  {
+   "id": "UA-LAWWW2-1110-01",
+   "at": "2026-11-10T18:3x",
+   "quote": "公館商圈往南新增汀州路商圈（附三張公館地圖）",
+   "kind": "原話",
+   "status": "進行中",
+   "replaces": "",
+   "note": "18:4x 選：第一階段一段街＋夜市巷；夜市攤晚上才擺；入口從公館店面街開巷子。ref/tingzhou_1110/README.md",
+   "notify": "",
+   "wants": "X321",
+   "task": ""
+  },
+  {
+   "id": "UA-LAWWW2-1110-02",
+   "at": "2026-11-10T18:5x",
+   "quote": "這次要做的是「汀州路商圈」而不是 generic 台北街景…（七點方向）＋「LAWWW2｜汀州路商圈 3D 美術製作指令」全文＋「118這麼醜 我都給你提示詞了 你依照我的」",
+   "kind": "原話",
+   "status": "進行中",
+   "replaces": "",
+   "note": "原文 ref/tingzhou_1110/USER_INSTRUCTION_1110.md；118 巷產生器的排法停用；照 RULES_2D_TO_3D。WIP b76ce2ba6",
+   "notify": "",
+   "wants": "X321",
+   "task": ""
+  },
+  {
+   "id": "UA-LAWWW2-1110-03",
+   "at": "2026-11-10T19:2x",
+   "quote": "請以附上的五張獨立店面概念圖為主要美術參考…五家新增店面正式名稱：越好吃小館、客居雲南、東南大聯商行、汀州聯通、溫特寶邸（Vintage Boutique）…不要自行變更已核定的店名或擅自發布版本。",
+   "kind": "原話",
+   "status": "進行中",
+   "replaces": "",
+   "note": "原文與拆圖 ref/tingzhou_1110/concept/README.md（216429dbd）；配置 v3 已放進五間；招牌從概念圖拉正。LAWWW 19:07 ACK",
+   "notify": "",
+   "wants": "X322",
+   "task": ""
+  },
+  {
+   "id": "UA-LAWWW2-1110-04",
+   "at": "2026-11-10T18:2x",
+   "quote": "公館店家不是都已經完成了嗎？為什麼現在又重新開始上個帳號？就已經做好放進遊戲了啊？",
+   "kind": "原話",
+   "status": "已完成",
+   "replaces": "",
+   "note": "我把「沒有參考圖」誤當成「沒做」，已更正、撤回重做的提議；之後使用者 18:5x 另外給了六間的正式規格（X320）",
+   "notify": "",
+   "wants": "X200",
+   "task": ""
+  },
+  {
+   "id": "UA-LAWWW2-1110-05",
+   "at": "2026-11-10T18:1x",
+   "quote": "季節性的攤販、店門口的小變化、節日的布置 很棒／你還有任何美術要裝的話，為什麼會被擋住？我會授權你所有權限",
+   "kind": "原話",
+   "status": "等使用者",
+   "replaces": "",
+   "note": "提案 proposals/life_details_seasonal_1110.md（a118abd49），等使用者選三題；「授權所有權限」沒有改 D39／D32，已回答卡住的原因",
+   "notify": "",
+   "wants": "X317",
+   "task": ""
   }
  ]
 }
