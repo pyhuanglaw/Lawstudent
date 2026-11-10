@@ -83,8 +83,21 @@ async def place(pg, cdp, tag, zone, day, hour, pos=None, base=None):
 
 async def walk_to_spot(pg, cdp, tag, x, z, label, near=0.5, max_s=300):
     """照玩家走到互動點附近，等互動鍵出現；回傳 (走到了嗎, 最後的 ui, 有沒有被放到目的地)"""
-    u0 = await ui(pg); fb0 = u0['fb']
-    ok = await L.go_to(pg, cdp, R, x, z, near, '%s 走到「%s」(%s, %s)' % (tag, label, x, z), max_s=max_s)
+    u0 = await ui(pg); fb0 = u0['fb']; t0 = time.time(); ok = False; met = []
+    while time.time() - t0 < max_s:   # 途中有人物劇情的對話、選單（條件事件照開）：停下來記下來，照玩家點過去（選第一個）再繼續走
+        ok = await L.go_to(pg, cdp, R, x, z, near, '%s 走到「%s」(%s, %s)' % (tag, label, x, z), max_s=max(30, max_s - (time.time() - t0)), stop=lambda s: bool(s['dlg'] or s['choices']))
+        v = await ui(pg)
+        if not (v['dlg'] or v['choices']): break
+        while v['dlg'] or v['choices']:
+            met.append((v['zone'], round(v['hour'], 2), v['dlg'][:70] if v['dlg'] else '選項：' + J(v['choices'])))
+            if v['dlg']: await L.tap(pg, cdp, '#dlg')
+            else: await tap_choice(pg, cdp, 0)
+            await pg.wait_for_timeout(800); v = await ui(pg)
+            if len(met) > 60: break
+        if v['zone'] != u0['zone']: break
+    if met: R.note('%s 走路途中遇到的對話／選項（照玩家點過去）：%s' % (tag, J(met)))
+    v = await ui(pg)
+    if v['zone'] != u0['zone'] or v['day'] != u0['day']: R.note('%s 【注意】走路途中被帶走：%s %s %.2f → %s %s %.2f' % (tag, u0['zone'], u0['date'], u0['hour'], v['zone'], v['date'], v['hour']))
     await pg.wait_for_timeout(1200); u = await ui(pg)
     if not u['interact'].startswith(label):   # 停在互動範圍邊上：像玩家一樣往中心再走一點
         await L.go_to(pg, cdp, R, x, z, 0.25, '%s 再往「%s」中心走一點' % (tag, label), max_s=90); await pg.wait_for_timeout(1200); u = await ui(pg)
