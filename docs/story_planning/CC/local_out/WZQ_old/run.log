@@ -1,0 +1,58 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tzq_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZQ_old\out
+CC TZQ／TZP／WZQ：SHA c17a9919e PARTS WZQ Q low,medium,high；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+== WZQ
+  [前置／捷徑] 讀檔到 xinsheng 2025-11-01 14.0 時 {"visited": {"dorm": true, "cafe": true, "wz_mokuyobi": true, "wz_offbeat": true, "wz_teahouse": true, "wz_brunch": true, "wz_print": true, "wz_lin": true, "wz_teishoku": true}} 【捷徑】（新生南路側門進來的地方；visited 有溫州街那幾家店）
+  [  49.1s] [C] c17a9919e 溫州街那一區：5 筆 [["溫州街", "約 10 分鐘", "前往"], ["2:30 AM", "約 15 分鐘・11:00–02:30", "前往"], ["木曜日", "約 10 分鐘・今天 13:00–22:00", "前往"], ["日常失速", "約 10 分鐘・每天 13:00–01:00", "前往"], ["一盞", "約 10 分鐘・今天 12:00–20:00", "前往"]]
+  [  49.1s] [C] 店 4 間（不算「溫州街」本身）；少 7 間：["SUNNY SIDE", "阿德影印輸出", "林家乾麵", "小路", "帝大紅茶", "夏日冰菓室", "溫州書屋"]；多出來的：[]
+FAIL [C] 快速前往列出溫州街全部 11 間  少 ["SUNNY SIDE", "阿德影印輸出", "林家乾麵", "小路", "帝大紅茶", "夏日冰菓室", "溫州書屋"]
+  [前置／捷徑] 讀檔到 xinsheng 2025-09-17 11 時 {"visited": {"dorm": true, "cafe": true, "wz_mokuyobi": true, "wz_offbeat": true, "wz_teahouse": true, "wz_brunch": true, "wz_print": true, "wz_lin": true, "wz_teishoku": true}} 【捷徑】（2:30 AM 開門的時間；從新生南路出發）
+PASS [C 2:30 AM] 手機「地點」的「wenzhou」那一區有「2:30 AM」  [{"name": "溫州街", "st": "約 10 分鐘", "place": "wenzhou|溫州街", "btn": "前往", "area": "wenzhou", "pin": null}, {"name": "2:30 AM", "st": "約 15 分鐘・11:00–02:30", "place": "cafe|2:30 AM", "btn": "前往", "area": "wenzhou", "pin": null}, {"name": "木曜日", "st": "約 10 分鐘・今天 13:00–22:00", "place": "wz_mokuyobi|木曜日", "btn": "已閉館", "area": "wenzhou", "pin": null}, {"name": "日常失速", "st": "約 10 分鐘・每天 13:00–01:00", "place": "wz_offbeat|日常失速", "btn": "已閉館", "area": "wenzhou", "pin": null}, {"name": "一盞", "st": "約 10 分鐘・今天 12:00–20:00", "place": "wz_teahouse|一盞", "btn": "已閉館", "area": "wenzhou", "pin": null}]
+  [  75.6s] [C 2:30 AM] 按「前往」（約 15 分鐘・11:00–02:30）；10.8 秒後 {"zone": "cafe", "h": 11.3379, "x": 0, "z": 5, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "離開咖啡廳", "ent": false, "busy": false, "fb": 0, "clockZ": "2:30 AM", "phone": false, "dlg": false, "toast": "走了 15 分鐘到2:30 AM", "q": "medium"}；G.hour 跳動 [[11.0682, 11.2349], [11.2349, 11.0682], [11.0682, 11.3182]]
+PASS [C 2:30 AM] 到「cafe」這一區  {"zone": "cafe", "h": 11.3379, "x": 0, "z": 5, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "離開咖啡廳", "ent": false, "busy": false, "fb": 0, "clockZ": "2:30 AM", "phone": false, "dlg": false, "toast": "走了 15 分鐘到2:30 AM", "q": "medium"}
+PASS [C 2:30 AM] 落在清單的落點 (0,5)（0.5 m 內）  {"zone": "cafe", "h": 11.3379, "x": 0, "z": 5, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "離開咖啡廳", "ent": false, "busy": false, "fb": 0, "clockZ": "2:30 AM", "phone": false, "dlg": false, "toast": "走了 15 分鐘到2:30 AM", "q": "medium"}
+PASS [C 2:30 AM] 站得住（E.nav.free、E.canStand 0.3）  {"zone": "cafe", "h": 11.3379, "x": 0, "z": 5, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "離開咖啡廳", "ent": false, "busy": false, "fb": 0, "clockZ": "2:30 AM", "phone": false, "dlg": false, "toast": "走了 15 分鐘到2:30 AM", "q": "medium"}
+PASS [C 2:30 AM] 面向和落點的 yaw 一樣（±25°）  ry 3.142 yaw 3.142
+PASS [C 2:30 AM] 互動鍵不是別家（「離開咖啡廳」）  []
+PASS [C 2:30 AM] 時間照清單扣：「約 15 分鐘」，G.hour 跳了 15.0 分鐘（±1）  [[11.0682, 11.2349], [11.2349, 11.0682], [11.0682, 11.3182]]
+PASS [黑畫面] C_00_2_30_AM 不是黑畫面（平均亮度 91.3、變化 54.1）  [91.3, 54.1]
+  [前置／捷徑] 讀檔到 xinsheng 2025-09-17 13 時 {"visited": {"dorm": true, "cafe": true, "wz_mokuyobi": true, "wz_offbeat": true, "wz_teahouse": true, "wz_brunch": true, "wz_print": true, "wz_lin": true, "wz_teishoku": true}} 【捷徑】（木曜日 開門的時間；從新生南路出發）
+PASS [C 木曜日] 手機「地點」的「wenzhou」那一區有「木曜日」  [{"name": "溫州街", "st": "約 10 分鐘", "place": "wenzhou|溫州街", "btn": "前往", "area": "wenzhou", "pin": null}, {"name": "2:30 AM", "st": "約 15 分鐘・11:00–02:30", "place": "cafe|2:30 AM", "btn": "前往", "area": "wenzhou", "pin": null}, {"name": "木曜日", "st": "約 10 分鐘・今天 13:00–22:00", "place": "wz_mokuyobi|木曜日", "btn": "前往", "area": "wenzhou", "pin": null}, {"name": "日常失速", "st": "約 10 分鐘・每天 13:00–01:00", "place": "wz_offbeat|日常失速", "btn": "前往", "area": "wenzhou", "pin": null}, {"name": "一盞", "st": "約 10 分鐘・今天 12:00–20:00", "place": "wz_teahouse|一盞", "btn": "前往", "area": "wenzhou", "pin": null}]
+  [ 105.3s] [C 木曜日] 按「前往」（約 10 分鐘・今天 13:00–22:00）；14.4 秒後 {"zone": "wz_mokuyobi", "h": 13.2533, "x": -3.75, "z": 5.4, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "", "ent": false, "busy": false, "fb": 0, "clockZ": "木曜日", "phone": false, "dlg": false, "toast": "走了 10 分鐘到木曜日", "q": "medium"}；G.hour 跳動 [[13.0682, 13.1516], [13.1516, 13.0682], [13.0682, 13.2349]]
+PASS [C 木曜日] 到「wz_mokuyobi」這一區  {"zone": "wz_mokuyobi", "h": 13.2533, "x": -3.75, "z": 5.4, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "", "ent": false, "busy": false, "fb": 0, "clockZ": "木曜日", "phone": false, "dlg": false, "toast": "走了 10 分鐘到木曜日", "q": "medium"}
+PASS [C 木曜日] 落在清單的落點 (-3.75,5.4)（0.5 m 內）  {"zone": "wz_mokuyobi", "h": 13.2533, "x": -3.75, "z": 5.4, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "", "ent": false, "busy": false, "fb": 0, "clockZ": "木曜日", "phone": false, "dlg": false, "toast": "走了 10 分鐘到木曜日", "q": "medium"}
+PASS [C 木曜日] 站得住（E.nav.free、E.canStand 0.3）  {"zone": "wz_mokuyobi", "h": 13.2533, "x": -3.75, "z": 5.4, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "", "ent": false, "busy": false, "fb": 0, "clockZ": "木曜日", "phone": false, "dlg": false, "toast": "走了 10 分鐘到木曜日", "q": "medium"}
+PASS [C 木曜日] 面向和落點的 yaw 一樣（±25°）  ry 3.142 yaw 3.142
+PASS [C 木曜日] 互動鍵不是別家（「」）  []
+PASS [C 木曜日] 時間照清單扣：「約 10 分鐘」，G.hour 跳了 10.0 分鐘（±1）  [[13.0682, 13.1516], [13.1516, 13.0682], [13.0682, 13.2349]]
+PASS [黑畫面] C_01_木曜日 不是黑畫面（平均亮度 123.9、變化 68.5）  [123.9, 68.5]
+  [前置／捷徑] 讀檔到 xinsheng 2025-09-17 13 時 {"visited": {"dorm": true, "cafe": true, "wz_mokuyobi": true, "wz_offbeat": true, "wz_teahouse": true, "wz_brunch": true, "wz_print": true, "wz_lin": true, "wz_teishoku": true}} 【捷徑】（日常失速 開門的時間；從新生南路出發）
+PASS [C 日常失速] 手機「地點」的「wenzhou」那一區有「日常失速」  [{"name": "溫州街", "st": "約 10 分鐘", "place": "wenzhou|溫州街", "btn": "前往", "area": "wenzhou", "pin": null}, {"name": "2:30 AM", "st": "約 15 分鐘・11:00–02:30", "place": "cafe|2:30 AM", "btn": "前往", "area": "wenzhou", "pin": null}, {"name": "木曜日", "st": "約 10 分鐘・今天 13:00–22:00", "place": "wz_mokuyobi|木曜日", "btn": "前往", "area": "wenzhou", "pin": null}, {"name": "日常失速", "st": "約 10 分鐘・每天 13:00–01:00", "place": "wz_offbeat|日常失速", "btn": "前往", "area": "wenzhou", "pin": null}, {"name": "一盞", "st": "約 10 分鐘・今天 12:00–20:00", "place": "wz_teahouse|一盞", "btn": "前往", "area": "wenzhou", "pin": null}]
+  [ 127.1s] [C 日常失速] 按「前往」（約 10 分鐘・每天 13:00–01:00）；7.3 秒後 {"zone": "wz_offbeat", "h": 13.2474, "x": -3.9, "z": 3, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "", "ent": false, "busy": true, "fb": 0, "clockZ": "日常失速", "phone": false, "dlg": true, "toast": "走了 10 分鐘到日常失速", "q": "medium"}；G.hour 跳動 [[13.0684, 13.1518], [13.1518, 13.0684], [13.0684, 13.2351]]
+PASS [C 日常失速] 到「wz_offbeat」這一區  {"zone": "wz_offbeat", "h": 13.2474, "x": -3.9, "z": 3, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "", "ent": false, "busy": true, "fb": 0, "clockZ": "日常失速", "phone": false, "dlg": true, "toast": "走了 10 分鐘到日常失速", "q": "medium"}
+PASS [C 日常失速] 落在清單的落點 (-3.9,3)（0.5 m 內）  {"zone": "wz_offbeat", "h": 13.2474, "x": -3.9, "z": 3, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "", "ent": false, "busy": true, "fb": 0, "clockZ": "日常失速", "phone": false, "dlg": true, "toast": "走了 10 分鐘到日常失速", "q": "medium"}
+PASS [C 日常失速] 站得住（E.nav.free、E.canStand 0.3）  {"zone": "wz_offbeat", "h": 13.2474, "x": -3.9, "z": 3, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "", "ent": false, "busy": true, "fb": 0, "clockZ": "日常失速", "phone": false, "dlg": true, "toast": "走了 10 分鐘到日常失速", "q": "medium"}
+PASS [C 日常失速] 面向和落點的 yaw 一樣（±25°）  ry 3.142 yaw 3.142
+PASS [C 日常失速] 互動鍵不是別家（「」）  []
+PASS [C 日常失速] 時間照清單扣：「約 10 分鐘」，G.hour 跳了 10.0 分鐘（±1）  [[13.0684, 13.1518], [13.1518, 13.0684], [13.0684, 13.2351]]
+PASS [黑畫面] C_02_日常失速 不是黑畫面（平均亮度 104.3、變化 57.3）  [104.3, 57.3]
+  [前置／捷徑] 讀檔到 xinsheng 2025-09-17 12 時 {"visited": {"dorm": true, "cafe": true, "wz_mokuyobi": true, "wz_offbeat": true, "wz_teahouse": true, "wz_brunch": true, "wz_print": true, "wz_lin": true, "wz_teishoku": true}} 【捷徑】（一盞 開門的時間；從新生南路出發）
+PASS [C 一盞] 手機「地點」的「wenzhou」那一區有「一盞」  [{"name": "溫州街", "st": "約 10 分鐘", "place": "wenzhou|溫州街", "btn": "前往", "area": "wenzhou", "pin": null}, {"name": "2:30 AM", "st": "約 15 分鐘・11:00–02:30", "place": "cafe|2:30 AM", "btn": "前往", "area": "wenzhou", "pin": null}, {"name": "木曜日", "st": "約 10 分鐘・今天 13:00–22:00", "place": "wz_mokuyobi|木曜日", "btn": "已閉館", "area": "wenzhou", "pin": null}, {"name": "日常失速", "st": "約 10 分鐘・每天 13:00–01:00", "place": "wz_offbeat|日常失速", "btn": "已閉館", "area": "wenzhou", "pin": null}, {"name": "一盞", "st": "約 10 分鐘・今天 12:00–20:00", "place": "wz_teahouse|一盞", "btn": "前往", "area": "wenzhou", "pin": null}]
+  [ 148.8s] [C 一盞] 按「前往」（約 10 分鐘・今天 12:00–20:00）；7.3 秒後 {"zone": "wz_teahouse", "h": 12.2521, "x": -3, "z": 9, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "離開一盞", "ent": false, "busy": false, "fb": 0, "clockZ": "一盞", "phone": false, "dlg": false, "toast": "走了 10 分鐘到一盞", "q": "medium"}；G.hour 跳動 [[12.0682, 12.1516], [12.1516, 12.0682], [12.0682, 12.2349]]
+PASS [C 一盞] 到「wz_teahouse」這一區  {"zone": "wz_teahouse", "h": 12.2521, "x": -3, "z": 9, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "離開一盞", "ent": false, "busy": false, "fb": 0, "clockZ": "一盞", "phone": false, "dlg": false, "toast": "走了 10 分鐘到一盞", "q": "medium"}
+PASS [C 一盞] 落在清單的落點（null＝區域出生點） (-3,9)（0.5 m 內）  {"zone": "wz_teahouse", "h": 12.2521, "x": -3, "z": 9, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "離開一盞", "ent": false, "busy": false, "fb": 0, "clockZ": "一盞", "phone": false, "dlg": false, "toast": "走了 10 分鐘到一盞", "q": "medium"}
+PASS [C 一盞] 站得住（E.nav.free、E.canStand 0.3）  {"zone": "wz_teahouse", "h": 12.2521, "x": -3, "z": 9, "ry": 3.142, "lv": 0, "free": true, "stand": true, "interact": "離開一盞", "ent": false, "busy": false, "fb": 0, "clockZ": "一盞", "phone": false, "dlg": false, "toast": "走了 10 分鐘到一盞", "q": "medium"}
+PASS [C 一盞] 面向和落點的 yaw 一樣（±25°）  ry 3.142 yaw 3.142
+PASS [C 一盞] 互動鍵不是別家（「離開一盞」）  []
+PASS [C 一盞] 時間照清單扣：「約 10 分鐘」，G.hour 跳了 10.0 分鐘（±1）  [[12.0682, 12.1516], [12.1516, 12.0682], [12.0682, 12.2349]]
+PASS [黑畫面] C_03_一盞 不是黑畫面（平均亮度 68.1、變化 47.3）  [68.1, 47.3]
+  [ 149.2s] [C SUNNY SIDE] 這一版沒有這一筆，跳過
+  [ 149.2s] [C 阿德影印輸出] 這一版沒有這一筆，跳過
+  [ 149.2s] [C 林家乾麵] 這一版沒有這一筆，跳過
+  [ 149.2s] [C 小路] 這一版沒有這一筆，跳過
+  [ 149.2s] [C 帝大紅茶] 這一版沒有這一筆，跳過
+  [ 149.2s] [C 夏日冰菓室] 這一版沒有這一筆，跳過
+  [ 149.2s] [C 溫州書屋] 這一版沒有這一筆，跳過
+PASS [WZQ] 沒有 JS 例外  []
+FAILED 1: [C] 快速前往列出溫州街全部 11 間

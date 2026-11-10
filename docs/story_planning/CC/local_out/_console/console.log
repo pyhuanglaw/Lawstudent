@@ -489,3 +489,12 @@
 [07:27:17] ==== START WZQ_old  (probe @ c17a9919ec13ff237181709df0a3ee70e4e4d5e2) ====
 [07:27:20] [res] cpu=0% mem=47% (15.0/31.4 GB) chrome_testing=8  START WZQ_old
 [07:27:52] [res] cpu=3% mem=46% (14.6/31.4 GB) chrome_testing=9  END TZP_fps
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3d29a61e9..5c748fba2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[07:27:58] ==== END   TZP_fps  exit=0  115s   ====
+[07:28:07] memory 47% before starting TZQ_go_old (2 running)
+[07:28:07] ==== START TZQ_go_old  (probe @ c17a9919ec13ff237181709df0a3ee70e4e4d5e2) ====
+[07:28:10] [res] cpu=1% mem=47% (14.8/31.4 GB) chrome_testing=9  START TZQ_go_old
+[07:29:02] 正在跑：WZQ_new（已跑 3 分／上限 15 分）、WZQ_old（已跑 1 分／上限 10 分）、TZQ_go_old（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[07:30:23] [res] cpu=10% mem=48% (15.1/31.4 GB) chrome_testing=10  END WZQ_old
