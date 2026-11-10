@@ -1,0 +1,1145 @@
+{
+ "sha": "",
+ "day": "2025-10-18",
+ "hours": [
+  14.0,
+  21.0
+ ],
+ "shops": [
+  {
+   "key": "cvs",
+   "name": "日和便利店",
+   "group": "gen5",
+   "zone": "cvs",
+   "day": "2025-10-18",
+   "shots": {},
+   "notes": [],
+   "zinfo": {
+    "zone": "cvs",
+    "center": [
+     -1.44,
+     1.6
+    ],
+    "spawn": [
+     0.4,
+     3.5
+    ],
+    "levels": [],
+    "exits": [
+     {
+      "label": "離開日和便利店",
+      "x": 0.4,
+      "z": 4.9,
+      "lv": 0,
+      "to": "gongguan",
+      "spawn": {
+       "x": -29.4,
+       "z": 18,
+       "yaw": 3.142,
+       "lv": 0
+      }
+     }
+    ],
+    "street": {
+     "label": "離開日和便利店",
+     "x": 0.4,
+     "z": 4.9,
+     "lv": 0,
+     "to": "gongguan",
+     "spawn": {
+      "x": -29.4,
+      "z": 18,
+      "yaw": 3.142,
+      "lv": 0
+     }
+    }
+   },
+   "cards_all": [
+    {
+     "name": "cvs_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "cvs_glass",
+     "pview": null,
+     "c": [
+      0.307,
+      1.145,
+      -1.121
+     ],
+     "size": [
+      10.53,
+      2.05,
+      8.55
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "GLASS_front",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "cvs_glass",
+     "pview": null,
+     "c": [
+      -1.185,
+      1.385,
+      5.439
+     ],
+     "size": [
+      8.23,
+      2.69,
+      0.1
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "VIEWPANE_cvs",
+     "kind": "parallax",
+     "vis": true,
+     "lv": 0,
+     "mat": "",
+     "pview": "cvs",
+     "c": [
+      -1.18,
+      1.4,
+      6.1
+     ],
+     "size": [
+      18.9,
+      7.84,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      -1
+     ],
+     "url": "assets/models/env/views/cvs_day.webp",
+     "photoOn": 1,
+     "depth": 22.4,
+     "loaded": true
+    }
+   ],
+   "dedicated": false,
+   "has_card": true,
+   "views": [
+    {
+     "card": "VIEWPANE_cvs",
+     "kind": "parallax",
+     "url": "assets/models/env/views/cvs_day.webp",
+     "center": [
+      -1.18,
+      1.4,
+      6.1
+     ],
+     "size": [
+      18.9,
+      7.84,
+      0
+     ],
+     "lv": 0,
+     "out": [
+      0.0,
+      1.0
+     ],
+     "virtual": false,
+     "dedicated": false,
+     "inside": {
+      "where": "座位「坐在窗邊吧台」(-4.75, 4.52)，離窗 1.58 m、左右偏 3.57 m",
+      "player": [
+       -4.75,
+       3.92
+      ],
+      "eye": [
+       -4.75,
+       1.2,
+       4.37
+      ],
+      "look": [
+       -4.75,
+       1.15,
+       6.1
+      ]
+     },
+     "shots": {
+      "day": "wv_cvs_day.png",
+      "night": "wv_cvs_night.png",
+      "street": "wv_cvs_street.png"
+     },
+     "url_by_hour": {
+      "day": "assets/models/env/views/cvs_day.webp",
+      "night": "assets/models/env/views/cvs_night.webp"
+     },
+     "street": {
+      "dir": [
+       0.0,
+       -1.0
+      ],
+      "eye": [
+       -29.4,
+       1.6,
+       18
+      ],
+      "look": [
+       -29.4,
+       1.3,
+       -2.0
+      ]
+     }
+    }
+   ],
+   "street": {
+    "zone": "gongguan",
+    "spawn": {
+     "x": -29.4,
+     "z": 18,
+     "yaw": 3.142,
+     "lv": 0
+    },
+    "door": {
+     "label": "進入便利商店",
+     "x": -29.4,
+     "z": 21
+    },
+    "f_in": [
+     0.487,
+     0.873
+    ],
+    "f_st": [
+     0.0,
+     -1.0
+    ],
+    "rot_deg": 180,
+    "shots": [
+     "wv_cvs_street.png"
+    ]
+   }
+  },
+  {
+   "key": "bikeshop",
+   "name": "慢輪單車",
+   "group": "gen5",
+   "zone": "bikeshop",
+   "day": "2025-10-18",
+   "shots": {},
+   "notes": [],
+   "zinfo": {
+    "zone": "bikeshop",
+    "center": [
+     -0.14,
+     1.2
+    ],
+    "spawn": [
+     0.55,
+     4
+    ],
+    "levels": [],
+    "exits": [
+     {
+      "label": "離開慢輪單車",
+      "x": 0.55,
+      "z": 5.2,
+      "lv": 0,
+      "to": "gongguan",
+      "spawn": {
+       "x": -0.3,
+       "z": 18,
+       "yaw": 3.142,
+       "lv": 0
+      }
+     }
+    ],
+    "street": {
+     "label": "離開慢輪單車",
+     "x": 0.55,
+     "z": 5.2,
+     "lv": 0,
+     "to": "gongguan",
+     "spawn": {
+      "x": -0.3,
+      "z": 18,
+      "yaw": 3.142,
+      "lv": 0
+     }
+    }
+   },
+   "cards_all": [
+    {
+     "name": "bk_counter_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "bk_glass",
+     "pview": null,
+     "c": [
+      -0.465,
+      1.14,
+      0.255
+     ],
+     "size": [
+      0.39,
+      0.22,
+      0.27
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "WALL_front_bk_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "bk_glass",
+     "pview": null,
+     "c": [
+      -0.15,
+      1.33,
+      6.25
+     ],
+     "size": [
+      8.5,
+      2.38,
+      0.62
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "VIEWPANE_bikeshop",
+     "kind": "parallax",
+     "vis": true,
+     "lv": 0,
+     "mat": "",
+     "pview": "bikeshop",
+     "c": [
+      0.213,
+      1.7,
+      6.61
+     ],
+     "size": [
+      18.9,
+      7,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      -1
+     ],
+     "url": "assets/models/env/views/bikeshop_day.webp",
+     "photoOn": 1,
+     "depth": 24,
+     "loaded": true
+    }
+   ],
+   "dedicated": false,
+   "has_card": true,
+   "views": [
+    {
+     "card": "VIEWPANE_bikeshop",
+     "kind": "parallax",
+     "url": "assets/models/env/views/bikeshop_day.webp",
+     "center": [
+      0.213,
+      1.7,
+      6.61
+     ],
+     "size": [
+      18.9,
+      7,
+      0
+     ],
+     "lv": 0,
+     "out": [
+      0.0,
+      1.0
+     ],
+     "virtual": false,
+     "dedicated": false,
+     "inside": {
+      "where": "座位「坐一下」(-0.85, 1.12)，離窗 5.49 m、左右偏 1.06 m",
+      "player": [
+       -0.85,
+       1.92
+      ],
+      "eye": [
+       -0.85,
+       1.2,
+       0.97
+      ],
+      "look": [
+       -0.85,
+       1.15,
+       6.61
+      ]
+     },
+     "shots": {
+      "day": "wv_bikeshop_day.png",
+      "night": null,
+      "street": "wv_bikeshop_street.png"
+     },
+     "url_by_hour": {
+      "day": "assets/models/env/views/bikeshop_day.webp"
+     },
+     "street": {
+      "dir": [
+       0.0,
+       -1.0
+      ],
+      "eye": [
+       -0.3,
+       1.6,
+       18
+      ],
+      "look": [
+       -0.3,
+       1.3,
+       -2.0
+      ]
+     }
+    }
+   ],
+   "street": {
+    "zone": "gongguan",
+    "spawn": {
+     "x": -0.3,
+     "z": 18,
+     "yaw": 3.142,
+     "lv": 0
+    },
+    "door": {
+     "label": "進入慢輪單車",
+     "x": -0.3,
+     "z": 21
+    },
+    "f_in": [
+     0.17,
+     0.985
+    ],
+    "f_st": [
+     0.0,
+     -1.0
+    ],
+    "rot_deg": 180,
+    "shots": [
+     "wv_bikeshop_street.png"
+    ]
+   }
+  },
+  {
+   "key": "noodle",
+   "name": "公館燒臘",
+   "group": "gen5",
+   "zone": "noodle",
+   "day": "2025-10-18",
+   "shots": {},
+   "notes": [],
+   "zinfo": {
+    "zone": "noodle",
+    "center": [
+     -2.1,
+     1.02
+    ],
+    "spawn": [
+     0,
+     4.5
+    ],
+    "levels": [],
+    "exits": [
+     {
+      "label": "離開公館燒臘",
+      "x": 0,
+      "z": 5.9,
+      "lv": 0,
+      "to": "gongguan",
+      "spawn": {
+       "x": -63,
+       "z": 18,
+       "yaw": 3.142,
+       "lv": 0
+      }
+     }
+    ],
+    "street": {
+     "label": "離開公館燒臘",
+     "x": 0,
+     "z": 5.9,
+     "lv": 0,
+     "to": "gongguan",
+     "spawn": {
+      "x": -63,
+      "z": 18,
+      "yaw": 3.142,
+      "lv": 0
+     }
+    }
+   },
+   "cards_all": [
+    {
+     "name": "sl_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "sl_glass",
+     "pview": null,
+     "c": [
+      1.44,
+      1.7,
+      3.8
+     ],
+     "size": [
+      0.92,
+      1.56,
+      3.2
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "WALL_front_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "sl_glass",
+     "pview": null,
+     "c": [
+      0,
+      1.35,
+      6.829
+     ],
+     "size": [
+      6,
+      2.42,
+      0.73
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "VIEWPANE_noodle",
+     "kind": "parallax",
+     "vis": true,
+     "lv": 0,
+     "mat": "",
+     "pview": "noodle",
+     "c": [
+      0,
+      2.1,
+      7.3
+     ],
+     "size": [
+      7,
+      4.4,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      -1
+     ],
+     "url": "assets/models/env/views/noodle_day.webp",
+     "photoOn": 1,
+     "depth": 13.31,
+     "loaded": true
+    }
+   ],
+   "dedicated": false,
+   "has_card": true,
+   "views": [
+    {
+     "card": "VIEWPANE_noodle",
+     "kind": "parallax",
+     "url": "assets/models/env/views/noodle_day.webp",
+     "center": [
+      0,
+      2.1,
+      7.3
+     ],
+     "size": [
+      7,
+      4.4,
+      0
+     ],
+     "lv": 0,
+     "out": [
+      0.0,
+      1.0
+     ],
+     "virtual": false,
+     "dedicated": false,
+     "inside": {
+      "where": "座位「坐下吃飯」(-2.1, 4.62)，離窗 2.68 m、左右偏 2.1 m",
+      "player": [
+       -1.55,
+       4.62
+      ],
+      "eye": [
+       -2.1,
+       1.2,
+       4.47
+      ],
+      "look": [
+       -2.1,
+       1.15,
+       7.3
+      ]
+     },
+     "shots": {
+      "day": "wv_noodle_day.png",
+      "night": "wv_noodle_night.png",
+      "street": "wv_noodle_street.png"
+     },
+     "url_by_hour": {
+      "day": "assets/models/env/views/noodle_day.webp",
+      "night": "assets/models/env/views/noodle_night.webp"
+     },
+     "street": {
+      "dir": [
+       0.0,
+       -1.0
+      ],
+      "eye": [
+       -63,
+       1.6,
+       18
+      ],
+      "look": [
+       -63.0,
+       1.3,
+       -2.0
+      ]
+     }
+    }
+   ],
+   "street": {
+    "zone": "gongguan",
+    "spawn": {
+     "x": -63,
+     "z": 18,
+     "yaw": 3.142,
+     "lv": 0
+    },
+    "door": {
+     "label": "進入公館燒臘",
+     "x": -63,
+     "z": 21
+    },
+    "f_in": [
+     0.395,
+     0.919
+    ],
+    "f_st": [
+     0.0,
+     -1.0
+    ],
+    "rot_deg": 180,
+    "shots": [
+     "wv_noodle_street.png"
+    ]
+   }
+  },
+  {
+   "key": "ade",
+   "name": "阿德影印輸出",
+   "group": "gen5",
+   "zone": "wz_print",
+   "day": "2025-10-18",
+   "shots": {},
+   "notes": [],
+   "zinfo": {
+    "zone": "wz_print",
+    "center": [
+     -0.05,
+     1.28
+    ],
+    "spawn": [
+     0,
+     3.65
+    ],
+    "levels": [],
+    "exits": [
+     {
+      "label": "離開影印店",
+      "x": 0,
+      "z": 4.15,
+      "lv": 0,
+      "to": "wenzhou",
+      "spawn": {
+       "x": -8,
+       "z": 4.1,
+       "yaw": 3.142,
+       "lv": 0
+      }
+     }
+    ],
+    "street": {
+     "label": "離開影印店",
+     "x": 0,
+     "z": 4.15,
+     "lv": 0,
+     "to": "wenzhou",
+     "spawn": {
+      "x": -8,
+      "z": 4.1,
+      "yaw": 3.142,
+      "lv": 0
+     }
+    }
+   },
+   "cards_all": [
+    {
+     "name": "ad_desk_items_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "ad_glass",
+     "pview": null,
+     "c": [
+      0.21,
+      0.99,
+      1.22
+     ],
+     "size": [
+      0.48,
+      0.48,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "WALL_front_ad_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "ad_glass",
+     "pview": null,
+     "c": [
+      0,
+      1.285,
+      4.51
+     ],
+     "size": [
+      4,
+      2.33,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "WALL_right_stat_rack_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "ad_glass",
+     "pview": null,
+     "c": [
+      1.69,
+      1.12,
+      2.235
+     ],
+     "size": [
+      0,
+      0.12,
+      1.67
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "VIEWPANE_wz_print",
+     "kind": "parallax",
+     "vis": true,
+     "lv": 0,
+     "mat": "",
+     "pview": "wz_print",
+     "c": [
+      0,
+      1.45,
+      5.2
+     ],
+     "size": [
+      18.9,
+      7.7,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      -1
+     ],
+     "url": "assets/models/env/views/wz_print_day.webp",
+     "photoOn": 1,
+     "depth": 10,
+     "loaded": true
+    }
+   ],
+   "dedicated": false,
+   "has_card": true,
+   "views": [
+    {
+     "card": "VIEWPANE_wz_print",
+     "kind": "parallax",
+     "url": "assets/models/env/views/wz_print_day.webp",
+     "center": [
+      0,
+      1.45,
+      5.2
+     ],
+     "size": [
+      18.9,
+      7.7,
+      0
+     ],
+     "lv": 0,
+     "out": [
+      0.0,
+      1.0
+     ],
+     "virtual": false,
+     "dedicated": false,
+     "inside": {
+      "where": "座位「坐下來用電腦」(-0.32, 2.6)，離窗 2.6 m、左右偏 0.32 m",
+      "player": [
+       -0.32,
+       3.15
+      ],
+      "eye": [
+       -0.32,
+       1.2,
+       2.45
+      ],
+      "look": [
+       -0.32,
+       1.15,
+       5.2
+      ]
+     },
+     "shots": {
+      "day": "wv_ade_day.png",
+      "night": "wv_ade_night.png",
+      "street": "wv_ade_street.png"
+     },
+     "url_by_hour": {
+      "day": "assets/models/env/views/wz_print_day.webp",
+      "night": "assets/models/env/views/wz_print_night.webp"
+     },
+     "street": {
+      "dir": [
+       0.0,
+       -1.0
+      ],
+      "eye": [
+       -8,
+       1.6,
+       4.1
+      ],
+      "look": [
+       -8.0,
+       1.3,
+       -15.9
+      ]
+     }
+    }
+   ],
+   "street": {
+    "zone": "wenzhou",
+    "spawn": {
+     "x": -8,
+     "z": 4.1,
+     "yaw": 3.142,
+     "lv": 0
+    },
+    "door": {
+     "label": "進去阿德影印輸出",
+     "x": -8,
+     "z": 4.6
+    },
+    "f_in": [
+     0.017,
+     1.0
+    ],
+    "f_st": [
+     0.0,
+     -1.0
+    ],
+    "rot_deg": 180,
+    "shots": [
+     "wv_ade_street.png"
+    ]
+   }
+  },
+  {
+   "key": "lin",
+   "name": "林家乾麵",
+   "group": "gen5",
+   "zone": "wz_lin",
+   "day": "2025-10-18",
+   "shots": {},
+   "notes": [],
+   "error": "zone"
+  },
+  {
+   "key": "teahouse",
+   "name": "一盞",
+   "group": "tea",
+   "zone": "wz_teahouse",
+   "day": "2025-10-18",
+   "shots": {},
+   "notes": [],
+   "zinfo": {
+    "zone": "wz_teahouse",
+    "center": [
+     -0.23,
+     2.52
+    ],
+    "spawn": [
+     -3,
+     9
+    ],
+    "levels": [],
+    "exits": [
+     {
+      "label": "離開一盞",
+      "x": -3,
+      "z": 9.3,
+      "lv": 0,
+      "to": "wenzhou",
+      "spawn": {
+       "x": -20.5,
+       "z": 4.1,
+       "yaw": 3.142,
+       "lv": 0
+      }
+     }
+    ],
+    "street": {
+     "label": "離開一盞",
+     "x": -3,
+     "z": 9.3,
+     "lv": 0,
+     "to": "wenzhou",
+     "spawn": {
+      "x": -20.5,
+      "z": 4.1,
+      "yaw": 3.142,
+      "lv": 0
+     }
+    }
+   },
+   "cards_all": [
+    {
+     "name": "WALL_engawa_yzn_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "yzn_glass",
+     "pview": null,
+     "c": [
+      0,
+      1.03,
+      5.035
+     ],
+     "size": [
+      8.22,
+      1.94,
+      0.14
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "yzn_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "yzn_glass",
+     "pview": null,
+     "c": [
+      3.6,
+      0.947,
+      1.9
+     ],
+     "size": [
+      0.07,
+      0.14,
+      0.07
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    }
+   ],
+   "dedicated": false,
+   "has_card": false,
+   "views": [
+    {
+     "card": "(前院，沒有窗景卡)",
+     "kind": "yard",
+     "url": null,
+     "center": [
+      2.4,
+      0.9,
+      10.55
+     ],
+     "size": [
+      0,
+      0,
+      0
+     ],
+     "lv": 0,
+     "out": [
+      0.0,
+      1.0
+     ],
+     "virtual": true,
+     "dedicated": false,
+     "inside": {
+      "where": "座位「坐在緣側」(2.4, 5.55)，離窗 0 m、左右偏 0 m",
+      "player": [
+       1.85,
+       5.55
+      ],
+      "eye": [
+       2.4,
+       0.95,
+       5.4
+      ],
+      "look": [
+       2.4,
+       0.9,
+       10.55
+      ]
+     },
+     "shots": {
+      "day": "wv_teahouse_day.png",
+      "night": null,
+      "street": "wv_teahouse_street.png"
+     },
+     "street": {
+      "dir": [
+       0.0,
+       -1.0
+      ],
+      "eye": [
+       -20.5,
+       1.6,
+       4.1
+      ],
+      "look": [
+       -20.5,
+       1.3,
+       -15.9
+      ]
+     }
+    }
+   ],
+   "street": {
+    "zone": "wenzhou",
+    "spawn": {
+     "x": -20.5,
+     "z": 4.1,
+     "yaw": 3.142,
+     "lv": 0
+    },
+    "door": {
+     "label": "進去一盞",
+     "x": -20.5,
+     "z": 4.6
+    },
+    "f_in": [
+     -0.378,
+     0.926
+    ],
+    "f_st": [
+     0.0,
+     -1.0
+    ],
+    "rot_deg": 180,
+    "shots": [
+     "wv_teahouse_street.png"
+    ]
+   }
+  }
+ ]
+}

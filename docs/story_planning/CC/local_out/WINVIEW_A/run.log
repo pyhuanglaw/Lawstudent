@@ -1,0 +1,106 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_winview_audit_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_A\out
+CC WINVIEW-AUDIT（X254 窗景巡拍）：worktree ?；店 ['cvs', 'bikeshop', 'noodle', 'ade', 'lin', 'teahouse']；HOURS=[14.0, 21.0]；DAY=2025-10-18；Windows＋GPU／SwiftShader ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+== cvs 日和便利店（gen5）
+  [前置／捷徑] [日和便利店 cvs] 讀檔 cvs 2025-10-18 14.00（區域出生點；條件事件關掉）
+PASS [日和便利店 cvs] 進得了 cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  42.8s] [日和便利店 cvs] 窗景卡（全部，含藏起來的）3 片：[{"name": "cvs_glass", "kind": "glass", "vis": true, "lv": 0, "c": [0.307, 1.145, -1.121], "size": [10.53, 2.05, 8.55], "url": null}, {"name": "GLASS_front", "kind": "glass", "vis": true, "lv": 0, "c": [-1.185, 1.385, 5.439], "size": [8.23, 2.69, 0.1], "url": null}, {"name": "VIEWPANE_cvs", "kind": "parallax", "vis": true, "lv": 0, "c": [-1.18, 1.4, 6.1], "size": [18.9, 7.84, 0], "url": "assets/models/env/views/cvs_day.webp"}]
+PASS [日和便利店 cvs] 找得到看得見的窗景卡（沒有卡時：玻璃）  [["cvs_glass", "glass", true], ["GLASS_front", "glass", true], ["VIEWPANE_cvs", "parallax", true]]
+  [  42.8s] [日和便利店 cvs] 卡 VIEWPANE_cvs 窗往外 [0.0, 1.0]（+z）；店內站位：座位「坐在窗邊吧台」(-4.75, 4.52)，離窗 1.58 m、左右偏 3.57 m；人放在 [-4.75, 3.92]（第 0 層）；鏡頭 eye [-4.75, 1.2, 4.37] → look [-4.75, 1.15, 6.1]
+  [前置／捷徑] [日和便利店 cvs] 卡 VIEWPANE_cvs 14.00 讀檔把人放到 [-4.75, 3.92]（第 0 層）
+  [  53.9s] [日和便利店 cvs] 卡 VIEWPANE_cvs 14.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/cvs_day.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_cvs_day.png 有存  {"cam": {"eye": [-4.75, 1.2, 4.37], "look": [-4.75, 1.15, 6.1], "lens": 18, "vfov": 58.72}, "lum": [184.2, 48]}
+  [  55.7s] [截圖] wv_cvs_day：鏡頭 {"eye": [-4.75, 1.2, 4.37], "look": [-4.75, 1.15, 6.1], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[184.2, 48]；鏡頭旁藏起來的人 []
+  [前置／捷徑] [日和便利店 cvs] 卡 VIEWPANE_cvs 21.00 讀檔把人放到 [-4.75, 3.92]（第 0 層）
+  [  66.5s] [日和便利店 cvs] 卡 VIEWPANE_cvs 21.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/cvs_night.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_cvs_night.png 有存  {"cam": {"eye": [-4.75, 1.2, 4.37], "look": [-4.75, 1.15, 6.1], "lens": 18, "vfov": 58.72}, "lum": [115.8, 77.1]}
+  [  68.3s] [截圖] wv_cvs_night：鏡頭 {"eye": [-4.75, 1.2, 4.37], "look": [-4.75, 1.15, 6.1], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[115.8, 77.1]；鏡頭旁藏起來的人 []
+PASS [日和便利店 cvs] 有回街上的出口（含出店落點）  [{"label": "離開日和便利店", "x": 0.4, "z": 4.9, "lv": 0, "to": "gongguan", "spawn": {"x": -29.4, "z": 18, "yaw": 3.142, "lv": 0}}]
+  [前置／捷徑] [日和便利店 cvs] 讀檔 gongguan 14.00 出店落點 {"x": -29.4, "z": 18, "yaw": 3.142, "lv": 0}
+PASS [日和便利店 cvs] 到了街上（gongguan）  {"zone": "gongguan", "x": -29.4, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [  94.1s] [日和便利店 cvs] 街景：店門 {"label": "進入便利商店", "x": -29.4, "z": 21}、出店落點 [-29.4, 18]；店裡出口方向 [0.48699066645647804, 0.8734071735360749] ↔ 街上 [0.0, -1.0]（轉 180°）；窗往外 [0.0, 1.0] → 街上看 [0.0, -1.0]；鏡頭 eye [-29.4, 1.6, 18] → look [-29.4, 1.3, -2.0]
+PASS [截圖] wv_cvs_street.png 有存  {"cam": {"eye": [-29.4, 1.6, 18], "look": [-29.4, 1.3, -2], "lens": 18, "vfov": 58.72}, "lum": [150, 44.5]}
+  [  95.9s] [截圖] wv_cvs_street：鏡頭 {"eye": [-29.4, 1.6, 18], "look": [-29.4, 1.3, -2], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[150, 44.5]；鏡頭旁藏起來的人 []
+== bikeshop 慢輪單車（gen5）
+  [前置／捷徑] [慢輪單車 bikeshop] 讀檔 bikeshop 2025-10-18 14.00（區域出生點；條件事件關掉）
+PASS [慢輪單車 bikeshop] 進得了 bikeshop  {"zone": "bikeshop", "x": 0.55, "z": 4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [ 111.2s] [慢輪單車 bikeshop] 窗景卡（全部，含藏起來的）3 片：[{"name": "bk_counter_glass", "kind": "glass", "vis": true, "lv": 0, "c": [-0.465, 1.14, 0.255], "size": [0.39, 0.22, 0.27], "url": null}, {"name": "WALL_front_bk_glass", "kind": "glass", "vis": true, "lv": 0, "c": [-0.15, 1.33, 6.25], "size": [8.5, 2.38, 0.62], "url": null}, {"name": "VIEWPANE_bikeshop", "kind": "parallax", "vis": true, "lv": 0, "c": [0.213, 1.7, 6.61], "size": [18.9, 7, 0], "url": "assets/models/env/views/bikeshop_day.webp"}]
+PASS [慢輪單車 bikeshop] 找得到看得見的窗景卡（沒有卡時：玻璃）  [["bk_counter_glass", "glass", true], ["WALL_front_bk_glass", "glass", true], ["VIEWPANE_bikeshop", "parallax", true]]
+  [ 111.2s] [慢輪單車 bikeshop] 卡 VIEWPANE_bikeshop 窗往外 [0.0, 1.0]（+z）；店內站位：座位「坐一下」(-0.85, 1.12)，離窗 5.49 m、左右偏 1.06 m；人放在 [-0.85, 1.92]（第 0 層）；鏡頭 eye [-0.85, 1.2, 0.97] → look [-0.85, 1.15, 6.61]
+  [前置／捷徑] [慢輪單車 bikeshop] 卡 VIEWPANE_bikeshop 14.00 讀檔把人放到 [-0.85, 1.92]（第 0 層）
+  [ 122.7s] [慢輪單車 bikeshop] 卡 VIEWPANE_bikeshop 14.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/bikeshop_day.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_bikeshop_day.png 有存  {"cam": {"eye": [-0.85, 1.2, 0.97], "look": [-0.85, 1.15, 6.61], "lens": 18, "vfov": 58.72}, "lum": [120.2, 43.8]}
+  [ 124.9s] [截圖] wv_bikeshop_day：鏡頭 {"eye": [-0.85, 1.2, 0.97], "look": [-0.85, 1.15, 6.61], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[120.2, 43.8]；鏡頭旁藏起來的人 []
+  [前置／捷徑] [慢輪單車 bikeshop] 卡 VIEWPANE_bikeshop 21.00 讀檔把人放到 [-0.85, 1.92]（第 0 層）
+  [ 135.9s] [慢輪單車 bikeshop] 卡 VIEWPANE_bikeshop INFO：21.00 讀檔放不進 bikeshop（{"zone": "gongguan", "x": -0.3, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 21.03}；可能打烊）→ 不拍
+PASS [慢輪單車 bikeshop] 有回街上的出口（含出店落點）  [{"label": "離開慢輪單車", "x": 0.55, "z": 5.2, "lv": 0, "to": "gongguan", "spawn": {"x": -0.3, "z": 18, "yaw": 3.142, "lv": 0}}]
+  [前置／捷徑] [慢輪單車 bikeshop] 讀檔 gongguan 14.00 出店落點 {"x": -0.3, "z": 18, "yaw": 3.142, "lv": 0}
+PASS [慢輪單車 bikeshop] 到了街上（gongguan）  {"zone": "gongguan", "x": -0.3, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [ 149.2s] [慢輪單車 bikeshop] 街景：店門 {"label": "進入慢輪單車", "x": -0.3, "z": 21}、出店落點 [-0.3, 18]；店裡出口方向 [0.1699894157123544, 0.9854458881875617] ↔ 街上 [0.0, -1.0]（轉 180°）；窗往外 [0.0, 1.0] → 街上看 [0.0, -1.0]；鏡頭 eye [-0.3, 1.6, 18] → look [-0.3, 1.3, -2.0]
+PASS [截圖] wv_bikeshop_street.png 有存  {"cam": {"eye": [-0.3, 1.6, 18], "look": [-0.3, 1.3, -2], "lens": 18, "vfov": 58.72}, "lum": [141.2, 50.5]}
+  [ 151.1s] [截圖] wv_bikeshop_street：鏡頭 {"eye": [-0.3, 1.6, 18], "look": [-0.3, 1.3, -2], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[141.2, 50.5]；鏡頭旁藏起來的人 []
+== noodle 公館燒臘（gen5）
+  [前置／捷徑] [公館燒臘 noodle] 讀檔 noodle 2025-10-18 14.00（區域出生點；條件事件關掉）
+PASS [公館燒臘 noodle] 進得了 noodle  {"zone": "noodle", "x": 0, "z": 4.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [ 165.4s] [公館燒臘 noodle] 窗景卡（全部，含藏起來的）3 片：[{"name": "sl_glass", "kind": "glass", "vis": true, "lv": 0, "c": [1.44, 1.7, 3.8], "size": [0.92, 1.56, 3.2], "url": null}, {"name": "WALL_front_glass", "kind": "glass", "vis": true, "lv": 0, "c": [0, 1.35, 6.829], "size": [6, 2.42, 0.73], "url": null}, {"name": "VIEWPANE_noodle", "kind": "parallax", "vis": true, "lv": 0, "c": [0, 2.1, 7.3], "size": [7, 4.4, 0], "url": "assets/models/env/views/noodle_day.webp"}]
+PASS [公館燒臘 noodle] 找得到看得見的窗景卡（沒有卡時：玻璃）  [["sl_glass", "glass", true], ["WALL_front_glass", "glass", true], ["VIEWPANE_noodle", "parallax", true]]
+  [ 165.4s] [公館燒臘 noodle] 卡 VIEWPANE_noodle 窗往外 [0.0, 1.0]（+z）；店內站位：座位「坐下吃飯」(-2.1, 4.62)，離窗 2.68 m、左右偏 2.1 m；人放在 [-1.55, 4.62]（第 0 層）；鏡頭 eye [-2.1, 1.2, 4.47] → look [-2.1, 1.15, 7.3]
+  [前置／捷徑] [公館燒臘 noodle] 卡 VIEWPANE_noodle 14.00 讀檔把人放到 [-1.55, 4.62]（第 0 層）
+  [ 176.7s] [公館燒臘 noodle] 卡 VIEWPANE_noodle 14.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/noodle_day.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_noodle_day.png 有存  {"cam": {"eye": [-2.1, 1.2, 4.47], "look": [-2.1, 1.15, 7.3], "lens": 18, "vfov": 58.72}, "lum": [144.8, 48.5]}
+  [ 178.5s] [截圖] wv_noodle_day：鏡頭 {"eye": [-2.1, 1.2, 4.47], "look": [-2.1, 1.15, 7.3], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[144.8, 48.5]；鏡頭旁藏起來的人 []
+  [前置／捷徑] [公館燒臘 noodle] 卡 VIEWPANE_noodle 21.00 讀檔把人放到 [-1.55, 4.62]（第 0 層）
+  [ 189.4s] [公館燒臘 noodle] 卡 VIEWPANE_noodle 21.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/noodle_night.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_noodle_night.png 有存  {"cam": {"eye": [-2.1, 1.2, 4.47], "look": [-2.1, 1.15, 7.3], "lens": 18, "vfov": 58.72}, "lum": [72.6, 45.9]}
+  [ 191.1s] [截圖] wv_noodle_night：鏡頭 {"eye": [-2.1, 1.2, 4.47], "look": [-2.1, 1.15, 7.3], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[72.6, 45.9]；鏡頭旁藏起來的人 []
+PASS [公館燒臘 noodle] 有回街上的出口（含出店落點）  [{"label": "離開公館燒臘", "x": 0, "z": 5.9, "lv": 0, "to": "gongguan", "spawn": {"x": -63, "z": 18, "yaw": 3.142, "lv": 0}}]
+  [前置／捷徑] [公館燒臘 noodle] 讀檔 gongguan 14.00 出店落點 {"x": -63, "z": 18, "yaw": 3.142, "lv": 0}
+PASS [公館燒臘 noodle] 到了街上（gongguan）  {"zone": "gongguan", "x": -63, "z": 18, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [ 205.5s] [公館燒臘 noodle] 街景：店門 {"label": "進入公館燒臘", "x": -63, "z": 21}、出店落點 [-63, 18]；店裡出口方向 [0.3952819064970537, 0.9185598589074392] ↔ 街上 [0.0, -1.0]（轉 180°）；窗往外 [0.0, 1.0] → 街上看 [0.0, -1.0]；鏡頭 eye [-63, 1.6, 18] → look [-63.0, 1.3, -2.0]
+PASS [截圖] wv_noodle_street.png 有存  {"cam": {"eye": [-63, 1.6, 18], "look": [-63, 1.3, -2], "lens": 18, "vfov": 58.72}, "lum": [155.5, 40.4]}
+  [ 207.4s] [截圖] wv_noodle_street：鏡頭 {"eye": [-63, 1.6, 18], "look": [-63, 1.3, -2], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[155.5, 40.4]；鏡頭旁藏起來的人 []
+== ade 阿德影印輸出（gen5）
+  [前置／捷徑] [阿德影印輸出 wz_print] 讀檔 wz_print 2025-10-18 14.00（區域出生點；條件事件關掉）
+PASS [阿德影印輸出 wz_print] 進得了 wz_print  {"zone": "wz_print", "x": 0, "z": 3.65, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開影印店", "stand": true, "fb": 0, "hour": 14.07}
+  [ 222.4s] [阿德影印輸出 wz_print] 窗景卡（全部，含藏起來的）4 片：[{"name": "ad_desk_items_glass", "kind": "glass", "vis": true, "lv": 0, "c": [0.21, 0.99, 1.22], "size": [0.48, 0.48, 0], "url": null}, {"name": "WALL_front_ad_glass", "kind": "glass", "vis": true, "lv": 0, "c": [0, 1.285, 4.51], "size": [4, 2.33, 0], "url": null}, {"name": "WALL_right_stat_rack_glass", "kind": "glass", "vis": true, "lv": 0, "c": [1.69, 1.12, 2.235], "size": [0, 0.12, 1.67], "url": null}, {"name": "VIEWPANE_wz_print", "kind": "parallax", "vis": true, "lv": 0, "c": [0, 1.45, 5.2], "size": [18.9, 7.7, 0], "url": "assets/models/env/views/wz_print_day.webp"}]
+PASS [阿德影印輸出 wz_print] 找得到看得見的窗景卡（沒有卡時：玻璃）  [["ad_desk_items_glass", "glass", true], ["WALL_front_ad_glass", "glass", true], ["WALL_right_stat_rack_glass", "glass", true], ["VIEWPANE_wz_print", "parallax", true]]
+  [ 222.4s] [阿德影印輸出 wz_print] 卡 VIEWPANE_wz_print 窗往外 [0.0, 1.0]（+z）；店內站位：座位「坐下來用電腦」(-0.32, 2.6)，離窗 2.6 m、左右偏 0.32 m；人放在 [-0.32, 3.15]（第 0 層）；鏡頭 eye [-0.32, 1.2, 2.45] → look [-0.32, 1.15, 5.2]
+  [前置／捷徑] [阿德影印輸出 wz_print] 卡 VIEWPANE_wz_print 14.00 讀檔把人放到 [-0.32, 3.15]（第 0 層）
+  [ 234.0s] [阿德影印輸出 wz_print] 卡 VIEWPANE_wz_print 14.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/wz_print_day.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_ade_day.png 有存  {"cam": {"eye": [-0.32, 1.2, 2.45], "look": [-0.32, 1.15, 5.2], "lens": 18, "vfov": 58.72}, "lum": [130.2, 46]}
+  [ 236.0s] [截圖] wv_ade_day：鏡頭 {"eye": [-0.32, 1.2, 2.45], "look": [-0.32, 1.15, 5.2], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[130.2, 46]；鏡頭旁藏起來的人 ["?"]
+  [前置／捷徑] [阿德影印輸出 wz_print] 卡 VIEWPANE_wz_print 21.00 讀檔把人放到 [-0.32, 3.15]（第 0 層）
+  [ 246.9s] [阿德影印輸出 wz_print] 卡 VIEWPANE_wz_print 21.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/wz_print_night.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_ade_night.png 有存  {"cam": {"eye": [-0.32, 1.2, 2.45], "look": [-0.32, 1.15, 5.2], "lens": 18, "vfov": 58.72}, "lum": [97.4, 52]}
+  [ 248.8s] [截圖] wv_ade_night：鏡頭 {"eye": [-0.32, 1.2, 2.45], "look": [-0.32, 1.15, 5.2], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[97.4, 52]；鏡頭旁藏起來的人 []
+PASS [阿德影印輸出 wz_print] 有回街上的出口（含出店落點）  [{"label": "離開影印店", "x": 0, "z": 4.15, "lv": 0, "to": "wenzhou", "spawn": {"x": -8, "z": 4.1, "yaw": 3.142, "lv": 0}}]
+  [前置／捷徑] [阿德影印輸出 wz_print] 讀檔 wenzhou 14.00 出店落點 {"x": -8, "z": 4.1, "yaw": 3.142, "lv": 0}
+PASS [阿德影印輸出 wz_print] 到了街上（wenzhou）  {"zone": "wenzhou", "x": -8, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進去阿德影印輸出", "stand": true, "fb": 0, "hour": 14.04}
+  [ 274.1s] [阿德影印輸出 wz_print] 街景：店門 {"label": "進去阿德影印輸出", "x": -8, "z": 4.6}、出店落點 [-8, 4.1]；店裡出口方向 [0.017418959554256166, 0.9998482784143039] ↔ 街上 [0.0, -1.0]（轉 180°）；窗往外 [0.0, 1.0] → 街上看 [0.0, -1.0]；鏡頭 eye [-8, 1.6, 4.1] → look [-8.0, 1.3, -15.9]
+PASS [截圖] wv_ade_street.png 有存  {"cam": {"eye": [-8, 1.6, 4.1], "look": [-8, 1.3, -15.9], "lens": 18, "vfov": 58.72}, "lum": [85.5, 41.7]}
+  [ 276.4s] [截圖] wv_ade_street：鏡頭 {"eye": [-8, 1.6, 4.1], "look": [-8, 1.3, -15.9], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[85.5, 41.7]；鏡頭旁藏起來的人 []
+== lin 林家乾麵（gen5）
+  [前置／捷徑] [林家乾麵 wz_lin] 讀檔 wz_lin 2025-10-18 14.00（區域出生點；條件事件關掉）
+FAIL [林家乾麵 wz_lin] 進得了 wz_lin  {"zone": "wenzhou", "x": 35, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進去林家乾麵", "stand": true, "fb": 0, "hour": 14.04}
+== teahouse 一盞（tea）
+  [前置／捷徑] [一盞 wz_teahouse] 讀檔 wz_teahouse 2025-10-18 14.00（區域出生點；條件事件關掉）
+PASS [一盞 wz_teahouse] 進得了 wz_teahouse  {"zone": "wz_teahouse", "x": -3, "z": 9, "y": -0.42, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開一盞", "stand": true, "fb": 0, "hour": 14.07}
+  [ 305.4s] [一盞 wz_teahouse] 窗景卡（全部，含藏起來的）2 片：[{"name": "WALL_engawa_yzn_glass", "kind": "glass", "vis": true, "lv": 0, "c": [0, 1.03, 5.035], "size": [8.22, 1.94, 0.14], "url": null}, {"name": "yzn_glass", "kind": "glass", "vis": true, "lv": 0, "c": [3.6, 0.947, 1.9], "size": [0.07, 0.14, 0.07], "url": null}]
+  [ 305.4s] [一盞 wz_teahouse] 「坐在緣側」：[{"label": "坐在緣側", "x": 0.6, "z": 5.55, "lv": 0, "sx": 0.6, "sz": 5.55, "sy": null, "slv": 0, "row": null, "ap": [0.6, 6.05], "lift": 0}, {"label": "坐在緣側", "x": 2.4, "z": 5.55, "lv": 0, "sx": 2.4, "sz": 5.55, "sy": null, "slv": 0, "row": null, "ap": [1.85, 5.55], "lift": 0}]；（窗景卡 ["WALL_engawa_yzn_glass", "yzn_glass"]）
+PASS [一盞 wz_teahouse] 有緣側的座位（往前院看的位置）  [{"label": "坐下喝茶", "x": -2.5, "z": 0.95, "lv": 0, "sx": -2.5, "sz": 0.95, "sy": null, "slv": 0, "row": null, "ap": [-3.05, 0.95], "lift": 0}, {"label": "坐下喝茶", "x": -1.6, "z": 0.95, "lv": 0, "sx": -1.6, "sz": 0.95, "sy": null, "slv": 0, "row": null, "ap": [-1.6, 0.35], "lift": 0}, {"label": "坐下喝茶", "x": -0.7, "z": 0.95, "lv": 0, "sx": -0.7, "sz": 0.95, "sy": null, "slv": 0, "row": null, "ap": [-0.15, 0.95], "lift": 0}, {"label": "坐下喝茶", "x": -2.5, "z": 2.45, "lv": 0, "sx": -2.5, "sz": 2.45, "sy": null, "slv": 0, "row": null, "ap": [-2.5, 3.05], "lift": 0}, {"label": "坐下喝茶", "x": -1.6, "z": 2.45, "lv": 0, "sx": -1.6, "sz": 2.45, "sy": null, "slv": 0, "row": null, "ap": [-1.6, 3.05], "lift": 0}, {"label": "坐下喝茶", "x": -0.7, "z": 2.45, "lv": 0, "sx": -0.7, "sz": 2.45, "sy": null, "slv": 0, "row": null, "ap": [-0.7, 3.05], "lift": 0}, {"label": "坐在水屋旁", "x": 3.05, "z": 3.35, "lv": 0, "sx": 3.05, "sz": 3.35, "sy": null, "slv": 0, "row": null, "ap": [3.05, 3.9], "lift": 0}, {"label": "坐在緣側", "x": 0.6, "z": 5.55, "lv": 0, "sx": 0.6, "sz": 5.55, "sy": null, "slv": 0, "row": null, "ap": [0.6, 6.05], "lift": 0}, {"label": "坐在緣側", "x": 2.4, "z": 5.55, "lv": 0, "sx": 2.4, "sz": 5.55, "sy": null, "slv": 0, "row": null, "ap": [1.85, 5.55], "lift": 0}, {"label": "在和室坐下", "x": -2.15, "z": -3.5, "lv": 0, "sx": -2.15, "sz": -3.5, "sy": null, "slv": 0, "row": null, "ap": [-1.6, -3.5], "lift": 0}, {"label": "在和室坐下", "x": -2.15, "z": -2.1, "lv": 0, "sx": -2.15, "sz": -2.1, "sy": null, "slv": 0, "row": null, "ap": [-2.15, -1.5], "lift": 0}, {"label": "在和室坐下", "x": 2.15, "z": -3.5, "lv": 0, "sx": 2.15, "sz": -3.5, "sy": null, "slv": 0, "row": null, "ap": [2.15, -4.1], "lift": 0}, {"label": "在和室坐下", "x": 2.15, "z": -2.1, "lv": 0, "sx": 2.15, "sz": -2.1, "sy": null, "slv": 0, "row": null, "ap": [2.15, -1.5], "lift": 0}]
+  [ 305.5s] [一盞 wz_teahouse] 卡 (前院，沒有窗景卡) 窗往外 [0.0, 1.0]（+z）；店內站位：座位「坐在緣側」(2.4, 5.55)，離窗 0 m、左右偏 0 m；人放在 [1.85, 5.55]（第 0 層）；鏡頭 eye [2.4, 0.95, 5.4] → look [2.4, 0.9, 10.55]
+  [前置／捷徑] [一盞 wz_teahouse] 卡 (前院，沒有窗景卡) 14.00 讀檔把人放到 [1.85, 5.55]（第 0 層）
+PASS [截圖] wv_teahouse_day.png 有存  {"cam": {"eye": [2.4, 0.95, 5.4], "look": [2.4, 0.9, 10.55], "lens": 18, "vfov": 58.72}, "lum": [77.4, 34.9]}
+  [ 318.9s] [截圖] wv_teahouse_day：鏡頭 {"eye": [2.4, 0.95, 5.4], "look": [2.4, 0.9, 10.55], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[77.4, 34.9]；鏡頭旁藏起來的人 ["?"]
+  [前置／捷徑] [一盞 wz_teahouse] 卡 (前院，沒有窗景卡) 21.00 讀檔把人放到 [1.85, 5.55]（第 0 層）
+  [ 329.8s] [一盞 wz_teahouse] 卡 (前院，沒有窗景卡) INFO：21.00 讀檔放不進 wz_teahouse（{"zone": "wenzhou", "x": -20.5, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進去一盞", "stand": true, "fb": 0, "hour": 21.04}；可能打烊）→ 不拍
+PASS [一盞 wz_teahouse] 有回街上的出口（含出店落點）  [{"label": "離開一盞", "x": -3, "z": 9.3, "lv": 0, "to": "wenzhou", "spawn": {"x": -20.5, "z": 4.1, "yaw": 3.142, "lv": 0}}]
+  [前置／捷徑] [一盞 wz_teahouse] 讀檔 wenzhou 14.00 出店落點 {"x": -20.5, "z": 4.1, "yaw": 3.142, "lv": 0}
+PASS [一盞 wz_teahouse] 到了街上（wenzhou）  {"zone": "wenzhou", "x": -20.5, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進去一盞", "stand": true, "fb": 0, "hour": 14.07}
+  [ 343.3s] [一盞 wz_teahouse] 街景：店門 {"label": "進去一盞", "x": -20.5, "z": 4.6}、出店落點 [-20.5, 4.1]；店裡出口方向 [-0.37820748694952216, 0.9257208525334876] ↔ 街上 [0.0, -1.0]（轉 180°）；窗往外 [0.0, 1.0] → 街上看 [0.0, -1.0]；鏡頭 eye [-20.5, 1.6, 4.1] → look [-20.5, 1.3, -15.9]
+PASS [截圖] wv_teahouse_street.png 有存  {"cam": {"eye": [-20.5, 1.6, 4.1], "look": [-20.5, 1.3, -15.9], "lens": 18, "vfov": 58.72}, "lum": [127.7, 40.1]}
+  [ 345.5s] [截圖] wv_teahouse_street：鏡頭 {"eye": [-20.5, 1.6, 4.1], "look": [-20.5, 1.3, -15.9], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[127.7, 40.1]；鏡頭旁藏起來的人 []
+PASS 沒有 JS 例外  []
+  [ 346.2s] 專屬照片窗景卡的店：[]；JSON：C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_A\out\winview_audit.json
+FAILED 1: [林家乾麵 wz_lin] 進得了 wz_lin
