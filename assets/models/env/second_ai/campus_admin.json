@@ -1,10 +1,10 @@
 {
  "objects": 5,
  "unique_meshes": 5,
- "tris": 19591,
- "tris_drawn": 19591,
+ "tris": 14965,
+ "tris_drawn": 14965,
  "materials": 14,
- "out": "assets/models/env/second_ai/campus_admin.glb",
- "bytes": 1567564,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/hall2/campus_admin.glb",
+ "bytes": 1368944,
  "texres": 512
 }
