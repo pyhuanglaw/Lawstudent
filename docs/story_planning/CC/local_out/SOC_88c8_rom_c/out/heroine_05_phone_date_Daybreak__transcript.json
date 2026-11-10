@@ -1,0 +1,385 @@
+{
+ "pid": "heroine_05",
+ "tag": "phone_date 今天最近（去 Daybreak 吃早午餐）",
+ "rec0": {
+  "day": 21,
+  "hour": 9.2857,
+  "t": 513.2857,
+  "money": 30000,
+  "rel": {
+   "fam": 50,
+   "trust": 35,
+   "comf": 28,
+   "aff": 0,
+   "rom": 35,
+   "npcRom": 35
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 21,
+  "hour": 12.0163,
+  "t": 516.0163,
+  "money": 30000,
+  "rel": {
+   "fam": 53,
+   "trust": 36,
+   "comf": 31,
+   "aff": 0,
+   "rom": 36,
+   "npcRom": 36
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "SHARED_MEAL"
+  ],
+  "zone": "daybreak"
+ },
+ "hours": 2.7305999999999813,
+ "say": [
+  {
+   "n": "",
+   "c": null,
+   "t": "迎面走來一個人，你確定在校園看過。對方也放慢了一步。",
+   "h": 9.317,
+   "d": 21,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（有些人就是這樣，從「好像認識」開始的。）",
+   "h": 9.317,
+   "d": 21,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "學弟，你點。我吃什麼都可以。",
+   "h": 9.775,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她點了一份最快上菜的。）",
+   "h": 9.775,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她吃得很快，吃完看了一眼手錶，又坐下來等你。）",
+   "h": 10.15,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "我想從上面看台北晚上的樣子。",
+   "h": 10.525,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "念了很多年書，我只看過這個城市的白天。",
+   "h": 10.525,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "和圖書館的燈。",
+   "h": 10.525,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "嗯。……沒有車，也沒有空。都不在計畫裡。",
+   "h": 10.525,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "我先回圖書館了。下次慢慢吃。",
+   "h": 10.525,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "",
+   "text": "迎面走來一個人，你確定在校園看過。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "迎面走來一個人，你確定在校園看過。對方也放慢了一步。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（有些人就是這樣，從「好像認識」開始的。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "學弟，你點",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她點了一份最快上菜的。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她吃得",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她吃得很快，吃完看了一眼手錶，又坐下來等你。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "我想從上面",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "我想從上面看台北晚上的樣子。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "念了很多年書，我只看過這個城市的白天。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "和圖書館的燈。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "嗯。……沒有車，也沒有空。都不在計畫裡。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "我先回圖書館了。下次慢慢吃。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "campus",
+  "lv": 0,
+  "pseat": false,
+  "nseat": false,
+  "seatD": null,
+  "sameGroup": false,
+  "doorD": 22.85,
+  "spawnD": 136.06,
+  "npc": false,
+  "nD": null,
+  "nbeh": null,
+  "nleaving": false,
+  "nx": null,
+  "nz": null,
+  "p": [
+   27.14,
+   37.89
+  ],
+  "ptable": null,
+  "ntable": null,
+  "others": [],
+  "othersInfo": []
+ }
+}

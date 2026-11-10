@@ -1,0 +1,558 @@
+{
+ "pid": "heroine_05",
+ "tag": "phone_date 念書（去總圖一起念書）",
+ "rec0": {
+  "day": 21,
+  "hour": 17.0673,
+  "t": 521.0673,
+  "money": 30000,
+  "rel": {
+   "fam": 50,
+   "trust": 35,
+   "comf": 28,
+   "aff": 0,
+   "rom": 35,
+   "npcRom": 35
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 22,
+  "hour": 8.2047,
+  "t": 536.2047,
+  "money": 60000,
+  "rel": {
+   "fam": 53,
+   "trust": 39,
+   "comf": 30,
+   "aff": 0,
+   "rom": 36,
+   "npcRom": 36
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "STUDIED_TOGETHER"
+  ],
+  "zone": "dorm"
+ },
+ "hours": 15.137399999999957,
+ "say": [
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "（小聲）二樓靠窗那排比較安靜。",
+   "h": 17.279,
+   "d": 21,
+   "z": "library_hall",
+   "adv": false
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）",
+   "h": 17.601,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "我在計時寫考古題。你有問題的話，等我寫完這題。",
+   "h": 17.601,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她把一個很舊的計時器放在桌角，按下去。）",
+   "h": 17.601,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（你剛坐下，她抱著一疊考古題站在你旁邊。）",
+   "h": 18.351,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "啊，沒關係，你坐。我常坐這裡，習慣了而已。",
+   "h": 18.351,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她在你旁邊的位子坐下。）",
+   "h": 18.351,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "你在圖書館，也有自己覺得是你的位子嗎？",
+   "h": 18.351,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "最後一排靠窗……",
+   "h": 18.351,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "那種位子坐久了，會有感情。我懂。",
+   "h": 18.351,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "我想從上面看台北晚上的樣子。",
+   "h": 19.101,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "念了很多年書，我只看過這個城市的白天。",
+   "h": 19.101,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "和圖書館的燈。",
+   "h": 19.101,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "嗯。……沒有車，也沒有空。都不在計畫裡。",
+   "h": 19.101,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（她把考古題照年份收回資料夾。）",
+   "h": 19.101,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "溫書瑀",
+   "c": "heroine_05",
+   "t": "讀得不錯，學弟。下次我考你。",
+   "h": 19.101,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "溫書瑀",
+   "text": "（小聲",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": false
+  },
+  {
+   "name": "溫書瑀",
+   "text": "（小聲）二樓靠窗那排比較安靜。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": false
+  },
+  {
+   "name": "",
+   "text": "（你們在",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "（小聲）我在計時寫考古題。你有問題的話，等我",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她把一個很舊的計時器放在桌角，按下去。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（你剛坐",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（你剛坐下，她抱著一疊考古題站在你旁邊。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "（小聲）啊，沒關係，你坐。我常坐這裡，習慣了",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她在你旁邊的位子坐下。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "（小聲）你在圖書館，也有自己覺得是你的位子",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "（小聲）最後一排靠窗……",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "（小聲）那種位子坐久了，會有感情。我懂。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "（小聲）我想從",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "（小聲）念了很多年書，我只看過這個城市的白",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "（小聲）和圖書館的燈。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "（小聲）嗯。……沒有車，也沒有空。都不在計畫裡。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（她把考古題照年份收回資料夾。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "讀得",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "溫書瑀",
+   "text": "讀得不錯，學弟。下次我考你。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "library_hall",
+  "lv": 1,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 2.1,
+  "sameGroup": false,
+  "doorD": 6.11,
+  "spawnD": 10.13,
+  "npc": true,
+  "nD": 2.1,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": -7.02,
+  "nz": 2.2,
+  "p": [
+   -9.13,
+   2.2
+  ],
+  "ptable": null,
+  "ntable": null,
+  "others": [],
+  "othersInfo": []
+ }
+}
