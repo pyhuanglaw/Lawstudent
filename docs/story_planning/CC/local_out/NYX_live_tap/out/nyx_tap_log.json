@@ -1,0 +1,421 @@
+[
+ {
+  "t": 88867,
+  "zone": "xs_nanyang",
+  "h": 11.608,
+  "me": [
+   2.2,
+   -5.2
+  ],
+  "busy": false,
+  "seat": false,
+  "path": 0,
+  "her": {
+   "x": 2.95,
+   "z": -5.2,
+   "frozen": false,
+   "beh": "idle",
+   "vis": true,
+   "path": 0
+  },
+  "depth": 0,
+  "adv": false,
+  "dlg": false,
+  "near": {
+   "l": "進 1 廳",
+   "d": 1.2
+  },
+  "interact": "和沈以安說話",
+  "fb": 0
+ },
+ {
+  "t": 89055,
+  "zone": "xs_nanyang",
+  "h": 11.61,
+  "me": [
+   2.2,
+   -5.2
+  ],
+  "busy": false,
+  "seat": false,
+  "path": 0,
+  "her": {
+   "x": 2.95,
+   "z": -5.2,
+   "frozen": false,
+   "beh": "idle",
+   "vis": true,
+   "path": 0
+  },
+  "depth": 0,
+  "adv": false,
+  "dlg": false,
+  "near": {
+   "l": "進 1 廳",
+   "d": 1.2
+  },
+  "interact": "和沈以安說話",
+  "fb": 0,
+  "rt": 0.02
+ },
+ {
+  "t": 89757,
+  "zone": "xs_nanyang",
+  "h": 11.614,
+  "me": [
+   2.02,
+   -4.23
+  ],
+  "busy": false,
+  "seat": false,
+  "path": 1,
+  "her": {
+   "x": 2.95,
+   "z": -5.2,
+   "frozen": false,
+   "beh": "idle",
+   "vis": true,
+   "path": 0
+  },
+  "depth": 0,
+  "adv": false,
+  "dlg": false,
+  "near": {
+   "l": "坐下等開演",
+   "d": 1.78
+  },
+  "interact": "和沈以安說話",
+  "fb": 0,
+  "rt": 0.72
+ },
+ {
+  "t": 90265,
+  "zone": "xs_nanyang",
+  "h": 11.617,
+  "me": [
+   1.87,
+   -3.43
+  ],
+  "busy": false,
+  "seat": false,
+  "path": 1,
+  "her": {
+   "x": 2.95,
+   "z": -5.2,
+   "frozen": false,
+   "beh": "idle",
+   "vis": true,
+   "path": 0
+  },
+  "depth": 0,
+  "adv": false,
+  "dlg": false,
+  "near": {
+   "l": "坐下等開演",
+   "d": 1.92
+  },
+  "interact": "和沈以安說話",
+  "fb": 0,
+  "rt": 1.23
+ },
+ {
+  "t": 90795,
+  "zone": "xs_nanyang",
+  "h": 11.621,
+  "me": [
+   1.68,
+   -2.43
+  ],
+  "busy": false,
+  "seat": false,
+  "path": 1,
+  "her": {
+   "x": 2.95,
+   "z": -5.2,
+   "frozen": false,
+   "beh": "idle",
+   "vis": true,
+   "path": 0
+  },
+  "depth": 0,
+  "adv": false,
+  "dlg": false,
+  "near": {
+   "l": "坐下等開演",
+   "d": 2.07
+  },
+  "interact": "和沈以安說話",
+  "fb": 0,
+  "rt": 1.76
+ },
+ {
+  "t": 91327,
+  "zone": "xs_nanyang",
+  "h": 11.625,
+  "me": [
+   1.5,
+   -1.48
+  ],
+  "busy": false,
+  "seat": false,
+  "path": 1,
+  "her": {
+   "x": 2.95,
+   "z": -5.2,
+   "frozen": false,
+   "beh": "idle",
+   "vis": true,
+   "path": 0
+  },
+  "depth": 0,
+  "adv": false,
+  "dlg": false,
+  "near": {
+   "l": "坐下等開演",
+   "d": 2.25
+  },
+  "interact": "和沈以安說話",
+  "fb": 0,
+  "rt": 2.29
+ },
+ {
+  "t": 91850,
+  "zone": "xs_nanyang",
+  "h": 11.628,
+  "me": [
+   1.33,
+   -0.54
+  ],
+  "busy": false,
+  "seat": false,
+  "path": 1,
+  "her": {
+   "x": 2.95,
+   "z": -5.2,
+   "frozen": false,
+   "beh": "idle",
+   "vis": false,
+   "path": 0
+  },
+  "depth": 0,
+  "adv": false,
+  "dlg": false,
+  "near": {
+   "l": "坐下等開演",
+   "d": 2.57
+  },
+  "interact": "和沈以安說話",
+  "fb": 0,
+  "rt": 2.81
+ },
+ {
+  "t": 92534,
+  "zone": "xs_nanyang",
+  "h": 11.633,
+  "me": [
+   1.14,
+   0.46
+  ],
+  "busy": false,
+  "seat": false,
+  "path": 1,
+  "her": {
+   "x": 2.95,
+   "z": -5.2,
+   "frozen": false,
+   "beh": "idle",
+   "vis": false,
+   "path": 0
+  },
+  "depth": 0,
+  "adv": false,
+  "dlg": false,
+  "near": {
+   "l": "坐下等開演",
+   "d": 3.2
+  },
+  "interact": "和沈以安說話",
+  "fb": 0,
+  "rt": 3.5
+ },
+ {
+  "t": 93050,
+  "zone": "xs_nanyang",
+  "h": 11.636,
+  "me": [
+   0.97,
+   1.38
+  ],
+  "busy": false,
+  "seat": false,
+  "path": 1,
+  "her": {
+   "x": 2.95,
+   "z": -5.2,
+   "frozen": false,
+   "beh": "idle",
+   "vis": false,
+   "path": 0
+  },
+  "depth": 0,
+  "adv": false,
+  "dlg": false,
+  "near": {
+   "l": "坐下等開演",
+   "d": 3.93
+  },
+  "interact": "和沈以安說話",
+  "fb": 0,
+  "rt": 4.01
+ },
+ {
+  "t": 93564,
+  "zone": "xs_nanyang",
+  "h": 11.64,
+  "me": [
+   0.8,
+   2.29
+  ],
+  "busy": false,
+  "seat": false,
+  "path": 1,
+  "her": {
+   "x": 2.95,
+   "z": -5.2,
+   "frozen": false,
+   "beh": "idle",
+   "vis": false,
+   "path": 0
+  },
+  "depth": 0,
+  "adv": false,
+  "dlg": false,
+  "near": {
+   "l": "出去（新生南路）",
+   "d": 4.33
+  },
+  "interact": "和沈以安說話",
+  "fb": 0,
+  "rt": 4.53
+ },
+ {
+  "t": 94079,
+  "zone": "xs_nanyang",
+  "h": 11.643,
+  "me": [
+   0.63,
+   3.21
+  ],
+  "busy": false,
+  "seat": false,
+  "path": 1,
+  "her": {
+   "x": 2.95,
+   "z": -5.2,
+   "frozen": false,
+   "beh": "idle",
+   "vis": false,
+   "path": 0
+  },
+  "depth": 0,
+  "adv": false,
+  "dlg": false,
+  "near": {
+   "l": "出去（新生南路）",
+   "d": 3.4
+  },
+  "interact": "和沈以安說話",
+  "fb": 0,
+  "rt": 5.04
+ },
+ {
+  "t": 94595,
+  "zone": "xs_nanyang",
+  "h": 11.647,
+  "me": [
+   0.46,
+   4.12
+  ],
+  "busy": false,
+  "seat": false,
+  "path": 1,
+  "her": {
+   "x": 2.95,
+   "z": -5.2,
+   "frozen": false,
+   "beh": "idle",
+   "vis": false,
+   "path": 0
+  },
+  "depth": 0,
+  "adv": false,
+  "dlg": false,
+  "near": {
+   "l": "出去（新生南路）",
+   "d": 2.47
+  },
+  "interact": "和沈以安說話",
+  "fb": 0,
+  "rt": 5.56
+ },
+ {
+  "t": 95196,
+  "zone": "xs_nanyang",
+  "h": 11.651,
+  "me": [
+   0.23,
+   5.08
+  ],
+  "busy": false,
+  "seat": false,
+  "path": 5,
+  "her": {
+   "x": 2.95,
+   "z": -5.2,
+   "frozen": false,
+   "beh": "idle",
+   "vis": false,
+   "path": 0
+  },
+  "depth": 0,
+  "adv": false,
+  "dlg": false,
+  "near": {
+   "l": "出去（新生南路）",
+   "d": 1.49
+  },
+  "interact": "和沈以安說話",
+  "fb": 0,
+  "rt": 6.16
+ },
+ {
+  "t": 95711,
+  "zone": "xs_nanyang",
+  "h": 11.654,
+  "me": [
+   0.01,
+   5.99
+  ],
+  "busy": false,
+  "seat": false,
+  "path": 5,
+  "her": {
+   "x": 2.95,
+   "z": -5.2,
+   "frozen": false,
+   "beh": "idle",
+   "vis": false,
+   "path": 0
+  },
+  "depth": 0,
+  "adv": false,
+  "dlg": false,
+  "near": {
+   "l": "出去（新生南路）",
+   "d": 0.56
+  },
+  "interact": "出去（新生南路）",
+  "fb": 0,
+  "rt": 6.67
+ }
+]
