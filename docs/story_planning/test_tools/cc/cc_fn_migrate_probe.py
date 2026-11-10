@@ -43,7 +43,7 @@ GIFT_ITEM = os.environ.get('GIFT_ITEM') or 'g_bouquet'
 START = [float(v) for v in (os.environ.get('START') or '-40,8').split(',')]
 SAVEDIR = os.path.join(OUT, 'fn_saves')
 META_JS = r"""((pid)=>{ const G=GAME.G, P=GAME.E.player.obj.position; const R=((G.flags||{}).GIFTH)||{}; const M=(typeof SOCIAL!=='undefined'&&SOCIAL.memories)?(SOCIAL.memories(pid)||[]):[];
-  return {zone:G.zone, day:G.day, hour:+(+G.hour).toFixed(2), x:+P.x.toFixed(2), z:+P.z.toFixed(2), lv:GAME.E.player.lv|0, money:G.money|0, ver:(document.body.innerText.match(/v9\.[0-9.]+/)||[''])[0],
+  return {zone:G.zone, day:G.day, hour:+(+G.hour).toFixed(2), x:+P.x.toFixed(2), z:+P.z.toFixed(2), lv:GAME.E.player.lv|0, money:G.money|0, ver:(document.body.textContent.match(/版本 v[0-9.]+/)||[''])[0],
     bag:(R.bag||[]).map(b=>({id:b.id,shop:b.shop,day:b.day})), given:R.given||{}, sent:R.sent||{}, fest:R.fest||{}, giftMem:M.filter(m=>m&&/^GIFT_/.test(m.tag||'')).map(m=>m.tag)}; })"""
 
 
@@ -87,7 +87,8 @@ async def go_her(pg, cdp, tag, pid):
 
 
 async def make(pg, cdp):
-    idx = {}
+    ip = os.path.join(SAVEDIR, 'index.json')   # 同一個 out 分幾次做（CASES 拆開）：接著上一次的 index
+    idx = json.load(open(ip, encoding='utf-8')) if os.path.exists(ip) else {}
     ver = await pg.evaluate("(document.body.innerText.match(/版本 v[0-9.]+/)||[''])[0]"); R.note('[MAKE] 改之前的版本：%s' % ver)
     if '1' in CASES:
         tag = '[MAKE 1]'
