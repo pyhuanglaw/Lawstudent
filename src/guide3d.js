@@ -39,6 +39,7 @@ const GUIDE=(function(){
     [/萬才館|法律系館B/, {zone:'wancai',name:'法律系館B'}],
     [/共同教學館/, {zone:'campus',label:'共同教學館',name:'共同教學館'}],
     [/大一女舍|女舍/, {zone:'campus',label:'大一女舍 A 棟（傳達室）',name:'大一女舍'}],
+    [/新生南路側門（跟小安一起）/, {zone:'cafe',name:'2:30 AM'}],   /* AA_738（X199）：公館那句改成提醒走錯，目標字「往新生南路側門（跟小安一起）」——要去的還是 Café（引路經新生南路）*/
     [/溫州街|兩點半|Café|2:30 AM|咖啡廳/, {zone:'cafe',name:'2:30 AM'}],
     [/自習區|總圖/, LIB2F],
     [/麵店|燒臘/, {zone:'noodle',name:'公館燒臘'}],

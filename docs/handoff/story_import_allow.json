@@ -5240,6 +5240,15 @@
    "task": "GIFT-HOLIDAY-1110",
    "kind": "json",
    "note": "節日送禮第三批：她們送祐廷的（gate、how、people）、山嵐文具區學姊四場（stationery）——tools/gift/import_gift_holiday.py"
+  },
+  {
+   "path": "docs/story_planning/AA_738_溫州街新路線_小安台詞.md",
+   "sha": "3913428f3",
+   "status": "approved",
+   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
+   "task": "WZ-ENTRY-XINSHENG-1103",
+   "kind": "md",
+   "note": "X199 新路線小安台詞三處（出發、公館提醒走錯＋目標字、新生南路一句、豆花搬到側門前）——src/story3d.js 手動照抄"
   }
  ]
 }
