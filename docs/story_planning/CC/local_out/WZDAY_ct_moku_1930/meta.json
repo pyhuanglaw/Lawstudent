@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "WZDAY_ct_moku_1930",
+  "sha": "8be828ca6427c544da0ec942209828066564adba",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_cpu_trace_probe.py",
+  "env": "SOLO=1;ZONE=wz_mokuyobi;HOUR=19.5;SETTLE=30;SECS=20;CPU_THROTTLE=4",
+  "machine": "MSI",
+  "start": "2026-11-10T13:20:49",
+  "end": "2026-11-10T13:23:19",
+  "seconds": 150,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8800/index.html?perf",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 19,
+    "mem": 43,
+    "used_gb": 13.7,
+    "chrome_testing": 5
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
