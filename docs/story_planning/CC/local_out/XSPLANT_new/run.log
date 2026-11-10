@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_campus_view_shot_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\XSPLANT_new\out
+CC 校園定點截圖：worktree ?；TAG new；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀得到存檔 tests/fixtures/user_save_day51b_1110.json
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 xinsheng 14.00 時、站 (13.2, 6.5)；鏡頭直接擺 yaw 0.0 rad、距離 3.0
+  [  51.5s] plant_south：{"yaw": 0, "dist": 3, "cam": [13.2, 2.3, 9.43], "player": [13.2, 0, 6.5], "zone": "xinsheng", "hour": 14.09}
+PASS plant_south 在 xinsheng、玩家在 (13.2, 6.5) 0.6 m 內  {"yaw": 0, "dist": 3, "cam": [13.2, 2.3, 9.43], "player": [13.2, 0, 6.5], "zone": "xinsheng", "hour": 14.09}
+  [  52.2s] plant_south 另一台相機：玩家頭 → (16.5, 0.8, 40.0) fov 62.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 xinsheng 14.00 時、站 (13.2, 13.5)；鏡頭直接擺 yaw 3.1416 rad、距離 3.0
+  [  68.2s] plant_north：{"yaw": 3.142, "dist": 3, "cam": [13.2, 2.3, 10.57], "player": [13.2, 0, 13.5], "zone": "xinsheng", "hour": 14.1}
+PASS plant_north 在 xinsheng、玩家在 (13.2, 13.5) 0.6 m 內  {"yaw": 3.142, "dist": 3, "cam": [13.2, 2.3, 10.57], "player": [13.2, 0, 13.5], "zone": "xinsheng", "hour": 14.1}
+  [  68.9s] plant_north 另一台相機：玩家頭 → (16.5, 0.8, -20.0) fov 62.0
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 xinsheng 14.00 時、站 (11.5, 10.0)；鏡頭直接擺 yaw 1.5708 rad、距離 3.0
+  [  84.6s] plant_gate：{"yaw": 1.571, "dist": 3, "cam": [14.43, 2.3, 10], "player": [11.5, 0, 10], "zone": "xinsheng", "hour": 14.1}
+PASS plant_gate 在 xinsheng、玩家在 (11.5, 10.0) 0.6 m 內  {"yaw": 1.571, "dist": 3, "cam": [14.43, 2.3, 10], "player": [11.5, 0, 10], "zone": "xinsheng", "hour": 14.1}
+  [  85.3s] plant_gate 另一台相機：玩家頭 → (18.4, 1.6, 10.0) fov 70.0
+PASS 沒有 JS 例外  []
+ALL PASS

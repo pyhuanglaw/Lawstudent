@@ -1,0 +1,50 @@
+{
+ "plant_south": {
+  "yaw": 0,
+  "dist": 3,
+  "cam": [
+   13.2,
+   2.3,
+   9.43
+  ],
+  "player": [
+   13.2,
+   0,
+   6.5
+  ],
+  "zone": "xinsheng",
+  "hour": 14.09
+ },
+ "plant_north": {
+  "yaw": 3.142,
+  "dist": 3,
+  "cam": [
+   13.2,
+   2.3,
+   10.57
+  ],
+  "player": [
+   13.2,
+   0,
+   13.5
+  ],
+  "zone": "xinsheng",
+  "hour": 14.1
+ },
+ "plant_gate": {
+  "yaw": 1.571,
+  "dist": 3,
+  "cam": [
+   14.43,
+   2.3,
+   10
+  ],
+  "player": [
+   11.5,
+   0,
+   10
+  ],
+  "zone": "xinsheng",
+  "hour": 14.1
+ }
+}

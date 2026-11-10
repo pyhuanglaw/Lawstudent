@@ -1458,3 +1458,11 @@
 [21:08:53] [res] cpu=11% mem=42% (13.2/31.4 GB) chrome_testing=5  START XSDOOR_old
 [21:08:53] [res] cpu=10% mem=42% (13.2/31.4 GB) chrome_testing=5  START XSDOOR_new
 [21:09:49] [res] cpu=25% mem=46% (14.2/31.4 GB) chrome_testing=8  END GUI_fix2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8ca6ceb53..bc9f875ba  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:09:55] ==== END   GUI_fix2  exit=0  212s   ====
+[21:09:58] memory 47% before starting XSPLANT_new (2 running)
+[21:09:58] ==== START XSPLANT_new  (probe @ 8d8b475dc3a6b3546853a98fc24b60edb7829989) ====
+[21:10:01] [res] cpu=35% mem=47% (14.8/31.4 GB) chrome_testing=8  START XSPLANT_new
+[21:12:02] [res] cpu=12% mem=41% (13.0/31.4 GB) chrome_testing=5  END XSPLANT_new
