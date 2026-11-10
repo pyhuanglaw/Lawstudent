@@ -25,7 +25,7 @@ R = L.Run('us_class_story', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 USF = "(k=>({EXCHANGE_ROUTE:'US',EXCH_RULE:1,US_DEPARTED:true,US_ARRIVED:true,US_ARRIVED_DAY:STORY.dayOfKey('2028-08-02'),US1:'together',Y4_PATH:'bar',Y4_PATH_DAY:STORY.dayOfKey('2028-06-08')}))()"
 HOOK = r"""(()=>{ if(window.__UC) return; window.__UC={cap:[],say:[]}; const c0=GAME.caption; GAME.caption=function(w,t,ms){ try{ window.__UC.cap.push({w:String(w||''),t:String(t||''),ms:ms||0,z:GAME.G.zone,h:+(+GAME.G.hour).toFixed(3),rt:Date.now()}); }catch(e){} return c0.apply(this,arguments); };
-  const s0=GAME.say; GAME.say=function(w,t){ try{ window.__UC.say.push({n:(w&&w.name)||(typeof w==='string'?w:''),t:String(t||''),z:GAME.G.zone,rt:Date.now()}); }catch(e){} return s0.apply(this,arguments); }; })()"""
+  const s0=GAME.say; GAME.say=function(w,t){ try{ let pd=null; try{ const E=GAME.E, pp=E.player.obj.position, q=(E.npcs||[]).find(n=>n.usWho==='prof'); if(q) pd=+Math.hypot(q.obj.position.x-pp.x,q.obj.position.z-pp.z).toFixed(2); }catch(e){} window.__UC.say.push({n:(w&&w.name)||(typeof w==='string'?w:''),t:String(t||''),z:GAME.G.zone,rt:Date.now(),pd}); }catch(e){} return s0.apply(this,arguments); }; })()"""
 CAST = r"""(()=>{ const E=GAME.E; return (E.npcs||[]).filter(n=>n.usCls||n.leaving).map(n=>{ const p=n.obj.position; return {who:n.usWho||'?',x:+p.x.toFixed(2),z:+p.z.toFixed(2),seat:!!n.seat,leaving:!!n.leaving,beh:n.beh}; }); })()"""
 ME = r"""(()=>{ const E=GAME.E, P=E.player, s=P.seat, z=E.zone||{}; let fb=null, formal=!!z.formal; if(z.group){ const g=z.group.children.find(o=>o.name==='fallback'); fb=g?g.visible:null; }
   let rc=null; if(s&&z.seats){ const q=z.seats.find(t=>Math.abs(t.x-s.x)<0.01&&Math.abs(t.z-s.z)<0.01); if(q) rc=[q.row,q.col]; }
@@ -203,7 +203,9 @@ async def main():
                     R.note('%s 教授位置（每秒）：%s' % (tag, J(prof[:60])))
                     if case == 'FINAL':
                         R.check('%s 選了 b（只講…）' % tag, any('只講' in (x or '') for x in picked), J(picked))
-                        door = [q for q in prof if q[2] > 6.0]; R.check('%s 選 b：教授起身走到門口（z > 6）' % tag, bool(door), J(prof[-5:]))
+                        gc = [x for x in said if 'Good choice' in x['t']]   # r3（BB 21:41，US-FINAL-PROF-PASS-1110；8f1374ba0：旁白前先等教授走到玩家 1.4 m 內，最多 7 秒）：稿是「教授經過你旁邊」
+                        R.note('%s 「Good choice.」那一句：%s；教授離玩家（說每一句時）%s' % (tag, J(gc), J([[x['t'][:12], x.get('pd')] for x in said])))
+                        R.check('%s 選 b：「Good choice.」那一句出來時教授離玩家 1.5 m 以內' % tag, bool(gc) and gc[0].get('pd') is not None and gc[0]['pd'] <= 1.5, J(gc))
                     R.check('%s 演完回到 us_campus' % tag, me['zone'] == 'us_campus', J(me))
             except Exception as e:
                 R.check('%s 沒有中斷' % tag, False, repr(e)[:300])
