@@ -1041,3 +1041,11 @@
 [19:28:50] ==== START FAIRTENT_new  (probe @ f3b47894b3b10643fb91fd30be70bc28cad68035) ====
 [19:28:53] [res] cpu=22% mem=46% (14.3/31.4 GB) chrome_testing=9  START FAIRTENT_new
 [19:30:59] [res] cpu=21% mem=47% (14.9/31.4 GB) chrome_testing=10  END GGDC_tree3c_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       000b03fd4..52e83321e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:31:06] ==== END   GGDC_tree3c_new  exit=0  208s   ====
+[19:31:10] memory 42% before starting FAIRTENT_old (2 running)
+[19:31:10] ==== START FAIRTENT_old  (probe @ 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43) ====
+[19:31:13] [res] cpu=15% mem=42% (13.2/31.4 GB) chrome_testing=5  START FAIRTENT_old
+[19:31:17] [res] cpu=20% mem=43% (13.3/31.4 GB) chrome_testing=5  END GGDC_tree3c_old

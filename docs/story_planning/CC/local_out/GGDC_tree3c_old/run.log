@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canopy_shot_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GGDC_tree3c_old\out
+CC 樹冠網點：worktree ?；TAG c_old；campus (-40.0,6.5)；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 campus (-40.0,6.5) 2025-10-18 14.0 時
+PASS 沒在騎車
+  [  47.1s] 附近的樹冠網格（前 8）：[{"name": "bell_pstone", "see": true, "min": [-39.62, 0, 13.27], "max": [-36.38, 3.92, 18.05], "c": [-38, 1.96, 15.66], "d": 9.4}, {"name": "adm_col", "see": true, "min": [-61.47, 0, 21.91], "max": [-14.53, 4.8, 25.69], "c": [-38, 2.4, 23.8], "d": 17.4}, {"name": "trees_camphor_a_leaf#0", "see": false, "min": [-54.37, 2.13, 18.06], "max": [-47.4, 8.22, 24.95], "c": [-50.88, 5.17, 21.51], "d": 18.5}, {"name": "trees_camphor_a_leaf#3", "see": false, "min": [-64.49, 3.19, 8.42], "max": [-44.43, 12.33, 28.39], "c": [-54.46, 7.76, 18.4], "d": 18.7}, {"name": "adm_pier", "see": true, "min": [-61.39, 0.4, 25], "max": [-14.61, 4.2, 25.6], "c": [-38, 2.3, 25.3], "d": 18.9}, {"name": "trees_camphor_a_bark#0", "see": true, "min": [-53.79, -0.03, 19.72], "max": [-49.54, 5.42, 23.49], "c": [-51.67, 2.69, 21.6], "d": 19.1}, {"name": "trees_camphor_a_bark#3", "see": true, "min": [-61.84, -0.05, 13.65], "max": [-50, 8.13, 24.97], "c": [-55.92, 4.04, 19.31], "d": 20.4}, {"name": "trees_camphor_b_bark#0", "see": true, "min": [-27.2, -0.03, 19], "max": [-22.72, 5.1, 23.46], "c": [-24.96, 2.53, 21.23], "d": 21.1}]
+PASS 40.0 m 內找得到樹冠網格
+  [  47.1s] 樹 1：bell_pstone 中心 [-38, 1.96, 15.66] 高 0.0～3.9、seeThrough True
+  [ 139.2s] 走不到「走到樹 1 正下方」：最後位置 (-40.51,14)，目標 (-38,16.46)；點地面 16 次、轉鏡頭 0 次、搖桿 19 次
+  [ 139.2s]   這段時間：畫面 3093 格／91 秒、遊戲時間 14.06→14.67、paused=False、開著的面板 []
+  [ 142.3s] 樹 1 遊戲鏡頭（距離 3）：[-42.6, 1.83, 11.85]
+  [ 142.3s] 樹 2：adm_col 中心 [-38, 2.4, 23.8] 高 0.0～4.8、seeThrough True
+  [ 150.1s] 到達「走到樹 2 正下方」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [ 153.0s] 樹 2 遊戲鏡頭（距離 3）：[-40.13, 1.83, 22.22]
+PASS 拍到 2 棵  2
+PASS 沒有 JS 例外  []
+ALL PASS
