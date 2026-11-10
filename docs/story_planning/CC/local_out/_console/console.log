@@ -385,3 +385,19 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [04:40:00] ==== END   GG16r5_new  exit=0  179s   ====
 [04:40:36] [res] cpu=0% mem=33% (10.5/31.4 GB) chrome_testing=0  END GG16r5b_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       580a8668c..e309b7c05  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:40:41] ==== END   GG16r5b_old  exit=0  96s   ====
+[04:40:49] memory 33% before starting MT_info_again_skip (0 running)
+[04:40:49] memory 33% before starting MT_talk0 (1 running)
+[04:40:49] ==== START MT_info_again_skip  (probe @ 354b527b5f0b4e37db85138edca7b8f9c26e7ebd) ====
+[04:40:49] memory 33% before starting MT_talk12 (2 running)
+[04:40:49] ==== START MT_talk0  (probe @ 354b527b5f0b4e37db85138edca7b8f9c26e7ebd) ====
+[04:40:49] ==== START MT_talk12  (probe @ 354b527b5f0b4e37db85138edca7b8f9c26e7ebd) ====
+[04:40:52] [res] cpu=5% mem=33% (10.6/31.4 GB) chrome_testing=0  START MT_talk12
+[04:40:52] [res] cpu=5% mem=33% (10.6/31.4 GB) chrome_testing=0  START MT_info_again_skip
+[04:40:52] [res] cpu=5% mem=33% (10.6/31.4 GB) chrome_testing=0  START MT_talk0
+[04:40:52] worktree add 354b527b5f0b4e37db85138edca7b8f9c26e7ebd: invalid reference - fetching main and the commit itself
+[04:41:56] 正在跑：MT_info_again_skip（已跑 1 分／上限 20 分）、MT_talk0（已跑 1 分／上限 25 分）、MT_talk12（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:43:47] [res] cpu=5% mem=46% (14.6/31.4 GB) chrome_testing=10  END MT_talk12
