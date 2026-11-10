@@ -7583,6 +7583,21 @@
    "noDirectIntegrate": false,
    "note": "底 70047bb79；只換 gongguan_shops.glb 裡的 gg_fronts_atlas 一張圖，幾何、UV、其他貼圖 md5 相同；回歸 9 支 ALL PASS。",
    "next": "第 2 包新生南路四塊、第 3 包溫州街四塊＋第二批三塊（溫州書屋、夏日冰菓室、帝大紅茶）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "TINGZHOU-AREA-1110 汀州路商圈第 1 版（X321／X322）：區域、街道模型、使用者指定的八間店、公館入口",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tingzhou_1110/（README、tingzhou_v1.patch、regression.log、Blender 預覽 2 張、招牌對照、貼圖集）"
+   ],
+   "state": "待整合（第 1 版；BB 判 D120；遊戲截圖待 CC）",
+   "noDirectIntegrate": false,
+   "note": "底 25c3039ec、apply --check 乾淨；新區域 tingzhou（tingzhou3d.js、tingzhou_layout.js v3、tingzhou_street.glb 7.2 MB）；五間店面照使用者概念圖；公館加「往汀州路」互動點（不改 zones3d.js）；tests/tingzhou_unit.js 12 項、相關回歸 85 支 ALL PASS。先將就的 9 點寫在 README。",
+   "next": "等使用者回騎樓的決定 → 第 2 版（樓上加密、三間外觀照規格、夜市攤模組、遠景、公館 G10 巷口模型）"
   }
  ]
 }
