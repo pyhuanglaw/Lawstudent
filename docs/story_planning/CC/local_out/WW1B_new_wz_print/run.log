@@ -1,0 +1,10 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wallfade_walls_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WW1B_new_wz_print\out
+CC 牆外往裡拍：worktree ?；TAG new；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [wz_print] 【前置／捷徑】讀檔到 wz_print 2025-10-18 14.0（出生點，先量可走範圍）
+  [  45.5s] [wz_print] 指定站位 (-1.1, -3.55) yaw 255°
+  [前置／捷徑] [wz_print] 【捷徑】讀檔站到 (-1.1, -3.55)
+PASS [wz_print] 牆 @-1.10@-3.55@255 在 wz_print  {"zone": "wz_print", "x": -1.1, "z": -3.55, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, 
+PASS 沒有 JS 例外  []
+ALL PASS
