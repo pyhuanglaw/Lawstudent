@@ -52006,7 +52006,7 @@
    "id": "US-LONG-3D-1110",
    "title": "何俊朗自己的 3D 模型（目前用路人底模；AA_328：圓框眼鏡、背包上奶茶杯鑰匙圈）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "Y3S1",
@@ -52122,7 +52122,7 @@
    "id": "MOVIE-POSTERS-ALL-1110",
    "title": "所有電影海報（AA_730 片單每一段兩部）都放進遊戲；使用者：放完才發布最新版",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -52135,7 +52135,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "72／72 在開發分支；BB 排 CC 回歸全組＋72 張海報載入檢查，PASS 就改已驗收",
+   "next": "BB 11-10 20:08 GO（發布樹 951824630）：72 張載得到、描邊 PASS",
    "xai": {
     "spec": "AA_730 片單（48c0428ab）",
     "branch": "claude/story-planning",
@@ -52640,7 +52640,7 @@
    "id": "MOVIE-REMIND-LATE-1110",
    "title": "約會提醒：人已經到約好的地方（例：南洋戲院大廳→1 廳）或對話在演，不再跳「提醒：…約在…」（BB 11-10 18:15 P3）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
