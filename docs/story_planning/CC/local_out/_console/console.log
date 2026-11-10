@@ -739,3 +739,11 @@
 [18:29:26] [res] cpu=4% mem=47% (15.0/31.4 GB) chrome_testing=10  START GGDC_art_new
 [18:29:26] worktree add d8b669175bcf363974b401e1eed3d6709f2b0949: invalid reference - fetching main and the commit itself
 [18:30:22] [res] cpu=15% mem=47% (15.0/31.4 GB) chrome_testing=9  END X295B_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3d82b2f50..26a6ece7c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:30:30] ==== END   X295B_new  exit=0  275s   ====
+[18:30:33] memory 48% before starting GGDC_art_old (2 running)
+[18:30:33] ==== START GGDC_art_old  (probe @ fe4d893acdb08eb93f93b688380bd0700ff5ad48) ====
+[18:30:36] [res] cpu=5% mem=48% (15.1/31.4 GB) chrome_testing=5  START GGDC_art_old
+[18:31:09] [res] cpu=24% mem=46% (14.6/31.4 GB) chrome_testing=9  END X295B_skip
