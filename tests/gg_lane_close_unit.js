@@ -1,6 +1,7 @@
 // 公館往溫州街那條巷子的巷口關起來（GG-LANE-CLOSE-1110，X199 配套；LAWWW2 帳號 A 11-10；LAWWW 14:21 派）——不需要瀏覽器（D131）。
 // 使用者 X199：溫州街只從新生南路進出、公館往溫州街的巷口「拿掉」。遊戲已經用導航擋住＋一排盆栽，但公館正式模型還看得到巷子往南延伸 → 巷口加一道住戶的鐵門（tools/blender/env_second/gg_lane_gate.py）。
 //   1 有鐵門的正式模型（ASSETS bldg.gg_lane_gate、檔案在、zone_assets 公館有它）
+//   2b 告示牌的字放得進牌子（BB 11-10 P3：一行 9 個字，近看只剩「人巷道 請勿進」→ 兩行）
 //   2 GLB：鐵門擋滿巷口（x −74～−68 兩邊的牆之間，寬 ≥ 5.9 m）、在騎樓店面玻璃那條線往裡（z 22.1～22.5）、高 ≥ 2.2 m；有「私人巷道」告示牌（PLATE_FACE_）
 //   3 遊戲：接上了（gg_lane_gate_glb）；導航和沒有模型時一格都不差（巷口照舊走不進去、騎樓照舊走得通）
 //   4 看得出來關著：站在騎樓往巷子裡看（腰的高度往 +z），先碰到鐵門（z ≈ 22.3），看不到巷子深處
@@ -36,6 +37,13 @@ const sc=HAS?glbScene(glbF):null; if(sc) sc.updateMatrixWorld(true);
     ok=bb.min.x>=-74.01&&bb.max.x<=-67.99&&bb.max.x-bb.min.x>=5.9&&bb.min.z>=22.1&&bb.max.z<=22.5&&bb.max.y>=2.2&&!!plate&&/私人巷道/.test(plate.userData.text||'');
     info=`x ${bb.min.x.toFixed(2)}～${bb.max.x.toFixed(2)}、z ${bb.min.z.toFixed(2)}～${bb.max.z.toFixed(2)}、高 ${bb.max.y.toFixed(2)}；告示牌 ${plate?'「'+plate.userData.text+'」':'沒有'}`; }
   check('2 GLB：鐵門擋滿巷口兩邊的牆之間、在騎樓店面線往裡、高 ≥ 2.2 m；有「私人巷道」告示牌', ok, info); }
+  { /* 字放得進牌子（BB 11-10 P3：近看只剩「人巷道 請勿進」）：照 zones3d.js 的 wzPlateTex 算（橫的牌子：畫布寬＝高×板寬／板高；一行字高＝板高 0.5，有第二行 sub 時第一行 0.34、第二行 0.26；
+       中文字寬約＝字高），每一行的寬 ≤ 畫布寬的 90% */
+    const pl=sc&&sc.getObjectByName('PLATE_FACE_GG_LANE'); if(sc) sc.updateMatrixWorld(true); let fit=false, info2='沒有告示牌';
+    if(pl){ const bb=new THREE.Box3().setFromObject(pl), sz=bb.getSize(new THREE.Vector3()), wM=Math.max(sz.x,sz.z), hM=sz.y, W=wM/hM, d=pl.userData;
+      const lines=d.sub?[[d.text,0.34],[d.sub,0.26]]:[[d.text,0.5]], need=lines.map(([s_,f])=>[...(s_||'')].length*f);
+      fit=need.every(n=>n<=0.9*W); info2=`牌子 ${wM.toFixed(2)}×${hM.toFixed(2)} m（寬是高的 ${W.toFixed(2)} 倍）；每一行要 ${need.map(n=>n.toFixed(2)).join('、')} 倍高`; }
+    check('2b 告示牌的字放得進牌子（每一行 ≤ 寬的 90%）', fit, info2); }
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.renderer={capabilities:{getMaxAnisotropy:()=>8}};
 global.GAME=global.GAME||{}; GAME.G={hour:14,weather:'clear',flags:{},zone:'gongguan',day:30};
 const build=withGate=>{ const pend=[]; ASSETS.loadOne=k=>{ if(withGate&&k===KEY&&HAS){ const p=Promise.resolve({scene:glbScene(glbF)}); pend.push(p); return p; } return new Promise(()=>{}); };

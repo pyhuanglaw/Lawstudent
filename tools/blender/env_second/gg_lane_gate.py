@@ -2,7 +2,7 @@
 使用者 X199（11-03 選擇題）：溫州街只從新生南路進出，公館往溫州街的巷口「拿掉」。LAWWW 11-10 14:21 派：遊戲已經用導航擋住＋一排盆栽（gg_lane_closed_pots），
 但公館正式模型 gongguan_shops.glb 還看得到 6 m 寬的巷子往南延伸——巷口要一看就是進不去（D36：不用隱形牆、不要讓人以為能走）。導航不動。
 做法：巷子裡、騎樓店面玻璃那條線（z 22）往裡 0.3 m，兩邊牆之間（x −74～−68）一道住戶的鐵門（像但不照抄：台北巷弄常見的社區巷道鐵門）：
-  兩根清水混凝土門柱（貼著兩邊的牆）、深綠色烤漆鐵門（下半截鐵板＋橫向壓條、上半截直條＋頂上一排短尖頭）、地上的滑軌、門上掛白底紅字的告示牌「私人巷道 請勿進入」（字由遊戲畫：PLATE_FACE_）。
+  兩根清水混凝土門柱（貼著兩邊的牆）、深綠色烤漆鐵門（下半截鐵板＋橫向壓條、上半截直條＋頂上一排短尖頭）、地上的滑軌、門上掛白底紅字的告示牌「私人巷道／請勿進入」兩行（字由遊戲畫：PLATE_FACE_）。
 座標：公館區域（x 往東、z 往南，y 朝上；店面街 FZ＝19，騎樓 z 19～22），GLB 原點＝區域原點。
   /opt/blenv/bin/python tools/blender/env_second/gg_lane_gate.py [-- --out <glb>]"""
 import os, sys
@@ -64,7 +64,7 @@ def build():
     kit.fbox('misc', PF, -0.62, 0.62, 1.42, 1.86, 0.0, 0.02, col='#d9d6cf')
     plate = Mesh('PLATE_FACE_GG_LANE', M['board']); kit.face(plate, [PF.p(-0.58, 1.46, 0.022), PF.p(0.58, 1.46, 0.022), PF.p(0.58, 1.82, 0.022), PF.p(-0.58, 1.82, 0.022)], PF.N)
     K.finish(accs, root, VC)
-    uv01(plate.finish(root, uv=True, props={'text': '私人巷道 請勿進入', 'bg': '#f6f4ef', 'color': '#b3261e'}))
+    uv01(plate.finish(root, uv=True, props={'text': '私人巷道', 'sub': '請勿進入', 'bg': '#f6f4ef', 'color': '#b3261e'}))   # 兩行（遊戲的 wzPlateTex 第二行 sub）：一行 9 個字放不下 1.16×0.36 m 的牌子，近看只剩「人巷道 請勿進」（BB 11-10 P3）
     VCM = L.vc_material('wz_vc_glg', rough=0.45)
     L.vc_consolidate(root, {'glg_misc': VCM})
     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)

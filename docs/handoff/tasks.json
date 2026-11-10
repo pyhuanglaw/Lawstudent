@@ -50984,7 +50984,7 @@
    "id": "INV-GO-JUMP-1110",
    "title": "一鍵前往約會：跳到約好的時間、帶到那個地點",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -50996,7 +50996,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW 11-10 17:4x】使用者：「一鍵前往一定要在下個版本，你沒做好前就不要發佈」「曖昧要分期 某個程度可以約對方出去校外玩 也一定要在下個版本」→【下一版必須】（D146）：BB 在 PC 驗 PASS（已驗收）才發布。 ｜ 【11-10 02:2x LAWWW-B】invites3d.js S.goTimes（到的時間＝她到的時間，沒開門＝開門那一刻；出發＝到的時間減路程）、S.goNow 先 CLS.skipTo 到出發時間再快速前往（arriveOpen）；game3d.js quickGo o.arriveOpen、手機「今天約好的」還沒開門也給「前往」並寫會先跳到幾點出發；onetap3d.js 當面約的出發時間同一個算法。tests/inv_go_jump_unit.js（修改前 FAIL）；inv_go_opens_unit.js 第 1 項改成新做法（取代 UX-QUICKGO-BEFORE-OPEN-1107）；相關 53 支 ALL PASS。等瀏覽器測試。｜【11-10 01:3x LAWWW-B】使用者 X290。game3d.js invTodayHTML 的「前往」（data-invgo／INV.goTarget）在店還沒開、時間還沒到時只寫幾點開；改成按「前往」＝時間跳到約好的時間前 5～10 分鐘（照跳過時間的規則，遇到更早的課、劇情照停）、帶到那個地點。",
+   "next": "【LAWWW 11-10 17:5x】BB PASS（ecc3e12a7）：真實玩家 08:00 約頁間 12:10 → 前往 → 12:00 到、她在，沒有「還沒開」「時間還沒到」、walkFallbacks 0；flow_inv_go_jump ALL PASS。releasegate 這項可以。 ｜ 【LAWWW 11-10 17:4x】使用者：「一鍵前往一定要在下個版本，你沒做好前就不要發佈」「曖昧要分期 某個程度可以約對方出去校外玩 也一定要在下個版本」→【下一版必須】（D146）：BB 在 PC 驗 PASS（已驗收）才發布。 ｜ 【11-10 02:2x LAWWW-B】invites3d.js S.goTimes（到的時間＝她到的時間，沒開門＝開門那一刻；出發＝到的時間減路程）、S.goNow 先 CLS.skipTo 到出發時間再快速前往（arriveOpen）；game3d.js quickGo o.arriveOpen、手機「今天約好的」還沒開門也給「前往」並寫會先跳到幾點出發；onetap3d.js 當面約的出發時間同一個算法。tests/inv_go_jump_unit.js（修改前 FAIL）；inv_go_opens_unit.js 第 1 項改成新做法（取代 UX-QUICKGO-BEFORE-OPEN-1107）；相關 53 支 ALL PASS。等瀏覽器測試。｜【11-10 01:3x LAWWW-B】使用者 X290。game3d.js invTodayHTML 的「前往」（data-invgo／INV.goTarget）在店還沒開、時間還沒到時只寫幾點開；改成按「前往」＝時間跳到約好的時間前 5～10 分鐘（照跳過時間的規則，遇到更早的課、劇情照停）、帶到那個地點。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
