@@ -22,6 +22,10 @@ LE738_mini | e73888074c | game | tests/minimap_direction.py | index.html?turbo |
 LE738_invphone | e73888074c | game | tests/flow_invite_phone.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
 LE738_invgo | e73888074c | game | tests/flow_inv_go_jump.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
 LE738_touch | e73888074c | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
+# ===== BGN（BB 11-10 08:1x，X288 P0，使用者回報）：BGN-AFTER-HOME-1110 桌遊夜演完被留在出發前的系館（晚上用完應回宿舍睡）。新＝modest-rubin 063592f18、舊＝它的上一個 cdcb2650730；
+#   探針 night（桌遊夜重演）K1～K3 舊 FAIL／新 PASS；day（白天出遊回原地）、eve（14:50～18:20 晚上沒用）、exam（考試週晚上多一次）新舊都要 PASS =====
+BGN_new | 063592f18baec790f772bd64a32835cd98a0a950 | probe | docs/story_planning/test_tools/cc/cc_bgn_after_home_probe.py | index.html | 40 | CC_HEADLESS=0
+BGN_old | cdcb2650730bc9a90563690e63f35e75e63c9fb3 | probe | docs/story_planning/test_tools/cc/cc_bgn_after_home_probe.py | index.html | 40 | CC_HEADLESS=0
 # WW3 夜間 r2（BB 08:1x 第 5 項）：21:00 轉角唱片（12–21）、一盞（12–20）都已打烊，人被留在街上＝TEST_BUG；改 19:30（轉角、阿德 09–22、一盞都還開著、天已經黑）
 WW3B_old_n1930 | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_planning/test_tools/cc/cc_wallfade_walls_probe.py | index.html | 20 | ZONES=corner_records:@-3.3@-0.05@270,wz_print:@-0.2@-3.8@180;DIST=4.5;HOUR=19.5;TAG=oldn1930
 WW3T_old_n1930 | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_planning/test_tools/cc/cc_wallfade_walls_probe.py | index.html | 20 | ZONES=wz_teahouse:@3.65@-4.00@15;DIST=4.0;HOUR=19.5;TAG=oldn1930
