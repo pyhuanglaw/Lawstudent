@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "RAY_1827",
+  "sha": "1827999fb488a30bdaccedaa1561697b3266a498",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_raypick_probe.py",
+  "env": "SPOTS=corner_records@-3.3@-0.05@270@100:338/250:338/400:338/550:338/300:300+wz_print@-0.2@-3.8@180@250:365/400:365/550:365/600:365/450:310;TAG=1827",
+  "machine": "MSI",
+  "start": "2026-11-10T09:55:26",
+  "end": "2026-11-10T09:56:56",
+  "seconds": 90,
+  "exit": 1,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 20,
+    "mem": 53,
+    "used_gb": 16.9,
+    "chrome_testing": 13
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
