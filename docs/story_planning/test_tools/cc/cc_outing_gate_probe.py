@@ -5,6 +5,8 @@
   R15   戀愛 15 →「出去玩…」要亮 → 選第一個地點、今天第一個能選的時間 → 約到底：記答覆、真的出發（手機「今天」的「現在過去」或走過去）、到達目的地（區域換了）、walkFallbacks
   COOL  戀愛 15＋冷淡期（G.flags.V6EX.cool[她]＝{from 昨天, until 30 天後}）→ 要灰掉
 每一項截邀約畫面（usout_<TAG>_<case>.png）。其他全部觸控（手機按鈕、選項）。Playwright（PC GPU）≠ iPhone。
+X315（ROM-NO-PLAYER-ROM-1110，BB 17:46）：X315=1 時人物頁的字照新稿檢查——NF「你們還在互相認識。」、R14／COOL「現在是朋友的感覺」；全程禁止「她還沒有那樣看你」「你還沒有那樣看她」「你好像開始在意她了」；
+  S6 case：rom 0、她的戀愛 npcRom 55、好朋友（fam65 trust50 comf45）→ DATE.stageNum＝6（舊版要 rom≥30＝5，D34 舊 FAIL）。
 用法：LW_TESTS=<wt>/tests TAG=new|old [WHO=heroine_01] [CASES=R14,R15,COOL] python3 cc_outing_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, copy
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -20,11 +22,16 @@ J = lambda o: json.dumps(o, ensure_ascii=False)
 SAVE = os.path.join(HERE, 'fixtures', 'user_saves_1107', 'fatiao3d_save_day46.json')
 
 
-def state(rom, cool, notfriend=False):
+X315 = os.environ.get('X315') == '1'
+BANNED = ['她還沒有那樣看你', '你還沒有那樣看她', '你好像開始在意她了']
+
+
+def state(rom, cool, notfriend=False, close=False):
     s = json.load(open(SAVE, encoding='utf-8')); s = dict(s.get('G', s))
     s['hour'] = 10.0; s['invites'] = []; s['money'] = 3000
     soc = copy.deepcopy(s.get('social') or {}); r = soc.setdefault('rel', {}).setdefault(WHO, {}); r['npcRom'] = rom
     if notfriend: r.update(fam=10, trust=0, comf=0)
+    if close: r.update(fam=65, trust=50, comf=45, rom=0)
     s['social'] = soc
     f = dict(s.get('flags') or {}); f.pop('dating_' + WHO, None)
     v6 = copy.deepcopy(f.get('V6EX') or {})
@@ -49,14 +56,28 @@ async def main():
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
         for case in CASES:
-            rom, cool = {'R14': (14, False), 'NF': (14, False), 'R15': (15, False), 'COOL': (15, True)}[case]
-            await L.load_state(pg, state(rom, cool, case == 'NF'), quiet_phone=True); await pg.wait_for_timeout(3000); await pe.settle(pg, cdp, [], 30)
+            rom, cool = {'R14': (14, False), 'NF': (14, False), 'R15': (15, False), 'COOL': (15, True), 'S6': (55, False)}[case]
+            await L.load_state(pg, state(rom, cool, case == 'NF', case == 'S6'), quiet_phone=True); await pg.wait_for_timeout(3000); await pe.settle(pg, cdp, [], 30)
             R.setup('【前置／捷徑】day46 存檔、10:00、清邀約；%s 的戀愛 npcRom＝%d%s；拿掉 dating_%s' % (WHO, rom, '＋冷淡期（V6EX.cool：昨天起 30 天）' if cool else '', WHO))
             info = await pg.evaluate("(w=>({rom:(SOCIAL.rel(w)||{}).npcRom, lvl:SOCIAL.friendLevel?SOCIAL.friendLevel(w):null, stage:DATE.stageNum?DATE.stageNum(w):null, cap:(typeof INV!=='undefined'&&INV.capStage)?INV.capStage(GAME.G,w,DATE.stageNum(w)):null, ask:DATE.canAsk?DATE.canAsk(GAME.G,w):null, half:DATE.ASK_ROM_HALF}))(%s)" % J(WHO))
             R.note('[%s] 狀態：%s' % (case, J(info)))
             hint = await pg.evaluate("(w=>{ try{ const q=DATE.progress(GAME.G,w); return q&&q.rom?q.rom.hint:null; }catch(e){ return 'ERR '+e; } })(%s)" % J(WHO))
             R.note('[%s] 人物頁戀愛條提示：%s' % (case, hint))
             if case == 'R15': R.check('[R15] 人物頁過一半寫「她好像開始在意你了」', hint == '她好像開始在意你了', str(hint))
+            if X315:
+                pg_txt = await pg.evaluate("(w=>{ try{ return JSON.stringify(DATE.progress(GAME.G,w)); }catch(e){ return 'ERR '+e; } })(%s)" % J(WHO))
+                R.note('[%s] DATE.progress 全部：%s' % (case, pg_txt))
+                hit = [w for w in BANNED if w in (pg_txt or '')]
+                R.check('[%s] X315：人物頁沒有祐廷自己的戀愛字（%s）' % (case, '／'.join(BANNED)), not hit, J(hit))
+                WH = {'NF': '你們還在互相認識。', 'R14': '現在是朋友的感覺', 'COOL': '現在是朋友的感覺'}
+                if case in WH: R.check('[%s] X315：戀愛條沒過一半的字是「%s」（原文：%s）' % (case, WH[case], hint), hint == WH[case], str(hint))
+            if case == 'S6':
+                R.check('[S6] X315：rom 0、npcRom 55、好朋友 → 第 6 階（stageNum %s）' % info.get('stage'), info.get('stage') == 6, J(info))
+                rr = await pg.evaluate("(w=>{ const r=SOCIAL.rel(w)||{}; return {rom:r.rom, npcRom:r.npcRom, fam:r.fam, trust:r.trust, comf:r.comf, lvl:SOCIAL.friendLevel(w)}; })(%s)" % J(WHO))
+                R.note('[S6] 關係值：%s' % J(rr))
+                await pe.phone(pg, cdp, 'friends'); await pg.wait_for_timeout(800)
+                await pg.screenshot(path=os.path.join(OUT, 'usout_%s_S6_phone.png' % TAG)); await pe.close_phone(pg, cdp)
+                continue
             if hint and '她還沒有那樣看你' in hint: R.note('[%s] 【待 BB 判】人物頁戀愛條沒過一半的提示是「%s」（date3d.js PROG_HINT.npcRom，設計如此；出去玩那句已經換成 AA 的字）' % (case, hint))
             top = await open_top(pg, cdp)
             await pg.screenshot(path=os.path.join(OUT, 'usout_%s_%s.png' % (TAG, case)))
