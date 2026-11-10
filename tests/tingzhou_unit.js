@@ -52,4 +52,24 @@ check('4. 店面玻璃後面、樓房裡面站不住',!freeAt(F.west-F.arcade-0.
 { const p=path.join(ROOT,'assets/models/env/second_ai/tingzhou_street.json'); let J=null; try{ J=JSON.parse(fs.readFileSync(p,'utf8')); }catch(e){}
   const glb=path.join(ROOT,'assets/models/env/second_ai/tingzhou_street.glb'); let imgs=[]; try{ const d=fs.readFileSync(glb), jl=d.readUInt32LE(12); imgs=(JSON.parse(d.slice(20,20+jl).toString('utf8')).images||[]).map(i=>i.name); }catch(e){}
   check('7. 正式模型：樓房數＝店數＋巷 A 三棟；有五間的店面貼圖集（tz_fronts_atlas）',!!J&&J.buildings.length===L.shops.length+3&&L.shops.every(q=>J.buildings.includes('T'+q.id))&&imgs.includes('tz_fronts_atlas'),J?J.buildings.length+' 棟':'沒有 json'); }
+/* 第 2 版（使用者 11-10「混合」）：五間照概念圖沒有騎樓、直接臨人行道；其他老公寓保留騎樓 */
+{ const FIVE=['yuehaochi','keju','dongnan','liantong','wente'], P=TZ3.pillars(L), na=L.shops.filter(q=>q.arcade===false).map(q=>q.id).sort();
+  check('8. 沒有騎樓的正好是使用者指定的五間；其他店都有騎樓柱',na.join()===FIVE.slice().sort().join()&&!P.some(p=>FIVE.includes(p.id))&&L.shops.filter(q=>q.arcade!==false).every(q=>P.some(p=>p.id===q.id)),na.join(' '));
+  const blocked=[]; for(const id of FIVE){ const q=L.shops.find(s=>s.id===id); if(!q) continue; for(let z=q.z0+0.75;z<q.z1-0.5;z+=0.5)   /* 兩端 0.5 m 不算：隔壁有騎樓的樓，柱子在交界上 */ for(let x=F.west-F.arcade+0.75;x<F.west;x+=0.5) if(!freeAt(x,z)) blocked.push(id+'@'+x.toFixed(1)+','+z.toFixed(1)); }
+  check('8. 五間門前的人行道整片走得了（沒有柱子、沒有擋住店門）',!blocked.length,blocked.slice(0,6).join(' '));
+  const p=path.join(ROOT,'assets/models/env/second_ai/tingzhou_street.json'); let J=null; try{ J=JSON.parse(fs.readFileSync(p,'utf8')); }catch(e){}
+  const NA=J&&J.noArcade||{}, bad=FIVE.filter(id=>{ const v=NA['T'+id]; return !v||Math.abs(v[0]-(F.west-F.arcade))>0.01||Math.abs(v[1]-(F.depth-F.arcade))>0.01; });
+  check('8. 正式模型：五間的樓整棟退到店面線（x '+(F.west-F.arcade)+'），其他樓沒有退',!bad.length&&Object.keys(NA).length===5,bad.join(' ')||JSON.stringify(NA)); }
+/* 第 2 版：夜市攤（使用者 11-10：照時間出現、營業、收攤的模組；種類不一樣；不擋固定店家的門口；不是整條封閉的夜市） */
+{ const ST=L.stalls||{list:[]}, glb=path.join(ROOT,'assets/models/env/second_ai/tingzhou_stalls.glb'); let nodes=[]; try{ const d=fs.readFileSync(glb), jl=d.readUInt32LE(12); nodes=(JSON.parse(d.slice(20,20+jl).toString('utf8')).nodes||[]).map(n=>n.name); }catch(e){}
+  const miss=ST.list.filter(q=>!nodes.includes('STALL_'+q.kind+'_open')||!nodes.includes('STALL_'+q.kind+'_closed')).map(q=>q.kind);
+  check('9. 攤位至少十種、種類不重複；每一種在模型裡有營業、收攤兩個節點',ST.list.length>=10&&new Set(ST.list.map(q=>q.kind)).size===ST.list.length&&!miss.length,miss.join(' ')||ST.list.length+' 攤');
+  check('9. 幾點擺：16:59 收著、17:00 營業、23:59 營業、00:00 收',!TZ3.stallsOpen(16.98,L)&&TZ3.stallsOpen(17,L)&&TZ3.stallsOpen(23.98,L)&&!TZ3.stallsOpen(0,L)&&!TZ3.stallsOpen(12,L));
+  check('9. 攤車站的地方擋住（不會穿過攤車）；區域有每一攤的資料給 LAWWW 接看、買',ST.list.every(q=>!freeAt(q.x,q.z))&&Array.isArray(z.tzStalls)&&z.tzStalls.length===ST.list.length,ST.list.filter(q=>freeAt(q.x,q.z)).map(q=>q.id).join(' '));
+  const doors=E.interactables.filter(q=>q.tzShop), near=[]; for(const d of doors) for(const q of ST.list) if(Math.hypot(d.x-q.x,d.z-q.z)<1.6) near.push(q.id+'→'+d.tzShop);
+  const cut=doors.filter(d=>!freeAt(d.x,d.z)||!reach(sp,[d.x,d.z])).map(d=>d.tzShop);
+  check('9. 攤位不擋店門：每一間店門口照舊站得住、走得到；攤車離店門互動點 ≥ 1.6 m',!near.length&&!cut.length,near.concat(cut).join(' '));
+  const A=L.alleys[0]; let narrow=[]; for(let x=F.east+1;x<F.east+A.len-2;x+=0.5){ let n=0; for(let zz=A.z0+0.25;zz<A.z1;zz+=0.5) if(freeAt(x,zz)) n++; if(n*0.5<2.0) narrow.push(x.toFixed(1)+':'+n*0.5); }
+  check('9. 巷 A 擺了攤還留至少 2 m 寬可以走（不是整條堵住）；汀州路的車道沒有攤',!narrow.length&&ST.list.every(q=>q.where==='alleyA'||Math.abs(q.x)>=3.4),narrow.slice(0,5).join(' ')); }
+check('10. 路邊有機車（BB 第 1 版：街上是空的）：至少 60 台、巷 A 口和斑馬線前不停；Z3 有匯出機車模型的函式',z.tzScooters>=60&&typeof Z3.attachWzScooters==='function'&&reach(sp,[F.west-1.5,0])&&freeAt(F.east-0.8,0),String(z.tzScooters));
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

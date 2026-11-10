@@ -353,27 +353,38 @@ if SET == 'tingzhou':
            'glass': [('umb', -1.1, 0.3), ('aboard', 0.9, 0.45, 'menu')], 'market': [('crates', -3.0, 0.55), ('boxes', -1.0, 0.35), ('crates', 2.2, 0.55), ('boxes', 4.0, 0.3)]}
     _NT = ['hours', 'pay', 'hiring', 'hours2', 'menu', 'poster', 'tutor', 'rent']
     # 樓上住戶的直立招牌（虛構、不寫電話）：補習班、診所、美髮、套房、按摩、會計、中醫、瑜珈、英文、牙醫、桌遊、二樓咖啡
+    _S2F = [('數學・理化家教班', '國中・高中', '#ffffff', '#c9463d', '#c9463d'), ('桌遊空間', '2F', '#2b2b2b', '#f2c230', ''), ('美髮造型', '剪・染・燙', '#f4ead8', '#5a3a22', ''), ('英日語會話', '小班制', '#1f3f9a', '#ffffff', '#f2c230'), ('自習教室', '月租・時租', '#ffffff', '#2f5d50', '#2f5d50')]   # 暫定的字（種類當招牌，D77 不用真實店名）
     _VTZ = [('文理補習班', '#fff2a8', '#c9463d', 3.6), ('牙醫診所', '#ffffff', '#2f7d5b', 3.0), ('套房出租', '#ffffff', '#3b5a8c', 2.8), ('美髮沙龍', '#2b2b2b', '#f4ead8', 2.8), ('中醫', '#f4ead8', '#2f5d50', 2.6),
             ('英語教室', '#1f4e8c', '#ffffff', 3.2), ('會計事務所', '#ffffff', '#2f3a44', 3.4), ('按摩', '#ffffff', '#8c3b47', 2.6), ('瑜珈', '#e8f0e8', '#2f6f4a', 2.6), ('桌遊二樓', '#2b2b2b', '#e0b24a', 2.8),
             ('二樓咖啡', '#3b2a1e', '#f4ead8', 3.0), ('鋼琴教室', '#ffffff', '#3a3a3a', 3.0)]
-    # 使用者指定的五間（X322）：照概念圖 docs/art-rebuild/second_ai/ref/tingzhou_1110/concept/shop_*.webp（wz_shopkit.gg_front；貼圖 tz_fronts_tex.py → tz_fronts_atlas）。
-    # 本地 x＝從街上看的左→右；店面在騎樓後面 z −3；概念圖沒有畫騎樓（總覽圖寫「騎樓連續」）：招牌掛在騎樓梁靠街那一面（street）
-    # 景深卡最深 0.8 m：樓房的後牆在玻璃後 0.85 m（rec＝dep＋0.85），再深會被牆擋住（第一次 0.9、1.2：四間的店內都看不到）
+    # 使用者指定的五間（X322）：照概念圖 docs/art-rebuild/second_ai/ref/tingzhou_1110/concept/shop_*.webp；貼圖 tz_fronts_tex.py → tz_fronts_atlas。
+    # 第 2 版（使用者 11-10 20:5x「混合」）：這五間沒有騎樓、直接臨人行道——整棟退到店面線（立面 x −8.2），用沒有騎樓的店面（wz_shopkit.xs_street_front，同溫州街日常失速）：
+    #   落地窗後面一張店內卡（概念圖裁的）、門框、雨棚、窗上一塊招牌板（概念圖的招牌貼在上面）、門燈。本地 x＝從街上看的左→右。照片菜單貼在窗旁的牆上（panel 的 text）
     TZ_XS = {
-        'wente': dict(dep=3.0, wallc='#8b979c', frame='#3a2a1e', street='tzwen_sign',   # 溫特寶邸：藍灰小方磚柱、深色木作櫥窗（假人、皮夾克、檯燈）、木門；招牌上三盞鵝頸燈
-                      cards=[('tzwen_win', -2.35, 0.55, 0.75, 2.55, 0.8)], door=dict(x0=0.8, x1=2.2, y1=2.65, style='wood', key='tzwen_door', d=0.6, hinge='left'),
-                      lamps=[(-1.6, 3.05), (-0.2, 3.05), (1.2, 3.05)], props=[('pot', -2.45, 0.35, 'broad'), ('pot', 2.45, 0.35, 'fern')]),
-        'liantong': dict(dep=3.0, wallc='#eeeeea', frame='alu', street='tzlian_sign', street_lit=True,   # 汀州聯通：鋁框玻璃、白光、手機殼牆、玻璃展示櫃
-                         cards=[('tzlian_int', -1.9, 1.9, 0.12, 2.7, 0.8, [-0.35, 0.7])], props=[('pot', -2.0, 0.35, 'broad'), ('pot', 2.0, 0.35, 'broad')]),
-        'dongnan': dict(dep=3.0, wallc='#e8e4da', frame='alu', street='tzdong_sign', street_lit=True,   # 東南大聯商行：整面開著、貨架塞滿、門口鐵網架和塑膠籃；墨綠帆布雨棚
-                        cards=[('tzdong_shop', -3.4, 3.4, 0.0, 2.75, 0.8)], open=('tzdong_shop',),
-                        awning=dict(x0=-3.5, x1=3.5, y0=3.1, y1=2.75, d=1.0, color='#2f5d50', style='canvas'), props=[('pot', 3.45, 0.35, 'broad')]),
-        'keju': dict(dep=3.0, wallc='#efe6d6', frame='#2a2a28', street='tzkeju_sign', street_lit=True,   # 客居雲南：黑框玻璃、藤編吊燈、木桌；右邊酒紅柱子上的照片菜單；酒紅帆布雨棚
-                     cards=[('tzkeju_int', -2.35, 1.5, 0.1, 2.7, 0.8, [-0.45])], decals=[('tzkeju_menu', 1.75, 2.35, 0.8, 2.3, 0.03)],
-                     awning=dict(x0=-2.5, x1=2.5, y0=3.1, y1=2.78, d=0.9, color='#7a2a2a', style='canvas'), props=[('pot', -2.45, 0.35, 'broad'), ('pot', 2.5, 0.35, 'broad')]),
-        'yuehaochi': dict(dep=3.0, wallc='#e9e2d2', frame='#3a2a1e', street='tzyue_sign', street_lit=True,   # 越好吃小館：深色木框玻璃門窗、藤編吊燈、木桌椅；右邊照片菜單；大盆栽
-                          cards=[('tzyue_int', -2.3, 1.25, 0.05, 2.8, 0.8, [-0.5])], decals=[('tzyue_menu', 1.55, 2.3, 0.7, 2.45, 0.03)],
-                          props=[('pot', -2.6, 0.35, 'broad'), ('pot', -2.6, 0.9, 'fern'), ('pot', 2.65, 0.35, 'broad')]),
+        'wente': dict(arcade=False, dep=0.3, glass=(-2.45, 2.45), glass_h=2.75, int='tzwen_int', pane=1.65, transom=2.45, lit=True,   # 溫特寶邸：深色木作櫥窗＋木門；黑底米金字招牌；三盞燈
+                      panel=dict(x0=-2.62, x1=2.62, y0=2.95, y1=3.72, color='#26221f', text=[('tzwen_sign', -2.5, 2.5, 2.99, 3.67)]), lamps=[(-1.7, 3.5), (0.0, 3.5), (1.7, 3.5)], frame='#3a2a20'),
+        'liantong': dict(arcade=False, dep=0.3, glass=(-1.95, 1.95), glass_h=2.75, int='tzlian_int', pane=1.3, transom=2.45, lit=True,   # 汀州聯通：鋁框玻璃、白光、手機殼牆
+                         panel=dict(x0=-2.15, x1=2.15, y0=2.95, y1=3.78, color='#1f3f9a', text=[('tzlian_sign', -2.1, 2.1, 3.0, 3.74)]), frame='#c9ccd0', vsigns=[('tzlian_vsign', 2.05, 4.3, 7.6, 0.85)]),
+        'dongnan': dict(arcade=False, dep=0.3, glass=(-3.45, 3.45), glass_h=2.6, int='tzdong_shop', pane=3.45, transom=2.6, lit=True,   # 東南大聯商行：整面開著、貨架塞滿；墨綠帆布雨棚；黃底紅字招牌
+                        awning=dict(x0=-3.6, x1=3.6, y0=2.92, y1=2.62, d=1.0, color='#2f5d50'),
+                        panel=dict(x0=-3.55, x1=3.55, y0=2.95, y1=3.88, color='#f2c230', text=[('tzdong_sign', -3.45, 3.45, 2.96, 3.87)])),
+        'keju': dict(arcade=False, dep=0.3, glass=(-2.4, 1.45), glass_h=2.7, int='tzkeju_int', pane=1.9, transom=2.7, lit=True,   # 客居雲南：黑框玻璃、藤編吊燈、木桌；酒紅帆布雨棚；右邊照片菜單
+                     awning=dict(x0=-2.55, x1=1.6, y0=2.95, y1=2.68, d=0.9, color='#7a2a2a'),
+                     panel=dict(x0=-2.62, x1=2.62, y0=2.98, y1=3.86, color='#f1e3c4', text=[('tzkeju_sign', -2.6, 2.6, 2.99, 3.85), ('tzkeju_menu', 1.75, 2.35, 0.8, 2.3)]), vsigns=[('tzkeju_vsign', -2.55, 4.3, 7.9, 0.95)]),
+        'yuehaochi': dict(arcade=False, dep=0.3, glass=(-2.35, 1.3), glass_h=2.8, int='tzyue_int', pane=1.8, transom=2.5, lit=True,   # 越好吃小館：深色木框玻璃門窗、藤編吊燈、木桌椅；右邊照片菜單
+                          panel=dict(x0=-2.4, x1=2.4, y0=2.95, y1=3.88, color='#8a2a26', text=[('tzyue_sign', -2.35, 2.35, 2.96, 3.87), ('tzyue_menu', 1.55, 2.3, 0.7, 2.45)]), frame='#3a2a20', vsigns=[('tzyue_vsign', -2.8, 4.3, 7.9, 0.95)]),
+    }
+    # 第 2 版：三間有規格的店照使用者 11-10 21:1x 的外觀參考圖（docs/art-rebuild/second_ai/ref/gg_shops6_1110/concept/）。三張圖都有騎樓：保留騎樓，店面用參考圖裁的景深卡（wz_shopkit.gg_front）
+    TZ_ARC = {
+        'taimi': dict(dep=3.0, wallc='#4a2f1c', frame='#3a2416', street='tztai_sign', sign_back='wood',   # 泰米村食：深木色店面、米白字招牌＋三盞射燈；左大窗（藤編吊燈、木桌椅）、窗下一排菜色照片；中間米色布簾的門；右窗（吧台、層架）
+                      cards=[('tztai_winl', -3.6, -0.5, 0.95, 2.75, 0.8, [-2.05]), ('tztai_door', -0.4, 0.7, 0.0, 2.75, 0.8), ('tztai_winr', 0.85, 3.55, 0.95, 2.65, 0.8, [2.2])], open=('tztai_door',),
+                      signs=[('tztai_sign', -3.6, 3.55, 2.86, 3.76, 'front')], decals=[('tztai_menu', -3.6, -0.5, 0.2, 0.86, 0.03)], lamps=[(-2.0, 3.86), (0.0, 3.86), (2.0, 3.86)],
+                      props=[('pot', -3.75, 0.35, 'broad'), ('pot', 1.1, 0.4, 'fern')]),
+        'xile': dict(dep=3.0, wallc='#f2f2ee', frame='alu', street='tzxile_sign', street_lit=True, sign_lit=True,   # 洗樂洗衣坊：淺天藍燈箱；鋁框大玻璃，左一排洗衣機、中間折衣桌、右邊上下疊的烘衣機；騎樓木長椅、盆栽
+                     cards=[('tzxile_int', -2.65, 2.65, 0.12, 2.7, 0.8, [-1.3, 0.1, 1.05])], signs=[('tzxile_sign', -2.65, 2.65, 2.9, 3.57, 'front')], props=[('pot', -2.45, 0.4, 'broad')]),
+        'yindehao': dict(dep=3.0, wallc='#e8e6e0', frame='alu', street='tzyin_sign', street_lit=True,   # 印得好：深灰藍招牌；左窗（輸出樣張、色票、窗台的裝訂樣本）、中間玻璃雙開門（影印機、櫃台）、右窗（海報、門外的樣本架）
+                         cards=[('tzyin_winl', -2.95, -0.8, 0.12, 2.7, 0.8), ('tzyin_door', -0.7, 0.75, 0.0, 2.7, 0.8, [0.02]), ('tzyin_winr', 0.85, 2.95, 0.12, 2.7, 0.8)],
+                         signs=[('tzyin_sign', -2.95, 2.95, 2.9, 3.76, 'front')]),
     }
     _WALLC = ['#e6e2d8', '#d9d4c6', '#cfd2cc', '#e2d6c0', '#d4c7b0', '#c9cfc6', '#ddd2c2', '#bfb7aa', '#e9e4da', '#cbbfae']; _WALLT = ['mosaic', 'tile', 'mosaic', 'plaster', 'tile', 'mosaic']
     SPECS = []
@@ -386,11 +397,13 @@ if SET == 'tingzhou':
         _sign_txt = q['name']; _v = q['name'][:5] if len(q['name']) <= 5 else q['name'][:4]
         shop = SHOP(type=_KIND.get(q['id'], 'cvs'), name=_sign_txt, sub=q.get('type', ''), signBg=bg, signColor=fg, band=band, vertical=_v, vBg=bg if bg not in ('#ffffff', '#f4f1ea', '#f4ead8', '#f4f4f0', '#e8f0f4') else '#ffffff', vColor=fg, vBand=band or fg)
         shop['vlen'] = round(min(_rr.choice([2.6, 3.4, 4.2, 5.0, 5.8]), (q['floors'] - 1) * FH - 0.6), 1)
+        # （21:0x 自己畫的三塊招牌 tz_signs_tex.py 不用了：使用者 21:1x 給了參考圖，招牌從圖上裁）
         _dw = min(1.6, max(0.9, _w * 0.28)); _dx = _rr.choice([-1, 1]) * max(0.0, _w / 2 - _dw / 2 - 0.6) * _rr.uniform(0.3, 1.0)
         sf = dict(inner=True, kind=None, door=_era['door'].get(_front, 'alu') if _front != 'market' else 'open', floor=_rr.choice(_era['floor']),
                   light='warm' if q['id'] in _WARM else _era['light'], door_x=round(_dx, 2), door_w=round(_dw, 2),
                   notes=[(_rr.choice(_NT), round(_rr.uniform(-_w / 2 + 0.6, _w / 2 - 0.6), 2), round(_rr.uniform(1.0, 1.35), 2), 0.36, 0.38)] + ([(_rr.choice(_NT), round(_rr.uniform(-_w / 2 + 0.6, _w / 2 - 0.6), 2), 1.2, 0.34, 0.34)] if _w > 5 else []),
                   clutter=[(c[0], max(-_w / 2 + 0.5, min(_w / 2 - 0.5, c[1] * (1 if _w > 3.5 else 0.5))), *c[2:]) for c in _CL.get(_front, [])] if _w > 3 else [])
+        sf['bright'] = {'old': 0.5, 'mid': 0.6, 'new': 0.66}[q.get('era', 'mid')]   # 第 2 版（BB：沒名字的店晚上是一格一格白亮的空房間）：店內調暗，老店最暗
         if q.get('type') == '手搖飲' or q['id'] == 'e_bfast': sf['kind'] = 'tea'; sf['floor_in'] = 'f_white'   # 臨騎樓的點餐櫃台（公館青木那一種）
         if q['id'] == 'xile': sf['clutter'] = [('bench', -0.6, 0.35), ('vend', _w / 2 - 0.7, 0.42)]   # 規格：騎樓下的木長椅；洗衣精販賣機
         if q['id'] == 'yindehao': sf['clutter'] = [('boxes', -_w / 2 + 0.8, 0.3), ('aboard', 0.6, 0.45, 'menu')]; sf['notes'] = [('copyprice', -1.6, 0.95, 0.6, 0.62), ('copyprice2', -0.9, 0.95, 0.6, 0.62), ('pay', 1.3, 1.45, 0.34, 0.34)]   # 規格：店外裝訂樣本架（之後換專用的）
@@ -398,9 +411,17 @@ if SET == 'tingzhou':
         base = dict(id='T' + q['id'], pos=(_fx, _cz), ry=_ry, w=_w, d=_DEP, floors=_floors, wall=_WALLT[(_n * 5 + len(q['id'])) % len(_WALLT)], color=_WALLC[(_n * 3 + 1) % len(_WALLC)],
                     balcony=_rr.random() < 0.35 and _w > 4, tank=_rr.random() < 0.5, roofAdd=_rr.random() < 0.45 and _w > 4, ground='arcade', pillars=[_w / 2], rollbox=_rr.random() < 0.6,
                     shop=shop, sf=sf, **_P)
-        if q['id'] in TZ_XS: base['xs'] = TZ_XS[q['id']]; base['rollbox'] = False; sf['clutter'] = []; sf['notes'] = []   # 照概念圖的店面（門口的東西在 xs 的 props）
+        if q['id'] in TZ_ARC: base['xs'] = TZ_ARC[q['id']]; base['rollbox'] = False; sf['notes'] = []; sf['clutter'] = [('bench', -1.0, 0.35)] if q['id'] == 'xile' else []
+        if q['id'] in TZ_XS:   # 沒有騎樓（第 2 版）：整棟退 3.2 m 到店面線，一樓是一般店面（不是騎樓），不要柱子、不要組件店面
+            _ad = TZ['facade']['arcade']; base.update(pos=(_fx - _ad if _W else _fx + _ad, _cz), d=_DEP - _ad, ground='shop', xs=TZ_XS[q['id']], rollbox=False); base.pop('sf'); base.pop('pillars')
         if _w > 3.5 and _floors >= 4 and _rr.random() < 0.85:
             _t = _VTZ[(_n * 5) % len(_VTZ)]; base['vtenant'] = dict(vertical=_t[0][:5], vBg=_t[1], vColor=_t[2], vBand=_t[2], len=min(_t[3], (_floors - 1) * FH - 0.8))
+        base.update(p_laundry=0.45, pots_n=3, pot_mix=True)   # 第 2 版：樓上多一點生活的東西（使用者：鐵窗、冷氣、不規則立面；v1 樓上太乾淨）
+        if _w >= 4.5 and _floors >= 4 and q['id'] not in TZ_XS and (_n * 7 + len(q['id'])) % 3 == 0:   # 三棟裡一棟：二樓整面的住戶招牌（參考圖 5、6：二樓的補習班、診所、美容）
+            _s2 = _S2F[(_n * 3) % len(_S2F)]; base['sign2f'] = dict(sign=_s2[0], sub=_s2[1], bg=_s2[2], color=_s2[3], band=_s2[4])
+        if q['id'] == 'xile': base['side_wins'] = '+x'
+        if q['id'] == 'yindehao': base['side_wins'] = '-x'   # 巷 A 口兩邊的側牆開窗（BB：整面沒紋理的灰牆）
+        if q['id'] == 'e_market': shop['vlen'] = 2.6
         if q['id'] == 'e_market': base.update(balcony=False, roofAdd=False, tank=False, wall='plaster', color='#cfc8b8')
         SPECS.append(base)
     # 巷 A 的兩側（樓房深 14 m 以外的那一段）、盡頭（公館店面街的背面）：住家門、鐵捲門、小雜貨
@@ -1361,5 +1382,6 @@ info = L.export(OUT, gpu_instances=True)
 if SET == 'wenzhou' and not os.environ.get('WZ_NOSLIM'):   # PERF-COLD-RT（LAWWW2-B 11-07；CC-B：第一次進溫州街慢在下載這個檔）：法線 8 位元、頂點色 0～255，位置、UV、節點不動；
     import glb_slim; info['slim'] = glb_slim.slim(OUT, OUT); info['bytes'] = os.path.getsize(OUT)   # 招牌、門牌、景深卡（遊戲會改幾何）不碰；見 glb_slim.py
 info.update({'buildings': [s['id'] for s in SPECS]})
+if SET == 'tingzhou': info.update({'noArcade': {s['id']: [round(s['pos'][0], 3), round(s['d'], 3)] for s in SPECS if s.get('ground') == 'shop' and s.get('xs')}})   # 沒有騎樓的店：立面的 x、樓房深度（tests/tingzhou_unit.js 和配置、導航對）
 L.write_json(OUT[:-4] + '.json', info)
 L.write_json(OUT[:-4] + '.props.json', {'set': SET, 'note': '地上雜物的腳印（世界座標 [minx,minz,maxx,maxz]、高度）；tests/street_props_nav_unit.js 用', 'props': PROP_FP})

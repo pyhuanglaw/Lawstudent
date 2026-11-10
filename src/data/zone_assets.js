@@ -55,7 +55,7 @@ const ZONE_ASSETS={
   "putong":["bldg.putong_interior","bldg.skybridge","prop.furniture_study"],
   "soclib":["bldg.soclib_interior"],
   "soclib_2f":["bldg.soclib2f_interior"],
-  "tingzhou":["bldg.tingzhou_street"],
+  "tingzhou":["bldg.tingzhou_street","bldg.tingzhou_stalls","bldg.wz_scooter"],
   "us_apartment":["bldg.us_apartment"],
   "us_asian_market":["bldg.us_asian_market"],
   "us_bed_c":["bldg.us_bed_c"],

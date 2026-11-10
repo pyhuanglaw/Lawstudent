@@ -86,6 +86,18 @@ for sx in (-1, 1):
 for c in TZ['crossings']:
     for i in range(-4, 5): B.box(f'zb{c["z"]}_{i}', wht, i * 1.0 - 0.3, i * 1.0 + 0.3, 0.004, 0.013, c['z'] - c['w'] / 2, c['z'] + c['w'] / 2)
 B.box('far_ground', L.flat('tz_prev_ground', '#8a8780'), -80, 80, -0.1, -0.06, -120, 120)
+# ---------- 夜市攤（第 2 版）：照配置 stalls 擺營業的樣子（環境變數 TZ_STALLS=closed 擺收攤的） ----------
+try:
+    before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.join(ROOT, 'assets/models/env/second_ai/tingzhou_stalls.glb'))
+    _st = os.environ.get('TZ_STALLS', 'open'); _all = {o.name: o for o in bpy.data.objects if o not in before}
+    for q in (TZ.get('stalls') or {}).get('list', []):
+        src = _all.get('STALL_%s_%s' % (q['kind'], _st))
+        if not src: continue
+        e = bpy.data.objects.new('stall_' + q['id'], None); SC.collection.objects.link(e); e.location = g2b(q['x'], 0, q['z']); e.rotation_euler = (0, 0, q['yaw'])
+        for ch in src.children: c2 = ch.copy(); SC.collection.objects.link(c2); c2.parent = e
+    for o in _all.values():
+        if o.type == 'MESH' and o.parent and o.parent.name.startswith('STALL_'): o.hide_render = True
+except Exception as ex: print('stalls skip', ex)
 # ---------- 機車（路邊機車格，斜停；巷口、斑馬線不停）----------
 try:
     before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.join(ROOT, 'assets/models/env/second_ai/scooter.glb'))
@@ -156,6 +168,9 @@ VIEWS = {   # 遊戲座標（x 東、z 南）；眼睛、看的點、焦距
     'ref5': ((-1.5, 1.5, -28), (-6.0, 7.5, 16), 26),          # 參考圖 5 的構圖：沿西側立面往前看、仰角（直立招牌一整排）
     'ref_street': ((4.6, 1.65, 34.5), (-6.5, 3.0, 12.0), 24),   # 概念圖 street_dusk_five_shops 的構圖：從對面人行道斜看西側五間（左＝越好吃小館 → 右＝溫特寶邸）
     'keju_front': ((3.5, 1.6, 23.2), (-8.2, 1.9, 23.2), 24), 'yue_front': ((3.5, 1.6, 29.0), (-8.2, 1.9, 29.0), 24), 'dong_front': ((4.2, 1.6, 16.7), (-8.2, 1.9, 16.7), 22), 'lian_front': ((3.0, 1.6, 10.7), (-8.2, 1.9, 10.7), 26),
+    'alley_stalls': ((25.5, 1.65, 0.6), (6.0, 1.3, -0.3), 24),   # 巷 A 的夜市攤（從公館那一頭往汀州路看）
+    'market_stalls': ((1.5, 1.65, 26.0), (5.5, 1.2, 36.0), 24),   # 水源市場前路邊的攤
+    'three': ((-4.0, 1.65, 6.5), (9.0, 2.0, -3.0), 22),          # 印得好（右）、巷 A 口、洗樂（左），從對面斜看
     'ref6': ((1.0, 1.4, 34), (-1.5, 5.0, -10), 28),           # 參考圖 6 的構圖：夜間沿街看、招牌一路亮過去
 }
 cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); SC.collection.objects.link(cam); SC.camera = cam

@@ -9,6 +9,7 @@ import numpy as np
 from PIL import Image
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 SRC = os.environ.get('TZ_CONCEPT') or os.path.join(ROOT, 'docs/art-rebuild/second_ai/ref/tingzhou_1110/concept'); GEN = os.path.join(HERE, 'textures', 'gen')
+SRC2 = os.environ.get('TZ_CONCEPT2') or os.path.join(ROOT, 'docs/art-rebuild/second_ai/ref/gg_shops6_1110/concept')
 # key：(概念圖, 四角 左上／右上／右下／左下（像素）, 輸出寬, 高)
 Q = {'tzlian_sign': ('shop_tingzhou_liantong', [(468, 224), (1344, 221), (1344, 378), (466, 383)], 1024, 184),
      'tzlian_vsign': ('shop_tingzhou_liantong', [(372, 24), (440, 28), (436, 366), (368, 362)], 112, 520),
@@ -18,14 +19,25 @@ Q = {'tzlian_sign': ('shop_tingzhou_liantong', [(468, 224), (1344, 221), (1344, 
      'tzyue_int': ('shop_yuehaochi', [(672, 398), (1162, 402), (1166, 792), (680, 778)], 512, 400),
      'tzyue_menu': ('shop_yuehaochi', [(1180, 430), (1300, 426), (1302, 696), (1184, 693)], 128, 288),
      'tzwen_sign': ('shop_wentebaodi', [(566, 170), (1292, 256), (1278, 352), (570, 306)], 1024, 176),
-     'tzwen_win': ('shop_wentebaodi', [(552, 345), (966, 350), (966, 602), (556, 600)], 512, 312),
-     'tzwen_door': ('shop_wentebaodi', [(975, 356), (1216, 366), (1212, 722), (977, 722)], 256, 380),
+     'tzwen_int': ('shop_wentebaodi', [(552, 345), (1216, 352), (1214, 722), (556, 722)], 640, 360),   # 第 2 版（沒有騎樓）：櫥窗＋木門一整面
      'tzkeju_sign': ('shop_kejuyunnan', [(460, 258), (1325, 205), (1328, 348), (462, 378)], 1024, 168),
      'tzkeju_vsign': ('shop_kejuyunnan', [(330, 25), (430, 45), (425, 350), (326, 335)], 144, 440),
      'tzkeju_int': ('shop_kejuyunnan', [(572, 446), (1186, 440), (1186, 772), (576, 766)], 640, 344),
      'tzkeju_menu': ('shop_kejuyunnan', [(1205, 470), (1305, 470), (1305, 722), (1205, 722)], 112, 284),
      'tzdong_sign': ('shop_dongnan_dalian', [(385, 235), (1430, 172), (1433, 322), (388, 362)], 1024, 138),
-     'tzdong_shop': ('shop_dongnan_dalian', [(482, 432), (1340, 416), (1340, 792), (492, 802)], 896, 392)}
+     'tzdong_shop': ('shop_dongnan_dalian', [(482, 432), (1340, 416), (1340, 792), (492, 802)], 896, 392),
+     # 第 2 版：三間有規格的店（使用者 11-10 21:1x「六家店外觀參考圖」，docs/art-rebuild/second_ai/ref/gg_shops6_1110/concept/）
+     'tzyin_sign': ('shop_yindehao', [(160, 45), (1342, 345), (1340, 430), (165, 285)], 1024, 150),
+     'tzyin_winl': ('shop_yindehao', [(90, 315), (632, 357), (632, 828), (68, 878)], 512, 440),
+     'tzyin_door': ('shop_yindehao', [(650, 362), (1000, 400), (1000, 790), (650, 840)], 384, 440),
+     'tzyin_winr': ('shop_yindehao', [(1005, 400), (1305, 432), (1305, 712), (1005, 780)], 384, 400),
+     'tztai_sign': ('shop_taimi', [(215, 42), (1455, 160), (1455, 385), (205, 265)], 1024, 200),
+     'tztai_winl': ('shop_taimi', [(222, 300), (830, 345), (830, 668), (222, 690)], 640, 360),
+     'tztai_menu': ('shop_taimi', [(218, 700), (828, 682), (828, 795), (218, 835)], 640, 130),
+     'tztai_door': ('shop_taimi', [(843, 350), (1045, 362), (1045, 790), (843, 790)], 256, 440),
+     'tztai_winr': ('shop_taimi', [(1062, 372), (1420, 395), (1420, 640), (1062, 650)], 448, 300),
+     'tzxile_sign': ('shop_xile', [(262, 148), (1178, 290), (1178, 392), (262, 308)], 1024, 130),
+     'tzxile_int': ('shop_xile', [(200, 325), (1195, 405), (1195, 695), (200, 800)], 1024, 400)}
 
 
 def coeffs(dst, src):
@@ -36,9 +48,9 @@ def coeffs(dst, src):
 
 
 def main():
-    W = H = 2048; atlas = Image.new('RGB', (W, H), (30, 30, 30)); info = {}; x = y = 0; rowh = 0; P = 4
+    W = 2048; H = 4096; atlas = Image.new('RGB', (W, H), (30, 30, 30)); info = {}; x = y = 0; rowh = 0; P = 4
     for k in sorted(Q, key=lambda k: (-Q[k][3], k)):
-        n, quad, w, h = Q[k]; im = Image.open(os.path.join(SRC, n + '.webp')).convert('RGB').transform((w, h), Image.PERSPECTIVE, coeffs([(0, 0), (w, 0), (w, h), (0, h)], quad), Image.BICUBIC)
+        n, quad, w, h = Q[k]; im = Image.open(os.path.join(SRC if os.path.exists(os.path.join(SRC, n + '.webp')) else SRC2, n + '.webp')).convert('RGB').transform((w, h), Image.PERSPECTIVE, coeffs([(0, 0), (w, 0), (w, h), (0, h)], quad), Image.BICUBIC)
         if x + w > W: x = 0; y += rowh + P; rowh = 0
         atlas.paste(im, (x, y)); info[k] = [x / W, 1 - (y + h) / H, (x + w) / W, 1 - y / H, round(w / h, 4)]
         x += w + P; rowh = max(rowh, h)

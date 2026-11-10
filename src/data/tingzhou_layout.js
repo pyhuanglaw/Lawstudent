@@ -7,9 +7,9 @@
    座標：x 往東、z 往南、y 往上（公尺）。汀州路沿著 z。東側（+x）＝羅斯福路那一邊：巷 A 往東接公館店面街 G10 的巷口；水源市場在東側南段（羅斯福路和汀州路之間，地圖 2、3）。西側（−x）往思源街、自來水園區。
    路：雙向兩線，連路邊的機車停車格寬 10 m（x −5～5），沒有另外的人行道（台北老街：騎樓就是人行道）；騎樓在樓房一樓往裡退 3.2 m（立面 x ±5、店面 x ±8.2）。
    店面寬 2.5～12 m 不一樣（使用者：門面寬度、深度、招牌位置、燈光、裝修年代可以不同）。店名：有互動的三間照規格；五間（越好吃小館、客居雲南、東南大聯商行、汀州聯通、溫特寶邸）是使用者 11-10 19:2x 指定的正式名稱，照概念圖 docs/art-rebuild/second_ai/ref/tingzhou_1110/concept/（concept＝哪一張；街景圖從對面看左→右＝越好吃 → 溫特寶邸，西側的樓從東邊看左＝南）；其他是暫名（店的種類當招牌字，等 AA 取名再換，D77 不用真實店名）。
-   era：裝修年代（old 老店：手寫字燈箱、舊磁磚、鐵捲門；mid：壓克力燈箱、鋁門窗；new：木作、黑框玻璃、吊燈）；front：店面的樣子（open 整面開著的小吃、glass 玻璃門窗、half 半開＋外帶櫃台、shutter 鐵捲門拉下）。 */
+   arcade:false＝沒有騎樓、店面直接臨人行道（使用者 11-10 20:5x「混合」：五間照概念圖沒有騎樓，樓房整棟退到店面線 x −8.2，前面是露天的人行道；其他保留騎樓，立面有進有出）；era：裝修年代（old 老店：手寫字燈箱、舊磁磚、鐵捲門；mid：壓克力燈箱、鋁門窗；new：木作、黑框玻璃、吊燈）；front：店面的樣子（open 整面開著的小吃、glass 玻璃門窗、half 半開＋外帶櫃台、shutter 鐵捲門拉下）。 */
 const TINGZHOU_LAYOUT={
-  "version": 3,
+  "version": 5,
   "nav": {"x0": -18, "z0": -44, "w": 54, "d": 88, "cell": 0.5},
   "road": {"name": "汀州路三段", "x0": -5.0, "x1": 5.0, "z0": -60, "z1": 60, "lanes": 2, "parkW": 1.6, "surface": "asphalt", "note": "路邊 1.6 m 是機車停車格（白框）；路中間雙黃線；遊戲裡沒有車，玩家可以走在路上"},
   "walk": {"z0": -40, "z1": 40},
@@ -27,11 +27,11 @@ const TINGZHOU_LAYOUT={
     {"id": "w_tea", "side": "W", "z0": -14.0, "z1": -10.0, "floors": 4, "name": "手搖飲", "type": "手搖飲", "era": "new", "front": "half"},
     {"id": "w_cafe", "side": "W", "z0": -10.0, "z1": -5.0, "floors": 4, "name": "人文咖啡", "type": "咖啡", "era": "new", "front": "glass", "note": "二手書、木作、吊燈（使用者：人文咖啡）"},
     {"id": "taimi", "side": "W", "z0": -5.0, "z1": 3.0, "floors": 5, "name": "泰米村食", "type": "泰式料理", "sea": true, "era": "mid", "front": "glass", "enter": true, "note": "巷 A 出來的正對面；平價泰式小館（GG_SHOPS3_1110.md 第三節 5：深木色、暖橘、米白招牌，米飯、香料葉片、餐盤圖示）"},
-    {"id": "wente", "side": "W", "z0": 3.0, "z1": 8.5, "floors": 4, "name": "溫特寶邸", "type": "古著・二手服飾", "sub": "vintage boutique", "era": "new", "front": "glass", "concept": "shop_wentebaodi", "note": "黑底米金字招牌＋三盞鵝頸燈；深色木作櫥窗（假人、皮夾克）、木門；門口衣架、木花箱"},
-    {"id": "liantong", "side": "W", "z0": 8.5, "z1": 13.0, "floors": 5, "name": "汀州聯通", "type": "手機通訊", "sub": "手機・通訊・維修", "era": "mid", "front": "glass", "concept": "shop_tingzhou_liantong", "note": "深藍底白字燈箱＋直立燈箱；鋁框玻璃、白光、手機殼牆、展示櫃"},
-    {"id": "dongnan", "side": "W", "z0": 13.0, "z1": 20.5, "floors": 4, "name": "東南大聯商行", "type": "東南亞食品雜貨", "sub": "東南亞食品・香料・零食・生活雜貨", "sea": true, "era": "old", "front": "open", "concept": "shop_dongnan_dalian", "note": "黃底紅字招牌（椰子樹、佛塔剪影）；墨綠帆布雨棚；整面開著、貨架塞滿；門口鐵網架、紅藍塑膠籃"},
-    {"id": "keju", "side": "W", "z0": 20.5, "z1": 26.0, "floors": 5, "name": "客居雲南", "type": "雲南料理", "sub": "雲南料理・米干・過橋米線", "sea": true, "era": "mid", "front": "half", "concept": "shop_kejuyunnan", "note": "米色底酒紅字招牌（亭子、梯田）＋直立燈箱；酒紅帆布雨棚；騎樓下木桌圓凳；照片菜單"},
-    {"id": "yuehaochi", "side": "W", "z0": 26.0, "z1": 32.0, "floors": 4, "name": "越好吃小館", "type": "越南料理", "sub": "越南料理・河粉・春捲", "sea": true, "era": "mid", "front": "glass", "concept": "shop_yuehaochi", "note": "酒紅底米白字招牌（河粉碗、斗笠）＋直立燈箱；深色木框玻璃、藤編吊燈；照片菜單、大盆栽"},
+    {"id": "wente", "side": "W", "arcade": false, "z0": 3.0, "z1": 8.5, "floors": 4, "name": "溫特寶邸", "type": "古著・二手服飾", "sub": "vintage boutique", "era": "new", "front": "glass", "concept": "shop_wentebaodi", "note": "黑底米金字招牌＋三盞鵝頸燈；深色木作櫥窗（假人、皮夾克）、木門；門口衣架、木花箱"},
+    {"id": "liantong", "side": "W", "arcade": false, "z0": 8.5, "z1": 13.0, "floors": 5, "name": "汀州聯通", "type": "手機通訊", "sub": "手機・通訊・維修", "era": "mid", "front": "glass", "concept": "shop_tingzhou_liantong", "note": "深藍底白字燈箱＋直立燈箱；鋁框玻璃、白光、手機殼牆、展示櫃"},
+    {"id": "dongnan", "side": "W", "arcade": false, "z0": 13.0, "z1": 20.5, "floors": 4, "name": "東南大聯商行", "type": "東南亞食品雜貨", "sub": "東南亞食品・香料・零食・生活雜貨", "sea": true, "era": "old", "front": "open", "concept": "shop_dongnan_dalian", "note": "黃底紅字招牌（椰子樹、佛塔剪影）；墨綠帆布雨棚；整面開著、貨架塞滿；門口鐵網架、紅藍塑膠籃"},
+    {"id": "keju", "side": "W", "arcade": false, "z0": 20.5, "z1": 26.0, "floors": 5, "name": "客居雲南", "type": "雲南料理", "sub": "雲南料理・米干・過橋米線", "sea": true, "era": "mid", "front": "half", "concept": "shop_kejuyunnan", "note": "米色底酒紅字招牌（亭子、梯田）＋直立燈箱；酒紅帆布雨棚；騎樓下木桌圓凳；照片菜單"},
+    {"id": "yuehaochi", "side": "W", "arcade": false, "z0": 26.0, "z1": 32.0, "floors": 4, "name": "越好吃小館", "type": "越南料理", "sub": "越南料理・河粉・春捲", "sea": true, "era": "mid", "front": "glass", "concept": "shop_yuehaochi", "note": "酒紅底米白字招牌（河粉碗、斗笠）＋直立燈箱；深色木框玻璃、藤編吊燈；照片菜單、大盆栽"},
     {"id": "w_luwei", "side": "W", "z0": 32.0, "z1": 36.0, "floors": 5, "name": "滷味", "type": "滷味", "era": "old", "front": "open"},
     {"id": "w_brunch", "side": "W", "z0": 36.0, "z1": 40.0, "floors": 6, "name": "早午餐", "type": "早午餐", "era": "new", "front": "glass"},
     {"id": "e_glass", "side": "E", "z0": -40.0, "z1": -35.5, "floors": 5, "name": "眼鏡", "type": "眼鏡", "era": "mid", "front": "glass"},
@@ -51,5 +51,21 @@ const TINGZHOU_LAYOUT={
   ],
   "fromGongguan": {"x": 27.0, "z": 0.0, "yaw": -1.5708, "note": "從公館的巷口進來站的地方（巷 A 東端，面向西＝汀州路）"},
   "toGongguan": {"x": 28.6, "z": 0.0, "r": 1.4, "label": "往公館（羅斯福路）", "spawn": {"x": 37.1, "z": 18.0, "yaw": 3.1416}, "note": "回公館：站在店面街 G10 巷口前的人行道，面向馬路"},
+  "stalls": {"from": 17, "to": 24, "block": {"w": 2.4, "d": 1.5, "back": 0.25}, "note": "夜市攤（使用者 11-10：真實城市道路上的一些攤位，不是整條封閉的觀光夜市；照時間出現、營業、收攤；不擋固定店家的門口）。kind＝tingzhou_stalls.glb 的 STALL_<kind>_open／_closed；yaw＝客人那一面朝哪裡（0＝+z）。17:00 以前、24:00 以後是收攤的樣子（帆布蓋著）。巷 A 兩側交錯擺，中間留 2.9 m；汀州路上的擺在路邊機車格（騎樓和店門不擋）。攤名、價錢：AA_744 第 2 節", "list": [
+    {"id": "st_guabao", "kind": "guabao", "x": 8.5, "z": -1.45, "yaw": 0, "where": "alleyA"},
+    {"id": "st_wheelcake", "kind": "wheelcake", "x": 13.5, "z": -1.45, "yaw": 0, "where": "alleyA"},
+    {"id": "st_scallion", "kind": "scallion", "x": 18.5, "z": -1.45, "yaw": 0, "where": "alleyA"},
+    {"id": "st_fortune", "kind": "fortune", "x": 23.0, "z": -1.45, "yaw": 0, "where": "alleyA"},
+    {"id": "st_pepper", "kind": "pepper", "x": 11.0, "z": 1.45, "yaw": 3.1416, "where": "alleyA"},
+    {"id": "st_ball", "kind": "ball", "x": 16.0, "z": 1.45, "yaw": 3.1416, "where": "alleyA"},
+    {"id": "st_stinky", "kind": "stinky", "x": 21.0, "z": 1.45, "yaw": 3.1416, "where": "alleyA"},
+    {"id": "st_corn", "kind": "corn", "x": 4.2, "z": 30.0, "yaw": 1.5708, "where": "road"},
+    {"id": "st_eggcake", "kind": "eggcake", "x": 4.2, "z": 32.8, "yaw": 1.5708, "where": "road"},
+    {"id": "st_cane", "kind": "cane", "x": 4.2, "z": 35.6, "yaw": 1.5708, "where": "road"},
+    {"id": "st_jelly", "kind": "jelly", "x": 4.2, "z": 38.4, "yaw": 1.5708, "where": "road"},
+    {"id": "st_phonecase", "kind": "phonecase", "x": -4.2, "z": -22.0, "yaw": -1.5708, "where": "road"},
+    {"id": "st_socks", "kind": "socks", "x": -4.2, "z": -17.0, "yaw": -1.5708, "where": "road"},
+    {"id": "st_ring", "kind": "ring", "x": 4.0, "z": -27.5, "yaw": 1.5708, "where": "road"}
+  ]},
   "hours": {"night": {"from": 17, "to": 24, "note": "夜市攤（巷 A、水源市場門口）17:00 開始擺、24:00 收；白天是一般店面街"}}
 };
