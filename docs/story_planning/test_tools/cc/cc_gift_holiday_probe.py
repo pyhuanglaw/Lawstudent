@@ -27,7 +27,7 @@ CASES（預設全跑）：xmas,valentine,qixi,birthday,normal,third,hergift,mail
   - 2026-12-24 語彤和黃筱涵同框（HCIRCLE c505_3_2，3D 裡 crowdNow true）：「送她禮物…」沒有灰掉（＝照 AA_732，不是 bug；BB 的「旁邊有人就灰」規格沒有）。
 判定：PASS／FAIL／INFO，最後 ALL PASS 或 FAILED n。
 用法：LW_TESTS=<樹>/tests TAG=new|old [CASES=xmas,third] [THIRD_BYSTANDER=strict] python3 cc_gift_holiday_probe.py <url> <out>（URL 不加 ?turbo）"""
-import os, sys, json, asyncio, time, copy, subprocess
+import os, sys, json, asyncio, time, copy, subprocess, math
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); import bbplay as P   # bbplay 在上一層（BB 的 test_tools）
@@ -119,6 +119,7 @@ STATE_JS = r"""((p)=>{ const G=GAME.G, H=typeof GIFTH!=='undefined'?GIFTH:null, 
     day:G.day, key:CALENDAR.dateOf(G.day).key, h:+(+G.hour).toFixed(2), zone:G.zone}; })"""
 
 
+AHEAD_JS = r"""((q)=>{ const E=GAME.E; let best=null; for(let r=0;r<=3;r+=0.25) for(let a=0;a<360;a+=30){ const x=q.x+r*Math.sin(a*Math.PI/180), z=q.z+r*Math.cos(a*Math.PI/180); if(E.canStand&&!E.canStand(x,z,0.3,q.lv|0)) continue; return {x:+x.toFixed(2),z:+z.toFixed(2)}; } return best; })"""
 RING_JS = r"""((id)=>{ const E=GAME.E, n=__BBF.npc(id); if(!n||!n.obj) return null; const h=n.obj.position, lv=n.lv|0, out=[];
   const its=E.interactables.filter(i=>!i.hidden&&((i.lv|0)===lv));
   for(const r of [0.6,0.75,0.9,1.1]) for(let k=0;k<16;k++){ const a=k*Math.PI/8, x=h.x+Math.sin(a)*r, z=h.z+Math.cos(a)*r; if(E.canStand&&!E.canStand(x,z,0.3,lv)) continue;
@@ -213,6 +214,19 @@ async def talk_menus(pg, cdp, run, pid, tag, policy, max_s=420):
         if not g['ok']:
             rounds += 1
             if rounds > 6: run.note('%s：走了 6 輪按鈕還不是「%s」（%s）' % (tag, g['want'], g['lab'])); break
+            mv = None
+            if rounds >= 2:
+                w1 = await P.who(pg, pid); await pg.wait_for_timeout(1500); w2 = await P.who(pg, pid)
+                if w1 and w2 and math.hypot(w2['x'] - w1['x'], w2['z'] - w1['z']) > 0.3: mv = (w1, w2)
+            if mv:   # 她在走（和朋友一起走）：像玩家一樣繞到她前面等她走過來（追在後面追不上：11-10 試跑 T-B 語彤＋黃筱涵）
+                w1, w2 = mv; dx, dz = w2['x'] - w1['x'], w2['z'] - w1['z']; ln = math.hypot(dx, dz) or 1
+                ah = await pg.evaluate(AHEAD_JS, {'x': w2['x'] + dx / ln * 6, 'z': w2['z'] + dz / ln * 6, 'lv': w2['lv']})
+                if ah:
+                    await L.go_to(pg, cdp, run, ah['x'], ah['z'], 0.6, '%s：繞到她前面（她往 (%.1f, %.1f) 走）' % (tag, dx / ln, dz / ln), max_s=60, stop=lambda s, w=g['want']: s['interact'].startswith(w))
+                    for _ in range(20):
+                        if (await pg.evaluate("id=>__BBF.target(id)", pid) or {}).get('ok'): break
+                        await pg.wait_for_timeout(750)
+                continue
             if rounds >= 2 and g['d'] < 2.0:   # 已經在她旁邊、按鈕卻是旁邊的椅子（她坐著；遊戲：人只比 0.5 m 內的椅子優先）——像玩家一樣換個站的地方（離椅子遠、離她近）
                 rings = await pg.evaluate(RING_JS, pid)
                 for k_, rp in enumerate((rings or [])[:4]):
