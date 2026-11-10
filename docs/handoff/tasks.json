@@ -9361,8 +9361,8 @@
    "title": "美國公寓社區：祐廷單人戶（臥室＋客廳＋廚房＋衛浴＋陽台）＋社區外觀（使用者 10-16 更正：不是學校宿舍）",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國公寓社區＝場景美術（要使用者）；功能已在④整學期劇本住了一整學期（L3469-3477）——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜【LAWWW2-C 05:46Z 交付 8825bea0（DL-LW2-USCOMM）：社區戶外＋汽車五款；LAWWW-C ACK】接成區域 us_outside 排在 v0～v2 之後（D81）；28 台車用 InstancedMesh。【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置以 LAWWW2-B us_apartment_layout.js v2（e30bf43f＋3cc72780 浴室從臥室進、衣帽櫃：戶外樓梯平台 breezeway、獨立廚房＋窗口吧台、8 房、yaw 照 atan2(dx,dz)）為準；學姊 C 棟合租戶另一份配置；會所自習室、校園一段、超市；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
+   "status": "已整合待測試",
+   "next": "【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP（fbcca8ad6）：Node 建區域接真 GLB，看得到的程序化網格 0、窗景都有＝模型已在遊戲裡。原本「等使用者看畫面標 ART」（BB 10-27 D 類）照 D120／D128 改由 BB 判，不經使用者；CC 拍、BB 判。 ｜ 【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國公寓社區＝場景美術（要使用者）；功能已在④整學期劇本住了一整學期（L3469-3477）——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜【LAWWW2-C 05:46Z 交付 8825bea0（DL-LW2-USCOMM）：社區戶外＋汽車五款；LAWWW-C ACK】接成區域 us_outside 排在 v0～v2 之後（D81）；28 台車用 InstancedMesh。【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置以 LAWWW2-B us_apartment_layout.js v2（e30bf43f＋3cc72780 浴室從臥室進、衣帽櫃：戶外樓梯平台 breezeway、獨立廚房＋窗口吧台、8 房、yaw 照 atan2(dx,dz)）為準；學姊 C 棟合租戶另一份配置；會所自習室、校園一段、超市；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -9389,8 +9389,6 @@
     "ack": "SENT"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
   {
@@ -9398,8 +9396,8 @@
    "title": "美式大型超市",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美式超市＝場景美術；功能：L1363 超市一進門鏡頭在店裡 PASS——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜【LAWWW2-C 06:16Z 交付 2f4ae940（DL-LW2-USMKT）：超市室內 us_market.glb＋layout（interact 8 個、blocks 41 個）；LAWWW-C ACK】接成區域 us_market 排在 v0～v2 之後（D81）。【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 2）；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
+   "status": "已整合待測試",
+   "next": "【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP（fbcca8ad6）：Node 建區域接真 GLB，看得到的程序化網格 0、窗景都有＝模型已在遊戲裡。原本「等使用者看畫面標 ART」（BB 10-27 D 類）照 D120／D128 改由 BB 判，不經使用者；CC 拍、BB 判。 ｜ 【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美式超市＝場景美術；功能：L1363 超市一進門鏡頭在店裡 PASS——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜【LAWWW2-C 06:16Z 交付 2f4ae940（DL-LW2-USMKT）：超市室內 us_market.glb＋layout（interact 8 個、blocks 41 個）；LAWWW-C ACK】接成區域 us_market 排在 v0～v2 之後（D81）。【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 2）；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -9421,8 +9419,6 @@
     "ack": "SENT"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
   {
@@ -9430,8 +9426,8 @@
    "title": "美國校園街道",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國校園街道＝場景美術，還在等 IU 版——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【12:4x d3fdab82：us_campus 已接成區域（v9.10.2 候選）】【11:0x LAWWW2-C beb5fa54（DL-LW2-beb5fa54）：使用者直接說「交換學生大學地板的橘色好醜」→ 校園紅磚改偏褐低彩度的舊紅磚；接 us_campus 時用 beb5fa54 的 us_campus.glb】【10:2x LAWWW2-C 交 v3 90c2896e（交接 d5cfed8d，DL-LW2-90c2896e）：照使用者空拍圖加老校區背景（紅瓦中庭大樓、方塔大廳、石材大樓、樹林、圓塔、迴車道，不開放進出）；導航／阻擋／出生點／互動點和第 2 版相同；8.7 MB。LAWWW-C ACK。接 us_campus 區域時：用這份；這個區域關掉城市遠景剪影（LAWWW2 問①：美國小鎮不該有）；手機自動打開是測試存檔有要回的訊息（STORY.phoneAuto），不是問題②的 bug】【02:4x 使用者 10-18 02:3x「美國校門前的主街：不需要」：第一階段 Kirkwood 主街（us_street.glb、1f488eb9）不接；這一項只剩法學院前的校園街道（1e6987cb）】｜【02:3x LAWWW2 02:23：1e6987cb 已交、等整合；v9.10 發布後接（美國交換）】｜【LAWWW-C 00:4x】使用者 01:0x 給 LAWWW2-C 法學院照片：系館照照片改、路線改公車→法學院前人行道→台階下進教室、校門在西邊（往活動中心，關著）；教室 2D｜【LAWWW2-C 06:54Z 交付第一階段 1f488eb9（DL-LW2-USSTREET1：Kirkwood 主街 14 棟店面、us_street.layout.json）；第二階段校門 Sample Gates、石灰岩建築等使用者照片】【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
+   "status": "已整合待測試",
+   "next": "【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP（fbcca8ad6）：Node 建區域接真 GLB，看得到的程序化網格 0、窗景都有＝模型已在遊戲裡。原本「等使用者看畫面標 ART」（BB 10-27 D 類）照 D120／D128 改由 BB 判，不經使用者；CC 拍、BB 判。 ｜ 【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國校園街道＝場景美術，還在等 IU 版——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【12:4x d3fdab82：us_campus 已接成區域（v9.10.2 候選）】【11:0x LAWWW2-C beb5fa54（DL-LW2-beb5fa54）：使用者直接說「交換學生大學地板的橘色好醜」→ 校園紅磚改偏褐低彩度的舊紅磚；接 us_campus 時用 beb5fa54 的 us_campus.glb】【10:2x LAWWW2-C 交 v3 90c2896e（交接 d5cfed8d，DL-LW2-90c2896e）：照使用者空拍圖加老校區背景（紅瓦中庭大樓、方塔大廳、石材大樓、樹林、圓塔、迴車道，不開放進出）；導航／阻擋／出生點／互動點和第 2 版相同；8.7 MB。LAWWW-C ACK。接 us_campus 區域時：用這份；這個區域關掉城市遠景剪影（LAWWW2 問①：美國小鎮不該有）；手機自動打開是測試存檔有要回的訊息（STORY.phoneAuto），不是問題②的 bug】【02:4x 使用者 10-18 02:3x「美國校門前的主街：不需要」：第一階段 Kirkwood 主街（us_street.glb、1f488eb9）不接；這一項只剩法學院前的校園街道（1e6987cb）】｜【02:3x LAWWW2 02:23：1e6987cb 已交、等整合；v9.10 發布後接（美國交換）】｜【LAWWW-C 00:4x】使用者 01:0x 給 LAWWW2-C 法學院照片：系館照照片改、路線改公車→法學院前人行道→台階下進教室、校門在西邊（往活動中心，關著）；教室 2D｜【LAWWW2-C 06:54Z 交付第一階段 1f488eb9（DL-LW2-USSTREET1：Kirkwood 主街 14 棟店面、us_street.layout.json）；第二階段校門 Sample Gates、石灰岩建築等使用者照片】【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -9452,8 +9448,6 @@
     "acceptance": "同 SCN-US-01",
     "ack": "SENT"
    },
-   "pausedReason": "LAWWW2-C 05:46：IU 版（SCN-US-IU-1018，使用者 03:1x）會換配置（出生點、路線、互動點），1e6987cb 第二版先不接，等 IU 版一起接（layout key 沿用 spawn_bus／spawn_class_out／spawn_library_out／bus／class／library／gate，接線照 layout 讀）",
-   "resumeWhen": "LAWWW2 交 SCN-US-IU 版",
    "pausedBy": "LAWWW-C 10-18 05:5x（LAWWW2 回覆）",
    "recheckOn": "2026-10-25"
   },
@@ -14872,8 +14866,8 @@
    "title": "美國公寓客廳家具組（AA-B 99e758f9 做、LAWWW2-B 驗收 eb9f392e）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國公寓客廳家具＝場景美術；功能在④整學期劇本——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜美國公寓（V4 美國線）施工時一起放",
+   "status": "已整合待測試",
+   "next": "【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP（fbcca8ad6）：Node 建區域接真 GLB，看得到的程序化網格 0、窗景都有＝模型已在遊戲裡。原本「等使用者看畫面標 ART」（BB 10-27 D 類）照 D120／D128 改由 BB 判，不經使用者；CC 拍、BB 判。 ｜ 【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國公寓客廳家具＝場景美術；功能在④整學期劇本——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜美國公寓（V4 美國線）施工時一起放",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -14896,8 +14890,6 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
   {
@@ -14905,8 +14897,8 @@
    "title": "美國公寓臥室家具（BB-B d2378c1d 做、LAWWW2-B 收進 586eface、BB-B 驗收 523e4e39）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國公寓臥室家具＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜V4 美國線接 SCN-US-01 區域時一起接（和 ART-US1、ART-US2 同一間公寓）",
+   "status": "已整合待測試",
+   "next": "【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP（fbcca8ad6）：Node 建區域接真 GLB，看得到的程序化網格 0、窗景都有＝模型已在遊戲裡。原本「等使用者看畫面標 ART」（BB 10-27 D 類）照 D120／D128 改由 BB 判，不經使用者；CC 拍、BB 判。 ｜ 【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國公寓臥室家具＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜V4 美國線接 SCN-US-01 區域時一起接（和 ART-US1、ART-US2 同一間公寓）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -14929,8 +14921,6 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
   {
@@ -14938,8 +14928,8 @@
    "title": "美國公寓廚房（AA-B 7b509b39 做、LAWWW2-B 驗收 439763c6）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國公寓廚房＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜美國公寓（V4 美國線）施工時一起放",
+   "status": "已整合待測試",
+   "next": "【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP（fbcca8ad6）：Node 建區域接真 GLB，看得到的程序化網格 0、窗景都有＝模型已在遊戲裡。原本「等使用者看畫面標 ART」（BB 10-27 D 類）照 D120／D128 改由 BB 判，不經使用者；CC 拍、BB 判。 ｜ 【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國公寓廚房＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜美國公寓（V4 美國線）施工時一起放",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -14962,8 +14952,6 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
   {
@@ -18433,9 +18421,9 @@
    "title": "美國篇場景改季節：8 月出發、12 月回來（us_bus_station 等改成夏末；冬天場景保留給 12 月），隨 AA_213 新時間線",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P3",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國篇場景換季＝場景美術；功能（照日期換季）已在 L2918-2924、L2797-2800、L3740 PASS——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【12:4x d3fdab82 已整合（和 US-CAMPUS-WIRE 一起）】【11:3x LAWWW2-C 交 407ec3f5（交接 7fc8a3be，DL-LW2-407ec3f5）：us_community.glb、us_campus.glb（含新紅磚）＋patches/us_season.diff（us3d.js usSeasonKey／usSeason、tests/us_season_unit.js）＋四季截圖。兩份 GLB 一定要配 patch 一起接。美國篇區域整合排在 v9.10.1 發布後】【11:0x beb5fa54 WIP：us_campus／us_community 四季＋patches/us_season.diff（us3d.js usSeasonKey／usSeason；tests/us_season_unit.js）。新的 us_community.glb 一定要配 us_season.diff；LAWWW2 正式交付以前不要換社區 GLB】等 US-RESCHED-1017（AA_213）交付後列出要改季節的場景；美國篇暫停期間不做",
+   "next": "【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP（fbcca8ad6）：Node 建區域接真 GLB，看得到的程序化網格 0、窗景都有＝模型已在遊戲裡。原本「等使用者看畫面標 ART」（BB 10-27 D 類）照 D120／D128 改由 BB 判，不經使用者；CC 拍、BB 判。 ｜ 【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國篇場景換季＝場景美術；功能（照日期換季）已在 L2918-2924、L2797-2800、L3740 PASS——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【12:4x d3fdab82 已整合（和 US-CAMPUS-WIRE 一起）】【11:3x LAWWW2-C 交 407ec3f5（交接 7fc8a3be，DL-LW2-407ec3f5）：us_community.glb、us_campus.glb（含新紅磚）＋patches/us_season.diff（us3d.js usSeasonKey／usSeason、tests/us_season_unit.js）＋四季截圖。兩份 GLB 一定要配 patch 一起接。美國篇區域整合排在 v9.10.1 發布後】【11:0x beb5fa54 WIP：us_campus／us_community 四季＋patches/us_season.diff（us3d.js usSeasonKey／usSeason；tests/us_season_unit.js）。新的 us_community.glb 一定要配 us_season.diff；LAWWW2 正式交付以前不要換社區 GLB】等 US-RESCHED-1017（AA_213）交付後列出要改季節的場景；美國篇暫停期間不做",
    "first": {
     "term": "Y4S1",
     "week": 1,
@@ -18446,8 +18434,6 @@
     "parallel": true,
     "confirmed": false
    },
-   "pausedReason": "美國交換第三優先，不在 v9.10",
-   "resumeWhen": "v9.10 發布後（AA_213 時間線已交，8 月出發 12 月回來）",
    "xai": {
     "receiver": "LAWWW2",
     "branch": "claude/focused-cray-c9uwvw",
@@ -20960,7 +20946,7 @@
    "id": "SCN-US-LIB",
    "title": "美國交換：法學院圖書館 3D 區域（挑高中庭、玻璃欄杆、彩色玻璃窗；最小可玩：大門、中庭一層、可以坐的長桌，樓上看得懂地關起來）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "prio": "P2",
    "first": {
     "term": "Y4S1",
@@ -20973,7 +20959,7 @@
     "confirmed": true
    },
    "src": "使用者 2026-10-18 01:0x 直接給 LAWWW2-C 照片（LAWWW2 分支 HANDOFF.md，bdc24c3c）；LAWWW-C 排在 SCN-US-02 之後、ART-US-SEASON 之前",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國法學院圖書館＝場景美術；功能 2F 書庫已在 L2846-2913 PASS——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 稽核 C】程式已在開發分支（BB 隨美國那一學期清單一起驗）｜ 【05:5x】入口＝us_campus 的 interact「library」（法學院同一排台階下、「進教室」東邊；IU 版也叫 library），出來 spawn_library_out；和 SCN-US-IU 一起接｜【02:3x：f39f3aef＋8d21b0f2（北牆細長窗）已交、等整合；v9.10 發布後接，拿最新的】｜SCN-US-02 交件後開工",
+   "next": "【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP（fbcca8ad6）：Node 建區域接真 GLB，看得到的程序化網格 0、窗景都有＝模型已在遊戲裡。原本「等使用者看畫面標 ART」（BB 10-27 D 類）照 D120／D128 改由 BB 判，不經使用者；CC 拍、BB 判。 ｜ 【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國法學院圖書館＝場景美術；功能 2F 書庫已在 L2846-2913 PASS——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW-C 2026-10-21 稽核 C】程式已在開發分支（BB 隨美國那一學期清單一起驗）｜ 【05:5x】入口＝us_campus 的 interact「library」（法學院同一排台階下、「進教室」東邊；IU 版也叫 library），出來 spawn_library_out；和 SCN-US-IU 一起接｜【02:3x：f39f3aef＋8d21b0f2（北牆細長窗）已交、等整合；v9.10 發布後接，拿最新的】｜SCN-US-02 交件後開工",
    "xai": {
     "spec": "使用者照片（不進 repo）＋LAWWW2 HANDOFF 的文字描述",
     "branch": "claude/focused-cray-c9uwvw",
@@ -20992,8 +20978,6 @@
    ],
    "evidence": "src/us3d.js:235-242 us_lawlib 區域（校園 library 入口）、src/assets3d.js:143 bldg.us_lawlib；v9.10.2 發布說明「美國校園、法學院圖書館接成區域、四季（LAWWW2，d3fdab82）」；學姊作息平日 09～12 在 us_lawlib（src/us_life3d.js S4）",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
   {
@@ -21251,7 +21235,7 @@
    "title": "美國校園照 Indiana 校區真的樣子和路線改；其他地區照樣子設計、先不開放進出（使用者 10-18 03:1x 直接對 LAWWW2-C，附空拍圖；照片不進 repo）",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -21264,7 +21248,7 @@
     "confirmed": true
    },
    "src": "使用者 10-18 03:1x 直接對 LAWWW2-C（LAWWW2 03:18 轉述）",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國校園 IU 版＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【12:4x d3fdab82：us_campus 已接成區域（v9.10.2 候選）】【11:3x LAWWW2-C 回報：90c2896e 已照 IU 空拍圖改完（README test_shots/us_oldcampus_1018/ 逐項對照）；路線、校門、法學院照 v2；紅磚 beb5fa54 使用者已確認。和 SCN-US-02 一起接（v9.10.1 發布後）】【11:3x LAWWW-C 派：先確認 SCN-US-02 v3（90c2896e／407ec3f5）是不是已經照 IU 空拍圖改完；是的話回報、我標完成；不是的話把差的部分做完】LAWWW2 排在 ART-EXT 四座之後、ART-US-SEASON 之前；空拍圖用文字描述寫進 HANDOFF；交件後 LAWWW 接（v9.10 後）",
+   "next": "【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP（fbcca8ad6）：Node 建區域接真 GLB，看得到的程序化網格 0、窗景都有＝模型已在遊戲裡。原本「等使用者看畫面標 ART」（BB 10-27 D 類）照 D120／D128 改由 BB 判，不經使用者；CC 拍、BB 判。 ｜ 【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國校園 IU 版＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【12:4x d3fdab82：us_campus 已接成區域（v9.10.2 候選）】【11:3x LAWWW2-C 回報：90c2896e 已照 IU 空拍圖改完（README test_shots/us_oldcampus_1018/ 逐項對照）；路線、校門、法學院照 v2；紅磚 beb5fa54 使用者已確認。和 SCN-US-02 一起接（v9.10.1 發布後）】【11:3x LAWWW-C 派：先確認 SCN-US-02 v3（90c2896e／407ec3f5）是不是已經照 IU 空拍圖改完；是的話回報、我標完成；不是的話把差的部分做完】LAWWW2 排在 ART-EXT 四座之後、ART-US-SEASON 之前；空拍圖用文字描述寫進 HANDOFF；交件後 LAWWW 接（v9.10 後）",
    "xai": {
     "spec": "使用者空拍圖（LAWWW2 文字描述）；SCN-US-02 已交的校園街道",
     "branch": "claude/focused-cray-c9uwvw",
@@ -21273,8 +21257,6 @@
     "ack": "ACTIONED"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
   {
@@ -30372,7 +30354,7 @@
    "id": "US-MS-NIGHT-1021",
    "title": "美國街道路燈的地面光圈（晚上 20:00 前後；us_lamp_pools.diff）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P3",
    "area": "v4",
    "first": {
@@ -30387,7 +30369,7 @@
    },
    "source": "LAWWW2（帳號 A）outbox 4edb06b5（10-22 04:46 訊息）",
    "authorized": "D108、D99 第三",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國街道路燈光圈＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW（帳號 A）2026-10-22 04:4x】93967011 已套進開發分支 1c53b397；單元測試 us_lamp_pools_unit、nav_us_unit 等 v9.10.4 發布測試跑完",
+   "next": "【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP（fbcca8ad6）：Node 建區域接真 GLB，看得到的程序化網格 0、窗景都有＝模型已在遊戲裡。原本「等使用者看畫面標 ART」（BB 10-27 D 類）照 D120／D128 改由 BB 判，不經使用者；CC 拍、BB 判。 ｜ 【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國街道路燈光圈＝場景美術——列進 docs/handoff/USER_ART_REVIEW_1027.md｜【LAWWW（帳號 A）2026-10-22 04:4x】93967011 已套進開發分支 1c53b397；單元測試 us_lamp_pools_unit、nav_us_unit 等 v9.10.4 發布測試跑完",
    "xai": {
     "spec": "LAWWW2 README test_shots/us_lamp_pools_1022",
     "branch": "claude/second-ai-env-art",
@@ -30397,8 +30379,6 @@
    },
    "sha": "93967011",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
   {
@@ -33108,8 +33088,8 @@
    "title": "D99 路線巡查②美國交換（LAWWW2 美術總監巡查）：社區西邊出口外面補街道與對面平房、法圖彩色玻璃與天窗晚上變暗、美國校園路燈光圈",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國路線夜景、路燈、社區西邊＝場景美術；L3007-3052 功能與效能看過——列進 docs/handoff/USER_ART_REVIEW_1027.md｜BB 瀏覽器：美國社區傍晚／晚上從西邊出口往公車站走、法學院圖書館（美國）21:00 看彩色玻璃與天窗、美國校園晚上路燈下；手機幀率（社區 +16k 三角形、+5 物件）",
+   "status": "已整合待測試",
+   "next": "【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP（fbcca8ad6）：Node 建區域接真 GLB，看得到的程序化網格 0、窗景都有＝模型已在遊戲裡。原本「等使用者看畫面標 ART」（BB 10-27 D 類）照 D120／D128 改由 BB 判，不經使用者；CC 拍、BB 判。 ｜ 【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；美國路線夜景、路燈、社區西邊＝場景美術；L3007-3052 功能與效能看過——列進 docs/handoff/USER_ART_REVIEW_1027.md｜BB 瀏覽器：美國社區傍晚／晚上從西邊出口往公車站走、法學院圖書館（美國）21:00 看彩色玻璃與天窗、美國校園晚上路燈下；手機幀率（社區 +16k 三角形、+5 物件）",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -33132,8 +33112,6 @@
    },
    "notes": "LAWWW-B 10-24 15:0x 整合：patch us_route_night_1024（us3d.js vtAt／skyTint、us_campus lampPools；tests/us_lamp_pools_unit.js、新 tests/us_lawlib_sky_unit.js）、us_community.glb＋.json＋tools/blender/env_second/us_community.py；美國 16 支＋ground_zfight＋aa412／aa370 ALL PASS。P3 記錄沒改：208 剛進門鏡頭退到門外平台、出境大廳柱子貼鏡頭。",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術由 BB 標 ART_APPROVED（D120、D128；舊寫法「只有使用者能標」已過時，LAWWW-C 11-05 更正）（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
   {
@@ -51972,6 +51950,62 @@
     "ack": "ACTIONED"
    },
    "sha": "900705400"
+  },
+  {
+   "id": "US-CLASSROOM-3D-1110",
+   "title": "美國教室做 3D（目前 2D us_classroom；20 週每個上課日都會去）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "pausedReason": "要 AA 先給座位、NPC（誰坐哪、上課時誰在）規格",
+   "resumeWhen": "AA 交規格",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "美國交換第一堂課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【LAWWW 11-10 14:4x】LAWWW2 US-SCENE-GAP 建議第一；D99 第三優先（美國交換）。",
+   "xai": {
+    "spec": "docs/art-rebuild/second_ai/us_scene_gap_1110.md",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "進教室、一鍵上課、研討課、期中報告在 3D 教室演；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "sha": null
+  },
+  {
+   "id": "US-CLUBHOUSE-3D-1110",
+   "title": "美國會所交誼廳、自習室做 3D（目前 2D；自習、何俊朗平日 19～22、週四學姊、烤肉、晚餐）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "pausedReason": "要 AA 先給座位、NPC 規格",
+   "resumeWhen": "AA 交規格、美國教室做完",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "美國交換住進會所",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【LAWWW 11-10 14:4x】LAWWW2 建議第二。",
+   "xai": {
+    "spec": "docs/art-rebuild/second_ai/us_scene_gap_1110.md",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "會所交誼廳、自習室走得進去、坐得下；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "sha": null
   }
  ]
 }
