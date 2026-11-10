@@ -47,6 +47,23 @@
     - PUTONG101-WINDOW-1102 交付 a43da6a27：博思一樓玻璃換亮一點的灰藍漸層；窗景照片要 CC 重拍（teach_views.py putong_north）。
     - 盤點表再更正（6d19463fc）：DORM1-WALL-SEAM 早已整合（4b5a0ebd8）、ART-OLDROAD-SHELF 被頁間取代。**以後搜 git log 要用沒有日期的短 ID。**
     - 剩下的佇列：ART-GYM-POOL-SWIMMERS-1103、GYM-FIT-PROPS-1103（要新的人物泳裝、動作，先確認 D99 人物凍結還算不算）→ CROWD-DEPTS-LOOK-1028 → PERF-CAMPUS-GLB-1102 → ART-SOP → BAKE-PC-1102-S2 → LAWWW2-REEXPORT-US-1027 → INTERIOR-AAA P3、萬才館倒角。
+  - **12:5x～13:5x 進度**（帳號 A；NTU-REF-AUDIT X223，照 LAWWW 12:51 的順序）：
+    - 已交：
+      - ① 晨思鐘 00a298885：改成無頂金屬鐘架。LAWWW 已接（077a4e5d2）。
+      - ② 行政大樓、文學院、校史館外牆 36e234d0f。LAWWW 已接（8d8b475dc）。
+      - ③-1 男一舍 4f695028e：灰色清水混凝土、樓梯塔圓窗。LAWWW 已接（本機）。
+      - ③-2 共同教學館 812dd23d8：紅磚舊館＋米色翼樓。LAWWW 已接（本機）。
+      - ③-3 映月湖 50ac4d5c6：綠琉璃瓦、紅欄杆、三棵垂柳。待整合。
+      - ③-4 研三舍 3b080b7f3：拿掉多蓋的那一棟，研三舍在國青裡。待整合。
+    - 每一件都要 CC 拍同角度疊圖（`--mode campus`）、BB 判（D141 最多 3 版）。
+    - 進行中：**套件五棟**，在 worktree `wt_kit` 做，底是 8d8b475dc＋③-4。
+      - 電機二館：紅磚拱窗；
+      - 土木：平屋頂、4 層、玻璃樓梯塔；
+      - 圖資：白色、頂層拱窗；
+      - 農綜：紅磚、5 層；
+      - 國青：11 層、米色、深褐凸窗、灰屋頂。
+      - campuskit3d.js 加 topArch、stairTower、bays、roofCol 四個參數；socsci_place_unit 的電機二館那一行要跟著改。
+      - 新測試 ntu_ref_kit5_unit.js：底 FAILED 5，改完 ALL PASS。回歸 199 支在跑。
   - **12:0x～12:3x 進度**（帳號 A）：
     - 已交：
       - SNS-VIEW-COVER a15058787：SUNNY SIDE、日常失速的照片窗景被備用的卡通窗擋住。LAWWW 已接。
