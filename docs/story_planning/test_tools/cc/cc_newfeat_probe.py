@@ -7,6 +7,8 @@ CASES：
   CLUB    美國會所 3D：【前置／捷徑】讀檔到 us_outside 2028-10-03（週二）19:30＋交換旗標（同 US()）→ 走到會所門口（標籤有「會所」的互動）按 → 進 3D（區域換了、不是 2D 選單）
           → 列互動點、走到自習室一個座位坐下（選單選讀書那一個）→ 起身 → 出去。
 每項：walkFallbacks、JS 例外、黑畫面（截圖平均亮度 < 12 就算黑）。Playwright（PC GPU）≠ iPhone。
+  LOUNGE  （BB 17:54，05a715ead US-CLUB-LOUNGE-CLOSE-1110）會所交誼廳 12/14 晚上關門：【前置／捷徑】us_outside 2028-12-14 19:00＋交換旗標（沒排晚餐）→ 走到會所門口按 → 進 3D：
+          z.loungeClosed＝true、門板 LOUNGE_DOOR 看得到、門廳有「交誼廳」的「看」（按了說「今晚交誼廳有聚餐。」）、找路走不進交誼廳；自習室座位照常坐得下讀書。截圖門關著那一面。
 用法：LW_TESTS=<wt>/tests [CASES=YEJIAN,MOKU,CLUB] python3 cc_newfeat_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, copy
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
@@ -16,7 +18,7 @@ import importlib.util
 _spec = importlib.util.spec_from_file_location('pe', os.path.join(HERE, 'pt1107e_arcs_probe.py')); pe = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(pe)
 from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
-CASES = (os.environ.get('CASES') or 'YEJIAN,MOKU,CLUB').split(',')
+CASES = (os.environ.get('CASES') or 'YEJIAN,MOKU,CLUB,LOUNGE').split(',')
 R = L.Run('newfeat', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ITS = "(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.2,lv:i.lv|0,to:i.exit?i.exit.to:null,seat:!!i.seat,ggs:i.ggs||null,study:!!(i.study||(i.seat&&i.seat.study))})))()"   # r2：頁間書屋的互動點用 ggs 認（標籤不一定有「書」字）、會所自習室座位用 study 認
@@ -137,6 +139,49 @@ async def main():
                     if st:
                         await use(pg, cdp, st, tag, pick=lambda o: next((i for i, x in enumerate(o) if '讀書' in x['t']), 0))
                         await shot(pg, 'club_2_sit'); await stand(pg, cdp, tag)
+                    await leave(pg, cdp, tag)
+                if case == 'LOUNGE':
+                    await D.load_zone(pg, cdp, 'us_outside', '2028-12-14', 19.0, wait=6000)
+                    await pg.evaluate("(f=>{ Object.assign(GAME.G.flags, f); })(%s)" % USF)
+                    snap = await pg.evaluate("()=>GAME.snapshot()"); await L.load_state(pg, snap, quiet_phone=True); await pg.wait_for_timeout(9000); await pe.settle(pg, cdp, [], 20)
+                    R.setup('【前置／捷徑】讀檔到 us_outside 2028-12-14 19:00＋交換旗標（沒排會所晚餐）')
+                    dn = await pg.evaluate("(()=>{ try{ return {dn:USL.dinnerNight(GAME.G), out:(typeof OUT!=='undefined'&&OUT.get)?OUT.get(GAME.G,'us_club'):null}; }catch(e){ return 'ERR '+e; } })()")
+                    R.note('%s dinnerNight：%s' % (tag, J(dn)))
+                    it = next((i for i in await pg.evaluate(ITS) if '會所' in (i['label'] or '')), None)
+                    if not R.check('%s 社區有會所的門' % tag, bool(it), ''): continue
+                    z0 = (await pg.evaluate(ME))['zone']; await use(pg, cdp, it, tag)
+                    for _ in range(30):
+                        if (await pg.evaluate(ME))['zone'] != z0: break
+                        await pg.wait_for_timeout(500)
+                    await pg.wait_for_timeout(2500)
+                    me = await pg.evaluate(ME)
+                    if not R.check('%s 走進 3D 會所' % tag, me['zone'] == 'us_clubhouse_in', J(me)): continue
+                    LS = """(()=>{ const z=GAME.E.zone, P=GAME.E.player.obj.position; let d=null; z.group&&z.group.traverse(o=>{ if(o.name==='LOUNGE_DOOR') d=o; });
+                      let vis=!!d; for(let o=d;o;o=o.parent) if(o.visible===false) vis=false;
+                      const lk=(GAME.E.interactables||[]).find(i=>i.usClubLook==='lounge_closed');
+                      const tgt=lk?[lk.x-2.5,lk.z]:null; const p=tgt?GAME.E.pathTo(P.x,P.z,0,tgt[0],tgt[1],0):null;
+                      const last=p&&p.length?p[p.length-1]:null;
+                      return {closed:!!z.loungeClosed, doorNode:!!d, doorVisible:vis, look:lk?{x:+lk.x.toFixed(2),z:+lk.z.toFixed(2),hidden:!!lk.hidden,label:lk.label}:null,
+                        tgt, reach:!!(last&&Math.hypot(last[0]-tgt[0],last[1]-tgt[1])<0.6), pathLen:p?p.length:null}; })()"""
+                    ls = await pg.evaluate(LS); R.note('%s 交誼廳狀態：%s' % (tag, J(ls)))
+                    R.check('%s 12/14 19:00 交誼廳的門關著（z.loungeClosed）' % tag, ls['closed'], J(ls))
+                    R.check('%s 門板 LOUNGE_DOOR 看得到' % tag, ls['doorNode'] and ls['doorVisible'], J(ls))
+                    R.check('%s 找路走不進交誼廳（門口後 2.5 m 走不到）' % tag, ls['tgt'] is not None and not ls['reach'], J(ls))
+                    if ls['look'] and not ls['look']['hidden']:
+                        n0 = await pg.evaluate(SAYH); await use(pg, cdp, dict(ls['look'], r=0.9, lv=0, seat=False, study=False, to=None, ggs=None), tag)
+                        cap = ''
+                        for _ in range(12):   # 「看」＝game3d 內部 caption()（#caption，4.6 秒），不是 GAME.say
+                            cap = await pg.evaluate("(document.getElementById('caption')||{}).textContent||''")
+                            if '交誼廳' in cap: break
+                            await pg.wait_for_timeout(250)
+                        await shot(pg, 'lounge_1_closed_door')
+                        R.check('%s 按「交誼廳」字幕「今晚交誼廳有聚餐。」' % tag, '今晚交誼廳有聚餐' in cap, J(cap))
+                    else: R.check('%s 門廳有「交誼廳」的「看」' % tag, False, J(ls))
+                    its = await pg.evaluate(ITS); st = next((i for i in its if i['study']), None)
+                    if R.check('%s 自習室座位還在（study）' % tag, bool(st), J(its)[:400]):
+                        await use(pg, cdp, st, tag, pick=lambda o: next((i for i, x in enumerate(o) if '讀書' in x['t']), 0))
+                        me = await pg.evaluate(ME); await shot(pg, 'lounge_2_study')
+                        R.check('%s 交誼廳關門時自習室照常坐得下' % tag, me['seat'], J(me)); await stand(pg, cdp, tag)
                     await leave(pg, cdp, tag)
             except Exception as e:
                 R.check('%s 沒有中斷' % tag, False, repr(e)[:300])
