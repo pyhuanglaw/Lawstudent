@@ -52195,6 +52195,174 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "GG-SHOP-G04-PHARM-1110",
+   "title": "公館 G04 公館藥局：照使用者參考圖重做外觀和室內（X200 剩下的 6 間）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "等參考圖：使用者 11-10 18:2x 選「給提示詞、我生參考圖」；BB 照 D97 新開頭給提示詞",
+   "resumeWhen": "BB 交參考圖（檢查通過）",
+   "next": "【LAWWW 11-10 18:2x】外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW（照前 9 間流程）。",
+   "xai": {
+    "spec": "X200、使用者 11-10 18:2x 選擇題",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "照參考圖（D133，店名 D77）、走得進去、坐得下；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "GG-SHOP-G08-FRUIT-1110",
+   "title": "公館 G08 水果行：照使用者參考圖重做外觀和室內（X200 剩下的 6 間）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "等參考圖：使用者 11-10 18:2x 選「給提示詞、我生參考圖」；BB 照 D97 新開頭給提示詞",
+   "resumeWhen": "BB 交參考圖（檢查通過）",
+   "next": "【LAWWW 11-10 18:2x】外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW（照前 9 間流程）。",
+   "xai": {
+    "spec": "X200、使用者 11-10 18:2x 選擇題",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "照參考圖（D133，店名 D77）、走得進去、坐得下；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "GG-SHOP-G09-LAUNDRY-1110",
+   "title": "公館 G09 自助洗衣：照使用者參考圖重做外觀和室內（X200 剩下的 6 間）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "等參考圖：使用者 11-10 18:2x 選「給提示詞、我生參考圖」；BB 照 D97 新開頭給提示詞",
+   "resumeWhen": "BB 交參考圖（檢查通過）",
+   "next": "【LAWWW 11-10 18:2x】外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW（照前 9 間流程）。",
+   "xai": {
+    "spec": "X200、使用者 11-10 18:2x 選擇題",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "照參考圖（D133，店名 D77）、走得進去、坐得下；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "GG-SHOP-G10-PRINT-1110",
+   "title": "公館 G10 影印・輸出：照使用者參考圖重做外觀和室內（X200 剩下的 6 間）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "等參考圖：使用者 11-10 18:2x 選「給提示詞、我生參考圖」；BB 照 D97 新開頭給提示詞",
+   "resumeWhen": "BB 交參考圖（檢查通過）",
+   "next": "【LAWWW 11-10 18:2x】外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW（照前 9 間流程）。",
+   "xai": {
+    "spec": "X200、使用者 11-10 18:2x 選擇題",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "照參考圖（D133，店名 D77）、走得進去、坐得下；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "GG-SHOP-G11-TEISHOKU-1110",
+   "title": "公館 G11 日日定食：照使用者參考圖重做外觀和室內（X200 剩下的 6 間）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "等參考圖：使用者 11-10 18:2x 選「給提示詞、我生參考圖」；BB 照 D97 新開頭給提示詞",
+   "resumeWhen": "BB 交參考圖（檢查通過）",
+   "next": "【LAWWW 11-10 18:2x】外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW（照前 9 間流程）。",
+   "xai": {
+    "spec": "X200、使用者 11-10 18:2x 選擇題",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "照參考圖（D133，店名 D77）、走得進去、坐得下；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "GG-SHOP-G13-STATIONERY-1110",
+   "title": "公館 G13 文具・畫材：照使用者參考圖重做外觀和室內（X200 剩下的 6 間）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "等參考圖：使用者 11-10 18:2x 選「給提示詞、我生參考圖」；BB 照 D97 新開頭給提示詞",
+   "resumeWhen": "BB 交參考圖（檢查通過）",
+   "next": "【LAWWW 11-10 18:2x】外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW（照前 9 間流程）。",
+   "xai": {
+    "spec": "X200、使用者 11-10 18:2x 選擇題",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "照參考圖（D133，店名 D77）、走得進去、坐得下；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
