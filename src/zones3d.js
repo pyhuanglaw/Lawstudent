@@ -985,7 +985,9 @@ const Z3 = (function(){
       nav.blockRect(-81,FZ+SHOPD/2,14.2,SHOPD+0.2,0,0); addCol(-81,FZ+SHOPD/2,14,SHOPD,0,cb.userData.h+1);
       const lane=new THREE.Mesh(new THREE.PlaneGeometry(6,36),new THREE.MeshStandardMaterial({map:(()=>{ const t=W3.asphaltTex().clone(); t.needsUpdate=true; t.repeat.set(1,6); return t; })(),roughness:0.95})); lane.rotation.x=-Math.PI/2; lane.position.set(-71,0.028,FZ+18); lane.receiveShadow=true; g.add(lane);
       const pole=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,3.0,8),M('#7d8288')); pole.position.set(-73.7,1.5,FZ-0.5); g.add(pole); nav.blockCircle(-73.7,FZ-0.5,0.2);
-      const st=TK.signTex('溫州街',{bg:'#2f6b4f',color:'#ffffff',size:80}); for(const ry of [0,Math.PI]){ const sg=new THREE.Mesh(new THREE.PlaneGeometry(1.1,0.3),new THREE.MeshStandardMaterial({map:st,roughness:0.6})); sg.position.set(-73.7,2.85,FZ-1.05); sg.rotation.y=ry+Math.PI/2; g.add(sg); }   /* 路名牌掛在柱子靠馬路那一側，沿人行道走的人看得到 */
+      /* 路名牌「溫州街」拿掉（WZ-ENTRY-XINSHENG-1103，X199：溫州街只從新生南路進出，這條巷子不再通溫州街；柱子、反光鏡照留）*/
+      /* 巷口用一排住戶的盆栽擋起來（看得出來走不進去，不是隱形牆，D36）：巷子的柏油、轉角公寓、麵店側面照留；導航在下面「通往溫州街」那裡擋 */
+      { const pt=TK.pots(14,71); pt.position.set(-73.9,0,FZ+1.15); g.add(pt); pt.name='gg_lane_closed_pots'; }
       const mir=TK.trafficMirror(); mir.position.set(-68.35,0,FZ-0.5); mir.rotation.y=-2.4; g.add(mir); nav.blockCircle(-68.35,FZ-0.5,0.2); }
     // 騎樓外的立牌（店門口前面、騎樓柱子外側；不擋騎樓，也不擋從店裡出來的位置）
     for(const [ax,ls] of [[-66.2,['今日推薦','蜜汁叉燒','三寶飯 130']],[-49.8,['本日推薦','冬瓜檸檬','大杯 45']],[-45.4,['二手法律書','教科書收購','國考用書']]]){ const ab=TK.aBoard(ls); ab.position.set(ax,0,FZ-0.6); ab.rotation.y=Math.PI; g.add(ab); nav.blockCircle(ax,FZ-0.6,0.35); }
@@ -1073,8 +1075,10 @@ const Z3 = (function(){
         g.add(r); }).catch(e=>console.warn('公館花攤正式模型載入失敗（攤子沒有畫面，阻擋與互動照舊）',e)); }
     // 集合點：公館圓環意象（小廣場）
     { const c=new THREE.Mesh(new THREE.CylinderGeometry(3,3,0.3,24),M('#d9cbb0')); c.position.set(22,0.15,11.5); g.add(c); nav.blockCircle(22,11.5,3.2); const tree=TREE(1.2); place(g,tree,22,11.5,0); }
-    // 通往溫州街（西側）
-    E.interactables.push({x:-71,z:FZ+1.2,radius:2.6,label:'往溫州街',exit:{to:'wenzhou',spawn:{x:51.3,z:-9.8,yaw:0}}});
+    /* 公館往溫州街的巷口拿掉（WZ-ENTRY-XINSHENG-1103；使用者 X199，11-03 選擇題：「溫州街主要入口應該是新生南路側門 溫州街就在新生南路後面」、公館那頭的巷口「拿掉」）：
+       原本這裡是「往溫州街」(−71, FZ+1.2) → 溫州街東端 (51.3, −9.8)。現在溫州街只從新生南路（西側橫巷北口）進出；從公館去溫州街＝回校園 → 新生南路側門 → 新生南路「往溫州街」。
+       巷口 x −74～−68、z 19～22（騎樓那一段）擋起來（盆栽在上面畫）；只擋巷口那一小塊，騎樓、人行道照舊走得通（tests/wz_entry_xinsheng_unit.js）*/
+    nav.blockRect(-71,FZ+1.4,6.2,3.2,0);
     nav.blockOutside(-78,-45,78,FZ+2.6); /* 南側騎樓（z 19–22，店面玻璃在 z=22）要可走，互動點在 z=21 */ for(let z=-2;z<=2;z+=0.5) for(let x=-78;x<=-74;x+=0.5){} for(let xq=-79;xq<=-74;xq+=0.5) for(let zq=9;zq<=15;zq+=0.5){ const [cx,cz]=nav.toCell(xq,zq); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
     for(const lx of gate.userData.gate.lanes) for(let z=-50;z<=-44;z+=0.5) for(let xq=lx-2.1;xq<=lx+2.1;xq+=0.5){ const [cx,cz]=nav.toCell(xq,z); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }   /* 校門兩側通道（門房在正中間，2026-10-18 起；原本開的是開口正中間 x -4～4）*/
     placeBlocks(nav,gate,0,-46,0);   /* 開完通道再把門房、燈柱、鐵門擋回去 */
@@ -1272,8 +1276,9 @@ const Z3 = (function(){
     { const L=W3.lampPost(); place(g,L,47.75,11.8,Math.PI/2); nav.blockCircle(47.75,11.8,0.25); const pool=TK.lightPool(4.4,'rgba(255,214,150,1)'); pool.position.set(48.5,0.03,11.8); g.add(pool); pools.push(pool); const gs=TK.glowSprite('rgba(255,214,150,1)',1.8,0,0.85); gs.position.set(48.5,3.9,11.8); g.add(gs); }
     // 夜間點光源（數量固定，白天強度 0，避免換燈數造成 shader 重編）
     for(const [lx,ly,lz,c,i] of [[53.8,3.2,0,0xffc88a,1],[44,3.0,3.8,0xf2fbff,0.85],[14.2,3.0,3.6,0xffd6a0,0.7]]){ const L=new THREE.PointLight(c,0,16,1.8); L.position.set(lx,ly,lz); L.userData.maxI=i*18; g.add(L); lights.push(L); }
-    // 東端：回公館
-    E.interactables.push({x:51.3,z:-13.4,radius:2.6,label:'回公館',exit:{to:'gongguan',spawn:{x:-71,z:16.5,yaw:Math.PI}}});
+    /* 東端的「回公館」拿掉（WZ-ENTRY-XINSHENG-1103，X199）：溫州街只剩西側橫巷北口「往新生南路」一個出入口。
+       只有新生南路沒載入（XSL false：沒有 src/xinsheng3d.js 的建置）時留著，免得溫州街出不去（D36）*/
+    if(!XSL) E.interactables.push({x:51.3,z:-13.4,radius:2.6,label:'回公館',exit:{to:'gongguan',spawn:{x:-71,z:16.5,yaw:Math.PI}}});
     for(const b of buildings) b.traverse(o=>{ if(o.isMesh){ o.castShadow=o.castShadow!==false; } });
     // 時間：0 白天 → 1 夜晚（傍晚漸亮）
     const warmSky=new THREE.Color(0xffc48a), warmGround=new THREE.Color(0x6a5644); const zoneTime=(h,E)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E&&E.hemi){ E.hemi.intensity+=0.85*k; E.hemi.color.lerp(warmSky,0.3*k); E.hemi.groundColor.lerp(warmGround,0.55*k); } for(const L of lights) L.intensity=L.userData.maxI*Math.max(0,Math.min(1,k)); for(const p of pools) p.material.opacity=p.userData.poolMax*Math.max(0,Math.min(1,k*1.2-0.2)); };
@@ -2881,7 +2886,7 @@ const Z3 = (function(){
      （一次一個、中間空 1.5 秒；已經載過的跳過；換了區域就停）。下次進去時模型已經在快取裡，prewarm 在黑畫面就接上、編好。
      只在電腦上做（ASSETS.texCap 是空的＝不是手機；手機記憶體少，照舊進去才載）；網址 ?noprefetch 關掉，?prefetch 在手機模擬也做（量測用）。*/
   const ZONE_GLBS={ wenzhou:['bldg.wenzhou_street','bldg.wz_park','bldg.wz_props','bldg.wz_jphouse','bldg.cafe_exterior','bldg.wz_scooter'], cafe:['bldg.cafe_interior'] };
-  const NEXT={ gongguan:['wenzhou'], wenzhou:['cafe'], cafe:['wenzhou'] };
+  const NEXT={ xinsheng:['wenzhou'], wenzhou:['cafe'], cafe:['wenzhou'] };   /* 溫州街只從新生南路進出（WZ-ENTRY-XINSHENG-1103，X199）：原本 gongguan:['wenzhou']（公館巷口拿掉）*/
   let prefetchGen=0;
   function prefetchNext(E,opts){ opts=opts||{}; const q=(typeof location!=='undefined'&&location.search)||'';
     if(/[?&]noprefetch\b/.test(q)||typeof ASSETS==='undefined'||!ASSETS.loadOne||(ASSETS.texCap&&!/[?&]prefetch\b/.test(q))) return null;
