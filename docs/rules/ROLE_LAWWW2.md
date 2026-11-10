@@ -14,6 +14,12 @@
 - **權限**：只 push 系統指定的分支（帳號 A 是 `claude/second-ai-env-art`）；不碰 main、不發布；成果交 LAWWW 整合；不合併 LAWWW 開發分支的程式（規則檔用 `git show origin/<RULE_SOURCE>:<檔>` 讀）；不得因換班覆蓋還沒整合的模型。
 - **接班必讀**：這一頁、自己的 `docs/art-rebuild/second_ai/HANDOFF.md` 最上面、`sop_demo/README.md`、第 3 節範例表的三個 README。**新容器接班第 14 步之後馬上跑 `bash tools/blender/setup_env.sh`**（D144：bpy 5.2.2、EGL、VRM Add-on、VRoid CC0 樣本；裝過的跳過；不用問使用者）。
 
+### 1.0 使用者的電腦可以跑 Blender——慢的工作丟過去（使用者 2026-11-03：「其他 AI 的 Blender 也可以給我的電腦做」；2026-11-10 22:4x：「我的電腦都有裝了……都已經測試過了，而且都已經跑過了，為什麼你們會不知道交接前都已經做過的事情」）
+- 使用者的 Windows 電腦（RX 6600M）**已經裝好 Blender 5.2、已經跑過**。雲端容器沒有顯示卡、CPU 少，算預覽圖、烘焙、整條街的匯出很慢——**超過幾分鐘的 Blender 工作排到她的電腦**，不要在雲端硬算，也不要再問她要不要裝。
+- 排法（細節在 `claude/cc-testing` 的 `tools/cc_local/README.md`「別人的 Blender 工作」）：在 `tools/cc_local/queue.txt` 加一列，kind 寫 `blender`，SHA 寫 `lawww2`（你分支最新）或指定 commit；腳本在別的分支用 `ENV SCRIPT_FROM=`；例：`ID | lawww2 | blender | tools/blender/env_second/<腳本>.py | index.html | 120 | XARGS=--out {out}`。佇列是 CC 的檔——把那一列交給 CC 排（直接傳訊息，副本 BB）。
+- Blender 項目在她電腦上永遠單獨跑、**一律只用 CPU**（使用者 11-03 選的，`CC_BLENDER_DEVICE` 強制 CPU）；結果在 `claude/cc-local` 的 `docs/story_planning/CC/local_out/<ID>/`。
+- 接班必讀這一段；交班時寫明哪些 Blender 項目還在她電腦的佇列裡。
+
 ### 1.1 檔案範圍
 | 範圍 | 誰 |
 |---|---|

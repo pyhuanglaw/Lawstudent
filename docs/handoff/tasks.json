@@ -53128,6 +53128,32 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "BLENDER-ON-PC-1110",
+   "title": "LAWWW2 慢的 Blender 工作（算預覽圖、烘焙、整條街匯出）排到使用者電腦的佇列（kind blender）；規則寫進 ROLE_LAWWW2 1.0（X331）",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "美術製作",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "LAWWW2 回報現在哪一步慢、把它排上電腦；CC 排佇列",
+   "xai": {
+    "spec": "X331；cc-testing tools/cc_local/README.md「別人的 Blender 工作」",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "至少一項 Blender 工作在電腦上跑出結果",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
