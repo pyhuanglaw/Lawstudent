@@ -1,0 +1,36 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_movie_talk_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MT2_with\out
+CC MOVIE_TALK（X324）：CASES WITHZQ1,WITHZQ2,WITHZR；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】日期改 2028-01-15 08:00、heroine_04 朋友＋聯絡方式（day46 存檔的其他欄位不變）
+PASS [WITH heroine_04 m2801b] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《新年快樂，陌生人》②《貓咪咖啡館的星期三》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [WITH heroine_04 m2801b] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [  47.7s] [WITH heroine_04 m2801b] 約好：{"id": "iv54", "h": 9.83, "film": "m2801b", "title": "貓咪咖啡館的星期三"}；對話 ["好。我只看動作片喔。", "約好 今天 09:50，南洋戲院。"]
+PASS [WITH heroine_04 m2801b] 約成了  ["好。我只看動作片喔。", "約好 今天 09:50，南洋戲院。"]
+PASS [WITH heroine_04 m2801b] 約好的片＝m2801b（pick force）  {"id": "iv54", "h": 9.83, "film": "m2801b", "title": "貓咪咖啡館的星期三"}
+PASS [WITH heroine_04 m2801b]「今天」有「前往」
+  [  94.1s] [WITH heroine_04 m2801b] with kind skip；later 紀錄 {"later": null, "due": null, "phone": "null"}
+  [  94.1s] [WITH heroine_04 m2801b] with.kind＝skip（之後才出現，記上面的紀錄）
+PASS [WITH heroine_04 m2801b] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】日期改 2028-05-15 08:00、heroine_04 朋友＋聯絡方式（day46 存檔的其他欄位不變）
+PASS [WITH heroine_04 m2805b] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《畢業旅行沒有我》②《第八關》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [WITH heroine_04 m2805b] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [ 110.3s] [WITH heroine_04 m2805b] 約好：{"id": "iv55", "h": 9.83, "film": "m2805b", "title": "第八關"}；對話 ["好。我只看動作片喔。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [WITH heroine_04 m2805b] 約成了  ["好。我只看動作片喔。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [WITH heroine_04 m2805b] 約好的片＝m2805b（pick force）  {"id": "iv55", "h": 9.83, "film": "m2805b", "title": "第八關"}
+PASS [WITH heroine_04 m2805b]「今天」有「前往」
+  [ 142.1s] [WITH heroine_04 m2805b] with kind later；later 紀錄 {"later": null, "due": null, "phone": "null"}
+  [ 142.1s] [WITH heroine_04 m2805b] with.kind＝later（之後才出現，記上面的紀錄）
+PASS [WITH heroine_04 m2805b] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】日期改 2025-11-01 08:00、heroine_02 朋友＋聯絡方式（day46 存檔的其他欄位不變）
+PASS [WITH heroine_02 m2511b] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《聖誕快遞》②《黑白的城市》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [WITH heroine_02 m2511b] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [ 157.5s] [WITH heroine_02 m2511b] 約好：{"id": "iv54", "h": 9.83, "film": "m2511b", "title": "黑白的城市"}；對話 ["南洋？好。……早場的話，人比較少。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [WITH heroine_02 m2511b] 約成了  ["南洋？好。……早場的話，人比較少。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [WITH heroine_02 m2511b] 約好的片＝m2511b（pick force）  {"id": "iv54", "h": 9.83, "film": "m2511b", "title": "黑白的城市"}
+PASS [WITH heroine_02 m2511b]「今天」有「前往」
+  [ 191.3s] [WITH heroine_02 m2511b] with kind after；later 紀錄 {"later": null, "due": null, "phone": "null"}
+PASS [WITH heroine_02 m2511b] with.after 那一段有演（3 句）  ["我第一次看這部是國三，在電視上，半夜。", "看完我跟我媽說我要念電影。她說好啊，先把英文念好。", "所以我念了外文系。很好笑吧。"]
+PASS [WITH heroine_02 m2511b] walkFallbacks 0
+PASS 沒有 JS 例外  []
+ALL PASS
