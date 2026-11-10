@@ -13,6 +13,9 @@ LIVE_V91024_p0 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | game | tests/p0_move
 # ===== BB 20:12：X323 招牌擴大成 16 間（公館 5、新生南路 4、溫州街 6〔2:30 AM 對照〕＋日常失速），新 6ecd28432／舊 6ef185726 同機位；三區各一張＋日常失速一張 =====
 GG16_new | 6ecd2843280421aa066bec20f2503a0d303742c9 | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 20 | TAG=new
 GG16_old | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 20 | TAG=old
+# r3（CC 20:2x）：新生南路相機在騎樓裡（招牌被天花板切掉）→ 至少退 9 m；店面方向貼齊軸；帝大紅茶＝「買一杯飲料」
+GG16r3_new | 6ecd2843280421aa066bec20f2503a0d303742c9 | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 15 | TAG=new;GROUPS=新生南路,溫州街;RERUN=r3
+GG16r3_old | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 15 | TAG=old;GROUPS=新生南路,溫州街;RERUN=r3
 #SUPERSEDED(BB 20:10 改用 5c260f19e) GG_SIGNS_new | 8efee4fbf9b05526f2ed05db136817b0037f108b | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 12 | TAG=new
 #SUPERSEDED(BB 20:12 改 16 間 GG16) GG_SIGNS_new5c | 5c260f19ebf408cb332615020b22a7648fdbd8c4 | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 12 | TAG=new
 #SUPERSEDED(BB 20:12 改 16 間 GG16) GG_SIGNS_old | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 12 | TAG=old
