@@ -71,3 +71,18 @@ GLB、json 要從 LAWWW2 的分支拿：`assets/models/env/second_ai/lib_b1_cour
 - **patch**：`b1court_fog_1c767edf8.patch`（`git apply` 用 `--binary` 產的：GLB、json、新測試）。腳本在本分支 `tools/blender/env_second/lib_b1_court.py`。
 - **沒有改的**：鏡頭最近 0.7 m 的規則（引擎共用，LAWWW 的範圍）。白霧的根本原因是看到玻璃背面，所以模型這邊修就夠了。
 - **沒有測過**：瀏覽器畫面（等 CC 用同一個 probe 的 03、07 兩個鏡頭重拍）。
+
+## 第三輪：白霧真正的原因是門上的玻璃雨遮（BB 11-10 09:46 退回第二輪：NOT FIXED）——2026-11-10
+- **第二輪判斷錯了**：第二輪修的是「鏡頭跑到玻璃帷幕後面」，但 BB 的站位 (98,−37)、yaw 0 時鏡頭在玻璃前面。
+- **實際量**：用 Node 建出遊戲真正的校園，載入這顆 GLB，照 followCam 算鏡頭位置，對畫面每一格打視線、看第一個畫得到的面。
+  - 鏡頭在 (98, −1.14, −31.14)，正好在雨遮（`lbc_canopy_glass`，Y+2.75＝−1.45）上方 0.3 m。
+  - 畫面下半的每一條視線，0.5～1.3 m 處第一個碰到的都是雨遮。雨遮是雙面、半透明的，所以整片白霧，白天晚上都一樣。
+  - 雨遮遠的那一邊（z −32.3）就是截圖上那一條水平線。
+- **修法**：雨遮從 2 cm 厚的雙面盒子，改成一片只畫朝下那一面的玻璃。人在中庭是從下面看，照常看得到；鏡頭在上面時不畫。三角形 8,582 → 8,572。
+- **測試**：`tests/b1court_glass_cam_unit.js` 加第 4、5 項。
+  - 第 4 項：中庭裡每 0.5 m 一點、鏡頭朝南五個方向，共 1540 個鏡頭。每個鏡頭往畫面下半打 15 條視線，第一個畫得到的面是半透明、又在 2 m 內，就算有霧。
+  - 開發分支 57d555786 的 GLB：**119 個有霧，FAIL**。新 GLB：0 個，**ALL PASS**。
+  - 第 5 項：從中庭地上往上看雨遮，3/3 照常畫得到。
+- **回歸**：`fog3_reg.txt`，b1court_glass_cam、lib_b1_court_art、lib_b1_court、ground_zfight、campus_public 都 ALL PASS。
+- **patch**：`b1court_canopy_57d555786.patch`（--binary：GLB、json、測試）。腳本在本分支 `tools/blender/env_second/lib_b1_court.py`。
+- **沒有測過**：瀏覽器畫面。等 CC 用新門檻（畫面下半平均亮度 <110）重拍 03、07。
