@@ -51479,6 +51479,32 @@
     "ack": "ACTIONED"
    },
    "sha": "bc4598101"
+  },
+  {
+   "id": "GG-FLOWER-STALL-1110",
+   "title": "公館捷運站口小花攤（AA_732 gg_flower：花束、向日葵），接 GIFTH.shopOpt",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一個節日或女主角生日前去公館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【LAWWW 11-10 10:1x】GIFT-HOLIDAY-1110 d4ea487b7 唯一對不到的店；LAWWW2 做攤位（D141 v1、店名 D77），LAWWW 接互動點。",
+   "xai": {
+    "spec": "AA_732 shops gg_flower（1edb14888）；GIFT-HOLIDAY-1110",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "公館站口有花攤 GLB、走得到、互動點；LAWWW 接買花",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "sha": null
   }
  ]
 }
