@@ -402,6 +402,9 @@ async def part_tzp_walk(pg, cdp, errs):
     notfree, install, atdoor, tread, segs = [], [], [], [], []
     for pid, T in track.items():
         still = 0
+        mvs = sorted(math.hypot(T[i][1] - T[i - 1][1], T[i][2] - T[i - 1][2]) for i in range(1, len(T)))
+        med = mvs[len(mvs) // 2] if mvs else 0.0   # 這個人平常一秒走多少（雲端 SwiftShader 1～4 fps 時只有 0.1～0.2 m，「停下來」照這個比，不用固定的 m/s）
+        stop_th, tread_th = min(0.15, 0.25 * med), min(0.05, 0.2 * med)
         for i, (t, x, z, fr, po, vis) in enumerate(T):
             if not fr: notfree.append([pid, t, x, z])
             st = [s['id'] for s in geo['stalls'] if in_rect(x, z, s)]
@@ -409,8 +412,8 @@ async def part_tzp_walk(pg, cdp, errs):
             if i == 0: continue
             mv = math.hypot(x - T[i - 1][1], z - T[i - 1][2])
             dd = min([math.hypot(x - d['x'], z - d['z']) for d in geo['doors']] or [99])
-            if dd < 1.0 and mv < 0.15: atdoor.append([pid, t, round(dd, 2), round(mv, 3)])
-            still = still + 1 if mv < 0.05 else 0
+            if dd < 1.0 and mv < stop_th: atdoor.append([pid, t, round(dd, 2), round(mv, 3), round(med, 3)])
+            still = still + 1 if mv < tread_th else 0
             if still >= 2: tread.append([pid, t, x, z, po])
             if mv > 0.02: segs.append([pid, t, T[i - 1][1], T[i - 1][2], x, z])
     # 兩次取樣之間的直線每 0.1 m 看一次導航格（一次送進瀏覽器算）
@@ -419,8 +422,8 @@ async def part_tzp_walk(pg, cdp, errs):
     R.note('[B3] %s 18:30 觀察 %d 秒、%d 個路人（軌跡 B3_tracks_%s.json）；每人移動總長 %s' % (q, N, len(track), q, J({p: round(sum(math.hypot(T[i][1] - T[i - 1][1], T[i][2] - T[i - 1][2]) for i in range(1, len(T))), 1) for p, T in track.items()})))
     R.check('[B3] 路人每一秒都在走得到的格子（沒有穿牆、沒有卡在機車／攤子／柱子裡）', not notfree, J(notfree[:12]))
     R.check('[B3] 路人沒有站在夜市攤的範圍', not install, J(install[:12]))
-    R.check('[B3] 路人沒有停在店門互動點 1 m 內（1 m 內而且那一秒移動 <0.15 m）', not atdoor, J(atdoor[:12]))
-    R.check('[B3] 沒有原地踏步（連續 2 秒每秒移動 <0.05 m）', not tread, J(tread[:12]))
+    R.check('[B3] 路人沒有停在店門互動點 1 m 內（1 m 內而且那一秒移動 < min(0.15 m, 自己每秒中位數的 1/4)）', not atdoor, J(atdoor[:12]))
+    R.check('[B3] 沒有原地踏步（連續 2 秒每秒移動 < min(0.05 m, 自己每秒中位數的 1/5)）', not tread, J(tread[:12]))
     R.note('[B3] 兩次取樣之間的直線經過擋住的格子（可能是轉角切過去，不當判定）：%d 次 %s' % (len(cross), J(cross[:8])))
     R.check('[B3] 有路人可以觀察', len(track) > 0, '')
 

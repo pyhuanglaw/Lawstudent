@@ -257,9 +257,9 @@ async def part_int(pg, cdp):
             await pg.wait_for_timeout(2500)
             fm = await pg.evaluate("(()=>{ const z=GAME.E.zone||{}; return {formal:!!z.formal, glb:!!GAME.E.scene.getObjectByName(%s)}; })()" % J(L_['zone'] + '_glb'))
             R.note('%s 正式模型：%s' % (tag, J(fm)))
-            # 店裡走四個角（導航格站得住的點）
+            # 店裡走四個角（r2：要四周 0.45 m 都站得住＝人過得去的點；r1 挑到桌子之間的窄縫，TEST_BUG）
             W_, D_ = L_['w'], L_['d']
-            pts = await pg.evaluate("(a=>{ const N=GAME.E.nav, out=[]; for(const [cx,cz] of a){ let best=null; for(let r=0;r<=2.5&&!best;r+=0.25) for(let k=0;k<16&&!best;k++){ const x=cx+Math.cos(k/16*6.283)*r, z=cz+Math.sin(k/16*6.283)*r; if(N&&N.free(x,z)) best=[+x.toFixed(2),+z.toFixed(2)]; } out.push(best); } return out; })", [[-W_ / 2 + 0.8, D_ / 2 - 1.2], [W_ / 2 - 0.8, D_ / 2 - 1.2], [W_ / 2 - 0.8, -D_ / 2 + 1.5], [-W_ / 2 + 0.8, -D_ / 2 + 1.5]])
+            pts = await pg.evaluate("(a=>{ const N=GAME.E.nav, out=[]; for(const [cx,cz] of a){ let best=null; for(let r=0;r<=2.5&&!best;r+=0.25) for(let k=0;k<16&&!best;k++){ const x=cx+Math.cos(k/16*6.283)*r, z=cz+Math.sin(k/16*6.283)*r; if(N&&N.free(x,z)&&[0,1,2,3,4,5,6,7].every(j=>N.free(x+Math.cos(j/8*6.283)*0.45,z+Math.sin(j/8*6.283)*0.45))) best=[+x.toFixed(2),+z.toFixed(2)]; } out.push(best); } return out; })", [[-W_ / 2 + 0.8, D_ / 2 - 1.2], [W_ / 2 - 0.8, D_ / 2 - 1.2], [W_ / 2 - 0.8, -D_ / 2 + 1.5], [-W_ / 2 + 0.8, -D_ / 2 + 1.5]])
             miss = []
             for k, pt in enumerate(pts):
                 if not pt: miss.append(['角落%d 附近沒有站得住的格子' % (k + 1)]); continue
@@ -323,13 +323,62 @@ async def part_scoot3(pg, cdp):
     save(u, 'scoot3_all%s.jpg' % ('_' + os.environ['CODES'].replace(',', '_') if os.environ.get('CODES') else '')); R.note('[SCOOT3] 三款：%s' % J([(v['code'], v['size']) for v in pick]))
 
 
+SC4_JS = r"""(async a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; let root=null; try{ const cc=await ASSETS.loadOne('bldg.wz_scooter'); root=cc&&cc.scene; }catch(e){} if(!root) return {err:'no glb'};
+  root.updateMatrixWorld(true); const node=code=>root.getObjectByName('scooter_'+code); const shots=[];
+  const snap=(cam,label,boxes)=>{ cam.updateMatrixWorld(true); r.render(E.scene,cam); const k=document.createElement('canvas'); k.width=a.tw; k.height=Math.round(a.tw*c.height/c.width); const g=k.getContext('2d'); g.drawImage(c,0,0,k.width,k.height);
+    g.lineWidth=3; for(const b of boxes||[]){ const pts=[]; for(const dx of [-1,1]) for(const dy of [0,1]) for(const dz of [-1,1]){ const v=new THREE.Vector3(b.x+dx*b.hx,b.y0+dy*b.h,b.z+dz*b.hz).project(cam); pts.push([(v.x+1)/2*k.width,(1-v.y)/2*k.height]); }
+      const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]); g.strokeStyle=b.col||'#ff2020'; g.strokeRect(Math.min(...xs),Math.min(...ys),Math.max(...xs)-Math.min(...xs),Math.max(...ys)-Math.min(...ys)); g.fillStyle=b.col||'#ff2020'; g.font='bold 16px sans-serif'; g.fillText(b.label,Math.min(...xs),Math.max(Math.min(...ys)-4,14)); }
+    g.fillStyle='rgba(0,0,0,0.6)'; g.fillRect(0,0,k.width,20); g.fillStyle='#fff'; g.font='14px sans-serif'; g.fillText(label,5,15); shots.push(k.toDataURL('image/jpeg',0.88)); };
+  const P=E.player&&E.player.obj; const pv=P?P.visible:true; if(P) P.visible=false;
+  try{
+    // (1) 【捷徑】三款並排在路中間（同樣的光線）：側面、斜前方各一張
+    const tmp=new THREE.Group(); tmp.name='cc_lineup'; E.scene.add(tmp); const fix=new THREE.Matrix4().makeRotationY(-Math.PI/2);
+    a.codes.forEach((code,i)=>{ const n=node(code); if(!n) return; const o=n.clone(true); o.position.set(0,0,0); o.rotation.set(0,0,0); o.updateMatrix(); const wrap=new THREE.Group(); wrap.add(o); wrap.position.set(-0.2,0,a.z0+i*1.6); wrap.rotation.y=0; tmp.add(wrap); });
+    const c1=new THREE.PerspectiveCamera(32,c.width/c.height,0.1,200); c1.position.set(4.2,1.3,a.z0+1.6); c1.lookAt(0,0.6,a.z0+1.6); snap(c1,'【捷徑】三款並排（側面）：'+a.codes.join('、')+'（由左到右照 z）');
+    const c2=new THREE.PerspectiveCamera(36,c.width/c.height,0.1,200); c2.position.set(3.2,1.6,a.z0-2.6); c2.lookAt(0,0.6,a.z0+1.6); snap(c2,'【捷徑】三款並排（斜前方）：'+a.codes.join('、'));
+    E.scene.remove(tmp);
+    // (2) 路邊實際停的：每一款一台（兩旁不是同一款），紅框框起來
+    for(const t of a.targets){ const sx=t.x>0?1:-1, cam=new THREE.PerspectiveCamera(30,c.width/c.height,0.1,200); cam.position.set(sx*0.6,1.5,t.z+3.2); cam.lookAt(t.x,0.55,t.z);
+      snap(cam,'路邊實際停的 '+t.code+'（紅框；第 '+t.rank+' 台／這一款共 '+t.n+' 台）',[{x:t.x,z:t.z,hx:0.45,hz:0.95,y0:0,h:1.2,label:t.code}]); }
+  } finally { if(P) P.visible=pv; }
+  return {shots}; })"""
+
+
+async def part_scoot4(pg, cdp):
+    """BB 22:53：S1A、S1B、S2（佔 67%）擺在一起分不分得出來。(1)【捷徑】三款模型並排在路中間（同光線，側面／斜前方）；(2) 路邊實際停的每款一台，紅框（挑兩旁都不是同款的那一台）"""
+    codes = (os.environ.get('CODES') or 'S1A,S1B,S2').split(',')
+    h = float((os.environ.get('HOURS') or '14').split(',')[0])
+    await at(pg, cdp, 'tingzhou', h, 0.0, -14.0, '（機車三款並排）'); await pg.wait_for_timeout(4000)
+    info = await pg.evaluate(r"""(async()=>{ const E=GAME.E; let root=null; try{ const c=await ASSETS.loadOne('bldg.wz_scooter'); root=c&&c.scene; }catch(e){} if(!root) return null; root.updateMatrixWorld(true);
+      const V=[]; root.traverse(o=>{ const m=/^scooter_(S\w+)$/.exec(o.name); if(!m||/_lod1$/.test(o.name)||!o.userData||!(o.userData.weight>0)) return; V.push({code:m[1],w:+o.userData.weight}); });
+      const W=V.reduce((a,b)=>a+b.w,0), hash=(x,z,k)=>{ const t=Math.sin(x*12.9898+z*78.233+k*37.719)*43758.5453; return t-Math.floor(t); };
+      let scG=null; E.scene.traverse(o=>{ if(!scG&&o.isGroup&&o.children.length>20&&o.children.every(c=>c.userData&&c.userData.dyn)&&o.parent&&o.parent.getObjectByName&&o.parent.getObjectByName('tz_scooters_glb')) scG=o; });
+      const items=[]; if(scG) for(const o of scG.children){ o.updateMatrixWorld(true); const p=new THREE.Vector3().setFromMatrixPosition(o.matrixWorld); let r=hash(p.x,p.z,1)*W, v=V[V.length-1]; for(const c of V){ if((r-=c.w)<=0){ v=c; break; } } items.push({x:+p.x.toFixed(2),z:+p.z.toFixed(2),code:v.code}); }
+      return items; })()""")
+    if not R.check('[SCOOT4] 讀到路邊每台的款式', bool(info), ''): return
+    targets = []
+    for code in codes:
+        for side in ('W', 'E'):
+            L_ = sorted([q for q in info if (q['x'] < 0) == (side == 'W')], key=lambda q: q['z'])
+            cand = [L_[i] for i in range(len(L_)) if L_[i]['code'] == code and (i == 0 or L_[i - 1]['code'] != code) and (i == len(L_) - 1 or L_[i + 1]['code'] != code)]
+            if cand:
+                t = min(cand, key=lambda q: abs(q['z'])); n = sum(1 for q in info if q['code'] == code)
+                targets.append(dict(t, rank=1, n=n)); break
+    R.note('[SCOOT4] 框的那幾台：%s' % J(targets))
+    res = await pg.evaluate(SC4_JS, {'codes': codes, 'targets': targets, 'z0': -16.0, 'tw': 900})
+    if not R.check('[SCOOT4] 拍到', bool(res and res.get('shots')), J(res)[:200] if res else ''): return
+    tag = '_'.join(codes)
+    for i, u in enumerate(res['shots']): save(u, 'scoot4_%s_%d.jpg' % (tag, i + 1))
+    R.note('[SCOOT4] 存了 %d 張（1～2＝並排【捷徑】，3 起＝路邊實際停的、紅框）' % len(res['shots']))
+
+
 async def main():
     print('CC 汀州路 v1：PARTS %s；Playwright ≠ iPhone' % ','.join(PARTS), flush=True)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot), ('SCOOT3', part_scoot3), ('INT', part_int)):
+        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot), ('SCOOT3', part_scoot3), ('SCOOT4', part_scoot4), ('INT', part_int)):
             if part not in PARTS: continue
             try: await fn(pg, cdp)
             except Exception as e: R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])

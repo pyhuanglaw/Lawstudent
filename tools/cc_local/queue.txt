@@ -69,6 +69,9 @@ TZ4_scoot_v2 | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_pla
 TZ4_scoot3 | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 5 | PARTS=SCOOT3;HOURS=14
 TZ4_scoot3_v2 | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 5 | PARTS=SCOOT3;HOURS=14
 TZ4_scoot3_top | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 5 | PARTS=SCOOT3;HOURS=14;CODES=S1A,S1B,S2
+TZ4_scoot4 | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 5 | PARTS=SCOOT4;HOURS=14;CODES=S1A,S1B,S2
+TZ4_scoot4_v2 | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 5 | PARTS=SCOOT4;HOURS=14;CODES=S1A,S1B,S2
+TZ4_int_day_r2 | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=INT;HOURS=14;SHOPS=taimi,yindehao
 TZ4_int_day | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=INT;HOURS=14
 TZ4_shots_a | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=SHOTS;HOURS=14;V2=1;FULLALL=1
 TZ4_shots_b | fd4dd9aef6cb0d31b06d137636a25ab52eceedc4 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=SHOTS;HOURS=20.5;V2=1;FULLALL=1
