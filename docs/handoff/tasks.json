@@ -50584,6 +50584,35 @@
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": null,
    "test": null
+  },
+  {
+   "id": "WAKE-STALE-1110",
+   "title": "起床選單在別的地方才跳（走到圖書館才出「先起床再說」）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "早上醒來馬上走出宿舍",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 01:2x LAWWW-B】queueWake 記醒來的區域、時間；wakeFresh：別的區域或過 30 分鐘不出。dl01_oneclick 8 舊 FAILED 2。",
+   "xai": {
+    "spec": "使用者 11-10 00:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "醒來以後走到別的區域不跳起床選單；在宿舍醒來照舊跳",
+    "receiver": "BB（測）",
+    "ack": "未派",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": "df4674cb27",
+   "test": null
   }
  ]
 }
