@@ -241,3 +241,15 @@
 [06:23:55] [res] cpu=46% mem=47% (14.7/31.4 GB) chrome_testing=8  START TZQ_reach
 [06:23:58] 正在跑：TZQ_ggnav（已跑 1 分／上限 25 分）、TZQ_zone（已跑 0 分／上限 25 分）、TZQ_reach（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [06:25:15] [res] cpu=6% mem=47% (14.7/31.4 GB) chrome_testing=8  END TZQ_ggnav
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d91475d88..b67c25030  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:25:21] ==== END   TZQ_ggnav  exit=1  163s   ====
+[06:25:24] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[06:25:24] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[06:25:24] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[06:25:24] skip ARCAFTER_base_b (already done on c17a9919ec13ff237181709df0a3ee70e4e4d5e2)
+[06:25:24] memory 48% before starting SHIFT_IMM_r6_new (2 running)
+[06:25:24] ==== START SHIFT_IMM_r6_new  (probe @ 01bab1823003df827be3d76bc7d2c13ef034dacb) ====
+[06:25:27] [res] cpu=1% mem=48% (15.2/31.4 GB) chrome_testing=8  START SHIFT_IMM_r6_new
+[06:27:05] [res] cpu=20% mem=49% (15.3/31.4 GB) chrome_testing=9  END TZQ_zone
