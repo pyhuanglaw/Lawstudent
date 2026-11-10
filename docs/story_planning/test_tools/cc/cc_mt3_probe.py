@@ -464,7 +464,7 @@ async def main():
                 elif c == 'FB_CRIT': await case_fb(pg, cdp, 'heroine_01', '2026-01-17', 'm2601b', '中間等極光那九個晚上，可以剪掉五個。', 'crit', '[FB_CRIT 以安 m2601b]')
                 elif c == 'QOTHER': await case_other(pg, cdp, 'kexin', '2025-11-15', 'm2511b', '[QOTHER 可昕 m2511b]', 'qother')
                 elif c == 'OO_3007': await case_other(pg, cdp, 'heroine_01', ['2030-08-03', '2030-08-10', '2030-08-17'], 'm3007b', '[OO 以安 m3007b]', 'optsother')
-                elif c == 'OO_2805': await case_other(pg, cdp, 'heroine_01', ['2028-05-27', '2028-06-17', '2028-06-24', '2028-06-28'], 'm2805b', '[OO 以安 m2805b]', 'optsother')
+                elif c == 'OO_2805': await case_other(pg, cdp, 'heroine_02', ['2028-05-13', '2028-05-20', '2028-05-27', '2028-06-03'], 'm2805b', '[OO 芷若 m2805b]', 'optsother')   # BB 22:36：以安 2028-03-25～08-05 在日本交換；optsOther 子晴以外都適用 → 芷若
                 elif c == 'NOASK': await case_other(pg, cdp, 'heroine_01', '2026-11-14', 'm2611a', '[NOASK 以安 m2611a]', 'noask')
                 elif c == 'NOFB': await case_other(pg, cdp, 'heroine_01', ['2029-07-28', '2029-08-04', '2029-08-18'], 'm2907a', '[NOFB 以安 m2907a]', 'nofb')
                 elif c == 'LATER2': await case_later_movie(pg, cdp)
