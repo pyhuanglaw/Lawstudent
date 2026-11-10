@@ -9,7 +9,7 @@
 - 待開工、進行中裡**已經做完、只是狀態沒改**的：ART-WZ6（025ab4f30）、SPORT-SHOPS-1103、FASTFOOD-24H-1103、GG-SHOPS-REDO-1104、WZ-SECOND-1104、WZ-FIVE-1104、XS-GATE-MOVE-1105、ART-XINSHENG-GATE-1103、PERF-XS-NPC-1108 → 改「已整合待測試」。
 - 可以結案／被取代的：ART-POLISH、ART-DIRECTOR-LAWWW2、ART-ECON-3D-GAP-1021、ART-PHOTO-CMP-1021、PERF-CAMPUS-SHADOW-1020、MODEL-HELP-1103、OPEN-SRC-2D3D-1104。
 - 改成等別人的：ART-13（明軒，D99 凍結）、ART-SOY1（等豆漿店場景）、PERF-ZONE-ENTER-1018（等使用者數字）。
-- **真的還沒做、留在 LAWWW2 佇列的 15 項**（10:2x 更正：ART-WZ6 其實 025ab4f30 已整合）：ART-SOP、LAWWW2-REEXPORT-US-1027、CROWD-DEPTS-LOOK-1028、INTERIOR-AAA-REVIEW-1028、FAIR-TENT-CAM-1102、DORM1-WALL-SEAM-1102、PUTONG101-WINDOW-1102、BAKE-PC-1102-S2、ART-OLDROAD-SHELF-1103、ART-GYM-POOL-SWIMMERS-1103、GYM-FIT-PROPS-1103、PERF-CAMPUS-GLB-1102、LM-SEAM-GEO、WZ-SEAT-CAMS-1104、GG-DOOR-CAMS-1104。
+- **（10:4x 再更正：DORM1-WALL-SEAM 早已整合、ART-OLDROAD-SHELF 被頁間取代、FAIR-TENT-CAM 已交付；搜尋時要用沒有日期的短 ID）** 真的還沒做、留在 LAWWW2 佇列的原 15 項（10:2x 更正：ART-WZ6 其實 025ab4f30 已整合）：ART-SOP、LAWWW2-REEXPORT-US-1027、CROWD-DEPTS-LOOK-1028、INTERIOR-AAA-REVIEW-1028、FAIR-TENT-CAM-1102、DORM1-WALL-SEAM-1102、PUTONG101-WINDOW-1102、BAKE-PC-1102-S2、ART-OLDROAD-SHELF-1103、ART-GYM-POOL-SWIMMERS-1103、GYM-FIT-PROPS-1103、PERF-CAMPUS-GLB-1102、LM-SEAM-GEO、WZ-SEAT-CAMS-1104、GG-DOOR-CAMS-1104。
   - 加上進行中的 WINVIEW-AUDIT-1105。
   - DORM1-WALL-SEAM-1102 和 LM-SEAM-GEO 是同一件。
 - 「已整合待測試」82 項、「等待」68 項：絕大多數是**等 CC 拍、BB 判**（場景美術 D120 由 BB 標），不是 LAWWW2 的待做。BB 已經寫 PASS、可能可以改已驗收的 4 項列在第二節，請核對。
@@ -32,11 +32,11 @@
 | LAWWW2-REEXPORT-US-1027 | 待開工 | 沒有做（只影響以後重匯） | 5f563a875（登記） | **留**（P3，下次動美國公寓、C 棟 208 前做） |
 | CROWD-DEPTS-LOOK-1028 | 待開工 | 沒有做 | 7ced0bee1（登記） | **留**（P3） |
 | INTERIOR-AAA-REVIEW-1028 | 進行中 | #204 第一～三批已整合（faf1b75a4）；大步、總圖書庫兩間 P3 沒做 | 89430fb0a | **留**進行中（剩 P3 兩間，BB／使用者看到再補） |
-| FAIR-TENT-CAM-1102 | 待開工 | 沒有做（git log、src 都沒有） | — | **留**（P3） |
-| DORM1-WALL-SEAM-1102 | 待開工 | 沒有做；和 LM-SEAM-GEO 的「男一舍走廊、樓梯間牆接頭」重複 | — | **留**，和 LM-SEAM-GEO 併成一件 |
+| FAIR-TENT-CAM-1102 | 待開工 | 11-10 已交付 4a61b27e9（社博帳篷接樹幹透視；fair_tent_cam_unit 開發 FAIL → ALL PASS） | 4a61b27e9 | 等 LAWWW 整合 |
+| DORM1-WALL-SEAM-1102 | 待開工 | **已整合**（10:4x 更正）：LAWWW2-C 4eada314b（T 形接頭 176→3、重烘光照）→ 開發 4b5a0ebd8（11-05）；tests/dorm_hall_tjunc_unit.js。commit 訊息寫的是沒有日期的「DORM1-WALL-SEAM」，第一次盤點用完整 ID 搜沒搜到 | 4b5a0ebd8 | 改「已整合待測試」（等 CC 同角度重拍） |
 | PUTONG101-WINDOW-1102 | 待開工 | 沒有做（git log 沒有） | — | **留**（P3） |
 | BAKE-PC-1102-S2 | 待開工 | 沒有做 | 96c6dd091（登記） | **留**（P2；要 PC 烘焙的結果才能比） |
-| ART-OLDROAD-SHELF-1103 | 待開工 | 沒有做 | 96c6dd091（登記） | **留**（P3） |
+| ART-OLDROAD-SHELF-1103 | 待開工 | **被取代**（10:4x 更正）：舊路書房的模型（bookstore_interior.glb）已經不用了——bookstore 區域 11-04 起是頁間書屋 v2（yejian，GG-SHOPS-REDO-1104）；WIP fc50cc3ba 改的是舊模型 | fc50cc3ba（WIP） | 改「取消／被取代」 |
 | ART-GYM-POOL-SWIMMERS-1103 | 待開工 | 沒有做（src 沒有游泳動作、泳裝模型） | a7fd88082（登記） | **留**（P2） |
 | GYM-FIT-PROPS-1103 | 待開工 | 部分：B1 健身中心的人在用器材（gymIK，8bc5b1207）；手上的啞鈴、槓、划船把手等道具、飛輪踏板會動還沒有 | 8bc5b1207 | **留**（只剩手持道具與器材會動） |
 | ART-XINSHENG-GATE-1103 | 進行中 | 新生南路側門、店面、xinsheng 區域都在遊戲裡；北牆版側門已整合（XS-GATE-NORTH） | 74557a245、cf6a29f7e | 改「已整合待測試」 |
@@ -47,7 +47,7 @@
 | WZ-SECOND-1104 | 進行中 | 五間外觀 v3b 已整合（47909c659） | 47909c659 | 改「已整合待測試」 |
 | WZ-FIVE-1104 | 進行中 | 五間外觀已整合；2:30 AM 第三版接進 cc0af7f14；側面窗等 AA 改室內 | 6f61ca095、cc0af7f14 | 改「已整合待測試」（側面窗另開或等 AA） |
 | PERF-CAMPUS-GLB-1102 | 待開工 | 沒有做；範圍和量法還沒定 | ebd44c2e3（登記） | **留**（先量 census，再定範圍） |
-| LM-SEAM-GEO | 待開工 | 沒有做 | ebd44c2e3（登記） | **留**，和 DORM1-WALL-SEAM-1102 併 |
+| LM-SEAM-GEO | 待開工 | 一半已整合：男一舍牆接頭＝DORM1-WALL-SEAM（4b5a0ebd8）；剩萬才館柱子很細的倒角（D141：使用者沒提、不擋玩） | 4b5a0ebd8 | 留 P3（只剩萬才館倒角） |
 | WZ-SEAT-CAMS-1104 | 待開工 | F13 已處理（AA 12ae10d3e）；F12（sns_ceiling 擋）和小路座位鏡頭沒做 | — | **留**（只剩 F12、小路） |
 | GG-DOOR-CAMS-1104 | 待開工 | 沒有做（青木、頁間門口鏡頭被樹冠擋） | — | **留**（P2） |
 | OPEN-SRC-2D3D-1104 | 進行中 | 研究已收尾（25349f5f9）；TRELLIS.2 使用者取消（UA-LAWWW2-1105-04） | 1614f8c17 | 結案 |
