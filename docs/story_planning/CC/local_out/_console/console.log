@@ -1325,3 +1325,11 @@
 [09:36:52] ==== START BGN_new  (probe @ dea6f2f45515e8c56b4e2e242124ae2e344af466) ====
 [09:36:54] [res] cpu=2% mem=46% (14.5/31.4 GB) chrome_testing=9  START BGN_new
 [09:37:28] [res] cpu=9% mem=47% (14.9/31.4 GB) chrome_testing=9  END BGN_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0f51242b9..675942abd  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:37:33] ==== END   BGN_new  exit=1  37s   ====
+[09:37:36] memory 47% before starting BGN_old (2 running)
+[09:37:36] ==== START BGN_old  (probe @ cdcb2650730bc9a90563690e63f35e75e63c9fb3) ====
+[09:37:39] [res] cpu=3% mem=48% (15.0/31.4 GB) chrome_testing=9  START BGN_old
+[09:38:14] [res] cpu=4% mem=46% (14.7/31.4 GB) chrome_testing=9  END BGN_old
