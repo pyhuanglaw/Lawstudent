@@ -264,7 +264,7 @@ await sec('G',async()=>{
   check('G. 讀檔的鎖：LOADLOCKS 有 us_life3d:club（演到一半讀檔放開）',typeof globalThis.LOADLOCKS['us_life3d:club']==='function');
   fresh('2028-10-05',19.6,CZ,{});
   check('G. 人在會所＝人在美國（exchange3d.js 的 US_ZONES：時差、手機、摘要日照美國）',EXCH.inUS(H.G)&&EXCH.US_ZONES.includes(CZ));
-  check('G. 手機「現在大概在」有會所的名字（us_life3d.js 的 PLACES.names 清單有 us_clubhouse_in）',/'us_classroom','us_clubhouse_in'\]\) if\(!PLACES\.names\[k\]/.test(fs.readFileSync(path.join(ROOT,'src/us_life3d.js'),'utf8')));
+  check('G. 手機「現在大概在」有會所的名字（us_life3d.js 的 PLACES.names 清單有 us_clubhouse_in）',/for\(const k of \[[^\]]*'us_clubhouse_in'[^\]]*\]\) if\(!PLACES\.names\[k\]/.test(fs.readFileSync(path.join(ROOT,'src/us_life3d.js'),'utf8')));
   fresh('2027-10-05',19.6,'campus',{}); const r=await STORY.interact(Object.assign({},DOOR),GM);
   check('G. 不在美國：會所門口的接線不作用',!H.entered.includes(CZ),J({r,entered:H.entered})); });
 
