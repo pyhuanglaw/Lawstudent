@@ -3,8 +3,8 @@
  "account": "B",
  "session": "session_01WXeLH8aaCTWiEivqGFc9na",
  "branch": "claude/cc-testing",
- "since": "2026-11-09T16:11Z",
- "state": "on",
- "sinceSha": "6b542c51",
- "userOk": false
+ "state": "handed-off",
+ "handedOffAt": "2026-11-10T01:34Z",
+ "sha": "0fb0661b",
+ "snapshot": null
 }
