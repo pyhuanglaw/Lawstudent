@@ -412,3 +412,12 @@
 [00:19:34] ==== START FIX_capgap_new  (probe @ aa691df333d23bc46abb9445c249090d4b57f3d1) ====
 [00:19:37] [res] cpu=18% mem=46% (14.4/31.4 GB) chrome_testing=9  START FIX_capgap_new
 [00:21:45] [res] cpu=18% mem=48% (15.1/31.4 GB) chrome_testing=10  END FIX_capgap_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0ae024606..327a1f562  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:21:52] ==== END   FIX_capgap_new  exit=0  131s   ====
+[00:21:55] memory 48% before starting FIX_capgap_old (2 running)
+[00:21:55] ==== START FIX_capgap_old  (probe @ 8a98ff1e06c06cfb52be41dc3402ba05305945a6) ====
+[00:21:58] [res] cpu=3% mem=48% (15.3/31.4 GB) chrome_testing=10  START FIX_capgap_old
+[00:21:59] 正在跑：USCLS_B（已跑 18 分／上限 75 分）、FIX_day2an（已跑 3 分／上限 90 分）、FIX_capgap_old（已跑 0 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:23:28] [res] cpu=3% mem=50% (15.7/31.4 GB) chrome_testing=9  END USCLS_B
