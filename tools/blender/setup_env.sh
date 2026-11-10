@@ -1,8 +1,8 @@
 #!/bin/bash
 # 美術工具一次裝好（Blender bpy 5.2.2、EEVEE 要的 EGL、VRM Add-on for Blender、VRoid CC0 樣本）。
 # 雲端容器每次新開都是空的，這些不在 repo 裡；LAWWW2（和任何要做人物、算圖的職位）新容器第一件事跑這支。
-# 這些是 2026-10-10 起一直在用、已經記在 LICENSES.md（VRM Add-on MIT、VRoid 樣本 CC0）、docs/PROJECT_DECISIONS.md D33、
-# docs/art-rebuild/TOOLCHAIN_AUDIT.md 的工具，不是新決定：不用再問使用者（使用者 2026-11-10 16:2x：「不是早就應該已經裝了嗎？…為什麼每次都要重新講一次」）。
+# 這些是 2026-10-10 起一直在用、已經記在 LICENSES.md（VRM Add-on MIT、VRoid 樣本 CC0）、docs/rules/ROLE_LAWWW2.md 第 2 節（D33）
+# 的工具，不是新決定：不用再問使用者（使用者 2026-11-10 16:2x：「不是早就應該已經裝了嗎？…為什麼每次都要重新講一次」）。
 # 已經裝過的會跳過；最後印出 bpy 版本、VRM 外掛能不能啟用、VRoid 樣本幾個。
 # 用法（repo 根目錄）：bash tools/blender/setup_env.sh
 set -e

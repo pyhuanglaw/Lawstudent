@@ -127,14 +127,13 @@ python3 -m http.server 8765
   - `?lowres`：低解析度。
   - `?mdbg`：移動除錯面板。
   - `?dev`：顯示缺圖的標籤。
-- **測試**：規則在 [`docs/TESTING.md`](docs/TESTING.md)，發布前要跑的清單在 [`docs/RELEASES.md`](docs/RELEASES.md)。
+- **測試**：規則在 [`docs/rules/ROLE_BB.md`](docs/rules/ROLE_BB.md)，全遊戲清單與回歸指令在 [`docs/TESTING.md`](docs/TESTING.md)，發布前要跑的清單在 [`docs/rules/ROLE_LAWWW.md`](docs/rules/ROLE_LAWWW.md) 第 6.1 節。
   - 測試是 Playwright（Python）手機模擬加觸控，以及 Node 的單元測試；Node 全套可以在 GitHub Actions 跑（`.github/workflows/node-sweep.yml`，分支 `claude/gha-node-sweep`）。
   - 例：`python3 tests/p0_movement.py http://127.0.0.1:8765/index.html`。
 - **部署**：推到 `main`，GitHub Pages 會自動更新（Deploy from a branch → `main` / root）。
-- **接手開發請先讀 [`CLAUDE.md`](CLAUDE.md)**：
-  - 專案規則、目錄、架構、常見改動。
-  - [`docs/AI_SESSION_HANDOFF.md`](docs/AI_SESSION_HANDOFF.md)：分工與交接。
-  - [`docs/PROJECT_DECISIONS.md`](docs/PROJECT_DECISIONS.md)：長期決策。
+- **接手開發請先讀 [`CLAUDE.md`](CLAUDE.md)**（共同規則），再讀自己職位的 [`docs/rules/ROLE_<職位>.md`](docs/rules/)：
+  - 程式目錄、架構、常見改動：`docs/rules/ROLE_LAWWW.md` 第 7 節。
+  - [`docs/AI_SESSION_HANDOFF.md`](docs/AI_SESSION_HANDOFF.md)：值班與交班紀錄。
   - [`docs/history/`](docs/history/)：從第一份企劃到現在的歷程。
 
 ### 程式在哪裡

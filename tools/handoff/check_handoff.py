@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""交接自動對帳（D82；規則：docs/AI_SESSION_HANDOFF.md 第 4、5 節）。
+"""交接自動對帳（D82；規則：CLAUDE.md §4；LAWWW 的做法 docs/rules/ROLE_LAWWW.md 第 3、4 節）。
 
 只讀不寫任務：這支工具**不改、不取消、不刪任何任務**，只列出異常。
 唯一會寫檔的是 `snapshot` 指令（在 docs/handoff/snapshots/ 新增一個快照檔）。
@@ -30,7 +30,7 @@ check 的七項（使用者 2026-10-16 指示）＋兩項補充：
 先移 scannedThrough 再 check，什麼都掃不到（2026-10-16 犯過一次）。
 
 結束碼：0＝十二項都檢查了、沒有異常；1＝有異常、或有一項沒辦法檢查（不虛報正常）；
-        2＝找不到上次快照或快照壞掉 → REMEDIAL_FULL_AUDIT（要補做一次全面盤點，見總入口第 4 節）。
+        2＝找不到上次快照或快照壞掉 → REMEDIAL_FULL_AUDIT（要補做一次全面盤點，見 CLAUDE.md §4 第 7 步）。
 """
 import argparse, hashlib, json, os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -172,7 +172,7 @@ def check(args):
         data = json.loads(src.read(TASKS))
     except Exception as e:
         print(f'[致命] {TASKS} 讀不了：{e}')
-        print('結果：REMEDIAL_FULL_AUDIT（任務索引壞掉，照總入口第 4 節補做全面盤點）')
+        print('結果：REMEDIAL_FULL_AUDIT（任務索引壞掉，照 CLAUDE.md §4 第 7 步補做全面盤點）')
         return 2
     statuses = data.get('statuses') or []
     tasks = data.get('tasks') or []
@@ -188,7 +188,7 @@ def check(args):
     snap, err = load_snapshot(src, args.role, args.snapshot)
     if err:
         print(f'[快照] {err}')
-        print('結果：REMEDIAL_FULL_AUDIT——上次交班的狀態對不起來，這次接班要補做一次全面盤點（總入口第 4 節），不能當作正常。')
+        print('結果：REMEDIAL_FULL_AUDIT——上次交班的狀態對不起來，這次接班要補做一次全面盤點（CLAUDE.md §4 第 7 步），不能當作正常。')
         snap_missing = True
     else:
         snap_missing = False
@@ -499,7 +499,7 @@ def queue(args):
 
 
 # D93／HV-11：逐職位核對。各職位交接檔裡「全部待辦」那一節，每一項都要在 tasks.json 找得到。
-ROLE_FILES = {   # duty.json 的 progressFile 寫錯或不存在時的備用（AI_SESSION_HANDOFF.md 第 1 節）
+ROLE_FILES = {   # duty.json 的 progressFile 寫錯或不存在時的備用（CLAUDE.md §4 的交接檔表）
     'LAWWW2': ['docs/art-rebuild/second_ai/HANDOFF.md'],
     'AA': ['docs/story_planning/AA_交接紀錄.md'],
     'BB': ['docs/story_planning/BB_00_協作規範與交接紀錄.md', 'docs/story_planning/BB_00_交接紀錄.md'],
@@ -690,7 +690,7 @@ def roles(args):
             continue
         start, sec, probs = INC.todo_check(text)
         for pr in probs:   # 找不到段落、0 項、沒有任何 ID：都是異常，不能假通過（2026-10-17 事故）
-            bad.append(f'{role}：{where}：{pr}（AI_SESSION_HANDOFF.md 第 5 節 B 類）')
+            bad.append(f'{role}：{where}：{pr}（CLAUDE.md §4 交班 B 類）')
         if start is None:
             continue
         sha = subprocess.run(['git', 'rev-parse', '--short', f'origin/{where.split(":")[0][7:]}'], cwd=args.root, capture_output=True, text=True).stdout.strip()

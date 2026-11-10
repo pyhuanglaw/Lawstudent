@@ -7,7 +7,7 @@
 
 0. **正式 3D 美術製作規範（第 12 節，2026-10-10 使用者訂定的永久強制規則，D38）**：製作方法與驗收流程一律照第 12 節（現在在 `docs/rules/ROLE_LAWWW2.md` 第 2 節）；`CLAUDE.md` 最前面的「MANDATORY 3D ART PRODUCTION RULES」是它的摘要。
 1. **Character Bible 的正式資料**（`src/data/characters.js`；`CLAUDE.md` 規則 9）：名字、年齡、科系、年級、身高、星座、個性、髮型與服裝識別。
-2. 使用者的文字指示（`docs/history/specs/`、`docs/PROJECT_DECISIONS.md`）。
+2. 使用者的文字指示（`docs/history/specs/`、`CLAUDE.md` 和 `docs/rules/`）。
 3. 本規範。
 4. 參考圖（視覺目標：臉、比例、材質、光影、構圖的品質與方向）。
 

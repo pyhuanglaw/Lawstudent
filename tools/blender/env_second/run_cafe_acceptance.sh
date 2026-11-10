@@ -1,5 +1,5 @@
 #!/bin/bash
-# 兩點半 Café 的驗收流程（第二個 AI）：回歸測試（docs/SECOND_AI_HANDOFF.md 第 3 節）→ 修改前／後截圖。
+# 兩點半 Café 的驗收流程（第二個 AI）：回歸測試（docs/rules/ROLE_LAWWW2.md 第 1.1 節（原 SECOND_AI_HANDOFF 第 3 節））→ 修改前／後截圖。
 # 模擬器（SwiftShader）一次只跑一個，不要和其他瀏覽器工作同時跑（會逾時或誤判）。
 # 用法：bash tools/blender/env_second/run_cafe_acceptance.sh [log 資料夾] [tests|shots|all]
 cd "$(dirname "$0")/../../.."

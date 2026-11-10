@@ -15,7 +15,7 @@
 > 照 `docs/art-rebuild/second_ai/ART_SOP.md` v1（LAWWW2-B 分支）。完整的範例是下面的 **ART-SHOP1**（SOP v1 第一件驗證件，LAWWW2-B 21:26 驗收通過）。新做的件照 ART-SHOP1 的寫法；舊件的狀態見本節最後的表。
 
 ### 工具
-- **Blender 5.2.2**（bpy）：`/opt/blenv/bin/python <腳本>.py`（安裝照 `docs/art-rebuild/TOOLCHAIN_AUDIT.md`）。
+- **Blender 5.2.2**（bpy）：`/opt/blenv/bin/python <腳本>.py`（安裝：`bash tools/blender/setup_env.sh`，D144）。
 - **Python 套件**：numpy、PIL（畫貼圖集、ORM、轉 WebP）。
 - **LAWWW2-B 的共用檔**：只讀、不改：`lib2.py`、`b3lib.py`、`render_cycles.py`。BB-B 分支上的 `lib2.py` 可能是舊版：腳本裡放一份同樣的 `_rbox_bm`，`lib2` 有就用 `lib2` 的。
 - **Poly Haven（CC0）1k 貼圖**：放在 `textures/<名稱>/`，只取明暗，照目標色校色後畫進貼圖集。來源寫在各件的「授權」小節，`LICENSES.md` 由 LAWWW2-B 合併。
@@ -73,7 +73,7 @@
 ```
 
 - **需要** LAWWW2-B 分支的 `lib2.py`（`rbox_bm`、`CMesh.crbox`、`vc_metal`）和 `b3lib.py`。BB-B 分支上的 `lib2.py` 可能是舊版：請在 LAWWW2-B 的分支跑。BB-B 是把那兩個檔讀出來、在暫存資料夾跑的，沒有改它們。
-- **工具**：Blender 5.2.2（bpy，`/opt/blenv`，照 `docs/art-rebuild/TOOLCHAIN_AUDIT.md` 裝）。
+- **工具**：Blender 5.2.2（bpy，`/opt/blenv`，用 `bash tools/blender/setup_env.sh` 裝，D144）。
 - **做法**：
   - 管件用 `cyl`（8～12 邊），圓的東西（槓片、飛輪、風扇罩、阻力旋鈕、捲起來的墊子）用 `lathe` 旋轉體；
   - 平板、坐墊、護蓋用倒角方塊（`rbox_bm`／`crbox`），沒有直角方塊；

@@ -1,5 +1,5 @@
 #!/bin/bash
-# 溫州街近景（公寓、日式宿舍、街道細節、小公園、機車）＋便利商店室內的驗收流程（第二個 AI）：回歸測試（docs/SECOND_AI_HANDOFF.md 第 3 節；騎樓柱子有樹幹透視 → 加跑 see_through）→ 修改前／後截圖。
+# 溫州街近景（公寓、日式宿舍、街道細節、小公園、機車）＋便利商店室內的驗收流程（第二個 AI）：回歸測試（docs/rules/ROLE_LAWWW2.md 第 1.1 節（原 SECOND_AI_HANDOFF 第 3 節）；騎樓柱子有樹幹透視 → 加跑 see_through）→ 修改前／後截圖。
 # 模擬器（SwiftShader）一次只跑一個，不要和其他瀏覽器工作同時跑（會逾時或誤判）。
 # 用法：bash tools/blender/env_second/run_street_acceptance.sh [log 資料夾] [tests|shots|after|south|all] [網址]（after＝只拍修改後，加 Café 外觀；south＝測試＋遠景前後＋溫州街修改後）
 cd "$(dirname "$0")/../../.."
