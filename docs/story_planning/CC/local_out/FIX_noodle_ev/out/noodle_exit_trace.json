@@ -1,0 +1,42 @@
+[
+ {
+  "t": 70.8,
+  "zone": "noodle",
+  "busy": false,
+  "dlg": false,
+  "dtext": "▼ 點一下繼續",
+  "cap": "",
+  "btn": "離開公館燒臘",
+  "ev": false
+ },
+ {
+  "t": 71.1,
+  "zone": "noodle",
+  "busy": false,
+  "dlg": false,
+  "dtext": "▼ 點一下繼續",
+  "cap": "",
+  "btn": "離開公館燒臘",
+  "ev": false
+ },
+ {
+  "t": 71.3,
+  "zone": "noodle",
+  "busy": false,
+  "dlg": false,
+  "dtext": "▼ 點一下繼續",
+  "cap": "",
+  "btn": "離開公館燒臘",
+  "ev": false
+ },
+ {
+  "t": 76.7,
+  "zone": "gongguan",
+  "busy": false,
+  "dlg": false,
+  "dtext": "▼ 點一下繼續",
+  "cap": "",
+  "btn": "",
+  "ev": false
+ }
+]
