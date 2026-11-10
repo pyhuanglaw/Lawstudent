@@ -69,3 +69,13 @@
 [05:11:09] [res] cpu=16% mem=39% (12.2/31.4 GB) chrome_testing=4  END NYX_dev_tap
 [05:11:09] memory 40% before starting MT3_zr (2 running)
 [05:11:09] ==== START MT3_zr  (probe @ 0160bb208cd10b06c5dd98851a59beb5db0e7bd2) ====
+[05:11:12] [res] cpu=32% mem=41% (12.7/31.4 GB) chrome_testing=4  START MT3_zr
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0d77a94dc..23c1e2ead  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:11:14] ==== END   NYX_dev_tap  exit=0  199s   ====
+[05:11:14] worktree add 0160bb208cd10b06c5dd98851a59beb5db0e7bd2: invalid reference - fetching main and the commit itself
+[05:11:46] memory 43% before starting MT3_a (2 running)
+[05:11:46] ==== START MT3_a  (probe @ 0160bb208cd10b06c5dd98851a59beb5db0e7bd2) ====
+[05:11:50] [res] cpu=33% mem=43% (13.5/31.4 GB) chrome_testing=9  START MT3_a
+[05:12:43] [res] cpu=6% mem=47% (15.0/31.4 GB) chrome_testing=9  END NYX_dev_joy

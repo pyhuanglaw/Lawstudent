@@ -3407,3 +3407,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 4.0s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 108.5s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 108.5s] BROWSER DISCONNECTED
 - 2026-11-11T05:11:09  NYX_dev_tap  sha=9f20f1808d4e15192c105acafa381b0f323a230c  exit=0  199s    PASS walkFallbacks 0 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 4.0s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 110.8s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 110.9s] BROWSER DISCONNECTED
+- 2026-11-11T05:12:44  NYX_dev_joy  sha=9f20f1808d4e15192c105acafa381b0f323a230c  exit=0  142s    PASS walkFallbacks 0 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 4.3s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 104.6s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 104.6s] BROWSER DISCONNECTED
