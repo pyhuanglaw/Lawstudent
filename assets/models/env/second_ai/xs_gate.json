@@ -1,0 +1,21 @@
+{
+ "objects": 7,
+ "unique_meshes": 7,
+ "tris": 3222,
+ "tris_drawn": 3222,
+ "materials": 8,
+ "out": "assets/models/env/second_ai/xs_gate.glb",
+ "bytes": 356752,
+ "texres": 512,
+ "note": "X246 新生南路側門正式門柱、鐵門、圍牆（D136 像但不照抄）",
+ "posts": [
+  6.8,
+  13.2
+ ],
+ "wall_x": 18.4,
+ "far": {
+  "zN": -178.0,
+  "zc": 72.4,
+  "xE": 150.0
+ }
+}
