@@ -3822,6 +3822,16 @@
    "wants": "X287",
    "task": "DLG-NO-ECON-REPEAT-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-31",
+   "at": "2026-11-10T01:1xZ",
+   "quote": "桌遊日桌遊完回到前往之前的系館 ?都晚上這麼晚了 而且行動次數用完不是應該回去睡覺嗎",
+   "kind": "轉述",
+   "status": "進行中",
+   "wants": "X288",
+   "task": "BGN-AFTER-HOME-1110",
+   "src": "使用者 01:1x 傳給 BB-B（「我傳錯了 要傳給LAWWW 你幫我船」），BB-B 原文轉 LAWWW-B；UA-BB-1110-02"
   }
  ]
 }

@@ -50903,6 +50903,35 @@
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": null,
    "test": null
+  },
+  {
+   "id": "BGN-AFTER-HOME-1110",
+   "title": "桌遊夜（晚上的活動、約會）演完不要回到出發前的系館：太晚或時段用完回宿舍、接睡覺",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次去桌遊夜",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 01:2x LAWWW-B】使用者 X288（BB-B 轉）。存檔 claude/elegant-brown-fcos7n@84c71825c1 docs/story_planning/BB_saves/user_save_day52_1110_bgn.json（day 52 23:33 putong）。bgnight3d.js 演完放回出發前的地方；改成過了 22:00 或晚上時段用完＝回宿舍（住家照 HOME），接 eveSleep／床的流程；同一套看其他晚上的活動、約會結尾。",
+   "xai": {
+    "spec": "使用者 11-10 01:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "桌遊夜演完人在宿舍、時間照舊、接得到睡覺；白天的活動照舊回原地",
+    "receiver": "BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
   }
  ]
 }
