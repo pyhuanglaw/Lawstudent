@@ -61,7 +61,9 @@ M = {
     'wood': L.pbr(P + 'bench_wood', 'fine_grained_wood' if os.path.isdir(os.path.join(HERE, 'textures', 'fine_grained_wood')) else 'walnut_veneer', tile=0.8, target='#9a7a58', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.6),
     'ivy': base['ivy'], 'broad': base['broad'], 'fern': base['fern'],
 }
-M['canopy'].use_backface_culling = False
+# 雨遮也只畫朝下那一面（X307 第三輪，BB 11-10 09:46 退回：站在中庭 (98,−37)、鏡頭朝南時，followCam 的鏡頭在 (98, −1.14, −31.14)，正好在雨遮（Y+2.75＝−1.45）上方 0.3 m，
+# 雙面的雨遮從上面看＝畫面下半整片白霧；第二輪只改了玻璃帷幕，沒改到這一塊）。人在中庭裡是從下面看雨遮（眼睛 Y+1.6），照常看得到
+M['canopy'].use_backface_culling = True
 # 玻璃帷幕只畫朝中庭（−z）那一面（X307 BB 11-10 GAME_BUG：站在 B1 門口、鏡頭在背後時，engine3d.js followCam 碰到南牆拉近，最近 0.7 m，
 # 會把鏡頭放到玻璃後面；雙面玻璃從背後看＝畫面下半整片白霧）。從背後看不畫＝看出去是中庭（玻璃後面是亮著的自習室，本來就看得到外面）
 M['glass'].use_backface_culling = True
@@ -203,7 +205,7 @@ for row in (0, 1):
         for cx in (x - 0.3, x + 0.3): acc('room_chair').box(cx - 0.2, cx + 0.2, Y + 0.43, Y + 0.47, z - 0.45, z - 0.05); acc('room_chair').box(cx - 0.2, cx + 0.2, Y + 0.47, Y + 0.9, z - 0.47, z - 0.43)
 # 門上的玻璃雨遮（不鏽鋼拉桿）、招牌、門燈
 CY = Y + 2.75
-acc('canopy').box(DX - 1.6, DX + 1.6, CY, CY + 0.02, Z1 - 1.3, Z1)
+acc('canopy').quad([(DX - 1.6, CY, Z1 - 1.3), (DX + 1.6, CY, Z1 - 1.3), (DX + 1.6, CY, Z1), (DX - 1.6, CY, Z1)])   # 朝下（−y）的一片：從上面（鏡頭）看不畫
 for sx in (-1, 1):
     acc('steel').box(DX + sx * 1.55 - 0.02, DX + sx * 1.55 + 0.02, CY - 0.04, CY, Z1 - 1.3, Z1)
     acc('steel').cyl((DX + sx * 1.45, CY + 0.02, Z1 - 1.2), (DX + sx * 1.45, CY + 0.75, Z1), 0.012, seg=6)
