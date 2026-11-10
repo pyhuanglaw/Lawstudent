@@ -1792,6 +1792,8 @@ E26v3_4154_skipyes | 4154aeb61763e4653a4c358a0d277d2e8f3e37d1 | probe | docs/sto
 # ===== ★ CC-B 11-09 23:2x（BB-B 23:18 P2，排最前面）：SOC rom_a/b 的 FAIL 單獨重跑、用開發線 head 2d58e8a52（不用 88c8）；單獨都 PASS＝判 120 分鐘逾時造成 =====
 SOCX_2d58_study_h1 | 2d58e8a5209ae061784c20f14dd5de5819b562e6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01;STEPS=phone_date;STUDY_ONLY=1
 SOCX_2d58_study_h3 | 2d58e8a5209ae061784c20f14dd5de5819b562e6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_03;STEPS=phone_date;STUDY_ONLY=1
+# CC-B 11-10 00:1x（BB-B 00:13）：最新 head 只跑以安念書的讀檔段＋IVLOG（存檔那一刻、讀檔後每秒的 iv／選單／事件），和 SOCX_2d58_study_h1 比對
+SOCX_edae_study_h1_iv | edaedb2672eac7f5047d518e9c07f63b5e2f7537 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01;STEPS=phone_date;STUDY_ONLY=1;STUDY_VARIANTS=full;DATE_BRANCH_MAX=1;IVLOG=1
 SOCX_2d58_pd_h1 | 2d58e8a5209ae061784c20f14dd5de5819b562e6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 90 | CASES=heroine_01;STEPS=phone_date
 SOCX_2d58_pd_h3 | 2d58e8a5209ae061784c20f14dd5de5819b562e6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 90 | CASES=heroine_03;STEPS=phone_date
 SOCX_2d58_menu_h4 | 2d58e8a5209ae061784c20f14dd5de5819b562e6 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | CASES=heroine_04;STEPS=menu
