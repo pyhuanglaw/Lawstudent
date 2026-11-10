@@ -571,3 +571,15 @@
 [17:42:51] skip USAPT204b_new (already done on c8af31018a9ce570422ad748aa277af842f8db37)
 [17:43:05] 正在跑：NOASK_faf1_r2（已跑 9 分／上限 40 分）、ROMPRIV_old（已跑 3 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:44:31] [res] cpu=11% mem=38% (11.9/31.4 GB) chrome_testing=4  END ROMPRIV_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9ec46a331..f36e4fee0  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:44:37] ==== END   ROMPRIV_old  exit=1  290s   ====
+[17:48:05] 正在跑：NOASK_faf1_r2（已跑 14 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:49:48] memory 42% before starting X257_new (1 running)
+[17:49:48] ==== START X257_new  (probe @ 1c767edf819136d164df68e5cefca5605993b7fe) ====
+[17:49:48] memory 42% before starting X257_old (2 running)
+[17:49:48] ==== START X257_old  (probe @ fca5f80a386dd529fcd40a749b809ec30c5bb3eb) ====
+[17:49:51] [res] cpu=4% mem=42% (13.3/31.4 GB) chrome_testing=4  START X257_new
+[17:49:51] [res] cpu=4% mem=42% (13.3/31.4 GB) chrome_testing=4  START X257_old
+[17:52:16] [res] cpu=7% mem=50% (15.9/31.4 GB) chrome_testing=10  END X257_old

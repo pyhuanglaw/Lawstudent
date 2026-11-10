@@ -3,10 +3,33 @@ CC X257 體育館搬家：worktree ?；TAG old；CASES gymdoor,oldsite；Playwri
 [gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
 PASS 遊戲載入
 ==== gymdoor ====
-FAIL gymdoor 探針例外（這一段中斷）      return await pg.evaluate("(d=>{ try{ const q=CALENDAR.dateOf(d); return {key:q.key, wd:q.wd%7}; }catch(e){ return null; } })(%d)" % day) /                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~ / ValueError: stray % at position 65 or unexpected format character '}' at position 67
-  [  25.9s] [截圖] old_gymdoor_exception.png 亮度 [49, 46.8]
+  [前置／捷徑] 【前置／捷徑】讀檔：day 52（2025-11-07）10.50 campus (-80.0, -98.0) yaw 0.00；條件事件、手機自動打開關掉；往體育館的步道（映月湖和博思中間往西那一條）
+  [  38.8s] 讀檔後：{"zone": "campus", "day": 52, "hour": 10.541, "x": -94.25, "z": -83.25, "y": 0, "lv": 0, "ry": 0, "busy": false, "seat": false, "riding": false, "dlg": false, "dtext": "", "choices": [], "interact": "", "stand": true, "fb": 0, "paused": false}
+PASS gymdoor 起點 (−80,−98) 站得住  {"zone": "campus", "day": 52, "hour": 10.541, "x": -94.25, "z": -83.25, "y": 0, "lv": 0, "ry": 0, "busy": false, "seat": false, "riding": false, "dlg": false, "dtext": "", "choices": [], "interact": "", "stand": true, "fb": 0, "paused": false}
+FAIL gymdoor 體育館門口互動點（door gym）在 (−75, −125)（1 m 內）  [{"label": "體育館", "x": 74, "z": 59.4, "r": 1.6, "lv": 0, "door": "gym", "to": "gym", "bike": false}]
+  [  38.8s] gymdoor (−75, −125) 15 m 內的互動點（候選）：[]
+  [  38.9s] gymdoor label 有「體育館」的互動點：[{"label": "體育館", "x": 74, "z": 59.4, "r": 1.6, "lv": 0, "door": "gym", "to": "gym", "bike": false}]
+PASS gymdoor walkFallbacks 沒有增加（0 → 0）
+PASS gymdoor 沒有 JS 例外  []
 ==== oldsite ====
 PASS oldsite 重新載入遊戲
-FAIL oldsite 探針例外（這一段中斷）      return await pg.evaluate("(d=>{ try{ const q=CALENDAR.dateOf(d); return {key:q.key, wd:q.wd%7}; }catch(e){ return null; } })(%d)" % day) /                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~ / ValueError: stray % at position 65 or unexpected format character '}' at position 67
-  [  40.0s] [截圖] old_oldsite_exception.png 亮度 [49, 46.8]
-FAILED 2: gymdoor 探針例外（這一段中斷）；oldsite 探針例外（這一段中斷）
+  [前置／捷徑] 【前置／捷徑】讀檔：day 52（2025-11-07）10.50 campus (74.0, 54.0) yaw 3.14；條件事件、手機自動打開關掉；舊體育館門口 (74, 59.4) 北邊 5 m
+  [  70.5s] 讀檔後：{"zone": "campus", "day": 52, "hour": 10.535, "x": 74, "z": 54, "y": 0, "lv": 0, "ry": 3.142, "busy": false, "seat": false, "riding": false, "dlg": false, "dtext": "", "choices": [], "interact": "", "stand": true, "fb": 0, "paused": false}
+  [  70.6s] oldsite 舊門口 (74, 59.4) 6 m 內的互動點：[{"label": "體育館", "x": 74, "z": 59.4, "r": 1.6, "door": "gym", "to": "gym", "hidden": false}]
+FAIL oldsite 舊門口 (74, 59.4) 6 m 內沒有體育館的入口互動點  [{"label": "體育館", "x": 74, "z": 59.4, "r": 1.6, "door": "gym", "to": "gym", "hidden": false}]
+  [  70.6s] oldsite 舊館 (74, 68) 6 m 內的互動點：[]
+PASS oldsite 舊館 (74, 68) 6 m 內沒有體育館的入口互動點  []
+  [  70.6s] oldsite 場景裡 gym_ext／gym* 物件：[]
+PASS oldsite 體育館外觀（gym_ext）不在舊位置 (74, 68) 20 m 內  []
+  [  76.9s] 到達「oldsite 走到舊門口前 (74.00, 57.10)」附近（0.16 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS oldsite 走到舊門口前，互動鍵不是「體育館」（現在是：""）  {"zone": "campus", "day": 52, "hour": 10.587, "x": 74, "z": 56.94, "y": 0, "lv": 0, "ry": 6.283, "busy": false, "seat": false, "riding": false, "dlg": false, "dtext": "", "choices": [], "interact": "", "stand": true, "fb": 0, "paused": false}
+PASS [黑畫面] old_oldsite_1_game_cam 不是黑畫面（平均亮度 86.4、變化 25）  [86.4, 25]
+  [  82.0s] [截圖] old_oldsite_1_game_cam.png 亮度 [86.4, 25]
+PASS [黑畫面] old_oldsite_2_front 不是黑畫面（平均亮度 80、變化 33.3）  [80, 33.3]
+  [  84.0s] [截圖] old_oldsite_2_front：鏡頭 {"eye": [74, 6, 44], "look": [74, 7, 68], "lens": 24, "vfov": 45.75}、亮度 [80, 33.3]
+PASS [黑畫面] old_oldsite_3_side 不是黑畫面（平均亮度 87.3、變化 41.8）  [87.3, 41.8]
+  [  86.4s] [截圖] old_oldsite_3_side：鏡頭 {"eye": [56, 9, 50], "look": [74, 7, 68], "lens": 24, "vfov": 45.75}、亮度 [87.3, 41.8]
+  [  87.2s] oldsite【人工看】oldsite_2／_3：(74, 68) 是一棟沒有名字的系館（不寫「體育館」）
+PASS oldsite walkFallbacks 沒有增加（0 → 0）
+PASS oldsite 沒有 JS 例外  []
+FAILED 2: gymdoor 體育館門口互動點（door gym）在 (−75, −125)（1 m 內）；oldsite 舊門口 (74, 59.4) 6 m 內沒有體育館的入口互動點

@@ -1,14 +1,14 @@
 {
-  "rerun": "",
+  "rerun": "r2",
   "id": "X257_old",
   "sha": "fca5f80a386dd529fcd40a749b809ec30c5bb3eb",
   "kind": "probe",
   "script": "docs/story_planning/test_tools/cc/cc_x257_gym_move_probe.py",
-  "env": "TAG=old;CASES=gymdoor,oldsite",
+  "env": "TAG=old;CASES=gymdoor,oldsite;RERUN=r2",
   "machine": "MSI",
-  "start": "2026-11-10T17:17:38",
-  "end": "2026-11-10T17:18:56",
-  "seconds": 77,
+  "start": "2026-11-10T17:49:48",
+  "end": "2026-11-10T17:52:16",
+  "seconds": 148,
   "exit": 1,
   "error": null,
   "runner": "1556bf529d",
@@ -16,10 +16,10 @@
   "url": "http://127.0.0.1:8802/index.html",
   "headless_forced": true,
   "res_peak": {
-    "cpu": 12,
+    "cpu": 50,
     "mem": 55,
-    "used_gb": 17.5,
-    "chrome_testing": 12
+    "used_gb": 17.6,
+    "chrome_testing": 15
   },
   "dev_branch": "claude/modest-rubin-2lyp7g",
   "sha_on_dev_branch": true,
