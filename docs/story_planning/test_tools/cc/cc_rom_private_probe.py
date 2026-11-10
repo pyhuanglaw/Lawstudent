@@ -10,7 +10,7 @@
   d. 劇情選項選完，先說出祐廷選的那一句（對話框名字「祐廷」、字「現在有了。學姊旁邊。」，在她回「學弟，你很敢講。」之前）
 流程（真實玩家操作；不用 ?turbo、不瞬移）：
   S1 約會：[前置／捷徑] 讀 day51b（遊戲自己的 GAME.applySave）、日期 +1 天 09:00、清掉舊邀約、清掉學姊的故事線進度（BEATS.heroine_05，從第 1 拍開始）
-     → 手機「朋友」→ 學姊「約」→ 念書 → 總圖 → 今天的時間 →【捷徑】時間撥到約好的前 10 分鐘 → 手機「今天」按「前往」→ 走到她旁邊、對話照實點；
+     → 手機「朋友」→ 學姊「約」→ 念書 → 法律學院圖書館（她回「我已經在那裡」＝不算邀約，換社科圖、總圖、慢讀）→ 今天的時間 →【捷徑】時間撥到約好的前 10 分鐘 → 手機「今天」按「前往」→ 走到她旁邊、對話照實點；
      故事線的選項選「現在有了。學姊旁邊。」→ 演完。看 a、b（選項）、c（演完的人物頁）、d。
      同一天再約一次（喝咖啡 → 2:30 AM）→ 演完：約會那一份（{npcRom:1,rom:1,trust:1}）沒有再加一次（a 的「一天一次」；舊版本來就不加，這一項舊版也 PASS）。
   S2 送東西：[前置／捷徑] 讀 day51b、日期 +1 天、時間撥到學姊在校內某一區的時候（只讀 STORY.whereIs 找）、放到那一區；【捷徑】身上帶一杯「無糖綠茶（去冰）」（＝在便利商店買好帶著，G.carry）
@@ -129,29 +129,41 @@ async def person_bar(pg, cdp, tag):
     except ValueError: return None, b
 
 
-async def meet_once(pg, cdp, run, cat, word, tag, pick=None):
-    """手機約一次、去、演完。回傳 (台詞, 選過的選單, 邀約 id)；約不成回傳 (None, None, None)"""
+async def invite_one(pg, cdp, cat, word, tag):
+    """手機「朋友」→ 學姊「約」→ 類別 → 地方 → 今天第一個能選的時間。回傳 (邀約清單, 她回的句子, 問題)"""
     await P.phone_tab(pg, cdp, 'friends')
     if await pg.evaluate("!!document.querySelector('#phoneBody [data-personback]')"):
         await L.tap(pg, cdp, '#phoneBody [data-personback]'); await pg.wait_for_timeout(700)
     sel = '#phoneBody [data-inv="%s"]' % WHO
     if not await pg.evaluate("s=>{ const e=document.querySelector(s); if(!e) return false; e.scrollIntoView({block:'center'}); return true; }", sel):
-        check('[%s] 手機「朋友」有學姊的「約」' % tag, False, (await pg.evaluate("(document.getElementById('phoneBody')||{}).innerText||''"))[:300]); return None, None, None
+        return None, None, '手機「朋友」沒有學姊的「約」：' + (await pg.evaluate("(document.getElementById('phoneBody')||{}).innerText||''"))[:200]
     await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1500)
-    log = []
     if not await choose(pg, cdp, cat):
-        check('[%s] 約的類別有「%s」' % (tag, cat), False, J(await opts(pg))); return None, None, None
+        o = await opts(pg); await settle(pg, cdp, 10); return None, None, '類別沒有「%s」：%s' % (cat, J(o))
     if not await choose(pg, cdp, word):
-        check('[%s] 地方有「%s」' % (tag, word), False, J(await opts(pg))); return None, None, None
+        o = await opts(pg); await settle(pg, cdp, 10); return None, None, '地方沒有「%s」：%s' % (word, J(o))
     o = await opts(pg)
     t = next((x for x in o if x['t'].startswith('今天') and not x['dim']), None)
     if not t:
-        check('[%s] 今天有能選的時間' % tag, False, J(o)); return None, None, None
-    await choose(pg, cdp, t['t'], True); log.append('約：%s %s %s' % (cat, word, t['t']))
+        await settle(pg, cdp, 10); return None, None, '今天沒有能選的時間：%s' % J(o)
+    n0 = len(await pg.evaluate("window.__SAY||[]"))
+    await choose(pg, cdp, t['t'], True)
     await settle(pg, cdp, 30)
+    rep = await P.said(pg, n0)
     iv = await pg.evaluate("(w=>(GAME.G.invites||[]).filter(v=>v.who===w&&v.day===GAME.G.day&&v.state!=='done').map(v=>({id:v.id,h:v.h,place:v.place,state:v.state})))(%s)" % J(WHO))
+    info('[%s] 約 %s %s %s → 她回 %s；邀約 %s' % (tag, cat, word, t['t'], J(rep), J(iv)))
+    return iv, rep, None if iv else '沒有排進邀約（她回「她已經在那裡」＝不算邀約，或婉拒）'
+
+
+async def meet_once(pg, cdp, run, cat, words, tag, pick=None):
+    """手機約一次（words 照順序試，她回「我已經在那裡」＝不算邀約、換下一個）、去、演完。回傳 (台詞, 選過的選單, 邀約 id)；約不成回傳 (None, None, None)"""
+    iv = None; why = []
+    for word in words:
+        iv, rep, bad = await invite_one(pg, cdp, cat, word, tag)
+        if iv: break
+        why.append('%s：%s' % (word, bad))
     if not iv:
-        check('[%s] 約成了（%s）' % (tag, t['t']), False); return None, None, None
+        check('[%s] 約成了（%s 試過 %s）' % (tag, cat, J(words)), False, J(why)); return None, None, None
     v = iv[-1]; info('[%s] 約好' % tag, J(v))
     run.setup('[%s] 時間撥到約好的 %.2f 前 10 分鐘（G.hour）' % (tag, v['h']))
     await pg.evaluate("(h=>{ if(GAME.G.hour<h) GAME.G.hour=h; })(%f)" % (v['h'] - GO_EARLY)); await pg.wait_for_timeout(1200)
@@ -219,7 +231,7 @@ async def s1_date(pg, cdp, run, S, errs):
     r0 = await rel(pg); info('S1 讀檔後學姊的關係', J(r0))
     check('S1 前置：學姊在朋友以下（DATE.stageNum＜3），她的戀愛 0', r0['stage'] is not None and r0['stage'] < 3 and r0['npcRom'] == 0, J(r0))
     s0 = len(await pg.evaluate("window.__SAY||[]")); a0 = len(await pg.evaluate("window.__ADJ||[]"))
-    seen, picked, _ = await meet_once(pg, cdp, run, '念書', '總圖', 'S1第一次', pick=PICK)
+    seen, picked, _ = await meet_once(pg, cdp, run, '念書', ['法律學院圖書館', '社科圖', '總圖', '慢讀'], 'S1第一次', pick=PICK)
     said = await P.said(pg, s0); adj = await adj_log(pg, a0); r1 = await rel(pg)
     info('S1 GAME.say（見面那一段）', J(said[-24:])); info('S1 SOCIAL.adjust(%s)' % WHO, J(adj)); info('S1 見面後的關係', J(r1))
     got_pick = any(any(x.startswith(PICK) for x in p['opts']) for p in (picked or []))
@@ -241,7 +253,7 @@ async def s1_date(pg, cdp, run, S, errs):
     check('C1 見面後手機人物頁看得到戀愛條（寬度＞0%%；她的戀愛 %s）' % r1['npcRom'], w is not None and w > 0, J({'w': w, 'npcRom': r1['npcRom']}))
     # a：一天一次
     a1 = len(await pg.evaluate("window.__ADJ||[]"))
-    seen2, picked2, _ = await meet_once(pg, cdp, run, '喝咖啡', '2:30 AM', 'S1第二次')
+    seen2, picked2, _ = await meet_once(pg, cdp, run, '喝咖啡', ['2:30 AM', '木曜日', 'Café'], 'S1第二次')
     adj2 = await adj_log(pg, a1); r2 = await rel(pg)
     info('S1 第二次 SOCIAL.adjust(%s)' % WHO, J(adj2)); info('S1 第二次見面後的關係', J(r2))
     if seen2 is None:

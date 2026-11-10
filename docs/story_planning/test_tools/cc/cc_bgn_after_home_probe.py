@@ -102,7 +102,8 @@ async def play(pg, cdp, tag, qid, d, settle):
             last_key = key; tl.append({'t': round(time.time() - t0, 1), 'zone': s['zone'], 'd': s['d'], 'h': s['h'], 'q': s['q'], 'running': s['running'], 'jump': s['jump']})
             print('  [%s] %5.1fs %s day %s %s q=%s running=%s jump=%s' % (tag, time.time() - t0, s['zone'], s['d'], hhmm(s['h']), J(s['q']), s['running'], J(s['jump'])), flush=True)
         if s['running']: seen_run = True
-        if t_done is None and ((s['q'] or {}).get('state') == 'done' or (seen_run and not s['running'])):
+        # 演完＝標了 done（或跑過、不跑了）而且場景收完（busyDepth 0、不 busy、ADV 關了）：q.state 會在 GM.advance 之前就標 done（雲端試跑 eve 段 14:50 就標了），不能只看 state
+        if t_done is None and ((s['q'] or {}).get('state') == 'done' or (seen_run and not s['running'])) and not s['running'] and s['depth'] == 0 and not s['busy'] and not s['adv'] and not s['dlg']:
             t_done = time.time(); s_done = s; print('  [%s] 演完（%s day %s %s）' % (tag, s['zone'], s['d'], hhmm(s['h'])), flush=True)
         if s['choices']:
             ch = s['choices']
