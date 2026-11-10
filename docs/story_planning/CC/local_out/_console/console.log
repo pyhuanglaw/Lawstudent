@@ -1562,3 +1562,10 @@
 [21:34:57] ==== START X223SHOT_old  (probe @ 74da28ca942cbe1e00f033903b3778a9ccaacca1) ====
 [21:35:00] [res] cpu=7% mem=47% (14.8/31.4 GB) chrome_testing=10  START X223SHOT_old
 [21:36:36] [res] cpu=16% mem=49% (15.3/31.4 GB) chrome_testing=10  END X223SHOT_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       19556ee29..b7b499a2b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:36:47] ==== END   X223SHOT_old  exit=0  99s   ====
+[21:36:50] solo item PERFCG_new_m waits: no new items start until the 2 running item(s) finish
+[21:38:06] 正在跑：GIFTHOL2_new（已跑 25 分／上限 60 分）、GIFTHOL_new（已跑 6 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:40:02] [res] cpu=1% mem=41% (12.9/31.4 GB) chrome_testing=5  END GIFTHOL_new
