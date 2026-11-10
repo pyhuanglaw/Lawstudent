@@ -130,7 +130,8 @@ const GUITAR=(function(){
   /* 老闆的話（輪流）：一次進店說一句（GM.enterN；測試沒有＝每次都說）*/
   S.bossLine=async function(GM){ const G=GM.G, r=S.rec(G), n=GM.enterN|0; if(n>0&&bossVisit===n) return null; bossVisit=n; const L=S.L.boss, t=L[(r.boss|0)%L.length]; r.boss=(r.boss|0)+1; await GM.say(BOSS,t); return t; };
   S.shop=GM=>inShop(GM,async G=>{ await S.bossLine(GM);
-    const opts=S.menu(G), k=await GM.choose(opts.concat([{t:'不用了'}])), o=opts[k]; if(!o) return;
+    const hO=typeof GIFTH!=='undefined'&&GIFTH.shopOpt?GIFTH.shopOpt(G,'xs_tongxian'):null;   /* 買禮物（GIFT-HOLIDAY-1110，src/gifthol3d.js）*/
+    const opts=S.menu(G), k=await GM.choose(opts.concat(hO?[hO]:[],[{t:'不用了'}])), o=opts[k]; if(hO&&k===opts.length){ await GIFTH.pick(GM,hO); return; } if(!o) return;
     const it=S.ITEMS.find(q=>q.id===o.id), res=S.buy(G,o.id,GM.money?d=>GM.money(d):null);
     if(res==='poor'){ if(GM.toast) GM.toast('錢不夠'); return; } if(res!==true) return;
     if(GM.advance) GM.advance(0.15);

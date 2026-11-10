@@ -5187,6 +5187,39 @@
      "note": "第一版；f02917295 回 LAWWW 3f6dba142 四點（園遊會日期、預設 3 天、先不要不鎖、電影夜改名）"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_732_gift_holiday_1.json",
+   "sha": "1edb14888",
+   "status": "approved",
+   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
+   "task": "GIFT-HOLIDAY-1110",
+   "kind": "json",
+   "note": "節日送禮第一批：規則、14 家店 57 樣（含 special 兩樣）、third、學姊反應——tools/gift/import_gift_holiday.py → src/data/gift_holiday.js；1edb14888 改過 fc9ff6d3d（g_cvs_choco 的 no 加可昕）",
+   "history": [
+    {
+     "sha": "fc9ff6d3d",
+     "note": "第一版（g_cvs_choco 的 no 還沒有可昕）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_733_gift_holiday_2.json",
+   "sha": "1edb14888",
+   "status": "approved",
+   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
+   "task": "GIFT-HOLIDAY-1110",
+   "kind": "json",
+   "note": "節日送禮第二批：以安、芷若、語彤、子晴、沛珊、可昕、芯慈的開場與反應——tools/gift/import_gift_holiday.py"
+  },
+  {
+   "path": "docs/story_planning/AA_734_gift_holiday_3.json",
+   "sha": "246ef6735",
+   "status": "approved",
+   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
+   "task": "GIFT-HOLIDAY-1110",
+   "kind": "json",
+   "note": "節日送禮第三批：她們送祐廷的（gate、how、people）、山嵐文具區學姊四場（stationery）——tools/gift/import_gift_holiday.py"
   }
  ]
 }

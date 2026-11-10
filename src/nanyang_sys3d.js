@@ -49,7 +49,9 @@ const NYS=(function(){
   S.buy=async function(GM){ const G=GM.G; G.flags=G.flags||{};
     if(!S.isOpen(G)){ const P=PL(); if(GM.toast&&P&&P.closedText) GM.toast(P.closedText(S.ZL,G.hour,G.day),4500); return 'closed'; }
     if(S.hasTicket(G)) return 'have';
-    const short=(G.money|0)<S.PRICE; const i=await GM.choose([{t:S.LABEL+'　'+S.PRICE+' 元',dim:short},{t:S.NONE}]);
+    const hO=typeof GIFTH!=='undefined'&&GIFTH.shopOpt?GIFTH.shopOpt(G,'xs_nanyang'):null;   /* 售票口的買禮物（GIFT-HOLIDAY-1110，src/gifthol3d.js）*/
+    const short=(G.money|0)<S.PRICE; const i=await GM.choose([{t:S.LABEL+'　'+S.PRICE+' 元',dim:short}].concat(hO?[hO]:[],[{t:S.NONE}]));
+    if(hO&&i===1){ await GIFTH.pick(GM,hO); return 'gift'; }
     if(i!==0) return null;
     if((G.money|0)<S.PRICE){ GM.toast('錢不夠'); return 'short'; }
     GM.money(-S.PRICE); G.flags.NY_TICKET=G.day|0;
