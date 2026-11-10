@@ -1,7 +1,13 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-10 23:5x UTC）
+## 交接（最新｜帳號 A｜2026-11-11 00:1x UTC）
+- **等 LAWWW ACK 的只有一包**：`wip/flower_notes_1110/gg_flowerB_gg3_ext_int_r2.patch`（8e15235bc，README_r2.md）＝花序 B 件（公館 G11 外觀、拿掉舊花攤）＋公館三間外觀＋公館三間室內。第一次交（8dd2084a2）被退：`zq_arcade_seat_unit`（G08 子晴的凳子不見）、`street_props_nav_unit`（GG_PROP_BLOCKS 沒重算），已修。
+- **已整合 dev**：汀州路第 2、3 版和機車、花序 A 件（室內）、泰米／洗樂／印得好室內。
+- **教訓（照做）**：交件前跑**全部** Node 測試（`ls tests/*_unit.js > list; bash $SP/kit_run.sh <工作樹> list`，約 20 分鐘），不能只跑相關的幾十支。重建公館店面街以後一定看 `zq_arcade_seat_unit`、`street_props_nav_unit`：照參考圖的店面（gg_front）會把騎樓雜物換掉——要留的寫進 `keep`；`GG_PROP_BLOCKS`（`src/zones3d.js`）要照新的 `gongguan_shops.props.json` 重算。
+- BB：機車第 2 版那次正式模型有載入（十四種外形在街景距離看起來差不多）；新版等 CC 統計每款幾台、放大三款；放大還分不出來的話，要把款式之間的輪廓差別做大（不是只靠顏色）。先不用動。
+
+## 交接（上一則｜帳號 A｜2026-11-10 23:5x UTC）
 - **六間店室內第 1 版都交了**（使用者 23:xx「六家的內部參考圖」，`ref/gg_shops6_1110/interior/`）：`wip/gg_shops6_int_1110/`（README 每一間的內容、給 LAWWW 的 kind、先將就的）。三個 patch 依序套：`tz_shops_int_v1_taimi_xile.patch`（51a7dfb8d）→ `tz_shops_int_v1b_yindehao.patch`（3042b26e9）→ `tz_shops_int_v1c_gg3.patch`（34a5e0656）。共用：`src/data/tz_shops_layout.js`、`src/tz_shops3d.js`（公館三間的入口用 hookOut 包住 gongguan build）、`tools/blender/env_second/tz_shops_interior.py --shop <taimi|xile|yindehao|antai|xianguo|rongendian> [--ref <室內參考圖資料夾>]`、`tests/tz_shops_unit.js`。等 LAWWW 整合、CC 拍、BB 判 → 照判定出第 2 版（最多 3 版）。
   - 已知要改的：商品是彩色小方塊沒有圖案；汀州鮮果籃子裡的水果不夠滿、6.2 萬三角形；布簾布棚是平的；沒有光照貼圖、窗外沒有景；AA_743 只對了泰米（差異表在 README），其他五間還沒逐項對。
 - **汀州路三間外觀：BB 判 ART_APPROVED**（第 3 版）。街景只剩機車等重拍（525dc11eb 已交；機車模型本來就有十四種外形，若拍到同一款＝正式模型沒載入，看 `zone.tzScooterGLB`）。BB 另記：洗樂正前方那根路燈擋到招牌，下次動汀州路區域時挪 1～2 m；印得好招牌晚上偏暗。
