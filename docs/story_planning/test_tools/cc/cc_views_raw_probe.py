@@ -9,7 +9,7 @@ WT = os.path.abspath(os.path.join(os.environ.get('LW_TESTS') or 'tests', '..'))
 NAMES = [n for n in (os.environ.get('NAMES') or 'cvs').split(',') if n]
 src = open(os.path.join(WT, 'tools', 'shots', 'shop_views_layers.py'), encoding='utf-8').read()
 seg = src[src.index('FOV = '):src.index('\ndef png(')]          # 只要設定那一段（VIEWS、FADE、TIMES、WAIT_ASSETS、LAYERS），不跑後面的 PIL
-ns = {}; exec(seg, ns)
+ns = {'os': os, 'ROOT': WT}; exec(seg, ns)   # 那一段用到 os、ROOT（OUTDIR）
 VIEWS, TIMES, FOV, WAIT_ASSETS, LAYERS = ns['VIEWS'], ns['TIMES'], ns['FOV'], ns['WAIT_ASSETS'], ns['LAYERS']
 print('CC 窗景原始拍攝：worktree %s；%s；Playwright＋GPU ≠ iPhone' % (os.popen('git -C "%s" rev-parse --short HEAD' % WT).read().strip(), NAMES), flush=True)
 tmp = tempfile.mkdtemp(prefix='ccviews_'); shots = []
