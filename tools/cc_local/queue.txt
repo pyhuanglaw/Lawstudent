@@ -159,7 +159,11 @@ WINVIEW_sso_new | a2de6154551eb433a1addae7df7a9a047f633f7c | probe | docs/story_
 GLASSDIAG_v2c | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_glasssky_diag_probe.py | index.html | 10 | X=1
 GLASSDIAG_v2b | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_glasssky_diag_probe.py | index.html | 10 | X=1
 X295E_fair_keep_fix | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_keep_fix;CASES=fair;BIKE=keep;RERUN=r2
-GUI_fix2 | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_gift_ui_probe.py | index.html | 25 | TAG=fix2;CASES=shanlan;RERUN=r2
+# ① PUTONG v2D（LAWWW 13:44：GLASSDIAG 兩點都對，LAWWW2 380ceac62 顏色改傳輸出色空間、skyBox 延到東立面一樓；e9af13061）：同一組鏡頭重拍，目標玻璃約 [110,120,130]、東立面一樓那片也要變
+GLASSDIAG_v2d | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_glasssky_diag_probe.py | index.html | 10 | X=1
+TEACHVIEW_pn_v2d | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north
+BOYA1F_v2d | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=v2d;VIEWS=boya1f_gap:campus:-27:-69.5:11:0:2.5:-27:2.3:-74.5:70+boya1f_se:campus:-17:-70:11:1.27:6:-32:2.2:-74.5:50
+GUI_fix2 | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_gift_ui_probe.py | index.html | 25 | TAG=fix2;CASES=shanlan;RERUN=r3
 # ① XS-DOOR-LABELS（LAWWW 13:02、BB 13:03：新生南路每一家列出來，格式不對的標出來）：真的走到每一間店門讀按鈕字；改前 74da28ca9
 XSDOOR_new | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_xs_door_labels_probe.py | index.html | 25 | TAG=new
 XSDOOR_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_xs_door_labels_probe.py | index.html | 25 | TAG=old
@@ -168,10 +172,20 @@ XSPLANT_new | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_plan
 XSPLANT_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 15 | TAG=old;VIEWS=plant_south:xinsheng:13.2:6.5:14:0:3:16.5:0.8:40:62+plant_north:xinsheng:13.2:13.5:14:3.1416:3:16.5:0.8:-20:62+plant_gate:xinsheng:11.5:10:14:1.5708:3:18.4:1.6:10:70;RERUN=hidep
 # ④ GIFTHOL 第二輪（BB 13:03 順序：②⑤ → ①③⑥ → ④）
 GIFTHOL2_new | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 60 | TAG=r2;CASES=libbday,counter_event,counter_order,sisbday_tea,sisbday_happy
+# ② X223 套件五棟（LAWWW 13:44；e9af13061 vs 48aa47a5b）：電機二館、土木、圖資、農綜、國青，平視＋高空
+X223KIT_new | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=kit_new;VIEWS=eec2_front:93:1.7:-62:119:8:-62+civil_front:15:1.7:-7:7:6:-28+lis_front:58:1.7:-12:51.5:7:-34+agri_front:52:1.7:12:45:8:33+gq_front:65:1.7:-98:65:15:-119
+X223KIT_old | 48aa47a5b71453a04c983e3185201640d2f9449c | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=kit_old;VIEWS=eec2_front:93:1.7:-62:119:8:-62+civil_front:15:1.7:-7:7:6:-28+lis_front:58:1.7:-12:51.5:7:-34+agri_front:52:1.7:12:45:8:33+gq_front:65:1.7:-98:65:15:-119
+# ③ X246 紅磚人行道磚紋（LAWWW 13:44）：側門外人行道往下斜看＋順著人行道，14:00、20:30；e9af13061 vs 48aa47a5b
+XSBRICK_new | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 15 | TAG=new;VIEWS=brick_down14:xinsheng:13.2:5:14:0:3:13.8:0:9:60+brick_along14:xinsheng:13.2:2:14:0:3:14:0.6:20:60+brick_down20:xinsheng:13.2:5:20.5:0:3:13.8:0:9:60+brick_along20:xinsheng:13.2:2:20.5:0:3:14:0.6:20:60+brick_close14:xinsheng:13.2:5:14:0:3:13.4:0:6.4:45
+XSBRICK_old | 48aa47a5b71453a04c983e3185201640d2f9449c | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 15 | TAG=old;VIEWS=brick_down14:xinsheng:13.2:5:14:0:3:13.8:0:9:60+brick_along14:xinsheng:13.2:2:14:0:3:14:0.6:20:60+brick_down20:xinsheng:13.2:5:20.5:0:3:13.8:0:9:60+brick_along20:xinsheng:13.2:2:20.5:0:3:14:0.6:20:60+brick_close14:xinsheng:13.2:5:14:0:3:13.4:0:6.4:45
+# BB 13:46：①campus_layout_nav（48aa47a5b，研三舍拿掉的回歸）②日常失速 LAWWW2 給的角度：站 (1.1, 1.5)、眼高 1.6、正對 +z，新舊各一 ③映月湖 r2＝X223SHOT RERUN=air（已排）
+CAMPUSNAV_48aa | 48aa47a5b71453a04c983e3185201640d2f9449c | game | tests/campus_layout_nav.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+OFFBEAT_ang_new | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 10 | TAG=new;VIEWS=offbeat_pz:wz_offbeat:1.1:1.5:14:0:3:1.1:1.6:10:70+offbeat_pz21:wz_offbeat:1.1:1.5:21:0:3:1.1:1.6:10:70
+OFFBEAT_ang_old | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 10 | TAG=old;VIEWS=offbeat_pz:wz_offbeat:1.1:1.5:14:0:3:1.1:1.6:10:70+offbeat_pz21:wz_offbeat:1.1:1.5:21:0:3:1.1:1.6:10:70
 GIFTHOL_new | 509b54c2d9d7a2f1ab6f227124abeb4d30747db6 | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 75 | TAG=new;RERUN=person
 # ⑥ X223（BB 13:25 選 (c)：只拍遊戲畫面，照片疊圖等 BB 問使用者）：晨思鐘、行政、文學院、校史館＋LAWWW 13:24 男一舍、共同、映月湖、研三舍原址；改後 48aa47a5b、改前 74da28ca9；桌機 1280×720
-X223SHOT_new | 48aa47a5b71453a04c983e3185201640d2f9449c | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=new
-X223SHOT_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=old
+X223SHOT_new | 48aa47a5b71453a04c983e3185201640d2f9449c | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=new;RERUN=air
+X223SHOT_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=old;RERUN=air
 # PUTONG v2C（BB 12:33；LAWWW2 8ff6e7d4a：東南角那片加進範圍、白天玻璃直接混到 [110,120,130]）：量玻璃平均色，和 v2b 並排；校園 shader 冒煙；等 SHA
 SHADER_v2c | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_shader_smoke_probe.py | index.html | 15 | TAG=v2c;ZONES=campus
 TEACHVIEW_pn_v2c | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north
