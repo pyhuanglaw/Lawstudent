@@ -1,0 +1,263 @@
+{
+ "sha": "",
+ "day": "2025-10-18",
+ "hours": [
+  14.0,
+  21.0
+ ],
+ "shops": [
+  {
+   "key": "tongxian",
+   "name": "同弦樂器",
+   "group": "xs7",
+   "zone": "xs_tongxian",
+   "day": "2025-10-18",
+   "shots": {},
+   "notes": [],
+   "zinfo": {
+    "zone": "xs_tongxian",
+    "center": [
+     -0.06,
+     -1.76
+    ],
+    "spawn": [
+     0.25,
+     4.62
+    ],
+    "levels": [],
+    "exits": [
+     {
+      "label": "下樓（回新生南路）",
+      "x": -0.6,
+      "z": 4.63,
+      "lv": 0,
+      "to": "xinsheng",
+      "spawn": {
+       "x": -13.9,
+       "z": -7.2,
+       "yaw": 1.571,
+       "lv": 0
+      }
+     }
+    ],
+    "street": {
+     "label": "下樓（回新生南路）",
+     "x": -0.6,
+     "z": 4.63,
+     "lv": 0,
+     "to": "xinsheng",
+     "spawn": {
+      "x": -13.9,
+      "z": -7.2,
+      "yaw": 1.571,
+      "lv": 0
+     }
+    }
+   },
+   "cards_all": [
+    {
+     "name": "txs_shade",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "txs_milkglass",
+     "pview": null,
+     "c": [
+      -2.2,
+      1.457,
+      1.14
+     ],
+     "size": [
+      0.32,
+      3.47,
+      3.24
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "tx_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "tx_glass",
+     "pview": null,
+     "c": [
+      0.99,
+      0.776,
+      0.85
+     ],
+     "size": [
+      0.6,
+      0.45,
+      1.8
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "WALL_back_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "tx_glass",
+     "pview": null,
+     "c": [
+      -1.7,
+      1.7,
+      -5.257
+     ],
+     "size": [
+      2.45,
+      1.51,
+      0.04
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "VIEWPANE_xs_tongxian",
+     "kind": "parallax",
+     "vis": true,
+     "lv": 0,
+     "mat": "",
+     "pview": "xs_tongxian",
+     "c": [
+      -1.7,
+      1.7,
+      -5.37
+     ],
+     "size": [
+      4.4,
+      2.6,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": "assets/models/env/views/xs_tongxian_day.webp",
+     "photoOn": 1,
+     "depth": 36,
+     "loaded": true
+    }
+   ],
+   "dedicated": false,
+   "has_card": true,
+   "views": [
+    {
+     "card": "VIEWPANE_xs_tongxian",
+     "kind": "parallax",
+     "url": "assets/models/env/views/xs_tongxian_day.webp",
+     "center": [
+      -1.7,
+      1.7,
+      -5.37
+     ],
+     "size": [
+      4.4,
+      2.6,
+      0
+     ],
+     "lv": 0,
+     "out": [
+      0.0,
+      -1.0
+     ],
+     "virtual": false,
+     "dedicated": false,
+     "inside": {
+      "where": "座位「試彈」(-2.2, -4.05)，離窗 1.32 m、左右偏 0.5 m",
+      "player": [
+       -2.04,
+       -3.52
+      ],
+      "eye": [
+       -2.2,
+       1.33,
+       -3.9
+      ],
+      "look": [
+       -2.2,
+       1.28,
+       -5.37
+      ]
+     },
+     "shots": {
+      "day": "wv_tongxian_day.png",
+      "night": "wv_tongxian_night.png",
+      "street": "wv_tongxian_street.png"
+     },
+     "url_by_hour": {
+      "day": "assets/models/env/views/xs_tongxian_day.webp",
+      "night": "assets/models/env/views/xs_tongxian_night.webp"
+     },
+     "street": {
+      "dir": [
+       -1.0,
+       0.0
+      ],
+      "eye": [
+       -13.9,
+       1.6,
+       -7.2
+      ],
+      "look": [
+       -33.9,
+       1.3,
+       -7.2
+      ]
+     }
+    }
+   ],
+   "street": {
+    "zone": "xinsheng",
+    "spawn": {
+     "x": -13.9,
+     "z": -7.2,
+     "yaw": 1.571,
+     "lv": 0
+    },
+    "door": {
+     "label": "進同弦樂器（吉他行（二樓））",
+     "x": -15.6,
+     "z": -7.2
+    },
+    "f_in": [
+     -0.084,
+     0.996
+    ],
+    "f_st": [
+     1.0,
+     0.0
+    ],
+    "rot_deg": 90,
+    "shots": [
+     "wv_tongxian_street.png"
+    ]
+   }
+  }
+ ]
+}
