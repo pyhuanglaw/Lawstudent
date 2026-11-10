@@ -4,7 +4,7 @@
   改後：按下去＝GM.sceneBegin＋GM.say(null, look)＋每一頁 GM.say(null, ACTIVITIES.boardPages(G, zone?))＝對話框 #dlg（#dlgName／#dlgText／#dlgNext「▼ 點一下繼續」）一頁一頁點；
         沒有獨立的關閉鈕：最後一頁點一下對話框＝關掉。探針照實記錄（另外找畫面上有沒有「關閉／略過／收起／×」的按鈕，有的話一起量）。
   改前：按下去＝字幕 #caption（look＋posterText 一整段）顯示 4.6 秒自己消失，沒有分頁。探針量字幕的版面、照實記錄差異。
-【前置／捷徑】D.load_zone：GAME.applySave 直接放到那一棟（不給座標＝區域的預設出生點，入口附近）、DATE（預設 2025-09-08 大一上第 2 週週一，三區＋五張招生海報都有）HOUR（預設 12）、條件事件關掉、手機自動打開關掉。
+【前置／捷徑】D.load_zone：GAME.applySave 直接放到那一棟（不給座標＝區域的預設出生點，入口附近）、DATE（預設 2025-09-08 大一上第 2 週週一，演講・活動＋五張招生海報；博思的講座資訊螢幕用 SCREEN_DATE 預設 2025-11-03 第 10 週，9/8 螢幕只有「這週沒有新的公告。」）HOUR（預設 12）、條件事件關掉、手機自動打開關掉。
 之後真實玩家操作（不用 ?turbo、不瞬移）：L.go_to 點地面／搖桿走到公告欄前 → 互動鍵的字 → 手指按 #interact → 每一頁等字打完、量、截圖、手指點 #dlg 翻下一頁 → 最後一頁點掉 → 對話框關掉、人可以動。
 量測（JS）：對話框／字幕在畫面內（含 safe-area；Playwright 的 env(safe-area-inset-*) 是 0）、#dlgText scrollHeight vs clientHeight 與 overflow、文字行的 Range rect 有沒有超出框或畫面、
   畫面上看得到的文字元素兩兩重疊（排除祖先／子孫）、文字溢出（scrollWidth>clientWidth 且 overflow 不是 visible）、點的地方（框中心、四角內縮 8 px、文字行）elementFromPoint 有沒有被蓋住、可點範圍 ≥44×44。
@@ -19,7 +19,8 @@ import cc_d141_lib as D
 from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 TAG = os.environ.get('TAG') or 'x'
-DATE = os.environ.get('DATE') or '2025-09-08'; HOUR = float(os.environ.get('HOUR') or 12)
+DATE = os.environ.get('DATE') or '2025-09-08'; SCREEN_DATE = os.environ.get('SCREEN_DATE') or '2025-11-03';   # 博思的講座資訊螢幕只列博思的：9/8 是「這週沒有新的公告。」，另外用大一上第 10 週（辯論社社課＋博思 101 電影夜）
+HOUR = float(os.environ.get('HOUR') or 12)
 ORIENTS = [o.strip() for o in (os.environ.get('ORIENT') or 'portrait,landscape').split(',') if o.strip()]
 BOARDS = [b.strip() for b in (os.environ.get('BOARDS') or 'gongtong,putong,boya').split(',') if b.strip()]
 MAXP = int(os.environ.get('MAXP') or 20); TYPE_S = int(os.environ.get('TYPE_S') or 60)   # 等字打完最多幾秒（SwiftShader 一頁 70 字要 20 秒以上）
@@ -108,8 +109,9 @@ def judge(tag, m, box_name):
 
 async def one_board(pg, cdp, orient, zone, key, label0, zfilter):
     tag = '[%s｜%s]' % (orient, key)
-    s = await D.load_zone(pg, cdp, zone, DATE, HOUR)
-    R.setup('%s GAME.applySave 放到 %s（區域預設出生點＝入口附近）%s %.1f 時；條件事件、手機自動打開關掉' % (tag, zone, DATE, HOUR))
+    day = SCREEN_DATE if zfilter else DATE
+    s = await D.load_zone(pg, cdp, zone, day, HOUR)
+    R.setup('%s GAME.applySave 放到 %s（區域預設出生點＝入口附近）%s %.1f 時；條件事件、手機自動打開關掉' % (tag, zone, day, HOUR))
     if not R.check('%s 到了 %s' % (tag, zone), s['zone'] == zone, J(s)): return
     bs = await pg.evaluate(BOARDS_JS); R.note('%s %s 的公告欄互動點：%s' % (tag, zone, J(bs)))
     bd = next((b for b in bs if b['label'].startswith(label0)), None)
@@ -192,7 +194,7 @@ async def one_board(pg, cdp, orient, zone, key, label0, zfilter):
 
 async def main():
     real = os.popen('git -C "%s" rev-parse --short HEAD 2>/dev/null' % os.path.join(os.environ.get('LW_TESTS') or '.', '..')).read().strip()
-    print('CC X295 公告欄分頁版面：worktree %s；TAG %s；%s %.1f 時；ORIENT %s；BOARDS %s；Playwright 手機模擬 ≠ iPhone 實機' % (real or '?', TAG, DATE, HOUR, ORIENTS, BOARDS), flush=True)
+    print('CC X295 公告欄分頁版面：worktree %s；TAG %s；%s（博思螢幕 '+SCREEN_DATE+'）%.1f 時；ORIENT %s；BOARDS %s；Playwright 手機模擬 ≠ iPhone 實機' % (real or '?', TAG, DATE, HOUR, ORIENTS, BOARDS), flush=True)
     async with async_playwright() as p:
         for orient in ORIENTS:
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(orient == 'landscape'))
