@@ -139,7 +139,7 @@ RAY_1827 | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_plannin
 #   NOASK：電腦跑的是第一版探針（找不到日子），lunch_sk03 卡滿 240 分鐘；探針改成掃 49 天（三個週一憲法→體育有 ≥1.7 小時空檔）、每項逾時保護、整支 20 分鐘上限 =====
 GREET_968b_new2 | 968bd311f878693a984103ae6deb3bd24c30c52f | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01;STEPS=greetn;ROSTER=0
 GREET_968b_old2 | 97b2e03c353b3dcd68b27ec76042f8bfc035b2e3 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01;STEPS=greetn;ROSTER=0
-NOASK_faf1_r2 | faf1b75a4081a575d797a90f8cbe7fca8a087b58 | probe | docs/story_planning/test_tools/cc/cc_noask_probe.py | index.html | 40 | X=1;RERUN=seatz
+NOASK_faf1_r2 | faf1b75a4081a575d797a90f8cbe7fca8a087b58 | probe | docs/story_planning/test_tools/cc/cc_noask_probe.py | index.html | 40 | X=1;RERUN=sc
 # BB 10:17 補排（佇列最後）：①ART-NANYANG-CINEMA-1103 南洋戲院 NANYANG_v2 同一支探針用開發分支 head（r1 是 63 PASS／5 FAIL，看那 5 項）②SEATFIG-LOD1-HAIR-1104 遠處替身的頭：1eb7182b7 已接，同一支 cc_sitamb_probe_d8 同鏡頭，head 對 1eb7182b7^＝5aff1d18e，遠（預設三張）＋近（NEAR=1）
 NANYANG_v3 | fe4d893acdb08eb93f93b688380bd0700ff5ad48 | probe | docs/story_planning/test_tools/cc/cc_nanyang_v1_probe.py | index.html | 150 | CC_HEADLESS=0
 SEATFIG_new | 93d3e92691b344385636dc1f50741a871a4406a9 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe_d8.py | index.html | 25 | TAG=head

@@ -56,7 +56,7 @@ def mkstate(d, h, zone, money=30000, flags=None, courses=None, stage='law'):
     st['courses'] = courses or {'done': {}, 'attend': {}, 'prep': {}, 'electives': {}, 'note': {}, 'disc': {}, 'ask': {}, 'late': {}, 'abs': {}, 'exam': {}, 'grades': {}}
     return st
 
-HOOK = r"""(()=>{ if(window.__NA) return 'again'; const W=window.__NA={choose:[],seat:[],toast:[],caption:[],say:[],lunch:[]};
+HOOK = r"""(()=>{ if(window.__NA) return 'again'; const W=window.__NA={choose:[],seat:[],toast:[],caption:[],say:[],lunch:[],sc:[]};
   const t=()=>{ const G=GAME.G; return {h:+(+G.hour).toFixed(3),d:G.day,z:G.zone,m:G.money}; };
   const wrap=(o,fn,f)=>{ const f0=o&&o[fn]; if(typeof f0!=='function') return false; o[fn]=function(){ try{ f.apply(null,arguments); }catch(e){} return f0.apply(this,arguments); }; return true; };
   const r={choose:wrap(GAME,'choose',o=>W.choose.push(Object.assign({t:(o||[]).filter(x=>x&&!x.hidden).map(x=>x.t||x.text||'')},t()))),
@@ -64,11 +64,17 @@ HOOK = r"""(()=>{ if(window.__NA) return 'again'; const W=window.__NA={choose:[]
     toast:wrap(GAME,'toast',(s)=>W.toast.push(Object.assign({s:String(s)},t()))),
     caption:wrap(GAME,'caption',(w,s)=>W.caption.push(Object.assign({s:String(s==null?'':s)},t()))),
     say:wrap(GAME,'say',(w,s)=>W.say.push(Object.assign({n:(w&&w.name)||(typeof w==='string'?w:''),s:String(s==null?'':s)},t()))),
+    seatChoices:(()=>{ const f0=CLS.seatChoices; if(typeof f0!=='function') return false; CLS.seatChoices=function(){ const r=f0.apply(this,arguments);   /* BB 10:44：記 seatChoices 第一個的 t、hint，和那一刻每個 NPC 的 seat／seatTarget */
+      try{ const a=r&&r[0], E=GAME.E, xz=s=>s?[+(+s.x).toFixed(2),+(+s.z).toFixed(2)]:null; W.sc.push(Object.assign({},t(),{first:a?{t:a.t||a.text||'',hint:a.hint||a.sub||a.why||null,seat:xz(a.seat||a.it&&a.it.seat)}:null, n:(r||[]).length,
+        npcs:(E.npcs||[]).filter(n=>n&&(n.seat||n.seatTarget)).map(n=>({id:n.id||n.name||'',seat:xz(n.seat),tgt:xz(n.seatTarget)}))})); }catch(e){} return r; }; return true; })(),
     lunch:wrap(CLS,'lunchBreak',(GM,want)=>W.lunch.push(Object.assign({want:want||null,last:(GAME.G.flags||{}).LUNCH_LAST||null},t())))};
   return r; })()"""
 ITEMS = """(d=>{ const G=GAME.G; return CLS.dayItems(G,d).filter(i=>!i.exam).map(i=>({key:i.key,c:i.c.name,id:i.c.id,t0:i.t0,t1:i.t1,zone:i.room&&i.room.zone||null,room:i.room&&i.room.name||null,door:!!(i.room&&i.room.door),off:!!(i.room&&i.room.offsite),pe:!!(CLS.peGoClass&&CLS.peGoClass(G,i))})); })"""
 SEATS = """(()=>{ const E=GAME.E, G=GAME.G; const its=E.interactables.filter(q=>q.seat); if(!its.length) return null; const cx=its.reduce((a,q)=>a+q.seat.x,0)/its.length, cz=its.reduce((a,q)=>a+q.seat.z,0)/its.length;
   return {zone:G.zone,n:its.length,cx:+cx.toFixed(2),cz:+cz.toFixed(2),seats:its.map(q=>({x:+q.seat.x.toFixed(2),z:+q.seat.z.toFixed(2),lv:q.seat.lv|0,room:q.seat.room||null}))}; })()"""
+SEATS_FREE = """(()=>{ const E=GAME.E, G=GAME.G; const its=E.interactables.filter(q=>q.seat); if(!its.length) return null; const cx=its.reduce((a,q)=>a+q.seat.x,0)/its.length, cz=its.reduce((a,q)=>a+q.seat.z,0)/its.length;
+  const occ=s=>(E.npcs||[]).some(n=>n&&[n.seat,n.seatTarget].some(q=>q&&Math.hypot(q.x-s.x,q.z-s.z)<0.35));
+  return {zone:G.zone,n:its.length,cx:+cx.toFixed(2),cz:+cz.toFixed(2),seats:its.map(q=>({x:+q.seat.x.toFixed(2),z:+q.seat.z.toFixed(2),lv:q.seat.lv|0,room:q.seat.room||null,occ:occ(q.seat)}))}; })()"""   # BB 10:44：老位子要挑進教室、NPC 坐好以後空著的
 PST = """(k=>{ const G=GAME.G, E=GAME.E, P=E.player, R=CLS.rec(G); const s=P.seat; return {zone:G.zone,h:+(+G.hour).toFixed(3),seat:s?{x:+(+s.x).toFixed(2),z:+(+s.z).toFixed(2),lv:s.lv|0}:null,pose:P.pose||null,
   y:+P.obj.position.y.toFixed(2),classNow:!!(G.flags&&G.flags.classNow),done:!!R.done[k],attend:R.attend?R.attend[k]||null:null,mem:R.seat||null}; })"""
 
@@ -118,9 +124,11 @@ async def seat_case(p, case, plan):
         if var == 'old':
             setup('%s：先讀到 %s 的教室（%s）讀座位表，挑離中心最遠的一個當「%s」的老位子（G.courses.seat，和遊戲 rememberSeat 同格式）' % (case, tgt['zone'], tgt['room'], tgt['c']))
             await L.load_state(pg, mkstate(dk, tgt['t0'] - 0.05, tgt['zone']), quiet_phone=True); await pg.wait_for_timeout(5000)
-            sl = await pg.evaluate(SEATS)
+            await pg.wait_for_timeout(8000)   # NPC 坐好（syncRoom 以後）
+            sl = await pg.evaluate(SEATS_FREE)
             if not check('%s：教室有座位' % case, bool(sl), J(sl)[:200]): return
-            far = max(sl['seats'], key=lambda s: math.hypot(s['x'] - sl['cx'], s['z'] - sl['cz']))
+            free = [s for s in sl['seats'] if not s['occ']]; note('%s：%d 個座位、空著 %d 個' % (case, len(sl['seats']), len(free)))
+            far = max(free or sl['seats'], key=lambda s: math.hypot(s['x'] - sl['cx'], s['z'] - sl['cz']))
             courses = {'done': {}, 'attend': {}, 'prep': {}, 'electives': {}, 'note': {}, 'disc': {}, 'ask': {}, 'late': {}, 'abs': {}, 'exam': {}, 'grades': {},
                        'seat': {tgt['id']: {'zone': sl['zone'], 'room': far['room'], 'x': far['x'], 'z': far['z'], 'lv': far['lv']}}}
             note('%s：老位子設成 %s（中心 %s,%s，%d 個位子）' % (case, J(far), sl['cx'], sl['cz'], sl['n']))
@@ -180,12 +188,22 @@ async def seat_case(p, case, plan):
         seatmenus = [c for c in ch if any(any(x.startswith(w) for w in SEATWORDS) for x in c['t'])]
         check('%s：沒有跳出「坐哪裡」的選單（所有選單原文 %s）' % (case, J([c['t'] for c in ch])), not seatmenus, J(seatmenus))
         if not check('%s：有直接坐下（GAME.seatMenu 被叫）' % case, bool(seatrec), ''): return
-        await pg.wait_for_timeout(4000); ps = await pg.evaluate(PST, tgt['key'])
+        ps = None
+        for _ in range(60):   # BB 10:44：坐姿要等坐下（或上課開始）再檢查；r2 檢查時還在走過去
+            await pg.wait_for_timeout(2000); ps = await pg.evaluate(PST, tgt['key'])
+            if ps['seat'] or ps['classNow']: break
+        sc = await pg.evaluate("window.__NA.sc"); note('%s：seatChoices 第一個 %s；那一刻有座位的 NPC %d 個' % (case, J(sc[-1]['first'] if sc else None), len(sc[-1]['npcs']) if sc else -1))
         await pg.screenshot(path=os.path.join(OUT, 'noask_%s_seated.png' % case))
         sl = await pg.evaluate(SEATS)
         if var == 'old':
             mem = courses['seat'][tgt['id']]
-            check('%s：坐老位子（%s,%s）' % (case, mem['x'], mem['z']), abs(seatrec['x'] - mem['x']) < 0.3 and abs(seatrec['z'] - mem['z']) < 0.3, J(seatrec))
+            at_mem = abs(seatrec['x'] - mem['x']) < 0.3 and abs(seatrec['z'] - mem['z']) < 0.3
+            f1 = (sc[-1]['first'] if sc else None) or {}; ft, fh = f1.get('t') or '', str(f1.get('hint') or '')
+            on_mem = [n for n in (sc[-1]['npcs'] if sc else []) if any(q and math.hypot(q[0] - mem['x'], q[1] - mem['z']) < 0.35 for q in (n['seat'], n['tgt']))]
+            if not at_mem and '有人坐' in fh and on_mem:
+                note('%s：照規格——老位子有人坐了（hint「%s」、在上面的 NPC %s），改坐中間' % (case, fh, J(on_mem))); check('%s：老位子有人坐＝照規格坐別處（hint 和 NPC 對得上）' % case, True)
+            else:
+                check('%s：坐老位子（%s,%s）（seatChoices 第一個「%s」hint「%s」；若第一個是老位子卻沒坐到＝GAME_BUG）' % (case, mem['x'], mem['z'], ft, fh), at_mem, J({'seat': seatrec, 'first': f1, 'npcOnMem': on_mem}))
         elif sl:
             ds = sorted(math.hypot(s['x'] - sl['cx'], s['z'] - sl['cz']) for s in sl['seats']); dme = math.hypot(seatrec['x'] - sl['cx'], seatrec['z'] - sl['cz'])
             rank = sum(1 for v in ds if v < dme - 1e-6)
