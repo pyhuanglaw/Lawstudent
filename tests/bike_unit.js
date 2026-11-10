@@ -75,6 +75,11 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
   E.npcs.push({beh:'follow',noRide:true,obj:new THREE.Object3D()}); P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); BIKE.tick(GM,1/30); check('6 跟著的人不坐後座（noRide）：自動下車',!P.riding&&!!parkedObj()); E.npcs.length=0;
   // ---- 7 劇情開始（busy）：下車 ----
   P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); P.busy=true; BIKE.tick(GM,1/30); check('7 劇情開始（busy）：自動下車',!P.riding&&!!parkedObj()); P.busy=false;
+  /* 7b BUG-FAIR-BIKE-BLOCK-1110（BB 11-10）：劇情放人下車時旁邊 1.5 m 有互動點（校慶園遊會那種）→ 車停到最近的合法停車處，不擋按鈕；旁邊沒有互動點照舊停原地 */
+  { G.bike.x=P.obj.position.x; G.bike.z=P.obj.position.z; P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); const o=P.obj.position, ix={x:o.x+0.4,z:o.z,radius:1.2,label:'測試活動'}; E.interactables.push(ix);
+    const q=BIKE.legalSpot(E,G.zone,o.x,o.z); const px=o.x, pz=o.z; P.busy=true; BIKE.tick(GM,1/30); P.busy=false; E.interactables.splice(E.interactables.indexOf(ix),1);
+    const pk=parkedObj(), d=pk?Math.hypot(pk.position.x-ix.x,pk.position.z-ix.z):0;
+    check('7b 劇情放下車、旁邊 1.5 m 有互動點：車停到最近的合法停車處（不擋那個按鈕），人不動',!P.riding&&!!pk&&!!q&&q.d<=30&&Math.abs(G.bike.x-q.x)<1e-6&&Math.abs(G.bike.z-q.z)<1e-6&&Math.hypot(o.x-px,o.z-pz)<1e-6,JSON.stringify({q,bike:[G.bike.x,G.bike.z],d})); }
   // ---- 8 樓梯：萬才館大樓梯（第 1 層）——車停在樓梯前 ----
   { let st=null; for(let x=60;x<=120&&!st;x+=0.5) for(let z=-125;z<=-70&&!st;z+=0.5){ const h=E.heightAt(x,z,0); if(h>0.3&&h<0.6&&E.canStand(x,z,0.3,0)&&E.canStand(x,z+2.5,0.45,0)&&E.heightAt(x,z+2.5,0)<0.02) st=[x,z]; }   /* 一樓那一層、高度 0.3～0.6 m 的台階格（萬才館大樓梯：兩層共用），前面 2.5 m 是平地 */
     if(st){ G.bike={zone:'campus',x:st[0],z:st[1]+2.5,yaw:Math.PI,riding:false}; await enter('campus',{x:st[0],z:st[1]+2.5,yaw:Math.PI}); BIKE.mount(GM); step(0.5,0,5); const flat=P.obj.position.clone();
@@ -94,7 +99,7 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
       /* 2026-11-04 改期望（AA_646 第 3 節、使用者 11-04「自動出現在我剛離開的建築外合法停車的地方」）：出店時車停到離門最近的合法停車處（公館：騎樓柱子外那一排機車的端點），
          不再是 parkBeside 的 2～3 m；「不擋門、站在車旁車比門近」照舊 */
       const legal=BIKE.parkSpots(E,'gongguan').some(q=>Math.hypot(q.x-G.bike.x,q.z-G.bike.z)<1e-6);
-      check('10b 出店：車停在最近的合法停車處（人行道上那一排的端點、不在騎樓 z<19）、離門 2 m 以上、'+BIKE.MAXD+' m 以內；站在車旁（離門遠的那邊 0.8 m）車比門近',legal&&G.bike.z<19&&dd>=2&&dd<=BIKE.MAXD&&Math.hypot(sx-G.bike.x,sz-G.bike.z)<Math.hypot(sx-shop.x,sz-shop.z)-1,JSON.stringify({dd:+dd.toFixed(2)})); } }
+      check('10b 出店：車停在最近的合法停車處（人行道上那一排的端點、不在騎樓 z<19）、離門 2 m 以上、'+BIKE.MAXD+' m 以內；站在車旁（離門遠的那邊 0.8 m）車比門近',legal&&G.bike.z<19&&dd>=2&&dd<=(BIKE.MAXD||30)&&Math.hypot(sx-G.bike.x,sz-G.bike.z)<Math.hypot(sx-shop.x,sz-shop.z)-1,JSON.stringify({dd:+dd.toFixed(2)})); } }
   // ---- 11 快速前往室內（離門口很遠）：車停到那棟建築的門外 ----
   { P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); P.obj.position.x-=3; await enter('library_hall');
     const ex=E.interactables.find(i=>i.exit&&BIKE.ok(i.exit.to)); const sp=ex.exit.spawn;

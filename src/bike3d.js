@@ -192,7 +192,7 @@ const BIKE=(function(){
     if(ride.obj.parent!==o){ o.add(ride.obj); ride.obj.position.set(0,0,0); ride.obj.rotation.set(0,0,0); }   /* 正式人物模型晚到時玩家的 obj 會換新（game3d.js 的 upgradeModels）：車跟著換過去 */
     // 自動下車
     const follow=E.npcs.some(n=>n.beh==='follow'&&(n.noRide||(E.rideMode&&E.rideMode(n)==='refuse')));   /* 一起走的人會坐後座（beh 'passenger'）；不坐後座的（noRide、還不願意）要下車一起走 */
-    if(P.busy||follow||P.seat||(P.pose!=='ride'&&P.pose!=='idle'&&P.pose!=='walk'&&P.pose!=='run')){ B.dismount(GM); return; }
+    if(P.busy||follow||P.seat||(P.pose!=='ride'&&P.pose!=='idle'&&P.pose!=='walk'&&P.pose!=='run')){ B.dismount(GM,B.sceneParkAt(GM)); return; }
     if((P.lv|0)!==0||o.position.y>0.12){ const lf=ride.lastFlat; B.dismount(GM,{at:lf}); if(GM.toast) GM.toast('（樓梯不能騎，車停在下面。）',2200); return; }
     ride.lastFlat.x=o.position.x; ride.lastFlat.z=o.position.z; ride.lastFlat.yaw=o.rotation.y;
     // 輪子、曲柄、把手、車身傾斜
@@ -230,6 +230,11 @@ const BIKE=(function(){
   /* 下車按鈕 */
   B.bindUI=function(GM){ const b=btn(); if(b) b.onclick=()=>B.manualDismount(GM); };
   /* 按「下車」（AA_137 第 5 節第 5 步，AA_140 G49）：載著人的時候中途下車＝她先下車、站在旁邊說一句；之後騎到她旁邊停下，她照第 2 步再坐上來 */
+  /* 劇情把人放下車（busy）：車原本停在當下位置——停在活動、店門這些互動點 1.5 m 內就擋住按鈕（BB 11-10 BUG-FAIR-BIKE-BLOCK-1110：校慶園遊會 (−14.5,10.5) 學姊攤位自動開演，車停在園遊會互動點正中間，演完只剩「騎腳踏車」）。
+     附近 1.5 m 有別的互動點時：改停到最近的合法停車處（BIKE.legalSpot，30 m 內）；沒有合法停車處就照舊（dismount 自己找旁邊站得住的地方）。人不搬（opts.at 只放車） */
+  B.sceneParkAt=function(GM){ try{ const E=GM.E, G=GM.G, P=E&&E.player; if(!P||!E.interactables) return undefined; const o=P.obj.position;
+      const near=E.interactables.some(i=>i&&!i.bike&&i.x!=null&&Math.hypot(i.x-o.x,i.z-o.z)<1.5); if(!near) return undefined;
+      const q=B.legalSpot(E,G.zone,o.x,o.z); if(!q||q.d>B.MAXD) return undefined; return {at:{x:q.x,z:q.z,yaw:q.yaw||0}}; }catch(e){ return undefined; } };
   B.manualDismount=function(GM){ if(!ride||GM.E.player.busy) return false; const pas=GM.E.npcs.find(n=>n.beh==='passenger'&&n.charId); B.dismount(GM);
     if(pas&&GM.caption) GM.caption((typeof SOCIAL!=='undefined'?SOCIAL.displayName(pas.charId):pas.name)+'：','……我還是走一下好了。',3200); return true; };
   return B;

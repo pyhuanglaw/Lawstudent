@@ -51833,6 +51833,32 @@
     "ack": "ACTIONED"
    },
    "sha": "7bedf7d51"
+  },
+  {
+   "id": "BUG-FAIR-BIKE-BLOCK-1110",
+   "title": "騎車到校慶園遊會，學姊攤位自動開演把人放下車，車停在園遊會互動點正中間、演完按不到園遊會",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "2025-11-15 校慶騎車去晨思鐘旁的園遊會",
+    "mainline": false,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 11-10 12:5x】bike3d.js B.sceneParkAt：劇情（busy）放下車時旁邊 1.5 m 有互動點 → 車停最近合法停車處（legalSpot、30 m 內），人不動；bike_unit 加 7b（修前 FAIL、修後 PASS）＋腳踏車 5 支 ALL PASS；請 CC 重跑 X295E_fair_keep2。",
+   "xai": {
+    "spec": "BB 11-10 12:46（cc-local local_out/X295E_fair_keep2）",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "演完學姊攤位按得到園遊會",
+    "receiver": "BB",
+    "ack": "SENT"
+   },
+   "sha": null
   }
  ]
 }
