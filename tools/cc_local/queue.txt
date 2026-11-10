@@ -312,7 +312,7 @@ WZCAT_new | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planni
 WZCAT_old | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_wzcat_jump_probe.py | index.html | 20 | TAG=old
 # BB 14:4x：前一批還沒開跑的改最新 head b296c6b56（X199_touch／day2an／ggglb／zone、XSGATE_new、WZCAT_new；已開跑的 99294 結果留著參考）；新三項 ①→②→③ 排在美國篇前面
 # BB 14:47：公館燒臘出得去嗎（gongguan_layout_nav 兩版 FAIL：noodle (0,3.5) hidden、reach false）；排在 ① 前面；出不去＝P1 GAME_BUG
-NOODLE_EXIT | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py | index.html | 10 | 
+#HOLD NOODLE_EXIT | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py | index.html | 10 | 
 # ① X199 小安新路線台詞（AA_738）：從標題開新遊戲、第二天選去 Café、故意走到公館（提醒＋目標字）、側門前豆花、新生南路一句、進 Café 聊完；walkFallbacks 0
 X199_ANROUTE | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_x199_an_route_probe.py | index.html | 75 | 
 # ② GG-LANE-CLOSE：公館騎樓西端往巷子看（住戶鐵門＋私人巷道告示），白天 14:00、晚上 20:00；新版 b296、舊版 99294（只有盆栽）
