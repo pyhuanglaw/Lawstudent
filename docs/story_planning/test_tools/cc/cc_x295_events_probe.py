@@ -1,19 +1,22 @@
 """CC X295 公告欄的特殊活動（BULLETIN-BOARD-1110；LAWWW 改後 8c050804c（08:49 第二版，前一版 3f6dba142），改前 10df264ed）——BB 要的四項：
-  party：大一上第 2 週週五 19:00 前，新體育館一樓走到「學生會迎新派對」(0, 8.6) 按 → 選「去參加」→ 三句旁白 → 時間到 21:30。
+  party：迎新派對那一天 19:00 前（日期照受測版本 src/data/activities.js 的 su_welcome_party 規則在遊戲裡算：大一上第 weeks[0] 週、星期 weekday——
+         f3b47894b 起是第 2 週週四＝2025-09-11（AA_737）；8c050804c 是第 2 週週五＝2025-09-12），新體育館一樓走到「學生會迎新派對」(0, 8.6) 按 → 選「去參加」→ 三句旁白 → 時間到 t1（21:30）。
+  party_fri（BB 11-10 10:59）：大一上第 2 週週五（2025-09-12）18:52 讀檔、新體育館 → 家聚（9/12 19:00，story3d.js 的 OUT 出遊 y1_fam_dinner）照舊出現（讀檔一進來、或走路途中的「出發：家聚…」選單／家聚的對話）
+         → 走到 (0, 8.6) → 那裡不再有「學生會迎新派對」互動點、整段沒有迎新派對的選單、ACTIVITIES.on 是 false。派對在週五的舊版（8c050804c）＝預期 FAIL。
   blood：2025-10-14（第 7 週週二）走到捐血車 (30, −8) 捐一次（兩句旁白）；【前置】把那一刻的存檔（保留 10/14 的出席紀錄）日期改 10/15 再讀 → 再走過去按 → 要寫「上次捐血還不到兩個月」。
   movie：2025-11-06（第 10 週週四）晚上，博思 101 坐下 → 座位選單有「參加：學生會電影夜」→ 選 → 兩句旁白 → 時間到 21:00。
   fair ：2025-11-15（第 11 週週六）走到晨思鐘旁「校慶園遊會」(−14.5, 10.5) 按 → 只有「去逛：校慶園遊會／先不要」，不能跳出社團博覽會的選單 → 選 → 三句旁白。
 【前置／捷徑】讀使用者存檔（FIX，預設 tests/fixtures/user_save_day51b_1110.json），用遊戲自己的 GAME.applySave 改日期、時間、區域、站的位置（離互動點幾公尺）；
   關掉「要回覆的訊息自動打開手機」（L.no_phone_auto）；條件事件照開（QUIET=1 才關）。之後全部照玩家：L.go_to 點地面／搖桿走、看互動鍵、按 #interact、點對話框、點選項按鈕。
   不用 ?turbo、不瞬移、不改劇情狀態冒充結果。改前沒有這四個互動點＝預期 FAIL（重要檢查要在改前 FAIL、改後 PASS）。Playwright／SwiftShader ≠ iPhone。
-用法：LW_TESTS=<wt>/tests TAG=new|old [CASES=party,blood,movie,fair] [FIX=...] [QUIET=1] python3 cc_x295_events_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests TAG=new|old [CASES=party,party_fri,blood,movie,fair] [FIX=...] [QUIET=1] python3 cc_x295_events_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import playlib as L
 from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 FIX = os.environ.get('FIX') or 'tests/fixtures/user_save_day51b_1110.json'; TAG = os.environ.get('TAG') or 'x'
-CASES = [c.strip() for c in (os.environ.get('CASES') or 'party,blood,movie,fair').split(',') if c.strip()]
+CASES = [c.strip() for c in (os.environ.get('CASES') or 'party,party_fri,blood,movie,fair').split(',') if c.strip()]
 QUIET = os.environ.get('QUIET') == '1'
 R = L.Run('x295_events_' + TAG, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -38,9 +41,14 @@ DAY_OF = r"""(k=>{ if(typeof STORY!=='undefined'&&STORY.dayOfKey){ const d=STORY
 WEEK_DAY = r"""(([tid,wk,wd])=>{ for(let d=-500;d<1600;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===tid&&t.week===wk&&CALENDAR.dateOf(d).wd===wd) return {day:d,key:CALENDAR.dateOf(d).key}; } return null; })"""
 NEAR_STAND = r"""((q)=>{ const E=GAME.E; const out=[]; for(const r of q.rs) for(let a=0;a<360;a+=20){ const t=(a+q.a0)*Math.PI/180, x=q.x+r*Math.sin(t), z=q.z+r*Math.cos(t); if(E.canStand(x,z,0.33,q.lv|0)) out.push([+x.toFixed(2),+z.toFixed(2)]); if(out.length) return out[0]; } return null; })"""
 SEATS101 = r"""((room)=>GAME.E.interactables.filter(i=>i.seat&&!i.hidden&&String(i.seat.room||'')===room).map(i=>{ const ap=GAME.seatApproach?GAME.seatApproach(i.seat):null; return {label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),lv:i.lv|0,sx:+i.seat.x.toFixed(3),sz:+i.seat.z.toFixed(3),slv:i.seat.lv|0,ap:ap?[+ap[0].toFixed(2),+ap[1].toFixed(2)]:null,occ:(GAME.E.npcs||[]).some(n=>n&&n.seat&&Math.hypot(n.seat.x-i.seat.x,n.seat.z-i.seat.z)<0.35)}; }))"""
+PARTY_RULE = r"""(()=>{ if(typeof ACTIVITIES==='undefined') return null; const a=ACTIVITIES.list.find(q=>q.id==='su_welcome_party'); if(!a) return null;
+  return {weeks:a.weeks||null, weekday:a.weekday||null, weekdays:a.weekdays||null, term:a.term||null, t0:a.t0, t1:a.t1, spot:a.spot||null}; })()"""
+PARTY_ITS = r"""(()=>(GAME.E.interactables||[]).filter(i=>/迎新派對/.test(String(i.label||''))).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),hidden:!!i.hidden})))()"""
+OUT_REC = r"""(id=>{ const L=(GAME.G&&GAME.G.outings)||[]; const q=L.find(o=>o&&o.id===id); return q?{state:q.state,day:q.day,h:q.h,ask:q.ask==null?null:q.ask,title:q.title||''}:null; })"""
 HUD = r"""(on=>{ for(const id of ['hud','hudR','minimap','ctlR','joy','toast','btnGo','btnQuick']){ const e=document.getElementById(id); if(e) e.style.visibility=on?'':'hidden'; } })"""
 
 BASE = None   # 讀進來的使用者存檔（每一段都從它開始）
+LAST_MET = []   # walk_to_spot 最近一次走路途中遇到的對話／選項（party_fri 看家聚的出發選單有沒有在走路途中跳出來）
 SPOT = {'學生會迎新派對': (0.0, 8.6), '捐血車': (30.0, -8.0), '校慶園遊會': (-14.5, 10.5)}
 
 
@@ -105,6 +113,8 @@ async def walk_to_spot(pg, cdp, tag, x, z, label, near=0.5, max_s=300):
             await pg.wait_for_timeout(800); v = await ui(pg)
             if len(met) > 60: break
         if v['zone'] != u0['zone']: break
+    global LAST_MET
+    LAST_MET = list(met)
     if met: R.note('%s 走路途中遇到的對話／選項（照玩家點過去；選項選 dodge 的那一個）：%s' % (tag, J(met)))
     v = await ui(pg)
     if v['zone'] != u0['zone'] or v['day'] != u0['day']: R.note('%s 【注意】走路途中被帶走：%s %s %.2f → %s %s %.2f' % (tag, u0['zone'], u0['date'], u0['hour'], v['zone'], v['date'], v['hour']))
@@ -180,12 +190,27 @@ async def start_near(pg, x, z, rs, a0=0, lv=0):
 
 
 # ---------------- party ----------------
+WDN = '日一二三四五六日'
+
+
+async def party_rule(pg, t):
+    """受測版本的迎新派對規則（activities.js su_welcome_party）：大一上（Y1S1）第 weeks[0] 週、星期 weekday（沒有 weekday 就用 weekdays[0]）。不寫死日期：新版第 2 週週四、舊版週五都能跑"""
+    rule = await pg.evaluate(PARTY_RULE)
+    R.note('%s 受測版本 su_welcome_party 的規則：%s' % (t, J(rule)))
+    if not rule or not rule.get('weeks') or not (rule.get('weekday') or rule.get('weekdays')): return rule, None
+    wk = rule['weeks'][0]; wd = rule.get('weekday') or rule['weekdays'][0]
+    day = await pg.evaluate(WEEK_DAY, ['Y1S1', wk, wd])
+    if day: R.note('%s 照規則算出來的派對日：%s（第 %s 天，大一上第 %s 週星期%s）' % (t, day['key'], day['day'], wk, WDN[wd % 7]))
+    return rule, day
+
+
 async def case_party(pg, cdp):
     t = '[迎新派對]'
-    wd = await pg.evaluate(WEEK_DAY, ['Y1S1', 2, 5])
-    if not R.check('%s 找得到大一上第 2 週週五' % t, bool(wd), ''): return
-    R.setup('%s 讀檔到 %s（第 %s 天，大一上第 2 週週五）18:52、新體育館（預設出生點：大廳那一頭）' % (t, wd['key'], wd['day']))
-    u = await place(pg, cdp, t, 'gym', wd['day'], 18.87)
+    rule, wd = await party_rule(pg, t)
+    if not R.check('%s 找得到受測版本的派對日（大一上第 weeks[0] 週、星期 weekday）' % t, bool(wd), J(rule)): return
+    t0 = rule.get('t0') if rule.get('t0') is not None else 19; t1 = rule.get('t1') if rule.get('t1') is not None else 21.5
+    R.setup('%s 讀檔到 %s（第 %s 天）%.2f 時（開始前 8 分鐘）、新體育館（預設出生點：大廳那一頭）' % (t, wd['key'], wd['day'], t0 - 0.13))
+    u = await place(pg, cdp, t, 'gym', wd['day'], t0 - 0.13)
     a = await pg.evaluate(ACT, 'su_welcome_party'); R.note('%s 活動資料：%s' % (t, J(a)))
     sp = (0.0, 8.6, '學生會迎新派對')
     ok, u, fb = await walk_to_spot(pg, cdp, t, sp[0], sp[1], sp[2])
@@ -204,8 +229,60 @@ async def case_party(pg, cdp):
     R.note('%s 參加以後：對話 %s；字幕 %s；選單 %s；時間 %.3f→%.3f' % (t, J(lines), J(caps), J(menus), h0, u['hour']))
     R.check('%s 三句旁白照順序出現' % t, has_seq(lines, PARTY_NARR), J(lines))
     R.check('%s 只有那三句（沒有多出「你找了位子坐下」之類）' % t, len(lines) == 3, J(lines))
-    R.check('%s 快轉到 21:30（21:30～21:45）' % t, 21.5 - 1e-3 <= u['hour'] < 21.75, '%.3f' % u['hour'])
+    R.check('%s 快轉到結束時間 t1＝%.2f（t1～t1＋15 分鐘）' % (t, t1), t1 - 1e-3 <= u['hour'] < t1 + 0.25, '%.3f' % u['hour'])
     R.check('%s 結束字幕「活動結束了。」' % t, any('活動結束了' in c for c in caps), J(caps))
+
+
+# ---------------- party_fri ----------------
+async def case_party_fri(pg, cdp):
+    t = '[週五家聚]'
+    rule, pday = await party_rule(pg, t)
+    wk = (rule or {}).get('weeks', [2])[0] if rule else 2
+    fri = await pg.evaluate(WEEK_DAY, ['Y1S1', wk, 5])
+    if not R.check('%s 找得到大一上第 %s 週週五' % (t, wk), bool(fri), ''): return
+    if pday and pday['day'] == fri['day']: R.note('%s 注意：受測版本的派對就在這個週五（%s）——派對還在週五的舊版，下面「不再有派對」預期 FAIL' % (t, fri['key']))
+    fam0 = next((q for q in (BASE.get('outings') or []) if isinstance(q, dict) and q.get('id') == 'y1_fam_dinner'), None)
+    R.note('%s 使用者存檔裡的家聚出遊（outings y1_fam_dinner）：%s' % (t, J(fam0)))
+    R.setup('%s 讀檔到 %s（第 %s 天，大一上第 %s 週週五）18:52、新體育館（預設出生點），跟 party 段同一套前置；不改家聚的狀態' % (t, fri['key'], fri['day'], wk))
+    sv = json.loads(json.dumps(BASE)); sv['zone'] = 'gym'; sv['day'] = fri['day']; sv['hour'] = 18.87; sv['weather'] = 'clear'; sv.pop('pos', None)
+    await L.no_phone_auto(pg)
+    await pg.evaluate("(async(s)=>{ document.getElementById('titleScreen').classList.add('hide'); const rot=document.getElementById('rotate'); if(rot) rot.classList.remove('want'); " +
+                      ("EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; " if QUIET else "") + "await GAME.applySave(s); })", sv)
+    await pg.wait_for_timeout(8000); await L.close_panels(pg, cdp)
+    # 讀檔一進來：等最多 30 秒看出發選單／對話（照玩家：對話點掉；出發選單記下來、選「晚一點」——不出發也不放棄，家聚還排著）
+    seen, fam_menu, party_menu = [], None, []
+    t_end = time.time() + 30
+    while time.time() < t_end:
+        u = await ui(pg)
+        if u['dlg']: seen.append(u['dlg'][:80]); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(800); continue
+        if u['choices']:
+            seen.append('選項：' + J(u['choices']))
+            if any('迎新派對' in c for c in u['choices']): party_menu.append(u['choices'])
+            if any('家聚' in c for c in u['choices']) and fam_menu is None:
+                fam_menu = u['choices']; await shot(pg, 'partyfri_1_fam_menu')
+                k = next((i for i, c in enumerate(u['choices']) if c.startswith('晚一點')), None)
+                await tap_choice(pg, cdp, k if k is not None else dodge(u['choices'])); await pg.wait_for_timeout(1200); continue
+            await tap_choice(pg, cdp, dodge(u['choices'])); await pg.wait_for_timeout(1200); continue
+        if fam_menu is not None: break
+        await pg.wait_for_timeout(700)
+    u = await ui(pg)
+    R.note('%s 讀檔後 30 秒內：%s %s %.2f 時、(%s, %s)；對話／選項 %s；家聚出遊現在 %s' % (t, u['zone'], u['date'], u['hour'], u['x'], u['z'], J(seen), J(await pg.evaluate(OUT_REC, 'y1_fam_dinner'))))
+    its0 = await pg.evaluate(PARTY_ITS)
+    a = await pg.evaluate(ACT, 'su_welcome_party'); R.note('%s 活動資料（今天）：%s；體育館裡名字有「迎新派對」的互動點：%s' % (t, J(a), J(its0)))
+    ok, u, fb = await walk_to_spot(pg, cdp, t, 0.0, 8.6, '學生會迎新派對')
+    met = LAST_MET
+    fam_walk = [m for m in met if '家聚' in m[2]]
+    party_menu += [m[2] for m in met if '迎新派對' in m[2]]
+    await shot(pg, 'partyfri_2_spot')
+    its = await pg.evaluate(PARTY_ITS)
+    R.note('%s 走到 (0, 8.6) 後：%s；迎新派對的互動點 %s' % (t, J(u), J(its)))
+    R.check('%s 真的走到 (0, 8.6) 附近（沒有被放到目的地、沒有被帶走）' % t, ok and not fb and u['zone'] == 'gym' and math.hypot(u['x'], u['z'] - 8.6) < 1.6, J({'x': u['x'], 'z': u['z'], 'fb': fb, 'zone': u['zone']}))
+    R.check('%s 家聚照舊出現（讀檔後或走路途中有「…家聚…」的出發選單或對話）' % t,
+            bool(fam_menu) or bool(fam_walk) or any('家聚' in x for x in seen), J({'fam_menu': fam_menu, 'walk': fam_walk, 'seen': seen[:8]}))
+    R.check('%s (0, 8.6) 的互動鍵不是「學生會迎新派對」' % t, not u['interact'].startswith('學生會迎新派對'), J(u['interact']))
+    R.check('%s 體育館沒有看得到的「迎新派對」互動點' % t, not [i for i in its0 + its if not i['hidden']], J(its0 + its))
+    R.check('%s 整段沒有迎新派對的選單' % t, not party_menu, J(party_menu))
+    R.check('%s 今天 ACTIVITIES.on(su_welcome_party) 是 false' % t, bool(a) and not a.get('on'), J(a))
 
 
 # ---------------- blood ----------------
@@ -342,7 +419,7 @@ async def case_fair(pg, cdp):
     R.check('%s 園遊會的旁白（第 1 句）出現、共三句' % t, bool(lines) and FAIR_NARR0 in lines[0] and len(lines) == 3, J(lines))
 
 
-CASE_FN = {'party': case_party, 'blood': case_blood, 'movie': case_movie, 'fair': case_fair}
+CASE_FN = {'party': case_party, 'party_fri': case_party_fri, 'blood': case_blood, 'movie': case_movie, 'fair': case_fair}
 
 
 async def main():
