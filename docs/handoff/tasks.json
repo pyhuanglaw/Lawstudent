@@ -44279,13 +44279,11 @@
    "id": "WZ-ENTRY-XINSHENG-1103",
    "title": "溫州街只從新生南路進出：拿掉公館往溫州街的巷口；溫州街「回公館」改回新生南路；手機地圖、places.js、劇情裡「從公館走去溫州街」的移動照改；舊存檔不管（使用者 11-03 22:0x 對 AA，X199）",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "進行中",
    "priority": "P1",
    "note": "UA-AA-1103-92～94；AA 已通知 LAWWW2",
-   "next": "11-04：整合的新版 xinsheng patch（50c1b0681，接 e95e0e4e9）沒有包含「公館『往溫州街』拿掉、溫州街『回公館』拿掉」那一段（4c6ce4d12 舊版才有）；溫州街西側往新生南路的出口已在。等 LAWWW2 立面進來時一起拿掉公館巷口，並改 guide 路線（兩點半走側門）、tests/guide_flow.py、gongguan_layout_nav.py 98–106、places.js",
-   "resumeWhen": "LAWWW2 的溫州街西側立面（新生南路那一側）patch 進開發分支時，同一批拿掉公館往溫州街的巷口、改 guide 路線與相關測試",
-   "nextCheck": "2026-11-06",
-   "pausedReason": "誰決定：LAWWW-C（11-04）。為什麼：新版 xinsheng patch（50c1b0681）沒有包含拿掉公館巷口那一段，要等立面一起改才不會有一段路斷掉。負責人：LAWWW（程式）、LAWWW2（立面）"
+   "next": "【LAWWW 11-10 14:0x】LAWWW2 盤點：等的新生南路立面早就接了，不必再等。LAWWW 子代理開工：拿掉公館「往溫州街」、溫州街「回公館」，地圖／劇情帶路／guide 改走新生南路；舊存檔不管但不能卡住（X199）。 ｜ 11-04：整合的新版 xinsheng patch（50c1b0681，接 e95e0e4e9）沒有包含「公館『往溫州街』拿掉、溫州街『回公館』拿掉」那一段（4c6ce4d12 舊版才有）；溫州街西側往新生南路的出口已在。等 LAWWW2 立面進來時一起拿掉公館巷口，並改 guide 路線（兩點半走側門）、tests/guide_flow.py、gongguan_layout_nav.py 98–106、places.js",
+   "nextCheck": "2026-11-06"
   },
   {
    "first": {
