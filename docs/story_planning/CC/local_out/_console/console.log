@@ -175,3 +175,13 @@
 [06:15:53] [res] cpu=1% mem=41% (12.8/31.4 GB) chrome_testing=5  START TZ3_signs
 [06:16:13] worktree add 24b4c2fb483a623fb42e6c0d03040548254a3237: invalid reference - fetching main and the commit itself
 [06:18:13] [res] cpu=2% mem=47% (15.0/31.4 GB) chrome_testing=10  END TZ3_signs
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c487468dd..33b746952  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:18:20] ==== END   TZ3_signs  exit=0  143s   ====
+[06:18:30] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[06:18:30] memory 46% before starting MT4_nofb_r2 (2 running)
+[06:18:30] ==== START MT4_nofb_r2  (probe @ b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91) ====
+[06:18:33] [res] cpu=1% mem=46% (14.5/31.4 GB) chrome_testing=7  START MT4_nofb_r2
+[06:18:58] 正在跑：MT4_c（已跑 15 分／上限 15 分）、MT4_fb_b2（已跑 3 分／上限 15 分）、MT4_nofb_r2（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:19:02] [res] cpu=4% mem=38% (11.9/31.4 GB) chrome_testing=4  END MT4_fb_b2
