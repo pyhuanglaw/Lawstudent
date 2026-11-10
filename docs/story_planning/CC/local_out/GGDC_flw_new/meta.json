@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "GGDC_flw_new",
+  "sha": "d8b669175bcf363974b401e1eed3d6709f2b0949",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_shop_spot_probe.py",
+  "env": "TAG=flw_d8b6;ZONE=gongguan;TARGET=-47.2,13.45;LABEL=看看花攤;LOOK=-47,11.7;NEARDIST=4;WANT=一束花/向日葵;START=-47,20.5;HOUR=14;EXPECT=menu",
+  "machine": "MSI",
+  "start": "2026-11-10T19:01:33",
+  "end": "2026-11-10T19:03:21",
+  "seconds": 108,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "6",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 80,
+    "mem": 54,
+    "used_gb": 16.7,
+    "chrome_testing": 9
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
