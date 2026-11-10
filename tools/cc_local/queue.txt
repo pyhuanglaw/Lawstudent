@@ -107,6 +107,9 @@ FLW_new_2110 | de1f25768e421cf07b2151c2872b5b6d6f70ef5a | probe | docs/story_pla
 FLW_new_0850 | de1f25768e421cf07b2151c2872b5b6d6f70ef5a | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=new_0850;ZONE=gongguan;TARGET=-47.2,13.45;LABEL=看看花攤;LOOK=-47,11.7;NEARDIST=4;WANT=一束花/向日葵;START=-47,20.5;HOUR=8.833;EXPECT=nomenu
 FLW_old_1400 | 28df8a85c788c354fc606a87e64cb5f4f12c5ff9 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=old_1400;ZONE=gongguan;TARGET=-47.2,13.45;LABEL=看看花攤;LOOK=-47,11.7;NEARDIST=4;WANT=一束花/向日葵;START=-35.6,12.6;HOUR=14;EXPECT=menu
 FLWS_new | de1f25768e421cf07b2151c2872b5b6d6f70ef5a | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=flw;VIEWS=flower_day:gongguan:-47:16:14:0:6:-47:1.4:11.7:45+flower_night:gongguan:-47:16:20:0:6:-47:1.4:11.7:45
+# X254 窗景巡拍（BB 08:46，WINVIEW-AUDIT-1105）：開發分支 head；通用視差窗 5 間＋新生南路 7 間＋一盞＋專屬照片對照；店內靠窗白天 14／晚上 21＋門外同方向；拼圖雲端 cc_winview_montage
+WINVIEW_A | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 40 | SHOPS=gen5,tea
+WINVIEW_B | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 50 | SHOPS=xs7,own
 # WINVIEW cvs 重拍（LAWWW 10:12／10:15，日和便利店，4d7f556a6）：PC 沒有 PIL→只拍原始 far／nb／nw PNG＋景深 json（cc_views_raw_probe），雲端再去背、存 webp 推 docs/story_planning/CC/views_out/
 VIEWRAW_cvs | 4d7f556a61e028ab5409fcf0103e7448b3038b51 | probe | docs/story_planning/test_tools/cc/cc_views_raw_probe.py | index.html | 30 | NAMES=cvs
 # GIFT holiday（子代理寫好、雲端試跑後排在這裡）
