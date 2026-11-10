@@ -1859,3 +1859,11 @@
 [22:52:10] [res] cpu=1% mem=34% (10.9/31.4 GB) chrome_testing=0  START X199_zone
 [22:53:06] 正在跑：X199_day2an（已跑 0 分／上限 90 分）、X199_ggglb（已跑 0 分／上限 25 分）、X199_zone（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:54:37] [res] cpu=23% mem=50% (15.9/31.4 GB) chrome_testing=9  END X199_ggglb
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ea7bacc0e..8ca646cfc  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:54:42] ==== END   X199_ggglb  exit=1  150s   ====
+[22:54:45] memory 50% before starting XSGATE_new (2 running)
+[22:54:45] ==== START XSGATE_new  (probe @ b296c6b562550f166bd8f7d78e0046cf4435e174) ====
+[22:54:48] [res] cpu=10% mem=50% (15.8/31.4 GB) chrome_testing=9  START XSGATE_new
+[22:56:33] [res] cpu=16% mem=52% (16.7/31.4 GB) chrome_testing=9  END XSGATE_new
