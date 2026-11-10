@@ -138,7 +138,15 @@ async def main():
                 R.setup('【前置／捷徑】day54 存檔 → %s 20:00 溫州街；芷若熟悉 45 信任 30（朋友）＋SHIFTT nf 2、friend.treat idx 2（T3 輪到）' % fz['key'])
                 await P.say_hook(pg); n0 = await pg.evaluate("window.__SAY.length")
                 if not await enter_shop(pg, cdp, tag, 'cafe'): R.check('F 進了 Café', False, J(await pg.evaluate(ST))); continue
-                await pg.wait_for_timeout(8000); await drain(pg, cdp, 5)
+                t0w = time.time()   # r3：STORY.tick 每 30 格才跑一次（game3d.js 600 行），「等兩秒」＝4 次 STORY.tick；雲端 SwiftShader 約 2 fps＝一次 15 秒——等到 SHIFTT.pending() 清掉（最多 150 秒），舊版沒有 SHIFTT 就等 10 秒
+                while time.time() - t0w < 150:
+                    pend = await pg.evaluate("(()=>typeof SHIFTT==='undefined'?'none':(SHIFTT.pending()?'pending':'clear'))()")
+                    if pend == 'none' and time.time() - t0w > 10: break
+                    if pend == 'clear': break
+                    s_ = await L.state(pg)
+                    if s_['dlg']: await L.tap(pg, cdp, '#dlg')
+                    await pg.wait_for_timeout(1000)
+                await pg.wait_for_timeout(3000); await drain(pg, cdp, 5)
                 said = await P.said(pg, n0); st1 = await pg.evaluate(ST); R.note('[F] SHIFTT 條件：%s' % J(await pg.evaluate(DIAG, 'heroine_02')))
                 await pg.screenshot(path=os.path.join(OUT, 'shift_%s_F.png' % TAG))
                 rec = ((st1['sh'] or {}).get('p') or {}).get('heroine_02') or {}
@@ -164,7 +172,15 @@ async def main():
             await P.say_hook(pg); n0 = await pg.evaluate("window.__SAY.length")
             st0 = await pg.evaluate(ST); R.note('%s 進店前：%s' % (tag, J(st0)))
             if not await enter_shop(pg, cdp, tag): R.check('%s 進了一盞' % tag, False, J(await pg.evaluate(ST))); continue
-            await pg.wait_for_timeout(8000); await drain(pg, cdp, 5)
+            t0w = time.time()   # r3：STORY.tick 每 30 格才跑一次（game3d.js 600 行），「等兩秒」＝4 次 STORY.tick；雲端 SwiftShader 約 2 fps＝一次 15 秒——等到 SHIFTT.pending() 清掉（最多 150 秒），舊版沒有 SHIFTT 就等 10 秒
+            while time.time() - t0w < 150:
+                pend = await pg.evaluate("(()=>typeof SHIFTT==='undefined'?'none':(SHIFTT.pending()?'pending':'clear'))()")
+                if pend == 'none' and time.time() - t0w > 10: break
+                if pend == 'clear': break
+                s_ = await L.state(pg)
+                if s_['dlg']: await L.tap(pg, cdp, '#dlg')
+                await pg.wait_for_timeout(1000)
+            await pg.wait_for_timeout(3000); await drain(pg, cdp, 5)
             said = await P.said(pg, n0); st1 = await pg.evaluate(ST); R.note('%s SHIFTT 條件：%s' % (tag, J(await pg.evaluate(DIAG, YT))))
             await pg.screenshot(path=os.path.join(OUT, 'shift_%s_%s.png' % (TAG, case)))
             yt = [x for x in said if '語彤' in x[0] or x[0] == '' and x[1].startswith('（')]
