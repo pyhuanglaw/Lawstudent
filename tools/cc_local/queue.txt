@@ -91,7 +91,7 @@ RAY_1827 | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_plannin
 #   NOASK：電腦跑的是第一版探針（找不到日子），lunch_sk03 卡滿 240 分鐘；探針改成掃 49 天（三個週一憲法→體育有 ≥1.7 小時空檔）、每項逾時保護、整支 20 分鐘上限 =====
 GREET_968b_new2 | 968bd311f878693a984103ae6deb3bd24c30c52f | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01;STEPS=greetn;ROSTER=0
 GREET_968b_old2 | 97b2e03c353b3dcd68b27ec76042f8bfc035b2e3 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01;STEPS=greetn;ROSTER=0
-NOASK_faf1_r2 | faf1b75a4081a575d797a90f8cbe7fca8a087b58 | probe | docs/story_planning/test_tools/cc/cc_noask_probe.py | index.html | 40 | X=1
+NOASK_faf1_r2 | faf1b75a4081a575d797a90f8cbe7fca8a087b58 | probe | docs/story_planning/test_tools/cc/cc_noask_probe.py | index.html | 40 | X=1;RERUN=void
 
 L98E_b1court | 98e81fe06bd856d6ec953948c5c4c6a64cb08e74 | probe | docs/story_planning/test_tools/cc/lawww_b1court_shot_probe.py | index.html | 20 | X=1
 L98E_reach | 98e81fe06bd856d6ec953948c5c4c6a64cb08e74 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
