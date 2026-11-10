@@ -1,0 +1,178 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gift_holiday_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GIFTHOL_new\out
+PASS 找到 day54 存檔  C:\Users\USER\Documents\wt_cc_GIFTHOL_new\tests\fixtures\user_save_day54_1110.json
+INFO day54 來源  C:\Users\USER\Documents\wt_cc_GIFTHOL_new\tests\fixtures\user_save_day54_1110.json；day 54 campus 12.22；TAG=new；CASES=["xmas", "valentine", "qixi", "birthday", "normal", "third", "hergift", "mailbox"]
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+== xmas（xmas；送 love 類）
+INFO [xmas] 作息掃描（只讀）：掃了 324 筆、她一個人的候選 40 筆  [["2025-12-24", "heroine_02", 11, "cafe", "打工"], ["2025-12-24", "heroine_02", 11.5, "cafe", "打工"], ["2025-12-24", "heroine_02", 12, "cafe", "打工"], ["2025-12-24", "heroine_02", 12.5, "cafe", "打工"], ["2025-12-24", "heroine_02", 13, "cafe", "打工"], ["2025-12-24", "heroine_02", 13.5, "cafe", "打工"], ["2025-12-24", "heroine_02", 14, "cafe", "打工"], ["2025-12-24", "heroine_02", 14.5, "cafe", "打工"], ["2025-12-24", "heroine_01", 16, "cafe", "看書"], ["2025-12-24", "heroine_01", 16.5, "cafe", "看書"], ["2025-12-24", "heroine_01", 17, "cafe", "看書"], ["2025-12-24", "heroine_01", 17.5, "cafe", "看書"]]
+PASS [xmas] 前置：找到她當天在場、身邊沒有她圈子的人的時段  [{"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 9, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 9.5, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 10, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 10.5, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 11, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 11.5, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 16, "zone": "cafe", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 16.5, "zone": "cafe", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 17, "zone": "cafe", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 17.5, "zone": "cafe", "act": "看書", "rows": [], "can": true}]
+  [前置／捷徑] 讀 day54 存檔（GAME.applySave、quiet_events）→ 2025-12-24（星期 3）11.00 cafe；heroine_02 那時候照作息在這一區（打工），HCIRCLE 同框列都不成立；包包 G.flags.GIFTH.bag＝["一本英國的旅遊書", "一本商事法的書"]
+INFO [xmas] heroine_02 在吧檯後面上班（staff=cafe）：說話＝點餐、不出 offerInvite 選單，換下一個候選
+  [前置／捷徑] 讀 day54 存檔（GAME.applySave、quiet_events）→ 2025-12-24（星期 3）16.00 cafe；heroine_01 那時候照作息在這一區（看書），HCIRCLE 同框列都不成立；包包 G.flags.GIFTH.bag＝["一本商事法的書", "一本入門的哲學書"]
+INFO [xmas] 讀檔後  {"key": "2025-12-24", "h": 16.05, "zone": "cafe", "crowd": false, "withNow": [], "stage": 4, "bag": ["g_law_book", "g_philo_book"], "st": {"h": {"k": "xmas", "y": 2025}, "items": [{"id": "g_law_book", "shop": "xs_shanlan"}, {"id": "g_philo_book", "shop": "xs_shanlan"}], "capped": false}}
+PASS [xmas] 前置：2025-12-24 heroine_01 16.05 她在 cafe、身邊沒有別人（STORY.crowdNow false）  []
+  到達「[xmas] 和 heroine_01 說話：她旁邊（第 1 輪）」附近（0.22 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  「[xmas] 和 heroine_01 說話：換個站的地方 1（離她 1.10 m、離最近的互動點 1.27 m）」途中停下（離目標 0.24 m）：條件成立
+   [[xmas] 和 heroine_01 說話] 選單 [["送她禮物…", ""], ["（說點不一樣的）", ""], ["約她去…", ""], ["就這樣", ""]] → 送她禮物…
+   [[xmas] 和 heroine_01 說話] 選單 [["一本商事法的書", ""], ["一本入門的哲學書", ""], ["算了", ""]] → 一本商事法的書
+  [xmas] 和 heroine_01 說話：GAME.say [["沈以安", "沛珊每次讀書會都多印一份講義。她說給會遲到的人。從來沒有人遲到。"], ["", "（沈以安跟你打了個招呼，聊了兩句天氣。）"], ["", "你把一本商事法的書遞給沈以安。"], ["沈以安", "聖誕節還在學校？……我也是。"], ["沈以安", "這本我在圖書館借了三次。……現在不用還了。"], ["", "（她從包包拿出一個紙盒，上面印著台中的店名。）"], ["沈以安", "我媽寄來的。……太多了，分你。"]]
+PASS [xmas] 說話的選單有「送她禮物…」、沒有灰掉（heroine_01，2025-12-24 xmas）  {"選單": [["送她禮物…", "（說點不一樣的）", "約她去…", "就這樣"], ["一本商事法的書", "一本入門的哲學書", "算了"]], "opt": {"t": "送她禮物…", "full": "送她禮物…包包裡有 2 樣可以送她", "dim": false}}
+PASS [xmas] 按下去出包包裡的禮物（有「一本商事法的書」）  [["送她禮物…", "（說點不一樣的）", "約她去…", "就這樣"], ["一本商事法的書", "一本入門的哲學書", "算了"]]
+PASS [xmas] 送出去：GIFTH.sent[heroine_01|xmas|2025]＝g_law_book、包包少一樣（2 → 1）、旁白「你把一本商事法的書遞給…」  {"sent": {"heroine_01|xmas|2025": "g_law_book"}, "bag": ["g_philo_book"], "handed": [["", "你把一本商事法的書遞給沈以安。"]]}
+INFO [xmas] SOCIAL.adjust(heroine_01) 實際收到  [{"id": "heroine_01", "d": {"fam": 2}, "day": 99, "h": 16.145}, {"id": "heroine_01", "d": {"comf": 1}, "day": 99, "h": 16.145}, {"id": "heroine_01", "d": {"trust": 3, "npcRom": 2}, "day": 99, "h": 16.145}]
+PASS [xmas] 好感：SOCIAL.adjust(heroine_01, {"trust": 3, "npcRom": 2})（love 類；她第 4 階，love 的戀愛 +2 認識就算＝509b54c2d）  [{"fam": 2}, {"comf": 1}, {"trust": 3, "npcRom": 2}]
+INFO [xmas] 遊戲時間 16.05 → 16.18（送禮不扣時段：不 GM.advance）
+PASS [xmas] 沒有 JS 例外  []
+INFO [xmas] 花了 58 秒
+== valentine（vday；送 ok 類）
+INFO [valentine] 作息掃描（只讀）：掃了 55 筆、她一個人的候選 40 筆  [["2026-02-14", "heroine_03", 13, "wz_teahouse", "一盞茶屋（打工）"], ["2026-02-14", "heroine_03", 13.5, "wz_teahouse", "一盞茶屋（打工）"], ["2026-02-14", "heroine_03", 14, "wz_teahouse", "一盞茶屋（打工）"], ["2026-02-14", "heroine_03", 14.5, "wz_teahouse", "一盞茶屋（打工）"], ["2026-02-14", "heroine_03", 15, "wz_teahouse", "一盞茶屋（打工）"], ["2026-02-14", "heroine_03", 15.5, "wz_teahouse", "一盞茶屋（打工）"], ["2026-02-14", "heroine_03", 16, "wz_teahouse", "一盞茶屋（打工）"], ["2026-02-14", "heroine_03", 16.5, "wz_teahouse", "一盞茶屋（打工）"], ["2027-02-14", "heroine_03", 13, "wz_teahouse", "一盞茶屋（打工）"], ["2027-02-14", "heroine_03", 13.5, "wz_teahouse", "一盞茶屋（打工）"], ["2027-02-14", "heroine_03", 14, "wz_teahouse", "一盞茶屋（打工）"], ["2027-02-14", "heroine_03", 14.5, "wz_teahouse", "一盞茶屋（打工）"]]
+PASS [valentine] 前置：找到她當天在場、身邊沒有她圈子的人的時段  [{"k": "2026-02-14", "d": 151, "wd": 6, "p": "heroine_03", "h": 13, "zone": "wz_teahouse", "act": "一盞茶屋（打工）", "rows": [], "can": true}, {"k": "2026-02-14", "d": 151, "wd": 6, "p": "heroine_03", "h": 13.5, "zone": "wz_teahouse", "act": "一盞茶屋（打工）", "rows": [], "can": true}, {"k": "2026-02-14", "d": 151, "wd": 6, "p": "heroine_03", "h": 14, "zone": "wz_teahouse", "act": "一盞茶屋（打工）", "rows": [], "can": true}, {"k": "2026-02-14", "d": 151, "wd": 6, "p": "heroine_03", "h": 14.5, "zone": "wz_teahouse", "act": "一盞茶屋（打工）", "rows": [], "can": true}, {"k": "2026-02-14", "d": 151, "wd": 6, "p": "heroine_03", "h": 15, "zone": "wz_teahouse", "act": "一盞茶屋（打工）", "rows": [], "can": true}, {"k": "2026-02-14", "d": 151, "wd": 6, "p": "heroine_03", "h": 15.5, "zone": "wz_teahouse", "act": "一盞茶屋（打工）", "rows": [], "can": true}, {"k": "2026-02-14", "d": 151, "wd": 6, "p": "heroine_03", "h": 16, "zone": "wz_teahouse", "act": "一盞茶屋（打工）", "rows": [], "can": true}, {"k": "2026-02-14", "d": 151, "wd": 6, "p": "heroine_03", "h": 16.5, "zone": "wz_teahouse", "act": "一盞茶屋（打工）", "rows": [], "can": true}, {"k": "2027-02-14", "d": 516, "wd": 0, "p": "heroine_03", "h": 13, "zone": "wz_teahouse", "act": "一盞茶屋（打工）", "rows": [], "can": true}, {"k": "2027-02-14", "d": 516, "wd": 0, "p": "heroine_03", "h": 13.5, "zone": "wz_teahouse", "act": "一盞茶屋（打工）", "rows": [], "can": true}]
+  [前置／捷徑] 讀 day54 存檔（GAME.applySave、quiet_events）→ 2026-02-14（星期 6）13.00 wz_teahouse；heroine_03 那時候照作息在這一區（一盞茶屋（打工）），HCIRCLE 同框列都不成立；包包 G.flags.GIFTH.bag＝["一本薄薄的詩集", "一本商事法的書"]
+INFO [valentine] 讀檔後  {"key": "2026-02-14", "h": 13.05, "zone": "wz_teahouse", "crowd": false, "withNow": [], "stage": 2, "bag": ["g_poems", "g_law_book"], "st": {"h": {"k": "vday", "y": 2026}, "items": [{"id": "g_poems", "shop": "xs_shanlan"}, {"id": "g_law_book", "shop": "xs_shanlan"}], "capped": false}}
+PASS [valentine] 前置：2026-02-14 heroine_03 13.05 她在 wz_teahouse、身邊沒有別人（STORY.crowdNow false）  []
+  「[valentine] 和 heroine_03 說話：她旁邊（第 1 輪）」途中停下（離目標 0.28 m）：我媽寄來的。……太多了，分你。
+   [[valentine] 和 heroine_03 說話] 選單 [["送她禮物…", ""], ["（說點不一樣的）", ""], ["約她去…", ""], ["就這樣", ""]] → 送她禮物…
+   [[valentine] 和 heroine_03 說話] 選單 [["一本薄薄的詩集", ""], ["一本商事法的書", ""], ["算了", ""]] → 一本商事法的書
+  [valentine] 和 heroine_03 說話：GAME.say [["陳語彤", "……嗯。"], ["", "你把一本商事法的書遞給陳語彤。"], ["陳語彤", "情人節。……這個我不知道能不能收。"], ["陳語彤", "謝謝。"]]
+PASS [valentine] 說話的選單有「送她禮物…」、沒有灰掉（heroine_03，2026-02-14 vday）  {"選單": [["送她禮物…", "（說點不一樣的）", "約她去…", "就這樣"], ["一本薄薄的詩集", "一本商事法的書", "算了"]], "opt": {"t": "送她禮物…", "full": "送她禮物…包包裡有 2 樣可以送她", "dim": false}}
+PASS [valentine] 按下去出包包裡的禮物（有「一本商事法的書」）  [["送她禮物…", "（說點不一樣的）", "約她去…", "就這樣"], ["一本薄薄的詩集", "一本商事法的書", "算了"]]
+PASS [valentine] 送出去：GIFTH.sent[heroine_03|vday|2026]＝g_law_book、包包少一樣（2 → 1）、旁白「你把一本商事法的書遞給…」  {"sent": {"heroine_03|vday|2026": "g_law_book"}, "bag": ["g_poems"], "handed": [["", "你把一本商事法的書遞給陳語彤。"]]}
+INFO [valentine] SOCIAL.adjust(heroine_03) 實際收到  [{"id": "heroine_03", "d": {"fam": 2}, "day": 151, "h": 13.096}, {"id": "heroine_03", "d": {"comf": 1}, "day": 151, "h": 13.096}, {"id": "heroine_03", "d": {"trust": 2}, "day": 151, "h": 13.096}]
+PASS [valentine] 好感：SOCIAL.adjust(heroine_03, {"trust": 2})（ok 類；她第 2 階）  [{"fam": 2}, {"comf": 1}, {"trust": 2}]
+INFO [valentine] 遊戲時間 13.05 → 13.13（送禮不扣時段：不 GM.advance）
+PASS [valentine] 沒有 JS 例外  []
+INFO [valentine] 花了 31 秒
+== qixi（qixi；送 ok 類）
+INFO [qixi] 作息掃描（只讀）：掃了 80 筆、她一個人的候選 40 筆  [["2026-08-19", "heroine_01", 16, "cafe", "看書"], ["2026-08-19", "heroine_01", 16.5, "cafe", "看書"], ["2026-08-19", "heroine_01", 17, "cafe", "看書"], ["2026-08-19", "heroine_01", 17.5, "cafe", "看書"], ["2026-08-19", "classmate_xinci", 19, "cafe", "看書"], ["2026-08-19", "classmate_xinci", 19.5, "cafe", "看書"], ["2026-08-19", "classmate_xinci", 20, "cafe", "看書"], ["2026-08-19", "classmate_xinci", 20.5, "cafe", "看書"], ["2026-08-19", "heroine_01", 9, "library", "看書"], ["2026-08-19", "heroine_05", 9, "library", "看書"], ["2026-08-19", "heroine_01", 9.5, "library", "看書"], ["2026-08-19", "heroine_05", 9.5, "library", "看書"]]
+PASS [qixi] 前置：找到她當天在場、身邊沒有她圈子的人的時段  [{"k": "2026-08-19", "d": 337, "wd": 3, "p": "heroine_01", "h": 9, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2026-08-19", "d": 337, "wd": 3, "p": "heroine_01", "h": 9.5, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2026-08-19", "d": 337, "wd": 3, "p": "heroine_01", "h": 10, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2026-08-19", "d": 337, "wd": 3, "p": "heroine_01", "h": 10.5, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2026-08-19", "d": 337, "wd": 3, "p": "heroine_01", "h": 11, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2026-08-19", "d": 337, "wd": 3, "p": "heroine_01", "h": 11.5, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2026-08-19", "d": 337, "wd": 3, "p": "heroine_01", "h": 16, "zone": "cafe", "act": "看書", "rows": [], "can": true}, {"k": "2026-08-19", "d": 337, "wd": 3, "p": "heroine_01", "h": 16.5, "zone": "cafe", "act": "看書", "rows": [], "can": true}, {"k": "2026-08-19", "d": 337, "wd": 3, "p": "heroine_01", "h": 17, "zone": "cafe", "act": "看書", "rows": [], "can": true}, {"k": "2026-08-19", "d": 337, "wd": 3, "p": "heroine_01", "h": 17.5, "zone": "cafe", "act": "看書", "rows": [], "can": true}]
+  [前置／捷徑] 讀 day54 存檔（GAME.applySave、quiet_events）→ 2026-08-19（星期 3）16.00 cafe；heroine_01 那時候照作息在這一區（看書），HCIRCLE 同框列都不成立；包包 G.flags.GIFTH.bag＝["一本商事法的書", "一本入門的哲學書"]
+INFO [qixi] 讀檔後  {"key": "2026-08-19", "h": 16.05, "zone": "cafe", "crowd": false, "withNow": [], "stage": 4, "bag": ["g_law_book", "g_philo_book"], "st": {"h": {"k": "qixi", "y": 2026}, "items": [{"id": "g_law_book", "shop": "xs_shanlan"}, {"id": "g_philo_book", "shop": "xs_shanlan"}], "capped": false}}
+PASS [qixi] 前置：2026-08-19 heroine_01 16.05 她在 cafe、身邊沒有別人（STORY.crowdNow false）  []
+  到達「[qixi] 和 heroine_01 說話：她旁邊（第 1 輪）」附近（0.22 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  「[qixi] 和 heroine_01 說話：換個站的地方 1（離她 1.10 m、離最近的互動點 1.27 m）」途中停下（離目標 0.22 m）：謝謝。
+   [[qixi] 和 heroine_01 說話] 選單 [["送她禮物…", ""], ["（說點不一樣的）", ""], ["約她去…", ""], ["就這樣", ""]] → 送她禮物…
+   [[qixi] 和 heroine_01 說話] 選單 [["一本商事法的書", ""], ["一本入門的哲學書", ""], ["算了", ""]] → 一本入門的哲學書
+  [qixi] 和 heroine_01 說話：GAME.say [["", "（沈以安跟你打了個招呼，聊了兩句天氣。）"], ["", "你把一本入門的哲學書遞給沈以安。"], ["沈以安", "七夕你也記得。"], ["沈以安", "謝謝。我會用的。"]]
+PASS [qixi] 說話的選單有「送她禮物…」、沒有灰掉（heroine_01，2026-08-19 qixi）  {"選單": [["送她禮物…", "（說點不一樣的）", "約她去…", "就這樣"], ["一本商事法的書", "一本入門的哲學書", "算了"]], "opt": {"t": "送她禮物…", "full": "送她禮物…包包裡有 2 樣可以送她", "dim": false}}
+PASS [qixi] 按下去出包包裡的禮物（有「一本入門的哲學書」）  [["送她禮物…", "（說點不一樣的）", "約她去…", "就這樣"], ["一本商事法的書", "一本入門的哲學書", "算了"]]
+PASS [qixi] 送出去：GIFTH.sent[heroine_01|qixi|2026]＝g_philo_book、包包少一樣（2 → 1）、旁白「你把一本入門的哲學書遞給…」  {"sent": {"heroine_01|qixi|2026": "g_philo_book"}, "bag": ["g_law_book"], "handed": [["", "你把一本入門的哲學書遞給沈以安。"]]}
+INFO [qixi] SOCIAL.adjust(heroine_01) 實際收到  [{"id": "heroine_01", "d": {"fam": 2}, "day": 337, "h": 16.145}, {"id": "heroine_01", "d": {"comf": 1}, "day": 337, "h": 16.145}, {"id": "heroine_01", "d": {"trust": 2}, "day": 337, "h": 16.145}]
+PASS [qixi] 好感：SOCIAL.adjust(heroine_01, {"trust": 2})（ok 類；她第 4 階）  [{"fam": 2}, {"comf": 1}, {"trust": 2}]
+INFO [qixi] 遊戲時間 16.05 → 16.18（送禮不扣時段：不 GM.advance）
+PASS [qixi] 沒有 JS 例外  []
+INFO [qixi] 花了 36 秒
+== birthday（bday；送 love 類）
+INFO [birthday] 作息掃描（只讀）：掃了 93 筆、她一個人的候選 40 筆  [["2026-06-02", "heroine_05", 19, "cafe", "看書"], ["2026-06-02", "heroine_05", 19.5, "cafe", "看書"], ["2026-06-02", "heroine_05", 20, "cafe", "看書"], ["2026-06-02", "heroine_05", 20.5, "cafe", "看書"], ["2026-06-02", "heroine_05", 21, "cafe", "看書"], ["2026-06-02", "heroine_05", 9, "lawlib", "看書"], ["2026-06-02", "heroine_05", 9.5, "lawlib", "看書"], ["2026-06-02", "heroine_05", 10, "lawlib", "看書"], ["2026-06-02", "heroine_05", 10.5, "lawlib", "看書"], ["2026-06-02", "heroine_05", 11, "lawlib", "看書"], ["2026-06-02", "heroine_05", 11.5, "lawlib", "看書"], ["2026-06-02", "heroine_05", 12, "lawlib", "看書"]]
+PASS [birthday] 前置：找到她當天在場、身邊沒有她圈子的人的時段  [{"k": "2026-06-02", "d": 259, "wd": 2, "p": "heroine_05", "h": 9, "zone": "lawlib", "act": "看書", "rows": [], "can": true}, {"k": "2026-06-02", "d": 259, "wd": 2, "p": "heroine_05", "h": 9.5, "zone": "lawlib", "act": "看書", "rows": [], "can": true}, {"k": "2026-06-02", "d": 259, "wd": 2, "p": "heroine_05", "h": 10, "zone": "lawlib", "act": "看書", "rows": [], "can": true}, {"k": "2026-06-02", "d": 259, "wd": 2, "p": "heroine_05", "h": 10.5, "zone": "lawlib", "act": "看書", "rows": [], "can": true}, {"k": "2026-06-02", "d": 259, "wd": 2, "p": "heroine_05", "h": 11, "zone": "lawlib", "act": "看書", "rows": [], "can": true}, {"k": "2026-06-02", "d": 259, "wd": 2, "p": "heroine_05", "h": 11.5, "zone": "lawlib", "act": "看書", "rows": [], "can": true}, {"k": "2026-06-02", "d": 259, "wd": 2, "p": "heroine_05", "h": 12, "zone": "lawlib", "act": "看書", "rows": [], "can": true}, {"k": "2026-06-02", "d": 259, "wd": 2, "p": "heroine_05", "h": 12.5, "zone": "lawlib", "act": "看書", "rows": [], "can": true}, {"k": "2026-06-02", "d": 259, "wd": 2, "p": "heroine_05", "h": 13, "zone": "lawlib", "act": "看書", "rows": [], "can": true}, {"k": "2026-06-02", "d": 259, "wd": 2, "p": "heroine_05", "h": 13.5, "zone": "lawlib", "act": "看書", "rows": [], "can": true}]
+  [前置／捷徑] 讀 day54 存檔（GAME.applySave、quiet_events）→ 2026-06-02（星期 2）19.00 cafe；heroine_05 那時候照作息在這一區（看書），HCIRCLE 同框列都不成立；包包 G.flags.GIFTH.bag＝["一盒綠色螢光筆", "一本商事法的書"]
+INFO [birthday] 讀檔後  {"key": "2026-06-02", "h": 19.05, "zone": "cafe", "crowd": false, "withNow": [], "stage": 2, "bag": ["g_green_hl", "g_law_book"], "st": {"h": {"k": "bday", "y": 2026}, "items": [{"id": "g_green_hl", "shop": "xs_shanlan_stationery"}, {"id": "g_law_book", "shop": "xs_shanlan"}], "capped": false}}
+PASS [birthday] 前置：2026-06-02 heroine_05 19.05 她在 cafe、身邊沒有別人（STORY.crowdNow false）  []
+  「[birthday] 和 heroine_05 說話：她旁邊（第 1 輪）」途中停下（離目標 0.21 m）：謝謝。我會用的。
+   [[birthday] 和 heroine_05 說話] 選單 [["「生日快樂。」", ""], ["（遞給她一包茶葉）", ""], ["（陪她去飲水機裝熱水）", ""]] → （陪她去飲水機裝熱水）
+  [birthday] 和 heroine_05 說話：說了話但沒有出說話最後的選單（offerInvite；可能是升階台詞、期末圖書館的小聲那一套、事件），再說一次
+   [[birthday] 和 heroine_05 說話] 選單 [["今天沒念。", ""], ["學姊呢？", ""]] → 學姊呢？
+   [[birthday] 和 heroine_05 說話] 選單 [["送她禮物…", ""], ["（說點不一樣的）", ""], ["約她去…", ""], ["就這樣", ""]] → 送她禮物…
+   [[birthday] 和 heroine_05 說話] 選單 [["一盒綠色螢光筆", ""], ["一本商事法的書", ""], ["算了", ""]] → 一盒綠色螢光筆
+  [birthday] 和 heroine_05 說話：GAME.say [["", "（她在讀書。保溫瓶旁邊多了一小盒蛋糕，還沒拆。）"], ["溫書瑀", "群組那則看到了吧。Kevin 每年都發。"], ["溫書瑀", "這禮拜六畢業。……之後還是在這裡讀書，只是換一張學生證。"], ["溫書瑀", "這不算禮物。"], ["溫書瑀", "……算。"], ["", "（她抬頭看了你一下，點點頭。）"], ["溫書瑀", "今天念了什麼？"], ["溫書瑀", "第三章。同一頁卡了一小時。"], ["溫書瑀", "……你不要笑。"], ["", "（她推過來一張便條。便條上寫：「慢慢來。」）"], ["", "你把一盒綠色螢光筆遞給溫書瑀。"], ["溫書瑀", "你怎麼知道我生日？"], ["溫書瑀", "……系辦的名單？"], ["溫書瑀", "綠色的。……學弟，你看過我的書？"]]
+PASS [birthday] 說話的選單有「送她禮物…」、沒有灰掉（heroine_05，2026-06-02 bday）  {"選單": [["「生日快樂。」", "（遞給她一包茶葉）", "（陪她去飲水機裝熱水）"], ["今天沒念。", "學姊呢？"], ["送她禮物…", "（說點不一樣的）", "約她去…", "就這樣"], ["一盒綠色螢光筆", "一本商事法的書", "算了"]], "opt": {"t": "送她禮物…", "full": "送她禮物…包包裡有 2 樣可以送她", "dim": false}}
+PASS [birthday] 按下去出包包裡的禮物（有「一盒綠色螢光筆」）  [["「生日快樂。」", "（遞給她一包茶葉）", "（陪她去飲水機裝熱水）"], ["今天沒念。", "學姊呢？"], ["送她禮物…", "（說點不一樣的）", "約她去…", "就這樣"], ["一盒綠色螢光筆", "一本商事法的書", "算了"]]
+PASS [birthday] 送出去：GIFTH.sent[heroine_05|bday|2026]＝g_green_hl、包包少一樣（2 → 1）、旁白「你把一盒綠色螢光筆遞給…」  {"sent": {"heroine_05|bday|2026": "g_green_hl"}, "bag": ["g_law_book"], "handed": [["", "你把一盒綠色螢光筆遞給溫書瑀。"]]}
+INFO [birthday] SOCIAL.adjust(heroine_05) 實際收到  [{"id": "heroine_05", "d": {"fam": 2}, "day": 259, "h": 19.111}, {"id": "heroine_05", "d": {"trust": 3, "npcRom": 2}, "day": 259, "h": 19.111}]
+PASS [birthday] 好感：SOCIAL.adjust(heroine_05, {"trust": 3, "npcRom": 2})（love 類；她第 2 階，love 的戀愛 +2 認識就算＝509b54c2d）  [{"fam": 2}, {"trust": 3, "npcRom": 2}]
+INFO [birthday] 遊戲時間 19.05 → 19.15（送禮不扣時段：不 GM.advance）
+PASS [birthday] 沒有 JS 例外  []
+INFO [birthday] 花了 45 秒
+== normal（平常日沒有「送她禮物…」）
+INFO [normal] 候選  [["2025-11-11", "heroine_01", 16, "cafe", "看書"], ["2025-11-11", "heroine_01", 16.5, "cafe", "看書"], ["2025-11-11", "heroine_01", 17, "cafe", "看書"], ["2025-11-11", "heroine_01", 17.5, "cafe", "看書"], ["2025-11-11", "heroine_05", 19, "cafe", "看書"], ["2025-11-11", "heroine_02", 19, "cafe", "打工"], ["2025-11-11", "heroine_05", 19.5, "cafe", "看書"], ["2025-11-11", "heroine_02", 19.5, "cafe", "打工"], ["2025-11-11", "heroine_05", 20, "cafe", "看書"], ["2025-11-11", "heroine_02", 20, "cafe", "打工"]]
+PASS [normal] 前置：找到平常日她一個人的時段  [{"k": "2025-11-11", "d": 56, "wd": 2, "p": "heroine_01", "h": 9, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-11-11", "d": 56, "wd": 2, "p": "heroine_01", "h": 9.5, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-11-11", "d": 56, "wd": 2, "p": "heroine_01", "h": 10, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-11-11", "d": 56, "wd": 2, "p": "heroine_01", "h": 10.5, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-11-11", "d": 56, "wd": 2, "p": "heroine_01", "h": 11, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-11-11", "d": 56, "wd": 2, "p": "heroine_01", "h": 11.5, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-11-11", "d": 56, "wd": 2, "p": "heroine_01", "h": 12.5, "zone": "l118_dian", "act": "吃飯", "rows": [], "can": true}, {"k": "2025-11-11", "d": 56, "wd": 2, "p": "heroine_01", "h": 16, "zone": "cafe", "act": "看書", "rows": [], "can": true}, {"k": "2025-11-11", "d": 56, "wd": 2, "p": "heroine_01", "h": 16.5, "zone": "cafe", "act": "看書", "rows": [], "can": true}, {"k": "2025-11-11", "d": 56, "wd": 2, "p": "heroine_01", "h": 17, "zone": "cafe", "act": "看書", "rows": [], "can": true}]
+  [前置／捷徑] 讀 day54 存檔（GAME.applySave、quiet_events）→ 2025-11-11（星期 2）16.00 cafe；平常日 heroine_01 照作息在這一區（看書）；包包有禮物（＝買了先放著）；包包 G.flags.GIFTH.bag＝["一本商事法的書", "一本入門的哲學書"]
+  「[normal] 和 heroine_01 說話：她旁邊（第 1 輪）」途中停下（離目標 1.55 m）：綠色的。……學弟，你看過我的書？
+   [[normal] 和 heroine_01 說話] 選單 [["約她去…", ""], ["就這樣", ""]] → 就這樣
+  [normal] 和 heroine_01 說話：GAME.say [["沈以安", "你等一下要去哪？"]]
+INFO [normal] 2025-11-11 heroine_01 16.05 的選單  [["約她去…", "就這樣"]]
+PASS [normal] 說到話、出了說話最後的選單（2025-11-11 heroine_01）  [["沈以安", "你等一下要去哪？"]]
+PASS [normal] 平常日（2025-11-11）當面說話沒有「送她禮物…」（舊版本來就沒有＝兩版都 PASS）  [["約她去…", "就這樣"]]
+PASS [normal] 沒有 JS 例外  []
+INFO [normal] 花了 24 秒
+== third
+INFO [third T-A] 聖誕她一個人的候選  [["2025-12-24", "heroine_02", 11, "cafe"], ["2025-12-24", "heroine_02", 11.5, "cafe"], ["2025-12-24", "heroine_02", 12, "cafe"], ["2025-12-24", "heroine_02", 12.5, "cafe"], ["2025-12-24", "heroine_02", 13, "cafe"], ["2025-12-24", "heroine_02", 13.5, "cafe"], ["2025-12-24", "heroine_02", 14, "cafe"], ["2025-12-24", "heroine_02", 14.5, "cafe"], ["2025-12-24", "heroine_01", 16, "cafe"], ["2025-12-24", "heroine_01", 16.5, "cafe"]]
+PASS [third T-A] 前置：找到聖誕她一個人的時段  [{"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 9, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 9.5, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 10, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 10.5, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 11, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 11.5, "zone": "library", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 16, "zone": "cafe", "act": "看書", "rows": [], "can": true}, {"k": "2025-12-24", "d": 99, "wd": 3, "p": "heroine_01", "h": 16.5, "zone": "cafe", "act": "看書", "rows": [], "can": true}]
+  [前置／捷徑] 讀 day54 存檔（GAME.applySave、quiet_events）→ 2025-12-24（星期 3）11.00 cafe；heroine_02 那時候在這一區；【捷徑】這個聖誕已經送了兩個人；包包 G.flags.GIFTH.bag＝["一本英國的旅遊書", "一本商事法的書"]；GIFTH {"fest": {"xmas|2025": ["heroine_01", "heroine_05"]}}
+INFO [third] heroine_02 在吧檯後面上班（staff=cafe）：說話＝點餐、不出 offerInvite 選單，換下一個候選
+  [前置／捷徑] 讀 day54 存檔（GAME.applySave、quiet_events）→ 2025-12-24（星期 3）16.00 cafe；heroine_01 那時候在這一區；【捷徑】這個聖誕已經送了兩個人；包包 G.flags.GIFTH.bag＝["一本商事法的書", "一本入門的哲學書"]；GIFTH {"fest": {"xmas|2025": ["heroine_05", "heroine_03"]}}
+  到達「[third T-A] 和 heroine_01 說話：她旁邊（第 1 輪）」附近（0.22 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  「[third T-A] 和 heroine_01 說話：換個站的地方 1（離她 1.10 m、離最近的互動點 1.27 m）」途中停下（離目標 0.24 m）：你等一下要去哪？
+   [[third T-A] 和 heroine_01 說話] 選單 [["送她禮物…", "dim"], ["（說點不一樣的）", ""], ["約她去…", ""], ["就這樣", ""]] → 送她禮物…
+  [third T-A] 和 heroine_01 說話：GAME.say [["沈以安", "沛珊每次讀書會都多印一份講義。她說給會遲到的人。從來沒有人遲到。"], ["", "（沈以安跟你打了個招呼，聊了兩句天氣。）"], ["", "（今天已經送出去兩份了。這一份，你放回包包裡。）"], ["", "（她從包包拿出一個紙盒，上面印著台中的店名。）"], ["沈以安", "我媽寄來的。……太多了，分你。"]]
+PASS [third T-A] 這個聖誕已經送了兩個人（["heroine_05", "heroine_03"]）：heroine_01 的「送她禮物…」灰掉、提示「這個節日已經送了兩個人」  {"t": "送她禮物…", "full": "送她禮物…這個節日已經送了兩個人", "dim": true}
+PASS [third T-A] 按下去演 third 旁白（["（今天已經送出去兩份了。這一份，你放回包包裡。）", "（包包裡還有一份。……今天就先不送了。）"] 其中一句）、沒有送出、包包不變  {"said": [["沈以安", "沛珊每次讀書會都多印一份講義。她說給會遲到的人。從來沒有人遲到。"], ["", "（沈以安跟你打了個招呼，聊了兩句天氣。）"], ["", "（今天已經送出去兩份了。這一份，你放回包包裡。）"], ["", "（她從包包拿出一個紙盒，上面印著台中的店名。）"], ["沈以安", "我媽寄來的。……太多了，分你。"]], "sent": {}, "bag": [["g_law_book", "g_philo_book"], ["g_law_book", "g_philo_book"]]}
+  [前置／捷徑] 讀 day54 存檔（GAME.applySave、quiet_events）→ 2026-12-24（星期 4）12.00 campus；heroine_03 那時候和圈子的人同框（HCIRCLE ["c505_3_2:npc_huangxh"]；遊戲自己生的人，不是 JS 塞的）；包包 G.flags.GIFTH.bag＝["一本薄薄的詩集", "一本商事法的書"]
+  [前置／捷徑] [前置] 站到heroine_03 7 m 外：{"x": -111.14, "z": -0.17, "R": 7}
+INFO [third T-B] 讀檔後 3D：crowdNow True withNow ["npc_huangxh"]
+  到達「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：她旁邊（第 1 輪）」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+  到達「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (1.0, 0.0) 走）」附近（0.13 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (1.0, 0.0) 走）」途中：bigmap 開著（遊戲暫停），先關掉
+  「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (1.0, 0.0) 走）」途中：bigmap 開著（遊戲暫停），先關掉
+  「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (1.0, 0.0) 走）」途中：bigmap 開著（遊戲暫停），先關掉
+  「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (1.0, 0.0) 走）」途中：bigmap 開著（遊戲暫停），先關掉
+  「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (1.0, 0.0) 走）」途中：bigmap 開著（遊戲暫停），先關掉
+  「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (1.0, 0.0) 走）」途中：bigmap 開著（遊戲暫停），先關掉
+  「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (1.0, 0.0) 走）」途中：bigmap 開著（遊戲暫停），先關掉
+  「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (1.0, 0.0) 走）」途中：bigmap 開著（遊戲暫停），先關掉
+  「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (1.0, 0.0) 走）」途中：bigmap 開著（遊戲暫停），先關掉
+  「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (1.0, 0.0) 走）」途中：bigmap 開著（遊戲暫停），先關掉
+  「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (1.0, 0.0) 走）」途中：bigmap 開著（遊戲暫停），先關掉
+  到達「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (1.0, 0.0) 走）」附近（0.23 m）：點地面 13 次、轉鏡頭 0 次、搖桿 1 次，59 秒
+  到達「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：她旁邊（第 4 輪）」附近（0.20 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，17 秒
+  到達「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (1.0, -0.0) 走）」附近（0.21 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  到達「[third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：繞到她前面（她往 (0.9, -0.4) 走）」附近（0.04 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：走了 6 輪按鈕還不是「和陳語彤說話」（聽一句）
+  [third T-B] 和 heroine_03 說話（旁邊 ["npc_huangxh"]）：GAME.say []
+INFO [third T-B] 沒有說到話／沒有出說話最後的選單（她和朋友在走動，追不上），換下一個  []
+  [前置／捷徑] 讀 day54 存檔（GAME.applySave、quiet_events）→ 2026-12-25（星期 5）15.00 campus；heroine_02 那時候和圈子的人同框（HCIRCLE ["c505_2_3:heroine_04"]；遊戲自己生的人，不是 JS 塞的）；包包 G.flags.GIFTH.bag＝["一本英國的旅遊書", "一本商事法的書"]
+  [前置／捷徑] [前置] 站到heroine_02 7 m 外：{"x": 25.88, "z": -54.22, "R": 7}
+INFO [third T-B] 讀檔後 3D：crowdNow True withNow ["heroine_04"]
+  「[third T-B] 和 heroine_02 說話（旁邊 ["heroine_04"]）：她旁邊（第 1 輪）」途中停下（離目標 0.22 m）：我媽寄來的。……太多了，分你。
+   [[third T-B] 和 heroine_02 說話（旁邊 ["heroine_04"]）] 選單 [["「妳上完課都在這裡發呆？」", ""]] → 「妳上完課都在這裡發呆？」
+  [third T-B] 和 heroine_02 說話（旁邊 ["heroine_04"]）：說了話但沒有出說話最後的選單（offerInvite；可能是升階台詞、期末圖書館的小聲那一套、事件），再說一次
+   [[third T-B] 和 heroine_02 說話（旁邊 ["heroine_04"]）] 選單 [["「妳本來就是。」", ""], ["「洗得掉嗎？」", ""]] → 「洗得掉嗎？」
+   [[third T-B] 和 heroine_02 說話（旁邊 ["heroine_04"]）] 選單 [["送她禮物…", ""], ["（說點不一樣的）", ""], ["就這樣", ""]] → 就這樣
+  [third T-B] 和 heroine_02 說話（旁邊 ["heroine_04"]）：GAME.say [["林芷若", "剛下外文系的課。今天一句詩翻了一整堂。"], ["林芷若", "對啊。下一堂三點，懶得走。"], ["林芷若", "暑假回台中顧家裡的影印店。我學會換碳粉了。"], ["林芷若", "手黑了一個禮拜。我媽說，這樣才像家裡的人。"], ["林芷若", "洗得掉。要用我媽那罐很難聞的洗手乳。"]]
+INFO [third T-B] 掃過的同框候選（前 8 筆／節）  [["xmas", "2026-12-24", "heroine_03", 12, "campus", ["c505_3_2:npc_huangxh"]], ["xmas", "2026-12-24", "heroine_03", 12.5, "campus", ["c505_3_2:npc_huangxh"]], ["xmas", "2026-12-25", "heroine_02", 15, "campus", ["c505_2_3:heroine_04"]], ["xmas", "2026-12-25", "heroine_02", 15.5, "campus", ["c505_2_3:heroine_04"]], ["xmas", "2026-12-25", "heroine_05", 18.5, "gongguan", ["c505_5_1:npc_ta_chen"]], ["xmas", "2026-12-25", "heroine_05", 19, "gongguan", ["c505_5_1:npc_ta_chen"]], ["xmas", "2026-12-25", "heroine_05", 19.5, "gongguan", ["c505_5_1:npc_ta_chen"]], ["xmas", "2026-12-25", "heroine_05", 20, "gongguan", ["c505_5_1:npc_ta_chen"]]]
+PASS [third T-B] 前置：找到節日裡她旁邊真的有她圈子的人的時段（作息掃描＋3D 的 STORY.crowdNow 都成立）  [["xmas", "2026-12-24", "heroine_03", 12, "campus", ["c505_3_2:npc_huangxh"]], ["xmas", "2026-12-24", "heroine_03", 12.5, "campus", ["c505_3_2:npc_huangxh"]], ["xmas", "2026-12-25", "heroine_02", 15, "campus", ["c505_2_3:heroine_04"]], ["xmas", "2026-12-25", "heroine_02", 15.5, "campus", ["c505_2_3:heroine_04"]], ["xmas", "2026-12-25", "heroine_05", 18.5, "gongguan", ["c505_5_1:npc_ta_chen"]], ["xmas", "2026-12-25", "heroine_05", 19, "gongguan", ["c505_5_1:npc_ta_chen"]], ["xmas", "2026-12-25", "heroine_05", 19.5, "gongguan", ["c505_5_1:npc_ta_chen"]], ["xmas", "2026-12-25", "heroine_05", 20, "gongguan", ["c505_5_1:npc_ta_chen"]]]
+PASS [third T-B] 前置：在那個時段走到她旁邊說到話、出了說話最後的選單（3D 裡同框成立的 [["2026-12-24", "heroine_03", 12.08, "campus", ["npc_huangxh"]], ["2026-12-25", "heroine_02", 15.08, "campus", ["heroine_04"]]]）  [["2026-12-24", "heroine_03", 12.08, "campus", ["npc_huangxh"]], ["2026-12-25", "heroine_02", 15.08, "campus", ["heroine_04"]]]
+INFO [third T-B] 2026-12-25 heroine_02 15.08 campus，旁邊 ["heroine_04"]（說完話時 ["heroine_04"]）：選單 [["「妳上完課都在這裡發呆？」"], ["「妳本來就是。」", "「洗得掉嗎？」"], ["送她禮物…", "（說點不一樣的）", "就這樣"]]；「送她禮物…」＝{"t": "送她禮物…", "full": "送她禮物…包包裡有 2 樣可以送她", "dim": false}
+INFO [third T-B] 旁邊有第三個人（2026-12-25 heroine_02 旁邊 ["heroine_04"]）時「送她禮物…」灰掉（BB 的定義；AA_732 規格沒有這條）（THIRD_BYSTANDER=strict 才判定）：沒有灰掉  {"t": "送她禮物…", "full": "送她禮物…包包裡有 2 樣可以送她", "dim": false}
+PASS [third] 沒有 JS 例外  []
+INFO [third] 花了 298 秒
+== hergift（她送祐廷，AA_734）
+INFO [hergift] GIFTH.herCell 成立的（人、節日；只讀）  [{"k": "2025-12-24", "p": "heroine_01", "hk": "xmas", "y": 2025, "band": "B", "here": true, "kind": null, "away": null, "dating": false}, {"k": "2025-12-24", "p": "kexin", "hk": "xmas", "y": 2025, "band": "D", "here": false, "kind": "home", "away": "寒暑假在高雄的家", "dating": true}, {"k": "2025-12-25", "p": "heroine_01", "hk": "xmas", "y": 2025, "band": "B", "here": true, "kind": null, "away": null, "dating": false}, {"k": "2025-12-25", "p": "kexin", "hk": "xmas", "y": 2025, "band": "D", "here": false, "kind": "home", "away": "寒暑假在高雄的家", "dating": true}, {"k": "2026-12-24", "p": "heroine_01", "hk": "xmas", "y": 2026, "band": "B", "here": true, "kind": null, "away": null, "dating": false}, {"k": "2026-12-25", "p": "heroine_01", "hk": "xmas", "y": 2026, "band": "B", "here": true, "kind": null, "away": null, "dating": false}, {"k": "2027-12-24", "p": "heroine_01", "hk": "xmas", "y": 2027, "band": "B", "here": true, "kind": null, "away": null, "dating": false}, {"k": "2027-12-25", "p": "heroine_01", "hk": "xmas", "y": 2027, "band": "B", "here": true, "kind": null, "away": null, "dating": false}, {"k": "2026-08-19", "p": "kexin", "hk": "qixi", "y": 2026, "band": "D", "here": false, "kind": "home", "away": "寒暑假在高雄的家", "dating": true}, {"k": "2028-08-26", "p": "kexin", "hk": "qixi", "y": 2028, "band": "D", "here": false, "kind": "home", "away": "寒暑假在高雄的家", "dating": true}]
+PASS [hergift] 前置：存檔裡有她會送祐廷禮物的節日（GIFTH.herCell）
+INFO [hergift] xmas 她一個人的候選  [["2025-12-24", "heroine_01", 16, "cafe"], ["2025-12-24", "heroine_01", 16.5, "cafe"], ["2025-12-24", "heroine_01", 17, "cafe"], ["2025-12-24", "heroine_01", 17.5, "cafe"], ["2025-12-24", "heroine_01", 9, "library"], ["2025-12-24", "heroine_01", 9.5, "library"], ["2025-12-24", "heroine_01", 10, "library"], ["2025-12-24", "heroine_01", 10.5, "library"]]
+  [前置／捷徑] 讀 day54 存檔（GAME.applySave、quiet_events）→ 2025-12-24（星期 3）16.00 cafe；heroine_01 那時候在這一區；包包空的（你沒有準備）；包包 G.flags.GIFTH.bag＝[]
+INFO [hergift] 說話前 GIFTH.herDue(heroine_01)  {"k": "xmas", "y": 2025, "band": "B", "late": false, "scene": "（她從包包拿出一個紙盒，上面印著台中的店名。）", "lines": ["我媽寄來的。……太多了，分你。"], "item": "一盒太陽餅"}
+  到達「[hergift] 和 heroine_01 說話（不送）：她旁邊（第 1 輪）」附近（0.22 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  「[hergift] 和 heroine_01 說話（不送）：換個站的地方 1（離她 1.10 m、離最近的互動點 1.27 m）」途中停下（離目標 0.19 m）：洗得掉。要用我媽那罐很難聞的洗手乳。
+   [[hergift] 和 heroine_01 說話（不送）] 選單 [["送她禮物…", "dim"], ["（說點不一樣的）", ""], ["約她去…", ""], ["就這樣", ""]] → 就這樣
+  [hergift] 和 heroine_01 說話（不送）：GAME.say [["沈以安", "沛珊每次讀書會都多印一份講義。她說給會遲到的人。從來沒有人遲到。"], ["", "（沈以安跟你打了個招呼，聊了兩句天氣。）"], ["", "（她從包包拿出一個紙盒，上面印著台中的店名。）"], ["沈以安", "我媽寄來的。……太多了，分你。"]]
+PASS [hergift] 2025-12-24 heroine_01 說完話（你沒送），她送你：演出她那一格（band B）的台詞 ["我媽寄來的。……太多了，分你。"]  {"said": [["沈以安", "沛珊每次讀書會都多印一份講義。她說給會遲到的人。從來沒有人遲到。"], ["", "（沈以安跟你打了個招呼，聊了兩句天氣。）"], ["", "（她從包包拿出一個紙盒，上面印著台中的店名。）"], ["沈以安", "我媽寄來的。……太多了，分你。"]]}
+PASS [hergift] 收到的記下來（GIFTH.recv 有 heroine_01 的「一盒太陽餅」、got[heroine_01|xmas|2025]）  {"recv": [{"pid": "heroine_01", "k": "xmas", "y": 2025, "band": "B", "item": "一盒太陽餅", "line": "我媽寄來的。……太多了，分你。", "day": 99, "mail": false}], "got": {"kexin|xmas|2025": {"day": 99, "band": "D", "mode": "mail"}, "heroine_01|xmas|2025": {"day": 99, "band": "B", "mode": "meet"}}}
+PASS [hergift] 沒有 JS 例外  []
+INFO [hergift] 花了 33 秒
+== mailbox（交往中、她不在臺北＝宿舍信箱包裹）
+PASS [mailbox] 前置：遊戲有 GIFTH（她送祐廷）  舊版沒有 GIFTH
+INFO [mailbox] 存檔裡交往中的人在節日的狀態（只讀）  [{"k": "2025-12-24", "p": "kexin", "hk": "xmas", "y": 2025, "band": "D", "here": false, "kind": "home", "away": "寒暑假在高雄的家", "dating": true}, {"k": "2025-12-25", "p": "kexin", "hk": "xmas", "y": 2025, "band": "D", "here": false, "kind": "home", "away": "寒暑假在高雄的家", "dating": true}, {"k": "2026-08-19", "p": "kexin", "hk": "qixi", "y": 2026, "band": "D", "here": false, "kind": "home", "away": "寒暑假在高雄的家", "dating": true}, {"k": "2028-08-26", "p": "kexin", "hk": "qixi", "y": 2028, "band": "D", "here": false, "kind": "home", "away": "寒暑假在高雄的家", "dating": true}]
+  [前置／捷徑] 讀 day54 存檔（GAME.applySave、quiet_events）→ 2025-12-24（星期 3）10.00 campus；存檔裡本來就交往中的 kexin，2025-12-24 那天不在臺北（寒暑假在高雄的家）；包包 G.flags.GIFTH.bag＝[]
+INFO [mailbox] 讀檔後（還在校園）  {"key": "2025-12-24", "h": 10.07, "zone": "campus", "mail": {"kexin|xmas|2025": {"day": 99, "played": false, "band": "D"}}, "got": {"kexin|xmas|2025": {"day": 99, "band": "D", "mode": "mail"}}}
+INFO [mailbox] 通往 ^dorm 的出口  [{"label": "回宿舍", "x": 20, "z": 59.6, "lv": 0, "r": 2.6, "to": "dorm_hall"}]
+  [前置／捷徑] [前置] 站到「回宿舍」 6 m 外：{"x": 26, "z": 59.6, "R": 6}
+  「[mailbox] 走到「回宿舍」」途中停下（離目標 0.24 m）：我媽寄來的。……太多了，分你。
+PASS [mailbox] 校園有走進宿舍的門  [{"label": "回宿舍", "x": 20, "z": 59.6, "lv": 0, "r": 2.6, "to": "dorm_hall"}]
+INFO [mailbox] 進宿舍以後 GAME.say  [["", "（宿舍的信箱裡有一個包裹，寄件人寫著她的名字。）"], ["", "（卡片上寫著：「你騎車都不戴。我買了，你就要戴。」）"]]
+PASS [mailbox] 走進宿舍（dorm_hall）演包裹旁白「（宿舍的信箱裡有一個包裹，寄件人寫著她的名字。）」  [["", "（宿舍的信箱裡有一個包裹，寄件人寫著她的名字。）"], ["", "（卡片上寫著：「你騎車都不戴。我買了，你就要戴。」）"]]
+PASS [mailbox] 卡片（「（卡片上寫著：「…」）」至少一句）、mail[kexin|xmas|2025].played、recv 記 mail  {"cards": ["（卡片上寫著：「你騎車都不戴。我買了，你就要戴。」）"], "mail": {"kexin|xmas|2025": {"day": 99, "played": true, "band": "D"}}, "recv": [{"pid": "kexin", "k": "xmas", "y": 2025, "band": "D", "item": "一副手套", "line": "你騎車都不戴。我買了，你就要戴。", "day": 99, "mail": true}]}
+  「[mailbox] 走到「看信箱」」途中停下（離目標 0.23 m）：（卡片上寫著：「你騎車都不戴。我買了，你就要戴。」）
+INFO [mailbox] 按「看信箱」的旁白（只記；包裹是進宿舍就演）  []
+PASS [mailbox] 沒有 JS 例外  []
+INFO [mailbox] 花了 48 秒
+ALL PASS

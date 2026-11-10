@@ -1361,3 +1361,11 @@
 [20:43:06] 正在跑：NOASK_faf1_r2（已跑 13 分／上限 40 分）、GIFTHOL_new（已跑 4 分／上限 75 分）、GIFTHOL_old（已跑 2 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:48:06] 正在跑：NOASK_faf1_r2（已跑 18 分／上限 40 分）、GIFTHOL_new（已跑 9 分／上限 75 分）、GIFTHOL_old（已跑 7 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:49:04] [res] cpu=18% mem=50% (15.8/31.4 GB) chrome_testing=10  END GIFTHOL_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2039d5a19..e7e6ac224  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:49:11] ==== END   GIFTHOL_old  exit=1  492s   ====
+[20:49:16] memory 51% before starting X295E_fair_off3 (2 running)
+[20:49:16] ==== START X295E_fair_off3  (probe @ be84c86807aa45324daed407996770feb6dbba13) ====
+[20:49:19] [res] cpu=14% mem=51% (16.2/31.4 GB) chrome_testing=10  START X295E_fair_off3
+[20:50:06] [res] cpu=17% mem=41% (12.7/31.4 GB) chrome_testing=4  END GIFTHOL_new
