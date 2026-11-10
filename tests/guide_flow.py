@@ -74,6 +74,8 @@ async def main():
         await run.shot(pg, 'library_marker_closed')
         lab = await pg.evaluate("document.getElementById('interact').textContent")
         print('interact:', lab)
+        # [診斷] BB 11-10 16:37：按鈕寫「互動」不是「進入總圖書館」——印出現在最近的是誰、附近 6 m 內有哪些互動點和人（Node 建校園只有總圖的門）
+        print('[診斷] nearest:', await pg.evaluate("(()=>{ const E=GAME.E, P=E.player.obj.position, it=E.nearestInteractable(); const o=it?{label:it.label||null,x:it.x,z:it.z,npc:!!it.npc,exit:it.exit&&it.exit.to||null,keys:Object.keys(it).slice(0,12)}:null; const its=E.interactables.filter(i=>Math.hypot(i.x-P.x,i.z-P.z)<6).map(i=>({label:i.label||null,x:+(+i.x).toFixed(1),z:+(+i.z).toFixed(1),hidden:!!i.hidden})); const ns=E.npcs.filter(n=>Math.hypot(n.obj.position.x-P.x,n.obj.position.z-P.z)<4).map(n=>({name:n.name,talk:!!n.talk,label:n.talkLabel||null,yield:!!n.yieldIt})); return JSON.stringify({p:[+P.x.toFixed(2),+P.z.toFixed(2)],lv:E.player.lv,it:o,its,ns}); })()"))
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(600)
         # 閉館的字以前是 toast，v9.10.7 起是 #caption（b1story3d.js S.nightDoor；後面接 B1 側門的選單）：toast、對話框、caption 都讀（BB-B 10-24 回歸）
         toast = await pg.evaluate("['toast','dlgText','caption'].map(id=>((document.getElementById(id)||{}).textContent||'')).join(' ')")   # b1story3d.js S.nightDoor 用 GM.caption（#caption），後面接 B1 側門選單

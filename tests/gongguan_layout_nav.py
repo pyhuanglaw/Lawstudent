@@ -87,7 +87,7 @@ async def main():
             await pg.wait_for_timeout(500)
         check('按下後進到麵店', zone == 'noodle', str(zone))
         # 站在出口「離開公館燒臘」互動點往店裡 0.4 m（v7 互動點 (0,5.9) r 0.9；站出生點 (0,5.0) 剛好在邊上、按鈕不出現，BB 11-10 15:20）；找不到互動點才退回 SHAOLA_LAYOUT.shop.spawn。舊的寫死 (0,3.5) 是改燒臘店 v7（SHAOLA-WIRE-1105）以前麵店的座標（BB／CC 11-10 用 b296c6b56 實測出口按下去回到公館；只改測試）
-        await pg.evaluate("(()=>{ const X=(GAME.E.interactables||[]).find(o=>o&&o.label==='離開公館燒臘'); const L=X?{x:X.x,z:X.z-0.4}:(typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop&&SHAOLA_LAYOUT.shop.spawn||{x:0,z:3.5}); const P=GAME.E.player; P.obj.position.set(L.x,0,L.z); P.path=null; P.target=null; })()")
+        await pg.evaluate("(()=>{ const X=(GAME.E.interactables||[]).find(o=>o&&o.label==='離開公館燒臘'); const L=X?{x:X.x,z:X.z-0.4}:(typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop&&SHAOLA_LAYOUT.shop.spawn||{x:0,z:3.5}); GAME.E.placeAt(GAME.E.player,L.x,L.z,0); })()"); await pg.wait_for_timeout(600)   # BB 11-10 16:37：P.obj.position.set 直接瞬移按不出去（TEST_BUG），改用遊戲的 E.placeAt、等一下再按
         await pg.wait_for_timeout(1500)
         vis = await wait_label('離開公館燒臘')   # [前置] 手機自動打開要回的訊息（STORY.phoneAuto，D103）時先收起來，互動按鈕才會更新
         check('麵店門口出現「離開公館燒臘」', (not vis['hidden']) and vis['label'] == '離開公館燒臘', json.dumps(vis, ensure_ascii=False))
@@ -96,7 +96,7 @@ async def main():
         if c: await pg.mouse.click(c[0], c[1])
         for i in range(60):
             zone = await pg.evaluate("GAME.G.zone")
-            if i == 6 and zone == 'noodle': print('[診斷] 點了 3 秒還在麵店：', await pg.evaluate("JSON.stringify({dlg:!!(GAME.D&&GAME.D.active),busy:!!GAME.E.player.busy,label:(document.getElementById('interactLabel')||{}).textContent,hidden:document.getElementById('interact').classList.contains('hide'),cap:(document.getElementById('caption')||{}).textContent})"))
+            if i == 6 and zone == 'noodle': print('[診斷] 點了 3 秒還在麵店：', await pg.evaluate("JSON.stringify({dlg:!!(GAME.D&&GAME.D.active),busy:!!GAME.E.player.busy,label:(document.getElementById('interactLabel')||{}).textContent,hidden:document.getElementById('interact').classList.contains('hide'),lv:GAME.E.player.lv,near:(GAME.E.nearestInteractable()||{}).label||null,entering:!!GAME.entering,cap:(document.getElementById('caption')||{}).textContent})"))
             if zone == 'gongguan' and not await pg.evaluate("!!GAME.E.player.busy"): break
             await pg.wait_for_timeout(500)
         r = await pg.evaluate("(s=>{ const E=GAME.E, o=E.player.obj.position; const p=E.nav.path(o.x,o.z,s[0],s[1]); return {zone:GAME.G.zone,x:+o.x.toFixed(2),z:+o.z.toFixed(2),stand:E.canStand(o.x,o.z,0.3),reach:!!(p&&p.length)}; })(%s)" % json.dumps(START))
