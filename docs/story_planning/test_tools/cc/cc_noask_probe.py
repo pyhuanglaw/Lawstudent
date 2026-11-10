@@ -271,22 +271,23 @@ async def main():
         await L.load_state(pg, mkstate(await P.day_of(pg, os.environ.get('DAY0') or '2025-10-06'), 9, 'campus'), quiet_phone=True); await pg.wait_for_timeout(3000)
         d0, days = await find_days(pg, os.environ.get('DAY0') or '2025-10-06')
         await b.close()
-    pairs = []; seatplan = None
+    pairs = []; seatplan = None; afterplan = None
     for dd in days:
-        cl = dd['cls']
-        got = False
-        for i in range(len(cl) - 1):
-            a, c = cl[i], cl[i + 1]
-            pl = {'day': {'d': dd['d'], 'wd': None}, 'key': 'day %d' % dd['d'], 'first': a, 'second': c, 'gap': c['t0'] - a['t1']}
-            if seatplan is None: seatplan = pl
-            if pl['gap'] >= 1.0 and not got: pairs.append(pl); got = True
-    note('找到的日子：一天兩堂（有座位的教室）%s；空檔 ≥60 分 %d 天' % (J(seatplan and [seatplan['key'], seatplan['first']['c'], seatplan['second']['c']]), len(pairs)))
-    for pl in [seatplan] + pairs:
+        its = [i for i in dd['items'] if not i['off']]
+        mk = lambda a, c: {'day': {'d': dd['d'], 'wd': None}, 'key': 'day %d' % dd['d'], 'first': a, 'second': c, 'gap': (c['t0'] - a['t1']) if c else None}
+        if seatplan is None and its and good_class(its[0]): seatplan = mk(its[0], its[1] if len(its) > 1 else None)
+        if afterplan is None:
+            for i in range(len(its) - 1):
+                if good_class(its[i + 1]): afterplan = mk(its[i], its[i + 1]); break
+        for i in range(len(its) - 1):
+            if its[i + 1]['t0'] - its[i]['t1'] >= float(os.environ.get('LUNCH_GAP') or 1.7): pairs.append(mk(its[i], its[i + 1])); break
+    note('找到的日子：第一堂就是有座位的課 %s；下一堂是有座位的課 %s；空檔 ≥60 分 %d 天' % (J(seatplan and [seatplan['key'], seatplan['first']['c']]), J(afterplan and [afterplan['key'], afterplan['first']['c'], afterplan['second']['c']]), len(pairs)))
+    for pl in [seatplan, afterplan] + pairs:
         if pl: pl['day']['wd'] = None
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); await L.wait_loaded(pg)
-        for pl in [seatplan] + pairs:
+        for pl in [seatplan, afterplan] + pairs:
             if pl: wd = await pg.evaluate("d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; }", pl['day']['d']); pl['day']['wd'] = wd; pl['key'] = 'day %d（週%d）' % (pl['day']['d'], wd)
         await b.close()
     async with async_playwright() as p:
@@ -294,7 +295,8 @@ async def main():
             print('===== %s =====' % c, flush=True)
             try:
                 if c.startswith('seat_'):
-                    if check('%s：有一天兩堂有座位的課' % c, bool(seatplan)): await seat_case(p, c, seatplan)
+                    sp = afterplan if '_after_' in c else seatplan
+                    if check('%s：找得到要的日子' % c, bool(sp)): await seat_case(p, c, sp)
                 elif c == 'lunch_sk03': await sk03_case(p)
                 else:
                     if check('%s：找得到空檔 ≥60 分的日子（%d 天）' % (c, len(pairs)), len(pairs) >= (3 if c == 'lunch_rot' else 1)): await lunch_case(p, c, pairs)
