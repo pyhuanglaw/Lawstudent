@@ -1,7 +1,15 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
 
-## 交接（最新｜帳號 A｜2026-11-10 21:4x UTC）
+## 交接（最新｜帳號 A｜2026-11-10 22:1x UTC）
+- **汀州路**：第 2 版已整合（dev 9cc173c29）；BB：街景＋五間正式店面 **ART_APPROVED**；三間（洗樂、印得好、泰米）只差招牌 → **第 3 版已交**（6c560d699，`wip/tingzhou_1110/README_v3.md`、`tingzhou_v3_signs.patch`，底 dev a37b2ff61）：各留一塊、放大到店面寬。等整合、CC 重拍。巷 A 和夜市攤 BB 不判，併到夜市任務。
+- **NIGHT-MARKET-1110（X326）規劃文件已交**（a05a5277d，`proposals/night_market_1110.md`）：使用者未授權實作，**不要動攤位模型**；等使用者回第 7 節四題。授權後照文件第 6 節做（01 刈包要整攤換成沈三盃黑糖鮮奶）。
+- **花序 Flower Notes（X325）A 件（室內）做好、在跑回歸**：`$SP/wt_fn`（dev 8372e7086）有配置 `src/data/flower_notes_layout.js`、區域 `src/flower_notes3d.js`（兩層導航、公館 G11 進出）、`tools/blender/env_second/flower_notes_interior.py` → `flower_notes_interior.glb`（3.7 MB、11 萬三角形）、`tests/flower_notes_unit.js`（ALL PASS）。程式備份在 `wip/flower_notes_1110/flower_notes_WIP_code.patch`（GLB 沒進備份，腳本跑得出來：約 3 分鐘）。交件說明 `wip/flower_notes_1110/README.md` 已寫好，回歸跑完就打包 `flower_notes_v1a.patch`、登 outbox、通知 LAWWW（副本 BB）。
+  - 先將就的（README 有）：花是簡化的小球、窗景用現成的慢輪街景照片、沒有光照貼圖、字體只有黑體。
+  - Blender 腳本裡畫幾千個小東西時，不能用 lane118_shops 的 ccyl（每畫一根把整個網格的面做成集合，慢到跑不完）：`flower_notes_interior.py` 自己蓋掉了一版快的。
+- **花序 B 件＋公館三間要一起做（還沒動手）**：`wz_street.py -- --set gongguan` 的 `_SHOPS` 還是舊名字（G04 公館藥局、G08 水果行、G09 自助洗衣、G10 影印・輸出、G11 日日定食、G13 文具・畫材，招牌是舊的設計稿圖集）。要改：G04 安泰藥局、G08 汀州鮮果、G13 榮恩典文具社照 `ref/gg_shops6_1110/concept/`（做法同汀州路 TZ_ARC：`gg_front` 的 cards／door／street，貼圖裁進 `xs_front_tex.py` 的 QG → gg_fronts_atlas）；G11 花序外觀照 `flower_notes_ref/exterior.png`（一、二樓洞石立面、招牌帶、二樓整排玻璃；保留騎樓線）；G10 改成往汀州路的巷口；**G09（洗樂搬走以後）放什麼沒有人定，要問使用者／LAWWW**；舊花攤 gg_flower_stall 拿掉。遊戲的 zones3d.js 店面街清單（G09～G11 還寫洗樂、印得好、泰米）是 LAWWW 的。
+
+## 交接（上上則｜帳號 A｜2026-11-10 21:4x UTC）
 - **汀州路第 2 版已交**（39fcb2b72，`wip/tingzhou_1110/README_v2.md`、`tingzhou_v2.patch`，底 dev 6c55e63e3）：五間沒有騎樓（使用者「混合」）、洗樂／印得好／泰米照使用者 21:1x 的參考圖、夜市攤位模組十四種（`tz_stalls.py`）、路邊機車、BB 第 1 版五點。等 LAWWW 整合、CC 重拍、BB 判。沒在遊戲裡看過：攤位顏色、店內調暗。第 3 版要做的寫在 README_v2「還沒做」。
 - **使用者 21:1x 給了六間店外觀參考圖**：`ref/gg_shops6_1110/`（concept/ 六張＋README）。汀州路三間已用；**公館三間（G04 安泰藥局、G08 汀州鮮果、G13 榮恩典文具社）還沒做**（GG-SHOPS3-ART-1110）：照 RULES_2D_TO_3D，招牌從圖拉正裁（做法看 `tz_fronts_tex.py` 的 tzyin_／tztai_／tzxile_ 和 wz_street.py 的 TZ_ARC）。
 - **正在做：FLOWER-NOTES-ART-1110 花序 Flower Notes（X325）**。規格 dev `docs/handoff/user_specs/FLOWER_NOTES_1110.md` 第四～六節、參考圖 `flower_notes_ref/exterior.png、interior_1f.png、interior_2f.png`（二樓只參考室內，窗外用遊戲裡公館二樓高度的街景，做法照總圖 library_view）。公館店面街 G11、寬 10 m。我要做：外觀、一樓、走得上去的二樓教室、區域／導航／進出（照 wancai3d.js 兩層導航）、舊花攤 gg_flower_stall 同一個 patch 拿掉。買花互動點 LAWWW 接到收銀櫃檯。
