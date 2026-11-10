@@ -112,6 +112,15 @@ WINVIEW_A | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planni
 WINVIEW_B | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 50 | SHOPS=xs7,own
 # WINVIEW cvs 重拍（LAWWW 10:12／10:15，日和便利店，4d7f556a6）：PC 沒有 PIL→只拍原始 far／nb／nw PNG＋景深 json（cc_views_raw_probe），雲端再去背、存 webp 推 docs/story_planning/CC/views_out/
 VIEWRAW_cvs | 4d7f556a61e028ab5409fcf0103e7448b3038b51 | probe | docs/story_planning/test_tools/cc/cc_views_raw_probe.py | index.html | 30 | NAMES=cvs
+# PUTONG101-WINDOW-1102（BB 10:59：和窗景／日和一起）：teach_views 要 PIL→PC 只拍原始 PNG（cc_teach_views_raw_probe），雲端轉 webp；改前 35b88d5ff（3c6c91bdd^）；博思一樓從校園看
+TEACHVIEW_pn_new | f3b47894b3b10643fb91fd30be70bc28cad68035 | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north
+TEACHVIEW_pn_old | 35b88d5ff2613c039115576877e7f8a7525295a3 | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north
+BOYA1F_new | f3b47894b3b10643fb91fd30be70bc28cad68035 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=new;VIEWS=boya1f_gap:campus:-27:-69.5:11:0:2.5:-27:2.3:-74.5:70+boya1f_se:campus:-17:-70:11:1.27:6:-32:2.2:-74.5:50
+BOYA1F_old | 35b88d5ff2613c039115576877e7f8a7525295a3 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=old;VIEWS=boya1f_gap:campus:-27:-69.5:11:0:2.5:-27:2.3:-74.5:70+boya1f_se:campus:-17:-70:11:1.27:6:-32:2.2:-74.5:50
+# FAIR-TENT（BB 10:59：GIFT 前面；子代理寫中，寫好插在這裡）
+# GYM-FIT-PROPS-1103 第一包（BB 10:59：FAIR-TENT 後面；器材交 BB、動作交 LAWWW）：改前 63d8f328c（9e6883d9d^）
+GYMPROPS_new | f3b47894b3b10643fb91fd30be70bc28cad68035 | probe | docs/story_planning/test_tools/cc/cc_gym_props_probe.py | index.html | 25 | SOLO=1;TAG=new
+GYMPROPS_old | 63d8f328c479b688ac7b27054c5b76cb0cb32f79 | probe | docs/story_planning/test_tools/cc/cc_gym_props_probe.py | index.html | 25 | SOLO=1;TAG=old
 # GIFT holiday（子代理寫好、雲端試跑後排在這裡）
 # GIFT shops（BB 10:15 寫好，企劃線 b68e5872b 複製過來；雲端 509b54c2d 13 家 111 項 PASS、de1f25768 花攤＋好拍 PASS）
 GSHOP_new | de1f25768e421cf07b2151c2872b5b6d6f70ef5a | probe | docs/story_planning/test_tools/cc/cc_gift_shops_probe.py | index.html | 60 | TAG=new
