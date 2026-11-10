@@ -275,11 +275,12 @@ const CROWD=(function(){
   S.swimBasin=()=>{ const L=typeof GYM_LAYOUT!=='undefined'?GYM_LAYOUT:null; return (L&&L.b1&&L.b1.pool&&L.b1.pool.basin)||null; };
   S.swimOpen=G=>{ const H=G?S.gymHours(G):null; if(!H) return false; const h=hr(G); return h>=H[0]&&h<H[1]; };
   /* 這一天的泳客（開著才有）：[{key, model, lane, x0（池中線）, z（水道中線）, pose, v, off}] */
-  S.swimPlan=function(G,qLevel){ const B=S.swimBasin(), W=S.SWIM; if(!B||!S.swimOpen(G)) return []; const r=prng(hash('swim|'+G.day));
+  let swimPC=null;   /* 每一格都要：同一天、同一個畫質算一次 */
+  S.swimPlan=function(G,qLevel){ const B=S.swimBasin(), W=S.SWIM; if(!B||!S.swimOpen(G)) return []; const ck=G.day+'|'+qLevel+'|'+B.x0+','+B.z0; if(swimPC&&swimPC.k===ck) return swimPC.v; const r=prng(hash('swim|'+G.day));
     const nl=B.lanes||7, lw=(B.z1-B.z0)/nl; let n=2+Math.floor(r()*3); n=Math.min(n,W.cap[qLevel]||W.cap.medium,W.models.length,Math.ceil(nl/2));
     const combos=[]; const pick=(from,acc)=>{ if(acc.length===n){ combos.push(acc.slice()); return; } for(let i=from;i<nl;i++){ acc.push(i); pick(i+2,acc); acc.pop(); } }; pick(0,[]);   /* 不相鄰的水道 */
     const lanes=combos.length?combos[Math.floor(r()*combos.length)]:[]; const ms=W.models.slice(); for(let i=ms.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [ms[i],ms[j]]=[ms[j],ms[i]]; }
-    return lanes.map((ln,k)=>({key:'swim|'+k,model:ms[k],lane:ln,x0:+((B.x0+B.x1)/2).toFixed(3),z:+(B.z0+lw*(ln+0.5)).toFixed(3),pose:W.poses[r()<0.5?0:1],v:+(W.v[0]+r()*(W.v[1]-W.v[0])).toFixed(3),off:+(r()*60).toFixed(2)})); };
+    swimPC={k:ck,v:lanes.map((ln,k)=>({key:'swim|'+k,model:ms[k],lane:ln,x0:+((B.x0+B.x1)/2).toFixed(3),z:+(B.z0+lw*(ln+0.5)).toFixed(3),pose:W.poses[r()<0.5?0:1],v:+(W.v[0]+r()*(W.v[1]-W.v[0])).toFixed(3),off:+(r()*60).toFixed(2)}))}; return swimPC.v; };
   const swimLive={}, swimLoad=new Map(); let swimT=0, swimLastH=null;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['crowd3d:swimLoad']=()=>{ swimLoad.clear(); };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：下載中的記號清掉（下一次照 ASSETS 的快取重新判斷，不會重複下載）*/
   S.swimLive=swimLive; S.swimClock=()=>swimT;
