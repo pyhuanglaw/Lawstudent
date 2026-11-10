@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tingzhou_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3_zq_old_r2\out
+CC 汀州路 v1：PARTS ZQSEAT；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到公館 2027-06-15 21.5 時 (15.6,15.5)（子晴騎樓板凳那一場）
+  [  52.2s] [ZQSEAT 2027-06-15 21.5] 子晴：{"x": 15.6, "z": 19.8, "y": 0, "vis": true, "seat": {"x": 15.6, "z": 19.8, "label": "坐在騎樓的板凳"}, "beh": "idle", "act": null, "frozen": true, "dseat": 0, "lap": true}
+PASS [ZQSEAT 2027-06-15 21.5] 子晴坐在板凳上（離座位 0.00 m、seat {"x": 15.6, "z": 19.8, "label": "坐在騎樓的板凳"}）  {"x": 15.6, "z": 19.8, "y": 0, "vis": true, "seat": {"x": 15.6, "z": 19.8, "label": "坐在騎樓的板凳"}, "beh": "idle", "act": null, "frozen": true, "dseat": 0, "lap": true}
+  [  52.8s] [ZQSEAT 2027-06-15 21.5] 筆電道具看得到：True
+PASS [ZQSEAT 2027-06-15 21.5] 她前面（騎樓那一側）站得住、沒有被擋  [[15.6, 20.6, true], [15.6, 21.2, true], [14.6, 20.6, true], [16.6, 20.6, true]]
+  [  58.7s] 到達「[ZQSEAT 2027-06-15 21.5] 走到她前面」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [ZQSEAT 2027-06-15 21.5] 走得到她前面  {"x": 15.4, "z": 20.71, "interact": "和不認識的女生說話"}
+  [  59.7s] [ZQSEAT 2027-06-15 21.5] 按鈕：「和不認識的女生說話」；她還坐著：{"x": 15.6, "z": 19.8, "y": 0, "vis": true, "seat": {"x": 15.6, "z": 19.8, "label": "坐在騎樓的板凳"}, "beh": "idle", "act": null, "frozen": true, "dseat": 0, "lap": true}
+PASS [ZQSEAT 2027-06-15 21.5] 按鈕是和她說話（不是「坐下」或別的）  和不認識的女生說話
+PASS [ZQSEAT 2027-06-15 21.5] 按了有對話
+  [  62.0s] [ZQSEAT 2027-06-15 21.5] 對話：["（她低", "（她低頭在忙自己的事，沒有注意到你。）"]
+PASS [ZQSEAT 2027-06-15 21.5] walkFallbacks 0
+PASS 沒有 JS 例外  []
+ALL PASS
