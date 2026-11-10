@@ -2706,3 +2706,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 4.0s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 82.1s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 82.1s] BROWSER DISCONNECTED
 - 2026-11-10T16:28:22  LE738_invgo  sha=e73888074c  exit=0  117s    PASS D 手機「課表」：出席一門課一行（.attRow 5 行以上）  9 行 / PASS 沒有 JS 錯誤  [] / ALL PASS
       err.log (last 5): [gpu_wrap 4.4s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 81.2s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 81.2s] BROWSER DISCONNECTED
+- 2026-11-10T16:31:21  LE738_touch  sha=e73888074c  exit=0  171s    PASS 讀檔後可以走  9.71 / PASS 沒有 JS 例外 / ALL PASS
+      err.log (last 5): [gpu_wrap 3.7s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD) | [gpu_wrap 137.1s] page close url=http://127.0.0.1:8800/index.html?turbo&turbo | [gpu_wrap 137.1s] BROWSER DISCONNECTED
