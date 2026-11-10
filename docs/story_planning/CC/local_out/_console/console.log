@@ -1333,3 +1333,12 @@
 [09:37:36] ==== START BGN_old  (probe @ cdcb2650730bc9a90563690e63f35e75e63c9fb3) ====
 [09:37:39] [res] cpu=3% mem=48% (15.0/31.4 GB) chrome_testing=9  START BGN_old
 [09:38:14] [res] cpu=4% mem=46% (14.7/31.4 GB) chrome_testing=9  END BGN_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       675942abd..86967857b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:38:19] ==== END   BGN_old  exit=1  38s   ====
+[09:38:22] memory 47% before starting ROMPRIV_new (2 running)
+[09:38:22] ==== START ROMPRIV_new  (probe @ dea6f2f45515e8c56b4e2e242124ae2e344af466) ====
+[09:38:25] [res] cpu=2% mem=47% (14.9/31.4 GB) chrome_testing=9  START ROMPRIV_new
+[09:38:27] 正在跑：NOASK_faf1（已跑 32 分／上限 240 分）、SOCX_8677_date_h5（已跑 15 分／上限 90 分）、ROMPRIV_new（已跑 0 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:38:58] [res] cpu=2% mem=46% (14.6/31.4 GB) chrome_testing=9  END ROMPRIV_new
