@@ -44,6 +44,7 @@
 | v9.10.19 | `039a9227a`（PR [pyhuanglaw/Lawstudent#25](https://github.com/pyhuanglaw/Lawstudent/pull/25)；快取字樣 `e1603907e`，PR [pyhuanglaw/Lawstudent#26](https://github.com/pyhuanglaw/Lawstudent/pull/26)；遊戲檔案＝候選 `55939fc71`＋版本字樣） | 2026-11-03（Pages run 41716647717、41716916666） | v9.10.18 `e8b6a84dd` |
 | v9.10.19.1（熱修） | `b0c3032af`（PR [pyhuanglaw/Lawstudent#27](https://github.com/pyhuanglaw/Lawstudent/pull/27)；發布樹 `ae2914d40`＝main `e1603907e`＋EVENTS.cond attended、GM.guardTalk 兩個修正＋版本字樣） | 2026-11-04 | v9.10.19 `e1603907e` |
 | v9.10.20 | `40c0abedb`（PR [pyhuanglaw/Lawstudent#28](https://github.com/pyhuanglaw/Lawstudent/pull/28)；遊戲檔案＝BB GO 的候選 `d3828452a`＋版本字樣，發布樹 `9e6d85711`、RELEASES.md `37cd3253d`） | 2026-11-05 02:28:25 UTC（run 41955182303） | `b0c3032af`（v9.10.19.1） |
+| v9.10.24 | `779ddd650`（PR [pyhuanglaw/Lawstudent#34](https://github.com/pyhuanglaw/Lawstudent/pull/34)；遊戲檔案＝發布樹 `951824630`＝BB GO 的候選 `6ef185726`＋版本字樣） | Pages run 42892403766（部署中，確認後補時間） | `3a34dbaa5`（v9.10.23） |
 
 ---
 
@@ -56,6 +57,25 @@ C=$(git commit-tree e88bda5^{tree} -p origin/main -m "緊急回復到 v9.6（e88
 git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub Actions 的 pages build and deployment 確認部署
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
+
+## v9.10.24（2026-11-10 20:09 UTC 合併 `779ddd650`，PR [pyhuanglaw/Lawstudent#34](https://github.com/pyhuanglaw/Lawstudent/pull/34)；遊戲檔案＝發布樹 `951824630`＝候選 `6ef185726`＋版本字樣（`?v=9.10.24`×405、標題「版本 v9.10.24（2026-11-10）」）；Pages run 42892403766）
+
+使用者 11-10：「一鍵前往一定要在下個版本，你沒做好前就不要發佈」「曖昧要分期……也一定要在下個版本」「等所有電影海報都放進去，才發佈最新版」；19:0x 選擇題「都給你」（發布照舊 LAWWW 決定）。
+
+**玩得到的**：
+- 一鍵前往（X290，INV-GO-JUMP-1110）。
+- 曖昧分期：戀愛條過一半可以約出去玩（有冷卻）；朋友以下「你們現在是朋友。再多相處一陣子。」（X304，ROM-STAGE-TEXT-1110）。
+- 南洋戲院 72 部片的海報全部進遊戲；淺色海報的片名加深色描邊（X314）。
+- 約看電影：大廳會合 → 1 廳並排坐 → 燈暗演 → 散場回大廳；人已經到約好的地方不再跳約會提醒（X274、MOVIE-REMIND-LATE-1110）。
+- 人物頁拿掉祐廷自己的戀愛，也不當任何條件（X315）。
+- 何俊朗自己的 3D 模型（圓框眼鏡、奶茶杯鑰匙圈；美國教室、會所；LAWWW 角色驗收 ART_APPROVED）；載不到退回路人樣子。
+- 泳池泳客、美國教室與會所劇情、AA_736 等 v9.10.23 以後的開發分支內容。
+
+**測試**：BB 20:08 GO（BB_255）：deploy_check 在 `951824630` ALL PASS（v9.10.24、405 支 script 同一版號、3387 個網址、0 例外）；PC 回歸全組（deploy、p0、zone、mini、reach、classreal、main12、touch、capgap）、save_compat v7、live_pos（線上 v9.10.23 → 候選）、72 張海報、何俊朗（含擋檔）PASS；releasegate X290、X304、X314 已驗收；GHA node-unit-auto `d0435a63f` success。
+
+**沒驗到／已知不擋**：畢業以後 7 段大廳海報沒有在瀏覽器驗（探針讀檔直接演搬家；海報資料和 1 廳共用，1 廳 36 段 PASS）；iPhone 實機沒測；guide 閉館訊息（P2）、ggnav 探針瞬移、m2801b 片名偏小（P3）、泳客近景外觀（POOL-SWIM-LOOK-1110）。
+
+**這一版沒有、在做的**：公館六間店改名的正式招牌和室內（X320）、汀州路商圈（X321、X322）、招牌拉正（X323，公館五塊已在開發分支）、全遊戲對話檢視與電影散場對話（X324）。
 
 ## v9.10.23（2026-11-08 16:30 UTC 部署；PR [pyhuanglaw/Lawstudent#32](https://github.com/pyhuanglaw/Lawstudent/pull/32) 合併 `3a34dbaa5`；Pages run 42500010426 success；遊戲檔案＝飲料版 `b103b3089`＝候選 `9eef2b95b`＋版本字樣（發布樹 `52a7e5337`）＋送東西只給可攻略的對象 `33127181b`＋四支測試版號 `b103b3089`）
 
