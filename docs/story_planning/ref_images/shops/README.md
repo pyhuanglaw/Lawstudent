@@ -50,3 +50,7 @@
   - 2:30 AM 外觀牌子寫的營業時間 21:00～02:30，要不要照用，等使用者決定。
   - 小路的清酒瓶、海報、木札菜單上的字都當成虛構的，照用。
   - 外觀圖的鄰居招牌不用照畫。
+
+## 溫州街第二批（11-04，X214，已在遊戲裡）——11-10 BB 從 LAWWW2 分支複製
+- 來源：claude/second-ai-env-art a118abd49 `docs/art-rebuild/second_ai/wip/wz_second_1104/ref/`
+- wenzhou_books_ext（溫州書屋）、dida_tea_ext（帝大紅茶）、azhong_fruit_ext（阿忠水果）、changzai_laundry_ext（自助洗衣）、summer_ice_ext（夏日冰菓室）：都是外觀。
