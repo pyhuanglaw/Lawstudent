@@ -7455,12 +7455,12 @@
    "sha": "261bc909c",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED",
    "task": "US-CLASSROOM-3D-1110 美國法學院 Room 120 階梯教室（3D 區域＋正式模型＋四季窗景；AA_740）",
    "files": [
     "docs/art-rebuild/second_ai/wip/us_classroom_3d_1110/（README、us_classroom_3d_1110.patch、us_classroom_unit.js、regression.log、blender_preview.jpg、window_views.jpg）"
    ],
-   "state": "MODEL_READY＋區域接好（第 1 版），待整合；畫面待 CC 拍、BB 判",
+   "state": "LAWWW 已整合（d78228f85）；BB ART_APPROVED（BB_255 e50fa31fc）",
    "noDirectIntegrate": false,
    "note": "us_classroom 區域（6 排×8 席、48 個都能坐、照 201）、us_classroom_layout.js（三門課的座位、報告站位、監考位置）、us_classroom.glb 3.6 MB、窗景 8 張。新測試開發 8b31bbaa0 FAILED 4 → ALL PASS；回歸 359 支過。劇情接線（進教室、一鍵上課、報告）LAWWW 做，README 寫了怎麼接。請 AA 確認「玩家在右」是哪一邊的右。",
    "next": "US-CLUBHOUSE-3D-1110（AA_741）"
@@ -7470,15 +7470,30 @@
    "sha": "dfd5ee2b8",
    "receiver": "LAWWW",
    "cc": "BB",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED",
    "task": "US-NIGHTVIEW-1110 BB US_ART 第一批三項 P2（公寓臥室、超市結帳區窗外的日夜；圖書館服務台）",
    "files": [
     "docs/art-rebuild/second_ai/wip/us_nightview_1110/（README、us_nightview_1110.patch、us_night_view_unit.js、regression.log、cc_bedroom_window_14_20.png）"
    ],
-   "state": "READY_FOR_REVIEW（待整合，畫面待 CC 重拍、BB 判）",
+   "state": "FIXED（BB 16:0x CC 第二輪 8a98ff1e0）；美國公寓、208、圖書館、超市、校園、社區、Room 120 ART_APPROVED（BB_255 e50fa31fc）",
    "noDirectIntegrate": false,
    "note": "①玻璃被室內燈照亮蓋過夜景 → glassTint；②超市門外的景材質叫 GLOW_ 被當成燈整天全亮 → 改 viewTint；③不是少牆：CC 的 SNAP 用遊戲鏡頭的淡出狀態（玩家在門口、鏡頭在南牆外），請 CC 拍之前用拍照鏡頭跑 fadeWalls。新測試開發 FAILED 4 → ALL PASS；回歸 40 支過。",
    "next": "回 US-CLUBHOUSE-3D-1110"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "US-CLUBHOUSE-3D-1110 美國社區會所的室內 3D（門廳、交誼廳、自習室；AA_741）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/us_clubhouse_3d_1110/（README、us_clubhouse_3d_1110.patch、us_clubhouse_unit.js、regression.log、blender_preview.jpg、window_views.jpg）"
+   ],
+   "state": "MODEL_READY＋區域接好（第 1 版），待整合；畫面待 CC 拍、BB 判",
+   "noDirectIntegrate": false,
+   "note": "新區域 us_clubhouse_in（38 個座位、自習室 16 席帶 usClubStudy）、配置 us_clubhouse_layout.js（人、五場劇情站位）、us_clubhouse.glb 2.3 MB（九個切換節點：聖誕樹、燈、平常／併桌、晚餐、外套、公布欄單子、讀書計畫、櫃台百葉）、窗景 16 張（後面草地＋烤肉架、正面停車場）。新測試開發 01bab1823 FAILED 4 → ALL PASS；回歸 363 支過。劇情接線（進來、讀書、招呼、旁白、晚餐）LAWWW 做，README 寫了怎麼接。",
+   "next": "US-EXAM-PROPS-1110 → US-LONG-3D-1110 → GG-LANE 告示牌字（BB P3）"
   }
  ]
 }
