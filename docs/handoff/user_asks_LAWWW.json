@@ -3548,7 +3548,7 @@
    "at": "2026-11-10T00:3xZ",
    "quote": "在頁間書屋點任何東西都只有對話?沒有畫面?",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X269",
    "task": "BUG-YEJIAN-NO-VISUAL-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
@@ -3558,7 +3558,7 @@
    "at": "2026-11-10T00:3xZ",
    "quote": "去木曜日說只剩吧台有位置 但明明還有空桌 吧台也沒位子（附存檔 fatiao3d_save_day47.json）",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X270",
    "task": "BUG-MOKU-EXAM-SEATS-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
@@ -3568,7 +3568,7 @@
    "at": "2026-11-10T00:4xZ",
    "quote": "（選擇題「頁間書屋」）人物沒有動作",
    "kind": "選擇題答案",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X269",
    "task": "BUG-YEJIAN-NO-VISUAL-1110",
    "src": "使用者對 LAWWW-B，AskUserQuestion"

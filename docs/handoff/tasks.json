@@ -50433,7 +50433,7 @@
    "id": "BUG-YEJIAN-NO-VISUAL-1110",
    "title": "頁間書屋點任何東西都只有對話、沒有畫面（使用者試玩）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50445,7 +50445,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 00:4x LAWWW-B】使用者選擇題答「人物沒有動作」：點書架、新書＝祐廷走過去、拿一本翻（拿書動作）；點咖啡＝走到咖啡吧、點完坐下喝。只有旁白、人站著不動。LAWWW 接動作（走過去、面向、拿書／坐下），台詞照 AA_653 不動。 ｜ 【11-10 00:3x LAWWW-B】頁間書屋的互動（看書架、新書、點咖啡）是 ggshops_sys3d.js 的旁白／店員一句，沒有特寫圖或選單畫面；先問使用者「沒有畫面」指哪一種（3D 畫面不見／想要特寫圖／其他），再定改法。",
+   "next": "【LAWWW 11-10 17:1x】已整合（0a9d87493，子代理 99c8b48ae）：頁間書屋看書牆／新書＝走過去、拿書坐下看；點咖啡＝走到吧台、坐下喝；台詞照 AA_653 不動；yejian_actions_1110_unit；BB 排 CC：v9.10.24 之後那一版（不進 70e23b32c 候選）。 ｜ 【11-10 00:4x LAWWW-B】使用者選擇題答「人物沒有動作」：點書架、新書＝祐廷走過去、拿一本翻（拿書動作）；點咖啡＝走到咖啡吧、點完坐下喝。只有旁白、人站著不動。LAWWW 接動作（走過去、面向、拿書／坐下），台詞照 AA_653 不動。 ｜ 【11-10 00:3x LAWWW-B】頁間書屋的互動（看書架、新書、點咖啡）是 ggshops_sys3d.js 的旁白／店員一句，沒有特寫圖或選單畫面；先問使用者「沒有畫面」指哪一種（3D 畫面不見／想要特寫圖／其他），再定改法。",
    "xai": {
     "spec": "使用者 11-10 00:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50455,14 +50455,14 @@
     "owner": "LAWWW"
    },
    "evidence": "tests/v0_e08_unit.js 4h",
-   "sha": null,
+   "sha": "0a9d87493",
    "test": null
   },
   {
    "id": "BUG-MOKU-EXAM-SEATS-1110",
    "title": "木曜日考試週進門說「每一桌都坐了人，只剩吧檯旁邊一個位子」，但店裡還有空桌、吧檯也沒位子（使用者試玩，附存檔 day 47）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50474,7 +50474,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 00:3x LAWWW-B】mokuyobi_sys3d.js S.door 考試週旁白 AA_618 1-5；場景沒照這句坐滿、吧檯旁邊那個位子也沒空出來。用使用者存檔 day 47 13:40 重現；改成考試週真的坐滿、只留吧檯旁邊一個位子（或請 AA 改句子），BB 測。",
+   "next": "【LAWWW 11-10 17:1x】已整合（0a9d87493，子代理 99c8b48ae）：木曜日考試週每桌至少一人、其他空位「有人了」（桌上杯子手機）、只留吧檯旁邊給玩家；進門那句不動；moku_exam_seats_1110_unit；BB 排 CC：v9.10.24 之後那一版（不進 70e23b32c 候選）。 ｜ 【11-10 00:3x LAWWW-B】mokuyobi_sys3d.js S.door 考試週旁白 AA_618 1-5；場景沒照這句坐滿、吧檯旁邊那個位子也沒空出來。用使用者存檔 day 47 13:40 重現；改成考試週真的坐滿、只留吧檯旁邊一個位子（或請 AA 改句子），BB 測。",
    "xai": {
     "spec": "使用者 11-10 00:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50484,7 +50484,7 @@
     "owner": "LAWWW"
    },
    "evidence": "tests/v0_e08_unit.js 4h",
-   "sha": null,
+   "sha": "0a9d87493",
    "test": null
   },
   {
