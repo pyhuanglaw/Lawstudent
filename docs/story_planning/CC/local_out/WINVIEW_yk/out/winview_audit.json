@@ -1,0 +1,396 @@
+{
+ "sha": "",
+ "day": "2025-10-18",
+ "hours": [
+  19.0
+ ],
+ "shops": [
+  {
+   "key": "yangyang",
+   "name": "洋洋鹹酥雞",
+   "group": "own",
+   "zone": "yangyang",
+   "day": "2025-10-18",
+   "shots": {},
+   "notes": [],
+   "zinfo": {
+    "zone": "yangyang",
+    "center": [
+     1.37,
+     -0.38
+    ],
+    "spawn": [
+     1.2,
+     4.1
+    ],
+    "levels": [],
+    "exits": [
+     {
+      "label": "離開洋洋鹹酥雞",
+      "x": 1.2,
+      "z": 5.1,
+      "lv": 0,
+      "to": "gongguan",
+      "spawn": {
+       "x": -10.6,
+       "z": 18,
+       "yaw": 3.142,
+       "lv": 0
+      }
+     }
+    ],
+    "street": {
+     "label": "離開洋洋鹹酥雞",
+     "x": 1.2,
+     "z": 5.1,
+     "lv": 0,
+     "to": "gongguan",
+     "spawn": {
+      "x": -10.6,
+      "z": 18,
+      "yaw": 3.142,
+      "lv": 0
+     }
+    }
+   },
+   "cards_all": [
+    {
+     "name": "GLASS_front",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "yy_glass",
+     "pview": null,
+     "c": [
+      -0.413,
+      1.235,
+      5.5
+     ],
+     "size": [
+      7.78,
+      2.37,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "yy_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "yy_glass",
+     "pview": null,
+     "c": [
+      -1.22,
+      1.675,
+      0.355
+     ],
+     "size": [
+      6.76,
+      3.05,
+      10.29
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "WALL_front_VIEW_yy_window_view",
+     "kind": "photo",
+     "vis": true,
+     "lv": 0,
+     "mat": "yy_window_view",
+     "pview": null,
+     "c": [
+      0,
+      2.25,
+      8
+     ],
+     "size": [
+      16,
+      6.5,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": "assets/models/env/second_ai/bb_support/yangyang_view_night.webp",
+     "photoOn": null,
+     "depth": null,
+     "loaded": true
+    }
+   ],
+   "dedicated": true,
+   "views": [
+    {
+     "card": "WALL_front_VIEW_yy_window_view",
+     "kind": "photo",
+     "url": "assets/models/env/second_ai/bb_support/yangyang_view_night.webp",
+     "center": [
+      0,
+      2.25,
+      8
+     ],
+     "size": [
+      16,
+      6.5,
+      0
+     ],
+     "lv": 0,
+     "out": [
+      0.0,
+      1.0
+     ],
+     "virtual": false,
+     "dedicated": true,
+     "inside": {
+      "where": "座位「坐下吃」(0.92, 3.5)，離窗 4.5 m、左右偏 0.92 m",
+      "player": [
+       0.92,
+       4.1
+      ],
+      "eye": [
+       0.92,
+       1.2,
+       3.35
+      ],
+      "look": [
+       0.92,
+       1.15,
+       8
+      ]
+     },
+     "shots": {
+      "night": "wv_yangyang_night.png"
+     },
+     "url_by_hour": {
+      "night": "assets/models/env/second_ai/bb_support/yangyang_view_night.webp"
+     }
+    }
+   ]
+  },
+  {
+   "key": "komichi",
+   "name": "小路",
+   "group": "own",
+   "zone": "wz_teishoku",
+   "day": "2025-10-18",
+   "shots": {},
+   "notes": [],
+   "zinfo": {
+    "zone": "wz_teishoku",
+    "center": [
+     -0.42,
+     0.48
+    ],
+    "spawn": [
+     -2,
+     3.05
+    ],
+    "levels": [],
+    "exits": [
+     {
+      "label": "離開小路",
+      "x": -2,
+      "z": 3.55,
+      "lv": 0,
+      "to": "wenzhou",
+      "spawn": {
+       "x": -4.8,
+       "z": -4.1,
+       "yaw": 0,
+       "lv": 0
+      }
+     }
+    ],
+    "street": {
+     "label": "離開小路",
+     "x": -2,
+     "z": 3.55,
+     "lv": 0,
+     "to": "wenzhou",
+     "spawn": {
+      "x": -4.8,
+      "z": -4.1,
+      "yaw": 0,
+      "lv": 0
+     }
+    }
+   },
+   "cards_all": [
+    {
+     "name": "kmc_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "kmc_glass",
+     "pview": null,
+     "c": [
+      1.45,
+      1.71,
+      0.788
+     ],
+     "size": [
+      3.92,
+      1.22,
+      6.38
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "WALL_front_kmc_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "kmc_glass",
+     "pview": null,
+     "c": [
+      -0.15,
+      1.145,
+      4.07
+     ],
+     "size": [
+      7.1,
+      2.25,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "WALL_front_VIEW_kmc_window_view",
+     "kind": "photo",
+     "vis": true,
+     "lv": 0,
+     "mat": "kmc_window_view",
+     "pview": null,
+     "c": [
+      0,
+      1.75,
+      6.5
+     ],
+     "size": [
+      14,
+      5.5,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": "assets/models/env/second_ai/aa_support/komichi_view_night.webp",
+     "photoOn": null,
+     "depth": null,
+     "loaded": true
+    },
+    {
+     "name": "(無名 pview:wz_teishoku)",
+     "kind": "parallax",
+     "vis": true,
+     "lv": 0,
+     "mat": "",
+     "pview": "wz_teishoku",
+     "c": [
+      0,
+      1.25,
+      4.3
+     ],
+     "size": [
+      7.43,
+      2.52,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      -1
+     ],
+     "url": "assets/models/env/views/wz_teishoku_night.webp",
+     "photoOn": 1,
+     "depth": 10,
+     "loaded": true
+    }
+   ],
+   "dedicated": true,
+   "views": [
+    {
+     "card": "WALL_front_VIEW_kmc_window_view",
+     "kind": "photo",
+     "url": "assets/models/env/second_ai/aa_support/komichi_view_night.webp",
+     "center": [
+      0,
+      1.75,
+      6.5
+     ],
+     "size": [
+      14,
+      5.5,
+      0
+     ],
+     "lv": 0,
+     "out": [
+      0.0,
+      1.0
+     ],
+     "virtual": false,
+     "dedicated": true,
+     "inside": {
+      "where": "座位「坐下」(-0.15, 2.9)，離窗 3.6 m、左右偏 0.15 m",
+      "player": [
+       -0.15,
+       2.35
+      ],
+      "eye": [
+       -0.15,
+       1.2,
+       2.75
+      ],
+      "look": [
+       -0.15,
+       1.15,
+       6.5
+      ]
+     },
+     "shots": {
+      "night": "wv_komichi_night.png"
+     },
+     "url_by_hour": {
+      "night": "assets/models/env/second_ai/aa_support/komichi_view_night.webp"
+     }
+    }
+   ]
+  }
+ ]
+}

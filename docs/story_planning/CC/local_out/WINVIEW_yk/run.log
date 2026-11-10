@@ -1,0 +1,25 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_winview_audit_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_yk\out
+CC WINVIEW-AUDIT（X254 窗景巡拍）：worktree ?；店 ['yangyang', 'komichi']；HOURS=[19.0]；DAY=2025-10-18；Windows＋GPU／SwiftShader ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+== yangyang 洋洋鹹酥雞（own）
+  [前置／捷徑] [洋洋鹹酥雞 yangyang] 讀檔 yangyang 2025-10-18 19.00（區域出生點；條件事件關掉）
+PASS [洋洋鹹酥雞 yangyang] 進得了 yangyang  {"zone": "yangyang", "x": 1.2, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 19.01}
+  [  42.4s] [洋洋鹹酥雞 yangyang] 窗景卡（全部，含藏起來的）3 片：[{"name": "GLASS_front", "kind": "glass", "vis": true, "lv": 0, "c": [-0.413, 1.235, 5.5], "size": [7.78, 2.37, 0], "url": null}, {"name": "yy_glass", "kind": "glass", "vis": true, "lv": 0, "c": [-1.22, 1.675, 0.355], "size": [6.76, 3.05, 10.29], "url": null}, {"name": "WALL_front_VIEW_yy_window_view", "kind": "photo", "vis": true, "lv": 0, "c": [0, 2.25, 8], "size": [16, 6.5, 0], "url": "assets/models/env/second_ai/bb_support/yangyang_view_night.webp"}]
+  [  42.4s] [洋洋鹹酥雞 yangyang] 卡 WALL_front_VIEW_yy_window_view 窗往外 [0.0, 1.0]（+z）；店內站位：座位「坐下吃」(0.92, 3.5)，離窗 4.5 m、左右偏 0.92 m；人放在 [0.92, 4.1]（第 0 層）；鏡頭 eye [0.92, 1.2, 3.35] → look [0.92, 1.15, 8]
+  [前置／捷徑] [洋洋鹹酥雞 yangyang] 卡 WALL_front_VIEW_yy_window_view 19.00 讀檔把人放到 [0.92, 4.1]（第 0 層）
+  [  54.2s] [洋洋鹹酥雞 yangyang] 卡 WALL_front_VIEW_yy_window_view 19.00 這片卡現在：{"vis": true, "url": "assets/models/env/second_ai/bb_support/yangyang_view_night.webp", "photoOn": null, "loaded": true}
+PASS [截圖] wv_yangyang_night.png 有存  {"cam": {"eye": [0.92, 1.2, 3.35], "look": [0.92, 1.15, 8], "lens": 18, "vfov": 58.72}, "lum": [76.2, 51.5]}
+  [  56.1s] [截圖] wv_yangyang_night：鏡頭 {"eye": [0.92, 1.2, 3.35], "look": [0.92, 1.15, 8], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[76.2, 51.5]；鏡頭旁藏起來的人 []
+== komichi 小路（own）
+  [前置／捷徑] [小路 wz_teishoku] 讀檔 wz_teishoku 2025-10-18 19.00（區域出生點；條件事件關掉）
+PASS [小路 wz_teishoku] 進得了 wz_teishoku  {"zone": "wz_teishoku", "x": -2, "z": 3.05, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開小路", "stand": true, "fb": 0, "hour": 19.07}
+  [  70.7s] [小路 wz_teishoku] 窗景卡（全部，含藏起來的）4 片：[{"name": "kmc_glass", "kind": "glass", "vis": true, "lv": 0, "c": [1.45, 1.71, 0.788], "size": [3.92, 1.22, 6.38], "url": null}, {"name": "WALL_front_kmc_glass", "kind": "glass", "vis": true, "lv": 0, "c": [-0.15, 1.145, 4.07], "size": [7.1, 2.25, 0], "url": null}, {"name": "WALL_front_VIEW_kmc_window_view", "kind": "photo", "vis": true, "lv": 0, "c": [0, 1.75, 6.5], "size": [14, 5.5, 0], "url": "assets/models/env/second_ai/aa_support/komichi_view_night.webp"}, {"name": "(無名 pview:wz_teishoku)", "kind": "parallax", "vis": true, "lv": 0, "c": [0, 1.25, 4.3], "size": [7.43, 2.52, 0], "url": "assets/models/env/views/wz_teishoku_night.webp"}]
+  [  70.7s] [小路 wz_teishoku] 卡 WALL_front_VIEW_kmc_window_view 窗往外 [0.0, 1.0]（+z）；店內站位：座位「坐下」(-0.15, 2.9)，離窗 3.6 m、左右偏 0.15 m；人放在 [-0.15, 2.35]（第 0 層）；鏡頭 eye [-0.15, 1.2, 2.75] → look [-0.15, 1.15, 6.5]
+  [前置／捷徑] [小路 wz_teishoku] 卡 WALL_front_VIEW_kmc_window_view 19.00 讀檔把人放到 [-0.15, 2.35]（第 0 層）
+  [  82.3s] [小路 wz_teishoku] 卡 WALL_front_VIEW_kmc_window_view 19.00 這片卡現在：{"vis": true, "url": "assets/models/env/second_ai/aa_support/komichi_view_night.webp", "photoOn": null, "loaded": true}
+PASS [截圖] wv_komichi_night.png 有存  {"cam": {"eye": [-0.15, 1.2, 2.75], "look": [-0.15, 1.15, 6.5], "lens": 18, "vfov": 58.72}, "lum": [54, 30.4]}
+  [  84.1s] [截圖] wv_komichi_night：鏡頭 {"eye": [-0.15, 1.2, 2.75], "look": [-0.15, 1.15, 6.5], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[54, 30.4]；鏡頭旁藏起來的人 ["?", "?"]
+PASS 沒有 JS 例外  []
+  [  84.7s] 專屬照片窗景卡的店：["洋洋鹹酥雞", "小路"]；JSON：C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_yk\out\winview_audit.json
+ALL PASS

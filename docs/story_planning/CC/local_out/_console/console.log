@@ -999,3 +999,12 @@
 [19:24:30] [res] cpu=13% mem=41% (13.1/31.4 GB) chrome_testing=5  END BOYA1F_old
 [19:24:34] memory 42% before starting WINVIEW_yk (2 running)
 [19:24:34] ==== START WINVIEW_yk  (probe @ 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43) ====
+[19:24:37] [res] cpu=14% mem=42% (13.2/31.4 GB) chrome_testing=5  START WINVIEW_yk
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       15608807a..68fd2f5e2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:24:41] ==== END   BOYA1F_old  exit=0  119s   ====
+[19:25:08] memory 47% before starting GGDC_tree3g_new (2 running)
+[19:25:08] ==== START GGDC_tree3g_new  (probe @ d8b669175bcf363974b401e1eed3d6709f2b0949) ====
+[19:25:11] [res] cpu=45% mem=47% (14.8/31.4 GB) chrome_testing=9  START GGDC_tree3g_new
+[19:26:40] [res] cpu=14% mem=48% (15.1/31.4 GB) chrome_testing=10  END WINVIEW_yk
