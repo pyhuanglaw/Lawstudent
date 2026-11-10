@@ -158,6 +158,12 @@ WINVIEW_sso_new | a2de6154551eb433a1addae7df7a9a047f633f7c | probe | docs/story_
 # BB 12:46：P2 園遊會停車蓋互動點、P3 文具區學姊搶「看文具」鍵——LAWWW 修好給 SHA 以後，同一個站位重跑（keep2＝X295E fair BIKE=keep、GUI＝shanlan 段）（13:0x：LAWWW 8d8b475dc 修好，搬到前面先跑）
 X295E_fair_keep_fix | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_keep_fix;CASES=fair;BIKE=keep
 GUI_fix2 | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_gift_ui_probe.py | index.html | 25 | TAG=fix2;CASES=shanlan
+# ① XS-DOOR-LABELS（LAWWW 13:02、BB 13:03：新生南路每一家列出來，格式不對的標出來）：真的走到每一間店門讀按鈕字；改前 74da28ca9
+XSDOOR_new | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_xs_door_labels_probe.py | index.html | 25 | TAG=new
+XSDOOR_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_xs_door_labels_probe.py | index.html | 25 | TAG=old
+# ③ XS-GATE-PLANTER（X246）：側門往南（+z）、往北（−z）沿校園那側人行道各一張＋側門正面；另一台相機從玩家頭看；改前 74da28ca9（沒有花台）
+XSPLANT_new | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 15 | TAG=new;VIEWS=plant_south:xinsheng:13.2:6.5:14:0:3:16.5:0.8:40:62+plant_north:xinsheng:13.2:13.5:14:3.1416:3:16.5:0.8:-20:62+plant_gate:xinsheng:11.5:10:14:1.5708:3:18.4:1.6:10:70
+XSPLANT_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 15 | TAG=old;VIEWS=plant_south:xinsheng:13.2:6.5:14:0:3:16.5:0.8:40:62+plant_north:xinsheng:13.2:13.5:14:3.1416:3:16.5:0.8:-20:62+plant_gate:xinsheng:11.5:10:14:1.5708:3:18.4:1.6:10:70
 # PUTONG v2C（BB 12:33；LAWWW2 8ff6e7d4a：東南角那片加進範圍、白天玻璃直接混到 [110,120,130]）：量玻璃平均色，和 v2b 並排；校園 shader 冒煙；等 SHA
 SHADER_v2c | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_shader_smoke_probe.py | index.html | 15 | TAG=v2c;ZONES=campus
 TEACHVIEW_pn_v2c | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north

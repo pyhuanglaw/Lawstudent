@@ -429,6 +429,23 @@ async def case_fair(pg, cdp):
     R.note('%s 走到以後：車 %s；玩家 3 m 內的互動點（距離）%s' % (t, J(await pg.evaluate(BK)), J(await pg.evaluate(NEAR))))
     PK = "(()=>{ const b=GAME.E.interactables.find(i=>i.bike&&!i.hidden); if(!b) return null; return {bike:[+b.x.toFixed(2),+b.z.toFixed(2)], within2m:GAME.E.interactables.filter(i=>i!==b&&!i.hidden&&Math.hypot(i.x-b.x,i.z-b.z)<=2).map(i=>({label:i.label,d:+Math.hypot(i.x-b.x,i.z-b.z).toFixed(2)}))}; })()"
     R.note('%s 停著的車（騎腳踏車互動點）和它 2 m 內的其他互動點（BB 11:46：店門、攤位都算）：%s' % (t, J(await pg.evaluate(PK))))
+    if (os.environ.get('BIKE') or 'keep') == 'keep':   # BUG-FAIR-BIKE-BLOCK 驗收（BB 13:03）：車停合法停車位、人不動、按鈕是園遊會、車沒停進花台或路中間
+        BKQ = r"""(()=>{ const E=GAME.E, b=GAME.G.bike||{}, B=typeof BIKE!=='undefined'?BIKE:(typeof BK!=='undefined'?BK:null); const P=E.player.obj.position;
+          const zone=GAME.G.zone, spots=B&&B.parkSpots?B.parkSpots(E,zone):null, near=spots?spots.map(q=>({x:+q.x.toFixed(2),z:+q.z.toFixed(2),src:q.src,d:+Math.hypot(q.x-b.x,q.z-b.z).toFixed(2)})).sort((a,c)=>a.d-c.d).slice(0,3):null;
+          const yaw=(E.interactables.find(i=>i.bike)||{}).yaw; const ok=B&&B.parkOK?B.parkOK(E,{x:b.x,z:b.z,yaw:+(b.yaw||0)}):null;
+          return {bike:[+(+b.x).toFixed(2),+(+b.z).toFixed(2)], player:[+P.x.toFixed(2),+P.z.toFixed(2)], parkOK:ok, stand:E.canStand?E.canStand(b.x,b.z,0.45,0):null, nearestLegal:near, hasAPI:!!(B&&B.parkSpots)}; })()"""
+        bq = await pg.evaluate(BKQ); R.note('%s 車停的位置：%s' % (t, J(bq)))
+        nl = (bq.get('nearestLegal') or [{}])[0]
+        R.check('%s 車停在合法停車位（BIKE.parkSpots 的一個，0.3 m 內；或 parkOK 成立）' % t, bool(bq.get('parkOK')) or (nl.get('d') is not None and nl['d'] <= 0.3), J(bq))
+        R.check('%s 車停的地方站得住（不是花台、牆裡）' % t, bq.get('stand') is not False, J(bq))
+        fx, fz = sp[0], sp[1]
+        R.check('%s 車離「校慶園遊會」互動點 ≥ 1.3 m（不擋按鈕）' % t, math.hypot(bq['bike'][0] - fx, bq['bike'][1] - fz) >= 1.3, J(bq))
+        await pg.evaluate("""(([x,z])=>{ GAME.E.cinematic(new THREE.Vector3(x+3.2,2.6,z+3.2),new THREE.Vector3(x,0.5,z)); })""", bq['bike'])
+        await pg.wait_for_timeout(1500); await shot(pg, 'fair_bike_parked')
+        await pg.evaluate("""(([x,z])=>{ GAME.E.cinematic(new THREE.Vector3(x,14,z+9),new THREE.Vector3(x,0,z)); })""", [(bq['bike'][0] + fx) / 2, (bq['bike'][1] + fz) / 2])
+        await pg.wait_for_timeout(1500); await shot(pg, 'fair_bike_top')
+        await pg.evaluate("(()=>{ if(GAME.E.endCinematic) GAME.E.endCinematic(); })()"); await pg.wait_for_timeout(1500)
+        u = await ui(pg); R.note('%s 截完車的圖、鏡頭回來：%s' % (t, J({'x': u['x'], 'z': u['z'], 'interact': u['interact']})))
     await shot(pg, 'fair_1_front')
     R.check('%s 真的走到晨思鐘旁（沒有被放到目的地）' % t, ok and not fb, J({'x': u['x'], 'z': u['z'], 'fb': fb}))
     if not R.check('%s 互動鍵是「校慶園遊會」' % t, u['interact'].startswith('校慶園遊會'), J(u['interact'])): return
