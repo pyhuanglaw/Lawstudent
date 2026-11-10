@@ -983,3 +983,12 @@
 [19:20:26] ==== START BOYA1F_new  (probe @ f3b47894b3b10643fb91fd30be70bc28cad68035) ====
 [19:20:29] [res] cpu=15% mem=48% (15.3/31.4 GB) chrome_testing=9  START BOYA1F_new
 [19:22:19] [res] cpu=7% mem=48% (15.3/31.4 GB) chrome_testing=9  END BOYA1F_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       bdae8a6ba..44b05ea24  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:22:28] ==== END   BOYA1F_new  exit=0  113s   ====
+[19:22:31] memory 49% before starting BOYA1F_old (2 running)
+[19:22:31] ==== START BOYA1F_old  (probe @ 35b88d5ff2613c039115576877e7f8a7525295a3) ====
+[19:22:34] [res] cpu=6% mem=49% (15.5/31.4 GB) chrome_testing=9  START BOYA1F_old
+[19:23:06] 正在跑：X295E_new（已跑 5 分／上限 120 分）、VIEWRAW_cvs（已跑 4 分／上限 30 分）、BOYA1F_old（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[19:24:16] [res] cpu=5% mem=50% (15.7/31.4 GB) chrome_testing=9  END VIEWRAW_cvs
