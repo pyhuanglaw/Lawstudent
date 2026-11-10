@@ -1,0 +1,91 @@
+diff --git a/assets/models/env/second_ai/campus_boya.glb b/assets/models/env/second_ai/campus_boya.glb
+index a1b7d5d5cd4c06a94e98f7211640b5cfa4c7cdaf..837d674a976dbb87051418bc3e64e07c377e4893 100644
+GIT binary patch
+delta 80
+zcmca{(CWrPs|{R?EEXnu#+&&WJtdmMCELR#8G)Dyh?#+y1&CRJm<@>8ftUk`If0l9
+Sh`E872Z(vMhfDG`wgUjcnHFsT
+
+delta 81
+zcmca{(CWrPs|{R?tmdYA#^#&(7(FGLBP81+BpHF235c12m<5PgftU@5*@2h?h&h3n
+T3y8Uam<Nb?w?|0wHM9c&*CQ6P
+
+diff --git a/src/zones3d.js b/src/zones3d.js
+index f23d65e26..45a6b202c 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1592,14 +1592,14 @@ const Z3 = (function(){
+      改成直接混到目標色（輸出色空間 [110,120,130]、往上亮一點，混 85%，alpha 一起混到 1：透明不透明都一樣）——結果不受玻璃原本多暗、透明度影響；skyBox 往東延到東南角那一片。 */
+   const GLASS_SKY=0x6e7882, GLASS_SKY_K=0.85;   /* 第 3 版：目標色 [110,120,130]（輸出色空間），往上亮一點（×0.9～1.1）；混 85%（還看得到一點窗框後面的東西）*/
+   function glassSky(o,mt,bx){
+-    if(!mt.userData.skyPatch){ const U=mt.userData.skyPatch={uDay:{value:0},uMin:{value:new THREE.Vector3(bx[0],bx[1],bx[2])},uMax:{value:new THREE.Vector3(bx[3],bx[4],bx[5])},uCol:{value:new THREE.Color(GLASS_SKY)}}, prev=mt.onBeforeCompile, k0=mt.customProgramCacheKey;
++    if(!mt.userData.skyPatch){ const U=mt.userData.skyPatch={uDay:{value:0},uMin:{value:new THREE.Vector3(bx[0],bx[1],bx[2])},uMax:{value:new THREE.Vector3(bx[3],bx[4],bx[5])},uCol:{value:new THREE.Vector3(((GLASS_SKY>>16)&255)/255,((GLASS_SKY>>8)&255)/255,(GLASS_SKY&255)/255)}}   /* 第 4 版（v2D）：輸出色空間的數值直接傳（THREE.Color(hex) 會轉成線性：0x6e7882 → (40,48,57)，v2c 因此比 v2b 暗；v2b 的 0x4f5f73 → (20,29,44)＝CC 量到的「只到三成」）*/, prev=mt.onBeforeCompile, k0=mt.customProgramCacheKey;
+       mt.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); Object.assign(sh.uniforms,{uSkyDay:U.uDay,uSkyMin:U.uMin,uSkyMax:U.uMax,uSkyCol:U.uCol});
+         sh.vertexShader='varying vec3 vSkyP;\n'+sh.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n  vSkyP=position;');
+         sh.fragmentShader='uniform float uSkyDay;\nuniform vec3 uSkyMin, uSkyMax, uSkyCol;\nvarying vec3 vSkyP;\n'+sh.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n'+
+           '  if(uSkyDay>0.0&&all(greaterThanEqual(vSkyP,uSkyMin))&&all(lessThanEqual(vSkyP,uSkyMax))){\n    float skyF=uSkyDay*'+GLASS_SKY_K.toFixed(3)+';\n'+
+           '    #ifdef USE_FOG\n    skyF*=1.0-fogFactor;\n    #endif\n    float skyT=clamp((vSkyP.y-uSkyMin.y)/max(uSkyMax.y-uSkyMin.y,0.01),0.0,1.0);\n'+
+           '    gl_FragColor=mix(gl_FragColor,vec4(uSkyCol*(0.9+0.2*skyT),1.0),skyF);\n  }'); };
+-      mt.customProgramCacheKey=function(){ return (k0?k0.call(this):'')+'|glassSky3'; }; mt.needsUpdate=true; }
++      mt.customProgramCacheKey=function(){ return (k0?k0.call(this):'')+'|glassSky4'; }; mt.needsUpdate=true; }
+     const U=mt.userData.skyPatch; o.onBeforeRender=function(){ U.uDay.value=Math.max(0,Math.min(1,1-(mt.emissiveIntensity||0)/(mt.userData.nightI||1))); }; }
+   function attachWenzhouModel(E,g,root,tag,name,tagVal){ let n=0; const box=new THREE.Box3(), sz=new THREE.Vector3(); const signFaces=[], plateFaces=[], intFaces=[];   /* tag＝套件建築上的標記（wzApt 公寓、wzJp 日式宿舍與院牆、ggShop 公館店面、ckTag 校園地標）；tagVal：只藏標記等於這個值的（校園一棟一個模型） */
+     for(const b of g.children) if(b.userData&&b.userData[tag]&&(tagVal===undefined||b.userData[tag]===tagVal)){ if(b.isMesh) b.visible=false; else for(const m of b.children) if(m.isMesh||m.isSprite){ m.visible=false; if(m.isSprite&&m.userData.nightO!==undefined){ m.userData.nightO=0; m.userData.dayO=0; } } b.userData.formal=true; n++; }   /* 套件的光暈（TK.glowSprite）：TK.setNight 每次會依時段重設 visible，只藏起來的話晚上又會出現（和正式模型的光暈疊在一起）→ 日夜的亮度都設成 0 */
+diff --git a/tests/putong101_window_unit.js b/tests/putong101_window_unit.js
+index f13c4390a..9b94a3503 100644
+--- a/tests/putong101_window_unit.js
++++ b/tests/putong101_window_unit.js
+@@ -15,6 +15,8 @@
+ //   4 shader 直接混到目標色 #6e7882（[110,120,130]），往上亮一點、混 85%、alpha 一起混到 1
+ // 修改前：第 1 版（開發分支 9d4c54c16）1 FAIL；第 2 版之前（開發分支 0ec32e6f6）3、4 FAIL；第 3 版之前（開發分支 327f64bfe）3、4 FAIL。窗景照片 assets/models/env/views/putong_north_{day,night}.webp 要在遊戲裡重拍（CC：teach_views.py putong_north）。
+ // 用法：node tests/putong101_window_unit.js
++// 第 4 版（v2D，BB 11-10 v2c 比 v2b 還暗、東南角三版都沒變）：①shader 在輸出色空間混色，THREE.Color(hex) 會轉成線性（0x6e7882 → (40,48,57)）→ 改傳輸出色空間的數值；
++//   ②「東南角那一片」是東立面一樓的玻璃（朝東，z −75.25～−84.25），範圍延到那裡。第 3 項改成一樓玻璃全部要在範圍裡（含東立面那一片）；新增第 5 項查顏色。開發分支 8d8b475dc（v2c）：3、5 FAIL
+ const fs=require('fs'), path=require('path'); const ROOT=path.resolve(__dirname,'..');
+ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+ const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/campus_boya.glb')), jl=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+jl).toString('utf8')), bin=b.slice(20+jl+8);
+@@ -31,9 +33,10 @@ check('2 其他玻璃照舊：最亮 ≤ 0.27', highMax<=0.27, `最亮 ${highMax
+ { const bx=nd&&nd.extras&&nd.extras.skyBox; let inN=0, outIn=0, curN=0; const V=[]; let gz=-1e9;
+   if(nd) for(const pr of J.meshes[nd.mesh].primitives){ const P=acc(pr.attributes.POSITION); for(let i=0;i<P.count;i++){ const p=[P.get(i,0)+t[0],P.get(i,1)+t[1],P.get(i,2)+t[2]]; V.push(p); if(p[1]<4.3&&p[2]>-76) gz=Math.max(gz,p[2]); } }
+   const inside=p=>!!bx&&p[0]>=bx[0]&&p[1]>=bx[1]&&p[2]>=bx[2]&&p[0]<=bx[3]&&p[1]<=bx[4]&&p[2]<=bx[5];
+-  for(const p of V){ const cur=p[1]<4.3&&p[2]>-76; if(cur){ curN++; if(inside(p)) inN++; } else if(inside(p)) outIn++; }   /* 第 3 版：帷幕＋東南角那一片（z −75.25）都算 */
++  let eastN=0, eastIn=0;
++  for(const p of V){ const cur=p[1]<4.3; if(cur){ curN++; if(inside(p)) inN++; if(p[0]>-21.5&&p[2]<-76){ eastN++; if(inside(p)) eastIn++; } } else if(inside(p)) outIn++; }   /* 第 4 版（v2D）：一樓的玻璃全部算——帷幕＋東南角那一片（其實是東立面一樓的玻璃，x≈−21.16、z −75.25～−84.25，朝東）；第 3 版只看 z > −76，東立面那一片只框到邊 */
+   const extra=J.nodes.some(q=>/skyref/.test(q.name||''))||(J.materials||[]).some(m=>/skyref/.test(m.name||''));
+-  check('3 GLB：by_glass 的 skyBox 框住一樓面向普通的玻璃（帷幕＋東南角那一片，全部頂點）、其他玻璃在外面；沒有另外的網格', !!bx&&curN>0&&inN===curN&&outIn===0&&!extra, bx?`skyBox [${bx.join(', ')}]；帷幕頂點 ${inN}／${curN} 在裡面、其他玻璃在裡面 ${outIn}；另外的網格 ${extra?'有':'沒有'}`:'by_glass 沒有 skyBox'); }
++  check('3 GLB：by_glass 的 skyBox 框住一樓的玻璃（帷幕＋東南角那一片＝東立面一樓，全部頂點）、樓上的玻璃在外面；沒有另外的網格', !!bx&&curN>0&&inN===curN&&eastN>=2&&eastIn===eastN&&outIn===0&&!extra, bx?`skyBox [${bx.join(', ')}]；一樓玻璃頂點 ${inN}／${curN} 在裡面（東立面那一片 ${eastIn}／${eastN}）、樓上的玻璃在裡面 ${outIn}；另外的網格 ${extra?'有':'沒有'}`:'by_glass 沒有 skyBox'); }
+ /* 4 遊戲端 */
+ (async()=>{ const vm=require('vm'); global.window=global; global.self=global;
+   const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
+@@ -59,11 +62,13 @@ check('2 其他玻璃照舊：最亮 ≤ 0.27', highMax<=0.27, `最亮 ${highMax
+   global.GAME=global.GAME||{}; GAME.G={hour:14,weather:'clear',flags:{},zone:'campus',day:30};
+   E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; const z=Z3.ZONES.campus.build(E); E.zone=z; for(let i=0;i<200;i++) await new Promise(r=>setTimeout(r,0)); let nSky=0; E.scene.traverse(o=>{ if(o.name==='by_skyref') nSky++; }); z.group.traverse(o=>{ if(o.name==='by_skyref') nSky++; }); if(process.env.DBG) console.log('by_skyref nodes',nSky,_W.filter(w=>/博雅|博思|boya/.test(w))); z.group.updateMatrixWorld(true);
+   let gm=null, gmesh=null, others=0; z.group.traverse(o=>{ if(!o.isMesh||!o.material) return; const m=o.material; if(m.name==='ck_glass'&&o.userData&&o.userData.skyBox){ gm=m; gmesh=o; } else if(m.userData&&m.userData.skyPatch) others++; });
+-  let shOK=false, keyOK=false, dayV=null, nightV=null, info='';
++  let shOK=false, keyOK=false, dayV=null, nightV=null, info='', colOK=false, colInfo='';
+   if(gm&&gm.userData.skyPatch){ const sh={uniforms:{},vertexShader:THREE.ShaderLib.standard.vertexShader,fragmentShader:THREE.ShaderLib.standard.fragmentShader}; gm.onBeforeCompile(sh,{});
+-    shOK=/vSkyP=position;/.test(sh.vertexShader)&&/gl_FragColor=mix\(gl_FragColor,vec4\(uSkyCol\*\(0\.9\+0\.2\*skyT\),1\.0\),skyF\)/.test(sh.fragmentShader)&&/uSkyDay\*0\.850/.test(sh.fragmentShader)&&/fogFactor/.test(sh.fragmentShader)&&!!sh.uniforms.uSkyDay&&!!sh.uniforms.uSkyMin&&sh.uniforms.uSkyCol.value.getHex()===0x6e7882;
++    shOK=/vSkyP=position;/.test(sh.vertexShader)&&/gl_FragColor=mix\(gl_FragColor,vec4\(uSkyCol\*\(0\.9\+0\.2\*skyT\),1\.0\),skyF\)/.test(sh.fragmentShader)&&/uSkyDay\*0\.850/.test(sh.fragmentShader)&&/fogFactor/.test(sh.fragmentShader)&&!!sh.uniforms.uSkyDay&&!!sh.uniforms.uSkyMin;
++    { const v=sh.uniforms.uSkyCol.value, c=v&&!v.isColor&&v.x!=null?[v.x,v.y,v.z].map(q=>Math.round(q*255)):null; colOK=!!c&&c[0]===110&&c[1]===120&&c[2]===130; colInfo=c?JSON.stringify(c):(v&&v.isColor?'THREE.Color（會轉成線性：'+JSON.stringify([v.r,v.g,v.b].map(q=>Math.round(q*255)))+'）':'沒有'); }
+     keyOK=/glassSky/.test(gm.customProgramCacheKey());
+     TK.setNight(0); gmesh.onBeforeRender(); dayV=gm.userData.skyPatch.uDay.value; TK.setNight(1); gmesh.onBeforeRender(); nightV=gm.userData.skyPatch.uDay.value; TK.setNight(0);
+     info=`shader ${shOK?'套得上（混到 #6e7882、85%）':'沒套上'}、快取鍵 ${keyOK?'不同':'一樣'}、白天 ${dayV}、晚上 ${nightV}`; }
+-  check('4 遊戲：博思的 ck_glass 加了反射天空的 shader（範圍內白天混到灰藍 [110,120,130]、晚上 0、霧裡淡掉），別的材質沒有', !!gm&&shOK&&keyOK&&dayV>=0.99&&nightV<=0.01&&others===0, gm?info+`；別的材質有 ${others} 個`:'遊戲裡找不到帶 skyBox 的 ck_glass');
++  check('4 遊戲：博思的 ck_glass 加了反射天空的 shader（範圍內白天混 85%、晚上 0、霧裡淡掉），別的材質沒有', !!gm&&shOK&&keyOK&&dayV>=0.99&&nightV<=0.01&&others===0, gm?info+`；別的材質有 ${others} 個`:'遊戲裡找不到帶 skyBox 的 ck_glass');
++  check('5 灰藍是輸出色空間的數值 [110,120,130]（shader 在 tone mapping、sRGB 轉換之後混色；不能用 THREE.Color(hex)，會轉成線性 (40,48,57)：v2c 因此比 v2b 暗）', colOK, '傳進 shader 的 '+colInfo);
+   console.log(fails?`FAILED ${fails}`:'ALL PASS'); process.exit(fails?1:0); })();
+diff --git a/tools/blender/env_second/campus_teach.py b/tools/blender/env_second/campus_teach.py
+index 695ff4e34..0982a881b 100644
+--- a/tools/blender/env_second/campus_teach.py
++++ b/tools/blender/env_second/campus_teach.py
+@@ -376,6 +376,11 @@ def finish(root, accs, VC, plates, out, note):
+     if pre == 'by' and SKYBOX:   # 玻璃網格（材質 ck_glass）的 extras.skyBox：遊戲 zones3d.js attachWenzhouModel 讀
+         gls = [ob for ob in root.children_recursive if ob.type == 'MESH' and ob.material_slots and ob.material_slots[0].material and ob.material_slots[0].material.name == 'ck_glass']
+         assert len(gls) == 1, ('ck_glass 的網格不是一個', [ob.name for ob in gls])
++        # 第 4 版（v2D，BB 11-10 v2c：東南角三版都沒變）：「東南角那一片」其實是東立面一樓的玻璃（朝東，x≈−21.16、z −75.25～−84.25），
++        # 範圍的 z 只到帷幕往內 0.7 m，只碰到它的邊。照玻璃網格實際的頂點，把範圍往南延到東立面一樓那一片的盡頭（一樓沒有別的玻璃在這個範圍裡，測試第 3 項會查）
++        _M = gls[0].matrix_world; _g = [(_M @ v.co) for v in gls[0].data.vertices]; _g = [(q.x, q.z, -q.y) for q in _g]   # Blender → 校園座標（glTF：y 朝上、z＝−Blender y）
++        _e = [q for q in _g if q[1] <= SKYBOX[4] and q[0] >= SKYBOX[3] - 0.4]
++        if _e: SKYBOX[2] = min(SKYBOX[2], min(q[2] for q in _e) - 0.05)
+         gls[0]['skyBox'] = [round(v, 3) for v in SKYBOX]
+     info = L.export(out, gpu_instances=False); info['note'] = note
+     L.write_json(out[:-4] + '.json', info)

@@ -7326,6 +7326,22 @@
    "noDirectIntegrate": false,
    "note": "zones3d.js 五棟參數＋campuskit3d.js 加 topArch／stairTower／bays／roofCol（預設行為不變）；socsci_place_unit 第 6 項的正規式改成接受 CK.hall（不能有別的 sign）。新測試底 FAILED 5 → ALL PASS；回歸 199 支過。",
    "next": "等 CC 疊圖、BB 判；PUTONG v2C 等 CC GLASSDIAG"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "PUTONG101-WINDOW-1102 第 4 版 v2D（BB_255：v2C 比 v2b 暗、東南角三版都沒變）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/putong101_window_1110/v2d/（README、putong101_window_v2d.patch、putong101_window_unit.js、regression.log）",
+    "tools/blender/env_second/campus_teach.py",
+    "assets/models/env/second_ai/campus_boya.glb"
+   ],
+   "state": "MODEL_READY，待整合；CC 重拍、BB 判",
+   "noDirectIntegrate": false,
+   "note": "原因①：shader 在輸出色空間混色，THREE.Color(hex) 轉成線性（0x6e7882→(40,48,57)；v2b 0x4f5f73→(20,29,44)＝CC 量到的增加量）→ 改傳 Vector3 輸出色空間數值。②：東南角那一片是東立面一樓（x −21.16、z −75.25～−84.25），skyBox z 延到 −84.3。開發 v2C FAILED 2 → ALL PASS；回歸 28 支過。",
+   "next": "等 CC 重拍 putong_north、博思東南角"
   }
  ]
 }
