@@ -1,0 +1,27 @@
+{
+  "rerun": "r2",
+  "id": "F25_uslong_r2",
+  "sha": "6ef185726dbf72e5bf55ca794f1928a6d705a77e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_uslong_probe.py",
+  "env": "CASES=CLASS,CLUB;RERUN=r2",
+  "machine": "MSI",
+  "start": "2026-11-11T03:45:15",
+  "end": "2026-11-11T03:48:40",
+  "seconds": 205,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "18",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 7,
+    "mem": 41,
+    "used_gb": 12.9,
+    "chrome_testing": 5
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

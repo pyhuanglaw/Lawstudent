@@ -368,3 +368,12 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [03:42:58] ==== END   F25_deploy  exit=0  424s   ====
 [03:45:02] [res] cpu=4% mem=32% (10.1/31.4 GB) chrome_testing=0  END F25_p0
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       02f656e43..7913f30ef  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:45:07] ==== END   F25_p0  exit=0  201s   ====
+[03:45:15] memory 32% before starting F25_uslong_r2 (0 running)
+[03:45:15] ==== START F25_uslong_r2  (probe @ 6ef185726dbf72e5bf55ca794f1928a6d705a77e) ====
+[03:45:18] [res] cpu=7% mem=32% (10.3/31.4 GB) chrome_testing=0  START F25_uslong_r2
+[03:45:50] 正在跑：F25_uslong_r2（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[03:48:40] [res] cpu=1% mem=32% (10.3/31.4 GB) chrome_testing=0  END F25_uslong_r2
