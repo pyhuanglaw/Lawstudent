@@ -1,0 +1,15 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_lawclub_booth_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\X294_old\out
+CC X294 法服攤位：worktree ?；TAG old；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀得到存檔 tests/fixtures/user_save_day51b_1110.json
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改校園 14.0 時、站在小椰林道（先放到 (30.0, -70.0)，進校園後挑第一個站得住的起點）；條件事件照開
+  [  46.1s] 校園裡跟法服有關的互動點：[{"label": "看法律服務社的招生攤位", "notice": "lawclub", "x": -18, "z": 13.5, "r": 1.5}]
+PASS 小椰林道上找得到站得住的起點  [[30.0, -70.0], [30.0, -72.0], [30.0, -75.0], [31.0, -75.0], [30.0, -78.0], [30.0, -82.0]]
+  [  48.8s] 起點 [30, -70]，離攤位 20.7 m；鏡頭直接擺 yaw -0.22（玩家背後看向攤位，只為截圖）
+  [  52.8s] 到達「從小椰林道走到攤位互動點 (34.5, −89.2)」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS 真的走到攤位前（0.6 m 內、沒有被放到目的地）  {"x": 34.46, "z": -89.03, "interact": "", "dlg": "", "panels": [], "hour": 14.1, "zone": "campus"}
+FAIL 攤位前的互動鍵是法律服務社的招生攤位  {"x": 34.46, "z": -89.03, "interact": "", "dlg": "", "panels": [], "hour": 14.1, "zone": "campus"}
+FAIL 按下去 4 秒內開始說話（對話框）或出現公告  沒有互動鍵可以按
+PASS 沒有 JS 例外  []
+FAILED 2: 攤位前的互動鍵是法律服務社的招生攤位；按下去 4 秒內開始說話（對話框）或出現公告
