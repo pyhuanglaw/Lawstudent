@@ -26,7 +26,7 @@ LONG = r"""(sel=>{ const E=GAME.E; const n=(E.npcs||[]).find(q=>q&&(sel==='club'
   const o=n.obj, u=o.userData||{}; let vis=!!o.visible, kids=o.children.length, kidsVis=o.children.filter(c=>c.visible).length, glasses=false, vrm=false, head=null; const w=new THREE.Vector3();
   o.updateWorldMatrix(true,true); o.traverse(c=>{ if(/glasses/i.test(c.name||'')) glasses=true; if(c.userData&&c.userData.vrm) vrm=true; if(!head&&c.isBone&&/(^|_)head$/i.test(c.name||'')){ c.getWorldPosition(w); head=[+w.x.toFixed(2),+w.y.toFixed(2),+w.z.toFixed(2)]; } });
   return {found:true, zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(2), x:+o.position.x.toFixed(2), y:+o.position.y.toFixed(2), z:+o.position.z.toFixed(2), ry:+o.rotation.y.toFixed(2), seat:!!n.seat, pose:n.pose,
-    vis, kids, kidsVis, wantModel:u.wantModel||null, degradedHidden:!!u.degradedHidden, glasses, head, has:!!(ASSETS.has&&ASSETS.has('char.us_long')), fail:!!(typeof USL!=='undefined'&&USL._longFail)}; })"""
+    vis, kids, kidsVis, wantModel:u.wantModel||null, key:u.key||null, driver:u.driver||null, degradedHidden:!!u.degradedHidden, glasses, head, has:!!(ASSETS.has&&ASSETS.has('char.us_long')), fail:!!(typeof USL!=='undefined'&&USL._longFail)}; })"""
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov||40, c.width/c.height, 0.05, 200); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   r.render(E.scene,cam); return c.toDataURL('image/jpeg',0.85); })"""
 ME = "(()=>{ const P=GAME.E.player; return {zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(2), x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), busy:!!P.busy, fb:GAME.walkFallbacks|0}; })()"
@@ -63,18 +63,24 @@ async def check_long(pg, cdp, tag, sel):
         st = await pg.evaluate("(%s)(%s)" % (LONG, J(sel)))
         if st['found'] and first is None: first = round(time.time() - t0, 1)
         seen.append({k: st.get(k) for k in ('found', 'vis', 'kidsVis', 'wantModel', 'has', 'fail')})
-        done = st['found'] and st['vis'] and st['kidsVis'] > 0 and (st['fail'] if BLOCK else (st['has'] and not st['wantModel']))
+        done = st['found'] and st['kidsVis'] > 0 and (st['fail'] if BLOCK else (st['key'] == 'char.us_long' and st['driver'] == 'vrm'))
         if done: break
         s = await L.state(pg)
         if s['dlg']: await L.tap(pg, cdp, '#dlg')
         await pg.wait_for_timeout(500)
     R.note('%s 何俊朗（%.1f 秒內）：%s；過程（最後 6 筆）：%s' % (tag, time.time() - t0, J(st), J(seen[-6:])))
     if not R.check('%s 何俊朗在場（%s 秒找到）' % (tag, first), bool(st and st['found']), J(st)): return None
+    if not st['vis']:   # r2：obj.visible＝false 多半是畫面外剔除（engine 每格照遊戲鏡頭設回來；r1 會所他在鏡頭外）→ 走近一點讓他進遊戲鏡頭再看
+        me = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; return [P.x,P.z]; })()")
+        import math
+        dx, dz = me[0] - st['x'], me[1] - st['z']; d = math.hypot(dx, dz) or 1
+        await L.go_to(pg, cdp, R, st['x'] + dx / d * 1.8, st['z'] + dz / d * 1.8, 0.6, '%s 走近何俊朗（讓他進遊戲鏡頭）' % tag, max_s=90)
+        await pg.wait_for_timeout(1500); st = await pg.evaluate("(%s)(%s)" % (LONG, J(sel))); R.note('%s 走近以後：%s' % (tag, J(st)))
     R.check('%s 看得到（obj.visible、子物件有露出來，不是一直隱形）' % tag, st['vis'] and st['kidsVis'] > 0 and not st['degradedHidden'], J(st))
     if BLOCK:
-        R.check('%s 模型擋掉：USL._longFail＝true、wantModel 清掉（退回路人樣子）' % tag, st['fail'] and not st['wantModel'], J(st))
+        R.check('%s 模型擋掉：USL._longFail＝true、wantModel 清掉、用的不是 char.us_long（退回路人樣子）' % tag, st['fail'] and not st['wantModel'] and st['key'] != 'char.us_long', J(st))
     else:
-        R.check('%s 換上他自己的模型（ASSETS.has char.us_long、wantModel 清掉）' % tag, st['has'] and not st['wantModel'], J(st))
+        R.check('%s 換上他自己的模型（userData.key＝char.us_long、driver vrm；r2：wantModel 是「想要的模型」，換上以後照樣留著，r1 誤當成要清掉）' % tag, st['key'] == 'char.us_long' and st['driver'] == 'vrm', J(st))
         R.note('%s 眼鏡（名字有 glasses 的子物件）：%s' % (tag, st['glasses']))
     ps = []
     for _ in range(6):

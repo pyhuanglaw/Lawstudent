@@ -12,6 +12,7 @@ F25_posters | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_plan
 F25_uslong | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_uslong_probe.py | index.html | 15 | CASES=CLASS,CLUB
 F25_uslong_block | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_uslong_probe.py | index.html | 15 | CASES=CLASS,CLUB;BLOCK=1
 F25_p0 | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+F25_uslong_r2 | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_uslong_probe.py | index.html | 15 | CASES=CLASS,CLUB;RERUN=r2
 # ===== P0 BB 18:42：v9.10.24 最後候選 fe5fa4a79（遊戲檔最後 38f89360c）發布前回歸，排最前面；ecc 的結果不算；每支跑完就推 =====
 F24_deploy | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
 F24_p0 | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
