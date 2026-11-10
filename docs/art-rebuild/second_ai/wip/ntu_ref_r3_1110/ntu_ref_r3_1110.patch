@@ -1,0 +1,85 @@
+diff --git a/src/data/places.js b/src/data/places.js
+index 5d8bd40d8..d69d422f1 100644
+--- a/src/data/places.js
++++ b/src/data/places.js
+@@ -127,7 +127,7 @@ const PLACES={
+   // 大地圖上的地名（沒有入口、或想讓玩家認得的地標）
+   landmarks:{
+     campus:[ ['校門',-120,0], ['椰影大道',-60,0], ['晨思鐘',-38,16.5], ['行政大樓',-38,33], ['共同教學館',2,33], ['大一女舍',-93,67], ['文學院',-38,-34], ['農業陳列館',-104,-30], ['校史館',-77,-29],
+-      ['普通教學館',-38,-58.5], ['博思教學館',-38,-83], ['映月湖',-36,-112], ['總圖書館',100,0], ['法律系館A',34,-112], ['法律系館B',94,-96], ['國青大樓',65,-119], ['研三舍',63,-108], ['社會科學院',2,-85], ['社科院圖書館',2,-54], ['椰影小徑',30,-40], ['男生宿舍',20,68],
++      ['普通教學館',-38,-58.5], ['博思教學館',-38,-83], ['映月湖',-36,-112], ['總圖書館',100,0], ['法律系館A',34,-112], ['法律系館B',94,-96], ['國青大樓',65,-119], ['社會科學院',2,-85], ['社科院圖書館',2,-54], ['椰影小徑',30,-40], ['男生宿舍',20,68],
+       ['電機二館',119,-62], ['土木工程館',7,-28], ['圖書資訊學系館',51.5,-34], ['農業綜合大樓',45,33] ],   /* CAMPUS-RELAYOUT-1102：照官方地圖同一個相對位置的系館（使用者 11-02 09:03；電機二館跟著法學院區重排讓到 (119,−62)） */
+     gongguan:[ ['捷運公館站',-36.6,11], ['羅斯福路',20,-6], ['往溫州街',-71,20], ['首都帝大校門',0,-46] ],
+     wenzhou:[ ['2:30 AM',54.2,0], ['小公園',26,6], ['往公館',51.3,-13.4] ]
+diff --git a/src/zones3d.js b/src/zones3d.js
+index e8337f0e5..95a702c24 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -663,7 +663,7 @@ const Z3 = (function(){
+     // 放在兩館中間的後方（中庭與北側圍牆之間，玩家走不到，不加導航），從兩館之間、霖澤館前都看得到。外觀沒有照片：灰色現代板樓是推測
+     { const gq=CK.modern({w:LR?20:30,d:10,floors:7,gfh:4.0,fh:3.2,wall:'#a9aba6',slab:'#c8c9c4',sign:'國際學苑'}); place(g,gq,LR?65:64,LR?-119:-134,0);
+       if(LR){ nav.blockRect(65,-119,20,10,0,0);   /* 重排：國青大樓在霖澤館東邊、辛亥路旁（官方地圖）；後面到圍牆走不到 */
+-        const r3=CK.modern({w:12,d:7,floors:4,gfh:3.6,fh:3.1,wall:'#c9c2b4',slab:'#dad5ca',sign:'研三舍'}); place(g,r3,63,-108,0); nav.blockRect(63,-108,12,7,0,0);   /* 研三舍：國青南邊、萬才館西邊（官方地圖）*/
++        /* 研三舍那一棟拿掉（NTU-REF-1110 ③-4，LAWWW2 帳號 A 11-10；X223）：住宿組「研三舍位於國青大樓」＝同一棟（男 5～7 樓、女 2、8～11 樓），原本另外蓋的 4 層「研三舍」(63,−108) 是多的；AA 11-10：劇情沒用到 */
+         { const bk=WCW(-1,-17.3); nav.blockRect(bk[0],bk[1],34,12,-WRY,0); } } }   /* 萬才館背面到辛亥路圍牆（法學院後面不能走，D31 同一個做法）*/
+     // 黑森林（CAMPUS-BLACKFOREST-1102，LAWWW2 11-02；使用者 20:3x「你的黑森林超奇怪的，而且裡面怎麼還會有草皮中的磁磚啊，而且你這一小塊根本就不能叫做黑森林」）：
+     //   配置 src/data/blackforest_layout.js（tools/blender/env_second/campus_blackforest_layout.py）：法學院廣場南邊整塊＋z −60 那條路的南邊（路變成穿過森林），
+diff --git a/tests/blackforest_unit.js b/tests/blackforest_unit.js
+index 6325274eb..3b44fd115 100644
+--- a/tests/blackforest_unit.js
++++ b/tests/blackforest_unit.js
+@@ -76,5 +76,5 @@ if(L.version>=4){
+   const wc=E.interactables.find(i=>i.exit&&i.exit.to==='wancai'&&!i.lv), ex=wb?toW(5.8,11.4):[0,0]; check('第四版起（法學院重排）：萬才館一樓入口在建築本地 (5.8, 11.4)（陽台下），跟著建築搬、轉', !!wc&&Math.abs(wc.x-ex[0])<0.3&&Math.abs(wc.z-ex[1])<0.3, wc?JSON.stringify([+wc.x.toFixed(2),+wc.z.toFixed(2)]):'沒有');
+   check('第四版：萬才館在霖澤館東南、不是東西並排（萬才館入口比霖澤館入口 (34,−98) 東 ≥ 40 m、南 ≥ 8 m）', !!wc&&wc.x-34>=40&&wc.z-(-98)>=8, wc?JSON.stringify([wc.x,wc.z]):'');
+   for(const [p,label] of [[[WC3.CAMPUS_1F.x,WC3.CAMPUS_1F.z],'萬才館出來的落點（wancai3d.js CAMPUS_1F）'],[toW(5.8,14.4),'以安在萬才館門口等的站位（heroine_circle.js）'],[toW(9.5,17),'吉他社女生的站位（pool）']]){ const [x,zz]=p; const f=stand(x,zz)?walk(LINZE,[x,zz]):{ok:false,why:'站不住'}; check('第四版：'+label+' '+JSON.stringify([+x.toFixed(2),+zz.toFixed(2)])+' 站得住、從霖澤館前走得到', stand(x,zz)&&!f, f?JSON.stringify(f):''); }
+-  const bk=toW(-1,-17.3); check('第四版：國青大樓、研三舍、萬才館背面走不到', !stand(bk[0],bk[1])&&!stand(65,-119)&&!stand(63,-108), JSON.stringify(bk.map(v=>+v.toFixed(1)))); }
++  const bk=toW(-1,-17.3); check('第四版：國青大樓、萬才館背面走不到（研三舍那一棟 NTU-REF-1110 ③-4 拿掉了：研三舍就在國青大樓裡，原址現在是國青南邊的草地，走得到）', !stand(bk[0],bk[1])&&!stand(65,-119), JSON.stringify(bk.map(v=>+v.toFixed(1)))); }
+ console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/ntu_ref_r3_unit.js b/tests/ntu_ref_r3_unit.js
+new file mode 100644
+index 000000000..1eb33c5ca
+--- /dev/null
++++ b/tests/ntu_ref_r3_unit.js
+@@ -0,0 +1,42 @@
++// 研三舍那一棟拿掉（NTU-REF-1110 ③-4，LAWWW2 帳號 A 11-10；X223／D136）——不需要瀏覽器（D131）。
++// 事實（docs/story_planning/ref_images/buildings/README.md 國際學苑一列；住宿組）：研三舍位於國青大樓，同一棟（男 5～7 樓、女 2、8～11 樓）。
++// 遊戲原本在國青南邊 (63,−108) 另外蓋了一棟 4 層的「研三舍」（CK.modern），是多的。AA 11-10：劇情沒用到研三舍。LAWWW 11-10 12:52：拿掉、留國青。
++// 檢查：
++//   1 程式：zones3d.js 沒有另外蓋「研三舍」（sign:'研三舍'），大地圖的地名也拿掉（PLACES.landmarks.campus）
++//   2 校園：原址 (63,−108) 上面沒有建築（樓高 3 m 以上、範圍小於 60 m 的網格；整片合併的遠景、地面不算），也沒有鏡頭碰撞
++//   3 導航：原址那一塊（x 56～70、z −112～−104，外加 2 m）站得住的地方都和霖澤館前 (34,−98) 連在一起，沒有小孤島；國青大樓照舊走不到
++// 修改前（開發分支 74da28ca9）：1、2 FAIL（3 的原址站不住，也算 FAIL）。用法：node tests/ntu_ref_r3_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','src/data/blackforest_layout.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/socsci_layout.js',
++  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js',
++  'src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/activities.js','src/classes3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(BLACKFOREST_LAYOUT|THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PUTONG_LAYOUT|TB3|ACTIVITIES|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{};
++
++const ZS=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
++const lm=(PLACES.landmarks&&PLACES.landmarks.campus||[]).filter(l=>l[0]==='研三舍');
++check('1 沒有另外蓋「研三舍」那一棟、大地圖沒有「研三舍」地名（國青大樓照舊）', !/sign:'研三舍'/.test(ZS)&&lm.length===0&&(PLACES.landmarks.campus||[]).some(l=>l[0]==='國青大樓'), `程式 ${/sign:'研三舍'/.test(ZS)?'還有':'沒有'}；地名 ${lm.length}`);
++
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++global.GAME={G:{hour:14,weather:'clear',flags:{},zone:'campus'}};
++const z=Z3.ZONES.campus.build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
++z.group.updateMatrixWorld(true);
++const X=63, Z=-108, P=new THREE.Vector3(X,5,Z), hits=[];
++z.group.traverse(o=>{ if(!o.isMesh||!o.geometry) return; o.geometry.computeBoundingBox(); const b=o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld); if(b.max.y>=3&&b.max.x-b.min.x<60&&b.max.z-b.min.z<60&&b.containsPoint(P)) hits.push(o.name||o.parent&&o.parent.name||'(無名)'); });
++const cols=(E.colliders||[]).filter(c=>{ const b=c.isBox3?c:(c.box||(c.geometry?(c.geometry.computeBoundingBox(),c.geometry.boundingBox.clone().applyMatrix4(c.matrixWorld)):null)); return b&&b.containsPoint(P); });
++check('2 原址 (63, −108) 上面沒有建築、沒有鏡頭碰撞', hits.length===0&&cols.length===0, `網格 ${hits.length}${hits.length?'（'+hits.slice(0,4).join('、')+'）':''}；鏡頭碰撞 ${cols.length}`);
++
++const stand=(x,zz)=>E.canStand(x,zz,0.3,0), H=0.25, BX=[30,100], BZ=[-132,-86];
++const key=(i,j)=>i+','+j, I=x=>Math.round((x-BX[0])/H), J=zz=>Math.round((zz-BZ[0])/H), wx=i=>BX[0]+i*H, wz=j=>BZ[0]+j*H;
++const seen=new Set(), q=[[I(34),J(-98)]]; let ok0=stand(34,-98); if(ok0) seen.add(key(...q[0]));
++while(q.length){ const [i,j]=q.pop(); for(const [di,dj] of [[1,0],[-1,0],[0,1],[0,-1]]){ const a=i+di, b=j+dj, k=key(a,b); if(seen.has(k)) continue; const x=wx(a), zz=wz(b); if(x<BX[0]||x>BX[1]||zz<BZ[0]||zz>BZ[1]||!stand(x,zz)) continue; seen.add(k); q.push([a,b]); } }
++let n=0; const isl=[];
++for(let x=54;x<=72;x+=H) for(let zz=-114;zz<=-102;zz+=H){ if(!stand(x,zz)) continue; n++; if(!seen.has(key(I(x),J(zz)))) isl.push([+x.toFixed(2),+zz.toFixed(2)]); }
++check('3 原址站得住、和霖澤館前 (34, −98) 連在一起，附近沒有小孤島；國青大樓 (65, −119) 照舊走不到', ok0&&stand(X,Z)&&seen.has(key(I(X),J(Z)))&&isl.length===0&&!stand(65,-119), `原址 ${stand(X,Z)?'站得住':'站不住'}；附近 ${n} 格站得住、${isl.length} 格不相連${isl.length?' '+JSON.stringify(isl.slice(0,5)):''}`);
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

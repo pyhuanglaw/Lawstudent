@@ -7298,6 +7298,20 @@
    "noDirectIntegrate": false,
    "note": "官網照片：綠琉璃瓦、紅木欄杆、垂柳（樹幹在水裡，導航不動）；zones3d.js attachLakeGLB 多一行（葉片不投影、alphaTest、雙面、透空）。新測試開發 FAILED 3 → ALL PASS；回歸 36 支過。",
    "next": "③-4 研三舍（拿掉多的那棟）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "NTU-REF-1110 ③-4 拿掉多蓋的研三舍那一棟（X223；研三舍在國青大樓裡）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/ntu_ref_r3_1110/（README、ntu_ref_r3_1110.patch、ntu_ref_r3_unit.js、regression.log、nav_before_after.md）"
+   ],
+   "state": "MODEL_READY，待整合",
+   "noDirectIntegrate": false,
+   "note": "zones3d.js 拿掉 (63,−108) 那一棟與導航阻擋、places.js 拿掉地名；原址變草地、和霖澤館前連通、沒有孤島、沒有鏡頭碰撞（BB_248）。blackforest_unit 拿掉研三舍那一點（國青、萬才館背面照舊走不到）。新測試開發 FAILED 3 → ALL PASS；回歸 36 支過。可套在 74da28ca9、8d8b475dc。",
+   "next": "套件五棟（圖資、電機二、農綜、土木、國青）一包"
   }
  ]
 }
