@@ -34,6 +34,7 @@ TZ2_fps | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning
 TZ1_fps | 7a625da3c321c2d3fcaaa2ac865c1dde60ccff5d | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=FPS;FPSS=8
 TZ1_shots_1715 | 7a625da3c321c2d3fcaaa2ac865c1dde60ccff5d | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=SHOTS;HOURS=17.25
 MT3_lovecap_r4 | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 20 | CASES=LOVECAP
+USCLS_r3 | 8f1374ba08877e0aa46b4f3d0489a6668efe892d | probe | docs/story_planning/test_tools/cc/cc_us_class_story_probe.py | index.html | 20 | CASES=FINAL;Q=medium
 DLGFX_old_chat | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_dlgfx_probe.py | index.html | 15 | TAG=old;CASES=CHAT
 DLGFX_new_chat | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_dlgfx_probe.py | index.html | 15 | TAG=new;CASES=CHAT
 SHIFT_IMM_r5_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 20 | TAG=imm5_new;IMM=1;CASES=B,F
