@@ -1,0 +1,24 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_winview_audit_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_haopai2\out
+CC WINVIEW-AUDIT（X254 窗景巡拍）：worktree ?；店 ['haopai']；HOURS=[14.0]；DAY=2025-10-18；Windows＋GPU／SwiftShader ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+== haopai 好拍運動（xs7）
+  [前置／捷徑] [好拍運動 xs_haopai] 讀檔 xs_haopai 2025-10-18 14.00（區域出生點；條件事件關掉）
+PASS [好拍運動 xs_haopai] 進得了 xs_haopai  {"zone": "xs_haopai", "x": 0, "z": 5.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  47.8s] [好拍運動 xs_haopai] 窗景卡（全部，含藏起來的）2 片：[{"name": "WALL_front_front_glass", "kind": "glass", "vis": true, "lv": 0, "c": [0, 1.295, 6.93], "size": [4.16, 2.55, 0], "url": null}, {"name": "VIEWPANE_xs_haopai", "kind": "parallax", "vis": true, "lv": 0, "c": [0, 1.6, 7.23], "size": [4.8, 3.2, 0], "url": "assets/models/env/views/xs_haopai_day.webp"}]
+PASS [好拍運動 xs_haopai] 找得到看得見的窗景卡（沒有卡時：玻璃）  [["WALL_front_front_glass", "glass", true], ["VIEWPANE_xs_haopai", "parallax", true]]
+  [  47.8s] [好拍運動 xs_haopai] 卡 VIEWPANE_xs_haopai MAXD_haopai=1.6：鏡頭往窗移 3.48 m
+  [  47.8s] [好拍運動 xs_haopai] 卡 VIEWPANE_xs_haopai 窗往外 [0.0, 1.0]（+z）；店內站位：座位「坐著等穿線」(-0.26, 2.3)，離窗 4.93 m、左右偏 0.26 m；人放在 [0.34, 2.3]（第 0 層）；鏡頭 eye [-0.26, 1.45, 5.63] → look [-0.26, 1.4, 7.23]
+  [前置／捷徑] [好拍運動 xs_haopai] 卡 VIEWPANE_xs_haopai 14.00 讀檔把人放到 [0.34, 2.3]（第 0 層）
+  [  59.5s] [好拍運動 xs_haopai] 卡 VIEWPANE_xs_haopai 14.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/xs_haopai_day.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_haopai_day.png 有存  {"cam": {"eye": [-0.26, 1.45, 5.63], "look": [-0.26, 1.4, 7.23], "lens": 18, "vfov": 58.72}, "lum": [125.9, 39.9]}
+  [  61.4s] [截圖] wv_haopai_day：鏡頭 {"eye": [-0.26, 1.45, 5.63], "look": [-0.26, 1.4, 7.23], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[125.9, 39.9]；鏡頭旁藏起來的人 []
+PASS [好拍運動 xs_haopai] 有回街上的出口（含出店落點）  [{"label": "離開好拍運動", "x": 0, "z": 6.6, "lv": 0, "to": "xinsheng", "spawn": {"x": -13.9, "z": -23.2, "yaw": 1.571, "lv": 0}}]
+  [前置／捷徑] [好拍運動 xs_haopai] 讀檔 xinsheng 14.00 出店落點 {"x": -13.9, "z": -23.2, "yaw": 1.571, "lv": 0}
+PASS [好拍運動 xs_haopai] 到了街上（xinsheng）  {"zone": "xinsheng", "x": -13.9, "z": -23.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [  81.6s] [好拍運動 xs_haopai] 街景：店門 {"label": "進好拍運動（球拍專賣）", "x": -15.6, "z": -23.2}、出店落點 [-13.9, -23.2]；店裡出口方向 [-0.04230081314598725, 0.9991049200195085] ↔ 街上 [1.0, 0.0]（轉 90°）；窗往外 [0.0, 1.0] → 街上看 [1.0, 0.0]；鏡頭 eye [-13.9, 1.6, -23.2] → look [6.1, 1.3, -23.2]
+PASS [截圖] wv_haopai_street.png 有存  {"cam": {"eye": [-13.9, 1.6, -23.2], "look": [6.1, 1.3, -23.2], "lens": 18, "vfov": 58.72}, "lum": [115.5, 43.4]}
+  [  83.5s] [截圖] wv_haopai_street：鏡頭 {"eye": [-13.9, 1.6, -23.2], "look": [6.1, 1.3, -23.2], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[115.5, 43.4]；鏡頭旁藏起來的人 []
+PASS 沒有 JS 例外  []
+  [  84.2s] 專屬照片窗景卡的店：[]；JSON：C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_haopai2\out\winview_audit.json
+ALL PASS
