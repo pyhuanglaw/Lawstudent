@@ -622,3 +622,11 @@
 [05:49:44] ==== START ARCAFTER_base_a  (probe @ c17a9919ec13ff237181709df0a3ee70e4e4d5e2) ====
 [05:49:47] [res] cpu=3% mem=44% (14.0/31.4 GB) chrome_testing=9  START ARCAFTER_base_a
 [05:51:08] [res] cpu=3% mem=46% (14.7/31.4 GB) chrome_testing=10  END SHIFT_IMM_r5_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7cbc4d476..10c43c9e1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:51:14] ==== END   SHIFT_IMM_r5_new  exit=0  186s   ====
+[05:51:17] memory 47% before starting ARCAFTER_base_b (2 running)
+[05:51:17] ==== START ARCAFTER_base_b  (probe @ c17a9919ec13ff237181709df0a3ee70e4e4d5e2) ====
+[05:51:20] [res] cpu=3% mem=47% (14.8/31.4 GB) chrome_testing=10  START ARCAFTER_base_b
+[05:52:13] [res] cpu=6% mem=46% (14.4/31.4 GB) chrome_testing=9  END SHIFT_IMM_r5_old

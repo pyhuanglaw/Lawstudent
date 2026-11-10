@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shift_treat_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHIFT_IMM_r5_old\out
+CC SHIFT-TREAT：worktree ?；TAG imm5_old；CASES ['B', 'F']；Playwright ≠ iPhone
+PASS 找到 day54 存檔  tests/fixtures/user_save_day54_1110.json
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 找得到語彤在一盞打工的日子（週六 14:00）
+  [  40.2s] 日子：{"d": 61, "wd": 0, "key": "2025-11-16"}
+  [  40.2s] 芷若在吧檯的日子：{"d": 55, "wd": 1, "key": "2025-11-10"}
+  [前置／捷徑] 【前置／捷徑】day54 存檔 → 2025-11-16 14.0 溫州街；語彤朋友（熟悉 45 信任 30＋SHIFTT nf 2、friend.treat idx 2＝T3 輪到）
+PASS [IMM B] 溫州街有進 wz_teahouse 的入口  [{"label": "往新生南路", "x": -33.4, "z": -28.4, "r": 2.2, "lv": 0, "hidden": false, "to": "xinsheng", "shop": null, "kind": null}, {"label": "進去日常失速", "x": -36.5, "z": -9.6, "r": 1.2, "lv": 0, "hidden": false, "to": "wz_offbeat", "shop": null, "kind": null}, {"label": "進入 2:30 AM", "x": 54.2, "z": 0, "r": 2.3, "lv": 0, "hidden": false, "to": "cafe", "shop": null, "kind": null}, {"label": "上二樓（木曜日）", "
+  [  81.4s] 到達「[IMM B] 走到「進去一盞」」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+PASS [IMM B] 走到門口、按鈕「進去一盞」  {"zone": "wenzhou", "x": -20.32, "z": 4.54, "ry": -1.24, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "進去一盞", "hour": 14.13, "stand": true, "camYaw": 1.571, "fallbacks": 0, "y": 0, "lv": 0, "frame": 812, "paused": false}
+  [前置／捷徑] [IMM B]【捷徑】進店第一個畫面：玩家放到「坐下喝茶」(-2.5,0.9) 直接按（GAME.doInteract）；按之前 SHIFTT.pending＝clear
+  [  95.2s] [IMM B] 結果 {"delta": 0, "picked": ["起身"], "pend": "clear", "seat": false}；GAME.say []
+FAIL [IMM B] 前置：按點單那一刻還沒等滿兩秒（SHIFTT.pending 還在；舊版沒有 SHIFTT 也記）  {"delta": 0, "picked": ["起身"], "pend": "clear", "seat": false}
+FAIL [IMM B] 馬上點單：先演「今天這壺，算我的」（台詞在點單之前出現）  []
+PASS [IMM B] 馬上點單：這一樣不扣錢  {"delta": 0, "picked": ["起身"], "pend": "clear", "seat": false}
+  [前置／捷徑] [IMM B] 第二樣【捷徑】進店第一個畫面：玩家放到「坐下喝茶」(-2.5,0.9) 直接按（GAME.doInteract）；按之前 SHIFTT.pending＝pending
+FAIL [IMM B] 第二樣照扣  {"delta": 0, "picked": ["起身"], "pend": "pending", "seat": false}
+  [前置／捷徑] 【前置／捷徑】day54 存檔 → 2025-11-10 20.0 溫州街；芷若朋友（熟悉 45 信任 30＋SHIFTT nf 2、friend.treat idx 2＝T3 輪到）
+PASS [IMM F] 溫州街有進 cafe 的入口  [{"label": "往新生南路", "x": -33.4, "z": -28.4, "r": 2.2, "lv": 0, "hidden": false, "to": "xinsheng", "shop": null, "kind": null}, {"label": "進去日常失速", "x": -36.5, "z": -9.6, "r": 1.2, "lv": 0, "hidden": false, "to": "wz_offbeat", "shop": null, "kind": null}, {"label": "進入 2:30 AM", "x": 54.2, "z": 0, "r": 2.3, "lv": 0, "hidden": false, "to": "cafe", "shop": null, "kind": null}, {"label": "上二樓（木曜日）", "
+  [ 132.4s] 到達「[IMM F] 走到「進入 2:30 AM」」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [IMM F] 走到門口、按鈕「進入 2:30 AM」  {"zone": "wenzhou", "x": 53.97, "z": -0.02, "ry": 1.47, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "我昨天剛領薪水。", "choices": 0, "interact": "進入 2:30 AM", "hour": 20.17, "stand": true, "camYaw": 4.614, "fallbacks": 0, "y": 0, "lv": 0, "frame": 2235, "paused": false}
+  [前置／捷徑] [IMM F]【捷徑】進店第一個畫面：玩家放到「坐在窗邊的雙人桌」(4.5,-1.7) 直接按（GAME.doInteract）；按之前 SHIFTT.pending＝clear
+  [ 145.5s] [IMM F] 結果 {"delta": 0, "picked": [], "pend": "clear", "seat": false}；GAME.say [["路人", "（小聲）明天要交的，我現在才開始寫。"]]
+FAIL [IMM F] 前置：按坐下那一刻還沒等滿兩秒（SHIFTT.pending 還在）  {"delta": 0, "picked": [], "pend": "clear", "seat": false}
+FAIL [IMM F] 馬上坐下：先演芷若那一場（有「熱可可」）  [["路人", "（小聲）明天要交的，我現在才開始寫。"]]
+FAIL [IMM F] 記下今天在 Café 點的下一樣免費  {"p": {"heroine_02": {"day": 45, "n": 5, "nf": 2, "tn": 0, "idx": {"friend.treat": 2, "friend.happy": 0}}}, "free": null}
+PASS 沒有 JS 例外  []
+FAILED 6: [IMM B] 前置：按點單那一刻還沒等滿兩秒（SHIFTT.pending 還在；舊版沒有 SHIFTT 也記）；[IMM B] 馬上點單：先演「今天這壺，算我的」（台詞在點單之前出現）；[IMM B] 第二樣照扣；[IMM F] 前置：按坐下那一刻還沒等滿兩秒（SHIFTT.pending 還在）；[IMM F] 馬上坐下：先演芷若那一場（有「熱可可」）；[IMM F] 記下今天在 Café 點的下一樣免費
