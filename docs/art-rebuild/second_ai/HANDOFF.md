@@ -47,6 +47,17 @@
     - PUTONG101-WINDOW-1102 交付 a43da6a27：博思一樓玻璃換亮一點的灰藍漸層；窗景照片要 CC 重拍（teach_views.py putong_north）。
     - 盤點表再更正（6d19463fc）：DORM1-WALL-SEAM 早已整合（4b5a0ebd8）、ART-OLDROAD-SHELF 被頁間取代。**以後搜 git log 要用沒有日期的短 ID。**
     - 剩下的佇列：ART-GYM-POOL-SWIMMERS-1103、GYM-FIT-PROPS-1103（要新的人物泳裝、動作，先確認 D99 人物凍結還算不算）→ CROWD-DEPTS-LOOK-1028 → PERF-CAMPUS-GLB-1102 → ART-SOP → BAKE-PC-1102-S2 → LAWWW2-REEXPORT-US-1027 → INTERIOR-AAA P3、萬才館倒角。
+  - **11:3x～12:0x 進度**（帳號 A）：
+    - 已交（待整合或已接）：
+      - XS-WINCARD 第二批 b8d833642：LAWWW 已接。
+      - GYM-FIT-PROPS 第二包 ff443d9da：飛輪曲柄、划船座椅會動。LAWWW 已接。
+      - PUTONG101 v2B ba050767a：ck_glass shader、skyBox。LAWWW 已接；要 CC 看主控台、重拍 putong_north。
+      - XS-TONGXIAN-VIEW dd079901c：同弦夜景。
+    - 取消或維持：
+      - GG-LETTERS-BACK：BB 撤回，只留 wip。
+      - 青木窗景：維持。BB 把對面椰子間距記成 P3 給 LAWWW。
+      - 日常失速：維持。溫州街側牆細節列 P3。
+    - 接下來：SUNNY SIDE 窗景（P3）→ ART-GYM-POOL-SWIMMERS（卡住：要 VRM 外掛）→ CROWD-DEPTS-LOOK → PERF-CAMPUS-GLB → 其餘佇列。
   - **10:5x 進度**：
     - GYM-FIT-PROPS-1103 第一包（手上的道具）：交付 86751d821，LAWWW 本機整合。
     - **ART-GYM-POOL-SWIMMERS-1103 卡住**：泳裝人物要用正式人物生產線（tools/blender/char_second/npc.py＋tools/blender/char/common.py），
