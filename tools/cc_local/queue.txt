@@ -324,6 +324,10 @@ GGLANE_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_plann
 # ③ 映月湖垂柳 v2：鳥瞰、北岸（＋南岸對照）；新版 b296、舊版 99294
 WILLOW_new | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=willow_new;VIEWS=lake_north:-35:1.7:-127:-35:2.5:-108+lake_south:-35:1.7:-95:-35:2.5:-115+lake_bird:-35:45:-99:-35:0:-111
 WILLOW_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=willow_old;VIEWS=lake_north:-35:1.7:-127:-35:2.5:-108+lake_south:-35:1.7:-95:-35:2.5:-115+lake_bird:-35:45:-99:-35:0:-111
+# ===== P0 BB 17:12（D146 下一版必須，排最前面）：X290 一鍵前往、X304 出去玩分期 =====
+V24_invgo | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/flow_inv_go_jump.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
+V24_invgo_real | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_invgo_real_probe.py | index.html | 20 | 
+V24_outing | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 30 | TAG=v24
 # ===== P0 BB 17:04：v9.10.24 發布前回歸（70e23b32c）排最前面；每支跑完就推結果 =====
 V24_deploy | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
 V24_p0 | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
@@ -335,7 +339,6 @@ V24_main12 | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/flow_main_d
 V24_touch | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
 V24_guide | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
 V24_ggnav | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
-V24_outing | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 30 | TAG=new
 V24_capgap | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=v24
 V24_v7 | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
 # BB 17:06：線上 v9.10.23（main 3a34dbaa5）→ 70e23b32c 的存檔相容（比 v7 重要）。兩支：save_compat_v95（舊版自己做第 1 天自動存檔＋第 3、9、23 天三個欄位，最完整）、save_compat_v7（新遊戲存檔＋48 個位置）；兩支都是「舊版網址＝{url2}」

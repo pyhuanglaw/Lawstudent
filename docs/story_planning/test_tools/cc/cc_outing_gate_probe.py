@@ -54,6 +54,10 @@ async def main():
             R.setup('【前置／捷徑】day46 存檔、10:00、清邀約；%s 的戀愛 npcRom＝%d%s；拿掉 dating_%s' % (WHO, rom, '＋冷淡期（V6EX.cool：昨天起 30 天）' if cool else '', WHO))
             info = await pg.evaluate("(w=>({rom:(SOCIAL.rel(w)||{}).npcRom, lvl:SOCIAL.friendLevel?SOCIAL.friendLevel(w):null, stage:DATE.stageNum?DATE.stageNum(w):null, cap:(typeof INV!=='undefined'&&INV.capStage)?INV.capStage(GAME.G,w,DATE.stageNum(w)):null, ask:DATE.canAsk?DATE.canAsk(GAME.G,w):null, half:DATE.ASK_ROM_HALF}))(%s)" % J(WHO))
             R.note('[%s] 狀態：%s' % (case, J(info)))
+            hint = await pg.evaluate("(w=>{ try{ const q=DATE.progress(GAME.G,w); return q&&q.rom?q.rom.hint:null; }catch(e){ return 'ERR '+e; } })(%s)" % J(WHO))
+            R.note('[%s] 人物頁戀愛條提示：%s' % (case, hint))
+            if case == 'R15': R.check('[R15] 人物頁過一半寫「她好像開始在意你了」', hint == '她好像開始在意你了', str(hint))
+            if hint and '她還沒有那樣看你' in hint: R.check('[%s] 人物頁不能寫「她還沒有那樣看你」' % case, False, hint)
             top = await open_top(pg, cdp)
             await pg.screenshot(path=os.path.join(OUT, 'usout_%s_%s.png' % (TAG, case)))
             out = next((x for x in (top or []) if x['t'].startswith('出去玩')), None)
@@ -82,7 +86,12 @@ async def main():
             iv = await pg.evaluate("(w=>{ const G=GAME.G; const D=(G.dates||G.dateLog||[]); const v=(G.invites||[]).filter(x=>x.who===w).slice(-1)[0]||null; return {inv:v, dateFlags:Object.keys(G.flags||{}).filter(k=>/^DATE_|date/i.test(k)).slice(0,8)}; })(%s)" % J(WHO))
             R.note('[R15] 約好以後：%s；對話 %s' % (J(iv), J(log[-6:])))
             R.check('[R15] 約成了（有她的邀約或約會紀錄）', bool(iv['inv']) or any('好' in t for t in log), J({'iv': iv, 'log': log[-4:]}))
-            # 出發：手機「今天」的「現在過去」→ 演到換區域
+            # r2：出去玩（DATE）是出發前 60 分鐘問「現在出發／到時間再說」——【捷徑】時間撥到出發前 65 分鐘，等那一題、選「現在出發」
+            import re as _re
+            m_ = _re.search(r'(\d{1,2}):(\d{2}) 出發', ' '.join(picked))
+            if m_:
+                hh = int(m_.group(1)) + int(m_.group(2)) / 60
+                R.setup('[R15]【捷徑】時間撥到出發（%.2f）前 65 分鐘' % hh); await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.hour=h; })(%f)" % (hh - 65 / 60)); await pg.wait_for_timeout(1500)
             went = None
             if iv['inv']:
                 v = iv['inv']
@@ -92,10 +101,10 @@ async def main():
                 went = await pe.tap_sel(pg, cdp, '#phoneBody [data-invgo="%s"]' % v.get('id'))
                 if not went: await pe.close_phone(pg, cdp)
             zs = [z0]; t0 = time.time()
-            while time.time() - t0 < 240:
+            while time.time() - t0 < 360:
                 q = await L.state(pg)
                 if q['choices']:
-                    o = await pe.opts(pg); await pe.choose(pg, cdp, o[0]['t'], True); continue
+                    o = await pe.opts(pg); c_ = next((x for x in o if '現在出發' in x['t']), o[0]); R.note('[R15] 選單 %s → %s' % (J([x['t'] for x in o]), c_['t'])); await pe.choose(pg, cdp, c_['t'], True); continue
                 if q['dlg']: await L.tap(pg, cdp, '#dlg')
                 z = await pg.evaluate("GAME.G.zone")
                 if z != zs[-1]: zs.append(z); await pg.screenshot(path=os.path.join(OUT, 'usout_%s_R15_zone%d.png' % (TAG, len(zs))))
