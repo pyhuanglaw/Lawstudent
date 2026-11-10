@@ -281,3 +281,11 @@
 [16:58:11] ==== START SVC2_new  (probe @ a883f36de45740335f9a1ea30d8512d1f5a9c4a9) ====
 [16:58:13] [res] cpu=0% mem=47% (15.0/31.4 GB) chrome_testing=10  START SVC2_new
 [17:00:26] [res] cpu=15% mem=47% (14.7/31.4 GB) chrome_testing=9  END SVC2_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7df24e5b2..33cf66dc5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:00:32] ==== END   SVC2_new  exit=0  135s   ====
+[17:00:35] memory 43% before starting SVC2_old (2 running)
+[17:00:35] ==== START SVC2_old  (probe @ bc9c1408c0dfb82cbd1fa49d6a64e1d92e94d213) ====
+[17:00:38] [res] cpu=7% mem=44% (13.6/31.4 GB) chrome_testing=8  START SVC2_old
+[17:01:26] [res] cpu=23% mem=47% (14.4/31.4 GB) chrome_testing=8  END ROMPRIV_new

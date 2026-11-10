@@ -1,7 +1,5 @@
-Traceback (most recent call last):
-  File "C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\gpu_wrap.py", line 166, in <module>
-    runpy.run_path(script, run_name='__main__')
-    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "<frozen runpy>", line 291, in run_path
-  File "<frozen runpy>", line 259, in _get_code_from_file
-FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\test_tools\\cc\\cc_rom_private_probe.py'
+[gpu_wrap 4.0s] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+[gpu_wrap 974.3s] page close url=http://127.0.0.1:8800/index.html
+[gpu_wrap 974.3s] BROWSER DISCONNECTED
+[gpu_wrap 1050.8s] page close url=http://127.0.0.1:8800/index.html
+[gpu_wrap 1050.8s] BROWSER DISCONNECTED

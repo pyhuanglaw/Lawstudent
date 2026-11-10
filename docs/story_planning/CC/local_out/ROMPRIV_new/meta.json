@@ -1,26 +1,27 @@
 {
   "rerun": "",
   "id": "ROMPRIV_new",
-  "sha": "dea6f2f45515e8c56b4e2e242124ae2e344af466",
+  "sha": "6c7e3918f26db59161d8f284f4fa25ca02be2964",
   "kind": "probe",
   "script": "docs/story_planning/test_tools/cc/cc_rom_private_probe.py",
-  "env": "X=1",
+  "env": "CC_HEADLESS=0",
   "machine": "MSI",
-  "start": "2026-11-10T09:38:22",
-  "end": "2026-11-10T09:38:59",
-  "seconds": 36,
+  "start": "2026-11-10T16:43:15",
+  "end": "2026-11-10T17:01:26",
+  "seconds": 1090,
   "exit": 1,
   "error": null,
   "runner": "1556bf529d",
-  "rf_round": "5",
+  "rf_round": "6",
   "url": "http://127.0.0.1:8800/index.html",
   "headless_forced": true,
   "res_peak": {
-    "cpu": 2,
-    "mem": 47,
-    "used_gb": 14.9,
-    "chrome_testing": 9
+    "cpu": 70,
+    "mem": 55,
+    "used_gb": 17.5,
+    "chrome_testing": 15
   },
   "dev_branch": "claude/modest-rubin-2lyp7g",
-  "sha_on_dev_branch": true
+  "sha_on_dev_branch": true,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
 }
