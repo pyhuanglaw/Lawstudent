@@ -50850,7 +50850,7 @@
    "id": "INV-NOW-GOAL-1110",
    "title": "約好「現在一起過去」的地方顯示在行程（上方目標列）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50862,7 +50862,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 02:1x LAWWW-B】使用者 X286。手機「今天約好的」已有「現在　和○○約在○○」（INV.todayLines going）；加上方目標列：going／帶路途中寫「和○○一起去○○」，到了就換回原本的。",
+   "next": "【11-10 02:4x LAWWW-B】invites3d.js S.goingGoal／S.goingText（INV.tick 每次跑）：going、accepted＋lead 的途中目標列＝「和○○一起去○○」（dest＝那一區；alt＝新區域名）；結束換回原本的（G.flags.INV_GOAL 記原本的；途中別人改了目標就不蓋、不還原）。tests/inv_now_goal_unit.js 修改前 FAIL；相關 319 支 ALL PASS。等瀏覽器測試。｜【11-10 02:1x LAWWW-B】使用者 X286。手機「今天約好的」已有「現在　和○○約在○○」（INV.todayLines going）；加上方目標列：going／帶路途中寫「和○○一起去○○」，到了就換回原本的。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50988,7 +50988,7 @@
     "owner": "LAWWW"
    },
    "evidence": "tests/v0_e08_unit.js 4h",
-   "sha": null,
+   "sha": "ed75c456a",
    "test": null
   },
   {

@@ -447,7 +447,19 @@ const INV=(function(){
       else if(iv.state==='going'&&(iv.day<G.day||h>=iv.h+2)){ iv.state='cancelled'; S.msg(G,iv.who,'和'+nameOf(iv.who)+'一起去'+((S.place(iv.place)||{}).name||'')+'的事，後來作罷了。',iv); const n=S.npcOf(GM,iv.who); if(n){ n.beh='idle'; } }
       else if((iv.state==='offered'||iv.state==='changed')&&past(iv)) iv.state='cancelled'; }
     for(const iv of G.invites){ if(iv.state==='going'&&typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) S.dropGoing(GM,iv); }   /* 一起走的時候回家＝作罷（使用者 10-21 23:1x：回宿舍學姊還跟著）*/
-    S.autoStart(GM); S.goPrompt(GM).catch(e=>console.warn('INV.goPrompt',e)); };
+    S.goingGoal(GM); S.autoStart(GM); S.goPrompt(GM).catch(e=>console.warn('INV.goPrompt',e)); };
+  /* 一起過去的途中：上方目標列寫「和○○一起去○○」（INV-NOW-GOAL-1110，使用者 11-10 X286「約好現在一起過去的地方 要顯示在行程 以免忘記到底約哪」）。
+     「現在一起過去」（state going）、她帶路（accepted＋lead）都算；到了、作罷、回家就換回原本的目標（同 carlot3d.js 的 CARLOT_GOAL）。
+     G.flags.INV_GOAL＝[這一筆的 id, 目標字, 原本的目標, 原本的目的地]；途中別的劇情改了目標就不再蓋過去，結束時目標不是這一句也不還原 */
+  S.goingText=function(G,iv){ const P=S.place(iv.place)||{}, Z=typeof Z3!=='undefined'&&Z3.ZONES?Z3.ZONES[iv.zone]:null, nm=iv.alt&&Z&&Z.name?Z.name:(typeof PLACES!=='undefined'&&PLACES.at?PLACES.at(P.name||''):(P.name||''));
+    return '和'+nameOf(iv.who)+'一起去'+(nm||'約好的地方'); };
+  S.goingGoal=function(GM){ const G=GM&&GM.G; if(!G||!GM.setGoal) return; const F=G.flags||(G.flags={}), cur=F.INV_GOAL;
+    const iv=(G.invites||[]).find(x=>x.day===G.day&&(x.state==='going'||(x.state==='accepted'&&x.lead)));
+    if(iv){ const txt=S.goingText(G,iv); if(cur&&cur[0]===iv.id){ if(cur[1]!==txt&&G.goal===cur[1]){ cur[1]=txt; GM.setGoal(txt,{zone:iv.zone,name:txt}); } return; }   /* 換了地方（二樓坐滿改去三樓）＝跟著改；別人改過目標＝不蓋 */
+      const prev=cur&&G.goal===cur[1]?[cur[2],cur[3]]:[G.goal==null?null:G.goal,G.goalDest==null?null:G.goalDest];
+      F.INV_GOAL=[iv.id,txt,prev[0],prev[1]]; GM.setGoal(txt,{zone:iv.zone,name:txt}); return; }
+    if(!cur) return; delete F.INV_GOAL; if(G.goal!==cur[1]) return;
+    if(cur[2]!=null&&cur[2]!==cur[1]) GM.setGoal(cur[2],cur[3]==null?undefined:cur[3]); else if(typeof CLS!=='undefined'&&CLS.setGoal) CLS.setGoal(GM); else GM.setGoal('—'); };
   /* 約會快到的提醒可以直接過去（UX-INV-GO-1023，使用者 10-23 08:2x「現在有提醒有約會快到 應該要新增可以直接到約會地點的功能」）：
      約好的時間前 30 分鐘到約好的時間後 15 分鐘、人不在那一區、空下來＝問一次「直接過去」（照手機的快速前往：花路程時間、落點照 PLACES.quickList 那一區的；沒去過也可以）；
      手機「今天約好的」每一筆也有「前往」（S.goNow）。該出發的出遊（OUT）先問，這裡不搶。系統字，不是台詞 */
