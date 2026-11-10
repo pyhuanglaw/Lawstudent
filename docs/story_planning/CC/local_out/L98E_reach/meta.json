@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "L98E_reach",
+  "sha": "98e81fe06bd856d6ec953948c5c4c6a64cb08e74",
+  "kind": "game",
+  "script": "tests/reachability_all.py",
+  "env": "XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-10T11:57:00",
+  "end": "2026-11-10T12:07:18",
+  "seconds": 618,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8800/index.html?turbo",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 94,
+    "mem": 63,
+    "used_gb": 19.7,
+    "chrome_testing": 13
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
