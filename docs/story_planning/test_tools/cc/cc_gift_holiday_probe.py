@@ -23,6 +23,7 @@ CASES（預設全跑）：xmas,valentine,qixi,birthday,normal,third,hergift,mail
 候選：同一天先排不走動的（「走走」排最後）、圖書館排後面；一個候選說完話沒有出說話最後的選單（offerInvite，有「就這樣」）就換下一個，最多三個。
 11-10 雲端試跑（新版 509b54c2d）看到的（遊戲行為，只記）：
   - 期末考前的圖書館（2026-06-02 學姊在法圖）說話走 src/examlib3d.js 的「（小聲）」那一套，沒有 offerInvite 選單＝她生日那天在那裡送不了（規格沒寫圖書館例外；列給 BB／LAWWW 判）。
+  - 吧檯後面上班的芷若（12/24 11:00 兩點半）：說話＝點餐（talkCharacter 的 n.staff），沒有 offerInvite 選單＝她上班時送不了（探針跳過這種候選；列給 BB／LAWWW 判）。
   - 2026-12-24 語彤和黃筱涵同框（HCIRCLE c505_3_2，3D 裡 crowdNow true）：「送她禮物…」沒有灰掉（＝照 AA_732，不是 bug；BB 的「旁邊有人就灰」規格沒有）。
 判定：PASS／FAIL／INFO，最後 ALL PASS 或 FAILED n。
 用法：LW_TESTS=<樹>/tests TAG=new|old [CASES=xmas,third] [THIRD_BYSTANDER=strict] python3 cc_gift_holiday_probe.py <url> <out>（URL 不加 ?turbo）"""
@@ -194,6 +195,9 @@ async def approach(pg, run, pid, tag):
     w = await P.wait_present(pg, pid, 75)
     if not w or w['hidden']:
         info('[%s] %s 不在這一區（或藏著）' % (tag, pid), J(w)); return None
+    staff = await pg.evaluate("id=>{ const n=__BBF.npc(id); return n?(n.staff||null):null; }", pid)
+    if staff:   # 吧檯後面的店員（兩點半的芷若）：和她說話＝點餐（story3d.js talkCharacter 的 n.staff 那一條，不走 offerInvite），也走不到吧檯後面——換下一個候選（11-10 試跑：12/24 11:00 芷若在吧檯）
+        info('[%s] %s 在吧檯後面上班（staff=%s）：說話＝點餐、不出 offerInvite 選單，換下一個候選' % (tag, pid, staff)); return None
     if w['dMe'] > 9:
         await P.place_near(pg, run, w['x'], w['z'], 7.0, w['lv'], what=pid)
     return await P.who(pg, pid)
