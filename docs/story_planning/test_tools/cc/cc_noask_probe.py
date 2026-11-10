@@ -11,14 +11,28 @@ LUNCH-NO-ASK-1110（42fff6105）：下課「先去吃飯」直接帶去一家。
               G.flags.LUNCH_LAST 照遊戲自己記的帶到下一天（換日用讀檔【捷徑】，只帶這個旗標和錢）
   lunch_poor  錢設 50（【捷徑】）→ 同上點「先去吃飯」：不能問、不能吃，畫面要寫原因（記 toast）
   lunch_sk03  大一下第 13 週週五 12:18（AA_350 R2，tests/aa350_r_unit.js 同一組旗標）、沒去經原下：【捷徑】直接叫 CLS.lunchBreak(GAME)（＝下課選單「先去吃飯」那一條的函式）
-用法：LW_TESTS=<wt>/tests [CASES=...] python3 cc_noask_probe.py <url> <out>"""
+r2（CC 帳號 A 11-10，BB 08:1x 第 3 項；NOASK_faf1 在電腦上 exit 1、跑滿 240 分鐘逾時）：
+  ①電腦跑的是第一版（d9c4227a8，09:06 開跑，比 01:13 UTC 的兩個修正早）——「一天兩堂有座位的課」0 天、「空檔 ≥60 分」0 天；
+  ②現在的找法（空檔 ≥1.7 小時）在預設課表只有週一「憲法（上）→體育」（3.3 小時；其他天 12:10→13:20 只有 1.17 小時，下課選單 gap<60 不出「先去吃飯」）：
+    舊的只掃 2025-10-06 起 21 天＝只找到 10-20 一天，lunch_rot 要三天＝還是找不到。改成掃 N_DAYS（預設 49）天＝10-20、10-27、11-03 三個週一
+    （node 載 faf1 的 src 算 CLS.dayItems 確認過）；LUNCH_DAYS＝'YYYY-MM-DD,...' 可以直接指定日子。
+  ③lunch_sk03 卡了好幾個小時沒有結束：加逾時保護——每一項 CASE_S（seat 150、lunch_rot 420、lunch_poor 180、lunch_sk03 150 秒，CASE_S＝數字可以統一改），
+    整支 TOTAL_S（預設 1200 秒＝20 分鐘），超過的那一項記 FAIL「逾時保護」，後面沒跑到的記 FAIL「沒跑到」（不是 PASS）；關瀏覽器也有 20 秒上限。
+    順序改成 seat_phone_fresh、seat_phone_old、lunch_sk03、lunch_poor、lunch_rot，再來其他 seat（時間不夠時至少每一類都有跑到）。
+用法：LW_TESTS=<wt>/tests [CASES=...] [N_DAYS=49] [LUNCH_DAYS=...] [CASE_S=...] [TOTAL_S=1200] python3 cc_noask_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, math
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); import bbplay as P
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
-ALL = ['seat_phone_fresh', 'seat_phone_old', 'seat_wake_fresh', 'seat_wake_old', 'seat_after_fresh', 'seat_after_old', 'seat_onetap_fresh', 'seat_onetap_old', 'lunch_rot', 'lunch_poor', 'lunch_sk03']
+ALL = ['seat_phone_fresh', 'seat_phone_old', 'lunch_sk03', 'lunch_poor', 'lunch_rot', 'seat_wake_fresh', 'seat_wake_old', 'seat_after_fresh', 'seat_after_old', 'seat_onetap_fresh', 'seat_onetap_old']
+CASE_CAP = {'lunch_rot': 420, 'lunch_poor': 180, 'lunch_sk03': 150}
+TOTAL_S = float(os.environ.get('TOTAL_S') or 1200); T_START = time.time()
+def case_cap(c): return float(os.environ.get('CASE_S') or CASE_CAP.get(c, 150))
+async def safe_close(b):
+    try: await asyncio.wait_for(b.close(), 20)
+    except BaseException as e: print('  （關瀏覽器 20 秒沒關掉／出錯：%r，不管它）' % e, flush=True)
 CASES = [c for c in (os.environ.get('CASES') or ','.join(ALL)).split(',') if c]
 J = lambda o: json.dumps(o, ensure_ascii=False, default=str)
 FAILS = []
@@ -60,12 +74,13 @@ PST = """(k=>{ const G=GAME.G, E=GAME.E, P=E.player, R=CLS.rec(G); const s=P.sea
 
 def good_class(i): return bool(i['zone']) and not i['door'] and not i['off'] and not i['pe']
 
-async def find_days(pg, start_key, n_days=21):
+async def find_days(pg, start_key, n_days=int(os.environ.get('N_DAYS') or 49)):
     d0 = await P.day_of(pg, start_key); out = []
     for k in range(n_days):
         dd = d0['d'] + k; its = await pg.evaluate(ITEMS, dd)
         cl = [i for i in its if good_class(i)]
-        out.append({'d': dd, 'items': its, 'cls': cl})
+        k = await pg.evaluate("d=>{ const c=CALENDAR.dateOf(d), w=c.wd; return {key:c.key, wd:w===7?0:w}; }", dd)
+        out.append({'d': dd, 'items': its, 'cls': cl, 'date': k['key'], 'wd': k['wd']})
     return d0, out
 
 async def drive(pg, cdp, done_js, maxs, prefs, log, stop_on=None):
@@ -181,7 +196,7 @@ async def seat_case(p, case, plan):
         check('%s：課有開始、上完（%s done）' % (case, tgt['c']), ps2['done'] or isinstance(r, dict), J(ps2)[:200])
         check('%s：沒有 JS 例外' % case, not errs, J(errs[:3]))
     finally:
-        await b.close()
+        await safe_close(b)
 
 async def lunch_once(pg, cdp, case, tag, plan, money, flags):
     day, first = plan['day'], plan['first']; dk = {'d': day['d'], 'wd': day['wd']}
@@ -235,7 +250,7 @@ async def lunch_case(p, case, plans):
                 check('%s：畫面寫了沒吃的原因（toast %s）' % (case, J(r['toasts'])), any('錢不夠' in t for t in r['toasts']), '')
         check('%s：沒有 JS 例外' % case, not errs, J(errs[:3]))
     finally:
-        await b.close()
+        await safe_close(b)
 
 async def sk03_case(p):
     case = 'lunch_sk03'
@@ -260,48 +275,58 @@ async def sk03_case(p):
         check('%s：沒有問吃哪家' % case, not any(any(n in ' '.join(c['t']) for n in ('小松', '公館燒臘', '便利商店')) for c in W['choose']), J([c['t'] for c in W['choose']]))
         check('%s：沒有 JS 例外' % case, not errs, J(errs[:3]))
     finally:
-        await b.close()
+        await safe_close(b)
 
 async def main():
     real = os.popen('git -C "%s" rev-parse --short HEAD 2>/dev/null' % os.path.join(os.environ['LW_TESTS'], '..')).read().strip()
     print('CC-B 不問座位／不問吃哪家：worktree %s；Playwright ≠ iPhone' % (real or '?'), flush=True)
-    async with async_playwright() as p:
+    async def scan_days(p):
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
-        await pg.goto(URL); await L.wait_loaded(pg); await P.init(pg)
-        await L.load_state(pg, mkstate(await P.day_of(pg, os.environ.get('DAY0') or '2025-10-06'), 9, 'campus'), quiet_phone=True); await pg.wait_for_timeout(3000)
-        d0, days = await find_days(pg, os.environ.get('DAY0') or '2025-10-06')
-        await b.close()
+        try:
+            await pg.goto(URL); await L.wait_loaded(pg); await P.init(pg)
+            await L.load_state(pg, mkstate(await P.day_of(pg, os.environ.get('DAY0') or '2025-10-06'), 9, 'campus'), quiet_phone=True); await pg.wait_for_timeout(3000)
+            return await find_days(pg, os.environ.get('DAY0') or '2025-10-06')
+        finally:
+            await safe_close(b)
+    async with async_playwright() as p:
+        try: d0, days = await asyncio.wait_for(scan_days(p), 240)
+        except asyncio.TimeoutError:
+            check('找日子 240 秒內做完（逾時保護）', False); print('FAILED %d: %s' % (len(FAILS), '；'.join(FAILS)), flush=True); sys.exit(1)
     pairs = []; seatplan = None; afterplan = None
     for dd in days:
         its = [i for i in dd['items'] if not i['off']]
-        mk = lambda a, c: {'day': {'d': dd['d'], 'wd': None}, 'key': 'day %d' % dd['d'], 'first': a, 'second': c, 'gap': (c['t0'] - a['t1']) if c else None}
+        mk = lambda a, c: {'day': {'d': dd['d'], 'wd': dd['wd']}, 'key': 'day %d %s（週%d）' % (dd['d'], dd['date'], dd['wd']), 'date': dd['date'], 'first': a, 'second': c, 'gap': (c['t0'] - a['t1']) if c else None}
         if seatplan is None and its and good_class(its[0]): seatplan = mk(its[0], its[1] if len(its) > 1 else None)
         if afterplan is None:
             for i in range(len(its) - 1):
                 if good_class(its[i + 1]): afterplan = mk(its[i], its[i + 1]); break
         for i in range(len(its) - 1):
             if its[i + 1]['t0'] - its[i]['t1'] >= float(os.environ.get('LUNCH_GAP') or 1.7): pairs.append(mk(its[i], its[i + 1])); break
+    if os.environ.get('LUNCH_DAYS'):
+        want = set(x.strip() for x in os.environ['LUNCH_DAYS'].split(',') if x.strip())
+        pairs = [pl for pl in pairs if pl['date'] in want]
+        setup('LUNCH_DAYS 指定吃飯的日子：%s' % J(sorted(want)))
+    note('吃飯的日子（第一堂下課到下一堂 ≥%s 小時）：%s' % (os.environ.get('LUNCH_GAP') or 1.7, J([[pl['date'], pl['first']['c'], pl['second']['c'], round(pl['gap'], 2)] for pl in pairs])))
     note('找到的日子：第一堂就是有座位的課 %s；下一堂是有座位的課 %s；空檔 ≥60 分 %d 天' % (J(seatplan and [seatplan['key'], seatplan['first']['c']]), J(afterplan and [afterplan['key'], afterplan['first']['c'], afterplan['second']['c']]), len(pairs)))
-    for pl in [seatplan, afterplan] + pairs:
-        if pl: pl['day']['wd'] = None
-    async with async_playwright() as p:
-        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
-        await pg.goto(URL); await L.wait_loaded(pg)
-        for pl in [seatplan, afterplan] + pairs:
-            if pl: wd = await pg.evaluate("d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; }", pl['day']['d']); pl['day']['wd'] = wd; pl['key'] = 'day %d（週%d）' % (pl['day']['d'], wd)
-        await b.close()
     async with async_playwright() as p:
         for c in CASES:
             print('===== %s =====' % c, flush=True)
+            left = TOTAL_S - (time.time() - T_START)
+            if left < 30:
+                check('%s：沒跑到（總時間保護 TOTAL_S=%d 秒已用完；不是 PASS，可以用 CASES=%s 單獨重跑）' % (c, TOTAL_S, c), False); continue
+            cap = min(case_cap(c), left); t1 = time.time()
             try:
                 if c.startswith('seat_'):
                     sp = afterplan if '_after_' in c else seatplan
-                    if check('%s：找得到要的日子' % c, bool(sp)): await seat_case(p, c, sp)
-                elif c == 'lunch_sk03': await sk03_case(p)
+                    if check('%s：找得到要的日子' % c, bool(sp)): await asyncio.wait_for(seat_case(p, c, sp), cap)
+                elif c == 'lunch_sk03': await asyncio.wait_for(sk03_case(p), cap)
                 else:
-                    if check('%s：找得到空檔 ≥60 分的日子（%d 天）' % (c, len(pairs)), len(pairs) >= (3 if c == 'lunch_rot' else 1)): await lunch_case(p, c, pairs)
+                    if check('%s：找得到空檔 ≥60 分的日子（%d 天）' % (c, len(pairs)), len(pairs) >= (3 if c == 'lunch_rot' else 1)): await asyncio.wait_for(lunch_case(p, c, pairs), cap)
+            except asyncio.TimeoutError:
+                check('%s：%d 秒內跑完（逾時保護：停在半路，上面最後一行是停下來的地方；這一項沒測完）' % (c, cap), False)
             except Exception as e:
                 import traceback; traceback.print_exc(); check('%s：沒有例外' % c, False, repr(e)[:200])
+            note('%s 用了 %.0f 秒（總共 %.0f 秒）' % (c, time.time() - t1, time.time() - T_START))
     print('ALL PASS' if not FAILS else 'FAILED %d: %s' % (len(FAILS), '；'.join(FAILS)), flush=True)
     sys.exit(1 if FAILS else 0)
 
