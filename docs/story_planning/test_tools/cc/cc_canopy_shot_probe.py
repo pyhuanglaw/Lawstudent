@@ -3,7 +3,9 @@
 每棵用另一台相機（同一個場景、同一個 shader，鏡頭位置不同）拍三張：
   under＝樹冠底下 0.6 m 往上看；inside＝樹冠正中間往水平方向看（鏡頭在葉子裡＝網點透空該出現的情況）；edge＝樹冠外緣 0.5 m 往樹幹看。
 另外遊戲鏡頭本身：玩家走到那棵樹正下方、鏡頭 yaw 不動、距離 DIST（預設 3）截一張。記每棵的位置、樹冠範圍、材質有沒有 seeThrough。Playwright ≠ iPhone。
-用法：LW_TESTS=<wt>/tests TAG=old|new [ZONE=campus] [X=-40] [Z=6.5] [R=40] [N=2] [HOUR=14] python3 cc_canopy_shot_probe.py <url> <out>"""
+r3（CC 11:2x）：r2 在校園抓到的是大王椰子樹幹（trees_palm_a_bark），不是闊葉樹冠，遊戲鏡頭和人之間也沒有樹冠＝網點沒被觸發，新舊都看不出來＝沒測到。
+  加 EXCL（名字排除的正規式，例 palm|bark）；DISTS（遊戲鏡頭距離，逗號分隔，例 3,7：距離拉長鏡頭會升高、穿進樹冠）；每個距離截一張 gamecam_d<距離>。
+用法：LW_TESTS=<wt>/tests TAG=old|new [ZONE=campus] [X=-40] [Z=6.5] [R=40] [N=2] [HOUR=14] [EXCL=palm|bark] [DISTS=3,7] python3 cc_canopy_shot_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import playlib as L
@@ -13,11 +15,12 @@ URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 TAG = os.environ.get('TAG') or 'x'; ZONE = os.environ.get('ZONE') or 'campus'
 X = float(os.environ.get('X') or -40); Z = float(os.environ.get('Z') or 6.5); RAD = float(os.environ.get('R') or 40); N = int(os.environ.get('N') or 2)
 HOUR = float(os.environ.get('HOUR') or 14); DIST = float(os.environ.get('DIST') or 3)
+DISTS = [float(v) for v in (os.environ.get('DISTS') or str(DIST)).split(',') if v]; EXCL = os.environ.get('EXCL') or ''
 R = L.Run('canopy_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
-FIND = r"""(a=>{ const E=GAME.E, P=E.player.obj.position, out=[]; const rx=/leaf|crown|canopy|foliage|palm_?fr|frond/i;
+FIND = r"""(a=>{ const E=GAME.E, P=E.player.obj.position, out=[]; const rx=/leaf|crown|canopy|foliage|palm_?fr|frond/i; const ex=a.ex?new RegExp(a.ex,'i'):null;
   E.scene.traverse(o=>{ if(!o.isMesh&&!o.isInstancedMesh) return; for(let q=o;q;q=q.parent) if(q.visible===false) return; const ms=[].concat(o.material);
-    const see=ms.some(m=>m&&m.userData&&m.userData.seeThrough), hit=see||rx.test(o.name||'')||ms.some(m=>m&&rx.test(m.name||'')); if(!hit) return;
+    if(ex&&(ex.test(o.name||'')||ms.some(m=>m&&ex.test(m.name||'')))) return; const see=ms.some(m=>m&&m.userData&&m.userData.seeThrough), hit=see||rx.test(o.name||'')||ms.some(m=>m&&rx.test(m.name||'')); if(!hit) return;
     if(o.isInstancedMesh){ const M=new THREE.Matrix4(), b0=new THREE.Box3(); if(!o.geometry.boundingBox) o.geometry.computeBoundingBox(); o.updateMatrixWorld(true);
       for(let i=0;i<o.count;i++){ o.getMatrixAt(i,M); M.premultiply(o.matrixWorld); const b=b0.copy(o.geometry.boundingBox).applyMatrix4(M); const c=b.getCenter(new THREE.Vector3()); const d=Math.hypot(c.x-P.x,c.z-P.z); if(d<a.r) out.push({name:o.name+'#'+i, see, min:[b.min.x,b.min.y,b.min.z], max:[b.max.x,b.max.y,b.max.z], c:[c.x,c.y,c.z], d}); } }
     else { const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new THREE.Vector3()); const d=Math.hypot(c.x-P.x,c.z-P.z); if(d<a.r&&b.max.y-b.min.y<40) out.push({name:o.name||'(無名)', see, min:[b.min.x,b.min.y,b.min.z], max:[b.max.x,b.max.y,b.max.z], c:[c.x,c.y,c.z], d}); } });
@@ -42,7 +45,7 @@ async def main():
         if await pg.evaluate("!!(GAME.E.player&&GAME.E.player.riding)"):
             await L.tap(pg, cdp, '#btnBike'); await pg.wait_for_timeout(1500); R.note('騎著車：按「下車」')
         R.check('沒在騎車', not await pg.evaluate("!!(GAME.E.player&&GAME.E.player.riding)"), '')
-        trees = await pg.evaluate(FIND, {'r': RAD, 'n': N}); R.note('附近的樹冠網格（前 %d）：%s' % (len(trees), J(trees)))
+        trees = await pg.evaluate(FIND, {'r': RAD, 'n': N, 'ex': EXCL}); R.note('附近的樹冠網格（前 %d）：%s' % (len(trees), J(trees)))
         if not R.check('%s m 內找得到樹冠網格' % RAD, bool(trees), ''): await b.close(); return
         seen = []
         for t in trees:
@@ -55,9 +58,11 @@ async def main():
             await snap(pg, 'canopy_%s_t%d_inside.png' % (TAG, k), [cx, cy, cz], [cx + 10, cy - 1, cz])
             await snap(pg, 'canopy_%s_t%d_edge.png' % (TAG, k), [cx + rx + 0.5, cy, cz], [cx, cy, cz])
             ok = await L.go_to(pg, cdp, R, cx, cz + 0.8, 0.8, '走到樹 %d 正下方' % k, max_s=90)
-            await pg.evaluate("d=>{ const C=GAME.E.cam; C.distTarget=d; C.dist=d; C.manualT=10; }", DIST); await pg.wait_for_timeout(2500)
-            await pg.screenshot(path=os.path.join(OUT, 'canopy_%s_t%d_gamecam.png' % (TAG, k))); await pg.evaluate(D.HUD + '(true)')
-            R.note('樹 %d 遊戲鏡頭：%s' % (k, J(await pg.evaluate("(()=>{ const c=GAME.E.camera.position; return [+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)]; })()"))))
+            for dd in DISTS:
+                await pg.evaluate("d=>{ const C=GAME.E.cam; C.distTarget=d; C.dist=d; C.manualT=10; }", dd); await pg.wait_for_timeout(2500)
+                await pg.screenshot(path=os.path.join(OUT, 'canopy_%s_t%d_gamecam%s.png' % (TAG, k, '' if len(DISTS) == 1 else '_d%g' % dd)))
+                R.note('樹 %d 遊戲鏡頭（距離 %g）：%s' % (k, dd, J(await pg.evaluate("(()=>{ const c=GAME.E.camera.position; return [+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)]; })()"))))
+            await pg.evaluate(D.HUD + '(true)')
         R.check('拍到 %d 棵' % N, len(seen) >= 1, str(len(seen)))
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
