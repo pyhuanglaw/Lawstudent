@@ -60,7 +60,7 @@ HOOK = r"""(()=>{ if(window.__NA) return 'again'; const W=window.__NA={choose:[]
   const t=()=>{ const G=GAME.G; return {h:+(+G.hour).toFixed(3),d:G.day,z:G.zone,m:G.money}; };
   const wrap=(o,fn,f)=>{ const f0=o&&o[fn]; if(typeof f0!=='function') return false; o[fn]=function(){ try{ f.apply(null,arguments); }catch(e){} return f0.apply(this,arguments); }; return true; };
   const r={choose:wrap(GAME,'choose',o=>W.choose.push(Object.assign({t:(o||[]).filter(x=>x&&!x.hidden).map(x=>x.t||x.text||'')},t()))),
-    seatMenu:wrap(GAME,'seatMenu',(it,so)=>{ const s=it&&it.seat; W.seat.push(Object.assign({x:s&&+(+s.x).toFixed(2),z:s&&+(+s.z).toFixed(2),lv:s&&s.lv|0,room:s&&s.room||null,so:so||null},t())); }),
+    seatMenu:wrap(GAME,'seatMenu',(it,so)=>{ const s=it&&it.seat; W.seat.push(Object.assign({},t(),{x:s&&+(+s.x).toFixed(2),z:s&&+(+s.z).toFixed(2),lv:s&&s.lv|0,room:s&&s.room||null,so:so||null}));   /* r2：t() 裡的 z＝區域名，蓋掉了座位的 z（'classroom' − 數字＝TypeError）＝TEST_BUG */ }),
     toast:wrap(GAME,'toast',(s)=>W.toast.push(Object.assign({s:String(s)},t()))),
     caption:wrap(GAME,'caption',(w,s)=>W.caption.push(Object.assign({s:String(s==null?'':s)},t()))),
     say:wrap(GAME,'say',(w,s)=>W.say.push(Object.assign({n:(w&&w.name)||(typeof w==='string'?w:''),s:String(s==null?'':s)},t()))),
