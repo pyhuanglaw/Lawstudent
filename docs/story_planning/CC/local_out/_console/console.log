@@ -147,3 +147,11 @@
 [16:33:34] ==== START X283_old  (probe @ e73888074c) ====
 [16:33:37] [res] cpu=3% mem=47% (15.0/31.4 GB) chrome_testing=7  START X283_old
 [16:34:09] [res] cpu=15% mem=47% (14.7/31.4 GB) chrome_testing=9  END YZCUP_47
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e5b5c9b12..2d462a1c7  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:34:15] ==== END   YZCUP_47  exit=0  156s   ====
+[16:34:19] memory 47% before starting X283_new (2 running)
+[16:34:19] ==== START X283_new  (probe @ dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963) ====
+[16:34:22] [res] cpu=24% mem=46% (15.0/31.4 GB) chrome_testing=9  START X283_new
+[16:35:02] [res] cpu=4% mem=46% (14.7/31.4 GB) chrome_testing=9  END X283_old
