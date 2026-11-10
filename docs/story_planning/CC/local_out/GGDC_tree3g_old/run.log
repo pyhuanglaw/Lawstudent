@@ -1,0 +1,17 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canopy_shot_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GGDC_tree3g_old\out
+CC 樹冠網點：worktree ?；TAG g_old；gongguan (-49.0,13.0)；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan (-49.0,13.0) 2025-10-18 14.0 時
+PASS 沒在騎車
+  [  48.2s] 附近的樹冠網格（前 4）：[{"name": "ggf_broad", "see": false, "min": [-48.35, 0.32, 10.97], "max": [-46.49, 1.64, 12.78], "c": [-47.42, 0.98, 11.88], "d": 1.9}, {"name": "ggf_fern", "see": false, "min": [-48.36, 0.65, 11.01], "max": [-46.83, 1.61, 12.26], "c": [-47.59, 1.13, 11.64], "d": 2}, {"name": "trees_camphor_b_bark#0", "see": true, "min": [-55.15, -0.03, 6.97], "max": [-50.53, 3.72, 11.59], "c": [-52.84, 1.85, 9.28], "d": 5.3}, {"name": "trees_camphor_b_leaf#0", "see": false, "min": [-56.55, 1.69, 5.82], "max": [-49.39, 5.96, 12.99], "c": [-52.97, 3.83, 9.4], "d": 5.4}]
+PASS 20.0 m 內找得到樹冠網格
+  [  48.2s] 樹 1：ggf_broad 中心 [-47.42, 0.98, 11.88] 高 0.3～1.6、seeThrough False
+  [  51.5s] 到達「走到樹 1 正下方」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  54.3s] 樹 1 遊戲鏡頭（距離 3）：[-47.25, 2.3, 9.9]
+  [  54.4s] 樹 2：trees_camphor_b_bark#0 中心 [-52.84, 1.85, 9.28] 高 -0.0～3.7、seeThrough True
+  [  64.2s] 到達「走到樹 2 正下方」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [  67.0s] 樹 2 遊戲鏡頭（距離 3）：[-50.06, 2.3, 11.41]
+PASS 拍到 2 棵  2
+PASS 沒有 JS 例外  []
+ALL PASS
