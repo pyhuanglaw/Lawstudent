@@ -43210,7 +43210,7 @@
    "status": "已整合待測試",
    "priority": "P1",
    "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
-   "next": "【11-08 12:2x LAWWW-B】BB-B 12:15：南洋 1 廳看電影 PASS（95566d0b5；19:08 關燈、23:08 開燈）。P3（BB 記著、九間一起判）：開演後柱子、天花板還是偏亮。 ｜ 【LAWWW-C 11-05 04:2x】v1 已接 a3b18addc（LAWWW2-C 9eed89550；D141）；BB／CC PC 瀏覽器｜【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜大廳 BB 第四版（企劃線 bb_support/nanyang_lobby，照使用者參考圖，READY_FOR_REVIEW）；影廳還沒做 → LAWWW2 驗收＋整合",
+   "next": "【LAWWW 11-10 10:3x】BB（BB_255）：不能標已驗收：NANYANG_v2 r1 63 PASS／5 FAIL，沒有重跑全過；BB 排 CC 重跑，LAWWW2 給最新 SHA。 ｜ 【11-08 12:2x LAWWW-B】BB-B 12:15：南洋 1 廳看電影 PASS（95566d0b5；19:08 關燈、23:08 開燈）。P3（BB 記著、九間一起判）：開演後柱子、天花板還是偏亮。 ｜ 【LAWWW-C 11-05 04:2x】v1 已接 a3b18addc（LAWWW2-C 9eed89550；D141）；BB／CC PC 瀏覽器｜【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜大廳 BB 第四版（企劃線 bb_support/nanyang_lobby，照使用者參考圖，READY_FOR_REVIEW）；影廳還沒做 → LAWWW2 驗收＋整合",
    "xai": {
     "spec": "AA_615（企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿））",
     "branch": "claude/second-ai-env-art",
@@ -46729,7 +46729,7 @@
     "acceptance": "遠處版頭頂沒有方塊；CC 同一個鏡頭重拍",
     "ack": "ACTIONED"
    },
-   "next": "【LAWWW-C 11-04 18:4x】LAWWW2 30c0ae20 換檔進 1eb7182b7；BB Blender 階段 PASS（BB_255 ae24b083a）；下一步 CC 用 ⑧ 同一個鏡頭重拍"
+   "next": "【LAWWW 11-10 10:3x】BB（BB_255）：不能標：只有 Blender 階段 PASS，接進 1eb7182b7 後遊戲內同鏡頭還沒重拍；BB 排 CC 重拍。 ｜ 【LAWWW-C 11-04 18:4x】LAWWW2 30c0ae20 換檔進 1eb7182b7；BB Blender 階段 PASS（BB_255 ae24b083a）；下一步 CC 用 ⑧ 同一個鏡頭重拍"
   },
   {
    "id": "TE-HEART-EXEMPT-1104",
@@ -47597,7 +47597,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 05:4x LAWWW-B】第二批（LAWWW2-B 33bc9fe48、測試 patch 655729e66）：沛珊、芯慈、予樂、秀琴、秀琴圍裙五個 VRM 坐下不穿模（248～645 → 0），skirt_sit_morph_unit 加這五位 ALL PASS；BB 意見通過（Blender 前後對照），等 CC 遊戲內截圖後 LAWWW 標 ART_APPROVED（D100a）。 ｜ 【11-07 05:2x LAWWW-B】LAWWW2-B 768da51ab（資產 123a5c464）：8 個穿裙子的路人 VRM（＋lod）加坐下才打開的 morph「skirt_sit」，src/character3d.js 靜態坐姿開；tests/skirt_sit_morph_unit.js ALL PASS。等 CC：體育館一樓長椅、教室、Café 坐著的穿裙子路人近／7 m 外截圖。有名字的四位（沛珊、芯慈、予樂、秀琴）LAWWW 同意照做（D100a），LAWWW2 排在籃架、器材資料後面。 ｜ LAWWW2 查坐姿時裙子的處理（裙擺骨頭或坐下時換短版／收窄），體育館一樓長椅那位先修，修好截圖",
+   "next": "【LAWWW 11-10 10:3x】BB（BB_255）：功能 CC ALL PASS（BB_255 第 1443、1524 行）；角色美術照 D100a 由 LAWWW 看截圖判。 ｜ 【11-07 05:4x LAWWW-B】第二批（LAWWW2-B 33bc9fe48、測試 patch 655729e66）：沛珊、芯慈、予樂、秀琴、秀琴圍裙五個 VRM 坐下不穿模（248～645 → 0），skirt_sit_morph_unit 加這五位 ALL PASS；BB 意見通過（Blender 前後對照），等 CC 遊戲內截圖後 LAWWW 標 ART_APPROVED（D100a）。 ｜ 【11-07 05:2x LAWWW-B】LAWWW2-B 768da51ab（資產 123a5c464）：8 個穿裙子的路人 VRM（＋lod）加坐下才打開的 morph「skirt_sit」，src/character3d.js 靜態坐姿開；tests/skirt_sit_morph_unit.js ALL PASS。等 CC：體育館一樓長椅、教室、Café 坐著的穿裙子路人近／7 m 外截圖。有名字的四位（沛珊、芯慈、予樂、秀琴）LAWWW 同意照做（D100a），LAWWW2 排在籃架、器材資料後面。 ｜ LAWWW2 查坐姿時裙子的處理（裙擺骨頭或坐下時換短版／收窄），體育館一樓長椅那位先修，修好截圖",
    "source": "UA-LAWWW-1105-23",
    "authorized": "使用者原話",
    "xai": {
@@ -49279,7 +49279,7 @@
    "title": "新生南路往北那一段（校園北牆外）：車道線、分隔島、行道樹、人行道、路燈、兩側房子",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -49301,7 +49301,8 @@
     "ack": "ACK"
    },
    "sha": "fa79dd7bc",
-   "next": "【11-07 09:1x LAWWW-B】LAWWW2 b501e871e 接進 fa79dd7bc；BB 功能 PASS、兩點 P3 交 LAWWW2；CC 遊戲內白天晚上。"
+   "next": "【LAWWW 11-10 10:3x】BB（BB_255）：功能已驗收；美術 P3 兩點（分隔島行道樹不見、晚上燈下沒有光圈）不擋，記錄。 ｜ 【11-07 09:1x LAWWW-B】LAWWW2 b501e871e 接進 fa79dd7bc；BB 功能 PASS、兩點 P3 交 LAWWW2；CC 遊戲內白天晚上。",
+   "evidence": "BB_255 第 1498 行（企劃線）功能 PASS；美術不標 ART_APPROVED"
   },
   {
    "id": "RELEASE-V91022-1107",
