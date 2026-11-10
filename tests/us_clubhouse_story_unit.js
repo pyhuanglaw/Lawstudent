@@ -12,7 +12,7 @@
 //     挽回中 sisStudyRepair（外套一直在、那張不能坐）；九月、18:00 不在
 //   E 住戶：交誼廳 2～4、自習室 0～2、辦公室的人平日 09～17；都不能聊；關門時間沒有人
 //   F 劇情在 3D：10/4 long3（公布欄的單子、他在老位子、你坐旁邊）、10/12 fb_study（走到她桌子旁邊、自習室沒有別人、不另外出「抬頭看了你一眼」）、
-//     10/18 sis_plan_us（並排、讀書計畫）、11/23 thanks_long（販賣機前 → 沙發；交誼廳沒有別人）、12/14 晚餐（併桌 10 人、學姊主位、室友兩邊、何俊朗對面、聖誕樹、CG 照舊）；
+//     10/18 sis_plan_us（並排、讀書計畫）、11/23 thanks_long（販賣機前 → 淡出淡入坐到自習室窗邊何俊朗那張桌子，AA 11-10 17:14；會所沒有別人）、12/14 晚餐（併桌 10 人、學姊主位、室友兩邊、何俊朗對面、聖誕樹、CG 照舊）；
 //     背景 freeze、scene 不換 2D 背景、台詞一字不差；演完回到原本的地方；原本的事件資料沒改；沒有 3D 會所＝照舊 2D
 //   G 存檔：舊存檔（沒有 usLife）照常；在會所裡的存檔讀回來：人照時間在；讀檔的鎖；會所算在美國、手機地點有名字
 // 這是 Node 模擬（資料、流程），畫面要 CC 在使用者電腦拍（D131）。用法：node tests/us_clubhouse_story_unit.js
@@ -44,7 +44,7 @@ if(process.argv[2]==='--zones'){
 let ZD=null; try{ ZD=JSON.parse(cp.execFileSync(process.execPath,[__filename,'--zones'],{cwd:ROOT,maxBuffer:1<<24}).toString()); }catch(e){ console.log('FAIL 0. 建不出真正的 us_clubhouse_in 區域  '+String(e.message).slice(0,300)); console.log('FAILED: 1'); process.exit(1); }
 
 /* ============ 劇情、系統（pg_harness＋美國篇）============ */
-const H=require('./pg_harness.js');
+const H=require('./pg_harness.js'); const USL_SRC=require('fs').readFileSync(require('path').join(__dirname,'..','src','us_life3d.js'),'utf8');
 const {check,GM,E}=H, J=JSON.stringify, S5='heroine_05';
 global.Z3={ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{}; CG_REGISTRY.cg_last_dinner_heroine05=CG_REGISTRY.cg_last_dinner_heroine05||{image:'x'};   /* 晚餐的 CG 有登錄（遊戲裡有圖）*/
 const EXPORT=/^(EXCH|US3|US_\w+|AIRPORT_T2_LAYOUT|Y34B|R2Y3B|R2Y3B_EVENTS|R2Y4A|R2Y4A_EVENTS|USL|US_LIFE_EVENTS|US208|ROM|PORTRAIT_ONLY|R3_EVENTS)$/;
@@ -234,7 +234,7 @@ await sec('F',async()=>{
   { const s0=GM.say; const snaps=[]; GM.say=async(w,t)=>{ snaps.push({zone:H.G.zone,me:pos(E.player),meSeat:seatId(E.player),long:pos(npcClub('long')),longSeat:seatId(npcClub('long')),res:res('lounge').length+res('study').length,others:E.npcs.filter(n=>n.usClub&&n.usClub!=='long').length}); return s0(w,t); };
     await go('usl_thanks_long'); GM.say=s0;
     check('F. 11/23 熱可可：販賣機前開始（玩家、何俊朗照 start 的站位）、會所沒有別人',!!snaps[0]&&snaps[0].zone===CZ&&eq(snaps[0].me,[st.player.x,st.player.z])&&eq(snaps[0].long,[st.long.x,st.long.z])&&snaps[0].others===0,J(snaps[0]));
-    check('F. 熱可可推過來以後：兩個人坐到沙發（玩家 sofa_2、何俊朗 sofa_1）',!!snaps[1]&&snaps[1].meSeat==='sofa_2'&&snaps[1].longSeat==='sofa_1',J(snaps[1]));
+    check('F. 熱可可推過來以後（第二句以前淡出淡入）：兩個人坐到自習室窗邊何俊朗那張桌子（玩家 npc.longNext、何俊朗 npc.long；AA 11-10 17:14 改演法：第二句寫「你們坐在自習室的窗邊喝完」）',!!snaps[1]&&snaps[1].meSeat===US_CLUBHOUSE_LAYOUT.npc.longNext&&snaps[1].longSeat===US_CLUBHOUSE_LAYOUT.npc.long,J(snaps[1]));
     check('F. 熱可可：台詞一字不差、freeze；演完回到社區、USL_THANKS＝long',eq(said(),evTexts('ev_usl_thanks_long'))&&H.bgs.includes('freeze')&&!H.bgs.some(b=>b&&b.image)&&H.G.zone==='us_outside'&&H.G.flags.USL_THANKS==='long',J(said())); }
   // 12/14 晚餐
   for(const met of [true,false]){ fresh('2028-12-14',18.9,'us_outside',met?{MET_LONG:true,US_CLUB_DISH:'egg'}:{US_CLUB_DISH:'egg'}); planOut({id:'us_club',ev:'ev_us_club_dinner',day:D('2028-12-14'),h:19,place:'會所',title:'會所晚餐'});
@@ -268,5 +268,10 @@ await sec('G',async()=>{
   fresh('2027-10-05',19.6,'campus',{}); const r=await STORY.interact(Object.assign({},DOOR),GM);
   check('G. 不在美國：會所門口的接線不作用',!H.entered.includes(CZ),J({r,entered:H.entered})); });
 
+
+  /* 12/14 晚餐那晚（AA 11-10 17:14）：沒排晚餐 18:30～21:30——學姊、何俊朗不在自習室、交誼廳沒有住戶、走到交誼廳一句「今晚交誼廳有聚餐。」；19:00 以前、別天照舊 */
+  { const G=H.G; const d0=G.day, h0=G.hour; G.day=D('2028-12-14'); G.hour=19.2; const dn=USL.dinnerNight(G); G.hour=18; const before=USL.dinnerNight(G); G.day=D('2028-12-15'); G.hour=19.2; const other=USL.dinnerNight(G); G.day=d0; G.hour=h0;
+    check('G. 12/14 18:30～21:30 沒排晚餐＝dinnerNight；18:00、12/15 不是',dn===true&&before===false&&other===false,J({dn,before,other}));
+    check('G. dinnerNight 那晚：學姊、何俊朗不在、交誼廳沒有住戶、交誼廳一句「今晚交誼廳有聚餐。」（原始碼）',/S\.longHere\(G\)&&!S\.dinnerNight\(G\)/.test(USL_SRC)&&/S\.sisClub\(G\)&&!S\.dinnerNight\(G\)/.test(USL_SRC)&&/if\(!dn\) for/.test(USL_SRC)&&USL.DINNER_NOTE==='今晚交誼廳有聚餐。'); }
 H.done();
 })();
