@@ -7010,7 +7010,7 @@
    ],
    "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "AA 12ae10d3e 的透空與鏡頭牆被 SUNNY v1e／小路 v4 配置蓋掉了；照現在 GLB 材質名重加 seeThru＋camWalls（SUNNY 左、後牆；小路右、後、左牆），sync 到 wz_shops_layout。新測試：開發 SUNNY 擋 37／224、小路 126／288 → 0。相關 30 支：29 PASS，aa655_wz_rename FAILED 1 開發原樣也一樣（story3d.js GIFTH 對照表的「兩點半 Café」）。 ｜ LAWWW 11-10 10:30 接進開發分支 9d4c54c16（wz_seat_cams、sync --check OK）；aa655 的舊店名 LAWWW 已修 78762a2b1。",
+   "note": "AA 12ae10d3e 的透空與鏡頭牆被 SUNNY v1e／小路 v4 配置蓋掉了；照現在 GLB 材質名重加 seeThru＋camWalls（SUNNY 左、後牆；小路右、後、左牆），sync 到 wz_shops_layout。新測試：開發 SUNNY 擋 37／224、小路 126／288 → 0。相關 30 支：29 PASS，aa655_wz_rename FAILED 1 開發原樣也一樣（story3d.js GIFTH 對照表的「兩點半 Café」）。 ｜ LAWWW 11-10 10:30 接進開發分支 9d4c54c16（wz_seat_cams、sync --check OK）；aa655 的舊店名 LAWWW 已修 78762a2b1。 ｜ LAWWW 18c73515b 照新配置改了 wz_shops2 第 5 項、wz_interiors_aa659 A6 的期待（我回歸時清單截斷漏跑）。",
    "next": "CC 拍吧台、卡座坐下轉一圈；BB 判"
   },
   {
@@ -7024,7 +7024,7 @@
    ],
    "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "社博正式模型每攤一個合併網格、帳篷頂分不開 → 整攤接樹幹透視（zones3d.js fairSeeThru）。新測試：大一穿過 421 次、大二 1861 次，開發全部擋住 FAIL → 0 ALL PASS；社博相關 11 支＋校園 seethru 2 支 ALL PASS。 ｜ LAWWW 11-10 10:34 在本機接進開發分支 88bd03f56（fair_tent_cam＋社博 4 支＋seethru 2 支 ALL PASS），GHA 全套跑完才推。",
+   "note": "社博正式模型每攤一個合併網格、帳篷頂分不開 → 整攤接樹幹透視（zones3d.js fairSeeThru）。新測試：大一穿過 421 次、大二 1861 次，開發全部擋住 FAIL → 0 ALL PASS；社博相關 11 支＋校園 seethru 2 支 ALL PASS。 ｜ LAWWW 11-10 10:34 在本機接進開發分支 88bd03f56（fair_tent_cam＋社博 4 支＋seethru 2 支 ALL PASS），GHA 全套跑完才推。 ｜ LAWWW 11-10 10:59：已推上開發分支（18c73515b 以前）。",
    "next": "LAWWW 推；CC 社博兩天看；BB 判"
   },
   {
@@ -7041,7 +7041,7 @@
    ],
    "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "窗外是博思一樓退縮的玻璃大廳，照不到光、玻璃頂點色太暗 → 只有這一片換亮一點的灰藍漸層（campus_teach.py），重匯 campus_boya.glb。新測試開發 FAIL → ALL PASS；e05_putong、nav_teach、teach_east_drawcall、zone_prefetch ALL PASS。窗景照片要 CC 重拍（teach_views.py putong_north）。 ｜ LAWWW 11-10 10:38 在本機接進開發分支 3c6c91bdd（4 支 ALL PASS），GHA 跑完一起推。",
+   "note": "窗外是博思一樓退縮的玻璃大廳，照不到光、玻璃頂點色太暗 → 只有這一片換亮一點的灰藍漸層（campus_teach.py），重匯 campus_boya.glb。新測試開發 FAIL → ALL PASS；e05_putong、nav_teach、teach_east_drawcall、zone_prefetch ALL PASS。窗景照片要 CC 重拍（teach_views.py putong_north）。 ｜ LAWWW 11-10 10:38 在本機接進開發分支 3c6c91bdd（4 支 ALL PASS），GHA 跑完一起推。 ｜ LAWWW 11-10 10:59：已推上開發分支（18c73515b 以前）。",
    "next": "LAWWW 推；CC 重拍 putong_north；BB 判"
   },
   {
@@ -7058,7 +7058,7 @@
    ],
    "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "character3d.js gymProps：gymIK 之後每格照掌心擺；彎舉／推舉兩個啞鈴、深蹲槓鈴、划船拉把；換動作藏、release 拿掉、isFar 不放。新測試開發 FAIL → ALL PASS（男女各一）；gym_pose、gym_crowd、gym、sit_task、stairs_feet、seat_ambient ALL PASS。第二包（飛輪曲柄、划船座椅會動）要拆器材重烘，另交。 ｜ LAWWW 11-10 10:46 本機接進開發分支（gym_hand_props＋7 支 ALL PASS），GHA 跑完一起推。",
+   "note": "character3d.js gymProps：gymIK 之後每格照掌心擺；彎舉／推舉兩個啞鈴、深蹲槓鈴、划船拉把；換動作藏、release 拿掉、isFar 不放。新測試開發 FAIL → ALL PASS（男女各一）；gym_pose、gym_crowd、gym、sit_task、stairs_feet、seat_ambient ALL PASS。第二包（飛輪曲柄、划船座椅會動）要拆器材重烘，另交。 ｜ LAWWW 11-10 10:46 本機接進開發分支（gym_hand_props＋7 支 ALL PASS），GHA 跑完一起推。 ｜ LAWWW 11-10 10:59：已推上開發分支（18c73515b 以前）。",
    "next": "LAWWW 推；CC 拍 B1 四個動作；LAWWW 角色美術判"
   }
  ]
