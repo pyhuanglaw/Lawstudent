@@ -1,0 +1,60 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_sitamb_probe_d8.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SEATFIG_new_near\out
+CC SITAMB ⑧ 替身對照：head_near；http://127.0.0.1:8801/index.html；SwiftShader／Windows＋GPU ≠ iPhone（看有沒有方塊，不看顏色）
+  [前置／捷徑] CC_SEED=1104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入  24.7 秒
+  [前置／捷徑] 讀檔：博思 101（boya）、day 7（2025-09-23 週二，國文 09:10～12:10）09:30、晴、條件事件關閉
+PASS 讀到博思 101、替身放好了  [{"key": "7:chinese_y1:am", "n": 17, "leaving": false, "loaded": true}]
+  替身群組 seated_figures:7:chinese_y1:am（放在 L0 < Group < Scene）：範圍 [-14.25, 0.3, -6.85]～[-7.95, 1.8, 3.15]
+    fig_npc_nf2_listen_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf2_listen_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    desk:lset_laptop ×0（不顯示）256 面、材質 {"name": "desk_props", "color": "#ffffff", "map": true, "transparent": false}
+    desk:lset_laptop_lod1 ×2（顯示）12 面、材質 {"name": "desk_props", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf6_phone_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf6_phone_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    desk:lset_phone ×0（不顯示）198 面、材質 {"name": "desk_props", "color": "#ffffff", "map": true, "transparent": false}
+    desk:lset_phone_lod1 ×6（顯示）8 面、材質 {"name": "desk_props", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nm13_write_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nm13_write_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    desk:lset_write ×0（不顯示）150 面、材質 {"name": "desk_props", "color": "#ffffff", "map": true, "transparent": false}
+    desk:lset_write_lod1 ×5（顯示）2 面、材質 {"name": "desk_props", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nm3_listen_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nm3_listen_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    desk:lset_book ×0（不顯示）298 面、材質 {"name": "desk_props", "color": "#ffffff", "map": true, "transparent": false}
+    desk:lset_book_lod1 ×2（顯示）30 面、材質 {"name": "desk_props", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf13_phone_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf13_phone_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf1_write_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf1_write_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf6_listen_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf6_listen_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    desk:lset_code ×0（不顯示）252 面、材質 {"name": "desk_props", "color": "#ffffff", "map": true, "transparent": false}
+    desk:lset_code_lod1 ×2（顯示）26 面、材質 {"name": "desk_props", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nm13_phone_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nm13_phone_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nm2_write_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nm2_write_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf13_listen_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf13_listen_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf1_phone_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf1_phone_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf3_write_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf3_write_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nm13_listen_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nm13_listen_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nm2_phone_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nm2_phone_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nm8_write_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nm8_write_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf1_listen_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf1_listen_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf3_phone_c0 ×0（不顯示）2400 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+    fig_npc_nf3_phone_c0_lod1 ×1（顯示）800 面、材質 {"name": "seated_fig", "color": "#ffffff", "map": true, "transparent": false}
+  完整人物坐著 16 人；CHAR.sitAmbFidget True；網址 nositamb＝False；figState [{"key": "7:chinese_y1:am", "n": 17, "leaving": false, "loaded": true}]
+  【捷徑】玩家在 (-11.10, -1.85)：7 m 內替身 _lod0 17 個、_lod1 0 個；第一次出現 _lod0 在 0.37 秒（真實時間）；玩家 busy=False
+  d8_head_near_side.jpg：鏡頭 [-15.45, 1.0, -1.85] → [-11.1, 1.2, -1.85]、calls 303、tris 601961｜側面低角度（同 boya_feet）
+  d8_head_near_back.jpg：鏡頭 [-11.1, 4.8, 5.15] → [-11.1, 1.1, -1.85]、calls 219、tris 544334｜+z 那一端的上方往另一端
+  d8_head_near_front.jpg：鏡頭 [-11.1, 4.8, -8.85] → [-11.1, 1.1, -1.85]、calls 214、tris 447975｜−z 那一端的上方往另一端
+  d8_head_near_back_nodesk.jpg：【捷徑】藏起 desk:* 5 個、calls 214、tris 540784
+PASS 沒有 JS 例外  []
+ALL PASS

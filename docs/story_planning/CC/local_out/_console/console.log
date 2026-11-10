@@ -1326,3 +1326,11 @@
 [20:34:07] ==== START SEATFIG_old  (probe @ 5aff1d18ed53ce1ff90aacd7c8c8c926ae21a342) ====
 [20:34:10] [res] cpu=5% mem=47% (14.9/31.4 GB) chrome_testing=10  START SEATFIG_old
 [20:35:33] [res] cpu=43% mem=42% (14.9/31.4 GB) chrome_testing=9  END SEATFIG_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       11be1af22..bc36fc2cc  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:35:38] ==== END   SEATFIG_old  exit=0  86s   ====
+[20:35:42] memory 45% before starting SEATFIG_new_near (2 running)
+[20:35:42] ==== START SEATFIG_new_near  (probe @ 93d3e92691b344385636dc1f50741a871a4406a9) ====
+[20:35:45] [res] cpu=20% mem=45% (14.2/31.4 GB) chrome_testing=9  START SEATFIG_new_near
+[20:37:15] [res] cpu=23% mem=47% (15.0/31.4 GB) chrome_testing=10  END SEATFIG_new_near
