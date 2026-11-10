@@ -1,0 +1,233 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_x295_clubs_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\X295C_old\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入  http://127.0.0.1:8800/index.html
+  [  25.9s] TAG=old CASES=['guitar', 'debate', 'bball_sun', 'bball_rain', 'zhe_yes', 'zhe_no', 'later']；版本有 LATE_JOIN＝False
+== guitar
+PASS guitar 大一上第 5 週有 club_guitar（ACTIVITIES.on）  {"day": 15, "key": "2025-10-01", "wd": 3, "week": 5}
+  [前置／捷徑] guitar GAME.defaults（法律系）＋讀檔：2025-10-01（day 15、星期 3、第 5 週）19.05、天氣 clear、區域 wancai 入口；條件事件關閉
+PASS guitar 區域 wancai 裡找到互動點  {"x": 2, "z": -6.25, "lv": 0, "r": 1.5, "label": "進入 多功能教室"}
+  [  39.6s] guitar 互動點：{"x": 2, "z": -6.25, "lv": 0, "r": 1.5, "label": "進入 多功能教室"}
+PASS guitar 開始時在 wancai（天氣 clear）  {"zone": "wancai", "x": 0, "z": 6, "lv": 0, "hour": 19.069, "weather": "clear"}
+  [  51.2s] 到達「guitar 走到互動點」附近（0.23 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+PASS guitar 走到那裡，互動鍵出現（進入 多功能教室）  {"x": 1.918, "z": -6.031, "lv": 0, "interact": "進入 多功能教室", "hour": 19.15}
+PASS [黑畫面] old_guitar_at 不是黑畫面（平均亮度 79.5、變化 33.4）  [79.5, 33.4]
+  CHOICES 19.15 ["參加：吉他社社課", "先不要"]
+  LINE 19.15 [旁白] （你在門口填了表。）
+  CAP 19.15 吉他社
+  LINE 19.15 [高子晴] 新人？……法律系的？坐那邊，零食自己拿。
+  LINE 19.15 [高子晴] 我高子晴，資工系的。先講好：我們社團沒有人會彈，都是來吃東西的。
+  LINE 19.15 [高子晴] 今天系上有程式比賽，一半的人跑去了，所以人很少。
+  CHOICES 19.15 ["「教我一個和弦。」", "「妳們平常都在幹嘛？」"]
+  [  59.1s] guitar 其他選項 ["「教我一個和弦。」", "「妳們平常都在幹嘛？」"] → 選第 1 個
+  LINE 20.15 [高子晴] 手指這樣——不對，那是 F，你會痛死。C。壓好。
+  LINE 20.15 [旁白] 一個小時後你會了一個和弦，還有手指上兩條紅痕。
+  LINE 20.15 [旁白] （社長學長拍拍手。）
+  LINE 20.15 [社長學長] 有自己吉他的舉手。
+  LINE 20.15 [旁白] （一半的人舉手。你沒有。）
+  LINE 20.15 [社長學長] 沒有的先用社團的，前面那箱。前兩個禮拜先借，之後最好自己買一把。……不用貴，三四千就有好彈的。
+  LINE 20.15 [社長學長] 新生南路有一家同弦，報吉他社打九折。買弦也有。
+  CHOICES 20.15 ["「好。」", "「一定要買嗎？」"]
+  [  67.2s] guitar 其他選項 ["「好。」", "「一定要買嗎？」"] → 選第 1 個
+  LINE 21.00 [旁白] （社團的吉他弦很鏽。按下去手指留了一條黑線。）
+  CAP 21.00 社課結束了。
+  [  74.3s] guitar 結束：{"CLUB": true, "CLUB_LATE": null, "BALL_GO": null, "attended": true, "hasLate": false, "due": null, "declined": null, "place": "wancai", "zheZone": null, "zheLabel": null, "zheZone59": "gongguan", "zheName": "阿哲"}
+PASS guitar 選單有「參加：吉他社社課」並參加了  {"choices": ["參加：吉他社社課", "先不要"], "hour": 19.153}
+PASS guitar 沒有用到自動走路的備援（walkFallbacks 沒有增加）  0 → 0
+FAIL guitar 第 5 週社課結束時出現入社單選項「填／先不要」  []
+PASS guitar 沒有「我就說吧。」
+PASS guitar 沒有 JS 例外  []
+== debate
+PASS debate 大一上第 5 週有 club_debate（ACTIVITIES.on）  {"day": 14, "key": "2025-09-30", "wd": 2, "week": 5}
+  [前置／捷徑] debate GAME.defaults（法律系）＋讀檔：2025-09-30（day 14、星期 2、第 5 週）19.05、天氣 clear、區域 boya 入口；條件事件關閉
+PASS debate 區域 boya 裡找到互動點  {"x": -8.4, "z": -3.5, "lv": 1, "r": 0.8, "label": "坐下", "n": 16}
+PASS debate 目標附近有站得住的起點  {"x": -8.0, "z": 1.0, "lv": 1}
+  [前置／捷徑] debate 同一份存檔再讀一次，人站到 (-8.0, 1.0, lv 1)（離互動點 4.5 m；原本入口離 13.3 m、lv 0）
+  [  98.5s] debate 互動點：{"x": -8.4, "z": -3.5, "lv": 1, "r": 0.8, "label": "坐下", "n": 16}
+PASS debate 開始時在 boya（天氣 clear）  {"zone": "boya", "x": -8, "z": 1, "lv": 1, "hour": 19.111, "weather": "clear"}
+  [ 149.9s] 到達「debate 走到互動點」附近（0.23 m）：點地面 16 次、轉鏡頭 1 次、搖桿 1 次，51 秒
+PASS debate 走到那裡，互動鍵出現（坐下）  {"x": -8.192, "z": -3.399, "lv": 1, "interact": "坐下", "hour": 19.46}
+PASS [黑畫面] old_debate_at 不是黑畫面（平均亮度 131.3、變化 64.4）  [131.3, 64.4]
+  CHOICES 19.46 ["參加：辯論社社課", "坐一下，看看四周", "讀書", "趴著睡一下：30 分鐘", "趴著睡一下：1 小時", "起身"]
+  LINE 19.46 [旁白] （你在門口填了表。）
+  LINE 19.46 [旁白] 你輕輕坐下。「辯論社社課」已經開始了。
+  LINE 21.00 [旁白] （正反方練習、計時。今天的題目：大學該不該點名。）
+  CAP 21.00 社課結束了。
+  [ 162.4s] debate 結束：{"CLUB": true, "CLUB_LATE": null, "BALL_GO": null, "attended": true, "hasLate": false, "due": null, "declined": null, "place": "boya", "zheZone": null, "zheLabel": null, "zheZone59": null, "zheName": "阿哲"}
+PASS debate 選單有「參加：辯論社社課」並參加了  {"choices": ["參加：辯論社社課", "坐一下，看看四周", "讀書", "趴著睡一下：30 分鐘", "趴著睡一下：1 小時", "起身"], "hour": 19.459}
+PASS debate 沒有用到自動走路的備援（walkFallbacks 沒有增加）  0 → 0
+FAIL debate 第 5 週社課結束時出現入社單選項「填／先不要」  []
+PASS debate 沒有「我就說吧。」
+PASS debate 沒有 JS 例外  []
+== bball_sun
+PASS bball_sun 大一上第 5 週有 dept_basketball（ACTIVITIES.on）  {"day": 17, "key": "2025-10-03", "wd": 5, "week": 5}
+  [前置／捷徑] bball_sun GAME.defaults（法律系）＋讀檔：2025-10-03（day 17、星期 5、第 5 週）17.55、天氣 clear、區域 campus 入口；條件事件關閉
+PASS bball_sun 區域 campus 裡找到互動點  {"x": 3.3, "z": -112.7, "lv": 0, "r": 1.2, "label": "系籃練球"}
+PASS bball_sun 目標附近有站得住的起點  {"x": 3.3, "z": -102.7, "lv": 0, "r": 10}
+  [前置／捷徑] bball_sun 同一份存檔再讀一次，人站到 (3.3, -102.7, lv 0)（離互動點 10.0 m；原本入口離 34.0 m、lv 0）
+  [ 191.2s] bball_sun 互動點：{"x": 3.3, "z": -112.7, "lv": 0, "r": 1.2, "label": "系籃練球"}
+PASS bball_sun 開始時在 campus（天氣 clear）  {"zone": "campus", "x": 3.3, "z": -102.7, "lv": 0, "hour": 17.616, "weather": "clear"}
+  [ 203.5s] 到達「bball_sun 走到互動點」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+PASS bball_sun 走到那裡，互動鍵出現（系籃練球）  {"x": 3.206, "z": -112.489, "lv": 0, "interact": "系籃練球", "hour": 17.7}
+PASS [黑畫面] old_bball_sun_at 不是黑畫面（平均亮度 43.8、變化 35.3）  [43.8, 35.3]
+  CHOICES 17.71 ["去練球：系籃練球", "先不要"]
+  LINE 17.71 [學長] 新來的？大一？
+  LINE 17.71 [學長] 名字寫這裡。之後每週五，有空就來。
+  LINE 19.00 [旁白] （投籃練習，每人二十球。進幾球沒有人在算——除了學長。）
+  CAP 19.00 社課結束了。
+  [ 215.8s] bball_sun 結束：{"CLUB": true, "CLUB_LATE": null, "BALL_GO": null, "attended": true, "hasLate": false, "due": null, "declined": null, "place": "campus", "zheZone": "gongguan", "zheLabel": "wander", "zheZone59": "campus", "zheName": "阿哲"}
+PASS bball_sun 選單有「去練球：系籃練球」並參加了  {"choices": ["去練球：系籃練球", "先不要"], "hour": 17.706}
+PASS bball_sun 沒有用到自動走路的備援（walkFallbacks 沒有增加）  0 → 0
+FAIL bball_sun 第 5 週社課結束時出現入社單選項「填／先不要」  []
+PASS bball_sun 參加的地點是 campus（ACTIVITIES.placeOf＝campus）  {"CLUB": true, "CLUB_LATE": null, "BALL_GO": null, "attended": true, "hasLate": false, "due": null, "declined": null, "place": "campus", "zheZone": "gongguan", "zheLabel": "wander", "zheZone59": "campus", "zheName": "阿哲"}
+PASS bball_sun 晴天沒有走廊那句
+PASS bball_sun 沒有「我就說吧。」（沒設 AA613_BALL_GO）
+PASS bball_sun 沒有 JS 例外  []
+== bball_rain
+PASS bball_rain 大一上第 5 週有 dept_basketball（ACTIVITIES.on）  {"day": 17, "key": "2025-10-03", "wd": 5, "week": 5}
+  [前置／捷徑] bball_rain GAME.defaults（法律系）＋讀檔：2025-10-03（day 17、星期 5、第 5 週）17.55、天氣 rain、區域 gym 入口；條件事件關閉
+PASS bball_rain 區域 gym 裡找到互動點  {"x": -5.1, "z": 13.8, "lv": 0, "r": 1.2, "label": "系籃練球"}
+  [ 236.0s] bball_rain 互動點：{"x": -5.1, "z": 13.8, "lv": 0, "r": 1.2, "label": "系籃練球"}
+PASS bball_rain 開始時在 gym（天氣 rain）  {"zone": "gym", "x": 0, "z": 17.6, "lv": 0, "hour": 17.58, "weather": "rain"}
+  [ 240.3s] 到達「bball_rain 走到互動點」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS bball_rain 走到那裡，互動鍵出現（系籃練球）  {"x": -4.931, "z": 13.926, "lv": 0, "interact": "系籃練球", "hour": 17.61}
+PASS [黑畫面] old_bball_rain_at 不是黑畫面（平均亮度 87.6、變化 40.3）  [87.6, 40.3]
+  CHOICES 17.62 ["去練球：系籃練球", "先不要"]
+  LINE 17.62 [學長] 新來的？大一？
+  LINE 17.62 [學長] 名字寫這裡。之後每週五，有空就來。
+  LINE 19.00 [旁白] （今天在體育館走廊練運球。球聲在走廊裡很大聲。）
+  CAP 19.00 社課結束了。
+  [ 250.9s] bball_rain 結束：{"CLUB": true, "CLUB_LATE": null, "BALL_GO": null, "attended": true, "hasLate": false, "due": null, "declined": null, "place": "gym", "zheZone": "gongguan", "zheLabel": "wander", "zheZone59": "gym", "zheName": "阿哲"}
+PASS bball_rain 選單有「去練球：系籃練球」並參加了  {"choices": ["去練球：系籃練球", "先不要"], "hour": 17.618}
+PASS bball_rain 沒有用到自動走路的備援（walkFallbacks 沒有增加）  0 → 0
+FAIL bball_rain 第 5 週社課結束時出現入社單選項「填／先不要」  []
+PASS bball_rain 參加的地點是 gym（ACTIVITIES.placeOf＝gym）  {"CLUB": true, "CLUB_LATE": null, "BALL_GO": null, "attended": true, "hasLate": false, "due": null, "declined": null, "place": "gym", "zheZone": "gongguan", "zheLabel": "wander", "zheZone59": "gym", "zheName": "阿哲"}
+PASS bball_rain 旁白是走廊那句「（今天在體育館走廊練運球。球聲在走廊裡很大聲。）」
+PASS bball_rain 沒有「我就說吧。」（沒設 AA613_BALL_GO）
+PASS bball_rain 沒有 JS 例外  []
+== zhe_yes
+  [前置／捷徑] zhe_yes 旗標 AA613_BALL_GO＝17（src/aa613_3d.js 2-3：第一次練球前一天 21:00 阿哲私訊 aa613_ball_zhe 選「好，我去看看。」設定，值＝第一次練球那天）
+PASS zhe_yes 大一上第 5 週有 dept_basketball（ACTIVITIES.on）  {"day": 17, "key": "2025-10-03", "wd": 5, "week": 5}
+  [前置／捷徑] zhe_yes GAME.defaults（法律系）＋讀檔：2025-10-03（day 17、星期 5、第 5 週）17.55、天氣 clear、區域 campus 入口；條件事件關閉；旗標 {"AA613_BALL_GO": 17}
+PASS zhe_yes 區域 campus 裡找到互動點  {"x": 3.3, "z": -112.7, "lv": 0, "r": 1.2, "label": "系籃練球"}
+PASS zhe_yes 目標附近有站得住的起點  {"x": 3.3, "z": -102.7, "lv": 0, "r": 10}
+  [前置／捷徑] zhe_yes 同一份存檔再讀一次，人站到 (3.3, -102.7, lv 0)（離互動點 10.0 m；原本入口離 34.0 m、lv 0）
+  [ 275.4s] zhe_yes 互動點：{"x": 3.3, "z": -112.7, "lv": 0, "r": 1.2, "label": "系籃練球"}
+PASS zhe_yes 開始時在 campus（天氣 clear）  {"zone": "campus", "x": 3.3, "z": -102.7, "lv": 0, "hour": 17.615, "weather": "clear"}
+  [ 287.3s] 到達「zhe_yes 走到互動點」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+PASS zhe_yes 走到那裡，互動鍵出現（系籃練球）  {"x": 3.202, "z": -112.487, "lv": 0, "interact": "系籃練球", "hour": 17.7}
+PASS [黑畫面] old_zhe_yes_at 不是黑畫面（平均亮度 43.2、變化 34.9）  [43.2, 34.9]
+  CHOICES 17.70 ["去練球：系籃練球", "先不要"]
+  LINE 17.70 [學長] 新來的？大一？
+  LINE 17.70 [學長] 名字寫這裡。之後每週五，有空就來。
+  LINE 17.70 [阿哲] 我就說吧。
+PASS [黑畫面] old_zhe_yes_told 不是黑畫面（平均亮度 34.5、變化 28.7）  [34.5, 28.7]
+  LINE 19.00 [旁白] （投籃練習，每人二十球。進幾球沒有人在算——除了學長。）
+  CAP 19.00 社課結束了。
+  [ 303.3s] zhe_yes 結束：{"CLUB": true, "CLUB_LATE": null, "BALL_GO": 17, "attended": true, "hasLate": false, "due": null, "declined": null, "place": "campus", "zheZone": "gongguan", "zheLabel": "wander", "zheZone59": "campus", "zheName": "阿哲"}
+PASS zhe_yes 選單有「去練球：系籃練球」並參加了  {"choices": ["去練球：系籃練球", "先不要"], "hour": 17.704}
+PASS zhe_yes 沒有用到自動走路的備援（walkFallbacks 沒有增加）  0 → 0
+FAIL zhe_yes 第 5 週社課結束時出現入社單選項「填／先不要」  []
+  [ 303.3s] zhe_yes 阿哲作息：結束前一分鐘在 campus；結束時 gongguan／wander；名字 阿哲
+FAIL zhe_yes 選「填」以後接阿哲「我就說吧。」（說的人 阿哲）  {"name": "阿哲", "text": "我就說吧。", "hour": 17.704, "zone": "campus"}
+PASS zhe_yes「我就說吧。」只出現一次
+PASS zhe_yes 沒有 JS 例外  []
+== zhe_no
+  [前置／捷徑] zhe_no 不設 AA613_BALL_GO（＝沒對阿哲說過「好，我去看看。」；GAME.defaults 的旗標沒有這個 key）
+PASS zhe_no 大一上第 5 週有 dept_basketball（ACTIVITIES.on）  {"day": 17, "key": "2025-10-03", "wd": 5, "week": 5}
+  [前置／捷徑] zhe_no GAME.defaults（法律系）＋讀檔：2025-10-03（day 17、星期 5、第 5 週）17.55、天氣 clear、區域 campus 入口；條件事件關閉
+PASS zhe_no 區域 campus 裡找到互動點  {"x": 3.3, "z": -112.7, "lv": 0, "r": 1.2, "label": "系籃練球"}
+PASS zhe_no 目標附近有站得住的起點  {"x": 3.3, "z": -102.7, "lv": 0, "r": 10}
+  [前置／捷徑] zhe_no 同一份存檔再讀一次，人站到 (3.3, -102.7, lv 0)（離互動點 10.0 m；原本入口離 34.0 m、lv 0）
+  [ 327.5s] zhe_no 互動點：{"x": 3.3, "z": -112.7, "lv": 0, "r": 1.2, "label": "系籃練球"}
+PASS zhe_no 開始時在 campus（天氣 clear）  {"zone": "campus", "x": 3.3, "z": -102.7, "lv": 0, "hour": 17.613, "weather": "clear"}
+  [ 339.4s] 到達「zhe_no 走到互動點」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+PASS zhe_no 走到那裡，互動鍵出現（系籃練球）  {"x": 3.206, "z": -112.489, "lv": 0, "interact": "系籃練球", "hour": 17.69}
+PASS [黑畫面] old_zhe_no_at 不是黑畫面（平均亮度 43.4、變化 34.9）  [43.4, 34.9]
+  CHOICES 17.70 ["去練球：系籃練球", "先不要"]
+  LINE 17.70 [學長] 新來的？大一？
+  LINE 17.70 [學長] 名字寫這裡。之後每週五，有空就來。
+  LINE 19.00 [旁白] （投籃練習，每人二十球。進幾球沒有人在算——除了學長。）
+  CAP 19.00 社課結束了。
+  [ 352.0s] zhe_no 結束：{"CLUB": true, "CLUB_LATE": null, "BALL_GO": null, "attended": true, "hasLate": false, "due": null, "declined": null, "place": "campus", "zheZone": "gongguan", "zheLabel": "wander", "zheZone59": "campus", "zheName": "阿哲"}
+PASS zhe_no 選單有「去練球：系籃練球」並參加了  {"choices": ["去練球：系籃練球", "先不要"], "hour": 17.701}
+PASS zhe_no 沒有用到自動走路的備援（walkFallbacks 沒有增加）  0 → 0
+FAIL zhe_no 第 5 週社課結束時出現入社單選項「填／先不要」  []
+  [ 352.0s] zhe_no 阿哲作息：結束前一分鐘在 campus；結束時 gongguan／wander；名字 阿哲
+PASS zhe_no 沒說過「好，我去看看」→ 不能出現「我就說吧。」  []
+PASS zhe_no 沒有 JS 例外  []
+== later
+PASS later_w5 大一上第 5 週有 club_guitar（ACTIVITIES.on）  {"day": 15, "key": "2025-10-01", "wd": 3, "week": 5}
+  [前置／捷徑] later_w5 GAME.defaults（法律系）＋讀檔：2025-10-01（day 15、星期 3、第 5 週）19.05、天氣 clear、區域 wancai 入口；條件事件關閉
+PASS later_w5 區域 wancai 裡找到互動點  {"x": 2, "z": -6.25, "lv": 0, "r": 1.5, "label": "進入 多功能教室"}
+  [ 357.5s] later_w5 互動點：{"x": 2, "z": -6.25, "lv": 0, "r": 1.5, "label": "進入 多功能教室"}
+PASS later_w5 開始時在 wancai（天氣 clear）  {"zone": "wancai", "x": 0, "z": 6, "lv": 0, "hour": 19.082, "weather": "clear"}
+  [ 368.7s] 到達「later_w5 走到互動點」附近（0.23 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS later_w5 走到那裡，互動鍵出現（進入 多功能教室）  {"x": 1.917, "z": -6.03, "lv": 0, "interact": "進入 多功能教室", "hour": 19.16}
+PASS [黑畫面] old_later_w5_at 不是黑畫面（平均亮度 79.5、變化 33.4）  [79.5, 33.4]
+  CHOICES 19.16 ["參加：吉他社社課", "先不要"]
+  LINE 19.16 [旁白] （你在門口填了表。）
+  CAP 19.16 吉他社
+  LINE 19.16 [高子晴] 新人？……法律系的？坐那邊，零食自己拿。
+  LINE 19.16 [高子晴] 我高子晴，資工系的。先講好：我們社團沒有人會彈，都是來吃東西的。
+  LINE 19.16 [高子晴] 今天系上有程式比賽，一半的人跑去了，所以人很少。
+  CHOICES 19.16 ["「教我一個和弦。」", "「妳們平常都在幹嘛？」"]
+  [ 376.3s] later_w5 其他選項 ["「教我一個和弦。」", "「妳們平常都在幹嘛？」"] → 選第 1 個
+  LINE 20.16 [高子晴] 手指這樣——不對，那是 F，你會痛死。C。壓好。
+  LINE 20.16 [旁白] 一個小時後你會了一個和弦，還有手指上兩條紅痕。
+  LINE 20.16 [旁白] （社長學長拍拍手。）
+  LINE 20.16 [社長學長] 有自己吉他的舉手。
+  LINE 20.16 [旁白] （一半的人舉手。你沒有。）
+  LINE 20.16 [社長學長] 沒有的先用社團的，前面那箱。前兩個禮拜先借，之後最好自己買一把。……不用貴，三四千就有好彈的。
+  LINE 20.16 [社長學長] 新生南路有一家同弦，報吉他社打九折。買弦也有。
+  CHOICES 20.16 ["「好。」", "「一定要買嗎？」"]
+  [ 384.5s] later_w5 其他選項 ["「好。」", "「一定要買嗎？」"] → 選第 1 個
+  LINE 21.00 [旁白] （社團的吉他弦很鏽。按下去手指留了一條黑線。）
+  CAP 21.00 社課結束了。
+  [ 391.5s] later_w5 結束：{"CLUB": true, "CLUB_LATE": null, "BALL_GO": null, "attended": true, "hasLate": false, "due": null, "declined": null, "place": "wancai", "zheZone": null, "zheLabel": null, "zheZone59": "gongguan", "zheName": "阿哲"}
+PASS later_w5 選單有「參加：吉他社社課」並參加了  {"choices": ["參加：吉他社社課", "先不要"], "hour": 19.164}
+PASS later_w5 沒有用到自動走路的備援（walkFallbacks 沒有增加）  0 → 0
+FAIL later_w5 第 5 週社課結束時出現入社單選項「填／先不要」  []
+PASS later_w6 大一上第 6 週有 club_guitar（ACTIVITIES.on）  {"day": 22, "key": "2025-10-08", "wd": 3, "week": 6}
+  [前置／捷徑] later_w6 同一局的 GAME.snapshot() 改日期再讀：2025-10-08（day 22、第 6 週）19.05、天氣 clear、區域 wancai 入口（旗標、出席紀錄照留）
+PASS later_w6 區域 wancai 裡找到互動點  {"x": 2, "z": -6.25, "lv": 0, "r": 1.5, "label": "進入 多功能教室"}
+  [ 396.9s] later_w6 互動點：{"x": 2, "z": -6.25, "lv": 0, "r": 1.5, "label": "進入 多功能教室"}
+PASS later_w6 開始時在 wancai（天氣 clear）  {"zone": "wancai", "x": 0, "z": 6, "lv": 0, "hour": 19.083, "weather": "clear"}
+  [ 408.0s] 到達「later_w6 走到互動點」附近（0.23 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS later_w6 走到那裡，互動鍵出現（進入 多功能教室）  {"x": 1.918, "z": -6.031, "lv": 0, "interact": "進入 多功能教室", "hour": 19.16}
+PASS [黑畫面] old_later_w6_at 不是黑畫面（平均亮度 79.6、變化 33.4）  [79.6, 33.4]
+  CHOICES 19.16 ["參加：吉他社社課", "先不要"]
+  LINE 19.16 [旁白] 你輕輕坐下。「吉他社社課」已經開始了。
+  LINE 21.00 [旁白] （今天練 C、G、Am 三個和弦。換和弦的時候，整間教室都慢了半拍。）
+  CAP 21.00 社課結束了。
+  LINE 21.00 [高子晴] 你還在用那箱的？
+  LINE 21.00 [高子晴] ……禮拜六我要去同弦買弦。你要來就來。
+  LINE 21.00 [高子晴] 我陪你去，但我不幫你選。你自己彈彈看，你的手比我知道。
+  CHOICES 21.00 ["「好，禮拜六。」", "「我自己去就好。」"]
+  [ 416.1s] later_w6 其他選項 ["「好，禮拜六。」", "「我自己去就好。」"] → 選第 1 個
+  [ 420.8s] later_w6 結束：{"CLUB": true, "CLUB_LATE": null, "BALL_GO": null, "attended": true, "hasLate": false, "due": null, "declined": null, "place": "wancai", "zheZone": null, "zheLabel": null, "zheZone59": "gongguan", "zheName": "阿哲"}
+PASS later_w6 選單有「參加：吉他社社課」並參加了  {"choices": ["參加：吉他社社課", "先不要"], "hour": 19.165}
+PASS later_w6 沒有用到自動走路的備援（walkFallbacks 沒有增加）  0 → 0
+FAIL later_w6 第 6 週社課結束時出現入社單選項「填／先不要」  []
+PASS later_w7 大一上第 7 週有 club_guitar（ACTIVITIES.on）  {"day": 29, "key": "2025-10-15", "wd": 3, "week": 7}
+  [前置／捷徑] later_w7 同一局的 GAME.snapshot() 改日期再讀：2025-10-15（day 29、第 7 週）19.05、天氣 clear、區域 wancai 入口（旗標、出席紀錄照留）
+  [ 426.5s] later_w7 參加前：{"CLUB": true, "CLUB_LATE": null, "BALL_GO": null, "attended": false, "hasLate": false, "due": null, "declined": null, "place": "wancai", "zheZone": "gongguan", "zheLabel": "wander", "zheZone59": "gongguan", "zheName": "阿哲"}
+PASS later_w7 區域 wancai 裡找到互動點  {"x": 2, "z": -6.25, "lv": 0, "r": 1.5, "label": "進入 多功能教室"}
+  [ 426.5s] later_w7 互動點：{"x": 2, "z": -6.25, "lv": 0, "r": 1.5, "label": "進入 多功能教室"}
+PASS later_w7 開始時在 wancai（天氣 clear）  {"zone": "wancai", "x": 0, "z": 6, "lv": 0, "hour": 19.083, "weather": "clear"}
+  [ 437.7s] 到達「later_w7 走到互動點」附近（0.23 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS later_w7 走到那裡，互動鍵出現（進入 多功能教室）  {"x": 1.918, "z": -6.031, "lv": 0, "interact": "進入 多功能教室", "hour": 19.16}
+PASS [黑畫面] old_later_w7_at 不是黑畫面（平均亮度 79.6、變化 33.5）  [79.6, 33.5]
+  CHOICES 19.17 ["參加：吉他社社課", "先不要"]
+  LINE 19.17 [旁白] 你輕輕坐下。「吉他社社課」已經開始了。
+  LINE 21.00 [旁白] （社團那把吉他的第三弦又鬆了。學長幫你調了兩次。）
+  CAP 21.00 社課結束了。
+  [ 447.0s] later_w7 結束：{"CLUB": true, "CLUB_LATE": null, "BALL_GO": null, "attended": true, "hasLate": false, "due": null, "declined": null, "place": "wancai", "zheZone": null, "zheLabel": null, "zheZone59": "gongguan", "zheName": "阿哲"}
+PASS later_w7 選單有「參加：吉他社社課」並參加了  {"choices": ["參加：吉他社社課", "先不要"], "hour": 19.166}
+PASS later_w7 沒有用到自動走路的備援（walkFallbacks 沒有增加）  0 → 0
+PASS later_w7 沒有入社單（第 7 週不再問）  []
+FAIL later_w7 開頭門口那句「（你在門口填了表。）」（旁白）  [{"name": "", "text": "你輕輕坐下。「吉他社社課」已經開始了。", "hour": 19.166, "zone": "wancai"}, {"name": "", "text": "（社團那把吉他的第三弦又鬆了。學長幫你調了兩次。）", "hour": 21, "zone": "wancai"}]
+FAIL later_w7 門口那句在社課開始時（G.hour < t1）  null
+PASS later_w7 一去就入社（CLUB_club_guitar＝true）  {"CLUB": true, "CLUB_LATE": null, "BALL_GO": null, "attended": true, "hasLate": false, "due": null, "declined": null, "place": "wancai", "zheZone": null, "zheLabel": null, "zheZone59": "gongguan", "zheName": "阿哲"}
+PASS later_w7 沒有「我就說吧。」
+PASS later 沒有 JS 例外  []
+FAILED 11: guitar 第 5 週社課結束時出現入社單選項「填／先不要」 | debate 第 5 週社課結束時出現入社單選項「填／先不要」 | bball_sun 第 5 週社課結束時出現入社單選項「填／先不要」 | bball_rain 第 5 週社課結束時出現入社單選項「填／先不要」 | zhe_yes 第 5 週社課結束時出現入社單選項「填／先不要」 | zhe_yes 選「填」以後接阿哲「我就說吧。」（說的人 阿哲） | zhe_no 第 5 週社課結束時出現入社單選項「填／先不要」 | later_w5 第 5 週社課結束時出現入社單選項「填／先不要」 | later_w6 第 6 週社課結束時出現入社單選項「填／先不要」 | later_w7 開頭門口那句「（你在門口填了表。）」（旁白） | later_w7 門口那句在社課開始時（G.hour < t1）
