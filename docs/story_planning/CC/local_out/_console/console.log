@@ -512,3 +512,13 @@
 [00:45:52] [res] cpu=3% mem=42% (13.2/31.4 GB) chrome_testing=4  END WZCAT_r2_old
 [00:45:52] memory 42% before starting SHIFT_r6_F_old (2 running)
 [00:45:52] ==== START SHIFT_r6_F_old  (probe @ 8b31bbaa0b8a651aeb6c3653bec468f6cbfdebed) ====
+[00:45:55] [res] cpu=14% mem=42% (13.3/31.4 GB) chrome_testing=4  START SHIFT_r6_F_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7e2325380..4c83642f6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:45:59] ==== END   WZCAT_r2_old  exit=0  162s   ====
+[00:46:25] memory 47% before starting GGGLB_old (2 running)
+[00:46:25] ==== START GGGLB_old  (game @ e9af1306192fe33a31db4c4b44a38f42d779913d) ====
+[00:46:28] [res] cpu=39% mem=48% (15.0/31.4 GB) chrome_testing=8  START GGGLB_old
+[00:46:59] 正在跑：SHIFT_r6_F_new（已跑 2 分／上限 20 分）、SHIFT_r6_F_old（已跑 1 分／上限 20 分）、GGGLB_old（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:47:51] [res] cpu=8% mem=48% (14.9/31.4 GB) chrome_testing=9  END SHIFT_r6_F_new
