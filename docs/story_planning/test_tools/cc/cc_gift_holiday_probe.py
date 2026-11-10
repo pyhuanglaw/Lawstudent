@@ -118,6 +118,14 @@ STATE_JS = r"""((p)=>{ const G=GAME.G, H=typeof GIFTH!=='undefined'?GIFTH:null, 
     day:G.day, key:CALENDAR.dateOf(G.day).key, h:+(+G.hour).toFixed(2), zone:G.zone}; })"""
 
 
+RING_JS = r"""((id)=>{ const E=GAME.E, n=__BBF.npc(id); if(!n||!n.obj) return null; const h=n.obj.position, lv=n.lv|0, out=[];
+  const its=E.interactables.filter(i=>!i.hidden&&((i.lv|0)===lv));
+  for(const r of [0.6,0.75,0.9,1.1]) for(let k=0;k<16;k++){ const a=k*Math.PI/8, x=h.x+Math.sin(a)*r, z=h.z+Math.cos(a)*r; if(E.canStand&&!E.canStand(x,z,0.3,lv)) continue;
+    let di=9; for(const i of its){ di=Math.min(di,Math.hypot(i.x-x,i.z-z)); if(i.seat) di=Math.min(di,Math.hypot(i.seat.x-x,i.seat.z-z)); }
+    out.push({x:+x.toFixed(2),z:+z.toFixed(2),dh:+r.toFixed(2),di:+di.toFixed(2),sc:di-r}); }
+  out.sort((p,q)=>q.sc-p.sc); return out.slice(0,6); })"""
+
+
 async def hooks(pg):
     await P.init(pg); await P.say_hook(pg); await pg.evaluate(ADJ_HOOK)
 
@@ -201,6 +209,13 @@ async def talk_menus(pg, cdp, run, pid, tag, policy, max_s=420):
         if not g['ok']:
             rounds += 1
             if rounds > 6: run.note('%s：走了 6 輪按鈕還不是「%s」（%s）' % (tag, g['want'], g['lab'])); break
+            if rounds >= 2 and g['d'] < 2.0:   # 已經在她旁邊、按鈕卻是旁邊的椅子（她坐著；遊戲：人只比 0.5 m 內的椅子優先）——像玩家一樣換個站的地方（離椅子遠、離她近）
+                rings = await pg.evaluate(RING_JS, pid)
+                for k_, rp in enumerate((rings or [])[:4]):
+                    await L.go_to(pg, cdp, run, rp['x'], rp['z'], 0.15, '%s：換個站的地方 %d（離她 %.2f m、離最近的互動點 %.2f m）' % (tag, k_ + 1, rp['dh'], rp['di']), max_s=40, stop=lambda s, w=g['want']: s['interact'].startswith(w))
+                    await pg.wait_for_timeout(700)
+                    if (await pg.evaluate("id=>__BBF.target(id)", pid) or {}).get('ok'): break
+                continue
             await L.go_to(pg, cdp, run, g['tx'], g['tz'], 0.55, '%s：她旁邊（第 %d 輪）' % (tag, rounds), max_s=(120 if rounds <= 2 else 25), stop=lambda s, w=g['want']: s['interact'].startswith(w))
             await pg.wait_for_timeout(500); continue
         tries += 1; m0 = len(menus)
