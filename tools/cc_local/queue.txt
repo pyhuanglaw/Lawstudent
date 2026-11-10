@@ -350,6 +350,8 @@ W24_invgo_real | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_p
 #SUPERSEDED(W24_movie_real：pt1107i 舊探針沒有 X274 1 廳流程) W24_movie | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/pt1107i_invplaces_probe.py | index.html | 30 | MODE=meet;WHO=heroine_01;MOVIE=1
 #SUPERSEDED(05a715ead：ecc 載入順序錯，BB 17:54) W24_newfeat | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_newfeat_probe.py | index.html | 40 | CASES=YEJIAN,MOKU,CLUB
 W24_newfeat_05a | 05a715eaddcb6ad0cc7c838cad3cb5b33fdca205 | probe | docs/story_planning/test_tools/cc/cc_newfeat_probe.py | index.html | 50 | CASES=YEJIAN,MOKU,CLUB,LOUNGE
+POOL_SWIM | 2c37122b682225cbf5ec82e84d3746a43adb12c8 | probe | docs/story_planning/test_tools/cc/cc_pool_swim_probe.py | index.html | 30 | CASES=ENTRY,POSE,TURN,FPS,QUAL,CLOSED
+POOL_SWIM_base | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_pool_swim_probe.py | index.html | 10 | BASE=1
 W24_movie_real | 05a715eaddcb6ad0cc7c838cad3cb5b33fdca205 | probe | docs/story_planning/test_tools/cc/cc_movie_probe.py | index.html | 30 | WHO=heroine_01;PLACE=xs_nanyang
 X315_pre_new | 4cea422cb2efb8184c056fd9bc6c1f868c916be6 | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 20 | TAG=new;X315=1;CASES=NF,R14,COOL,S6
 X315_pre_old | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 15 | TAG=old;X315=1;CASES=S6
