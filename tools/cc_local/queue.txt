@@ -25,6 +25,12 @@ GG16r5_old | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_plann
 # r5b（BB 20:34）：同弦相機升到二樓招牌高度（y 4.6）、正對、不隔欄杆，新舊各一
 GG16r5b_new | 9c769623a07c9b13b9345771e856b55beceb2e16 | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 10 | TAG=new;GROUPS=同弦（二樓）;RERUN=r5b
 GG16r5b_old | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 10 | TAG=old;GROUPS=同弦（二樓）;RERUN=r5b
+# ===== BB 20:35：X324 MOVIE_TALK（AA_745 72 部電影內容，開發分支 354b527b5）；cc_movie_talk_probe.py，拆 5 支（每支 ≤20 分）；台詞原文 out/movie_talk_lines.txt 給 BB 對 AA_745 =====
+MT_info_again_skip | 354b527b5f0b4e37db85138edca7b8f9c26e7ebd | probe | docs/story_planning/test_tools/cc/cc_movie_talk_probe.py | index.html | 20 | CASES=SOLO,AGAIN,SKIP
+MT_talk0 | 354b527b5f0b4e37db85138edca7b8f9c26e7ebd | probe | docs/story_planning/test_tools/cc/cc_movie_talk_probe.py | index.html | 25 | CASES=TALK0
+MT_talk12 | 354b527b5f0b4e37db85138edca7b8f9c26e7ebd | probe | docs/story_planning/test_tools/cc/cc_movie_talk_probe.py | index.html | 20 | CASES=TALK1,TALK2
+MT_with | 354b527b5f0b4e37db85138edca7b8f9c26e7ebd | probe | docs/story_planning/test_tools/cc/cc_movie_talk_probe.py | index.html | 25 | CASES=WITHZQ1,WITHZQ2,WITHZR
+MT_old | 354b527b5f0b4e37db85138edca7b8f9c26e7ebd | game | docs/story_planning/test_tools/cc/cc_movie_talk_probe.py | index.html | 20 | SHA2=779ddd65081bf770e9850d948b54ecc21dc4d120;SCRIPT_FROM=cc;SCRIPT_FILES=docs/story_planning/test_tools/cc/pt1107e_arcs_probe.py,docs/story_planning/test_tools/cc/cc_d141_lib.py,docs/story_planning/test_tools/cc/fixtures/user_saves_1107/fatiao3d_save_day46.json;XARGS={url2} {url} {out};CC_HEADLESS=0
 #SUPERSEDED(BB 20:10 改用 5c260f19e) GG_SIGNS_new | 8efee4fbf9b05526f2ed05db136817b0037f108b | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 12 | TAG=new
 #SUPERSEDED(BB 20:12 改 16 間 GG16) GG_SIGNS_new5c | 5c260f19ebf408cb332615020b22a7648fdbd8c4 | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 12 | TAG=new
 #SUPERSEDED(BB 20:12 改 16 間 GG16) GG_SIGNS_old | 6ef185726dbf72e5bf55ca794f1928a6d705a77e | probe | docs/story_planning/test_tools/cc/cc_gg_signs_probe.py | index.html | 12 | TAG=old
