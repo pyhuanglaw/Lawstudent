@@ -186,18 +186,25 @@ async def open_shop(pg, cdp, tag, label, sells, max_steps=30):
     回傳 {'opts': 選項 or None, 'trace': [...]}（opts＝出現品名的那一個選單）"""
     s = await wait_btn(pg, label, 6)
     if not s['interact'].startswith(label): return {'opts': None, 'trace': ['互動按鈕不是「%s」：%s' % (label, s['interact'])]}
-    await L.tap(pg, cdp, '#interact'); trace = []; names = [x['name'] for x in sells]
+    await L.tap(pg, cdp, '#interact'); trace = []; names = [x['name'] for x in sells]; idle = 0; caps = set()
     for _ in range(max_steps):
         await pg.wait_for_timeout(700); q = await L.state(pg)
+        cap = await pg.evaluate(CAPTION_JS)   # 「看」的旁白是 GM.caption（#caption，game3d.js doInteract：it.look → caption('',it.look,4600)），不是對話框
+        if cap and cap not in caps: caps.add(cap); trace.append('旁白：' + cap[:80])
         if q['choices']:
             o = await pe_opts(pg); trace.append('選項：' + '｜'.join(x['t'][:24] for x in o))
             if any(x['t'].startswith(n) for x in o for n in names): return {'opts': o, 'trace': trace}
             k = next((i for i, x in enumerate(o) if any(w in x['t'] for w in ('買禮物', '選物', '買花', '看花', '購買', '買東西'))), None)
             if k is None: return {'opts': None, 'trace': trace, 'stuck_opts': o}
             await choose_k(pg, cdp, k); continue
-        if q['dlg']: trace.append('對話：' + q['dtext']); await L.tap(pg, cdp, '#dlg'); continue
-        if not q['busy']: break
+        if q['dlg']: trace.append('對話：' + q['dtext']); await L.tap(pg, cdp, '#dlg'); idle = 0; continue
+        if not q['busy']:
+            idle += 1
+            if idle >= 4: break   # 按下去約 3 秒都沒有對話、選項（只有旁白或什麼都沒有）
     return {'opts': None, 'trace': trace}
+
+
+CAPTION_JS = r"""(()=>{ const e=document.getElementById('caption'); if(!e) return ''; const cs=getComputedStyle(e); if(e.classList.contains('hide')||cs.display==='none'||cs.visibility==='hidden'||+cs.opacity<0.05) return ''; return (e.innerText||'').trim(); })()"""
 
 
 async def pe_opts(pg):
@@ -247,8 +254,9 @@ NPC_JS = r"""((pid)=>{ const E=GAME.E, n=(GAME.npc&&GAME.npc[pid])||(E.npcs||[])
 WHO_JS = r"""((ids)=>{ const G=GAME.G; return ids.map(id=>({id, can:typeof GIFTH!=='undefined'&&GIFTH.canGet(G,id), hol:typeof GIFTH!=='undefined'?GIFTH.holOf(id,G.day):null, where:typeof STORY!=='undefined'&&STORY.whereIs?STORY.whereIs(GAME,id):null, st:typeof GIFTH!=='undefined'?(()=>{ const s=GIFTH.state(G,id); return s?{items:s.items.map(b=>b.id),capped:s.capped}:null; })():null})); })"""
 
 
-async def give(pg, cdp, tag, pid, gid, max_walk=180):
-    """走到她旁邊（觸控點地板）、按「和她說話」、選「送她禮物…」、選 gid 那一樣、點完。回傳 {offered, picked, said, opts}"""
+async def give(pg, cdp, tag, pid, gid, max_walk=180, select=True):
+    """走到她旁邊（觸控點地板）、按「和她說話」、選「送她禮物…」、選 gid 那一樣、點完。回傳 {offered, picked, said, opts}。
+    select=False：只看選單有沒有「送她禮物…」（offered），不選它"""
     out = {'offered': False, 'picked': False, 'said': [], 'opts': []}
     name = await pg.evaluate("(g=>(typeof GIFTH!=='undefined'&&GIFTH.item(g)||{}).name||null)(%s)" % J(gid))
     for attempt in range(4):
@@ -271,7 +279,8 @@ async def give(pg, cdp, tag, pid, gid, max_walk=180):
             if not out['picked']:
                 k = next((i for i, x in enumerate(o) if x['t'].startswith('送她禮物')), None)
                 if k is not None and not out['offered']:
-                    out['offered'] = True; out['offer_dim'] = o[k]['dim']; await choose_k(pg, cdp, k); continue
+                    out['offered'] = True; out['offer_dim'] = o[k]['dim']
+                    if select: await choose_k(pg, cdp, k); continue
                 k = next((i for i, x in enumerate(o) if name and x['t'].startswith(name)), None) if out['offered'] else None
                 if k is not None: out['picked'] = True; await choose_k(pg, cdp, k); continue
             k = next((i for i, x in enumerate(o) if any(w in x['t'] for w in ('就這樣', '算了', '沒事', '先這樣', '下次', '不用了', '再見', '離開'))), len(o) - 1)
