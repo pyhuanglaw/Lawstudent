@@ -7130,6 +7130,20 @@
    "noDirectIntegrate": false,
    "note": "tongxian3d.js 加一片 Z3.shopViewPane（擋在 CC 模型那塊白天街景板前面）＋2 張照片。新測試開發 0ec32e6f6 FAILED 4 → ALL PASS；同弦／吉他回歸 49 支＋xs_wincard_1105 過（bulletin_board_1110 開發原樣也 FAIL：缺企劃線檔）。",
    "next": "BB 回覆青木（a／b／不動）、日常失速（維持？）；SUNNY SIDE 窗景（P3）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "SNS-VIEW-COVER-1110（SUNNY SIDE、日常失速的照片窗景被 room() 卡通窗擋住；BB X254 P3）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/sns_view_cover_1110/（README、sns_view_cover_1110.patch、view_card_cover_unit.js、regression.log）"
+   ],
+   "state": "MODEL_READY，待整合",
+   "noDirectIntegrate": false,
+   "note": "attachRoomGLB：正式模型有 WALL_*_VIEW 照片卡的那一面，拿掉擋在卡前面的程序化窗（視差窗照舊）。新測試開發 be84c8680 FAILED 2 → ALL PASS；回歸 99 支全過。待決定：小路的視差窗擋在 komichi 照片卡前（沒動）。",
+   "next": "佇列：ART-GYM-POOL-SWIMMERS（卡）→ CROWD-DEPTS-LOOK-1028 → PERF-CAMPUS-GLB-1102"
   }
  ]
 }

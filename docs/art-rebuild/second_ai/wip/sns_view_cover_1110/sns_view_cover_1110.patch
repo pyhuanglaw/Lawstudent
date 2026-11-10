@@ -1,0 +1,57 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 6dce634b0..83642512e 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1953,6 +1953,14 @@ const Z3 = (function(){
+       if(see){ o.material.depthWrite=false; glassy.push(o); } else nw.push(o); } });
+     /* 窗外的景（白天／夜景貼圖、隨時段變色，room() 的 applyTime 照舊換）：從備用模型的窗框組裡拿出來，放到正式模型的玻璃外面 0.3 m（放大一點：斜著看窗洞也看不到外面的空白）；牆淡出時一起藏（不然鏡頭在牆外時會擋住房間）*/
+     const wp=[]; if(z.wins) for(const w of z.wins){ const part=w.parent; const ent=z.winParts&&z.winParts.find(p=>p.obj===part); const d=ent?ent.dir:new THREE.Vector3(1,0,0); w.position.addScaledVector(d,-0.42); w.scale.set(1.35,1.4,1); if(w.material.uniforms&&w.material.uniforms.sxy) w.material.uniforms.sxy.value.set(1.35,1.4); part.remove(w); g0.add(w); wp.push({obj:w,at:ent?ent.at:w.position.clone(),dir:d}); }
++    /* 正式模型自己有窗景照片卡（WALL_*_VIEW*：SUNNY SIDE、小路…）的那一面：備用模型的窗（程序化的卡通樹和樓）搬到玻璃外 0.3 m 會擋在照片卡前面——
++       SNS-VIEW-COVER-1110（LAWWW2 帳號 A 11-10；BB X254「SUNNY SIDE 窗外的樹和樓是平面卡通畫風」：遊戲裡看到的是這一片，不是模型裡那張溫州街照片）。
++       只拿程序化的窗（視差窗 pview 是照片，照舊：小路的視差窗擋在 komichi 照片卡前面，要不要換由 LAWWW／BB 決定）；照片卡在這扇窗的正後方（往外＝−dir：winParts 的 dir 朝房間裡；窗的中心落在卡的左右、上下範圍內）就拿掉這扇窗；其他面照舊。 */
++    { const cards=[]; root.traverse(o=>{ if(o.isMesh&&/WALL_.*VIEW/.test(o.name||'')) cards.push(new THREE.Box3().setFromObject(o)); });
++      if(cards.length) for(let i=wp.length-1;i>=0;i--){ const e=wp[i], w=e.obj; if(!w.material||!(z.wins||[]).includes(w)||w.userData.pview) continue; w.updateWorldMatrix(true,false); const p=w.getWorldPosition(new THREE.Vector3()), d=e.dir.clone().negate(), lat=new THREE.Vector3(-d.z,0,d.x);
++        const hit=cards.some(b=>{ const c=b.getCenter(new THREE.Vector3()); if(c.clone().sub(p).dot(d)<=0) return false; const lo=Math.min(b.min.dot(lat),b.max.dot(lat), new THREE.Vector3(b.min.x,0,b.max.z).dot(lat), new THREE.Vector3(b.max.x,0,b.min.z).dot(lat)), hi=Math.max(b.min.dot(lat),b.max.dot(lat), new THREE.Vector3(b.min.x,0,b.max.z).dot(lat), new THREE.Vector3(b.max.x,0,b.min.z).dot(lat)), pl=p.dot(lat);
++          return pl>=lo-0.05&&pl<=hi+0.05&&p.y>=b.min.y&&p.y<=b.max.y; });
++        if(hit){ g0.remove(w); w.geometry.dispose(); z.wins.splice(z.wins.indexOf(w),1); wp.splice(i,1); } } }
+     for(const o of glassy) wp.push({obj:o,at:o.userData.center,dir:o.userData.dir,partition:!!o.userData.partition});
+     fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; if(LMS) roomLightmap(z,root,LMS); if(LMS&&LMS.dark) roomDarkMap(z,root,LMS);   /* 好幾顆 GLB 放在同一個 Group 給這裡（大口一樓、二樓）：Group 本身沒有 extras.lightmap，各顆的放在 root.userData.lightmaps＝[[那一顆的 scene, 它的 extras.lightmap], …]，各自接（XS-LM-1108，LAWWW2-B）*/ if(LMA){ let n=0; for(const [r,s] of LMA){ if(!r||!s) continue; n+=roomLightmap(z,r,s); if(s.dark) roomDarkMap(z,r,s); } z.lightmapped=n; } ceilHide(z,root); seatFold(z,root); }
+   /* 貼著天花板的東西（GLB 的 CEIL_* 網格、extras.ceilHide；CORNER-CEIL-1107，LAWWW2-B 11-07；BB-B 16:04 判轉角唱片：天花板切掉時，樑、吸頂冷氣、店名飾板從上面擋住畫面）：
+diff --git a/tests/view_card_cover_unit.js b/tests/view_card_cover_unit.js
+new file mode 100644
+index 000000000..45046a90b
+--- /dev/null
++++ b/tests/view_card_cover_unit.js
+@@ -0,0 +1,32 @@
++// 正式模型有窗景照片卡（WALL_*_VIEW*）的店：備用模型的窗（程序化的卡通樹和樓）不能擋在照片卡前面（SNS-VIEW-COVER-1110，LAWWW2 帳號 A；
++// BB X254「SUNNY SIDE 窗外的樹和樓是平面卡通畫風」：attachRoomGLB 把 room() 的窗搬到玻璃外 0.3 m，剛好擋在 SUNNY SIDE 模型自己那張溫州街照片前面）——不需要瀏覽器（D131）。
++// 在 Node 建出每一間店、接上正式模型（溫州街 AA 的店、公館 AA 的店），檢查：
++//   1 SUNNY SIDE：正面、右面的照片卡前面沒有 z.wins 的窗（修改前 2 扇）
++//   2 每一間：每一張照片卡和店裡中心之間，沒有看得到的程序化窗（z.wins 裡沒有 pview 的：卡通的樹和樓）擋著（窗的中心在卡的左右、上下範圍內、比卡近）；
++//     視差窗（pview，照片）照舊，會列出來（小路：wz_teishoku 視差窗在 komichi 照片卡前面，修改前後一樣，待決定）
++//   3 沒有照片卡的那一面照舊有窗：每一間的 z.wins 數＝修改前減掉被擋掉的（會列出每間剩幾扇）
++// 修改前（開發分支 be84c8680）：1 FAIL。用法：node tests/view_card_cover_unit.js
++const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
++const fs=require('fs'), path=require('path'), vm=require('vm');
++global.innerWidth=844; global.innerHeight=390; global.location={search:''}; global.addEventListener=()=>{}; process.on('unhandledRejection',()=>{});
++console.warn=()=>{};
++const HTML=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), SRCS=[...HTML.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]).filter(f=>!/three|character3d|props3d|people3d|assets3d/.test(f));
++for(const f of SRCS){ try{ vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (\w+)\s*=/mg,'globalThis.$1='),{filename:f}); }catch(e){} }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++window.ASSET_DATA=window.ASSET_DATA||{}; for(const d of ['assets/models/env/second_ai/aa_support','assets/models/env/second_ai/bb_support','assets/models/env/second_ai']) for(const f of fs.readdirSync(path.join(ROOT,d))) if(/\.glb$/.test(f)&&(d!=='assets/models/env/second_ai'||/^wz_|^komichi|^yizhan/.test(f))) window.ASSET_DATA[d+'/'+f]=fs.readFileSync(path.join(ROOT,d,f)).toString('base64');   /* 店的 GLB 先讀進來（有的店建區域時才登錄 manifest）*/
++const ZS=['wz_brunch','wz_teishoku','wz_print','wz_lin','wz_offbeat','wz_teahouse','aoki','afar','bookstore','daybreak'].filter(k=>Z3.ZONES[k]);
++(async()=>{ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; const rows=[]; let sns=null, allOK=true;
++  for(const id of ZS){ global.GAME={G:{zone:id,day:30,hour:14,flags:{},money:5000,weather:'clear',visited:{}}}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[];
++    let z; try{ z=Z3.ZONES[id].build(E); }catch(e){ rows.push(id+' 建不起來'); continue; } E.zone=z; E.scene.add(z.group); await new Promise(r=>setTimeout(r,4000)); z.group.updateMatrixWorld(true);
++    const vis=o=>{ for(let q=o;q;q=q.parent) if(!q.visible) return false; return true; };
++    const cards=[]; z.group.traverse(o=>{ if(o.isMesh&&/WALL_.*VIEW/.test(o.name||'')&&vis(o)) cards.push(new THREE.Box3().setFromObject(o)); });
++    const wins=(z.wins||[]).filter(w=>w.parent&&vis(w)), C=new THREE.Vector3(0,1.4,0); let cover=0, pv=0;
++    for(const b of cards){ const c=b.getCenter(new THREE.Vector3()), out=c.clone().sub(C).setY(0).normalize(), lat=new THREE.Vector3(-out.z,0,out.x);
++      const ls=[b.min,b.max,new THREE.Vector3(b.min.x,0,b.max.z),new THREE.Vector3(b.max.x,0,b.min.z)].map(v=>v.dot(lat)), lo=Math.min(...ls), hi=Math.max(...ls);
++      for(const w of wins){ const p=w.getWorldPosition(new THREE.Vector3()); const along=p.clone().sub(C).dot(out), cAlong=c.clone().sub(C).dot(out);
++        if(along>0.5&&along<cAlong-0.01&&p.dot(lat)>=lo-0.05&&p.dot(lat)<=hi+0.05&&p.y>=b.min.y&&p.y<=b.max.y){ if(w.userData.pview) pv++; else cover++; } } }
++    rows.push(`${id} 照片卡 ${cards.length}、窗 ${wins.length}、卡通窗擋住 ${cover}${pv?`（視差窗在卡前 ${pv}）`:''}`); if(cover) allOK=false; if(id==='wz_brunch') sns={cards:cards.length,cover};
++    E.scene.remove(z.group); }
++  check('1 SUNNY SIDE：照片卡（正面、右面）前面沒有備用模型的窗', !!sns&&sns.cards===2&&sns.cover===0, sns?`照片卡 ${sns.cards}、擋住 ${sns.cover}`:'建不起來');
++  check('2 每一間有照片卡的店：卡前面都沒有卡通的程序化窗', allOK, rows.join('｜'));
++  console.log(fails?`FAILED ${fails}`:'ALL PASS'); process.exit(fails?1:0); })();
