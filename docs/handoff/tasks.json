@@ -52890,7 +52890,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "還要做：①love 上限統一——一次活動一人合計最多 +2（約會、階梯、念書、期末飯；告白那一晚最多 +3）（AA 11-10 21:15 同意）②電影 fallback：AA_745_fallback.json {人:{feel,detail,joke,meh:[{re,fx}]}}＋每部 opts 的 kind，沒有專屬 re 時輪流用（AA 寫中）③m3007b 的 reBy（企劃線 1a1af8866）重匯 ④期末飯 tableOpts、告白 confessOpts（AA_748，等使用者選芷若、沛珊新舊版）；等 AA 各批 SHA",
+   "next": "love 上限已進開發分支（8372e7086；只管選項 fx，單獨約出來的 +1 等其他來源不算）；電影 fallback 機制關著——AA 第二版 c90083882（kind 七種、m2805b optsOther）等 BB 複看，通過後重匯、開 CFG.fallback；等 AA 各批改稿（期末飯、告白 AA_748、校外約會…）",
    "xai": {
     "spec": "X324、AA_746 第 2 節、docs/story_planning/audit_1110/",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -52989,6 +52989,28 @@
    "sha": null,
    "next": "無（不是遊戲問題）",
    "cancelReason": "BB 11-10 21:14 判 TEST_BUG：線上 779ddd650、開發 9f20f1808 觸控和搖桿各一次都走得到出口（busy false、ADV 關、她不擋路）；上一輪是 CC 探針的走法繞到長椅那一帶（BB_255 d614215431）"
+  },
+  {
+   "id": "MOVIE-ARC-AFTER-1110",
+   "title": "看電影時她的故事線那一拍（ARC／RT）不在放映中演：地點是南洋戲院時改到散場 talk 之後、道別之前；片中固定演片子的 scene（有 with.mid 照舊）（BB 11-10 21:30 P2）",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "約看電影",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "內容歸 AA 定，BB 已問 AA（LAWWW 11-10 21:3x）",
+   "resumeWhen": "AA 同意",
+   "recheckOn": "2026-11-11",
+   "next": "AA 同意就改 invites3d／movies3d、補測試"
   }
  ]
 }
