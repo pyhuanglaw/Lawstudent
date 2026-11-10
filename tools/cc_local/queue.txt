@@ -141,6 +141,8 @@ X295E_fair_keep2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story
 X295E_fair_off2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_off2;CASES=fair;BIKE=off
 # ② GYM-FIT-PROPS 第二包（LAWWW 11:59、BB 12:00）：飛輪（踏板離腳多遠）、划船機（座椅跟著臀部滑）有人在用各一張；探針加 bike、會動零件量測、sideLow 截圖
 GYMPROPS2_v2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_gym_props_probe.py | index.html | 20 | SOLO=1;TAG=v2;ACTS=bike,row
+# X295E fair r5：off2 走到時學姊的攤位剛好開演（對話框蓋住互動鍵）＝TEST_BUG；探針改成走到後先把劇情演完；off3 重跑（keep2 已重現 GAME_BUG）
+X295E_fair_off3 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_off3;CASES=fair;BIKE=off
 # GIFT-HOLIDAY-1110 節日送禮（子代理交件 bafbeefa3；雲端新版 8 段 ALL PASS 約 31 分）：改後 509b54c2d、改前 fda54d616（預期 xmas／valentine／qixi／birthday／third T-A／hergift／mailbox FAIL，normal 兩版都 PASS）
 # （12:4x HOLD：BB 12:39 要加「送完 love 後人物頁有記錄、包包少那一樣」，探針改好再開）
 GIFTHOL_new | 509b54c2d9d7a2f1ab6f227124abeb4d30747db6 | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 75 | TAG=new
@@ -254,3 +256,6 @@ USAPT204b_new | c8af31018a9ce570422ad748aa277af842f8db37 | probe | docs/story_pl
 WINVIEW_own2 | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 60 | SHOPS=own;HOURS=14,21;OWN_ALL=1
 WINVIEW_haopai2 | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=haopai;HOURS=14;MAXD_haopai=1.6
 WINVIEW_tea21 | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=tea;HOURS=21
+
+# ART-NANYANG-CINEMA v4（CC 12:4x）：v3 跑的是 fe4d893ac（舊），3 項 FAIL（旁白時場燈沒全關、24:00 散場句不是 AA_695）；用開發分支 74da28ca9 再跑一次看現況
+NANYANG_v4 | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_nanyang_v1_probe.py | index.html | 150 | CC_HEADLESS=0

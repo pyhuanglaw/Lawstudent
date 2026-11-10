@@ -411,6 +411,20 @@ async def case_fair(pg, cdp):
     if (os.environ.get('BIKE') or 'keep') == 'off' and await pg.evaluate("!!(GAME.G.bike&&GAME.G.bike.riding)"):
         await L.tap(pg, cdp, '#btnBike'); await pg.wait_for_timeout(1500); R.note('%s BIKE=off：起點先按「下車」（玩家動作），車停在起點' % t)
     ok, u, fb = await walk_to_spot(pg, cdp, t, sp[0], sp[1], sp[2])
+    for _ in range(3):   # r5（CC 12:4x）：fair_off2 走到時學姊的法律問答攤剛好開演（對話框蓋住、互動鍵空的）＝TEST_BUG；走到以後等 6 秒，有劇情就照玩家演完再走回去
+        late = []
+        for _ in range(12):
+            await pg.wait_for_timeout(500); v = await ui(pg)
+            if v['dlg'] or v['choices']: break
+        while v['dlg'] or v['choices']:
+            late.append((v['zone'], round(v['hour'], 2), v['dlg'][:70] if v['dlg'] else '選項：' + J(v['choices'])))
+            if v['choices']: await tap_choice(pg, cdp, dodge(v['choices']))
+            else: await L.tap(pg, cdp, '#dlg')
+            await pg.wait_for_timeout(800); v = await ui(pg)
+            if len(late) > 60: break
+        if not late: break
+        R.note('%s 走到以後才開演的劇情（照玩家演完）：%s' % (t, J(late)))
+        ok, u, fb2 = await walk_to_spot(pg, cdp, t, sp[0], sp[1], sp[2]); fb = fb or fb2
     NEAR = "(()=>{ const P=GAME.E.player.obj.position; return GAME.E.interactables.filter(i=>!i.hidden&&Math.hypot(i.x-P.x,i.z-P.z)<3).map(i=>({label:i.label,d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2),r:i.radius||null,bike:!!i.bike})); })()"
     R.note('%s 走到以後：車 %s；玩家 3 m 內的互動點（距離）%s' % (t, J(await pg.evaluate(BK)), J(await pg.evaluate(NEAR))))
     PK = "(()=>{ const b=GAME.E.interactables.find(i=>i.bike&&!i.hidden); if(!b) return null; return {bike:[+b.x.toFixed(2),+b.z.toFixed(2)], within2m:GAME.E.interactables.filter(i=>i!==b&&!i.hidden&&Math.hypot(i.x-b.x,i.z-b.z)<=2).map(i=>({label:i.label,d:+Math.hypot(i.x-b.x,i.z-b.z).toFixed(2)}))}; })()"
