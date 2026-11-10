@@ -480,3 +480,12 @@
 [00:37:07] ==== START SHIFT_r5_F  (probe @ 01bab1823003df827be3d76bc7d2c13ef034dacb) ====
 [00:37:10] [res] cpu=29% mem=50% (15.7/31.4 GB) chrome_testing=10  START SHIFT_r5_F
 [00:39:54] [res] cpu=17% mem=52% (16.3/31.4 GB) chrome_testing=10  END SHIFT_r5_F
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b397ecf1d..35b8a835d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:40:15] ==== END   SHIFT_r5_F  exit=0  167s   ====
+[00:40:25] memory 51% before starting USCLS_r2 (2 running)
+[00:40:25] ==== START USCLS_r2  (probe @ aa691df333d23bc46abb9445c249090d4b57f3d1) ====
+[00:40:28] [res] cpu=17% mem=51% (16.0/31.4 GB) chrome_testing=10  START USCLS_r2
+[00:41:59] 正在跑：SHIFT_IMM_r4_new（已跑 13 分／上限 45 分）、SHIFT_IMM_r4_old（已跑 11 分／上限 45 分）、USCLS_r2（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:42:54] [res] cpu=17% mem=50% (15.7/31.4 GB) chrome_testing=10  END SHIFT_IMM_r4_new
