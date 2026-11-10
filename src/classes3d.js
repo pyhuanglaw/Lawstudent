@@ -415,7 +415,10 @@ const CLS=(function(){
      填＝CLUB_<id>（跟社博填表一樣）；不管選什麼都記 CLUB_LATE_<id>＝這一週（同一週不再問；ACTIVITIES.lateDeclined）。系籃：社長→系籃隊長、社費→隊費；第 6 週「先不要」換 no6 */
   S.lateJoinAsk=async function(GM,a){ const L=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.LATE_JOIN; if(!L||!a) return false; const G=GM.G, F=G.flags||(G.flags={}), t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, wk=t?t.week:0, by=(L.by&&L.by[a.id])||{}, who={name:by.who||L.who};
     await GM.say(null,L.narr); await GM.say(who,L.ask); const i=await GM.choose(L.opts.map(x=>({t:x}))); F['CLUB_LATE_'+a.id]=wk;
-    if(i===0){ F['CLUB_'+a.id]=true; await GM.say(who,by.yes||L.yes); return true; }
+    if(i===0){ F['CLUB_'+a.id]=true; await GM.say(who,by.yes||L.yes);
+      if(typeof CLUBFAIR!=='undefined'&&Array.isArray(CLUBFAIR.DOOR_AFTER)){ const h0=G.hour; if(a.t1!=null&&G.hour>=a.t1) G.hour=a.t1-1/60;   /* 「社課快結束的時候」：照結束前一分鐘判斷誰在場（阿哲的作息 19:00 離開球場）*/
+        try{ for(const f of CLUBFAIR.DOOR_AFTER){ try{ await f(GM,a); }catch(e){ console.warn('CLS.lateJoinAsk DOOR_AFTER',e); } } } finally { G.hour=h0; } }   /* 原本第一次去社課（門口填表）之後接著演的：AA_613 2-4 阿哲「我就說吧。」（2-3 說了「好，我去看看。」、阿哲在場）——第 5、6 週改成填了入社單以後演 */
+      return true; }
     await GM.say(who,wk===6?L.no6:L.no); return false; };
   /* 法服讀書會第二次以後：題庫兩三題（LEGAL 的讀書會包裝，題目和答案不改；學姊照作息週三晚上在萬才館，不在學校的學期換柏翰問）*/
   S.studyQs=async function(GM){ if(typeof LEGAL==='undefined'||!LEGAL.ask) return 0; const G=GM.G; const here=id=>typeof STORY==='undefined'||!STORY.present||STORY.present(id,G);

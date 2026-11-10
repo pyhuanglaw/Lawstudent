@@ -170,8 +170,13 @@ const caps=[]; GM.caption=(w,t)=>{ caps.push(t); };
     fresh('2025-09-06',13,{MET_ZHE:false}); runAt(b-1,21.2); check('2-3. 不認識阿哲：沒有私訊',byTag('aa613_ball_zhe').length===0); }
 
   /* ================= 2-4 第一次到球場 ================= */
-  { const b=D('2025-10-03'), a=ACTIVITIES.list.find(x=>x.id==='dept_basketball');
-    let pre=null; const go=async(fl)=>{ fresh('2025-09-06',13,fl); at(b,17.6); H.G.zone='campus'; H.said=[]; pre=sched(ZHE); await CLS.attendActivity(GM,a); return said(); };
+  /* BULLETIN-BOARD-1110（AA_737 lateJoin，AA 定稿 2a1c30dc6）：大一上第 5、6 週還不是社員＝開頭不演學長兩句，社課結束時系籃隊長問入社單；選「填」以後接阿哲「我就說吧。」（DOOR_AFTER 改在填了以後演）。
+     原本的三項（學長兩句 → 阿哲）改在第 7 週（10/17）第一次去的時候查（沒被問過的照舊）；原期望：10/3（第 5 週）第一次去就是學長兩句。新增第 5 週的兩項 */
+  { const b5=D('2025-10-03'), b=D('2025-10-17'), a=ACTIVITIES.list.find(x=>x.id==='dept_basketball');
+    let pre=null; const go=async(fl,day)=>{ fresh('2025-09-06',13,fl); at(day==null?b:day,17.6); H.G.zone='campus'; H.said=[]; pre=sched(ZHE); await CLS.attendActivity(GM,a); return said(); };
+    { const L5=await go({AA613_BALL_GO:b5},b5), k=L5.indexOf('系籃隊長：好，名字寫這裡。隊費下次再收。');
+      check('2-4. 第 5 週（10/3）、說過「好，我去看看。」：開頭沒有學長兩句；社課結束時系籃隊長問、填了 → 阿哲「我就說吧。」→ 記 CLUB_dept_basketball（AA_737）',k>0&&L5[k+1]==='阿哲：我就說吧。'&&!L5.some(t=>/新來的？大一？/.test(t))&&H.G.flags.CLUB_dept_basketball===true,J(L5));
+      const L6=await go({},b5); check('2-4. 第 5 週、沒說「好，我去看看。」：填了以後沒有阿哲那句',L6.includes('系籃隊長：好，名字寫這裡。隊費下次再收。')&&!L6.includes('阿哲：我就說吧。'),J(L6)); }
     let L=await go({AA613_BALL_GO:b});
     check('2-4. 2-3 選「好，我去看看。」、阿哲在場：學長兩句 → 阿哲「我就說吧。」→ 記 CLUB_dept_basketball',J(L.slice(0,3))===J(['學長：新來的？大一？','學長：名字寫這裡。之後每週五，有空就來。','阿哲：我就說吧。'])&&H.G.flags.CLUB_dept_basketball===true&&!L.includes('（你在場邊填了表。）'),J(L));
     check('2-4. 前置：阿哲那時候的作息在球場（同一區）',!!pre&&pre.zone==='campus'&&pre.activity==='dept_basketball');
