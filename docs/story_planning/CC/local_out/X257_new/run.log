@@ -1,0 +1,36 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_x257_gym_move_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\X257_new\out
+CC X257 體育館搬家：worktree ?；TAG new；CASES exit,gymdoor,map,pe,bike,pool,oldsite；Playwright／SwiftShader ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+==== exit ====
+FAIL exit 探針例外（這一段中斷）      return await pg.evaluate("(d=>{ try{ const q=CALENDAR.dateOf(d); return {key:q.key, wd:q.wd%7}; }catch(e){ return null; } })(%d)" % day) /                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~ / ValueError: stray % at position 65 or unexpected format character '}' at position 67
+  [  25.8s] [截圖] new_exit_exception.png 亮度 [49.5, 46.9]
+==== gymdoor ====
+PASS gymdoor 重新載入遊戲
+FAIL gymdoor 探針例外（這一段中斷）      return await pg.evaluate("(d=>{ try{ const q=CALENDAR.dateOf(d); return {key:q.key, wd:q.wd%7}; }catch(e){ return null; } })(%d)" % day) /                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~ / ValueError: stray % at position 65 or unexpected format character '}' at position 67
+  [  41.4s] [截圖] new_gymdoor_exception.png 亮度 [49.5, 46.9]
+==== map ====
+PASS map 重新載入遊戲
+FAIL map 探針例外（這一段中斷）      return await pg.evaluate("(d=>{ try{ const q=CALENDAR.dateOf(d); return {key:q.key, wd:q.wd%7}; }catch(e){ return null; } })(%d)" % day) /                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~ / ValueError: stray % at position 65 or unexpected format character '}' at position 67
+  [  58.8s] [截圖] new_map_exception.png 亮度 [49.5, 46.9]
+==== pe ====
+PASS pe 重新載入遊戲
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），先放在校園找下一堂體育課（CLS.dayItems，不改狀態）
+  [  93.7s] pe 下一堂體育課：{"day": 160, "key": "160:pe_y1s2:pm2", "t0": 15.5, "t1": 17.333333333333332, "week": 1, "cid": "pe_y1s2", "swim": false}
+PASS pe 找得到下一堂體育課（pe_y1s1，星期一 pm2，GYM）  {"day": 160, "key": "160:pe_y1s2:pm2", "t0": 15.5, "t1": 17.333333333333332, "week": 1, "cid": "pe_y1s2", "swim": false}
+  [前置／捷徑] 【前置／捷徑】同一份存檔改成 day 160（第 1 週）15.25（開始前 15 分鐘）、站在體育館門前 (−82, −123)；條件事件、手機自動打開關掉
+FAIL pe 探針例外（這一段中斷）      return await pg.evaluate("(d=>{ try{ const q=CALENDAR.dateOf(d); return {key:q.key, wd:q.wd%7}; }catch(e){ return null; } })(%d)" % day) /                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~ / ValueError: stray % at position 65 or unexpected format character '}' at position 67
+  [  94.3s] [截圖] new_pe_exception.png 亮度 [45.1, 28.6]
+==== bike ====
+PASS bike 重新載入遊戲
+FAIL bike 探針例外（這一段中斷）      return await pg.evaluate("(d=>{ try{ const q=CALENDAR.dateOf(d); return {key:q.key, wd:q.wd%7}; }catch(e){ return null; } })(%d)" % day) /                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~ / ValueError: stray % at position 65 or unexpected format character '}' at position 67
+  [ 109.3s] [截圖] new_bike_exception.png 亮度 [56.9, 55.3]
+==== pool ====
+PASS pool 重新載入遊戲
+FAIL pool 探針例外（這一段中斷）      return await pg.evaluate("(d=>{ try{ const q=CALENDAR.dateOf(d); return {key:q.key, wd:q.wd%7}; }catch(e){ return null; } })(%d)" % day) /                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~ / ValueError: stray % at position 65 or unexpected format character '}' at position 67
+  [ 123.8s] [截圖] new_pool_exception.png 亮度 [50.7, 47.4]
+==== oldsite ====
+PASS oldsite 重新載入遊戲
+FAIL oldsite 探針例外（這一段中斷）      return await pg.evaluate("(d=>{ try{ const q=CALENDAR.dateOf(d); return {key:q.key, wd:q.wd%7}; }catch(e){ return null; } })(%d)" % day) /                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~ / ValueError: stray % at position 65 or unexpected format character '}' at position 67
+  [ 139.2s] [截圖] new_oldsite_exception.png 亮度 [50.7, 47.4]
+FAILED 7: exit 探針例外（這一段中斷）；gymdoor 探針例外（這一段中斷）；map 探針例外（這一段中斷）；pe 探針例外（這一段中斷）；bike 探針例外（這一段中斷）；pool 探針例外（這一段中斷）；oldsite 探針例外（這一段中斷）
