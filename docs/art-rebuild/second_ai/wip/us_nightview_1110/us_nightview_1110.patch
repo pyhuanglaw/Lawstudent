@@ -1,0 +1,126 @@
+diff --git a/src/us3d.js b/src/us3d.js
+index b4e7bd019..7b0967b50 100644
+--- a/src/us3d.js
++++ b/src/us3d.js
+@@ -149,6 +149,11 @@ const US3=(function(){
+   function skyTint(mats,h){ if(!mats.length) return; const c=vtAt(h).map(v=>v*v);
+     for(const m of mats){ const u=m.userData; if(!u.skC0){ u.skC0=m.color.clone(); u.skE0=m.emissive?m.emissive.clone():null; }
+       m.color.setRGB(u.skC0.r*c[0],u.skC0.g*c[1],u.skC0.b*c[2]); if(u.skE0) m.emissive.setRGB(u.skE0.r*c[0],u.skE0.g*c[1],u.skE0.b*c[2]); } }
++  /* 窗玻璃（美國公寓 usa_glass、草原超市 ck_glass／usm_door_glass）：半透明（0.16～0.2）、會被室內的燈照亮——晚上燈開大以後，玻璃自己的亮度蓋過已經變暗的窗景，
++     從屋裡看出去窗外還像白天（US-NIGHTVIEW-1110，BB 15:21 US_ART 第一批 ①②：20:00 臥室、結帳區窗外還是白天；量 CC 的圖：臥室窗口白天比陽台直接看窗景亮 18、晚上亮 54～64＝燈 2→9 倍）。
++     玻璃的顏色跟窗景同一張時段表（VT）變暗；白天不變。原本的顏色只記第一次（快取的模型共用材質）*/
++  function glassTint(mats,h){ if(!mats.length) return; const c=vtAt(h);
++    for(const m of mats){ const u=m.userData; if(!u.glC0) u.glC0=m.color.clone(); m.color.setRGB(u.glC0.r*c[0],u.glC0.g*c[1],u.glC0.b*c[2]); } }
+   /* 公寓單位（同一套格局的模板，LAWWW2-C 2026-10-17）：祐廷的單人戶 us_apartment、學姊她們的 C 棟合租戶 us_shared。
+      o：id、name、layout()、glb、exitSpawn()（「出門」到社區的哪裡）、look（冰箱、爐子的字）、tag（給交換系統的互動 id）。
+      家具的互動點只做在走得進去的房間（合租戶的臥室 A、B 門關著：床、書桌不能用）*/
+@@ -162,7 +167,7 @@ const US3=(function(){
+     // 燈：客廳吊扇的燈、臥室吸頂燈、廚房（白天弱、晚上亮）
+     const lamps=[]; for(const [x,zz] of [[-1.6,-1.0],[3.2,-1.0],[-3.2,2.0],[-1.0,2.0],[0,4.0]].concat(L.lamps||[])){   /* L.lamps：配置另外的燈（v3：走得進去的衣物間、衛浴）*/ const l=new THREE.PointLight(0xffe2bc,2,7,2); l.position.set(x,H-0.35,zz); l.userData.on=9; l.userData.off=2; g0.add(l); lamps.push(l); }
+     let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
+-    let views=[]; const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,night(h)?1:0.15); viewTint(views,h); };
++    let views=[], glass=[]; const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,night(h)?1:0.15); viewTint(views,h); glassTint(glass,h); };
+     // 互動點
+     const IT=E.interactables; z.seats=[]; const seat=(x,zz,yaw,label,extra,lift)=>{ const s={x,z:zz,yaw,lv:0}; if(lift) s.lift=lift; z.seats.push(s); IT.push(Object.assign({x,z:zz,radius:0.8,lv:0,label,seat:s},extra||{})); };
+     for(const f of L.furniture){ const t=f.type;
+@@ -205,6 +210,7 @@ const US3=(function(){
+       root.traverse(o=>{ if(o.isMesh&&/^PLATE_FACE/.test(o.name)){ const t=(o.userData&&o.userData.text)||((/(\d{3})/.exec(o.name)||[])[1])||''; paintPlate(o,t); } });
+       /* 景的貼圖天空是透明的（glTF BLEND）：半透明不寫深度，引擎的天空球最後畫、會整片蓋掉——改成鏤空（alphaTest），景寫深度、天空只從挖空的地方透出來 */
+       const vm=new Set(); root.traverse(q=>{ if(q.isMesh&&/^usa_view/.test(q.name)) vm.add(q.material); }); views=[...vm]; for(const m of views){ m.transparent=false; m.alphaTest=0.5; m.depthWrite=true; m.needsUpdate=true; }
++      glass=glowMats(root,/^usa_glass$/);   /* 窗玻璃晚上跟著窗景變暗（glassTint）*/
+       glow=glowMats(root,/^US_glow/); const G=G_(); if(G) z.applyTime(G.hour,G.weather);
+       /* 屋頂（usa_roof：y 2.85、雙面，蓋住陽台到樓梯平台）：室內是剖面視角，鏡頭會在天花板上面往下看——屋頂要在鏡頭比它高的時候藏起來
+          （第一次遊戲內截圖：平台上整個畫面是一片灰＝從上面看到屋頂）。天花板 usa_ceil 是單面朝下，本來就看不到 */
+@@ -364,7 +370,7 @@ const US3=(function(){
+     plane(fb,Bd.x1-Bd.x0,Bd.z1-Bd.z0,M('#d9d6cc'),0,0,0.005); const bm=M('#c9c6be'); for(const b of L.blocks){ const h=/gondola|freezer|dairy|meat|deli|produce wall/.test(b.why)?1.9:1.0; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
+     const lamps=[]; for(let i=-1;i<=1;i++) for(const zz of [-8,4]){ const l=new THREE.PointLight(0xf8f6ee,4,24,2); l.position.set(i*14,H-1.0,zz); l.userData.on=9; l.userData.off=6; g0.add(l); lamps.push(l); }
+     let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
+-    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };   /* 冷藏櫃、收銀台的燈、螢幕整天都亮 */
++    let views=[], glass=[]; const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); viewTint(views,h); glassTint(glass,h); };   /* 冷藏櫃、收銀台的燈、螢幕整天都亮；門外的停車場、玻璃照時段變暗 */
+     const IT=E.interactables;
+     for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,usMarket:q.id,look:lookText(q.label+'。')});   /* usMarket＝互動的 id（serviceDesk、dairy……）：採買、US1 的「看蛋的日期」由交換系統（LAWWW-C）接 */
+     for(const a of L.aisle_signs){ const gd=L.gondolas.find(q=>q.aisle===a.aisle); const cat=gd?AISLE_ZH[gd.cat]||gd.cat:''; IT.push({x:a.x,z:a.z,radius:1.0,lv:0,label:'第 '+a.aisle+' 走道：'+cat,usMarket:'aisle_'+(gd?gd.cat:a.aisle),look:lookText(cat+'。')}); }
+@@ -374,7 +380,11 @@ const US3=(function(){
+     z.formal=false; if(has('bldg.us_market')) ASSETS.loadOne('bldg.us_market').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
+       root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(root); fb.visible=false; z.formal=true;
+       root.traverse(o=>{ if(o.isMesh&&/^PLATE_FACE_lane/.test(o.name)) paintPlate(o,(/(\d+)$/.exec(o.name)||[])[1]||'','#1f4f8f','#ffffff'); });
+-      glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('草原超市正式模型載入失敗，用程序化備用模型',e));
++      /* 門外的景（usm_outside_view，材質名 GLOW_usm_outside）：原本被當成燈（GLOW_）整天全亮，20:00 結帳區玻璃外的停車場還是白天（US-NIGHTVIEW-1110，BB 15:21 ②）——
++         從燈裡拿出來，照時段變色（和公寓、亞洲超市的窗景同一套 viewTint）；正面玻璃、自動門玻璃跟著變暗（glassTint）*/
++      const vm=new Set(); root.traverse(q=>{ if(q.isMesh&&q.name==='usm_outside_view') for(const m of [].concat(q.material)) vm.add(m); }); views=[...vm];
++      glow=glowMats(root,/^GLOW_/).filter(m=>!vm.has(m)); for(const m of views) m.emissiveIntensity=m.userData.usBase!=null?m.userData.usBase:1; glass=glowMats(root,/^(ck_glass|usm_door_glass)$/);
++      const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('草原超市正式模型載入失敗，用程序化備用模型',e));
+     return z; } };
+ 
+   // =================== 大超市對面的小亞洲超市 us_asian_market（竹葉亞洲超市，虛構；使用者 2026-10-17 23:0x）===================
+@@ -399,7 +409,8 @@ const US3=(function(){
+     else for(const X of L.exits){ const sp=X.to==='us_market'?Object.assign({},US_MARKET_LAYOUT.spawn):Object.assign({},US_LINK); IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:X.to,spawn:sp}}); }
+     z.formal=false; if(has('bldg.us_asian_market')) ASSETS.loadOne('bldg.us_asian_market').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
+       root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
+-      const vm=new Set(); root.traverse(q=>{ if(q.isMesh&&/^usam_view/.test(q.name)) vm.add(q.material); }); views=[...vm]; for(const m of views){ m.transparent=false; m.alphaTest=0.5; m.depthWrite=true; m.needsUpdate=true; }   /* 和公寓的窗外景一樣：天空挖空 */
++      const vm=new Set(); root.traverse(q=>{ if(q.isMesh&&/^usam_view/.test(q.name)) vm.add(q.material); }); views=[...vm]; for(const m of views){ m.transparent=false; m.alphaTest=0.5; m.depthWrite=true; m.needsUpdate=true; }
++      glass=glowMats(root,/^usa_glass$/);   /* 窗玻璃晚上跟著窗景變暗（glassTint）*/   /* 和公寓的窗外景一樣：天空挖空 */
+       const top=[]; root.traverse(q=>{ if(q.isMesh&&/^(usam_ceiling|usam_grid|GLOW_usam_troffers|usam_sign_wires)/.test(q.name)) top.push(q); });
+       const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); const cy=E2&&E2.camera?E2.camera.position.y:0; for(const q of top) q.visible=cy<=H-0.05; };
+       glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('亞洲超市正式模型載入失敗，用程序化備用模型',e));
+diff --git a/tests/us_night_view_unit.js b/tests/us_night_view_unit.js
+new file mode 100644
+index 000000000..f374b7bc0
+--- /dev/null
++++ b/tests/us_night_view_unit.js
+@@ -0,0 +1,55 @@
++// 美國篇窗外的日夜（US-NIGHTVIEW-1110，LAWWW2 帳號 A 2026-11-10；BB 15:21 US_ART 第一批 ①②③）：不需要瀏覽器。
++// 在 Node 照 index.html 的順序載入程式，建出公寓、C 棟 208、草原超市、法學院圖書館，接上真的正式模型（GLB 的貼圖拿掉：只看材質的顏色、節點），設成 14:00、20:00 檢查：
++//   ① 公寓、208：窗玻璃（usa_glass，半透明、會被室內的燈照亮）晚上跟著窗景變暗——原本晚上燈開大，玻璃自己的亮度蓋過已經變暗的窗景，臥室看出去還像白天；白天顏色不變
++//   ② 草原超市：門外的停車場（usm_outside_view，材質 GLOW_usm_outside）晚上變暗、不再當成整天全亮的燈；正面玻璃也跟著變暗
++//   ③ 法學院圖書館：服務台背後的南牆、西牆都在（BB「背後是天空」＝拍照的鏡頭在屋裡、遊戲鏡頭在南牆外，南牆照遊戲鏡頭淡出；不是少了牆）
++// 這是材質數值的檢查，不是畫面；畫面請 CC 拍（D131）。用法：node tests/us_night_view_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{},addEventListener(){},removeEventListener(){}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/us_layouts.js','src/us3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++/* GLB 拿掉貼圖再給 GLTFLoader 解析（Node 沒有影像解碼）：網格、節點名、材質的顏色都照原檔 */
++function parseGLB(file){ const b=fs.readFileSync(file); const n=b.readUInt32LE(12); const J=JSON.parse(b.slice(20,20+n).toString()); const binLen=b.readUInt32LE(20+n); const bin=b.slice(20+n+8,20+n+8+binLen);
++  for(const m of J.materials||[]){ const p=m.pbrMetallicRoughness||{}; for(const k of ['baseColorTexture','metallicRoughnessTexture']) delete p[k]; for(const k of ['normalTexture','occlusionTexture','emissiveTexture']) delete m[k]; if(m.extensions) for(const e in m.extensions) for(const k in m.extensions[e]) if(/Texture$/.test(k)) delete m.extensions[e][k]; }
++  delete J.textures; delete J.images; delete J.samplers; delete J.extensionsRequired; if(J.extensionsUsed) J.extensionsUsed=J.extensionsUsed.filter(e=>!/texture|KTX|webp/i.test(e));
++  const js=Buffer.from(JSON.stringify(J)); const jb=Buffer.concat([js,Buffer.alloc((4-js.length%4)%4,0x20)]); const bb=Buffer.concat([bin,Buffer.alloc((4-bin.length%4)%4)]);
++  const h=Buffer.alloc(12); h.write('glTF',0); h.writeUInt32LE(2,4); h.writeUInt32LE(12+8+jb.length+8+bb.length,8); const c1=Buffer.alloc(8); c1.writeUInt32LE(jb.length,0); c1.write('JSON',4); const c2=Buffer.alloc(8); c2.writeUInt32LE(bb.length,0); c2.writeUInt32LE(0x004E4942,4);
++  const out=Buffer.concat([h,c1,jb,c2,bb]); return new Promise((res,rej)=>new THREE_JSM.GLTFLoader.GLTFLoader().parse(out.buffer.slice(out.byteOffset,out.byteOffset+out.length),'',g=>res(g),rej)); }
++const cache={}; ASSETS.loadOne=k=>{ const m=ASSETS.manifest[k]; if(!m||m.type!=='building') return new Promise(()=>{}); if(!cache[k]) cache[k]=parseGLB(path.join(ROOT,m.url)).then(g=>({scene:g.scene})); return cache[k]; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++global.GAME={G:{day:40,hour:14,weather:'clear',flags:{},weekday:3}};
++async function load(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.nav=z.nav;
++  for(let i=0;i<200&&!z.formal;i++) await new Promise(r=>setTimeout(r,20)); return z; }
++const mats=(z,re)=>{ const out=new Set(); z.group.traverse(o=>{ if(o.isMesh&&re.test(o.name)) for(const m of [].concat(o.material)) out.add(m); }); return [...out]; };
++const lum=c=>0.2126*c.r+0.7152*c.g+0.0722*c.b;
++(async()=>{
++  for(const id of ['us_apartment','us_shared']){ const z=await load(id); check(`${id}：正式模型接上`,!!z.formal); if(!z.formal) continue;
++    const gl=mats(z,/^usa_glass$/), vw=mats(z,/^usa_view/); check(`${id}：有窗玻璃、窗景`,gl.length>0&&vw.length>0);
++    z.applyTime(14,'clear'); const d=gl.map(m=>lum(m.color)), dv=vw.map(m=>lum(m.color)); z.applyTime(20,'clear'); const n=gl.map(m=>lum(m.color)), nv=vw.map(m=>lum(m.color));
++    check(`${id}：20:00 窗景變暗（窗景本來就有，確認）`,nv.every((v,i)=>v<dv[i]*0.5),`${dv.map(v=>v.toFixed(2))}→${nv.map(v=>v.toFixed(2))}`);
++    check(`${id}：20:00 窗玻璃跟著變暗（不到白天的一半）——①臥室窗外晚上還像白天`,n.every((v,i)=>v<d[i]*0.5),`${d.map(v=>v.toFixed(3))}→${n.map(v=>v.toFixed(3))}`);
++    z.applyTime(14,'clear'); check(`${id}：回到 14:00 玻璃的顏色和原本一樣`,gl.every((m,i)=>Math.abs(lum(m.color)-d[i])<1e-6)); }
++  { const z=await load('us_market'); check('us_market：正式模型接上',!!z.formal);
++    if(z.formal){ const vw=mats(z,/^usm_outside_view$/), gl=mats(z,/^ck_glass$/); check('us_market：有門外的景（usm_outside_view）、正面玻璃（ck_glass）',vw.length>0&&gl.length>0);
++      z.applyTime(14,'clear'); const d=vw.map(m=>lum(m.emissive)*(m.emissiveIntensity==null?1:m.emissiveIntensity)), dg=gl.map(m=>lum(m.color));
++      z.applyTime(20,'clear'); const n=vw.map(m=>lum(m.emissive)*(m.emissiveIntensity==null?1:m.emissiveIntensity)), ng=gl.map(m=>lum(m.color));
++      check('us_market：20:00 門外的停車場變暗（自發光不到白天的一半）——②結帳區玻璃外還是白天',n.every((v,i)=>v<d[i]*0.5),`${d.map(v=>v.toFixed(2))}→${n.map(v=>v.toFixed(2))}`);
++      check('us_market：20:00 正面玻璃跟著變暗',ng.every((v,i)=>v<dg[i]*0.5),`${dg.map(v=>v.toFixed(3))}→${ng.map(v=>v.toFixed(3))}`);
++      const lamp=mats(z,/./).filter(m=>/^GLOW_/.test(m.name||'')&&!vw.includes(m)); z.applyTime(14,'clear'); const l14=lamp.map(m=>m.emissiveIntensity); z.applyTime(20,'clear');
++      check('us_market：冷藏櫃、收銀台這些燈照舊整天都亮（20:00 和 14:00 一樣）',lamp.length>0&&lamp.every((m,i)=>m.emissiveIntensity===l14[i]),`${lamp.length} 個`); } }
++  { const z=await load('us_lawlib'); check('us_lawlib：正式模型接上',!!z.formal);
++    if(z.formal){ const L=US_LAWLIB_LAYOUT, D=L.desk, B=L.bounds; z.group.updateMatrixWorld(true); const bx=re=>{ const b=new THREE.Box3(); z.group.traverse(o=>{ if(o.isMesh&&re.test(o.name)) b.expandByObject(o); }); return b; };
++      const S=bx(/^WALL_S_wall$/), W=bx(/^WALL_W_wall$/);
++      check('us_lawlib：③服務台背後的南牆在（z '+B.z1+'，蓋住服務台的 x 範圍、高過 2.5 m）',!S.isEmpty()&&Math.abs(S.max.z-B.z1)<0.3&&S.min.x<=D.x0&&S.max.x>=D.x1&&S.max.y>=2.5,JSON.stringify([S.min,S.max].map(v=>v.toArray().map(x=>+x.toFixed(1)))));
++      check('us_lawlib：③西牆在（x '+B.x0+'）',!W.isEmpty()&&Math.abs(W.min.x-B.x0)<0.3);
++      const sw=z.walls.filter(w=>/^WALL_S_wall/.test(w.name)); const cam=new THREE.PerspectiveCamera(); const P=new THREE.Vector3(-4.9,0,6.0);
++      cam.position.set(-1,1.6,3); z.fadeWalls(cam,P); const inOK=sw.length&&sw.every(w=>w.material.opacity===1);
++      cam.position.set(0,4,12.8); z.fadeWalls(cam,P); const outFade=sw.every(w=>w.material.opacity<0.5);
++      check('us_lawlib：③鏡頭在屋裡（CC 的 desk 角度）南牆不淡出；鏡頭在南牆外（玩家在門口、遊戲鏡頭在後面）才淡出——CC 拍照前要用拍照的鏡頭重算淡出',inOK&&outFade,`${sw.length} 片`); } }
++  console.log(fails?`FAILED: ${fails}`:'ALL PASS'); process.exit(fails?1:0);
++})();
