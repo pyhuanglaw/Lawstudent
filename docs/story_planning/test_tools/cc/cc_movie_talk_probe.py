@@ -405,4 +405,5 @@ async def main():
         await b.close()
     open(os.path.join(OUT, 'movie_talk_lines.txt'), 'w', encoding='utf-8').write('\n'.join(TXT))
     print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True)
-asyncio.run(main())
+if __name__ == '__main__':   # r6：cc_mt3_probe.py 會 import 這一支的工具
+    asyncio.run(main())

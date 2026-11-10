@@ -141,7 +141,8 @@ async def part_old(pg, cdp):
 
 async def part_shots(pg, cdp):
     lay = await pg.evaluate("(()=>({shops:TINGZHOU_LAYOUT.shops.filter(s=>%s.includes(s.name)).map(s=>({name:s.name,side:s.side,zc:(s.z0+s.z1)/2}))}))()" % J(SHOPS8))
-    for h in (14.0, 18.5, 20.5):
+    HRS = [float(x) for x in (os.environ.get('HOURS') or '14,18.5,20.5').split(',')]   # r2（BB 21:05）：第 2 版加 17:15（HOURS=14,17.25,18.5,20.5）
+    for h in HRS:
         await at(pg, cdp, 'tingzhou', h, 0.0, 6.0, '（拍照）'); await pg.evaluate("window.__TZ=[]")
         hh = '%02d:%02d' % (int(h), int(round((h % 1) * 60)))
         V = [('巷A出口看泰米村食', (7.0, 1.65, 0.0), (-8.0, 3.0, -1.0), 55), ('概念圖機位', (4.6, 1.65, 34.5), (-6.5, 3.0, 12.0), 55),
@@ -149,6 +150,13 @@ async def part_shots(pg, cdp):
         for s in lay['shops']:
             sx = -1 if s['side'] == 'W' else 1
             V.append(('%s 正面' % s['name'], (-sx * 3.5, 2.2, s['zc']), (sx * 7.0, 4.2, s['zc']), 55))
+        if os.environ.get('V2') == '1':   # r2（BB 21:05）：巷 A 裡面兩張（18:30、20:30）、三間櫥窗近拍（騎樓裡、離櫥窗 3 m）
+            if h >= 18:
+                V.append(('巷A裡面往裡看', (7.5, 1.65, 0.0), (24.0, 1.8, 0.0), 60)); V.append(('巷A裡面往汀州路看', (20.0, 1.65, 0.0), (0.0, 2.2, 0.0), 60))
+            for s in lay['shops']:
+                if s['name'] in ('泰米村食', '洗樂洗衣坊', '印得好'):
+                    sx = -1 if s['side'] == 'W' else 1
+                    V.append(('%s 櫥窗近拍' % s['name'], (sx * 5.2, 1.6, s['zc']), (sx * 8.4, 1.3, s['zc']), 60))
         for lab, frm, at_, fov in V:
             u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'tw': 560, 'label': '%s %s' % (hh, lab), 'full': lab in ('概念圖機位', '巷A出口看泰米村食')})
             if u: save(u, 'tz_%s_%s.jpg' % (hh.replace(':', ''), 'concept' if lab == '概念圖機位' else 'alleyA'))
