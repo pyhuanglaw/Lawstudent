@@ -86,7 +86,7 @@ async def main():
         R.note('按「前往」以後 toast／字幕／對話（%d 筆）：%s' % (len(ev), J(ev[-30:])))
         R.note('到達：%s；見面：%s；約的時間 %.2f；按前往時 %.3f' % (J(arrived), J(met), v['h'], h0))
         R.check('到了那家店（區域＝%s）' % (arrived and arrived['want']), bool(arrived), J(arrived))
-        R.check('到達時間不早於約的時間／開門時間（%.2f）' % max(v['h'], tgt['open'] or 0), bool(arrived) and arrived['h'] >= max(v['h'], tgt['open'] or 0) - 0.02, J(arrived))
+        R.check('r4：到達在開門以後、約的時間以前或剛好（%.2f～%.2f；早到 10 分鐘是設計，BB 17:4x）' % (tgt['open'] or 0, v['h'] + 0.1), bool(arrived) and (tgt['open'] or 0) - 0.02 <= arrived['h'] <= v['h'] + 0.1, J(arrived))
         bad = [e for e in ev if any(w in e['v'] for w in ('還沒開', '時間還沒到', '還沒到'))]
         R.check('全程沒有「還沒開」「時間還沒到」', not bad, J(bad))
         R.check('她在（到達後 GAME.npc 有她）', bool(arrived) and (arrived['her'] or (met and met['her'])), J({'arrived': arrived, 'met': met}))
