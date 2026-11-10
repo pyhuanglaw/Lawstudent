@@ -166,10 +166,21 @@ const XS3=(function(){
     /* XS-FARVIEW-1105：街兩頭的樓房（正式模型，遠景：不投影）；接上以後這一區不畫引擎的城市剪影圓筒（engine3d.js 讀 zone.noSkylineCity；圓筒在校園那一側正好落在校園裡）*/
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xinsheng_far']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.xinsheng_far').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       const root=c.scene.clone(true); Z3.attachWenzhouModel(E,g,root,'xsFar','xinsheng_far_glb'); root.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); root.userData.dyn=true; zone.noSkylineCity=true; }).catch(e=>console.warn('新生南路遠景模型載入失敗',e));
+    /* X246 人行道花台（XS-PLANTERS-1110，LAWWW2 帳號 A 11-10；使用者 11-05「新生南路側門改成我的照片的樣子」：人行道花台、紅磚、廣場——紅磚、廣場已經有，花台沒有）：
+       tools/blender/env_second/xs_planters.py → bldg.xs_planters：沿校園圍牆內側一段一段的花崗石矮花台＋修剪過的杜鵑（溫州公園同一套 SEASON_AZALEA_on／off：3 月開花，Z3.wzParkSeason）。
+       花台的範圍在 GLB 的 extras.planters（[x0,z0,x1,z1]，這一區的座標），載入以後照它擋導航（離牆 5 cm、寬 1.7 m；側門洞前後各留 1 m、每段之間 1.2 m）。載入失敗＝沒有花台，導航照舊。
+       測試：node tests/xs_planters_unit.js */
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xs_planters']) ASSETS.loadOne('bldg.xs_planters').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
+      const root=c.scene.clone(true); root.name='xs_planters_glb'; root.userData.dyn=true; let pl=null;
+      root.traverse(o=>{ if(!pl&&o.userData&&Array.isArray(o.userData.planters)) pl=o.userData.planters; if(!o.isMesh) return; const n=(o.material&&o.material.name)||''; o.receiveShadow=true; o.castShadow=/granite|azalea_core/.test(n);
+        if(/azalea_(leaf|flower)/.test(n)){ o.material.alphaTest=Math.max(o.material.alphaTest||0,0.5); o.material.side=THREE.DoubleSide; } });
+      g.add(root); if(Z3.wzParkSeason) Z3.wzParkSeason(root); else root.traverse(o=>{ if(/^SEASON_AZALEA_on/.test(o.name||'')) o.visible=false; });
+      for(const r of pl||[]) nav.blockRect((r[0]+r[2])/2,(r[1]+r[3])/2,r[2]-r[0],r[3]-r[1],0,0.05); nav._cm=null; zone.planters=pl||[]; }).catch(e=>console.warn('新生南路人行道花台載入失敗（沒有花台，導航照舊）',e));
     return zone; };
   /* 正式模型登錄在這裡（和木曜日、118 巷店家一樣，不動 assets3d.js）：七家店照參考圖的店面（ART-XINSHENG-FRONTS-1104，LAWWW2 tools/blender/env_second/wz_street.py --set xinsheng；
      招牌、店內、二樓窗的貼圖從使用者的參考圖裁出來，xs_front_tex.py）＋其他樓房、騎樓 */
   if(typeof ASSETS!=='undefined'&&!ASSETS.manifest['bldg.xinsheng_far']) ASSETS.manifest['bldg.xinsheng_far']={url:'assets/models/env/second_ai/xinsheng_far.glb',type:'building',lazy:true,source:'LAWWW2 tools/blender/env_second/wz_street.py --set xinsheng_far（XS-FARVIEW-1105：街兩頭的樓房、路口、號誌）',license:'本作'};
+  if(typeof ASSETS!=='undefined'&&!ASSETS.manifest['bldg.xs_planters']) ASSETS.manifest['bldg.xs_planters']={url:'assets/models/env/second_ai/xs_planters.glb',type:'building',lazy:true,source:'LAWWW2 tools/blender/env_second/xs_planters.py（X246 新生南路人行道花台：花崗石框＋修剪杜鵑，杜鵑貼圖同溫州公園）',license:'本作'};
   if(typeof ASSETS!=='undefined'&&!ASSETS.manifest['bldg.xinsheng_street']) ASSETS.manifest['bldg.xinsheng_street']={url:'assets/models/env/second_ai/xinsheng_street.glb',type:'building',lazy:true,source:'LAWWW2 tools/blender/env_second/wz_street.py --set xinsheng（店面貼圖：使用者提供的參考圖 ref_images/shops/*_ext.webp）',license:'本作'};
   if(typeof Z3!=='undefined'&&Z3.ZONES) Z3.ZONES.xinsheng={id:'xinsheng',name:'新生南路',indoor:false,cityLight:0.9,size:[76,136],camDist:5.6,build(E){ return S.build(E); }};
   return S;
