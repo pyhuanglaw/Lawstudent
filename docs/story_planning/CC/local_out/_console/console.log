@@ -1467,3 +1467,11 @@
 [10:05:47] ==== START WW1B_new_dorm  (probe @ 1827999fb488a30bdaccedaa1561697b3266a498) ====
 [10:05:50] [res] cpu=3% mem=46% (14.6/31.4 GB) chrome_testing=8  START WW1B_new_dorm
 [10:06:28] [res] cpu=11% mem=44% (14.0/31.4 GB) chrome_testing=8  END WW1B_new_wz_teahouse
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b94c86af7..b80163567  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:06:34] ==== END   WW1B_new_wz_teahouse  exit=0  113s   ====
+[10:06:37] memory 46% before starting WW1B_new_wancai (2 running)
+[10:06:37] ==== START WW1B_new_wancai  (probe @ 1827999fb488a30bdaccedaa1561697b3266a498) ====
+[10:06:40] [res] cpu=14% mem=46% (14.6/31.4 GB) chrome_testing=8  START WW1B_new_wancai
+[10:08:13] [res] cpu=25% mem=46% (15.3/31.4 GB) chrome_testing=8  END WW1B_new_dorm
