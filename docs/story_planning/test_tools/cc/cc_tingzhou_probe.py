@@ -151,19 +151,25 @@ async def part_shots(pg, cdp):
             sx = -1 if s['side'] == 'W' else 1
             V.append(('%s 正面' % s['name'], (-sx * 3.5, 2.2, s['zc']), (sx * 7.0, 4.2, s['zc']), 55))
         if os.environ.get('V2') == '1':   # r2（BB 21:05）：巷 A 裡面兩張（18:30、20:30）、三間櫥窗近拍（騎樓裡、離櫥窗 3 m）
-            if h >= 18:
+            if h >= 17 or os.environ.get('ALLEY_ALL') == '1':   # r3（BB 21:31）：17:00 以後有攤（兩張）、14:00 攤子蓋帆布（ALLEY_ALL=1 每個時間都拍）
                 V.append(('巷A裡面往裡看', (7.5, 1.65, 0.0), (24.0, 1.8, 0.0), 60)); V.append(('巷A裡面往汀州路看', (20.0, 1.65, 0.0), (0.0, 2.2, 0.0), 60))
             for s in lay['shops']:
                 if s['name'] in ('泰米村食', '洗樂洗衣坊', '印得好'):
                     sx = -1 if s['side'] == 'W' else 1
                     V.append(('%s 櫥窗近拍' % s['name'], (sx * 5.2, 1.6, s['zc']), (sx * 8.4, 1.3, s['zc']), 60))
+        if os.environ.get('V2') == '1':   # r3（BB 21:31）：水源市場前、五間正式店名（沒有騎樓的那五間）招牌近拍
+            mk = await pg.evaluate("(()=>{ const m=TINGZHOU_LAYOUT.shops.find(s=>s.id==='e_market'); return m?(m.z0+m.z1)/2:null; })()")
+            if mk is not None: V.append(('水源市場前', (-2.5, 1.65, mk - 7.0), (8.2, 2.6, mk), 60))
+            for s5 in await pg.evaluate("(()=>TINGZHOU_LAYOUT.shops.filter(s=>s.arcade===false).map(s=>({name:s.name,side:s.side,zc:(s.z0+s.z1)/2})))()"):
+                sx = -1 if s5['side'] == 'W' else 1
+                V.append(('%s 招牌近拍' % s5['name'], (sx * 3.6, 3.4, s5['zc']), (sx * 8.4, 3.9, s5['zc']), 48))
         for lab, frm, at_, fov in V:
             u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'tw': 560, 'label': '%s %s' % (hh, lab), 'full': lab in ('概念圖機位', '巷A出口看泰米村食')})
             if u: save(u, 'tz_%s_%s.jpg' % (hh.replace(':', ''), 'concept' if lab == '概念圖機位' else 'alleyA'))
         for k, (tx, tz) in enumerate(((0.0, 14.0), (0.0, -10.0))):
             await L.go_to(pg, cdp, R, tx, tz, 0.8, '[SHOTS %s] 玩家視角走路' % hh, max_s=40)
             b = await pg.screenshot(type='jpeg', quality=82); await pg.evaluate(PUSHGAME, 'data:image/jpeg;base64,' + base64.b64encode(b).decode())
-        u = await pg.evaluate(MONT, {'cols': 4, 'title': '汀州路 %s（7a625da3c）：巷 A 出口、概念圖機位、路中往南／北、八間正面、玩家視角兩張' % hh})
+        u = await pg.evaluate(MONT, {'cols': 4, 'title': '汀州路 %s（%s）：巷 A 出口、概念圖機位、路中往南／北、八間正面、%s玩家視角兩張' % (hh, os.environ.get('SHA', '')[:9], '巷 A、櫥窗、水源市場、招牌、' if os.environ.get('V2') == '1' else '')})
         save(u, 'tz_%s_all.jpg' % hh.replace(':', ''))
         R.note('[SHOTS] %s 拼圖 tz_%s_all.jpg（%d 張）' % (hh, hh.replace(':', ''), len(V) + 2))
 
@@ -172,9 +178,10 @@ async def part_fps(pg, cdp):
     await pg.evaluate("(()=>{ const s=document.getElementById('setQuality'); if(s){ s.value='medium'; s.dispatchEvent(new Event('change')); } })()")
     await at(pg, cdp, 'tingzhou', 18.5, 0.0, 0.0, '（中畫質、路中間、18:30 夜市攤開始擺）')
     await pg.wait_for_timeout(3000)
-    fps = await pg.evaluate("new Promise(res=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<10000) requestAnimationFrame(f); else res(+(n/((performance.now()-t0)/1000)).toFixed(1)); }; requestAnimationFrame(f); })")
+    FS = int(os.environ.get('FPSS') or 10)
+    fps = await pg.evaluate("new Promise(res=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<%d)" % (FS * 1000) + " requestAnimationFrame(f); else res(+(n/((performance.now()-t0)/1000)).toFixed(1)); }; requestAnimationFrame(f); })")
     npc = await pg.evaluate("(GAME.E.npcs||[]).length")
-    R.note('[FPS] 中畫質、路中間 18:30 站 10 秒：%s fps（NPC %d；PC GPU，不是 iPhone）' % (fps, npc))
+    R.note('[FPS] 中畫質、路中間 18:30 站 %d 秒：%s fps（NPC %d；PC GPU，不是 iPhone）' % (FS, fps, npc))
 
 
 async def main():

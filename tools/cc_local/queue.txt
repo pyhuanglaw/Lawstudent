@@ -26,6 +26,13 @@ DLGFX_new_a | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_plan
 DLGFX_old_b | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_dlgfx_probe.py | index.html | 20 | TAG=old;CASES=CHAT,PHONE,FACE
 DLGFX_new_b | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_dlgfx_probe.py | index.html | 20 | TAG=new;CASES=CHAT,PHONE,FACE
 MT3_lovecap_r3 | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 20 | CASES=LOVECAP
+TZ2_shots_a | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=SHOTS;HOURS=14,17.25;V2=1;ALLEY_ALL=1
+TZ2_shots_b | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=SHOTS;HOURS=18.5,20.5;V2=1
+TZ2_func | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=GATE,SHOPS,OLD
+TZ2_walk | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 20 | PARTS=WALK
+TZ2_fps | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=FPS;FPSS=8
+TZ1_fps | 7a625da3c321c2d3fcaaa2ac865c1dde60ccff5d | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 10 | PARTS=FPS;FPSS=8
+TZ1_shots_1715 | 7a625da3c321c2d3fcaaa2ac865c1dde60ccff5d | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=SHOTS;HOURS=17.25
 DLGFX_old_chat | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_dlgfx_probe.py | index.html | 15 | TAG=old;CASES=CHAT
 DLGFX_new_chat | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_dlgfx_probe.py | index.html | 15 | TAG=new;CASES=CHAT
 # ===== P0 BB 20:10：v9.10.24 已上線（main 779ddd650，PR #34），驗線上網址；Pages 還沒更新完（仍 v9.10.23）就等 5 分鐘再跑 LIVE_V91024_deploy RERUN，最多 3 次 =====
