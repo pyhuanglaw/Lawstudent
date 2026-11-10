@@ -312,13 +312,15 @@ async def part_scoot3(pg, cdp):
     V = sorted([v for v in info['V'] if v['code'] in used], key=lambda v: v['vol'])
     R.note('[SCOOT3] scooter.glb 款式（有擺在路邊的 %d／全部 %d 款）：%s' % (len(V), len(info['V']), J(info['V'])))
     pick = [V[0], V[len(V) // 2], V[-1]] if len(V) >= 3 else V
+    if os.environ.get('CODES'):   # BB 22:53：指定款式（S1A,S1B,S2＝佔 67% 的三款）
+        pick = [v for c in os.environ['CODES'].split(',') for v in V if v['code'] == c]
     await pg.evaluate("window.__TZ=[]")
     for v in pick:
         it = sorted(used[v['code']], key=lambda q: abs(q['z']))[0]; sx = 1 if it['x'] > 0 else -1
         u = await pg.evaluate(SNAP, {'from': [sx * 1.2, 1.3, it['z'] + 2.2], 'at': [it['x'], 0.6, it['z']], 'fov': 40, 'tw': 560, 'label': '款式 %s 外框 %s（體積排序第 %d／%d）' % (v['code'], v['size'], V.index(v) + 1, len(V)), 'full': True})
         save(u, 'scoot3_%s.jpg' % v['code'])
-    u = await pg.evaluate(MONT, {'cols': 3, 'title': '汀州路機車：外形差最多的三款（體積最小、中間、最大）%s' % os.environ.get('SHA', '')[:9]})
-    save(u, 'scoot3_all.jpg'); R.note('[SCOOT3] 三款：%s' % J([(v['code'], v['size']) for v in pick]))
+    u = await pg.evaluate(MONT, {'cols': 3, 'title': '汀州路機車：%s %s' % ('指定款式 ' + os.environ['CODES'] if os.environ.get('CODES') else '外形差最多的三款（體積最小、中間、最大）', os.environ.get('SHA', '')[:9])})
+    save(u, 'scoot3_all%s.jpg' % ('_' + os.environ['CODES'].replace(',', '_') if os.environ.get('CODES') else '')); R.note('[SCOOT3] 三款：%s' % J([(v['code'], v['size']) for v in pick]))
 
 
 async def main():
