@@ -46,3 +46,11 @@
 [04:11:42] [res] cpu=0% mem=34% (10.8/31.4 GB) chrome_testing=0  START LIVE_V91024_deploy
 [04:12:05] worktree add 5c260f19ebf408cb332615020b22a7648fdbd8c4: invalid reference - fetching main and the commit itself
 [04:13:46] [res] cpu=10% mem=49% (15.9/31.4 GB) chrome_testing=9  END GG_SIGNS_new5c
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       18a951c1e..19e9dd0ac  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:13:53] ==== END   GG_SIGNS_new5c  exit=0  127s   ====
+[04:14:02] memory 47% before starting GG_SIGNS_old (2 running)
+[04:14:02] ==== START GG_SIGNS_old  (probe @ 6ef185726dbf72e5bf55ca794f1928a6d705a77e) ====
+[04:14:04] [res] cpu=12% mem=47% (14.9/31.4 GB) chrome_testing=9  START GG_SIGNS_old
+[04:15:08] [res] cpu=13% mem=48% (15.2/31.4 GB) chrome_testing=8  END LIVE_V91024_p0
