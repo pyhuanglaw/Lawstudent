@@ -80,10 +80,11 @@ TARGET_JS = r"""((q)=>{ const E=GAME.E, I=E.interactables||[];
 START_JS = r"""((q)=>{ const E=GAME.E; for(const r of [10,9,11,8,12,7,13,6,14]) for(let a=0;a<360;a+=15){ const x=q.x+r*Math.sin(a*Math.PI/180), z=q.z+r*Math.cos(a*Math.PI/180);
     if(E.canStand(x,z,0.4,q.lv)&&E.canStand(x+0.5,z,0.3,q.lv)&&E.canStand(x,z+0.5,0.3,q.lv)&&E.canStand(x-0.5,z,0.3,q.lv)&&E.canStand(x,z-0.5,0.3,q.lv)) return {x:+x.toFixed(2),z:+z.toFixed(2),lv:q.lv,r}; } return null; })"""
 
-INFO_JS = r"""((aid)=>{ const G=GAME.G, a=ACTIVITIES.list.find(x=>x.id===aid), F=G.flags||{}; const z=(typeof STORY!=='undefined'&&STORY.schedEnt&&typeof CHARACTERS!=='undefined'&&CHARACTERS.zhe)?STORY.schedEnt(CHARACTERS.zhe,G):null;
+INFO_JS = r"""((aid)=>{ const G=GAME.G, a=ACTIVITIES.list.find(x=>x.id===aid), F=G.flags||{}; const zf=()=>(typeof STORY!=='undefined'&&STORY.schedEnt&&typeof CHARACTERS!=='undefined'&&CHARACTERS.zhe)?STORY.schedEnt(CHARACTERS.zhe,G):null; const z=zf();
+  let z59=null; if(a&&a.t1!=null){ const h0=G.hour; try{ G.hour=a.t1-1/60; const e=zf(); z59=e?e.zone:null; } finally { G.hour=h0; } }   /* 只讀：阿哲作息在「結束前一分鐘」（lateJoinAsk 判斷 DOOR_AFTER 用的時刻）在哪一區，讀完放回 */
   return {CLUB:F['CLUB_'+aid]===undefined?null:F['CLUB_'+aid], CLUB_LATE:F['CLUB_LATE_'+aid]===undefined?null:F['CLUB_LATE_'+aid], BALL_GO:F.AA613_BALL_GO===undefined?null:F.AA613_BALL_GO,
     attended:!!(a&&ACTIVITIES.attended(G,aid,G.day)), hasLate:!!ACTIVITIES.LATE_JOIN, due:ACTIVITIES.lateJoinDue?!!ACTIVITIES.lateJoinDue(G,a):null, declined:ACTIVITIES.lateDeclined?!!ACTIVITIES.lateDeclined(G,a):null,
-    place:ACTIVITIES.placeOf?ACTIVITIES.placeOf(a,G).zone:null, zheZone:z?z.zone:null, zheLabel:z?(z.label||z.act||null):null, zheName:typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('zhe'):null}; })"""
+    place:ACTIVITIES.placeOf?ACTIVITIES.placeOf(a,G).zone:null, zheZone:z?z.zone:null, zheLabel:z?(z.label||z.act||null):null, zheZone59:z59, zheName:typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('zhe'):null}; })"""
 
 
 async def st(pg):
@@ -173,7 +174,7 @@ async def play_session(pg, cdp, tag, aid, rain, picks):
                 last_line = key; log['lines'].append({'name': s['name'], 'text': s['text'], 'hour': s['hour'], 'zone': s['zone']})
                 print('  LINE %.2f [%s] %s' % (s['hour'], s['name'] or '旁白', s['text']), flush=True)
                 if s['name'] == CAPTAIN and not log['captain_shot']:
-                    await pg.wait_for_timeout(900); await D.shot(pg, '%s_%s_captain' % (TAG, tag)); log['captain_shot'] = True
+                    await pg.wait_for_timeout(2200); await D.shot(pg, '%s_%s_captain' % (TAG, tag)); log['captain_shot'] = True
         if s['choices']:
             ch = s['choices']; print('  CHOICES %.2f %s' % (s['hour'], J(ch)), flush=True)
             if sorted(ch) == sorted(['填', '先不要']):
@@ -288,7 +289,7 @@ async def main():
                         R.setup('zhe_no 不設 AA613_BALL_GO（＝沒對阿哲說過「好，我去看看。」；GAME.defaults 的旗標沒有這個 key）')
                     lg = await case_club(pg, cdp, case, 'dept_basketball', flags=fl)
                     if lg:
-                        R.note('%s 阿哲作息（結束時）：%s／%s、名字 %s' % (case, lg['info']['zheZone'], lg['info']['zheLabel'], lg['info']['zheName']))
+                        R.note('%s 阿哲作息：結束前一分鐘在 %s；結束時 %s／%s；名字 %s' % (case, lg['info']['zheZone59'], lg['info']['zheZone'], lg['info']['zheLabel'], lg['info']['zheName']))
                         if yes:
                             i_y = idx(lg, YES_BB); i_t = idx(lg, TOLD)
                             R.check('zhe_yes 選「填」以後接阿哲「我就說吧。」（說的人 %s）' % (lg['lines'][i_t]['name'] if i_t >= 0 else '—'), i_t >= 0 and i_t > i_y >= 0 and lg['lines'][i_t]['name'] != CAPTAIN, J(lg['lines'][i_t] if i_t >= 0 else lg['lines'][-4:]))

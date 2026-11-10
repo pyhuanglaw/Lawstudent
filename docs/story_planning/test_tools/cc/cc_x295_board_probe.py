@@ -194,7 +194,7 @@ async def one_board(pg, cdp, orient, zone, key, label0, zfilter):
 
 async def main():
     real = os.popen('git -C "%s" rev-parse --short HEAD 2>/dev/null' % os.path.join(os.environ.get('LW_TESTS') or '.', '..')).read().strip()
-    print('CC X295 公告欄分頁版面：worktree %s；TAG %s；%s（博思螢幕 '+SCREEN_DATE+'）%.1f 時；ORIENT %s；BOARDS %s；Playwright 手機模擬 ≠ iPhone 實機' % (real or '?', TAG, DATE, HOUR, ORIENTS, BOARDS), flush=True)
+    print('CC X295 公告欄分頁版面：worktree %s；TAG %s；%s（博思螢幕 %s）%.1f 時；ORIENT %s；BOARDS %s；Playwright 手機模擬 ≠ iPhone 實機' % (real or '?', TAG, DATE, SCREEN_DATE, HOUR, ORIENTS, BOARDS), flush=True)
     async with async_playwright() as p:
         for orient in ORIENTS:
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(orient == 'landscape'))
