@@ -52,7 +52,7 @@ SHOPS = [s for s in SHOPS_ALL if not _sel or any(x in (s[0], s[1], s[2], s[3]) f
 
 # 窗景卡（執行時找）：視差窗（W3.windowMat 的 uniforms）、照片卡（名字 VIEW／NIGHT_、材質 *window_view）
 CARDS = r"""(()=>{ const E=GAME.E, z=E.zone, out=[]; if(!z||!z.group) return out; const LG=z.levelGroups||[], lgi=new Map(LG.map((l,i)=>[l.group,i])); const q=new THREE.Quaternion();
-  const urlOf=t=>{ if(!t) return null; const u=(t.userData&&t.userData.url)||(t.image&&(t.image.currentSrc||t.image.src))||''; return /^(blob|data):/.test(u)?'(GLB 內嵌)':(u.replace(/^https?:\/\/[^/]+\//,'')||null); };
+  const urlOf=t=>{ if(!t) return null; const u=(t.userData&&t.userData.url)||(t.image&&(t.image.currentSrc||t.image.src))||''; return /^(blob|data):/.test(u)||(!u&&t.image)?'(GLB 內嵌:'+(t.name||'?')+')':(u.replace(/^https?:\/\/[^/]+\//,'')||null); };
   z.group.traverse(o=>{ if(!o.isMesh) return; const m=[].concat(o.material)[0]; if(!m) return; const u=m.uniforms; let kind=null;
     if(u&&u.depth&&u.photo&&u.map) kind='parallax'; else if(/VIEW/.test(o.name||'')||/^NIGHT_/.test(o.name||'')||/window_view/i.test(m.name||'')) kind='photo'; if(!kind) return;
     let vis=true, lv=null; for(let p=o;p&&p!==z.group.parent;p=p.parent){ if(lgi.has(p)){ lv=lgi.get(p); continue; } if(p.visible===false){ vis=false; break; } }
@@ -109,8 +109,8 @@ def pick_cards(cards, center, n):
 
 
 def dedicated(c):
-    u = c.get('url') or ''
-    return c['kind'] == 'photo' and ('_view' in u) and 'mok_view' not in u
+    u = c.get('url') or ''   # 換過的照片有網址（*_view_day／night.webp）；GLB 內嵌的照片卡（SUNNY SIDE、2:30 AM）只有貼圖名字；木曜日的樹（mok_view）不算
+    return c['kind'] == 'photo' and bool(u) and 'mok_view' not in u
 
 
 def pick_seat(seats, card, out):
