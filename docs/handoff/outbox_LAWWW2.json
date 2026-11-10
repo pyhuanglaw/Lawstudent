@@ -7629,6 +7629,21 @@
    "noDirectIntegrate": false,
    "note": "底 dev a37b2ff61；只動 tingzhou_street.glb（＋json）、wz_street.py、wz_shopkit.py；tingzhou_unit ALL PASS。",
    "next": "花序 A 件 → 夜市規劃文件 → 花序 B 件 → 公館三間"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "033f083db",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "FLOWER-NOTES-ART-1110 花序 Flower Notes 第 1 版・A 件（室內；D141 1／3）：區域 flower_notes、兩層導航、室內模型、公館 G11 進出",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/flower_notes_1110/（README.md、flower_notes_v1a.patch、regression.log、preview_1f.jpg、preview_2f.jpg）"
+   ],
+   "state": "待整合（A 件；B 件公館外觀＋拿掉舊花攤還沒做）",
+   "noDirectIntegrate": false,
+   "note": "底 dev 8372e7086、9d28235df 上 apply --check 乾淨；flower_notes_unit ALL PASS；套完重跑 gen_zone_assets。買花互動點 kind gg_flower 在收銀櫃檯前（LAWWW 接）、zone.fnLooks／fnClerk。先將就的寫在 README。",
+   "next": "B 件和公館三間（安泰、汀州鮮果、榮恩典）一起重建 gongguan_shops.glb；G09 放什麼要先定"
   }
  ]
 }
