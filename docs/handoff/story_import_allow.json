@@ -5573,6 +5573,15 @@
     ]
    },
    "note": "X324 朋友版的期末飯（一對一）：Y3S2、Y4S1——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.FRIEND[學期][人]）。只匯入 people.friend 的人；classmate_peishan 不匯入（使用者 X327 重寫中，稿上也沒有），她照 termend_lines.js 現在的字。AA 11-10 經 LAWWW：七個學期全部以企劃線 5ffd725b8 為準。"
+  },
+  {
+   "path": "docs/story_planning/AA_752_night_market.json",
+   "sha": "3259b5f78",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-11-10 交稿（D100b 稿就是定稿）；BB_317 的修正已改（稿的 _meta.rules 最後一條）",
+   "task": "NIGHT-MARKET-1110",
+   "kind": "json",
+   "note": "X326 夜市十攤＋背景三攤的看、買：tools/story/import_night_market.py → src/data/night_market.js（NIGHT_MARKET）。店名、品名、價錢、台詞一字照稿；演出 src/night_market3d.js。算命不在夜市（另一間店「禮貌生財」，稿 AA_750，不在這一筆）。"
   }
  ]
 }
