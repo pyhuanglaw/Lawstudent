@@ -290,7 +290,8 @@ def heart_expect(who, term, C, tl, say3, not_yet):
 # kind：gf／kexin／heart／friend；expect：opts（稿有匯）／old（沒匯：照舊流程）；load：讀檔那一天（沒寫＝時段第一天）；flags、unflags、evDone、evUndo：【捷徑】
 CASE_DEF = {
     'gf_an_Y1S2': dict(kind='gf', who='heroine_01', term='Y1S2', label='以安 女朋友版 通用（大一下，稿 table）'),
-    'gf_an_Y2S1': dict(kind='gf', who='heroine_01', term='Y2S1', label='以安 女朋友版 大二上'),
+    'gf_an_Y2S1': dict(kind='gf', who='heroine_01', term='Y2S1', hookMode={'*': 'nosay'}, label='以安 女朋友版 大二上（鉤子不念 say：S.HOOK_NOSAY）'),
+    'gf_an_Y2S2': dict(kind='gf', who='heroine_01', term='Y2S2', hookMode={'*': 'nosay'}, label='以安 女朋友版 大二下（京都：鉤子不念 say，直接出選項；BB 23:44）'),
     'gf_yt_Y1S2': dict(kind='gf', who='heroine_03', term='Y1S2', label='語彤 女朋友版 通用＋夏天開頭（sayByKind.summer）'),
     'gf_yt_Y2S1': dict(kind='gf', who='heroine_03', term='Y2S1', label='語彤 女朋友版 通用＋大二上開頭（sayByKind.Y2S1）'),
     'gf_yt_Y4S1': dict(kind='gf', who='heroine_03', term='Y4S1', label='語彤 女朋友版 大四上'),
@@ -302,9 +303,16 @@ CASE_DEF = {
     'gf_zr_Y2S1': dict(kind='gf', who='heroine_02', term='Y2S1', label='芷若 女朋友版 大二上'),
     'gf_zr_Y5S1': dict(kind='gf', who='heroine_02', term='Y5S1', flags={'EXCHANGE_ROUTE': 'JP'}, label='芷若 女朋友版 大五上（交換延畢：路線 JP）'),
     'gf_zq_Y1S2': dict(kind='gf', who='heroine_04', term='Y1S2', evUndo=['ev_ziqing_secret_game'], label='子晴 女朋友版 通用（大一下，沒玩過 Q6）'),
-    'gf_zq_Y1S2q6': dict(kind='gf', who='heroine_04', term='Y1S2', evDone=['ev_ziqing_secret_game'], label='子晴 女朋友版 通用（大一下，玩過 Q6）'),
+    'gf_zq_Y1S2q6': dict(kind='gf', who='heroine_04', term='Y1S2', evDone=['ev_ziqing_secret_game'], hookMode={'（現在玩。）': 'skip', '*': 'nosay'},
+                         label='子晴 女朋友版 通用（大一下，玩過 Q6；PICK max＝「（現在玩。）」＝鉤子整個不出）'),
+    'gf_zq_Y1S2q6_ns': dict(kind='gf', who='heroine_04', term='Y1S2', evDone=['ev_ziqing_secret_game'], want='「改了哪裡？」', hookMode={'（現在玩。）': 'skip', '*': 'nosay'},
+                            label='子晴 女朋友版 通用（大一下，玩過 Q6；選「改了哪裡？」＝鉤子不念 say、直接出選項；BB 23:44）'),
     'gf_zq_Y3S2': dict(kind='gf', who='heroine_04', term='Y3S2', label='子晴 女朋友版 大三下'),
     'kx_Y2S1': dict(kind='kexin', who='kexin', term='Y2S1', label='可昕 大二上'),
+    'kx_Y2S2': dict(kind='kexin', who='kexin', term='Y2S2', label='可昕 大二下（每個選項都跑：KX_KHH.Y2S）'),
+    'kx_Y3S1': dict(kind='kexin', who='kexin', term='Y3S1', label='可昕 大三上（每個選項都跑：KX_KHH.Y3W）'),
+    'kx_Y4S1': dict(kind='kexin', who='kexin', term='Y4S1', label='可昕 大四上（每個選項都跑：KX_KHH.Y4W）'),
+    'kx_Y5S1': dict(kind='kexin', who='kexin', term='Y5S1', flags={'EXCHANGE_ROUTE': 'JP'}, label='可昕 大五上（交換延畢：路線 JP；每個選項都跑：KX_Y5_CALL）'),
     'kx_Y3S2tw': dict(kind='kexin', who='kexin', term='Y3S2', flags={'EXCHANGE_ROUTE': 'TW'}, label='可昕 大三下（臺灣路線）'),
     'kx_Y3S2us': dict(kind='kexin', who='kexin', term='Y3S2', flags={'EXCHANGE_ROUTE': 'US'}, label='可昕 大三下（美國路線）'),
     'kx_Y2S1_go': dict(kind='kexin', who='kexin', term='Y2S1', want='「我去。妳排哪幾天？」', label='可昕 大二上（選「我去。妳排哪幾天？」：不再接 KX_ASK、記 KX_KHH.Y2W）'),
@@ -332,6 +340,8 @@ CASE_DEF = {
     'fr_yu_Y3S1tw': dict(kind='friend', who='yu', term='Y3S1', flags={'EXCHANGE_ROUTE': 'TW'}, label='Alison 朋友版 大三上（臺灣路線：三個都在）'),
     'fr_sis_Y3S2us': dict(kind='friend', who='heroine_05', term='Y3S2', flags={'EXCHANGE_ROUTE': 'US'}, label='學姊 朋友版 大三下（美國路線：少「學姊去了就不回來了嗎？」）'),
     'fr_sis_Y3S2tw': dict(kind='friend', who='heroine_05', term='Y3S2', flags={'EXCHANGE_ROUTE': 'TW'}, label='學姊 朋友版 大三下（臺灣路線：三個都在）'),
+    'fr_sis_Y3S1fu': dict(kind='friend', who='heroine_05', term='Y3S1', label='學姊 朋友版 大三上（朋友以上＝SIS_FU：選項之後多一句「……收到信那天，我打給你。」；BB 23:44）'),
+    'fr_sis_Y3S1nofu': dict(kind='friend', who='heroine_05', term='Y3S1', rel={'fam': 20, 'trust': 0, 'comf': 0, 'npcRom': 0}, label='學姊 朋友版 大三上（【捷徑】關係設低：不到朋友＝沒有那一句）'),
     'fr_sis_Y4S1us': dict(kind='friend', who='heroine_05', term='Y4S1', load='2028-12-24', loadH=10.0, flags={'EXCHANGE_ROUTE': 'US'}, label='學姊 朋友版 大四上（美國路線：開頭 sayUS）'),
     'fr_sis_Y4S1tw': dict(kind='friend', who='heroine_05', term='Y4S1', load='2028-12-24', loadH=10.0, flags={'EXCHANGE_ROUTE': 'TW'}, label='學姊 朋友版 大四上（臺灣路線：開頭 say）'),
 }
@@ -793,18 +803,23 @@ async def case_run(pg, cdp, errs, cid):
     # 舊版（TAG=old）：條件全是 null，期望只拿來比「稿上的選項沒有出現」（每一段的 all）
     res['expect'] = segs
     R.note('%s 期望（稿）：%s' % (t, J([dict([(k, s.get(k)) for k in ('id', 'why', 'say', 'menu')], opts=[o['t'] for o in s.get('opts') or []]) for s in segs])))
-    runs = [('main', s0, '同一份存檔，出發')]
+    runs = [('main', s0, '同一份存檔，出發', None)]
     mode = case.get('shuf') or ('std' if kind in ('gf', 'kexin') else None)
     shuf = SHUF and mode and any(s.get('shuffle') and len(s.get('opts') or []) > 1 for s in segs)
-    if shuf: runs.append(('same', copy.deepcopy(s0), '【捷徑】同一份存檔重讀一次（同一天：順序要一樣）'))
-    if shuf and mode == 'full': runs.append(('same2', copy.deepcopy(s0), '【捷徑】同一份存檔再重讀一次（同一天第三次）'))
+    allopt = kind == 'kexin' and not case.get('want') and segs and len(segs[0].get('opts') or []) > 1   # BB 23:44：可昕每個選項都跑一次（同一天重讀＝順序也要一樣）
+    if allopt:
+        ots = [o['t'] for o in segs[0]['opts']]
+        runs = [('main', s0, '同一份存檔，出發；選稿上第 1 個「%s」' % ots[0], dict(ctl, want=ots[0]))]
+        for n_, ot in enumerate(ots[1:], 2): runs.append(('opt%d' % n_, copy.deepcopy(s0), '【捷徑】同一份存檔重讀（同一天）；選稿上第 %d 個「%s」' % (n_, ot), dict(ctl, want=ot)))
+    if shuf and not allopt: runs.append(('same', copy.deepcopy(s0), '【捷徑】同一份存檔重讀一次（同一天：順序要一樣）', None))
+    if shuf and mode == 'full': runs.append(('same2', copy.deepcopy(s0), '【捷徑】同一份存檔再重讀一次（同一天第三次）', None))
     orders = {}
-    for rid, st_, why in runs:
-        run = await one_run(pg, cdp, '%s(%s)' % (t, rid), st_, '%s %s' % (t, why), q['id'], segs, errs, ctl)
+    for rid, st_, why, ctl_ in runs:
+        run = await one_run(pg, cdp, '%s(%s)' % (t, rid), st_, '%s %s' % (t, why), q['id'], segs, errs, ctl_ or ctl)
         run['post'] = await pg.evaluate(POST_JS, {'who': who, 'term': term})
         lines_txt('%s %s %s（%s）%s' % (TAG, cid, rid, case['label'], why), run['dl'])
         SEEN_TEXT.extend(seen_of(run['dl']))
-        an = analyze(t if rid == 'main' else '%s(%s)' % (t, rid), case, run, segs, info, check=(rid == 'main'))
+        an = analyze(t if rid == 'main' else '%s(%s)' % (t, rid), case, run, segs, info, check=(rid == 'main' or rid.startswith('opt')))
         run['analysis'] = an; orders[rid] = menu_orders(run['dl'], segs)
         res['runs'].append({k: v for k, v in run.items()})
         R.note('%s(%s) 選單順序 %s；選的 %s；她的戀愛 applyFx %s、adjust %s；結果 %s' % (t, rid, J(orders[rid]), J([p['opts'][p['pick']] for p in run['drive']['picks'] if p['opts']]), an.get('fx_love'), an.get('adj_love'), J(run['post'])))
@@ -827,7 +842,7 @@ async def case_run(pg, cdp, errs, cid):
                 if ch and str(ch[0]).startswith('「我去。'): R.check('%s 選「我去。」＝記 YT_DINNER_YES' % t, run['post'].get('ytDinnerYes') is not None, J(run['post'].get('ytDinnerYes')))
         open(os.path.join(OUT, 'te_%s.json' % TAG), 'w', encoding='utf-8').write(J(RESULT))
     if shuf:
-        same = [orders.get(x) for x in ('same', 'same2') if x in orders]
+        same = [orders.get(x) for x in orders if x in ('same', 'same2') or x.startswith('opt')]
         R.check('%s 同一天讀檔重來（%d 次）：選單順序和第一次一樣' % (t, len(same)), all(x == orders.get('main') for x in same) and all(x is not None for x in orders.get('main') or [None]), J([orders.get('main')] + same))
         diff = False
         for k in (1, 2):
