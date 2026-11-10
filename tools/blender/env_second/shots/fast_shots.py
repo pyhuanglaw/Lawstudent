@@ -3,7 +3,7 @@
 支援的欄位：out、w、h、mobile、hud、hidePlayer、hideNPCs、state{zone,hour,pos,flags}、cam{pos,look}|{yaw,pitch,dist}、js、wait（毫秒，另外至少等引擎畫 6 格）、post（拍完之後執行的 JS，結果印成「post <out> <JSON>」一行）。
 不支援 scene_shot 的 companion／player／spawn／walk（要拍人物站位時用 scene_shot.py）。
 用法：python3 tools/blender/env_second/shots/fast_shots.py <URL> <shots.json> [--block=檔名]（--block：擋掉那個檔案的下載，例如 street_props.glb，只關掉那一個正式模型）"""
-import asyncio, json, sys
+import asyncio, json, os, sys
 from playwright.async_api import async_playwright
 UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
@@ -19,7 +19,9 @@ async def main():
     groups = {}
     for s in shots: groups.setdefault((s.get('w', 1536), s.get('h', 1024), bool(s.get('mobile'))), []).append(s)
     async with async_playwright() as p:
-        b = await p.chromium.launch(executable_path='/opt/pw-browsers/chromium', args=['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'])
+        # 雲端（有 /opt/pw-browsers/chromium）照舊用 SwiftShader；使用者電腦（D131）沒有這個路徑＝用本機 Playwright 的 chromium、讓它用 GPU（CC 11-10 回報 PC 開不了瀏覽器）
+        cloud = os.path.exists('/opt/pw-browsers/chromium')
+        b = await p.chromium.launch(**({'executable_path': '/opt/pw-browsers/chromium', 'args': ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist']} if cloud else {'args': ['--ignore-gpu-blocklist']}))
         for (w, h, mobile), L in groups.items():
             ctx = await b.new_context(viewport={'width': w, 'height': h}, device_scale_factor=1, has_touch=mobile, is_mobile=mobile, user_agent=UA if mobile else None)
             pg = await ctx.new_page(); errs = []
