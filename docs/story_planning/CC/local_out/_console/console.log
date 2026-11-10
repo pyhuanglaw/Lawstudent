@@ -1367,3 +1367,12 @@
 [09:40:38] [res] cpu=18% mem=45% (14.2/31.4 GB) chrome_testing=9  START WAKE_new
 [09:43:27] 正在跑：NOASK_faf1（已跑 37 分／上限 240 分）、SOCX_8677_date_h5（已跑 20 分／上限 90 分）、WAKE_new（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [09:47:04] [res] cpu=6% mem=45% (14.3/31.4 GB) chrome_testing=9  END WAKE_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c1e1a7a4b..49673de8e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:47:10] ==== END   WAKE_new  exit=1  389s   ====
+[09:47:13] memory 44% before starting WAKE_old (2 running)
+[09:47:13] ==== START WAKE_old  (probe @ faf1b75a4081a575d797a90f8cbe7fca8a087b58) ====
+[09:47:16] [res] cpu=17% mem=44% (13.9/31.4 GB) chrome_testing=9  START WAKE_old
+[09:48:27] 正在跑：NOASK_faf1（已跑 42 分／上限 240 分）、SOCX_8677_date_h5（已跑 25 分／上限 90 分）、WAKE_old（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:49:40] [res] cpu=0% mem=45% (14.3/31.4 GB) chrome_testing=9  END WAKE_old
