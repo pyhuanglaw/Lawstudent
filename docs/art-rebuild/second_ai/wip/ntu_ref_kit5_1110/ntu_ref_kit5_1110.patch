@@ -1,0 +1,199 @@
+diff --git a/src/campuskit3d.js b/src/campuskit3d.js
+index f8d01f272..6e06469a2 100644
+--- a/src/campuskit3d.js
++++ b/src/campuskit3d.js
+@@ -77,17 +77,30 @@ const CK=(function(){ 'use strict';
+     // 窗：上面各層四面都有拱窗；一樓背面、側面也有
+     const rw=o.win==='rect', ww=Math.min(o.winW||1.5,bw*0.48), wh=Math.min(fh*(rw?0.55:0.62),2.7), wpU=windowParts(ww,wh,0.16,rw);
+     const wwS=Math.min(o.winW||1.5,bws*0.48), wpS=windowParts(wwS,wh,0.16,rw);
++    // topArch（NTU-REF-1110 套件五棟，LAWWW2 帳號 A）：其他樓層方窗、最上面一層拱窗（圖書資訊學系館）
++    // stairTower（NTU-REF-1110，土木工程館）：正面中間一座玻璃樓梯塔，從地面到屋頂上 1.6 m；一樓是玻璃門。只在沒有拱廊的版本用
++    const ST=o.stairTower&&!arc?{w:o.stairTower.w||4.2,d:o.stairTower.d||2.4}:null;
++    const whA=Math.min(fh*0.62,2.7), wpUA=o.topArch&&rw?windowParts(ww,whA,0.16,false):wpU, wpSA=o.topArch&&rw?windowParts(wwS,whA,0.16,false):wpS;
+     const sillY=(fl)=> (fl===0?1.2:gfh+(fl-1)*fh+0.75);
+-    for(let fl=0;fl<nf;fl++){ const y=sillY(fl);
++    for(let fl=0;fl<nf;fl++){ const y=sillY(fl), top=fl===nf-1&&fl>0, wpU_=top?wpUA:wpU, wpS_=top?wpSA:wpS;
+       for(let i=0;i<nb;i++){ const x=-w/2+bw*(i+0.5);
+-        const door=!arc&&fl===0&&Math.abs(i-(nb-1)/2)<0.6; // 沒有拱廊（宿舍）：一樓正面中間是大門
+-        if(fl>0||(!arc&&!door)) addWindow(bin,M,wpU,x,y,d/2+0.01,0); // 正面（有拱廊時一樓是拱廊）
+-        if(door){ bin.add(M.door,TK.boxG(1.9,2.7,0.08),x,1.35,d/2+0.12); bin.add(M.trim,TK.boxG(2.4,0.22,0.2),x,2.85,d/2+0.12); /* 門在勒腳前面（勒腳正面在 d/2+0.08，同一平面會閃爍）*/ bin.add(M.trim,TK.boxG(2.6,0.12,0.9,1.0),x,0.06,d/2+0.45); }
+-        if(fl>0||!o.backArcade) addWindow(bin,M,wpU,x,y,-d/2-0.01,Math.PI); }
+-      for(let j=0;j<nbs;j++){ const z=-d/2+bws*(j+0.5); if(fl===0&&z>d/2-ad-0.8) continue; addWindow(bin,M,wpS,w/2+0.01,y,z,Math.PI/2); addWindow(bin,M,wpS,-w/2-0.01,y,z,-Math.PI/2); } }
++        const door=!arc&&fl===0&&Math.abs(i-(nb-1)/2)<0.6, inTower=ST&&Math.abs(x)<ST.w/2+0.2; // 沒有拱廊（宿舍）：一樓正面中間是大門；有玻璃樓梯塔時，塔後面那一列不開窗、不做門（門在塔的一樓）
++        if(!inTower&&(fl>0||(!arc&&!door))) addWindow(bin,M,wpU_,x,y,d/2+0.01,0); // 正面（有拱廊時一樓是拱廊）
++        if(door&&!ST){ bin.add(M.door,TK.boxG(1.9,2.7,0.08),x,1.35,d/2+0.12); bin.add(M.trim,TK.boxG(2.4,0.22,0.2),x,2.85,d/2+0.12); /* 門在勒腳前面（勒腳正面在 d/2+0.08，同一平面會閃爍）*/ bin.add(M.trim,TK.boxG(2.6,0.12,0.9,1.0),x,0.06,d/2+0.45); }
++        if(fl>0||!o.backArcade) addWindow(bin,M,wpU_,x,y,-d/2-0.01,Math.PI); }
++      for(let j=0;j<nbs;j++){ const z=-d/2+bws*(j+0.5); if(fl===0&&z>d/2-ad-0.8) continue; addWindow(bin,M,wpS_,w/2+0.01,y,z,Math.PI/2); addWindow(bin,M,wpS_,-w/2-0.01,y,z,-Math.PI/2); } }
+     // 一樓拱廊：柱墩＋拱圈＋天花板＋地坪＋裡面的門窗
+     // 碰撞（本地座標 [x,z,寬,深,外擴]）：有拱廊時只擋建築本體＋每根柱子，拱廊底下可以走
+     if(arc){ blocks.push([0,-ad/2,w,d-ad,0.3]); for(let i=0;i<=nb;i++) blocks.push([-w/2+bw*i,d/2-0.3,apw,0.6,0.15]); } else blocks.push([0,0,w,d,0.3]);
++    if(ST){ const th=H+1.6, zc=d/2+ST.d/2-0.05, zf=d/2+ST.d-0.05;
++      for(const [px,pz,ry,len] of [[0,zf+0.01,0,ST.w],[ST.w/2+0.01,zc,Math.PI/2,ST.d],[-ST.w/2-0.01,zc,-Math.PI/2,ST.d]]){   // 三面玻璃（每層一片，晚上有亮有暗）
++        for(let f=0;f<nf;f++){ const y0=f===0?0.1:gfh+(f-1)*fh, hh=f===0?gfh-0.1:fh; const lx=px, lz=pz; bin.add(f===0||winLit(lx,y0+1,lz)?M.glass:M.glassDark,TK.planeG(len-0.12,hh-0.14,[0,0,1,1]),px,y0+hh/2,pz,ry,{noShadow:true}); }
++        bin.add(M.glass,TK.planeG(len-0.12,1.4,[0,0,1,1]),px,H+0.8,pz,ry,{noShadow:true}); }
++      for(const sx of [-1,1]) bin.add(M.frameDark,TK.boxG(0.16,th,0.16),sx*(ST.w/2-0.02),th/2,zf-0.02);            // 兩根角柱
++      for(let f=1;f<nf;f++) bin.add(M.frameDark,TK.boxG(ST.w+0.06,0.14,ST.d+0.06),0,gfh+(f-1)*fh,zc);                 // 每層樓板
++      bin.add(M.trim,TK.boxG(ST.w+0.4,0.35,ST.d+0.4,1.0),0,th+0.17,zc);                                                // 塔頂
++      bin.add(M.frameDark,TK.boxG(1.9,2.7,0.06),0,1.35,zf+0.04,0,{noShadow:true});                                    // 玻璃門框
++      blocks.push([0,zc,ST.w,ST.d,0.15]); }
+     if(arc){ const pw=apw, r=(bw-pw)/2, ys=Math.min(gfh-r-0.5,2.6), fz=d/2-0.3;
+       for(let i=0;i<=nb;i++){ const x=-w/2+bw*i; bin.add(M.wall,TK.boxG(pw,ys,0.6,1.2),x,ys/2,fz); bin.add(M.trim,TK.boxG(pw+0.16,0.22,0.72,1.0),x,ys,fz); bin.add(M.trim,TK.boxG(pw+0.12,0.4,0.7,1.0),x,0.2,fz); }
+       const sp=new THREE.ExtrudeGeometry(spandrel(bw,ys,gfh,r),{depth:0.6,bevelEnabled:false,curveSegments:8}); { const uv=sp.attributes.uv; for(let k=0;k<uv.count;k++) uv.setXY(k,uv.getX(k)/1.2,uv.getY(k)/1.2); }
+@@ -122,7 +135,7 @@ const CK=(function(){ 'use strict';
+       else if(o.porch.pediment){ const sh=new THREE.Shape(); const hw=pwid/2+0.6; sh.moveTo(-hw,0); sh.lineTo(hw,0); sh.lineTo(0,o.porch.pedH||2.0); sh.lineTo(-hw,0); const ped=new THREE.ExtrudeGeometry(sh,{depth:pd+0.3,bevelEnabled:false}); { const uv=ped.attributes.uv; for(let k=0;k<uv.count;k++) uv.setXY(k,uv.getX(k)/1.0,uv.getY(k)/1.0); } bin.add(M.trim,ped,0,ph+0.45,z0); }
+       else { for(let i=0;i<=Math.round(pwid/0.5);i++){ const x=-pwid/2+i*pwid/Math.round(pwid/0.5); bin.add(M.trim,TK.boxG(0.12,0.75,0.12),x,ph+0.45+0.37,z0+pd-0.1); } bin.add(M.trim,TK.boxG(pwid+0.3,0.12,0.22,1.0),0,ph+0.45+0.8,z0+pd-0.1); }
+       if(o.sign){ const st=TK.signTex(o.sign,{bg:o.signBg||'#d8d0c0',color:o.signColor||'#3b2a1e',serif:true,size:80}); const sm=new THREE.Mesh(new THREE.PlaneGeometry(Math.min(pwid*0.7,o.sign.length*1.25),0.9),new THREE.MeshStandardMaterial({map:st,roughness:0.8})); sm.position.set(0,ys+r+(ph-ys-r)/2+0.05,z0+pd+0.02); g.add(sm); } }
+-    else if(o.sign){ const st=TK.signTex(o.sign,{bg:o.signBg||'#d8d0c0',color:o.signColor||'#3b2a1e',serif:true,size:80}); const sm=new THREE.Mesh(new THREE.PlaneGeometry(o.sign.length*1.1,0.8),new THREE.MeshStandardMaterial({map:st,roughness:0.8})); sm.position.set(0,gfh-0.45,d/2+0.32); g.add(sm); }
++    else if(o.sign){ const st=TK.signTex(o.sign,{bg:o.signBg||'#d8d0c0',color:o.signColor||'#3b2a1e',serif:true,size:80}); const sm=new THREE.Mesh(new THREE.PlaneGeometry(o.sign.length*1.1,0.8),new THREE.MeshStandardMaterial({map:st,roughness:0.8})); sm.position.set(ST?ST.w/2+o.sign.length*0.55+0.6:0,gfh-0.45,d/2+0.32); g.add(sm); }
+     // 塔樓（總圖）：中央、在正面門廊上方，四面拱窗、四坡屋頂
+     if(o.tower){ const tw=o.tower.w||8, th=o.tower.h||10, tz=o.tower.z!=null?o.tower.z:d/2-tw/2-0.5, ty=H;
+       bin.add(M.wall,TK.boxG(tw,th,tw,1.2),0,ty+th/2,tz); bin.add(M.trim,TK.boxG(tw+0.5,0.5,tw+0.5,1.0),0,ty+th+0.25,tz); bin.add(M.trim,TK.boxG(tw+0.3,0.25,tw+0.3,1.0),0,ty+0.6,tz);
+@@ -130,7 +143,7 @@ const CK=(function(){ 'use strict';
+       const trg=hipRoof(tw+1.2,tw+1.2,3.2); bin.add(M.roof,trg,0,ty+th+0.5,tz); }
+     bin.build(g);
+     g.traverse(m=>{ if(m.isMesh){ m.castShadow=m.castShadow!==false; } });
+-    g.userData.ck={w,d,H,gfh,ad,blocks,doorZ:d/2-ad}; return g; }
++    g.userData.ck={w,d,H,gfh,ad,blocks,doorZ:d/2-ad,stairTower:ST,topArch:!!(o.topArch&&rw)}; return g; }
+   // ---------- 現代系館（社會科學院）----------
+   // 白色粉光牆、每層一條橫向長窗（細直櫺）、樓板邊緣一道白色水平線、一樓正面是玻璃大廳＋薄雨遮、平屋頂細女兒牆。
+   // 和 hall() 一樣：本地座標建築中心在原點、正面朝 +z；回傳 userData.ck（導航阻擋、鏡頭碰撞給 zones3d 的 ckPlace 用）。
+@@ -145,11 +158,17 @@ const CK=(function(){ 'use strict';
+     // 樓板邊緣（水平白線）、屋頂薄簷＋女兒牆
+     for(let i=1;i<nf;i++){ bin.add(slab,TK.boxG(w+0.3,0.28,d+0.3,1.0),0,gfh+(i-1)*fh,0); }
+     bin.add(slab,TK.boxG(w+0.3,0.28,d+0.3,1.0),0,gfh,0);
+-    bin.add(slab,TK.boxG(w+1.2,0.2,d+1.2,1.0),0,H+0.1,0); bin.add(slab,TK.boxG(w+0.2,0.7,0.25,1.0),0,H+0.55,d/2-0.02); bin.add(slab,TK.boxG(w+0.2,0.7,0.25,1.0),0,H+0.55,-d/2+0.02); bin.add(slab,TK.boxG(0.25,0.7,d,1.0),w/2-0.02,H+0.55,0); bin.add(slab,TK.boxG(0.25,0.7,d,1.0),-w/2+0.02,H+0.55,0); bin.add(dark,TK.boxG(w-0.4,0.05,d-0.4),0,H+0.22,0,0,{noShadow:true});
++    bin.add(slab,TK.boxG(w+1.2,0.2,d+1.2,1.0),0,H+0.1,0); bin.add(slab,TK.boxG(w+0.2,0.7,0.25,1.0),0,H+0.55,d/2-0.02); bin.add(slab,TK.boxG(w+0.2,0.7,0.25,1.0),0,H+0.55,-d/2+0.02); bin.add(slab,TK.boxG(0.25,0.7,d,1.0),w/2-0.02,H+0.55,0); bin.add(slab,TK.boxG(0.25,0.7,d,1.0),-w/2+0.02,H+0.55,0); bin.add(o.roofCol?TK.col(o.roofCol):dark,TK.boxG(w-0.4,0.05,d-0.4),0,H+0.22,0,0,{noShadow:true});   // roofCol：屋頂面的顏色（預設深色；國青大樓用灰色礫石，BB_248 P3 鳥瞰屋頂全黑）
+     // 長窗：每層前、後、左右；一段一段（約 1.4 m）分開，方便晚上有亮有暗
+     const band=(len,y,z,ry,seg)=>{ const n=Math.max(1,Math.round(len/seg)), sw=len/n, wh=1.45; for(let k=0;k<n;k++){ const lx=-len/2+sw*(k+0.5); const c=Math.cos(ry), sn=Math.sin(ry); const px=lx*c+z*sn, pz=-lx*sn+z*c; bin.add(winLit(px,y,pz)?glass:glassDark,TK.planeG(sw-0.08,wh,[0,0,1,1]),px,y,pz,ry,{noShadow:true}); const mx=(lx+sw/2)*c+z*sn, mz=-(lx+sw/2)*sn+z*c; if(k<n-1) bin.add(mull,TK.boxG(0.07,wh,0.06),mx,y,mz,ry,{noShadow:true}); }
+       const c=Math.cos(ry), sn=Math.sin(ry); bin.add(mull,TK.boxG(len,0.07,0.08),z*sn,y-wh/2,z*c,ry,{noShadow:true}); bin.add(mull,TK.boxG(len,0.07,0.08),z*sn,y+wh/2,z*c,ry,{noShadow:true}); };
+     for(let f=1;f<nf;f++){ const y=gfh+(f-1)*fh+0.95+0.72; band(w-1.6,y,d/2+0.01,0,1.4); band(w-1.6,y,d/2+0.01,Math.PI,1.4); band(d-1.6,y,w/2+0.01,Math.PI/2,1.4); band(d-1.6,y,w/2+0.01,-Math.PI/2,1.4); }
++    // bays（NTU-REF-1110，國青大樓）：最上面幾層，正面、背面一排深色凸窗（凸出 0.7 m），蓋在長窗前面
++    if(o.bays){ const bc=TK.col(o.bays.col||'#4a3527'), nB=Math.max(2,Math.round((w-2)/(o.bays.step||3.4))), st=(w-2)/nB, bwid=Math.min(2.2,st-0.6), bh=Math.min(2.3,fh-0.7), bd=0.7;
++      for(let f=Math.max(1,nf-(o.bays.floors||3));f<nf;f++){ const y=gfh+(f-1)*fh+0.95+0.72;
++        for(let k=0;k<nB;k++){ const lx=-(w-2)/2+st*(k+0.5);
++          for(const s of [1,-1]){ const z=s*(d/2+bd/2), ry=s>0?0:Math.PI; bin.add(bc,TK.boxG(bwid,bh,bd),lx,y,z,0);
++            bin.add(winLit(lx,y,z)?glass:glassDark,TK.planeG(bwid-0.36,bh-0.4,[0,0,1,1]),lx,y,s*(d/2+bd+0.01),ry,{noShadow:true}); } } } }
+     // 一樓玻璃大廳（正面）：整片玻璃＋直櫺；入口在中間：門框＋薄雨遮
+     const gz=d/2-lobbyD+0.02, lw=w-0.6; { const n=Math.round(lw/1.5), sw=lw/n; for(let k=0;k<n;k++){ const x=-lw/2+sw*(k+0.5); bin.add(winLit(x,1.8,gz)?glass:glassDark,TK.planeG(sw-0.06,gfh-0.5,[0,0,1,1]),x,(gfh-0.5)/2+0.1,gz,0,{noShadow:true}); if(k<n-1) bin.add(mull,TK.boxG(0.08,gfh-0.4,0.08),x+sw/2,(gfh-0.4)/2+0.1,gz+0.02,0,{noShadow:true}); } }
+     bin.add(slab,TK.boxG(w,0.1,lobbyD+0.2,1.0),0,0.05,d/2-lobbyD/2);
+@@ -160,7 +179,7 @@ const CK=(function(){ 'use strict';
+     if(o.sign){ const st=TK.signTex(o.sign,{bg:o.signBg||'#f7f5f0',color:o.signColor||'#3b3b3b',size:72}); const sm=new THREE.Mesh(new THREE.PlaneGeometry(Math.min(8,o.sign.length*1.1),0.8),new THREE.MeshStandardMaterial({map:st,roughness:0.8})); sm.position.set(0,gfh+0.55,d/2+0.16); g.add(sm); }
+     bin.build(g);
+     g.traverse(m=>{ if(m.isMesh){ m.castShadow=m.castShadow!==false; } });
+-    g.userData.ck={w,d,H,gfh,ad:0,blocks,doorZ:d/2}; return g; }
++    g.userData.ck={w,d,H,gfh,ad:0,blocks,doorZ:d/2,bays:o.bays?Math.max(2,Math.round((w-2)/(o.bays.step||3.4)))*Math.max(0,nf-Math.max(1,nf-(o.bays.floors||3))):0}; return g; }
+   // ---------- 洞洞館（農業陳列館）：上層四面是一格一格圓洞的鏤空牆，一樓玻璃＋方柱，平屋頂寬屋簷；晚上圓洞透出暖光 ----------
+   function holeTex(){ return TK.tex('ckHoles',256,256,(x,w,h)=>{ x.fillStyle='#e7e4d6'; x.fillRect(0,0,w,h); const n=6, cs=w/n; for(let j=0;j<n;j++) for(let i=0;i<n;i++){ const cx=(i+0.5)*cs, cy=(j+0.5)*cs; x.fillStyle='rgba(0,0,0,0.10)'; x.beginPath(); x.arc(cx+2,cy+3,cs*0.33,0,7); x.fill(); x.fillStyle='#2d3133'; x.beginPath(); x.arc(cx,cy,cs*0.3,0,7); x.fill(); } }); }
+   function holeEmit(){ return TK.tex('ckHolesE',256,256,(x,w,h)=>{ x.fillStyle='#000'; x.fillRect(0,0,w,h); const n=6, cs=w/n; for(let j=0;j<n;j++) for(let i=0;i<n;i++){ if(((i*7+j*3)%5)===0) continue; x.fillStyle='#ffc888'; x.beginPath(); x.arc((i+0.5)*cs,(j+0.5)*cs,cs*0.3,0,7); x.fill(); } }); }
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 675a77577..73a742b29 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -435,7 +435,7 @@ const Z3 = (function(){
+       for(const [x0,y0,z0,x1,y1,z1] of SOCX.cams){ const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((x0+x1)/2,(y0+y1)/2,(z0+z1)/2); g.add(m); E.colliders.push(m); }
+       for(const [x,z,w,d,yaw] of SOCX.benches){ const y=yaw||0; seats.push({x:+(x+0.06*Math.sin(y)).toFixed(2),z:+(z+0.06*Math.cos(y)).toFixed(2),yaw:y,label:'坐在社科院中庭的長椅'}); }   /* 清水混凝土長椅：朝中庭坐（X75 以後 z −67.1 的兩張面向北、x −10.6 的兩張面向東；坐的位置往面向那一邊 6 cm）*/
+       /* 社科院原本的位置（萬才館東南、總圖北邊）：X75 搬走以後放一棟沒有名字的系館（白色現代系館的套件，不掛名字；正面朝西、門對著 z=-60 那條路）*/
+-      { const hall=CK.modern({w:44,d:20,floors:4,gfh:4.4,fh:3.85,sign:'電機二館'}); ckPlace(hall,LR?119:112,-62,-Math.PI/2); buildings.push(hall); }   /* CAMPUS-RELAYOUT-1102（使用者 11-02 09:03「舊的那棟要叫什麼」）：官方地圖總圖東北邊的電機二館 */
++      { const hall=CK.hall({w:44,d:20,floors:4,gfh:4.4,fh:3.85,wall:'#9b4f3c',trim:'#d6cdbb',roofType:'flat',arcade:false,sign:'電機二館'}); ckPlace(hall,LR?119:112,-62,-Math.PI/2); buildings.push(hall); }   /* NTU-REF-1110 套件五棟（LAWWW2 帳號 A；X223／D136）：官網是長條的紅磚樓、拱窗 → 紅磚、拱窗、平屋頂；不照抄山牆、大拱門 */   /* CAMPUS-RELAYOUT-1102（使用者 11-02 09:03「舊的那棟要叫什麼」）：官方地圖總圖東北邊的電機二館 */
+     } else {   /* 舊外觀（manifest 沒有新模型時）*/
+       const soc=CK.modern({w:56,d:22,floors:4,gfh:4.4,fh:3.85,sign:'社會科學院'}); ckPlace(soc,110,-70,-Math.PI/2); buildings.push(soc);
+       socGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_modern']; soc.userData.ckTag='soc'; if(socGLB) soc.userData.dyn=true;
+@@ -467,9 +467,9 @@ const Z3 = (function(){
+     // 真實的椰林大道兩側幾乎整排都是系館（離大道 20–30 m、前面是草地）；原本這裡大道東半段兩側、行政大樓東邊、男一舍兩側都是空草地。
+     // 補上沒有掛名字的系館（不冒用真實系館的名字和位置），同一套校園套件語彙：紅磚／面磚、一樓拱廊、拱窗或方窗
+     { const fill=[
+-        [CK.hall({w:26,d:14,floors:3,gfh:4.4,fh:3.8,wall:'#c8a27c',trim:'#e6dfd0',roof:'#4a3a33',roofH:3.8,arcade:true,porch:{bays:1,depth:2.4,pediment:false},sign:'土木工程館'}),7,-28,0],          // 大道北側、文學院東邊
+-        [CK.hall({w:LIBF?23:28,d:16,floors:4,gfh:4.4,fh:3.6,wall:'#a35c48',trim:'#ddd5c6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'},sign:'圖書資訊學系館'}),LIBF?51.5:57,-34,0],   // 大道北側、小椰林道東邊（LIB-FRONT-1102：總圖前的廣場 x 63.5～73.75、|z| ≤ 30，原本 x 43～71 壓到廣場西北角 → 23 m 寬、中心 x 51.5：x 40～63）
+-        [CK.hall({w:34,d:14,floors:4,gfh:4.2,fh:3.5,wall:'#d2c3a5',trim:'#ebe4d6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'},sign:'農業綜合大樓'}),45,33,Math.PI],   // 大道南側、往宿舍的路東邊
++        [CK.hall({w:26,d:14,floors:4,gfh:4.4,fh:3.6,wall:'#c8a27c',trim:'#e6dfd0',roofType:'flat',win:'rect',arcade:false,stairTower:{w:4.2,d:2.4},sign:'土木工程館'}),7,-28,0],   /* NTU-REF-1110：官網是平屋頂、4 層、中間一座玻璃樓梯塔 → 拿掉一樓拱廊和斜屋頂（方正的大門改成塔一樓的玻璃門）*/          // 大道北側、文學院東邊
++        [CK.hall({w:LIBF?23:28,d:16,floors:4,gfh:4.4,fh:3.6,wall:'#e8e4da',trim:'#f3f0e9',roofType:'flat',win:'rect',topArch:true,arcade:true,porch:{bays:3,depth:2.6,style:'flat'},sign:'圖書資訊學系館'})   /* NTU-REF-1110：官網是白色、頂層拱形窗 */,LIBF?51.5:57,-34,0],   // 大道北側、小椰林道東邊（LIB-FRONT-1102：總圖前的廣場 x 63.5～73.75、|z| ≤ 30，原本 x 43～71 壓到廣場西北角 → 23 m 寬、中心 x 51.5：x 40～63）
++        [CK.hall({w:34,d:14,floors:5,gfh:4.2,fh:3.5,wall:'#9a5040',trim:'#b8b3aa',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'},sign:'農業綜合大樓'}),45,33,Math.PI],   /* NTU-REF-1110：官網是紅磚＋花崗石帶、5 層（樓層腰帶、勒腳用花崗石的灰） */   // 大道南側、往宿舍的路東邊
+         [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#bfb5a3',trim:'#e4ddd0',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),-34,68,Math.PI],   // 舟山路南側、宿舍區
+         [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#c9b49a',trim:'#e8e2d6',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),74,68,Math.PI],
+ ];   // 第二十批的「舟山路西段南側」(-92,66) 2026-10-13 換成大一女舍（見行政大樓後面的大一女舍那一段）
+@@ -661,7 +661,7 @@ const Z3 = (function(){
+     // （以下放在校園建構的最後面：TK.tree、小灌木用共用亂數，放在這裡才不會讓前面其他樹的形狀跟著變）
+     // 國青中心（第二十四批，使用者提供的法律學院配置圖：霖澤館與萬才館中間、靠辛亥路的灰色宿舍）：遊戲的法學院區是壓縮過的（D25），兩館之間只剩約 20 m，
+     // 放在兩館中間的後方（中庭與北側圍牆之間，玩家走不到，不加導航），從兩館之間、霖澤館前都看得到。外觀沒有照片：灰色現代板樓是推測
+-    { const gq=CK.modern({w:LR?20:30,d:10,floors:7,gfh:4.0,fh:3.2,wall:'#a9aba6',slab:'#c8c9c4',sign:'國際學苑'}); place(g,gq,LR?65:64,LR?-119:-134,0);
++    { const gq=CK.modern({w:LR?20:30,d:10,floors:LR?11:7,gfh:4.0,fh:3.2,wall:LR?'#d6c9ad':'#a9aba6',slab:LR?'#e4dccb':'#c8c9c4',bays:LR?{floors:3,col:'#4a3527'}:null,roofCol:'#77736b',sign:'國際學苑'})   /* NTU-REF-1110：官網是 11 層、米色面磚、上面三層深褐色凸窗（研三舍在這一棟裡面）；屋頂面灰色（BB_248 P3）*/; place(g,gq,LR?65:64,LR?-119:-134,0);
+       if(LR){ nav.blockRect(65,-119,20,10,0,0);   /* 重排：國青大樓在霖澤館東邊、辛亥路旁（官方地圖）；後面到圍牆走不到 */
+         /* 研三舍那一棟拿掉（NTU-REF-1110 ③-4，LAWWW2 帳號 A 11-10；X223）：住宿組「研三舍位於國青大樓」＝同一棟（男 5～7 樓、女 2、8～11 樓），原本另外蓋的 4 層「研三舍」(63,−108) 是多的；AA 11-10：劇情沒用到 */
+         { const bk=WCW(-1,-17.3); nav.blockRect(bk[0],bk[1],34,12,-WRY,0); } } }   /* 萬才館背面到辛亥路圍牆（法學院後面不能走，D31 同一個做法）*/
+diff --git a/tests/ntu_ref_kit5_unit.js b/tests/ntu_ref_kit5_unit.js
+new file mode 100644
+index 000000000..2365b6d95
+--- /dev/null
++++ b/tests/ntu_ref_kit5_unit.js
+@@ -0,0 +1,58 @@
++// 套件五棟照官網事實改參數（NTU-REF-1110，LAWWW2 帳號 A 11-10；X223／D136 像但不照抄）——不需要瀏覽器（D131）。
++// 事實：docs/art-rebuild/second_ai/ntu_ref_keep_change_1110.md（照 docs/story_planning/ref_images/buildings/README.md 的文字）：
++//   電機二館＝長條紅磚樓、拱窗；土木工程館＝平屋頂、4 層、中間玻璃樓梯塔、沒有一樓拱廊；圖書資訊學系館＝白色、頂層拱形窗；
++//   農業綜合大樓＝紅磚＋花崗石帶、5 層；國際學苑（國青大樓）＝11 層、米色面磚、上面三層深褐色凸窗。
++// 檢查（Node 建真正的校園）：
++//   1 顏色（zones3d.js 的參數）：電機二館、農綜紅磚色；圖資白色；國青米色
++//   2 樓高（套件回傳的 H）：土木 4 層、農綜 5 層、國青 11 層；電機二館是 CK.hall（有拱窗的系館套件，不是白色現代樓）、4 層
++//   3 土木：沒有一樓拱廊；正面中間的玻璃樓梯塔真的凸出來（從正前方往裡打，塔那一列先碰到塔、旁邊碰到牆）；平屋頂；塔擋導航、塔前面走得到
++//   4 國青：最上面三層有凸窗（正面往裡打，頂樓先碰到凸窗、低樓層碰到牆）；屋頂面不是全黑（BB_248 P3）
++//   5 圖資：最上面一層是拱窗（套件的 topArch）
++// 修改前（開發分支 8d8b475dc＋③-4）：全部 FAIL。用法：node tests/ntu_ref_kit5_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','src/data/blackforest_layout.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/socsci_layout.js',
++  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js',
++  'src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/activities.js','src/classes3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(BLACKFOREST_LAYOUT|THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PUTONG_LAYOUT|TB3|ACTIVITIES|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{};
++const ZS=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
++const lineOf=sign=>ZS.split('\n').find(l=>l.includes("sign:'"+sign+"'"))||'';
++const wallOf=sign=>{ const l=lineOf(sign), m=l.match(/wall:(?:LR\?)?'(#[0-9a-f]{6})'/i); return m?m[1]:null; };
++const rgb=h=>h?[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255):[0,0,0], lum=h=>{ const [r,g,b]=rgb(h); return 0.2126*r+0.7152*g+0.0722*b; };
++const red=h=>{ const [r,g,b]=rgb(h); return r>g*1.5&&r>b*1.6&&r>0.5; }, beige=h=>{ const [r,g,b]=rgb(h); return lum(h)>0.7&&lum(h)<0.9&&r>b+0.08; };
++const W={ee:wallOf('電機二館'),agr:wallOf('農業綜合大樓'),lis:wallOf('圖書資訊學系館'),gq:wallOf('國際學苑')};
++check('1 顏色：電機二館、農綜紅磚；圖資白色；國青米色', red(W.ee)&&red(W.agr)&&lum(W.lis)>0.85&&beige(W.gq), JSON.stringify(W));
++
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++global.GAME={G:{hour:14,weather:'clear',flags:{},zone:'campus'}};
++const z=Z3.ZONES.campus.build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
++z.group.updateMatrixWorld(true);
++const kits=[]; z.group.traverse(o=>{ if(o.userData&&o.userData.ck&&o.userData.ck.blocks){ const p=new THREE.Vector3(); o.getWorldPosition(p); kits.push({o,ck:o.userData.ck,x:p.x,z:p.z}); } });
++const at=(x,zz)=>kits.filter(k=>Math.hypot(k.x-x,k.z-zz)<1).sort((a,b)=>Math.hypot(a.x-x,a.z-zz)-Math.hypot(b.x-x,b.z-zz))[0];
++const LR=!!at(119,-62), K={ee:at(LR?119:112,-62),cv:at(7,-28),lis:at(51.5,-34)||at(57,-34),agr:at(45,33),gq:at(65,-119)||at(64,-134)};
++const near=(a,b)=>Math.abs(a-b)<0.05, Hf=(gfh,fh,n)=>gfh+(n-1)*fh;
++check('2 樓高：土木 4 層、農綜 5 層、國青 11 層；電機二館是 CK.hall、4 層', !!(K.cv&&K.agr&&K.gq&&K.ee)&&near(K.cv.ck.H,Hf(4.4,3.6,4))&&near(K.agr.ck.H,Hf(4.2,3.5,5))&&near(K.gq.ck.H,Hf(4.0,3.2,11))&&/CK\.hall\(\{[^}]*sign:'電機二館'/.test(lineOf('電機二館'))&&near(K.ee.ck.H,Hf(4.4,3.85,4)),
++  'H '+['cv','agr','gq','ee'].map(k=>k+' '+(K[k]?K[k].ck.H.toFixed(2):'沒找到')).join('、'));
++
++const rc=new THREE.Raycaster(); const hit=(k,o,dir,far=80)=>{ const ms=[]; k.o.traverse(m=>{ if(m.isMesh) ms.push(m); }); rc.set(new THREE.Vector3(...o),new THREE.Vector3(...dir).normalize()); rc.far=far; const h=rc.intersectObjects(ms,false).filter(i=>!(E.colliders||[]).includes(i.object)); return h[0]||null; };   /* 只打這一棟自己的網格（前面的樹、路燈不算） */
++const stand=(x,zz)=>E.canStand(x,zz,0.3,0);
++if(K.cv){ const c=K.cv.ck, fz=-28+c.d/2, mid=c.gfh+c.H/2*0.5;
++  const ht=hit(K.cv,[7,mid,fz+30],[0,0,-1]), hw=hit(K.cv,[7+c.w/2-2,mid,fz+30],[0,0,-1]), hr=hit(K.cv,[7+c.w/4,c.H+20,-28],[0,-1,0]);
++  const tz=ht?ht.point.z:null, wz=hw?hw.point.z:null, ry=hr?hr.point.y:null;
++  check('3 土木：沒有一樓拱廊、正面中間的玻璃樓梯塔凸出來 ≥ 2 m、平屋頂；塔擋導航、塔前面走得到', c.ad===0&&!!c.stairTower&&tz!=null&&wz!=null&&tz-wz>=2&&ry!=null&&ry<c.H+1.5&&!stand(7,fz+1.2)&&stand(7,fz+4),
++    `拱廊深 ${c.ad}；塔 ${JSON.stringify(c.stairTower)}；塔那一列碰到 z ${tz&&tz.toFixed(2)}、旁邊 ${wz&&wz.toFixed(2)}；屋頂最高 ${ry&&ry.toFixed(2)}（簷口 ${c.H.toFixed(2)}）；塔的位置 ${stand(7,fz+1.2)?'站得住':'擋住'}、塔前 ${stand(7,fz+4)?'走得到':'走不到'}`); }
++else check('3 土木', false, '沒找到');
++if(K.gq){ const c=K.gq.ck, gx=K.gq.x, gz=K.gq.z, nB=Math.max(2,Math.round((c.w-2)/3.4)), st=(c.w-2)/nB, bx=gx-(c.w-2)/2+st*0.5, yTop=c.gfh+(11-2)*3.2+1.67, yLow=c.gfh+2*3.2+1.67;
++  const h1=hit(K.gq,[bx,yTop,gz+40],[0,0,-1]), h2=hit(K.gq,[bx,yLow,gz+40],[0,0,-1]), hr=hit(K.gq,[gx,c.H+30,gz],[0,-1,0]);
++  const col=hr&&hr.object.material&&hr.object.material.color?hr.object.material.color:null, rl=col?0.2126*col.r+0.7152*col.g+0.0722*col.b:0;
++  check('4 國青：最上面三層有凸窗（頂樓比低樓層凸出 ≥ 0.5 m）；屋頂面不是全黑', c.bays>0&&!!h1&&!!h2&&h1.point.z-h2.point.z>=0.5&&rl>0.12,
++    `凸窗 ${c.bays}；頂樓碰到 z ${h1&&h1.point.z.toFixed(2)}、低樓層 ${h2&&h2.point.z.toFixed(2)}；屋頂面亮度 ${rl.toFixed(3)}`); }
++else check('4 國青', false, '沒找到');
++check('5 圖資：最上面一層是拱窗（topArch）', !!(K.lis&&K.lis.ck.topArch), K.lis?'topArch '+K.lis.ck.topArch:'沒找到');
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/socsci_place_unit.js b/tests/socsci_place_unit.js
+index ea26afe23..4d8eb62c4 100644
+--- a/tests/socsci_place_unit.js
++++ b/tests/socsci_place_unit.js
+@@ -53,7 +53,7 @@ const cx=(all.x0+all.x1)/2, cz=(all.z0+all.z1)/2;
+   check('6. 社科院原本的位置有一棟系館（校園套件，ckPlace 在 (112,−62)；LAW-RELAYOUT-1102 起萬才館往東南搬，這棟往東讓 7 m 到 (119,−62)）', mod.length===1, mod.length+' 棟');
+   const zsrc=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
+   check('6. 社科院新位置裡面原本的三棵樹（(8,−70)、(8,−50)、(0,−56)）有新模型時不種', /\.\.\.\(SOCX\?\[\]:\[\[8,-70\],\[8,-50\],\[0,-56\]\]\)/.test(zsrc));
+-  check('6. 原本位置的系館不掛「社會科學院」', /const hall=CK\.modern\(\{w:44,d:20,floors:4,gfh:4\.4,fh:3\.85(,sign:'電機二館')?\}\); ckPlace\(hall,(?:112|LR\?119:112),-62,-Math\.PI\/2\)/.test(zsrc)); }
++  check('6. 原本位置的系館不掛「社會科學院」（NTU-REF-1110 套件五棟起電機二館改用 CK.hall 紅磚拱窗、多了顏色參數；尺寸、位置、名字照舊）', /const hall=CK\.(?:modern|hall)\(\{w:44,d:20,floors:4,gfh:4\.4,fh:3\.85(?:(?!sign:)[^}])*(,sign:'電機二館')?\}\); ckPlace\(hall,(?:112|LR\?119:112),-62,-Math\.PI\/2\)/.test(zsrc)); }
+ // 3. layout＝LAWWW2 的 json 照 place 換算
+ { const P=SX.place||{}, T=(x,z)=>[+(P.x-x).toFixed(2),+(P.z-z).toFixed(2)], near=(a,b)=>Math.abs(a[0]-b[0])<0.011&&Math.abs(a[1]-b[1])<0.011;
+   check('3. place：轉 180°（ry＝π）、平移 (112, −135)', P.ry===Math.PI&&P.x===112&&P.z===-135, JSON.stringify(P));
