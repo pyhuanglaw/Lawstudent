@@ -24,6 +24,7 @@ F24_capgap | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | probe | docs/story_plann
 F24_v7 | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
 F24_live | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
 F24_live_pos | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
+F24_posters_r2 | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | probe | docs/story_planning/test_tools/cc/cc_poster_probe.py | index.html | 10 | PARTS=B;FROM=2029-05
 # ===== F24 之後：POOL 進場黑幕新舊同一天各 3 次（BB 18:10 第 4 項；r1 單次新 6.02／舊 4.50 秒不能下結論）、新功能 r3（亮度、坐下的檢查修好）=====
 POOL_ent_new1 | 2c37122b682225cbf5ec82e84d3746a43adb12c8 | probe | docs/story_planning/test_tools/cc/cc_pool_swim_probe.py | index.html | 12 | CASES=ENTRY;DAY=2025-11-01
 POOL_ent_old1 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_pool_swim_probe.py | index.html | 8 | BASE=1;DAY=2025-11-01

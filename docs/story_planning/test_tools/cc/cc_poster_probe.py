@@ -16,6 +16,7 @@ import cc_d141_lib as D
 from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 PARTS = (os.environ.get('PARTS') or 'A,B,C').split(',')
+FROM = os.environ.get('FROM') or ''   # r2：只拍這一段以後的大廳（例 2029-05）
 R = L.Run('posters', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 
@@ -98,8 +99,13 @@ async def main():
                     if d is None:
                         R.note('[B] %s（%s）：STORY.dayOfKey 找不到這一天，大廳不拍' % (q['from'], q['term'])); continue
                     if first_ok is None: first_ok = q['from']
+                    if FROM and q['from'] < FROM: continue
                     await D.load_zone(pg, cdp, 'xs_nanyang', key, 14.0, wait=5000)
                     ok, ps = await wait_posters(pg, q['ids'])
+                    if not ok:   # r2：讀檔以後人在哪（r1 2029-07 起拍到的是別的地方）
+                        where = await pg.evaluate("(()=>{ const G=GAME.G; return {zone:G.zone, day:G.day, key:CALENDAR.dateOf(G.day).key, h:+(+G.hour).toFixed(2), want:%s, dlg:(document.getElementById('dlg')||{}).textContent||'', caption:(document.getElementById('caption')||{}).textContent||''}; })()" % J(key))
+                        R.note('[B] %s 讀檔以後：%s' % (q['from'], J(where)))
+                        await pg.screenshot(path=os.path.join(OUT, 'poster_lobby_miss_%s.jpg' % q['from']), type='jpeg', quality=70)
                     R.check('[B] %s 大廳兩張海報貼上了（%s）' % (q['from'], '、'.join(q['ids'])), ok, J(ps))
                     full = await pg.evaluate(SNAP, {'from': [1.7, 2.0, -4.07], 'at': [4.39, 2.05, -4.07], 'fov': 50, 'tw': 300, 'key': 'lobby', 'label': '%s %s' % (q['from'], '／'.join(q['titles'])), 'full': i % 12 == 6})
                     if full: save_url(full, 'poster_lobby_%s.jpg' % q['from'])
