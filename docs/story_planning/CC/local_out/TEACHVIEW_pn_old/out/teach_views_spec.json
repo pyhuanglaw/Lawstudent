@@ -1,0 +1,62 @@
+[
+ {
+  "out": "C:\\Users\\USER\\AppData\\Local\\Temp\\ccteach_j8715x13\\putong_north_day.png",
+  "w": 2048,
+  "h": 512,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11.0,
+   "pos": {
+    "x": -27,
+    "z": -70,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -27.2,
+    1.85,
+    -67.3
+   ],
+   "look": [
+    -27.2,
+    1.6,
+    -120
+   ]
+  },
+  "js": "GAME.E.camera.fov=53.13; GAME.E.camera.updateProjectionMatrix();",
+  "wait": 5000
+ },
+ {
+  "out": "C:\\Users\\USER\\AppData\\Local\\Temp\\ccteach_j8715x13\\putong_north_night.png",
+  "w": 2048,
+  "h": 512,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -27,
+    "z": -70,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -27.2,
+    1.85,
+    -67.3
+   ],
+   "look": [
+    -27.2,
+    1.6,
+    -120
+   ]
+  },
+  "js": "GAME.E.camera.fov=53.13; GAME.E.camera.updateProjectionMatrix();",
+  "wait": 5000
+ }
+]
