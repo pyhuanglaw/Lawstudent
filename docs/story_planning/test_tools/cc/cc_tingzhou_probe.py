@@ -219,9 +219,18 @@ async def part_scoot(pg, cdp):
           let scG=null; E.scene.traverse(o=>{ if(!scG&&o.isGroup&&o.children.length>20&&o.children.every(c=>c.userData&&c.userData.dyn)&&o!==out&&o.parent&&o.parent.getObjectByName&&o.parent.getObjectByName('tz_scooters_glb')) scG=o; });
           const items=[]; if(scG) for(const o of scG.children){ o.updateMatrixWorld(true); const p=new THREE.Vector3().setFromMatrixPosition(o.matrixWorld); let r=hash(p.x,p.z,1)*W, v=V[V.length-1]; for(const c of V){ if((r-=c.w)<=0){ v=c; break; } }
             const col=v&&v.pal.length?v.pal[Math.floor(hash(p.x,p.z,2)*v.pal.length)]:null; items.push({x:+p.x.toFixed(2),z:+p.z.toFixed(2),code:v?v.code:null,col}); }
+          /* BB 23:07：色系（白／米／銀灰／黑與深藍／紅／藍／綠／黃橘）；相鄰同色系最長連續台數 */
+          const fam=hex=>{ if(!hex) return null; const c=new THREE.Color(hex), h={}; c.getHSL(h); const H=h.h*360, S=h.s, Lm=h.l;
+            if(Lm<0.22||(S>0.2&&H>=200&&H<=250&&Lm<0.33)) return '黑與深藍'; if(S<0.14) return Lm>0.8?'白':'銀灰'; if(S<0.42&&H>=20&&H<=60&&Lm>0.6) return '米';
+            if(H<15||H>=340) return '紅'; if(H<65) return '黃橘'; if(H<170) return '綠'; return '藍'; };
+          items.forEach(i=>{ i.fam=fam(i.col); });
           const side={W:items.filter(i=>i.x<0).sort((a,b)=>a.z-b.z),E:items.filter(i=>i.x>0).sort((a,b)=>a.z-b.z)}, res={};
           for(const k of ['W','E']){ const L=side[k]; let run=1,maxRun=L.length?1:0,runC=1,maxRunC=L.length?1:0,gaps=0; for(let i=1;i<L.length;i++){ if(L[i].code===L[i-1].code&&L[i].col===L[i-1].col) run++; else run=1; maxRun=Math.max(maxRun,run); if(L[i].code===L[i-1].code) runC++; else runC=1; maxRunC=Math.max(maxRunC,runC); if(L[i].z-L[i-1].z>1.4) gaps++; }
-            res[k]={n:L.length,kinds:new Set(L.map(i=>i.code)).size,colors:new Set(L.map(i=>i.col)).size,maxSameCodeColor:maxRun,maxSameCode:maxRunC,gaps}; }
+            let rf=1,maxF=L.length?1:0; for(let i=1;i<L.length;i++){ if(L[i].fam===L[i-1].fam&&L[i].z-L[i-1].z<=1.4) rf++; else rf=1; maxF=Math.max(maxF,rf); }
+            const famCount={}; L.forEach(i=>{ famCount[i.fam]=(famCount[i.fam]||0)+1; });
+            res[k]={n:L.length,kinds:new Set(L.map(i=>i.code)).size,colors:new Set(L.map(i=>i.col)).size,maxSameCodeColor:maxRun,maxSameCode:maxRunC,maxSameFamily:maxF,families:famCount,gaps}; }
+          const TEA=(typeof TINGZHOU_LAYOUT!=='undefined'?TINGZHOU_LAYOUT.shops.find(q=>q.id==='w_tea'):null);
+          res.drinkShop=TEA?side.W.filter(i=>i.z>TEA.z0-3&&i.z<TEA.z1+3).map(i=>({z:i.z,code:i.code,col:i.col,fam:i.fam})):null;   /* 飲料店（手搖飲 w_tea）前那一群 */
           return {tzScooters:z.tzScooters, tzBikes:z.tzBikes, tzParkGroups:z.tzParkGroups, tzParkGaps:z.tzParkGaps, tzScooterGLB:z.tzScooterGLB===undefined?'undefined':z.tzScooterGLB,
             glbModels:V.map(v=>v.code), scPick:ud.scPick||null, scColors:ud.scColors||null, groups:ud.scPerGroup?Object.keys(ud.scPerGroup).length:null, fallbackFound:!!scG, side:res}; })()""")
         R.note('[SCOOT %.2f] 統計：%s' % (h, J(st)))
@@ -257,9 +266,15 @@ async def part_int(pg, cdp):
             await pg.wait_for_timeout(2500)
             fm = await pg.evaluate("(()=>{ const z=GAME.E.zone||{}; return {formal:!!z.formal, glb:!!GAME.E.scene.getObjectByName(%s)}; })()" % J(L_['zone'] + '_glb'))
             R.note('%s 正式模型：%s' % (tag, J(fm)))
-            # 店裡走四個角（r2：要四周 0.45 m 都站得住＝人過得去的點；r1 挑到桌子之間的窄縫，TEST_BUG）
+            # 店裡走四個角
             W_, D_ = L_['w'], L_['d']
-            pts = await pg.evaluate("(a=>{ const N=GAME.E.nav, out=[]; for(const [cx,cz] of a){ let best=null; for(let r=0;r<=2.5&&!best;r+=0.25) for(let k=0;k<16&&!best;k++){ const x=cx+Math.cos(k/16*6.283)*r, z=cz+Math.sin(k/16*6.283)*r; if(N&&N.free(x,z)&&[0,1,2,3,4,5,6,7].every(j=>N.free(x+Math.cos(j/8*6.283)*0.45,z+Math.sin(j/8*6.283)*0.45))) best=[+x.toFixed(2),+z.toFixed(2)]; } out.push(best); } return out; })", [[-W_ / 2 + 0.8, D_ / 2 - 1.2], [W_ / 2 - 0.8, D_ / 2 - 1.2], [W_ / 2 - 0.8, -D_ / 2 + 1.5], [-W_ / 2 + 0.8, -D_ / 2 + 1.5]])
+            # r3（BB 23:07）：角落＝「離牆和家具最近、人站得住、從出生點走得到的格子」——從出生點在導航格上擴散（四周 0.35 m 都 free 才算人站得住），每個象限取離房間角最近的那一格；
+            #   櫃台後面的店員區（z < counter.z0、x 在 counter 範圍）不列（印得好右後角）
+            pts = await pg.evaluate("(a=>{ const N=GAME.E.nav, L=(typeof TZ_SHOPS_LAYOUT!=='undefined'?TZ_SHOPS_LAYOUT[a.sid]:null)||{}, C=L.counter, st=0.2, ok=(x,z)=>N&&N.free(x,z)&&[0,1,2,3,4,5,6,7].every(j=>N.free(x+Math.cos(j/8*6.283)*0.35,z+Math.sin(j/8*6.283)*0.35));"
+                                   " const staff=(x,z)=>C&&z<C.z0&&x>C.x0-0.3&&x<C.x1+0.3; const k=(x,z)=>Math.round(x/st)+','+Math.round(z/st); const seen=new Set(), Q=[[a.sx,a.sz]], R=[]; seen.add(k(a.sx,a.sz));"
+                                   " while(Q.length&&R.length<6000){ const [x,z]=Q.shift(); R.push([x,z]); for(const [dx,dz] of [[st,0],[-st,0],[0,st],[0,-st]]){ const nx=+(x+dx).toFixed(2), nz=+(z+dz).toFixed(2), kk=k(nx,nz); if(seen.has(kk)) continue; seen.add(kk); if(ok(nx,nz)&&!staff(nx,nz)) Q.push([nx,nz]); } }"
+                                   " return a.corners.map(([cx,cz])=>{ let b=null,bd=1e9; for(const [x,z] of R){ const d=Math.hypot(x-cx,z-cz); if(d<bd){ bd=d; b=[x,z]; } } return b; }); })",
+                                   {'sid': sid, 'sx': L_['spawn']['x'], 'sz': L_['spawn']['z'], 'corners': [[-W_ / 2, D_ / 2], [W_ / 2, D_ / 2], [W_ / 2, -D_ / 2], [-W_ / 2, -D_ / 2]]})
             miss = []
             for k, pt in enumerate(pts):
                 if not pt: miss.append(['角落%d 附近沒有站得住的格子' % (k + 1)]); continue

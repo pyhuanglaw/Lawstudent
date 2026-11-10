@@ -26,7 +26,8 @@ CASES（逗號分隔；每個 case 重新讀 day46 存檔；別名 gf、kx、hea
 每個 case：讀檔（時段裡）→【捷徑】設定 → pickCheck 排飯 →【捷徑】跳到飯前 24 分鐘 → 真的「出發」→ 一路點（選項照 PICK）。
   女朋友版、可昕另外再跑：同一份存檔重讀一次（順序要一樣）、同一頓改到隔天（順序要變；一樣就再試後天）。SHUF=0 不跑；TAG=old 不跑。
 檢查：她說的＝稿、三個選項的字＝稿、選了以後她的回話＝稿、fx＝稿（applyFx 收到的）、一頓戀愛合計 ≤ 2（告白那一晚 ≤ 3）、不接話題池、祐廷沒有自動回 REPLY、
-  沒有 undefined、流程走完、沒有 JS 例外；全部 case 跑完：畫面上的字（say、caption、選項）沒有八句舊字串。
+  沒有 undefined、流程走完、沒有 JS 例外；全部 case 跑完：畫面上的字（say、caption、選項）沒有八句舊字串（BB 22:37）；
+  BB 23:07 加的五句只算那個人說的（柏翰「二樓靠窗」「總圖二樓」、Alison「不還」、阿凱「幫學姊做的那種」、學姊「宿舍門邊」），別人說的、字幕、選項有＝只記 note。
   TAG=old（舊版 779ddd650 對照）：沒有稿上的選項、女朋友版祐廷有自動回 REPLY（＝舊行為成立）。
 PICK＝max（預設：戀愛最多的那個）／min／first／last／idx:N（稿上第 N 個）；CONF_PICK＝告白選單選第幾個（預設 0）。
 輸出：<out>/te_lines.txt（全文：每一次跑的 say、caption、選項、選了哪個、fx、adjust）、<out>/te_<TAG>.json。
@@ -57,7 +58,15 @@ LINES_TXT = os.path.join(OUT, 'te_lines.txt')
 RESULT = {'tag': TAG, 'sha': SHA, 'url': URL, 'pick': PICK, 'cases': {}}
 # BB 22:37 第 2 項：出現任何一句＝稿沒改到
 OLD_STRINGS = ['漢堡店開到十二點', '當事人每天打來', '這句不要跟別的人說', '下學期去國小實習', '考到八月四號', '她問男的女的', '不准關靜音', '早半年而已']
-SEEN_TEXT = []   # 全部 case 畫面上出現過的字（say、caption、選項），第 2 項用
+# BB 23:07 加的：只算那個人說的（GAME.say 的 charId 或名字）；別人說的、字幕、選項裡有＝只記 note（「不還」這種短字別人也可能說）
+OLD_BY = [('二樓靠窗', 'classmate_bohan', ('柏翰', '許柏翰')), ('總圖二樓', 'classmate_bohan', ('柏翰', '許柏翰')), ('不還', 'yu', ('Alison', '李語晴')),
+          ('幫學姊做的那種', 'kai', ('阿凱', '王凱翔')), ('宿舍門邊', 'heroine_05', ('學姊', '溫書瑀', '書瑀', '溫學姊'))]
+SEEN_TEXT = []   # 全部 case 畫面上出現過的字（say、caption、選項）：{k, who, name, v}，第 2 項用
+
+
+def seen_of(dl):
+    return [{'k': e['k'], 'who': e.get('who'), 'name': e.get('name') or '', 'v': str(e['v'])} for e in dl if e.get('k') in ('say', 'cap')] + \
+           [{'k': 'opt', 'who': None, 'name': '', 'v': str(x)} for e in dl if e.get('k') == 'choose' for x in (e.get('v') or [])]
 
 # ---------------- 稿 ----------------
 DRAFT_FILES = {'gf': 'AA_749_termend_gf_v2.json', 'kx': 'AA_749_termend_kx_v2.json', 'heart': 'AA_748_termend_heart_v2.json'}
@@ -605,7 +614,7 @@ async def case_run(pg, cdp, errs, cid):
         run = await one_run(pg, cdp, '%s(%s)' % (t, rid), st_, '%s %s' % (t, why), q['id'], segs, errs)
         run['post'] = await pg.evaluate(POST_JS, {'who': who, 'term': term})
         lines_txt('%s %s %s（%s）%s' % (TAG, cid, rid, case['label'], why), run['dl'])
-        SEEN_TEXT.extend([e['v'] for e in run['dl'] if e.get('k') in ('say', 'cap')] + [str(x) for e in run['dl'] if e.get('k') == 'choose' for x in (e.get('v') or [])])
+        SEEN_TEXT.extend(seen_of(run['dl']))
         an = analyze(t if rid == 'main' else '%s(%s)' % (t, rid), case, run, segs, info, check=(rid == 'main'))
         run['analysis'] = an; orders[rid] = menu_orders(run['dl'], segs)
         res['runs'].append({k: v for k, v in run.items()})
@@ -634,7 +643,7 @@ async def case_run(pg, cdp, errs, cid):
             rid = 'day+%d' % k
             run = await one_run(pg, cdp, '%s(%s)' % (t, rid), st2, '%s【捷徑】同一頓改到 %d 天後（出遊、gfDay 一起改；換一天進去：順序要變）' % (t, k), q['id'], segs, errs)
             lines_txt('%s %s %s（%s）' % (TAG, cid, rid, case['label']), run['dl'])
-            SEEN_TEXT.extend([e['v'] for e in run['dl'] if e.get('k') in ('say', 'cap')] + [str(x) for e in run['dl'] if e.get('k') == 'choose' for x in (e.get('v') or [])])
+            SEEN_TEXT.extend(seen_of(run['dl']))
             an = analyze('%s(%s)' % (t, rid), case, run, segs, info, check=False); run['analysis'] = an
             orders[rid] = menu_orders(run['dl'], segs); res['runs'].append(run)
             R.note('%s(%s) 選單順序 %s（同一組選項 %s）' % (t, rid, J(orders[rid]), orders[rid] and orders['main'] and orders[rid][0] is not None and orders['main'][0] is not None and set(orders[rid][0]) == set(orders['main'][0])))
@@ -671,14 +680,22 @@ async def main():
                 RESULT['cases'].setdefault(c, {})['exception'] = repr(e)[:500]
             open(os.path.join(OUT, 'te_%s.json' % TAG), 'w', encoding='utf-8').write(J(RESULT))
         # 第 2 項：畫面上出現過的字（全部 case、每一次跑）
-        found = {s: [x for x in SEEN_TEXT if s in str(x)][:3] for s in OLD_STRINGS}
+        found = {s: [x for x in SEEN_TEXT if s in x['v']][:3] for s in OLD_STRINGS}
         RESULT['old_strings'] = found
         for s in OLD_STRINGS:
             if OLD: R.note('【舊版對照，不判定】畫面上的字有沒有「%s」：%s' % (s, J(found[s])))
             else: R.check('畫面上的字沒有舊字串「%s」（%d 句搜過）' % (s, len(SEEN_TEXT)), not found[s], J(found[s]))
+        for s, cid, names in OLD_BY:
+            mine = [x for x in SEEN_TEXT if s in x['v'] and x['k'] == 'say' and (x['who'] == cid or x['name'] in names)][:3]
+            other = [x for x in SEEN_TEXT if s in x['v'] and x not in mine][:3]
+            RESULT['old_strings']['%s@%s' % (s, cid)] = {'mine': mine, 'other': other}
+            if OLD: R.note('【舊版對照，不判定】%s 說「%s」：%s；別人／字幕／選項：%s' % (names[0], s, J(mine), J(other)))
+            else:
+                R.check('畫面上 %s 沒有說舊字串「%s」（%d 句搜過）' % (names[0], s, len(SEEN_TEXT)), not mine, J(mine))
+                if other: R.note('（參考，不判定）「%s」出現在別人的話、字幕或選項：%s' % (s, J(other)))
         try:   # 參考：資料檔還有沒有（不算判定）
             fs = await pg.evaluate(FETCH_JS, ['src/data/termend_lines.js', 'src/data/termend_opts.js'])
-            st = {f: [s for s in OLD_STRINGS if txt and s in txt] for f, txt in fs.items()}
+            st = {f: [s for s in OLD_STRINGS + [x[0] for x in OLD_BY] if txt and s in txt] for f, txt in fs.items()}
             RESULT['old_strings_static'] = st; R.note('（參考，不判定）資料檔裡還有的舊字串：%s' % J(st))
         except Exception as e:
             R.note('（參考）讀資料檔失敗 %r' % e)
