@@ -129,6 +129,56 @@ async def main():
         if not R.check('找得到語彤在一盞打工的日子（週六 14:00）', bool(f), ''): await b.close(); return
         R.note('日子：%s' % J(f))
         fz = await pg.evaluate(FIND, {'pid': 'heroine_02', 'from': S['day'] + 1, 'h': 20.0, 'zone': 'cafe', 'label': None, 'act': 'barista'}); R.note('芷若在吧檯的日子：%s' % J(fz))
+        if os.environ.get('IMM'):   # BB 15:52：01bab1823 新修——進店「馬上」按店裡的東西（點單、坐下）要先演完再做；出口不算。新舊對照：8a98ff1e0 扣錢（FAIL）、01bab1823 不扣（PASS）
+            async def imm_load(pid, fd, hh, why):
+                s_ = mk(S, fd, hh, 'B', pid=pid)
+                await L.load_state(pg, s_, quiet_events=False, quiet_phone=True); await pg.wait_for_timeout(8000); await L.close_panels(pg, cdp); await drain(pg, cdp, 4)
+                R.setup('【前置／捷徑】day54 存檔 → %s %.1f 溫州街；%s（熟悉 45 信任 30＋SHIFTT nf 2、friend.treat idx 2＝T3 輪到）' % (fd['key'], hh, why))
+                await P.say_hook(pg); return await pg.evaluate("window.__SAY.length")
+            async def act(label_keys, tag):
+                its = await pg.evaluate(ITS); c = next((i for i in its if not i['to'] and not i['hidden'] and any(k in (i['label'] or '') for k in label_keys) and not any(k in (i['label'] or '') for k in ('看',))), None)
+                if not c: R.check('%s 找到「%s」' % (tag, '／'.join(label_keys)), False, J(its)); return None
+                m0 = (await pg.evaluate(ST))['money']
+                await L.go_to(pg, cdp, R, c['x'], c['z'], min(0.9, c['r'] * 0.8), '%s 馬上走到「%s」' % (tag, c['label']), max_s=120, lv=c['lv'])
+                pend = await pg.evaluate("(()=>typeof SHIFTT==='undefined'?'none':(SHIFTT.pending()?'pending':'clear'))()"); R.note('%s 按下去之前 SHIFTT.pending：%s（pending＝還沒等滿兩秒）' % (tag, pend))
+                await L.tap(pg, cdp, '#interact'); picked = []; t0 = time.time(); bought = False
+                while time.time() - t0 < 150:
+                    await pg.wait_for_timeout(700); s2 = await L.state(pg)
+                    if s2['choices']:
+                        opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>({t:b.textContent.trim(),dim:b.disabled||b.classList.contains('dim')}))")
+                        k = None
+                        if not bought: k = next((j for j, o in enumerate(opts) if '元' in o['t'] and not o['dim']), None); bought = k is not None
+                        if k is None: k = next((j for j, o in enumerate(opts) if any(w in o['t'] for w in ('不用', '就這樣', '外帶', '不了', '離開'))), len(opts) - 1)
+                        picked.append(opts[k]['t']); await P.tap_choice(pg, cdp, k); continue
+                    if s2['dlg']: await L.tap(pg, cdp, '#dlg'); continue
+                    if not s2['busy'] and time.time() - t0 > 8: break
+                return {'delta': (await pg.evaluate(ST))['money'] - m0, 'picked': picked, 'pend': pend, 'seat': await pg.evaluate("!!GAME.E.player.seat")}
+            for case in CASES:
+                tag = '[IMM %s]' % case
+                if case == 'B':   # 語彤：進一盞馬上點單
+                    n0 = await imm_load(YT, f, 14.0, '語彤朋友')
+                    if not await enter_shop(pg, cdp, tag): R.check('%s 進了一盞' % tag, False, ''); continue
+                    r = await act(('點', '喝茶', '飲料', '菜單'), tag); said = await P.said(pg, n0); R.note('%s 結果 %s；GAME.say %s' % (tag, J(r), J(said)))
+                    i1 = next((i for i, x in enumerate(said) if '端了一壺' in x[1] or '算我的' in x[1]), None)
+                    R.check('%s 馬上點單：先演「今天這壺，算我的」（台詞在點單之前出現）' % tag, i1 is not None, J(said))
+                    R.check('%s 馬上點單：這一樣不扣錢' % tag, r is not None and r['delta'] == 0 and bool(r['picked']), J(r))
+                    r2 = await act(('點', '喝茶', '飲料', '菜單'), tag + ' 第二樣'); R.check('%s 第二樣照扣' % tag, r2 is not None and r2['delta'] < 0, J(r2))
+                if case == 'F':   # 芷若：進 Café 馬上坐下
+                    n0 = await imm_load('heroine_02', fz, 20.0, '芷若朋友')
+                    if not await enter_shop(pg, cdp, tag, 'cafe'): R.check('%s 進了 Café' % tag, False, ''); continue
+                    r = await act(('坐',), tag); said = await P.said(pg, n0); R.note('%s 結果 %s；GAME.say %s' % (tag, J(r), J(said)))
+                    R.check('%s 馬上坐下：先演芷若那一場（有「熱可可」）' % tag, any('熱可可' in x[1] for x in said), J(said))
+                    st_ = await pg.evaluate(ST); R.check('%s 記下今天在 Café 點的下一樣免費' % tag, ((st_['sh'] or {}).get('free') or {}).get('zone') == 'cafe', J(st_['sh']))
+                if case == 'X':   # 出口不算：進一盞馬上走出口
+                    n0 = await imm_load(YT, f, 14.0, '語彤朋友')
+                    if not await enter_shop(pg, cdp, tag): R.check('%s 進了一盞' % tag, False, ''); continue
+                    ex = [e for e in await pg.evaluate(ITS) if e['to'] == 'wenzhou']
+                    if ex:
+                        await L.go_to(pg, cdp, R, ex[0]['x'], ex[0]['z'], 0.8, '%s 馬上走到出口' % tag, max_s=120, lv=ex[0]['lv']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(8000)
+                    said = await P.said(pg, n0); st_ = await pg.evaluate(ST); rec = ((st_['sh'] or {}).get('p') or {}).get(YT) or {}
+                    R.check('%s 走出口：不演（沒有她的台詞、SHIFTT 沒記今天）、回到溫州街' % tag, st_['zone'] == 'wenzhou' and rec.get('day') != st_['day'] and not [x for x in said if '語彤' in x[0]], J({'said': said, 'rec': rec, 'zone': st_['zone']}))
+            R.check('沒有 JS 例外', not errs, J(errs[:3])); await b.close()
+            print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True); return
         for case in CASES:
             tag = '[%s]' % case
             if case == 'F':
