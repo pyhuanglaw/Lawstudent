@@ -221,3 +221,11 @@
 [16:42:25] ==== START X294S_old  (probe @ dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963) ====
 [16:42:28] [res] cpu=13% mem=49% (15.2/31.4 GB) chrome_testing=9  START X294S_old
 [16:43:00] [res] cpu=19% mem=47% (14.6/31.4 GB) chrome_testing=6  END X307_old
+[16:43:05] 正在跑：X307_old（已跑 5 分／上限 40 分）、X294S_new（已跑 1 分／上限 20 分）、X294S_old（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8421a56e8..5b1d8da71  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:43:07] ==== END   X307_old  exit=1  317s   ====
+[16:43:15] [res] cpu=12% mem=42% (13.1/31.4 GB) chrome_testing=4  END X294S_new
+[16:43:15] memory 42% before starting ROMPRIV_new (2 running)
+[16:43:15] ==== START ROMPRIV_new  (probe @ 6c7e3918f26db59161d8f284f4fa25ca02be2964) ====
