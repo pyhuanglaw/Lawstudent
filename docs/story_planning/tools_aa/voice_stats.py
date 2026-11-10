@@ -79,9 +79,39 @@ def skeleton(c):
     return c if len(c) <= 4 else c[:2] + '＿' + c[-2:]
 
 
+def drafts(paths):
+    """量企劃線的 JSON 稿（--drafts 檔…）：照人物出四個數字。人物＝最近一層是人物 id 的 key；檔名有 peishan／kx 的整檔算那個人。"""
+    import json, os
+    per = collections.defaultdict(list)
+    def walk(o, who, key=None):
+        if isinstance(o, dict):
+            if 'narr' in o and len(o) == 1: return
+            for k, v in o.items():
+                if k in ('_meta', 'note', 'if', 'when', 'where', 't', 'id', 'mem', 'fx', 'set', 'result', 'hours', 'name', 'voice', 'keep', 'notes'): continue
+                walk(v, k if k in NAMES else who, k)
+        elif isinstance(o, list):
+            for v in o: walk(v, who, key)
+        elif isinstance(o, str) and who and len(CJK.findall(o)) >= 2 and not (o.startswith('（') and o.endswith('）')):
+            per[who].append(o)
+    for f in paths:
+        base = os.path.basename(f)
+        who = 'classmate_peishan' if 'peishan' in base else ('kexin' if '_kx_' in base else None)
+        walk(json.load(open(f, encoding='utf8')), who)
+    print('| 人物 | 則數 | 小句平均字數 | 十字以內 | 今天／上次開頭 | 刪節號開頭 | 三連短句 |')
+    print('|---|---|---|---|---|---|---|')
+    for who, L in sorted(per.items(), key=lambda x: -len(x[1])):
+        cl = [c for s in L for c in clauses(s)]; ln = [len(c) for c in cl]
+        if not ln: continue
+        tri = sum(1 for s in L if len(clauses(s)) >= 3 and all(len(c) <= 6 for c in clauses(s)))
+        print(f"| {NAMES[who]} | {len(L)} | {statistics.mean(ln):.1f} | {sum(1 for x in ln if x <= 10) * 100 // len(ln)}% | "
+              f"{sum(1 for c in cl if c[:2] in ('今天', '上次'))} | {sum(1 for s in L if s.startswith('……'))} | {tri} |")
+
+
 def main():
     ref = 'origin/claude/confident-ritchie-8rwh7t'; outp = None
     a = sys.argv[1:]
+    if '--drafts' in a:
+        return drafts(a[a.index('--drafts') + 1:])
     if '--ref' in a: ref = a[a.index('--ref') + 1]
     if '--out' in a: outp = a[a.index('--out') + 1]
     per = collections.defaultdict(list); allv = []; byfile = {}
