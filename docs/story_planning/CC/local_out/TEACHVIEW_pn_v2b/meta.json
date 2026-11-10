@@ -1,0 +1,26 @@
+{
+  "rerun": "",
+  "id": "TEACHVIEW_pn_v2b",
+  "sha": "be84c86807aa45324daed407996770feb6dbba13",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py",
+  "env": "NAMES=putong_north",
+  "machine": "MSI",
+  "start": "2026-11-10T20:07:34",
+  "end": "2026-11-10T20:11:05",
+  "seconds": 211,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "6",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 38,
+    "mem": 57,
+    "used_gb": 17.9,
+    "chrome_testing": 13
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false
+}
