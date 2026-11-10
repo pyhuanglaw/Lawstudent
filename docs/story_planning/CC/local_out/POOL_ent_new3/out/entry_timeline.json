@@ -1,0 +1,197 @@
+{
+ "timeline": [
+  {
+   "t": 0.09,
+   "zone": "gym",
+   "ent": true,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 0.36,
+   "zone": "gym",
+   "ent": true,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 1.49,
+   "zone": "gym_b1",
+   "ent": true,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 1.84,
+   "zone": "gym_b1",
+   "ent": true,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 4.62,
+   "zone": "gym_b1",
+   "ent": true,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 4.89,
+   "zone": "gym_b1",
+   "ent": true,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 5.15,
+   "zone": "gym_b1",
+   "ent": true,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 5.42,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": 99.1,
+   "n": 0
+  },
+  {
+   "t": 6.03,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 0
+  },
+  {
+   "t": 7.03,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 1
+  },
+  {
+   "t": 7.31,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 1
+  },
+  {
+   "t": 7.58,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 1
+  },
+  {
+   "t": 7.87,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 1
+  },
+  {
+   "t": 8.17,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 1
+  },
+  {
+   "t": 8.44,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 1
+  },
+  {
+   "t": 8.73,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 1
+  },
+  {
+   "t": 9.03,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 2
+  },
+  {
+   "t": 9.32,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 2
+  },
+  {
+   "t": 9.6,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 2
+  },
+  {
+   "t": 9.97,
+   "zone": "gym_b1",
+   "ent": false,
+   "lum": null,
+   "n": 3
+  }
+ ],
+ "appear": [
+  {
+   "k": "swim|1",
+   "model": "char.swim_sf1",
+   "pose": "swim_breast",
+   "lane": 4,
+   "x": 11.7,
+   "z": -9.75,
+   "turn": 0.06,
+   "view": true,
+   "vis": true,
+   "hips": 0.89,
+   "head": 1.358,
+   "lo": -0.035,
+   "hi": 1.414,
+   "t": 7.03,
+   "entering": false
+  },
+  {
+   "k": "swim|2",
+   "model": "char.swim_sf2",
+   "pose": "swim_breast",
+   "lane": 6,
+   "x": 3.92,
+   "z": -4.75,
+   "turn": 0,
+   "view": false,
+   "vis": true,
+   "hips": 0.947,
+   "head": 1.424,
+   "lo": -0.041,
+   "hi": 1.477,
+   "t": 9.03,
+   "entering": false
+  },
+  {
+   "k": "swim|0",
+   "model": "char.swim_sm2",
+   "pose": "swim_free",
+   "lane": 2,
+   "x": -4.97,
+   "z": -14.75,
+   "turn": 0,
+   "view": false,
+   "vis": true,
+   "hips": 0.988,
+   "head": 1.524,
+   "lo": -0.019,
+   "hi": 1.583,
+   "t": 9.97,
+   "entering": false
+  }
+ ]
+}

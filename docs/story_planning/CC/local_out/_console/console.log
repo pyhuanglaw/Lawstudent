@@ -221,3 +221,14 @@
        d5d1f9164..24b7df1ac  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [03:23:26] ==== END   POOL_ent_new2  exit=0  148s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       24b7df1ac..e0774132d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:23:31] ==== END   POOL_ent_old2  exit=0  115s   ====
+[03:23:34] memory 38% before starting POOL_ent_old3 (2 running)
+[03:23:34] ==== START POOL_ent_old3  (probe @ ecc3e12a798dfab4af60e85fac29b93e5f2d7321) ====
+[03:23:37] [res] cpu=12% mem=38% (12.1/31.4 GB) chrome_testing=4  START POOL_ent_old3
+[03:23:37] memory 38% before starting NF_r3 (2 running)
+[03:23:37] ==== START NF_r3  (probe @ 05a715eaddcb6ad0cc7c838cad3cb5b33fdca205) ====
+[03:23:40] [res] cpu=5% mem=40% (12.2/31.4 GB) chrome_testing=5  START NF_r3
+[03:24:48] [res] cpu=62% mem=44% (13.8/31.4 GB) chrome_testing=8  END POOL_ent_new3
