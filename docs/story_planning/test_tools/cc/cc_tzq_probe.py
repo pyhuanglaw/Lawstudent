@@ -28,7 +28,7 @@ PARTS（逗號分開；TZQ、TZP 是下面幾個的總稱）：
   TZP_FPS  B5 高畫質 18:30 路中間 8 秒 requestAnimationFrame（PC GPU 才有意義；雲端 SwiftShader 不當結論）
   WZQ      C 手機「地點」溫州街那一區列出全部 11 間（舊版 c17a9919e 會 FAIL：印出有幾間、少哪幾間）；每一間：【前置】讀檔到新生南路（側門進來的地方）、visited 有那幾家店、
            挑那一家開門的日子時間 → 點「前往」→ 到那一區、落點、站得住、面向、互動鍵是那一間（窗口／櫥窗三家：照 wzshops3d.js 的 label；店裡：不是別家的名字）
-用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=TZQ,TZP,WZQ [Q=low|medium|high（可以逗號列多個）] [WAIT=8000] python3 cc_tzq_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests SHA=<sha> PARTS=TZQ,TZP,WZQ [Q=low|medium|high（可以逗號列多個）] [WAIT=8000] [ONLY=店名,…（雲端自檢：A2、C 只跑這幾筆）] [OBS_S=60] python3 cc_tzq_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, base64, math, re
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import playlib as L
@@ -133,9 +133,18 @@ async def load(pg, cdp, zone, day_key, h, x=None, z=None, yaw=None, extra=None, 
     if extra: st0.update(extra)
     try: await L.load_state(pg, st0, quiet_events=True, quiet_phone=True)
     except TypeError: await L.load_state(pg, st0, quiet_events=True)
-    await pg.wait_for_timeout(WAIT); await L.close_panels(pg, cdp)
+    await pg.wait_for_timeout(WAIT); await unfade(pg); await L.close_panels(pg, cdp)
     R.setup('讀檔到 %s %s %s 時%s%s %s' % (zone, day_key, h, '' if x is None else ' (%.2f,%.2f)' % (x, z), (' ' + J(extra)) if extra else '', why))
     return await pg.evaluate(ME)
+
+
+async def unfade(pg, secs=12):
+    """等黑幕（#fade.on，game3d.js fade()）退掉再拍、再算亮度：剛到的那一刻畫面還是黑的（雲端自檢 A2 第一版拍到全黑＋字卡）"""
+    t0 = time.time()
+    while time.time() - t0 < secs:
+        if await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return !f||(!f.classList.contains('on')&&+getComputedStyle(f).opacity<0.05); })()"): break
+        await pg.wait_for_timeout(250)
+    await pg.wait_for_timeout(600)
 
 
 async def set_q(pg, q):
@@ -167,7 +176,7 @@ async def wait_arrive(pg, cdp, want, secs=60):
         if me['dlg']: await L.tap(pg, cdp, '#dlg')
         await pg.wait_for_timeout(300)
     if (await pg.evaluate(ME))['phone']: await L.phone_away(pg, cdp, tries=2)
-    await L.close_panels(pg, cdp)
+    await L.close_panels(pg, cdp); await unfade(pg)
     return round(time.time() - t0, 1), me
 
 
@@ -250,7 +259,9 @@ async def check_tz_spot(pg, name, me, sp, geo, tag):
 
 
 async def part_tzq_go(pg, cdp, errs):
+    only = [n for n in (os.environ.get('ONLY') or '').split(',') if n]   # 雲端自檢用：只跑這幾筆（逗號分開；PC 佇列不用）
     for name in TZ9:
+        if only and name not in only: continue
         tag = '[A2 %s]' % name
         await load(pg, cdp, 'gongguan', DAY, 14.0, *GG_START, why='（從公館商圈出發）')
         ql = await pg.evaluate(QL); sp = next((q['sp'] for q in ql if q['z'] == 'tingzhou' and q['name'] == name), None)
@@ -459,7 +470,9 @@ async def part_wzq(pg, cdp, errs):
     R.check('[C] 快速前往列出溫州街全部 11 間', not miss, '少 %s' % J(miss))
     await L.close_panels(pg, cdp)
     times = await pg.evaluate(WZ_TIMES, WZ11)
+    only = [n for n in (os.environ.get('ONLY') or '').split(',') if n]
     for name in WZ11:
+        if only and name not in only: continue
         tag = '[C %s]' % name; t = times.get(name)
         if name in miss or not t:
             R.note('%s 這一版沒有這一筆，跳過' % tag); continue
