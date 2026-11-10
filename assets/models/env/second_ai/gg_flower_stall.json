@@ -1,0 +1,40 @@
+{
+ "objects": 27,
+ "unique_meshes": 27,
+ "tris": 23478,
+ "tris_drawn": 23478,
+ "materials": 74,
+ "out": "assets/models/env/second_ai/gg_flower_stall.glb",
+ "bytes": 1976180,
+ "texres": 512,
+ "stall": {
+  "center": [
+   -47.0,
+   11.6
+  ],
+  "rect": [
+   -48.4,
+   10.85,
+   -45.6,
+   12.9
+  ],
+  "faces": "+z（騎樓）"
+ },
+ "navBlock": {
+  "cx": -47.0,
+  "cz": 11.725,
+  "w": 2.9,
+  "d": 2.05
+ },
+ "interact": {
+  "x": -47.2,
+  "z": 13.45,
+  "kind": "gg_flower",
+  "label": "看看花攤"
+ },
+ "name": "晨露花舖",
+ "hours": "09:00～21:00（AA_732；places.js 由 LAWWW 決定要不要加）",
+ "nightMats": [
+  "ggf_lit_bulb"
+ ]
+}
