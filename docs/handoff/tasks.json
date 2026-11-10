@@ -51111,7 +51111,7 @@
    "id": "HANDOFF-B-1110",
    "title": "帳號 B 交班（11-10，使用者「他們交班完之後你也交班」）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -51123,9 +51123,9 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-10 02:0x】等 LAWWW2、AA、BB、CC duty handoff 完成，LAWWW-B 存快照、duty handoff。",
+   "next": "【11-10 01:42Z】五職位都已 duty handoff（LAWWW 快照 2026-11-10T0142Z_B_LAWWW，60fbe977d）。完成。",
    "evidence": "11-08 20:5x 五職位 duty handoff（duty.json handed-off；快照 2026-11-08T2044Z_B_CC、2047Z_B_BB、2047Z_B_AA、2050Z_B_LAWWW2、2053Z_B_LAWWW）；d56e4f051",
-   "sha": null
+   "sha": "60fbe977d"
   },
   {
    "id": "BUG-INV-ACC-TIME-1110",
@@ -51184,6 +51184,26 @@
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": null,
    "test": null
+  },
+  {
+   "id": "SOLO-LAWWW-B-1110",
+   "title": "帳號 B 只剩 LAWWW-B 值班（使用者 11-10 01:5x：「剩下的使用量只夠你 其他AI不會工作 電腦測試繼續跑」）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "換班",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW-B 一個人：照快照的待辦接續（使用者回報的 bug、已交素材的整合）；AA、BB、CC、LAWWW2 不在，測試、台詞的做法照使用者選擇題答案；不合併 main、不發布（使用者沒同意）。",
+   "evidence": "duty register LAWWW-B @ 60fbe977（11-10 01:54Z）",
+   "sha": null
   }
  ]
 }
