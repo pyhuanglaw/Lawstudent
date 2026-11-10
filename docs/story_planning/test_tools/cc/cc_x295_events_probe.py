@@ -249,6 +249,12 @@ async def case_party_fri(pg, cdp):
     await pg.evaluate("(async(s)=>{ document.getElementById('titleScreen').classList.add('hide'); const rot=document.getElementById('rotate'); if(rot) rot.classList.remove('want'); " +
                       ("EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; " if QUIET else "") + "await GAME.applySave(s); })", sv)
     await pg.wait_for_timeout(8000); await L.close_panels(pg, cdp)
+    # BB 11:09：存檔裡沒有家聚那筆、或狀態不是 planned＝【前置／捷徑】照 story3d.js 第 1924 行同一個 OUT.plan 設成 planned（標清楚；不改其他劇情）
+    rec = await pg.evaluate(OUT_REC, 'y1_fam_dinner')
+    if not rec or rec.get('state') != 'planned':
+        R.setup('%s 【前置／捷徑】存檔裡家聚出遊是 %s（不是 planned）→ 照 story3d.js 9/8 21:00 邀請的同一個 OUT.plan 排成 planned：{id:y1_fam_dinner, ev:ev_sis_fam_dinner, day:%s, h:19}' % (t, J(rec), fri['day']))
+        await pg.evaluate("(d=>{ const G=GAME.G; if(!G.outings) G.outings=[]; G.outings=(G.outings||[]).filter(q=>!(q&&q.id==='y1_fam_dinner')); OUT.plan(G,{id:'y1_fam_dinner',ev:'ev_sis_fam_dinner',day:d,h:19,late:0.25,place:'公館巷子裡的簡餐店',title:'家聚 19:00（公館巷子裡的簡餐店）',travel:'走過去約 15 分鐘',travelH:0.25}); })", fri['day'])
+        R.note('%s 設完：%s' % (t, J(await pg.evaluate(OUT_REC, 'y1_fam_dinner'))))
     # 讀檔一進來：等最多 30 秒看出發選單／對話（照玩家：對話點掉；出發選單記下來、選「晚一點」——不出發也不放棄，家聚還排著）
     seen, fam_menu, party_menu = [], None, []
     t_end = time.time() + 30
