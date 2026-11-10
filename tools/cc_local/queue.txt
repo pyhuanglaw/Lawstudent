@@ -11,6 +11,14 @@ NYX_live_tap | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_pla
 NYX_live_joy | 779ddd65081bf770e9850d948b54ecc21dc4d120 | probe | docs/story_planning/test_tools/cc/cc_ny_exit_probe.py | index.html | 15 | MODE=joy
 NYX_dev_tap | 9f20f1808d4e15192c105acafa381b0f323a230c | probe | docs/story_planning/test_tools/cc/cc_ny_exit_probe.py | index.html | 15 | MODE=tap
 NYX_dev_joy | 9f20f1808d4e15192c105acafa381b0f323a230c | probe | docs/story_planning/test_tools/cc/cc_ny_exit_probe.py | index.html | 15 | MODE=joy
+# ===== BB 21:03 A：MT3＝MOVIE-TALK-1110 第二輪（AA_745 v2，0160bb208），cc_mt3_probe.py 拆 7 支 =====
+MT3_zr | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 20 | CASES=ZR0,ZR1,ZR2,SHUF
+MT3_a | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 20 | CASES=ZRNOFX,NOQ,PICK,SKIP
+MT3_lovecap | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 20 | CASES=LOVECAP
+MT3_kxch | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 20 | CASES=KXCH0,KXCH1
+MT3_later | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 20 | CASES=LATER
+MT3_second | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 25 | CASES=SECOND
+MT3_kxvb | 0160bb208cd10b06c5dd98851a59beb5db0e7bd2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 20 | CASES=KXVB
 # ===== P0 BB 20:10：v9.10.24 已上線（main 779ddd650，PR #34），驗線上網址；Pages 還沒更新完（仍 v9.10.23）就等 5 分鐘再跑 LIVE_V91024_deploy RERUN，最多 3 次 =====
 LIVE_V91024_deploy | 779ddd65081bf770e9850d948b54ecc21dc4d120 | game | tests/deploy_check.py | index.html | 15 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.24;CC_HEADLESS=0
 LIVE_V91024_p0 | 779ddd65081bf770e9850d948b54ecc21dc4d120 | game | tests/p0_movement.py | index.html | 20 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
