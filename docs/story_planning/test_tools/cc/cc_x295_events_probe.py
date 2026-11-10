@@ -28,7 +28,7 @@ CLUB_WORDS = ['吉他社', '辯論社', '登山社', '系籃', '法律服務社'
 UI = r"""(()=>{ const vis=e=>!!(e&&e.offsetParent!==null&&!e.classList.contains('hide')&&getComputedStyle(e).display!=='none'&&getComputedStyle(e).visibility!=='hidden');
   const E=GAME.E, P=E.player, o=P.obj.position, ib=document.getElementById('interact'), cap=document.getElementById('caption'), ch=document.getElementById('choices'), tx=document.getElementById('dlgText'), d0=CALENDAR.dateOf(GAME.G.day);
   return {zone:GAME.G.zone, x:+o.x.toFixed(2), z:+o.z.toFixed(2), lv:P.lv|0, seat:!!P.seat, busy:!!P.busy, path:P.path?P.path.length:0,
-    interact:vis(ib)?(ib.textContent||'').trim():'', dlg:!!(GAME.D&&GAME.D.active)?((tx&&tx.textContent)||'').trim():'',
+    interact:vis(ib)?(ib.textContent||'').trim():'', dlg:(!!(GAME.D&&GAME.D.active)||vis(document.getElementById('dlg')))?(((tx&&tx.textContent)||'').trim()||'…'):'',
     choices:(ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')].filter(b=>b.offsetParent!==null).map(b=>(b.innerText||'').trim()):[],
     caption:(cap&&!cap.classList.contains('hide')&&+getComputedStyle(cap).opacity>0.05)?(cap.textContent||'').trim():'',
     hour:+GAME.G.hour.toFixed(3), day:GAME.G.day, date:d0.key, wd:d0.wd, fb:GAME.walkFallbacks|0, paused:!!E.paused}; })()"""
@@ -81,21 +81,30 @@ async def place(pg, cdp, tag, zone, day, hour, pos=None, base=None):
     return u
 
 
+def dodge(cs):
+    """途中插進來的劇情選項：玩家要去參加活動，選不離開這裡的那一個（「不去」優先、再來「晚一點」「先不要」），都沒有才選第一個。
+    （2025-09-12 19:00 的「出發：家聚」和迎新派對同一個時段：選第一個「出發」會被帶去家聚、隔天早上在宿舍醒來——第一次試跑就是這樣）"""
+    for pre in ('不去', '晚一點', '先不要', '下次'):
+        k = next((i for i, c in enumerate(cs) if c.startswith(pre)), None)
+        if k is not None: return k
+    return 0
+
+
 async def walk_to_spot(pg, cdp, tag, x, z, label, near=0.5, max_s=300):
     """照玩家走到互動點附近，等互動鍵出現；回傳 (走到了嗎, 最後的 ui, 有沒有被放到目的地)"""
     u0 = await ui(pg); fb0 = u0['fb']; t0 = time.time(); ok = False; met = []
-    while time.time() - t0 < max_s:   # 途中有人物劇情的對話、選單（條件事件照開）：停下來記下來，照玩家點過去（選第一個）再繼續走
+    while time.time() - t0 < max_s:   # 途中有人物劇情的對話、選單（條件事件照開）：停下來記下來，照玩家點過去（選不離開的那一個：dodge）再繼續走
         ok = await L.go_to(pg, cdp, R, x, z, near, '%s 走到「%s」(%s, %s)' % (tag, label, x, z), max_s=max(30, max_s - (time.time() - t0)), stop=lambda s: bool(s['dlg'] or s['choices']))
         v = await ui(pg)
         if not (v['dlg'] or v['choices']): break
         while v['dlg'] or v['choices']:
             met.append((v['zone'], round(v['hour'], 2), v['dlg'][:70] if v['dlg'] else '選項：' + J(v['choices'])))
             if v['dlg']: await L.tap(pg, cdp, '#dlg')
-            else: await tap_choice(pg, cdp, 0)
+            else: await tap_choice(pg, cdp, dodge(v['choices']))
             await pg.wait_for_timeout(800); v = await ui(pg)
             if len(met) > 60: break
         if v['zone'] != u0['zone']: break
-    if met: R.note('%s 走路途中遇到的對話／選項（照玩家點過去）：%s' % (tag, J(met)))
+    if met: R.note('%s 走路途中遇到的對話／選項（照玩家點過去；選項選 dodge 的那一個）：%s' % (tag, J(met)))
     v = await ui(pg)
     if v['zone'] != u0['zone'] or v['day'] != u0['day']: R.note('%s 【注意】走路途中被帶走：%s %s %.2f → %s %s %.2f' % (tag, u0['zone'], u0['date'], u0['hour'], v['zone'], v['date'], v['hour']))
     await pg.wait_for_timeout(1200); u = await ui(pg)
@@ -108,14 +117,16 @@ async def walk_to_spot(pg, cdp, tag, x, z, label, near=0.5, max_s=300):
 
 
 async def read_through(pg, cdp, tag, max_s=240, pick=None):
-    """點對話框一路讀下去，記下所有對話、選項、字幕（caption），直到停下來（沒有對話、沒有選項、不忙）持續 6 秒。pick(choices)→要點第幾個（None＝不點、停下來回傳）"""
+    """點對話框一路讀下去，記下所有對話、選項、字幕（caption），直到停下來（沒有對話、沒有選項、不忙）持續 12 秒。pick(choices)→要點第幾個（None＝不點、停下來回傳）"""
     lines, caps, menus = [], [], []; t0 = time.time(); idle = None; u = await ui(pg)
     while time.time() - t0 < max_s:
         u = await ui(pg)
         if u['caption'] and (not caps or caps[-1] != u['caption']): caps.append(u['caption'])
         if u['dlg']:
             idle = None
-            if not lines or lines[-1] != u['dlg']: lines.append(u['dlg'])
+            if u['dlg'] != '…':
+                if lines and u['dlg'].startswith(lines[-1]): lines[-1] = u['dlg']   # 打字到一半先記到的半句：換成完整的
+                elif not lines or lines[-1] != u['dlg']: lines.append(u['dlg'])
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
         if u['choices']:
             idle = None; menus.append(u['choices'])
@@ -124,20 +135,20 @@ async def read_through(pg, cdp, tag, max_s=240, pick=None):
             await tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200); continue
         if u['busy'] or u['paused']: idle = None; await pg.wait_for_timeout(400); continue
         if idle is None: idle = time.time()
-        if time.time() - idle > 6: break
+        if time.time() - idle > 12: break   # 劇情事件開始前會先轉場幾秒（第二次試跑：6 秒就收，溫學姊的「學弟。有空嗎？」才出來）
         await pg.wait_for_timeout(300)
     return lines, caps, menus, u
 
 
 async def open_menu(pg, cdp, tag, label, want):
-    """按互動鍵，讀到活動的選單為止。途中插進來的人物劇情（條件事件）照玩家點過去：對話點掉、劇情的選項選第一個（記下來）。
+    """按互動鍵，讀到活動的選單為止。途中插進來的人物劇情（條件事件）照玩家點過去：對話點掉、劇情的選項選不離開的那一個（dodge；記下來）。
     want(choices)→True＝這是要看的選單（停下來）。按下去以後沒有選單、互動鍵還是 label＝再按一次（最多 3 次）。回傳 (lines, caps, menus, u, story)"""
     lines, caps, menus, story = [], [], [], []
     for k in range(3):
         u = await ui(pg)
         if not u['interact'].startswith(label): break
         await L.tap(pg, cdp, '#interact')
-        l, c, m, u = await read_through(pg, cdp, tag, max_s=120, pick=lambda cs: None if want(cs) else 0)
+        l, c, m, u = await read_through(pg, cdp, tag, max_s=120, pick=lambda cs: None if want(cs) else dodge(cs))
         lines += l; caps += c; menus += m
         story += [x for x in m if not want(x)]
         if u['choices'] and want(u['choices']): break
@@ -176,7 +187,7 @@ async def case_party(pg, cdp):
     if not R.check('%s 一樓 (0, 8.6) 的互動鍵是「學生會迎新派對」' % t, u['interact'].startswith('學生會迎新派對'), J(u['interact'])): return
     lines, caps, menus, u, story = await open_menu(pg, cdp, t, '學生會迎新派對', lambda cs: any(c.startswith('去參加') or c.startswith('先不要') for c in cs))
     await shot(pg, 'party_2_menu')
-    R.note('%s 按下去：對話 %s；選單 %s；字幕 %s；插進來的劇情選項（選了第一個）%s' % (t, J(lines), J(menus), J(caps), J(story)))
+    R.note('%s 按下去：對話 %s；選單 %s；字幕 %s；插進來的劇情選項（照 dodge 選）%s' % (t, J(lines), J(menus), J(caps), J(story)))
     k = pick_text('去參加')(u['choices']) if u['choices'] else None
     if not R.check('%s 選單有「去參加：學生會迎新派對」' % t, k is not None and '學生會迎新派對' in u['choices'][k], J(u['choices'])): return
     h0 = u['hour']; await tap_choice(pg, cdp, k); await pg.wait_for_timeout(1500)
@@ -308,7 +319,7 @@ async def case_fair(pg, cdp):
     want = lambda cs: any(c.startswith('去逛') or c.startswith('先不要') or any(w in c for w in CLUB_WORDS) for c in cs) or len(cs) > 3
     lines, caps, menus, u, story = await open_menu(pg, cdp, t, '校慶園遊會', want)
     await shot(pg, 'fair_2_menu')
-    R.note('%s 按下去：對話 %s；選單 %s；字幕 %s；插進來的劇情選項（選了第一個）%s' % (t, J(lines), J(menus), J(caps), J(story)))
+    R.note('%s 按下去：對話 %s；選單 %s；字幕 %s；插進來的劇情選項（照 dodge 選）%s' % (t, J(lines), J(menus), J(caps), J(story)))
     allm = [c for m in menus if want(m) for c in m]
     R.check('%s 選單是「去逛：校慶園遊會／先不要」' % t, u['choices'][:1] == ['去逛：校慶園遊會'] and len(u['choices']) == 2 if u['choices'] else False, J(u['choices']))
     clubby = [c for c in allm + caps if any(w in c for w in CLUB_WORDS)] + [x for x in lines if '社團博覽會' in x]
