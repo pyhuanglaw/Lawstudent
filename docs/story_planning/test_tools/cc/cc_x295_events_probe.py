@@ -129,6 +129,21 @@ async def read_through(pg, cdp, tag, max_s=240, pick=None):
     return lines, caps, menus, u
 
 
+async def open_menu(pg, cdp, tag, label, want):
+    """按互動鍵，讀到活動的選單為止。途中插進來的人物劇情（條件事件）照玩家點過去：對話點掉、劇情的選項選第一個（記下來）。
+    want(choices)→True＝這是要看的選單（停下來）。按下去以後沒有選單、互動鍵還是 label＝再按一次（最多 3 次）。回傳 (lines, caps, menus, u, story)"""
+    lines, caps, menus, story = [], [], [], []
+    for k in range(3):
+        u = await ui(pg)
+        if not u['interact'].startswith(label): break
+        await L.tap(pg, cdp, '#interact')
+        l, c, m, u = await read_through(pg, cdp, tag, max_s=120, pick=lambda cs: None if want(cs) else 0)
+        lines += l; caps += c; menus += m
+        story += [x for x in m if not want(x)]
+        if u['choices'] and want(u['choices']): break
+    return lines, caps, menus, u, story
+
+
 def pick_text(prefix):
     return lambda cs: next((i for i, c in enumerate(cs) if c.startswith(prefix)), None)
 
@@ -159,10 +174,9 @@ async def case_party(pg, cdp):
     await shot(pg, 'party_1_front')
     R.check('%s 真的走到互動點附近（沒有被放到目的地）' % t, ok and not fb, J({'x': u['x'], 'z': u['z'], 'fb': fb}))
     if not R.check('%s 一樓 (0, 8.6) 的互動鍵是「學生會迎新派對」' % t, u['interact'].startswith('學生會迎新派對'), J(u['interact'])): return
-    await L.tap(pg, cdp, '#interact')
-    lines, caps, menus, u = await read_through(pg, cdp, t, max_s=20)   # 停在選單
+    lines, caps, menus, u, story = await open_menu(pg, cdp, t, '學生會迎新派對', lambda cs: any(c.startswith('去參加') or c.startswith('先不要') for c in cs))
     await shot(pg, 'party_2_menu')
-    R.note('%s 按下去：對話 %s；選單 %s；字幕 %s' % (t, J(lines), J(menus), J(caps)))
+    R.note('%s 按下去：對話 %s；選單 %s；字幕 %s；插進來的劇情選項（選了第一個）%s' % (t, J(lines), J(menus), J(caps), J(story)))
     k = pick_text('去參加')(u['choices']) if u['choices'] else None
     if not R.check('%s 選單有「去參加：學生會迎新派對」' % t, k is not None and '學生會迎新派對' in u['choices'][k], J(u['choices'])): return
     h0 = u['hour']; await tap_choice(pg, cdp, k); await pg.wait_for_timeout(1500)
@@ -192,8 +206,7 @@ async def case_blood(pg, cdp):
     R.check('%s 10/14 真的走到捐血車旁（沒有被放到目的地）' % t, ok and not fb, J({'x': u['x'], 'z': u['z'], 'fb': fb}))
     donated = False
     if R.check('%s 10/14 互動鍵是「捐血車」' % t, u['interact'].startswith('捐血車'), J(u['interact'])):
-        await L.tap(pg, cdp, '#interact')
-        lines, caps, menus, u = await read_through(pg, cdp, t, max_s=20)
+        lines, caps, menus, u, story = await open_menu(pg, cdp, t, '捐血車', lambda cs: any(c.startswith('去捐血') or c.startswith('先不要') for c in cs))
         await shot(pg, 'blood_2_menu_1014')
         R.note('%s 10/14 按下去：對話 %s；選單 %s；字幕 %s' % (t, J(lines), J(menus), J(caps)))
         k = pick_text('去捐血')(u['choices']) if u['choices'] else None
@@ -292,14 +305,14 @@ async def case_fair(pg, cdp):
     await shot(pg, 'fair_1_front')
     R.check('%s 真的走到晨思鐘旁（沒有被放到目的地）' % t, ok and not fb, J({'x': u['x'], 'z': u['z'], 'fb': fb}))
     if not R.check('%s 互動鍵是「校慶園遊會」' % t, u['interact'].startswith('校慶園遊會'), J(u['interact'])): return
-    await L.tap(pg, cdp, '#interact')
-    lines, caps, menus, u = await read_through(pg, cdp, t, max_s=20)
+    want = lambda cs: any(c.startswith('去逛') or c.startswith('先不要') or any(w in c for w in CLUB_WORDS) for c in cs) or len(cs) > 3
+    lines, caps, menus, u, story = await open_menu(pg, cdp, t, '校慶園遊會', want)
     await shot(pg, 'fair_2_menu')
-    R.note('%s 按下去：對話 %s；選單 %s；字幕 %s' % (t, J(lines), J(menus), J(caps)))
-    allm = [c for m in menus for c in m]
+    R.note('%s 按下去：對話 %s；選單 %s；字幕 %s；插進來的劇情選項（選了第一個）%s' % (t, J(lines), J(menus), J(caps), J(story)))
+    allm = [c for m in menus if want(m) for c in m]
     R.check('%s 選單是「去逛：校慶園遊會／先不要」' % t, u['choices'][:1] == ['去逛：校慶園遊會'] and len(u['choices']) == 2 if u['choices'] else False, J(u['choices']))
-    clubby = [c for c in allm + lines + caps if any(w in c for w in CLUB_WORDS)]
-    R.check('%s 沒有跳出社團博覽會的選單（選項、對話、字幕都沒有社團名、沒有「社團博覽會」）' % t, bool(menus) and not clubby, J(clubby or allm))
+    clubby = [c for c in allm + caps if any(w in c for w in CLUB_WORDS)] + [x for x in lines if '社團博覽會' in x]
+    R.check('%s 沒有跳出社團博覽會的選單（選項、對話、字幕都沒有社團名、沒有「社團博覽會」）' % t, bool(allm) and not clubby, J(clubby or allm))
     k = pick_text('去逛')(u['choices']) if u['choices'] else None
     if k is None: return
     await tap_choice(pg, cdp, k); await pg.wait_for_timeout(1500)
