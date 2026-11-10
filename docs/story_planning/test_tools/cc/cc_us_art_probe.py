@@ -33,27 +33,33 @@ V = {
   'us_apartment': [('overview', (0.2, 9.5, 6.5), (0.2, 0, -0.5)), ('living', (1.2, 1.6, 0.4), (-3.6, 0.9, -2.6)), ('living_near', (-0.4, 1.25, -0.3), (-2.6, 0.5, -2.2)),
                    ('bedroom', (1.65, 1.6, 0.8), (4.6, 0.8, -2.6)), ('bedroom_near', (3.9, 1.3, -0.2), (2.4, 0.5, -2.4)),
                    ('kitchen', (-2.0, 1.65, 1.15), (-4.4, 0.9, 2.8)), ('kitchen_near', (-2.2, 1.35, 2.2), (-4.2, 0.9, 1.4)),
-                   ('bath', (4.2, 1.6, 0.55), (3.5, 0.6, 2.7)), ('balcony', (0.0, 1.6, -4.4), (-2.6, 0.8, -3.6)), ('balcony_out', (-1.2, 1.6, -4.2), (-1.2, 1.5, -14))],
+                   ('bath', (4.2, 1.6, 0.55), (3.5, 0.6, 2.7)), ('balcony', (0.0, 1.6, -4.4), (-2.6, 0.8, -3.6)), ('balcony_out', (-1.2, 1.6, -4.2), (-1.2, 1.5, -14)), ('bedwin_out', (3.2, 1.6, -1.6), (3.2, 1.5, -10))],   # r4 BB 15:38：臥室窗外
+  'us_shared': [('livwin_out', (-3.2, 1.6, -1.6), (-3.2, 1.5, -10)), ('bedwin_out', (3.2, 1.6, -1.6), (3.2, 1.5, -10)), ('balcony_out', (-1.2, 1.6, -4.2), (-1.2, 1.5, -14))],   # r4：208 的窗（同一套格局）
   'us_campus': [('overview', (-20, 40, 46), (-20, 0, 0)), ('law_front', (0, 1.7, 19.5), (0, 6, 0)), ('street_e', (-20.6, 1.7, 20.2), (35, 1.5, 19.6)),
                 ('street_w', (-20.6, 1.7, 20.2), (-90, 1.5, 19.6)), ('gate', (-66, 1.7, 15), (-66, 3, -10)), ('west_air', (-80, 30, 40), (-80, 0, 0))],
   'us_lawlib': [('atrium', (0, 1.6, 7.4), (0, 4.5, -7)), ('stained', (0, 2.0, -1.0), (0, 4.0, -10)), ('tables', (-8.5, 1.6, 3.5), (-1.5, 0.8, -1.2)),
                 ('tables_north', (-6.2, 1.6, -3.6), (-7, 1.4, -9.8)), ('skylight', (0, 1.6, 0.6), (0, 18, -0.4)), ('desk', (-1, 1.6, 3), (-5, 1.0, 7.4))],
   'us_classroom': [('door_to_stage', (0, 3.4, 7.3), (0, 1.4, -7)), ('row1_back', (2.0, 1.55, -4.2), (0, 2.4, 7.9)), ('window', (-4.5, 1.9, 1.0), (-8, 3.6, -2.0)),
                    ('window_out', (-6.6, 3.6, -1.5), (-12, 3.8, -1.5)), ('overview', (5.5, 5.2, 7.6), (-2, 0.5, -3))],   # BB 15:19 US-CLASSROOM（d78228f85）：門口往講台、第 1 排往後、窗邊、窗外
-  'us_market': [('entry', (13.5, 1.7, 14), (0, 2, -10)), ('aisles', (0, 2.2, 10), (0, 1.5, -14)), ('overview', (0, 5.8, 15), (0, 0, -8)), ('checkout', (-8, 1.7, 4), (-14, 1.2, 14))],
+  'us_market': [('entry', (13.5, 1.7, 14), (0, 2, -10)), ('aisles', (0, 2.2, 10), (0, 1.5, -14)), ('overview', (0, 5.8, 15), (0, 0, -8)), ('checkout', (-8, 1.7, 4), (-14, 1.2, 14)), ('glass_out', (-10, 1.7, 13.2), (-10, 1.5, 32))],
   'us_market_street': [('overview', (0, 26, 44), (0, 0, 0)), ('lot', (-22.6, 1.7, 12.9), (0, 3, -22))],
 }
 SETTLED = "(async()=>{ for(let i=0;i<480;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(55, c.width/c.height, 0.05, 2000); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   const hid=[]; const P=E.player.obj; hid.push([P,P.visible]); P.visible=false; for(const n of (E.npcs||[])) if(n.obj){ hid.push([n.obj,n.obj.visible]); n.obj.visible=false; }
-  try{ r.render(E.scene,cam); } finally { for(const [o,v] of hid) o.visible=v; } return c.toDataURL('image/jpeg',0.88); })"""
+  const fw=E.zone&&E.zone.fadeWalls; if(fw){ E.zone.fadeWalls(cam,P.position); if(E.hideFaded) E.hideFaded(); }   /* r4（BB 15:38）：牆照拍照的鏡頭淡出（原本照遊戲鏡頭：服務台背後變天空）*/
+  let url, lum=null; try{ r.render(E.scene,cam); url=c.toDataURL('image/jpeg',0.88);
+    if(a.lum){ const k=document.createElement('canvas'); k.width=160; k.height=90; const g=k.getContext('2d'); g.drawImage(c,0,0,160,90); const d=g.getImageData(0,0,160,90).data; let s=0; for(let i=0;i<d.length;i+=4) s+=0.2126*d[i]+0.7152*d[i+1]+0.0722*d[i+2]; lum=+(s/(d.length/4)).toFixed(1); }
+  } finally { for(const [o,v] of hid) o.visible=v; if(fw){ E.zone.fadeWalls(E.camera||cam,P.position); if(E.hideFaded) E.hideFaded(); } } return {url,lum}; })"""   # lum：整張的平均亮度（0～255，Rec.709），只給窗外那幾張（BB 15:38）
+LUM = {}
 INFO = r"""(()=>{ const E=GAME.E, z=E.zone||{}; let glb=[]; (z.group||E.scene).traverse(o=>{ if(o.name&&/glb|GLB|formal/i.test(o.name)) glb.push(o.name); });
   const lp=(E.lampGlows||[]).length; const P=E.player.obj.position;
   return {zone:GAME.G.zone, formal:!!z.formal, glb:glb.slice(0,8), lampGlows:lp, season:(typeof US3!=='undefined'&&US3.seasonKey)?US3.seasonKey():null, p:[+P.x.toFixed(2),+P.z.toFixed(2)]}; })()"""
 
 
 async def snap(pg, fn, frm, at):
-    u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at)}); open(os.path.join(OUT, fn), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
+    q = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at), 'lum': ('out' in fn or 'glass' in fn)}); open(os.path.join(OUT, fn), 'wb').write(base64.b64decode(q['url'].split(',', 1)[1]))
+    if q['lum'] is not None: LUM[fn] = q['lum']; R.note('平均亮度 %s：%s' % (fn, q['lum']))
 
 
 async def visit(pg, cdp, zone, date, h, views, tag):
@@ -113,7 +119,7 @@ async def main():
             sv = [v for v in V['us_outside'] if v[0] in ('overview', 'home_n', 'lot')]
             for d in ('2028-08-20', '2028-12-15'):
                 tag = 'season' + d[5:7]; allf['us_outside_' + tag] = await visit(pg, cdp, 'us_outside', d, 14.0, sv, tag)
-        json.dump({'date': DATE, 'views': {k: [[n, f, a] for n, f, a in v] for k, v in V.items()}, 'files': allf}, open(os.path.join(OUT, 'us_art.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+        json.dump({'lum': LUM, 'date': DATE, 'views': {k: [[n, f, a] for n, f, a in v] for k, v in V.items()}, 'files': allf}, open(os.path.join(OUT, 'us_art.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True)

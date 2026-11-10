@@ -336,6 +336,6 @@ US_ART_1b | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planni
 US_ART_1d | d78228f85825e139790bc42904bb7056ebf31e50 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 30 | ZONES=us_classroom
 US_ART_1c | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_campus
 US_ART_2b | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_market_street;SEASON=1
-# BB 15:21：公寓 20:00 鳥瞰、衛浴（退到門口）、法圖 tables_north（往房間裡 1 m）重拍——等 LAWWW2 的場景修正 SHA 再開（SHA 是暫填）
-#HOLD US_ART_1r | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 30 | ZONES=us_apartment,us_lawlib
+# BB 15:21：公寓 20:00 鳥瞰、衛浴（退到門口）、法圖 tables_north（往房間裡 1 m）重拍——等 LAWWW2 的場景修正 SHA 再開（SHA 是暫填）；BB 15:38：拍照前照拍照鏡頭跑 fadeWalls、加臥室窗外、208 的窗、超市結帳區玻璃外（14、20 時＋平均亮度）；LAWWW2 dfd5ee2b8 等 LAWWW 整合的 SHA
+#HOLD US_ART_1r | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 30 | ZONES=us_apartment,us_lawlib,us_shared,us_market
 
