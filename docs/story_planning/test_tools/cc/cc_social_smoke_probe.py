@@ -283,7 +283,7 @@ SCAN_JS = r"""(a=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekda
   const where=(d,hr)=>{ G.day=d; G.hour=hr; G.weekday=CALENDAR.dateOf(d).wd%7; let w=null; try{ w=STORY.whereIs(GAME,a.id); }catch(e){} return w&&w.zone&&!w.away?w:null; };
   try{ for(const tm of a.terms){ const T=CALENDAR.termDays(tm); if(!T) continue;
       for(let d=T.from; d<=T.to && out.length<a.max; d++){ if(a.days&&!a.days.includes(d)) continue; const t=CALENDAR.termOf(d); if(!t||t.id!==tm||(!a.days&&(t.week|0)<(a.wk0||3))) continue;
-        for(const hr of a.hours){ const w=where(d,hr); if(!w) continue; if(w.zone==='classroom'||/上課|上班/.test(w.act||'')) continue; if(a.zone&&w.zone!==a.zone) continue; if(a.wds&&!a.wds.includes(CALENDAR.dateOf(d).wd%7)) continue; const w2=where(d,hr+0.5); if(!w2||w2.zone!==w.zone) continue;
+        for(const hr of a.hours){ const w=where(d,hr); if(!w) continue; if(w.zone==='classroom'||/上課|上班/.test(w.act||'')) continue; if(a.zone&&w.zone!==a.zone) continue; if(a.noZones&&a.noZones.includes(w.zone)) continue; if(a.wds&&!a.wds.includes(CALENDAR.dateOf(d).wd%7)) continue; const w2=where(d,hr+0.5); if(!w2||w2.zone!==w.zone) continue;
           out.push({d, wd:CALENDAR.dateOf(d).wd%7, hr, zone:w.zone, act:w.act||'', key:CALENDAR.dateOf(d).key, term:tm, week:t.week}); break; } } } }
   finally{ Object.assign(G,keep); }
   return out; })"""
@@ -624,7 +624,7 @@ class Person:
         return False, s, menus, lines
 
     # ---- 沒卡住的檢查
-    async def check_free(self, tag, fb0=None, err0=None):
+    async def check_free(self, tag, fb0=None, err0=None, quick=None):
         R, pg = self.R, self.pg; t0 = time.time(); s = await self.st()
         while time.time() - t0 < STUCK_S and not is_free(s):
             if s['phone']: await L.tap(pg, self.cdp, '#btnPhoneClose')
@@ -639,7 +639,7 @@ class Person:
                 newe = (await pg.evaluate("(window.__CCE||[]).slice(-5)")) + self.errs[-3:]
                 ok &= R.check('%s：沒有新的 JS 例外' % tag, False, J(newe))
             else: R.check('%s：沒有新的 JS 例外' % tag, True)
-        if QUICK: return ok
+        if QUICK or quick: return ok
         # HUD 看得到、按得到
         hits = {i: await pg.evaluate(HIT_JS, i) for i in ('btnPhone', 'btnMenu', 'minimap')}
         ok &= R.check('%s：HUD（手機、選單、小地圖）看得到也按得到' % tag, all(v == 'ok' for v in hits.values()), J(hits))
@@ -717,7 +717,7 @@ class Person:
                 if lab and ('說話' in lab or '打招呼' in lab or (n['name'] and n['name'] in lab)): return {'npc': n, 'label': lab}
         return None
 
-    async def talk(self, tag, plan, expect_label=None, dbl=False):
+    async def talk(self, tag, plan, expect_label=None, dbl=False, quick=None):
         """按互動鍵、照 plan 點完；回傳 (ok, menus, lines, 最後狀態)"""
         R, pg = self.R, self.pg
         fb0, err0 = await self.base_marks()
@@ -755,7 +755,7 @@ class Person:
         if s.get('lte'): R.check('%s：說話途中沒有丟例外（GAME.lastTalkError）' % tag, False, J(s['lte']))
         elif s.get('guard'): R.check('%s：說話途中沒有丟例外（GAME.lastTalkError 空）' % tag, True)
         await self.shot(tag + '_end')
-        free = await self.check_free(tag, fb0, err0)
+        free = await self.check_free(tag, fb0, err0, quick=quick)
         return free, menus, lines, s
 
     # ---- 找時段＋讀檔＋走過去
@@ -833,40 +833,74 @@ class Person:
 
     async def step_greetn(self):
         """CC-B 11-10（BB-B 01:01，BUG-GREET-NOCLASS-1110）：週日／同週週三／學期中的國定假日，各讀檔到她在 3D 的時段，連按招呼 GREET_N 次，記每一句原文；
-        分類照新版 src/data/greet_classday.js（GREET_TXT＝那個檔的路徑：classDay／playerNoClass／nextClassDay＝講到上課的；add weekend／offDay＝週末放假的新句）"""
+        分類照新版 src/data/greet_classday.js（GREET_TXT＝那個檔的路徑：classDay／playerNoClass／nextClassDay＝講到上課的；add weekend／offDay＝週末放假的新句）
+        r2（CC 帳號 A 11-10，BB 08:1x 第 2 項）：r1 新舊兩版都 FAILED 6、其實沒測到一般招呼——
+          ①週日掃到 cafe＝第 1 次按下去演的是店內偶遇（SHOPENC「她坐在沙發那一區……你也來這裡。」），不是一般招呼；
+          ②週三、國定假日掃到 library＝讀書區第一次只點頭（LIBQ.gate「（她抬頭看到你，點了一下頭。）」，之後的台詞加「（小聲）」）；
+          ③每次說完 check_free 會推搖桿、點地走開（2～3 m），第 2 次她已經不在旁邊＝「旁邊沒有互動鍵」，舊版還按到柏翰、座位、研究小間。
+          改法：掃時段先排除讀書區（LIBQ.ZONES）和她的店內偶遇那幾間店（找不到才退回不排除，log 寫明）；每一次按之前都重新走到她旁邊、確認互動鍵是她的；
+          第 2 次以後的 check_free 只查「回到自由移動、沒有新例外、walkFallbacks 沒增加」（HUD／搖桿／點地第 1 次已經查過，log 標「簡查」）；
+          台詞去掉「（小聲）」前綴再比對；點頭、店內偶遇那種不是招呼的回應記下來但不算招呼。標準（週末放假不講上課、至少一句新句；週三至少一句問上課）不變。"""
         R, pg = self.R, self.pg; N = int(os.environ.get('GREET_N') or 12)
         txt = open(os.environ.get('GREET_TXT') or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'greet_classday_968bd311f.js'), encoding='utf-8').read(); C = json.loads(txt[txt.index('{'):txt.rindex('}') + 1])
         cls = set(); [cls.update((C.get(k) or {}).get(self.pid) or []) for k in ('classDay', 'playerNoClass', 'nextClassDay')]
         add = [e['t'] for e in ((C.get('add') or {}).get(self.pid) or [])]
         R.note('greetn：講到上課的（AA_729 標記）%d 句、週末／放假新句 %d 句' % (len(cls), len(add)))
         await self.scratch()
-        sun = await pg.evaluate(SCAN_JS, {'id': self.pid, 'terms': ['Y1S1'], 'hours': HOURS, 'max': 3, 'wk0': 3, 'wds': [0]})
+        quiet = await pg.evaluate("(()=>typeof LIBQ!=='undefined'&&LIBQ.ZONES?Object.keys(LIBQ.ZONES):['library','library_hall','library_carrels','library_stacks','lawlib','soclib','soclib_2f','library_b1','us_lawlib_2f'])()")
+        shops = sorted(set(r['spot'] for r in (self.info.get('shop') or [])))
+        noz = list(quiet) + shops
+        R.note('greetn：掃時段排除讀書區 %s（第一次只點頭）和她的店內偶遇 %s（第一次演偶遇，不是一般招呼）' % (J(quiet), J(shops)))
+
+        async def scan(extra):
+            a = dict({'id': self.pid, 'terms': ['Y1S1'], 'hours': HOURS, 'wk0': 3}, **extra)
+            o = await pg.evaluate(SCAN_JS, dict(a, noZones=noz))
+            if o: return o
+            o = await pg.evaluate(SCAN_JS, a)
+            if o: R.info('greetn：%s 排除讀書區／店內偶遇以後掃不到，退回不排除（第一次可能是點頭或偶遇，照樣記下來）' % J({k: v for k, v in extra.items() if k != 'days'}), J(o[:1]))
+            return o
+
+        sun = await scan({'max': 3, 'wds': [0]})
         targets = []
         if sun:
             targets.append(('週日', sun[0]))
-            wd = await pg.evaluate(SCAN_JS, {'id': self.pid, 'terms': ['Y1S1'], 'hours': HOURS, 'max': 1, 'days': [sun[0]['d'] - 4, sun[0]['d'] + 3]})
-            if wd: targets.append(('同一週週三', wd[0]))
+            wd = await scan({'max': 1, 'days': [sun[0]['d'] - 4, sun[0]['d'] + 3, sun[0]['d'] - 5, sun[0]['d'] - 3]})
+            if wd: targets.append(('同一週週三' if wd[0]['wd'] == 3 else '同一週平日（週%d）' % wd[0]['wd'], wd[0]))
         hol = await pg.evaluate("(()=>{ const out=[]; const T=CALENDAR.termDays('Y1S1'); for(let d=T.from; d<=T.to; d++){ const w=CALENDAR.dateOf(d).wd%7; if(w>=1&&w<=5&&CALENDAR.kind&&CALENDAR.kind(d)==='holiday') out.push(d); } return out; })()")
-        hs = await pg.evaluate(SCAN_JS, {'id': self.pid, 'terms': ['Y1S1'], 'hours': HOURS, 'max': 1, 'days': hol}) if hol else []
+        hs = await scan({'max': 1, 'days': hol}) if hol else []
         R.note('greetn：學期中平日的國定假日 %s；她在 3D 的 %s' % (J(hol), J(hs)))
         if hs: targets.append(('國定假日（平日）', hs[0]))
         if not sun: R.check('greetn：找得到週日她在 3D 的時段', False, '')
+        NOT_GREET = ('點了一下頭', '你也來這裡', '沒有注意到你')
         for name, sl in targets:
             tag = 'greetn %s %s' % (name, sl['key'])
             w = await self.go_slot(sl, {'met': True, 'rel': REL['FAMILIAR'], 'relUp': 4, 'ladEnd': True, 'noContact': True}, tag, '前置：認識、有點熟、門檻台詞說過、階梯走完')
             if not w: R.check('%s：走得到她旁邊' % tag, False, ''); continue
             info = await pg.evaluate("(d=>({kind:CALENDAR.kind?CALENDAR.kind(d):null, wd:CALENDAR.dateOf(d).wd%7, classDay:STORY.classDayOf?STORY.classDayOf(d):null}))", sl['d'])
-            got = []
+            got = []; other = []; mine_ok = 0
             for i in range(N):
-                ok, menus, lines, s2 = await self.talk('%s 第%d次' % (tag, i + 1), Plan([{'when': '^就這樣$', 'pick': '^就這樣$'}]))
+                t2 = '%s 第%d次' % (tag, i + 1)
+                if i > 0:   # 上一次說完 check_free 推了搖桿、點了地（人走開了）＝走回她旁邊
+                    w2 = await self.walk_to(t2)
+                    if not w2: R.check('%s：走回她旁邊（上一次說完檢查移動時走開了）' % t2, False, J(await pg.evaluate(NPC_JS, self.pid))); break
+                n = await pg.evaluate(NPC_JS, self.pid); lab = (await self.st())['interact'] or ''
+                mine = bool(n) and bool(lab) and ((n['name'] and n['name'] in lab) or (n['label'] and lab == n['label']))
+                if not R.check('%s：旁邊的互動鍵是她的' % t2, mine, J({'label': lab, 'npc': n})): break
+                mine_ok += 1
+                ok, menus, lines, s2 = await self.talk(t2, Plan([{'when': '^就這樣$', 'pick': '^就這樣$'}]), quick=(i > 0))
+                if i == 1: R.note('%s：第 2 次以後的 check_free 是簡查（只查回到自由移動、沒有新例外、walkFallbacks 沒增加；HUD、搖桿、點地第 1 次查過）' % tag)
                 ls = [l.split('｜', 1)[1] if '｜' in l else l for l in lines]
-                got.append(ls[:2]); R.note('%s 第%d次 原文：%s' % (tag, i + 1, J(lines[:3])))
+                ls = [x[len('（小聲）'):] if x.startswith('（小聲）') else x for x in ls]
+                if any(any(k in x for k in NOT_GREET) for x in ls[:3]): other.append(ls[:2])
+                got.append(ls[:2]); R.note('%s 原文：%s' % (t2, J(lines[:3])))
                 if not ok: break
                 await pg.wait_for_timeout(800)
             flat = [x for g in got for x in g]
             hit_cls = sorted(set(x for x in flat if x in cls)); hit_add = sorted(set(x for x in flat if x in add))
-            R.note('%s（%s）：講到上課的 %s；週末放假新句 %s' % (tag, J(info), J(hit_cls), J(hit_add)))
-            if name == '同一週週三': R.check('%s：問上課那幾句出現（≥1）' % tag, len(hit_cls) >= 1, J(hit_cls))
+            R.note('%s（%s）：按了 %d 次；講到上課的 %s；週末放假新句 %s；不是一般招呼的回應（點頭／偶遇）%d 次' % (tag, J(info), len(got), J(hit_cls), J(hit_add), len(other)))
+            if name.startswith('同一週'):
+                if info['classDay'] is False: R.info('%s：這一天不是上課日（%s），不判問上課' % (tag, J(info))); continue
+                R.check('%s：問上課那幾句出現（≥1）' % tag, len(hit_cls) >= 1, J(hit_cls))
             else:
                 R.check('%s：沒有講到今天上課的句子' % tag, not hit_cls, J(hit_cls))
                 R.check('%s：週末／放假新句至少一句' % tag, len(hit_add) >= 1, J(hit_add))
