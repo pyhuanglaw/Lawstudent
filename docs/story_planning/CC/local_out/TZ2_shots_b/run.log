@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tingzhou_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TZ2_shots_b\out
+CC 汀州路 v1：PARTS SHOTS；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 18.5 時 (0.0,6.0) （拍照）
+  [  49.8s] 到達「[SHOTS 18:30] 玩家視角走路」附近（0.14 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  57.8s] 到達「[SHOTS 18:30] 玩家視角走路」附近（0.20 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+  [  58.2s] [SHOTS] 18:30 拼圖 tz_1830_all.jpg（25 張）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 20.5 時 (0.0,6.0) （拍照）
+  [  74.5s] 到達「[SHOTS 20:30] 玩家視角走路」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  82.6s] 到達「[SHOTS 20:30] 玩家視角走路」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+  [  82.9s] [SHOTS] 20:30 拼圖 tz_2030_all.jpg（25 張）
+PASS 沒有 JS 例外  []
+ALL PASS
