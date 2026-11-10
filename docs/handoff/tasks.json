@@ -48202,7 +48202,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "清單在 LAWWW2 分支 docs/art-rebuild/second_ai/TODO_SHORTCUTS.md（1f38c584c 起），每交一包就加；LAWWW 的部分：DRIVE-PICKUP-1105（開車從新南停車場出發）、望月台／體育館改 Blender 後重接；各包「瀏覽器沒跑」交 BB 排 CC。接班時對一次清單。USER_WANTS X258。",
+   "next": "【LAWWW 11-10 12:4x】LAWWW2 c64b9086a 盤點：窗景第一二批、GONGGUAN 反字已標做掉；林家一進門就有離開按鈕不動（BB 的配置）；山嵐二樓盆栽在一樓網格（P3，要改模型，不動）；店門標籤括號另交 XS-DOOR-LABELS-1110。 ｜ 清單在 LAWWW2 分支 docs/art-rebuild/second_ai/TODO_SHORTCUTS.md（1f38c584c 起），每交一包就加；LAWWW 的部分：DRIVE-PICKUP-1105（開車從新南停車場出發）、望月台／體育館改 Blender 後重接；各包「瀏覽器沒跑」交 BB 排 CC。接班時對一次清單。USER_WANTS X258。",
    "source": "UA-LAWWW-1105-29",
    "authorized": "使用者原話",
    "xai": {
@@ -51807,6 +51807,32 @@
     "ack": "ACK"
    },
    "sha": null
+  },
+  {
+   "id": "XS-DOOR-LABELS-1110",
+   "title": "新生南路店門標籤括號套括號（「進山嵐書店（書店（兩層））」）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "新生南路店門口",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 11-10 12:4x】LAWWW2 7bedf7d51：xinsheng3d.js 一行，「進山嵐書店（書店）」；xs_door_labels（開發 FAIL 2→ALL PASS）、xinsheng ALL PASS。",
+   "xai": {
+    "spec": "LAWWW2 TODO_SHORTCUTS 盤點",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "店門標籤沒有括號套括號",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   },
+   "sha": "7bedf7d51"
   }
  ]
 }

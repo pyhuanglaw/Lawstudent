@@ -153,7 +153,7 @@ const XS3=(function(){
     E.interactables.push({x:SG.x-1.6,z:SG.z,radius:2.2,label:SG.label,exit:{to:'campus',spawn:Object.assign({},SG.campusSpawn)}});
     E.interactables.push({x:WL.exit.x,z:WL.exit.z,radius:2.4,label:WL.exit.label,exit:{to:WL.exit.to,spawn:Object.assign({},WL.exit.spawn)}});
     for(const q of L.shops){ const zn='xs_'+q.id, hasRoom=typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[zn];
-      const it={x:F.x+0.9,z:q.door.z,radius:1.4,label:(hasRoom?'進':'')+q.name+'（'+q.type+'）'};
+      const it={x:F.x+0.9,z:q.door.z,radius:1.4,label:(hasRoom?'進':'')+q.name+'（'+String(q.type).replace(/（[^（）]*）/g,'')+'）'};   /* 種類裡的括號（兩層、二樓、24 小時）不放進店門的字：原本「進山嵐書店（書店（兩層））」括號套括號（TODO_SHORTCUTS，LAWWW2 帳號 A 11-10）*/
       if(hasRoom) it.exit={to:zn}; else it.look=q.name+'。'+(q.type||'')+'。玻璃門裡面看得到店員在整理架子。';   /* 室內還沒做的店：先「看」（暫定的字，AA 可以改）*/
       E.interactables.push(it); }
     // 夜間：路燈地上的光圈（套件）
