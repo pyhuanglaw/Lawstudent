@@ -20,7 +20,12 @@ PARTS（逗號分開；TZQ、TZP 是下面幾個的總稱）：
            面向店面（±25°）、互動鍵是那一間（#interactLabel）、時間照距離扣（G.hour 前後＋量 G.hour 的跳動＝快速前往扣的那一段；和清單上寫的「約 N 分鐘」比）；
            再從汀州路巷子口讀一次清單，九筆的分鐘數照距離公式核對，按最遠的那一間看扣的時間
   TZQ_NEW  A3 新存檔（GAME.defaults：visited 只有宿舍）：汀州路那一區的九筆照 BB「顯示還沒去過、不能直接傳送」核對（程式 known0.tingzhou=1，會在 note 寫出來）
-  TZQ_OLD  A4 公館那一區的清單、公館圖釘沒有泰米村食、洗樂洗衣坊、印得好；舊存檔站在 G09～G11 門口（z 21）與人行道（z 18）讀得進來、站得住、2 秒不被帶走、點地面走得動
+  TZQ_OLD  A4 公館那一區的清單、公館圖釘沒有泰米村食、洗樂洗衣坊、印得好；舊存檔站在 G09～G11 門口（z 21）與人行道（z 18）讀得進來、站得住（讀檔 unstick 挪 ≤1 m）、2 秒不被帶走、
+           （BB 23:27）印出 ① 挪完站得住 ② 搖桿推 1 秒移動 >0.3 m ③ 讀檔那一段 console 警告全文（只能有 unstick 那一則：engine3d.js:206 'spawn was inside a blocked cell'）、點地面走得動
+  TZQ_A    （BB 23:21／23:27，LAWWW 定案 (a)；新版 470e238cf、舊版 3a216dfb2 會 FAIL）A3 新流程：① 新存檔（visited 只有 dorm）汀州路那一區「汀州路」有前往、八間不能前往
+           （不列出或「還沒去過」都算）② 【前置】讀檔到公館 G10 巷子口前 (37.1,17.5) → go_to 到「往汀州路（巷子）」按 → 進汀州路 → go_to「往公館」按 → 回公館
+           ③ 清單八間都有前往 ④ 八間各一次（每次讀檔回公館、visited 照②走出來的）：落在店門口、站得住、面向、按鈕；有室內的三間照實記 ⑤ 舊存檔（visited 有 tingzhou）八間直接在
+           （TZQ_A 不在 TZQ 總稱裡，要自己寫）
   TZP_CNT  B1、B2、B3（靜態）每個畫質（Q＝low,medium,high，預設三個都跑）× 14:00、18:30、22:30、01:00：站路中間 (0,6)，觸控轉鏡頭往北、往南各拍一張（亮度從截圖算），
            數 E.npcs 的無名路人（在場、看得到）、和 TINGZHOU_WALK.count 與 BB 的 8／12／16 比；列每個路人的底模、上衣、下身、髮型，算幾種；18:30 用獨立鏡頭拍最近三個人的近圖
   TZP_WALK B3 18:30（Q 的第一個）每秒記每個路人的位置 60 秒：不在導航擋住的格子（穿牆、機車、攤子）、不在攤子範圍、不停在店門 1 m 內、沒有原地踏步（連 2 秒移動 <0.05 m）
@@ -45,6 +50,7 @@ for p in (os.environ.get('PARTS') or 'TZQ,TZP,WZQ').split(','):
 QS = [q.strip() for q in (os.environ.get('Q') or 'low,medium,high').split(',') if q.strip()]
 WAIT = int(os.environ.get('WAIT') or 8000)
 R = L.Run('cc_tzq', OUT); D.setup(R, OUT)
+CONS = []   # page.on('console') 收到的 [秒, 類型, 全文]（TZQ_OLD 看讀檔那一段只有 unstick 那一則警告）
 J = lambda o: json.dumps(o, ensure_ascii=False)
 DAY = '2025-11-01'          # 汀州路沒有營業時間；和 cc_tingzhou_probe.py 同一天
 TY_DAY = '2025-10-13'       # src/data/calendar.js TYPHOON：'2025-10-13':'颱風假'
@@ -334,15 +340,100 @@ async def part_tzq_old(pg, cdp, errs):
     for nm, x in (('洗樂洗衣坊 G09', 28.1), ('印得好 G10', 37.1), ('泰米村食 G11', 46.6)):
         for z in (21.0, 18.0):
             tag = '[A4 舊存檔 %s (%.1f,%.1f)]' % (nm, x, z)
+            c0 = len(CONS)
             me = await load(pg, cdp, 'gongguan', DAY, 14.0, x, z, math.pi, why='（舊格式存檔的 pos：三間還在公館時站的地方）')
             await pg.wait_for_timeout(2000); me2 = await pg.evaluate(ME)
             R.note('%s 讀進來 %s；2 秒後 %s' % (tag, J(me), J(me2)))
             sh = math.hypot(me['x'] - x, me['z'] - z)
             if sh > 0.1: R.note('%s 讀檔時被挪了 %.2f m（存的那一點在擋住的格子上，engine3d.js 出生點 E.unstick）' % (tag, sh))
             R.check('%s 讀得進來、在公館、站得住（讀檔挪動 ≤1 m）、之後 2 秒沒有被帶走（<0.3 m）' % tag, me2['zone'] == 'gongguan' and me2['free'] and me2['stand'] and sh <= 1.0 and math.hypot(me2['x'] - me['x'], me2['z'] - me['z']) < 0.3, J(me2))
+            # BB 23:27：① 挪完站得住 ② 搖桿推 1 秒移動 >0.3 m ③ console 只有 unstick 那一則警告（全文列出）
+            R.note('%s ① 挪完（或沒挪）站得住：nav.free=%s canStand(0.3)=%s 位置 (%s,%s)' % (tag, me2['free'], me2['stand'], me2['x'], me2['z']))
+            pushes = []
+            for k in range(2):   # 推 1 秒（搖桿往前＝鏡頭前方；讀檔 yaw π＝面向馬路 −z）；第一次不夠 0.3 m 再推一次，兩次都記
+                p0 = await pg.evaluate(ME); await L.joystick(pg, cdp, 0, -60, 1000); await pg.wait_for_timeout(300); p1 = await pg.evaluate(ME)
+                pushes.append(round(math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']), 2))
+                if pushes[-1] > 0.3: break
+            R.note('%s ② 搖桿推 1 秒：每次移動 %s m' % (tag, pushes))
+            R.check('%s ② 搖桿推 1 秒移動 >0.3 m' % tag, max(pushes) > 0.3, J(pushes))
+            warns = [c for c in CONS[c0:] if c[1] in ('warning', 'warn')]
+            uns = [c for c in warns if 'spawn was inside a blocked cell' in c[2] or 'spawn relocated' in c[2]]
+            R.note('%s ③ 讀檔到推搖桿這一段的 console 警告 %d 則：%s' % (tag, len(warns), J([c[2] for c in warns])))
+            R.check('%s ③ console 只有 unstick 那一則警告（有挪＝剛好一則 unstick、沒挪＝0 則；沒有別的警告）' % tag, len(warns) == len(uns) and len(uns) == (1 if sh > 0.1 else 0), J([c[2] for c in warns]))
             ok = await L.go_to(pg, cdp, R, x, 14.0, 0.8, '%s 點地面走到人行道 (%.1f,14)' % (tag, x), max_s=60)
             R.check('%s 走得動（點地面走到 (%.1f,14)）' % (tag, x), ok, J(await pg.evaluate(ME)))
     R.check('[A4] walkFallbacks 0', (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
+
+
+async def tap_exit(pg, cdp, it, tag, max_s=120):
+    """照玩家走到互動點（go_to）、按 #interact"""
+    ok = await L.go_to(pg, cdp, R, it['x'], it['z'], min(0.9, it['r'] * 0.8), '%s 走到「%s」' % (tag, it['label']), max_s=max_s)
+    await pg.wait_for_timeout(600); me = await pg.evaluate(ME)
+    R.note('%s 走到 %s；按鈕「%s」' % (tag, ok, me['interact']))
+    await L.tap(pg, cdp, '#interact'); return ok, me
+
+
+ITS = "(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.2,to:i.exit?i.exit.to:null,gate:!!i.tzGate})))()"
+TZ8 = TZ9[1:]
+TZ_ROOM = ['泰米村食', '洗樂洗衣坊', '印得好']   # 470e238cf：有室內（src/tz_shops3d.js；tingzhou3d.js 有 Z3.ZONES['tz_'+id]＝「進＋店名」）
+
+
+async def tz_rows(pg, cdp):
+    await phone_places(pg, cdp); await open_area(pg, cdp, 'tingzhou')
+    rows = [r for r in await pg.evaluate(ROWS) if r['area'] == 'tingzhou']
+    areas = await pg.evaluate(AREAS); await L.close_panels(pg, cdp)
+    return rows, areas
+
+
+async def part_tzq_a(pg, cdp, errs):
+    """BB 23:21／23:27、LAWWW 定案 (a)（470e238cf：places.js 八間店第 5 格 'tingzhou'＝自己走進過汀州路一次才出現；game3d.js placeState pl[4] 看 G.visited）"""
+    # 1 新存檔
+    await load(pg, cdp, 'gongguan', DAY, 14.0, 37.1, 17.5, math.pi, extra={'visited': {'dorm': True}}, why='（新存檔：visited 只有 dorm；公館店面街 G10 巷子口前的人行道）')
+    rows, areas = await tz_rows(pg, cdp)
+    R.note('[TZQ_A 1] 新存檔的汀州路那一區：%s；地區 %s' % (J([(r['name'], r['st'], r['btn']) for r in rows]), J([a['txt'] for a in areas if a['id'] == 'tingzhou'])))
+    st = next((r for r in rows if r['name'] == '汀州路'), None)
+    R.check('[TZQ_A 1] 新存檔：「汀州路」那一筆在、有前往按鈕', bool(st and st['place']), J(st))
+    shop = [r for r in rows if r['name'] in TZ8]
+    R.note('[TZQ_A 1] 八間店在清單上的樣子：%s（不列出＝%d 間；列出但「還沒去過」、沒有按鈕＝%d 間）' % (J([(r['name'], r['st']) for r in shop]), 8 - len(shop), len([r for r in shop if not r['place']])))
+    R.check('[TZQ_A 1] 新存檔：八間店都不能直接前往（不在清單上，或寫「還沒去過」、沒有前往按鈕）', not [r for r in shop if r['place']], J([(r['name'], r['st'], r['btn']) for r in shop if r['place']]))
+    # 2 照玩家從公館走進汀州路一次、再走回公館
+    gate = next((i for i in await pg.evaluate(ITS) if i['gate']), None)
+    if not R.check('[TZQ_A 2] 公館有「往汀州路（巷子）」', bool(gate), ''): return
+    await tap_exit(pg, cdp, gate, '[TZQ_A 2 進]'); secs, me = await wait_arrive(pg, cdp, 'tingzhou', 40)
+    R.check('[TZQ_A 2] 從公館走進汀州路（%.1f 秒）' % secs, me['zone'] == 'tingzhou', J(me))
+    vis = await pg.evaluate("(()=>Object.assign({},GAME.G.visited||{}))()")
+    R.check('[TZQ_A 2] 走進去以後 G.visited 有 tingzhou', bool(vis.get('tingzhou')), J(vis))
+    back = next((i for i in await pg.evaluate(ITS) if i['to'] == 'gongguan'), None)
+    if not R.check('[TZQ_A 2] 汀州路有「往公館」', bool(back), ''): return
+    await tap_exit(pg, cdp, back, '[TZQ_A 2 回]'); secs, me = await wait_arrive(pg, cdp, 'gongguan', 40)
+    R.check('[TZQ_A 2] 走回公館（%.1f 秒）' % secs, me['zone'] == 'gongguan', J(me))
+    # 3 回到公館：八間都在、有按鈕
+    rows, _ = await tz_rows(pg, cdp)
+    R.note('[TZQ_A 3] 走過一次以後：%s' % J([(r['name'], r['st'], r['btn']) for r in rows]))
+    ok8 = [r['name'] for r in rows if r['name'] in TZ8 and r['place']]
+    R.check('[TZQ_A 3] 走過一次以後八間都在、都有前往按鈕', sorted(ok8) == sorted(TZ8), '有 %s；少 %s' % (J(ok8), J([n for n in TZ8 if n not in ok8])))
+    await pg.screenshot(path=os.path.join(OUT, 'TZQ_A_after_walk_list.png'))
+    vis = await pg.evaluate("(()=>Object.assign({},GAME.G.visited||{}))()")
+    # 4 八間各一次（每次先讀檔回公館；visited 照第 2 步走出來的）
+    only = [n for n in (os.environ.get('ONLY') or '').split(',') if n]
+    for name in TZ8:
+        if only and name not in only: continue
+        tag = '[TZQ_A 4 %s]' % name
+        await load(pg, cdp, 'gongguan', DAY, 14.0, *GG_START, extra={'visited': vis}, why='（每次前往之間讀檔回公館；visited＝第 2 步走出來的 %s）' % J(sorted(vis)))
+        ql = await pg.evaluate(QL); sp = next((q['sp'] for q in ql if q['z'] == 'tingzhou' and q['name'] == name), None)
+        row, jumps, me, b4 = await quick_go_row(pg, cdp, 'tingzhou', 'tingzhou', name, tag)
+        if not me: continue
+        await check_tz_spot(pg, name, me, sp, await pg.evaluate(TZGEO), tag)
+        if name in TZ_ROOM:
+            R.note('%s 有室內的店：落點 (%s,%s) 在店門口（zone %s、按鈕「%s」；LAWWW 之後才改成進店裡）' % (tag, me['x'], me['z'], me['zone'], me['interact']))
+        await D.shot(pg, 'TZQ_A4_%02d_%s' % (TZ8.index(name), name))
+    # 5 舊存檔：visited 已有 tingzhou
+    await load(pg, cdp, 'gongguan', DAY, 14.0, *GG_START, extra={'visited': {'dorm': True, 'gongguan': True, 'tingzhou': True}}, why='（舊存檔：visited 已有 tingzhou）')
+    rows, _ = await tz_rows(pg, cdp)
+    ok8 = [r['name'] for r in rows if r['name'] in TZ8 and r['place']]
+    R.note('[TZQ_A 5] 舊存檔：%s' % J([(r['name'], r['st'], r['btn']) for r in rows]))
+    R.check('[TZQ_A 5] 舊存檔（去過汀州路）：八間直接在清單上、有前往按鈕', sorted(ok8) == sorted(TZ8), '少 %s' % J([n for n in TZ8 if n not in ok8]))
+    R.check('[TZQ_A] walkFallbacks 0', (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
 
 
 # ---------------------------------------------------------------- B：汀州路路人
@@ -510,10 +601,11 @@ async def main():
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
+        pg.on('console', lambda m: CONS.append([round(time.time(), 2), m.type, m.text]))
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); print('FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True); return
         has_tz = await pg.evaluate("typeof TINGZHOU_LAYOUT!=='undefined'&&!!(Z3.ZONES&&Z3.ZONES.tingzhou)")
-        for part, fn in (('TZQ_MAP', part_tzq_map), ('TZQ_GO', part_tzq_go), ('TZQ_NEW', part_tzq_new), ('TZQ_OLD', part_tzq_old),
+        for part, fn in (('TZQ_MAP', part_tzq_map), ('TZQ_GO', part_tzq_go), ('TZQ_NEW', part_tzq_new), ('TZQ_OLD', part_tzq_old), ('TZQ_A', part_tzq_a),
                          ('TZP_CNT', part_tzp_cnt), ('TZP_WALK', part_tzp_walk), ('TZP_TY', part_tzp_ty), ('TZP_FPS', part_tzp_fps), ('WZQ', part_wzq)):
             if part not in PARTS: continue
             if part.startswith('TZ') and not has_tz: R.check('[%s] 這一版有汀州路' % part, False, ''); continue
