@@ -1,0 +1,228 @@
+diff --git a/src/wzcat3d.js b/src/wzcat3d.js
+index dab0a1f7a..f1ec722ff 100644
+--- a/src/wzcat3d.js
++++ b/src/wzcat3d.js
+@@ -26,6 +26,8 @@ const WZCAT=(function(){
+   S.sleepH=function(G){ try{ if(G&&G.day!=null&&typeof E3!=='undefined'&&E3.sunsetPlace&&typeof CALENDAR!=='undefined'&&CALENDAR.dateOf){ const v=E3.sunsetPlace(CALENDAR.dateOf(G.day).key,'tw'); if(v!=null&&isFinite(v)&&v>16&&v<20) return v; } }catch(e){} return S.AWAKE[1]; };
+   S.NEAR=1.6; S.FAR=2.8;
+   S.SIT0=[4,14]; S.SIT=[15,50];   /* 秒：進公園時已經坐著的那一段、走到一個點坐下待多久（原本 15～45、25～70：玩家進公園看了半分鐘，貓都沒動，WZ-CAT-FLOAT-RUB-1103）*/
++  S.JUMP={DOWN:0.35,UP:0.30};   /* X186（LAWWW2 帳號 A 11-10）：cat_jump_down／up 的 body 骨頭位移（往前 0.35／0.30 m、上下 0.45 m＝圓椅座面高，LAWWW2 f22ef5dcd README）：播完那一格把貓搬到落點 */
++  const JST={jturn:1,jdown:1,jup:1};   /* 在座面上、或跳到一半：不把高度壓回地面、不被玩家推開 */
+   S.RUB={R:4,WAIT:3,P:0.55,CD:45,MISS:20,RING:0.44,V:0.16,LEAN:0.25,CAT_R:0.12,MOVE:0.12};
+   let cat=null, held=null; const breathers=[];
+   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['wzcat3d:held']=()=>{ held=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
+@@ -51,6 +53,7 @@ const WZCAT=(function(){
+     for(const c of glb.animations){ const a=mixer.clipAction(c); act[c.name]=a; }
+     if(!act.cat_walk||!act.cat_idle||!act.cat_sit||!act.cat_sit_idle) return false;
+     act.cat_sit.setLoop(THREE.LoopOnce,1); act.cat_sit.clampWhenFinished=true;
++    for(const k of ['cat_jump_down','cat_jump_up']) if(act[k]){ act[k].setLoop(THREE.LoopOnce,1); act[k].clampWhenFinished=true; }
+     m.traverse(o=>{ if(o.isMesh) o.frustumCulled=false; });   /* 骨架動畫的包圍盒是靜止的：走出去以後會被誤判在畫面外 */
+     const blob=shadowBlob(); m.add(blob);
+     const s0=spots[0]; m.position.set(s0.x,0,s0.z); m.rotation.y=Math.PI; parent.add(m);
+@@ -69,13 +72,24 @@ const WZCAT=(function(){
+   function standUp(){ const a=cat.act.cat_sit; play('cat_sit',0.15); a.time=a.getClip().duration; a.timeScale=-1; a.paused=false; }   /* 坐下倒著播＝站起來 */
+   /* 趴著的模型（圓椅上／石桌底下）：放上去就藏起走路的貓；「摸摸」的互動點回到那裡 */
+   function lieSpot(where){ return where==='under'?(cat.under||cat.lie):cat.lie; }
+-  function showLie(where){ const c=cat, L=lieSpot(where); if(!L||typeof Z3==='undefined'||!Z3.wzCatModel) return false;
++  function setIt(where,L){ const c=cat; if(c.it){ if(where==='bench'&&c.it0){ c.it.x=c.it0.x; c.it.z=c.it0.z; } else { c.it.x=L.x-0.1; c.it.z=L.z+0.04; } } }
++  /* X186（LAWWW2 帳號 A 11-10）：GLB 有 cat_lie_idle（有骨架的趴姿：呼吸、甩尾尖、頭抖，LAWWW2 f22ef5dcd）就用走路那一隻趴在原地播它（c.lieAnim），不換成沒有骨架的 CAT_lie＋整隻縮放的呼吸；
++     keepYaw：跳上座面以後先不轉，sleep 那一段慢慢轉到趴的方向。沒有這個片段（舊 GLB）照舊 */
++  function showLie(where,keepYaw){ const c=cat, L=lieSpot(where); if(!L) return false;
++    if(c.act.cat_lie_idle){ if(c.lieObj&&c.lieObj.parent) c.lieObj.parent.remove(c.lieObj); c.lieObj=null; const o=c.obj; o.visible=true; o.position.set(L.x,L.y||0,L.z); if(!keepYaw) o.rotation.y=L.yaw||0;
++      c.lieYaw=L.yaw||0; play('cat_lie_idle',keepYaw?0.35:0); c.lieAnim=true; c.lieAt=where; setIt(where,L); return true; }
++    if(typeof Z3==='undefined'||!Z3.wzCatModel) return false;
+     if(!c.lieModel) c.lieModel=Z3.wzCatModel(c.glb.scene.clone(true),c.G,'lie'); const m=c.lieModel; if(!m) return false;
+-    m.position.set(L.x,L.y||0,L.z); m.rotation.y=L.yaw||0; if(m.parent!==c.parent) c.parent.add(m); c.lieObj=m; c.lieAt=where; c.obj.visible=false;
+-    if(c.it){ if(where==='bench'&&c.it0){ c.it.x=c.it0.x; c.it.z=c.it0.z; } else { c.it.x=L.x-0.1; c.it.z=L.z+0.04; } } return true; }
+-  function hideLie(){ const c=cat; if(c.lieObj&&c.lieObj.parent) c.lieObj.parent.remove(c.lieObj); c.lieObj=null; c.lieAt=null; c.obj.visible=true; }
++    m.position.set(L.x,L.y||0,L.z); m.rotation.y=L.yaw||0; if(m.parent!==c.parent) c.parent.add(m); c.lieObj=m; c.lieAt=where; c.obj.visible=false; setIt(where,L); return true; }
++  function hideLie(){ const c=cat; if(c.lieAnim){ c.lieAnim=false; c.lieAt=null; c.obj.visible=true; return; } if(c.lieObj&&c.lieObj.parent) c.lieObj.parent.remove(c.lieObj); c.lieObj=null; c.lieAt=null; c.obj.visible=true; }
++  /* 回圓椅睡：有 cat_jump_up 就先走到座面前 0.30 m、面向座面跳上去（jup），落在趴的位置；石桌底下、沒有片段照舊直接趴 */
++  function goSleep(where){ const c=cat; if(where==='bench'&&c.act.cat_lie_idle&&c.act.cat_jump_up){ const L=lieSpot('bench'), w=S.WAKE.bench;
++      if(L){ const yaw=Math.atan2(L.x-w.x,L.z-w.z); c.jump={yaw,where}; c.path=[{x:L.x-Math.sin(yaw)*S.JUMP.UP,z:L.z-Math.cos(yaw)*S.JUMP.UP}]; c.next=null; c.rub=null; c.leave=false; c.state='prejump'; play('cat_walk',0.2); return true; } }
++    return sleepNow(where); }
+   function sleepNow(where){ if(!showLie(where)) return false; cat.state='sleep'; cat.path=null; cat.next=null; cat.rub=null; cat.leave=false; cat.pend=null; return true; }
+-  function wakeNow(E){ const c=cat, w=S.WAKE[c.lieAt]||S.WAKE.bench; hideLie(); const o=c.obj; o.position.set(w.x,E.heightAt?E.heightAt(w.x,w.z,0):0,w.z); o.rotation.y=w.yaw; c.at=c.spots.find(s=>Math.hypot(s.x-w.x,s.z-w.z)<0.05)||null;
++  function wakeNow(E){ const c=cat, w=S.WAKE[c.lieAt]||S.WAKE.bench;
++    if(c.lieAnim&&c.lieAt==='bench'&&c.act.cat_jump_down){ const L=lieSpot('bench'); c.jump={yaw:Math.atan2(w.x-L.x,w.z-L.z),w}; c.lieAnim=false; c.lieAt=null; c.state='jturn'; c.t=0.6; return; }   /* X186：從座面上轉向外、跳下來（jdown）、再走到圓椅前 */
++    hideLie(); const o=c.obj; o.position.set(w.x,E.heightAt?E.heightAt(w.x,w.z,0):0,w.z); o.rotation.y=w.yaw; c.at=c.spots.find(s=>Math.hypot(s.x-w.x,s.z-w.z)<0.05)||null;
+     play('cat_sit_idle',0); standUp(); c.state='rise'; c.t=c.act.cat_sit.getClip().duration+0.05; }   /* 從圓椅前（或涼亭台階下）站起來：趴→坐→站要 LAWWW2 補跳下來的動畫（cat_jump）*/
+   const inScene=o=>{ for(let p=o;p;p=p.parent) if(p.isScene) return true; return false; };
+   const busy=()=>{ const GM=typeof GAME!=='undefined'?GAME:null; return !!(GM&&GM.E&&GM.E.player&&GM.E.player.busy); };
+@@ -104,10 +118,11 @@ const WZCAT=(function(){
+     for(let i=breathers.length-1;i>=0;i--){ const b=breathers[i]; if(!inScene(b)){ breathers.splice(i,1); continue; } breath(b,Math.min(dt,0.25)); }
+     if(!cat||cat.E!==E) return; if(!inScene(cat.obj)){ cat=null; return; }
+     dt=Math.min(dt,0.25); const c=cat, o=c.obj, pl=E.player&&E.player.obj, G=typeof GAME!=='undefined'&&GAME.G;
+-    if(held){ if(c.lieObj) breath(c.lieObj,dt); if(c.it&&c.it0&&c.lieAt==='bench'){ c.it.x=c.it0.x; c.it.z=c.it0.z; } return; }   /* 趴在圓椅上：不走、不更新動畫 */
++    if(held){ if(c.lieObj) breath(c.lieObj,dt); if(c.lieAnim) c.mixer.update(dt); if(c.it&&c.it0&&c.lieAt==='bench'){ c.it.x=c.it0.x; c.it.z=c.it0.z; } return; }   /* 趴在圓椅上：不走、不更新動畫 */
+     const dp=pl?Math.hypot(pl.position.x-o.position.x,pl.position.z-o.position.z):99, aw=S.awake(G), bz=busy();
+     if(c.state==='sleep'){ if(c.lieObj) breath(c.lieObj,dt);
+-      const lp=c.lieObj&&c.lieObj.position, dl=pl&&lp?Math.hypot(pl.position.x-lp.x,pl.position.z-lp.z):99;
++      if(c.lieAnim){ let d=c.lieYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,3*dt); c.mixer.update(dt); }   /* 有骨架的趴姿：片段自己呼吸；跳上來以後慢慢轉到趴的方向 */
++      const lp=(c.lieObj||(c.lieAnim?o:null))&&(c.lieObj||o).position, dl=pl&&lp?Math.hypot(pl.position.x-lp.x,pl.position.z-lp.z):99;
+       if(aw&&!bz&&dl>S.NEAR) wakeNow(E);   /* 07:00、雨停：玩家不在旁邊時醒來 */
+       else if(!aw&&c.lieAt&&S.sleepWhere(G)!==c.lieAt&&dl>6) showLie(S.sleepWhere(G));   /* 半夜下起雨：沒人看的時候躲到石桌底下 */
+       return; }
+@@ -118,21 +133,27 @@ const WZCAT=(function(){
+     if(pp){ if(!c.anchor||Math.hypot(pp.x-c.anchor.x,pp.z-c.anchor.z)>S.RUB.MOVE||seated){ if(c.anchor) c.moved=true; c.anchor={x:pp.x,z:pp.z}; c.still=0; c.rolled=false; } else c.still+=dt; }
+     const canRub=aw&&!bz&&!seated&&pp&&c.rubCd<=0&&!c.rolled&&c.still>=S.RUB.WAIT&&dp<=S.RUB.R&&(c.state==='sit'||c.state==='look'||(c.state==='walk'&&!c.leave));
+     if(canRub){ c.rolled=true; if(c.rnd()<S.RUB.P){ if(c.state==='sit'){ standUp(); c.state='rise'; c.t=c.act.cat_sit.getClip().duration+0.05; c.pend='approach'; } else beginApproach(E,pp); } else c.rubCd=S.RUB.MISS; }
+-    if(c.state==='sit'){
++    if(c.state==='jturn'){ turnTo(c.jump.yaw,6); if(c.t<=0){ o.rotation.y=c.jump.yaw; play('cat_jump_down',0.2); c.state='jdown'; c.t=c.act.cat_jump_down.getClip().duration; } }
++    else if(c.state==='jdown'){ if(c.t<=0){ const y=o.rotation.y, w=c.jump.w; o.position.x+=Math.sin(y)*S.JUMP.DOWN; o.position.z+=Math.cos(y)*S.JUMP.DOWN; o.position.y=E.heightAt?E.heightAt(o.position.x,o.position.z,0):0;
++        c.jump=null; c.at=null; c.path=[{x:w.x,z:w.z}]; c.next=c.spots.find(s=>Math.hypot(s.x-w.x,s.z-w.z)<0.05)||null; c.leave=false; c.state='walk'; play('cat_walk',0.15); } }   /* 落地：搬到落點（片段的位移），走到圓椅前 */
++    else if(c.state==='prejump'){ if(walkStep(E,dt,o,turnTo)){ c.state='jupturn'; c.t=0.5; } }
++    else if(c.state==='jupturn'){ turnTo(c.jump.yaw,6); if(c.t<=0){ o.rotation.y=c.jump.yaw; play('cat_jump_up',0.2); c.state='jup'; c.t=c.act.cat_jump_up.getClip().duration; } }
++    else if(c.state==='jup'){ if(c.t<=0){ const where=c.jump.where; c.jump=null; c.path=null; if(showLie(where,true)) c.state='sleep'; else sleepNow(where); } }   /* 落在座面上（趴的位置）：接 cat_lie_idle */
++    else if(c.state==='sit'){
+       if(c.cur!=='cat_sit_idle'&&c.cur==='cat_sit'&&!c.act.cat_sit.isRunning()) play('cat_sit_idle',0.2);
+       const home=!aw&&c.at&&S.WAKE[S.sleepWhere(G)]&&Math.hypot(o.position.x-S.WAKE[S.sleepWhere(G)].x,o.position.z-S.WAKE[S.sleepWhere(G)].z)<0.3;
+-      if(home&&!bz&&dp>S.NEAR) sleepNow(S.sleepWhere(G));   /* 坐在圓椅前、時間到了：趴上去 */
++      if(home&&!bz&&dp>S.NEAR) goSleep(S.sleepWhere(G));   /* 坐在圓椅前、時間到了：趴上去 */
+       else if((c.t<=0||!aw)&&!bz&&dp>S.NEAR){ standUp(); c.state='rise'; c.t=c.act.cat_sit.getClip().duration+0.05; } }
+     else if(c.state==='rise'){ if(c.t<=0){ play('cat_idle',0.2); if(c.pend==='approach'&&aw&&!bz&&pp){ c.pend=null; if(!beginApproach(E,pp)){ c.state='look'; c.t=1.5; } } else { c.pend=null; c.state='look'; c.t=1.5+c.rnd()*2.5; } } }
+     else if(c.state==='look'){
+       if(pl&&dp<S.FAR) turnTo(Math.atan2(pl.position.x-o.position.x,pl.position.z-o.position.z),3);
+       if(bz){ play('cat_sit',0.2); c.state='sit'; c.t=20; }
+       else if((c.t<=0||!aw)&&dp>S.NEAR){ const where=aw?null:S.sleepWhere(G), tgt=aw?pick(c.at,c.rnd):S.WAKE[where]; const p=E.pathTo?E.pathTo(o.position.x,o.position.z,0,tgt.x,tgt.z,0):[[tgt.x,tgt.z]];
+-        if(Math.hypot(o.position.x-tgt.x,o.position.z-tgt.z)<0.3&&!aw) sleepNow(where);
++        if(Math.hypot(o.position.x-tgt.x,o.position.z-tgt.z)<0.3&&!aw) goSleep(where);
+         else if(p&&p.length){ c.path=p.map(q=>({x:q[0],z:q[1]})); c.next=aw?tgt:{home:where,x:tgt.x,z:tgt.z}; c.state='walk'; play('cat_walk',0.25); } else c.t=3; } }
+     else if(c.state==='walk'){
+       if((dp<S.NEAR&&!c.leave)||bz||(!aw&&c.next&&!c.next.home)){ play('cat_idle',0.2); c.state='look'; c.t=bz?99:(aw?2.5:0); c.leave=false; }   /* 時間到了：先停下來，look 會改走回圓椅 */
+-      else if(walkStep(E,dt,o,turnTo)){ const n=c.next; c.leave=false; if(n&&n.home&&!aw&&!bz){ sleepNow(n.home); } else { c.at=n&&!n.home?n:c.at; c.state='sit'; c.t=S.SIT[0]+c.rnd()*(S.SIT[1]-S.SIT[0]); play('cat_sit',0.25); } } }
++      else if(walkStep(E,dt,o,turnTo)){ const n=c.next; c.leave=false; if(n&&n.home&&!aw&&!bz){ goSleep(n.home); } else { c.at=n&&!n.home?n:c.at; c.state='sit'; c.t=S.SIT[0]+c.rnd()*(S.SIT[1]-S.SIT[0]); play('cat_sit',0.25); } } }
+     else if(c.state==='approach'){
+       if(!aw||bz||c.moved||c.t<=0){ c.rubCd=S.RUB.MISS; play(bz?'cat_sit':'cat_idle',0.2); c.state=bz?'sit':'look'; c.t=bz?20:2.5; c.path=null; }
+       else if(dp<=S.RUB.RING+0.02||walkStep(E,dt,o,turnTo)) beginRub(pp); }
+@@ -143,9 +164,9 @@ const WZCAT=(function(){
+         else { o.position.x=nx; o.position.z=nz; r.a=na; r.left-=da; r.swept+=da;
+           const h=Math.atan2(r.dir*Math.cos(na),-r.dir*Math.sin(na)), cy=na+Math.PI; let dd=cy-h; dd=Math.atan2(Math.sin(dd),Math.cos(dd)); turnTo(h+Math.sign(dd)*S.RUB.LEAN,6);   /* 身體沿著腳邊、頭往玩家那邊偏 */
+           if(r.left<=0) endRub(E,false); } } }
+-    if(c.state!=='sleep'&&pp){ const R=S.RUB.RING, ddx=o.position.x-pp.x, ddz=o.position.z-pp.z, dd=Math.hypot(ddx,ddz);   /* 不穿過玩家：貓的中心離玩家中心至少 0.44 m（玩家碰撞半徑 0.33＋貓半寬 0.11）；玩家走過來就讓開 */
++    if(c.state!=='sleep'&&!JST[c.state]&&pp){ const R=S.RUB.RING, ddx=o.position.x-pp.x, ddz=o.position.z-pp.z, dd=Math.hypot(ddx,ddz);   /* 不穿過玩家：貓的中心離玩家中心至少 0.44 m（玩家碰撞半徑 0.33＋貓半寬 0.11）；玩家走過來就讓開 */
+       if(dd<R-0.005&&dd>1e-4){ const nx=pp.x+ddx/dd*R, nz=pp.z+ddz/dd*R; if(!E.canStand||E.canStand(nx,nz,S.RUB.CAT_R,0)){ o.position.x=nx; o.position.z=nz; } } }
+-    if(c.state!=='sleep'){ o.position.y=E.heightAt?E.heightAt(o.position.x,o.position.z,0):0; if(c.it){ c.it.x=o.position.x; c.it.z=o.position.z; } c.mixer.update(dt); } };
++    if(c.state!=='sleep'){ if(!JST[c.state]){ o.position.y=E.heightAt?E.heightAt(o.position.x,o.position.z,0):0; if(c.it){ c.it.x=o.position.x; c.it.z=o.position.z; } } c.mixer.update(dt); } };
+   S.state=()=>cat?{state:cat.state,t:+cat.t.toFixed(1),busy:busy(),x:+cat.obj.position.x.toFixed(2),z:+cat.obj.position.z.toFixed(2),yaw:+cat.obj.rotation.y.toFixed(2),clip:cat.cur,at:cat.at&&[cat.at.x,cat.at.z],path:cat.path?cat.path.length:0,lie:cat.lieAt,still:+cat.still.toFixed(1),rubCd:+cat.rubCd.toFixed(1),rub:cat.rub?{left:+cat.rub.left.toFixed(2),swept:+cat.rub.swept.toFixed(2),dir:cat.rub.dir}:null}:null;
+   S._cat=()=>cat;   /* 測試用 */
+   /* 劇情要貓固定趴在圓椅上（不管幾點）：hold('lie')。
+@@ -153,10 +174,12 @@ const WZCAT=(function(){
+      - 已經睡在圓椅上：照舊。還沒進公園：進公園時 attach 照睡著的時段接手（趴在圓椅上）。下雨照舊在石桌底下（AA_493 第 5 節；zones3d.js 不交給這裡）。
+      - release()：hold 前醒著：拿掉趴著的貓，走路的貓從剛才的位置接著走；hold 前睡著：繼續睡（時間到了照常醒）。hold 不存檔（讀檔以後沒有）。*/
+   S.hold=function(mode){ held=mode||'lie'; if(!cat||!cat.lie||typeof Z3==='undefined'||!Z3.wzCatModel) return true;
+-    if(cat.holdPrev==null) cat.holdPrev=cat.state==='sleep'?'sleep':'awake';
+-    if(cat.lieAt!=='bench'){ if(cat.lieObj) hideLie(); showLie('bench'); } cat.state='sleep'; cat.path=null; cat.rub=null; return true; };
++    if(cat.holdPrev==null){ cat.holdPrev=cat.state==='sleep'?'sleep':'awake'; if(cat.holdPrev==='awake'){ const o=cat.obj; cat.holdPos={x:o.position.x,y:o.position.y,z:o.position.z,yaw:o.rotation.y}; } }
++    cat.jump=null; if(cat.lieAt!=='bench'){ if(cat.lieObj||cat.lieAnim) hideLie(); showLie('bench'); } cat.state='sleep'; cat.path=null; cat.rub=null; return true; };
+   S.release=function(){ held=null; if(!cat) return; const prev=cat.holdPrev; cat.holdPrev=null; if(prev==='sleep') return;
+-    if(cat.lieObj) hideLie(); cat.obj.visible=true; if(cat.state==='sleep'){ cat.state='look'; cat.t=1; play('cat_idle',0); } };
++    if(cat.lieObj||cat.lieAnim) hideLie(); cat.obj.visible=true;
++    if(cat.holdPos){ const o=cat.obj, h=cat.holdPos; o.position.set(h.x,h.y,h.z); o.rotation.y=h.yaw; cat.holdPos=null; }   /* 有骨架的趴姿是同一隻貓搬到圓椅上：放開時搬回 hold 前的位置 */
++    if(cat.state==='sleep'){ cat.state='look'; cat.t=1; play('cat_idle',0); } };
+   S.held=()=>held;
+   return S;
+ })();
+diff --git a/tests/wz_cat_lie_jump_unit.js b/tests/wz_cat_lie_jump_unit.js
+new file mode 100644
+index 000000000..d7ed82883
+--- /dev/null
++++ b/tests/wz_cat_lie_jump_unit.js
+@@ -0,0 +1,97 @@
++// 溫州街橘貓：有骨架的趴姿、跳上／跳下圓椅（X186，LAWWW2 帳號 A 11-10；USER_WANTS X186「趴著、跳上跳下還沒接」）——不需要瀏覽器（D131）。
++// LAWWW2 f22ef5dcd 在 wz_cat.glb 做了 cat_lie_idle、cat_jump_down、cat_jump_up，程式原本只接了 cat_rub／cat_rub_r。這一版 wzcat3d.js：
++//   GLB 有 cat_lie_idle：睡的時候用走路那一隻（有骨架）趴在原地播 cat_lie_idle，不換成沒有骨架的 CAT_lie；有 cat_jump_down／up：從圓椅跳下來、跳上去。
++// 檢查（用真的溫州街區域；假的貓 GLB＝wz_cat_float_rub_unit 那一個，加上三個片段）：
++//   1 晚上 22:00 進公園：貓趴在圓椅的座面上（走路那一隻、看得到；高度＝座面）、播 cat_lie_idle；沒有 CAT_lie 靜態模型
++//   2 06:48 進公園、到 09:00：在座面上轉向外（jturn）→ 跳下來（jdown，播 cat_jump_down，跳的時候高度不被壓回地面）→ 落在前方 0.35 m 的地上 → 走到圓椅前
++//   3 17:36：走到座面前 0.30 m（prejump）→ 轉向座面（jupturn）→ 跳上去（jup，播 cat_jump_up）→ 落在趴的位置（座面上）、播 cat_lie_idle、慢慢轉到趴的方向
++//   4 白天 hold('lie')（劇情要貓趴在圓椅上）：趴在圓椅上、播 cat_lie_idle；release：回到 hold 前的位置繼續
++//   5 沒有這三個片段（舊 GLB）照舊：wz_cat_float_rub_unit 全部（同一個檔案的假 GLB 沒有這三段）
++// 修改前（開發分支 437a9fe4d）：1～4 FAIL。用法：node tests/wz_cat_lie_jump_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..'), OLD=process.env.WZ_OLD_SRC||'';
++const readSrc=f=>{ const o=OLD&&path.join(OLD,f); return fs.readFileSync(o&&fs.existsSync(o)?o:path.join(ROOT,f),'utf8'); };
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js',
++  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/socsci_layout.js','src/data/soclib_layout.js','src/soclib3d.js',
++  'src/data/wz_park_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/classes3d.js'];
++for(const f of files){ let src=readSrc(f); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|SL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|SOCLIB_LAYOUT|SOCSCI_LAYOUT|WZ_PARK_LAYOUT|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++process.on('unhandledRejection',()=>{});
++vm.runInThisContext(readSrc('src/wzpark3d.js').replace(/^const PARK\s*=/m,'global.PARK='),{filename:'src/wzpark3d.js'});
++vm.runInThisContext(readSrc('src/wzcat3d.js').replace(/^const WZCAT\s*=/m,'global.WZCAT='),{filename:'src/wzcat3d.js'}); global.fetch=()=>Promise.reject(new Error('no fetch'));
++console.warn=()=>{};
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++/* ---- GLB 頂點（只讀 POSITION，節點沒有變換；稀疏的 morph 不讀）---- */
++function glb(f){ const b=fs.readFileSync(path.join(ROOT,f)), jl=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+jl).toString()), bin=b.slice(20+jl+8);
++  const pos=nm=>{ const n=J.nodes.find(q=>q.name===nm); if(!n||n.mesh==null) return null; const out=[]; for(const p of J.meshes[n.mesh].primitives){ const a=J.accessors[p.attributes.POSITION], bv=J.bufferViews[a.bufferView], st=bv.byteStride||12, off=(bv.byteOffset||0)+(a.byteOffset||0);
++    for(let k=0;k<a.count;k++) out.push([bin.readFloatLE(off+k*st),bin.readFloatLE(off+k*st+4),bin.readFloatLE(off+k*st+8)]); } return {node:n,v:out}; };
++  return {J,pos}; }
++const PK=glb('assets/models/env/second_ai/wz_park.glb'), CT=glb('assets/models/env/second_ai/aa_support/wz_cat.glb');
++const L=WZ_PARK_LAYOUT, ring=L.items.find(i=>i.kind==='ring_bench'), pav=L.items.find(i=>i.kind==='pavilion');
++/* 座面：park_wood 在老樹正北那一片（x ±0.6、頂面 0.44 以上）*/
++const wood=PK.pos('park_wood'), seatV=wood.v.filter(v=>Math.abs(v[0]-ring.x)<0.6&&v[2]>ring.z+0.9&&v[2]<ring.z+1.6&&v[1]>0.44);
++const SEAT={z0:Math.min(...seatV.map(v=>v[2])),z1:Math.max(...seatV.map(v=>v[2])),x0:Math.min(...seatV.map(v=>v[0])),x1:Math.max(...seatV.map(v=>v[0])),top:Math.max(...seatV.map(v=>v[1]))};
++check('A0. 座面（wz_park.glb 量）：正北那一片 z '+SEAT.z0.toFixed(3)+'～'+SEAT.z1.toFixed(3)+'、頂面 '+SEAT.top.toFixed(3)+'（節點沒有變換）',seatV.length>8&&!wood.node.translation&&!wood.node.rotation&&Math.abs(SEAT.top-0.45)<0.005);
++/* 石桌底座（park3.001，涼亭中間）：各高度的半徑 */
++const tbl=PK.pos('park3.001'), TB=[[0.14,0.2],[0.2,0.3],[0.3,0.5],[0.5,0.7]].map(([a,b])=>{ const r=tbl.v.filter(v=>v[1]>=a&&v[1]<b&&Math.hypot(v[0]-pav.x,v[2]-pav.z)<0.6).map(v=>Math.hypot(v[0]-pav.x,v[2]-pav.z)); return {a,b,r:r.length?Math.max(...r):0}; });
++const stool=PK.pos('park3'); const pedR=y=>{ for(const t of TB) if(y>=t.a&&y<t.b) return t.r; return 0; };
++check('B0. 石桌（park3_props 量）：底座半徑 '+TB.map(t=>t.r.toFixed(2)).join('／')+'（地台 0.14 起）',TB[0].r>0.2&&TB[0].r<0.3);
++/* ---- 假的貓 GLB：姿勢的頂點是真的（CAT_lie、CAT_curl），走路的骨架網格、動畫片段是空的 ---- */
++const fakeGLB=()=>{ const sc=new THREE.Group(); const mat=new THREE.MeshStandardMaterial({name:'cat_fur'});
++  for(const p of ['sit','lie','curl']){ const g=new THREE.BufferGeometry(), src=CT.pos('CAT_'+p); if(src) g.setAttribute('position',new THREE.Float32BufferAttribute(src.v.flat(),3)); const m=new THREE.Mesh(g,mat); m.name='CAT_'+p; m.position.x={sit:-0.6,lie:0,curl:1.2}[p]; sc.add(m);
++    for(const k of ['tag','bandage']){ const a=new THREE.Mesh(new THREE.BufferGeometry(),mat); a.name='CAT_'+p+'_'+k; m.add(a); } }
++  const w=new THREE.Group(); w.name='CAT_walk'; w.position.x=0.6; const body=new THREE.Mesh(new THREE.BufferGeometry(),mat); body.name='CAT_walk_mesh'; body.morphTargetDictionary={fat:0}; body.morphTargetInfluences=[0]; w.add(body);
++  for(const k of ['tag','bandage']){ const a=new THREE.Mesh(new THREE.BufferGeometry(),mat); a.name='CAT_walk_'+k; w.add(a); } sc.add(w);
++  return {scene:sc,animations:['cat_walk','cat_idle','cat_sit','cat_sit_idle'].map(n=>new THREE.AnimationClip(n,n==='cat_walk'?1:(n==='cat_sit'?0.75:4),[]))}; };
++const FAKE=fakeGLB(); ASSETS.loadOne=k=>k==='bldg.wz_cat'?Promise.resolve(FAKE):Promise.reject(new Error('test: not loaded'));
++const dayOf=k=>{ for(let d=-420;d<2200;d++) if(CALENDAR.dateOf(d).key===k) return d; return null; };
++global.STORY={dayOfKey:dayOf};   /* PARK 的寒流、收養日期照 STORY.dayOfKey（story3d.js 同一個做法）*/
++const mkG=(h,o)=>Object.assign({day:dayOf('2025-10-15'),hour:h,weather:'sunny',flags:{},daily:{}},o||{});
++const tick=()=>new Promise(r=>setTimeout(r,0));
++let scene=null, zone=null;
++async function enter(G){ global.GAME={G,E:E3}; E3.interactables=[]; E3.colliders=[]; E3.lampGlows=[]; E3.seats=[]; E3.npcs=[]; E3.spawnHint=null;
++  zone=Z3.ZONES.wenzhou.build(E3); E3.zone=zone; E3.nav=zone.nav; E3.levels=zone.levels||null; scene=new THREE.Scene(); scene.add(zone.group);
++  E3.player={obj:new THREE.Object3D(),busy:false,radius:0.32,lv:0,seat:null,frozen:false}; E3.player.obj.position.set(26,0,6); scene.add(E3.player.obj);
++  for(let i=0;i<5;i++) await tick(); scene.updateMatrixWorld(true); return zone; }
++const catG=()=>zone.group.getObjectByName('wz_cat');
++/* 看得到的趴姿（CAT_lie／CAT_curl）的世界座標頂點 */
++function lieVerts(){ const out=[]; scene.updateMatrixWorld(true); catG().traverse(o=>{ if(!o.isMesh||!/^CAT_(lie|curl)$/.test(o.name)) return; for(let p=o;p&&p!==zone.group;p=p.parent) if(!p.visible) return; const a=o.geometry.attributes.position; if(!a) return; const v=new THREE.Vector3();
++  for(let i=0;i<a.count;i++){ v.fromBufferAttribute(a,i).applyMatrix4(o.matrixWorld); out.push([v.x,v.y,v.z]); } }); return out; }
++const box=V=>({x0:Math.min(...V.map(v=>v[0])),x1:Math.max(...V.map(v=>v[0])),y0:Math.min(...V.map(v=>v[1])),y1:Math.max(...V.map(v=>v[1])),z0:Math.min(...V.map(v=>v[2])),z1:Math.max(...V.map(v=>v[2]))});
++const f3=v=>v.toFixed(3);
++(async()=>{
++  for(const [n,d] of [['cat_lie_idle',4],['cat_jump_down',0.8],['cat_jump_up',0.8],['cat_rub',2]]) FAKE.animations.push(new THREE.AnimationClip(n,d,[]));
++  const L0=Z3.wzCatSpot?Z3.wzCatSpot(L,'bench','lie'):null;
++  const st=()=>WZCAT.state(), C=()=>WZCAT._cat&&WZCAT._cat();
++  /* 1 晚上 */
++  await enter(mkG(22)); { for(let i=0;i<10;i++) zone.update(0.1,E3); const s=st(), c=C(), o=c&&c.obj;
++    const ok=!!c&&s.state==='sleep'&&s.lie==='bench'&&c.lieAnim&&o.visible&&s.clip==='cat_lie_idle'&&!lieVerts().length&&!!L0&&Math.abs(o.position.y-L0.y)<0.002&&Math.hypot(o.position.x-L0.x,o.position.z-L0.z)<0.01;
++    check('1 晚上：走路那一隻趴在圓椅座面上、播 cat_lie_idle；沒有靜態的 CAT_lie', ok, JSON.stringify({s:s&&{state:s.state,lie:s.lie,clip:s.clip},y:o&&f3(o.position.y),L0:L0&&[f3(L0.x),f3(L0.y),f3(L0.z)],static:lieVerts().length})); }
++  /* 2 早上醒來跳下來 */
++  await enter(mkG(6.8)); { for(let i=0;i<10;i++) zone.update(0.1,E3); const c=C(); GAME.G.hour=9; const seq=[]; let maxYjump=-1, land=null, clipDown=false, prevState=null;
++    for(let i=0;i<600;i++){ zone.update(0.1,E3); const s=st(); if(!s) break; if(seq[seq.length-1]!==s.state) seq.push(s.state); const o=c.obj;
++      if(s.state==='jturn'||s.state==='jdown'){ maxYjump=Math.max(maxYjump,o.position.y); if(s.clip==='cat_jump_down') clipDown=true; }
++      if(prevState==='jdown'&&s.state!=='jdown'&&!land) land={x:o.position.x,y:o.position.y,z:o.position.z}; prevState=s.state; if(s.state==='sit'&&seq.includes('walk')) break; }
++    const iJ=seq.indexOf('jturn'), iD=seq.indexOf('jdown'), iW=seq.indexOf('walk');
++    const okLand=!!land&&!!L0&&Math.abs(land.y)<0.01&&Math.abs(land.z-(L0.z+0.35))<0.03&&Math.abs(land.x-L0.x)<0.03;
++    const end=c.obj.position, okEnd=Math.hypot(end.x-26,end.z-23.3)<0.1;
++    check('2 早上：轉向外 → 跳下來（cat_jump_down；跳的時候高度留在座面）→ 落在前方 0.35 m 的地上 → 走到圓椅前', iJ>=0&&iD>iJ&&iW>iD&&clipDown&&Math.abs(maxYjump-(L0?L0.y:0.45))<0.01&&okLand&&okEnd,
++      JSON.stringify({seq,clipDown,maxYjump:f3(maxYjump),land:land&&[f3(land.x),f3(land.y),f3(land.z)],end:[f3(end.x),f3(end.z)]})); }
++  /* 3 傍晚跳上去 */
++  { const c=C(); E3.player.obj.position.set(26,0,6); GAME.G.hour=17.6; const seq=[]; let pre=null, clipUp=false, upY=[]; let s=null;
++    for(let i=0;i<4000;i++){ zone.update(0.1,E3); s=st(); if(!s) break; if(seq[seq.length-1]!==s.state){ seq.push(s.state); if(s.state==='jupturn') pre={x:c.obj.position.x,z:c.obj.position.z}; }
++      if(s.state==='jup'){ upY.push(c.obj.position.y); if(s.clip==='cat_jump_up') clipUp=true; } if(s.state==='sleep'&&seq.includes('jup')) break; }
++    for(let i=0;i<30;i++) zone.update(0.1,E3); s=st(); const o=c.obj; let dy=o.rotation.y-(L0?L0.yaw:0); dy=Math.atan2(Math.sin(dy),Math.cos(dy));
++    const okPre=!!pre&&!!L0&&Math.abs(pre.z-(L0.z+0.30))<0.03&&Math.abs(pre.x-L0.x)<0.05;
++    const okLie=!!L0&&s.state==='sleep'&&s.lie==='bench'&&c.lieAnim&&s.clip==='cat_lie_idle'&&Math.abs(o.position.y-L0.y)<0.002&&Math.hypot(o.position.x-L0.x,o.position.z-L0.z)<0.01&&Math.abs(dy)<0.05&&!lieVerts().length;
++    check('3 傍晚：走到座面前 0.30 m → 轉向座面 → 跳上去（cat_jump_up）→ 落在趴的位置、播 cat_lie_idle、轉到趴的方向', seq.includes('prejump')&&seq.indexOf('jupturn')>seq.indexOf('prejump')&&seq.indexOf('jup')>seq.indexOf('jupturn')&&clipUp&&upY.every(y=>Math.abs(y)<0.01)&&okPre&&okLie,
++      JSON.stringify({seq:seq.slice(-6),clipUp,pre:pre&&[f3(pre.x),f3(pre.z)],pos:[f3(o.position.x),f3(o.position.y),f3(o.position.z)],dyaw:f3(dy),clip:s.clip})); }
++  /* 4 白天 hold／release */
++  await enter(mkG(10)); { for(let i=0;i<30;i++) zone.update(0.1,E3); const c=C(), o=c.obj, P={x:o.position.x,z:o.position.z};
++    WZCAT.hold('lie'); for(let i=0;i<10;i++) zone.update(0.1,E3); const s1=st(), onBench=!!L0&&Math.abs(o.position.y-L0.y)<0.002&&c.lieAnim&&s1.clip==='cat_lie_idle'&&s1.state==='sleep';
++    WZCAT.release(); zone.update(0.1,E3); const back=Math.hypot(o.position.x-P.x,o.position.z-P.z)<0.05&&Math.abs(o.position.y)<0.01&&!c.lieAnim;
++    check('4 白天 hold：趴在圓椅上（cat_lie_idle）；release：回到 hold 前的位置', onBench&&back, JSON.stringify({onBench,back,P:[f3(P.x),f3(P.z)],now:[f3(o.position.x),f3(o.position.y),f3(o.position.z)]})); }
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();
