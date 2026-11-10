@@ -132,7 +132,7 @@ const HASK=(function(){
     for(const id of ((typeof DATE!=='undefined'&&DATE.HEROINES)||[])){ const p=P(id); if(!p) continue; if(typeof STORY!=='undefined'&&STORY.knows&&!STORY.knows(id,G)) continue; if(S.sendBlocked(G,id,day0)) continue;   /* 還沒認識不約你（BUG-YT-MET-1107：語彤還沒在一盞認識就傳「明天下午我在總圖寫報告…」；STORY.knows 語彤看 YT_MET_JOB；使用者 11-07 選「舊存檔照留」＝舊存檔照舊算認識）*/ const dat=dating(G,id), sn=S.stage(G,id), s=R.st[id]||{};
       if(!dat&&sn<3) continue;
       if(redo&&redo.id!==id) continue; const rd=k=>!!redo&&redo.k===k;
-      if(day0-S.lastMet(G,id)<(dat?3:5)) continue;
+      if(day0-S.lastMet(G,id)<(dat?2:3)) continue;   /* 你剛約過她（你約的、去了）：原本 3／5 天內不約，改 2／3 天（HER-ASK-MORE-1110，使用者 11-10 X293「我到現在還沒遇到可攻略對象約我」：常約她就永遠等不到她約；day 54 存檔的以安原本要等到第 59 天）*/
       const sendH=S.sendH(G,id,day0);
       /* 週末校外：週三晚上傳 */
       if(wdOf(G,day0)===3&&(dat||sn>=6)&&(rd('o')||s.o==null||day0-s.o>=(dat?(id==='kexin'?28:14):28))&&(!redo||rd('o'))&&typeof DATE!=='undefined'){
@@ -141,7 +141,7 @@ const HASK=(function(){
           if(!S.outKindOk(G,id,e,kind)||S.block(G,id,day)||S.storyAsk(G,id,day,'o')) continue;
           const c=DATE.check(G,{who:id,locs:[e.loc],day,depart:v.depart,kind}); if(!c.ok||(c.warns||[]).length) continue;
           out.push({id,k:'o',e,v,vk:dat?'dat':'pre',vac,loc:e.loc,day,depart:v.depart,kind,send:{day:day0,h:sendH}}); } }
-      /* 日常：前一天晚上傳（沛珊的「今天晚上」那天 17:00）*/
+      /* 日常：前一天晚上傳（沛珊的「今天晚上」那天 17:00）。兩次日常邀約之間照舊隔 14 天（交往中 7 天）：改短的話 AA_539「同一句四週內不重複」、照順序輪會破（句子不夠，要 AA 多寫；HER-ASK-MORE-1110）。有點熟（第 2 階）的那幾則也要 AA 寫，資料的 th 照舊 */
       const VT=p.vacTerm||{}, VTL=Object.keys(VT).filter(k=>!p.daily.some(q=>q.place===VT[k].place)).map(k=>({vs:k,place:VT[k].place,th:VT[k].th!=null?VT[k].th:3,here:!!VT[k].here}));   /* AA_549 3-6：daily 沒有那個地點的假期版＝多一筆 */
       if(!(id==='kexin'&&dat)&&(!redo||rd('d'))&&(rd('d')||s.d==null||day0-s.d>=(dat?7:14))) for(const e0 of p.daily.concat(VTL)){ if(!dat&&e0.th>sn) continue;
         const rep=S.vacRep(G,id,e0,day0); if(e0.vs&&!rep) continue;   /* AA_549 3-6（AA 回第 10 題）：寒暑假只換同一個地點的那一句 */
