@@ -52858,7 +52858,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "在開發分支（子代理 a8f3afb51 合併）；5 個 later 只記旗標、幾個近似做法等 AA 確認；BB 排瀏覽器測",
+   "next": "【發布前必做】AA 11-10 20:38：AA_745 要出第二版（BB_308 第二意見），不准帶第一版的 talk 發布——等 AA 第二版 SHA 重匯、BB 看過；可昕排球三段先關；框架加 kind:pick、fx 0／負數（子代理在做）",
    "xai": {
     "spec": "X324、AA_745",
     "branch": "claude/confident-ritchie-8rwh7t",
