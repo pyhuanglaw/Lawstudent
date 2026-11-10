@@ -48048,7 +48048,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-07 04:4x LAWWW-B】木曜日 BB-B PASS（26d1babdc，溫州街公寓＋招牌日／夜）。其他店的窗景照舊待做。 ｜ 【11-07 03:5x LAWWW-B】木曜日窗景（mok_window_view）換成溫州街正式模型白天／晚上照片（LAWWW2-B 345574e2d winview_moku_1107.patch）接進開發；tests/mok_view_1107_unit.js；等 CC-B 木曜日二樓窗邊白天／晚上。門前種樹：不種（D99、D141，窗外照真的街景）。其他店的窗景照舊待做。 ｜ LAWWW2 先交每間店窗外的表，公館三間先換",
+   "next": "【LAWWW 11-10 10:1x】先做日和便利店（程式註解自己寫舊角度要重拍），照木曜日 345574e2d 做法；其他間等 BB 判角度清單。 ｜ 【11-07 04:4x LAWWW-B】木曜日 BB-B PASS（26d1babdc，溫州街公寓＋招牌日／夜）。其他店的窗景照舊待做。 ｜ 【11-07 03:5x LAWWW-B】木曜日窗景（mok_window_view）換成溫州街正式模型白天／晚上照片（LAWWW2-B 345574e2d winview_moku_1107.patch）接進開發；tests/mok_view_1107_unit.js；等 CC-B 木曜日二樓窗邊白天／晚上。門前種樹：不種（D99、D141，窗外照真的街景）。其他店的窗景照舊待做。 ｜ LAWWW2 先交每間店窗外的表，公館三間先換",
    "source": "UA-LAWWW-1105-41",
    "authorized": "使用者原話",
    "xai": {
@@ -51505,6 +51505,32 @@
     "ack": "ACTIONED"
    },
    "sha": "9356eeb39"
+  },
+  {
+   "id": "QUEUE-STALE-LAWWW2-1110",
+   "title": "LAWWW2 佇列狀態盤點：可以做的 119／等待 75 項逐項對開發分支 git log，列出實際已整合／已驗收的（LAWWW 照表改 tasks.json）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": null,
+    "week": null,
+    "earliest": "交接（D84 第 4 點佇列要準）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 11-10 10:1x】派 LAWWW2（WINVIEW 等 BB 清單期間）；表寫在 LAWWW2 分支 docs/art-rebuild/second_ai/queue_audit_1110.md，只列不改。",
+   "xai": {
+    "spec": "LAWWW 11-10；D84 第 4、6 點",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "每項：任務 ID｜現在狀態｜實際狀態｜證據 SHA｜還缺什麼",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "sha": null
   }
  ]
 }
