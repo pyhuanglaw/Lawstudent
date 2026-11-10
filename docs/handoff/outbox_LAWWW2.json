@@ -6910,15 +6910,15 @@
    "branch": "claude/second-ai-env-art",
    "sha": "57a9dd322",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "YZ-CUP-FLOAT-1110（X289：一盞外帶杯浮空，BB 判 GAME_BUG）",
    "files": [
     "docs/art-rebuild/second_ai/wip/yz_cup_float_1110/（README、yz_cup_float_8c050804c.patch、seatact_offset_group_unit.js、regression_8c050804c.txt）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "原因：一盞房間群組 g0 往 +z 搬 2.3 m（wzShop cz），seatact 桌上東西用世界座標卻掛在 g0 底下＝全部偏 2.3 m。修法：seatact3d.js rebuild 群組抵銷父群組 matrixWorld（沒位移＝單位矩陣、照舊）。新測試開發分支 B、C、D FAIL，patch 後 ALL PASS；座位相關 9 支回歸 ALL PASS；patch 在 8c050804c apply --check 通過。",
-   "next": "LAWWW 套 patch；CC 用 day47、day51 存檔新舊對照；BB 判"
+   "note": "原因：一盞房間群組 g0 往 +z 搬 2.3 m（wzShop cz），seatact 桌上東西用世界座標卻掛在 g0 底下＝全部偏 2.3 m。修法：seatact3d.js rebuild 群組抵銷父群組 matrixWorld（沒位移＝單位矩陣、照舊）。新測試開發分支 B、C、D FAIL，patch 後 ALL PASS；座位相關 9 支回歸 ALL PASS；patch 在 8c050804c apply --check 通過。 ｜ LAWWW 11-10 08:53 接進開發分支 81a2e719d（seatact_offset_group 等 5 支 ALL PASS）。",
+   "next": "CC 用 day47、day51 存檔新舊對照；BB 判"
   }
  ]
 }
