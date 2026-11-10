@@ -6958,7 +6958,7 @@
    "branch": "claude/second-ai-env-art",
    "sha": "9356eeb39",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "GG-FLOWER-STALL-1110（公館捷運站口花攤，AA_732 gg_flower）",
    "files": [
     "assets/models/env/second_ai/gg_flower_stall.glb",
@@ -6966,10 +6966,10 @@
     "tools/blender/env_second/gg_flower_stall.py",
     "docs/art-rebuild/second_ai/wip/gg_flower_stall_1110/（README、gg_flower_stall_28df8a85c.patch、gg_flower_stall_unit.js、flower_reg.txt、flower_stall_v1_sheet.jpg）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "晨露花舖（原創店名）：公館 (−47, 11.6) 捷運出口西邊，正面朝騎樓；導航 blockRect(-47,11.725,2.9,2.05)；互動點 (−47.2,13.45) kind gg_flower（買花要 LAWWW 接 GIFTH）；燈泡 ggf_lit_bulb 晚上亮。23,478 三角形、1.98 MB。新測試開發 FAIL 4 → ALL PASS；公館相關 9 支回歸 ALL PASS。",
-   "next": "LAWWW 套 patch、接 GIFTH.shopOpt(G,'gg_flower')；CC 拍白天、晚上；BB 判"
+   "note": "晨露花舖（原創店名）：公館 (−47, 11.6) 捷運出口西邊，正面朝騎樓；導航 blockRect(-47,11.725,2.9,2.05)；互動點 (−47.2,13.45) kind gg_flower（買花要 LAWWW 接 GIFTH）；燈泡 ggf_lit_bulb 晚上亮。23,478 三角形、1.98 MB。新測試開發 FAIL 4 → ALL PASS；公館相關 9 支回歸 ALL PASS。 ｜ LAWWW 11-10 10:03 接進開發分支 de1f25768，買花已接（09:00～21:00）；gg_* 8 支 ALL PASS。",
+   "next": "CC 拍白天、晚上；BB 判"
   }
  ]
 }
