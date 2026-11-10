@@ -492,10 +492,10 @@
    "quote": "桌遊日桌遊完回到前往之前的系館 ?都晚上這麼晚了 而且行動次數用完不是應該回去睡覺嗎（附存檔 day52、截圖：11/7 週五 23:36 普通教學館出口）；我傳錯了 要傳給LAWWW 你幫我船",
    "kind": "原話",
    "status": "進行中",
-   "wants": "待 LAWWW-B 開列",
-   "task": "BUG-BGN-RETURN-ZONE-1110",
+   "wants": "X288",
+   "task": "BGN-AFTER-HOME-1110",
    "src": "使用者直接對 BB-B 說（原本要給 LAWWW），BB-B 01:1x 轉 LAWWW-B",
-   "note": "存檔＋截圖放 BB 分支 docs/story_planning/BB_saves/user_save_day52_1110_bgn.*；LAWWW-B 開 USER_WANTS 列和任務以後回填 wants"
+   "note": "存檔＋截圖放 BB 分支 docs/story_planning/BB_saves/user_save_day52_1110_bgn.*；LAWWW-B 開 USER_WANTS 列和任務以後回填 wants；LAWWW-B 01:20 開好 USER_WANTS X288、任務 BGN-AFTER-HOME-1110（P0），也記在 LAWWW 那邊的 UA-LAWWW-1110-31。改法：晚上的活動、約會演完，過了 22:00 或晚上時段用完，就回宿舍接睡覺；白天照舊回原地"
   }
  ]
 }
