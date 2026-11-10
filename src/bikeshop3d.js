@@ -49,7 +49,7 @@ const BIKESHOP=(function(){
   let busy=false;
   /* 櫃台的小東西（配置 bike_parts）：買過的不再賣（G.bike.parts＝{light,bell,lock}，舊存檔沒有＝都沒買）*/
   S.parts=async function(GM){ if(busy) return true; busy=true; const G=GM.G, s=BIKE.state(G), own=s.parts||(s.parts={}); GM.sceneBegin();
-    try{ const opts=S.PARTS.map(q=>({t:q.name+'　'+q.price+' 元',hint:own[q.id]?'買過了':'',dim:!own[q.id]&&G.money<q.price,q})); opts.push({t:'不用了'}); const i=await GM.choose(opts), q=opts[i]&&opts[i].q; if(!q) return true;
+    try{ const opts=S.PARTS.map(q=>({t:q.name+'　'+q.price+' 元',hint:own[q.id]?'買過了':'',dim:!own[q.id]&&G.money<q.price,q})); const hO=typeof GIFTH!=='undefined'&&GIFTH.shopOpt?GIFTH.shopOpt(G,'bikeshop'):null; if(hO) opts.push(hO);   /* 買禮物（GIFT-HOLIDAY-1110，src/gifthol3d.js）*/ opts.push({t:'不用了'}); const i=await GM.choose(opts), q=opts[i]&&opts[i].q; if(opts[i]&&opts[i].giftH){ await GIFTH.pick(GM,opts[i]); return true; } if(!q) return true;
       if(own[q.id]){ await GM.say(BOSS,S.L.partsAgain); return true; } if(G.money<q.price){ GM.toast&&GM.toast('錢不夠'); return true; }
       GM.money(-q.price); own[q.id]=G.day; for(const [w,t] of q.say) await GM.say(w==='boss'?BOSS:null,t); } finally { busy=false; GM.sceneEnd(); } return true; };
   S.fix=async function(GM){ const G=GM.G; if(G.money<S.FIX_PRICE){ await GM.say(BOSS,S.L.fixPoor); return false; } GM.money(-S.FIX_PRICE); S.repairBike(true);

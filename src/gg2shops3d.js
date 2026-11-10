@@ -150,7 +150,9 @@ const GG2=(function(){
 
   /* ---------- 點餐 ---------- */
   S.order=async function(GM,k){ if(k==='yangyang') return S.yyOrder(GM); const G=GM.G, D=S.L[k]; if(!D) return null; await GM.say(CLERK,D.ask);
-    const opts=D.menu.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat([{t:'不用了'}]); const i=await GM.choose(opts);
+    const hO=typeof GIFTH!=='undefined'&&GIFTH.shopOpt?GIFTH.shopOpt(G,k):null;   /* afar 的「選物…」（節日送禮 GIFT-HOLIDAY-1110，src/gifthol3d.js）*/
+    const opts=D.menu.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})).concat(hO?[hO]:[],[{t:'不用了'}]); const i=await GM.choose(opts);
+    if(hO&&i===D.menu.length){ await GIFTH.pick(GM,hO); return 'gift'; }
     if(i==null||!(i>=0&&i<D.menu.length)) return null; const [nm,p]=D.menu[i];
     if((G.money|0)<p){ await GM.say(CLERK,D.short); return 'short'; }   /* 錢不夠：店員的那一句（AA_652），不扣錢 */
     GM.money(-p); const pool=D.after.filter(a=>!a[2]||a[2]===nm), a=pool[Math.min(pool.length-1,Math.floor(S.rand()*pool.length))]; await GM.say(a[0]?CLERK:null,a[1]);
@@ -214,7 +216,9 @@ const GG2=(function(){
     if(k===0) return S.crListen(GM,genre); if(k===1) return S.crBuy(GM,genre); return 'back'; };
   S.crCounter=async function(GM){ const G=GM.G, D=S.L.corner_records, F=G.flags||(G.flags={});
     if(F.CR_ASK!==G.day){ F.CR_ASK=G.day; await crSay(GM,true,D.asking); }   /* 那一天第一次在櫃台問（還沒有要買）*/
-    const gs=S.CR_GENRES, k=await GM.choose(gs.map(g=>({t:S.CR_NAME[g],hint:S.crPrice(g)+' 元'})).concat([{t:'先不用'}]));
+    const hO=typeof GIFTH!=='undefined'&&GIFTH.shopOpt?GIFTH.shopOpt(G,'corner_records'):null;   /* 買禮物（GIFT-HOLIDAY-1110）*/
+    const gs=S.CR_GENRES, k=await GM.choose(gs.map(g=>({t:S.CR_NAME[g],hint:S.crPrice(g)+' 元'})).concat(hO?[hO]:[],[{t:'先不用'}]));
+    if(hO&&k===gs.length){ await GIFTH.pick(GM,hO); return 'gift'; }
     if(k>=0&&k<gs.length) return S.crBuy(GM,gs[k]); return null; };
   S.crInteract=async function(GM,it){ const kind=it.kind;
     if(kind==='corner_browse') return S.crBrowse(GM,it.genre||'wall'); if(kind==='corner_listen') return S.crListen(GM,null); if(kind==='corner_shop') return S.crCounter(GM);

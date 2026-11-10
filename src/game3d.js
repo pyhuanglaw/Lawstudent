@@ -483,12 +483,12 @@ const GAME = (function(){
   // ---------- 選單 ----------
   let menuOpen=false;
   function openMenu(tab){ if(tab==='people'||tab==='map'){ openPhone(tab==='people'?'friends':'places'); return; }   /* 2026-10-16 使用者：右上角手機和選單內容重複——人物併進手機「朋友」、地圖併進手機「地點」；選單只留筆記本、存檔、設定、說明 */
-    menuOpen=true; E.paused=true; $('menu').classList.remove('hide'); renderNotes(); if(typeof JOURNAL!=='undefined'){ JOURNAL.reset(); JOURNAL.render($('journalBox'),G); } renderPeople(); renderLegal(); renderMap(); renderSlots(); if(tab) switchTab(tab); }
+    menuOpen=true; E.paused=true; $('menu').classList.remove('hide'); renderNotes(); if(typeof JOURNAL!=='undefined'){ JOURNAL.reset(); JOURNAL.render($('journalBox'),G); } if(typeof GIFTH!=='undefined'&&GIFTH.renderBag&&$('itemsList')) GIFTH.renderBag($('itemsList'),G);   /* 物品（X291，src/gifthol3d.js）：包包裡的禮物、她送的 */ renderPeople(); renderLegal(); renderMap(); renderSlots(); if(tab) switchTab(tab); }
   function closeMenu(){ menuOpen=false; E.paused=false; $('menu').classList.add('hide'); }
   GM.openMenu=openMenu; GM.closeMenu=closeMenu;
   GM.saveMenu=()=>new Promise(res=>{ const g=GM.loadGen; openMenu('save'); const iv=setInterval(()=>{ if(!menuOpen){ clearInterval(iv); if(GM.loadGen===g) res(); } },200); });   /* 在家的選單「存檔」：打開存檔分頁，關掉以後回到家裡的選單（home3d.js）；從這裡讀檔（世代換了）＝舊的家裡選單不醒（LOADGEN-LOCKS-1028）*/
   GM.openMenu=t=>openMenu(t);
-  function switchTab(t){ document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t)); document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.id==='tab-'+t)); $('menuTitle').textContent={notes:'筆記本',journal:'日誌',people:'人物',legal:'法律',map:'地圖',save:'存檔',settings:'設定',help:'說明'}[t]; }
+  function switchTab(t){ document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t)); document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.id==='tab-'+t)); $('menuTitle').textContent={notes:'筆記本',journal:'日誌',items:'物品',people:'人物',legal:'法律',map:'地圖',save:'存檔',settings:'設定',help:'說明'}[t]; }
   const GRAD_LABEL={NONE:null,CURIOUS:'有點好奇',CONSIDERING:'認真考慮中',PREPARING:'準備中',APPLYING:'報名了',ADMITTED:'錄取'};
   function renderNotes(){ const box=$('notesList'); box.innerHTML='';
     // 研究所路線（不是按鈕，是你這一年累積下來的東西）
@@ -729,7 +729,7 @@ const GAME = (function(){
     const poolPage=c.social_layer==='B'&&typeof POOL!=='undefined'&&!!POOL.pageDesc&&(c.card!=null||c.cardBefore!=null);   /* POOL-PAGE-PHONE-1028（BB-C 08:48）：同學二十位的人物頁一句話（AA_498 第 2 節 cardBefore／card、朋友＝personality）只接在舊的 renderPeople，手機人物頁沒接 */
     const desc0=poolPage?POOL.pageDesc(id):((c.social_layer==='B'&&rv!=='FRIEND')?(rv==='ACQUAINTANCE'?(c.facts?c.facts[0]:''):''):(c.personality||'')); const wt=whereText(id);
     const desc=typeof WHOIS!=='undefined'&&WHOIS.desc?WHOIS.desc(G,id,desc0):desc0, who=typeof WHOIS!=='undefined'&&WHOIS.lines?WHOIS.lines(G,id):[];   /* CHAR-WHOIS-1030（AA_543）：「你們」那一段（他是誰、怎麼認識、之後發生的事；條件成立才顯示、最多 6 行）＋個性那一行照進度換（Alison）；src/whois3d.js */
-    const deeds=typeof POOL!=='undefined'&&POOL.deedsHTML?POOL.deedsHTML(id,G):'';   /* 做過的事（POOL.addDeed：陪他旁聽過一堂社工系的課…）；沒有就是空的 */
+    const deeds=(typeof POOL!=='undefined'&&POOL.deedsHTML?POOL.deedsHTML(id,G):'')+(typeof GIFTH!=='undefined'&&GIFTH.personHTML?GIFTH.personHTML(G,id):'');   /* 她喜歡的、她送的（節日送禮 GIFT-HOLIDAY-1110，src/gifthol3d.js）*/   /* 做過的事（POOL.addDeed：陪他旁聽過一堂社工系的課…）；沒有就是空的 */
     const hist=typeof DATE!=='undefined'&&DATE.historyText?DATE.historyText(G,id):[];   /* 一起去過的地方（DATE-S1；date3d.js historyText：一次約會一行）*/
     const mems=(SOCIAL.panelMemories||SOCIAL.memories)(id).slice(-5).map(m=>'<div class="muted">· '+(SOCIAL.dayLabel?SOCIAL.dayLabel(m.day):'第 '+m.day+' 天')+' '+esc((SOCIAL.memLabel?SOCIAL.memLabel(m.tag):(SOCIAL.MEMORY_LABEL[m.tag]||m.tag)))+((SOCIAL.noteShown?SOCIAL.noteShown(id,m):m.note)?'（'+esc(SOCIAL.noteShown?SOCIAL.noteShown(id,m):m.note)+'）':'')+'</div>').join('');
     return '<div class="item phrow"><button class="btn" data-personback="1">‹ 朋友</button><b>'+esc(name)+'</b>'+favBtn('p:'+id)+'</div><div class="item"><span class="muted">'+esc(tag)+'</span>'+(wt?'<div style="color:#ffd88a">現在大概在：'+esc(wt)+'</div>':'')+(who.length?'<div class="whois" style="margin:2px 0">'+who.map(x=>'<div>· '+esc(x)+'</div>').join('')+'</div>':'')+'<div>'+esc(desc)+'</div>'+deeds+'<div>'+SOCIAL.describe(id)+'</div>'+progHTML(id)+(hist.length?'<div style="margin-top:4px"><span class="muted">一起去過的地方</span>'+hist.map(x=>'<div class="muted">· '+esc(x)+'</div>').join('')+'</div>':'')+(mems?'<div style="margin-top:4px">'+mems+'</div>':'')+'</div>'; }

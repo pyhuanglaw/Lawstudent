@@ -194,9 +194,10 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
   </div></div>
   <div id="menu" class="panel hide"><div class="card">
     <div class="row2" style="justify-content:space-between"><h2 id="menuTitle">筆記本</h2><button class="btn" id="btnClose">返回遊戲</button></div>
-    <div class="tabs"><button data-tab="notes" class="on">筆記</button><button data-tab="journal">日誌</button><button data-tab="legal">法律</button><button data-tab="save">存檔</button><button data-tab="settings">設定</button><button data-tab="help">說明</button></div>
+    <div class="tabs"><button data-tab="notes" class="on">筆記</button><button data-tab="journal">日誌</button><button data-tab="items">物品</button><button data-tab="legal">法律</button><button data-tab="save">存檔</button><button data-tab="settings">設定</button><button data-tab="help">說明</button></div>
     <div class="tab on" id="tab-notes"><div class="list" id="notesList"></div></div>
     <div class="tab" id="tab-journal"><div id="journalBox"></div></div>
+    <div class="tab" id="tab-items"><div class="list" id="itemsList"></div></div>
     <div class="tab" id="tab-people"><div class="list" id="peopleList"></div></div>
     <div class="tab" id="tab-legal"><div class="list" id="legalList"></div></div>
     <div class="tab" id="tab-map"><button class="btn pri" id="btnBigMap" style="margin-bottom:10px">打開整張地圖（也可以點右上角的小地圖）</button><div class="muted" style="margin-bottom:8px">去過的地點可以快速前往（消耗一點時間）。</div><div class="list" id="mapList"></div></div>
@@ -631,5 +632,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 <script src="src/sup497_3d.js?v=9.10.23"></script>
 <script src="src/aa524_3d.js?v=9.10.23"></script>
 <script src="src/onetap3d.js?v=9.10.23"></script>
+<script src="src/data/gift_holiday.js?v=9.10.23"></script>
+<script src="src/gifthol3d.js?v=9.10.23"></script>
 <script>GAME.boot();</script>
 </body></html>
