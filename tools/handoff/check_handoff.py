@@ -876,6 +876,50 @@ def askuser(args):
     return 1 if bad else 0
 
 
+OPEN_WANT = ('還沒做', '進行中', '做好了沒進遊戲')
+
+
+def userwork(args):
+    """USERWORK-1110（使用者 11-10 17:1x：「交班的規則到底出了什麼問題會讓你需要我問你才會知道」）：
+    使用者交代、還沒做完（USER_WANTS 狀態還沒做／進行中／做好了沒進遊戲）、總表上歸這個職位的事，逐項列出這一班有沒有動過
+    （這一班＝duty.json LAWWW since 起，commit 訊息提到列號或任務 ID 才算）。原本「進行中」沒有任何檢查會報（check_orphans 只看暫停、等待、待整合；
+    asks 只對狀態一不一樣；queue 有四百多項「已整合待測試」把它們壓在後面），上一班留下的使用者要求整班沒人動也看不出來。
+    接班第 9 步、每批工作結束、交班存快照前跑；有「這一班還沒動」＝結束碼 1：接班確認逐項寫下一步和什麼時候做，不能只寫 OK。"""
+    src = Src(args.root, args.ref)
+    tasks = {t.get('id'): t for t in (json.loads(src.read(TASKS)).get('tasks') or [])}
+    text = src.read('docs/handoff/USER_WANTS.md')
+    status = wants_rows(text)
+    since = duty_since(src)
+    r = subprocess.run(['git', '-C', args.root, 'log', args.ref or 'HEAD', '--format=%s%n%b'] + ([f'--since={since}'] if since else ['-200']), capture_output=True)
+    log = r.stdout.decode('utf-8', 'replace') if not r.returncode else ''
+    role = args.owner
+    out = []
+    for l in text.splitlines():
+        m = WANT_ROW.match(l)
+        if not m:
+            continue
+        wid = m.group(1)
+        st = status.get(wid, '')
+        if not st.startswith(OPEN_WANT):
+            continue
+        tids = [t for t in re.findall(r'[A-Z][A-Z0-9]+(?:-[A-Z0-9]+)+', l) if t in tasks]
+        owners = {tasks[t].get('owner') for t in tids}
+        if role not in owners and not (not tids and role in l.split(' | ')[-2:][0]):
+            continue
+        mine = [t for t in tids if tasks[t].get('owner') == role] or tids
+        touched = (re.search(r'(?<![A-Z0-9])' + re.escape(wid) + r'(?![0-9])', log) is not None) or any(t in log for t in mine)
+        out.append((touched, wid, st, mine))
+    if not out:
+        print(f'使用者交代、還沒做完、歸 {role} 的：0 項。結果：OK')
+        return 0
+    bad = [o for o in out if not o[0]]
+    print(f'使用者交代、還沒做完、歸 {role} 的 {len(out)} 項（這一班：LAWWW {since or "接班時間不明"} 起；commit 提到列號或任務 ID＝這一班動過）：')
+    for touched, wid, st, mine in sorted(out, key=lambda o: (o[0], o[1])):
+        print(f'- [{"這一班動過" if touched else "這一班還沒動"}] {wid}（{st[:40]}）→ {", ".join(f"{t}:{tasks[t].get(chr(115)+chr(116)+chr(97)+chr(116)+chr(117)+chr(115))}" for t in mine) or "（沒有任務 ID）"}')
+    print('結果：OK' if not bad else f'結果：{len(bad)} 項這一班還沒動——接班確認逐項寫下一步和什麼時候做；使用者的要求排在接別人的交付之前')
+    return 1 if bad else 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', default=ROOT)
@@ -902,13 +946,16 @@ def main(argv=None):
     k.add_argument('--ref')
     u = sub.add_parser('askuser', help='ASK-USER-LIST-1104：等使用者的任務清單（接班確認逐項寫問了／沒問、交班寫進下一班第一步）')
     u.add_argument('--ref')
+    w = sub.add_parser('userwork', help='USERWORK-1110：使用者交代、還沒做完、歸這個職位的事，這一班有沒有動過（接班確認逐項寫）')
+    w.add_argument('--owner', default='LAWWW')
+    w.add_argument('--ref')
     i = sub.add_parser('incr', help='增量核對：各職位水位線以後的新 commit、outbox、WIP 索引')
     i.add_argument('--ref')
     i.add_argument('--advance', action='append', choices=INC.ROLES + ['all'], help='全部分類、沒有異常、已 push 才前進水位線')
     i.add_argument('--by', help='誰核對的（例：LAWWW-C）')
     duty_state.add_parser(sub)
     a = ap.parse_args(argv)
-    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'asks': asks, 'askuser': askuser, 'incr': incr, 'duty': duty_state.run}[a.cmd](a)
+    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'asks': asks, 'askuser': askuser, 'userwork': userwork, 'incr': incr, 'duty': duty_state.run}[a.cmd](a)
 
 
 if __name__ == '__main__':
