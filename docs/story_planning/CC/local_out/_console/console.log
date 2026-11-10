@@ -260,3 +260,11 @@
 [01:09:30] [res] cpu=5% mem=36% (11.5/31.4 GB) chrome_testing=0  START V24_deploy
 [01:09:30] worktree add 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c: invalid reference - fetching main and the commit itself
 [01:12:58] [res] cpu=20% mem=53% (16.7/31.4 GB) chrome_testing=8  END V24_p0
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       7851ed617..5cb7587b0  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:13:03] ==== END   V24_p0  exit=0  211s   ====
+[01:13:06] memory 54% before starting V24_mini (2 running)
+[01:13:06] ==== START V24_mini  (game @ 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c) ====
+[01:13:09] [res] cpu=5% mem=54% (17.0/31.4 GB) chrome_testing=8  START V24_mini
+[01:13:39] [res] cpu=2% mem=51% (15.9/31.4 GB) chrome_testing=8  END V24_zone
