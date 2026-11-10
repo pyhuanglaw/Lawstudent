@@ -617,8 +617,15 @@ const STORY = (function(){
      3/25「到了再說。」是她出發前對他說的唯一一句（AA_260 第 2 節第 3 點；同 jp3d.js 的 strained）*/
   { const anStrained=G=>{ const F=(G&&G.flags)||{}, R=(F.romance||{}).heroine_01; return !(F.dating_heroine_01===true||(R&&R.status==='dating'))&&!!R&&['ex','paused','friend_after_catch'].includes(R.status); };
     for(const id of ['A6-L1','A6-L2','A6-L3','A6-L4']){ const f0=S.LADDER_SKIP[id]; S.LADDER_SKIP[id]=G=>anStrained(G)||(!!f0&&f0(G)); } }
+  /* 交往中那一階（DLG-FX-MECH-1110，AA_746 第 2 節第 3 點）：那個人那個學期除了 steps，可以多一個 dating 陣列（一層的格式和 steps 一樣，另外可以寫 fx、選項可以寫 fx／re）。
+     和她交往中、而且 dating 的下一層現在條件到（週次、地點…）＝先聊那一層；不然照 steps。進度另外記（G.social.ladder[key+'#dating']，舊存檔沒有＝從第一層），
+     不占 steps 的位置（steps 的順序、舊存檔的進度都不動）；一樣一人一天一層。沒有 dating＝和原本一樣。 */
+  S.ladDatingKey=K=>K+'#dating';
   S.ladNext=function(G,id,mode){ const D=S.ladData(G,id); if(!D) return null; const L=D.L, K=D.key;
-    const so=ladRec(G); if(so.ladderDay[id]===G.day) return null; let st=L.steps[so.ladder[K]|0];
+    const so=ladRec(G); if(so.ladderDay[id]===G.day) return null;
+    if(Array.isArray(L.dating)&&L.dating.length&&G.flags&&!!G.flags['dating_'+id]){ const sd=ladPick(G,id,mode,L,L.dating,S.ladDatingKey(K)); if(sd) return sd; }
+    return ladPick(G,id,mode,L,L.steps||[],K); };
+  const ladPick=function(G,id,mode,L0,STEPS,K){ const L={steps:STEPS,context:L0.context}, so=ladRec(G); let st=L.steps[so.ladder[K]|0];
     const wkNow=(()=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return T?T.week|0:0; })();
     while(st&&(S.LAD_CUT.has(st.id)||(S.LADDER_SKIP[st.id]&&S.LADDER_SKIP[st.id](G))||(st.skipIf&&ladIf(st.skipIf))||(st.skipAfterWeek!=null&&wkNow>st.skipAfterWeek)||(so.ladSeen&&so.ladSeen[st.id]))){ so.ladder[K]=(so.ladder[K]|0)+1; st=L.steps[so.ladder[K]]; }   /* ladSeen：事件接事件的過場已經演過這一層（AA_293 第 2 節：可昕交往前 T1～T6），3D 搭話時不重播 */   /* skipAfterWeek（ladder README，BB-C 2026-10-17）：過了第 N 週還沒推進的那一層直接算過 */   /* skipIf（AA 2026-10-16）：條件成立＝這一層直接算過（記層數、不播、不算今天推進）——if 用 notMemory 會讓階梯永遠卡住 */
     if(!st) return null;
@@ -665,7 +672,7 @@ const STORY = (function(){
      kind：'linesIf'、'extraIf'（閒聊階梯那一層，ctx＝那一層）、'greet'（招呼的 when，ctx＝招呼的資料）、'reply'（選項的回覆，ctx＝那個選項）、'miss'（沒回訊息那一句，ctx＝那一則；只在有一般版的時候問）*/
   S.DATING_QUIET=[];
   const datingQuiet=(G,x,id,ctx,kind)=>!!G&&S.DATING_QUIET.some(f=>{ try{ return !!f(G,x,id,ctx,kind); }catch(e){ console.warn('STORY.DATING_QUIET',e); return false; } });
-  S.ladReply=function(st,ch,G,id){ const R=(S.LADDER_REPLY_IF[st.id]||{})[ch.t]; if(R) for(const r of R) if(!(G&&datingQuiet(G,r,id,ch,'reply'))&&ladIf(r)) return r.reply; return ch.reply; };
+  S.ladReply=function(st,ch,G,id){ const R=(S.LADDER_REPLY_IF[st.id]||{})[ch.t]; if(R) for(const r of R) if(!(G&&datingQuiet(G,r,id,ch,'reply'))&&ladIf(r)) return r.reply; return ch.reply!=null?ch.reply:ch.re; };   /* re＝reply 的另一個寫法（DLG-FX-MECH-1110：全遊戲的選項統一 {t, re, fx}）*/
   /* 招呼（greet.when）的額外條件（AA_211 附錄 B G1，0ba8d336）：學姊「值班表你看了嗎？」只說一次、只給法服成員（S.fafuMember）*/
   S.LADDER_GREET_IF={'值班表你看了嗎？':{once:true,test:G=>S.fafuMember(G)},'週四我去做田野。':{test:G=>S.ytEv13(G)&&!!(G.flags&&G.flags.RENT_RENEWED)},
     '我要去搭客運回台中了':{test:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!T&&T.week%2===1; }}};   /* 沛珊隔週回台中（AA_372 第 8 項）：週五那句只在單數週說（週末的 presence 在 characters.js）*/   /* 語彤大三下招呼③：事件 13、14 演過才說（AA_260 第 4 節第 5 點）*/
@@ -921,13 +928,15 @@ const STORY = (function(){
   S.ladLines=function(st,g,id){ const G=g||(typeof GAME!=='undefined'&&GAME.G)||null; const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id,st,'linesIf')); const L=(alt?alt.lines:st.lines||[]).slice(); for(const x of (st.extraIf||[])) if(ladAlt(G,x,id,st,'extraIf')) L.push(...(x.lines||[])); return L; };   /* linesIf：第一個成立的那一套取代 lines；extraIf：成立就在後面多說（AA 2026-10-16）*/
   S.ladPlay=async function(GM,who,id,st){ const G=GM.G, so=ladRec(G), D=S.ladData(G,id), K=D?D.key:id; const preMem=[]; { const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id,st,'linesIf')); if(alt&&alt.mem) preMem.push(alt.mem); for(const x of (st.extraIf||[])) if(x.mem&&ladAlt(G,x,id,st,'extraIf')) preMem.push(x.mem); }   /* 播之前先決定（extraIf 的 notMemory 就是自己的記憶）*/
     for(const l of S.ladLines(st,G,id)) await GM.say(who,typeof l==='string'?l:l.t,{expression:typeof l==='object'&&l?l.e:undefined});
-    let ch=null; const CH=S.ladChoices(st); if(CH.length){ const k=await GM.choose(CH.map(c=>({t:c.t}))); ch=CH[k]||CH[0]; const rp=S.ladReply(st,ch,G,id); for(const t of [].concat(rp||[])) await GM.say(who,t); }   /* reply 可以是好幾句（AA_377 6-3：語彤「……這張她眨眼了。」「你沒傳這張，是對的。」）*/
+    let ch=null; const CH=S.ladChoices(st).filter(c=>c&&typeof c.t==='string'&&c.t.trim()); if(CH.length){ const k=await GM.choose(CH.map(c=>({t:c.t}))); ch=CH[k]||CH[0]; const rp=S.ladReply(st,ch,G,id); for(const t of [].concat(rp||[])){ if(typeof t!=='string'||!t.trim()) continue; if(/^（.*）$/.test(t)&&(st.fx||ch.fx||ch.re!=null)) await GM.say(null,t); else await GM.say(who,t); } }   /* reply 可以是好幾句（AA_377 6-3：語彤「……這張她眨眼了。」「你沒傳這張，是對的。」）*/
     /* 沛珊的聯絡方式（AA_310 第 7 節，AA-C 10-20 14:40）：沒有宿營、也沒去 8/31 迎新的局（9/17 開局的舊存檔）拿不到——第一次聊到她（P-L1）還沒有聯絡方式就加 */
     if(id==='classmate_peishan'&&st.id==='P-L1'&&typeof INV!=='undefined'&&INV.hasContact&&INV.addContact&&!INV.hasContact(G,'classmate_peishan')){ await GM.say(who,'……我加你好不好？上課的筆記可以互傳。'); INV.addContact(G,'classmate_peishan'); if(SOCIAL.has&&SOCIAL.meet&&!SOCIAL.has(id,'FIRST_MET')) SOCIAL.meet(id,G.zone); }
     const rel=Object.assign({},st.rel||{}); if(ch&&ch.rel) for(const k in ch.rel) rel[k]=(rel[k]||0)+ch.rel[k]; if(Object.keys(rel).length&&SOCIAL.adjust) SOCIAL.adjust(id,rel);
+    if(SOCIAL.applyFx){ SOCIAL.applyFx(G,id,st.fx); if(ch) SOCIAL.applyFx(G,id,ch.fx); }   /* 這一層、選的那一個的 fx（{fr, love}；DLG-FX-MECH-1110）：原本的 rel 照舊，另外算 */
     for(const m of [st.mem,ch&&ch.mem]) if(m&&SOCIAL.remember) SOCIAL.remember(id,m,st.id);
     for(const m of preMem) if(SOCIAL.remember) SOCIAL.remember(id,m,st.id);   /* linesIf／extraIf 那一套自己的記憶（BB 的芷若、子晴 ZR_ZQ_SETUP_*：只說一次，之後的線讀它）*/
-    so.ladder[K]=(so.ladder[K]|0)+1; so.ladderDay[id]=G.day; if(SOCIAL.activity){ SOCIAL.activity(id,'chat'); SOCIAL.activity(id,'chatNew'); } return true; };
+    { const KK=D&&Array.isArray(D.L.dating)&&D.L.dating.includes(st)?S.ladDatingKey(K):K; so.ladder[KK]=(so.ladder[KK]|0)+1; }   /* 交往中那一階的進度另外記 */
+    so.ladderDay[id]=G.day; if(SOCIAL.activity){ SOCIAL.activity(id,'chat'); SOCIAL.activity(id,'chatNew'); } return true; };
   /* 和她說話時：有下一層就播；沒有就短招呼。回傳 true＝處理了（呼叫的人不要再接舊的閒聊）*/
   /* AA_489 第 5 節（企劃線 c4bcf86f6）：以安在麵店的那一句「你點好了嗎？我還在看菜單。」——這一趟已經和她在麵店吃過（約她的那一筆 done、同一天、開始後兩小時內）＝換句（使用者 10-27 回報吃完追上她說話對不上；AN-MEAL-STUCK-1027 子代理）。
      一個人在麵店吃（EAT 只記日子不記時間）不算 */

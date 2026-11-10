@@ -36,10 +36,13 @@ const STUDYN=(function(){
   S.text=(G,t)=>String(t).replace(/\{name\}/g,(G&&G.name)||'祐廷');
   /* 播一段：（…）＝旁白；其他＝她說 */
   S.play=async function(GM,who,lines){ for(const t of lines||[]){ const s=S.text(GM.G,t); if(/^（/.test(s)) await GM.say(null,s); else await GM.say(who,s); } };
-  /* 中途那件事＋選項（有的話）*/
+  /* 中途那件事＋選項（有的話）。選項 {t, rel?, fx?, reply|re}：re＝reply 的另一個寫法（一句字串或陣列）；輪換（rot）那幾則也可以有 opts */
+  S.replyOf=o=>(Array.isArray(o.reply)?o.reply:(o.re==null?[]:[].concat(o.re))).filter(t=>typeof t==='string'&&t.trim());
   S.mid=async function(GM,who,id,sc){ if(!sc) return false; await S.play(GM,who,sc.mid);
-    if(sc.opts&&sc.opts.length&&GM.choose){ const k=await GM.choose(sc.opts.map(o=>({t:S.text(GM.G,o.t)}))); const o=sc.opts[k]||sc.opts[0];
-      if(o){ if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(id,o.rel); await S.play(GM,who,o.reply); } }
+    const OP=Array.isArray(sc.opts)?sc.opts.filter(o=>o&&typeof o.t==='string'&&o.t.trim()):[];
+    if(OP.length&&GM.choose){ const k=await GM.choose(OP.map(o=>({t:S.text(GM.G,o.t)}))); const o=OP[k]||OP[0];
+      if(o){ if(typeof SOCIAL!=='undefined'){ if(SOCIAL.adjust&&o.rel) SOCIAL.adjust(id,o.rel); if(SOCIAL.applyFx) SOCIAL.applyFx(GM.G,id,o.fx); }   /* fx＝{fr, love}（DLG-FX-MECH-1110；原本的 rel 照舊）*/
+        await S.play(GM,who,S.replyOf(o)); } }
     return true; };
   /* 每種活動一份：of（記錄）、pick（這一次演什麼：{k,…} 或 {rot,…}；{generic:true}＝照一般句；null＝今天已經算過／沒有稿）、done（次數 +1、下一場、旗標；念書第 6 場＝正式約會一次）*/
   function mk(kind){ const K={kind}, Dk=()=>DK(kind);

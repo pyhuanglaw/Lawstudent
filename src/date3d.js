@@ -522,7 +522,26 @@ const DATE=(function(){
     const fill=x=>S.xiuqin(G,id,String(x).replace(/\{sunset\}/g,S.sunset(t.day)).replace(/\{lastDrink\}/g,S.TASTE_WORD[m.taste]||''));
     const run=async L=>{ for(const ln of (L||[])){ if(!ln||ln.who==='note'){ const mm=ln&&/記 `?TASTE`?＝`?([^`]+)`?/.exec(ln.text||''); if(mm) m.taste=mm[1]==='玩家點的'?'player':mm[1]; continue; }
         const tx=fill(ln.text); if(ln.who==='narr') await GM.say(null,/^（/.test(tx)?tx:'（'+tx+'）'); else if(ln.who===id) await GM.say(me,tx); else if(ln.who==='player'||ln.who==='you') await GM.say({name:G.name||'祐廷'},tx); else await GM.say({name:nameOf(ln.who),charId:ln.who},tx); } };
-    await run(set.lines); if(Array.isArray(set.choice)&&set.choice.length){ const k=await GM.choose(set.choice.map(c=>({t:S.xiuqin(G,id,c.t)}))), c=set.choice[k]||set.choice[0]; await run(c.reply); return {pick:c}; } return true; };   /* 有選項＝回傳選了哪一個（請客的 extra）*/
+    await run(set.lines); const CH=Array.isArray(set.choice)?set.choice.filter(c=>c&&typeof c.t==='string'&&c.t.trim()):[];
+    if(CH.length){ const k=await GM.choose(CH.map(c=>({t:S.xiuqin(G,id,c.t)}))), c=CH[k]||CH[0]; await run(S.replyOf(id,c)); S.optFx(G,id,c); return {pick:c}; } return true; };   /* 有選項＝回傳選了哪一個（請客的 extra）*/
+  /* ===== 選項的效果、每次去都有選項（DLG-FX-MECH-1110；使用者 X324；AA_746 第 2 節第 1、2 點）=====
+     1. 選項 {t, reply|re, fx}：reply＝原本的格式（[{who,text}]）；re＝她回的話（一句字串或幾句的陣列；整句括號＝旁白）；fx＝{fr:n, love:n}（SOCIAL.applyFx；沒寫＝照舊沒有效果）。
+        抵達、互動點、收尾的每一套（first／normal／remember／dating／afterBreakup…）只要有 choice 都會出、都算 fx。
+     2. 每個互動點（抵達 arrive、收尾 closing 也一樣）可以多一格 opts＝{first, again, dating}：這一次演的那一套自己沒有 choice 的時候，接著出這一組——
+        dating＝交往中；again＝第二次以後到這個互動點（抵達、收尾＝第二次以後到這個地點）；first＝第一次。again、dating 可以寫好幾組＝每次輪一組
+        （記在 G.dateMemory[她][地點].optN，舊存檔沒有＝從第一組開始）。一組＝{lines?:[{who,text}], choice:[選項…]}，或直接寫選項的陣列。
+        沒有 opts＝和原本一樣（第二次以後沒有選項）。 */
+  S.replyOf=(id,c)=>{ if(!c) return []; if(Array.isArray(c.reply)) return c.reply; const L=c.re==null?[]:[].concat(c.re); return L.filter(x=>typeof x==='string'&&x.trim()).map(x=>/^（.*）$/.test(x)?{who:'narr',text:x}:{who:id,text:x}); };
+  S.optFx=(G,id,c)=>c&&c.fx&&typeof SOCIAL!=='undefined'&&SOCIAL.applyFx?SOCIAL.applyFx(G,id,c.fx):null;
+  const isOpt=x=>!!x&&typeof x==='object'&&!Array.isArray(x)&&typeof x.t==='string';
+  S.optList=function(g){ if(!g) return []; let L; if(Array.isArray(g)) L=g.length&&isOpt(g[0])?[{choice:g}]:g.map(x=>Array.isArray(x)?{choice:x}:x); else L=[g];
+    return L.filter(x=>x&&typeof x==='object'&&Array.isArray(x.choice)&&x.choice.some(isOpt)); };
+  S.optGroup=function(G,id,t,key,O,o){ if(!O||typeof O!=='object') return null; const D=S.optList(O.dating), A=S.optList(O.again), F=S.optList(O.first);
+    const k=o.dating&&D.length?'dating':(o.before?(A.length?'again':null):(F.length?'first':null)); if(!k) return null; const L=k==='dating'?D:(k==='again'?A:F);
+    const m=S.mem(G,id,t.locs[0]), N=(m.optN&&typeof m.optN==='object'&&!Array.isArray(m.optN))?m.optN:(m.optN={}), kk=key+':'+k, n=(N[kk]|0)%L.length; N[kk]=(N[kk]|0)+1; return L[n]; };
+  S.playOpts=async function(GM,id,t,key,O,o,played){ if(played&&played.pick) return played; const g=S.optGroup(GM.G,id,t,key,O,o); if(!g) return played;
+    if(!played&&!(Array.isArray(g.lines)&&g.lines.length)) return played;   /* 前面沒有任何一句、這一組自己也沒有句子＝不憑空出選項 */
+    const r=await S.playSet(GM,id,{lines:Array.isArray(g.lines)?g.lines:[],choice:g.choice},t); return r&&r.pick?r:played; };
   const LL=(id,loc)=>((((LN().loc||{})[loc]||{}).lines||{})[id])||null;
   const brokeUp=(G,id)=>id==='kexin'&&!(G.flags&&G.flags.dating_kexin);
   /* 到達那一句的另一版（AA_359 5-3，企劃線 fb5156ab）：照情況換掉第一次那一組裡的幾句（同一個位置），其他句不動 */
@@ -532,7 +551,7 @@ const DATE=(function(){
     return Object.assign({},set,{lines:set.lines.map(ln=>{ const i=ln&&v.from.indexOf(ln.text); return i>=0?Object.assign({},ln,{text:v.to[i]}):ln; })}); };
   S.arriveLine=async function(GM,t,visits,o){ const G=GM.G, id=t.who, A=(LL(id,t.locs[0])||{}).arrive; if(!A) return false; const dating=!!(G.flags&&G.flags['dating_'+id]);
     let set=null; if(!visits&&A.first&&!A.first.wishEvent) set=S.arriveVar(G,t,A.first,o); if(!set&&dating&&id!=='kexin'&&(A.dating||[]).length) set=S.pickSet(G,id,A.dating,t,'arrive.dating'); if(!set&&brokeUp(G,id)&&(A.afterBreakup||[]).length) set=S.pickSet(G,id,A.afterBreakup,t,'arrive.after'); if(!set) set=S.pickSet(G,id,A.normal,t,'arrive.normal');
-    return S.playSet(GM,id,set,t); };
+    return S.playOpts(GM,id,t,'arrive',A.opts,{before:!!visits,dating},await S.playSet(GM,id,set,t)); };
   /* 「你來過一次」（AA_160 4-4、AA_271、BB_213；src/data/solo_before.js）：自己（自由出行，G.places.free）去過的地方、第一次和她約會去那裡——抵達句說完以後一句旁白＋她的一兩句。
      同一個人、同一個地方一次（G.places.soloSaid["<id>:<地點>"]）；心願地點的第一次約會是心願事件（wish3d.js 的 freeVisited），這裡不演；她沒有那個地方的台詞＝不演；沒有數值、沒有選項 */
   S.soloBeforeDue=function(G,t,visits){ if(visits||typeof SOLO_BEFORE==='undefined'||!t||!t.who||!t.locs||!t.locs[0]) return false; const id=t.who, loc=t.locs[0];
@@ -563,7 +582,7 @@ const DATE=(function(){
     if(!set&&brokeUp(G,id)&&(H.afterBreakup||[]).length) set=S.pickSet(G,id,H.afterBreakup,t,pid+'.after');
     if(!set&&S.likeOf(id,pid)==='dislike'){ const dl=((((LN().loc||{})[t.locs[0]]||{}).dislikeLine||{})[id]||{})[pid]; if(dl) set={lines:[{who:id,text:dl}]}; }
     if(!set) set=S.pickSet(G,id,H.normal,t,pid+'.normal');
-    const played=await S.playSet(GM,id,set,t);
+    const played=await S.playOpts(GM,id,t,pid,H.opts,{before,dating},await S.playSet(GM,id,set,t));   /* 這一套沒有選項＝接 opts 的那一組（DLG-FX-MECH-1110）*/
     if(played&&played.pick) S.pickFlag(G,t,pid,played.pick); if(set&&set.aa525&&set.aa525.once) G.flags[set.aa525.flag]='paid';   /* AA_525：記第一次選的；蛋餅只拿一次 */
     { const c=played&&played.pick, p=c&&S.isTreat(c.t)?S.points(t.locs[0]).find(x=>x.id===pid):null; if(p&&(p.extra|0)>0&&GM.money) GM.money(-(p.extra|0),p.name+'（請她）'); }   /* 祐廷說要請客的選項＝另外扣她那一份（AA_128 5-1、5-2 的 extra；淡水飲料攤「我請。」60）*/
     if(!hi&&/\.photo$/.test(pid)&&(id!=='kexin'||brokeUp(G,id))) await S.speak(GM,id,'noPair',t,{obj:null});   /* 合照還不到第 6 階：她說一句、只幫她拍（BB_128 2-4、3-6；可昕只有分開以後才說，交往中一定可以合照）*/
@@ -571,7 +590,7 @@ const DATE=(function(){
     if(!m.picks.includes(pid)) m.picks.push(pid); return played; };
   S.closeLine=async function(GM,t,visits){ const G=GM.G, id=t.who, C=(LL(id,t.locs[0])||{}).closing; if(!C) return false; const dating=!!(G.flags&&G.flags['dating_'+id]);
     let set=null; if(!visits&&C.first&&!C.first.wishEvent) set=C.first; if(!set&&dating&&id!=='kexin'&&(C.dating||[]).length) set=S.pickSet(G,id,C.dating,t,'close.dating'); if(!set&&brokeUp(G,id)&&(C.afterBreakup||[]).length) set=S.pickSet(G,id,C.afterBreakup,t,'close.after'); if(!set) set=S.pickSet(G,id,C.normal,t,'close.normal');
-    return S.playSet(GM,id,set,t); };
+    return S.playOpts(GM,id,t,'close',C.opts,{before:!!visits,dating},await S.playSet(GM,id,set,t)); };
   S.scene=async function(GM,q){ const G=GM.G, t=S.trip(G,q.dateTrip); if(!t) return false; if(t.kind==='overnight') return S.sceneOvernight(GM,q,t);
     if(typeof WISH!=='undefined'&&WISH.due&&WISH.due(G,t)) return WISH.scene(GM,q,t);   /* 心願本人第一次去她的心願地點＝整趟是心願事件（DATE-C4、C5；src/wish3d.js）*/
     const who={name:nameOf(t.who),charId:t.who}; const loc=t.locs[0], L=S.loc(loc);

@@ -251,11 +251,15 @@ const TERMEND=(function(){
       await S.dinner(GM,{te:{term:w.id,who:'kai',kind:'fallback'}}); await GM.fade(true); GM.advance(1.5); if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); await GM.fade(false); if(GM.caption) GM.caption('','回到宿舍。',2200); }
     finally{ GM.sceneEnd(); } if(GM.autosave) GM.autosave(); return true; };
   /* ---- 飯（出遊事件 ev_termend_dinner 的 beforeOuting；保底阿凱直接叫）---- */
+  S._chose=0;   /* 這一頓到現在出過幾組選項（話題池那一則自己有選項＝祐廷不再自動回「嗯。」）*/
   const run=async(GM,who,arr)=>{ const G=GM.G, me={name:nm(who),charId:who}; for(let x of arr){ x=resolve(x,G); if(x==null) continue; if(Array.isArray(x)){ await run(GM,who,x); continue; }
       if(typeof x==='string') await GM.say(me,x); else if(x.cg!==undefined){ if(typeof ADV!=='undefined'&&ADV.cg) ADV.cg(x.cg); }   /* {cg:id}：這一刻換成 CG（沒登錄的圖＝不顯示，照立繪）*/ else if(x.narr) await GM.say(null,x.narr);
       else if(x.who==='narr') await GM.say(null,/^（/.test(x.text)?x.text:'（'+x.text+'）');   /* confess_lines.js 的寫法 */
       else if(x.who==='player') await GM.say({name:G.name||'祐廷'},x.text);
-      else if(Array.isArray(x.choice)){ const k=await GM.choose(x.choice.map(o=>({t:o.t}))); await run(GM,who,(x.choice[k]||x.choice[0]).say||[]); }   /* {choice:[{t,say}]}：飯桌上的一組選項（AA_470 4-2）*/
+      else if(Array.isArray(x.choice)||Array.isArray(x.opts)){   /* {choice:[{t,say}]}：飯桌上的一組選項（AA_470 4-2）。DLG-FX-MECH-1110：也可以寫 {say?:[她先說的], opts:[{t, re|say, fx}]}——re＝她的回答（一句或陣列）、fx＝{fr, love}（SOCIAL.applyFx，算在這頓飯的對象身上）*/
+        if(x.say!=null) await run(GM,who,[].concat(x.say)); const O=(x.opts||x.choice).filter(o=>o&&typeof o.t==='string'&&o.t.trim()&&(!o.if||o.if(G))); if(!O.length) continue;
+        const k=await GM.choose(O.map(o=>({t:o.t}))), o=O[k]||O[0]; S._chose++; await run(GM,who,o.say!=null?[].concat(o.say):(o.re!=null?[].concat(o.re).map(t=>typeof t==='string'&&/^（.*）$/.test(t)?{narr:t}:t):[]));
+        if(o.fx&&typeof SOCIAL!=='undefined'&&SOCIAL.applyFx) SOCIAL.applyFx(G,who,o.fx); if(o.set&&G.flags&&G.flags[o.set]==null) G.flags[o.set]=G.day; }
       else if(x.text) await GM.say(x.who&&x.who!==who?{name:nm(x.who),charId:x.who}:me,x.text,x.expr?{expr:x.expr}:undefined); } };
   S.dinner=async function(GM,q){ const G=GM.G, te=q&&q.te; if(!te) return false; const Lx=L(), who=te.who, kind=te.kind, R=S.rec(G,te.term);
     if(kind==='kexin') return S.kexinDinner(GM,te);
@@ -266,8 +270,11 @@ const TERMEND=(function(){
     const P=other?(Lx.PLACE[(INV2TE[te.place]||[])[0]]||{name:te.placeName||'',open:'（'+(te.placeName||'')+'。）'}):(Lx.PLACE[oldYt?'noodle':spec.place]||{}); if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:P.bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(P.bg):'dark',right:{charId:who,expression:'neutral'}});
     if(P.caption&&GM.caption) GM.caption('',P.caption,2400);   /* 沒有底圖的地方：深色底＋地點字幕（台南，AA_282 第 5 節第 6 點）*/
     if(!other&&spec.fare&&GM.money) GM.money(-spec.fare,'交通');   /* 外縣市的那一版：高鐵來回（沛珊台南 2700，hometown_lines.js 同一個數字）*/
-    const pool=((Lx.POOL[te.term]||{})[who]||[]).map(x=>resolve(x,G)).filter(x=>x!=null), me={name:G.name||'祐廷'}; let ri=0;
-    const talk=async n=>{ for(let i=0;i<Math.min(n,pool.length);i++){ await run(GM,who,[pool[i]]); if(i<Math.min(n,pool.length)-1){ await GM.say(me,Lx.REPLY[(ri++)%Lx.REPLY.length]); } } };
+    /* 鉤子等一下要說的那一句，話題池裡有一字不差的＝話題池那一則不說（TE-HOOK-REPEAT-1110，AA audit_1110 termend D6：「你要不要來探班？」連說兩次；七個鉤子這樣）*/
+    const hk=S.hookFor(G,te.term,who), hkSay=hk?S.flat(lines(hk.say,G),G):[];
+    const pool=((Lx.POOL[te.term]||{})[who]||[]).map(x=>resolve(x,G)).filter(x=>x!=null&&!(typeof x==='string'&&hkSay.includes(x))), me={name:G.name||'祐廷'}; let ri=0;
+    /* 話題池：她說一則、祐廷輪流回 REPLY（「嗯。」「真的假的。」「我也是。」）；那一則自己有選項（{say, opts}／{choice}）＝玩家選、不再自動回（DLG-FX-MECH-1110，AA_746 第 2 節第 4 點）*/
+    const talk=async n=>{ for(let i=0;i<Math.min(n,pool.length);i++){ const c0=S._chose; await run(GM,who,[pool[i]]); if(i<Math.min(n,pool.length)-1&&S._chose===c0){ await GM.say(me,Lx.REPLY[(ri++)%Lx.REPLY.length]); } } };
     if(kind==='fallback'){ await run(GM,who,spec.open); await talk(2); await S.hook(GM,te.term,who); await run(GM,who,spec.close); }
     else { await GM.say(null,P.open||'（'+(other?P.name:(spec.placeName||P.name||''))+'。）');
       if(kind==='gf'){ const tb=spec.tableByTerm&&spec.tableByTerm[te.term]; await run(GM,who,lines(tb!=null?tb:spec.table,G)); if(tb==null&&spec.tableFlag&&G.flags[spec.tableFlag]==null) G.flags[spec.tableFlag]=G.day; await talk(2); }   /* 飯桌一句每學期不一樣（AA_352）；沒寫的學期照 table。tableFlag：聽過 table 那一句（AA_524 Y1 語彤「我媽問你……」）*/
@@ -372,6 +379,7 @@ const TERMEND=(function(){
     if(a.vac){ if(typeof VAC==='undefined') return null; const [id,yk]=a.vac.split('@'), I=VAC.inst(id,yk); if(!I||VAC.enrolled(G,id,yk)||G.day>=I.from) return null; }
     if(a.flag&&G.flags&&G.flags[a.flag]!=null) return null;
     return H; };
+  S.flat=function(x,G){ x=resolve(x,G); if(x==null) return []; if(typeof x==='string') return [x]; if(Array.isArray(x)) return [].concat(...x.map(y=>S.flat(y,G))); if(typeof x==='object'&&typeof x.text==='string'&&(!x.who||x.who!=='narr')) return [x.text]; return []; };
   S.hook=async function(GM,term,who){ const G=GM.G, H=S.hookFor(G,term,who); if(!H) return null; const Lx=L(), R=S.rec(G,term);
     await run(GM,who,lines(H.say,G)); if(H.noOpt){ if(H.then) await run(GM,who,lines(H.then,G)); R.hook={who,ok:false,noOpt:true}; return false; }   /* noOpt：她照樣說，不給接的選項（AA_389 第 2 點：沒有下文的鉤子）*/
     const k=await GM.choose([{t:resolve(H.ok,G)},{t:Lx.HOOK_NO}]); R.hook={who,ok:k===0};
