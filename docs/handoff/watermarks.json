@@ -1074,10 +1074,10 @@
   },
   "CC": {
    "branch": "claude/cc-testing",
-   "sha": "060625f58db6e867dec6976c0b412d7deb67974f",
-   "at": "2026-11-09T21:20Z",
+   "sha": "31d4ce230ef359af1cbf669774091d1926d55d49",
+   "at": "2026-11-10T01:40Z",
    "by": "session_01DvRVNNnivf7da7qqWuGmw6",
-   "scanned": 51,
+   "scanned": 41,
    "evidence": "新職位 CC（D119／HV-22，使用者 2026-11-02 03:5x 對 BB）的基準：claude/cc-testing 從企劃線 claude/story-planning 734026659 開出，分岔點以前是 AA、BB 的 commit（由它們的水位線核對）；只核對 CC 自己的 commit（第一筆 336d26c35 值班登記）",
    "open": [],
    "history": [
@@ -1164,6 +1164,13 @@
      "at": "2026-11-08T20:52Z",
      "by": "session_01DvRVNNnivf7da7qqWuGmw6",
      "scanned": 368
+    },
+    {
+     "branch": "claude/cc-testing",
+     "sha": "060625f58db6e867dec6976c0b412d7deb67974f",
+     "at": "2026-11-09T21:20Z",
+     "by": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "scanned": 51
     }
    ]
   }
