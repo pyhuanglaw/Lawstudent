@@ -1,0 +1,23 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_yizhan_cups_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\YZCUP2_47\out
+CC X289 一盞杯子浮空：worktree ?；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀得到存檔 tests/fixtures/user_save_day47_1110.json
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day47_1110.json（原本 day 47 wz_mokuyobi @ 13.667），改成 2025-11-08（day 53）18.47 時、區域 wz_teahouse 出生點；條件事件關掉（只看擺設）
+  [  48.5s] 讀檔後：{"zone": "wz_teahouse", "x": -3, "z": 9, "y": -0.42, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開一盞", "stand": true, "fb": 0, "hour": 18.55}
+PASS 在 wz_teahouse、星期六  {"zone": "wz_teahouse", "x": -3, "z": 9, "y": -0.42, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開一盞", "stand": true, "fb": 0, "hour": 18.55}
+  [  48.5s] ① LAWWW2 JS：props 2 個、seatact 3 組、座位 0、坐著的 NPC 3
+  [  48.5s]   prop {"n": "desk:item_cup", "vis": true, "count": 1, "x": 0, "y": 0, "z": 0, "chain": "desk:item_cup<seatact:0<Group<Scene"}
+  [  48.5s]   prop {"n": "desk:item_phone_off", "vis": false, "count": 0, "x": 0, "y": 0, "z": 0, "chain": "desk:item_phone_off<seatact:0<Group<Scene"}
+  [  48.5s]   npc {"id": "", "pose": "read", "x": 3.05, "y": 0, "z": 3.35, "seat": [3.05, 3.35, "shop"]}
+  [  48.5s]   npc {"id": "", "pose": "sit", "x": -2.15, "y": 0, "z": -3.5, "seat": [-2.15, -3.5, "shop"]}
+  [  48.5s]   npc {"id": "", "pose": "sit", "x": -2.15, "y": 0, "z": -2.1, "seat": [-2.15, -2.1, "shop"]}
+  [  48.5s]   seatact {"act": "book", "set": null, "kind": null, "named": false, "x": 3.05, "z": 3.35, "lv": 0, "items": [], "pose": "read", "hold": "book", "task": null, "clip": null, "hide": null, "why": null}
+  [  48.5s]   seatact {"act": "rest", "set": "S_cup_phone", "kind": "wide", "named": false, "x": -2.15, "z": -3.5, "lv": 0, "items": ["item_cup", "item_phone_off"], "pose": "sit", "hold": null, "task": null, "clip": null, "hide": null, "why": null}
+  [  48.5s]   seatact {"act": "chat", "set": "S_cup", "kind": "wide", "named": false, "x": -2.15, "z": -2.1, "lv": 0, "items": ["item_cup"], "pose": "sit", "hold": null, "task": null, "clip": null, "hide": null, "why": null}
+  [  48.6s] ② instance 1 個，正下方 0.06 m 內沒有東西（浮空候選）0 個
+PASS （修好版）浮空候選 0 個  []
+PASS （修好版）有杯子在 (−2.15, 0.34, −2.41) 0.3 m 內、底下 0.06 m 內有桌面  [{"mesh": "desk:item_cup", "i": 0, "vis": true, "x": -2.32, "y": 0.34, "z": -2.54, "below": {"d": 0.02, "y": 0.34, "mesh": "yzn_post", "parent": "yizhan_interior"}, "float": false, "chain": "desk:item_cup<seatact:0<Group<Scene"}]
+  [  49.6s] 截圖 yz_top_all.png：{"from": [0.0, 16.28, 2.6099999999999985], "at": [0.0, 0, 2.5999999999999988], "up": [0, 0, -1], "hideRoof": 2.3}
+PASS 沒有 JS 例外  []
+ALL PASS
