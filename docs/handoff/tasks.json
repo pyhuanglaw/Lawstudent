@@ -52122,7 +52122,7 @@
    "id": "MOVIE-POSTERS-ALL-1110",
    "title": "所有電影海報（AA_730 片單每一段兩部）都放進遊戲；使用者：放完才發布最新版",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -52135,7 +52135,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【LAWWW 11-10 18:0x】企劃線上 BB 檢查通過的 40 張全部接進 assets/posters（MOVIES.POSTERS 40）；還缺 32 張：經濟系 m2409a～m2507b 12 張、m2711a／b、m2801a／b、m2809a／b、m2811a／b、m2901a（退件重生）、m2907a（退件重生）、m2911a／b、m3001a～m3007b。 ｜ 【LAWWW 11-10 17:5x】使用者：「等所有電影海報都放進去，才發佈最新版」→【下一版必須】（D146 releasegate 擋發布）。已有：大一 10 張（9581b9f1a）；BB 已交大二 10 張（MOVIE-POSTERS-Y2-1110）；經濟系 12 張已向使用者要（BB 第 120 組）；其餘 BB 分批（D97 新開頭）。每批到了 LAWWW 當天接、跑 movie_real_1110_unit；全部到齊、BB 判海報 PASS 才改已驗收。",
+   "next": "72／72 在開發分支；BB 排 CC 回歸全組＋72 張海報載入檢查，PASS 就改已驗收",
    "xai": {
     "spec": "AA_730 片單（48c0428ab）",
     "branch": "claude/story-planning",
