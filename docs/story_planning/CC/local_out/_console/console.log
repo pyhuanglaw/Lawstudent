@@ -421,3 +421,12 @@
 [17:16:54] ==== START X307_old  (probe @ e73888074c) ====
 [17:16:57] [res] cpu=4% mem=47% (14.4/31.4 GB) chrome_testing=9  START X307_old
 [17:17:29] [res] cpu=9% mem=48% (14.9/31.4 GB) chrome_testing=8  END X296_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8110d8273..c0221d673  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:17:35] ==== END   X296_old  exit=0  193s   ====
+[17:17:38] memory 45% before starting X257_old (2 running)
+[17:17:38] ==== START X257_old  (probe @ fca5f80a386dd529fcd40a749b809ec30c5bb3eb) ====
+[17:17:41] [res] cpu=8% mem=45% (14.4/31.4 GB) chrome_testing=8  START X257_old
+[17:18:05] 正在跑：X307_new（已跑 1 分／上限 40 分）、X307_old（已跑 1 分／上限 40 分）、X257_old（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:18:55] [res] cpu=12% mem=49% (15.4/31.4 GB) chrome_testing=8  END X257_old
