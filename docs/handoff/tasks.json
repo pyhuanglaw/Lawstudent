@@ -50618,7 +50618,7 @@
    "id": "SIS-STATIONERY-1110",
    "title": "學姊喜歡文具：山嵐書店文具區＋劇情；玩家先買文具、特殊日子送學姊",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -50630,7 +50630,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:36 LAWWW2-B 交班】文具區 WIP（分區＋原創分類牌＋「文具選物」木牌），還沒交件。 ｜ 【11-10 00:5x LAWWW-B】併進 GIFT-HOLIDAY-1110（使用者 X277：各店都有東西買、節日生日送禮）；學姊文具是其中一店一人。 ｜ 【11-10 00:5x LAWWW-B】使用者 X276（人物設定「學姊很喜歡文具」使用者定）。現況：山嵐有「文具」互動點（AA_613 旁白），學姊 2/3 計畫本在公館文具店（sis_grad3d 2-7）。分工：AA 寫文具品項（名稱、價錢、一句說明）、學姊收到的反應（依關係階段）、哪些特殊日子能送（生日等）、文具區的劇情（例：在文具區遇到學姊）；LAWWW2 看山嵐文具區夠不夠（貨架、品項擺設）；LAWWW 接買文具（山嵐文具互動點→選單、扣錢、放進背包）、特殊日子送（和送飲料同一套流程）；BB 測。",
+   "next": "【LAWWW 11-10 08:4x】LAWWW2 24dc0d99b shanlan.glb v2 文具區接進開發分支；shanlan、shanlan_act、xs_lm、lm_instancing ALL PASS；CC 拍、BB 判｜【11-10 01:36 LAWWW2-B 交班】文具區 WIP（分區＋原創分類牌＋「文具選物」木牌），還沒交件。 ｜ 【11-10 00:5x LAWWW-B】併進 GIFT-HOLIDAY-1110（使用者 X277：各店都有東西買、節日生日送禮）；學姊文具是其中一店一人。 ｜ 【11-10 00:5x LAWWW-B】使用者 X276（人物設定「學姊很喜歡文具」使用者定）。現況：山嵐有「文具」互動點（AA_613 旁白），學姊 2/3 計畫本在公館文具店（sis_grad3d 2-7）。分工：AA 寫文具品項（名稱、價錢、一句說明）、學姊收到的反應（依關係階段）、哪些特殊日子能送（生日等）、文具區的劇情（例：在文具區遇到學姊）；LAWWW2 看山嵐文具區夠不夠（貨架、品項擺設）；LAWWW 接買文具（山嵐文具互動點→選單、扣錢、放進背包）、特殊日子送（和送飲料同一套流程）；BB 測。",
    "xai": {
     "spec": "使用者 11-10 00:5x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -50640,7 +50640,7 @@
     "owner": "LAWWW"
    },
    "evidence": "tests/v0_e08_unit.js 4h",
-   "sha": null,
+   "sha": "24dc0d99b",
    "test": null
   },
   {
@@ -50792,7 +50792,7 @@
    "id": "CAMPUS-FLOOR-STRIP-1110",
    "title": "校園步道中間一條條凸起的長條（使用者截圖）",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -50804,24 +50804,24 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:36 LAWWW2-B 交班】原因：curb() 碰到路口不斷開，7 段約 56 m 路緣橫在別條步道上。補丁＋測試在 claude/funny-albattani-iawshm 49f2fe924 docs/art-rebuild/second_ai/wip/campus_curb_gap_1110/（a883f36de 測試 FAILED 2 → 加補丁 ALL PASS；回歸 38 支；apply --check 對 a883f36de OK）。下一班 LAWWW：核 sha、套、跑測試、整合；CC 用使用者存檔拍、BB 判。 ｜ 【11-10 02:0x LAWWW-B】使用者 X283。截圖 docs/handoff/user_shots/1110_campus_floor_strip.webp、存檔 tests/fixtures/user_save_day51b_1110.json（校園 (29.88,−54.4) 18:29，騎腳踏車）。LAWWW2 查是哪個網格（路緣、地磚接縫、重疊面），修完 Node 測試＋BB 截圖。",
+   "next": "【LAWWW 11-10 08:4x】BB_255 PASS→已驗收；下一版發布｜【11-10 01:36 LAWWW2-B 交班】原因：curb() 碰到路口不斷開，7 段約 56 m 路緣橫在別條步道上。補丁＋測試在 claude/funny-albattani-iawshm 49f2fe924 docs/art-rebuild/second_ai/wip/campus_curb_gap_1110/（a883f36de 測試 FAILED 2 → 加補丁 ALL PASS；回歸 38 支；apply --check 對 a883f36de OK）。下一班 LAWWW：核 sha、套、跑測試、整合；CC 用使用者存檔拍、BB 判。 ｜ 【11-10 02:0x LAWWW-B】使用者 X283。截圖 docs/handoff/user_shots/1110_campus_floor_strip.webp、存檔 tests/fixtures/user_save_day51b_1110.json（校園 (29.88,−54.4) 18:29，騎腳踏車）。LAWWW2 查是哪個網格（路緣、地磚接縫、重疊面），修完 Node 測試＋BB 截圖。",
    "xai": {
     "spec": "使用者 11-10 02:0x 對 LAWWW-B",
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "那一帶步道沒有突兀的長條；BB 截圖判",
     "receiver": "LAWWW（整合）→ BB（測）",
-    "ack": "SENT",
+    "ack": "ACTIONED",
     "owner": "LAWWW2"
    },
-   "evidence": "tests/v0_e08_unit.js 4h",
-   "sha": null,
+   "evidence": "BB_255 PASS（BB 11-10 08:45；CC PC 截圖改前改後）；開發分支 dcc9276f8；Node 新測試改前 FAIL→ALL PASS",
+   "sha": "dcc9276f8",
    "test": null
   },
   {
    "id": "AVENUE-FAR-SIGNS-1110",
    "title": "椰影大道遠景（校門外）都是補習班招牌",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -50833,17 +50833,17 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:36 LAWWW2-B 交班】只查到來源：gg_textures.py 的 BILLBOARDS；還沒改，下一班 LAWWW2 接。 ｜ 【11-10 02:0x LAWWW-B】使用者 X285。截圖 docs/handoff/user_shots/1110_avenue_far_cram.webp：大道盡頭校門外的遠景大樓一排粉紅直式「○○文理補習班」招牌。LAWWW2 查 campusBackdrop／TK.bgCity 的招牌：照公館實際（各種店家、銀行、餐廳），不要全是補習班，店名照 D77 原創。",
+   "next": "【LAWWW 11-10 08:4x】BB_255 PASS→已驗收；下一版發布｜【11-10 01:36 LAWWW2-B 交班】只查到來源：gg_textures.py 的 BILLBOARDS；還沒改，下一班 LAWWW2 接。 ｜ 【11-10 02:0x LAWWW-B】使用者 X285。截圖 docs/handoff/user_shots/1110_avenue_far_cram.webp：大道盡頭校門外的遠景大樓一排粉紅直式「○○文理補習班」招牌。LAWWW2 查 campusBackdrop／TK.bgCity 的招牌：照公館實際（各種店家、銀行、餐廳），不要全是補習班，店名照 D77 原創。",
    "xai": {
     "spec": "使用者 11-10 02:0x 對 LAWWW-B",
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "遠景招牌多樣、不像全是補習班；BB 截圖判",
     "receiver": "LAWWW（整合）→ BB（測）",
-    "ack": "SENT",
+    "ack": "ACTIONED",
     "owner": "LAWWW2"
    },
-   "evidence": "tests/v0_e08_unit.js 4h",
-   "sha": null,
+   "evidence": "BB_255 PASS（BB 11-10 08:45；CC PC 截圖改前改後）；開發分支 dcc9276f8；Node 新測試改前 FAIL→ALL PASS",
+   "sha": "dcc9276f8",
    "test": null
   },
   {
@@ -51053,7 +51053,7 @@
    "id": "LAWCLUB-BOOTH-MOVE-1110",
    "title": "法服招生攤位搬到法學院前（原本晨思鐘廣場東側）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -51065,17 +51065,17 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 01:36 LAWWW2-B】交班後才讀到，0 進度（順序同上）。 ｜ 【11-10 01:5x LAWWW-B】使用者 X294。zones3d.js 社團招生攤位（SX=-18,SZ=14.5，面向椰影大道）搬到法學院廣場（兩館前面），互動點跟著搬；博覽會那兩天照舊收起來。",
+   "next": "【LAWWW 11-10 08:4x】BB_255 PASS→已驗收；下一版發布｜【11-10 01:36 LAWWW2-B】交班後才讀到，0 進度（順序同上）。 ｜ 【11-10 01:5x LAWWW-B】使用者 X294。zones3d.js 社團招生攤位（SX=-18,SZ=14.5，面向椰影大道）搬到法學院廣場（兩館前面），互動點跟著搬；博覽會那兩天照舊收起來。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "按前往：時間到約好的時候、人在那裡；不再顯示還沒開",
     "receiver": "BB（測）",
-    "ack": "SENT",
+    "ack": "ACTIONED",
     "owner": "LAWWW2"
    },
-   "evidence": "tests/v0_e08_unit.js 4h",
-   "sha": null,
+   "evidence": "BB_255 PASS（BB 11-10 08:45；CC PC 截圖改前改後）；開發分支 9202e2fab；Node 新測試改前 FAIL→ALL PASS",
+   "sha": "9202e2fab",
    "test": null
   },
   {
@@ -51208,7 +51208,7 @@
   {
    "id": "LIB-BOARD-FLOAT-1110",
    "title": "總圖大廳「樓層簡介」看板兩個、一個浮在半空（使用者 11-10 X296）",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "進行中",
    "priority": "P1",
    "first": {
@@ -51221,9 +51221,16 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-10 02:4x LAWWW-B】library_hall_v2.js 的樓層簡介：字（canvas 平面）加在 lv0 一直顯示、架子在 fb0（備用模型），正式 GLB 載入後換成 GLB 的架子——查 GLB 架子位置和 L.directory 是不是一樣、是不是有兩份；場景本來是 LAWWW2（D108），LAWWW2 不在由 LAWWW 修（SOLO-LAWWW-B-1110）。",
+   "next": "【LAWWW 11-10 08:4x】LAWWW2 回來了，場景歸 LAWWW2（D108），轉給 LAWWW2｜【11-10 02:4x LAWWW-B】library_hall_v2.js 的樓層簡介：字（canvas 平面）加在 lv0 一直顯示、架子在 fb0（備用模型），正式 GLB 載入後換成 GLB 的架子——查 GLB 架子位置和 L.directory 是不是一樣、是不是有兩份；場景本來是 LAWWW2（D108），LAWWW2 不在由 LAWWW 修（SOLO-LAWWW-B-1110）。",
    "evidence": "docs/handoff/user_shots/1110_library_board_float.webp",
-   "sha": null
+   "sha": null,
+   "xai": {
+    "spec": "USER_WANTS X296；next 欄 LAWWW-B 02:4x 的查法",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "patch＋測試；樓層簡介看板不浮空",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   },
   {
    "id": "LIB-ARCADE-FLICKER-1110",

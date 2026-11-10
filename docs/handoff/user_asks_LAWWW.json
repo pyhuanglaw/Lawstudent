@@ -3127,7 +3127,7 @@
    "at": "2026-11-05T07:0xZ",
    "quote": "路人裙子卡進椅子（體育館一樓長椅截圖）",
    "kind": "原話",
-   "status": "還沒做",
+   "status": "在開發分支",
    "wants": "X239",
    "task": "SKIRT-BENCH-CLIP-1105",
    "note": "交 LAWWW2（人物模型小穿模，D100a）"
@@ -3212,7 +3212,7 @@
    "at": "2026-11-05T08:1xZ",
    "quote": "新生南路側門 遠景太假 店面門口是直接抄2d圖嗎?有點假（新生南路兩張截圖）",
    "kind": "原話",
-   "status": "還沒做",
+   "status": "在開發分支",
    "wants": "X247",
    "task": "XS-FARVIEW-1105"
   },
@@ -3778,7 +3778,7 @@
    "at": "2026-11-10T02:0xZ",
    "quote": "路上有奇怪的地磚?畫面中間 人物左前方（附截圖兩張、存檔 fatiao3d_save_day51_2.json）",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X283",
    "task": "CAMPUS-FLOOR-STRIP-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
@@ -3798,7 +3798,7 @@
    "at": "2026-11-10T02:0xZ",
    "quote": "椰林大道遠景怎麼都是文理補習班（附截圖）",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X285",
    "task": "AVENUE-FAR-SIGNS-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
@@ -3888,7 +3888,7 @@
    "at": "2026-11-10T01:5xZ",
    "quote": "法服徵人 到底為何不在法律系館前? 為什麼在校園中間（附截圖）",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X294",
    "task": "LAWCLUB-BOOTH-MOVE-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
