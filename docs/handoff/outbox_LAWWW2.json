@@ -7003,15 +7003,15 @@
    "branch": "claude/second-ai-env-art",
    "sha": "7bb4bf34f",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "WZ-SEAT-CAMS-1104（溫州街 SUNNY SIDE、小路坐下後鏡頭被擋）",
    "files": [
     "docs/art-rebuild/second_ai/wip/wz_seat_cams_1110/（README、wz_seat_cams_fe4d893ac.patch、wz_seat_cams_1104_unit.js、regression_fe4d893ac.txt）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "noDirectIntegrate": false,
-   "note": "AA 12ae10d3e 的透空與鏡頭牆被 SUNNY v1e／小路 v4 配置蓋掉了；照現在 GLB 材質名重加 seeThru＋camWalls（SUNNY 左、後牆；小路右、後、左牆），sync 到 wz_shops_layout。新測試：開發 SUNNY 擋 37／224、小路 126／288 → 0。相關 30 支：29 PASS，aa655_wz_rename FAILED 1 開發原樣也一樣（story3d.js GIFTH 對照表的「兩點半 Café」）。",
-   "next": "LAWWW 套 patch；CC 拍吧台、卡座坐下轉一圈；BB 判；AA 改配置時保留 seeThru、camWalls"
+   "note": "AA 12ae10d3e 的透空與鏡頭牆被 SUNNY v1e／小路 v4 配置蓋掉了；照現在 GLB 材質名重加 seeThru＋camWalls（SUNNY 左、後牆；小路右、後、左牆），sync 到 wz_shops_layout。新測試：開發 SUNNY 擋 37／224、小路 126／288 → 0。相關 30 支：29 PASS，aa655_wz_rename FAILED 1 開發原樣也一樣（story3d.js GIFTH 對照表的「兩點半 Café」）。 ｜ LAWWW 11-10 10:30 接進開發分支 9d4c54c16（wz_seat_cams、sync --check OK）；aa655 的舊店名 LAWWW 已修 78762a2b1。",
+   "next": "CC 拍吧台、卡座坐下轉一圈；BB 判"
   }
  ]
 }
