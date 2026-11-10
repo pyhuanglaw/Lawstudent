@@ -1,0 +1,57 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_te_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TE_N01\out
+CC TE（TERMEND-OPTS-1110 期末飯桌選項）：TAG new；SHA 201803df0a593a75e084f5a11718cedb3c512bd3；CASES gf_an_Y1S2；PICK max；Playwright ≠ iPhone
+  [   0.7s] 稿：{"gf": "DRAFT_DIR C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\test_tools\\cc\\fixtures/te_drafts\\AA_749_termend_gf_v2.json", "kx": "DRAFT_DIR C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\test_tools\\cc\\fixtures/te_drafts\\AA_749_termend_kx_v2.json", "heart": "DRAFT_DIR C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\test_tools\\cc\\fixtures/te_drafts\\AA_748_termend_heart_v2.json", "friend": "DRAFT_DIR C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\test_tools\\cc\\fixtures/te_drafts：AA_749_termend_friend_v2_Y1S1.json、AA_749_termend_friend_v2_Y1S2.json、AA_749_termend_friend_v2_Y2S1.json、AA_749_termend_friend_v2_Y2S2.json、AA_749_termend_friend_v2_Y3S1.json、AA_749_termend_friend_v2_Y3S2_Y4S1.json", "SOURCE_SHA.txt": "3259b5f786293dbdf09fdcb3a39d761342e85545", "SOURCE_FRIEND.txt": "朋友版期末飯稿（AA_749_termend_friend_v2_*.json 六個檔）：gh api repos/pyhuanglaw/Lawstudent/contents/docs/story_planning/<檔>?ref=claude/story-planning，抓的時候 claude/story-planning＝359fce93efd8ad25a5295a6f305578d154e6e439（2026-11-10 23:3x UTC）。\n遊戲 039184ab5 匯入的是 5ffd725b8：Y1S1、Y1S2、Y2S1、Y2S2、Y3S2_Y4S1 和匯入的一樣；Y3S1 之後又改過（adc3a82f41 23:26「可昕各選項的 set、學姊大三上補『收到信那天』」），比對以這裡的檔為準。\nY1S1 20145308ea 2026-11-10 22:36:42 +0000\nY1S2 1c9d38a06e 2026-11-10 23:03:13 +0000\nY2S1 6440410550 2026-11-10 22:36:32 +0000\nY2S2 1bd257e219 2026-11-10 22:44:14 +0000\nY3S1 adc3a82f41 2026-11-10 23:26:05 +0000\nY3S2_Y4S1 1c9d38a06e 2026-11-"}；換名：C:\Users\USER\Documents\wt_cc_TE_N01\tools\story\import_guard.py
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  25.1s] 畫面上的版本：版本 v9.10.24
+  [  25.2s] 遊戲的 TERMEND_OPTS：{"src": {"gf": "docs/story_planning/AA_749_termend_gf_v2.json@da2f67faa", "heart": "docs/story_planning/AA_748_termend_heart_v2.json@da2f67faa", "kx": "docs/story_planning/AA_749_termend_kx_v2.json@898820f8b"}, "people": {"gf": ["heroine_01", "heroine_03", "heroine_05", "heroine_02", "heroine_04"], "table": ["heroine_01", "heroine_03", "heroine_05", "heroine_04"], "confess": ["heroine_01", "heroine_03", "heroine_05", "heroine_04"], "kx": true}}
+  [  25.2s] [gf_an_Y1S2] 以安 女朋友版 通用（大一下，稿 table）
+PASS [gf_an_Y1S2] 前置：有 Y1S2 的期末時段（TERMEND.windowOf）  {"id": "Y1S2", "from": 268, "to": 278, "fromKey": "2026-06-11", "toKey": "2026-06-21"}
+  [前置／捷徑] 【捷徑】[gf_an_Y1S2] 讀 day46 存檔、日期改到 2026-06-11（第 268 天）12.00 點、清邀約；旗標 {}、拿掉 []
+  [  35.8s] [gf_an_Y1S2] 存檔同時和可昕交往（dating_kexin；存檔不動）
+  [前置／捷徑] [gf_an_Y1S2]【捷徑】交往中（ROM.start：True）；關係至少 {"npcRom": 60, "fam": 65, "trust": 50, "comf": 45}；事件做過 []、拿掉 []；這學期的邀約重算（刪 plan、picked）→ {"gf": ["heroine_01"], "heart": [], "friend": [], "kx": true, "back": 268, "exempt": [], "nope": {}} → F.TE_GF＋TERMEND.pickCheck（＝手機回「好。」）
+PASS [gf_an_Y1S2] 排好了這一頓（OUT 有一筆 planned）  {"kexinDating": true, "cleaned": [], "relBefore": {"fam": 100, "trust": 45, "comf": 49, "npcRom": 9}, "romStart": true, "w": {"id": "Y1S2", "from": 268, "to": 278, "termTo": 271}, "plan": {"gf": ["heroine_01"], "heart": [], "friend": [], "kx": true, "back": 268, "exempt": [], "nope": {}}, "q": {"id": "te_gf_Y1S2_heroine_01", "day": 270, "h": 19, "travelH": 0.25, "title": "學期末的飯：沈以安（公館那家小店）", "place": "公館那家小店", "te": {"term": "Y1S2", "who": "heroine_01", "kind": "gf"}, "dayKey": "2026-06-13"}, "picked": null, "heartPick": null}
+  [  35.8s] [gf_an_Y1S2] 排好：{"id": "te_gf_Y1S2_heroine_01", "day": 270, "h": 19, "travelH": 0.25, "title": "學期末的飯：沈以安（公館那家小店）", "place": "公館那家小店", "te": {"term": "Y1S2", "who": "heroine_01", "kind": "gf"}, "dayKey": "2026-06-13"}
+  [前置／捷徑] [gf_an_Y1S2]【捷徑】日期時間改到這一頓（2026-06-13 19.00）前 0.4 小時（G 其他欄位不動），先讀條件
+  [  40.3s] [gf_an_Y1S2] 飯前：條件 {"Q6": false, "noQ6": true, "summer": true, "SNOWQ": false, "YOUPAY": false, "noYOUPAY": true, "C10": false, "US": false, "noUS": true, "sisGrad": false, "sisPreGrad": true, "YT_MET_JOB": true, "ZR_LAST": false, "noZR_LAST": false, "noJP": false, "US4P": false, "term:Y1S2": true}；交往 True；路線 None；她的關係 {"fam": 100, "trust": 50, "comf": 49, "npcRom": 60}；上限 2；有 TERMEND_OPTS True、朋友版 False（她有朋友版稿 False）；鉤子 ["暑假我要上日語課。"]／「我也想報。」
+PASS [gf_an_Y1S2] 新版有 TERMEND_OPTS、TERMEND.optIf  [true, false]
+  [  40.3s] [gf_an_Y1S2] 期望（稿）：[{"id": "gf.table", "why": "say", "say": ["（她把手機螢幕朝下蓋在桌上。）", "這學期我手機裡的照片，一半都是你。"], "menu": null, "opts": ["「我要看。」", "「另一半是什麼？」", "（把自己的手機遞過去。）「我的也是。」"]}]
+  [前置／捷徑] [gf_an_Y1S2] 同一份存檔，出發
+PASS [gf_an_Y1S2] 沒有 undefined／[object／NaN（say、字幕、選項）  []
+PASS [gf_an_Y1S2] 流程走完（沒有 60 秒沒進展、沒有逾時）、最後沒有對話框或選單開著  {"stuck": false, "done": true, "secs": 25.0} {"zone": "dorm", "dlg": false, "choices": 0, "busy": false, "hour": 22.68, "dtext": "這次我請。"}
+PASS [gf_an_Y1S2] 出遊結束（OUT 不是 planned）  {"state": "done", "day": 270, "h": 19}
+PASS [gf_an_Y1S2] 沒有 JS 例外  []
+PASS [gf_an_Y1S2] walkFallbacks 沒有增加  [0, 0]
+PASS [gf_an_Y1S2] 沒有同一句連續兩次  []
+PASS [gf_an_Y1S2] 一頓她的戀愛（applyFx 實際加的）合計 ≤ +2  合計 2；applyFx [[{"love": 2}, {"npcRom": 2}, "termend:270", 2]]；adjust 合計 2
+FAIL [gf_an_Y1S2] 祐廷沒有自動回 REPLY（「嗯。」「真的假的。」「我也是。」）  ["嗯。"]
+PASS [gf_an_Y1S2] 不接話題池（POOL.Y1S2.heroine_01 沒有一句出現）  []
+PASS [gf_an_Y1S2] [gf.table] 3 個選項的字照稿（開頭用 say）  期望 ["「另一半是什麼？」", "「我要看。」", "（把自己的手機遞過去。）「我的也是。」"]；實際選單 [["「另一半是什麼？」", "「我要看。」", "（把自己的手機遞過去。）「我的也是。」"], ["「我也想報。」", "（笑了一下，沒有接話。）"], ["「好。」", "「那天有約了。」"], ["「我也想去。」", "（笑了一下，沒有接話。）"]]
+PASS [gf_an_Y1S2] [gf.table] 她說的（選項前）照稿  期望 ["（她把手機螢幕朝下蓋在桌上。）", "這學期我手機裡的照片，一半都是你。"]；實際 ["（簡餐店的電視在播新聞。靠窗的兩人座。）", "（她把手機螢幕朝下蓋在桌上。）", "這學期我手機裡的照片，一半都是你。"]
+PASS [gf_an_Y1S2] [gf.table] 選「（把自己的手機遞過去。）「我的也是。」」以後的回話照稿  期望 ["（她一張一張滑，滑了很久。）", "這張傳給我。"]；實際 ["（她一張一張滑，滑了很久。）", "這張傳給我。", "暑假我要上日語課。"]
+PASS [gf_an_Y1S2] [gf.table] 效果＝稿 fx {"love": 2}（SOCIAL.applyFx 收到的）  [[{"love": 2}, {"npcRom": 2}]]
+  [  68.9s] [gf_an_Y1S2](main) 選單順序 [["「另一半是什麼？」", "「我要看。」", "（把自己的手機遞過去。）「我的也是。」"]]；選的 ["出發：學期末的飯：沈以安（公館那家小店）19:00　走過去約 15 分鐘", "（把自己的手機遞過去。）「我的也是。」", "「我也想報。」", "「好。」", "「我也想去。」"]；她的戀愛 applyFx 2、adjust 2；結果 {"result": null, "hook": {"who": "kai", "ok": true}, "done": {"who": "kai", "kind": "fallback", "day": 270}, "heartDone": null, "kx": null, "ytDinnerYes": null, "dating": true, "confessed": null, "think": null, "rel": {"fam": 100, "trust": 50, "comf": 49, "npcRom": 62}, "fxCap": {"termend:270": {"d": 270, "n": 2}}, "khh": null}
+  [前置／捷徑] [gf_an_Y1S2] 【捷徑】同一份存檔重讀一次（同一天：順序要一樣）
+  [  97.3s] [gf_an_Y1S2](same) 選單順序 [["「另一半是什麼？」", "「我要看。」", "（把自己的手機遞過去。）「我的也是。」"]]；選的 ["出發：學期末的飯：沈以安（公館那家小店）19:00　走過去約 15 分鐘", "（把自己的手機遞過去。）「我的也是。」", "「我也想報。」", "「好。」", "「我也想去。」"]；她的戀愛 applyFx 2、adjust 2；結果 {"result": null, "hook": {"who": "kai", "ok": true}, "done": {"who": "kai", "kind": "fallback", "day": 270}, "heartDone": null, "kx": null, "ytDinnerYes": null, "dating": true, "confessed": null, "think": null, "rel": {"fam": 100, "trust": 50, "comf": 49, "npcRom": 62}, "fxCap": {"termend:270": {"d": 270, "n": 2}}, "khh": null}
+PASS [gf_an_Y1S2] 同一天讀檔重來（1 次）：選單順序和第一次一樣  [[["「另一半是什麼？」", "「我要看。」", "（把自己的手機遞過去。）「我的也是。」"]], [["「另一半是什麼？」", "「我要看。」", "（把自己的手機遞過去。）「我的也是。」"]]]
+  [前置／捷徑] [gf_an_Y1S2]【捷徑】同一頓改到 1 天後（出遊、gfDay 一起改；換一天進去：順序要變）
+  [ 125.5s] [gf_an_Y1S2](day+1) 選單順序 [["「我要看。」", "「另一半是什麼？」", "（把自己的手機遞過去。）「我的也是。」"]]（同一組選項 True）
+PASS [gf_an_Y1S2] 換一天進去：第一組選項的順序變了（試到 1 天後）  {"main": ["「另一半是什麼？」", "「我要看。」", "（把自己的手機遞過去。）「我的也是。」"], "same": ["「另一半是什麼？」", "「我要看。」", "（把自己的手機遞過去。）「我的也是。」"], "day+1": ["「我要看。」", "「另一半是什麼？」", "（把自己的手機遞過去。）「我的也是。」"]}
+PASS 畫面上的字沒有舊字串「漢堡店開到十二點」（96 句搜過）  []
+PASS 畫面上的字沒有舊字串「當事人每天打來」（96 句搜過）  []
+PASS 畫面上的字沒有舊字串「這句不要跟別的人說」（96 句搜過）  []
+PASS 畫面上的字沒有舊字串「下學期去國小實習」（96 句搜過）  []
+PASS 畫面上的字沒有舊字串「考到八月四號」（96 句搜過）  []
+PASS 畫面上的字沒有舊字串「她問男的女的」（96 句搜過）  []
+PASS 畫面上的字沒有舊字串「不准關靜音」（96 句搜過）  []
+PASS 畫面上的字沒有舊字串「早半年而已」（96 句搜過）  []
+PASS 畫面上 柏翰 沒有說舊字串「二樓靠窗」（96 句搜過）  []
+PASS 畫面上 柏翰 沒有說舊字串「總圖二樓」（96 句搜過）  []
+PASS 畫面上 Alison 沒有說舊字串「不還」（96 句搜過）  []
+PASS 畫面上 阿凱 沒有說舊字串「幫學姊做的那種」（96 句搜過）  []
+PASS 畫面上 學姊 沒有說舊字串「宿舍門邊」（96 句搜過）  []
+  [ 125.5s] （BB 23:27，記下即可）柏翰 的「三樓靠窗」：這次沒有出現
+  [ 125.5s] （BB 23:27，記下即可）Alison 的「會還。」：這次沒有出現
+  [ 125.6s] （參考，不判定）資料檔裡還有的舊字串：{"src/data/termend_lines.js": ["下學期去國小實習"], "src/data/termend_opts.js": []}
+PASS 全程沒有 JS 例外  []
+FAILED 1: [gf_an_Y1S2] 祐廷沒有自動回 REPLY（「嗯。」「真的假的。」「我也是。」）
