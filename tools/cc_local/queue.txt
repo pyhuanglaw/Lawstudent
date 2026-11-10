@@ -325,8 +325,11 @@ GGLANE_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_plann
 WILLOW_new | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=willow_new;VIEWS=lake_north:-35:1.7:-127:-35:2.5:-108+lake_south:-35:1.7:-95:-35:2.5:-115+lake_bird:-35:45:-99:-35:0:-111
 WILLOW_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=willow_old;VIEWS=lake_north:-35:1.7:-127:-35:2.5:-108+lake_south:-35:1.7:-95:-35:2.5:-115+lake_bird:-35:45:-99:-35:0:-111
 # BB 15:02 SHIFT-TREAT（X302）：語彤在一盞 A 陌生人／B 朋友 T3（第一樣免費、第二樣扣）／C 同一天再進／D 玩家自己上班／E 點頭之交；新 063cf14ab、舊 8b31bbaa0（合併 bbb0db1e0 之前；aec7f851c^ 已含功能）
-#HOLD SHIFT_new | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 45 | TAG=new
-#HOLD SHIFT_old | 8b31bbaa0b8a651aeb6c3653bec468f6cbfdebed | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 45 | TAG=old
+SHIFT_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 45 | TAG=new
+SHIFT_old | 8b31bbaa0b8a651aeb6c3653bec468f6cbfdebed | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 45 | TAG=old
+# BB 15:52 SHIFT-TREAT 新修（01bab1823）D34 對照：進店「馬上」點單／坐下要先演、不扣錢；出口不演。舊 8a98ff1e0（要扣錢＝FAIL）
+SHIFT_IMM_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 40 | TAG=imm_new;IMM=1;CASES=B,F,X
+SHIFT_IMM_old | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 40 | TAG=imm_old;IMM=1;CASES=B,F,X
 # BB 14:39 美國篇 ART 巡拍（排在橘貓後面；第一批公寓＋社區＋校園，第二批法圖＋超市＋超市街＋季節）
 US_ART_1 | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_outside,us_apartment,us_campus
 US_ART_2 | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_lawlib,us_market,us_market_street;SEASON=1
