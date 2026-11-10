@@ -1,6 +1,6 @@
 // 手機「今天約好的」：約的地方還沒開門＝不給「前往」，寫幾點開門；開門那一刻起才有按鈕（UX-QUICKGO-BEFORE-OPEN-1107；BB-B 11-07 AA_722 小路 18:00）——不需要瀏覽器（D131）。
 // 起因：17:40 按「前往」只出「還沒開」，開門以後要再按一次。LAWWW-B 定 BB 的選項 2（不加「先走到門口等」）。
-// 檢查：1 小路 18:00 的約，17:40 看手機＝「18:00 開門」、沒有「前往」；2 18:00 整＝「前往」；3 一直開著的地方（2:30 AM 15:00）照舊「前往」；
+// 檢查：1 小路 18:00 的約，17:40 看手機＝「18:00 開門」（2026-11-10 起也有「前往」：INV-GO-JUMP-1110，按了先跳到出發時間）；2 18:00 整＝「前往」；3 一直開著的地方（2:30 AM 15:00）照舊「前往」；
 //       4 公休日（週二）約在小路＝「現在沒有開」、沒有「前往」；5 game3d.js 的 placeState 和 openAt 同一個判斷（zoneShut 照舊，沒給時間＝現在）。
 // 修改前 1、4、5 FAIL。用法：node tests/inv_go_opens_unit.js
 const H=require('./pg_harness.js');
@@ -15,7 +15,7 @@ const iv=(G,place,h)=>{ G.invites=[{id:7,who:'heroine_01',place,day:G.day,h,stat
 const rowOf=s=>{ const m=s.match(/<div class="phrow">[\s\S]*?<\/div><(button|span)[^>]*>([^<]*)<\/(button|span)>/); return m?m[2]:(s.match(/今天約好的/)?'(沒有按鈕列)':''); };
 (async()=>{
   { const G=H.fresh('2025-10-23',17+40/60,'campus'); H.FRIEND('heroine_01'); iv(G,'wz_teishoku',18); const a=html(); G.hour=18; const b=html();
-    check('1. 小路 18:00 的約，17:40 看手機：「18:00 開門」、沒有「前往」',/18:00 開門/.test(a)&&!/data-invgo/.test(a),rowOf(a));
+    check('1. 小路 18:00 的約，17:40 看手機：寫「18:00 開門」，而且有「前往」（2026-11-10 INV-GO-JUMP-1110 改：使用者 X290「一鍵前往就是要跳到那個時間 那個地點」——按了先跳到出發時間；見 tests/inv_go_jump_unit.js）',/18:00 開門/.test(a)&&/data-invgo="7"/.test(a),rowOf(a));
     check('2. 18:00 整：「前往」',/data-invgo="7"/.test(b)&&!/開門/.test(b),rowOf(b)); }
   { const G=H.fresh('2025-10-23',15,'campus'); H.FRIEND('heroine_01'); iv(G,'cafe',15.5); const a=html();
     check('3. 一直開著的地方（2:30 AM 15:00）照舊「前往」',/data-invgo="7"/.test(a),rowOf(a)); }
