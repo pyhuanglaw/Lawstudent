@@ -1,5 +1,5 @@
 """CC（帳號 A）11-10：TERMEND-OPTS-1110 期末飯桌選項瀏覽器探針（BB 22:37、23:07、23:27）。判定歸 BB；Playwright（PC GPU）≠ iPhone。
-受測：開發分支 039184ab5（朋友版 72 頓＋女朋友版、心意、可昕）；舊版對照 201803df0（有女朋友版、心意、可昕的選項，還沒有朋友版選項）、779ddd650（全部都沒有）。
+受測：開發分支 57181feb2（18e9d1ecb 以後：朋友版 72 頓＋可昕選項的 set、學姊大三上 thenIf、兩處鉤子不念；女朋友版、心意、可昕）；舊版對照 201803df0（有女朋友版、心意、可昕的選項，還沒有朋友版選項）、779ddd650（全部都沒有）。
 
 稿（企劃線 claude/story-planning）：DRAFT_DIR＝放稿的資料夾（相對路徑從探針所在資料夾算；PC 佇列用 fixtures/te_drafts，來源寫在 SOURCE_SHA.txt、SOURCE_FRIEND.txt）；
   沒有 DRAFT_DIR＝git show DRAFT_REF（預設 origin/claude/story-planning）。
@@ -8,7 +8,7 @@
   比對前照匯入工具 tools/story/import_termend_opts.py 一樣先過 import_guard.read_fix（換名）；稿上用文字或 note 寫的條件照匯入工具換：
   語彤告白 YT_MET_JOB、學姊「論文」那一格、學姊大二上 noYOUPAY、snow（SNOWQ）；朋友版 ZR_LAST／noZR_LAST、noUS、Alison 大三上 noJP、學姊大四上 sayUS（US4P）、柏翰大三下 hookNoSay、{子晴學姊|一個學姊}（Q6）。
 
-對照的程式（039184ab5；src/termend3d.js）：
+對照的程式（57181feb2；src/termend3d.js）：
   排飯  S.pickCheck（F.TE_GF＝女朋友版、F.TE_PICK＝心意／朋友：＝玩家在手機按了「好。」）→ S.planDinner；可昕 S.planKexin（她自己排好的那一頓）。
   演    OUT.prompt「出發：學期末的飯」→ ev_termend_dinner beforeOuting → S.dinner：
         女朋友版 'gf'：S.gfEntry → S.optEntry（says 照條件、opts 照 if）→ S.shuffled（種子＝那一天｜她｜學期｜gf）→ re、fx（SOCIAL.applyFx，S.fxCap＝termend:<天>，一頓 +2）
@@ -20,13 +20,13 @@
   舊版：哪一種沒有選項（朋友版：TERMEND.frEntry／TERMEND_OPTS.FRIEND；其他：TERMEND_OPTS）就改判舊行為（沒有稿上的選項、祐廷自動回「嗯。」）。
 
 CASES（逗號分隔；每個 case 重新讀 day46 存檔；別名 gf、kx、heart、friend、all）：
-  女朋友版（【捷徑】設交往中；存檔本來就和可昕交往，不動，log 記一行）：gf_an_Y1S2 gf_an_Y2S1 gf_yt_Y1S2 gf_yt_Y2S1 gf_yt_Y4S1 gf_sis_Y3S2 gf_sis_Y4S1us
-    gf_zr_Y2S1 gf_zr_Y5S1 gf_zq_Y1S2 gf_zq_Y1S2q6 gf_zq_Y3S2〔gf_sis_Y4S1tw 不在 all〕
-  可昕：kx_Y2S1 kx_Y2S1_go（選「我去。妳排哪幾天？」）kx_Y3S2tw kx_Y3S2us
+  女朋友版（【捷徑】設交往中；存檔本來就和可昕交往，不動，log 記一行）：gf_an_Y1S2 gf_an_Y2S1 gf_an_Y2S2（鉤子不念）gf_yt_Y1S2 gf_yt_Y2S1 gf_yt_Y4S1 gf_sis_Y3S2 gf_sis_Y4S1us
+    gf_zr_Y2S1 gf_zr_Y5S1 gf_zq_Y1S2 gf_zq_Y1S2q6（「（現在玩。）」＝鉤子不出）gf_zq_Y1S2q6_ns（「改了哪裡？」＝鉤子不念）gf_zq_Y3S2〔gf_sis_Y4S1tw 不在 all〕
+  可昕（每個選項各跑一次、印 KX_KHH／KX_Y5_CALL）：kx_Y2S1 kx_Y2S2 kx_Y3S1 kx_Y4S1 kx_Y5S1（路線 JP）kx_Y3S2tw kx_Y3S2us；kx_Y2S1_go（只選「我去。妳排哪幾天？」）
   告白那一晚（【捷徑】乾淨存檔：拿掉和可昕交往；她的戀愛 80）：heart_<an|yt|sis|zq|zr|ps>_<yes|think>（yes＝說出來第一句；think＝（先不說）→「讓我想想。」）
     舊名 heart_an 等＝heart_an_yes。
   朋友版：fr_an（以安大一上）fr_zq（子晴大一下）fr_an_shuf（以安大一上：同一天讀檔三次＋隔天、後天）fr_zr_Y2S2_last／fr_zr_Y2S2_nolast（6/3 最後一班去了／沒去）
-    fr_bh_Y3S2（柏翰：鉤子不念 say）fr_yu_Y3S1jp／fr_yu_Y3S1tw（Alison）fr_sis_Y3S2us／fr_sis_Y3S2tw fr_sis_Y4S1us／fr_sis_Y4S1tw（學姊）
+    fr_bh_Y3S2（柏翰：鉤子不念 say）fr_yu_Y3S1jp／fr_yu_Y3S1tw（Alison）fr_sis_Y3S1fu／fr_sis_Y3S1nofu（學姊大三上 thenIf）fr_sis_Y3S2us／fr_sis_Y3S2tw fr_sis_Y4S1us／fr_sis_Y4S1tw（學姊）
 每個 case：讀檔（時段裡）→【捷徑】設定 → pickCheck 排飯 →【捷徑】跳到飯前 24 分鐘 → 真的「出發」→ 一路點（選項照 PICK）。
   順序：女朋友版、可昕另外跑「同一份存檔重讀一次」（要一樣）、「改到隔天」（要變；一樣再試後天）；fr_an_shuf 同一天三次＋隔天、後天（加戀愛的那個不能每一天都排第一）。SHUF=0 不跑；TAG=old 不跑。
 檢查：她說的＝稿、選項的字＝稿、選了以後的回話＝稿、then＝稿、fx＝稿（applyFx 收到的）、一頓戀愛合計 ≤ 2（告白那一晚 ≤ 3）、不接話題池、祐廷沒有自動回 REPLY、
