@@ -1408,7 +1408,8 @@ const STORY = (function(){
     if(F.zheInvite&&!F.zheNoodleDone&&h(G)>=20.5&&G.goal&&(G.goal.indexOf('公館燒臘（阿哲）')>=0||G.goal.indexOf('阿鳳麵店（阿哲）')>=0)&&!(G.zone==='noodle'&&GM.npc.zhe)) GM.setGoal('今晚沒去吃燒臘。回宿舍休息（睡覺就到明天）');   /* 阿哲還在店裡（20:30 前進來的）就先不換 */
     if(typeof PARK!=='undefined'&&PARK.entryTick){ try{ PARK.entryTick(GM); }catch(e){ console.warn('PARK.entryTick',e); } }   /* 溫州街小公園：一天第一次走進公園的一句（AA_283 第 2 節，src/wzpark3d.js）；放在環境事件前面（同一天和公園那句 7b 只播一句）*/
     // 環境事件（每天一次）
-    F.amb=F.amb||{}; for(const a of AMBIENT){ if(a.zone!==G.zone) continue; const k=a.key+G.day; if(F.amb[k]) continue; const hh=h(G); if(hh<a.from||hh>=a.to) continue; if(Math.hypot(P.x-a.x,P.z-a.z)<a.r){ const L=typeof a.lines==='function'?a.lines(G):a.lines; if(!L) continue; F.amb[k]=true; playLines(GM,L.map(l=>['',l,2800])); } }
+    F.amb=F.amb||{}; const capBusy=!!(GM.caption&&GM.caption.until&&GM.caption.until>Date.now());   /* 畫面上還有一句字幕（例：總圖門口的開放時間）：環境字幕先不播、下一格再看，不蓋掉玩家按出來的那句（BB 11-10 P2 GUIDE_063）*/
+    for(const a of AMBIENT){ if(capBusy) break; if(a.zone!==G.zone) continue; const k=a.key+G.day; if(F.amb[k]) continue; const hh=h(G); if(hh<a.from||hh>=a.to) continue; if(Math.hypot(P.x-a.x,P.z-a.z)<a.r){ const L=typeof a.lines==='function'?a.lines(G):a.lines; if(!L) continue; F.amb[k]=true; playLines(GM,L.map(l=>['',l,2800])); } }
     // 總圖（D43）：和小安約好去總圖——走上二樓自習區就開始「總圖的下午」（劇情寫的是「二樓靠牆的長桌」）
     if(G.zone==='library_hall'&&F.companion==='an'&&F.plan==='library'&&(E.player.lv|0)===1&&P.y>4.9&&GM.npc.an&&!libSceneOn){ libSceneOn=true; libraryScene(GM).finally(()=>{ libSceneOn=false; }); return; }
     /* 第二天下課以安追上來那段錯過了（那天沒在校園走出霖澤館：用手機去別的地方、睡過頭……）：第 3 天起照常開放——以安、Alison、阿哲、學姊照作息出現
