@@ -47,6 +47,19 @@
     - PUTONG101-WINDOW-1102 交付 a43da6a27：博思一樓玻璃換亮一點的灰藍漸層；窗景照片要 CC 重拍（teach_views.py putong_north）。
     - 盤點表再更正（6d19463fc）：DORM1-WALL-SEAM 早已整合（4b5a0ebd8）、ART-OLDROAD-SHELF 被頁間取代。**以後搜 git log 要用沒有日期的短 ID。**
     - 剩下的佇列：ART-GYM-POOL-SWIMMERS-1103、GYM-FIT-PROPS-1103（要新的人物泳裝、動作，先確認 D99 人物凍結還算不算）→ CROWD-DEPTS-LOOK-1028 → PERF-CAMPUS-GLB-1102 → ART-SOP → BAKE-PC-1102-S2 → LAWWW2-REEXPORT-US-1027 → INTERIOR-AAA P3、萬才館倒角。
+  - **12:0x～12:3x 進度**（帳號 A）：
+    - 已交：
+      - SNS-VIEW-COVER a15058787：SUNNY SIDE、日常失速的照片窗景被備用的卡通窗擋住。LAWWW 已接。
+      - ART-SOP c8f5200ba：已接，結案。
+      - PERF-CAMPUS-GLB ② 384686fd3：行政大樓、文學院、校史館 11 → 5 網格，draw call 47 → 18、三角形 37k → 64k。LAWWW 接受，等 CC 量幀率。
+      - PUTONG101 v2C 8ff6e7d4a：skyBox 延到東南角，shader 改成混到 [110,120,130]。
+    - 結案、維持：
+      - 小路窗景維持視差窗（BB 定案）。
+      - CROWD-DEPTS-LOOK 延後（LAWWW）。
+      - XS-WINCARD 第二批 ART_APPROVED（BB_255）。
+    - 接下來：
+      - P3 小件：INTERIOR-AAA（大步、總圖書庫）、LM-SEAM-GEO（萬才館倒角）。
+      - 社科院、總圖等 PERF：等 CC 量的幀率。
   - **11:3x～12:0x 進度**（帳號 A）：
     - 已交（待整合或已接）：
       - XS-WINCARD 第二批 b8d833642：LAWWW 已接。
