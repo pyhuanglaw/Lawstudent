@@ -214,12 +214,12 @@ const DATE=(function(){
   /* 出去玩從戀愛條過一半起就能約（使用者 11-10 16:2x 選擇題「戀愛條過一半就可以」：「我不是跟你說曖昧要分階段嗎？應該後期就可以了吧」；
      原本要第 5 階＝她的戀愛 30，戀愛條過一半時人物頁寫「她好像開始在意你了」、出去玩卻寫「她還沒有那樣看你」，前後矛盾）。
      過一半＝人物頁戀愛條（第 5 階以前 bar({npcRom:30})）≥ 0.5＝她的戀愛 ≥ 15；分手後的冷淡期（INV.capStage 壓低了階段）不算。
-     還不能約的那一句先用原本的「還沒熟到可以兩個人出去」，等 AA 定句子（不再寫「她還沒有那樣看你」）*/
-  S.ASK_ROM_HALF=15; S.ASK_NOT_YET='還沒熟到可以兩個人出去';
+     還不能約：還不是朋友「你們還沒那麼熟。」、朋友但她的戀愛還沒過一半「你們現在是朋友。再多相處一陣子。」（AA 11-10 16:46，企劃線 08543d6fd；不再寫「她還沒有那樣看你」）*/
+  S.ASK_ROM_HALF=15; S.ASK_NOT_YET='你們還沒那麼熟。'; S.ASK_NOT_YET_FRIEND='你們現在是朋友。再多相處一陣子。';   /* AA 11-10 16:46（企劃線 08543d6fd）：還不是朋友／已經是朋友、她的戀愛還沒過一半 */
   S.askHalf=id=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return false; const r=SOCIAL.rel(id); return (+r.npcRom||0)>=S.ASK_ROM_HALF; };
   S.canAskCore=function(G,id){ const F=G.flags||{}, dating=!!F['dating_'+id];
     const raw=S.stageNum(id), sn=typeof INV!=='undefined'&&INV.capStage?INV.capStage(G,id,raw):raw;   /* 分手後的冷淡期照朋友的階段（AA_434 4-3；INV.capStage）*/
-    if(!dating&&sn<5&&!(sn===raw&&S.askHalf(id))) return {ok:false,why:S.ASK_NOT_YET};   /* 已經是朋友以上、差她的戀愛（第 5 階要她的戀愛 30）：說清楚差什麼（ROM-STAGE-TEXT-1110，使用者 11-10「而且也不能約校外?」）*/
+    if(!dating&&sn<5&&!(sn===raw&&S.askHalf(id))) return {ok:false,why:sn>=3?S.ASK_NOT_YET_FRIEND:S.ASK_NOT_YET};   /* 已經是朋友以上、差她的戀愛（第 5 階要她的戀愛 30）：說清楚差什麼（ROM-STAGE-TEXT-1110，使用者 11-10「而且也不能約校外?」）*/
     if(typeof ROM!=='undefined'&&ROM.get){ const R=ROM.get(G,id); if(R&&R.status==='paused') return {ok:false,why:'她在等你把話說清楚'}; }
     const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))) return {ok:false,why:'她現在有交往的對象'};
     return {ok:true}; };
