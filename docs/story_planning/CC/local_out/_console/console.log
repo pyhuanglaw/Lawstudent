@@ -1220,3 +1220,17 @@
 [20:16:38] [res] cpu=3% mem=36% (11.4/31.4 GB) chrome_testing=0  START GYMPROPS2_v2
 [20:18:06] 正在跑：GYMPROPS2_v2（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:18:55] [res] cpu=5% mem=36% (11.5/31.4 GB) chrome_testing=0  END GYMPROPS2_v2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d182347f2..d11cf6795  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:19:02] ==== END   GYMPROPS2_v2  exit=0  139s   ====
+[20:19:10] memory 34% before starting WINVIEW_tx_old (0 running)
+[20:19:10] memory 34% before starting WINVIEW_sso_old (1 running)
+[20:19:10] ==== START WINVIEW_tx_old  (probe @ be84c86807aa45324daed407996770feb6dbba13) ====
+[20:19:10] memory 34% before starting WINVIEW_kmc_old (2 running)
+[20:19:10] ==== START WINVIEW_sso_old  (probe @ be84c86807aa45324daed407996770feb6dbba13) ====
+[20:19:10] ==== START WINVIEW_kmc_old  (probe @ be84c86807aa45324daed407996770feb6dbba13) ====
+[20:19:13] [res] cpu=13% mem=35% (11.0/31.4 GB) chrome_testing=0  START WINVIEW_tx_old
+[20:19:13] [res] cpu=14% mem=35% (11.0/31.4 GB) chrome_testing=0  START WINVIEW_kmc_old
+[20:19:13] [res] cpu=13% mem=35% (11.0/31.4 GB) chrome_testing=0  START WINVIEW_sso_old
+[20:21:09] [res] cpu=28% mem=49% (15.4/31.4 GB) chrome_testing=9  END WINVIEW_kmc_old
