@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "SOCX_2d58_pd_h1",
+  "sha": "2d58e8a5209ae061784c20f14dd5de5819b562e6",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_social_smoke_probe.py",
+  "env": "CASES=heroine_01;STEPS=phone_date",
+  "machine": "MSI",
+  "start": "2026-11-10T08:05:04",
+  "end": "2026-11-10T08:41:44",
+  "seconds": 2200,
+  "exit": 1,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 97,
+    "mem": 66,
+    "used_gb": 21.0,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
