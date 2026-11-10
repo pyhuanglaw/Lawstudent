@@ -271,11 +271,18 @@ async def part_int(pg, cdp):
             W_, D_ = L_['w'], L_['d']
             # r3（BB 23:07）：角落＝「離牆和家具最近、人站得住、從出生點走得到的格子」——從出生點在導航格上擴散（四周 0.35 m 都 free 才算人站得住），每個象限取離房間角最近的那一格；
             #   櫃台後面的店員區（z < counter.z0、x 在 counter 範圍）不列（印得好右後角）
-            pts = await pg.evaluate("(a=>{ const N=GAME.E.nav, L=(typeof TZ_SHOPS_LAYOUT!=='undefined'?TZ_SHOPS_LAYOUT[a.sid]:null)||{}, C=L.counter, st=0.2, ok=(x,z)=>N&&N.free(x,z)&&[0,1,2,3,4,5,6,7].every(j=>N.free(x+Math.cos(j/8*6.283)*0.35,z+Math.sin(j/8*6.283)*0.35));"
-                                   " const staff=(x,z)=>C&&z<C.z0&&x>C.x0-0.3&&x<C.x1+0.3; const k=(x,z)=>Math.round(x/st)+','+Math.round(z/st); const seen=new Set(), Q=[[a.sx,a.sz]], R=[]; seen.add(k(a.sx,a.sz));"
-                                   " while(Q.length&&R.length<6000){ const [x,z]=Q.shift(); R.push([x,z]); for(const [dx,dz] of [[st,0],[-st,0],[0,st],[0,-st]]){ const nx=+(x+dx).toFixed(2), nz=+(z+dz).toFixed(2), kk=k(nx,nz); if(seen.has(kk)) continue; seen.add(kk); if(ok(nx,nz)&&!staff(nx,nz)) Q.push([nx,nz]); } }"
-                                   " return a.corners.map(([cx,cz])=>{ let b=null,bd=1e9; for(const [x,z] of R){ const d=Math.hypot(x-cx,z-cz); if(d<bd){ bd=d; b=[x,z]; } } return b; }); })",
+            # r4（CC 23:5x，GG3_int_new 第一輪：r3 的「四周 0.35 m 都 free」在 0.5 m 導航格上只剩門口那一排連得起來，四角全挑到 z≈3 的門口那一排＝TEST_BUG）：
+            #   改用遊戲自己的 E.canStand(x,z,0.3)（玩家半徑 0.33、D35 的 clearMask 同一套）、步長 0.25；印出擴散到的範圍（格數、x／z 範圍）讓人看得出有沒有走進店裡
+            bfs = await pg.evaluate("(a=>{ const E=GAME.E, N=E.nav, L=(typeof TZ_SHOPS_LAYOUT!=='undefined'?TZ_SHOPS_LAYOUT[a.sid]:null)||{}, C=L.counter, st=0.25;"
+                                   " const ok=(x,z)=>E.canStand?E.canStand(x,z,0.3):(N&&N.free(x,z)); const staff=(x,z)=>C&&z<C.z0&&x>C.x0-0.3&&x<C.x1+0.3;"
+                                   " const k=(x,z)=>Math.round(x/st)+','+Math.round(z/st); const seen=new Set(), Q=[[a.sx,a.sz]], R=[]; seen.add(k(a.sx,a.sz));"
+                                   " while(Q.length&&R.length<8000){ const [x,z]=Q.shift(); R.push([x,z]); for(const [dx,dz] of [[st,0],[-st,0],[0,st],[0,-st]]){ const nx=+(x+dx).toFixed(2), nz=+(z+dz).toFixed(2), kk=k(nx,nz); if(seen.has(kk)) continue; seen.add(kk); if(ok(nx,nz)&&!staff(nx,nz)) Q.push([nx,nz]); } }"
+                                   " const xs=R.map(p=>p[0]), zs=R.map(p=>p[1]);"
+                                   " return {n:R.length, x:[Math.min(...xs),Math.max(...xs)], z:[Math.min(...zs),Math.max(...zs)], canStand:!!E.canStand, pts:a.corners.map(([cx,cz])=>{ let b=null,bd=1e9; for(const [x,z] of R){ const d=Math.hypot(x-cx,z-cz); if(d<bd){ bd=d; b=[x,z]; } } return b; })}; })",
                                    {'sid': sid, 'sx': L_['spawn']['x'], 'sz': L_['spawn']['z'], 'corners': [[-W_ / 2, D_ / 2], [W_ / 2, D_ / 2], [W_ / 2, -D_ / 2], [-W_ / 2, -D_ / 2]]})
+            pts = bfs['pts']
+            R.note('%s 角落挑點：從出生點擴散 %d 點、x %s、z %s（房間 %.1f×%.1f；canStand %s）→ %s' % (tag, bfs['n'], bfs['x'], bfs['z'], W_, D_, bfs['canStand'], J(pts)))
+            R.check('%s 挑點有走進店裡（擴散範圍 z 跨過房間一半以上）' % tag, bfs['z'][1] - bfs['z'][0] > D_ / 2, J(bfs['z']))
             miss = []
             for k, pt in enumerate(pts):
                 if not pt: miss.append(['角落%d 附近沒有站得住的格子' % (k + 1)]); continue
