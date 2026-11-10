@@ -198,7 +198,7 @@ const run=async()=>{
       check('9 約去 afar 答應：七位各自那一句',!bad.length,J(bad.map(id=>[id,(INV.personal(G,id,A,G.day+1,15.5,{res:'accept'})||{}).lines])));
       const o=INV.personal(G,'zhe',A,G.day+1,15.5,{res:'accept'}); check('9 約去 afar 答應：沒列的人（阿哲）＝一般那句「好啊。那間的手沖很好喝。」',o&&J(o.lines)===J(['好啊。那間的手沖很好喝。']),J(o&&o.lines));   /* 有名字說的不加外面的「」（TEXT-QUOTE-UNIFY-1108 第三批，GG2.ACC0）*/
       const no=INV.personal(G,'zhe',A,G.day+1,15.5,{res:'decline',why:'rel'}); check('9 不答應：不套答應句',!(no&&no.lines&&['好啊。那間的手沖很好喝。','「好啊。那間的手沖很好喝。」'].includes(no.lines[0]))); }
-    if(D){ const ACC={heroine_01:'好。九點，不要遲到。',heroine_02:'好……我想坐窗邊。',heroine_03:'Daybreak？好。我想吃法式吐司。',heroine_04:'早上？……十點以後可以。',heroine_05:'好。週末早上我剛好有空。',classmate_peishan:'好啊！那家的卡座好可愛。',kexin:'好啊。我早一點從木柵出發。'};
+    if(D){ const ACC={heroine_01:'好。不要遲到。',heroine_02:'好……我想坐窗邊。',heroine_03:'Daybreak？好。我想吃法式吐司。',heroine_04:'Daybreak？……好。我會起來。',heroine_05:'好。那天我空下來。',classmate_peishan:'好啊！那家的卡座好可愛。',kexin:'好啊。我早一點從木柵出發。'};
       const bad=Object.keys(ACC).filter(id=>{ const o=INV.personal(G,id,D,G.day+1,10,{res:'accept'}); return !(o&&J(o.lines)===J([ACC[id]])); });
       check('9 約去 Daybreak 答應：七位各自那一句',!bad.length,J(bad));
       const o=INV.personal(G,'zhe',D,G.day+1,10,{res:'accept'}); check('9 約去 Daybreak 答應：沒列的人＝一般那句「好啊。早上嗎？我爬得起來。」',o&&J(o.lines)===J(['好啊。早上嗎？我爬得起來。']),J(o&&o.lines)); }
@@ -209,7 +209,7 @@ const run=async()=>{
       check('9 afar 坐在中間的四人桌（table 1）：不抽小燈那一則（燈在窗邊長桌），是杯墊那一則',J(H.said.map(s=>[s.who,s.t]))===J([[null,'（她把兩杯咖啡的杯墊對齊，一杯推給你。）']]),J(said())); }
     { const kx=INV.kxPlaceOk; check('9 可昕交往中：afar、Daybreak 列得出來（有她自己的答應句；只在她在臺北、約得到的時候照現有規則）',!kx||(kx(G,A)&&kx(G,D))); } }
   // ---- 10 逐字對照 AA_652 ----
-  { let doc=null; for(const ref of ['origin/claude/story-planning','303cded56']){ try{ doc=cp.execFileSync('git',['show',ref+':docs/story_planning/AA_652_afar與Daybreak店內台詞.md'],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); break; }catch(e){} }
+  { let doc=null; for(const ref of ['94ab0865e','origin/claude/story-planning','303cded56']){ try{ doc=cp.execFileSync('git',['show',ref+':docs/story_planning/AA_652_afar與Daybreak店內台詞.md'],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); break; }catch(e){} }
     if(!doc&&fs.existsSync(path.join(ROOT,'docs/story_planning/AA_652_afar與Daybreak店內台詞.md'))) doc=rd('docs/story_planning/AA_652_afar與Daybreak店內台詞.md');
     if(!doc){ console.log('SKIP 10 讀不到 AA_652（企劃線）'); }
     else { const out=[]; const T=t=>{ if(typeof t==='string') out.push(t); };
