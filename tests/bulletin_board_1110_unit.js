@@ -65,6 +65,7 @@ const gB=(k,h,o)=>Object.assign({day:dayOf(k),hour:h==null?9:h,flags:{},stage:'l
   check('1. 演講・活動一行：「'+AA.board.lineFormat.eventExample+'」（同 AA_737 eventExample）',ev.split(/[】；]/).includes(AA.board.lineFormat.eventExample),ev);
   const tm=pages(gB('2025-10-13')).find(p=>p.startsWith('【演講・活動】'))||''; check('1. 「明天」的寫法：10/13 看＝「明天 10:00–16:00　捐血車　學活前」',tm.split(/[】；]/).includes('明天 10:00–16:00　捐血車　學活前'),tm);
   const P2=pages(gB('2025-12-01')); check('1. 這週沒有演講、活動、招生（12/1）：那兩區整區不顯示、只有社課',P2.length===2&&P2[1].startsWith('【社課】')&&!P2.some(p=>/【演講・活動】|【社團招生】/.test(p)),J(P2));
+  { const src=fs.readFileSync(path.join(ROOT,'src/teach3d.js'),'utf8'); check('1. 教學館的公告欄按下去＝一頁一頁看本週公告（teach3d.js 的公告欄 onInteract 讀 ACTIVITIES.boardPages；原本只有 4.6 秒的字幕）',/board:true[\s\S]{0,400}onInteract:async\(\)=>[\s\S]{0,400}ACTIVITIES\.boardPages\(GM\.G/.test(src)); }
   const e1=text(gB('2026-01-26')), e2=text(gB('2025-12-22'));
   check('1. 三區都沒有（寒假 1/26、期末後 12/22）：只有「'+AA.board.empty+'」；原本那句「目前沒有公告的演講或活動。」不再出現',e1===AA.board.empty&&e2===AA.board.empty&&!/目前沒有公告的演講或活動/.test(e1+e2),e1+' / '+e2); }
 
