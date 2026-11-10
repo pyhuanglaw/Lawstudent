@@ -159,7 +159,7 @@ WINVIEW_sso_new | a2de6154551eb433a1addae7df7a9a047f633f7c | probe | docs/story_
 GLASSDIAG_v2c | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_glasssky_diag_probe.py | index.html | 10 | X=1
 GLASSDIAG_v2b | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_glasssky_diag_probe.py | index.html | 10 | X=1
 X295E_fair_keep_fix | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_keep_fix;CASES=fair;BIKE=keep;RERUN=r2
-GUI_fix2 | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_gift_ui_probe.py | index.html | 25 | TAG=fix2;CASES=shanlan;RERUN=r2
+GUI_fix2 | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_gift_ui_probe.py | index.html | 25 | TAG=fix2;CASES=shanlan;RERUN=r3
 # ① XS-DOOR-LABELS（LAWWW 13:02、BB 13:03：新生南路每一家列出來，格式不對的標出來）：真的走到每一間店門讀按鈕字；改前 74da28ca9
 XSDOOR_new | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_xs_door_labels_probe.py | index.html | 25 | TAG=new
 XSDOOR_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_xs_door_labels_probe.py | index.html | 25 | TAG=old
@@ -170,8 +170,8 @@ XSPLANT_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_plan
 GIFTHOL2_new | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 60 | TAG=r2;CASES=libbday,counter_event,counter_order,sisbday_tea,sisbday_happy
 GIFTHOL_new | 509b54c2d9d7a2f1ab6f227124abeb4d30747db6 | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 75 | TAG=new;RERUN=person
 # ⑥ X223（BB 13:25 選 (c)：只拍遊戲畫面，照片疊圖等 BB 問使用者）：晨思鐘、行政、文學院、校史館＋LAWWW 13:24 男一舍、共同、映月湖、研三舍原址；改後 48aa47a5b、改前 74da28ca9；桌機 1280×720
-X223SHOT_new | 48aa47a5b71453a04c983e3185201640d2f9449c | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=new
-X223SHOT_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=old
+X223SHOT_new | 48aa47a5b71453a04c983e3185201640d2f9449c | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=new;RERUN=air
+X223SHOT_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=old;RERUN=air
 # PUTONG v2C（BB 12:33；LAWWW2 8ff6e7d4a：東南角那片加進範圍、白天玻璃直接混到 [110,120,130]）：量玻璃平均色，和 v2b 並排；校園 shader 冒煙；等 SHA
 SHADER_v2c | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_shader_smoke_probe.py | index.html | 15 | TAG=v2c;ZONES=campus
 TEACHVIEW_pn_v2c | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north

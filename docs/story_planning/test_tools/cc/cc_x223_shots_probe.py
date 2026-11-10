@@ -62,6 +62,8 @@ async def main():
             for i, (name, ang, h) in enumerate((('front', 0.52, 1.7), ('wide', 0.52, max(8, rad * 0.5)))):
                 frm = (round(c[0] + math.sin(ang) * rad * (1.0 if i == 0 else 1.4), 2), h, round(c[2] + dz * math.cos(ang) * rad * (1.0 if i == 0 else 1.4), 2)); at = (round(c[0], 2), round(max(2.0, c[1] * 0.6), 2), round(c[2], 2))
                 fn = 'x223_%s_%s_%s.png' % (TAG, k, name); await snap(pg, fn, frm, at); shots.append({'what': k, 'view': '%s_%s' % (k, name), 'from': frm, 'at': at, 'file': fn})
+            frm = (round(c[0], 2), round(max(18, rad * 1.1), 2), round(c[2] + dz * rad * 0.9, 2)); at = (round(c[0], 2), 0.5, round(c[2], 2))   # r2：映月湖平視被大樓擋住＝加一張高空斜俯視
+            fn = 'x223_%s_%s_air.png' % (TAG, k); await snap(pg, fn, frm, at); shots.append({'what': k, 'view': '%s_air' % k, 'from': frm, 'at': at, 'file': fn})
         json.dump({'boxes': bx, 'shots': shots}, open(os.path.join(OUT, 'x223_%s.json' % TAG), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
         R.note('拍了 %d 張：%s' % (len(shots), J([s['file'] for s in shots])))
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
