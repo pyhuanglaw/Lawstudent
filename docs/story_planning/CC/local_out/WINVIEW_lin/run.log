@@ -1,0 +1,27 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_winview_audit_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_lin\out
+CC WINVIEW-AUDIT（X254 窗景巡拍）：worktree ?；店 ['lin']；HOURS=[12.0, 19.0]；DAY=2025-10-15；Windows＋GPU／SwiftShader ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+== lin 林家乾麵（gen5）
+  [前置／捷徑] [林家乾麵 wz_lin] 讀檔 wz_lin 2025-10-15 12.00（區域出生點；條件事件關掉）
+PASS [林家乾麵 wz_lin] 進得了 wz_lin  {"zone": "wz_lin", "x": 1, "z": 3.05, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開林家乾麵", "stand": true, "fb": 0, "hour": 12.06}
+  [  41.6s] [林家乾麵 wz_lin] 窗景卡（全部，含藏起來的）1 片：[{"name": "VIEWPANE_wz_lin", "kind": "parallax", "vis": true, "lv": 0, "c": [-0.45, 1.3, 4.6], "size": [18.9, 8.12, 0], "url": "assets/models/env/views/wz_lin_day.webp"}]
+PASS [林家乾麵 wz_lin] 找得到看得見的窗景卡（沒有卡時：玻璃）  [["VIEWPANE_wz_lin", "parallax", true]]
+  [  41.6s] [林家乾麵 wz_lin] 卡 VIEWPANE_wz_lin 窗往外 [0.0, 1.0]（+z）；店內站位：座位「坐下」(-0.85, 1.7)，離窗 2.9 m、左右偏 0.4 m；人放在 [-0.3, 1.7]（第 0 層）；鏡頭 eye [-0.85, 1.2, 1.55] → look [-0.85, 1.15, 4.6]
+  [前置／捷徑] [林家乾麵 wz_lin] 卡 VIEWPANE_wz_lin 12.00 讀檔把人放到 [-0.3, 1.7]（第 0 層）
+  [  52.9s] [林家乾麵 wz_lin] 卡 VIEWPANE_wz_lin 12.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/wz_lin_day.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_lin_day.png 有存  {"cam": {"eye": [-0.85, 1.2, 1.55], "look": [-0.85, 1.15, 4.6], "lens": 18, "vfov": 58.72}, "lum": [105.1, 43.4]}
+  [  55.0s] [截圖] wv_lin_day：鏡頭 {"eye": [-0.85, 1.2, 1.55], "look": [-0.85, 1.15, 4.6], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[105.1, 43.4]；鏡頭旁藏起來的人 ["?"]
+  [前置／捷徑] [林家乾麵 wz_lin] 卡 VIEWPANE_wz_lin 19.00 讀檔把人放到 [-0.3, 1.7]（第 0 層）
+  [  66.3s] [林家乾麵 wz_lin] 卡 VIEWPANE_wz_lin 19.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/wz_lin_night.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_lin_night.png 有存  {"cam": {"eye": [-0.85, 1.2, 1.55], "look": [-0.85, 1.15, 4.6], "lens": 18, "vfov": 58.72}, "lum": [83.2, 45.2]}
+  [  68.4s] [截圖] wv_lin_night：鏡頭 {"eye": [-0.85, 1.2, 1.55], "look": [-0.85, 1.15, 4.6], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[83.2, 45.2]；鏡頭旁藏起來的人 ["?", "?", "?"]
+PASS [林家乾麵 wz_lin] 有回街上的出口（含出店落點）  [{"label": "離開林家乾麵", "x": 1, "z": 3.55, "lv": 0, "to": "wenzhou", "spawn": {"x": 35, "z": 4.1, "yaw": 3.142, "lv": 0}}]
+  [前置／捷徑] [林家乾麵 wz_lin] 讀檔 wenzhou 12.00 出店落點 {"x": 35, "z": 4.1, "yaw": 3.142, "lv": 0}
+PASS [林家乾麵 wz_lin] 到了街上（wenzhou）  {"zone": "wenzhou", "x": 35, "z": 4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進去林家乾麵", "stand": true, "fb": 0, "hour": 12.04}
+  [  93.6s] [林家乾麵 wz_lin] 街景：店門 {"label": "進去林家乾麵", "x": 35, "z": 4.6}、出店落點 [35, 4.1]；店裡出口方向 [0.14507631498077955, 0.9894204681689164] ↔ 街上 [0.0, -1.0]（轉 180°）；窗往外 [0.0, 1.0] → 街上看 [0.0, -1.0]；鏡頭 eye [35, 1.6, 4.1] → look [35.0, 1.3, -15.9]
+PASS [截圖] wv_lin_street.png 有存  {"cam": {"eye": [35, 1.6, 4.1], "look": [35, 1.3, -15.9], "lens": 18, "vfov": 58.72}, "lum": [105.4, 49.6]}
+  [  95.7s] [截圖] wv_lin_street：鏡頭 {"eye": [35, 1.6, 4.1], "look": [35, 1.3, -15.9], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[105.4, 49.6]；鏡頭旁藏起來的人 []
+PASS 沒有 JS 例外  []
+  [  96.3s] 專屬照片窗景卡的店：[]；JSON：C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_lin\out\winview_audit.json
+ALL PASS

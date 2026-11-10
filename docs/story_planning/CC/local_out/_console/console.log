@@ -967,3 +967,11 @@
 [19:18:02] [res] cpu=41% mem=42% (13.0/31.4 GB) chrome_testing=4  START WINVIEW_lin
 [19:18:06] 正在跑：WINVIEW_B（已跑 13 分／上限 50 分）、X295E_new（已跑 0 分／上限 120 分）、WINVIEW_lin（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [19:18:09] [res] cpu=5% mem=45% (13.6/31.4 GB) chrome_testing=4  END WINVIEW_B
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a90c66564..e7188df25  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:18:40] ==== END   WINVIEW_B  exit=0  831s   ====
+[19:18:43] memory 46% before starting VIEWRAW_cvs (2 running)
+[19:18:43] ==== START VIEWRAW_cvs  (probe @ 4d7f556a61e028ab5409fcf0103e7448b3038b51) ====
+[19:18:46] [res] cpu=9% mem=46% (14.7/31.4 GB) chrome_testing=9  START VIEWRAW_cvs
+[19:20:16] [res] cpu=40% mem=50% (16.0/31.4 GB) chrome_testing=9  END WINVIEW_lin
