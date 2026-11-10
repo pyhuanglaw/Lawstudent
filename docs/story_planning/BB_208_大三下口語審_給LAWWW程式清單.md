@@ -5,7 +5,7 @@
 > 狀態：PROPOSAL 的口氣審結果；台詞照 `AA_260` 附錄 B（AA 給了句子的照用），新寫或和附錄不一樣的句子標【BB 新寫】【BB 改】。AA 的檔（`AA_250`、`AA_254`）裡同一句的，請 AA 同步，程式照本檔或 AA 改完的版本抄。
 
 ## 1. 閒聊階梯（大三下）
-- 用 `tools/ladder/import_ladder.py` 重新匯入 `ladder_bb_y3s2.json`，不要手改 `ladder.js`。開發分支的 `byTerm.Y3S2` 還是舊版（附錄 B C1：沒有學姊、週次 18、可昕美國時差句、子晴「欸不是」5 處、沛珊「沒有奇怪的問題」等）。
+- 用 `tools/ladder/import_ladder.py` 重新匯入 `ladder_bb_y3s2.json`，不要手改 `ladder.js`。開發分支的 `byTerm.Y3S2` 還是舊版（附錄 B C1：沒有學姊、週次 18、可昕美國時差句、子晴「欸不是」5 處等）。
 - **要確認 runtime 支援的欄位**：
   - `skipAfterWeek`（子晴 Q6-L3、Q6-L6：13）：README 已登記（BB-C 2026-10-17），請確認 `ladder.js` 讀得到；沒有的話這兩層第 14 週以後會卡住。
   - `extraIf[].week`（可昕 K6-L1 日本路線那句只在第 6 週起）：README 第 41 行已登記。
