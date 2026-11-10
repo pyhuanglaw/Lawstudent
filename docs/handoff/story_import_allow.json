@@ -5175,7 +5175,7 @@
   },
   {
    "path": "docs/story_planning/AA_737_bulletin_board.json",
-   "sha": "f02917295",
+   "sha": "7079841a7",
    "status": "approved",
    "approvedBy": "AA（D109；使用者 11-10「公告欄要看的到社團社課時間 特殊活動?學生會迎新派對? 社團徵人?」，USER_WANTS X295）",
    "task": "BULLETIN-BOARD-1110",
@@ -5185,6 +5185,10 @@
     {
      "sha": "2a1c30dc6",
      "note": "第一版；f02917295 回 LAWWW 3f6dba142 四點（園遊會日期、預設 3 天、先不要不鎖、電影夜改名）"
+    },
+    {
+     "sha": "f02917295",
+     "note": "被 7079841a7 取代（迎新派對改第 2 週週四，避開大一家聚；園遊會先演學姊攤位照舊）"
     }
    ]
   },

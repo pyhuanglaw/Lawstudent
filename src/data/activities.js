@@ -96,7 +96,7 @@ const ACTIVITIES={
          學生會電影夜＝博思 101（坐下參加，和演講一樣；人流 crowd 照現有的大教室）；
          校慶園遊會＝椰影大道晨思鐘旁 (−14.5, 10.5)（法律系／法服的攤位旁邊：大四的法服問答攤 ev_fair_booth_y4 走近就會先演）。
        校慶園遊會的日子用遊戲現有的校慶擺攤日（zones3d.js 的 FAIR_DAYS：大一 2025-11-15＝第 11 週週六；大二起照 AA_355「遊園會在校慶前一個週六」＝第 10 週週六），帳篷那天才有。 */
-    {id:'su_welcome_party',title:'學生會迎新派對',kind:'event',special:true,zone:'gym',roomName:'新體育館',spot:{x:0,z:8.6,lv:0,label:'學生會迎新派對',r:1.3},term:['Y1S1','Y2S1','Y3S1','Y4S1'],weeks:[2],weekday:5,t0:19,t1:21.5,poster:{daysBefore:7},verb:'去參加',crowd:{n:30},
+    {id:'su_welcome_party',title:'學生會迎新派對',kind:'event',special:true,zone:'gym',roomName:'新體育館',spot:{x:0,z:8.6,lv:0,label:'學生會迎新派對',r:1.3},term:['Y1S1','Y2S1','Y3S1','Y4S1'],weeks:[2],weekday:4,t0:19,t1:21.5,poster:{daysBefore:7},verb:'去參加',crowd:{n:30},
      desc:'學生會辦的新生迎新：社團表演、抽獎、宵夜。大一優先入場，其他年級也可以來。',story:false,
      narr:['（體育館的燈關了一半，熱舞社在台上跳。後面排隊領宵夜的人，比看表演的多。）','（抽獎抽到三十幾號，你的號碼差兩號。旁邊的人比你還不甘心。）','（學生會長上台講了五分鐘，前三分鐘在調麥克風。）'],
      narrLater:['（今年你站在後面。前排的大一在喊下一個節目的名字。）','（宵夜還是鹹酥雞。今年你知道要先去排。）'],endLater:'派對結束了。'},   /* narr＝大一那一年；narrLater＝大二以後每年一句、照順序，用完只顯示「派對結束了。」*/
