@@ -1,0 +1,57 @@
+PASS library_b1_lm_day.webp：被蓋住、會露出來的 6638 格，平均 78.8，旁邊 85.2（0.92 倍）
+PASS library_b1_lm_day.webp 分群：沒有看得到的黑塊
+PASS library_b1_lm_night.webp：被蓋住、會露出來的 6638 格，平均 78.4，旁邊 84.5（0.93 倍）
+PASS library_b1_lm_night.webp 分群：沒有看得到的黑塊
+PASS library_carrels_lm_day.webp：被蓋住、會露出來的 32275 格，平均 98.6，旁邊 103.3（0.95 倍）
+PASS library_carrels_lm_day.webp 分群：沒有看得到的黑塊
+PASS library_carrels_lm_night.webp：被蓋住、會露出來的 32275 格，平均 83.7，旁邊 88.5（0.95 倍）
+PASS library_carrels_lm_night.webp 分群：沒有看得到的黑塊
+PASS linze_5f_lm_dark.webp：被蓋住、會露出來的 6725 格，平均 2.2，旁邊 2.7（0.82 倍）
+PASS linze_5f_lm_dark.webp 分群：沒有看得到的黑塊
+PASS linze_5f_lm_day.webp：被蓋住、會露出來的 6725 格，平均 88.0，旁邊 90.6（0.97 倍）
+PASS linze_5f_lm_day.webp 分群：沒有看得到的黑塊
+PASS linze_5f_lm_night.webp：被蓋住、會露出來的 6725 格，平均 80.9，旁邊 83.1（0.97 倍）
+PASS linze_5f_lm_night.webp 分群：沒有看得到的黑塊
+PASS gym_b1_lm_day.webp：被蓋住、會露出來的 3486 格，平均 75.1，旁邊 77.6（0.97 倍）
+PASS gym_b1_lm_day.webp 分群：沒有看得到的黑塊
+PASS gym_b1_lm_night.webp：被蓋住、會露出來的 3486 格，平均 74.8，旁邊 77.6（0.96 倍）
+PASS gym_b1_lm_night.webp 分群：沒有看得到的黑塊
+PASS us_apartment_lm_day.webp：被蓋住、會露出來的 8217 格，平均 60.7，旁邊 61.5（0.99 倍）
+PASS us_apartment_lm_day.webp 分群：沒有看得到的黑塊
+PASS us_apartment_lm_night.webp：被蓋住、會露出來的 8217 格，平均 57.7，旁邊 59.2（0.97 倍）
+PASS us_apartment_lm_night.webp 分群：沒有看得到的黑塊
+PASS us_shared_lm_day.webp：被蓋住、會露出來的 8946 格，平均 58.6，旁邊 64.0（0.92 倍）
+PASS us_shared_lm_day.webp 分群：沒有看得到的黑塊
+PASS us_shared_lm_night.webp：被蓋住、會露出來的 8946 格，平均 44.7，旁邊 49.9（0.90 倍）
+PASS us_shared_lm_night.webp 分群：沒有看得到的黑塊
+PASS dorm_room4_lm_dark.webp：被蓋住、會露出來的 17343 格，平均 3.2，旁邊 2.7（1.16 倍）
+PASS dorm_room4_lm_dark.webp 分群：沒有看得到的黑塊
+PASS dorm_room4_lm_day.webp：被蓋住、會露出來的 17343 格，平均 45.1，旁邊 30.7（1.47 倍）
+PASS dorm_room4_lm_day.webp 分群：沒有看得到的黑塊
+PASS dorm_room4_lm_night.webp：被蓋住、會露出來的 17343 格，平均 48.5，旁邊 33.3（1.46 倍）
+PASS dorm_room4_lm_night.webp 分群：沒有看得到的黑塊
+PASS dorm_205_lm_day.webp：被蓋住、會露出來的 17830 格，平均 43.3，旁邊 30.5（1.42 倍）
+PASS dorm_205_lm_day.webp 分群：沒有看得到的黑塊
+PASS dorm_205_lm_night.webp：被蓋住、會露出來的 17830 格，平均 45.6，旁邊 33.6（1.36 倍）
+PASS dorm_205_lm_night.webp 分群：沒有看得到的黑塊
+PASS wancai_interior_lm_day.webp：被蓋住、會露出來的 4800 格，平均 77.9，旁邊 69.9（1.11 倍）
+PASS wancai_interior_lm_day.webp 分群：沒有看得到的黑塊
+PASS wancai_interior_lm_night.webp：被蓋住、會露出來的 4800 格，平均 62.2，旁邊 59.3（1.05 倍）
+PASS wancai_interior_lm_night.webp 分群：沒有看得到的黑塊
+PASS dakou_1f_lm_day.webp：被蓋住、會露出來的 7930 格，平均 113.0，旁邊 120.0（0.94 倍）
+PASS dakou_1f_lm_day.webp 分群：沒有看得到的黑塊
+PASS dakou_1f_lm_night.webp：被蓋住、會露出來的 7930 格，平均 67.7，旁邊 58.4（1.16 倍）
+PASS dakou_1f_lm_night.webp 分群：沒有看得到的黑塊
+PASS yizhan_lm_day.webp：被蓋住、會露出來的 11160 格，平均 75.6，旁邊 74.1（1.02 倍）
+PASS yizhan_lm_day.webp 分群：沒有看得到的黑塊
+PASS yizhan_lm_night.webp：被蓋住、會露出來的 11160 格，平均 47.2，旁邊 47.6（0.99 倍）
+PASS yizhan_lm_night.webp 分群：沒有看得到的黑塊
+PASS corner_lm_day.webp：被蓋住、會露出來的 55787 格，平均 89.6，旁邊 94.1（0.95 倍）
+PASS corner_lm_day.webp 分群：沒有看得到的黑塊
+PASS corner_lm_night.webp：被蓋住、會露出來的 55787 格，平均 92.6，旁邊 96.5（0.96 倍）
+PASS corner_lm_night.webp 分群：沒有看得到的黑塊
+PASS ade_lm_day.webp：被蓋住、會露出來的 95890 格，平均 97.7，旁邊 91.5（1.07 倍）
+PASS ade_lm_day.webp 分群：沒有看得到的黑塊
+PASS ade_lm_night.webp：被蓋住、會露出來的 95890 格，平均 88.0，旁邊 80.5（1.09 倍）
+PASS ade_lm_night.webp 分群：沒有看得到的黑塊
+ALL PASS
