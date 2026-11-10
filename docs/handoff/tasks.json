@@ -52897,7 +52897,7 @@
    "id": "FLOWER-NOTES-1110",
    "title": "公館花攤（晨露花舖）升級成雙層精品花藝店「花序 Flower Notes」（X325）",
    "owner": "LAWWW",
-   "status": "暫停",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52910,10 +52910,14 @@
     "confirmed": true
    },
    "sha": null,
-   "pausedReason": "使用者規格書第十六節：本階段只規劃、不執行修改；等她明確授權＋外觀、一樓室內兩張正式參考圖（決定：使用者 11-10）",
-   "resumeWhen": "使用者說可以開始實作",
-   "recheckOn": "2026-11-13",
-   "next": "規劃報告 11-10 21:1x 已回使用者；授權後 Phase 2 起派 LAWWW2、AA"
+   "next": "使用者 21:1x「你可以自己決定嗎」＝位置、開工交 LAWWW 定：位置 G11（原泰米村食）；AA 先寫商品文案、店員台詞、畢業／母親節規劃；LAWWW 做商品資料與遷移（店代號 gg_flower、g_bouquet、g_sunflower 不改）；LAWWW2 的外觀、室內模型等使用者兩張正式參考圖",
+   "xai": {
+    "spec": "X325，docs/handoff/user_specs/FLOWER_NOTES_1110.md",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "規格書第十四節驗收條件；BB 判",
+    "receiver": "BB",
+    "ack": "未派"
+   }
   }
  ]
 }

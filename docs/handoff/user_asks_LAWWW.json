@@ -4433,6 +4433,25 @@
    "status": "還沒做",
    "wants": "X325",
    "task": "FLOWER-NOTES-1110"
+  },
+  {
+   "id": "UA-LAWWW-1110-96",
+   "at": "2026-11-10T21:1xZ",
+   "quote": "你可以自己決定嗎（回 LAWWW 花序規劃報告最後「要你決定的：位置用原泰米村食那一間可以嗎、什麼時候授權開工」）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X325",
+   "task": "FLOWER-NOTES-1110"
+  },
+  {
+   "id": "UA-LAWWW-1110-97",
+   "at": "2026-11-10T21:1xZ",
+   "quote": "（AI 解讀 UA-LAWWW-1110-96）位置和開工時間交給 LAWWW 決定＝授權開工：位置定公館店面街 G11（原泰米村食那一間）；不用等圖的先做（AA 文案、商品資料、遷移方案），外觀和室內模型等使用者的兩張正式參考圖",
+   "kind": "AI解讀",
+   "confirmed": false,
+   "status": "進行中",
+   "wants": "X325",
+   "task": "FLOWER-NOTES-1110"
   }
  ]
 }
