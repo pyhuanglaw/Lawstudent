@@ -26,6 +26,12 @@ LE738_touch | e73888074c | game | tests/touch_flow_wenzhou.py | index.html?turbo
 #   探針 night（桌遊夜重演）K1～K3 舊 FAIL／新 PASS；day（白天出遊回原地）、eve（14:50～18:20 晚上沒用）、exam（考試週晚上多一次）新舊都要 PASS =====
 BGN_new | 063592f18baec790f772bd64a32835cd98a0a950 | probe | docs/story_planning/test_tools/cc/cc_bgn_after_home_probe.py | index.html | 40 | CC_HEADLESS=0
 BGN_old | cdcb2650730bc9a90563690e63f35e75e63c9fb3 | probe | docs/story_planning/test_tools/cc/cc_bgn_after_home_probe.py | index.html | 40 | CC_HEADLESS=0
+# ===== ROMPRIV／SVC2（BB 11-10 08:1x）：ROM-PRIVATE-DATE-1110（新＝modest-rubin 6c7e3918f、舊＝13e84dc27＝d7e722c90 的上一個，兩個 commit 都沒進來）day51b 學姊 a 約會加戀愛＋信任一天一次／b 朋友以下選項、送東西加她的戀愛／c 人物頁戀愛條／d 選完先說祐廷那一句：A1 B1 B2 C1 C2 D1 舊 FAIL／新 PASS，A2 兩版 PASS；
+#   SERVICE2-LEGAL-1110（新＝a883f36de、舊＝bc9c1408c）大二上第 4 週週三 15:05 走進法律系館B 到東側接待桌報到、出席記到 G.courses.attend.service_2：V1～V5 舊 FAIL／新 PASS =====
+ROMPRIV_new | 6c7e3918f26db59161d8f284f4fa25ca02be2964 | probe | docs/story_planning/test_tools/cc/cc_rom_private_probe.py | index.html | 60 | CC_HEADLESS=0
+ROMPRIV_old | 13e84dc2703a340c1ad3ad7ae56ee3a763cce0d6 | probe | docs/story_planning/test_tools/cc/cc_rom_private_probe.py | index.html | 60 | CC_HEADLESS=0
+SVC2_new | a883f36de45740335f9a1ea30d8512d1f5a9c4a9 | probe | docs/story_planning/test_tools/cc/cc_service2_probe.py | index.html | 40 | CC_HEADLESS=0
+SVC2_old | bc9c1408c0dfb82cbd1fa49d6a64e1d92e94d213 | probe | docs/story_planning/test_tools/cc/cc_service2_probe.py | index.html | 40 | CC_HEADLESS=0
 # WW3 夜間 r2（BB 08:1x 第 5 項）：21:00 轉角唱片（12–21）、一盞（12–20）都已打烊，人被留在街上＝TEST_BUG；改 19:30（轉角、阿德 09–22、一盞都還開著、天已經黑）
 WW3B_old_n1930 | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_planning/test_tools/cc/cc_wallfade_walls_probe.py | index.html | 20 | ZONES=corner_records:@-3.3@-0.05@270,wz_print:@-0.2@-3.8@180;DIST=4.5;HOUR=19.5;TAG=oldn1930
 WW3T_old_n1930 | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_planning/test_tools/cc/cc_wallfade_walls_probe.py | index.html | 20 | ZONES=wz_teahouse:@3.65@-4.00@15;DIST=4.0;HOUR=19.5;TAG=oldn1930
