@@ -156,6 +156,28 @@ async def tap_near(pg, cdp, tag, x, z, near, max_s=180, lv=None):
     await D.settle(pg); return ok
 
 
+READY_JS = r"""(()=>{ const f=document.getElementById('fade'); return {fade:!!(f&&f.classList.contains('on')), paused:!!GAME.E.paused, title:!document.getElementById('titleScreen').classList.contains('hide'),
+  phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen()), dlg:!!(GAME.D&&GAME.D.active), busy:!!GAME.E.player.busy}; })()"""
+
+
+async def ready(pg, cdp, secs=40):
+    """等畫面可以玩：黑幕（#fade.on）退了、沒有暫停（手機、選單自己打開的就像玩家一樣收起來）、沒有對話（點掉）。回傳最後的狀態、做了什麼"""
+    did = []; ok_n = 0; q = None
+    for _ in range(int(secs * 2)):
+        q = await pg.evaluate(READY_JS)
+        if q['phone']: did.append('收手機'); await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(700); ok_n = 0; continue
+        if q['paused'] and not q['fade']:
+            sh = await L.close_panels(pg, cdp)
+            if sh: did.append('關 ' + ','.join(sh)); ok_n = 0; continue
+        if q['dlg']: did.append('點對話'); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); ok_n = 0; continue
+        if not q['fade'] and not q['paused'] and not q['busy']:
+            ok_n += 1
+            if ok_n >= 3: return q, did
+        else: ok_n = 0
+        await pg.wait_for_timeout(500)
+    return q, did
+
+
 async def wait_btn(pg, prefix, secs=5):
     for _ in range(int(secs * 2)):
         s = await D.st(pg)
@@ -295,8 +317,13 @@ async def give(pg, cdp, tag, pid, gid, max_walk=180, select=True):
                 await pg.wait_for_timeout(1200); q = await L.state(pg)
                 if not q['busy'] and not q['dlg'] and not q['choices']: break
         if out['offered'] or len(out['opts']) > n_opts: break
-        out['said'].append('【這次說話沒有選單，再按一次說話】')
+        dg = await pg.evaluate("(%s)(%s)" % (TALK_DIAG_JS, J(pid)))
+        out['said'].append('【第 %d 次說話沒有選單（%s），等 2 秒再按一次】' % (talk + 1, J(dg))); await pg.wait_for_timeout(2000)
     return out
+
+
+TALK_DIAG_JS = r"""((pid)=>{ const n=(GAME.npc&&GAME.npc[pid])||(GAME.E.npcs||[]).find(q=>q.charId===pid); const it=GAME.E.nearestInteractable&&GAME.E.nearestInteractable();
+  return {talking:!!(n&&n._talking), busyDepth:GAME.D?GAME.D.busyDepth:null, pbusy:!!GAME.E.player.busy, ev:typeof EVENTS!=='undefined'&&EVENTS.running?(EVENTS.running.id||1):null, near:it?(it.label||''):null, nearNpc:!!(it&&it.npc), hour:+(+GAME.G.hour).toFixed(2)}; })"""
 
 
 async def shot(pg, cdp, name, cam=None):

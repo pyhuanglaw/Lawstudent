@@ -366,8 +366,15 @@ async def case_fb(pg, cdp, who, day_key, film, opt_text, kind, tag, second=None)
 
 
 async def case_other(pg, cdp, who, day_key, film, tag, mode):
-    """MT4 C／D：qOther（問句換成給其他人的）、optsOther（三個選項整組換）、noask（ask 選項不出）、nofb（整段不出）"""
-    await M.load(pg, cdp, M.base_state([who]), day_key=day_key, why='%s 08:00、%s 朋友＋聯絡方式' % (day_key, who))
+    """MT4 C／D：qOther（問句換成給其他人的）、optsOther（三個選項整組換）、noask（ask 選項不出）、nofb（整段不出）
+    day_key 可以是清單：一天一天試，手機朋友頁有她（約得到）的第一天就用（r2：以安 2029-07-14 朋友頁沒有她）"""
+    days = day_key if isinstance(day_key, (list, tuple)) else [day_key]
+    for k_, dk in enumerate(days):
+        await M.load(pg, cdp, M.base_state([who]), day_key=dk, why='%s 08:00、%s 朋友＋聯絡方式' % (dk, who))
+        if k_ == len(days) - 1: break
+        await pe.phone(pg, cdp, 'friends'); ok_ = await pg.evaluate("(w=>!!document.querySelector('#phoneBody [data-inv=\"'+w+'\"]'))(%s)" % J(who)); await pe.close_phone(pg, cdp)
+        R.note('%s %s 手機朋友頁有 %s：%s' % (tag, dk, who, ok_))
+        if ok_: break
     iv = await M.book(pg, cdp, tag, who, 0)
     if not iv: return
     await setfilm(pg, iv, film, tag)
@@ -411,8 +418,10 @@ async def case_later_movie(pg, cdp):
     li = next((i for i, e in enumerate(mt) if e['k'] == 'say' and ('筆記本' in e['v'] or '簽名' in e['v'])), None)
     im = next((i for i, e in enumerate(mt) if e['k'] == 'mark' and e['v'] == 'MOVIES.playMid 開始'), None)
     ie = next((i for i, e in enumerate(mt) if e['k'] == 'mark' and e['v'] == 'MOVIES.enterHall 結束'), None)
-    R.note('%s 筆記本那段 __MT %s、進 1 廳 %s、看到一半 %s' % (tag, li, ie, im))
-    R.check('%s 隔天電影：筆記本那段（MOVIE_LATER）在燈暗前演（在看到一半那一幕之前）' % tag, li is not None and (im is None or li < im), J([e['v'] for e in mt[max(0, (li or 0) - 2):(li or 0) + 4]]))
+    idk = next((i for i, e in enumerate(mt) if e['k'] == 'say' and '燈暗' in e['v']), None)
+    R.note('%s 筆記本那段 __MT %s、進 1 廳 %s、燈暗 %s、看到一半 %s' % (tag, li, ie, idk, im))
+    # r2：舊版（c17a9919e）ON_SEATED 在燈暗那一句之後、沒有 playMid＝r1 的「在 playMid 之前」舊版也過（D34 對照不成立）→ 改成「在燈暗那一句之前」
+    R.check('%s 隔天電影：筆記本那段（MOVIE_LATER）在燈暗那一句之前演' % tag, li is not None and idk is not None and li < idk, J([e['v'] for e in mt[max(0, (li or 0) - 2):(li or 0) + 4]] + ['燈暗@%s' % idk]))
 
 
 async def main():
@@ -451,7 +460,7 @@ async def main():
                 elif c == 'OO_3007': await case_other(pg, cdp, 'heroine_01', '2030-07-13', 'm3007b', '[OO 以安 m3007b]', 'optsother')
                 elif c == 'OO_2805': await case_other(pg, cdp, 'heroine_01', '2028-05-13', 'm2805b', '[OO 以安 m2805b]', 'optsother')
                 elif c == 'NOASK': await case_other(pg, cdp, 'heroine_01', '2026-11-14', 'm2611a', '[NOASK 以安 m2611a]', 'noask')
-                elif c == 'NOFB': await case_other(pg, cdp, 'heroine_01', '2029-07-14', 'm2907a', '[NOFB 以安 m2907a]', 'nofb')
+                elif c == 'NOFB': await case_other(pg, cdp, 'heroine_01', ['2029-07-21', '2029-08-04', '2029-08-18', '2029-08-29'], 'm2907a', '[NOFB 以安 m2907a]', 'nofb')
                 elif c == 'LATER2': await case_later_movie(pg, cdp)
                 elif c == 'ARC_AN': await case_arcafter(pg, cdp, 'heroine_01', '2027-09-15', 'm2709b', False, '[ARC_AN 以安 借據]')
                 elif c == 'ARC_KX': await case_arcafter(pg, cdp, 'kexin', '2027-05-15', 'm2705a', False, '[ARC_KX 可昕 放學後的球場]')
