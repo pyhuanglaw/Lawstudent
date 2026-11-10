@@ -336,6 +336,11 @@ SHIFT_IMM_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_pl
 SHIFT_IMM_old | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 40 | TAG=imm_old;IMM=1;CASES=B,F,X
 SHIFT_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 45 | TAG=new
 SHIFT_old | 8b31bbaa0b8a651aeb6c3653bec468f6cbfdebed | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 45 | TAG=old
+# 14:4x 輪漏報補跑：WZCAT r2（06:52／日落前 7 分讀檔，r1 讀檔時就跳完了＝TEST_BUG）、gongguan_glb_integration 舊版對照（X199_ggglb b296 FAIL：群組 39→40、三角形 42.7 萬）
+WZCAT_r2_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_wzcat_jump_probe.py | index.html | 25 | TAG=new
+WZCAT_r2_old | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planning/test_tools/cc/cc_wzcat_jump_probe.py | index.html | 25 | TAG=old
+GGGLB_old | e9af1306192fe33a31db4c4b44a38f42d779913d | game | tests/gongguan_glb_integration.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+GGGLB_01b | 01bab1823003df827be3d76bc7d2c13ef034dacb | game | tests/gongguan_glb_integration.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
 # BB 14:39 美國篇 ART 巡拍（排在橘貓後面；第一批公寓＋社區＋校園，第二批法圖＋超市＋超市街＋季節）
 US_ART_1 | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_outside,us_apartment,us_campus
 US_ART_2 | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_lawlib,us_market,us_market_street;SEASON=1
