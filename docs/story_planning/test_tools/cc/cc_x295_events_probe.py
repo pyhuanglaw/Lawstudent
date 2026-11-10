@@ -181,7 +181,9 @@ def has_seq(lines, expect):
     """expect 的每一句照順序出現在 lines（對話框的字可能還在打字中被記到半句，取最後完整的那一筆：用包含判斷）"""
     k = 0
     for ln in lines:
-        if k < len(expect) and expect[k] in ln: k += 1
+        # PC r1（11:0x）：最後一句在打字中途被點掉，只記到前半句（例「（學生會長上台講了五分鐘，前三分鐘在調麥克風。」少了後半）＝TEST_BUG；
+        # 記到的字是那一句的開頭、而且至少 10 個字，也算出現（內容一字不差，只是沒打完）
+        if k < len(expect) and (expect[k] in ln or (len(ln.strip()) >= 10 and expect[k].startswith(ln.strip()))): k += 1
     return k == len(expect)
 
 

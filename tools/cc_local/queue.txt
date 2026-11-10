@@ -75,7 +75,7 @@ GGDC_tree2_old | fe4d893acdb08eb93f93b688380bd0700ff5ad48 | probe | docs/story_p
 X295C_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_x295_clubs_probe.py | index.html | 120 | TAG=new
 X295C_old | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_planning/test_tools/cc/cc_x295_clubs_probe.py | index.html | 60 | TAG=old
 # X295 events（迎新派對 9/12、捐血 10/14→10/15、學生會電影夜 11/6、園遊會 11/15；雲端改後四段分次 PASS，fair 選單判斷修正後沒重跑）：新 8c050804c／改前 10df264ed（四個 id 都沒有，預期 FAIL）
-X295E_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 120 | TAG=new
+X295E_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 120 | TAG=new;RERUN=prefix
 X295E_old | 10df264ed291cbef985ed22109443d26535ce790 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 60 | TAG=old
 # X295E 迎新改週四（AA_737，BB 10:59）：f3b47894b party＝9/11（四）、party_fri＝9/12 家聚照舊、派對不再出現；舊 8c050804c 對照（party_fri 應 FAIL）
 X295E_thu_new | f3b47894b3b10643fb91fd30be70bc28cad68035 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 30 | TAG=thu_new;CASES=party,party_fri
@@ -113,8 +113,10 @@ FLWS_new | de1f25768e421cf07b2151c2872b5b6d6f70ef5a | probe | docs/story_plannin
 # X254 窗景巡拍（BB 08:46，WINVIEW-AUDIT-1105）：開發分支 head；通用視差窗 5 間＋新生南路 7 間＋一盞＋專屬照片對照；店內靠窗白天 14／晚上 21＋門外同方向；拼圖雲端 cc_winview_montage
 WINVIEW_A | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 40 | SHOPS=gen5,tea
 WINVIEW_B | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 50 | SHOPS=xs7,own
+# WINVIEW_A r1：林家乾麵 2025-10-18（六）14:00 讀檔被放回溫州街（店沒開？）→ 改週三 12、19 時補拍
+WINVIEW_lin | 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 20 | SHOPS=lin;DAY=2025-10-15;HOURS=12,19
 # WINVIEW cvs 重拍（LAWWW 10:12／10:15，日和便利店，4d7f556a6）：PC 沒有 PIL→只拍原始 far／nb／nw PNG＋景深 json（cc_views_raw_probe），雲端再去背、存 webp 推 docs/story_planning/CC/views_out/
-VIEWRAW_cvs | 4d7f556a61e028ab5409fcf0103e7448b3038b51 | probe | docs/story_planning/test_tools/cc/cc_views_raw_probe.py | index.html | 30 | NAMES=cvs
+VIEWRAW_cvs | 4d7f556a61e028ab5409fcf0103e7448b3038b51 | probe | docs/story_planning/test_tools/cc/cc_views_raw_probe.py | index.html | 30 | NAMES=cvs;RERUN=gw
 # PUTONG101-WINDOW-1102（BB 10:59：和窗景／日和一起）：teach_views 要 PIL→PC 只拍原始 PNG（cc_teach_views_raw_probe），雲端轉 webp；改前 35b88d5ff（3c6c91bdd^）；博思一樓從校園看
 TEACHVIEW_pn_new | f3b47894b3b10643fb91fd30be70bc28cad68035 | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north
 TEACHVIEW_pn_old | 35b88d5ff2613c039115576877e7f8a7525295a3 | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north
