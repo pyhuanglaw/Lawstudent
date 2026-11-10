@@ -7659,6 +7659,21 @@
    "noDirectIntegrate": false,
    "note": "在 dev 2a7edffd5 上 apply --check 乾淨，套上後 flower_notes_unit、tingzhou_unit ALL PASS；相關 56 支 Node 測試 ALL PASS。src/zones3d.js 改兩處（柱子名單一行、花攤那一段拿掉）、src/assets3d.js 拿掉 bldg.gg_flower_stall。G09、G10 沒動。",
    "next": "等 G09／G10 的決定；花序第 2 版（花的造型、二樓高度的窗景、門口橄欖樹和花台）；公館三間門口的東西和室內；夜市等使用者授權"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "525dc11eb",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "汀州路路邊機車（使用者 11-10 21:5x「長得幾乎一樣莫名其妙」；BB 收回街景 ART_APPROVED）：一群一群停、有空位、角度不一、有腳踏車",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/tingzhou_1110/tingzhou_v3b_parking.patch（README_v3.md 最後一節）"
+   ],
+   "state": "待整合；CC 同機位重拍、新舊並排給使用者看",
+   "noDirectIntegrate": false,
+   "note": "只動 src/tingzhou3d.js、tests/tingzhou_unit.js；最新 dev 上 apply --check 乾淨、tingzhou_unit ALL PASS。zone.tzScooterGLB＝正式機車模型載入成功的台數（CC 截圖時看）。",
+   "next": "夜市規劃文件補使用者四題的答案"
   }
  ]
 }

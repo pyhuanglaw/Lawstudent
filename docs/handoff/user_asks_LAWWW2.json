@@ -907,6 +907,26 @@
    "replaces": "LAWWW2 21:0x 自己畫的洗樂／印得好／泰米招牌（tz_signs_tex.py）改用圖上的",
    "note": "六張使用者生成的外觀參考圖：印得好、泰米村食、洗樂洗衣坊（汀州路）、安泰藥局、汀州鮮果、榮恩典文具社（公館）。存 docs/art-rebuild/second_ai/ref/gg_shops6_1110/concept/。照 RULES_2D_TO_3D：招牌從圖拉正裁、店內景深卡、門口的東西做模型。汀州路三間進 TINGZHOU-AREA-1110 第 2 版；公館三間＝GG-SHOPS3-ART-1110。",
    "wants": "X320"
+  },
+  {
+   "id": "UA-LAWWW2-1110-09",
+   "at": "2026-11-10T21:5x",
+   "quote": "路邊新加的機車，我剛看了一下圖，我不確定是不是最終版本長得幾乎一樣莫名其妙耶",
+   "kind": "經 BB 轉的原話（使用者對 BB 說）",
+   "status": "已完成",
+   "replaces": "汀州路第 2 版的機車排法（兩側排滿）",
+   "wants": "X321",
+   "note": "改成一群一群停、有空位、角度不一、車頭有的朝外、有腳踏車，數量 100 → 58；tingzhou_v3b_parking.patch（525dc11eb）交 LAWWW。遊戲畫面等 CC 重拍。"
+  },
+  {
+   "id": "UA-LAWWW2-1110-10",
+   "at": "2026-11-10T22:3x",
+   "quote": "做美術的AI有沒有用我的電腦幫忙Blender？她說什麼她的模型跑很慢／我的電腦都有裝了……都已經測試過了，而且都已經跑過了，為什麼你們會不知道交接前都已經做過的事情",
+   "kind": "經 LAWWW 轉的原話（使用者對 LAWWW 說）",
+   "status": "進行中",
+   "replaces": "",
+   "wants": "X331",
+   "note": "今天的 Blender 都在雲端容器（CPU、沒有顯示卡）跑，慢的是算預覽圖（整條街一張 10～13 分鐘）。規則 ROLE_LAWWW2 1.0：超過幾分鐘的 Blender 工作排到使用者的電腦（cc_local 佇列 kind blender）。之後的預覽圖、烘焙照這個排。"
   }
  ]
 }
