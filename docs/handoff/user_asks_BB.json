@@ -474,6 +474,17 @@
    "task": "RELEASE-V91023",
    "src": "BB-B 對話（AskUserQuestion「你這句『現在交班』是要我怎麼做？」）",
    "note": "BB-B duty register 16:10Z（duty_BB on，sinceSha 03d6ed8f）；接著判 CC-B 交班留下的 UX-TITLE-LANDSCAPE-1108、movreg 咖啡廳、GIFT 第四輪、學姊法圖站位"
+  },
+  {
+   "id": "UA-BB-1110-01",
+   "at": "2026-11-10T01:1x",
+   "quote": "…請AA寫是什麼電影 BB跟我要電影海報",
+   "kind": "轉述",
+   "status": "進行中",
+   "wants": "X274",
+   "task": "MOVIE-REAL-1110",
+   "src": "使用者對 LAWWW-B 說，LAWWW-B 11-10 00:47Z 轉給 BB-B",
+   "note": "順序：AA-B 先寫片單（大一到大四各段期間上映的原創電影＋類型＋一句簡介），BB 照 D97 寫海報的生成提示詞，純海報一次 10 組、原創片名、不像真實電影或品牌，再跟使用者要圖；LAWWW-B 接進大廳海報牆和 1 廳銀幕"
   }
  ]
 }
