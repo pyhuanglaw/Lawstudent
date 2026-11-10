@@ -1,0 +1,47 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shader_smoke_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHADER_new\out
+CC shader 冒煙：worktree ?；TAG new；['gongguan', 'campus', 'wenzhou', 'library_hall'] × [14.0, 20.0]；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 標題畫面／載入時沒有 shader／WebGL 錯誤  [{"type": "warning", "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."}, {"type": "warning", "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."}, {"type": "warning", "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."}, {"type": "warning", "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."}, {"type": "warning", "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."}]
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-10-18 14.0 時（出生點）
+PASS gongguan 14 時 讀得進去  {"zone": "gongguan", "x": -2.5, "z": -29, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [  54.0s] gongguan 14 時 畫面 {"mean": 155.6, "pink": 0, "black": 0.003, "zone": "gongguan", "hour": 14.07}；console error／warning 0 則，其中 shader 類 0 則：[]
+PASS gongguan 14 時 沒有 shader／WebGL 編譯錯誤  []
+PASS gongguan 14 時 畫面不是整片黑、沒有洋紅（黑 0.003 ≤ 0.9、洋紅 0.000 ≤ 0.05）  {"mean": 155.6, "pink": 0, "black": 0.003, "zone": "gongguan", "hour": 14.07}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-10-18 20.0 時（出生點）
+PASS gongguan 20 時 讀得進去  {"zone": "gongguan", "x": -2.5, "z": -29, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.08}
+  [  70.1s] gongguan 20 時 畫面 {"mean": 66.6, "pink": 0, "black": 0.013, "zone": "gongguan", "hour": 20.08}；console error／warning 0 則，其中 shader 類 0 則：[]
+PASS gongguan 20 時 沒有 shader／WebGL 編譯錯誤  []
+PASS gongguan 20 時 畫面不是整片黑、沒有洋紅（黑 0.013 ≤ 0.9、洋紅 0.000 ≤ 0.05）  {"mean": 66.6, "pink": 0, "black": 0.013, "zone": "gongguan", "hour": 20.08}
+  [前置／捷徑] 【前置／捷徑】讀檔到 campus 2025-10-18 14.0 時（出生點）
+PASS campus 14 時 讀得進去  {"zone": "campus", "x": 34, "z": -98, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [  92.3s] campus 14 時 畫面 {"mean": 132.4, "pink": 0, "black": 0, "zone": "campus", "hour": 14.07}；console error／warning 0 則，其中 shader 類 0 則：[]
+PASS campus 14 時 沒有 shader／WebGL 編譯錯誤  []
+PASS campus 14 時 畫面不是整片黑、沒有洋紅（黑 0.000 ≤ 0.9、洋紅 0.000 ≤ 0.05）  {"mean": 132.4, "pink": 0, "black": 0, "zone": "campus", "hour": 14.07}
+  [前置／捷徑] 【前置／捷徑】讀檔到 campus 2025-10-18 20.0 時（出生點）
+PASS campus 20 時 讀得進去  {"zone": "campus", "x": 34, "z": -98, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.08}
+  [ 110.2s] campus 20 時 畫面 {"mean": 32.4, "pink": 0, "black": 0.11, "zone": "campus", "hour": 20.08}；console error／warning 0 則，其中 shader 類 0 則：[]
+PASS campus 20 時 沒有 shader／WebGL 編譯錯誤  []
+PASS campus 20 時 畫面不是整片黑、沒有洋紅（黑 0.110 ≤ 0.9、洋紅 0.000 ≤ 0.05）  {"mean": 32.4, "pink": 0, "black": 0.11, "zone": "campus", "hour": 20.08}
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2025-10-18 14.0 時（出生點）
+PASS wenzhou 14 時 讀得進去  {"zone": "wenzhou", "x": 44, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "和不認識的女生說話", "stand": true, "fb": 0, "hour": 14.01}
+  [ 138.0s] wenzhou 14 時 畫面 {"mean": 96, "pink": 0, "black": 0.01, "zone": "wenzhou", "hour": 14.02}；console error／warning 0 則，其中 shader 類 0 則：[]
+PASS wenzhou 14 時 沒有 shader／WebGL 編譯錯誤  []
+PASS wenzhou 14 時 畫面不是整片黑、沒有洋紅（黑 0.010 ≤ 0.9、洋紅 0.000 ≤ 0.05）  {"mean": 96, "pink": 0, "black": 0.01, "zone": "wenzhou", "hour": 14.02}
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2025-10-18 20.0 時（出生點）
+PASS wenzhou 20 時 讀得進去  {"zone": "wenzhou", "x": 44, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.08}
+  [ 154.4s] wenzhou 20 時 畫面 {"mean": 88, "pink": 0, "black": 0.013, "zone": "wenzhou", "hour": 20.08}；console error／warning 0 則，其中 shader 類 0 則：[]
+PASS wenzhou 20 時 沒有 shader／WebGL 編譯錯誤  []
+PASS wenzhou 20 時 畫面不是整片黑、沒有洋紅（黑 0.013 ≤ 0.9、洋紅 0.000 ≤ 0.05）  {"mean": 88, "pink": 0, "black": 0.013, "zone": "wenzhou", "hour": 20.08}
+  [前置／捷徑] 【前置／捷徑】讀檔到 library_hall 2025-10-18 14.0 時（出生點）
+PASS library_hall 14 時 讀得進去  {"zone": "library_hall", "x": 0, "z": 6.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [ 184.6s] library_hall 14 時 畫面 {"mean": 146.7, "pink": 0, "black": 0.011, "zone": "library_hall", "hour": 14.07}；console error／warning 0 則，其中 shader 類 0 則：[]
+PASS library_hall 14 時 沒有 shader／WebGL 編譯錯誤  []
+PASS library_hall 14 時 畫面不是整片黑、沒有洋紅（黑 0.011 ≤ 0.9、洋紅 0.000 ≤ 0.05）  {"mean": 146.7, "pink": 0, "black": 0.011, "zone": "library_hall", "hour": 14.07}
+  [前置／捷徑] 【前置／捷徑】讀檔到 library_hall 2025-10-18 20.0 時（出生點）
+PASS library_hall 20 時 讀得進去  {"zone": "library_hall", "x": 0, "z": 6.6, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 20.08}
+  [ 199.2s] library_hall 20 時 畫面 {"mean": 94.6, "pink": 0, "black": 0.024, "zone": "library_hall", "hour": 20.08}；console error／warning 0 則，其中 shader 類 0 則：[]
+PASS library_hall 20 時 沒有 shader／WebGL 編譯錯誤  []
+PASS library_hall 20 時 畫面不是整片黑、沒有洋紅（黑 0.024 ≤ 0.9、洋紅 0.000 ≤ 0.05）  {"mean": 94.6, "pink": 0, "black": 0.024, "zone": "library_hall", "hour": 20.08}
+PASS 沒有 JS 例外（pageerror）  []
+ALL PASS
