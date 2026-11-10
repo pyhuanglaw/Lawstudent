@@ -606,3 +606,12 @@
 [07:45:09] ==== START TE_N01  (probe @ 201803df0a593a75e084f5a11718cedb3c512bd3) ====
 [07:45:12] [res] cpu=4% mem=48% (15.1/31.4 GB) chrome_testing=8  START TE_N01
 [07:47:51] [res] cpu=3% mem=53% (16.9/31.4 GB) chrome_testing=8  END TE_N01
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3787c678e..67a4082c8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[07:47:57] ==== END   TE_N01  exit=0  162s   ====
+[07:48:06] memory 52% before starting GG3_int_new_14_r2 (2 running)
+[07:48:06] ==== START GG3_int_new_14_r2  (probe @ dbbe05fa5a03f113ef4a0bae36777a153f98fef8) ====
+[07:48:09] [res] cpu=1% mem=52% (16.4/31.4 GB) chrome_testing=8  START GG3_int_new_14_r2
+[07:49:02] 正在跑：GG3_reach_new（已跑 6 分／上限 40 分）、GG3_reach_old（已跑 4 分／上限 40 分）、GG3_int_new_14_r2（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[07:51:51] [res] cpu=1% mem=51% (16.1/31.4 GB) chrome_testing=9  END GG3_reach_new
