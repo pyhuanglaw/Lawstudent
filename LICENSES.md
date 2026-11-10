@@ -200,7 +200,7 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
 | Poly Haven `rounded_square_tiled_wall`（Charlotte Baglioni） | https://polyhaven.com/a/rounded_square_tiled_wall | CC0 | 溫州街公寓的小方塊馬賽克外牆 |
 | Poly Haven `painted_metal_shutter`（Charlotte Baglioni、Dario Barresi、Rico Cilliers） | https://polyhaven.com/a/painted_metal_shutter | CC0 | 溫州街公寓一樓的鐵捲門 |
 | Poly Haven `square_brick_paving`（Dimitrios Savva） | https://polyhaven.com/a/square_brick_paving | CC0 | 溫州街騎樓地坪、小公園的步道與圓形廣場 |
-| Poly Haven `brick_pavement_04`（Charlotte Baglioni） | https://polyhaven.com/a/brick_pavement_04 | CC0 | 溫州街 Café 門前的紅磚人行道 |
+| Poly Haven `brick_pavement_04`（Charlotte Baglioni） | https://polyhaven.com/a/brick_pavement_04 | CC0 | 溫州街 Café 門前的紅磚人行道；新生南路校園那一側的紅磚人行道（調色成 `assets/textures/campus/brick_red_{diff,nor}.webp`，`tools/blender/env_second/textures/xs_brick_tex.py`） |
 | Poly Haven `grey_roof_tiles`（Rob Tuytel） | https://polyhaven.com/a/grey_roof_tiles | CC0 | 總圖書館的四坡屋頂（校正成深褐灰）。日式宿舍的黑瓦沒有用它（改用本作程式產生的貼圖） |
 | 溫州街日式宿舍＋院牆 `assets/models/env/second_ai/wz_jphouse.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_jphouse.py` | 本作 | 溫州街 A 側的日式宿舍（取代套件 `TK.japaneseHouse`、`TK.wall` 的外觀） |
 | 溫州街電線桿、反光鏡、路名牌、Café 門前紅磚道、路面 `assets/models/env/second_ai/wz_props.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_props.py`；路面貼圖 `textures/gen/wz_road_atlas.jpg`、顆粒法線 `wz_road_grain_nor.png` 是程式畫的（`wz_road_tex.py`，numpy＋PIL，不用外部貼圖；「慢」字用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**） | 本作 | 溫州街主巷、東端路口、三條側巷 |

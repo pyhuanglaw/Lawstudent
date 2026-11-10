@@ -51803,7 +51803,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 12:5x】LAWWW2 a347731be：新生南路靠校園圍牆 16 段花台（花崗石矮框 0.45 m、修剪杜鵑，3 月開花，季節照 wzParkSeason；段間 1.2 m、側門前後空 1 m），xs_planters.glb 1.2 萬三角形，導航擋花台；xs_planters（開發 FAIL 3→ALL PASS）、xinsheng、窗景卡、bike_park ALL PASS；CC 從側門往南、往北各拍一張，BB 判。差距表待排：正式門柱圍牆、紅磚紋、望月台停車場取車。 ｜ 【LAWWW 11-10 12:4x】LAWWW2 差距表：紅磚人行道（只有純色，小）、廣場、望月台都有；人行道花台沒有 → 做（圍牆內側 x 15.5～17.8，避開門洞、候車亭，花崗石矮框＋灌木杜鵑，導航擋住）；側門門柱、鐵門、圍牆還是程序化（大，D38 近景）→ 先不做、待排；停車場取車是 DRIVE-PICKUP（系統）。",
+   "next": "【LAWWW 13:4x】紅磚人行道磚紋（LAWWW2 4ec912641）：Poly Haven CC0 brick_pavement_04 調回 #b77a62，xs_brick_walk 共用材質、世界座標 UV，網格數 238→238；xs_brick_walk（開發 FAIL 4→PASS）、xs_planters、xinsheng ALL PASS；CC 拍側門外白天晚上、BB 判。差距表剩：正式門柱圍牆（派 LAWWW2）、望月台停車場取車（系統）。 ｜ 【LAWWW 11-10 12:5x】LAWWW2 a347731be：新生南路靠校園圍牆 16 段花台（花崗石矮框 0.45 m、修剪杜鵑，3 月開花，季節照 wzParkSeason；段間 1.2 m、側門前後空 1 m），xs_planters.glb 1.2 萬三角形，導航擋花台；xs_planters（開發 FAIL 3→ALL PASS）、xinsheng、窗景卡、bike_park ALL PASS；CC 從側門往南、往北各拍一張，BB 判。差距表待排：正式門柱圍牆、紅磚紋、望月台停車場取車。 ｜ 【LAWWW 11-10 12:4x】LAWWW2 差距表：紅磚人行道（只有純色，小）、廣場、望月台都有；人行道花台沒有 → 做（圍牆內側 x 15.5～17.8，避開門洞、候車亭，花崗石矮框＋灌木杜鵑，導航擋住）；側門門柱、鐵門、圍牆還是程序化（大，D38 近景）→ 先不做、待排；停車場取車是 DRIVE-PICKUP（系統）。",
    "xai": {
     "spec": "USER_WANTS X246（使用者照片，不在 repo）",
     "branch": "claude/second-ai-env-art",

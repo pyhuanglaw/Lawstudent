@@ -55,8 +55,17 @@ const XS3=(function(){
       const bench=new THREE.Mesh(new THREE.BoxGeometry(0.45,0.06,b.w*0.6),M('#8a6440')); bench.position.set(0.5,0.46,0); sh.add(bench); sh.position.set(b.x,0,b.z); g.add(sh); }   /* 候車亭（套件暫代；長椅可以坐之後接）*/
     // 地面（套件，暫代：地面的正式模型還沒做）
     { const r=TK.road(R.z1-R.z0,R.x1-R.x0); r.position.set((R.x0+R.x1)/2,0,(R.z0+R.z1)/2); r.rotation.y=Math.PI/2; r.userData.dyn=true; g.add(r); }
+    /* X246 紅磚人行道磚紋（XS-BRICK-WALK-1110，LAWWW2 帳號 A 11-10；LAWWW 派：PBR 磚紋、draw call 不增加，D38 第 6 點）：校園那一側的紅磚人行道（近景、遠景兩頭、南端沿圍牆那一段、側門洞裡那一小段）
+       原本是純色 #b77a62 → Poly Haven CC0 brick_pavement_04 的丁字砌紅磚（tools/blender/env_second/textures/xs_brick_tex.py：平均調成原本的 #b77a62，assets/textures/campus/brick_red_{diff,nor}.webp）。
+       全部共用一個材質，UV 照世界座標（一張 1.8 m，磚的長邊順著人行道 z 方向）：遠景照舊照材質合成一個網格，draw call 和原本一樣；每一段接得上、不會每段從頭開始。
+       貼圖載入前、載入失敗：照舊是 #b77a62 的純色（同一個材質，載到才換圖）*/
+    const BRICK_T=1.8, brickM=new THREE.MeshStandardMaterial({color:new THREE.Color('#b77a62'),roughness:0.9,metalness:0}); brickM.name='xs_brick_walk';
+    try{ const TL=new THREE.TextureLoader();
+      TL.load('assets/textures/campus/brick_red_diff.webp',t=>{ t.wrapS=t.wrapT=THREE.RepeatWrapping; t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; brickM.map=t; brickM.color.set(0xffffff); brickM.needsUpdate=true; },undefined,()=>{});
+      TL.load('assets/textures/campus/brick_red_nor.webp',t=>{ t.wrapS=t.wrapT=THREE.RepeatWrapping; brickM.normalMap=t; brickM.normalScale.set(0.7,0.7); brickM.needsUpdate=true; },undefined,()=>{}); }catch(e){}
+    const brick=m=>{ m.material=brickM; m.updateMatrix(); const p=m.geometry.attributes.position, uv=m.geometry.attributes.uv, v=new THREE.Vector3(); for(let i=0;i<p.count;i++){ v.fromBufferAttribute(p,i).applyMatrix4(m.matrix); uv.setXY(i,v.z/BRICK_T,v.x/BRICK_T); } uv.needsUpdate=true; return m; };
     const flat=(x0,x1,z0,z1,c,y)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(x1-x0,z1-z0),M(c)); m.rotation.x=-Math.PI/2; m.position.set((x0+x1)/2,y||0.012,(z0+z1)/2); m.receiveShadow=true; m.userData.dyn=true; g.add(m); return m; };
-    flat(WE.x0,CW.x+0.4,R.z0,R.z1,'#b77a62');                               // 紅磚人行道
+    brick(flat(WE.x0,CW.x+0.4,R.z0,R.z1,'#b77a62'));                        // 紅磚人行道
     flat(AR.x0,WW.x1,R.z0,R.z1,'#cfc8bb');                                  // 騎樓、人行道
     flat(WL.x0,AR.x0,WL.z0,WL.z1,'#a9a9a6',0.006);                          // 巷口
     flat(R.median.x0,R.median.x1,R.z0,R.z1,'#8e8a82',0.03);                 // 分隔島（斑馬線那一段照舊畫，導航是開的）
@@ -72,14 +81,14 @@ const XS3=(function(){
       for(const [a,b] of mainN.concat(mainS)){ const r=TK.road(b-a,R.x1-R.x0); r.position.set((R.x0+R.x1)/2,0,(a+b)/2); r.rotation.y=Math.PI/2; r.name='xs_far_road'; ext.add(r); }
       { const r=TK.road(R.x1+140,AN[1]-AN[0]-2*ar); r.position.set((R.x1-140)/2,0,(AN[0]+AN[1])/2); r.name='xs_far_road_armN'; ext.add(r); }   // 北端往西（路口中間那一塊也是它）
       { const r=TK.road(280,AS[1]-AS[0]-2*ar); r.position.set(0,0,(AS[0]+AS[1])/2); r.name='xs_far_road_armS'; ext.add(r); }                    // 南端兩邊
-      const fg=new THREE.Group(); const fl=(x0,x1,z0,z1,c,y)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(x1-x0,z1-z0),M(c)); m.rotation.x=-Math.PI/2; m.position.set((x0+x1)/2,y||0.012,(z0+z1)/2); m.receiveShadow=true; fg.add(m); };
+      const fg=new THREE.Group(); const fl=(x0,x1,z0,z1,c,y)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(x1-x0,z1-z0),M(c)); m.rotation.x=-Math.PI/2; m.position.set((x0+x1)/2,y||0.012,(z0+z1)/2); m.receiveShadow=true; fg.add(m); return m; };
       for(const [a,b] of cut(FA.zN,R.z0,[AN]).concat(cut(R.z1,FA.zS,[AS]))) fl(AR.x0,WW.x1,a,b,'#cfc8bb');                       // 西側騎樓＋人行道
-      fl(WE.x0,CW.x+0.4,FA.zN,R.z0,'#b77a62');                                                                                       // 東側（校園那一側）紅磚：北段（T 字路口東側沒有路，不斷開）
-      fl(WE.x0,CW.x+0.4,R.z1,AS[0]+ar,'#b77a62');                                                                                    // 南段到路口前
+      brick(fl(WE.x0,CW.x+0.4,FA.zN,R.z0,'#b77a62'));                                                                                       // 東側（校園那一側）紅磚：北段（T 字路口東側沒有路，不斷開）
+      brick(fl(WE.x0,CW.x+0.4,R.z1,AS[0]+ar,'#b77a62'));                                                                                    // 南段到路口前
       fl(WE.x0,-WW.x0,AS[1]-ar,FA.zS,'#cfc8bb');                                                                                     // 南端路口過去：東側是城市（人行道到樓房立面 x 13）
       const zc=AS[0]-1.6;   // 南端：校園圍牆在路口前轉角往東的那一條（牆中心）
       for(const [z0,z1] of [[AN[0],AN[0]+ar],[AN[1]-ar,AN[1]],[AS[0],AS[0]+ar],[AS[1]-ar,AS[1]]]) fl(-140,WW.x1,z0,z1,'#cfc8bb');   // 橫向路兩邊的人行道（西邊，接到主路的路緣）
-      fl(CW.x+0.4,140,zc+0.3,AS[0]+ar,'#b77a62'); fl(-WW.x0,140,AS[1]-ar,AS[1],'#cfc8bb');                                           // 南端東邊：北側沿著校園圍牆（紅磚，從牆腳開始）、南側是城市
+      brick(fl(CW.x+0.4,140,zc+0.3,AS[0]+ar,'#b77a62')); fl(-WW.x0,140,AS[1]-ar,AS[1],'#cfc8bb');                                           // 南端東邊：北側沿著校園圍牆（紅磚，從牆腳開始）、南側是城市
       for(const [a,b] of mainN.concat(mainS)) fl(R.median.x0,R.median.x1,a,b,'#8e8a82',0.03);                                       // 分隔島
       for(const zc of [AN[0]-2.5,AN[1]+2.5,AS[0]-2.5,AS[1]+2.5]) for(let x=R.x0+0.7;x<R.x1-0.5;x+=1.2) fl(x-0.28,x+0.28,zc-2.2,zc+2.2,'#efefe8',0.022);   // 斑馬線（過主路）
       for(const [x0,x1,zA] of [[-15,-11,AN],[-15,-11,AS],[8.5,12.5,AS]]) for(let z=zA[0]+ar+0.6;z<zA[1]-ar-0.4;z+=1.2) fl(x0,x1,z-0.28,z+0.28,'#efefe8',0.022);   // 斑馬線（過橫向路）
@@ -112,7 +121,7 @@ const XS3=(function(){
       const GZ0=S.FAR.zN, GZ1=S.FAR.armS[0]-1.9;   /* XS-FARVIEW-1105：草地往北接到街的盡頭、往南停在路口前的圍牆（原本 z ±85，南端會蓋到路口的路面）*/
       const gt=W3.grassTex().clone(); gt.wrapS=gt.wrapT=THREE.RepeatWrapping; const GW=140, GD=GZ1-GZ0; gt.repeat.set(GW/4,GD/4); gt.needsUpdate=true;
       const lawn=new THREE.Mesh(new THREE.PlaneGeometry(GW,GD),new THREE.MeshStandardMaterial({map:gt,roughness:0.95})); lawn.rotation.x=-Math.PI/2; lawn.position.set(CW.x+0.35+GW/2,0.004,(GZ0+GZ1)/2); lawn.receiveShadow=true; lawn.userData.dyn=true; back.add(lawn);
-      { const pv=new THREE.Mesh(new THREE.PlaneGeometry(3.4,SG.w+0.6),M('#b77a62')); pv.rotation.x=-Math.PI/2; pv.position.set(CW.x+1.6,0.012,SG.z); pv.receiveShadow=true; pv.userData.dyn=true; back.add(pv); }   // 門洞裡面一小段紅磚（和人行道同色），不是草直接接到門口
+      { const pv=new THREE.Mesh(new THREE.PlaneGeometry(3.4,SG.w+0.6),M('#b77a62')); pv.rotation.x=-Math.PI/2; pv.position.set(CW.x+1.6,0.012,SG.z); pv.receiveShadow=true; pv.userData.dyn=true; brick(pv); back.add(pv); }   // 門洞裡面一小段紅磚（和人行道同色），不是草直接接到門口
       const trees=new THREE.Group(); trees.name='xs_campus_trees'; let sd=1300;
       const T=(x,z,h,o)=>{ if(!TK.tree) return; const t=TK.tree(h,sd++,o); t.position.set(x,0,z); t.rotation.y=H(z,x)*6.28; trees.add(t); };
       /* XS-NORTH-EXT-1105（LAWWW2-C 11-05；使用者「門就不要往左邊開了直接往上面開」「新月台也貼著上方的最左邊」「體育館…改到新月台法學院中間」）：
