@@ -53049,6 +53049,61 @@
    "resumeWhen": "使用者說可以實作；上師真實身分由她從 AA 三個候選裡選",
    "recheckOn": "2026-11-13",
    "next": "規劃階段可以做的：LAWWW2 資產盤點表、美術差異、街道配置方案；AA 上師大綱與三種身分候選；BB 檢查清單。TINGZHOU-NIGHTMARKET-1110（看／買互動）照新店名等授權"
+  },
+  {
+   "id": "PEISHAN-VOICE-1110",
+   "title": "沛珊全遊戲台詞重寫：有趣、聰明、會接好笑的梗（使用者更正人物個性，X327）",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "沛珊出場",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "AA 分批重寫（階梯、約會、期末飯、告白、訊息、事件），每批 SHA 交 LAWWW 重匯；BB 看",
+   "xai": {
+    "spec": "X327、UA-AA-1110-06",
+    "branch": "claude/story-planning",
+    "acceptance": "AA 定稿＋BB 第二意見；LAWWW 匯入",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "TERMEND-OPTS-1110",
+   "title": "期末飯桌選項（AA_748 朋友版、AA_749 女朋友版）：匯入、選項顯示順序洗牌（同一天固定）、三種特別結構（子晴 if:noQ6／Q6 兩組、學姊大四上 snow 分支、語彤 sayByKind）、有選項那一頓不接朋友話題池",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "學期末",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "等 AA 的 SHA（AA_749 改五處；AA_748 拿掉芷若、沛珊；LAWWW 11-10）",
+   "resumeWhen": "AA 給 SHA",
+   "recheckOn": "2026-11-11",
+   "next": "到了就匯、做洗牌，交 BB 測（每人抽兩頓）",
+   "xai": {
+    "spec": "X324、BB_314",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "BB 判",
+    "receiver": "BB",
+    "ack": "未派"
+   }
   }
  ]
 }
