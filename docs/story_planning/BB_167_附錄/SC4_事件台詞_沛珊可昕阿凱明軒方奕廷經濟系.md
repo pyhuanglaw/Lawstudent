@@ -89,7 +89,6 @@
 
 | 人物 | 口頭禪／句型 | 次數與位置 | 判斷 |
 |---|---|---|---|
-| 沛珊 | 「奇怪的問題」 | 1（`ev_welcome_y1s1`，大一上） | 在上限 1 以內 |
 | 沛珊 | 「好奇怪」 | 3（`ev_peishan_doubt`、`ev_peishan_syllogism`，大一上；`ps_teacher_y1s2`，大一下） | 偏多，建議留 1 |
 | 沛珊 | 「還在找」 | 2（`ev_welcome_y1s1`、`ev_peishan_doubt`，同一學期） | 建議留迎新那次 |
 | 沛珊 | 「框」 | 5（`ev_peishan_syllogism` 2＋玩家選項 1、`ev_peishan_decision` 2） | 主線母題，見「拿不準的」 |
