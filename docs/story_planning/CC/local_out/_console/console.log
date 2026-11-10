@@ -360,3 +360,12 @@
 [00:03:18] ==== START USCLS_B  (probe @ 01bab1823003df827be3d76bc7d2c13ef034dacb) ====
 [00:03:21] [res] cpu=2% mem=50% (15.6/31.4 GB) chrome_testing=9  START USCLS_B
 [00:04:08] [res] cpu=13% mem=48% (14.9/31.4 GB) chrome_testing=9  END SHIFT_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       97ddcc5c9..279250bc2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[00:04:15] ==== END   SHIFT_old  exit=0  473s   ====
+[00:04:19] memory 49% before starting US_ART_fix (2 running)
+[00:04:19] ==== START US_ART_fix  (probe @ 01bab1823003df827be3d76bc7d2c13ef034dacb) ====
+[00:04:22] [res] cpu=7% mem=49% (15.4/31.4 GB) chrome_testing=9  START US_ART_fix
+[00:06:59] 正在跑：USCLS_A（已跑 4 分／上限 60 分）、USCLS_B（已跑 3 分／上限 75 分）、US_ART_fix（已跑 2 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:08:38] [res] cpu=8% mem=48% (15.1/31.4 GB) chrome_testing=10  END US_ART_fix
