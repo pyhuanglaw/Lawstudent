@@ -65,6 +65,9 @@ TZ3_signs_v2 | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_pla
 TZQ_ggnav | 5e6f4990ce37fb9b1809d056eaa64c8024476948 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
 TZQ_zone | 5e6f4990ce37fb9b1809d056eaa64c8024476948 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
 TZQ_reach | 5e6f4990ce37fb9b1809d056eaa64c8024476948 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
+# X331（LAWWW2 22:19，副本 BB／LAWWW）：LAWWW2 的 Blender 預覽（腳本 second-ai-env-art 285963bc6；>10 分鐘＝排在瀏覽器項目後面，BB 22:02）
+LW2_FN_VIEW | 2a7edffd52730b9410533f7c1a503b83e288d28c | blender | tools/blender/env_second/flower_notes_view.py | index.html | 30 | SCRIPT_FROM=lawww2;XARGS=--out {out}
+LW2_TZ_PREV | 2a7edffd52730b9410533f7c1a503b83e288d28c | blender | tools/blender/env_second/tingzhou_preview.py | index.html | 60 | SCRIPT_FROM=lawww2;XARGS=--out {out} --times day,dusk --views ref_street,taimi_front,three,alley_stalls,market_stalls
 ARCAFTER_base_b | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=ARC_AXDONE
 SHIFT_IMM_r6_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 20 | TAG=imm6_new;IMM=1;CASES=B,F
 SHIFT_IMM_r6_old | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 20 | TAG=imm6_old;IMM=1;CASES=B,F
