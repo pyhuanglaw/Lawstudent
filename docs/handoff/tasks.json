@@ -52974,7 +52974,7 @@
    "id": "BUG-NY-EXIT-1110",
    "title": "待查 P1：看完電影在南洋戲院大廳道別以後走不到出口（CC：120 秒停在 (2.6,−0.3)，出口 (0,6.55)；另一次 88 秒才到）——線上 v9.10.24 也有這個流程",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52987,10 +52987,8 @@
     "confirmed": false
    },
    "sha": null,
-   "pausedReason": "等 BB／CC 的 NY_EXIT 探針（線上 779ddd650 和開發分支各跑觸控、搖桿，記位置、busy、path、她站哪）判是探針還是遊戲（LAWWW 11-10 21:0x）",
-   "resumeWhen": "BB 判定回來",
-   "recheckOn": "2026-11-11",
-   "next": "是遊戲問題就當批修、補發 v9.10.24.1"
+   "next": "無（不是遊戲問題）",
+   "cancelReason": "BB 11-10 21:14 判 TEST_BUG：線上 779ddd650、開發 9f20f1808 觸控和搖桿各一次都走得到出口（busy false、ADV 關、她不擋路）；上一輪是 CC 探針的走法繞到長椅那一帶（BB_255 d614215431）"
   }
  ]
 }
