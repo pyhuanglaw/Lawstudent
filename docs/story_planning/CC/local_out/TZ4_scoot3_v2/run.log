@@ -1,0 +1,10 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tingzhou_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TZ4_scoot3_v2\out
+CC 汀州路 v1：PARTS SCOOT3；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 14.0 時 (0.0,6.0) （機車三款）
+PASS [SCOOT3] 讀到 scooter.glb 的款式和路邊每台的位置  {"V": [{"code": "S1A", "w": 0.22, "size": [2.15, 1.2, 0.67], "vol": 1.732, "pal": 9}, {"code": "S1A_C", "w": 0.03, "size": [1.82, 1.1, 0.52], "vol": 1.05, "pal": 3}, {"code": "S1B", "w": 0.24, "size": [1.85, 1.21, 0.67], "vol": 1.498, "pal": 10}, {"code": "S1B_D", "w": 0.07, "size": [2.2, 1.25, 0.67
+  [  51.7s] [SCOOT3] scooter.glb 款式（有擺在路邊的 12／全部 12 款）：[{"code": "S1A", "w": 0.22, "size": [2.15, 1.2, 0.67], "vol": 1.732, "pal": 9}, {"code": "S1A_C", "w": 0.03, "size": [1.82, 1.1, 0.52], "vol": 1.05, "pal": 3}, {"code": "S1B", "w": 0.24, "size": [1.85, 1.21, 0.67], "vol": 1.498, "pal": 10}, {"code": "S1B_D", "w": 0.07, "size": [2.2, 1.25, 0.67], "vol": 1.839, "pal": 5}, {"code": "S2", "w": 0.2, "size": [1.96, 1.21, 0.71], "vol": 1.699, "pal": 8}, {"code": "S3", "w": 0.04, "size": [2.07, 1.37, 0.71], "vol": 2.017, "pal": 5}, {"code": "S4", "w": 0.07, "size": [1.89, 1.21, 0.66], "vol": 1.516, "pal": 8}, {"code": "S5", "w": 0.1, "size": [1.84, 1.18, 0.67], "vol": 1.46, "pal": 8}, {"code": "S5_H", "w": 0.05, "size": [1.84, 1.18, 0.71], "vol": 1.535, "pal": 8}, {"code": "S6", "w": 0.03, "size": [1.93, 1.22, 0.67], "vol": 1.579, "pal": 5}, {"code": "S7", "w": 0.07, "size": [1.68, 1.12, 0.62], "vol": 1.171, "pal": 7}, {"code": "S9", "w": 0.02, "size": [1.96, 1.2, 0.66], "vol": 1.569, "pal": 5}]
+  [  52.1s] [SCOOT3] 三款：[["S1A_C", [1.82, 1.1, 0.52]], ["S9", [1.96, 1.2, 0.66]], ["S3", [2.07, 1.37, 0.71]]]
+PASS 沒有 JS 例外  []
+ALL PASS
