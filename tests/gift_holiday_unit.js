@@ -14,6 +14,11 @@
 //  10. 可昕專屬場次那一天不出現；special 只有那一位的選單會列
 //  11. 山嵐文具區學姊：學期中週六 15～16、隔週；sl_sis_1／2／3／rot 的挑法；sl_sis_3 扣 250、錢不夠她付；作息 SCHED_X；提示一年一次
 //  12. 物品分頁、人物頁、宿舍櫃子
+//  13. AA_732 rules 最後一條（d1bf75f6f，11-10 12:4x 四問）：
+//      ② 圖書館讀書區「小聲」那套：期末考前 EXLIB.talk（打完招呼）多「送她禮物…」；她的第一句加（小聲）（讀書區 LIBQ 本來就整段加；A館 4F 只有第一句）；第一次只點頭不出；平常日子沒有
+//      ③ 芷若在吧檯上班（點餐那套）：節日點餐選單多「送她禮物…」，送完演完加「（她把東西收到吧檯下面。）」；平常日子沒有；送滿兩個人＝third、不加那句
+//      ④ 學姊生日原本的事件（SIS_BDAY_Y1／Y2）演過＝那一天沒有「送她禮物…」；遞茶葉（tea）記 sent＋GIFT_GIVEN（那一天）；沒演到（missed、沒有旗標）照一般；2028 照一般
+//      山嵐文具區學姊的站位離「看文具」≥1.2 m（BUG-SHANLAN-SIS-STEAL-1110；真的導航在 tests/shanlan_unit.js ⑪）
 // 用法：node tests/gift_holiday_unit.js
 const H=require('./pg_harness.js');
 const {check,GM}=H;
@@ -263,6 +268,82 @@ const flat=L=>L.join('');
     check('12. 宿舍房間的櫃子：她送的那一樣（名字＋lines 第一句）',!!row&&J(row[1])===J([GIFT_HOLIDAY.give[SIS].xmas.B.item+'。',T(G,GIFT_HOLIDAY.give[SIS].xmas.B.lines[0])]),J(row));
     const src=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), gsrc=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8');
     check('12. index.html：選單「物品」分頁、載入 gift_holiday.js、gifthol3d.js（在 fest3d.js 之後）',/data-tab="items">物品</.test(src)&&/id="itemsList"/.test(src)&&src.indexOf('src/gifthol3d.js')>src.indexOf('src/fest3d.js')&&src.indexOf('src/data/gift_holiday.js')<src.indexOf('src/gifthol3d.js')&&/GIFTH\.renderBag/.test(gsrc)&&/GIFTH\.personHTML/.test(gsrc)); });
+
+  /* ======================= 13 AA_732 rules 最後一條（②③④）======================= */
+  /* 這一節才載入 LIBQ、EXLIB（會包 STORY.talkCharacter）：放最後，前面各節不受影響 */
+  let okQ=false, qerr=''; try{ okQ=load('src/libquiet3d.js')&&load('src/data/examlib_lines.js')&&load('src/examlib3d.js'); }catch(e){ qerr=String(e&&e.stack||e); }
+  check('13. 載入 libquiet3d.js、examlib_lines.js、examlib3d.js',okQ&&typeof LIBQ!=='undefined'&&typeof EXLIB!=='undefined',qerr.slice(0,200));
+  if(okQ&&EXLIB._bindGM) EXLIB._bindGM(GM);   /* STORY.talkCharacter 的 EXLIB 那一層讀 lastGM（平常由 populate 設）*/
+  const say0=GM.say; GM.say=(w,t)=>say0(w,typeof LIBQ!=='undefined'?LIBQ.whisper(GM,w,t):t);   /* 同 game3d.js 的 say：讀書區自動加（小聲）*/
+  const herSaid=(id)=>H.said.filter(x=>x.who===SOCIAL.displayName(id)).map(x=>x.t);
+  const markUp=id=>{ for(let k=0;k<6&&SOCIAL.upLine&&SOCIAL.upLine(id);k++) SOCIAL.markUp(id,SOCIAL.upLine(id).k); };
+  await sec('13②',async()=>{
+    /* 期末考前（EXLIB 開著）的法圖：學姊生日 2026-06-02（大一下第 15 週；聖誕、2/14、七夕都在放假，期末考前那一段只碰得到生日）*/
+    const G=setup('2026-06-02',15,{lv:{[SIS]:4},zone:'lawlib'}); markUp(SIS); GM.E.player.lv=1; buy('g_green_hl');
+    check('13② 前提：2026-06-02 是她的生日、期末考前那一段（EXLIB.on）、法圖讀書區（EXLIB.here）、學姊在表上（法圖）',EXLIB.on(G)&&EXLIB.here(GM)&&!!EXLIB.inCast(G,SIS),J({on:EXLIB.on(G),here:EXLIB.here(GM)}));
+    const n={obj:{position:{x:0,z:0},rotation:{y:0}},charId:SIS,seat:{x:0,z:0}};
+    let r=await run(()=>STORY.talkCharacter(SIS,n));
+    check('13② 這一段這一間第一次＝只點頭，不出「送她禮物…」',!r.O.length&&r.L.length===1&&r.L[0]===LIBQ.nodLine(SIS),J(r.L));
+    r=await run(()=>STORY.talkCharacter(SIS,n),['送她禮物…','螢光筆']);
+    const her=herSaid(SIS), P=EXAMLIB_LINES.people[SIS];
+    check('13② 之後：先（小聲）那一句，再「送她禮物…」「就這樣」',r.O.length>=2&&J(r.O[0])===J(['送她禮物…','就這樣'])&&her[0]===P.lines[0][0],J(r.O)+' '+J(her.slice(0,2)));
+    const firstHer=her[1];
+    check('13② 送了：反應照一般的（「你把…遞給她。」＋open／item），她的第一句前面有「（小聲）」；她說的每一句都是小聲（讀書區 LIBQ）',GIFTH.sentThis(G,SIS,{k:'bday',y:2026})&&/^（[^）]*小聲/.test(firstHer)&&her.slice(1).every(t=>/小聲/.test(t))&&r.L.indexOf('你把一盒綠色螢光筆遞給'+SOCIAL.displayName(SIS)+'。')>=0,J(her.slice(1,4)));
+    r=await run(()=>STORY.talkCharacter(SIS,n));
+    check('13② 送過了：同一天再說話不再出「送她禮物…」',!r.O.some(o=>o.includes('送她禮物…')),J(r.O));
+    /* 平常日子：沒有 */
+    const G2=setup('2026-05-26',15,{lv:{[SIS]:4},zone:'lawlib'}); markUp(SIS); GM.E.player.lv=1; buy('g_green_hl'); EXLIB.nodRec(G2,'lawlib')[SIS]=1;
+    r=await run(()=>STORY.talkCharacter(SIS,n));
+    check('13② 平常日子（2026-05-26，期末考前那一段）：打招呼照舊、沒有「送她禮物…」',EXLIB.on(G2)&&!r.O.length&&herSaid(SIS).length===1,J(r.O)+J(r.L));
+    /* A館 4F（EXLIB 的讀書區、不是 LIBQ 的區域）：只有她的第一句加（小聲） */
+    const G3=setup('2025-12-24',15,{lv:{[ZQ]:4},zone:'linze_4f'}); buy('g_green_hl');
+    r=await run(()=>GIFTH.libTalk(GM,who(ZQ),ZQ),['送她禮物…','螢光筆']); const hz=herSaid(ZQ);
+    check('13② 不是 LIBQ 的讀書區（A館 4F）：她的第一句加（小聲）、其他照舊',hz.length>=2&&/^（[^）]*小聲/.test(hz[0])&&hz.slice(1).every(t=>!/^（小聲）/.test(t)),J(hz.slice(0,3)));
+    /* 不送：選「就這樣」＝她照舊給（同 offerInvite 後面）*/
+    const G4=setup('2025-12-24',15,{lv:{[SIS]:4},zone:'lawlib'}); GM.E.player.lv=1;
+    r=await run(()=>GIFTH.libTalk(GM,who(SIS),SIS),['就這樣']);
+    check('13② 選「就這樣」：不送，她照舊給（AA_734 聖誕第 4 階 B）',r.r==='skip'&&!GIFTH.sentThis(G4,SIS,{k:'xmas',y:2025})&&!!GIFTH.rec(G4).got[SIS+'|xmas|2025'],J(r.L.slice(0,3)));
+    GM.E.player.lv=0; });
+  await sec('13③',async()=>{
+    const n={obj:{position:{x:0,z:0},rotation:{y:0}},charId:ZR,staff:'cafe'};
+    /* 今天第一次跟吧檯的她說話是「兩點半的店員」那一段（ev_cafe_barista_zhiruo，一天一次）；第二次起＝點餐（story3d.js counter）——這裡測點餐那一套 */
+    const cool=()=>{ const E0=H.G.events; E0.done.ev_cafe_barista_zhiruo=1; E0.last.ev_cafe_barista_zhiruo=H.G.day; };
+    const G=setup('2025-12-24',15,{lv:{[ZR]:4},zone:'cafe'}); cool(); buy('g_green_hl'); const m0=G.money;
+    let r=await run(()=>STORY.talkCharacter(ZR,n),['送她禮物…','螢光筆']);
+    const narr=GIFTH.COUNTER_NARR;
+    check('13③ 吧檯點餐選單：菜單、買禮物…、送她禮物…、不用了（送她禮物… 在「不用了」前面）',r.O[0]&&r.O[0].includes('送她禮物…')&&r.O[0].includes('買禮物…')&&r.O[0][r.O[0].length-1]==='不用了'&&r.O[0].indexOf('送她禮物…')===r.O[0].length-2,J(r.O[0]));
+    check('13③ 送了：反應照一般的（open＋love／ok／no），演完最後一句是「（她把東西收到吧檯下面。）」；沒扣錢、沒點餐',GIFTH.sentThis(G,ZR,{k:'xmas',y:2025})&&r.L[r.L.length-1]===narr&&r.L.indexOf('你把一盒綠色螢光筆遞給'+SOCIAL.displayName(ZR)+'。')>=0&&G.money===m0&&narr==='（她把東西收到吧檯下面。）',J(r.L.slice(-3)));
+    r=await run(()=>STORY.talkCharacter(ZR,n),['不用了']);
+    check('13③ 送過了：同一天點餐選單沒有「送她禮物…」',!r.O[0].includes('送她禮物…'),J(r.O[0]));
+    /* 點餐照舊（菜單第一項）*/
+    const G2=setup('2025-12-17',15,{lv:{[ZR]:4},zone:'cafe'}); cool(); buy('g_green_hl'); const m2=G2.money;
+    r=await run(()=>STORY.talkCharacter(ZR,n),[0]);
+    check('13③ 平常日子：沒有「送她禮物…」；點餐照舊（扣錢）',!r.O[0].includes('送她禮物…')&&G2.money<m2,J(r.O[0]));
+    /* 這個節日已經送了兩個人：灰掉、按下去 third、不加那句 */
+    const G3=setup('2025-12-24',15,{lv:{[ZR]:4},zone:'cafe'}); cool(); buy('g_green_hl'); GIFTH.rec(G3).fest['xmas|2025']=[AN,ZQ];
+    r=await run(()=>STORY.talkCharacter(ZR,n),['送她禮物…']);
+    check('13③ 送滿兩個人：third 那一句，不加「（她把東西收到吧檯下面。）」',GIFT_HOLIDAY.third.includes(r.L[r.L.length-1])&&!r.L.includes(narr),J(r.L)); });
+  await sec('13④',async()=>{
+    const G=setup('2026-06-02',20,{lv:{[SIS]:3},flags:{SIS_BDAY_Y1:'tea'}});
+    check('13④ 前提：2026-06-02 是她的生日（holOf bday）',J(GIFTH.holOf(SIS,G.day))===J({k:'bday',y:2026}));
+    const o=opt(SIS), M=SOCIAL.memories(SIS).filter(m=>m.tag==='GIFT_GIVEN_'+SIS);
+    check('13④ 原本的事件演過（遞茶葉 tea）：那一天沒有「送她禮物…」；記 sent（bday|2026）、GIFT_GIVEN（那一天、一包茶葉）',!o&&!!GIFTH.rec(G).sent[SIS+'|bday|2026']&&M.length===1&&M[0].day===G.day&&M[0].note==='一包茶葉',J(M));
+    GIFTH.sisBdaySync(G); check('13④ 只記一次',SOCIAL.memories(SIS).filter(m=>m.tag==='GIFT_GIVEN_'+SIS).length===1);
+    const G2=setup('2026-06-02',20,{lv:{[SIS]:3},flags:{SIS_BDAY_Y1:'water'}}); GIFTH.tick(GM);
+    check('13④ 演過（陪她裝熱水 water）：那一天也沒有「送她禮物…」；不記 GIFT_GIVEN（沒有給東西）',!opt(SIS)&&!!GIFTH.rec(G2).sent[SIS+'|bday|2026']&&!SOCIAL.memories(SIS).some(m=>m.tag==='GIFT_GIVEN_'+SIS));
+    const G3=setup('2026-06-02',20,{lv:{[SIS]:3},flags:{SIS_BDAY_Y1:'missed'}}); buy('g_green_hl');
+    check('13④ 沒演到（missed）：照一般送禮',!!opt(SIS)&&!opt(SIS).dim);
+    const G4=setup('2026-06-02',17,{lv:{[SIS]:3}}); buy('g_green_hl'); let r=await run(()=>opt(SIS).run(GM,who(SIS)),['螢光筆']);
+    check('13④ 還沒演（沒有旗標）：照一般送禮，送了記那一年的生日',GIFTH.sentThis(G4,SIS,{k:'bday',y:2026})&&GIFTH.rec(G4).sent[SIS+'|bday|2026']==='g_green_hl');
+    const G5=setup('2027-06-02',20,{lv:{[SIS]:3},flags:{SIS_BDAY_Y1:'tea',SIS_BDAY_Y2:'tea'}});
+    check('13④ 2027（SIS_BDAY_Y2）也一樣',!opt(SIS)&&!!GIFTH.rec(G5).sent[SIS+'|bday|2027']);
+    const G6=setup('2027-06-02',20,{lv:{[SIS]:3},flags:{SIS_BDAY_Y1:'tea'}}); buy('g_green_hl');
+    check('13④ 2026 演過、2027 沒演：2027 照一般送禮',!!opt(SIS));
+    const G7=setup('2028-06-02',20,{lv:{[SIS]:3},flags:{SIS_BDAY_Y1:'tea',SIS_BDAY_Y2:'tea'}}); buy('g_green_hl');
+    check('13④ 2028（沒有原本那個事件）：照一般送禮',!!opt(SIS)); });
+  await sec('13山嵐',async()=>{ const at=GIFTH.SL_SCHED.at, d=Math.hypot(at[0]-GIFTH.SL_AT.x,at[1]-GIFTH.SL_AT.z);
+    check('13 山嵐文具區學姊的站位離「看文具」≥1.2 m（BUG-SHANLAN-SIS-STEAL-1110；原本 (4.15, 6.5) 0.35 m）',d>=1.2,d.toFixed(2)); });
+  GM.say=say0;
 
   H.done();
 })();
