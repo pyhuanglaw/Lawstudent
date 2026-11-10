@@ -249,19 +249,19 @@ const GIFTH=(function(){
   S.hintCase=async function(GM){ const G=GM.G, w=S.hintWin(G); if(!w||S.givenTo(G,'heroine_05','g_leather_case')) return false; const R=F(G).hint, k='case|'+w.y; if(R[k]!=null) return false; const t=S.HINT_TEXT(1); if(!t) return false; R[k]=G.day; await GM.say(null,t); return true; };
   S.HINT_TEXT=i=>{ const t=X().stationery.hint[i]; const m=/旁白「(（[^」]*）)」/.exec(t); return m?m[1]:null; };
   /* 她在文具區、你走到旁邊 */
-  S.slNear=function(GM){ const G=GM.G, E=GM.E, P=E&&E.player; if(!G||G.zone!==S.SL_ZONE||!P||!S.slOn(G)) return false; const n=GM.npc&&GM.npc.heroine_05; if(!n) return false;
+  S.slNear=function(GM){ const G=GM.G, E=GM.E, P=E&&E.player; if(!G||G.zone!==S.SL_ZONE||!P||!S.slOn(G)) return false; const n=GM.npc&&(GM.npc.heroine_05||GM.npc.sis); if(!n) return false;
     const o=P.obj.position; return (P.lv|0)===S.SL_AT.lv&&Math.hypot(o.x-S.SL_AT.x,o.z-S.SL_AT.z)<2.5&&!!S.slPick(G); };
   let busy=false; (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['gifthol:busy']=()=>{ busy=false; };
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!S.on()) return false; if(GM.D&&GM.D.active) return false; if(GM.E&&GM.E.player&&GM.E.player.busy) return false;
     S.mailMake(G);
     let f=null; if(S.DORM.test(String(G.zone||''))&&S.mailDue(G).length) f=()=>S.mailPlay(GM);
-    else if(S.slNear(GM)) f=async()=>{ GM.sceneBegin&&GM.sceneBegin({adv:'heroine_05'}); try{ await S.slPlay(GM,S.who('heroine_05',GM.npc.heroine_05)); } finally { GM.sceneEnd&&GM.sceneEnd(); } };
+    else if(S.slNear(GM)) f=async()=>{ GM.sceneBegin&&GM.sceneBegin({adv:'heroine_05'}); try{ await S.slPlay(GM,S.who('heroine_05',GM.npc.heroine_05||GM.npc.sis)); } finally { GM.sceneEnd&&GM.sceneEnd(); } };
     if(!f) return false; busy=true; Promise.resolve(f()).catch(e=>console.warn('GIFTH.tick',e)).finally(()=>{ busy=false; }); return true; };
 
   /* 山嵐書店兩個互動點：「看文具」＝（她在、那一場還沒演）那一場；不然 AA_695 那一句（＋鋼筆的提示）→ 買禮物（文具區）；「結帳」＝買禮物（書架）／就這樣（AA_695 那一句）*/
   S.shanlan=async function(GM,it){ const G=GM.G, isStat=it.label==='看文具', key=isStat?'xs_shanlan_stationery':'xs_shanlan', o=S.shopOpt(G,key);
     GM.sceneBegin(); try{
-      if(isStat){ const n=GM.npc&&GM.npc.heroine_05; if(n&&S.slOn(G)&&S.slPick(G)) await S.slPlay(GM,S.who('heroine_05',n)); else { await GM.say(null,it.shlLook); if(!n) await S.hintPen(GM); }
+      if(isStat){ const n=GM.npc&&(GM.npc.heroine_05||GM.npc.sis); if(n&&S.slOn(G)&&S.slPick(G)) await S.slPlay(GM,S.who('heroine_05',n)); else { await GM.say(null,it.shlLook); if(!n) await S.hintPen(GM); }
         if(o){ const k=await GM.choose([o,{t:'就這樣'}]); if(k===0) await S.pick(GM,o); } }
       else { if(!o){ await GM.say(null,it.shlLook); return true; } const k=await GM.choose([o,{t:'就這樣'}]); if(k===0) await S.pick(GM,o); else await GM.say(null,it.shlLook); }
     } finally { GM.sceneEnd(); } return true; };
