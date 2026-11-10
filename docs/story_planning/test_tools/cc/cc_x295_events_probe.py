@@ -9,7 +9,8 @@
 【前置／捷徑】讀使用者存檔（FIX，預設 tests/fixtures/user_save_day51b_1110.json），用遊戲自己的 GAME.applySave 改日期、時間、區域、站的位置（離互動點幾公尺）；
   關掉「要回覆的訊息自動打開手機」（L.no_phone_auto）；條件事件照開（QUIET=1 才關）。之後全部照玩家：L.go_to 點地面／搖桿走、看互動鍵、按 #interact、點對話框、點選項按鈕。
   不用 ?turbo、不瞬移、不改劇情狀態冒充結果。改前沒有這四個互動點＝預期 FAIL（重要檢查要在改前 FAIL、改後 PASS）。Playwright／SwiftShader ≠ iPhone。
-用法：LW_TESTS=<wt>/tests TAG=new|old [CASES=party,party_fri,blood,movie,fair] [FIX=...] [QUIET=1] python3 cc_x295_events_probe.py <url> <out>"""
+r3（CC 11:4x）：走路途中台詞框和選項同時在時先選選項（舊版先點台詞框＝校慶阿嬤那題點了 190 次）；fair 記錄車的狀態、玩家 3 m 內的互動點距離；BIKE=off＝起點先下車（存檔是騎著車的）。
+用法：LW_TESTS=<wt>/tests TAG=new|old [BIKE=keep|off] [CASES=party,party_fri,blood,movie,fair] [FIX=...] [QUIET=1] python3 cc_x295_events_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import playlib as L
@@ -108,8 +109,8 @@ async def walk_to_spot(pg, cdp, tag, x, z, label, near=0.5, max_s=300):
         if not (v['dlg'] or v['choices']): break
         while v['dlg'] or v['choices']:
             met.append((v['zone'], round(v['hour'], 2), v['dlg'][:70] if v['dlg'] else '選項：' + J(v['choices'])))
-            if v['dlg']: await L.tap(pg, cdp, '#dlg')
-            else: await tap_choice(pg, cdp, dodge(v['choices']))
+            if v['choices']: await tap_choice(pg, cdp, dodge(v['choices']))   # r3（11:4x）：台詞框和選項同時在＝要選選項；舊版先點台詞框，校慶阿嬤那一題點了 190 次（TEST_BUG）
+            else: await L.tap(pg, cdp, '#dlg')
             await pg.wait_for_timeout(800); v = await ui(pg)
             if len(met) > 60: break
         if v['zone'] != u0['zone']: break
@@ -405,7 +406,13 @@ async def case_fair(pg, cdp):
     a = await pg.evaluate(ACT, 'school_fair'); R.note('%s 活動資料：%s；社博今天：%s' % (t, J(a), J(await pg.evaluate(ACT, 'club_expo_y1s1'))))
     near = await pg.evaluate("(([x,z])=>GAME.E.interactables.filter(i=>!i.hidden&&Math.hypot(i.x-x,i.z-z)<6).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||null})))", [sp[0], sp[1]])
     R.note('%s 互動點 6 m 內的東西：%s' % (t, J(near)))
+    BK = "(()=>{ const b=GAME.G.bike||{}; return {riding:!!b.riding, zone:b.zone, x:b.x!=null?+(+b.x).toFixed(2):null, z:b.z!=null?+(+b.z).toFixed(2):null}; })()"
+    R.note('%s 存檔的車：%s' % (t, J(await pg.evaluate(BK))))
+    if (os.environ.get('BIKE') or 'keep') == 'off' and await pg.evaluate("!!(GAME.G.bike&&GAME.G.bike.riding)"):
+        await L.tap(pg, cdp, '#btnBike'); await pg.wait_for_timeout(1500); R.note('%s BIKE=off：起點先按「下車」（玩家動作），車停在起點' % t)
     ok, u, fb = await walk_to_spot(pg, cdp, t, sp[0], sp[1], sp[2])
+    NEAR = "(()=>{ const P=GAME.E.player.obj.position; return GAME.E.interactables.filter(i=>!i.hidden&&Math.hypot(i.x-P.x,i.z-P.z)<3).map(i=>({label:i.label,d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2),r:i.radius||null,bike:!!i.bike})); })()"
+    R.note('%s 走到以後：車 %s；玩家 3 m 內的互動點（距離）%s' % (t, J(await pg.evaluate(BK)), J(await pg.evaluate(NEAR))))
     await shot(pg, 'fair_1_front')
     R.check('%s 真的走到晨思鐘旁（沒有被放到目的地）' % t, ok and not fb, J({'x': u['x'], 'z': u['z'], 'fb': fb}))
     if not R.check('%s 互動鍵是「校慶園遊會」' % t, u['interact'].startswith('校慶園遊會'), J(u['interact'])): return
