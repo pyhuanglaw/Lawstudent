@@ -44,6 +44,17 @@
    "h": 9.597,
    "st": "done",
    "money": 2850,
+   "her": false,
+   "pSeat": null,
+   "hSeat": null,
+   "fb": 0,
+   "watched": null
+  },
+  {
+   "zone": "xs_nanyang_hall",
+   "h": 9.597,
+   "st": "done",
+   "money": 2850,
    "her": true,
    "pSeat": [
     2.26,
