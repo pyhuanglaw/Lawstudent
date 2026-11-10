@@ -1,0 +1,95 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gift_ui_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GUI_old\out
+CC GIFT-HOLIDAY 畫面＋山嵐學姊：worktree ?；TAG old；CASES ['bag', 'profile', 'shanlan']；ORIENT ['portrait', 'landscape']；shanlan 只跑 landscape；Playwright 手機模擬 ≠ iPhone 實機
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS [portrait] 遊戲載入
+  [前置／捷徑] [portrait｜bag] GAME.applySave：xs_shanlan 2025-10-18（day 32）14.00 時（區域預設出生點）；條件事件、手機自動打開關掉；學姊不在（2026-02 以前）、錢＝預設 22000；【前置／捷徑】認識學姊（FIRST_MET，「她送的」才會寫她的名字）
+PASS [portrait｜bag] 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 14.03, "day": 32, "money": 22000, "menu": false, "phone": false}
+  [  41.5s] [portrait｜bag] GIFT_HOLIDAY：沒有（改前）
+  [  41.5s] [portrait｜bag] 山嵐的「看文具／結帳」互動點：[{"label": "看文具", "x": 4.5, "z": 6.5, "shlLook": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"}, {"label": "結帳", "x": 3.85, "z": 2.4, "shlLook": "（店員在幫前面的人包書套。你手上沒有要買的。）"}]
+  [  55.3s] 到達「[portrait｜bag] 走到「看文具」」附近（0.22 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+PASS [portrait｜bag] 真的走到「看文具」(4.5, 6.5)（walkFallbacks 沒加）、互動鍵是「看文具」  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 14.12, "day": 32, "money": 22000, "menu": false, "phone": false}
+  [  59.2s] [portrait｜bag] 看文具 → 買 對話紀錄：[["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"]]
+FAIL [portrait｜bag] 「看文具」有「買禮物…」  []
+FAIL [portrait｜bag] 買了「一盒綠色螢光筆」：進包包（G.flags.GIFTH.bag）、扣 None 元、說「你買了…放進包包。」  {"bag": null, "money": [22000, 22000]}
+  [前置／捷徑] [portrait｜bag] 【前置／捷徑】再放 3 樣進包包（g_law_book、g_old_vinyl、g_bouquet）、她送的 2 樣（GIFTH.recv）——直接寫 G.flags.GIFTH
+  [  59.7s] [portrait｜bag] 沒有真的買到（改前沒有這個功能）：第 1 樣也用捷徑放進去，下面只量物品頁
+PASS [portrait｜bag]［幾樣：4 樣］ 手指按 ☰（#btnMenu）選單打開  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 14.16, "day": 32, "money": 22000, "menu": true, "phone": false}
+  [  64.1s] [portrait｜bag]［幾樣：4 樣］ 選單分頁：[["筆記", 58, 40], ["日誌", 58, 40], ["法律", 58, 40], ["存檔", 58, 40], ["設定", 58, 40], ["說明", 58, 40]]
+FAIL [portrait｜bag]［幾樣：4 樣］ 「物品」分頁 看得到  {"sel": "#menu [data-tab=\"items\"]", "found": false}
+FAIL [portrait｜bag]［幾樣：4 樣］ 物品頁（改前沒有）  沒有「物品」分頁
+  [前置／捷徑] [portrait｜profile] GAME.applySave：dorm 2026-03-10（day 175）20.00 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 45）；G.flags.GIFTH：送過她 g_fountain、g_leather_case、g_green_hl、g_bouquet、g_beans、她送的 一包濾掛咖啡、她選的筆記本、一盒巧克力（mail 標成已經演過，不在宿舍跳信箱）
+  [  77.6s] [portrait｜profile] 照 GIFT_HOLIDAY.items 的 love：她喜歡＝[]；不該列＝[]
+PASS [portrait｜profile] 手指按 📱 手機打開  {"zone": "dorm", "x": 0, "z": 2.4, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "走出房間", "fb": 0, "hour": 20.05, "day": 175, "money": 22000, "menu": false, "phone": true}
+PASS [portrait｜profile] 「朋友」分頁 看得到  {"sel": "#phoneTabs [data-ptab=\"friends\"]", "found": true, "t": "朋友", "rect": {"l": 95, "t": 236.8, "r": 153, "b": 276.8, "w": 58, "h": 40}, "w": 58, "h": 40, "inView": true, "hit": true, "hitBy": ""}
+PASS [portrait｜profile] 「朋友」分頁 在畫面內、中心 elementFromPoint 是它自己（{"l": 95, "t": 236.8, "r": 153, "b": 276.8, "w": 58, "h": 40}）  {"inView": true, "hit": true, "hitBy": ""}
+FAIL [portrait｜profile] 「朋友」分頁 可按範圍 ≥44×44（58×40）
+PASS [portrait｜profile] 朋友清單有學姊的「資料」
+  [  82.1s] [portrait｜profile] 人物頁的區塊：{}
+FAIL [portrait｜profile] 有「她喜歡」：?（不列 ）  null
+FAIL [portrait｜profile] 有「她送的」：一包濾掛咖啡、她選的筆記本、一盒巧克力  null
+PASS [portrait] 沒有 JS 例外  []
+PASS [landscape] 遊戲載入
+  [前置／捷徑] [landscape｜bag] GAME.applySave：xs_shanlan 2025-10-18（day 32）14.00 時（區域預設出生點）；條件事件、手機自動打開關掉；學姊不在（2026-02 以前）、錢＝預設 22000；【前置／捷徑】認識學姊（FIRST_MET，「她送的」才會寫她的名字）
+PASS [landscape｜bag] 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 14.04, "day": 32, "money": 22000, "menu": false, "phone": false}
+  [ 126.5s] [landscape｜bag] GIFT_HOLIDAY：沒有（改前）
+  [ 126.5s] [landscape｜bag] 山嵐的「看文具／結帳」互動點：[{"label": "看文具", "x": 4.5, "z": 6.5, "shlLook": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"}, {"label": "結帳", "x": 3.85, "z": 2.4, "shlLook": "（店員在幫前面的人包書套。你手上沒有要買的。）"}]
+  [ 129.6s] 到達「[landscape｜bag] 走到「看文具」」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [landscape｜bag] 真的走到「看文具」(4.5, 6.5)（walkFallbacks 沒加）、互動鍵是「看文具」  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 14.06, "day": 32, "money": 22000, "menu": false, "phone": false}
+  [ 133.8s] [landscape｜bag] 看文具 → 買 對話紀錄：[["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"]]
+FAIL [landscape｜bag] 「看文具」有「買禮物…」  []
+FAIL [landscape｜bag] 買了「一盒綠色螢光筆」：進包包（G.flags.GIFTH.bag）、扣 None 元、說「你買了…放進包包。」  {"bag": null, "money": [22000, 22000]}
+  [前置／捷徑] [landscape｜bag] 【前置／捷徑】再放 3 樣進包包（g_law_book、g_old_vinyl、g_bouquet）、她送的 2 樣（GIFTH.recv）——直接寫 G.flags.GIFTH
+  [ 134.1s] [landscape｜bag] 沒有真的買到（改前沒有這個功能）：第 1 樣也用捷徑放進去，下面只量物品頁
+PASS [landscape｜bag]［幾樣：4 樣］ 手指按 ☰（#btnMenu）選單打開  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 14.1, "day": 32, "money": 22000, "menu": true, "phone": false}
+  [ 138.5s] [landscape｜bag]［幾樣：4 樣］ 選單分頁：[["筆記", 58, 40], ["日誌", 58, 40], ["法律", 58, 40], ["存檔", 58, 40], ["設定", 58, 40], ["說明", 58, 40]]
+FAIL [landscape｜bag]［幾樣：4 樣］ 「物品」分頁 看得到  {"sel": "#menu [data-tab=\"items\"]", "found": false}
+FAIL [landscape｜bag]［幾樣：4 樣］ 物品頁（改前沒有）  沒有「物品」分頁
+  [前置／捷徑] [landscape｜profile] GAME.applySave：dorm 2026-03-10（day 175）20.00 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 45）；G.flags.GIFTH：送過她 g_fountain、g_leather_case、g_green_hl、g_bouquet、g_beans、她送的 一包濾掛咖啡、她選的筆記本、一盒巧克力（mail 標成已經演過，不在宿舍跳信箱）
+  [ 152.1s] [landscape｜profile] 照 GIFT_HOLIDAY.items 的 love：她喜歡＝[]；不該列＝[]
+PASS [landscape｜profile] 手指按 📱 手機打開  {"zone": "dorm", "x": 0, "z": 2.4, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "走出房間", "fb": 0, "hour": 20.05, "day": 175, "money": 22000, "menu": false, "phone": true}
+PASS [landscape｜profile] 「朋友」分頁 看得到  {"sel": "#phoneTabs [data-ptab=\"friends\"]", "found": true, "t": "朋友", "rect": {"l": 211, "t": 119, "r": 269, "b": 159, "w": 58, "h": 40}, "w": 58, "h": 40, "inView": true, "hit": true, "hitBy": ""}
+PASS [landscape｜profile] 「朋友」分頁 在畫面內、中心 elementFromPoint 是它自己（{"l": 211, "t": 119, "r": 269, "b": 159, "w": 58, "h": 40}）  {"inView": true, "hit": true, "hitBy": ""}
+FAIL [landscape｜profile] 「朋友」分頁 可按範圍 ≥44×44（58×40）
+PASS [landscape｜profile] 朋友清單有學姊的「資料」
+  [ 156.6s] [landscape｜profile] 人物頁的區塊：{}
+FAIL [landscape｜profile] 有「她喜歡」：?（不列 ）  null
+FAIL [landscape｜profile] 有「她送的」：一包濾掛咖啡、她選的筆記本、一盒巧克力  null
+  [ 156.7s] [landscape｜shanlan] 2025-12～2026-07 的週六（CALENDAR.termOf 週次；slDay＝程式的 GIFTH.slDay 對照）：[["2025-12-06", "Y1S1", 14, null], ["2025-12-13", "Y1S1", 15, null], ["2025-12-20", "Y1S1", 16, null], ["2025-12-27", null, null, null], ["2026-01-03", null, null, null], ["2026-01-10", null, null, null], ["2026-01-17", null, null, null], ["2026-01-24", null, null, null], ["2026-01-31", null, null, null], ["2026-02-07", null, null, null], ["2026-02-14", null, null, null], ["2026-02-21", null, null, null], ["2026-02-28", "Y1S2", 1, null], ["2026-03-07", "Y1S2", 2, null], ["2026-03-14", "Y1S2", 3, null], ["2026-03-21", "Y1S2", 4, null], ["2026-03-28", "Y1S2", 5, null], ["2026-04-04", "Y1S2", 6, null], ["2026-04-11", "Y1S2", 7, null], ["2026-04-18", "Y1S2", 8, null], ["2026-04-25", "Y1S2", 9, null], ["2026-05-02", "Y1S2", 10, null], ["2026-05-09", "Y1S2", 11, null], ["2026-05-16", "Y1S2", 12, null], ["2026-05-23", "Y1S2", 13, null], ["2026-05-30", "Y1S2", 14, null], ["2026-06-06", "Y1S2", 15, null], ["2026-06-13", "Y1S2", 16, null], ["2026-06-20", null, null, null], ["2026-06-27", null, null, null], ["2026-07-04", null, null, null], ["2026-07-11", null, null, null], ["2026-07-18", null, null, null], ["2026-07-25", null, null, null]]
+  [ 156.7s] [landscape｜shanlan] 挑的日期：符合＝{"d": 165, "key": "2026-02-28", "y": 2026, "m": 2, "term": "Y1S2", "week": 1, "slDay": null}；雙數週＝{"d": 172, "key": "2026-03-07", "y": 2026, "m": 3, "term": "Y1S2", "week": 2, "slDay": null}；2026-01＝{"d": 109, "key": "2026-01-03", "y": 2026, "m": 1, "term": null, "week": null, "slDay": null}（2026-01 沒有單數週的週六，用這一天：週次不是單數也照樣測「不在」）
+PASS [landscape｜shanlan] 找得到符合條件的週六（2026-02 起、學期中、週次單數）
+  [ 156.7s] [landscape｜shanlan] sl_sis_1 照 play() 拆的台詞＝null
+  [前置／捷徑] [landscape｜shanlan]［單數週週六 14:30（時間不對）］ GAME.applySave：xs_shanlan 2026-02-28（day 165）14.50 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 25＝第 2 階）
+PASS [landscape｜shanlan]［單數週週六 14:30（時間不對）］ 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 14.5, "day": 165, "money": 22000, "menu": false, "phone": false}
+  [ 165.2s] [landscape｜shanlan]［單數週週六 14:30（時間不對）］ 14.5 時，學姊：{"here": false, "ids": []}；她的名字（SOCIAL.displayName）＝溫書瑀
+PASS [landscape｜shanlan]［單數週週六 14:30（時間不對）］ 學姊不在文具區 (4.15, 6.5)（0.3 m 內沒有她）  {"here": false, "ids": []}
+  [前置／捷徑] [landscape｜shanlan]［雙數週週六 15:20］ GAME.applySave：xs_shanlan 2026-03-07（day 172）15.33 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 25＝第 2 階）
+PASS [landscape｜shanlan]［雙數週週六 15:20］ 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 15.38, "day": 172, "money": 22000, "menu": false, "phone": false}
+  [ 173.8s] [landscape｜shanlan]［雙數週週六 15:20］ 15.38 時，學姊：{"here": false, "ids": []}；她的名字（SOCIAL.displayName）＝溫書瑀
+PASS [landscape｜shanlan]［雙數週週六 15:20］ 學姊不在文具區 (4.15, 6.5)（0.3 m 內沒有她）  {"here": false, "ids": []}
+  [ 176.8s] 到達「[landscape｜shanlan]［雙數週週六 15:20］ 走到「看文具」」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 186.0s] [landscape｜shanlan]［雙數週週六 15:20］ 走到旁邊等 8 秒沒有自己開始：診斷 null
+  [ 186.4s] [landscape｜shanlan]［雙數週週六 15:20］ 走到旁邊：玩家 (4.32, 6.63) 15.41 時；學姊 {"here": false, "ids": []}
+PASS [landscape｜shanlan]［雙數週週六 15:20］ 走到旁邊：沒有學姊的台詞  []
+PASS [landscape｜shanlan]［雙數週週六 15:20］ 互動鍵是「看文具」  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 15.41, "day": 172, "money": 22000, "menu": false, "phone": false}
+  [ 190.2s] [landscape｜shanlan]［雙數週週六 15:20］ 按「看文具」 對話紀錄：[["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"]]
+  [ 190.2s] [landscape｜shanlan]［雙數週週六 15:20］ 按「看文具」：shlLook＝"（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"；她的台詞 0 句
+PASS [landscape｜shanlan]［雙數週週六 15:20］ 按「看文具」：沒有學姊的台詞（第一句是 shlLook）  [["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"]]
+  [前置／捷徑] [landscape｜shanlan]［2026-01 的週六 15:20（2026-02 以前）］ GAME.applySave：xs_shanlan 2026-01-03（day 109）15.33 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 25＝第 2 階）
+PASS [landscape｜shanlan]［2026-01 的週六 15:20（2026-02 以前）］ 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 15.38, "day": 109, "money": 22000, "menu": false, "phone": false}
+  [ 198.1s] [landscape｜shanlan]［2026-01 的週六 15:20（2026-02 以前）］ 15.38 時，學姊：{"here": false, "ids": []}；她的名字（SOCIAL.displayName）＝溫書瑀
+PASS [landscape｜shanlan]［2026-01 的週六 15:20（2026-02 以前）］ 學姊不在文具區 (4.15, 6.5)（0.3 m 內沒有她）  {"here": false, "ids": []}
+  [前置／捷徑] [landscape｜shanlan]［單數週週六 15:20（符合）］ GAME.applySave：xs_shanlan 2026-02-28（day 165）15.33 時（區域預設出生點）；條件事件、手機自動打開關掉；【前置／捷徑】認識學姊（FIRST_MET、fam 25＝第 2 階）
+PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 到了山嵐書店  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "", "fb": 0, "hour": 15.38, "day": 165, "money": 22000, "menu": false, "phone": false}
+  [ 206.2s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 15.38 時，學姊：{"here": false, "ids": []}；她的名字（SOCIAL.displayName）＝溫書瑀
+FAIL [landscape｜shanlan]［單數週週六 15:20（符合）］ 學姊在文具區 (4.15, 6.5) 0.3 m 內  {"here": false, "ids": []}
+  [ 209.1s] 到達「[landscape｜shanlan]［單數週週六 15:20（符合）］ 走到「看文具」」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 218.3s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 走到旁邊等 8 秒沒有自己開始：診斷 null
+  [ 218.6s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 走到旁邊：玩家 (4.32, 6.63) 15.41 時；學姊 {"here": false, "ids": []}
+PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 真的走到「看文具」旁邊（walkFallbacks 沒加）  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 15.41, "day": 165, "money": 22000, "menu": false, "phone": false}
+FAIL [landscape｜shanlan]［單數週週六 15:20（符合）］ 走到旁邊她的那一場自己開始  []
+PASS [landscape｜shanlan]［單數週週六 15:20（符合）］ 互動鍵是「看文具」  {"zone": "xs_shanlan", "x": 4.32, "z": 6.63, "lv": 0, "busy": false, "dlg": false, "typing": false, "full": "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）", "name": "", "choices": [], "interact": "看文具", "fb": 0, "hour": 15.41, "day": 165, "money": 22000, "menu": false, "phone": false}
+  [ 222.4s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 按「看文具」 對話紀錄：[["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"]]
+  [ 222.4s] [landscape｜shanlan]［單數週週六 15:20（符合）］ 按「看文具」：shlLook＝"（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"；她的台詞 0 句
+FAIL [landscape｜shanlan]［單數週週六 15:20（符合）］ 按「看文具」：演她的那一場（她的台詞）  [["say", "", "（筆都可以試寫。試寫的那張紙已經寫滿了，大部分是名字。）"]]
+PASS [landscape] 沒有 JS 例外  []
+FAILED 17: [portrait｜bag] 「看文具」有「買禮物…」；[portrait｜bag] 買了「一盒綠色螢光筆」：進包包（G.flags.GIFTH.bag）、扣 None 元、說「你買了…放進包包。」；[portrait｜bag]［幾樣：4 樣］ 「物品」分頁 看得到；[portrait｜bag]［幾樣：4 樣］ 物品頁（改前沒有）；[portrait｜profile] 「朋友」分頁 可按範圍 ≥44×44（58×40）；[portrait｜profile] 有「她喜歡」：?（不列 ）；[portrait｜profile] 有「她送的」：一包濾掛咖啡、她選的筆記本、一盒巧克力；[landscape｜bag] 「看文具」有「買禮物…」；[landscape｜bag] 買了「一盒綠色螢光筆」：進包包（G.flags.GIFTH.bag）、扣 None 元、說「你買了…放進包包。」；[landscape｜bag]［幾樣：4 樣］ 「物品」分頁 看得到；[landscape｜bag]［幾樣：4 樣］ 物品頁（改前沒有）；[landscape｜profile] 「朋友」分頁 可按範圍 ≥44×44（58×40）；[landscape｜profile] 有「她喜歡」：?（不列 ）；[landscape｜profile] 有「她送的」：一包濾掛咖啡、她選的筆記本、一盒巧克力；[landscape｜shanlan]［單數週週六 15:20（符合）］ 學姊在文具區 (4.15, 6.5) 0.3 m 內；[landscape｜shanlan]［單數週週六 15:20（符合）］ 走到旁邊她的那一場自己開始；[landscape｜shanlan]［單數週週六 15:20（符合）］ 按「看文具」：演她的那一場（她的台詞）
