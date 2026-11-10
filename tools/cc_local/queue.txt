@@ -349,8 +349,11 @@ SHIFT_r6_F_old | 8b31bbaa0b8a651aeb6c3653bec468f6cbfdebed | probe | docs/story_p
 # USCLS r2（開發分支最新）：ONE／EXAM 改 09:15（r1 08:30 公寓還沒有「去上課」）、FINAL 每頁停 2.5 秒看教授走到門口、WALK 字卡過了再拍坐著、坐著 8 秒幀率
 USCLS_r2 | aa691df333d23bc46abb9445c249090d4b57f3d1 | probe | docs/story_planning/test_tools/cc/cc_us_class_story_probe.py | index.html | 60 | CASES=WALK,ONE,EXAM,FINAL;Q=medium
 # BB 16:46 OUTING_GATE：戀愛 ≥15 就能約出去玩（200dad724）；以安同一份存檔只改戀愛：14 灰、15 亮且約到底（出發、到達、fb）、15＋冷淡期灰；D34 舊 aa691 在 15 要灰
-OUTING_new | 06e779533ea529466f1b77e984eef30ed745bee5 | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 30 | TAG=new
+#HOLD OUTING_new | SHA_TBD | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 30 | TAG=new   # BB 16:55：等 LAWWW 新 SHA（AA 說明字 08543d6fd），不要用 06e7
 OUTING_old | aa691df333d23bc46abb9445c249090d4b57f3d1 | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 15 | TAG=old;CASES=R15
+# BB 16:55：LAWWW 下一個 SHA 到了再開——guide_flow（總圖那項的 [診斷]：最近互動點、6 m 內互動點、4 m 內的人）、gongguan_layout_nav（E.placeAt＋600 ms、[診斷] 加 lv／nearest／entering）
+#HOLD NEXT_guide | SHA_TBD | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
+#HOLD NEXT_ggnav | SHA_TBD | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
 # 接著（BB 15:53 順序）：SHIFT-TREAT 新舊對照（IMM）→ SHIFT r3（A～F）
 # BB 15:02 SHIFT-TREAT（X302）：語彤在一盞 A 陌生人／B 朋友 T3（第一樣免費、第二樣扣）／C 同一天再進／D 玩家自己上班／E 點頭之交；新 063cf14ab、舊 8b31bbaa0（合併 bbb0db1e0 之前；aec7f851c^ 已含功能）
 # BB 15:52 SHIFT-TREAT 新修（01bab1823）D34 對照：進店「馬上」點單／坐下要先演、不扣錢；出口不演。舊 8a98ff1e0（要扣錢＝FAIL）
