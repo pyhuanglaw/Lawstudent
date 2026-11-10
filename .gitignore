@@ -21,3 +21,6 @@ ref_cache/
 
 # Poly Haven（CC0）模型的下載快取（tools/blender/env_second/lib2.py ph_fetch；第一次用自動抓，不放 repo）
 tools/blender/models_ph/
+
+# python3 build.py 的輸出（單檔版；要用時再產生，不放 repo）
+build/

@@ -52072,6 +52072,25 @@
    },
    "sha": null,
    "next": "【LAWWW 11-10 17:0x】使用者 X311 選擇題：舊的直接刪、一份規則＋各職位一頁。第一步：盤點所有帶規則的文件和根目錄舊檔（現行／被取代／過時），列每條現行規則搬到哪；第二步：寫新 CLAUDE.md＋docs/rules/ROLE_*.md、刪舊的、改讀這些檔的工具和測試；第三步：通知各職位整併自己分支上的職位文件。"
+  },
+  {
+   "id": "RELEASE-V91024-1110",
+   "title": "發布 v9.10.24（11-08 v9.10.23 以後的修正：送禮、公告欄、溫州街新生南路入口、打工專屬劇情、美國教室與會所 3D、字幕、出去玩門檻、校園建築照官網…）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "線上版",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "【LAWWW 11-10 17:2x】使用者：「什麼時候可以發下一個版本了」。候選＝GHA 綠的開發分支最新；BB 照 TESTING 第五節發布前清單（CC 在 PC）給 GO；LAWWW 發布（D85）。"
   }
  ]
 }
