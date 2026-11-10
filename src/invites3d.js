@@ -876,7 +876,7 @@ const INV=(function(){
     if(r.res==='accept'){ act(her+'點點頭。'); if(n&&typeof CHAR!=='undefined'&&CHAR.setExpr) CHAR.setExpr(n.obj,'smile'); const here=!!W.now&&same;   /* 兩個人已經在那個地方（例：在總圖讀完、當場再約一次讀書；使用者 10-21 23:1x）：不用一起走過去 */
       const iv=S.accept(G,id,P.id,W.day,W.h,{now:!!W.now&&!here,by:'player',cat:pickCat}); const tail=here?'':(W.now?'你們一起'+P.verb+'。':'約好 '+when(G,W.day,W.h)+'，'+P.name+'。');
       const tw=S.townLine(G,id,W);   /* AA_675 1-1：語彤寒暑假平日在淡水，答應臺北的邀約，答應那一句後面多一句 */
-      if(iv&&iv.filmSay&&typeof MOVIES!=='undefined'&&MOVIES.sayPick){ if(r.lines) await S.playLines(GM,who,r.lines,r); else await GM.say(null,S.reply(G,id,P.id,r)); await MOVIES.sayPick(GM,iv,who); if(tw) await GM.say(who,tw); if(tail) await GM.say(null,tail); }   /* 約她看她不看的片（子晴不看黑白片）／她一定挑的片：答應以後她說換片的那一句，約好的是換過的片（AA_745 skip，AA 11-10 20:11）*/
+      if(iv&&iv.filmSay&&typeof MOVIES!=='undefined'&&MOVIES.sayPick){ if(iv.filmForced){ /* 她指定看這部：她那幾句就是答應（一般的答應句不說，例：子晴「我只看動作片喔。」對不上） */ } else if(r.lines) await S.playLines(GM,who,r.lines,r); else await GM.say(null,S.reply(G,id,P.id,r)); await MOVIES.sayPick(GM,iv,who); if(tw) await GM.say(who,tw); if(tail) await GM.say(null,tail); }   /* 約她看她不看的片（子晴不看黑白片）／她一定挑的片：答應以後她說換片的那一句，約好的是換過的片（AA_745 skip，AA 11-10 20:11）*/
       else if(r.lines){ await S.playLines(GM,who,r.lines,r); if(tw) await GM.say(who,tw); if(tail) await GM.say(null,tail); } else if(tw){ await GM.say(null,S.reply(G,id,P.id,r)); await GM.say(who,tw); if(tail) await GM.say(null,tail); } else await GM.say(null,S.reply(G,id,P.id,r)+tail);
       S.teMark(GM,iv,id,P,W);
       if(here){ await S.startTogether(GM,iv,n); return iv; }   /* 直接開始（S.accept 已經是 accepted、時間＝現在）*/

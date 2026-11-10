@@ -45,17 +45,17 @@ const MOVIES=(function(){
   const tie=(L,who)=>{ const m=L.filter(b=>(b.fits||[]).includes(who)); return m.length===1?m[0]:L[0]; };   /* fits 只有一部有她＝那一部；兩部都有、都沒有＝第一部 */
   S.pickFrom=function(bill,who,R){ if(R){ const ok=bill.filter(b=>S.fitsRule(b,R,bill)); if(ok.length) return {film:tie(ok,who),ok:true}; return {film:tie(bill,who),ok:false}; } return {film:tie(bill,who),ok:true}; };
   S.choose=function(G,who,day){ const p=S.billAt(G,day); if(!p) return null; const key=S.sceneKey(S.preview(G,who)), R=S.rule(who,key), r=S.pickFrom(p.bill,who,R);
-    const a=S.pickAdj(p.bill,who,r.film,R); return {id:a.film.id,key,ok:a.film===r.film?r.ok:S.fitsRule(a.film,R,p.bill),say:a.say||null}; };
+    const a=S.pickAdj(p.bill,who,r.film,R); return {id:a.film.id,key,ok:a.film===r.film?r.ok:S.fitsRule(a.film,R,p.bill),say:a.say||null,forced:!!a.forced}; };
   /* AA_745 v2：with.kind 'pick'＝她一定挑這部（lines＝她答應時說的）；'skip'＝她不看（舊稿 m2801b 把「一定挑」寫在 skip＋need 的照舊認）。
      AA_745 with.skip（AA 11-10 20:11）：她不看的片（子晴不看黑白片）＝選到那一部就換同一段的另一部，她說 lines（不是拒絕、不扣好感，約好的那一筆存換過的片）；
      她一定挑的片（子晴《貓咪咖啡館的星期三》《第八關》、芷若《黑白的城市》——芷若那一部只在 AA_708 那一場沒指定片的時候）＝那一段約她一定是這部（有 lines＝她答應時說的）*/
   S.pickAdj=function(bill,who,film,R){ const P=PL(), K=(P&&P.pick)||{}, rule=id=>(K[id]||{})[who]||null, line=id=>{ const x=S.withOf(id,who); return x&&(x.kind==='skip'||x.kind==='pick')&&Array.isArray(x.lines)&&x.lines.length?x.lines.slice():null; };   /* 只有 skip 欄的 lines 是約的時候說的（芷若、子晴《第八關》的 with 是散場後、之後的訊息）*/
-    const f=bill.find(b=>{ const k=rule(b.id); return k&&k.mode==='force'&&!(k.noRule&&R); }); if(f) return {film:f,say:f===film?null:line(f.id)||null,forced:true};
+    const f=bill.find(b=>{ const k=rule(b.id); return k&&k.mode==='force'&&!(k.noRule&&R); }); if(f) return {film:f,say:line(f.id)||null,forced:true};   /* 她一定挑的片：本來就選到這部也說她那幾句（BB 11-10：原本只有換片的時候才說，選到同一部＝播一般的答應句）*/
     const k=rule(film.id); if(k&&k.mode==='skip'){ const o=bill.find(b=>b!==film&&!((rule(b.id)||{}).mode==='skip')); if(o) return {film:o,say:line(film.id)}; }
     return {film}; };
-  S.ensure=function(G,iv){ if(!iv||iv.place!==ZL) return null; if(iv.film&&S.film(iv.film)) return iv.film; const c=S.choose(G,iv.who); if(c){ iv.film=c.id; if(c.say&&iv.by==='player') iv.filmSay=c.say; } return iv.film||null; };   /* filmSay：約的時候她換片的那一句（玩家約她的才有；她自己約的就是她挑的）*/
+  S.ensure=function(G,iv){ if(!iv||iv.place!==ZL) return null; if(iv.film&&S.film(iv.film)) return iv.film; const c=S.choose(G,iv.who); if(c){ iv.film=c.id; if(c.say&&iv.by==='player'){ iv.filmSay=c.say; if(c.forced) iv.filmForced=true; } } return iv.film||null; };   /* filmForced：她指定的片——她那幾句取代一般的答應句（invites3d.js）*/   /* filmSay：約的時候她換片的那一句（玩家約她的才有；她自己約的就是她挑的）*/
   /* 約的時候她說換片那一句（約的選單答應以後；電話約、別的路徑約的＝見面時先說）。說完就拿掉 */
-  S.sayPick=async function(GM,iv,who){ if(!iv||!Array.isArray(iv.filmSay)||!iv.filmSay.length) return false; const L=iv.filmSay; delete iv.filmSay; for(const t of L) await S.sayLine(GM,who,t); return true; };
+  S.sayPick=async function(GM,iv,who){ if(!iv||!Array.isArray(iv.filmSay)||!iv.filmSay.length) return false; const L=iv.filmSay; delete iv.filmSay; delete iv.filmForced; for(const t of L) await S.sayLine(GM,who,t); return true; };
   /* 開演時：這一場和約好的片對不上＝一般句（null）；輪換對不上＝跳過那一則（AA_730 pick 第 3 條）*/
   S.fitScene=function(G,iv,AX){ if(!AX||AX.generic||!iv) return AX; const f=S.film(iv.film); if(!f) return AX; const bill=(S.periodOf(f.id)||{bill:[f]}).bill;
     const R=S.rule(iv.who,S.sceneKey(AX)); if(S.fitsRule(f,R,bill)) return AX;
@@ -204,7 +204,13 @@ const MOVIES=(function(){
     (T.opts||[]).forEach((o,k)=>{ const c=CO[String(k)]; if(c&&!S.COND(G,c.if,who)){ if(c.else) opts.push({k,t:c.else.t,lines:[],fx:c.else.fx||{},set:null}); return; }
       opts.push({k,t:o.t,lines:S.reLines(G,who,id,o,k),fx:(o.fx||{})[who]||null,set:o.set||null}); });
     const noQ=((PL()||{}).noQ||[]).includes(id)||typeof T.q!=='string'||!T.q.trim();   /* noQ＝稿上 q 那一格寫的是給程式的說明（匯入工具的 NOQ 表）：不說 */
-    return {by:T.by,q:noQ?null:T.q,opts:opts.filter(o=>typeof o.t==='string'&&o.t.trim())}; };
+    const OK=opts.filter(o=>typeof o.t==='string'&&o.t.trim());
+    /* 這部片稿上完全沒寫到她（三個選項都沒有她的回答、也沒有她的效果）＝不問，直接照 AA_708 的道別（BB 11-10：原本選項照出、選了什麼都沒發生）*/
+    if(!OK.some(o=>(o.lines&&o.lines.length)||S.fxHas(o.fx))) return null;
+    return {by:T.by,q:noQ?null:T.q,opts:OK}; };
+  S.fxHas=fx=>!!fx&&typeof fx==='object'&&(!!Math.trunc(+fx.fr||0)||!!Math.trunc(+fx.love||0));
+  /* 稿上沒有 talk 的片×人（給 AA 看缺口）：people 不給＝可以攻略的七位。條件用空的存檔算（要條件才有的句子不算） */
+  S.noTalkPairs=function(people){ const P=PL(); if(!P) return []; const G0={flags:{},day:0,hour:0}, out=[]; for(const id of Object.keys(P.films)) for(const w of (people||['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'])){ const o=(P.films[id].talk||{}).opts||[]; if(!o.some(x=>['',2,3].some(n=>typeof (x.re||{})[w+n]==='string')||S.fxHas((x.fx||{})[w]))) out.push(id+':'+w); } return out; };
   /* 效果：fr＝熟悉、信任、自在各 +n；love＝她的戀愛 npcRom（只有可以攻略的對象，SOCIAL.romOk；朋友以下也算，ROM-PRIVATE-DATE-1110 以後的現行規則）*/
   S.fx=function(G,who,fx){ return typeof SOCIAL!=='undefined'&&SOCIAL.applyFx?SOCIAL.applyFx(G,who,fx):null; };   /* 共用 SOCIAL.applyFx（DLG-FX-MECH-1110；0、負的照算）*/
   /* 一次看電影（那部片×那個人：talk＋with 的選項，之後傳訊息／下次見面的那一段也算）她的戀愛最多一共 +2（LAWWW 11-10；扣的不限、也不補回額度）。

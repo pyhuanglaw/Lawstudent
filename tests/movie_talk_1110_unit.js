@@ -19,6 +19,7 @@
 //  13. talk 的選項順序每次洗（同一天同一部同一個人固定）；一次看電影她的戀愛最多 +2（talk＋with 的選項；扣的不限）
 //  14. 資料不齊（沒有 re、沒有 fx、第二句 heroine_012、m2801b pick、q 是說明、壞資料）：不出空的框、不丟例外、不卡
 //  15. with.kind pick、fx 0 和負的（SOCIAL.applyFx）；匯入工具：不認得的人列警告、不停
+//  16. BB 11-10 瀏覽器測試：她指定的片本來就選到＝照說她那幾句、一般的答應句不說；稿上沒寫到她的片不出三個選項
 //  第二版（AA_745 14536ff5e、77f5d0463、7c2de85b6；AA_730 7c2de85b6）重匯；可昕排球的開關拿掉（稿裡已經沒有）
 //  片名不寫死（AA_730 可能改片名）：一律 MOVIES.film(id).title
 // 修改前（e77ae86ac 以前，movies3d.js 沒有 AA_745）：FAIL。用法：node tests/movie_talk_1110_unit.js
@@ -224,14 +225,14 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
 
   await sec(14,async()=>{ const bad=[]; let n=0;
     const one=async(w,f,date)=>{ for(let k=0;k<3;k++){ const G=fresh(date,19); if(/kexin/.test(w)&&date<'2025-09') G.stage='econ'; H.FRIEND(w); const T=film(f).talk; WANT=[T.opts[k].t]; let r,e=null; try{ r=await aft(w,f); }catch(x){ e=String(x); }
-        const want=['',2,3].map(sfx=>T.opts[k].re&&T.opts[k].re[w+sfx]).filter(t=>typeof t==='string'), got=want.every(t=>idx(t)>=0); n++;
+        const want=[''].map(sfx=>T.opts[k].re&&T.opts[k].re[w+sfx]).filter(t=>typeof t==='string'), got=want.every(t=>idx(t)>=0); n++;   /* 第二、三句有的要條件（交往中…）：這裡只看第一句 */
         if(e||r!==true||!noEmpty()||!CH.some(c=>same(c,T.opts.map(o=>o.t)))||(G.flags.MOVIE_TALK||{})[w][f]!==k||!MOVIES.seenWith(G,w,f)||!got||E.player.busy) bad.push([w,f,k,e,H.said.map(x=>x.t)]); } WANT=[]; };
     await one('kexin','m2411b','2024-11-10'); await one('kexin','m2503b','2025-03-10'); await one('kexin','m2505a','2025-05-10'); await one('kexin','m2507b','2025-07-20');
-    await one('heroine_01','m2807b','2028-07-10'); await one('heroine_04','m2807b','2028-07-10'); await one('heroine_01','m2803b','2028-03-10'); await one('kexin','m2803b','2028-03-10');
+    await one('heroine_03','m2807b','2028-07-10'); await one('heroine_04','m2807b','2028-07-10'); await one('heroine_01','m2811b','2028-11-10'); await one('kexin','m2803b','2028-03-10');
     check('14. 稿上沒寫到她（沒有 re）、沒有 fx、re 有第二句（heroine_012）：每個選項都演得完——沒有空的框、沒有例外、選項照出、記選了哪個、記看過（'+n+' 次）',n===24&&!bad.length,J(bad.slice(0,3)));
-    fresh('2028-07-10',19); H.FRIEND('heroine_01'); await aft('heroine_01','m2807b');
+    fresh('2028-07-10',19); H.FRIEND('heroine_03'); await aft('heroine_03','m2807b');
     check('14. NOQ（q 是給程式的說明）第二版沒有了：《m2807b》的 q 照稿說',Array.isArray(PL().noQ)&&PL().noQ.length===0&&idx(film('m2807b').talk.q)>=0,J(H.said.map(x=>x.t)));
-    { const keepQ=PL().noQ; PL().noQ=['m2807b']; try{ fresh('2028-07-10',19); H.FRIEND('heroine_01'); await aft('heroine_01','m2807b'); check('14. NOQ 表上的片：q 不說、選項照出',idx(film('m2807b').talk.q)<0&&CH.length===1&&noEmpty(),J(H.said.map(x=>x.t))); } finally { PL().noQ=keepQ; } }
+    { const keepQ=PL().noQ; PL().noQ=['m2807b']; try{ fresh('2028-07-10',19); H.FRIEND('heroine_03'); await aft('heroine_03','m2807b'); check('14. NOQ 表上的片：q 不說、選項照出',idx(film('m2807b').talk.q)<0&&CH.length===1&&noEmpty(),J(H.said.map(x=>x.t))); } finally { PL().noQ=keepQ; } }
     fresh('2028-11-10',19); H.FRIEND('heroine_01'); const o2=film('m2811b').talk.opts[0]; WANT=[o2.t]; await aft('heroine_01','m2811b'); WANT=[];
     check('14. 第二句的 key（heroine_012）：《m2811b》第一個選項以安說兩句',idx(o2.re.heroine_01)>=0&&idx(o2.re.heroine_012)===idx(o2.re.heroine_01)+1,J(H.said.map(x=>x.t)));
     { let n2=0, bad2=[]; for(const fid in PL().films) for(const o of PL().films[fid].talk.opts) for(const k in (o.re||{})){ const PP=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'], m=PP.includes(k)?null:/^(.+?)([23])$/.exec(k); if(m&&PP.includes(m[1])){ n2++; if(typeof (o.re||{})[m[1]]!=='string') bad2.push(fid+'.'+k); } }
@@ -252,7 +253,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
       F.m2509b.with=Object.assign({},F.m2509b.with,{[id]:{kind:'pick',lines:['（假的）這部。','我想看這部。']}}); P0.pick.m2509b=Object.assign({},P0.pick.m2509b,{[id]:{mode:'force'}});
       const G=fresh('2025-10-18',19.4); H.FRIEND(id); const P=MOVIES.periodOf('m2509a'), a=MOVIES.pickAdj(P.bill,id,MOVIES.film('m2509a'),null), b=MOVIES.pickAdj(P.bill,id,MOVIES.film('m2509b'),null);
       const iv=INV.accept(G,id,'xs_nanyang',G.day,19.5,{by:'player'}); const r=await aft(id,'m2509b');
-      check('15. with.kind pick（假資料）：選到另一部＝換成她挑的、她說 lines；本來就是這部＝不說；約好的那一筆存她挑的；看完不把 pick 的 lines 當 with 演',a.film.id==='m2509b'&&a.forced&&J(a.say)===J(F.m2509b.with[id].lines)&&b.film.id==='m2509b'&&!b.say&&iv.film==='m2509b'&&J(iv.filmSay)===J(F.m2509b.with[id].lines)&&r===true&&idx('（假的）這部。')<0&&noEmpty(),J([a,b,iv.film,iv.filmSay,H.said.map(x=>x.t)]));
+      check('15. with.kind pick（假資料）：選到另一部＝換成她挑的、她說 lines；本來就是這部＝也說；約好的那一筆存她挑的；看完不把 pick 的 lines 當 with 演',a.film.id==='m2509b'&&a.forced&&J(a.say)===J(F.m2509b.with[id].lines)&&b.film.id==='m2509b'&&J(b.say)===J(F.m2509b.with[id].lines)&&iv.film==='m2509b'&&J(iv.filmSay)===J(F.m2509b.with[id].lines)&&r===true&&idx('（假的）這部。')<0&&noEmpty(),J([a,b,iv.film,iv.filmSay,H.said.map(x=>x.t)]));
     } finally { const b=JSON.parse(keepF); delete F.m2509b.with; P0.pick=JSON.parse(keepP); }
     /* 0 和負的 fx */
     const G=fresh('2025-10-18',19); H.FRIEND(id); H.FRIEND('classmate_bohan'); SOCIAL.adjust(id,{npcRom:10}); const r0=Object.assign({},SOCIAL.rel(id));
@@ -279,5 +280,28 @@ print(json.dumps({'fid': fid, 'pick': out['pick'].get(fid), 'fx': out['films'][f
 `;
     let o=null, err=''; try{ o=JSON.parse(cp.execFileSync('python3',['-c',py],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']})); }catch(e){ err=String(e.stderr||e.message).slice(0,400); }
     check('15. 匯入工具：kind pick＝一定挑（force）、舊的 m2801b 照舊 force；fx 0 和負的收；不認得的人列進警告（3 項）、不停',!!o&&o.pick&&o.pick.heroine_04&&o.pick.heroine_04.mode==='force'&&o.m2801b.heroine_04.mode==='force'&&o.fx.heroine_01.love===-2&&o.warn.length===3&&o.warn.every(w=>/不認得的人/.test(w)),err||J(o)); });
+
+  await sec(16,async()=>{ const zq='heroine_04', W=film('m2801b').with[zq];
+    /* (1) 她指定的片、約的時候本來就選到這一部：她那兩句照說，一般的答應句不說 */
+    const flow=async()=>{ const G=fresh('2028-01-10',15,'campus'); H.FRIEND(zq); G.contacts={[zq]:1}; const n=npc(zq); H.said=[]; CH=[]; WANT=['看電影、逛書店','南洋戲院','去南洋戲院看電影','今天','現在']; let e=null; try{ await INV.flow(GM,zq,n,false,{place:'xs_nanyang'}); }catch(x){ e=String(x&&x.stack||x).slice(0,300); } WANT=[]; return {e,L:H.said.map(x=>x.t),iv:(G.invites||[]).find(v=>v.who===zq&&v.place==='xs_nanyang')}; };
+    const P=MOVIES.periodOf('m2801b'), a=MOVIES.pickAdj(P.bill,zq,MOVIES.film('m2801b'),null), c=(()=>{ fresh('2028-01-10',15); H.FRIEND(zq); return MOVIES.choose(H.G,zq); })();
+    check('16. 子晴 2028-01：預設就選到《m2801b》（她指定的）＝pickAdj、choose 都帶她那兩句（forced）',a.forced===true&&J(a.say)===J(W.lines)&&c.id==='m2801b'&&c.forced===true&&J(c.say)===J(W.lines),J([a,c]));
+    const pa=MOVIES.pickAdj; let gen; MOVIES.pickAdj=(bill,who,f)=>({film:f}); try{ gen=await flow(); } finally { MOVIES.pickAdj=pa; }
+    const r=await flow(); const genOnly=gen.L.filter(t=>!r.L.includes(t));
+    check('16. 當面約她看電影（INV.flow）：她說稿上那兩句、接在選完時間以後；一般的答應句（沒有指定片的時候會說的那一句）不說；約好的是這部、說過就不再存',!r.e&&!gen.e&&!!r.iv&&r.iv.film==='m2801b'&&W.lines.every(t=>r.L.includes(t))&&!r.iv.filmSay&&!r.iv.filmForced&&genOnly.length>=1&&!W.lines.some(t=>gen.L.includes(t)),J({r:r.L,gen:gen.L,genOnly,e:r.e||gen.e}));
+    { const G=fresh('2028-01-10',15); H.FRIEND(zq); const iv=INV.accept(G,zq,'xs_nanyang',G.day,19.5,{by:'player'}); const sv=JSON.parse(J(iv));
+      check('16. 電話／別的路徑約的：那兩句先存在約好的那一筆（filmSay、filmForced，存檔 JSON 沒問題），見面時說一次',J(sv.filmSay)===J(W.lines)&&sv.filmForced===true,J(sv));
+      H.said=[]; await MOVIES.sayPick(GM,iv,{name:'子晴',charId:zq}); check('16. 說完就拿掉',J(H.said.map(x=>x.t))===J(W.lines)&&!iv.filmSay&&!iv.filmForced,J(iv)); }
+    /* (2) 稿上完全沒寫到她的片：不出三個選項 */
+    const none=MOVIES.noTalkPairs(), all=7*72;
+    const pick=none.find(k=>!PL().films[k.split(':')[0]].with||!PL().films[k.split(':')[0]].with[k.split(':')[1]]), [nf,nw]=pick.split(':');
+    const G=fresh('2026-03-10',19); H.FRIEND(nw); const tf=MOVIES.talkFor(G,nw,nf); const r2=await aft(nw,nf);
+    check('16. 稿上沒寫到她的片（例 '+pick+'：三個選項都沒有她的 re、fx）：不問、不出選項、不卡，照記看過',tf===null&&r2===true&&CH.length===0&&idx(film(nf).talk.q)<0&&MOVIES.seenWith(G,nw,nf)&&noEmpty(),J({tf,CH,L:H.said.map(x=>x.t)}));
+    const F=PL().films, keep=JSON.stringify(F[nf]); try{ F[nf].talk.opts[1].fx={[nw]:{fr:1}}; fresh('2026-03-10',19); H.FRIEND(nw); await aft(nw,nf); const c1=CH.length;
+      F[nf]=JSON.parse(keep); F[nf].talk.opts[2].re=Object.assign({},F[nf].talk.opts[2].re,{[nw+'2']:'（假）第二句。'}); fresh('2026-03-10',19); H.FRIEND(nw); await aft(nw,nf); const c2=CH.length;
+      F[nf]=JSON.parse(keep); F[nf].talk.opts[0].fx={[nw]:{fr:0,love:0}}; fresh('2026-03-10',19); H.FRIEND(nw); await aft(nw,nf); const c3=CH.length;
+      check('16. 只要有一個選項有她的 fx 或 re（第二、三句也算）＝照常問三個選項；fx 是 0 不算',c1===1&&c2===1&&c3===0,J([c1,c2,c3])); } finally { F[nf]=JSON.parse(keep); }
+    const by={}; for(const k of none){ const w=k.split(':')[1]; by[w]=(by[w]|0)+1; }
+    console.log('INFO 16. 沒有 talk 的片×人（七位×72 部＝'+all+'）：'+none.length+' 組（有 talk '+(all-none.length)+' 組）；各人：'+J(by)); });
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });
