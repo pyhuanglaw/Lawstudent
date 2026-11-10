@@ -3692,6 +3692,86 @@
    "wants": "X279",
    "task": "SERVICE2-LEGAL-1110",
    "src": "使用者對 LAWWW-B"
+  },
+  {
+   "id": "UA-LAWWW-1110-18",
+   "at": "2026-11-10T01:4xZ",
+   "quote": "跟芯慈晚上約會完馬上跳睡覺 跟別人下午約會就能多講一點? 至少讓我在約會中有可選選項的對話吧?（附存檔 fatiao3d_save_day51.json）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X280",
+   "task": "DATE-CHOICES-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-19",
+   "at": "2026-11-10T01:4xZ",
+   "quote": "都約這麼多次還沒有戀愛?要怎樣才有（附學姊人物頁截圖：友情條長、戀愛 0）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X281",
+   "task": "ROM-PRIVATE-DATE-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-20",
+   "at": "2026-11-10T01:4xZ",
+   "quote": "大一上只是不能告白或會失敗? 應該也要可以培養戀愛",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X281",
+   "task": "ROM-PRIVATE-DATE-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-21",
+   "at": "2026-11-10T01:4xZ",
+   "quote": "你要先決定哪些活動可以增加可攻略對象的戀愛或友情",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X281",
+   "task": "ROM-PRIVATE-DATE-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-22",
+   "at": "2026-11-10T01:4xZ",
+   "quote": "基本上私下約就有點曖昧吧",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X281",
+   "task": "ROM-PRIVATE-DATE-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-23",
+   "at": "2026-11-10T01:4xZ",
+   "quote": "不應該單一約會還沒有增加戀愛",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X281",
+   "task": "ROM-PRIVATE-DATE-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-24",
+   "at": "2026-11-10T01:4xZ",
+   "quote": "或可以選項對話 某個對話加有情 某個對話加愛情 不同選項加的也不同",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X281",
+   "task": "ROM-PRIVATE-DATE-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-25",
+   "at": "2026-11-10T01:4xZ",
+   "quote": "沒辦法選哪天（附可昕私訊截圖：她約週六下午貓空，選改天後回「好。哪天。」）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X282",
+   "task": "HER-ASK-LATER-DAY-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
   }
  ]
 }

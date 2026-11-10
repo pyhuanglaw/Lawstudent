@@ -50700,6 +50700,93 @@
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": null,
    "test": null
+  },
+  {
+   "id": "DATE-CHOICES-1110",
+   "title": "約會中要有可以選的對話：不同選項加友情或戀愛、加的不一樣；晚上約會完不要馬上跳睡覺",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次單獨約可以攻略的對象",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 01:4x LAWWW-B】使用者 X280、X281。AA 替單獨約會（activity_scenes 的 seat／mid／bye）每位、每種地點加選項對話：每個選項標 rel（fam、trust、comf、rom、npcRom），有的加友情、有的加戀愛；LAWWW 接選項；晚上約會完 S.eveSleep 直接睡的路，改成約會結尾演完、回到能自由走動，用存檔 day 51 重現。",
+   "xai": {
+    "spec": "使用者 11-10 01:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "約會中有選項、選了數值照標；晚上約會完不會馬上睡",
+    "receiver": "AA（台詞）、BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
+  },
+  {
+   "id": "ROM-PRIVATE-DATE-1110",
+   "title": "單獨約會從「認識」起就加戀愛＋信任（可以攻略的對象）；活動對照表：哪些加戀愛、哪些加友情",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次單獨約可以攻略的對象",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 01:5x LAWWW-B】使用者 X281。invites3d 單獨約出來原本第 3 階（朋友）起才加戀愛 +1（AA_243 1 節）；改成可以攻略的對象（DATE.HEROINES，可昕照舊另算）認識以上每次單獨見面：她的戀愛 +1、祐廷的戀愛 +1、信任 +1（一天一次）。對照表寫在 docs/ROMANCE_ACTIVITY_TABLE.md，選項對話交 DATE-CHOICES-1110。",
+   "xai": {
+    "spec": "使用者 11-10 01:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "認識、有點熟的單獨約會也加戀愛和信任；朋友（男生）不加戀愛；一天一次",
+    "receiver": "BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
+  },
+  {
+   "id": "HER-ASK-LATER-DAY-1110",
+   "title": "她主動約、選「改天」以後可以自己選日子（地點照她說的）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "她第一次主動約你",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 01:4x LAWWW-B】使用者 X282「沒辦法選哪天」。heroine_asks3d.js later：她回「好。哪天。」以後（AA_494 0-2 原本是 3 天後她再約、noFlow），改成打開邀約選日子（INV.flow 同一套，地點固定她說的那裡）；不選＝照舊 3 天後她再約。",
+   "xai": {
+    "spec": "使用者 11-10 01:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "選改天跳出選日子、時間；地點是她說的；不選照舊",
+    "receiver": "BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
   }
  ]
 }
