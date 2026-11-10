@@ -1,0 +1,80 @@
+diff --git a/assets/models/env/second_ai/lib_b1_court.glb b/assets/models/env/second_ai/lib_b1_court.glb
+index 37d828250357133347fb04741b179a0450ca1d73..2f8b1da36f171e077e1ec195b45f8f8c2b922b73 100644
+GIT binary patch
+delta 98
+zcmeBZw*Jv%&6}PR;>N_lz)*3Jk73D1-d3K;0m6!#kMS@?F)Ju2G@nRoKas`=#7scU
+k48$xz%nHP8K+F!r96-zo#9Tnk4a7V^%)9+W8sC8^0OX7&R{#J2
+
+delta 94
+zcmey-WZlth&6}PR;>N_lz|e7!k73J3-d3K;n(QW<H}fz>HSb7k-;u@$#7scU48$xz
+g%nHP8K+F!r96-zo#9Tnk4a7V^%)5O@8sC8^0Du7`@c;k-
+
+diff --git a/assets/models/env/second_ai/lib_b1_court.json b/assets/models/env/second_ai/lib_b1_court.json
+index f1068c18c..6339e5190 100644
+--- a/assets/models/env/second_ai/lib_b1_court.json
++++ b/assets/models/env/second_ai/lib_b1_court.json
+@@ -5,7 +5,7 @@
+  "tris_drawn": 8582,
+  "materials": 68,
+  "out": "assets/models/env/second_ai/lib_b1_court.glb",
+- "bytes": 967048,
++ "bytes": 967032,
+  "texres": 512,
+  "B1C": [
+   92.0,
+diff --git a/tests/b1court_glass_cam_unit.js b/tests/b1court_glass_cam_unit.js
+new file mode 100644
+index 000000000..b62800ec7
+--- /dev/null
++++ b/tests/b1court_glass_cam_unit.js
+@@ -0,0 +1,50 @@
++// 總圖 B1 下沉中庭：鏡頭在背後時畫面下半一片白霧（X307，BB 11-10 PC 跑 10df264ed 判 GAME_BUG：「從 B1 門口往樓梯走、鏡頭在背後，畫面下半整片白霧，白天晚上都有」）——不需要瀏覽器（D131）。
++// 原因：站在 B1 門口（南牆前約 0.9 m），鏡頭在玩家南側。engine3d.js 的 followCam 碰到南牆的碰撞盒會拉近，但最近 0.7 m，
++// 所以鏡頭會跑到 B1 的玻璃帷幕（lib_b1_court.glb 的 lbc_glass，z −30.94，朝中庭 −z）後面。
++// 舊模型的玻璃是雙面的（doubleSided），從背後看就是一整片半透明的面蓋住畫面下半（玻璃上緣 Y+2.92 以上是清楚的）。
++// 檢查（在 Node 建出遊戲真正的校園：E.colliders、followCam；玻璃直接讀 GLB）：
++//   1 B1 門口一帶（中庭南半部、每 0.5 m 一點）鏡頭朝南的幾個方向：會有鏡頭跑到玻璃後面的情況（證明這個測試量得到這個情況）
++//   2 那些鏡頭位置看得到玻璃的「畫的那一面」的次數＝0：玻璃只畫朝中庭那一面（背面不畫），從背後看出去就是中庭
++//   3 從中庭（玻璃前面）看玻璃照常畫得到（玻璃沒有消失）
++// 修改前（開發分支 1c767edf8 的 GLB）：2 FAIL。用法：node tests/b1court_glass_cam_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{};
++const HTML=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), SRCS=[...HTML.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]);
++const loadErr=[]; for(const f of SRCS){ try{ const src=fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (\w+)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }catch(e){ loadErr.push(f+'：'+String(e).slice(0,120)); } }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++check('0 照 index.html 的順序載入每一個檔都沒有錯',!loadErr.length,loadErr.slice(0,3).join('；'));
++/* 玻璃：直接讀 GLB（材質 lbc_glass 的三角形、doubleSided）*/
++function glassOf(file){ const b=fs.readFileSync(file), jl=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+jl).toString('utf8')), bin=b.slice(20+jl+8);
++  const acc=i=>{ const a=J.accessors[i], v=J.bufferViews[a.bufferView], n={SCALAR:1,VEC3:3}[a.type], off=(v.byteOffset||0)+(a.byteOffset||0); const T={5126:Float32Array,5125:Uint32Array,5123:Uint16Array}[a.componentType];
++    return Array.from(new T(bin.buffer.slice(bin.byteOffset+off,bin.byteOffset+off+a.count*n*T.BYTES_PER_ELEMENT))); };
++  const mi=J.materials.findIndex(m=>m.name==='lbc_glass'); const ds=!!J.materials[mi].doubleSided, tris=[];
++  J.nodes.forEach(nd=>{ if(nd.mesh==null) return; const t=nd.translation||[0,0,0]; for(const pr of J.meshes[nd.mesh].primitives){ if(pr.material!==mi) continue; const P=acc(pr.attributes.POSITION), I=pr.indices!=null?acc(pr.indices):P.map((_,k)=>k).slice(0,P.length/3);
++    for(let k=0;k<I.length;k+=3){ const v=[0,1,2].map(j=>new THREE.Vector3(P[I[k+j]*3]+t[0],P[I[k+j]*3+1]+t[1],P[I[k+j]*3+2]+t[2])); tris.push(v); } } });
++  return {ds,tris}; }
++const G=glassOf(path.join(ROOT,'assets/models/env/second_ai/lib_b1_court.glb'));
++check('0 GLB 讀得到玻璃（lbc_glass）', G.tris.length>0, `${G.tris.length} 個三角形、doubleSided ${G.ds}`);
++/* 從 eye 看玻璃：視線（頭 → 往前）穿過哪一個三角形；回傳畫不畫（雙面＝畫；單面＝那一面朝著 eye 才畫）*/
++const tri=new THREE.Triangle(), nrm=new THREE.Vector3(), ray=new THREE.Ray(), hitP=new THREE.Vector3();
++function seen(eye,look){ ray.set(eye,look.clone().sub(eye).normalize()); for(const v of G.tris){ if(!ray.intersectTriangle(v[0],v[1],v[2],false,hitP)) continue; tri.set(v[0],v[1],v[2]); tri.getNormal(nrm); const front=nrm.dot(eye.clone().sub(hitP))>0; return {hit:true,drawn:G.ds||front}; } return {hit:false,drawn:false}; }
++/* 遊戲真正的校園：碰撞盒（南牆、玻璃門）照 zones3d.js 的 B1C */
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster(); ASSETS.loadOne=()=>new Promise(()=>{});
++global.GAME=global.GAME||{}; GAME.G={hour:14,weather:'clear',flags:{},zone:'campus',day:1};
++E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES.campus.build(E); E.zone=z; E.nav=z.nav; E.levels=z.levels||null; z.group.updateMatrixWorld(true);
++E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
++const C=Z3.B1C, Y=-C.dep, DIST=Z3.ZONES.campus.camDist||6.0, PITCH=0.22;
++let behind=0, bad=0, ex=null, front=0, frontSeen=0;
++for(let x=C.x0+0.6;x<=C.x1-0.6;x+=0.5) for(let zz=C.z1-2.5;zz<=C.z1-0.5;zz+=0.5){ if(!z.nav.walkable||true){ const tgt=new THREE.Vector3(x,Y+1.55,zz);
++    for(const yaw of [-0.9,-0.45,0,0.45,0.9]){ const cam=new THREE.Vector3(); E.followCam(tgt,yaw,PITCH,DIST,0,cam);
++      /* 鏡頭往頭的方向看（跟隨鏡頭看著頭）：往下 30° 的那條線（畫面下半）*/
++      const look=tgt.clone().add(new THREE.Vector3(0,-0.8,0)), s=seen(cam,look);
++      if(cam.z>C.z1+0.06-1e-3&&s.hit){ behind++; if(s.drawn){ bad++; if(!ex) ex={head:[x,zz],yaw,cam:cam.toArray().map(v=>+v.toFixed(2))}; } } } } }
++check('1 B1 門口一帶、鏡頭朝南：量得到鏡頭跑到玻璃後面的情況（followCam 最近 0.7 m）', behind>0, `${behind} 次`);
++check('2 鏡頭在玻璃後面時看不到玻璃（背面不畫）', behind>0&&bad===0, bad?`${bad} 次看得到、例：${JSON.stringify(ex)}`:'');
++for(const x of [94,97,100,103]){ const eye=new THREE.Vector3(x,Y+1.6,C.z1-3), s=seen(eye,new THREE.Vector3(x,Y+1.4,C.z1+1)); front++; if(s.hit&&s.drawn) frontSeen++; }
++check('3 從中庭看玻璃照常畫得到', frontSeen===front, `${frontSeen}/${front}`);
++console.log(fails?`FAILED ${fails}`:'ALL PASS'); process.exit(fails?1:0);

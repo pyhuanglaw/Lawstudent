@@ -61,7 +61,10 @@ M = {
     'wood': L.pbr(P + 'bench_wood', 'fine_grained_wood' if os.path.isdir(os.path.join(HERE, 'textures', 'fine_grained_wood')) else 'walnut_veneer', tile=0.8, target='#9a7a58', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.6),
     'ivy': base['ivy'], 'broad': base['broad'], 'fern': base['fern'],
 }
-for k in ('glass', 'canopy'): M[k].use_backface_culling = False
+M['canopy'].use_backface_culling = False
+# 玻璃帷幕只畫朝中庭（−z）那一面（X307 BB 11-10 GAME_BUG：站在 B1 門口、鏡頭在背後時，engine3d.js followCam 碰到南牆拉近，最近 0.7 m，
+# 會把鏡頭放到玻璃後面；雙面玻璃從背後看＝畫面下半整片白霧）。從背後看不畫＝看出去是中庭（玻璃後面是亮著的自習室，本來就看得到外面）
+M['glass'].use_backface_culling = True
 _acc = {}
 def acc(key):
     if key not in _acc: _acc[key] = Mesh(P + key, M[key])

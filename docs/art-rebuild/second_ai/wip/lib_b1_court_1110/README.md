@@ -54,3 +54,20 @@ GLB、json 要從 LAWWW2 的分支拿：`assets/models/env/second_ai/lib_b1_cour
 | assets/models/env/second_ai/lib_b1_court.json | 30c0418026dc441f |
 
 - 回歸：在 9202e2fab 上跑 50 支，ALL PASS（`regression_9202e2fab.txt`：B1 中庭、B1、校園、導航、zone_prefetch、劇情相關）。
+
+## 第二輪：鏡頭在背後時畫面下半白霧（BB 11-10 PC 跑 10df264ed，GAME_BUG）——2026-11-10
+- **原因**：
+  - 站在 B1 門口（南牆前約 0.9 m）時，鏡頭在玩家南側。
+  - engine3d.js 的 followCam 碰到南牆的碰撞盒會拉近，但最近只拉到 0.7 m，所以鏡頭會跑到玻璃帷幕（`lbc_glass`，z −30.94）後面。
+  - 玻璃是雙面的，從背後看就是一整片半透明面蓋住畫面下半。玻璃上緣 Y+2.92 以上看得清楚，所以截圖上半是正常的。
+- **修法**：`lib_b1_court.py` 讓玻璃帷幕只畫朝中庭那一面（`use_backface_culling`），重匯 GLB。
+  - 從背後看，玻璃不畫，看出去就是中庭；從中庭看玻璃照舊。
+  - 雨遮照舊是雙面。只改材質，三角形數 8,582 不變。
+- **測試** `tests/b1court_glass_cam_unit.js`：在 Node 建出遊戲真正的校園（碰撞盒、followCam），玻璃直接讀 GLB。
+  - 量到 65 次鏡頭跑到玻璃後面。
+  - 舊 GLB：65 次都看得到玻璃，第 2 項 **FAIL**。新 GLB：0 次，**ALL PASS**。
+  - 從中庭看玻璃：4/4 照常畫得到。
+- **回歸**（1c767edf8＋patch）：`regression_fog_1c767edf8.txt`。b1court_glass_cam、lib_b1_court_art、lib_b1_court、ground_zfight、campus_public 都 ALL PASS。
+- **patch**：`b1court_fog_1c767edf8.patch`（`git apply` 用 `--binary` 產的：GLB、json、新測試）。腳本在本分支 `tools/blender/env_second/lib_b1_court.py`。
+- **沒有改的**：鏡頭最近 0.7 m 的規則（引擎共用，LAWWW 的範圍）。白霧的根本原因是看到玻璃背面，所以模型這邊修就夠了。
+- **沒有測過**：瀏覽器畫面（等 CC 用同一個 probe 的 03、07 兩個鏡頭重拍）。
