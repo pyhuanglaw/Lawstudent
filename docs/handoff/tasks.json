@@ -52845,7 +52845,7 @@
    "id": "MOVIE-TALK-1110",
    "title": "電影情節與散場對話（AA_745）：手機／海報牆顯示 plot、scene 旁白、散場 talk 三選項（fx 加友情／愛情）、with（after／mid／later／skip）、看過記 G.flags.MOVIE_SEEN（X324）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -52858,7 +52858,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "v9.10.24 發完先用第 1 批（企劃線 d94b6ae6d AA_745_movie_plots_1.json）做框架＋匯入工具，第 2、3 批重匯",
+   "next": "在開發分支（子代理 a8f3afb51 合併）；5 個 later 只記旗標、幾個近似做法等 AA 確認；BB 排瀏覽器測",
    "xai": {
     "spec": "X324、AA_745",
     "branch": "claude/confident-ritchie-8rwh7t",
