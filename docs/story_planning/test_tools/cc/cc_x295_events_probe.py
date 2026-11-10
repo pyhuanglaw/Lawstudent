@@ -23,7 +23,7 @@ PARTY_NARR = ['（體育館的燈關了一半，熱舞社在台上跳。後面�
 BLOOD_NARR = ['（護理師問你今天有沒有吃早餐。你說有。她看了你一眼，又遞給你一杯水。）', '（捐完要在椅子上坐十分鐘。餅乾是蘇打餅，你吃了兩片。）']
 MOVIE_NARR = ['（燈一關，前排還有人在找位子。片頭跑了五分鐘才安靜下來。）', '（片子放到一半，投影機閃了兩下。整間教室一起「喔——」，然後又好了。）']
 FAIR_NARR0 = '（攤位從校門一路排到總圖前面。法律系的攤子在賣檸檬愛玉，學長在旁邊幫人看租屋契約。）'
-CLUB_WORDS = ['吉他社', '辯論社', '登山社', '系籃', '法律服務社', '社團博覽會', '熱音', '攝影社']
+CLUB_WORDS = ['吉他社', '辯論社', '登山社', '社團博覽會', '熱音', '攝影社', '服務台']   # 社博選單（CLUBFAIR.menu）會列的攤位；「法律服務社」「系籃」不列（溫學姊的法服攤劇情會提到）
 
 UI = r"""(()=>{ const vis=e=>!!(e&&e.offsetParent!==null&&!e.classList.contains('hide')&&getComputedStyle(e).display!=='none'&&getComputedStyle(e).visibility!=='hidden');
   const E=GAME.E, P=E.player, o=P.obj.position, ib=document.getElementById('interact'), cap=document.getElementById('caption'), ch=document.getElementById('choices'), tx=document.getElementById('dlgText'), d0=CALENDAR.dateOf(GAME.G.day);
@@ -41,6 +41,7 @@ SEATS101 = r"""((room)=>GAME.E.interactables.filter(i=>i.seat&&!i.hidden&&String
 HUD = r"""(on=>{ for(const id of ['hud','hudR','minimap','ctlR','joy','toast','btnGo','btnQuick']){ const e=document.getElementById(id); if(e) e.style.visibility=on?'':'hidden'; } })"""
 
 BASE = None   # 讀進來的使用者存檔（每一段都從它開始）
+SPOT = {'學生會迎新派對': (0.0, 8.6), '捐血車': (30.0, -8.0), '校慶園遊會': (-14.5, 10.5)}
 
 
 async def ui(pg):
@@ -146,6 +147,13 @@ async def open_menu(pg, cdp, tag, label, want):
     lines, caps, menus, story = [], [], [], []
     for k in range(3):
         u = await ui(pg)
+        if u['dlg'] or u['choices'] or u['busy']:   # 走到這裡停下來時，附近的劇情（auto 事件）先開始了：照玩家先看完（例：11/15 10–12 點溫學姊的法律問答攤 ev_sis_festival_booth，near 4.5 m）
+            l, c, m, u = await read_through(pg, cdp, tag, max_s=300, pick=lambda cs: None if want(cs) else dodge(cs))
+            lines += l; caps += c; menus += m; story += [x for x in m if not want(x)]
+            R.note('%s 按之前先演了劇情：對話 %s；選項 %s' % (tag, J(l), J(m)))
+            if u['choices'] and want(u['choices']): break
+        if not u['interact'].startswith(label) and SPOT.get(label):   # 劇情演完被移開了：照玩家走回去
+            ok, u, fb = await walk_to_spot(pg, cdp, tag + '（走回去）', SPOT[label][0], SPOT[label][1], label)
         if not u['interact'].startswith(label): break
         await L.tap(pg, cdp, '#interact')
         l, c, m, u = await read_through(pg, cdp, tag, max_s=120, pick=lambda cs: None if want(cs) else dodge(cs))
@@ -316,7 +324,7 @@ async def case_fair(pg, cdp):
     await shot(pg, 'fair_1_front')
     R.check('%s 真的走到晨思鐘旁（沒有被放到目的地）' % t, ok and not fb, J({'x': u['x'], 'z': u['z'], 'fb': fb}))
     if not R.check('%s 互動鍵是「校慶園遊會」' % t, u['interact'].startswith('校慶園遊會'), J(u['interact'])): return
-    want = lambda cs: any(c.startswith('去逛') or c.startswith('先不要') or any(w in c for w in CLUB_WORDS) for c in cs) or len(cs) > 3
+    want = lambda cs: any(c.startswith('去逛') or c.startswith('先不要') or any(w in c for w in CLUB_WORDS) for c in cs) or len(cs) > 4
     lines, caps, menus, u, story = await open_menu(pg, cdp, t, '校慶園遊會', want)
     await shot(pg, 'fair_2_menu')
     R.note('%s 按下去：對話 %s；選單 %s；字幕 %s；插進來的劇情選項（照 dodge 選）%s' % (t, J(lines), J(menus), J(caps), J(story)))
@@ -330,7 +338,7 @@ async def case_fair(pg, cdp):
     lines, caps, menus2, u = await read_through(pg, cdp, t, max_s=300, pick=lambda cs: None)
     await shot(pg, 'fair_3_after')
     R.note('%s 參加以後：對話 %s；字幕 %s；選單 %s；時間 %.3f' % (t, J(lines), J(caps), J(menus2), u['hour']))
-    R.check('%s 參加以後也沒有社博的選單' % t, not menus2 and not any(any(w in c for w in CLUB_WORDS[:4] + ['社團博覽會']) for c in caps), J(menus2))
+    R.check('%s 參加以後也沒有社博的選單' % t, not menus2 and not any(any(w in c for w in CLUB_WORDS) for c in caps), J(menus2))
     R.check('%s 園遊會的旁白（第 1 句）出現、共三句' % t, bool(lines) and FAIR_NARR0 in lines[0] and len(lines) == 3, J(lines))
 
 
