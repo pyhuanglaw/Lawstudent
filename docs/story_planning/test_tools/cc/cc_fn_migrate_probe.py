@@ -153,6 +153,8 @@ async def cont(pg, cdp, url, save):
     await pg.wait_for_timeout(5000); await L.close_panels(pg, cdp)
     log = []; await pe.settle(pg, cdp, log, 20)
     if log: R.note('讀進來以後先點完的對話／選項：%s' % J(log[-10:]))
+    q, did = await F.ready(pg, cdp)
+    R.note('讀進來以後等畫面可以玩：%s；做了 %s' % (J(q), J(did)))
     await pg.evaluate(F.TOAST_HOOK)
     return ok
 
@@ -167,6 +169,7 @@ async def load_one(pg, cdp, url, k, ent, save):
     s = await D.st(pg)
     R.check('%s 站的格子可走（canStand r0.3；(%s, %s) lv %s）' % (tag, s['x'], s['z'], s['lv']), bool(s['stand']), J(s))
     await F.shot(pg, cdp, 'fn_mig_%s_loaded' % k)
+    await F.ready(pg, cdp, 15)
     mv = await D.pushable(pg, cdp)
     R.check('%s 搖桿推得動 %.2f m（≥0.3，人不卡牆）' % (tag, mv), mv >= 0.3, '')
     if k == '1':
@@ -177,7 +180,7 @@ async def load_one(pg, cdp, url, k, ent, save):
         bg = await pg.evaluate(F.BAG_JS)
         have = {b['id']: b['shop'] for b in bg['bag']}
         R.check('%s 包包還有一束花、向日葵，shop＝gg_flower（GIFTH.bag；舊版 %s）' % (tag, J(m0['bag'])), have.get('g_bouquet') == 'gg_flower' and have.get('g_sunflower') == 'gg_flower', J(bg))
-        ui = await F.bag_ui(pg, cdp)
+        await F.ready(pg, cdp, 15); ui = await F.bag_ui(pg, cdp)
         R.note('%s 選單「物品」：%s' % (tag, J(ui[:300])))
         R.check('%s 選單「物品」看得到一束花、一朵向日葵' % tag, '一束花' in ui and '一朵向日葵' in ui, '')
         if await go_her(pg, cdp, tag, GIFT_WHO):
