@@ -1,0 +1,12 @@
+{
+ "version": "5.2.3 LTS",
+ "binary": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\blender.exe",
+ "background": true,
+ "threads_env": "14",
+ "device_env": "CPU",
+ "render_threads_mode": "FIXED",
+ "render_threads": 14,
+ "blend_bytes": 86566,
+ "glb_bytes": 1740,
+ "seconds": 5.63
+}

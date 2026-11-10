@@ -1,0 +1,26 @@
+{
+  "rerun": "",
+  "id": "BLENDER_PING",
+  "sha": "b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91",
+  "kind": "blender",
+  "script": "docs/story_planning/test_tools/cc/cc_blender_ping.py",
+  "env": "SCRIPT_FROM=cc;XARGS=--out {out}",
+  "machine": "MSI",
+  "start": "2026-11-11T06:35:54",
+  "end": "2026-11-11T06:36:47",
+  "seconds": 52,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8800/index.html",
+  "blender_threads": "14",
+  "res_peak": {
+    "cpu": 13,
+    "mem": 36,
+    "used_gb": 11.4,
+    "chrome_testing": 0
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false
+}

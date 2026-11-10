@@ -1,0 +1,12 @@
+Info: Saved as "blender_ping.blend"
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+06:36:38 | INFO: Starting glTF 2.0 export
+06:36:38 | INFO: Extracting primitive: Cube
+06:36:38 | INFO: Primitives created: 1
+06:36:38 | INFO: Finished glTF 2.0 export in 0.21817398071289062 s
+
+BLENDER PING OK {"version": "5.2.3 LTS", "binary": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\blender.exe", "background": true, "threads_env": "14", "device_env": "CPU", "render_threads_mode": "FIXED", "render_threads": 14, "blend_bytes": 86566, "glb_bytes": 1740, "seconds": 5.63}
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit
