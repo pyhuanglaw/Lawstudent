@@ -7158,6 +7158,20 @@
    "noDirectIntegrate": false,
    "note": "只新增三份文件（內容和 LAWWW2 分支上的一樣），整合後 ART-SOP 結案。",
    "next": "等 LAWWW 回 CROWD-DEPTS-LOOK 做不做；先量 PERF-CAMPUS-GLB census"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "PERF-CAMPUS-GLB-1102 ②（行政大樓、文學院、校史館壓 draw call）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/perf_campus_glb/（README_hall_1110.md、perf_campus_hall_1110.patch、census_1110.md、campus_hall_drawcall_unit.js、campus_hall_pillar_seethru_unit.js、regression_hall.log、admin_before_after.jpg）"
+   ],
+   "state": "MODEL_READY，待整合",
+   "noDirectIntegrate": false,
+   "note": "campus_hall.py 加貼圖集壓法：一棟 11 → 5 個網格；椰林大道鏡頭三棟 draw call 47 → 18，三角形 37k → 64k（代價照實寫）。新測試開發 FAIL → ALL PASS；改了 campus_hall_pillar_seethru_unit.js 的材質名字比對（內容不變、新舊 GLB 都過），請 LAWWW 確認。回歸 37 支過。",
+   "next": "社科院 → 總圖 → 黑森林、醉月湖（同一套，等 LAWWW 看這包的代價可不可以）"
   }
  ]
 }
