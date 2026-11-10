@@ -1,0 +1,10 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_campus_view_shot_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\X283b_old\out
+CC 校園定點截圖：worktree ?；TAG oldb；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS 讀得到存檔 tests/fixtures/user_save_day51b_1110.json
+  [前置／捷徑] 【前置／捷徑】讀使用者存檔 tests/fixtures/user_save_day51b_1110.json（day 51），改 campus 18.40 時、站 (29.9, -54.4)；鏡頭直接擺 yaw 0.82 rad、距離 12.0
+  [  49.8s] curb_far：{"yaw": 0.82, "dist": 12, "cam": [38.46, 4.27, -46.41], "player": [29.9, 0, -54.4], "zone": "campus", "hour": 18.48}
+PASS curb_far 在 campus、玩家在 (29.9, -54.4) 0.6 m 內  {"yaw": 0.82, "dist": 12, "cam": [38.46, 4.27, -46.41], "player": [29.9, 0, -54.4], "zone": "campus", "hour": 18.48}
+PASS 沒有 JS 例外  []
+ALL PASS
