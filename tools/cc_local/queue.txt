@@ -142,7 +142,8 @@ X295E_fair_off2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_
 # ② GYM-FIT-PROPS 第二包（LAWWW 11:59、BB 12:00）：飛輪（踏板離腳多遠）、划船機（座椅跟著臀部滑）有人在用各一張；探針加 bike、會動零件量測、sideLow 截圖
 GYMPROPS2_v2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_gym_props_probe.py | index.html | 20 | SOLO=1;TAG=v2;ACTS=bike,row
 # GIFT-HOLIDAY-1110 節日送禮（子代理交件 bafbeefa3；雲端新版 8 段 ALL PASS 約 31 分）：改後 509b54c2d、改前 fda54d616（預期 xmas／valentine／qixi／birthday／third T-A／hergift／mailbox FAIL，normal 兩版都 PASS）
-GIFTHOL_new | 509b54c2d9d7a2f1ab6f227124abeb4d30747db6 | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 75 | TAG=new
+# （12:4x HOLD：BB 12:39 要加「送完 love 後人物頁有記錄、包包少那一樣」，探針改好再開）
+#HOLD GIFTHOL_new | 509b54c2d9d7a2f1ab6f227124abeb4d30747db6 | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 75 | TAG=new
 GIFTHOL_old | fda54d616e57b40c74ca1b6404dccb6ea927e50c | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 50 | TAG=old
 # 同弦夜景（BB 12:04；LAWWW2 dd079901c 加夜間版）：21:00 窗外要是晚上（暗、有燈），不能和白天一樣；改前 be84c8680 先跑（預期 21:00 和白天一樣）；改後等 LAWWW 整合 SHA
 WINVIEW_tx_old | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=tongxian;HOURS=14,21
