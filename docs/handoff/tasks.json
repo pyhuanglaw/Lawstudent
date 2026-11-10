@@ -51980,9 +51980,8 @@
    "id": "US-CLUBHOUSE-3D-1110",
    "title": "美國會所交誼廳、自習室做 3D（目前 2D；自習、何俊朗平日 19～22、週四學姊、烤肉、晚餐）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
-   "resumeWhen": "美國教室（US-CLASSROOM-3D-1110）做完再開工",
    "first": {
     "term": "Y3S1",
     "week": 1,
@@ -51993,15 +51992,15 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW 11-10 14:4x】AA_741（bd4f5df43）規格到：門廳＋交誼廳 10×8＋自習室 8×6；已轉 LAWWW2（排在教室之後），劇情接線 LAWWW。 ｜ 【LAWWW 11-10 14:4x】LAWWW2 建議第二。",
+   "next": "【LAWWW 11-10 16:5x】接 LAWWW2 212f42660：新區域 us_clubhouse_in（門廳、交誼廳 10×8、自習室 8×6，38 座位）＋us_clubhouse.glb＋窗景 16 張；us_clubhouse_unit ALL PASS、相關回歸全過。劇情接線 LAWWW 做（門口 exit、自習座位、何俊朗招呼、學姊坐旁邊／外套、五場事件）；截圖 CC、ART BB。 ｜ 【LAWWW 11-10 14:4x】AA_741（bd4f5df43）規格到：門廳＋交誼廳 10×8＋自習室 8×6；已轉 LAWWW2（排在教室之後），劇情接線 LAWWW。 ｜ 【LAWWW 11-10 14:4x】LAWWW2 建議第二。",
    "xai": {
     "spec": "企劃線 bd4f5df43 docs/story_planning/AA_741_美國會所3D_交誼廳自習室.md＋docs/art-rebuild/second_ai/us_scene_gap_1110.md",
     "branch": "claude/second-ai-env-art",
     "acceptance": "會所交誼廳、自習室走得進去、坐得下；BB 判",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "sha": null
+   "sha": "212f42660"
   },
   {
    "id": "US-LONG-3D-1110",

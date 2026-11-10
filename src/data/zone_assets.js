@@ -60,6 +60,7 @@ const ZONE_ASSETS={
   "us_bed_c":["bldg.us_bed_c"],
   "us_campus":["bldg.us_campus"],
   "us_classroom":["bldg.us_classroom"],
+  "us_clubhouse_in":["bldg.us_clubhouse"],
   "us_lawlib":["bldg.us_lawlib"],
   "us_lawlib_2f":["bldg.us_lawlib"],
   "us_market":["bldg.us_market"],
