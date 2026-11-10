@@ -6254,6 +6254,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false
+  },
+  {
+   "task": "BULLETIN-BOARD-1110",
+   "branch": "claude/story-planning",
+   "sha": "2a1c30dc6",
+   "files": [
+    "docs/story_planning/AA_737_bulletin_board.json"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 實作（posterText 三區、招生海報、第5、6週補入社、四個特殊活動）；BB 測",
+   "next": "LAWWW 接",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "USER_WANTS X295；使用者 11-10 01:3x 經 LAWWW-B"
   }
  ],
  "items": [
