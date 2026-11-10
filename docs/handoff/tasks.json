@@ -45069,7 +45069,7 @@
    "id": "LM-SEAM-GEO",
    "title": "光照接縫要從建模改的兩處：男一舍走廊北牆和樓梯間牆接頭的縫、萬才館（法律系館B）柱子很細的倒角",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -45081,7 +45081,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 10:3x】LAWWW2 盤點更正 6d19463fc：男一舍那一半＝DORM1-WALL-SEAM-1102 已整合；只剩萬才館柱子細倒角（P3）。 ｜ 【LAWWW-C 11-04 12:4x 補進總表】LAWWW2-C 10-28 開的（LM-SEAM-1028 重烘以後還剩、要改模型）；排在溫州街、公館之後",
+   "next": "【LAWWW 11-10 12:3x】結案：不修，除非使用者或 BB 指出。 ｜ 【LAWWW 11-10 10:3x】LAWWW2 盤點更正 6d19463fc：男一舍那一半＝DORM1-WALL-SEAM-1102 已整合；只剩萬才館柱子細倒角（P3）。 ｜ 【LAWWW-C 11-04 12:4x 補進總表】LAWWW2-C 10-28 開的（LM-SEAM-1028 重烘以後還剩、要改模型）；排在溫州街、公館之後",
    "source": "LAWWW2-C 10-28（LM-SEAM-1028 後續）；11-04 12:38 指出總表沒有這個 ID",
    "xai": {
     "spec": "LAWWW2-C 10-28",
@@ -45089,7 +45089,10 @@
     "acceptance": "重烘後同角度截圖沒有接縫，BB 驗",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "replacedBy": "NONE",
+   "authorizedBy": "LAWWW（帳號 A，D111）11-10 12:3x，照 LAWWW2 建議",
+   "reason": "男一舍那一半＝DORM1-WALL-SEAM-1102 已整合；剩萬才館柱子細倒角暗線只有 LAWWW2 自己在 LM-SEAM-1028 看到，使用者、BB 沒提過（D141）；修要改模型＋整間重烘幾十分鐘。不修，除非使用者或 BB 指出"
   },
   {
    "id": "GG-NIGHT-CARDS-1104",
