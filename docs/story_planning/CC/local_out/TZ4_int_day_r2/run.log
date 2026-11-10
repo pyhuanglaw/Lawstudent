@@ -1,0 +1,42 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tingzhou_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TZ4_int_day_r2\out
+CC 汀州路 v1：PARTS INT；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS [INT] 有 TZ_SHOPS_LAYOUT（室內配置）
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 14.0 時 (-5.4,-1.0) （泰米村食 門口外面＝舊存檔站的位置）
+PASS [INT 泰米村食 1400] 舊存檔站在門口外面：站得住  {"zone": "tingzhou", "h": 14.06, "x": -5.4, "z": -1, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 泰米村食 1400] 街上有「進泰米村食」  {"label": "進泰米村食", "x": -7.3, "z": -1, "r": 1.6, "to": "tz_taimi", "look": null, "tz": "taimi", "gate": false}
+  [  45.3s] 到達「[INT 泰米村食 1400] 走到「進泰米村食」」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  48.6s] [INT 泰米村食 1400] 進店：6.17 秒後在 tz_taimi（{"zone": "tz_taimi", "h": 14.09, "x": 0.15, "z": 3.2, "free": true, "ent": false, "busy": false, "fb": 0}）
+PASS [INT 泰米村食 1400] 走進去：區域 tz_taimi、站得住  {"zone": "tz_taimi", "h": 14.09, "x": 0.15, "z": 3.2, "free": true, "ent": false, "busy": false, "fb": 0}
+  [  51.1s] [INT 泰米村食 1400] 正式模型：{"formal": true, "glb": true}
+  [  53.8s] 到達「[INT 泰米村食 1400] 走到角落 1 (-1.9,3.8)」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  56.4s] 到達「[INT 泰米村食 1400] 走到角落 2 (2.6,2.4)」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  60.5s] 到達「[INT 泰米村食 1400] 走到角落 4 (-2.0,-2.3)」附近（0.28 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+FAIL [INT 泰米村食 1400] 店裡走一圈（四個角落都走得到、沒有隱形牆）  {"pts": [[-1.95, 3.8], [2.63, 2.41], null, [-1.96, -2.26]], "miss": [["角落3 附近沒有站得住的格子"]]}
+  [  68.8s] [INT 泰米村食 1400] 店內 8 秒幀率 58.3 fps（PC GPU，不是 iPhone）
+PASS [INT 泰米村食 1400] 店裡有「離開泰米村食」  [{"label": "離開泰米村食", "x": 0.15, "z": 4.55, "r": 0.9, "to": "tingzhou", "look": null, "tz": null, "gate": false}, {"label": "坐下", "x": -2.3, "z": 4.15, "r": 0.6, "to": null, "look": null, "tz": null, "gate": false}, {"label": "坐下", "x": -2.22, "z": 3.6, "r": 0.7, "to": null, "look": null, "tz": null,
+  [  79.2s] 到達「[INT 泰米村食 1400] 走到「離開泰米村食」」附近（0.27 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [INT 泰米村食 1400] 走出來：回到汀州路門口外面（離 layout.out 0.00 m）、站得住  {"zone": "tingzhou", "h": 14.31, "x": -5.4, "z": -1, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 泰米村食 1400] 出來以後搖桿推得動（沒有卡在門口）  {"zone": "tingzhou", "h": 14.32, "x": 3.9, "z": -1, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 泰米村食 1400] walkFallbacks 0  {"zone": "tingzhou", "h": 14.32, "x": 3.9, "z": -1, "free": true, "ent": false, "busy": false, "fb": 0}
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 14.0 時 (5.4,5.8) （印得好 門口外面＝舊存檔站的位置）
+PASS [INT 印得好 1400] 舊存檔站在門口外面：站得住  {"zone": "tingzhou", "h": 14.06, "x": 5.4, "z": 5.75, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 印得好 1400] 街上有「進印得好」  {"label": "進印得好", "x": 7.3, "z": 5.75, "r": 1.6, "to": "tz_yindehao", "look": null, "tz": "yindehao", "gate": false}
+  [  98.4s] 到達「[INT 印得好 1400] 走到「進印得好」」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 101.0s] [INT 印得好 1400] 進店：5.3 秒後在 tz_yindehao（{"zone": "tz_yindehao", "h": 14.1, "x": 0, "z": 3, "free": true, "ent": false, "busy": false, "fb": 0}）
+PASS [INT 印得好 1400] 走進去：區域 tz_yindehao、站得住  {"zone": "tz_yindehao", "h": 14.1, "x": 0, "z": 3, "free": true, "ent": false, "busy": false, "fb": 0}
+  [ 103.5s] [INT 印得好 1400] 正式模型：{"formal": true, "glb": true}
+  [ 106.2s] 到達「[INT 印得好 1400] 走到角落 1 (-2.2,3.8)」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 111.4s] 到達「[INT 印得好 1400] 走到角落 2 (2.3,4.0)」附近（0.23 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [ 117.0s] 到達「[INT 印得好 1400] 走到角落 3 (1.1,-4.1)」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [ 122.2s] 到達「[INT 印得好 1400] 走到角落 4 (-2.2,-3.5)」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [INT 印得好 1400] 店裡走一圈（四個角落都走得到、沒有隱形牆）  {"pts": [[-2.2, 3.8], [2.27, 3.98], [1.06, -4.07], [-2.2, -3.5]], "miss": []}
+  [ 130.5s] [INT 印得好 1400] 店內 8 秒幀率 57.5 fps（PC GPU，不是 iPhone）
+PASS [INT 印得好 1400] 店裡有「離開印得好」  [{"label": "離開印得好", "x": 0, "z": 4.55, "r": 0.8, "to": "tingzhou", "look": null, "tz": null, "gate": false}, {"label": "自助影印", "x": -1.9, "z": 1, "r": 1, "to": null, "look": "（印得好）", "tz": null, "gate": false}, {"label": "櫃台（列印・裝訂）", "x": 0.6, "z": 0.6, "r": 1, "to": null, "look": "（印得好）", "tz": nul
+  [ 141.9s] 到達「[INT 印得好 1400] 走到「離開印得好」」附近（0.28 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+PASS [INT 印得好 1400] 走出來：回到汀州路門口外面（離 layout.out 0.00 m）、站得住  {"zone": "tingzhou", "h": 14.38, "x": 5.4, "z": 5.75, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 印得好 1400] 出來以後搖桿推得動（沒有卡在門口）  {"zone": "tingzhou", "h": 14.39, "x": -3.38, "z": 5.75, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [INT 印得好 1400] walkFallbacks 0  {"zone": "tingzhou", "h": 14.39, "x": -3.38, "z": 5.75, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS 沒有 JS 例外  []
+FAILED 1: [INT 泰米村食 1400] 店裡走一圈（四個角落都走得到、沒有隱形牆）
