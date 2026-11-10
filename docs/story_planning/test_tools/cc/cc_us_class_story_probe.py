@@ -55,7 +55,7 @@ async def use(pg, cdp, it, tag, max_s=240):
 
 async def play_through(pg, cdp, tag, pick=None, shots=0, max_s=600, watch=None, until=None):
     """點對話、照 pick(opts)→index 選；shots＝對話框前幾頁截圖；watch(t)＝每秒呼叫一次（記位置）；until(me)→True 就停"""
-    t0 = time.time(); n = 0; last = 0; picked = []
+    t0 = time.time(); n = 0; last = 0; picked = []; slow = 'FINAL' in tag   # r2：FINAL 每頁對話停 2.5 秒（教授起身走到門口要時間；r1 點太快，演完時她剛走到走道）
     while time.time() - t0 < max_s:
         s = await L.state(pg)
         if watch and time.time() - last >= 1.0: last = time.time(); await watch(time.time() - t0)
@@ -65,6 +65,10 @@ async def play_through(pg, cdp, tag, pick=None, shots=0, max_s=600, watch=None, 
             await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(900); continue
         if s['dlg']:
             if n < shots: n += 1; await pg.screenshot(path=os.path.join(OUT, 'usc_%s_dlg%02d.png' % (tag.strip('[]').replace(' ', '_'), n)))
+            if slow:
+                for _ in range(5):
+                    await pg.wait_for_timeout(500)
+                    if watch and time.time() - last >= 0.5: last = time.time(); await watch(time.time() - t0)
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
         me = await pg.evaluate(ME)
         if until and until(me): return me, picked
@@ -133,12 +137,15 @@ async def main():
                     await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)   # 按「坐下」→ 座位選單（上課：課名）
                     c0 = len(await pg.evaluate("window.__UC.cap"))
                     fr0 = await pg.evaluate("[GAME.E.frame, performance.now()]"); await pg.wait_for_timeout(100)
-                    sat = []
+                    sat = []; fwin = []
                     async def watch(t):
                         q = await pg.evaluate(CAST); pr = [c for c in q if c['who'] == 'prof']
                         if pr: prof.append([round(t, 1), pr[0]['x'], pr[0]['z']])
                         m_ = await pg.evaluate(ME)
-                        if m_['seat'] and len(sat) < 2: sat.append(m_); await pg.screenshot(path=os.path.join(OUT, 'usc_WALK_seated%d.png' % len(sat)))
+                        if m_['seat'] and t >= 5 and len(sat) < 2 and (not sat or t - sat[-1]['_t'] >= 4):   # r2：字卡（黑底課名）過了再拍
+                            m_['_t'] = t; sat.append(m_); await pg.screenshot(path=os.path.join(OUT, 'usc_WALK_seated%d.png' % len(sat)))
+                        if m_['seat'] and t >= 3 and not fwin: fwin.append([m_['fps'], time.time()])
+                        if m_['seat'] and fwin and len(fwin) == 1 and time.time() - fwin[0][1] >= 8: fwin.append([m_['fps'], time.time()]); R.note('%s 坐著 8 秒幀率（只有每秒一次讀狀態）：%.1f fps' % (tag, (fwin[1][0] - fwin[0][0]) / (fwin[1][1] - fwin[0][1])))
                     me, picked = await play_through(pg, cdp, tag, pick=lambda o: next((i for i, x in enumerate(o) if '上課' in x), 0), max_s=600, watch=watch,
                                                     until=lambda m: m['zone'] == 'us_classroom' and not m['busy'] and m['h'] >= 14.25)
                     fr1 = await pg.evaluate("[GAME.E.frame, performance.now()]"); n_ = len(await pg.evaluate(CAST))
@@ -169,14 +176,14 @@ async def main():
                     R.note('%s 最近兩人距離 < 0.3 m 的時間點 %d 個（疊在一起的候選，看截圖判）：%s' % (tag, len(close), J(close[:10])))
                     me = await pg.evaluate(ME); R.check('%s 下課玩家留在教室、可以自己走' % tag, me['zone'] == 'us_classroom', J(me))
                 if case == 'ONE':
-                    await base(pg, cdp, '2028-08-23', 8.5, 'us_apartment', '週三 08:30，Introduction 10:00')
+                    await base(pg, cdp, '2028-08-23', 9.25, 'us_apartment', '週三 09:15，Introduction 10:00（r2：08:30 還沒到開始前 1 小時，公寓沒有「去上課」＝r1 TEST_BUG）')
                     fi = await one_click(pg, cdp, tag)
                     R.note('%s 淡入那一刻：%s' % (tag, J(fi)))
                     R.check('%s 一鍵上課：淡入時已坐在 intro [2,7]' % tag, bool(fi) and fi['seat'] == [2, 7], J(fi))
                     R.check('%s 一鍵上課：淡入時沒有露出方塊備用模型（fallback 群組藏著＝正式模型已載完）' % tag, bool(fi) and fi['fallbackVisible'] is not True, J(fi))
                     me, picked = await play_through(pg, cdp, tag, max_s=600, until=lambda m: m['zone'] == 'us_campus')
                     R.check('%s 下課回到法學院台階下（us_campus）' % tag, me['zone'] == 'us_campus', J(me))
-                spec = {'MID': ('2028-10-26', 12.5, '期中報告（10/26 週四）', None, 'present'), 'EXAM': ('2028-12-06', 8.5, '期末考（12/6 週三）', None, 'exam'),
+                spec = {'MID': ('2028-10-26', 12.5, '期中報告（10/26 週四）', None, 'present'), 'EXAM': ('2028-12-06', 9.25, '期末考（12/6 週三 09:15；r1 08:30 太早）', None, 'exam'),
                         'FINAL': ('2028-12-07', 12.5, '期末報告（12/7 週四，選 b）', lambda o: next((i for i, x in enumerate(o) if '只講' in x), min(1, len(o) - 1)), 'present'),
                         'LAST': ('2028-12-08', 8.0, '最後一堂（12/8 週五）', None, 'class')}
                 if case in spec:
