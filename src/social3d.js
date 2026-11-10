@@ -257,5 +257,7 @@ const SOCIAL = (function(){
   MEMORY_LABEL.HXH_SUBJECT='當過她的受試者';   /* 面板名稱：黃筱涵 4-2 當受試者（AA_519，企劃線 d75cd0228；src/sup519_3d.js）*/
   MEMORY_LABEL.FIELD_WITH_YT='陪她去公館的修鞋店做田野（你拿錄音筆）';   /* 面板名稱：語彤大二暑假 8/13 的田野（AA_556 5-2，企劃線 3d7ad0024；src/data/vacfill_events.js ev_vf_y2s_0813）*/
   S.MEMORY_LABEL=MEMORY_LABEL;
+  /* 她的戀愛（npcRom）算不算（ROM-PRIVATE-DATE-1110，使用者 11-10「大一上…應該也要可以培養戀愛」「學姊旁邊 應該要增加戀愛值」）：可以攻略的對象（DATE.HEROINES）一開始就算；原本五處（arcs、arcinv、decide、gift、aa720）都要朋友（第 3 階）以上才算，認識、有點熟選再多都是 0。朋友（男生、Alison…）不算 */
+  S.romOk=id=>typeof DATE!=='undefined'&&Array.isArray(DATE.HEROINES)&&DATE.HEROINES.includes(id);
   return S;
 })();

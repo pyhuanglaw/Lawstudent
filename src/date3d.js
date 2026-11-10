@@ -61,7 +61,7 @@ const DATE=(function(){
     const out={fr:fr>=4?{pct:1,hint:''}:bar(NEED[fr]),rom:null};
     if(!S.HEROINES.includes(id)) return out;
     const st=S.stageNum(id);
-    if(st<5) out.rom=fr<3?{pct:0,hint:''}:bar({npcRom:30});
+    if(st<5) out.rom=bar({npcRom:30});   /* ROM-PRIVATE-DATE-1110：認識、有點熟也看得到她的戀愛（原本朋友以下一律 0，使用者「都約這麼多次還沒有戀愛?」）*/
     else if(st===5){ const b=bar({npcRom:55,rom:30}); out.rom=fr<4?{pct:Math.min(b.pct,0.5),hint:S.PROG_HINT.close}:b; }
     else { const L=(G&&G.dateLog&&G.dateLog[id])||{count:0,wishKnown:false,wish:false}, NC=S.COUNT_NEED[id]||4, c=Math.min(NC,L.count|0);   /* 芯慈要 6 次（AA_537 G9）*/
       const pct=(c/NC+(L.wishKnown?0.5:0)+(L.wish?0.5:0))/2;

@@ -57,7 +57,8 @@ const ARCS=(function(){
   /* 演一拍：回傳選了哪一個 */
   S.play=async function(GM,who,id,b){ const G=GM.G; await play(GM,who,b.lines); await play(GM,who,b.ask);
     const k=!GM.choose?0:(typeof DECIDE!=='undefined'?await DECIDE.choose(GM,b.opts,{text:t=>S.text(G,t),note:b.keyNote,ask:b.ask&&b.ask.length?S.text(G,b.ask[b.ask.length-1]):null}):await GM.choose(b.opts.map(o=>({t:S.text(G,o.t)})))); const o=b.opts[k]||b.opts[0];   /* key:true 的那一組：上方一行字＋選完確認（BB_305 10-5）*/
-    if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&o.rel&&Object.keys(o.rel).length){ const d=Object.assign({},o.rel); if(stage(id)<3) delete d.npcRom; SOCIAL.adjust(id,d); }   /* 她的戀愛只在朋友以上才算（和送東西、念書選項一樣）*/
+    { const said=S.text(G,o.t); if(said&&k<b.opts.length) await GM.say(/^（/.test(said)?null:{name:G.name||'祐廷'},said); }   /* 祐廷說的那一句（使用者 11-10：「我選了 學姊旁邊 的選項 沒顯示我說什麼」；括號的動作照旁白）*/
+    if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&o.rel&&Object.keys(o.rel).length){ const d=Object.assign({},o.rel); if(!(typeof SOCIAL!=='undefined'&&SOCIAL.romOk&&SOCIAL.romOk(id))) delete d.npcRom; SOCIAL.adjust(id,d); }   /* 她的戀愛只在朋友以上才算（和送東西、念書選項一樣）*/
     await play(GM,who,o.reply); return k; };
   /* 演完：下一拍、今天演過、記答案和講過的事、旗標、邀約 */
   S.done=function(G,id,b,k){ const r=S.rec(G,id), f=F(G), o=b.opts[k]||b.opts[0]; r.k=Math.max(r.k,b.n+1); r.last=G.day;
