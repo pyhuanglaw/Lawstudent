@@ -1908,3 +1908,12 @@
 [22:59:45] ==== START GGLANE_new  (probe @ b296c6b562550f166bd8f7d78e0046cf4435e174) ====
 [22:59:48] [res] cpu=18% mem=50% (15.5/31.4 GB) chrome_testing=8  START GGLANE_new
 [23:00:22] [res] cpu=41% mem=46% (14.5/31.4 GB) chrome_testing=9  END WZCAT_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3d80ecca5..e98c4130e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:00:28] ==== END   WZCAT_old  exit=0  133s   ====
+[23:00:32] memory 47% before starting GGLANE_old (2 running)
+[23:00:32] ==== START GGLANE_old  (probe @ 99294fead8c3cd1350625007c8e8a72e0cbf1e47) ====
+[23:00:35] [res] cpu=19% mem=48% (14.9/31.4 GB) chrome_testing=9  START GGLANE_old
+[23:03:06] 正在跑：X199_ANROUTE（已跑 4 分／上限 75 分）、GGLANE_new（已跑 3 分／上限 15 分）、GGLANE_old（已跑 2 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:03:10] [res] cpu=18% mem=48% (15.3/31.4 GB) chrome_testing=10  END GGLANE_new
