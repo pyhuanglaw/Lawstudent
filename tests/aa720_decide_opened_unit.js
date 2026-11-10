@@ -296,7 +296,7 @@ const canon=x=>Array.isArray(x)?x.map(canon):(x&&typeof x==='object'?Object.keys
       if(typeof LIBQ!=='undefined'&&LIBQ.mark) LIBQ.mark(G,SIS); const b=ARCS.pick(G,SIS,{kind:'study',quiet}); H.said=[]; H.picks=picks.slice(); if(b) await ARCS.run(GM,{name:'學姊',charId:SIS},SIS,b); DATE.stageNum=DS; return {G,b,s:said()}; };
     const sup=K.opts.find(o=>o.stance==='support').i;
     { const {G,b,s}=await play('2026-01-27','library',true,[sup,0]); const o=B6.opts[sup];
-      const want=M.open.concat([M.replaceFirst.to],B6.lines.slice(1),B6.ask,o.reply.map(t=>rx(G,t)),M.close);
+      const want=M.open.concat([M.replaceFirst.to],B6.lines.slice(1),B6.ask,[rx(G,o.t)],o.reply.map(t=>rx(G,t)),M.close);   /* 選完先說祐廷選的那一句（ROM-PRIVATE-DATE-1110，使用者 11-10「沒顯示我說什麼」）*/
       check('9. 平日 1/27 總圖安靜區：第 6 拍照 quietMove 演（open 兩句 → 樓梯間那一句 → 原稿第 2 句起、ask、reply → close）',!!b&&b.quietMove&&J(s)===J(want),J(s));
       { const c0=LIBQ.whisper(GM,{name:'學姊',charId:SIS},'對不起，不是對你。'); check('9. （對照）同一個地方、不是樓梯間：她的一句會加（小聲）',/^（小聲）/.test(c0),c0); }
       check('9. 樓梯間那幾句不加（小聲）',!s.some(t=>/小聲/.test(t)&&!/^（小聲）/.test(M.open.join('')))&&s.includes('對不起，不是對你。'),J(s.filter(t=>/小聲/.test(t))));

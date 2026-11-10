@@ -31,6 +31,9 @@
 'use strict';
 const fs=require('fs'), path=require('path'), cp=require('child_process'), vm=require('vm');
 const ROOT=path.resolve(__dirname,'..'), BASE='cda383b07', TITLE='有名字說的台詞拿掉外面的「」第六批';
+/* 11-10 AA_731（企劃線 94ab0865e，BUG-INV-ACC-TIME-1110）：答應句不寫幾點、週末、早上——這十句和來源 commit（AA_415 c71772fbc、AA_721 b782e2c08）的改變不算「多改」 */
+const A731=[["好。九點，不要遲到。", "好。不要遲到。"], ["早上？……十點以後可以。", "Daybreak？……好。我會起來。"], ["好。週末早上我剛好有空。", "好。那天我空下來。"], ["SUNNY SIDE。好。我九點到。", "SUNNY SIDE。好。我會準時到。"], ["SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我十點到。", "SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。"], ["十二點？好，那是我的早餐。", "早午餐？好，那是我的早餐。"], ["十二點 好 那是我的早餐", "早午餐 好 那是我的早餐"], ["好。我九點以前要回店裡。", "好。……我跟店裡說一聲。"], ["好。週末的話。", "好啊。我想找一張老唱片。"], ["蛋包飯？好。週末的話。", "蛋包飯？好。我坐捷運過去。"]];
+const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&s(b)===n||(a.includes(o)&&a.split(o).join(n)===b))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc)/g,'@94ab0865e'); return r(a)===b||(a==='c71772fbc'&&b==='94ab0865e'); };
 const CHANGED=['src/data/invites.js','src/invites3d.js','src/libquiet3d.js','src/y2r2_3d.js','src/data/bbpack_events.js','src/data/zrzq_events.js','src/data/encounters.js','src/legal3d.js'];
 const gitShow=(r,f)=>cp.execFileSync('git',['-C',ROOT,'show',r+':'+f],{encoding:'utf8',maxBuffer:1<<28});
 const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
@@ -219,7 +222,7 @@ const O=runProbe('old'), N=runProbe('new');
 { for(const [k,nm,want] of [['inv','INVITE_DATA（invites.js 和推進來的）',[NINE[0]]],['enc','ENCOUNTERS（偶遇）',[NINE[4]]],['zrzq','ZRZQ_LINES（子晴芷若）',[NINE[3]]],['ev','STORY_EVENTS（全部載入以後，每一場的 dialogue；子晴那一場是 ZRZQ_EVENTS 推進來的預設版）',[NINE[1],NINE[2],NINE[3]]]]){
     const A=(O.data||{})[k]||[], B=(N.data||{})[k]||[], bad=[], hit=[], hit7=[];
     if(A.length!==B.length) bad.push('字串個數 '+A.length+' → '+B.length);
-    else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(kindOf(a[1],b[1])==='act'&&want.some(x=>x[1]===a[1]&&x[2]===b[1])) hit.push(b[0]);
+    else A.forEach((a,i)=>{ const b=B[i]; if(a[0]!==b[0]){ bad.push('路徑不同：'+a[0]+' → '+b[0]); return; } if(a[1]===b[1]) return; if(aa731(a[1],b[1])) return; if(kindOf(a[1],b[1])==='act'&&want.some(x=>x[1]===a[1]&&x[2]===b[1])) hit.push(b[0]);
       else if(k==='ev'&&wrapped(a[1])&&unq(a[1])===b[1]&&SEVEN.includes(a[1])) hit7.push(a[1]); else bad.push(a[0]+'：'+a[1]+' → '+b[1]); });
     /* 第七批（tests/invites_quote_b7_unit.js）：STORY_EVENTS 有名字、整句「…」的拿掉外面那一對——這裡看得到的是上面 SEVEN 那 6 句，只認這 6 句、只差外面那一對、一句一次；其他資料（inv、enc、zrzq）沒有 */
     const w7=k==='ev'?SEVEN:[];
@@ -254,7 +257,7 @@ const findC6=()=>{ try{ const L=cp.execFileSync('git',['-C',ROOT,'log','--format
   const nlOf=src=>{ const m=/^\s*S\.narrLine=(t=>[^\n]*);\s*$/m.exec(noComments(src)); return m?vm.runInNewContext('('+m[1].replace(/;$/,'')+')'):null; };
   const oldNL=nlOf(gitShow(BASE,'src/invites3d.js')), newNL=nlOf(cur('src/invites3d.js'));
   if(IO.length!==IN.length) bad.push('輸入個數 '+IO.length+' → '+IN.length);
-  else IO.forEach((a,i)=>{ const b=IN[i]; if(a[0]!==b[0]) bad.push('路徑不同：'+a[0]+' → '+b[0]); else if(a[1]!==b[1]&&!(a[1]===OUTL.old&&b[1]===OUTL.now)) bad.push('字不一樣：'+a[0]+'：'+a[1]+' → '+b[1]); else if(a[2]!==b[2]) bad.push('分法不一樣：'+b[0]+'：'+b[1]); if(a[3]!==b[3]||a[4]!==b[4]) lq.push(b[0]+'：'+b[1]); });
+  else IO.forEach((a,i)=>{ const b=IN[i]; if(a[0]!==b[0]) bad.push('路徑不同：'+a[0]+' → '+b[0]); else if(a[1]!==b[1]&&!(a[1]===OUTL.old&&b[1]===OUTL.now)&&!aa731(a[1],b[1])) bad.push('字不一樣：'+a[0]+'：'+a[1]+' → '+b[1]); else if(a[2]!==b[2]) bad.push('分法不一樣：'+b[0]+'：'+b[1]); if(a[3]!==b[3]||a[4]!==b[4]) lq.push(b[0]+'：'+b[1]); });
   const nNarr=IN.filter(x=>x[2]).length, nParen=IN.filter(x=>typeof x[1]==='string'&&x[1][0]==='（').length;
   check('30. S.narrLine 的輸入（INVITE_DATA、INVITE_REPLIES、改時間的回覆、ACC0、學姊婉拒、一起走路：'+IN.length+' 句，（ 開頭 '+nParen+'、旁白 '+nNarr+'）：BASE 的程式拿 BASE 的字、現在的程式拿現在的字，每一句分法一樣；字只差這一句',
     IN.length>1500&&nNarr>100&&bad.length===0&&IN.filter(x=>x[1]===OUTL.now).length===1&&IO.filter(x=>x[1]===OUTL.old).length===1,sample(bad));

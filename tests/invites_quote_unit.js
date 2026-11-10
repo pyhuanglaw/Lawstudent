@@ -111,6 +111,9 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
   else check('5. src/data/invite_replies.js 載得進來',false);
   /* ---------- 第二批（AA-B 11-08 01:09）：和 BASE（c79414b00，拿掉「」以前）逐句比 ---------- */
   const BASE='c79414b00';
+  /* 11-10 AA_731（企劃線 94ab0865e，BUG-INV-ACC-TIME-1110）：答應句不寫幾點、週末、早上——這十句和來源 commit（AA_415 c71772fbc、AA_721 b782e2c08）的改變不算「多改」 */
+  const A731=[["好。九點，不要遲到。", "好。不要遲到。"], ["早上？……十點以後可以。", "Daybreak？……好。我會起來。"], ["好。週末早上我剛好有空。", "好。那天我空下來。"], ["SUNNY SIDE。好。我九點到。", "SUNNY SIDE。好。我會準時到。"], ["SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我十點到。", "SUNNY SIDE？我從木柵大學過來要四十分鐘。好，我早一點出門。"], ["十二點？好，那是我的早餐。", "早午餐？好，那是我的早餐。"], ["十二點 好 那是我的早餐", "早午餐 好 那是我的早餐"], ["好。我九點以前要回店裡。", "好。……我跟店裡說一聲。"], ["好。週末的話。", "好啊。我想找一張老唱片。"], ["蛋包飯？好。週末的話。", "蛋包飯？好。我坐捷運過去。"]];
+  const aa731=(a,b)=>{ if(typeof a!=='string'||typeof b!=='string') return false; const s=t=>t.replace(/^「|」$/g,''); if(A731.some(([o,n])=>s(a)===o&&s(b)===n||(a.includes(o)&&a.split(o).join(n)===b))) return true; const r=t=>t.replace(/@(b782e2c08|c71772fbc)/g,'@94ab0865e'); return r(a)===b||(a==='c71772fbc'&&b==='94ab0865e'); };
   const gitShow=f=>cp.execSync('git -C "'+ROOT+'" show '+BASE+':'+f,{encoding:'utf8',maxBuffer:1<<28});
   const evalIn=(src,names,extra)=>{ const c=vm.createContext(Object.assign({console},extra||{})); for(const n of names) src=src.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInContext(src,c); return c; };
   const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
@@ -119,7 +122,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
   const sample=L=>L.slice(0,6).join('／')+(L.length>6?'…（共 '+L.length+'）':'');
   /* 兩份一樣的結構逐格比：named(路徑)＝有名字說的格子（字串只能差外面那一對「」），其他一字不差。回傳 {n 比了幾句, ch 改了幾句, bad} */
   const cmpTree=(a,b,named,p,acc)=>{ acc=acc||{n:0,ch:0,bad:[]}; p=p||'';
-    if(typeof a==='string'||typeof b==='string'){ if(typeof a!=='string'||typeof b!=='string'){ acc.bad.push(p+'：型別不同'); return acc; } if(named(p)){ acc.n++; if(a!==b){ if(unq(a)===b&&wrapped(a)) acc.ch++; else acc.bad.push(p+'：'+a+' → '+b); } } else if(a!==b) acc.bad.push(p+'（沒名字）：'+a+' → '+b); return acc; }
+    if(typeof a==='string'||typeof b==='string'){ if(typeof a!=='string'||typeof b!=='string'){ acc.bad.push(p+'：型別不同'); return acc; } if(a!==b&&aa731(a,b)) return acc; if(named(p)){ acc.n++; if(a!==b){ if(unq(a)===b&&wrapped(a)) acc.ch++; else acc.bad.push(p+'：'+a+' → '+b); } } else if(a!==b) acc.bad.push(p+'（沒名字）：'+a+' → '+b); return acc; }
     if(typeof a==='function'||typeof b==='function'){ if(String(a)!==String(b)) acc.bad.push(p+'：函式不同'); return acc; }
     if(Array.isArray(a)!==Array.isArray(b)||(a&&typeof a)!==(b&&typeof b)){ acc.bad.push(p+'：結構不同'); return acc; }
     if(a&&typeof a==='object'){ const ks=new Set(Object.keys(a).concat(Object.keys(b))); for(const k of ks){ if(!(k in a)||!(k in b)){ acc.bad.push(p+'.'+k+'：只有一邊有'); continue; } cmpTree(a[k],b[k],named,p+(Array.isArray(a)?'['+k+']':'.'+k),acc); } return acc; }

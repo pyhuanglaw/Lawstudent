@@ -16,7 +16,7 @@ const set=(id,o)=>{ const r=SOCIAL.rel(id); Object.assign(r,{fam:0,trust:0,comf:
 const P=id=>has?DATE.progress(G,id):null;
 const H='heroine_02';
 fresh(); set(H,{fam:10}); let p=P(H);
-check('1. 不太認識（熟悉 10）：友情條一半、「再熟一點」；戀愛條空的、沒有提示',!!p&&Math.abs(p.fr.pct-0.5)<1e-9&&p.fr.hint==='再熟一點'&&p.rom&&p.rom.pct===0&&p.rom.hint==='',JSON.stringify(p));
+check('1. 不太認識（熟悉 10）：友情條一半、「再熟一點」；戀愛條照她的戀愛（ROM-PRIVATE-DATE-1110：朋友以下也看得到；0＝「她還沒有那樣看你」）',!!p&&Math.abs(p.fr.pct-0.5)<1e-9&&p.fr.hint==='再熟一點'&&p.rom&&p.rom.pct===0&&p.rom.hint==='她還沒有那樣看你',JSON.stringify(p));
 set(H,{fam:45,trust:10}); p=P(H);
 check('2. 有點熟（熟悉 45、信任 10）：差信任＝「再多信任一點」',!!p&&p.fr.hint==='再多信任一點'&&Math.abs(p.fr.pct-0.4)<1e-9,JSON.stringify(p));
 set(H,{fam:50,trust:30,comf:10}); p=P(H);
