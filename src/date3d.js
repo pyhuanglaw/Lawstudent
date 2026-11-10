@@ -523,7 +523,7 @@ const DATE=(function(){
     const run=async L=>{ for(const ln of (L||[])){ if(!ln||ln.who==='note'){ const mm=ln&&/記 `?TASTE`?＝`?([^`]+)`?/.exec(ln.text||''); if(mm) m.taste=mm[1]==='玩家點的'?'player':mm[1]; continue; }
         const tx=fill(ln.text); if(ln.who==='narr') await GM.say(null,/^（/.test(tx)?tx:'（'+tx+'）'); else if(ln.who===id) await GM.say(me,tx); else if(ln.who==='player'||ln.who==='you') await GM.say({name:G.name||'祐廷'},tx); else await GM.say({name:nameOf(ln.who),charId:ln.who},tx); } };
     await run(set.lines); const CH=Array.isArray(set.choice)?set.choice.filter(c=>c&&typeof c.t==='string'&&c.t.trim()):[];
-    if(CH.length){ const k=await GM.choose(CH.map(c=>({t:S.xiuqin(G,id,c.t)}))), c=CH[k]||CH[0]; await run(S.replyOf(id,c)); S.optFx(G,id,c); return {pick:c}; } return true; };   /* 有選項＝回傳選了哪一個（請客的 extra）*/
+    if(CH.length){ const k=await GM.choose(CH.map(c=>({t:S.xiuqin(G,id,c.t)}))), c=CH[k]||CH[0]; await run(S.replyOf(id,c)); S.optFx(G,id,c,t); return {pick:c}; } return true; };   /* 有選項＝回傳選了哪一個（請客的 extra）*/
   /* ===== 選項的效果、每次去都有選項（DLG-FX-MECH-1110；使用者 X324；AA_746 第 2 節第 1、2 點）=====
      1. 選項 {t, reply|re, fx}：reply＝原本的格式（[{who,text}]）；re＝她回的話（一句字串或幾句的陣列；整句括號＝旁白）；fx＝{fr:n, love:n}（SOCIAL.applyFx；沒寫＝照舊沒有效果）。
         抵達、互動點、收尾的每一套（first／normal／remember／dating／afterBreakup…）只要有 choice 都會出、都算 fx。
@@ -532,7 +532,11 @@ const DATE=(function(){
         （記在 G.dateMemory[她][地點].optN，舊存檔沒有＝從第一組開始）。一組＝{lines?:[{who,text}], choice:[選項…]}，或直接寫選項的陣列。
         沒有 opts＝和原本一樣（第二次以後沒有選項）。 */
   S.replyOf=(id,c)=>{ if(!c) return []; if(Array.isArray(c.reply)) return c.reply; const L=c.re==null?[]:[].concat(c.re); return L.filter(x=>typeof x==='string'&&x.trim()).map(x=>/^（.*）$/.test(x)?{who:'narr',text:x}:{who:id,text:x}); };
-  S.optFx=(G,id,c)=>c&&c.fx&&typeof SOCIAL!=='undefined'&&SOCIAL.applyFx?SOCIAL.applyFx(G,id,c.fx):null;
+  /* 一次校外約會（那一天、那個地點）她的戀愛合計最多 +2；告白那一晚 +3（FX-LOVE-CAP-1110）。
+     告白那一晚＝今天告白的條件都到了（canConfess，選項會出「（告訴她）」的那一晚），或今天她已經答應（G.flags.confessed[她]＝今天）*/
+  S.capMax=(G,id)=>{ let on=false; try{ const F=(G&&G.flags)||{}; on=!!(F.confessed&&F.confessed[id]===G.day)||!!S.canConfess(G,id).ok; }catch(e){ on=false; } const SO=typeof SOCIAL!=='undefined'?SOCIAL:{}; return on?(SO.FX_CAP_CONFESS||3):(SO.FX_CAP_MAX||2); };
+  S.capOf=(G,id,t)=>({cap:'date:'+(t&&t.day!=null?t.day:G.day)+':'+((t&&t.locs&&t.locs[0])||''),max:S.capMax(G,id)});
+  S.optFx=(G,id,c,t)=>c&&c.fx&&typeof SOCIAL!=='undefined'&&SOCIAL.applyFx?SOCIAL.applyFx(G,id,c.fx,S.capOf(G,id,t)):null;
   const isOpt=x=>!!x&&typeof x==='object'&&!Array.isArray(x)&&typeof x.t==='string';
   S.optList=function(g){ if(!g) return []; let L; if(Array.isArray(g)) L=g.length&&isOpt(g[0])?[{choice:g}]:g.map(x=>Array.isArray(x)?{choice:x}:x); else L=[g];
     return L.filter(x=>x&&typeof x==='object'&&Array.isArray(x.choice)&&x.choice.some(isOpt)); };

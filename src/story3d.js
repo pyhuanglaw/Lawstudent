@@ -932,7 +932,7 @@ const STORY = (function(){
     /* 沛珊的聯絡方式（AA_310 第 7 節，AA-C 10-20 14:40）：沒有宿營、也沒去 8/31 迎新的局（9/17 開局的舊存檔）拿不到——第一次聊到她（P-L1）還沒有聯絡方式就加 */
     if(id==='classmate_peishan'&&st.id==='P-L1'&&typeof INV!=='undefined'&&INV.hasContact&&INV.addContact&&!INV.hasContact(G,'classmate_peishan')){ await GM.say(who,'……我加你好不好？上課的筆記可以互傳。'); INV.addContact(G,'classmate_peishan'); if(SOCIAL.has&&SOCIAL.meet&&!SOCIAL.has(id,'FIRST_MET')) SOCIAL.meet(id,G.zone); }
     const rel=Object.assign({},st.rel||{}); if(ch&&ch.rel) for(const k in ch.rel) rel[k]=(rel[k]||0)+ch.rel[k]; if(Object.keys(rel).length&&SOCIAL.adjust) SOCIAL.adjust(id,rel);
-    if(SOCIAL.applyFx){ SOCIAL.applyFx(G,id,st.fx); if(ch) SOCIAL.applyFx(G,id,ch.fx); }   /* 這一層、選的那一個的 fx（{fr, love}；DLG-FX-MECH-1110）：原本的 rel 照舊，另外算 */
+    if(SOCIAL.applyFx){ const cap={cap:'ladder:'+G.day+':'+(st.id||'')}; SOCIAL.applyFx(G,id,st.fx,cap); if(ch) SOCIAL.applyFx(G,id,ch.fx,cap); }   /* 這一次聊天 love 合計最多 +2（FX-LOVE-CAP-1110）*/   /* 這一層、選的那一個的 fx（{fr, love}；DLG-FX-MECH-1110）：原本的 rel 照舊，另外算 */
     for(const m of [st.mem,ch&&ch.mem]) if(m&&SOCIAL.remember) SOCIAL.remember(id,m,st.id);
     for(const m of preMem) if(SOCIAL.remember) SOCIAL.remember(id,m,st.id);   /* linesIf／extraIf 那一套自己的記憶（BB 的芷若、子晴 ZR_ZQ_SETUP_*：只說一次，之後的線讀它）*/
     { const KK=D&&Array.isArray(D.L.dating)&&D.L.dating.includes(st)?S.ladDatingKey(K):K; so.ladder[KK]=(so.ladder[KK]|0)+1; }   /* 交往中那一階的進度另外記 */

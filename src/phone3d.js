@@ -72,7 +72,7 @@ const PHONE=(function(){
     const out=o.post===false?[]:[S.post(G,{th,from:'player',who:null,text:o.post||o.t})]; for(const r of (o.say||[])) out.push(S.post(G,Object.assign({th},r)));
     if(o.set) for(const f in o.set) G.flags[f]=o.set[f]; if(o.mem&&typeof SOCIAL!=='undefined') for(const q of o.mem) SOCIAL.remember(q.npc,q.tag,q.note);
     if(o.contact&&typeof INV!=='undefined') for(const c of [].concat(o.contact)) INV.addContact(G,c);
-    if(o.fx&&typeof SOCIAL!=='undefined'&&SOCIAL.applyFx){ const w=o.fxWho||(/^p:/.test(String(th||''))?String(th).slice(2):(m.from&&m.from!=='player'?m.from:null)); if(w) SOCIAL.applyFx(G,w,o.fx); }   /* 回覆選項的 fx＝{fr, love}（DLG-FX-MECH-1110）：算在這個對話的那個人身上（私訊 p:<人>；群組要寫 fxWho）；沒有 fx 照舊 */
+    if(o.fx&&typeof SOCIAL!=='undefined'&&SOCIAL.applyFx){ const w=o.fxWho||(/^p:/.test(String(th||''))?String(th).slice(2):(m.from&&m.from!=='player'?m.from:null)); if(w) SOCIAL.applyFx(G,w,o.fx,{cap:'phone:'+G.day}); }   /* 手機回覆：一個人一天 love 最多 +2（FX-LOVE-CAP-1110）*/   /* 回覆選項的 fx＝{fr, love}（DLG-FX-MECH-1110）：算在這個對話的那個人身上（私訊 p:<人>；群組要寫 fxWho）；沒有 fx 照舊 */
     if(o.need&&typeof STORY!=='undefined'&&STORY.neededAnswered) STORY.neededAnswered(G,m,o);   /* 主線 4：回了的那個人信任 +1、記次數 */
     for(const f of S.ON_ANSWER){ try{ f(G,m,o,k); }catch(e){ console.warn('PHONE.ON_ANSWER',e); } }   /* 回了以後（她主動約你的校外約會：答應＝排進行程、她回一句，src/heroine_asks3d.js）*/
     return {m,o,out}; };

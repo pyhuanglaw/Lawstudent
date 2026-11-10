@@ -355,7 +355,7 @@ const INV=(function(){
       if(iv.ask) await S.walkAsk(GM,iv,who);   /* 一起走路時抽到的選項句：走到了、見面開始前選（BB_120 1-7c） */
       { const vf=typeof HASK!=='undefined'&&HASK.meetFirst?HASK.meetFirst(G,iv):null; if(vf) await GM.say(who,vf); }   /* AA_549 3-6：她寒暑假約的（假期版）：見面時她的第一句；之後照一般的場景 */
       if(iv.fest&&typeof FEST!=='undefined'&&FEST.meet) await FEST.meet(GM,iv,who);   /* 約在她節日的見面（AA_416）：先演節日那一段，再照那個地方原本的內容 */
-      if(SO.playUp) await SO.playUp(GM,who,iv.who,{place:P.id,outing:true});   /* 升階以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節）；傳見面的地點（學姊在一盞這類不讀書的地方升到朋友換一版，AA_383 第 6 節） */
+      if(SO.playUp) await SO.playUp(GM,who,iv.who,{place:P.id,outing:true,cap:S.fxCap(G,iv)});   /* 升階以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節）；傳見面的地點（學姊在一盞這類不讀書的地方升到朋友換一版，AA_383 第 6 節） */
     if(o.fa){ const FA=S.firstAt(G,iv); if(FA){ iv.faDone=1; await S.playLines(GM,who,FA); } } };
   /* 一起念書（STUDY-DATE-PROGRESS-1107）：在「念書」那一類選的、或這個地方只能念書（總圖、法圖、慢讀、社科圖）；有自己一場戲的（ev、期末飯）不算 */
   /* 這一次是哪一種活動（AA_708）：電影＝南洋、書店＝看電影逛書店那一類的其他、吃飯、咖啡；運動、散步、念書不算 */
@@ -404,8 +404,8 @@ const INV=(function(){
       if(!SN&&!LB&&((D().seatOpen||{}).byPlace||{})[P.id]==='movie'){ if(HALL) MOVIES.lights(false); await GM.say(null,(typeof MOVIES!=='undefined'&&MOVIES.dimLine&&MOVIES.dimLine(G,iv))||S.MOVIE_DIM); }   /* 1 廳：場燈關掉；燈暗那一句寫片名（AA_730 dimTitle）*/   /* 看電影：坐下的開場句以後燈暗、電影開始，再接中途那件事、散場句（AA-B 10:02 經 BB，CINEMA-CG-1107）；電影畫面 movie_01～10 等使用者給圖再接在這一句後面 */
       await hooks(S.ON_SEATED,GM,iv,who,P,'ON_SEATED');
       const SNo=SN&&!LB&&!(lines&&lines.length)&&(!P.scene||SCN)&&!P.ownMeal;
-      if(LB) await S.libStay(GM,iv,who,P,SN,ARC,RT); else if(SNo){ await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(ARC) await ARCS.run(GM,who,iv.who,ARC); else if(RT) await ARCS.rotRun(GM,who,iv.who,RT); else { await STUDYN.mid(GM,who,iv.who,SN); if(SN.rot!=null&&typeof ARCS!=='undefined'&&ARCS.rotDone) ARCS.rotDone(G,iv.who,null); } await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(G.stats) G.stats.study=(G.stats.study|0)+Math.max(1,Math.round(P.stay)); if(typeof STORY!=='undefined'&&STORY.onStudy){ try{ STORY.onStudy(GM,P.stay); }catch(e){ console.warn('STORY.onStudy',e); } } }   /* 其他地方一起念書：時間一半、中途那件事、另一半；讀書照算（和總圖一樣）*/
-      else if(!P.ownMeal&&(ARC||AX||RT)){ await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(MV) await MOVIES.playMid(GM,who,MV); if(ARC) await ARCS.run(GM,who,iv.who,ARC); else if(RT) await ARCS.rotRun(GM,who,iv.who,RT); else { await STUDYN.mid(GM,who,iv.who,MV?Object.assign({},AX,{mid:[]}):AX); if(AX.rot!=null&&typeof ARCS!=='undefined'&&ARCS.rotDone) ARCS.rotDone(G,iv.who,null); } await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); }   /* 吃飯、咖啡、電影、書店：時間一半 → 故事線那一拍 → 另一半 */   /* MV：電影那一幕（AA_745 scene／with.mid；AA_708 第 N 場有自己的 mid＝null）——取代輪換那一則的 mid、接在故事線那一拍前面 */
+      if(LB) await S.libStay(GM,iv,who,P,SN,ARC,RT); else if(SNo){ await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(ARC) await ARCS.run(GM,who,iv.who,ARC); else if(RT) await ARCS.rotRun(GM,who,iv.who,RT); else { await STUDYN.mid(GM,who,iv.who,SN,S.fxCap(G,iv)); if(SN.rot!=null&&typeof ARCS!=='undefined'&&ARCS.rotDone) ARCS.rotDone(G,iv.who,null); } await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(G.stats) G.stats.study=(G.stats.study|0)+Math.max(1,Math.round(P.stay)); if(typeof STORY!=='undefined'&&STORY.onStudy){ try{ STORY.onStudy(GM,P.stay); }catch(e){ console.warn('STORY.onStudy',e); } } }   /* 其他地方一起念書：時間一半、中途那件事、另一半；讀書照算（和總圖一樣）*/
+      else if(!P.ownMeal&&(ARC||AX||RT)){ await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); if(MV) await MOVIES.playMid(GM,who,MV); if(ARC) await ARCS.run(GM,who,iv.who,ARC); else if(RT) await ARCS.rotRun(GM,who,iv.who,RT); else { await STUDYN.mid(GM,who,iv.who,MV?Object.assign({},AX,{mid:[]}):AX,S.fxCap(G,iv)); if(AX.rot!=null&&typeof ARCS!=='undefined'&&ARCS.rotDone) ARCS.rotDone(G,iv.who,null); } await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); }   /* 吃飯、咖啡、電影、書店：時間一半 → 故事線那一拍 → 另一半 */   /* MV：電影那一幕（AA_745 scene／with.mid；AA_708 第 N 場有自己的 mid＝null）——取代輪換那一則的 mid、接在故事線那一拍前面 */
       else if(!P.ownMeal&&MV){ await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); await MOVIES.playMid(GM,who,MV); await GM.fade(true); GM.advance(P.stay/2); await GM.fade(false); }   /* 看電影、這一次沒有第 N 場：看到一半演那部片的那一幕（AA_745 scene）*/
       else if(!P.ownMeal){ await GM.fade(true); GM.advance(P.stay); await GM.fade(false); } GM.caption('',[P.name,nm,'（'+(P.stay>=1?P.stay+' 小時':Math.round(P.stay*60)+' 分鐘')+'）'].join('・'),2600);   /* ownMeal：地點的 scene 自己點餐、走時間（Pasta 118 照 L118.order，AA_480 第 5 節）*/
       if(HALL) MOVIES.lights(true);   /* 散場：場燈打開 */
@@ -584,9 +584,11 @@ const INV=(function(){
     const N=F.walkChatN||(F.walkChatN={}), n=N[id]|0, e=L[n%L.length]; return {lines:e.l,ask:e.ch?e.once:null,next(){ N[id]=n+1; if(e.one) (F.walkSaid||(F.walkSaid={}))[e.one]=G.day; }}; };
   S.walkEntry=function(id,key){ const w=((D().people||{})[id]||{}).walk||{}; for(const k of Object.keys(w)) for(const e of oneW(w[k])) if(e&&!Array.isArray(e)&&typeof e==='object'&&e.once===key) return e; return null; };
   /* 見面開始前（S.meet 一開始）：路上抽到的選項句——她先說、你選、她回（芷若：三個都會聽到她的答案）*/
+  /* 約好的這一次（路上的選項、升級句的小選擇、一起活動的中途選項）她的戀愛合計最多 +2（FX-LOVE-CAP-1110）；看電影＝和那部片的 talk／with 算同一次（MOVIES.capOf）*/
+  S.fxCap=(G,iv)=>(typeof MOVIES!=='undefined'&&MOVIES.capOf&&iv&&iv.place===MOVIES.ZL&&iv.film&&MOVIES.capOf(G,iv.who,iv.film))||{cap:'meet:'+(iv&&iv.id!=null?iv.id:G.day)};
   S.walkAsk=async function(GM,iv,who){ const G=GM.G, F=G.flags||(G.flags={}), key=iv.ask; iv.ask=null; const e=key?S.walkEntry(iv.who,key):null; if(!e||F[key]) return false; F[key]=true;
     await S.playLines(GM,who,e.l); const k=await GM.choose(e.ch.map(c=>({t:c.t}))); const c=e.ch[k]||e.ch[0]; if(c.r||c.re!=null) await S.playLines(GM,who,c.r||[].concat(c.re));
-    if(c.fx&&typeof SOCIAL!=='undefined'&&SOCIAL.applyFx) SOCIAL.applyFx(G,iv.who,c.fx);   /* 邀約見面路上的選項 {t, r|re, fx}（DLG-FX-MECH-1110；fx＝{fr, love}，沒有＝照舊不加）*/
+    if(c.fx&&typeof SOCIAL!=='undefined'&&SOCIAL.applyFx) SOCIAL.applyFx(G,iv.who,c.fx,S.fxCap(G,iv));   /* 邀約見面路上的選項 {t, r|re, fx}（DLG-FX-MECH-1110；fx＝{fr, love}，沒有＝照舊不加）*/
     if(c.mem&&typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(iv.who,c.mem,'');   /* 子晴「說換方向的事」→ TOLD_HER_CHANGE（前置鏈第 5 環）*/
     const af=e.after&&e.after.length&&typeof e.after[0]==='object'&&!Array.isArray(e.after[0])?((e.after.find(v=>!v.if||v.if(G))||{}).l||[]):e.after;   /* 好幾個版本取第一個成立的（沛珊：大一上問讀書會、大一下起問課輔班）*/
     if(af&&af.length) await S.playLines(GM,who,af); return true; };
@@ -723,7 +725,7 @@ const INV=(function(){
   S.libStay=async function(GM,iv,who,P,SN,ARC,RT){ const G=GM.G, h0=G.hour%24, HR=typeof PLACES!=='undefined'&&PLACES.hours?PLACES.hours[G.zone]:null, cl=HR&&typeof HR.close==='number'?HR.close:null;
     let st=P.stay||1; if(cl!=null&&h0+st>cl-1/6) st=Math.max(0.25,cl-1/6-h0); iv.closing=cl!=null&&h0+st>=cl-1/6-1e-6;
     await GM.fade(true); GM.advance(st/2); await GM.fade(false);
-    if(ARC) await ARCS.run(GM,who,iv.who,ARC); else if(RT) await ARCS.rotRun(GM,who,iv.who,RT); else if(SN){ await STUDYN.mid(GM,who,iv.who,SN); if(SN.rot!=null&&typeof ARCS!=='undefined'&&ARCS.rotDone) ARCS.rotDone(G,iv.who,null); } else { const m=pick(LS().mid); if(m) await S.playLines(GM,who,m); }   /* 故事線那一拍（AA_712）＞第 N 場的中途那件事（AA_707）＞她最近的事（AA_717）＞活動的輪換句＞一般句 */
+    if(ARC) await ARCS.run(GM,who,iv.who,ARC); else if(RT) await ARCS.rotRun(GM,who,iv.who,RT); else if(SN){ await STUDYN.mid(GM,who,iv.who,SN,S.fxCap(G,iv)); if(SN.rot!=null&&typeof ARCS!=='undefined'&&ARCS.rotDone) ARCS.rotDone(G,iv.who,null); } else { const m=pick(LS().mid); if(m) await S.playLines(GM,who,m); }   /* 故事線那一拍（AA_712）＞第 N 場的中途那件事（AA_707）＞她最近的事（AA_717）＞活動的輪換句＞一般句 */
     await GM.fade(true); GM.advance(st/2); await GM.fade(false);
     if(G.stats) G.stats.study=(G.stats.study|0)+Math.max(1,Math.round(st));
     if(typeof STORY!=='undefined'&&STORY.onStudy){ try{ STORY.onStudy(GM,st); }catch(e){ console.warn('STORY.onStudy',e); } } };
