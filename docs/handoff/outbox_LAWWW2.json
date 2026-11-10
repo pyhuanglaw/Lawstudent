@@ -7088,6 +7088,20 @@
    "noDirectIntegrate": false,
    "note": "5 片 Z3.shopViewPane＋10 張照片（Blender 在新生南路場景裡站在玻璃位置拍，白天／晚上）。新測試開發 6e00d9103 FAILED 12 → ALL PASS；新生南路相關回歸 31 支全過（沒截斷）。統一館跳過（二樓、正面沒有玻璃）。遊戲截圖請 CC 拍（D131）。",
    "next": "PUTONG101-WINDOW v2（等 LAWWW 決定 draw call）→ GYM-FIT-PROPS 第二包"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "GYM-FIT-PROPS-1103 第二包（飛輪曲柄踏板會轉、划船機座椅會滑）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gym_fit_props2_1110/（README、gym_fit_props2_1110.patch、gym_moving_parts_unit.js、regression.log）"
+   ],
+   "state": "MODEL_READY，待整合",
+   "noDirectIntegrate": false,
+   "note": "gym_moving_parts.py 從 gym_b1.glb 器材原型網格搬出 540 個三角形（退化、不重烘）→ gym_moving_parts.glb；gym3d.js gymMoving 照 g.ph 轉曲柄、照臀部 z 滑座椅、手上有拉把時藏掛著的拉把。新測試開發 0ec32e6f6 FAILED 3 → ALL PASS（腳踝離踏板該踩的點 1.0／2.3 cm）；健身房回歸 37 支全過。bake_gym.sh b1 最後自動跑。",
+   "next": "PUTONG101-WINDOW v2-B（ck_glass shader、by_glass 的 skyBox）"
   }
  ]
 }

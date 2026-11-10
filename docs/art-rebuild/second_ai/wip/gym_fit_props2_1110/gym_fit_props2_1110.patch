@@ -1,0 +1,594 @@
+diff --git a/assets/models/env/second_ai/gym_b1.glb b/assets/models/env/second_ai/gym_b1.glb
+index b547bc4084f3425efee89575f5070f3c1c8758ad..cb07bb53cb3f240ad844b13d1d427e4ecdba12e2 100644
+GIT binary patch
+delta 3866
+zcmYk;32anF7zgl~&c`lWtQ@6O<X+I;El7d39EG-khND~sLRL$$6|tvnB@(SKjW#tT
+z8jU0?hf$-DMni&tX-p6?#(<!x5j2P<h=Rl*qG$xI;5YAe_W$wA|IOpQw4M28c4l|=
+zy^z$$N!i%2YC)1x>d843s{O^3%JsR?y2smFYuchEPeeCvX<X90c~jHImF=yYT3YIA
+z?L)rhm(vO-=SDYdiIzm$o0}Wj3N|#<HPzO&7SuIuu5PP)u(_$WfPcEW(f{%4mYUY~
+zw)~bY(T<MJSXWGU#ge*WrYlBWu>tSKLZLG6X>uMV$fO*aOqrZKddk;I)<eFnWChQI
+zC;2pmrc*v=D!nG`At<C7G@A-JCDh?~d{ZwJ(<~~dV$NLJChR0Ar82sYN;wN?uP~qP
+zrKL2VvxqhewFHZ)l2*}T&T?8oRTN)e9!mC#sEBfXF|wBVD#)_$iu|X+yBMvZbyUOG
+z8hU{4r}dQ0*KEq5YF`0aGkpumTImbk2G4`*v((Syo9Bg2vYzv8BI_|<@H}{OfZ$cK
+z-uCs9^^z}m9z1!E;4ncC_0YH;+T}Y!)<K_r(c}OBNN;yV=%a()%f{JmV26P>4eU0s
+z$G|=V?-<x`;E;j$O+Sxs4hzQ&d}83Zfl~%f8~ED5IRif!IB(#xxokXpv3?b<7{Ivp
+znS%mqwcWffpgz0JULi4J9`MKDiGH3lKME+;A@hMCJNl;q)a{u0RB!{d?NuSDn-?_S
+z8*uBvwmStB{gnAekQKtJ*&!zEcz=z9u3$y%H|ISuAJ+}sFz}B768{Degb0QZ3?&#w
+zFq#6MZN>;=2{L)Jbg~Gtd1r76dGm9o5lrW8)0xZro->c2jLJOT_5zD}19O%TEak1w
+z!MKJ{s^EUkwv__vdEN90sI7OyC;~TH+vW(O>J%2-$ZZ?!slgSs%Hl%=FsvoKPctuQ
+zL{aAP5dfIIp)^u(^Jm-ff*i3cziqKPLW$|JoleJWk4==B%iX)?W@zOjk+AO9d*I>l
+zhe?s&RKIvfeYiM(xON6==v2?Bt*VpLt^O6_Kh=ll<fUmRqG6kgt5?)E&JOiE#48)Z
+zrIA$KFCK3QFUt5&IVaRf^_4oo`9fV$zvxT4PbI`7jp5~KSCunPC&Zf@!=>JM?M%>+
+zqajyAo`xA3iZm2!DA!P-VZQF?@l9f6d^bW!^pyKNQNXXM(2E58sdBwgK=*TXp<ui3
+zxiOSzaPw)~(Sj?YZLbT7YIEI518SI~^M%BM(qT^z668X;sQ?o*LAz<UtsJrVrD91%
+z#AFofO1(l?@wG~?)64W)y;}Fa)f`^?hWD9rPV#DUK38x?!M6&|D!8EFqJp0lh;^<0
+za6G=bCde_O3OCg)0Uw))P8MW6-G|J!a%H7!u(kDEfukDal9L@$8c>rn>N^2rzsR3S
+zaDT_Plfcs`+y!+>aMNPjF9mcns<Q<-%CQ<`wNf+$)%AiVq`|EL+nyHW{Qadsc2rIQ
+zR>xT-J0YigVlqD6z1?X8>r=gJ#=$Xl!`u?&X_QPLkH>TZdA=L6{x((yf4|S5QNF=s
+z@w?T030?%(D1kg4gD(KVH<RFW3BFwf2TJf(oI2e{vj%b^oMg@*&TX6&&h4DRoFSZ{
+zoMD_)&Tvi|X9Opma|dT6=T6Qj&S=gU&REVk&UnrQPLwl|Gl_E-=Wb30CzF%K$>!v6
+zayfaNd`<ypGG_|s9?n!wA!izAI%fu_h*Qid;mqXB;>_mE;goXba^`W$IOV-Zvnr~F
+F{|~hK;%fi^
+
+delta 3105
+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
+
+diff --git a/assets/models/env/second_ai/gym_moving_parts.glb b/assets/models/env/second_ai/gym_moving_parts.glb
+new file mode 100644
+index 0000000000000000000000000000000000000000..22c3707e6729db04e0a608accef2bf21c964a29d
+GIT binary patch
+literal 29024
+zcmeHPeT-byb-(_=m}L#v7_h-5%i4UnS(|xpzU`S=I|iEt+v{&bZL_SG@p|L+uCu!)
+zQ0l}<n<i?~;;1wYA4y$Bt)c{_B19>|JF^x6l1QYjqEzrl(<W`~;5JfFKBTB=r2c+q
+z?wP&w=Do28D}<)Aqx<GJXYM`scYo*1n|JQa?BMW@^)rnz54_Kqf4Rn(ySMjlezdcH
+ze7rc(x$4o*hl*q4L!%>|t2+IavCgi}!Qx19tbby343@!14)+}%eQ0Q8u<uC!*u?nC
+zBad|4wsGz5-Mjte=vsVuVyu6hPDVy2is--LzD+CE_v~1)Wn1r-?JGPl7Vr4sGtd0s
+zg-@LM#7BNS`Q(}MXFKR}zqfL5cz?&)6VIIa=nFq6|M3r>{G+o^|KXXB|HZkdzWRex
+zU;XjqQ)fSO;*ICNaOUaHpZn0Coc-9B-}u~LpMC79vmZO*4nK3^6K78RDaT6Z&SS^A
+zI>!gVzH?Q~B5>P7at{`XV*8Hm>#9D2z5g&t2N#Kj4ICUAesHV^QTBLUepkFJ(UshH
+ztgB|o{-Hy~zJam+kwX}8xHx`LriCCQ<HP+EqUfI3%2-!yWjxij0>}^baHRNP|8U>N
+zst>QLv(85vPW)sd?x*6hWIP+sX40_)eR|2bmr5qniBvq5O8Z{6!4%u7Q~1Ft$c}R)
+zQpr?0p2{Xtu~f|SvvJrw?>tkCjlRD));C`4pQug{4^B|gfm$F2wK7(QAM77_aJX1?
+zkO+5>NWnugE@7nN64mIS92pxrJTx)%knPq#F)=o@|L6oCKH9mZcYDu{p5Dz8wavZT
+zHm%**xeDU1>)qJ9tuNNO%11g4jXXFs!2Vd#;r@x@*iip41{@16LULg`k{38JR;d#w
+zorzQK#A$b8uhGPe?*&ernVvZ7Ozg$nnLUUxz2^F<YvO)^6MINKU9tyFt73bJnyDej
+z^weO5(^W+9yp-b+VoiI@)Of@?r#(h3rkaHpxEvqn8C{NFlRGuZ<JV*lC*L>CrgDm!
+zK9f!i;dQXeTgg~VpP=@8eTRz^NIt}P|JWwN;h}+Tqell1jugiwq2+lP*Y^*|$r~@{
+zSmiI7O~n$a1VkOv0Zu0`%fC!2lSyUM883N^a$f+ShX$G<6FPU=7lM8!<;8qIi>V<@
+z{{UWb<D+90VfG(AaG*H0YpD2sd7%!B9zHTUQXHAs@yHR#l=OVWe_-_J2;Ry(=E8*7
+zJ9pi=E)IH!hj<F-=`EA2XpzY#VySE@EoV<Jo$%vHoKLgqY%&@5#hCCDnJmtzK2Csm
+zPD1rC-#tQ{@boA?QVB1cOvUXfv*IF-GpCo%W;{7txC=q5G_?>$#2t@U(M63%KGu&H
+zqX_9cLT+ETcH`P@ok0dTb=7;A4n;O15_}(EG(4M_@l+z=WnytLrYc51o`Efy&N|B5
+z{xL6+jUmi9jnGL#5;uwWt4t<|_eUD*oCKNURnQFc;BZ-EbPfg=9vqG{RQ>GJ%Ex`a
+z^HowfLV29K>ph%bd0s43^mRmJC}Q&R&*B6T_mioNy;ez9teI3YlgTC%ZY<<o+>@7+
+zhiC8_PNxzQkn?JflW;TKgW`EO-CorA(AQm4>hle(84B(xC|l7#o=m6wG)}fi*LcO`
+zd09V}^)tvGgansy@|VfP(%D$rb6y9rFdz0bZ~gK*E@nO8q~>Q+NiUVCKLv%J1ETY&
+zE*4Fm0qVwwz7Cs<MU$^ZCl)xh%U{yR#jT%_^o<8~WGIr3_+f+U-eMuXeW!_~6UkUI
+z6HC==A9@yOLi;Aq0d?Akz7Ctxo>xANUI!^WAMsY~C*^F<gqJf;IuXkx66wl&fG<}B
+zUIG^)*`$ZFlA}KcLf!gtG}a9Zu9=r-%@D2|f1Ve9aKUxsLtk&xntL$>HE`y~+Na<3
+z-OC}l6x#pDM6vh40jc7lHXm**jtowq4)x+$(4FWX8)S(ePh?ZL9@R^Ty1|v+Z+$#Y
+zW;hwV_3;TWjof#~qtdOVA8$Y(#VVw8hkIT!Fuu|9aXJpl*VOn_mTwAgeSVxF0`jF2
+z%mpWUjh3HDU)=P#@()bkoP5~i;pO66U%!XT%|HN~62S8_7fB$V4H9Tl0+b;al|pzA
+zN(XYNISEp@ez>R@;8G(%ph*d`J}+J0dKUPxc<?OHlmtF1$N&Lcnby9H8l44v)NvOz
+z-baO9D?oGe$GzZLv{HuEoCd1z2=?8;Ip_Ple!<p4N5{cE#=NIzvsu3Pu@bg@&7Zya
+z^GV>mgG*~BPE7vf+pmb-!KE#y&Q0$6kL$$lV72Gy$J&X-&riSoirDGLVwv}`7k@5x
+z&TBFI=bZkE=|6{g)xTo3Puh8DCl)^r|D468(;r@w+wsyO=@W%tdi2fw<0pTWr=KwV
+zf%W61j*hvxk6r%ysYZBW^jtpv^o#=ggyAo3=ocM~IsR-TeB{vU`N#IoEwE1*wj3rO
+zzWnvojqvc`*Yp3i<VxWahPmF8A6_%L@ufx7ITA10b2|T>H|7`ECk$VG&EHTT;nN5!
+z2lffWk1qUDRi8#!HDRAHY&l508exqQ`-EYvH&1=`R`iL)-+1)R(x*=Ts>J?b82<AH
+z`g|JkYJ?veJy$~hl-VZ?W4(OM#*JCyH^LK#UN0ek%Ip({>3<FK`5^MS5k4~b^%C+&
+z_=I7um#?WiDzC3dykyVm(m%g3zs&w&7&%<!(+DdE_6fsyy;SvSgjEyv3B&ZS@oI!M
+zM(h)Y@j9R4xvuheyj#(4uN|KycD`%s^hfWS`ujJ(RyeaR+x?^2R}+^NQv>wrMxXBU
+z^r`dn#Sag6U-f|}3O{>dyd32xq>uP<?G~5er{MZIPal`h6xP)p<;Sios!yFCtB>?|
+z`M7>U`lugjt8-03pSpFqW5GGtNA;myv<>Og&3IXRR3Dd5H{<U153H-24-NV-e`H-Q
+zf9pr*YSc$KyBcCH=8vmSou80C;>X%`?V*0o)5qnb`p}Q~3|UuHpE^HQAL$?EC!~-1
+zX%veo`&w?)NBm&zjq*qQoTrb=N8)b#hsBG0>iRrh{6(RC{mkyqeC6`){}1?zfBLuF
+zD^LD1S6qBuzJ*&lv~r-818-*zBuv`mO#*F|=`=T+cjNeObDO!{EH_JW`yF!~ZfnhI
+z+>)@~4jV12fwr0*W)F^g%)Mr}`91Rhjt`i9W~K2=3da=6oF(R6W*Lsl%uVJ_bC=nS
+z<7RV@*=TyrP8@fdZRUQ{Zw}yizzmpM&F`8Rjxn>sTw@lQ8*#kR++Z#-v&;<Kt~T>=
+zyVA_V?Q(M&ZkOV@OYjWs^YC~++9hTI-b82OHrvd>ZLVp<t=(LK+f{gO0iL0~4Ugxb
+zEihS=GwX0%XV#c*^B%Jp$HnGa<C}~r;I`0Qk6VYi1-C9(eb{KZ1?WLDXohhdHbZ8M
+z*=6?Pw%;7YZN%Jx+ug8kfsK|sfZl5kn{gb+%@H$d#!L^6J!ZYR&ullFaNA(shua}j
+z#H|n3`(UG`2=u}CPUerlcr^F3U+pM;>(y8DYaTeWnwWOt6E7YuZ8hJ>pS-^}_Y2rv
+ze9iY>&Y#{}$SpfJSc<~zPd`sDAC|F->7PDn58|s{TRN#6jxU&XiX6y|xN1N9-=`k8
+zV~<-*4k!Qp^;1hMpD;{5^uw`r7=GTgYot$NN1wc-N#4;)>|D#Imk-xq)#S!=gZU_|
+z`fzLz(<jy|cE#ji^$`wM6Ped)CH=`?$0}BRln?a@V%0?X(5J48euDVOf>}AuA7afJ
+zUUL#NUJt`g{?y#XYyNWIYUU5)6@^bews<xDaBL9MCu2mrVsg;@AqT5ZNqE{^Vt=lM
+z`RrnHpeD@cC@lTqhk5H_u8Tftcd?^MUN}@<YuuAiee$XawRN#-!Wczia?soeV(Lbp
+zv@3S>sqm?2B78KLl)v)PxT_}0NAt(Et0p?H=8xEIPP(}KT)Ob`U%kH@_hoxuAg0|u
+zH}wZwpD*P19qK-^sk6*`J|@2ReSceE`{eF{DSO|I`!XK$p3jwSUyh%$J_@jvF`oBg
+zC$@fNUhtT5IFQ$ra-`jkC6_5XmK>E2=T|<wS3Z1R`N&wyhc>ZWe|(N><UGoU`iLG@
+zlWs>VYN2bPM!FW!hB~Mo!FxVO4Rnm<BR1OgvE?KE?EKWH8aIcV#L$jaZFDWlNA(~t
+z)rs*E{VX5Rz|Jq)*fomX@}=g~MDvDPsa}kiaHI|W#RvS6llZ_`iHFsvCQizWoY+t2
+zv*W3c*p(mc<U-$;kK~W#puDQjalFHYV}+yDfchw(ntO+jj8`8zKFqJ933EubV(e5O
+z;f=8cXFZG=<0Ub%c~ciRJTF?<aU8EYh~4VeZF$mGaP$$ZoE)u`57)?imbE&3l!xk6
+zP`#9o9i#IyR?1UzQZ+BE+tia|d-ekl$bAd9bZF&3D+k`L95ARu=ipj!4yw-?Qhm-q
+z1v(q`WE-l^nP_uSXR^j@N4pjk=|ZVXS+ib&y7_7xua?So3F=zbx1FdnJ5XmYM!NwO
+z<x*74*Q4Epnwiz`GPK)KnXf=y&iec|)SN3(o!^4ig*rKbIy;883RQOoHM)luM^(BS
+zmA#L~%9a&v4s8SK{5w(O=B3UppyphQI(99p(z{TTZ^CgC>hT`bsGD)zjQad;)TF&Q
+z_DZ#XFRJ_<X!oOT--~K=C)#dQynWaM*oC$aE9$|hMQBT~ntR~!2DHT(wG6A+fyTXp
+zm0-UcZ6}mm1O*J*EU35?E1!+VO8*L|Gz0B2D7p|j&PAJvl^Q4?LrY+lZLq}AJgA++
+z>e|t+g3{};sw>gv!MX!%b7<YD?EAoS4O$)}3Rty=mVrWd!jeVv!RRh1z+H*GSj~2<
+zd>`5_tSSbDd(gH(iPh-2742@UjQatL(K-;Z6^PJHXxC%4?TG#|v|ACe>#&;J&~66%
+z7`zy?MPT58djV}8o|}PDSD@Vtw(S_1L)!uGi^1p?w4GpaH|E@hmghb|$yDlY){-S&
+zx1;W6jVYM5r1Zfx{K-n4TQU}-t}LxV-E>=}&JD$=D@z7GIkpbN&;L~FT=7XP98kZI
+z1Mx{)Hwm9gT`Bg{r~#FaV)FSO>PqDkhRK2bbzT=Ahkxa%Sk?}Geu|n=H6a$BSl45f
+zeG=jS6WC>qSQoMCWA`OQpCDFEK85<x#WFAa&>qCpq{;!D$wBo|JJ+RS6{|kVf%*h7
+zIdJXD$HnxcYgCN7a#HgL>8N!#Ys^W_CDeVVm@~{J7o&bW#r)~0)VZNp`a@@1SDs=n
+z+4^*nK7*L^YR(7;tcAHG+<?geb?zkjGuAF9AI+I4Og@?$K}?^_E7}#SK8%ZM!g#4x
+zw37qZLd{*Q`Y=XOSoPu9It-tTm)I><eK@abQsriIN%`wojkRi`d^CStJI89yxL9@8
+zHPR>XJFPAtA2ilU@3gv!HJsF!mg8@%u2gLtt$verceSQ<c(KNmI+Hfmfm(~Qw!~xB
+z-K=w^*0pu6)|0%yn0*P&9pxa8EjO`oZp(>vF1ZOu%SY$0ySH^N>tq>Y>tyj2=8yes
+zE^FSXChvrOE#@;{W5UVaODvtWa1TJV!CGWbf*RPmU-c<#{P3LA{8pa}+V|u2{@ZoU
+z-<qqn-_pu~Rt~s1U{I%4_5s>Zxy_YNp!pf~OjM?q;&>_Q)^^mO^KqPS_W>55&Rc-`
+zw00lh2D=Zi6qVjhsQVYAEkPaFiT!}<(K=8E-e&g!R-!uWLfwBe+O4PxZ^wSXEoduH
+zRmSZ;z-m;LS=9X=S^~A=D(naNXc<(LYwSM2dQ^~ipzhD3b)y2^fc=018b6`mh`OJj
+z(^vKZHlb48ggU-<AAq0sb044&Rp~y|{X6A50J~6S--r72KGe>OaFN=EV;k!KCD3Fh
+zjx({g8B!O|fFg6D5bNU0&{zR4!>+(Qw1ueoZ^x>xL1V?tPu*`u>%uB;f`=7otcMq2
+zx8N?cjbPV_UiYB&NX^`bV;?lT6?}H#xC`TVVg*}q+zP&XQN#D(*n?+c@UacYZO|_v
+z^?m|9J*+N=U4$KIyRl=j0qWd~wo~>9GB{?S-<{Ce!;yOltm{|fxEgse3!3{l`dDoa
+zYq|=@tDt>1@}V8ac8p(yd1E+oKVv4=c?*uL^;z4u<JgX|+%uVnBX=>lFR%+o?nK-T
+z9t9k^e{lJ0pDTUs=btaMz4o~rF}^PjyfpWtt<Q`7a$r1H`t!%1DV%)$<288p7yhnv
+z{6D`~7)^gD7lpTM`?8Fs&mevg^U^2nipk;0C!P=v#M_?#tZ*Zr3a;?^(Bh}6d=!(z
+z<6nEK$|nqSF8a}VT}(g9Q?c^Nx9u(~2V&)h?~j+a!6*CE?&3L?&kH}@TaLo)PY&PT
+zaKDUI+>W)=C+#lgyo`}@VC=|2<3+p1i(_4^F(RKRtg+zOAZ8BGKkbUaC$I4WhdlW+
+zXJ{v8USW-S)zih$B(E`w!t75!jF*d{iTI@5#hh1jm{@b0+$vb|C-3BQ6+@G}lh2_T
+zYtL)01~Glw{1KnTs*jDAti{Glu#K0j#m1|O$%p#bc!gqe(3}Zk%}Lr7t3I4pHBoMw
+zOVnB8>te=;`q+F9#q3XgxE2>PM)XO$i*fy5wzbMTt?t(PMCujPEY(_yH3@4;TZi#}
+zinR;t5H_tNoq9z+*JTaEaU9RF9A|xr-99c@e^RSbADvt8t!C6sp0ixUmorwlSUxqM
+zD_dUjyu*ielkyRcVSeqL5-ZC?YB$SGG}ASyKio_0ZS~PQu1+UDZ~2G@cD!g~xv*}o
+z>P-v|GQYi7UgRNMz)R{#^`%@emhoa!9?FaNt$hIGsiP0`NA*#?G=I1+Au*x0#Ecc1
+z#Lzw`@h5iU#Mo$@?7hU&j@4L8{5aO~Q6AMe*?37TITn32f9ON<$KER^-V3L<^SiRG
+zxmw@NZskBL2izQ3g!;DfIsQ^qa<i}xV9?r7txebIZe8zwH^8mm-Fn~MLvU+<ci+JM
+zUIF(X=Ad4jgWB_*whzG1u*2%{sJc6<PH(mzkJ=xI+E17v`wug)|G<3-?mt{6HTgWm
+zvket^o9s()ALAOS*K^Q&HtO=(QrFKyFa9)`bv-}#Uxdbe5AJU)L0b$f_Xpb1`27U#
+z4_t{hPwIVxqXFhV2=_d=55U@=I{@54nBFUBkK6~yx4p*C{tE{V94J43<0aUTI4ziV
+zVq=b%4;Ox!Z=d%~vAg(7Py8(Z-GQ$c-nH^*ISR8s{e1BF!{SFVHWb7s?JnlLtmDXs
+z_^$82ARNezn0EHhedk&6>0)v?bnLk*pD;{5^rL)SOrP}6K8jVJe|+`ToNDr|S2yNW
+zD`=Nf{@?hAm3bGdCii^grhF7ueK<CVsX6`Au2}V<T{R(At;kLJ>sYRZSoKjp)F+5J
+zmYOIZ#j3Nekv@qrFTabR@xo`!m7D>$GO>+UiTrJ>s~CJrPX2^q@DZOjUNzXsN%3iO
+zM)paF$$|XUPHgkJr17PH#pL7UOeki5`cXcLp^x~{HPR<B^`Q=oi)zJKs6NCT%e7c-
+zt6251F%o@(n0z!hf|&E#I0^@i7hhjCpJgpJpG7O>qw&>sajfd29Gv_St!P($bYAMC
+zm_F&BeH6db>H^EBTJz(v)Y`UYVI3p&IcpuKww&VQUvu50wJmF<*6#xB-iwWo*8f^(
+z{wBYlAo-$s!+W<Oc9JVLcO-|HJGRc1+FJK%g7?TTsj=CY<JE_bcXG1o*Ul|DV>wCf
+zO&)kGIYoaMTY$fs+MDw+r*&UM>ut-6b+^>mb{xlZZBmC@PU6$@WM9sw`UqA|mJhY!
+zcv+{zNBmko)qM!%Vef^jotNvspnbON*_U%{yf$y)mJY2PXyw4$nFFog1vLI$K(pW5
+zkNRGH)b9wQes>V{`+{b_=ilt_2%>(!@az6v0P7-bCYT4ZUzu!xQ9o7tMB(!3?{1&`
+z-nTv}ej;$;<aD1XTwXKy#Yyw>zn&tW2waFw_ld$f7GJZd`UzqkOM4X7b>-;Ct}BRj
+zEwo2r)mg?`J%d=a6+ccN*ItH(Ip{27BX9vcwNDf-L&F?&7EK~>0s3p7D6D=?Q6K9k
+zh;=OOQCQbCNk4X7L9A<`Jpvo^%{ab?@W{CQA3or61-t*3FS3vG|N5kl9c#>)>wBl(
+z^ZVDrXPuw0J~e)($1<WiUhiph{qvDNcRb9GwN?9o)AXO6E7+&TkJUtM)BV+7#aBe1
+zpdaciw(0(Le!}`h`T?JA=#1y1{WyJU{7l=q2Gy?CPeh+EKT{PY8u|(Lsqq6%xOVAd
+z=LN3i6Va#Y$Ndgr3%9;g`hPtK_$kO`_>|%@GY8*!ZNsM;m&&&s`K?F(`t@4;+I0aw
+zGg*S;5`3<~&&xV-?8LWRZ^ZXGZ^iLeeAaO@zOTt&Pp-f>UEhsQVG=kd@cqX5`0gnG
+zzZ3ua6#xI!a@_b|srY}X_#dAx5&LpHPNL11&%ajTxC-BXP2u~QvvB06GZ}ogG8eZi
+f@Hr0ums1CB{N*P9ms18e{>F5ne9LqpY#H;vUCvi1
+
+literal 0
+HcmV?d00001
+
+diff --git a/assets/models/env/second_ai/gym_moving_parts.json b/assets/models/env/second_ai/gym_moving_parts.json
+new file mode 100644
+index 000000000..01cb5ae64
+--- /dev/null
++++ b/assets/models/env/second_ai/gym_moving_parts.json
+@@ -0,0 +1,34 @@
++{
++ "kind": "gym_moving_parts",
++ "tris": {
++  "gym_bike_crank": 72,
++  "gym_bike_pedal_L": 108,
++  "gym_bike_pedal_R": 108,
++  "gym_rower_seat": 216,
++  "gym_rower_handle": 36,
++  "gym_bike_pedal_L_center": [
++   0.12,
++   0.257,
++   -0.153
++  ],
++  "gym_bike_pedal_R_center": [
++   -0.12,
++   0.468,
++   0.113
++  ]
++ },
++ "stripped_from_gym_b1": 540,
++ "axle": [
++  0.0,
++  0.36,
++  -0.02
++ ],
++ "crank": 0.17,
++ "crank0": 4.0415926535897935,
++ "handle": [
++  0.0,
++  0.46,
++  0.53
++ ],
++ "note": "遊戲 src/gym3d.js gymMoving：曲柄繞 +x 轉（角度＝gymIK 的 g.ph − crank0）、踏板跟著曲柄末端、座椅照臀部的 z 滑、有人划船時藏拉把"
++}
+\ No newline at end of file
+diff --git a/src/assets3d.js b/src/assets3d.js
+index 180fd501d..ffb7495ef 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -186,6 +186,7 @@ const ASSETS = (function(){
+        第一個人坐下、或 SEATACT 第一次要用的時候才下載（lazy：片段約 0.4 MB、配件約 0.08 MB）。重做：python3 -I tools/anim/sit_task_loops.py、tools/anim/sit_task_props.py
+        配件是 type:'building'：和 desk_props 同一張貼圖，建築的載入器（texDedup）會共用 */
+     'char.ual_sit_tasks':{url:'assets/models/char/second_ai/ual_sit_tasks.glb', type:'clips', lazy:true, source:'本作 tools/anim/sit_task_loops.py（LAWWW2-C 2026-11-04：打字、打字＋觸控板、寫字、滑手機、翻書頁、喝飲料、吃飯 × 女生／男生 VRoid 骨架，Sit_<動作>_<F|M>_Loop，每個 5 秒；身體的呼吸、前後晃是 Quaternius UAL 的 Sitting_Idle_Loop）', license:'本作（用到的 UAL 部分 CC0 1.0）'},
++    'prop.gym_moving':{url:'assets/models/env/second_ai/gym_moving_parts.glb', type:'building', lazy:true, source:'本作 tools/blender/env_second/gym_moving_parts.py（從 gym_b1.glb 搬出來的會動零件：飛輪曲柄、踏板，划船機座椅、拉把；GYM-FIT-PROPS-1103 第二包，LAWWW2 帳號 A）', license:'本作'},
+     'prop.gym_hand':{url:'assets/models/char/second_ai/gym_hand_props.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/gym_hand_props.py（健身中心手上的道具：啞鈴、槓鈴、划船機拉把；原點＝握把中心、軸沿 +x；GYM-FIT-PROPS-1103，LAWWW2 帳號 A）', license:'本作'},
+     'prop.hand_props':{url:'assets/models/char/second_ai/hand_props.glb', type:'building', lazy:true, source:'本作 tools/anim/sit_task_props.py（LAWWW2-C 2026-11-04：右手的紙杯 hand_cup、手機 hand_phone、原子筆 hand_pen，已經擺在右手骨頭 J_Bip_R_Hand 的座標裡；網格、貼圖照用 desk_props）', license:'本作'},
+   };
+diff --git a/src/gym3d.js b/src/gym3d.js
+index 94bc0fdf3..dda033510 100644
+--- a/src/gym3d.js
++++ b/src/gym3d.js
+@@ -201,6 +201,41 @@ const GY3=(function(){
+     for(const e of (F&&F.equip)||[]){ if(!e.stand||!(e.use||[]).length) continue; const s=e.stand;
+       IT.push({x:s.x,z:s.z,radius:0.8,lv:0,label:EQ_LABEL[e.kind]||('用'+(e.label||'器材')),gymEquip:e.id,get hidden(){ return !inFit(F,P())||!eqFree(E,e); },onInteract:()=>scene(GAME,GM=>useEquip(GM,e))}); } }   /* 只在健身中心裡面（走廊、游泳池看不到）；有人在用＝不出現 */
+   async function deskB1(GM){ const r=rec(GM.G); if(!r.card){ await cardScene(GM,r); return; } GM.toast(r.pass===ym(GM.G)?'會員證：這個月的月票':'會員證：單次 50 元（或買這個月的月票）',3200); }
++  /* 器材會動的零件（GYM-FIT-PROPS-1103 第二包，LAWWW2 帳號 A 2026-11-10；第一包＝手上的啞鈴、槓、拉把，character3d.js gymProps）。
++     飛輪的曲柄、踏板，划船機的座椅、滑車、拉把原本是 gym_b1.glb 器材原型網格的一部分＝固定的：有人在踩飛輪曲柄不轉、在划船座椅不滑。
++     tools/blender/env_second/gym_moving_parts.py 把那些三角形從 gym_b1.glb 拿掉（退化三角形），同樣的三角形寫成 gym_moving_parts.glb（ASSETS 'prop.gym_moving'，lazy）；
++     這裡照配置 fitness.equip 每一台飛輪、划船機放一份，材質換成 gym_b1.glb 同名的材質（gymb1_metal、gymb1_vc：看起來和原本一樣）。每一格：
++       飛輪：有人在踩（人物原點在器材原點 0.3 m 內、pose gym_bike）→ 曲柄的角度＝gymIK 的 g.ph（腳踩的那一圈，+x 那支＝th、−x＝th+π；和 C.GYM.bike 的 axle、crank 同一組數字），
++             VRM 以外的人物（沒有 g.ph）照 C.GYM.bike.T 自己轉；踏板放在曲柄末端、保持水平。沒人的停在最後的角度（一開始＝原本模型的角度）。
++       划船機：有人在划 → 座椅的中心放在臀部骨頭（器材座標）的 z 往後 SEAT_BACK（坐骨在髖關節後面一點），限制在滑軌上；手上有拉把（gymPropOn）→ 掛在前面的拉把藏起來。
++     測試：node tests/gym_moving_parts_unit.js */
++  const MOV={SEAT_BACK:0.03, SEAT0:-0.10, Z0:-0.85, Z1:0.40, C0:0.9+Math.PI};
++  function gymMoving(E,z,g0,root,B,cz){ if(typeof ASSETS==='undefined'||!ASSETS.manifest['prop.gym_moving']) return;
++    ASSETS.loadOne('prop.gym_moving').then(c=>{ if(!c||!c.scene||E.zone!==z) return;
++      const mats={}; root.traverse(o=>{ if(o.isMesh&&o.material&&o.material.name&&!mats[o.material.name]) mats[o.material.name]=o.material; });
++      const src={}; c.scene.traverse(o=>{ if(/^gym_(bike|rower)_/.test(o.name)) src[o.name]=o; });
++      const mk=n=>{ if(!src[n]) return new THREE.Object3D(); const o=src[n].clone(true); o.traverse(q=>{ if(q.isMesh){ const m=mats[q.material&&q.material.name]; if(m) q.material=m; q.castShadow=false; q.receiveShadow=true; } }); return o; };
++      const grp=new THREE.Group(); grp.name='gym_moving_parts'; grp.position.z=-cz; g0.add(grp); const list=[];
++      for(const eq of (B.fitness&&B.fitness.equip)||[]){ if(eq.kind!=='bike'&&eq.kind!=='rower') continue; const m=new THREE.Group(); m.name='gym_mov_'+eq.id; m.position.set(eq.at[0],0,eq.at[1]); m.rotation.y=eq.ry||0; grp.add(m);
++        const it={eq,m,kind:eq.kind,occ:null,scan:0};
++        if(eq.kind==='bike'){ it.crank=mk('gym_bike_crank'); it.pl=mk('gym_bike_pedal_L'); it.pr=mk('gym_bike_pedal_R'); m.add(it.crank,it.pl,it.pr); it.th=MOV.C0; }
++        else { it.seat=mk('gym_rower_seat'); it.handle=mk('gym_rower_handle'); m.add(it.seat,it.handle); }
++        list.push(it); }
++      z.gymMoving=list; const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); gymMovingStep(list,Math.min(dt||0,0.1),E2||E); }; },e=>console.warn('健身中心器材會動的零件載入失敗（飛輪少了曲柄、踏板，划船機少了座椅、拉把）',e)); }
++  const MV=[new THREE.Vector3(),new THREE.Vector3()];
++  function gymMovingStep(list,dt,E){ const C=typeof CHAR!=='undefined'?CHAR:null, BK=C&&C.GYM&&C.GYM.bike||{T:0.9,axle:[0,0.36,-0.02],crank:0.17};
++    const ents=[]; if(E&&E.player&&E.player.obj) ents.push(E.player); for(const n of (E&&E.npcs)||[]) if(n&&n.obj) ents.push(n);
++    for(const it of list){ const want=it.kind==='bike'?'gym_bike':'gym_row';
++      const ax=it.eq.at[0], az=it.eq.at[1], near=n=>{ const p=n.obj.position; return n.pose===want&&Math.abs(p.x-ax)<0.3&&Math.abs(p.z-az)<0.3; };
++      if(it.occ&&!(near(it.occ)&&ents.includes(it.occ))){ it.occ=null; it.scan=0; }   /* 起來了、走了、換動作：同一格就放開（拉把馬上回來）*/
++      if(!it.occ&&(it.scan-=dt)<=0){ it.scan=0.25; for(const n of ents) if(near(n)){ it.occ=n; break; } }   /* 找新的人：0.25 秒找一次 */
++      const n=it.occ, u=n&&n.obj.userData, g=u&&u.gym&&u.gym.pose===want?u.gym:null;
++      if(it.kind==='bike'){ if(n){ if(g&&typeof g.ph==='number') it.th=g.ph; else it.th+=dt*2*Math.PI/(BK.T||0.9); }
++        it.crank.rotation.x=it.th-MOV.C0; const r=BK.crank, ay=BK.axle[1], az=BK.axle[2];
++        it.pl.position.set(0.07,ay+Math.cos(it.th)*r,az+Math.sin(it.th)*r); it.pr.position.set(-0.07,ay-Math.cos(it.th)*r,az-Math.sin(it.th)*r); }
++      else { const R=u&&u.rawGym; if(n&&g&&R&&R.hips){ it.m.updateWorldMatrix(true,false); const hz=it.m.worldToLocal(R.hips.getWorldPosition(MV[0])).z;
++          it.seat.position.z=Math.max(MOV.Z0,Math.min(MOV.Z1,hz-MOV.SEAT_BACK))-MOV.SEAT0; }
++        it.handle.visible=!(n&&u&&u.gymPropOn); } } }
+   const gym_b1={ id:'gym_b1', name:'綜合體育館 B1', indoor:true, windowless:true, camDist:3.6, build(E){ const Ly=L(), B=Ly.b1, cz=-5;   /* 配置：x −24～24、z −24～14（room() 中心在原點，整個往 −z 移 5 m）*/
+     const z=Z3.room(E,{w:48,d:38,h:B.h,windows:false,cool:true,wallColor:'#eceae4',floorTex:W3.stoneTex('#3a3d40'),spawn:Object.assign({},B.spawn)}); const g0=z.group, nav=z.nav;
+     g0.position.z+=cz; nav.oz+=cz; for(const w of z.walls) w.userData.center=new THREE.Vector3(w.position.x,w.position.y,w.position.z+cz);
+@@ -222,7 +257,7 @@ const GY3=(function(){
+     { const P=typeof CLS!=='undefined'&&CLS.PE_POOL; if(P) IT.push({x:17.4,z:-3.2,radius:1.2,lv:0,label:'體育課集合（池邊）',mark:true,peSwim:true,visIf:p=>p.z<B.pool.z1&&(()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; return !!G&&CLS.dayItems(G).some(it=>it.room&&it.room.door==='gym'&&CLS.peSwim(G,it)); })(),onInteract:()=>peClass(GAME)}); }
+     for(const q of B.interact){ if(q.kind==='gym_fitness') IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:'去健身房',mark:true,visIf:p=>p.z>B.pool.z1,onInteract:()=>scene(GAME,workout)});   /* visIf：人在游泳池（牆的北邊）看不到走廊的名牌（使用者 11-03 截圖）*/ else if(q.kind==='gym_b1_desk') IT.push({x:q.x,z:q.z,radius:1.1,lv:0,label:'服務櫃台',onInteract:()=>scene(GAME,deskB1)}); }   /* 看游泳池、更衣室：還沒有字（要 AA／BB），先不開 */
+     equipIts(E,B,IT);   /* 器材一台一台用（GYM-FIT-1107）*/
+-    z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_b1_glows'); b1Plates(root,B); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
++    z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_b1_glows'); b1Plates(root,B); gymMoving(E,z,g0,root,B,cz); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
+     return z; } };
+   /* ---------- 3F 主球場（ART-GYM2-INT，LAWWW2 2026-10-21；gym_layout.js 的 arena 段＋gym_arena.glb（LAWWW2-B 3effc0e0、f1e732f8、f1d23fd4））----------
+      從 1F 大廳西側的樓梯上來＝南看台中間的入口通道（vomitory）。場地整片能走；三面看台走中間的走道（樓梯）上去：導航是連續的斜面（碰撞、找路），
+@@ -298,6 +333,6 @@ const GY3=(function(){
+       const sets=['SET_STAGE','SET_CEREMONY','SET_LECTURE','SET_CONCERT'].map(n=>root.getObjectByName(n)).filter(Boolean); for(const o of sets) o.visible=!!z.ceremonyOn&&(o.name==='SET_STAGE'||o.name==='SET_CEREMONY');   /* 典禮那天打開舞台＋典禮（SET-CEREMONY-1023）*/   /* 布置平常藏著（劇情要用時打開：導航加椅子區的阻擋，見 gym_layout.js arena.sets）*/
+       Z3.attachRoomGLB(z,g0,fb,root); { const hp=root.getObjectByName('SET_HOOPS'); if(hp) hp.visible=!z.ceremonyOn; }   /* 籃架（ART-ARENA-HOOPS-1105，LAWWW2-B 11-07：屋頂吊下來、放下來的樣子，平常一直在）：典禮那天北端有舞台，籃架在舞台前緣上方——收起來 */ glowBatch(E,z,g0,root,'gym_arena_glows'); for(const o of sets) setGlowBatch(E,z,o,o.name+'_glows'); const G0=typeof GAME!=='undefined'?GAME.G:null; if(G0) z.applyTime(G0.hour,G0.weather); }).catch(e=>console.warn('3F 主球場正式模型載入失敗，用程序化備用模型',e)); }
+     return z; } };
+-  return {b1Plates,gym,gym_b1,gym_arena,ceremonyDay,ceremonyNav,arenaGeo,arenaLook,ARENA_LOOK,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday,fitOpen,fitPay,fitDone,useEquip,eqLine,eqFree,eqOn,EQ_LABEL,stageIx,using:()=>eqUse};
++  return {gymMoving,gymMovingStep,MOV,b1Plates,gym,gym_b1,gym_arena,ceremonyDay,ceremonyNav,arenaGeo,arenaLook,ARENA_LOOK,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday,fitOpen,fitPay,fitDone,useEquip,eqLine,eqFree,eqOn,EQ_LABEL,stageIx,using:()=>eqUse};
+ })();
+ Z3.ZONES.gym=GY3.gym; Z3.ZONES.gym_b1=GY3.gym_b1; Z3.ZONES.gym_arena=GY3.gym_arena;
+diff --git a/tests/gym_moving_parts_unit.js b/tests/gym_moving_parts_unit.js
+new file mode 100644
+index 000000000..14e173883
+--- /dev/null
++++ b/tests/gym_moving_parts_unit.js
+@@ -0,0 +1,88 @@
++// 健身中心器材會動的零件（GYM-FIT-PROPS-1103 第二包，LAWWW2 帳號 A 2026-11-10）——不需要瀏覽器（D131）。
++// 第一包之後的缺點：飛輪的曲柄、踏板是固定的模型，人在踩、曲柄不轉（腳在空中畫圓）；划船機的座椅固定，人前後滑、座椅不動（坐在空中）。
++//   1 gym_b1.glb：飛輪、划船機的原型網格裡沒有曲柄、踏板、座椅、滑車、拉把的三角形了（tools/blender/env_second/gym_moving_parts.py 改成退化三角形），其他三角形照舊
++//   2 gym_moving_parts.glb：五個零件（曲柄、左右踏板、座椅、拉把），三角形數＝從 gym_b1.glb 拿掉的
++//   3 遊戲（gym3d.js gymMoving）：照配置每台飛輪 4、划船機 2 放一份，材質是 gym_b1.glb 那一個同名的材質（看起來和原本一樣）；沒人用的時候零件在原本的位置
++//   4 飛輪：遊戲的路人（VRM，CHAR.animate gym_bike）踩：曲柄跟著轉（轉過 ≥ 300°）；每隻腳的腳踝在那一邊踏板「該踩的點」（gymIK 的目標：踏板中心往上 7.5～10 cm、往後 3.5 cm）≤ 4 cm
++//   5 划船機：路人划（gym_row）：座椅跟著前後滑 ≥ 25 cm，一直在臀部底下（臀部骨頭的 z 在座椅前後 ±12 cm 內、高度在座面上 3～25 cm）；
++//     手上拿著拉把（第一包）時，前面掛著的拉把藏起來；人走了以後拉把回來
++// 修改前（開發分支 0ec32e6f6）：1～5 FAIL（零件是固定模型的一部分）。用法：node tests/gym_moving_parts_unit.js
++const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
++const fs=require('fs'), vm=require('vm'), path=require('path');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const cm=v=>(v*100).toFixed(1)+' cm', tick=()=>new Promise(r=>setTimeout(r,0));
++global.Z3=global.Z3||{ZONES:{}};
++for(const f of ['src/data/gym_layout.js','src/gym3d.js']) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (\w+)\s*=/mg,'globalThis.$1='),{filename:f});
++const B=GYM_LAYOUT.b1;
++
++/* ---- 1、2：GLB ---- */
++function glb(file){ const b=fs.readFileSync(path.join(ROOT,file)), jl=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+jl).toString('utf8')), bin=b.slice(28+jl);
++  const acc=i=>{ const a=J.accessors[i], v=J.bufferViews[a.bufferView], n={SCALAR:1,VEC2:2,VEC3:3,VEC4:4}[a.type], off=(v.byteOffset||0)+(a.byteOffset||0), T={5126:Float32Array,5125:Uint32Array,5123:Uint16Array,5121:Uint8Array}[a.componentType];
++    return new T(bin.buffer.slice(bin.byteOffset+off,bin.byteOffset+off+a.count*n*T.BYTES_PER_ELEMENT)); };
++  return {J,acc}; }
++const crankSel=c=>Math.abs(c[0])>0.052&&c[1]>=0.15&&c[1]<=0.58&&c[2]<0.18;
++const inBox=(t,b)=>t.every(p=>p[0]>=b[0]&&p[0]<=b[1]&&p[1]>=b[2]&&p[1]<=b[3]&&p[2]>=b[4]&&p[2]<=b[5]);
++const SEAT=[-0.14,0.14,0.295,0.41,-0.26,0.06], HANDLE=[-0.28,0.28,0.425,0.495,0.495,0.565];
++const RULES={gymb1_gym_bike_metal:[t=>crankSel(cen(t))], gymb1_gym_bike_vc:[t=>crankSel(cen(t))], gymb1_gym_rower_metal:[t=>inBox(t,SEAT)], gymb1_gym_rower_vc:[t=>inBox(t,SEAT),t=>inBox(t,HANDLE)]};
++const cen=t=>[0,1,2].map(k=>(t[0][k]+t[1][k]+t[2][k])/3);
++let movTris=0; { const {J,acc}=glb('assets/models/env/second_ai/gym_b1.glb'); const left={}, total={};
++  for(const n of J.nodes){ if(n.mesh==null||!(n.extensions&&n.extensions.EXT_mesh_gpu_instancing)) continue; const m=J.meshes[n.mesh]; if(!RULES[m.name]) continue;
++    for(const pr of m.primitives){ const P=acc(pr.attributes.POSITION), I=acc(pr.indices); let l=0, tt=0;
++      for(let i=0;i<I.length;i+=3){ if(I[i]===I[i+1]&&I[i]===I[i+2]) continue; tt++; const t=[0,1,2].map(k=>[P[I[i+k]*3],P[I[i+k]*3+1],P[I[i+k]*3+2]]); if(RULES[m.name].some(f=>f(t))) l++; }
++      left[m.name]=l; total[m.name]=tt; } }
++  const names=Object.keys(RULES), ok=names.every(k=>left[k]===0&&total[k]>300);
++  check('1 gym_b1.glb：飛輪、划船機的原型網格裡沒有會動零件的三角形（其他照舊）', ok, names.map(k=>`${k.replace('gymb1_gym_','')} 剩 ${left[k]}／共 ${total[k]}`).join('、')); }
++{ const f='assets/models/env/second_ai/gym_moving_parts.glb', ex=fs.existsSync(path.join(ROOT,f)); let parts={}, mk=null;
++  if(ex){ const {J,acc}=glb(f); for(const n of J.nodes) if(n.mesh!=null){ let t=0; for(const pr of J.meshes[n.mesh].primitives) t+=acc(pr.indices).length/3; parts[n.name]=t; movTris+=t; } }
++  try{ mk=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/gym_b1.glb')).slice(20,20+fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/gym_b1.glb')).readUInt32LE(12)).toString('utf8')).asset.extras.gymMovingStripped; }catch(e){}
++  const need=['gym_bike_crank','gym_bike_pedal_L','gym_bike_pedal_R','gym_rower_seat','gym_rower_handle'];
++  check('2 gym_moving_parts.glb：五個零件，三角形數＝從 gym_b1.glb 拿掉的', ex&&need.every(k=>parts[k]>0)&&!!mk&&mk.tris===movTris, ex?need.map(k=>`${k.replace('gym_','')} ${parts[k]||0}`).join('、')+`；合計 ${movTris}、gym_b1 拿掉 ${mk?mk.tris:'—'}`:'沒有這個檔'); }
++
++(async()=>{
++  const keys=['char.npc_nm1','char.npc_nf1'];
++  const extra=['bldg.gym_b1','prop.gym_moving','prop.gym_hand'].filter(k=>ASSETS.manifest[k]);
++  await preload(keys.concat(extra));
++  const random0=Math.random; let sd=11; Math.random=()=>{ sd=(sd*16807)%2147483647; return (sd-1)/2147483646; };
++  /* ---- 3：遊戲端 ---- */
++  const scene=new THREE.Scene(), g0=new THREE.Group(), cz=-5; g0.position.z=cz; scene.add(g0);
++  const z={group:g0}, E={zone:z,player:null,npcs:[]};
++  const c=await ASSETS.loadOne('bldg.gym_b1'); const root=c.scene.clone(true); root.position.z-=cz; g0.add(root);
++  if(GY3.gymMoving) GY3.gymMoving(E,z,g0,root,B,cz); for(let i=0;i<50&&!z.gymMoving;i++){ await tick(); await new Promise(r=>setTimeout(r,10)); }
++  const L=z.gymMoving||[]; scene.updateMatrixWorld(true);
++  const mats={}; root.traverse(o=>{ if(o.isMesh&&o.material&&!mats[o.material.name]) mats[o.material.name]=o.material; });
++  let sameMat=true, nMesh=0; for(const it of L) it.m.traverse(o=>{ if(o.isMesh){ nMesh++; if(o.material!==mats[o.material.name]) sameMat=false; } });
++  const bikes=L.filter(i=>i.kind==='bike'), rowers=L.filter(i=>i.kind==='rower');
++  /* 沒人用：零件在原本的位置（曲柄沒轉、座椅沒滑） */
++  const rest=bikes.every(i=>Math.abs(i.crank.rotation.x)<1e-6)&&rowers.every(i=>Math.abs(i.seat.position.z)<1e-6&&i.handle.visible);
++  check('3 遊戲：每台飛輪（4）、划船機（2）一份，材質是 gym_b1.glb 同名的那一個；沒人用的在原本的位置', bikes.length===4&&rowers.length===2&&nMesh>0&&sameMat&&rest, `飛輪 ${bikes.length}、划船機 ${rowers.length}、網格 ${nMesh}、同一個材質 ${sameMat}、原位 ${rest}`);
++  if(!L.length){ console.log(`FAILED ${fails}`); process.exit(1); }
++  for(const key of keys){
++    const height=ASSETS.manifest[key].height||1.7;
++    /* ---- 4：飛輪 ---- */
++    { const it=bikes[0], h=CHAR.build({model:key,height}); scene.add(h); h.position.set(it.eq.at[0],0,it.eq.at[1]); h.rotation.y=0; h.updateMatrixWorld(true);
++      const n={obj:h,pose:'gym_bike'}; E.npcs=[n]; const R=s=>h.userData.vrm.humanoid.getRawBoneNode(s);
++      let dmax=0, nS=0; const ths=[], BK=CHAR.GYM.bike;
++      for(let i=0;i<150;i++){ CHAR.animate(h,1/30,{pose:'gym_bike',speed:0}); scene.updateMatrixWorld(true); z.update(1/30,E); scene.updateMatrixWorld(true); if(i%15===0) await tick(); if(i<40) continue;
++        ths.push(it.crank.rotation.x); nS++;
++        for(const side of [0,1]){ const a=it.m.worldToLocal(R(side?'rightFoot':'leftFoot').getWorldPosition(new THREE.Vector3())), pl=it.m.worldToLocal((side?it.pr:it.pl).getWorldPosition(new THREE.Vector3()));
++          const ang=Math.atan2(pl.z-BK.axle[2],pl.y-BK.axle[1]), want=new THREE.Vector3((side?-1:1)*BK.pedalX,pl.y+0.0875-0.0125*Math.cos(ang),pl.z-0.035);   /* gymIK 的腳踝目標（aoff、−0.035）*/
++          dmax=Math.max(dmax,a.distanceTo(want)); } }
++      let turn=0; for(let i=1;i<ths.length;i++) turn+=Math.abs(ths[i]-ths[i-1]);
++      check(`4 [${key}] 飛輪：曲柄跟著腳轉，腳踝在踏板該踩的點`, nS>0&&turn>=300*Math.PI/180&&dmax<=0.04, `曲柄轉了 ${(turn*180/Math.PI).toFixed(0)}°；腳踝離踏板該踩的點最遠 ${cm(dmax)}`);
++      CHAR.release(h); scene.remove(h); E.npcs=[]; }
++    /* ---- 5：划船機 ---- */
++    { const it=rowers[0], h=CHAR.build({model:key,height}); scene.add(h); h.position.set(it.eq.at[0],0,it.eq.at[1]); h.rotation.y=it.eq.ry; h.updateMatrixWorld(true);
++      const n={obj:h,pose:'gym_row'}; E.npcs=[n]; const R=s=>h.userData.vrm.humanoid.getRawBoneNode(s);
++      const zs=[]; let off=0, ylo=9, yhi=-9, hid=0, nS=0;
++      for(let i=0;i<200;i++){ CHAR.animate(h,1/30,{pose:'gym_row',speed:0}); scene.updateMatrixWorld(true); z.update(1/30,E); scene.updateMatrixWorld(true); if(i%15===0){ await tick(); await new Promise(r=>setTimeout(r,5)); } if(i<60) continue; nS++;
++        const sc=it.seat.position.z+GY3.MOV.SEAT0; zs.push(sc); const hp=it.m.worldToLocal(R('hips').getWorldPosition(new THREE.Vector3()));
++        off=Math.max(off,Math.abs(hp.z-sc)); ylo=Math.min(ylo,hp.y-0.40); yhi=Math.max(yhi,hp.y-0.40); if(!it.handle.visible) hid++; }
++      const rg=Math.max(...zs)-Math.min(...zs), propOn=!!h.userData.gymPropOn;
++      E.npcs=[]; z.update(1/30,E); const back=it.handle.visible;
++      check(`5 [${key}] 划船機：座椅跟著前後滑、一直在臀部底下；手上有拉把時前面的拉把藏起來、人走了回來`, nS>0&&rg>=0.25&&off<=0.12&&ylo>=0.03&&yhi<=0.25&&(!propOn||hid===nS)&&back,
++        `座椅滑 ${cm(rg)}；臀部離座椅中心（前後）最遠 ${cm(off)}；臀部在座面上 ${cm(ylo)}～${cm(yhi)}；手上的拉把 ${propOn?'有':'沒有'}、前面的拉把藏了 ${hid}／${nS} 格；人走了 ${back?'回來':'沒回來'}`);
++      CHAR.release(h); scene.remove(h); }
++  }
++  Math.random=random0;
++  console.log(fails?`FAILED ${fails}`:'ALL PASS'); process.exit(fails?1:0);
++})().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
+diff --git a/tools/blender/env_second/gym_moving_parts.py b/tools/blender/env_second/gym_moving_parts.py
+new file mode 100644
+index 000000000..c94c70909
+--- /dev/null
++++ b/tools/blender/env_second/gym_moving_parts.py
+@@ -0,0 +1,159 @@
++"""健身中心器材會動的零件（GYM-FIT-PROPS-1103 第二包；LAWWW2 帳號 A，2026-11-10）。不用 Blender，只用 numpy 改 GLB。
++用法（gym_b1.glb 每次從 gym_b1.py／bake_gym.sh 重新產生以後，跑一次；bake_gym.sh b1 最後會自動跑）：
++  python3 tools/blender/env_second/gym_moving_parts.py [--dst <要拆的 gym_b1.glb>] [--src <沒拆過的 gym_b1.glb>] [--out <零件 GLB>]
++做的事：
++  1. 從 gym_b1.glb 的器材原型網格（EXT_mesh_gpu_instancing：gymb1_gym_bike_*、gymb1_gym_rower_*）找出會動的零件的三角形：
++       飛輪：兩支曲柄（金屬）、兩個踏板（橡膠）——曲柄軸本身不動、留著；
++       划船機：座椅（皮）＋座椅下的滑車（金屬）、掛在前面的拉把（橡膠）。
++  2. 那些三角形在 gym_b1.glb 裡改成退化三角形（三個索引一樣＝不畫；緩衝區大小不變、不用重烘，器材本來就是 --nolm）。
++  3. 同樣的三角形（位置、法線、頂點色一樣，材質名字一樣）寫成 assets/models/env/second_ai/gym_moving_parts.glb：
++       gym_bike_crank    原點＝曲柄軸 (0, 0.36, −0.02)，兩支曲柄照原本的角度（+x 那支在 0.9+π，見下面 CRANK0）；遊戲繞 +x 轉
++       gym_bike_pedal_L  +x 那一個踏板，原點＝曲柄末端（原本的角度）；遊戲每一格放到曲柄末端、保持水平
++       gym_bike_pedal_R  −x 那一個
++       gym_rower_seat    座椅＋滑車，原點＝器材原點（不動的時候在原位）；遊戲沿 z 滑
++       gym_rower_handle  拉把，原點＝拉把中心；有人在划的時候藏起來（手上的拉把是 gym_hand_props.glb）
++     遊戲（src/gym3d.js gymMoving）把材質換成 gym_b1.glb 裡同名的材質（gymb1_metal、gymb1_vc），看起來和原本一模一樣。
++選三角形的範圍照 BB-B 的 tools/blender/env_second/bb_support/gym_b1_props.py 的 bike()、rower()（器材自己的座標：+z 正面、y 上、原點底面中心）。"""
++import json, math, os, struct, sys
++import numpy as np
++
++ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
++ARGS = sys.argv[1:]
++def arg(n, d=None): return ARGS[ARGS.index(n) + 1] if n in ARGS else d
++DST = os.path.join(ROOT, arg('--dst', 'assets/models/env/second_ai/gym_b1.glb'))
++SRC = arg('--src', DST)
++OUT = os.path.join(ROOT, arg('--out', 'assets/models/env/second_ai/gym_moving_parts.glb'))
++
++AXLE = (0.0, 0.36, -0.02); CRANK = 0.17; CRANK0 = 0.9 + math.pi   # +x 那支曲柄原本的角度（y＝cos、z＝sin；gym_b1_props.py：sx=+1 的 phase π）
++HANDLE = (0.0, 0.46, 0.53)
++
++
++def read_glb(path):
++    b = open(path, 'rb').read()
++    jl = struct.unpack('<I', b[12:16])[0]; J = json.loads(b[20:20 + jl])
++    bl = struct.unpack('<I', b[20 + jl:24 + jl])[0]; BIN = bytearray(b[28 + jl:28 + jl + bl])
++    return J, BIN
++
++CT = {5126: np.float32, 5125: np.uint32, 5123: np.uint16, 5121: np.uint8}; NC = {'SCALAR': 1, 'VEC2': 2, 'VEC3': 3, 'VEC4': 4}
++def view(J, BIN, i):
++    a = J['accessors'][i]; v = J['bufferViews'][a['bufferView']]; n = NC[a['type']]; dt = CT[a['componentType']]
++    st = v.get('byteStride'); assert not st or st == n * np.dtype(dt).itemsize, '不支援交錯的緩衝區'
++    off = v.get('byteOffset', 0) + a.get('byteOffset', 0)
++    return np.frombuffer(BIN, dtype=dt, count=a['count'] * n, offset=off).reshape(-1, n), off, dt
++
++
++J, BIN = read_glb(SRC)
++if (J.get('asset', {}).get('extras') or {}).get('gymMovingStripped') and SRC == DST:
++    sys.exit('gym_b1.glb 已經拆過（asset.extras.gymMovingStripped）：先重新產生 gym_b1.glb，或用 --src 指定沒拆過的檔')
++mesh_of = {}
++for n in J['nodes']:
++    if n.get('mesh') is not None and 'EXT_mesh_gpu_instancing' in (n.get('extensions') or {}):
++        mesh_of[J['meshes'][n['mesh']]['name']] = n['mesh']
++
++def tri_data(mname):
++    mi = mesh_of[mname]; p = J['meshes'][mi]['primitives'][0]; assert len(J['meshes'][mi]['primitives']) == 1
++    A = {k: view(J, BIN, v)[0] for k, v in p['attributes'].items()}
++    I, ioff, idt = view(J, BIN, p['indices']); T = I.reshape(-1, 3)
++    return p, A, T, ioff, idt
++
++def select(mname, fn):
++    p, A, T, _, _ = tri_data(mname); P = A['POSITION']
++    V = P[T]                                      # (三角形, 3, xyz)
++    keep = np.array([fn(t) for t in V]) & (T[:, 0] != T[:, 1])
++    return keep
++
++def cen(t): return t.mean(0)
++def in_box(t, x0, x1, y0, y1, z0, z1): return bool(np.all((t[:, 0] >= x0) & (t[:, 0] <= x1) & (t[:, 1] >= y0) & (t[:, 1] <= y1) & (t[:, 2] >= z0) & (t[:, 2] <= z1)))
++
++# 飛輪：曲柄（金屬）、踏板（橡膠）＝|x| > 0.052（車架、前叉、飛輪、護蓋、曲柄軸的三角形中心都在 0.05 以內）、y 0.15～0.58、z < 0.18（前叉的下段在 z 0.2 以上）
++crank_sel = lambda t: abs(cen(t)[0]) > 0.052 and 0.15 <= cen(t)[1] <= 0.58 and cen(t)[2] < 0.18
++# 划船機：座椅＋滑車＝三個頂點都在座椅的盒子裡（滑軌的頂點在 z −1.10／0.65，不會整個在裡面）；拉把＝拉把的盒子
++seat_sel = lambda t: in_box(t, -0.14, 0.14, 0.295, 0.41, -0.26, 0.06)
++handle_sel = lambda t: in_box(t, -0.28, 0.28, 0.425, 0.495, 0.495, 0.565)
++
++PARTS = [  # (零件, 原型網格, 選法, 再分左右)
++    ('crank', 'gymb1_gym_bike_metal', crank_sel),
++    ('pedal', 'gymb1_gym_bike_vc', crank_sel),
++    ('seat_m', 'gymb1_gym_rower_metal', seat_sel),
++    ('seat_v', 'gymb1_gym_rower_vc', seat_sel),
++    ('handle', 'gymb1_gym_rower_vc', handle_sel),
++]
++pieces = {}   # 名字 → [(材質, P, N, C, T)]
++report = {}
++strip = {}    # 原型網格 → 要退化的三角形
++for key, mname, fn in PARTS:
++    p, A, T, _, _ = tri_data(mname); sel = select(mname, fn)
++    if not sel.any(): sys.exit(f'{key}：{mname} 裡找不到三角形（gym_b1.glb 已經拆過？用 --src）')
++    strip.setdefault(mname, np.zeros(len(T), bool)); strip[mname] |= sel
++    mat = J['materials'][p['material']]
++    def add(node, s):
++        sub = T[s]; used, inv = np.unique(sub.reshape(-1), return_inverse=True)
++        pieces.setdefault(node, []).append((mat, A['POSITION'][used].copy(), A['NORMAL'][used].copy(), A['COLOR_0'][used].copy(), inv.reshape(-1, 3).astype(np.uint16)))
++        report[node] = report.get(node, 0) + int(s.sum())
++    cx = A['POSITION'][T].mean(1)[:, 0]
++    if key == 'crank': add('gym_bike_crank', sel)
++    elif key == 'pedal': add('gym_bike_pedal_L', sel & (cx > 0)); add('gym_bike_pedal_R', sel & (cx < 0))
++    elif key in ('seat_m', 'seat_v'): add('gym_rower_seat', sel)
++    else: add('gym_rower_handle', sel)
++
++# 原點：曲柄軸、曲柄末端（原本的角度）、拉把中心
++def end(sx): a = CRANK0 + (0 if sx > 0 else math.pi); return (sx * 0.07, AXLE[1] + CRANK * math.cos(a), AXLE[2] + CRANK * math.sin(a))
++ORIGIN = {'gym_bike_crank': AXLE, 'gym_bike_pedal_L': end(1), 'gym_bike_pedal_R': end(-1), 'gym_rower_seat': (0, 0, 0), 'gym_rower_handle': HANDLE}
++# 檢查：踏板的中心真的在那一邊曲柄的末端附近（確定 CRANK0 的方向沒有弄反）
++for nd, sx in (('gym_bike_pedal_L', 1), ('gym_bike_pedal_R', -1)):
++    c = np.concatenate([q[1] for q in pieces[nd]]).mean(0); e = np.array(end(sx))
++    d = math.hypot(c[1] - e[1], c[2] - e[2]); assert d < 0.06, f'{nd} 中心 {c.round(3)} 離曲柄末端 {e.round(3)} {d:.3f} m：角度不對'
++    report[nd + '_center'] = [round(float(v), 3) for v in c]
++
++# ---- 寫 gym_moving_parts.glb ----
++oj = {'asset': {'version': '2.0', 'generator': 'gym_moving_parts.py (LAWWW2)', 'extras': {'note': 'GYM-FIT-PROPS-1103 第二包：從 gym_b1.glb 搬出來的會動零件；材質在遊戲裡換成 gym_b1.glb 同名的材質'}},
++      'scene': 0, 'scenes': [{'nodes': [0]}], 'nodes': [{'name': 'gym_moving_parts', 'children': []}], 'meshes': [], 'materials': [], 'accessors': [], 'bufferViews': [], 'buffers': []}
++ob = bytearray(); mat_ix = {}
++def put(arr, target=None):
++    global ob
++    while len(ob) % 4: ob += b'\0'
++    off = len(ob); ob += arr.tobytes(); bv = {'buffer': 0, 'byteOffset': off, 'byteLength': arr.nbytes}
++    if target: bv['target'] = target
++    oj['bufferViews'].append(bv); return len(oj['bufferViews']) - 1
++def accessor(arr, typ, ctype, target, mm=False):
++    a = {'bufferView': put(arr, target), 'componentType': ctype, 'count': len(arr), 'type': typ}
++    if mm: a['min'] = arr.min(0).tolist(); a['max'] = arr.max(0).tolist()
++    oj['accessors'].append(a); return len(oj['accessors']) - 1
++for nd in ('gym_bike_crank', 'gym_bike_pedal_L', 'gym_bike_pedal_R', 'gym_rower_seat', 'gym_rower_handle'):
++    prims = []
++    for mat, P, N, C, T in pieces[nd]:
++        if mat['name'] not in mat_ix: oj['materials'].append(json.loads(json.dumps(mat))); mat_ix[mat['name']] = len(oj['materials']) - 1
++        P = (P - np.array(ORIGIN[nd], np.float32)).astype(np.float32)
++        prims.append({'attributes': {'POSITION': accessor(P, 'VEC3', 5126, 34962, True), 'NORMAL': accessor(N.astype(np.float32), 'VEC3', 5126, 34962),
++                                     'COLOR_0': accessor(C.astype(np.float32), 'VEC3', 5126, 34962)},
++                      'indices': accessor(T.reshape(-1), 'SCALAR', 5123, 34963), 'material': mat_ix[mat['name']]})
++    oj['meshes'].append({'name': nd, 'primitives': prims})
++    oj['nodes'].append({'name': nd, 'mesh': len(oj['meshes']) - 1, 'translation': [float(v) for v in ORIGIN[nd]]})
++    oj['nodes'][0]['children'].append(len(oj['nodes']) - 1)
++while len(ob) % 4: ob += b'\0'
++oj['buffers'].append({'byteLength': len(ob)})
++
++def write_glb(path, J_, BIN_):
++    js = json.dumps(J_, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
++    while len(js) % 4: js += b' '
++    BIN_ = bytes(BIN_)
++    while len(BIN_) % 4: BIN_ += b'\0'
++    total = 12 + 8 + len(js) + 8 + len(BIN_)
++    with open(path, 'wb') as f:
++        f.write(struct.pack('<III', 0x46546C67, 2, total)); f.write(struct.pack('<II', len(js), 0x4E4F534A)); f.write(js)
++        f.write(struct.pack('<II', len(BIN_), 0x004E4942)); f.write(BIN_)
++write_glb(OUT, oj, ob)
++
++# ---- gym_b1.glb：那些三角形改成退化三角形 ----
++nstrip = 0
++for mname, s in strip.items():
++    p, A, T, ioff, idt = tri_data(mname)
++    T2 = T.copy(); T2[s, 1] = T2[s, 0]; T2[s, 2] = T2[s, 0]; nstrip += int(s.sum())
++    BIN[ioff:ioff + T2.nbytes] = T2.astype(idt).tobytes()
++J.setdefault('asset', {}).setdefault('extras', {})['gymMovingStripped'] = {'tris': nstrip, 'by': 'tools/blender/env_second/gym_moving_parts.py'}
++write_glb(DST, J, BIN)
++
++info = {'kind': 'gym_moving_parts', 'tris': report, 'stripped_from_gym_b1': nstrip, 'axle': AXLE, 'crank': CRANK, 'crank0': CRANK0, 'handle': HANDLE,
++        'note': '遊戲 src/gym3d.js gymMoving：曲柄繞 +x 轉（角度＝gymIK 的 g.ph − crank0）、踏板跟著曲柄末端、座椅照臀部的 z 滑、有人划船時藏拉把'}
++json.dump(info, open(OUT[:-4] + '.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
++print('OK', OUT, report, '退化', nstrip, '個三角形')
+diff --git a/tools/blender/env_second/lightbake/bake_gym.sh b/tools/blender/env_second/lightbake/bake_gym.sh
+index 1eab35aa6..14c6521b4 100644
+--- a/tools/blender/env_second/lightbake/bake_gym.sh
++++ b/tools/blender/env_second/lightbake/bake_gym.sh
+@@ -125,4 +125,6 @@ python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lm" "$OUTDIR/${NAME}
+ #   ②interior：高窗的亮度由遊戲的 gym 區域自己照時段調（見開頭）：extras.lightmap.dayEmit 拿掉（arena 留著）
+ python3 tools/blender/env_second/lightbake/glb_restore_sides.py "$OUTDIR/$NAME.glb" "$REF" $([ "$ZONE" = interior ] && echo --drop-dayemit)
+ cp "$TMP/lm.json" tools/blender/env_second/lightbake/${NAME}_lm.json
++# b1：飛輪的曲柄、踏板，划船機的座椅、拉把從器材的原型網格拿出來，寫成會動的零件 gym_moving_parts.glb（GYM-FIT-PROPS-1103 第二包；器材是 --nolm，不用重烘）
++[ "$ZONE" = b1 ] && python3 tools/blender/env_second/gym_moving_parts.py --dst "$OUTDIR/$NAME.glb" --out "$OUTDIR/gym_moving_parts.glb"
+ echo "done: $OUTDIR/$NAME.glb + ${NAME}_lm_day/night.webp"
