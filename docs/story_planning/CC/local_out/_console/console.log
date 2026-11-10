@@ -72,3 +72,11 @@
 [02:51:58] ==== START F24_classreal  (game @ fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114) ====
 [02:52:01] [res] cpu=4% mem=51% (16.3/31.4 GB) chrome_testing=8  START F24_classreal
 [02:53:54] [res] cpu=7% mem=47% (14.7/31.4 GB) chrome_testing=9  END F24_deploy
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b2430bbd2..4df68fa4a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[02:53:59] ==== END   F24_deploy  exit=0  458s   ====
+[02:54:03] memory 47% before starting F24_movie (2 running)
+[02:54:03] ==== START F24_movie  (probe @ fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114) ====
+[02:54:06] [res] cpu=9% mem=47% (14.8/31.4 GB) chrome_testing=9  START F24_movie
+[02:54:37] [res] cpu=1% mem=45% (14.0/31.4 GB) chrome_testing=8  END F24_classreal
