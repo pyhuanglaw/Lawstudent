@@ -1,104 +1,49 @@
-"""CC（帳號 A）11-04：麵店（公館燒臘，noodle 區域）出得去嗎（LAWWW 04:33：GG_ext_nav2「離開麵店回到公館」FAIL，測試把人瞬移到 (0,3.9) 站不住的格子）。
-  A 【前置／捷徑】讀檔：noodle 出生點 (0,3.5) 15:00（條件事件關閉）→ 不移動，看互動按鈕 → 按 #interact → 記按鈕字、按下後 E.player.busy、console 錯誤、zone 有沒有變（等 30 秒）。
-  B 真實流程：【前置／捷徑】讀檔：公館麵店門口南邊 → 走到「進入…」按門進麵店 → 走到「離開…」互動點 → 按 → 回到公館、站得住、搖桿推得動。
-  FAIL＝出不去（zone 一直是 noodle）或 JS 例外或卡住。
-用法：LW_TESTS=<wt>/tests [CASES=A,B] python3 cc_noodle_exit_probe.py <url> <out>"""
-import os, sys, json, asyncio, time
-sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
+"""CC（帳號 A）11-10：公館燒臘出得去嗎（BB 14:47；gongguan_layout_nav 在 noodle (0, 3.5) 量到 hidden 的「進入公館燒臘」、reach false）。
+真的走：【前置／捷徑】讀檔到 noodle（區域出生點，2025-10-18 12:30 營業中）→ 列 noodle 所有互動點 → 找 exit.to＝gongguan 的出口 → 點地面走過去 → 按鈕要是那個出口的字 → 按 → 回到公館、記站在哪、站得住。
+出得去＝測試座標過期；出不去＝P1 GAME_BUG。Playwright 手機模擬 ≠ iPhone。用法：LW_TESTS=<wt>/tests python3 cc_noodle_exit_probe.py <url> <out>"""
+import os, sys, json, asyncio
+sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import playlib as L
+import cc_d141_lib as D
 from playwright.async_api import async_playwright
-
-URL, OUT = sys.argv[1], sys.argv[2]
-CASES = [c.strip() for c in (os.environ.get('CASES') or 'A,B').split(',') if c.strip()]
+URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
+R = L.Run('noodle_exit', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
-FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True}
-FAILS = []; CONSOLE = []
-
-
-def check(name, ok, info=''):
-    print(('PASS ' if ok else 'FAIL ') + name + (('  ' + info) if info else ''), flush=True)
-    if not ok: FAILS.append(name)
-    return ok
-
-
-class Run:
-    def note(self, s): print('  ' + s, flush=True)
-    def check(self, n, ok, info=''): return check(n, ok, info)
-
-
-ST = """(()=>{ const G=GAME.G, P=GAME.E.player, p=P.obj.position, nv=GAME.E.nav; const b=document.getElementById('interact');
-  return {zone:G.zone, x:+p.x.toFixed(2), z:+p.z.toFixed(2), busy:!!P.busy, stand:nv?!!nv.free(p.x,p.z):null,
-    interact:b&&!b.classList.contains('hide')?(b.textContent||'').trim():null, dlg:!!(GAME.D&&GAME.D.active), depth:(GAME.D&&GAME.D.busyDepth)||0}; })()"""
-
-
-async def press_and_watch(pg, cdp, tag):
-    s0 = await pg.evaluate(ST); n0 = len(CONSOLE)
-    print('  %s 按之前：%s' % (tag, J(s0)), flush=True)
-    await pg.screenshot(path=os.path.join(OUT, '%s_before.png' % tag))
-    await L.tap(pg, cdp, '#interact')
-    seen = []; t0 = time.time()
-    while time.time() - t0 < 30:
-        await pg.wait_for_timeout(500); s = await pg.evaluate(ST); seen.append((round(time.time() - t0, 1), s['zone'], s['busy']))
-        if s['zone'] != s0['zone'] and not s['busy']: break
-    s = await pg.evaluate(ST)
-    await pg.screenshot(path=os.path.join(OUT, '%s_after.png' % tag))
-    print('  %s 按之後 30 秒內（秒, zone, busy）：%s' % (tag, J(seen[:12])), flush=True)
-    print('  %s console（按下以後）：%s' % (tag, J(CONSOLE[n0:n0 + 10])), flush=True)
-    return s0, s
+ITS = "(()=>(GAME.E.interactables||[]).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.2,lv:i.lv|0,hidden:!!i.hidden,to:i.exit?i.exit.to:null})))()"
+UI = """(()=>{ const ib=document.getElementById('interact'); const vis=e=>!!(e&&e.offsetParent!==null&&getComputedStyle(e).display!=='none');
+  const P=GAME.E.player.obj.position; return {zone:GAME.G.zone, x:+P.x.toFixed(2), z:+P.z.toFixed(2), fb:GAME.walkFallbacks|0, busy:!!GAME.E.player.busy, interact:vis(ib)?(ib.innerText||'').trim():'', stand:GAME.E.canStand?GAME.E.canStand(P.x,P.z,0.33,GAME.E.player.lv|0):null}; })()"""
 
 
 async def main():
-    os.makedirs(OUT, exist_ok=True)
+    real = os.popen('git -C "%s" rev-parse --short HEAD 2>/dev/null' % os.path.join(os.environ.get('LW_TESTS') or '.', '..')).read().strip()
+    print('CC 公館燒臘出口：worktree %s；Playwright ≠ iPhone' % (real or '?'), flush=True)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
-        pg.on('console', lambda m: CONSOLE.append(('%s %s' % (m.type, m.text))[:300]) if m.type in ('error', 'warning') else None)
-        await pg.goto(URL); check('遊戲載入', await L.wait_loaded(pg))
-        await pg.evaluate("localStorage.clear(); if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}")
-        base = {'hour': 15.0, 'day': 8, 'weekday': 2, 'weather': 'clear', 'flags': FLAGS}
-        if 'A' in CASES:
-            print('== A 出生點 (0,3.5) 直接按', flush=True)
-            print('  [前置／捷徑] 讀檔：noodle (0,3.5) 15:00、條件事件關閉', flush=True)
-            await L.load_state(pg, dict(base, zone='noodle', pos={'x': 0, 'z': 3.5, 'yaw': 0}), quiet_events=True); await pg.wait_for_timeout(6000); await L.close_panels(pg, cdp)
-            s0, s = await press_and_watch(pg, cdp, 'A')
-            check('A 出生點站得住', bool(s0['stand']), J(s0))
-            check('A 互動按鈕是「離開…」', (s0['interact'] or '').startswith('離開'), J(s0['interact']))
-            check('A 按下去以後回到公館（zone 改變）', s['zone'] == 'gongguan', J(s))
-            check('A 回到公館站得住、不 busy', s['zone'] == 'gongguan' and bool(s['stand']) and not s['busy'], J(s))
-        if 'B' in CASES:
-            print('== B 真實流程：公館走進麵店、走到出口按「離開」', flush=True)
-            print('  [前置／捷徑] 讀檔：公館人行道 (−63,15) 15:00、條件事件關閉', flush=True)
-            await L.load_state(pg, dict(base, zone='gongguan', pos={'x': -63, 'z': 15, 'yaw': 0}), quiet_events=True); await pg.wait_for_timeout(6000); await L.close_panels(pg, cdp)
-            its = await pg.evaluate("GAME.E.interactables.filter(i=>/^進入/.test(i.label||'')&&i.exit&&i.exit.to==='noodle').map(i=>({x:i.x,z:i.z,r:i.radius,label:i.label}))")
-            print('  往麵店的門：%s' % J(its), flush=True)
-            if not check('B 有往 noodle 的門', bool(its), J(its)):
-                await b.close(); print('FAILED'); sys.exit(1)
-            d = its[0]
-            check('B 走到門口', await L.go_to(pg, cdp, Run(), d['x'], d['z'], d['r'] * 0.7, d['label']))
-            await pg.wait_for_timeout(800); await L.tap(pg, cdp, '#interact')
-            for _ in range(60):
-                await pg.wait_for_timeout(500)
-                s = await pg.evaluate(ST)
-                if s['zone'] == 'noodle' and not s['busy']: break
-            s = await pg.evaluate(ST)
-            check('B 進到麵店', s['zone'] == 'noodle', J(s))
-            ex = await pg.evaluate("GAME.E.interactables.filter(i=>/^離開/.test(i.label||'')).map(i=>({x:i.x,z:i.z,r:i.radius,label:i.label}))")
-            print('  麵店出口：%s' % J(ex), flush=True)
-            if check('B 麵店有「離開…」互動點', bool(ex), J(ex)):
-                e = ex[0]
-                check('B 走到出口旁', await L.go_to(pg, cdp, Run(), e['x'], e['z'] - 0.6, 0.5, e['label']))
-                await pg.wait_for_timeout(800)
-                s0, s = await press_and_watch(pg, cdp, 'B')
-                check('B 互動按鈕是「離開…」', (s0['interact'] or '').startswith('離開'), J(s0['interact']))
-                check('B 按下去以後回到公館', s['zone'] == 'gongguan', J(s))
-                if s['zone'] == 'gongguan':
-                    s1 = await pg.evaluate(ST)
-                    await L.push_until(pg, cdp, 0, -40, 0.3)
-                    s2 = await pg.evaluate(ST)
-                    mv = ((s2['x'] - s1['x']) ** 2 + (s2['z'] - s1['z']) ** 2) ** 0.5
-                    check('B 回到公館站得住、搖桿推得動（≥0.3 m）', bool(s1['stand']) and mv >= 0.3, J({'before': s1, 'after': s2, 'moved': round(mv, 2)}))
-        check('沒有 JS 例外', not errs, J(errs[:3]))
+        await pg.goto(URL)
+        if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
+        R.setup('【前置／捷徑】讀檔到 noodle 出生點 2025-10-18 12:30')
+        await D.load_zone(pg, cdp, 'noodle', '2025-10-18', 12.5, wait=9000)
+        u = await pg.evaluate(UI); its = await pg.evaluate(ITS)
+        R.note('出生：%s' % J(u)); R.note('noodle 的互動點：%s' % J(its))
+        await pg.screenshot(path=os.path.join(OUT, 'noodle_spawn.png'))
+        ex = [i for i in its if i['to'] == 'gongguan' and not i['hidden']]
+        if not R.check('公館燒臘有看得到的出口（exit.to＝gongguan、沒有 hidden）', bool(ex), J(its)): await b.close(); print('FAILED', flush=True); return
+        e = ex[0]
+        ok = await L.go_to(pg, cdp, R, e['x'], e['z'], min(0.9, e['r'] * 0.8), '走到「%s」(%s, %s)' % (e['label'], e['x'], e['z']), max_s=120, lv=e['lv'])
+        for _ in range(8):
+            u = await pg.evaluate(UI)
+            if u['interact']: break
+            await pg.wait_for_timeout(500)
+        await pg.screenshot(path=os.path.join(OUT, 'noodle_at_exit.png'))
+        R.check('走到出口、按鈕是「%s」' % e['label'], bool(ok) and e['label'] in u['interact'], J(u))
+        await L.tap(pg, cdp, '#interact')
+        for _ in range(40):
+            await pg.wait_for_timeout(500); u = await pg.evaluate(UI)
+            if u['zone'] != 'noodle': break
+        await pg.wait_for_timeout(3000); u = await pg.evaluate(UI)
+        await pg.screenshot(path=os.path.join(OUT, 'noodle_back_gongguan.png'))
+        R.check('按下去回到公館、站得住、沒有卡住保險', u['zone'] == 'gongguan' and u['stand'] is not False and u['fb'] == 0, J(u))
+        R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
-    print('ALL PASS' if not FAILS else 'FAILED %d: %s' % (len(FAILS), '；'.join(FAILS)), flush=True)
-    sys.exit(1 if FAILS else 0)
-
+    print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True)
 asyncio.run(main())
