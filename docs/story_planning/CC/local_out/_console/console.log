@@ -539,3 +539,35 @@
 [17:39:41] ==== START ROMPRIV_old  (probe @ 13e84dc2703a340c1ad3ad7ae56ee3a763cce0d6) ====
 [17:39:44] [res] cpu=4% mem=48% (15.3/31.4 GB) chrome_testing=10  START ROMPRIV_old
 [17:42:42] [res] cpu=10% mem=48% (15.2/31.4 GB) chrome_testing=10  END ROMPRIV_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       76e565b6f..9ec46a331  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:42:48] ==== END   ROMPRIV_new  exit=0  284s   ====
+[17:42:51] skip L98E_b1court (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
+[17:42:51] skip L98E_reach (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
+[17:42:51] skip L98E_invphone (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
+[17:42:51] skip L98E_libfloors (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
+[17:42:51] skip L98E_zone (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
+[17:42:51] skip L98E_p0 (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
+[17:42:51] skip L98E_main12 (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
+[17:42:51] skip L492_invgo (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
+[17:42:51] skip L492_invphone (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
+[17:42:51] skip L492_libfloors (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
+[17:42:51] skip L492_p0 (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
+[17:42:51] skip L492_reach (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
+[17:42:51] skip L492_zone (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
+[17:42:51] skip L492_mini (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
+[17:42:51] skip L492_classreal (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
+[17:42:51] skip L492_main12 (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
+[17:42:51] skip L492_touch (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
+[17:42:51] skip NOASK_faf1 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
+[17:42:51] skip WZDAY_rp_1400 (already done on 8be828ca6427c544da0ec942209828066564adba)
+[17:42:51] skip WZDAY_rp_1930 (already done on 8be828ca6427c544da0ec942209828066564adba)
+[17:42:51] skip WZDAY_ct_moku_1400 (already done on 8be828ca6427c544da0ec942209828066564adba)
+[17:42:51] skip WZDAY_ct_moku_1930 (already done on 8be828ca6427c544da0ec942209828066564adba)
+[17:42:51] skip WZDAY_ct_tea_1400 (already done on 8be828ca6427c544da0ec942209828066564adba)
+[17:42:51] skip WZDAY_ct_tea_1930 (already done on 8be828ca6427c544da0ec942209828066564adba)
+[17:42:51] skip USAPT204b_old (already done on 07ce887a13d3aa3b743567b857dfd7b22e44a5b8)
+[17:42:51] skip USAPT204b_new (already done on c8af31018a9ce570422ad748aa277af842f8db37)
+[17:43:05] 正在跑：NOASK_faf1_r2（已跑 9 分／上限 40 分）、ROMPRIV_old（已跑 3 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:44:31] [res] cpu=11% mem=38% (11.9/31.4 GB) chrome_testing=4  END ROMPRIV_old
