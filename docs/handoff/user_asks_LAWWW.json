@@ -4415,6 +4415,15 @@
    "status": "進行中",
    "wants": "X317",
    "task": "LIFE-DETAILS-SEASONAL-1110"
+  },
+  {
+   "id": "UA-LAWWW-1110-94",
+   "at": "2026-11-10T20:5xZ",
+   "quote": "混合（選擇題「汀州路的騎樓要怎麼做？」：五間照概念圖直接臨人行道、沒有騎樓；其他老公寓店面保留騎樓）",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X322",
+   "task": "TINGZHOU-AREA-1110"
   }
  ]
 }
