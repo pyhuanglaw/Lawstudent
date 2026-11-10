@@ -3947,6 +3947,26 @@
    "status": "進行中",
    "task": "SOLO-LAWWW-B-1110",
    "src": "使用者對 LAWWW-B（AskUserQuestion）"
+  },
+  {
+   "id": "UA-LAWWW-1110-44",
+   "at": "2026-11-10T02:3xZ",
+   "quote": "總圖公告有兩個 一個漂浮",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X296",
+   "task": "LIB-BOARD-FLOAT-1110",
+   "src": "使用者對 LAWWW-B（附截圖）"
+  },
+  {
+   "id": "UA-LAWWW-1110-45",
+   "at": "2026-11-10T02:5xZ",
+   "quote": "總圖外的柱子會閃",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X297",
+   "task": "LIB-ARCADE-FLICKER-1110",
+   "src": "使用者對 LAWWW-B（附截圖；同一則問「總圖B1怎麼去」＝問題，已回答：門廳西牆的門，不用過閘門）"
   }
  ]
 }

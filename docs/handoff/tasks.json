@@ -51204,6 +51204,46 @@
    "next": "【11-10 02:0x 使用者選擇題】①電腦測試：LAWWW 排（GitHub 工具改 claude/cc-testing 的 queue.txt）、LAWWW 讀結果代判（標「LAWWW 代判」，BB 回來複核）②新台詞（說明頁、公告欄、約會中選項）等 AA 回來，只用 AA 已交的稿 ③先修使用者回報的問題：INV-GO-JUMP、INV-NOW-GOAL、BGN-AFTER-HOME、ATTEND-TIDY、HER-ASK-LATER-DAY、BUG-INV-GOASK-PERSIST；之後才接已交素材。不合併 main、不發布。",
    "evidence": "duty register LAWWW-B @ 60fbe977（11-10 01:54Z）",
    "sha": null
+  },
+  {
+   "id": "LIB-BOARD-FLOAT-1110",
+   "title": "總圖大廳「樓層簡介」看板兩個、一個浮在半空（使用者 11-10 X296）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一次進總圖",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-10 02:4x LAWWW-B】library_hall_v2.js 的樓層簡介：字（canvas 平面）加在 lv0 一直顯示、架子在 fb0（備用模型），正式 GLB 載入後換成 GLB 的架子——查 GLB 架子位置和 L.directory 是不是一樣、是不是有兩份；場景本來是 LAWWW2（D108），LAWWW2 不在由 LAWWW 修（SOLO-LAWWW-B-1110）。",
+   "evidence": "docs/handoff/user_shots/1110_library_board_float.webp",
+   "sha": null
+  },
+  {
+   "id": "LIB-ARCADE-FLICKER-1110",
+   "title": "總圖外面拱廊的柱子會閃（使用者 11-10 X297）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一次走到總圖",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【11-10 02:5x LAWWW-B】截圖 docs/handoff/user_shots/1110_library_arcade_flicker.webp（總圖一樓拱廊）。查：①CK.hall 拱廊柱、拱圈和正式 GLB 是不是同一個位置兩份面（z-fighting）②鏡頭碰撞淡出（fadeWalls）在柱子之間來回切 ③seeThrough 網點透空。場景本來是 LAWWW2（D108），LAWWW2 不在由 LAWWW 修。",
+   "evidence": "docs/handoff/user_shots/1110_library_arcade_flicker.webp",
+   "sha": null
   }
  ]
 }
