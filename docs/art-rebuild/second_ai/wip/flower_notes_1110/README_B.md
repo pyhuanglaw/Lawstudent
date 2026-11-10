@@ -1,6 +1,6 @@
 # 花序 Flower Notes 第 1 版・B 件＋GG-SHOPS3-ART-1110 公館三間外觀（LAWWW2 帳號 A 2026-11-10）
 
-patch：`flower_notes_v1b_gg_shops3.patch`。**要先套**：汀州路第 3 版（`wip/tingzhou_1110/tingzhou_v3_signs.patch`）→ 花序 A 件（`flower_notes_v1a.patch`）→ 這一件（這一件的底＝dev `a37b2ff61`＋那兩件；都動到 `wz_street.py`、`wz_shopkit.py`）。
+**（被退、已重交：見 `README_r2.md`，patch 換成 `gg_flowerB_gg3_ext_int_r2.patch`）** 原本的 patch：`flower_notes_v1b_gg_shops3.patch`。**要先套**：汀州路第 3 版（`wip/tingzhou_1110/tingzhou_v3_signs.patch`）→ 花序 A 件（`flower_notes_v1a.patch`）→ 這一件（這一件的底＝dev `a37b2ff61`＋那兩件；都動到 `wz_street.py`、`wz_shopkit.py`）。
 
 ## 內容
 | 項目 | 做了什麼 |

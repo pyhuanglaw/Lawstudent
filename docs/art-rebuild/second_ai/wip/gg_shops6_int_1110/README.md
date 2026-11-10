@@ -8,7 +8,7 @@
 | 泰米村食 | `tz_taimi`（汀州路） | **第 1 版已交** |
 | 洗樂洗衣坊 | `tz_xile`（汀州路） | **第 1 版已交** |
 | 印得好 | `tz_yindehao`（汀州路） | **第 1 版已交：`tz_shops_int_v1b_yindehao.patch`（套在泰米＋洗樂那一個後面）** |
-| 安泰藥局、汀州鮮果、榮恩典文具社 | `gg_antai`、`gg_xianguo`、`gg_rongendian`（公館） | **第 1 版已交：`tz_shops_int_v1c_gg3.patch`（套在前兩個後面）** |
+| 安泰藥局、汀州鮮果、榮恩典文具社 | `gg_antai`、`gg_xianguo`、`gg_rongendian`（公館） | **第 1 版已交：併在 `wip/flower_notes_1110/gg_flowerB_gg3_ext_int_r2.patch`** |
 
 ## 泰米村食 第 1 版（D141 1／3）
 **patch：`tz_shops_int_v1_taimi_xile.patch`（base＝dev `2a7edffd5`；泰米＋洗樂兩間一起，取代原本只有泰米的 `taimi_int_v1.patch`）**。泰米的部分：`index.html` 兩行、配置、區域、模型 `tz_taimi_interior.glb`（1.1 MB、1.6 萬三角形）、貼圖集 `tz_taimi_int_atlas.jpg`（牆上的菜色照片板、兩張街景照片，從參考圖裁）、測試、`zone_assets.js`、LICENSES。
@@ -56,7 +56,7 @@ patch `tz_shops_int_v1b_yindehao.patch`：**先套 `tz_shops_int_v1_taimi_xile.p
 `node tests/tz_shops_unit.js` 三間 ALL PASS。
 
 ## 公館三間 第 1 版（D141 1／3）：安泰藥局、汀州鮮果、榮恩典文具社
-patch `tz_shops_int_v1c_gg3.patch`：**依序套 `tz_shops_int_v1_taimi_xile.patch` → `tz_shops_int_v1b_yindehao.patch` → 這一個**。`LICENSES.md` 和花序 B 件（`flower_notes_v1b_gg_shops3.patch`）都在「花序室內」那一列後面加列，兩邊都套的時候那一檔可能要手動併；`zone_assets.js` 套完重跑 `node tools/gen_zone_assets.js`。
+**（11-10 23:0x 更新：這個 patch 併進 `wip/flower_notes_1110/gg_flowerB_gg3_ext_int_r2.patch` 了，原檔刪掉；見那邊的 README_r2.md）** 原本的 patch `tz_shops_int_v1c_gg3.patch`：**依序套 `tz_shops_int_v1_taimi_xile.patch` → `tz_shops_int_v1b_yindehao.patch` → 這一個**。`LICENSES.md` 和花序 B 件（`flower_notes_v1b_gg_shops3.patch`）都在「花序室內」那一列後面加列，兩邊都套的時候那一檔可能要手動併；`zone_assets.js` 套完重跑 `node tools/gen_zone_assets.js`。
 
 進出（不改 `zones3d.js`）：`src/tz_shops3d.js` 的 `hookOut` 包住 gongguan 的 build，在 G04／G08／G13 店門前（騎樓裡 z 21）加「進入＋店名」，出來站在門前人行道（z 18）；x 照實際的樓房位置。**如果花序 B 件還沒套，G04／G08／G13 門前中間還有一根騎樓柱**（B 件才拿掉），互動點在柱子後面 1.7 m，站得到、走得到，但畫面上門前有柱子。
 
