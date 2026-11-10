@@ -41,7 +41,7 @@ CW = 0.45                                        # 柱寬
 SHR = 4.0                                        # 樓梯間凸出屋頂的高度（出入口＋上面的水塔底座）
 BAL = 1.1                                        # 背面陽台深
 PLACE = (20.0, 68.0, math.pi)
-WALL, PAINT, BASE = '#d3cab8', '#e6e3db', '#8f8a82'
+WALL, PAINT, BASE = '#a9a7a1', '#bdbab3', '#8f8a82'   # NTU-REF-1110 ③：照片是灰色清水混凝土（原本米灰馬賽克 #d3cab8、灰白漆 #e6e3db）
 
 
 def tex_breeze(path):
@@ -89,7 +89,8 @@ def build():
     B.reset(texres=512)
     root = B.group('campus_male1', props={'kind': 'campus_male1'})
     M = {
-        'wall': L.pbr('m1_wall', 'rounded_square_tiled_wall', tile=1.0, target=WALL, sat=0.3, normal=0.6, maps=('diff', 'nor'), rough_value=0.8),
+        # NTU-REF-1110 ③（LAWWW2 帳號 A 11-10；X223／D136）：官網照片是灰色清水混凝土（樓梯塔開圓窗、正門水平混凝土雨遮）——外牆從小口馬賽克改成清水模（和博思的清水模同一張 socsci_formwork）
+        'wall': L.pbr('m1_wall', 'socsci_formwork', tile=2.4, sat=0.2, target=WALL, normal=0.45, maps=('diff', 'nor'), res=512, rough_value=0.85),
         'paint': L.pbr('m1_paint', 'painted_plaster_wall', tile=2.5, target=PAINT, sat=0.3, maps=('diff',), res=256, rough_value=0.9),   # 混凝土框架、窗框、雨遮、女兒牆壓頂、陽台
         'base': L.pbr('ck_stone_base', 'granite_tile_03', tile=1.2, target=BASE, maps=('diff',), res=256, rough_value=0.7),
         'ceil': L.flat('ck_ceiling', '#e2dccf', rough=0.95),
@@ -150,20 +151,26 @@ def build():
             elif (fl * 3 + j) % 4 == 1: ac(FRONT, u + 0.55, sill - 0.62)
         kit.wall_strip(FRONT, -W / 2, -PW2 - (0.45 if fl == 0 else 0.0), v0, v1, [h for h in hs if h['u'] < 0])
         kit.wall_strip(FRONT, PW2 + (0.45 if fl == 0 else 0.0), W / 2, v0, v1, [h for h in hs if h['u'] > 0])
-    # 樓梯間：鏤空花磚（d=0.06，在牆面和柱子正面之間）＋後面暗的樓梯間（d=−0.6）＋樓梯平台；兩側的牆厚（從牆面到裡面）
+    # 樓梯間（NTU-REF-1110 ③）：原本一整面鏤空花磚；官網照片的樓梯塔是清水混凝土牆、開圓窗。D136 不照抄：每層樓一個圓窗（在半層平台的高度）、屋頂出口再一個，大小一樣
     v_lo, v_hi = PH + 0.32, TOP + SHR - 1.2
-    bz = Mesh('m1_breeze', alpha_mat('m1_breeze', 'm1_breeze.png'))
     u0b, u1b = -PW2 + CW / 2, PW2 - CW / 2
-    kit.face(bz, [FRONT.p(u0b, v_lo, 0.06), FRONT.p(u1b, v_lo, 0.06), FRONT.p(u1b, v_hi, 0.06), FRONT.p(u0b, v_hi, 0.06)], FRONT.N,
-             uvs=[(u0b / 0.8, v_lo / 0.8), (u1b / 0.8, v_lo / 0.8), (u1b / 0.8, v_hi / 0.8), (u0b / 0.8, v_hi / 0.8)])
-    kit.fbox('misc', FRONT, -PW2, PW2, PH, v_hi, -0.62, -0.6, skip=('out', 'top', 'bottom', 'l', 'r'), col='#57534c')       # 樓梯間裡面（暗；遊戲內第一版 #3d3b37 從花磚看進去像一片黑網）
+    kit.face('wall', [FRONT.p(u0b, v_lo, 0.06), FRONT.p(u1b, v_lo, 0.06), FRONT.p(u1b, v_hi, 0.06), FRONT.p(u0b, v_hi, 0.06)], FRONT.N,
+             uvs=[(u0b / 2.4, v_lo / 2.4), (u1b / 2.4, v_lo / 2.4), (u1b / 2.4, v_hi / 2.4), (u0b / 2.4, v_hi / 2.4)])
     for s_ in (-1, 1): kit.fbox('paint', FRONT, s_ * PW2 - 0.01, s_ * PW2 + 0.01, PH, TOP, -0.6, 0.0, skip=('l',) if s_ < 0 else ('r',))   # 側牆的厚度
-    for k in range(NF):                                                                      # 樓梯平台（樓層、半層交錯）
-        for (yy, side) in ((YF[k] + 1.55, -1), (YF[k + 1] if k + 1 < NF else TOP, 1)):
-            if yy < PH + 0.3 or yy > TOP + 0.01: continue
-            a, b_ = (-PW2 + 0.01, 0.0) if side < 0 else (0.0, PW2 - 0.01)
-            kit.fbox('misc', FRONT, a, b_, yy - 0.15, yy, -0.6, -0.08, skip=('in',), col='#6f6c66')
-            kit.fbox('misc', FRONT, a, b_, yy, yy + 0.9, -0.3, -0.28, skip=('in',), col='#5e5b56')            # 平台的矮牆（暗一點：從花磚的洞看進去是樓梯間的陰影，不是一片白）
+    RW_, RF_, NS_ = 0.48, 0.09, 20                                                            # 圓窗半徑、窗框寬、分段
+    def round_win(vc):
+        ring = [(math.cos(2 * math.pi * i / NS_), math.sin(2 * math.pi * i / NS_)) for i in range(NS_)]
+        kit.cface('misc', [FRONT.p(RW_ * c, vc + RW_ * s2, 0.065) for (c, s2) in ring], FRONT.N, '#2e3538')        # 玻璃（暗）
+        for i in range(NS_):
+            (c0, s0), (c1, s1) = ring[i], ring[(i + 1) % NS_]
+            a0, a1 = (RW_ * c0, vc + RW_ * s0), (RW_ * c1, vc + RW_ * s1)
+            b0, b1 = ((RW_ + RF_) * c0, vc + (RW_ + RF_) * s0), ((RW_ + RF_) * c1, vc + (RW_ + RF_) * s1)
+            kit.face('paint', [FRONT.p(a0[0], a0[1], 0.16), FRONT.p(b0[0], b0[1], 0.16), FRONT.p(b1[0], b1[1], 0.16), FRONT.p(a1[0], a1[1], 0.16)], FRONT.N)   # 窗框正面（凸出 10 cm）
+            cw_, mw_ = FRONT.p(0.0, vc, 0.11), FRONT.p((a0[0] + a1[0]) / 2, (a0[1] + a1[1]) / 2, 0.11)
+            kit.face('paint', [FRONT.p(a0[0], a0[1], 0.06), FRONT.p(a1[0], a1[1], 0.06), FRONT.p(a1[0], a1[1], 0.16), FRONT.p(a0[0], a0[1], 0.16)], tuple(cw_[i] - mw_[i] for i in range(3)))   # 窗框內緣（法線朝圓心）
+    for k in range(1, NF): round_win(YF[k] + 1.55)
+    round_win(TOP + 1.4)
+
     # 露明的混凝土框架：柱子（外凸 0.12，到女兒牆頂）、每層的水平帶（外凸 0.09）
     for u in COLS:
         kit.fbox('paint', FRONT, u - CW / 2, u + CW / 2, 0.0 if abs(abs(u) - PW2) > 0.1 else PH, TOP + PAR + 0.08, 0.0, 0.12, skip=('in', 'bottom'))
@@ -303,7 +310,6 @@ def build():
 
     # ================= 完成 =================
     K.finish(accs, root, VC)
-    bz.finish(root, uv=False)
     for (m_, props) in plates: uv01(m_.finish(root, uv=True, props=props))
     VCM = L.vc_material('wz_vc_m1', rough=0.6)
     L.vc_consolidate(root, {n: VCM for n in ('m1_misc', 'm1_cloth', 'ck_ceiling', 'ck_frame', 'm1_roof')})

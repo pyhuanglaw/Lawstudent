@@ -1,11 +1,11 @@
 {
- "objects": 8,
- "unique_meshes": 8,
- "tris": 12856,
- "tris_drawn": 12856,
- "materials": 13,
+ "objects": 7,
+ "unique_meshes": 7,
+ "tris": 13184,
+ "tris_drawn": 13184,
+ "materials": 12,
  "out": "assets/models/env/second_ai/campus_male1.glb",
- "bytes": 1176300,
+ "bytes": 1082008,
  "texres": 512,
  "note": "依文字資料的遊戲化設計（沒有照片）；地上 5 層（AA-C 10-21 裁定 J1：房號 507；真實的男一舍是 4 層）；本體、門廊位置照 CK.hall，導航不用改"
 }
