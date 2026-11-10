@@ -51980,7 +51980,7 @@
    "id": "US-CLUBHOUSE-3D-1110",
    "title": "美國會所交誼廳、自習室做 3D（目前 2D；自習、何俊朗平日 19～22、週四學姊、烤肉、晚餐）",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -51992,7 +51992,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW 11-10 16:5x】接 LAWWW2 212f42660：新區域 us_clubhouse_in（門廳、交誼廳 10×8、自習室 8×6，38 座位）＋us_clubhouse.glb＋窗景 16 張；us_clubhouse_unit ALL PASS、相關回歸全過。劇情接線 LAWWW 做（門口 exit、自習座位、何俊朗招呼、學姊坐旁邊／外套、五場事件）；截圖 CC、ART BB。 ｜ 【LAWWW 11-10 14:4x】AA_741（bd4f5df43）規格到：門廳＋交誼廳 10×8＋自習室 8×6；已轉 LAWWW2（排在教室之後），劇情接線 LAWWW。 ｜ 【LAWWW 11-10 14:4x】LAWWW2 建議第二。",
+   "next": "【LAWWW 11-10 17:3x】劇情接線已整合（f367eab5e）：門口進 3D、自習室讀書、何俊朗、學姊（交往中／挽回中）、住戶、五場 3D 事件；us_clubhouse_story_unit＋114 支回歸全過。待 AA 確認：熱可可第二句寫「自習室窗邊」但 AA_741 寫交誼廳沙發。PARTIAL：12/14 沒去晚餐那晚學姊、何俊朗照平常作息。下一版。 ｜ 【LAWWW 11-10 16:5x】接 LAWWW2 212f42660：新區域 us_clubhouse_in（門廳、交誼廳 10×8、自習室 8×6，38 座位）＋us_clubhouse.glb＋窗景 16 張；us_clubhouse_unit ALL PASS、相關回歸全過。劇情接線 LAWWW 做（門口 exit、自習座位、何俊朗招呼、學姊坐旁邊／外套、五場事件）；截圖 CC、ART BB。 ｜ 【LAWWW 11-10 14:4x】AA_741（bd4f5df43）規格到：門廳＋交誼廳 10×8＋自習室 8×6；已轉 LAWWW2（排在教室之後），劇情接線 LAWWW。 ｜ 【LAWWW 11-10 14:4x】LAWWW2 建議第二。",
    "xai": {
     "spec": "企劃線 bd4f5df43 docs/story_planning/AA_741_美國會所3D_交誼廳自習室.md＋docs/art-rebuild/second_ai/us_scene_gap_1110.md",
     "branch": "claude/second-ai-env-art",
@@ -52000,7 +52000,7 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "sha": "212f42660"
+   "sha": "f367eab5e"
   },
   {
    "id": "US-LONG-3D-1110",
