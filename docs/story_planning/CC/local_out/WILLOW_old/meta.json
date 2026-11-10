@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "WILLOW_old",
+  "sha": "99294fead8c3cd1350625007c8e8a72e0cbf1e47",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_x223_shots_probe.py",
+  "env": "TAG=willow_old;VIEWS=lake_north:-35:1.7:-127:-35:2.5:-108+lake_south:-35:1.7:-95:-35:2.5:-115+lake_bird:-35:45:-99:-35:0:-111",
+  "machine": "MSI",
+  "start": "2026-11-10T23:04:09",
+  "end": "2026-11-10T23:05:44",
+  "seconds": 94,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "6",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 19,
+    "mem": 55,
+    "used_gb": 17.6,
+    "chrome_testing": 9
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
