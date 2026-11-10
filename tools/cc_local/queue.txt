@@ -1799,7 +1799,7 @@ MONEY_8677_xinci | 8677568a378f133e45179f251f37f9dfa75943e6 | probe | docs/story
 NOASK_faf1 | faf1b75a4081a575d797a90f8cbe7fca8a087b58 | probe | docs/story_planning/test_tools/cc/cc_noask_probe.py | index.html | 240 | X=1
 # CC-B 11-10 01:0x（BB-B 01:01）：BUG-GREET-NOCLASS-1110 以安週日／同週週三／平日國定假日連按招呼 12 次；舊版 968bd311f^ 對照
 GREET_968b_new | 968bd311f878693a984103ae6deb3bd24c30c52f | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01;STEPS=greetn;ROSTER=0
-GREET_968b_old | 968bd311f^ | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01;STEPS=greetn;ROSTER=0
+GREET_968b_old | 97b2e03c353b3dcd68b27ec76042f8bfc035b2e3 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01;STEPS=greetn;ROSTER=0
 WW3B_old_day | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_planning/test_tools/cc/cc_wallfade_walls_probe.py | index.html | 20 | ZONES=corner_records:@-3.3@-0.05@270,wz_print:@-0.2@-3.8@180;DIST=4.5;HOUR=14;TAG=oldday
 WW3T_old_day | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_planning/test_tools/cc/cc_wallfade_walls_probe.py | index.html | 20 | ZONES=wz_teahouse:@3.65@-4.00@15;DIST=4.0;HOUR=14;TAG=oldday
 WW3B_old_night | 1827999fb488a30bdaccedaa1561697b3266a498 | probe | docs/story_planning/test_tools/cc/cc_wallfade_walls_probe.py | index.html | 20 | ZONES=corner_records:@-3.3@-0.05@270,wz_print:@-0.2@-3.8@180;DIST=4.5;HOUR=21;TAG=oldnight
