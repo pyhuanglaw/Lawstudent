@@ -266,6 +266,21 @@
    "file": "x223_new_gongtong_wide.png"
   },
   {
+   "what": "gongtong",
+   "view": "gongtong_air",
+   "from": [
+    0.7,
+    32.51,
+    2.16
+   ],
+   "at": [
+    0.7,
+    0.5,
+    28.75
+   ],
+   "file": "x223_new_gongtong_air.png"
+  },
+  {
    "what": "lake",
    "view": "lake_front",
    "from": [
@@ -294,6 +309,21 @@
     -111.0
    ],
    "file": "x223_new_lake_wide.png"
+  },
+  {
+   "what": "lake",
+   "view": "lake_air",
+   "from": [
+    -35.1,
+    35.31,
+    -82.11
+   ],
+   "at": [
+    -35.1,
+    0.5,
+    -111.0
+   ],
+   "file": "x223_new_lake_air.png"
   }
  ]
 }

@@ -1667,3 +1667,11 @@
 [22:04:35] ==== START X223SHOT_new  (probe @ 48aa47a5b71453a04c983e3185201640d2f9449c) ====
 [22:04:38] [res] cpu=6% mem=46% (14.7/31.4 GB) chrome_testing=9  START X223SHOT_new
 [22:05:34] [res] cpu=5% mem=50% (15.7/31.4 GB) chrome_testing=9  END OFFBEAT_ang_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       49ee7479b..9ad161057  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:05:40] ==== END   OFFBEAT_ang_old  exit=0  103s   ====
+[22:05:43] memory 51% before starting X223SHOT_old (2 running)
+[22:05:43] ==== START X223SHOT_old  (probe @ 74da28ca942cbe1e00f033903b3778a9ccaacca1) ====
+[22:05:46] [res] cpu=12% mem=50% (16.0/31.4 GB) chrome_testing=9  START X223SHOT_old
+[22:06:19] [res] cpu=14% mem=41% (13.0/31.4 GB) chrome_testing=4  END X223SHOT_new
