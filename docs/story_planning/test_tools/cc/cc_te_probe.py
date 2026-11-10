@@ -75,6 +75,7 @@ DRAFT_FILES = {'gf': 'AA_749_termend_gf_v2.json', 'kx': 'AA_749_termend_kx_v2.js
 def load_drafts():
     out, src = {}, {}
     dd = os.environ.get('DRAFT_DIR')
+    if dd and not os.path.isabs(dd): dd = os.path.join(HERE, dd)   # PC 佇列：DRAFT_DIR=fixtures/te_drafts（CC 從企劃線抄的三份稿，SOURCE_SHA.txt 寫哪一版）
     if dd:
         for k, f in DRAFT_FILES.items():
             out[k] = json.load(open(os.path.join(dd, f), encoding='utf-8')); src[k] = 'DRAFT_DIR ' + os.path.join(dd, f)
