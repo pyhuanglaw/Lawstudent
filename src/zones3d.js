@@ -334,7 +334,8 @@ const Z3 = (function(){
       box(C.x1,C.x1+T,Y,0,C.z0-T,C.z1+T,wM,true);                         // 東牆
       box(C.x0-T,C.x0,Y,0,C.st1,C.z1+T,wM,true);                          // 西牆（北邊是樓梯口）
       const D=C.door; box(C.x0-T,D.x-D.w/2,Y,0,C.z1,C.z1+T,wM,true); box(D.x+D.w/2,C.x1+T,Y,0,C.z1,C.z1+T,wM,true); box(D.x-D.w/2,D.x+D.w/2,Y+D.h,0,C.z1,C.z1+T,wM,true);   // 南牆（靠總圖）：中間 B1 的門
-      { const dm=new THREE.MeshStandardMaterial({color:0x4b5966,roughness:0.15,metalness:0.3,transparent:true,opacity:0.8}); box(D.x-D.w/2,D.x+D.w/2,Y,Y+D.h,C.z1+0.12,C.z1+0.18,dm,true); box(D.x-0.03,D.x+0.03,Y,Y+D.h,C.z1+0.1,C.z1+0.2,railM); }   // 玻璃門
+      { const dm=new THREE.MeshStandardMaterial({color:0x4b5966,emissive:0x8fa6b8,emissiveIntensity:0.35,roughness:0.15,metalness:0.3,transparent:true,opacity:0.85});   /* 玻璃門透出一點 B1 的燈（晚上看得出是入口；GPU 截圖 L98E_b1court 晚上太暗）*/ box(D.x-D.w/2,D.x+D.w/2,Y,Y+D.h,C.z1+0.12,C.z1+0.18,dm,true); box(D.x-0.03,D.x+0.03,Y,Y+D.h,C.z1+0.1,C.z1+0.2,railM); }   // 玻璃門
+      { const lm=new THREE.MeshStandardMaterial({color:0xfff4dc,emissive:0xfff1d6,emissiveIntensity:1.2}); box(D.x-0.35,D.x+0.35,Y+D.h+0.85,Y+D.h+0.95,C.z1-0.18,C.z1,lm); const pl=new THREE.PointLight(0xfff1d6,7,10,2); pl.position.set(D.x,Y+D.h+0.6,C.z1-1.0); g.add(pl); }   // 門上的壁燈（地下中庭晚上很暗）
       { const sg=new THREE.Mesh(new THREE.PlaneGeometry(2.4,0.42),new THREE.MeshBasicMaterial({map:TK.signTex('總圖書館 B1　24 小時自習室',{bg:'#24303a',color:'#f3efe4'})})); sg.position.set(D.x,Y+D.h+0.45,C.z1-0.02); sg.rotation.y=Math.PI; g.add(sg); }
       for(let k=0;k<Math.round(C.dep/0.175);k++){ const xa=C.stx-(k+1)*C.tread, xb=C.stx-k*C.tread, top=Y+(k+1)*0.175; if(top>-0.01) continue; box(xa,xb,Y,top,C.st0,C.st1,wM); }   // 台階（畫面上一階一階，和導航 visualHeightAt 同一個算法：低的那端在 stx）
       for(const [x0,x1,z0,z1] of [[C.x0-T,C.x1+T,C.z0-T,C.z0],[C.x1,C.x1+T,C.z0-T,C.z1+T],[C.x0-T,C.x0,C.st1,C.z1+T],[C.x0-T,C.x1+T,C.z1,C.z1+T]]){   // 地面那一圈：石砌矮牆（0.5 m，就是擋土牆往上）＋細的金屬扶手和立柱（樓梯口不擋）
