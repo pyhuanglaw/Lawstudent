@@ -6174,6 +6174,23 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "noDirectIntegrate": false
+  },
+  {
+   "task": "GIFT-HOLIDAY-1110",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_732_gift_holiday_1.json",
+    "docs/story_planning/00_現行設定總表.md",
+    "docs/story_planning/00_人物口氣表.md"
+   ],
+   "state": "WIP",
+   "at": "2026-11-10",
+   "unfinished": "第二批 AA_733（以安、芷若、語彤、子晴、沛珊、可昕、芯慈的反應）、第三批 AA_734（她送祐廷的禮物、門檻、文具區劇情）還沒交",
+   "next": "LAWWW 先做系統：店家買禮物、包包、節日送禮（規則照 AA_732 rules）；學姊反應可以先接",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false
   }
  ],
  "items": [
