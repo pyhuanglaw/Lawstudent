@@ -3642,6 +3642,26 @@
    "wants": "X276",
    "task": "SIS-STATIONERY-1110",
    "src": "使用者對 LAWWW-B（人物設定：學姊喜歡文具＝使用者定）"
+  },
+  {
+   "id": "UA-LAWWW-1110-13",
+   "at": "2026-11-10T00:5xZ",
+   "quote": "應該要各個店都有東西可以買 選幾個特殊日子 聖誕節 情人節 生日 可以送禮? 不占那個時間一件事的slot 但同個節日除了生日應該只能送兩個人禮物",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X277",
+   "task": "GIFT-HOLIDAY-1110",
+   "src": "使用者對 LAWWW-B（接 X276 學姊文具）"
+  },
+  {
+   "id": "UA-LAWWW-1110-14",
+   "at": "2026-11-10T00:5xZ",
+   "quote": "（選擇題「送禮對象」）只有可以攻略的對象（建議）",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X277",
+   "task": "GIFT-HOLIDAY-1110",
+   "src": "使用者對 LAWWW-B，AskUserQuestion"
   }
  ]
 }
