@@ -8,6 +8,9 @@
   1. 照 three.js＋attachRoomGLB 的規則算每個 WALL_ 網格的淡出參數，在 400 組鏡頭／玩家位置下算它顯示或藏（lm_fade_reveal_check.scene）。
   2. 每個有第二套 UV 的三角形，在光照貼圖上逐格（格子中心）算出世界座標。「被蓋住」＝
      (a) 沿法線往外 contact（預設 2 cm）內碰到另一個 WALL_ 網格，或 (b) 這一點在另一個 WALL_ 網格的實心裡（沿法線、沿另一個方向打線，碰到的面數都是單數）；
+     或 (c) 朝上的面（地板），往上碰到一個「落地的」WALL_ 網格（它最低點離這個面 ≤ 5 cm）：落地的櫃子、唱片櫃、木櫃常常沒有底面，
+         往上打線先碰到離地十幾公分的層板，(a)(b) 都抓不到（11-09 #204 第二批：轉角唱片左牆唱片櫃、阿德後牆木櫃底下的地板是 0，BB-B 雲端看到一條暗帶；
+         CC 把 WALL_ 全藏也一樣暗＝地板自己暗）。只掛在牆上的層板、吊櫃（最低點高過地板）底下照得到光，不算。--no-floor 關掉 (c)；
      而且至少有一組鏡頭／玩家位置是「這個面顯示、朝著鏡頭，蓋住它的網格藏起來」（不會露出來的不動）。
   3. 被蓋住的格子：從同一個網格、沒被蓋住的相鄰格子往裡面一圈一圈補（8 鄰格平均）；整塊島都被蓋住的（門板朝牆那一面），用這個網格沒被蓋住的格子的中位數。
      邊界外 4 格的留邊（烘焙的 margin，雙線性取樣會用到）照新的值重新往外擴。
@@ -56,7 +59,7 @@ def hit_min_count(P, d, tris, budget=2_000_000):
     return mins, cnt
 
 
-def covered(glb, H, W, CONTACT=0.02):
+def covered(glb, H, W, CONTACT=0.02, FLOOR=None, info=None):
     """光照貼圖 W×H 上：objmap（每一格屬於哪個網格，-1＝留邊）、cov（被 WALL_ 網格蓋住、會露出來的格子）、stats（（網格、蓋住它的）：格數）。測試也用。"""
     SC = scene(glb, 400); objs, walls, cam = SC['objs'], SC['walls'], SC['cam']
     objmap = np.full((H, W), -1, np.int32)
@@ -64,6 +67,10 @@ def covered(glb, H, W, CONTACT=0.02):
     stats = {}
     wbox = [(o['P'].min(0) - CONTACT, o['P'].max(0) + CONTACT) for o in walls]
     wtris = [o['P'][o['I']] for o in walls]
+    if FLOOR is None: FLOOR = '--no-floor' not in sys.argv
+    wlo = [o['P'][:, 1].min() for o in walls]   # 規則 (c)：WALL_ 網格的最低點（落地的＝貼著這個面）
+    if info is not None:   # 站位用（CC 拍照）：每一個被蓋住的格子的世界座標、蓋住它的 WALL_ 名字、那面牆朝哪裡
+        info['pos'] = np.zeros((H, W, 3), np.float32); info['by'] = np.full((H, W), -1, np.int32); info['rc'] = np.zeros((H, W), bool); info['walls'] = [(o['name'], o['wall']['dir'].tolist()) for o in walls]   # rc：只因規則 (c) 才算被蓋住
     d2s = np.array([[0.0, 1.0, 0.0], [1.0, 0.0, 0.0]])
     for ri, o in enumerate(objs):
         if o['U'] is None: continue
@@ -89,33 +96,27 @@ def covered(glb, H, W, CONTACT=0.02):
             cand = [k for k, (lo, hi) in enumerate(wbox) if walls[k] is not o and np.all(tmx[t] >= lo) and np.all(tmn[t] <= hi) and np.any(rvis & facing & ~walls[k]['wall']['vis'])]
             if not cand: continue
             P = np.c_[w0[m], w1[m], w2[m]] @ T[t] + N[t] * 1e-4
-            c = np.zeros(len(P), bool); by = np.full(len(P), -1)
+            c = np.zeros(len(P), bool); by = np.full(len(P), -1); base_any = np.zeros(len(P), bool); c_any = np.zeros(len(P), bool)
             for k in cand:
                 tr = wtris[k]
                 dmin, n1 = hit_min_count(P, N[t], tr)
                 a = (dmin <= CONTACT)
+                ac = np.isfinite(dmin) if (FLOOR and N[t][1] > 0.9 and wlo[k] <= P[:, 1].min() + 0.05) else np.zeros(len(P), bool)   # (c) 地板在落地的 WALL_ 網格底下
                 d2 = d2s[0] if abs(N[t][1]) < 0.9 else d2s[1]
                 n2 = hit_min_count(P, d2, tr)[1]
                 inside = (n1 % 2 == 1) & (n2 % 2 == 1)
-                hit = (a | inside) & ~c; by[hit] = k; c |= a | inside
+                hit = (a | ac | inside) & ~c; by[hit] = k; c |= a | ac | inside; base_any |= a | inside; c_any |= ac
             if c.any():
                 cov[gy[c], gx[c]] = True
+                if info is not None: info['pos'][gy[c], gx[c]] = P[c]; info['by'][gy[c], gx[c]] = by[c]; info['rc'][gy[c], gx[c]] = (c_any & ~base_any)[c]
                 for k in np.unique(by[c]):
                     key = (o['name'], walls[k]['name']); stats[key] = stats.get(key, 0) + int((by[c] == k).sum())
     return objmap, cov, stats
 
 
-def main():
-    args = [a for a in sys.argv[1:] if not a.startswith('--') and a not in (opt('--out', '__'), str(opt('--contact', 0.02)))]
-    glb, ims = args[0], args[1:]
-    out = opt('--out', ''); dry = '--dry' in sys.argv; CONTACT = opt('--contact', 0.02)
-    imgs = [np.asarray(Image.open(p).convert('RGB'), dtype=np.float32) for p in ims]
-    H, W = imgs[0].shape[:2]
-    objmap, cov, stats = covered(glb, H, W, CONTACT)
-    owned = objmap >= 0
-    print(f'{glb}：光照貼圖 {W}×{H}，屬於網格的格子 {owned.sum()}，被蓋住、會露出來的 {cov.sum()} 格（{100 * cov.sum() / max(owned.sum(), 1):.2f}%）')
-    for (r, k), n in sorted(stats.items(), key=lambda x: -x[1])[:25]: print(f'  {r} ← {k}：{n} 格')
-    if dry or not cov.any(): return stats
+def fill(imgs, objmap, cov):
+    """第 3 步（main 和 #204 掃描腳本共用）：補被蓋住的格子＋留邊重算。回傳 (補好的圖, 圈數, 用中位數的格數, 留邊重算的格數)"""
+    H, W = objmap.shape; owned = objmap >= 0
     # 3. 補：同一個網格、沒被蓋住的相鄰格子往裡面補
     nb = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
     def shift(a, dy, dx, fill):
@@ -148,7 +149,22 @@ def main():
         upd = near & ~have & (cnt > 0)
         for a, im in zip(acc, outs): im[upd] = a[upd] / cnt[upd][:, None]
         have |= upd
-    print(f'  補了 {int(cov.sum())} 格（一圈一圈補 {it} 圈；整塊被蓋住用中位數 {rest} 格）；留邊重算 {int((near & have).sum())} 格')
+    return outs, it, rest, int((near & have).sum())
+
+
+def main():
+    args = [a for a in sys.argv[1:] if not a.startswith('--') and a not in (opt('--out', '__'), str(opt('--contact', 0.02)))]
+    glb, ims = args[0], args[1:]
+    out = opt('--out', ''); dry = '--dry' in sys.argv; CONTACT = opt('--contact', 0.02)
+    imgs = [np.asarray(Image.open(p).convert('RGB'), dtype=np.float32) for p in ims]
+    H, W = imgs[0].shape[:2]
+    objmap, cov, stats = covered(glb, H, W, CONTACT)
+    owned = objmap >= 0
+    print(f'{glb}：光照貼圖 {W}×{H}，屬於網格的格子 {owned.sum()}，被蓋住、會露出來的 {cov.sum()} 格（{100 * cov.sum() / max(owned.sum(), 1):.2f}%）')
+    for (r, k), n in sorted(stats.items(), key=lambda x: -x[1])[:25]: print(f'  {r} ← {k}：{n} 格')
+    if dry or not cov.any(): return stats
+    outs, it, rest, nre = fill(imgs, objmap, cov)
+    print(f'  補了 {int(cov.sum())} 格（一圈一圈補 {it} 圈；整塊被蓋住用中位數 {rest} 格）；留邊重算 {nre} 格')
     for p, im, o0 in zip(ims, outs, imgs):
         dst = os.path.join(out, os.path.basename(p)) if out else p
         Image.fromarray(np.clip(im + 0.5, 0, 255).astype(np.uint8)).save(dst, quality=90, method=6)
