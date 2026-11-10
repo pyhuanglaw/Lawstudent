@@ -328,8 +328,9 @@ WILLOW_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_plann
 # 1 releasegate：X304 出去玩（冷淡期新舊對照）、X290 一鍵前往
 W24_outing | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 30 | TAG=w24
 W24_outing_old | 70e23b32c1b1f02e0b450ea7c0dde4426d4d799c | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 15 | TAG=w24old;CASES=COOL
+W24_outing_r3 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 20 | TAG=w24r3;CASES=R15
 W24_invgo | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/flow_inv_go_jump.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
-W24_invgo_real | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_invgo_real_probe.py | index.html | 20 | 
+W24_invgo_real | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_invgo_real_probe.py | index.html | 20 | RERUN=r3
 # 2 發布前回歸——BB 17:37（X314 海報到齊才發）：先 HOLD，等最後一個候選再一起跑（已經在跑的跑完就好）
 #HOLD W24_deploy | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
 #HOLD W24_p0 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
