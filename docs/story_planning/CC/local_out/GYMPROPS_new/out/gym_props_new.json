@@ -1,0 +1,442 @@
+[
+ {
+  "act": "curl",
+  "hour": 10.0,
+  "use": {
+   "using": "db_rack_1",
+   "pose": "gym_curl",
+   "x": -9.55,
+   "z": 12.35,
+   "y": 0,
+   "yaw": 0,
+   "dlg": true
+  },
+  "props": {
+   "pose": "gym_curl",
+   "gymPose": "gym_curl",
+   "isFar": false,
+   "loaded": true,
+   "failed": 0,
+   "lh": [
+    -9.395,
+    0.929,
+    12.553
+   ],
+   "rh": [
+    -9.705,
+    1.182,
+    12.658
+   ],
+   "mid": [
+    -9.55,
+    1.056,
+    12.606
+   ],
+   "props": [
+    {
+     "name": "gymProp:dd0",
+     "vis": true,
+     "meshes": [
+      "gym_dumbbell__chrome",
+      "gym_dumbbell__grip",
+      "gym_dumbbell__rubber"
+     ],
+     "pos": [
+      -9.396,
+      0.897,
+      12.576
+     ],
+     "axis": [
+      0.248,
+      -0.493,
+      -0.834
+     ],
+     "dL": 0.04,
+     "dR": 0.429,
+     "dMid": 0.223,
+     "perpL": 0.04,
+     "perpR": 0.32,
+     "alongL": 0.004,
+     "alongR": -0.286
+    },
+    {
+     "name": "gymProp:dd1",
+     "vis": true,
+     "meshes": [
+      "gym_dumbbell__chrome",
+      "gym_dumbbell__grip",
+      "gym_dumbbell__rubber"
+     ],
+     "pos": [
+      -9.703,
+      1.19,
+      12.697
+     ],
+     "axis": [
+      -0.477,
+      -0.873,
+      0.098
+     ],
+     "dL": 0.429,
+     "dR": 0.04,
+     "dMid": 0.224,
+     "perpL": 0.423,
+     "perpR": 0.04,
+     "alongL": 0.067,
+     "alongR": 0.004
+    }
+   ]
+  },
+  "info": []
+ },
+ {
+  "act": "press",
+  "hour": 10.0,
+  "use": {
+   "using": "bench_1",
+   "pose": "gym_press",
+   "x": -10.6,
+   "z": 10,
+   "y": 0,
+   "yaw": 0,
+   "dlg": true
+  },
+  "props": {
+   "pose": "gym_press",
+   "gymPose": "gym_press",
+   "isFar": false,
+   "loaded": true,
+   "failed": 0,
+   "lh": [
+    -10.299,
+    1.192,
+    10.297
+   ],
+   "rh": [
+    -10.899,
+    1.189,
+    10.303
+   ],
+   "mid": [
+    -10.599,
+    1.191,
+    10.3
+   ],
+   "props": [
+    {
+     "name": "gymProp:dd0",
+     "vis": true,
+     "meshes": [
+      "gym_dumbbell__chrome",
+      "gym_dumbbell__grip",
+      "gym_dumbbell__rubber"
+     ],
+     "pos": [
+      -10.308,
+      1.23,
+      10.303
+     ],
+     "axis": [
+      0.938,
+      0.165,
+      -0.305
+     ],
+     "dL": 0.04,
+     "dR": 0.593,
+     "dMid": 0.294,
+     "perpL": 0.04,
+     "perpR": 0.191,
+     "alongL": 0.004,
+     "alongR": -0.561
+    },
+    {
+     "name": "gymProp:dd1",
+     "vis": true,
+     "meshes": [
+      "gym_dumbbell__chrome",
+      "gym_dumbbell__grip",
+      "gym_dumbbell__rubber"
+     ],
+     "pos": [
+      -10.89,
+      1.228,
+      10.309
+     ],
+     "axis": [
+      -0.938,
+      0.165,
+      -0.305
+     ],
+     "dL": 0.592,
+     "dR": 0.04,
+     "dMid": 0.294,
+     "perpL": 0.203,
+     "perpR": 0.04,
+     "alongL": -0.557,
+     "alongR": 0.004
+    }
+   ]
+  },
+  "info": []
+ },
+ {
+  "act": "squat",
+  "hour": 10.0,
+  "use": {
+   "using": "squat_rack_2",
+   "pose": "gym_squat",
+   "x": -18.4,
+   "z": 12.55,
+   "y": 0,
+   "yaw": 0,
+   "dlg": true
+  },
+  "props": {
+   "pose": "gym_squat",
+   "gymPose": "gym_squat",
+   "isFar": false,
+   "loaded": true,
+   "failed": 0,
+   "lh": [
+    -17.999,
+    1.293,
+    12.53
+   ],
+   "rh": [
+    -18.799,
+    1.297,
+    12.531
+   ],
+   "mid": [
+    -18.399,
+    1.295,
+    12.531
+   ],
+   "props": [
+    {
+     "name": "gymProp:dd0",
+     "vis": false,
+     "meshes": [
+      "gym_dumbbell__chrome",
+      "gym_dumbbell__grip",
+      "gym_dumbbell__rubber"
+     ],
+     "pos": [
+      -18.138,
+      1.3,
+      12.844
+     ],
+     "axis": [
+      0.913,
+      0.204,
+      -0.352
+     ],
+     "dL": 0.343,
+     "dR": 0.731,
+     "dMid": 0.408,
+     "perpL": 0.249,
+     "perpR": 0.539,
+     "alongL": 0.236,
+     "alongR": -0.494
+    },
+    {
+     "name": "gymProp:dd1",
+     "vis": false,
+     "meshes": [
+      "gym_dumbbell__chrome",
+      "gym_dumbbell__grip",
+      "gym_dumbbell__rubber"
+     ],
+     "pos": [
+      -18.661,
+      1.297,
+      12.85
+     ],
+     "axis": [
+      -0.913,
+      0.204,
+      -0.352
+     ],
+     "dL": 0.735,
+     "dR": 0.348,
+     "dMid": 0.413,
+     "perpL": 0.545,
+     "perpR": 0.253,
+     "alongL": -0.493,
+     "alongR": 0.238
+    },
+    {
+     "name": "gymProp:bar0",
+     "vis": true,
+     "meshes": [
+      "gym_barbell__chrome",
+      "gym_barbell__grip",
+      "gym_barbell__red",
+      "gym_barbell__rubber"
+     ],
+     "pos": [
+      -18.399,
+      1.326,
+      12.535
+     ],
+     "axis": [
+      1,
+      -0.004,
+      -0.001
+     ],
+     "dL": 0.402,
+     "dR": 0.401,
+     "dMid": 0.032,
+     "perpL": 0.032,
+     "perpR": 0.031,
+     "alongL": 0.4,
+     "alongR": -0.4
+    }
+   ]
+  },
+  "info": []
+ },
+ {
+  "act": "row",
+  "hour": 10.0,
+  "use": {
+   "using": "rower_1",
+   "pose": "gym_row",
+   "x": 7.4,
+   "z": 8.5,
+   "y": 0,
+   "yaw": 1.571,
+   "dlg": true
+  },
+  "props": {
+   "pose": "gym_row",
+   "gymPose": "gym_row",
+   "isFar": false,
+   "loaded": true,
+   "failed": 0,
+   "lh": [
+    7.643,
+    0.656,
+    8.373
+   ],
+   "rh": [
+    7.648,
+    0.653,
+    8.626
+   ],
+   "mid": [
+    7.645,
+    0.654,
+    8.5
+   ],
+   "props": [
+    {
+     "name": "gymProp:dd0",
+     "vis": false,
+     "meshes": [
+      "gym_dumbbell__chrome",
+      "gym_dumbbell__grip",
+      "gym_dumbbell__rubber"
+     ],
+     "pos": [
+      7.694,
+      1.3,
+      8.238
+     ],
+     "axis": [
+      -0.352,
+      0.204,
+      -0.913
+     ],
+     "dL": 0.66,
+     "dR": 0.756,
+     "dMid": 0.698,
+     "perpL": 0.616,
+     "perpR": 0.592,
+     "alongL": -0.237,
+     "alongR": -0.471
+    },
+    {
+     "name": "gymProp:dd1",
+     "vis": false,
+     "meshes": [
+      "gym_dumbbell__chrome",
+      "gym_dumbbell__grip",
+      "gym_dumbbell__rubber"
+     ],
+     "pos": [
+      7.7,
+      1.297,
+      8.761
+     ],
+     "axis": [
+      -0.352,
+      0.204,
+      0.913
+     ],
+     "dL": 0.751,
+     "dR": 0.661,
+     "dMid": 0.696,
+     "perpL": 0.59,
+     "perpR": 0.617,
+     "alongL": -0.464,
+     "alongR": -0.236
+    },
+    {
+     "name": "gymProp:bar0",
+     "vis": false,
+     "meshes": [
+      "gym_barbell__chrome",
+      "gym_barbell__grip",
+      "gym_barbell__red",
+      "gym_barbell__rubber"
+     ],
+     "pos": [
+      7.372,
+      1.048,
+      8.496
+     ],
+     "axis": [
+      -0.004,
+      -0.01,
+      -1
+     ],
+     "dL": 0.491,
+     "dR": 0.499,
+     "dMid": 0.479,
+     "perpL": 0.475,
+     "perpR": 0.483,
+     "alongL": 0.126,
+     "alongR": -0.127
+    },
+    {
+     "name": "gymProp:row0",
+     "vis": true,
+     "meshes": [
+      "gym_row_handle__alu",
+      "gym_row_handle__foam",
+      "gym_row_handle__grip"
+     ],
+     "pos": [
+      7.684,
+      0.646,
+      8.5
+     ],
+     "axis": [
+      -0.022,
+      0.016,
+      -1
+     ],
+     "dL": 0.133,
+     "dR": 0.131,
+     "dMid": 0.039,
+     "perpL": 0.039,
+     "perpR": 0.039,
+     "alongL": 0.127,
+     "alongR": -0.125
+    }
+   ]
+  },
+  "info": []
+ }
+]
