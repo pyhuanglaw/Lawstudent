@@ -1,0 +1,61 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_mt3_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MT4_fb_a\out
+CC MT3（MOVIE-TALK-1110 第二輪）：CASES FB_FEEL,FB_NOTICE,FB_WONDER；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】2025-11-15 08:00、heroine_03 朋友＋聯絡方式
+PASS [FB_FEEL 語彤 m2511a] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《聖誕快遞》②《黑白的城市》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [FB_FEEL 語彤 m2511a] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [  46.3s] [FB_FEEL 語彤 m2511a] 約好：{"id": "iv54", "h": 9.83, "film": "m2511a", "title": "聖誕快遞"}；對話 ["電影院？……好。我很少去。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [FB_FEEL 語彤 m2511a] 約成了  ["電影院？……好。我很少去。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+  [  46.3s] [FB_FEEL 語彤 m2511a] talkFor：{"by": "her", "q": "如果有人這樣整你，你會生氣嗎？", "qOther": false, "other": true, "opts": [{"k": 0, "t": "會。我騎了一整晚的車耶。", "lines": ["嗯。我也是。"], "fx": {"love": 1}, "set": null, "fb": "feel"}, {"k": 1, "t": "不會。有人花時間騙我，蠻好的。", "lines": ["嗯。我也是。"], "fx": {"love": 1}, "set": null, "fb": "feel"}, {"k": 2, "t": "包裹裡面到底是什麼？", "lines": ["不知道。片子沒有講的，我不太敢猜。"], "fx": {"fr": 1}, "set": null, "fb": "wonder"}]}；fallback[feel]＝[{"re": "嗯。我也是。", "fx": {"love": 1}}, {"re": "……你會講出來。我都只是想。", "fx": {"love": 2}}, {"re": "我沒有想到那裡。", "fx": {"fr": 1}}]；MOVIE_FB 之前 0
+PASS [FB_FEEL 語彤 m2511a] 選項「會。我騎了一整晚的車耶。」走 fallback（kind feel）  {"k": 0, "t": "會。我騎了一整晚的車耶。", "lines": ["嗯。我也是。"], "fx": {"love": 1}, "set": null, "fb": "feel"}
+PASS [FB_FEEL 語彤 m2511a] 預期的回答是她 feel 的第 1 句  {"lines": ["嗯。我也是。"], "fb": ["嗯。我也是。", "……你會講出來。我都只是想。", "我沒有想到那裡。"]}
+PASS [FB_FEEL 語彤 m2511a]「今天」有「前往」
+PASS [FB_FEEL 語彤 m2511a] 選了以後她回 fallback 那一句  ["陳語彤｜我從小就這樣看人。在學校我不太說話，就一直看。", "陳語彤｜你呢？你是看人的，還是被看的？", "祐廷｜被看的。過年的時候，親戚每一個都在看我考得怎樣。", "陳語彤｜那一定很累。", "陳語彤｜被看的人，會比較會看別人。你應該也很會看。", "陳語彤｜大家一起在黑暗裡看同一個東西。我喜歡這樣。"]
+  [  92.0s] [FB_FEEL 語彤 m2511a] fx（選項自己的優先，沒有才用 fallback 那一句）＝{"love": 1}；romOk True；選了以後到下一個選單之間的 adjust [{"id": "heroine_03", "d": {"npcRom": 1}, "h": 11.599, "z": "xs_nanyang", "n": 25}]
+PASS [FB_FEEL 語彤 m2511a] 效果＝{"npcRom": 1}  [{"id": "heroine_03", "d": {"npcRom": 1}, "h": 11.599, "z": "xs_nanyang", "n": 25}]
+PASS [FB_FEEL 語彤 m2511a] MOVIE_FB.heroine_03.feel 0 → 1（加一）  {"heroine_03": {"feel": 1}}
+  [前置／捷徑] [FB_FEEL 語彤 m2511a] 第二次【捷徑】存檔快照 → 隔天 08:00 宿舍讀回來（MOVIE_LATER、MOVIE_LOVE 照舊）
+PASS [FB_FEEL 語彤 m2511a] 第二次 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《聖誕快遞》②《黑白的城市》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [FB_FEEL 語彤 m2511a] 第二次 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [ 108.0s] [FB_FEEL 語彤 m2511a] 第二次 約好：{"id": "iv56", "h": 9.83, "film": "m2511a", "title": "聖誕快遞"}；對話 ["電影院？……好。我很少去。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [FB_FEEL 語彤 m2511a] 第二次 約成了  ["電影院？……好。我很少去。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+  [前置／捷徑] [FB_FEEL 語彤 m2511a] 第二次【捷徑】約好的是 m2511a，改成 m2511b
+  [ 108.0s] [FB_FEEL 語彤 m2511a] 第二次 talkFor：{"by": "her", "q": "（黑白片散場，外面的招牌看起來特別亮。她問你：）會不會覺得很悶？", "qOther": true, "other": true, "opts": [{"k": 0, "t": "前半有一點。可是找到自己那一幕，我起雞皮疙瘩。", "lines": ["……你會講出來。我都只是想。"], "fx": {"love": 2}, "set": null, "fb": "feel"}, {"k": 1, "t": "不會。我喜歡他翻報紙的聲音。", "lines": ["你也看到了。"], "fx": {"love": 2}, "set": null, "fb": "notice"}, {"k": 2, "t": "老實說，蠻悶的。", "lines": ["喔。我覺得還好。"], "fx": null, "set": null, "fb": "crit"}]}；fallback[feel]＝[{"re": "嗯。我也是。", "fx": {"love": 1}}, {"re": "……你會講出來。我都只是想。", "fx": {"love": 2}}, {"re": "我沒有想到那裡。", "fx": {"fr": 1}}]；MOVIE_FB 之前 1
+PASS [FB_FEEL 語彤 m2511a] 第二次 選項「前半有一點。可是找到自己那一幕，我起雞皮疙瘩。」走 fallback（kind feel）  {"k": 0, "t": "前半有一點。可是找到自己那一幕，我起雞皮疙瘩。", "lines": ["……你會講出來。我都只是想。"], "fx": {"love": 2}, "set": null, "fb": "feel"}
+PASS [FB_FEEL 語彤 m2511a] 第二次 預期的回答是她 feel 的第 2 句  {"lines": ["……你會講出來。我都只是想。"], "fb": ["嗯。我也是。", "……你會講出來。我都只是想。", "我沒有想到那裡。"]}
+PASS [FB_FEEL 語彤 m2511a] 第二次「今天」有「前往」
+PASS [FB_FEEL 語彤 m2511a] 第二次 選了以後她回 fallback 那一句  ["陳語彤｜我以前的生活，什麼都有人排好。我想看看，別人的日子是怎麼長出來的。", "陳語彤｜你為什麼走現在這條路？", "祐廷｜我從小就想念法律。這件事一直沒變過。", "陳語彤｜從小就想……", "陳語彤｜我很少遇到從小就知道自己要什麼的人。我有點想知道那是什麼感覺。", "陳語彤｜下次一樣？"]
+  [ 139.5s] [FB_FEEL 語彤 m2511a] 第二次 fx（選項自己的優先，沒有才用 fallback 那一句）＝{"love": 2}；romOk True；選了以後到下一個選單之間的 adjust [{"id": "heroine_03", "d": {"npcRom": 2}, "h": 11.596, "z": "xs_nanyang", "n": 64}]
+PASS [FB_FEEL 語彤 m2511a] 第二次 效果＝{"npcRom": 2}  [{"id": "heroine_03", "d": {"npcRom": 2}, "h": 11.596, "z": "xs_nanyang", "n": 64}]
+PASS [FB_FEEL 語彤 m2511a] 第二次 MOVIE_FB.heroine_03.feel 1 → 2（加一）  {"heroine_03": {"feel": 2}}
+PASS [FB_FEEL 語彤 m2511a] 同一 kind 第二次輪到下一句（兩次的回答不一樣）  [["嗯。我也是。"], ["……你會講出來。我都只是想。"]]
+  [前置／捷徑] 【前置／捷徑】2026-05-16 08:00、heroine_05 朋友＋聯絡方式
+PASS [FB_NOTICE 溫學姊 m2605b] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《鋼鐵快遞》②《老茶行》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [FB_NOTICE 溫學姊 m2605b] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [ 154.9s] [FB_NOTICE 溫學姊 m2605b] 約好：{"id": "iv54", "h": 9.83, "film": "m2605a", "title": "鋼鐵快遞"}；對話 ["好啊。我好久沒進電影院了。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [FB_NOTICE 溫學姊 m2605b] 約成了  ["好啊。我好久沒進電影院了。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+  [前置／捷徑] [FB_NOTICE 溫學姊 m2605b]【捷徑】約好的是 m2605a，改成 m2605b
+  [ 154.9s] [FB_NOTICE 溫學姊 m2605b] talkFor：{"by": "her", "q": "（字幕跑完，燈才亮。）", "qOther": true, "other": true, "opts": [{"k": 0, "t": "他最後沒有擦掉那行字。", "lines": ["你有看到。我以為你那時候在吃爆米花。"], "fx": {"love": 1}, "set": null, "fb": "notice"}, {"k": 2, "t": "為什麼他的小孩都不接？", "lines": ["那裡我也卡住。我們兩個都卡住，那就是片子的問題。"], "fx": {"love": 1}, "set": null, "fb": "wonder"}]}；fallback[notice]＝[{"re": "你有看到。我以為你那時候在吃爆米花。", "fx": {"love": 1}}, {"re": "那裡我沒注意。你回去畫給我看。", "fx": {"fr": 1}}, {"re": "對，我也有看到。我們兩個都看到，那就不是我眼花。", "fx": {"love": 1}}]；MOVIE_FB 之前 0
+PASS [FB_NOTICE 溫學姊 m2605b] 選項「他最後沒有擦掉那行字。」走 fallback（kind notice）  {"k": 0, "t": "他最後沒有擦掉那行字。", "lines": ["你有看到。我以為你那時候在吃爆米花。"], "fx": {"love": 1}, "set": null, "fb": "notice"}
+PASS [FB_NOTICE 溫學姊 m2605b] 預期的回答是她 notice 的第 1 句  {"lines": ["你有看到。我以為你那時候在吃爆米花。"], "fb": ["你有看到。我以為你那時候在吃爆米花。", "那裡我沒注意。你回去畫給我看。", "對，我也有看到。我們兩個都看到，那就不是我眼花。"]}
+PASS [FB_NOTICE 溫學姊 m2605b]「今天」有「前往」
+PASS [FB_NOTICE 溫學姊 m2605b] 選了以後她回 fallback 那一句  ["｜（燈暗下來，《老茶行》開始了。）", "｜老闆一個人在收攤，把每一個空茶罐的蓋子蓋回去，蓋了四十幾個。", "｜（她看電影的時候很專心，一句話都沒說。）", "｜（字幕跑完，燈才亮。）", "溫書瑀｜你有看到。我以為你那時候在吃爆米花。", "溫書瑀｜我差點忘了，坐著兩個小時什麼都不用想，是這種感覺。"]
+  [ 179.2s] [FB_NOTICE 溫學姊 m2605b] fx（選項自己的優先，沒有才用 fallback 那一句）＝{"love": 1}；romOk True；選了以後到下一個選單之間的 adjust [{"id": "heroine_05", "d": {"npcRom": 1}, "h": 11.598, "z": "xs_nanyang", "n": 26}]
+PASS [FB_NOTICE 溫學姊 m2605b] 效果＝{"npcRom": 1}  [{"id": "heroine_05", "d": {"npcRom": 1}, "h": 11.598, "z": "xs_nanyang", "n": 26}]
+PASS [FB_NOTICE 溫學姊 m2605b] MOVIE_FB.heroine_05.notice 0 → 1（加一）  {"heroine_05": {"notice": 1}}
+  [前置／捷徑] 【前置／捷徑】2025-11-15 08:00、heroine_04 朋友＋聯絡方式
+PASS [FB_WONDER 子晴 m2511a] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《聖誕快遞》②《黑白的城市》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [FB_WONDER 子晴 m2511a] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [ 194.5s] [FB_WONDER 子晴 m2511a] 約好：{"id": "iv54", "h": 9.83, "film": "m2511a", "title": "聖誕快遞"}；對話 ["好。我只看動作片喔。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [FB_WONDER 子晴 m2511a] 約成了  ["好。我只看動作片喔。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+  [ 194.5s] [FB_WONDER 子晴 m2511a] talkFor：{"by": "her", "q": "如果有人這樣整你，你會生氣嗎？", "qOther": false, "other": true, "opts": [{"k": 0, "t": "會。我騎了一整晚的車耶。", "lines": ["喔。我沒有想那麼多。"], "fx": {"fr": 1}, "set": null, "fb": "feel"}, {"k": 1, "t": "不會。有人花時間騙我，蠻好的。", "lines": ["喔。我沒有想那麼多。"], "fx": {"fr": 1}, "set": null, "fb": "feel"}, {"k": 2, "t": "包裹裡面到底是什麼？", "lines": ["那個我回去查。查到傳給你。"], "fx": {"love": 1}, "set": null, "fb": "wonder"}]}；fallback[wonder]＝[{"re": "那個我回去查。查到傳給你。", "fx": {"love": 1}}, {"re": "我也覺得那裡怪。片子沒交代。", "fx": {"love": 1}}, {"re": "不知道。不重要，後面有接上就好。"}]；MOVIE_FB 之前 0
+PASS [FB_WONDER 子晴 m2511a] 選項「包裹裡面到底是什麼？」走 fallback（kind wonder）  {"k": 2, "t": "包裹裡面到底是什麼？", "lines": ["那個我回去查。查到傳給你。"], "fx": {"love": 1}, "set": null, "fb": "wonder"}
+PASS [FB_WONDER 子晴 m2511a] 預期的回答是她 wonder 的第 1 句  {"lines": ["那個我回去查。查到傳給你。"], "fb": ["那個我回去查。查到傳給你。", "我也覺得那裡怪。片子沒交代。", "不知道。不重要，後面有接上就好。"]}
+PASS [FB_WONDER 子晴 m2511a]「今天」有「前往」
+PASS [FB_WONDER 子晴 m2511a] 選了以後她回 fallback 那一句  ["高子晴｜那門課教的東西，我國中就自己會了。……好啦，也有一點是因為懶。", "高子晴｜你會翹課嗎？還是你是那種每堂都去的？", "祐廷｜我高中也翹過。翹去圖書館，結果被老師抓到。", "高子晴｜翹去圖書館？你很怪耶。", "高子晴｜……好，那我少翹一堂。只有一堂。", "高子晴｜好，我回去趕作業了。掰。"]
+  [ 223.9s] [FB_WONDER 子晴 m2511a] fx（選項自己的優先，沒有才用 fallback 那一句）＝{"love": 1}；romOk True；選了以後到下一個選單之間的 adjust [{"id": "heroine_04", "d": {"npcRom": 1}, "h": 11.595, "z": "xs_nanyang", "n": 28}]
+PASS [FB_WONDER 子晴 m2511a] 效果＝{"npcRom": 1}  [{"id": "heroine_04", "d": {"npcRom": 1}, "h": 11.595, "z": "xs_nanyang", "n": 28}]
+PASS [FB_WONDER 子晴 m2511a] MOVIE_FB.heroine_04.wonder 0 → 1（加一）  {"heroine_04": {"wonder": 1}}
+PASS 沒有 JS 例外  []
+ALL PASS

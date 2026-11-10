@@ -1,0 +1,200 @@
+==== [FB_FEEL 語彤 m2511a] 期望 {"talk": {"by": "her", "q": "如果有人這樣整你，你會生氣嗎？", "qOther": false, "other": true, "opts": [{"k": 0, "t": "會。我騎了一整晚的車耶。", "lines": ["嗯。我也是。"], "fx": {"love": 1}, "set": null, "fb": "feel"}, {"k": 1, "t": "不會。有人花時間騙我，蠻好的。", "lines": ["嗯。我也是。"], "fx": {"love": 1}, "set": null, "fb": "feel"}, {"k": 2, "t": "包裹裡面到底是什麼？", "lines": ["不知道。片子沒有講的，我不太敢猜。"], "fx": {"fr": 1}, "set": null, "fb": "wonder"}]}, "scene": "第三條路的盡頭是她自己的分站，鐵門拉下一半，裡面的燈亮著。", "with": null, "again": "（這部你們看過了。她還是在同一個地方笑。）", "genre": "動畫愛情喜劇"}
+==== [FB_FEEL 語彤 m2511a] ====
+[choose dorm 8.02] ["念書…","吃飯…","喝咖啡、喝茶…","看電影、逛書店…","散步…","運動…","出去玩…","算了"]
+[choose dorm 8.02] ["去南洋戲院看電影","去頁間書屋逛逛","去山嵐書店逛逛","返回"]
+[choose dorm 8.02] ["今天 09:50","今天 14:00","今天 19:30","明天 09:50","明天 14:00","明天 19:30","其他日子…","算了"]
+[say dorm 8.02] 陳語彤（手機）｜電影院？……好。我很少去。
+[say dorm 8.02] ｜約好 今天 09:50，南洋戲院。
+[cap dorm 9.25] （等到該出發去赴約）你在宿舍 房間待到 09:15。
+[say xs_nanyang 9.60] ｜（有一陣子兩個人都沒講話，她看起來也沒有要找話題。）
+[say xs_nanyang 9.60] 陳語彤｜你最近考試多嗎？
+[mark xs_nanyang 9.60] MOVIES.enterHall 開始
+[mark xs_nanyang_hall 9.60] MOVIES.enterHall 結束
+[say xs_nanyang_hall 9.60] 陳語彤｜我很少來電影院。家裡有投影機。
+[say xs_nanyang_hall 9.60] ｜（她看著排隊買票的人，小聲說：「大家都好期待。」）
+[say xs_nanyang_hall 9.60] ｜（燈暗下來，《聖誕快遞》開始了。）
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 開始
+[say xs_nanyang_hall 10.60] ｜第三條路的盡頭是她自己的分站，鐵門拉下一半，裡面的燈亮著。
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 結束
+[say xs_nanyang_hall 10.60] ｜（她看電影的時候，也看觀眾。看到旁邊的人哭，她的眼睛也有一點紅。）
+[cap xs_nanyang_hall 11.60] 南洋戲院・陳語彤・（2 小時）
+[mark xs_nanyang_hall 11.60] MOVIES.leaveHall 開始
+[mark xs_nanyang 11.60] MOVIES.leaveHall 結束
+[mark xs_nanyang 11.60] MOVIES.after 開始
+[mark xs_nanyang 11.60] MOVIES.talk 開始
+[say xs_nanyang 11.60] 陳語彤｜如果有人這樣整你，你會生氣嗎？
+[choose xs_nanyang 11.60] ["會。我騎了一整晚的車耶。","不會。有人花時間騙我，蠻好的。","包裹裡面到底是什麼？"]
+[say xs_nanyang 11.60] 陳語彤｜嗯。我也是。
+[mark xs_nanyang 11.60] MOVIES.talk 結束
+[mark xs_nanyang 11.60] MOVIES.after 結束
+[mark xs_nanyang 11.60] ARCS.run 開始
+[say xs_nanyang 11.60] ｜（她看著窗外一個在等公車的人。）
+[say xs_nanyang 11.60] 陳語彤｜那個人等的不是公車。他已經讓兩台過去了。
+[say xs_nanyang 11.60] 陳語彤｜我從小就這樣看人。在學校我不太說話，就一直看。
+[say xs_nanyang 11.60] 陳語彤｜你呢？你是看人的，還是被看的？
+[choose xs_nanyang 11.60] ["被看的。過年的時候，親戚每一個都在看我考得怎樣。","看人的。我常坐在系館樓下，看大家在忙什麼。","我在看妳。"]
+[say xs_nanyang 11.60] 祐廷｜被看的。過年的時候，親戚每一個都在看我考得怎樣。
+[say xs_nanyang 11.60] 陳語彤｜那一定很累。
+[say xs_nanyang 11.60] 陳語彤｜被看的人，會比較會看別人。你應該也很會看。
+[mark xs_nanyang 11.60] ARCS.run 結束
+[say xs_nanyang 11.60] 陳語彤｜大家一起在黑暗裡看同一個東西。我喜歡這樣。
+[cap xs_nanyang 12.00] （上午的時間用完了）你在南洋戲院待到 12:00。
+-- SOCIAL.adjust：[{"id": "heroine_03", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.599, "z": "xs_nanyang_hall", "n": 18}, {"id": "heroine_03", "d": {"npcRom": 1, "rom": 1, "trust": 1}, "h": 11.599, "z": "xs_nanyang_hall", "n": 18}, {"id": "heroine_03", "d": {"npcRom": 1}, "h": 11.599, "z": "xs_nanyang", "n": 25}, {"id": "heroine_03", "d": {"trust": 2, "comf": 1}, "h": 11.599, "z": "xs_nanyang", "n": 34}]
+==== [FB_FEEL 語彤 m2511a] 第二次 期望 {"talk": {"by": "her", "q": "（黑白片散場，外面的招牌看起來特別亮。她問你：）會不會覺得很悶？", "qOther": true, "other": true, "opts": [{"k": 0, "t": "前半有一點。可是找到自己那一幕，我起雞皮疙瘩。", "lines": ["……你會講出來。我都只是想。"], "fx": {"love": 2}, "set": null, "fb": "feel"}, {"k": 1, "t": "不會。我喜歡他翻報紙的聲音。", "lines": ["你也看到了。"], "fx": {"love": 2}, "set": null, "fb": "notice"}, {"k": 2, "t": "老實說，蠻悶的。", "lines": ["喔。我覺得還好。"], "fx": null, "set": null, "fb": "crit"}]}, "scene": "圖書館的長桌上攤滿舊報紙，他用放大鏡在一張照片的角落找到一個很小的、舉著相機的人。", "with": null, "again": "（第二次看，你注意到上次沒注意到的地方。）", "genre": "經典重映（黑白片）"}
+==== [FB_FEEL 語彤 m2511a] 第二次 ====
+[choose dorm 8.02] ["念書…","吃飯…","喝咖啡、喝茶…","看電影、逛書店…","散步…","運動…","出去玩…","算了"]
+[choose dorm 8.02] ["去南洋戲院看電影","去頁間書屋逛逛","去山嵐書店逛逛","返回"]
+[choose dorm 8.02] ["今天 09:50","今天 14:00","今天 19:30","明天 09:50","明天 14:00","明天 19:30","其他日子…","算了"]
+[say dorm 8.02] 陳語彤（手機）｜電影院？……好。我很少去。
+[say dorm 8.02] ｜約好 今天 09:50，南洋戲院。
+[cap dorm 9.25] （等到該出發去赴約）你在宿舍 房間待到 09:15。
+[say xs_nanyang 9.60] ｜（有一陣子兩個人都沒講話，她看起來也沒有要找話題。）
+[say xs_nanyang 9.60] 陳語彤｜你最近考試多嗎？
+[mark xs_nanyang 9.60] MOVIES.enterHall 開始
+[mark xs_nanyang_hall 9.60] MOVIES.enterHall 結束
+[say xs_nanyang_hall 9.60] 陳語彤｜我很少來電影院。家裡有投影機。
+[say xs_nanyang_hall 9.60] ｜（她看著排隊買票的人，小聲說：「大家都好期待。」）
+[say xs_nanyang_hall 9.60] ｜（燈暗下來，《聖誕快遞》開始了。）
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 開始
+[say xs_nanyang_hall 10.60] ｜第三條路的盡頭是她自己的分站，鐵門拉下一半，裡面的燈亮著。
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 結束
+[say xs_nanyang_hall 10.60] ｜（她看電影的時候，也看觀眾。看到旁邊的人哭，她的眼睛也有一點紅。）
+[cap xs_nanyang_hall 11.60] 南洋戲院・陳語彤・（2 小時）
+[mark xs_nanyang_hall 11.60] MOVIES.leaveHall 開始
+[mark xs_nanyang 11.60] MOVIES.leaveHall 結束
+[mark xs_nanyang 11.60] MOVIES.after 開始
+[mark xs_nanyang 11.60] MOVIES.talk 開始
+[say xs_nanyang 11.60] 陳語彤｜如果有人這樣整你，你會生氣嗎？
+[choose xs_nanyang 11.60] ["會。我騎了一整晚的車耶。","不會。有人花時間騙我，蠻好的。","包裹裡面到底是什麼？"]
+[say xs_nanyang 11.60] 陳語彤｜嗯。我也是。
+[mark xs_nanyang 11.60] MOVIES.talk 結束
+[mark xs_nanyang 11.60] MOVIES.after 結束
+[mark xs_nanyang 11.60] ARCS.run 開始
+[say xs_nanyang 11.60] ｜（她看著窗外一個在等公車的人。）
+[say xs_nanyang 11.60] 陳語彤｜那個人等的不是公車。他已經讓兩台過去了。
+[say xs_nanyang 11.60] 陳語彤｜我從小就這樣看人。在學校我不太說話，就一直看。
+[say xs_nanyang 11.60] 陳語彤｜你呢？你是看人的，還是被看的？
+[choose xs_nanyang 11.60] ["被看的。過年的時候，親戚每一個都在看我考得怎樣。","看人的。我常坐在系館樓下，看大家在忙什麼。","我在看妳。"]
+[say xs_nanyang 11.60] 祐廷｜被看的。過年的時候，親戚每一個都在看我考得怎樣。
+[say xs_nanyang 11.60] 陳語彤｜那一定很累。
+[say xs_nanyang 11.60] 陳語彤｜被看的人，會比較會看別人。你應該也很會看。
+[mark xs_nanyang 11.60] ARCS.run 結束
+[say xs_nanyang 11.60] 陳語彤｜大家一起在黑暗裡看同一個東西。我喜歡這樣。
+[cap xs_nanyang 12.00] （上午的時間用完了）你在南洋戲院待到 12:00。
+[choose dorm 8.03] ["念書…","吃飯…","喝咖啡、喝茶…","看電影、逛書店…","散步…","運動…","出去玩…","算了"]
+[choose dorm 8.03] ["去南洋戲院看電影","去頁間書屋逛逛","去山嵐書店逛逛","返回"]
+[choose dorm 8.03] ["今天 09:50","今天 14:00","今天 19:30","明天 09:50","明天 14:00","明天 19:30","其他日子…","算了"]
+[say dorm 8.03] 陳語彤（手機）｜電影院？……好。我很少去。
+[say dorm 8.03] ｜約好 今天 09:50，南洋戲院。
+[cap dorm 9.25] （等到該出發去赴約）你在宿舍 房間待到 09:15。
+[mark xs_nanyang 9.60] MOVIES.enterHall 開始
+[mark xs_nanyang_hall 9.60] MOVIES.enterHall 結束
+[say xs_nanyang_hall 9.60] ｜（你們找到位子坐下。燈還沒暗，她把爆米花放在中間的扶手上。）
+[say xs_nanyang_hall 9.60] 陳語彤｜（小聲）預告片開始了。
+[say xs_nanyang_hall 9.60] ｜你和陳語彤在南洋戲院看電影。
+[say xs_nanyang_hall 9.60] ｜（燈暗下來，《黑白的城市》開始了。）
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 開始
+[say xs_nanyang_hall 10.60] ｜圖書館的長桌上攤滿舊報紙，他用放大鏡在一張照片的角落找到一個很小的、舉著相機的人。
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 結束
+[cap xs_nanyang_hall 11.60] 南洋戲院・陳語彤・（2 小時）
+[say xs_nanyang_hall 11.60] ｜（燈亮了。她還在看片尾的字幕。）
+[say xs_nanyang_hall 11.60] 陳語彤｜……等一下再走。
+[mark xs_nanyang_hall 11.60] MOVIES.leaveHall 開始
+[mark xs_nanyang 11.60] MOVIES.leaveHall 結束
+[mark xs_nanyang 11.60] MOVIES.after 開始
+[mark xs_nanyang 11.60] MOVIES.talk 開始
+[say xs_nanyang 11.60] 陳語彤｜（黑白片散場，外面的招牌看起來特別亮。她問你：）會不會覺得很悶？
+[choose xs_nanyang 11.60] ["前半有一點。可是找到自己那一幕，我起雞皮疙瘩。","不會。我喜歡他翻報紙的聲音。","老實說，蠻悶的。"]
+[say xs_nanyang 11.60] 陳語彤｜……你會講出來。我都只是想。
+[mark xs_nanyang 11.60] MOVIES.talk 結束
+[mark xs_nanyang 11.60] MOVIES.after 結束
+[mark xs_nanyang 11.60] ARCS.run 開始
+[say xs_nanyang 11.60] 陳語彤｜我念社會學，是想知道大家為什麼那樣過日子。
+[say xs_nanyang 11.60] 陳語彤｜每天搭同一班車，吃同一間店，跟同一個人吵架。
+[say xs_nanyang 11.60] 陳語彤｜我以前的生活，什麼都有人排好。我想看看，別人的日子是怎麼長出來的。
+[say xs_nanyang 11.60] 陳語彤｜你為什麼走現在這條路？
+[choose xs_nanyang 11.60] ["我從小就想念法律。這件事一直沒變過。","我想懂人跟人之間的事。這件事，我想很久了。","我還在找。"]
+[say xs_nanyang 11.60] 祐廷｜我從小就想念法律。這件事一直沒變過。
+[say xs_nanyang 11.60] 陳語彤｜從小就想……
+[say xs_nanyang 11.60] 陳語彤｜我很少遇到從小就知道自己要什麼的人。我有點想知道那是什麼感覺。
+[mark xs_nanyang 11.60] ARCS.run 結束
+[say xs_nanyang 11.60] 陳語彤｜下次一樣？
+[cap xs_nanyang 12.00] （上午的時間用完了）你在南洋戲院待到 12:00。
+-- SOCIAL.adjust：[{"id": "heroine_03", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.599, "z": "xs_nanyang_hall", "n": 18}, {"id": "heroine_03", "d": {"npcRom": 1, "rom": 1, "trust": 1}, "h": 11.599, "z": "xs_nanyang_hall", "n": 18}, {"id": "heroine_03", "d": {"npcRom": 1}, "h": 11.599, "z": "xs_nanyang", "n": 25}, {"id": "heroine_03", "d": {"trust": 2, "comf": 1}, "h": 11.599, "z": "xs_nanyang", "n": 34}, {"id": "heroine_03", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.596, "z": "xs_nanyang_hall", "n": 55}, {"id": "heroine_03", "d": {"npcRom": 1, "rom": 1, "trust": 1}, "h": 11.596, "z": "xs_nanyang_hall", "n": 55}, {"id": "heroine_03", "d": {"npcRom": 2}, "h": 11.596, "z": "xs_nanyang", "n": 64}, {"id": "heroine_03", "d": {"trust": 3, "npcRom": 1}, "h": 11.596, "z": "xs_nanyang", "n": 73}]
+==== [FB_NOTICE 溫學姊 m2605b] 期望 {"talk": {"by": "her", "q": "（字幕跑完，燈才亮。）", "qOther": true, "other": true, "opts": [{"k": 0, "t": "他最後沒有擦掉那行字。", "lines": ["你有看到。我以為你那時候在吃爆米花。"], "fx": {"love": 1}, "set": null, "fb": "notice"}, {"k": 2, "t": "為什麼他的小孩都不接？", "lines": ["那裡我也卡住。我們兩個都卡住，那就是片子的問題。"], "fx": {"love": 1}, "set": null, "fb": "wonder"}]}, "scene": "老闆一個人在收攤，把每一個空茶罐的蓋子蓋回去，蓋了四十幾個。", "with": null, "again": "（第二次看，你注意到上次沒注意到的地方。）", "genre": "紀錄片"}
+==== [FB_NOTICE 溫學姊 m2605b] ====
+[choose dorm 8.03] ["念書…","吃飯…","喝咖啡、喝茶…","看電影、逛書店…","散步…","運動…","出去玩…","算了"]
+[choose dorm 8.03] ["去南洋戲院看電影","去頁間書屋逛逛","去山嵐書店逛逛","返回"]
+[choose dorm 8.03] ["今天 09:50","今天 14:00","今天 19:30","明天 09:50","明天 14:00","明天 19:30","其他日子…","算了"]
+[say dorm 8.03] 溫書瑀（手機）｜好啊。我好久沒進電影院了。
+[say dorm 8.03] ｜約好 今天 09:50，南洋戲院。
+[cap dorm 9.25] （等到該出發去赴約）你在宿舍 房間待到 09:15。
+[say xs_nanyang 9.60] ｜（她把手機收進包包。）
+[say xs_nanyang 9.60] 溫書瑀｜今天什麼都沒帶。難得。
+[say xs_nanyang 9.60] 溫書瑀｜這一次我請你。
+[mark xs_nanyang 9.60] MOVIES.enterHall 開始
+[mark xs_nanyang_hall 9.60] MOVIES.enterHall 結束
+[say xs_nanyang_hall 9.60] 溫書瑀｜學弟，我很久沒進電影院了。
+[say xs_nanyang_hall 9.60] ｜（她拿著票，看了一下座位號碼，好像在確認自己真的在這裡。）
+[say xs_nanyang_hall 9.60] ｜（燈暗下來，《老茶行》開始了。）
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 開始
+[say xs_nanyang_hall 10.60] ｜老闆一個人在收攤，把每一個空茶罐的蓋子蓋回去，蓋了四十幾個。
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 結束
+[say xs_nanyang_hall 10.60] ｜（她看電影的時候很專心，一句話都沒說。）
+[cap xs_nanyang_hall 11.60] 南洋戲院・溫書瑀・（2 小時）
+[mark xs_nanyang_hall 11.60] MOVIES.leaveHall 開始
+[mark xs_nanyang 11.60] MOVIES.leaveHall 結束
+[mark xs_nanyang 11.60] MOVIES.after 開始
+[mark xs_nanyang 11.60] MOVIES.talk 開始
+[say xs_nanyang 11.60] ｜（字幕跑完，燈才亮。）
+[choose xs_nanyang 11.60] ["他最後沒有擦掉那行字。","為什麼他的小孩都不接？"]
+[say xs_nanyang 11.60] 溫書瑀｜你有看到。我以為你那時候在吃爆米花。
+[mark xs_nanyang 11.60] MOVIES.talk 結束
+[mark xs_nanyang 11.60] MOVIES.after 結束
+[say xs_nanyang 11.60] 溫書瑀｜我差點忘了，坐著兩個小時什麼都不用想，是這種感覺。
+[cap xs_nanyang 12.00] （上午的時間用完了）你在南洋戲院待到 12:00。
+-- SOCIAL.adjust：[{"id": "heroine_05", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.598, "z": "xs_nanyang_hall", "n": 19}, {"id": "heroine_05", "d": {"npcRom": 1, "rom": 1, "trust": 1}, "h": 11.598, "z": "xs_nanyang_hall", "n": 19}, {"id": "heroine_05", "d": {"npcRom": 1}, "h": 11.598, "z": "xs_nanyang", "n": 26}]
+==== [FB_WONDER 子晴 m2511a] 期望 {"talk": {"by": "her", "q": "如果有人這樣整你，你會生氣嗎？", "qOther": false, "other": true, "opts": [{"k": 0, "t": "會。我騎了一整晚的車耶。", "lines": ["喔。我沒有想那麼多。"], "fx": {"fr": 1}, "set": null, "fb": "feel"}, {"k": 1, "t": "不會。有人花時間騙我，蠻好的。", "lines": ["喔。我沒有想那麼多。"], "fx": {"fr": 1}, "set": null, "fb": "feel"}, {"k": 2, "t": "包裹裡面到底是什麼？", "lines": ["那個我回去查。查到傳給你。"], "fx": {"love": 1}, "set": null, "fb": "wonder"}]}, "scene": "第三條路的盡頭是她自己的分站，鐵門拉下一半，裡面的燈亮著。", "with": null, "again": "（這部你們看過了。她還是在同一個地方笑。）", "genre": "動畫愛情喜劇"}
+==== [FB_WONDER 子晴 m2511a] ====
+[choose dorm 8.03] ["念書…","吃飯…","喝咖啡、喝茶…","看電影、逛書店…","散步…","運動…","出去玩…","算了"]
+[choose dorm 8.03] ["去南洋戲院看電影","去頁間書屋逛逛","去山嵐書店逛逛","返回"]
+[choose dorm 8.03] ["今天 09:50","今天 14:00","今天 19:30","明天 09:50","明天 14:00","明天 19:30","其他日子…","算了"]
+[say dorm 8.03] 高子晴（手機）｜好。我只看動作片喔。
+[say dorm 8.03] ｜約好 今天 09:50，南洋戲院。
+[cap dorm 9.25] （等到該出發去赴約）你在宿舍 房間待到 09:15。
+[say xs_nanyang 9.60] ｜（她把耳機的一邊遞給你）
+[say xs_nanyang 9.60] 高子晴｜這首，聽完再講話。
+[mark xs_nanyang 9.60] MOVIES.enterHall 開始
+[mark xs_nanyang_hall 9.60] MOVIES.enterHall 結束
+[say xs_nanyang_hall 9.60] ｜（你們找到位子坐下。燈還沒暗，她把爆米花放在中間的扶手上。）
+[say xs_nanyang_hall 9.60] 高子晴｜（小聲）預告片開始了。
+[say xs_nanyang_hall 9.60] ｜你和高子晴在南洋戲院看電影。
+[say xs_nanyang_hall 9.60] ｜（她在售票口前面，直接指了最吵的那一部。）
+[say xs_nanyang_hall 9.60] ｜（燈暗下來，《聖誕快遞》開始了。）
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 開始
+[say xs_nanyang_hall 10.60] ｜第三條路的盡頭是她自己的分站，鐵門拉下一半，裡面的燈亮著。
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 結束
+[cap xs_nanyang_hall 11.60] 南洋戲院・高子晴・（2 小時）
+[say xs_nanyang_hall 11.60] ｜（燈亮了。她還在看片尾的字幕。）
+[say xs_nanyang_hall 11.60] 高子晴｜……等一下再走。
+[mark xs_nanyang_hall 11.60] MOVIES.leaveHall 開始
+[mark xs_nanyang 11.60] MOVIES.leaveHall 結束
+[mark xs_nanyang 11.60] MOVIES.after 開始
+[mark xs_nanyang 11.60] MOVIES.talk 開始
+[say xs_nanyang 11.60] 高子晴｜如果有人這樣整你，你會生氣嗎？
+[choose xs_nanyang 11.60] ["包裹裡面到底是什麼？","不會。有人花時間騙我，蠻好的。","會。我騎了一整晚的車耶。"]
+[say xs_nanyang 11.60] 高子晴｜那個我回去查。查到傳給你。
+[mark xs_nanyang 11.60] MOVIES.talk 結束
+[mark xs_nanyang 11.60] MOVIES.after 結束
+[mark xs_nanyang 11.60] ARCS.run 開始
+[say xs_nanyang 11.60] 高子晴｜今天又翹了。
+[say xs_nanyang 11.60] 高子晴｜那門課教的東西，我國中就自己會了。……好啦，也有一點是因為懶。
+[say xs_nanyang 11.60] 高子晴｜你會翹課嗎？還是你是那種每堂都去的？
+[choose xs_nanyang 11.60] ["我高中也翹過。翹去圖書館，結果被老師抓到。","每堂都去。學費很貴，捨不得浪費。","翹過一次，在宿舍睡到中午。"]
+[say xs_nanyang 11.60] 祐廷｜我高中也翹過。翹去圖書館，結果被老師抓到。
+[say xs_nanyang 11.60] 高子晴｜翹去圖書館？你很怪耶。
+[say xs_nanyang 11.60] 高子晴｜……好，那我少翹一堂。只有一堂。
+[mark xs_nanyang 11.60] ARCS.run 結束
+[say xs_nanyang 11.60] 高子晴｜好，我回去趕作業了。掰。
+[cap xs_nanyang 12.00] （上午的時間用完了）你在南洋戲院待到 12:00。
+-- SOCIAL.adjust：[{"id": "heroine_04", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.595, "z": "xs_nanyang_hall", "n": 19}, {"id": "heroine_04", "d": {"npcRom": 1, "rom": 1, "trust": 1}, "h": 11.595, "z": "xs_nanyang_hall", "n": 19}, {"id": "heroine_04", "d": {"npcRom": 1}, "h": 11.595, "z": "xs_nanyang", "n": 28}, {"id": "heroine_04", "d": {"trust": 2, "comf": 1}, "h": 11.595, "z": "xs_nanyang", "n": 36}]
