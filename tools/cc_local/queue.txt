@@ -169,6 +169,9 @@ XSPLANT_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_plan
 # ④ GIFTHOL 第二輪（BB 13:03 順序：②⑤ → ①③⑥ → ④）
 GIFTHOL2_new | 8d8b475dc3a6b3546853a98fc24b60edb7829989 | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 60 | TAG=r2;CASES=libbday,counter_event,counter_order,sisbday_tea,sisbday_happy
 GIFTHOL_new | 509b54c2d9d7a2f1ab6f227124abeb4d30747db6 | probe | docs/story_planning/test_tools/cc/cc_gift_holiday_probe.py | index.html | 75 | TAG=new;RERUN=person
+# ⑥ X223（BB 13:25 選 (c)：只拍遊戲畫面，照片疊圖等 BB 問使用者）：晨思鐘、行政、文學院、校史館＋LAWWW 13:24 男一舍、共同、映月湖、研三舍原址；改後 48aa47a5b、改前 74da28ca9；桌機 1280×720
+X223SHOT_new | 48aa47a5b71453a04c983e3185201640d2f9449c | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=new
+X223SHOT_old | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_x223_shots_probe.py | index.html | 15 | TAG=old
 # PUTONG v2C（BB 12:33；LAWWW2 8ff6e7d4a：東南角那片加進範圍、白天玻璃直接混到 [110,120,130]）：量玻璃平均色，和 v2b 並排；校園 shader 冒煙；等 SHA
 SHADER_v2c | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_shader_smoke_probe.py | index.html | 15 | TAG=v2c;ZONES=campus
 TEACHVIEW_pn_v2c | 74da28ca942cbe1e00f033903b3778a9ccaacca1 | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north
