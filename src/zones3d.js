@@ -1587,17 +1587,20 @@ const Z3 = (function(){
      那片帷幕退在樓板下面、照不到光，ck_glass 白天又不發光——頂點色調亮看不出來。真的玻璃白天會反射對面的天空和普通的白牆。
      做法：campus_teach.py 把那片帷幕的範圍（玻璃網格自己的座標）寫進 by_glass 的 extras.skyBox；這裡給那個材質加一段 shader：範圍內的像素白天加一層灰藍（輸出色空間直接加，
      和加法混合一樣，不受玻璃透明度影響：半透明時除以 alpha），晚上 0（照 TK.addNight 的亮度：ck_glass 白天 0、晚上 1 → 白天的比例＝1−emissiveIntensity/nightI），霧裡跟著淡掉。
-     不另外加網格（LAWWW 選 B：teach_east_drawcall 博雅一棟 ≤ 4 個網格）。其他棟的玻璃沒有 skyBox，不受影響。測試：tests/putong101_window_unit.js */
-  const GLASS_SKY=0x4f5f73;
+     不另外加網格（LAWWW 選 B：teach_east_drawcall 博雅一棟 ≤ 4 個網格）。其他棟的玻璃沒有 skyBox，不受影響。測試：tests/putong101_window_unit.js
+     第 3 版（BB 11-10 BB_255 v2b PARTIAL：北窗白天玻璃只到 [50,54,57]，要 [110,120,130]；東南角那一片沒套到）：加上去的量到畫面只剩三成左右（原因沒查到：瀏覽器才看得到），
+     改成直接混到目標色（輸出色空間 [110,120,130]、往上亮一點，混 85%，alpha 一起混到 1：透明不透明都一樣）——結果不受玻璃原本多暗、透明度影響；skyBox 往東延到東南角那一片。 */
+  const GLASS_SKY=0x6e7882, GLASS_SKY_K=0.85;   /* 第 3 版：目標色 [110,120,130]（輸出色空間），往上亮一點（×0.9～1.1）；混 85%（還看得到一點窗框後面的東西）*/
   function glassSky(o,mt,bx){
-    if(!mt.userData.skyPatch){ const U=mt.userData.skyPatch={uDay:{value:0},uDivA:{value:1},uMin:{value:new THREE.Vector3(bx[0],bx[1],bx[2])},uMax:{value:new THREE.Vector3(bx[3],bx[4],bx[5])},uCol:{value:new THREE.Color(GLASS_SKY)}}, prev=mt.onBeforeCompile, k0=mt.customProgramCacheKey;
-      mt.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); Object.assign(sh.uniforms,{uSkyDay:U.uDay,uSkyDivA:U.uDivA,uSkyMin:U.uMin,uSkyMax:U.uMax,uSkyCol:U.uCol});
+    if(!mt.userData.skyPatch){ const U=mt.userData.skyPatch={uDay:{value:0},uMin:{value:new THREE.Vector3(bx[0],bx[1],bx[2])},uMax:{value:new THREE.Vector3(bx[3],bx[4],bx[5])},uCol:{value:new THREE.Color(GLASS_SKY)}}, prev=mt.onBeforeCompile, k0=mt.customProgramCacheKey;
+      mt.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); Object.assign(sh.uniforms,{uSkyDay:U.uDay,uSkyMin:U.uMin,uSkyMax:U.uMax,uSkyCol:U.uCol});
         sh.vertexShader='varying vec3 vSkyP;\n'+sh.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n  vSkyP=position;');
-        sh.fragmentShader='uniform float uSkyDay, uSkyDivA;\nuniform vec3 uSkyMin, uSkyMax, uSkyCol;\nvarying vec3 vSkyP;\n'+sh.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n'+
-          '  if(uSkyDay>0.0&&all(greaterThanEqual(vSkyP,uSkyMin))&&all(lessThanEqual(vSkyP,uSkyMax))){\n    float skyF=uSkyDay;\n'+
-          '    #ifdef USE_FOG\n    skyF*=1.0-fogFactor;\n    #endif\n    #ifdef PREMULTIPLIED_ALPHA\n    gl_FragColor.rgb+=uSkyCol*skyF;\n    #else\n    gl_FragColor.rgb+=uSkyCol*skyF/mix(1.0,max(gl_FragColor.a,0.05),uSkyDivA);\n    #endif\n  }'); };
-      mt.customProgramCacheKey=function(){ return (k0?k0.call(this):'')+'|glassSky'; }; mt.needsUpdate=true; }
-    const U=mt.userData.skyPatch; o.onBeforeRender=function(){ U.uDivA.value=mt.transparent?1:0; U.uDay.value=Math.max(0,Math.min(1,1-(mt.emissiveIntensity||0)/(mt.userData.nightI||1))); }; }
+        sh.fragmentShader='uniform float uSkyDay;\nuniform vec3 uSkyMin, uSkyMax, uSkyCol;\nvarying vec3 vSkyP;\n'+sh.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n'+
+          '  if(uSkyDay>0.0&&all(greaterThanEqual(vSkyP,uSkyMin))&&all(lessThanEqual(vSkyP,uSkyMax))){\n    float skyF=uSkyDay*'+GLASS_SKY_K.toFixed(3)+';\n'+
+          '    #ifdef USE_FOG\n    skyF*=1.0-fogFactor;\n    #endif\n    float skyT=clamp((vSkyP.y-uSkyMin.y)/max(uSkyMax.y-uSkyMin.y,0.01),0.0,1.0);\n'+
+          '    gl_FragColor=mix(gl_FragColor,vec4(uSkyCol*(0.9+0.2*skyT),1.0),skyF);\n  }'); };
+      mt.customProgramCacheKey=function(){ return (k0?k0.call(this):'')+'|glassSky3'; }; mt.needsUpdate=true; }
+    const U=mt.userData.skyPatch; o.onBeforeRender=function(){ U.uDay.value=Math.max(0,Math.min(1,1-(mt.emissiveIntensity||0)/(mt.userData.nightI||1))); }; }
   function attachWenzhouModel(E,g,root,tag,name,tagVal){ let n=0; const box=new THREE.Box3(), sz=new THREE.Vector3(); const signFaces=[], plateFaces=[], intFaces=[];   /* tag＝套件建築上的標記（wzApt 公寓、wzJp 日式宿舍與院牆、ggShop 公館店面、ckTag 校園地標）；tagVal：只藏標記等於這個值的（校園一棟一個模型） */
     for(const b of g.children) if(b.userData&&b.userData[tag]&&(tagVal===undefined||b.userData[tag]===tagVal)){ if(b.isMesh) b.visible=false; else for(const m of b.children) if(m.isMesh||m.isSprite){ m.visible=false; if(m.isSprite&&m.userData.nightO!==undefined){ m.userData.nightO=0; m.userData.dayO=0; } } b.userData.formal=true; n++; }   /* 套件的光暈（TK.glowSprite）：TK.setNight 每次會依時段重設 visible，只藏起來的話晚上又會出現（和正式模型的光暈疊在一起）→ 日夜的亮度都設成 0 */
     const glows=[];
