@@ -47585,7 +47585,7 @@
    "title": "坐著的路人裙子穿進長椅（體育館一樓）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47597,7 +47597,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 10:3x】BB（BB_255）：功能 CC ALL PASS（BB_255 第 1443、1524 行）；角色美術照 D100a 由 LAWWW 看截圖判。 ｜ 【11-07 05:4x LAWWW-B】第二批（LAWWW2-B 33bc9fe48、測試 patch 655729e66）：沛珊、芯慈、予樂、秀琴、秀琴圍裙五個 VRM 坐下不穿模（248～645 → 0），skirt_sit_morph_unit 加這五位 ALL PASS；BB 意見通過（Blender 前後對照），等 CC 遊戲內截圖後 LAWWW 標 ART_APPROVED（D100a）。 ｜ 【11-07 05:2x LAWWW-B】LAWWW2-B 768da51ab（資產 123a5c464）：8 個穿裙子的路人 VRM（＋lod）加坐下才打開的 morph「skirt_sit」，src/character3d.js 靜態坐姿開；tests/skirt_sit_morph_unit.js ALL PASS。等 CC：體育館一樓長椅、教室、Café 坐著的穿裙子路人近／7 m 外截圖。有名字的四位（沛珊、芯慈、予樂、秀琴）LAWWW 同意照做（D100a），LAWWW2 排在籃架、器材資料後面。 ｜ LAWWW2 查坐姿時裙子的處理（裙擺骨頭或坐下時換短版／收窄），體育館一樓長椅那位先修，修好截圖",
+   "next": "【LAWWW 11-10 10:5x】角色美術 D100a：LAWWW 看 SKIRT_SIT_cam 近景截圖判 ART_APPROVED（長椅上裙子沒有穿模）。 ｜ 【LAWWW 11-10 10:3x】BB（BB_255）：功能 CC ALL PASS（BB_255 第 1443、1524 行）；角色美術照 D100a 由 LAWWW 看截圖判。 ｜ 【11-07 05:4x LAWWW-B】第二批（LAWWW2-B 33bc9fe48、測試 patch 655729e66）：沛珊、芯慈、予樂、秀琴、秀琴圍裙五個 VRM 坐下不穿模（248～645 → 0），skirt_sit_morph_unit 加這五位 ALL PASS；BB 意見通過（Blender 前後對照），等 CC 遊戲內截圖後 LAWWW 標 ART_APPROVED（D100a）。 ｜ 【11-07 05:2x LAWWW-B】LAWWW2-B 768da51ab（資產 123a5c464）：8 個穿裙子的路人 VRM（＋lod）加坐下才打開的 morph「skirt_sit」，src/character3d.js 靜態坐姿開；tests/skirt_sit_morph_unit.js ALL PASS。等 CC：體育館一樓長椅、教室、Café 坐著的穿裙子路人近／7 m 外截圖。有名字的四位（沛珊、芯慈、予樂、秀琴）LAWWW 同意照做（D100a），LAWWW2 排在籃架、器材資料後面。 ｜ LAWWW2 查坐姿時裙子的處理（裙擺骨頭或坐下時換短版／收窄），體育館一樓長椅那位先修，修好截圖",
    "source": "UA-LAWWW-1105-23",
    "authorized": "使用者原話",
    "xai": {
@@ -47607,7 +47607,8 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "src": "使用者 11-05 07:0x（UA-LAWWW-1105-23、X239）"
+   "src": "使用者 11-05 07:0x（UA-LAWWW-1105-23、X239）",
+   "evidence": "CC SKIRT_SIT_cam（cc-local 2325262bb local_out/SKIRT_SIT_cam/out，開發 fa79dd7bc，Windows＋GPU）功能 ALL PASS（BB_255 第 1443、1524 行）；LAWWW 11-10 看近景四張（咖啡廳、教室、體育館兩張長椅）：裙子自然垂在長椅前、沒穿進椅面，角色美術 ART_APPROVED（D100a）"
   },
   {
    "id": "ARENA-NOHOOP-1105",
