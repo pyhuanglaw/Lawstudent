@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "L492_main12",
+  "sha": "492ef334aef133a046f3a49e986665afee6e19cf",
+  "kind": "game",
+  "script": "tests/flow_main_day12.py",
+  "env": "XARGS={url} {out};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-10T11:30:52",
+  "end": "2026-11-10T11:36:26",
+  "seconds": 334,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 65,
+    "mem": 50,
+    "used_gb": 15.7,
+    "chrome_testing": 9
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
