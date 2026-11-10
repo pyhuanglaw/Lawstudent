@@ -32,3 +32,14 @@
 [16:13:00] config.txt: PARALLEL 2 -> 3
 [16:13:00] config.txt: HEADLESS 0 -> 1（每一項都不開視窗）
 [16:13:00] memory used: 37%  (new items wait while >= 85%)
+[16:13:04] queue: LE738_b1court, LE738_p0, LE738_zone, LE738_reach, LE738_libfloors, LE738_main12, LE738_classreal, LE738_mini, LE738_invphone, LE738_invgo, LE738_touch, L98E_b1court, L98E_reach, L98E_invphone, L98E_libfloors, L98E_zone, L98E_p0, L98E_main12, L492_invgo, L492_invphone, L492_libfloors, L492_p0, L492_reach, L492_zone, L492_mini, L492_classreal, L492_main12, L492_touch, NOASK_faf1, WZDAY_rp_1400, WZDAY_rp_1930, WZDAY_ct_moku_1400, WZDAY_ct_moku_1930, WZDAY_ct_tea_1400, WZDAY_ct_tea_1930, USAPT204b_old, USAPT204b_new
+[16:13:04] memory 37% before starting LE738_b1court (0 running)
+[16:13:04] memory 37% before starting LE738_p0 (1 running)
+[16:13:05] memory 37% before starting LE738_zone (2 running)
+[16:13:05] ==== START LE738_b1court  (probe @ e73888074c) ====
+[16:13:05] ==== START LE738_p0  (game @ e73888074c) ====
+[16:13:05] ==== START LE738_zone  (game @ e73888074c) ====
+[16:13:07] [res] cpu=3% mem=37% (11.8/31.4 GB) chrome_testing=0  START LE738_p0
+[16:13:07] [res] cpu=3% mem=37% (11.8/31.4 GB) chrome_testing=0  START LE738_zone
+[16:13:07] [res] cpu=3% mem=37% (11.8/31.4 GB) chrome_testing=0  START LE738_b1court
+[16:16:24] [res] cpu=23% mem=51% (16.4/31.4 GB) chrome_testing=9  END LE738_p0
