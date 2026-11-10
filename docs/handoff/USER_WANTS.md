@@ -636,6 +636,7 @@
 | X296 | 總圖大廳的「樓層簡介」看板有兩個，其中一個浮在半空（原話「總圖公告有兩個 一個漂浮」；截圖 docs/handoff/user_shots/1110_library_board_float.webp：11/9 週日 14:07 總圖大廳，多元共享區前兩塊「總圖書館 樓層簡介」） | 11-10 02:3x（對 LAWWW-B；UA-LAWWW-1110-44） | 進行中（LAWWW：場景本來是 LAWWW2，LAWWW2 不在由 LAWWW 修；先查是字的那一片跟著備用架子的位置、正式模型的架子在另一個地方） | LIB-BOARD-FLOAT-1110 | 11-12 |
 | X297 | 總圖外面拱廊的柱子會閃（原話「總圖外的柱子會閃」；截圖 docs/handoff/user_shots/1110_library_arcade_flicker.webp：11/9 週日 14:50 校園，總圖一樓拱廊的紅磚柱、拱圈） | 11-10 02:5x（對 LAWWW-B；UA-LAWWW-1110-45） | 進行中（LAWWW：場景本來是 LAWWW2，LAWWW2 不在由 LAWWW 查；先查是兩層面重疊（z-fighting）還是鏡頭碰撞讓牆淡出、透視在閃） | LIB-ARCADE-FLICKER-1110 | 11-12 |
 | X298 | 總圖 B1 的入口要獨立：總圖建築外面左邊（西側）有樓梯往下到一個露天的小中庭（下沉中庭），從那裡進 B1；不是從一樓過去（原話「總圖地下室入口應該是獨立 總圖建築物外面左邊有個下樓到一個小中庭到地下一樓 露天的 有B1入口 不是從一樓過去」；附 B1 平面圖 docs/handoff/user_shots/1110_library_b1_plan_ref.webp：中庭、迴廊、左側往下的樓梯；參考氣氛和動線，不照抄，D136） | 11-10 03:0x（對 LAWWW-B；UA-LAWWW-1110-46） | 進行中（LAWWW：校園總圖西側加往下的樓梯＋露天下沉中庭＋B1 入口，直接進 library_b1；拿掉一樓門廳往 B1 的門；場景本來是 LAWWW2，LAWWW2 不在由 LAWWW 做；排在手上這批 bug 修好、推上去以後） | LIB-B1-OUTSIDE-1110 | 11-13 |
+| X299 | 總圖 B1 洗手間門口後面是一大片空的房間（原話「總圖B1洗手間門口後面是空的」；截圖 docs/handoff/user_shots/1110_library_b1_wc_empty.webp：24 小時自習室 A 區走廊旁，洗手間的門那一面牆後面是一間空房、只有一盆植物） | 11-10 03:0x（對 LAWWW-B；UA-LAWWW-1110-47） | 進行中（LAWWW：和 X298 B1 入口一起改；那一塊照平面圖做成洗手間的隔間（看不到裡面）或補成用途明確的空間，不留空房；場景本來是 LAWWW2，LAWWW2 不在由 LAWWW 做） | LIB-B1-OUTSIDE-1110 | 11-13 |
 
 ---
 
