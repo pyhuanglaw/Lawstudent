@@ -193,8 +193,8 @@ async def lunch_once(pg, cdp, case, tag, plan, money, flags):
     setup('%s：第一堂 %s：CLS.goClass（手機「今天」同一個函式），之後照玩家點' % (tag, first['c']))
     await pg.evaluate("(k=>{ const it=CLS.dayItems(GAME.G,GAME.G.day).find(q=>q.key===k); if(it) void CLS.goClass(GAME,it,{}); })", first['key'])
     log = []
-    r = await drive(pg, cdp, "false", 1500, ('坐中間', '老位子'), log, stop_on=lambda t: any(x.startswith('先去吃飯') for x in t))
-    if not check('%s：下課選單有「先去吃飯」' % tag, isinstance(r, dict), J(r)[:200]): return None
+    r = await drive(pg, cdp, "false", 1500, ('坐中間', '老位子'), log, stop_on=lambda t: any(x.startswith(('先去吃飯', '直接去下一堂')) for x in t))
+    if not check('%s：下課選單有「先去吃飯」（%s）' % (tag, J(r['ch'] and [o['t'][:16] for o in r['ch']]) if isinstance(r, dict) else r), isinstance(r, dict) and any(o['t'].startswith('先去吃飯') for o in r['ch']), ''): return None
     txt = [o['t'] for o in r['ch']]; k = next(j for j, o in enumerate(r['ch']) if o['t'].startswith('先去吃飯'))
     note('%s：下課選單原文 %s → 點「%s」' % (tag, J(txt), txt[k]))
     m0 = await pg.evaluate("GAME.G.money"); nc = len(await pg.evaluate("window.__NA.choose")); nt = len(await pg.evaluate("window.__NA.toast")); ncap = len(await pg.evaluate("window.__NA.caption")); nsay = len(await pg.evaluate("window.__NA.say"))
