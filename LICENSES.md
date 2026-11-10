@@ -389,3 +389,4 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
 | CC0 環境模型 | https://github.com/pmndrs/market-assets | c9cfa02 |
 | Draco 解碼（tools/undraco.js，離線） | https://github.com/google/draco | 15bdb3a |
 | 評估過未採用 | KenneyNL/Starter-Kit-3D-Platformer、Starter-Kit-City-Builder | 3fa8a04、4535092 |
+| 汀州路商圈 `assets/models/env/second_ai/tingzhou_street.glb`（配置 `src/data/tingzhou_layout.js`；區域 `tingzhou`） | 本作 Blender 腳本 `tools/blender/env_second/wz_street.py --set tingzhou`（LAWWW2 帳號 A 2026-11-10，TINGZHOU-AREA-1110）；五間店面（越好吃小館、客居雲南、東南大聯商行、汀州聯通、溫特寶邸）的招牌、店內、照片菜單貼圖從使用者 11-10 自己生成的概念圖裁出來（`tz_fronts_tex.py`；`docs/art-rebuild/second_ai/ref/tingzhou_1110/concept/`）；牆面貼圖 Poly Haven CC0 | 本作；貼圖 CC0；概念圖＝使用者提供 | 第 1 版；BB 判（D120） |

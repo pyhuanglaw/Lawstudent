@@ -860,11 +860,11 @@ def mok_window(spec, xf, w):
 # ======================================================================== 新生南路七家店（ART-XINSHENG-FRONTS-1104，LAWWW2）
 # 參考圖就是規格（SCENE_RULES 第 12 節）：招牌、玻璃後面看到的店內、二樓窗後面，都是從使用者的參考圖直接裁出來校正透視（xs_front_tex.py → xs_fronts_atlas.jpg，整條街一個材質）；
 # 框、玻璃、招牌板、騎樓柱子、天花板、店內的地板／兩側牆／天花燈是 3D。店內景深卡在玻璃後 0.8 m（看斜一點看得到兩側的牆，不是貼在玻璃上的一張照片）。
-_XSA = {'xinsheng': 'xs_fronts_atlas', 'wenzhou': 'wz_fronts_atlas', 'gongguan': 'gg_fronts_atlas'}.get(SET)   # 溫州街（日常失速，WZ-OFFBEAT-1104）用自己的小圖集：兩條街不同 GLB，各帶各的
+_XSA = {'xinsheng': 'xs_fronts_atlas', 'wenzhou': 'wz_fronts_atlas', 'gongguan': 'gg_fronts_atlas', 'tingzhou': 'tz_fronts_atlas'}.get(SET)   # 溫州街（日常失速，WZ-OFFBEAT-1104）用自己的小圖集：兩條街不同 GLB，各帶各的
 XS_ATLAS = _json.load(open(os.path.join(GEN, _XSA + '.json'), encoding='utf-8')) if (_XSA and os.path.exists(os.path.join(GEN, _XSA + '.json'))) else {}
 XS_MAT = _img_mat('wz_xs_fronts', _XSA + '.jpg', rough=0.55, emit=0.85) if XS_ATLAS else None   # 店裡、二樓窗後面、燈箱：自發光（參考圖裡店都是亮的；在騎樓的陰影裡只靠反光會變成一片暗）
 XS_MAT_M = _img_mat('wz_xs_fronts_matte', _XSA + '.jpg', rough=0.75, emit=0.1) if XS_ATLAS else None   # 外牆上的字、招牌板、海報櫃：不發光
-XS_LIT = ('_int', '_up', '_side', 'nanyang_sign', 'dakou_sign', 'dakou_v', 'xsports_v', '_door', '_take', '_shop', 'ggcvs_sign', 'ggcvs_vend', '_kitchen', '_win', 'ggyy_sign')
+XS_LIT = ('_int', '_up', '_side', 'nanyang_sign', 'dakou_sign', 'dakou_v', 'xsports_v', '_door', '_take', '_shop', 'ggcvs_sign', 'ggcvs_vend', '_kitchen', '_win', 'ggyy_sign', 'tzlian_sign', 'tzyue_sign', 'tzkeju_sign', 'tzdong_sign', '_vsign', '_menu')   # 汀州路五間（tz_fronts_tex.py）：燈箱招牌、照片菜單燈箱晚上亮；溫特寶邸的黑底招牌不發光（上面三盞鵝頸燈照）
 _XSQ = []   # 先收起來，最後一次做成兩個網格（同材質合併）
 XS_SHOPS = []   # 窗卡的店前綴（照第一次出現的順序編號，寫進 xs_fronts_lit 的 extras xsShops）
 
