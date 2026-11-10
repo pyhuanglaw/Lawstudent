@@ -7,6 +7,7 @@
     tea   一盞（wz_teahouse；沒有窗景卡，從緣側往前院看）
     own   已經換成自己位置照片的店：候選 afar／aoki／bookstore／daybreak／yangyang／corner_records／wz_teishoku／wz_mokuyobi／wz_offbeat／wz_brunch／cafe，
           執行時從程式判斷（窗景卡是一般材質、貼圖網址是專屬照片 *_view*、不是視差窗 W3.windowMat、也不是木曜日的樹 mok_view）；是的才拍，每間只拍白天一張（STREET_OWN=1 另拍街景）。
+  沒有窗景卡的店（11-10 試跑：8c050804c 的山嵐、南洋、同弦，大概還有運動廣場，模型裡只有玻璃）：INFO 照實記，改對著最大的玻璃拍（JSON kind＝glass、has_card＝false）。
   窗景卡怎麼找（執行時、不寫死）：區域群組裡的網格，材質有 uniforms.depth＋photo＋map＝視差窗（W3.windowMat：ggViewPanes 的 VIEWPANE_*、room() 的窗、新生南路的 pane）；
     名字有 VIEW／NIGHT_、或材質名 *window_view＝照片卡（GG_VIEW、WZ_VIEW 換過的那幾張）。同一面牆只留最大的一片；每間最多 MAXCARDS 片（預設 2）。
   方向：窗往外＝從店裡中間（非出口互動點的平均）往卡的那一側（卡最薄的那一軸）；街上的方向＝店裡「出口在哪一側」和街上「店門 → 出店落點」對齊（轉 90° 的倍數）以後同樣轉過去。
@@ -54,7 +55,9 @@ SHOPS = [s for s in SHOPS_ALL if not _sel or any(x in (s[0], s[1], s[2], s[3]) f
 CARDS = r"""(()=>{ const E=GAME.E, z=E.zone, out=[]; if(!z||!z.group) return out; const LG=z.levelGroups||[], lgi=new Map(LG.map((l,i)=>[l.group,i])); const q=new THREE.Quaternion();
   const urlOf=t=>{ if(!t) return null; const u=(t.userData&&t.userData.url)||(t.image&&(t.image.currentSrc||t.image.src))||''; return /^(blob|data):/.test(u)||(!u&&t.image)?'(GLB 內嵌:'+(t.name||'?')+')':(u.replace(/^https?:\/\/[^/]+\//,'')||null); };
   z.group.traverse(o=>{ if(!o.isMesh) return; const m=[].concat(o.material)[0]; if(!m) return; const u=m.uniforms; let kind=null;
-    if(u&&u.depth&&u.photo&&u.map) kind='parallax'; else if(/VIEW/.test(o.name||'')||/^NIGHT_/.test(o.name||'')||/window_view/i.test(m.name||'')) kind='photo'; if(!kind) return;
+    if(u&&u.depth&&u.photo&&u.map) kind='parallax'; else if(/VIEW/.test(o.name||'')||/^NIGHT_/.test(o.name||'')||/window_view/i.test(m.name||'')) kind='photo';
+    else if(/glass/i.test((o.name||'')+' '+(m.name||''))&&!/case|sconce|cup|bottle|lamp/i.test((o.name||'')+' '+(m.name||''))) kind='glass';   /* 沒有窗景卡的店（11-10 試跑：山嵐只有玻璃 shl_glass）：退回對著玻璃拍、照實記 */
+    if(!kind) return;
     let vis=true, lv=null; for(let p=o;p&&p!==z.group.parent;p=p.parent){ if(lgi.has(p)){ lv=lgi.get(p); continue; } if(p.visible===false){ vis=false; break; } }
     o.updateWorldMatrix(true,false); const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new THREE.Vector3()), s=b.getSize(new THREE.Vector3());
     o.getWorldQuaternion(q); const n=new THREE.Vector3(0,0,1).applyQuaternion(q);
@@ -141,7 +144,7 @@ async def wait_tex(pg, max_ms=12000):
     t = 0; cards = []
     while t <= max_ms:
         cards = await pg.evaluate(CARDS)
-        if all((c['photoOn'] == 1 if c['kind'] == 'parallax' else c['loaded']) for c in cards if c['vis']): return cards
+        if all((c['photoOn'] == 1 if c['kind'] == 'parallax' else c['loaded']) for c in cards if c['vis'] and c['kind'] != 'glass'): return cards
         await pg.wait_for_timeout(1000); t += 1000
     return cards
 
@@ -195,8 +198,13 @@ async def do_shop(pg, cdp, key, zone, name, group):
     elif group == 'tea':
         chosen = []
     else:
-        chosen = pick_cards(cards, center, MAXCARDS)
-        if not R.check('%s 找得到看得見的窗景卡' % tag, bool(chosen), J([[c['name'], c['vis']] for c in cards])):
+        chosen = pick_cards([c for c in cards if c['kind'] != 'glass'], center, MAXCARDS)
+        rec['has_card'] = bool(chosen)
+        if not chosen:   # 沒有窗景卡（視差窗、照片卡都沒有）：照實記 INFO，改對著最大的幾片玻璃（立著、薄、寬高都 > 1 m）拍——玻璃外面是什麼就是什麼
+            gl = [c for c in cards if c['kind'] == 'glass' and min(c['size'][0], c['size'][2]) < 0.3 and c['size'][1] > 1.0 and max(c['size'][0], c['size'][2]) > 1.0]
+            R.note('%s INFO：這一間沒有窗景卡（視差窗、照片卡都沒有）；改對著玻璃拍：%s' % (tag, J([[c['name'], c['vis'], c['lv'], c['c'], c['size']] for c in gl])))
+            chosen = pick_cards(gl, center, MAXCARDS)
+        if not R.check('%s 找得到看得見的窗景卡（沒有卡時：玻璃）' % tag, bool(chosen), J([[c['name'], c['kind'], c['vis']] for c in cards])):
             rec['error'] = 'nocard'; return rec
     views = []
     for c in chosen:
@@ -204,6 +212,7 @@ async def do_shop(pg, cdp, key, zone, name, group):
     if group == 'tea':   # 一盞：沒有窗景卡；從緣側（「坐在緣側」那一張）往前院看＝座位面向的方向
         eng = [q for q in seats if '緣側' in (q['label'] or '')]
         R.note('%s 「坐在緣側」：%s；（窗景卡 %s）' % (tag, J(eng), J([c['name'] for c in cards if c['vis']])))
+        rec['has_card'] = False
         if not R.check('%s 有緣側的座位（往前院看的位置）' % tag, bool(eng), J(seats)): rec['error'] = 'noengawa'; return rec
         q = min(eng, key=lambda q: abs(q['sx'] - sum(e['sx'] for e in eng) / len(eng)))
         yaw = await pg.evaluate("((p)=>{ const i=GAME.E.interactables.find(i=>i.seat&&Math.abs(i.seat.x-p[0])<1e-3&&Math.abs(i.seat.z-p[1])<1e-3); return i&&i.seat.yaw!=null?+i.seat.yaw:0; })", [q['sx'], q['sz']])

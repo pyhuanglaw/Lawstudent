@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 DIR = sys.argv[1]
 CW = int(os.environ.get('CELL_W') or (sys.argv[2] if len(sys.argv) > 2 else 560)); CH = CW * 9 // 16
-LW = 260; HEAD = 44; PAD = 6
+LW = 260; HEAD = 76; PAD = 6
 FONTS = ['/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc', '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc', '/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc',
          'C:/Windows/Fonts/msjh.ttc', 'C:/Windows/Fonts/msyh.ttc']
 GROUP_NAME = {'gen5': '通用視差窗 5 間', 'xs7': '新生南路 7 間', 'tea': '一盞（前院）', 'own': '專屬照片（對照）'}
@@ -53,13 +53,13 @@ def build(rows, title, path):
     img = Image.new('RGB', (W, H), (245, 243, 238)); d = ImageDraw.Draw(img)
     d.text((PAD, 8), title, fill=(30, 30, 30), font=F1)
     for i, t in enumerate(('白天 14:00 店裡往窗外', '晚上 21:00 店裡往窗外', '門口外面、同方向（14:00）')):
-        d.text((LW + PAD + i * (CW + PAD), 14), t, fill=(60, 60, 60), font=F2)
+        d.text((LW + PAD + i * (CW + PAD), 46), t, fill=(60, 60, 60), font=F2)
     for r, (s, kv, cells) in enumerate(rows):
         y = HEAD + r * (CH + PAD)
         lines = [s.get('name', '?'), s.get('zone', '')]
         if kv:
             k, v = kv
-            lines.append(('第 %d 片 ' % (k + 1) if k else '') + ('視差窗' if v.get('kind') == 'parallax' else '照片卡' if v.get('kind') == 'photo' else '前院'))
+            lines.append(('第 %d 片 ' % (k + 1) if k else '') + ('視差窗' if v.get('kind') == 'parallax' else '照片卡' if v.get('kind') == 'photo' else '玻璃（沒有窗景卡）' if v.get('kind') == 'glass' else '前院'))
             lines.append(str(v.get('card', ''))[:26])
             o = v.get('out') or [0, 0]
             lines.append('窗往外 ' + ('東' if o[0] > 0.5 else '西' if o[0] < -0.5 else '+z' if o[1] > 0.5 else '-z'))
