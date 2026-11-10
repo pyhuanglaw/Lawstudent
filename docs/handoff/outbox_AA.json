@@ -6284,6 +6284,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "USER_WANTS X199；LAWWW 11-10 14:21 問（D79）"
+  },
+  {
+   "task": "SHIFT-TREAT-1110",
+   "branch": "claude/story-planning",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_739_shift_treat.json"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 實作（進店觸發、隔天以上、招待頻率、rel +1、idx 存檔）；BB 測",
+   "next": "LAWWW 接",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "USER_WANTS X302；芷若 Café、語彤一盞；沛珊不在班表上不加"
   }
  ],
  "items": [
