@@ -261,13 +261,22 @@ const TERMEND=(function(){
        →（鉤子、lastByTerm 照舊）→ 收尾；**不再接朋友的話題池**（AA_749 規則第 1 條）、祐廷不自動回。TERMEND_OPTS 沒有這個人（沛珊、芯慈）＝照 termend_lines.js 原本的一句＋話題池。
      - 心意的邀約（kind 'heart'）：飯桌那一句說完，TERMEND_OPTS.TABLE[她].after 有那一句＝接選項（學姊大四上換句的那一頓沒有）；回家路上「說出來」的三句照 TERMEND_OPTS.CONFESS[她]（S.confessOpts）。
      - 選項顯示的順序洗過（BB_314 第 1 節 #5：36 頓裡 29 頓 +2 排第一個）：種子＝那一天＋她＋哪一組，同一天、讀檔以後都一樣；效果跟著選項走。「說出來」的三句不洗（「（先不說）」照舊第四個）。
-     - 可昕（kind 'kexin'，S.kexinDinner）：TERMEND_OPTS.KX[學期] 有＝table 換成 says＋選項＋then；KX_ASK 的二選一、KX_EXTRA 照舊。
-     - fx 走共用上限（S.fxCap：一頓飯她的戀愛最多 +2，心意的飯＝告白那一晚 +3）。存檔沒有新欄位（只多旗標 YT_DINNER_YES）。*/
+     - 可昕（kind 'kexin'，S.kexinDinner）：TERMEND_OPTS.KX[學期] 有＝table 換成 says＋選項＋then；KX_EXTRA 照舊（KX_ASK 見下面）。
+     - fx 走共用上限（S.fxCap：一頓飯她的戀愛最多 +2，心意的飯＝告白那一晚 +3）。存檔沒有新欄位（只多旗標 YT_DINNER_YES）。
+     - 朋友版（kind 'friend'、保底的 'fallback'；AA_749_termend_friend_v2_*，企劃線 5ffd725b8）：TERMEND_OPTS.FRIEND[學期][人] 有＝開場旁白（保底＝open）→ 她（他）說 says → 選項 → 回答、fx → then →（鉤子、收尾照舊）；
+       **不抽話題池、祐廷不自動回「嗯。」**。沒有的人（沛珊；稿沒寫的學期）照原本的話題池。{子晴學姊|一個學姊}＝照 Q6 二選一（S.alt）。
+       條件：ZR_LAST／noZR_LAST（6/3 最後一個班去了沒，ev_zhiruo_last_shift）、noJP／noUS（EXCHANGE_ROUTE）、US4P（美國路線回來）。
+     - 心意的飯不再抽朋友的話題池（AA 11-10；有朋友版稿的人。沛珊等重寫，照舊）。
+     - 鉤子那一句和飯桌開場重複的＝不念 say、直接出選項（S.hookNoSay：稿上 hookNoSay 的——柏翰大三下；S.HOOK_NOSAY 列的——女朋友版以安大二上；鉤子的句子在這頓飯已經一字不差說過的）。
+     - 可昕：有選項稿的學期，KX_ASK 的二選一不再接在後面（AA 11-10）；大二上 KX_KHH.Y2W 改由選項「我去。妳排哪幾天？」記（選項的 khh）。沒有 TERMEND_OPTS.KX 的舊資料照原本。*/
   const TO=()=>typeof TERMEND_OPTS!=='undefined'&&TERMEND_OPTS?TERMEND_OPTS:null;
   S.SHUFFLE=true;
   S.optIf=function(G,c,term){ if(!c) return true; const C=(L()&&L().COND)||{}, F=(G&&G.flags)||{}, f=k=>{ try{ return !!(C[k]&&C[k](G)); }catch(e){ return false; } };
     if(c==='Q6') return f('Q6'); if(c==='noQ6') return !f('Q6'); if(c==='SNOWQ') return f('SNOWQ'); if(c==='YOUPAY') return f('YOUPAY'); if(c==='noYOUPAY') return !f('YOUPAY');
     if(c==='C10') return f('C10'); if(c==='US') return f('US'); if(c==='noUS') return !f('US');
+    if(c==='US4P') return typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';   /* termend_lines.js 的 US4P 同一個判斷 */
+    if(c==='noJP') return F.EXCHANGE_ROUTE!=='JP';
+    if(c==='ZR_LAST'||c==='noZR_LAST'){ const d=!!(G&&G.events&&G.events.done&&G.events.done.ev_zhiruo_last_shift); return c==='ZR_LAST'?d:!d; }   /* 芷若 6/3 最後一個班那天去了沒（AA_749 朋友版大二下）*/
     if(c==='YT_MET_JOB') return !!F.YT_MET_JOB; if(c==='summer') return /S2$/.test(String(term));
     if(c==='sisGrad'||c==='sisPreGrad'){ const d=DK('2026-09-01'), g=d!=null&&G.day>=d; return c==='sisGrad'?g:!g; }   /* 學姊 2026-09 上法研所（AA_748 tableOpts 學姊的 note）*/
     if(/^term:/.test(c)) return c.slice(5)===term; return false; };
@@ -277,6 +286,14 @@ const TERMEND=(function(){
   S.optEntry=function(G,E,who,term,salt){ const ok=x=>S.optIf(G,x&&x.if,term), s=(E.says||[]).find(ok); return {say:s?s.say:[],opts:(E.opts||[]).filter(ok),shuffle:term+'|'+salt}; };
   S.gfEntry=function(who,term,spec){ const T=TO(), g=T&&T.GF&&T.GF[who]; if(!g) return null; if(g.tableByTerm&&g.tableByTerm[term]) return {E:g.tableByTerm[term],generic:false};
     if(spec&&spec.tableByTerm&&spec.tableByTerm[term]!=null) return null; return g.table?{E:g.table,generic:true}:null; };   /* 稿沒寫、遊戲有寫的學期＝照遊戲原本那一句 */
+  /* 朋友版的一頓（TERMEND_OPTS.FRIEND[學期][人]）；{甲|乙}＝照 Q6 二選一（阿凱「子晴學姊／一個學姊」）*/
+  S.frEntry=function(who,term){ const T=TO(), f=T&&T.FRIEND&&T.FRIEND[term]; return (f&&f[who])||null; };
+  S.frHas=function(who){ const T=TO(), F=T&&T.FRIEND; return !!F&&Object.keys(F).some(t=>!!F[t][who]); };
+  S.alt=function(G,E){ const s=JSON.stringify(E); if(s.indexOf('|')<0) return E; const q=S.optIf(G,'Q6'); return JSON.parse(s.replace(/\{([^{}|"]+)\|([^{}|"]+)\}/g,(m,a,b)=>q?a:b)); };
+  const strs=x=>x==null?[]:(typeof x==='string'?[x]:(Array.isArray(x)?[].concat(...x.map(strs)):(typeof x==='object'?[].concat(...Object.keys(x).filter(k=>k==='say'||k==='says'||k==='re'||k==='then'||k==='opts'||k==='after').map(k=>strs(x[k]))):[])));
+  S.HOOK_NOSAY={gf:{heroine_01:['Y2S1']}};   /* 女朋友版以安大二上：飯桌已經講了東京那兩個禮拜，鉤子「寒假我報了東京的冬季課。」不念（AA 11-10）*/
+  S.hookNoSay=function(G,term,who,kind,E){ if(!E) return false; if(E.hookNoSay) return true; if(((S.HOOK_NOSAY[kind]||{})[who]||[]).includes(term)) return true;
+    const H=S.hookFor(G,term,who), hs=H?S.flat(lines(H.say,G),G):[], said=strs(E); return hs.length>0&&hs.every(t=>said.includes(t)); };
   /* 「說出來」的三句：TERMEND_OPTS.CONFESS[她]——照 if 篩；條件不合、寫了 orig 的那一格照原本第 orig 個選項；篩完不是三個＝照原本（後面的程式照第幾個選項算）*/
   S.confessOpts=function(G,who,term,say3){ const T=TO(), c=T&&T.CONFESS&&T.CONFESS[who]; if(!c||!Array.isArray(c.opts)) return null; const O=[];
     for(const o of c.opts){ if(S.optIf(G,o.if,term)) O.push(o); else if(o.orig!=null&&say3[o.orig]) O.push({t:say3[o.orig],yesLead:[]}); } return O.length===3?O:null; };
@@ -287,7 +304,8 @@ const TERMEND=(function(){
       else if(Array.isArray(x.choice)||Array.isArray(x.opts)){   /* {choice:[{t,say}]}：飯桌上的一組選項（AA_470 4-2）。DLG-FX-MECH-1110：也可以寫 {say?:[她先說的], opts:[{t, re|say, fx}]}——re＝她的回答（一句或陣列）、fx＝{fr, love}（SOCIAL.applyFx，算在這頓飯的對象身上）*/
         if(x.say!=null) await run(GM,who,[].concat(x.say)); const O=(x.opts||x.choice).filter(o=>o&&typeof o.t==='string'&&o.t.trim()&&(typeof o.if!=='function'||o.if(G)));   /* if 寫成字串的（TERMEND_OPTS）已經在 S.optEntry 篩過 */ if(!O.length) continue;
         const O2=x.shuffle?S.shuffled(G,who,O,x.shuffle):O, k=await GM.choose(O2.map(o=>({t:o.t}))), o=O2[k]||O2[0]; S._chose++; await run(GM,who,o.say!=null?[].concat(o.say):(o.re!=null?[].concat(o.re).map(t=>typeof t==='string'&&/^（.*）$/.test(t)?{narr:t}:t):[]));
-        if(o.fx&&typeof SOCIAL!=='undefined'&&SOCIAL.applyFx) SOCIAL.applyFx(G,who,o.fx,S.fxCap(G,who)); if(o.set&&G.flags&&G.flags[o.set]==null) G.flags[o.set]=G.day; if(o.adv&&GM.advance) GM.advance(o.adv); }   /* shuffle：顯示的順序洗過（S.shuffled）；adv：選了以後時間多走（AA_748 子晴「現在玩」+15 分鐘）*/
+        if(o.fx&&typeof SOCIAL!=='undefined'&&SOCIAL.applyFx) SOCIAL.applyFx(G,who,o.fx,S.fxCap(G,who)); if(o.set&&G.flags&&G.flags[o.set]==null) G.flags[o.set]=G.day; if(o.adv&&GM.advance) GM.advance(o.adv);
+        if(Array.isArray(o.khh)&&G.flags){ const KH=G.flags.KX_KHH||(G.flags.KX_KHH={}); KH[o.khh[0]]=o.khh[1]; } }   /* shuffle：顯示的順序洗過（S.shuffled）；adv：選了以後時間多走（AA_748 子晴「現在玩」+15 分鐘）*/
       else if(x.text) await GM.say(x.who&&x.who!==who?{name:nm(x.who),charId:x.who}:me,x.text,x.expr?{expr:x.expr}:undefined); } };
   S.dinner=async function(GM,q){ const G=GM.G, te=q&&q.te; if(!te) return false; const Lx=L(), who=te.who, kind=te.kind, R=S.rec(G,te.term);
     if(kind==='kexin') return S.kexinDinner(GM,te);
@@ -304,20 +322,24 @@ const TERMEND=(function(){
     const hk=S.hookFor(G,te.term,who), hkSay=hk?S.flat(lines(hk.say,G),G):[];
     const pool=((Lx.POOL[te.term]||{})[who]||[]).map(x=>resolve(x,G)).filter(x=>x!=null&&!(typeof x==='string'&&hkSay.includes(x))), me={name:G.name||'祐廷'}; let ri=0;
     /* 話題池：她說一則、祐廷輪流回 REPLY（「嗯。」「真的假的。」「我也是。」）；那一則自己有選項（{say, opts}／{choice}）＝玩家選、不再自動回（DLG-FX-MECH-1110，AA_746 第 2 節第 4 點）*/
+    const fe0=(kind==='friend'||kind==='fallback')?S.frEntry(who,te.term):null, fe=fe0?S.alt(G,fe0):null; let noSay=false;   /* 朋友版有選項的那一頓：不抽話題池 */
+    const friend1=async()=>{ await run(GM,who,[S.optEntry(G,fe,who,te.term,'friend')]); if(fe.then) await run(GM,who,fe.then); noSay=S.hookNoSay(G,te.term,who,kind,fe); };
     const talk=async n=>{ for(let i=0;i<Math.min(n,pool.length);i++){ const c0=S._chose; await run(GM,who,[pool[i]]); if(i<Math.min(n,pool.length)-1&&S._chose===c0){ await GM.say(me,Lx.REPLY[(ri++)%Lx.REPLY.length]); } } };
-    if(kind==='fallback'){ await run(GM,who,spec.open); await talk(2); await S.hook(GM,te.term,who); await run(GM,who,spec.close); }
+    if(kind==='fallback'){ await run(GM,who,spec.open); if(fe) await friend1(); else await talk(2); await S.hook(GM,te.term,who,noSay); await run(GM,who,spec.close); }
     else { await GM.say(null,P.open||'（'+(other?P.name:(spec.placeName||P.name||''))+'。）');
       if(kind==='gf'){ const tb=spec.tableByTerm&&spec.tableByTerm[te.term], ge=S.gfEntry(who,te.term,spec);
         if(ge){ await run(GM,who,[S.optEntry(G,ge.E,who,te.term,'gf')]);   /* TERMEND-OPTS-1110：有選項的那一頓——不接話題池 */
           if(ge.generic&&spec.tableFlag&&G.flags[spec.tableFlag]==null) G.flags[spec.tableFlag]=G.day;
           const M=Lx.GF_MORE&&Lx.GF_MORE[who]&&Lx.GF_MORE[who][te.term]; if(M) await run(GM,who,lines(M,G));   /* 學姊大四上 XM3 兩句照舊接在選項後面 */
-          let ai=0; for(const a of ge.E.after||[]){ ai++; if(S.optIf(G,a.if,te.term)) await run(GM,who,[S.optEntry(G,{says:[{say:a.say}],opts:a.opts||[]},who,te.term,'gf.after'+ai)]); } }
+          let ai=0; for(const a of ge.E.after||[]){ ai++; if(S.optIf(G,a.if,te.term)) await run(GM,who,[S.optEntry(G,{says:[{say:a.say}],opts:a.opts||[]},who,te.term,'gf.after'+ai)]); }
+          noSay=S.hookNoSay(G,te.term,who,'gf',ge.E); }
         else { await run(GM,who,lines(tb!=null?tb:spec.table,G)); if(tb==null&&spec.tableFlag&&G.flags[spec.tableFlag]==null) G.flags[spec.tableFlag]=G.day; await talk(2); } }   /* 飯桌一句每學期不一樣（AA_352）；沒寫的學期照 table。tableFlag：聽過 table 那一句（AA_524 Y1 語彤「我媽問你……」）*/
-      else if(kind==='friend'&&spec.openByTerm&&spec.openByTerm[te.term]&&!(R.picked&&R.picked.by==='player')){ await run(GM,who,lines(spec.openByTerm[te.term],G)); await talk(3); }   /* 開場之後多一句（AA_524 A6 以安大一上「（她點了菜單上最便宜的那一個。）」）：她約的才有，玩家自己約的不演 */
-      else if(kind==='heart'){ await talk(2); if(!other){ const tl=lines(spec.table,G); await run(GM,who,tl); const T=TO(), tt=T&&T.TABLE&&T.TABLE[who];
+      else if(kind==='friend'&&spec.openByTerm&&spec.openByTerm[te.term]&&!(R.picked&&R.picked.by==='player')){ await run(GM,who,lines(spec.openByTerm[te.term],G)); if(fe) await friend1(); else await talk(3); }   /* 開場之後多一句（AA_524 A6 以安大一上「（她點了菜單上最便宜的那一個。）」）：她約的才有，玩家自己約的不演 */
+      else if(kind==='heart'){ if(!S.frHas(who)) await talk(2);   /* 心意的飯不再抽朋友的話題池（AA 11-10）；沒有朋友版稿的人（沛珊，重寫中）照舊 */ if(!other){ const tl=lines(spec.table,G); await run(GM,who,tl); const T=TO(), tt=T&&T.TABLE&&T.TABLE[who];
           if(tt&&tl.length===1&&typeof tl[0]==='string'&&(tt.after||[]).includes(tl[0])) await run(GM,who,[S.optEntry(G,{opts:tt.opts},who,te.term,'table')]); } }   /* TERMEND-OPTS-1110：飯桌那一句之後的選項（AA_748 tableOpts；那一句照稿的 after 才接）*/
+      else if(fe) await friend1();
       else await talk(3);
-      await S.hook(GM,te.term,who);   /* 邀約鉤子（AA_250 10-1：話題之後、收尾之前）*/
+      await S.hook(GM,te.term,who,noSay);   /* 邀約鉤子（AA_250 10-1：話題之後、收尾之前）*/
       if(kind==='gf'&&spec.lastByTerm&&spec.lastByTerm[te.term]) await run(GM,who,lines(spec.lastByTerm[te.term],G));   /* 那一頓的最後（收尾之前；AA_470 4-2 學姊大四上）。約在哪一家都演（AA_490 第 2 節：句子沒提到店；原本玩家自己約別家＝other 不演）——lastByTerm 只放和店無關的句子 */
       const atTbl=kind==='heart'&&spec.againAtTable&&spec.closeAgain&&S.rec(G).think[who]!=null;   /* 以安第二次在桌邊演：收尾換一句，收盤子挪到「……勾了。」之後（AA 2026-11-02 20:57）*/
       const cl=atTbl?spec.closeAgain:(kind==='gf'&&P.closeGf?P.closeGf:P.close); if(cl) await GM.say(null,cl); }   /* 學姊的女朋友版收尾（AA_250 10-1）*/
@@ -416,8 +438,8 @@ const TERMEND=(function(){
     if(a.flag&&G.flags&&G.flags[a.flag]!=null) return null;
     return H; };
   S.flat=function(x,G){ x=resolve(x,G); if(x==null) return []; if(typeof x==='string') return [x]; if(Array.isArray(x)) return [].concat(...x.map(y=>S.flat(y,G))); if(typeof x==='object'&&typeof x.text==='string'&&(!x.who||x.who!=='narr')) return [x.text]; return []; };
-  S.hook=async function(GM,term,who){ const G=GM.G, H=S.hookFor(G,term,who); if(!H) return null; const Lx=L(), R=S.rec(G,term);
-    await run(GM,who,lines(H.say,G)); if(H.noOpt){ if(H.then) await run(GM,who,lines(H.then,G)); R.hook={who,ok:false,noOpt:true}; return false; }   /* noOpt：她照樣說，不給接的選項（AA_389 第 2 點：沒有下文的鉤子）*/
+  S.hook=async function(GM,term,who,noSay){ const G=GM.G, H=S.hookFor(G,term,who); if(!H) return null; const Lx=L(), R=S.rec(G,term);
+    if(!(noSay&&!H.noOpt)) await run(GM,who,lines(H.say,G));   /* noSay：飯桌已經講過這件事＝不念、直接出選項（沒有選項的鉤子照念）*/ if(H.noOpt){ if(H.then) await run(GM,who,lines(H.then,G)); R.hook={who,ok:false,noOpt:true}; return false; }   /* noOpt：她照樣說，不給接的選項（AA_389 第 2 點：沒有下文的鉤子）*/
     const k=await GM.choose([{t:resolve(H.ok,G)},{t:Lx.HOOK_NO}]); R.hook={who,ok:k===0};
     if(k===0&&H.after) await run(GM,who,lines(H.after,G));
     if(H.then) await run(GM,who,lines(H.then,G));   /* then：選不選都講（芷若大二上「放映完隔天，我就回台中了。」，AA_369 第 9 節第 1 題）*/
@@ -458,9 +480,9 @@ const TERMEND=(function(){
     if(typeof FAV!=='undefined'&&FAV.kexinDate) await FAV.kexinDate(GM,te,{name:nm('kexin'),charId:'kexin'});   /* 帶給她的那一杯（巷口茶飲，src/foodfav3d.js，AA_410）：開頭、她的第一句之前 */
     const XA=(Lx.KX_EXTRA&&Lx.KX_EXTRA[te.term])||{}; if(XA.open) await run(GM,'kexin',lines(XA.open,G));   /* AA_525 3-10：飯桌一開始（美國路線大四上「第一碗。說好我請。」）*/
     if(K.first){ const ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_revisit_y1_kexin'):null; if(ev&&typeof EVENTS!=='undefined'&&EVENTS.runLines) await EVENTS.runLines(ev.dialogue,ev); if(ev&&typeof ev.after==='function') ev.after(G); }   /* BB_167 4-3：八段回憶挑一段（REVISIT_Y1 照記，大四主線 10 讀）*/
-    else { const kt=TO()&&TO().KX&&TO().KX[te.term];   /* TERMEND-OPTS-1110：可昕那一頓的選項（AA_749_termend_kx_v2）；後面的二選一（KX_ASK）照舊 */
+    else { const kt=TO()&&TO().KX&&TO().KX[te.term];   /* TERMEND-OPTS-1110：可昕那一頓的選項（AA_749_termend_kx_v2）*/
       if(kt){ await run(GM,'kexin',[S.optEntry(G,kt,'kexin',te.term,'kx')]); if(kt.then) await run(GM,'kexin',kt.then); } else await run(GM,'kexin',lines(K.table,G));
-      const A0=Lx.KX_ASK&&Lx.KX_ASK[te.term], A=typeof A0==='function'?A0(G):A0;   /* AA_401：table 兩句後面的二選一 */
+      const A0=kt?null:(Lx.KX_ASK&&Lx.KX_ASK[te.term]), A=typeof A0==='function'?A0(G):A0;   /* 有選項稿的學期不再接 KX_ASK（AA 11-10）；KX_KHH.Y2W 由選項的 khh 記 */   /* AA_401：table 兩句後面的二選一 */
       if(Array.isArray(A)&&A.length&&GM.choose){ const k=await GM.choose(A.map(o=>({t:o.t}))), o=A[k]||A[0]; await run(GM,'kexin',o.r);
         if(o.khh){ const KH=G.flags.KX_KHH||(G.flags.KX_KHH={}); KH[o.khh[0]]=o.khh[1]; } if(o.y5) G.flags.KX_Y5_CALL=o.y5; } }
     if(XA.end) await run(GM,'kexin',lines(XA.end,G));   /* AA_525 3-1、3-2：飯桌最後（大三上聖誕的禮物、第二頁；美國路線大四上的摩天輪）*/

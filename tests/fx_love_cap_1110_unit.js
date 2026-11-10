@@ -106,13 +106,14 @@ const idx=t=>H.said.findIndex(s=>s.t===t);
 
   await sec(5,async()=>{ const Lx=TERMEND_LINES, a='heroine_01', T='Y1S1', keep=Lx.POOL[T][a].slice(), c0f=DATE.canConfess;
     const dinner=async(want)=>{ const G=H.fresh('2026-01-15',18.5); H.rel(a,45,30,0); reset(); WANT=want||[]; await TERMEND.dinner(GM,{te:{term:T,who:a,kind:'friend'}}); return G; };
+    const keepTO=globalThis.TERMEND_OPTS; if(keepTO) globalThis.TERMEND_OPTS=Object.assign({},keepTO,{FRIEND:undefined});   /* TERMEND-OPTS-1110（朋友版）：以安大一上現在讀 TERMEND_OPTS.FRIEND、不抽話題池；這一節測的是話題池的機制（沛珊、多人桌還在用），先把 FRIEND 拿掉 */
     try{ Lx.POOL[T][a]=[{say:['（假）話題一。'],opts:[{t:'（假）甲',re:['（假）回甲。'],fx:{love:2,fr:1}},{t:'（假）扣',fx:{love:-1}}]},{say:['（假）話題二。'],opts:[{t:'（假）丙',re:['（假）回丙。'],fx:{love:2,fr:1}}]},keep[2]];
       let G=await dinner(['（假）甲','（假）丙']); const v={both:idx('（假）回甲。')>=0&&idx('（假）回丙。')>=0,love:love(a),fam:fam(a),keys:keys(a)};
       check('5. 期末的飯：兩則話題的選項各 +2＝這頓飯她的戀愛一共 +2（fr 照加兩次）；鍵＝termend:<天>',v.both&&v.love===2&&v.fam===2&&J(v.keys)===J(['termend:'+G.day]),J(v));
       G=await dinner(['（假）扣','（假）丙']); check('5. 先扣 1 再 +2＝+1（扣的不限）',love(a)===1,J(FXD));
       DATE.canConfess=(g,id)=>id===a?{ok:true}:c0f(g,id); G=await dinner(['（假）甲','（假）丙']);
       check('5. 告白那一晚的飯：上限 +3',love(a)===3&&FXD.some(([w,,o])=>w===a&&o&&o.max===3),J(FXD));
-    } finally { DATE.canConfess=c0f; Lx.POOL[T][a]=keep; WANT=[]; } });
+    } finally { DATE.canConfess=c0f; Lx.POOL[T][a]=keep; WANT=[]; globalThis.TERMEND_OPTS=keepTO; } });
 
   await sec(6,async()=>{ const id='heroine_01', th='p:'+id, b='heroine_02'; let G=H.fresh('2025-10-18',19); H.FRIEND(id); H.FRIEND(b); G.contacts={[id]:1,[b]:1}; PHONE.rec(G);
     const ask=(n,who,fx)=>{ PHONE.post(G,{th:'p:'+who,from:who,text:'（假）訊息'+n,ask:{id:'cap_'+n,opts:[{t:'（假）甲',say:[{from:who,text:'（假）回'}],fx},{t:'（假）乙'}]}}); return PHONE.answer(G,'cap_'+n,0); };
