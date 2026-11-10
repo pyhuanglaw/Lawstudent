@@ -6,6 +6,23 @@
 #        probe = repo script (CC probe), args <URL> <out>\out ; LW_TESTS / SHA set automatically
 #        py    = repo script, args <URL> <out dir>
 #  URL : path after http://127.0.0.1:<port>/
+# ===== P0 BB 18:42：v9.10.24 最後候選 fe5fa4a79（遊戲檔最後 38f89360c）發布前回歸，排最前面；ecc 的結果不算；每支跑完就推 =====
+F24_deploy | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
+F24_p0 | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+F24_zone | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+F24_mini | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+F24_reach | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
+F24_classreal | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/flow_class_real.py | index.html | 25 | XARGS={url} {out};CC_HEADLESS=0
+F24_movie | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | probe | docs/story_planning/test_tools/cc/cc_movie_probe.py | index.html | 30 | WHO=heroine_01;PLACE=xs_nanyang
+F24_x315 | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | probe | docs/story_planning/test_tools/cc/cc_outing_gate_probe.py | index.html | 20 | TAG=f24;X315=1;CASES=NF,R14,COOL,S6
+F24_main12 | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+F24_touch | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
+F24_guide | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
+F24_ggnav | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+F24_capgap | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=f24
+F24_v7 | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
+F24_live | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
+F24_live_pos | fe5fa4a79fdc8fe4c91800f7f53e1b276ba01114 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
 # ===== LAWWW-B 11-10 03:1x（使用者：「其他 AI 不會工作 電腦測試繼續跑」、選擇題「我來排、我來判」——BB、CC 不在，LAWWW-B 排、LAWWW-B 代判）=====
 #   這一版把已經跑完的 1000 多行拿掉（結果都在 claude/cc-local 的 local_out/；runner 照 ID@SHA#RERUN 看 meta.json 判斷跑過沒，拿掉不影響）。
 #   舊的整份佇列（CC-B 交班時）＝claude/cc-testing 31d4ce230（blob ade40ce47），要查舊項目看那一份。
@@ -332,20 +349,20 @@ W24_outing_r3 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_pl
 W24_invgo | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/flow_inv_go_jump.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
 W24_invgo_real | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_invgo_real_probe.py | index.html | 20 | RERUN=r3
 # 2 發布前回歸——BB 17:37（X314 海報到齊才發）：先 HOLD，等最後一個候選再一起跑（已經在跑的跑完就好）
-#HOLD W24_deploy | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
-#HOLD W24_p0 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
-#HOLD W24_zone | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
-#HOLD W24_mini | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
-#HOLD W24_reach | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
-#HOLD W24_classreal | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/flow_class_real.py | index.html | 25 | XARGS={url} {out};CC_HEADLESS=0
-#HOLD W24_main12 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
-#HOLD W24_touch | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
-#HOLD W24_guide | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
-#HOLD W24_ggnav | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
-#HOLD W24_capgap | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=w24
-#HOLD W24_v7 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
-#HOLD W24_live | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
-#HOLD W24_live_pos | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
+#SUPERSEDED(F24 fe5fa4a79) W24_deploy | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/deploy_check.py | index.html | 15 | XARGS={url};CC_HEADLESS=0
+#SUPERSEDED(F24 fe5fa4a79) W24_p0 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+#SUPERSEDED(F24 fe5fa4a79) W24_zone | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/zone_transitions.py | index.html?turbo | 25 | XARGS={url};CC_HEADLESS=0
+#SUPERSEDED(F24 fe5fa4a79) W24_mini | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+#SUPERSEDED(F24 fe5fa4a79) W24_reach | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url};CC_HEADLESS=0
+#SUPERSEDED(F24 fe5fa4a79) W24_classreal | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/flow_class_real.py | index.html | 25 | XARGS={url} {out};CC_HEADLESS=0
+#SUPERSEDED(F24 fe5fa4a79) W24_main12 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+#SUPERSEDED(F24 fe5fa4a79) W24_touch | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 25 | SOLO=1;XARGS={url};CC_HEADLESS=0
+#SUPERSEDED(F24 fe5fa4a79) W24_guide | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
+#SUPERSEDED(F24 fe5fa4a79) W24_ggnav | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
+#SUPERSEDED(F24 fe5fa4a79) W24_capgap | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_caption_gap_probe.py | index.html | 10 | TAG=w24
+#SUPERSEDED(F24 fe5fa4a79) W24_v7 | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=385e19471fb027c4620df16c82c47fa18fb9c8d4;XARGS={url2} {url};CC_HEADLESS=0
+#SUPERSEDED(F24 fe5fa4a79) W24_live | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v95.py | index.html | 40 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
+#SUPERSEDED(F24 fe5fa4a79) W24_live_pos | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | game | tests/save_compat_v7.py | index.html | 30 | SHA2=3a34dbaa5dcc39928eb7d1c5aa493cbb8e4d7ed2;XARGS={url2} {url};CC_HEADLESS=0
 # 3 新功能各玩一次（探針寫好就補上）
 #SUPERSEDED(W24_movie_real：pt1107i 舊探針沒有 X274 1 廳流程) W24_movie | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/pt1107i_invplaces_probe.py | index.html | 30 | MODE=meet;WHO=heroine_01;MOVIE=1
 #SUPERSEDED(05a715ead：ecc 載入順序錯，BB 17:54) W24_newfeat | ecc3e12a798dfab4af60e85fac29b93e5f2d7321 | probe | docs/story_planning/test_tools/cc/cc_newfeat_probe.py | index.html | 40 | CASES=YEJIAN,MOKU,CLUB

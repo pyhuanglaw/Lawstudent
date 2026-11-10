@@ -105,6 +105,8 @@ async def main():
         bye = [e for e in ev if e['z'] == 'xs_nanyang' and e['k'] == 'say' and trace and 'xs_nanyang_hall' in zs]
         R.check('散場以後回大廳道別（大廳有對話）', bool(bye) and zs[-1] == 'xs_nanyang', J({'last': zs[-3:], 'bye': bye[-3:]}))
         R.note('錢：進戲院 %s → 最後 %s；NY_WATCHED %s' % (m0, trace[-1]['money'] if trace else None, trace[-1]['watched'] if trace else None))
+        rem = [e for e in ev if e['k'] == 'toast' and '提醒' in e['v'] and e['z'] in ('xs_nanyang', 'xs_nanyang_hall')]
+        R.check('MOVIE-REMIND-LATE（a8bad4dda）：到了南洋大廳／1 廳以後不再跳約會提醒 toast', not rem, J(rem))
         R.check('walkFallbacks 0', (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
