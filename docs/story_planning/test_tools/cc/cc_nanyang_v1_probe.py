@@ -12,7 +12,16 @@
       ②照玩家點地往牆裡走（騎樓南北兩端往公寓那邊點），一路記位置：在那兩段裡人的 x 都 ≥ −13.2（不在牆裡）。
   截圖（給使用者看，不判；藏 HUD、藏玩家）：大廳 camRef（配置 lobby.camRef：eye、look、lens 24 mm）、1 廳（配置沒有 camRef：門口往銀幕，eye (3.5,1.6,7.4) look (0,1.4,−7.75) 24 mm），白天 14:00、晚上 21:00 各一張。
   六、營業時間外（BB-C 04:31 加）：places.js xs_nanyang 每天 09:30–24:00（AA_615 第 3 節）——讀檔新生南路 08:00 走到店門按「進南洋戲院」：不換區域、跳 toast（PLACES.closedText）；09:30 以後照樣進得去（上面一）。
-用法：LW_TESTS=<wt>/tests [PARTS=door,seats,slope,arcade,closed,shots] python3 cc_nanyang_v1_probe.py <url> <out>"""
+  ===== CC（帳號 A）11-10 NANYANG_v3（BB 10:23：開發分支 fe4d893ac，LAWWW2 指定；r1＝NANYANG_v2 63 PASS／5 FAIL）=====
+  七、長椅走近點（fe4d893ac nanyang3d.js：長椅按鈕在座位上、範圍 1.0（NANYANG-BENCH-SIT-1105，原本 0.8）；GAME.seatApproach＝座位前 0.8 m＝(2.95, z)）：先核對這兩個數字，再照舊 D.sit_all。
+  八、時間守門：r1 每段走路常常走滿 240～300 秒（遊戲時間一段 1.6～2 小時），大廳 #3、#4 時已經 23～24 點，24:00 打烊（XS_CLOSE）把人送回新生南路＝第 5 項「找不到進 1 廳」。
+      現在每張座位之前、找「進 1 廳」之前看區域和時間：不在該在的區域、或 20:30 以後＝【前置／捷徑】讀檔回同一區域 14:00（印出當時在哪）。
+  九、買票（SHOP-STAFF-1107，src/nanyang_sys3d.js）：大廳營業時間有店員（NYS.clerkAt：週五、週六 Alison 那兩天站爆米花機旁邊 (−4.1, −3.7)，其他天 NY3.CLERK (−4.1, −2.8)）；
+      櫃檯前（配置 popcorn (−2.6, −2.8)，範圍 0.9）按「買票」→ 選單「買票　150 元」「不用了」→ 扣 150（toast「💸 150 元」）、G.flags.NY_TICKET＝今天、「買票」藏起來。
+  十、看電影（src/aa614_3d.js S.watch，AA_615）：有今天的票、今天還沒看過，1 廳「坐下看電影」坐下＝NY3.houseLights(false)（場燈關）→ 黑幕 → 時間 +min(4, 24−現在)
+      → 旁白三句隨機一句（AA614.L.watch）→ 場燈打開、G.flags.NY_WATCHED＝今天 → 座位選單（起身）。同一天再坐一次不再演；沒有票坐下也不演（座位那一段順便看）。
+  十一、ART（D120）：大廳 camRef、1 廳門口往銀幕各一張乾淨截圖（14:00、藏 HUD（D.HUD）、藏玩家）：ART_nanyang_lobby.png、ART_nanyang_hall.png。
+用法：LW_TESTS=<wt>/tests [PARTS=door,seats,slope,movie,arcade,closed,xsclose,art,shots] python3 cc_nanyang_v1_probe.py <url> <out>"""
 import os, sys, json, asyncio, math, time, io
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests'))
@@ -24,7 +33,7 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
-PARTS = [x for x in (os.environ.get('PARTS') or 'door,seats,slope,arcade,closed,xsclose,shots').split(',') if x]
+PARTS = [x for x in (os.environ.get('PARTS') or 'door,seats,slope,movie,arcade,closed,xsclose,art,shots').split(',') if x]
 R = L.Run('nanyang_v1', OUT); D.setup(R, OUT)
 DAY = '2025-10-18'   # 週六（PC 11-05 NANYANG_v2：週三下午有課，坐大廳座位途中被上課流程帶到教室）
 ST = r"""(()=>{ const E=GAME.E, P=E.player, o=P.obj.position; const ch=document.getElementById('choices'), it=document.getElementById('interact');
@@ -204,8 +213,209 @@ async def walk_logged(pg, cdp, tx, tz, near, label, max_s=180):
 use_exit = D.use_exit
 
 
-async def sit_all(pg, cdp, tag):
-    return await D.sit_all(pg, cdp, tag, tag.strip('[]').replace(' ', '_'))
+async def sit_all(pg, cdp, tag, before_each=None):
+    return await D.sit_all(pg, cdp, tag, tag.strip('[]').replace(' ', '_'), before_each=before_each)
+
+
+# ---------------- NANYANG_v3（11-10）新增 ----------------
+LOBBY_AT = (0.0, 5.2, math.pi)    # 配置 lobby.enterAt
+HALL_AT = (3.5, 6.4, math.pi)     # 配置 hall.enterAt
+
+
+async def time_guard(pg, cdp, zone, at, tag, limit=20.5):
+    """人要在 zone、時間在營業中而且還早（09:36～limit）；不是＝印出當時在哪，【前置／捷徑】讀檔回 zone 14:00（r1 第 5 項：走路太久到 24:00 被打烊送出去）"""
+    s = await st(pg); h = s['hour'] % 24
+    if s['zone'] == zone and 9.6 <= h < limit: return s, False
+    R.note('%s 人在 %s (%s, %s) 第 %s 層、%s 點、坐著＝%s、對話＝%s（要在 %s、%s 點以前）' % (tag, s['zone'], s['x'], s['z'], s['lv'], s['hour'], s['seat'], s['dlg'], zone, limit))
+    R.setup('%s 時間走太多／不在 %s：讀檔回 %s %s 14:00 (%s, %s)' % (tag, zone, zone, DAY, at[0], at[1]))
+    s = await D.load_zone(pg, cdp, zone, DAY, 14.0, at[0], at[1], at[2], wait=8000)
+    return s, True
+
+
+def guard_each(zone, at, tag):
+    async def f(k, seat):
+        await time_guard(pg_ref[0], pg_ref[1], zone, at, '%s #%d 之前' % (tag, k + 1))
+    return f
+
+
+pg_ref = [None, None]
+
+
+async def bench_precheck(pg):
+    """七：大廳四張長椅＝按鈕範圍 1.0、seatApproach (2.95, z)（fe4d893ac nanyang3d.js、game3d.js seatApproach 前 0.8 m）"""
+    b = await pg.evaluate("""(()=>GAME.E.interactables.filter(i=>i.seat&&i.nanyang==='bench').map(i=>{ const ap=GAME.seatApproach(i.seat);
+      return {x:+i.x.toFixed(2), z:+i.z.toFixed(2), r:i.radius, ap:ap?[+ap[0].toFixed(2),+ap[1].toFixed(2)]:null}; }))()""")
+    R.note('[大廳 長椅] 按鈕＋走近點：%s' % J(b))
+    R.check('[大廳 長椅] 四張都在（nanyang:\'bench\'）', len(b) == 4, J(b))
+    for k, q in enumerate(b):
+        R.check('[大廳 長椅] #%d（%s, %s）按鈕範圍 1.0、GAME.seatApproach＝(2.95, %s)（±0.06）' % (k + 1, q['x'], q['z'], q['z']),
+                abs((q['r'] or 0) - 1.0) < 0.01 and bool(q['ap']) and abs(q['ap'][0] - 2.95) <= 0.06 and abs(q['ap'][1] - q['z']) <= 0.06, J(q))
+
+
+TOAST_HOOK = "(()=>{ window.__ccToast=[]; const t=document.getElementById('toast'); if(t&&!window.__ccToastObs){ window.__ccToastObs=new MutationObserver(()=>{ const x=(t.innerText||'').trim(); if(x) window.__ccToast.push(x); }); window.__ccToastObs.observe(t,{childList:true,subtree:true,characterData:true,attributes:true}); } return true; })()"
+MV_HOOK = r"""(()=>{ window.__ccMvSay=[]; window.__ccMvHL=[];
+  if(!window.__ccMvHook){ const s0=GAME.say; GAME.say=function(w,t){ try{ window.__ccMvSay.push({t:String(t),h:+(+GAME.G.hour).toFixed(3)}); }catch(e){} return s0.apply(this,arguments); };
+    if(typeof NY3!=='undefined'&&NY3.houseLights){ const h0=NY3.houseLights; NY3.houseLights=function(on){ const r=h0.apply(this,arguments); try{ window.__ccMvHL.push({on:!!on,r:!!r,h:+(+GAME.G.hour).toFixed(3)}); }catch(e){} return r; }; }
+    window.__ccMvHook=true; } return {ny3:typeof NY3!=='undefined'&&!!NY3.houseLights, aa614:typeof AA614!=='undefined'&&!!AA614.watch}; })()"""
+MV_INFO = r"""(()=>{ const G=GAME.G, F=G.flags||{}, z=GAME.E.zone; const t=document.getElementById('dlgText'), f=document.getElementById('fade');
+  return {day:G.day|0, hour:+(+G.hour).toFixed(3), money:G.money, ticket:F.NY_TICKET===undefined?null:F.NY_TICKET, watched:F.NY_WATCHED===undefined?null:F.NY_WATCHED,
+    has:typeof NYS!=='undefined'?NYS.hasTicket(G):null, dlgText:(GAME.D&&GAME.D.active)?String(GAME.D.full||(t&&t.textContent)||'').trim():'', fade:!!(f&&f.classList.contains('on')),
+    house:(z&&z.house)?z.house.map(l=>+l.intensity.toFixed(2)):null, seatKind:GAME.E.player.seat?(GAME.E.player.seat.kind||null):null,
+    say:(window.__ccMvSay||[]).slice(), hl:(window.__ccMvHL||[]).slice()}; })()"""
+
+
+async def tap_choice(pg, cdp, prefix):
+    """點選單上文字開頭是 prefix 的那一顆（#choices 裡也可能有說明的 div：用它在 children 裡的位置）"""
+    n = await pg.evaluate("""(p=>{ const box=document.getElementById('choices'); if(!box||box.classList.contains('hide')) return -1; const ch=[...box.children];
+      for(let i=0;i<ch.length;i++){ const e=ch[i]; if(e.tagName==='BUTTON'&&e.offsetParent!==null&&(e.innerText||'').trim().startsWith(p)) return i+1; } return 0; })""", prefix)
+    if n > 0: await L.tap(pg, cdp, '#choices > :nth-child(%d)' % n)
+    return n
+
+
+async def no_movie_check(pg, tag):
+    i = await pg.evaluate(MV_INFO); wl = await pg.evaluate("(typeof AA614!=='undefined'&&AA614.L&&AA614.L.watch)||[]")
+    played = [q for q in i['say'] if q['t'] in wl]; off = [q for q in i['hl'] if not q['on']]
+    R.check('%s 沒有票：坐下不演電影（沒有 AA614 旁白、場燈沒關、NY_WATCHED 不是今天）' % tag, not played and not off and i['watched'] != i['day'], J({'played': played, 'lightsOff': off, 'watched': i['watched'], 'day': i['day']}))
+
+
+async def part_movie(pg, cdp):
+    """九、十：買票（大廳櫃檯、店員）→ 1 廳坐下看電影"""
+    R.setup('[買票] 讀檔南洋戲院大廳 %s（六）14:00、入口裡面 (%s, %s)' % (DAY, LOBBY_AT[0], LOBBY_AT[1]))
+    s = await D.load_zone(pg, cdp, 'xs_nanyang', DAY, 14.0, LOBBY_AT[0], LOBBY_AT[1], LOBBY_AT[2], wait=8000)
+    if not R.check('[買票] 讀到大廳（xs_nanyang）', s['zone'] == 'xs_nanyang', J(s)): return
+    hk = await pg.evaluate(MV_HOOK); R.note('[看電影] 掛勾：%s' % J(hk))
+    # 店員
+    ck = await pg.evaluate("""(()=>{ const G=GAME.G, E=GAME.E; const at=typeof NYS!=='undefined'&&NYS.clerkAt?NYS.clerkAt(G):null; const c=(E.npcs||[]).filter(n=>n&&n.nyClerk);
+      const pop=NANYANG_LAYOUT.lobby.interact.find(q=>q.kind==='popcorn');
+      return {exp:at, open:typeof NYS!=='undefined'?NYS.isOpen(G):null, alisonDay:typeof NYS!=='undefined'?NYS.alisonDay(G):null, n:c.length,
+        at:c.map(n=>[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]), inScene:c.map(n=>!!n.obj.parent), behind:at?!E.canStand(at.x,at.z,0.3,0):null, pop:pop?[pop.x,pop.z]:null,
+        btn:E.interactables.filter(i=>i.nyTicket).map(i=>({label:i.label,x:i.x,z:i.z,r:i.radius,hidden:!!i.hidden,where:i.nyTicket}))}; })()""")
+    R.note('[買票] 店員、按鈕：%s' % J(ck))
+    if not R.check('[買票] 這一版有 NYS（src/nanyang_sys3d.js）', ck['open'] is not None, J(ck)): return
+    R.check('[買票] 營業時間大廳櫃檯後面有一個店員（NYS.clerkAt %s；Alison 那兩天＝%s）、在場景裡、玩家站不到她的位置（櫃檯後面）' % (J(ck['exp']), ck['alisonDay']),
+            ck['n'] == 1 and bool(ck['exp']) and math.hypot(ck['at'][0][0] - ck['exp']['x'], ck['at'][0][1] - ck['exp']['z']) < 0.05 and all(ck['inScene']) and ck['behind'] is True, J(ck))
+    btn = next((b for b in ck['btn'] if b['where'] == 'lobby'), None)
+    if not R.check('[買票] 大廳有「買票」（櫃檯前 popcorn %s）、還沒藏起來' % J(ck['pop']), bool(btn) and btn['label'] == '買票' and not btn['hidden'], J(ck['btn'])): return
+    # 走到櫃檯前
+    await L.go_to(pg, cdp, R, btn['x'], btn['z'], 0.35, '[買票] 櫃檯前', max_s=180); b = await D.settle(pg)
+    if not b['interact'].startswith('買票'):
+        await L.go_to(pg, cdp, R, btn['x'], btn['z'], 0.2, '[買票] 櫃檯前（再靠近）', max_s=60); b = await D.settle(pg)
+    if not R.check('[買票] 走到櫃檯前，互動按鈕是「買票」', b['interact'].startswith('買票'), J({k: b[k] for k in ('x', 'z', 'interact', 'stand', 'hour')})):
+        await shot(pg, 'ticket_nobtn', judge_black=False); return
+    i0 = await pg.evaluate(MV_INFO); await pg.evaluate(TOAST_HOOK)
+    await L.tap(pg, cdp, '#interact')
+    c = None
+    for _ in range(20):
+        await pg.wait_for_timeout(400); c = await st(pg)
+        if c['choices']: break
+    R.note('[買票] 按下去的選單：%s（買之前 %s 元、票 %s）' % (J(c and c['choices']), i0['money'], i0['ticket']))
+    if not R.check('[買票] 跳出選單，有「買票　150 元」和「不用了」', bool(c and c['choices']) and any(x.startswith('買票') and '150' in x for x in c['choices']) and any(x.startswith('不用了') for x in c['choices']), J(c)):
+        await shot(pg, 'ticket_nomenu', judge_black=False); return
+    await shot(pg, 'ticket_menu', judge_black=False)
+    await tap_choice(pg, cdp, '買票'); await pg.wait_for_timeout(2000)
+    for _ in range(10):
+        c = await st(pg)
+        if not c['busy'] and not c['dlg'] and not c['choices']: break
+        if c['dlg']: await L.tap(pg, cdp, '#dlg')
+        await pg.wait_for_timeout(500)
+    i1 = await pg.evaluate(MV_INFO); toasts = await pg.evaluate("window.__ccToast||[]")
+    R.note('[買票] 買了以後：%s 元、票 %s、hasTicket %s、toast %s、按鈕 %s' % (i1['money'], i1['ticket'], i1['has'], J(toasts), J(c['interact'])))
+    R.check('[買票] 扣了 150 元（%s → %s）、toast「💸 150 元」' % (i0['money'], i1['money']), i0['money'] - i1['money'] == 150 and any('150' in t for t in toasts), J({'before': i0['money'], 'after': i1['money'], 'toasts': toasts}))
+    R.check('[買票] 手上有今天的票（G.flags.NY_TICKET＝今天 %s、NYS.hasTicket）' % i1['day'], i1['ticket'] == i1['day'] and i1['has'] is True, J(i1))
+    R.check('[買票] 買過以後「買票」藏起來（站在原地，按鈕不是「買票」）', not c['interact'].startswith('買票'), J(c['interact']))
+    R.check('[買票] 買票沒有出台詞（稿裡沒有；GM.say 沒被叫到）', not i1['say'], J(i1['say']))
+    # 進 1 廳
+    s = await D.use_exit(pg, cdp, '[看電影 大廳→1 廳]', '進 1 廳', 'xs_nanyang_hall')
+    if not s:
+        R.note('[看電影] 找不到／進不去 1 廳時人在：%s' % J(await st(pg))); return
+    seats = sorted(await pg.evaluate(SEATS), key=lambda q: q['row'] or 99)
+    free = None
+    for q in seats:
+        occ = await pg.evaluate("(([x,z])=>(GAME.E.npcs||[]).some(n=>n&&n.seat&&Math.hypot(n.seat.x-x,n.seat.z-z)<0.35))", [q['sx'], q['sz']])
+        if not occ: free = q; break
+    if not R.check('[看電影] 1 廳有空的「坐下看電影」', bool(free) and free['label'].startswith('坐下看電影'), J(seats)): return
+    t = '[看電影] 第 %s 排（%s, %s）' % (free['row'], free['sx'], free['sz'])
+    ap = free['ap'] or [free['x'], free['z']]
+    await L.go_to(pg, cdp, R, ap[0], ap[1], 0.3, '%s 走近點' % t, max_s=180); b = await D.settle(pg)
+    if not b['interact'].startswith('坐下看電影'):
+        await L.tap_ground(pg, cdp, free['sx'], free['sz']); b = await D.settle(pg, ms=800, max_s=15)
+    ni = await pg.evaluate(D.NEAR_IT)
+    if not R.check('%s 走到旁邊，互動按鈕是「坐下看電影」' % t, b['interact'].startswith('坐下看電影'), J({'at': [b['x'], b['z']], 'interact': b['interact'], 'nearest': ni})):
+        await shot(pg, 'movie_nobtn', judge_black=False); return
+    i2 = await pg.evaluate(MV_INFO); h0 = i2['hour'] % 24; dur = max(0.5, min(4.0, 24 - h0))
+    wl = await pg.evaluate("(typeof AA614!=='undefined'&&AA614.L&&AA614.L.watch)||[]")
+    await pg.evaluate("(()=>{ window.__ccMvSay=[]; window.__ccMvHL=[]; })()")
+    R.note('%s 坐下前：%s 點、票 %s、看過 %s、場燈 %s；照 AA614.watchHours 應該過 %.2f 小時' % (t, i2['hour'], i2['ticket'], i2['watched'], J(i2['house']), dur))
+    await L.tap(pg, cdp, '#interact')
+    sat = False; dark = None; line = None; menu = None; seen = []; t0 = time.time(); shot_done = False
+    while time.time() - t0 < 120:
+        c = await st(pg); i = await pg.evaluate(MV_INFO)
+        if c['seat']: sat = True
+        if i['dlgText']:
+            seen.append(i['dlgText'])
+            if i['dlgText'] in wl and line is None:
+                line = i['dlgText']; dark = i['house']
+                if not shot_done:
+                    await pg.wait_for_timeout(600); await shot(pg, 'movie_watch_line', judge_black=False); shot_done = True
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+        if c['choices'] and c['seat']: menu = c['choices']; break
+        if not c['seat'] and sat and not c['busy']: break
+        await pg.wait_for_timeout(400)
+    i3 = await pg.evaluate(MV_INFO)
+    R.note('%s 看電影：對話 %s；GAME.say %s；houseLights %s；選單 %s；看完 %s' % (t, J(seen), J(i3['say']), J(i3['hl']), J(menu), J({k: i3[k] for k in ('hour', 'ticket', 'watched', 'house', 'seatKind')})))
+    R.check('%s 坐下了（player.seat、kind cinema）' % t, sat and i3['seatKind'] == 'cinema', J({'sat': sat, 'kind': i3['seatKind']}))
+    R.check('%s 演出 AA614.L.watch 三句裡的一句（AA_615）' % t, bool(line), J({'seen': seen, 'watch': wl}))
+    hl = i3['hl']
+    R.check('%s 開演關場燈、演完再開（NY3.houseLights false → true，都有作用）' % t, len(hl) >= 2 and hl[0]['on'] is False and hl[0]['r'] and hl[-1]['on'] is True and hl[-1]['r'], J(hl))
+    R.check('%s 旁白那時候場燈全關（1 廳 z.house 強度 0）' % t, bool(dark) and all(v == 0 for v in dark), J(dark))
+    sl = next((q for q in i3['say'] if q['t'] in wl), None)
+    adv = (sl['h'] - i2['hour']) if sl else None
+    R.check('%s 時間過去 %.2f 小時（AA614.watchHours＝min(4, 24−%.2f)；實際 %s，±0.3）' % (t, dur, h0, adv if adv is None else round(adv, 2)), adv is not None and abs(adv - dur) <= 0.3, J({'h0': i2['hour'], 'line': sl}))
+    R.check('%s 看完：G.flags.NY_WATCHED＝今天、場燈亮回來、還坐著出座位選單' % t, i3['watched'] == i3['day'] and bool(i3['house']) and all(v > 0 for v in i3['house']) and bool(menu), J({'watched': i3['watched'], 'day': i3['day'], 'house': i3['house'], 'menu': menu}))
+    # 起身
+    if menu:
+        n = await tap_choice(pg, cdp, '起身')
+        if n <= 0: R.note('%s 選單沒有「起身」：%s' % (t, J(menu)))
+        for _ in range(20):
+            c = await st(pg)
+            if not c['seat'] and not c['busy']: break
+            if c['dlg']: await L.tap(pg, cdp, '#dlg')
+            elif c['choices']: await tap_choice(pg, cdp, '起身')
+            await pg.wait_for_timeout(500)
+    mv = await pushable(pg, cdp); c = await st(pg)
+    R.check('%s 起身：不是坐著、站得住、推得動 ≥0.3 m' % t, not c['seat'] and c['stand'] and mv >= 0.3, J({'moved': mv, 'x': c['x'], 'z': c['z'], 'stand': c['stand']}))
+    # 同一天再坐一次：一張票看一場
+    await L.go_to(pg, cdp, R, ap[0], ap[1], 0.3, '%s 再走回來' % t, max_s=120); b = await D.settle(pg)
+    if not b['interact'].startswith('坐下看電影'):
+        R.note('%s 再坐一次：按鈕不是「坐下看電影」（%s），不測' % (t, J(b['interact']))); return
+    h1 = (await pg.evaluate(MV_INFO))['hour']; await pg.evaluate("(()=>{ window.__ccMvSay=[]; window.__ccMvHL=[]; })()")
+    await L.tap(pg, cdp, '#interact'); menu2 = None; t0 = time.time()
+    while time.time() - t0 < 40:
+        c = await st(pg)
+        if c['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(400); continue
+        if c['choices'] and c['seat']: menu2 = c['choices']; break
+        await pg.wait_for_timeout(400)
+    i4 = await pg.evaluate(MV_INFO); played = [q for q in i4['say'] if q['t'] in wl]
+    R.check('%s 同一天再坐一次：不再演（沒有旁白、場燈沒關、時間沒有跳 >0.5 小時）' % t, bool(menu2) and not played and not [q for q in i4['hl'] if not q['on']] and i4['hour'] - h1 < 0.5,
+            J({'menu': menu2, 'played': played, 'hl': i4['hl'], 'h': [h1, i4['hour']]}))
+    if menu2:
+        await tap_choice(pg, cdp, '起身'); await pg.wait_for_timeout(1500)
+
+
+async def part_art(pg, cdp):
+    """十一：給使用者看（ART，D120）：大廳、1 廳各一張乾淨截圖（14:00、藏 HUD、藏玩家）"""
+    lay = await pg.evaluate("(()=>({lobby:NANYANG_LAYOUT.lobby.camRef, hall:NANYANG_LAYOUT.hall.camRef||null}))()")
+    hall_cam = lay['hall'] or {'eye': [3.5, 1.6, 7.4], 'look': [0.0, 1.4, -7.75], 'lens': 24}
+    for zone, at, cam, nm in [('xs_nanyang', LOBBY_AT, lay['lobby'], 'lobby'), ('xs_nanyang_hall', HALL_AT, hall_cam, 'hall')]:
+        R.setup('[ART] 讀檔 %s %s 14:00' % (zone, DAY))
+        s = await D.load_zone(pg, cdp, zone, DAY, 14.0, at[0], at[1], at[2], wait=10000)
+        for _ in range(10):
+            if not s['dlg'] and not s['choices']: break
+            if s['dlg']: await L.tap(pg, cdp, '#dlg')
+            await pg.wait_for_timeout(500); s = await st(pg)
+        fade = await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return !!(f&&f.classList.contains('on')); })()")
+        if not R.check('[ART] 讀到 %s、畫面乾淨（沒有對話框、選單、黑幕）' % zone, s['zone'] == zone and not s['dlg'] and not s['choices'] and not fade, J({'s': s, 'fade': fade})): continue
+        await D.user_shot(pg, cdp, 'ART_nanyang_%s' % nm, cam)
 
 
 async def slope_tap(pg, cdp):
@@ -331,9 +541,10 @@ async def part_shots(pg, cdp):
 
 async def main():
     real = os.popen('git -C "%s" rev-parse --short HEAD 2>/dev/null' % os.path.join(os.environ.get('LW_TESTS') or '.', '..')).read().strip()
-    print('CC NANYANG_v1（南洋戲院第 1 版：只測擋玩五項＋給使用者的截圖）：PARTS=%s；SHA=%s（worktree 實際 %s）；Windows＋GPU／SwiftShader ≠ iPhone' % (PARTS, os.environ.get('SHA', '?'), real or '?'), flush=True)
+    print('CC NANYANG_v1／v3（南洋戲院：擋玩五項＋買票、看電影＋給使用者的截圖）：PARTS=%s；SHA=%s（worktree 實際 %s）；Windows＋GPU／SwiftShader ≠ iPhone' % (PARTS, os.environ.get('SHA', '?'), real or '?'), flush=True)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        pg_ref[0], pg_ref[1] = pg, cdp
         await cc_det.install(pg, 20261105)
         await pg.goto(URL); ok = await L.wait_loaded(pg); R.check('遊戲載入', ok, '')
         if not ok: await b.close(); sys.exit(1)
@@ -344,24 +555,42 @@ async def main():
             out = await pg.evaluate("NY3.streetOut()")
             R.setup('[進出] 讀檔新生南路 %s（六）14:00、戲院門口南邊騎樓 4 m（%s, %s）' % (DAY, out['x'], out['z'] - 4))
             await load_street(pg, cdp, out['x'], out['z'] - 4, yaw=0.0)
-            okd = await part_door(pg, cdp)
+            okd = await part_door(pg, cdp) if 'door' in PARTS else False
             if ('seats' in PARTS or 'slope' in PARTS):
                 if not okd:
-                    R.setup('[座位] 進出沒走完：【捷徑】直接讀檔進大廳')
-                    await L.load_state(pg, {'zone': 'xs_nanyang', 'hour': 14.0, 'day': await pg.evaluate("STORY.dayOfKey('%s')" % DAY), 'weather': 'clear'}, quiet_events=True, quiet_phone=True)
-                    await pg.wait_for_timeout(8000); await L.close_panels(pg, cdp)
+                    R.setup('[座位] 進出沒走完／沒跑：【捷徑】直接讀檔進大廳 14:00 入口裡面')
+                    await D.load_zone(pg, cdp, 'xs_nanyang', DAY, 14.0, LOBBY_AT[0], LOBBY_AT[1], LOBBY_AT[2], wait=8000)
                 else:
+                    s0 = await st(pg)
+                    if s0['zone'] != 'xinsheng' or not (9.6 <= s0['hour'] % 24 < 17.0):   # r1：進出走完已經 19:00，座位走到一半就 24:00 打烊
+                        R.note('[座位] 進出走完：人在 %s (%s, %s)、%s 點' % (s0['zone'], s0['x'], s0['z'], s0['hour']))
+                        R.setup('[座位] 時間走太多：讀檔回新生南路 %s 14:00、戲院門口南邊騎樓 4 m' % DAY)
+                        out = await pg.evaluate("NY3.streetOut()"); await load_street(pg, cdp, out['x'], out['z'] - 4, yaw=0.0)
                     await use_exit(pg, cdp, '[座位 新生南路→大廳]', '進南洋戲院', 'xs_nanyang')
-                if 'seats' in PARTS: await sit_all(pg, cdp, '[大廳]')
+                if 'seats' in PARTS:
+                    await time_guard(pg, cdp, 'xs_nanyang', LOBBY_AT, '[大廳 座位前]')
+                    await bench_precheck(pg)
+                    await sit_all(pg, cdp, '[大廳]', before_each=guard_each('xs_nanyang', LOBBY_AT, '[大廳]'))
+                # r1 第 5 項：這裡人已經不在大廳（24:00 打烊送回新生南路）。先印出人在哪，不在大廳／太晚就讀檔回大廳再找
+                s0 = await st(pg)
+                R.note('[座位 大廳→1 廳] 找「進 1 廳」前：人在 %s (%s, %s) 第 %s 層、%s 點、坐著＝%s、busy＝%s' % (s0['zone'], s0['x'], s0['z'], s0['lv'], s0['hour'], s0['seat'], s0['busy']))
+                await time_guard(pg, cdp, 'xs_nanyang', LOBBY_AT, '[座位 大廳→1 廳]')
                 s = await use_exit(pg, cdp, '[座位 大廳→1 廳]', '進 1 廳', 'xs_nanyang_hall')
+                if not s: R.note('[座位 大廳→1 廳] 沒進到 1 廳，人在：%s' % J(await st(pg)))
                 if s:
                     if 'slope' in PARTS: await part_slope(pg, cdp)
-                    if 'seats' in PARTS: await sit_all(pg, cdp, '[1 廳]')
+                    if 'seats' in PARTS:
+                        await time_guard(pg, cdp, 'xs_nanyang_hall', HALL_AT, '[1 廳 座位前]')
+                        await pg.evaluate(MV_HOOK)   # 沒有票坐下＝不演電影（十）
+                        await sit_all(pg, cdp, '[1 廳]', before_each=guard_each('xs_nanyang_hall', HALL_AT, '[1 廳]'))
+                        await no_movie_check(pg, '[1 廳 座位]')
+        if 'movie' in PARTS: await part_movie(pg, cdp)
         if 'arcade' in PARTS: await part_arcade(pg, cdp)
         if 'closed' in PARTS: await part_closed(pg, cdp)
         if 'xsclose' in PARTS:
             if await pg.evaluate("typeof XSCLOSE!=='undefined'"): await part_xsclose(pg, cdp)
             else: R.note('[散場] 這一版沒有 XSCLOSE（2378a8957 以前）：不測')
+        if 'art' in PARTS: await part_art(pg, cdp)
         if 'shots' in PARTS: await part_shots(pg, cdp)
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
