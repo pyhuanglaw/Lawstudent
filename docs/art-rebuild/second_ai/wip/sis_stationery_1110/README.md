@@ -1,6 +1,12 @@
 # SIS-STATIONERY-1110：山嵐書店文具區（WIP，交班時保存）
 
-狀態：`WORK_IN_PROGRESS`（**還沒交件**，沒給 LAWWW-B 整合）。LAWWW2-B，2026-11-10。
+狀態：`MODEL_READY`，**已交件**（LAWWW2 帳號 A，11-10 08:5x）。v2 由 LAWWW2-B 做，帳號 A 看過預覽、在開發分支 9202e2fab 上重產、測試後交件。
+- 新的 `assets/models/env/second_ai/aa_support/shanlan.glb`（sha256 前 16 碼 820ab699aaf5547b，6.43 MB）在 LAWWW2 的分支上，換這一個檔就好，程式不用改。開發分支原本的是 19602ef0d7879492（5.88 MB）。
+- 在 9202e2fab 換上新檔：`shanlan_unit`、`shanlan_act_unit`、`xs_lm_unit`、`lm_instancing_unit`、`xs9_haopai_shanlan_check.py` 都 ALL PASS。
+- v2 三張預覽看過了：筆盤沒有黑邊；試寫架、分區牌（1.6 m 層板前緣）都在對的位置。
+- AA 的品項清單還沒到；到了以後照品項調 `stationery_add.py` 再重產一次。
+
+（下面是 LAWWW2-B 交班時寫的）
 
 ## LAWWW-B 的要求（11-10 00:51，P2）
 
