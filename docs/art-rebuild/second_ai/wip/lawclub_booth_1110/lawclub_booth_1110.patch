@@ -1,0 +1,59 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index f55a370ab..4d09bc83e 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -433,8 +433,9 @@ const Z3 = (function(){
+     for(const x of [-64,-48]){ const p=W3.planter(); place(g,p,x,-13,0); nav.blockRect(x,-13,1.2,0.5,0); }
+     /* 社團博覽會（AA_110 6-8 (b)；activities.js 的 club_expo_y1s1：新局 9/6、舊局 9/30、10/1，CLUBFAIR-REAL-1027）那幾天：LAWWW2 479b7fc 的九頂帳篷（clubFair），原本的招生攤位、公告欄收起來 */
+     const fairDay=isFairDay();
+-    // 社團招生攤位（傅鐘廣場東側，面向椰林大道）：摺疊桌、布條、傳單
+-    if(!fairDay){ const SX=-18, SZ=14.5; const st=new THREE.Group(); const tb=new THREE.Mesh(new THREE.BoxGeometry(1.8,0.05,0.7),M('#e8e2d6')); tb.position.set(0,0.74,0); st.add(tb); for(const [sx,sz] of [[-0.8,-0.25],[0.8,-0.25],[-0.8,0.25],[0.8,0.25]]){ const leg=new THREE.Mesh(new THREE.BoxGeometry(0.04,0.72,0.04),M('#3a3f46')); leg.position.set(sx,0.36,sz); st.add(leg); } const cloth=new THREE.Mesh(new THREE.BoxGeometry(1.85,0.6,0.02),M('#2f5d50')); cloth.position.set(0,0.42,0.36); st.add(cloth); const banner=W3.signPlane('法律服務社 招生中 ・ 免費法律諮詢',1.8,0.5,{color:'#ffffff',size:40}); banner.position.set(0,0.42,0.38); st.add(banner); const fly=new THREE.Mesh(new THREE.BoxGeometry(0.3,0.02,0.42),M('#ffffff')); fly.position.set(-0.4,0.78,0); st.add(fly); st.position.set(SX,0,SZ); st.rotation.y=Math.PI; g.add(st); nav.blockRect(SX,SZ,1.9,0.8,0,0.1); E.interactables.push({x:SX,z:SZ-1,radius:1.5,label:'看法律服務社的招生攤位',notice:'lawclub'}); }
++    // 法律服務社的招生攤位：摺疊桌、布條、傳單。LAWCLUB-BOOTH-MOVE-1110（使用者 11-10 對 LAWWW-B：「法服徵人 到底為何不在法律系館前? 為什麼在校園中間」，X294；LAWWW2 帳號 A）：
++    // 原本在晨思鐘廣場東側 (−18, 14.5)、面向椰影大道，搬到法學院廣場（法律系館A前庭）靠小椰林道進來的那一頭 (34.5, −90.2)，正面朝南（從校園走過來的人看得到布條），互動點在攤位南邊 1 m
++    if(!fairDay){ const SX=34.5, SZ=-90.2; const st=new THREE.Group(); const tb=new THREE.Mesh(new THREE.BoxGeometry(1.8,0.05,0.7),M('#e8e2d6')); tb.position.set(0,0.74,0); st.add(tb); for(const [sx,sz] of [[-0.8,-0.25],[0.8,-0.25],[-0.8,0.25],[0.8,0.25]]){ const leg=new THREE.Mesh(new THREE.BoxGeometry(0.04,0.72,0.04),M('#3a3f46')); leg.position.set(sx,0.36,sz); st.add(leg); } const cloth=new THREE.Mesh(new THREE.BoxGeometry(1.85,0.6,0.02),M('#2f5d50')); cloth.position.set(0,0.42,0.36); st.add(cloth); const banner=W3.signPlane('法律服務社 招生中 ・ 免費法律諮詢',1.8,0.5,{color:'#ffffff',size:40}); banner.position.set(0,0.42,0.38); st.add(banner); const fly=new THREE.Mesh(new THREE.BoxGeometry(0.3,0.02,0.42),M('#ffffff')); fly.position.set(-0.4,0.78,0); st.add(fly); st.position.set(SX,0,SZ); st.rotation.y=0; g.add(st); nav.blockRect(SX,SZ,1.9,0.8,0,0.1); E.interactables.push({x:SX,z:SZ+1,radius:1.5,label:'看法律服務社的招生攤位',notice:'lawclub'}); }
+     // 社團博覽會的公告欄（AA_110 6-8 (b)，AA 暫定：用現有的公告欄，不另做攤位）：平常是一塊公告欄；9/30、10/1 11:00–17:00 前面是「社團博覽會」的集合點
+     // （activities.js 的 club_expo_y1s1，spot (-13.5,13.6)；classes3d.js 的 fairMenu）。LAWWW2 的攤位做好以後原地換掉，位置不變
+     if(!fairDay){ const bb=W3.bulletin(); place(g,bb,-13.5,14.6,Math.PI); nav.blockRect(-13.5,14.6,2.6,0.4,0); }
+diff --git a/tests/lawclub_booth_unit.js b/tests/lawclub_booth_unit.js
+new file mode 100644
+index 000000000..76a518b1f
+--- /dev/null
++++ b/tests/lawclub_booth_unit.js
+@@ -0,0 +1,37 @@
++// LAWCLUB-BOOTH-MOVE-1110（使用者 11-10 01:5x 對 LAWWW-B：「法服徵人 到底為何不在法律系館前? 為什麼在校園中間」，X294；LAWWW2 帳號 A）——不需要瀏覽器。
++// 在 Node 裡建出遊戲真正的校園（平常的日子，不是社博），檢查法律服務社的招生攤位：
++//   1 有「看法律服務社的招生攤位」互動點（notice lawclub）
++//   2 在法學院廣場（法律系館A前庭的鋪面 x 25～62、z −106～−84）裡，不在晨思鐘廣場、椰影大道邊（離舊位置 (−18, 14.5) 100 m 以上）
++//   3 互動點旁邊站得住；從校門、從法律系館A前（34, −98）都走得到（引擎真正的找路＋移動碰撞，走路與跑步＋低幀率）
++//   4 攤位本身擋住（站不進桌子裡）；旁邊的長椅、路燈、往小椰林道的步道（30, −84）照舊站得住
++// 修改前（開發分支 bb8a32765）：第 2、4 項 FAIL（攤位在 (−18, 14.5)）。用法：node tests/lawclub_booth_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/socsci_layout.js',
++  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js',
++  'src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/activities.js','src/classes3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PUTONG_LAYOUT|TB3|ACTIVITIES|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++const TREES=[]; { const orig=TK.tree; TK.tree=(...a)=>{ const t=orig(...a); TREES.push(t); return t; }; }   /* 記下校園上每一棵闊葉樹（檢查方案 A 留下的樹）*/
++const z=Z3.ZONES.campus.build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
++CLS.addDoors({E},'campus');
++const stand=(x,zz)=>E.canStand(x,zz,0.32,0);
++const walk=(a,b)=>{ for(const [dt,sp] of [[1/30,1.6],[0.1,4.1]]){ const r=E.simWalk(a[0],a[1],b[0],b[1],{lv0:0,lv1:0,dt,speed:sp}); if(!r.ok) return Object.assign({dt:+dt.toFixed(3),speed:sp},r); } return {ok:true}; };
++const GATE=[-112,0], LINZE=[34,-98];
++const near=(it)=>{ for(let rr=0;rr<=(it.radius||1.5)-0.05;rr+=0.1) for(let a=0;a<24;a++){ const x=it.x+Math.cos(a/24*Math.PI*2)*rr, zz=it.z+Math.sin(a/24*Math.PI*2)*rr; if(stand(x,zz)) return [x,zz]; } return null; };
++const it=E.interactables.find(i=>/法律服務社的招生攤位/.test(i.label||''));
++check('1 有「看法律服務社的招生攤位」互動點（notice lawclub）',!!it&&it.notice==='lawclub',it?`(${it.x},${it.z})`:'');
++if(it){
++  const inPlaza=it.x>=25&&it.x<=62&&it.z>=-106&&it.z<=-84;
++  check('2 在法學院廣場（法律系館A前庭）裡，不在椰影大道邊',inPlaza&&Math.hypot(it.x+18,it.z-14.5)>100,`(${it.x},${it.z})`);
++  const p=near(it); check('3 互動點旁邊站得住',!!p,JSON.stringify(p));
++  if(p){ let r=walk(GATE,p); check('3 從校門走得到（走路 30 fps、跑步＋低幀率）',r.ok,JSON.stringify(r).slice(0,180)); r=walk(LINZE,p); check('3 從法律系館A前走得到',r.ok,JSON.stringify(r).slice(0,180)); }
++  const tz=it.z-1; check('4 攤位本身擋住（桌子的位置站不進去）',!stand(it.x,tz)&&!stand(it.x-0.6,tz)&&!stand(it.x+0.6,tz));
++  check('4 旁邊的長椅前（40, −86.8）、往小椰林道的步道（30, −82）、前庭中間（50, −93）、攤位北邊（34.5, −87）照舊站得住',stand(40,-86.8)&&stand(30,-82)&&stand(50,-93)&&stand(34.5,-87));
++}
++console.log(fails?`FAILED ${fails}`:'ALL PASS'); process.exit(fails?1:0);
