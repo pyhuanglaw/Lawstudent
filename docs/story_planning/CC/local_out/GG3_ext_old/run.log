@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tingzhou_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3_ext_old\out
+CC 汀州路 v1：PARTS GGEXT；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 14.0 時 (0.0,16.0) （公館外觀照）
+  [  55.5s] [GGEXT 1400] 棟號 x：{"G00": -62.4, "G01": -52.2, "G02": -41, "G03": -28.8, "G04": -18.6, "G05": -9.4, "G06": 0.3, "G07": 10.5, "G08": 19.6, "G09": 28.1, "G10": 37.1, "G11": 46.6, "G12": 55.6, "G13": 64.1, "G14": 73.1, "G15": -81}；正式店面模型 gongguan_shops_glb：True
+  [  55.5s] [GGEXT 1400] G04 店門附近的互動點：[{"label": "進入 洋洋鹹酥雞", "x": -10.6, "z": 21, "r": 2.2, "to": "yangyang", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "to": "cvs", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}]
+  [  55.8s] [GGEXT 1400 G04] 外觀照 5 張（gg3ext_antai_1400_*）
+  [  55.9s] [GGEXT 1400] G08 店門附近的互動點：[{"label": "坐在騎樓的板凳", "x": 15.6, "z": 19.8, "r": 1.4, "to": null, "look": null, "tz": null, "tzd": null, "gate": false, "seat": true}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "to": "afar", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}]
+  [  56.2s] [GGEXT 1400 G08] 外觀照 5 張（gg3ext_xianguo_1400_*）
+  [  56.2s] [GGEXT 1400] G13 店門附近的互動點：[{"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "to": "daybreak", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}, {"label": "進入 轉角唱片", "x": 53.97, "z": 21, "r": 2.2, "to": "corner_records", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}]
+  [  56.5s] [GGEXT 1400 G13] 外觀照 5 張（gg3ext_rongendian_1400_*）
+  [  56.5s] [GGEXT 1400] G09 店門附近的互動點：[{"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "to": "tingzhou", "look": null, "tz": null, "tzd": null, "gate": true, "seat": false}, {"label": "坐在騎樓的板凳", "x": 15.6, "z": 19.8, "r": 1.4, "to": null, "look": null, "tz": null, "tzd": null, "gate": false, "seat": true}]
+  [  56.8s] [GGEXT 1400 G09] 外觀照 5 張（gg3ext_g09_1400_*）
+  [  56.8s] [GGEXT 1400] G10 店門附近的互動點：[{"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "to": "tingzhou", "look": null, "tz": null, "tzd": null, "gate": true, "seat": false}, {"label": "進入花序", "x": 46.6, "z": 21, "r": 2.2, "to": "flower_notes", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}]
+  [  57.1s] [GGEXT 1400 G10] 外觀照 5 張（gg3ext_g10_1400_*）
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 20.5 時 (0.0,16.0) （公館外觀照）
+  [  73.9s] [GGEXT 2030] 棟號 x：{"G00": -62.4, "G01": -52.2, "G02": -41, "G03": -28.8, "G04": -18.6, "G05": -9.4, "G06": 0.3, "G07": 10.5, "G08": 19.6, "G09": 28.1, "G10": 37.1, "G11": 46.6, "G12": 55.6, "G13": 64.1, "G14": 73.1, "G15": -81}；正式店面模型 gongguan_shops_glb：True
+  [  73.9s] [GGEXT 2030] G04 店門附近的互動點：[{"label": "進入 洋洋鹹酥雞", "x": -10.6, "z": 21, "r": 2.2, "to": "yangyang", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}, {"label": "進入便利商店", "x": -29.4, "z": 21, "r": 2.2, "to": "cvs", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}]
+  [  74.2s] [GGEXT 2030 G04] 外觀照 5 張（gg3ext_antai_2030_*）
+  [  74.2s] [GGEXT 2030] G08 店門附近的互動點：[{"label": "坐在騎樓的板凳", "x": 15.6, "z": 19.8, "r": 1.4, "to": null, "look": null, "tz": null, "tzd": null, "gate": false, "seat": true}, {"label": "進入 afar café", "x": 7.93, "z": 21, "r": 2.2, "to": "afar", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}]
+  [  74.5s] [GGEXT 2030 G08] 外觀照 5 張（gg3ext_xianguo_2030_*）
+  [  74.5s] [GGEXT 2030] G13 店門附近的互動點：[{"label": "進入 Daybreak", "x": 70.94, "z": 21, "r": 2.2, "to": "daybreak", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}, {"label": "進入 轉角唱片", "x": 53.97, "z": 21, "r": 2.2, "to": "corner_records", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}]
+  [  74.8s] [GGEXT 2030 G13] 外觀照 5 張（gg3ext_rongendian_2030_*）
+  [  74.8s] [GGEXT 2030] G09 店門附近的互動點：[{"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "to": "tingzhou", "look": null, "tz": null, "tzd": null, "gate": true, "seat": false}, {"label": "坐在騎樓的板凳", "x": 15.6, "z": 19.8, "r": 1.4, "to": null, "look": null, "tz": null, "tzd": null, "gate": false, "seat": true}]
+  [  75.1s] [GGEXT 2030 G09] 外觀照 5 張（gg3ext_g09_2030_*）
+  [  75.2s] [GGEXT 2030] G10 店門附近的互動點：[{"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "to": "tingzhou", "look": null, "tz": null, "tzd": null, "gate": true, "seat": false}, {"label": "進入花序", "x": 46.6, "z": 21, "r": 2.2, "to": "flower_notes", "look": null, "tz": null, "tzd": null, "gate": false, "seat": false}]
+  [  75.4s] [GGEXT 2030 G10] 外觀照 5 張（gg3ext_g10_2030_*）
+PASS 沒有 JS 例外  []
+ALL PASS
