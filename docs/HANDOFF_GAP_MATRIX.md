@@ -26,6 +26,25 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
+### 帳號 B → 下一個帳號｜LAWWW-B（`session_01DvRVNNnivf7da7qqWuGmw6`）｜2026-11-10 02:1x UTC 交班（使用者 02:0x「我已經通知其他AI交班 他們交班完之後你也交班」；HANDOFF-B-1110）
+
+**下一班第一件事：使用者 11-10 試玩回報 X268～X295 還有很多沒做（見 B）；開發分支 `claude/modest-rubin-2lyp7g` 比 main 多很多遊戲改動（都還沒發布、沒有使用者同意不合併 main）；最新含遊戲檔的 GHA 是 33ebe5eba（交班時跑中）。**
+- **A｜本班成果（11-09 16:10～11-10 02:1x）**：
+  - BUG-Y0-E08-MISSED-AFTER-GOING-1109（系烤，已驗收，fc879e47b）、BUG-OUT-ALARM-SKIP-1109（約好的出遊預設停，已驗收，87f52f2f3）。
+  - LAWWW2 接回：牆一次畫完 6bbfca043（畫面 PASS、PC 效能持平）；#204 外牆腳第一批 a5ec91a36（四人房、萬才 ART_APPROVED；大口、茶屋撤回）、第二批 1827999fb、第三批 faf1b75a4（落地櫃子底下、一盞改補 yizhan）；CAM-TEAYARD 兩輪 b6685c824、4f888cf3c；CAM-VIEWPANE-SIDE b8cffd669。
+  - 使用者 11-10 試玩回報（都在開發分支、待 BB 測）：SEAT-NO-ASK 1afc519eb（上課不問坐哪）、LUNCH-NO-ASK 42fff6105（下課吃飯不問哪家）、WAKE-STALE df4674cb2（起床選單只在醒來的地方）、BUG-GREET-NOCLASS 968bd311f（週末不問有沒有課；AA_729 匯入）、BUG-INV-ACC-TIME a1c0c2bc5／bc9c1408c（答應句不寫時間；AA_731）、人物頁 BOOKSTORE_TOGETHER 補字 4cefe226b、ROM-PRIVATE-DATE d7e722c90＋6c7e3918f（可以攻略的對象一開始就能培養戀愛、約會加戀愛＋信任、戀愛條朋友以下也顯示、選完說出祐廷那一句）、SERVICE2-LEGAL a883f36de（服務學習（二）法律服務中心，AA_735）、BGN-AFTER-HOME 063592f18（出遊演完時段用完＝回宿舍睡）；舊規則的測試照新規則改 be7c2c374。
+- **B｜全部未完成**（`queue --owner LAWWW`；本班新的）：
+  - 使用者試玩回報待做：HELP-GUIDE-1110（說明頁＋第一次提示）、BUG-YEJIAN-NO-VISUAL-1110（頁間書屋人物動作）、BUG-MOKU-EXAM-SEATS-1110（木曜日考試週座位，存檔 tests/fixtures/user_save_day47_1110.json）、INV-GO-JUMP-1110（一鍵前往要跳到約好的時間）、INV-NOW-GOAL-1110（現在一起過去寫在目標列）、HER-ASK-LATER-DAY-1110（改天選日子）、HER-ASK-MORE-1110（她主動約太少；**WIP 沒驗證：wip_backup/HER-ASK-MORE-1110_wip.patch**，資料每則 th 3／5 要請 AA 改幾則成 2）、ATTEND-TIDY-1110（出席紀錄）、BULLETIN-BOARD-1110（公告欄，等 AA 的公告字）、DATE-CHOICES-1110（約會選項對話，等 AA；晚上約會完直接睡）。
+  - AA 已交、待 LAWWW 匯入：DLG-NO-ECON-REPEAT（企劃線 256bcdc42，重跑 import_arcs、import_arc_invites、import_activity_scenes，白名單更新）；AA_342 svc 兩句拿掉（4470f4908：src/twfill3d.js 的 S.SVC 刪掉、Y2_SVC_CHESS 不記）；GIFT-HOLIDAY-1110 三批（AA_732 fc9ff6d3d、AA_733 1edb14888、AA_734 246ef6735；含物品欄 X291、她送你的禮物、山嵐文具區學姊四場）；MOVIE-REAL-1110（片單 AA_730 8a246c40f＋AA_708 一句；BB-B 海報第一批 10 張 claude/elegant-brown-fcos7n e4eea1c780 docs/story_planning/bg_approved/posters/，圖上沒字、片名要遊戲寫；進 1 廳坐下關燈再演）。
+  - BB-B 找的：BUG-INV-GOASK-PERSIST-1110（P2，讀檔後約好的見面 missed：goAsked 跟著存檔）。
+  - LAWWW2 手上：CAMPUS-FLOOR-STRIP-1110、AVENUE-FAR-SIGNS-1110、YIZHAN-FLOAT-CUPS-1110、LAWCLUB-BOOTH-MOVE-1110、SIS-STATIONERY-1110（WIP）、SERVICE2 接待桌模型（P3）。
+  - 其餘照總表（v0～v5、D99）。
+- **C｜正在做**：沒有（HER-ASK-MORE 那一份存成 patch，沒進遊戲）。沒有只在本機的東西。
+- **D｜規則**：本班沒有新的 D／HV。使用者決定（USER_WANTS X268～X295）：說明頁＋第一次提示；上課直接坐、占位子之後再加；送禮只給可以攻略的對象、節日（聖誕、七夕、2/14、生日）不扣時段、同一節最多兩人、好感夠她也回送；學姊很喜歡文具（人物設定）；單獨約會、選項一開始就能培養戀愛（LAWWW 依使用者「你要先決定哪些活動」定）；服務學習只有兩學期（圖書館、法律服務）；公法讀書會照現在（大一上第 10 週起，使用者沒選改）。
+- **E｜各職位**：BB-B、CC-B、AA-B 已交班（duty_*.json handed-off）；LAWWW2-B 交班中（duty sync 收）。
+- **F｜測試**：本機全套 1164 支（ROM 改完以後）8 支舊規則已改；GHA 33ebe5eba 跑中（之前 4f888cf3c、1827999fb、a5ec91a36、fc879e47b success）。使用者 PC（cc-local）20:07Z 以後沒推，功能類改在 CC 雲端跑；**沒測 iPhone 實機**。
+
+
 ### 帳號 B → 下一個帳號｜LAWWW-B（`session_01DvRVNNnivf7da7qqWuGmw6`）｜2026-11-08 20:5x UTC 交班（使用者 20:4x「現在交班 等其他AI做好你才交班」；HANDOFF-B-1108）
 
 **下一班第一件事：線上是 v9.10.23（main `3a34dbaa5`，16:30 UTC 部署，BB-B 線上驗收 PASS）；開發分支 `claude/modest-rubin-2lyp7g` 比 main 多的遊戲檔案只有 UX-TITLE-LANDSCAPE-1108（index.html 矮螢幕標題，等 CC 三種裝置橫向重拍）。先看 BB、CC 交接檔有沒有那批重拍結果。**
