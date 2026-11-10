@@ -53091,7 +53091,7 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "開發分支 30dee73c2：女朋友版五位＋可昕、朋友版與告白選項四位；沛珊、芷若告白等 AA 重寫；BB／CC 測；給 AA 的八個問題已轉",
+   "next": "11-10 23:2x：背景子代理（worktree）在匯朋友版五個學期＋芷若告白，基準 a5651ccc7；回來的那個回合合併、跑測試、push（D148 ③）。來源 SHA：Y1S1 20145308e、Y1S2 9665a9075、Y2S1 20145308e、Y2S2 fc0cafa27、Y3S1 35a39a54e、芷若告白 2cb84d6df；Y3S2／Y4S1 e232327db BB 在看",
    "xai": {
     "spec": "X324、BB_314",
     "branch": "claude/confident-ritchie-8rwh7t",
