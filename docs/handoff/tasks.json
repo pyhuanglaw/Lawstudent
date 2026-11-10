@@ -52006,7 +52006,7 @@
    "id": "US-LONG-3D-1110",
    "title": "何俊朗自己的 3D 模型（目前用路人底模；AA_328：圓框眼鏡、背包上奶茶杯鑰匙圈）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y3S1",
@@ -52018,8 +52018,8 @@
     "parallel": true,
     "confirmed": false
    },
-   "sha": null,
-   "next": "【LAWWW 11-10 15:4x】AA 回：美術排 LAWWW2、不擋 v9.10；角色美術 LAWWW 驗收（D100a）。",
+   "sha": "dbeda3ee9",
+   "next": "LAWWW 角色驗收（D100a）11-10 19:4x：ART_APPROVED（遊戲截圖 cc-testing f6685cfc83 uslong_class_near／body：圓框眼鏡、耳上短髮、深藍外套＋白 T 都對 AA_80，看書姿勢自然、不穿模）；單眼皮、眉頭、瀏海碎改成選做（D141，不擋）；功能等 BB（擋掉 VRM 退回路人、會所 r2）",
    "xai": {
     "spec": "企劃線 AA_328（何俊朗外觀）＋AA_740",
     "branch": "claude/second-ai-env-art",
