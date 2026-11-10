@@ -1941,3 +1941,13 @@
 [23:05:07] ==== START US_ART_1  (probe @ b296c6b562550f166bd8f7d78e0046cf4435e174) ====
 [23:05:10] [res] cpu=13% mem=51% (16.1/31.4 GB) chrome_testing=9  START US_ART_1
 [23:05:43] [res] cpu=16% mem=48% (15.1/31.4 GB) chrome_testing=9  END WILLOW_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       986043364..e22901ce6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:05:53] ==== END   WILLOW_old  exit=0  94s   ====
+[23:06:03] memory 53% before starting GUIDE_063 (2 running)
+[23:06:03] ==== START GUIDE_063  (game @ 063cf14abca16d890ae7c7d82ac05bd12eea58ef) ====
+[23:06:06] [res] cpu=5% mem=52% (16.6/31.4 GB) chrome_testing=9  START GUIDE_063
+[23:06:06] worktree add 063cf14abca16d890ae7c7d82ac05bd12eea58ef: invalid reference - fetching main and the commit itself
+[23:08:06] 正在跑：X199_ANROUTE（已跑 9 分／上限 75 分）、US_ART_1（已跑 2 分／上限 25 分）、GUIDE_063（已跑 2 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:08:22] [res] cpu=17% mem=49% (15.5/31.4 GB) chrome_testing=9  END US_ART_1

@@ -1,0 +1,24 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_us_art_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\US_ART_1\out
+CC 美國篇 ART 巡拍：worktree ?；區域 ['us_outside', 'us_apartment', 'us_campus']；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_outside 出生點 2028-09-15 14.0 時
+  [  47.2s] us_outside 2028-09-15 14 時：等模型 0 次；{"zone": "us_outside", "formal": false, "glb": [], "lampGlows": 8, "season": null, "p": [14, -14.5]}
+PASS us_outside 2028-09-15 14 時 讀得進這個區域  {"zone": "us_outside", "formal": false, "glb": [], "lampGlows": 8, "season": null, "p": [14, -14.5]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_outside 出生點 2028-09-15 20.0 時
+  [  65.5s] us_outside 2028-09-15 20 時：等模型 0 次；{"zone": "us_outside", "formal": false, "glb": [], "lampGlows": 8, "season": null, "p": [14, -14.5]}
+PASS us_outside 2028-09-15 20 時 讀得進這個區域  {"zone": "us_outside", "formal": false, "glb": [], "lampGlows": 8, "season": null, "p": [14, -14.5]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_apartment 出生點 2028-09-15 14.0 時
+  [  97.2s] us_apartment 2028-09-15 14 時：等模型 0 次；{"zone": "us_apartment", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0.4, 4]}
+PASS us_apartment 2028-09-15 14 時 讀得進這個區域  {"zone": "us_apartment", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0.4, 4]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_apartment 出生點 2028-09-15 20.0 時
+  [ 116.5s] us_apartment 2028-09-15 20 時：等模型 0 次；{"zone": "us_apartment", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0.4, 4]}
+PASS us_apartment 2028-09-15 20 時 讀得進這個區域  {"zone": "us_apartment", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0.4, 4]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_campus 出生點 2028-09-15 14.0 時
+  [ 136.6s] us_campus 2028-09-15 14 時：等模型 0 次；{"zone": "us_campus", "formal": false, "glb": [], "lampGlows": 11, "season": null, "p": [-20.6, 20.6]}
+PASS us_campus 2028-09-15 14 時 讀得進這個區域  {"zone": "us_campus", "formal": false, "glb": [], "lampGlows": 11, "season": null, "p": [-20.6, 20.6]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_campus 出生點 2028-09-15 20.0 時
+  [ 154.8s] us_campus 2028-09-15 20 時：等模型 0 次；{"zone": "us_campus", "formal": false, "glb": [], "lampGlows": 11, "season": null, "p": [-20.6, 20.6]}
+PASS us_campus 2028-09-15 20 時 讀得進這個區域  {"zone": "us_campus", "formal": false, "glb": [], "lampGlows": 11, "season": null, "p": [-20.6, 20.6]}
+PASS 沒有 JS 例外  []
+ALL PASS
