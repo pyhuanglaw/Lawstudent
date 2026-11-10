@@ -4185,6 +4185,16 @@
    "status": "在開發分支",
    "wants": "X307",
    "task": "LIB-B1-COURT-ART-1110"
+  },
+  {
+   "id": "UA-LAWWW-1110-68",
+   "at": "2026-11-10T16:1xZ",
+   "quote": "總圖外面要往B one走還有B one的中庭你是自己做嗎？？這個美術不是應該要給lawww2?",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X307",
+   "task": "LIB-B1-COURT-ART-1110",
+   "note": "回覆：正式美術（5b2af0caf＋bc4598101、da1c77472、停車架 cdf7a32de）是 LAWWW2 做、LAWWW 只接；第一階段 BLOCKOUT（中庭挖洞、樓梯、導航，701aeb256）是 LAWWW-B 自己寫的場景程式，照 D108 應該交 LAWWW2。之後場景、區域配置、導航程式一律派 LAWWW2（D108），LAWWW 只接劇情、事件、存檔。"
   }
  ]
 }
