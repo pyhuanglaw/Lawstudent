@@ -77,6 +77,7 @@ ZINFO = r"""((streets)=>{ const E=GAME.E, z=E.zone, its=E.interactables||[]; con
 DOOR = r"""((to)=>{ const i=(GAME.E.interactables||[]).find(i=>i.exit&&i.exit.to===to); return i?{label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2)}:null; })"""
 FLOORY = r"""((lv)=>{ const z=GAME.E.zone, LG=z&&z.levelGroups; return LG&&LG[lv]?+LG[lv].y:0; })"""
 GROUNDY = r"""(()=>+GAME.E.player.obj.position.y)()"""
+HIDE_NEAR = r"""((a)=>{ const E=GAME.E, out=[]; for(const n of (E.npcs||[])){ const o=n&&n.obj; if(!o||!o.visible) continue; if(Math.hypot(o.position.x-a.eye[0],o.position.z-a.eye[2])<a.r){ o.visible=false; out.push(n.id||n.name||'?'); } } E.render(); return out; })"""
 STANDNEAR = r"""((e)=>{ const E=GAME.E; let best=null; for(let r=0;r<=e.r+1e-6;r+=0.1) for(let a=0;a<360;a+=15){ const x=e.x+r*Math.sin(a*Math.PI/180), z=e.z+r*Math.cos(a*Math.PI/180);
   if(!E.canStand(x,z,0.3,e.lv)) continue; const d=Math.hypot(x-e.x,z-e.z); if(!best||d<best.d) best={x:+x.toFixed(2),z:+z.toFixed(2),d}; } return best; })"""
 
@@ -154,12 +155,13 @@ async def ushot(pg, name, cam):
     await pg.set_viewport_size({'width': 1280, 'height': 720}); await pg.wait_for_timeout(600)
     await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()"); await pg.evaluate(D.HUD + '(false)')
     c = await pg.evaluate(D.CAM, cam); await pg.wait_for_timeout(700); await pg.evaluate(D.CAM, cam)
+    hid = await pg.evaluate(HIDE_NEAR, {'eye': cam['eye'], 'r': 1.6})   # 鏡頭旁邊 1.6 m 內的人（坐在那張座位上的客人）藏起來，不然整個畫面是後腦勺（11-10 試跑：一盞、山嵐）
     path = os.path.join(OUT, name + '.png'); b = await pg.screenshot(path=path)
     m = await D.lum_browser(pg, b)
     await pg.evaluate(D.UNCAM); await pg.evaluate(D.HUD + '(true)'); await pg.evaluate("(()=>{ GAME.E.player.obj.visible=true; })()")
     ok = os.path.exists(path) and os.path.getsize(path) > 1000
     R.check('[截圖] %s.png 有存' % name, ok, J({'cam': c, 'lum': m}))
-    R.note('[截圖] %s：鏡頭 %s；亮度（平均、變化）%s' % (name, J(c), J(m)))
+    R.note('[截圖] %s：鏡頭 %s；亮度（平均、變化）%s；鏡頭旁藏起來的人 %s' % (name, J(c), J(m), J(hid)))
     return name + '.png' if ok else None
 
 
@@ -203,7 +205,7 @@ async def do_shop(pg, cdp, key, zone, name, group):
         if not chosen:   # 沒有窗景卡（視差窗、照片卡都沒有）：照實記 INFO，改對著最大的幾片玻璃（立著、薄、寬高都 > 1 m）拍——玻璃外面是什麼就是什麼
             gl = [c for c in cards if c['kind'] == 'glass' and min(c['size'][0], c['size'][2]) < 0.3 and c['size'][1] > 1.0 and max(c['size'][0], c['size'][2]) > 1.0]
             R.note('%s INFO：這一間沒有窗景卡（視差窗、照片卡都沒有）；改對著玻璃拍：%s' % (tag, J([[c['name'], c['vis'], c['lv'], c['c'], c['size']] for c in gl])))
-            chosen = pick_cards(gl, center, MAXCARDS)
+            chosen = pick_cards(gl, center, 1)   # 玻璃只拍最大的那一片（11-10 試跑：山嵐第二大的 shl_glass 是書櫃的玻璃門）
         if not R.check('%s 找得到看得見的窗景卡（沒有卡時：玻璃）' % tag, bool(chosen), J([[c['name'], c['kind'], c['vis']] for c in cards])):
             rec['error'] = 'nocard'; return rec
     views = []
@@ -234,8 +236,14 @@ async def do_shop(pg, cdp, key, zone, name, group):
         st_pt = await pg.evaluate(STANDNEAR, {'x': stand_at[0], 'z': stand_at[1], 'r': 1.5, 'lv': c['lv']})
         if st_pt and not ps: eye_xz = [st_pt['x'], st_pt['z']]
         put = [st_pt['x'], st_pt['z']] if st_pt else [center[0], center[1]]
+        ax = card_axis(c); lat_ax = 2 if ax == 0 else 0
+        if not v['virtual']:
+            dp = (c['c'][0] - eye_xz[0]) * out[0] + (c['c'][2] - eye_xz[1]) * out[1]
+            if dp < 1.2: eye_xz = [eye_xz[0] - out[0] * (1.2 - dp), eye_xz[1] - out[1] * (1.2 - dp)]   # 離玻璃至少 1.2 m（太近只看到窗框、斜著擦過玻璃）
         eye = [round(eye_xz[0], 3), round(fy + eyeh, 3), round(eye_xz[1], 3)]
         look = [c['c'][0], round(fy + eyeh - 0.05, 3), c['c'][2]]
+        if not v['virtual'] and c['size'][lat_ax] > 3:   # 寬的窗（放大的視差窗、整面玻璃）：正對著看（看的點＝鏡頭在窗面上的投影，左右夾在窗的範圍內 0.5 m）
+            half = c['size'][lat_ax] / 2 - 0.5; e_lat = eye[lat_ax]; look[lat_ax] = round(min(max(e_lat, c['c'][lat_ax] - half), c['c'][lat_ax] + half), 3)
         if abs(look[0] - eye[0]) < 0.05 and abs(look[2] - eye[2]) < 0.05: look = [eye[0] + out[0] * 3, look[1], eye[2] + out[1] * 3]
         R.note('%s 窗往外 %s（%s）；店內站位：%s；人放在 %s（第 %d 層）；鏡頭 eye %s → look %s' % (vt, J(out), '+x 東' if out == [1.0, 0.0] else '-x 西' if out == [-1.0, 0.0] else '+z' if out == [0.0, 1.0] else '-z' if out == [0.0, -1.0] else '', where, J(put), c['lv'], J(eye), J(look)))
         vrec = {'card': c['name'], 'kind': c['kind'], 'url': c.get('url'), 'center': c['c'], 'size': c['size'], 'lv': c['lv'], 'out': out, 'virtual': v['virtual'],
