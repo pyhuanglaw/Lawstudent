@@ -7439,16 +7439,31 @@
    "branch": "claude/second-ai-env-art",
    "sha": "01d3577ef",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED",
    "task": "LAWWW2-REEXPORT-US-1027 開發分支能重新做出美國公寓、C 棟 208 的 GLB",
    "files": [
     "docs/art-rebuild/second_ai/wip/us_reexport_1110/（README、us_reexport_1110.patch、us_reexport_inputs_unit.js、regression.log）",
     "tools/blender/env_second/lightbake/rebuild_us_rooms.sh"
    ],
-   "state": "READY_FOR_REVIEW（工具），待整合",
+   "state": "LAWWW 已整合（本機 1e3c6ad6a，11-10 14:46），結案",
    "noDirectIntegrate": false,
    "note": "實際缺的是：us_apartment.py 舊版（concrete_floor_painted 不在開發分支）、glb_split_node.py 不在、步驟沒寫在一起。補上 rebuild_us_rooms.sh（bake_us → 切門板 → partition）；低取樣試跑公寓、208 的節點、網格、材質、三角形、extras 和部署中逐一相同。新測試開發 FAILED 3 → ALL PASS；回歸 47 支過。",
    "next": "等 LAWWW 派（US-SCENE-GAP 的教室、會所要先問 AA）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "cc": "BB",
+   "ack": "SENT",
+   "task": "US-CLASSROOM-3D-1110 美國法學院 Room 120 階梯教室（3D 區域＋正式模型＋四季窗景；AA_740）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/us_classroom_3d_1110/（README、us_classroom_3d_1110.patch、us_classroom_unit.js、regression.log、blender_preview.jpg、window_views.jpg）"
+   ],
+   "state": "MODEL_READY＋區域接好（第 1 版），待整合；畫面待 CC 拍、BB 判",
+   "noDirectIntegrate": false,
+   "note": "us_classroom 區域（6 排×8 席、48 個都能坐、照 201）、us_classroom_layout.js（三門課的座位、報告站位、監考位置）、us_classroom.glb 3.6 MB、窗景 8 張。新測試開發 8b31bbaa0 FAILED 4 → ALL PASS；回歸 359 支過。劇情接線（進教室、一鍵上課、報告）LAWWW 做，README 寫了怎麼接。請 AA 確認「玩家在右」是哪一邊的右。",
+   "next": "US-CLUBHOUSE-3D-1110（AA_741）"
   }
  ]
 }
