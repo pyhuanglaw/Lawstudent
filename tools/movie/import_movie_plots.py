@@ -10,9 +10,10 @@
   表上寫的替代句一定要一字不差出現在那一則 note 裡（核對不過就停下來），不自己寫字。
 - need（with 的條件）、later 的時機（when）各有一張表；稿上出現表上沒有的字就停下來（新的一批要先補表）。
 - 片 id 一定要在 AA_730 片單（src/data/nanyang_movies.js）；人只能是七位；re 的 key 是人或人＋2／3（第二、三句）。
-- 選項的 kind（feel／detail／self／joke／meh／ask；b189e6bdb 起每個選項都有）照帶；reBy（m3007b：照之前另一部片選了哪一個換句）的格子 → 當時第幾個選項，對照在 REBY 表。
-- AA_745_fallback.json（沒有專屬回答時她怎麼回；MOVIE-FALLBACK-1110）：**在白名單上才匯**（→ MOVIE_PLOTS.fallback）。現在不在白名單（LAWWW 11-10：BB_311 審稿中，
-  AA 還在改句子和 kind 的分類）＝不產生 fallback，遊戲照原本的規則；稿定了：白名單加這個檔（路徑＋commit＋approved）→ 重匯 → src/movies3d.js 的 S.CFG.fallback 改 true。
+- 選項的 kind（七種：feel／notice／wonder／self／joke／crit／ask；434d46fbf 起，原本的 detail、meh 沒有了）照帶；talk.nofb（true＝這部片沒有專屬回答的人不出 talk）、
+  talk.qOther（q 是寫給特定的人的：其他人看這部時用這一句）、talk.optsOther（{note, opts:[{t,kind}×3]}：其他人看這部時整組換成這三個選項）照帶、照格式檢查；reBy（m3007b：照之前另一部片選了哪一個換句）的格子 → 當時第幾個選項，對照在 REBY 表。
+- AA_745_fallback.json（沒有專屬回答時她怎麼回；MOVIE-FALLBACK-1110）：**在白名單上才匯**（→ MOVIE_PLOTS.fallback）。BB 11-10 審過第三版（BB_313），
+  4e41f0d09 起在白名單上、src/movies3d.js 的 S.CFG.fallback＝true。不在白名單＝不產生 fallback，遊戲照沒有 fallback 的規則（稿上沒寫到她＝不問）。
 用法：python3 tools/movie/import_movie_plots.py [--check]"""
 import json, os, re, subprocess, sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -27,9 +28,9 @@ PEOPLE = ('heroine_01', 'heroine_02', 'heroine_03', 'heroine_04', 'heroine_05', 
 KINDS = ('after', 'mid', 'later', 'skip', 'pick')   # pick＝她一定挑這部（AA_745 v2）；skip＝她不看（舊稿 m2801b 的 skip＋need「一定挑」照舊認）
 WARN = []   # 不認得的人（re／fx 的 key）：列出來、不停（AA 改稿以後重匯）；遊戲裡這些 key 不會被讀到
 BY = ('her', 'me', 'none')
-OPT_KINDS = ('feel', 'detail', 'self', 'joke', 'meh', 'ask')   # 選項的種類（第 1 批 _meta.fields.kind）
+OPT_KINDS = ('feel', 'notice', 'wonder', 'self', 'joke', 'crit', 'ask')   # 選項的種類（第 1 批 _meta.fields.kind；434d46fbf 起七種）
 FB_SRC = 'docs/story_planning/AA_745_fallback.json'   # 在白名單上才匯
-FB_KINDS = ('feel', 'detail', 'self', 'joke', 'meh')   # ask 沒有 fallback（她沒有專屬回答＝不出那個選項）
+FB_KINDS = ('feel', 'notice', 'wonder', 'self', 'joke', 'crit')   # ask 沒有 fallback（她沒有專屬回答＝不出那個選項）
 # reBy：那個選項她的句子照「之前另一部片那次選了哪一個」換。稿上的格子名 → 當時第幾個選項；has＝那個選項的字裡要有這一段（核對用，AA 改了選項要重看）
 REBY = {
     'm3007b': {'opt': 2, 'film': 'm2511b', 'who': 'heroine_02',
@@ -166,6 +167,20 @@ def chk_film(fid, f, ids):
     t = f.get('talk')
     if not isinstance(t, dict) or t.get('by') not in BY or not t.get('q') or not isinstance(t.get('opts'), list) or len(t['opts']) != 3:
         raise SystemExit(f'{w}.talk：要有 by（{BY}）、q、三個 opts')
+    bad = [k for k in t if k not in ('by', 'q', 'opts', 'note', 'nofb', 'qOther', 'optsOther')]
+    if bad:
+        raise SystemExit(f'{w}.talk：不認得的欄位 {bad}')
+    if 'nofb' in t and t['nofb'] is not True:
+        raise SystemExit(f'{w}.talk.nofb：只能是 true（不用就不要寫）')
+    if 'qOther' in t and (not isinstance(t['qOther'], str) or not t['qOther'].strip()):
+        raise SystemExit(f'{w}.talk.qOther：要有字')
+    if 'optsOther' in t:
+        oo = t['optsOther']
+        if not isinstance(oo, dict) or any(k not in ('note', 'opts') for k in oo) or not isinstance(oo.get('opts'), list) or len(oo['opts']) != 3:
+            raise SystemExit(f'{w}.talk.optsOther：要是 {{note, opts:[三個]}}')
+        for i, o in enumerate(oo['opts']):
+            if not isinstance(o, dict) or not o.get('t') or set(o) != {'t', 'kind'} or o['kind'] not in OPT_KINDS:
+                raise SystemExit(f'{w}.talk.optsOther.opts[{i}]：只能有 t、kind（{OPT_KINDS}）')
     for i, o in enumerate(t['opts']):
         wo = f'{w}.talk.opts[{i}]'
         if not o.get('t') or any(k not in ('t', 're', 'fx', 'set', 'kind', 'reBy') for k in o):
@@ -385,6 +400,10 @@ def build(batches, fallback=None):
         data['src'] = src + [f'{fallback[0]}@{fallback[1]}']
         data['fallback'] = build_fallback(fallback[2])
         miss = [f'{fid}[{i}]' for fid in order for i, o in enumerate(films[fid]['talk']['opts']) if 'kind' not in o]
+        for p, v in data['fallback'].items():
+            lack = [k for k in FB_KINDS if k not in v]
+            if lack:
+                raise SystemExit(f'fallback.{p}：少了 {lack}（ask 以外的六種都要有）')
         if miss:
             raise SystemExit(f'有 fallback 的時候每個選項都要有 kind：{miss[:8]}…（{len(miss)} 個）')
     data['films'] = {k: films[k] for k in order}

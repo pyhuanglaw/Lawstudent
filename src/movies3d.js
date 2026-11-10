@@ -3,7 +3,8 @@
    再跟我要電影海報 請AA寫是什麼電影 BB跟我要電影海報」
    片單 AA_730（src/data/nanyang_movies.js，tools/movie/import_nanyang_movies.py 產生；AA 定稿 D109）；海報 BB 照 D97 跟使用者要的第一批 10 張（assets/posters/<id>.webp，圖上沒字、上面四分之一留白給片名）。
    1. 約看電影（INV.meet，地點 xs_nanyang）：在大廳會合（開場句照舊，不先坐大廳的長椅）→ 淡出、一起走進 1 廳、坐在一起（你坐走道那一張、她坐你左手邊那一張）→ 淡入 →
-      坐下的句子（AA_708 第 N 場的 seat／AA_649 第 4 節）→ 場燈關掉、燈暗那一句換成 dimTitle（片名）→ 中途那件事 → 場燈打開、散場那一句 → 淡出、走出 1 廳回大廳 → 道別（bye）。
+      坐下的句子（AA_708 第 N 場的 seat／AA_649 第 4 節）→ 場燈關掉、燈暗那一句換成 dimTitle（片名）→ 看到一半那一幕 → 場燈打開、散場那一句 → 淡出、走出 1 廳回大廳 →
+      聊這部片（talk）→ 和她看多出來的（with.after）→ 她的故事線那一拍或她最近的事（最多一個）→ 道別（bye）。順序照 MOVIE-ARC-AFTER-1110（下面 AA_745 那一段第 2 點）。
       進不去（不是在大廳開演、沒有 1 廳、換區域失敗）＝照舊在大廳演（不卡住）。
    2. 片單（AA_730 pick）：約的那天落在哪一段（兩個月一段）就是那一段的兩部；挑哪一部照 AA_708 這一次會演的那一場（sceneFilm：want／not／billHas），
       沒寫照 fits（她喜歡的那一部；兩部都是或都不是＝第一部）。約的時候就定（iv.film，跟著存檔），邀約的系統字寫「看《片名》」；
@@ -142,11 +143,16 @@ const MOVIES=(function(){
   /* ---------- AA_745：每部片的情節、那一幕、散場聊什麼、和誰看多出來的（MOVIE-TALK-1110；使用者 X324）----------
      使用者 11-10 20:0x（對 AA）：「所有的電影……你要認真寫電影的情節，然後會影響劇情，跟誰看對誰有不同影響，但不要每個人都有，這樣會太像一個模板」
      1. plot：大廳海報牆「看這部在演什麼」（看過以前只有第一句，看過＝全部；一個人看、和誰看都算看過）。
-     2. scene：看到一半的那一幕——AA_708 那一場有寫自己的 mid（第 N 場）就照 AA_708；輪換（rot）、一般句、她的故事線那幾次＝演這一幕（故事線那一拍照演，接在這一幕後面）。
-        with.mid（這部和她看）取代 scene（第一次和她看這部才有）。
+     2. scene：看到一半的那一幕——**每一次都演**（MOVIE-ARC-AFTER-1110，AA、BB 11-10 21:37 同意；原本 AA_708 第 N 場、她的故事線那幾次不演這一幕，
+        故事線那一拍連選項在暗的廳裡演——例：可昕「你昨天十一點以後就沒回我。」）。with.mid（這部和她看）取代 scene（第一次和她看這部才有）。
+        放映中沒有選項、沒有人講自己的事：AA_708 第 N 場自己的 mid 只留不說話的小動作（整句（…）的旁白，接在那一幕後面），說出口的句子和選項挪到散場以後（S.splitMid）；
+        輪換（rot）那一則的 mid 照舊由這一幕取代。她的故事線那一拍（ARCS.pick）／她最近的事（ARCS.rotPick）挪到走出 1 廳、talk、with.after 以後、道別以前，一次最多一個（src/invites3d.js S.meet）。
+        「下次見面說」（with.later 的 meet）在戲院＝坐下以後、燈暗以前說。
      3. talk：散場走出 1 廳以後（散場那一句之後、道別以前）。by：her＝她先問、me／none＝旁白（q）；三個選項；她的回答 re（她、她2、她3＝第一、二、三句；
         沒寫到她＝不加句子，接著照 AA_708 的道別）；fx：fr＝熟悉、信任、自在各加這麼多（在一起活動的加法以外），love＝她的戀愛（npcRom，照現行規則 SOCIAL.romOk）。
         一次看電影只出一次、同一個人一天一次（G.daily.mvTalk_<人>）。
+        這部片沒有她的專屬回答（三個選項都沒有她的 re、fx）＝「其他人」：問句用 talk.qOther（有寫的話；整句（…）＝旁白，不然她說）、選項用 talk.optsOther.opts（有寫的話，整組換成這三個），
+        她的回答照選項的 kind 拿 fallback（下面）；talk.nofb＝這部片不套 fallback（其他人不問、連問句都不說）。
      4. 同一部片和同一個人第二次看：talk 不出、with 不出，改一句旁白（喜劇片／其他片，AA_745 _meta rules 第 2 條）。一個人看：solo 三句中間接兩部的那一幕，沒有 talk。
      5. with：after＝talk 以後多一段（可以有選項，選項的效果只給她）；mid＝取代 scene；later＝之後她傳訊息（msg）、下次見面說（meet，INV.ON_SEATED）、
         接在別的劇情（hook：那一場的接點還沒有＝只記旗標 G.flags.MOVIE_LATER_DUE["片:人"]＝那一天）；skip＝約的時候換片（S.pickAdj）。
@@ -206,35 +212,39 @@ const MOVIES=(function(){
       out.push(t); }
     return out; };
   /* ----- 沒有專屬回答時她怎麼回（AA_745_fallback；MOVIE-FALLBACK-1110）-----
-     現在關著（S.CFG.fallback＝false；LAWWW 11-10：BB_311 審稿中，AA 還在改 fallback 的句子和 kind 的分類——機制和匯入先做好，稿定了：白名單加 AA_745_fallback.json、重匯、這裡改 true）。
-     關著＝和原本一樣：這部片稿上完全沒寫到她＝不問，直接道別；ask 的選項照出。
-     開了以後：她在選的那個選項沒有專屬的 re＝照那個選項的 kind 拿 MOVIE_PLOTS.fallback[她][kind] 的下一句（re＋fx）；每個人、每個 kind 各一個計數
-     （G.flags.MOVIE_FB＝{人:{kind:已經用了幾句}}，選了才往後數＝同一句不會連續兩次出現；舊存檔沒有＝從第一句）；kind 是 ask 而她沒有專屬的 re＝不出這個選項；
-     有專屬的 re 照專屬的；選項自己有她的 fx 照選項的。剩不到兩個選項＝不問（保險）。 */
-  S.CFG={fallback:false};
+     開著（S.CFG.fallback＝true；BB 11-10 審過第三版 BB_313，稿 4e41f0d09）。關掉、或資料裡沒有 fallback＝這部片稿上完全沒寫到她＝不問，直接道別；ask 的選項照出。
+     她在選的那個選項沒有專屬的 re＝照那個選項的 kind（feel／notice／wonder／self／joke／crit）拿 MOVIE_PLOTS.fallback[她][kind] 的下一句（re＋fx）；每個人、每個 kind 各一個計數
+     （G.flags.MOVIE_FB＝{人:{kind:已經用了幾句}}，選了才往後數＝同一句不會連續兩次出現；舊存檔沒有＝從第一句）；kind 是 ask（直接問她、講到她）而她沒有專屬的 re＝不出這個選項；
+     有專屬的 re 照專屬的；選項自己有她的 fx 照選項的，沒有才用 fallback 那一句的；效果和專屬的一樣走這部片的上限（S.fxFilm：她的戀愛一次最多 +2）。
+     talk.nofb（m2907a：三個選項都在回她的問話）＝這部片不套：沒有專屬回答的人不問（問句也不說）。剩不到兩個選項＝不問（保險）。 */
+  S.CFG={fallback:true};
   S.fbOn=who=>{ const P=PL(), F=P&&P.fallback; return !!(S.CFG.fallback&&F&&F[who]&&typeof F[who]==='object'); };
   S.hasRe=(o,who)=>{ const re=(o&&o.re)||{}; return [who,who+'2',who+'3'].some(k=>typeof re[k]==='string'&&re[k].trim()); };
   S.fbN=(G,who,kind)=>{ const R=G&&G.flags&&G.flags.MOVIE_FB, x=R&&typeof R==='object'?R[who]:null; return x&&typeof x==='object'?Math.max(0,x[kind]|0):0; };
   S.fbPeek=function(G,who,kind){ const L=kind&&S.fbOn(who)?PL().fallback[who][kind]:null; if(!Array.isArray(L)) return null; const OK=L.filter(e=>e&&(typeof e.re==='string'||Array.isArray(e.re))); return OK.length?OK[S.fbN(G,who,kind)%OK.length]:null; };
   S.fbLines=e=>[].concat(e.re).filter(t=>typeof t==='string'&&t.trim());
   S.fbUse=(G,who,kind)=>{ const R=objOf(objOf(FL(G),'MOVIE_FB'),who); R[kind]=(R[kind]|0)+1; };
-  S.talkFor=function(G,who,id){ const f=S.info(id); if(!f||!f.talk) return null; const T=f.talk, C=((PL()||{}).cond||{})[id]||{}, CO=C.opt||{}, opts=[], FB=S.fbOn(who);
-    (T.opts||[]).forEach((o,k)=>{ const c=CO[String(k)]; if(c&&!S.COND(G,c.if,who)){ if(c.else) opts.push({k,t:c.else.t,lines:[],fx:c.else.fx||{},set:null}); return; }
-      const own=S.hasRe(o,who), kind=o.kind||null;
-      if(FB&&!own){ if(kind==='ask') return;   /* 直接問她、講到她的選項：她沒有專屬的回答＝不出這個選項 */
-        const e=S.fbPeek(G,who,kind); if(e){ opts.push({k,t:o.t,lines:S.fbLines(e),fx:(o.fx||{})[who]||e.fx||null,set:o.set||null,fb:kind}); return; } }
-      opts.push({k,t:o.t,lines:S.reLines(G,who,id,o,k),fx:(o.fx||{})[who]||null,set:o.set||null}); });
-    const noQ=((PL()||{}).noQ||[]).includes(id)||typeof T.q!=='string'||!T.q.trim();   /* noQ＝稿上 q 那一格寫的是給程式的說明（匯入工具的 NOQ 表）：不說 */
+  S.ownTalk=(T,who)=>((T&&T.opts)||[]).some(o=>S.hasRe(o,who)||S.fxHas(((o&&o.fx)||{})[who]));   /* 這部片稿上有寫到她（有她的 re 或 fx）＝q、opts 是寫給她的；沒有＝「其他人」（qOther、optsOther）*/
+  S.talkFor=function(G,who,id){ const f=S.info(id); if(!f||!f.talk) return null; const T=f.talk, C=((PL()||{}).cond||{})[id]||{}, opts=[], own=S.ownTalk(T,who);
+    if(!own&&T.nofb) return null;   /* 這部片不套 fallback：沒有專屬回答的人不問（連問句都不說）*/
+    const FB=S.fbOn(who)&&!T.nofb, OO=!own&&T.optsOther&&Array.isArray(T.optsOther.opts)&&T.optsOther.opts.length?T.optsOther.opts:null, CO=OO?{}:(C.opt||{});   /* OO：其他人整組換成這三個（note 的條件是寫給原本那一組的，不套）*/
+    (OO||T.opts||[]).forEach((o,k)=>{ if(!o||typeof o!=='object') return; const c=CO[String(k)]; if(c&&!S.COND(G,c.if,who)){ if(c.else) opts.push({k,t:c.else.t,lines:[],fx:c.else.fx||{},set:null}); return; }
+      const has=S.hasRe(o,who), kind=o.kind||null, kk=OO?10+k:k;   /* 記在 MOVIE_TALK 的編號：其他人那一組＝10 起（不和原本那一組的 0～2 混，reBy、note 的條件看的是原本那一組）*/
+      if(FB&&!has){ if(kind==='ask') return;   /* 直接問她、講到她的選項：她沒有專屬的回答＝不出這個選項 */
+        const e=S.fbPeek(G,who,kind); if(e){ opts.push({k:kk,t:o.t,lines:S.fbLines(e),fx:(o.fx||{})[who]||e.fx||null,set:o.set||null,fb:kind}); return; } }
+      opts.push({k:kk,t:o.t,lines:OO?[]:S.reLines(G,who,id,o,k),fx:(o.fx||{})[who]||null,set:o.set||null}); });
+    const qO=!own&&typeof T.qOther==='string'&&T.qOther.trim()?T.qOther:null;
+    const noQ=!qO&&(((PL()||{}).noQ||[]).includes(id)||typeof T.q!=='string'||!T.q.trim());   /* noQ＝稿上 q 那一格寫的是給程式的說明（匯入工具的 NOQ 表）：不說 */
     const OK=opts.filter(o=>typeof o.t==='string'&&o.t.trim());
     /* 這部片稿上完全沒寫到她（三個選項都沒有她的回答、也沒有她的效果）＝不問，直接照 AA_708 的道別（BB 11-10：原本選項照出、選了什麼都沒發生）*/
     if(FB){ if(OK.length<2) return null; }   /* fallback 開著：每個選項都有她的回答；剩不到兩個＝不問 */
     else if(!OK.some(o=>(o.lines&&o.lines.length)||S.fxHas(o.fx))) return null;
-    return {by:T.by,q:noQ?null:T.q,opts:OK}; };
+    return {by:T.by,q:noQ?null:(qO||T.q),qOther:!!qO,other:!own,opts:OK}; };
   S.fxHas=fx=>!!fx&&typeof fx==='object'&&(!!Math.trunc(+fx.fr||0)||!!Math.trunc(+fx.love||0));
   /* 稿上沒有 talk 的片×人（給 AA 看缺口）：people 不給＝可以攻略的七位。條件用空的存檔算（要條件才有的句子不算） */
   S.noTalkPairs=function(people){ const P=PL(); if(!P) return []; const G0={flags:{},day:0,hour:0}, out=[]; for(const id of Object.keys(P.films)) for(const w of (people||['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'])){
       if(S.fbOn(w)){ if(!S.talkFor(G0,w,id)) out.push(id+':'+w); continue; }   /* fallback 開著：照實際會不會問算 */
-      const o=(P.films[id].talk||{}).opts||[]; if(!o.some(x=>['',2,3].some(n=>typeof (x.re||{})[w+n]==='string')||S.fxHas((x.fx||{})[w]))) out.push(id+':'+w); } return out; };
+      if(!S.ownTalk(P.films[id].talk,w)){ out.push(id+':'+w); continue; } const o=(P.films[id].talk||{}).opts||[]; if(!o.some(x=>['',2,3].some(n=>typeof (x.re||{})[w+n]==='string')||S.fxHas((x.fx||{})[w]))) out.push(id+':'+w); } return out; };
   /* 效果：fr＝熟悉、信任、自在各 +n；love＝她的戀愛 npcRom（只有可以攻略的對象，SOCIAL.romOk；朋友以下也算，ROM-PRIVATE-DATE-1110 以後的現行規則）*/
   S.fx=function(G,who,fx){ return typeof SOCIAL!=='undefined'&&SOCIAL.applyFx?SOCIAL.applyFx(G,who,fx):null; };   /* 共用 SOCIAL.applyFx（DLG-FX-MECH-1110；0、負的照算）*/
   /* 一次看電影（那部片×那個人：talk＋with 的選項，之後傳訊息／下次見面的那一段也算）她的戀愛最多一共 +2（LAWWW 11-10；扣的不限、也不補回額度）。
@@ -249,7 +259,8 @@ const MOVIES=(function(){
   S.shuffle=function(L,seed){ const a=L.slice(); let x=seed>>>0||1; const rnd=()=>{ x^=x<<13; x>>>=0; x^=x>>>17; x^=x<<5; x>>>=0; return x/4294967296; }; for(let i=a.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
   S.setFlag=(G,f)=>{ if(f&&typeof f==='string') FL(G)[f]=G.day; };
   S.talk=async function(GM,iv,who){ const G=GM.G, id=iv.film, T=S.talkFor(G,iv.who,id); if(!T||!T.opts.length||!GM.choose) return false;
-    if(T.q){ if(T.by==='her'&&!narr(T.q)) await GM.say(who,T.q); else await GM.say(null,T.q); }
+    if(T.q){ if(T.qOther) await S.sayLine(GM,who,T.q);   /* 其他人用的問句：整句（…）＝旁白；「（…她問你：）會不會覺得很悶？」＝她說 */
+      else if(T.by==='her'&&!narr(T.q)) await GM.say(who,T.q); else await GM.say(null,T.q); }
     const SH=S.shuffle(T.opts,S.seedOf(G.day,id,iv.who));   /* 三個選項每次看順序不一樣（BB 11-10：最好的那一個有一半排第一個）；同一天同一部同一個人順序固定（讀檔重來一樣），效果跟著選項走 */
     const k=await GM.choose(SH.map(o=>({t:o.t}))); const o=SH[k]||SH[0];
     for(const t of o.lines) await S.sayLine(GM,who,t);
@@ -265,10 +276,14 @@ const MOVIES=(function(){
       for(const t of c.say||[]) await S.sayLine(GM,who,t); S.fxFilm(G,w,id,c.fx); S.setFlag(G,c.set);
       const m=/^\+(\d+) 分鐘$/.exec(c.time||''); if(m&&GM.advance){ if(GM.fade) await GM.fade(true); GM.advance((+m[1])/60); if(GM.fade) await GM.fade(false); } }
     S.setFlag(G,x.set); return true; };
-  /* 看到一半：這一次演哪一幕（null＝照 AA_708 第 N 場自己的 mid）*/
-  S.midLines=function(G,iv,AX){ if(!G||!iv||iv.place!==ZL||!iv.film||!PL()) return null; if(AX&&AX.k!=null) return null; const f=S.info(iv.film); if(!f) return null;
+  /* 看到一半：這一次演哪一幕（每一次都演——AA_708 第 N 場、她的故事線那幾次也一樣，MOVIE-ARC-AFTER-1110；null＝沒有這部片的資料）*/
+  S.midLines=function(G,iv,AX){ if(!G||!iv||iv.place!==ZL||!iv.film||!PL()) return null; const f=S.info(iv.film); if(!f) return null;
     const x=S.withOf(iv.film,iv.who); if(x&&x.kind==='mid'&&!S.seenWith(G,iv.who,iv.film)&&S.needOk(G,iv.who,x)) return S.withLines(G,iv.who,iv.film,x);
     return f.scene?[f.scene]:null; };
+  /* AA_708 那一場自己的 mid、選項：放映中只留不說話的小動作（整句（…）的旁白），說出口的句子和選項挪到散場以後（MOVIE-ARC-AFTER-1110：放映中沒有選項、沒有人講自己的事）。
+     drop＝輪換（rot）那一則的 mid 已經由這部片的那一幕取代（照舊）：兩邊都不演，選項（有的話）還是挪到散場以後。回傳 {dark:[放映中], after:[散場以後], opts} */
+  S.splitMid=function(AX,drop){ const L=AX&&Array.isArray(AX.mid)&&!drop?AX.mid.filter(t=>typeof t==='string'&&t.trim()):[], O=AX&&Array.isArray(AX.opts)&&AX.opts.length?AX.opts:null;
+    return {dark:L.filter(t=>narr(t)),after:L.filter(t=>!narr(t)),opts:O}; };
   S.playMid=async function(GM,who,L){ for(const t of L||[]) await GM.say(narr(t)||!/^（/.test(t)?null:who,t); return true; };   /* 那一幕是旁白（稿上沒有括號）；with.mid 照括號分 */
   /* ----- later ----- */
   const T24=(d,h)=>d*24+h;
