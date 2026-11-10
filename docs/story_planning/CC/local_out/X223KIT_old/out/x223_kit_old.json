@@ -1,0 +1,254 @@
+{
+ "boxes": {
+  "campus_bell_glb": {
+   "meshes": 7,
+   "vis": true,
+   "min": [
+    -40.4,
+    0,
+    13.3
+   ],
+   "max": [
+    -35.6,
+    5.4,
+    18.9
+   ]
+  },
+  "campus_admin_glb": {
+   "meshes": 5,
+   "vis": true,
+   "min": [
+    -61.8,
+    0,
+    21.1
+   ],
+   "max": [
+    -14.2,
+    12.5,
+    41.8
+   ]
+  },
+  "campus_arts_glb": {
+   "meshes": 5,
+   "vis": true,
+   "min": [
+    -58.8,
+    0,
+    -43.8
+   ],
+   "max": [
+    -17.2,
+    14.7,
+    -21.1
+   ]
+  },
+  "campus_hist_glb": {
+   "meshes": 5,
+   "vis": true,
+   "min": [
+    -89.8,
+    0,
+    -37.8
+   ],
+   "max": [
+    -64.2,
+    14.7,
+    -17.5
+   ]
+  },
+  "campus_male1_glb": {
+   "meshes": 7,
+   "vis": true,
+   "min": [
+    1.8,
+    0,
+    58.4
+   ],
+   "max": [
+    38.2,
+    22.3,
+    76.2
+   ]
+  },
+  "campus_gongtong_glb": {
+   "meshes": 11,
+   "vis": true,
+   "min": [
+    -15,
+    0,
+    17
+   ],
+   "max": [
+    16.4,
+    17.7,
+    40.5
+   ]
+  },
+  "campus_lake_glb": {
+   "meshes": 14,
+   "vis": true,
+   "min": [
+    -52.5,
+    -0.8,
+    -123.4
+   ],
+   "max": [
+    -17.7,
+    6.9,
+    -98.6
+   ]
+  }
+ },
+ "shots": [
+  {
+   "what": "eec2",
+   "view": "eec2_front",
+   "from": [
+    93.0,
+    1.7,
+    -62.0
+   ],
+   "at": [
+    119.0,
+    8.0,
+    -62.0
+   ],
+   "file": "x223_kit_old_eec2_front.png"
+  },
+  {
+   "what": "eec2",
+   "view": "eec2_front_air",
+   "from": [
+    85.19999999999999,
+    30.0,
+    -62.0
+   ],
+   "at": [
+    119.0,
+    2.0,
+    -62.0
+   ],
+   "file": "x223_kit_old_eec2_front_air.png"
+  },
+  {
+   "what": "civil",
+   "view": "civil_front",
+   "from": [
+    15.0,
+    1.7,
+    -7.0
+   ],
+   "at": [
+    7.0,
+    6.0,
+    -28.0
+   ],
+   "file": "x223_kit_old_civil_front.png"
+  },
+  {
+   "what": "civil",
+   "view": "civil_front_air",
+   "from": [
+    17.4,
+    30.0,
+    -0.6999999999999993
+   ],
+   "at": [
+    7.0,
+    2.0,
+    -28.0
+   ],
+   "file": "x223_kit_old_civil_front_air.png"
+  },
+  {
+   "what": "lis",
+   "view": "lis_front",
+   "from": [
+    58.0,
+    1.7,
+    -12.0
+   ],
+   "at": [
+    51.5,
+    7.0,
+    -34.0
+   ],
+   "file": "x223_kit_old_lis_front.png"
+  },
+  {
+   "what": "lis",
+   "view": "lis_front_air",
+   "from": [
+    59.95,
+    30.0,
+    -5.399999999999999
+   ],
+   "at": [
+    51.5,
+    2.0,
+    -34.0
+   ],
+   "file": "x223_kit_old_lis_front_air.png"
+  },
+  {
+   "what": "agri",
+   "view": "agri_front",
+   "from": [
+    52.0,
+    1.7,
+    12.0
+   ],
+   "at": [
+    45.0,
+    8.0,
+    33.0
+   ],
+   "file": "x223_kit_old_agri_front.png"
+  },
+  {
+   "what": "agri",
+   "view": "agri_front_air",
+   "from": [
+    54.1,
+    30.0,
+    5.699999999999999
+   ],
+   "at": [
+    45.0,
+    2.0,
+    33.0
+   ],
+   "file": "x223_kit_old_agri_front_air.png"
+  },
+  {
+   "what": "gq",
+   "view": "gq_front",
+   "from": [
+    65.0,
+    1.7,
+    -98.0
+   ],
+   "at": [
+    65.0,
+    15.0,
+    -119.0
+   ],
+   "file": "x223_kit_old_gq_front.png"
+  },
+  {
+   "what": "gq",
+   "view": "gq_front_air",
+   "from": [
+    65.0,
+    30.0,
+    -91.7
+   ],
+   "at": [
+    65.0,
+    2.0,
+    -119.0
+   ],
+   "file": "x223_kit_old_gq_front_air.png"
+  }
+ ]
+}
