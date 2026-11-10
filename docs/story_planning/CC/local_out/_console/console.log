@@ -1466,3 +1466,8 @@
 [21:09:58] ==== START XSPLANT_new  (probe @ 8d8b475dc3a6b3546853a98fc24b60edb7829989) ====
 [21:10:01] [res] cpu=35% mem=47% (14.8/31.4 GB) chrome_testing=8  START XSPLANT_new
 [21:12:02] [res] cpu=12% mem=41% (13.0/31.4 GB) chrome_testing=5  END XSPLANT_new
+[21:12:08] [res] cpu=4% mem=41% (13.0/31.4 GB) chrome_testing=5  END XSDOOR_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       bc9f875ba..aaf02f4b2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:12:12] ==== END   XSPLANT_new  exit=0  124s   ====
