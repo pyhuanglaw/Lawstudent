@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\wt_cc_LW2_TZ_PREV\tools\blender\env_second\tingzhou_preview.py", line 13, in <module>
+    from PIL import Image, ImageDraw, ImageFont
+ModuleNotFoundError: No module named 'PIL'
+
+Error: script failed, file: 'C:\Users\USER\Documents\wt_cc_LW2_TZ_PREV\tools/blender/env_second/tingzhou_preview.py', exiting.

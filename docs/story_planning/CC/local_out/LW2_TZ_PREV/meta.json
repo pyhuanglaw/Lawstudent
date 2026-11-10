@@ -1,0 +1,26 @@
+{
+  "rerun": "",
+  "id": "LW2_TZ_PREV",
+  "sha": "2a7edffd52730b9410533f7c1a503b83e288d28c",
+  "kind": "blender",
+  "script": "tools/blender/env_second/tingzhou_preview.py",
+  "env": "SCRIPT_FROM=lawww2;XARGS=--out {out} --times day,dusk --views ref_street,taimi_front,three,alley_stalls,market_stalls",
+  "machine": "MSI",
+  "start": "2026-11-11T07:12:55",
+  "end": "2026-11-11T07:13:32",
+  "seconds": 37,
+  "exit": 1,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8800/index.html",
+  "blender_threads": "14",
+  "res_peak": {
+    "cpu": 3,
+    "mem": 35,
+    "used_gb": 11.2,
+    "chrome_testing": 0
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false
+}
