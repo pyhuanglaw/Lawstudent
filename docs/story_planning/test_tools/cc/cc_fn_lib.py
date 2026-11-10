@@ -100,16 +100,19 @@ async def g11(pg):
 
 
 async def find_door(pg, g):
-    """G11 的店門：exit 的 label／區域名有「花序」「Flower」，或位置在 G11 的寬度裡、立面前 0～5 m（往汀州路的巷子在 G10，不算）"""
+    """G11 的店門：先看 exit 的目的區域 id（FN_ZONE，預設 flower_notes）；再看位置（在 G11 寬度裡、前緣前 −1～+5 m；往汀州路的巷子在 G10，不算）；
+    最後才看字（label／區域名有「花序」「Flower」——店名之後會改，不靠它；FN_DOOR_LABEL 可指定）"""
     exs = await pg.evaluate(EXITS_JS)
-    lab = os.environ.get('FN_DOOR_LABEL')
+    lab = os.environ.get('FN_DOOR_LABEL'); zid = os.environ.get('FN_ZONE') or 'flower_notes'
     for e in exs:
         if lab and e['label'].startswith(lab): return e, exs
     for e in exs:
-        if '花序' in e['label'] or 'flower' in e['label'].lower() or '花序' in e['toName'] or 'flower' in e['to'].lower(): return e, exs
+        if e['to'] == zid and not e['hidden']: return e, exs
     if g:
         for e in exs:
             if g['x0'] - 0.5 <= e['x'] <= g['x1'] + 0.5 and g['zf'] - 1 <= e['z'] <= g['zf'] + 5 and e['to'] not in ('tingzhou', 'campus'): return e, exs
+    for e in exs:
+        if '花序' in e['label'] or 'flower' in e['label'].lower() or '花序' in e['toName'] or 'flower' in e['to'].lower(): return e, exs
     return None, exs
 
 
