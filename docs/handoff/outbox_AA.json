@@ -6124,6 +6124,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "使用者 11-07「買飲料 早餐 給別人」"
+  },
+  {
+   "task": "BUG-GREET-NOCLASS-1110",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/AA_729_greet_classday.json"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B：照 who＋t 逐字對 ladder.js greet，classDay 22、playerNoClass 3、nextClassDay 1；add 23 句（weekend／offDay）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "使用者 11-10「禮拜天遇到沈以安 他問我今天還有課嗎」；X271"
   }
  ],
  "items": [

@@ -1,0 +1,269 @@
+{
+ "_meta": {
+  "doc": "AA_729 招呼只在上課日說的標記＋週末、放假的招呼（BUG-GREET-NOCLASS-1110；使用者 11-10「禮拜天遇到沈以安 他問我今天還有課嗎」）",
+  "by": "AA-B 2026-11-10",
+  "level": "第①級，AA 定稿（D109）",
+  "task": "BUG-GREET-NOCLASS-1110；USER_WANTS X271",
+  "rules": [
+   "用 who＋t（逐字）對到 ladder.js 的 greet（base 或 when），term 只是出處、同一句在別的學期也一樣標。不靠關鍵字。",
+   "classDay：上課日才出＝學期中的週一～週五，不是國定假日、不是寒暑假（說的是她自己的課也一樣，例如沛珊在台南的課）。",
+   "playerNoClass：classDay 而且玩家那天沒有排課（或今天的課都上完了）才出（芷若問「今天沒課？」）。",
+   "nextClassDay：隔天是上課日才出。",
+   "add：新的招呼。weekend＝週六、週日（when 寫 weekday:[6,0]）；offDay＝國定假日、寒暑假（不管星期幾）。兩種都是一般招呼，學期不限、地點不限；和原本的 base 一起抽，不取代。",
+   "沒列的招呼照現在（多半是在講這學期、她自己的生活，週末說也通，例如「這學期憲法進度好快，我都抄不完。」）。"
+  ]
+ },
+ "classDay": [
+  {
+   "who": "heroine_01",
+   "term": "Y1S1",
+   "t": "你今天還有課嗎？"
+  },
+  {
+   "who": "heroine_01",
+   "term": "Y1S1",
+   "t": "今天的進度我抄完了。你要的話晚上傳給你。"
+  },
+  {
+   "who": "heroine_01",
+   "term": "Y1S2",
+   "t": "我等一下要去印講義。"
+  },
+  {
+   "who": "heroine_01",
+   "term": "Y2S2",
+   "t": "（她抱著債各的課本）早。講義你印了嗎？我多印了一份。"
+  },
+  {
+   "who": "heroine_01",
+   "term": "Y4S2",
+   "t": "等一下證交法。這門課只有九個人。"
+  },
+  {
+   "who": "heroine_01",
+   "term": "Y4S2",
+   "t": "證券交易法要點名，我先走了。"
+  },
+  {
+   "who": "heroine_03",
+   "term": "Y1S2",
+   "t": "我剛從系館出來。"
+  },
+  {
+   "who": "heroine_03",
+   "term": "Y2S1",
+   "t": "下雨了。我在系館門口等了十分鐘，都沒變小。"
+  },
+  {
+   "who": "heroine_03",
+   "term": "Y2S2",
+   "t": "債各上次那份講義我沒拿到，等一下要去系辦問。"
+  },
+  {
+   "who": "heroine_03",
+   "term": "Y3S1",
+   "t": "（她抱著一疊學生的作業）我要拿去系辦。"
+  },
+  {
+   "who": "heroine_04",
+   "term": "Y2S1",
+   "t": "我早上的課又沒去。"
+  },
+  {
+   "who": "classmate_peishan",
+   "term": "Y2S1",
+   "t": "我等一下還有課，可以講一下。"
+  },
+  {
+   "who": "classmate_peishan",
+   "term": "Y3S1",
+   "t": "今天課好多，我到現在都還沒吃東西。"
+  },
+  {
+   "who": "classmate_peishan",
+   "term": "Y3S1",
+   "t": "我剛下課。……你真的坐高鐵來喔？"
+  },
+  {
+   "who": "classmate_peishan",
+   "term": "Y3S1",
+   "t": "今天上班級經營。點名要記得每個人的臉。"
+  },
+  {
+   "who": "classmate_peishan",
+   "term": "Y3S2",
+   "t": "我剛下課。下午還要去國小。"
+  },
+  {
+   "who": "classmate_peishan",
+   "term": "Y3S2",
+   "t": "今天上教育概論。老師叫我們寫一份小教案。"
+  },
+  {
+   "who": "classmate_peishan",
+   "term": "Y3S2",
+   "t": "早。……老師要比學生早到，我在練習。"
+  },
+  {
+   "who": "classmate_peishan",
+   "term": "Y4S1",
+   "t": "早。我八點的課，七點就到了。"
+  },
+  {
+   "who": "classmate_peishan",
+   "term": "Y4S2",
+   "t": "今天上教育心理學，老師點我回答了兩次。"
+  },
+  {
+   "who": "heroine_05",
+   "term": "Y4S1",
+   "t": "你今天有課嗎？"
+  },
+  {
+   "who": "econ_zhengxun",
+   "term": "Y0S2",
+   "t": "經原的老師今天又拖堂。"
+  }
+ ],
+ "playerNoClass": [
+  {
+   "who": "heroine_02",
+   "term": "Y3S2",
+   "t": "今天沒課？"
+  },
+  {
+   "who": "heroine_02",
+   "term": "Y3S2",
+   "t": "法律系的。今天沒課？"
+  },
+  {
+   "who": "heroine_02",
+   "term": "Y3S2",
+   "t": "{name}！今天沒課？"
+  }
+ ],
+ "nextClassDay": [
+  {
+   "who": "heroine_05",
+   "term": "Y4S1",
+   "t": "這麼晚了。……明天還有課。"
+  }
+ ],
+ "add": [
+  {
+   "who": "heroine_01",
+   "kind": "weekend",
+   "t": "週末還遇到你。"
+  },
+  {
+   "who": "heroine_01",
+   "kind": "weekend",
+   "t": "早。週末的早上很安靜，我喜歡。"
+  },
+  {
+   "who": "heroine_01",
+   "kind": "weekend",
+   "t": "今天沒有讀書會。我不知道要做什麼。……你呢？"
+  },
+  {
+   "who": "heroine_01",
+   "kind": "offDay",
+   "t": "放假了。我還是七點就醒。"
+  },
+  {
+   "who": "heroine_01",
+   "kind": "offDay",
+   "t": "今天放假，Alison 一定還在睡。"
+  },
+  {
+   "who": "heroine_05",
+   "kind": "weekend",
+   "t": "週末還出來？"
+  },
+  {
+   "who": "heroine_05",
+   "kind": "weekend",
+   "t": "週末的我不想講法律。……你也先不要講。"
+  },
+  {
+   "who": "heroine_05",
+   "kind": "weekend",
+   "t": "早。今天我睡到八點，很難得。"
+  },
+  {
+   "who": "heroine_05",
+   "kind": "offDay",
+   "t": "放假了。你有沒有好好休息？"
+  },
+  {
+   "who": "heroine_05",
+   "kind": "offDay",
+   "t": "假日的人好多。我差點走不過來。"
+  },
+  {
+   "who": "classmate_peishan",
+   "kind": "weekend",
+   "t": "欸～週末遇到你！"
+  },
+  {
+   "who": "classmate_peishan",
+   "kind": "weekend",
+   "t": "週末我都睡到很晚的～今天是意外。"
+  },
+  {
+   "who": "classmate_peishan",
+   "kind": "weekend",
+   "t": "週末耶，你有沒有好好放假？"
+  },
+  {
+   "who": "classmate_peishan",
+   "kind": "offDay",
+   "t": "放假了～我昨天看動畫看到三點。"
+  },
+  {
+   "who": "classmate_peishan",
+   "kind": "offDay",
+   "t": "連假欸！你有出去玩嗎？"
+  },
+  {
+   "who": "heroine_04",
+   "kind": "weekend",
+   "t": "週末。我剛起床。"
+  },
+  {
+   "who": "heroine_04",
+   "kind": "weekend",
+   "t": "週末還遇到你，你是不是沒有別的地方去。"
+  },
+  {
+   "who": "heroine_04",
+   "kind": "weekend",
+   "t": "今天不寫程式。……大概。"
+  },
+  {
+   "who": "heroine_04",
+   "kind": "offDay",
+   "t": "放假了。我本來打算一整天不出門，結果還是出門了。"
+  },
+  {
+   "who": "kexin",
+   "kind": "weekend",
+   "t": "週末還遇到你。……你今天沒事？"
+  },
+  {
+   "who": "kexin",
+   "kind": "weekend",
+   "t": "週末我也在讀。你不要太驚訝。"
+  },
+  {
+   "who": "kexin",
+   "kind": "weekend",
+   "t": "早。今天我不想讀書，只想吃東西。"
+  },
+  {
+   "who": "kexin",
+   "kind": "offDay",
+   "t": "放假了。我今天什麼都不想排。"
+  }
+ ]
+}
