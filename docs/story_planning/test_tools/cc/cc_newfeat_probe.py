@@ -19,7 +19,7 @@ URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
 CASES = (os.environ.get('CASES') or 'YEJIAN,MOKU,CLUB').split(',')
 R = L.Run('newfeat', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
-ITS = "(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.2,lv:i.lv|0,to:i.exit?i.exit.to:null,seat:!!i.seat})))()"
+ITS = "(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.2,lv:i.lv|0,to:i.exit?i.exit.to:null,seat:!!i.seat,ggs:i.ggs||null,study:!!(i.study||(i.seat&&i.seat.study))})))()"   # r2：頁間書屋的互動點用 ggs 認（標籤不一定有「書」字）、會所自習室座位用 study 認
 ME = "(()=>{ const P=GAME.E.player; return {zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(2), x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), ry:+P.obj.rotation.y.toFixed(2), seat:!!P.seat, pose:P.pose, busy:!!P.busy, fb:GAME.walkFallbacks|0}; })()"
 SAYH = "(()=>{ if(window.__NF) return window.__NF.length; window.__NF=[]; const s0=GAME.say; GAME.say=function(w,t){ try{ window.__NF.push(((w&&w.name)||'')+'｜'+String(t||'')); }catch(e){} return s0.apply(this,arguments); }; return 0; })()"
 LUM = "(()=>{ const c=GAME.E.renderer.domElement, k=document.createElement('canvas'); k.width=64; k.height=36; const g=k.getContext('2d'); g.drawImage(c,0,0,64,36); const d=g.getImageData(0,0,64,36).data; let s=0; for(let i=0;i<d.length;i+=4) s+=0.2126*d[i]+0.7152*d[i+1]+0.0722*d[i+2]; return +(s/(d.length/4)).toFixed(1); })()"
@@ -88,10 +88,11 @@ async def main():
                     R.setup('【前置／捷徑】讀檔到 bookstore（頁間書屋）出生點 2025-10-18 14:00')
                     await D.load_zone(pg, cdp, 'bookstore', '2025-10-18', 14.0, wait=8000)
                     its = await pg.evaluate(ITS); R.note('%s 互動點：%s' % (tag, J(its))); await shot(pg, 'yejian_1_enter')
-                    acts = [i for i in its if not i['to'] and not i['seat'] and any(w in (i['label'] or '') for w in ('書', '咖啡', '新'))]
+                    acts = [i for i in its if i['ggs']]
                     R.check('%s 有書牆／新書／咖啡的互動' % tag, bool(acts), J(its))
                     for k, it in enumerate(acts[:3]):
-                        r = await use(pg, cdp, it, tag)
+                        r = await use(pg, cdp, it, tag, pick=lambda o: next((i for i, x in enumerate(o) if '拿鐵' in x['t']), 0))
+                        R.note('%s ggs=%s 做完：%s' % (tag, it['ggs'], J(r and r['me'])))
                         if r and r['me']['seat']: await shot(pg, 'yejian_%d_sit_%s' % (k + 2, it['label'][:4]))
                         await stand(pg, cdp, tag)
                     await leave(pg, cdp, tag)
@@ -131,7 +132,8 @@ async def main():
                     me = await pg.evaluate(ME); await shot(pg, 'club_1_enter')
                     R.check('%s 按門走進 3D 會所（區域換了）' % tag, me['zone'] != z0, J({'me': me, 'r': r}))
                     its = await pg.evaluate(ITS); R.note('%s 會所互動點：%s' % (tag, J(its)))
-                    st = next((i for i in its if i['seat']), None)
+                    st = next((i for i in its if i['study']), None) or next((i for i in its if i['seat']), None)
+                    R.note('%s 坐哪一個：%s（study＝自習室）' % (tag, J(st)))
                     if st:
                         await use(pg, cdp, st, tag, pick=lambda o: next((i for i, x in enumerate(o) if '讀書' in x['t']), 0))
                         await shot(pg, 'club_2_sit'); await stand(pg, cdp, tag)
