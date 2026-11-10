@@ -50845,6 +50845,64 @@
    "evidence": "tests/v0_e08_unit.js 4h",
    "sha": null,
    "test": null
+  },
+  {
+   "id": "INV-NOW-GOAL-1110",
+   "title": "約好「現在一起過去」的地方顯示在行程（上方目標列）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "她第一次主動約你",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 02:1x LAWWW-B】使用者 X286。手機「今天約好的」已有「現在　和○○約在○○」（INV.todayLines going）；加上方目標列：going／帶路途中寫「和○○一起去○○」，到了就換回原本的。",
+   "xai": {
+    "spec": "使用者 11-10 01:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "現在一起過去的途中，目標列看得到約去哪",
+    "receiver": "BB（測）",
+    "ack": "SENT",
+    "owner": "LAWWW"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
+  },
+  {
+   "id": "DLG-NO-ECON-REPEAT-1110",
+   "title": "玩家選項、台詞不要一直提經濟系、重考；經濟系那年有可昕，不寫「一個人」",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "她第一次主動約你",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【11-10 02:1x LAWWW-B】使用者 X287，截圖 docs/handoff/user_shots/1110_an_econ_alone.webp（以安 arcs：「會。念經濟系那一個多月，我一個人吃遍公館。」）。AA 掃 heroine_arcs、ladder、activity_scenes、invites 等玩家選項與祐廷的話：提到經濟系、重考的減少（同一場最多一個、整體大幅少）；和「經濟系那年和可昕交往」矛盾的改掉。改完給 commit，LAWWW 重新匯入。",
+   "xai": {
+    "spec": "使用者 11-10 01:3x 對 LAWWW-B",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "選項不再一直提經濟系、重考；不再有和可昕交往矛盾的句子",
+    "receiver": "LAWWW（匯入）、BB（測）",
+    "ack": "SENT",
+    "owner": "AA"
+   },
+   "evidence": "tests/v0_e08_unit.js 4h",
+   "sha": null,
+   "test": null
   }
  ]
 }

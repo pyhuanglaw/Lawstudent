@@ -3802,6 +3802,26 @@
    "wants": "X285",
    "task": "AVENUE-FAR-SIGNS-1110",
    "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-29",
+   "at": "2026-11-10T02:1xZ",
+   "quote": "約好現在一起過去的地方 要顯示在行程 以免忘記到底約哪",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X286",
+   "task": "INV-NOW-GOAL-1110",
+   "src": "使用者對 LAWWW-B"
+  },
+  {
+   "id": "UA-LAWWW-1110-30",
+   "at": "2026-11-10T02:1xZ",
+   "quote": "可以不要一直提到經濟系 或重考嗎? 對話 而且經濟系那年明明有女友怎麼會一個人?（附以安「你會一個人去一間店嗎？」選項截圖）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X287",
+   "task": "DLG-NO-ECON-REPEAT-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
   }
  ]
 }
