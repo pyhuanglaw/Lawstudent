@@ -7393,7 +7393,7 @@
    "branch": "claude/second-ai-env-art",
    "sha": "f09ac1444",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED（LAWWW 11-10 14:21：已接進開發分支 99294fead）",
    "task": "X186 橘貓有骨架的趴姿、跳上／跳下圓椅接進遊戲（WZ-CAT-FLOAT-RUB-1103 尾巴）",
    "files": [
     "docs/art-rebuild/second_ai/wip/wz_cat_lie_jump_1110/（README、wz_cat_lie_jump_1110.patch、wz_cat_lie_jump_unit.js、regression.log）"
@@ -7401,6 +7401,22 @@
    "state": "READY_FOR_REVIEW（程式），待整合",
    "noDirectIntegrate": false,
    "note": "動畫 f22ef5dcd 11-03 就做好了，整合時只接 cat_rub。wzcat3d.js：有 cat_lie_idle 就用走路那一隻趴著播；有 cat_jump_down／up 就從圓椅跳下、跳上（片段位移 0.35／0.30 m、0.45 m＝座面高）；hold／release 搬回原位。舊 GLB 照舊。新測試開發 FAILED 4 → ALL PASS；回歸 42 支過。",
+   "next": "等 LAWWW 派"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "GG-LANE-CLOSE-1110 公館往溫州街巷口的住戶鐵門（X199 配套）第 1 版",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_lane_close_1110/（README、gg_lane_close_1110.patch、gg_lane_close_unit.js、regression.log、blender_preview.jpg）",
+    "tools/blender/env_second/gg_lane_gate.py",
+    "assets/models/env/second_ai/gg_lane_gate.glb"
+   ],
+   "state": "MODEL_READY，待整合；BB 判（第 1 版）",
+   "noDirectIntegrate": false,
+   "note": "盆栽後面、店面線往裡 0.3 m 一道深綠鐵門（混凝土門柱、下鐵板上直條、「私人巷道 請勿進入」告示牌）；716 三角形；導航一格不差；zone_assets 用工具重產（順便更新 xs_planters、xs_gate）。新測試開發 FAILED 4 → ALL PASS；回歸 108 支過。",
    "next": "等 LAWWW 派"
   }
  ]
