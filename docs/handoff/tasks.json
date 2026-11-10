@@ -51552,6 +51552,32 @@
    },
    "sha": "b84d35375",
    "evidence": "LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md；LAWWW 照表改 16 項"
+  },
+  {
+   "id": "BUG-DLG-NEXT-OVERLAP-1110",
+   "title": "手機直向三行台詞最後一行被「▼ 點一下繼續」壓住（共用對話框）；公告欄先問看／先不看（P3）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "任何三行台詞（手機直向）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 11-10 10:4x】7f2093f92：#dlgText padding-bottom 16px；tests/dlg_next_overlap_1110_unit.js（修前 FAIL）；公告欄多於一則先問「看公告（N 則）／先不看」；bulletin_board_1110、aa581、adv_skip_typing、say_cover ALL PASS；BB 排 CC X295B 直向重拍。",
+   "xai": {
+    "spec": "BB 11-10 10:17（CC x295_portrait_putong_p07_overlap.png）",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "390×844 直向三行台詞最後一行和 #dlgNext 不重疊",
+    "receiver": "BB",
+    "ack": "SENT"
+   },
+   "sha": "7f2093f92"
   }
  ]
 }
