@@ -1,0 +1,43 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tzq_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TZQ_go_old\out
+CC TZQ／TZP／WZQ：SHA c17a9919e PARTS TZQ_MAP,TZQ_GO Q low,medium,high；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+== TZQ_MAP
+  [前置／捷徑] 讀檔到 gongguan 2025-11-01 14.0 時 (-2.50,-29.00) （公館商圈；看手機「地點」）
+  [  53.1s] [A1] 地區按鈕（順序）：[{"id": "campus", "on": false, "txt": "首都帝大校園（15）▸"}, {"id": "gongguan", "on": true, "txt": "公館（10）▾"}, {"id": "wenzhou", "on": false, "txt": "溫州街（5）▸"}, {"id": "xinsheng", "on": false, "txt": "新生南路（8）▸"}, {"id": "lane118", "on": false, "txt": "118 巷（1）▸"}]
+FAIL [A1] 手機「地點」有「汀州路」這一區、排在公館正後面  ["campus", "gongguan", "wenzhou", "xinsheng", "lane118"]
+  [  53.2s] [A1] 地圖圖釘：{"gongguan": {"cx": 100, "cy": 172, "txt": "公館"}, "tingzhou": null}
+FAIL [A1] 地圖上有汀州路圖釘、在公館圖釘下面（SVG y 比較大、x 相差 <30）  {"gongguan": {"cx": 100, "cy": 172, "txt": "公館"}, "tingzhou": null}
+  [  53.2s] [A1] 點汀州路圖釘（螢幕 null）→ 圖釘那一塊列出：[]
+FAIL [A1] 點汀州路圖釘：列出九筆（汀州路＋八間店，名字一字不差）  []
+FAIL [A1] 汀州路那一區（地區清單）列出同樣九筆  []
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-01 14.0 時 （巷子口出生點）
+PASS [A1] 人在汀州路：小地圖旁的地名（#clockZ）是「汀州路」  {"zone": "tingzhou", "h": 14.0701, "x": 27, "z": 0, "ry": -1.571, "lv": 0, "free": true, "stand": true, "interact": "往公館（羅斯福路）", "ent": false, "busy": false, "fb": 0, "clockZ": "汀州路", "phone": false, "dlg": false, "toast": "手機｜可昕：週末來木柵大學？我當導遊。", "q": "medium"}
+PASS [黑畫面] A1_bigmap_tingzhou 不是黑畫面（平均亮度 40.9、變化 37.4）  [40.9, 37.4]
+PASS [A1] 點小地圖打開大地圖、標題是「汀州路」  {"open": true, "title": "汀州路"}
+FAIL [A1] 人在汀州路：手機「地點」預設展開汀州路那一區（PLACEMAP.hereArea）  {"areas": [{"id": "campus", "on": false, "txt": "首都帝大校園（15）▸"}, {"id": "gongguan", "on": false, "txt": "公館（10）▸"}, {"id": "wenzhou", "on": false, "txt": "溫州街（5）▸"}, {"id": "xinsheng", "on": false, "txt": "新生南路（8）▸"}, {"id": "lane118", "on": false, "txt": "118 巷（1）▸"}], "here": {"hereId": null, "area": null}}
+PASS [TZQ_MAP] 沒有 JS 例外  []
+== TZQ_GO
+  [前置／捷徑] 讀檔到 gongguan 2025-11-01 14.0 時 (-2.50,-29.00) （從公館商圈出發）
+FAIL [A2 汀州路] 手機「地點」的「tingzhou」那一區有「汀州路」  []
+  [前置／捷徑] 讀檔到 gongguan 2025-11-01 14.0 時 (-2.50,-29.00) （從公館商圈出發）
+FAIL [A2 泰米村食] 手機「地點」的「tingzhou」那一區有「泰米村食」  []
+  [前置／捷徑] 讀檔到 gongguan 2025-11-01 14.0 時 (-2.50,-29.00) （從公館商圈出發）
+FAIL [A2 洗樂洗衣坊] 手機「地點」的「tingzhou」那一區有「洗樂洗衣坊」  []
+  [前置／捷徑] 讀檔到 gongguan 2025-11-01 14.0 時 (-2.50,-29.00) （從公館商圈出發）
+FAIL [A2 印得好] 手機「地點」的「tingzhou」那一區有「印得好」  []
+  [前置／捷徑] 讀檔到 gongguan 2025-11-01 14.0 時 (-2.50,-29.00) （從公館商圈出發）
+FAIL [A2 越好吃小館] 手機「地點」的「tingzhou」那一區有「越好吃小館」  []
+  [前置／捷徑] 讀檔到 gongguan 2025-11-01 14.0 時 (-2.50,-29.00) （從公館商圈出發）
+FAIL [A2 客居雲南] 手機「地點」的「tingzhou」那一區有「客居雲南」  []
+  [前置／捷徑] 讀檔到 gongguan 2025-11-01 14.0 時 (-2.50,-29.00) （從公館商圈出發）
+FAIL [A2 東南大聯商行] 手機「地點」的「tingzhou」那一區有「東南大聯商行」  []
+  [前置／捷徑] 讀檔到 gongguan 2025-11-01 14.0 時 (-2.50,-29.00) （從公館商圈出發）
+FAIL [A2 汀州聯通] 手機「地點」的「tingzhou」那一區有「汀州聯通」  []
+  [前置／捷徑] 讀檔到 gongguan 2025-11-01 14.0 時 (-2.50,-29.00) （從公館商圈出發）
+FAIL [A2 溫特寶邸] 手機「地點」的「tingzhou」那一區有「溫特寶邸」  []
+  [前置／捷徑] 讀檔到 tingzhou 2025-11-01 14.0 時 （巷子口出生點；看同一區的分鐘數）
+  [ 230.2s] [A2 同區] 巷子口 (27.0,0.0) 看九筆：[]
+FAIL [A2 同區] 九筆的分鐘數照距離（d<12＝你在這裡、否則 max(5, round((2+d/13)/5)×5)）  []
+PASS [TZQ_GO] 沒有 JS 例外  []
+FAILED 15: [A1] 手機「地點」有「汀州路」這一區、排在公館正後面；[A1] 地圖上有汀州路圖釘、在公館圖釘下面（SVG y 比較大、x 相差 <30）；[A1] 點汀州路圖釘：列出九筆（汀州路＋八間店，名字一字不差）；[A1] 汀州路那一區（地區清單）列出同樣九筆；[A1] 人在汀州路：手機「地點」預設展開汀州路那一區（PLACEMAP.hereArea）；[A2 汀州路] 手機「地點」的「tingzhou」那一區有「汀州路」；[A2 泰米村食] 手機「地點」的「tingzhou」那一區有「泰米村食」；[A2 洗樂洗衣坊] 手機「地點」的「tingzhou」那一區有「洗樂洗衣坊」；[A2 印得好] 手機「地點」的「tingzhou」那一區有「印得好」；[A2 越好吃小館] 手機「地點」的「tingzhou」那一區有「越好吃小館」；[A2 客居雲南] 手機「地點」的「tingzhou」那一區有「客居雲南」；[A2 東南大聯商行] 手機「地點」的「tingzhou」那一區有「東南大聯商行」；[A2 汀州聯通] 手機「地點」的「tingzhou」那一區有「汀州聯通」；[A2 溫特寶邸] 手機「地點」的「tingzhou」那一區有「溫特寶邸」；[A2 同區] 九筆的分鐘數照距離（d<12＝你在這裡、否則 max(5, round((2+d/13)/5)×5)）
