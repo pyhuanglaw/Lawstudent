@@ -6922,7 +6922,7 @@
   },
   {
    "branch": "claude/second-ai-env-art",
-   "sha": "PENDING",
+   "sha": "bc4598101",
    "receiver": "LAWWW",
    "ack": "SENT",
    "task": "LIB-B1-COURT-ART-1110 第二輪（X307：鏡頭在背後時畫面下半白霧，BB 判 GAME_BUG）",
