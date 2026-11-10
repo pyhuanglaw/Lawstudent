@@ -63,6 +63,7 @@ MT4_nofb_r3 | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_plan
 MT4_oo_r4 | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=OO_3007,OO_2805
 MT4_nofb_r4 | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=NOFB
 MT4_oo2805_r5 | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=OO_2805
+MT4_nofb_r5 | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=NOFB
 SHIFT_IMM_r7_new | 01bab1823003df827be3d76bc7d2c13ef034dacb | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 15 | TAG=imm7_new;IMM=1;CASES=F
 SHIFT_IMM_r7_old | 8a98ff1e06c06cfb52be41dc3402ba05305945a6 | probe | docs/story_planning/test_tools/cc/cc_shift_treat_probe.py | index.html | 15 | TAG=imm7_old;IMM=1;CASES=F
 # 汀州路第 3 版（BB 21:59）：三間招牌，和參考圖＋第 2 版並排
