@@ -294,13 +294,40 @@ async def part_int(pg, cdp):
             R.check('%s walkFallbacks 0' % tag, me2['fb'] == 0, J(me2))
 
 
+async def part_scoot3(pg, cdp):
+    """BB 22:49：挑「外形差最多的三款」各框一台——照 scooter.glb 每一款節點的外框（長×寬×高）挑最小、中間、最大三款（體積排序），
+    各找一台擺在路邊的（照 attachWzScooters 的挑法重算），從路中間拍一張近照、一張三款同框（獨立相機）；外框尺寸一起記"""
+    h = float((os.environ.get('HOURS') or '14').split(',')[0])
+    await at(pg, cdp, 'tingzhou', h, 0.0, 6.0, '（機車三款）'); await pg.wait_for_timeout(4000)
+    info = await pg.evaluate(r"""(async()=>{ const E=GAME.E; let root=null; try{ const c=await ASSETS.loadOne('bldg.wz_scooter'); root=c&&c.scene; }catch(e){}
+      if(!root) return null; root.updateMatrixWorld(true); const V=[]; root.traverse(o=>{ const m=/^scooter_(S\w+)$/.exec(o.name); if(!m||/_lod1$/.test(o.name)||!o.userData||!(o.userData.weight>0)) return; let pal=[]; try{ pal=JSON.parse(o.userData.palette||'[]'); }catch(e){}
+        const b=new THREE.Box3().setFromObject(o), sz=b.getSize(new THREE.Vector3()); V.push({code:m[1],w:+o.userData.weight,pal,size:[+sz.x.toFixed(2),+sz.y.toFixed(2),+sz.z.toFixed(2)],vol:sz.x*sz.y*sz.z}); });
+      const W=V.reduce((a,b)=>a+b.w,0), hash=(x,z,k)=>{ const t=Math.sin(x*12.9898+z*78.233+k*37.719)*43758.5453; return t-Math.floor(t); };
+      let scG=null; E.scene.traverse(o=>{ if(!scG&&o.isGroup&&o.children.length>20&&o.children.every(c=>c.userData&&c.userData.dyn)&&o.parent&&o.parent.getObjectByName&&o.parent.getObjectByName('tz_scooters_glb')) scG=o; });
+      const items=[]; if(scG) for(const o of scG.children){ o.updateMatrixWorld(true); const p=new THREE.Vector3().setFromMatrixPosition(o.matrixWorld); let r=hash(p.x,p.z,1)*W, v=V[V.length-1]; for(const c of V){ if((r-=c.w)<=0){ v=c; break; } } items.push({x:+p.x.toFixed(2),z:+p.z.toFixed(2),code:v.code}); }
+      return {V:V.map(v=>({code:v.code,w:v.w,size:v.size,vol:+v.vol.toFixed(3),pal:v.pal.length})), items}; })()""")
+    if not R.check('[SCOOT3] 讀到 scooter.glb 的款式和路邊每台的位置', bool(info and info['V'] and info['items']), J(info)[:300]): return
+    used = {}
+    for it in info['items']: used.setdefault(it['code'], []).append(it)
+    V = sorted([v for v in info['V'] if v['code'] in used], key=lambda v: v['vol'])
+    R.note('[SCOOT3] scooter.glb 款式（有擺在路邊的 %d／全部 %d 款）：%s' % (len(V), len(info['V']), J(info['V'])))
+    pick = [V[0], V[len(V) // 2], V[-1]] if len(V) >= 3 else V
+    await pg.evaluate("window.__TZ=[]")
+    for v in pick:
+        it = sorted(used[v['code']], key=lambda q: abs(q['z']))[0]; sx = 1 if it['x'] > 0 else -1
+        u = await pg.evaluate(SNAP, {'from': [sx * 1.2, 1.3, it['z'] + 2.2], 'at': [it['x'], 0.6, it['z']], 'fov': 40, 'tw': 560, 'label': '款式 %s 外框 %s（體積排序第 %d／%d）' % (v['code'], v['size'], V.index(v) + 1, len(V)), 'full': True})
+        save(u, 'scoot3_%s.jpg' % v['code'])
+    u = await pg.evaluate(MONT, {'cols': 3, 'title': '汀州路機車：外形差最多的三款（體積最小、中間、最大）%s' % os.environ.get('SHA', '')[:9]})
+    save(u, 'scoot3_all.jpg'); R.note('[SCOOT3] 三款：%s' % J([(v['code'], v['size']) for v in pick]))
+
+
 async def main():
     print('CC 汀州路 v1：PARTS %s；Playwright ≠ iPhone' % ','.join(PARTS), flush=True)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot), ('INT', part_int)):
+        for part, fn in (('GATE', part_gate), ('SHOPS', part_shops), ('WALK', part_walk), ('OLD', part_old), ('SHOTS', part_shots), ('FPS', part_fps), ('SCOOT', part_scoot), ('SCOOT3', part_scoot3), ('INT', part_int)):
             if part not in PARTS: continue
             try: await fn(pg, cdp)
             except Exception as e: R.check('[%s] 沒有中斷' % part, False, repr(e)[:300])
