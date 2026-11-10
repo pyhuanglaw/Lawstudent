@@ -75,6 +75,8 @@ const fresh=(d,h,zone,flags)=>{ const G=H.fresh(keyOf(d),h,zone||'dorm',Object.a
 const use=G=>{ H.G=G; SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); return G; };   /* 換回前面那一局（EVENTS、SOCIAL 綁的是 H.fresh 那時候的 G）*/
 const att=(G,...days)=>{ for(const d of days) G.acts.att['club_guitar@'+d]={h:19,end:'full'}; };
 const said=()=>H.lines();
+/* BULLETIN-BOARD-1110（AA_737 lateJoin）：大一上第 5、6 週還不是社員＝社課最後多一段入社單（旁白、社長、填／先不要）。第 5 節看 2-1 的部分：只看入社單那段以前（pre）*/
+const pre=()=>{ const s=said(), L=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.LATE_JOIN, k=L?s.indexOf(L.narr):-1; return k<0?s:s.slice(0,k); };
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const CLUB=()=>ACTIVITIES.list.find(a=>a.id==='club_guitar');
 const evOf=id=>STORY_EVENTS.find(e=>e.id===id)||null;
@@ -225,7 +227,7 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
   await sec(5,async()=>{ const S=X(), a=CLUB(), w5=TD('Y1S1',5,3);
     let G=fresh(w5,19.05,'wancai'); H.said=[]; H.picks=[0,'一定要買嗎']; let optsSeen=[]; const c0=GM.choose; GM.choose=async o=>{ optsSeen.push(o.map(q=>q.t)); return c0(o); };
     await CLS.attendActivity(GM,a,{door:true}); GM.choose=c0;
-    const L=said(), i0=L.indexOf('高子晴：今天系上有程式比賽，一半的人跑去了，所以人很少。'), i1=L.indexOf('（社長學長拍拍手。）');
+    const L=pre(), i0=L.indexOf('高子晴：今天系上有程式比賽，一半的人跑去了，所以人很少。'), i1=L.indexOf('（社長學長拍拍手。）');
     const want=['（社長學長拍拍手。）','社長學長：有自己吉他的舉手。','（一半的人舉手。你沒有。）','社長學長：沒有的先用社團的，前面那箱。前兩個禮拜先借，之後最好自己買一把。……不用貴，三四千就有好彈的。','社長學長：'+T93.buyStr,'社長學長：不買也可以啊，社團的琴一直都在。只是那箱弦有點鏽。',S.L.c21Narr];
     check('5-1. 第一次社課：子晴的初遇演完 → 社長學長那一段 →「一定要買嗎？」→ 他那一句 → 這次的旁白是鏽弦那一句（最後）',i0>=0&&i1>i0&&J(L.slice(i1))===J(want)&&J(optsSeen[1])===J(['「好。」','「一定要買嗎？」']),J([L,optsSeen]));
     check('5-2. 輪流的六句沒有往前（G.acts.narr 沒記）、記 c21、加入吉他社、出席',!((G.acts.narr||{})['club_guitar@Y1S1'])&&G.guitar.c21===w5&&G.flags.CLUB_club_guitar===true&&ACTIVITIES.attended(G,'club_guitar',w5),J([G.acts.narr,G.guitar]));
@@ -233,10 +235,10 @@ const textsOf=lines=>{ const out=[]; for(const l of lines||[]){ if(l.text!=null)
     check('5-3. 第二次社課：不再演 2-1；旁白是輪流的第一句',!said().includes('（社長學長拍拍手。）')&&said().includes(a.narr[0]),J(said()));
     // 「好。」
     G=fresh(w5,19.05,'wancai'); H.said=[]; H.picks=[0,'「好。」']; await CLS.attendActivity(GM,a,{door:true});
-    check('5-4.「好。」：沒有他那一句、照樣是鏽弦旁白',!said().some(t=>/不買也可以啊/.test(t))&&said()[said().length-1]===S.L.c21Narr,J(said()));
+    check('5-4.「好。」：沒有他那一句、照樣是鏽弦旁白',!said().some(t=>/不買也可以啊/.test(t))&&pre()[pre().length-1]===S.L.c21Narr,J(said()));
     // 已經認識子晴（別的地方認識的）：沒有初遇事件，2-1 照演
     G=fresh(w5,19.05,'wancai'); H.FRIEND(ZQ); H.said=[]; H.picks=[0]; await CLS.attendActivity(GM,a,{door:true});
-    check('5-5. 已經認識子晴（沒有初遇）：入座那一句 → 2-1 → 鏽弦旁白',said()[0]==='你輕輕坐下。「吉他社社課」已經開始了。'&&said()[1]==='（社長學長拍拍手。）'&&said()[said().length-1]===S.L.c21Narr,J(said()));
+    check('5-5. 已經認識子晴（沒有初遇）：入座那一句 → 2-1 → 鏽弦旁白',said()[0]==='你輕輕坐下。「吉他社社課」已經開始了。'&&said()[1]==='（社長學長拍拍手。）'&&pre()[pre().length-1]===S.L.c21Narr,J(said()));
     // 舊存檔：以前去過
     G=fresh(TD('Y1S1',7,3),19.05,'wancai',{CLUB_club_guitar:true}); H.FRIEND(ZQ); att(G,w5); H.said=[]; await CLS.attendActivity(GM,a,{door:true});
     check('5-6. 舊存檔（以前去過社課，有出席紀錄）：不補 2-1',!said().includes('（社長學長拍拍手。）')&&G.guitar.c21==null,J(said()));

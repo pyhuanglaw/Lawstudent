@@ -13,7 +13,7 @@ const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Ma
 /* 大一的系籃比賽（交接包 v2 C16，AA_71 2-11；使用者同意 v2 審查通過的直接在開發分支實作，2026-10-14）*/
 /* 公法讀書會（交接包 v2 C14 以安新 7 後半；同上）*/
 const STORY_OK=['welcome_y1s1','dept_ball_game_y1s2','public_law_group','guitar_show_y1s2','guitar_show_y2s2','lawclub_review_y1s2','B4','EXPO_Y2','moot_2','moot_3','moot_4'];   /* guitar_show_y2s2：子晴 Q9 第二次成發（AA_325 2-Y2-19，AA-C 定稿 404ae976）*/   /* moot_2～4：模擬法庭的小組討論（交接包 v3；AA_177 4-7）*/   /* EXPO_Y2：交換說明會（主線 8，交接包 v3；AA_177 4-2）；B4：博雅午後講座（交接包 v2 C13、AA_115；使用者 2026-10-14 審查通過即交 LAWWW）*/
-check('遊戲裡的活動都是一般活動（story:false，AA_110 6-3）或使用者批准的劇情活動（迎新）；沒有活動的那幾天公告欄寫「目前沒有」',ACTIVITIES.list.length>0&&ACTIVITIES.list.every(a=>a.story===false||(a.story===true&&STORY_OK.includes(a.id)))&&/目前沒有/.test(ACTIVITIES.posterText({day:120,hour:10})),ACTIVITIES.list.map(a=>a.id).join(','));
+check('遊戲裡的活動都是一般活動（story:false，AA_110 6-3）或使用者批准的劇情活動（迎新）；沒有活動的那幾天公告欄寫「這週沒有新的公告。」（BULLETIN-BOARD-1110、AA_737 noteEmpty；原期望「目前沒有公告的演講或活動。」）',ACTIVITIES.list.length>0&&ACTIVITIES.list.every(a=>a.story===false||(a.story===true&&STORY_OK.includes(a.id)))&&/這週沒有新的公告/.test(ACTIVITIES.posterText({day:120,hour:10})),ACTIVITIES.list.map(a=>a.id).join(','));
 ACTIVITIES.list=[{id:'t_lecture',title:'測試演講',kind:'lecture',zone:'gongtong',room:'101',roomName:'共同 101',dates:['2025-10-21'],t0:18.5,t1:20.5,poster:{daysBefore:5}},
                  {id:'t_club',title:'測試社團',kind:'club',zone:'wancai',term:['Y1S1'],weeks:[4,5,6,7],weekday:3,t0:19,t1:21,poster:{daysBefore:2}}];
 const L=dayOf('2025-10-21'), W4=dayOf('2025-09-24'), W3=dayOf('2025-09-17'), W8=dayOf('2025-10-22');
@@ -23,7 +23,7 @@ check('進行中：19:00 有演講、18:00 還沒、20:40 沒有，但「剛結�
 { const up=ACTIVITIES.upcoming({day:L-5,hour:10},7).map(q=>q.a.id+'@'+q.k), up2=ACTIVITIES.upcoming({day:L-6,hour:10},7).map(q=>q.a.id+'@'+q.k);
   check('海報提前 5 天貼：演講前 5 天看得到、前 6 天還沒貼',up.includes('t_lecture@5')&&!up2.some(q=>q.startsWith('t_lecture')),up.join(',')+' / '+up2.join(','));
   check('當天結束以後公告欄不再列',!ACTIVITIES.upcoming({day:L,hour:21},7).some(q=>q.a.id==='t_lecture'));
-  const t=ACTIVITIES.posterText({day:L-1,hour:10}); check('公告欄的文字：明天 18:30–20:30 測試演講（共同 101）',/明天 18:30–20:30　測試演講（共同 101）/.test(t),t); }
+  const t=ACTIVITIES.posterText({day:L-1,hour:10}); check('公告欄的文字：明天 18:30–20:30　測試演講　共同 101（BULLETIN-BOARD-1110、AA_737 lineFormat.event；原期望地點在括號裡「（共同 101）」）',/明天 18:30–20:30　測試演講　共同 101/.test(t),t); }
 // 事件條件
 { const G={day:L,hour:19,zone:'gongtong',weekday:2,flags:{},events:{done:{},last:{}}}; let room='101', where={zone:'gongtong'};
   const GM={G,E:{zone:{roomAt:()=>room},player:{obj:{position:{x:0,z:0}},lv:0}}}; global.STORY={whereIs:(gm,id)=>id==='heroine_02'?where:null};

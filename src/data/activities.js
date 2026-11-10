@@ -87,8 +87,47 @@ const ACTIVITIES={
      rain:{zone:'gym',roomName:'新體育館一樓走廊',spot:{x:-5.1,z:13.8,lv:0,label:'系籃練球'},hint:'下雨，系籃今天在新體育館走廊練體能。',narr:3},
      desc:'投籃、分隊打半場；也可以在場邊記分、送水。',story:false,
      narr:['（投籃練習，每人二十球。進幾球沒有人在算——除了學長。）','（分隊打半場。你在場邊記分，記錯一次，被兩隊同時糾正。）','（今天練防守腳步。十分鐘後，大家的腿都在發抖。）',
-           '（今天在體育館走廊練運球。球聲在走廊裡很大聲。）','（練完，大家坐在場邊喝水。有人說民總的作業還沒寫，全場安靜了一下。）']}
+           '（今天在體育館走廊練運球。球聲在走廊裡很大聲。）','（練完，大家坐在場邊喝水。有人說民總的作業還沒寫，全場安靜了一下。）']},
+    /* ---- 特殊活動（BULLETIN-BOARD-1110；AA_737 specialEvents，企劃線 2a1c30dc6，AA 定稿 D109；使用者 11-10「特殊活動?學生會迎新派對?」）----
+       全部 story:false、不牽涉人物劇情。special:true＝參加以後播整串旁白（narr 照順序、同一學期每句最多一次；classes3d.js 的 S.specialNarr）、集合點的活動不說「你找了位子坐下」。
+       spot／room（LAWWW 定，AA_737 寫「由 LAWWW 照區域定」）：
+         學生會迎新派對＝新體育館（gym）一樓多功能球場靠大廳那一頭 (0, 8.6)；
+         捐血車＝校園椰影大道北側 (30, −8)（「學活」遊戲裡還沒有建築；地點名稱照 AA 寫「學活前」）；
+         期中電影夜＝博思 101（坐下參加，和演講一樣；人流 crowd 照現有的大教室）；
+         校慶園遊會＝椰影大道晨思鐘旁 (−14.5, 10.5)（法律系／法服的攤位旁邊：大四的法服問答攤 ev_fair_booth_y4 走近就會先演）。
+       校慶園遊會的日子用遊戲現有的校慶擺攤日（zones3d.js 的 FAIR_DAYS：大一 2025-11-15＝第 11 週週六；大二起照 AA_355「遊園會在校慶前一個週六」＝第 10 週週六），帳篷那天才有。 */
+    {id:'su_welcome_party',title:'學生會迎新派對',kind:'event',special:true,zone:'gym',roomName:'新體育館',spot:{x:0,z:8.6,lv:0,label:'學生會迎新派對',r:1.3},term:['Y1S1','Y2S1','Y3S1','Y4S1'],weeks:[2],weekday:5,t0:19,t1:21.5,poster:{daysBefore:7},verb:'去參加',crowd:{n:30},
+     desc:'學生會辦的新生迎新：社團表演、抽獎、宵夜。大一優先入場，其他年級也可以來。',story:false,
+     narr:['（體育館的燈關了一半，熱舞社在台上跳。後面排隊領宵夜的人，比看表演的多。）','（抽獎抽到三十幾號，你的號碼差兩號。旁邊的人比你還不甘心。）','（學生會長上台講了五分鐘，前三分鐘在調麥克風。）'],
+     narrLater:['（今年你站在後面。前排的大一在喊下一個節目的名字。）','（宵夜還是鹹酥雞。今年你知道要先去排。）'],endLater:'派對結束了。'},   /* narr＝大一那一年；narrLater＝大二以後每年一句、照順序，用完只顯示「派對結束了。」*/
+    {id:'blood_drive',title:'捐血車',kind:'event',special:true,zone:'campus',roomName:'學活前',spot:{x:30,z:-8,lv:0,label:'捐血車',r:1.3},term:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],weeks:[7],weekdays:[2,3],t0:10,t1:16,poster:{daysBefore:5},verb:'去捐血',
+     gapMonths:2,gapText:'上次捐血還不到兩個月。',   /* 兩次捐血要隔兩個月以上（照出席紀錄 blood_drive@<天> 的最後一次；ACTIVITIES.gapBlocked）*/
+     desc:'捐血車停在學活前。捐完要坐著休息十分鐘，送一包餅乾。',story:false,
+     narr:['（護理師問你今天有沒有吃早餐。你說有。她看了你一眼，又遞給你一杯水。）','（捐完要在椅子上坐十分鐘。餅乾是蘇打餅，你吃了兩片。）']},
+    {id:'su_movie_night',title:'期中電影夜',kind:'event',special:true,zone:'boya',room:'101',roomName:'博思 101',term:['Y1S1','Y2S1','Y3S1','Y4S1'],weeks:[10],weekday:4,t0:19,t1:21,poster:{daysBefore:5},verb:'去看',crowd:{n:30},
+     desc:'期中考完，學生會放電影。入場免費，片名當天公布。',story:false,
+     narr:['（燈一關，前排還有人在找位子。片頭跑了五分鐘才安靜下來。）','（片子放到一半，投影機閃了兩下。整間教室一起「喔——」，然後又好了。）']},
+    {id:'school_fair',title:'校慶園遊會',kind:'fair',special:true,zone:'campus',roomName:'椰影大道',spot:{x:-14.5,z:10.5,lv:0,label:'校慶園遊會',r:1.3},dates:['2025-11-15','2026-11-14','2027-11-13','2028-11-11'],t0:10,t1:16,poster:{daysBefore:7},verb:'去逛',
+     desc:'各系所、社團在椰影大道擺攤。法律系的攤位在晨思鐘旁邊。',story:false,
+     narr:['（攤位從校門一路排到總圖前面。法律系的攤子在賣檸檬愛玉，學長在旁邊幫人看租屋契約。）','（吉他社的攤位前圍了一圈人。中間有人在唱，唱到一半忘詞，大家幫他接下去。）','（你買了一杯紅茶，走到總圖前面才發現吸管沒拿。）'],
+     narrAlt:{1:{flag:'CLUB_club_guitar',text:'（吉他社的攤位缺人顧，學長把收錢的鐵盒塞給你。）'}}}   /* 第 2 句：吉他社社員換這句（AA_737 noteClub）*/
   ],
+  /* ---- 公告欄「本週公告」（BULLETIN-BOARD-1110；AA_737 board，AA 定稿）：分三區（社課／演講・活動／社團招生），某一區這週沒有就整區不顯示；三區都沒有＝empty ---- */
+  BOARD:{title:'本週公告',heads:{clubs:'社課',events:'演講・活動',recruit:'社團招生'},empty:'這週沒有新的公告。'},
+  /* 社團招生海報（AA_737 recruit）：每學年上學期第 1～6 週貼；大一上照 text，其他學年 textLater；公法讀書會是以安的劇情，不貼 */
+  RECRUIT:{terms:['Y1S1','Y2S1','Y3S1','Y4S1'],weeks:[1,2,3,4,5,6],first:'Y1S1',posters:[
+    {club:'club_guitar',text:'吉他社招新｜不會彈也可以來，社辦有吉他可以借。社課每週一、三 19:00–21:00，法律系館B 多功能教室，第 5 週開始。',textLater:'吉他社招新｜不會彈也可以來，社辦有吉他可以借。社課每週一、三 19:00–21:00，法律系館B 多功能教室。'},
+    {club:'club_debate',text:'辯論社招新｜題目都是生活題，第一次來可以先坐在後面聽。社課每週二 19:00–21:00，博思 201，第 5 週開始。',textLater:'辯論社招新｜題目都是生活題，第一次來可以先坐在後面聽。社課每週二 19:00–21:00，博思 201。'},
+    {club:'club_hiking',text:'登山社招新｜新手隊十一月出發。行前會每週四 19:30–21:00，普通 201，第 5 週開始，會先講裝備和路線。',textLater:'登山社招新｜新手隊十一月出發。行前會每週四 19:30–21:00，普通 201。'},
+    {club:'dept_basketball',text:'系籃（系學會）找人｜男女都收，會不會打都可以，也缺記分的。每週五 17:30–19:00 映月湖東側籃球場，下雨改新體育館一樓走廊。',textLater:'系籃（系學會）找人｜男女都收，會不會打都可以，也缺記分的。每週五 17:30–19:00 映月湖東側籃球場，下雨改新體育館一樓走廊。'},
+    {club:'lawclub_study',text:'法律服務社（法服）招新｜隔週週六上午在法律系館B一樓接民眾諮詢，大一跟著學長姊做接待。報名：社團博覽會的法服攤位，或法律系館B一樓的法服桌。',textLater:'法律服務社（法服）招新｜隔週週六上午在法律系館B一樓接民眾諮詢，大一跟著學長姊做接待。報名：法律系館B一樓的法服桌。'}]},
+  /* 社博沒填表的，大一上第 5、6 週去社課，社課結束時問要不要入社（AA_737 lateJoin）：選「填」＝CLUB_<id>（跟社博填表一樣）；第 7 週以後不再問。法服照舊只有社博攤位和法服桌。
+     旗標 CLUB_LATE_<id>＝問過的那一週（5 或 6）：同一週不再問；選了「先不要」以後再去社課＝旁聽（不自動入社、不演「你在門口填了表」）。
+     社長沒有名字（每個社團同一套）；系籃的「社長」顯示成「系籃隊長」、「社費下次再收」改「隊費下次再收」；第 6 週選「先不要」最後一句改 no6 */
+  LATE_JOIN:{clubs:['club_guitar','club_debate','club_hiking','dept_basketball'],term:'Y1S1',weeks:[5,6],
+    narr:'（社課快結束的時候，社長拿著一疊入社單走過來。）',ask:'要不要填一張？填了就算社員，下禮拜開始點名。',opts:['填','先不要'],
+    yes:'好，名字寫這裡。社費下次再收。',no:'沒關係，下禮拜還可以來。',no6:'好，那有空再來玩。',who:'社長',
+    by:{dept_basketball:{who:'系籃隊長',yes:'好，名字寫這裡。隊費下次再收。'}}},
   /* once 的活動：任何一場聽過（或中途離開）就算去過了 */
   onceDone(G,a){ if(!(a&&a.once)) return false; const A=(G&&G.acts&&G.acts.att)||{}, p=a.id+'@';
     for(const k in A){ if(!k.startsWith(p)||!A[k]) continue; if(A[k].end==='in'&&k===p+G.day) continue; return true; } return false; },   /* 今天這一場「正坐在裡面」（end:'in'）不算去過：開始以後才進去坐下，actTrack 先記 in，選單還要有「聽演講」（BUG-ACT-ONCE-LATE-1024，BB-B 10-24：EXPO_Y2 12:26 坐下沒有選項）*/
@@ -107,7 +146,10 @@ const ACTIVITIES={
   /* 今天這一場在哪裡：下雨場換成 a.rain 的區域、地點名稱、集合點 */
   placeOf(a,G){ return a&&a.rain&&ACTIVITIES.rainy(a,G)?{zone:a.rain.zone,roomName:a.rain.roomName,spot:a.rain.spot}:{zone:a&&a.zone,roomName:a&&a.roomName,spot:a&&a.spot}; },
   /* 現在可以參加（開始前 15 分鐘起、過了一半以前；今天這一場聽過的、once 已經去過的不列）*/
-  canJoin(G,a){ const h=G.hour%24; return !!a&&ACTIVITIES.on(a,G.day,G)&&h>=a.t0-0.25&&h<(a.t0+a.t1)/2&&!ACTIVITIES.attended(G,a.id,G.day)&&!ACTIVITIES.onceDone(G,a); },
+  canJoin(G,a){ const h=G.hour%24; return !!a&&ACTIVITIES.on(a,G.day,G)&&h>=a.t0-0.25&&h<(a.t0+a.t1)/2&&!ACTIVITIES.attended(G,a.id,G.day)&&!ACTIVITIES.onceDone(G,a)&&!ACTIVITIES.gapBlocked(G,a); },
+  /* gapMonths：上一次參加（出席紀錄的最後一天，聽完或中途離開都算）到今天還不到幾個月＝不能參加（捐血車：兩次要隔兩個月，AA_737）。今天那一場不算（canJoin 另外擋「今天參加過了」）*/
+  gapBlocked(G,a){ if(!a||!a.gapMonths||!G||typeof CALENDAR==='undefined') return false; const last=ACTIVITIES.lastAttendedDay(G,a.id,true); if(last==null||last===G.day) return false;
+    const p=CALENDAR.dateOf(last), q=CALENDAR.dateOf(G.day), mo=(q.y-p.y)*12+(q.m-p.m)-(q.d<p.d?1:0); return mo<a.gapMonths; },
   /* 第 day 天有沒有這個活動（學期、週次或日期、星期都對得上）*/
   on(a,day,G){ if(typeof CALENDAR==='undefined') return false; if(a.skip&&a.skip(G||{flags:{}})) return false; const d=CALENDAR.dateOf(day);   /* skip：這一局不辦（例：有宿營的局不排舊的 9/27 迎新，CAMP-L1）；沒給 G 的呼叫也照 skip 判斷（法服讀書會停用＝()=>true）*/
     const w1=G&&typeof STORY!=='undefined'&&STORY.week1Start?!!STORY.week1Start(G):null; const ds=a.datesW1&&w1?a.datesW1:(a.datesOld&&w1===false?a.datesOld:a.dates);   /* datesW1：開學改 9/1 的局（START-WEEK 選 1）用另一組日期；舊局照 dates（AA_195 4-7 A12）。datesOld：反過來——dates 是新局的、舊局照 datesOld（社團博覽會，CLUBFAIR-REAL-1027）*/
@@ -157,7 +199,35 @@ const ACTIVITIES={
   missed(G,id){ const d=ACTIVITIES.lastEnded(G,id); return d!=null&&!ACTIVITIES.attendedAny(G,id,d); },   /* 中途離開不算沒去 */
   /* 坐在這一間的位子上，現在可以聽的活動：開始前 15 分鐘起、過了一半以前（之後進去不算聽過）；今天這一場已經聽過的不再列 */
   atSeat(G,zone,room){ if(!room) return null; return ACTIVITIES.list.find(a=>a.zone===zone&&a.room===room&&ACTIVITIES.canJoin(G,a))||null; },
-  /* 公告欄的文字（沒有活動時寫清楚「目前沒有」，不留空）*/
-  posterText(G,zone){ const up=ACTIVITIES.upcoming(G,7).filter(q=>!zone||q.a.zone===zone); if(!up.length) return '目前沒有公告的演講或活動。';
-    const W=['日','一','二','三','四','五','六']; return up.map(({a,k})=>{ const d=CALENDAR.dateOf(G.day+k); return (k===0?'今天':k===1?'明天':d.m+'/'+d.d+'（'+W[d.wd%7]+'）')+' '+ACTIVITIES.hhmm(a.t0)+'–'+ACTIVITIES.hhmm(a.t1)+'　'+a.title+(a.roomName?'（'+a.roomName+'）':''); }).join('；'); }
+  /* ---- 公告欄「本週公告」（BULLETIN-BOARD-1110，AA_737 board）----
+     board(G,zone)＝{title, sub（今天～6 天後）, clubs:[行], events:[行], recruit:[海報全文]}；zone＝只列這棟的（博思的講座資訊螢幕：社課、活動只列博思的，不貼招生海報）。
+     社課：這 7 天有開的社課（kind:'club'、story:false、沒停用；同一個社團一週好幾天合成一行；有 rain 的那一行後面加「（下雨改…）」）。
+     演講・活動：upcoming（照 poster.daysBefore，跟原本一樣，含特殊活動）裡不是社課的。社團招生：RECRUIT 現在貼著的（上學期第 1～6 週；法律系）。
+     舊版（2026-11-10 以前）只有一行一行的演講、活動，空的時候寫「目前沒有公告的演講或活動。」——AA_737 noteEmpty 換成 BOARD.empty */
+  W:['日','一','二','三','四','五','六'],
+  md(day){ const d=CALENDAR.dateOf(day); return d.m+'/'+d.d+'（'+ACTIVITIES.W[d.wd%7]+'）'; },
+  recruitOn(G){ const R=ACTIVITIES.RECRUIT; if(!R||!G||typeof CALENDAR==='undefined') return null; if((G.stage||'law')!=='law') return null; const t=CALENDAR.termOf(G.day); if(!t||!R.terms.includes(t.id)||!R.weeks.includes(t.week)) return null; return t; },
+  recruitTexts(G){ const t=ACTIVITIES.recruitOn(G); if(!t) return []; const R=ACTIVITIES.RECRUIT; return R.posters.map(p=>t.id===R.first?p.text:p.textLater); },
+  board(G,zone){ const B=ACTIVITIES.BOARD, hm=ACTIVITIES.hhmm, inZone=a=>!zone||a.zone===zone, out={title:B.title,sub:ACTIVITIES.md(G.day)+'～'+ACTIVITIES.md(G.day+6),clubs:[],events:[],recruit:[]};
+    for(const a of ACTIVITIES.list){ if(a.kind!=='club'||a.story!==false||!inZone(a)) continue; const wds=[];
+      for(let k=0;k<7;k++){ if(!ACTIVITIES.on(a,G.day+k,G)) continue; const wd=CALENDAR.dateOf(G.day+k).wd; if(!wds.includes(wd)) wds.push(wd); }
+      if(!wds.length) continue; wds.sort((p,q)=>p-q);
+      out.clubs.push((a.clubName||a.title)+'　每週'+wds.map(d=>ACTIVITIES.W[d%7]).join('、')+' '+hm(a.t0)+'–'+hm(a.t1)+(a.roomName?'　'+a.roomName:'')+(a.rain&&a.rain.roomName?'（下雨改'+a.rain.roomName+'）':'')); }
+    const up=ACTIVITIES.upcoming(G,7).filter(q=>q.a.kind!=='club'&&inZone(q.a)).sort((p,q)=>p.k-q.k||p.a.t0-q.a.t0);
+    out.events=up.map(({a,k})=>(k===0?'今天':k===1?'明天':ACTIVITIES.md(G.day+k))+' '+hm(a.t0)+'–'+hm(a.t1)+'　'+a.title+(a.roomName?'　'+a.roomName:''));
+    if(!zone) out.recruit=ACTIVITIES.recruitTexts(G);
+    return out; },
+  /* 公告欄一頁一頁看（teach3d.js 的公告欄按下去）：第一頁標題＋日期；每一區一頁（區名＋那幾行）；招生海報一張一頁。三區都沒有＝只有 empty 那一句 */
+  boardPages(G,zone){ const b=ACTIVITIES.board(G,zone), H=ACTIVITIES.BOARD.heads; if(!b.clubs.length&&!b.events.length&&!b.recruit.length) return [ACTIVITIES.BOARD.empty];
+    const P=[b.title+'　'+b.sub]; if(b.clubs.length) P.push('【'+H.clubs+'】'+b.clubs.join('；')); if(b.events.length) P.push('【'+H.events+'】'+b.events.join('；'));
+    if(b.recruit.length) b.recruit.forEach((t,i)=>P.push((i?'':'【'+H.recruit+'】')+t)); return P; },
+  /* 公告欄的文字（一整段：字幕、測試用；沒有東西時寫 BOARD.empty，不留空）*/
+  posterText(G,zone){ return ACTIVITIES.boardPages(G,zone).join('　'); },
+  /* ---- 社博沒填表的，第 5、6 週社課結束時問要不要入社（AA_737 lateJoin）----
+     lateJoinDue：這一場社課結束時要問（法律系、大一上第 5 或 6 週、四個社團之一、還不是社員、這一週還沒問過）——在參加以前判斷（classes3d.js attendActivity、clubfair3d.js doorLine）。
+     lateDeclined：問過、選了「先不要」、還不是社員＝之後去社課是旁聽。noAutoJoin＝這一場不自動入社、不演「你在門口填了表」（第 7 週以後沒被問過的照舊：第一次去社課就入社，AA_485 3-4）*/
+  lateJoinDue(G,a){ const L=ACTIVITIES.LATE_JOIN; if(!L||!a||!G||!L.clubs.includes(a.id)||(G.stage||'law')!=='law'||typeof CALENDAR==='undefined') return false; const F=G.flags||{}; if(F['CLUB_'+a.id]) return false;
+    const t=CALENDAR.termOf(G.day); if(!t||t.id!==L.term||!L.weeks.includes(t.week)) return false; return F['CLUB_LATE_'+a.id]!==t.week&&ACTIVITIES.on(a,G.day,G); },
+  lateDeclined(G,a){ const F=(G&&G.flags)||{}; if(!a||typeof F['CLUB_LATE_'+a.id]!=='number'||F['CLUB_'+a.id]||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.id===ACTIVITIES.LATE_JOIN.term; },   /* 只到大一上結束（吉他社大一下、大二還有社課：照舊第一次去就入社）*/
+  noAutoJoin(G,a){ return ACTIVITIES.lateJoinDue(G,a)||ACTIVITIES.lateDeclined(G,a); }
 };

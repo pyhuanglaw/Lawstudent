@@ -91,7 +91,7 @@ const CLUBFAIR=(function(){
   S.wake=function(GM){ const G=GM&&GM.G; if(!G||!S.today(G)||hr(G)>=S.expo().t1) return false; const F=flags(G); if(F.FAIR_WAKE===G.day) return false; F.FAIR_WAKE=G.day; if(GM.toast) GM.toast(D().HINTS.wake,4800); return true; };
   /* 錯過社博：第一次去社課（吉他、辯論、登山、系籃）旁白多一句（系籃＝學長兩句，AA_613 2-4）；DOOR_AFTER：之後接著演的 async fn(GM,a)（src/aa613_3d.js）*/
   S.DOOR_AFTER=[];
-  S.doorLine=function(G,a){ const A=S.expo(); return !!(a&&a.kind==='club'&&A&&(A.clubs||[]).includes(a.id)&&law(G)&&!flags(G)['CLUB_'+a.id]&&typeof ACTIVITIES!=='undefined'&&!ACTIVITIES.attended(G,a.id,G.day)); };
+  S.doorLine=function(G,a){ const A=S.expo(); return !!(a&&a.kind==='club'&&A&&(A.clubs||[]).includes(a.id)&&law(G)&&!flags(G)['CLUB_'+a.id]&&typeof ACTIVITIES!=='undefined'&&!ACTIVITIES.attended(G,a.id,G.day)&&!(ACTIVITIES.noAutoJoin&&ACTIVITIES.noAutoJoin(G,a))); };   /* AA_737 lateJoin（BULLETIN-BOARD-1110）：大一上第 5、6 週改成社課結束時問、問過選「先不要」的旁聽——開頭不演「你在門口填了表」*/
   /* ---------- 掛勾 ---------- */
   if(typeof STORY!=='undefined'){
     if(STORY.populate&&!STORY._fairPop){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ S.populate(zoneId,GM); }catch(e){ console.warn('CLUBFAIR.populate',e); } return r; }; STORY._fairPop=true; }
