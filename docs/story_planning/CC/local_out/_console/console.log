@@ -146,3 +146,13 @@
 [06:11:20] ==== START MT4_old_cd  (probe @ c17a9919ec13ff237181709df0a3ee70e4e4d5e2) ====
 [06:11:23] [res] cpu=6% mem=46% (14.8/31.4 GB) chrome_testing=10  START MT4_old_cd
 [06:11:57] [res] cpu=7% mem=43% (13.7/31.4 GB) chrome_testing=9  END MT4_old_later2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       735b5cb9a..387275e5d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:12:03] ==== END   MT4_old_later2  exit=0  171s   ====
+[06:12:07] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[06:12:07] memory 45% before starting MT4_arc_r2 (2 running)
+[06:12:07] ==== START MT4_arc_r2  (probe @ b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91) ====
+[06:12:10] [res] cpu=4% mem=46% (14.4/31.4 GB) chrome_testing=9  START MT4_arc_r2
+[06:13:58] 正在跑：MT4_c（已跑 10 分／上限 15 分）、MT4_old_cd（已跑 2 分／上限 15 分）、MT4_arc_r2（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:15:33] [res] cpu=3% mem=40% (12.5/31.4 GB) chrome_testing=5  END MT4_old_cd
