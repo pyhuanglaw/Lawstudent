@@ -1,3 +1,16 @@
+# ===== LE738（CC 帳號 A 接班 11-10，使用者「電腦測試都跑完了，趕快安排新的」）：開發分支 modest-rubin 最新 e73888074c（B1 中庭門上壁燈、玻璃門透光；B1 寄物櫃；LAWWW-B 04:1x 交班時的版本）=====
+LE738_b1court | e73888074c | probe | docs/story_planning/test_tools/cc/lawww_b1court_shot_probe.py | index.html | 20 | X=1
+LE738_p0 | e73888074c | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+LE738_zone | e73888074c | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
+LE738_reach | e73888074c | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
+LE738_libfloors | e73888074c | game | tests/flow_library_floors.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+LE738_main12 | e73888074c | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+LE738_classreal | e73888074c | game | tests/flow_class_real.py | index.html | 20 | XARGS={url} {out};CC_HEADLESS=0
+LE738_mini | e73888074c | game | tests/minimap_direction.py | index.html?turbo | 20 | XARGS={url} {out};CC_HEADLESS=0
+LE738_invphone | e73888074c | game | tests/flow_invite_phone.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
+LE738_invgo | e73888074c | game | tests/flow_inv_go_jump.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
+LE738_touch | e73888074c | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | SOLO=1;XARGS={url};CC_HEADLESS=0
+
 # CC run_queue.ps1 queue (one item per line; '#' = comment)
 # ID | SHA | KIND | SCRIPT | URL | TIMEOUT_MIN | ENV (k=v;k=v)
 #  SHA : dev-branch commit, or 'head' = latest origin/claude/confident-ritchie-8rwh7t
