@@ -24,6 +24,7 @@ HOUR = float(os.environ.get('HOUR') or 12)
 ORIENTS = [o.strip() for o in (os.environ.get('ORIENT') or 'portrait,landscape').split(',') if o.strip()]
 BOARDS = [b.strip() for b in (os.environ.get('BOARDS') or 'gongtong,putong,boya').split(',') if b.strip()]
 MAXP = int(os.environ.get('MAXP') or 20); TYPE_S = int(os.environ.get('TYPE_S') or 60)   # 等字打完最多幾秒（SwiftShader 一頁 70 字要 20 秒以上）
+ASK = os.environ.get('ASK') or 'view'   # view＝選「看公告」照舊翻頁；skip＝選「先不看」（BB 10:21）
 R = L.Run('x295_board_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 
@@ -136,8 +137,18 @@ async def one_board(pg, cdp, orient, zone, key, label0, zfilter):
     if not s['interact'].startswith(label0): return
     await L.tap(pg, cdp, '#interact')
     got = None
+    CH = r"""(()=>{ const vis=e=>!!(e&&e.offsetParent!==null&&getComputedStyle(e).display!=='none'); return [...document.querySelectorAll('#choices button,#choices .choice')].filter(vis).map(b=>(b.innerText||'').trim()); })()"""
+    PICK = r"""(w=>{ const vis=e=>!!(e&&e.offsetParent!==null&&getComputedStyle(e).display!=='none'); document.querySelectorAll('[data-ccpick]').forEach(e=>e.removeAttribute('data-ccpick')); const b=[...document.querySelectorAll('#choices button,#choices .choice')].filter(vis).find(b=>(b.innerText||'').trim().startsWith(w)); if(!b) return false; b.setAttribute('data-ccpick','1'); return true; })"""
     for _ in range(10):
-        await pg.wait_for_timeout(400); u = await pg.evaluate(UI)
+        await pg.wait_for_timeout(400); u = await pg.evaluate(UI); chs = await pg.evaluate(CH)
+        if any(c.startswith('看公告') for c in chs):   # BB 10:21（7f2093f92 P3）：超過一則時先問「看公告（N 則）／先不看」
+            R.note('%s 先問：%s' % (tag, J(chs))); await pg.screenshot(path=os.path.join(OUT, 'x295_%s_%s_%s_0ask.png' % (TAG, orient, key)))
+            R.check('%s 先出現「看公告（N 則）／先不看」' % tag, any(c.startswith('先不看') for c in chs), J(chs))
+            if ASK == 'skip':
+                await pg.evaluate(PICK, '先不看'); await L.tap(pg, cdp, '[data-ccpick="1"]'); await pg.wait_for_timeout(1500); u = await pg.evaluate(UI); s2 = await D.st(pg)
+                R.check('%s 選「先不看」馬上關掉、互動鍵恢復「%s」' % (tag, label0), not u['dlg'] and not u['busy'] and not (await pg.evaluate(CH)) and s2['interact'].startswith(label0), J({'ui': {k: u[k] for k in ('dlg', 'busy')}, 'interact': s2['interact']}))
+                await pg.screenshot(path=os.path.join(OUT, 'x295_%s_%s_%s_0skip.png' % (TAG, orient, key))); return
+            await pg.evaluate(PICK, '看公告'); await L.tap(pg, cdp, '[data-ccpick="1"]'); R.note('%s 選「看公告」' % tag); continue
         if u['dlg'] or u['caption']: got = u; break
     if not R.check('%s 按下去 4 秒內出現對話框（分頁）或字幕' % tag, bool(got), J(await pg.evaluate(UI))): return
     if not got['dlg']:
