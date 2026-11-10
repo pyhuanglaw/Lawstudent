@@ -45236,7 +45236,7 @@
    "id": "GG-DOOR-CAMS-1104",
    "title": "公館店門口鏡頭被擋：青木茶室門口（−54.05,21）整片行道樹樹冠（樹葉沒走透視）、頁間書屋門口（−36.4,21）整片白牆或柱子",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45248,7 +45248,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 13:1x】不擋 v9.10.20",
+   "next": "【LAWWW 11-10 10:5x】LAWWW2 c91a79854 接進開發分支：行道樹葉片 4 m 內網點透空、1.4 m 內不畫（全遊戲行道樹）；捷運出口亭鏡頭碰撞盒照模型外框；gg_door_cams_1104（開發 FAIL 3→ALL PASS）、street_trees、seethru、gg_* ALL PASS；CC 確認 shader 編譯、重拍青木／頁間門口、椰影大道樹下網點。 ｜ 【LAWWW-C 11-04 13:1x】不擋 v9.10.20",
    "source": "BB-C 11-04 13:07（809163ee4 GG_int_art）",
    "xai": {
     "spec": "GG_int_art art_aoki_door、art_yejian_door",
@@ -45256,7 +45256,8 @@
     "acceptance": "門口鏡頭看得到門口",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "c91a79854"
   },
   {
    "id": "DATE-LEAD-PACE-1104",

@@ -918,7 +918,9 @@ const Z3 = (function(){
         ASSETS.loadOne('bldg.gongguan_mrt').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); root.position.copy(mrt.position); root.rotation.copy(mrt.rotation);
           attachWenzhouModel(E,g,root,'ggMrt','gongguan_mrt_glb');
           root.traverse(o=>{ if(!o.isMesh) return; if(/^PIT_/.test(o.name)){ o.renderOrder=-2; o.castShadow=false; } if(o.name==='PITMASK'){ o.material=new THREE.MeshBasicMaterial({colorWrite:false,side:THREE.DoubleSide}); o.renderOrder=-1; o.castShadow=false; o.receiveShadow=false; } }); }).catch(e=>console.warn('捷運出口正式模型載入失敗，用套件',e)); }
-      const m=new THREE.Mesh(new THREE.BoxGeometry(6.4,3.4,3.4),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(-39.8,1.7,11); g.add(m); E.colliders.push(m);
+      /* 鏡頭碰撞照正式模型 gongguan_mrt_exit.glb 地面以上的外框（x −43～−35.78、z 8.73～13.27；GG-DOOR-CAMS-1104：原本 x 只到 −36.6、z 9.3～12.7，
+         頁間書屋門前 6 m（−36.4, 15）往店門看時鏡頭在出口亭東端後面，整個畫面是亭子的牆）。導航阻擋不動 */
+      const m=new THREE.Mesh(new THREE.BoxGeometry(7.22,3.4,4.54),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(-39.39,1.7,11); m.name='gg_mrt_camcol'; g.add(m); E.colliders.push(m);
       E.interactables.push({x:-35.6,z:11,radius:2.4,label:'捷運公館站入口',mrt:true}); }
     // 店面街（南側）：連續騎樓的台北街屋（TK.apartment；v9.3 第十一批取代 LEVEL_BLOCKOUT 方盒＋另外搭的柱子與招牌）
     /* 立面在 z=19、面向羅斯福路（人行道 z 4–19）；騎樓 3 m 深、整排連續可以走（柱子落在店與店的分界），店面玻璃在 z=22。
