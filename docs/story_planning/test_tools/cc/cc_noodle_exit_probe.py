@@ -21,8 +21,26 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        R.setup('【前置／捷徑】讀檔到 noodle 出生點 2025-10-18 12:30')
-        await D.load_zone(pg, cdp, 'noodle', '2025-10-18', 12.5, wait=9000)
+        if os.environ.get('EV'):   # r2（BB 16:04）：條件同 ggnav——事件開著、從公館按「進入公館燒臘」走進去
+            R.setup('【前置／捷徑】讀檔到 gongguan 麵店門口前 (−63, 18) 2025-10-18 12:30，條件事件開著（quiet_events False、只關手機自己打開）')
+            d = await pg.evaluate("STORY.dayOfKey('2025-10-18')")
+            await L.load_state(pg, {'zone': 'gongguan', 'hour': 12.5, 'day': d, 'weather': 'clear', 'pos': {'x': -63, 'z': 18, 'yaw': 0, 'lv': 0}}, quiet_events=False, quiet_phone=True)
+            await pg.wait_for_timeout(8000); await L.close_panels(pg, cdp)
+            for _ in range(20):
+                s_ = await L.state(pg)
+                if s_['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+                break
+            ent = next((i for i in await pg.evaluate(ITS) if i['to'] == 'noodle'), None)
+            if not R.check('公館有「進入公館燒臘」', bool(ent), ''): await b.close(); return
+            await L.go_to(pg, cdp, R, ent['x'], ent['z'], 0.8, '走到「進入公館燒臘」', max_s=120); await pg.wait_for_timeout(700)
+            await L.tap(pg, cdp, '#interact')
+            for _ in range(40):
+                await pg.wait_for_timeout(500)
+                if (await pg.evaluate(UI))['zone'] == 'noodle': break
+            await pg.wait_for_timeout(2000)
+        else:
+            R.setup('【前置／捷徑】讀檔到 noodle 出生點 2025-10-18 12:30')
+            await D.load_zone(pg, cdp, 'noodle', '2025-10-18', 12.5, wait=9000)
         u = await pg.evaluate(UI); its = await pg.evaluate(ITS)
         R.note('出生：%s' % J(u)); R.note('noodle 的互動點：%s' % J(its))
         await pg.screenshot(path=os.path.join(OUT, 'noodle_spawn.png'))
@@ -36,10 +54,16 @@ async def main():
             await pg.wait_for_timeout(500)
         await pg.screenshot(path=os.path.join(OUT, 'noodle_at_exit.png'))
         R.check('走到出口、按鈕是「%s」' % e['label'], bool(ok) and e['label'] in u['interact'], J(u))
+        TR = r"""(()=>{ const ib=document.getElementById('interact'), dl=document.getElementById('dlg'), c=document.getElementById('caption');
+          return {t:+(performance.now()/1000).toFixed(1), zone:GAME.G.zone, busy:!!GAME.E.player.busy, dlg:!!(dl&&!dl.classList.contains('hide')&&dl.offsetParent!==null), dtext:dl?(dl.innerText||'').trim().slice(0,40):'',
+            cap:c&&!c.classList.contains('hide')?(c.innerText||'').trim().slice(0,60):'', btn:ib&&ib.offsetParent!==null?(ib.innerText||'').trim():'', ev:typeof EVENTS!=='undefined'&&!!EVENTS.running}; })()"""
+        trace = [await pg.evaluate(TR)]
         await L.tap(pg, cdp, '#interact')
-        for _ in range(40):
-            await pg.wait_for_timeout(500); u = await pg.evaluate(UI)
-            if u['zone'] != 'noodle': break
+        for _ in range(150):   # r2：每 200 ms 記一次（對話框、字幕、busy、按鈕），到回到公館或 30 秒
+            await pg.wait_for_timeout(200); q = await pg.evaluate(TR); trace.append(q)
+            if q['zone'] != 'noodle': break
+        R.note('按出口前後每 200 ms：%s' % J(trace)); json.dump(trace, open(os.path.join(OUT, 'noodle_exit_trace.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+        u = await pg.evaluate(UI)
         await pg.wait_for_timeout(3000); u = await pg.evaluate(UI)
         await pg.screenshot(path=os.path.join(OUT, 'noodle_back_gongguan.png'))
         R.check('按下去回到公館、站得住、沒有卡住保險', u['zone'] == 'gongguan' and u['stand'] is not False and u['fb'] == 0, J(u))
