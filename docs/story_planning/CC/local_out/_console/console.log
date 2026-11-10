@@ -263,3 +263,12 @@
 [16:47:45] [res] cpu=0% mem=46% (14.5/31.4 GB) chrome_testing=10  START X307_new
 [16:48:05] 正在跑：ROMPRIV_new（已跑 4 分／上限 60 分）、ROMPRIV_old（已跑 4 分／上限 60 分）、X307_new（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [16:52:44] [res] cpu=9% mem=45% (14.3/31.4 GB) chrome_testing=10  END X307_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0c57aaab2..7fdf0306c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:52:55] ==== END   X307_new  exit=0  302s   ====
+[16:52:58] memory 46% before starting X307_old (2 running)
+[16:52:58] ==== START X307_old  (probe @ e73888074c) ====
+[16:53:01] [res] cpu=1% mem=46% (14.6/31.4 GB) chrome_testing=10  START X307_old
+[16:53:05] 正在跑：ROMPRIV_new（已跑 9 分／上限 60 分）、ROMPRIV_old（已跑 9 分／上限 60 分）、X307_old（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:57:55] [res] cpu=3% mem=47% (14.8/31.4 GB) chrome_testing=10  END X307_old
