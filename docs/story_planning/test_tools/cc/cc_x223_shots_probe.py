@@ -22,6 +22,11 @@ FIXED = [('bell', 'bell_avenue', (-38, 1.7, 4), (-38, 3.0, 16.5)), ('bell', 'bel
          ('male1', 'm1_front', (14, 1.7, 50), (20, 6, 64)),
          ('r3site', 'r3_from_north', (63, 1.7, -93), (63, 3, -108)), ('r3site', 'r3_from_east', (78, 1.7, -108), (63, 3, -108))]
 AUTO = [('gongtong', 'campus_gongtong_glb'), ('lake', 'campus_lake_glb')]
+if os.environ.get('VIEWS'):   # e9af13061 套件五棟（LAWWW 13:44 ②）：VIEWS＝名稱:眼x:眼y:眼z:看x:看y:看z，用 + 分隔；給了就只拍這些（每個另加一張高空 _air），不拍上面那幾棟
+    FIXED = []; AUTO = []
+    for v in os.environ['VIEWS'].split('+'):
+        nm, *f = v.split(':'); f = [float(x) for x in f]; FIXED.append((nm.split('_')[0], nm, tuple(f[:3]), tuple(f[3:6])))
+        FIXED.append((nm.split('_')[0], nm + '_air', (f[3] + (f[0] - f[3]) * 1.3, 30.0, f[5] + (f[2] - f[5]) * 1.3), (f[3], 2.0, f[5])))
 GLBS = ['campus_bell_glb', 'campus_admin_glb', 'campus_arts_glb', 'campus_hist_glb', 'campus_male1_glb', 'campus_gongtong_glb', 'campus_lake_glb']
 SETTLED = "(async()=>{ for(let i=0;i<480;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
 BOXES = r"""((names)=>{ const out={}; const g=GAME.E.zone.group; for(const n of names){ const o=g.children.find(c=>c.name===n); if(!o){ out[n]=null; continue; } let m=0; o.traverse(q=>{ if(q.isMesh) m++; });
@@ -50,7 +55,7 @@ async def main():
         n = await pg.evaluate(SETTLED); R.note('等模型載完：%s 次（-1＝逾時）' % n)
         await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(2000)
         bx = await pg.evaluate(BOXES, GLBS); R.note('正式模型：%s' % J(bx))
-        for k, nm in (('bell', 'campus_bell_glb'), ('admin', 'campus_admin_glb'), ('arts', 'campus_arts_glb'), ('hist', 'campus_hist_glb'), ('male1', 'campus_male1_glb'), ('gongtong', 'campus_gongtong_glb'), ('lake', 'campus_lake_glb')):
+        for k, nm in ([] if os.environ.get('VIEWS') else (('bell', 'campus_bell_glb'), ('admin', 'campus_admin_glb'), ('arts', 'campus_arts_glb'), ('hist', 'campus_hist_glb'), ('male1', 'campus_male1_glb'), ('gongtong', 'campus_gongtong_glb'), ('lake', 'campus_lake_glb'))):
             R.check('%s 的正式模型 %s 有載入（有網格）' % (k, nm), bool(bx.get(nm) and bx[nm]['meshes'] > 0), J(bx.get(nm)))
         for k, name, frm, at in FIXED:
             fn = 'x223_%s_%s.png' % (TAG, name); await snap(pg, fn, frm, at); shots.append({'what': k, 'view': name, 'from': frm, 'at': at, 'file': fn})
