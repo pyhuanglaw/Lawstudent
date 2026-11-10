@@ -1,106 +1,68 @@
-"""CC-C（帳號 C）11-05：XS_GATE（BB-C 08:05 第 2 點；XS-GATE-MOVE-1105，LAWWW2 14052d810＝開發分支 7aa703cf9 收進來）——新生南路側門搬到映月湖和博思中間。
-  期望（BB-C 08:05；座標照 src/data/xinsheng_layout.js 的 note＋commit 7aa703cf9 訊息：側門 (−66, −99)、從新生南路回來落在 campusSpawn）：
-    a 步道往西看側門：白天 14:00、晚上 20:30 各一張（給使用者看，不判）。
-    b 從新生南路「回到首都帝大（新生南路側門）」照玩家走過去按：到校園、站得住、推得動；從落點照玩家走得到映月湖南岸步道、博思門口、校門內側（walkFallbacks 0）。
-    c 校門往北看斜牆：白天、晚上各一張（不判）＋一張近一點的（斜牆中段）。
-    d 舊存檔存在舊側門 (−120, −83)：讀檔要落在 (−118.25, −80.25)（BB-C 08:05；容許 0.3 m）、站得住、推得動、走得到校門內側。
-  【前置／捷徑】讀檔指定地點時間（條件事件關閉）；截圖停主迴圈、藏 HUD 和玩家。Windows＋GPU／SwiftShader ≠ iPhone。
-用法：LW_TESTS=<wt>/tests [PARTS=shots,back,old] python3 cc_xs_gate_probe.py <url> <out>"""
-import os, sys, json, asyncio, math, time
-HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests'))
-sys.path.insert(0, HERE)
+"""CC（帳號 A）11-10：X246 XS-GATE-FORMAL-1110 新生南路側門正式門柱、鐵門、圍牆（LAWWW 14:21 ②、BB 14:23）。新版 99294fead，改前 e9af13061。
+截圖（另一台相機、藏玩家和路人，桌機 1280×720）：側門正面（白天、20:30 晚上看燈籠）、北門柱石牌近照（z 6.8、面向馬路 −x）、圍牆往北、兩個停車架俯視。
+量：遊戲場景裡每一個 xs_bike_rack（Z3.BIKE_RACKS.xinsheng）的外框，和 xs_planters_glb 的每一個網格外框的水平距離（重疊＝負的）；BIKE.parkSpots('xinsheng') 每個停車點站不站得住、離花台多遠。
+BB：停車架和花台的距離要量、車有沒有停進花台裡也要看（停車點落在花台外框裡＝停進花台）。
+【前置／捷徑】load_zone 讀檔到 xinsheng (12, 10)。Playwright（PC GPU）≠ iPhone。用法：LW_TESTS=<wt>/tests TAG=new|old python3 cc_xs_gate_probe.py <url> <out>"""
+import os, sys, json, asyncio, base64
+sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import playlib as L
-import cc_det
 import cc_d141_lib as D
 from playwright.async_api import async_playwright
+URL, OUT = sys.argv[1], sys.argv[2]; os.makedirs(OUT, exist_ok=True)
+TAG = os.environ.get('TAG') or 'x'
+R = L.Run('xs_gate_' + TAG, OUT); D.setup(R, OUT)
+J = lambda o: json.dumps(o, ensure_ascii=False)
+SETTLED = "(async()=>{ for(let i=0;i<480;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
+SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov||55, c.width/c.height, 0.05, 1000); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
+  const hid=[[E.player.obj,E.player.obj.visible]]; E.player.obj.visible=false; for(const n of (E.npcs||[])) if(n.obj){ hid.push([n.obj,n.obj.visible]); n.obj.visible=false; }
+  try{ r.render(E.scene,cam); } finally { for(const [o,v] of hid) o.visible=v; } return c.toDataURL('image/png'); })"""
+MEASURE = r"""(()=>{ const E=GAME.E, g=E.zone.group; const racks=[], pls=[]; const bx=o=>{ const b=new THREE.Box3().setFromObject(o); return {x0:+b.min.x.toFixed(2),x1:+b.max.x.toFixed(2),z0:+b.min.z.toFixed(2),z1:+b.max.z.toFixed(2),y1:+b.max.y.toFixed(2)}; };
+  g.traverse(o=>{ if(o.name==='xs_bike_rack') racks.push(bx(o)); });
+  const pr=g.children.find(o=>o.name==='xs_planters_glb'); if(pr) pr.traverse(o=>{ if(o.isMesh){ const b=bx(o); if(b.y1<2) pls.push(Object.assign({name:o.name},b)); } });
+  const gap=(a,b)=>{ const dx=Math.max(a.x0-b.x1,b.x0-a.x1,0), dz=Math.max(a.z0-b.z1,b.z0-a.z1,0); if(dx===0&&dz===0){ const ox=Math.min(a.x1,b.x1)-Math.max(a.x0,b.x0), oz=Math.min(a.z1,b.z1)-Math.max(a.z0,b.z0); return -Math.min(ox,oz); } return Math.hypot(dx,dz); };
+  const rows=racks.map(r=>{ let best=null; for(const p of pls){ const d=gap(r,p); if(!best||d<best.d) best={d:+d.toFixed(2),pl:p}; } return {rack:r, nearest:best}; });
+  const B=typeof BIKE!=='undefined'?BIKE:null; const spots=B&&B.parkSpots?B.parkSpots(E,'xinsheng').map(q=>{ const inPl=pls.some(p=>q.x>=p.x0&&q.x<=p.x1&&q.z>=p.z0&&q.z<=p.z1); let dmin=null; for(const p of pls){ const dx=Math.max(p.x0-q.x,q.x-p.x1,0), dz=Math.max(p.z0-q.z,q.z-p.z1,0), d=Math.hypot(dx,dz); if(dmin==null||d<dmin) dmin=d; }
+    return {x:+q.x.toFixed(2),z:+q.z.toFixed(2),src:q.src,stand:E.canStand?E.canStand(q.x,q.z,0.45,0):null,inPlanter:inPl,toPlanter:dmin==null?null:+dmin.toFixed(2)}; }):null;
+  return {planters:pls.length, gateGlb:!!g.children.find(o=>/xs_gate/.test(o.name||'')), racks:rows, spots}; })()"""
 
-URL, OUT = sys.argv[1], sys.argv[2]
-J = D.J
-PARTS = [x for x in (os.environ.get('PARTS') or 'shots,back,old').split(',') if x]
-R = L.Run('xs_gate', OUT); D.setup(R, OUT)
-DAY = '2025-10-18'   # 星期六（沒有課拉走人）
-GATE = (-66.0, -99.0)
-OLD = (-120.0, -83.0); OLD_WANT = (-118.25, -80.25)
-FB = "(GAME.walkFallbacks||0)"
-RAY = r"""((pts)=>{ const E=GAME.E, rc=new THREE.Raycaster(), out=[]; for(const [x,y] of pts){ rc.setFromCamera(new THREE.Vector2(x,y),E.camera);
-  const h=rc.intersectObjects(E.scene.children,true).filter(q=>{ for(let o=q.object;o;o=o.parent) if(o.visible===false) return false; return true; })[0];
-  if(!h){ out.push({p:[x,y], hit:null}); continue; } const o=h.object, chain=[]; for(let a=o;a&&chain.length<4;a=a.parent) chain.push(a.name||a.type); const m=[].concat(o.material)[0]||{};
-  out.push({p:[x,y], d:+h.distance.toFixed(1), at:[+h.point.x.toFixed(1),+h.point.y.toFixed(1),+h.point.z.toFixed(1)], chain, mat:m.name||m.type, color:m.color?'#'+m.color.getHexString():null, map:!!m.map, side:m.side, transparent:!!m.transparent, opacity:m.opacity}); }
-  return out; })"""
 
-
-async def goals_from(pg, cdp, tag, here):
-    """從 here 照玩家走到三個地方（每一段從上一個終點接著走）"""
-    boya = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(i=>i.exit&&/博思/.test(i.label||'')); return i?[+i.x.toFixed(2),+i.z.toFixed(2),i.label]:null; })()")
-    R.note('%s 博思門口：%s' % (tag, J(boya)))
-    goals = [('映月湖南岸步道', -36.0, -98.0)]
-    if boya:
-        b = await D.standable_near(pg, boya[0], boya[1], 1.2)
-        if b: goals.append(('博思門口（%s）' % boya[2], b['x'], b['z']))
-    goals.append(('校門內側', -110.0, 0.0))
-    for nm, x, z in goals:
-        fb0 = await pg.evaluate(FB)
-        ok = await L.go_to(pg, cdp, R, x, z, 1.2, '%s → %s' % (tag, nm), max_s=420)
-        s = await D.settle(pg); fb = await pg.evaluate(FB)
-        R.check('%s 照玩家走得到%s (%s, %s)（自動放過去 0 次）' % (tag, nm, x, z), bool(ok) and math.hypot(s['x'] - x, s['z'] - z) <= 1.6 and fb == fb0 and s['stand'],
-                J({'at': [s['x'], s['z']], 'fb': fb - fb0, 'stand': s['stand']}))
+async def snap(pg, fn, frm, at, fov=55):
+    u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at), 'fov': fov}); open(os.path.join(OUT, fn), 'wb').write(base64.b64decode(u.split(',', 1)[1]))
 
 
 async def main():
     real = os.popen('git -C "%s" rev-parse --short HEAD 2>/dev/null' % os.path.join(os.environ.get('LW_TESTS') or '.', '..')).read().strip()
-    print('CC XS_GATE（新生南路側門搬到映月湖和博思中間）：SHA=%s（worktree 實際 %s）；PARTS=%s；Windows＋GPU／SwiftShader ≠ iPhone' % (os.environ.get('SHA', '?'), real or '?', PARTS), flush=True)
+    print('CC 新生南路側門：worktree %s；TAG %s；Playwright（PC GPU）≠ iPhone' % (real or '?', TAG), flush=True)
     async with async_playwright() as p:
-        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
-        await cc_det.install(pg, 20261105)
-        await pg.goto(URL); ok = await L.wait_loaded(pg); R.check('遊戲載入', ok, '')
-        if not ok: await b.close(); sys.exit(1)
-        await pg.evaluate("localStorage.clear()")
-        ex = await pg.evaluate("(()=>({lay:XINSHENG_LAYOUT.sideGate.campusSpawn, label:XINSHENG_LAYOUT.sideGate.label}))()")
-        R.note('這一版 XINSHENG_LAYOUT.sideGate：%s' % J(ex))
-        if 'shots' in PARTS:
-            for hh, tn in ((14.0, 'day'), (20.5, 'night')):
-                R.setup('讀檔校園 %s %05.2f、側門東邊步道 (−50, −99)' % (DAY, hh))
-                await D.load_zone(pg, cdp, 'campus', DAY, hh, -50.0, -99.0, -math.pi / 2, wait=7000)
-                gx = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='xinsheng'); return i?[+i.x.toFixed(2),+i.z.toFixed(2),i.label]:null; })()")
-                R.check('[%s] 校園的「往新生南路（側門）」出口在映月湖和博思中間那條步道的西端（x −66 附近、z −99）' % tn, bool(gx) and abs(gx[1] - GATE[1]) < 1.0 and abs(gx[0] - GATE[0]) < 3.0, J(gx))
-                await D.user_shot(pg, cdp, 'xsgate_path_west_%s' % tn, {'eye': [-44.0, 1.7, -99.4], 'look': [-66.0, 1.6, -99.0], 'lens': 24})
-                await D.user_shot(pg, cdp, 'xsgate_path_west_near_%s' % tn, {'eye': [-55.0, 1.7, -99.6], 'look': [-67.0, 1.8, -99.0], 'lens': 24})
-                await D.user_shot(pg, cdp, 'xsgate_maingate_north_%s' % tn, {'eye': [-110.0, 1.7, -4.0], 'look': [-98.0, 1.4, -86.0], 'lens': 24})   # 校門內側往北（洞洞館 (−104, −30) 擋在中間；左上黑的一塊＝鏡頭旁邊的樹冠，雲端 12cb 看到，給 BB 看）
-                # BB-C 09:07：這張左上一大塊黑的半圓「不像樹冠」——同一個鏡頭從左上幾點打射線，記打到什麼（名字、往上三層、材質顏色、離鏡頭多遠）
-                await pg.set_viewport_size({'width': 1280, 'height': 720}); await pg.wait_for_timeout(500)
-                await pg.evaluate(D.CAM, {'eye': [-110.0, 1.7, -4.0], 'look': [-98.0, 1.4, -86.0], 'lens': 24})
-                hits = await pg.evaluate(RAY, [[-0.9, 0.9], [-0.75, 0.8], [-0.6, 0.9], [-0.85, 0.6], [-0.5, 0.75], [-0.3, 0.95]])
-                await pg.evaluate(D.UNCAM)
-                R.note('[%s] 校門往北那張左上（NDC x,y）射線打到：%s' % (tn, J(hits)))
-                await D.user_shot(pg, cdp, 'xsgate_maingate_north_near_%s' % tn, {'eye': [-116.0, 1.7, -44.0], 'look': [-98.0, 1.4, -86.0], 'lens': 24})   # 走過洞洞館以後往北
-                await D.user_shot(pg, cdp, 'xsgate_slantwall_%s' % tn, {'eye': [-92.0, 1.7, -78.0], 'look': [-95.0, 1.2, -87.5], 'lens': 24})
-        if 'back' in PARTS:
-            R.setup('讀檔新生南路 %s 14:00（出生點）' % DAY)
-            s = await D.load_zone(pg, cdp, 'xinsheng', DAY, 14.0, wait=7000)
-            if R.check('[b] 讀到新生南路', s['zone'] == 'xinsheng', J(s)):
-                s = await D.use_exit(pg, cdp, '[b]', '回到首都帝大', 'campus')
-                if s:
-                    cs = ex['lay']
-                    R.check('[b] 落點在 campusSpawn (%s, %s) 1 m 內、站得住' % (cs['x'], cs['z']), math.hypot(s['x'] - cs['x'], s['z'] - cs['z']) <= 1.0 and s['stand'], J(s))
-                    await D.shot(pg, 'xsgate_back_landing')
-                    mv = await D.pushable(pg, cdp)
-                    R.check('[b] 落點推得動（搖桿 ≥0.3 m）', mv >= 0.3, J(mv))
-                    await goals_from(pg, cdp, '[b] 落點', s)
-        if 'old' in PARTS:
-            R.setup('讀檔校園 %s 14:00、舊側門 (%s, %s)（舊存檔的位置；GAME.applySave）' % (DAY, OLD[0], OLD[1]))
-            s = await D.load_zone(pg, cdp, 'campus', DAY, 14.0, OLD[0], OLD[1], math.pi / 2, wait=7000)
-            d = math.hypot(s['x'] - OLD_WANT[0], s['z'] - OLD_WANT[1])
-            R.check('[d] 舊存檔 (−120, −83) 讀進來落在 (%s, %s)（BB-C 08:05；容許 0.3 m）、站得住' % OLD_WANT, s['zone'] == 'campus' and d <= 0.3 and s['stand'], J({'at': [s['x'], s['z']], 'd': round(d, 2), 'stand': s['stand']}))
-            await D.shot(pg, 'xsgate_old_landing')
-            mv = await D.pushable(pg, cdp)
-            R.check('[d] 舊存檔落點推得動（搖桿 ≥0.3 m）', mv >= 0.3, J(mv))
-            fb0 = await pg.evaluate(FB)
-            ok = await L.go_to(pg, cdp, R, -110.0, 0.0, 1.2, '[d] 舊存檔落點 → 校門內側', max_s=420)
-            s = await D.settle(pg); fb = await pg.evaluate(FB)
-            R.check('[d] 從舊存檔落點照玩家走得出去（到校門內側 (−110, 0)，自動放過去 0 次）', bool(ok) and math.hypot(s['x'] + 110, s['z']) <= 1.6 and fb == fb0, J({'at': [s['x'], s['z']], 'fb': fb - fb0}))
+        b = await p.chromium.launch(executable_path='/opt/pw-browsers/chromium', args=L.ARGS)
+        ctx = await b.new_context(viewport={'width': 1280, 'height': 720}, device_scale_factor=1)
+        pg = await ctx.new_page(); cdp = await ctx.new_cdp_session(pg); errs = []; pg.on('pageerror', lambda e: errs.append(str(e)))
+        await pg.goto(URL)
+        if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
+        for h in (14.0, 20.5):
+            R.setup('【前置／捷徑】讀檔到 xinsheng (12, 10) 2025-10-18 %.1f 時' % h)
+            await D.load_zone(pg, cdp, 'xinsheng', '2025-10-18', h, x=12, z=10, yaw=0.0, wait=12000)
+            n = await pg.evaluate(SETTLED); await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(2000)
+            tg = 'd' if h < 18 else 'n'
+            await snap(pg, 'gate_%s_front_%s.png' % (TAG, tg), (7.5, 1.7, 10), (18.4, 2.2, 10))
+            if h < 18:
+                m = await pg.evaluate(MEASURE); R.note('量測：%s' % J(m))
+                R.check('有正式門柱模型（xs_gate*）', m['gateGlb'], '')
+                for r in m['racks']:
+                    nb = r['nearest']
+                    R.check('停車架 x %.2f～%.2f、z %.2f～%.2f 沒有疊進花台（離最近一段花台 %s m）' % (r['rack']['x0'], r['rack']['x1'], r['rack']['z0'], r['rack']['z1'], nb and nb['d']), not nb or nb['d'] >= 0, J(r))
+                for q in (m['spots'] or []):
+                    if abs(q['x'] - 15.5) < 3 and (q['z'] < 6 or q['z'] > 14 or True):
+                        R.note('停車點 %s' % J(q))
+                R.check('合法停車點都不在花台裡、站得住', all(not q['inPlanter'] and q['stand'] is not False for q in (m['spots'] or [])), J(m['spots']))
+                await snap(pg, 'gate_%s_plaque_n.png' % TAG, (15.2, 1.7, 6.8), (18.4, 1.9, 6.8), 45)
+                await snap(pg, 'gate_%s_wall_north.png' % TAG, (13.5, 1.7, 4.5), (18.4, 1.4, -30))
+                for k, z in (('s', 18.5), ('n', 1.5)):
+                    await snap(pg, 'gate_%s_rack_%s.png' % (TAG, k), (12.5, 5.5, z - 3.5 if k == 'n' else z + 3.5), (16.5, 0.3, z))
+            else:
+                await snap(pg, 'gate_%s_lantern_n.png' % TAG, (14.0, 2.4, 6.8), (18.4, 2.6, 6.8), 50)
+            await pg.evaluate(D.HUD + '(true)')
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True)
-
 asyncio.run(main())
