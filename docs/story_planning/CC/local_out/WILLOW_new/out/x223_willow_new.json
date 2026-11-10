@@ -1,0 +1,194 @@
+{
+ "boxes": {
+  "campus_bell_glb": {
+   "meshes": 7,
+   "vis": true,
+   "min": [
+    -40.4,
+    0,
+    13.3
+   ],
+   "max": [
+    -35.6,
+    5.4,
+    18.9
+   ]
+  },
+  "campus_admin_glb": {
+   "meshes": 5,
+   "vis": true,
+   "min": [
+    -61.8,
+    0,
+    21.1
+   ],
+   "max": [
+    -14.2,
+    12.5,
+    41.8
+   ]
+  },
+  "campus_arts_glb": {
+   "meshes": 5,
+   "vis": true,
+   "min": [
+    -58.8,
+    0,
+    -43.8
+   ],
+   "max": [
+    -17.2,
+    14.7,
+    -21.1
+   ]
+  },
+  "campus_hist_glb": {
+   "meshes": 5,
+   "vis": true,
+   "min": [
+    -89.8,
+    0,
+    -37.8
+   ],
+   "max": [
+    -64.2,
+    14.7,
+    -17.5
+   ]
+  },
+  "campus_male1_glb": {
+   "meshes": 7,
+   "vis": true,
+   "min": [
+    1.8,
+    0,
+    58.4
+   ],
+   "max": [
+    38.2,
+    22.3,
+    76.2
+   ]
+  },
+  "campus_gongtong_glb": {
+   "meshes": 11,
+   "vis": true,
+   "min": [
+    -15,
+    0,
+    17
+   ],
+   "max": [
+    16.4,
+    17.7,
+    40.5
+   ]
+  },
+  "campus_lake_glb": {
+   "meshes": 14,
+   "vis": true,
+   "min": [
+    -52.5,
+    -0.8,
+    -123.4
+   ],
+   "max": [
+    -17.7,
+    7,
+    -98.6
+   ]
+  }
+ },
+ "shots": [
+  {
+   "what": "lake",
+   "view": "lake_north",
+   "from": [
+    -35.0,
+    1.7,
+    -127.0
+   ],
+   "at": [
+    -35.0,
+    2.5,
+    -108.0
+   ],
+   "file": "x223_willow_new_lake_north.png"
+  },
+  {
+   "what": "lake",
+   "view": "lake_north_air",
+   "from": [
+    -35.0,
+    30.0,
+    -132.7
+   ],
+   "at": [
+    -35.0,
+    2.0,
+    -108.0
+   ],
+   "file": "x223_willow_new_lake_north_air.png"
+  },
+  {
+   "what": "lake",
+   "view": "lake_south",
+   "from": [
+    -35.0,
+    1.7,
+    -95.0
+   ],
+   "at": [
+    -35.0,
+    2.5,
+    -115.0
+   ],
+   "file": "x223_willow_new_lake_south.png"
+  },
+  {
+   "what": "lake",
+   "view": "lake_south_air",
+   "from": [
+    -35.0,
+    30.0,
+    -89.0
+   ],
+   "at": [
+    -35.0,
+    2.0,
+    -115.0
+   ],
+   "file": "x223_willow_new_lake_south_air.png"
+  },
+  {
+   "what": "lake",
+   "view": "lake_bird",
+   "from": [
+    -35.0,
+    45.0,
+    -99.0
+   ],
+   "at": [
+    -35.0,
+    0.0,
+    -111.0
+   ],
+   "file": "x223_willow_new_lake_bird.png"
+  },
+  {
+   "what": "lake",
+   "view": "lake_bird_air",
+   "from": [
+    -35.0,
+    30.0,
+    -95.4
+   ],
+   "at": [
+    -35.0,
+    2.0,
+    -111.0
+   ],
+   "file": "x223_willow_new_lake_bird_air.png"
+  }
+ ]
+}

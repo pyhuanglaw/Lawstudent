@@ -1925,3 +1925,11 @@
 [23:03:22] ==== START WILLOW_new  (probe @ b296c6b562550f166bd8f7d78e0046cf4435e174) ====
 [23:03:25] [res] cpu=8% mem=48% (15.2/31.4 GB) chrome_testing=10  START WILLOW_new
 [23:04:00] [res] cpu=7% mem=46% (14.6/31.4 GB) chrome_testing=9  END GGLANE_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       661cd0d3b..46dab7572  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:04:06] ==== END   GGLANE_old  exit=0  208s   ====
+[23:04:09] memory 48% before starting WILLOW_old (2 running)
+[23:04:09] ==== START WILLOW_old  (probe @ 99294fead8c3cd1350625007c8e8a72e0cbf1e47) ====
+[23:04:12] [res] cpu=19% mem=49% (15.1/31.4 GB) chrome_testing=9  START WILLOW_old
+[23:04:52] [res] cpu=4% mem=49% (15.5/31.4 GB) chrome_testing=9  END WILLOW_new
