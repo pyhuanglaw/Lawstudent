@@ -53102,6 +53102,32 @@
     "receiver": "BB",
     "ack": "未派"
    }
+  },
+  {
+   "id": "CHAR-OLD-PURGE-1110",
+   "title": "人物舊設定不符合現行的字直接刪（不標過時留著）（X330）",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "全遊戲",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "AA 掃企劃線；LAWWW 掃開發分支 characters.js、docs（CHARACTER_*、art-rebuild 的人物描述）；遊戲台詞照 AA 清單",
+   "xai": {
+    "spec": "X330、UA-AA-1110-12",
+    "branch": "claude/story-planning",
+    "acceptance": "現行設定總表以外沒有相衝突的舊設定字",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
