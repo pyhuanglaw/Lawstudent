@@ -430,3 +430,11 @@
 [17:17:41] [res] cpu=8% mem=45% (14.4/31.4 GB) chrome_testing=8  START X257_old
 [17:18:05] 正在跑：X307_new（已跑 1 分／上限 40 分）、X307_old（已跑 1 分／上限 40 分）、X257_old（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:18:55] [res] cpu=12% mem=49% (15.4/31.4 GB) chrome_testing=8  END X257_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c0221d673..3da03dd14  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:19:01] ==== END   X257_old  exit=1  77s   ====
+[17:19:04] memory 49% before starting WW3T_old_n1930 (2 running)
+[17:19:04] ==== START WW3T_old_n1930  (probe @ 1827999fb488a30bdaccedaa1561697b3266a498) ====
+[17:19:07] [res] cpu=0% mem=49% (15.5/31.4 GB) chrome_testing=8  START WW3T_old_n1930
+[17:20:54] [res] cpu=5% mem=50% (15.7/31.4 GB) chrome_testing=9  END WW3T_old_n1930
