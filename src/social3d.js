@@ -257,6 +257,10 @@ const SOCIAL = (function(){
   MEMORY_LABEL.HXH_SUBJECT='當過她的受試者';   /* 面板名稱：黃筱涵 4-2 當受試者（AA_519，企劃線 d75cd0228；src/sup519_3d.js）*/
   MEMORY_LABEL.FIELD_WITH_YT='陪她去公館的修鞋店做田野（你拿錄音筆）';   /* 面板名稱：語彤大二暑假 8/13 的田野（AA_556 5-2，企劃線 3d7ad0024；src/data/vacfill_events.js ev_vf_y2s_0813）*/
   S.MEMORY_LABEL=MEMORY_LABEL;
+  /* 人物面板、朋友清單的記憶名稱：查不到中文名稱不印程式代號（MEM-LABEL-RAW-1110，使用者 11-10 截圖：以安的面板寫「LAWLIB_TOGETHER」「SHOP_CAFE_AN」「MOVIE_TOGETHER」）。
+     約的地點（INVITE_DATA.places 的 memory）、店裡碰到（shop_enc.js 的 memo，SHOP_ 開頭）先補名稱；其他沒登記的寫「一段回憶」（括號裡照舊寫地點）——tests/mem_label_unit.js 檢查所有約的地點都有名稱 */
+  Object.assign(MEMORY_LABEL,Object.fromEntries(Object.entries({LAWLIB_TOGETHER:'一起在法律學院圖書館念書',LAKE_WALK:'一起在映月湖邊散步',MOKUYOBI_TOGETHER:'一起去木曜日',SOCLIB_TOGETHER:'一起在社科院圖書館念書',MOVIE_TOGETHER:'一起看電影',AOKI_TOGETHER:'一起去青木茶室'}).filter(([k])=>!MEMORY_LABEL[k])));
+  S.memLabel=tag=>MEMORY_LABEL[tag]||(/^SHOP_/.test(String(tag||''))?'在店裡碰到':'一段回憶');
   /* 她的戀愛（npcRom）算不算（ROM-PRIVATE-DATE-1110，使用者 11-10「大一上…應該也要可以培養戀愛」「學姊旁邊 應該要增加戀愛值」）：可以攻略的對象（DATE.HEROINES）一開始就算；原本五處（arcs、arcinv、decide、gift、aa720）都要朋友（第 3 階）以上才算，認識、有點熟選再多都是 0。朋友（男生、Alison…）不算 */
   S.romOk=id=>typeof DATE!=='undefined'&&Array.isArray(DATE.HEROINES)&&DATE.HEROINES.includes(id);
   return S;

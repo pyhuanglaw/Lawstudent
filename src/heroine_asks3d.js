@@ -132,7 +132,7 @@ const HASK=(function(){
     for(const id of ((typeof DATE!=='undefined'&&DATE.HEROINES)||[])){ const p=P(id); if(!p) continue; if(typeof STORY!=='undefined'&&STORY.knows&&!STORY.knows(id,G)) continue; if(S.sendBlocked(G,id,day0)) continue;   /* 還沒認識不約你（BUG-YT-MET-1107：語彤還沒在一盞認識就傳「明天下午我在總圖寫報告…」；STORY.knows 語彤看 YT_MET_JOB；使用者 11-07 選「舊存檔照留」＝舊存檔照舊算認識）*/ const dat=dating(G,id), sn=S.stage(G,id), s=R.st[id]||{};
       if(!dat&&sn<3) continue;
       if(redo&&redo.id!==id) continue; const rd=k=>!!redo&&redo.k===k;
-      if(day0-S.lastMet(G,id)<(dat?2:3)) continue;   /* 你剛約過她（你約的、去了）：原本 3／5 天內不約，改 2／3 天（HER-ASK-MORE-1110，使用者 11-10 X293「我到現在還沒遇到可攻略對象約我」：常約她就永遠等不到她約；day 54 存檔的以安原本要等到第 59 天）*/
+      if(!dat&&sn<5&&day0-S.lastMet(G,id)<3) continue;   /* 曖昧（第 5 階：朋友以上、她的戀愛 30）以上、交往中：不管多久前見過面，她都會約（使用者 11-10「曖昧到一個程度她就會主動約你 不用五天沒見」，HER-ASK-MORE-1110）；之前是 3／2 天 */   /* 你剛約過她（你約的、去了）：原本 3／5 天內不約，改 2／3 天（HER-ASK-MORE-1110，使用者 11-10 X293「我到現在還沒遇到可攻略對象約我」：常約她就永遠等不到她約；day 54 存檔的以安原本要等到第 59 天）*/
       const sendH=S.sendH(G,id,day0);
       /* 週末校外：週三晚上傳 */
       if(wdOf(G,day0)===3&&(dat||sn>=6)&&(rd('o')||s.o==null||day0-s.o>=(dat?(id==='kexin'?28:14):28))&&(!redo||rd('o'))&&typeof DATE!=='undefined'){

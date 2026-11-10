@@ -87,6 +87,7 @@ const INV=(function(){
   S.partnerBlock=function(G,id,P){ if(!P||!((D().soloKinds||[]).includes(P.kind)||(D().soloPlaces||[]).includes(P.id))) return false;   /* soloPlaces：一盞（AA_172 3b）*/ const F=G.flags||{}; if(F['dating_'+id]) return false;
     const c=(typeof CHARACTERS!=='undefined'&&CHARACTERS[id])||{}; if(c.gender!=='f') return false;
     if(c.partner&&!c.partner.soloOk&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))) return true;   /* soloOk：她的交往對象不擋這幾種（芷若×子晴，AA_385 第 6 節：只擋校外約會、告白，src/zrzq3d.js）*/
+    if(typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.stage&&(SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf('CLOSE_FRIEND')||(SOCIAL.friendLevel&&SOCIAL.friendLevel(id)==='CLOSE_FRIEND'))) return false;   /* 好朋友以上：祐廷有女朋友也可以單獨吃飯、散步、喝茶（PARTNER-CLOSE-OK-1110，使用者 11-10 選擇題「好朋友以上就可以」：「已經這麼熟 中午下課卻不能約她吃飯」；修改 AA 10-14 的 ②）——①她自己有伴侶照舊擋 */
     if(typeof ROM!=='undefined'&&ROM.knows) return ROM.knows(G,id).length>0;
     return Object.keys(F).some(k=>k.indexOf('dating_')===0&&F[k]); };   /* 沒有 ROM（舊的測試環境）：照舊 */
   /* 這個地方約不約得到、為什麼（選地點時的說明；可以就空字串）*/

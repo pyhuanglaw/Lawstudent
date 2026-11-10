@@ -52,11 +52,12 @@ const DATE=(function(){
   /* 人物頁的進度條（D36；AA_126 4-1、AA_128 3-2）：友情（往第 4 階好朋友）、戀愛（七位，往第 5、6 階；第 6 階以後是告白的條件），不顯示數字，
      下面一句寫還差哪一種。交往中＝{dating:true}（人物頁只寫「交往中」）；男生朋友只有友情那一條。PROG_HINT 的自在、祐廷的戀愛、先成為好朋友三句：AA 10-21 22:3x 定（企劃線 0b057075，AA_126 4-1；「你還沒有那樣看她」和「她還沒有那樣看你」對著寫）*/
   S.PROG_HINT={fam:'再熟一點',trust:'再多信任一點',comf:'相處再自在一點',npcRom:'她還沒有那樣看你',rom:'你還沒有那樣看她',close:'先成為好朋友',
-    count:'再多一些兩個人出去的時間',wishUnknown:'她好像有一個很想去的地方',wishPlace:'她提過想去{place}'};
+    count:'再多一些兩個人出去的時間',wishUnknown:'她好像有一個很想去的地方',wishPlace:'她提過想去{place}',
+    npcRomHalf:'她好像開始在意你了',romHalf:'你好像開始在意她了',ambi:'你們之間有點曖昧'};   /* 曖昧分三段（ROM-STAGE-TEXT-1110，使用者 11-10 選擇題「照程度寫三段」：「都已經這個程度 她還沒有那樣看我? 要區分曖昧階段吧??」）：戀愛條還沒一半照舊、一半以上「開始在意」、第 6 階多一行「有點曖昧」 */
   S.progress=function(G,id){ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return null; const F=(G&&G.flags)||{}; if(F['dating_'+id]) return {dating:true};
     const r=SOCIAL.rel(id), n=v=>+v||0, v={fam:n(r.fam),trust:n(r.trust),comf:n(r.comf),npcRom:n(r.npcRom),rom:n(r.rom)};
     const fr=v.fam>=60&&v.trust>=45&&v.comf>=40?4:(v.fam>=40&&v.trust>=25?3:(v.fam>=20?2:1));
-    const bar=need=>{ let k=null, lo=1; for(const key in need){ const x=Math.min(1,Math.max(0,v[key]/need[key])); if(x<lo-1e-9){ lo=x; k=key; } } return {pct:lo,hint:k?S.PROG_HINT[k]:''}; };
+    const bar=need=>{ let k=null, lo=1; for(const key in need){ const x=Math.min(1,Math.max(0,v[key]/need[key])); if(x<lo-1e-9){ lo=x; k=key; } } return {pct:lo,hint:k?((k==='npcRom'||k==='rom')&&lo>=0.5?S.PROG_HINT[k+'Half']:S.PROG_HINT[k]):''}; };
     const NEED=[null,{fam:20},{fam:40,trust:25},{fam:60,trust:45,comf:40}];
     const out={fr:fr>=4?{pct:1,hint:''}:bar(NEED[fr]),rom:null};
     if(!S.HEROINES.includes(id)) return out;
@@ -66,7 +67,7 @@ const DATE=(function(){
     else { const L=(G&&G.dateLog&&G.dateLog[id])||{count:0,wishKnown:false,wish:false}, NC=S.COUNT_NEED[id]||4, c=Math.min(NC,L.count|0);   /* 芯慈要 6 次（AA_537 G9）*/
       const pct=(c/NC+(L.wishKnown?0.5:0)+(L.wish?0.5:0))/2;
       const hint=c<NC?S.PROG_HINT.count:(!L.wishKnown?S.PROG_HINT.wishUnknown:(!L.wish?S.PROG_HINT.wishPlace.replace('{place}',S.wishName(G,id)||'一個地方'):''));
-      out.rom={pct,hint}; }
+      out.rom={pct,hint,mood:S.PROG_HINT.ambi}; }   /* 第 6 階：多一行「你們之間有點曖昧」（game3d.js progHTML）*/
     return out; };
 
   /* 走完一趟：符合五個條件才 +1（一趟只算一次；同一天去兩個地點也是一趟）；同一個地點記次數（遞減用）；心願地點和她單獨去＝wish */
@@ -212,7 +213,7 @@ const DATE=(function(){
   /* INV.whyNot 以外的條件（第 5 階、她在等你說清楚、她有交往的對象）：INV.whyNot 也用它（AA_350 T7a：她在台中、約得到才打開手機的「約」；不能叫 canAsk，會繞回 whyNot）*/
   S.canAskCore=function(G,id){ const F=G.flags||{}, dating=!!F['dating_'+id];
     const sn=typeof INV!=='undefined'&&INV.capStage?INV.capStage(G,id,S.stageNum(id)):S.stageNum(id);   /* 分手後的冷淡期照朋友的階段（AA_434 4-3；INV.capStage）*/
-    if(!dating&&sn<5) return {ok:false,why:'還沒熟到可以兩個人出去'};
+    if(!dating&&sn<5) return {ok:false,why:sn>=3?'她還沒有那樣看你（人物頁的戀愛條滿了就可以約）':'還沒熟到可以兩個人出去'};   /* 已經是朋友以上、差她的戀愛（第 5 階要她的戀愛 30）：說清楚差什麼（ROM-STAGE-TEXT-1110，使用者 11-10「而且也不能約校外?」）*/
     if(typeof ROM!=='undefined'&&ROM.get){ const R=ROM.get(G,id); if(R&&R.status==='paused') return {ok:false,why:'她在等你把話說清楚'}; }
     const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))) return {ok:false,why:'她現在有交往的對象'};
     return {ok:true}; };

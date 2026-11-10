@@ -38,5 +38,6 @@ check('8. 交往中：只回 {dating:true}（人物頁寫「交往中」）',!!p
 fresh(); set('zhe',{fam:30,trust:30}); p=P('zhe');
 check('9. 男生朋友（阿哲）：只有友情那一條',!!p&&!!p.fr&&p.rom===null,JSON.stringify(p));
 { const s=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), i=s.indexOf('function progHTML('), j=s.indexOf('\n',s.indexOf('\n',s.indexOf('\n',s.indexOf('\n',i)+1)+1)+1), f=s.slice(i,j), k=s.indexOf('function personHTML(');
-  check('10. 人物頁接上進度條（personHTML 用 progHTML）；條只用寬度（width:%），不印數字；交往中寫「交往中」',i>=0&&s.slice(k,k+2000).includes('progHTML(id)')&&/width:'\+Math\.round/.test(f)&&!/pct\*100\)\+'%</.test(f)&&f.includes('交往中'),f.slice(0,200)); }
+  /* 2026-11-10：personHTML 多了 SOCIAL.memLabel（MEM-LABEL-RAW-1110），progHTML(id) 往後移，看前 4000 字 */
+  check('10. 人物頁接上進度條（personHTML 用 progHTML）；條只用寬度（width:%），不印數字；交往中寫「交往中」',i>=0&&s.slice(k,k+4000).includes('progHTML(id)')&&/width:'\+Math\.round/.test(f)&&!/pct\*100\)\+'%</.test(f)&&f.includes('交往中'),f.slice(0,200)); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
