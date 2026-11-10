@@ -1311,8 +1311,8 @@
    "title": "明軒、小語模型",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "【10-31 23:0x 歷史複核】LAWWW2-B 美術複核：小語模型已接（55b67ccf9），只剩明軒（D99 凍結夠用的素材，不排）；角色美術由 LAWWW 驗收（D100），不是 BB｜接帳號 A 的 WIP 腳本（ae6e4dfa 明軒、0205552d 小語），跑 Blender、BB-B D59 驗收",
+   "status": "暫停",
+   "next": "【LAWWW 11-10 10:2x】QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md）：明軒模型照 D99 夠用的素材凍結（小語已接 55b67ccf9） ｜ 【10-31 23:0x 歷史複核】LAWWW2-B 美術複核：小語模型已接（55b67ccf9），只剩明軒（D99 凍結夠用的素材，不排）；角色美術由 LAWWW 驗收（D100），不是 BB｜接帳號 A 的 WIP 腳本（ae6e4dfa 明軒、0205552d 小語），跑 Blender、BB-B D59 驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -1336,7 +1336,9 @@
     "spec": "企劃線 art_reference/classmate_mingxuan.webp、yu.webp（BB-B 03:44 確認）；帳號 A 的 WIP 腳本 ae6e4dfa、0205552d",
     "acceptance": "VRM＋BB-B D59",
     "ack": "ACK"
-   }
+   },
+   "pausedReason": "明軒模型照 D99 夠用的素材凍結（小語已接 55b67ccf9）",
+   "resumeWhen": "使用者解凍 D99 或明軒外觀被回報有問題"
   },
   {
    "id": "ART-14",
@@ -13615,8 +13617,8 @@
    "title": "現有 3D 美術品質修復與精修（人物五官與臉型、2D 設定圖辨識度、材質與光影、場景、遊戲視角下的比例遮擋穿模、效能）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW2 先做第 2 批全域光影同鏡頭前後比較＋patch 交 LAWWW（使用者 10-21 要 LAWWW2 清查燈光、效能）；人物、溫州街部分照使用者暫停 ｜ LAWWW2-B：第 0 批遊戲內基準截圖 → 第 1 批人物臉、材質、臉部照明（人物交 BB-B 驗收 D59；src/ 共用程式做 patch 給 LAWWW-B）；新製作排到精修後面",
+   "status": "取消／被取代",
+   "next": "【LAWWW 11-10 10:2x】取消／被取代：長期總目標、沒有單一交付，實際工作已拆到 INTERIOR-AAA-REVIEW-1028 與各場景任務 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW2 先做第 2 批全域光影同鏡頭前後比較＋patch 交 LAWWW（使用者 10-21 要 LAWWW2 清查燈光、效能）；人物、溫州街部分照使用者暫停 ｜ LAWWW2-B：第 0 批遊戲內基準截圖 → 第 1 批人物臉、材質、臉部照明（人物交 BB-B 驗收 D59；src/ 共用程式做 patch 給 LAWWW-B）；新製作排到精修後面",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -13646,7 +13648,10 @@
      "evidence": "LAWWW2 交接（claude/focused-cray-c9uwvw docs/art-rebuild/second_ai/HANDOFF.md:666 起）：疊面修正（萬才館、霖澤館、總圖、法圖，BUG-COPLANAR-DEV 已收）、公館遠景與 118 巷（0582af9f、18da74d6）等已做；還沒做：第 0 批基準截圖補齊、第 2 批全域光影（tone mapping Neutral、皮膚明暗）同鏡頭驗證；ART-VSLICE、ART-WZ0 使用者 10-17 05:0x 暫停；人物修改使用者 10-17 05:0x 暫停",
      "note": "總項太大，建議拆成光影一項、其餘併入既有暫停項"
     }
-   ]
+   ],
+   "reason": "長期總目標、沒有單一交付，實際工作已拆到 INTERIOR-AAA-REVIEW-1028 與各場景任務（QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md））",
+   "replacedBy": "NONE",
+   "authorizedBy": "LAWWW（帳號 A，遊戲總監 D111）11-10 照 LAWWW2 盤點"
   },
   {
    "id": "DL-00",
@@ -14768,8 +14773,8 @@
    "title": "豆漿店道具組（AA-B 222472d2 做、LAWWW2-B 驗收 12a33672）＋寶特瓶袋 v2（wz7_street_props）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】豆漿店道具組＋寶特瓶袋 v2 擺放（同上） ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：DL-11 開工時一起搬進開發分支、登錄 assets3d、LICENSES；寶特瓶袋 v2 跟 ART-WZ7 一起 ｜ soy_props.glb 等豆漿店場景（AA-B 的故事線）一起放；寶特瓶袋 v2 跟 ART-WZ7 一起放",
+   "status": "等待其他AI／素材",
+   "next": "【LAWWW 11-10 10:2x】QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md）：豆漿店場景（DL-11）還沒有，src 沒有 soy_props ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】豆漿店道具組＋寶特瓶袋 v2 擺放（同上） ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：DL-11 開工時一起搬進開發分支、登錄 assets3d、LICENSES；寶特瓶袋 v2 跟 ART-WZ7 一起 ｜ soy_props.glb 等豆漿店場景（AA-B 的故事線）一起放；寶特瓶袋 v2 跟 ART-WZ7 一起放",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -14792,8 +14797,8 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C（D99 三個優先項目＋使用者 10-18 01:0x v9.10 收件範圍）",
-   "pausedReason": "豆漿店道具等溫州街故事線（DL-11）一起放",
-   "resumeWhen": "DL-11 溫州街故事線施工（v9.10 發布後）",
+   "pausedReason": "豆漿店場景（DL-11）還沒有，src 沒有 soy_props",
+   "resumeWhen": "豆漿店場景排進來",
    "recheckOn": "v9.10 發布前（最晚 2026-10-25）",
    "audit": [
     {
@@ -22131,7 +22136,7 @@
    "title": "電腦換畫面卡一兩秒（溫州街、咖啡廳，X14）",
    "area": "P0",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "等待其他AI／素材",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -22145,7 +22150,7 @@
    },
    "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
    "authorized": "使用者直接要求",
-   "next": "【10-31 12:2x】?perf 小框 BB-B n26_perfpanel_e ALL PASS（橫直向位置、不吃點擊、畫面 3 筆＋「共 5 筆」、複製 5 筆、shader ≥0）＝量測工具驗完；剩使用者在自己的電腦、手機開 ?perf 回報數字（USER_WANTS／交接寫明）｜【10-31 10:2x】BB-B n26_perfpanel_d（2a3e53b59）PASS：小框在小地圖下面不重疊、不吃點擊（手機鈕、選單鈕按得到）、「複製」可以按且拿全部、shader 黑畫面都 ≥0（campus +45、dorm_hall +24…）、沒有 ?perf 不出現；「共 N 筆」等 n26_perfpanel_e｜這個任務真正要的是使用者在自己的電腦、手機開 ?perf 回報數字（模擬器量不準）｜【10-31 09:4x】BB-B n26_perfpanel_b 兩件修好：①小框搬到小地圖下面、不吃點擊、只有「複製」可以按、畫面最多 3 筆（橫向原本蓋住手機鈕、選單鈕）②shader 黑畫面改數「沒看過的 program」（原本長度相減、換區域丟掉舊的算出 +-6）；perfpanel_unit 第 4、5 項（修改前 FAIL）→ BB n26_perfpanel_c｜【LAWWW-B 23:4x】量測小面板做好：網址加 ?perf，右上角列最近 8 次換區域（黑畫面多久、建區域／預熱、淡入後 10 秒最長一格、卡的次數、shader 數），按一下複製（src/perfpanel3d.js、game3d.js enter 四個 mark、tests/perfpanel_unit.js）→ BB 瀏覽器看面板有沒有出來；使用者回來時請他在自己電腦、手機各開一次 ?perf 走幾個地方、按一下複製貼給我｜【LAWWW-B 10-30 23:2x】第三輪（室內讀像素）95fcbf00c 已整合；模擬器量不出整體變快（雜訊大），實機才看得出來。剩下：prewarm settle 在黑畫面停 4～7 秒、一格等 GPU 5～24 秒、路人 VRM 回呼晚到——要先在使用者電腦上量（網址參數才顯示的量測小面板，game3d.js，LAWWW 的事；下一版一起，使用者回來再請他開）｜【LAWWW-B 10-30 22:1x 派 LAWWW2（D108、D99：經濟系那一年先）】照 PERF-CAMPUS-DAY-1027 的 Z3.warmup 做法，量並降低進室內的卡頓：溫州街、兩點半 Café、阿鳳麵店、社科院圖書館、博思 101、宿舍 412／203（tests/perf_scenes.py：進場第一次編 shader 的次數與時間）；交 patch＋改前改後數字 → LAWWW 整合 → BB 瀏覽器看｜【LAWWW-C 2026-10-28 02:4x UTC】X14 第二輪（LAWWW2 e55f18585）整合進開發分支 55ac1fe67：黑畫面時先讀編譯結果，Café→溫州街淡入後最長一格 5.1～5.3→3.2～3.4 秒（SwiftShader 電腦模式）；BB 佇列 6b；LAWWW2 還沒做的：第一次進溫州街時正式模型、路人 VRM 在亮著的畫面接上｜【LAWWW-C 2026-10-27 18:0x UTC】查核：X14 換區域（Café→溫州街）還有一下比較久的卡、原因還在查——派 LAWWW2-C 和 PERF-CAMPUS-DAY-1027 一起看 ｜ 【LAWWW（帳號 A）2026-10-22 01:5x】LAWWW2 交件 3d6f2cee（zone_prewarm.diff 第五版）整合進開發分支 7b4fb34b：zones3d.js Z3.prewarm／prefetchNext、game3d.js enter() 一行；只在電腦上做，手機照舊；tests/zone_prewarm_unit.js 修改前 3 FAIL、修改後 ALL PASS；438 支全過。還不到：真的電腦、手機都沒量過；路人輪換是最大的卡（另開 PERF-NPC-POOL-1022，LAWWW） ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】進溫州街、咖啡廳卡一兩秒：用 tests/perf_scenes.py 量模型／貼圖／shader 編譯時間，從場景素材那一邊降（貼圖壓縮、合併、預熱）；要改 engine3d.js 的載入流程先告訴 LAWWW ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：用 tests/perf_scenes.py 量進溫州街、咖啡廳的模型／貼圖／shader 編譯時間，找出卡一兩秒的來源（例：區域預載、renderer.compile 預熱） ｜ v9.10.1",
+   "next": "【LAWWW 11-10 10:2x】QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md）：量測工具 ?perf 已驗收，剩使用者在自己電腦、手機開 ?perf 回報數字 ｜ 【10-31 12:2x】?perf 小框 BB-B n26_perfpanel_e ALL PASS（橫直向位置、不吃點擊、畫面 3 筆＋「共 5 筆」、複製 5 筆、shader ≥0）＝量測工具驗完；剩使用者在自己的電腦、手機開 ?perf 回報數字（USER_WANTS／交接寫明）｜【10-31 10:2x】BB-B n26_perfpanel_d（2a3e53b59）PASS：小框在小地圖下面不重疊、不吃點擊（手機鈕、選單鈕按得到）、「複製」可以按且拿全部、shader 黑畫面都 ≥0（campus +45、dorm_hall +24…）、沒有 ?perf 不出現；「共 N 筆」等 n26_perfpanel_e｜這個任務真正要的是使用者在自己的電腦、手機開 ?perf 回報數字（模擬器量不準）｜【10-31 09:4x】BB-B n26_perfpanel_b 兩件修好：①小框搬到小地圖下面、不吃點擊、只有「複製」可以按、畫面最多 3 筆（橫向原本蓋住手機鈕、選單鈕）②shader 黑畫面改數「沒看過的 program」（原本長度相減、換區域丟掉舊的算出 +-6）；perfpanel_unit 第 4、5 項（修改前 FAIL）→ BB n26_perfpanel_c｜【LAWWW-B 23:4x】量測小面板做好：網址加 ?perf，右上角列最近 8 次換區域（黑畫面多久、建區域／預熱、淡入後 10 秒最長一格、卡的次數、shader 數），按一下複製（src/perfpanel3d.js、game3d.js enter 四個 mark、tests/perfpanel_unit.js）→ BB 瀏覽器看面板有沒有出來；使用者回來時請他在自己電腦、手機各開一次 ?perf 走幾個地方、按一下複製貼給我｜【LAWWW-B 10-30 23:2x】第三輪（室內讀像素）95fcbf00c 已整合；模擬器量不出整體變快（雜訊大），實機才看得出來。剩下：prewarm settle 在黑畫面停 4～7 秒、一格等 GPU 5～24 秒、路人 VRM 回呼晚到——要先在使用者電腦上量（網址參數才顯示的量測小面板，game3d.js，LAWWW 的事；下一版一起，使用者回來再請他開）｜【LAWWW-B 10-30 22:1x 派 LAWWW2（D108、D99：經濟系那一年先）】照 PERF-CAMPUS-DAY-1027 的 Z3.warmup 做法，量並降低進室內的卡頓：溫州街、兩點半 Café、阿鳳麵店、社科院圖書館、博思 101、宿舍 412／203（tests/perf_scenes.py：進場第一次編 shader 的次數與時間）；交 patch＋改前改後數字 → LAWWW 整合 → BB 瀏覽器看｜【LAWWW-C 2026-10-28 02:4x UTC】X14 第二輪（LAWWW2 e55f18585）整合進開發分支 55ac1fe67：黑畫面時先讀編譯結果，Café→溫州街淡入後最長一格 5.1～5.3→3.2～3.4 秒（SwiftShader 電腦模式）；BB 佇列 6b；LAWWW2 還沒做的：第一次進溫州街時正式模型、路人 VRM 在亮著的畫面接上｜【LAWWW-C 2026-10-27 18:0x UTC】查核：X14 換區域（Café→溫州街）還有一下比較久的卡、原因還在查——派 LAWWW2-C 和 PERF-CAMPUS-DAY-1027 一起看 ｜ 【LAWWW（帳號 A）2026-10-22 01:5x】LAWWW2 交件 3d6f2cee（zone_prewarm.diff 第五版）整合進開發分支 7b4fb34b：zones3d.js Z3.prewarm／prefetchNext、game3d.js enter() 一行；只在電腦上做，手機照舊；tests/zone_prewarm_unit.js 修改前 3 FAIL、修改後 ALL PASS；438 支全過。還不到：真的電腦、手機都沒量過；路人輪換是最大的卡（另開 PERF-NPC-POOL-1022，LAWWW） ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】進溫州街、咖啡廳卡一兩秒：用 tests/perf_scenes.py 量模型／貼圖／shader 編譯時間，從場景素材那一邊降（貼圖壓縮、合併、預熱）；要改 engine3d.js 的載入流程先告訴 LAWWW ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：用 tests/perf_scenes.py 量進溫州街、咖啡廳的模型／貼圖／shader 編譯時間，找出卡一兩秒的來源（例：區域預載、renderer.compile 預熱） ｜ v9.10.1",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -22161,7 +22166,9 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "sha": "7b4fb34b"
+   "sha": "7b4fb34b",
+   "pausedReason": "量測工具 ?perf 已驗收，剩使用者在自己電腦、手機開 ?perf 回報數字",
+   "resumeWhen": "使用者回報 ?perf 數字"
   },
   {
    "id": "SYS-BOOKS-1018",
@@ -25589,7 +25596,7 @@
    "title": "校園地圖卡；有些建築旁邊的影子一直閃",
    "area": "V1",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -25603,7 +25610,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「地圖蠻卡的 有些建築旁邊影子也一直在閃爍」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【LAWWW（帳號 A）18:3x】LAWWW2 49b26ecb（停著的腳踏車分區合併）已套在本機 post9103，發布後放進開發分支；路人那一半開成 PERF-CROWD-LOD-1021 ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】剩下「卡」那一半：校園投影子物件 857 個、draw calls 516（BB-C 量測）——合併網格、小物件不投影、instancing；影子閃（shadowSnap，LAWWW ddfd1d5e）等真機 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 在 SwiftShader 已無法再驗；實機（iPhone）等使用者回來看影子閃與卡不卡，再決定太陽跳動間隔 ｜ 【LAWWW-C 2026-10-20 19:0x UTC，ddfd1d5e】晚上（19:12～05:30）陰影貼圖 2 秒才重畫一次——修改前後（tests/perf_scenes.py，PERF_HOUR=19.5，修改前＝?nightshadow=full；同一台機器、Playwright SwiftShader；原始數字 docs/perf/x79_night_*.json）：校園霖澤館前 每一格 228 calls／56.5 萬三角形 → 平常一格 124／32.3 萬（−46%／−43%）；校園椰林大道 377／87.4 萬 → 302／62.5 萬（−20%／−29%）；公館捷運 229／35.8 萬 → 173／25.5 萬（−24%／−29%）；溫州街中段 陰影那一輪 85 calls（同一次量：452 → 367，−19%；兩次量的路人數不同，絕對值不能直接比）。2 秒一次的那一格和修改前一樣。白天沒有變（白天的陰影照舊每一格畫）。SwiftShader 的毫秒數不是手機的，只看 draw call、三角形。手機上實際順不順要 BB／真機看 ｜ 【10-20 14:5x 開發分支】影子閃：陰影相機的中心在光的平面對齊整格（shadowSnap）、太陽方向每 3 遊戲分鐘才換（sunAng）；tests/shadow_snap_unit.js（修改前 FAIL）。SwiftShader 看不出來，要 BB 截圖比對或真機。還沒做：「卡」——投影子物件幾百個（校園 857）、draw calls 516 ｜ 【BB-C 第二批量測】19:30 校園 516 draw calls／99 萬三角形／857 個投影子物件，公館 414／64 萬／568，溫州街 359～422／52～73 萬／335～419，Café 264，宿舍 153；影子閃＝engine3d.js 約 144 行陰影相機每幀跟著玩家、沒對齊陰影貼圖格（1024 蓋 44 m，一格約 4.3 cm）；換區域後貼圖數一路上升（只記錄） ｜ 影子閃：陰影相機跟著玩家移動時對齊貼圖格、調 bias；卡：量效能",
+   "next": "【LAWWW 11-10 10:2x】取消／被取代：腳踏車一半已整合 51740da74；「卡」那一半由 PERF-CAMPUS-DAY-1027（497253c6）接走 ｜ 【LAWWW（帳號 A）18:3x】LAWWW2 49b26ecb（停著的腳踏車分區合併）已套在本機 post9103，發布後放進開發分支；路人那一半開成 PERF-CROWD-LOD-1021 ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】剩下「卡」那一半：校園投影子物件 857 個、draw calls 516（BB-C 量測）——合併網格、小物件不投影、instancing；影子閃（shadowSnap，LAWWW ddfd1d5e）等真機 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 在 SwiftShader 已無法再驗；實機（iPhone）等使用者回來看影子閃與卡不卡，再決定太陽跳動間隔 ｜ 【LAWWW-C 2026-10-20 19:0x UTC，ddfd1d5e】晚上（19:12～05:30）陰影貼圖 2 秒才重畫一次——修改前後（tests/perf_scenes.py，PERF_HOUR=19.5，修改前＝?nightshadow=full；同一台機器、Playwright SwiftShader；原始數字 docs/perf/x79_night_*.json）：校園霖澤館前 每一格 228 calls／56.5 萬三角形 → 平常一格 124／32.3 萬（−46%／−43%）；校園椰林大道 377／87.4 萬 → 302／62.5 萬（−20%／−29%）；公館捷運 229／35.8 萬 → 173／25.5 萬（−24%／−29%）；溫州街中段 陰影那一輪 85 calls（同一次量：452 → 367，−19%；兩次量的路人數不同，絕對值不能直接比）。2 秒一次的那一格和修改前一樣。白天沒有變（白天的陰影照舊每一格畫）。SwiftShader 的毫秒數不是手機的，只看 draw call、三角形。手機上實際順不順要 BB／真機看 ｜ 【10-20 14:5x 開發分支】影子閃：陰影相機的中心在光的平面對齊整格（shadowSnap）、太陽方向每 3 遊戲分鐘才換（sunAng）；tests/shadow_snap_unit.js（修改前 FAIL）。SwiftShader 看不出來，要 BB 截圖比對或真機。還沒做：「卡」——投影子物件幾百個（校園 857）、draw calls 516 ｜ 【BB-C 第二批量測】19:30 校園 516 draw calls／99 萬三角形／857 個投影子物件，公館 414／64 萬／568，溫州街 359～422／52～73 萬／335～419，Café 264，宿舍 153；影子閃＝engine3d.js 約 144 行陰影相機每幀跟著玩家、沒對齊陰影貼圖格（1024 蓋 44 m，一格約 4.3 cm）；換區域後貼圖數一路上升（只記錄） ｜ 影子閃：陰影相機跟著玩家移動時對齊貼圖格、調 bias；卡：量效能",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -25618,7 +25625,9 @@
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "reason": "腳踏車一半已整合 51740da74；「卡」那一半由 PERF-CAMPUS-DAY-1027（497253c6）接走（QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md））",
+   "replacedBy": "PERF-CAMPUS-DAY-1027"
   },
   {
    "id": "BUG-GYM-STAIRS-1020",
@@ -27262,7 +27271,7 @@
    "id": "ART-PHOTO-CMP-1021",
    "title": "共同教學館、女舍和參考照片比對（LAWWW2 清查 B14）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "取消／被取代",
    "priority": "P3",
    "source": "LAWWW2-C 清查 caf482d1 B14",
    "first": {
@@ -27275,7 +27284,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 14:19】官網大一女舍簡介 24 張（外觀、二樓平台、服務台、交誼廳、讀書間、運動室、茶水間、洗衣間、衛浴、信箱、走廊、四人房）＋事實（A、B 兩棟二樓天橋連通、傳達室 A 棟一樓、沒電梯、4 人雅房、房間從 2 樓開始）存 freshman_women_dorm_1104/web/；併進 NTU-REF-AUDIT-1104 一起比對｜【LAWWW-C 11-04 14:08】使用者 14:07 傳女舍 2 張（docs/story_planning/ref_images/buildings/freshman_women_dorm_1104/，README 逐張說明）：一樓店面、宿舍入口在二樓平台（樓梯＋坡道）、十字鏤空花磚樓梯間、拱門「HOME」入口；網頁 https://osa_dorm.ntu.edu.tw/Freshman_House 有更多外觀、內裝，這個環境連不到（要使用者開網域）｜【LAWWW-C 11-04 14:05】使用者 14:03 傳共同教學館 4 張（docs/story_planning/ref_images/buildings/common_teaching_1104/，README 有逐張說明）：紅磚舊館＋米色翼樓、拱窗、大松樹、樹下木平台、下沉廣場擋土牆、常春藤 → LAWWW2 比對、定南面庭園和西側樓梯；女舍照片還沒給｜【LAWWW-C 11-04 14:04】使用者 13:5x 選「我之後給照片」（UA-LAWWW-1104-89）：照舊等｜【11-01 23:1x LAWWW-B】使用者選「我之後提供參考照片」→ 等使用者給共同教學館、女舍的照片；到了 LAWWW2 再決定南面庭園、西側樓梯｜【11-01 02:1x】LAWWW2 差異清單交了（880104746，photo_cmp_1101/README.md）；照片抓不到（wikimedia 403）——第四節列的照片要請使用者給，和其他要使用者的圖併成一批問（不單獨打擾）。LAWWW-B 定：①共同南面庭園往北挪、②西側戶外樓梯：等照片確認再做；③女舍路人「有電梯」和 A 級「沒有電梯」：轉 AA；④規模縮小：不改（照 LAWWW2 建議，D111）｜LAWWW2 先列差異清單，再決定要不要改",
+   "next": "【LAWWW 11-10 10:2x】取消／被取代：已併進 NTU-REF-AUDIT-1104 ｜ 【LAWWW-C 11-04 14:19】官網大一女舍簡介 24 張（外觀、二樓平台、服務台、交誼廳、讀書間、運動室、茶水間、洗衣間、衛浴、信箱、走廊、四人房）＋事實（A、B 兩棟二樓天橋連通、傳達室 A 棟一樓、沒電梯、4 人雅房、房間從 2 樓開始）存 freshman_women_dorm_1104/web/；併進 NTU-REF-AUDIT-1104 一起比對｜【LAWWW-C 11-04 14:08】使用者 14:07 傳女舍 2 張（docs/story_planning/ref_images/buildings/freshman_women_dorm_1104/，README 逐張說明）：一樓店面、宿舍入口在二樓平台（樓梯＋坡道）、十字鏤空花磚樓梯間、拱門「HOME」入口；網頁 https://osa_dorm.ntu.edu.tw/Freshman_House 有更多外觀、內裝，這個環境連不到（要使用者開網域）｜【LAWWW-C 11-04 14:05】使用者 14:03 傳共同教學館 4 張（docs/story_planning/ref_images/buildings/common_teaching_1104/，README 有逐張說明）：紅磚舊館＋米色翼樓、拱窗、大松樹、樹下木平台、下沉廣場擋土牆、常春藤 → LAWWW2 比對、定南面庭園和西側樓梯；女舍照片還沒給｜【LAWWW-C 11-04 14:04】使用者 13:5x 選「我之後給照片」（UA-LAWWW-1104-89）：照舊等｜【11-01 23:1x LAWWW-B】使用者選「我之後提供參考照片」→ 等使用者給共同教學館、女舍的照片；到了 LAWWW2 再決定南面庭園、西側樓梯｜【11-01 02:1x】LAWWW2 差異清單交了（880104746，photo_cmp_1101/README.md）；照片抓不到（wikimedia 403）——第四節列的照片要請使用者給，和其他要使用者的圖併成一批問（不單獨打擾）。LAWWW-B 定：①共同南面庭園往北挪、②西側戶外樓梯：等照片確認再做；③女舍路人「有電梯」和 A 級「沒有電梯」：轉 AA；④規模縮小：不改（照 LAWWW2 建議，D111）｜LAWWW2 先列差異清單，再決定要不要改",
    "xai": {
     "spec": "LAWWW2 清查 B14",
     "branch": "claude/focused-cray-c9uwvw",
@@ -27315,7 +27324,9 @@
       "why": "使用者 14:07 傳女舍 2 張＋網址 osa_dorm.ntu.edu.tw/Freshman_House（UA-LAWWW-1104-91）；網址在這個環境連不到，要使用者把網域加進 Allowed domains"
      }
     ]
-   }
+   },
+   "reason": "已併進 NTU-REF-AUDIT-1104（QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md））",
+   "replacedBy": "NTU-REF-AUDIT-1104"
   },
   {
    "id": "ART-DORM-LOUNGE-1021",
@@ -27485,7 +27496,7 @@
    "id": "ART-DIRECTOR-LAWWW2",
    "title": "LAWWW2 當 3D 美術總監：照玩家路線巡場景、自訂品質標準（ART_SOP 第 10 節）、交付前自我驗收、BB 獨立畫面驗收（使用者 10-21 12:0x，長期）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "取消／被取代",
    "priority": "P1",
    "source": "使用者 10-21 12:0x 直接對 LAWWW2-C（UA-LAWWW2-1021-02；focused-cray edfe5a2c）；USER_WANTS X90",
    "first": {
@@ -27505,7 +27516,10 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 2026-10-21 12:4x UTC】長期工作方式；溫州街暫停（使用者 10-17）、人物凍結（D99）照舊；交付照舊給 LAWWW 整合"
+   "next": "【LAWWW 11-10 10:2x】取消／被取代：長期工作方式（D111），不是一件工作 ｜ 【LAWWW-C 2026-10-21 12:4x UTC】長期工作方式；溫州街暫停（使用者 10-17）、人物凍結（D99）照舊；交付照舊給 LAWWW 整合",
+   "reason": "長期工作方式（D111），不是一件工作（QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md））",
+   "replacedBy": "NONE",
+   "authorizedBy": "LAWWW（帳號 A，遊戲總監 D111）11-10 照 LAWWW2 盤點"
   },
   {
    "id": "AA353-PG-CARD-1021",
@@ -43162,10 +43176,10 @@
    "id": "ART-XINSHENG-GATE-1103",
    "title": "地圖照實際（AA_615）：校園新生南路側門＋新生南路店面，過馬路是溫州街；公館巷口照留",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
-   "next": "【LAWWW-C 11-04 15:5x】發布說明盤點：新生南路七家店立面 v1 已接（74557a245，v9.10.20 候選裡）；側門其餘照 XINSHENG-SIDE-1103｜【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜同 XINSHENG-SIDE-1103",
+   "next": "【LAWWW 11-10 10:2x】QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md）：程式已在開發分支，狀態沒改；改已整合待測試，等 BB／CC。 ｜ 【LAWWW-C 11-04 15:5x】發布說明盤點：新生南路七家店立面 v1 已接（74557a245，v9.10.20 候選裡）；側門其餘照 XINSHENG-SIDE-1103｜【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜同 XINSHENG-SIDE-1103",
    "xai": {
     "spec": "AA_615（企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿））",
     "branch": "claude/second-ai-env-art",
@@ -43924,10 +43938,10 @@
    "id": "SPORT-SHOPS-1103",
    "title": "運動用品店兩家（球鞋球衣／桌球羽球用品）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "note": "X197",
-   "next": "CC 建模：大步 dabu.glb 第一版、好拍與新生運動廣場只有 layout（cc-testing）→ BB 驗收、LAWWW2 整合",
+   "next": "【LAWWW 11-10 10:2x】QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md）：程式已在開發分支，狀態沒改；改已整合待測試，等 BB／CC。 ｜ CC 建模：大步 dabu.glb 第一版、好拍與新生運動廣場只有 layout（cc-testing）→ BB 驗收、LAWWW2 整合",
    "xai": {
     "spec": "X197；任務 next 欄",
     "branch": "claude/second-ai-env-art",
@@ -43951,10 +43965,10 @@
    "id": "FASTFOOD-24H-1103",
    "title": "24 小時速食店大口漢堡（考前念書）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "note": "X198",
-   "next": "大口漢堡一樓、二樓 BB 第一版（企劃線 bb_support/dakou_1f／2f）→ LAWWW2 驗收＋整合",
+   "next": "【LAWWW 11-10 10:2x】QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md）：程式已在開發分支，狀態沒改；改已整合待測試，等 BB／CC。 ｜ 大口漢堡一樓、二樓 BB 第一版（企劃線 bb_support/dakou_1f／2f）→ LAWWW2 驗收＋整合",
    "xai": {
     "spec": "X198；任務 next 欄",
     "branch": "claude/second-ai-env-art",
@@ -44153,10 +44167,10 @@
    "id": "MODEL-HELP-1103",
    "title": "新店建模臨時分工：LAWWW2 主做，AA、BB、CC 測試空檔一次一家（X195）；等使用者給店面外部與內部參考圖才開始",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P2",
    "note": "臨時，不是永久規則",
-   "next": "參考圖使用者已給（ref_images/shops），各家室內第一～四版已交：見各店任務；整合由 LAWWW2 排順序",
+   "next": "【LAWWW 11-10 10:2x】取消／被取代：臨時分工，各店都已有自己的任務 ｜ 參考圖使用者已給（ref_images/shops），各家室內第一～四版已交：見各店任務；整合由 LAWWW2 排順序",
    "xai": {
     "spec": "臨時，不是永久規則；任務 next 欄",
     "branch": "claude/second-ai-env-art",
@@ -44164,7 +44178,10 @@
     "receiver": "LAWWW",
     "ack": "未派"
    },
-   "notWaitUser": "參考圖使用者已給（ref_images/shops），不是在等使用者"
+   "notWaitUser": "參考圖使用者已給（ref_images/shops），不是在等使用者",
+   "reason": "臨時分工，各店都已有自己的任務（QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md））",
+   "replacedBy": "NONE",
+   "authorizedBy": "LAWWW（帳號 A，遊戲總監 D111）11-10 照 LAWWW2 盤點"
   },
   {
    "first": {
@@ -44470,8 +44487,8 @@
    "owner": "LAWWW2",
    "priority": "P1",
    "title": "公館互動店照新店名、外觀、室內重做（青木茶室、頁間書屋、日和便利店、慢輪單車；AA_647；USER_WANTS X206）",
-   "status": "進行中",
-   "next": "外觀 v1 已接（fb5d7f367）；店名改、頁間書屋門口移 x −36.4、慢輪單車室內（cc-testing 08378f56d bike.glb＋bike_layout.js）在單車子代理；待接：青木茶室室內（企劃線 16c1c6f16 aoki.glb＋src/data/aoki_layout.js v2，區域 aoki、22 席、點茶吧台東端 (3.9,−1.2)）、頁間書屋 v2（a6d78f484）——單車子代理合併後 LAWWW 接",
+   "status": "已整合待測試",
+   "next": "【LAWWW 11-10 10:2x】QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md）：程式已在開發分支，狀態沒改；改已整合待測試，等 BB／CC。 ｜ 外觀 v1 已接（fb5d7f367）；店名改、頁間書屋門口移 x −36.4、慢輪單車室內（cc-testing 08378f56d bike.glb＋bike_layout.js）在單車子代理；待接：青木茶室室內（企劃線 16c1c6f16 aoki.glb＋src/data/aoki_layout.js v2，區域 aoki、22 席、點茶吧台東端 (3.9,−1.2)）、頁間書屋 v2（a6d78f484）——單車子代理合併後 LAWWW 接",
    "xai": {
     "spec": "AA_647（企劃線 24ff8562e）",
     "branch": "claude/second-ai-env-art",
@@ -44690,8 +44707,8 @@
    "owner": "LAWWW2",
    "priority": "P1",
    "title": "溫州街第二批五間外觀與改名（溫州書屋、帝大紅茶、夏日冰菓室、阿忠鮮果、常在洗衣；不能進去；USER_WANTS X214）",
-   "status": "進行中",
-   "next": "LAWWW2 做外觀、招牌、窗內陳設、wenzhou_street.glb；LAWWW 換遊戲裡的店名（地圖、互動、購物、PLACES、劇情文字），等 LAWWW2 的改名清單；帝大紅茶菜單對齊請 AA 定",
+   "status": "已整合待測試",
+   "next": "【LAWWW 11-10 10:2x】QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md）：程式已在開發分支，狀態沒改；改已整合待測試，等 BB／CC。 ｜ LAWWW2 做外觀、招牌、窗內陳設、wenzhou_street.glb；LAWWW 換遊戲裡的店名（地圖、互動、購物、PLACES、劇情文字），等 LAWWW2 的改名清單；帝大紅茶菜單對齊請 AA 定",
    "xai": {
     "spec": "使用者 11-04 05:4x 對 LAWWW2（參考圖 docs/art-rebuild/second_ai/wip/wz_second_1104/ref/）",
     "branch": "claude/second-ai-env-art",
@@ -44845,7 +44862,7 @@
    "id": "WZ-FIVE-1104",
    "title": "溫州街第一批五間外觀照參考圖（林家、SUNNY SIDE、小路、阿德轉角、2:30 AM：招牌、雨遮、立面、門窗；DOORS.md）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -44857,7 +44874,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-05 03:3x】2:30 AM 外觀第三版（LAWWW2-C 3486d4fbd，轉角小樹）接進 cc0af7f14；側面一整排窗等 AA 改室內、BB 決定｜【LAWWW-C 11-04 21:0x】2:30 AM 外觀第二版（LAWWW2-C 75383530f，MODEL_READY；BB-C 19:02 四點：店內窗卡、五盞鵝頸燈朝招牌、細長垂藤、門口木椅＋轉角側牆兩盞壁燈、灰泥調暖）接進開發分支；畫架阻擋照 LAWWW2 建議改 blockRect(54.45,3.6,0.9,0.9)（tests/cafe230_ext_nav_unit.js 修改前 ② FAIL、修改後 ALL PASS）；瀏覽器 cafe_glb_integration、wz_street_integration、同角度疊圖（refcam 在 cafe230_exterior.md）交 BB／CC｜【LAWWW-C 11-04 12:4x 補進總表】小路深色木立面 v1（188eb0624）已接 060a1a093；SUNNY 轉角窗、林家攤車等在 LAWWW2 分支（ebae33ef、a4c2cc05、badb191a、1e5aadb3）；剩阿德轉角外觀、2:30 AM 外觀（LAWWW2-C 佇列，排在 GG_night 與 CAMPUS-RELAYOUT-1102 盤點之後）",
+   "next": "【LAWWW 11-10 10:2x】QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md）：程式已在開發分支，狀態沒改；改已整合待測試，等 BB／CC。 ｜ 【LAWWW-C 11-05 03:3x】2:30 AM 外觀第三版（LAWWW2-C 3486d4fbd，轉角小樹）接進 cc0af7f14；側面一整排窗等 AA 改室內、BB 決定｜【LAWWW-C 11-04 21:0x】2:30 AM 外觀第二版（LAWWW2-C 75383530f，MODEL_READY；BB-C 19:02 四點：店內窗卡、五盞鵝頸燈朝招牌、細長垂藤、門口木椅＋轉角側牆兩盞壁燈、灰泥調暖）接進開發分支；畫架阻擋照 LAWWW2 建議改 blockRect(54.45,3.6,0.9,0.9)（tests/cafe230_ext_nav_unit.js 修改前 ② FAIL、修改後 ALL PASS）；瀏覽器 cafe_glb_integration、wz_street_integration、同角度疊圖（refcam 在 cafe230_exterior.md）交 BB／CC｜【LAWWW-C 11-04 12:4x 補進總表】小路深色木立面 v1（188eb0624）已接 060a1a093；SUNNY 轉角窗、林家攤車等在 LAWWW2 分支（ebae33ef、a4c2cc05、badb191a、1e5aadb3）；剩阿德轉角外觀、2:30 AM 外觀（LAWWW2-C 佇列，排在 GG_night 與 CAMPUS-RELAYOUT-1102 盤點之後）",
    "source": "LAWWW2-A 交班清單（second-ai-env-art 5f85444cd）；LAWWW2-C 11-04 12:38 指出總表沒有這個 ID",
    "xai": {
     "spec": "使用者 11-04 參考圖（LAWWW2 wip/wz_five_1104）",
@@ -47772,7 +47789,7 @@
    "title": "新生南路側門：搬到映月湖和博思中間、照使用者照片改外觀、加新月台和地下停車場",
    "area": "SCENE",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -47784,7 +47801,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "第一版（往西開 (−66,−99)，7aa703cf9）已在開發線與 v9.10.21 候選。使用者 11-05 09:0x（經 LAWWW2-C，UA-LAWWW2-1105-05）：改成側門開在北牆往北、新月台貼北牆西北角；LAWWW2 以 7aa703cf9 為基準做北牆版（方案圖 abe335335），路名等使用者回答；下一版。",
+   "next": "【LAWWW 11-10 10:2x】QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md）：程式已在開發分支，狀態沒改；改已整合待測試，等 BB／CC。 ｜ 第一版（往西開 (−66,−99)，7aa703cf9）已在開發線與 v9.10.21 候選。使用者 11-05 09:0x（經 LAWWW2-C，UA-LAWWW2-1105-05）：改成側門開在北牆往北、新月台貼北牆西北角；LAWWW2 以 7aa703cf9 為基準做北牆版（方案圖 abe335335），路名等使用者回答；下一版。",
    "source": "UA-LAWWW-1105-29",
    "authorized": "使用者原話",
    "xai": {
@@ -50183,7 +50200,7 @@
    "id": "PERF-XS-NPC-1108",
    "title": "新生南路山嵐（32 fps）、大口二樓（36 fps）慢：主因是店裡的 NPC（6～11 個），拿掉回到 57～58 fps",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -50195,7 +50212,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-09 23:3x LAWWW-B】LAWWW2-B 轉 CC-B：(C) 牆一次畫完在 PC 上持平（差不到 1 fps、畫面 0 差異）——不是負面，但沒看到明顯幀率提升；等 CC／BB 正式數字（programChanged、getProgram 比例）。 ｜ 【11-09 23:0x LAWWW-B】BB-B 23:06：(C) 牆一次畫完 6bbfca043 畫面 PASS（大口、山嵐各 4 方向，牆、地板、家具像素差 0，差異只在人物和互動圈；雲端 SwiftShader）；效能數字（render_probe_dc、CPU trace）等 PC（20:07Z 起沒回應）。 ｜ 【11-09 20:5x LAWWW-B】(C) 牆一次畫完接回（LAWWW2-B 9e79b8750 → 6bbfca043，DLV-1109-L2-WALLONEPASS）：原因＝WALL_ 材質 transparent＋雙面，three.js 分兩次畫、每次 needsUpdate（大口 1F dk_vc_matte 每秒 1128 次換 program）；op0＋forceSinglePass，?wall2pass 對照。wall_onepass_unit 舊 FAILED 4 → PASS；相關 313 支 PASS。(D) CC 實測大口 1F computeBoundingSphere 238.4 ms／69 次 → 10.0 ms／20 次；剩一次 117 ms 是等 GPU（setProgram 27.7、texSubImage2D 6.2），不是包圍球。(A) SITFEET_abfa：山嵐 1F 動畫 10.7→8.8 ms、fps 46.4→49.8；山嵐 2F 11.5→8.9、40.5→45.7；大口 2F 8.4→7.5、33.2→35.8（兩輪差大，只當方向）；大口 2F 有人時主要慢在畫面（18～19.5 ms）。下一步：CC render_probe_dc 大口 1F、山嵐（?wall2pass 對照）看 version／programChanged 變 0；BB-B 同角度開關比對畫面；大口 2F 人物材質 draw 數。 ｜ 【11-09 19:5x LAWWW-B】BB-B 19:44：seatOff 姿勢跳 v2（88c83d1be）PASS——山嵐 2F 轉身後 12 幀和 8172 一模一樣，沒有先站、沒有 T-pose、頭髮沒彈；flow_b4_lecture PASS；flow_seated_spawn 是測試本身的問題。等 CC 的 (A)／(D) 前後數字、RPROBE_DC（(C)）。 ｜ 【11-09 18:1x LAWWW-B】(D) 接回（LAWWW2-B 585c765ae，DLV-1109-L2-SKINSPHERE）：原因更正＝projectObject 在 sortObjects 時 boundingSphere 是 null 就 computeBoundingSphere（逐頂點套骨頭，一個人 40～60 ms）；不透明蓋皮網格先給靜止包圍球、透明的照舊（全部給會讓臉部透明網格先後在 53% 鏡頭對調）。新測試第一次畫 618→23.8 ms。下一步：CC 大口 1F 等人走進來，render_probe_dc computeBoundingSphere 表＋CPU trace 看 >100 ms 還在不在。(C) 等 RPROBE_DC。 ｜ 【11-09 17:5x LAWWW-B】(A) 接回（LAWWW2-B ee34acf82，DLV-1109-L2-SITFEET）：「腿的解記下來」行不通（坐姿小動作每幀轉髖部），改成只更新髖部鏈＋兩條腿、直接讀 matrixWorld；腿骨位置差 0、updateWorldMatrix 678→325／人／幀。下一步：CC 跑 sit_feet_probe.js（slow／fast 交錯；山嵐 1F／2F、大口 1F／2F、好拍）；(D)、(C) 等 CC RPROBE_DC。 ｜ 【11-09 17:2x LAWWW-B】LAWWW2-B 59f82156a（README 最後一節）：seatOff 幾乎沒作用（三個慢的點每幀只有 1 人符合），留著；大頭是 CHAR.animate（每人 1～2 ms：sitFeet 9.1%（整個人 updateWorldMatrix 5.9%）、footIK 2.8%、彈簧骨 5.9%、表情 3%）、畫面 getProgram＋getParameters 9.6%（大口有人物的材質每幀重判 shader）、117 ms 卡頓 2 次＝SkinnedMesh.computeBoundingSphere（某個 frustumCulled 開著的蓋皮網格第一次被畫）。派 LAWWW2 寫：(D) 卡頓（CC 跑 skinned_probe）→ (C) 換 program 的材質 → (A) sitFeet 記下解；不做 (B)。每步附 PERFAB 前後。 ｜ 【11-09 16:4x LAWWW-B】LAWWW2-B 682859723 接回（DLV-1109-L2-SEATOFF）：engine3d.js seatOff（坐著、畫面外、離玩家 ≥3 m、不在走／後座／揮手＝每 4 幀 CHAR.animate，時間累加、進畫面先補）＋tests/seat_off_throttle_unit.js（舊 5 FAIL）。下一步：CC-B PC 跑 seat_off_probe（山嵐 1F／2F、大口 2F、好拍；every1 vs every4）＋BB 排 flow_seated_spawn.py、flow_b4_lecture.py。LAWWW2 提醒：只省畫面外的人，renderMs 大塊在畫面裡，效果小就做 seated_figures_lod。 ｜ 【11-09 16:2x LAWWW-B】派 LAWWW2-B 寫 patch（它提的；有 PERFAB 對照腳本）：坐著、不在畫面裡的 NPC 動畫與彈簧骨降頻（dt 累加、進畫面先補一次、走路的／3 m 內照舊）；交 patch＋Node 單元測試（舊程式 FAIL）＋CC-B PC PERFAB 前後數字；LAWWW 接、負責 character3d 回歸。之後再看 seated_figures_lod。 ｜ 【11-08 20:4x LAWWW-B】LAWWW2-B 20:42（191df62aa docs/art-rebuild/second_ai/wip/perf_xs_1108/README.md；CC-B PC PERFAB_8172v2）：找路、一樓也畫、GPU 填像素都排除。LAWWW 決定先做 (3) 坐著、在畫面外的 NPC 動畫和彈簧骨降頻，再看 (2) 坐著的 NPC 用 seated_figures_lod；不做 (1) 人數上限（店裡會變空）。山嵐 PointLight、100～120 ms 小卡頓（CC-B 錄 CPU 紀錄）等 NPC 處理完再量。D99 後面。",
+   "next": "【LAWWW 11-10 10:2x】QUEUE-STALE-LAWWW2-1110（LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md）：程式已在開發分支，狀態沒改；改已整合待測試，等 BB／CC。 ｜ 【11-09 23:3x LAWWW-B】LAWWW2-B 轉 CC-B：(C) 牆一次畫完在 PC 上持平（差不到 1 fps、畫面 0 差異）——不是負面，但沒看到明顯幀率提升；等 CC／BB 正式數字（programChanged、getProgram 比例）。 ｜ 【11-09 23:0x LAWWW-B】BB-B 23:06：(C) 牆一次畫完 6bbfca043 畫面 PASS（大口、山嵐各 4 方向，牆、地板、家具像素差 0，差異只在人物和互動圈；雲端 SwiftShader）；效能數字（render_probe_dc、CPU trace）等 PC（20:07Z 起沒回應）。 ｜ 【11-09 20:5x LAWWW-B】(C) 牆一次畫完接回（LAWWW2-B 9e79b8750 → 6bbfca043，DLV-1109-L2-WALLONEPASS）：原因＝WALL_ 材質 transparent＋雙面，three.js 分兩次畫、每次 needsUpdate（大口 1F dk_vc_matte 每秒 1128 次換 program）；op0＋forceSinglePass，?wall2pass 對照。wall_onepass_unit 舊 FAILED 4 → PASS；相關 313 支 PASS。(D) CC 實測大口 1F computeBoundingSphere 238.4 ms／69 次 → 10.0 ms／20 次；剩一次 117 ms 是等 GPU（setProgram 27.7、texSubImage2D 6.2），不是包圍球。(A) SITFEET_abfa：山嵐 1F 動畫 10.7→8.8 ms、fps 46.4→49.8；山嵐 2F 11.5→8.9、40.5→45.7；大口 2F 8.4→7.5、33.2→35.8（兩輪差大，只當方向）；大口 2F 有人時主要慢在畫面（18～19.5 ms）。下一步：CC render_probe_dc 大口 1F、山嵐（?wall2pass 對照）看 version／programChanged 變 0；BB-B 同角度開關比對畫面；大口 2F 人物材質 draw 數。 ｜ 【11-09 19:5x LAWWW-B】BB-B 19:44：seatOff 姿勢跳 v2（88c83d1be）PASS——山嵐 2F 轉身後 12 幀和 8172 一模一樣，沒有先站、沒有 T-pose、頭髮沒彈；flow_b4_lecture PASS；flow_seated_spawn 是測試本身的問題。等 CC 的 (A)／(D) 前後數字、RPROBE_DC（(C)）。 ｜ 【11-09 18:1x LAWWW-B】(D) 接回（LAWWW2-B 585c765ae，DLV-1109-L2-SKINSPHERE）：原因更正＝projectObject 在 sortObjects 時 boundingSphere 是 null 就 computeBoundingSphere（逐頂點套骨頭，一個人 40～60 ms）；不透明蓋皮網格先給靜止包圍球、透明的照舊（全部給會讓臉部透明網格先後在 53% 鏡頭對調）。新測試第一次畫 618→23.8 ms。下一步：CC 大口 1F 等人走進來，render_probe_dc computeBoundingSphere 表＋CPU trace 看 >100 ms 還在不在。(C) 等 RPROBE_DC。 ｜ 【11-09 17:5x LAWWW-B】(A) 接回（LAWWW2-B ee34acf82，DLV-1109-L2-SITFEET）：「腿的解記下來」行不通（坐姿小動作每幀轉髖部），改成只更新髖部鏈＋兩條腿、直接讀 matrixWorld；腿骨位置差 0、updateWorldMatrix 678→325／人／幀。下一步：CC 跑 sit_feet_probe.js（slow／fast 交錯；山嵐 1F／2F、大口 1F／2F、好拍）；(D)、(C) 等 CC RPROBE_DC。 ｜ 【11-09 17:2x LAWWW-B】LAWWW2-B 59f82156a（README 最後一節）：seatOff 幾乎沒作用（三個慢的點每幀只有 1 人符合），留著；大頭是 CHAR.animate（每人 1～2 ms：sitFeet 9.1%（整個人 updateWorldMatrix 5.9%）、footIK 2.8%、彈簧骨 5.9%、表情 3%）、畫面 getProgram＋getParameters 9.6%（大口有人物的材質每幀重判 shader）、117 ms 卡頓 2 次＝SkinnedMesh.computeBoundingSphere（某個 frustumCulled 開著的蓋皮網格第一次被畫）。派 LAWWW2 寫：(D) 卡頓（CC 跑 skinned_probe）→ (C) 換 program 的材質 → (A) sitFeet 記下解；不做 (B)。每步附 PERFAB 前後。 ｜ 【11-09 16:4x LAWWW-B】LAWWW2-B 682859723 接回（DLV-1109-L2-SEATOFF）：engine3d.js seatOff（坐著、畫面外、離玩家 ≥3 m、不在走／後座／揮手＝每 4 幀 CHAR.animate，時間累加、進畫面先補）＋tests/seat_off_throttle_unit.js（舊 5 FAIL）。下一步：CC-B PC 跑 seat_off_probe（山嵐 1F／2F、大口 2F、好拍；every1 vs every4）＋BB 排 flow_seated_spawn.py、flow_b4_lecture.py。LAWWW2 提醒：只省畫面外的人，renderMs 大塊在畫面裡，效果小就做 seated_figures_lod。 ｜ 【11-09 16:2x LAWWW-B】派 LAWWW2-B 寫 patch（它提的；有 PERFAB 對照腳本）：坐著、不在畫面裡的 NPC 動畫與彈簧骨降頻（dt 累加、進畫面先補一次、走路的／3 m 內照舊）；交 patch＋Node 單元測試（舊程式 FAIL）＋CC-B PC PERFAB 前後數字；LAWWW 接、負責 character3d 回歸。之後再看 seated_figures_lod。 ｜ 【11-08 20:4x LAWWW-B】LAWWW2-B 20:42（191df62aa docs/art-rebuild/second_ai/wip/perf_xs_1108/README.md；CC-B PC PERFAB_8172v2）：找路、一樓也畫、GPU 填像素都排除。LAWWW 決定先做 (3) 坐著、在畫面外的 NPC 動畫和彈簧骨降頻，再看 (2) 坐著的 NPC 用 seated_figures_lod；不做 (1) 人數上限（店裡會變空）。山嵐 PointLight、100～120 ms 小卡頓（CC-B 錄 CPU 紀錄）等 NPC 處理完再量。D99 後面。",
    "xai": {
     "spec": "LAWWW2-B 11-08 20:42（BB-B 18:43 P3）",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -51478,7 +51495,8 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "sha": "da1c77472"
+   "sha": "da1c77472",
+   "evidence": "BB_255（BB 11-10 10:14）FIXED＋ART_APPROVED（D120）；CC X307F2_new PC 截圖（28df8a85c）；tests/b1court_glass_cam_unit.js、lib_b1_court_art_unit.js"
   },
   {
    "id": "GG-FLOWER-STALL-1110",
@@ -51510,7 +51528,7 @@
    "id": "QUEUE-STALE-LAWWW2-1110",
    "title": "LAWWW2 佇列狀態盤點：可以做的 119／等待 75 項逐項對開發分支 git log，列出實際已整合／已驗收的（LAWWW 照表改 tasks.json）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": null,
@@ -51522,7 +51540,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 11-10 10:1x】派 LAWWW2（WINVIEW 等 BB 清單期間）；表寫在 LAWWW2 分支 docs/art-rebuild/second_ai/queue_audit_1110.md，只列不改。",
+   "next": "【LAWWW 11-10 10:2x】LAWWW2 交表；8 項改已整合待測試、5 項取消／被取代、3 項等待；ART-ECON-3D-GAP-1021、OPEN-SRC-2D3D-1104 牽涉 USER_WANTS（X225 等），先不關；4 項 next 寫 BB PASS 的（ART-NANYANG-CINEMA-1103、SEATFIG-LOD1-HAIR-1104、SKIRT-BENCH-CLIP-1105、XS-NORTH-ROAD-1107）等核對 BB 紀錄 ｜ 【LAWWW 11-10 10:1x】派 LAWWW2（WINVIEW 等 BB 清單期間）；表寫在 LAWWW2 分支 docs/art-rebuild/second_ai/queue_audit_1110.md，只列不改。",
    "xai": {
     "spec": "LAWWW 11-10；D84 第 4、6 點",
     "branch": "claude/second-ai-env-art",
@@ -51530,7 +51548,8 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "sha": null
+   "sha": "b84d35375",
+   "evidence": "LAWWW2 b84d35375 docs/art-rebuild/second_ai/queue_audit_1110.md；LAWWW 照表改 16 項"
   }
  ]
 }
