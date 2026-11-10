@@ -712,3 +712,12 @@
 [06:48:12] ==== START SHIFT_IMM_r8_old  (probe @ 8a98ff1e06c06cfb52be41dc3402ba05305945a6) ====
 [06:48:15] [res] cpu=16% mem=44% (14.1/31.4 GB) chrome_testing=8  START SHIFT_IMM_r8_old
 [06:48:53] [res] cpu=8% mem=46% (14.6/31.4 GB) chrome_testing=9  END TZ_scoot_head
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       82f3907ac..6feab945c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:48:58] ==== END   TZ_scoot_head  exit=0  142s   ====
+[06:48:59] 正在跑：SHIFT_IMM_r8_new（已跑 2 分／上限 20 分）、SHIFT_IMM_r8_old（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:49:08] memory 48% before starting TZ4_scoot (2 running)
+[06:49:08] ==== START TZ4_scoot  (probe @ fd4dd9aef6cb0d31b06d137636a25ab52eceedc4) ====
+[06:49:11] [res] cpu=6% mem=46% (15.3/31.4 GB) chrome_testing=9  START TZ4_scoot
+[06:50:23] [res] cpu=12% mem=41% (14.7/31.4 GB) chrome_testing=5  END SHIFT_IMM_r8_new
