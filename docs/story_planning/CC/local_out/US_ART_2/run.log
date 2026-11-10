@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_us_art_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\US_ART_2\out
+CC 美國篇 ART 巡拍：worktree ?；區域 ['us_lawlib', 'us_market', 'us_market_street']；Playwright（PC GPU）≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_lawlib 出生點 2028-09-15 14.0 時
+  [  49.6s] us_lawlib 2028-09-15 14 時：等模型 0 次；{"zone": "us_lawlib", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0, 7.8]}
+PASS us_lawlib 2028-09-15 14 時 讀得進這個區域  {"zone": "us_lawlib", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0, 7.8]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_lawlib 出生點 2028-09-15 20.0 時
+  [  67.3s] us_lawlib 2028-09-15 20 時：等模型 0 次；{"zone": "us_lawlib", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0, 7.8]}
+PASS us_lawlib 2028-09-15 20 時 讀得進這個區域  {"zone": "us_lawlib", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [0, 7.8]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_market 出生點 2028-09-15 14.0 時
+  [  90.8s] us_market 2028-09-15 14 時：等模型 0 次；{"zone": "us_market", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [13.5, 13.6]}
+PASS us_market 2028-09-15 14 時 讀得進這個區域  {"zone": "us_market", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [13.5, 13.6]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_market 出生點 2028-09-15 20.0 時
+  [ 108.9s] us_market 2028-09-15 20 時：等模型 0 次；{"zone": "us_market", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [13.5, 13.6]}
+PASS us_market 2028-09-15 20 時 讀得進這個區域  {"zone": "us_market", "formal": true, "glb": [], "lampGlows": 0, "season": null, "p": [13.5, 13.6]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_market_street 出生點 2028-09-15 14.0 時
+  [ 131.5s] us_market_street 2028-09-15 14 時：等模型 0 次；{"zone": "us_market_street", "formal": false, "glb": [], "lampGlows": 14, "season": null, "p": [-22.6, 12.9]}
+PASS us_market_street 2028-09-15 14 時 讀得進這個區域  {"zone": "us_market_street", "formal": false, "glb": [], "lampGlows": 14, "season": null, "p": [-22.6, 12.9]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_market_street 出生點 2028-09-15 20.0 時
+  [ 149.1s] us_market_street 2028-09-15 20 時：等模型 0 次；{"zone": "us_market_street", "formal": false, "glb": [], "lampGlows": 14, "season": null, "p": [-22.6, 12.9]}
+PASS us_market_street 2028-09-15 20 時 讀得進這個區域  {"zone": "us_market_street", "formal": false, "glb": [], "lampGlows": 14, "season": null, "p": [-22.6, 12.9]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_outside 出生點 2028-08-20 14.0 時
+  [ 167.4s] us_outside 2028-08-20 14 時：等模型 0 次；{"zone": "us_outside", "formal": false, "glb": [], "lampGlows": 8, "season": null, "p": [14, -14.5]}
+PASS us_outside 2028-08-20 14 時 讀得進這個區域  {"zone": "us_outside", "formal": false, "glb": [], "lampGlows": 8, "season": null, "p": [14, -14.5]}
+  [前置／捷徑] 【前置／捷徑】讀檔到 us_outside 出生點 2028-12-15 14.0 時
+  [ 184.8s] us_outside 2028-12-15 14 時：等模型 0 次；{"zone": "us_outside", "formal": false, "glb": [], "lampGlows": 8, "season": null, "p": [14, -14.5]}
+PASS us_outside 2028-12-15 14 時 讀得進這個區域  {"zone": "us_outside", "formal": false, "glb": [], "lampGlows": 8, "season": null, "p": [14, -14.5]}
+PASS 沒有 JS 例外  []
+ALL PASS
