@@ -63,3 +63,12 @@
 [04:15:25] [res] cpu=3% mem=49% (15.5/31.4 GB) chrome_testing=8  START GG16_new
 [04:15:25] worktree add 6ecd2843280421aa066bec20f2503a0d303742c9: invalid reference - fetching main and the commit itself
 [04:15:59] [res] cpu=15% mem=49% (15.2/31.4 GB) chrome_testing=8  END GG_SIGNS_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       db168ae06..368b5e5c6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:16:04] ==== END   GG_SIGNS_old  exit=0  117s   ====
+[04:16:07] memory 50% before starting GG16_old (2 running)
+[04:16:07] ==== START GG16_old  (probe @ 6ef185726dbf72e5bf55ca794f1928a6d705a77e) ====
+[04:16:10] [res] cpu=1% mem=50% (15.7/31.4 GB) chrome_testing=8  START GG16_old
+[04:16:39] 正在跑：LIVE_V91024_deploy（已跑 5 分／上限 15 分）、GG16_new（已跑 1 分／上限 20 分）、GG16_old（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:18:41] [res] cpu=5% mem=52% (16.4/31.4 GB) chrome_testing=8  END GG16_new
