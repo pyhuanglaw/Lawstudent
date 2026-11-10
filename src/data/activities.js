@@ -93,7 +93,7 @@ const ACTIVITIES={
        spot／room（LAWWW 定，AA_737 寫「由 LAWWW 照區域定」）：
          學生會迎新派對＝新體育館（gym）一樓多功能球場靠大廳那一頭 (0, 8.6)；
          捐血車＝校園椰影大道北側 (30, −8)（「學活」遊戲裡還沒有建築；地點名稱照 AA 寫「學活前」）；
-         期中電影夜＝博思 101（坐下參加，和演講一樣；人流 crowd 照現有的大教室）；
+         學生會電影夜＝博思 101（坐下參加，和演講一樣；人流 crowd 照現有的大教室）；
          校慶園遊會＝椰影大道晨思鐘旁 (−14.5, 10.5)（法律系／法服的攤位旁邊：大四的法服問答攤 ev_fair_booth_y4 走近就會先演）。
        校慶園遊會的日子用遊戲現有的校慶擺攤日（zones3d.js 的 FAIR_DAYS：大一 2025-11-15＝第 11 週週六；大二起照 AA_355「遊園會在校慶前一個週六」＝第 10 週週六），帳篷那天才有。 */
     {id:'su_welcome_party',title:'學生會迎新派對',kind:'event',special:true,zone:'gym',roomName:'新體育館',spot:{x:0,z:8.6,lv:0,label:'學生會迎新派對',r:1.3},term:['Y1S1','Y2S1','Y3S1','Y4S1'],weeks:[2],weekday:5,t0:19,t1:21.5,poster:{daysBefore:7},verb:'去參加',crowd:{n:30},
@@ -104,8 +104,8 @@ const ACTIVITIES={
      gapMonths:2,gapText:'上次捐血還不到兩個月。',   /* 兩次捐血要隔兩個月以上（照出席紀錄 blood_drive@<天> 的最後一次；ACTIVITIES.gapBlocked）*/
      desc:'捐血車停在學活前。捐完要坐著休息十分鐘，送一包餅乾。',story:false,
      narr:['（護理師問你今天有沒有吃早餐。你說有。她看了你一眼，又遞給你一杯水。）','（捐完要在椅子上坐十分鐘。餅乾是蘇打餅，你吃了兩片。）']},
-    {id:'su_movie_night',title:'期中電影夜',kind:'event',special:true,zone:'boya',room:'101',roomName:'博思 101',term:['Y1S1','Y2S1','Y3S1','Y4S1'],weeks:[10],weekday:4,t0:19,t1:21,poster:{daysBefore:5},verb:'去看',crowd:{n:30},
-     desc:'期中考完，學生會放電影。入場免費，片名當天公布。',story:false,
+    {id:'su_movie_night',title:'學生會電影夜',kind:'event',special:true,zone:'boya',room:'101',roomName:'博思 101',term:['Y1S1','Y2S1','Y3S1','Y4S1'],weeks:[10],weekday:4,t0:19,t1:21,poster:{daysBefore:5},verb:'去看',crowd:{n:30},
+     desc:'學生會放電影，入場免費，片名當天公布。',story:false,
      narr:['（燈一關，前排還有人在找位子。片頭跑了五分鐘才安靜下來。）','（片子放到一半，投影機閃了兩下。整間教室一起「喔——」，然後又好了。）']},
     {id:'school_fair',title:'校慶園遊會',kind:'fair',special:true,zone:'campus',roomName:'椰影大道',spot:{x:-14.5,z:10.5,lv:0,label:'校慶園遊會',r:1.3},dates:['2025-11-15','2026-11-14','2027-11-13','2028-11-11'],t0:10,t1:16,poster:{daysBefore:7},verb:'去逛',
      desc:'各系所、社團在椰影大道擺攤。法律系的攤位在晨思鐘旁邊。',story:false,
@@ -122,7 +122,7 @@ const ACTIVITIES={
     {club:'dept_basketball',text:'系籃（系學會）找人｜男女都收，會不會打都可以，也缺記分的。每週五 17:30–19:00 映月湖東側籃球場，下雨改新體育館一樓走廊。',textLater:'系籃（系學會）找人｜男女都收，會不會打都可以，也缺記分的。每週五 17:30–19:00 映月湖東側籃球場，下雨改新體育館一樓走廊。'},
     {club:'lawclub_study',text:'法律服務社（法服）招新｜隔週週六上午在法律系館B一樓接民眾諮詢，大一跟著學長姊做接待。報名：社團博覽會的法服攤位，或法律系館B一樓的法服桌。',textLater:'法律服務社（法服）招新｜隔週週六上午在法律系館B一樓接民眾諮詢，大一跟著學長姊做接待。報名：法律系館B一樓的法服桌。'}]},
   /* 社博沒填表的，大一上第 5、6 週去社課，社課結束時問要不要入社（AA_737 lateJoin）：選「填」＝CLUB_<id>（跟社博填表一樣）；第 7 週以後不再問。法服照舊只有社博攤位和法服桌。
-     旗標 CLUB_LATE_<id>＝問過的那一週（5 或 6）：同一週不再問；選了「先不要」以後再去社課＝旁聽（不自動入社、不演「你在門口填了表」）。
+     旗標 CLUB_LATE_<id>＝問過的那一週（5 或 6）：同一週不再問；選了「先不要」以後同一週（第 5、6 週內）再去社課＝旁聽；第 7 週以後照 AA_485 3-4 一去就入社（AA_737 f02917295）（舊：不自動入社、不演「你在門口填了表」）。
      社長沒有名字（每個社團同一套）；系籃的「社長」顯示成「系籃隊長」、「社費下次再收」改「隊費下次再收」；第 6 週選「先不要」最後一句改 no6 */
   LATE_JOIN:{clubs:['club_guitar','club_debate','club_hiking','dept_basketball'],term:'Y1S1',weeks:[5,6],
     narr:'（社課快結束的時候，社長拿著一疊入社單走過來。）',ask:'要不要填一張？填了就算社員，下禮拜開始點名。',opts:['填','先不要'],
@@ -228,6 +228,6 @@ const ACTIVITIES={
      lateDeclined：問過、選了「先不要」、還不是社員＝之後去社課是旁聽。noAutoJoin＝這一場不自動入社、不演「你在門口填了表」（第 7 週以後沒被問過的照舊：第一次去社課就入社，AA_485 3-4）*/
   lateJoinDue(G,a){ const L=ACTIVITIES.LATE_JOIN; if(!L||!a||!G||!L.clubs.includes(a.id)||(G.stage||'law')!=='law'||typeof CALENDAR==='undefined') return false; const F=G.flags||{}; if(F['CLUB_'+a.id]) return false;
     const t=CALENDAR.termOf(G.day); if(!t||t.id!==L.term||!L.weeks.includes(t.week)) return false; return F['CLUB_LATE_'+a.id]!==t.week&&ACTIVITIES.on(a,G.day,G); },
-  lateDeclined(G,a){ const F=(G&&G.flags)||{}; if(!a||typeof F['CLUB_LATE_'+a.id]!=='number'||F['CLUB_'+a.id]||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.id===ACTIVITIES.LATE_JOIN.term; },   /* 只到大一上結束（吉他社大一下、大二還有社課：照舊第一次去就入社）*/
+  lateDeclined(G,a){ const F=(G&&G.flags)||{}; if(!a||typeof F['CLUB_LATE_'+a.id]!=='number'||F['CLUB_'+a.id]||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.id===ACTIVITIES.LATE_JOIN.term&&ACTIVITIES.LATE_JOIN.weeks.includes(t.week); },   /* AA_737 f02917295：選「先不要」不鎖——只在第 5、6 週內（同一週不再問、不自動入社）；第 7 週以後跟從沒去過的人一樣照 AA_485 3-4 一去就入社 */
   noAutoJoin(G,a){ return ACTIVITIES.lateJoinDue(G,a)||ACTIVITIES.lateDeclined(G,a); }
 };

@@ -1,5 +1,5 @@
 // BULLETIN-BOARD-1110（USER_WANTS X295；使用者 11-10「公告欄要看的到社團社課時間 特殊活動?學生會迎新派對? 社團徵人?」）——不需要瀏覽器（D131）。
-// AA 定稿：企劃線 2a1c30dc6 的 docs/story_planning/AA_737_bulletin_board.json（D109，照稿接、不改字）。這支測試用 git show 讀那個 commit，逐字比對。
+// AA 定稿：企劃線 f02917295 的 docs/story_planning/AA_737_bulletin_board.json（D109，照稿接、不改字）。這支測試用 git show 讀那個 commit，逐字比對。
 //   0. 台詞、文字逐字對 AA_737：本週公告標題、empty、五張招生海報（text／textLater）、lateJoin 五句＋系籃兩處換字＋第 6 週那句、四個特殊活動（標題、說明、旁白、地點名稱、時間、海報天數、按鈕的字、捐血那句、吉他社社員那句）。
 //   1. 本週公告分三區：副標「m/d（週）～m/d（週）」；社課一行「{社團}　每週{星期們} {t0}–{t1}　{地點}」（同一社團一週好幾天合成一行；系籃加「（下雨改新體育館一樓走廊）」）；
 //      演講・活動一行「{今天／明天／m/d（週）} {t0}–{t1}　{標題}　{地點}」；這週沒有的那一區整區不顯示；三區都沒有＝「這週沒有新的公告。」（原本的「目前沒有公告的演講或活動。」不再出現）。
@@ -22,8 +22,8 @@ const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Ma
 const J=JSON.stringify;
 
 // ---------- AA_737（git show）----------
-let AA=null; try{ AA=JSON.parse(cp.execSync('git show 2a1c30dc6:docs/story_planning/AA_737_bulletin_board.json',{cwd:REPO,encoding:'utf8',stdio:['ignore','pipe','ignore']})); }catch(e){ AA=null; }
-check('0. 讀得到 AA_737（企劃線 2a1c30dc6；沒有就先 git fetch origin claude/story-planning）',!!AA);
+let AA=null; try{ AA=JSON.parse(cp.execSync('git show f02917295:docs/story_planning/AA_737_bulletin_board.json',{cwd:REPO,encoding:'utf8',stdio:['ignore','pipe','ignore']})); }catch(e){ AA=null; }
+check('0. 讀得到 AA_737（企劃線 f02917295；沒有就先 git fetch origin claude/story-planning）',!!AA);
 if(!AA){ console.log('FAILED '+fails); process.exit(1); }
 const q=(s,re)=>{ const m=String(s).match(re); return m?m[1]:null; };
 
@@ -82,7 +82,7 @@ const gB=(k,h,o)=>Object.assign({day:dayOf(k),hour:h==null?9:h,flags:{},stage:'l
 { const evs=k=>(pages(gB(k)).find(p=>p.startsWith('【演講・活動】'))||'');
   check('3. 學生會迎新派對：大一上第 2 週週五 9/12 19:00–21:30 新體育館（9/8 那週的公告）；大二 9/18（9/14 看）；第 3 週週五 9/19 沒有',evs('2025-09-08').includes('9/12（五） 19:00–21:30　學生會迎新派對　新體育館')&&evs('2026-09-14').includes('9/18（五） 19:00–21:30　學生會迎新派對　新體育館')&&!!A('su_welcome_party')&&!ACTIVITIES.on(A('su_welcome_party'),dayOf('2025-09-19'),{flags:{}}),evs('2025-09-08')+' / '+evs('2026-09-14'));
   check('3. 捐血車：大一上第 7 週週二三（10/14、10/15）10:00–16:00 學活前；下學期第 7 週（4/7、4/8）也有；海報提前 5 天（10/8 看不到、10/9 看得到）',evs('2025-10-10').includes('10/14（二） 10:00–16:00　捐血車　學活前')&&evs('2025-10-10').includes('10/15（三） 10:00–16:00　捐血車　學活前')&&evs('2026-04-03').includes('4/7（二） 10:00–16:00　捐血車　學活前')&&!evs('2025-10-08').includes('捐血車')&&evs('2025-10-09').includes('捐血車'),evs('2025-10-10'));
-  check('3. 期中電影夜：大一上第 10 週週四 11/6 19:00–21:00 博思 101',evs('2025-11-03').includes('11/6（四） 19:00–21:00　期中電影夜　博思 101'),evs('2025-11-03'));
+  check('3. 學生會電影夜（AA_737 f02917295 改名；原期望「期中電影夜」）：大一上第 10 週週四 11/6 19:00–21:00 博思 101',evs('2025-11-03').includes('11/6（四） 19:00–21:00　學生會電影夜　博思 101'),evs('2025-11-03'));
   check('3. 校慶園遊會：11/15（六）10:00–16:00 椰影大道（11/10 看）；11/8（六）沒有',evs('2025-11-10').includes('11/15（六） 10:00–16:00　校慶園遊會　椰影大道')&&!!A('school_fair')&&!ACTIVITIES.on(A('school_fair'),dayOf('2025-11-08'),{flags:{}}),evs('2025-11-10'));
   check('3. 當天結束以後公告欄不再列（9/12 21:40 看不到迎新派對）',evs('2025-09-12').includes('今天 19:00–21:30　學生會迎新派對')&&!pages(gB('2025-09-12',21.7)).join('').includes('學生會迎新派對'),pages(gB('2025-09-12',21.7)).join('｜')); }
 
@@ -108,7 +108,8 @@ const LL=AA.recruit.lateJoin.lines, NO6='好，那有空再來玩。', BALL_YES=
     const flags=G.flags, acts=G.acts; mkG('2025-10-07',18.9,{zone:'boya'}); G.flags=Object.assign(flags,{}); G.acts=acts; reset([1]); await run(()=>CLS.attendActivity(GM,deb));
     check('4. 第 6 週（10/7）再去：再問一次；「先不要」＝「'+NO6+'」',texts().includes(LL[0].text)&&whoSaid(NO6)==='社長'&&!G.flags.CLUB_club_debate&&G.flags.CLUB_LATE_club_debate===6,J(log));
     const f2=G.flags, a2=G.acts; mkG('2025-10-14',18.9,{zone:'boya'}); G.flags=f2; G.acts=a2; reset([]); await run(()=>CLS.attendActivity(GM,deb));
-    check('4. 第 7 週（10/14）再去：不再問、不自動入社（旁聽）、也不演「你在門口填了表」',!texts().includes(LL[0].text)&&!G.flags.CLUB_club_debate&&!texts().includes(CLUB_FAIR.DOOR_LINE)&&chose.length===0,J([chose,log])); }
+    /* 2026-11-10 改期望（AA_737 f02917295 第 3 點：選「先不要」不鎖）：原本「第 7 週再去＝旁聽、不自動入社、不演門口那句」；現在跟從沒去過的人一樣照 AA_485 3-4 一去就入社＋門口那句，不再問 */
+    check('4. 第 7 週（10/14）再去：不再問；照 AA_485 3-4 一去就入社（CLUB_）、演「你在門口填了表」',!texts().includes(LL[0].text)&&!!G.flags.CLUB_club_debate&&texts().includes(CLUB_FAIR.DOOR_LINE)&&chose.length===0,J([chose,log])); }
   // 4c. 第 7 週以後才第一次去（沒被問過）：照舊第一次去就入社（門口那句）
   { mkG('2025-10-14',18.9,{zone:'boya'}); reset([]); await run(()=>CLS.attendActivity(GM,deb));
     check('4. 第 7 週才第一次去（沒被問過）：照舊入社（CLUB_club_debate）、門口那句「'+CLUB_FAIR.DOOR_LINE+'」、不問',G.flags.CLUB_club_debate===true&&texts().includes(CLUB_FAIR.DOOR_LINE)&&!texts().includes(LL[0].text),J(log)); }
