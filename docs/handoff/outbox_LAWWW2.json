@@ -7418,6 +7418,22 @@
    "noDirectIntegrate": false,
    "note": "盆栽後面、店面線往裡 0.3 m 一道深綠鐵門（混凝土門柱、下鐵板上直條、「私人巷道 請勿進入」告示牌）；716 三角形；導航一格不差；zone_assets 用工具重產（順便更新 xs_planters、xs_gate）。新測試開發 FAILED 4 → ALL PASS；回歸 108 支過。",
    "next": "等 LAWWW 派"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "映月湖垂柳第 2 版（BB_255 P3 從上面看像枯樹）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/ntu_ref_lake_1110/willow_v2/（README、lake_willow_v2.patch、lake_willow_crown_unit.js、regression.log、willow_before_after.jpg）",
+    "tools/blender/env_second/campus_lake.py",
+    "assets/models/env/second_ai/campus_lake.glb"
+   ],
+   "state": "MODEL_READY，待整合；BB 判（垂柳第 2 版）",
+   "noDirectIntegrate": false,
+   "note": "樹冠加一圈往外往下斜的葉片卡（每棵 30 片）、垂枝 46→84 條且交叉兩片、貼圖不透明 22%→63%、綠色比例 0.453→0.494；從上面看蓋住 0%→94～98%；GLB 9,462→10,098 三角形。新測試開發 FAILED 2 → ALL PASS；回歸 38 支過。",
+   "next": "等 LAWWW 派"
   }
  ]
 }

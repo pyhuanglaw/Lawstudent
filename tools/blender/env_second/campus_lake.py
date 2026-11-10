@@ -272,16 +272,19 @@ for sx in (-RX, RX):
 from PIL import Image as _Im, ImageDraw as _Dr   # noqa: E402
 GEN = os.path.join(HERE, 'textures', 'gen'); os.makedirs(GEN, exist_ok=True)
 _wp = os.path.join(GEN, 'willow_strand.png')
+# 第 2 版（BB_255 P3「從上面看像枯樹」，LAWWW2 帳號 A 11-10）：枝條 5 → 8 條、葉子密一點長一點（每一節都長、兩邊各 1～2 片）、顏色綠一點亮一點（細枝也帶綠）
 _r = random.Random(77); _img = _Im.new('RGBA', (128, 512), (0, 0, 0, 0)); _d = _Dr.Draw(_img)
-for _k in range(5):
-    x0 = 14 + _k * 24 + _r.uniform(-4, 4); pts = [(x0 + 6 * math.sin(y / 70 + _k), y) for y in range(0, 512, 8)]
-    _d.line(pts, fill=(92, 80, 52, 255), width=2)
+for _k in range(8):
+    x0 = 9 + _k * 15.5 + _r.uniform(-3, 3); pts = [(x0 + 5 * math.sin(y / 70 + _k), y) for y in range(0, 512, 7)]
+    _d.line(pts, fill=(96, 112, 58, 255), width=2)
     for (x, y) in pts[1::1]:
-        if _r.random() < 0.75:
-            for sd in (-1, 1):
-                L_ = _r.uniform(9, 16); a = math.radians(_r.uniform(55, 80)); ex, ey = x + sd * L_ * math.sin(a) * 0.55, y + L_ * math.cos(a)
-                g = _r.randint(0, 40); _d.line([(x, y), (ex, ey)], fill=(78 + g, 128 + g, 52 + g // 2, 255), width=3)
+        for sd in (-1, 1):
+            for _q in range(1 if _r.random() < 0.5 else 2):
+                L_ = _r.uniform(11, 19); a = math.radians(_r.uniform(50, 78)); ex, ey = x + sd * L_ * math.sin(a) * 0.55, y + L_ * math.cos(a)
+                g = _r.randint(0, 45); _d.line([(x, y), (ex, ey)], fill=(84 + g, 150 + g, 56 + g // 2, 255), width=3)
 _img.save(_wp)
+_px = [q for q in _img.getdata()]; _op = [q for q in _px if q[3] > 127]
+WILLOW_TEX = {'cover': round(len(_op) / len(_px), 3), 'green': round(sum(q[1] / max(1, q[0] + q[1] + q[2]) for q in _op) / max(1, len(_op)), 3)}   # 葉子貼圖：不透明的比例、平均綠色比例（GLB 裡是 webp，測試讀這裡）
 WL = bpy.data.materials.new('lk_willow_leaf'); WL.use_nodes = True; _nt = WL.node_tree; _bs = _nt.nodes['Principled BSDF']; _bs.inputs['Roughness'].default_value = 0.7
 _tx = _nt.nodes.new('ShaderNodeTexImage'); _tx.image = bpy.data.images.load(_wp); _nt.links.new(_tx.outputs['Color'], _bs.inputs['Base Color'])
 _rd = _nt.nodes.new('ShaderNodeMath'); _rd.operation = 'ROUND'; _nt.links.new(_tx.outputs['Alpha'], _rd.inputs[0]); _nt.links.new(_rd.outputs[0], _bs.inputs['Alpha'])
@@ -308,12 +311,21 @@ for t_ in (2.35, 0.95, 0.15):
     for k in range(7):                                                                                  # 幾根往外彎的粗枝
         a = 2 * math.pi * k / 7 + rng.uniform(-0.3, 0.3); e = (top[0] + 1.6 * math.cos(a), h + rng.uniform(0.2, 0.8), top[2] + 1.6 * math.sin(a))
         _cyl(bark, mid if k % 2 else top, e, 0.07, 0.03, n=5)
-    for k in range(46):                                                                                 # 垂下的枝條：寬 0.4 的兩面葉片卡，長 2.2～3.6 m
-        a = rng.uniform(0, 2 * math.pi); rr = rng.uniform(0.6, 2.4); cx, cz = top[0] + rr * math.cos(a), top[2] + rr * math.sin(a)
-        cy = h + 0.5 - rr * 0.25 + rng.uniform(-0.2, 0.2); Ls = rng.uniform(2.2, 3.6); yaw = rng.uniform(0, math.pi)
-        dx, dz = 0.2 * math.cos(yaw), 0.2 * math.sin(yaw); y1 = max(0.25, cy - Ls)
-        leaf.quad2([(cx - dx, cy, cz - dz), (cx + dx, cy, cz + dz), (cx + dx, y1, cz + dz), (cx - dx, y1, cz - dz)],
-                   lambda p, cy=cy, y1=y1, cx=cx, dx=dx: (0.5 + (p[0] - cx) / (4 * dx if abs(dx) > 1e-3 else 1) , (p[1] - y1) / max(0.01, cy - y1)), (math.sin(yaw), 0, -math.cos(yaw)))
+    def _card(c4, uv4):   # 兩面的葉片卡（四個角各自的 UV）
+        n_ = np.cross(np.array(c4[1]) - np.array(c4[0]), np.array(c4[3]) - np.array(c4[0])); ids = [leaf.vid(q) for q in c4]
+        leaf.face(ids, uv4, tuple(n_)); leaf.face(ids, uv4, tuple(-n_))
+    # 第 2 版（BB_255 P3「從上面看像枯樹」）：①樹冠：從樹頂往外、往下斜的一圈葉片卡（傘狀），從上面看蓋住樹冠；②垂下的枝條 46 → 84 條、每條兩片交叉（從哪個角度都看得到面，不是一條線）
+    for k in range(30):
+        a = 2 * math.pi * k / 30 + rng.uniform(-0.08, 0.08); ca, sa = math.cos(a), math.sin(a); r0, r1 = rng.uniform(0.1, 0.4), rng.uniform(2.0, 2.8)
+        y0 = h + 0.55 + rng.uniform(-0.1, 0.15); y1 = y0 - (r1 - r0) * rng.uniform(0.45, 0.7); w = rng.uniform(0.45, 0.65); px, pz = -sa * w / 2, ca * w / 2
+        p0 = (top[0] + r0 * ca, y0, top[2] + r0 * sa); p1 = (top[0] + r1 * ca, y1, top[2] + r1 * sa)
+        _card([(p0[0] - px, p0[1], p0[2] - pz), (p0[0] + px, p0[1], p0[2] + pz), (p1[0] + px, p1[1], p1[2] + pz), (p1[0] - px, p1[1], p1[2] - pz)], [(0, 1), (1, 1), (1, 0), (0, 0)])
+    for k in range(84):                                                                                 # 垂下的枝條：寬 0.4 的兩面葉片卡，長 2.2～3.6 m，交叉兩片
+        a = rng.uniform(0, 2 * math.pi); rr = rng.uniform(0.5, 2.5); cx, cz = top[0] + rr * math.cos(a), top[2] + rr * math.sin(a)
+        cy = h + 0.5 - rr * 0.25 + rng.uniform(-0.2, 0.2); Ls = rng.uniform(2.2, 3.6); yaw = rng.uniform(0, math.pi); y1 = max(0.25, cy - Ls)
+        for yw in (yaw, yaw + math.pi / 2):
+            dx, dz = 0.2 * math.cos(yw), 0.2 * math.sin(yw)
+            _card([(cx - dx, cy, cz - dz), (cx + dx, cy, cz + dz), (cx + dx, y1, cz + dz), (cx - dx, y1, cz - dz)], [(0, 1), (1, 1), (1, 0), (0, 0)])
 
 # ================= 輸出 =================
 objs = {}
@@ -323,7 +335,7 @@ for (part, key), p_ in PMS.items():
 st = L.export(OUT, gpu_instances=False)
 info = dict(st, tris_by_object=objs, origin='湖中心（遊戲 lake() 的 cx, cz）；x 東、z 南', outline={'A': A_, 'B': B_, 'N': N, 'rad': '1+0.10 sin(3t+0.6)+0.05 cos(5t+1.3)'},
             pavilion={'center': [PX, PZ], 'r': PR, 'deck_y': DECK_Y, 'col_r': COL_R, 'eave_r': RE, 'apex_y': YA, 'lantern': [PX, (LANT_Y0 + LANT_Y1) / 2, PZ]},
-            boardwalk={'x': [PX - HW, PX + HW], 'z': [BZ0, BZ1], 'deck_y': DECK_Y}, rocks=len(placed), willows=WILLOWS,
+            boardwalk={'x': [PX - HW, PX + HW], 'z': [BZ0, BZ1], 'deck_y': DECK_Y}, rocks=len(placed), willows=WILLOWS, willow_tex=WILLOW_TEX,
             hide_in_game='lake() 的程序化湖岸（rim）、湖心亭（deck、6 根柱、beam、roof、eave、fin）、木棧道（bw、兩條 rail、posts、piles）；水面、睡蓮、草叢、樹、長椅、路燈留著',
             nav_note='導航不變；木棧道走得到的寬度是 |x−PX|≤0.9（遊戲 onBoard），欄杆在 ±0.8：人走到邊上身體會穿過欄杆——建議接的時候把木棧道的可走寬度縮到 |x−PX|≤0.45')
 L.write_json(OUT[:-4] + '.json', info)
