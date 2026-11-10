@@ -1318,3 +1318,11 @@
 [20:32:27] [res] cpu=8% mem=49% (15.4/31.4 GB) chrome_testing=10  START SEATFIG_new
 [20:33:06] 正在跑：NOASK_faf1_r2（已跑 3 分／上限 40 分）、NANYANG_v3（已跑 3 分／上限 150 分）、SEATFIG_new（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:33:55] [res] cpu=21% mem=49% (15.6/31.4 GB) chrome_testing=9  END SEATFIG_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c39a7f21e..11be1af22  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:34:00] ==== END   SEATFIG_new  exit=0  91s   ====
+[20:34:07] memory 47% before starting SEATFIG_old (2 running)
+[20:34:07] ==== START SEATFIG_old  (probe @ 5aff1d18ed53ce1ff90aacd7c8c8c926ae21a342) ====
+[20:34:10] [res] cpu=5% mem=47% (14.9/31.4 GB) chrome_testing=10  START SEATFIG_old
+[20:35:33] [res] cpu=43% mem=42% (14.9/31.4 GB) chrome_testing=9  END SEATFIG_old
