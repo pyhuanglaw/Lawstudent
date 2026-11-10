@@ -272,3 +272,14 @@
 [06:29:03] ==== START MT4_nofb_r3  (probe @ b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91) ====
 [06:29:06] [res] cpu=5% mem=49% (15.5/31.4 GB) chrome_testing=9  START MT4_nofb_r3
 [06:32:03] [res] cpu=10% mem=52% (16.8/31.4 GB) chrome_testing=9  END MT4_nofb_r3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       93c3c8a47..b6c8c16d3  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:32:08] ==== END   MT4_nofb_r3  exit=0  180s   ====
+[06:32:17] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
+[06:32:17] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
+[06:32:17] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
+[06:32:17] memory 47% before starting SHIFT_IMM_r6_old (2 running)
+[06:32:17] ==== START SHIFT_IMM_r6_old  (probe @ 8a98ff1e06c06cfb52be41dc3402ba05305945a6) ====
+[06:32:20] [res] cpu=5% mem=44% (14.9/31.4 GB) chrome_testing=4  START SHIFT_IMM_r6_old
+[06:32:24] [res] cpu=3% mem=46% (14.1/31.4 GB) chrome_testing=4  END MT4_oo_r3
