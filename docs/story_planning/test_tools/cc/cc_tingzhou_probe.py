@@ -354,7 +354,8 @@ async def part_zqseat(pg, cdp):
         R.note('%s 子晴：%s' % (tag, J(her)))
         if not her: R.note('%s 這天公館沒有子晴，換下一天' % tag); continue
         await pg.evaluate("window.__TZ=[]")
-        for lab, frm, at_, fov in [('騎樓這一側正面', (SX + 0.4, 1.4, SZ + 2.6), (SX, 0.8, SZ), 50), ('騎樓斜看', (SX + 2.8, 1.5, SZ + 1.8), (SX, 0.8, SZ), 48), ('放大', (SX + 0.3, 1.2, SZ + 1.5), (SX, 0.75, SZ), 35)]   # r2：r1 機位在柱子靠馬路那一側（z<19），被柱子、機車擋住看不到她:
+        # r2：r1 機位在柱子靠馬路那一側（z<19），被柱子、機車擋住看不到她
+        for lab, frm, at_, fov in [('騎樓這一側正面', (SX + 0.4, 1.4, SZ + 2.6), (SX, 0.8, SZ), 50), ('騎樓斜看', (SX + 2.8, 1.5, SZ + 1.8), (SX, 0.8, SZ), 48), ('放大', (SX + 0.3, 1.2, SZ + 1.5), (SX, 0.75, SZ), 35)]:
             u = await pg.evaluate(SNAP, {'from': list(frm), 'at': list(at_), 'fov': fov, 'tw': 560, 'label': '子晴 騎樓板凳 %s %.1f %s' % (day, h, lab), 'full': True})
             save(u, 'zqseat_%s_%s.jpg' % (day, lab))
         b = await pg.screenshot(type='jpeg', quality=82); open(os.path.join(OUT, 'zqseat_%s_game.jpg' % day), 'wb').write(b)
