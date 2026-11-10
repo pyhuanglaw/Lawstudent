@@ -39,7 +39,8 @@ let laneFree=0; for(let x=-73.75;x<=-68.25;x+=0.5) for(let zz=FZ+0.25;zz<=FZ+2.7
 const pots=GG.z.group.getObjectByName('gg_lane_closed_pots');
 check('2. 公館巷口（x −74～−68、z 19～22）一格都走不進去，擋住的地方有盆栽（看得到，D36 不是隱形牆）',laneFree===0&&!!pots&&Math.abs(pots.position.z-(FZ+1.15))<0.01,'走得進去 '+laneFree+' 格；盆栽 '+(pots?'有（長 '+pots.userData.len.toFixed(1)+' m）':'沒有'));
 const ggGate=GG.its.find(q=>q.exit&&q.exit.to==='campus'), ggSp=[-2.5,-29];
-check('3. 公館照舊：商圈落點走得到校門（回校園）、麵店門口的騎樓（x −63）、巷口東邊的騎樓（x −66.5, z 20.5）',!!ggGate&&gT.reach(ggSp,[ggGate.x,ggGate.z])&&gT.reach(ggSp,[-63,21])&&gT.reach(ggSp,[-66.5,20.5]));
+const arcBad=[]; for(let x=-67;x<=-60;x+=0.25) if(![[-0.3,-0.3],[0.3,-0.3],[-0.3,0.3],[0.3,0.3],[0,0]].every(([dx,dz])=>gT.free(x+dx,20.5+dz))) arcBad.push(x);   /* gongguan_layout_nav.py「騎樓整排連續（x −67 → 77、z 20.5）」：巷口擋的那一塊不能吃到騎樓西端 */
+check('3. 公館照舊：商圈落點走得到校門（回校園）、麵店門口的騎樓（x −63）、巷口東邊的騎樓（x −66.5, z 20.5）；騎樓西端 x −67～−60 人站得住（半徑 0.3）',!!ggGate&&gT.reach(ggSp,[ggGate.x,ggGate.z])&&gT.reach(ggSp,[-63,21])&&gT.reach(ggSp,[-66.5,20.5])&&!arcBad.length,arcBad.length?'站不住 '+arcBad.join(','):'');
 
 /* ---------- 溫州街 ---------- */
 const WZ=build('wenzhou'), wT=tools(WZ.nav);
@@ -83,5 +84,5 @@ check('10. 大地圖：公館沒有「往溫州街」、溫州街沒有「往公
 
 /* ---------- 舊存檔站在公館巷口 ---------- */
 { const p=gT.nearestFree(-71,20.5);
-  check('13. 舊存檔站在公館巷口 (−71, 20.5)：最近站得住的格子走得到校門',!!p&&!!ggGate&&gT.reach(p,[ggGate.x,ggGate.z]),p?p.map(v=>v.toFixed(2)).join(','):'找不到'); }
+  check('13. 舊存檔站在公館巷口 (−71, 20.5)：最近站得住的格子走得到校門；巷口前面的人行道 (−71, 17.6) 站得住、走得到（gongguan_layout_nav.py 讀檔的位置）',!!p&&!!ggGate&&gT.reach(p,[ggGate.x,ggGate.z])&&gT.free(-71,17.6)&&gT.reach(ggSp,[-71,17.6]),p?p.map(v=>v.toFixed(2)).join(','):'找不到'); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

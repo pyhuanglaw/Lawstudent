@@ -1,6 +1,7 @@
 """公館商店街（v9.3 第十一批：連續騎樓的台北街屋）導航與互動檢查：實際載入遊戲的公館區域，查詢導航格、A* 路徑與互動點。
 檢查：主要地點都站得住、從公館出生點走得到；騎樓整排連續可以走（店與店之間沒有牆）；騎樓柱子、店裡面不能走；
-各店的互動點 x 和改版前一樣（z 跟著店面往北搬 30 m）、站在店門口會出現該店的互動按鈕；從麵店、書店、便利商店、溫州街、校園回到公館的出生點站得住而且走得到；
+各店的互動點 x 和改版前一樣（z 跟著店面往北搬 30 m）、站在店門口會出現該店的互動按鈕；從麵店、書店、便利商店、校園回到公館的出生點站得住而且走得到；
+往溫州街的巷口拿掉（WZ-ENTRY-XINSHENG-1103，使用者 X199：溫州街只從新生南路進出）：巷口走不進去、站在巷口前面沒有「往溫州街」（2026-11-10 只改期待、沒跑，要 CC 在 PC 跑）；
 舊存檔站在新柱子的位置、或站在舊版店門口（改版後在店後面），讀檔後會被移到可走、走得到的地方；實際按互動按鈕進麵店、再按「離開麵店」回到公館。
 用法：python3 tests/gongguan_layout_nav.py [URL]   （預設 http://127.0.0.1:8765/index.html）"""
 import asyncio, json, sys
@@ -10,14 +11,14 @@ URL = (sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html')
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
 START = (0, -30)    # 公館預設出生點
 # 名稱, x, z：每一個都要站得住，而且從出生點有路走得到
-PLACES = [('校門口西側通道外（回校園）', -5.27, -44.5), ('校門口東側通道外（回校園）', 5.27, -44.5), ('校門西側通道（回校園的互動點）', -5.27, -47.5), ('校門東側通道（回校園的互動點）', 5.27, -47.5), ('捷運站入口前', -35.2, 11), ('往溫州街（巷口）', -71, 20.2), ('南側人行道（東）', 60, 12), ('街尾（東）騎樓外', 70, 16.5),
+PLACES = [('校門口西側通道外（回校園）', -5.27, -44.5), ('校門口東側通道外（回校園）', 5.27, -44.5), ('校門西側通道（回校園的互動點）', -5.27, -47.5), ('校門東側通道（回校園的互動點）', 5.27, -47.5), ('捷運站入口前', -35.2, 11), ('巷口前的人行道（X199 巷口拿掉以後照舊走得到）', -71, 17.6), ('南側人行道（東）', 60, 12), ('街尾（東）騎樓外', 70, 16.5),
           ('麵店門口（騎樓裡）', -63, 21), ('青木茶室門口', -54.05, 21), ('頁間書屋門口', -36.4, 21), ('便利商店門口', -29.4, 21), ('東段騎樓', 60, 20.5)]   # 11-04（AA_647／AA_650）：茶行改成進得去的青木茶室（門 x −54.05）、書店改成頁間書屋（門搬到 x −36.4）
 # 從其他區域回到公館的出生點（zones3d.js 各室內區域的「離開」與溫州街、校園的出口）
 SPAWNS = [('離開麵店', -63, 18), ('離開青木茶室', -54.05, 18), ('離開頁間書屋', -38.8, 20.2), ('離開便利商店', -29.4, 18),   # 11-04：書店門搬到 x −36.4，出店的地方是 (−38.8, 20.2)（zones3d.js 的 SHOP_IN.bookstore.out；舊的 (−42, 18) 落在機車那一段上）；青木茶室新出口
-          ('溫州街 → 公館（巷口）', -71, 16.5), ('校園 → 公館', -2.5, -29)]
+          ('校園 → 公館', -2.5, -29)]   # 「溫州街 → 公館（巷口）」(−71, 16.5) 拿掉：溫州街的「回公館」拿掉了（X199）
 # 各店的互動點（店名、x、z）：在騎樓裡、店門前 1 m（z 21）。11-04 換新店名、新店門（AA_647／AA_650、X209）：阿鳳麵店→公館燒臘；茶行（門口外帶）→青木茶室（進得去，門 x −54.05）；舊路書房→頁間書屋（門 x −41.6→−36.4）
 DOORS = [('進入公館燒臘', -63.0, 21.0), ('進入青木茶室', -54.05, 21.0), ('進入頁間書屋', -36.4, 21.0), ('進入便利商店', -29.4, 21.0)]
-BLOCKED = [('校門門房（2026-10-18 起在正中間）', 0, -46.3), ('校門燈柱（西內側）', -2.45, -46), ('校門燈柱（東內側）', 2.45, -46), ('校門燈柱（西外側）', -8.1, -46), ('校門燈柱（東外側）', 8.1, -46), ('轉角公寓（巷口西側）', -76, 20.5), ('麵店裡面', -63, 23.5), ('便利商店裡面', -29.4, 24), ('東段店裡面', 50, 25), ('捷運出口本體', -40, 11), ('圓環花台', 22, 11.5)]
+BLOCKED = [('校門門房（2026-10-18 起在正中間）', 0, -46.3), ('校門燈柱（西內側）', -2.45, -46), ('校門燈柱（東內側）', 2.45, -46), ('校門燈柱（西外側）', -8.1, -46), ('校門燈柱（東外側）', 8.1, -46), ('轉角公寓（巷口西側）', -76, 20.5), ('往溫州街的巷口（X199 拿掉、盆栽擋住）', -71, 20.2), ('巷口裡面（X199）', -71, 21.5), ('麵店裡面', -63, 23.5), ('便利商店裡面', -29.4, 24), ('東段店裡面', 50, 25), ('捷運出口本體', -40, 11), ('圓環花台', 22, 11.5)]
 OLD_SAVES = [('舊存檔：站在新騎樓柱子的位置', -56.8, 19.3), ('舊存檔：舊版麵店門口（改版後在店後面）', -63, 48), ('舊存檔：舊版捷運入口前（改版後在店後面）', -40, 28.5)]
 
 async def main():
@@ -97,37 +98,17 @@ async def main():
             await pg.wait_for_timeout(500)
         r = await pg.evaluate("(s=>{ const E=GAME.E, o=E.player.obj.position; const p=E.nav.path(o.x,o.z,s[0],s[1]); return {zone:GAME.G.zone,x:+o.x.toFixed(2),z:+o.z.toFixed(2),stand:E.canStand(o.x,o.z,0.3),reach:!!(p&&p.length)}; })(%s)" % json.dumps(START))
         check('離開麵店回到公館：站在麵店前、站得住、走得到', r['zone'] == 'gongguan' and r['stand'] and r['reach'] and abs(r['x'] + 63) < 1.5 and abs(r['z'] - 18) < 1.5, json.dumps(r))
-        # 巷口：往溫州街 → 溫州街「回公館」→ 回到巷口
-        # 換區域的淡出淡入還沒結束時，遊戲會忽略新的 enter()（game3d.js 的 entering）：先等上一次換區域結束，讀檔後確認人真的在巷口
+        # 巷口（X199，WZ-ENTRY-XINSHENG-1103）：原本「往溫州街」→ 溫州街「回公館」→ 回到巷口；現在巷口拿掉，站在巷口前面不會出現「往溫州街」、往巷子裡走不進去
+        # 換區域的淡出淡入還沒結束時，遊戲會忽略新的 enter()（game3d.js 的 entering）：先等上一次換區域結束，讀檔後確認人真的在巷口前面
         await pg.wait_for_timeout(3000)
-        await load_at(-71, 19.6, 3.1416)
+        await load_at(-71, 17.6, 3.1416)
         await pg.wait_for_timeout(1500)
         r = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [+o.x.toFixed(2),+o.z.toFixed(2)]; })()")
-        check('（測試前置）讀檔後人在巷口', abs(r[0] + 71) < 0.5 and abs(r[1] - 19.6) < 0.5, str(r))
-        vis = await wait_label('往溫州街')   # [前置] 手機自動打開要回的訊息（STORY.phoneAuto，D103）時先收起來，互動按鈕才會更新
-        check('巷口出現「往溫州街」', (not vis['hidden']) and vis['label'] == '往溫州街', json.dumps(vis, ensure_ascii=False))
-        await pg.evaluate("document.getElementById('interact').click()")
-        for i in range(60):
-            zone = await pg.evaluate("GAME.G.zone")
-            if zone == 'wenzhou' and not await pg.evaluate("!!GAME.E.player.busy"): break
-            await pg.wait_for_timeout(500)
-        check('按下後到溫州街', zone == 'wenzhou', str(zone))
-        await pg.wait_for_timeout(2500)   # 等淡入結束
-        await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.label==='回公館'); const P=GAME.E.player; P.obj.position.set(it.x,0,it.z); P.path=null; P.target=null; })()")
-        # 等互動鈕真的變成「回公館」再按（最多 10 秒；手機自己打開就先關，D103）：忙的機器上 1.5 秒不一定換好，按到的是空的鈕（BB-B 10-24 RELEASE-9109-TEST 55eed589e 這一項 FAIL、v9.10.7 PASS；LAWWW-B v9.10.8 發布前也第一次 FAIL、安靜時重跑 PASS）
-        lab = ''
-        for i in range(20):
-            await pg.wait_for_timeout(500)
-            lab = await pg.evaluate("(()=>{ if(GAME.phoneIsOpen&&GAME.phoneIsOpen()&&GAME.closePhone) GAME.closePhone(); const b=document.getElementById('interact'); return b.classList.contains('hide')?'':(document.getElementById('interactLabel')||b).textContent; })()")
-            if lab == '回公館': break
-        check('溫州街「回公館」的互動鈕出現', lab == '回公館', lab)
-        await pg.evaluate("document.getElementById('interact').click()")
-        for i in range(60):
-            zone = await pg.evaluate("GAME.G.zone")
-            if zone == 'gongguan' and not await pg.evaluate("!!GAME.E.player.busy"): break
-            await pg.wait_for_timeout(500)
-        r = await pg.evaluate("(s=>{ const E=GAME.E, o=E.player.obj.position; const p=E.nav.path(o.x,o.z,s[0],s[1]); return {zone:GAME.G.zone,x:+o.x.toFixed(2),z:+o.z.toFixed(2),stand:E.canStand(o.x,o.z,0.3),reach:!!(p&&p.length)}; })(%s)" % json.dumps(START))
-        check('從溫州街回公館：站在巷口、站得住、走得到', r['zone'] == 'gongguan' and r['stand'] and r['reach'] and abs(r['x'] + 71) < 1.5 and abs(r['z'] - 16.5) < 1.5, json.dumps(r))
+        check('（測試前置）讀檔後人在巷口前面', abs(r[0] + 71) < 0.5 and abs(r[1] - 17.6) < 0.5, str(r))
+        vis = await wait_label('往溫州街')   # 等 10 秒：不該出現
+        check('巷口前面沒有「往溫州街」（X199）', vis['label'] != '往溫州街', json.dumps(vis, ensure_ascii=False))
+        r = await pg.evaluate("(()=>{ const E=GAME.E; return {wz:E.interactables.some(i=>i.exit&&i.exit.to==='wenzhou'), lane:!!(E.nav.path(-71,17.6,-71,21.5)||[]).length&&E.canStand(-71,21.5,0.3)}; })()")
+        check('公館沒有往溫州街的出口、巷子裡走不進去', not r['wz'] and not r['lane'], json.dumps(r))
         check('沒有 JS 例外', not errs, str(errs[:3]))
         await b.close()
     print('ALL PASS' if not fails else 'FAILED: ' + ', '.join(fails))
