@@ -5429,7 +5429,150 @@
    "people": {
     "kx": true
    },
-   "note": "X324 可昕的學期末約會（大二上～大五上六頓；大一下第一次那頓照現有的）：有選項、選項有效果——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.KX）；place、invite、KX_PLACE、KX_EXTRA、KX_ASK 不動（AA _meta.target）。LAWWW 11-10 通知可以匯入（企劃線 898820f8b）。"
+   "note": "X324 可昕的學期末約會（大二上～大五上六頓；大一下第一次那頓照現有的）：有選項、選項有效果——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.KX）；place、invite、KX_PLACE、KX_EXTRA、KX_ASK 不動（AA _meta.target）。LAWWW 11-10 通知可以匯入（企劃線 898820f8b）。（11-10 補：AA 交代有選項稿的學期 KX_ASK 的二選一不再接在後面，KX_KHH.Y2W 改由選項「我去。妳排哪幾天？」記。）"
+  },
+  {
+   "path": "docs/story_planning/AA_749_termend_friend_v2_Y1S1.json",
+   "sha": "5ffd725b8",
+   "status": "approved",
+   "approvedBy": "AA（D109）；BB 11-10 第二意見（BB_314 第 9～14 節，已改）",
+   "task": "TERMEND-OPTS-1110",
+   "kind": "json",
+   "people": {
+    "friend": [
+     "heroine_01",
+     "heroine_03",
+     "zhe",
+     "yu",
+     "classmate_bohan",
+     "classmate_xinci",
+     "kai",
+     "classmate_mingxuan",
+     "heroine_04",
+     "heroine_02"
+    ]
+   },
+   "note": "X324 朋友版的期末飯（一對一）：Y1S1——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.FRIEND[學期][人]）。只匯入 people.friend 的人；classmate_peishan 不匯入（使用者 X327 重寫中，稿上也沒有），她照 termend_lines.js 現在的字。AA 11-10 經 LAWWW：七個學期全部以企劃線 5ffd725b8 為準。"
+  },
+  {
+   "path": "docs/story_planning/AA_749_termend_friend_v2_Y1S2.json",
+   "sha": "5ffd725b8",
+   "status": "approved",
+   "approvedBy": "AA（D109）；BB 11-10 第二意見（BB_314 第 9～14 節，已改）",
+   "task": "TERMEND-OPTS-1110",
+   "kind": "json",
+   "people": {
+    "friend": [
+     "heroine_01",
+     "heroine_03",
+     "zhe",
+     "yu",
+     "classmate_bohan",
+     "classmate_xinci",
+     "kai",
+     "classmate_mingxuan",
+     "heroine_04",
+     "heroine_02",
+     "heroine_05",
+     "npc_fangyt"
+    ]
+   },
+   "note": "X324 朋友版的期末飯（一對一）：Y1S2——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.FRIEND[學期][人]）。只匯入 people.friend 的人；classmate_peishan 不匯入（使用者 X327 重寫中，稿上也沒有），她照 termend_lines.js 現在的字。AA 11-10 經 LAWWW：七個學期全部以企劃線 5ffd725b8 為準。"
+  },
+  {
+   "path": "docs/story_planning/AA_749_termend_friend_v2_Y2S1.json",
+   "sha": "5ffd725b8",
+   "status": "approved",
+   "approvedBy": "AA（D109）；BB 11-10 第二意見（BB_314 第 9～14 節，已改）",
+   "task": "TERMEND-OPTS-1110",
+   "kind": "json",
+   "people": {
+    "friend": [
+     "heroine_01",
+     "heroine_03",
+     "zhe",
+     "yu",
+     "classmate_bohan",
+     "classmate_xinci",
+     "kai",
+     "classmate_mingxuan",
+     "heroine_04",
+     "heroine_02",
+     "heroine_05"
+    ]
+   },
+   "note": "X324 朋友版的期末飯（一對一）：Y2S1——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.FRIEND[學期][人]）。只匯入 people.friend 的人；classmate_peishan 不匯入（使用者 X327 重寫中，稿上也沒有），她照 termend_lines.js 現在的字。AA 11-10 經 LAWWW：七個學期全部以企劃線 5ffd725b8 為準。"
+  },
+  {
+   "path": "docs/story_planning/AA_749_termend_friend_v2_Y2S2.json",
+   "sha": "5ffd725b8",
+   "status": "approved",
+   "approvedBy": "AA（D109）；BB 11-10 第二意見（BB_314 第 9～14 節，已改）",
+   "task": "TERMEND-OPTS-1110",
+   "kind": "json",
+   "people": {
+    "friend": [
+     "heroine_01",
+     "heroine_03",
+     "zhe",
+     "yu",
+     "classmate_bohan",
+     "classmate_xinci",
+     "kai",
+     "classmate_mingxuan",
+     "npc_fangyt",
+     "heroine_04",
+     "heroine_02",
+     "heroine_05"
+    ]
+   },
+   "note": "X324 朋友版的期末飯（一對一）：Y2S2——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.FRIEND[學期][人]）。只匯入 people.friend 的人；classmate_peishan 不匯入（使用者 X327 重寫中，稿上也沒有），她照 termend_lines.js 現在的字。AA 11-10 經 LAWWW：七個學期全部以企劃線 5ffd725b8 為準。"
+  },
+  {
+   "path": "docs/story_planning/AA_749_termend_friend_v2_Y3S1.json",
+   "sha": "5ffd725b8",
+   "status": "approved",
+   "approvedBy": "AA（D109）；BB 11-10 第二意見（BB_314 第 9～14 節，已改）",
+   "task": "TERMEND-OPTS-1110",
+   "kind": "json",
+   "people": {
+    "friend": [
+     "heroine_01",
+     "heroine_03",
+     "zhe",
+     "yu",
+     "classmate_bohan",
+     "classmate_xinci",
+     "kai",
+     "heroine_04",
+     "heroine_05",
+     "classmate_mingxuan"
+    ]
+   },
+   "note": "X324 朋友版的期末飯（一對一）：Y3S1——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.FRIEND[學期][人]）。只匯入 people.friend 的人；classmate_peishan 不匯入（使用者 X327 重寫中，稿上也沒有），她照 termend_lines.js 現在的字。AA 11-10 經 LAWWW：七個學期全部以企劃線 5ffd725b8 為準。"
+  },
+  {
+   "path": "docs/story_planning/AA_749_termend_friend_v2_Y3S2_Y4S1.json",
+   "sha": "5ffd725b8",
+   "status": "approved",
+   "approvedBy": "AA（D109）；BB 11-10 第二意見（BB_314 第 9～14 節，已改）",
+   "task": "TERMEND-OPTS-1110",
+   "kind": "json",
+   "people": {
+    "friend": [
+     "heroine_03",
+     "zhe",
+     "yu",
+     "classmate_bohan",
+     "classmate_xinci",
+     "heroine_04",
+     "heroine_02",
+     "heroine_05",
+     "heroine_01",
+     "kai"
+    ]
+   },
+   "note": "X324 朋友版的期末飯（一對一）：Y3S2、Y4S1——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.FRIEND[學期][人]）。只匯入 people.friend 的人；classmate_peishan 不匯入（使用者 X327 重寫中，稿上也沒有），她照 termend_lines.js 現在的字。AA 11-10 經 LAWWW：七個學期全部以企劃線 5ffd725b8 為準。"
   }
  ]
 }
