@@ -7186,6 +7186,20 @@
    "noDirectIntegrate": false,
    "note": "skyBox 延到東南角那一片；shader 從「加灰藍」改成「直接混到 [110,120,130]、85%、alpha 到 1」。開發 327f64bfe 3、4 FAIL → ALL PASS；回歸 28 支過。要 CC 重拍量顏色。",
    "next": "佇列：INTERIOR-AAA P3、LM-SEAM-GEO（萬才館倒角）、LAWWW2-REEXPORT-US；社科院等 PERF 等 CC 幀率"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "XS-DOOR-LABELS-1110（SHORTCUTS-TODO：新生南路店門字括號套括號）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/xs_door_labels_1110/（README、xs_door_labels_1110.patch、xs_door_labels_unit.js、regression.log）"
+   ],
+   "state": "可整合",
+   "noDirectIntegrate": false,
+   "note": "xinsheng3d.js 一行：type 的括號拿掉。新測試開發 FAILED 2 → ALL PASS；新生南路 53 支過。TODO_SHORTCUTS 11-10 盤點 c64b9086a。",
+   "next": "X246 花台（做中）"
   }
  ]
 }

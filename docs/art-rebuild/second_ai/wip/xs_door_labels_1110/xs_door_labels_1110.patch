@@ -1,0 +1,51 @@
+diff --git a/src/xinsheng3d.js b/src/xinsheng3d.js
+index a738e471c..01ee26164 100644
+--- a/src/xinsheng3d.js
++++ b/src/xinsheng3d.js
+@@ -153,7 +153,7 @@ const XS3=(function(){
+     E.interactables.push({x:SG.x-1.6,z:SG.z,radius:2.2,label:SG.label,exit:{to:'campus',spawn:Object.assign({},SG.campusSpawn)}});
+     E.interactables.push({x:WL.exit.x,z:WL.exit.z,radius:2.4,label:WL.exit.label,exit:{to:WL.exit.to,spawn:Object.assign({},WL.exit.spawn)}});
+     for(const q of L.shops){ const zn='xs_'+q.id, hasRoom=typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[zn];
+-      const it={x:F.x+0.9,z:q.door.z,radius:1.4,label:(hasRoom?'進':'')+q.name+'（'+q.type+'）'};
++      const it={x:F.x+0.9,z:q.door.z,radius:1.4,label:(hasRoom?'進':'')+q.name+'（'+String(q.type).replace(/（[^（）]*）/g,'')+'）'};   /* 種類裡的括號（兩層、二樓、24 小時）不放進店門的字：原本「進山嵐書店（書店（兩層））」括號套括號（TODO_SHORTCUTS，LAWWW2 帳號 A 11-10）*/
+       if(hasRoom) it.exit={to:zn}; else it.look=q.name+'。'+(q.type||'')+'。玻璃門裡面看得到店員在整理架子。';   /* 室內還沒做的店：先「看」（暫定的字，AA 可以改）*/
+       E.interactables.push(it); }
+     // 夜間：路燈地上的光圈（套件）
+diff --git a/tests/xs_door_labels_unit.js b/tests/xs_door_labels_unit.js
+new file mode 100644
+index 000000000..21cc2065e
+--- /dev/null
++++ b/tests/xs_door_labels_unit.js
+@@ -0,0 +1,32 @@
++// 新生南路店門的字不要括號套括號（TODO_SHORTCUTS 山嵐第 5 點、同弦、大口、運動廣場；LAWWW2 帳號 A 11-10）——不需要瀏覽器（D131）。
++// 原本 xinsheng3d.js 照配置的 type 組字：「進山嵐書店（書店（兩層））」「進同弦樂器（吉他行（二樓））」「進大口漢堡（速食（24 小時））」。
++// 在 Node 建出新生南路區域，檢查每一間店門：
++//   1 字裡沒有括號套括號
++//   2 每一間的字是「（進）店名（種類）」，種類拿掉括號以後的那一段（書店、吉他行、速食、運動用品…）
++// 修改前（開發分支 327f64bfe）：1 FAIL（4 間）。用法：node tests/xs_door_labels_unit.js
++/* 新生南路（ART-XINSHENG-GATE-1103，LAWWW2 11-03）：區域建得起來；從側門進來走得到溫州街巷口、七間店的門口、兩條斑馬線的對面；斑馬線以外的車道走不到；
++   互動點：側門回校園、往溫州街。
++   17、18（XS-ARCADE-NAV-1105，LAWWW2-C 11-05）：騎樓的導航照正式模型 xinsheng_street.glb——
++     17 柱子：模型的每一根騎樓柱子（wz_pillar 材質，騎樓靠街那一邊）導航都擋住；導航在柱子那一欄擋住的格子，每一格都對得到模型的一根柱子（沒有看不到的柱子）
++     18 沒有騎樓的公寓（南北兩段）：模型那幾段沒有騎樓天花板、一樓的牆在立面往裡 0.2 m；牆裡面站不住、牆外面的人行道站得住；騎樓兩端走不進公寓
++   用法：node tests/xinsheng_unit.js */
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/xinsheng_layout.js','src/xinsheng3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++const L=XINSHENG_LAYOUT;
++check('0. Z3.ZONES.xinsheng 有登記',!!(Z3.ZONES&&Z3.ZONES.xinsheng));
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[];
++const z=Z3.ZONES.xinsheng.build(E); const nav=z.nav;
++const XL=XINSHENG_LAYOUT, rows=[], nested=[], wrong=[];
++for(const q of XL.shops){ const it=E.interactables.find(i=>typeof i.label==='string'&&i.label.replace(/^進/,'').startsWith(q.name+'（')); if(!it){ wrong.push(q.name+' 找不到店門'); continue; }
++  rows.push(it.label); if(/（[^）]*（/.test(it.label)) nested.push(it.label);
++  const want=q.name+'（'+String(q.type).replace(/（[^（）]*）/g,'')+'）'; if(it.label.replace(/^進/,'')!==want) wrong.push(it.label+' ≠ '+want); }
++check('1 新生南路的店門字沒有括號套括號', rows.length>=6&&nested.length===0, nested.length?nested.join('、'):rows.join('、'));
++check('2 每一間是「（進）店名（種類）」', wrong.length===0, wrong.join('｜')||rows.length+' 間');
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
