@@ -1,0 +1,13 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_cpu_trace_probe.py http://127.0.0.1:8800/index.html?perf C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZDAY_ct_tea_1930\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 wz_teahouse 2025-10-18 19.5（條件事件、手機關），出生點
+  [  39.8s] INFO {"zone": "wz_teahouse", "lv": 0, "npc": 3, "q": "medium", "pr": 1, "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)"}
+PASS 在 wz_teahouse
+  [  39.8s] 先站 30.0 秒（暖機）
+  [  69.9s] CPU 降速 4 倍（手機模擬）
+  [ 114.0s] 卡頓 >100 ms：13 個 [{"at_ms": 437, "ms": 100, "ts_us": 1794288474688600, "mark": "cc_hitch_437"}, {"at_ms": 1270, "ms": 100, "ts_us": 1794288475521900, "mark": "cc_hitch_1270"}, {"at_ms": 1670, "ms": 233, "ts_us": 1794288475921900, "mark": "cc_hitch_1670"}, {"at_ms": 4120, "ms": 167, "ts_us": 1794288478371700, "mark": "cc_hitch_4120"}, {"at_ms": 5837, "ms": 117, "ts_us": 1794288480088300, "mark": "cc_hitch_5837"}, {"at_ms": 6804, "ms": 217, "ts_us": 1794288481055000, "mark": "cc_hitch_6804"}, {"at_ms": 9153, "ms": 150, "ts_us": 1794288483404900, "mark": "cc_hitch_9153"}, {"at_ms": 9903, "ms": 100, "ts_us": 1794288484154900, "mark": "cc_hitch_9903"}, {"at_ms": 11603, "ms": 167, "ts_us": 1794288485854800, "mark": "cc_hitch_11603"}, {"at_ms": 14070, "ms": 183, "ts_us": 1794288488321400, "mark": "cc_hitch_14070"}, {"at_ms": 14970, "ms": 100, "ts_us": 1794288489221400, "mark": "cc_hitch_14970"}, {"at_ms": 16586, "ms": 217, "ts_us": 1794288490837900, "mark": "cc_hitch_16586"}, {"at_ms": 18953, "ms": 167, "ts_us": 1794288493204500, "mark": "cc_hitch_18953"}]
+  [ 114.0s] 檔案：cpu.cpuprofile 580 KB、trace.json.gz 1159 KB（事件 57806 個）
+PASS 錄到 trace 事件  57806
+PASS 沒有 JS 例外  []
+ALL PASS
