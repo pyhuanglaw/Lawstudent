@@ -1,308 +1,34 @@
-[23:24:42] Windows console: QuickEdit already off (mode 0x1b7); keep awake while running: on
-[23:24:42] run_forever round: 8   runner sha256: 1556bf529d
-[23:24:42] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[23:24:42]          playwright 1.64.1 OK
-[23:24:42] git    : git version 2.56.0.windows.4
-[23:24:42] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[23:24:42] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[23:24:42] repo   : C:\Users\USER\Documents\Lawstudent
-[23:24:42] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[23:24:42] parallel: 2  (blender items run alone)
-[23:24:42] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[23:24:43] git fetch
+[23:41:37] Windows console: QuickEdit already off (mode 0x1b7); keep awake while running: on
+[23:41:37] run_forever round: 9   runner sha256: 1556bf529d
+[23:41:37] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[23:41:37]          playwright 1.64.1 OK
+[23:41:37] git    : git version 2.56.0.windows.4
+[23:41:37] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[23:41:37] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[23:41:37] repo   : C:\Users\USER\Documents\Lawstudent
+[23:41:37] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[23:41:37] parallel: 2  (blender items run alone)
+[23:41:37] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[23:41:37] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/modest-rubin-2lyp7g -> FETCH_HEAD
-       53904f117..587e500c2  claude/cc-testing -> origin/claude/cc-testing
+       587e500c2..81f647f64  claude/cc-testing -> origin/claude/cc-testing
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
+       c8edb9e12..129cd48eb  claude/second-ai-env-art -> origin/claude/second-ai-env-art
     Already on 'claude/cc-local'
     Your branch is up to date with 'origin/claude/cc-local'.
     Already up to date.
     Merge made by the 'ort' strategy.
-     ...272\244\346\216\245\347\264\200\351\214\204.md" |   3 +-
-     ...237\267\350\241\214\347\264\200\351\214\204.md" |  17 +++++++++
-     .../story_planning/CC/shots/us_art1_apartment.webp | Bin 0 -> 264100 bytes
-     docs/story_planning/CC/shots/us_art1_lawlib.webp   | Bin 0 -> 218486 bytes
-     docs/story_planning/CC/shots/us_art1_market.webp   | Bin 0 -> 205004 bytes
-     .../test_tools/cc/cc_shift_treat_probe.py          |  10 ++++--
-     .../test_tools/cc/cc_us_art_probe.py               |  40 ++++++++++++++++++---
-     .../test_tools/cc/cc_x199_an_route_probe.py        |  11 +++---
-     tools/cc_local/queue.txt                           |  12 +++++--
-     9 files changed, 78 insertions(+), 15 deletions(-)
-     create mode 100644 docs/story_planning/CC/shots/us_art1_apartment.webp
-     create mode 100644 docs/story_planning/CC/shots/us_art1_lawlib.webp
-     create mode 100644 docs/story_planning/CC/shots/us_art1_market.webp
-[23:24:55] dev head = bb8a32765   lawww2 head = 8968c7008
-[23:24:55] startup: 4 local result commit(s) not on origin yet - merge origin and push now
+     docs/story_planning/test_tools/cc/cc_us_art_probe.py | 16 +++++++++++-----
+     tools/cc_local/queue.txt                             | 15 +++++++++++++--
+     2 files changed, 24 insertions(+), 7 deletions(-)
+[23:41:48] dev head = bb8a32765   lawww2 head = 129cd48eb
+[23:41:48] startup: 3 local result commit(s) not on origin yet - merge origin and push now
     To https://github.com/pyhuanglaw/Lawstudent.git
-       68839fa73..470a9afc1  claude/cc-local -> claude/cc-local
+       9c31a1101..0a3013a8c  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[23:25:01] config.txt: PARALLEL 2 -> 3
-[23:25:01] config.txt: HEADLESS 0 -> 1（每一項都不開視窗）
-[23:25:01] memory used: 35%  (new items wait while >= 85%)
-[23:25:05] queue: BGN_old, X296_new, X296_old, X307_new, X307_old, X307F_new, LE738_b1court, LE738_p0, LE738_zone, LE738_reach, LE738_libfloors, LE738_main12, LE738_classreal, LE738_mini, LE738_invphone, LE738_invgo, LE738_touch, BGN_new, YZCUP_47, YZCUP_51, X283_old, X283_new, X285_old, X285_new, X294_new, X294_old, X294S_new, X294S_old, ROMPRIV_new, ROMPRIV_old, SVC2_new, SVC2_old, X295B_old, SHADER_new, SHADER_p0, SHADER_zone, SHADER_old, X295B_new, X295B_new_1103, X295B_skip, GGDC_tree2_new, GGDC_tree2_old, X295C_new, X295C_old, X295E_new, X295E_old, X295E_thu_new, X295E_thu_old, GGDC_art_new, GGDC_art_old, GGDC_tree_new, GGDC_tree_old, GGDC_flw_new, GGDC_flw_de1f, X283b_old, X283b_new, X285b_old, X285b_new, YZCUP2_47, YZCUP2_51, X257_new, X257_old, X307F2_new, GREET_WD_968b, FLW_new_mrt_1400, FLW_new_arc_2000, FLW_new_2050, FLW_new_2110, FLW_new_0850, FLW_old_1400, FLWS_new, WINVIEW_A, WINVIEW_B, WINVIEW_lin, WINVIEW_yk, GGDC_tree3g_new, GGDC_tree3g_old, GGDC_tree3c_new, GGDC_tree3c_old, GGDC_tree4g_new, GGDC_tree4g_old, GGDC_tree4c_new, GGDC_tree4c_old, SHADER_v2b, TEACHVIEW_pn_v2b, BOYA1F_v2b, WINVIEW_cvs_v2, WINVIEW_xs3_v2, X295E_fair_keep2, X295E_fair_off2, GYMPROPS2_v2, X295E_fair_off3, GIFTHOL_old, WINVIEW_tx_old, WINVIEW_tx_new, WINVIEW_sso_old, WINVIEW_sso_new, GLASSDIAG_v2c, GLASSDIAG_v2b, X295E_fair_keep_fix, GLASSDIAG_v2d, TEACHVIEW_pn_v2d, BOYA1F_v2d, GUI_fix2, XSDOOR_new, XSDOOR_old, XSPLANT_new, XSPLANT_old, GIFTHOL2_new, X223KIT_new, X223KIT_old, XSBRICK_new, XSBRICK_old, CAMPUSNAV_48aa, OFFBEAT_ang_new, OFFBEAT_ang_old, GIFTHOL_new, X223SHOT_new, X223SHOT_old, SHADER_v2c, TEACHVIEW_pn_v2c, BOYA1F_v2c, PERFCG_old_m, PERFCG_new_m, PERFCG_old_d, PERFCG_new_d, X295E_fair_keep, X295E_fair_off, VIEWRAW_cvs, TEACHVIEW_pn_new, TEACHVIEW_pn_old, BOYA1F_new, BOYA1F_old, FAIRTENT_new, FAIRTENT_old, GYMPROPS_new, GYMPROPS_old, GYMPROPS_smith_new, GSHOP_new, GSHOP_old, GSHOP_flower_old, GUI_new, GUI_old, GUI_fix, X276_new, X276_old, WAKE_a_new2, WAKE_a_old2, WW3B_old_n1930, WW3T_old_n1930, WW3B_new_n1930, WW3T_new_n1930, TEA2_old, TEA2_new, RAY_faf1, RAY_1827, GREET_968b_new2, GREET_968b_old2, NOASK_faf1_r2, NANYANG_v3, SEATFIG_new, SEATFIG_old, SEATFIG_new_near, SEATFIG_old_near, L98E_b1court, L98E_reach, L98E_invphone, L98E_libfloors, L98E_zone, L98E_p0, L98E_main12, L492_invgo, L492_invphone, L492_libfloors, L492_p0, L492_reach, L492_zone, L492_mini, L492_classreal, L492_main12, L492_touch, NOASK_faf1, WZDAY_rp_1400, WZDAY_rp_1930, WZDAY_ct_moku_1400, WZDAY_ct_moku_1930, WZDAY_ct_tea_1400, WZDAY_ct_tea_1930, USAPT204b_old, USAPT204b_new, WINVIEW_own2, WINVIEW_haopai2, WINVIEW_tea21, NANYANG_v4, WINVIEW_tea195, X199_entry_new, X199_entry_old, X199_guide, X199_guide_old, X199_ggnav, X199_ggnav_old, X199_reach, X199_touch, X199_day2an, X199_ggglb, X199_zone, XSGATE_new, XSGATE_old, WZCAT_new, WZCAT_old, GUIDE_063, GGNAV_063, X199_ANROUTE, GGLANE_new, GGLANE_old, WILLOW_new, WILLOW_old, US_ART_1, US_ART_2, US_ART_1b, US_ART_1d, US_ART_1c, US_ART_2b
-[23:25:05] skip BGN_old (already done on cdcb2650730bc9a90563690e63f35e75e63c9fb3)
-[23:25:05] skip X296_new (already done on 7a019726dfddc3f90dc0cc60189db19084871503)
-[23:25:05] skip X296_old (already done on 9f3133b998dc3cf4631f019d085e59a8550f5d29)
-[23:25:05] skip X307_new (already done on 10df264ed291cbef985ed22109443d26535ce790)
-[23:25:05] skip X307_old (already done on e73888074c)
-[23:25:05] skip X307F_new (already done on fda54d616e57b40c74ca1b6404dccb6ea927e50c)
-[23:25:05] skip LE738_b1court (already done on e73888074c)
-[23:25:05] skip LE738_p0 (already done on e73888074c)
-[23:25:05] skip LE738_zone (already done on e73888074c)
-[23:25:05] skip LE738_reach (already done on e73888074c)
-[23:25:05] skip LE738_libfloors (already done on e73888074c)
-[23:25:05] skip LE738_main12 (already done on e73888074c)
-[23:25:05] skip LE738_classreal (already done on e73888074c)
-[23:25:06] skip LE738_mini (already done on e73888074c)
-[23:25:06] skip LE738_invphone (already done on e73888074c)
-[23:25:06] skip LE738_invgo (already done on e73888074c)
-[23:25:06] skip LE738_touch (already done on e73888074c)
-[23:25:06] skip BGN_new (already done on 063592f18baec790f772bd64a32835cd98a0a950)
-[23:25:06] skip YZCUP_47 (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[23:25:06] skip YZCUP_51 (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[23:25:06] skip X283_old (already done on e73888074c)
-[23:25:06] skip X283_new (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[23:25:06] skip X285_old (already done on e73888074c)
-[23:25:06] skip X285_new (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[23:25:06] skip X294_new (already done on 9202e2fab36b4c6fa6b10487a1e2ac2c113ae464)
-[23:25:06] skip X294_old (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[23:25:06] skip X294S_new (already done on 9202e2fab36b4c6fa6b10487a1e2ac2c113ae464)
-[23:25:06] skip X294S_old (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[23:25:06] skip ROMPRIV_new (already done on 6c7e3918f26db59161d8f284f4fa25ca02be2964)
-[23:25:06] skip ROMPRIV_old (already done on 13e84dc2703a340c1ad3ad7ae56ee3a763cce0d6)
-[23:25:06] skip SVC2_new (already done on a883f36de45740335f9a1ea30d8512d1f5a9c4a9)
-[23:25:06] skip SVC2_old (already done on bc9c1408c0dfb82cbd1fa49d6a64e1d92e94d213)
-[23:25:06] skip X295B_old (already done on 10df264ed291cbef985ed22109443d26535ce790)
-[23:25:06] skip SHADER_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
-[23:25:06] skip SHADER_p0 (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
-[23:25:06] skip SHADER_zone (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
-[23:25:06] skip SHADER_old (already done on fe4d893acdb08eb93f93b688380bd0700ff5ad48)
-[23:25:06] skip X295B_new (already done on 7f2093f9282ca36ec56109736e8ba8aa6f4736a9)
-[23:25:06] skip X295B_new_1103 (already done on 7f2093f9282ca36ec56109736e8ba8aa6f4736a9)
-[23:25:06] skip X295B_skip (already done on 7f2093f9282ca36ec56109736e8ba8aa6f4736a9)
-[23:25:06] skip GGDC_tree2_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
-[23:25:06] skip GGDC_tree2_old (already done on fe4d893acdb08eb93f93b688380bd0700ff5ad48)
-[23:25:06] skip X295C_new (already done on 8c050804c22e6e9b846e5d02b868cefc1a858af1)
-[23:25:06] skip X295C_old (already done on 10df264ed291cbef985ed22109443d26535ce790)
-[23:25:06] skip X295E_new (already done on 8c050804c22e6e9b846e5d02b868cefc1a858af1)
-[23:25:06] skip X295E_old (already done on 10df264ed291cbef985ed22109443d26535ce790)
-[23:25:06] skip X295E_thu_new (already done on f3b47894b3b10643fb91fd30be70bc28cad68035)
-[23:25:06] skip X295E_thu_old (already done on 8c050804c22e6e9b846e5d02b868cefc1a858af1)
-[23:25:06] skip GGDC_art_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
-[23:25:06] skip GGDC_art_old (already done on fe4d893acdb08eb93f93b688380bd0700ff5ad48)
-[23:25:06] skip GGDC_tree_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
-[23:25:06] skip GGDC_tree_old (already done on fe4d893acdb08eb93f93b688380bd0700ff5ad48)
-[23:25:06] skip GGDC_flw_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
-[23:25:06] skip GGDC_flw_de1f (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[23:25:06] skip X283b_old (already done on e73888074c)
-[23:25:06] skip X283b_new (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[23:25:06] skip X285b_old (already done on e73888074c)
-[23:25:06] skip X285b_new (already done on dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963)
-[23:25:06] skip YZCUP2_47 (already done on 1c767edf819136d164df68e5cefca5605993b7fe)
-[23:25:06] skip YZCUP2_51 (already done on 1c767edf819136d164df68e5cefca5605993b7fe)
-[23:25:06] skip X257_new (already done on 1c767edf819136d164df68e5cefca5605993b7fe)
-[23:25:06] skip X257_old (already done on fca5f80a386dd529fcd40a749b809ec30c5bb3eb)
-[23:25:06] skip X307F2_new (already done on 28df8a85c788c354fc606a87e64cb5f4f12c5ff9)
-[23:25:06] skip GREET_WD_968b (already done on 968bd311f878693a984103ae6deb3bd24c30c52f)
-[23:25:06] skip FLW_new_mrt_1400 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[23:25:06] skip FLW_new_arc_2000 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[23:25:06] skip FLW_new_2050 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[23:25:06] skip FLW_new_2110 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[23:25:06] skip FLW_new_0850 (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[23:25:06] skip FLW_old_1400 (already done on 28df8a85c788c354fc606a87e64cb5f4f12c5ff9)
-[23:25:06] skip FLWS_new (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[23:25:06] skip WINVIEW_A (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[23:25:06] skip WINVIEW_B (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[23:25:06] skip WINVIEW_lin (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[23:25:06] skip WINVIEW_yk (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[23:25:06] skip GGDC_tree3g_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
-[23:25:06] skip GGDC_tree3g_old (already done on fe4d893acdb08eb93f93b688380bd0700ff5ad48)
-[23:25:06] skip GGDC_tree3c_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
-[23:25:06] skip GGDC_tree3c_old (already done on fe4d893acdb08eb93f93b688380bd0700ff5ad48)
-[23:25:06] skip GGDC_tree4g_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
-[23:25:06] skip GGDC_tree4g_old (already done on fe4d893acdb08eb93f93b688380bd0700ff5ad48)
-[23:25:06] skip GGDC_tree4c_new (already done on d8b669175bcf363974b401e1eed3d6709f2b0949)
-[23:25:06] skip GGDC_tree4c_old (already done on fe4d893acdb08eb93f93b688380bd0700ff5ad48)
-[23:25:06] skip SHADER_v2b (already done on be84c86807aa45324daed407996770feb6dbba13)
-[23:25:06] skip TEACHVIEW_pn_v2b (already done on be84c86807aa45324daed407996770feb6dbba13)
-[23:25:06] skip BOYA1F_v2b (already done on be84c86807aa45324daed407996770feb6dbba13)
-[23:25:06] skip WINVIEW_cvs_v2 (already done on be84c86807aa45324daed407996770feb6dbba13)
-[23:25:06] skip WINVIEW_xs3_v2 (already done on be84c86807aa45324daed407996770feb6dbba13)
-[23:25:06] skip X295E_fair_keep2 (already done on be84c86807aa45324daed407996770feb6dbba13)
-[23:25:06] skip X295E_fair_off2 (already done on be84c86807aa45324daed407996770feb6dbba13)
-[23:25:06] skip GYMPROPS2_v2 (already done on be84c86807aa45324daed407996770feb6dbba13)
-[23:25:06] skip X295E_fair_off3 (already done on be84c86807aa45324daed407996770feb6dbba13)
-[23:25:06] skip GIFTHOL_old (already done on fda54d616e57b40c74ca1b6404dccb6ea927e50c)
-[23:25:06] skip WINVIEW_tx_old (already done on be84c86807aa45324daed407996770feb6dbba13)
-[23:25:06] skip WINVIEW_tx_new (already done on a2de6154551eb433a1addae7df7a9a047f633f7c)
-[23:25:06] skip WINVIEW_sso_old (already done on be84c86807aa45324daed407996770feb6dbba13)
-[23:25:06] skip WINVIEW_sso_new (already done on a2de6154551eb433a1addae7df7a9a047f633f7c)
-[23:25:06] skip GLASSDIAG_v2c (already done on 74da28ca942cbe1e00f033903b3778a9ccaacca1)
-[23:25:06] skip GLASSDIAG_v2b (already done on be84c86807aa45324daed407996770feb6dbba13)
-[23:25:06] skip X295E_fair_keep_fix (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[23:25:06] skip GLASSDIAG_v2d (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[23:25:06] skip TEACHVIEW_pn_v2d (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[23:25:06] skip BOYA1F_v2d (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[23:25:06] skip GUI_fix2 (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[23:25:06] skip XSDOOR_new (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[23:25:06] skip XSDOOR_old (already done on 74da28ca942cbe1e00f033903b3778a9ccaacca1)
-[23:25:06] skip XSPLANT_new (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[23:25:06] skip XSPLANT_old (already done on 74da28ca942cbe1e00f033903b3778a9ccaacca1)
-[23:25:06] skip GIFTHOL2_new (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[23:25:06] skip X223KIT_new (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[23:25:06] skip X223KIT_old (already done on 48aa47a5b71453a04c983e3185201640d2f9449c)
-[23:25:06] skip XSBRICK_new (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[23:25:06] skip XSBRICK_old (already done on 48aa47a5b71453a04c983e3185201640d2f9449c)
-[23:25:06] skip CAMPUSNAV_48aa (already done on 48aa47a5b71453a04c983e3185201640d2f9449c)
-[23:25:06] skip OFFBEAT_ang_new (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[23:25:06] skip OFFBEAT_ang_old (already done on be84c86807aa45324daed407996770feb6dbba13)
-[23:25:06] skip GIFTHOL_new (already done on 509b54c2d9d7a2f1ab6f227124abeb4d30747db6)
-[23:25:06] skip X223SHOT_new (already done on 48aa47a5b71453a04c983e3185201640d2f9449c)
-[23:25:06] skip X223SHOT_old (already done on 74da28ca942cbe1e00f033903b3778a9ccaacca1)
-[23:25:06] skip SHADER_v2c (already done on 74da28ca942cbe1e00f033903b3778a9ccaacca1)
-[23:25:06] skip TEACHVIEW_pn_v2c (already done on 74da28ca942cbe1e00f033903b3778a9ccaacca1)
-[23:25:06] skip BOYA1F_v2c (already done on 74da28ca942cbe1e00f033903b3778a9ccaacca1)
-[23:25:06] skip PERFCG_old_m (already done on a2de6154551eb433a1addae7df7a9a047f633f7c)
-[23:25:06] skip PERFCG_new_m (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[23:25:06] skip PERFCG_old_d (already done on a2de6154551eb433a1addae7df7a9a047f633f7c)
-[23:25:06] skip PERFCG_new_d (already done on 8d8b475dc3a6b3546853a98fc24b60edb7829989)
-[23:25:06] skip X295E_fair_keep (already done on bb8a32765065cc64530791f42aee631e06133b12)
-[23:25:06] skip X295E_fair_off (already done on bb8a32765065cc64530791f42aee631e06133b12)
-[23:25:06] skip VIEWRAW_cvs (already done on 4d7f556a61e028ab5409fcf0103e7448b3038b51)
-[23:25:06] skip TEACHVIEW_pn_new (already done on f3b47894b3b10643fb91fd30be70bc28cad68035)
-[23:25:06] skip TEACHVIEW_pn_old (already done on 35b88d5ff2613c039115576877e7f8a7525295a3)
-[23:25:06] skip BOYA1F_new (already done on f3b47894b3b10643fb91fd30be70bc28cad68035)
-[23:25:06] skip BOYA1F_old (already done on 35b88d5ff2613c039115576877e7f8a7525295a3)
-[23:25:06] skip FAIRTENT_new (already done on f3b47894b3b10643fb91fd30be70bc28cad68035)
-[23:25:06] skip FAIRTENT_old (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[23:25:06] skip GYMPROPS_new (already done on f3b47894b3b10643fb91fd30be70bc28cad68035)
-[23:25:06] skip GYMPROPS_old (already done on 63d8f328c479b688ac7b27054c5b76cb0cb32f79)
-[23:25:06] skip GYMPROPS_smith_new (already done on f3b47894b3b10643fb91fd30be70bc28cad68035)
-[23:25:06] skip GSHOP_new (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[23:25:06] skip GSHOP_old (already done on fda54d616e57b40c74ca1b6404dccb6ea927e50c)
-[23:25:06] skip GSHOP_flower_old (already done on 28df8a85c788c354fc606a87e64cb5f4f12c5ff9)
-[23:25:06] skip GUI_new (already done on de1f25768e421cf07b2151c2872b5b6d6f70ef5a)
-[23:25:06] skip GUI_old (already done on fda54d616e57b40c74ca1b6404dccb6ea927e50c)
-[23:25:06] skip GUI_fix (already done on 0ec32e6f6cc85ba9a9ff68a41ce60d8751a6a2da)
-[23:25:06] skip X276_new (already done on 8c050804c22e6e9b846e5d02b868cefc1a858af1)
-[23:25:06] skip X276_old (already done on 3f6dba142276f8cefcc52570f9b659b930d00861)
-[23:25:06] skip WAKE_a_new2 (already done on 8677568a378f133e45179f251f37f9dfa75943e6)
-[23:25:06] skip WAKE_a_old2 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
-[23:25:06] skip WW3B_old_n1930 (already done on 1827999fb488a30bdaccedaa1561697b3266a498)
-[23:25:06] skip WW3T_old_n1930 (already done on 1827999fb488a30bdaccedaa1561697b3266a498)
-[23:25:06] skip WW3B_new_n1930 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
-[23:25:06] skip WW3T_new_n1930 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
-[23:25:06] skip TEA2_old (already done on 2d58e8a5209ae061784c20f14dd5de5819b562e6)
-[23:25:06] skip TEA2_new (already done on edaedb2672eac7f5047d518e9c07f63b5e2f7537)
-[23:25:06] skip RAY_faf1 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
-[23:25:06] skip RAY_1827 (already done on 1827999fb488a30bdaccedaa1561697b3266a498)
-[23:25:06] skip GREET_968b_new2 (already done on 968bd311f878693a984103ae6deb3bd24c30c52f)
-[23:25:06] skip GREET_968b_old2 (already done on 97b2e03c353b3dcd68b27ec76042f8bfc035b2e3)
-[23:25:06] skip NOASK_faf1_r2 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
-[23:25:06] skip NANYANG_v3 (already done on fe4d893acdb08eb93f93b688380bd0700ff5ad48)
-[23:25:06] skip SEATFIG_new (already done on 93d3e92691b344385636dc1f50741a871a4406a9)
-[23:25:06] skip SEATFIG_old (already done on 5aff1d18ed53ce1ff90aacd7c8c8c926ae21a342)
-[23:25:06] skip SEATFIG_new_near (already done on 93d3e92691b344385636dc1f50741a871a4406a9)
-[23:25:06] skip SEATFIG_old_near (already done on 5aff1d18ed53ce1ff90aacd7c8c8c926ae21a342)
-[23:25:06] skip L98E_b1court (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[23:25:06] skip L98E_reach (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[23:25:06] skip L98E_invphone (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[23:25:06] skip L98E_libfloors (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[23:25:06] skip L98E_zone (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[23:25:06] skip L98E_p0 (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[23:25:06] skip L98E_main12 (already done on 98e81fe06bd856d6ec953948c5c4c6a64cb08e74)
-[23:25:06] skip L492_invgo (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[23:25:06] skip L492_invphone (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[23:25:06] skip L492_libfloors (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[23:25:06] skip L492_p0 (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[23:25:06] skip L492_reach (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[23:25:06] skip L492_zone (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[23:25:06] skip L492_mini (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[23:25:06] skip L492_classreal (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[23:25:06] skip L492_main12 (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[23:25:06] skip L492_touch (already done on 492ef334aef133a046f3a49e986665afee6e19cf)
-[23:25:06] skip NOASK_faf1 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
-[23:25:06] skip WZDAY_rp_1400 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[23:25:06] skip WZDAY_rp_1930 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[23:25:06] skip WZDAY_ct_moku_1400 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[23:25:06] skip WZDAY_ct_moku_1930 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[23:25:06] skip WZDAY_ct_tea_1400 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[23:25:06] skip WZDAY_ct_tea_1930 (already done on 8be828ca6427c544da0ec942209828066564adba)
-[23:25:06] skip USAPT204b_old (already done on 07ce887a13d3aa3b743567b857dfd7b22e44a5b8)
-[23:25:06] skip USAPT204b_new (already done on c8af31018a9ce570422ad748aa277af842f8db37)
-[23:25:06] skip WINVIEW_own2 (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[23:25:06] skip WINVIEW_haopai2 (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[23:25:06] skip WINVIEW_tea21 (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[23:25:06] skip NANYANG_v4 (already done on 74da28ca942cbe1e00f033903b3778a9ccaacca1)
-[23:25:06] skip WINVIEW_tea195 (already done on 9d4c54c16219ef43aa9ba17c88f36bbc5d01be43)
-[23:25:06] skip X199_entry_new (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
-[23:25:06] skip X199_entry_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[23:25:06] skip X199_guide (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
-[23:25:06] skip X199_guide_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[23:25:06] skip X199_ggnav (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
-[23:25:06] skip X199_ggnav_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[23:25:06] skip X199_reach (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
-[23:25:06] skip X199_touch (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[23:25:06] skip X199_day2an (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[23:25:06] skip X199_ggglb (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[23:25:06] skip X199_zone (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[23:25:06] skip XSGATE_new (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[23:25:06] skip XSGATE_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[23:25:06] skip WZCAT_new (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[23:25:06] skip WZCAT_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[23:25:06] memory 35% before starting GUIDE_063 (0 running)
-[23:25:06] skip GGNAV_063 (already done on 063cf14abca16d890ae7c7d82ac05bd12eea58ef)
-[23:25:06] ==== START GUIDE_063  (game @ 063cf14abca16d890ae7c7d82ac05bd12eea58ef) ====
-[23:25:06] memory 35% before starting X199_ANROUTE (1 running)
-[23:25:06] ==== START X199_ANROUTE  (probe @ 063cf14abca16d890ae7c7d82ac05bd12eea58ef) ====
-[23:25:06] skip GGLANE_new (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[23:25:06] skip GGLANE_old (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
-[23:25:06] skip WILLOW_new (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[23:25:06] skip WILLOW_old (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
-[23:25:06] skip US_ART_1 (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[23:25:06] skip US_ART_2 (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[23:25:06] memory 35% before starting US_ART_1b (2 running)
-[23:25:06] ==== START US_ART_1b  (probe @ 063cf14abca16d890ae7c7d82ac05bd12eea58ef) ====
-[23:25:09] [res] cpu=5% mem=35% (11.2/31.4 GB) chrome_testing=0  START GUIDE_063
-[23:25:09] [res] cpu=2% mem=35% (11.2/31.4 GB) chrome_testing=0  START X199_ANROUTE
-[23:25:09] [res] cpu=4% mem=35% (11.2/31.4 GB) chrome_testing=0  START US_ART_1b
-[23:27:32] [res] cpu=13% mem=49% (15.5/31.4 GB) chrome_testing=10  END US_ART_1b
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       b36a76dd8..d489fb430  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[23:27:39] ==== END   US_ART_1b  exit=0  147s   ====
-[23:27:42] memory 50% before starting US_ART_1d (2 running)
-[23:27:42] ==== START US_ART_1d  (probe @ d78228f85825e139790bc42904bb7056ebf31e50) ====
-[23:27:45] [res] cpu=16% mem=50% (15.9/31.4 GB) chrome_testing=10  START US_ART_1d
-[23:27:45] worktree add d78228f85825e139790bc42904bb7056ebf31e50: invalid reference - fetching main and the commit itself
-[23:29:54] [res] cpu=15% mem=48% (15.2/31.4 GB) chrome_testing=9  END GUIDE_063
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       d489fb430..1f278b12d  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[23:30:01] ==== END   GUIDE_063  exit=1  289s   ====
-[23:30:04] memory 49% before starting US_ART_1c (2 running)
-[23:30:04] ==== START US_ART_1c  (probe @ 063cf14abca16d890ae7c7d82ac05bd12eea58ef) ====
-[23:30:05] 正在跑：X199_ANROUTE（已跑 4 分／上限 75 分）、US_ART_1d（已跑 2 分／上限 30 分）、US_ART_1c（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
-[23:30:07] [res] cpu=23% mem=49% (15.6/31.4 GB) chrome_testing=9  START US_ART_1c
-[23:31:39] [res] cpu=24% mem=44% (14.0/31.4 GB) chrome_testing=5  END US_ART_1d
-[23:31:46] [res] cpu=46% mem=44% (14.1/31.4 GB) chrome_testing=5  END US_ART_1c
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       1f278b12d..e8c5a7e1c  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[23:31:51] ==== END   US_ART_1d  exit=0  237s   ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       e8c5a7e1c..a796c2e42  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[23:31:58] ==== END   US_ART_1c  exit=0  103s   ====
-[23:32:01] memory 44% before starting US_ART_2b (2 running)
-[23:32:01] ==== START US_ART_2b  (probe @ 063cf14abca16d890ae7c7d82ac05bd12eea58ef) ====
-[23:32:04] [res] cpu=4% mem=44% (14.0/31.4 GB) chrome_testing=5  START US_ART_2b
-[23:34:16] [res] cpu=9% mem=45% (14.1/31.4 GB) chrome_testing=5  END US_ART_2b
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       a796c2e42..8357cf327  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[23:34:24] ==== END   US_ART_2b  exit=0  135s   ====
-[23:35:06] 正在跑：X199_ANROUTE（已跑 9 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
-[23:36:26] [res] cpu=3% mem=34% (10.9/31.4 GB) chrome_testing=0  END X199_ANROUTE
+[23:41:54] config.txt: PARALLEL 2 -> 3
+[23:41:54] config.txt: HEADLESS 0 -> 1（每一項都不開視窗）
+[23:41:54] memory used: 35%  (new items wait while >= 85%)
