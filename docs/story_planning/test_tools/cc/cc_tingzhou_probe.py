@@ -382,14 +382,14 @@ async def part_zqseat(pg, cdp):
 
 async def part_ggext(pg, cdp):
     """GG3 第 4 項外觀（新舊同機位）：公館 GGS（預設 G04,G08,G13＝安泰、汀州鮮果、榮恩典）每一棟：站 (棟 x, 18)、往店門 (棟 x, 21) 看——正面、招牌近拍、斜看左右、騎樓裡看門。HOURS 每個時間一組。"""
-    names = {'G04': 'antai', 'G08': 'xianguo', 'G13': 'rongendian', 'G11': 'g11'}
+    names = {'G04': 'antai', 'G08': 'xianguo', 'G13': 'rongendian', 'G11': 'g11', 'G09': 'g09', 'G10': 'g10'}
     for h in [float(x) for x in (os.environ.get('HOURS') or '14').split(',')]:
         hh = '%02d%02d' % (int(h), int(round((h % 1) * 60)))
         await at(pg, cdp, 'gongguan', h, 0.0, 16.0, '（公館外觀照）'); await pg.wait_for_timeout(4000)
         bx = await pg.evaluate("(()=>{ const o={}; for(const b of (GAME.E.zone.buildings||[])) if(b.userData&&b.userData.ggShop) o[b.userData.ggShop]=+b.position.x.toFixed(2); return o; })()")
         glb = await pg.evaluate("!!GAME.E.scene.getObjectByName('gongguan_shops_glb')")
         R.note('[GGEXT %s] 棟號 x：%s；正式店面模型 gongguan_shops_glb：%s' % (hh, J(bx), glb))
-        for g in (os.environ.get('GGS') or 'G04,G08,G13').split(','):
+        for g in (os.environ.get('GGS') or 'G04,G08,G13,G09,G10').split(','):
             if g not in bx: R.check('[GGEXT %s] 有 %s' % (hh, g), False, J(bx)); continue
             its = await pg.evaluate(ITS); near = sorted(its, key=lambda i: math.hypot(i['x'] - bx[g], i['z'] - 21.0))[:2]
             R.note('[GGEXT %s] %s 店門附近的互動點：%s' % (hh, g, J(near)))
