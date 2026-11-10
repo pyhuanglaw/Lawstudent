@@ -132,11 +132,11 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     G.day=H.D('2026-09-20'); G.hour=19; G.stage='law'; ADJ=[];
     await MOVIES.after(GM,{place:'xs_nanyang',film:'m2609a',who:k,id:'ivy'},{name:'可昕',charId:k});
     G.day+=1; G.hour=21.2; PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag==='mv745_m2609a_kexin'&&x.ask), C=film('m2609a').with[k].choice;
-    G.flags.MOVIE_LOVE={}; const ans=m?PHONE.answer(G,m.ask.id,0):null;
+    G.flags.MOVIE_LOVE={}; G.flags.FX_CAP={}; const ans=m?PHONE.answer(G,m.ask.id,0):null;
     check('7. 可昕《颱風夜的貨船》：訊息有兩個選項；回第一個＝她的戀愛 +2、KX_SHIP_REPORT、她回稿上那一句',!!m&&J(m.ask.opts.map(o=>o.t))===J(C.map(c=>c.t))&&!!ans&&G.flags.KX_SHIP_REPORT===G.day&&ADJ.some(([w,d])=>w===k&&d.npcRom===2)&&(G.msgs||[]).some(x=>x.text===C[0].say[0]&&x.from===k),J({m:m&&m.ask,ADJ}));
     const G3=fresh('2026-04-10',19); const a='heroine_01'; H.FRIEND(a);
     await MOVIES.after(GM,{place:'xs_nanyang',film:'m2603b',who:a,id:'ivz'},{name:'以安',charId:a}); const W3=film('m2603b').with[a];
-    const q3=(G3.flags.MOVIE_LATER||[]).slice(); H.said=[]; CH=[]; ADJ=[]; WANT=[W3.choice[0].t]; G3.day+=30; G3.flags.MOVIE_LOVE={};
+    const q3=(G3.flags.MOVIE_LATER||[]).slice(); H.said=[]; CH=[]; ADJ=[]; WANT=[W3.choice[0].t]; G3.day+=30; G3.flags.MOVIE_LOVE={}; G3.flags.FX_CAP={};
     const s0=await MOVIES.onSeated(GM,{who:'heroine_02',id:'ivo'},{name:'芷若',charId:'heroine_02'},INV.place('noodle'));
     const s1=await MOVIES.onSeated(GM,{who:a,id:'ivz2'},{name:'以安',charId:a},INV.place('noodle')); const said3=H.said.map(x=>x.t);
     const s2=await MOVIES.onSeated(GM,{who:a,id:'ivz3'},{name:'以安',charId:a},INV.place('noodle'));
@@ -152,8 +152,14 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     check('7. 以安《借據》：下次在圖書館見面時說（麵店不說）、選項、之後不再說',Q.length===1&&r0===false&&r1===true&&said[0]===W2.lines[0]&&CH.some(c=>J(c)===J(W2.choice.map(x=>x.t)))&&r2===false,J({Q,r0,r1,r2,said:said.slice(0,3)})); });
 
   await sec(8,async()=>{ const G=fresh('2030-07-10',19), z='heroine_02'; H.FRIEND(z); const o3=film('m3007b').talk.opts[2], full=o3.re[z];
-    const T0=MOVIES.talkFor(G,z,'m3007b'); G.flags.MOVIE_SEEN={[z]:{m2511b:10}}; G.flags.MOVIE_TALK={[z]:{m2511b:1}}; const T1=MOVIES.talkFor(G,z,'m3007b'); G.flags.MOVIE_TALK[z].m2511b=2; const T2=MOVIES.talkFor(G,z,'m3007b');
-    check('8. 芷若《m3007b》：沒和她看過《m2511b》＝兩個選項；看過＝三個；當時選的是「蠻悶的」＝她整句照稿，選別的＝只說到「第二部。」（第二版的稿沒有另外兩句）',T0.opts.length===2&&T1.opts.length===3&&T1.opts[2].t===o3.t&&T1.opts[2].lines[0]==='第二部。'&&full.indexOf('第二部。')===0&&full.length>4&&T2.opts[2].lines[0]===full&&T1.opts[2].lines[1]===o3.re[z+'2'],J([T0.opts.map(o=>o.t),T1.opts[2],T2.opts[2]]));
+    const T0=MOVIES.talkFor(G,z,'m3007b'); G.flags.MOVIE_SEEN={[z]:{m2511b:10}}; const Tn=MOVIES.talkFor(G,z,'m3007b');   /* 看過、可是那次沒有 talk 的紀錄 */
+    const by=k=>{ G.flags.MOVIE_TALK={[z]:{m2511b:k}}; return MOVIES.talkFor(G,z,'m3007b').opts[2]; }, B=[by(0),by(1),by(2)], RB=o3.reBy, src=film('m2511b').talk.opts;
+    const want=[RB['說過起雞皮疙瘩'][z],RB['說過喜歡翻報紙的聲音'][z],RB['說過蠻悶的'][z]];
+    check('8. 芷若《m3007b》：沒和她看過《m2511b》＝兩個選項；看過＝三個；她的第一句照當時選的換（reBy 三句，一字不差），第二句「這部呢？」都一樣；當時沒有 talk 的紀錄＝照稿上原本的 re',
+      T0.opts.length===2&&Tn.opts.length===3&&Tn.opts[2].t===o3.t&&J(Tn.opts[2].lines)===J([full,o3.re[z+'2']])&&full==='第二部。'&&B.every((o,k)=>J(o.lines)===J([want[k],o3.re[z+'2']]))&&new Set(want).size===3&&want.every(t=>typeof t==='string'&&t.indexOf('第二部。')===0&&t.length>4)
+      &&/起雞皮疙瘩/.test(src[0].t)&&/翻報紙的聲音/.test(src[1].t)&&/蠻悶的/.test(src[2].t)&&/起雞皮疙瘩/.test(want[0])&&/翻報紙的聲音/.test(want[1])&&/很悶/.test(want[2])&&J(o3.reBy)===J(film('m3007b').talk.opts[2].reBy),J([T0.opts.map(o=>o.t),Tn.opts[2],B]));
+    { const G8=fresh('2030-07-10',19); H.FRIEND(z); G8.flags.MOVIE_SEEN={[z]:{m2511b:10}}; G8.flags.MOVIE_TALK={[z]:{m2511b:1}}; WANT=[o3.t]; await MOVIES.after(GM,{place:'xs_nanyang',film:'m3007b',who:z,id:'ivr'},{name:'芷若',charId:z}); WANT=[];
+      check('8. 實際演：選第三個＝她說「第二部。第一部你只記得翻報紙的聲音。」「這部呢？」',idx(want[1])>=0&&idx(o3.re[z+'2'])===idx(want[1])+1&&idx(full)<0,J(H.said.map(x=>x.t))); }
     const s='heroine_05', R=film('m2801a').talk.opts[0].re; fresh('2028-01-10',19); H.FAMILIAR(s); const A=MOVIES.talkFor(H.G,s,'m2801a').opts[0].lines; H.date(s); const C=MOVIES.talkFor(H.G,s,'m2801a').opts[0].lines;
     check('8. 學姊《m2801a》第二句：照稿；交往中換成「今年跟我看。不要去擠。」',J(A)===J([R.heroine_05,R.heroine_052])&&J(C)===J([R.heroine_05,'今年跟我看。不要去擠。']),J([A,C]));
     const an='heroine_01', R2=film('m2811b').talk.opts[1].re; fresh('2028-11-10',19); H.FRIEND(an); const D1=MOVIES.talkFor(H.G,an,'m2811b').opts, d1=D1[1].lines, d0=D1[0].lines; H.date(an); const d2=MOVIES.talkFor(H.G,an,'m2811b').opts[1].lines;
@@ -187,10 +193,10 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     const Wz=film('m2805b').with[zq], oz=film('m2805b').talk.opts.find(o=>o.set==='ZQ_LEVEL8');
     G=fresh('2028-05-20',19); H.FRIEND(zq); WANT=[film('m2805b').talk.opts.find(o=>!o.set).t]; await aft(zq,'m2805b'); const noF=(G.flags.MOVIE_LATER||[]).length;
     G=fresh('2028-05-20',19); H.FRIEND(zq); WANT=[oz.t]; await aft(zq,'m2805b'); const qz=(G.flags.MOVIE_LATER||[]).length, fz=G.flags.ZQ_LEVEL8; WANT=[Wz.choice[1].t];
-    G.day=H.D('2028-06-20'); const z0=await seat(zq,'noodle'), keepz=(G.flags.MOVIE_LATER||[]).length; G.day=H.D('2028-07-05'); G.flags.MOVIE_LOVE={}; const z1=await seat(zq,'cafe'), saidZ=H.said.map(x=>x.t), negZ=ADJ.some(([w,d])=>w===zq&&d.npcRom===-1); WANT=[];
+    G.day=H.D('2028-06-20'); const z0=await seat(zq,'noodle'), keepz=(G.flags.MOVIE_LATER||[]).length; G.day=H.D('2028-07-05'); G.flags.MOVIE_LOVE={}; G.flags.FX_CAP={}; const z1=await seat(zq,'cafe'), saidZ=H.said.map(x=>x.t), negZ=ADJ.some(([w,d])=>w===zq&&d.npcRom===-1); WANT=[];
     check('11. 子晴《m2805b》（第二版：後續改當面）：選了記 ZQ_LEVEL8 的那個選項才有；她畢業以前（6 月）見面不說、留著；2028-07 起的下一次見面說、兩個選項（第二個＝她的戀愛 -1）',noF===0&&qz===1&&fz!=null&&z0===false&&keepz===1&&z1===true&&J(saidZ.slice(0,3))===J(Wz.lines)&&saidZ.includes(Wz.choice[1].say[0])&&negZ,J({noF,qz,z0,keepz,z1,saidZ,ADJ}));
     const Ws=film('m2901b').with[sis]; G=fresh('2029-01-20',19); H.FAMILIAR(sis); await aft(sis,'m2901b'); const lo=(G.flags.MOVIE_LATER||[]).length;
-    G=fresh('2029-01-20',19); H.FRIEND(sis); await aft(sis,'m2901b'); G.day+=3; G.flags.MOVIE_LOVE={}; WANT=[Ws.choice[0].t]; const s1=await seat(sis,'noodle'), saidS=H.said.map(x=>x.t); WANT=[];
+    G=fresh('2029-01-20',19); H.FRIEND(sis); await aft(sis,'m2901b'); G.day+=3; G.flags.MOVIE_LOVE={}; G.flags.FX_CAP={}; WANT=[Ws.choice[0].t]; const s1=await seat(sis,'noodle'), saidS=H.said.map(x=>x.t); WANT=[];
     check('11. 學姊《m2901b》（第二版：改當面）：朋友以上才有；下一次見面說、選第一個＝SIS_HEHUAN、她的戀愛 +2',lo===0&&s1===true&&J(saidS.slice(0,3))===J(Ws.lines)&&G.flags.SIS_HEHUAN!=null&&ADJ.some(([w,d])=>w===sis&&d.npcRom===2),J({lo,s1,saidS,ADJ})); });
 
   await sec(12,async()=>{ const z='heroine_02', W=film('m2703b').with[z], tag='mv745_m2703b_'+z, dep=H.D('2027-09-02');
@@ -198,7 +204,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     G=fresh('2027-03-20',19); H.FRIEND(z); G.contacts={[z]:1}; G.flags.ZR_FOUR_WORDS=G.day; await aft(z,'m2703b'); const q=(PHONE.rec(G).q||[]).find(x=>x.tag===tag);
     check('12. 芷若《m2703b》（第二版）：要 ZR_FOUR_WORDS；出發那天（2027-09-02）她傳稿上那兩則（照片＋一句）；匯入工具沒有另外改句（override 空的）',
       !q0&&!!q&&q.day===dep&&J(q.items.map(i=>i.text))===J(W.lines)&&/^📷/.test(W.lines[0])&&q.items.every(i=>i.from===z)&&Object.keys(PL().override||{}).length===0&&!(G.flags.MOVIE_LATER_DUE),J({q0,q}));
-    const run=async k=>{ const G=fresh('2027-03-20',19); H.FRIEND(z); G.contacts={[z]:1}; G.flags.ZR_FOUR_WORDS=G.day; await aft(z,'m2703b'); G.flags.MOVIE_LOVE={}; G.day=dep; G.hour=11.2; ADJ=[]; PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag===tag&&x.ask); const a=m?PHONE.answer(G,m.ask.id,k):null;
+    const run=async k=>{ const G=fresh('2027-03-20',19); H.FRIEND(z); G.contacts={[z]:1}; G.flags.ZR_FOUR_WORDS=G.day; await aft(z,'m2703b'); G.flags.MOVIE_LOVE={}; G.flags.FX_CAP={}; G.day=dep; G.hour=11.2; ADJ=[]; PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag===tag&&x.ask); const a=m?PHONE.answer(G,m.ask.id,k):null;
       return {m:!!m,opts:m?m.ask.opts.map(o=>o.t):null,a:!!a,love:ADJ.filter(([w,d])=>w===z&&d.npcRom!=null).map(([,d])=>d.npcRom),re:(G.msgs||[]).filter(x=>x.from===z).map(x=>x.text).slice(-W.choice[k].say.length)}; };
     const r0=await run(0), r1=await run(1);
     check('12. 兩個回覆照稿、她照稿回；第一個 fx love 3＝一次看電影最多 +2（加 2）、第二個 +1',J(r0.opts)===J(W.choice.map(c=>c.t))&&r0.a&&J(r0.love)==='[2]'&&J(r0.re)===J(W.choice[0].say)&&r1.a&&J(r1.love)==='['+Math.min(2,W.choice[1].fx.love)+']'&&J(r1.re)===J(W.choice[1].say)&&W.choice[0].fx.love===3,J([r0,r1])); });
@@ -214,11 +220,14 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     const F=PL().films, keep=JSON.stringify(F[f]); try{
       F[f].talk.opts[0].fx={[id]:{love:2,fr:1}}; F[f].with={[id]:{kind:'after',lines:['（假）多一段。'],choice:[{t:'（假）加三',say:['（假）好。'],fx:{love:3,fr:1}},{t:'（假）扣二',say:['（假）喔。'],fx:{love:-2}}]}};
       let G=fresh('2025-10-18',19.4); H.FRIEND(id); SOCIAL.adjust(id,{npcRom:20}); const r0=SOCIAL.rel(id).npcRom; ADJ=[]; WANT=[F[f].talk.opts[0].t,'（假）加三']; await aft(id,f); const up=SOCIAL.rel(id).npcRom-r0, fr=ADJ.filter(([w,d])=>w===id&&d.fam===1).length;
-      check('13. 上限：talk +2、with 的選項再 +3＝這一次看電影她的戀愛一共只加 2；友情（fr）不受影響、照加兩次；記在 MOVIE_LOVE',up===2&&fr===2&&G.flags.MOVIE_LOVE[id][f]===2,J({up,fr,ml:G.flags.MOVIE_LOVE,ADJ}));
+      check('13. 上限：talk +2、with 的選項再 +3＝這一次看電影她的戀愛一共只加 2；友情（fr）不受影響、照加兩次；記在 FX_CAP（movie:<片>，不清掉）',up===2&&fr===2&&MOVIES.loveGot(G,id,f)===2&&G.flags.FX_CAP[id]['movie:'+f].n===2&&G.flags.FX_CAP[id]['movie:'+f].k===1&&!G.flags.MOVIE_LOVE,J({up,fr,ml:G.flags.FX_CAP,ADJ}));
       G=fresh('2025-10-18',19.4); H.FRIEND(id); SOCIAL.adjust(id,{npcRom:20}); const r1=SOCIAL.rel(id).npcRom; WANT=[F[f].talk.opts[0].t,'（假）扣二']; await aft(id,f);
-      check('13. 扣的不限、也不補回額度：+2 再 -2＝0',SOCIAL.rel(id).npcRom-r1===0&&G.flags.MOVIE_LOVE[id][f]===2,J([SOCIAL.rel(id).npcRom-r1,G.flags.MOVIE_LOVE]));
-      const old=fresh('2025-10-18',19.4); H.FRIEND(id); old.flags.MOVIE_LOVE='x'; WANT=[F[f].talk.opts[0].t,'（假）加三']; await aft(id,f);
-      check('13. 舊存檔（沒有、或壞掉的 MOVIE_LOVE）：重建、照常',JSON.parse(J(old)).flags.MOVIE_LOVE[id][f]===2,J(old.flags.MOVIE_LOVE));
+      check('13. 扣的不限、也不補回額度：+2 再 -2＝0',SOCIAL.rel(id).npcRom-r1===0&&MOVIES.loveGot(G,id,f)===2,J([SOCIAL.rel(id).npcRom-r1,G.flags.FX_CAP]));
+      const old=fresh('2025-10-18',19.4); H.FRIEND(id); old.flags.MOVIE_LOVE='x'; old.flags.FX_CAP='y'; WANT=[F[f].talk.opts[0].t,'（假）加三']; await aft(id,f);
+      check('13. 舊存檔（沒有、或壞掉的 MOVIE_LOVE／FX_CAP）：重建、照常',JSON.parse(J(old)).flags.FX_CAP[id]['movie:'+f].n===2,J(old.flags.FX_CAP));
+      /* 舊存檔：這部片在 MOVIE_LOVE 已經記了 +1（改用共用上限以前）＝只剩 +1；已經記了 +2＝之後傳訊息的選項不再加；三十天後也還在（keep） */
+      const o1=fresh('2025-10-18',19.4); H.FRIEND(id); SOCIAL.adjust(id,{npcRom:20}); o1.flags.MOVIE_LOVE={[id]:{[f]:1}}; const q0=SOCIAL.rel(id).npcRom; const dA=MOVIES.fxFilm(o1,id,f,{love:2}); o1.day+=30; SOCIAL.applyFx(o1,id,{love:1},{cap:'phone:'+o1.day}); const dB=MOVIES.fxFilm(o1,id,f,{love:2,fr:1});
+      check('13. 舊存檔 MOVIE_LOVE 記的 +1 照算（只再 +1）；三十天後同一部片還是滿的（不清掉）、別的鍵照常',J(dA)===J({npcRom:1})&&J(dB)===J({fam:1,trust:1,comf:1})&&SOCIAL.rel(id).npcRom-q0===2&&o1.flags.FX_CAP[id]['movie:'+f].n===2&&o1.flags.MOVIE_LOVE[id][f]===1,J({dA,dB,cap:o1.flags.FX_CAP}));
     } finally { F[f]=JSON.parse(keep); WANT=[]; }
     let over=[]; for(const fid in PL().films){ const ff=PL().films[fid]; for(const w in (ff.with||{})){ const mt=Math.max(0,...ff.talk.opts.map(o=>((o.fx||{})[w]||{}).love|0)), mw=Math.max(0,...((ff.with[w].choice||[]).map(c=>(c.fx||{}).love|0))); if(mt+mw>2) over.push(fid+':'+w+'='+(mt+mw)); } }
     console.log('INFO 13. 稿上 talk＋with 最多可以超過 +2 的片×人（都被上限壓到 2）：'+over.length+' 組 '+over.join('、')); });
@@ -303,5 +312,77 @@ print(json.dumps({'fid': fid, 'pick': out['pick'].get(fid), 'fx': out['films'][f
       check('16. 只要有一個選項有她的 fx 或 re（第二、三句也算）＝照常問三個選項；fx 是 0 不算',c1===1&&c2===1&&c3===0,J([c1,c2,c3])); } finally { F[nf]=JSON.parse(keep); }
     const by={}; for(const k of none){ const w=k.split(':')[1]; by[w]=(by[w]|0)+1; }
     console.log('INFO 16. 沒有 talk 的片×人（七位×72 部＝'+all+'）：'+none.length+' 組（有 talk '+(all-none.length)+' 組）；各人：'+J(by)); });
+
+  /* 17. 沒有專屬回答時她怎麼回（AA_745_fallback；MOVIE-FALLBACK-1110）。現在關著（LAWWW 11-10：BB_311 審稿中）——機制用假的句子測，AA 的稿不匯 */
+  await sec(17,async()=>{ const P=PL(), W=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'], KD=['feel','detail','self','joke','meh','ask'];
+    const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.some(e=>/AA_745_fallback\.json$/.test(e.path));
+    const kinds=Object.values(P.films).every(f=>f.talk.opts.every(o=>KD.includes(o.kind)));
+    check('17. 現在關著：MOVIES.CFG.fallback＝false、fallback 的稿不在白名單、movie_plots.js 沒有 fallback；每個選項的 kind 已經帶進來（關著的時候不讀）',MOVIES.CFG.fallback===false&&!allow&&P.fallback===undefined&&kinds,J({cfg:MOVIES.CFG,allow,fb:P.fallback!==undefined,kinds}));
+    const none0=MOVIES.noTalkPairs(), pick=none0.find(k=>{ const [f,w]=k.split(':'); const F=P.films[f]; return (!F.with||!F.with[w])&&F.talk.opts.filter(o=>o.kind!=='ask').length>=2&&!(P.cond[f]||{}).opt; }), [nf,nw]=pick.split(':'), TK=film(nf).talk;
+    const mk=tag=>{ const o={}; for(const k of ['feel','detail','self','joke','meh']) o[k]=[{re:'（假）'+tag+k+'一。',fx:{love:2}},{re:['（假）'+tag+k+'二。','（她笑了一下。）'],fx:{fr:1}},{re:'（假）'+tag+k+'三。'}]; return o; };
+    const view=async(day)=>{ const G=H.G; G.day=day; CH=[]; H.said=[]; ADJ=[]; G.flags.MOVIE_SEEN={}; (G.daily||(G.daily={}))['mvTalk_'+nw]=null; return MOVIES.after(GM,{place:'xs_nanyang',film:nf,who:nw,id:'ivf'+day},{name:'她',charId:nw}); };
+    try{
+      /* 關著：有資料也不用（開關） */
+      P.fallback={}; for(const w of W) P.fallback[w]=mk(w+'／');
+      let G=fresh('2026-03-10',19); H.FRIEND(nw); const off=MOVIES.talkFor(G,nw,nf);
+      check('17. 開關關著：就算有 fallback 的資料也不用——稿上沒寫到她＝不問（和原本一樣）',off===null&&MOVIES.noTalkPairs().length===none0.length,J(off));
+      MOVIES.CFG.fallback=true;
+      const o0=TK.opts.find(o=>o.kind!=='ask'), kd=o0.kind, T=MOVIES.talkFor(G,nw,nf), shown=T&&T.opts.map(o=>o.t), wantShown=TK.opts.filter(o=>o.kind!=='ask').map(o=>o.t);
+      check('17. 開了：原本沒有 talk 的片×人（例 '+pick+'）有選項——ask 的不出、其他的都出；每個選項都有她的回答',!!T&&J(shown)===J(wantShown)&&T.opts.every(o=>o.lines.length>=1&&o.fb),J(T));
+      const d0=G.day; SOCIAL.adjust(nw,{npcRom:20}); WANT=[o0.t];
+      await view(d0); const s1=H.said.map(x=>x.t), a1=ADJ.slice(), n1=G.flags.MOVIE_FB[nw][kd], q1=idx(TK.q)>=0||/^（/.test(TK.q);
+      await view(d0+1); const s2=H.said.map(x=>({w:x.who,t:x.t})), a2=ADJ.slice();
+      await view(d0+2); const s3=H.said.map(x=>x.t), a3=ADJ.slice();
+      await view(d0+3); const s4=H.said.map(x=>x.t);
+      const pre='（假）'+nw+'／'+kd;
+      check('17. 選了：她說 fallback 的那一句、算那一句的 fx（love 2）；記選了第幾個、計數往後',CH.length>=0&&s1.includes(pre+'一。')&&a1.some(([w,d])=>w===nw&&d.npcRom===2)&&n1===1&&G.flags.MOVIE_TALK[nw][nf]===TK.opts.indexOf(o0),J({s1,a1,fb:G.flags.MOVIE_FB}));
+      check('17. 輪流：下一次看電影同一種選項＝第二句（幾句的陣列照順序、括號＝旁白、fx fr 1），再下一次第三句（沒有 fx＝不加），第四次回到第一句——同一句不會連續兩次',
+        s2.some(x=>x.t===pre+'二。'&&x.w!==null)&&s2.some(x=>x.t==='（她笑了一下。）'&&x.w===null)&&!s2.some(x=>x.t===pre+'一。')&&a2.some(([w,d])=>w===nw&&J(d)===J({fam:1,trust:1,comf:1}))&&s3.includes(pre+'三。')&&!a3.some(([w])=>w===nw)&&s4.includes(pre+'一。')&&G.flags.MOVIE_FB[nw][kd]===4,J({s2,a2,s3,a3,s4}));
+      const other=TK.opts.find(o=>o.kind!=='ask'&&o.kind!==kd); if(other){ const e=MOVIES.fbPeek(G,nw,other.kind); check('17. 計數每個人、每個 kind 各一個：別的 kind 還在第一句；別人也是',J(e.re)===J('（假）'+nw+'／'+other.kind+'一。')&&MOVIES.fbN(G,W.find(w=>w!==nw),kd)===0,J(e)); }
+      const old=fresh('2026-03-10',19); H.FRIEND(nw); old.flags.MOVIE_FB='x'; WANT=[o0.t]; await view(old.day); const o1=H.said.some(x=>x.t===pre+'一。'); old.flags.MOVIE_FB={[nw]:{[kd]:'q'}}; await view(old.day+1);
+      check('17. 舊存檔（沒有、壞掉的 MOVIE_FB）：從第一句開始、照常；存檔 JSON 來回不壞',o1&&H.said.some(x=>x.t===pre+'一。')&&JSON.parse(J(old)).flags.MOVIE_FB[nw][kd]===1,J(old.flags.MOVIE_FB));
+      /* 專屬的照專屬的；ask 沒有專屬＝不出、有專屬＝照出 */
+      const dd=Object.keys(P.films).map(f=>[f,W.find(w=>P.films[f].talk.opts.some(o=>o.re&&typeof o.re[w]==='string')&&!(P.cond[f]||{}).opt)]).find(x=>x[1]), [df,dw]=dd, DT=film(df).talk, G2=fresh('2028-03-10',19); H.CLOSE(dw);
+      const T2=MOVIES.talkFor(G2,dw,df), okDed=DT.opts.every((o,k)=>{ const x=T2.opts.find(q=>q.k===k), own=o.re&&typeof o.re[dw]==='string'; if(own) return !!x&&!x.fb&&x.lines[0]===o.re[dw]&&J(x.fx||null)===J((o.fx||{})[dw]||null); if(o.kind==='ask') return !x; return !!x&&x.fb===o.kind&&/^（假）/.test(x.lines[0]); });
+      check('17. 專屬的 re 照專屬的（句子、fx 都照稿）；同一部片她沒有專屬回答的選項才用 fallback（例 '+df+':'+dw+'）',okDed&&T2.opts.some(o=>!o.fb),J(T2));
+      const af=Object.keys(P.films).find(f=>P.films[f].talk.opts.some(o=>o.kind==='ask')&&!(P.cond[f]||{}).opt), ao=film(af).talk.opts.findIndex(o=>o.kind==='ask'), has=W.find(w=>MOVIES.hasRe(film(af).talk.opts[ao],w)), not=W.find(w=>!MOVIES.hasRe(film(af).talk.opts[ao],w));
+      const G3=fresh('2028-03-10',19); for(const w of W) H.CLOSE(w); const TA=has?MOVIES.talkFor(G3,has,af):null, TN=not?MOVIES.talkFor(G3,not,af):null;
+      check('17. ask 的選項（例 '+af+' 第 '+ao+' 個）：有專屬回答的人照出；沒有的人不出這個選項（別的選項照出）',(!has||TA.opts.some(o=>o.k===ao&&!o.fb))&&(!not||(!!TN&&!TN.opts.some(o=>o.k===ao)&&TN.opts.length>=2)),J({has,not,TA:TA&&TA.opts.map(o=>o.k),TN:TN&&TN.opts.map(o=>o.k)}));
+      /* 一次看電影 love 合計 +2 照舊（fallback 的 fx 也走同一個上限）；選項自己有她的 fx＝照選項的 */
+      const G4=fresh('2026-03-10',19); H.FRIEND(nw); SOCIAL.adjust(nw,{npcRom:20}); MOVIES.fxFilm(G4,nw,nf,{love:1}); WANT=[o0.t]; await view(G4.day);
+      check('17. fallback 的 love 也算在這一次看電影的 +2 裡（已經 +1＝只再 +1）',ADJ.some(([w,d])=>w===nw&&d.npcRom===1)&&!ADJ.some(([w,d])=>w===nw&&d.npcRom===2)&&MOVIES.loveGot(G4,nw,nf)===2,J(ADJ));
+      /* 全部 504 組 */
+      const none1=MOVIES.noTalkPairs(), G0={flags:{},day:0,hour:0}; let noRe=0, n2=0; for(const f of Object.keys(P.films)) for(const w of W){ const t=MOVIES.talkFor(G0,w,f); if(!t) continue; if(t.opts.length===2) n2++; for(const o of t.opts) if(!o.lines.length) noRe++; }
+      const twoAsk=k=>P.films[k.split(':')[0]].talk.opts.filter(o=>o.kind==='ask').length>=2;
+      check('17. 開了以後 7×72＝504 組：每個選項都有她的回答；還是沒有 talk 的只剩「那部片有兩個 ask 的選項、她都沒有專屬回答＝剩一個選項」（保險：剩不到兩個＝不問；現在的稿＝m2805b 六個人，待 AA 改稿）',none1.length<=6&&none1.every(twoAsk)&&noRe===0,J({none:none1.slice(0,8),n:none1.length,noRe}));
+      if(none1.length) console.log('INFO 17. 還是沒有 talk 的：'+none1.join('、'));
+      console.log('INFO 17. fallback 開著（假句子）：沒有 talk 的片×人 '+none1.length+'／504；只剩兩個選項的 '+n2+' 組（ask 不出；空存檔算，m2809a、m3007b 有條件的選項不算在內）');
+      delete P.fallback[nw].meh; const part=MOVIES.talkFor(G,nw,nf), mehO=TK.opts.findIndex(o=>o.kind==='meh');
+      check('17. 那個 kind 沒有 fallback 的句子（壞資料）：那個選項照出、她不多說（不丟例外、不出空的框）',!!part&&(mehO<0||part.opts.some(o=>o.k===mehO&&!o.lines.length)),J(part));
+      P.fallback[nw]='x'; const badT=MOVIES.talkFor(G,nw,nf); check('17. 她的 fallback 整組壞掉＝當作沒有（照原本的規則：不問）',badT===null,J(badT));
+    } finally { MOVIES.CFG.fallback=false; delete P.fallback; WANT=[]; }
+    /* 匯入工具：fallback 的稿在白名單上才匯；格式 */
+    const py=`
+import sys, json
+sys.path.insert(0, 'tools/movie')
+import import_movie_plots as M
+out = {}
+out['none'] = M.load_fallback({'files': []})
+fb = {'_meta': {'x': 1}, 'heroine_01': {'feel': [{'re': 'a', 'fx': {'love': 1}}, {'re': ['b', '（c）']}], 'meh': [{'re': 'd', 'fx': {'fr': -1}}]}}
+out['ok'] = M.build_fallback(fb)
+bad = []
+for d in ({'nobody': {'feel': [{'re': 'a'}]}}, {'heroine_01': {'ask': [{'re': 'a'}]}}, {'heroine_01': {'feel': []}}, {'heroine_01': {'feel': [{'re': ''}]}}, {'heroine_01': {'feel': [{'re': 'a', 'fx': {'luv': 1}}]}}, {'heroine_01': {'feel': [{'re': 'a', 'zz': 1}]}}, {'heroine_01': {'feel': [{'re': '「a」'}]}}):
+    try:
+        M.build_fallback(d); bad.append(False)
+    except SystemExit:
+        bad.append(True)
+out['bad'] = bad
+src = open(M.__file__, encoding='utf-8').read()
+out['gate'] = "FB_SRC for e in allow.get('files', [])" in src and 'src_sha(allow, FB_SRC)' in src
+print(json.dumps(out, ensure_ascii=False))
+`;
+    let o=null, err=''; try{ o=JSON.parse(cp.execFileSync('python3',['-c',py],{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']})); }catch(e){ err=String(e.stderr||e.message).slice(-400); }
+    check('17. 匯入工具：fallback 的稿不在白名單＝不匯（None）、在白名單要 approved（src_sha）；{人:{kind:[{re, fx?}]}} 照帶；不認得的人、ask、空的、fx 寫錯、多的欄位、整句加「」＝停下來',
+      !!o&&o.none===null&&J(o.ok)===J({heroine_01:{feel:[{re:'a',fx:{love:1}},{re:['b','（c）']}],meh:[{re:'d',fx:{fr:-1}}]}})&&o.bad.every(x=>x)&&o.gate,err||J(o)); });
   H.done();
 })().catch(e=>{ console.error(e); console.log('FAILED (exception)'); process.exit(1); });

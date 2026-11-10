@@ -10,6 +10,9 @@
   表上寫的替代句一定要一字不差出現在那一則 note 裡（核對不過就停下來），不自己寫字。
 - need（with 的條件）、later 的時機（when）各有一張表；稿上出現表上沒有的字就停下來（新的一批要先補表）。
 - 片 id 一定要在 AA_730 片單（src/data/nanyang_movies.js）；人只能是七位；re 的 key 是人或人＋2／3（第二、三句）。
+- 選項的 kind（feel／detail／self／joke／meh／ask；b189e6bdb 起每個選項都有）照帶；reBy（m3007b：照之前另一部片選了哪一個換句）的格子 → 當時第幾個選項，對照在 REBY 表。
+- AA_745_fallback.json（沒有專屬回答時她怎麼回；MOVIE-FALLBACK-1110）：**在白名單上才匯**（→ MOVIE_PLOTS.fallback）。現在不在白名單（LAWWW 11-10：BB_311 審稿中，
+  AA 還在改句子和 kind 的分類）＝不產生 fallback，遊戲照原本的規則；稿定了：白名單加這個檔（路徑＋commit＋approved）→ 重匯 → src/movies3d.js 的 S.CFG.fallback 改 true。
 用法：python3 tools/movie/import_movie_plots.py [--check]"""
 import json, os, re, subprocess, sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -24,6 +27,14 @@ PEOPLE = ('heroine_01', 'heroine_02', 'heroine_03', 'heroine_04', 'heroine_05', 
 KINDS = ('after', 'mid', 'later', 'skip', 'pick')   # pick＝她一定挑這部（AA_745 v2）；skip＝她不看（舊稿 m2801b 的 skip＋need「一定挑」照舊認）
 WARN = []   # 不認得的人（re／fx 的 key）：列出來、不停（AA 改稿以後重匯）；遊戲裡這些 key 不會被讀到
 BY = ('her', 'me', 'none')
+OPT_KINDS = ('feel', 'detail', 'self', 'joke', 'meh', 'ask')   # 選項的種類（第 1 批 _meta.fields.kind）
+FB_SRC = 'docs/story_planning/AA_745_fallback.json'   # 在白名單上才匯
+FB_KINDS = ('feel', 'detail', 'self', 'joke', 'meh')   # ask 沒有 fallback（她沒有專屬回答＝不出那個選項）
+# reBy：那個選項她的句子照「之前另一部片那次選了哪一個」換。稿上的格子名 → 當時第幾個選項；has＝那個選項的字裡要有這一段（核對用，AA 改了選項要重看）
+REBY = {
+    'm3007b': {'opt': 2, 'film': 'm2511b', 'who': 'heroine_02',
+               'by': {'說過起雞皮疙瘩': {'k': 0, 'has': '起雞皮疙瘩'}, '說過喜歡翻報紙的聲音': {'k': 1, 'has': '翻報紙的聲音'}, '說過蠻悶的': {'k': 2, 'has': '蠻悶的'}}},
+}
 # 稿裡有名字說的句子外面整句加「」的（TEXT-QUOTE-UNIFY-1108 會擋）——這一句是沛珊自己學自己要寫的信，不是外面多加的引號，照留
 QUOTE_OK = {'「妳好，我是小學坐妳旁邊的人，我欠妳三封信。」'}
 
@@ -71,9 +82,7 @@ COND = {   # 第二版（14536ff5e／77f5d0463／7c2de85b6）的 note 重看過
     'm3001b': {'re': {'heroine_012': {'if': 'close'}}},
     'm3003b': {'re': {'heroine_052': {'if': 'giftBookmark'}}},
     'm3005a': {'re': {'kexin': {'if': 'ev:ev_y0_e26', 'else': '你怕高，我早就知道。', 'opt': 0}}},
-    'm3007b': {'opt': {'2': {'if': 'seen:m2511b:heroine_02'}},
-               # 「第一部你說很悶」照當時選的換句：第二版的 note 沒有寫另外兩句（第一版有）——當時選的不是「蠻悶的」（MOVIE_TALK 那一格不是 2）＝這一句只說到「第二部。」（不自己寫字；等 AA 補句）
-               're': {'heroine_02': {'if': 'zrBoring', 'cut': '第二部。', 'opt': 2}}},
+    'm3007b': {'opt': {'2': {'if': 'seen:m2511b:heroine_02'}}},   # 她的第一句照當時選的換＝稿上的 reBy（b0f59985d 起；REBY 表），原本的 zrBoring／cut 拿掉
     'with': {
         'm2707b:heroine_02': {'subs': [['抓住你的袖子', '抓住你的手'], ['抱歉，你袖子皺了。', '我九月就看不到這間戲院了。']], 'if': 'dating',
                               'noteHas': ['袖子改成手', '我九月就看不到這間戲院了。']},
@@ -114,7 +123,7 @@ def fix(x, where, speech=False):
     if isinstance(x, list):
         return [fix(v, f'{where}[{i}]', speech) for i, v in enumerate(x)]
     if isinstance(x, dict):
-        return {k: fix(v, f'{where}.{k}', speech or k in ('re', 'lines', 'say')) for k, v in x.items()}
+        return {k: fix(v, f'{where}.{k}', speech or k in ('re', 'lines', 'say', 'reBy')) for k, v in x.items()}
     return x
 
 
@@ -159,8 +168,17 @@ def chk_film(fid, f, ids):
         raise SystemExit(f'{w}.talk：要有 by（{BY}）、q、三個 opts')
     for i, o in enumerate(t['opts']):
         wo = f'{w}.talk.opts[{i}]'
-        if not o.get('t') or any(k not in ('t', 're', 'fx', 'set') for k in o):
-            raise SystemExit(f'{wo}：只能有 t、re、fx、set')
+        if not o.get('t') or any(k not in ('t', 're', 'fx', 'set', 'kind', 'reBy') for k in o):
+            raise SystemExit(f'{wo}：只能有 t、re、fx、set、kind、reBy')
+        if 'kind' in o and o['kind'] not in OPT_KINDS:
+            raise SystemExit(f'{wo}.kind「{o["kind"]}」：要是 {OPT_KINDS}')
+        if 'reBy' in o:
+            rb = REBY.get(fid)
+            if not rb or rb['opt'] != i or not isinstance(o['reBy'], dict) or set(o['reBy']) != set(rb['by']):
+                raise SystemExit(f'{wo}.reBy：格子和 REBY 表不一樣（先補表）')
+            for lab, alt in o['reBy'].items():
+                if not isinstance(alt, dict) or not alt or any(re_base(k)[0] != rb['who'] or not isinstance(v, str) for k, v in alt.items()):
+                    raise SystemExit(f'{wo}.reBy.{lab}：只能是 {rb["who"]} 的句子')
         for k in (o.get('re') or {}):
             if not re_base(k)[0]:
                 WARN.append(f'{wo}.re.{k}：不認得的人')
@@ -258,7 +276,53 @@ def chk_cond(films):
             raise SystemExit(f'FORCE {key}：note 裡找不到「{x["noteHas"]}」')
 
 
-def build(batches):
+def build_reby(films):
+    out = {}
+    for fid, rb in REBY.items():
+        if fid not in films:
+            continue
+        o = films[fid]['talk']['opts'][rb['opt']]
+        if 'reBy' not in o:
+            raise SystemExit(f'REBY {fid}：稿上第 {rb["opt"]} 個選項沒有 reBy')
+        if rb['film'] not in films:
+            raise SystemExit(f'REBY {fid}：{rb["film"]} 不在稿裡')
+        src = films[rb['film']]['talk']['opts']
+        by = {}
+        for lab, x in rb['by'].items():
+            if x['has'] not in src[x['k']]['t']:
+                raise SystemExit(f'REBY {fid}.{lab}：{rb["film"]} 第 {x["k"]} 個選項的字裡沒有「{x["has"]}」（AA 改了選項要重看這張表）')
+            by[str(x['k'])] = lab
+        out[fid] = {str(rb['opt']): {'film': rb['film'], 'by': by}}
+    return out
+
+
+def build_fallback(d):
+    """AA_745_fallback.json → {人:{kind:[{re, fx?}]}}；字一字不改"""
+    out = {}
+    for p, v in d.items():
+        if p == '_meta':
+            continue
+        if p not in PEOPLE or not isinstance(v, dict):
+            raise SystemExit(f'fallback.{p}：只能是七位')
+        out[p] = {}
+        for k, L in v.items():
+            w = f'fallback.{p}.{k}'
+            if k not in FB_KINDS or not isinstance(L, list) or not L:
+                raise SystemExit(f'{w}：kind 要是 {FB_KINDS}、要有句子')
+            row = []
+            for i, e in enumerate(L):
+                if not isinstance(e, dict) or any(x not in ('re', 'fx') for x in e) or not (isinstance(e.get('re'), str) or (isinstance(e.get('re'), list) and e['re'])):
+                    raise SystemExit(f'{w}[{i}]：只能有 re（一句或幾句）、fx')
+                r = {'re': fix(e['re'], f'{w}[{i}].re', True)}
+                if 'fx' in e:
+                    chk_fx(e['fx'], f'{w}[{i}].fx', people=False)
+                    r['fx'] = e['fx']
+                row.append(r)
+            out[p][k] = row
+    return out
+
+
+def build(batches, fallback=None):
     ids = film_ids()
     films, src, again = {}, [], None
     for path, sha, d in batches:
@@ -315,8 +379,23 @@ def build(batches):
     cond = {k: v for k, v in COND.items() if k == 'with' or k in films}
     cond['with'] = {k: {kk: vv for kk, vv in v.items() if kk != 'noteHas'} for k, v in cond['with'].items()}
     order = sorted(films)
-    return {'src': src, 'again': again, 'need': NEED, 'later': later, 'override': override, 'noQ': sorted(noq), 'pick': pick, 'cond': cond,
-            'films': {k: films[k] for k in order}}
+    data = {'src': src, 'again': again, 'need': NEED, 'later': later, 'override': override, 'noQ': sorted(noq), 'pick': pick, 'cond': cond,
+            'reBy': build_reby(films)}
+    if fallback:   # 在白名單上才有（(path, sha, 內容)）
+        data['src'] = src + [f'{fallback[0]}@{fallback[1]}']
+        data['fallback'] = build_fallback(fallback[2])
+        miss = [f'{fid}[{i}]' for fid in order for i, o in enumerate(films[fid]['talk']['opts']) if 'kind' not in o]
+        if miss:
+            raise SystemExit(f'有 fallback 的時候每個選項都要有 kind：{miss[:8]}…（{len(miss)} 個）')
+    data['films'] = {k: films[k] for k in order}
+    return data
+
+
+def load_fallback(allow):
+    if not any(e.get('path') == FB_SRC for e in allow.get('files', [])):
+        return None   # 還沒放進白名單＝不匯（遊戲照原本的規則）
+    sha, why = src_sha(allow, FB_SRC)
+    return (FB_SRC, sha, json.loads(git('show', f'{sha}:{FB_SRC}')))
 
 
 def load_batches(allow):
@@ -349,7 +428,7 @@ def warn():
 
 def main():
     allow = IG.load(ROOT)
-    data = build(load_batches(allow))
+    data = build(load_batches(allow), load_fallback(allow))
     js = render(data)
     p = os.path.join(ROOT, OUT)
     if '--check' in sys.argv:
@@ -361,7 +440,7 @@ def main():
         return
     open(p, 'w', encoding='utf-8').write(js)
     W = sum(len(f.get('with') or {}) for f in data['films'].values())
-    print('寫入', OUT, '：', len(data['films']), '部；with', W, '組；', ', '.join(data['src']))
+    print('寫入', OUT, '：', len(data['films']), '部；with', W, '組；fallback', '有' if 'fallback' in data else '沒有（不在白名單）', '；', ', '.join(data['src']))
     warn()
 
 

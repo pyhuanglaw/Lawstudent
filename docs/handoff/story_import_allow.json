@@ -5302,13 +5302,17 @@
   },
   {
    "path": "docs/story_planning/AA_745_movie_plots_1.json",
-   "sha": "14536ff5e",
+   "sha": "b189e6bdb",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "MOVIE-TALK-1110",
    "kind": "json",
-   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 1 批：m2409a～m2607b 24 部（情節、場景、散場三選項含效果、13 組片×人）；14536ff5e：第二版（照 BB_308；LAWWW 11-10 重匯）",
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 1 批：m2409a～m2607b 24 部（情節、場景、散場三選項含效果、13 組片×人）；14536ff5e：第二版（照 BB_308；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）",
    "history": [
+    {
+     "sha": "14536ff5e",
+     "approvedBy": "AA（D109）"
+    },
     {
      "sha": "d94b6ae6d",
      "approvedBy": "AA（D109）"
@@ -5317,13 +5321,17 @@
   },
   {
    "path": "docs/story_planning/AA_745_movie_plots_2.json",
-   "sha": "77f5d0463",
+   "sha": "b189e6bdb",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "MOVIE-TALK-1110",
    "kind": "json",
-   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 2 批：m2609a～m2807b 24 部（15 組片×人）；77f5d0463：第二版（照 BB_308：pick、可昕排球段拿掉；LAWWW 11-10 重匯）",
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 2 批：m2609a～m2807b 24 部（15 組片×人）；77f5d0463：第二版（照 BB_308：pick、可昕排球段拿掉；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）",
    "history": [
+    {
+     "sha": "77f5d0463",
+     "approvedBy": "AA（D109）"
+    },
     {
      "sha": "c7152c522",
      "approvedBy": "AA（D109）"
@@ -5332,13 +5340,17 @@
   },
   {
    "path": "docs/story_planning/AA_745_movie_plots_3.json",
-   "sha": "7c2de85b6",
+   "sha": "b189e6bdb",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "MOVIE-TALK-1110",
    "kind": "json",
-   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 3 批：m2809a～m3007b 24 部（72 部寫完）；7c2de85b6：第二版（照 BB_308；LAWWW 11-10 重匯）",
+   "note": "X324 南洋戲院每部片的情節、散場後聊什麼（三個選項有效果）、和誰看多出來的——tools/movie/import_movie_plots.py → src/data/movie_plots.js；第 3 批：m2809a～m3007b 24 部（72 部寫完）；7c2de85b6：第二版（照 BB_308；LAWWW 11-10 重匯）；b189e6bdb：每個選項標 kind、m3007b reBy（MOVIE-FALLBACK-1110；LAWWW 11-10 重匯）",
    "history": [
+    {
+     "sha": "7c2de85b6",
+     "approvedBy": "AA（D109）"
+    },
     {
      "sha": "4de16b994",
      "approvedBy": "AA（D109）"

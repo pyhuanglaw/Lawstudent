@@ -64,7 +64,7 @@ module.exports={H,sec,clone,reset,idx,sum,J,get CH(){ return CH; },set WANT(v){ 
       check('3. opts.again 好幾組＝輪流（第三次第二組、帶自己的開場句；第四次回到第一組）；輪到哪裡記在存檔',v3.grp&&v3.open&&v3.noA&&v4.grp&&v4.re&&!!optN&&optN[pid+':again']===3&&J(saved.dateMemory[who][loc].optN)===J(optN),J({v3,v4,optN}));
       check('3. 收尾的 opts.again：第二次以後到這個地點才出、有效果',v2.cl&&v2.clRe,J(v2));
       H.date(who); next(); await go([pn(pid),'（假）交往中丁']);
-      check('3. opts.dating：交往中出這一組（她的戀愛 +3）',CH.some(c=>c.includes('（假）交往中丁'))&&idx('丁的回答。')>=0&&ADJ.some(([w,d])=>w===who&&d.npcRom===3),J(CH));
+      check('3. opts.dating：交往中出這一組（稿上 +3；一次約會她的戀愛最多 +2＝實際 +2，FX-LOVE-CAP-1110）',CH.some(c=>c.includes('（假）交往中丁'))&&idx('丁的回答。')>=0&&ADJ.some(([w,d])=>w===who&&d.npcRom===2)&&!ADJ.some(([w,d])=>w===who&&d.npcRom===3),J(CH));
       /* 舊存檔：dateMemory 沒有 optN、或壞掉 */
       const old=clone(saved); delete old.dateMemory[who][loc].optN; H.G=old; SOCIAL.bind(old); INV.rec(old); await go([pn(pid)]); const o1=CH.some(c=>c.includes('（假）再來一次甲'));
       old.dateMemory[who][loc].optN=[1,2]; next(); await go([pn(pid)]); const o2=CH.some(c=>c.includes('（假）再來一次甲'))||CH.some(c=>c.includes('（假）第二組丙'));
@@ -85,7 +85,7 @@ module.exports={H,sec,clone,reset,idx,sum,J,get CH(){ return CH; },set WANT(v){ 
       L.steps[0]=Object.assign({},s0,{fx:{love:1},choices:[{t:'（假）甲',re:'（假）回甲。',fx:{love:2}},{t:'（假）乙',re:['（她看了你一眼。）','（假）回乙。'],fx:{fr:-1}}]});
       G=start(); await talk(['（假）甲']); const a={rom:sum(id,'npcRom'),re:idx('（假）回甲。')>=0,who:(H.said[idx('（假）回甲。')]||{}).who};
       G=start(); await talk(['（假）乙']); const b={rom:sum(id,'npcRom'),neg:ADJ.some(([w,d])=>w===id&&J(d)===J({fam:-1,trust:-1,comf:-1})),n:H.said[idx('（她看了你一眼。）')],re:idx('（假）回乙。')};
-      check('4. 層的 fx＋選項的 fx：選甲＝她的戀愛 +1+2；選乙＝+1、熟悉信任自在各 -1；re 當她的回答（括號＝旁白）',a.rom===3&&a.re&&a.who==='以安'&&b.rom===1&&b.neg&&!!b.n&&b.n.who===null&&b.re>=0,J({a,b}));
+      check('4. 層的 fx＋選項的 fx：選甲＝她的戀愛 +1+2（一次聊天最多 +2＝實際 +2，FX-LOVE-CAP-1110）；選乙＝+1、熟悉信任自在各 -1；re 當她的回答（括號＝旁白）',a.rom===2&&a.re&&a.who==='以安'&&b.rom===1&&b.neg&&!!b.n&&b.n.who===null&&b.re>=0,J({a,b}));
       /* dating 那一階 */
       L.dating=[{id:'A2-D1',lines:['（假）交往層一。'],choices:[{t:'（假）丙',re:'（假）回丙。',fx:{love:3}}],fx:{fr:1}},{id:'A2-D2',week:[10,18],lines:['（假）交往層二。']}];
       G=start(); await talk(); const nd={d:idx('（假）交往層一。')>=0,lad:clone(G.social.ladder)};
@@ -93,7 +93,7 @@ module.exports={H,sec,clone,reset,idx,sum,J,get CH(){ return CH; },set WANT(v){ 
       const same=await talk(); const d1b={again:idx('（假）交往層一。')>=0||idx('（假）交往層二。')>=0};
       G.day+=1; G.weekday=3; await talk(['（假）甲']); const d2={step:idx('（假）回甲。')>=0,d:idx('（假）交往層二。')>=0,lad:clone(G.social.ladder)};
       G.day=STORY.termDay(T,10,2); G.weekday=2; await talk(); const d3={d:idx('（假）交往層二。')>=0,lad:clone(G.social.ladder)};
-      check('4. dating 那一階：沒交往＝不出、照 steps；交往中＝先聊交往層（層 fx fr 1、選項 love 3）、進度另外記、不占 steps',!nd.d&&nd.lad[K]===1&&d1.d&&d1.re&&d1.rom===3&&d1.fam>=1&&d1.lad[K+'#dating']===1&&(d1.lad[K]|0)===0,J({nd,d1}));
+      check('4. dating 那一階：沒交往＝不出、照 steps；交往中＝先聊交往層（層 fx fr 1、選項 love 3＝上限 +2）、進度另外記、不占 steps',!nd.d&&nd.lad[K]===1&&d1.d&&d1.re&&d1.rom===2&&d1.fam>=1&&d1.lad[K+'#dating']===1&&(d1.lad[K]|0)===0,J({nd,d1}));
       check('4. 一天一層照舊；交往層的下一層條件還沒到（第 10 週才有）＝照 steps；條件到了才聊交往層',!d1b.again&&d2.step&&!d2.d&&d2.lad[K]===1&&d2.lad[K+'#dating']===1&&d3.d&&d3.lad[K+'#dating']===2,J({d1b,d2,d3}));
       const old=clone(G); delete old.social.ladder[K+'#dating']; H.G=old; SOCIAL.bind(old); EVENTS.bind(GM); old.day+=1; old.weekday=3; await talk(['（假）丙']);
       check('4. 舊存檔（沒有交往層的進度）：從交往層第一層開始；存檔 JSON 來回不壞',idx('（假）交往層一。')>=0&&JSON.parse(J(old)).social.ladder[K+'#dating']===1,J(old.social.ladder));
@@ -154,7 +154,7 @@ print(json.dumps(out, ensure_ascii=False))
   await sec(7,async()=>{ const id='heroine_01', th='p:'+id; let G=H.fresh('2025-10-18',19); H.FRIEND(id); G.contacts={[id]:1}; PHONE.rec(G);
     PHONE.post(G,{th,from:id,text:'（假）訊息',ask:{id:'fx_t1',opts:[{t:'（假）甲',say:[{from:id,text:'（假）回甲'}],fx:{love:2,fr:1}},{t:'（假）乙'}]}}); reset(); const r1=PHONE.answer(G,'fx_t1',0), a1=ADJ.slice();
     PHONE.post(G,{th,from:id,text:'（假）訊息二',ask:{id:'fx_t2',opts:[{t:'（假）甲'},{t:'（假）乙',fx:{fr:-1}}]}}); reset(); PHONE.answer(G,'fx_t2',0); const a2=ADJ.slice();
-    PHONE.post(G,{th:'g:class',from:id,text:'（假）群組',ask:{id:'fx_t3',opts:[{t:'（假）甲',fx:{love:1},fxWho:id},{t:'（假）乙',fx:{love:1}}]}}); reset(); PHONE.answer(G,'fx_t3',0); const a3=ADJ.slice();
+    G.flags.FX_CAP={};   /* 手機回覆一個人一天 love 最多 +2（FX-LOVE-CAP-1110；上限在 tests/fx_love_cap_1110_unit.js 第 6 節）：這裡只看 fxWho，先清掉 */ PHONE.post(G,{th:'g:class',from:id,text:'（假）群組',ask:{id:'fx_t3',opts:[{t:'（假）甲',fx:{love:1},fxWho:id},{t:'（假）乙',fx:{love:1}}]}}); reset(); PHONE.answer(G,'fx_t3',0); const a3=ADJ.slice();
     check('7. 手機回覆（PHONE.answer）：選項的 fx 算在這個私訊的人身上；沒有 fx 的選項＝不動；群組的要寫 fxWho',!!r1&&a1.some(([w,d])=>w===id&&J(d)===J({fam:1,trust:1,comf:1,npcRom:2}))&&!a2.some(([w,d])=>d.npcRom!=null||d.fam<0)&&a3.some(([w,d])=>w===id&&d.npcRom===1),J({a1,a2,a3}));
     /* 她主動傳的訊息的回覆（msg_replies／msgreply3d）、玩家主動傳的回問（msg pool／msg3d askOpts）帶 fx */
     const P=MSG_REPLIES.people, keep=P[id]; try{ P[id]=(keep||[]).concat([{text:'（假）她傳的。',opts:[{t:'（假）回一',rel:{fam:1},say:['（假）好。'],fx:{love:1}},{t:'（假）回二',rel:{},say:[]}]}]);

@@ -252,6 +252,8 @@ const TERMEND=(function(){
     finally{ GM.sceneEnd(); } if(GM.autosave) GM.autosave(); return true; };
   /* ---- 飯（出遊事件 ev_termend_dinner 的 beforeOuting；保底阿凱直接叫）---- */
   S._chose=0;   /* 這一頓到現在出過幾組選項（話題池那一則自己有選項＝祐廷不再自動回「嗯。」）*/
+  /* 這頓飯（含回家路上）她的戀愛合計最多 +2；告白那一晚 +3（FX-LOVE-CAP-1110；DATE.capMax）*/
+  S.fxCap=(G,who)=>({cap:'termend:'+G.day,max:typeof DATE!=='undefined'&&DATE.capMax?DATE.capMax(G,who):2});
   const run=async(GM,who,arr)=>{ const G=GM.G, me={name:nm(who),charId:who}; for(let x of arr){ x=resolve(x,G); if(x==null) continue; if(Array.isArray(x)){ await run(GM,who,x); continue; }
       if(typeof x==='string') await GM.say(me,x); else if(x.cg!==undefined){ if(typeof ADV!=='undefined'&&ADV.cg) ADV.cg(x.cg); }   /* {cg:id}：這一刻換成 CG（沒登錄的圖＝不顯示，照立繪）*/ else if(x.narr) await GM.say(null,x.narr);
       else if(x.who==='narr') await GM.say(null,/^（/.test(x.text)?x.text:'（'+x.text+'）');   /* confess_lines.js 的寫法 */
@@ -259,7 +261,7 @@ const TERMEND=(function(){
       else if(Array.isArray(x.choice)||Array.isArray(x.opts)){   /* {choice:[{t,say}]}：飯桌上的一組選項（AA_470 4-2）。DLG-FX-MECH-1110：也可以寫 {say?:[她先說的], opts:[{t, re|say, fx}]}——re＝她的回答（一句或陣列）、fx＝{fr, love}（SOCIAL.applyFx，算在這頓飯的對象身上）*/
         if(x.say!=null) await run(GM,who,[].concat(x.say)); const O=(x.opts||x.choice).filter(o=>o&&typeof o.t==='string'&&o.t.trim()&&(!o.if||o.if(G))); if(!O.length) continue;
         const k=await GM.choose(O.map(o=>({t:o.t}))), o=O[k]||O[0]; S._chose++; await run(GM,who,o.say!=null?[].concat(o.say):(o.re!=null?[].concat(o.re).map(t=>typeof t==='string'&&/^（.*）$/.test(t)?{narr:t}:t):[]));
-        if(o.fx&&typeof SOCIAL!=='undefined'&&SOCIAL.applyFx) SOCIAL.applyFx(G,who,o.fx); if(o.set&&G.flags&&G.flags[o.set]==null) G.flags[o.set]=G.day; }
+        if(o.fx&&typeof SOCIAL!=='undefined'&&SOCIAL.applyFx) SOCIAL.applyFx(G,who,o.fx,S.fxCap(G,who)); if(o.set&&G.flags&&G.flags[o.set]==null) G.flags[o.set]=G.day; }
       else if(x.text) await GM.say(x.who&&x.who!==who?{name:nm(x.who),charId:x.who}:me,x.text,x.expr?{expr:x.expr}:undefined); } };
   S.dinner=async function(GM,q){ const G=GM.G, te=q&&q.te; if(!te) return false; const Lx=L(), who=te.who, kind=te.kind, R=S.rec(G,te.term);
     if(kind==='kexin') return S.kexinDinner(GM,te);
