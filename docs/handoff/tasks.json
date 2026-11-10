@@ -52892,6 +52892,28 @@
     "receiver": "BB",
     "ack": "未派"
    }
+  },
+  {
+   "id": "FLOWER-NOTES-1110",
+   "title": "公館花攤（晨露花舖）升級成雙層精品花藝店「花序 Flower Notes」（X325）",
+   "owner": "LAWWW",
+   "status": "暫停",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "使用者規格書第十六節：本階段只規劃、不執行修改；等她明確授權＋外觀、一樓室內兩張正式參考圖（決定：使用者 11-10）",
+   "resumeWhen": "使用者說可以開始實作",
+   "recheckOn": "2026-11-13",
+   "next": "規劃報告 11-10 21:1x 已回使用者；授權後 Phase 2 起派 LAWWW2、AA"
   }
  ]
 }
