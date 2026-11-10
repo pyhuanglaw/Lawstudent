@@ -297,3 +297,11 @@
 [17:01:34] ==== START X285b_old  (probe @ e73888074c) ====
 [17:01:37] [res] cpu=2% mem=48% (15.2/31.4 GB) chrome_testing=8  START X285b_old
 [17:02:09] [res] cpu=10% mem=47% (14.6/31.4 GB) chrome_testing=9  END ROMPRIV_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       555b1a9ae..8862b619d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:02:14] ==== END   ROMPRIV_old  exit=1  1102s   ====
+[17:02:17] memory 45% before starting X285b_new (2 running)
+[17:02:17] ==== START X285b_new  (probe @ dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963) ====
+[17:02:20] [res] cpu=14% mem=45% (14.2/31.4 GB) chrome_testing=9  START X285b_new
+[17:02:53] [res] cpu=13% mem=46% (14.4/31.4 GB) chrome_testing=8  END SVC2_old
