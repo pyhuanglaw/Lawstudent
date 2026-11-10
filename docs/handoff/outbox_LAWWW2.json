@@ -7144,6 +7144,20 @@
    "noDirectIntegrate": false,
    "note": "attachRoomGLB：正式模型有 WALL_*_VIEW 照片卡的那一面，拿掉擋在卡前面的程序化窗（視差窗照舊）。新測試開發 be84c8680 FAILED 2 → ALL PASS；回歸 99 支全過。待決定：小路的視差窗擋在 komichi 照片卡前（沒動）。",
    "next": "佇列：ART-GYM-POOL-SWIMMERS（卡）→ CROWD-DEPTS-LOOK-1028 → PERF-CAMPUS-GLB-1102"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "ART-SOP（ART_SOP.md、SCENE_RULES.md、sop_demo 合進開發分支）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/art_sop_1110/（README、art_sop_1110.patch）"
+   ],
+   "state": "文件，可直接整合",
+   "noDirectIntegrate": false,
+   "note": "只新增三份文件（內容和 LAWWW2 分支上的一樣），整合後 ART-SOP 結案。",
+   "next": "等 LAWWW 回 CROWD-DEPTS-LOOK 做不做；先量 PERF-CAMPUS-GLB census"
   }
  ]
 }
