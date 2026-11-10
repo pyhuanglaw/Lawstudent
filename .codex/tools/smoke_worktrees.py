@@ -37,6 +37,9 @@ def main() -> None:
         worktree = target / role
         run(repo, "worktree", "add", "--detach", "--no-checkout", str(worktree), sha)
         run(worktree, "sparse-checkout", "set", "--cone", ".agents", ".codex", "docs/handoff")
+        # --no-checkout leaves an empty index. Populate only this new worktree,
+        # honoring its sparse rules; otherwise status reports every file deleted.
+        run(worktree, "read-tree", "-mu", sha)
         assert Path(run(worktree, "rev-parse", "--show-toplevel")).resolve() == worktree
         assert run(worktree, "rev-parse", "HEAD") == sha
         assert not run(worktree, "status", "--porcelain")
