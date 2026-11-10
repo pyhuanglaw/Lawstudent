@@ -15,17 +15,17 @@ R = L.Run('gg_signs_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 GROUPS = [('gongguan', '公館', ['青木茶室', '頁間書屋', '慢輪單車', 'afar', '轉角唱片'], 3),
           ('xinsheng', '新生南路', ['山嵐', '同弦', '大口漢堡', '南洋戲院'], 9),
-          ('wenzhou', '溫州街', ['SUNNY SIDE', '小路', '書店的櫥窗|溫州書屋', '夏日冰菓', '買一杯飲料|帝大紅茶', '2:30 AM'], 3),
-          ('wenzhou', '日常失速', ['日常失速'], 3)]   # r3：第 4 欄＝相機最少退幾 m（新生南路 r2 相機在騎樓裡、招牌被天花板切掉 → 至少 9 m 不管導航格）；帝大紅茶在遊戲裡是「買一杯飲料」(17.4,−7.3)   # r2（BB 20:12）：16 間；溫州書屋在遊戲裡是「看書店的櫥窗」；2:30 AM 是對照組（本來就正）
+          ('wenzhou', '溫州街', ['SUNNY SIDE', '小路', '書店的櫥窗|溫州書屋@0,-1', '夏日冰菓', '買一杯飲料|帝大紅茶', '2:30 AM'], 3),
+          ('wenzhou', '日常失速', ['日常失速@1,0'], 3)]   # r3：第 4 欄＝相機最少退幾 m（新生南路 r2 相機在騎樓裡、招牌被天花板切掉 → 至少 9 m 不管導航格）；帝大紅茶在遊戲裡是「買一杯飲料」(17.4,−7.3)   # r2（BB 20:12）：16 間；溫州書屋在遊戲裡是「看書店的櫥窗」；2:30 AM 是對照組（本來就正）
 ONLY = [g for g in (os.environ.get('GROUPS') or '').split(',') if g]
 FIND = r"""((names,mind)=>{ const E=GAME.E, N=E.nav, ZN=id=>(typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[id]&&Z3.ZONES[id].name)||'';
   const free=(x,z)=>!N||N.free(x,z);
-  return names.map(key=>{ const ks=key.split('|'), nm=ks[ks.length-1]; const it=(E.interactables||[]).find(i=>!i.hidden&&ks.some(k=>String(i.label||'').includes(k)||(i.exit&&ZN(i.exit.to).includes(k))));
+  return names.map(key0=>{ const at0=String(key0).split('@'), key=at0[0], OV=at0[1]?at0[1].split(',').map(Number):null; const ks=key.split('|'), nm=ks[ks.length-1];   /* r5：@ox,oz＝手動指定店面朝哪邊（導航格判錯的：溫州書屋櫥窗朝溫州街 −z、日常失速店門朝西側橫巷 +x〔daily_offbeat_layout.js exit spawn yaw π/2〕）*/ const it=(E.interactables||[]).find(i=>!i.hidden&&ks.some(k=>String(i.label||'').includes(k)||(i.exit&&ZN(i.exit.to).includes(k))));
     if(!it) return {nm, x:null};
     /* 店門朝哪邊：16 個方向找最近的擋住的格子＝店面那一邊；相反方向＝街上 */
     let best=null; for(let a=0;a<16;a++){ const t=a*Math.PI/8, dx=Math.sin(t), dz=Math.cos(t); for(let r=0.25;r<=3.5;r+=0.25){ if(!free(it.x+dx*r,it.z+dz*r)){ if(!best||r<best.r) best={r,dx,dz,t}; break; } } }
     if(!best) best={r:1.5,dx:0,dz:-1,t:Math.PI};
-    let ox=-best.dx, oz=-best.dz; if(Math.abs(ox)>=Math.abs(oz)){ ox=Math.sign(ox); oz=0; } else { oz=Math.sign(oz); ox=0; }   /* r3：貼齊最近的軸（街都是沿 x 或 z；r2 斜 22.5°）*/
+    let ox=-best.dx, oz=-best.dz; if(OV){ ox=OV[0]; oz=OV[1]; } else if(Math.abs(ox)>=Math.abs(oz)){ ox=Math.sign(ox); oz=0; } else { oz=Math.sign(oz); ox=0; }   /* r3：貼齊最近的軸（街都是沿 x 或 z；r2 斜 22.5°）*/
     let fr=best.r; for(let r=0.25;r<=3.5;r+=0.25){ if(!free(it.x-ox*r,it.z-oz*r)){ fr=r; break; } } const fx=it.x-ox*fr, fz=it.z-oz*fr;
     const run=(vx,vz)=>{ let d=0; for(let r=0.5;r<=12;r+=0.25){ if(!free(fx+vx*r,fz+vz*r)) break; d=r; } return d; };
     const dOut=run(ox,oz), dist=Math.max(mind||3,Math.min(10,dOut*0.85));
