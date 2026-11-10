@@ -79,7 +79,7 @@ const GIFTH=(function(){
 
   /* ---------------- 包包 ---------------- */
   S.item=gid=>(X()&&X().items[gid])||null;
-  S.shopName=key=>{ const s=X()&&X().shops[key]; return s?s.name:''; };
+  S.shopName=key=>{ const s=X()&&X().shops[key]; return s?s.name.replace(/（新）$/,'').replace(/，新）$/,'）'):''; };   /* AA_732 店名後面的「新」是企劃註記（新店），畫面不顯示（BB 11-10 BUG-GIFT-SHOPNAME-NEW-1110）*/
   S.bag=G=>F(G).bag.filter(b=>b&&S.item(b.id));
   S.full=G=>S.bag(G).length>=S.MAX;
   /* AA_416 1-8 舊的送禮（G.fest.gifts）：同名的那一樣算送過了；以安 2028 情人節的鋼筆（AN_VDAY_GIFT pen，AA_733 reuse）*/
@@ -235,7 +235,13 @@ const GIFTH=(function(){
     if(dt&&R.s3==null) return 'sl_sis_3'; if((st>=3||dt)&&R.s2==null) return 'sl_sis_2'; if(R.s1==null&&R.s2==null) return 'sl_sis_1'; return 'sl_sis_rot'; };
   const scene=id=>X().stationery.scenes.find(s=>s.id===id);
   S.NB_PRICE=250;
+  /* 開演那一刻：玩家離學姊不到 0.6 m 就沿「她→玩家」方向退到 0.8 m（站得住才退，站不住就試 0.7、0.6），兩個人面對面；只做這一次，不是每一格搬人（合作規則第 5 條） */
+  S.slSpace=function(GM,who){ try{ const E=GM.E, P=E&&E.player, n=who&&(who.obj?who:(who.ent||null)); const no=n&&n.obj&&n.obj.position, po=P&&P.obj&&P.obj.position; if(!no||!po) return false;
+      let dx=po.x-no.x, dz=po.z-no.z, d=Math.hypot(dx,dz); if(d>=0.6) { P.obj.rotation.y=Math.atan2(-dx,-dz); return false; } if(d<1e-3){ dx=1; dz=0; d=1; }
+      for(const r of [0.8,0.7,0.6]){ const x=no.x+dx/d*r, z=no.z+dz/d*r; if(!E.canStand||E.canStand(x,z,0.3,P.lv|0)){ po.x=x; po.z=z; P.obj.rotation.y=Math.atan2(no.x-x,no.z-z); if(n.obj.rotation) n.obj.rotation.y=Math.atan2(x-no.x,z-no.z); return true; } }
+    }catch(e){} return false; };
   S.slPlay=async function(GM,who){ const G=GM.G, R=F(G), id=S.slPick(G); if(!id) return null; R.sl.day=G.day; const sc=scene(id), st=stageNum('heroine_05'), dt=dating(G,'heroine_05');
+    S.slSpace(GM,who);   /* BB 11-10 BUG-SHANLAN-SIS-OVERLAP-1110：開演前玩家離她至少 0.6 m（原本停在 0.23 m，背包穿進她身體） */
     if(id==='sl_sis_rot'){ const L=sc.lines, ok=L.map((_,i)=>i).filter(i=>i<2||st>=3||dt); const n=R.sl.rot|0, i=ok[n%ok.length]; R.sl.rot=n+1; await play(GM,who,L[i]); }
     else { await play(GM,who,sc.lines);
       if(sc.choice){ const k=await GM.choose(sc.choice.map(c=>({t:c.t}))); const c=sc.choice[k]||sc.choice[0]; await GM.say({name:G.name||'祐廷'},c.t); await play(GM,who,c.r); }

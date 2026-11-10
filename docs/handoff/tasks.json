@@ -51613,6 +51613,84 @@
     "ack": "ACTIONED"
    },
    "sha": "cdf7a32de"
+  },
+  {
+   "id": "BUG-SHANLAN-SIS-OVERLAP-1110",
+   "title": "山嵐文具區學姊開演時玩家和她身體疊 0.23 m（背包穿進她）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "送禮系統（GIFT-HOLIDAY-1110）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 11-10 11:2x】BB 11:11 回報（BB_255）；修好本機 commit（gifthol3d.js S.slSpace 開演時退到 0.8 m、S.shopName 去掉「新」；index.html .tabs button min-height 44px）；gift_holiday ALL PASS（加兩項）；等 CC X295／GIFT ui 重拍。",
+   "xai": {
+    "spec": "BB 11-10 11:11（cc-testing shots/gift_shanlan_overlap.png、gift_bag_shopname_new.png）",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "BB 重拍 PASS",
+    "receiver": "BB",
+    "ack": "SENT"
+   },
+   "sha": null
+  },
+  {
+   "id": "BUG-GIFT-SHOPNAME-NEW-1110",
+   "title": "物品頁店名多「新」（AA_732 店名註記）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "送禮系統（GIFT-HOLIDAY-1110）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 11-10 11:2x】BB 11:11 回報（BB_255）；修好本機 commit（gifthol3d.js S.slSpace 開演時退到 0.8 m、S.shopName 去掉「新」；index.html .tabs button min-height 44px）；gift_holiday ALL PASS（加兩項）；等 CC X295／GIFT ui 重拍。",
+   "xai": {
+    "spec": "BB 11-10 11:11（cc-testing shots/gift_shanlan_overlap.png、gift_bag_shopname_new.png）",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "BB 重拍 PASS",
+    "receiver": "BB",
+    "ack": "SENT"
+   },
+   "sha": null
+  },
+  {
+   "id": "BUG-TABS-44PX-1110",
+   "title": "選單分頁按鈕 40 px，不到 44 px",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "送禮系統（GIFT-HOLIDAY-1110）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW 11-10 11:2x】BB 11:11 回報（BB_255）；修好本機 commit（gifthol3d.js S.slSpace 開演時退到 0.8 m、S.shopName 去掉「新」；index.html .tabs button min-height 44px）；gift_holiday ALL PASS（加兩項）；等 CC X295／GIFT ui 重拍。",
+   "xai": {
+    "spec": "BB 11-10 11:11（cc-testing shots/gift_shanlan_overlap.png、gift_bag_shopname_new.png）",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "BB 重拍 PASS",
+    "receiver": "BB",
+    "ack": "SENT"
+   },
+   "sha": null
   }
  ]
 }

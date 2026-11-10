@@ -67,6 +67,10 @@ const flat=L=>L.join('');
     { const o=GIFTH.shopOpt(G,'gg_flower'), L=GIFTH.sells(G,'gg_flower'), gH=G.hour;
       G.hour=15; const op=GIFTH.flowerOpen(G); G.hour=22; const cl=GIFTH.flowerOpen(G); G.hour=8.5; const cl2=GIFTH.flowerOpen(G); G.hour=gH;
       check('1. 公館站口花攤（GG-FLOWER-STALL-1110）：gg_flower 有「買禮物…」、賣花束和向日葵；09:00～21:00 開',o&&o.t==='買禮物…'&&L.indexOf('g_bouquet')>=0&&L.indexOf('g_sunflower')>=0&&op&&!cl&&!cl2,J(L)); }
+    check('1. 店名不顯示企劃註記「新」（BB BUG-GIFT-SHOPNAME-NEW-1110）：山嵐書店（文具區）、afar café（選物櫃）、公館站口花攤',GIFTH.shopName('xs_shanlan_stationery')==='山嵐書店（文具區）'&&GIFTH.shopName('afar')==='afar café（選物櫃）'&&GIFTH.shopName('gg_flower')==='公館站口花攤',[GIFTH.shopName('xs_shanlan_stationery'),GIFTH.shopName('afar'),GIFTH.shopName('gg_flower')].join('、'));
+    { const mk=(x,z)=>({obj:{position:{x,z},rotation:{y:0}}}); const her=mk(4.15,6.5), P=Object.assign(mk(4.36,6.6),{lv:0}); const moved=GIFTH.slSpace({E:{player:P,canStand:()=>true}},her); const d=Math.hypot(P.obj.position.x-4.15,P.obj.position.z-6.5);
+      const P2=Object.assign(mk(5.2,6.5),{lv:0}); const m2=GIFTH.slSpace({E:{player:P2,canStand:()=>true}},her);
+      check('1. 山嵐文具區學姊開演：玩家離她 0.23 m → 退到 0.8 m、面對面；本來就 ≥0.6 m 的不搬（BB BUG-SHANLAN-SIS-OVERLAP-1110）',moved&&Math.abs(d-0.8)<1e-6&&!m2&&P2.obj.position.x===5.2,J({moved,d,m2})); }
     check('1. 沒有這家店的 key＝沒有（daybreak、yangyang）',!GIFTH.shopOpt(G,'daybreak')&&!GIFTH.shopOpt(G,'yangyang'));
     const m0=G.money; let r=await run(()=>GIFTH.buy(GM,'xs_shanlan_stationery'),['一盒綠色螢光筆']);
     const it=GIFT_HOLIDAY.items.g_green_hl;
@@ -253,7 +257,7 @@ const flat=L=>L.join('');
   await sec(12,async()=>{ const G=setup('2025-12-24',15,{lv:{[SIS]:4}}); buy('g_green_hl'); buy('g_tabs');
     await run(()=>opt(SIS).run(GM,who(SIS)),['螢光筆']);
     const h=GIFTH.bagHTML(G), it=GIFT_HOLIDAY.items.g_tabs;
-    check('12. 物品分頁：包包裡的（品名、哪裡買、說明、幾樣／10）、她送的',h.indexOf('包包裡的禮物（1/10）')>=0&&h.indexOf(it.name)>=0&&h.indexOf(it.line)>=0&&h.indexOf('山嵐書店（文具區，新）')>=0&&h.indexOf('她送的')>=0&&h.indexOf(GIFT_HOLIDAY.give[SIS].xmas.B.item)>=0);
+    check('12. 物品分頁：包包裡的（品名、哪裡買、說明、幾樣／10）、她送的',h.indexOf('包包裡的禮物（1/10）')>=0&&h.indexOf(it.name)>=0&&h.indexOf(it.line)>=0&&h.indexOf('山嵐書店（文具區）')>=0&&h.indexOf('，新）')<0&&h.indexOf('她送的')>=0&&h.indexOf(GIFT_HOLIDAY.give[SIS].xmas.B.item)>=0);
     const p=GIFTH.personHTML(G,SIS); check('12. 人物頁：她喜歡（送過的 love）、她送的',p.indexOf('她喜歡')>=0&&p.indexOf('一盒綠色螢光筆')>=0&&p.indexOf(GIFT_HOLIDAY.give[SIS].xmas.B.item)>=0);
     const L=STORY.roomItemList(G), row=L.find(x=>x[0].indexOf(GIFT_HOLIDAY.give[SIS].xmas.B.item)===0);
     check('12. 宿舍房間的櫃子：她送的那一樣（名字＋lines 第一句）',!!row&&J(row[1])===J([GIFT_HOLIDAY.give[SIS].xmas.B.item+'。',T(G,GIFT_HOLIDAY.give[SIS].xmas.B.lines[0])]),J(row));
