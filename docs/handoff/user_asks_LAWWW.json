@@ -3522,6 +3522,46 @@
    "task": "HANDOFF-B-1108",
    "src": "使用者對 LAWWW-B，AskUserQuestion 確認 UA-LAWWW-1109-02",
    "checked": "帳號 B 接班；LAWWW-B duty register、開回每小時喚醒"
+  },
+  {
+   "id": "UA-LAWWW-1110-01",
+   "at": "2026-11-10T00:30Z",
+   "quote": "遊戲中應該要有說明?簡單說明如何約人一天可以做幾件事情這些??",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X268",
+   "task": "HELP-GUIDE-1110",
+   "src": "使用者對 LAWWW-B"
+  },
+  {
+   "id": "UA-LAWWW-1110-02",
+   "at": "2026-11-10T00:32Z",
+   "quote": "（選擇題「說明做法」）說明頁＋第一次提示（建議）",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X268",
+   "task": "HELP-GUIDE-1110",
+   "src": "使用者對 LAWWW-B，AskUserQuestion"
+  },
+  {
+   "id": "UA-LAWWW-1110-03",
+   "at": "2026-11-10T00:33Z",
+   "quote": "在頁間書屋點任何東西都只有對話?沒有畫面?",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X269",
+   "task": "BUG-YEJIAN-NO-VISUAL-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
+  },
+  {
+   "id": "UA-LAWWW-1110-04",
+   "at": "2026-11-10T00:34Z",
+   "quote": "去木曜日說只剩吧台有位置 但明明還有空桌 吧台也沒位子（附存檔 fatiao3d_save_day47.json）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X270",
+   "task": "BUG-MOKU-EXAM-SEATS-1110",
+   "src": "使用者對 LAWWW-B（試玩回報）"
   }
  ]
 }
