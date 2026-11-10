@@ -56,18 +56,23 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); return
-        # A 公館巷口
-        R.setup('【前置／捷徑】讀檔到 gongguan (−71, 14) 2025-10-18 14:00')
-        await D.load_zone(pg, cdp, 'gongguan', '2025-10-18', 14.0, x=-71, z=14, yaw=0.0, wait=9000)
-        ex = await pg.evaluate(EXITS); R.note('公館的出口：%s' % J(ex))
-        R.check('公館沒有通溫州街的出口（exit.to＝wenzhou）', not [e for e in ex if e['to'] == 'wenzhou'], J(ex))
-        await look(pg, -71, 3.0, 11, -71, 1.2, 22); await shot(pg, 'A1_lane_far'); await unlook(pg)
-        u0 = await pg.evaluate(UI)
-        ok = await L.go_to(pg, cdp, R, -71, 27, 0.6, '[A] 點地面往巷子裡 (−71, 27) 走', max_s=40)
-        await pg.wait_for_timeout(1000); u = await pg.evaluate(UI)
-        R.note('[A] 往巷子走以後：%s' % J(u))
-        R.check('[A] 走不進巷子（z ≤ 19.5、還在公館）', u['zone'] == 'gongguan' and u['z'] <= 19.5, J(u))
-        await look(pg, u['x'] + 1.2, 1.7, u['z'] - 2.2, -71, 0.7, 20.5); await shot(pg, 'A2_lane_near'); await unlook(pg)
+        # A 公館巷口（GG-LANE-CLOSE r2：HOURS＝逗號分隔的時刻，每個時刻拍一組；ONLY_A=1 只做 A）
+        for hh in [float(x) for x in (os.environ.get('HOURS') or '14').split(',')]:
+            ht = '' if hh == 14.0 else '_%02d' % int(hh)
+            R.setup('【前置／捷徑】讀檔到 gongguan (−71, 14) 2025-10-18 %.1f 時' % hh)
+            await D.load_zone(pg, cdp, 'gongguan', '2025-10-18', hh, x=-71, z=14, yaw=0.0, wait=9000)
+            ex = await pg.evaluate(EXITS); R.note('公館的出口：%s' % J(ex))
+            R.check('公館沒有通溫州街的出口（exit.to＝wenzhou）%s' % ht, not [e for e in ex if e['to'] == 'wenzhou'], J(ex))
+            await look(pg, -71, 3.0, 11, -71, 1.2, 22); await shot(pg, 'A1_lane_far' + ht); await unlook(pg)
+            await look(pg, -71, 1.7, 19.0, -71, 1.4, 30); await shot(pg, 'A3_lane_close' + ht); await unlook(pg)   # r2：站在騎樓西端正對巷口（看鐵門、告示）
+            ok = await L.go_to(pg, cdp, R, -71, 27, 0.6, '[A] 點地面往巷子裡 (−71, 27) 走', max_s=40)
+            await pg.wait_for_timeout(1000); u = await pg.evaluate(UI)
+            R.note('[A] 往巷子走以後：%s' % J(u))
+            R.check('[A] 走不進巷子（z ≤ 21.5、還在公館）%s' % ht, u['zone'] == 'gongguan' and u['z'] <= 21.5, J(u))   # r2：騎樓人行道到 z≈21.2（舊版 e9af 也停在 21.18：那一版是靠出口互動換區，不是走進去）；原本 19.5＝TEST_BUG
+            await shot(pg, 'A2_player_at_lane' + ht)   # r2：玩家視角（遊戲鏡頭、人在畫面裡）；原本 A2 另一台相機擺在柱子旁邊，拍到牆
+        if os.environ.get('ONLY_A'):
+            R.check('沒有 JS 例外', not errs, J(errs[:3])); await b.close()
+            print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True); return
         # B 新生南路 → 溫州街 → 新生南路
         R.setup('【前置／捷徑】讀檔到 xinsheng 出生點 2025-10-18 14:00')
         await D.load_zone(pg, cdp, 'xinsheng', '2025-10-18', 14.0, wait=9000)
