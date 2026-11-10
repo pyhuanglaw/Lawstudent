@@ -20,6 +20,7 @@ const ZONE_ASSETS={
   "dorm_205":["bldg.dorm_205"],
   "dorm_hall":["bldg.dorm_hall"],
   "dorm_laundry":["bldg.dorm_laundry"],
+  "flower_notes":["bldg.flower_notes_interior"],
   "gongguan":["bldg.gongguan_shops","bldg.gg_flower_stall","bldg.gongguan_far","bldg.wz_scooter","bldg.gongguan_mrt","bldg.campus_gate","bldg.gg_lane_gate"],
   "gongtong":["bldg.gongtong_interior","prop.furniture_study"],
   "gongtong_3f":["bldg.gongtong_3f"],
