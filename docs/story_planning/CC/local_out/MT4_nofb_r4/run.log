@@ -1,0 +1,11 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_mt3_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MT4_nofb_r4\out
+CC MT3（MOVIE-TALK-1110 第二輪）：CASES NOFB；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】2029-07-28 08:00、heroine_01 朋友＋聯絡方式
+  [ 116.0s] [NOFB 以安 m2907a] 2029-07-28：時間 17.50、朋友頁有 heroine_01：False、選單 []
+  [前置／捷徑] 【前置／捷徑】2029-08-04 08:00、heroine_01 朋友＋聯絡方式
+  [ 146.1s] [NOFB 以安 m2907a] 2029-08-04：時間 8.00、朋友頁有 heroine_01：True、選單 ["念書…2:30 AM、總圖、慢讀咖啡、法律學院圖書館、木曜日、afar café、社科院圖書館", "吃飯…公館燒臘、SUNNY SIDE、日常失速、Daybreak、洋洋鹹酥雞、小路、大口漢堡、巷口家常菜", "喝咖啡、喝茶…2:30 AM、一盞、慢讀咖啡、木曜日、日常失速、afar café", "看電影、逛書店…南洋戲院、頁間書屋、山嵐書店", "散步…溫州街、映月湖、一一八茶飲", "運動…新體育館羽球場、椰影大道、游泳池", "出去玩…畢業典禮以後不能預約", "算了"]
+FAIL [NOFB 以安 m2907a] 有「看電影、逛書店」  [{"t": "在家休息一下一小時", "dim": false}, {"t": "出門校門口、公館、溫州街　捷運＋公車 約 30 分鐘", "dim": false}, {"t": "睡覺隔天早上在家醒來", "dim": false}, {"t": "存檔存到存檔欄位", "dim": false}]
+PASS 沒有 JS 例外  []
+FAILED 1: [NOFB 以安 m2907a] 有「看電影、逛書店」

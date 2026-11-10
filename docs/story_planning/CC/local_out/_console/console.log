@@ -648,3 +648,11 @@
 [06:37:04] [res] cpu=5% mem=32% (11.0/31.4 GB) chrome_testing=0  START MT4_oo_r4
 [06:38:58] 正在跑：MT4_oo_r4（已跑 1 分／上限 15 分）、MT4_nofb_r4（已跑 1 分／上限 15 分）、SHIFT_IMM_r7_new（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [06:39:18] [res] cpu=25% mem=47% (14.8/31.4 GB) chrome_testing=10  END SHIFT_IMM_r7_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3d3371a5b..f6788c8d1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:39:23] ==== END   SHIFT_IMM_r7_new  exit=0  138s   ====
+[06:39:32] memory 47% before starting MT4_oo2805_r5 (2 running)
+[06:39:32] ==== START MT4_oo2805_r5  (probe @ b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91) ====
+[06:39:35] [res] cpu=7% mem=44% (14.8/31.4 GB) chrome_testing=10  START MT4_oo2805_r5
+[06:40:29] [res] cpu=0% mem=49% (15.5/31.4 GB) chrome_testing=9  END MT4_nofb_r4
