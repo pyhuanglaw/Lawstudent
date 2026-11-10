@@ -52814,6 +52814,32 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "DLG-FULL-REVIEW-1110",
+   "title": "全遊戲對話劇情檢視（去 AI 腔、階層、約會都有選項且選項加友情／愛情、電影情節與和誰看的不同影響）（X324）",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "全遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "AA 掃描報告 audit_1110/ → 改稿分批交 LAWWW 重匯；電影 AA_745",
+   "xai": {
+    "spec": "X324、UA-AA-1110-04",
+    "branch": "claude/story-planning",
+    "acceptance": "AA 定稿（D109、D137）；LAWWW 匯入；BB 測選項效果",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
