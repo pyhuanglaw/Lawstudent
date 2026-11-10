@@ -110,7 +110,7 @@ async def choose(pg, cdp, word, exact_start=False):
 async def settle(pg, cdp, secs=40):
     for _ in range(secs * 2):
         q = await P.ts(pg)
-        if q['phone'] and not q['ch'] and not q['dlg']: await L.phone_away(pg, cdp); continue
+        if q['phone']: await L.phone_away(pg, cdp); await P.phone_close(pg, cdp); continue
         if not q['busy'] and not q['dlg'] and not q['ch'] and q['depth'] == 0: return True
         if q['ch']:
             k, _ = P.pick_of(q['ch'], ()); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(900); continue
@@ -177,9 +177,9 @@ async def meet_once(pg, cdp, run, cat, words, tag, pick=None):
     picked = []; reopen = 0; t0 = time.time(); seen = []
     while time.time() - t0 < 900:
         q = await P.ts(pg)
-        if q['phone'] and not q['dlg'] and not q['ch']:
+        if q['phone']:   # 手機開著會蓋住選單（「直接過去／自己走過去」在手機後面，按了沒反應）：先收起來
             reopen += 1; await L.phone_away(pg, cdp); await P.phone_close(pg, cdp)
-            if reopen > 6: break
+            if reopen > 12: break
             continue
         if q['txt'] and (not seen or seen[-1] != [q['name'], q['txt']]): seen.append([q['name'], q['txt']])
         st = await pg.evaluate("(id=>{ const v=(GAME.G.invites||[]).find(x=>String(x.id)===String(id)); return v?{st:v.state, ph:v.lead&&v.lead.ph}:null; })(%s)" % J(v['id']))

@@ -55,6 +55,10 @@ X283b_old | e73888074c | probe | docs/story_planning/test_tools/cc/cc_campus_vie
 X283b_new | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=newb;VIEWS=curb_far:campus:29.9:-54.4:18.4:0.82:12
 X285b_old | e73888074c | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=oldb;VIEWS=av_gate:campus:-95:1.5:18.75:1.5708:6:-210:14:0:40
 X285b_new | dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963 | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=newb;VIEWS=av_gate:campus:-95:1.5:18.75:1.5708:6:-210:14:0:40
+# X276（BB 08:47，LAWWW 72c889ec3＝LAWWW2 24dc0d99b 山嵐文具區 v2）：14:00 門口看文具區＋真的走到文具區（看文具）＋按下去＋近拍。新＝8c050804c（含 72c889ec3）、改前＝3f6dba142；排在 X295 後面、窗景巡拍前面
+X276_new | 8c050804c22e6e9b846e5d02b868cefc1a858af1 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=new;ZONE=xs_shanlan;TARGET=4.5,6.5;LABEL=看文具;LOOK=6.8,6.35;HOUR=14
+X276_old | 3f6dba142276f8cefcc52570f9b659b930d00861 | probe | docs/story_planning/test_tools/cc/cc_shop_spot_probe.py | index.html | 20 | TAG=old;ZONE=xs_shanlan;TARGET=4.5,6.5;LABEL=看文具;LOOK=6.8,6.35;HOUR=14
+# X254 窗景巡拍（BB 08:46，WINVIEW-AUDIT-1105）：探針寫好排在這裡、WAKE 前面
 # WAKE a r2（BB 08:1x 第 4 項）：r1 新舊同一步 FAIL＝剛到校園時「提示」蓋著，按 📱 手機沒打開（截圖證實）＝TEST_BUG；探針改成確認手機開了再點。b 在 WAKE_new 已 PASS（起床選單有出）
 WAKE_a_new2 | 8677568a378f133e45179f251f37f9dfa75943e6 | probe | docs/story_planning/test_tools/cc/cc_wake_stale_probe.py | index.html | 60 | CASES=a
 WAKE_a_old2 | faf1b75a4081a575d797a90f8cbe7fca8a087b58 | probe | docs/story_planning/test_tools/cc/cc_wake_stale_probe.py | index.html | 40 | CASES=a
