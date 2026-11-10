@@ -1,5 +1,7 @@
 # PUTONG101-WINDOW-1102 第 2 版（WIP：等 LAWWW 決定）— LAWWW2 帳號 A，2026-11-10
 
+> **已被 `../v2b/` 取代（LAWWW 11-10 選 B）**：這一版多一個網格，不要整合。
+
 狀態：`WORK_IN_PROGRESS`，**不要整合**。
 
 ## 背景

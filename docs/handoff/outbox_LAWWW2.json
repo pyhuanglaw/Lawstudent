@@ -7102,6 +7102,20 @@
    "noDirectIntegrate": false,
    "note": "gym_moving_parts.py 從 gym_b1.glb 器材原型網格搬出 540 個三角形（退化、不重烘）→ gym_moving_parts.glb；gym3d.js gymMoving 照 g.ph 轉曲柄、照臀部 z 滑座椅、手上有拉把時藏掛著的拉把。新測試開發 0ec32e6f6 FAILED 3 → ALL PASS（腳踝離踏板該踩的點 1.0／2.3 cm）；健身房回歸 37 支全過。bake_gym.sh b1 最後自動跑。",
    "next": "PUTONG101-WINDOW v2-B（ck_glass shader、by_glass 的 skyBox）"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "PUTONG101-WINDOW-1102 第 2 版 B（博思一樓玻璃白天反射天空，不多網格）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/putong101_window_1110/v2b/（README、putong101_window_v2b.patch、putong101_window_unit.js、regression.log）"
+   ],
+   "state": "MODEL_READY，待整合",
+   "noDirectIntegrate": false,
+   "note": "by_glass extras.skyBox＋zones3d.js glassSky（ck_glass shader：範圍內白天加 #4f5f73、晚上 0、霧裡淡掉；半透明才除以 alpha）。putong101_window 開發 0ec32e6f6 第 3、4 項 FAIL → ALL PASS；回歸 28 支全過（含 teach_east_drawcall）。GLSL 沒有在瀏覽器編譯過：請 CC 看主控台、重拍 putong_north。取代 v2（多一個網格）。",
+   "next": "GG-LETTERS-BACK（BB P3：公館 GONGGUAN 立體字背面加素色背板）"
   }
  ]
 }
