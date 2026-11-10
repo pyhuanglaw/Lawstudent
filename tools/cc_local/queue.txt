@@ -148,6 +148,10 @@ WINVIEW_tx_new | a2de6154551eb433a1addae7df7a9a047f633f7c | probe | docs/story_p
 WINVIEW_sso_old | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 20 | SHOPS=sunnyside,offbeat;HOURS=14,21;OWN_ALL=1
 #CANCEL（BB 12:18：小路維持視差窗）WINVIEW_kmc_old | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=komichi;HOURS=19
 WINVIEW_sso_new | a2de6154551eb433a1addae7df7a9a047f633f7c | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 20 | SHOPS=sunnyside,offbeat;HOURS=14,21;OWN_ALL=1
+# PUTONG v2C（BB 12:33；LAWWW2 8ff6e7d4a：東南角那片加進範圍、白天玻璃直接混到 [110,120,130]）：量玻璃平均色，和 v2b 並排；校園 shader 冒煙；等 SHA
+#HOLD SHADER_v2c | <等 LAWWW 整合 SHA> | probe | docs/story_planning/test_tools/cc/cc_shader_smoke_probe.py | index.html | 15 | TAG=v2c;ZONES=campus
+#HOLD TEACHVIEW_pn_v2c | <等 LAWWW 整合 SHA> | probe | docs/story_planning/test_tools/cc/cc_teach_views_raw_probe.py | index.html | 20 | NAMES=putong_north
+#HOLD BOYA1F_v2c | <等 LAWWW 整合 SHA> | probe | docs/story_planning/test_tools/cc/cc_campus_view_shot_probe.py | index.html | 20 | TAG=v2c;VIEWS=boya1f_gap:campus:-27:-69.5:11:0:2.5:-27:2.3:-74.5:70+boya1f_se:campus:-17:-70:11:1.27:6:-32:2.2:-74.5:50
 #CANCEL（BB 12:18：小路維持視差窗）HOLD WINVIEW_kmc_new | <等 LAWWW 整合 SHA> | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=komichi;HOURS=19
 # X295E fair r3（CC 11:4x）：X295E_new 園遊會互動鍵是「騎腳踏車」——存檔騎著車、到了攤位旁車停在那裡？；探針先選選項（舊版點台詞框 190 次）；keep＝照存檔騎車過去、off＝起點先下車；開發分支 head
 X295E_fair_keep | bb8a32765065cc64530791f42aee631e06133b12 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_keep;CASES=fair;BIKE=keep
