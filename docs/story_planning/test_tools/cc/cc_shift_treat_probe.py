@@ -148,9 +148,12 @@ async def main():
                     # r6：r5 進店後馬上按、SHIFTT.entered 還沒登記（pending＝clear，兩版都沒演）→ 在瀏覽器裡每 50 ms 看，pending 一出現就放人、按（同一個 JS 回合）；最多等 8 秒
                     pend = await pg.evaluate("(c=>new Promise(res=>{ const t0=performance.now(); const go=()=>{ const has=typeof SHIFTT!=='undefined'; const pe=!has?'none':(SHIFTT.pending()?'pending':'clear'); if(pe==='pending'||(!has&&performance.now()-t0>1500)||performance.now()-t0>8000){ const E=GAME.E, P=E.player; if(E.placeAt) E.placeAt(P,c.x,c.z,c.lv); else { P.obj.position.x=c.x; P.obj.position.z=c.z; } void GAME.doInteract(); res(pe+'@'+Math.round(performance.now()-t0)+'ms'); } else setTimeout(go,50); }; go(); }))", c)
                     R.setup('%s【捷徑】進店第一個畫面：玩家放到「%s」(%.1f,%.1f) 直接按（GAME.doInteract）；按之前 SHIFTT.pending＝%s' % (tag, c['label'], c['x'], c['z'], pend))
-                picked = []; t0 = time.time(); bought = False
+                picked = []; t0 = time.time(); bought = False; dts = []; shot_n = 0
                 while time.time() - t0 < 150:
                     await pg.wait_for_timeout(700); s2 = await L.state(pg)
+                    dt_ = (s2.get('dtext') or '').strip()   # r7：畫面上對話框的字（GAME.say 以外的路徑也記得到）
+                    if dt_ and (not dts or dts[-1] != dt_): dts.append(dt_)
+                    if (s2['dlg'] or s2['choices']) and shot_n < 4: shot_n += 1; await pg.screenshot(path=os.path.join(OUT, 'imm_%s_%s_%d.jpg' % (TAG, tag.strip('[]').replace(' ', '_'), shot_n)), type='jpeg', quality=70)
                     if s2['choices']:
                         opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>({t:b.textContent.trim(),dim:b.disabled||b.classList.contains('dim')}))")
                         k = None
@@ -159,7 +162,7 @@ async def main():
                         picked.append(opts[k]['t']); await P.tap_choice(pg, cdp, k); continue
                     if s2['dlg']: await L.tap(pg, cdp, '#dlg'); continue
                     if not s2['busy'] and time.time() - t0 > 8: break
-                return {'delta': (await pg.evaluate(ST))['money'] - m0, 'picked': picked, 'pend': pend, 'seat': await pg.evaluate("!!GAME.E.player.seat")}
+                return {'delta': (await pg.evaluate(ST))['money'] - m0, 'picked': picked, 'pend': pend, 'seat': await pg.evaluate("!!GAME.E.player.seat"), 'dtexts': dts}
             THR = float(os.environ.get('THROTTLE') or 0)
             if THR: await cdp.send('Emulation.setCPUThrottlingRate', {'rate': THR})   # r4：PC 60 fps 走到櫃台要 2 秒多，「等兩秒」已經結束（r3 兩版 pending 都是 clear）——CPU 降速 8 倍模擬手機低幀率（BB 15:47 P3 的情境），按之前 pending 要還在才算有測到
             if THR: R.setup('【前置】CPU 降速 %g 倍（CDP Emulation.setCPUThrottlingRate）：模擬手機低幀率' % THR)
@@ -179,7 +182,7 @@ async def main():
                     if not await enter_shop(pg, cdp, tag, 'cafe'): R.check('%s 進了 Café' % tag, False, ''); continue
                     r = await act(('坐',), tag); said = await P.said(pg, n0); R.note('%s 結果 %s；GAME.say %s' % (tag, J(r), J(said)))
                     R.check('%s 前置：按坐下那一刻還沒等滿兩秒（SHIFTT.pending 還在）' % tag, r is not None and str(r['pend']).split('@')[0] in ('pending', 'none'), J(r))
-                    R.check('%s 馬上坐下：先演芷若那一場（有「熱可可」）' % tag, any('熱可可' in x[1] for x in said), J(said))
+                    R.check('%s 馬上坐下：先演芷若那一場（有「熱可可」；GAME.say 或畫面上的對話框）' % tag, any('熱可可' in x[1] for x in said) or any('熱可可' in t for t in (r or {}).get('dtexts', [])), J({'said': said, 'dtexts': (r or {}).get('dtexts')}))
                     st_ = await pg.evaluate(ST); R.check('%s 記下今天在 Café 點的下一樣免費' % tag, ((st_['sh'] or {}).get('free') or {}).get('zone') == 'cafe', J(st_['sh']))
                 if case == 'X':   # 出口不算：進一盞馬上走出口
                     n0 = await imm_load(YT, f, 14.0, '語彤朋友')
