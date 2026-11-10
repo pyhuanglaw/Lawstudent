@@ -63,9 +63,9 @@ async def main():
         print(json.dumps(st, ensure_ascii=False)); run.check('新生南路指向「往溫州街」', st['tgt'] == '往溫州街', str(st['tgt']))
         await run.shot(pg, 'xinsheng_bar')
         # 溫州街（從新生南路進來的落點：西側橫巷北口）
-        await pg.evaluate("void GAME.enter('wenzhou',{x:-33.4,z:-25.8,yaw:0})"); await pg.wait_for_timeout(5000); await wait_tgt(pg, "GAME.G.zone==='wenzhou'&&!!(GUIDE._st.tgt)&&/Café/.test(GUIDE._st.tgt.text||'')")
+        await pg.evaluate("void GAME.enter('wenzhou',{x:-33.4,z:-25.8,yaw:0})"); await pg.wait_for_timeout(5000); await wait_tgt(pg, "GAME.G.zone==='wenzhou'&&!!(GUIDE._st.tgt)&&/2:30 AM|Café/.test(GUIDE._st.tgt.text||'')")
         st = await pg.evaluate("({tgt:GUIDE._st.tgt&&GUIDE._st.tgt.text, txt:document.getElementById('guideText').textContent})")
-        print(json.dumps(st, ensure_ascii=False)); run.check('溫州街指向 Café 的門', bool(st['tgt']) and 'Café' in st['tgt'], str(st['tgt']))
+        print(json.dumps(st, ensure_ascii=False)); run.check('溫州街指向 Café 的門（店名 2:30 AM）', bool(st['tgt']) and ('2:30 AM' in st['tgt'] or 'Café' in st['tgt']), str(st['tgt']))
         await run.shot(pg, 'wenzhou_bar')
         # 總圖早上：閉館訊息寫開放時間
         run.setup('回校園總圖門口、時間 07:12')

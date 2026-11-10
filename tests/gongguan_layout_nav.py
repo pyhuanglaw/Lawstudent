@@ -86,8 +86,8 @@ async def main():
             if zone == 'noodle' and not await pg.evaluate("!!GAME.E.player.busy"): break
             await pg.wait_for_timeout(500)
         check('按下後進到麵店', zone == 'noodle', str(zone))
-        # 站在麵店的出生點 (0,3.5)（在出口「離開公館燒臘」(0,4.2) 半徑 1.5 裡）；原本 (0,3.9) 離後牆 0.6 m、站不住（CC 11-04 NOODLE_exit：從出生點按 4.9 秒回到公館；只改測試）
-        await pg.evaluate("(()=>{ const P=GAME.E.player; P.obj.position.set(0,0,3.5); P.path=null; P.target=null; })()")
+        # 站在燒臘店的出生點（配置 SHAOLA_LAYOUT.shop.spawn，v7 是 (0,5.0)；出口「離開公館燒臘」在 shop.exit.at (0,5.6)）。舊的寫死 (0,3.5) 是改燒臘店 v7（SHAOLA-WIRE-1105）以前麵店的座標（BB／CC 11-10 用 b296c6b56 實測出口按下去回到公館；只改測試）
+        await pg.evaluate("(()=>{ const L=typeof SHAOLA_LAYOUT!=='undefined'&&SHAOLA_LAYOUT.shop&&SHAOLA_LAYOUT.shop.spawn||{x:0,z:3.5}; const P=GAME.E.player; P.obj.position.set(L.x,0,L.z); P.path=null; P.target=null; })()")
         await pg.wait_for_timeout(1500)
         vis = await wait_label('離開公館燒臘')   # [前置] 手機自動打開要回的訊息（STORY.phoneAuto，D103）時先收起來，互動按鈕才會更新
         check('麵店門口出現「離開公館燒臘」', (not vis['hidden']) and vis['label'] == '離開公館燒臘', json.dumps(vis, ensure_ascii=False))
