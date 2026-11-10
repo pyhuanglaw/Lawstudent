@@ -48123,7 +48123,7 @@
    "title": "體育館搬到新月台和法學院中間（北牆邊、新生南路辛亥路口旁）",
    "area": "SCENE",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -48135,7 +48135,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2 做外觀與 patch（館內三區不動、舊位置留無名系館）；LAWWW 照 09:1x 給 LAWWW2 的清單改 9 處門口座標、手機地圖拆「宿舍・體育館」格、ev_sis13_pool near；BB 測進出館、體育課、腳踏車架；下一版。USER_WANTS X257。",
+   "next": "【LAWWW 11-10 08:5x】LAWWW2 查證：已隨 XS-GATE-NORTH-1105 patch cf6a29f7e 進開發分支——門口座標（classes3d gym (−75,−125)、gym3d CAMPUS／gym_layout exit (−75,−123.4)、ev_sis13_pool near）、手機地圖體育館圖釘 cx −75、外觀 campus_gymext.glb（zones3d.js:483，CK.modern 備用）、舊位置 (74,68) 無名系館；下一步 BB／CC 驗收：進出館、體育課、腳踏車架、門外新生南路｜LAWWW2 做外觀與 patch（館內三區不動、舊位置留無名系館）；LAWWW 照 09:1x 給 LAWWW2 的清單改 9 處門口座標、手機地圖拆「宿舍・體育館」格、ev_sis13_pool near；BB 測進出館、體育課、腳踏車架；下一版。USER_WANTS X257。",
    "source": "UA-LAWWW-1105-29",
    "authorized": "使用者原話",
    "xai": {
@@ -48146,7 +48146,7 @@
     "ack": "ACK"
    },
    "src": "UA-LAWWW-1105-29",
-   "sha": ""
+   "sha": "cf6a29f7e"
   },
   {
    "id": "SHORTCUTS-TODO-1105",
