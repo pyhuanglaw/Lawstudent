@@ -1,0 +1,238 @@
+{
+ "timeline": [
+  {
+   "t": 0.0,
+   "zone": "putong",
+   "d": 31,
+   "h": 19.563,
+   "q": {
+    "state": "planned",
+    "day": 31,
+    "h": 20,
+    "arrived": false
+   },
+   "running": false,
+   "jump": null
+  },
+  {
+   "t": 1.3,
+   "zone": "putong",
+   "d": 31,
+   "h": 19.563,
+   "q": {
+    "state": "planned",
+    "day": 31,
+    "h": 20,
+    "arrived": false
+   },
+   "running": true,
+   "jump": null
+  },
+  {
+   "t": 11.2,
+   "zone": "wz_offbeat",
+   "d": 31,
+   "h": 20,
+   "q": {
+    "state": "planned",
+    "day": 31,
+    "h": 20,
+    "arrived": true
+   },
+   "running": true,
+   "jump": null
+  },
+  {
+   "t": 22.0,
+   "zone": "putong",
+   "d": 31,
+   "h": 23.5,
+   "q": {
+    "state": "done",
+    "day": 31,
+    "h": 20,
+    "arrived": false
+   },
+   "running": false,
+   "jump": {
+    "day": 31,
+    "p": "ev"
+   }
+  },
+  {
+   "t": 24.2,
+   "zone": "dorm",
+   "d": 31,
+   "h": 23.755,
+   "q": {
+    "state": "done",
+    "day": 31,
+    "h": 20,
+    "arrived": false
+   },
+   "running": false,
+   "jump": null
+  },
+  {
+   "t": 32.2,
+   "zone": "dorm",
+   "d": 32,
+   "h": 7.502,
+   "q": {
+    "state": "done",
+    "day": 31,
+    "h": 20,
+    "arrived": false
+   },
+   "running": false,
+   "jump": null
+  },
+  {
+   "t": 74.4,
+   "zone": "dorm",
+   "d": 32,
+   "h": 7.756,
+   "q": {
+    "state": "done",
+    "day": 31,
+    "h": 20,
+    "arrived": false
+   },
+   "final": true
+  }
+ ],
+ "cc": {
+  "toasts": [
+   {
+    "t": "晚上的時間用完了，回去睡覺。",
+    "d": 31,
+    "h": 23.502
+   },
+   {
+    "t": "帳戶裡還有這個月的生活費：20,000 元",
+    "d": 32,
+    "h": 7.523
+   }
+  ],
+  "caps": [
+   {
+    "t": "桌遊夜",
+    "d": 31,
+    "h": 20
+   },
+   {
+    "t": "溫州街・日常失速・長桌",
+    "d": 31,
+    "h": 20
+   },
+   {
+    "t": "回到首都帝大。",
+    "d": 31,
+    "h": 23.5
+   },
+   {
+    "t": "回到宿舍。",
+    "d": 31,
+    "h": 23.502
+   },
+   {
+    "t": "喔，回來了。",
+    "d": 31,
+    "h": 23.765
+   },
+   {
+    "t": "喔，回來了。",
+    "d": 32,
+    "h": 7.529
+   }
+  ],
+  "enters": [
+   {
+    "zone": "wz_offbeat",
+    "from": "putong",
+    "d": 31,
+    "h": 20
+   },
+   {
+    "zone": "putong",
+    "from": "wz_offbeat",
+    "d": 31,
+    "h": 20
+   },
+   {
+    "zone": "dorm",
+    "from": "putong",
+    "d": 31,
+    "h": 23.752
+   },
+   {
+    "zone": "dorm",
+    "from": "dorm",
+    "d": 32,
+    "h": 7.514
+   }
+  ]
+ },
+ "done": {
+  "zone": "dorm",
+  "d": 31,
+  "h": 23.755,
+  "dlg": false,
+  "depth": 0,
+  "busy": false,
+  "adv": false,
+  "name": "明軒",
+  "text": "我開個群組，之後在這裡約。",
+  "choices": [],
+  "q": {
+   "state": "done",
+   "day": 31,
+   "h": 20,
+   "arrived": false
+  },
+  "running": false,
+  "jump": null,
+  "slots": {
+   "day": 31,
+   "used": {
+    "am": 0,
+    "pm": 0,
+    "ev": 1
+   }
+  },
+  "bgnN": 1,
+  "fb": 0,
+  "paused": false
+ },
+ "last": {
+  "zone": "dorm",
+  "d": 32,
+  "h": 7.756,
+  "dlg": false,
+  "depth": 0,
+  "busy": false,
+  "adv": false,
+  "name": "明軒",
+  "text": "我開個群組，之後在這裡約。",
+  "choices": [],
+  "q": {
+   "state": "done",
+   "day": 31,
+   "h": 20,
+   "arrived": false
+  },
+  "running": false,
+  "jump": null,
+  "slots": {
+   "day": 31,
+   "used": {
+    "am": 0,
+    "pm": 0,
+    "ev": 1
+   }
+  },
+  "bgnN": 1,
+  "fb": 0,
+  "paused": false
+ }
+}

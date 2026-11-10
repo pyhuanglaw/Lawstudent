@@ -1,0 +1,143 @@
+{
+ "timeline": [
+  {
+   "t": 0.0,
+   "zone": "putong",
+   "d": 32,
+   "h": 14.764,
+   "q": {
+    "state": "planned",
+    "day": 32,
+    "h": 14.833333333333334,
+    "arrived": false
+   },
+   "running": false,
+   "jump": null
+  },
+  {
+   "t": 1.8,
+   "zone": "putong",
+   "d": 32,
+   "h": 14.765,
+   "q": {
+    "state": "planned",
+    "day": 32,
+    "h": 14.833333333333334,
+    "arrived": false
+   },
+   "running": true,
+   "jump": null
+  },
+  {
+   "t": 6.3,
+   "zone": "putong",
+   "d": 32,
+   "h": 18.333,
+   "q": {
+    "state": "done",
+    "day": 32,
+    "h": 14.833333333333334,
+    "arrived": false
+   },
+   "running": false,
+   "jump": null
+  },
+  {
+   "t": 47.4,
+   "zone": "putong",
+   "d": 32,
+   "h": 18.606,
+   "q": {
+    "state": "done",
+    "day": 32,
+    "h": 14.833333333333334,
+    "arrived": false
+   },
+   "final": true
+  }
+ ],
+ "cc": {
+  "toasts": [
+   {
+    "t": "排進行程：今天 14:50　傍晚的出遊（測試）。時間到會跳出「出發」，手機的「今天」也看得到。",
+    "d": 32,
+    "h": 14.763
+   }
+  ],
+  "caps": [
+   {
+    "t": "測試的出遊",
+    "d": 32,
+    "h": 14.833
+   },
+   {
+    "t": "回到首都帝大。",
+    "d": 32,
+    "h": 18.333
+   }
+  ],
+  "enters": []
+ },
+ "done": {
+  "zone": "putong",
+  "d": 32,
+  "h": 18.336,
+  "dlg": false,
+  "depth": 0,
+  "busy": false,
+  "adv": false,
+  "name": "",
+  "text": "（CC 測試的出遊：白天的出遊。）",
+  "choices": [],
+  "q": {
+   "state": "done",
+   "day": 32,
+   "h": 14.833333333333334,
+   "arrived": false
+  },
+  "running": false,
+  "jump": null,
+  "slots": {
+   "day": 32,
+   "used": {
+    "am": 0,
+    "pm": 1,
+    "ev": 0
+   }
+  },
+  "bgnN": 0,
+  "fb": 0,
+  "paused": false
+ },
+ "last": {
+  "zone": "putong",
+  "d": 32,
+  "h": 18.606,
+  "dlg": false,
+  "depth": 0,
+  "busy": false,
+  "adv": false,
+  "name": "",
+  "text": "（CC 測試的出遊：白天的出遊。）",
+  "choices": [],
+  "q": {
+   "state": "done",
+   "day": 32,
+   "h": 14.833333333333334,
+   "arrived": false
+  },
+  "running": false,
+  "jump": null,
+  "slots": {
+   "day": 32,
+   "used": {
+    "am": 0,
+    "pm": 1,
+    "ev": 0
+   }
+  },
+  "bgnN": 0,
+  "fb": 0,
+  "paused": false
+ }
+}

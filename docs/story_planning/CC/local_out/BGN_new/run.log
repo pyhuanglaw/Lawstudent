@@ -1,1 +1,103 @@
 [gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_bgn_after_home_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BGN_new\out
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+INFO 這一版有的東西  {"BGN": true, "OUT": true, "CLS": true, "queueJump": true, "eveSleep": true, "putong": true}
+INFO 日子  {"weeks": [5, 7, 10, 12, 14], "night": 31, "nightOk": true, "sat": 32, "exam": 45, "info": {"night": {"d": 31, "key": "2025-10-17", "wd": 5, "term": "Y1S1", "week": 7, "exam": false}, "sat": {"d": 32, "key": "2025-10-18", "wd": 6, "term": "Y1S1", "week": 7, "exam": false}, "exam": {"d": 45, "key": "2025-10-31", "wd": 5, "term": "Y1S1", "week": 9, "exam": true}}}
+===== night =====
+INFO [night] 桌遊夜那一天  {"d": 31, "key": "2025-10-17", "wd": 5, "term": "Y1S1", "week": 7, "exam": false}
+PASS [night] 前置：選到的日子是桌遊夜（BGN.isNight）  {"d": 31, "key": "2025-10-17", "wd": 5, "term": "Y1S1", "week": 7, "exam": false}
+  [前置／捷徑] 讀檔：普通教學館（putong 預設站位）2025-10-17 19:34（day 31）、條件事件關閉、手機不自動打開；旗標 BGN_GO=31（＝明軒約桌遊答「好。」）
+PASS [night] 遊戲照 BGN_GO 排出桌遊夜（OUT bgn_31，20:00）  {"state": "planned", "day": 31, "h": 20, "arrived": false}
+INFO [night] 出發前  {"zone": "putong", "d": 31, "h": 19.563, "slots": null, "bgnN": 0}
+  [night]   0.0s putong day 31 19:34 q={"state": "planned", "day": 31, "h": 20, "arrived": false} running=False jump=null
+  [night] 選單 ["出發：桌遊夜（日常失速）20:00　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"] → 出發：桌遊夜（日常失速）20:00　走過去約 15 分鐘
+  [night]   1.3s putong day 31 19:34 q={"state": "planned", "day": 31, "h": 20, "arrived": false} running=True jump=null
+  [night]  11.2s wz_offbeat day 31 20:00 q={"state": "planned", "day": 31, "h": 20, "arrived": true} running=True jump=null
+  [night] （旁白）：（長桌上已經擺好了。明軒在發牌，旁邊放著規則書。）
+  [night] 明軒：這款是交換資源蓋房子的。……先玩一輪，邊玩邊懂。
+  [night] （旁白）：（你們玩了三輪。最後一輪明軒輸了，他說是規則書寫得不清楚。）
+  [night] 明軒：我開個群組，之後在這裡約。
+  [night]  22.0s putong day 31 23:30 q={"state": "done", "day": 31, "h": 20, "arrived": false} running=False jump={"day": 31, "p": "ev"}
+  [night]  24.2s dorm day 31 23:45 q={"state": "done", "day": 31, "h": 20, "arrived": false} running=False jump=null
+  [night] 演完（dorm day 31 23:45）
+  [night]  32.2s dorm day 32 07:30 q={"state": "done", "day": 31, "h": 20, "arrived": false} running=False jump=null
+PASS [night] 出發選單出現、點了「出發：桌遊夜…」  ["出發：桌遊夜（日常失速）20:00　走過去約 15 分鐘"]
+PASS [night] 桌遊夜演完（q.state done、BGN_N +1）  {"done": {"zone": "dorm", "d": 31, "h": 23.755}, "q": {"state": "done", "day": 31, "h": 20, "arrived": false}, "bgnN": [0, 1]}
+INFO [night] 演完那一刻  {"zone": "dorm", "d": 31, "h": "23:45", "jump": null, "slots": {"day": 31, "used": {"am": 0, "pm": 0, "ev": 1}}}
+INFO [night] 換區域（GAME.enter）  [{"zone": "wz_offbeat", "from": "putong", "d": 31, "h": 20}, {"zone": "putong", "from": "wz_offbeat", "d": 31, "h": 20}, {"zone": "dorm", "from": "putong", "d": 31, "h": 23.752}, {"zone": "dorm", "from": "dorm", "d": 32, "h": 7.514}]
+INFO [night] toast  [{"t": "晚上的時間用完了，回去睡覺。", "d": 31, "h": 23.502}, {"t": "帳戶裡還有這個月的生活費：20,000 元", "d": 32, "h": 7.523}]
+INFO [night] caption  [{"t": "桌遊夜", "d": 31, "h": 20}, {"t": "溫州街・日常失速・長桌", "d": 31, "h": 20}, {"t": "回到首都帝大。", "d": 31, "h": 23.5}, {"t": "回到宿舍。", "d": 31, "h": 23.502}, {"t": "喔，回來了。", "d": 31, "h": 23.765}, {"t": "喔，回來了。", "d": 32, "h": 7.529}]
+INFO [night] 最後  {"zone": "dorm", "d": 32, "h": "07:45"}
+PASS [night] K1 演完以後回宿舍睡：午夜前進了宿舍或睡到隔天（不是留在普通教學館）【舊版應 FAIL】  {"dorm_enter": true, "slept": true, "final": ["dorm", 32, "07:45"]}
+PASS [night] K2 出現「晚上的時間用完了，回去睡覺。」【舊版應 FAIL】  [{"t": "晚上的時間用完了，回去睡覺。", "d": 31, "h": 23.502}]
+PASS [night] K3 最後不是「那一天、還在普通教學館」【舊版應 FAIL】  {"zone": "dorm", "d": 32, "h": "07:45"}
+PASS [night] 沒有 JS 例外  []
+===== day =====
+  [前置／捷徑] 讀檔：普通教學館（putong 預設站位）2025-10-18 12:53（day 32）、條件事件關閉、手機不自動打開；週六 12:53
+  [前置／捷徑] 注入測試事件 ev_cc_bgn_t（trigger outing、3.5 小時、一句旁白）
+  [前置／捷徑] 手動排出遊 OUT.plan {"id": "cc_bgn_day", "ev": "ev_cc_bgn_t", "day": 32, "h": 13, "place": "日常失速", "title": "白天的出遊（測試）", "travel": "", "travelH": 0} → {"r": true, "q": {"state": "planned", "day": 32, "h": 13}}
+INFO [day] 出發前  {"zone": "putong", "d": 32, "h": 12.924, "slots": null}
+  [day]   0.0s putong day 32 12:55 q={"state": "planned", "day": 32, "h": 13, "arrived": false} running=False jump=null
+  [day] 選單 ["出發：白天的出遊（測試）日常失速　13:00", "晚一點（20 分鐘後再提醒）", "不去了"] → 出發：白天的出遊（測試）日常失速　13:00
+  [day]   1.8s putong day 32 12:56 q={"state": "planned", "day": 32, "h": 13, "arrived": false} running=True jump=null
+  [day] （旁白）：（CC 測試的出遊：白天的出遊。）
+  [day]   6.3s putong day 32 16:30 q={"state": "done", "day": 32, "h": 13, "arrived": false} running=False jump={"day": 32, "p": "pm"}
+  [day] 演完（putong day 32 18:00）
+PASS [day] 出發、演完  {"picked": ["出發：白天的出遊（測試）日常失速　13:00"], "done": ["putong", 32, "18:00"]}
+INFO [day] 演完那一刻  {"zone": "putong", "d": 32, "h": "18:00", "jump": null, "slots": {"day": 32, "used": {"am": 0, "pm": 1, "ev": 0}}}
+INFO [day] 換區域（GAME.enter）  []
+INFO [day] toast  [{"t": "排進行程：今天 13:00　白天的出遊（測試）。時間到會跳出「出發」，手機的「今天」也看得到。", "d": 32, "h": 12.924}]
+INFO [day] caption  [{"t": "測試的出遊", "d": 32, "h": 13}, {"t": "回到首都帝大。", "d": 32, "h": 16.5}, {"t": "（下午的時間用完了）你在普通教學館待到 18:00。", "d": 32, "h": 18}]
+INFO [day] 最後  {"zone": "putong", "d": 32, "h": "18:16"}
+PASS [day] ①白天的出遊照舊回原地：演完回到普通教學館、沒有被拉回宿舍、日子沒變  {"done_zone": "putong", "dorm": [], "final": ["putong", 32, "18:16"]}
+PASS [day] 沒有「晚上的時間用完了，回去睡覺。」  []
+INFO [day] 演完以後還能走（搖桿 ≥0.3 m）  9.94 m
+INFO [day] 演完以後有沒有照 ACTION-BUDGET 跳到 18:00（新版應該會跳、舊版不會；不判）  {"final_h": "18:16"}
+PASS [day] 沒有 JS 例外  []
+===== eve =====
+  [前置／捷徑] 讀檔：普通教學館（putong 預設站位）2025-10-18 14:44（day 32）、條件事件關閉、手機不自動打開；週六 14:43
+  [前置／捷徑] 注入測試事件 ev_cc_bgn_t（trigger outing、3.5 小時、一句旁白）
+  [前置／捷徑] 手動排出遊 OUT.plan {"id": "cc_bgn_eve", "ev": "ev_cc_bgn_t", "day": 32, "h": 14.833333333333334, "place": "日常失速", "title": "傍晚的出遊（測試）", "travel": "", "travelH": 0} → {"r": true, "q": {"state": "planned", "day": 32, "h": 14.833333333333334}}
+INFO [eve] 出發前  {"zone": "putong", "d": 32, "h": 14.764, "slots": null}
+  [eve]   0.0s putong day 32 14:46 q={"state": "planned", "day": 32, "h": 14.833333333333334, "arrived": false} running=False jump=null
+  [eve] 選單 ["出發：傍晚的出遊（測試）日常失速　14:50", "晚一點（20 分鐘後再提醒）", "不去了"] → 出發：傍晚的出遊（測試）日常失速　14:50
+  [eve]   1.8s putong day 32 14:46 q={"state": "planned", "day": 32, "h": 14.833333333333334, "arrived": false} running=True jump=null
+  [eve] （旁白）：（CC 測試的出遊：白天的出遊。）
+  [eve]   6.3s putong day 32 18:20 q={"state": "done", "day": 32, "h": 14.833333333333334, "arrived": false} running=False jump=null
+  [eve] 演完（putong day 32 18:20）
+PASS [eve] 出發、演完  {"picked": ["出發：傍晚的出遊（測試）日常失速　14:50"], "done": ["putong", 32, "18:20"]}
+INFO [eve] 演完那一刻  {"zone": "putong", "d": 32, "h": "18:20", "jump": null, "slots": {"day": 32, "used": {"am": 0, "pm": 1, "ev": 0}}}
+INFO [eve] 換區域（GAME.enter）  []
+INFO [eve] toast  [{"t": "排進行程：今天 14:50　傍晚的出遊（測試）。時間到會跳出「出發」，手機的「今天」也看得到。", "d": 32, "h": 14.763}]
+INFO [eve] caption  [{"t": "測試的出遊", "d": 32, "h": 14.833}, {"t": "回到首都帝大。", "d": 32, "h": 18.333}]
+INFO [eve] 最後  {"zone": "putong", "d": 32, "h": "18:36"}
+PASS [eve] ②晚上那一次還沒用（14:50～18:20）：演完回到普通教學館、沒有被拉回宿舍、日子沒變  {"done_zone": "putong", "dorm": [], "final": ["putong", 32, "18:36"]}
+PASS [eve] 沒有「晚上的時間用完了，回去睡覺。」  []
+INFO [eve] 演完以後還能走（搖桿 ≥0.3 m）  10.04 m
+PASS [eve] 沒有 JS 例外  []
+===== exam =====
+INFO [exam] 考試週那一天  {"d": 45, "key": "2025-10-31", "wd": 5, "term": "Y1S1", "week": 9, "exam": true}
+  [前置／捷徑] 讀檔：普通教學館（putong 預設站位）2025-10-31 19:34（day 45）、條件事件關閉、手機不自動打開；考試週週五 19:33
+  [前置／捷徑] 手動排出遊 OUT.plan {"id": "bgn_cc_exam", "ev": "ev_bgnight", "day": 45, "h": 20, "late": 0.5, "place": "日常失速", "title": "桌遊夜（日常失速）", "travel": "走過去約 15 分鐘", "travelH": 0.25} → {"r": true, "q": {"state": "planned", "day": 45, "h": 20}}
+INFO [exam] 出發前  {"zone": "putong", "d": 45, "h": 19.594, "slots": null}
+  [exam]   0.0s putong day 45 19:36 q={"state": "planned", "day": 45, "h": 20, "arrived": false} running=False jump=null
+  [exam] 選單 ["出發：桌遊夜（日常失速）20:00　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"] → 出發：桌遊夜（日常失速）20:00　走過去約 15 分鐘
+  [exam]   1.8s putong day 45 19:36 q={"state": "planned", "day": 45, "h": 20, "arrived": false} running=True jump=null
+  [exam]   6.2s wz_offbeat day 45 20:00 q={"state": "planned", "day": 45, "h": 20, "arrived": true} running=True jump=null
+  [exam] （旁白）：（長桌上已經擺好了。明軒在發牌，旁邊放著規則書。）
+  [exam] 明軒：這款是交換資源蓋房子的。……先玩一輪，邊玩邊懂。
+  [exam] （旁白）：（你們玩了三輪。最後一輪明軒輸了，他說是規則書寫得不清楚。）
+  [exam] 明軒：我開個群組，之後在這裡約。
+  [exam]  13.7s putong day 45 23:30 q={"state": "done", "day": 45, "h": 20, "arrived": false} running=False jump=null
+  [exam] 演完（putong day 45 23:30）
+PASS [exam] 出發、演完  {"picked": ["出發：桌遊夜（日常失速）20:00　走過去約 15 分鐘"], "done": ["putong", 45, "23:30"]}
+INFO [exam] 演完那一刻  {"zone": "putong", "d": 45, "h": "23:30", "jump": null, "slots": {"day": 45, "used": {"am": 0, "pm": 0, "ev": 1}}}
+INFO [exam] 換區域（GAME.enter）  [{"zone": "wz_offbeat", "from": "putong", "d": 45, "h": 20}, {"zone": "putong", "from": "wz_offbeat", "d": 45, "h": 20}]
+INFO [exam] toast  [{"t": "排進行程：今天 20:00　桌遊夜（日常失速）。時間到會跳出「出發」，手機的「今天」也看得到。", "d": 45, "h": 19.593}]
+INFO [exam] caption  [{"t": "桌遊夜", "d": 45, "h": 20}, {"t": "溫州街・日常失速・長桌", "d": 45, "h": 20}, {"t": "回到首都帝大。", "d": 45, "h": 23.5}]
+INFO [exam] 最後  {"zone": "putong", "d": 45, "h": "23:46"}
+PASS [exam] ②考試週晚上還能多自習一次（20:00～23:30）：演完回到普通教學館、沒有被拉回宿舍、日子沒變  {"done_zone": "putong", "dorm": [], "final": ["putong", 45, "23:46"]}
+PASS [exam] 沒有「晚上的時間用完了，回去睡覺。」  []
+INFO [exam] 演完以後還能走（搖桿 ≥0.3 m）  9.94 m
+PASS [exam] 沒有 JS 例外  []
+ALL PASS

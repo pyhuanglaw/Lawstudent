@@ -1,0 +1,175 @@
+{
+ "timeline": [
+  {
+   "t": 0.0,
+   "zone": "putong",
+   "d": 45,
+   "h": 19.594,
+   "q": {
+    "state": "planned",
+    "day": 45,
+    "h": 20,
+    "arrived": false
+   },
+   "running": false,
+   "jump": null
+  },
+  {
+   "t": 1.8,
+   "zone": "putong",
+   "d": 45,
+   "h": 19.596,
+   "q": {
+    "state": "planned",
+    "day": 45,
+    "h": 20,
+    "arrived": false
+   },
+   "running": true,
+   "jump": null
+  },
+  {
+   "t": 6.2,
+   "zone": "wz_offbeat",
+   "d": 45,
+   "h": 20,
+   "q": {
+    "state": "planned",
+    "day": 45,
+    "h": 20,
+    "arrived": true
+   },
+   "running": true,
+   "jump": null
+  },
+  {
+   "t": 13.7,
+   "zone": "putong",
+   "d": 45,
+   "h": 23.5,
+   "q": {
+    "state": "done",
+    "day": 45,
+    "h": 20,
+    "arrived": false
+   },
+   "running": false,
+   "jump": null
+  },
+  {
+   "t": 55.0,
+   "zone": "putong",
+   "d": 45,
+   "h": 23.774,
+   "q": {
+    "state": "done",
+    "day": 45,
+    "h": 20,
+    "arrived": false
+   },
+   "final": true
+  }
+ ],
+ "cc": {
+  "toasts": [
+   {
+    "t": "排進行程：今天 20:00　桌遊夜（日常失速）。時間到會跳出「出發」，手機的「今天」也看得到。",
+    "d": 45,
+    "h": 19.593
+   }
+  ],
+  "caps": [
+   {
+    "t": "桌遊夜",
+    "d": 45,
+    "h": 20
+   },
+   {
+    "t": "溫州街・日常失速・長桌",
+    "d": 45,
+    "h": 20
+   },
+   {
+    "t": "回到首都帝大。",
+    "d": 45,
+    "h": 23.5
+   }
+  ],
+  "enters": [
+   {
+    "zone": "wz_offbeat",
+    "from": "putong",
+    "d": 45,
+    "h": 20
+   },
+   {
+    "zone": "putong",
+    "from": "wz_offbeat",
+    "d": 45,
+    "h": 20
+   }
+  ]
+ },
+ "done": {
+  "zone": "putong",
+  "d": 45,
+  "h": 23.504,
+  "dlg": false,
+  "depth": 0,
+  "busy": false,
+  "adv": false,
+  "name": "明軒",
+  "text": "我開個群組，之後在這裡約。",
+  "choices": [],
+  "q": {
+   "state": "done",
+   "day": 45,
+   "h": 20,
+   "arrived": false
+  },
+  "running": false,
+  "jump": null,
+  "slots": {
+   "day": 45,
+   "used": {
+    "am": 0,
+    "pm": 0,
+    "ev": 1
+   }
+  },
+  "bgnN": 1,
+  "fb": 0,
+  "paused": false
+ },
+ "last": {
+  "zone": "putong",
+  "d": 45,
+  "h": 23.774,
+  "dlg": false,
+  "depth": 0,
+  "busy": false,
+  "adv": false,
+  "name": "明軒",
+  "text": "我開個群組，之後在這裡約。",
+  "choices": [],
+  "q": {
+   "state": "done",
+   "day": 45,
+   "h": 20,
+   "arrived": false
+  },
+  "running": false,
+  "jump": null,
+  "slots": {
+   "day": 45,
+   "used": {
+    "am": 0,
+    "pm": 0,
+    "ev": 1
+   }
+  },
+  "bgnN": 1,
+  "fb": 0,
+  "paused": false
+ }
+}

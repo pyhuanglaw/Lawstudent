@@ -1,0 +1,151 @@
+{
+ "timeline": [
+  {
+   "t": 0.0,
+   "zone": "putong",
+   "d": 32,
+   "h": 12.924,
+   "q": {
+    "state": "planned",
+    "day": 32,
+    "h": 13,
+    "arrived": false
+   },
+   "running": false,
+   "jump": null
+  },
+  {
+   "t": 1.8,
+   "zone": "putong",
+   "d": 32,
+   "h": 12.927,
+   "q": {
+    "state": "planned",
+    "day": 32,
+    "h": 13,
+    "arrived": false
+   },
+   "running": true,
+   "jump": null
+  },
+  {
+   "t": 6.3,
+   "zone": "putong",
+   "d": 32,
+   "h": 16.5,
+   "q": {
+    "state": "done",
+    "day": 32,
+    "h": 13,
+    "arrived": false
+   },
+   "running": false,
+   "jump": {
+    "day": 32,
+    "p": "pm"
+   }
+  },
+  {
+   "t": 49.1,
+   "zone": "putong",
+   "d": 32,
+   "h": 18.272,
+   "q": {
+    "state": "done",
+    "day": 32,
+    "h": 13,
+    "arrived": false
+   },
+   "final": true
+  }
+ ],
+ "cc": {
+  "toasts": [
+   {
+    "t": "排進行程：今天 13:00　白天的出遊（測試）。時間到會跳出「出發」，手機的「今天」也看得到。",
+    "d": 32,
+    "h": 12.924
+   }
+  ],
+  "caps": [
+   {
+    "t": "測試的出遊",
+    "d": 32,
+    "h": 13
+   },
+   {
+    "t": "回到首都帝大。",
+    "d": 32,
+    "h": 16.5
+   },
+   {
+    "t": "（下午的時間用完了）你在普通教學館待到 18:00。",
+    "d": 32,
+    "h": 18
+   }
+  ],
+  "enters": []
+ },
+ "done": {
+  "zone": "putong",
+  "d": 32,
+  "h": 18.002,
+  "dlg": false,
+  "depth": 0,
+  "busy": false,
+  "adv": false,
+  "name": "",
+  "text": "（CC 測試的出遊：白天的出遊。）",
+  "choices": [],
+  "q": {
+   "state": "done",
+   "day": 32,
+   "h": 13,
+   "arrived": false
+  },
+  "running": false,
+  "jump": null,
+  "slots": {
+   "day": 32,
+   "used": {
+    "am": 0,
+    "pm": 1,
+    "ev": 0
+   }
+  },
+  "bgnN": 0,
+  "fb": 0,
+  "paused": false
+ },
+ "last": {
+  "zone": "putong",
+  "d": 32,
+  "h": 18.272,
+  "dlg": false,
+  "depth": 0,
+  "busy": false,
+  "adv": false,
+  "name": "",
+  "text": "（CC 測試的出遊：白天的出遊。）",
+  "choices": [],
+  "q": {
+   "state": "done",
+   "day": 32,
+   "h": 13,
+   "arrived": false
+  },
+  "running": false,
+  "jump": null,
+  "slots": {
+   "day": 32,
+   "used": {
+    "am": 0,
+    "pm": 1,
+    "ev": 0
+   }
+  },
+  "bgnN": 0,
+  "fb": 0,
+  "paused": false
+ }
+}

@@ -171,3 +171,12 @@
 [16:35:55] ==== START X285_new  (probe @ dcc9276f8ab00ebafa1eb5564ade2fe43a8ce963) ====
 [16:35:58] [res] cpu=14% mem=47% (14.4/31.4 GB) chrome_testing=9  START X285_new
 [16:36:37] [res] cpu=9% mem=48% (15.1/31.4 GB) chrome_testing=9  END X285_old
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       cd2d4d4d7..eb759b098  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:36:43] ==== END   X285_old  exit=0  87s   ====
+[16:36:48] memory 47% before starting X307_new (2 running)
+[16:36:48] ==== START X307_new  (probe @ 10df264ed291cbef985ed22109443d26535ce790) ====
+[16:36:51] [res] cpu=8% mem=47% (15.0/31.4 GB) chrome_testing=9  START X307_new
+[16:36:51] worktree add 10df264ed291cbef985ed22109443d26535ce790: invalid reference - fetching main and the commit itself
+[16:37:26] [res] cpu=7% mem=41% (13.0/31.4 GB) chrome_testing=4  END BGN_new
