@@ -4471,6 +4471,15 @@
    "status": "進行中",
    "wants": "X325",
    "task": "FLOWER-NOTES-1110"
+  },
+  {
+   "id": "UA-LAWWW-1110-100",
+   "at": "2026-11-10T21:4xZ",
+   "quote": "二樓參考圖 室內參考 窗外景是錯的（附圖，存 docs/handoff/user_specs/flower_notes_ref/interior_2f.png）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X325",
+   "task": "FLOWER-NOTES-ART-1110"
   }
  ]
 }
