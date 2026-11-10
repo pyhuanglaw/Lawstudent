@@ -1,0 +1,38 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_mt3_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MT4_arc_b\out
+CC MT3（MOVIE-TALK-1110 第二輪）：CASES ARC_AXDONE,LATER2；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】2027-09-15 08:00、heroine_01 朋友＋聯絡方式
+  [前置／捷徑] [ARC_AXDONE 以安 借據、電影三場演完]【捷徑】電影第 N 場三場都演完：G.flags.ACTN.movie.heroine_01＝{"n": 3, "rec": {"n": 3, "k": 4, "last": null, "rot": -1}}
+PASS [ARC_AXDONE 以安 借據、電影三場演完] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《星河快遞》②《借據》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [ARC_AXDONE 以安 借據、電影三場演完] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [  46.0s] [ARC_AXDONE 以安 借據、電影三場演完] 約好：{"id": "iv55", "h": 9.83, "film": "m2709b", "title": "借據"}；對話 ["電影？好。我先查一下片長。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [ARC_AXDONE 以安 借據、電影三場演完] 約成了  ["電影？好。我先查一下片長。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+  [  46.0s] [ARC_AXDONE 以安 借據、電影三場演完] 預覽：ARCS.pick＝{"n": 1, "need": 1, "lines": ["你知道女舍的門禁是十二點嗎？", "我昨天十一點五十九分進門。舍監看了我一眼。", "我從來沒有那麼晚回去過。是讀書會拖到的。"], "ask": ["你呢？你上一次做規則以外的事，是什麼時候？"], "topic": "規則以外的事", "opts": [{"t": "有一次半夜睡不著，我騎車去河堤吹風。", "rel": {"trust": 2, "comf": 1}, "reply": ["半夜……一個人？", "（她想了一下，好像在想那是什麼樣子。）"], "ansId": "PL_RETAKE_NIGHT"}, {"t": "我很少做規則以外的事。", "rel": {"fam": 1}, "reply": ["那我們很像。……這樣好像不太好。"], "ansId": "PL_RULE"}, {"t": "現在。我本來應該在讀書。", "rel": {"comf": 2, "npcRom": 1}, "reply": ["……那你現在回去讀。", "（她說完，沒有讓你走。）"], "ansId": "PL_NOW"}], "cite": {"PL_RETAKE_NIGHT": ["你說的那個河堤，晚上是不是很暗？我只是想知道。"], "PL_NOW": ["你今天也是本來應該在讀書嗎？"]}}；STUDYN movie pick＝{"rot": 0, "kind": "movie", "seat": ["手機關機了。你的也關。"], "mid": ["（片頭的時候，她小聲說：「這間的椅子比上次那間軟。」）"]}
+PASS [ARC_AXDONE 以安 借據、電影三場演完]「今天」有「前往」
+  [  88.4s] [ARC_AXDONE 以安 借據、電影三場演完] 標記順序：[[6, "MOVIES.enterHall 開始", "xs_nanyang", 9.598], [7, "MOVIES.enterHall 結束", "xs_nanyang_hall", 9.598], [11, "MOVIES.playMid 開始", "xs_nanyang_hall", 10.598], [13, "MOVIES.playMid 結束", "xs_nanyang_hall", 10.598], [15, "MOVIES.leaveHall 開始", "xs_nanyang_hall", 11.598], [16, "MOVIES.leaveHall 結束", "xs_nanyang", 11.598], [17, "MOVIES.after 開始", "xs_nanyang", 11.598], [18, "MOVIES.talk 開始", "xs_nanyang", 11.598], [22, "MOVIES.talk 結束", "xs_nanyang", 11.598], [23, "MOVIES.after 結束", "xs_nanyang", 11.598], [24, "ARCS.run 開始", "xs_nanyang", 11.598], [33, "ARCS.run 結束", "xs_nanyang", 11.598]]
+  [  88.4s] [ARC_AXDONE 以安 借據、電影三場演完] 看到一半那幾句：["｜圖書館的微捲機前面，他把借據翻過來，對著螢幕的光。"]
+PASS [ARC_AXDONE 以安 借據、電影三場演完] 放映中（進 1 廳到散場）沒有要選的東西  {"in": 6, "out": 15, "choose": []}
+PASS [ARC_AXDONE 以安 借據、電影三場演完] 看到一半演了片子的那一幕（MOVIES.playMid）  {"mid": 11, "lines": ["｜圖書館的微捲機前面，他把借據翻過來，對著螢幕的光。"]}
+PASS [ARC_AXDONE 以安 借據、電影三場演完] 故事線那一拍（ARCS.run／rotRun／STUDYN.mid）在散場 talk 之後  {"talk": 18, "talk_end": 22, "arcs": [24]}
+FAIL [ARC_AXDONE 以安 借據、電影三場演完] 放映中（進 1 廳到散場）她沒有講自己的事（沒有她說出口的句子）  ["沈以安｜手機關機了。你的也關。"]
+  [  88.4s] [ARC_AXDONE 以安 借據、電影三場演完] 散場以後的順序（含區域）：[[16, "MOVIES.leaveHall 結束", "xs_nanyang"], [17, "MOVIES.after 開始", "xs_nanyang"], [18, "MOVIES.talk 開始", "xs_nanyang"], [22, "MOVIES.talk 結束", "xs_nanyang"], [23, "MOVIES.after 結束", "xs_nanyang"], [24, "ARCS.run 開始", "xs_nanyang"], [33, "ARCS.run 結束", "xs_nanyang"]]
+PASS [ARC_AXDONE 以安 借據、電影三場演完] 散場以後：talk → with.after（有的話）→ 故事線最多一拍  {"talk": 18, "with": [], "arcs": [24]}
+  [前置／捷徑] 【前置／捷徑】2026-03-15 08:00、以安朋友
+PASS [LATER2 以安 m2603b→隔天電影] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《斷橋以後》②《沉默的書記官》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [LATER2 以安 m2603b→隔天電影] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [ 104.2s] [LATER2 以安 m2603b→隔天電影] 約好：{"id": "iv54", "h": 9.83, "film": "m2603b", "title": "沉默的書記官"}；對話 ["電影？好。我先查一下片長。", "約好 今天 09:50，南洋戲院。"]
+PASS [LATER2 以安 m2603b→隔天電影] 約成了  ["電影？好。我先查一下片長。", "約好 今天 09:50，南洋戲院。"]
+PASS [LATER2 以安 m2603b→隔天電影]「今天」有「前往」
+  [ 135.2s] [LATER2 以安 m2603b→隔天電影] 看完 MOVIE_LATER＝[{"f": "m2603b", "w": "heroine_01", "d": 180}]
+  [前置／捷徑] [LATER2 以安 m2603b→隔天電影]【捷徑】存檔快照 → 隔天 08:00 宿舍讀回來（MOVIE_LATER、MOVIE_LOVE 照舊）
+PASS [LATER2 以安 m2603b→隔天電影]隔天 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《斷橋以後》②《沉默的書記官》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [LATER2 以安 m2603b→隔天電影]隔天 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [ 152.3s] [LATER2 以安 m2603b→隔天電影]隔天 約好：{"id": "iv55", "h": 12.5, "film": "m2603b", "title": "沉默的書記官"}；對話 ["沈以安那時候在上課。問你 今天 12:30 可不可以。", "選項：好，就 今天 12:30｜下次再說", "約好 今天 12:30，南洋戲院。"]
+PASS [LATER2 以安 m2603b→隔天電影]隔天 約成了  ["沈以安那時候在上課。問你 今天 12:30 可不可以。", "選項：好，就 今天 12:30｜下次再說", "約好 今天 12:30，南洋戲院。"]
+  [前置／捷徑] [LATER2 以安 m2603b→隔天電影]隔天【捷徑】約好的是 m2603b，改成 m2603a
+PASS [LATER2 以安 m2603b→隔天電影]隔天「今天」有「前往」
+  [ 186.8s] [LATER2 以安 m2603b→隔天電影] 筆記本那段 __MT 14、進 1 廳 9、看到一半 22
+PASS [LATER2 以安 m2603b→隔天電影] 隔天電影：筆記本那段（MOVIE_LATER）在燈暗前演（在看到一半那一幕之前）  ["｜你和沈以安在南洋戲院看電影。", "MOVIES.playWith 開始", "｜（她把筆記本轉過來給你看。上面抄了兩行：「看到他簽名」「看到他的簽名」。）", "沈以安｜我昨天問我媽。她說，這種差別她每個禮拜都遇到。", "沈以安｜她還問我跟誰去看的。", "[\"「妳怎麼說？」\",\"「妳媽也看電影？」\"]"]
+PASS 沒有 JS 例外  []
+FAILED 1: [ARC_AXDONE 以安 借據、電影三場演完] 放映中（進 1 廳到散場）她沒有講自己的事（沒有她說出口的句子）

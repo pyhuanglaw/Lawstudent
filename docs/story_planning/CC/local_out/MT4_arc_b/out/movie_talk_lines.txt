@@ -1,0 +1,133 @@
+==== [ARC_AXDONE 以安 借據、電影三場演完] 期望 {"talk": {"by": "her", "q": "時效過了，那張借據還有什麼用？", "qOther": false, "other": false, "opts": [{"k": 0, "t": "法律上沒用了。可是他知道阿公是什麼人了。", "lines": ["消滅時效完成，債權還在，只是對方可以拒絕給付。"], "fx": {"love": 1}, "set": null}, {"k": 1, "t": "寫「免還」算不算債務免除？", "lines": ["要向債務人表示才算。寫在自己留著的那一張背面，不算。"], "fx": {"love": 2}, "set": null}, {"k": 2, "t": "翻微捲翻一個學期，我做不到。", "lines": ["我可以。我覺得蠻舒服的。"], "fx": {"fr": 1}, "set": null}]}, "scene": "圖書館的微捲機前面，他把借據翻過來，對著螢幕的光。", "with": {"kind": "later", "when": "看完以後一週內，在總圖或法圖遇到她（偶遇或約念書）", "lines": ["（小聲）我昨天去五樓看了微捲機。", "（小聲）真的有。在最裡面，沒有人用。", "（小聲）我印了一張我出生那天的報紙。頭版是颱風。"], "choice": [{"t": "（小聲）「也幫我印一張。」", "say": ["（小聲）你哪一天？", "（她把日期寫在手背上。）"], "fx": {"love": 2}, "set": "AN_BIRTHDAY_PAPER"}, {"t": "（小聲）「妳真的去了喔。」", "say": ["（小聲）想到就去了。"], "fx": {"fr": 1}}], "note": "圖書館讀書區小聲講（D127）。AN_BIRTHDAY_PAPER：祐廷下一次生日（11/26）以安的禮物換成一張他出生那天的報紙影本（旁白：（是你出生那天的報紙。頭版是一場球賽。））；照 AA_732 禮物系統的生日那一格換一句說明，沒有位置只記旗標。"}, "again": "（第二次看，你注意到上次沒注意到的地方。）", "genre": "法律懸疑"}
+==== [ARC_AXDONE 以安 借據、電影三場演完] ====
+[choose dorm 8.02] ["念書…","吃飯…","喝咖啡、喝茶…","看電影、逛書店…","散步…","運動…","出去玩…","約她過節：生日","算了"]
+[choose dorm 8.02] ["去南洋戲院看電影","去頁間書屋逛逛","去山嵐書店逛逛","返回"]
+[choose dorm 8.02] ["今天 09:50","今天 14:00","今天 19:30","明天 09:50","明天 14:00","明天 19:30","其他日子…","算了"]
+[say dorm 8.02] 沈以安（手機）｜電影？好。我先查一下片長。
+[say dorm 8.02] ｜約好 今天 09:50，南洋戲院。
+[cap dorm 9.25] （等到該出發去赴約）你在宿舍 房間待到 09:15。
+[mark xs_nanyang 9.60] MOVIES.enterHall 開始
+[mark xs_nanyang_hall 9.60] MOVIES.enterHall 結束
+[say xs_nanyang_hall 9.60] 沈以安｜手機關機了。你的也關。
+[say xs_nanyang_hall 9.60] ｜（她在售票口前面，把每一部的片長都看了一遍。）
+[say xs_nanyang_hall 9.60] ｜（燈暗下來，《借據》開始了。）
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 開始
+[say xs_nanyang_hall 10.60] ｜圖書館的微捲機前面，他把借據翻過來，對著螢幕的光。
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 結束
+[cap xs_nanyang_hall 11.60] 南洋戲院・沈以安・（2 小時）
+[mark xs_nanyang_hall 11.60] MOVIES.leaveHall 開始
+[mark xs_nanyang 11.60] MOVIES.leaveHall 結束
+[mark xs_nanyang 11.60] MOVIES.after 開始
+[mark xs_nanyang 11.60] MOVIES.talk 開始
+[say xs_nanyang 11.60] 沈以安｜時效過了，那張借據還有什麼用？
+[choose xs_nanyang 11.60] ["翻微捲翻一個學期，我做不到。","法律上沒用了。可是他知道阿公是什麼人了。","寫「免還」算不算債務免除？"]
+[say xs_nanyang 11.60] 沈以安｜消滅時效完成，債權還在，只是對方可以拒絕給付。
+[mark xs_nanyang 11.60] MOVIES.talk 結束
+[mark xs_nanyang 11.60] MOVIES.after 結束
+[mark xs_nanyang 11.60] ARCS.run 開始
+[say xs_nanyang 11.60] 沈以安｜你知道女舍的門禁是十二點嗎？
+[say xs_nanyang 11.60] 沈以安｜我昨天十一點五十九分進門。舍監看了我一眼。
+[say xs_nanyang 11.60] 沈以安｜我從來沒有那麼晚回去過。是讀書會拖到的。
+[say xs_nanyang 11.60] 沈以安｜你呢？你上一次做規則以外的事，是什麼時候？
+[choose xs_nanyang 11.60] ["有一次半夜睡不著，我騎車去河堤吹風。","我很少做規則以外的事。","現在。我本來應該在讀書。"]
+[say xs_nanyang 11.60] 祐廷｜有一次半夜睡不著，我騎車去河堤吹風。
+[say xs_nanyang 11.60] 沈以安｜半夜……一個人？
+[say xs_nanyang 11.60] ｜（她想了一下，好像在想那是什麼樣子。）
+[mark xs_nanyang 11.60] ARCS.run 結束
+[say xs_nanyang 11.60] 沈以安｜我先回去了。晚點再傳你。
+[cap xs_nanyang 12.00] （上午的時間用完了）你在南洋戲院待到 12:00。
+-- SOCIAL.adjust：[{"id": "heroine_01", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.598, "z": "xs_nanyang_hall", "n": 15}, {"id": "heroine_01", "d": {"npcRom": 1, "rom": 1, "trust": 1}, "h": 11.598, "z": "xs_nanyang_hall", "n": 15}, {"id": "heroine_01", "d": {"npcRom": 1}, "h": 11.598, "z": "xs_nanyang", "n": 22}, {"id": "heroine_01", "d": {"trust": 2, "comf": 1}, "h": 11.598, "z": "xs_nanyang", "n": 31}]
+==== [LATER2 以安 m2603b→隔天電影] 期望 {"talk": {"by": "her", "q": "你有聽出來那個字嗎？", "qOther": false, "other": false, "opts": [{"k": 0, "t": "沒有。我是看她手停下來才知道有事。", "lines": ["我也沒有聽出來。我想再看一次。"], "fx": {"love": 1}, "set": null}, {"k": 1, "t": "有。「的」不見了。", "lines": ["……你有聽出來？", "（她看了你很久。）下次讀書會的紀錄，你來寫。"], "fx": {"love": 2}, "set": null}, {"k": 2, "t": "她明明可以不管的。", "lines": ["不行。筆錄上是她的名字。"], "fx": {"fr": -1}, "set": null}]}, "scene": "法庭很安靜，只有鍵盤聲。鍵盤聲停了兩秒，又繼續。", "with": {"kind": "later", "when": "看完以後的下一次刑法或民法課下課（同班）", "lines": ["（她把筆記本轉過來給你看。上面抄了兩行：「看到他簽名」「看到他的簽名」。）", "我昨天問我媽。她說，這種差別她每個禮拜都遇到。", "她還問我跟誰去看的。"], "choice": [{"t": "「妳怎麼說？」", "say": ["我說同學。", "（她把筆記本轉回去。）她說，喔。"], "fx": {"love": 2}}, {"t": "「妳媽也看電影？」", "say": ["她不看。她說那是上班。"], "fx": {"fr": 1}}], "set": "AN_MOM_ASKED", "note": "以安的媽媽是高等法院庭長（總表第 2 節）。AN_MOM_ASKED 只記旗標；之後 AA 寫到以安帶祐廷見媽媽的場面時可以用（「上次那個同學」）。"}, "again": "（第二次看，你注意到上次沒注意到的地方。）", "genre": "法庭懸疑"}
+==== [LATER2 以安 m2603b→隔天電影] ====
+[choose dorm 8.03] ["念書…","吃飯…","喝咖啡、喝茶…","看電影、逛書店…","散步…","運動…","出去玩…","算了"]
+[choose dorm 8.03] ["去南洋戲院看電影","去頁間書屋逛逛","去山嵐書店逛逛","返回"]
+[choose dorm 8.03] ["今天 09:50","今天 14:00","今天 19:30","明天 09:50","明天 14:00","明天 19:30","其他日子…","算了"]
+[say dorm 8.03] 沈以安（手機）｜電影？好。我先查一下片長。
+[say dorm 8.03] ｜約好 今天 09:50，南洋戲院。
+[cap dorm 9.25] （等到該出發去赴約）你在宿舍 房間待到 09:15。
+[mark xs_nanyang 9.60] MOVIES.enterHall 開始
+[mark xs_nanyang_hall 9.60] MOVIES.enterHall 結束
+[say xs_nanyang_hall 9.60] ｜（她把手機整個關機了。）
+[say xs_nanyang_hall 9.60] 沈以安｜電影院的規則，我都會遵守。
+[say xs_nanyang_hall 9.60] ｜（她在售票口前面，把每一部的片長都看了一遍。）
+[say xs_nanyang_hall 9.60] ｜（燈暗下來，《沉默的書記官》開始了。）
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 開始
+[say xs_nanyang_hall 10.60] ｜法庭很安靜，只有鍵盤聲。鍵盤聲停了兩秒，又繼續。
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 結束
+[say xs_nanyang_hall 10.60] ｜（演到一半，她小聲問你：「那個證人剛剛說的，跟前面矛盾吧？」）
+[cap xs_nanyang_hall 11.60] 南洋戲院・沈以安・（2 小時）
+[mark xs_nanyang_hall 11.60] MOVIES.leaveHall 開始
+[mark xs_nanyang 11.60] MOVIES.leaveHall 結束
+[mark xs_nanyang 11.60] MOVIES.after 開始
+[mark xs_nanyang 11.60] MOVIES.talk 開始
+[say xs_nanyang 11.60] 沈以安｜你有聽出來那個字嗎？
+[choose xs_nanyang 11.60] ["沒有。我是看她手停下來才知道有事。","有。「的」不見了。","她明明可以不管的。"]
+[say xs_nanyang 11.60] 沈以安｜我也沒有聽出來。我想再看一次。
+[mark xs_nanyang 11.60] MOVIES.talk 結束
+[mark xs_nanyang 11.60] MOVIES.after 結束
+[mark xs_nanyang 11.60] ARCS.run 開始
+[say xs_nanyang 11.60] 沈以安｜你知道女舍的門禁是十二點嗎？
+[say xs_nanyang 11.60] 沈以安｜我昨天十一點五十九分進門。舍監看了我一眼。
+[say xs_nanyang 11.60] 沈以安｜我從來沒有那麼晚回去過。是讀書會拖到的。
+[say xs_nanyang 11.60] 沈以安｜你呢？你上一次做規則以外的事，是什麼時候？
+[choose xs_nanyang 11.60] ["有一次半夜睡不著，我騎車去河堤吹風。","我很少做規則以外的事。","現在。我本來應該在讀書。"]
+[say xs_nanyang 11.60] 祐廷｜有一次半夜睡不著，我騎車去河堤吹風。
+[say xs_nanyang 11.60] 沈以安｜半夜……一個人？
+[say xs_nanyang 11.60] ｜（她想了一下，好像在想那是什麼樣子。）
+[mark xs_nanyang 11.60] ARCS.run 結束
+[say xs_nanyang 11.60] 沈以安｜劇情有三個地方不合理。可是我很喜歡。
+[toast xs_nanyang 11.60] 手機｜予樂：📷（一張完賽證書，名字下面的時間被大拇指蓋住）
+[cap xs_nanyang 12.00] （上午的時間用完了）你在南洋戲院待到 12:00。
+-- SOCIAL.adjust：[{"id": "heroine_01", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.597, "z": "xs_nanyang_hall", "n": 17}, {"id": "heroine_01", "d": {"npcRom": 1, "rom": 1, "trust": 1}, "h": 11.597, "z": "xs_nanyang_hall", "n": 17}, {"id": "heroine_01", "d": {"npcRom": 1}, "h": 11.597, "z": "xs_nanyang", "n": 24}, {"id": "heroine_01", "d": {"trust": 2, "comf": 1}, "h": 11.597, "z": "xs_nanyang", "n": 33}]
+==== [LATER2 以安 m2603b→隔天電影]隔天 期望 {"talk": {"by": "me", "q": "（出來以後你才發現自己一直咬著牙。）", "qOther": false, "other": true, "opts": [{"k": 0, "t": "最後那句無線電，比斷橋還厲害。", "lines": ["我想的跟你差不多。"], "fx": {"fr": 1}, "set": null, "fb": "feel"}, {"k": 1, "t": "流籠卡住那段我不敢看。", "lines": ["我想的跟你差不多。"], "fx": {"fr": 1}, "set": null, "fb": "feel"}, {"k": 2, "t": "兄弟到底為什麼不講話？", "lines": ["我也卡在那裡。片尾的字幕我有看完，沒有寫。"], "fx": {"love": 1}, "set": null, "fb": "wonder"}]}, "scene": "流籠懸在溪谷中間不動了，兩邊同時喊「不要拉」。", "with": null, "again": "（第二次看，你注意到上次沒注意到的地方。）", "genre": "災難動作"}
+==== [LATER2 以安 m2603b→隔天電影]隔天 ====
+[choose dorm 8.03] ["念書…","吃飯…","喝咖啡、喝茶…","看電影、逛書店…","散步…","運動…","出去玩…","算了"]
+[choose dorm 8.03] ["去南洋戲院看電影","去頁間書屋逛逛","去山嵐書店逛逛","返回"]
+[choose dorm 8.03] ["今天 09:50","今天 14:00","今天 19:30","明天 09:50","明天 14:00","明天 19:30","其他日子…","算了"]
+[say dorm 8.03] ｜沈以安那時候在上課。問你 今天 12:30 可不可以。
+[choose dorm 8.03] ["好，就 今天 12:30","下次再說"]
+[say dorm 8.03] ｜約好 今天 12:30，南洋戲院。
+[choose dorm 8.03] ["照樣跳過","先不要"]
+[cap dorm 11.92] （等到該出發去赴約）你在宿舍 房間待到 11:55。
+[mark xs_nanyang 12.26] MOVIES.enterHall 開始
+[mark xs_nanyang_hall 12.26] MOVIES.enterHall 結束
+[say xs_nanyang_hall 12.26] ｜（你們找到位子坐下。燈還沒暗，她把爆米花放在中間的扶手上。）
+[say xs_nanyang_hall 12.26] 沈以安｜（小聲）預告片開始了。
+[say xs_nanyang_hall 12.26] ｜你和沈以安在南洋戲院看電影。
+[mark xs_nanyang_hall 12.26] MOVIES.playWith 開始
+[say xs_nanyang_hall 12.26] ｜（她把筆記本轉過來給你看。上面抄了兩行：「看到他簽名」「看到他的簽名」。）
+[say xs_nanyang_hall 12.26] 沈以安｜我昨天問我媽。她說，這種差別她每個禮拜都遇到。
+[say xs_nanyang_hall 12.26] 沈以安｜她還問我跟誰去看的。
+[choose xs_nanyang_hall 12.26] ["「妳怎麼說？」","「妳媽也看電影？」"]
+[say xs_nanyang_hall 12.26] 沈以安｜我說同學。
+[say xs_nanyang_hall 12.26] 沈以安｜（她把筆記本轉回去。）她說，喔。
+[mark xs_nanyang_hall 12.26] MOVIES.playWith 結束
+[say xs_nanyang_hall 12.26] ｜（燈暗下來，《斷橋以後》開始了。）
+[mark xs_nanyang_hall 13.26] MOVIES.playMid 開始
+[say xs_nanyang_hall 13.26] ｜流籠懸在溪谷中間不動了，兩邊同時喊「不要拉」。
+[mark xs_nanyang_hall 13.26] MOVIES.playMid 結束
+[cap xs_nanyang_hall 14.26] 南洋戲院・沈以安・（2 小時）
+[say xs_nanyang_hall 14.26] ｜（燈亮了。她還在看片尾的字幕。）
+[say xs_nanyang_hall 14.26] 沈以安｜……等一下再走。
+[mark xs_nanyang_hall 14.26] MOVIES.leaveHall 開始
+[mark xs_nanyang 14.26] MOVIES.leaveHall 結束
+[mark xs_nanyang 14.26] MOVIES.after 開始
+[mark xs_nanyang 14.26] MOVIES.talk 開始
+[say xs_nanyang 14.26] ｜（出來以後你才發現自己一直咬著牙。）
+[choose xs_nanyang 14.26] ["流籠卡住那段我不敢看。","最後那句無線電，比斷橋還厲害。","兄弟到底為什麼不講話？"]
+[say xs_nanyang 14.26] 沈以安｜我想的跟你差不多。
+[mark xs_nanyang 14.26] MOVIES.talk 結束
+[mark xs_nanyang 14.26] MOVIES.after 結束
+[mark xs_nanyang 14.26] ARCS.run 開始
+[say xs_nanyang 14.26] 沈以安｜溫州街有一間店，我經過四次了。
+[say xs_nanyang 14.26] 沈以安｜每次走到門口，我就想到我沒有理由進去。
+[say xs_nanyang 14.26] 沈以安｜我不渴，也不餓。我只是想進去看看。這樣算理由嗎？
+[say xs_nanyang 14.26] 沈以安｜你會一個人去一間店嗎？就只是因為想去？
+[choose xs_nanyang 14.26] ["會。我常一個人走進沒去過的店，就只是想看看。","不會。我也需要理由。","想去就是理由。"]
+[say xs_nanyang 14.26] 祐廷｜會。我常一個人走進沒去過的店，就只是想看看。
+[say xs_nanyang 14.26] 沈以安｜就只是想看看……那你最近進去的是哪一間？我要寫下來。
+[mark xs_nanyang 14.26] ARCS.run 結束
+[say xs_nanyang 14.26] 沈以安｜我先回去了。晚點再傳你。
+[cap xs_nanyang 15.33] （下午的時間用完了）你在南洋戲院待到 15:20。
+[toast xs_nanyang 15.34] 30 分鐘後上課：15:30 體育（體育館）
+-- SOCIAL.adjust：[{"id": "heroine_01", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.597, "z": "xs_nanyang_hall", "n": 17}, {"id": "heroine_01", "d": {"npcRom": 1, "rom": 1, "trust": 1}, "h": 11.597, "z": "xs_nanyang_hall", "n": 17}, {"id": "heroine_01", "d": {"npcRom": 1}, "h": 11.597, "z": "xs_nanyang", "n": 24}, {"id": "heroine_01", "d": {"trust": 2, "comf": 1}, "h": 11.597, "z": "xs_nanyang", "n": 33}, {"id": "heroine_01", "d": {"npcRom": 1}, "h": 12.263, "z": "xs_nanyang_hall", "n": 20}, {"id": "heroine_01", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 14.263, "z": "xs_nanyang_hall", "n": 26}, {"id": "heroine_01", "d": {"npcRom": 1, "rom": 1, "trust": 1}, "h": 14.263, "z": "xs_nanyang_hall", "n": 26}, {"id": "heroine_01", "d": {"fam": 1, "trust": 1, "comf": 1}, "h": 14.263, "z": "xs_nanyang", "n": 35}, {"id": "heroine_01", "d": {"trust": 1, "comf": 2}, "h": 14.263, "z": "xs_nanyang", "n": 44}]
