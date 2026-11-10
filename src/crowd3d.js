@@ -263,6 +263,45 @@ const CROWD=(function(){
     if(w){ n.name=w; n.dept=w.replace(/系的學生$/,''); }   /* AA_495 那三句：說的人是那個系的學生 */
     n.hear={who,t}; n.talkLabel='聽一句'; n.talk=()=>S.overhear(GM,n,[{who,t}]); };
   S.SPOTS.push(...S.gymSpots());
+  /* ===== B1 游泳池水道裡游泳的人（ART-GYM-POOL-SWIMMERS-1103；使用者 11-03 截圖「游泳池完全沒人？」X169 後半；泳客模型、動作：LAWWW2 980fdb24e）=====
+     開館時間（S.gymHours，和健身中心、救生員同一個）水道裡 2～4 個人來回游：模型 char.swim_sm1／sm2／sf1／sf2（manifest lazy，進 B1 才下載）、姿勢 swim_free（自由式）或 swim_breast（蛙式）。
+     - 水道：GYM_LAYOUT.b1.pool.basin（7 道、每道 2.5 m）；中線 z＝basin.z0＋2.5×(i＋0.5)，挑不相鄰的水道、每人一道；每人速度 0.9～1.2 m/s、起始時間不同（不同步）。
+     - 每一格：q＝CHAR.swimLap(時間＋偏移, 23.4, 速度)（25 m 扣兩頭各 0.8 m；到池邊停 1.4 秒轉身）；人物 (池中線 x＋q.x, 0, 水道中線)、朝向 q.yaw；趴到水面的高度由 character3d.js 的 C.GYM.swim 處理。
+     - 泳客的 VRM 還沒載好、載入失敗＝那個人不放進水裡（備用人物沒有游泳的動作，會直挺挺站在水裡：GYM_FALL）。進場時（換區域的黑幕裡）照現在的時間直接放；
+       之後才載好的，等他在畫面外、或游到池邊轉身的那一刻才放（不在玩家眼前憑空出現在水道中間）。關館：在畫面外、或游到池邊時拿掉；時間跳了（睡覺、跳時間、讀檔）直接拿掉。
+     - 同一天同一批人（日期當種子，D55）；人數照畫質（低 2、中 3、高 4 個以內，同 story3d 路人的 qf）、B1 一層最多 16 個完整人物（gym_crowd_unit 的上限；放不下就少放，不擠掉別人）。
+     - 不是 E3 的導航、碰撞（池子的導航本來整個擋住；泳客不走導航，每一格直接設位置）、沒有 talk＝不能點、只在 gym_b1。不改任何台詞。測試：node tests/pool_swimmers_wire_unit.js */
+  S.SWIM={zone:'gym_b1', L:23.4, v:[0.9,1.2], models:['char.swim_sm1','char.swim_sm2','char.swim_sf1','char.swim_sf2'], poses:['swim_free','swim_breast'], cap:{low:2,medium:3,high:4}, layerCap:16};
+  S.swimBasin=()=>{ const L=typeof GYM_LAYOUT!=='undefined'?GYM_LAYOUT:null; return (L&&L.b1&&L.b1.pool&&L.b1.pool.basin)||null; };
+  S.swimOpen=G=>{ const H=G?S.gymHours(G):null; if(!H) return false; const h=hr(G); return h>=H[0]&&h<H[1]; };
+  /* 這一天的泳客（開著才有）：[{key, model, lane, x0（池中線）, z（水道中線）, pose, v, off}] */
+  S.swimPlan=function(G,qLevel){ const B=S.swimBasin(), W=S.SWIM; if(!B||!S.swimOpen(G)) return []; const r=prng(hash('swim|'+G.day));
+    const nl=B.lanes||7, lw=(B.z1-B.z0)/nl; let n=2+Math.floor(r()*3); n=Math.min(n,W.cap[qLevel]||W.cap.medium,W.models.length,Math.ceil(nl/2));
+    const combos=[]; const pick=(from,acc)=>{ if(acc.length===n){ combos.push(acc.slice()); return; } for(let i=from;i<nl;i++){ acc.push(i); pick(i+2,acc); acc.pop(); } }; pick(0,[]);   /* 不相鄰的水道 */
+    const lanes=combos.length?combos[Math.floor(r()*combos.length)]:[]; const ms=W.models.slice(); for(let i=ms.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [ms[i],ms[j]]=[ms[j],ms[i]]; }
+    return lanes.map((ln,k)=>({key:'swim|'+k,model:ms[k],lane:ln,x0:+((B.x0+B.x1)/2).toFixed(3),z:+(B.z0+lw*(ln+0.5)).toFixed(3),pose:W.poses[r()<0.5?0:1],v:+(W.v[0]+r()*(W.v[1]-W.v[0])).toFixed(3),off:+(r()*60).toFixed(2)})); };
+  const swimLive={}, swimLoad=new Map(); let swimT=0, swimLastH=null;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['crowd3d:swimLoad']=()=>{ swimLoad.clear(); };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：下載中的記號清掉（下一次照 ASSETS 的快取重新判斷，不會重複下載）*/
+  S.swimLive=swimLive; S.swimClock=()=>swimT;
+  const swimReady=key=>typeof CHAR!=='undefined'&&(CHAR.canVRM?CHAR.canVRM({model:key}):(typeof ASSETS!=='undefined'&&!!ASSETS.has&&ASSETS.has(key)));
+  /* 下載泳客的 VRM（和它的動作檔）：一次；失敗就不放那個人（不重試）*/
+  S.swimFetch=function(key){ if(swimLoad.has(key)||typeof ASSETS==='undefined'||!ASSETS.loadOne||!ASSETS.manifest||!ASSETS.manifest[key]) return false; const m=ASSETS.manifest[key]; swimLoad.set(key,'loading');
+    Promise.all([key].concat(m.anims&&ASSETS.manifest[m.anims]?[m.anims]:[]).map(k=>ASSETS.loadOne(k))).then(()=>{ swimLoad.set(key,'ok'); }).catch(()=>{ swimLoad.set(key,'fail'); }); return true; };
+  S.swimAt=p=>{ const q=CHAR.swimLap(swimT+p.off,S.SWIM.L,p.v); return {x:p.x0+q.x,z:p.z,yaw:q.yaw,turn:q.turn}; };
+  S.swimTick=function(GM,dt,instant){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!E.npcs) return; swimT+=dt>0?dt:0;
+    if(swimLastH!=null&&Math.abs(G.hour-swimLastH)>0.2) instant=true; swimLastH=G.hour;   /* 時間跳了：直接照新的時間 */
+    for(const k in swimLive) if(!E.npcs.includes(swimLive[k].n)) delete swimLive[k];   /* 換區域、別的地方拿掉了 */
+    const plan=G.zone===S.SWIM.zone&&typeof CHAR!=='undefined'&&CHAR.swimLap?S.swimPlan(G,E.q&&E.q.level):[], want={}; for(const p of plan) want[p.key]=p;
+    for(const k in swimLive){ const L=swimLive[k], p=want[k]&&want[k].model===L.p.model&&want[k].lane===L.p.lane?want[k]:null; if(p) continue;   /* 關館（或換了一天）：畫面外、游到池邊才拿掉 */
+      const a=S.swimAt(L.p); if(instant||a.turn>0||!inView(E,{x:a.x,y:-0.5,z:a.z})){ E.removeNPC(L.n); delete swimLive[k]; } }
+    let room=S.SWIM.layerCap-E.npcs.length;   /* B1 一層最多 16 個完整人物（泳客也算）*/
+    for(const p of plan){ if(swimLive[p.key]) continue; if(!swimReady(p.model)){ S.swimFetch(p.model); continue; } if(room<=0) continue;   /* 還沒載好：先不放（不讓備用人物站在水裡）*/
+      const a=S.swimAt(p); if(!instant&&!(a.turn>0)&&inView(E,{x:a.x,y:-0.5,z:a.z})) continue;   /* 後來才載好：等在畫面外、或游到池邊再放 */
+      const m=(typeof ASSETS!=='undefined'&&ASSETS.manifest&&ASSETS.manifest[p.model])||{}, o=CHAR.build({id:'swim_'+p.model.replace(/^char\./,''),model:p.model,height:m.height,sex:m.sex});
+      o.position.set(a.x,0,a.z); o.rotation.y=a.yaw;
+      const n=E.addNPC({obj:o,name:'',beh:'idle',pose:p.pose,idlePose:p.pose,isExtra:true,swimmer:true,swimKey:p.key,frozen:true,fixedPos:true,lv:0});
+      n.obj.position.y=0; swimLive[p.key]={n,p}; room--; }
+    for(const k in swimLive){ const L=swimLive[k], o=L.n.obj, a=S.swimAt(L.p); o.position.set(a.x,0,a.z); o.rotation.y=a.yaw; L.n.pose=L.n.idlePose=L.p.pose; } };   /* 每一格照 swimLap 擺（模型換過 n.obj 也照樣）*/
   /* ===== 系籃練球的球場（BBALL-PRESENT-1030；使用者 2026-10-30「系藍練團時間到 根本球場空的」）=====
      校園籃球場（醉月湖東側，zones3d.js 的 bballCourt：半場 15×14、籃框在北邊 (−4,−120.85)；活動點 (3.3,−112.7) 在東邊兩張長椅中間）。
      時段＝系籃練球（activities.js 的 dept_basketball）那一天、那一段：ACTIVITIES.on 成立（大一上第 5～7、10～15 週的週五 17:30～19:00；國定假日照 ACTIVITIES 的規則停練＝沒有人、也沒有參加點），
@@ -798,12 +837,13 @@ const CROWD=(function(){
       if(slot&&!live[spot.id]){ const vis=!instant&&inView(E,{x:spot.c[0],z:spot.c[1]})&&Math.hypot(spot.c[0]-E.player.obj.position.x,spot.c[1]-E.player.obj.position.z)<45; spawnGroup(GM,spot,slot,vis); } } }
   /* 進到區域（story3d.js 的 populate 最後呼叫）：照現在的時間直接排好 */
   S.enter=function(GM,zoneId){ for(const k in live) delete live[k]; pend.length=0; zoneNow=zoneId; entering=true; lastH=GM.G.hour; sync(GM,true);
+    try{ S.swimTick(GM,0,true); }catch(e){ console.warn('CROWD.swimTick',e); }   /* 游泳池的泳客（ART-GYM-POOL-SWIMMERS-1103）：進場照現在的時間直接放（VRM 已經載好的）*/
     try{ S.deptEnter(GM,zoneId); }catch(e){ console.warn('CROWD.deptEnter',e); } };   /* AA_495：story3d.js 生好的路人（走路的人）一人一句、兩個人的對話 */
   /* 玩家坐著上完課、聽完演講（classes3d.js 的 keepCrowd）：時間是待在這裡過完的，不算「時間跳了」——正在走出去的同學照樣走完（2026-10-13 審查：原本下一次 tick 會把他們一起拿掉）*/
   S.keep=function(G){ lastH=G.hour; };
   /* 轉暗、時間過去以後（classes3d.js：提早坐下上課，先等到上課時間）：照新的時間直接重排門口的人（和「時間跳了」一樣；玩家在黑畫面裡沒看到中間那段）*/
   S.resync=function(GM){ const G=GM.G, E=GM.E; if(!G||G.zone!==zoneNow) return; for(const n of E.npcs.slice()) if(n.crowd&&n.crowd!=='cls') E.removeNPC(n); for(const k in live) delete live[k]; pend.length=0; lastH=G.hour; sync(GM,true); };
-  S.tick=function(GM,dt){ const G=GM.G; if(!G||G.zone!==zoneNow) return; entering=false; if(pend.length) runPend(GM); tAcc+=dt; if(tAcc<1.5) return; tAcc=0;   /* 課輔班輪到的人出發（每一格看）*/
+  S.tick=function(GM,dt){ const G=GM.G; if(!G||G.zone!==zoneNow) return; entering=false; try{ S.swimTick(GM,dt); }catch(e){ console.warn('CROWD.swimTick',e); }   /* 泳客每一格照 swimLap 游 */ if(pend.length) runPend(GM); tAcc+=dt; if(tAcc<1.5) return; tAcc=0;   /* 課輔班輪到的人出發（每一格看）*/
     const jump=lastH!=null&&Math.abs(G.hour-lastH)>0.2; lastH=G.hour;   /* 時間突然跳了：直接重排 */
     if(jump){ const E=GM.E; for(const n of E.npcs.slice()) if(n.crowd) E.removeNPC(n); for(const k in live) delete live[k]; pend.length=0; sync(GM,true); }   /* 正在走開的人也一起拿掉（玩家沒有看到中間那段時間）*/
     else sync(GM,false);
