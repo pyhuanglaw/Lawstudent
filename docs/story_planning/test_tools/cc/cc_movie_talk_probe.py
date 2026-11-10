@@ -34,7 +34,7 @@ R = L.Run('movie_talk', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 SAVE = os.path.join(HERE, 'fixtures', 'user_saves_1107', 'fatiao3d_save_day46.json')
 TXT = []
-HOOK = r"""(()=>{ if(window.__MT) return; window.__MT=[]; window.__ADJ=[]; const P=(k,v)=>{ try{ window.__MT.push({k, v:String(v||''), h:+(+GAME.G.hour).toFixed(3), z:GAME.G.zone}); }catch(e){} };
+HOOK = r"""(()=>{ window.__MT=window.__MT||[]; window.__ADJ=window.__ADJ||[]; if(GAME.__mtHooked) return; GAME.__mtHooked=1;   /* r2：只包一次（r1 每次讀檔重包一層＝每句記兩次）*/ const P=(k,v)=>{ try{ window.__MT.push({k, v:String(v||''), h:+(+GAME.G.hour).toFixed(3), z:GAME.G.zone}); }catch(e){} };
   for(const [n,k] of [['toast','toast'],['caption','cap'],['say','say']]){ const f=GAME[n]; if(typeof f!=='function') continue; GAME[n]=function(a,b){ P(k, n==='toast'?a:(n==='caption'?((a?a+'｜':'')+b):(((a&&a.name)||'')+'｜'+b))); return f.apply(this,arguments); }; }
   const c0=GAME.choose; if(typeof c0==='function') GAME.choose=function(o){ try{ P('choose', JSON.stringify((o||[]).map(x=>x&&x.t))); }catch(e){} return c0.apply(this,arguments); };
   if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&!SOCIAL.__mt){ const a0=SOCIAL.adjust; SOCIAL.adjust=function(id,d){ try{ window.__ADJ.push({id, d:JSON.parse(JSON.stringify(d||{})), h:+(+GAME.G.hour).toFixed(3), z:GAME.G.zone, n:window.__MT.length}); }catch(e){} return a0.apply(this,arguments); }; SOCIAL.__mt=1; } })()"""
@@ -62,7 +62,7 @@ async def load(pg, cdp, st, day_key=None, why=''):
         try: st['weekday'] = await pg.evaluate("(d=>CALENDAR.dateOf(d).wd%%7)(%d)" % d)
         except Exception: pass
     await L.load_state(pg, st, quiet_phone=True); await pg.wait_for_timeout(3500); await pe.settle(pg, cdp, [], 30)
-    await pg.evaluate("window.__MT=null; window.__ADJ=null; if(typeof SOCIAL!=='undefined') SOCIAL.__mt=0;")
+    await pg.evaluate("window.__MT=[]; window.__ADJ=[];")
     await pg.evaluate(HOOK)
     R.setup('【前置／捷徑】%s' % why)
 
@@ -190,7 +190,7 @@ async def case_again(pg, cdp):
     if not iv: return
     ex = await expect_talk(pg, iv['film'], 'heroine_01')
     r = await go_watch(pg, cdp, tag, 'heroine_01', iv, 0, [o['t'] for o in ((ex['talk'] or {}).get('opts') or [])]); mt, adj = await dump(pg, tag)
-    ag = [e['v'] for e in mt if e['k'] == 'say' and ex['again'] and ex['again'] in e['v']]
+    ag = [e['v'] for e in mt if e['k'] == 'say' and ex['again'] and ex['again'] in e['v'] and e['z'] in ('xs_nanyang', 'xs_nanyang_hall')]
     R.check('%s 第二次看：沒有散場選項、有一句 again 旁白（%s：%s）' % (tag, ex['genre'], ex['again']), bool(r) and not any(c['after'] for c in r['choices']) and len(ag) == 1, J({'ch': r and r['choices'], 'again': ag}))
 
 
