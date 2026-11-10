@@ -52,9 +52,9 @@ const nextWd=(from,w)=>{ for(let d=D(from);d<D(from)+30;d++) if(wdOf(d)===w&&!CA
     walk('src');
     check('1 src/ 裡（註解、存檔 key 除外）沒有「兩點半 Café」「巷子裡定食」、當店名的「半熟」、溫州街那間的「定食店」',!bad.length,J(bad));
     const EX=[['src/data/eat_lines.js','蛋一樣半熟？'],['src/data/eat_lines.js','好，半熟。'],['src/data/wz_events.js','蛋要半熟'],['src/data/l118_shop_layouts.js','全熟還是半熟'],['src/data/lane118_shops.js','蛋要全熟還是半熟？'],
-      ['src/sis_b13_3d.js','118 巷・定食店'],['src/sup497_3d.js','118 巷・定食店'],['src/zones3d.js',"n:'日日定食'"],['src/data/wz_jobs.js',"contact:'兩點半的老闆'"]];
+      ['src/sis_b13_3d.js','118 巷・定食店'],['src/sup497_3d.js','118 巷・定食店'],['src/zones3d.js',"n:'泰米村食'"],['src/data/wz_jobs.js',"contact:'兩點半的老闆'"]];
     const miss=EX.filter(([f,t])=>!rd(f).includes(t));
-    check('1 例外照留：蛋的熟度（eat_lines 540／541、wz_events「蛋要半熟」、118 巷「全熟還是半熟」）、118 巷的定食店、公館的日日定食、單獨的「兩點半」',!miss.length,J(miss));
+    check('1 例外照留：蛋的熟度（eat_lines 540／541、wz_events「蛋要半熟」、118 巷「全熟還是半熟」）、118 巷的定食店、公館 G11（2026-11-10 改期望：使用者 X320 把日日定食改成泰米村食，原本查 n:\'日日定食\'）、單獨的「兩點半」',!miss.length,J(miss));
     check('1 英文店名和中文字之間空半形空格（「去 2:30 AM 坐坐」「去 SUNNY SIDE 吃早午餐」），挨著標點、「・」不空',INVITE_DATA.places.find(p=>p.id==='cafe').verb==='去 2:30 AM 坐坐'&&INVITE_DATA.places.find(p=>p.id==='brunch').verb==='去 SUNNY SIDE 吃早午餐'
       &&/'溫州街・SUNNY SIDE'/.test(rd('src/data/wz_jobs.js'))&&/'2:30 AM・窗邊'/.test(rd('src/outings3d.js'))&&!/・ (2:30|SUNNY)|(2:30 AM|SUNNY SIDE) ・|[一-鿿](2:30 AM|SUNNY SIDE)|(2:30 AM|SUNNY SIDE)[一-鿿]/.test(strip(rd('src/story3d.js'))+strip(rd('src/data/zrzq_events.js'))+strip(rd('src/data/heroine_asks.js')))); }
   // ---------- 2 內部 id、key；顯示名 ----------
@@ -136,7 +136,7 @@ const nextWd=(from,w)=>{ for(let d=D(from);d<D(from)+30;d++) if(wdOf(d)===w&&!CA
       check('7 劇情匯入白名單：AA_655 approved、AA（D109）；sha 10020abda（第 7 節），歷史 a22e53016（2026-11-04 改期望：原本 sha＝a22e53016）',e.length===1&&e[0].sha==='10020abda'&&(e[0].history||[]).some(h=>h.sha==='a22e53016')&&e[0].status==='approved'&&e[0].approvedBy==='AA（D109）',J(e)); } }
   // ---------- 8 AA_658 ----------
   { const z=rd('src/zones3d.js');
-    check('8 招牌（程式的備用）：溫州書屋、帝大紅茶、阿忠鮮果、常在洗衣；公館的「自助洗衣」照舊',z.includes("shop:{type:'books',name:'溫州書屋',")&&z.includes("shop:{type:'tea',name:'帝大紅茶',")&&z.includes("shop:{type:'fruit',name:'阿忠鮮果',")&&z.includes("shop:{type:'laundry',name:'常在洗衣',")&&z.includes("{n:'自助洗衣',"));
+    check('8 招牌（程式的備用）：溫州書屋、帝大紅茶、阿忠鮮果、常在洗衣；公館 G09＝洗樂洗衣坊（X320）',z.includes("shop:{type:'books',name:'溫州書屋',")&&z.includes("shop:{type:'tea',name:'帝大紅茶',")&&z.includes("shop:{type:'fruit',name:'阿忠鮮果',")&&z.includes("shop:{type:'laundry',name:'常在洗衣',")&&z.includes("{n:'洗樂洗衣坊',"));   /* 2026-11-10 改期望：使用者 X320 公館 G09 正式名稱洗樂洗衣坊（原本查公館照舊叫「自助洗衣」）*/
     check('8 地點名 wz_tea＝帝大紅茶、wz_books＝溫州書屋；key 照舊（tea.key、fruit.key、SQ02 shop:）',PLACES.names.wz_tea==='帝大紅茶'&&PLACES.names.wz_books==='溫州書屋'&&WZS.AA364.tea.key==='巷口茶飲'&&WZS.AA364.tea.zone==='wz_tea'&&WZS.AA413.fruit.key==='阿忠水果'&&/SQ02:\{shop:'巷口茶飲',title:'帝大紅茶：打破的杯子'/.test(rd('src/sideq3d.js'))&&/'巷口茶飲':'帝大紅茶'/.test(rd('src/sideq3d.js')));
     const it=WZS.items413(), lb=it.map(x=>x.label);
     check('8 按鈕：看阿忠鮮果、看常在洗衣；水果打烊 toast「阿忠鮮果：09:00～22:00」',lb.includes('看阿忠鮮果')&&lb.includes('看常在洗衣')&&!lb.includes('看阿忠水果')&&rd('src/wzshops3d.js').includes("GM.toast('阿忠鮮果：09:00～22:00',4000)"),J(lb));

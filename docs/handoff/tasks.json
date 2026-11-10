@@ -52198,9 +52198,9 @@
   },
   {
    "id": "GG-SHOP-G04-PHARM-1110",
-   "title": "公館 G04 公館藥局：照使用者參考圖重做外觀和室內（X200 剩下的 6 間）",
+   "title": "公館 G04 改成「安泰藥局（社區藥局）」：招牌、外觀、室內、商品、台詞（X320，使用者 11-10 18:5x 正式規格）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52213,22 +52213,20 @@
     "confirmed": true
    },
    "sha": null,
-   "pausedReason": "等參考圖：使用者 11-10 18:2x 選「給提示詞、我生參考圖」；BB 照 D97 新開頭給提示詞",
-   "resumeWhen": "BB 交參考圖（檢查通過）",
-   "next": "【LAWWW 11-10 18:2x】外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW（照前 9 間流程）。",
+   "next": "LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
    "xai": {
-    "spec": "X200、使用者 11-10 18:2x 選擇題",
+    "spec": "X320：使用者 11-10 18:5x「Lawstudent 公館商圈六間店鋪正式修改指令」（全文 docs/handoff/user_asks_LAWWW.json UA-LAWWW-1110-86）",
     "branch": "claude/second-ai-env-art",
-    "acceptance": "照參考圖（D133，店名 D77）、走得進去、坐得下；BB 判",
+    "acceptance": "照使用者規格第三節（外觀、室內、互動）；六間風格、年代不同；不用真實 LOGO；走得進去、互動正常；BB 判",
     "receiver": "LAWWW",
     "ack": "SENT"
    }
   },
   {
    "id": "GG-SHOP-G08-FRUIT-1110",
-   "title": "公館 G08 水果行：照使用者參考圖重做外觀和室內（X200 剩下的 6 間）",
+   "title": "公館 G08 改成「汀州鮮果（傳統水果行）」：招牌、外觀、室內、商品、台詞（X320，使用者 11-10 18:5x 正式規格）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52241,22 +52239,20 @@
     "confirmed": true
    },
    "sha": null,
-   "pausedReason": "等參考圖：使用者 11-10 18:2x 選「給提示詞、我生參考圖」；BB 照 D97 新開頭給提示詞",
-   "resumeWhen": "BB 交參考圖（檢查通過）",
-   "next": "【LAWWW 11-10 18:2x】外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW（照前 9 間流程）。",
+   "next": "LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
    "xai": {
-    "spec": "X200、使用者 11-10 18:2x 選擇題",
+    "spec": "X320：使用者 11-10 18:5x「Lawstudent 公館商圈六間店鋪正式修改指令」（全文 docs/handoff/user_asks_LAWWW.json UA-LAWWW-1110-86）",
     "branch": "claude/second-ai-env-art",
-    "acceptance": "照參考圖（D133，店名 D77）、走得進去、坐得下；BB 判",
+    "acceptance": "照使用者規格第三節（外觀、室內、互動）；六間風格、年代不同；不用真實 LOGO；走得進去、互動正常；BB 判",
     "receiver": "LAWWW",
     "ack": "SENT"
    }
   },
   {
    "id": "GG-SHOP-G09-LAUNDRY-1110",
-   "title": "公館 G09 自助洗衣：照使用者參考圖重做外觀和室內（X200 剩下的 6 間）",
+   "title": "公館 G09 改成「洗樂洗衣坊（自助洗衣）」：招牌、外觀、室內、商品、台詞（X320，使用者 11-10 18:5x 正式規格）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52269,22 +52265,20 @@
     "confirmed": true
    },
    "sha": null,
-   "pausedReason": "等參考圖：使用者 11-10 18:2x 選「給提示詞、我生參考圖」；BB 照 D97 新開頭給提示詞",
-   "resumeWhen": "BB 交參考圖（檢查通過）",
-   "next": "【LAWWW 11-10 18:2x】外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW（照前 9 間流程）。",
+   "next": "LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
    "xai": {
-    "spec": "X200、使用者 11-10 18:2x 選擇題",
+    "spec": "X320：使用者 11-10 18:5x「Lawstudent 公館商圈六間店鋪正式修改指令」（全文 docs/handoff/user_asks_LAWWW.json UA-LAWWW-1110-86）",
     "branch": "claude/second-ai-env-art",
-    "acceptance": "照參考圖（D133，店名 D77）、走得進去、坐得下；BB 判",
+    "acceptance": "照使用者規格第三節（外觀、室內、互動）；六間風格、年代不同；不用真實 LOGO；走得進去、互動正常；BB 判",
     "receiver": "LAWWW",
     "ack": "SENT"
    }
   },
   {
    "id": "GG-SHOP-G10-PRINT-1110",
-   "title": "公館 G10 影印・輸出：照使用者參考圖重做外觀和室內（X200 剩下的 6 間）",
+   "title": "公館 G10 改成「印得好（影印、列印、裝訂、輸出；和溫州街阿德影印並存）」：招牌、外觀、室內、商品、台詞（X320，使用者 11-10 18:5x 正式規格）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52297,22 +52291,20 @@
     "confirmed": true
    },
    "sha": null,
-   "pausedReason": "等參考圖：使用者 11-10 18:2x 選「給提示詞、我生參考圖」；BB 照 D97 新開頭給提示詞",
-   "resumeWhen": "BB 交參考圖（檢查通過）",
-   "next": "【LAWWW 11-10 18:2x】外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW（照前 9 間流程）。",
+   "next": "LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
    "xai": {
-    "spec": "X200、使用者 11-10 18:2x 選擇題",
+    "spec": "X320：使用者 11-10 18:5x「Lawstudent 公館商圈六間店鋪正式修改指令」（全文 docs/handoff/user_asks_LAWWW.json UA-LAWWW-1110-86）",
     "branch": "claude/second-ai-env-art",
-    "acceptance": "照參考圖（D133，店名 D77）、走得進去、坐得下；BB 判",
+    "acceptance": "照使用者規格第三節（外觀、室內、互動）；六間風格、年代不同；不用真實 LOGO；走得進去、互動正常；BB 判",
     "receiver": "LAWWW",
     "ack": "SENT"
    }
   },
   {
    "id": "GG-SHOP-G11-TEISHOKU-1110",
-   "title": "公館 G11 日日定食：照使用者參考圖重做外觀和室內（X200 剩下的 6 間）",
+   "title": "公館 G11 改成「泰米村食（平價泰式料理，取代日日定食；內部 id 不改）」：招牌、外觀、室內、商品、台詞（X320，使用者 11-10 18:5x 正式規格）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52325,22 +52317,20 @@
     "confirmed": true
    },
    "sha": null,
-   "pausedReason": "等參考圖：使用者 11-10 18:2x 選「給提示詞、我生參考圖」；BB 照 D97 新開頭給提示詞",
-   "resumeWhen": "BB 交參考圖（檢查通過）",
-   "next": "【LAWWW 11-10 18:2x】外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW（照前 9 間流程）。",
+   "next": "LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
    "xai": {
-    "spec": "X200、使用者 11-10 18:2x 選擇題",
+    "spec": "X320：使用者 11-10 18:5x「Lawstudent 公館商圈六間店鋪正式修改指令」（全文 docs/handoff/user_asks_LAWWW.json UA-LAWWW-1110-86）",
     "branch": "claude/second-ai-env-art",
-    "acceptance": "照參考圖（D133，店名 D77）、走得進去、坐得下；BB 判",
+    "acceptance": "照使用者規格第三節（外觀、室內、互動）；六間風格、年代不同；不用真實 LOGO；走得進去、互動正常；BB 判",
     "receiver": "LAWWW",
     "ack": "SENT"
    }
   },
   {
    "id": "GG-SHOP-G13-STATIONERY-1110",
-   "title": "公館 G13 文具・畫材：照使用者參考圖重做外觀和室內（X200 剩下的 6 間）",
+   "title": "公館 G13 改成「榮恩典文具社（傳統文具與美術用品）」：招牌、外觀、室內、商品、台詞（X320，使用者 11-10 18:5x 正式規格）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52353,13 +52343,11 @@
     "confirmed": true
    },
    "sha": null,
-   "pausedReason": "等參考圖：使用者 11-10 18:2x 選「給提示詞、我生參考圖」；BB 照 D97 新開頭給提示詞",
-   "resumeWhen": "BB 交參考圖（檢查通過）",
-   "next": "【LAWWW 11-10 18:2x】外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW（照前 9 間流程）。",
+   "next": "LAWWW2：招牌與外觀（gongguan_shops GLB）、室內（照 afar／Daybreak 的做法，走得進去）；AA：店家設定、商品與價格、店員台詞（GG-SHOPS3-STORY-1110）；LAWWW：店名資料、系統、接線（GG-SHOPS3-SYS-1110）；BB／CC：一致性與測試（GG-SHOPS3-TEST-1110）。不另外等參考圖（使用者 18:5x 改成直接給規格）。",
    "xai": {
-    "spec": "X200、使用者 11-10 18:2x 選擇題",
+    "spec": "X320：使用者 11-10 18:5x「Lawstudent 公館商圈六間店鋪正式修改指令」（全文 docs/handoff/user_asks_LAWWW.json UA-LAWWW-1110-86）",
     "branch": "claude/second-ai-env-art",
-    "acceptance": "照參考圖（D133，店名 D77）、走得進去、坐得下；BB 判",
+    "acceptance": "照使用者規格第三節（外觀、室內、互動）；六間風格、年代不同；不用真實 LOGO；走得進去、互動正常；BB 判",
     "receiver": "LAWWW",
     "ack": "SENT"
    }
@@ -52413,7 +52401,7 @@
    "id": "WZ-SHOP-TEA-1110",
    "title": "溫州街 帝大紅茶：照使用者參考圖重做外觀和內部（X318）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52426,22 +52414,21 @@
     "confirmed": true
    },
    "sha": null,
-   "pausedReason": "等使用者生參考圖（LAWWW 11-10 18:4x 給了提示詞）",
-   "resumeWhen": "BB 檢查通過、存 ref_images/shops",
-   "next": "外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW。",
+   "next": "無（已在遊戲裡）",
    "xai": {
     "spec": "X318",
     "branch": "claude/second-ai-env-art",
     "acceptance": "照參考圖（D133）；BB 判",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生"
   },
   {
    "id": "WZ-SHOP-BOOKS-1110",
    "title": "溫州街 溫州書屋：照使用者參考圖重做外觀和內部（X318）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52454,22 +52441,21 @@
     "confirmed": true
    },
    "sha": null,
-   "pausedReason": "等使用者生參考圖（LAWWW 11-10 18:4x 給了提示詞）",
-   "resumeWhen": "BB 檢查通過、存 ref_images/shops",
-   "next": "外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW。",
+   "next": "無（已在遊戲裡）",
    "xai": {
     "spec": "X318",
     "branch": "claude/second-ai-env-art",
     "acceptance": "照參考圖（D133）；BB 判",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生"
   },
   {
    "id": "WZ-SHOP-ICE-1110",
    "title": "溫州街 夏日冰菓室：照使用者參考圖重做外觀和內部（X318）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52482,22 +52468,21 @@
     "confirmed": true
    },
    "sha": null,
-   "pausedReason": "等使用者生參考圖（LAWWW 11-10 18:4x 給了提示詞）",
-   "resumeWhen": "BB 檢查通過、存 ref_images/shops",
-   "next": "外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW。",
+   "next": "無（已在遊戲裡）",
    "xai": {
     "spec": "X318",
     "branch": "claude/second-ai-env-art",
     "acceptance": "照參考圖（D133）；BB 判",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生"
   },
   {
    "id": "WZ-SHOP-MOKUYOBI-1110",
    "title": "溫州街 木曜日：照使用者參考圖重做外觀和內部（X318）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52510,22 +52495,21 @@
     "confirmed": true
    },
    "sha": null,
-   "pausedReason": "等使用者生參考圖（LAWWW 11-10 18:4x 給了提示詞）",
-   "resumeWhen": "BB 檢查通過、存 ref_images/shops",
-   "next": "外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW。",
+   "next": "無（已在遊戲裡）",
    "xai": {
     "spec": "X318",
     "branch": "claude/second-ai-env-art",
     "acceptance": "照參考圖（D133）；BB 判",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生"
   },
   {
    "id": "WZ-SHOP-OFFBEAT-1110",
    "title": "溫州街 日常失速：照使用者參考圖重做外觀和內部（X318）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -52538,13 +52522,116 @@
     "confirmed": true
    },
    "sha": null,
-   "pausedReason": "等使用者生參考圖（LAWWW 11-10 18:4x 給了提示詞）",
-   "resumeWhen": "BB 檢查通過、存 ref_images/shops",
-   "next": "外觀 LAWWW2、室內 AA／BB／CC、接 LAWWW。",
+   "next": "無（已在遊戲裡）",
    "xai": {
     "spec": "X318",
     "branch": "claude/second-ai-env-art",
     "acceptance": "照參考圖（D133）；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "cancelReason": "LAWWW 18:4x 查錯：這間已經有使用者 11-04 的參考圖（LAWWW2 分支 wip/wz_second_1104/ref/）、而且已經照參考圖做好在遊戲裡；LAWWW2 18:1x 對帳更正；18:5x 已跟使用者更正、提示詞不用生"
+  },
+  {
+   "id": "GG-SHOPS3-STORY-1110",
+   "title": "公館六間店的店家設定、商品與價格、店員台詞、進門／看貨架／點餐句（照使用者規格；泰米村食的菜單七道；榮恩典店名由來只當可選背景、不傳教）；劇情裡的「日日定食」改掉（sis_grad3d 上榜聚餐、story3d 2794/2795 家族聚餐、story3d 1665 公館便宜吃表）",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館店面街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "照 afar／Daybreak（AA_652）、洋洋（AA_724）的格式交一份稿＋六間的 layout（家具、站位、互動點）；價錢照現有經濟",
+   "xai": {
+    "spec": "X320（UA-LAWWW-1110-86 使用者全文）",
+    "branch": "claude/story-planning",
+    "acceptance": "六間各有店家設定、商品清單價格、台詞；日日定食的劇情改好；AA 定稿（D109）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "GG-SHOPS3-ART-1110",
+   "title": "公館六間店的招牌（新店名）、外觀（泰米村食從日式改泰式小館）、六間室內 GLB（照 afar／Daybreak／洋洋做法）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館店面街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "六間不同年代、裝潢、客群；不用真實 LOGO；店名字只做在模型上一次（不和遊戲 UI 重疊）；layout 照 AA 的稿",
+   "xai": {
+    "spec": "X320（UA-LAWWW-1110-86 使用者全文）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "MODEL_READY＋同角度截圖；BB 判（D120）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "GG-SHOPS3-SYS-1110",
+   "title": "公館六間店：店名資料（zones3d 店面、快速前往、places、eat3d）、進得去（SHOP_IN、出入口）、買東西／洗衣／影印／吃飯的互動，沿用現有時間與金錢；內部 id、座標、存檔不改",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館店面街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "先改店名（不用等美術）；室內和台詞到了照 gg2shops3d.js 接",
+   "xai": {
+    "spec": "X320（UA-LAWWW-1110-86 使用者全文）",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "BB 在瀏覽器判 PASS",
+    "receiver": "BB",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "GG-SHOPS3-TEST-1110",
+   "title": "公館六間店：名稱、招牌、室內、商品、台詞一致性檢查＋走進去、互動、回歸測試（CC 跑）",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "公館店面街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "next": "等 SYS 第一批（改名）就先測店名；整套等室內",
+   "xai": {
+    "spec": "X320（UA-LAWWW-1110-86 使用者全文）",
+    "branch": "claude/story-planning",
+    "acceptance": "PASS／FAIL 判定",
     "receiver": "LAWWW",
     "ack": "SENT"
    }
