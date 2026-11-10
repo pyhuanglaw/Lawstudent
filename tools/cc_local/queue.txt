@@ -55,6 +55,9 @@ MT4_old_later2 | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_p
 MT4_old_cd | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=QOTHER,NOASK,NOFB
 MT4_arc_r2 | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=ARC_AN,ARC_KX,ARC_AXDONE
 MT4_fb_b2 | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=FB_SELF,FB_JOKE
+MT4_nofb_r2 | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=NOFB
+MT4_later2_r2 | b99dfd4ddc6ccf7c9dbb32d90e06fc25a1577c91 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=LATER2
+MT4_old_later2_r2 | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_mt3_probe.py | index.html | 15 | CASES=LATER2
 # 汀州路第 3 版（BB 21:59）：三間招牌，和參考圖＋第 2 版並排
 TZ3_signs | 24b4c2fb483a623fb42e6c0d03040548254a3237 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=SHOTS;HOURS=14,20.5;V2=1;SHOPS3=1
 TZ3_signs_v2 | c17a9919ec13ff237181709df0a3ee70e4e4d5e2 | probe | docs/story_planning/test_tools/cc/cc_tingzhou_probe.py | index.html | 15 | PARTS=SHOTS;HOURS=14,20.5;V2=1;SHOPS3=1
