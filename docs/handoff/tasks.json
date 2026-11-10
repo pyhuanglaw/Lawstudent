@@ -52004,6 +52004,58 @@
     "ack": "SENT"
    },
    "sha": null
+  },
+  {
+   "id": "US-LONG-3D-1110",
+   "title": "何俊朗自己的 3D 模型（目前用路人底模；AA_328：圓框眼鏡、背包上奶茶杯鑰匙圈）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "美國交換 Legal Writing 第一堂",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW 11-10 15:4x】AA 回：美術排 LAWWW2、不擋 v9.10；角色美術 LAWWW 驗收（D100a）。",
+   "xai": {
+    "spec": "企劃線 AA_328（何俊朗外觀）＋AA_740",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "美國教室、會所裡何俊朗用自己的 VRM，有圓框眼鏡、背包奶茶杯鑰匙圈；LAWWW 看遊戲截圖驗收",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "US-EXAM-PROPS-1110",
+   "title": "美國教室 12/6 期末考桌上的考卷和書",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "美國交換 12/6 期末考",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": null,
+   "next": "【LAWWW 11-10 15:4x】AA 回：美術排 LAWWW2、不擋 v9.10。",
+   "xai": {
+    "spec": "AA_740 第 4 點（12/6 期末考）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "12/6 期末考那一場每個有人的座位桌上有考卷（和書），其他天不出現；BB 判",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
