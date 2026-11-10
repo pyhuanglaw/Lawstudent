@@ -1,0 +1,999 @@
+{
+ "sha": "",
+ "day": "2025-10-18",
+ "hours": [
+  14.0,
+  21.0
+ ],
+ "shops": [
+  {
+   "key": "shanlan",
+   "name": "山嵐書店",
+   "group": "xs7",
+   "zone": "xs_shanlan",
+   "day": "2025-10-18",
+   "shots": {},
+   "notes": [],
+   "zinfo": {
+    "zone": "xs_shanlan",
+    "center": [
+     0.33,
+     3.5
+    ],
+    "spawn": [
+     0.8,
+     7.5
+    ],
+    "levels": [
+     0,
+     4.2
+    ],
+    "exits": [
+     {
+      "label": "離開山嵐書店",
+      "x": 0.8,
+      "z": 8.65,
+      "lv": 0,
+      "to": "xinsheng",
+      "spawn": {
+       "x": -13.9,
+       "z": 10.2,
+       "yaw": 1.571,
+       "lv": 0
+      }
+     }
+    ],
+    "street": {
+     "label": "離開山嵐書店",
+     "x": 0.8,
+     "z": 8.65,
+     "lv": 0,
+     "to": "xinsheng",
+     "spawn": {
+      "x": -13.9,
+      "z": 10.2,
+      "yaw": 1.571,
+      "lv": 0
+     }
+    }
+   },
+   "cards_all": [
+    {
+     "name": "shl_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "shl_glass",
+     "pview": null,
+     "c": [
+      -5.12,
+      2.679,
+      4.26
+     ],
+     "size": [
+      0,
+      4.94,
+      6.66
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "WALL_front_shl_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "shl_glass",
+     "pview": null,
+     "c": [
+      0,
+      4.05,
+      9.06
+     ],
+     "size": [
+      14,
+      8.06,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "VIEWPANE_xs_shanlan",
+     "kind": "parallax",
+     "vis": true,
+     "lv": 0,
+     "mat": "",
+     "pview": "xs_shanlan",
+     "c": [
+      0,
+      1.6,
+      9.36
+     ],
+     "size": [
+      14.4,
+      4.8,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      -1
+     ],
+     "url": "assets/models/env/views/xs_shanlan_day.webp",
+     "photoOn": 1,
+     "depth": 36,
+     "loaded": true
+    },
+    {
+     "name": "L2_shl_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 1,
+     "mat": "shl_glass",
+     "pview": null,
+     "c": [
+      -3.285,
+      4.72,
+      4.89
+     ],
+     "size": [
+      3.57,
+      0.92,
+      7.98
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "VIEWPANE_xs_shanlan_2f",
+     "kind": "parallax",
+     "vis": true,
+     "lv": 1,
+     "mat": "",
+     "pview": "xs_shanlan_2f",
+     "c": [
+      0,
+      5.8,
+      9.36
+     ],
+     "size": [
+      14.4,
+      4.8,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      -1
+     ],
+     "url": "assets/models/env/views/xs_shanlan_2f_day.webp",
+     "photoOn": 1,
+     "depth": 36,
+     "loaded": true
+    }
+   ],
+   "dedicated": false,
+   "has_card": true,
+   "views": [
+    {
+     "card": "VIEWPANE_xs_shanlan",
+     "kind": "parallax",
+     "url": "assets/models/env/views/xs_shanlan_day.webp",
+     "center": [
+      0,
+      1.6,
+      9.36
+     ],
+     "size": [
+      14.4,
+      4.8,
+      0
+     ],
+     "lv": 0,
+     "out": [
+      0.0,
+      1.0
+     ],
+     "virtual": false,
+     "dedicated": false,
+     "inside": {
+      "where": "座位「坐靠窗長椅」(-4.4, 8.7)，離窗 0.66 m、左右偏 4.4 m",
+      "player": [
+       -4.4,
+       7.9
+      ],
+      "eye": [
+       -4.4,
+       1.2,
+       8.16
+      ],
+      "look": [
+       -4.4,
+       1.15,
+       9.36
+      ]
+     },
+     "shots": {
+      "day": "wv_shanlan_day.png",
+      "night": "wv_shanlan_night.png",
+      "street": "wv_shanlan_street.png"
+     },
+     "url_by_hour": {
+      "day": "assets/models/env/views/xs_shanlan_day.webp",
+      "night": "assets/models/env/views/xs_shanlan_night.webp"
+     },
+     "street": {
+      "dir": [
+       1.0,
+       0.0
+      ],
+      "eye": [
+       -13.9,
+       1.6,
+       10.2
+      ],
+      "look": [
+       6.1,
+       1.3,
+       10.2
+      ]
+     }
+    },
+    {
+     "card": "VIEWPANE_xs_shanlan_2f",
+     "kind": "parallax",
+     "url": "assets/models/env/views/xs_shanlan_2f_day.webp",
+     "center": [
+      0,
+      5.8,
+      9.36
+     ],
+     "size": [
+      14.4,
+      4.8,
+      0
+     ],
+     "lv": 1,
+     "out": [
+      0.0,
+      1.0
+     ],
+     "virtual": false,
+     "dedicated": false,
+     "inside": {
+      "where": "座位「坐靠窗長椅」(-0.3, 8.7) 二樓，離窗 0.66 m、左右偏 0.3 m",
+      "player": [
+       -0.3,
+       7.9
+      ],
+      "eye": [
+       -0.3,
+       5.4,
+       8.16
+      ],
+      "look": [
+       -0.3,
+       5.35,
+       9.36
+      ]
+     },
+     "shots": {
+      "day": "wv_shanlan_c2_day.png",
+      "night": "wv_shanlan_c2_night.png",
+      "street": "wv_shanlan_c2_street.png"
+     },
+     "url_by_hour": {
+      "day": "assets/models/env/views/xs_shanlan_2f_day.webp",
+      "night": "assets/models/env/views/xs_shanlan_2f_night.webp"
+     },
+     "street": {
+      "dir": [
+       1.0,
+       0.0
+      ],
+      "eye": [
+       -13.9,
+       1.6,
+       10.2
+      ],
+      "look": [
+       6.1,
+       1.3,
+       10.2
+      ]
+     }
+    }
+   ],
+   "street": {
+    "zone": "xinsheng",
+    "spawn": {
+     "x": -13.9,
+     "z": 10.2,
+     "yaw": 1.571,
+     "lv": 0
+    },
+    "door": {
+     "label": "進山嵐書店（書店（兩層））",
+     "x": -15.6,
+     "z": 10.2
+    },
+    "f_in": [
+     0.091,
+     0.996
+    ],
+    "f_st": [
+     1.0,
+     0.0
+    ],
+    "rot_deg": 90,
+    "shots": [
+     "wv_shanlan_street.png",
+     "wv_shanlan_c2_street.png"
+    ]
+   }
+  },
+  {
+   "key": "nanyang",
+   "name": "南洋戲院",
+   "group": "xs7",
+   "zone": "xs_nanyang",
+   "day": "2025-10-18",
+   "shots": {},
+   "notes": [],
+   "zinfo": {
+    "zone": "xs_nanyang",
+    "center": [
+     2.48,
+     -3.04
+    ],
+    "spawn": [
+     0,
+     5.2
+    ],
+    "levels": [],
+    "exits": [
+     {
+      "label": "出去（新生南路）",
+      "x": 0,
+      "z": 6.55,
+      "lv": 0,
+      "to": "xinsheng",
+      "spawn": {
+       "x": -13.9,
+       "z": 25.3,
+       "yaw": 1.571,
+       "lv": 0
+      }
+     },
+     {
+      "label": "進 1 廳",
+      "x": 2.2,
+      "z": -6.4,
+      "lv": 0,
+      "to": "xs_nanyang_hall",
+      "spawn": {
+       "x": 3.5,
+       "z": 6.4,
+       "yaw": 3.142,
+       "lv": 0
+      }
+     }
+    ],
+    "street": {
+     "label": "出去（新生南路）",
+     "x": 0,
+     "z": 6.55,
+     "lv": 0,
+     "to": "xinsheng",
+     "spawn": {
+      "x": -13.9,
+      "z": 25.3,
+      "yaw": 1.571,
+      "lv": 0
+     }
+    }
+   },
+   "cards_all": [
+    {
+     "name": "ny_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "ny_glass",
+     "pview": null,
+     "c": [
+      -1.382,
+      1.47,
+      0.006
+     ],
+     "size": [
+      5.68,
+      2.78,
+      14.01
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "VIEWPANE_xs_nanyang",
+     "kind": "parallax",
+     "vis": true,
+     "lv": 0,
+     "mat": "",
+     "pview": "xs_nanyang",
+     "c": [
+      0,
+      1.6,
+      7.3
+     ],
+     "size": [
+      9.4,
+      3.6,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      -1
+     ],
+     "url": "assets/models/env/views/xs_nanyang_day.webp",
+     "photoOn": 1,
+     "depth": 36,
+     "loaded": true
+    }
+   ],
+   "dedicated": false,
+   "has_card": true,
+   "views": [
+    {
+     "card": "VIEWPANE_xs_nanyang",
+     "kind": "parallax",
+     "url": "assets/models/env/views/xs_nanyang_day.webp",
+     "center": [
+      0,
+      1.6,
+      7.3
+     ],
+     "size": [
+      9.4,
+      3.6,
+      0
+     ],
+     "lv": 0,
+     "out": [
+      0.0,
+      1.0
+     ],
+     "virtual": false,
+     "dedicated": false,
+     "inside": {
+      "where": "窗前 1.6 m（沒有靠窗的座位）",
+      "player": [
+       0,
+       5.7
+      ],
+      "eye": [
+       0,
+       1.6,
+       5.7
+      ],
+      "look": [
+       0,
+       1.55,
+       7.3
+      ]
+     },
+     "shots": {
+      "day": "wv_nanyang_day.png",
+      "night": "wv_nanyang_night.png",
+      "street": "wv_nanyang_street.png"
+     },
+     "url_by_hour": {
+      "day": "assets/models/env/views/xs_nanyang_day.webp",
+      "night": "assets/models/env/views/xs_nanyang_night.webp"
+     },
+     "street": {
+      "dir": [
+       1.0,
+       0.0
+      ],
+      "eye": [
+       -13.9,
+       1.6,
+       25.3
+      ],
+      "look": [
+       6.1,
+       1.3,
+       25.3
+      ]
+     }
+    }
+   ],
+   "street": {
+    "zone": "xinsheng",
+    "spawn": {
+     "x": -13.9,
+     "z": 25.3,
+     "yaw": 1.571,
+     "lv": 0
+    },
+    "door": {
+     "label": "進南洋戲院（二輪戲院）",
+     "x": -15.6,
+     "z": 25.3
+    },
+    "f_in": [
+     -0.25,
+     0.968
+    ],
+    "f_st": [
+     1.0,
+     0.0
+    ],
+    "rot_deg": 90,
+    "shots": [
+     "wv_nanyang_street.png"
+    ]
+   }
+  },
+  {
+   "key": "xsports",
+   "name": "新生運動廣場",
+   "group": "xs7",
+   "zone": "xs_xsports",
+   "day": "2025-10-18",
+   "shots": {},
+   "notes": [],
+   "zinfo": {
+    "zone": "xs_xsports",
+    "center": [
+     -2.42,
+     4.51
+    ],
+    "spawn": [
+     0,
+     6.4
+    ],
+    "levels": [
+     0,
+     3.75
+    ],
+    "exits": [
+     {
+      "label": "離開新生運動廣場",
+      "x": 0,
+      "z": 7.6,
+      "lv": 0,
+      "to": "xinsheng",
+      "spawn": {
+       "x": -13.9,
+       "z": -33,
+       "yaw": 1.571,
+       "lv": 0
+      }
+     }
+    ],
+    "street": {
+     "label": "離開新生運動廣場",
+     "x": 0,
+     "z": 7.6,
+     "lv": 0,
+     "to": "xinsheng",
+     "spawn": {
+      "x": -13.9,
+      "z": -33,
+      "yaw": 1.571,
+      "lv": 0
+     }
+    }
+   },
+   "cards_all": [
+    {
+     "name": "L0_xs_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "xs_glass",
+     "pview": null,
+     "c": [
+      -1.88,
+      2.33,
+      0.647
+     ],
+     "size": [
+      8.64,
+      4.62,
+      5.4
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "WALL_back_L0_backdoor_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "xs_glass",
+     "pview": null,
+     "c": [
+      -3.3,
+      1.165,
+      -7.85
+     ],
+     "size": [
+      1.5,
+      2.17,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "WALL_front_L0_front_frames_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 0,
+     "mat": "xs_glass",
+     "pview": null,
+     "c": [
+      0,
+      1.445,
+      7.93
+     ],
+     "size": [
+      13.2,
+      2.85,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "VIEWPANE_xs_xsports",
+     "kind": "parallax",
+     "vis": true,
+     "lv": 0,
+     "mat": "",
+     "pview": "xs_xsports",
+     "c": [
+      0,
+      1.6,
+      8.23
+     ],
+     "size": [
+      13.6,
+      3.4,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      -1
+     ],
+     "url": "assets/models/env/views/xs_xsports_day.webp",
+     "photoOn": 1,
+     "depth": 36,
+     "loaded": true
+    },
+    {
+     "name": "L1_xs_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 1,
+     "mat": "xs_glass",
+     "pview": null,
+     "c": [
+      0,
+      5.5,
+      -1.42
+     ],
+     "size": [
+      13.76,
+      3.4,
+      2.76
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "WALL_front_L1_front_upper_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 1,
+     "mat": "xs_glass",
+     "pview": null,
+     "c": [
+      0,
+      5.65,
+      7.93
+     ],
+     "size": [
+      13.2,
+      2.9,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "WALL_left_L1_xs_glass",
+     "kind": "glass",
+     "vis": true,
+     "lv": 1,
+     "mat": "xs_glass",
+     "pview": null,
+     "c": [
+      -6.9,
+      5.1,
+      2.1
+     ],
+     "size": [
+      0,
+      4.2,
+      10.8
+     ],
+     "n": [
+      0,
+      0,
+      1
+     ],
+     "url": null,
+     "photoOn": null,
+     "depth": null,
+     "loaded": false
+    },
+    {
+     "name": "VIEWPANE_xs_xsports_2f",
+     "kind": "parallax",
+     "vis": true,
+     "lv": 1,
+     "mat": "",
+     "pview": "xs_xsports_2f",
+     "c": [
+      0,
+      5.35,
+      8.23
+     ],
+     "size": [
+      13.6,
+      4,
+      0
+     ],
+     "n": [
+      0,
+      0,
+      -1
+     ],
+     "url": "assets/models/env/views/xs_xsports_2f_day.webp",
+     "photoOn": 1,
+     "depth": 36,
+     "loaded": true
+    }
+   ],
+   "dedicated": false,
+   "has_card": true,
+   "views": [
+    {
+     "card": "VIEWPANE_xs_xsports_2f",
+     "kind": "parallax",
+     "url": "assets/models/env/views/xs_xsports_2f_day.webp",
+     "center": [
+      0,
+      5.35,
+      8.23
+     ],
+     "size": [
+      13.6,
+      4,
+      0
+     ],
+     "lv": 1,
+     "out": [
+      0.0,
+      1.0
+     ],
+     "virtual": false,
+     "dedicated": false,
+     "inside": {
+      "where": "窗前 1.6 m（沒有靠窗的座位）",
+      "player": [
+       -2.42,
+       4.51
+      ],
+      "eye": [
+       0.0,
+       5.35,
+       6.63
+      ],
+      "look": [
+       0.0,
+       5.3,
+       8.23
+      ]
+     },
+     "shots": {
+      "day": "wv_xsports_day.png",
+      "night": "wv_xsports_night.png",
+      "street": "wv_xsports_street.png"
+     },
+     "url_by_hour": {
+      "day": "assets/models/env/views/xs_xsports_2f_day.webp",
+      "night": "assets/models/env/views/xs_xsports_2f_night.webp"
+     },
+     "street": {
+      "dir": [
+       1.0,
+       0.0
+      ],
+      "eye": [
+       -13.9,
+       1.6,
+       -33
+      ],
+      "look": [
+       6.1,
+       1.3,
+       -33.0
+      ]
+     }
+    },
+    {
+     "card": "VIEWPANE_xs_xsports",
+     "kind": "parallax",
+     "url": "assets/models/env/views/xs_xsports_day.webp",
+     "center": [
+      0,
+      1.6,
+      8.23
+     ],
+     "size": [
+      13.6,
+      3.4,
+      0
+     ],
+     "lv": 0,
+     "out": [
+      0.0,
+      1.0
+     ],
+     "virtual": false,
+     "dedicated": false,
+     "inside": {
+      "where": "座位「坐下試穿」(-5.6, 3.5)，離窗 4.73 m、左右偏 5.6 m",
+      "player": [
+       -4.8,
+       3.5
+      ],
+      "eye": [
+       -5.6,
+       1.2,
+       3.35
+      ],
+      "look": [
+       -5.6,
+       1.15,
+       8.23
+      ]
+     },
+     "shots": {
+      "day": "wv_xsports_c2_day.png",
+      "night": "wv_xsports_c2_night.png",
+      "street": "wv_xsports_c2_street.png"
+     },
+     "url_by_hour": {
+      "day": "assets/models/env/views/xs_xsports_day.webp",
+      "night": "assets/models/env/views/xs_xsports_night.webp"
+     },
+     "street": {
+      "dir": [
+       1.0,
+       0.0
+      ],
+      "eye": [
+       -13.9,
+       1.6,
+       -33
+      ],
+      "look": [
+       6.1,
+       1.3,
+       -33.0
+      ]
+     }
+    }
+   ],
+   "street": {
+    "zone": "xinsheng",
+    "spawn": {
+     "x": -13.9,
+     "z": -33,
+     "yaw": 1.571,
+     "lv": 0
+    },
+    "door": {
+     "label": "進新生運動廣場（運動用品（兩層））",
+     "x": -15.6,
+     "z": -33
+    },
+    "f_in": [
+     0.617,
+     0.787
+    ],
+    "f_st": [
+     1.0,
+     0.0
+    ],
+    "rot_deg": 90,
+    "shots": [
+     "wv_xsports_street.png",
+     "wv_xsports_c2_street.png"
+    ]
+   }
+  }
+ ]
+}

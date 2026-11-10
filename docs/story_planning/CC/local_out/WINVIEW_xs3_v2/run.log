@@ -1,0 +1,91 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_winview_audit_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_xs3_v2\out
+CC WINVIEW-AUDIT（X254 窗景巡拍）：worktree ?；店 ['shanlan', 'nanyang', 'xsports']；HOURS=[14.0, 21.0]；DAY=2025-10-18；Windows＋GPU／SwiftShader ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+== shanlan 山嵐書店（xs7）
+  [前置／捷徑] [山嵐書店 xs_shanlan] 讀檔 xs_shanlan 2025-10-18 14.00（區域出生點；條件事件關掉）
+PASS [山嵐書店 xs_shanlan] 進得了 xs_shanlan  {"zone": "xs_shanlan", "x": 0.8, "z": 7.5, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.06}
+  [  55.0s] [山嵐書店 xs_shanlan] 窗景卡（全部，含藏起來的）5 片：[{"name": "shl_glass", "kind": "glass", "vis": true, "lv": 0, "c": [-5.12, 2.679, 4.26], "size": [0, 4.94, 6.66], "url": null}, {"name": "WALL_front_shl_glass", "kind": "glass", "vis": true, "lv": 0, "c": [0, 4.05, 9.06], "size": [14, 8.06, 0], "url": null}, {"name": "VIEWPANE_xs_shanlan", "kind": "parallax", "vis": true, "lv": 0, "c": [0, 1.6, 9.36], "size": [14.4, 4.8, 0], "url": "assets/models/env/views/xs_shanlan_day.webp"}, {"name": "L2_shl_glass", "kind": "glass", "vis": true, "lv": 1, "c": [-3.285, 4.72, 4.89], "size": [3.57, 0.92, 7.98], "url": null}, {"name": "VIEWPANE_xs_shanlan_2f", "kind": "parallax", "vis": true, "lv": 1, "c": [0, 5.8, 9.36], "size": [14.4, 4.8, 0], "url": "assets/models/env/views/xs_shanlan_2f_day.webp"}]
+PASS [山嵐書店 xs_shanlan] 找得到看得見的窗景卡（沒有卡時：玻璃）  [["shl_glass", "glass", true], ["WALL_front_shl_glass", "glass", true], ["VIEWPANE_xs_shanlan", "parallax", true], ["L2_shl_glass", "glass", true], ["VIEWPANE_xs_shanlan_2f", "parallax", true]]
+  [  55.0s] [山嵐書店 xs_shanlan] 卡 VIEWPANE_xs_shanlan 窗往外 [0.0, 1.0]（+z）；店內站位：座位「坐靠窗長椅」(-4.4, 8.7)，離窗 0.66 m、左右偏 4.4 m；人放在 [-4.4, 7.9]（第 0 層）；鏡頭 eye [-4.4, 1.2, 8.16] → look [-4.4, 1.15, 9.36]
+  [前置／捷徑] [山嵐書店 xs_shanlan] 卡 VIEWPANE_xs_shanlan 14.00 讀檔把人放到 [-4.4, 7.9]（第 0 層）
+  [  66.1s] [山嵐書店 xs_shanlan] 卡 VIEWPANE_xs_shanlan 14.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/xs_shanlan_day.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_shanlan_day.png 有存  {"cam": {"eye": [-4.4, 1.2, 8.16], "look": [-4.4, 1.15, 9.36], "lens": 18, "vfov": 58.72}, "lum": [131.3, 54.5]}
+  [  67.9s] [截圖] wv_shanlan_day：鏡頭 {"eye": [-4.4, 1.2, 8.16], "look": [-4.4, 1.15, 9.36], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[131.3, 54.5]；鏡頭旁藏起來的人 []
+  [前置／捷徑] [山嵐書店 xs_shanlan] 卡 VIEWPANE_xs_shanlan 21.00 讀檔把人放到 [-4.4, 7.9]（第 0 層）
+  [  78.6s] [山嵐書店 xs_shanlan] 卡 VIEWPANE_xs_shanlan 21.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/xs_shanlan_night.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_shanlan_night.png 有存  {"cam": {"eye": [-4.4, 1.2, 8.16], "look": [-4.4, 1.15, 9.36], "lens": 18, "vfov": 58.72}, "lum": [39.1, 20.3]}
+  [  80.3s] [截圖] wv_shanlan_night：鏡頭 {"eye": [-4.4, 1.2, 8.16], "look": [-4.4, 1.15, 9.36], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[39.1, 20.3]；鏡頭旁藏起來的人 []
+  [  80.3s] [山嵐書店 xs_shanlan] 卡 VIEWPANE_xs_shanlan_2f 窗往外 [0.0, 1.0]（+z）；店內站位：座位「坐靠窗長椅」(-0.3, 8.7) 二樓，離窗 0.66 m、左右偏 0.3 m；人放在 [-0.3, 7.9]（第 1 層）；鏡頭 eye [-0.3, 5.4, 8.16] → look [-0.3, 5.35, 9.36]
+  [前置／捷徑] [山嵐書店 xs_shanlan] 卡 VIEWPANE_xs_shanlan_2f 14.00 讀檔把人放到 [-0.3, 7.9]（第 1 層）
+  [  91.5s] [山嵐書店 xs_shanlan] 卡 VIEWPANE_xs_shanlan_2f 14.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/xs_shanlan_2f_day.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_shanlan_c2_day.png 有存  {"cam": {"eye": [-0.3, 5.4, 8.16], "look": [-0.3, 5.35, 9.36], "lens": 18, "vfov": 58.72}, "lum": [138.4, 68.2]}
+  [  93.3s] [截圖] wv_shanlan_c2_day：鏡頭 {"eye": [-0.3, 5.4, 8.16], "look": [-0.3, 5.35, 9.36], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[138.4, 68.2]；鏡頭旁藏起來的人 ["?"]
+  [前置／捷徑] [山嵐書店 xs_shanlan] 卡 VIEWPANE_xs_shanlan_2f 21.00 讀檔把人放到 [-0.3, 7.9]（第 1 層）
+  [ 104.1s] [山嵐書店 xs_shanlan] 卡 VIEWPANE_xs_shanlan_2f 21.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/xs_shanlan_2f_night.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_shanlan_c2_night.png 有存  {"cam": {"eye": [-0.3, 5.4, 8.16], "look": [-0.3, 5.35, 9.36], "lens": 18, "vfov": 58.72}, "lum": [29.5, 14.4]}
+  [ 105.8s] [截圖] wv_shanlan_c2_night：鏡頭 {"eye": [-0.3, 5.4, 8.16], "look": [-0.3, 5.35, 9.36], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[29.5, 14.4]；鏡頭旁藏起來的人 []
+PASS [山嵐書店 xs_shanlan] 有回街上的出口（含出店落點）  [{"label": "離開山嵐書店", "x": 0.8, "z": 8.65, "lv": 0, "to": "xinsheng", "spawn": {"x": -13.9, "z": 10.2, "yaw": 1.571, "lv": 0}}]
+  [前置／捷徑] [山嵐書店 xs_shanlan] 讀檔 xinsheng 14.00 出店落點 {"x": -13.9, "z": 10.2, "yaw": 1.571, "lv": 0}
+PASS [山嵐書店 xs_shanlan] 到了街上（xinsheng）  {"zone": "xinsheng", "x": -13.9, "z": 10.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [ 123.5s] [山嵐書店 xs_shanlan] 街景：店門 {"label": "進山嵐書店（書店（兩層））", "x": -15.6, "z": 10.2}、出店落點 [-13.9, 10.2]；店裡出口方向 [0.09088444257449552, 0.9958614452311744] ↔ 街上 [1.0, 0.0]（轉 90°）；窗往外 [0.0, 1.0] → 街上看 [1.0, 0.0]；鏡頭 eye [-13.9, 1.6, 10.2] → look [6.1, 1.3, 10.2]
+PASS [截圖] wv_shanlan_street.png 有存  {"cam": {"eye": [-13.9, 1.6, 10.2], "look": [6.1, 1.3, 10.2], "lens": 18, "vfov": 58.72}, "lum": [116.2, 57.2]}
+  [ 125.3s] [截圖] wv_shanlan_street：鏡頭 {"eye": [-13.9, 1.6, 10.2], "look": [6.1, 1.3, 10.2], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[116.2, 57.2]；鏡頭旁藏起來的人 []
+  [ 125.3s] [山嵐書店 xs_shanlan] 街景：店門 {"label": "進山嵐書店（書店（兩層））", "x": -15.6, "z": 10.2}、出店落點 [-13.9, 10.2]；店裡出口方向 [0.09088444257449552, 0.9958614452311744] ↔ 街上 [1.0, 0.0]（轉 90°）；窗往外 [0.0, 1.0] → 街上看 [1.0, 0.0]；鏡頭 eye [-13.9, 1.6, 10.2] → look [6.1, 1.3, 10.2]
+PASS [截圖] wv_shanlan_c2_street.png 有存  {"cam": {"eye": [-13.9, 1.6, 10.2], "look": [6.1, 1.3, 10.2], "lens": 18, "vfov": 58.72}, "lum": [115, 56.9]}
+  [ 127.2s] [截圖] wv_shanlan_c2_street：鏡頭 {"eye": [-13.9, 1.6, 10.2], "look": [6.1, 1.3, 10.2], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[115, 56.9]；鏡頭旁藏起來的人 []
+== nanyang 南洋戲院（xs7）
+  [前置／捷徑] [南洋戲院 xs_nanyang] 讀檔 xs_nanyang 2025-10-18 14.00（區域出生點；條件事件關掉）
+PASS [南洋戲院 xs_nanyang] 進得了 xs_nanyang  {"zone": "xs_nanyang", "x": 0, "z": 5.2, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [ 140.9s] [南洋戲院 xs_nanyang] 窗景卡（全部，含藏起來的）2 片：[{"name": "ny_glass", "kind": "glass", "vis": true, "lv": 0, "c": [-1.382, 1.47, 0.006], "size": [5.68, 2.78, 14.01], "url": null}, {"name": "VIEWPANE_xs_nanyang", "kind": "parallax", "vis": true, "lv": 0, "c": [0, 1.6, 7.3], "size": [9.4, 3.6, 0], "url": "assets/models/env/views/xs_nanyang_day.webp"}]
+PASS [南洋戲院 xs_nanyang] 找得到看得見的窗景卡（沒有卡時：玻璃）  [["ny_glass", "glass", true], ["VIEWPANE_xs_nanyang", "parallax", true]]
+  [ 140.9s] [南洋戲院 xs_nanyang] 卡 VIEWPANE_xs_nanyang 窗往外 [0.0, 1.0]（+z）；店內站位：窗前 1.6 m（沒有靠窗的座位）；人放在 [0, 5.7]（第 0 層）；鏡頭 eye [0, 1.6, 5.7] → look [0, 1.55, 7.3]
+  [前置／捷徑] [南洋戲院 xs_nanyang] 卡 VIEWPANE_xs_nanyang 14.00 讀檔把人放到 [0, 5.7]（第 0 層）
+  [ 151.7s] [南洋戲院 xs_nanyang] 卡 VIEWPANE_xs_nanyang 14.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/xs_nanyang_day.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_nanyang_day.png 有存  {"cam": {"eye": [0, 1.6, 5.7], "look": [0, 1.55, 7.3], "lens": 18, "vfov": 58.72}, "lum": [152.1, 32]}
+  [ 153.5s] [截圖] wv_nanyang_day：鏡頭 {"eye": [0, 1.6, 5.7], "look": [0, 1.55, 7.3], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[152.1, 32]；鏡頭旁藏起來的人 []
+  [前置／捷徑] [南洋戲院 xs_nanyang] 卡 VIEWPANE_xs_nanyang 21.00 讀檔把人放到 [0, 5.7]（第 0 層）
+  [ 164.3s] [南洋戲院 xs_nanyang] 卡 VIEWPANE_xs_nanyang 21.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/xs_nanyang_night.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_nanyang_night.png 有存  {"cam": {"eye": [0, 1.6, 5.7], "look": [0, 1.55, 7.3], "lens": 18, "vfov": 58.72}, "lum": [66.4, 13.2]}
+  [ 166.0s] [截圖] wv_nanyang_night：鏡頭 {"eye": [0, 1.6, 5.7], "look": [0, 1.55, 7.3], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[66.4, 13.2]；鏡頭旁藏起來的人 []
+PASS [南洋戲院 xs_nanyang] 有回街上的出口（含出店落點）  [{"label": "出去（新生南路）", "x": 0, "z": 6.55, "lv": 0, "to": "xinsheng", "spawn": {"x": -13.9, "z": 25.3, "yaw": 1.571, "lv": 0}}, {"label": "進 1 廳", "x": 2.2, "z": -6.4, "lv": 0, "to": "xs_nanyang_hall", "spawn": {"x": 3.5, "z": 6.4, "yaw": 3.142, "lv": 0}}]
+  [前置／捷徑] [南洋戲院 xs_nanyang] 讀檔 xinsheng 14.00 出店落點 {"x": -13.9, "z": 25.3, "yaw": 1.571, "lv": 0}
+PASS [南洋戲院 xs_nanyang] 到了街上（xinsheng）  {"zone": "xinsheng", "x": -13.9, "z": 25.3, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [ 178.0s] [南洋戲院 xs_nanyang] 街景：店門 {"label": "進南洋戲院（二輪戲院）", "x": -15.6, "z": 25.3}、出店落點 [-13.9, 25.3]；店裡出口方向 [-0.25036650723323506, 0.9681511307930339] ↔ 街上 [1.0, 0.0]（轉 90°）；窗往外 [0.0, 1.0] → 街上看 [1.0, 0.0]；鏡頭 eye [-13.9, 1.6, 25.3] → look [6.1, 1.3, 25.3]
+PASS [截圖] wv_nanyang_street.png 有存  {"cam": {"eye": [-13.9, 1.6, 25.3], "look": [6.1, 1.3, 25.3], "lens": 18, "vfov": 58.72}, "lum": [119, 50.8]}
+  [ 179.8s] [截圖] wv_nanyang_street：鏡頭 {"eye": [-13.9, 1.6, 25.3], "look": [6.1, 1.3, 25.3], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[119, 50.8]；鏡頭旁藏起來的人 []
+== xsports 新生運動廣場（xs7）
+  [前置／捷徑] [新生運動廣場 xs_xsports] 讀檔 xs_xsports 2025-10-18 14.00（區域出生點；條件事件關掉）
+PASS [新生運動廣場 xs_xsports] 進得了 xs_xsports  {"zone": "xs_xsports", "x": 0, "z": 6.4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [ 206.9s] [新生運動廣場 xs_xsports] 窗景卡（全部，含藏起來的）8 片：[{"name": "L0_xs_glass", "kind": "glass", "vis": true, "lv": 0, "c": [-1.88, 2.33, 0.647], "size": [8.64, 4.62, 5.4], "url": null}, {"name": "WALL_back_L0_backdoor_glass", "kind": "glass", "vis": true, "lv": 0, "c": [-3.3, 1.165, -7.85], "size": [1.5, 2.17, 0], "url": null}, {"name": "WALL_front_L0_front_frames_glass", "kind": "glass", "vis": true, "lv": 0, "c": [0, 1.445, 7.93], "size": [13.2, 2.85, 0], "url": null}, {"name": "VIEWPANE_xs_xsports", "kind": "parallax", "vis": true, "lv": 0, "c": [0, 1.6, 8.23], "size": [13.6, 3.4, 0], "url": "assets/models/env/views/xs_xsports_day.webp"}, {"name": "L1_xs_glass", "kind": "glass", "vis": true, "lv": 1, "c": [0, 5.5, -1.42], "size": [13.76, 3.4, 2.76], "url": null}, {"name": "WALL_front_L1_front_upper_glass", "kind": "glass", "vis": true, "lv": 1, "c": [0, 5.65, 7.93], "size": [13.2, 2.9, 0], "url": null}, {"name": "WALL_left_L1_xs_glass", "kind": "glass", "vis": true, "lv": 1, "c": [-6.9, 5.1, 2.1], "size": [0, 4.2, 10.8], "url": null}, {"name": "VIEWPANE_xs_xsports_2f", "kind": "parallax", "vis": true, "lv": 1, "c": [0, 5.35, 8.23], "size": [13.6, 4, 0], "url": "assets/models/env/views/xs_xsports_2f_day.webp"}]
+PASS [新生運動廣場 xs_xsports] 找得到看得見的窗景卡（沒有卡時：玻璃）  [["L0_xs_glass", "glass", true], ["WALL_back_L0_backdoor_glass", "glass", true], ["WALL_front_L0_front_frames_glass", "glass", true], ["VIEWPANE_xs_xsports", "parallax", true], ["L1_xs_glass", "glass", true], ["WALL_front_L1_front_upper_glass", "glass", true], ["WALL_left_L1_xs_glass", "glass", true], ["VIEWPANE_xs_xsports_2f", "parallax", true]]
+  [ 206.9s] [新生運動廣場 xs_xsports] 卡 VIEWPANE_xs_xsports_2f 窗往外 [0.0, 1.0]（+z）；店內站位：窗前 1.6 m（沒有靠窗的座位）；人放在 [-2.42, 4.51]（第 1 層）；鏡頭 eye [0.0, 5.35, 6.63] → look [0.0, 5.3, 8.23]
+  [前置／捷徑] [新生運動廣場 xs_xsports] 卡 VIEWPANE_xs_xsports_2f 14.00 讀檔把人放到 [-2.42, 4.51]（第 1 層）
+  [ 217.9s] [新生運動廣場 xs_xsports] 卡 VIEWPANE_xs_xsports_2f 14.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/xs_xsports_2f_day.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_xsports_day.png 有存  {"cam": {"eye": [0, 5.35, 6.63], "look": [0, 5.3, 8.23], "lens": 18, "vfov": 58.72}, "lum": [161.3, 46.8]}
+  [ 219.6s] [截圖] wv_xsports_day：鏡頭 {"eye": [0, 5.35, 6.63], "look": [0, 5.3, 8.23], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[161.3, 46.8]；鏡頭旁藏起來的人 []
+  [前置／捷徑] [新生運動廣場 xs_xsports] 卡 VIEWPANE_xs_xsports_2f 21.00 讀檔把人放到 [-2.42, 4.51]（第 1 層）
+  [ 230.5s] [新生運動廣場 xs_xsports] 卡 VIEWPANE_xs_xsports_2f 21.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/xs_xsports_2f_night.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_xsports_night.png 有存  {"cam": {"eye": [0, 5.35, 6.63], "look": [0, 5.3, 8.23], "lens": 18, "vfov": 58.72}, "lum": [39.2, 22.7]}
+  [ 232.2s] [截圖] wv_xsports_night：鏡頭 {"eye": [0, 5.35, 6.63], "look": [0, 5.3, 8.23], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[39.2, 22.7]；鏡頭旁藏起來的人 []
+  [ 232.2s] [新生運動廣場 xs_xsports] 卡 VIEWPANE_xs_xsports 窗往外 [0.0, 1.0]（+z）；店內站位：座位「坐下試穿」(-5.6, 3.5)，離窗 4.73 m、左右偏 5.6 m；人放在 [-4.8, 3.5]（第 0 層）；鏡頭 eye [-5.6, 1.2, 3.35] → look [-5.6, 1.15, 8.23]
+  [前置／捷徑] [新生運動廣場 xs_xsports] 卡 VIEWPANE_xs_xsports 14.00 讀檔把人放到 [-4.8, 3.5]（第 0 層）
+  [ 243.2s] [新生運動廣場 xs_xsports] 卡 VIEWPANE_xs_xsports 14.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/xs_xsports_day.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_xsports_c2_day.png 有存  {"cam": {"eye": [-5.6, 1.2, 3.35], "look": [-5.6, 1.15, 8.23], "lens": 18, "vfov": 58.72}, "lum": [118.6, 49.2]}
+  [ 245.2s] [截圖] wv_xsports_c2_day：鏡頭 {"eye": [-5.6, 1.2, 3.35], "look": [-5.6, 1.15, 8.23], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[118.6, 49.2]；鏡頭旁藏起來的人 []
+  [前置／捷徑] [新生運動廣場 xs_xsports] 卡 VIEWPANE_xs_xsports 21.00 讀檔把人放到 [-4.8, 3.5]（第 0 層）
+  [ 256.0s] [新生運動廣場 xs_xsports] 卡 VIEWPANE_xs_xsports 21.00 這片卡現在：{"vis": true, "url": "assets/models/env/views/xs_xsports_night.webp", "photoOn": 1, "loaded": true}
+PASS [截圖] wv_xsports_c2_night.png 有存  {"cam": {"eye": [-5.6, 1.2, 3.35], "look": [-5.6, 1.15, 8.23], "lens": 18, "vfov": 58.72}, "lum": [59.3, 30.6]}
+  [ 258.0s] [截圖] wv_xsports_c2_night：鏡頭 {"eye": [-5.6, 1.2, 3.35], "look": [-5.6, 1.15, 8.23], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[59.3, 30.6]；鏡頭旁藏起來的人 []
+PASS [新生運動廣場 xs_xsports] 有回街上的出口（含出店落點）  [{"label": "離開新生運動廣場", "x": 0, "z": 7.6, "lv": 0, "to": "xinsheng", "spawn": {"x": -13.9, "z": -33, "yaw": 1.571, "lv": 0}}]
+  [前置／捷徑] [新生運動廣場 xs_xsports] 讀檔 xinsheng 14.00 出店落點 {"x": -13.9, "z": -33, "yaw": 1.571, "lv": 0}
+PASS [新生運動廣場 xs_xsports] 到了街上（xinsheng）  {"zone": "xinsheng", "x": -13.9, "z": -33, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.07}
+  [ 269.3s] [新生運動廣場 xs_xsports] 街景：店門 {"label": "進新生運動廣場（運動用品（兩層））", "x": -15.6, "z": -33}、出店落點 [-13.9, -33]；店裡出口方向 [0.6165830230375263, 0.787289893052048] ↔ 街上 [1.0, 0.0]（轉 90°）；窗往外 [0.0, 1.0] → 街上看 [1.0, 0.0]；鏡頭 eye [-13.9, 1.6, -33] → look [6.1, 1.3, -33.0]
+PASS [截圖] wv_xsports_street.png 有存  {"cam": {"eye": [-13.9, 1.6, -33], "look": [6.1, 1.3, -33], "lens": 18, "vfov": 58.72}, "lum": [127.9, 45.4]}
+  [ 271.1s] [截圖] wv_xsports_street：鏡頭 {"eye": [-13.9, 1.6, -33], "look": [6.1, 1.3, -33], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[127.9, 45.4]；鏡頭旁藏起來的人 []
+  [ 271.1s] [新生運動廣場 xs_xsports] 街景：店門 {"label": "進新生運動廣場（運動用品（兩層））", "x": -15.6, "z": -33}、出店落點 [-13.9, -33]；店裡出口方向 [0.6165830230375263, 0.787289893052048] ↔ 街上 [1.0, 0.0]（轉 90°）；窗往外 [0.0, 1.0] → 街上看 [1.0, 0.0]；鏡頭 eye [-13.9, 1.6, -33] → look [6.1, 1.3, -33.0]
+PASS [截圖] wv_xsports_c2_street.png 有存  {"cam": {"eye": [-13.9, 1.6, -33], "look": [6.1, 1.3, -33], "lens": 18, "vfov": 58.72}, "lum": [126.6, 44.5]}
+  [ 272.8s] [截圖] wv_xsports_c2_street：鏡頭 {"eye": [-13.9, 1.6, -33], "look": [6.1, 1.3, -33], "lens": 18, "vfov": 58.72}；亮度（平均、變化）[126.6, 44.5]；鏡頭旁藏起來的人 []
+PASS 沒有 JS 例外  []
+  [ 273.5s] 專屬照片窗景卡的店：[]；JSON：C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_xs3_v2\out\winview_audit.json
+ALL PASS
