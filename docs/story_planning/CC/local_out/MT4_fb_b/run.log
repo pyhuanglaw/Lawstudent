@@ -1,0 +1,24 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_mt3_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MT4_fb_b\out
+CC MT3（MOVIE-TALK-1110 第二輪）：CASES FB_SELF,FB_JOKE,FB_CRIT；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】2026-07-11 08:00、heroine_02 朋友＋聯絡方式
+FAIL [FB_SELF 芷若 m2607a] 手機朋友頁有 heroine_02
+  [前置／捷徑] 【前置／捷徑】2027-01-16 08:00、kexin 朋友＋聯絡方式
+FAIL [FB_JOKE 可昕 m2701a] 有「看電影、逛書店」  [{"t": "出去玩…選地點、日期、時間", "dim": false}, {"t": "我去高雄找妳？當天來回　高鐵約一個半小時", "dim": false}, {"t": "算了", "dim": false}]
+  [前置／捷徑] 【前置／捷徑】2026-01-17 08:00、heroine_01 朋友＋聯絡方式
+PASS [FB_CRIT 以安 m2601b] 選得到南洋戲院  [{"t": "去南洋戲院看電影今日放映　①《紅包去哪了》②《去看極光的那年》　一張票兩部 150 元", "dim": false}, {"t": "去頁間書屋逛逛", "dim": false}, {"t": "去山嵐書店逛逛", "dim": false}, {"t": "返回", "dim": false}]
+PASS [FB_CRIT 以安 m2601b] 今天有能選的時間（要第 1 個）  [{"t": "今天 09:50", "dim": false}, {"t": "今天 14:00", "dim": false}, {"t": "今天 19:30", "dim": false}, {"t": "明天 09:50", "dim": false}, {"t": "明天 14:00", "dim": false}, {"t": "明天 19:30", "dim": false}, {"t": "其他日子…之後 7 天內選一天", "dim": false}, {"t": "算了", "dim": false}]
+  [  61.7s] [FB_CRIT 以安 m2601b] 約好：{"id": "iv54", "h": 9.83, "film": "m2601a", "title": "紅包去哪了"}；對話 ["電影？好。我先查一下片長。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+PASS [FB_CRIT 以安 m2601b] 約成了  ["電影？好。我先查一下片長。", "約好 今天 09:50，南洋戲院", "約好 今天 09:50，南洋戲院。"]
+  [前置／捷徑] [FB_CRIT 以安 m2601b]【捷徑】約好的是 m2601a，改成 m2601b
+  [  61.7s] [FB_CRIT 以安 m2601b] talkFor：{"by": "her", "q": "三個小時，你有撐住嗎？", "qOther": false, "other": true, "opts": [{"k": 0, "t": "有。而且我以為會更無聊。", "lines": ["我想的跟你差不多。"], "fx": {"fr": 1}, "set": null, "fb": "feel"}, {"k": 1, "t": "她最後在職業欄寫什麼？", "lines": ["我也卡在那裡。片尾的字幕我有看完，沒有寫。"], "fx": {"love": 1}, "set": null, "fb": "wonder"}, {"k": 2, "t": "中間等極光那九個晚上，可以剪掉五個。", "lines": ["會嗎。我看得很專心。"], "fx": {"fr": -1}, "set": null, "fb": "crit"}]}；fallback[crit]＝[{"re": "會嗎。我看得很專心。", "fx": {"fr": -1}}, {"re": "那下次你選。", "fx": {"fr": -1}}, {"re": "喔。"}]；MOVIE_FB 之前 0
+PASS [FB_CRIT 以安 m2601b] 選項「中間等極光那九個晚上，可以剪掉五個。」走 fallback（kind crit）  {"k": 2, "t": "中間等極光那九個晚上，可以剪掉五個。", "lines": ["會嗎。我看得很專心。"], "fx": {"fr": -1}, "set": null, "fb": "crit"}
+PASS [FB_CRIT 以安 m2601b] 預期的回答是她 crit 的第 1 句  {"lines": ["會嗎。我看得很專心。"], "fb": ["會嗎。我看得很專心。", "那下次你選。", "喔。"]}
+PASS [FB_CRIT 以安 m2601b]「今天」有「前往」
+PASS [FB_CRIT 以安 m2601b] 選了以後她回 fallback 那一句  ["沈以安｜我從來沒有那麼晚回去過。是讀書會拖到的。", "沈以安｜你呢？你上一次做規則以外的事，是什麼時候？", "祐廷｜有一次半夜睡不著，我騎車去河堤吹風。", "沈以安｜半夜……一個人？", "｜（她想了一下，好像在想那是什麼樣子。）", "沈以安｜我先回去了。晚點再傳你。"]
+  [ 105.2s] [FB_CRIT 以安 m2601b] fx（選項自己的優先，沒有才用 fallback 那一句）＝{"fr": -1}；romOk True；選了以後到下一個選單之間的 adjust [{"id": "heroine_01", "d": {"fam": -1, "trust": -1, "comf": -1}, "h": 11.597, "z": "xs_nanyang", "n": 26}]
+PASS [FB_CRIT 以安 m2601b] 效果＝{"fam": -1, "trust": -1, "comf": -1}  [{"id": "heroine_01", "d": {"fam": -1, "trust": -1, "comf": -1}, "h": 11.597, "z": "xs_nanyang", "n": 26}]
+PASS [FB_CRIT 以安 m2601b] MOVIE_FB.heroine_01.crit 0 → 1（加一）  {"heroine_01": {"crit": 1}}
+PASS 沒有 JS 例外  []
+FAILED 2: [FB_SELF 芷若 m2607a] 手機朋友頁有 heroine_02；[FB_JOKE 可昕 m2701a] 有「看電影、逛書店」

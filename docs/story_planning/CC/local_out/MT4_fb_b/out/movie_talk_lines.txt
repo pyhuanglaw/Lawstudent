@@ -1,0 +1,42 @@
+==== [FB_CRIT 以安 m2601b] 期望 {"talk": {"by": "her", "q": "三個小時，你有撐住嗎？", "qOther": false, "other": true, "opts": [{"k": 0, "t": "有。而且我以為會更無聊。", "lines": ["我想的跟你差不多。"], "fx": {"fr": 1}, "set": null, "fb": "feel"}, {"k": 1, "t": "她最後在職業欄寫什麼？", "lines": ["我也卡在那裡。片尾的字幕我有看完，沒有寫。"], "fx": {"love": 1}, "set": null, "fb": "wonder"}, {"k": 2, "t": "中間等極光那九個晚上，可以剪掉五個。", "lines": ["會嗎。我看得很專心。"], "fx": {"fr": -1}, "set": null, "fb": "crit"}]}, "scene": "第十個晚上，老闆娘沒有敲門，只是把走廊的燈關了。", "with": null, "again": "（第二次看，你注意到上次沒注意到的地方。）", "genre": "愛情"}
+==== [FB_CRIT 以安 m2601b] ====
+[choose dorm 8.03] ["念書…","吃飯…","喝咖啡、喝茶…","看電影、逛書店…","散步…","運動…","出去玩…","算了"]
+[choose dorm 8.03] ["去南洋戲院看電影","去頁間書屋逛逛","去山嵐書店逛逛","返回"]
+[choose dorm 8.03] ["今天 09:50","今天 14:00","今天 19:30","明天 09:50","明天 14:00","明天 19:30","其他日子…","算了"]
+[say dorm 8.03] 沈以安（手機）｜電影？好。我先查一下片長。
+[say dorm 8.03] ｜約好 今天 09:50，南洋戲院。
+[cap dorm 9.25] （等到該出發去赴約）你在宿舍 房間待到 09:15。
+[mark xs_nanyang 9.60] MOVIES.enterHall 開始
+[mark xs_nanyang_hall 9.60] MOVIES.enterHall 結束
+[say xs_nanyang_hall 9.60] ｜（你們找到位子坐下。燈還沒暗，她把爆米花放在中間的扶手上。）
+[say xs_nanyang_hall 9.60] 沈以安｜（小聲）預告片開始了。
+[say xs_nanyang_hall 9.60] ｜你和沈以安在南洋戲院看電影。
+[say xs_nanyang_hall 9.60] ｜（她在售票口前面，把每一部的片長都看了一遍。）
+[say xs_nanyang_hall 9.60] ｜（燈暗下來，《去看極光的那年》開始了。）
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 開始
+[say xs_nanyang_hall 10.60] ｜第十個晚上，老闆娘沒有敲門，只是把走廊的燈關了。
+[mark xs_nanyang_hall 10.60] MOVIES.playMid 結束
+[cap xs_nanyang_hall 11.60] 南洋戲院・沈以安・（2 小時）
+[say xs_nanyang_hall 11.60] ｜（燈亮了。她還在看片尾的字幕。）
+[say xs_nanyang_hall 11.60] 沈以安｜……等一下再走。
+[mark xs_nanyang_hall 11.60] MOVIES.leaveHall 開始
+[mark xs_nanyang 11.60] MOVIES.leaveHall 結束
+[mark xs_nanyang 11.60] MOVIES.after 開始
+[mark xs_nanyang 11.60] MOVIES.talk 開始
+[say xs_nanyang 11.60] 沈以安｜三個小時，你有撐住嗎？
+[choose xs_nanyang 11.60] ["有。而且我以為會更無聊。","她最後在職業欄寫什麼？","中間等極光那九個晚上，可以剪掉五個。"]
+[say xs_nanyang 11.60] 沈以安｜會嗎。我看得很專心。
+[mark xs_nanyang 11.60] MOVIES.talk 結束
+[mark xs_nanyang 11.60] MOVIES.after 結束
+[mark xs_nanyang 11.60] ARCS.run 開始
+[say xs_nanyang 11.60] 沈以安｜你知道女舍的門禁是十二點嗎？
+[say xs_nanyang 11.60] 沈以安｜我昨天十一點五十九分進門。舍監看了我一眼。
+[say xs_nanyang 11.60] 沈以安｜我從來沒有那麼晚回去過。是讀書會拖到的。
+[say xs_nanyang 11.60] 沈以安｜你呢？你上一次做規則以外的事，是什麼時候？
+[choose xs_nanyang 11.60] ["有一次半夜睡不著，我騎車去河堤吹風。","我很少做規則以外的事。","現在。我本來應該在讀書。"]
+[say xs_nanyang 11.60] 祐廷｜有一次半夜睡不著，我騎車去河堤吹風。
+[say xs_nanyang 11.60] 沈以安｜半夜……一個人？
+[say xs_nanyang 11.60] ｜（她想了一下，好像在想那是什麼樣子。）
+[mark xs_nanyang 11.60] ARCS.run 結束
+[say xs_nanyang 11.60] 沈以安｜我先回去了。晚點再傳你。
+-- SOCIAL.adjust：[{"id": "heroine_01", "d": {"fam": 3, "trust": 1, "comf": 2}, "h": 11.597, "z": "xs_nanyang_hall", "n": 17}, {"id": "heroine_01", "d": {"npcRom": 1, "rom": 1, "trust": 1}, "h": 11.597, "z": "xs_nanyang_hall", "n": 17}, {"id": "heroine_01", "d": {"fam": -1, "trust": -1, "comf": -1}, "h": 11.597, "z": "xs_nanyang", "n": 26}, {"id": "heroine_01", "d": {"trust": 2, "comf": 1}, "h": 11.597, "z": "xs_nanyang", "n": 35}]
