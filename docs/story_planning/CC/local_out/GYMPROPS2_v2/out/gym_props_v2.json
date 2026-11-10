@@ -1,0 +1,112 @@
+[
+ {
+  "act": "bike",
+  "hour": 10.0,
+  "use": {
+   "using": "bike_1",
+   "pose": "gym_bike",
+   "x": -0.5,
+   "z": 9.4,
+   "y": 0,
+   "yaw": 0,
+   "dlg": true
+  },
+  "pedal": {
+   "max": 0.122,
+   "swapped": 0
+  },
+  "props": {
+   "pose": "gym_bike",
+   "gymPose": "gym_bike",
+   "isFar": false,
+   "loaded": false,
+   "failed": 0,
+   "lh": [
+    -0.256,
+    1.153,
+    9.687
+   ],
+   "rh": [
+    -0.744,
+    1.151,
+    9.691
+   ],
+   "mid": [
+    -0.5,
+    1.152,
+    9.689
+   ],
+   "props": []
+  },
+  "info": []
+ },
+ {
+  "act": "row",
+  "hour": 10.0,
+  "use": {
+   "using": "rower_1",
+   "pose": "gym_row",
+   "x": 7.4,
+   "z": 8.5,
+   "y": 0,
+   "yaw": 1.571,
+   "dlg": true
+  },
+  "seat": {
+   "seatRange": 0.39,
+   "hipsRange": 0.39,
+   "offRange": 0.0
+  },
+  "props": {
+   "pose": "gym_row",
+   "gymPose": "gym_row",
+   "isFar": false,
+   "loaded": true,
+   "failed": 0,
+   "lh": [
+    7.597,
+    0.671,
+    8.373
+   ],
+   "rh": [
+    7.603,
+    0.667,
+    8.626
+   ],
+   "mid": [
+    7.6,
+    0.669,
+    8.5
+   ],
+   "props": [
+    {
+     "name": "gymProp:row0",
+     "vis": true,
+     "meshes": [
+      "gym_row_handle__alu",
+      "gym_row_handle__foam",
+      "gym_row_handle__grip"
+     ],
+     "pos": [
+      7.638,
+      0.661,
+      8.5
+     ],
+     "axis": [
+      -0.023,
+      0.015,
+      -1
+     ],
+     "dL": 0.134,
+     "dR": 0.132,
+     "dMid": 0.039,
+     "perpL": 0.039,
+     "perpR": 0.039,
+     "alongL": 0.128,
+     "alongR": -0.126
+    }
+   ]
+  },
+  "info": []
+ }
+]

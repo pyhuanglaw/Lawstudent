@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "GYMPROPS2_v2",
+  "sha": "be84c86807aa45324daed407996770feb6dbba13",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gym_props_probe.py",
+  "env": "SOLO=1;TAG=v2;ACTS=bike,row",
+  "machine": "MSI",
+  "start": "2026-11-10T20:16:36",
+  "end": "2026-11-10T20:18:55",
+  "seconds": 139,
+  "exit": 0,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "6",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 15,
+    "mem": 43,
+    "used_gb": 13.5,
+    "chrome_testing": 5
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

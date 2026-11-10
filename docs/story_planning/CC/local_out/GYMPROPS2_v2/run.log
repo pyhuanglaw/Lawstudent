@@ -1,0 +1,80 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gym_props_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GYMPROPS2_v2\out
+CC 健身房手上的道具：worktree ?；TAG v2；['bike', 'row']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [  21.1s] 這一版：{"gy3": true, "layout": true, "props": true, "asset": true}（props／asset false＝GYM-FIT-PROPS-1103 之前的版本，道具那一項會 FAIL）
+PASS 這一版有健身器材互動（GY3.useEquip、b1.fitness.equip）  {"gy3": true, "layout": true, "props": true, "asset": true}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gym_b1 出生點 2025-09-23 10.00 時、條件事件關掉；G.daily.gym 設會員卡＋這個月月票、錢 ≥ 2000（不演辦卡／買月票）
+  [  35.2s] 前置後：{"card": 7, "pass": "2025-09", "fit": 0, "money": 22000, "open": true, "wd": 2, "key": "2025-09-23"}；位置 {"zone": "gym_b1", "x": 18, "z": 7, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.06}
+  [  35.3s] bike 10.00 時 器材：[{"id": "bike_1", "kind": "bike", "label": "飛輪 1", "stand": {"x": -0.5, "z": 8.15, "yaw": 0}, "use": [{"x": -0.5, "z": 9.4, "yaw": 0, "pose": "gym_bike"}], "free": true}, {"id": "bike_2", "kind": "bike", "label": "飛輪 2", "stand": {"x": 1, "z": 8.15, "yaw": 0}, "use": [{"x": 1, "z": 9.4, "yaw": 0, "pose": "gym_bike"}], "free": true}, {"id": "bike_3", "kind": "bike", "label": "飛輪 3", "stand": {"x": 2.5, "z": 8.15, "yaw": 0}, "use": [{"x": 2.5, "z": 9.4, "yaw": 0, "pose": "gym_bike"}], "free": false}, {"id": "bike_4", "kind": "bike", "label": "飛輪 4", "stand": {"x": 4, "z": 8.15, "yaw": 0}, "use": [{"x": 4, "z": 9.4, "yaw": 0, "pose": "gym_bike"}], "free": true}]
+PASS bike：用腳踏車機 有一台有空位（bike_1／bike_2／bike_3／bike_4）  {"hours": [10.0, 8.6, 14.2]}
+  [  53.9s] 到達「bike 走到 bike_1 的 stand (-0.5, 8.15)」附近（0.23 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，19 秒
+PASS bike：真的走到 bike_1 的 stand（0.45 m 內、walkFallbacks 沒加）  {"zone": "gym_b1", "x": -0.341, "z": 7.986, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "用腳踏車機", "stand": true, "fb": 0, "hour": 10.19}
+PASS bike：互動鍵是「用腳踏車機」、最近的互動點是 bike_1  {"interact": "用腳踏車機", "near": {"label": "用腳踏車機", "eq": "bike_1"}}
+PASS bike：按下去以後在用 bike_1、玩家 pose＝gym_bike  {"using": "bike_1", "pose": "gym_bike", "x": -0.5, "z": 9.4, "y": 0, "yaw": 0, "dlg": true}
+  [  60.1s] bike 會動的零件第 1 次：{"id": "bike_1", "ph": 124.809, "pedalL": [-0.43, 0.472, 9.252], "pedalR": [-0.57, 0.248, 9.508], "footL": [-0.38, 0.551, 9.217], "footR": [-0.62, 0.344, 9.473], "dL": 0.1, "dR": 0.114, "dLx": 0.318, "dRx": 0.461, "dLtoe": 0.089, "dRtoe": 0.083}
+  [  60.1s] bike 會動的零件第 2 次：{"id": "bike_1", "ph": 126.971, "pedalL": [-0.43, 0.404, 9.544], "pedalR": [-0.57, 0.316, 9.216], "footL": [-0.38, 0.489, 9.509], "footR": [-0.62, 0.406, 9.181], "dL": 0.104, "dR": 0.109, "dLx": 0.41, "dRx": 0.39, "dLtoe": 0.087, "dRtoe": 0.085}
+  [  60.1s] bike 會動的零件第 3 次：{"id": "bike_1", "ph": 129.26, "pedalL": [-0.43, 0.207, 9.305], "pedalR": [-0.57, 0.513, 9.455], "footL": [-0.38, 0.306, 9.27], "footR": [-0.62, 0.589, 9.42], "dL": 0.116, "dR": 0.098, "dLx": 0.441, "dRx": 0.336, "dLtoe": 0.082, "dRtoe": 0.091}
+  [  60.1s] bike 會動的零件第 4 次：{"id": "bike_1", "ph": 131.296, "pedalL": [-0.43, 0.495, 9.277], "pedalR": [-0.57, 0.225, 9.483], "footL": [-0.38, 0.573, 9.242], "footR": [-0.62, 0.328, 9.445], "dL": 0.099, "dR": 0.12, "dLx": 0.304, "dRx": 0.464, "dLtoe": 0.09, "dRtoe": 0.079}
+  [  60.1s] bike 會動的零件第 5 次：{"id": "bike_1", "ph": 133.458, "pedalL": [-0.43, 0.37, 9.55], "pedalR": [-0.57, 0.35, 9.21], "footL": [-0.38, 0.457, 9.515], "footR": [-0.62, 0.438, 9.175], "dL": 0.106, "dR": 0.107, "dLx": 0.425, "dRx": 0.374, "dLtoe": 0.086, "dRtoe": 0.086}
+  [  60.1s] bike 會動的零件第 6 次：{"id": "bike_1", "ph": 135.492, "pedalL": [-0.43, 0.204, 9.313], "pedalR": [-0.57, 0.516, 9.447], "footL": [-0.38, 0.303, 9.278], "footR": [-0.62, 0.592, 9.412], "dL": 0.116, "dR": 0.097, "dLx": 0.444, "dRx": 0.332, "dLtoe": 0.082, "dRtoe": 0.091}
+  [  60.1s] bike 會動的零件第 7 次：{"id": "bike_1", "ph": 137.654, "pedalL": [-0.43, 0.503, 9.287], "pedalR": [-0.57, 0.217, 9.473], "footL": [-0.38, 0.58, 9.252], "footR": [-0.62, 0.322, 9.434], "dL": 0.098, "dR": 0.122, "dLx": 0.3, "dRx": 0.464, "dLtoe": 0.091, "dRtoe": 0.078}
+  [  60.1s] bike 會動的零件第 8 次：{"id": "bike_1", "ph": 139.69, "pedalL": [-0.43, 0.379, 9.549], "pedalR": [-0.57, 0.341, 9.211], "footL": [-0.38, 0.465, 9.514], "footR": [-0.62, 0.43, 9.176], "dL": 0.106, "dR": 0.108, "dLx": 0.422, "dRx": 0.378, "dLtoe": 0.086, "dRtoe": 0.085}
+  [  60.1s] bike 會動的零件第 9 次：{"id": "bike_1", "ph": 141.724, "pedalL": [-0.43, 0.2, 9.321], "pedalR": [-0.57, 0.52, 9.439], "footL": [-0.38, 0.3, 9.286], "footR": [-0.62, 0.595, 9.404], "dL": 0.116, "dR": 0.097, "dLx": 0.446, "dRx": 0.328, "dLtoe": 0.082, "dRtoe": 0.091}
+  [  60.1s] bike 會動的零件第 10 次：{"id": "bike_1", "ph": 143.887, "pedalL": [-0.43, 0.498, 9.28], "pedalR": [-0.57, 0.222, 9.48], "footL": [-0.38, 0.575, 9.245], "footR": [-0.62, 0.326, 9.442], "dL": 0.099, "dR": 0.121, "dLx": 0.303, "dRx": 0.464, "dLtoe": 0.09, "dRtoe": 0.079}
+  [  60.1s] bike 會動的零件第 11 次：{"id": "bike_1", "ph": 145.922, "pedalL": [-0.43, 0.387, 9.548], "pedalR": [-0.57, 0.333, 9.212], "footL": [-0.38, 0.473, 9.513], "footR": [-0.62, 0.422, 9.177], "dL": 0.105, "dR": 0.108, "dLx": 0.418, "dRx": 0.382, "dLtoe": 0.087, "dRtoe": 0.085}
+  [  60.1s] bike 會動的零件第 12 次：{"id": "bike_1", "ph": 148.084, "pedalL": [-0.43, 0.205, 9.309], "pedalR": [-0.57, 0.515, 9.451], "footL": [-0.38, 0.304, 9.274], "footR": [-0.62, 0.591, 9.416], "dL": 0.116, "dR": 0.098, "dLx": 0.443, "dRx": 0.334, "dLtoe": 0.082, "dRtoe": 0.091}
+  INFO bike：踏板到同側腳骨（腳踝）距離每次取兩腳較大的：[0.114, 0.109, 0.116, 0.12, 0.107, 0.116, 0.122, 0.108, 0.116, 0.121, 0.108, 0.116]；最大 0.122 m（腳骨在腳踝，踏板在腳掌下，約 0.08～0.12 正常）；踏板比較靠近另一隻腳的次數 0／12
+  [  62.1s] bike：沒有手上道具，不查（手上看得到的 []）
+  [  62.1s] bike 第 1 次：手 L [-0.256, 1.153, 9.688] R [-0.744, 1.151, 9.691]；道具 []
+  [  62.1s] bike 第 2 次：手 L [-0.256, 1.153, 9.688] R [-0.745, 1.151, 9.691]；道具 []
+  [  62.1s] bike 第 3 次：手 L [-0.257, 1.155, 9.685] R [-0.744, 1.153, 9.688]；道具 []
+  [  62.1s] bike 第 4 次：手 L [-0.258, 1.156, 9.683] R [-0.743, 1.154, 9.687]；道具 []
+  [  62.1s] bike 第 5 次：手 L [-0.257, 1.155, 9.685] R [-0.744, 1.153, 9.688]；道具 []
+  [  62.1s] bike 第 6 次：手 L [-0.256, 1.153, 9.687] R [-0.744, 1.151, 9.691]；道具 []
+  [  62.1s] bike：道具離手（啞鈴＝自己那隻手骨；槓鈴、拉把＝兩手中點）、手到軸線都 ≤ 0.15 m
+PASS [黑畫面] gp_v2_bike_game 不是黑畫面（平均亮度 69、變化 41.8）  [69, 41.8]
+  [  63.1s] bike 遊戲鏡頭：{"cam": [2.59, 2.99, 8.12], "yaw": 8.246, "dist": 3.6, "mode": "follow"}
+  [  63.2s] bike 另一台相機 sideL：[1.2, 1.15, 9.69] → 兩手中點 [-0.5, 1.152, 9.689]（fov 50）
+  [  63.2s] bike 另一台相機 sideR：[-2.2, 1.15, 9.69] → 兩手中點 [-0.5, 1.152, 9.689]（fov 50）
+  [  63.3s] bike 另一台相機 front：[-0.5, 1.15, 11.39] → 兩手中點 [-0.5, 1.152, 9.689]（fov 50）
+  [  63.4s] bike 另一台相機 sideLow：[1.2, 0.6, 9.69] → [-0.5, 0.45, 9.689]（踏板／座椅高度）
+PASS bike：旁白點掉以後站回 stand、pose idle、手上的道具藏起來  {"u": {"using": null, "pose": "idle", "x": -0.5, "z": 8.15, "y": 0, "yaw": 0, "dlg": false}, "vis": []}
+  [前置／捷徑] 【前置／捷徑】讀檔到 gym_b1 出生點 2025-09-23 10.00 時、條件事件關掉；G.daily.gym 設會員卡＋這個月月票、錢 ≥ 2000（不演辦卡／買月票）
+  [  76.6s] 前置後：{"card": 7, "pass": "2025-09", "fit": 0, "money": 22000, "open": true, "wd": 2, "key": "2025-09-23"}；位置 {"zone": "gym_b1", "x": 18, "z": 7, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 10.07}
+  [  76.6s] row 10.00 時 器材：[{"id": "rower_1", "kind": "rower", "label": "划船機 1", "stand": {"x": 7.3, "z": 7.85, "yaw": 0}, "use": [{"x": 7.4, "z": 8.5, "yaw": 1.5707963267948966, "pose": "gym_row"}], "free": true}, {"id": "rower_2", "kind": "rower", "label": "划船機 2", "stand": {"x": 7.3, "z": 10.55, "yaw": 3.141592653589793}, "use": [{"x": 7.4, "z": 9.9, "yaw": 1.5707963267948966, "pose": "gym_row"}], "free": true}]
+PASS row：用划船機 有一台有空位（rower_1／rower_2）  {"hours": [10.0, 8.6, 14.2]}
+  [  93.2s] 到達「row 走到 rower_1 的 stand (7.3, 7.85)」附近（0.22 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，17 秒
+PASS row：真的走到 rower_1 的 stand（0.45 m 內、walkFallbacks 沒加）  {"zone": "gym_b1", "x": 7.18, "z": 7.661, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "用划船機", "stand": true, "fb": 0, "hour": 10.19}
+PASS row：互動鍵是「用划船機」、最近的互動點是 rower_1  {"interact": "用划船機", "near": {"label": "用划船機", "eq": "rower_1"}}
+PASS row：按下去以後在用 rower_1、玩家 pose＝gym_row  {"using": "rower_1", "pose": "gym_row", "x": 7.4, "z": 8.5, "y": 0, "yaw": 1.571, "dlg": true}
+  [  99.4s] row 會動的零件第 1 次：{"id": "rower_1", "ph": 0.616, "seat": [7.11, 0, 8.5], "hips": [7.04, 0.518, 8.501], "seatLocal": [0, 0, -0.29], "hipsLocal": [-0.001, 0.518, -0.36], "dSeatHips": 0.523}
+  [  99.4s] row 會動的零件第 2 次：{"id": "rower_1", "ph": 0.396, "seat": [7.214, 0, 8.5], "hips": [7.144, 0.518, 8.501], "seatLocal": [0, 0, -0.186], "hipsLocal": [-0.001, 0.518, -0.256], "dSeatHips": 0.523}
+  [  99.4s] row 會動的零件第 3 次：{"id": "rower_1", "ph": 0.205, "seat": [7.395, 0, 8.5], "hips": [7.325, 0.518, 8.501], "seatLocal": [0, 0, -0.005], "hipsLocal": [-0.001, 0.518, -0.075], "dSeatHips": 0.523}
+  [  99.4s] row 會動的零件第 4 次：{"id": "rower_1", "ph": 0.062, "seat": [7.488, 0, 8.5], "hips": [7.418, 0.518, 8.501], "seatLocal": [0, 0, 0.088], "hipsLocal": [-0.001, 0.518, 0.018], "dSeatHips": 0.523}
+  [  99.4s] row 會動的零件第 5 次：{"id": "rower_1", "ph": 0, "seat": [7.5, 0, 8.5], "hips": [7.43, 0.518, 8.501], "seatLocal": [0, 0, 0.1], "hipsLocal": [-0.001, 0.518, 0.03], "dSeatHips": 0.523}
+  [  99.4s] row 會動的零件第 6 次：{"id": "rower_1", "ph": 0.11, "seat": [7.465, 0, 8.5], "hips": [7.395, 0.518, 8.501], "seatLocal": [0, 0, 0.065], "hipsLocal": [-0.001, 0.518, -0.005], "dSeatHips": 0.523}
+  [  99.4s] row 會動的零件第 7 次：{"id": "rower_1", "ph": 0.401, "seat": [7.21, 0, 8.5], "hips": [7.14, 0.518, 8.501], "seatLocal": [0, 0, -0.19], "hipsLocal": [-0.001, 0.518, -0.26], "dSeatHips": 0.523}
+  [  99.4s] row 會動的零件第 8 次：{"id": "rower_1", "ph": 0.733, "seat": [7.11, 0, 8.5], "hips": [7.04, 0.518, 8.501], "seatLocal": [0, 0, -0.29], "hipsLocal": [-0.001, 0.518, -0.36], "dSeatHips": 0.523}
+  [  99.4s] row 會動的零件第 9 次：{"id": "rower_1", "ph": 0.965, "seat": [7.11, 0, 8.5], "hips": [7.04, 0.518, 8.501], "seatLocal": [0, 0, -0.29], "hipsLocal": [-0.001, 0.518, -0.36], "dSeatHips": 0.523}
+  [  99.4s] row 會動的零件第 10 次：{"id": "rower_1", "ph": 0.989, "seat": [7.11, 0, 8.5], "hips": [7.04, 0.518, 8.501], "seatLocal": [0, 0, -0.29], "hipsLocal": [-0.001, 0.518, -0.36], "dSeatHips": 0.523}
+  [  99.4s] row 會動的零件第 11 次：{"id": "rower_1", "ph": 0.887, "seat": [7.11, 0, 8.5], "hips": [7.04, 0.518, 8.501], "seatLocal": [0, 0, -0.29], "hipsLocal": [-0.001, 0.518, -0.36], "dSeatHips": 0.523}
+  [  99.4s] row 會動的零件第 12 次：{"id": "rower_1", "ph": 0.72, "seat": [7.11, 0, 8.5], "hips": [7.04, 0.518, 8.501], "seatLocal": [0, 0, -0.29], "hipsLocal": [-0.001, 0.518, -0.36], "dSeatHips": 0.523}
+  INFO row：座椅在器材座標 z 的範圍 0.390 m、臀部 0.390 m；座椅−臀部 z 差 [0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07]（跟著滑＝差值幾乎不變）；座椅到臀部骨距離 [0.523, 0.523, 0.523, 0.523, 0.523, 0.523, 0.523, 0.523, 0.523, 0.523, 0.523, 0.523]
+PASS row：手上看得到 1 個 gymProp:row*（道具載好 True、遠距離版本 False）  {"vis": [["gymProp:row0", ["gym_row_handle__alu", "gym_row_handle__foam", "gym_row_handle__grip"]]], "failed": 0, "gymPose": "gym_row"}
+  [ 101.4s] row 第 1 次：手 L [7.522, 0.693, 8.372] R [7.528, 0.689, 8.627]；道具 [{"name": "gymProp:row0", "vis": true, "meshes": ["gym_row_handle__alu", "gym_row_handle__foam", "gym_row_handle__grip"], "pos": [7.564, 0.684, 8.5], "dL": 0.134, "dR": 0.133, "dMid": 0.039, "perpL": 0.039, "perpR": 0.039, "alongL": 0.129, "alongR": -0.127}]
+  [ 101.4s] row 第 2 次：手 L [7.751, 0.618, 8.375] R [7.756, 0.614, 8.625]；道具 [{"name": "gymProp:row0", "vis": true, "meshes": ["gym_row_handle__alu", "gym_row_handle__foam", "gym_row_handle__grip"], "pos": [7.791, 0.604, 8.5], "dL": 0.132, "dR": 0.13, "dMid": 0.039, "perpL": 0.039, "perpR": 0.039, "alongL": 0.126, "alongR": -0.124}]
+  [ 101.4s] row 第 3 次：手 L [7.857, 0.566, 8.377] R [7.862, 0.561, 8.622]；道具 [{"name": "gymProp:row0", "vis": true, "meshes": ["gym_row_handle__alu", "gym_row_handle__foam", "gym_row_handle__grip"], "pos": [7.895, 0.546, 8.5], "dL": 0.13, "dR": 0.128, "dMid": 0.039, "perpL": 0.039, "perpR": 0.039, "alongL": 0.124, "alongR": -0.122}]
+  [ 101.4s] row 第 4 次：手 L [7.874, 0.554, 8.378] R [7.879, 0.55, 8.622]；道具 [{"name": "gymProp:row0", "vis": true, "meshes": ["gym_row_handle__alu", "gym_row_handle__foam", "gym_row_handle__grip"], "pos": [7.911, 0.533, 8.5], "dL": 0.129, "dR": 0.127, "dMid": 0.039, "perpL": 0.039, "perpR": 0.039, "alongL": 0.123, "alongR": -0.121}]
+  [ 101.4s] row 第 5 次：手 L [7.852, 0.569, 8.377] R [7.857, 0.564, 8.623]；道具 [{"name": "gymProp:row0", "vis": true, "meshes": ["gym_row_handle__alu", "gym_row_handle__foam", "gym_row_handle__grip"], "pos": [7.89, 0.549, 8.5], "dL": 0.13, "dR": 0.128, "dMid": 0.039, "perpL": 0.039, "perpR": 0.039, "alongL": 0.124, "alongR": -0.122}]
+  [ 101.4s] row 第 6 次：手 L [7.597, 0.671, 8.373] R [7.603, 0.667, 8.626]；道具 [{"name": "gymProp:row0", "vis": true, "meshes": ["gym_row_handle__alu", "gym_row_handle__foam", "gym_row_handle__grip"], "pos": [7.638, 0.661, 8.5], "dL": 0.134, "dR": 0.132, "dMid": 0.039, "perpL": 0.039, "perpR": 0.039, "alongL": 0.128, "alongR": -0.126}]
+  [ 101.4s] row：道具離手（啞鈴＝自己那隻手骨；槓鈴、拉把＝兩手中點）、手到軸線都 ≤ 0.15 m
+PASS [黑畫面] gp_v2_row_game 不是黑畫面（平均亮度 76.1、變化 39）  [76.1, 39]
+  [ 102.3s] row 遊戲鏡頭：{"cam": [9.38, 2.99, 5.81], "yaw": 8.791, "dist": 3.6, "mode": "follow"}
+  [ 102.4s] row 另一台相機 sideL：[7.6, 0.67, 6.8] → 兩手中點 [7.6, 0.669, 8.5]（fov 50）
+  [ 102.4s] row 另一台相機 sideR：[7.6, 0.67, 10.2] → 兩手中點 [7.6, 0.669, 8.5]（fov 50）
+  [ 102.5s] row 另一台相機 front：[9.3, 0.67, 8.5] → 兩手中點 [7.6, 0.669, 8.5]（fov 50）
+  [ 102.6s] row 另一台相機 sideLow：[7.6, 0.6, 6.8] → [7.6, 0.45, 8.5]（踏板／座椅高度）
+PASS row：旁白點掉以後站回 stand、pose idle、手上的道具藏起來  {"u": {"using": null, "pose": "idle", "x": 7.3, "z": 7.85, "y": 0, "yaw": 0, "dlg": false}, "vis": []}
+PASS 沒有 JS 例外  []
+ALL PASS
