@@ -15,9 +15,9 @@ import playlib as L
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/cc_x199_an_route'
-LOGJS = r"""(()=>{ if(window.__CCLOG) return; window.__CCLOG=[]; let lc='', ld='', lg=''; setInterval(()=>{ const c=document.getElementById('caption'), g=document.getElementById('goal');
+LOGJS = r"""(()=>{ if(window.__CCLOG) return; window.__CCLOG=[]; window.__CCCAP=[]; const c0=GAME.caption; GAME.caption=function(w,t,ms){ try{ window.__CCCAP.push({w:String(w||''),t:String(t||''),ms:ms||0,z:GAME.G&&GAME.G.zone,h:GAME.G&&+(+GAME.G.hour).toFixed(3),rt:Date.now()}); }catch(e){} return c0.apply(this,arguments); };   /* r2：GAME.caption 原文（只記不改；PC r1 第二句豆花沒出現在畫面紀錄）*/ let lc='', ld='', lg=''; setInterval(()=>{ const c=document.getElementById('caption'), g=document.getElementById('goal');
   const ct=c&&!c.classList.contains('hide')&&getComputedStyle(c).opacity>0.05?(c.innerText||'').trim():''; const dl=document.getElementById('dlg'); const dt=dl&&!dl.classList.contains('hide')?(dl.innerText||'').trim():'';
-  const gt=g?(g.textContent||'').trim():''; const z=(window.GAME&&GAME.G)?GAME.G.zone:'';
+  const gt=g?(g.textContent||'').trim():''; const z=(typeof GAME!=='undefined'&&GAME.G)?GAME.G.zone:'';
   if(ct&&ct!==lc) window.__CCLOG.push({t:'cap',z,s:ct}); lc=ct; if(dt&&dt!==ld) window.__CCLOG.push({t:'dlg',z,s:dt}); ld=dt; if(gt&&gt!==lg) window.__CCLOG.push({t:'goal',z,s:gt}); lg=gt; },150); })()"""
 EXITS = "(()=>(GAME.E.interactables||[]).filter(i=>i.exit).map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2),r:i.radius||1.2,lv:i.lv|0,to:i.exit.to})))()"
 ANF = "(()=>({zone:GAME.G.zone, an:!!GAME.npc.an, beh:GAME.npc.an?GAME.npc.an.beh:null, comp:GAME.G.flags.companion||null, fb:GAME.walkFallbacks||0, wk:Object.assign({},GAME.G.flags.walkCk||{})}))()"
@@ -203,8 +203,9 @@ async def main():
             f = await pg.evaluate(ANF)
             if f['wk'].get('gate'): break
             await pg.wait_for_timeout(700)
-        await pg.wait_for_timeout(8000); await run.shot(pg, 'c_gate_douhua')
-        lg = await log(); f = await pg.evaluate(ANF)
+        await pg.wait_for_timeout(2500); await run.shot(pg, 'c_gate_douhua1'); await pg.wait_for_timeout(4000); await run.shot(pg, 'c_gate_douhua2'); await pg.wait_for_timeout(8000)   # r2：兩句各拍一張、多等（第二句在第一句後 3.3 秒）
+        lg = await log(); f = await pg.evaluate(ANF); cc = await pg.evaluate('window.__CCCAP||[]'); run.note('GAME.caption 原文（到這裡）：%s' % json.dumps(cc[-8:], ensure_ascii=False))
+        run.check('(c) GAME.caption 有呼叫豆花兩句（不管畫面）', all(any(x in q['t'] for q in cc) for x in A_C), json.dumps([q['t'] for q in cc][-6:], ensure_ascii=False))
         run.check('(c) 側門前豆花兩句演完（walkCk.gate、兩句字幕都出現）', ok and f['wk'].get('gate') and all(has(lg, s, 'cap') for s in A_C), json.dumps({'wk': f['wk'], 'caps': [q['s'] for q in lg if q['t'] == 'cap'][-6:]}, ensure_ascii=False))
         # → 新生南路
         f = await exit_to('xinsheng', '[c 側門 → 新生南路]')
@@ -223,7 +224,7 @@ async def main():
                 fl = await pg.evaluate("({done:!!GAME.G.flags.afternoonDone})"); await run.shot(pg, 'e_cafe_done')
                 run.check('Café 的對話演完（afternoonDone）、恢復控制', fl['done'] and not s['busy'] and not s['dlg'], json.dumps(s, ensure_ascii=False))
         lg = await log()
-        json.dump(lg, open(os.path.join(OUT, 'x199_an_route_log.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+        json.dump({'screen': lg, 'caption_calls': await pg.evaluate('window.__CCCAP||[]')}, open(os.path.join(OUT, 'x199_an_route_log.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
         run.note('字幕／對話／目標紀錄 %d 筆（x199_an_route_log.json）' % len(lg))
         fb = await pg.evaluate("GAME.walkFallbacks||0")
         run.check('整段 walkFallbacks＝0', fb == 0, f'fallbacks={fb}')

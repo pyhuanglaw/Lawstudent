@@ -314,10 +314,10 @@ WZCAT_old | e9af1306192fe33a31db4c4b44a38f42d779913d | probe | docs/story_planni
 # BB 14:47：公館燒臘出得去嗎（gongguan_layout_nav 兩版 FAIL：noodle (0,3.5) hidden、reach false）；排在 ① 前面；出不去＝P1 GAME_BUG
 #HOLD NOODLE_EXIT | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py | index.html | 10 | 
 # BB 15:02：兩支 tests 改了期待值（a1a32fe2f），063cf14ab 重跑
-GUIDE_063 | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0
+GUIDE_063 | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | game | tests/guide_flow.py | index.html?turbo | 40 | XARGS={url} {out};CC_HEADLESS=0;RERUN=r2
 GGNAV_063 | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | game | tests/gongguan_layout_nav.py | index.html | 25 | XARGS={url};CC_HEADLESS=0
 # ① X199 小安新路線台詞（AA_738）：從標題開新遊戲、第二天選去 Café、故意走到公館（提醒＋目標字）、側門前豆花、新生南路一句、進 Café 聊完；walkFallbacks 0
-X199_ANROUTE | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_x199_an_route_probe.py | index.html | 75 | 
+X199_ANROUTE | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_x199_an_route_probe.py | index.html | 75 | RERUN=r2
 # ② GG-LANE-CLOSE：公館騎樓西端往巷子看（住戶鐵門＋私人巷道告示），白天 14:00、晚上 20:00；新版 b296、舊版 99294（只有盆栽）
 GGLANE_new | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_wz_entry_probe.py | index.html | 15 | TAG=new;ONLY_A=1;HOURS=14,20
 GGLANE_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_planning/test_tools/cc/cc_wz_entry_probe.py | index.html | 15 | TAG=old;ONLY_A=1;HOURS=14,20
@@ -330,4 +330,12 @@ WILLOW_old | 99294fead8c3cd1350625007c8e8a72e0cbf1e47 | probe | docs/story_plann
 # BB 14:39 美國篇 ART 巡拍（排在橘貓後面；第一批公寓＋社區＋校園，第二批法圖＋超市＋超市街＋季節）
 US_ART_1 | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_outside,us_apartment,us_campus
 US_ART_2 | b296c6b562550f166bd8f7d78e0046cf4435e174 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_lawlib,us_market,us_market_street;SEASON=1
+# US_ART r2：PC 每項只上傳二十幾張 PNG，社區、校園、超市街、季節沒上來 → 改存 JPEG、分小批重拍（063cf14ab）
+US_ART_1b | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_outside
+# BB 15:19 US-CLASSROOM（d78228f85）Room 120：門口往講台、第 1 排往後、窗邊白天晚上、四季窗景（8／10／12 月）、坐最後一排和第 1 排各一張、從出口出去
+US_ART_1d | d78228f85825e139790bc42904bb7056ebf31e50 | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 30 | ZONES=us_classroom
+US_ART_1c | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_campus
+US_ART_2b | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 25 | ZONES=us_market_street;SEASON=1
+# BB 15:21：公寓 20:00 鳥瞰、衛浴（退到門口）、法圖 tables_north（往房間裡 1 m）重拍——等 LAWWW2 的場景修正 SHA 再開（SHA 是暫填）
+#HOLD US_ART_1r | 063cf14abca16d890ae7c7d82ac05bd12eea58ef | probe | docs/story_planning/test_tools/cc/cc_us_art_probe.py | index.html | 30 | ZONES=us_apartment,us_lawlib
 
