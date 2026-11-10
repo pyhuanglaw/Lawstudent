@@ -6754,7 +6754,7 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "70097274a",
    "receiver": "LAWWW",
-   "ack": "ACKNOWLEDGED",
+   "ack": "ACTIONED",
    "task": "#204 外牆腳第二批：轉角唱片、阿德補光照（lm_fill_covered）",
    "files": [
     "assets/models/env/second_ai/bb_support/{corner,ade}_lm_{day,night}.webp",
