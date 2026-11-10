@@ -1,0 +1,65 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tingzhou_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\TZ_func\out
+CC 汀州路 v1：PARTS GATE,SHOPS,OLD；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 14.0 時 (37.1,17.5) （公館店面街 G10 前的人行道）
+PASS [GATE 第1次] 公館有「往汀州路（巷子）」
+  [  49.6s] [GATE 第1次] 入口互動點 {"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "to": "tingzhou", "look": null, "tz": null, "gate": true}
+  [  52.5s] 到達「[GATE 第1次] 走到「往汀州路（巷子）」」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  60.2s] [GATE 第1次] 進汀州路：黑幕 5.49 秒；出生 {"zone": "tingzhou", "h": 14.09, "x": 27, "z": 0, "free": true, "ent": false, "busy": false, "fb": 0}；1.5 秒後 {"zone": "tingzhou", "h": 14.1, "x": 27, "z": 0, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [GATE 第1次] 進到 tingzhou、站得住（導航格可走、沒有自己跑）  [{"zone": "tingzhou", "h": 14.09, "x": 27, "z": 0, "free": true, "ent": false, "busy": false, "fb": 0}, {"zone": "tingzhou", "h": 14.1, "x": 27, "z": 0, "free": true, "ent": false, "busy": false, "fb": 0}]
+PASS [GATE 第1次] 汀州路有「往公館」
+  [  71.4s] 到達「[GATE 第1次]回 走到「往公館（羅斯福路）」」附近（0.43 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+  [  78.7s] [GATE 第1次] 回公館：黑幕 5.11 秒；出生 {"zone": "gongguan", "h": 14.19, "x": 37.1, "z": 18, "free": true, "ent": false, "busy": false, "fb": 0}；1.5 秒後 {"zone": "gongguan", "h": 14.2, "x": 37.1, "z": 18, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [GATE 第1次] 回到公館、站得住  [{"zone": "gongguan", "h": 14.19, "x": 37.1, "z": 18, "free": true, "ent": false, "busy": false, "fb": 0}, {"zone": "gongguan", "h": 14.2, "x": 37.1, "z": 18, "free": true, "ent": false, "busy": false, "fb": 0}]
+PASS [GATE 第2次] 公館有「往汀州路（巷子）」
+  [  78.7s] [GATE 第2次] 入口互動點 {"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "to": "tingzhou", "look": null, "tz": null, "gate": true}
+  [  93.7s] 到達「[GATE 第2次] 走到「往汀州路（巷子）」」附近（0.23 m）：點地面 4 次、轉鏡頭 1 次、搖桿 0 次，15 秒
+  [  98.5s] [GATE 第2次] 進汀州路：黑幕 2.54 秒；出生 {"zone": "tingzhou", "h": 14.32, "x": 27, "z": 0, "free": true, "ent": false, "busy": false, "fb": 0}；1.5 秒後 {"zone": "tingzhou", "h": 14.33, "x": 27, "z": 0, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [GATE 第2次] 進到 tingzhou、站得住（導航格可走、沒有自己跑）  [{"zone": "tingzhou", "h": 14.32, "x": 27, "z": 0, "free": true, "ent": false, "busy": false, "fb": 0}, {"zone": "tingzhou", "h": 14.33, "x": 27, "z": 0, "free": true, "ent": false, "busy": false, "fb": 0}]
+PASS [GATE 第2次] 汀州路有「往公館」
+  [ 109.7s] 到達「[GATE 第2次]回 走到「往公館（羅斯福路）」」附近（0.43 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+  [ 117.0s] [GATE 第2次] 回公館：黑幕 5.1 秒；出生 {"zone": "gongguan", "h": 14.42, "x": 37.1, "z": 18, "free": true, "ent": false, "busy": false, "fb": 0}；1.5 秒後 {"zone": "gongguan", "h": 14.43, "x": 37.1, "z": 18, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [GATE 第2次] 回到公館、站得住  [{"zone": "gongguan", "h": 14.42, "x": 37.1, "z": 18, "free": true, "ent": false, "busy": false, "fb": 0}, {"zone": "gongguan", "h": 14.43, "x": 37.1, "z": 18, "free": true, "ent": false, "busy": false, "fb": 0}]
+PASS [GATE] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-11-01 14.0 時 （從公館進來的出生點）
+  [ 127.5s] [SHOPS] 汀州路互動點：[{"label": "往公館（羅斯福路）", "x": 28.6, "z": 0, "r": 2, "to": "gongguan", "look": null, "tz": null, "gate": false}, {"label": "看緬甸小吃", "x": -7.3, "z": -37, "r": 1.6, "to": null, "look": "緬甸小吃。緬甸。", "tz": "w_burma", "gate": false}, {"label": "看便當", "x": -7.3, "z": -31.75, "r": 1.6, "to": null, "look": "便當。便當。", "tz": "w_bento", "gate": false}, {"label": "看運動用品", "x": -7.3, "z": -26.75, "r": 1.6, "to": null, "look": "運動用品。運動用品。", "tz": "w_sport", "gate": false}, {"label": "看麵線・小吃", "x": -7.3, "z": -21.75, "r": 1.6, "to": null, "look": "麵線・小吃。小吃。", "tz": "w_mian", "gate": false}, {"label": "看印尼料理", "x": -7.3, "z": -16.75, "r": 1.6, "to": null, "look": "印尼料理。印尼。", "tz": "w_indo", "gate": false}, {"label": "看手搖飲", "x": -7.3, "z": -12, "r": 1.6, "to": null, "look": "手搖飲。手搖飲。", "tz": "w_tea", "gate": false}, {"label": "看人文咖啡", "x": -7.3, "z": -7.5, "r": 1.6, "to": null, "look": "人文咖啡。咖啡。", "tz": "w_cafe", "gate": false}, {"label": "看泰米村食", "x": -7.3, "z": -1, "r": 1.6, "to": null, "look": "泰米村食。泰式料理。", "tz": "taimi", "gate": false}, {"label": "看溫特寶邸", "x": -7.3, "z": 5.75, "r": 1.6, "to": null, "look": "溫特寶邸。vintage boutique。", "tz": "wente", "gate": false}, {"label": "看汀州聯通", "x": -7.3, "z": 10.75, "r": 1.6, "to": null, "look": "汀州聯通。手機・通訊・維修。", "tz": "liantong", "gate": false}, {"label": "看東南大聯商行", "x": -7.3, "z": 16.75, "r": 1.6, "to": null, "look": "東南大聯商行。東南亞食品・香料・零食・生活雜貨。", "tz": "dongnan", "gate": false}, {"label": "看客居雲南", "x": -7.3, "z": 23.25, "r": 1.6, "to": null, "look": "客居雲南。雲南料理・米干・過橋米線。", "tz": "keju", "gate": false}, {"label": "看越好吃小館", "x": -7.3, "z": 29, "r": 1.6, "to": null, "look": "越好吃小館。越南料理・河粉・春捲。", "tz": "yuehaochi", "gate": false}, {"label": "看滷味", "x": -7.3, "z": 34, "r": 1.6, "to": null, "look": "滷味。滷味。", "tz": "w_luwei", "gate": false}, {"label": "看早午餐", "x": -7.3, "z": 38, "r": 1.6, "to": null, "look": "早午餐。早午餐。", "tz": "w_brunch", "gate": false}, {"label": "看眼鏡", "x": 7.3, "z": -37.75, "r": 1.6, "to": null, "look": "眼鏡。眼鏡。", "tz": "e_glass", "gate": false}, {"label": "看鹽水雞", "x": 7.3, "z": -33.25, "r": 1.6, "to": null, "look": "鹽水雞。小吃。", "tz": "e_chicken", "gate": false}, {"label": "看馬來西亞餐", "x": 7.3, "z": -28, "r": 1.6, "to": null, "look": "馬來西亞餐。馬來西亞。", "tz": "e_malay", "gate": false}, {"label": "看豆花", "x": 7.3, "z": -23, "r": 1.6, "to": null, "look": "豆花。甜湯。", "tz": "e_douhua", "gate": false}, {"label": "看二手書", "x": 7.3, "z": -18.5, "r": 1.6, "to": null, "look": "二手書。二手書。", "tz": "e_books", "gate": false}, {"label": "看鍋貼・水餃", "x": 7.3, "z": -13.5, "r": 1.6, "to": null, "look": "鍋貼・水餃。水餃。", "tz": "e_dump", "gate": false}, {"label": "看彩券", "x": 7.3, "z": -9.75, "r": 1.05, "to": null, "look": "彩券。彩券。", "tz": "e_lotto", "gate": false}, {"label": "看洗樂洗衣坊", "x": 7.3, "z": -5.5, "r": 1.6, "to": null, "look": "洗樂洗衣坊。投幣洗衣。", "tz": "xile", "gate": false}, {"label": "看印得好", "x": 7.3, "z": 5.75, "r": 1.6, "to": null, "look": "印得好。影印・輸出。", "tz": "yindehao", "gate": false}, {"label": "看早餐", "x": 7.3, "z": 11.25, "r": 1.6, "to": null, "look": "早餐。早餐。", "tz": "e_bfast", "gate": false}, {"label": "看海南雞飯", "x": 7.3, "z": 16.25, "r": 1.6, "to": null, "look": "海南雞飯。星馬。", "tz": "e_hainan", "gate": false}, {"label": "看鞋店", "x": 7.3, "z": 21.25, "r": 1.6, "to": null, "look": "鞋店。鞋店。", "tz": "e_shoes", "gate": false}, {"label": "看便利商店", "x": 7.3, "z": 25.75, "r": 1.6, "to": null, "look": "便利商店。便利商店。", "tz": "e_cvs", "gate": false}, {"label": "看水源市場", "x": 7.3, "z": 34, "r": 1.6, "to": null, "look": "水源市場。市場。", "tz": "e_market", "gate": false}]
+PASS [SHOPS 泰米村食] 有互動點
+  [ 133.2s] 到達「[SHOPS 泰米村食] 走到「看泰米村食」」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [ 133.9s] [SHOPS 泰米村食] 走到 True；字幕「泰米村食。泰式料理。」；對話 []；之後 {"zone": "tingzhou", "h": 14.11, "x": -7.08, "z": -0.99, "free": true, "ent": false, "busy": false, "fb": 0}；配置的 look「泰米村食。泰式料理。」
+PASS [SHOPS 泰米村食] 走得到、按了有反應（字幕或進店）  {"zone": "tingzhou", "h": 14.11, "x": -7.08, "z": -0.99, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [SHOPS 洗樂洗衣坊] 有互動點
+  [ 146.4s] 到達「[SHOPS 洗樂洗衣坊] 走到「看洗樂洗衣坊」」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+  [ 147.1s] [SHOPS 洗樂洗衣坊] 走到 True；字幕「洗樂洗衣坊。投幣洗衣。」；對話 []；之後 {"zone": "tingzhou", "h": 14.19, "x": 7.09, "z": -5.43, "free": true, "ent": false, "busy": false, "fb": 0}；配置的 look「洗樂洗衣坊。投幣洗衣。」
+PASS [SHOPS 洗樂洗衣坊] 走得到、按了有反應（字幕或進店）  {"zone": "tingzhou", "h": 14.19, "x": 7.09, "z": -5.43, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [SHOPS 印得好] 有互動點
+  [ 156.2s] 到達「[SHOPS 印得好] 走到「看印得好」」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+  [ 156.9s] [SHOPS 印得好] 走到 True；字幕「印得好。影印・輸出。」；對話 []；之後 {"zone": "tingzhou", "h": 14.26, "x": 7.3, "z": 5.51, "free": true, "ent": false, "busy": false, "fb": 0}；配置的 look「印得好。影印・輸出。」
+PASS [SHOPS 印得好] 走得到、按了有反應（字幕或進店）  {"zone": "tingzhou", "h": 14.26, "x": 7.3, "z": 5.51, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [SHOPS 越好吃小館] 有互動點
+  [ 168.2s] 到達「[SHOPS 越好吃小館] 走到「看越好吃小館」」附近（0.22 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+  [ 168.9s] [SHOPS 越好吃小館] 走到 True；字幕「越好吃小館。越南料理・河粉・春捲。」；對話 []；之後 {"zone": "tingzhou", "h": 14.34, "x": -7.27, "z": 28.78, "free": true, "ent": false, "busy": false, "fb": 0}；配置的 look「越好吃小館。越南料理・河粉・春捲。」
+PASS [SHOPS 越好吃小館] 走得到、按了有反應（字幕或進店）  {"zone": "tingzhou", "h": 14.34, "x": -7.27, "z": 28.78, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [SHOPS 客居雲南] 有互動點
+  [ 176.8s] 到達「[SHOPS 客居雲南] 走到「看客居雲南」」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+  [ 177.5s] [SHOPS 客居雲南] 走到 True；字幕「客居雲南。雲南料理・米干・過橋米線。」；對話 []；之後 {"zone": "tingzhou", "h": 14.4, "x": -7.3, "z": 23.5, "free": true, "ent": false, "busy": false, "fb": 0}；配置的 look「客居雲南。雲南料理・米干・過橋米線。」
+PASS [SHOPS 客居雲南] 走得到、按了有反應（字幕或進店）  {"zone": "tingzhou", "h": 14.4, "x": -7.3, "z": 23.5, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [SHOPS 東南大聯商行] 有互動點
+  [ 181.7s] 到達「[SHOPS 東南大聯商行] 走到「看東南大聯商行」」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [ 182.4s] [SHOPS 東南大聯商行] 走到 True；字幕「東南大聯商行。東南亞食品・香料・零食・生活雜貨。」；對話 []；之後 {"zone": "tingzhou", "h": 14.43, "x": -7.3, "z": 16.99, "free": true, "ent": false, "busy": false, "fb": 0}；配置的 look「東南大聯商行。東南亞食品・香料・零食・生活雜貨。」
+PASS [SHOPS 東南大聯商行] 走得到、按了有反應（字幕或進店）  {"zone": "tingzhou", "h": 14.43, "x": -7.3, "z": 16.99, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [SHOPS 汀州聯通] 有互動點
+  [ 186.5s] 到達「[SHOPS 汀州聯通] 走到「看汀州聯通」」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [ 187.2s] [SHOPS 汀州聯通] 走到 True；字幕「汀州聯通。手機・通訊・維修。」；對話 []；之後 {"zone": "tingzhou", "h": 14.46, "x": -7.3, "z": 10.99, "free": true, "ent": false, "busy": false, "fb": 0}；配置的 look「汀州聯通。手機・通訊・維修。」
+PASS [SHOPS 汀州聯通] 走得到、按了有反應（字幕或進店）  {"zone": "tingzhou", "h": 14.46, "x": -7.3, "z": 10.99, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [SHOPS 溫特寶邸] 有互動點
+  [ 190.4s] 到達「[SHOPS 溫特寶邸] 走到「看溫特寶邸」」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [ 191.1s] [SHOPS 溫特寶邸] 走到 True；字幕「溫特寶邸。vintage boutique。」；對話 []；之後 {"zone": "tingzhou", "h": 14.49, "x": -7.3, "z": 5.98, "free": true, "ent": false, "busy": false, "fb": 0}；配置的 look「溫特寶邸。vintage boutique。」
+PASS [SHOPS 溫特寶邸] 走得到、按了有反應（字幕或進店）  {"zone": "tingzhou", "h": 14.49, "x": -7.3, "z": 5.98, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [SHOPS] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 14.0 時 (37.1,17.5) （看 G09～G11 的互動點）
+  [ 204.0s] [OLD] 公館 x 26～50、z 15～24 的互動點（G09～G11 一帶）：[{"label": "往汀州路（巷子）", "x": 37.1, "z": 21, "r": 1.6, "to": "tingzhou", "look": null, "tz": null, "gate": true}]
+  [ 215.6s] [OLD] 存檔 pos (37.1,21.0) → 讀進來 {"zone": "gongguan", "h": 14.05, "x": 37.1, "z": 21, "free": true, "ent": false, "busy": false, "fb": 0}；1.5 秒後 {"zone": "gongguan", "h": 14.06, "x": 37.1, "z": 21, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS [OLD] 公館 (37.1,21.0) 的存檔讀得進來、站得住  {"zone": "gongguan", "h": 14.06, "x": 37.1, "z": 21, "free": true, "ent": false, "busy": false, "fb": 0}
+PASS 沒有 JS 例外  []
+ALL PASS
