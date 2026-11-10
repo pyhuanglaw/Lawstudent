@@ -5249,6 +5249,15 @@
    "task": "WZ-ENTRY-XINSHENG-1103",
    "kind": "md",
    "note": "X199 新路線小安台詞三處（出發、公館提醒走錯＋目標字、新生南路一句、豆花搬到側門前）——src/story3d.js 手動照抄"
+  },
+  {
+   "path": "docs/story_planning/AA_739_shift_treat.json",
+   "sha": "5eff96441",
+   "status": "approved",
+   "approvedBy": "AA 定稿（D109），LAWWW 11-10 接",
+   "task": "SHIFT-TREAT-1110",
+   "kind": "json",
+   "note": "X302 她打工時你走進店裡：芷若（兩點半 Café 吧檯）、語彤（一盞茶屋打工）四個階段、happy／treat——tools/shift/import_shift_treat.py → src/data/shift_treat.js"
   }
  ]
 }
