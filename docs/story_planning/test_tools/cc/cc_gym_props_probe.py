@@ -12,6 +12,7 @@ gym_squat＝gym_barbell、gym_row＝gym_row_handle 在兩手中間；道具掛�
   那一種的器材全部有人用：換下一個 HOUR 重讀（也是前置）。
 INFO：啞鈴離自己那隻手骨 > 0.15 m、槓鈴／拉把離兩手中點 > 0.15 m、或手到道具軸線 > 0.15 m（給人看，不判 FAIL；手骨在手腕，掌心本來就往前 5～8 cm）。
 Playwright／SwiftShader 或 PC GPU ≠ iPhone。
+第二包（LAWWW 11:59、BB 12:00）：ACTS 加 bike（飛輪「用腳踏車機」）；bike／row 量會動的零件：踏板到同側腳骨距離、座椅和臀部在器材座標 z 的位移（跟著滑）。
 ENV：DAY（預設 2025-09-23 星期二）、HOURS（預設 10,8.6,14.2；第一個有空位的）、ACTS（預設 curl,press,squat,row）、SIDE（預設 1.7 m）、TAG。
 用法：LW_TESTS=<wt>/tests TAG=new python3 cc_gym_props_probe.py <url> <out>"""
 import os, sys, json, asyncio, base64, math
@@ -28,7 +29,8 @@ ACTS = {'curl': (['db_rack_1'], '用啞鈴', 'gym_curl', 'dd', 2),
         'press': (['bench_1', 'bench_2', 'bench_3'], '用臥推椅', 'gym_press', 'dd', 2),
         'squat': (['squat_rack_1', 'squat_rack_2'], '用深蹲架', 'gym_squat', 'bar', 1),
         'row': (['rower_1', 'rower_2'], '用划船機', 'gym_row', 'row', 1),
-        'smith': (['smith_1'], '用史密斯機', 'gym_squat', 'bar', 1)}
+        'smith': (['smith_1'], '用史密斯機', 'gym_squat', 'bar', 1),
+        'bike': (['bike_1', 'bike_2', 'bike_3', 'bike_4'], '用腳踏車機', 'gym_bike', 'none', 0)}   # 第二包（LAWWW 11:59／BB 12:00）：飛輪沒有手上道具，量踏板跟腳
 WANT = [a for a in (os.environ.get('ACTS') or 'curl,press,squat,row').split(',') if a]
 R = L.Run('gym_props_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -53,6 +55,18 @@ PROPS = r"""(()=>{ const h=GAME.E.player.obj, u=h.userData||{}, V=THREE.Vector3;
     props.push({name:x.name, vis:shown(x), meshes, pos:r3(p), axis:r3(ax), dL:d3(p,lp), dR:d3(p,rp), dMid:d3(p,mid), perpL:perp(lp), perpR:perp(rp), alongL:along(lp), alongR:along(rp)}); });
   const GP=CHAR._gymProps||{};
   return {pose:GAME.E.player.pose, gymPose:u.gym&&u.gym.pose||null, isFar:!!u.isFar, loaded:!!GP.scene, failed:GP.failed|0, lh:r3(lp), rh:r3(rp), mid:r3(mid), props}; })()"""
+# 第二包（BB 12:00）：會動的器材零件（gym3d.js gymMovingStep：gym_mov_<id> 底下 gym_bike_pedal_L／R、gym_rower_seat）和腳骨、臀部
+MOV = r"""((id)=>{ const V=THREE.Vector3, h=GAME.E.player.obj, u=h.userData||{}; let g=null; GAME.E.scene.traverse(o=>{ if(o.name==='gym_mov_'+id) g=o; }); if(!g) return {err:'沒有 gym_mov_'+id};
+  g.updateMatrixWorld(true); h.updateMatrixWorld(true); const part=n=>{ let r=null; g.traverse(o=>{ if(!r&&o.name&&o.name.indexOf(n)===0) r=o; }); return r; };
+  const bone=n=>{ try{ return u.vrm&&u.vrm.humanoid?u.vrm.humanoid.getRawBoneNode(n):null; }catch(e){ return null; } };
+  const W=o=>o?o.getWorldPosition(new V()):null, r3=v=>v?[+v.x.toFixed(3),+v.y.toFixed(3),+v.z.toFixed(3)]:null, d3=(a,b)=>a&&b?+a.distanceTo(b).toFixed(3):null;
+  const out={id, ph:u.gym&&typeof u.gym.ph==='number'?+u.gym.ph.toFixed(3):null};
+  const pl=W(part('gym_bike_pedal_L')), pr=W(part('gym_bike_pedal_R'));
+  if(pl||pr){ const lf=W(bone('leftFoot')), rf=W(bone('rightFoot')), lt=W(bone('leftToes')), rt=W(bone('rightToes'));
+    Object.assign(out,{pedalL:r3(pl), pedalR:r3(pr), footL:r3(lf), footR:r3(rf), dL:d3(pl,lf), dR:d3(pr,rf), dLx:d3(pl,rf), dRx:d3(pr,lf), dLtoe:d3(pl,lt), dRtoe:d3(pr,rt)}); }
+  const st=part('gym_rower_seat'); if(st){ const sp=W(st), hp=W(bone('hips')), loc=g.worldToLocal(sp.clone()), hl=hp?g.worldToLocal(hp.clone()):null;
+    Object.assign(out,{seat:r3(sp), hips:r3(hp), seatLocal:r3(loc), hipsLocal:r3(hl), dSeatHips:d3(sp,hp)}); }
+  return out; })"""
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov, c.width/c.height, 0.05, 200); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   const keep=E.camera; E.camera=cam; try{ r.render(E.scene,cam); } finally { E.camera=keep; } return c.toDataURL('image/png'); })"""
 HIDE = r"""(on=>{ for(const id of ['hud','hudR','minimap','ctlR','joy','interact','toast','choices','btnGo','btnQuick','dlg','caption','goal','btnMenu','btnRun','clock','mdbg','fps','phoneNote','notif']){ const e=document.getElementById(id); if(e) e.style.visibility=on?'':'hidden'; }
@@ -122,6 +136,20 @@ async def do_act(pg, cdp, act):
     if picked: R.note('%s：按下去中途有選項，選了 %s' % (act, J(picked)))
     res['use'] = u
     if not R.check('%s：按下去以後在用 %s、玩家 pose＝%s' % (act, eq['id'], pose), bool(u) and u['using'] == eq['id'] and u['pose'] == pose, J(u)): return res
+    if act in ('bike', 'row'):   # 第二包：會動的零件跟不跟人（只記數字＋INFO；美術、動作由 BB／LAWWW 看截圖判）
+        await pg.wait_for_timeout(1500); mv = []
+        for _ in range(12):
+            mv.append(await pg.evaluate(MOV + '(%s)' % J(eq['id']))); await pg.wait_for_timeout(250)
+        for k, x in enumerate(mv): R.note('%s 會動的零件第 %d 次：%s' % (act, k + 1, J(x)))
+        if act == 'bike':
+            ds = [max(x.get('dL') or 9, x.get('dR') or 9) for x in mv]; sw = [min(x.get('dL') or 9, x.get('dR') or 9) > min(x.get('dLx') or 9, x.get('dRx') or 9) for x in mv]
+            print('  INFO bike：踏板到同側腳骨（腳踝）距離每次取兩腳較大的：%s；最大 %.3f m（腳骨在腳踝，踏板在腳掌下，約 0.08～0.12 正常）；踏板比較靠近另一隻腳的次數 %d／%d' % (J(ds), max(ds), sum(sw), len(sw)), flush=True)
+            res['pedal'] = {'max': max(ds), 'swapped': sum(sw)}
+        else:
+            zs = [(x.get('seatLocal') or [0, 0, 0])[2] for x in mv]; hz = [(x.get('hipsLocal') or [0, 0, 0])[2] for x in mv]; dd = [x.get('dSeatHips') for x in mv]
+            rs, rh = max(zs) - min(zs), max(hz) - min(hz); off = [round(a - b, 3) for a, b in zip(zs, hz)]
+            print('  INFO row：座椅在器材座標 z 的範圍 %.3f m、臀部 %.3f m；座椅−臀部 z 差 %s（跟著滑＝差值幾乎不變）；座椅到臀部骨距離 %s' % (rs, rh, J(off), J(dd)), flush=True)
+            res['seat'] = {'seatRange': round(rs, 3), 'hipsRange': round(rh, 3), 'offRange': round(max(off) - min(off), 3)}
     m = None
     for _ in range(20):   # 道具 lazy 載入（最多約 10 秒）
         m = await pg.evaluate(PROPS)
@@ -131,7 +159,8 @@ async def do_act(pg, cdp, act):
     for i in range(6):
         m = await pg.evaluate(PROPS); samples.append(m); await pg.wait_for_timeout(300)
     vis = [p for p in m['props'] if p['vis']]
-    R.check('%s：手上看得到 %d 個 gymProp:%s*（道具載好 %s、遠距離版本 %s）' % (act, nprop, key, m['loaded'], m['isFar']),
+    if nprop == 0: R.note('%s：沒有手上道具，不查（手上看得到的 %s）' % (act, J([p['name'] for p in vis])))
+    else: R.check('%s：手上看得到 %d 個 gymProp:%s*（道具載好 %s、遠距離版本 %s）' % (act, nprop, key, m['loaded'], m['isFar']),
             len([p for p in vis if ('gymProp:' + key) in p['name']]) == nprop and len(vis) == nprop, J({'vis': [(p['name'], p['meshes']) for p in vis], 'failed': m['failed'], 'gymPose': m['gymPose']}))
     for k, sm in enumerate(samples):
         R.note('%s 第 %d 次：手 L %s R %s；道具 %s' % (act, k + 1, J(sm['lh']), J(sm['rh']), J([{q: p[q] for q in ('name', 'vis', 'meshes', 'pos', 'dL', 'dR', 'dMid', 'perpL', 'perpR', 'alongL', 'alongR')} for p in sm['props']])))
@@ -148,6 +177,9 @@ async def do_act(pg, cdp, act):
     for nm, (dx, dz) in (('sideL', (sx, sz)), ('sideR', (-sx, -sz)), ('front', (fx, fz))):
         frm = [mid[0] + dx * SIDE, mid[1], mid[2] + dz * SIDE]
         await snap(pg, 'gp_%s_%s_%s.png' % (TAG, act, nm), frm, mid); R.note('%s 另一台相機 %s：%s → 兩手中點 %s（fov 50）' % (act, nm, J([round(v, 2) for v in frm]), J(mid)))
+    if act in ('bike', 'row'):   # 第二包：腳、座椅的高度另外從側面拍一張（踏板、座椅在下面）
+        low = [mid[0], u['y'] + 0.45, mid[2]]; frm = [low[0] + sx * SIDE, low[1] + 0.15, low[2] + sz * SIDE]
+        await snap(pg, 'gp_%s_%s_sideLow.png' % (TAG, act), frm, low); R.note('%s 另一台相機 sideLow：%s → %s（踏板／座椅高度）' % (act, J([round(v, 2) for v in frm]), J(low)))
     await pg.evaluate(HIDE + '(true)')
     # 點掉旁白 → 站回 stand、道具藏起來
     for _ in range(12):

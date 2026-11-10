@@ -136,6 +136,8 @@ BOYA1F_v2b | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_plann
 WINVIEW_cvs_v2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 15 | SHOPS=cvs;HOURS=14,21
 # ① XS-WINCARD 第二批：山嵐、運動廣場一二樓、南洋一樓（南洋有窗景卡以後要拍到那張卡）；改前＝WINVIEW_B 9d4c54c16
 WINVIEW_xs3_v2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_winview_audit_probe.py | index.html | 30 | SHOPS=shanlan,xsports,nanyang;HOURS=14,21;MAXCARDS=3
+# ② GYM-FIT-PROPS 第二包（LAWWW 11:59、BB 12:00）：飛輪（踏板離腳多遠）、划船機（座椅跟著臀部滑）有人在用各一張；探針加 bike、會動零件量測、sideLow 截圖
+GYMPROPS2_v2 | be84c86807aa45324daed407996770feb6dbba13 | probe | docs/story_planning/test_tools/cc/cc_gym_props_probe.py | index.html | 20 | SOLO=1;TAG=v2;ACTS=bike,row
 # X295E fair r3（CC 11:4x）：X295E_new 園遊會互動鍵是「騎腳踏車」——存檔騎著車、到了攤位旁車停在那裡？；探針先選選項（舊版點台詞框 190 次）；keep＝照存檔騎車過去、off＝起點先下車；開發分支 head
 X295E_fair_keep | bb8a32765065cc64530791f42aee631e06133b12 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_keep;CASES=fair;BIKE=keep
 X295E_fair_off | bb8a32765065cc64530791f42aee631e06133b12 | probe | docs/story_planning/test_tools/cc/cc_x295_events_probe.py | index.html | 20 | TAG=fair_off;CASES=fair;BIKE=off
