@@ -18,12 +18,15 @@ readme = git('show', f'{ref}:{D}README.md')
 ok = sorted({m.group(1) for m in re.finditer(r'^\| (m\d{4}[ab]) \|[^|]*\| *通過', readme, re.M)})
 have_remote = set(re.findall(r'(m\d{4}[ab])\.webp', git('ls-tree', '--name-only', f'{ref}:{D}')))
 os.makedirs(os.path.join(ROOT, 'assets/posters'), exist_ok=True)
-added = []
+added, replaced = [], []
 for i in ok:
     if i not in need or i not in have_remote: continue
     dst = os.path.join(ROOT, 'assets/posters', i + '.webp')
+    blob = git('show', f'{ref}:{D}{i}.webp', binary=True)
     if not os.path.exists(dst):
-        open(dst, 'wb').write(git('show', f'{ref}:{D}{i}.webp', binary=True)); added.append(i)
+        open(dst, 'wb').write(blob); added.append(i)
+    elif open(dst, 'rb').read() != blob:   # BB 換檔（例：11-10 18:00 八張畫風統一）→ 用企劃線的新版
+        open(dst, 'wb').write(blob); replaced.append(i)
 ids = sorted(f[:-5] for f in os.listdir(os.path.join(ROOT, 'assets/posters')) if f.endswith('.webp'))
 p = os.path.join(ROOT, 'src/movies3d.js'); s = open(p, encoding='utf-8').read()
 s = re.sub(r"S\.POSTERS=\[[^\]]*\];", "S.POSTERS=" + repr(ids).replace(' ', '') + ";", s, count=1); open(p, 'w', encoding='utf-8').write(s)
@@ -37,6 +40,6 @@ for k, l in enumerate(L):
         L[k] = ' | '.join(cells)
 open(p, 'w', encoding='utf-8').write('\n'.join(L))
 miss = [i for i in need if i not in ids]
-print(f'新接 {len(added)} 張：{"、".join(added) or "（沒有）"}')
+print(f'新接 {len(added)} 張：{"、".join(added) or "（沒有）"}；換檔 {len(replaced)} 張：{"、".join(replaced) or "（沒有）"}')
 print(f'遊戲裡 {len(ids)}／片單 {len(need)}；還缺 {len(miss)}：{" ".join(miss)}')
 sys.exit(0)
