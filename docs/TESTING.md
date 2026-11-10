@@ -8,100 +8,8 @@
 >
 > 舊測試抓不到的原因：全部用 `?turbo`，劇情的自動走路會直接瞬移到目的地；小地圖只檢查「有沒有畫出來」，沒有檢查方向。
 
-詳細的回歸測試指令在 `docs/REGRESSION_CHECKLIST.md`；每次發布的測試報告在 `docs/test-reports/`；這份文件說明制度、全遊戲清單、覆蓋狀態與未驗證項目。
 
-## 〇、什麼時候跑哪一級（2026-10-16 使用者指示，D83；四職位與往後所有繼任者）
-
-> 沙盒瀏覽器每秒只有 1～4 格：每批都重跑幾小時的完整回歸，會耗掉大量時間和額度。**照風險分三級**，但不准為了趕進度省略必要的測試。
-
-| 級 | 什麼時候 | 跑什麼 | 不能代替的 |
-|---|---|---|---|
-| **1** | **每次功能修改** | 受影響的 Node 單元測試（`node tests/*_unit.js`）、資料與旗標檢查（匯入器的檢查、`check_handoff.py`、記憶名稱、事件條件） | 視覺、碰撞、站位、黑畫面、GPU 貼圖洩漏——這些一定要實際渲染 |
-| **2** | **每完成一批功能** | 受影響流程的**局部**瀏覽器測試：用測試存檔（`playlib.load_state`）、事件跳轉、區域跳轉（`GAME.enter`）直接到要測的地方，不從頭慢慢走 | 完整玩家流程 |
-| **3** | **重要學年階段完成、改全域核心系統（引擎、存檔、時間、找路、對話、手機）、準備正式發布** | 完整瀏覽器回歸（第五節「發布前必跑」＋相關真實流程） | iPhone 實機（另外寫「尚未實機驗證」） |
-
-- **依風險提前擴大**：改到核心系統、改很多檔、改存檔格式，就算還沒到階段終點也提前跑第 3 級。
-- **快速模式的界線**（第 2 級用）：
-  - `?turbo`（瞬間走位、時間加速）會掩蓋走路、碰撞、劇情自動走路、時間推進的 bug。這一類一律**不開 turbo**，只把範圍縮到那一個場景。
-  - `?lowres`（解析度 0.4）會掩蓋畫面問題。截圖驗收、站位、黑畫面不開 lowres。
-  - 直接 `EVENTS.run` 會跳過觸發條件。測觸發用 `EVENTS.check`；只有測「台詞跑得完、選項、後果」時才直接 run。
-  - 第 3 級保留真實流程測試（`flow_class_real`、`flow_main_day12` 等），用來確認快速模式沒有漏掉只在正常模式出現的 bug。
-- **沙盒太慢時劇情照設計接手，不算走不到，也不算通過**（TEST-DAY12-SPEED-1023）：
-  - 情況：`flow_main_day12` 第二天 13:05 從霖澤館前走到 201。沙盒每秒不到 1 格時，常常走超過遊戲時間的 15 分鐘。
-  - 遊戲照設計處理：`classes3d.js` 的 `S.goDay2`——12:30～15:12 還沒上過課、玩家空下來 1.5 秒＝「走路到法律系館A。」直接帶進 201。這是 AA_294 第 1 節「時間到了直接帶去」。
-  - 測試做法：
-    - 走路途中進到 classroom，就記【劇情接手】，並檢查接手的時間合理：第二天、12:30～15:12、還沒上過課。
-    - 走到門口、上樓梯、按「進入 201」那幾項印 `[未驗]`：不算通過，也不算失敗。
-    - 後面照舊檢查：上課劇情自己走到座位、教授開口、沒用到卡住保險、上完課、下課走出法律系館A、存讀檔。
-    - 真實時間的上限照幀率放大（`SLOW`）：
-      - 開頭在標題畫面量一次、進宿舍以後再量一次，取比較慢的那一次。
-      - SLOW＝1.5／每秒格數，限 1～6 倍。每秒 1.5 格以上＝1 倍，和原本一樣。
-      - 放大的有：走路（go_to 420 秒）、等劇情（wait_story 300 秒）、上課走到座位（300 秒）。
-      - 等恢復控制（wait_control）：playlib 的 advance_dialogs 60 秒沒進展就回來，慢的時候多等幾輪。
-      - 原因：負載 25 時每秒只有 0.3～0.4 格。
-        - 走上二樓：468 秒只跑 199 格，人還在樓梯上，遊戲時間才 13:15，go_to 自己先逾時。
-        - 被帶進 201 以後：走到座位超過 300 秒，就判「沒坐下」。
-      - 只是給慢的機器夠的時間；走到、坐下、上完課的標準都不變。
-  - **檢查標準不變**：沒有接手時，走路、樓梯照舊要通過；接手的時間不對照樣算失敗。
-  - **發布前**：回報裡有 `[未驗]`，就寫「第二天走樓梯到 201：未驗（劇情接手）」。負載低（每秒 1 格以上）時重跑到沒有 `[未驗]` 為止，或拿 `tests/flow_class_real.py` 那一段的走樓梯結果補上。不能把 `[未驗]` 寫成通過。
-- **瀏覽器一次只跑一個**：SwiftShader 搶不到 CPU 時，走路停的位置會變，曾經因此誤判（#36）。
-  - 排隊的瀏覽器工作都用同一把鎖（`flock <scratchpad>/q/browser.lock …`）。
-  - 獨立代理可以並行做「不用瀏覽器」的事（讀程式、資料檢查、單元測試）；瀏覽器測試只能排隊。
-- **回報分三欄**：開發工時、測試執行時間（多半是背景等待）、阻礙。不要把沙盒瀏覽器的等待時間算成寫程式的工期。
-- **每批完成就保存**：程式、測試結果（通過／失敗／沒跑）、未完成項目、SHA，記進任務總表（`docs/handoff/tasks.json`）。換班後照總表接續，不重新全面盤點。
-
-> **全部 Node 單元測試看 GitHub Actions（2026-11-05 使用者；CLAUDE.md D131 那一列）**：推到 `claude/**`、改到遊戲檔案就自動跑 `.github/workflows/node-unit-auto.yml`（4 支並行、看結束碼）；結果用 GitHub 工具讀（`actions_list` workflow `node-unit-auto.yml`、`get_job_logs` 的失敗清單）。雲端只跑改到的那幾支。新的 push 會取消同一分支正在跑的那一輪。
-
-## 〇之一、看畫面的檢查（2026-10-17 23:3x 使用者「很多我一打開遊戲就會發現的錯誤你好像也測不出來」→「好，照這樣改，先做看畫面的檢查」；四職位都適用）
-
-**起因**：原本的瀏覽器流程測試只看狀態（日期、旗標、JS 例外、有沒有卡住），不看畫面。人物穿模、畫面一塊黑、選項被手機蓋住、文字超框都會判通過；又因為沙盒每秒只有 1～4 格，從頭走一年要好幾個小時。
-1. **工具**：
-   - `tests/screencheck.py`：在測試走到的時刻拍一張，自動抓：
-     - 3D 大面積黑／一塊黑（8×6 格裡 3 格以上全黑）；
-     - 2D 背景有設圖卻幾乎全黑；
-     - 對話框、選項被別的東西蓋住點不到（`elementFromPoint`）；
-     - 文字超框；
-     - 重要按鈕出界；
-     - 自由走動時主角不在畫面裡。
-   - 轉場一瞬間不算：發現問題隔 1.5 秒再看一次，還在才記。字卡、黑幕、刻意的深色 2D 底不算黑畫面。
-   - 結束時出**縮圖總表** `OUT/screens_sheet_*.png`，有問題的原圖在 `OUT/screen_problem_*.png`。
-   - `tests/screen_smoke.py`：幾分鐘一輪，看玩家一打開就會看到的畫面：
-     - 新遊戲前 90 秒、11 個主要區域；
-     - 手機／大地圖／選單開關（BUG-MAPBLACK）；
-     - 晚上、經濟系臺北的家、直向。
-   - 流程測試（`flow_v0_to1017`、`flow_v0_home`、`flow_law_break`、`flow_exch_min`）已經接上：每天空下來、每段對話開頭、每組新選項都檢查。**新寫的流程測試一律接 `screencheck`**（`sc = SC.Checker(run, OUT)`、`await sc.check(pg, 標籤)`、結束 `sc.finish()`）。
-2. **測試通過不等於畫面沒問題**：自動檢查只抓得到上面幾類。**每次跑完要真的打開縮圖總表用眼睛看**（Claude 讀得了圖片），回報寫「看了幾張、看到什麼」；沒看就寫沒看。
-3. **什麼時候跑**：
-   - 第 1 級：單元測試（幾秒）。
-   - 第 2 級（每批）：`screen_smoke`＋改到的那件事用讀檔直接跳過去看。
-   - 第 3 級（學年階段、發布前）：才從新遊戲跑完整條流程，放背景跑、不佔寫程式的時間。
-   - `screen_smoke` 是看畫面的測試：**不開 `?lowres`**（第〇節：lowres 會掩蓋畫面問題）。
-4. **使用者在 iPhone 看到的錯**：修好以後，把那一類加進 `screencheck`（新的偵測）或 `screen_smoke`（新的一步），同一類不准再讓使用者第二次看到。
-5. **誰跑（2026-10-17 23:5x 起 D100：只有 BB 做測試）**：
-   - 平常的瀏覽器流程測試、看畫面的檢查、screen_smoke 都由 **BB** 跑；LAWWW 派測試任務給 BB。LAWWW2、AA 交付後不必自己測。**LAWWW 只在發布前測試**（第五節發布前清單）。
-   - 同一個容器一次一支（第〇節的鎖）。
-   - BB-C／LAWWW2-C 幫 LAWWW 跑測試時，回報：哪一步、截圖、重現步驟、測試程式還是遊戲的問題、縮圖總表看到什麼。
-6. **沙盒的限制要照實說**：沒有顯示卡（SwiftShader）、沒有 Safari／WebKit 引擎。iPhone 才有的問題（記憶體不足被踢回標題、Safari 專有的畫面問題）只有實機看得到，不能宣稱已經測過。
-
-## 一、規則
-
-1. **真實玩家流程測試不用捷徑**：不用 `?turbo`（劇情自動走路會瞬移、時間加速）、不直接改劇情狀態、不瞬移玩家。玩家的操作一律走真的介面：CDP 觸控按搖桿 `#joy`、點對話框 `#dlg`、點選項按鈕、點互動按鈕 `#interact`、手指拖曳轉鏡頭。
-2. **捷徑只能用在前置條件與單元／整合測試，而且要標示**：讀檔到某個時間地點、設定旗標、設鏡頭角度——測試輸出一律印 `[前置／捷徑] …`（`tests/playlib.py` 的 `run.setup()`）。用了捷徑的測試不能叫「完整玩家流程測試」。
-3. **測試要證明抓得到 bug**：重要測試要在有 bug 的版本跑一次（應該失敗）、修好的版本跑一次（應該通過），結果寫進測試報告。可達性檢查有 `?navlegacy` 開關可以切回舊的找路。
-4. **失敗要留證據**：截圖（`run.shot()`）、走過的位置、最後的狀態、錯誤訊息。
-5. **分清楚模擬與實機**：雲端沙盒沒有 GPU，Playwright 用 SwiftShader（每秒 1–4 格）。「手機模擬通過」≠「真實手機驗證通過」；沒在真手機上試過的，一律寫「尚未實機驗證」。效能數字不能代表手機。
-6. **不能用數字代替驗收**：報告要寫哪些是真實玩家流程通過、哪些只通過單元／整合、哪些尚未驗證，不寫「N 項全部通過」了事。
-7. **每次改場景、碰撞、人物、劇情、UI、遊戲機制，都跑相關回歸測試**；正式發布前必跑「發布前必跑」那一組（見第五節）。
-8. **對稿的測試要讀得到企劃線**（2026-10-31，BB-B 問、LAWWW-B 決定）：很多 Node 測試用 `git show <企劃線 commit>:docs/story_planning/…` 逐字對稿（aa497、whois、xinci_romance…）。checkout 裡沒有那些 commit 時「台詞不在稿裡」會 FAIL——**照舊 FAIL、不改成 SKIP**（讀不到稿＝沒有驗到）。跑之前先 `git fetch origin claude/cool-heisenberg-o8kuqx`（帳號 B 的 AA 企劃線；別的帳號照 duty.json 的 AA 分支），再看 FAIL 是不是真的。
-
-## 二、四層測試
-
-| 層 | 內容 | 目前的測試 | 用了哪些捷徑 |
-|---|---|---|---|
-| 第一層：單元 | 個別函式、資料、計算、條件 | `node tools/dev_scratch/kit_nav_check.js`（校園套件建築的導航阻擋涵蓋所有看得到的東西）、`node tools/dev_scratch/spring_sim/sim_hair.js`（頭髮彈簧骨）、`tools/dev_scratch/nav_islands.py`（比人窄的小孤島） | 不開瀏覽器或只載入資料 |
-| 第二層：系統整合 | 存檔、劇情、時間、找路、場景切換之間的連動 | `tests/reachability_all.py`（**全遊戲可達性**：每個互動點站得住、按鈕會出現、用引擎真正的找路＋移動碰撞走得到；劇情自動走路的目的地；出入口到達點）、`tests/campus_layout_nav.py`、`tests/gongguan_layout_nav.py`、`tests/zone_transitions.py`、`tests/save_compat_v7.py`、`tests/deploy_check.py`、`tests/see_through.py` | 讀檔前置、`?turbo`（載入快）、可達性是**模擬時間**的移動（不是瞬移，但不畫面） |
-| 第三層：真實玩家流程 | 用玩家的方式完成主要流程，不跳過關鍵步驟 | `tests/flow_class_real.py`（星期四進霖澤館上課 → 劇情自己走到座位 → 上完課 → 搖桿走到後門離開）、`tests/minimap_direction.py`（拖曳轉鏡頭、搖桿往前走，小地圖方向）、`tests/joystick_direction.py`（鏡頭 8 個角度 × 搖桿 4 個方向）、`tests/touch_flow_wenzhou.py`（溫州街 → 咖啡廳 → 坐下 → 存讀檔）、`tests/p0_movement.py`（各出生點搖桿移動） | 只有讀檔前置（會標示）；`touch_flow_wenzhou`、`p0_movement` 目前仍用 `?turbo`（見第六節待辦） |
-| 第四層：探索與異常 | 偏離預期路線、重複進出、錯誤時機互動、存讀檔打斷事件、NPC 擋路 | 尚未建立（見第六節） | — |
+> **測試制度（規則）在 `docs/rules/ROLE_BB.md` 第 2～4 節**（原本這裡的第〇、〇之一、一、二節）；**發布前必跑清單在 `docs/rules/ROLE_LAWWW.md` 第 6.1 節**（原本的第五節）。這份只留全遊戲清單、覆蓋狀態、待建立、永久回歸案例、多樓層與課表的驗收、回歸測試指令（資料）。
 
 ## 三、全遊戲清單（2026-10-10 從程式掃出來）
 
@@ -129,30 +37,7 @@
 | 介面：選單、存檔欄位、匯出匯入、設定 | ⚠️ `touch_flow_wenzhou` 存讀檔 | — | 匯出／匯入、設定各項、直向版面 |
 | 真實手機 | — | — | **全部尚未實機驗證**（使用者 2026-10-10 實機回報了兩個 bug，已修） |
 
-## 五、發布前必跑（核心）
-
-發布樹：`bash tools/handoff/mk_release_tree.sh <候選 SHA> <版本> <日期>`（src／tests／assets／lib／index.html／劇情匯入白名單＝候選＋版本字樣，其餘照開發分支；v9.10.20 時 lib 沒換，main 多帶了沒用到的 lib/lz-string.js，之後連 lib 一起換）；合進 main 以後下一個 commit 把這幾個路徑還原成開發分支發布前的 SHA。
-
-對**乾淨 checkout**（`git worktree add --detach <dir> HEAD`，只含 git 追蹤的檔案＝GitHub Pages 實際內容）開 server 後：
-
-> **預先下載的清單（PERF-COLD-1107 (B)，LAWWW-B 11-07）**：發布前跑 `node tools/gen_zone_assets.js --check`；過期（換過區域的 GLB）就重跑 `node tools/gen_zone_assets.js` 再 commit。平常 `tests/zone_prefetch_unit.js` 只印 WARN、不擋。
-
-> 跑 Node 測試以前先 `git fetch origin claude/cool-heisenberg-o8kuqx`（值班 AA 的企劃分支，帳號換了照 `duty.json` 的 AA 分支）：`aa416_fest`、`aa440_vacfill`、`aa414_hol`、`date_wish`、`aa442_jpprep` 等會 `git show <企劃線 sha>` 讀原稿，沒 fetch 會 FAIL（不是遊戲問題；BB-B 2026-10-24 RELEASE-9109-TEST 記的）。
-
-1. `tests/deploy_check.py`（資源 404、11 區域、正式 VRM、版本字樣；**?v= 全部要和標題字樣是同一個版號**——2026-11-03 起，v9.10.19 PR #25 標題改了、309 處 ?v= 還是舊版號沒被抓到；BB／CC 驗過：main e1603907e PASS、039a9227a 只有這項 FAIL）
-2. `tests/reachability_all.py`（全遊戲可達性）
-3. `tests/flow_class_real.py`、`tests/minimap_direction.py`、`tests/joystick_direction.py`（永久回歸：教室卡住、小地圖方向、搖桿方向）
-4. `tests/zone_transitions.py`、`tests/touch_flow_wenzhou.py`、`tests/p0_movement.py`
-5. `tests/save_compat_v7.py`（線上玩家的舊存檔）
-6. `tests/flow_main_day12.py`（第一、二天主線，約 20–40 分鐘）
-7. Node（幾秒，不需要瀏覽器；可以先跑）：`node tests/nav_levels_unit.js`、`node tests/nav_buildings_unit.js`、`node tests/stairs_feet_unit.js`
-8. v9.4 起（多樓層）：`tests/flow_linze_floors.py`
-
-9. **HV-15（2026-10-18）**：`python3 tools/story/check_orphans.py`、`python3 tools/story/check_lines.py`、`python3 tools/exam/import_exam_bank.py` 的漏收檢查；看 `docs/handoff/USER_WANTS.md` 的「不在遊戲裡」，發布前跟使用者說這一版有什麼、她要過但這版沒有的是哪些、為什麼。
-
-10. **social_smoke（2026-11-04 使用者 P0，經 BB；USER_WANTS X204）**：使用者原話「我還蠻常跟別人講話或者約會就卡住的……你不能只是確認地圖走得到，你應該要試著跟別的 npc 說話，可以攻略的對象尤其重要，也要跟他約會，朋友也是。」——每個候選版都跑：可以攻略的對象和朋友，每個人照真實流程測說話（每一個選項）、約會、傳訊息約、偶遇時一起坐、讀檔以後再試一次；每一步都檢查有沒有卡住（對話框收不掉、選單沒反應、玩家 busy 不放、walkFallbacks、JS 例外）。BB 定範圍、CC 在使用者電腦跑（D131），結果沒過不發布。
-
-發布後：GitHub「pages build and deployment」紀錄確認發布的 commit；請使用者在手機看標題的版本字樣（沙盒連不到 github.io）。
+## 五、發布前必跑（已搬到 `docs/rules/ROLE_LAWWW.md` 第 6.1 節）
 
 ## 六、待建立（依「會不會讓玩家卡死」排優先）
 
@@ -257,4 +142,71 @@
   - 人物不會憑空消失或同時出現在兩個地方；
   - 存檔後重新整理，讀得回來；
   - 沒有 JS 例外。
-- **怎麼記錄結果：** 截圖、測試的輸出，以及「模擬／瀏覽器／真機」三欄的結果，寫在 `docs/test-reports/`。
+- **怎麼記錄結果：** 截圖、測試的輸出，以及「模擬／瀏覽器／真機」三欄的結果，寫進負責測試的職位的交接檔（BB／CC），證據放 CC 的 `shots/` 或 cc-local 的結果資料夾。
+
+
+## 十、回歸測試指令與修改影響對照（原 `docs/REGRESSION_CHECKLIST.md`，2026-11-10 併進來）
+
+每次修改前先看「這次會影響哪幾列」，修改後跑對應的測試，結果寫進自己的交接檔（通過／失敗／未測）。**測試沒過不能改測試標準來假裝成功。Playwright 模擬不等於手機實機。**
+
+### 自動測試
+
+開發伺服器：`python3 -m http.server 8765`（repo 根目錄）。SwiftShader 只有 1–4 fps，**一次只跑一個測試**（同時跑會搶 CPU 逾時）。
+
+| 指令 | 涵蓋 | 時間（沙盒） |
+|---|---|---|
+| `python3 tests/touch_flow_wenzhou.py http://127.0.0.1:8765/index.html` | 只用觸控：標題「繼續」→ 溫州街搖桿 → NPC 都是正式模型 → 走到 Café → 互動按鈕不蓋搖桿 → 進 Café → 和沈以安說話 → 坐下／起身 → 離開 → 選單存檔 → 重新整理 → 標題「讀取」欄位 → 讀檔後可走 → 沒有 JS 例外 | 約 15–25 分鐘 |
+| `python3 tests/p0_movement.py http://127.0.0.1:8765/index.html` | 霖澤館前、校園、宿舍門口、公館店門口、校門外、溫州街出生點：搖桿上／左／右、推到底跑、點地移動、事件中鎖定、對話後解鎖、存讀檔後可走 | 約 15–30 分鐘 |
+| `python3 tests/movement_regression.py http://127.0.0.1:8765/index.html` | A 宿舍走跑撞牆滑牆／B 坐下起身／C ADV 後移動／D 存讀檔後移動／E 各區域出生走跑轉身互動 | 約 20–40 分鐘 |
+| `python3 tests/campus_layout_nav.py http://127.0.0.1:8765/index.html` | 校園配置（依台大平面圖）：17 個地點站得住、從霖澤館前走得到（含醉月湖木棧道、湖心亭）；湖面與建築內不能走；舊存檔站在新建築／湖裡時讀檔後移到可走的地方 | 約 2 分鐘 |
+| `python3 tests/gongguan_layout_nav.py http://127.0.0.1:8765/index.html` | 公館（v9.3 第十一批：連續騎樓的台北街屋）：主要地點與「從店裡／溫州街／校園回來」的出生點站得住、走得到；騎樓整排連續可走；騎樓柱子、店裡面、捷運入口、圓環花台不能走；麵店、茶行、書店、便利商店的互動點位置、站在店門口出現該店互動；舊存檔站在新柱子或舊版店門口時讀檔後移到可走的地方；實際按互動進麵店再出來、往溫州街再回來 | 約 3 分鐘 |
+| `node tools/dev_scratch/spring_sim/sim_hair.js` | 六位核心角色的頭髮彈簧骨：站著、瞬移後、走路（人物移動，30 fps 與 0.3 秒一幀）的髮尾高度；走路／瞬移時髮尾比站著高超過 2 cm 就 FAIL（v9.3 #25：頭髮被甩到耳朵高度）。Node 直接載入遊戲的 `lib/`、`src/`，不需要瀏覽器 | 約 1 分鐘 |
+| `python3 tools/dev_scratch/nav_islands.py http://127.0.0.1:8765/index.html [區域 id …]` | 每個區域用 0.1 m 間距取樣「站得住」，找出和主要區域不相連的小孤島（面積 < 0.5 m²、離主要區域 1.5 m 內 → SUSPECT）。孤島四周都站不住，滑進去就出不來（v9.3 #31） | 全部區域約 10 分鐘 |
+| `node tools/dev_scratch/kit_nav_check.js` | 不用瀏覽器（Node）：建法律系館A、B（參數和 `zones3d.js` 一樣），建築正面外每個 2.2 m 以下的頂點都要在套件回傳的導航阻擋裡（台階、石牆、端塊、弧形量體、花台）；陽台底下可以走所以不算。改 `CK.lawhall` 時跑（第二十一批起；第二十四批起只看 2.2 m 以下） | 幾秒 |
+| `python3 tests/see_through.py http://127.0.0.1:8765/index.html` | 鏡頭和玩家之間有大王椰子樹幹時看得到玩家（v9.3 #35）：同一幀畫正常畫面、拿掉樹幹的畫面、玩家剪影，比較玩家範圍內看得到的比例。關掉透視時要 < 40%（確認樹幹真的擋住）、打開時 ≥ 60%；演出鏡頭、室內不開 | 約 3 分鐘 |
+| `python3 tools/dev_scratch/render_stats.py http://127.0.0.1:8765/index.html` | （參考用，不判定）六個常用鏡頭（校園三個、溫州街 Café 前、公館兩個）畫一幀的三角形數、draw call、幾何數、貼圖數；改建築、加大量物件之後和上一版比較（量第十一批以前的版本時加 `GG_Z=44`，公館店面街的鏡頭位置才相同） | 約 2 分鐘 |
+| `python3 tools/dev_scratch/evtest.py`（需先 build） | 52 個事件的觸發條件與鎖定解鎖 | 約 10 分鐘 |
+| `python3 tests/zone_transitions.py http://127.0.0.1:8765/index.html` | 場景切換：校園 ↔ 霖澤館教室、萬才館、總圖、宿舍、公館（校門兩個方向）進出各一次——入口按鈕、進去站得住走得動、出來站在預期位置、走得到霖澤館前、出來不會又跳出進去的按鈕；遇到旁白像玩家一樣點掉、等淡入結束（v9.3 第二十批） | 約 5 分鐘 |
+| `python3 tests/deploy_check.py http://127.0.0.1:8790/index.html "v9.3 第 24 批"` | **發布前／發布後**（2026-10-10 加）：對乾淨 checkout（`git worktree add --detach <dir> HEAD` 後在那裡開 server：只有 git 追蹤的檔案＝GitHub Pages 實際的檔案）載入遊戲、進 11 個區域：資源 404、JS 例外、script 版本號 `?v=`、標題版本字樣、玩家與 NPC 是正式 VRM | 約 1 分鐘 |
+| `python3 tests/reachability_all.py http://127.0.0.1:8765/index.html`（加 `--legacy` 是切回舊找路，預期失敗） | **第二層（2026-10-10 加，永久）**：全部 11 個區域、103 個互動點：互動範圍內有人物（半徑 0.32 m）站得住、而且是「最近的互動」的位置，用引擎真正的找路＋移動碰撞（`E.simWalk`，模擬時間、dt=1/30 與 0.1）走得到；「坐下」的接近點；劇情自動走路的 11 個目的地；20 個出入口到達點。有人坐的座位列 INFO | 約 3 分鐘 |
+| `python3 tests/flow_class_real.py http://127.0.0.1:8765/index.html` | **第三層真實玩家流程（永久回歸：教室卡住）**：不用 turbo。讀檔到星期四 12:55 霖澤館門口 → 點「進入霖澤館」→ 上課劇情自己走到座位（`GAME.walkFallbacks` 必須是 0）→ 點對話、選選項上完課 → 搖桿走到後門 → 離開教室 → 校園走得動 | 約 10–15 分鐘 |
+| `python3 tests/minimap_direction.py http://127.0.0.1:8765/index.html` | **永久回歸：小地圖方向**：讀小地圖的像素，鏡頭四個方向時出入口方塊的方向；手指拖曳轉鏡頭；搖桿往前走（地圖上前方在上、玩家箭頭朝上） | 約 3 分鐘 |
+| `python3 tests/joystick_direction.py http://127.0.0.1:8765/index.html` | **永久回歸：搖桿方向（2026-10-10 加）**：鏡頭 8 個角度（0°、45°…315°，直接設）× 搖桿往上／右／下／左，玩家走的方向要和畫面上推的方向一致（≤ 25°）；再用手指拖曳轉鏡頭到側面、推搖桿往上要往畫面前方走。第二十五批之前的版本（`92acd48`）在 45°、90°、270° 失敗 | 約 5 分鐘 |
+| `python3 tests/flow_main_day12.py http://127.0.0.1:8765/index.html` | **第三層真實玩家流程：第一、二天主線**：不用 turbo、不讀檔，從標題開新遊戲 → 宿舍 → 點地面走到書桌讀案例 → 睡覺 → 第二天 → 走進霖澤館上課 → 下課離開 → 選單存檔 → 重新整理 → 讀檔 → 走得動 | 約 20–40 分鐘 |
+| `python3 tests/save_compat_v7.py http://127.0.0.1:8791/index.html http://127.0.0.1:8790/index.html` | **發布前**（2026-10-10 加）：8791 開 `main` 舊版（v7）的乾淨 checkout，開新遊戲寫出真正的 v7 存檔＋抽 v7 各區域走得到的 48 個位置；新版啟動前把 v7 存檔放進 localStorage（同網址升級）：標題畫面不覆蓋、「繼續」讀得進來且資料一樣、站得住走得動、欄位 1、48 個位置 | 約 5–10 分鐘 |
+| `node tests/nav_levels_unit.js` | **v9.4 多樓層（Node，幾秒）**：分層導航引擎——單層時的找路結果和改版前（`92acd48`）完全相同（300 組 × 2 種模式）；兩層＋樓梯：上下樓找路、樓梯中段高度、換層、跨層的 A* | 約 10 秒 |
+| `node tests/nav_buildings_unit.js` | **v9.4 多樓層（Node）**：用真的區域程式建校園、法律系館A、201 教室：穿堂 0.9 m、前後台階、從廣場走到後面中庭、大廳 → 樓梯 → 二樓、電梯車廂、48 個座位站得住且走得到、上課劇情走到座位、離開教室；改 `zones3d.js`、`building3d.js`、`campuskit3d.js` 的 `lawhall`、`classroom_layout.js`、`linze_layout.js` 時一定要跑 | 約 30 秒 |
+| `node tests/stairs_feet_unit.js [char.yuting]` | **v9.4 走樓梯的腳步（Node）**：角色上樓梯、下樓梯（法律系館A尺寸），footIK 開／關各走一次，量腳穿進台階多深、支撐腳離地多高（開：穿進 < 4.5 cm、離地 < 5 cm，而且比關掉時好）；改 `character3d.js` 的動畫或 footIK 時跑 | 約 1 分鐘 |
+| `python3 tests/flow_linze_floors.py http://127.0.0.1:8765/index.html` | **v9.4 第三層真實玩家流程（最高驗收標準）**：廣場 → 穿堂 → 穿過建築 → 大廳 → 自己走樓梯上二樓 → 201 坐下起身 → 在二樓存讀檔 → 電梯 → NPC 上下樓 → 走出建築回廣場（見 `docs/TESTING.md` 第八節） | 約 30–60 分鐘 |
+| `python3 tools/dev_scratch/linze_shots.py URL 輸出資料夾 標籤` | （截圖用，不判定）法律系館A外觀四個固定鏡頭 × 11:00／17:30／20:30；新舊比較用（8790＝線上版副本） | 約 10 分鐘 |
+| `python3 tools/dev_scratch/view_audit.py URL spec.json 輸出資料夾 [方向數=8]` | （畫面盤點，人工看圖）把玩家放到 spec 裡的每個位置，用一般跟隨鏡頭轉一圈各拍一張，拼成一張對照表：找「轉鏡頭看到大片空地、地面盡頭、孤立建築」的角度（v9.3 第十八～二十批用 33 個位置，spec 範例見 ART_REBUILD_PROGRESS） | 約 40 分鐘（33 個位置） |
+| `python3 tools/dev_scratch/cine_multi.py URL spec.json [寬] [高]` | （截圖用，不判定）一次載入、連拍多個固定鏡頭（演出鏡頭）；同一個區域＋時間只載入一次，比 `tools/shots/scene_shot.py` 快很多。改前改後比較圖用同一份 spec 對兩個版本各跑一次 | 每張約 30 秒 |
+
+### 修改影響對照
+
+| 系統 | 什麼修改會影響 | 至少要跑 |
+|---|---|---|
+| 移動與鏡頭 | `engine3d.js`（stepEntity、updateCamera、input、樹幹透視）、`game3d.js`（搖桿、sitAt/standUp） | p0、movement_regression、touch_flow；改 updateCamera 或樹幹透視時加跑 see_through |
+| 地形與碰撞 | `zones3d.js` 任何幾何或 NavGrid（`blockRect/blockOutside/open`）、出生點、出入口座標 | 改校園時加跑 campus_layout_nav；改公館時加跑 gongguan_layout_nav（出入口座標要和 p0 的「公館店門口」出生點一起改）；p0（含溫州街）、movement_regression E、touch_flow；加家具、改 `blockRect` 之後跑 `nav_islands.py` |
+| NPC 導航 | `story3d.js` 的 walkRoutes／bikeRoutes、`engine3d.js` updateNPC | 截圖確認 NPC 不在牆裡、touch_flow |
+| 樓層與高度（v9.4，D36） | `engine3d.js` 的 NavGrid 高度面（`addSurf`、`heightAt`、`visualHeightAt`）、`gridPath`（跨層找路）、`switchLevel`、`settleY`、`screenToFloor`、`updateLevelVis`；`building3d.js`（法律系館A室內、電梯）；`zones3d.js` 的教室平台、`ckPlace` 的 `surfs`；`campuskit3d.js` 的 `lawhall`（穿堂、台階）；`character3d.js` 的 footIK；存檔的 `pos.lv`、`pos.y` | nav_levels_unit、nav_buildings_unit、stairs_feet_unit（Node）；flow_linze_floors、flow_class_real、p0、save_compat_v7 |
+| 人物朝向與動畫 | `character3d.js`（buildVRM、animateVRM、setBonesV）、`assets3d.js`（cloneVRM）、`tools/vroid_build.py` 重建的模型 | 角色展示截圖（正側背、走跑坐交談）、教室座位朝向、touch_flow 坐下；改到彈簧骨、`updateVRM` 或重建有頭髮的模型時跑 `sim_hair.js` |
+| 場景切換 | `game3d.js` enter／applySave、各區域 exits、入口互動點與出來的出生點座標 | zone_transitions、touch_flow（溫州街 ↔ Café）、movement_regression E |
+| 日夜與天氣 | `engine3d.js` applyTime／KEY、區域的 `applyTimeOutdoor`、`townkit3d.js` setNight、區域的 `sunYaw`（D29） | 同位置 11:00／17:30／20:30 截圖；新增戶外區域或改區域方向時，中午椰子樹、路燈的影子要往北倒（太陽在南邊） |
+| 視距、霧、遠景 | 區域的 `viewFar`／`fogNear`、`engine3d.js` applyViewFar／applyTime 裡的霧、天空與遠景剪影（makeSky、makeSkyline 的 renderOrder）、邊界外的背景（`TK.bgCity`、`zones3d.js` 的 campusBackdrop） | view_audit（邊界附近的位置轉一圈）、render_stats（draw call、三角形數和改前比）；**確認霧的距離真的生效**：applyTime 每幀會設霧，曾經把區域的 viewFar 蓋掉（v9.3 第二十批） |
+| 劇情事件與對話 | `events3d.js`、`data/events.js`、`story3d.js` | evtest、第一二天流程（`tools/dev_scratch/flowtest.py`） |
+| 人物關係 | `social3d.js` | evtest |
+| 存檔與讀檔、舊存檔相容 | `game3d.js` snapshot／validate／migrate／autosave、`G` 的欄位 | touch_flow（存到欄位、重新整理、讀取）、p0 存讀檔、用舊版存檔 JSON 讀取 |
+| 手機觸控 | `index.html` 的 CSS（z-index、按鈕位置大小）、`setupJoystick`、`E.onTap` | touch_flow（含「互動按鈕不蓋搖桿」）、直向與橫向截圖 |
+| 直向／橫向 UI | `index.html` 的 media query | 390×844 與 844×390 截圖 |
+| 法律題庫與正確答案 | `data/legal_qbank.js`、`legal3d.js` | **不准改答案**；改到時逐題比對原始題庫 |
+
+### 已知的測試限制
+
+- 沒有任何手機實機測試；真機效能、觸控手感、Safari 特有行為都未驗證。
+- SwiftShader 下的 FPS 數字沒有參考價值。
+- `evtest.py` 與 `flowtest.py` 預設測 `build/` 單檔版，改程式後要先 `python3 build.py`。
+- `movement_regression` A5（往宿舍前牆推 3.2 秒）停的位置會隨幀率不同（v9.3 #38：正面推牆會沿牆橫移一點）；A6 會往前牆上空間比較大的那一側斜推，判定仍是「沿牆滑動 0.3 m 以上」。如果 A6 失敗，先看 A5 停的位置再判斷。
+- `tools/dev_scratch/render_stats.py` 量算圖負擔（draw call、三角形）；`VIEWSET=interior` 量七個室內。
+
+> 2026-10-10：測試腳本等待載入完成原本用 `window.GAME`，但 `game3d.js` 是 `const GAME=`（不會掛在 window 上），所以每個測試都白等滿 120 秒才繼續（不影響判定，只是慢）。已改成 `typeof GAME!=='undefined'`（tests/ 與 tools/dev_scratch/ 共 11 個腳本）。新寫的測試照這個寫法。

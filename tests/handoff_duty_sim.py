@@ -341,7 +341,7 @@ def anomalies():
         fn = d['lastHandoff']['snapshots']['LAWWW']; fn = fn['file'] if isinstance(fn, dict) else fn
         os.remove(os.path.join(lb, 'docs/handoff/snapshots', fn))
         rc, out = w.tool(lb, 'duty', 'verify')
-        ok1 = rc == 1 and '找不到——照總入口第 4 節做 REMEDIAL_FULL_AUDIT' in out
+        ok1 = rc == 1 and '找不到——照 CLAUDE.md §4 第 7 步做 REMEDIAL_FULL_AUDIT' in out
         git(lb, 'checkout', '-q', '--', '.')
         w.wtext(lb, f'docs/handoff/snapshots/{fn}', '{壞掉')
         rc2, out2 = w.tool(lb, 'duty', 'verify')
