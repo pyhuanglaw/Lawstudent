@@ -405,6 +405,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 12. python3 tools/handoff/check_handoff.py duty register --account <X> --role LAWWW2 --session <你的 session ID（用 get_session 查）> --branch <系統指定給你的分支> --ref origin/<RULE_SOURCE>（有沒整合的 WIP 分支加 --wip <分支>）→ commit＋push、核對遠端 SHA。
 13. 回覆使用者「接班確認」（第 6 節的格式，含 duty verify 結果）。
 14. 立刻接續：python3 tools/handoff/check_handoff.py queue --owner LAWWW2 --ref origin/<RULE_SOURCE>，不用使用者再說開工。
+美術工具（D144，使用者 2026-11-10「不是早就應該已經裝了嗎？…為什麼每次都要重新講一次」）：新容器第一件事 bash tools/blender/setup_env.sh（Blender bpy 5.2.2、EGL、VRM Add-on、VRoid CC0 樣本；2026-10-10 起一直在用、LICENSES.md 有登記），不用問使用者；裝不了就照實寫哪一步被擋、報給 LAWWW，不改用方塊人。
 不傳訊息給任何休班帳號的工作階段（D75、HV-10：不 send_message、不 interrupt_session、不替它排 send_later、不傳測試訊息）；跨帳號只用 GitHub。同一個帳號裡值班中的職位可以用 send_message。
 美術標準與精修 SOP（使用者 2026-10-16：得遊戲大獎的標準、不要廉價拼接、不要方塊感；ART-SOP）：開始任何美術工作以前，先讀 LAWWW2 交付分支上的 docs/art-rebuild/second_ai/ART_SOP.md、sop_demo/README.md、SCENE_RULES.md 第 9 節、HANDOFF.md 與 WORK_RULES.md 最上方的「⛔ 強制閱讀」（分支照 duty.json 的 roles.LAWWW2.branch），確認理解後才開工。
 你的進度檔：docs/art-rebuild/second_ai/HANDOFF.md（表裡的 WIP 分支要一起看）。第 11 步合併上一任 LAWWW2 的分支和要接著做的 WIP；不合併 LAWWW 開發分支的程式（規則檔用 git show origin/<RULE_SOURCE>:<檔> 讀）。總表的 ART-* 任務是你的範圍：交班時在 HANDOFF.md 用任務 ID 寫六類紀錄。不得因換班覆蓋還沒整合的模型。
@@ -502,6 +503,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 12. python3 tools/handoff/check_handoff.py duty register --account C --role LAWWW2 --session <你的 session ID（用 get_session 查）> --branch <系統指定給你的分支> --ref origin/<RULE_SOURCE>（有沒整合的 WIP 分支加 --wip <分支>）→ commit＋push、核對遠端 SHA。
 13. 回覆使用者「接班確認」（第 6 節的格式，含 duty verify 結果）。
 14. 立刻接續：python3 tools/handoff/check_handoff.py queue --owner LAWWW2 --ref origin/<RULE_SOURCE>，不用使用者再說開工。
+美術工具（D144，使用者 2026-11-10「不是早就應該已經裝了嗎？…為什麼每次都要重新講一次」）：新容器第一件事 bash tools/blender/setup_env.sh（Blender bpy 5.2.2、EGL、VRM Add-on、VRoid CC0 樣本；2026-10-10 起一直在用、LICENSES.md 有登記），不用問使用者；裝不了就照實寫哪一步被擋、報給 LAWWW，不改用方塊人。
 不傳訊息給任何休班帳號的工作階段（D75、HV-10：不 send_message、不 interrupt_session、不替它排 send_later、不傳測試訊息）；跨帳號只用 GitHub。同一個帳號裡值班中的職位可以用 send_message。
 美術標準與精修 SOP（使用者 2026-10-16：得遊戲大獎的標準、不要廉價拼接、不要方塊感；ART-SOP）：開始任何美術工作以前，先讀 LAWWW2 交付分支上的 docs/art-rebuild/second_ai/ART_SOP.md、sop_demo/README.md、SCENE_RULES.md 第 9 節、HANDOFF.md 與 WORK_RULES.md 最上方的「⛔ 強制閱讀」（分支照 duty.json 的 roles.LAWWW2.branch），確認理解後才開工。
 你的進度檔：docs/art-rebuild/second_ai/HANDOFF.md（表裡的 WIP 分支要一起看）。第 11 步合併上一任 LAWWW2 的分支和要接著做的 WIP；不合併 LAWWW 開發分支的程式（規則檔用 git show origin/<RULE_SOURCE>:<檔> 讀）。總表的 ART-* 任務是你的範圍：交班時在 HANDOFF.md 用任務 ID 寫六類紀錄。不得因換班覆蓋還沒整合的模型。
@@ -601,6 +603,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 12. python3 tools/handoff/check_handoff.py duty register --account C --role LAWWW2 --session <你的 session ID（用 get_session 查）> --branch <系統指定給你的分支> --ref origin/<RULE_SOURCE>（有沒整合的 WIP 分支加 --wip <分支>）→ commit＋push、核對遠端 SHA。
 13. 回覆使用者「接班確認」（第 6 節的格式，含 duty verify 結果）。
 14. 立刻接續：python3 tools/handoff/check_handoff.py queue --owner LAWWW2 --ref origin/<RULE_SOURCE>，不用使用者再說開工。
+美術工具（D144，使用者 2026-11-10「不是早就應該已經裝了嗎？…為什麼每次都要重新講一次」）：新容器第一件事 bash tools/blender/setup_env.sh（Blender bpy 5.2.2、EGL、VRM Add-on、VRoid CC0 樣本；2026-10-10 起一直在用、LICENSES.md 有登記），不用問使用者；裝不了就照實寫哪一步被擋、報給 LAWWW，不改用方塊人。
 不傳訊息給任何休班帳號的工作階段（D75、HV-10：不 send_message、不 interrupt_session、不替它排 send_later、不傳測試訊息）；跨帳號只用 GitHub。同一個帳號裡值班中的職位可以用 send_message。
 美術標準與精修 SOP（使用者 2026-10-16：得遊戲大獎的標準、不要廉價拼接、不要方塊感；ART-SOP）：開始任何美術工作以前，先讀 LAWWW2 交付分支上的 docs/art-rebuild/second_ai/ART_SOP.md、sop_demo/README.md、SCENE_RULES.md 第 9 節、HANDOFF.md 與 WORK_RULES.md 最上方的「⛔ 強制閱讀」（分支照 duty.json 的 roles.LAWWW2.branch），確認理解後才開工。
 你的進度檔：docs/art-rebuild/second_ai/HANDOFF.md（表裡的 WIP 分支要一起看）。第 11 步合併上一任 LAWWW2 的分支和要接著做的 WIP；不合併 LAWWW 開發分支的程式（規則檔用 git show origin/<RULE_SOURCE>:<檔> 讀）。總表的 ART-* 任務是你的範圍：交班時在 HANDOFF.md 用任務 ID 寫六類紀錄。不得因換班覆蓋還沒整合的模型。

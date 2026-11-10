@@ -42846,19 +42846,17 @@
    "id": "ART-GYM-POOL-SWIMMERS-1103",
    "title": "游泳池水裡游泳的人：游泳動作（自由式／蛙式）＋泳裝人物模型，接 crowd3d 游泳池那一群",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "note": "X169 的後半（使用者 11-03「游泳池完全沒人」）；LAWWW2 休班中，回來接",
-   "next": "【LAWWW 11-10 10:5x】卡在權限：等使用者決定（問過）。LAWWW2 先做 GYM-FIT-PROPS 第二包。 ｜ LAWWW2 回來：動作與模型 → LAWWW 接進 crowd3d 的 pool（水道裡來回）",
+   "next": "【LAWWW 11-10 16:3x】不用等使用者：VRM 外掛、VRoid 樣本 10-10 起就在用（LICENSES.md、D33），使用者 16:2x「不是早就應該已經裝了嗎」；D144 新增 tools/blender/setup_env.sh（LAWWW 雲端實測裝好、VRM 外掛 OK、樣本 9 個），LAWWW2 跑完照正式人物生產線做。 ｜ 【LAWWW 11-10 10:5x】卡在權限：等使用者決定（問過）。LAWWW2 先做 GYM-FIT-PROPS 第二包。 ｜ LAWWW2 回來：動作與模型 → LAWWW 接進 crowd3d 的 pool（水道裡來回）",
    "xai": {
     "spec": "使用者 11-03 截圖；gym_layout.js b1.pool（7 水道、水深 1.4）",
     "branch": "LAWWW2 自己的分支",
     "acceptance": "游泳池開館時水道裡有 2～4 個人來回游，手機效能不掉",
     "receiver": "LAWWW",
     "ack": "SENT"
-   },
-   "pausedReason": "LAWWW2 11-10 10:47：正式人物生產線要 Blender VRM 外掛（saturday06/VRM-Addon-for-Blender）和 VRoid CC0 樣本（tools/fetch_vroid_src.sh），新容器沒有；clone／安裝被工作階段自動權限擋下，LAWWW2 沒有繞過；方塊人違反 D38 不做",
-   "resumeWhen": "使用者在 LAWWW2 工作階段允許安裝這兩樣，或改給有這些環境的工作階段做"
+   }
   },
   {
    "first": {
@@ -51391,8 +51389,8 @@
    "sha": null,
    "id": "ROM-STAGE-TEXT-1110",
    "title": "戀愛條提示分三段、出去玩說清楚差什麼（使用者 11-10 X304 選擇題）",
-   "status": "已整合待測試",
-   "next": "【11-10 03:5x LAWWW-B】date3d.js PROG_HINT npcRomHalf／romHalf／ambi、progress 的 bar 和第 6 階 mood、canAskCore 的說明；game3d.js progHTML 印 mood。tests/rom_stage_text_unit.js 修改前 FAIL 4 項；rel_progress_unit 第 10 項看前 4000 字。字是 LAWWW 定的系統字，AA 回來可以改。"
+   "status": "進行中",
+   "next": "【LAWWW 11-10 16:3x】使用者選擇題「戀愛條過一半就可以」：DATE.canAskCore 她的戀愛 ≥15（S.ASK_ROM_HALF）就能約出去玩（冷淡期 capStage 不算）；還不能約＝「還沒熟到可以兩個人出去」，等 AA 定句子；rom_stage_text_unit 5b、5c。 ｜ 【11-10 03:5x LAWWW-B】date3d.js PROG_HINT npcRomHalf／romHalf／ambi、progress 的 bar 和第 6 階 mood、canAskCore 的說明；game3d.js progHTML 印 mood。tests/rom_stage_text_unit.js 修改前 FAIL 4 項；rel_progress_unit 第 10 項看前 4000 字。字是 LAWWW 定的系統字，AA 回來可以改。"
   },
   {
    "owner": "LAWWW",
