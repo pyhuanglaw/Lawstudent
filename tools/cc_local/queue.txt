@@ -6,9 +6,17 @@
 #        probe = repo script (CC probe), args <URL> <out>\out ; LW_TESTS / SHA set automatically
 #        py    = repo script, args <URL> <out dir>
 #  URL : path after http://127.0.0.1:<port>/
-# ===== LAWWW-B 11-10 04:0x（使用者：「其他 AI 不會工作 電腦測試繼續跑」、選擇題「我來排、我來判」——BB、CC 不在，LAWWW-B 排、LAWWW-B 代判）=====
+# ===== LAWWW-B 11-10 03:1x（使用者：「其他 AI 不會工作 電腦測試繼續跑」、選擇題「我來排、我來判」——BB、CC 不在，LAWWW-B 排、LAWWW-B 代判）=====
 #   這一版把已經跑完的 1000 多行拿掉（結果都在 claude/cc-local 的 local_out/；runner 照 ID@SHA#RERUN 看 meta.json 判斷跑過沒，拿掉不影響）。
 #   舊的整份佇列（CC-B 交班時）＝claude/cc-testing 31d4ce230（blob ade40ce47），要查舊項目看那一份。
+#   ⓪ LAWWW-B 11-10 03:5x 最先跑：開發分支 98e81fe06（總圖 B1 改從北側的露天下沉中庭進去、總圖外拱廊柱頂不閃、她主動約／好朋友單獨吃飯／戀愛條三段／可昕不罵髒話）
+L98E_b1court | 98e81fe06bd856d6ec953948c5c4c6a64cb08e74 | probe | docs/story_planning/test_tools/cc/lawww_b1court_shot_probe.py | index.html | 20 | X=1
+L98E_reach | 98e81fe06bd856d6ec953948c5c4c6a64cb08e74 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url};CC_HEADLESS=0
+L98E_invphone | 98e81fe06bd856d6ec953948c5c4c6a64cb08e74 | game | tests/flow_invite_phone.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
+L98E_libfloors | 98e81fe06bd856d6ec953948c5c4c6a64cb08e74 | game | tests/flow_library_floors.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
+L98E_zone | 98e81fe06bd856d6ec953948c5c4c6a64cb08e74 | game | tests/zone_transitions.py | index.html?turbo | 20 | XARGS={url};CC_HEADLESS=0
+L98E_p0 | 98e81fe06bd856d6ec953948c5c4c6a64cb08e74 | game | tests/p0_movement.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+L98E_main12 | 98e81fe06bd856d6ec953948c5c4c6a64cb08e74 | game | tests/flow_main_day12.py | index.html | 60 | XARGS={url} {out};CC_HEADLESS=0
 #   ① 先跑：開發分支 492ef334a（今天修的：一鍵前往跳到約好的時間、一起過去的目標列、出席一門一行、她約改天選日子、好朋友單獨吃飯、戀愛條三段、總圖看板）＋回歸組
 L492_invgo | 492ef334aef133a046f3a49e986665afee6e19cf | game | tests/flow_inv_go_jump.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
 L492_invphone | 492ef334aef133a046f3a49e986665afee6e19cf | game | tests/flow_invite_phone.py | index.html | 30 | XARGS={url} {out};CC_HEADLESS=0
