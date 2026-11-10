@@ -563,3 +563,12 @@
 [05:42:06] ==== START TZ1_shots_1715  (probe @ 7a625da3c321c2d3fcaaa2ac865c1dde60ccff5d) ====
 [05:42:09] [res] cpu=4% mem=47% (14.9/31.4 GB) chrome_testing=9  START TZ1_shots_1715
 [05:42:47] [res] cpu=4% mem=44% (14.0/31.4 GB) chrome_testing=9  END TZ1_fps
+[05:42:51] 正在跑：TZ2_walk（已跑 4 分／上限 20 分）、TZ1_fps（已跑 1 分／上限 10 分）、TZ1_shots_1715（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       07b0a8e2b..e6e86a142  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:42:53] ==== END   TZ1_fps  exit=0  92s   ====
+[05:43:02] memory 46% before starting MT3_lovecap_r4 (2 running)
+[05:43:02] ==== START MT3_lovecap_r4  (probe @ 0160bb208cd10b06c5dd98851a59beb5db0e7bd2) ====
+[05:43:05] [res] cpu=2% mem=47% (14.7/31.4 GB) chrome_testing=9  START MT3_lovecap_r4
+[05:43:41] [res] cpu=5% mem=43% (14.5/31.4 GB) chrome_testing=9  END TZ1_shots_1715
