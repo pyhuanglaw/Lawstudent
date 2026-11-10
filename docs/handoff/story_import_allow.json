@@ -5377,6 +5377,59 @@
    "task": "MOVIE-FALLBACK-1110",
    "kind": "json",
    "note": "X324 這部片沒有她的專屬回答時她怎麼回（七個人×六種 kind 各三句，re＋fx）——tools/movie/import_movie_plots.py → src/data/movie_plots.js 的 fallback；src/movies3d.js S.CFG.fallback＝true"
+  },
+  {
+   "path": "docs/story_planning/AA_749_termend_gf_v2.json",
+   "sha": "da2f67faa",
+   "status": "approved",
+   "approvedBy": "AA（D109）；BB 11-10 第二意見（BB_314，五處已改）",
+   "task": "TERMEND-OPTS-1110",
+   "kind": "json",
+   "people": {
+    "gf": [
+     "heroine_01",
+     "heroine_03",
+     "heroine_05",
+     "heroine_02",
+     "heroine_04"
+    ]
+   },
+   "note": "X324 女朋友版的期末飯：每一頓有選項、選項有效果——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.GF）。只匯入 people.gf 的五位（以安、語彤、學姊、芷若、子晴）；classmate_peishan 整段不匯入（使用者 X327 沛珊個性更正、重寫中，AA _meta.rules 最後一條），遊戲照 termend_lines.js 現在的字。可昕另外一筆（AA_749_termend_kx_v2.json）。AA 交重寫版以後由值班 LAWWW 改 sha 和 people。"
+  },
+  {
+   "path": "docs/story_planning/AA_748_termend_heart_v2.json",
+   "sha": "da2f67faa",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "TERMEND-OPTS-1110",
+   "kind": "json",
+   "people": {
+    "table": [
+     "heroine_01",
+     "heroine_03",
+     "heroine_05",
+     "heroine_04"
+    ],
+    "confess": [
+     "heroine_01",
+     "heroine_03",
+     "heroine_05",
+     "heroine_04"
+    ]
+   },
+   "note": "X324 心意邀約（學期末的告白）：飯桌那一句之後的選項 tableOpts、祐廷說出來的選項 confessOpts——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.TABLE／CONFESS）。只匯入 people 的四位（以安、語彤、學姊、子晴）；芷若（heroine_02）、沛珊（classmate_peishan）的 HEART／tableOpts／confessOpts 不匯入（使用者 X327：重寫中），遊戲照 termend_lines.js、confess_lines.js 現在的字。"
+  },
+  {
+   "path": "docs/story_planning/AA_749_termend_kx_v2.json",
+   "sha": "898820f8b",
+   "status": "approved",
+   "approvedBy": "AA（D109）；BB 11-10 第二意見（BB_314 第 8 節，四處已改）",
+   "task": "TERMEND-OPTS-1110",
+   "kind": "json",
+   "people": {
+    "kx": true
+   },
+   "note": "X324 可昕的學期末約會（大二上～大五上六頓；大一下第一次那頓照現有的）：有選項、選項有效果——tools/story/import_termend_opts.py → src/data/termend_opts.js（TERMEND_OPTS.KX）；place、invite、KX_PLACE、KX_EXTRA、KX_ASK 不動（AA _meta.target）。LAWWW 11-10 通知可以匯入（企劃線 898820f8b）。"
   }
  ]
 }
