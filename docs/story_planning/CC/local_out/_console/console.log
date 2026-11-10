@@ -427,3 +427,12 @@
 [04:44:58] worktree add 25c3039ec5f4b9714c09859860f9a36122db8922: invalid reference - fetching main and the commit itself
 [04:45:01] [res] cpu=8% mem=40% (12.6/31.4 GB) chrome_testing=4  START MT2_talk0
 [04:45:57] [res] cpu=6% mem=43% (13.4/31.4 GB) chrome_testing=8  END GG16r5c_new
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       86c38cbce..d971699fb  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[04:46:04] ==== END   GG16r5c_new  exit=0  117s   ====
+[04:46:07] memory 44% before starting MT2_talk12 (2 running)
+[04:46:07] ==== START MT2_talk12  (probe @ 25c3039ec5f4b9714c09859860f9a36122db8922) ====
+[04:46:10] [res] cpu=4% mem=44% (13.9/31.4 GB) chrome_testing=8  START MT2_talk12
+[04:46:56] 正在跑：MT2_info_again_skip（已跑 2 分／上限 20 分）、MT2_talk0（已跑 1 分／上限 25 分）、MT2_talk12（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[04:48:02] [res] cpu=48% mem=39% (12.4/31.4 GB) chrome_testing=5  END MT2_talk0
