@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "L492_invphone",
+  "sha": "492ef334aef133a046f3a49e986665afee6e19cf",
+  "kind": "game",
+  "script": "tests/flow_invite_phone.py",
+  "env": "XARGS={url} {out};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-10T11:14:25",
+  "end": "2026-11-10T11:16:43",
+  "seconds": 139,
+  "exit": 1,
+  "error": null,
+  "runner": "1556bf529d",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 77,
+    "mem": 55,
+    "used_gb": 17.3,
+    "chrome_testing": 14
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": true,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
