@@ -1,0 +1,32 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_tingzhou_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG3_walk_old\out
+CC 汀州路 v1：PARTS GGWALK,ZQSEAT；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到公館 2027-06-15 21.5 時 (15.6,15.5)（子晴騎樓板凳那一場）
+  [  53.7s] [ZQSEAT 2027-06-15 21.5] 子晴：{"x": 15.6, "z": 19.8, "y": 0, "vis": true, "seat": {"x": 15.6, "z": 19.8, "label": "坐在騎樓的板凳"}, "beh": "idle", "act": null, "frozen": true, "dseat": 0, "lap": true}
+PASS [ZQSEAT 2027-06-15 21.5] 子晴坐在板凳上（離座位 0.00 m、seat {"x": 15.6, "z": 19.8, "label": "坐在騎樓的板凳"}）  {"x": 15.6, "z": 19.8, "y": 0, "vis": true, "seat": {"x": 15.6, "z": 19.8, "label": "坐在騎樓的板凳"}, "beh": "idle", "act": null, "frozen": true, "dseat": 0, "lap": true}
+  [  54.3s] [ZQSEAT 2027-06-15 21.5] 筆電道具看得到：True
+PASS [ZQSEAT 2027-06-15 21.5] 她前面（騎樓那一側）站得住、沒有被擋  [[15.6, 20.6, true], [15.6, 21.2, true], [14.6, 20.6, true], [16.6, 20.6, true]]
+  [  60.3s] 到達「[ZQSEAT 2027-06-15 21.5] 走到她前面」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [ZQSEAT 2027-06-15 21.5] 走得到她前面  {"x": 15.39, "z": 20.7, "interact": "和不認識的女生說話"}
+  [  61.1s] [ZQSEAT 2027-06-15 21.5] 按鈕：「和不認識的女生說話」；她還坐著：{"x": 15.6, "z": 19.8, "y": 0, "vis": true, "seat": {"x": 15.6, "z": 19.8, "label": "坐在騎樓的板凳"}, "beh": "idle", "act": null, "frozen": true, "dseat": 0, "lap": true}
+PASS [ZQSEAT 2027-06-15 21.5] 按鈕是和她說話（不是「坐下」或別的）  和不認識的女生說話
+PASS [ZQSEAT 2027-06-15 21.5] 按了有對話
+  [  63.4s] [ZQSEAT 2027-06-15 21.5] 對話：["（她", "（她低頭在忙自己的事，沒有注意到你。）"]
+PASS [ZQSEAT 2027-06-15 21.5] walkFallbacks 0
+  [前置／捷徑] 【前置／捷徑】讀檔到 gongguan 2025-11-01 14.0 時 (-58.0,14.0) （公館西邊人行道）
+  [  76.4s] [GGWALK] 店面棟號 x：{"G00": -62.4, "G01": -52.2, "G02": -41, "G03": -28.8, "G04": -18.6, "G05": -9.4, "G06": 0.3, "G07": 10.5, "G08": 19.6, "G09": 28.1, "G10": 37.1, "G11": 46.6, "G12": 55.6, "G13": 64.1, "G14": 73.1, "G15": -81}
+FAIL [GGWALK] 公館街上沒有舊花攤的互動點（kind gg_flower／晨露花舖）  [{"label": "看看花攤", "x": -47.2, "z": 13.4, "hidden": false}]
+FAIL [GGWALK] 搖桿走到舊花攤那一塊 (-47.0,11.6)（121 秒、卡住改側推 22 次）  {"x": -54.94, "z": 11.6, "interact": ""}
+FAIL [GGWALK] 舊花攤那一塊站得住（導航格 free）  [-47.0, 11.6, false]
+PASS [GGWALK] 搖桿走到G04 店門口 (-18.6,21.0)（9 秒、卡住改側推 0 次）  {"x": -17.86, "z": 21.15, "interact": ""}
+  [ 206.6s] [GGWALK] G04 店門口 停下來的按鈕：「」
+PASS [GGWALK] 搖桿走到G08 店門口 (19.6,21.0)（38 秒、卡住改側推 5 次）  {"x": 19.58, "z": 20.75, "interact": ""}
+  [ 244.5s] [GGWALK] G08 店門口 停下來的按鈕：「」
+PASS [GGWALK] 搖桿走到G11 店門口 (46.6,21.0)（23 秒、卡住改側推 3 次）  {"x": 47.07, "z": 21, "interact": "進入花序"}
+  [ 267.4s] [GGWALK] G11 店門口 停下來的按鈕：「進入花序」
+PASS [GGWALK] 搖桿走到G13 店門口 (64.1,21.0)（9 秒、卡住改側推 1 次）  {"x": 64.5, "z": 20.92, "interact": ""}
+  [ 276.6s] [GGWALK] G13 店門口 停下來的按鈕：「」
+PASS [GGWALK] walkFallbacks 0
+PASS 沒有 JS 例外  []
+FAILED 3: [GGWALK] 公館街上沒有舊花攤的互動點（kind gg_flower／晨露花舖）；[GGWALK] 搖桿走到舊花攤那一塊 (-47.0,11.6)（121 秒、卡住改側推 22 次）；[GGWALK] 舊花攤那一塊站得住（導航格 free）
