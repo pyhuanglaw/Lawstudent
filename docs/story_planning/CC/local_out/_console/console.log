@@ -54,3 +54,11 @@
 [03:38:18] [res] cpu=9% mem=48% (15.1/31.4 GB) chrome_testing=9  START F25_uslong_block
 [03:40:50] 正在跑：F25_deploy（已跑 5 分／上限 15 分）、F25_uslong（已跑 5 分／上限 15 分）、F25_uslong_block（已跑 2 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [03:41:32] [res] cpu=1% mem=51% (16.2/31.4 GB) chrome_testing=9  END F25_uslong
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c2ec89d6c..120f90e9a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[03:41:38] ==== END   F25_uslong  exit=0  342s   ====
+[03:41:41] memory 49% before starting F25_p0 (2 running)
+[03:41:41] ==== START F25_p0  (game @ 6ef185726dbf72e5bf55ca794f1928a6d705a77e) ====
+[03:41:44] [res] cpu=3% mem=49% (15.7/31.4 GB) chrome_testing=9  START F25_p0
+[03:42:24] [res] cpu=11% mem=50% (15.8/31.4 GB) chrome_testing=8  END F25_uslong_block
