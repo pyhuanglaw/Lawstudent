@@ -76,3 +76,12 @@
 [16:23:32] [res] cpu=22% mem=47% (14.8/31.4 GB) chrome_testing=4  END LE738_main12
 [16:23:37] memory 47% before starting LE738_classreal (2 running)
 [16:23:37] ==== START LE738_classreal  (game @ e73888074c) ====
+[16:23:40] [res] cpu=11% mem=47% (14.9/31.4 GB) chrome_testing=4  START LE738_classreal
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       21a9fd433..4bf5bccca  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:23:42] ==== END   LE738_main12  exit=0  335s   ====
+[16:24:08] memory 50% before starting LE738_mini (2 running)
+[16:24:08] ==== START LE738_mini  (game @ e73888074c) ====
+[16:24:11] [res] cpu=26% mem=51% (15.8/31.4 GB) chrome_testing=8  START LE738_mini
+[16:25:36] [res] cpu=11% mem=52% (16.6/31.4 GB) chrome_testing=9  END LE738_mini
