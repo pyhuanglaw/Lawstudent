@@ -166,9 +166,16 @@ async def case_lovecap(pg, cdp):
     ml2 = await pg.evaluate("(()=>({love:((GAME.G.flags||{}).MOVIE_LOVE||{}).heroine_01||null, rom:(SOCIAL.rel('heroine_01')||{}).npcRom, flag:(GAME.G.flags||{}).AN_BIRTHDAY_PAPER}))()")
     R.note('%s 隔天總圖：選單 %s；之後 %s；npcRom %s → %s' % (tag, J(r2 and r2['choices']), J(ml2), rom0, ml2['rom']))
     R.check('%s 下次見面（總圖）演了微捲機那段' % tag, any('微捲機' in s for s in says), J(says[-8:]))
-    picked = [c for c in (r2 or {}).get('choices', []) if any('也幫我印一張' in t for t in c['opts'])]
+    # r2（MOVIE_LATER 那段是在 go_to 走到她旁邊的途中演的，選單由 playlib 點掉、不在 r2['choices']）：照 __MT 找那一個選單的位置，只看它到下一個選單之間的 adjust
+    ci = [i for i, e in enumerate(mt2) if e['k'] == 'choose' and '也幫我印一張' in str(e['v'])]
+    nxt = [i for i, e in enumerate(mt2) if e['k'] == 'choose' and ci and i > ci[-1]]
+    lo, hi = (ci[-1], nxt[0] if nxt else 10 ** 9) if ci else (None, None)
+    said = ci and any('你哪一天' in str(e['v']) for e in mt2[ci[-1]:ci[-1] + 4])
+    win = [a for a in adj2 if a['id'] == who and lo is not None and lo <= a['n'] < hi]
+    R.note('%s 「也幫我印一張」選單在 __MT %s、下一個選單 %s；中間的 adjust %s（之後的是見面本身／故事線的）' % (tag, lo, hi, J(win)))
+    R.check('%s 選了「也幫我印一張。」→ 她說「你哪一天？」' % tag, bool(said), J([e['v'] for e in mt2[lo:lo + 4]] if lo is not None else []))
     R.check('%s AN_BIRTHDAY_PAPER 有設' % tag, ml2.get('flag') is not None, J(ml2))
-    R.check('%s 選了「也幫我印一張。」（love 2）、這部合計不超過 +2：MOVIE_LOVE 仍 2、這次沒有加 npcRom' % tag, bool(picked) and ((ml2['love'] or {}).get('m2709b')) == 2 and not any((a['d'].get('npcRom') or 0) > 0 for a in adj2 if a['id'] == who and a['n'] >= (picked[0]['n'] if picked else 0)), J({'ml2': ml2, 'adj': adj2[-4:]}))
+    R.check('%s 這部合計不超過 +2：MOVIE_LOVE.m2709b 仍 2、選了以後到下一個選單之間沒有加 npcRom' % tag, lo is not None and ((ml2['love'] or {}).get('m2709b')) == 2 and not any((a['d'].get('npcRom') or 0) > 0 for a in win), J({'ml2': ml2, 'win': win}))
 
 
 async def case_pick(pg, cdp):
