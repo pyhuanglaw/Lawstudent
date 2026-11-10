@@ -32,12 +32,12 @@ HOURS = [(14.0, '1400'), (17.25, '1715'), (20.5, '2030')]
 if os.environ.get('SHOT_HOURS'): HOURS = [x for x in HOURS if x[1] in os.environ['SHOT_HOURS'].split(',')]   # 例 SHOT_HOURS=1400,2030（拆開跑）
 # 相機（可調）：rel[0]＝eye 相對 G11、rel[1]＝look 相對 G11（G11 中間 x、0、G11 前緣 z）
 CAMS = {
-    'ext_front':   {'eye': [0, 1.7, -16.0], 'look': [0, 4.5, 0.5], 'lens': 20, 'rel': [True, True]},     # 馬路對面（人行道外緣）正對
+    'ext_front':   {'eye': [0, 1.7, -7.5], 'look': [0, 4.2, 0.5], 'lens': 16, 'rel': [True, True]},      # 人行道上正對（行道樹在 G11 前面 (46, 9.6)＝前緣 −8.5 m：相機放在樹和店之間）
     'ext_obl':     {'eye': [-13.0, 1.7, -12.0], 'look': [0, 4.5, 0.5], 'lens': 22, 'rel': [True, True]},  # 西邊斜 45°
     'sign':        {'eye': [0, 2.2, -6.0], 'look': [0, 4.3, 0.0], 'lens': 40, 'rel': [True, True]},       # 招牌近拍（改之前套件燈箱高 3.85 m，cc_gg_signs_probe.py）
     'view_mrt':    {'eye': [-33.0, 1.7, 9.0], 'look': [0, 4.0, 0.0], 'lens': 24, 'rel': [False, True]},   # 捷運公館站出口西邊人行道（出口 (−35.6, 11)）
     'view_gate':   {'eye': [0.0, 1.7, -40.0], 'look': [0, 4.0, 0.0], 'lens': 24, 'rel': [False, True]},   # 校門外（回到校園 (±5.3, −47.5)）
-    'view_arcade': {'eye': [-24.0, 1.7, 1.6], 'look': [0, 2.6, 1.6], 'lens': 20, 'rel': [True, True]},    # 騎樓裡往東看（騎樓 z 19～22）
+    'view_arcade': {'eye': [-24.0, 1.7, 2.4], 'look': [0, 2.6, 2.4], 'lens': 20, 'rel': [True, True]},    # 騎樓走道中間往東看（G11 前緣 18.07＋2.4≈20.5；騎樓 z 19～22，柱子在 19.3 那一排）
 }
 try:
     for k, v in json.loads(os.environ.get('FN_CAMS') or '{}').items(): CAMS.setdefault(k, {'rel': [False, False], 'lens': 24}).update(v)
