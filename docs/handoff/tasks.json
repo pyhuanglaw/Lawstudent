@@ -51024,7 +51024,7 @@
    "id": "HER-ASK-MORE-1110",
    "title": "她主動約你太少：日常邀約從有點熟就會約、不看 5 天內見過面",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -51036,7 +51036,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【11-10 02:0x LAWWW-B 交班】WIP 沒驗證：wip_backup/HER-ASK-MORE-1110_wip.patch（heroine_asks3d.js 三處：全域門檻 sn<3→<2、你剛約過她的間隔 3/5→2/3 天、日常邀約間隔 14/7→7/5 天）。還沒跑相關測試；資料每則 th 都是 3／5，光改程式有點熟也不會約——要請 AA 把適合有點熟的幾則 th 改成 2。下一班：先請 AA 改 th、再套 patch、跑 heroine_asks 相關測試、交 BB。 ｜ 【11-10 01:5x LAWWW-B】使用者 X293。heroine_asks3d：日常（INV 8 處）原本 stage<3（朋友）不約、5 天內見過面不約；改成可以攻略的對象有點熟（第 2 階）起就會約，間隔看她上次約你（不是見面），週末校外照舊（第 6 階或交往中）。存檔 tests/fixtures/user_save_day54_1110.json。",
+   "next": "【11-10 03:5x LAWWW-B】heroine_asks3d.js：第 4 階以下見過面 3 天後（原本 5／3）；第 5 階以上、交往中不看見面（使用者 X303）；兩次日常照舊 14／7 天（AA_539）；有點熟（第 2 階）也約要 AA 寫 th 2 的句子。tests/her_ask_more_unit.js（day 54 存檔）。WIP patch 不用了。｜【11-10 02:0x LAWWW-B 交班】WIP 沒驗證：wip_backup/HER-ASK-MORE-1110_wip.patch（heroine_asks3d.js 三處：全域門檻 sn<3→<2、你剛約過她的間隔 3/5→2/3 天、日常邀約間隔 14/7→7/5 天）。還沒跑相關測試；資料每則 th 都是 3／5，光改程式有點熟也不會約——要請 AA 把適合有點熟的幾則 th 改成 2。下一班：先請 AA 改 th、再套 patch、跑 heroine_asks 相關測試、交 BB。 ｜ 【11-10 01:5x LAWWW-B】使用者 X293。heroine_asks3d：日常（INV 8 處）原本 stage<3（朋友）不約、5 天內見過面不約；改成可以攻略的對象有點熟（第 2 階）起就會約，間隔看她上次約你（不是見面），週末校外照舊（第 6 階或交往中）。存檔 tests/fixtures/user_save_day54_1110.json。",
    "xai": {
     "spec": "使用者 11-10 01:3x 對 LAWWW-B",
     "branch": "claude/modest-rubin-2lyp7g",
@@ -51264,6 +51264,148 @@
    "next": "【11-10 03:1x】併入 X299：B1 洗手間門後面是空房（docs/handoff/user_shots/1110_library_b1_wc_empty.webp）——那一塊做成洗手間隔間（門關著、看不到裡面）或照平面圖補成有用途的空間，不留空房。｜【11-10 03:0x LAWWW-B】參考 docs/handoff/user_shots/1110_library_b1_plan_ref.webp（只抓動線：建築外西側樓梯下去→露天中庭＋迴廊→B1 入口；D136 不照抄）。要改：校園 zones3d 總圖西側（樓梯、下沉中庭的導航和鏡頭、互動點「走樓梯下 B1」→ library_b1 的入口落點）；library_b1 出口回到下沉中庭；拿掉一樓門廳 b1Door（library_layout.js b1Door、library_hall_v2.js IT、窗的例外、樓層簡介的字）；舊存檔在 library_b1 照舊。美術：先 Blender 做下沉中庭（樓梯、矮牆、迴廊柱），驗收照 D120 BB（BB 不在先記 READY_FOR_ART_REVIEW）。場景本來 LAWWW2（D108），LAWWW2 不在由 LAWWW 做。",
    "evidence": "docs/handoff/user_shots/1110_library_b1_plan_ref.webp",
    "sha": null
+  },
+  {
+   "owner": "LAWWW",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "id": "PARTNER-CLOSE-OK-1110",
+   "title": "有女朋友時，好朋友以上可以單獨吃飯、散步、喝茶（使用者 11-10 X300 選擇題）",
+   "status": "已整合待測試",
+   "next": "【11-10 03:2x LAWWW-B】invites3d.js S.partnerBlock：②（祐廷有伴侶、她知道）好朋友（CLOSE_FRIEND）以上不擋；①她自己有伴侶照舊。tests/partner_close_ok_unit.js 修改前 FAIL。修改 AA 10-14 的規則——AA 回來告知。"
+  },
+  {
+   "owner": "LAWWW",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "id": "WRONG-COFFEE-OFF-1110",
+   "title": "拿掉隨機小事「咖啡買錯」（使用者 11-10 X301 選擇題）",
+   "status": "已整合待測試",
+   "next": "【11-10 03:2x LAWWW-B】events.js ev_wrong_coffee retired:true；tests/enter_order_unit.js 0b、1～2 照舊用它當排序例子（測試裡暫時拿回來）。"
+  },
+  {
+   "owner": "LAWWW",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "id": "MEM-LABEL-RAW-1110",
+   "title": "人物面板的回憶不印程式代號（使用者 11-10 截圖：LAWLIB_TOGETHER、SHOP_CAFE_AN、MOVIE_TOGETHER）",
+   "status": "已整合待測試",
+   "next": "【11-10 03:2x LAWWW-B】social3d.js 補約會地點的記憶名稱、S.memLabel（SHOP_＝在店裡碰到、其他沒登記＝一段回憶）；game3d.js 兩處用 memLabel。tests/mem_label_unit.js 修改前 FAIL 3 項。"
+  },
+  {
+   "owner": "AA",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "id": "SHIFT-TREAT-1110",
+   "title": "可以攻略的對象打工時專屬的劇情：主動招待、很開心你來（使用者 11-10 X302）",
+   "status": "暫停",
+   "pausedReason": "新台詞：使用者 11-10 02:0x 選「新台詞等 AA 回來」；AA 不在",
+   "resumeWhen": "AA 接班",
+   "next": "【11-10 03:2x LAWWW-B】AA：芷若（Café）、語彤（一盞）等打工中的女主角，玩家來店裡時的專屬反應（招待一樣東西、很開心你來；頻率、關係門檻）；LAWWW 實作。xai 照 D84。",
+   "xai": {
+    "spec": "USER_WANTS X302",
+    "branch": null,
+    "acceptance": "她在班時玩家進店有專屬反應（至少招待／開心兩種）、不每次都演",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
+  },
+  {
+   "owner": "LAWWW",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "id": "ROM-STAGE-TEXT-1110",
+   "title": "戀愛條提示分三段、出去玩說清楚差什麼（使用者 11-10 X304 選擇題）",
+   "status": "已整合待測試",
+   "next": "【11-10 03:5x LAWWW-B】date3d.js PROG_HINT npcRomHalf／romHalf／ambi、progress 的 bar 和第 6 階 mood、canAskCore 的說明；game3d.js progHTML 印 mood。tests/rom_stage_text_unit.js 修改前 FAIL 4 項；rel_progress_unit 第 10 項看前 4000 字。字是 LAWWW 定的系統字，AA 回來可以改。"
+  },
+  {
+   "owner": "LAWWW",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "id": "KX-NO-SWEAR-1110",
+   "title": "可昕的「操。」四句換掉（使用者 11-10 X305 選擇題「全部改掉」）",
+   "status": "已整合待測試",
+   "next": "【11-10 03:5x LAWWW-B】feed_y1s1.js kx_rpt、feed_y1s2.js kx_mei、multirel_lines.js 兩句；tests/user_line_edits.js（新句子→稿上舊句）給 aa503、aa504_505 比對稿用；aa422 照新句子。AA 回來：潤字、改稿、拿掉對照表那幾行；若重新匯入 feed／multirel 要保留這四句。"
+  },
+  {
+   "owner": "LAWWW",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "id": "FRIENDS-PARTNER-TOP-1110",
+   "title": "朋友名單看不到可昕（使用者 11-10 X306）",
+   "status": "進行中",
+   "next": "【11-10 03:5x LAWWW-B】knownIds 有她（FIRST_MET、dating_kexin；線上版同一套）——可能在清單最下面；game3d.js friendsHTML 交往中的排最上面。等使用者確認；還是沒有就要存檔。交往中的人物頁只寫「交往中」，要不要加條待使用者說。"
   }
  ]
 }

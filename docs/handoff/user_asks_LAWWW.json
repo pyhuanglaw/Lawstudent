@@ -3987,6 +3987,166 @@
    "wants": "X299",
    "task": "LIB-B1-OUTSIDE-1110",
    "src": "使用者對 LAWWW-B（附截圖）"
+  },
+  {
+   "id": "UA-LAWWW-1110-48",
+   "at": "2026-11-10T03:2xZ",
+   "quote": "已經這麼熟 中午下課卻不能約她吃飯",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X300",
+   "task": "PARTNER-CLOSE-OK-1110",
+   "src": "使用者對 LAWWW-B（玩線上版）"
+  },
+  {
+   "id": "UA-LAWWW-1110-49",
+   "at": "2026-11-10T03:2xZ",
+   "quote": "以安不跟你單獨吃飯…你要怎麼改？＝「好朋友以上就可以」",
+   "kind": "選擇題答案",
+   "status": "在開發分支",
+   "wants": "X300",
+   "task": "PARTNER-CLOSE-OK-1110",
+   "src": "使用者對 LAWWW-B（玩線上版）"
+  },
+  {
+   "id": "UA-LAWWW-1110-50",
+   "at": "2026-11-10T03:2xZ",
+   "quote": "這個選項選了很多次有意義嗎",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X301",
+   "task": "WRONG-COFFEE-OFF-1110",
+   "src": "使用者對 LAWWW-B（玩線上版）"
+  },
+  {
+   "id": "UA-LAWWW-1110-51",
+   "at": "2026-11-10T03:2xZ",
+   "quote": "「咖啡買錯」要怎麼改？＝「拿掉」",
+   "kind": "選擇題答案",
+   "status": "在開發分支",
+   "wants": "X301",
+   "task": "WRONG-COFFEE-OFF-1110",
+   "src": "使用者對 LAWWW-B（玩線上版）"
+  },
+  {
+   "id": "UA-LAWWW-1110-52",
+   "at": "2026-11-10T03:2xZ",
+   "quote": "可攻略對象在打工的時候 要有什麼她打工的時候才會有的劇情吧? 主動招待一個東西 或者很開心你在她打工來",
+   "kind": "原話",
+   "status": "暫停",
+   "wants": "X302",
+   "task": "SHIFT-TREAT-1110",
+   "src": "使用者對 LAWWW-B（玩線上版）"
+  },
+  {
+   "id": "UA-LAWWW-1110-53",
+   "at": "2026-11-10T03:2xZ",
+   "quote": "一直沒辦法一鍵過去 很煩",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X290",
+   "task": "INV-GO-JUMP-1110",
+   "src": "使用者對 LAWWW-B（玩線上版）"
+  },
+  {
+   "id": "UA-LAWWW-1110-54",
+   "at": "2026-11-10T03:2xZ",
+   "quote": "那開店才去 我就遲到阿",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X290",
+   "task": "INV-GO-JUMP-1110",
+   "src": "使用者對 LAWWW-B（玩線上版）"
+  },
+  {
+   "id": "UA-LAWWW-1110-55",
+   "at": "2026-11-10T03:3xZ",
+   "quote": "要不要我發布到線上？＝「先不要」",
+   "kind": "選擇題答案",
+   "status": "規則（永久）",
+   "task": "SOLO-LAWWW-B-1110",
+   "src": "使用者對 LAWWW-B（AskUserQuestion；照舊「不得未經我同意直接合併 main 或正式發布」——繼續修，等使用者說再發布）"
+  },
+  {
+   "id": "UA-LAWWW-1110-56",
+   "at": "2026-11-10T03:5xZ",
+   "quote": "曖昧到一個程度她就會主動約你 不用五天沒見",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X303",
+   "task": "HER-ASK-MORE-1110",
+   "src": "使用者對 LAWWW-B（玩線上版）"
+  },
+  {
+   "id": "UA-LAWWW-1110-57",
+   "at": "2026-11-10T03:5xZ",
+   "quote": "都已經這個程度 她還沒有那樣看我? 要區分曖昧階段吧??",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X304",
+   "task": "ROM-STAGE-TEXT-1110",
+   "src": "使用者對 LAWWW-B（玩線上版）"
+  },
+  {
+   "id": "UA-LAWWW-1110-58",
+   "at": "2026-11-10T03:5xZ",
+   "quote": "要怎麼區分曖昧的階段？＝「照程度寫三段（建議）」",
+   "kind": "選擇題答案",
+   "status": "在開發分支",
+   "wants": "X304",
+   "task": "ROM-STAGE-TEXT-1110",
+   "src": "使用者對 LAWWW-B（玩線上版）"
+  },
+  {
+   "id": "UA-LAWWW-1110-59",
+   "at": "2026-11-10T03:5xZ",
+   "quote": "而且也不能約校外?",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X304",
+   "task": "ROM-STAGE-TEXT-1110",
+   "src": "使用者對 LAWWW-B（玩線上版）"
+  },
+  {
+   "id": "UA-LAWWW-1110-60",
+   "at": "2026-11-10T03:5xZ",
+   "quote": "可昕怎麼罵髒話",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X305",
+   "task": "KX-NO-SWEAR-1110",
+   "src": "使用者對 LAWWW-B（玩線上版）"
+  },
+  {
+   "id": "UA-LAWWW-1110-61",
+   "at": "2026-11-10T03:5xZ",
+   "quote": "可昕的「操。」一共 4 句…要怎麼辦？＝「全部改掉（建議）」",
+   "kind": "選擇題答案",
+   "status": "在開發分支",
+   "wants": "X305",
+   "task": "KX-NO-SWEAR-1110",
+   "src": "使用者對 LAWWW-B（玩線上版）"
+  },
+  {
+   "id": "UA-LAWWW-1110-62",
+   "at": "2026-11-10T03:5xZ",
+   "quote": "可昕不在朋友名單 沒辦法從資料看跟他的關係",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X306",
+   "task": "FRIENDS-PARTNER-TOP-1110",
+   "src": "使用者對 LAWWW-B（玩線上版）"
+  },
+  {
+   "id": "UA-LAWWW-1110-63",
+   "at": "2026-11-10T03:5xZ",
+   "quote": "（LAWWW 推論）出去玩灰掉的說明改成「她還沒有那樣看你（人物頁的戀愛條滿了就可以約）」",
+   "kind": "AI解讀",
+   "confirmed": false,
+   "status": "在開發分支",
+   "wants": "X304",
+   "task": "ROM-STAGE-TEXT-1110",
+   "src": "使用者問「而且也不能約校外?」，LAWWW 自己定的說明字"
   }
  ]
 }
