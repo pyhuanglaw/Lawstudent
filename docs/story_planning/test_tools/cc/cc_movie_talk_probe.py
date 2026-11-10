@@ -342,6 +342,36 @@ async def case_kexin(pg, cdp, c):
     R.check('%s walkFallbacks 0' % tag, (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
 
 
+async def case_ps(pg, cdp, K):
+    """r4（CC）：以安在《聖誕快遞》的 talk 沒有回答、沒有 fx（AA_745 只寫了芷若、沛珊）→ 用沛珊測「她的回答＋fx」三個選項"""
+    who, film = 'classmate_peishan', 'm2511a'; tag = '[PS%d 沛珊 %s]' % (K, film)
+    await load(pg, cdp, base_state([who]), why='day46 08:00、沛珊朋友＋聯絡方式')
+    iv = await book(pg, cdp, tag, who, 0)
+    if not iv: return
+    if iv['film'] != film:
+        await pg.evaluate("((id,f)=>{ const v=(GAME.G.invites||[]).find(x=>String(x.id)===String(id)); if(v) v.film=f; })(%s,%s)" % (J(iv['id']), J(film)))
+        R.setup('%s【捷徑】約好的是 %s，改成 %s' % (tag, iv['film'], film))
+    ex = await expect_talk(pg, film, who); TXT.append('==== %s 期望 %s' % (tag, J(ex)))
+    T = ex['talk'] or {}; want = [o['t'] for o in (T.get('opts') or [])]
+    r = await go_watch(pg, cdp, tag, who, iv, K, want); mt, adj = await dump(pg, tag)
+    says = [e['v'] for e in mt if e['k'] == 'say']
+    aft = [c for c in (r or {}).get('choices', []) if c['after']]
+    R.check('%s 散場三選項＝MOVIE_PLOTS' % tag, bool(aft) and aft[0]['opts'][:len(want)] == want and len(want) == 3, J(aft))
+    if aft and T.get('opts'):
+        o = T['opts'][K]; re_ = o.get('lines') or []
+        R.check('%s 選第 %d 個：她的回答＝re（%s）' % (tag, K + 1, J(re_)), bool(re_) and all(any(x[:10] in s_ for s_ in says) for x in re_), J(says[-6:]))
+        fx = o.get('fx') or {}; fr, lv = int(fx.get('fr') or 0), int(fx.get('love') or 0); exp = {}
+        if fr: exp.update(fam=fr, trust=fr, comf=fr)
+        romok = await pg.evaluate("(w=>!!(SOCIAL.romOk&&SOCIAL.romOk(w)))(%s)" % J(who))
+        if lv and romok: exp['npcRom'] = lv
+        n0 = aft[0].get('n') or 0; hit = [a for a in adj if a['id'] == who and a['n'] >= n0]
+        R.note('%s fx（AA_745）%s；romOk %s；選了以後的 SOCIAL.adjust %s；選之前 %s' % (tag, J(fx), romok, J(hit), J(aft[0]['rel_before'])))
+        R.check('%s fx 照 AA_745（%s）' % (tag, J(exp)), (not exp) or any(a['d'] == exp for a in hit), J(hit))
+    R.check('%s walkFallbacks 0' % tag, (await pg.evaluate("GAME.walkFallbacks|0")) == 0, '')
+    sk = await pg.evaluate("(()=>{ const p=MOVIES.billAt(GAME.G), f=p.bill.find(b=>b.id==='m2511b'); const r=MOVIES.pickAdj(p.bill,'heroine_04',f,null); return {film:r.film.id, say:r.say}; })()")
+    R.note('[SKIP 補充（單元層級，不是玩家流程）] MOVIES.pickAdj(這一段, 子晴, 黑白的城市) → %s' % J(sk))
+
+
 async def main():
     print('CC MOVIE_TALK（X324）：CASES %s；Playwright ≠ iPhone' % ','.join(CASES), flush=True)
     async with async_playwright() as p:
@@ -362,6 +392,7 @@ async def main():
                     elif c == 'WITHZQ2': await case_with(pg, cdp, 'heroine_04', '2028-05-15', 'm2805b')
                     elif c == 'WITHZR': await case_with(pg, cdp, 'heroine_02', '2025-11-01', 'm2511b')
                     elif c in KX: await case_kexin(pg, cdp, c)
+                    elif c.startswith('PS'): await case_ps(pg, cdp, int(c[2:]))
                 except Exception as e:
                     R.check('[%s] 沒有中斷' % c, False, repr(e)[:300])
                 open(os.path.join(OUT, 'movie_talk_lines.txt'), 'w', encoding='utf-8').write('\n'.join(TXT))
