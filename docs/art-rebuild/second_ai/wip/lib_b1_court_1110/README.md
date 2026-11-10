@@ -47,3 +47,10 @@ GLB、json 要從 LAWWW2 的分支拿：`assets/models/env/second_ai/lib_b1_cour
 - 樓梯口在地面那一端，斜矮牆最上面一段比地面高 0.85 m（擋人掉下去），從遠處看是一片牆。
 - 自習室只是玻璃後面的剪影，走不進去（進 B1 照舊換區域）。
 - 白天、晚上的亮度要看 CC 的 PC 截圖：中庭在地下 4.2 m，遊戲的陰影可能讓地面偏暗。
+
+| 檔案 | sha256 前 16 碼 |
+|---|---|
+| assets/models/env/second_ai/lib_b1_court.glb | 37a43ef393c6552e |
+| assets/models/env/second_ai/lib_b1_court.json | 30c0418026dc441f |
+
+- 回歸：在 9202e2fab 上跑 50 支，ALL PASS（`regression_9202e2fab.txt`：B1 中庭、B1、校園、導航、zone_prefetch、劇情相關）。

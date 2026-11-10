@@ -6873,6 +6873,22 @@
    "noDirectIntegrate": false,
    "note": "zones3d.js 兩行：(−18,14.5) 面向大道 → 法學院廣場 (34.5,−90.2) 朝南，互動點 (34.5,−89.2)，label／notice 不變。lawclub_booth_unit 開發 FAILED 2 → ALL PASS；回歸 40 支 ALL PASS；dcc9276f8 apply --check 通過。",
    "next": "LAWWW 整合；CC 拍法學院廣場白天；BB 判"
+  },
+  {
+   "branch": "claude/second-ai-env-art",
+   "sha": "PENDING",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "LIB-B1-COURT-ART-1110（X307：總圖 B1 露天下沉中庭 Blender 正式模型）",
+   "files": [
+    "assets/models/env/second_ai/lib_b1_court.{glb,json}",
+    "tools/blender/env_second/lib_b1_court.py",
+    "docs/art-rebuild/second_ai/wip/lib_b1_court_1110/（README、lib_b1_court_9202e2fab.patch、lib_b1_court_art_unit.js、regression_9202e2fab.txt、b1c_v1_sheet.jpg）"
+   ],
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "note": "v1 MODEL_READY：清水模擋土牆、花崗石地面、樓梯踏面＋扶手＋腳燈、B1 玻璃帷幕＋門＋雨遮＋招牌、亮著的自習室、種花槽、兩個樹槽、石凳；尺寸照 B1C，導航、門、樓梯不動，只加樹槽兩個、石凳一個的阻擋。patch：BLOCKOUT 收進 b1c_fallback、模型載好藏起來（碰撞盒照舊）、燈 TK.addNight。lib_b1_court_art_unit 開發 FAILED 5 → ALL PASS；回歸 50 支 ALL PASS；9202e2fab apply --check 通過。",
+   "next": "LAWWW 整合（patch＋兩個檔）；CC 拍白天、晚上（從地面看下去、從中庭看門）；BB 判 D120"
   }
  ]
 }

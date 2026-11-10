@@ -1,0 +1,134 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index bc3127df4..6ddf0b730 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -369,3 +369,4 @@ ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 http
+ | 一盞前院 `assets/models/env/second_ai/wz_teahouse_yard.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_teahouse_yard.py`（LAWWW2，`claude/second-ai-env-art` `b0bcc117c`）；「一盞」字樣切自企劃組核准的招牌圖（signs_approved/yizhan_*），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 溫州街一盞的前院、冠木門、竹垣、石燈籠、老樟樹、簷與瓦屋頂、牆外的街（`bldg.wz_teahouse_yard`，WZ-YIZHAN-1104） |
+ | Daybreak 室內 v1b `assets/models/env/second_ai/aa_support/daybreak.glb`（配置 `src/data/daybreak_layout.js`） | 本作 Blender（腳本 `tools/blender/env_second/aa_support/daybreak_interior.py`，在 `claude/story-planning`；AA 製作、LAWWW2 驗收 MODEL_READY，story-planning `8094770c7`）；店名虛構（D77），貼圖 Poly Haven CC0＋本作程式產生 | CC0 貼圖／本作 | 公館 G14 Daybreak（新區域 `daybreak`，GG-SHOPS2-1104） |
+ | 洋洋鹹酥雞 室內 v1c `assets/models/env/second_ai/bb_support/yangyang_interior.glb`（配置 `src/data/yangyang_layout.js` v3；區域 `yangyang`） | 本作 Blender（`tools/blender/env_second/bb_support/yangyang_interior.py`、`yangyang_tex.py`：PIL＋numpy 自己畫的貼圖，沒有下載素材；在 `claude/cool-heisenberg-o8kuqx`；BB〔帳號 A〕製作、LAWWW2 驗收 ART_APPROVED（v1c），`e5e9351e0`）；店名虛構（D77） | 本作 | 公館 G05 洋洋鹹酥雞（新區域 `yangyang`，YANGYANG-IN-1107） |
++| 總圖北側的露天下沉中庭 `assets/models/env/second_ai/lib_b1_court.glb` | 本作 Blender 腳本 `tools/blender/env_second/lib_b1_court.py`（LAWWW2 帳號 A 2026-11-10，LIB-B1-COURT-ART-1110；尺寸照 `src/zones3d.js` 的 B1C，照使用者給的 B1 平面圖的氣氛、不照抄，D136）；貼圖 Poly Haven CC0（`socsci_formwork`、`granite_tile`、`forest_ground_04`）、葉片卡本作 `gen_leaves.py`；招牌字用文泉驛正黑（GPL＋字型嵌入例外，只畫成點陣圖） | 本作；貼圖 CC0 | 校園：總圖北側的下沉中庭（B1 入口；接線 zones3d.js B1C） |
+diff --git a/src/assets3d.js b/src/assets3d.js
+index 01a901c99..c6f8f8482 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -89,6 +89,7 @@ const ASSETS = (function(){
+     'bldg.campus_gongguan_bd':{url:'assets/models/env/second_ai/campus_gongguan_bd.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/gg_backdrop.py（LAWWW2-C 2026-10-20 X86：從校園看出去的公館——羅斯福路兩排街廓：騎樓店面、直立招牌、橫招牌、燈箱、冷氣、水塔、轉角公寓、水源市場、天橋、GONGGUAN 字樣；校園世界座標、放在原點；店名都是虛構；貼圖 tools/blender/env_second/gg_textures.py 程式產生）', license:'本作'},
+     'bldg.gongguan_shops':{url:'assets/models/env/second_ai/gongguan_shops.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_street.py --set gongguan（公館羅斯福路南側 15 棟騎樓店面＋往溫州街的巷口轉角；公館世界座標；配置照 zones3d.js gongguan 區塊；和溫州街同一套公寓、材質與窗戶原型；樓上住戶的直立招牌、二樓大招牌、屋頂看板；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'bldg.gongguan_mrt':{url:'assets/models/env/second_ai/gongguan_mrt_exit.glb',type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/gg_mrt_exit.py（LAWWW2-C 2026-10-18 ART-EXT-MRT：捷運公館站出口玻璃亭、弧形鋁板屋頂、站名燈箱（遊戲畫字、沒有標誌）、往下的電扶梯與樓梯）',license:'本作'},
++    'bldg.lib_b1_court':{url:'assets/models/env/second_ai/lib_b1_court.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/lib_b1_court.py（LIB-B1-COURT-ART-1110，X307：總圖北側的露天下沉中庭——清水模擋土牆、花崗石地面、樓梯、B1 玻璃帷幕與玻璃門、雨遮、招牌、種花槽、樹槽、石凳；校園世界座標；LAWWW2 帳號 A 2026-11-10）', license:'本作；貼圖 Poly Haven CC0（concrete formwork、granite_tile、forest_ground_04）＋本作 gen_leaves 葉片卡；招牌字型文泉驛正黑（GPL＋字型例外）'},
+     'bldg.campus_lib_lawn':{url:'assets/models/env/second_ai/campus_lib_lawn.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_lib_lawn.py（X133 總圖前草皮：中軸砂岩鋪面、L 形草皮、紅磚步道、花崗石路緣；校園世界座標；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'bldg.campus_blackforest':{url:'assets/models/env/second_ai/campus_blackforest.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_blackforest.py（CAMPUS-BLACKFOREST-1102 黑森林的地面：落葉泥土地、土徑、榕樹板根、蕨類、矮灌木；配置 src/data/blackforest_layout.js；校園世界座標；貼圖 Poly Haven CC0 forest_leaves_02、forest_ground_04、chinese_hackberry_bark＋本作畫的葉片）', license:'CC0（Poly Haven 貼圖）＋本作'},
+     'bldg.campus_library':{url:'assets/models/env/second_ai/campus_library.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_library.py（總圖書館外觀；校園世界座標；位置、尺寸、樓層、開間、拱廊、門廊、塔樓照 zones3d.js campus 區塊的 CK.hall；拱窗是真的窗洞；面磚、石材、屋瓦、花崗石貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+diff --git a/src/data/zone_assets.js b/src/data/zone_assets.js
+index 8d359665c..bd9a27485 100644
+--- a/src/data/zone_assets.js
++++ b/src/data/zone_assets.js
+@@ -11,7 +11,7 @@ const ZONE_ASSETS={
+   "boya":["bldg.boya_interior","bldg.skybridge","prop.furniture_study"],
+   "boya_203":["bldg.boya_203"],
+   "cafe":["bldg.cafe230_interior"],
+-  "campus":["bldg.linze_exterior","bldg.wancai_exterior","bldg.campus_gongtong","bldg.campus_gongguan_bd","bldg.campus_freshman","bldg.campus_putong","bldg.us_cars","bldg.campus_male1","bldg.campus_socsci","bldg.campus_blackforest","bldg.campus_boya","bldg.campus_admin","bldg.campus_lake","bldg.campus_lib_lawn","bldg.campus_library","bldg.campus_arts","bldg.campus_gymext","bldg.campus_hist","bldg.skybridge","bldg.campus_gate","bldg.campus_moon","bldg.campus_pavilion","bldg.campus_bell","bldg.bball_court"],
++  "campus":["bldg.linze_exterior","bldg.wancai_exterior","bldg.campus_gongtong","bldg.campus_gongguan_bd","bldg.campus_freshman","bldg.campus_putong","bldg.us_cars","bldg.campus_male1","bldg.campus_socsci","bldg.campus_blackforest","bldg.campus_boya","bldg.lib_b1_court","bldg.campus_admin","bldg.campus_lake","bldg.campus_lib_lawn","bldg.campus_library","bldg.campus_arts","bldg.campus_gymext","bldg.campus_hist","bldg.skybridge","bldg.campus_gate","bldg.campus_moon","bldg.campus_pavilion","bldg.campus_bell","bldg.bball_court"],
+   "classroom":["bldg.classroom_201"],
+   "corner_records":["bldg.corner_interior"],
+   "cvs":["bldg.cvs_interior_v2"],
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 102411ae8..3377e83ae 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -339,28 +339,35 @@ const Z3 = (function(){
+         m.rotation.order='ZYX'; m.rotation.z=Math.atan2(yb-ya,dx); m.rotation.x=-Math.PI/2; m.position.set((s1.x0+s1.x1)/2,(ya+yb)/2+0.01,(s1.z0+s1.z1)/2); m.userData.walkLv=0; m.userData.dyn=true; g.add(m); campusWalk.push(m); }
+       { const T=[82.1,0,-37.5,87.5,28,-32.1]; const m=new THREE.Mesh(new THREE.BoxGeometry(T[3]-T[0],T[4]-T[1],T[5]-T[2]),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((T[0]+T[3])/2,(T[1]+T[4])/2,(T[2]+T[5])/2); g.add(m); E.colliders.push(m); }   /* 方塔的鏡頭碰撞 */
+     }
+-    // ---- 總圖 B1 的下沉中庭（LIB-B1-OUTSIDE-1110；B1C）：程序化 BLOCKOUT（之後換 Blender 模型）----
+-    { const C=B1C, Y=-C.dep, T=0.3, PH=1.0, cx=(C.x0+C.x1)/2, cz=(C.z0+C.z1)/2, wM=new THREE.MeshStandardMaterial({map:(()=>{ const t=W3.stoneTex('#bfbab0').clone(); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(3,1.2); t.needsUpdate=true; return t; })(),roughness:0.9});
++    // ---- 總圖 B1 的下沉中庭（LIB-B1-OUTSIDE-1110；B1C）：程序化 BLOCKOUT＝正式模型（LIB-B1-COURT-ART-1110，LAWWW2 lib_b1_court.glb）載入失敗時的備用 ----
++    { const fbg=new THREE.Group(); fbg.name='b1c_fallback'; g.add(fbg); const C=B1C, Y=-C.dep, T=0.3, PH=1.0, cx=(C.x0+C.x1)/2, cz=(C.z0+C.z1)/2, wM=new THREE.MeshStandardMaterial({map:(()=>{ const t=W3.stoneTex('#bfbab0').clone(); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(3,1.2); t.needsUpdate=true; return t; })(),roughness:0.9});
+       const railM=new THREE.MeshStandardMaterial({color:0x3a3d41,roughness:0.45,metalness:0.4}), pv=pavingTex();
+-      const box=(x0,x1,y0,y1,z0,z1,m,col)=>{ const b=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0),m); b.position.set((x0+x1)/2,(y0+y1)/2,(z0+z1)/2); b.castShadow=true; b.receiveShadow=true; g.add(b); if(col) E.colliders.push(b); return b; };
+-      { const f=ground(g,C.x1-C.x0,C.z1-C.z0,pv,[(C.x1-C.x0)/3,(C.z1-C.z0)/3],cx,cz,Y); f.userData.dyn=true; }   // 中庭地面
++      const box=(x0,x1,y0,y1,z0,z1,m,col)=>{ const b=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0),m); b.position.set((x0+x1)/2,(y0+y1)/2,(z0+z1)/2); b.castShadow=true; b.receiveShadow=true; fbg.add(b); if(col) E.colliders.push(b); return b; };   /* 碰撞盒（col）藏起來照樣擋鏡頭（Raycaster 不看 visible）*/
++      { const f=ground(g,C.x1-C.x0,C.z1-C.z0,pv,[(C.x1-C.x0)/3,(C.z1-C.z0)/3],cx,cz,Y); f.userData.dyn=true; fbg.add(f); }   // 中庭地面
+       box(C.x0-T,C.x1+T,Y,0,C.z0-T,C.z0,wM,true);                        // 北牆（樓梯靠著它）
+       box(C.x1,C.x1+T,Y,0,C.z0-T,C.z1+T,wM,true);                         // 東牆
+       box(C.x0-T,C.x0,Y,0,C.st1,C.z1+T,wM,true);                          // 西牆（北邊是樓梯口）
+       const D=C.door; box(C.x0-T,D.x-D.w/2,Y,0,C.z1,C.z1+T,wM,true); box(D.x+D.w/2,C.x1+T,Y,0,C.z1,C.z1+T,wM,true); box(D.x-D.w/2,D.x+D.w/2,Y+D.h,0,C.z1,C.z1+T,wM,true);   // 南牆（靠總圖）：中間 B1 的門
+       { const dm=new THREE.MeshStandardMaterial({color:0x4b5966,emissive:0x8fa6b8,emissiveIntensity:0.35,roughness:0.15,metalness:0.3,transparent:true,opacity:0.85});   /* 玻璃門透出一點 B1 的燈（晚上看得出是入口；GPU 截圖 L98E_b1court 晚上太暗）*/ box(D.x-D.w/2,D.x+D.w/2,Y,Y+D.h,C.z1+0.12,C.z1+0.18,dm,true); box(D.x-0.03,D.x+0.03,Y,Y+D.h,C.z1+0.1,C.z1+0.2,railM); }   // 玻璃門
+       { const lm=new THREE.MeshStandardMaterial({color:0xfff4dc,emissive:0xfff1d6,emissiveIntensity:1.2}); box(D.x-0.35,D.x+0.35,Y+D.h+0.85,Y+D.h+0.95,C.z1-0.18,C.z1,lm); const pl=new THREE.PointLight(0xfff1d6,7,10,2); pl.position.set(D.x,Y+D.h+0.6,C.z1-1.0); g.add(pl); }   // 門上的壁燈（地下中庭晚上很暗）
+-      { const sg=new THREE.Mesh(new THREE.PlaneGeometry(2.4,0.42),new THREE.MeshBasicMaterial({map:TK.signTex('總圖書館 B1　24 小時自習室',{bg:'#24303a',color:'#f3efe4'})})); sg.position.set(D.x,Y+D.h+0.45,C.z1-0.02); sg.rotation.y=Math.PI; g.add(sg); }
++      { const sg=new THREE.Mesh(new THREE.PlaneGeometry(2.4,0.42),new THREE.MeshBasicMaterial({map:TK.signTex('總圖書館 B1　24 小時自習室',{bg:'#24303a',color:'#f3efe4'})})); sg.position.set(D.x,Y+D.h+0.45,C.z1-0.02); sg.rotation.y=Math.PI; fbg.add(sg); }
+       for(let k=0;k<Math.round(C.dep/0.175);k++){ const xa=C.stx-(k+1)*C.tread, xb=C.stx-k*C.tread, top=Y+(k+1)*0.175; if(top>-0.01) continue; box(xa,xb,Y,top,C.st0,C.st1,wM); }   // 台階（畫面上一階一階，和導航 visualHeightAt 同一個算法：低的那端在 stx）
+       for(const [x0,x1,z0,z1] of [[C.x0-T,C.x1+T,C.z0-T,C.z0],[C.x1,C.x1+T,C.z0-T,C.z1+T],[C.x0-T,C.x0,C.st1,C.z1+T],[C.x0-T,C.x1+T,C.z1,C.z1+T]]){   // 地面那一圈：石砌矮牆（0.5 m，就是擋土牆往上）＋細的金屬扶手和立柱（樓梯口不擋）
+         box(x0,x1,0,0.5,z0,z1,wM); const ax=(x1-x0)>(z1-z0), mx=(x0+x1)/2, mz=(z0+z1)/2, L2=ax?x1-x0:z1-z0;
+         box(ax?x0:mx-0.025,ax?x1:mx+0.025,PH-0.05,PH,ax?mz-0.025:z0,ax?mz+0.025:z1,railM);
+         for(let u=0.15;u<L2;u+=1.5){ const px=ax?x0+u:mx, pz=ax?mz:z0+u; box(px-0.02,px+0.02,0.5,PH,pz-0.02,pz+0.02,railM); } }
+-      { const L=C.stx-C.x0, H=C.dep, rail=new THREE.Mesh(new THREE.BoxGeometry(Math.hypot(L,H),0.06,0.06),railM); rail.position.set((C.x0+C.stx)/2,Y+H/2+0.9,C.st1+0.05); rail.rotation.z=-Math.atan2(H,L); g.add(rail); for(let x=C.x0+0.6;x<C.stx;x+=1.2){ const yy=-(x-C.x0)/L*H; box(x-0.03,x+0.03,yy,yy+0.9,C.st1+0.02,C.st1+0.08,railM); } }   // 樓梯靠中庭那一側的扶手
++      { const L=C.stx-C.x0, H=C.dep, rail=new THREE.Mesh(new THREE.BoxGeometry(Math.hypot(L,H),0.06,0.06),railM); rail.position.set((C.x0+C.stx)/2,Y+H/2+0.9,C.st1+0.05); rail.rotation.z=-Math.atan2(H,L); fbg.add(rail); for(let x=C.x0+0.6;x<C.stx;x+=1.2){ const yy=-(x-C.x0)/L*H; box(x-0.03,x+0.03,yy,yy+0.9,C.st1+0.02,C.st1+0.08,railM); } }   // 樓梯靠中庭那一側的扶手
+       // 導航：中庭地面、樓梯斜面；四周（含地面那一圈）擋住，只留樓梯口、樓梯底
+       nav.addSurf({x0:C.x0,x1:C.x1,z0:C.z0,z1:C.z1,y:Y}); nav.addSurf({x0:C.x0,x1:C.stx,z0:C.st0,z1:C.st1,axis:'x',ya:0,yb:Y,tread:C.tread,rise:0.175,low:'x1'});
+       nav.blockRect(cx,C.z0-0.35,C.x1-C.x0+1.4,0.7,0); nav.blockRect(cx,C.z1+0.35,C.x1-C.x0+1.4,0.7,0); nav.blockRect(C.x1+0.35,cz,0.7,C.z1-C.z0+1.4,0); nav.blockRect(C.x0-0.35,(C.st1+C.z1)/2+0.35,0.7,C.z1-C.st1+0.7,0);
+       nav.blockRect((C.x0+C.stx-0.6)/2,C.st1+0.1,C.stx-0.6-C.x0,0.5,0);   // 樓梯和中庭地面之間（扶手），樓梯底 0.6 m 留開
++      /* LIB-B1-COURT-ART-1110（使用者 11-10「總圖b1樓梯 是往地下走到一個中庭 中庭的部分，我現在看不出來」，X307；LAWWW2 帳號 A）：正式模型 lib_b1_court.glb（清水模擋土牆、花崗石地面、樓梯踏面＋扶手＋腳燈、
++         B1 的玻璃帷幕＋玻璃門＋雨遮＋招牌、亮著的自習室、種花槽、兩個樹槽、一張石凳）。尺寸照 B1C，導航、門、樓梯不動；樹槽兩個、石凳一張是新的，在這裡加阻擋（座標＝lib_b1_court.json 的 planters、bench）。
++         載好以後藏備用的方塊（碰撞盒照舊擋鏡頭）；燈的材質 lbc_lit_* 晚上亮 */
++      for(const r of [[102.2,103.9,-32.8,-31.1],[102.2,103.9,-38.9,-37.2],[103.35,103.95,-36.4,-33.8]]) nav.blockRect((r[0]+r[1])/2,(r[2]+r[3])/2,r[1]-r[0],r[3]-r[2],0,0.05);
++      if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lib_b1_court']) ASSETS.loadOne('bldg.lib_b1_court').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.name='lib_b1_court_glb';
++        r.traverse(o=>{ if(!o.isMesh) return; o.receiveShadow=true; const mn=(o.material&&o.material.name)||''; o.castShadow=!/^lbc_(lit_|glass|canopy|ivy|cafe_leaf)|^cafe_leaf/.test(mn); if(/^lbc_lit_/.test(mn)&&!o.material.userData.nightReg){ o.material.userData.nightReg=true; if(TK.addNight) TK.addNight(o.material,1.4,0.35);   /* 晚上 1.4、白天 0.35 */ } });
++        g.add(r); fbg.visible=false; }).catch(e=>console.warn('總圖 B1 中庭正式模型載入失敗，用備用的方塊',e));
+       for(const s1 of [{x0:C.x0,x1:C.x1,z0:C.z0,z1:C.z1,y:Y},{x0:C.x0,x1:C.stx,z0:C.st0,z1:C.st1,ya:0,yb:Y}]){ const ya=s1.y!==undefined?s1.y:s1.ya, yb=s1.y!==undefined?s1.y:s1.yb, dx=s1.x1-s1.x0;   // 點地面移動打得到的透明地面（同總圖台階）
+         const m=new THREE.Mesh(new THREE.PlaneGeometry(Math.hypot(dx,yb-ya),s1.z1-s1.z0),new THREE.MeshBasicMaterial({visible:false})); m.rotation.order='ZYX'; m.rotation.z=Math.atan2(yb-ya,dx); m.rotation.x=-Math.PI/2; m.position.set((s1.x0+s1.x1)/2,(ya+yb)/2+0.01,(s1.z0+s1.z1)/2); m.userData.walkLv=0; m.userData.dyn=true; g.add(m); campusWalk.push(m); }
+       E.interactables.push({x:D.x,z:C.z1-0.9,radius:1.0,lv:0,label:'進 B1（24 小時自習室）',exit:{to:'library_b1',spawn:Object.assign({},(typeof LIBRARY_B1_LAYOUT!=='undefined'&&LIBRARY_B1_LAYOUT.stairs.spawn)||{x:-20.5,z:-2.4,yaw:Math.PI/2})}});
+diff --git a/tests/lib_b1_court_art_unit.js b/tests/lib_b1_court_art_unit.js
+new file mode 100644
+index 000000000..10a88efea
+--- /dev/null
++++ b/tests/lib_b1_court_art_unit.js
+@@ -0,0 +1,48 @@
++// LIB-B1-COURT-ART-1110（使用者 11-10 對 LAWWW：「總圖b1樓梯 是往地下走到一個中庭 中庭的部分，我現在看不出來 你請lawww2做」，X307；LAWWW2 帳號 A）——不需要瀏覽器。
++// 總圖北側的露天下沉中庭（src/zones3d.js 的 B1C）換成正式模型 lib_b1_court.glb，檢查：
++//   1 有 ASSETS 'bldg.lib_b1_court'，GLB 檔在；lib_b1_court.json 的尺寸（B1C）和 zones3d.js 的 B1C 一樣（改一邊沒改另一邊會 FAIL）
++//   2 校園建好以後備用的方塊在 b1c_fallback 群組；正式模型載好（這裡給一個假的場景）以後：模型在場景裡、備用方塊藏起來、碰撞盒照舊在 E.colliders（擋鏡頭）
++//   3 導航不動：從地面走樓梯到中庭、走到 B1 的門口（「進 B1」互動點）走得到（走路 30 fps、跑步＋低幀率）；門口出生點站得住
++//   4 中庭裡新加的兩個樹槽、一張石凳擋住（站不進去），中庭中間、門前、樓梯底照舊站得住
++// 修改前（開發分支 9202e2fab）：第 1、2、4 項 FAIL。用法：node tests/lib_b1_court_art_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/socsci_layout.js',
++  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js',
++  'src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/activities.js','src/classes3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PUTONG_LAYOUT|TB3|ACTIVITIES|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++const TREES=[]; { const orig=TK.tree; TK.tree=(...a)=>{ const t=orig(...a); TREES.push(t); return t; }; }   /* 記下校園上每一棵闊葉樹（檢查方案 A 留下的樹）*/
++const glb=path.join(ROOT,'assets/models/env/second_ai/lib_b1_court.glb'), js=path.join(ROOT,'assets/models/env/second_ai/lib_b1_court.json');
++const man=ASSETS.manifest['bldg.lib_b1_court'];
++check('1 ASSETS 有 bldg.lib_b1_court、GLB 檔在',!!man&&fs.existsSync(glb),man?man.url:'沒有');
++const C=Z3.B1C; let info=null; try{ info=JSON.parse(fs.readFileSync(js,'utf8')); }catch(e){}
++check('1 lib_b1_court.json 的 B1C 和 zones3d.js 一樣（x0 x1 z0 z1 深）',!!info&&!!C&&JSON.stringify(info.B1C)===JSON.stringify([C.x0,C.x1,C.z0,C.z1,C.dep]),JSON.stringify([info&&info.B1C,C&&[C.x0,C.x1,C.z0,C.z1,C.dep]]));
++const fake=new THREE.Group(); { const m=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),new THREE.MeshStandardMaterial()); m.material.name='lbc_lit_lamp'; m.material.emissive=new THREE.Color(1,1,1); fake.add(m); }
++const load0=ASSETS.loadOne; ASSETS.loadOne=k=>k==='bldg.lib_b1_court'?Promise.resolve({scene:fake}):new Promise(()=>{});
++const z=Z3.ZONES.campus.build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
++const stand=(x,zz)=>E.canStand(x,zz,0.32,0);
++const walk=(a,b)=>{ for(const [dt,sp] of [[1/30,1.6],[0.1,4.1]]){ const r=E.simWalk(a[0],a[1],b[0],b[1],{lv0:0,lv1:0,dt,speed:sp}); if(!r.ok) return Object.assign({dt:+dt.toFixed(3),speed:sp},r); } return {ok:true}; };
++const fbg=z.group.children.find(o=>o.name==='b1c_fallback');
++const colIn=fbg?E.colliders.filter(c=>{ let p=c; while(p&&p!==fbg) p=p.parent; return p===fbg; }).length:0;
++check('2 備用的方塊在 b1c_fallback 群組裡（牆的碰撞盒也在裡面）',!!fbg&&fbg.children.length>20&&colIn>=5,fbg?`${fbg.children.length} 個、碰撞盒 ${colIn}`:'沒有');
++(async()=>{ for(let i=0;i<5;i++) await new Promise(r=>setTimeout(r,0));
++  const glbIn=z.group.children.find(o=>o.name==='lib_b1_court_glb');
++  check('2 正式模型載好：在場景裡、備用方塊藏起來、碰撞盒照舊在 E.colliders',!!glbIn&&!!fbg&&fbg.visible===false&&colIn>=5&&E.colliders.filter(c=>{ let p=c; while(p&&p!==fbg) p=p.parent; return p===fbg; }).length===colIn,JSON.stringify({glb:!!glbIn,fb:fbg&&fbg.visible}));
++  const lamp=glbIn&&glbIn.children[0]; check('2 燈的材質（lbc_lit_*）登記晚上亮（TK.addNight）',!!lamp&&!!lamp.material.userData.nightReg);
++  const door=E.interactables.find(i=>/進 B1/.test(i.label||''));
++  check('3 有「進 B1（24 小時自習室）」互動點',!!door,door?`(${door.x},${door.z})`:'');
++  const TOP=[88.5,-40], BOT=[100.2,-40], DOOR=door?[door.x,door.z-0.3]:[98,-32];
++  let r=walk(TOP,DOOR); check('3 從地面（樓梯口西邊）走樓梯下到中庭、走到 B1 門口（走路、跑步＋低幀率）',r.ok,JSON.stringify(r).slice(0,200));
++  r=walk(DOOR,TOP); check('3 從門口走回地面',r.ok,JSON.stringify(r).slice(0,200));
++  check('3 門口的出生點 (98, −32.8) 站得住',stand(C.spawn.x,C.spawn.z));
++  const blocked=[[103.05,-31.95],[103.05,-38.05],[103.65,-35.1]].filter(q=>stand(q[0],q[1]));
++  check('4 兩個樹槽、石凳擋住（站不進去）',!blocked.length,JSON.stringify(blocked));
++  const free=[[98,-36],[98,-32.4],[100.2,-40.2],[95,-34],[102.5,-35.1]].filter(q=>!stand(q[0],q[1]));
++  check('4 中庭中間、門前、樓梯底、西邊、石凳前照舊站得住',!free.length,JSON.stringify(free));
++  ASSETS.loadOne=load0; console.log(fails?`FAILED ${fails}`:'ALL PASS'); process.exit(fails?1:0); })();
