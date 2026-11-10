@@ -52734,7 +52734,7 @@
    "sha": null,
    "pausedReason": "等 LAWWW2 的汀州路區域和攤位位置（TINGZHOU-AREA-1110）",
    "resumeWhen": "LAWWW2 交區域",
-   "next": "區域到了照 AA_744 接",
+   "next": "店名、品項照 X326 新規格（舊的 AA_744 攤名作廢、刈包改黑糖鮮奶）；等使用者授權實作",
    "xai": {
     "spec": "X321、AA_744",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -53027,6 +53027,28 @@
    },
    "sha": null,
    "next": "CC 只重跑 FINAL"
+  },
+  {
+   "id": "NIGHT-MARKET-1110",
+   "title": "公館／汀州路夜市十一攤正式規格（店名、外觀、營業／收攤）＋禮貌生財上師算命支線（X326）",
+   "owner": "LAWWW",
+   "status": "暫停",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "汀州路晚上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": null,
+   "pausedReason": "使用者規格書：只規劃、差異分析，未得到明確實作授權不修改（使用者 11-10 21:5x）",
+   "resumeWhen": "使用者說可以實作；上師真實身分由她從 AA 三個候選裡選",
+   "recheckOn": "2026-11-13",
+   "next": "規劃階段可以做的：LAWWW2 資產盤點表、美術差異、街道配置方案；AA 上師大綱與三種身分候選；BB 檢查清單。TINGZHOU-NIGHTMARKET-1110（看／買互動）照新店名等授權"
   }
  ]
 }

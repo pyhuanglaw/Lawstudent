@@ -4480,6 +4480,15 @@
    "status": "進行中",
    "wants": "X325",
    "task": "FLOWER-NOTES-ART-1110"
+  },
+  {
+   "id": "UA-LAWWW-1110-101",
+   "at": "2026-11-10T21:5xZ",
+   "quote": "（整份「公館夜市模組 — 十一攤外觀、營業／收攤與算命支線完整企劃規格」，全文 docs/handoff/user_specs/NIGHT_MARKET_1110.md）本文件是設計規格與開發交接依據，不代表授權立即修改程式或專案……未取得明確授權，不得自行開始實作、修改檔案、建立提交、合併 PR 或發布版本。",
+   "kind": "原話",
+   "status": "暫停",
+   "wants": "X326",
+   "task": "NIGHT-MARKET-1110"
   }
  ]
 }
