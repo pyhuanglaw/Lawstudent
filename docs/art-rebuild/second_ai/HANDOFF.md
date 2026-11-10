@@ -41,6 +41,12 @@
     - GG-DOOR-CAMS-1104：已交付 c91a79854。改了兩處：行道樹葉片在鏡頭附近網點透空；捷運出口亭的鏡頭碰撞照模型外框。
     - 南洋 ART-NANYANG-CINEMA-1103：已告訴 BB 重跑用 fe4d893ac。r2 的 FAIL 1～4 在 2258988a5 修了；FAIL 5 看起來是探針的連帶失敗。
     - 下一件：WZ-SEAT-CAMS-1104（SUNNY F12、小路座位鏡頭）。
+  - **10:4x 進度**：
+    - WZ-SEAT-CAMS-1104 已整合 9d4c54c16：AA 12ae10d3e 的透空、鏡頭牆被新配置蓋掉，照現在的 GLB 重加；兩間店擋住 37／126 → 0。
+    - FAIR-TENT-CAM-1102 交付 4a61b27e9，LAWWW 本機整合 88bd03f56，等 GHA 跑完再推。
+    - PUTONG101-WINDOW-1102 交付 a43da6a27：博思一樓玻璃換亮一點的灰藍漸層；窗景照片要 CC 重拍（teach_views.py putong_north）。
+    - 盤點表再更正（6d19463fc）：DORM1-WALL-SEAM 早已整合（4b5a0ebd8）、ART-OLDROAD-SHELF 被頁間取代。**以後搜 git log 要用沒有日期的短 ID。**
+    - 剩下的佇列：ART-GYM-POOL-SWIMMERS-1103、GYM-FIT-PROPS-1103（要新的人物泳裝、動作，先確認 D99 人物凍結還算不算）→ CROWD-DEPTS-LOOK-1028 → PERF-CAMPUS-GLB-1102 → ART-SOP → BAKE-PC-1102-S2 → LAWWW2-REEXPORT-US-1027 → INTERIOR-AAA P3、萬才館倒角。
   - X307 第 3 版候選（BB 11-10 09:25 參考意見，D141，P3，不擋 ART）：使用者的平面圖 1110_library_b1_plan_ref.webp 上，真的中庭是三面有柱子的迴廊、中間綠地、西側書店、西南角兩段樓梯；
     遊戲現在是北邊一段樓梯＋花崗石地面＋兩個樹槽。要做的話：lib_b1_court.py 加迴廊、草地，連 zones3d.js B1C 的導航和碰撞 patch。等 BB 判完 r3 或使用者決定。
     - 重拍有兩條路：用 Blender（afar／gg_shop_views.sh 的做法），或請 CC 用瀏覽器重拍（D131）。
